@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+<comment>Project Configuration</comment>
+<entry key="Chapter0.ConversationId.1.X">283</entry>
+<entry key="Chapter0.ConversationId.3.Y">406</entry>
+<entry key="Chapter0.ConversationId.3.X">211</entry>
+<entry key="Chapter0.ConversationId.5.Y">316</entry>
+<entry key="Chapter0.ConversationId.5.X">470</entry>
+<entry key="DEACTIVATE">1</entry>
+<entry key="Chapter0.SceneId1.Y">284</entry>
+<entry key="Chapter0.SceneId1.X">369</entry>
+<entry key="CONVERSATION">1</entry>
+<entry key="Chapter0.SceneId1.Visible">true</entry>
+<entry key="Chapter0.SceneId.Y">243</entry>
+<entry key="autosave">yes</entry>
+<entry key="Chapter0.ConversationId.0.Y">66</entry>
+<entry key="Chapter0.SceneId.X">115</entry>
+<entry key="Chapter0.ConversationId.0.X">279</entry>
+<entry key="RANDOM">1</entry>
+<entry key="Chapter0.ConversationId.2.Y">282</entry>
+<entry key="Chapter0.ConversationId.2.X">276</entry>
+<entry key="Chapter0.ConversationId.4.Y">209</entry>
+<entry key="Chapter0.ConversationId.4.X">475</entry>
+<entry key="Chapter0.SceneId.Visible">true</entry>
+<entry key="ACTIVATE">3</entry>
+<entry key="Chapter0.ConversationId.6.Y">185</entry>
+<entry key="Chapter0.ConversationId.6.X">481</entry>
+<entry key="SHOWTEXT">4</entry>
+<entry key="Chapter0.ConversationId.1.Y">176</entry>
+</properties>

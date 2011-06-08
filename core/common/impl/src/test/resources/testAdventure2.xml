@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<adventure>
+	<list name="chapters">
+		<element class="es.eucm.eadventure.common.model.impl.EAdChapterModelImpl"
+			id="chapter" type="es.eucm.eadventure.common.model.impl.EAdChapterModelImpl">
+			<list name="scenes">
+				<element class="es.eucm.eadventure.common.model.elements.impl.EAdSpace"
+					id="screen" type="es.eucm.eadventure.common.model.elements.impl.EAdSpace">
+					<list name="actorReferences">
+						<element
+							class="es.eucm.eadventure.common.model.elements.impl.EAdActorReferenceImpl"
+							id="id4"
+							type="es.eucm.eadventure.common.model.elements.impl.EAdActorReferenceImpl">
+							<param name="referencedActor">
+								<element
+									class="es.eucm.eadventure.common.model.elements.impl.EAdBasicActor"
+									id="StartGame"
+									type="es.eucm.eadventure.common.model.elements.impl.EAdBasicActor">
+									<list name="actions">
+										<element
+											class="es.eucm.eadventure.common.model.actions.impl.EAdBasicAction"
+											id="id2"
+											type="es.eucm.eadventure.common.model.actions.impl.EAdBasicAction">
+											<param name="name">stringId</param>
+											<list name="effects">
+												<element
+													class="es.eucm.eadventure.common.model.effects.impl.text.EAdShowText"
+													id="id3"
+													type="es.eucm.eadventure.common.model.effects.impl.text.EAdShowText">
+													<param name="x">30</param>
+													<param name="y">50</param>
+													<param name="font">Dialog;25.0;PLAIN</param>
+													<param name="textColor">0xffffffff:0x000000ff</param>
+													<param name="bubbleColor">0xffffffff:0x000000ff</param>
+													<param name="text">stringId</param>
+												</element>
+												<element
+													class="es.eucm.eadventure.common.model.effects.impl.text.EAdShowQuestion"
+													id="question234"
+													type="es.eucm.eadventure.common.model.effects.impl.text.EAdShowQuestion">
+													<list name="answers">
+														<element
+															class="es.eucm.eadventure.common.model.effects.impl.text.extra.Answer"
+															id=""
+															type="es.eucm.eadventure.common.model.effects.impl.text.extra.Answer">
+															<param name="answer">stringId</param>
+															<list name="effects">
+																<element
+																	class="es.eucm.eadventure.common.model.effects.impl.text.EAdShowText"
+																	id="id3"
+																	type="es.eucm.eadventure.common.model.effects.impl.text.EAdShowText">
+																	<param name="x">30</param>
+																	<param name="y">50</param>
+																	<param name="font">Dialog;25.0;PLAIN</param>
+																	<param name="textColor">0xffffffff:0x000000ff</param>
+																	<param name="bubbleColor">0xffffffff:0x000000ff</param>
+																	<param name="text">stringId</param>
+																</element>
+															</list>
+														</element>
+														<element
+															class="es.eucm.eadventure.common.model.effects.impl.text.extra.Answer"
+															id=""
+															type="es.eucm.eadventure.common.model.effects.impl.text.extra.Answer">
+															<param name="answer">stringId</param>
+															<list name="effects">
+																<element
+																	class="es.eucm.eadventure.common.model.effects.impl.text.EAdShowText"
+																	id="id3"
+																	type="es.eucm.eadventure.common.model.effects.impl.text.EAdShowText">
+																	<param name="x">30</param>
+																	<param name="y">50</param>
+																	<param name="font">Dialog;25.0;PLAIN</param>
+																	<param name="textColor">0xffffffff:0x000000ff</param>
+																	<param name="bubbleColor">0xffffffff:0x000000ff</param>
+																	<param name="text">stringId</param>
+																</element>
+															</list>
+														</element>
+														<element
+															class="es.eucm.eadventure.common.model.effects.impl.text.extra.Answer"
+															id=""
+															type="es.eucm.eadventure.common.model.effects.impl.text.extra.Answer">
+															<param name="answer">stringId</param>
+															<list name="effects">
+																<element
+																	class="es.eucm.eadventure.common.model.effects.impl.text.EAdShowText"
+																	id="id3"
+																	type="es.eucm.eadventure.common.model.effects.impl.text.EAdShowText">
+																	<param name="x">30</param>
+																	<param name="y">50</param>
+																	<param name="font">Dialog;25.0;PLAIN</param>
+																	<param name="textColor">0xffffffff:0x000000ff</param>
+																	<param name="bubbleColor">0xffffffff:0x000000ff</param>
+																	<param name="text">stringId</param>
+																</element>
+															</list>
+														</element>
+													</list>
+												</element>
+												<element
+													class="es.eucm.eadventure.common.model.effects.impl.EAdMoveActorReference"
+													id="move"
+													type="es.eucm.eadventure.common.model.effects.impl.EAdMoveActorReference">
+													<param name="actor">
+														<element
+															class="es.eucm.eadventure.common.model.elements.impl.EAdActorReferenceImpl"
+															id="id5"
+															type="es.eucm.eadventure.common.model.elements.impl.EAdActorReferenceImpl">
+															<param name="referencedActor">
+																<element
+																	class="es.eucm.eadventure.common.model.elements.impl.EAdBasicActor"
+																	id="Paniel"
+																	type="es.eucm.eadventure.common.model.elements.impl.EAdBasicActor">
+																	<list name="actions" />
+																</element>
+															</param>
+															<param name="x">400</param>
+															<param name="y">200</param>
+															<param name="scale">0.5</param>
+														</element>
+													</param>
+													<param name="xTarget">0</param>
+													<param name="yTarget">0</param>
+													<param name="MovementSpeed">NORMAL</param>
+												</element>
+											</list>
+										</element>
+									</list>
+								</element>
+							</param>
+							<param name="x">200</param>
+							<param name="y">200</param>
+							<param name="scale">0.8</param>
+						</element>
+						<element
+							class="es.eucm.eadventure.common.model.elements.impl.EAdActorReferenceImpl"
+							id="id5"
+							type="es.eucm.eadventure.common.model.elements.impl.EAdActorReferenceImpl">
+							<param name="referencedActor">
+								<element
+									class="es.eucm.eadventure.common.model.elements.impl.EAdBasicActor"
+									id="Paniel"
+									type="es.eucm.eadventure.common.model.elements.impl.EAdBasicActor">
+									<list name="actions" />
+								</element>
+							</param>
+							<param name="x">400</param>
+							<param name="y">200</param>
+							<param name="scale">0.5</param>
+						</element>
+					</list>
+				</element>
+			</list>
+			<list name="actors" />
+			<list name="timers" />
+		</element>
+	</list>
+</adventure>

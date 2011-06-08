@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><!DOCTYPE eAdventure SYSTEM "eadventure.dtd">
+<eAdventure>
+	<scene id="SceneId" playerLayer="-1" playerScale="4.65" start="yes">
+		<resources name="No name">
+			<asset type="background" uri="assets/background/background.jpg"/>
+		</resources>
+		<name/>
+		<default-initial-position x="178" y="401"/>
+		<exits>
+			<exit destinyX="-2147483648" destinyY="-2147483648" hasInfluenceArea="no" height="118" idTarget="SceneId1" not-effects="no" rectangular="yes" transitionTime="0" transitionType="0" width="116" x="665" y="19">
+				<exit-look text=""/>
+				<condition>
+					<active flag="FlagId"/>
+				</condition>
+			</exit>
+		</exits>
+		<objects>
+			<object-ref hasInfluenceArea="no" idTarget="ItemId" layer="1" scale="1.0324324" x="640" y="555"/>
+			<object-ref hasInfluenceArea="no" idTarget="ItemId1" layer="0" scale="9.125" x="503" y="274"/>
+		</objects>
+		<active-areas>
+			<active-area hasInfluenceArea="no" height="362" id="IdObject" rectangular="yes" width="116" x="33" y="186">
+				<description>
+					<name/>
+					<brief/>
+					<detailed/>
+				</description>
+				<actions>
+					<examine keepDistance="0" needsGoTo="no" not-effects="no">
+						<effect>
+							<show-text borderColor="-16777216" frontColor="-1" x="400" y="500">Esto es un área activa.</show-text>
+							<condition/>
+						</effect>
+					</examine>
+				</actions>
+			</active-area>
+		</active-areas>
+		<atrezzo>
+			<atrezzo-ref idTarget="AtrezzoId" layer="2" scale="0.6243094" x="92" y="185"/>
+		</atrezzo>
+	</scene>
+	<scene id="SceneId1" playerLayer="-1" playerScale="1.0" start="no">
+		<resources name="No name">
+			<asset type="background" uri="assets/background/anotherBackground.jpg"/>
+		</resources>
+		<name/>
+		<default-initial-position x="400" y="300"/>
+		<exits>
+			<exit destinyX="-2147483648" destinyY="-2147483648" hasInfluenceArea="no" height="290" idTarget="SceneId" not-effects="no" rectangular="no" transitionTime="0" transitionType="0" width="384" x="381" y="38">
+				<exit-look text=""/>
+				<point x="412" y="42"/>
+				<point x="755" y="38"/>
+				<point x="765" y="308"/>
+				<point x="726" y="318"/>
+				<point x="684" y="127"/>
+				<point x="460" y="136"/>
+				<point x="460" y="328"/>
+				<point x="381" y="326"/>
+			</exit>
+			<exit destinyX="-2147483648" destinyY="-2147483648" hasInfluenceArea="no" height="216" idTarget="SceneId" not-effects="no" rectangular="no" transitionTime="0" transitionType="0" width="205" x="-29" y="158">
+				<exit-look text=""/>
+				<point x="-29" y="158"/>
+				<point x="176" y="162"/>
+				<point x="-25" y="374"/>
+			</exit>
+		</exits>
+		<atrezzo>
+			<atrezzo-ref idTarget="AtrezzoId" layer="0" scale="1.0" x="583" y="337"/>
+		</atrezzo>
+	</scene>
+	<object id="ItemId" returnsWhenDragged="yes">
+		<documentation>This a nice blond guy. All natural.</documentation>
+		<resources name="No name">
+			<asset type="icon" uri="assets/special/EmptyIcon.png"/>
+			<asset type="image" uri="assets/image/peter.jpg"/>
+		</resources>
+		<description>
+			<name>Blond guy</name>
+			<brief>Well, you know. Just a guy.</brief>
+			<detailed>Well, you know. Just a guy, but in detailed description.</detailed>
+		</description>
+		<actions>
+			<use keepDistance="35" needsGoTo="yes" not-effects="no">
+				<condition>
+					<active flag="FlagId"/>
+				</condition>
+				<effect>
+					<trigger-conversation idTarget="ConversationId"/>
+					<condition/>
+				</effect>
+			</use>
+			<examine keepDistance="0" needsGoTo="no" not-effects="no">
+				<effect>
+					<random-effect probability="50">
+						<show-text borderColor="-16777216" frontColor="-1" x="400" y="500">Thisis effect with probability 1</show-text>
+						<show-text borderColor="-16777216" frontColor="-1" x="400" y="500">This effect with probability 2</show-text>
+					</random-effect>
+					<condition/>
+				</effect>
+			</examine>
+		</actions>
+	</object>
+	<object id="ItemId1" returnsWhenDragged="yes">
+		<resources name="No name">
+			<asset type="icon" uri="assets/special/EmptyIcon.png"/>
+			<asset type="image" uri="assets/image/bomberman.jpg"/>
+		</resources>
+		<description>
+			<name>Bomberman</name>
+			<brief>It's Bomberman!</brief>
+			<detailed>It's Bomberman! He has bombs!</detailed>
+		</description>
+		<actions>
+			<examine keepDistance="0" needsGoTo="no" not-effects="no">
+				<condition>
+					<inactive flag="FlagId"/>
+				</condition>
+				<effect>
+					<show-text borderColor="-6684724" frontColor="-65485" x="153" y="173">This text is not from the description.</show-text>
+					<condition/>
+				</effect>
+			</examine>
+			<use keepDistance="35" needsGoTo="yes" not-effects="no">
+				<effect>
+					<activate flag="FlagId"/>
+					<condition/>
+					<show-text borderColor="-16777216" frontColor="-1" x="400" y="500">This enables an action in the blond guy.</show-text>
+					<condition/>
+				</effect>
+			</use>
+		</actions>
+	</object>
+	<player>
+		<resources name="No name">
+			<asset type="standup" uri="assets/animation/looking_up.eaa"/>
+			<asset type="standright" uri="assets/animation/looking_right.eaa"/>
+			<asset type="walkdown" uri="assets/animation/walking_down.eaa"/>
+			<asset type="walkright" uri="assets/special/EmptyAnimation"/>
+			<asset type="speakup" uri="assets/animation/looking_up.eaa"/>
+			<asset type="walkleft" uri="assets/animation/walking_left.eaa"/>
+			<asset type="walkup" uri="assets/animation/walking_up.eaa"/>
+			<asset type="speakright" uri="assets/animation/speaking_right.eaa"/>
+			<asset type="speakdown" uri="assets/animation/talking_down.eaa"/>
+			<asset type="standdown" uri="assets/animation/talking_down.eaa"/>
+			<asset type="useright" uri="assets/special/EmptyAnimation"/>
+			<asset type="speakleft" uri="assets/special/EmptyAnimation"/>
+			<asset type="useleft" uri="assets/special/EmptyAnimation"/>
+			<asset type="standleft" uri="assets/special/EmptyAnimation"/>
+		</resources>
+		<textcolor bubbleBkgColor="#ffcccc" bubbleBorderColor="#66ff00" showsSpeechBubble="yes">
+			<frontcolor color="#FFFFFF"/>
+			<bordercolor color="#330099"/>
+		</textcolor>
+		<description>
+			<name/>
+			<brief/>
+			<detailed/>
+		</description>
+		<voice name="" synthesizeAlways="no"/>
+	</player>
+	<graph-conversation id="ConversationId">
+		<dialogue-node nodeindex="0">
+			<speak-player>Line 1</speak-player>
+			<condition/>
+			<speak-player>Line 2</speak-player>
+			<condition/>
+			<speak-player>Line 3</speak-player>
+			<condition/>
+			<child nodeindex="1"/>
+		</dialogue-node>
+		<dialogue-node nodeindex="1">
+			<speak-player>Another node</speak-player>
+			<condition/>
+			<child nodeindex="2"/>
+		</dialogue-node>
+		<option-node nodeindex="2">
+			<speak-player>Se marchó....</speak-player>
+			<condition/>
+			<child nodeindex="3"/>
+			<speak-player>Otra más</speak-player>
+			<condition/>
+			<child nodeindex="4"/>
+		</option-node>
+		<dialogue-node nodeindex="3">
+			<speak-player>¡Texto final!</speak-player>
+			<condition/>
+			<end-conversation/>
+		</dialogue-node>
+		<dialogue-node nodeindex="4">
+			<child nodeindex="0"/>
+		</dialogue-node>
+	</graph-conversation>
+	<atrezzoobject id="AtrezzoId">
+		<resources name="No name">
+			<asset type="icon" uri="assets/special/EmptyIcon.png"/>
+			<asset type="image" uri="assets/image/john.png"/>
+		</resources>
+		<description>
+			<name/>
+			<brief/>
+			<detailed/>
+		</description>
+	</atrezzoobject>
+</eAdventure>

@@ -1,0 +1,59 @@
+<adventure>
+	<list name="chapters">
+		<element id="chapter"
+				 type="es.eucm.eadventure.common.model.impl.EAdChapterModelImpl"
+				 class="es.eucm.eadventure.common.model.impl.EAdChapterModelImpl">
+			
+			<list name="actors">
+				<element id="actorId1"
+						 type="es.eucm.eadventure.common.model.elements.impl.EAdBasicActor"
+						 class="es.eucm.eadventure.common.model.elements.impl.EAdBasicActor">
+						<asset bundle="default"
+							   name="appearance"
+							   class="es.eucm.eadventure.common.resources.assets.impl.ImageImpl"
+							   width="320"
+							   height="320">@drawable/start.png</asset>
+					<list name="actions">
+						<element id="action"
+								 type="es.eucm.eadventure.common.model.actions.impl.EAdBasicAction"
+								 class="es.eucm.eadventure.common.model.actions.impl.EAdBasicAction">
+							<asset bundle="default"
+								   name="appearance"
+								   class="es.eucm.eadventure.common.resources.assets.impl.ImageImpl"
+								   width="100"
+								   height="60">@drawable/grab.png</asset>
+							<param name="name">action name</param>
+							<list name="effects">
+								<element id="effect"
+										 type="es.eucm.eadventure.common.model.effects.impl.EAdShowText"
+										 class="es.eucm.eadventure.common.model.effects.impl.EAdShowText">
+									<param name="text">effect text</param>
+								</element>
+							</list>
+						</element>
+					</list>
+				</element>
+			</list>
+			
+			<list name="scenes">
+				<element id="space"
+						 type="es.eucm.eadventure.common.model.elements.impl.EAdSpace"
+						 class="es.eucm.eadventure.common.model.elements.impl.EAdSpace">
+						<asset bundle="default"
+							   name="appearance"
+							   class="es.eucm.eadventure.common.resources.assets.impl.ImageImpl"
+							   width="800"
+							   height="600">@drawable/loading.png</asset>
+					<list name="actorReferences">
+						<element id="ref" type="es.eucm.eadventure.common.model.elements.impl.EAdActorReferenceImpl" class="es.eucm.eadventure.common.model.elements.impl.EAdActorReferenceImpl">
+							<param name="x">200</param>
+							<param name="y">200</param>
+							<param name="scale">0.2</param>
+							<param name="referencedActor">actorId1</param>
+						</element>
+					</list>
+				</element>
+			</list>
+		</element>
+	</list>
+</adventure>

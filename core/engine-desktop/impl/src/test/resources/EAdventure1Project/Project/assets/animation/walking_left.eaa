@@ -1,0 +1,2 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><!DOCTYPE animation SYSTEM "animation.dtd">
+<animation id="walking_left" slides="no" usetransitions="yes"><documentation>Walking left</documentation><transition time="0" type="none"/><frame maxSoundTime="1000" soundUri="" time="240" type="image" uri="assets/animation/walking_left_1.png" waitforclick="no"/><transition time="0" type="none"/><frame maxSoundTime="1000" soundUri="" time="240" type="image" uri="assets/animation/walking_left_2.png" waitforclick="no"/><transition time="0" type="none"/></animation>
