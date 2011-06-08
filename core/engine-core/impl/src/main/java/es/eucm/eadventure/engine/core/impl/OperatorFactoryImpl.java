@@ -51,7 +51,7 @@ import es.eucm.eadventure.engine.core.operator.Operator;
 
 public class OperatorFactoryImpl extends AbstractFactory<Operator<?>> implements OperatorFactory {
 	
-	private Logger log = LoggerFactory.getLogger(OperatorFactoryImpl.class);
+	private Logger log = LoggerFactory.getLogger("Operator Factory");
 
 	@Inject
 	public OperatorFactoryImpl(MapProvider<Class<?>, Operator<?>> map) {
@@ -66,7 +66,9 @@ public class OperatorFactoryImpl extends AbstractFactory<Operator<?>> implements
 			return null;
 		}
 		Operator<T> operator = (Operator<T>) get(operation.getClass());
-		return operator.operate(varResult, operation);
+		S result =  operator.operate(varResult, operation);
+		log.info(varResult + " := " + result);
+		return result;
 	}
 
 }

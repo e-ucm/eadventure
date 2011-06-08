@@ -48,9 +48,7 @@ public abstract class SceneElementGOImpl<T extends EAdSceneElement> extends Abst
 		this.position = new EAdPosition(element.getPosition());
 		valueMap.setValue(element.positionXVar(), position.getX());
 		valueMap.setValue(element.positionYVar(), position.getY());
-		valueMap.setValue(element.visibleVar(), isVisible());
-
-		
+		this.visible = valueMap.getValue(element.visibleVar());
 		this.scale = element.getScale();
 		//TODO
 		//this.orientation = new Orientation(element.getInitialOrientation());

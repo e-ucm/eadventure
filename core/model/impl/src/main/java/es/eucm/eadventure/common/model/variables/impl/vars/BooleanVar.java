@@ -44,11 +44,12 @@ import es.eucm.eadventure.common.model.variables.impl.EAdVarImpl;
 public class BooleanVar extends EAdVarImpl<Boolean> implements EAdVar<Boolean> {
 
 	public BooleanVar(String name) {
-		super(Boolean.class, name);
+		this(name, null);
 	}
 
 	public BooleanVar(String name, EAdElement element) {
 		super(Boolean.class, name, element);
+		setInitialValue(false);
 	}
 
 	/* (non-Javadoc)
@@ -57,18 +58,13 @@ public class BooleanVar extends EAdVarImpl<Boolean> implements EAdVar<Boolean> {
 	 */
 	@Override
 	public String toString() {
-		return "Boolean;" + name;
+		return super.toString() + ";Boolean";
 	}
 	
 	public static BooleanVar valueOf(String string) {
 		String[] strings = string.split(";");
-		String name = strings[1];
+		String name = strings[2];
 		return new BooleanVar(name);
-	}
-	
-	@Override
-	public Boolean getDefaultValue() {
-		return Boolean.FALSE;
 	}
 
 

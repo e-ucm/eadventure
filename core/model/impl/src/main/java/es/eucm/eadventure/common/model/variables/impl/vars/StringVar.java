@@ -43,6 +43,7 @@ public class StringVar extends EAdVarImpl<String> {
 
 	public StringVar(String name) {
 		super(String.class, name);
+		this.setInitialValue("");
 	}
 	
 	/* (non-Javadoc)
@@ -51,18 +52,13 @@ public class StringVar extends EAdVarImpl<String> {
 	 */
 	@Override
 	public String toString() {
-		return "String;" + name;
+		return super.toString() + ";String";
 	}
 	
 	public static StringVar valueOf(String string) {
 		String[] strings = string.split(";");
-		String name = strings[1];
+		String name = strings[2];
 		return new StringVar(name);
-	}
-	
-	@Override
-	public String getDefaultValue() {
-		return "";
 	}
 	
 }

@@ -87,8 +87,8 @@ public class CaptionImpl implements Caption {
 		this.font = EAdFont.BIG;
 		this.hasBubble = false;
 		this.bubbleColor = null;
-		maxHeight = -1;
-		maxWidth = -1;
+		maxHeight = Caption.SCREEN_SIZE;
+		maxWidth = Caption.SCREEN_SIZE;
 		minWidth = 0;
 		minHeight = 0;
 		alpha = 1.0f;

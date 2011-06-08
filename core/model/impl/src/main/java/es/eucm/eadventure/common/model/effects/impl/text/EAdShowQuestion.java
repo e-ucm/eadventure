@@ -43,7 +43,10 @@ import es.eucm.eadventure.common.model.EAdElementList;
 import es.eucm.eadventure.common.model.conditions.impl.EmptyCondition;
 import es.eucm.eadventure.common.model.conditions.impl.FlagCondition;
 import es.eucm.eadventure.common.model.conditions.impl.NOTCondition;
+import es.eucm.eadventure.common.model.effects.EAdMacro;
 import es.eucm.eadventure.common.model.effects.impl.EAdComplexBlockingEffect;
+import es.eucm.eadventure.common.model.effects.impl.EAdMacroImpl;
+import es.eucm.eadventure.common.model.effects.impl.EAdTriggerMacro;
 import es.eucm.eadventure.common.model.effects.impl.text.extra.Answer;
 import es.eucm.eadventure.common.model.effects.impl.variables.EAdChangeVarValueEffect;
 import es.eucm.eadventure.common.model.elements.EAdSceneElement;
@@ -67,7 +70,7 @@ import es.eucm.eadventure.common.model.variables.impl.vars.IntegerVar;
  */
 @Element(runtime = EAdComplexBlockingEffect.class, detailed = EAdShowQuestion.class)
 public class EAdShowQuestion extends EAdComplexBlockingEffect {
-	
+
 	/**
 	 * Used to generate unique variables
 	 */
@@ -100,16 +103,18 @@ public class EAdShowQuestion extends EAdComplexBlockingEffect {
 	}
 
 	public void setUpNewInstance() {
+
 		int marginLeft = 10;
 		components.clear();
-		
-		if (questionElement != null){
+
+		if (questionElement != null) {
 			questionElement.getPosition().set(marginLeft, 10, Corner.TOP_LEFT);
 			components.add(questionElement);
 		}
 
-		IntegerVar selectedAnswer = new IntegerVar(id + "_selectedAnswer" + ID_GENERATOR++ );
-		BooleanVar answered = new BooleanVar(id + "_answerd" + ID_GENERATOR++ );
+		IntegerVar selectedAnswer = new IntegerVar(id + "_selectedAnswer"
+				+ ID_GENERATOR++);
+		BooleanVar answered = new BooleanVar(id + "_answerd" + ID_GENERATOR++);
 
 		EAdChangeVarValueEffect endEffect = new EAdChangeVarValueEffect(id
 				+ "_endEffect");
@@ -125,30 +130,42 @@ public class EAdShowQuestion extends EAdComplexBlockingEffect {
 			// variables for height
 			// TODO randomize answer order
 			answers.get(i).setPosition(
-					new EAdPosition(Corner.TOP_LEFT, marginLeft * 2, 0 ));
-
+					new EAdPosition(Corner.TOP_LEFT, marginLeft * 2, 0));
 			components.add(answers.get(i));
 		}
 
 		// TODO behavior to change selection with key presses?
 
 		this.setBlockingCondition(new NOTCondition(new FlagCondition(answered)));
-		
-		addPositioningEvent( );
+
+		addPositioningEvent();
 	}
-	
-	private void addPositioningEvent( ){
-		EAdSceneElementEvent event = new EAdSceneElementEventImpl( id + "AddToSceneEvent");
-		
-		for ( int i = 0; i < answers.size(); i++ ){
-			EAdSceneElement previousElement = i == 0 ? questionElement : answers.get(i - 1 );
+
+	private void addPositioningEvent() {
+		EAdSceneElementEvent event = new EAdSceneElementEventImpl(id
+				+ "AddToSceneEvent");
+		EAdMacro macro = new EAdMacroImpl("answerPositioningMacro");
+
+		for (int i = 0; i < answers.size(); i++) {
+			EAdSceneElement previousElement = i == 0 ? questionElement
+					: answers.get(i - 1);
 			Answer a = answers.get(i);
-			EAdChangeVarValueEffect effect = new EAdChangeVarValueEffect( id + "positoningAnswer" + i);
+			EAdChangeVarValueEffect effect = new EAdChangeVarValueEffect(id
+					+ "positoningAnswer" + i);
 			effect.setVar(a.positionYVar());
-			effect.setOperation(new LiteralExpressionOperation(effect.getId() + "_op", "[0] + [1] + 10", previousElement.positionYVar(), previousElement.heightVar() ));
-			event.addEffect(SceneElementEvent.ADDED_TO_SCENE, effect);
+			if (previousElement == null) {
+				effect.setOperation(new LiteralExpressionOperation(effect
+						.getId() + "_op", "10" ));
+			} else
+				effect.setOperation(new LiteralExpressionOperation(effect
+						.getId() + "_op", "[0] + [1] + 10", previousElement
+						.positionYVar(), previousElement.heightVar()));
+			macro.getEffects().add(effect);
 		}
-		
+
+		event.addEffect(SceneElementEvent.ADDED_TO_SCENE, new EAdTriggerMacro(
+				"triggerPositioning", macro));
+
 		getEvents().add(event);
 	}
 

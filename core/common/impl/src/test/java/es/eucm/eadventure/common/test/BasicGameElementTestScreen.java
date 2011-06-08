@@ -225,6 +225,7 @@ public class BasicGameElementTestScreen extends EAdSceneImpl implements EAdScene
 	private void initShowQuestion() {
 		showQuestionEffect = new EAdShowQuestion("question");
 		CaptionImpl questionText = new CaptionImpl();
+		questionText.setBubbleColor(EAdBorderedColor.WHITE_ON_BLACK );
 		questionText.setText(new EAdString("question"));
 		questionText.setTextColor(EAdBorderedColor.BLACK_ON_WHITE);
 		EAdBasicSceneElement element = new EAdBasicSceneElement("question_element");

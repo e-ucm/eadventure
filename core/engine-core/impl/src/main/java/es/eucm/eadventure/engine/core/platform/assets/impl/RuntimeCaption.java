@@ -53,6 +53,8 @@ import es.eucm.eadventure.engine.core.GameState;
 import es.eucm.eadventure.engine.core.impl.GameLoopImpl;
 import es.eucm.eadventure.engine.core.impl.VariableMap;
 import es.eucm.eadventure.engine.core.platform.DrawableAsset;
+import es.eucm.eadventure.engine.core.platform.GUI;
+import es.eucm.eadventure.engine.core.platform.PlatformConfiguration;
 import es.eucm.eadventure.engine.core.platform.RuntimeFont;
 import es.eucm.eadventure.engine.core.platform.impl.FontCacheImpl;
 
@@ -117,16 +119,24 @@ public class RuntimeCaption implements DrawableAsset<Caption> {
 
 	private StringHandler stringHandler;
 
+	private PlatformConfiguration platformConfiguration;
+
 	@Inject
 	public RuntimeCaption(FontCacheImpl fontCache, VariableMap valueMap,
-			StringHandler stringHandler) {
+			StringHandler stringHandler, GUI<?> gui,
+			PlatformConfiguration platformConfiguration) {
 		this.fontCache = fontCache;
 		this.valueMap = valueMap;
 		this.stringHandler = stringHandler;
+		this.platformConfiguration = platformConfiguration;
+		bounds = new EAdRectangle(0, 0, 1, 1);
+		lines = new ArrayList<String>();
 		logger.info("New instance");
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see es.eucm.eadventure.engine.core.platform.RuntimeAsset#loadAsset()
 	 */
 	@Override
@@ -138,34 +148,44 @@ public class RuntimeCaption implements DrawableAsset<Caption> {
 		return true;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see es.eucm.eadventure.engine.core.platform.RuntimeAsset#freeMemory()
 	 */
 	@Override
 	public void freeMemory() {
-		//DO NOTHING
+		// DO NOTHING
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see es.eucm.eadventure.engine.core.platform.RuntimeAsset#isLoaded()
 	 */
 	@Override
 	public boolean isLoaded() {
-		return lines != null;
+		return lines.size() > 0;
 	}
 
-	/* (non-Javadoc)
-	 * @see es.eucm.eadventure.engine.core.platform.RuntimeAsset#setDescriptor(es.eucm.eadventure.common.resources.assets.AssetDescriptor)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * es.eucm.eadventure.engine.core.platform.RuntimeAsset#setDescriptor(es
+	 * .eucm.eadventure.common.resources.assets.AssetDescriptor)
 	 */
 	@Override
 	public void setDescriptor(Caption descriptor) {
 		this.caption = descriptor;
-		// minimumHeight = font == null || element.getMinimumHeight() >
-		// font.lineHeight() ? element.getMinimumHeight() : font.lineHeight();
+		loadAsset();
 	}
 
-	/* (non-Javadoc)
-	 * @see es.eucm.eadventure.engine.core.platform.RuntimeAsset#update(es.eucm.eadventure.engine.core.GameState)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see es.eucm.eadventure.engine.core.platform.RuntimeAsset#update(es.eucm.
+	 * eadventure.engine.core.GameState)
 	 */
 	@Override
 	public void update(GameState state) {
@@ -174,22 +194,21 @@ public class RuntimeCaption implements DrawableAsset<Caption> {
 			goForward(1);
 		}
 
-		text = valueMap.processTextVars(stringHandler.getString(caption
-				.getText()));
-		wrapText();
+		String newText = valueMap.processTextVars(stringHandler
+				.getString(caption.getText()));
+		if (!newText.equals(text)) {
+			text = newText;
+			wrapText();
+		}
 	}
 
 	@Override
 	public int getWidth() {
-		if (bounds == null)
-			return 1;
 		return bounds.width;
 	}
 
 	@Override
 	public int getHeight() {
-		if (bounds == null)
-			return 1;
 		return bounds.height;
 	}
 
@@ -204,15 +223,18 @@ public class RuntimeCaption implements DrawableAsset<Caption> {
 	}
 
 	private void wrapText() {
-		//TODO set minimum height as line height?
-		
-		lines = new ArrayList<String>();
+		// TODO set minimum height as line height?
 		totalParts = 0;
-		bounds = new EAdRectangle(0, 0, 0, 0);
 		lineHeight = font.lineHeight();
+		lines.clear();
+
+		int maximumHeight = (int) (caption.getMaximumHeight() == Caption.SCREEN_SIZE ? platformConfiguration
+				.getHeight() / platformConfiguration.getScale(): caption.getMaximumHeight());
+		int maximumWidth = (int) (caption.getMaximumWidth() == Caption.SCREEN_SIZE ? platformConfiguration
+				.getWidth() / platformConfiguration.getScale() : caption.getMaximumWidth());
 
 		// If width for drawing the text is infinite, we have only one line
-		if (caption.getMinimumWidth() <= 0) {
+		if (caption.getMinimumWidth() < 0) {
 			lines.add(text);
 			totalParts = 1;
 			int lineWidth = font.stringWidth(text);
@@ -233,8 +255,7 @@ public class RuntimeCaption implements DrawableAsset<Caption> {
 
 				int nextWordWidth = font.stringWidth(words[contWord] + " ");
 
-				if (currentLineWidth + nextWordWidth <= caption
-						.getMaximumWidth()) {
+				if (currentLineWidth + nextWordWidth <= maximumWidth) {
 					currentLineWidth += nextWordWidth;
 					line += words[contWord++] + " ";
 				} else if (line != "") {
@@ -245,7 +266,7 @@ public class RuntimeCaption implements DrawableAsset<Caption> {
 					line = "";
 				} else {
 					line = splitLongWord(font, lines, words[contWord++],
-							caption.getMaximumWidth());
+							maximumWidth);
 					currentLineWidth = font.stringWidth(line);
 				}
 			}
@@ -259,8 +280,9 @@ public class RuntimeCaption implements DrawableAsset<Caption> {
 
 		}
 
-		linesInPart = caption.getMaximumHeight() / lineHeight;
-		linesInPart = linesInPart <= 0 ? 1 : linesInPart;
+		linesInPart = maximumHeight / lineHeight;
+		linesInPart = linesInPart <= 0 || linesInPart > lines.size() ? lines
+				.size() : linesInPart;
 		totalParts = (int) Math
 				.ceil((float) lines.size() / (float) linesInPart);
 
@@ -374,11 +396,11 @@ public class RuntimeCaption implements DrawableAsset<Caption> {
 		loops = 0;
 		updateTimeShown();
 	}
-	
+
 	public Caption getCaption() {
 		return caption;
 	}
-	
+
 	public EAdRectangle getBounds() {
 		return bounds;
 	}
