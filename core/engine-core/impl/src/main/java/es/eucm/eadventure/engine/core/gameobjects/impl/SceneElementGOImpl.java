@@ -1,6 +1,7 @@
 package es.eucm.eadventure.engine.core.gameobjects.impl;
 
-import java.util.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import es.eucm.eadventure.common.model.elements.EAdSceneElement;
 import es.eucm.eadventure.common.model.params.EAdPosition;
@@ -14,7 +15,7 @@ import es.eucm.eadventure.engine.core.platform.RuntimeAsset;
 public abstract class SceneElementGOImpl<T extends EAdSceneElement> extends AbstractGameObject<T> implements
 		SceneElementGO<T> {
 
-	private static final Logger logger = Logger.getLogger("SceneElementGOImpl");
+	private static final Logger logger = LoggerFactory.getLogger("SceneElementGOImpl");
 
 	protected EAdPosition position;
 	
@@ -47,9 +48,7 @@ public abstract class SceneElementGOImpl<T extends EAdSceneElement> extends Abst
 		this.position = new EAdPosition(element.getPosition());
 		valueMap.setValue(element.positionXVar(), position.getX());
 		valueMap.setValue(element.positionYVar(), position.getY());
-		valueMap.setValue(element.visibleVar(), isVisible());
-
-		
+		this.visible = valueMap.getValue(element.visibleVar());
 		this.scale = element.getScale();
 		//TODO
 		//this.orientation = new Orientation(element.getInitialOrientation());
@@ -79,6 +78,7 @@ public abstract class SceneElementGOImpl<T extends EAdSceneElement> extends Abst
 	@Override
 	public void update(GameState state) {
 		super.update(state);
+		this.getAsset().update(state);
 		this.position.setX(valueMap.getValue(element.positionXVar()));
 		this.position.setY(valueMap.getValue(element.positionYVar()));
 		this.setVisible( valueMap.getValue(element.visibleVar()) );
