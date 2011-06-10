@@ -38,9 +38,9 @@
 package es.eucm.eadventure.common.impl.reader.subparsers;
 
 import java.lang.reflect.Field;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.xml.sax.Attributes;
 
 import es.eucm.eadventure.common.model.EAdElement;
@@ -53,7 +53,7 @@ import es.eucm.eadventure.common.model.impl.EAdElementListImpl;
  */
 public class ListSubparser extends Subparser {
 
-	private static final Logger logger = LoggerFactory
+	private static final Logger logger = Logger
 			.getLogger("ListSubparser");
 
 	/**
@@ -69,7 +69,7 @@ public class ListSubparser extends Subparser {
 	protected void init(EAdElement peek, Attributes attributes) {
 		String name = attributes.getValue("name");
 		if (peek instanceof EAdMap) {
-			elementList = new EAdElementListImpl<Object>();
+			elementList = new EAdElementListImpl<Object>(Object.class);
 		} else { 
 			Field field = getField(peek, name);
 			try {
@@ -77,9 +77,9 @@ public class ListSubparser extends Subparser {
 				elementList = (EAdElementList<Object>) field.get(peek);
 				field.setAccessible(false);
 			} catch (IllegalArgumentException e) {
-				logger.error(e.getMessage(), e);
+				logger.log(Level.SEVERE, e.getMessage(), e);
 			} catch (IllegalAccessException e) {
-				logger.error(e.getMessage(), e);
+				logger.log(Level.SEVERE, e.getMessage(), e);
 			}
 		}
 	}

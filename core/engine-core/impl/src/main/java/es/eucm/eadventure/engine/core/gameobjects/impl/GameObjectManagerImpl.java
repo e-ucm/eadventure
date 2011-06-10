@@ -39,9 +39,7 @@ package es.eucm.eadventure.engine.core.gameobjects.impl;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import java.util.logging.Logger;
 
 import com.google.inject.Singleton;
 
@@ -62,7 +60,7 @@ public class GameObjectManagerImpl implements GameObjectManager {
 
 	private int bufferPointer;
 
-	private static final Logger logger = LoggerFactory
+	private static final Logger logger = Logger
 			.getLogger("GameObjectManagerImpl");
 
 	@SuppressWarnings("unchecked")

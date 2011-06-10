@@ -40,9 +40,7 @@ package es.eucm.eadventure.common.impl.reader.subparsers.extra;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import java.util.logging.Logger;
 
 import es.eucm.eadventure.common.model.EAdElement;
 import es.eucm.eadventure.common.model.params.EAdBorderedColor;
@@ -64,7 +62,7 @@ import es.eucm.eadventure.common.resources.EAdString;
  */
 public class ObjectFactory {
 
-	private static final Logger logger = LoggerFactory.getLogger("ObjectFactory");
+	private static final Logger logger = Logger.getLogger("ObjectFactory");
 
 	private static Map<String, EAdElement> elementMap;
 

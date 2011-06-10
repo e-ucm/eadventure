@@ -39,9 +39,9 @@ package es.eucm.eadventure.common.impl.reader.subparsers;
 
 
 import java.lang.reflect.Field;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.xml.sax.Attributes;
 
 import es.eucm.eadventure.common.impl.reader.subparsers.extra.ObjectFactory;
@@ -73,7 +73,7 @@ public class ParamSubparser extends Subparser {
 	 */
 	private EAdElement element;
 	
-	private static final Logger logger = LoggerFactory.getLogger("ParamSubparser");
+	private static final Logger logger = Logger.getLogger("ParamSubparser");
 	
 	public ParamSubparser(Object object, Attributes attributes) {
 		currentString = new StringBuffer();
@@ -102,13 +102,13 @@ public class ParamSubparser extends Subparser {
 						
 			field.setAccessible(accessible);
 		} catch (NullPointerException e) {
-			logger.error(e.getMessage(), e);
+			logger.log(Level.SEVERE, e.getMessage(), e);
 		} catch (SecurityException e) {
-			logger.error(e.getMessage(), e);
+			logger.log(Level.SEVERE, e.getMessage(), e);
 		} catch (IllegalArgumentException e) {
-			logger.error(e.getMessage(), e);
+			logger.log(Level.SEVERE, e.getMessage(), e);
 		} catch (IllegalAccessException e) {
-			logger.error(e.getMessage(), e);
+			logger.log(Level.SEVERE, e.getMessage(), e);
 		}
 	}
 
@@ -122,6 +122,6 @@ public class ParamSubparser extends Subparser {
 		if (element instanceof EAdElement)
 			this.element = (EAdElement) element;
 		else
-			logger.error("Tried to add wrong type of element " + element);
+			logger.log(Level.SEVERE, "Tried to add wrong type of element " + element);
 	}
 }

@@ -38,16 +38,16 @@
 package es.eucm.eadventure.common.impl.writer;
 
 import java.lang.reflect.Field;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.xml.parsers.ParserConfigurationException;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.w3c.dom.Node;
 
-import es.eucm.eadventure.common.EAdRuntimeException;
-import es.eucm.eadventure.common.Element;
-import es.eucm.eadventure.common.Param;
+import es.eucm.eadventure.common.interfaces.EAdRuntimeException;
+import es.eucm.eadventure.common.interfaces.Element;
+import es.eucm.eadventure.common.interfaces.Param;
 import es.eucm.eadventure.common.model.EAdElement;
 import es.eucm.eadventure.common.model.EAdElementList;
 import es.eucm.eadventure.common.model.EAdMap;
@@ -55,8 +55,8 @@ import es.eucm.eadventure.common.resources.EAdResources;
 
 public class ElementDOMWriter extends DOMWriter<EAdElement> {
 
-	public static final Logger logger = LoggerFactory
-			.getLogger(ElementDOMWriter.class);
+	public static final Logger logger = Logger
+			.getLogger("ElementDOMWriter");
 
 	@Override
 	public Node buildNode(EAdElement element) {
@@ -79,7 +79,7 @@ public class ElementDOMWriter extends DOMWriter<EAdElement> {
 			}
 
 			if (annotation == null) {
-				logger.error("No Element annotation in class "
+				logger.log(Level.SEVERE, "No Element annotation in class "
 						+ element.getClass());
 				throw new EAdRuntimeException("No Element annotation in class "
 						+ element.getClass());
@@ -132,12 +132,12 @@ public class ElementDOMWriter extends DOMWriter<EAdElement> {
 			}
 
 		} catch (ParserConfigurationException e) {
-			logger.error("Error writing element " + element, e);
+			logger.log(Level.SEVERE, "Error writing element " + element, e);
 			return null;
 		} catch (IllegalArgumentException e) {
-			logger.error(e.getMessage(), e);
+			logger.log(Level.SEVERE, e.getMessage(), e);
 		} catch (IllegalAccessException e) {
-			logger.error(e.getMessage(), e);
+			logger.log(Level.SEVERE, e.getMessage(), e);
 		}
 
 		return node;

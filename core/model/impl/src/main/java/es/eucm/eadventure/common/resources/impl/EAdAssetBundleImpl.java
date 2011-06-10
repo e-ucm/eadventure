@@ -42,9 +42,8 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import es.eucm.eadventure.common.resources.EAdAssetBundle;
 import es.eucm.eadventure.common.resources.EAdAssetDescriptor;
@@ -62,7 +61,7 @@ public class EAdAssetBundleImpl implements EAdAssetBundle {
 	 */
 	protected Map<String, AssetDescriptor> assets;
 
-	private Logger logger = LoggerFactory.getLogger( EAdAssetBundleImpl.class );
+	private Logger logger = Logger.getLogger( "EAdAssetBundleImpl" );
 
 	public EAdAssetBundleImpl( ) {
 		descriptors = new ArrayList<EAdAssetDescriptor>( );
@@ -75,21 +74,23 @@ public class EAdAssetBundleImpl implements EAdAssetBundle {
 	}
 
 	public AssetDescriptor getAsset( String id ) {
-		for ( EAdAssetDescriptor d : descriptors ) {
-			if ( d.getAssetId( ).equals( id ) ) {
+	//TODO This code striclty checks for the validty of the asset, but should be used only on the editor
+//		for ( EAdAssetDescriptor d : descriptors ) {
+//			if ( d.getAssetId( ).equals( id ) ) {
 				AssetDescriptor assetPath = assets.get( id );
 				if ( assetPath == null ) {
-					logger.warn( "Empty asset", id );
+					logger.log(Level.WARNING, "Empty asset, id: " + id );
 					return null;
 				}
 				return assetPath;
-			}
-		}
-		logger.warn( "No such asset", id );
-		return null;
+//			}
+//		}
+//		logger.warn( "No such asset", id );
+//		return null;
 	}
 
 	public boolean addAsset( String id, AssetDescriptor asset ) {
+/*		TODO This code striclty checks for the validty of the asset, but should be used only on the editor
 		EAdAssetDescriptor descriptor = getDescriptor( id );
 		if ( descriptor == null )
 			return false;
@@ -102,6 +103,9 @@ public class EAdAssetBundleImpl implements EAdAssetBundle {
 		}
 
 		return false;
+		*/ 
+		assets.put(id, asset);
+		return true;
 	}
 
 	public EAdAssetDescriptor getDescriptor( String id ) {

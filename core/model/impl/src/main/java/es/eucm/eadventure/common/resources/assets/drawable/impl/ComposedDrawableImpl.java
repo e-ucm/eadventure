@@ -47,7 +47,7 @@ public class ComposedDrawableImpl implements ComposedDrawable {
 	EAdElementList<Drawable> assetList;
 	
 	public ComposedDrawableImpl() {
-		assetList = new EAdElementListImpl<Drawable>();
+		assetList = new EAdElementListImpl<Drawable>(Drawable.class);
 	}
 	
 	@Override

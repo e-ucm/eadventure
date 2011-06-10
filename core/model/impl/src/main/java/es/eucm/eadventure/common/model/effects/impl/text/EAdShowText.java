@@ -37,8 +37,8 @@
 
 package es.eucm.eadventure.common.model.effects.impl.text;
 
-import es.eucm.eadventure.common.Element;
-import es.eucm.eadventure.common.Param;
+import es.eucm.eadventure.common.interfaces.Element;
+import es.eucm.eadventure.common.interfaces.Param;
 import es.eucm.eadventure.common.model.effects.impl.AbstractEAdEffect;
 import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
 import es.eucm.eadventure.common.model.params.EAdPosition;

@@ -37,8 +37,8 @@
 
 package es.eucm.eadventure.engine.core.evaluators.impl;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -52,7 +52,7 @@ import es.eucm.eadventure.engine.core.evaluators.Evaluator;
 @Singleton
 public class VarConditionEvaluator implements Evaluator<VarCondition> {
 
-	private static final Logger logger = LoggerFactory.getLogger(VarConditionEvaluator.class);
+	private static final Logger logger = Logger.getLogger("VarConditionEvaluator");
 	
 	@Inject
 	private ValueMap valueMap;
@@ -85,7 +85,7 @@ public class VarConditionEvaluator implements Evaluator<VarCondition> {
 		case LESS_EQUAL:
 			return value1.floatValue() <= value2.floatValue();
 		default:
-			logger.error("Invalid value for var-var condition");
+			logger.log(Level.SEVERE, "Invalid value for var-var condition");
 			return false;
 		}
 	}

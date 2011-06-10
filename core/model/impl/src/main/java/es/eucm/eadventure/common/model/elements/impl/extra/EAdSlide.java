@@ -1,7 +1,7 @@
 package es.eucm.eadventure.common.model.elements.impl.extra;
 
-import es.eucm.eadventure.common.Element;
-import es.eucm.eadventure.common.Param;
+import es.eucm.eadventure.common.interfaces.Element;
+import es.eucm.eadventure.common.interfaces.Param;
 import es.eucm.eadventure.common.model.elements.impl.EAdSceneImpl;
 
 /**

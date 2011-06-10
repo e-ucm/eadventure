@@ -35,7 +35,7 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package es.eucm.eadventure.common;
+package es.eucm.eadventure.common.interfaces;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -44,33 +44,21 @@ import java.lang.annotation.Target;
 
 /**
  * <p>
- * Elements to be stored in the XML must be annotated with this. Also, classes
- * annotated with this must have a constructor with parameters {@link
- * EAdElement.class}, {@link String.class} (in that order) to work properly with
- * XML.
+ * Annotates fields that are stored as params in the xml
  * </p>
  * <p>
- * Type represents the class with which to cast the element in the editor and
- * class represents the class with which to cast the element in the engine
+ * These parameters must be {@link EAdElement}s, Enums, simple values (such as
+ * int, char, float...) or its wrapper classes.
  * </p>
- * 
  */
 @Retention(RetentionPolicy.RUNTIME)
-@Target(ElementType.TYPE)
-public @interface Element {
+@Target(ElementType.FIELD)
+public @interface Param {
 
 	/**
-	 * Class to cast the element in the editor
-	 * 
-	 * @return The class with which to cast the element in the editor
+	 * @return The value or name of the parameter, should coincide with the
+	 *         attribute name
 	 */
-	Class<?> detailed();
-
-	/**
-	 * Class to cast the element in the engine
-	 * 
-	 * @return The class with which to cast the element in the engine
-	 */
-	Class<?> runtime();
+	String value();
 
 }

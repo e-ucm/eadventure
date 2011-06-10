@@ -38,9 +38,9 @@
 package es.eucm.eadventure.common.impl.reader.subparsers;
 
 import java.lang.reflect.Constructor;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.xml.sax.Attributes;
 
 import es.eucm.eadventure.common.resources.assets.AssetDescriptor;
@@ -58,7 +58,7 @@ public class AssetSubparser extends Subparser {
 
 	private AssetDescriptor asset;
 	
-	private static final Logger logger = LoggerFactory
+	private static final Logger logger = Logger
 			.getLogger("AssetSubparser");
 
 	/**
@@ -76,7 +76,7 @@ public class AssetSubparser extends Subparser {
 			Constructor<?> con = clazz.getConstructor();
 			this.asset = (AssetDescriptor) con.newInstance(new Object[]{});
 		} catch (Exception e) {
-			logger.error(e.getMessage(), e);
+			logger.log(Level.SEVERE, e.getMessage(), e);
 		}
 	}
 

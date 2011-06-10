@@ -76,7 +76,7 @@ public abstract class AbstractEAdEvent extends AbstractEAdElement implements EAd
 	public void addEffect(Enum<?> event, EAdEffect effect) {
 		EAdElementList<EAdEffect> effects = this.effects.get(event);
 		if (effects == null) {
-			effects = new EAdElementListImpl<EAdEffect>();
+			effects = new EAdElementListImpl<EAdEffect>(EAdEffect.class);
 			this.effects.put(event, effects);
 		}
 		effects.add(effect);

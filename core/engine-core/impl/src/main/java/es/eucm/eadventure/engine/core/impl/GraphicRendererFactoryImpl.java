@@ -37,16 +37,16 @@
 
 package es.eucm.eadventure.engine.core.impl;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import com.google.inject.name.Named;
 
-import es.eucm.eadventure.common.EAdRuntimeException;
 import es.eucm.eadventure.common.MapProvider;
 import es.eucm.eadventure.common.impl.AbstractFactory;
+import es.eucm.eadventure.common.interfaces.EAdRuntimeException;
 import es.eucm.eadventure.common.model.params.EAdPosition;
 import es.eucm.eadventure.engine.core.gameobjects.GameObject;
 import es.eucm.eadventure.engine.core.platform.AssetRenderer;
@@ -58,7 +58,7 @@ import es.eucm.eadventure.engine.core.platform.RuntimeAsset;
 @Singleton
 public abstract class GraphicRendererFactoryImpl<S> extends AbstractFactory<GraphicRenderer<?, ?>> implements GraphicRendererFactory<S> {
 
-	private static final Logger logger = LoggerFactory.getLogger(GraphicRendererFactoryImpl.class);
+	private static final Logger logger = Logger.getLogger("GraphicRendererFactoryImpl");
 
 	@Inject
 	public GraphicRendererFactoryImpl(@Named("GraphicRenderer") MapProvider<Class<?>, GraphicRenderer<?, ?>> mapProvider) {
@@ -88,7 +88,7 @@ public abstract class GraphicRendererFactoryImpl<S> extends AbstractFactory<Grap
 			GameObjectRenderer<S, T> gameObjectRenderer = (GameObjectRenderer<S, T>) get(object.getClass());
 			gameObjectRenderer.render(graphicContext, object, interpolation, offsetX, offsetY);
 		} catch (Exception e) {
-			logger.error(e.getMessage(), e);
+			logger.log(Level.SEVERE, e.getMessage(), e);
 			throw new EAdRuntimeException(e.getMessage());
 		}
 	}

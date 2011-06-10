@@ -38,11 +38,10 @@
 package es.eucm.eadventure.common.impl;
 
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import es.eucm.eadventure.common.EAdRuntimeException;
+import es.eucm.eadventure.common.interfaces.EAdRuntimeException;
 import es.eucm.eadventure.common.Factory;
 import es.eucm.eadventure.common.MapProvider;
 
@@ -58,7 +57,7 @@ public abstract class AbstractFactory<T> implements Factory<T> {
 
 	private Map<Class<?>, T> map;
 
-	private static final Logger logger = LoggerFactory.getLogger("Abstract Factory");
+	private static final Logger logger = Logger.getLogger("AbstractFactory");
 	
 	public AbstractFactory(MapProvider<Class<?>, T> mapProvider) {
 		this.map = mapProvider.getMap();
@@ -68,7 +67,7 @@ public abstract class AbstractFactory<T> implements Factory<T> {
 	public T get(Class<?> object) {
 		T element = map.get(object);
 		if (element == null) {
-			logger.info("No element in factory for object " + object + " " + this.getClass());
+			logger.log(Level.INFO, "No element in factory for object " + object + " " + this.getClass());
 			for (Class<?> i : object.getInterfaces()) {
 				element = map.get(i);
 				if (element != null) {

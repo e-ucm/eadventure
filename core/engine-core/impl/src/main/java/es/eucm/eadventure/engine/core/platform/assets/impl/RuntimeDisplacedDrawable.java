@@ -37,8 +37,7 @@
 
 package es.eucm.eadventure.engine.core.platform.assets.impl;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import java.util.logging.Logger;
 
 import com.google.inject.Inject;
 
@@ -55,7 +54,7 @@ public class RuntimeDisplacedDrawable extends AbstractRuntimeAsset<DisplacedDraw
 	/**
 	 * Logger
 	 */
-	private Logger logger = LoggerFactory.getLogger(RuntimeComposedDrawable.class);
+	private Logger logger = Logger.getLogger("RuntimeComposedDrawable");
 
 	/**
 	 * The asset handler

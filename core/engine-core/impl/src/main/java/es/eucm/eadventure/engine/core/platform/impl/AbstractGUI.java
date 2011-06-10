@@ -38,9 +38,7 @@
 package es.eucm.eadventure.engine.core.platform.impl;
 
 import java.util.List;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import java.util.logging.Logger;
 
 import es.eucm.eadventure.common.model.params.guievents.EAdMouseEvent.MouseActionType;
 import es.eucm.eadventure.engine.core.KeyboardState;
@@ -74,7 +72,7 @@ public abstract class AbstractGUI<T, S> implements GUI<S> {
 	/**
 	 * Logger
 	 */
-	private static final Logger logger = LoggerFactory
+	private static final Logger logger = Logger
 			.getLogger("Abstract GUI");
 
 	/**

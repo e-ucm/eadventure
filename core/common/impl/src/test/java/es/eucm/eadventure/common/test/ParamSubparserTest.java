@@ -42,8 +42,8 @@ import junit.framework.TestCase;
 import org.junit.Test;
 import org.xml.sax.helpers.AttributesImpl;
 
-import es.eucm.eadventure.common.Param;
 import es.eucm.eadventure.common.impl.reader.subparsers.ParamSubparser;
+import es.eucm.eadventure.common.interfaces.Param;
 import es.eucm.eadventure.common.model.EAdElement;
 import es.eucm.eadventure.common.model.EAdElementList;
 import es.eucm.eadventure.common.model.events.EAdEvent;

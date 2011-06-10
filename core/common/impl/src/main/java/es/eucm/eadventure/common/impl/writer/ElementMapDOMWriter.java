@@ -39,8 +39,9 @@ package es.eucm.eadventure.common.impl.writer;
 
 import javax.xml.parsers.ParserConfigurationException;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import org.w3c.dom.Node;
 import org.w3c.dom.Element;
 
@@ -53,7 +54,7 @@ public class ElementMapDOMWriter extends DOMWriter<EAdMap<?, ?>> {
 	/**
 	 * The logger
 	 */
-	private static final Logger logger = LoggerFactory.getLogger(ElementMapDOMWriter.class);
+	private static final Logger logger = Logger.getLogger("ElementMapDOMWriter");
 	
 	/**
 	 * The id of the element map
@@ -103,10 +104,10 @@ public class ElementMapDOMWriter extends DOMWriter<EAdMap<?, ?>> {
 
         }
         catch( ParserConfigurationException e ) {
-        	logger.error("Error writing element " + map, e);
+        	logger.log(Level.SEVERE, "Error writing element " + map, e);
         	return null;
         } catch (IllegalArgumentException e) {
-        	logger.error("Illegal argument " + map, e);
+        	logger.log(Level.SEVERE, "Illegal argument " + map, e);
 		} 
 
         return node;

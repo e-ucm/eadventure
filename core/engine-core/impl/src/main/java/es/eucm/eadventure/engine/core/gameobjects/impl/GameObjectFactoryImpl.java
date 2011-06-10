@@ -39,16 +39,15 @@ package es.eucm.eadventure.engine.core.gameobjects.impl;
 
 import java.util.HashMap;
 import java.util.Map;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.google.inject.Singleton;
 
-import es.eucm.eadventure.common.Element;
 import es.eucm.eadventure.common.MapProvider;
+import es.eucm.eadventure.common.interfaces.Element;
 import es.eucm.eadventure.common.model.EAdElement;
 import es.eucm.eadventure.engine.core.gameobjects.EffectGO;
 import es.eucm.eadventure.engine.core.gameobjects.GameObject;
@@ -62,7 +61,7 @@ import es.eucm.eadventure.engine.core.gameobjects.GameObjectFactory;
 @Singleton
 public class GameObjectFactoryImpl implements GameObjectFactory {
 
-	private static final Logger logger = LoggerFactory
+	private static final Logger logger = Logger
 			.getLogger("GameObjectFactoryImpl");
 
 	/**
@@ -108,10 +107,17 @@ public class GameObjectFactoryImpl implements GameObjectFactory {
 			return temp;
 
 		Class<? extends GameObject<?>> tempClass = classMap.get(element.getClass());
-		if (tempClass == null)
-			tempClass = classMap.get(element.getClass().getAnnotation(Element.class).runtime());
 		if (tempClass == null) {
-			logger.error("No game element mapped for class " + element.getClass());
+			Element annotation = element.getClass().getAnnotation(Element.class);
+			if (annotation == null) {
+				logger.log(Level.SEVERE, "No element annotation for class " + element.getClass());
+				return null;
+			}
+			Class<?> runtimeClass = annotation.runtime();
+			tempClass = classMap.get(runtimeClass);
+		}
+		if (tempClass == null) {
+			logger.log(Level.SEVERE, "No game element mapped for class " + element.getClass());
 		} else {
 			temp = (GameObject<T>) injector.getInstance(tempClass);
 			temp.setElement(element);

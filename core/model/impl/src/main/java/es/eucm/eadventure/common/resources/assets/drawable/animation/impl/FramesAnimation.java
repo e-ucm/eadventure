@@ -48,7 +48,7 @@ public class FramesAnimation implements Drawable {
 	private EAdElementList<Frame> frames;
 	
 	public FramesAnimation() {
-		frames = new EAdElementListImpl<Frame>();
+		frames = new EAdElementListImpl<Frame>(Frame.class);
 	}
 	
 	public void addFrame(Frame frame) {

@@ -37,8 +37,8 @@
 
 package es.eucm.eadventure.engine.core.evaluators.impl;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import com.google.inject.Singleton;
 
@@ -48,7 +48,7 @@ import es.eucm.eadventure.engine.core.evaluators.Evaluator;
 @Singleton
 public class EmptyConditionEvaluator implements Evaluator<EmptyCondition> {
 	
-	private static final Logger logger = LoggerFactory.getLogger(EmptyConditionEvaluator.class);
+	private static final Logger logger = Logger.getLogger("EmptyConditionEvaluator");
 	
 	@Override
 	public boolean evaluate(EmptyCondition condition) {
@@ -58,7 +58,7 @@ public class EmptyConditionEvaluator implements Evaluator<EmptyCondition> {
 		case FALSE:
 			return false;
 		}
-		logger.error("Invalid value for empty condition ", condition);
+		logger.log(Level.SEVERE, "Invalid value for empty condition ", condition);
 		return false;
 	}
 

@@ -39,9 +39,9 @@ package es.eucm.eadventure.engine.core.platform.impl;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import com.google.inject.Inject;
 
@@ -52,13 +52,13 @@ import es.eucm.eadventure.engine.core.platform.RuntimeFont;
 
 public abstract class FontCacheImpl implements FontCache {
 
-	protected Logger logger = LoggerFactory.getLogger(FontCacheImpl.class);
+	protected Logger logger = Logger.getLogger("FontCacheImpl");
 
 	protected Map<EAdFont, RuntimeFont> fontCache;
 
 	@Inject
 	public FontCacheImpl() {
-		logger.debug("New instance");
+		logger.log(Level.INFO, "New instance");
 		fontCache = new HashMap<EAdFont, RuntimeFont>();
 	}
 

@@ -35,34 +35,46 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package es.eucm.eadventure.common;
+package es.eucm.eadventure.common.interfaces;
+
 
 /**
- * Base class for eAdventure exception.
+ * Thrown to indicate an error during the {@code copy()} methods of the
+ * {@link es.eucm.eadventure.utils.Copyable}.
+ * 
  */
-public class EAdRuntimeException extends RuntimeException {
+public class CopyNotSupportedException extends RuntimeException {
 
-  /**
-   * @see java.io.Serializable 
-   */
-  private static final long serialVersionUID = 1L;
+	/**
+	 * @see java.io.Serializable
+	 */
+	private static final long serialVersionUID = -2912689297682758853L;
 
-  /**
-   * Constructs a {@code EAdRuntimeException} with the detailed message.
-   *
-   * @param message Detailed message.
-   */
-  public EAdRuntimeException(String message) {
-    super(message);
-  };
+	/**
+	 * Constructs a {@link CopyNotSupportedException} with the specified detail message.
+	 * 
+	 * @param message Detail message.
+	 */
+	public CopyNotSupportedException(String message){
+		super(message);
+	}
 
-  /**
-   * Constructs a {@code EAdRuntimeException} with the detailed message and cause.
-   *
-   * @param message Detailed message.
-   * @param cause Cause of this exception.
-   */
-  public EAdRuntimeException(String message, Throwable cause){
-    super(message, cause);
-  }
+	/**
+	 * Constructs a {@link CopyNotSupportedException} with the specified cause.
+	 * 
+	 * @param cause The cause of this exception.
+	 */
+	public CopyNotSupportedException(Throwable cause) {
+		super(cause);
+	}
+
+	/**
+	 * Constructs a {@link CopyNotSupportedException} with the specified detail message and cause.
+	 * 
+	 * @param message Detail message.
+	 * @param cause The cause of this exception.
+	 */
+	public CopyNotSupportedException(String message, Throwable cause) {
+		super(message, cause);
+	}
 }

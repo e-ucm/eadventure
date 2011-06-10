@@ -35,46 +35,42 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package es.eucm.eadventure.common;
+package es.eucm.eadventure.common.interfaces;
 
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 
 /**
- * Thrown to indicate an error during the {@code copy()} methods of the
- * {@link es.eucm.eadventure.utils.Copyable}.
+ * <p>
+ * Elements to be stored in the XML must be annotated with this. Also, classes
+ * annotated with this must have a constructor with parameters {@link
+ * EAdElement.class}, {@link String.class} (in that order) to work properly with
+ * XML.
+ * </p>
+ * <p>
+ * Type represents the class with which to cast the element in the editor and
+ * class represents the class with which to cast the element in the engine
+ * </p>
  * 
  */
-public class CopyNotSupportedException extends RuntimeException {
+@Retention(RetentionPolicy.RUNTIME)
+@Target(ElementType.TYPE)
+public @interface Element {
 
 	/**
-	 * @see java.io.Serializable
-	 */
-	private static final long serialVersionUID = -2912689297682758853L;
-
-	/**
-	 * Constructs a {@link CopyNotSupportedException} with the specified detail message.
+	 * Class to cast the element in the editor
 	 * 
-	 * @param message Detail message.
+	 * @return The class with which to cast the element in the editor
 	 */
-	public CopyNotSupportedException(String message){
-		super(message);
-	}
+	Class<?> detailed();
 
 	/**
-	 * Constructs a {@link CopyNotSupportedException} with the specified cause.
+	 * Class to cast the element in the engine
 	 * 
-	 * @param cause The cause of this exception.
+	 * @return The class with which to cast the element in the engine
 	 */
-	public CopyNotSupportedException(Throwable cause) {
-		super(cause);
-	}
+	Class<?> runtime();
 
-	/**
-	 * Constructs a {@link CopyNotSupportedException} with the specified detail message and cause.
-	 * 
-	 * @param message Detail message.
-	 * @param cause The cause of this exception.
-	 */
-	public CopyNotSupportedException(String message, Throwable cause) {
-		super(message, cause);
-	}
 }

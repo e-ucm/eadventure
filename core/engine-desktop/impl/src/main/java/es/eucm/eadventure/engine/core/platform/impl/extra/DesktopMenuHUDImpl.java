@@ -39,9 +39,7 @@ package es.eucm.eadventure.engine.core.platform.impl.extra;
 
 import java.awt.Component;
 import java.util.List;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import java.util.logging.Logger;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -66,7 +64,7 @@ public class DesktopMenuHUDImpl extends MenuHUDImpl {
 	/**
 	 * The class logger
 	 */
-	private Logger logger = LoggerFactory.getLogger(DesktopMenuHUDImpl.class);
+	private Logger logger = Logger.getLogger("DesktopMenuHUDImpl");
 
 	/**
 	 * An {@link EAdSceneElement} that represents a button on the menu

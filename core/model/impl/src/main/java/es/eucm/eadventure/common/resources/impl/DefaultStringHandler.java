@@ -37,15 +37,10 @@
 
 package es.eucm.eadventure.common.resources.impl;
 
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Properties;
 import java.util.Random;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import java.util.logging.Logger;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -67,8 +62,8 @@ public class DefaultStringHandler implements StringHandler {
 	/**
 	 * Logger
 	 */
-	private static final Logger logger = LoggerFactory
-			.getLogger(DefaultStringHandler.class);
+	private static final Logger logger = Logger
+			.getLogger("DefaultStringHandler");
 
 	@Inject
 	public DefaultStringHandler() {
@@ -95,7 +90,7 @@ public class DefaultStringHandler implements StringHandler {
 	public String getUniqueId() {
 		return "id" + (new Random()).nextLong();
 	}
-
+/* TODO This code should be externalized to a String loader or such
 	@Override
 	public void loadStrings(InputStream inputStream) {
 		Properties properties = new Properties();
@@ -108,7 +103,7 @@ public class DefaultStringHandler implements StringHandler {
 			logger.error(e.getMessage(), e);
 		}
 	}
-
+*/
 	@Override
 	public EAdString addNewString(String string) {
 		EAdString eadString = new EAdString(getUniqueId());

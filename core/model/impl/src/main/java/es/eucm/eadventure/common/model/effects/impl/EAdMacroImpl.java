@@ -49,7 +49,7 @@ public class EAdMacroImpl extends AbstractEAdElement implements EAdMacro {
 	
 	public EAdMacroImpl(String id) {
 		super( id);
-		this.effects = new EAdElementListImpl<EAdEffect>();
+		this.effects = new EAdElementListImpl<EAdEffect>(EAdEffect.class);
 	}
 
 	@Override

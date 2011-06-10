@@ -37,8 +37,8 @@
 
 package es.eucm.eadventure.engine.core.evaluators.impl;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -50,7 +50,7 @@ import es.eucm.eadventure.engine.core.evaluators.Evaluator;
 @Singleton
 public class FlagConditionEvaluator implements Evaluator<FlagCondition> {
 	
-	private static final Logger logger = LoggerFactory.getLogger(FlagConditionEvaluator.class);
+	private static final Logger logger = Logger.getLogger("FlagConditionEvaluator");
 
 	@Inject
 	private ValueMap valueMap;
@@ -66,7 +66,7 @@ public class FlagConditionEvaluator implements Evaluator<FlagCondition> {
 			case INACTIVE:
 				return !value;
 			default:
-				logger.error("Invalid value for flag condition");
+				logger.log(Level.SEVERE, "Invalid value for flag condition");
 				return false;
 		}
 	}

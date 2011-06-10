@@ -39,11 +39,10 @@ package es.eucm.eadventure.engine.core.platform.assets.impl;
 
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.imageio.ImageIO;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import com.google.inject.Inject;
 
@@ -59,7 +58,7 @@ public class DesktopEngineImage extends RuntimeImage {
 	/**
 	 * The logger
 	 */
-	private static final Logger logger = LoggerFactory
+	private static final Logger logger = Logger
 			.getLogger("DesktopEngineImage");
 
 	@Inject
@@ -108,10 +107,10 @@ public class DesktopEngineImage extends RuntimeImage {
 			try {
 				image = ImageIO.read(assetHandler
 						.getResourceAsStream(descriptor.getURI()));
-				logger.debug("Image loaded: " + descriptor.getURI());
+				logger.log(Level.INFO, "Image loaded: " + descriptor.getURI());
 				return true;
 			} catch (IOException e) {
-				logger.error(
+				logger.log(Level.SEVERE, 
 						"Could not load image! " + descriptor.getURI(), e);
 				return false;
 			}
@@ -123,7 +122,7 @@ public class DesktopEngineImage extends RuntimeImage {
 	public void freeMemory() {
 		if (image != null) {
 			image.flush();
-			logger.debug("Image flushed: " + (descriptor != null ? descriptor.getURI() : "no descriptor"));
+			logger.log(Level.INFO, "Image flushed: " + (descriptor != null ? descriptor.getURI() : "no descriptor"));
 		}
 		image = null;
 	}

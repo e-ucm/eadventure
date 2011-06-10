@@ -42,9 +42,7 @@ import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import java.util.logging.Logger;
 
 import es.eucm.eadventure.common.model.EAdElement;
 import es.eucm.eadventure.common.model.params.guievents.EAdKeyEvent.KeyActionType;
@@ -78,8 +76,8 @@ public class DesktopInputListener implements MouseListener,
 	/**
 	 * The logger
 	 */
-	private static final Logger logger = LoggerFactory
-			.getLogger(DesktopInputListener.class);
+	private static final Logger logger = Logger
+			.getLogger("DesktopInputListener");
 
 	public DesktopInputListener(MouseState mouseState,
 			KeyboardState keyboardState) {

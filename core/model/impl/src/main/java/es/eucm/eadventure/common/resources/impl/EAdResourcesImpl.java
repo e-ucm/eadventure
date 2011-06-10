@@ -41,17 +41,13 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import es.eucm.eadventure.common.model.EAdElement;
 import es.eucm.eadventure.common.resources.EAdAssetBundle;
-import es.eucm.eadventure.common.resources.EAdAssetDescriptor;
 import es.eucm.eadventure.common.resources.EAdBundleId;
 import es.eucm.eadventure.common.resources.EAdResources;
-import es.eucm.eadventure.common.resources.annotation.Asset;
-import es.eucm.eadventure.common.resources.annotation.Bundled;
 import es.eucm.eadventure.common.resources.assets.AssetDescriptor;
 
 public class EAdResourcesImpl extends EAdAssetBundleImpl implements EAdResources {
@@ -60,7 +56,7 @@ public class EAdResourcesImpl extends EAdAssetBundleImpl implements EAdResources
 
 	private EAdBundleId initialBundle;
 
-	private static final Logger logger = LoggerFactory.getLogger( EAdResourcesImpl.class );
+	private static final Logger logger = Logger.getLogger( "EAdResourcesImpl" );
 
 	/**
 	 * Default constructor. The different asset descriptors and bundles are
@@ -73,6 +69,8 @@ public class EAdResourcesImpl extends EAdAssetBundleImpl implements EAdResources
 		boolean hasBundle = false;
 		EAdAssetBundle bundle = new EAdAssetBundleImpl( );
 
+		
+		/* TODO Should probably only be implemented for a "strict" resource implementation
 		for ( java.lang.reflect.Field a : c.getFields( ) ) {
 			Asset asset = a.getAnnotation( Asset.class );
 			Bundled bundled = a.getAnnotation( Bundled.class );
@@ -83,6 +81,8 @@ public class EAdResourcesImpl extends EAdAssetBundleImpl implements EAdResources
 			else if ( asset != null )
 				descriptors.add( new EAdAssetDescriptor( a.getName( ), asset.value( ) ) );
 		}
+		*/
+		hasBundle = true;
 
 		if ( hasBundle ) {
 			initialBundle = new EAdBundleId( "default" );
@@ -95,7 +95,7 @@ public class EAdResourcesImpl extends EAdAssetBundleImpl implements EAdResources
 		AssetDescriptor asset = super.getAsset( id );
 		if ( asset != null )
 			return asset;
-		logger.error( "No such asset", id );
+		logger.log(Level.SEVERE, "No such asset, id: " + id );
 		return null;
 	}
 

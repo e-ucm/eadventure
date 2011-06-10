@@ -54,6 +54,7 @@ import es.eucm.eadventure.engine.core.impl.modules.BasicGameModule;
 import es.eucm.eadventure.engine.core.platform.AssetHandler;
 import es.eucm.eadventure.engine.core.platform.PlatformControl;
 import es.eucm.eadventure.engine.core.platform.PlatformLauncher;
+import es.eucm.eadventure.engine.core.platform.impl.DesktopStringLoader;
 import es.eucm.eadventure.engine.core.platform.impl.extra.DesktopAssetHandlerModule;
 import es.eucm.eadventure.engine.core.platform.impl.extra.DesktopAssetRendererModule;
 import es.eucm.eadventure.engine.core.platform.impl.extra.DesktopModule;
@@ -95,7 +96,7 @@ public class TestDesktopPlatformLauncher extends BasicGameModule implements Plat
 		
 		//TODO set language
 		StringHandler sh = injector.getInstance(StringHandler.class);
-		sh.loadStrings(ClassLoader.getSystemResourceAsStream("values/strings.properties"));
+		DesktopStringLoader.loadStrings(sh, ClassLoader.getSystemResourceAsStream("values/strings.properties"));
 
 		sh.addString(new EAdString("question"), "¿Qué pregunta te podría hacer?");
 		sh.addString(new EAdString("answer1"), "Que como estoy, a lo mejor");

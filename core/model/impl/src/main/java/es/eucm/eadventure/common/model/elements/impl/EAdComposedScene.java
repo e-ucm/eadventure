@@ -1,6 +1,6 @@
 package es.eucm.eadventure.common.model.elements.impl;
 
-import es.eucm.eadventure.common.Param;
+import es.eucm.eadventure.common.interfaces.Param;
 import es.eucm.eadventure.common.model.EAdElementList;
 import es.eucm.eadventure.common.model.elements.EAdScene;
 import es.eucm.eadventure.common.model.elements.EAdSceneElement;
@@ -23,7 +23,7 @@ public class EAdComposedScene extends AbstractEAdElement implements EAdScene {
 
 	public EAdComposedScene(String id) {
 		super(id);
-		scenes = new EAdElementListImpl<EAdScene>();
+		scenes = new EAdElementListImpl<EAdScene>(EAdScene.class);
 		currentScene = new IntegerVar("currentScene");
 		sceneLoaded = new BooleanVar("sceneLoaded");
 	}

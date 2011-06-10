@@ -37,7 +37,7 @@
 
 package es.eucm.eadventure.common.resources.assets.impl;
 
-import es.eucm.eadventure.common.Param;
+import es.eucm.eadventure.common.interfaces.Param;
 import es.eucm.eadventure.common.resources.assets.EAdURI;
 
 public class EAdURIImpl implements EAdURI {

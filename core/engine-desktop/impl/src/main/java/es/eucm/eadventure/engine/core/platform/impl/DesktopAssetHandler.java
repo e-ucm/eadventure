@@ -48,12 +48,11 @@ import java.io.OutputStream;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipException;
 import java.util.zip.ZipFile;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import com.google.inject.Inject;
 import com.google.inject.Injector;
@@ -89,7 +88,7 @@ public class DesktopAssetHandler extends AbstractAssetHandler {
 	/**
 	 * The logger of the class
 	 */
-	private static final Logger logger = LoggerFactory
+	private static final Logger logger = Logger
 			.getLogger("DesktopAssetHandler");
 
 	@Inject
@@ -110,7 +109,7 @@ public class DesktopAssetHandler extends AbstractAssetHandler {
 	public void initilize() {
 		logger.info("Initilizing asset handler");
 		if (resourceLocation == null) {
-			logger.error("No game location");
+			logger.log(Level.SEVERE, "No game location");
 			setLoaded(true);
 		}
 		else if (resourceLocation.isFile())
@@ -176,9 +175,9 @@ public class DesktopAssetHandler extends AbstractAssetHandler {
 					setLoaded(true);
 
 				} catch (ZipException e) {
-					logger.error(e.getMessage(), e);
+					logger.log(Level.SEVERE, e.getMessage(), e);
 				} catch (IOException e) {
-					logger.error(e.getMessage(), e);
+					logger.log(Level.SEVERE, e.getMessage(), e);
 				}
 			}
 		};
@@ -216,7 +215,7 @@ public class DesktopAssetHandler extends AbstractAssetHandler {
 			try {
 				return new FileInputStream(file);
 			} catch (FileNotFoundException e) {
-				logger.error(e.getMessage(), e);
+				logger.log(Level.SEVERE, e.getMessage(), e);
 				return null;
 			}
 		}

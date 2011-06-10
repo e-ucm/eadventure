@@ -37,8 +37,7 @@
 
 package es.eucm.eadventure.engine.core.platform.assets.impl;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import java.util.logging.Logger;
 
 import com.google.inject.Inject;
 
@@ -58,7 +57,7 @@ public class RuntimeComposedDrawable implements DrawableAsset<ComposedDrawable> 
 	/**
 	 * Logger
 	 */
-	private Logger logger = LoggerFactory.getLogger(RuntimeComposedDrawable.class);
+	private Logger logger = Logger.getLogger("RuntimeComposedDrawable");
 
 	/**
 	 * The image asset descriptor

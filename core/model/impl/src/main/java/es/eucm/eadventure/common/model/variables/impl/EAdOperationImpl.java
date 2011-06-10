@@ -52,7 +52,7 @@ public abstract class EAdOperationImpl extends AbstractEAdElement implements EAd
 
 	public EAdOperationImpl(String id) {
 		super(id);
-		varList = new EAdElementListImpl<EAdVar<?>>();
+		varList = new EAdElementListImpl<EAdVar<?>>(EAdVar.class);
 	}
 	
 	public EAdElementList<EAdVar<?>> getVarList() {

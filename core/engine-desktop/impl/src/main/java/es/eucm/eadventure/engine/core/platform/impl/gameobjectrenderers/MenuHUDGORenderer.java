@@ -38,9 +38,7 @@
 package es.eucm.eadventure.engine.core.platform.impl.gameobjectrenderers;
 
 import java.awt.Graphics2D;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import java.util.logging.Logger;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -53,8 +51,8 @@ import es.eucm.eadventure.engine.core.platform.GameObjectRenderer;
 public class MenuHUDGORenderer implements
 		GameObjectRenderer<Graphics2D, MenuHUDImpl> {
 
-	private static final Logger logger = LoggerFactory
-	.getLogger(EffectsGORenderer.class);
+	private static final Logger logger = Logger
+	.getLogger("EffectsGORenderer");
 
 	@Inject
 	public MenuHUDGORenderer() {

@@ -37,9 +37,9 @@
 
 package es.eucm.eadventure.common.model.impl;
 
-import es.eucm.eadventure.common.CopyNotSupportedException;
-import es.eucm.eadventure.common.Element;
-import es.eucm.eadventure.common.Param;
+import es.eucm.eadventure.common.interfaces.CopyNotSupportedException;
+import es.eucm.eadventure.common.interfaces.Element;
+import es.eucm.eadventure.common.interfaces.Param;
 import es.eucm.eadventure.common.model.EAdChapter;
 import es.eucm.eadventure.common.model.EAdElementList;
 import es.eucm.eadventure.common.model.elements.EAdActor;
@@ -87,9 +87,9 @@ public class EAdChapterImpl extends AbstractEAdElement implements EAdChapter {
 	 */
 	public EAdChapterImpl(String id) {
 		super(id);
-		scenes = new EAdElementListImpl<EAdScene>();
-		actors = new EAdElementListImpl<EAdActor>();
-		timers = new EAdElementListImpl<EAdTimer>();
+		scenes = new EAdElementListImpl<EAdScene>(EAdScene.class);
+		actors = new EAdElementListImpl<EAdActor>(EAdActor.class);
+		timers = new EAdElementListImpl<EAdTimer>(EAdTimer.class);
 	}
 	
 	/* (non-Javadoc)

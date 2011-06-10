@@ -40,6 +40,8 @@ package es.eucm.eadventure.common.impl.writer;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.net.URI;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -48,8 +50,6 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -59,7 +59,7 @@ import es.eucm.eadventure.common.model.EAdAdventureModel;
 
 public class EAdAdventureModelWriter implements Writer<EAdAdventureModel> {
 
-	private static final Logger logger = LoggerFactory.getLogger(EAdAdventureModelWriter.class);
+	private static final Logger logger = Logger.getLogger("EAdAdventureModelWriter");
 	
 	@Override
 	public boolean write(EAdAdventureModel data, URI fileURI) {
@@ -98,7 +98,7 @@ public class EAdAdventureModelWriter implements Writer<EAdAdventureModel> {
 	            return true;
 	        }
 	        catch( Exception e ) {
-	        	logger.error("Error writing adventure ", e);
+	        	logger.log(Level.SEVERE, "Error writing adventure ", e);
 	            return false;
 	        }
 	}

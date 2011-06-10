@@ -43,13 +43,13 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URI;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.xml.sax.SAXException;
 
 import com.google.inject.Inject;
@@ -63,7 +63,7 @@ import es.eucm.eadventure.common.model.EAdAdventureModel;
  */
 public class EAdAdventureModelReader implements Reader<EAdAdventureModel> {
 	
-	private static final Logger logger = LoggerFactory.getLogger("EAdReader");
+	private static final Logger logger = Logger.getLogger("EAdReader");
 	
 	/**
 	 * The SAX handler to read the model from the XML file.
@@ -100,16 +100,16 @@ public class EAdAdventureModelReader implements Reader<EAdAdventureModel> {
 			return data;
 			
 		} catch( ParserConfigurationException e ) {
-			logger.error(e.getMessage(), e);
+			logger.log(Level.SEVERE, e.getMessage(), e);
         }
         catch( SAXException e ) {
-        	logger.error(e.getMessage(), e);
+        	logger.log(Level.SEVERE, e.getMessage(), e);
         }
         catch( IOException e ) {
-        	logger.error(e.getMessage(), e);
+        	logger.log(Level.SEVERE, e.getMessage(), e);
         }
         catch( IllegalArgumentException e ) {
-        	logger.error(e.getMessage(), e);
+        	logger.log(Level.SEVERE, e.getMessage(), e);
         }		
         return null;
 	}

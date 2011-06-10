@@ -37,12 +37,11 @@
 
 package es.eucm.eadventure.common.model.impl;
 
-import java.lang.reflect.TypeVariable;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import es.eucm.eadventure.common.CopyNotSupportedException;
+import es.eucm.eadventure.common.interfaces.CopyNotSupportedException;
 import es.eucm.eadventure.common.model.EAdElement;
 import es.eucm.eadventure.common.model.EAdElementList;
 import es.eucm.eadventure.common.resources.EAdResources;
@@ -57,16 +56,19 @@ public class EAdElementListImpl<P> extends AbstractEAdElement implements EAdElem
 	 */
 	private List<P> elements;
 	
+	private Class<?> clazz;
+	
 	/**
 	 * Constructs a {@link EAdElementListImpl} with the specified parent element.
 	 * 
 	 * @param parent parent element.
 	 */
-	public EAdElementListImpl(){
+	public EAdElementListImpl(Class<?> clazz){
 		super("list");
+		this.clazz = clazz;
 		elements = new ArrayList<P>();
 	}
-	
+
 	@SuppressWarnings("unchecked")
 	public EAdElementListImpl<P> copy() {
 		try {
@@ -157,11 +159,7 @@ public class EAdElementListImpl<P> extends AbstractEAdElement implements EAdElem
 
 	@Override
 	public Class<?> getValueClass() {
-		TypeVariable<?>[] list = this.getClass().getTypeParameters();
-		if (list.length < 1)
-			return null;
-		Class<?> temp = (Class<?>) list[0].getGenericDeclaration();
-		return temp;
+		return clazz;
 	}
 
 	@Override

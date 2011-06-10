@@ -38,6 +38,8 @@
 package es.eucm.eadventure.common.impl.reader.subparsers;
 
 import java.lang.reflect.Field;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import org.xml.sax.Attributes;
 
@@ -46,6 +48,8 @@ import es.eucm.eadventure.common.model.EAdMap;
 
 public class MapSubparser extends Subparser {
 
+	private static Logger logger = Logger.getLogger("MapSubparser");
+	
 	/**
 	 * The list of elements.
 	 */
@@ -59,9 +63,9 @@ public class MapSubparser extends Subparser {
 			map = (EAdMap<?, ?>) field.get(parent);
 			field.setAccessible(false);
 		} catch (IllegalArgumentException e) {
-			logger.error(e.getMessage(), e);
+			logger.log(Level.SEVERE, e.getMessage(), e);
 		} catch (IllegalAccessException e) {
-			logger.error(e.getMessage(), e);
+			logger.log(Level.SEVERE, e.getMessage(), e);
 		}
 	}
 

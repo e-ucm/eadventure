@@ -38,12 +38,12 @@
 package es.eucm.eadventure.common.impl.reader.subparsers;
 
 import java.lang.reflect.Constructor;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.xml.sax.Attributes;
 
-import es.eucm.eadventure.common.EAdRuntimeException;
+import es.eucm.eadventure.common.interfaces.EAdRuntimeException;
 import es.eucm.eadventure.common.impl.reader.subparsers.extra.ObjectFactory;
 import es.eucm.eadventure.common.model.EAdElement;
 import es.eucm.eadventure.common.resources.EAdBundleId;
@@ -86,7 +86,7 @@ public class AssetDescriptorSubparser extends Subparser {
 
 	private Attributes attributes;
 
-	private static final Logger logger = LoggerFactory
+	private static final Logger logger = Logger
 			.getLogger("ParamSubparser");
 
 	/**
@@ -128,7 +128,7 @@ public class AssetDescriptorSubparser extends Subparser {
 								.value();
 
 				if (name == null) {
-					logger.error("Asset has no parameter name! :" + className);
+					logger.log(Level.SEVERE, "Asset has no parameter name! :" + className);
 					throw (new EAdRuntimeException(
 							"Asset has no parameter name! :" + className));
 				}
@@ -148,7 +148,7 @@ public class AssetDescriptorSubparser extends Subparser {
 				object.getResources().addAsset(bundleId, name, descriptor);
 			}
 		} catch (Exception e) {
-			logger.error(e.getMessage(), e);
+			logger.log(Level.SEVERE, e.getMessage(), e);
 		}
 
 	}
@@ -156,7 +156,7 @@ public class AssetDescriptorSubparser extends Subparser {
 	@Override
 	public void addChild(Object element) {
 		//DO NOTHING
-		logger.error("Tried to add child to assset descriptor " + element);
+		logger.log(Level.SEVERE, "Tried to add child to assset descriptor " + element);
 	}
 
 }

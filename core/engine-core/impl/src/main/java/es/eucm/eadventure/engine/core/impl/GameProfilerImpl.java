@@ -37,8 +37,7 @@
 
 package es.eucm.eadventure.engine.core.impl;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import java.util.logging.Logger;
 
 import es.eucm.eadventure.engine.core.GameProfiler;
 
@@ -63,7 +62,7 @@ public class GameProfilerImpl implements GameProfiler {
 	  /**
 	   * Game loop logger.
 	   */
-	  private static final Logger logger = LoggerFactory.getLogger("Game Profiler");
+	  private static final Logger logger = Logger.getLogger("Game Profiler");
 	  	  
 	  /**
 	   * Time since last statistics gathering (in ns).

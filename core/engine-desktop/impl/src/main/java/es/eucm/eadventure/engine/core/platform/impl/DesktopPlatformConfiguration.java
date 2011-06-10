@@ -55,12 +55,12 @@ public class DesktopPlatformConfiguration implements PlatformConfiguration {
 	/**
 	 * Default window width for desktop games
 	 */
-	public static final int DEFAULT_WIDTH = 400;
+	public static final int DEFAULT_WIDTH = 480;
 
 	/**
 	 * Default window height for desktop games
 	 */
-	public static final int DEFAULT_HEIGHT = 300;
+	public static final int DEFAULT_HEIGHT = 340;
 
 	/**
 	 * The width of the game window

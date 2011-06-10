@@ -1,6 +1,6 @@
 package es.eucm.eadventure.common.model.effects.impl;
 
-import es.eucm.eadventure.common.Element;
+import es.eucm.eadventure.common.interfaces.Element;
 import es.eucm.eadventure.common.model.EAdElementList;
 import es.eucm.eadventure.common.model.conditions.impl.EmptyCondition;
 import es.eucm.eadventure.common.model.effects.EAdEffect;
@@ -18,7 +18,7 @@ public class EAdComplexBlockingEffect extends AbstractEAdEffect implements
 	
 	public EAdComplexBlockingEffect(String id) {
 		super(id);
-		components = new EAdElementListImpl<EAdSceneElement>();
+		components = new EAdElementListImpl<EAdSceneElement>(EAdSceneElement.class);
 		blockingCondition = EmptyCondition.TRUE_EMPTY_CONDITION;
 	}
 	

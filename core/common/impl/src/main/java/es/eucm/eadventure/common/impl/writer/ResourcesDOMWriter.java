@@ -38,16 +38,16 @@
 package es.eucm.eadventure.common.impl.writer;
 
 import java.lang.reflect.Field;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.xml.parsers.ParserConfigurationException;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.w3c.dom.DOMException;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
-import es.eucm.eadventure.common.Param;
+import es.eucm.eadventure.common.interfaces.Param;
 import es.eucm.eadventure.common.resources.EAdAssetBundle;
 import es.eucm.eadventure.common.resources.EAdBundleId;
 import es.eucm.eadventure.common.resources.EAdResources;
@@ -66,8 +66,8 @@ public class ResourcesDOMWriter extends DOMWriter<EAdResources> {
 	/**
 	 * The logger
 	 */
-	private static final Logger logger = LoggerFactory
-			.getLogger(ResourcesDOMWriter.class);
+	private static final Logger logger = Logger
+			.getLogger("ResourcesDOMWriter");
 
 	/**
 	 * Default constructor
@@ -76,7 +76,7 @@ public class ResourcesDOMWriter extends DOMWriter<EAdResources> {
 		try {
 			initilizeDOMWriter();
 		} catch (ParserConfigurationException e) {
-			logger.error(e.getMessage(), e);
+			logger.log(Level.SEVERE, e.getMessage(), e);
 		}
 	}
 
@@ -164,11 +164,11 @@ public class ResourcesDOMWriter extends DOMWriter<EAdResources> {
 					}
 
 				} catch (IllegalArgumentException e) {
-					logger.error(e.getMessage(), e);
+					logger.log(Level.SEVERE, e.getMessage(), e);
 				} catch (DOMException e) {
-					logger.error(e.getMessage(), e);
+					logger.log(Level.SEVERE, e.getMessage(), e);
 				} catch (IllegalAccessException e) {
-					logger.error(e.getMessage(), e);
+					logger.log(Level.SEVERE, e.getMessage(), e);
 				}
 
 				field.setAccessible(accessible);

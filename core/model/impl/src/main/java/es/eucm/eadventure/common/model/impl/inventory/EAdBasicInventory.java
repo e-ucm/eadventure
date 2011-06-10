@@ -1,6 +1,6 @@
 package es.eucm.eadventure.common.model.impl.inventory;
 
-import es.eucm.eadventure.common.Element;
+import es.eucm.eadventure.common.interfaces.Element;
 import es.eucm.eadventure.common.model.EAdInventory;
 import es.eucm.eadventure.common.model.impl.AbstractEAdElement;
 

@@ -37,8 +37,7 @@
 
 package es.eucm.eadventure.engine.core.evaluators.impl;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import java.util.logging.Logger;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -51,7 +50,7 @@ import es.eucm.eadventure.engine.core.evaluators.Evaluator;
 public class NOTConditionEvaluator implements Evaluator<NOTCondition> {
 	
 	@SuppressWarnings("unused")
-	private Logger logger = LoggerFactory.getLogger(NOTConditionEvaluator.class);
+	private Logger logger = Logger.getLogger("NOTConditionEvaluator");
 
 	EvaluatorFactory evaluatorFactory;
 

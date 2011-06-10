@@ -42,8 +42,6 @@ import com.google.inject.Inject;
 import es.eucm.eadventure.common.resources.StringHandler;
 import es.eucm.eadventure.common.resources.assets.drawable.impl.CaptionImpl;
 import es.eucm.eadventure.engine.core.impl.VariableMap;
-import es.eucm.eadventure.engine.core.platform.GUI;
-import es.eucm.eadventure.engine.core.platform.PlatformConfiguration;
 import es.eucm.eadventure.engine.core.platform.RuntimeFont;
 import es.eucm.eadventure.engine.core.platform.impl.FontCacheImpl;
 
@@ -51,8 +49,8 @@ public class DesktopEngineCaption extends RuntimeCaption {
 
 	@Inject
 	public DesktopEngineCaption(FontCacheImpl fontCache, VariableMap valueMap,
-			StringHandler stringHandler, GUI<?> gui, PlatformConfiguration platformConfiguration) {
-		super(fontCache, valueMap, stringHandler, gui, platformConfiguration);
+			StringHandler stringHandler) {
+		super(fontCache, valueMap, stringHandler);
 	}
 
 	public void setHasBuble(boolean b) {

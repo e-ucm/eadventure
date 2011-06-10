@@ -46,8 +46,6 @@ public class EAdVarImpl<T> implements EAdVar<T> {
 	
 	protected String name;
 	
-	private T defaultValue;
-	
 	private EAdElement element;
 
 	public EAdVarImpl(Class<T> type, String name, EAdElement element) {
@@ -70,15 +68,8 @@ public class EAdVarImpl<T> implements EAdVar<T> {
 		return name;
 	}
 	
-	@Override
-	public T getInitialValue() {
-		return defaultValue;
-	}
-	
-
-	@Override
-	public void setInitialValue( T defaultValue ){
-		this.defaultValue = defaultValue;
+	public T getDefaultValue() {
+		return null;
 	}
 
 	@Override
@@ -100,10 +91,6 @@ public class EAdVarImpl<T> implements EAdVar<T> {
 		if (var.getName() != getName() || var.getType() != getType())
 			return false;
 		return true;
-	}
-	
-	public String toString( ){
-		return "Element:" + element + ";" + name; 
 	}
 	
 	@Override

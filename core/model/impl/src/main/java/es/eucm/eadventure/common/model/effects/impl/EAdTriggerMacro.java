@@ -37,7 +37,7 @@
 
 package es.eucm.eadventure.common.model.effects.impl;
 
-import es.eucm.eadventure.common.Param;
+import es.eucm.eadventure.common.interfaces.Param;
 import es.eucm.eadventure.common.model.effects.EAdEffect;
 import es.eucm.eadventure.common.model.effects.EAdMacro;
 

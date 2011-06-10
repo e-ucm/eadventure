@@ -37,8 +37,8 @@
 
 package es.eucm.eadventure.common.model.elements.impl;
 
-import es.eucm.eadventure.common.Element;
-import es.eucm.eadventure.common.Param;
+import es.eucm.eadventure.common.interfaces.Element;
+import es.eucm.eadventure.common.interfaces.Param;
 import es.eucm.eadventure.common.model.EAdElementList;
 import es.eucm.eadventure.common.model.actions.EAdAction;
 import es.eucm.eadventure.common.model.elements.EAdActor;
@@ -71,7 +71,7 @@ public class EAdBasicActor extends AbstractEAdElementWithBehavior implements EAd
 	
 	public EAdBasicActor(String id) {
 		super(id);
-		this.actions = new EAdElementListImpl<EAdAction>();
+		this.actions = new EAdElementListImpl<EAdAction>(EAdAction.class);
 	}
 
 	public EAdElementList<EAdAction> getActions() {

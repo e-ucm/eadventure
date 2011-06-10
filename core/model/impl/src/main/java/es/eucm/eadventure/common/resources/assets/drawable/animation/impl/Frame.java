@@ -37,7 +37,7 @@
 
 package es.eucm.eadventure.common.resources.assets.drawable.animation.impl;
 
-import es.eucm.eadventure.common.Param;
+import es.eucm.eadventure.common.interfaces.Param;
 import es.eucm.eadventure.common.resources.assets.drawable.Image;
 import es.eucm.eadventure.common.resources.assets.drawable.impl.ImageImpl;
 

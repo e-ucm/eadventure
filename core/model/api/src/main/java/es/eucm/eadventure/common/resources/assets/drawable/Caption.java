@@ -43,39 +43,17 @@ import es.eucm.eadventure.common.resources.EAdString;
 
 public interface Caption extends Drawable {
 	
-	/**
-	 * Represents infinite for all the getMax/getMin methods 
-	 */
-	public static int INFINITE_SIZE = -1;
+	public EAdString getText();
 	
-	/**
-	 * Represents screen size for all the getMax/getMin methods
-	 */
-	public static int SCREEN_SIZE = -2;
+	public EAdFont getFont();
 	
-	/**
-	 * Returns the text for this caption
-	 * @return
-	 */
-	EAdString getText();
+	public EAdBorderedColor getTextColor();
 	
-	/**
-	 * Returns the font for this caption
-	 * @return
-	 */
-	EAdFont getFont();
+	public boolean hasBubble();
 	
-	/**
-	 * Returns the text color for this caption 
-	 * @return
-	 */
-	EAdBorderedColor getTextColor();
+	public EAdBorderedColor getBubbleColor();
 	
-	boolean hasBubble();
-	
-	EAdBorderedColor getBubbleColor();
-	
-	float getAlpha();
+	public float getAlpha();
 
 	int getMaximumWidth();
 
@@ -85,6 +63,6 @@ public interface Caption extends Drawable {
 
 	int getMinimumHeight();
 
-	void setText(EAdString name);
+	public void setText(EAdString name);
 	
 }

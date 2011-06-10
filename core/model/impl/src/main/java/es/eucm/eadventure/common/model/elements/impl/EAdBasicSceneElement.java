@@ -1,7 +1,7 @@
 package es.eucm.eadventure.common.model.elements.impl;
 
-import es.eucm.eadventure.common.Param;
 import es.eucm.eadventure.common.interfaces.Oriented;
+import es.eucm.eadventure.common.interfaces.Param;
 import es.eucm.eadventure.common.interfaces.Oriented.Orientation;
 import es.eucm.eadventure.common.model.conditions.impl.EmptyCondition;
 import es.eucm.eadventure.common.model.elements.EAdCondition;
@@ -48,7 +48,6 @@ public class EAdBasicSceneElement extends AbstractEAdElementWithBehavior impleme
 		setScale(1.0f);
 		setPosition(new EAdPosition(0, 0));
 		setInitialOrientation(Orientation.SOUTH);
-		((BooleanVar) visibleVar()).setInitialValue(true);
 		draggable = EmptyCondition.FALSE_EMPTY_CONDITION;
 	}
 

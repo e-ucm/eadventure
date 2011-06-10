@@ -40,9 +40,8 @@ package es.eucm.eadventure.engine.core.impl;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -56,7 +55,7 @@ public class ValueMapImpl implements ValueMap {
 
 	protected Map<Class<?>, Map<?, ?>> map;
 
-	private static final Logger logger = LoggerFactory
+	private static final Logger logger = Logger
 			.getLogger("Value Map");
 
 	@Inject
@@ -82,12 +81,12 @@ public class ValueMapImpl implements ValueMap {
 		@SuppressWarnings("unchecked")
 		Map<EAdElement, T> valMap = (Map<EAdElement, T>) map.get(clazz);
 		if (valMap == null) {
-			logger.warn("No values for the class " + clazz);
+			logger.log(Level.WARNING, "No values for the class " + clazz);
 			return null;
 		}
 		T value = valMap.get(id);
 		if (value == null)
-			logger.warn("No such value " + id);
+			logger.log(Level.WARNING, "No such value " + id);
 		return value;
 	}
 
@@ -119,15 +118,15 @@ public class ValueMapImpl implements ValueMap {
 	public <S> S getValue(EAdVar<S> var) {
 		Map<String, S> valMap = (Map<String, S>) map.get(var.getType());
 		if (valMap == null) {
-			logger.warn("No values for the class " + var.getType());
-			setValue(var, var.getInitialValue());
+			logger.log(Level.WARNING, "No values for the class " + var.getType());
+			setValue(var, var.getDefaultValue());
 			valMap = (Map<String, S>) map.get(var.getType());
 		}
 		S value = valMap.get((var.getElement() != null ? "" + var.getElement().hashCode() : "") + var.getName() );
 		if (value == null) {
-			logger.warn("No such value " + (var.getElement() != null ? "" + var : "") );
-			setValue(var, var.getInitialValue());
-			value = var.getInitialValue();
+			logger.log(Level.WARNING, "No such value " + (var.getElement() != null ? "" + var.getElement().hashCode() : "") + var.getName() + " of type " + var.getType());
+			setValue(var, var.getDefaultValue());
+			value = var.getDefaultValue();
 		}
 		return value;
 	}

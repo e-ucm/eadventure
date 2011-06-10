@@ -37,8 +37,8 @@
 
 package es.eucm.eadventure.common.model.conditions.impl;
 
-import es.eucm.eadventure.common.Element;
-import es.eucm.eadventure.common.Param;
+import es.eucm.eadventure.common.interfaces.Element;
+import es.eucm.eadventure.common.interfaces.Param;
 import es.eucm.eadventure.common.model.elements.EAdCondition;
 
 @Element(runtime = EmptyCondition.class, detailed = EmptyCondition.class)

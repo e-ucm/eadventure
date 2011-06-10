@@ -37,8 +37,8 @@
 
 package es.eucm.eadventure.engine.core.gameobjects.impl.effects;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import es.eucm.eadventure.common.model.effects.impl.text.EAdShowText;
 import es.eucm.eadventure.common.model.params.guievents.EAdMouseEvent.MouseActionType;
@@ -49,8 +49,8 @@ import es.eucm.eadventure.engine.core.platform.assets.impl.RuntimeCaption;
 
 public class ShowTextEffectGO extends AbstractEffectGO<EAdShowText> {
 
-	private static final Logger logger = LoggerFactory
-			.getLogger(ShowTextEffectGO.class);
+	private static final Logger logger = Logger
+			.getLogger("ShowTextEffectGO");
 
 	private BasicSceneElementGO textGO;
 
@@ -86,7 +86,7 @@ public class ShowTextEffectGO extends AbstractEffectGO<EAdShowText> {
 			caption.reset();
 			caption.setLoops(getEffect().getLoops());
 		} else {
-			logger.warn("TextGO " + element.getId() + " has a non caption asset");
+			logger.log(Level.WARNING, "TextGO " + element.getId() + " has a non caption asset");
 		}
 	}
 

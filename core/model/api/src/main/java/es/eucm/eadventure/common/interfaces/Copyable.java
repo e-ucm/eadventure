@@ -35,30 +35,32 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package es.eucm.eadventure.common;
-
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
+package es.eucm.eadventure.common.interfaces;
 
 /**
- * <p>
- * Annotates fields that are stored as params in the xml
- * </p>
- * <p>
- * These parameters must be {@link EAdElement}s, Enums, simple values (such as
- * int, char, float...) or its wrapper classes.
- * </p>
+ * Interface for copyable objects.
+ *
  */
-@Retention(RetentionPolicy.RUNTIME)
-@Target(ElementType.FIELD)
-public @interface Param {
+public interface Copyable<E> extends Cloneable {
 
 	/**
-	 * @return The value or name of the parameter, should coincide with the
-	 *         attribute name
+	 * Creates a shallow copy of this object.
+	 * 
+	 * @return a shallow copy of this object.
+	 * 
+	 * @throws CopyNotSupportedException if the copy cannot be created.
 	 */
-	String value();
-
+	public E copy();
+	
+	/**
+	 * Creates a shallow of deep copy of this object.
+	 * 
+	 * @param deepCopy Controls if a shallow or a deep copy is done.
+	 * 
+	 * @return a shallow copy of this object if {@code deepCopy == false} or
+	 * a deep copy if {@code deepCopy == true}.
+	 * 
+	 * @throws CopyNotSupportedException if the copy cannot be created.
+	 */
+	public E copy(boolean deepCopy);
 }

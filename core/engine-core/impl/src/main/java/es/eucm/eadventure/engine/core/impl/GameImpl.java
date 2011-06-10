@@ -38,9 +38,8 @@
 package es.eucm.eadventure.engine.core.impl;
 
 import java.util.ArrayList;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -80,7 +79,7 @@ public class GameImpl implements Game {
 
 	private Reader<EAdAdventureModel> reader;
 
-	private static final Logger logger = LoggerFactory.getLogger("GameImpl");
+	private static final Logger logger = Logger.getLogger("GameImpl");
 
 	// Auxiliary variable, to avoid new every time
 	private static ArrayList<EffectGO<?>> finishedEffects = new ArrayList<EffectGO<?>>();
@@ -162,7 +161,7 @@ public class GameImpl implements Game {
 
 		// Delete finished effects
 		for (EffectGO<?> e : finishedEffects) {
-			logger.debug("Finished or discarded effect " + e.getClass());
+			logger.log(Level.INFO, "Finished or discarded effect " + e.getClass());
 			gameState.getEffects().remove(e);
 		}
 

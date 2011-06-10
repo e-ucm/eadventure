@@ -37,11 +37,11 @@
 
 package es.eucm.eadventure.common.model.impl;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
-import es.eucm.eadventure.common.CopyNotSupportedException;
-import es.eucm.eadventure.common.Param;
+import es.eucm.eadventure.common.interfaces.CopyNotSupportedException;
+import es.eucm.eadventure.common.interfaces.Param;
 import es.eucm.eadventure.common.model.EAdElement;
 import es.eucm.eadventure.common.model.EAdElementList;
 import es.eucm.eadventure.common.model.events.EAdEvent;
@@ -69,8 +69,9 @@ public abstract class AbstractEAdElement implements EAdElement {
 	 */
 	protected EAdElementList<EAdEvent> events;
 
-	private static final Logger logger = LoggerFactory
-			.getLogger(AbstractEAdElement.class);
+//	private static final Logger logger = LoggerFactory
+//			.getLogger(AbstractEAdElement.class);
+	private static final Logger logger = Logger.getLogger("AbstractEAdElement");
 
 	/**
 	 * Constructs a {@link AbstractEAdElement} with the specified parent
@@ -85,7 +86,7 @@ public abstract class AbstractEAdElement implements EAdElement {
 		this.id = id;
 		resources = new EAdResourcesImpl(getClass());
 		if (!(this instanceof EAdElementList))
-			events = new EAdElementListImpl<EAdEvent>();
+			events = new EAdElementListImpl<EAdEvent>(EAdEvent.class);
 	}
 
 	/**
@@ -94,8 +95,10 @@ public abstract class AbstractEAdElement implements EAdElement {
 	@Override
 	public AbstractEAdElement copy() {
 		try {
-			return (AbstractEAdElement) super.clone();
-		} catch (CloneNotSupportedException e) {
+			//TODO removed clone for GWT, should find other solution?
+			//return (AbstractEAdElement) super.clone();
+			return null;
+		} catch (Exception e) {
 			throw new CopyNotSupportedException(e);
 		}
 	}
@@ -131,7 +134,7 @@ public abstract class AbstractEAdElement implements EAdElement {
 	@Override
 	public AssetDescriptor getAsset(String id) {
 		if (resources == null) {
-			logger.warn("Element has no assets");
+			logger.log(Level.WARNING, "Element has no assets");
 		}
 		return resources.getAsset(id);
 	}
@@ -146,7 +149,7 @@ public abstract class AbstractEAdElement implements EAdElement {
 	@Override
 	public AssetDescriptor getAsset(EAdBundleId bundleId, String id) {
 		if (resources == null) {
-			logger.warn("Elment has no assets");
+			logger.log(Level.WARNING, "Element has no assets");
 			return null;
 		}
 		return resources.getAsset(bundleId, id);

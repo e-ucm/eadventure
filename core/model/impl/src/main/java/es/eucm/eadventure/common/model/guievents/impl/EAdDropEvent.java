@@ -1,7 +1,7 @@
 package es.eucm.eadventure.common.model.guievents.impl;
 
-import es.eucm.eadventure.common.Element;
-import es.eucm.eadventure.common.Param;
+import es.eucm.eadventure.common.interfaces.Element;
+import es.eucm.eadventure.common.interfaces.Param;
 import es.eucm.eadventure.common.model.EAdElement;
 import es.eucm.eadventure.common.model.params.guievents.EAdGUIEvent;
 

@@ -1,7 +1,7 @@
 package es.eucm.eadventure.common.model.elements.impl.extra;
 
-import es.eucm.eadventure.common.Element;
-import es.eucm.eadventure.common.Param;
+import es.eucm.eadventure.common.interfaces.Element;
+import es.eucm.eadventure.common.interfaces.Param;
 import es.eucm.eadventure.common.model.EAdChapter;
 import es.eucm.eadventure.common.model.EAdElementList;
 import es.eucm.eadventure.common.model.conditions.impl.EmptyCondition;
@@ -36,8 +36,8 @@ public class EAdCutscene extends EAdComposedScene {
 	
 	public EAdCutscene(String id) {
 		super(id);
-		times = new EAdElementListImpl<Integer>();
-		slides = new EAdElementListImpl<EAdSlide>();
+		times = new EAdElementListImpl<Integer>(Integer.class);
+		slides = new EAdElementListImpl<EAdSlide>(EAdSlide.class);
 	}
 	
 	

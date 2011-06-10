@@ -40,9 +40,7 @@ package es.eucm.eadventure.engine.core.impl;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Stack;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import java.util.logging.Logger;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -82,7 +80,7 @@ public class GameStateImpl implements GameState {
 	 */
 	private List<EAdEffect> effectsQueue;
 
-	private static Logger logger = LoggerFactory.getLogger("GameState");
+	private static Logger logger = Logger.getLogger("GameState");
 
 	private boolean paused;
 

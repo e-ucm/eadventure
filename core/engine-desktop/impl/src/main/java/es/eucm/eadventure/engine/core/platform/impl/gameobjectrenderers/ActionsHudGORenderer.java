@@ -45,9 +45,7 @@ import java.awt.Rectangle;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Area;
 import java.awt.geom.Ellipse2D;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import java.util.logging.Logger;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -69,8 +67,8 @@ public class ActionsHudGORenderer implements
 	/**
 	 * Class logger
 	 */
-	private static final Logger logger = LoggerFactory
-			.getLogger(ActionsHudGORenderer.class);
+	private static final Logger logger = Logger
+			.getLogger("ActionsHudGORenderer");
 
 	@Inject
 	public ActionsHudGORenderer(PlatformConfiguration platformConfiguration) {

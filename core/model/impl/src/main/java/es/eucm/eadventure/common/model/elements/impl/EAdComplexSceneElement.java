@@ -12,7 +12,7 @@ public class EAdComplexSceneElement extends EAdBasicSceneElement
 	
 	public EAdComplexSceneElement(String id) {
 		super(id);
-		components = new EAdElementListImpl<EAdSceneElement>();
+		components = new EAdElementListImpl<EAdSceneElement>(EAdSceneElement.class);
 	}
 	
 	public EAdElementList<EAdSceneElement> getComponents() {

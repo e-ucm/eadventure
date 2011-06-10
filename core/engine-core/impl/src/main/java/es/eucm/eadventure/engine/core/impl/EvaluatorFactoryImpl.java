@@ -37,8 +37,7 @@
 
 package es.eucm.eadventure.engine.core.impl;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import java.util.logging.Logger;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -53,7 +52,7 @@ import es.eucm.eadventure.engine.core.evaluators.Evaluator;
 public class EvaluatorFactoryImpl extends AbstractFactory<Evaluator<?>> implements EvaluatorFactory {
 
 	@SuppressWarnings("unused")
-	private static final Logger logger = LoggerFactory.getLogger(EvaluatorFactoryImpl.class);
+	private static final Logger logger = Logger.getLogger("EvaluatorFactoryImpl");
 	
 
 	@Inject

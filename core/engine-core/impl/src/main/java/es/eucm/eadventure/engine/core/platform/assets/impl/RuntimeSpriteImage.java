@@ -37,8 +37,7 @@
 
 package es.eucm.eadventure.engine.core.platform.assets.impl;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import java.util.logging.Logger;
 
 import com.google.inject.Inject;
 
@@ -57,7 +56,7 @@ public abstract class RuntimeSpriteImage implements DrawableAsset<SpriteImage> {
 	/**
 	 * Logger
 	 */
-	private Logger logger = LoggerFactory.getLogger(RuntimeSpriteImage.class);
+	private Logger logger = Logger.getLogger("RuntimeSpriteImage");
 
 	/**
 	 * The image asset descriptor

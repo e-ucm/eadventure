@@ -42,12 +42,11 @@ import es.eucm.eadventure.common.model.EAdElement;
 public class IntegerVar extends NumberVar<Integer> {
 
 	public IntegerVar(String name) {
-		this( name, null );
+		super(Integer.class, name);
 	}
 
 	public IntegerVar(String name, EAdElement element) {
 		super(Integer.class, name, element);
-		setInitialValue(0);
 	}
 
 	/* (non-Javadoc)
@@ -56,13 +55,18 @@ public class IntegerVar extends NumberVar<Integer> {
 	 */
 	@Override
 	public String toString() {
-		return super.toString() + ";Integer";
+		return "Integer;" + name;
 	}
 	
 	public static IntegerVar valueOf(String string) {
 		String[] strings = string.split(";");
-		String name = strings[2];
+		String name = strings[1];
 		return new IntegerVar(name);
+	}
+	
+	@Override
+	public Integer getDefaultValue() {
+		return new Integer(0);
 	}
 
 }

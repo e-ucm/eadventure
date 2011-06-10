@@ -41,7 +41,6 @@ public class FloatVar extends NumberVar<Float> {
 
 	public FloatVar(String name) {
 		super(Float.class, name);
-		setInitialValue(0.0f);
 	}
 
 	/* (non-Javadoc)
@@ -50,13 +49,18 @@ public class FloatVar extends NumberVar<Float> {
 	 */
 	@Override
 	public String toString() {
-		return super.toString() + ";Float";
+		return "Float;" + name;
 	}
 	
 	public static FloatVar valueOf(String string) {
 		String[] strings = string.split(";");
-		String name = strings[2];
+		String name = strings[1];
 		return new FloatVar(name);
+	}
+	
+	@Override
+	public Float getDefaultValue() {
+		return new Float(0.0f);
 	}
 
 }

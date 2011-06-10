@@ -37,7 +37,7 @@
 
 package es.eucm.eadventure.common.model;
 
-import es.eucm.eadventure.common.Copyable;
+import es.eucm.eadventure.common.interfaces.Copyable;
 import es.eucm.eadventure.common.model.events.EAdEvent;
 import es.eucm.eadventure.common.resources.EAdBundleId;
 import es.eucm.eadventure.common.resources.EAdResources;

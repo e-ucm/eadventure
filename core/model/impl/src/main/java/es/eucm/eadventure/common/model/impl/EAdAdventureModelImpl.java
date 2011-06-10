@@ -37,9 +37,9 @@
 
 package es.eucm.eadventure.common.model.impl;
 
-import es.eucm.eadventure.common.CopyNotSupportedException;
-import es.eucm.eadventure.common.Element;
-import es.eucm.eadventure.common.Param;
+import es.eucm.eadventure.common.interfaces.CopyNotSupportedException;
+import es.eucm.eadventure.common.interfaces.Element;
+import es.eucm.eadventure.common.interfaces.Param;
 import es.eucm.eadventure.common.model.EAdAdventureModel;
 import es.eucm.eadventure.common.model.EAdChapter;
 import es.eucm.eadventure.common.model.EAdElementList;
@@ -83,8 +83,8 @@ public class EAdAdventureModelImpl implements EAdAdventureModel {
 	 */
 	public EAdAdventureModelImpl() {
 		resources = new EAdResourcesImpl(getClass());
-		chapters = new EAdElementListImpl<EAdChapter>();
-		events = new EAdElementListImpl<EAdEvent>();
+		chapters = new EAdElementListImpl<EAdChapter>(EAdChapter.class);
+		events = new EAdElementListImpl<EAdEvent>(EAdEvent.class);
 		inventory = new EAdBasicInventory();
 	}
 	
@@ -102,8 +102,10 @@ public class EAdAdventureModelImpl implements EAdAdventureModel {
 	
 	public EAdAdventureModelImpl copy(){
 		try {
-			return (EAdAdventureModelImpl) super.clone();
-		} catch (CloneNotSupportedException e) {
+			//TODO removed clone for GWT, should find other solution?
+			//return (EAdAdventureModelImpl) super.clone();
+			return null;
+		} catch (Exception e) {
 			throw new CopyNotSupportedException(e);
 		}
 	}

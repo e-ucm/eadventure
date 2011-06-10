@@ -1,6 +1,6 @@
 package es.eucm.eadventure.common.model.effects.impl;
 
-import es.eucm.eadventure.common.Element;
+import es.eucm.eadventure.common.interfaces.Element;
 import es.eucm.eadventure.common.model.EAdMap;
 import es.eucm.eadventure.common.model.effects.EAdEffect;
 import es.eucm.eadventure.common.model.impl.EAdMapImpl;

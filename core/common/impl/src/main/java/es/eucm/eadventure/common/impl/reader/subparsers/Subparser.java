@@ -39,18 +39,17 @@ package es.eucm.eadventure.common.impl.reader.subparsers;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import es.eucm.eadventure.common.Param;
+import es.eucm.eadventure.common.interfaces.Param;
 
 /**
  * Abstract subparser for the eAdventure model
  */
 public abstract class Subparser {
 
-	public static final Logger logger = LoggerFactory.getLogger(Subparser.class);
+	private static final Logger logger = Logger.getLogger("Subparser");
 	
 	/**
 	 * End the subparsing of the element
@@ -85,14 +84,14 @@ public abstract class Subparser {
 				try {
 					clazz = clazz.getSuperclass();
 				} catch (SecurityException e1) {
-					logger.error("Security excpetion " + object + " " + id, e);
+					logger.log(Level.SEVERE, "Security excpetion " + object + " " + id, e);
 				} 
 			} catch (NullPointerException e) {
-				logger.info("Null pointer " + object + " " + id, e);
+				logger.log(Level.SEVERE, "Null pointer " + object + " " + id, e);
 			}
 		}
 		if (field == null) 
-			logger.error("No such field " + object + " " + id);
+			logger.log(Level.SEVERE, "No such field " + object + " " + id);
 		
 		return field;
 	}

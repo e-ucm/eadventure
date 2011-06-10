@@ -37,8 +37,6 @@
 
 package es.eucm.eadventure.common.resources;
 
-import java.io.InputStream;
-
 public interface StringHandler {
 
 	String getString(EAdString string);
@@ -46,8 +44,6 @@ public interface StringHandler {
 	String getUniqueId();
 
 	void addString(EAdString eAdString, String string);
-
-	void loadStrings(InputStream inputStream);
 
 	/**
 	 * Adds a new string value to the string handler and returns a new

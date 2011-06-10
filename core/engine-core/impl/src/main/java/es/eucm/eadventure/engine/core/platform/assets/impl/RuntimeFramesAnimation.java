@@ -39,9 +39,8 @@ package es.eucm.eadventure.engine.core.platform.assets.impl;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import com.google.inject.Inject;
 
@@ -64,8 +63,8 @@ public class RuntimeFramesAnimation implements DrawableAsset<FramesAnimation> {
 	/**
 	 * Logger
 	 */
-	private static final Logger logger = LoggerFactory
-			.getLogger(RuntimeFramesAnimation.class);
+	private static final Logger logger = Logger
+			.getLogger("RuntimeFramesAnimation");
 
 	/**
 	 * Asset handler
@@ -115,7 +114,7 @@ public class RuntimeFramesAnimation implements DrawableAsset<FramesAnimation> {
 			if (framesAnimation.getFrameCount() > 0)
 				currentImage = images.get(0);
 			else
-				logger.debug("Animation has no frames!!");
+				logger.log(Level.WARNING, "Animation has no frames!!");
 			return true;
 		}
 		return true;

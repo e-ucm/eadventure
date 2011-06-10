@@ -38,14 +38,14 @@
 package es.eucm.eadventure.common.impl.writer;
 
 import java.lang.reflect.Field;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.xml.parsers.ParserConfigurationException;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.w3c.dom.Node;
 
-import es.eucm.eadventure.common.Param;
+import es.eucm.eadventure.common.interfaces.Param;
 import es.eucm.eadventure.common.model.EAdElement;
 import es.eucm.eadventure.common.model.variables.EAdVar;
 
@@ -58,8 +58,8 @@ public class ParamDOMWriter extends DOMWriter<Field> {
 	/**
 	 * The logger
 	 */
-	private static final Logger logger = LoggerFactory
-			.getLogger(ParamDOMWriter.class);
+	private static final Logger logger = Logger
+			.getLogger("ParamDOMWriter");
 
 	/**
 	 * The element where to add the param
@@ -71,7 +71,7 @@ public class ParamDOMWriter extends DOMWriter<Field> {
 		try {
 			initilizeDOMWriter();
 		} catch (ParserConfigurationException e) {
-			logger.error(e.getMessage(), e);
+			logger.log(Level.SEVERE, e.getMessage(), e);
 		}
 	}
 
@@ -111,9 +111,9 @@ public class ParamDOMWriter extends DOMWriter<Field> {
 				node.setTextContent(field.get(element).toString());
 			}
 		} catch (IllegalArgumentException e) {
-			logger.error(e.getMessage(), e);
+			logger.log(Level.SEVERE, e.getMessage(), e);
 		} catch (IllegalAccessException e) {
-			logger.error(e.getMessage(), e);
+			logger.log(Level.SEVERE, e.getMessage(), e);
 		}
 		
 		return node;

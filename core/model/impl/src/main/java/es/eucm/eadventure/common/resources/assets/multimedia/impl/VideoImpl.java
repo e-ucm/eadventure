@@ -1,6 +1,6 @@
 package es.eucm.eadventure.common.resources.assets.multimedia.impl;
 
-import es.eucm.eadventure.common.Param;
+import es.eucm.eadventure.common.interfaces.Param;
 import es.eucm.eadventure.common.resources.assets.multimedia.Video;
 
 public class VideoImpl implements Video {

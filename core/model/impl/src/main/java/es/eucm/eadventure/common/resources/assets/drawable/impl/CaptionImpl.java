@@ -37,7 +37,7 @@
 
 package es.eucm.eadventure.common.resources.assets.drawable.impl;
 
-import es.eucm.eadventure.common.Param;
+import es.eucm.eadventure.common.interfaces.Param;
 import es.eucm.eadventure.common.model.params.EAdBorderedColor;
 import es.eucm.eadventure.common.model.params.EAdColor;
 import es.eucm.eadventure.common.model.params.EAdFont;
@@ -87,8 +87,8 @@ public class CaptionImpl implements Caption {
 		this.font = EAdFont.BIG;
 		this.hasBubble = false;
 		this.bubbleColor = null;
-		maxHeight = Caption.SCREEN_SIZE;
-		maxWidth = Caption.SCREEN_SIZE;
+		maxHeight = -1;
+		maxWidth = -1;
 		minWidth = 0;
 		minHeight = 0;
 		alpha = 1.0f;

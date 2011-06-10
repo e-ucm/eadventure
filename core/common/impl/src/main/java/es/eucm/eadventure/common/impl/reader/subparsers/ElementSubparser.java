@@ -38,9 +38,9 @@
 package es.eucm.eadventure.common.impl.reader.subparsers;
 
 import java.lang.reflect.Constructor;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.xml.sax.Attributes;
 
 import es.eucm.eadventure.common.impl.reader.subparsers.extra.ObjectFactory;
@@ -57,7 +57,7 @@ public class ElementSubparser extends Subparser {
 	/**
 	 * The logger
 	 */
-	private static final Logger logger = LoggerFactory.getLogger("ElementSubparser");
+	private static final Logger logger = Logger.getLogger("ElementSubparser");
 	
 	/**
 	 * Element
@@ -75,15 +75,15 @@ public class ElementSubparser extends Subparser {
 				this.element = (EAdElement) con.newInstance(new Object[]{element, id});
 				ObjectFactory.put(uniqueId, this.element);
 			} catch (NullPointerException e) {
-				logger.error("Null pointer, className:" + className + "; uniqueId:" + uniqueId, e);
+				logger.log(Level.SEVERE, "Null pointer, className:" + className + "; uniqueId:" + uniqueId, e);
 			}catch (Exception e) {
-				logger.error(e.getMessage(), e);
+				logger.log(Level.SEVERE, e.getMessage(), e);
 			}
 		} else {
 			try {
 				this.element = (EAdElement) ObjectFactory.getObject(uniqueId, EAdElement.class);
 			} catch (ClassCastException e) {
-				logger.error("Class cast excpetion, uniqueId:" + uniqueId, e);
+				logger.log(Level.SEVERE, "Class cast excpetion, uniqueId:" + uniqueId, e);
 			}
 		}
 	}
@@ -97,7 +97,7 @@ public class ElementSubparser extends Subparser {
 		if (element instanceof EAdElement)
 			this.element = (EAdElement) element;
 		else
-			logger.error("Tried to add element of wrong type " + element);
+			logger.log(Level.SEVERE, "Tried to add element of wrong type " + element);
 	}
 
 	public EAdElement getElement() {

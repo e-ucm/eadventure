@@ -52,13 +52,18 @@ public abstract class NumberVar<T extends Number> extends EAdVarImpl<T> {
 
 	public static NumberVar<?> valueOf(String string) {
 		String[] strings = string.split(";");
-		String type = strings[2];
+		String type = strings[0];
 		String name = strings[1];
 		if (type.equals("Integer"))
 			return new IntegerVar(name);
 		if (type.equals("Float"))
 			return new FloatVar(name);
 		return null;
+	}
+	
+	@SuppressWarnings("unchecked")
+	public T getDefaultValue() {
+		return (T) new Integer(0);
 	}
 
 }

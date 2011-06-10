@@ -37,7 +37,7 @@
 
 package es.eucm.eadventure.common.model.impl;
 
-import es.eucm.eadventure.common.Param;
+import es.eucm.eadventure.common.interfaces.Param;
 import es.eucm.eadventure.common.model.elements.EAdCondition;
 import es.eucm.eadventure.common.model.elements.EAdConditionedElement;
 

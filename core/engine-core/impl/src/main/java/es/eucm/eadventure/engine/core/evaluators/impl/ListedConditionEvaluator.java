@@ -38,9 +38,8 @@
 package es.eucm.eadventure.engine.core.evaluators.impl;
 
 import java.util.Iterator;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -54,7 +53,7 @@ import es.eucm.eadventure.engine.core.evaluators.Evaluator;
 @Singleton
 public class ListedConditionEvaluator implements Evaluator<ListedCondition> {
 
-	private static final Logger logger = LoggerFactory.getLogger(ListedConditionEvaluator.class);
+	private static final Logger logger = Logger.getLogger("ListedConditionEvaluator");
 	
 	private EvaluatorFactory evaluatorFactory;
 	
@@ -80,7 +79,7 @@ public class ListedConditionEvaluator implements Evaluator<ListedCondition> {
 				temp = temp || temp2;
 				break;
 			default:
-				logger.warn("No valid operator", condition);
+				logger.log(Level.WARNING, "No valid operator, condition: " + condition);
 			}
 		}
 		return temp;

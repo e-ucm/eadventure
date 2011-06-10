@@ -37,10 +37,11 @@
 
 package es.eucm.eadventure.common.impl.writer;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import javax.xml.parsers.ParserConfigurationException;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
@@ -49,7 +50,7 @@ import es.eucm.eadventure.common.model.EAdElementList;
 
 public class ElementListDOMWriter extends DOMWriter<EAdElementList<?>> {
 
-	private static final Logger logger = LoggerFactory.getLogger(ElementListDOMWriter.class);
+	private static final Logger logger = Logger.getLogger("ElementListDOMWriter");
 	
 	private String id;
 	
@@ -88,10 +89,10 @@ public class ElementListDOMWriter extends DOMWriter<EAdElementList<?>> {
 
         }
         catch( ParserConfigurationException e ) {
-        	logger.error("Error writing element " + list, e);
+        	logger.log(Level.SEVERE, "Error writing element " + list, e);
         	return null;
         } catch (IllegalArgumentException e) {
-        	logger.error("Illegal argument " + list, e);
+        	logger.log(Level.SEVERE, "Illegal argument " + list, e);
 		} 
 
         return node;

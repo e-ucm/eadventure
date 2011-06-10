@@ -41,9 +41,8 @@ import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import com.google.inject.Inject;
 import com.google.inject.Injector;
@@ -71,7 +70,7 @@ public abstract class AbstractAssetHandler implements AssetHandler {
 	/**
 	 * The class logger
 	 */
-	private static final Logger logger = LoggerFactory
+	private static final Logger logger = Logger
 			.getLogger("AbstractAssetHandler");
 
 	/**
@@ -125,7 +124,7 @@ public abstract class AbstractAssetHandler implements AssetHandler {
 	public <T extends AssetDescriptor> RuntimeAsset<T> getRuntimeAsset(
 			T descriptor) {
 		if (descriptor == null) {
-			logger.warn("Null descriptor");
+			logger.log(Level.WARNING, "Null descriptor");
 			return null;
 		}
 		try {
@@ -139,7 +138,7 @@ public abstract class AbstractAssetHandler implements AssetHandler {
 			}
 			return temp;
 		} catch (NullPointerException e) {
-			logger.error("Null pointer, descriptor:" + descriptor, e);
+			logger.log(Level.SEVERE, "Null pointer, descriptor:" + descriptor, e);
 			throw e;
 		}
 	}
@@ -160,7 +159,7 @@ public abstract class AbstractAssetHandler implements AssetHandler {
 			descriptor = element.getAsset(id);
 
 		if (descriptor == null) {
-			logger.error("No such asset. element: " + element.getClass()
+			logger.log(Level.SEVERE, "No such asset. element: " + element.getClass()
 					+ "; bundleId: " + (bundleId != null ? bundleId : "null")
 					+ "; id: " + id);
 			return null;

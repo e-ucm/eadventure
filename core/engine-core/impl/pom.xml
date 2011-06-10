@@ -13,10 +13,6 @@
   <name>e-Adventure Engine Core implementation</name>
   <dependencies>
     <dependency>
-      <groupId>org.slf4j</groupId>
-      <artifactId>slf4j-api</artifactId>
-    </dependency>
-    <dependency>
     	<groupId>es.eucm.eadventure</groupId>
     	<artifactId>engine-core-api</artifactId>
     	<version>${project.version}</version>
@@ -49,12 +45,6 @@
       <dependency>
         <groupId>org.jmock</groupId>
         <artifactId>jmock-junit4</artifactId>
-      </dependency>
-    <!-- logging -->
-      <dependency>
-        <groupId>org.slf4j</groupId>
-        <artifactId>slf4j-simple</artifactId>
-        <version>${slf4j.version}</version>
       </dependency>
   </dependencies>
 </project>

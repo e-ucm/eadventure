@@ -38,9 +38,7 @@
 package es.eucm.eadventure.engine.core.platform.impl.assetrenderers;
 
 import java.awt.Graphics2D;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import java.util.logging.Logger;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -57,7 +55,7 @@ public class DesktopDisplacedDrawableRenderer implements AssetRenderer<Graphics2
 	/**
 	 * Logger
 	 */
-	private static final Logger logger = LoggerFactory.getLogger(DesktopDisplacedDrawableRenderer.class);
+	private static final Logger logger = Logger.getLogger("DesktopDisplacedDrawableRenderer");
 
 	private AssetHandler assetHandler;
 	

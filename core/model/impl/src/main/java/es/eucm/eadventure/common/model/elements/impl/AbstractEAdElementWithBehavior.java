@@ -1,6 +1,6 @@
 package es.eucm.eadventure.common.model.elements.impl;
 
-import es.eucm.eadventure.common.Param;
+import es.eucm.eadventure.common.interfaces.Param;
 import es.eucm.eadventure.common.model.EAdElementList;
 import es.eucm.eadventure.common.model.behavior.EAdBehavior;
 import es.eucm.eadventure.common.model.behaviors.impl.EAdBehaviorImpl;

@@ -38,9 +38,7 @@ package es.eucm.eadventure.engine.core.gameobjects.impl;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import java.util.logging.Logger;
 
 import com.google.inject.Inject;
 
@@ -63,8 +61,8 @@ public class ActorGOImpl extends AbstractGameObject<EAdActor> implements
 	/**
 	 * The logger
 	 */
-	private static final Logger logger = LoggerFactory
-			.getLogger(ActorGOImpl.class);
+	private static final Logger logger = Logger
+			.getLogger("ActorGOImpl");
 
 	private EvaluatorFactory evaluator;
 

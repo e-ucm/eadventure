@@ -49,11 +49,10 @@ import java.awt.RenderingHints;
 import java.awt.Robot;
 import java.awt.Toolkit;
 import java.awt.image.BufferStrategy;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.swing.JFrame;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -85,8 +84,8 @@ public class DesktopGUI extends AbstractGUI<Graphics2D, Component> implements GU
 	/**
 	 * The class logger
 	 */
-	private static final Logger logger = LoggerFactory
-			.getLogger(DesktopGUI.class);
+	private static final Logger logger = Logger
+			.getLogger("DesktopGUI");
 
 	/**
 	 * The {@code JFrame} where the game is represented
@@ -280,7 +279,7 @@ public class DesktopGUI extends AbstractGUI<Graphics2D, Component> implements GU
 				}
 			});
 		} catch (RuntimeException e) {
-			logger.error(e.getMessage(), e);
+			logger.log(Level.SEVERE, e.getMessage(), e);
 		}
 
 		logger.info("Desktop GUI initilized");

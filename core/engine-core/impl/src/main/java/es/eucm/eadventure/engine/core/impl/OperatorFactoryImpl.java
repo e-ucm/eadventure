@@ -37,8 +37,8 @@
 
 package es.eucm.eadventure.engine.core.impl;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import com.google.inject.Inject;
 
@@ -51,7 +51,7 @@ import es.eucm.eadventure.engine.core.operator.Operator;
 
 public class OperatorFactoryImpl extends AbstractFactory<Operator<?>> implements OperatorFactory {
 	
-	private Logger log = LoggerFactory.getLogger("Operator Factory");
+	private Logger log = Logger.getLogger("OperatorFactoryImpl");
 
 	@Inject
 	public OperatorFactoryImpl(MapProvider<Class<?>, Operator<?>> map) {
@@ -62,13 +62,11 @@ public class OperatorFactoryImpl extends AbstractFactory<Operator<?>> implements
 	@Override
 	public <T extends EAdOperation, S> S operate(EAdVar<S> varResult, T operation) {
 		if ( operation == null ){
-			log.debug("null operation attempted: null was returned");
+			log.log(Level.WARNING, "null operation attempted: null was returned");
 			return null;
 		}
 		Operator<T> operator = (Operator<T>) get(operation.getClass());
-		S result =  operator.operate(varResult, operation);
-		log.info(varResult + " := " + result);
-		return result;
+		return operator.operate(varResult, operation);
 	}
 
 }

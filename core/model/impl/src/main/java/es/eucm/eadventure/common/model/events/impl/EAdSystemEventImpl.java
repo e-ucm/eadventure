@@ -1,6 +1,6 @@
 package es.eucm.eadventure.common.model.events.impl;
 
-import es.eucm.eadventure.common.Element;
+import es.eucm.eadventure.common.interfaces.Element;
 import es.eucm.eadventure.common.model.events.EAdSystemEvent;
 
 @Element(runtime=EAdSystemEventImpl.class, detailed=EAdSystemEventImpl.class)

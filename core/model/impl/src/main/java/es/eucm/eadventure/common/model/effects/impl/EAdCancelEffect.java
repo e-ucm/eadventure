@@ -37,7 +37,7 @@
 
 package es.eucm.eadventure.common.model.effects.impl;
 
-import es.eucm.eadventure.common.Element;
+import es.eucm.eadventure.common.interfaces.Element;
 import es.eucm.eadventure.common.model.EAdElementList;
 import es.eucm.eadventure.common.model.effects.EAdEffect;
 import es.eucm.eadventure.common.model.impl.EAdElementListImpl;
@@ -64,7 +64,7 @@ public class EAdCancelEffect extends AbstractEAdEffect {
 	 */
 	public EAdCancelEffect(String id) {
 		super(id);
-		effects = new EAdElementListImpl<EAdEffect>();
+		effects = new EAdElementListImpl<EAdEffect>(EAdEffect.class);
 	}
 
 	/**

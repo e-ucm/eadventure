@@ -38,9 +38,7 @@
 package es.eucm.eadventure.engine.core.platform.impl.assetrenderers;
 
 import java.awt.Graphics2D;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import java.util.logging.Logger;
 
 import com.google.inject.Singleton;
 
@@ -54,7 +52,7 @@ public class DesktopImageAssetRenderer implements AssetRenderer<Graphics2D, Desk
 	/**
 	 * Logger
 	 */
-	private static final Logger logger = LoggerFactory.getLogger(DesktopImageAssetRenderer.class);
+	private static final Logger logger = Logger.getLogger("DesktopImageAssetRenderer");
 
 	public DesktopImageAssetRenderer() {
 		logger.info("New instance");

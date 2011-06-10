@@ -37,7 +37,7 @@
 
 package es.eucm.eadventure.common.model.behaviors.impl;
 
-import es.eucm.eadventure.common.Element;
+import es.eucm.eadventure.common.interfaces.Element;
 
 @Element(runtime = EAdActorReferenceBehaviour.class, detailed = EAdBehaviorImpl.class)
 public class EAdActorReferenceBehaviour extends EAdBehaviorImpl {

@@ -37,8 +37,9 @@
 
 package es.eucm.eadventure.common.impl.reader.subparsers;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import org.xml.sax.Attributes;
 
 import es.eucm.eadventure.common.impl.reader.subparsers.extra.EntryData;
@@ -67,7 +68,7 @@ public class BundleSubparser extends Subparser {
 	
 	private EAdBundleId bundleId;
 
-	private static final Logger logger = LoggerFactory
+	private static final Logger logger = Logger
 			.getLogger("ResourcesSubparser");
 
 	/**
@@ -100,7 +101,7 @@ public class BundleSubparser extends Subparser {
 			if (((EntryData) element).getValue() instanceof AssetDescriptor)
 				resources.addAsset(bundleId, ((EntryData) element).getKey(), (AssetDescriptor) ((EntryData) element).getValue());
 		} else
-			logger.error("Tried to add wrong child to resources " + element);
+			logger.log(Level.SEVERE, "Tried to add wrong child to resources " + element);
 	}
 
 }

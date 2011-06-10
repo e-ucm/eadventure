@@ -37,7 +37,7 @@
 
 package es.eucm.eadventure.common.resources.assets.drawable.impl;
 
-import es.eucm.eadventure.common.Param;
+import es.eucm.eadventure.common.interfaces.Param;
 import es.eucm.eadventure.common.model.EAdElementList;
 import es.eucm.eadventure.common.model.impl.EAdElementListImpl;
 import es.eucm.eadventure.common.model.params.EAdBorderedColor;
@@ -61,7 +61,7 @@ public class IrregularShape implements Shape {
 	public IrregularShape() {
 		color = EAdBorderedColor.TRANSPARENT;
 		borderWidth = 1;
-		positions = new EAdElementListImpl<EAdPosition>();
+		positions = new EAdElementListImpl<EAdPosition>(EAdPosition.class);
 	}
 	
 	/* (non-Javadoc)

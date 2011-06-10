@@ -37,8 +37,7 @@
 
 package es.eucm.eadventure.engine.core.gameobjects.huds.impl;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import java.util.logging.Logger;
 
 import com.google.inject.Inject;
 
@@ -61,7 +60,7 @@ public abstract class MenuHUDImpl implements MenuHUD {
 	/**
 	 * The logger
 	 */
-	private static Logger logger = LoggerFactory.getLogger("MenuHUDImpl");
+	private static Logger logger = Logger.getLogger("MenuHUDImpl");
 	
 	/**
 	 * The game's {@link GUI}

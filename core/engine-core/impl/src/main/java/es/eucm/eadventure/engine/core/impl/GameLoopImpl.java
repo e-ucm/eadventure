@@ -37,8 +37,7 @@
 
 package es.eucm.eadventure.engine.core.impl;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import java.util.logging.Logger;
 
 import com.google.inject.Inject;
 
@@ -49,44 +48,51 @@ import es.eucm.eadventure.engine.core.GameProfiler;
 /**
  * Based on:
  * <ul>
- *   <li>Andrew Davison great book, <a href="http://fivedots.coe.psu.ac.th/~ad/jg/">Killer Game
- *   Programming in Java</a> source code.</li>
- *   <li>Koen Witters' great article about <a href="http://dev.koonsolo.com/7/dewitters-gameloop/">game loop programming</a></li>
- *   <li>Shaw Hargreaves's article about the <a href="http://blogs.msdn.com/b/shawnhar/archive/2007/07/25/understanding-gametime.aspx">XNA framework time handling</a>.</li>
+ * <li>Andrew Davison great book, <a
+ * href="http://fivedots.coe.psu.ac.th/~ad/jg/">Killer Game Programming in
+ * Java</a> source code.</li>
+ * <li>Koen Witters' great article about <a
+ * href="http://dev.koonsolo.com/7/dewitters-gameloop/">game loop
+ * programming</a></li>
+ * <li>Shaw Hargreaves's article about the <a href=
+ * "http://blogs.msdn.com/b/shawnhar/archive/2007/07/25/understanding-gametime.aspx"
+ * >XNA framework time handling</a>.</li>
  * </ul>
  */
 public class GameLoopImpl implements GameLoop {
 
-	private static final Logger logger = LoggerFactory.getLogger(GameLoopImpl.class);
-	
+	private static final Logger logger = Logger.getLogger("GameLoopImpl");
+
 	static final int TICKS_PER_SECOND = 15;
-	
+
 	public static final int SKIP_MILLIS_TICK = 1000 / TICKS_PER_SECOND;
 
 	static final int SKIP_NANOS_TICK = 1000000000 / TICKS_PER_SECOND;
 
 	static final int MAX_FRAMES_PER_SECOND = 30;
-	
+
 	static final int SKIP_MILLIS_FRAME = 1000 / MAX_FRAMES_PER_SECOND;
 
 	static final int SKIP_NANOS_FRAME = 1000000000 / MAX_FRAMES_PER_SECOND;
 
 	static final int MAX_FRAMESKIP = 5;
-	
+
 	private long nextTickTime = System.nanoTime();
-	
+
 	private long nextFrameTime = System.nanoTime();
 
 	private Game game;
-	
+
 	private GameProfiler gameProfiler;
-		
+
 	@Inject
 	public GameLoopImpl(GameProfiler gameProfiler) {
 		this.gameProfiler = gameProfiler;
 	}
-	
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see es.eucm.eadventure.engine.core.GameLoop#runLoop(boolean)
 	 */
 	@Override
@@ -102,71 +108,79 @@ public class GameLoopImpl implements GameLoop {
 			Thread t = new Thread(runnable);
 			t.start();
 		}
-			
+
 	}
-	
+
 	private void runLoop() {
 
 		int loops;
 
-	    float interpolation;
+		float interpolation;
 
-	    boolean game_is_running = true;
+		boolean game_is_running = true;
 
-	    gameProfiler.setPrevStatsTime(System.nanoTime());
-	    
-	    long tempTime;
-	    
-	    logger.info("Game loop started...");
-	    
-	    while( game_is_running ) {	    	
-	    	
-	        loops = 0;
-	        while( System.nanoTime() > nextTickTime && loops < MAX_FRAMESKIP) {
-	            game.update();
-		        gameProfiler.countTick();
+		gameProfiler.setPrevStatsTime(System.nanoTime());
 
-	            nextTickTime += SKIP_NANOS_TICK;
-	            loops++;
-	        }
-	        
-	        tempTime = System.nanoTime();
-	        if ( tempTime > nextFrameTime) {
-		        nextFrameTime = tempTime + SKIP_NANOS_FRAME;
-		        interpolation = (float) ( tempTime + SKIP_NANOS_TICK - nextTickTime )
-		                        / (float) ( SKIP_NANOS_TICK );
-		        game.render(interpolation);
-		        gameProfiler.countFrame();
-	        } else {
-	        	try {
+		long tempTime;
+
+		logger.info("Game loop started...");
+
+		while (game_is_running) {
+
+			loops = 0;
+			while (System.nanoTime() > nextTickTime && loops < MAX_FRAMESKIP) {
+				game.update();
+				gameProfiler.countTick();
+
+				nextTickTime += SKIP_NANOS_TICK;
+				loops++;
+			}
+
+			tempTime = System.nanoTime();
+			if (tempTime > nextFrameTime) {
+				nextFrameTime = tempTime + SKIP_NANOS_FRAME;
+				interpolation = (float) (tempTime + SKIP_NANOS_TICK - nextTickTime)
+						/ (float) (SKIP_NANOS_TICK);
+				game.render(interpolation);
+				gameProfiler.countFrame();
+			} else {
+				try {
 					Thread.sleep((nextFrameTime - tempTime) / 1000000);
 				} catch (InterruptedException e) {
 				}
-	        }	        
-	    }
+			}
+		}
 	}
 
-	/* (non-Javadoc)
-	 * @see es.eucm.eadventure.engine.core.GameLoop#setGame(es.eucm.eadventure.engine.core.Game)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * es.eucm.eadventure.engine.core.GameLoop#setGame(es.eucm.eadventure.engine
+	 * .core.Game)
 	 */
 	@Override
 	public void setGame(Game game) {
 		this.game = game;
 	}
-	
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see es.eucm.eadventure.engine.core.GameLoop#pause()
 	 */
 	@Override
 	public void pause() {
-		//TODO implement the pause mechanism
+		// TODO implement the pause mechanism
 	}
-	
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see es.eucm.eadventure.engine.core.GameLoop#resume()
 	 */
 	@Override
 	public void resume() {
-		//TODO implement the pause mechanism
+		// TODO implement the pause mechanism
 	}
 }

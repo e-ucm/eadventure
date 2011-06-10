@@ -35,32 +35,34 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package es.eucm.eadventure.common;
+package es.eucm.eadventure.common.interfaces;
 
 /**
- * Interface for copyable objects.
- *
+ * Base class for eAdventure exception.
  */
-public interface Copyable<E> extends Cloneable {
+public class EAdRuntimeException extends RuntimeException {
 
-	/**
-	 * Creates a shallow copy of this object.
-	 * 
-	 * @return a shallow copy of this object.
-	 * 
-	 * @throws CopyNotSupportedException if the copy cannot be created.
-	 */
-	public E copy();
-	
-	/**
-	 * Creates a shallow of deep copy of this object.
-	 * 
-	 * @param deepCopy Controls if a shallow or a deep copy is done.
-	 * 
-	 * @return a shallow copy of this object if {@code deepCopy == false} or
-	 * a deep copy if {@code deepCopy == true}.
-	 * 
-	 * @throws CopyNotSupportedException if the copy cannot be created.
-	 */
-	public E copy(boolean deepCopy);
+  /**
+   * @see java.io.Serializable 
+   */
+  private static final long serialVersionUID = 1L;
+
+  /**
+   * Constructs a {@code EAdRuntimeException} with the detailed message.
+   *
+   * @param message Detailed message.
+   */
+  public EAdRuntimeException(String message) {
+    super(message);
+  };
+
+  /**
+   * Constructs a {@code EAdRuntimeException} with the detailed message and cause.
+   *
+   * @param message Detailed message.
+   * @param cause Cause of this exception.
+   */
+  public EAdRuntimeException(String message, Throwable cause){
+    super(message, cause);
+  }
 }

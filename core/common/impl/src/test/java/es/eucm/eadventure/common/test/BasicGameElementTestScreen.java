@@ -39,16 +39,14 @@ package es.eucm.eadventure.common.test;
 
 import java.util.ArrayList;
 
-import es.eucm.eadventure.common.Element;
+import es.eucm.eadventure.common.interfaces.Element;
 import es.eucm.eadventure.common.interfaces.Oriented.Orientation;
 import es.eucm.eadventure.common.model.EAdChapter;
 import es.eucm.eadventure.common.model.actions.impl.EAdBasicAction;
 import es.eucm.eadventure.common.model.behavior.EAdBehavior;
 import es.eucm.eadventure.common.model.behaviors.impl.EAdBehaviorImpl;
-import es.eucm.eadventure.common.model.conditions.impl.ANDCondition;
 import es.eucm.eadventure.common.model.conditions.impl.EmptyCondition;
 import es.eucm.eadventure.common.model.conditions.impl.FlagCondition;
-import es.eucm.eadventure.common.model.conditions.impl.FlagCondition.Value;
 import es.eucm.eadventure.common.model.conditions.impl.ORCondition;
 import es.eucm.eadventure.common.model.conditions.impl.VarCondition.Operator;
 import es.eucm.eadventure.common.model.conditions.impl.VarCondition;

@@ -39,9 +39,7 @@ package es.eucm.eadventure.engine.core.gameobjects.impl;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import java.util.logging.Logger;
 
 import com.google.inject.Inject;
 
@@ -66,7 +64,7 @@ import es.eucm.eadventure.engine.core.platform.RuntimeAsset;
 public class ActorReferenceGOImpl extends SceneElementGOImpl<EAdActorReference>
 		implements ActorReferenceGO {
 
-	private static final Logger logger = LoggerFactory
+	private static final Logger logger = Logger
 			.getLogger("ActorReferneceGOImpl");
 
 	protected ActorGO actor;

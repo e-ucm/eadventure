@@ -38,9 +38,7 @@
 package es.eucm.eadventure.engine.core.impl;
 
 import java.util.Map;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import java.util.logging.Logger;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -50,7 +48,7 @@ import es.eucm.eadventure.engine.core.ValueMap;
 @Singleton
 public class VariableMap extends ValueMapImpl implements ValueMap {
 
-	private Logger logger = LoggerFactory.getLogger(VariableMap.class);
+	private Logger logger = Logger.getLogger("VariableMap");
 	
 	@Inject
 	public VariableMap() {

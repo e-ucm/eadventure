@@ -37,8 +37,8 @@
 
 package es.eucm.eadventure.common.model.actions.impl;
 
-import es.eucm.eadventure.common.Element;
-import es.eucm.eadventure.common.Param;
+import es.eucm.eadventure.common.interfaces.Element;
+import es.eucm.eadventure.common.interfaces.Param;
 import es.eucm.eadventure.common.model.EAdElementList;
 import es.eucm.eadventure.common.model.actions.EAdAction;
 import es.eucm.eadventure.common.model.effects.EAdEffect;
@@ -66,7 +66,7 @@ public class EAdBasicAction extends AbstractEAdConditionedElement implements EAd
 	
 	public EAdBasicAction(String id) {
 		super(id);
-		effects = new EAdElementListImpl<EAdEffect>();
+		effects = new EAdElementListImpl<EAdEffect>(EAdEffect.class);
 		highlightBundle = new EAdBundleId(id + "_highlightBundle");
 		this.getResources().addBundle(highlightBundle);
 	}

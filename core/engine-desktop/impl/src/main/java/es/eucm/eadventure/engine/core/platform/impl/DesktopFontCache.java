@@ -37,8 +37,7 @@
 
 package es.eucm.eadventure.engine.core.platform.impl;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import java.util.logging.Logger;
 
 import com.google.inject.Singleton;
 
@@ -48,8 +47,8 @@ import es.eucm.eadventure.engine.core.platform.assets.impl.DesktopEngineFont;
 @Singleton
 public class DesktopFontCache extends FontCacheImpl {
 
-	private static final Logger logger = LoggerFactory
-	.getLogger(DesktopFontCache.class);
+	private static final Logger logger = Logger
+	.getLogger("DesktopFontCache");
 
 	public DesktopFontCache() {
 		logger.info("New instance");

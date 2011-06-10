@@ -43,9 +43,7 @@ import java.awt.Composite;
 import java.awt.GradientPaint;
 import java.awt.Graphics2D;
 import java.util.List;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import java.util.logging.Logger;
 
 import es.eucm.eadventure.common.model.params.EAdBorderedColor;
 import es.eucm.eadventure.common.model.params.EAdPosition;
@@ -58,8 +56,8 @@ import es.eucm.eadventure.engine.core.platform.assets.impl.DesktopEngineFont;
 public class DesktopCaptionRenderer implements
 		AssetRenderer<Graphics2D, DesktopEngineCaption> {
 
-	private static final Logger logger = LoggerFactory
-			.getLogger(DesktopCaptionRenderer.class);
+	private static final Logger logger = Logger
+			.getLogger("DesktopCaptionRenderer");
 
 	public DesktopCaptionRenderer() {
 		logger.info("New instance");
