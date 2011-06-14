@@ -37,8 +37,8 @@
 
 package es.eucm.eadventure.engine.core.impl;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.google.inject.Inject;
 
@@ -47,26 +47,33 @@ import es.eucm.eadventure.common.interfaces.MapProvider;
 import es.eucm.eadventure.common.model.variables.EAdOperation;
 import es.eucm.eadventure.common.model.variables.EAdVar;
 import es.eucm.eadventure.engine.core.OperatorFactory;
+import es.eucm.eadventure.engine.core.ValueMap;
 import es.eucm.eadventure.engine.core.operator.Operator;
 
 public class OperatorFactoryImpl extends AbstractFactory<Operator<?>> implements OperatorFactory {
 	
-	private Logger log = Logger.getLogger("OperatorFactoryImpl");
+	private Logger log = LoggerFactory.getLogger("Operator Factory");
+	
+	private ValueMap valueMap;
 
 	@Inject
-	public OperatorFactoryImpl(MapProvider<Class<?>, Operator<?>> map) {
+	public OperatorFactoryImpl(MapProvider<Class<?>, Operator<?>> map, ValueMap valueMap) {
 		super(map);
+		this.valueMap = valueMap;
 	}
 	
 	@SuppressWarnings("unchecked")
 	@Override
 	public <T extends EAdOperation, S> S operate(EAdVar<S> varResult, T operation) {
 		if ( operation == null ){
-			log.log(Level.WARNING, "null operation attempted: null was returned");
+			log.debug("null operation attempted: null was returned");
 			return null;
 		}
 		Operator<T> operator = (Operator<T>) get(operation.getClass());
-		return operator.operate(varResult, operation);
+		S result =  operator.operate(varResult, operation);
+		valueMap.setValue(varResult, result);
+		log.info(varResult + " := " + result);
+		return result;
 	}
 
 }
