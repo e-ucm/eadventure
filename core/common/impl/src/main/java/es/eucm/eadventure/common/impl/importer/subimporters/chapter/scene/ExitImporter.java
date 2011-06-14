@@ -14,6 +14,7 @@ import es.eucm.eadventure.common.model.effects.impl.variables.EAdChangeVarValueE
 import es.eucm.eadventure.common.model.elements.EAdCondition;
 import es.eucm.eadventure.common.model.elements.EAdScene;
 import es.eucm.eadventure.common.model.elements.EAdSceneElement;
+import es.eucm.eadventure.common.model.elements.EAdTransition;
 import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
 import es.eucm.eadventure.common.model.events.EAdConditionEvent;
 import es.eucm.eadventure.common.model.events.impl.EAdConditionEventImpl;
@@ -73,7 +74,7 @@ public class ExitImporter implements Importer<Exit, EAdSceneElement> {
 
 		EAdScene scene = factory.getSceneByOldId(oldObject.getNextSceneId());
 		EAdChangeScene effect = new EAdChangeScene("change_screen_"
-				+ newExit.getId(), scene);
+				+ newExit.getId(), scene, EAdTransition.BASIC);
 
 		newExit.addBehavior(EAdMouseEventImpl.MOUSE_LEFT_CLICK, effect);
 		

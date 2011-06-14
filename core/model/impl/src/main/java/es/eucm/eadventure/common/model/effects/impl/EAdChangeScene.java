@@ -40,6 +40,7 @@ package es.eucm.eadventure.common.model.effects.impl;
 import es.eucm.eadventure.common.interfaces.Element;
 import es.eucm.eadventure.common.interfaces.Param;
 import es.eucm.eadventure.common.model.elements.EAdScene;
+import es.eucm.eadventure.common.model.elements.EAdTransition;
 
 /**
  * <p>Change the current scene, if the next scene is set to null, go to
@@ -51,10 +52,18 @@ public class EAdChangeScene extends AbstractEAdEffect {
 
 	@Param("nextScreen")
 	private EAdScene nextScene;
-
-	//TODO Transition or at least transition property
+	
+	@Param("transition")
+	private EAdTransition transition;
+	
+	/**
+	 * Construct a new EAdChangeScene effect
+	 * 
+	 * @param id
+	 * 			The id of the effect
+	 */
 	public EAdChangeScene(String id) {
-		super(id);
+		this(id, null, EAdTransition.BASIC);
 	}
 
 	/**
@@ -65,9 +74,10 @@ public class EAdChangeScene extends AbstractEAdEffect {
 	 * @param nextScene
 	 * 			The next scene where to go, can be null to go back to previous
 	 */
-	public EAdChangeScene(String id, EAdScene nextScene) {
+	public EAdChangeScene(String id, EAdScene nextScene, EAdTransition transition) {
 		super(id);
 		this.nextScene = nextScene;
+		this.transition = transition;
 	}
 
 	/**
@@ -84,6 +94,12 @@ public class EAdChangeScene extends AbstractEAdEffect {
 		this.nextScene = nextScene;
 	}
 
+	public EAdTransition getTransition() {
+		return transition;
+	}
 	
-
+	public void setTransition(EAdTransition transition) {
+		this.transition = transition;
+	}
+	
 }

@@ -91,6 +91,7 @@ public class DesktopModule extends AbstractModule {
 		bind(ActionsHUD.class).to(DesktopActionsHUDImpl.class);
 		bind(MenuHUD.class).to(DesktopMenuHUDImpl.class);
 		bind(FontCacheImpl.class).to(DesktopFontCache.class);
+		bind(TransitionFactory.class).to(DesktopTransitionFactory.class);
 	}
 
 }

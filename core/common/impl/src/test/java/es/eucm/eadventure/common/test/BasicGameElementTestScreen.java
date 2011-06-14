@@ -64,6 +64,7 @@ import es.eucm.eadventure.common.model.effects.impl.text.extra.Answer;
 import es.eucm.eadventure.common.model.effects.impl.variables.EAdChangeVarValueEffect;
 import es.eucm.eadventure.common.model.elements.EAdScene;
 import es.eucm.eadventure.common.model.elements.EAdTimer;
+import es.eucm.eadventure.common.model.elements.EAdTransition;
 import es.eucm.eadventure.common.model.elements.impl.EAdActorReferenceImpl;
 import es.eucm.eadventure.common.model.elements.impl.EAdBasicActor;
 import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
@@ -188,7 +189,7 @@ public class BasicGameElementTestScreen extends EAdSceneImpl implements EAdScene
 
 		cutscene.setUpForEngine(chapter);
 		
-		this.getBackground().addBehavior(EAdMouseEventImpl.MOUSE_LEFT_CLICK, new EAdChangeScene("id", cutscene));
+		this.getBackground().addBehavior(EAdMouseEventImpl.MOUSE_LEFT_CLICK, new EAdChangeScene("id", cutscene, EAdTransition.DISPLACE));
 		
 		initBall();
 		/*

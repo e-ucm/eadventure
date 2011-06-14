@@ -53,6 +53,8 @@ public class ComposedSceneGOImpl extends AbstractGameObject<EAdComposedScene> im
 
 	private static final Logger logger = Logger.getLogger("ScreenGOImpl");
 	
+	private EAdScene currentScene;
+	
 	@Inject
 	public ComposedSceneGOImpl(GameObjectFactory gameObjectFactory) {
 		super();
@@ -64,33 +66,32 @@ public class ComposedSceneGOImpl extends AbstractGameObject<EAdComposedScene> im
 	}
 	
 	public void doLayout(int offsetX, int offsetY) {
-		int currentScene = valueMap.getValue(element.currentSceneVar());
-		EAdScene scene = element.getScenes().get(currentScene);
-		gameObjectFactory.get(scene).doLayout(offsetX, offsetY);
+		if (currentScene == null)
+			updateScene();
+		gameObjectFactory.get(currentScene).doLayout(offsetX, offsetY);
 	}
 	
 	@Override
 	public void update(GameState state) {
 		super.update(state);
-		int currentScene = valueMap.getValue(element.currentSceneVar());
-		EAdScene scene = element.getScenes().get(currentScene);
-		gameObjectFactory.get(scene).update(state);
+		updateScene();
+		gameObjectFactory.get(currentScene).update(state);
 	}
 
 	@Override
 	public boolean acceptsVisualEffects() {
-		int currentScene = valueMap.getValue(element.currentSceneVar());
-		EAdScene scene = element.getScenes().get(currentScene);
-		return ((SceneGO<?>) gameObjectFactory.get(scene)).acceptsVisualEffects();
+		if (currentScene == null)
+			updateScene();
+		return ((SceneGO<?>) gameObjectFactory.get(currentScene)).acceptsVisualEffects();
 	}
 
 	@Override
 	public List<RuntimeAsset<?>> getAssets(
 			List<RuntimeAsset<?>> assetList, boolean allAssets) {
+		if (currentScene == null)
+			updateScene();
 		if (!allAssets) {
-			int currentScene = valueMap.getValue(element.currentSceneVar());
-			EAdScene scene = element.getScenes().get(currentScene);
-			assetList = gameObjectFactory.get(scene).getAssets(assetList, allAssets);
+			assetList = gameObjectFactory.get(currentScene).getAssets(assetList, allAssets);
 		} else {
 			for (EAdScene scene : element.getScenes())
 				assetList = gameObjectFactory.get(scene).getAssets(assetList, allAssets);
@@ -98,4 +99,8 @@ public class ComposedSceneGOImpl extends AbstractGameObject<EAdComposedScene> im
 		return assetList;
 	}
 
+	private void updateScene() {
+		int currentSceneIndex = valueMap.getValue(element.currentSceneVar());
+		currentScene = element.getScenes().get(currentSceneIndex);
+	}
 }

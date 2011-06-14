@@ -9,6 +9,7 @@ import es.eucm.eadventure.common.model.conditions.impl.FlagCondition;
 import es.eucm.eadventure.common.model.effects.impl.EAdChangeScene;
 import es.eucm.eadventure.common.model.effects.impl.variables.EAdChangeVarValueEffect;
 import es.eucm.eadventure.common.model.elements.EAdScene;
+import es.eucm.eadventure.common.model.elements.EAdTransition;
 import es.eucm.eadventure.common.model.elements.impl.EAdComposedScene;
 import es.eucm.eadventure.common.model.elements.impl.EAdTimerImpl;
 import es.eucm.eadventure.common.model.events.EAdConditionEvent.ConditionedEvent;
@@ -54,7 +55,8 @@ public class EAdCutscene extends EAdComposedScene {
 			slide.getBackground().getBehavior().addBehavior(EAdMouseEventImpl.MOUSE_LEFT_CLICK, e);
 			
 			if (slide.getTime() == -1) {
-				EAdChangeScene e2 = new EAdChangeScene("id", this);
+				//TODO should be configuratble
+				EAdChangeScene e2 = new EAdChangeScene("id", this, EAdTransition.DISPLACE);
 				slide.getBackground().getBehavior().addBehavior(EAdMouseEventImpl.MOUSE_LEFT_CLICK, e2);
 			} else {
 				EAdTimerImpl timer = new EAdTimerImpl("timer");
@@ -70,7 +72,8 @@ public class EAdCutscene extends EAdComposedScene {
 				events.add(event2);
 			}
 		}
-		EAdChangeScene e3 = new EAdChangeScene("id", nextScene);
+		//TODO should be configuratble
+		EAdChangeScene e3 = new EAdChangeScene("id", nextScene, EAdTransition.DISPLACE);
 		slides.get(slides.size() - 1).getBackground().getBehavior().addBehavior(EAdMouseEventImpl.MOUSE_LEFT_CLICK, e3);
 	}
 
