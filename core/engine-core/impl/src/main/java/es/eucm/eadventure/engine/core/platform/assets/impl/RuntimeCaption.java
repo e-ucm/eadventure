@@ -47,8 +47,8 @@ import es.eucm.eadventure.common.model.params.EAdRectangle;
 import es.eucm.eadventure.common.resources.StringHandler;
 import es.eucm.eadventure.common.resources.assets.drawable.Caption;
 import es.eucm.eadventure.common.resources.assets.drawable.Drawable;
+import es.eucm.eadventure.engine.core.GameLoop;
 import es.eucm.eadventure.engine.core.GameState;
-import es.eucm.eadventure.engine.core.impl.GameLoopImpl;
 import es.eucm.eadventure.engine.core.impl.VariableMap;
 import es.eucm.eadventure.engine.core.platform.DrawableAsset;
 import es.eucm.eadventure.engine.core.platform.RuntimeFont;
@@ -132,6 +132,7 @@ public class RuntimeCaption implements DrawableAsset<Caption> {
 		font = fontCache.get(caption.getFont());
 		text = valueMap.processTextVars(stringHandler.getString(caption
 				.getText()));
+		lines = new ArrayList<String>();
 		wrapText();
 		return true;
 	}
@@ -167,7 +168,10 @@ public class RuntimeCaption implements DrawableAsset<Caption> {
 	 */
 	@Override
 	public void update(GameState state) {
-		timeShown -= GameLoopImpl.SKIP_MILLIS_TICK;
+		if (!isLoaded())
+			loadAsset();
+		
+		timeShown -= GameLoop.SKIP_MILLIS_TICK;
 		if (timeShown <= 0) {
 			goForward(1);
 		}

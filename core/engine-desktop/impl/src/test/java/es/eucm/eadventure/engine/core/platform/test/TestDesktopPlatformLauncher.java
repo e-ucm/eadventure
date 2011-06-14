@@ -40,7 +40,6 @@ package es.eucm.eadventure.engine.core.platform.test;
 import java.io.File;
 
 import com.google.inject.Guice;
-import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.google.inject.Singleton;
 
@@ -51,46 +50,20 @@ import es.eucm.eadventure.common.test.BasicGameElementTestScreen;
 import es.eucm.eadventure.engine.core.Game;
 import es.eucm.eadventure.engine.core.impl.LoadingScreen;
 import es.eucm.eadventure.engine.core.impl.modules.BasicGameModule;
-import es.eucm.eadventure.engine.core.platform.AssetHandler;
-import es.eucm.eadventure.engine.core.platform.PlatformControl;
 import es.eucm.eadventure.engine.core.platform.PlatformLauncher;
+import es.eucm.eadventure.engine.core.platform.impl.DesktopPlatformLauncher;
 import es.eucm.eadventure.engine.core.platform.impl.DesktopStringLoader;
 import es.eucm.eadventure.engine.core.platform.impl.extra.DesktopAssetHandlerModule;
 import es.eucm.eadventure.engine.core.platform.impl.extra.DesktopAssetRendererModule;
 import es.eucm.eadventure.engine.core.platform.impl.extra.DesktopModule;
 
 @Singleton
-public class TestDesktopPlatformLauncher extends BasicGameModule implements PlatformLauncher  {
-
-	/**
-	 * The platform control implementation
-	 */
-	private PlatformControl platformControl;
-	
-	private AssetHandler assetHandler;
-	
-	@Inject
-	public TestDesktopPlatformLauncher(PlatformControl platformControl,
-			AssetHandler assetHandler) {
-		this.platformControl = platformControl;
-		this.assetHandler = assetHandler;
-	}
-	
-	public TestDesktopPlatformLauncher()
-	{
-		
-	}
-
-	@Override
-	public void launch(File file) {
-		assetHandler.setResourceLocation(file);
-		platformControl.start();
-	}
+public class TestDesktopPlatformLauncher  {
 	
 	public static void main(String[] args) {
 		System.setProperty("com.apple.mrj.application.apple.menu.about.name", "eAdventure");
 
-		Injector injector = Guice.createInjector(new DesktopAssetHandlerModule(), new DesktopAssetRendererModule(null), new DesktopModule(), new TestDesktopPlatformLauncher());
+		Injector injector = Guice.createInjector(new DesktopAssetHandlerModule(), new DesktopAssetRendererModule(null), new DesktopModule(), new BasicGameModule());
 
 		PlatformLauncher launcher = injector.getInstance(PlatformLauncher.class);
 		
@@ -120,7 +93,7 @@ public class TestDesktopPlatformLauncher extends BasicGameModule implements Plat
 		//TODO extract file from args or use default?
 		File file = null;
 		//File file = new File("/ProyectoJuegoFINAL.ead");
-		launcher.launch(file);
+		((DesktopPlatformLauncher) launcher).launch(file);
 	}
 
 }

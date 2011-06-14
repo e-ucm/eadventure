@@ -11,9 +11,20 @@
   <version>2.0.1-SNAPSHOT</version>
   <name>e-Adventure Engine Desktop implementation</name>
   <dependencies>
+      <dependency>
+    	<groupId>es.eucm.eadventure</groupId>
+    	<artifactId>engine-common-impl</artifactId>
+    	<version>${project.version}</version>
+    </dependency>
+  
     <dependency>
     	<groupId>es.eucm.eadventure</groupId>
     	<artifactId>engine-core-impl</artifactId>
+    	<version>${project.version}</version>
+    </dependency>
+    <dependency>
+    	<groupId>es.eucm.eadventure</groupId>
+    	<artifactId>engine-java-impl</artifactId>
     	<version>${project.version}</version>
     </dependency>
     <dependency>

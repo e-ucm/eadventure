@@ -9,7 +9,7 @@ import es.eucm.eadventure.engine.core.MouseState;
 import es.eucm.eadventure.engine.core.gameobjects.GameObject;
 import es.eucm.eadventure.engine.core.gameobjects.TimerGO;
 import es.eucm.eadventure.engine.core.guiactions.GUIAction;
-import es.eucm.eadventure.engine.core.impl.GameLoopImpl;
+import es.eucm.eadventure.engine.core.GameLoop;
 import es.eucm.eadventure.engine.core.platform.RuntimeAsset;
 
 public class TimerGOImpl extends AbstractGameObject<EAdTimer> implements TimerGO {
@@ -53,7 +53,7 @@ public class TimerGOImpl extends AbstractGameObject<EAdTimer> implements TimerGO
 		if (valueMap.getValue(element.timerEndedVar()))
 			valueMap.setValue(element.timerEndedVar(), Boolean.FALSE);
 		if (valueMap.getValue(element.timerStartedVar())) {
-			passedTime += GameLoopImpl.SKIP_MILLIS_TICK;
+			passedTime += GameLoop.SKIP_MILLIS_TICK;
 			if (passedTime > element.getTime()) {
 				valueMap.setValue(element.timerEndedVar(), Boolean.TRUE);
 				//TODO should now if restart

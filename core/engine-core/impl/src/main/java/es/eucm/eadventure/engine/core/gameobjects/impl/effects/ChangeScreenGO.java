@@ -40,13 +40,14 @@ package es.eucm.eadventure.engine.core.gameobjects.impl.effects;
 import es.eucm.eadventure.common.model.effects.impl.EAdChangeScene;
 import es.eucm.eadventure.engine.core.GameState;
 import es.eucm.eadventure.engine.core.gameobjects.TransitionGO;
-import es.eucm.eadventure.engine.core.gameobjects.impl.transitions.EmptyTransitionGO;
+import es.eucm.eadventure.engine.core.gameobjects.impl.transitions.SimpleTransitionGO;
 
 public class ChangeScreenGO extends AbstractEffectGO<EAdChangeScene> {
 
 	@Override
 	public void update(GameState gameState) {
-		TransitionGO transition = injector.getInstance(EmptyTransitionGO.class);
+		//TODO Should get appropriate transition?
+		TransitionGO transition = injector.getInstance(SimpleTransitionGO.class);
 		if (element.getNextScene() != null)
 			transition.setNext(element.getNextScene());
 		else

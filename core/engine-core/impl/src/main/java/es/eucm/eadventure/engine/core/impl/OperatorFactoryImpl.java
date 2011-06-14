@@ -42,8 +42,8 @@ import java.util.logging.Logger;
 
 import com.google.inject.Inject;
 
-import es.eucm.eadventure.common.MapProvider;
-import es.eucm.eadventure.common.impl.AbstractFactory;
+import es.eucm.eadventure.common.interfaces.AbstractFactory;
+import es.eucm.eadventure.common.interfaces.MapProvider;
 import es.eucm.eadventure.common.model.variables.EAdOperation;
 import es.eucm.eadventure.common.model.variables.EAdVar;
 import es.eucm.eadventure.engine.core.OperatorFactory;

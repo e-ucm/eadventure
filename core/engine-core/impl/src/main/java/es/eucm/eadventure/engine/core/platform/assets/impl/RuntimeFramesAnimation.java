@@ -47,8 +47,8 @@ import com.google.inject.Inject;
 import es.eucm.eadventure.common.resources.assets.drawable.Drawable;
 import es.eucm.eadventure.common.resources.assets.drawable.Image;
 import es.eucm.eadventure.common.resources.assets.drawable.animation.impl.FramesAnimation;
+import es.eucm.eadventure.engine.core.GameLoop;
 import es.eucm.eadventure.engine.core.GameState;
-import es.eucm.eadventure.engine.core.impl.GameLoopImpl;
 import es.eucm.eadventure.engine.core.platform.AssetHandler;
 import es.eucm.eadventure.engine.core.platform.DrawableAsset;
 import es.eucm.eadventure.engine.core.platform.RuntimeAsset;
@@ -139,7 +139,7 @@ public class RuntimeFramesAnimation implements DrawableAsset<FramesAnimation> {
 
 	@Override
 	public void update(GameState state) {
-		time += GameLoopImpl.SKIP_MILLIS_TICK;
+		time += GameLoop.SKIP_MILLIS_TICK;
 	}
 
 	public int getHeight() {

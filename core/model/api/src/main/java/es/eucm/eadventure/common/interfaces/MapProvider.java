@@ -1,4 +1,4 @@
-package es.eucm.eadventure.common;
+package es.eucm.eadventure.common.interfaces;
 
 import java.util.Map;
 

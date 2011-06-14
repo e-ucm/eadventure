@@ -4,7 +4,7 @@ import com.google.inject.AbstractModule;
 import com.google.inject.Singleton;
 import com.google.inject.TypeLiteral;
 
-import es.eucm.eadventure.common.MapProvider;
+import es.eucm.eadventure.common.interfaces.MapProvider;
 import es.eucm.eadventure.engine.core.OperatorFactory;
 import es.eucm.eadventure.engine.core.impl.OperatorFactoryImpl;
 import es.eucm.eadventure.engine.core.impl.factorymapproviders.OperatorFactoryMapProvider;

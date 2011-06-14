@@ -9,7 +9,7 @@ import com.google.inject.Injector;
 import com.google.inject.Singleton;
 import com.google.inject.TypeLiteral;
 
-import es.eucm.eadventure.common.MapProvider;
+import es.eucm.eadventure.common.interfaces.MapProvider;
 import es.eucm.eadventure.engine.core.gameobjects.ActorReferenceGO;
 import es.eucm.eadventure.engine.core.gameobjects.SceneGO;
 import es.eucm.eadventure.engine.core.gameobjects.TransitionGO;

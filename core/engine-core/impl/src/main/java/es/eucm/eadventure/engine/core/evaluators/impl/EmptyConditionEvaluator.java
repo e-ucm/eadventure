@@ -58,7 +58,7 @@ public class EmptyConditionEvaluator implements Evaluator<EmptyCondition> {
 		case FALSE:
 			return false;
 		}
-		logger.log(Level.SEVERE, "Invalid value for empty condition ", condition);
+		logger.log(Level.SEVERE, "Invalid value for empty condition, condition: " + condition);
 		return false;
 	}
 

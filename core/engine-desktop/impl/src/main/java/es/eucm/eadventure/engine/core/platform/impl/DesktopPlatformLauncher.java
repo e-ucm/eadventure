@@ -77,13 +77,13 @@ public class DesktopPlatformLauncher implements PlatformLauncher {
 		this.assetHandler = assetHandler;
 	}
 
-	/* (non-Javadoc)
-	 * @see es.eucm.eadventure.engine.core.platform.PlatformLauncher#launch(java.io.File)
+	/**
+	 * Launch the game engine with a given adventure file
+	 * 
+	 * @param file The adventure file
 	 */
-	@Override
-	//TODO Should pass adventure model?
 	public void launch(File resourceFile) {
-		assetHandler.setResourceLocation(resourceFile);
+		((DesktopAssetHandler) assetHandler).setResourceLocation(resourceFile);
 		platformControl.start();
 	}
 	
@@ -105,7 +105,7 @@ public class DesktopPlatformLauncher implements PlatformLauncher {
 			file = new File(args[0]);
 		}
 		
-		launcher.launch(file);
+		((DesktopPlatformLauncher) launcher).launch(file);
 	}
 
 }

@@ -42,7 +42,7 @@ import java.awt.Graphics2D;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
-import es.eucm.eadventure.common.MapProvider;
+import es.eucm.eadventure.common.interfaces.MapProvider;
 import es.eucm.eadventure.engine.core.impl.GraphicRendererFactoryImpl;
 import es.eucm.eadventure.engine.core.platform.GraphicRenderer;
 

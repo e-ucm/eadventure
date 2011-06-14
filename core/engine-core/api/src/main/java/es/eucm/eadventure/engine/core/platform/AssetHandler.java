@@ -37,9 +37,6 @@
 
 package es.eucm.eadventure.engine.core.platform;
 
-import java.io.File;
-import java.io.InputStream;
-
 import es.eucm.eadventure.common.model.EAdElement;
 import es.eucm.eadventure.common.resources.EAdBundleId;
 import es.eucm.eadventure.common.resources.assets.AssetDescriptor;
@@ -65,15 +62,6 @@ public interface AssetHandler {
 	 * Terminate the asset handler, so resources are freed accordingly
 	 */
 	void terminate();
-
-	/**
-	 * Loads a file as an input stream
-	 * 
-	 * @param path
-	 *            Path of the file
-	 * @return The file as an input stream
-	 */
-	InputStream getResourceAsStream(String path);
 
 	/**
 	 * Returns the runtime asset asset represented by the given id in the
@@ -116,15 +104,6 @@ public interface AssetHandler {
 	 * @see AssetDescriptor
 	 */
 	<T extends AssetDescriptor> RuntimeAsset<T> getRuntimeAsset(T descriptor);
-
-	/**
-	 * Set the location of resources in the system
-	 * 
-	 * @param file
-	 *            The file pointing to the resources
-	 */
-	// TODO Check if this method should be platform dependent
-	void setResourceLocation(File file);
 	
 	/**
 	 * Returns true if the adventure assets have been correctly loaded

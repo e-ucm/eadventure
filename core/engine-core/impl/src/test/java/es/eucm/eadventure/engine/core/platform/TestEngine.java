@@ -69,6 +69,7 @@ public class TestEngine {
 	public EAdActor actor1, actor2;
 	public EAdActorReference reference1, reference2;
 	public EffectOpaqueBlockTestScreen screen;
+	public PlatformControl platformControl;
 	
 	public TestEngine( ){
 		Injector injector = Guice.createInjector(new TestModule(), new TestBasicGameModule());
@@ -80,16 +81,13 @@ public class TestEngine {
 		valueMap = injector.getInstance(ValueMap.class);
 		operatorFactory = injector.getInstance(OperatorFactory.class);
 		screen = injector.getInstance(EffectOpaqueBlockTestScreen.class);
+		platformControl = injector.getInstance(PlatformControl.class);
 		
 		initActors();
 		initReferences();
 		
 
-		PlatformLauncher launcher = injector.getInstance(PlatformLauncher.class);
-		//TODO extract file from args or use default?
-		File file = null;
-		//File file = new File("/ProyectoJuegoFINAL.ead");
-		launcher.launch(file);
+		platformControl.start();
 	}
 	
 	private void initActors( ){

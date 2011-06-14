@@ -37,9 +37,6 @@
 
 package es.eucm.eadventure.engine.core.platform;
 
-import java.io.File;
-import java.io.InputStream;
-
 import es.eucm.eadventure.common.model.EAdElement;
 import es.eucm.eadventure.common.resources.EAdBundleId;
 import es.eucm.eadventure.common.resources.assets.AssetDescriptor;
@@ -59,11 +56,6 @@ public class TestAssetHandler implements AssetHandler {
 	}
 
 	@Override
-	public InputStream getResourceAsStream(String path) {
-		return null;
-	}
-
-	@Override
 	public RuntimeAsset<?> getRuntimeAsset(EAdElement element,
 			EAdBundleId bundleId, String id) {
 		return null;
@@ -78,11 +70,6 @@ public class TestAssetHandler implements AssetHandler {
 	public <T extends AssetDescriptor> RuntimeAsset<T> getRuntimeAsset(
 			T descriptor) {
 		return null;
-	}
-
-	@Override
-	public void setResourceLocation(File file) {
-		
 	}
 
 	@Override

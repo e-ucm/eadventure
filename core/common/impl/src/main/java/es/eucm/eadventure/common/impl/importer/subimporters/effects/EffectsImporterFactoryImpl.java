@@ -5,10 +5,10 @@ import com.google.inject.Injector;
 import com.google.inject.name.Named;
 
 import es.eucm.eadventure.common.Importer;
-import es.eucm.eadventure.common.MapProvider;
 import es.eucm.eadventure.common.data.chapter.effects.Effect;
-import es.eucm.eadventure.common.impl.AbstractFactory;
 import es.eucm.eadventure.common.impl.importer.interfaces.EffectsImporterFactory;
+import es.eucm.eadventure.common.interfaces.AbstractFactory;
+import es.eucm.eadventure.common.interfaces.MapProvider;
 import es.eucm.eadventure.common.model.effects.EAdEffect;
 
 public class EffectsImporterFactoryImpl extends

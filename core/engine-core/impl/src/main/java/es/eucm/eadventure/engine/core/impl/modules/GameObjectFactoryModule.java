@@ -3,7 +3,7 @@ package es.eucm.eadventure.engine.core.impl.modules;
 import com.google.inject.AbstractModule;
 import com.google.inject.TypeLiteral;
 
-import es.eucm.eadventure.common.MapProvider;
+import es.eucm.eadventure.common.interfaces.MapProvider;
 import es.eucm.eadventure.common.model.EAdElement;
 
 import es.eucm.eadventure.engine.core.gameobjects.*;

@@ -44,9 +44,6 @@ import com.google.inject.AbstractModule;
 import com.google.inject.TypeLiteral;
 import com.google.inject.name.Names;
 
-import es.eucm.eadventure.common.Reader;
-import es.eucm.eadventure.common.impl.reader.EAdAdventureModelReader;
-import es.eucm.eadventure.common.impl.reader.subparsers.AdventureHandler;
 import es.eucm.eadventure.common.model.EAdAdventureModel;
 import es.eucm.eadventure.common.model.EAdElement;
 import es.eucm.eadventure.common.model.effects.impl.EAdCancelEffect;
@@ -89,8 +86,6 @@ import es.eucm.eadventure.engine.core.gameobjects.impl.effects.ShowTextEffectGO;
 import es.eucm.eadventure.engine.core.gameobjects.impl.effects.WaitEffectGO;
 import es.eucm.eadventure.engine.core.impl.GameControllerImpl;
 import es.eucm.eadventure.engine.core.impl.GameImpl;
-import es.eucm.eadventure.engine.core.impl.GameLoopImpl;
-import es.eucm.eadventure.engine.core.impl.GameProfilerImpl;
 import es.eucm.eadventure.engine.core.impl.GameStateImpl;
 import es.eucm.eadventure.engine.core.impl.ValueMapImpl;
 import es.eucm.eadventure.engine.core.impl.modules.EvaluatorFactoryModule;
@@ -105,8 +100,6 @@ public class TestBasicGameModule extends AbstractModule {
 		configureGameObjectFactory();
 		install(new EvaluatorFactoryModule());
 		install(new OperatorFactoryModule());
-		bind(GameLoop.class).to(GameLoopImpl.class);
-		bind(GameProfiler.class).to(GameProfilerImpl.class);
 		bind(ValueMap.class).to(ValueMapImpl.class);
 		bind(GameState.class).to(GameStateImpl.class);
 		bind(GameController.class).to(GameControllerImpl.class);
@@ -116,9 +109,6 @@ public class TestBasicGameModule extends AbstractModule {
 		bind(EAdScene.class).annotatedWith(Names.named("LoadingScreen")).to(
 				EffectOpaqueBlockTestScreen.class);
 
-		bind(new TypeLiteral<Reader<EAdAdventureModel>>() {
-		}).to(EAdAdventureModelReader.class);
-		bind(AdventureHandler.class);
 		bind(EAdAdventureModel.class).to(EAdAdventureModelImpl.class);
 		bind(String.class).annotatedWith(Names.named("classParam")).toInstance(
 				"class");

@@ -59,7 +59,6 @@ public class TestPlatformLauncher implements PlatformLauncher {
 		this.gameLoop = gameLoop;
 	}
 
-	@Override
 	public void launch(File file) {
 		gui.initilize();
 		gameLoop.setGame(game);

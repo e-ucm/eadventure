@@ -39,7 +39,7 @@ package es.eucm.eadventure.engine.core.gameobjects.impl.effects;
 
 import es.eucm.eadventure.common.model.effects.impl.EAdWaitEffect;
 import es.eucm.eadventure.engine.core.GameState;
-import es.eucm.eadventure.engine.core.impl.GameLoopImpl;
+import es.eucm.eadventure.engine.core.GameLoop;
 
 public class WaitEffectGO extends AbstractEffectGO<EAdWaitEffect>{
 	
@@ -52,7 +52,7 @@ public class WaitEffectGO extends AbstractEffectGO<EAdWaitEffect>{
 	}
 	
 	public void update( GameState gameState ){
-		time -= GameLoopImpl.SKIP_MILLIS_TICK;
+		time -= GameLoop.SKIP_MILLIS_TICK;
 	}
 
 	@Override

@@ -43,7 +43,7 @@ import org.junit.Test;
 
 import es.eucm.eadventure.common.model.effects.impl.EAdCancelEffect;
 import es.eucm.eadventure.common.model.effects.impl.EAdWaitEffect;
-import es.eucm.eadventure.engine.core.impl.GameLoopImpl;
+import es.eucm.eadventure.engine.core.GameLoop;
 
 public class CancelEffectTest extends EffectTest {
 
@@ -52,7 +52,7 @@ public class CancelEffectTest extends EffectTest {
 		EAdWaitEffect waits[] = new EAdWaitEffect[10];
 		for (int i = 0; i < 10; i++) {
 			waits[i] = new EAdWaitEffect( "w" + i,
-					GameLoopImpl.SKIP_MILLIS_TICK * 50 );
+					GameLoop.SKIP_MILLIS_TICK * 50 );
 		}
 		EAdCancelEffect cancel = new EAdCancelEffect( "");
 		cancel.addEffect(waits[0]);
@@ -89,7 +89,7 @@ public class CancelEffectTest extends EffectTest {
 		EAdWaitEffect waits[] = new EAdWaitEffect[10];
 		for (int i = 0; i < 10; i++) {
 			waits[i] = new EAdWaitEffect("w" + i,
-					GameLoopImpl.SKIP_MILLIS_TICK * 50 );
+					GameLoop.SKIP_MILLIS_TICK * 50 );
 			testEngine.addEffect(waits[i]);
 		}
 		assertEquals( testEngine.getEffects().size(), 11 );

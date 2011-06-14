@@ -47,6 +47,7 @@ import javax.imageio.ImageIO;
 import com.google.inject.Inject;
 
 import es.eucm.eadventure.engine.core.platform.AssetHandler;
+import es.eucm.eadventure.engine.core.platform.impl.DesktopAssetHandler;
 
 public class DesktopEngineImage extends RuntimeImage {
 
@@ -105,8 +106,8 @@ public class DesktopEngineImage extends RuntimeImage {
 		// Some DesktopEngineImage can be created without an assetHandler
 		if (image == null && assetHandler != null) {
 			try {
-				image = ImageIO.read(assetHandler
-						.getResourceAsStream(descriptor.getURI()));
+				image = ImageIO.read(((DesktopAssetHandler) assetHandler
+						).getResourceAsStream(descriptor.getURI()));
 				logger.log(Level.INFO, "Image loaded: " + descriptor.getURI());
 				return true;
 			} catch (IOException e) {

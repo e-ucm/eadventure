@@ -63,10 +63,6 @@ public class GameLoopImpl implements GameLoop {
 
 	private static final Logger logger = Logger.getLogger("GameLoopImpl");
 
-	static final int TICKS_PER_SECOND = 15;
-
-	public static final int SKIP_MILLIS_TICK = 1000 / TICKS_PER_SECOND;
-
 	static final int SKIP_NANOS_TICK = 1000000000 / TICKS_PER_SECOND;
 
 	static final int MAX_FRAMES_PER_SECOND = 30;

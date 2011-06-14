@@ -42,8 +42,8 @@ import java.util.logging.Logger;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
-import es.eucm.eadventure.common.MapProvider;
-import es.eucm.eadventure.common.impl.AbstractFactory;
+import es.eucm.eadventure.common.interfaces.AbstractFactory;
+import es.eucm.eadventure.common.interfaces.MapProvider;
 import es.eucm.eadventure.common.model.elements.EAdCondition;
 import es.eucm.eadventure.engine.core.EvaluatorFactory;
 import es.eucm.eadventure.engine.core.evaluators.Evaluator;

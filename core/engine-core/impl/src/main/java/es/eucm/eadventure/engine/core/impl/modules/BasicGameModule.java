@@ -38,19 +38,13 @@
 package es.eucm.eadventure.engine.core.impl.modules;
 
 import com.google.inject.AbstractModule;
-import com.google.inject.TypeLiteral;
 import com.google.inject.name.Names;
 
-import es.eucm.eadventure.common.Reader;
-import es.eucm.eadventure.common.impl.reader.EAdAdventureModelReader;
-import es.eucm.eadventure.common.impl.reader.subparsers.AdventureHandler;
 import es.eucm.eadventure.common.model.EAdAdventureModel;
 import es.eucm.eadventure.common.model.elements.EAdScene;
 import es.eucm.eadventure.common.model.impl.EAdAdventureModelImpl;
 import es.eucm.eadventure.engine.core.Game;
 import es.eucm.eadventure.engine.core.GameController;
-import es.eucm.eadventure.engine.core.GameLoop;
-import es.eucm.eadventure.engine.core.GameProfiler;
 import es.eucm.eadventure.engine.core.GameState;
 import es.eucm.eadventure.engine.core.ValueMap;
 import es.eucm.eadventure.engine.core.gameobjects.huds.EffectHUD;
@@ -58,8 +52,6 @@ import es.eucm.eadventure.engine.core.gameobjects.huds.impl.EffectHUDImpl;
 import es.eucm.eadventure.engine.core.gameobjects.impl.SceneGOImpl;
 import es.eucm.eadventure.engine.core.impl.GameControllerImpl;
 import es.eucm.eadventure.engine.core.impl.GameImpl;
-import es.eucm.eadventure.engine.core.impl.GameLoopImpl;
-import es.eucm.eadventure.engine.core.impl.GameProfilerImpl;
 import es.eucm.eadventure.engine.core.impl.GameStateImpl;
 import es.eucm.eadventure.engine.core.impl.LoadingScreen;
 import es.eucm.eadventure.engine.core.impl.VariableMap;
@@ -77,8 +69,6 @@ public class BasicGameModule extends AbstractModule {
 		install(new EvaluatorFactoryModule());
 		install(new OperatorFactoryModule());
 		
-		bind(GameLoop.class).to(GameLoopImpl.class);
-		bind(GameProfiler.class).to(GameProfilerImpl.class);
 		bind(ValueMap.class).to(VariableMap.class);
 		bind(GameState.class).to(GameStateImpl.class);
 		bind(GameController.class).to(GameControllerImpl.class);
@@ -86,9 +76,11 @@ public class BasicGameModule extends AbstractModule {
 		bind(EffectHUD.class).to(EffectHUDImpl.class);
 		bind(FontCache.class).to(FontCacheImpl.class);
 
+		/** TODO remove from here
 		bind(new TypeLiteral<Reader<EAdAdventureModel>>() {
 		}).to(EAdAdventureModelReader.class);
 		bind(AdventureHandler.class);
+		*/
 		bind(EAdAdventureModel.class).to(EAdAdventureModelImpl.class);
 		bind(String.class).annotatedWith(Names.named("classParam")).toInstance(
 				"class");

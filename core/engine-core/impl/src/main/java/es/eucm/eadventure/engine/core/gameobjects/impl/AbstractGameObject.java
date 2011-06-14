@@ -37,7 +37,6 @@
 
 package es.eucm.eadventure.engine.core.gameobjects.impl;
 
-import java.awt.Component;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -78,7 +77,7 @@ public abstract class AbstractGameObject<T extends EAdElement> implements GameOb
 	protected GameObjectFactory gameObjectFactory;
 
 	@Inject
-	protected GUI<Component> gui;
+	protected GUI<?> gui;
 
 	@Inject
 	protected Injector injector;
@@ -159,7 +158,7 @@ public abstract class AbstractGameObject<T extends EAdElement> implements GameOb
 	}
 	
 	public String toString( ){
-		return  element.getClass().getSimpleName() + "_GameObject: " + element.getId();
+		return  element.getClass() + "_GameObject: " + element.getId();
 	}
 
 }

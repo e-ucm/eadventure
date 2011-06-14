@@ -3,7 +3,7 @@ package es.eucm.eadventure.engine.core.impl.factorymapproviders;
 import java.util.HashMap;
 import java.util.Map;
 
-import es.eucm.eadventure.common.MapProvider;
+import es.eucm.eadventure.common.interfaces.MapProvider;
 
 public abstract class AbstractMapProvider<S, T> implements MapProvider<S, T> {
 

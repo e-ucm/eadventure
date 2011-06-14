@@ -86,6 +86,7 @@
 				<module>core/editor-core</module>
 				<module>core/editor-plugins</module>
 				<module>core/engine-core</module>
+				<module>core/engine-java</module>
 				<module>core/engine-plugins</module>
 				<module>core/engine-desktop</module>
 				<module>core/engine-applet</module>

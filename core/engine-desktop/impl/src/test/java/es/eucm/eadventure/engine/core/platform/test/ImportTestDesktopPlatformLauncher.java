@@ -20,6 +20,8 @@ import es.eucm.eadventure.engine.core.impl.modules.BasicGameModule;
 import es.eucm.eadventure.engine.core.platform.AssetHandler;
 import es.eucm.eadventure.engine.core.platform.PlatformControl;
 import es.eucm.eadventure.engine.core.platform.PlatformLauncher;
+import es.eucm.eadventure.engine.core.platform.impl.DesktopAssetHandler;
+import es.eucm.eadventure.engine.core.platform.impl.DesktopPlatformLauncher;
 import es.eucm.eadventure.engine.core.platform.impl.extra.DesktopAssetHandlerModule;
 import es.eucm.eadventure.engine.core.platform.impl.extra.DesktopAssetRendererModule;
 import es.eucm.eadventure.engine.core.platform.impl.extra.DesktopModule;
@@ -28,8 +30,7 @@ import es.eucm.eadventure.engine.core.platform.impl.extra.DesktopModule;
  * Tester for import old <e-Adventure> games
  * 
  */
-public class ImportTestDesktopPlatformLauncher extends BasicGameModule
-		implements PlatformLauncher {
+public class ImportTestDesktopPlatformLauncher {
 
 	/**
 	 * The platform control implementation
@@ -51,14 +52,8 @@ public class ImportTestDesktopPlatformLauncher extends BasicGameModule
 
 	}
 
-	/*
-	 * @Override protected void setLoadingScreen() {
-	 * bind(EAdScreen.class).annotatedWith(Names.named("LoadingScreen"))
-	 * .toInstance(screen); }
-	 */
-	@Override
 	public void launch(File file) {
-		assetHandler.setResourceLocation(file);
+		((DesktopAssetHandler) assetHandler).setResourceLocation(file);
 		platformControl.start();
 	}
 
@@ -97,8 +92,7 @@ public class ImportTestDesktopPlatformLauncher extends BasicGameModule
 			Injector injector = Guice.createInjector(
 					new ImporterConfigurationModule(folder + "/" + projectName ),
 					new DesktopAssetHandlerModule(),
-					new DesktopAssetRendererModule(null), new DesktopModule(),
-					new ImportTestDesktopPlatformLauncher());
+					new DesktopAssetRendererModule(null), new DesktopModule(), new BasicGameModule());
 			EAdventure1XImporter importer = injector
 					.getInstance(EAdventure1XImporter.class);
 
@@ -121,7 +115,7 @@ public class ImportTestDesktopPlatformLauncher extends BasicGameModule
 			// TODO extract file from args or use default?
 			File file = new File(folder, "ProjectImported");
 			// File file = new File("/ProyectoJuegoFINAL.ead");
-			launcher.launch(file);
+			((DesktopPlatformLauncher) launcher).launch(file);
 		}
 
 	}

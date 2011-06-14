@@ -49,7 +49,7 @@ import es.eucm.eadventure.common.model.params.EAdPosition;
 import es.eucm.eadventure.common.resources.EAdString;
 import es.eucm.eadventure.common.resources.StringHandler;
 import es.eucm.eadventure.common.resources.assets.drawable.impl.ImageImpl;
-import es.eucm.eadventure.engine.core.impl.GameLoopImpl;
+import es.eucm.eadventure.engine.core.GameLoop;
 
 public class EffectOpaqueBlockTestScreen extends EAdSceneImpl implements EAdScene {
 
@@ -97,14 +97,14 @@ public class EffectOpaqueBlockTestScreen extends EAdSceneImpl implements EAdScen
 		buttonActor2.setName(name);
 		stringHandler.addString(name, "Start game");
 		
-		EAdWaitEffect waitEffect = new EAdWaitEffect( "wait", GameLoopImpl.SKIP_MILLIS_TICK + 1);
+		EAdWaitEffect waitEffect = new EAdWaitEffect( "wait", GameLoop.SKIP_MILLIS_TICK + 1);
 		buttonActor2.addBehavior(EAdMouseEventImpl.MOUSE_LEFT_CLICK, waitEffect );
 		
-		EAdWaitEffect waitEffect2 = new EAdWaitEffect( "wait", GameLoopImpl.SKIP_MILLIS_TICK  + 1);
+		EAdWaitEffect waitEffect2 = new EAdWaitEffect( "wait", GameLoop.SKIP_MILLIS_TICK  + 1);
 		waitEffect2.setOpaque( false );
 		buttonActor2.addBehavior(EAdMouseEventImpl.MOUSE_LEFT_CLICK, waitEffect2 );
 		
-		EAdWaitEffect waitEffect3 = new EAdWaitEffect(  "wait", GameLoopImpl.SKIP_MILLIS_TICK + 1 );
+		EAdWaitEffect waitEffect3 = new EAdWaitEffect(  "wait", GameLoop.SKIP_MILLIS_TICK + 1 );
 		waitEffect3.setOpaque( false );
 		waitEffect3.setBlocking( false );
 		buttonActor2.addBehavior(EAdMouseEventImpl.MOUSE_LEFT_CLICK, waitEffect3 );

@@ -261,7 +261,7 @@ public class BasicGameElementTestScreen extends EAdSceneImpl implements EAdScene
 	
 	private void initBall() {
 		EAdButton button = new EAdButton("ball_button");
-		button.setText(new CaptionImpl(new EAdString("start ball")));
+		button.setText(new CaptionImpl(new EAdString("start_ball")));
 		button.setUpNewInstance();
 		button.setPosition(new EAdPosition(Corner.CENTER, 400, 400));
 		getSceneElements().add(button);

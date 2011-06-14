@@ -42,12 +42,12 @@ import com.google.inject.Inject;
 import es.eucm.eadventure.common.interfaces.Oriented.Orientation;
 import es.eucm.eadventure.common.model.effects.impl.EAdMoveSceneElement;
 import es.eucm.eadventure.common.model.variables.impl.vars.IntegerVar;
+import es.eucm.eadventure.engine.core.GameLoop;
 import es.eucm.eadventure.engine.core.GameState;
 import es.eucm.eadventure.engine.core.OperatorFactory;
 import es.eucm.eadventure.engine.core.gameobjects.SceneElementGO;
 import es.eucm.eadventure.engine.core.gameobjects.impl.interfaces.impl.LinearInterpolation;
 import es.eucm.eadventure.engine.core.gameobjects.interfaces.Interpolation;
-import es.eucm.eadventure.engine.core.impl.GameLoopImpl;
 
 /**
  * Game object for {@link EAdMoveSceneElement} effect
@@ -163,8 +163,8 @@ public class MoveSceneElementGO extends AbstractEffectGO<EAdMoveSceneElement> {
 	@Override
 	public void update(GameState state) {
 		if (interpolationX != null && interpolationY != null) {
-			interpolationX.update(GameLoopImpl.SKIP_MILLIS_TICK);
-			interpolationY.update(GameLoopImpl.SKIP_MILLIS_TICK);
+			interpolationX.update(GameLoop.SKIP_MILLIS_TICK);
+			interpolationY.update(GameLoop.SKIP_MILLIS_TICK);
 		}
 	}
 

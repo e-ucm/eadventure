@@ -42,14 +42,14 @@ import static org.junit.Assert.assertEquals;
 import org.junit.Test;
 
 import es.eucm.eadventure.common.model.effects.impl.actorreference.EAdHighlightActorReference;
-import es.eucm.eadventure.engine.core.impl.GameLoopImpl;
+import es.eucm.eadventure.engine.core.GameLoop;
 
 public class HighlightEffectTest extends EffectTest{
 	
 	@Test
 	public void testHighlightEffect( ){
 		EAdHighlightActorReference highLight = new EAdHighlightActorReference("id" );
-		highLight.setTime(GameLoopImpl.SKIP_MILLIS_TICK * 3 );
+		highLight.setTime(GameLoop.SKIP_MILLIS_TICK * 3 );
 		highLight.setActorReference(testEngine.reference1);
 		testEngine.addEffect(highLight);
 		assertEquals( testEngine.getEffects().size(), 1);

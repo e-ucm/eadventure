@@ -196,14 +196,13 @@ public class DesktopAssetHandler extends AbstractAssetHandler {
 
 	}
 
-	/*
-	 * (non-Javadoc)
+	/**
+	 * Loads a file as an input stream
 	 * 
-	 * @see
-	 * es.eucm.eadventure.engine.core.platform.AssetHandler#getResourceAsStream
-	 * (java.lang.String)
+	 * @param path
+	 *            Path of the file
+	 * @return The file as an input stream
 	 */
-	@Override
 	public InputStream getResourceAsStream(String path) {
 		// TODO localization!
 		File file = fileMap.get(path);
@@ -221,14 +220,12 @@ public class DesktopAssetHandler extends AbstractAssetHandler {
 		}
 	}
 
-	/*
-	 * (non-Javadoc)
+	/**
+	 * Set the location of resources in the system
 	 * 
-	 * @see
-	 * es.eucm.eadventure.engine.core.platform.AssetHandler#setResourceLocation
-	 * (java.io.File)
+	 * @param file
+	 *            The file pointing to the resources
 	 */
-	@Override
 	public void setResourceLocation(File file) {
 		this.resourceLocation = file;
 	}

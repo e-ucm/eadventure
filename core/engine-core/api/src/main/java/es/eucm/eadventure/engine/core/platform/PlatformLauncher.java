@@ -37,19 +37,10 @@
 
 package es.eucm.eadventure.engine.core.platform;
 
-import java.io.File;
-
 /**
  * This interface is implemented by the appropriate launcher for each platform.
  *
  */
 public interface PlatformLauncher {
-
-	/**
-	 * Launch the game engine with a given adventure file
-	 * 
-	 * @param file The adventure file
-	 */
-	void launch(File file);
 
 }

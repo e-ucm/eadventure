@@ -46,7 +46,7 @@ import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.google.inject.Singleton;
 
-import es.eucm.eadventure.common.MapProvider;
+import es.eucm.eadventure.common.interfaces.MapProvider;
 import es.eucm.eadventure.common.interfaces.Element;
 import es.eucm.eadventure.common.model.EAdElement;
 import es.eucm.eadventure.engine.core.gameobjects.EffectGO;

@@ -35,27 +35,50 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package es.eucm.eadventure.common;
+package es.eucm.eadventure.common.interfaces;
+
+import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+import es.eucm.eadventure.common.interfaces.EAdRuntimeException;
+import es.eucm.eadventure.common.interfaces.Factory;
+import es.eucm.eadventure.common.interfaces.MapProvider;
 
 /**
- * Generic factory interface. Factories of this kind are used to get an object
- * of one class <T> (target) that is dependent on a source class.
+ * Abstract factory that gets an element of a certain class. This factory uses a map that is
+ * intended to be injected though guice.
+ * When no element is found of the class given as a parameter, an element of one of its interfaces
+ * is searched as well.
  * 
- * @param <T>
- *            The class
+ * @param <T> The return type of the factory.
  */
-public interface Factory<T> {
+public abstract class AbstractFactory<T> implements Factory<T> {
 
-	/**
-	 * Gets the target element of class <T> associated with the element of
-	 * source class. If no target element is found for elements of the source
-	 * class, the interfaces implemented by the source class will be checked for
-	 * valid target class
-	 * 
-	 * @param object
-	 *            The source class
-	 * @return The target object
-	 */
-	T get(Class<?> object);
+	private Map<Class<?>, T> map;
+
+	private static final Logger logger = Logger.getLogger("AbstractFactory");
+	
+	public AbstractFactory(MapProvider<Class<?>, T> mapProvider) {
+		this.map = mapProvider.getMap();
+	}
+	
+	@Override
+	public T get(Class<?> object) {
+		T element = map.get(object);
+		if (element == null) {
+			logger.log(Level.INFO, "No element in factory for object " + object + " " + this.getClass());
+			for (Class<?> i : object.getInterfaces()) {
+				element = map.get(i);
+				if (element != null) {
+					logger.info("Using super class in factory for object of class " + object.getClass() + " using " + i);
+					map.put(object, element);
+					return element;
+				}
+			}
+			throw new EAdRuntimeException("No element in factory for object (or for any of its interfaces) " + object);
+		}
+		return element;
+	}
 
 }

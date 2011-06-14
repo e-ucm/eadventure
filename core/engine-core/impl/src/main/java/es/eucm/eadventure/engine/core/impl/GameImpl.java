@@ -44,7 +44,6 @@ import java.util.logging.Logger;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
-import es.eucm.eadventure.common.Reader;
 import es.eucm.eadventure.common.model.EAdAdventureModel;
 import es.eucm.eadventure.common.model.elements.EAdConditionedElement;
 import es.eucm.eadventure.common.model.elements.EAdTimer;
@@ -77,8 +76,6 @@ public class GameImpl implements Game {
 
 	private BasicHUD<?> basicHud;
 
-	private Reader<EAdAdventureModel> reader;
-
 	private static final Logger logger = Logger.getLogger("GameImpl");
 
 	// Auxiliary variable, to avoid new every time
@@ -91,7 +88,7 @@ public class GameImpl implements Game {
 	@Inject
 	public GameImpl(GUI<?> gui, EvaluatorFactory evaluatorFactory,
 			GameState gameState, EffectHUD effectHUD,
-			AssetHandler assetHandler, Reader<EAdAdventureModel> reader,
+			AssetHandler assetHandler,
 			@SuppressWarnings("rawtypes") BasicHUD basicHud,
 			GameObjectFactory gameObjectFactory) {
 		this.gui = gui;
@@ -99,7 +96,6 @@ public class GameImpl implements Game {
 		this.gameState = gameState;
 		this.effectHUD = effectHUD;
 		this.assetHandler = assetHandler;
-		this.reader = reader;
 		this.effectHUDon = false;
 		this.basicHud = basicHud;
 		this.gameObjectFactory = gameObjectFactory;
@@ -200,7 +196,9 @@ public class GameImpl implements Game {
 	@Override
 	public void loadGame() {
 		assetHandler.initilize();
-		reader.read(assetHandler.getResourceAsStream("@adventure.xml"));
+		
+		//TODO should probably find multiplatform reading?
+		//reader.read(assetHandler.getResourceAsStream("@adventure.xml"));
 		
 		//TODO should probably be more careful loading chapter
 		gameState.setCurrentChapter(adventure.getChapters().get(0));

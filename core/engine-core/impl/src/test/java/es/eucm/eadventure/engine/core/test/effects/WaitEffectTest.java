@@ -42,19 +42,19 @@ import static org.junit.Assert.assertEquals;
 import org.junit.Test;
 
 import es.eucm.eadventure.common.model.effects.impl.EAdWaitEffect;
-import es.eucm.eadventure.engine.core.impl.GameLoopImpl;
+import es.eucm.eadventure.engine.core.GameLoop;
 
 public class WaitEffectTest extends EffectTest {
 	
 	@Test
 	public void testWaitEffect( ){
-		EAdWaitEffect wait = new EAdWaitEffect( "", GameLoopImpl.SKIP_MILLIS_TICK );
+		EAdWaitEffect wait = new EAdWaitEffect( "", GameLoop.SKIP_MILLIS_TICK );
 		testEngine.addEffect( wait );
 		assertEquals( testEngine.getEffects().size(), 1 );
 		testEngine.update();
 		assertEquals( testEngine.getEffects().size(), 0 );
 		
-		EAdWaitEffect wait2 = new EAdWaitEffect( "", GameLoopImpl.SKIP_MILLIS_TICK + 1);
+		EAdWaitEffect wait2 = new EAdWaitEffect( "", GameLoop.SKIP_MILLIS_TICK + 1);
 		testEngine.addEffect(wait2);
 		testEngine.addEffect(wait);
 		assertEquals( testEngine.getEffects().size(), 2 );

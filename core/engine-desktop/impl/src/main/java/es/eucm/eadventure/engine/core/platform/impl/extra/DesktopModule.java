@@ -43,7 +43,13 @@ import com.google.inject.AbstractModule;
 import com.google.inject.TypeLiteral;
 import com.google.inject.name.Names;
 
+import es.eucm.eadventure.common.Reader;
+import es.eucm.eadventure.common.impl.reader.EAdAdventureModelReader;
+import es.eucm.eadventure.common.impl.reader.subparsers.AdventureHandler;
+import es.eucm.eadventure.common.model.EAdAdventureModel;
 import es.eucm.eadventure.common.model.impl.inventory.EAdBasicInventory;
+import es.eucm.eadventure.engine.core.GameLoop;
+import es.eucm.eadventure.engine.core.GameProfiler;
 import es.eucm.eadventure.engine.core.KeyboardState;
 import es.eucm.eadventure.engine.core.MouseState;
 import es.eucm.eadventure.engine.core.gameobjects.GameObjectManager;
@@ -53,6 +59,8 @@ import es.eucm.eadventure.engine.core.gameobjects.impl.*;
 import es.eucm.eadventure.engine.core.impl.KeyboardStateImpl;
 import es.eucm.eadventure.engine.core.impl.MouseStateImpl;
 import es.eucm.eadventure.engine.core.impl.factorymapproviders.GameObjectFactoryMapProvider;
+import es.eucm.eadventure.engine.core.impl.GameLoopImpl;
+import es.eucm.eadventure.engine.core.impl.GameProfilerImpl;
 import es.eucm.eadventure.engine.core.platform.*;
 import es.eucm.eadventure.engine.core.platform.impl.*;
 
@@ -64,6 +72,11 @@ public class DesktopModule extends AbstractModule {
 
 	@Override
 	protected void configure() {
+		bind(new TypeLiteral<Reader<EAdAdventureModel>>() {
+		}).to(EAdAdventureModelReader.class);
+		bind(AdventureHandler.class);
+		bind(GameLoop.class).to(GameLoopImpl.class);
+		bind(GameProfiler.class).to(GameProfilerImpl.class);
 		bind(Boolean.class).annotatedWith(Names.named("threaded")).toInstance(Boolean.FALSE);
 		bind(GUI.class).to(DesktopGUI.class);
 		bind(new TypeLiteral<GUI<Component>>() {}).to(DesktopGUI.class);
