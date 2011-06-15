@@ -22,6 +22,7 @@ import es.eucm.eadventure.engine.core.gameobjects.huds.impl.MenuHUDImpl;
 import es.eucm.eadventure.engine.core.gameobjects.impl.BasicSceneElementGO;
 import es.eucm.eadventure.engine.core.gameobjects.impl.ComplexSceneElementGO;
 import es.eucm.eadventure.engine.core.gameobjects.impl.SceneGOImpl;
+import es.eucm.eadventure.engine.core.gameobjects.impl.VideoSceneGO;
 import es.eucm.eadventure.engine.core.gameobjects.impl.effects.ComplexBlockingEffectGO;
 import es.eucm.eadventure.engine.core.gameobjects.impl.inventory.BasicInventoryGO;
 import es.eucm.eadventure.engine.core.platform.GameObjectRenderer;
@@ -51,6 +52,7 @@ import es.eucm.eadventure.engine.core.platform.impl.gameobjectrenderers.EffectsG
 import es.eucm.eadventure.engine.core.platform.impl.gameobjectrenderers.MenuHUDGORenderer;
 import es.eucm.eadventure.engine.core.platform.impl.gameobjectrenderers.SceneGORenderer;
 import es.eucm.eadventure.engine.core.platform.impl.gameobjectrenderers.TransitionGORenderer;
+import es.eucm.eadventure.engine.core.platform.impl.gameobjectrenderers.VideoSceneGORenderer;
 
 @Singleton
 public class DesktopAssetRendererModule extends AbstractModule implements MapProvider<Class<?>, GraphicRenderer<?, ?>> {
@@ -80,12 +82,14 @@ public class DesktopAssetRendererModule extends AbstractModule implements MapPro
 		factoryMap.put(ActionsHUD.class, injector.getInstance(ActionsHudGORenderer.class));
 		factoryMap.put(EffectHUD.class, injector.getInstance(EffectHudGORenderer.class));
 		factoryMap.put(DesktopActionsHUDImpl.class, injector.getInstance(ActionsHudGORenderer.class));
+		
 		factoryMap.put(ComplexBlockingEffectGO.class, injector.getInstance(EffectsGORenderer.class));
 		factoryMap.put(SceneGO.class, injector.getInstance(SceneGORenderer.class));
 		factoryMap.put(SceneGOImpl.class, injector.getInstance(SceneGORenderer.class));
 		factoryMap.put(TransitionGO.class, injector.getInstance(TransitionGORenderer.class));
 		factoryMap.put(BasicInventoryGO.class, injector.getInstance(BasicInventoryGORenderer.class));
 		factoryMap.put(DesktopBasicInventoryGO.class, injector.getInstance(BasicInventoryGORenderer.class));
+		factoryMap.put(VideoSceneGO.class, injector.getInstance(VideoSceneGORenderer.class));
 		}
 	}
 	

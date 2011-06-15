@@ -68,7 +68,7 @@ public class GameImpl implements Game {
 
 	private EAdAdventureModel adventure;
 
-	private GUI<?> gui;
+	private GUI gui;
 
 	private GameState gameState;
 
@@ -86,7 +86,7 @@ public class GameImpl implements Game {
 	private GameObjectFactory gameObjectFactory;
 
 	@Inject
-	public GameImpl(GUI<?> gui, EvaluatorFactory evaluatorFactory,
+	public GameImpl(GUI gui, EvaluatorFactory evaluatorFactory,
 			GameState gameState, EffectHUD effectHUD,
 			AssetHandler assetHandler,
 			@SuppressWarnings("rawtypes") BasicHUD basicHud,

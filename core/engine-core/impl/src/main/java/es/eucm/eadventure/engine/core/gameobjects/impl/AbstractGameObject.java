@@ -77,7 +77,7 @@ public abstract class AbstractGameObject<T extends EAdElement> implements GameOb
 	protected GameObjectFactory gameObjectFactory;
 
 	@Inject
-	protected GUI<?> gui;
+	protected GUI gui;
 
 	@Inject
 	protected Injector injector;

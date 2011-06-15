@@ -46,13 +46,8 @@ import es.eucm.eadventure.engine.core.gameobjects.huds.HudGO;
 /**
  * This interface is implemented by the class that implements the high level
  * drawing commands for a specific platform.
- * 
- * @param <S>
- * 			  A parameter for the component element in the system, to allow for
- * 			  the representation of special content (e.g. in AWT Java it will be
- * 			  Component)
  */
-public interface GUI<S> {
+public interface GUI {
 
 	/**
 	 * The virtual height of eAdventure game representations
@@ -92,7 +87,7 @@ public interface GUI<S> {
 	/**
 	 * Show a special resource on the screen (e.g. video, HTML, etc.)
 	 * 
-	 * @param component
+	 * @param object
 	 *            The resource to be shown
 	 * @param x
 	 *            The x coordinates of the resource
@@ -102,7 +97,7 @@ public interface GUI<S> {
 	 *            Boolean indicating if the resource should be scaled to the
 	 *            full game screen.
 	 */
-	void showSpecialResource(S component, int x, int y,
+	void showSpecialResource(Object object, int x, int y,
 			boolean fullscreen);
 
 	/**

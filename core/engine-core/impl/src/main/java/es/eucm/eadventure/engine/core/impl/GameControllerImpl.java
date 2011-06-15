@@ -60,7 +60,7 @@ public class GameControllerImpl implements GameController {
 	/**
 	 * The games {@link GUI}
 	 */
-	private GUI<?> gui;
+	private GUI gui;
 
 	/**
 	 * Indicates that the game loop is executed in a different thread
@@ -68,7 +68,7 @@ public class GameControllerImpl implements GameController {
 	private boolean threaded;
 
 	@Inject
-	public GameControllerImpl(Game game, GameLoop gameLoop, GUI<?> gui,
+	public GameControllerImpl(Game game, GameLoop gameLoop, GUI gui,
 			@Named("threaded") Boolean threaded) {
 		this.game = game;
 		this.gameLoop = gameLoop;

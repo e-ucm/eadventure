@@ -73,7 +73,7 @@ public class BasicHUDImpl implements BasicHUD<Void> {
 	private static final Logger logger = Logger
 			.getLogger("BasicHUDImpl");
 
-	private GUI<?> gui;
+	private GUI gui;
 
 	private MenuHUD menuHUD;
 
@@ -84,7 +84,7 @@ public class BasicHUDImpl implements BasicHUD<Void> {
 	private GameState gameState;
 	
 	@Inject
-	public BasicHUDImpl(GUI<?> gui, MenuHUD menuHUD, Game game, GameObjectFactory gameObjectFactory, GameState gameState) {
+	public BasicHUDImpl(GUI gui, MenuHUD menuHUD, Game game, GameObjectFactory gameObjectFactory, GameState gameState) {
 		logger.info("New instance");
 		this.gui = gui;
 		this.menuHUD = menuHUD;

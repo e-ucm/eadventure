@@ -62,12 +62,8 @@ import es.eucm.eadventure.engine.core.platform.PlatformConfiguration;
  * @param <T>
  *            A parameter for the graphic context of the GUI (e.g. in AWT Java
  *            it will be Graphics2D)
- * @param <S>
- * 			  A parameter for the component element in the system, to allow for
- * 			  the representation of special content (e.g. in AWT Java it will be
- * 			  Component)
  */
-public abstract class AbstractGUI<T, S> implements GUI<S> {
+public abstract class AbstractGUI<T> implements GUI {
 
 	/**
 	 * Logger

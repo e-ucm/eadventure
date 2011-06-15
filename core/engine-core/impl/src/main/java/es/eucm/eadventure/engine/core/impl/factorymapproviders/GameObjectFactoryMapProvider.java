@@ -32,6 +32,7 @@ import es.eucm.eadventure.common.model.elements.impl.EAdComplexSceneElement;
 import es.eucm.eadventure.common.model.elements.impl.EAdComposedScene;
 import es.eucm.eadventure.common.model.elements.impl.EAdSceneImpl;
 import es.eucm.eadventure.common.model.elements.impl.EAdTimerImpl;
+import es.eucm.eadventure.common.model.elements.impl.EAdVideoScene;
 import es.eucm.eadventure.common.model.events.EAdSceneElementEvent;
 import es.eucm.eadventure.common.model.events.EAdTimerEvent;
 import es.eucm.eadventure.common.model.events.impl.EAdConditionEventImpl;
@@ -47,6 +48,7 @@ import es.eucm.eadventure.engine.core.gameobjects.impl.BasicSceneElementGO;
 import es.eucm.eadventure.engine.core.gameobjects.impl.ComplexSceneElementGO;
 import es.eucm.eadventure.engine.core.gameobjects.impl.ComposedSceneGOImpl;
 import es.eucm.eadventure.engine.core.gameobjects.impl.SceneGOImpl;
+import es.eucm.eadventure.engine.core.gameobjects.impl.VideoSceneGO;
 import es.eucm.eadventure.engine.core.gameobjects.impl.effects.CancelEffectGO;
 import es.eucm.eadventure.engine.core.gameobjects.impl.effects.ChangeAppearanceGO;
 import es.eucm.eadventure.engine.core.gameobjects.impl.effects.ChangeScreenGO;
@@ -90,6 +92,7 @@ public class GameObjectFactoryMapProvider
 		factoryMap.put(EAdBasicActor.class, ActorGO.class);
 		factoryMap.put(EAdTimer.class, TimerGO.class);
 		factoryMap.put(EAdTimerImpl.class, TimerGO.class);
+		factoryMap.put(EAdVideoScene.class, VideoSceneGO.class);
 
 		factoryMap.put(EAdBasicInventory.class, BasicInventoryGO.class);
 

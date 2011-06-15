@@ -48,12 +48,12 @@ import es.eucm.eadventure.engine.core.GameLoop;
 
 public class TestPlatformLauncher implements PlatformLauncher {
 	
-	private GUI<Component> gui;
+	private GUI gui;
 	private Game game;
 	private GameLoop gameLoop;
 	
 	@Inject
-	public TestPlatformLauncher( GUI<Component> gui, Game game, GameLoop gameLoop, Injector injector ){
+	public TestPlatformLauncher( GUI gui, Game game, GameLoop gameLoop, Injector injector ){
 		this.gui = gui;
 		this.game = game;
 		this.gameLoop = gameLoop;

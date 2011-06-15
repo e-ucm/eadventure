@@ -45,7 +45,6 @@ import com.google.inject.Inject;
 import es.eucm.eadventure.common.model.elements.EAdScene;
 import es.eucm.eadventure.common.model.elements.EAdSceneElement;
 import es.eucm.eadventure.engine.core.GameState;
-import es.eucm.eadventure.engine.core.gameobjects.GameObjectFactory;
 import es.eucm.eadventure.engine.core.gameobjects.SceneElementGO;
 import es.eucm.eadventure.engine.core.gameobjects.SceneGO;
 import es.eucm.eadventure.engine.core.platform.RuntimeAsset;
@@ -55,7 +54,7 @@ public class SceneGOImpl extends AbstractGameObject<EAdScene> implements SceneGO
 	private static final Logger logger = Logger.getLogger("ScreenGOImpl");
 	
 	@Inject
-	public SceneGOImpl( GameObjectFactory gameObjectFactory) {
+	public SceneGOImpl( ) {
 		super();
 		logger.info( "New instance" );
 	}

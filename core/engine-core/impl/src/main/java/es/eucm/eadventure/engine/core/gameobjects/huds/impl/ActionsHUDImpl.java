@@ -71,7 +71,7 @@ public class ActionsHUDImpl implements ActionsHUD {
 	/**
 	 * The games {@link GUI}
 	 */
-	protected GUI<?> gui;
+	protected GUI gui;
 
 	/**
 	 * List of the {@link EAdAction}s
@@ -96,7 +96,7 @@ public class ActionsHUDImpl implements ActionsHUD {
 	protected SceneElementGO<?> sceneElement;
 
 	@Inject
-	public ActionsHUDImpl(GUI<?> gui) {
+	public ActionsHUDImpl(GUI gui) {
 		this.gui = gui;
 	}
 

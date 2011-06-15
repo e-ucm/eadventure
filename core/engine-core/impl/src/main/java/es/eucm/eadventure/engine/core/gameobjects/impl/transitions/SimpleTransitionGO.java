@@ -18,7 +18,6 @@ import es.eucm.eadventure.common.resources.assets.drawable.impl.RectangleShape;
 import es.eucm.eadventure.engine.core.GameState;
 import es.eucm.eadventure.engine.core.MouseState;
 import es.eucm.eadventure.engine.core.gameobjects.GameObject;
-import es.eucm.eadventure.engine.core.gameobjects.GameObjectFactory;
 import es.eucm.eadventure.engine.core.gameobjects.SceneGO;
 import es.eucm.eadventure.engine.core.gameobjects.TransitionGO;
 import es.eucm.eadventure.engine.core.gameobjects.impl.SceneGOImpl;
@@ -27,7 +26,6 @@ import es.eucm.eadventure.engine.core.platform.RuntimeAsset;
 
 public class SimpleTransitionGO extends SceneGOImpl implements
 		TransitionGO {
-
 
 	private SceneGO<?> previousSceneGO;
 	
@@ -50,8 +48,8 @@ public class SimpleTransitionGO extends SceneGOImpl implements
 	protected boolean loaded = false;
 	
 	@Inject
-	public SimpleTransitionGO( GameObjectFactory gameObjectFactory, AssetHandler assetHandler ) {
-		super( gameObjectFactory );
+	public SimpleTransitionGO( AssetHandler assetHandler ) {
+		super( );
 		//TODO localize
 		EAdString string = new EAdString("Loading");
 		caption = new CaptionImpl(string);

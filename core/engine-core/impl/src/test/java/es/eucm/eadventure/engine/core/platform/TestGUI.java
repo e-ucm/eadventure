@@ -48,7 +48,7 @@ import es.eucm.eadventure.engine.core.platform.PlatformConfiguration;
 import es.eucm.eadventure.engine.core.platform.RuntimeAsset;
 import es.eucm.eadventure.engine.core.platform.impl.AbstractGUI;
 
-public class TestGUI extends AbstractGUI<Void, Void>{
+public class TestGUI extends AbstractGUI<Void>{
 
 	@Inject
 	public TestGUI(PlatformConfiguration platformConfiguration,
@@ -60,7 +60,7 @@ public class TestGUI extends AbstractGUI<Void, Void>{
 	}
 
 	@Override
-	public void showSpecialResource(Void resource, int x, int y,
+	public void showSpecialResource(Object resource, int x, int y,
 			boolean fullscreen) {
 		
 	}

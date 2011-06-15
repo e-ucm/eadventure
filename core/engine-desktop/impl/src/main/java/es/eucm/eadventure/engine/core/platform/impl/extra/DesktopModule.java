@@ -48,6 +48,7 @@ import es.eucm.eadventure.common.impl.reader.EAdAdventureModelReader;
 import es.eucm.eadventure.common.impl.reader.subparsers.AdventureHandler;
 import es.eucm.eadventure.common.model.EAdAdventureModel;
 import es.eucm.eadventure.common.model.impl.inventory.EAdBasicInventory;
+import es.eucm.eadventure.common.resources.assets.multimedia.Video;
 import es.eucm.eadventure.engine.core.GameLoop;
 import es.eucm.eadventure.engine.core.GameProfiler;
 import es.eucm.eadventure.engine.core.KeyboardState;
@@ -62,7 +63,9 @@ import es.eucm.eadventure.engine.core.impl.factorymapproviders.GameObjectFactory
 import es.eucm.eadventure.engine.core.impl.GameLoopImpl;
 import es.eucm.eadventure.engine.core.impl.GameProfilerImpl;
 import es.eucm.eadventure.engine.core.platform.*;
+import es.eucm.eadventure.engine.core.platform.assets.impl.SpecialAssetRenderer;
 import es.eucm.eadventure.engine.core.platform.impl.*;
+import es.eucm.eadventure.engine.core.platform.impl.assetrenderers.DesktopVideoRenderer;
 
 public class DesktopModule extends AbstractModule {
 
@@ -79,8 +82,6 @@ public class DesktopModule extends AbstractModule {
 		bind(GameProfiler.class).to(GameProfilerImpl.class);
 		bind(Boolean.class).annotatedWith(Names.named("threaded")).toInstance(Boolean.FALSE);
 		bind(GUI.class).to(DesktopGUI.class);
-		bind(new TypeLiteral<GUI<Component>>() {}).to(DesktopGUI.class);
-		bind(new TypeLiteral<GUI<?>>() {}).to(DesktopGUI.class);
 		bind(PlatformConfiguration.class).to(DesktopPlatformConfiguration.class);
 		bind(PlatformControl.class).to(DesktopPlatformControl.class);
 		bind(PlatformLauncher.class).to(DesktopPlatformLauncher.class);
@@ -92,6 +93,8 @@ public class DesktopModule extends AbstractModule {
 		bind(MenuHUD.class).to(DesktopMenuHUDImpl.class);
 		bind(FontCacheImpl.class).to(DesktopFontCache.class);
 		bind(TransitionFactory.class).to(DesktopTransitionFactory.class);
+		
+		bind(new TypeLiteral<SpecialAssetRenderer<Video, Component>>() {}).to(DesktopVideoRenderer.class);
 	}
 
 }

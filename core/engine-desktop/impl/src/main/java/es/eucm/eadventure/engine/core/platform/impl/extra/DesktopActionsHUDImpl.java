@@ -37,7 +37,6 @@
 
 package es.eucm.eadventure.engine.core.platform.impl.extra;
 
-import java.awt.Component;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
@@ -70,7 +69,7 @@ public class DesktopActionsHUDImpl extends ActionsHUDImpl {
 	private GameObjectFactory gameObjectFactory;
 	
 	@Inject
-	public DesktopActionsHUDImpl(GUI<Component> gui,
+	public DesktopActionsHUDImpl(GUI gui,
 			GameObjectFactory gameObjectFactory) {
 		super(gui);
 		actionGOs = new ArrayList<GameObject<?>>();

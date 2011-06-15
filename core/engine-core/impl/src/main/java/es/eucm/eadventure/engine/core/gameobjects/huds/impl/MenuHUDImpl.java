@@ -65,7 +65,7 @@ public abstract class MenuHUDImpl implements MenuHUD {
 	/**
 	 * The game's {@link GUI}
 	 */
-	protected GUI<?> gui;
+	protected GUI gui;
 		
 	/**
 	 * The current {@link GameState}
@@ -73,7 +73,7 @@ public abstract class MenuHUDImpl implements MenuHUD {
 	private GameState gameState;
 	
 	@Inject
-	public MenuHUDImpl(GUI<?> gui, GameState gameState) {
+	public MenuHUDImpl(GUI gui, GameState gameState) {
 		logger.info("New instance");
 		this.gui = gui;
 		this.gameState = gameState;

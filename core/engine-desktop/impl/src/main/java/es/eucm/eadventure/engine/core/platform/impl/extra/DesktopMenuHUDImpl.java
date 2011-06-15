@@ -37,7 +37,6 @@
 
 package es.eucm.eadventure.engine.core.platform.impl.extra;
 
-import java.awt.Component;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -77,7 +76,7 @@ public class DesktopMenuHUDImpl extends MenuHUDImpl {
 	private GameObjectFactory gameObjectFactory;
 
 	@Inject
-	public DesktopMenuHUDImpl(GameObjectFactory gameObjectFactory, GUI<Component> gui, MenuHUD menuHUD, GameState gameState) {
+	public DesktopMenuHUDImpl(GameObjectFactory gameObjectFactory, GUI gui, MenuHUD menuHUD, GameState gameState) {
 		super(gui, gameState);
 		logger.info("New instance");
 		

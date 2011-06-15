@@ -39,7 +39,6 @@ package es.eucm.eadventure.engine.core.platform.impl;
 
 import java.awt.AWTException;
 import java.awt.Canvas;
-import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Graphics2D;
 import java.awt.GraphicsDevice;
@@ -79,7 +78,7 @@ import es.eucm.eadventure.utils.swing.SwingUtilities;
  * </p>
  */
 @Singleton
-public class DesktopGUI extends AbstractGUI<Graphics2D, Component> implements GUI<Component> {
+public class DesktopGUI extends AbstractGUI<Graphics2D> implements GUI {
 
 	/**
 	 * The class logger
@@ -126,7 +125,7 @@ public class DesktopGUI extends AbstractGUI<Graphics2D, Component> implements GU
 	 * @see es.eucm.eadventure.engine.core.platform.GUI#showSpecialResource(java.lang.Object, int, int, boolean)
 	 */
 	@Override
-	public void showSpecialResource(Component resource, int x, int y,
+	public void showSpecialResource(Object resource, int x, int y,
 			boolean fullscreen) {
 		// TODO Auto-generated method stub
 	}

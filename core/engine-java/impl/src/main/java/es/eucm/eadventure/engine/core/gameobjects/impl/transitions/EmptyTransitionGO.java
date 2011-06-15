@@ -53,7 +53,6 @@ import es.eucm.eadventure.common.resources.assets.drawable.Image;
 import es.eucm.eadventure.common.resources.assets.drawable.impl.CaptionImpl;
 import es.eucm.eadventure.common.resources.assets.drawable.impl.RectangleShape;
 import es.eucm.eadventure.engine.core.GameState;
-import es.eucm.eadventure.engine.core.gameobjects.GameObjectFactory;
 import es.eucm.eadventure.engine.core.gameobjects.SceneGO;
 import es.eucm.eadventure.engine.core.gameobjects.TransitionGO;
 import es.eucm.eadventure.engine.core.gameobjects.impl.SceneGOImpl;
@@ -83,8 +82,8 @@ public class EmptyTransitionGO extends SceneGOImpl implements TransitionGO {
 	protected boolean loaded = false;
 	
 	@Inject
-	public EmptyTransitionGO( GameObjectFactory gameObjectFactory, AssetHandler assetHandler ) {
-		super( gameObjectFactory );
+	public EmptyTransitionGO(AssetHandler assetHandler ) {
+		super( );
 		//TODO localize
 		EAdString string = new EAdString("Loading");
 		caption = new CaptionImpl(string);

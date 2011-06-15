@@ -41,7 +41,6 @@ import com.google.inject.Inject;
 
 import es.eucm.eadventure.common.model.elements.EAdScene;
 import es.eucm.eadventure.engine.core.GameState;
-import es.eucm.eadventure.engine.core.gameobjects.GameObjectFactory;
 import es.eucm.eadventure.engine.core.gameobjects.TransitionGO;
 import es.eucm.eadventure.engine.core.platform.AssetHandler;
 
@@ -50,8 +49,8 @@ public class DisplaceTransitionGO extends EmptyTransitionGO implements Transitio
 	private int cont = 1;
 	
 	@Inject
-	public DisplaceTransitionGO( GameObjectFactory gameObjectFactory, AssetHandler assetHandler ) {
-		super( gameObjectFactory, assetHandler );
+	public DisplaceTransitionGO( AssetHandler assetHandler ) {
+		super( assetHandler );
 	}
 
 	@Override
