@@ -37,6 +37,9 @@
 
 package es.eucm.eadventure.engine.core.operators.impl;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
@@ -62,6 +65,8 @@ public class LiteralExpressionOperator implements
 	 * Math evaluator
 	 */
 	private static final MathEvaluator evaluator = new MathEvaluator();
+	
+	private final Logger logger = Logger.getLogger("LiteralExperssionOperation");
 
 	private ValueMap valueMap;
 	
@@ -77,6 +82,7 @@ public class LiteralExpressionOperator implements
 		//TODO Comprobar si no hay una forma mejor que apa–os de casting
 		evaluator.setExpression(operation.getExpression(), valueMap, operation.getVarList());
 		if (varResult != null) {
+			logger.log(Level.INFO, "Var: " + varResult.getName() + " := " + evaluator.getValue());
 			if (varResult.getType() == Integer.class) {
 				valueMap.setValue(varResult, (S) new Integer(evaluator.getValue().intValue()));
 				return (S) new Integer(evaluator.getValue().intValue());

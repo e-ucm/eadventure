@@ -48,10 +48,8 @@ public abstract class AbstractEventGO<T extends EAdEvent> extends AbstractGameOb
 
 	protected void runEffects(EAdElementList<EAdEffect> effects) {
 		if (effects != null) {
-			for (int i = effects.size() - 1; i >= 0; i--) {
-				EAdEffect effect = effects.get(i);
+			for (EAdEffect effect : effects)
 				gameState.addEffect(effect);
-			}
 		}
 
 	}

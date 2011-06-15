@@ -289,14 +289,16 @@ public class BasicGameElementTestScreen extends EAdSceneImpl implements EAdScene
 		EAdConditionEvent ce = new EAdConditionEventImpl("ev");
 		ce.setCondition(new FlagCondition(move.animationEnded()));
 		
-		ce.addEffect(ConditionedEvent.CONDITIONS_MET, move);
 		setVar = new EAdChangeVarValueEffect("i", dirX, new LiteralExpressionOperation("1", "0-[0]", dirX));
 		setVar.setCondition(new ORCondition(new VarValCondition(ball.positionXVar(), 51, Operator.LESS_EQUAL), new VarValCondition(ball.positionXVar(), 749, Operator.GREATER_EQUAL)));
 		ce.addEffect(ConditionedEvent.CONDITIONS_MET, setVar);
 		setVar = new EAdChangeVarValueEffect("i", dirY, new LiteralExpressionOperation("1", "0-[0]", dirY));
 		setVar.setCondition(new ORCondition(new VarValCondition(ball.positionYVar(), 51, Operator.LESS_EQUAL), new VarValCondition(ball.positionYVar(), 549, Operator.GREATER_EQUAL)));
 		ce.addEffect(ConditionedEvent.CONDITIONS_MET, setVar);
-		
+
+		ce.addEffect(ConditionedEvent.CONDITIONS_MET, move);
+
+
 		ball.getEvents().add(ce);
 		
 		

@@ -46,19 +46,15 @@ import es.eucm.eadventure.common.interfaces.MapProvider;
 import es.eucm.eadventure.common.model.variables.EAdOperation;
 import es.eucm.eadventure.common.model.variables.EAdVar;
 import es.eucm.eadventure.engine.core.OperatorFactory;
-import es.eucm.eadventure.engine.core.ValueMap;
 import es.eucm.eadventure.engine.core.operator.Operator;
 
 public class OperatorFactoryImpl extends AbstractFactory<Operator<?>> implements OperatorFactory {
 	
 	private Logger log = Logger.getLogger("Operator Factory");
 	
-	private ValueMap valueMap;
-
 	@Inject
-	public OperatorFactoryImpl(MapProvider<Class<?>, Operator<?>> map, ValueMap valueMap) {
+	public OperatorFactoryImpl(MapProvider<Class<?>, Operator<?>> map) {
 		super(map);
-		this.valueMap = valueMap;
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -70,8 +66,6 @@ public class OperatorFactoryImpl extends AbstractFactory<Operator<?>> implements
 		}
 		Operator<T> operator = (Operator<T>) get(operation.getClass());
 		S result =  operator.operate(varResult, operation);
-		valueMap.setValue(varResult, result);
-		log.info(varResult + " := " + result);
 		return result;
 	}
 

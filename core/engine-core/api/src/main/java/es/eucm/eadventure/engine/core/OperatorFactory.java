@@ -46,8 +46,12 @@ import es.eucm.eadventure.common.model.variables.EAdVar;
 public interface OperatorFactory {
 
 	/**
+	 * <p>
 	 * Calculates the result of the given {@link EAdOperation} with the current
 	 * values in the {@link ValueMap}
+	 * </p>
+	 * The value should be stored in the {@link ValueMap} by the actual
+	 * {@link Operator}
 	 * 
 	 * @param <T>
 	 * @param eAdVar
@@ -58,6 +62,6 @@ public interface OperatorFactory {
 	 *         returned.
 	 */
 	public <T extends EAdOperation, S> S operate(EAdVar<S> eAdVar,
-			 T eAdOperation);
+			T eAdOperation);
 
 }
