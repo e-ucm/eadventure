@@ -43,7 +43,12 @@ import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.google.inject.Singleton;
 
+import es.eucm.eadventure.common.model.elements.EAdActorReference;
+import es.eucm.eadventure.common.model.elements.EAdScene;
 import es.eucm.eadventure.common.model.elements.EAdTimer;
+import es.eucm.eadventure.common.model.elements.test.ActorReferenceFactoryTest;
+import es.eucm.eadventure.common.model.elements.test.BasicActorFactoryTest;
+import es.eucm.eadventure.common.model.elements.test.BasicSceneFactoryTest;
 import es.eucm.eadventure.common.resources.EAdString;
 import es.eucm.eadventure.common.resources.StringHandler;
 import es.eucm.eadventure.common.test.BasicGameElementTestScreen;
@@ -84,10 +89,16 @@ public class TestDesktopPlatformLauncher  {
 
 		Game game = injector.getInstance(Game.class);
 		LoadingScreen loadingScreen = injector.getInstance(LoadingScreen.class);
-		BasicGameElementTestScreen scene = new BasicGameElementTestScreen("id", game.getAdventureModel().getChapters().get(0));
+		
+		EAdScene scene = BasicSceneFactoryTest.getBasicScene();
+		
+		EAdActorReference actorReference = ActorReferenceFactoryTest.getActorReference(BasicActorFactoryTest.getActor());
+		scene.getSceneElements().add(actorReference);
+		
 		loadingScreen.setInitialScreen(scene);
-		for (EAdTimer timer : scene.timers)
-			game.getAdventureModel().getChapters().get(0).getTimers().add(timer);
+		
+		//for (EAdTimer timer : scene.timers)
+		//	game.getAdventureModel().getChapters().get(0).getTimers().add(timer);
 
 		
 		//TODO extract file from args or use default?

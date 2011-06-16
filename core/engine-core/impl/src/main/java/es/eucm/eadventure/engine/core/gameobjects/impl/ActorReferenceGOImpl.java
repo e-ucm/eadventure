@@ -43,7 +43,9 @@ import java.util.logging.Logger;
 
 import com.google.inject.Inject;
 
+import es.eucm.eadventure.common.model.EAdElementList;
 import es.eucm.eadventure.common.model.actions.EAdAction;
+import es.eucm.eadventure.common.model.effects.EAdEffect;
 import es.eucm.eadventure.common.model.elements.EAdActorReference;
 import es.eucm.eadventure.common.model.elements.impl.EAdBasicActor;
 import es.eucm.eadventure.common.resources.EAdBundleId;
@@ -102,9 +104,15 @@ public class ActorReferenceGOImpl extends SceneElementGOImpl<EAdActorReference>
 
 	@Override
 	public boolean processAction(GUIAction action) {
-		if (isRemoved())
-			return false;
-		return actor.processAction(action);
+		EAdElementList<EAdEffect> list = element.getEffects(action.getGUIEvent());
+		if (list != null && list.size() > 0) {
+			action.consume();
+			for (EAdEffect e : element.getEffects(action.getGUIEvent())) {
+				gameState.addEffect(e);
+			}
+			return true;
+		}
+		return false;
 	}
 
 	@Override

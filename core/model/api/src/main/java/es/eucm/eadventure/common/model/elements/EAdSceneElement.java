@@ -3,6 +3,9 @@ package es.eucm.eadventure.common.model.elements;
 import es.eucm.eadventure.common.interfaces.Positioned;
 import es.eucm.eadventure.common.interfaces.Oriented.Orientation;
 import es.eucm.eadventure.common.model.EAdElement;
+import es.eucm.eadventure.common.model.EAdElementList;
+import es.eucm.eadventure.common.model.effects.EAdEffect;
+import es.eucm.eadventure.common.model.params.guievents.EAdGUIEvent;
 import es.eucm.eadventure.common.model.variables.EAdVar;
 
 public interface EAdSceneElement extends EAdElement, Positioned {
@@ -57,5 +60,16 @@ public interface EAdSceneElement extends EAdElement, Positioned {
 	 * @return
 	 */
 	EAdVar<Integer> heightVar();
+	
+	/**
+	 * Returns the effects list associated with the given GUI event,
+	 * {@code null} if there is no effects associated. This method shouldn't be
+	 * used to add new effects to the actor. Returned list could be {@code null}
+	 * 
+	 * @param event
+	 *            the GUI event
+	 * @return the effects list associated with the given event
+	 */
+	EAdElementList<EAdEffect> getEffects(EAdGUIEvent event);
 
 }

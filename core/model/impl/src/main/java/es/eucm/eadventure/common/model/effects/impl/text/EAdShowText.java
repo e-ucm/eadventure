@@ -119,11 +119,11 @@ public class EAdShowText extends AbstractEAdEffect {
 	 * 
 	 * @param caption
 	 */
-	public void setCaption(Caption caption) {
+	public void setCaption(Caption caption, int x, int y) {
 		text = new EAdBasicSceneElement(this.id + "_caption");
 		text.getResources().addAsset(text.getInitialBundle(),
 				EAdBasicSceneElement.appearance, caption);
-		text.setPosition(new EAdPosition(300, 300));
+		text.setPosition(new EAdPosition(x, y));
 	}
 
 }

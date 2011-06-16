@@ -98,7 +98,7 @@ public abstract class ActorImporter<P extends Element> implements
 					+ "_showText");
 
 			Caption caption = new CaptionImpl(description);
-			effect.setCaption(caption);
+			effect.setCaption(caption, 300, 300);
 
 			examineAction.getEffects().add(effect);
 

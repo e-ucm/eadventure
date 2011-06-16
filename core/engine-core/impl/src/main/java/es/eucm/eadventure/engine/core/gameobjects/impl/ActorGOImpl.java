@@ -42,9 +42,7 @@ import java.util.logging.Logger;
 
 import com.google.inject.Inject;
 
-import es.eucm.eadventure.common.model.EAdElementList;
 import es.eucm.eadventure.common.model.actions.EAdAction;
-import es.eucm.eadventure.common.model.effects.EAdEffect;
 import es.eucm.eadventure.common.model.elements.EAdActor;
 import es.eucm.eadventure.common.model.elements.impl.EAdBasicActor;
 import es.eucm.eadventure.common.resources.EAdString;
@@ -75,14 +73,6 @@ public class ActorGOImpl extends AbstractGameObject<EAdActor> implements
 
 	@Override
 	public boolean processAction(GUIAction action) {
-		EAdElementList<EAdEffect> list = element.getEffects(action.getGUIEvent());
-		if (list != null && list.size() > 0) {
-			action.consume();
-			for (EAdEffect e : element.getEffects(action.getGUIEvent())) {
-				gameState.addEffect(e);
-			}
-			return true;
-		}
 		return false;
 	}
 

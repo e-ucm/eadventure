@@ -49,7 +49,7 @@ public class ElementReferenceImporter implements
 		if (actor.getActions().size() != 0) {
 			EAdActorActionsEffect showActions = new EAdActorActionsEffect(actor.getId()
 					+ "_showActions", newRef);
-			actor.addBehavior(EAdMouseEventImpl.MOUSE_RIGHT_CLICK, showActions);
+			newRef.addBehavior(EAdMouseEventImpl.MOUSE_RIGHT_CLICK, showActions);
 		}
 		return newRef;
 	}

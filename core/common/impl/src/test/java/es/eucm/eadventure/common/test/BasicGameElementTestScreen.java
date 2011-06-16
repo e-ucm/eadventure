@@ -139,7 +139,7 @@ public class BasicGameElementTestScreen extends EAdSceneImpl implements EAdScene
 
 		initShowQuestion();
 
-		this.panielActor.addBehavior(EAdMouseEventImpl.MOUSE_RIGHT_CLICK, showQuestionEffect);
+		this.panielReference.addBehavior(EAdMouseEventImpl.MOUSE_RIGHT_CLICK, showQuestionEffect);
 
 		EAdTimer timer = new EAdTimerImpl("timer");
 		((EAdTimerImpl) timer).setTime(new Integer(3000));
@@ -402,11 +402,7 @@ public class BasicGameElementTestScreen extends EAdSceneImpl implements EAdScene
 		EAdActorActionsEffect showActions = new EAdActorActionsEffect( panielReference.getId()+ "_showActions", panielReference);
 		behavior.addBehavior(EAdMouseEventImpl.MOUSE_DOUBLE_CLICK, showActions);
 
-
-		
-		
-		
-		panielActor.setBehavior(behavior);
+		panielReference.setBehavior(behavior);
 		
 		this.getSceneElements().add(panielReference);
 	}

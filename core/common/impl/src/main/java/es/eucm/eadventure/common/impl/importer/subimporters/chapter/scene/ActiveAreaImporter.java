@@ -110,7 +110,7 @@ public class ActiveAreaImporter implements
 		return newActiveAreaReference;
 	}
 	
-	private void importActions(ActiveArea oldObject, EAdBasicActor newActiveArea, EAdSceneElement newActiveAreaReference ){
+	private void importActions(ActiveArea oldObject, EAdBasicActor newActiveArea, EAdActorReferenceImpl newActiveAreaReference ){
 		// Actions import
 		for (Action a : oldObject.getActions()) {
 			EAdAction action = actionImporter.convert(a);
@@ -125,7 +125,7 @@ public class ActiveAreaImporter implements
 			EAdActorActionsEffect showActions = new EAdActorActionsEffect(
 					newActiveArea.getId() + "_showActions",
 					newActiveAreaReference);
-			newActiveArea.addBehavior(EAdMouseEventImpl.MOUSE_RIGHT_CLICK,
+			newActiveAreaReference.addBehavior(EAdMouseEventImpl.MOUSE_RIGHT_CLICK,
 					showActions);
 		}
 	}

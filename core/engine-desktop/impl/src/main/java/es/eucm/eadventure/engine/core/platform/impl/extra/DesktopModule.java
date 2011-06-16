@@ -65,7 +65,7 @@ import es.eucm.eadventure.engine.core.impl.GameProfilerImpl;
 import es.eucm.eadventure.engine.core.platform.*;
 import es.eucm.eadventure.engine.core.platform.assets.impl.SpecialAssetRenderer;
 import es.eucm.eadventure.engine.core.platform.impl.*;
-import es.eucm.eadventure.engine.core.platform.impl.assetrenderers.DesktopVideoRenderer;
+import es.eucm.eadventure.engine.core.platform.impl.specialassetrenderers.DesktopVideoRenderer;
 
 public class DesktopModule extends AbstractModule {
 

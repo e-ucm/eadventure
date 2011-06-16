@@ -43,6 +43,7 @@ import es.eucm.eadventure.common.model.effects.impl.EAdWaitEffect;
 import es.eucm.eadventure.common.model.elements.EAdScene;
 import es.eucm.eadventure.common.model.elements.impl.EAdActorReferenceImpl;
 import es.eucm.eadventure.common.model.elements.impl.EAdBasicActor;
+import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
 import es.eucm.eadventure.common.model.elements.impl.EAdSceneImpl;
 import es.eucm.eadventure.common.model.guievents.impl.EAdMouseEventImpl;
 import es.eucm.eadventure.common.model.params.EAdPosition;
@@ -57,7 +58,7 @@ public class EffectOpaqueBlockTestScreen extends EAdSceneImpl implements EAdScen
 	private StringHandler stringHandler;
 	private EAdActorReferenceImpl buttonReference;
 	private EAdActorReferenceImpl buttonReference2;
-	private EAdBasicActor buttonActor2;
+	private EAdBasicSceneElement buttonActor2;
 
 	@Inject
 	public EffectOpaqueBlockTestScreen(StringHandler stringHandler) {
@@ -90,11 +91,11 @@ public class EffectOpaqueBlockTestScreen extends EAdSceneImpl implements EAdScen
 	}
 	
 	private void initButtonActor2() {
-		buttonActor2 = new EAdBasicActor("StartGame");
+		buttonActor2 = new EAdBasicSceneElement("StartGame");
 		buttonActor2.getResources().addAsset(buttonActor2.getInitialBundle(),
 				EAdBasicActor.appearance, new ImageImpl("@drawable/start.png"));
 		EAdString name = new EAdString("stringName");
-		buttonActor2.setName(name);
+		//buttonActor2.setName(name);
 		stringHandler.addString(name, "Start game");
 		
 		EAdWaitEffect waitEffect = new EAdWaitEffect( "wait", GameLoop.SKIP_MILLIS_TICK + 1);
@@ -109,8 +110,7 @@ public class EffectOpaqueBlockTestScreen extends EAdSceneImpl implements EAdScen
 		waitEffect3.setBlocking( false );
 		buttonActor2.addBehavior(EAdMouseEventImpl.MOUSE_LEFT_CLICK, waitEffect3 );
 		
-		buttonReference2 = new EAdActorReferenceImpl( "id4", buttonActor2);
-		buttonReference2.setPosition(new EAdPosition(
+		buttonActor2.setPosition(new EAdPosition(
 				EAdPosition.Corner.BOTTOM_CENTER, 10, 10));
 	}
 

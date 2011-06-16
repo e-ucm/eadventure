@@ -104,9 +104,11 @@ public class DesktopActionsHUDImpl extends ActionsHUDImpl {
 			action.getResources().addAsset(action.getInitialBundle(), EAdBasicSceneElement.appearance, asset);
 
 			action.getResources().addBundle(eAdAction.getHighlightBundle());
-			
-			action.getResources().addAsset(eAdAction.getHighlightBundle(), EAdBasicSceneElement.appearance,
+			if (eAdAction.getResources().getBundles().contains(eAdAction.getHighlightBundle()))
+				action.getResources().addAsset(eAdAction.getHighlightBundle(), EAdBasicSceneElement.appearance,
 					eAdAction.getAsset(eAdAction.getHighlightBundle(), EAdBasicAction.appearance));
+			else
+				action.getResources().addAsset(eAdAction.getHighlightBundle(), EAdBasicSceneElement.appearance, asset);
 
 			action.addBehavior(EAdMouseEventImpl.MOUSE_ENTERED, new EAdChangeAppearance("action_mouseEnter", action, eAdAction.getHighlightBundle()));
 			action.addBehavior(EAdMouseEventImpl.MOUSE_EXITED, new EAdChangeAppearance("action_mouseExit", action, action.getInitialBundle()));

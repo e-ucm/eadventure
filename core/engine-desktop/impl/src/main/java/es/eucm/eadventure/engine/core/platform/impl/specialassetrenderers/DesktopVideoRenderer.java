@@ -1,4 +1,4 @@
-package es.eucm.eadventure.engine.core.platform.impl.assetrenderers;
+package es.eucm.eadventure.engine.core.platform.impl.specialassetrenderers;
 
 import java.awt.Component;
 import java.io.IOException;

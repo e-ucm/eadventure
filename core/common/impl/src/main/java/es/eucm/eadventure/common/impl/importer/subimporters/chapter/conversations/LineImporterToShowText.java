@@ -32,7 +32,7 @@ public class LineImporterToShowText implements Importer<ConversationLine, EAdSho
 		}
 		
 		Caption caption = captionImporter.convert(line);		
-		effect.setCaption(caption);
+		effect.setCaption(caption, 300, 300);
 		return effect;
 	}
 

@@ -46,8 +46,9 @@ public class ShowTextEffectImporter extends
 		EAdColor border = EAdColor.valueOf( Integer.toHexString( oldObject.getRgbBorderColor() ) + "ff");
 		c.setTextColor(new EAdBorderedColor( center, border ));
 		
-		showText.setCaption(c);
-		showText.getText().setPosition(new EAdPosition( EAdPosition.Corner.CENTER, oldObject.getX(), oldObject.getY() ));
+		showText.setCaption(c, oldObject.getX(), oldObject.getY());
+		// TODO might be needed, check if imported text is positioned correctly
+		// showText.getText().setPosition(new EAdPosition( EAdPosition.Corner.CENTER, oldObject.getX(), oldObject.getY() ));
 		return showText;
 	}
 

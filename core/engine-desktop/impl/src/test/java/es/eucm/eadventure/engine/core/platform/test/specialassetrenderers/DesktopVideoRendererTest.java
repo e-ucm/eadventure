@@ -1,4 +1,4 @@
-package es.eucm.eadventure.engine.core.platform.assets.test;
+package es.eucm.eadventure.engine.core.platform.test.specialassetrenderers;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
@@ -17,7 +17,7 @@ import org.junit.Test;
 
 import es.eucm.eadventure.common.resources.assets.multimedia.Video;
 import es.eucm.eadventure.common.resources.assets.multimedia.impl.VideoImpl;
-import es.eucm.eadventure.engine.core.platform.impl.assetrenderers.DesktopVideoRenderer;
+import es.eucm.eadventure.engine.core.platform.impl.specialassetrenderers.DesktopVideoRenderer;
 
 public class DesktopVideoRendererTest extends TestCase {
 
@@ -42,7 +42,7 @@ public class DesktopVideoRendererTest extends TestCase {
 			@Override
 			public void run() {
 				frame = new JFrame();
-				frame.setSize(300, 300);
+				frame.setSize(800, 600);
 				frame.setLayout(new BorderLayout());
 				frame.add(new JLabel("test video"), BorderLayout.NORTH);
 				frame.add((Component) o, BorderLayout.CENTER);
