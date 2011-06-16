@@ -68,7 +68,8 @@ public class EAdBasicAction extends AbstractEAdConditionedElement implements EAd
 		super(id);
 		effects = new EAdElementListImpl<EAdEffect>(EAdEffect.class);
 		highlightBundle = new EAdBundleId(id + "_highlightBundle");
-		this.getResources().addBundle(highlightBundle);
+		//FIXME 
+		//this.getResources().addBundle(highlightBundle);
 	}
 
 	@Override

@@ -103,14 +103,14 @@ public class DesktopActionsHUDImpl extends ActionsHUDImpl {
 			AssetDescriptor asset = eAdAction.getAsset(eAdAction.getInitialBundle(), EAdBasicAction.appearance);
 			action.getResources().addAsset(action.getInitialBundle(), EAdBasicSceneElement.appearance, asset);
 
-			action.getResources().addBundle(eAdAction.getHighlightBundle());
-			if (eAdAction.getResources().getBundles().contains(eAdAction.getHighlightBundle()))
-				action.getResources().addAsset(eAdAction.getHighlightBundle(), EAdBasicSceneElement.appearance,
-					eAdAction.getAsset(eAdAction.getHighlightBundle(), EAdBasicAction.appearance));
-			else
+			if (eAdAction.getResources().getBundles().contains(eAdAction.getHighlightBundle())) {
+				action.getResources().addBundle(eAdAction.getHighlightBundle()); 
+				action.getResources().addAsset(eAdAction.getHighlightBundle(), EAdBasicSceneElement.appearance, eAdAction.getAsset(eAdAction.getHighlightBundle(), EAdBasicAction.appearance));
+				action.addBehavior(EAdMouseEventImpl.MOUSE_ENTERED, new EAdChangeAppearance("action_mouseEnter", action, eAdAction.getHighlightBundle()));
+			}
+			 else
 				action.getResources().addAsset(eAdAction.getHighlightBundle(), EAdBasicSceneElement.appearance, asset);
 
-			action.addBehavior(EAdMouseEventImpl.MOUSE_ENTERED, new EAdChangeAppearance("action_mouseEnter", action, eAdAction.getHighlightBundle()));
 			action.addBehavior(EAdMouseEventImpl.MOUSE_EXITED, new EAdChangeAppearance("action_mouseExit", action, action.getInitialBundle()));
 			actionGOs.add(gameObjectFactory.get(action));
 		}
