@@ -33,8 +33,8 @@
 		</mailingList>
 	</mailingLists>
 	<issueManagement>
-		<system>SourceForge</system>
-		<url>http://sourceforge.net/tracker/?group_id=244347&amp;atid=1125464</url>
+		<system>Google code</system>
+		<url>http://code.google.com/p/eadventure/issues/list</url>
 	</issueManagement>
 	<organization>
 		<name>e-UCM Research Team</name>
@@ -553,9 +553,9 @@
 	<!-- SOURCE CODE MANAGEMENT -->
 	<!-- ====================================================================== -->
 	<scm>
-		<connection>scm:svn:https://e-adventure.svn.sourceforge.net/svnroot/e-adventure/eAd2</connection>
-		<developerConnection>scm:svn:https://e-adventure.svn.sourceforge.net/svnroot/e-adventure/eAd2</developerConnection>
-		<url>http://sourceforge.net/scm/?type=svn&amp;group_id=244347</url>
+		<connection>scm:hg:https://eadventure.googlecode.com/hg/</connection>
+		<developerConnection>scm:hg:https://eadventure.googlecode.com/hg/</developerConnection>
+		<url>https://eadventure.googlecode.com/hg/</url>
 	</scm>
 
 	<!-- ====================================================================== -->
@@ -621,21 +621,10 @@
 			</releases>
 		</repository>
 		<repository>
-			<id>eadventure-releases</id>
-			<name>e-Adventure Releases</name>
-			<releases>
-				<enabled>true</enabled>
-			</releases>
-			<snapshots>
-				<enabled>false</enabled>
-			</snapshots>
-			<url>http://e-adventure.sourceforge.net/maven2/</url>
-		</repository>
-		<repository>
 			<id>eadventure-snapshots</id>
 			<name>e-Adventure Snapshots</name>
 			<layout>default</layout>
-			<url>http://e-adventure.sourceforge.net/maven2-snapshots</url>
+			<url>https://eadventure.googlecode.com/hg/maven2-snapshots</url>
 			<releases>
 				<enabled>false</enabled>
 			</releases>
