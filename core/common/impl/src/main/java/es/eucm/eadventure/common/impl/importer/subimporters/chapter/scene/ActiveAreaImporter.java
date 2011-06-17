@@ -4,11 +4,10 @@ import java.awt.Point;
 
 import com.google.inject.Inject;
 
-import es.eucm.eadventure.common.Importer;
+import es.eucm.eadventure.common.EAdElementImporter;
 import es.eucm.eadventure.common.data.chapter.Action;
 import es.eucm.eadventure.common.data.chapter.conditions.Conditions;
 import es.eucm.eadventure.common.data.chapter.elements.ActiveArea;
-import es.eucm.eadventure.common.impl.importer.interfaces.EAdElementFactory;
 import es.eucm.eadventure.common.model.actions.EAdAction;
 import es.eucm.eadventure.common.model.conditions.impl.EmptyCondition;
 import es.eucm.eadventure.common.model.effects.impl.EAdActorActionsEffect;
@@ -29,30 +28,34 @@ import es.eucm.eadventure.common.resources.assets.drawable.impl.IrregularShape;
 import es.eucm.eadventure.common.resources.assets.drawable.impl.RectangleShape;
 
 public class ActiveAreaImporter implements
-		Importer<ActiveArea, EAdSceneElement> {
+		EAdElementImporter<ActiveArea, EAdSceneElement> {
 
-	private Importer<Conditions, EAdCondition> conditionsImporter;
-	private Importer<Action, EAdAction> actionImporter;
-	private EAdElementFactory factory;
+	private EAdElementImporter<Conditions, EAdCondition> conditionsImporter;
+	private EAdElementImporter<Action, EAdAction> actionImporter;
 
 	@Inject
 	public ActiveAreaImporter(
-			Importer<Conditions, EAdCondition> conditionsImporter,
-			Importer<Action, EAdAction> actionImporter,
-			EAdElementFactory factory) {
+			EAdElementImporter<Conditions, EAdCondition> conditionsImporter,
+			EAdElementImporter<Action, EAdAction> actionImporter) {
 		this.conditionsImporter = conditionsImporter;
 		this.actionImporter = actionImporter;
-		this.factory = factory;
 	}
 
 	@Override
-	public EAdSceneElement convert(ActiveArea oldObject) {
-		EAdBasicActor newActiveArea = (EAdBasicActor) factory
-				.getActorByOldId(oldObject.getId());
-
-		// Reference to the active area
+	public EAdSceneElement init(ActiveArea oldObject) {
+		EAdBasicActor newActiveArea = new EAdBasicActor(oldObject.getId());
 		EAdActorReferenceImpl newActiveAreaReference = new EAdActorReferenceImpl(
 				newActiveArea);
+		return newActiveAreaReference;
+	}
+	
+	@Override
+	public EAdSceneElement convert(ActiveArea oldObject, Object object) {
+		// Reference to the active area
+		EAdActorReferenceImpl newActiveAreaReference = (EAdActorReferenceImpl) object;
+
+		EAdBasicActor newActiveArea = (EAdBasicActor) newActiveAreaReference.getReferencedActor();
+
 		
 		importActions( oldObject, newActiveArea, newActiveAreaReference );
 
@@ -81,8 +84,10 @@ public class ActiveAreaImporter implements
 				EAdBasicSceneElement.appearance, shape);
 
 		// Event to show (or not) the active area
-		EAdCondition condition = conditionsImporter.convert(oldObject
+		EAdCondition condition = conditionsImporter.init(oldObject
 				.getConditions());
+		condition = conditionsImporter.convert(oldObject
+				.getConditions(), condition);
 
 		EAdConditionEventImpl event = new EAdConditionEventImpl(
 				newActiveAreaReference.getId() + "_VisibleEvent");
@@ -113,7 +118,8 @@ public class ActiveAreaImporter implements
 	private void importActions(ActiveArea oldObject, EAdBasicActor newActiveArea, EAdActorReferenceImpl newActiveAreaReference ){
 		// Actions import
 		for (Action a : oldObject.getActions()) {
-			EAdAction action = actionImporter.convert(a);
+			EAdAction action = actionImporter.init(a);
+			action = actionImporter.convert(a, action);
 			if (action != null)
 				newActiveArea.getActions().add(action);
 		}
@@ -130,10 +136,5 @@ public class ActiveAreaImporter implements
 		}
 	}
 
-	@Override
-	public boolean equals(ActiveArea oldObject, EAdSceneElement newObject) {
-		// TODO Auto-generated method stub
-		return false;
-	}
 
 }

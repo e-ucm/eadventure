@@ -4,7 +4,7 @@ import java.awt.Point;
 
 import com.google.inject.Inject;
 
-import es.eucm.eadventure.common.Importer;
+import es.eucm.eadventure.common.EAdElementImporter;
 import es.eucm.eadventure.common.data.chapter.Exit;
 import es.eucm.eadventure.common.data.chapter.conditions.Conditions;
 import es.eucm.eadventure.common.impl.importer.interfaces.EAdElementFactory;
@@ -26,22 +26,26 @@ import es.eucm.eadventure.common.resources.assets.drawable.Shape;
 import es.eucm.eadventure.common.resources.assets.drawable.impl.IrregularShape;
 import es.eucm.eadventure.common.resources.assets.drawable.impl.RectangleShape;
 
-public class ExitImporter implements Importer<Exit, EAdSceneElement> {
+public class ExitImporter implements EAdElementImporter<Exit, EAdSceneElement> {
 
 	private static int ID_GENERATOR = 0;
-	private Importer<Conditions, EAdCondition> conditionsImporter;
+	private EAdElementImporter<Conditions, EAdCondition> conditionsImporter;
 	private EAdElementFactory factory;
 
 	@Inject
-	public ExitImporter(Importer<Conditions, EAdCondition> conditionsImporter,
+	public ExitImporter(EAdElementImporter<Conditions, EAdCondition> conditionsImporter,
 			EAdElementFactory factory) {
 		this.conditionsImporter = conditionsImporter;
 		this.factory = factory;
 	}
 
-	@Override
-	public EAdSceneElement convert(Exit oldObject) {
+	public EAdSceneElement init(Exit oldObject) {
 		EAdBasicSceneElement newExit = new EAdBasicSceneElement("exit" + ID_GENERATOR++);
+		return newExit;
+	}
+	@Override
+	public EAdSceneElement convert(Exit oldObject, Object object) {
+		EAdBasicSceneElement newExit = (EAdBasicSceneElement) object;
 
 		Shape shape = null;
 
@@ -72,15 +76,17 @@ public class ExitImporter implements Importer<Exit, EAdSceneElement> {
 		newExit.getResources().addAsset(newExit.getInitialBundle(),
 				EAdBasicSceneElement.appearance, shape);
 
-		EAdScene scene = factory.getSceneByOldId(oldObject.getNextSceneId());
+		EAdScene scene = (EAdScene) factory.getElementById(oldObject.getNextSceneId());
 		EAdChangeScene effect = new EAdChangeScene("change_screen_"
 				+ newExit.getId(), scene, EAdTransition.BASIC);
 
 		newExit.addBehavior(EAdMouseEventImpl.MOUSE_LEFT_CLICK, effect);
 		
 		// Event to show (or not) the exit
-		EAdCondition condition = conditionsImporter.convert(oldObject
+		EAdCondition condition = conditionsImporter.init(oldObject
 				.getConditions());
+		condition = conditionsImporter.convert(oldObject
+				.getConditions(), condition);
 		
 		EAdConditionEventImpl event = new EAdConditionEventImpl( newExit.getId() + "_VisibleEvent" );
 		event.setCondition(condition);
@@ -102,12 +108,6 @@ public class ExitImporter implements Importer<Exit, EAdSceneElement> {
 		newExit.getEvents().add(event);
 
 		return newExit;
-	}
-
-	@Override
-	public boolean equals(Exit oldObject, EAdSceneElement newObject) {
-		// TODO Auto-generated method stub
-		return false;
 	}
 
 }
