@@ -111,6 +111,11 @@ public class RuntimeCaption implements DrawableAsset<Caption> {
 	 * infinite
 	 */
 	private int loops;
+	
+	/**
+	 * Current text wrapped
+	 */
+	private String currentText;
 
 	private VariableMap valueMap;
 
@@ -183,7 +188,10 @@ public class RuntimeCaption implements DrawableAsset<Caption> {
 
 		text = valueMap.processTextVars(stringHandler.getString(caption
 				.getText()));
-		wrapText();
+		
+		// If text has changed
+		if ( !currentText.equals(text))
+			wrapText();
 	}
 
 	@Override
@@ -210,13 +218,14 @@ public class RuntimeCaption implements DrawableAsset<Caption> {
 		return (DrawableAsset<S>) this;
 	}
 
-	private void wrapText() {		
+	private void wrapText() {
+		this.currentText = text;
 		lines = new ArrayList<String>();
 		totalParts = 0;
 		bounds = new EAdRectangle(0, 0, 0, 0);
 		lineHeight = font.lineHeight();
 		
-		int maximumWidth = (int) (caption.getMaximumWidth() == Caption.SCREEN_SIZE ? platformConfiguration.getWidth() / platformConfiguration.getScale() : caption.getMaximumWidth());
+		int maximumWidth = (int) (caption.getMaximumWidth() == Caption.SCREEN_SIZE ? ( platformConfiguration.getWidth() - caption.getPadding() * 2 ) / platformConfiguration.getScale() : caption.getMaximumWidth());
 		int maximumHeight = (int) (caption.getMaximumWidth() < 0 ? platformConfiguration.getHeight() : caption.getMaximumHeight());
 		
 

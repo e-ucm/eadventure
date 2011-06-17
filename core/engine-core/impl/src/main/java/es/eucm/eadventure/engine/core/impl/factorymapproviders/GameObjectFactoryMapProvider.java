@@ -17,6 +17,7 @@ import es.eucm.eadventure.common.model.effects.impl.EAdMoveSceneElement;
 import es.eucm.eadventure.common.model.effects.impl.EAdQuitGame;
 import es.eucm.eadventure.common.model.effects.impl.EAdRandomEffect;
 import es.eucm.eadventure.common.model.effects.impl.EAdTriggerMacro;
+import es.eucm.eadventure.common.model.effects.impl.EAdVarInterpolationEffect;
 import es.eucm.eadventure.common.model.effects.impl.EAdWaitEffect;
 import es.eucm.eadventure.common.model.effects.impl.actorreference.EAdHighlightActorReference;
 import es.eucm.eadventure.common.model.effects.impl.text.EAdShowText;
@@ -62,6 +63,7 @@ import es.eucm.eadventure.engine.core.gameobjects.impl.effects.RandomEffectGO;
 import es.eucm.eadventure.engine.core.gameobjects.impl.effects.ShowActionsEffectGO;
 import es.eucm.eadventure.engine.core.gameobjects.impl.effects.ShowTextEffectGO;
 import es.eucm.eadventure.engine.core.gameobjects.impl.effects.TriggerMacroEffectGO;
+import es.eucm.eadventure.engine.core.gameobjects.impl.effects.VarInterpolationGO;
 import es.eucm.eadventure.engine.core.gameobjects.impl.effects.WaitEffectGO;
 import es.eucm.eadventure.engine.core.gameobjects.impl.events.ConditionEventGO;
 import es.eucm.eadventure.engine.core.gameobjects.impl.events.SceneElementEventGO;
@@ -119,6 +121,7 @@ public class GameObjectFactoryMapProvider
 		factoryMap.put(EAdTriggerMacro.class, TriggerMacroEffectGO.class);
 		factoryMap.put(EAdModifyActorState.class, ModifyActorStateGO.class);
 		factoryMap.put(EAdRandomEffect.class, RandomEffectGO.class);
+		factoryMap.put(EAdVarInterpolationEffect.class, VarInterpolationGO.class);
 	}
 
 	protected void configureEventGameObjects() {

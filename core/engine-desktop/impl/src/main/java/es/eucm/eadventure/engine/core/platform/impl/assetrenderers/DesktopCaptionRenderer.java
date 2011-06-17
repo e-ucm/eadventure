@@ -83,7 +83,7 @@ public class DesktopCaptionRenderer implements
 			drawBubble(g2, width, height, asset.getCaption().getBubbleColor());
 
 		
-		g2.translate(asset.getCaption().getPadding(), asset.getCaption().getPadding() + asset.getFont().lineHeight() );
+		g2.translate(asset.getCaption().getPadding(), asset.getCaption().getPadding() + asset.getLineHeight() );
 		int yOffset = 0;
 		for (String s : asset.getText()) {
 			drawString(g2, asset, s, yOffset );
