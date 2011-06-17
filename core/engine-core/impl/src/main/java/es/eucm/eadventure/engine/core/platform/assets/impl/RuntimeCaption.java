@@ -51,6 +51,7 @@ import es.eucm.eadventure.engine.core.GameLoop;
 import es.eucm.eadventure.engine.core.GameState;
 import es.eucm.eadventure.engine.core.impl.VariableMap;
 import es.eucm.eadventure.engine.core.platform.DrawableAsset;
+import es.eucm.eadventure.engine.core.platform.PlatformConfiguration;
 import es.eucm.eadventure.engine.core.platform.RuntimeFont;
 import es.eucm.eadventure.engine.core.platform.impl.FontCacheImpl;
 
@@ -114,13 +115,16 @@ public class RuntimeCaption implements DrawableAsset<Caption> {
 	private VariableMap valueMap;
 
 	private StringHandler stringHandler;
+	
+	private PlatformConfiguration platformConfiguration;
 
 	@Inject
 	public RuntimeCaption(FontCacheImpl fontCache, VariableMap valueMap,
-			StringHandler stringHandler) {
+			StringHandler stringHandler, PlatformConfiguration platformConfiguration) {
 		this.fontCache = fontCache;
 		this.valueMap = valueMap;
 		this.stringHandler = stringHandler;
+		this.platformConfiguration = platformConfiguration;
 		logger.info("New instance");
 	}
 
@@ -206,16 +210,18 @@ public class RuntimeCaption implements DrawableAsset<Caption> {
 		return (DrawableAsset<S>) this;
 	}
 
-	private void wrapText() {
-		//TODO set minimum height as line height?
-		
+	private void wrapText() {		
 		lines = new ArrayList<String>();
 		totalParts = 0;
 		bounds = new EAdRectangle(0, 0, 0, 0);
 		lineHeight = font.lineHeight();
+		
+		int maximumWidth = (int) (caption.getMaximumWidth() == Caption.SCREEN_SIZE ? platformConfiguration.getWidth() / platformConfiguration.getScale() : caption.getMaximumWidth());
+		int maximumHeight = (int) (caption.getMaximumWidth() < 0 ? platformConfiguration.getHeight() : caption.getMaximumHeight());
+		
 
 		// If width for drawing the text is infinite, we have only one line
-		if (caption.getMinimumWidth() <= 0) {
+		if (maximumWidth == Caption.INFINITE_SIZE ) {
 			lines.add(text);
 			totalParts = 1;
 			int lineWidth = font.stringWidth(text);
@@ -236,8 +242,7 @@ public class RuntimeCaption implements DrawableAsset<Caption> {
 
 				int nextWordWidth = font.stringWidth(words[contWord] + " ");
 
-				if (currentLineWidth + nextWordWidth <= caption
-						.getMaximumWidth()) {
+				if (currentLineWidth + nextWordWidth <= maximumWidth ) {
 					currentLineWidth += nextWordWidth;
 					line += words[contWord++] + " ";
 				} else if (line != "") {
@@ -248,7 +253,7 @@ public class RuntimeCaption implements DrawableAsset<Caption> {
 					line = "";
 				} else {
 					line = splitLongWord(font, lines, words[contWord++],
-							caption.getMaximumWidth());
+							maximumWidth);
 					currentLineWidth = font.stringWidth(line);
 				}
 			}
@@ -262,14 +267,12 @@ public class RuntimeCaption implements DrawableAsset<Caption> {
 
 		}
 
-		linesInPart = caption.getMaximumHeight() / lineHeight;
-		linesInPart = linesInPart <= 0 ? 1 : linesInPart;
+		linesInPart = maximumHeight / lineHeight;
+		linesInPart = linesInPart < lines.size() ?  linesInPart : lines.size();
 		totalParts = (int) Math
 				.ceil((float) lines.size() / (float) linesInPart);
 
-		int linesHeight = linesInPart * lineHeight;
-		bounds.height = caption.getMinimumHeight() > linesHeight ? caption
-				.getMinimumHeight() : linesHeight;
+		bounds.height = linesInPart * lineHeight;
 				
 		if ( caption.hasBubble() ){
 			bounds.width += caption.getPadding() * 2;

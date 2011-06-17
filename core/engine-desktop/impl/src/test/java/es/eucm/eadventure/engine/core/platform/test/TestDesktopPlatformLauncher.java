@@ -45,13 +45,11 @@ import com.google.inject.Singleton;
 
 import es.eucm.eadventure.common.model.elements.EAdActorReference;
 import es.eucm.eadventure.common.model.elements.EAdScene;
-import es.eucm.eadventure.common.model.elements.EAdTimer;
 import es.eucm.eadventure.common.model.elements.test.ActorReferenceFactoryTest;
 import es.eucm.eadventure.common.model.elements.test.BasicActorFactoryTest;
 import es.eucm.eadventure.common.model.elements.test.BasicSceneFactoryTest;
 import es.eucm.eadventure.common.resources.EAdString;
 import es.eucm.eadventure.common.resources.StringHandler;
-import es.eucm.eadventure.common.test.BasicGameElementTestScreen;
 import es.eucm.eadventure.engine.core.Game;
 import es.eucm.eadventure.engine.core.impl.LoadingScreen;
 import es.eucm.eadventure.engine.core.impl.modules.BasicGameModule;

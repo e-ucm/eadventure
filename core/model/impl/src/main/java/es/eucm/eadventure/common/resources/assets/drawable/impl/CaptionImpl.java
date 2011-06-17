@@ -46,6 +46,11 @@ import es.eucm.eadventure.common.resources.assets.drawable.Caption;
 
 public class CaptionImpl implements Caption {
 
+	/**
+	 * Default padding for bubbles
+	 */
+	private static final int DEFAULT_PADDING = 30;
+
 	@Param("label")
 	private EAdString label;
 
@@ -76,6 +81,9 @@ public class CaptionImpl implements Caption {
 	@Param("minHeight")
 	private int minHeight;
 
+	@Param("padding")
+	private int padding;
+
 	public CaptionImpl() {
 		this(null);
 	}
@@ -87,11 +95,12 @@ public class CaptionImpl implements Caption {
 		this.font = EAdFont.BIG;
 		this.hasBubble = false;
 		this.bubbleColor = null;
-		maxHeight = -1;
-		maxWidth = -1;
+		maxHeight = SCREEN_SIZE;
+		maxWidth = SCREEN_SIZE;
 		minWidth = 0;
 		minHeight = 0;
 		alpha = 1.0f;
+		padding = DEFAULT_PADDING;
 	}
 
 	@Override
@@ -99,7 +108,11 @@ public class CaptionImpl implements Caption {
 		return label;
 	}
 
-	@Override
+	/**
+	 * Sets the {@link EAdString} for the caption
+	 * 
+	 * @param label
+	 */
 	public void setText(EAdString label) {
 		this.label = label;
 	}
@@ -164,13 +177,11 @@ public class CaptionImpl implements Caption {
 
 	/**
 	 * Sets maximum width for this text. Could be a positive number or
-	 * {@link EAdTextImpl#INFINITE}. Zero or any negative number will be
-	 * considered as infinite
+	 * {@link Caption#INFINITE_SIZE} or {@link Caption#SCREEN_SIZE}
 	 * 
 	 * @param maxWidth
-	 *            maximum width for this text. Could be a positive number or
-	 *            {@link EAdTextImpl#INFINITE}. Zero or any negative number will
-	 *            be considered as infinite
+	 *            the width
+	 * 
 	 */
 	public void setMaximumWidth(int maxWidth) {
 		this.maxWidth = maxWidth;
@@ -178,13 +189,9 @@ public class CaptionImpl implements Caption {
 
 	/**
 	 * Sets maximum height for this text. Could be a positive number or
-	 * {@link EAdTextImpl#INFINITE}. Zero or any negative number will be
-	 * considered as infinite
+	 * {@link Caption#INFINITE_SIZE} or {@link Caption#SCREEN_SIZE}
 	 * 
-	 * @param maxHeight
-	 *            maximum height for this text. Could be a positive number or
-	 *            {@link EAdTextImpl#INFINITE}. Zero or any negative number will
-	 *            be considered as infinite
+	 * @param maxHeight the height
 	 */
 	public void setMaximumHeight(int maxHeight) {
 		this.maxHeight = maxHeight;
@@ -218,8 +225,7 @@ public class CaptionImpl implements Caption {
 
 	@Override
 	public int getPadding() {
-		// TODO atribute?
-		return 30;
+		return padding;
 	}
 
 }

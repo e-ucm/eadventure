@@ -47,7 +47,6 @@ import es.eucm.eadventure.common.model.params.EAdBorderedColor;
 import es.eucm.eadventure.common.model.params.EAdFont;
 import es.eucm.eadventure.common.model.params.EAdPosition;
 import es.eucm.eadventure.common.resources.EAdString;
-import es.eucm.eadventure.common.resources.assets.drawable.Caption;
 import es.eucm.eadventure.common.resources.assets.drawable.impl.CaptionImpl;
 import es.eucm.eadventure.engine.core.MouseState;
 import es.eucm.eadventure.engine.core.gameobjects.ActorReferenceGO;
@@ -71,7 +70,7 @@ public class BasicHudGORenderer implements
 	private static final Logger logger = Logger
 			.getLogger("BasicHudGORenderer");
 
-	private Caption caption;
+	private CaptionImpl caption;
 
 	@SuppressWarnings({ "unchecked" })
 	@Inject

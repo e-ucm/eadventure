@@ -63,8 +63,7 @@ public class EAdButton extends EAdBasicSceneElement {
 	
 	public EAdButton(String id) {
 		super(id);
-		this.text = new CaptionImpl();
-		this.text.setText(new EAdString("default"));
+		text = new CaptionImpl(new EAdString("default"));
 	}
 	
 	public void setText(Caption caption) {
@@ -79,7 +78,7 @@ public class EAdButton extends EAdBasicSceneElement {
 		Image image = new ImageImpl("@drawable/button_normal.png");
 
 		DisplacedDrawableImpl dd = new DisplacedDrawableImpl();
-		dd.setDisplacement(new EAdPosition(Corner.CENTER, 0, -10));
+		dd.setDisplacement(new EAdPosition(Corner.CENTER, -20, -10));
 		dd.setDrawable(this.text);
 		
 		ComposedDrawable cd = new ComposedDrawableImpl();

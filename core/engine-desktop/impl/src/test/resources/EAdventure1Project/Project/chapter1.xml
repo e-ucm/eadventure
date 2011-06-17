@@ -28,7 +28,7 @@
 				<actions>
 					<examine keepDistance="0" needsGoTo="no" not-effects="no">
 						<effect>
-							<show-text borderColor="-16777216" frontColor="-1" x="400" y="500">Esto es un área activa.</show-text>
+							<trigger-conversation idTarget="Questions"/>
 							<condition/>
 						</effect>
 					</examine>
@@ -188,6 +188,39 @@
 		</dialogue-node>
 		<dialogue-node nodeindex="4">
 			<child nodeindex="0"/>
+		</dialogue-node>
+	</graph-conversation>
+	<graph-conversation id="Questions">
+		<dialogue-node nodeindex="0">
+			<speak-player>Now, some questions.</speak-player>
+			<condition/>
+			<child nodeindex="1"/>
+		</dialogue-node>
+		<option-node nodeindex="1">
+			<speak-player>This option is very long, to check how behaves everyting when, you know, there are weird things</speak-player>
+			<condition/>
+			<child nodeindex="2"/>
+			<speak-player>Like looooooooooooooooooooooooooooooooooooooooooooooooooongweeeeeeeeeeeeeeeeeeeeeeeeeeirdwoooooooooooooooooooooooooooooords</speak-player>
+			<condition/>
+			<child nodeindex="3"/>
+			<speak-player>New option</speak-player>
+			<condition/>
+			<child nodeindex="4"/>
+			<speak-player>Another option</speak-player>
+			<condition/>
+			<child nodeindex="5"/>
+		</option-node>
+		<dialogue-node nodeindex="2">
+			<end-conversation/>
+		</dialogue-node>
+		<dialogue-node nodeindex="3">
+			<end-conversation/>
+		</dialogue-node>
+		<dialogue-node nodeindex="4">
+			<end-conversation/>
+		</dialogue-node>
+		<dialogue-node nodeindex="5">
+			<end-conversation/>
 		</dialogue-node>
 	</graph-conversation>
 	<atrezzoobject id="AtrezzoId">

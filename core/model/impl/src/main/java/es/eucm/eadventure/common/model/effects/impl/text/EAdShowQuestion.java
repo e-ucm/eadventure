@@ -111,6 +111,7 @@ public class EAdShowQuestion extends EAdComplexBlockingEffect {
 		if (questionElement != null){
 			questionElement.getPosition().set(marginLeft, 10, Corner.TOP_LEFT);
 			components.add(questionElement);
+			questionElement.visibleVar().setInitialValue(false);
 		}
 
 		IntegerVar selectedAnswer = new IntegerVar(id + "_selectedAnswer" + ID_GENERATOR++ );
@@ -158,7 +159,14 @@ public class EAdShowQuestion extends EAdComplexBlockingEffect {
 			
 			macro.getEffects().add(effect);
 			
+			/*EAdChangeVarValueEffect effectVisible = new EAdChangeVarValueEffect( id + "positoningAnswer" + i);
+			effectVisible.setVar(a.visibleVar());
+			effect.setOperation(new BooleanOperation( "visibleAnswer", EmptyCondition.TRUE_EMPTY_CONDITION ));
+			
+			macro.getEffects().add(effectVisible);*/
+			
 		}
+		
 		event.addEffect(SceneElementEvent.ADDED_TO_SCENE, new EAdTriggerMacro( macro ));
 		getEvents().add(event);
 	}

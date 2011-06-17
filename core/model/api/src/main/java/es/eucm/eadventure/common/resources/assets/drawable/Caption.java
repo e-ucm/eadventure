@@ -41,14 +41,51 @@ import es.eucm.eadventure.common.model.params.EAdBorderedColor;
 import es.eucm.eadventure.common.model.params.EAdFont;
 import es.eucm.eadventure.common.resources.EAdString;
 
+/**
+ * General interface for texts to be shown during the game
+ * 
+ * 
+ */
 public interface Caption extends Drawable {
 
+	/**
+	 * Constant that can be used to define infinite maximum width/height for the
+	 * caption
+	 */
+	public static final int INFINITE_SIZE = -1;
+
+	/**
+	 * Constant that can be used to define infinite maximum/minimum width/height
+	 * for the caption
+	 */
+	public static final int SCREEN_SIZE = -2;
+
+	/**
+	 * Returns the {@link EAdString} defining the text
+	 * 
+	 * @return
+	 */
 	public EAdString getText();
 
+	/**
+	 * Returns the font for the text
+	 * 
+	 * @return
+	 */
 	public EAdFont getFont();
 
+	/**
+	 * Returns the color for the text
+	 * 
+	 * @return
+	 */
 	public EAdBorderedColor getTextColor();
 
+	/**
+	 * Returns whether this caption has a bubble
+	 * 
+	 * @return
+	 */
 	public boolean hasBubble();
 
 	/**
@@ -58,18 +95,54 @@ public interface Caption extends Drawable {
 	 */
 	public int getPadding();
 
+	/**
+	 * Returns the color for the bubble containing the text
+	 * 
+	 * @return
+	 */
 	public EAdBorderedColor getBubbleColor();
 
+	/**
+	 * Returns the alpha value for the caption
+	 * 
+	 * @return
+	 */
 	public float getAlpha();
 
+	/**
+	 * Returns the maximum width for this text, and integer greater than zero,
+	 * or the constants {@link Caption#INFINITE_SIZE} or
+	 * {@link Caption#SCREEN_SIZE}
+	 * 
+	 * @return
+	 */
 	int getMaximumWidth();
 
+	/**
+	 * Returns the maximum height for this text, and integer greater than zero,
+	 * or the constants {@link Caption#INFINITE_SIZE} or
+	 * {@link Caption#SCREEN_SIZE}
+	 * 
+	 * @return
+	 */
 	int getMaximumHeight();
 
+	/**
+	 * Returns the minimum width for this text, and integer greater than zero,
+	 * or the constants {@link Caption#INFINITE_SIZE} or
+	 * {@link Caption#SCREEN_SIZE}
+	 * 
+	 * @return
+	 */
 	int getMinimumWidth();
 
+	/**
+	 * Returns the minimum height for this text, and integer greater than zero,
+	 * or the constants {@link Caption#INFINITE_SIZE} or
+	 * {@link Caption#SCREEN_SIZE}
+	 * 
+	 * @return
+	 */
 	int getMinimumHeight();
-
-	public void setText(EAdString name);
 
 }

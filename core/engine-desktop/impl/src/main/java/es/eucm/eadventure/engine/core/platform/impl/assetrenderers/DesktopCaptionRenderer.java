@@ -42,12 +42,10 @@ import java.awt.Color;
 import java.awt.Composite;
 import java.awt.GradientPaint;
 import java.awt.Graphics2D;
-import java.util.List;
 import java.util.logging.Logger;
 
 import es.eucm.eadventure.common.model.params.EAdBorderedColor;
 import es.eucm.eadventure.common.model.params.EAdPosition;
-import es.eucm.eadventure.common.model.params.EAdRectangle;
 import es.eucm.eadventure.engine.core.platform.AssetRenderer;
 import es.eucm.eadventure.engine.core.platform.assets.impl.DesktopEngineCaption;
 import es.eucm.eadventure.engine.core.platform.assets.impl.DesktopEngineColor;
@@ -64,28 +62,34 @@ public class DesktopCaptionRenderer implements
 	}
 
 	@Override
-	public void render(Graphics2D graphicContext, DesktopEngineCaption asset,
+	public void render(Graphics2D g, DesktopEngineCaption asset,
 			EAdPosition position, float scale, int offsetX, int offsetY) {
 		// TODO use offsets
 
 		if (!asset.isLoaded())
 			asset.loadAsset();
+		
+		Graphics2D g2 = (Graphics2D) g.create();
+
+		int xLeft = position.getJavaX(asset.getWidth() * scale);
+		int yTop = position.getJavaY(asset.getHeight() * scale);
+		int width = (int) (asset.getWidth() * scale);
+		int height = (int) (asset.getHeight() * scale);
+
+		g2.translate(offsetX + xLeft, offsetY + yTop);
 
 		if (asset.getCaption().hasBubble()
 				& asset.getCaption().getBubbleColor() != null)
-			drawBubble(graphicContext, asset.getBounds(), position, asset
-					.getCaption().getBubbleColor(), asset.getCaption()
-					.getPadding(), scale);
+			drawBubble(g2, width, height, asset.getCaption().getBubbleColor());
 
-		List<String> lines = asset.getText();
-		int textHeight = lines.size() * asset.getLineHeight();
-		int yOffset = asset.getBounds().height / 2 - textHeight / 2
-				+ asset.getLineHeight();
-		for (String s : lines) {
-			drawString(graphicContext, asset, s, yOffset, position, scale,
-					offsetX, offsetY);
+		
+		g2.translate(asset.getCaption().getPadding(), asset.getCaption().getPadding() + asset.getFont().lineHeight() );
+		int yOffset = 0;
+		for (String s : asset.getText()) {
+			drawString(g2, asset, s, yOffset );
 			yOffset += asset.getLineHeight();
 		}
+
 	}
 
 	@Override
@@ -98,8 +102,7 @@ public class DesktopCaptionRenderer implements
 	}
 
 	protected void drawString(Graphics2D g, DesktopEngineCaption text,
-			String string, int yOffset, EAdPosition position, float scale,
-			int offsetX, int offsetY) {
+			String string, int yOffset) {
 		float alpha = text.getAlpha();
 		EAdBorderedColor textColor = text.getCaption().getTextColor();
 		DesktopEngineFont deFont = (DesktopEngineFont) text.getFont();
@@ -110,10 +113,6 @@ public class DesktopCaptionRenderer implements
 
 		g.setFont(deFont.getFont());
 
-		int x = (int) (position.getJavaX(text.getWidth() * scale) + text.getCaption().getPadding() * scale + offsetX);
-		int y = (int) (position.getJavaY(text.getHeight() * scale) + text.getCaption().getPadding() * scale + yOffset + offsetY);
-		y -= deFont.lineHeight();
-
 		Color borderColor = new DesktopEngineColor(textColor.getBorderColor())
 				.getColor();
 		Color color = new DesktopEngineColor(textColor.getCenterColor())
@@ -121,38 +120,34 @@ public class DesktopCaptionRenderer implements
 
 		g.setColor(borderColor);
 
-		g.drawString(string, x - 1, y - 1);
-		g.drawString(string, x + 1, y + 1);
-		g.drawString(string, x - 1, y + 1);
-		g.drawString(string, x + 1, y - 1);
+		g.drawString(string, -1, yOffset - 1);
+		g.drawString(string, 1, yOffset + 1);
+		g.drawString(string, -1, yOffset + 1);
+		g.drawString(string, 1, yOffset - 1);
 
 		g.setColor(color);
 
-		g.drawString(string, x, y);
+		g.drawString(string, 0, yOffset);
 		g.setComposite(c);
 	}
 
-	private void drawBubble(Graphics2D g, EAdRectangle r, EAdPosition position,
-			EAdBorderedColor bubbleColor, int padding, float scale) {
+	private void drawBubble(Graphics2D g, int width, int height,
+			EAdBorderedColor bubbleColor) {
 
 		DesktopEngineColor color = new DesktopEngineColor(
 				bubbleColor.getCenterColor());
-		int width = (int) (r.width * scale);
-		int height = (int) (r.height * scale);
-		int x1 = position.getJavaX(width);
-		int y1 = position.getJavaY(height);
 
 		if (bubbleColor != null) {
-			g.setPaint(new GradientPaint(x1, y1, color.getColor(), x1, y1
-					+ height, color.getColor().darker()));
-			g.fillRoundRect(x1, y1, width, height, 15, 15);
+			g.setPaint(new GradientPaint(0, 0, color.getColor(), 0, height,
+					color.getColor().darker()));
+			g.fillRoundRect(0, 0, width, height, 15, 15);
 		}
 
 		DesktopEngineColor border = new DesktopEngineColor(
 				bubbleColor.getBorderColor());
 		if (border != null) {
 			g.setColor(border.getColor());
-			g.drawRoundRect(x1, y1, width, height, 15, 15);
+			g.drawRoundRect(0, 0, width, height, 15, 15);
 		}
 
 	}
