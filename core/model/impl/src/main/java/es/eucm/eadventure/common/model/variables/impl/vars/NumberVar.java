@@ -60,10 +60,5 @@ public abstract class NumberVar<T extends Number> extends EAdVarImpl<T> {
 			return new FloatVar(name);
 		return null;
 	}
-	
-	@SuppressWarnings("unchecked")
-	public T getDefaultValue() {
-		return (T) new Integer(0);
-	}
 
 }

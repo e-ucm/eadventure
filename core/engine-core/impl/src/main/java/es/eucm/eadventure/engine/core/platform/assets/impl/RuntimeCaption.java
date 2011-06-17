@@ -159,6 +159,7 @@ public class RuntimeCaption implements DrawableAsset<Caption> {
 	@Override
 	public void setDescriptor(Caption descriptor) {
 		this.caption = descriptor;
+		loadAsset();
 		// minimumHeight = font == null || element.getMinimumHeight() >
 		// font.lineHeight() ? element.getMinimumHeight() : font.lineHeight();
 	}
@@ -269,6 +270,11 @@ public class RuntimeCaption implements DrawableAsset<Caption> {
 		int linesHeight = linesInPart * lineHeight;
 		bounds.height = caption.getMinimumHeight() > linesHeight ? caption
 				.getMinimumHeight() : linesHeight;
+				
+		if ( caption.hasBubble() ){
+			bounds.width += caption.getPadding() * 2;
+			bounds.height += caption.getPadding() * 2;
+		}
 	}
 
 	private String splitLongWord(RuntimeFont f, List<String> lines,

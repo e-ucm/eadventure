@@ -119,14 +119,14 @@ public class ValueMapImpl implements ValueMap {
 		Map<String, S> valMap = (Map<String, S>) map.get(var.getType());
 		if (valMap == null) {
 			logger.log(Level.WARNING, "No values for the class " + var.getType());
-			setValue(var, var.getDefaultValue());
+			setValue(var, var.getInitialValue());
 			valMap = (Map<String, S>) map.get(var.getType());
 		}
 		S value = valMap.get((var.getElement() != null ? "" + var.getElement().hashCode() : "") + var.getName() );
 		if (value == null) {
 			logger.log(Level.WARNING, "No such value " + (var.getElement() != null ? "" + var.getElement().hashCode() : "") + var.getName() + " of type " + var.getType());
-			setValue(var, var.getDefaultValue());
-			value = var.getDefaultValue();
+			setValue(var, var.getInitialValue());
+			value = var.getInitialValue();
 		}
 		return value;
 	}

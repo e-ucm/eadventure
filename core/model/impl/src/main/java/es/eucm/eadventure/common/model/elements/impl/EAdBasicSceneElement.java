@@ -49,6 +49,7 @@ public class EAdBasicSceneElement extends AbstractEAdElementWithBehavior impleme
 		setPosition(new EAdPosition(0, 0));
 		setInitialOrientation(Orientation.SOUTH);
 		draggable = EmptyCondition.FALSE_EMPTY_CONDITION;
+		visible.setInitialValue(Boolean.TRUE);
 	}
 
 	@Override

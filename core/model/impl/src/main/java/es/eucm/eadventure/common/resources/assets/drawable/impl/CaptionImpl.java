@@ -216,4 +216,10 @@ public class CaptionImpl implements Caption {
 		this.hasBubble = b;
 	}
 
+	@Override
+	public int getPadding() {
+		// TODO atribute?
+		return 30;
+	}
+
 }

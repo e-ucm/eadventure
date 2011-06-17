@@ -39,14 +39,51 @@ package es.eucm.eadventure.common.model.variables;
 
 import es.eucm.eadventure.common.model.EAdElement;
 
+/**
+ * General interface for variables in eAdventure
+ * 
+ * 
+ * @param <T>
+ *            Java class for the variable
+ */
 public interface EAdVar<T> {
 
+	/**
+	 * Returns the Java class for this variable
+	 * 
+	 * @return the Java class for this variable
+	 */
 	Class<T> getType();
-	
+
+	/**
+	 * Returns the name for the variable
+	 * 
+	 * @return the name for the variable
+	 */
 	String getName();
-	
-	T getDefaultValue();
-	
+
+	/**
+	 * If the variable is associated to an {@link EAdElement} returns that
+	 * element
+	 * 
+	 * @return the {@link EAdElement} associated to the variable. {@code null}
+	 *         if variable is not linked to any element
+	 */
 	EAdElement getElement();
-	
+
+	/**
+	 * Returns the initial value for this variable
+	 * 
+	 * @return the initial value for this variable
+	 */
+	T getInitialValue();
+
+	/**
+	 * Sets the initial value for this variable
+	 * 
+	 * @param value
+	 *            the initial value for this variable
+	 */
+	void setInitialValue(T value);
+
 }

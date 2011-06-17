@@ -42,17 +42,24 @@ import es.eucm.eadventure.common.model.params.EAdFont;
 import es.eucm.eadventure.common.resources.EAdString;
 
 public interface Caption extends Drawable {
-	
+
 	public EAdString getText();
-	
+
 	public EAdFont getFont();
-	
+
 	public EAdBorderedColor getTextColor();
-	
+
 	public boolean hasBubble();
-	
+
+	/**
+	 * Returns the padding used in bubble drawing
+	 * 
+	 * @return the padding used in bubble drawing
+	 */
+	public int getPadding();
+
 	public EAdBorderedColor getBubbleColor();
-	
+
 	public float getAlpha();
 
 	int getMaximumWidth();
@@ -64,5 +71,5 @@ public interface Caption extends Drawable {
 	int getMinimumHeight();
 
 	public void setText(EAdString name);
-	
+
 }

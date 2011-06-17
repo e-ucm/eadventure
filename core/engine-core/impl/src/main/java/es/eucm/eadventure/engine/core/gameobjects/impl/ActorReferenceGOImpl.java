@@ -100,6 +100,8 @@ public class ActorReferenceGOImpl extends SceneElementGOImpl<EAdActorReference>
 		this.actor = (ActorGO) gameObjectFactory.get(actorReference
 				.getReferencedActor());
 		super.setElement(actorReference);
+		// To update width and height
+		getAsset();
 	}
 
 	@Override

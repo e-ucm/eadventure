@@ -66,20 +66,24 @@ public class DesktopCaptionRenderer implements
 	@Override
 	public void render(Graphics2D graphicContext, DesktopEngineCaption asset,
 			EAdPosition position, float scale, int offsetX, int offsetY) {
-		//TODO use offsets
-		
+		// TODO use offsets
+
 		if (!asset.isLoaded())
 			asset.loadAsset();
-		
-		if (asset.getCaption().hasBubble() & asset.getCaption().getBubbleColor() != null)
-			drawBubble(graphicContext, asset.getBounds(), position, asset.getCaption().getBubbleColor());
+
+		if (asset.getCaption().hasBubble()
+				& asset.getCaption().getBubbleColor() != null)
+			drawBubble(graphicContext, asset.getBounds(), position, asset
+					.getCaption().getBubbleColor(), asset.getCaption()
+					.getPadding(), scale);
 
 		List<String> lines = asset.getText();
 		int textHeight = lines.size() * asset.getLineHeight();
 		int yOffset = asset.getBounds().height / 2 - textHeight / 2
 				+ asset.getLineHeight();
 		for (String s : lines) {
-			drawString(graphicContext, asset, s, yOffset, position, scale, offsetX, offsetY);
+			drawString(graphicContext, asset, s, yOffset, position, scale,
+					offsetX, offsetY);
 			yOffset += asset.getLineHeight();
 		}
 	}
@@ -88,17 +92,17 @@ public class DesktopCaptionRenderer implements
 	public boolean contains(int x, int y, DesktopEngineCaption asset) {
 		if (asset == null || asset.getBounds() == null)
 			return false;
-		boolean tempValue =  x < asset.getBounds().width && y < asset.getBounds().height;
+		boolean tempValue = x < asset.getBounds().width
+				&& y < asset.getBounds().height;
 		return tempValue;
 	}
-	
-	protected void drawString(Graphics2D g, DesktopEngineCaption text, String string,
-			int yOffset, EAdPosition position, float scale, int offsetX, int offsetY) {
+
+	protected void drawString(Graphics2D g, DesktopEngineCaption text,
+			String string, int yOffset, EAdPosition position, float scale,
+			int offsetX, int offsetY) {
 		float alpha = text.getAlpha();
 		EAdBorderedColor textColor = text.getCaption().getTextColor();
-		
 		DesktopEngineFont deFont = (DesktopEngineFont) text.getFont();
-
 		Composite c = g.getComposite();
 		if (alpha != 1.0f)
 			g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER,
@@ -106,10 +110,9 @@ public class DesktopCaptionRenderer implements
 
 		g.setFont(deFont.getFont());
 
-		int textWidth = deFont.stringWidth(string);
-
-		int x = position.getJavaX(textWidth * scale) + offsetX;
-		int y = position.getJavaY(text.getHeight() * scale) + yOffset + offsetY;
+		int x = (int) (position.getJavaX(text.getWidth() * scale) + text.getCaption().getPadding() * scale + offsetX);
+		int y = (int) (position.getJavaY(text.getHeight() * scale) + text.getCaption().getPadding() * scale + yOffset + offsetY);
+		y -= deFont.lineHeight();
 
 		Color borderColor = new DesktopEngineColor(textColor.getBorderColor())
 				.getColor();
@@ -118,7 +121,7 @@ public class DesktopCaptionRenderer implements
 
 		g.setColor(borderColor);
 
-		g.drawString(string, x - 1 , y - 1);
+		g.drawString(string, x - 1, y - 1);
 		g.drawString(string, x + 1, y + 1);
 		g.drawString(string, x - 1, y + 1);
 		g.drawString(string, x + 1, y - 1);
@@ -129,20 +132,17 @@ public class DesktopCaptionRenderer implements
 		g.setComposite(c);
 	}
 
-	private void drawBubble(Graphics2D g, EAdRectangle r,
-			EAdPosition position, EAdBorderedColor bubbleColor) {
-		int marginX = getMarginX();
-		int marginY = getMarginY();
+	private void drawBubble(Graphics2D g, EAdRectangle r, EAdPosition position,
+			EAdBorderedColor bubbleColor, int padding, float scale) {
 
 		DesktopEngineColor color = new DesktopEngineColor(
 				bubbleColor.getCenterColor());
-		int x1 = position.getJavaX(r.width) - marginX;
-		int y1 = position.getJavaY(r.height) - marginY;
+		int width = (int) (r.width * scale);
+		int height = (int) (r.height * scale);
+		int x1 = position.getJavaX(width);
+		int y1 = position.getJavaY(height);
 
 		if (bubbleColor != null) {
-			int width = r.width + marginX * 3;
-			int height = r.height + marginY * 2;
-
 			g.setPaint(new GradientPaint(x1, y1, color.getColor(), x1, y1
 					+ height, color.getColor().darker()));
 			g.fillRoundRect(x1, y1, width, height, 15, 15);
@@ -152,20 +152,9 @@ public class DesktopCaptionRenderer implements
 				bubbleColor.getBorderColor());
 		if (border != null) {
 			g.setColor(border.getColor());
-			g.drawRoundRect(x1, y1,
-					r.width + marginX * 3, r.height + marginY * 2, 15, 15);
+			g.drawRoundRect(x1, y1, width, height, 15, 15);
 		}
 
 	}
-
-	protected int getMarginX() {
-		return 30;
-	}
-
-	protected int getMarginY() {
-		return 40;
-	}
-	
-	
 
 }
