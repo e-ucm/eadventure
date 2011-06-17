@@ -12,12 +12,14 @@ public class VarInterpolationGO extends
 		AbstractEffectGO<EAdVarInterpolationEffect> {
 
 	private int currentTime;
-	
+
 	private float interpolationLength;
 
 	private boolean integer;
 
 	private ValueMap valueMap;
+
+	private boolean finished;
 
 	@Inject
 	public VarInterpolationGO(ValueMap valueMap) {
@@ -26,9 +28,11 @@ public class VarInterpolationGO extends
 
 	@Override
 	public void initilize() {
+		super.initilize();
 		currentTime = 0;
-		integer = element.getVar().getClass().equals(Integer.class);
+		integer = element.getVar().getType().equals(Integer.class);
 		interpolationLength = element.getEndValue() - element.getInitialValue();
+		finished = false;
 
 	}
 
@@ -39,14 +43,24 @@ public class VarInterpolationGO extends
 
 	@Override
 	public boolean isFinished() {
-		return false;
+		return finished;
 	}
 
 	@SuppressWarnings("unchecked")
 	public void update(GameState gameSate) {
 		currentTime += GameLoop.SKIP_MILLIS_TICK;
-		while (currentTime > element.getInterpolationTime()) {
-			currentTime -= element.getInterpolationTime();
+		if (currentTime > element.getInterpolationTime()) {
+			switch (element.getLoopType()) {
+			// TODO Backwards
+			case RESTART:
+				while (currentTime > element.getInterpolationTime()) {
+					currentTime -= element.getInterpolationTime();
+				}
+			default:
+				currentTime = element.getInterpolationTime();
+				finished = true;
+				break;
+			}
 		}
 
 		if (integer)
@@ -58,11 +72,11 @@ public class VarInterpolationGO extends
 	}
 
 	public Object interpolation() {
-		float f = element.getInitialValue() + currentTime * interpolationLength / element.getInterpolationTime();
-		if ( integer )
-			return new Integer( (int) f );
+		float f = element.getInitialValue() + (float) currentTime / element.getInterpolationTime() * interpolationLength;
+		if (integer)
+			return new Integer((int) f);
 		else
-			return new Float( f );
+			return new Float(f);
 
 	}
 

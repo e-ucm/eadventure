@@ -66,7 +66,7 @@ public class ChangeVariableTest extends EffectTest {
 	@Test
 	public void testChangeVariable( ){
 		EAdChangeVarValueEffect changeVar = new EAdChangeVarValueEffect( "cv" );
-		changeVar.setVar(new FloatVar("var1"));
+		changeVar.addVar(new FloatVar("var1"));
 		// Change var value without operation
 		testEngine.addEffect(changeVar);
 		assertEquals( testEngine.getEffects().size(), 1 );
@@ -83,7 +83,7 @@ public class ChangeVariableTest extends EffectTest {
 		assertEquals( valueMap.getValue(new FloatVar("var1")), operatorFactory.operate(new FloatVar("var1"), operation));
 		
 		// Change value of a non-exisitng variable
-		changeVar.setVar(new FloatVar("non-existing var"));
+		changeVar.addVar(new FloatVar("non-existing var"));
 		testEngine.addEffect(changeVar);
 		assertEquals( testEngine.getEffects().size(), 1 );
 		testEngine.update();

@@ -90,7 +90,7 @@ public class ActiveAreaImporter implements
 
 		EAdChangeVarValueEffect visibleVar = new EAdChangeVarValueEffect(
 				newActiveAreaReference.getId() + "_visibleEffect");
-		visibleVar.setVar(newActiveAreaReference.visibleVar());
+		visibleVar.addVar(newActiveAreaReference.visibleVar());
 		BooleanOperation op = new BooleanOperation("booleanOpTrue");
 		op.setCondition(EmptyCondition.TRUE_EMPTY_CONDITION);
 		visibleVar.setOperation(op);
@@ -99,7 +99,7 @@ public class ActiveAreaImporter implements
 
 		EAdChangeVarValueEffect notVisibleVar = new EAdChangeVarValueEffect(
 				newActiveArea.getId() + "_notVisibleEffect");
-		notVisibleVar.setVar(newActiveAreaReference.visibleVar());
+		notVisibleVar.addVar(newActiveAreaReference.visibleVar());
 		op = new BooleanOperation("booleanOpFalse");
 		op.setCondition(EmptyCondition.FALSE_EMPTY_CONDITION);
 		notVisibleVar.setOperation(op);

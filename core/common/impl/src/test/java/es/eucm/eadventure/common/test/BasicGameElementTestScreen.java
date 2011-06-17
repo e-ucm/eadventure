@@ -237,7 +237,7 @@ public class BasicGameElementTestScreen extends EAdSceneImpl implements EAdScene
 		answer.getResources().addAsset(answer.getInitialBundle(), Answer.appearance, captionImpl);
 
 		EAdChangeVarValueEffect changePos = new EAdChangeVarValueEffect("id");
-		changePos.setVar(this.panielReference.positionXVar());
+		changePos.addVar(this.panielReference.positionXVar());
 		changePos.setOperation(new LiteralExpressionOperation("id", "[0] + 200", panielReference.positionXVar()));
 		answer.getMacro().getEffects().add(changePos);
 		showQuestionEffect.getAnswers().add(answer);
@@ -393,7 +393,7 @@ public class BasicGameElementTestScreen extends EAdSceneImpl implements EAdScene
 //		addEffects(behavior);
 		
 		EAdChangeVarValueEffect changeVar = new EAdChangeVarValueEffect( "changevar");
-		changeVar.setVar(new FloatVar("f"));
+		changeVar.addVar(new FloatVar("f"));
 		LiteralExpressionOperation leo = new LiteralExpressionOperation( "idop", "[0] + 1", new FloatVar("f"));
 		changeVar.setOperation(leo);
 		

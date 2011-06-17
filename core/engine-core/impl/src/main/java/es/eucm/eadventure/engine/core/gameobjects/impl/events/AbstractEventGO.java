@@ -45,6 +45,13 @@ import es.eucm.eadventure.engine.core.gameobjects.impl.AbstractGameObject;
 
 public abstract class AbstractEventGO<T extends EAdEvent> extends AbstractGameObject<T> implements
 		GameObject<T> {
+	
+	/**
+	 * Initializes the event
+	 */
+	public void initialize( ){
+		
+	}
 
 	protected void runEffects(EAdElementList<EAdEffect> effects) {
 		if (effects != null) {

@@ -3,7 +3,6 @@ package es.eucm.eadventure.common.model.effects.impl;
 import es.eucm.eadventure.common.interfaces.Element;
 import es.eucm.eadventure.common.interfaces.Param;
 import es.eucm.eadventure.common.model.variables.EAdVar;
-import es.eucm.eadventure.common.model.variables.impl.vars.NumberVar;
 
 /**
  * Effect that performs an interpolation between two values in an {@link EAdVar}
@@ -35,7 +34,7 @@ public class EAdVarInterpolationEffect extends AbstractEAdEffect {
 	};
 
 	@Param("var")
-	private NumberVar<?> var;
+	private EAdVar<?> var;
 
 	@Param("initialValue")
 	private float initialValue;
@@ -53,7 +52,7 @@ public class EAdVarInterpolationEffect extends AbstractEAdEffect {
 		super(id);
 	}
 
-	public void setInterpolation(NumberVar<?> var, float initialValue,
+	public void setInterpolation(EAdVar<?> var, float initialValue,
 			float endValue, int time, LoopType loop) {
 		this.var = var;
 		this.initialValue = initialValue;
@@ -62,7 +61,7 @@ public class EAdVarInterpolationEffect extends AbstractEAdEffect {
 		this.loopType = loop;
 	}
 
-	public NumberVar<?> getVar() {
+	public EAdVar<?> getVar() {
 		return var;
 	}
 

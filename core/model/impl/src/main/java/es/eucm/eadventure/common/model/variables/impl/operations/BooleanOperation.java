@@ -52,6 +52,18 @@ import es.eucm.eadventure.common.model.variables.impl.EAdOperationImpl;
 public class BooleanOperation extends EAdOperationImpl {
 
 	/**
+	 * Set to false boolean operation
+	 */
+	public static BooleanOperation FALSE_OP = new BooleanOperation(
+			"BooleanOperationFalse", EmptyCondition.FALSE_EMPTY_CONDITION);
+	
+	/**
+	 * Set to true boolean operation
+	 */
+	public static BooleanOperation TRUE_OP = new BooleanOperation(
+			"BooleanOperationTrue", EmptyCondition.TRUE_EMPTY_CONDITION);
+
+	/**
 	 * Operation to be done
 	 */
 	@Param("condition")
@@ -80,7 +92,7 @@ public class BooleanOperation extends EAdOperationImpl {
 	 * Sets the condition for this operation
 	 * 
 	 * @param condition
-	 * 		Can be any EAdCondition which always returns a boolean value
+	 *            Can be any EAdCondition which always returns a boolean value
 	 */
 	public void setCondition(EAdCondition condition) {
 		this.condition = condition;

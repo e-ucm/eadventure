@@ -107,7 +107,9 @@ public abstract class AbstractGameObject<T extends EAdElement> implements GameOb
 		eventGOList = new ArrayList<AbstractEventGO<?>>();
 		if (element.getEvents() != null) {
 			for (EAdEvent event : element.getEvents()) {
-				eventGOList.add((AbstractEventGO<?>) gameObjectFactory.get(event));
+				AbstractEventGO<?> eventGO = (AbstractEventGO<?>) gameObjectFactory.get(event);
+				eventGO.initialize();
+				eventGOList.add(eventGO);
 			}
 		}
 	}

@@ -47,6 +47,7 @@ import es.eucm.eadventure.common.model.effects.EAdMacro;
 import es.eucm.eadventure.common.model.effects.impl.EAdComplexBlockingEffect;
 import es.eucm.eadventure.common.model.effects.impl.EAdMacroImpl;
 import es.eucm.eadventure.common.model.effects.impl.EAdTriggerMacro;
+import es.eucm.eadventure.common.model.effects.impl.EAdVarInterpolationEffect;
 import es.eucm.eadventure.common.model.effects.impl.text.extra.Answer;
 import es.eucm.eadventure.common.model.effects.impl.variables.EAdChangeVarValueEffect;
 import es.eucm.eadventure.common.model.elements.EAdSceneElement;
@@ -70,7 +71,7 @@ import es.eucm.eadventure.common.model.variables.impl.vars.IntegerVar;
  */
 @Element(runtime = EAdComplexBlockingEffect.class, detailed = EAdShowQuestion.class)
 public class EAdShowQuestion extends EAdComplexBlockingEffect {
-	
+
 	/**
 	 * Used to generate unique variables
 	 */
@@ -83,9 +84,13 @@ public class EAdShowQuestion extends EAdComplexBlockingEffect {
 
 	@Param("questionElement")
 	private EAdSceneElement questionElement;
-	
+
 	@Param("marginLeft")
 	private int marginLeft = 10;
+
+	private BooleanVar answered;
+
+	private IntegerVar selectedAnswer;
 
 	public EAdShowQuestion(String id) {
 		super(id);
@@ -107,68 +112,110 @@ public class EAdShowQuestion extends EAdComplexBlockingEffect {
 
 	public void setUpNewInstance() {
 		components.clear();
-		
-		if (questionElement != null){
+
+		// Vars
+		selectedAnswer = new IntegerVar(id + "_selectedAnswer" + ID_GENERATOR++);
+		answered = new BooleanVar(id + "_answerd" + ID_GENERATOR++);
+
+		// Effects
+		EAdChangeVarValueEffect invisibleEffect = new EAdChangeVarValueEffect(
+				"questionInvisibleEffect");
+		invisibleEffect.setOperation(BooleanOperation.FALSE_OP);
+
+		EAdChangeVarValueEffect visibleEffect = new EAdChangeVarValueEffect(
+				"questionVisibleEffect");
+		visibleEffect.setOperation(BooleanOperation.TRUE_OP);
+
+		if (questionElement != null) {
 			questionElement.getPosition().set(marginLeft, 10, Corner.TOP_LEFT);
 			components.add(questionElement);
 			questionElement.visibleVar().setInitialValue(false);
+			invisibleEffect.addVar(questionElement.visibleVar());
+			visibleEffect.addVar(questionElement.visibleVar());
 		}
 
-		IntegerVar selectedAnswer = new IntegerVar(id + "_selectedAnswer" + ID_GENERATOR++ );
-		BooleanVar answered = new BooleanVar(id + "_answerd" + ID_GENERATOR++ );
+		for (Answer a : answers) {
+			invisibleEffect.addVar(a.visibleVar());
+			visibleEffect.addVar(a.visibleVar());
+		}
+
+		// Start macro
+		EAdMacro startMacro = new EAdMacroImpl("startQuestionMacro");
+		startMacro.getEffects().add(invisibleEffect);
+		addVarsInit(startMacro);
+		addPositioningEvent(startMacro);
+		startMacro.getEffects().add(visibleEffect);
+
+		// Events
+		EAdSceneElementEvent addedEvent = new EAdSceneElementEventImpl(
+				"questionAddedEvent");
 
 		EAdChangeVarValueEffect endEffect = new EAdChangeVarValueEffect(id
-				+ "_endEffect");
-		endEffect.setVar(answered);
-		BooleanOperation booleanOperation = new BooleanOperation(id + "_endOp",
-				EmptyCondition.TRUE_EMPTY_CONDITION);
-		endEffect.setOperation(booleanOperation);
+				+ "_endEffect", answered, BooleanOperation.TRUE_OP);
 
-		for (int i = 0; i < answers.size(); i++) {
-			answers.get(i).setUpNewInstance(selectedAnswer, endEffect, i);
-			// TODO randomize answer order
-			answers.get(i).setPosition(
-					new EAdPosition(Corner.TOP_LEFT, marginLeft * 2, 0 ));
-
-			components.add(answers.get(i));
+		int i = 0;
+		for (Answer a : answers) {
+			a.visibleVar().setInitialValue(Boolean.FALSE);
+			a.setUpNewInstance(selectedAnswer, endEffect, i++);
+			a.setPosition(new EAdPosition(Corner.TOP_LEFT, 0, 0));
+			components.add(a);
 		}
 
+		// TODO randomize answer order
 		// TODO behavior to change selection with key presses?
 
+		addedEvent.addEffect(SceneElementEvent.ADDED_TO_SCENE,
+				new EAdTriggerMacro(startMacro));
+
+		getEvents().add(addedEvent);
 		this.setBlockingCondition(new NOTCondition(new FlagCondition(answered)));
-		
-		addPositioningEvent( );
+
 	}
-	
-	private void addPositioningEvent( ){
-		EAdSceneElementEvent event = new EAdSceneElementEventImpl( id + "AddToSceneEvent");
-		EAdMacro macro = new EAdMacroImpl( "positioningAnswers ");
-		
-		for ( int i = 0; i < answers.size(); i++ ){
-			EAdSceneElement previousElement = i == 0 ? questionElement : answers.get(i - 1 );
+
+	private void addVarsInit(EAdMacro startMacro) {
+		startMacro.getEffects().add(
+				new EAdChangeVarValueEffect("questionInitAnswered", answered,
+						BooleanOperation.FALSE_OP));
+	}
+
+	private void addPositioningEvent(EAdMacro macro) {
+
+		EAdChangeVarValueEffect initQuestion = new EAdChangeVarValueEffect(id
+				+ "initializaingAnswred");
+		initQuestion.addVar(answered);
+		initQuestion.setOperation(new BooleanOperation("visibleAnswer",
+				EmptyCondition.FALSE_EMPTY_CONDITION));
+
+		macro.getEffects().add(initQuestion);
+
+		for (int i = 0; i < answers.size(); i++) {
+			EAdSceneElement previousElement = i == 0 ? questionElement
+					: answers.get(i - 1);
 			Answer a = answers.get(i);
-			a.visibleVar().setInitialValue(false);
-			
-			EAdChangeVarValueEffect effect = new EAdChangeVarValueEffect( id + "positoningAnswer" + i);
-			effect.setVar(a.positionYVar());
-			if ( previousElement != null ){
-				effect.setOperation(new LiteralExpressionOperation(effect.getId() + "_op", "[0] + [1] + 10", previousElement.positionYVar(), previousElement.heightVar() ));
-			}
-			else
-				effect.setOperation(new LiteralExpressionOperation(effect.getId() + "_op", "10"));
-			
+
+			EAdChangeVarValueEffect effect = new EAdChangeVarValueEffect(id
+					+ "positoningAnswer" + i);
+			effect.addVar(a.positionYVar());
+			if (previousElement != null) {
+				effect.setOperation(new LiteralExpressionOperation(effect
+						.getId() + "_op", "[0] + [1] + " + marginLeft,
+						previousElement.positionYVar(), previousElement
+								.heightVar()));
+			} else
+				effect.setOperation(new LiteralExpressionOperation(effect
+						.getId() + "_op", "0 + " + marginLeft));
+
 			macro.getEffects().add(effect);
-			
-			/*EAdChangeVarValueEffect effectVisible = new EAdChangeVarValueEffect( id + "positoningAnswer" + i);
-			effectVisible.setVar(a.visibleVar());
-			effect.setOperation(new BooleanOperation( "visibleAnswer", EmptyCondition.TRUE_EMPTY_CONDITION ));
-			
-			macro.getEffects().add(effectVisible);*/
-			
+
+			EAdVarInterpolationEffect interpolation = new EAdVarInterpolationEffect(
+					"answer_interpolation");
+			interpolation.setInterpolation(a.positionXVar(), -800,
+					marginLeft * 2, 500,
+					EAdVarInterpolationEffect.LoopType.NO_LOOP);
+			macro.getEffects().add(interpolation);
+
 		}
-		
-		event.addEffect(SceneElementEvent.ADDED_TO_SCENE, new EAdTriggerMacro( macro ));
-		getEvents().add(event);
+
 	}
 
 	public void setQuestion(EAdBasicSceneElement questionElement) {

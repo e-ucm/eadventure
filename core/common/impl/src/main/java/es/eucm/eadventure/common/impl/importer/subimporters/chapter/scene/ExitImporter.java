@@ -86,14 +86,14 @@ public class ExitImporter implements Importer<Exit, EAdSceneElement> {
 		event.setCondition(condition);
 		
 		EAdChangeVarValueEffect visibleVar = new EAdChangeVarValueEffect( newExit.getId() + "_visibleEffect" );
-		visibleVar.setVar(newExit.visibleVar());
+		visibleVar.addVar(newExit.visibleVar());
 		BooleanOperation op = new BooleanOperation( "booleanOpTrue" );
 		op.setCondition(EmptyCondition.TRUE_EMPTY_CONDITION);
 		visibleVar.setOperation( op );
 		event.addEffect(EAdConditionEvent.ConditionedEvent.CONDITIONS_MET, visibleVar);
 		
 		EAdChangeVarValueEffect notVisibleVar = new EAdChangeVarValueEffect( newExit.getId() + "_notVisibleEffect" );
-		notVisibleVar.setVar(newExit.visibleVar());
+		notVisibleVar.addVar(newExit.visibleVar());
 		op = new BooleanOperation( "booleanOpFalse" );
 		op.setCondition(EmptyCondition.FALSE_EMPTY_CONDITION);
 		notVisibleVar.setOperation( op );

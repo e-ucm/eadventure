@@ -83,12 +83,12 @@ public class Answer extends EAdBasicSceneElement {
 		behavior = new EAdBehaviorImpl(id + "_answer" + index + "Behavior");
 		
 		EAdChangeVarValueEffect selectEffect = new EAdChangeVarValueEffect("setSelected");
-		selectEffect.setVar(selectedAnswer);
+		selectEffect.addVar(selectedAnswer);
 		selectEffect.setOperation(new LiteralExpressionOperation("exp", "" + index));
 		behavior.addBehavior(EAdMouseEventImpl.MOUSE_ENTERED, selectEffect);
 		
 		EAdChangeVarValueEffect unselectEffect = new EAdChangeVarValueEffect("setUnselected");
-		unselectEffect.setVar(selectedAnswer);
+		unselectEffect.addVar(selectedAnswer);
 		unselectEffect.setOperation(new LiteralExpressionOperation("exp", "-1"));
 		behavior.addBehavior(EAdMouseEventImpl.MOUSE_EXITED, unselectEffect);
 		

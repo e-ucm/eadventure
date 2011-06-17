@@ -8,6 +8,10 @@ public class SceneElementEventGO extends AbstractEventGO<EAdSceneElementEvent>{
 	
 	private boolean firstCheck = true;
 	
+	public void initialize( ){
+		firstCheck = true;
+	}
+	
 	@Override
 	public void update(GameState state) {
 		super.update(state);

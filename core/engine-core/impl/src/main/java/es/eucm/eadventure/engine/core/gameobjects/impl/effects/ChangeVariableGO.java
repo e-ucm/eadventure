@@ -40,6 +40,7 @@ package es.eucm.eadventure.engine.core.gameobjects.impl.effects;
 import com.google.inject.Inject;
 
 import es.eucm.eadventure.common.model.effects.impl.variables.EAdChangeVarValueEffect;
+import es.eucm.eadventure.common.model.variables.EAdVar;
 import es.eucm.eadventure.engine.core.GameState;
 import es.eucm.eadventure.engine.core.OperatorFactory;
 
@@ -54,7 +55,9 @@ public class ChangeVariableGO extends AbstractEffectGO<EAdChangeVarValueEffect> 
 
 	@Override
 	public void update(GameState gameState) {
-		operatorFactory.operate(element.getVar(), element.getOperation());
+		for ( EAdVar<?> v: element.getVars() ){
+			operatorFactory.operate(v, element.getOperation());
+		}
 	}
 
 	@Override

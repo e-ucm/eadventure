@@ -39,12 +39,14 @@ package es.eucm.eadventure.common.model.effects.impl.variables;
 
 import es.eucm.eadventure.common.interfaces.Element;
 import es.eucm.eadventure.common.interfaces.Param;
+import es.eucm.eadventure.common.model.EAdElementList;
 import es.eucm.eadventure.common.model.effects.impl.AbstractEAdEffect;
+import es.eucm.eadventure.common.model.impl.EAdElementListImpl;
 import es.eucm.eadventure.common.model.variables.EAdOperation;
 import es.eucm.eadventure.common.model.variables.EAdVar;
 
 /**
- * Effect for changing a variable's value
+ * Effect for changing variables' values
  * 
  */
 @Element(runtime = EAdChangeVarValueEffect.class, detailed = EAdChangeVarValueEffect.class)
@@ -53,8 +55,8 @@ public class EAdChangeVarValueEffect extends AbstractEAdEffect {
 	/**
 	 * Variable to be changed
 	 */
-	@Param("var")
-	private EAdVar<?> var;
+	@Param("vars")
+	private EAdElementList<EAdVar<?>> vars;
 
 	/**
 	 * Operation to be done. The result of this operation should be assigned to
@@ -70,7 +72,7 @@ public class EAdChangeVarValueEffect extends AbstractEAdEffect {
 	 *            Elements's id
 	 */
 	public EAdChangeVarValueEffect(String id) {
-		super(id);
+		this(id, null, null);
 	}
 
 	/**
@@ -86,7 +88,9 @@ public class EAdChangeVarValueEffect extends AbstractEAdEffect {
 	public EAdChangeVarValueEffect(String id, EAdVar<?> var,
 			EAdOperation operation) {
 		super(id);
-		this.var = var;
+		this.vars = new EAdElementListImpl<EAdVar<?>>(EAdVar.class);
+		if (var != null)
+			vars.add(var);
 		this.operation = operation;
 	}
 
@@ -96,8 +100,8 @@ public class EAdChangeVarValueEffect extends AbstractEAdEffect {
 	 * @param var
 	 *            the variable
 	 */
-	public void setVar(EAdVar<?> var) {
-		this.var = var;
+	public void addVar(EAdVar<?> var) {
+		vars.add(var);
 	}
 
 	/**
@@ -116,8 +120,8 @@ public class EAdChangeVarValueEffect extends AbstractEAdEffect {
 	 * 
 	 * @return the var to be updated with the operation result
 	 */
-	public EAdVar<?> getVar() {
-		return var;
+	public EAdElementList<EAdVar<?>> getVars() {
+		return vars;
 	}
 
 	/**
