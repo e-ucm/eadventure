@@ -2,7 +2,7 @@ package es.eucm.eadventure.common.impl.importer.subimporters.effects;
 
 import com.google.inject.Inject;
 
-import es.eucm.eadventure.common.Importer;
+import es.eucm.eadventure.common.EAdElementImporter;
 import es.eucm.eadventure.common.data.chapter.conditions.Conditions;
 import es.eucm.eadventure.common.data.chapter.effects.ShowTextEffect;
 import es.eucm.eadventure.common.model.effects.impl.text.EAdShowText;
@@ -25,14 +25,19 @@ public class ShowTextEffectImporter extends
 	private static int ID_GENERATOR = 0; 
 
 	@Inject
-	public ShowTextEffectImporter(StringHandler stringHandler, Importer<Conditions,EAdCondition> conditionImporter ) {
+	public ShowTextEffectImporter(StringHandler stringHandler, EAdElementImporter<Conditions,EAdCondition> conditionImporter ) {
 		super( conditionImporter );
 		this.stringHandler = stringHandler;
 	}
-
+	
 	@Override
-	public EAdShowText convert(ShowTextEffect oldObject) {
-		EAdShowText showText = new EAdShowText( "showTextEffect" + ID_GENERATOR++);
+	public EAdShowText init(ShowTextEffect oldObject) {
+		return new EAdShowText( "showTextEffect" + ID_GENERATOR++);
+	}
+	
+	@Override
+	public EAdShowText convert(ShowTextEffect oldObject, Object object) {
+		EAdShowText showText = (EAdShowText) object;
 		super.importConditions(oldObject, showText);
 		
 		EAdString text = new EAdString( stringHandler.getUniqueId() );
@@ -50,12 +55,6 @@ public class ShowTextEffectImporter extends
 		// TODO might be needed, check if imported text is positioned correctly
 		// showText.getText().setPosition(new EAdPosition( EAdPosition.Corner.CENTER, oldObject.getX(), oldObject.getY() ));
 		return showText;
-	}
-
-	@Override
-	public boolean equals(ShowTextEffect oldObject, EAdShowText newObject) {
-		// TODO Auto-generated method stub
-		return false;
 	}
 
 }

@@ -41,7 +41,8 @@ import com.google.inject.AbstractModule;
 import com.google.inject.TypeLiteral;
 import com.google.inject.name.Names;
 
-import es.eucm.eadventure.common.Importer;
+import es.eucm.eadventure.common.EAdElementImporter;
+import es.eucm.eadventure.common.GenericImporter;
 import es.eucm.eadventure.common.data.adventure.AdventureData;
 import es.eucm.eadventure.common.data.animation.Animation;
 import es.eucm.eadventure.common.data.animation.ImageLoaderFactory;
@@ -51,6 +52,7 @@ import es.eucm.eadventure.common.data.chapter.ElementReference;
 import es.eucm.eadventure.common.data.chapter.Exit;
 import es.eucm.eadventure.common.data.chapter.conditions.Conditions;
 import es.eucm.eadventure.common.data.chapter.conversation.Conversation;
+import es.eucm.eadventure.common.data.chapter.conversation.GraphConversation;
 import es.eucm.eadventure.common.data.chapter.conversation.line.ConversationLine;
 import es.eucm.eadventure.common.data.chapter.conversation.node.DialogueConversationNode;
 import es.eucm.eadventure.common.data.chapter.conversation.node.OptionConversationNode;
@@ -59,6 +61,7 @@ import es.eucm.eadventure.common.data.chapter.elements.Atrezzo;
 import es.eucm.eadventure.common.data.chapter.elements.Item;
 import es.eucm.eadventure.common.data.chapter.elements.NPC;
 import es.eucm.eadventure.common.data.chapter.scenes.Scene;
+import es.eucm.eadventure.common.data.chapter.scenes.Slidescene;
 import es.eucm.eadventure.common.impl.importer.auxiliar.EAdElementFactoryImpl;
 import es.eucm.eadventure.common.impl.importer.auxiliar.ImporterImageLoaderFactory;
 import es.eucm.eadventure.common.impl.importer.auxiliar.TemporalInputStreamCreator;
@@ -78,6 +81,7 @@ import es.eucm.eadventure.common.impl.importer.subimporters.chapter.conversation
 import es.eucm.eadventure.common.impl.importer.subimporters.chapter.conversations.LineImporterToCaption;
 import es.eucm.eadventure.common.impl.importer.subimporters.chapter.conversations.LineImporterToShowText;
 import es.eucm.eadventure.common.impl.importer.subimporters.chapter.conversations.OptionConversationImporter;
+import es.eucm.eadventure.common.impl.importer.subimporters.chapter.cutscene.SlidesceneImporter;
 import es.eucm.eadventure.common.impl.importer.subimporters.chapter.scene.ActiveAreaImporter;
 import es.eucm.eadventure.common.impl.importer.subimporters.chapter.scene.ElementReferenceImporter;
 import es.eucm.eadventure.common.impl.importer.subimporters.chapter.scene.ExitImporter;
@@ -101,6 +105,7 @@ import es.eucm.eadventure.common.model.elements.EAdActorReference;
 import es.eucm.eadventure.common.model.elements.EAdCondition;
 import es.eucm.eadventure.common.model.elements.EAdSceneElement;
 import es.eucm.eadventure.common.model.elements.impl.EAdSceneImpl;
+import es.eucm.eadventure.common.model.elements.impl.extra.EAdCutscene;
 import es.eucm.eadventure.common.resources.assets.drawable.Caption;
 import es.eucm.eadventure.common.resources.assets.drawable.animation.impl.Frame;
 import es.eucm.eadventure.common.resources.assets.drawable.animation.impl.FramesAnimation;
@@ -123,59 +128,91 @@ public class ImporterConfigurationModule extends AbstractModule {
 		bind(String.class).annotatedWith(Names.named("projectFolder"))
 				.toInstance(projectFolder);
 
-		bind(new TypeLiteral<Importer<AdventureData, EAdAdventureModel>>() {
-		}).to(AdventureImporter.class);
-		bind(new TypeLiteral<Importer<Chapter, EAdChapter>>() {
-		}).to(ChapterImporter.class);
-		bind(new TypeLiteral<Importer<Scene, EAdSceneImpl>>() {
-		}).to(SceneImporter.class);
-		bind(new TypeLiteral<Importer<ElementReference, EAdActorReference>>() {
-		}).to(ElementReferenceImporter.class);
-		bind(new TypeLiteral<Importer<Atrezzo, EAdActor>>() {
-		}).to(AtrezzoImporter.class);
-		bind(new TypeLiteral<Importer<Item, EAdActor>>() {
-		}).to(ItemImporter.class);
-		bind(new TypeLiteral<Importer<NPC, EAdActor>>() {
-		}).to(NPCImporter.class);
-		bind(new TypeLiteral<Importer<Conditions, EAdCondition>>() {
-		}).to(ConditionsImporter.class);
-		bind(new TypeLiteral<Importer<Action, EAdAction>>() {
-		}).to(ActionImporter.class);
-		bind(new TypeLiteral<Importer<Animation, FramesAnimation>>() {
-		}).to(AnimationImporter.class);
+		bind(new TypeLiteral<EAdElementImporter<AdventureData, EAdAdventureModel>>() {}).to(AdventureImporter.class);
+		EAdElementFactoryImpl.importerMap.put(AdventureData.class, AdventureImporter.class);
+		
+		bind(new TypeLiteral<EAdElementImporter<Chapter, EAdChapter>>() {}).to(ChapterImporter.class);
+		EAdElementFactoryImpl.importerMap.put(Chapter.class, ChapterImporter.class);
+
+		bind(new TypeLiteral<EAdElementImporter<Scene, EAdSceneImpl>>() {}).to(SceneImporter.class);
+		EAdElementFactoryImpl.importerMap.put(Scene.class, SceneImporter.class);
+
+		bind(new TypeLiteral<EAdElementImporter<Slidescene, EAdCutscene>>() {}).to(SlidesceneImporter.class);
+		EAdElementFactoryImpl.importerMap.put(Slidescene.class, SlidesceneImporter.class);
+
+		bind(new TypeLiteral<EAdElementImporter<ElementReference, EAdActorReference>>() {}).to(ElementReferenceImporter.class);
+		EAdElementFactoryImpl.importerMap.put(ElementReference.class, ElementReferenceImporter.class);
+
+		bind(new TypeLiteral<EAdElementImporter<Atrezzo, EAdActor>>() {}).to(AtrezzoImporter.class);
+		EAdElementFactoryImpl.importerMap.put(Atrezzo.class, AtrezzoImporter.class);
+		
+		bind(new TypeLiteral<EAdElementImporter<Item, EAdActor>>() {}).to(ItemImporter.class);
+		EAdElementFactoryImpl.importerMap.put(Item.class, ItemImporter.class);
+
+		bind(new TypeLiteral<EAdElementImporter<NPC, EAdActor>>() {}).to(NPCImporter.class);
+		EAdElementFactoryImpl.importerMap.put(NPC.class, NPCImporter.class);
+
+		
+		bind(new TypeLiteral<EAdElementImporter<Conditions, EAdCondition>>() {}).to(ConditionsImporter.class);
+		EAdElementFactoryImpl.importerMap.put(Conditions.class, ConditionsImporter.class);
+
+		bind(new TypeLiteral<EAdElementImporter<Action, EAdAction>>() {}).to(ActionImporter.class);
+		EAdElementFactoryImpl.importerMap.put(Action.class, ActionImporter.class);
+
+		bind(new TypeLiteral<GenericImporter<Animation, FramesAnimation>>() {}).to(AnimationImporter.class);
+		EAdElementFactoryImpl.importerMap.put(Animation.class, AnimationImporter.class);
+
 		bind(
-				new TypeLiteral<Importer<es.eucm.eadventure.common.data.animation.Frame, Frame>>() {
+				new TypeLiteral<GenericImporter<es.eucm.eadventure.common.data.animation.Frame, Frame>>() {
 				}).to(FrameImporter.class);
-		bind(new TypeLiteral<Importer<Exit, EAdSceneElement>>() {
+		EAdElementFactoryImpl.importerMap.put(es.eucm.eadventure.common.data.animation.Frame.class, FrameImporter.class);
+
+		bind(new TypeLiteral<EAdElementImporter<Exit, EAdSceneElement>>() {
 		}).to(ExitImporter.class);
+		EAdElementFactoryImpl.importerMap.put(Exit.class, ExitImporter.class);
+
 		bind(
-				new TypeLiteral<Importer<es.eucm.eadventure.common.data.chapter.conditions.FlagCondition, FlagCondition>>() {
+				new TypeLiteral<EAdElementImporter<es.eucm.eadventure.common.data.chapter.conditions.FlagCondition, FlagCondition>>() {
 				}).to(FlagConditionImporter.class);
+		EAdElementFactoryImpl.importerMap.put(es.eucm.eadventure.common.data.chapter.conditions.FlagCondition.class, FlagConditionImporter.class);
 
 		bind(
-				new TypeLiteral<Importer<es.eucm.eadventure.common.data.chapter.conditions.VarCondition, VarCondition>>() {
+				new TypeLiteral<EAdElementImporter<es.eucm.eadventure.common.data.chapter.conditions.VarCondition, VarCondition>>() {
 				}).to(VarConditionImporter.class);
+		EAdElementFactoryImpl.importerMap.put(es.eucm.eadventure.common.data.chapter.conditions.VarCondition.class, VarConditionImporter.class);
 
-		bind(new TypeLiteral<Importer<ActiveArea, EAdSceneElement>>() {
+		bind(new TypeLiteral<EAdElementImporter<ActiveArea, EAdSceneElement>>() {
 		}).to(ActiveAreaImporter.class);
+		EAdElementFactoryImpl.importerMap.put(ActiveArea.class, ActiveAreaImporter.class);
 
-		bind(new TypeLiteral<Importer<Conversation, EAdEffect>>() {
+		bind(new TypeLiteral<EAdElementImporter<Conversation, EAdEffect>>() {
 		}).to(ConversationImporter.class);
+
+		EAdElementFactoryImpl.importerMap.put(Conversation.class, ConversationImporter.class);
+		EAdElementFactoryImpl.importerMap.put(GraphConversation.class, ConversationImporter.class);
+
 		bind(
-				new TypeLiteral<Importer<DialogueConversationNode, EAdTriggerMacro>>() {
+				new TypeLiteral<EAdElementImporter<DialogueConversationNode, EAdTriggerMacro>>() {
 				}).to(DialogueNodeImporter.class);
-		bind(new TypeLiteral<Importer<ConversationLine, Caption>>() {
+		EAdElementFactoryImpl.importerMap.put(DialogueConversationNode.class, DialogueNodeImporter.class);
+
+		bind(new TypeLiteral<GenericImporter<ConversationLine, Caption>>() {
 		}).to(LineImporterToCaption.class);
-		bind(new TypeLiteral<Importer<ConversationLine, EAdShowText>>() {
+		EAdElementFactoryImpl.importerMap.put(ConversationLine.class, LineImporterToCaption.class);
+
+		bind(new TypeLiteral<EAdElementImporter<ConversationLine, EAdShowText>>() {
 		}).to(LineImporterToShowText.class);
+		EAdElementFactoryImpl.importerMap.put(ConversationLine.class, LineImporterToShowText.class);
+
 		bind(
-				new TypeLiteral<Importer<OptionConversationNode, EAdShowQuestion>>() {
+				new TypeLiteral<EAdElementImporter<OptionConversationNode, EAdShowQuestion>>() {
 				}).to(OptionConversationImporter.class);
+		EAdElementFactoryImpl.importerMap.put(OptionConversationNode.class, OptionConversationImporter.class);
+
 		bind(ResourceImporter.class).to(ResourceImporterImpl.class);
 		bind(EAdElementFactory.class).to(EAdElementFactoryImpl.class);
 		bind(InputStreamCreator.class).to(TemporalInputStreamCreator.class);
 		bind(ImageLoaderFactory.class).to(ImporterImageLoaderFactory.class);
-
 	}
 
 }

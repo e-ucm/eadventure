@@ -2,7 +2,7 @@ package es.eucm.eadventure.common.impl.importer.subimporters.conditions;
 
 import com.google.inject.Inject;
 
-import es.eucm.eadventure.common.Importer;
+import es.eucm.eadventure.common.EAdElementImporter;
 import es.eucm.eadventure.common.data.chapter.conditions.Condition;
 import es.eucm.eadventure.common.data.chapter.conditions.Conditions;
 import es.eucm.eadventure.common.data.chapter.conditions.GlobalStateCondition;
@@ -13,16 +13,16 @@ import es.eucm.eadventure.common.model.conditions.impl.ORCondition;
 import es.eucm.eadventure.common.model.conditions.impl.VarCondition;
 import es.eucm.eadventure.common.model.elements.EAdCondition;
 
-public class ConditionsImporter implements Importer<Conditions, EAdCondition> {
+public class ConditionsImporter implements EAdElementImporter<Conditions, EAdCondition> {
 
-	private Importer<es.eucm.eadventure.common.data.chapter.conditions.FlagCondition, FlagCondition> flagConditionImporter;
-	private Importer<es.eucm.eadventure.common.data.chapter.conditions.VarCondition, VarCondition> varConditionImporter;
+	private EAdElementImporter<es.eucm.eadventure.common.data.chapter.conditions.FlagCondition, FlagCondition> flagConditionImporter;
+	private EAdElementImporter<es.eucm.eadventure.common.data.chapter.conditions.VarCondition, VarCondition> varConditionImporter;
 	private EAdElementFactory factory;
 
 	@Inject
 	public ConditionsImporter(
-			Importer<es.eucm.eadventure.common.data.chapter.conditions.FlagCondition, FlagCondition> flagConditionImporter,
-			Importer<es.eucm.eadventure.common.data.chapter.conditions.VarCondition, VarCondition> varConditionImporter,
+			EAdElementImporter<es.eucm.eadventure.common.data.chapter.conditions.FlagCondition, FlagCondition> flagConditionImporter,
+			EAdElementImporter<es.eucm.eadventure.common.data.chapter.conditions.VarCondition, VarCondition> varConditionImporter,
 			EAdElementFactory factory) {
 		this.factory = factory;
 		this.flagConditionImporter = flagConditionImporter;
@@ -30,8 +30,13 @@ public class ConditionsImporter implements Importer<Conditions, EAdCondition> {
 	}
 
 	@Override
-	public EAdCondition convert(Conditions oldObject) {
-		ANDCondition newCondition = new ANDCondition();
+	public EAdCondition init(Conditions oldObject) {
+		return new ANDCondition();
+	}
+	
+	@Override
+	public EAdCondition convert(Conditions oldObject, Object object) {
+		ANDCondition newCondition = (ANDCondition) object;;
 		for (Condition c : oldObject.getSimpleConditions()) {
 			EAdCondition newC = getSimpleCondition(c);
 			if (newC != null) {
@@ -59,21 +64,17 @@ public class ConditionsImporter implements Importer<Conditions, EAdCondition> {
 
 	private EAdCondition getSimpleCondition(Condition c) {
 		if (c.getType() == Condition.FLAG_CONDITION) {
-			return flagConditionImporter
-					.convert((es.eucm.eadventure.common.data.chapter.conditions.FlagCondition) c);
+			EAdCondition condition = flagConditionImporter.init((es.eucm.eadventure.common.data.chapter.conditions.FlagCondition) c);
+			return flagConditionImporter.convert((es.eucm.eadventure.common.data.chapter.conditions.FlagCondition) c, condition);
 		} else if (c.getType() == Condition.VAR_CONDITION) {
+			EAdCondition condition = varConditionImporter
+			.init((es.eucm.eadventure.common.data.chapter.conditions.VarCondition) c);
 			return varConditionImporter
-					.convert((es.eucm.eadventure.common.data.chapter.conditions.VarCondition) c);
+					.convert((es.eucm.eadventure.common.data.chapter.conditions.VarCondition) c, condition);
 		} else if (c.getType() == Condition.GLOBAL_STATE_CONDITION) {
 			return factory.getGlobalStateCondition(((GlobalStateCondition) c).getId());
 		}
 		return null;
-	}
-
-	@Override
-	public boolean equals(Conditions oldObject, EAdCondition newObject) {
-		// TODO Auto-generated method stub
-		return false;
 	}
 
 }

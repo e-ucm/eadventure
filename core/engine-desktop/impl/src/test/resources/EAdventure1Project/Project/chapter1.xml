@@ -13,6 +13,9 @@
 					<active flag="FlagId"/>
 				</condition>
 			</exit>
+			<exit destinyX="-2147483648" destinyY="-2147483648" hasInfluenceArea="no" height="104" idTarget="CutsceneId" not-effects="no" rectangular="yes" transitionTime="0" transitionType="0" width="324" x="314" y="20">
+				<exit-look text=""/>
+			</exit>
 		</exits>
 		<objects>
 			<object-ref hasInfluenceArea="no" idTarget="ItemId" layer="1" scale="1.0324324" x="640" y="555"/>
@@ -68,6 +71,12 @@
 			<atrezzo-ref idTarget="AtrezzoId" layer="0" scale="1.0" x="583" y="337"/>
 		</atrezzo>
 	</scene>
+	<slidescene id="CutsceneId" next="go-back" start="no">
+		<resources name="No name">
+			<asset type="slides" uri="assets/animation/cutscene_animation.eaa"/>
+		</resources>
+		<name/>
+	</slidescene>
 	<object id="ItemId" returnsWhenDragged="yes">
 		<documentation>This a nice blond guy. All natural.</documentation>
 		<resources name="No name">

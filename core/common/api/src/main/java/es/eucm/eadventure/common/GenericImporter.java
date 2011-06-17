@@ -37,6 +37,7 @@
 
 package es.eucm.eadventure.common;
 
+import es.eucm.eadventure.common.model.EAdElement;
 
 /**
  * An importer for converting old model {@link AdventureData} objects into new
@@ -47,8 +48,9 @@ package es.eucm.eadventure.common;
  * @param <NewT>
  *            New class class name from new model {@link EAdventureModel}
  */
-public interface Importer<OldT, NewT> {
+public interface GenericImporter<OldT, NewT> {
 
+	
 	/**
 	 * Returns a new model object equivalent to the oldObject. Null if
 	 * conversion failed
@@ -56,19 +58,16 @@ public interface Importer<OldT, NewT> {
 	 * @param oldObject
 	 * @return
 	 */
-	NewT convert( OldT oldObject );
-
+	NewT init( OldT oldObject );
+	
+	
 	/**
-	 * Returns if newObject and oldObject represents exactly the same data in
-	 * its different models
+	 * Converts the parameters of the old object to those of the new one
 	 * 
 	 * @param oldObject
-	 *            Object to be compare
-	 * @param newObject
-	 *            Object to be compare
-	 * 
-	 * @return if newObject and oldObject represents exactly the same data in
-	 *         its different models
+	 * @param newElement 
+	 * @return
 	 */
-	boolean equals( OldT oldObject, NewT newObject );
+	NewT convert( OldT oldObject, Object newElement );
+	
 }

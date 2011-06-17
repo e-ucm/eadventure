@@ -37,19 +37,16 @@
 
 package es.eucm.eadventure.common.impl.importer.subimporters.chapter;
 
+import java.util.List;
+
 import com.google.inject.Inject;
 
-import es.eucm.eadventure.common.Importer;
+import es.eucm.eadventure.common.EAdElementImporter;
+import es.eucm.eadventure.common.data.HasId;
 import es.eucm.eadventure.common.data.chapter.Chapter;
-import es.eucm.eadventure.common.data.chapter.elements.Atrezzo;
-import es.eucm.eadventure.common.data.chapter.elements.Item;
-import es.eucm.eadventure.common.data.chapter.elements.NPC;
-import es.eucm.eadventure.common.data.chapter.scenes.Scene;
 import es.eucm.eadventure.common.impl.importer.interfaces.EAdElementFactory;
 import es.eucm.eadventure.common.model.EAdChapter;
-import es.eucm.eadventure.common.model.elements.EAdActor;
 import es.eucm.eadventure.common.model.elements.EAdScene;
-import es.eucm.eadventure.common.model.elements.impl.EAdSceneImpl;
 import es.eucm.eadventure.common.model.impl.EAdChapterImpl;
 import es.eucm.eadventure.common.resources.EAdString;
 import es.eucm.eadventure.common.resources.StringHandler;
@@ -58,29 +55,9 @@ import es.eucm.eadventure.common.resources.StringHandler;
  * Chapter importer
  * 
  */
-public class ChapterImporter implements Importer<Chapter, EAdChapter> {
+public class ChapterImporter implements EAdElementImporter<Chapter, EAdChapter> {
 
 	private static int CHAPTER_ID;
-
-	/**
-	 * Scenes importer
-	 */
-	private Importer<Scene, EAdSceneImpl> sceneImporter;
-
-	/**
-	 * Atrezzos importer
-	 */
-	private Importer<Atrezzo, EAdActor> atrezzoImporter;
-
-	/**
-	 * Items importer
-	 */
-	private Importer<Item, EAdActor> itemImporter;
-
-	/**
-	 * Characters importer
-	 */
-	private Importer<NPC, EAdActor> characterImporter;
 
 	/**
 	 * String handler
@@ -91,24 +68,23 @@ public class ChapterImporter implements Importer<Chapter, EAdChapter> {
 	private EAdElementFactory elementFactory;
 
 	@Inject
-	public ChapterImporter(Importer<Scene, EAdSceneImpl> sceneImporter,
-			Importer<Atrezzo, EAdActor> atrezzoImporter,
-			Importer<Item, EAdActor> itemImporter,
-			Importer<NPC, EAdActor> characterImporter,
+	public ChapterImporter(
 			StringHandler stringHandler,
 			EAdElementFactory elementFactory) {
-		this.sceneImporter = sceneImporter;
-		this.atrezzoImporter = atrezzoImporter;
-		this.itemImporter = itemImporter;
-		this.characterImporter = characterImporter;
 		this.stringHandler = stringHandler;
 		this.elementFactory = elementFactory;
 	}
 
 	@Override
-	public EAdChapter convert(Chapter oldChapter) {
+	public EAdChapter init(Chapter oldChapter) {
 		EAdChapterImpl newChapter = new EAdChapterImpl(
 				"chapter" + CHAPTER_ID++);
+		return newChapter;
+	}
+	
+	@Override
+	public EAdChapter convert(Chapter oldChapter, Object object) {
+		EAdChapterImpl newChapter = (EAdChapterImpl) object;
 		elementFactory.setCurrentChapterModel( newChapter, oldChapter );
 
 		newChapter.setTitle(new EAdString(stringHandler.getUniqueId()));
@@ -117,108 +93,52 @@ public class ChapterImporter implements Importer<Chapter, EAdChapter> {
 		newChapter.setDescription(new EAdString(stringHandler.getUniqueId()));
 		stringHandler.addString(newChapter.getDescription(),
 				oldChapter.getDescription());
-
+		
+		registerOldElements(oldChapter.getAtrezzo());
+		registerOldElements(oldChapter.getItems());
+		registerOldElements(oldChapter.getCharacters());
+		registerOldElements(oldChapter.getCutscenes());
+		registerOldElements(oldChapter.getScenes());
+		registerOldElements(oldChapter.getBooks());
+		registerOldElements(oldChapter.getGlobalStates());
+		registerOldElements(oldChapter.getMacros());
+		registerOldElements(oldChapter.getConversations());
+		
+		importElements(oldChapter.getAtrezzo());
+		importElements(oldChapter.getItems());
+		importElements(oldChapter.getCharacters());
+		importElements(oldChapter.getCutscenes());
+		importElements(oldChapter.getScenes());
+		importElements(oldChapter.getBooks());
+		importElements(oldChapter.getGlobalStates());
+		importElements(oldChapter.getMacros());
+		
+		// Import player
+		/*
+		EAdActor player = characterImporter.convert(oldChapter.getPlayer());
+		if ( player !=  null )
+			newChapter.getActors().add(player);
+		*/
+		
 		// TODO oldChapter.getAdaptationName( );
 		// TODO oldChapter.getAdaptationProfiles( )
 		// TODO oldChapter.getAdaptationProfilesNames( )
 		// TODO oldChapter.getAssessmentName( )
 		// TODO oldChapter.getAssessmentProfiles( )
 
-		// The order of import must be as follows to work
-		importAtrezzos(oldChapter, newChapter);
-		importItems(oldChapter, newChapter);
-		importCharacter(oldChapter, newChapter);
-		importScenes(oldChapter, newChapter);
-
+		newChapter.setInitialScreen((EAdScene) elementFactory.getElementById(oldChapter.getInitialGeneralScene().getId()));
+		
 		return newChapter;
 	}
-
-	/**
-	 * Imports the scenes from the old chapter to the new chapter
-	 * 
-	 * @param oldChapter
-	 *            old chapter
-	 * @param newChapter
-	 *            new chapter
-	 */
-	private void importScenes(Chapter oldChapter, EAdChapterImpl newChapter) {
-		for (Scene s : oldChapter.getScenes()) {
-			EAdScene screen = sceneImporter.convert(s);
-			if (screen != null) {
-				newChapter.getScenes().add(screen);
-				// Set initial screen
-				if (oldChapter.getTargetId().equals(s.getId())) {
-					newChapter.setInitialScreen(screen);
-				}
-			}
-		}
+	
+	private void registerOldElements(List<? extends HasId> list) {
+		for (HasId element : list) 
+			elementFactory.registerOldElement(element.getId(), element);
 	}
 
-	/**
-	 * Imports the atrezzos from the old chapter to the new chapter
-	 * 
-	 * @param oldChapter
-	 *            old chapter
-	 * @param newChapter
-	 *            new chapter
-	 */
-	private void importAtrezzos(Chapter oldChapter,
-			EAdChapterImpl newChapter) {
-		for (Atrezzo a : oldChapter.getAtrezzo()) {
-			EAdActor actor = atrezzoImporter.convert(a);
-			if (actor != null) {
-				newChapter.getActors().add(actor);
-			}
-		}
-
-	}
-
-	/**
-	 * Imports the items from the old chapter to the new chapter
-	 * 
-	 * @param oldChapter
-	 *            old chapter
-	 * @param newChapter
-	 *            new chapter
-	 */
-	private void importItems(Chapter oldChapter, EAdChapterImpl newChapter) {
-		for (Item i : oldChapter.getItems()) {
-			EAdActor actor = itemImporter.convert(i);
-			if (actor != null) {
-				newChapter.getActors().add(actor);
-			}
-		}
-
-	}
-
-	/**
-	 * Imports the characters from the old chapter to the new chapter
-	 * 
-	 * @param oldChapter
-	 *            old chapter
-	 * @param newChapter
-	 *            new chapter
-	 */
-	private void importCharacter(Chapter oldChapter,
-			EAdChapterImpl newChapter) {
-		for (NPC n : oldChapter.getCharacters()) {
-			EAdActor actor = characterImporter.convert(n);
-			if (actor != null) {
-				newChapter.getActors().add(actor);
-			}
-		}
-		
-		// Import player
-		EAdActor player = characterImporter.convert(oldChapter.getPlayer());
-		if ( player !=  null )
-			newChapter.getActors().add(player);
-
-	}
-
-	@Override
-	public boolean equals(Chapter oldObject, EAdChapter newObject) {
-		// FIXME Implement equals
-		return false;
+	private void importElements(List<? extends HasId> list) {
+		for (HasId element : list) 
+			elementFactory.getElementById(element.getId());
 	}
 
 }

@@ -2,7 +2,7 @@ package es.eucm.eadventure.common.impl.importer.subimporters.conditions;
 
 import com.google.inject.Inject;
 
-import es.eucm.eadventure.common.Importer;
+import es.eucm.eadventure.common.EAdElementImporter;
 import es.eucm.eadventure.common.data.chapter.conditions.Condition;
 import es.eucm.eadventure.common.impl.importer.interfaces.EAdElementFactory;
 import es.eucm.eadventure.common.model.conditions.impl.VarCondition;
@@ -10,9 +10,8 @@ import es.eucm.eadventure.common.model.conditions.impl.VarCondition.Operator;
 import es.eucm.eadventure.common.model.conditions.impl.VarValCondition;
 import es.eucm.eadventure.common.model.variables.impl.vars.IntegerVar;
 
-public class VarConditionImporter implements Importer<es.eucm.eadventure.common.data.chapter.conditions.VarCondition, VarCondition>{
+public class VarConditionImporter implements EAdElementImporter<es.eucm.eadventure.common.data.chapter.conditions.VarCondition, VarCondition>{
 
-	
 	private EAdElementFactory factory;
 
 	@Inject
@@ -21,7 +20,7 @@ public class VarConditionImporter implements Importer<es.eucm.eadventure.common.
 	}
 	
 	@Override
-	public VarCondition convert(
+	public VarCondition init(
 			es.eucm.eadventure.common.data.chapter.conditions.VarCondition oldObject) {
 		Operator op = getOperator( oldObject.getState() );
 		IntegerVar var = (IntegerVar) factory.getVarByOldId(oldObject.getId(), Condition.VAR_CONDITION);
@@ -30,6 +29,13 @@ public class VarConditionImporter implements Importer<es.eucm.eadventure.common.
 		return condition;
 	}
 	
+
+	@Override
+	public VarCondition convert(
+			es.eucm.eadventure.common.data.chapter.conditions.VarCondition oldObject, Object object) {
+		return (VarValCondition) object;
+	}
+
 	private VarValCondition.Operator getOperator( int op ){
 		switch( op ){
 		case es.eucm.eadventure.common.data.chapter.conditions.VarCondition.VAR_EQUALS:
@@ -44,14 +50,6 @@ public class VarConditionImporter implements Importer<es.eucm.eadventure.common.
 			return Operator.LESS;
 		}
 		return Operator.EQUAL;
-	}
-
-	@Override
-	public boolean equals(
-			es.eucm.eadventure.common.data.chapter.conditions.VarCondition oldObject,
-			VarCondition newObject) {
-		// TODO Auto-generated method stub
-		return false;
 	}
 
 }

@@ -2,11 +2,11 @@ package es.eucm.eadventure.common.impl.importer.resources;
 
 import com.google.inject.Inject;
 
-import es.eucm.eadventure.common.Importer;
+import es.eucm.eadventure.common.GenericImporter;
 import es.eucm.eadventure.common.impl.importer.interfaces.ResourceImporter;
 import es.eucm.eadventure.common.resources.assets.drawable.animation.impl.Frame;
 
-public class FrameImporter implements Importer<es.eucm.eadventure.common.data.animation.Frame, Frame>{
+public class FrameImporter implements GenericImporter<es.eucm.eadventure.common.data.animation.Frame, Frame>{
 
 	private ResourceImporter resourceImporter;
 	
@@ -17,7 +17,7 @@ public class FrameImporter implements Importer<es.eucm.eadventure.common.data.an
 	
 	@Override
 	public Frame convert(
-			es.eucm.eadventure.common.data.animation.Frame oldObject) {
+			es.eucm.eadventure.common.data.animation.Frame oldObject, Object newElement) {
 		// FIXME Frame sounds not imported
 		long time = oldObject.getTime();
 		String oldURI = oldObject.getUri();
@@ -25,13 +25,10 @@ public class FrameImporter implements Importer<es.eucm.eadventure.common.data.an
 		Frame frame = new Frame( newURI, (int) time );
 		return frame;
 	}
-
+	
 	@Override
-	public boolean equals(
-			es.eucm.eadventure.common.data.animation.Frame oldObject,
-			Frame newObject) {
-		// FIXME equals
-		return false;
+	public Frame init(es.eucm.eadventure.common.data.animation.Frame oldObject) {
+		return null;
 	}
 
 }

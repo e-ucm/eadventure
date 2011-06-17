@@ -2,7 +2,7 @@ package es.eucm.eadventure.common.impl.importer.subimporters.effects;
 
 import com.google.inject.Inject;
 
-import es.eucm.eadventure.common.Importer;
+import es.eucm.eadventure.common.EAdElementImporter;
 import es.eucm.eadventure.common.data.chapter.conditions.Conditions;
 import es.eucm.eadventure.common.data.chapter.effects.TriggerLastSceneEffect;
 import es.eucm.eadventure.common.model.effects.EAdEffect;
@@ -13,20 +13,18 @@ public class TriggerPreviousSceneImporter extends EffectImporter<TriggerLastScen
 	
 	@Inject
 	public TriggerPreviousSceneImporter(
-			Importer<Conditions, EAdCondition> conditionImporter) {
+			EAdElementImporter<Conditions, EAdCondition> conditionImporter) {
 		super(conditionImporter);
 	}
 
 	@Override
-	public EAdEffect convert(TriggerLastSceneEffect oldObject) {
+	public EAdEffect init(TriggerLastSceneEffect oldObject) {
 		return new EAdChangeScene("gotToPreviousScene");
 	}
 
 	@Override
-	public boolean equals(TriggerLastSceneEffect oldObject,
-			EAdEffect newObject) {
-		// TODO Auto-generated method stub
-		return false;
+	public EAdEffect convert(TriggerLastSceneEffect oldObject, Object object) {
+		return (EAdChangeScene) object;
 	}
 
 }

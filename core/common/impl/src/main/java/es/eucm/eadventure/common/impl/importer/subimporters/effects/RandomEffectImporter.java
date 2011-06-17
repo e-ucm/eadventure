@@ -2,7 +2,7 @@ package es.eucm.eadventure.common.impl.importer.subimporters.effects;
 
 import com.google.inject.Inject;
 
-import es.eucm.eadventure.common.Importer;
+import es.eucm.eadventure.common.EAdElementImporter;
 import es.eucm.eadventure.common.data.chapter.conditions.Conditions;
 import es.eucm.eadventure.common.data.chapter.effects.RandomEffect;
 import es.eucm.eadventure.common.impl.importer.interfaces.EffectsImporterFactory;
@@ -19,16 +19,22 @@ public class RandomEffectImporter extends
 
 	@Inject
 	public RandomEffectImporter(
-			Importer<Conditions, EAdCondition> conditionImporter,
+			EAdElementImporter<Conditions, EAdCondition> conditionImporter,
 			EffectsImporterFactory effectsImporterFactory) {
 		super(conditionImporter);
 		this.effectsImporterFactory = effectsImporterFactory;
 	}
 
 	@Override
-	public EAdRandomEffect convert(RandomEffect oldObject) {
+	public EAdRandomEffect init(RandomEffect oldObject) {
 		EAdRandomEffect effect = new EAdRandomEffect("randomEffect"
 				+ ID_GENERATOR++);
+		return effect;
+	}
+	
+	@Override
+	public EAdRandomEffect convert(RandomEffect oldObject, Object object) {
+		EAdRandomEffect effect = (EAdRandomEffect) object;
 
 		super.importConditions(oldObject, effect);
 
@@ -42,4 +48,5 @@ public class RandomEffectImporter extends
 
 		return effect;
 	}
+
 }

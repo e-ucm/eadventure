@@ -3,22 +3,20 @@ package es.eucm.eadventure.common.impl.importer.interfaces;
 import es.eucm.eadventure.common.data.adventure.AdventureData;
 import es.eucm.eadventure.common.data.chapter.Chapter;
 import es.eucm.eadventure.common.model.EAdChapter;
-import es.eucm.eadventure.common.model.effects.EAdEffect;
-import es.eucm.eadventure.common.model.elements.EAdActor;
+import es.eucm.eadventure.common.model.EAdElement;
 import es.eucm.eadventure.common.model.elements.EAdCondition;
-import es.eucm.eadventure.common.model.elements.EAdScene;
 import es.eucm.eadventure.common.model.variables.EAdVar;
 
 public interface EAdElementFactory {
 
 	/**
-	 * Returns the actor with the given id from the current chapter
+	 * Returns the element with the given id from the current chapter
 	 * 
 	 * @param id
 	 *            the id
-	 * @return the actor with the given id from the current chapter
+	 * @return the element with the given id from the current chapter
 	 */
-	EAdActor getActorByOldId(String id);
+	EAdElement getElementById(String id);
 
 	/**
 	 * Returns the currently chapter being imported
@@ -43,15 +41,6 @@ public interface EAdElementFactory {
 	 *            the old data from the chapter
 	 */
 	void setCurrentChapterModel(EAdChapter chapter, Chapter oldChapter);
-
-	/**
-	 * Returns the scene associated with the id in the old model
-	 * 
-	 * @param id
-	 *            id in the old model for the scene
-	 * @return the scene
-	 */
-	EAdScene getSceneByOldId(String id);
 
 	/**
 	 * Returns whether the game imported is first person
@@ -92,13 +81,7 @@ public interface EAdElementFactory {
 	 */
 	public EAdCondition getGlobalStateCondition(String globalStateId);
 
-	/**
-	 * Returns the effect associated to the conversation with the given id
-	 * 
-	 * @param conversationId
-	 *            conversation id
-	 * @return
-	 */
-	public EAdEffect getEffectForConversation(String conversationId);
+	void registerOldElement(String id, Object oldElement);
+
 
 }

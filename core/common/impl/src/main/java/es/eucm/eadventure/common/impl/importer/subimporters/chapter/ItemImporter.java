@@ -4,7 +4,7 @@ import java.util.HashMap;
 
 import com.google.inject.Inject;
 
-import es.eucm.eadventure.common.Importer;
+import es.eucm.eadventure.common.EAdElementImporter;
 import es.eucm.eadventure.common.data.chapter.Action;
 import es.eucm.eadventure.common.data.chapter.elements.Item;
 import es.eucm.eadventure.common.impl.importer.interfaces.EAdElementFactory;
@@ -20,7 +20,7 @@ public class ItemImporter extends ActorImporter<Item> {
 	public ItemImporter(StringHandler stringHandler,
 			ResourceImporter resourceImporter,
 			EAdElementFactory elementFactory,
-			Importer<Action, EAdAction> actionImporter) {
+			EAdElementImporter<Action, EAdAction> actionImporter) {
 		super(stringHandler, resourceImporter, elementFactory, actionImporter);
 		// TODO Auto-generated constructor stub
 	}
@@ -37,5 +37,6 @@ public class ItemImporter extends ActorImporter<Item> {
 		classes.put(Item.RESOURCE_TYPE_IMAGE, ImageImpl.class);
 
 	}
+	
 
 }

@@ -2,7 +2,7 @@ package es.eucm.eadventure.common.impl.importer.subimporters.effects.variables;
 
 import com.google.inject.Inject;
 
-import es.eucm.eadventure.common.Importer;
+import es.eucm.eadventure.common.EAdElementImporter;
 import es.eucm.eadventure.common.data.chapter.conditions.Condition;
 import es.eucm.eadventure.common.data.chapter.conditions.Conditions;
 import es.eucm.eadventure.common.data.chapter.effects.ActivateEffect;
@@ -22,13 +22,13 @@ public class ActivateFlagImporter extends EffectImporter<ActivateEffect, EAdChan
 
 	@Inject
 	public ActivateFlagImporter(
-			Importer<Conditions, EAdCondition> conditionImporter, EAdElementFactory factory) {
+			EAdElementImporter<Conditions, EAdCondition> conditionImporter, EAdElementFactory factory) {
 		super(conditionImporter);
 		this.factory = factory;
 	}
 
 	@Override
-	public EAdChangeVarValueEffect convert(ActivateEffect oldObject) {
+	public EAdChangeVarValueEffect init(ActivateEffect oldObject) {
 		BooleanVar var = (BooleanVar) factory.getVarByOldId(oldObject.getTargetId(), Condition.FLAG_CONDITION);
 		BooleanOperation op = new BooleanOperation( "boolOperation" );
 		op.setCondition(EmptyCondition.TRUE_EMPTY_CONDITION);
@@ -37,6 +37,11 @@ public class ActivateFlagImporter extends EffectImporter<ActivateEffect, EAdChan
 		super.importConditions(oldObject, changeVar);
 		
 		return changeVar;
+	}
+
+	@Override
+	public EAdChangeVarValueEffect convert(ActivateEffect oldObject, Object object) {
+		return (EAdChangeVarValueEffect) object;
 	}
 
 }

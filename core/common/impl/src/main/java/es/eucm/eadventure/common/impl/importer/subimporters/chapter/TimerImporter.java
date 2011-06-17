@@ -37,27 +37,25 @@
 
 package es.eucm.eadventure.common.impl.importer.subimporters.chapter;
 
-import es.eucm.eadventure.common.Importer;
+import es.eucm.eadventure.common.EAdElementImporter;
 import es.eucm.eadventure.common.data.chapter.Timer;
 import es.eucm.eadventure.common.model.events.EAdEvent;
 import es.eucm.eadventure.common.model.events.impl.EAdTimerEventImpl;
 
-public class TimerImporter implements Importer<Timer, EAdEvent>{
+public class TimerImporter implements EAdElementImporter<Timer, EAdEvent>{
 	
 	private static int ID = 0; 
-	
+
 	@Override
-	public EAdEvent convert( Timer oldTimer ) {
-		EAdEvent newTimer = new EAdTimerEventImpl( "timer" + ID++ );
+	public EAdEvent init( Timer oldTimer ) {
+		return new EAdTimerEventImpl( "timer" + ID++ );
+	}
+
+	@Override
+	public EAdEvent convert( Timer oldTimer, Object object) {
+		EAdEvent newTimer = (EAdTimerEventImpl) object;
 		
 		
 		return newTimer;
 	}
-
-	@Override
-	public boolean equals( Timer oldObject, EAdEvent newObject ) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
 }
