@@ -2,7 +2,7 @@ package es.eucm.eadventure.common.impl.importer.subimporters.chapter.conversatio
 
 import com.google.inject.Inject;
 
-import es.eucm.eadventure.common.Importer;
+import es.eucm.eadventure.common.GenericImporter;
 import es.eucm.eadventure.common.data.chapter.conversation.line.ConversationLine;
 import es.eucm.eadventure.common.data.chapter.elements.NPC;
 import es.eucm.eadventure.common.data.chapter.elements.Player;
@@ -14,8 +14,7 @@ import es.eucm.eadventure.common.resources.StringHandler;
 import es.eucm.eadventure.common.resources.assets.drawable.Caption;
 import es.eucm.eadventure.common.resources.assets.drawable.impl.CaptionImpl;
 
-public class LineImporterToCaption implements
-		Importer<ConversationLine, Caption> {
+public class LineImporterToCaption implements GenericImporter<ConversationLine, Caption> {
 
 	@Inject
 	private EAdElementFactory factory;
@@ -23,8 +22,12 @@ public class LineImporterToCaption implements
 	@Inject
 	private StringHandler stringHandler;
 
+	public Caption init(ConversationLine line) {
+		return null;
+	}
+	
 	@Override
-	public Caption convert(ConversationLine line) {
+	public Caption convert(ConversationLine line, Object object) {
 		// Set caption attributes
 		EAdString string = stringHandler.addNewString(line.getText());
 		CaptionImpl caption = new CaptionImpl(string);
@@ -70,12 +73,6 @@ public class LineImporterToCaption implements
 			return "0x" + color + "FF";
 		} else
 			return "0x00000000";
-	}
-
-	@Override
-	public boolean equals(ConversationLine oldObject, Caption newObject) {
-		// TODO Auto-generated method stub
-		return false;
 	}
 
 }

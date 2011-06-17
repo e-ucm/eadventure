@@ -39,7 +39,7 @@ package es.eucm.eadventure.common.impl.importer.subimporters;
 
 import com.google.inject.Inject;
 
-import es.eucm.eadventure.common.Importer;
+import es.eucm.eadventure.common.EAdElementImporter;
 import es.eucm.eadventure.common.data.adventure.AdventureData;
 import es.eucm.eadventure.common.data.chapter.Chapter;
 import es.eucm.eadventure.common.impl.importer.interfaces.EAdElementFactory;
@@ -54,26 +54,32 @@ import es.eucm.eadventure.common.resources.StringHandler;
  * 
  * 
  */
-public class AdventureImporter implements Importer<AdventureData, EAdAdventureModel> {
+public class AdventureImporter implements EAdElementImporter<AdventureData, EAdAdventureModel> {
 
-	private Importer<Chapter, EAdChapter> chapterImporter;
+	private EAdElementImporter<Chapter, EAdChapter> chapterImporter;
 
 	private StringHandler stringHandler;
 	
 	private EAdElementFactory factory;
 	
 	@Inject
-	public AdventureImporter(Importer<Chapter, EAdChapter> chapterImporter,
+	public AdventureImporter(EAdElementImporter<Chapter, EAdChapter> chapterImporter,
 			StringHandler stringHandler, EAdElementFactory factory) {
 		this.chapterImporter = chapterImporter;
 		this.stringHandler = stringHandler;
 		this.factory = factory;
 	}
-	
+
 	@Override
-	public EAdAdventureModel convert( AdventureData oldData ) {
+	public EAdAdventureModel init( AdventureData oldData ) {
 		factory.setOldDataModel(oldData);
 		EAdAdventureModelImpl model = new EAdAdventureModelImpl( );
+		return model;
+	}
+	
+	@Override
+	public EAdAdventureModel convert( AdventureData oldData, Object object ) {
+		EAdAdventureModelImpl model = (EAdAdventureModelImpl) object;
 
 		model.setPlayerMode( getPlayerMode( oldData ) );
 		
@@ -84,37 +90,16 @@ public class AdventureImporter implements Importer<AdventureData, EAdAdventureMo
 		stringHandler.addString(model.getDescription(), oldData.getDescription());
 
 		for ( Chapter oldChapter : oldData.getChapters( ) ) {
-			EAdChapter newChapter = chapterImporter.convert( oldChapter );
+			EAdChapter newChapter = chapterImporter.init( oldChapter );
 
 			if ( newChapter != null ) {
 				model.getChapters( ).add( newChapter );
 			}
+			
+			newChapter = chapterImporter.convert( oldChapter, newChapter );
+
 		}
 		return model;
-	}
-
-	@Override
-	public boolean equals( AdventureData oldModel, EAdAdventureModel newModel ) {
-		if ( !( newModel.getPlayerMode( ).equals( getPlayerMode( oldModel ) ) ) )
-			return false;
-
-		if ( !( stringHandler.getString( newModel.getTitle() ).equals( oldModel.getTitle( ) ) ) ) {
-			return false;
-		}
-
-		if ( !( stringHandler.getString( newModel.getDescription() ).equals( oldModel.getDescription( ) ) ) ) {
-			return false;
-		}
-
-		int i = 0;
-		for ( EAdChapter newChapter : newModel.getChapters( ) ) {
-			if ( !( newChapter.equals( oldModel.getChapters( ).get( i ) ) ) ) {
-				return false;
-			}
-			i++;
-		}
-
-		return true;
 	}
 
 	private EAdAdventureModel.PlayerMode getPlayerMode( AdventureData oldData ) {

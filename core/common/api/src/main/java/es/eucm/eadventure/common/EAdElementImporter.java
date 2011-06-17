@@ -35,47 +35,20 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package es.eucm.eadventure.common.impl.importer.subimporters.chapter;
+package es.eucm.eadventure.common;
 
-import java.util.HashMap;
-
-import com.google.inject.Inject;
-
-import es.eucm.eadventure.common.EAdElementImporter;
-import es.eucm.eadventure.common.data.chapter.Action;
-import es.eucm.eadventure.common.data.chapter.elements.Atrezzo;
-import es.eucm.eadventure.common.impl.importer.interfaces.EAdElementFactory;
-import es.eucm.eadventure.common.impl.importer.interfaces.ResourceImporter;
-import es.eucm.eadventure.common.model.actions.EAdAction;
-import es.eucm.eadventure.common.model.elements.impl.EAdBasicActor;
-import es.eucm.eadventure.common.resources.StringHandler;
-import es.eucm.eadventure.common.resources.assets.drawable.impl.ImageImpl;
+import es.eucm.eadventure.common.model.EAdElement;
 
 
-public class AtrezzoImporter extends ActorImporter<Atrezzo>{
+/**
+ * An importer for converting old model {@link AdventureData} objects into new
+ * model {@link EAdventureModel} objects
+ * 
+ * @param <OldT>
+ *            Old class class name from old model {@link AdventureData}
+ * @param <NewT>
+ *            New class class name from new model {@link EAdventureModel}
+ */
+public interface EAdElementImporter<OldT, NewT extends EAdElement> extends GenericImporter<OldT, NewT> {
 	
-	@Inject
-	public AtrezzoImporter(StringHandler stringHandler,
-			ResourceImporter resourceImporter,
-			EAdElementFactory elementFactory,
-			EAdElementImporter<Action, EAdAction> actionImporter) {
-		super(stringHandler, resourceImporter, elementFactory, actionImporter);
-	}
-
-	protected void addActions(Atrezzo oldObject, EAdBasicActor actor){
-		// Atrezzo doesn't need to add any action
-	}
-
-	@Override
-	public void initResourcesCorrespondencies( ) {
-		
-		properties = new HashMap<String, String>();
-		properties.put(Atrezzo.RESOURCE_TYPE_IMAGE, EAdBasicActor.appearance);
-		
-		classes = new HashMap<String, Class<?>>();
-		classes.put(Atrezzo.RESOURCE_TYPE_IMAGE, ImageImpl.class);
-		
-	}
-
-
 }

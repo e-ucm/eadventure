@@ -5,7 +5,7 @@ import java.util.Map;
 
 import com.google.inject.Inject;
 
-import es.eucm.eadventure.common.Importer;
+import es.eucm.eadventure.common.EAdElementImporter;
 import es.eucm.eadventure.common.data.chapter.conversation.Conversation;
 import es.eucm.eadventure.common.data.chapter.conversation.node.ConversationNode;
 import es.eucm.eadventure.common.data.chapter.conversation.node.DialogueConversationNode;
@@ -15,18 +15,18 @@ import es.eucm.eadventure.common.model.effects.EAdEffect;
 import es.eucm.eadventure.common.model.effects.impl.EAdTriggerMacro;
 import es.eucm.eadventure.common.model.effects.impl.text.EAdShowQuestion;
 
-public class ConversationImporter implements Importer<Conversation, EAdEffect> {
+public class ConversationImporter implements EAdElementImporter<Conversation, EAdEffect> {
 
 	private Map<ConversationNode, EAdEffect> nodes;
 
-	private Importer<OptionConversationNode, EAdShowQuestion> optionNodeImporter;
+	private EAdElementImporter<OptionConversationNode, EAdShowQuestion> optionNodeImporter;
 
-	private Importer<DialogueConversationNode, EAdTriggerMacro> dialogueImporter;
+	private EAdElementImporter<DialogueConversationNode, EAdTriggerMacro> dialogueImporter;
 
 	@Inject
 	public ConversationImporter(
-			Importer<DialogueConversationNode, EAdTriggerMacro> dialogueImporter,
-			Importer<OptionConversationNode, EAdShowQuestion> optionNodeImporter,
+			EAdElementImporter<DialogueConversationNode, EAdTriggerMacro> dialogueImporter,
+			EAdElementImporter<OptionConversationNode, EAdShowQuestion> optionNodeImporter,
 			EffectsImporterFactory effectFactory) {
 		nodes = new HashMap<ConversationNode, EAdEffect>();
 		this.dialogueImporter = dialogueImporter;
@@ -34,18 +34,26 @@ public class ConversationImporter implements Importer<Conversation, EAdEffect> {
 	}
 
 	@Override
-	public EAdEffect convert(Conversation oldObject) {
+	public EAdEffect init(Conversation oldObject) {
+		return null;
+	}
+
+	public EAdEffect convert(Conversation oldObject, Object object) {
 		nodes.clear();
 
 		for (ConversationNode node : oldObject.getAllNodes()) {
 			if (node.getType() == ConversationNode.DIALOGUE) {
 				EAdEffect effect = dialogueImporter
-						.convert((DialogueConversationNode) node);
+				.init((DialogueConversationNode) node);
+				 effect = dialogueImporter
+				.convert((DialogueConversationNode) node, effect);
 				if (effect != null)
 					nodes.put(node, effect);
 			} else {
 				EAdEffect effect = optionNodeImporter
-						.convert((OptionConversationNode) node);
+				.init((OptionConversationNode) node);
+				effect = optionNodeImporter
+				.convert((OptionConversationNode) node, effect);
 				if (effect != null)
 					nodes.put(node, effect);
 			}
@@ -71,12 +79,6 @@ public class ConversationImporter implements Importer<Conversation, EAdEffect> {
 		}
 		EAdEffect initialEffect = nodes.get(oldObject.getRootNode()); 
 		return initialEffect;
-	}
-
-	@Override
-	public boolean equals(Conversation oldObject, EAdEffect newObject) {
-		// TODO Auto-generated method stub
-		return false;
 	}
 
 }

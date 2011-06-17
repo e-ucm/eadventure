@@ -2,7 +2,7 @@ package es.eucm.eadventure.common.impl.importer.subimporters.effects.variables;
 
 import com.google.inject.Inject;
 
-import es.eucm.eadventure.common.Importer;
+import es.eucm.eadventure.common.EAdElementImporter;
 import es.eucm.eadventure.common.data.chapter.conditions.Condition;
 import es.eucm.eadventure.common.data.chapter.conditions.Conditions;
 import es.eucm.eadventure.common.data.chapter.effects.IncrementVarEffect;
@@ -21,14 +21,14 @@ public class IncrementVarImporter extends
 
 	@Inject
 	public IncrementVarImporter(
-			Importer<Conditions, EAdCondition> conditionImporter,
+			EAdElementImporter<Conditions, EAdCondition> conditionImporter,
 			EAdElementFactory factory) {
 		super(conditionImporter);
 		this.factory = factory;
 	}
 
 	@Override
-	public EAdChangeVarValueEffect convert(IncrementVarEffect oldObject) {
+	public EAdChangeVarValueEffect init(IncrementVarEffect oldObject) {
 		EAdVar<?> var = factory.getVarByOldId(oldObject.getTargetId(),
 				Condition.VAR_CONDITION);
 
@@ -39,5 +39,10 @@ public class IncrementVarImporter extends
 				"changeVarValueFromIncrement" + ID_GENERATOR++, var, op);
 		super.importConditions(oldObject, effect);
 		return effect;
+	}
+	
+	@Override
+	public EAdChangeVarValueEffect convert(IncrementVarEffect oldObject, Object object) {
+		return (EAdChangeVarValueEffect) object;
 	}
 }

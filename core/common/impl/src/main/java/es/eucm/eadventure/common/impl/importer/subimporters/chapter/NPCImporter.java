@@ -4,7 +4,7 @@ import java.util.HashMap;
 
 import com.google.inject.Inject;
 
-import es.eucm.eadventure.common.Importer;
+import es.eucm.eadventure.common.EAdElementImporter;
 import es.eucm.eadventure.common.data.chapter.Action;
 import es.eucm.eadventure.common.data.chapter.elements.NPC;
 import es.eucm.eadventure.common.impl.importer.interfaces.EAdElementFactory;
@@ -20,7 +20,7 @@ public class NPCImporter extends ActorImporter<NPC> {
 	public NPCImporter(StringHandler stringHandler,
 			ResourceImporter resourceImporter,
 			EAdElementFactory elementFactory,
-			Importer<Action, EAdAction> actionImporter) {
+			EAdElementImporter<Action, EAdAction> actionImporter) {
 		super(stringHandler, resourceImporter, elementFactory, actionImporter);
 	}
 

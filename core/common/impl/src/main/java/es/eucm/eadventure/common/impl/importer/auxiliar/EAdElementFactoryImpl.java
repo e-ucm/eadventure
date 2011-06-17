@@ -4,9 +4,13 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.google.inject.Inject;
+import com.google.inject.Injector;
 import com.google.inject.Singleton;
+import com.google.inject.TypeLiteral;
 
-import es.eucm.eadventure.common.Importer;
+import es.eucm.eadventure.common.EAdElementImporter;
+import es.eucm.eadventure.common.GenericImporter;
+import es.eucm.eadventure.common.data.HasId;
 import es.eucm.eadventure.common.data.adventure.AdventureData;
 import es.eucm.eadventure.common.data.adventure.DescriptorData;
 import es.eucm.eadventure.common.data.chapter.Chapter;
@@ -15,6 +19,7 @@ import es.eucm.eadventure.common.data.chapter.conditions.Conditions;
 import es.eucm.eadventure.common.data.chapter.conversation.Conversation;
 import es.eucm.eadventure.common.impl.importer.interfaces.EAdElementFactory;
 import es.eucm.eadventure.common.model.EAdChapter;
+import es.eucm.eadventure.common.model.EAdElement;
 import es.eucm.eadventure.common.model.effects.EAdEffect;
 import es.eucm.eadventure.common.model.elements.EAdActor;
 import es.eucm.eadventure.common.model.elements.EAdCondition;
@@ -28,53 +33,84 @@ import es.eucm.eadventure.common.model.variables.impl.vars.IntegerVar;
 @Singleton
 public class EAdElementFactoryImpl implements EAdElementFactory {
 
-	private Map<String, Map<String, EAdActor>> chapterActors;
-	private Map<String, Map<String, EAdScene>> chapterScenes;
+	private Map<String, Map<String, EAdElement>> elements;
 	private Map<String, Map<String, EAdVar<?>>> chapterVars;
 	private Map<String, Map<String, EAdCondition>> chapterGlobalStates;
-	private Map<String, Map<String, EAdEffect>> chapterConversations;
-
+	private Map<Object, Object> genericElementMap;
+	
+	
+	private Map<String, Object> oldType;
+	
 	private EAdChapter currentChapter;
 	
 	private Chapter currentOldChapter;
 
 	private AdventureData model;
 
-	private Importer<Conditions, EAdCondition> conditionImporter;
+	private EAdElementImporter<Conditions, EAdCondition> conditionImporter;
 	
-	private Importer<Conversation, EAdEffect> conversationImporter;
+	private EAdElementImporter<Conversation, EAdEffect> conversationImporter;
 
+	private Injector injector;
+	
+	public static Map<Class<?>, Class<? extends GenericImporter<?, ?>>> importerMap = new HashMap<Class<?>, Class<? extends GenericImporter<?, ?>>>();
+	
 	@Inject
 	public EAdElementFactoryImpl(
-			Importer<Conditions, EAdCondition> conditionImporter,
-			Importer<Conversation, EAdEffect> conversationImporter) {
+			EAdElementImporter<Conditions, EAdCondition> conditionImporter,
+			EAdElementImporter<Conversation, EAdEffect> conversationImporter,
+			Injector injector) {
 		this.conditionImporter = conditionImporter;
 		this.conversationImporter = conversationImporter;
-		chapterActors = new HashMap<String, Map<String, EAdActor>>();
-		chapterScenes = new HashMap<String, Map<String, EAdScene>>();
+		elements = new HashMap<String, Map<String, EAdElement>>();
 		chapterVars = new HashMap<String, Map<String, EAdVar<?>>>();
 		chapterGlobalStates = new HashMap<String, Map<String, EAdCondition>>();
-		chapterConversations= new HashMap<String, Map<String, EAdEffect>>();
+		genericElementMap = new HashMap<Object, Object>();
+		oldType = new HashMap<String, Object>();
+		this.injector = injector;
+	}
+	
+	@Override
+	public void registerOldElement(String id, Object oldElement) {
+		oldType.put(id, oldElement);
 	}
 
 	@Override
-	public EAdActor getActorByOldId(String id) {
-		Map<String, EAdActor> actors = chapterActors
-				.get(currentChapter.getId());
+	public EAdElement getElementById(String id) {
+		Map<String, EAdElement> chapterElements = elements.get(currentChapter.getId());
 
-		if (actors == null) {
-			actors = new HashMap<String, EAdActor>();
-			chapterActors.put(currentChapter.getId(), actors);
+		if (chapterElements == null) {
+			chapterElements = new HashMap<String, EAdElement>();
+			elements.put(currentChapter.getId(), chapterElements);
 		}
 
-		EAdActor actor = actors.get(id);
-		if (actor == null) {
-			actor = new EAdBasicActor(currentChapter.getId() + "_" + id);
-			actors.put(id, actor);
+		EAdElement element = chapterElements.get(id);
+		if (element == null) {
+			element = getElement(oldType.get(id).getClass(), id, chapterElements);
 		}
-		return actor;
+		return element;
 	}
-
+	
+	private <S> EAdElement getElement(Class<S> clazz, String id, Map<String, EAdElement> chapterElements) {
+		Object element = oldType.get(id);
+		EAdElementImporter<S, ? extends EAdElement> importer = findElementImporter(clazz);
+		EAdElement newElement = importer.init((S) element);
+		chapterElements.put(id, newElement);
+		newElement = importer.convert((S) element, newElement);
+		return newElement;
+	}
+	
+	private <S, I extends EAdElement> EAdElementImporter<S, I> findElementImporter(Class<S> clazz) {
+		return (EAdElementImporter<S, I>) findGenericImporter(clazz);
+	}
+	
+	private <S, I> GenericImporter<S, I> findGenericImporter(Class<S> clazz) {
+		Class<? extends GenericImporter<?, ?>> importerClass = importerMap.get(clazz);
+		GenericImporter<?, ?> genericImporter = injector.getInstance(importerClass);
+		return (GenericImporter<S, I>) genericImporter;
+	}
+	
+	
 	@Override
 	public EAdChapter getCurrentChapterModel() {
 		return currentChapter;
@@ -85,24 +121,6 @@ public class EAdElementFactoryImpl implements EAdElementFactory {
 		this.currentChapter = chapter;
 		this.currentOldChapter = oldChapter;
 
-	}
-
-	@Override
-	public EAdScene getSceneByOldId(String id) {
-		Map<String, EAdScene> scenes = chapterScenes
-				.get(currentChapter.getId());
-
-		if (scenes == null) {
-			scenes = new HashMap<String, EAdScene>();
-			chapterScenes.put(currentChapter.getId(), scenes);
-		}
-
-		EAdScene scene = scenes.get(id);
-		if (scene == null) {
-			scene = new EAdSceneImpl(currentChapter.getId() + "_" + id);
-			scenes.put(id, scene);
-		}
-		return scene;
 	}
 
 	/**
@@ -150,7 +168,8 @@ public class EAdElementFactoryImpl implements EAdElementFactory {
 
 		EAdCondition condition = globalStates.get(id);
 		if (condition == null) {
-			condition = conditionImporter.convert(currentOldChapter.getGlobalState(id));
+			condition = conditionImporter.init(currentOldChapter.getGlobalState(id));
+			condition = conditionImporter.convert(currentOldChapter.getGlobalState(id), condition);
 			if ( condition != null )
 				globalStates.put(id, condition);
 		}
@@ -160,24 +179,6 @@ public class EAdElementFactoryImpl implements EAdElementFactory {
 	@Override
 	public Chapter getCurrentOldChapterModel() {
 		return currentOldChapter;
-	}
-
-	@Override
-	public EAdEffect getEffectForConversation(String conversationId) {
-		Map<String, EAdEffect> conversations = chapterConversations.get(currentChapter.getId());
-
-		if (conversations == null) {
-			conversations = new HashMap<String, EAdEffect>();
-			chapterConversations.put(currentChapter.getId(), conversations);
-		}
-
-		EAdEffect effect = conversations.get(conversationId);
-		if (effect == null) {
-			effect = conversationImporter.convert(currentOldChapter.getConversation(conversationId));
-			if ( effect != null )
-				conversations.put(conversationId, effect);
-		}
-		return effect;
 	}
 
 }

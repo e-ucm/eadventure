@@ -43,7 +43,7 @@ import java.util.Map;
 
 import com.google.inject.Inject;
 
-import es.eucm.eadventure.common.Importer;
+import es.eucm.eadventure.common.EAdElementImporter;
 import es.eucm.eadventure.common.data.chapter.ElementReference;
 import es.eucm.eadventure.common.data.chapter.Exit;
 import es.eucm.eadventure.common.data.chapter.Trajectory;
@@ -74,7 +74,7 @@ import es.eucm.eadventure.common.resources.assets.multimedia.impl.SoundImpl;
  * Scenes importer
  * 
  */
-public class SceneImporter implements Importer<Scene, EAdSceneImpl> {
+public class SceneImporter implements EAdElementImporter<Scene, EAdSceneImpl> {
 
 	/**
 	 * String handler
@@ -84,7 +84,7 @@ public class SceneImporter implements Importer<Scene, EAdSceneImpl> {
 	/**
 	 * References importer
 	 */
-	private Importer<ElementReference, EAdActorReference> referencesImporter;
+	private EAdElementImporter<ElementReference, EAdActorReference> referencesImporter;
 
 	/**
 	 * Resources importer
@@ -94,22 +94,22 @@ public class SceneImporter implements Importer<Scene, EAdSceneImpl> {
 	/**
 	 * Exits importer
 	 */
-	private Importer<Exit, EAdSceneElement> exitsImporter;
+	private EAdElementImporter<Exit, EAdSceneElement> exitsImporter;
 	
 	/**
 	 * Active areas importer
 	 */
-	private Importer<ActiveArea, EAdSceneElement> activeAreasImporter;
+	private EAdElementImporter<ActiveArea, EAdSceneElement> activeAreasImporter;
 
 	private EAdElementFactory factory;
 
 	@Inject
 	public SceneImporter(StringHandler stringHandler,
-			Importer<Conditions, EAdCondition> conditionsImporter,
+			EAdElementImporter<Conditions, EAdCondition> conditionsImporter,
 			ResourceImporter resourceImporter,
-			Importer<ElementReference, EAdActorReference> referencesImporter,
-			Importer<ActiveArea, EAdSceneElement> activeAreasImporter,
-			EAdElementFactory factory, Importer<Exit, EAdSceneElement> exitsImporter) {
+			EAdElementImporter<ElementReference, EAdActorReference> referencesImporter,
+			EAdElementImporter<ActiveArea, EAdSceneElement> activeAreasImporter,
+			EAdElementFactory factory, EAdElementImporter<Exit, EAdSceneElement> exitsImporter) {
 		this.stringHandler = stringHandler;
 		this.resourceImporter = resourceImporter;
 		this.exitsImporter = exitsImporter;
@@ -119,10 +119,15 @@ public class SceneImporter implements Importer<Scene, EAdSceneImpl> {
 	}
 
 	@Override
-	public EAdSceneImpl convert(Scene oldScene) {
+	public EAdSceneImpl init(Scene oldScene) {
+		EAdSceneImpl space = new EAdSceneImpl(oldScene.getId());
+		return space;
+	}
+	
+	@Override
+	public EAdSceneImpl convert(Scene oldScene, Object object) {
 		EAdChapter chapter = factory.getCurrentChapterModel();
-		EAdSceneImpl space = (EAdSceneImpl) factory.getSceneByOldId(oldScene
-				.getId());
+		EAdSceneImpl space = (EAdSceneImpl) object;
 
 		importDocumentation(space, oldScene);
 		importResources(space, oldScene, chapter);
@@ -149,6 +154,7 @@ public class SceneImporter implements Importer<Scene, EAdSceneImpl> {
 		if (factory.isFirstPerson()) {
 			
 		} else {
+			/* TODO Add player
 			EAdActor player = factory.getActorByOldId(Player.IDENTIFIER);
 			EAdActorReferenceImpl playerReference = new EAdActorReferenceImpl(
 					player.getId() + "_reference");
@@ -159,6 +165,7 @@ public class SceneImporter implements Importer<Scene, EAdSceneImpl> {
 			playerReference.setScale(oldScene.getPlayerScale());
 
 			space.getSceneElements().add(playerReference);
+			*/
 		}
 
 	}
@@ -175,7 +182,8 @@ public class SceneImporter implements Importer<Scene, EAdSceneImpl> {
 
 	private void importAciveAreas(EAdSceneImpl space, List<ActiveArea> list) {
 		for ( ActiveArea a: list ){
-			EAdSceneElement se = activeAreasImporter.convert(a);
+			EAdSceneElement se = activeAreasImporter.init(a);
+			se = activeAreasImporter.convert(a, se);
 			if ( se != null )
 				space.getSceneElements().add(se);
 		}
@@ -184,7 +192,8 @@ public class SceneImporter implements Importer<Scene, EAdSceneImpl> {
 
 	private void importExits(EAdSceneImpl space, List<Exit> list) {
 		for ( Exit e: list ){
-			EAdSceneElement se = exitsImporter.convert(e);
+			EAdSceneElement se = exitsImporter.init(e);
+			se = exitsImporter.convert(e, se);
 			if ( se != null )
 				space.getSceneElements().add(se);
 		}
@@ -194,7 +203,8 @@ public class SceneImporter implements Importer<Scene, EAdSceneImpl> {
 	private void importReferences(EAdSceneImpl space,
 			List<ElementReference> references, EAdChapter chapter) {
 		for (ElementReference oldRef : references) {
-			EAdActorReference newRef = referencesImporter.convert(oldRef);
+			EAdActorReference newRef = referencesImporter.init(oldRef);
+			newRef = referencesImporter.convert(oldRef, newRef);
 			space.getSceneElements().add(newRef);
 		}
 
@@ -239,12 +249,6 @@ public class SceneImporter implements Importer<Scene, EAdSceneImpl> {
 		space.setDocumentation(new EAdString(stringHandler.getUniqueId()));
 		stringHandler.addString(space.getDocumentation(),
 				oldScene.getDocumentation());
-	}
-
-	@Override
-	public boolean equals(Scene oldObject, EAdSceneImpl newObject) {
-		// FIXME Implement equals
-		return false;
 	}
 
 }

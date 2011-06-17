@@ -45,7 +45,7 @@ import java.util.ArrayList;
 
 import com.google.inject.Inject;
 
-import es.eucm.eadventure.common.Importer;
+import es.eucm.eadventure.common.EAdElementImporter;
 import es.eucm.eadventure.common.data.adventure.AdventureData;
 import es.eucm.eadventure.common.impl.importer.auxiliar.TemporalInputStreamCreator;
 import es.eucm.eadventure.common.impl.importer.interfaces.ResourceImporter;
@@ -60,13 +60,13 @@ import es.eucm.eadventure.common.model.EAdAdventureModel;
  */
 public class EAdventure1XImporter {
 
-	private Importer<AdventureData, EAdAdventureModel> adventureImporter;
+	private EAdElementImporter<AdventureData, EAdAdventureModel> adventureImporter;
 
 	private ResourceImporter resourceImporter;
 
 	@Inject
 	public EAdventure1XImporter(
-			Importer<AdventureData, EAdAdventureModel> adventureImp,
+			EAdElementImporter<AdventureData, EAdAdventureModel> adventureImp,
 			ResourceImporter resourceImporter) {
 		this.adventureImporter = adventureImp;
 		this.resourceImporter = resourceImporter;
@@ -91,7 +91,8 @@ public class EAdventure1XImporter {
 		
 		resourceImporter.setPaths(folder, destiny);
 
-		EAdAdventureModel model = adventureImporter.convert(adventureData);
+		EAdAdventureModel model = adventureImporter.init(adventureData);
+		model = adventureImporter.convert(adventureData, model);
 		
 		EAdAdventureModelWriter writer = new EAdAdventureModelWriter();
 		

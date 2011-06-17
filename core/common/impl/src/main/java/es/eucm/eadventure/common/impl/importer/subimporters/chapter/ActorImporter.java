@@ -4,7 +4,7 @@ import java.util.Map;
 
 import com.google.inject.Inject;
 
-import es.eucm.eadventure.common.Importer;
+import es.eucm.eadventure.common.EAdElementImporter;
 import es.eucm.eadventure.common.data.chapter.Action;
 import es.eucm.eadventure.common.data.chapter.elements.Element;
 import es.eucm.eadventure.common.impl.importer.interfaces.EAdElementFactory;
@@ -21,7 +21,7 @@ import es.eucm.eadventure.common.resources.assets.drawable.impl.CaptionImpl;
 import es.eucm.eadventure.common.resources.assets.drawable.impl.ImageImpl;
 
 public abstract class ActorImporter<P extends Element> implements
-		Importer<P, EAdActor> {
+		EAdElementImporter<P, EAdActor> {
 
 	protected StringHandler stringHandler;
 
@@ -33,13 +33,13 @@ public abstract class ActorImporter<P extends Element> implements
 
 	protected EAdElementFactory elementFactory;
 
-	protected Importer<Action, EAdAction> actionImporter;
+	protected EAdElementImporter<Action, EAdAction> actionImporter;
 
 	@Inject
 	public ActorImporter(StringHandler stringHandler,
 			ResourceImporter resourceImporter,
 			EAdElementFactory elementFactory,
-			Importer<Action, EAdAction> actionImporter) {
+			EAdElementImporter<Action, EAdAction> actionImporter) {
 		this.stringHandler = stringHandler;
 		this.resourceImporter = resourceImporter;
 		this.elementFactory = elementFactory;
@@ -47,9 +47,13 @@ public abstract class ActorImporter<P extends Element> implements
 	}
 
 	@Override
-	public EAdActor convert(P oldObject) {
-		EAdBasicActor actor = (EAdBasicActor) elementFactory
-				.getActorByOldId(oldObject.getId());
+	public EAdActor init(P oldObject) {
+		return new EAdBasicActor(oldObject.getId());
+	}
+	
+	@Override
+	public EAdActor convert(P oldObject, Object object) {
+		EAdBasicActor actor = (EAdBasicActor) object;
 
 		actor.setName(new EAdString(stringHandler.getUniqueId()));
 		stringHandler.addString(actor.getName(), oldObject.getName());
@@ -84,7 +88,8 @@ public abstract class ActorImporter<P extends Element> implements
 			if (addExamine && a.getType() == Action.EXAMINE)
 				addExamine = false;
 
-			EAdAction action = actionImporter.convert(a);
+			EAdAction action = actionImporter.init(a);
+			action = actionImporter.convert(a, action);
 			actor.getActions().add(action);
 		}
 
@@ -114,13 +119,5 @@ public abstract class ActorImporter<P extends Element> implements
 
 	public abstract void initResourcesCorrespondencies();
 
-	@Override
-	public boolean equals(P oldObject, EAdActor newObject) {
-		// TODO Implement equals actor
-
-		// resourceImporter.equals(oldObject.getResources(),
-		// newObject.getResources());
-		return false;
-	}
 
 }

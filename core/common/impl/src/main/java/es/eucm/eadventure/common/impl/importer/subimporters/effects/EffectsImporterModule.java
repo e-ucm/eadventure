@@ -8,7 +8,7 @@ import com.google.inject.Inject;
 import com.google.inject.TypeLiteral;
 import com.google.inject.name.Names;
 
-import es.eucm.eadventure.common.Importer;
+import es.eucm.eadventure.common.EAdElementImporter;
 import es.eucm.eadventure.common.data.chapter.effects.ActivateEffect;
 import es.eucm.eadventure.common.data.chapter.effects.DeactivateEffect;
 import es.eucm.eadventure.common.data.chapter.effects.DecrementVarEffect;
@@ -26,13 +26,13 @@ import es.eucm.eadventure.common.impl.importer.subimporters.effects.variables.In
 import es.eucm.eadventure.common.impl.importer.subimporters.effects.variables.SetValueImporter;
 import es.eucm.eadventure.common.interfaces.MapProvider;
 
-public class EffectsImporterModule extends AbstractModule implements MapProvider<Class<?>, Class<? extends Importer<?, ?>>>{
+public class EffectsImporterModule extends AbstractModule implements MapProvider<Class<?>, Class<? extends EAdElementImporter<?, ?>>>{
 
-	private Map<Class<?>, Class<? extends Importer<?, ?>>> factoryMap;
+	private Map<Class<?>, Class<? extends EAdElementImporter<?, ?>>> factoryMap;
 	
 	@Inject
 	public EffectsImporterModule() {
-		factoryMap = new HashMap<Class<?>, Class<? extends Importer<?, ?>>>();
+		factoryMap = new HashMap<Class<?>, Class<? extends EAdElementImporter<?, ?>>>();
 		factoryMap.put(ShowTextEffect.class, ShowTextEffectImporter.class);
 		factoryMap.put(DeactivateEffect.class, DeactivateFlagImporter.class);
 		factoryMap.put(ActivateEffect.class, ActivateFlagImporter.class);
@@ -45,13 +45,13 @@ public class EffectsImporterModule extends AbstractModule implements MapProvider
 	}
 	
 	@Override
-	public Map<Class<?>, Class<? extends Importer<?, ?>>> getMap() {
+	public Map<Class<?>, Class<? extends EAdElementImporter<?, ?>>> getMap() {
 		return factoryMap;
 	}
 
 	@Override
 	protected void configure() {
-		bind(new TypeLiteral<MapProvider<Class<?>, Class<? extends Importer<?, ?>>>>() {}).annotatedWith(Names.named("effects")).to(EffectsImporterModule.class);
+		bind(new TypeLiteral<MapProvider<Class<?>, Class<? extends EAdElementImporter<?, ?>>>>() {}).annotatedWith(Names.named("effects")).to(EffectsImporterModule.class);
 		bind(EffectsImporterFactory.class).to(EffectsImporterFactoryImpl.class);
 	}
 

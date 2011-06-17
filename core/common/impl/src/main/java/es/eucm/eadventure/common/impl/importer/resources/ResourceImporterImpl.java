@@ -15,7 +15,8 @@ import java.util.Map;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
-import es.eucm.eadventure.common.Importer;
+import es.eucm.eadventure.common.EAdElementImporter;
+import es.eucm.eadventure.common.GenericImporter;
 import es.eucm.eadventure.common.data.animation.Animation;
 import es.eucm.eadventure.common.data.animation.ImageLoaderFactory;
 import es.eucm.eadventure.common.data.chapter.conditions.Conditions;
@@ -44,12 +45,12 @@ public class ResourceImporterImpl implements ResourceImporter {
 	/**
 	 * Conditions importer
 	 */
-	private Importer<Conditions, EAdCondition> conditionsImporter;
+	private EAdElementImporter<Conditions, EAdCondition> conditionsImporter;
 
 	/**
 	 * Animation importer
 	 */
-	private Importer<Animation, FramesAnimation> animationImporter;
+	private GenericImporter<Animation, FramesAnimation> animationImporter;
 
 	private ImageLoaderFactory imageLoader;
 
@@ -73,8 +74,8 @@ public class ResourceImporterImpl implements ResourceImporter {
 
 	@Inject
 	public ResourceImporterImpl(
-			Importer<Conditions, EAdCondition> conditionsImporter,
-			Importer<Animation, FramesAnimation> animationImporter,
+			EAdElementImporter<Conditions, EAdCondition> conditionsImporter,
+			GenericImporter<Animation, FramesAnimation> animationImporter,
 			ImageLoaderFactory imageLoader,
 			InputStreamCreator inputStreamCreator) {
 		this.imageLoader = imageLoader;
@@ -180,7 +181,8 @@ public class ResourceImporterImpl implements ResourceImporter {
 				if (assetPath.endsWith("eaa")) {
 					Animation a = Loader.loadAnimation(inputStreamCreator,
 							assetPath, imageLoader);
-					asset = animationImporter.convert(a);
+					asset = animationImporter.init(a);
+					asset = animationImporter.convert(a, asset);
 				} else {
 					String newAssetPath = getURI(assetPath);
 
@@ -213,8 +215,10 @@ public class ResourceImporterImpl implements ResourceImporter {
 			EAdConditionEvent conditionEvent = new EAdConditionEventImpl(
 					bundleId.getBundleId() + "_condition_" + i);
 
-			EAdCondition condition = conditionsImporter.convert(r
+			EAdCondition condition = conditionsImporter.init(r
 					.getConditions());
+			condition = conditionsImporter.convert(r
+					.getConditions(), condition);
 			conditionEvent.setCondition(condition);
 
 			EAdChangeAppearance changeAppereance = new EAdChangeAppearance(

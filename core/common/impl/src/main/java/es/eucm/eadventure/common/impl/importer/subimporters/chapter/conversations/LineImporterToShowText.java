@@ -2,44 +2,46 @@ package es.eucm.eadventure.common.impl.importer.subimporters.chapter.conversatio
 
 import com.google.inject.Inject;
 
-import es.eucm.eadventure.common.Importer;
+import es.eucm.eadventure.common.EAdElementImporter;
+import es.eucm.eadventure.common.GenericImporter;
 import es.eucm.eadventure.common.data.chapter.conditions.Conditions;
 import es.eucm.eadventure.common.data.chapter.conversation.line.ConversationLine;
 import es.eucm.eadventure.common.model.effects.impl.text.EAdShowText;
 import es.eucm.eadventure.common.model.elements.EAdCondition;
 import es.eucm.eadventure.common.resources.assets.drawable.Caption;
 
-public class LineImporterToShowText implements Importer<ConversationLine, EAdShowText>{
+public class LineImporterToShowText implements EAdElementImporter<ConversationLine, EAdShowText>{
 	
 	@Inject
-	private Importer<Conditions, EAdCondition> conditionsImporter;
+	private EAdElementImporter<Conditions, EAdCondition> conditionsImporter;
 	
 	@Inject
-	private Importer<ConversationLine, Caption> captionImporter;
+	private GenericImporter<ConversationLine, Caption> captionImporter;
 
+	public EAdShowText init(ConversationLine line) {
+		return new EAdShowText();
+	}
+	
 	@Override
-	public EAdShowText convert(ConversationLine line) {
-		EAdShowText effect = new EAdShowText();
+	public EAdShowText convert(ConversationLine line, Object object) {
+		EAdShowText effect = (EAdShowText) object;
 
 		// Set conditions
 
 		if (line.getConditions() != null) {
-			EAdCondition condition = conditionsImporter.convert(line
+			EAdCondition condition = conditionsImporter.init(line
 					.getConditions());
+			condition = conditionsImporter.convert(line
+					.getConditions(), condition);
 			if (condition != null) {
 				effect.setCondition(condition);
 			}
 		}
 		
-		Caption caption = captionImporter.convert(line);		
+		Caption caption = captionImporter.init(line);		
+		caption = captionImporter.convert(line, caption);		
 		effect.setCaption(caption, 300, 300);
 		return effect;
-	}
-
-	@Override
-	public boolean equals(ConversationLine oldObject, EAdShowText newObject) {
-		// TODO Auto-generated method stub
-		return false;
 	}
 
 }

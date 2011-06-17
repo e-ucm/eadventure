@@ -5,7 +5,7 @@ import java.util.Map;
 
 import com.google.inject.Inject;
 
-import es.eucm.eadventure.common.Importer;
+import es.eucm.eadventure.common.EAdElementImporter;
 import es.eucm.eadventure.common.data.chapter.Action;
 import es.eucm.eadventure.common.data.chapter.CustomAction;
 import es.eucm.eadventure.common.data.chapter.conditions.Conditions;
@@ -20,13 +20,13 @@ import es.eucm.eadventure.common.resources.EAdString;
 import es.eucm.eadventure.common.resources.StringHandler;
 import es.eucm.eadventure.common.resources.assets.drawable.impl.ImageImpl;
 
-public class ActionImporter implements Importer<Action, EAdAction> {
+public class ActionImporter implements EAdElementImporter<Action, EAdAction> {
 
 	private StringHandler stringHandler;
 
 	private EffectsImporterFactory effectsImporterFactory;
 
-	private Importer<Conditions, EAdCondition> conditionsImporter;
+	private EAdElementImporter<Conditions, EAdCondition> conditionsImporter;
 
 	/**
 	 * Resources importer
@@ -39,19 +39,26 @@ public class ActionImporter implements Importer<Action, EAdAction> {
 	public ActionImporter(StringHandler stringHandler,
 			EffectsImporterFactory effectsImporterFactory,
 			ResourceImporter resourceImporter,
-			Importer<Conditions, EAdCondition> conditionsImporter) {
+			EAdElementImporter<Conditions, EAdCondition> conditionsImporter) {
 		this.stringHandler = stringHandler;
 		this.effectsImporterFactory = effectsImporterFactory;
 		this.conditionsImporter = conditionsImporter;
 	}
 
 	@Override
-	public EAdAction convert(Action oldObject) {
-		EAdBasicAction action = new EAdBasicAction(oldObject.getTargetId()
+	public EAdAction init(Action oldObject) {
+		return new EAdBasicAction(oldObject.getTargetId()
 				+ "_action");
+	}
 
-		EAdCondition condition = conditionsImporter.convert(oldObject
+	@Override
+	public EAdAction convert(Action oldObject, Object object) {
+		EAdBasicAction action = (EAdBasicAction) object;
+
+		EAdCondition condition = conditionsImporter.init(oldObject
 				.getConditions());
+		condition = conditionsImporter.convert(oldObject
+				.getConditions(), condition);
 		if (condition != null)
 			action.setCondition(condition);
 
@@ -181,12 +188,6 @@ public class ActionImporter implements Importer<Action, EAdAction> {
 		default:
 			return "Action";
 		}
-	}
-
-	@Override
-	public boolean equals(Action oldObject, EAdAction newObject) {
-		// TODO Auto-generated method stub
-		return false;
 	}
 
 }
