@@ -124,6 +124,7 @@ public class SceneImporter implements EAdElementImporter<Scene, EAdSceneImpl> {
 	public EAdSceneImpl convert(Scene oldScene, Object object) {
 		EAdChapter chapter = factory.getCurrentChapterModel();
 		EAdSceneImpl space = (EAdSceneImpl) object;
+		
 
 		importDocumentation(space, oldScene);
 		importResources(space, oldScene, chapter);

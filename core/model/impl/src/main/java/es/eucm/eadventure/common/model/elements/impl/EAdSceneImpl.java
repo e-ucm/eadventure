@@ -82,7 +82,7 @@ public class EAdSceneImpl extends AbstractEAdElement implements EAdScene {
 		super(id);
 		actorReferences = new EAdElementListImpl<EAdSceneElement>(EAdSceneElement.class);
 		background = new EAdBasicSceneElement(id + "_background");
-		returnable = false;
+		returnable = true;
 		sceneLoaded = new BooleanVar("sceneLoaded");
 	}
 
@@ -131,7 +131,11 @@ public class EAdSceneImpl extends AbstractEAdElement implements EAdScene {
 	public boolean isReturnable() {
 		return returnable;
 	}
-	
+
+	public void setReturnable(boolean returnable) {
+		this.returnable = returnable;
+	}
+
 	@Override
 	public BooleanVar sceneLoaded() {
 		return sceneLoaded;
