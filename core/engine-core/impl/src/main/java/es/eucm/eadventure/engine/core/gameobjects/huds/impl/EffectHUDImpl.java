@@ -131,7 +131,7 @@ public class EffectHUDImpl implements EffectHUD {
 				
 				//TODO this creates a problem, should do some other way
 				//gui.addElement(this);
-			}
+			}		
 			e.doLayout(offsetX, offsetY);
 			block = e.isBlocking();
 			i++;

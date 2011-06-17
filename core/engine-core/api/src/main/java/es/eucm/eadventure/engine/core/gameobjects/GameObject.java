@@ -115,5 +115,4 @@ public interface GameObject<T> {
 	 */
 	List<RuntimeAsset<?>> getAssets(List<RuntimeAsset<?>> assetList, boolean allAssets);
 
-
 }
