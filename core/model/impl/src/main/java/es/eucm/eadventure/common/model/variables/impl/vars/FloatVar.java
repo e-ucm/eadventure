@@ -37,11 +37,17 @@
 
 package es.eucm.eadventure.common.model.variables.impl.vars;
 
+import es.eucm.eadventure.common.model.EAdElement;
+
 public class FloatVar extends NumberVar<Float> {
+	
+	public FloatVar( String name, EAdElement element ){
+		super( Float.class, name, element );
+		this.setInitialValue(0.0f);
+	}
 
 	public FloatVar(String name) {
-		super(Float.class, name);
-		this.setInitialValue(0.0f);
+		this( name, null );
 	}
 
 	/* (non-Javadoc)

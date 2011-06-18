@@ -62,6 +62,12 @@ public interface EAdSceneElement extends EAdElement, Positioned {
 	EAdVar<Integer> heightVar();
 	
 	/**
+	 * Returns the runtime variable holding the rotation of the scene element
+	 * @return
+	 */
+	EAdVar<Float> rotationVar();
+	
+	/**
 	 * Returns the effects list associated with the given GUI event,
 	 * {@code null} if there is no effects associated. This method shouldn't be
 	 * used to add new effects to the actor. Returned list could be {@code null}

@@ -51,7 +51,8 @@ import es.eucm.eadventure.engine.core.platform.RuntimeAsset;
  * @author Eugenio Marchiori
  * 
  */
-public interface SceneElementGO<T extends EAdSceneElement> extends GameObject<T>, Oriented, Positioned {
+public interface SceneElementGO<T extends EAdSceneElement> extends
+		GameObject<T>, Oriented, Positioned {
 
 	EAdPosition getPosition();
 
@@ -62,15 +63,36 @@ public interface SceneElementGO<T extends EAdSceneElement> extends GameObject<T>
 	void setScale(float scale);
 
 	RuntimeAsset<?> getAsset();
-	
+
 	int getWidth();
-	
+
 	int getHeight();
 
 	List<EAdAction> getValidActions();
-	
+
+	/**
+	 * Returns the current rotation for the scene element, in radians
+	 * 
+	 * @return
+	 */
+	float getRotation();
+
 	boolean isVisible();
-	
+
 	void setVisible(boolean visible);
+
+	/**
+	 * Returns the x coordinate of scene element center, using the scale
+	 * 
+	 * @return
+	 */
+	int getCenterX();
+
+	/**
+	 * Returns the x coordinate of scene element center, using the scale
+	 * 
+	 * @return
+	 */
+	int getCenterY();
 
 }

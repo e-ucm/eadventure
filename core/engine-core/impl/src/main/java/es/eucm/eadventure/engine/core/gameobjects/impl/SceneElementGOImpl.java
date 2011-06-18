@@ -11,35 +11,42 @@ import es.eucm.eadventure.engine.core.gameobjects.SceneElementGO;
 import es.eucm.eadventure.engine.core.guiactions.GUIAction;
 import es.eucm.eadventure.engine.core.platform.RuntimeAsset;
 
-public abstract class SceneElementGOImpl<T extends EAdSceneElement> extends AbstractGameObject<T> implements
-		SceneElementGO<T> {
+public abstract class SceneElementGOImpl<T extends EAdSceneElement> extends
+		AbstractGameObject<T> implements SceneElementGO<T> {
 
 	private static final Logger logger = Logger.getLogger("SceneElementGOImpl");
 
 	protected EAdPosition position;
-	
+
 	protected float scale;
-	
+
 	protected Orientation orientation;
-	
+
+	protected float rotation;
+
 	private int width;
-	
+
 	private int height;
-	
+
 	protected boolean visible;
 
 	public SceneElementGOImpl() {
 		logger.info("New instance");
 		visible = true;
 	}
-	
+
 	@Override
 	public abstract boolean processAction(GUIAction action);
 
-	/* (non-Javadoc)
-	 * @see es.eucm.eadventure.engine.core.gameobjects.impl.AbstractGameObject#setElement(es.eucm.eadventure.common.model.EAdElement)
+	/*
+	 * (non-Javadoc)
 	 * 
-	 * Should be implemented to get position, scale, orientation and other values
+	 * @see
+	 * es.eucm.eadventure.engine.core.gameobjects.impl.AbstractGameObject#setElement
+	 * (es.eucm.eadventure.common.model.EAdElement)
+	 * 
+	 * Should be implemented to get position, scale, orientation and other
+	 * values
 	 */
 	@Override
 	public void setElement(T element) {
@@ -47,11 +54,12 @@ public abstract class SceneElementGOImpl<T extends EAdSceneElement> extends Abst
 		this.position = new EAdPosition(element.getPosition());
 		valueMap.setValue(element.positionXVar(), position.getX());
 		valueMap.setValue(element.positionYVar(), position.getY());
-		
+
 		visible = valueMap.getValue(element.visibleVar());
+		this.rotation = valueMap.getValue(element.rotationVar());
 		this.scale = element.getScale();
-		//TODO
-		//this.orientation = new Orientation(element.getInitialOrientation());
+		// TODO
+		// this.orientation = new Orientation(element.getInitialOrientation());
 		this.orientation = element.getInitialOrientation();
 	}
 
@@ -60,8 +68,12 @@ public abstract class SceneElementGOImpl<T extends EAdSceneElement> extends Abst
 		return null;
 	}
 
-	/* (non-Javadoc)
-	 * @see es.eucm.eadventure.engine.core.gameobjects.impl.AbstractGameObject#doLayout()
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * es.eucm.eadventure.engine.core.gameobjects.impl.AbstractGameObject#doLayout
+	 * ()
 	 * 
 	 * Should layout all sub-elements and resource
 	 */
@@ -70,8 +82,12 @@ public abstract class SceneElementGOImpl<T extends EAdSceneElement> extends Abst
 		super.doLayout(offsetX, offsetY);
 	}
 
-	/* (non-Javadoc)
-	 * @see es.eucm.eadventure.engine.core.gameobjects.impl.AbstractGameObject#update(es.eucm.eadventure.engine.core.GameState)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * es.eucm.eadventure.engine.core.gameobjects.impl.AbstractGameObject#update
+	 * (es.eucm.eadventure.engine.core.GameState)
 	 * 
 	 * Should update the state of all sub-elements and resources
 	 */
@@ -81,7 +97,8 @@ public abstract class SceneElementGOImpl<T extends EAdSceneElement> extends Abst
 		this.getAsset().update(state);
 		this.position.setX(valueMap.getValue(element.positionXVar()));
 		this.position.setY(valueMap.getValue(element.positionYVar()));
-		this.setVisible( valueMap.getValue(element.visibleVar()) );
+		this.setVisible(valueMap.getValue(element.visibleVar()));
+		this.rotation = valueMap.getValue(element.rotationVar());
 	}
 
 	@Override
@@ -109,10 +126,10 @@ public abstract class SceneElementGOImpl<T extends EAdSceneElement> extends Abst
 	public Orientation getOrientation() {
 		return orientation;
 	}
-	
+
 	@Override
 	public abstract RuntimeAsset<?> getAsset();
-	
+
 	@Override
 	public int getWidth() {
 		return width;
@@ -132,23 +149,38 @@ public abstract class SceneElementGOImpl<T extends EAdSceneElement> extends Abst
 	public void setScale(float scale) {
 		this.scale = scale;
 	}
-	
+
 	public boolean isVisible() {
 		return visible;
 	}
-	
+
 	public void setVisible(boolean visible) {
 		this.visible = visible;
 	}
-	
+
 	public void setWidth(int width) {
 		this.width = width;
 		valueMap.setValue(element.widthVar(), width);
 	}
-	
+
 	public void setHeight(int height) {
 		this.height = height;
 		valueMap.setValue(element.heightVar(), height);
 	}
+
+	@Override
+	public float getRotation() {
+		return rotation;
+	}
 	
+	@Override
+	public int getCenterX(){
+		return (int) (( position.getJavaX(width) + width / 2 ) * scale);
+	}
+	
+	@Override
+	public int getCenterY(){
+		return (int) (( position.getJavaY(height) + height / 2 ) * scale );
+	}
+
 }

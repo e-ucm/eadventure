@@ -81,7 +81,11 @@ public class BasicSceneElementRenderer implements
 	@Override
 	public void render(Graphics2D g, SceneElementGO<?> basicSceneElement,
 			float interpolation, int offsetX, int offsetY) {
-		factory.render(g, basicSceneElement.getAsset(), basicSceneElement.getPosition(), basicSceneElement.getScale(), offsetX, offsetY);
+		Graphics2D g2 = (Graphics2D) g.create();
+		double centerX = basicSceneElement.getPosition().getJavaX(basicSceneElement.getWidth()) + basicSceneElement.getWidth() / 2;
+		double centerY = basicSceneElement.getPosition().getJavaY(basicSceneElement.getHeight()) + basicSceneElement.getHeight() / 2;
+		g2.rotate(basicSceneElement.getRotation(), centerX, centerY);
+		factory.render(g2, basicSceneElement.getAsset(), basicSceneElement.getPosition(), basicSceneElement.getScale(), offsetX, offsetY);
 	}
 
 	/*
@@ -95,7 +99,9 @@ public class BasicSceneElementRenderer implements
 	@Override
 	public void render(Graphics2D g, SceneElementGO<?> basicSceneElement,
 			EAdPosition position, float scale, int offsetX, int offsetY) {
-		factory.render(g, basicSceneElement.getAsset(), position, scale
+		Graphics2D g2 = (Graphics2D) g.create();
+		g2.rotate(basicSceneElement.getRotation(), basicSceneElement.getPosition().getJavaX(basicSceneElement.getWidth()), basicSceneElement.getPosition().getJavaY(basicSceneElement.getHeight()));
+		factory.render(g2, basicSceneElement.getAsset(), position, scale
 				* basicSceneElement.getScale(), offsetX, offsetY);
 	}
 
@@ -107,14 +113,25 @@ public class BasicSceneElementRenderer implements
 	 * .eucm.eadventure.engine.core.gameobjects.GameObject, int, int)
 	 */
 	@Override
-	public boolean contains(SceneElementGO<?> basicSceneElement, int virutalX,
+	public boolean contains(SceneElementGO<?> basicSceneElement, int virtualX,
 			int virtualY) {
-		int x = (int) ((virutalX - basicSceneElement.getPosition().getJavaX(
+		
+		int centerX = basicSceneElement.getCenterX();
+		int centerY = basicSceneElement.getCenterY();
+		float rotation = -basicSceneElement.getRotation();
+		
+		virtualX = virtualX - centerX;
+		virtualY = virtualY - centerY;
+		int newVirtualX = (int) (virtualX * Math.cos(rotation) - virtualY * Math.sin(rotation)) + centerX;
+		int newVirtualY = (int) (virtualX * Math.sin(rotation) + virtualY * Math.cos(rotation)) + centerY;
+	
+		int x = (int) ((newVirtualX - basicSceneElement.getPosition().getJavaX(
 				basicSceneElement.getWidth() * basicSceneElement.getScale())) / basicSceneElement
 				.getScale());
-		int y = (int) ((virtualY - basicSceneElement.getPosition().getJavaY(
+		int y = (int) ((newVirtualY - basicSceneElement.getPosition().getJavaY(
 				basicSceneElement.getHeight() * basicSceneElement.getScale())) / basicSceneElement
 				.getScale());
+		
 		return x > 0 && y > 0
 				&& factory.contains(x, y, basicSceneElement.getAsset());
 	}

@@ -1,14 +1,15 @@
 package es.eucm.eadventure.common.model.elements.impl;
 
 import es.eucm.eadventure.common.interfaces.Oriented;
-import es.eucm.eadventure.common.interfaces.Param;
 import es.eucm.eadventure.common.interfaces.Oriented.Orientation;
+import es.eucm.eadventure.common.interfaces.Param;
 import es.eucm.eadventure.common.model.conditions.impl.EmptyCondition;
 import es.eucm.eadventure.common.model.elements.EAdCondition;
 import es.eucm.eadventure.common.model.elements.EAdSceneElement;
 import es.eucm.eadventure.common.model.params.EAdPosition;
 import es.eucm.eadventure.common.model.variables.EAdVar;
 import es.eucm.eadventure.common.model.variables.impl.vars.BooleanVar;
+import es.eucm.eadventure.common.model.variables.impl.vars.FloatVar;
 import es.eucm.eadventure.common.model.variables.impl.vars.IntegerVar;
 import es.eucm.eadventure.common.resources.annotation.Asset;
 import es.eucm.eadventure.common.resources.annotation.Bundled;
@@ -42,6 +43,8 @@ public class EAdBasicSceneElement extends AbstractEAdElementWithBehavior impleme
 	protected IntegerVar height = new IntegerVar("height", this);
 	
 	protected BooleanVar visible = new BooleanVar("visible", this);
+	
+	protected FloatVar rotation = new FloatVar("roation", this);
 
 	public EAdBasicSceneElement(String id) {
 		super(id);
@@ -126,6 +129,11 @@ public class EAdBasicSceneElement extends AbstractEAdElementWithBehavior impleme
 	@Override
 	public EAdVar<Integer> heightVar() {
 		return height;
+	}
+
+	@Override
+	public EAdVar<Float> rotationVar() {
+		return rotation;
 	}
 
 }

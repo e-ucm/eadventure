@@ -56,6 +56,7 @@ public class VarInterpolationGO extends
 				while (currentTime > element.getInterpolationTime()) {
 					currentTime -= element.getInterpolationTime();
 				}
+				break;
 			default:
 				currentTime = element.getInterpolationTime();
 				finished = true;
