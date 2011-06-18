@@ -10,6 +10,7 @@ import com.google.inject.Singleton;
 import com.google.inject.TypeLiteral;
 
 import es.eucm.eadventure.common.interfaces.MapProvider;
+import es.eucm.eadventure.common.resources.assets.multimedia.Video;
 import es.eucm.eadventure.engine.core.gameobjects.ActorReferenceGO;
 import es.eucm.eadventure.engine.core.gameobjects.SceneGO;
 import es.eucm.eadventure.engine.core.gameobjects.TransitionGO;
@@ -28,6 +29,7 @@ import es.eucm.eadventure.engine.core.gameobjects.impl.inventory.BasicInventoryG
 import es.eucm.eadventure.engine.core.platform.GameObjectRenderer;
 import es.eucm.eadventure.engine.core.platform.GraphicRenderer;
 import es.eucm.eadventure.engine.core.platform.GraphicRendererFactory;
+import es.eucm.eadventure.engine.core.platform.SpecialAssetRenderer;
 import es.eucm.eadventure.engine.core.platform.assets.impl.DesktopEngineCaption;
 import es.eucm.eadventure.engine.core.platform.assets.impl.DesktopEngineImage;
 import es.eucm.eadventure.engine.core.platform.assets.impl.DesktopEngineIrregularShape;
@@ -53,6 +55,7 @@ import es.eucm.eadventure.engine.core.platform.impl.gameobjectrenderers.MenuHUDG
 import es.eucm.eadventure.engine.core.platform.impl.gameobjectrenderers.SceneGORenderer;
 import es.eucm.eadventure.engine.core.platform.impl.gameobjectrenderers.TransitionGORenderer;
 import es.eucm.eadventure.engine.core.platform.impl.gameobjectrenderers.VideoSceneGORenderer;
+import es.eucm.eadventure.engine.core.platform.impl.specialassetrenderers.DesktopVideoRenderer;
 
 @Singleton
 public class DesktopAssetRendererModule extends AbstractModule implements MapProvider<Class<?>, GraphicRenderer<?, ?>> {
@@ -97,7 +100,7 @@ public class DesktopAssetRendererModule extends AbstractModule implements MapPro
 	protected void configure() {
 		bind(new TypeLiteral<GraphicRendererFactory<?>> () {}).to(DesktopGraphicRendererFactory.class);
 		bind(new TypeLiteral<MapProvider<Class<?>, GraphicRenderer<?, ?>>>() {}).to(DesktopAssetRendererModule.class);
-		
+		bind(new TypeLiteral<SpecialAssetRenderer<Video, ?>>() {}).to(DesktopVideoRenderer.class);
 	}
 
 	public void addToGameObjectFactory(

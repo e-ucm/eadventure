@@ -112,4 +112,6 @@ public interface AssetHandler {
 	 */
 	boolean isLoaded();
 
+	String getAbsolutePath(String uri);
+
 }

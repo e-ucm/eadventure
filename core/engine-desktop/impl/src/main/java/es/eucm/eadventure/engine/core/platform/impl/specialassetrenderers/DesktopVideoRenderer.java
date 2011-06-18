@@ -20,23 +20,31 @@ import javax.media.PrefetchCompleteEvent;
 import javax.media.RealizeCompleteEvent;
 import javax.media.StopEvent;
 
+import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 import es.eucm.eadventure.common.resources.assets.multimedia.Video;
-import es.eucm.eadventure.engine.core.platform.assets.impl.SpecialAssetRenderer;
+import es.eucm.eadventure.engine.core.platform.AssetHandler;
+import es.eucm.eadventure.engine.core.platform.SpecialAssetRenderer;
 
-@Singleton
 public class DesktopVideoRenderer implements SpecialAssetRenderer<Video, Component> {
 
 	private static Logger logger = Logger.getLogger("DesktopVideoRenderer");
 	
-	private boolean loaded = false;
+	private static boolean loaded = false;
 	
 	private boolean finished = false;
 	
 	private Player mediaPlayer;
 	
 	private static String CODEC_CLASS_NAME = "net.sourceforge.jffmpeg.VideoDecoder";
+	
+	private AssetHandler assetHandler;
+	
+	@Inject
+	public DesktopVideoRenderer(AssetHandler assetHandler) {
+		this.assetHandler = assetHandler;
+	}
 	
 	@Override
 	public Component getComponent(Video asset) {
@@ -55,7 +63,10 @@ public class DesktopVideoRenderer implements SpecialAssetRenderer<Video, Compone
 		
 		Manager.setHint(Manager.LIGHTWEIGHT_RENDERER, true);
 		try {
-			MediaLocator mediaLocator = new MediaLocator("file://" + asset.getURI());
+			String path = asset.getURI();
+			if (assetHandler != null)
+				path = assetHandler.getAbsolutePath(asset.getURI());
+			MediaLocator mediaLocator = new MediaLocator("file://" + path);
 			mediaPlayer = Manager.createRealizedPlayer(mediaLocator);
 			mediaPlayer.addControllerListener(new ControllerListener() {
 

@@ -39,6 +39,7 @@ package es.eucm.eadventure.engine.core.platform.impl;
 
 import java.awt.AWTException;
 import java.awt.Canvas;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Graphics2D;
 import java.awt.GraphicsDevice;
@@ -105,6 +106,8 @@ public class DesktopGUI extends AbstractGUI<Graphics2D> implements GUI {
 	 * Represent how many pixels the mouse moves when the arrow keys are pressed
 	 */
 	private int MOUSE_MOVE = 20;
+	
+	private Object currentComponent;
 
 	@SuppressWarnings("rawtypes")
 	@Inject
@@ -125,9 +128,41 @@ public class DesktopGUI extends AbstractGUI<Graphics2D> implements GUI {
 	 * @see es.eucm.eadventure.engine.core.platform.GUI#showSpecialResource(java.lang.Object, int, int, boolean)
 	 */
 	@Override
-	public void showSpecialResource(Object resource, int x, int y,
+	public void showSpecialResource(final Object resource, int x, int y,
 			boolean fullscreen) {
-		// TODO Auto-generated method stub
+		if (this.currentComponent == resource)
+			return;
+		if (this.currentComponent != null) {
+			SwingUtilities.doInEDTNow(new Runnable() {
+				@Override
+				public void run() {
+					frame.remove((Component) currentComponent);
+				}
+			});
+			currentComponent = null;
+		}
+		if (this.currentComponent == null) {
+			if (resource == null) {
+				SwingUtilities.doInEDTNow(new Runnable() {
+					@Override
+					public void run() {
+						frame.add(canvas);
+					}
+				});
+			} else {
+				SwingUtilities.doInEDTNow(new Runnable() {
+					@Override
+					public void run() {
+						frame.remove(canvas);
+						((Component) resource).setBounds(0, 0, frame.getWidth(), frame.getHeight());
+						frame.add((Component) resource);
+						frame.validate();
+					}
+				});
+				currentComponent = resource;
+			}
+		}
+		
 	}
 
 	/*
@@ -138,7 +173,10 @@ public class DesktopGUI extends AbstractGUI<Graphics2D> implements GUI {
 	@Override
 	public void commit(final float interpolation) {
 		processInput();
-
+		
+		if (currentComponent != null)
+			return;
+		
 		SwingUtilities.doInEDTNow(new Runnable() {
 			@Override
 			public void run() {

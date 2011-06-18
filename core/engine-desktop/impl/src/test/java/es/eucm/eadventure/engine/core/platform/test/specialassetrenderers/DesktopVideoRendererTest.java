@@ -32,7 +32,7 @@ public class DesktopVideoRendererTest extends TestCase {
 		assertTrue(file.exists());
 		Video video = new VideoImpl(file.getAbsolutePath());
 		assertTrue(new File(video.getURI()).exists());
-		DesktopVideoRenderer desktopVideoRenderer = new DesktopVideoRenderer();
+		DesktopVideoRenderer desktopVideoRenderer = new DesktopVideoRenderer(null);
 		o = desktopVideoRenderer.getComponent(video);
 		assertTrue(o != null);
 		assertTrue(o instanceof Component);

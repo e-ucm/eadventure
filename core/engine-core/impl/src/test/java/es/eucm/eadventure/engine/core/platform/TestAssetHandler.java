@@ -78,4 +78,9 @@ public class TestAssetHandler implements AssetHandler {
 		return false;
 	}
 
+	@Override
+	public String getAbsolutePath(String uri) {
+		return uri;
+	}
+
 }

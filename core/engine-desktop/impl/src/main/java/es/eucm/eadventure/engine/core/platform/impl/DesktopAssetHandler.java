@@ -257,4 +257,17 @@ public class DesktopAssetHandler extends AbstractAssetHandler {
 		fos.close();
 	}
 
+	@Override
+	public String getAbsolutePath(String path) {
+			// TODO localization!
+			File file = fileMap.get(path);
+			if (file == null) {
+				// TODO improve?
+				String location = path.replaceAll("@", "");
+				return ClassLoader.getSystemResource(location).getFile();
+			} else {
+				return file.getAbsolutePath();
+			}
+	}
+
 }

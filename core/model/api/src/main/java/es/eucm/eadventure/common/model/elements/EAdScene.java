@@ -39,6 +39,7 @@ package es.eucm.eadventure.common.model.elements;
 
 import es.eucm.eadventure.common.model.EAdElement;
 import es.eucm.eadventure.common.model.EAdElementList;
+import es.eucm.eadventure.common.model.effects.EAdEffect;
 import es.eucm.eadventure.common.model.variables.EAdVar;
 
 /**

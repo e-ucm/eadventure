@@ -119,6 +119,7 @@ public class GameObjectFactoryImpl implements GameObjectFactory {
 		if (tempClass == null) {
 			logger.log(Level.SEVERE, "No game element mapped for class " + element.getClass());
 		} else {
+			
 			temp = (GameObject<T>) injector.getInstance(tempClass);
 			temp.setElement(element);
 			

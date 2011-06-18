@@ -63,7 +63,6 @@ import es.eucm.eadventure.engine.core.impl.factorymapproviders.GameObjectFactory
 import es.eucm.eadventure.engine.core.impl.GameLoopImpl;
 import es.eucm.eadventure.engine.core.impl.GameProfilerImpl;
 import es.eucm.eadventure.engine.core.platform.*;
-import es.eucm.eadventure.engine.core.platform.assets.impl.SpecialAssetRenderer;
 import es.eucm.eadventure.engine.core.platform.impl.*;
 import es.eucm.eadventure.engine.core.platform.impl.specialassetrenderers.DesktopVideoRenderer;
 

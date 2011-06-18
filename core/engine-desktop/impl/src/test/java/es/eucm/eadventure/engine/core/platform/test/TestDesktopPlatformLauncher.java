@@ -43,11 +43,17 @@ import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.google.inject.Singleton;
 
+import es.eucm.eadventure.common.model.effects.impl.EAdChangeScene;
 import es.eucm.eadventure.common.model.elements.EAdActorReference;
 import es.eucm.eadventure.common.model.elements.EAdScene;
+import es.eucm.eadventure.common.model.elements.EAdTransition;
+import es.eucm.eadventure.common.model.elements.impl.extra.EAdButton;
 import es.eucm.eadventure.common.model.elements.test.ActorReferenceFactoryTest;
 import es.eucm.eadventure.common.model.elements.test.BasicActorFactoryTest;
 import es.eucm.eadventure.common.model.elements.test.BasicSceneFactoryTest;
+import es.eucm.eadventure.common.model.elements.test.VideoSceneFactoryTest;
+import es.eucm.eadventure.common.model.guievents.impl.EAdMouseEventImpl;
+import es.eucm.eadventure.common.model.params.EAdPosition;
 import es.eucm.eadventure.common.resources.EAdString;
 import es.eucm.eadventure.common.resources.StringHandler;
 import es.eucm.eadventure.engine.core.Game;
@@ -92,6 +98,12 @@ public class TestDesktopPlatformLauncher  {
 		
 		EAdActorReference actorReference = ActorReferenceFactoryTest.getActorReference(BasicActorFactoryTest.getActor());
 		scene.getSceneElements().add(actorReference);
+
+		EAdButton button = new EAdButton("button");
+		button.setUpNewInstance();
+		button.addBehavior(EAdMouseEventImpl.MOUSE_LEFT_CLICK, new EAdChangeScene("id", VideoSceneFactoryTest.getVideoScene(), EAdTransition.BASIC));
+		button.setPosition(new EAdPosition(200, 200));
+		scene.getSceneElements().add(button);
 		
 		loadingScreen.setInitialScreen(scene);
 		
