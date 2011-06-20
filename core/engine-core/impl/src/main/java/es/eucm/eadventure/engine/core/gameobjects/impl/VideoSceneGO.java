@@ -29,8 +29,10 @@ public class VideoSceneGO extends AbstractGameObject<EAdVideoScene> implements S
 	public void doLayout(int offsetX, int offsetY) {
 		if (component == null)
 			component = specialAssetRenderer.getComponent((Video) element.getAsset(EAdVideoScene.video));
-		if (specialAssetRenderer.isFinished())
+		if (specialAssetRenderer.isFinished()) {
 			gui.showSpecialResource(null, 0, 0, true);
+			component = null;
+		}
 		else
 			gui.showSpecialResource(component, 0, 0, true);
 	}

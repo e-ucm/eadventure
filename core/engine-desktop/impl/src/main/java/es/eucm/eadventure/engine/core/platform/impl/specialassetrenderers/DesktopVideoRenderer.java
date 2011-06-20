@@ -21,7 +21,6 @@ import javax.media.RealizeCompleteEvent;
 import javax.media.StopEvent;
 
 import com.google.inject.Inject;
-import com.google.inject.Singleton;
 
 import es.eucm.eadventure.common.resources.assets.multimedia.Video;
 import es.eucm.eadventure.engine.core.platform.AssetHandler;
@@ -60,6 +59,7 @@ public class DesktopVideoRenderer implements SpecialAssetRenderer<Video, Compone
 	        }
 		}
 		Component video = null;
+		finished = false;
 		
 		Manager.setHint(Manager.LIGHTWEIGHT_RENDERER, true);
 		try {
@@ -79,10 +79,16 @@ public class DesktopVideoRenderer implements SpecialAssetRenderer<Video, Compone
 			        }
 			        else if( event instanceof EndOfMediaEvent ) {
 			            logger.info("EndOfMediaEvent");
+			            mediaPlayer.close( );
+			            mediaPlayer.deallocate( );
+			            mediaPlayer = null;
 			            finished = true;
 			        }
 			        else if( event instanceof StopEvent ) {
 			        	logger.info("StopEvent");
+			            mediaPlayer.close( );
+			            mediaPlayer.deallocate( );
+			            mediaPlayer = null;
 			            finished = true;
 			            //notify( );
 			        }
@@ -108,7 +114,6 @@ public class DesktopVideoRenderer implements SpecialAssetRenderer<Video, Compone
 			logger.log(Level.SEVERE, "Cannot realized player", e);
 		}
 		return video;
-		
 	}
 
 	public boolean isFinished() {
