@@ -55,6 +55,7 @@ import es.eucm.eadventure.common.model.params.EAdPosition;
 import es.eucm.eadventure.common.resources.assets.AssetDescriptor;
 import es.eucm.eadventure.engine.core.gameobjects.GameObject;
 import es.eucm.eadventure.engine.core.gameobjects.GameObjectFactory;
+import es.eucm.eadventure.engine.core.gameobjects.GameObjectManager;
 import es.eucm.eadventure.engine.core.gameobjects.SceneElementGO;
 import es.eucm.eadventure.engine.core.gameobjects.huds.impl.ActionsHUDImpl;
 import es.eucm.eadventure.engine.core.platform.GUI;
@@ -70,8 +71,8 @@ public class DesktopActionsHUDImpl extends ActionsHUDImpl {
 	
 	@Inject
 	public DesktopActionsHUDImpl(GUI gui,
-			GameObjectFactory gameObjectFactory) {
-		super(gui);
+			GameObjectFactory gameObjectFactory, GameObjectManager gameObjectManager) {
+		super(gui, gameObjectManager);
 		actionGOs = new ArrayList<GameObject<?>>();
 		this.gameObjectFactory = gameObjectFactory;
 		logger.info("New instance");

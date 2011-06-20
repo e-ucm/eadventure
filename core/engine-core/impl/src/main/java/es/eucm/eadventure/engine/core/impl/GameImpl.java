@@ -54,6 +54,7 @@ import es.eucm.eadventure.engine.core.Game;
 import es.eucm.eadventure.engine.core.GameState;
 import es.eucm.eadventure.engine.core.gameobjects.EffectGO;
 import es.eucm.eadventure.engine.core.gameobjects.GameObjectFactory;
+import es.eucm.eadventure.engine.core.gameobjects.GameObjectManager;
 import es.eucm.eadventure.engine.core.gameobjects.huds.BasicHUD;
 import es.eucm.eadventure.engine.core.gameobjects.huds.EffectHUD;
 import es.eucm.eadventure.engine.core.platform.AssetHandler;
@@ -84,13 +85,16 @@ public class GameImpl implements Game {
 	private boolean effectHUDon;
 	
 	private GameObjectFactory gameObjectFactory;
+	
+	private GameObjectManager gameObjectManager;
 
 	@Inject
 	public GameImpl(GUI gui, EvaluatorFactory evaluatorFactory,
 			GameState gameState, EffectHUD effectHUD,
 			AssetHandler assetHandler,
 			@SuppressWarnings("rawtypes") BasicHUD basicHud,
-			GameObjectFactory gameObjectFactory) {
+			GameObjectFactory gameObjectFactory,
+			GameObjectManager gameObjectManager) {
 		this.gui = gui;
 		this.evaluatorFactory = evaluatorFactory;
 		this.gameState = gameState;
@@ -101,6 +105,8 @@ public class GameImpl implements Game {
 		this.gameObjectFactory = gameObjectFactory;
 		this.adventure = new EAdAdventureModelImpl();
 		this.adventure.getChapters().add(new EAdChapterImpl(""));
+		this.gameObjectFactory = gameObjectFactory;
+		this.gameObjectManager = gameObjectManager;
 	}
 
 	@Override
@@ -165,12 +171,12 @@ public class GameImpl implements Game {
 		if (gameState.getEffects().size() > 0
 				&& gameState.getEffects().get(0).isVisualEffect()) {
 			if (!effectHUDon) {
-				gui.addHUD(effectHUD);
+				gameObjectManager.addHUD(effectHUD);
 				effectHUDon = true;
 			}
 		} else {
 			if (effectHUDon) {
-				gui.removeHUD(effectHUD);
+				gameObjectManager.removeHUD(effectHUD);
 				effectHUDon = false;
 			}
 		}

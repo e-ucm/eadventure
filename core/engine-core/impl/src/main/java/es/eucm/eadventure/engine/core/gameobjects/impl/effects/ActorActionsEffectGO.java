@@ -41,23 +41,27 @@ import com.google.inject.Inject;
 
 import es.eucm.eadventure.common.model.effects.impl.EAdActorActionsEffect;
 import es.eucm.eadventure.common.model.effects.impl.EAdActorActionsEffect.Change;
+import es.eucm.eadventure.engine.core.gameobjects.GameObjectManager;
 import es.eucm.eadventure.engine.core.gameobjects.SceneElementGO;
 import es.eucm.eadventure.engine.core.gameobjects.huds.ActionsHUD;
 
-public class ShowActionsEffectGO extends AbstractEffectGO<EAdActorActionsEffect> {
+public class ActorActionsEffectGO extends AbstractEffectGO<EAdActorActionsEffect> {
 
 	/**
 	 * The current {@link ActionsHUD}
 	 */
 	private ActionsHUD actionsHUD;
 	
+	private GameObjectManager gameObjectManager;
+	
 	/**
 	 * @param actionsHUD
 	 */
 	@Inject
-	public ShowActionsEffectGO(ActionsHUD actionsHUD)
+	public ActorActionsEffectGO(ActionsHUD actionsHUD, GameObjectManager gameObjectManager)
 	{
 		this.actionsHUD = actionsHUD;
+		this.gameObjectManager = gameObjectManager;
 	}
 	
 	@Override
@@ -67,10 +71,10 @@ public class ShowActionsEffectGO extends AbstractEffectGO<EAdActorActionsEffect>
 			SceneElementGO<?> sceneElement = (SceneElementGO<?>) gameObjectFactory.get(element.getActionElement());
 			if (sceneElement.getValidActions() != null) {
 				actionsHUD.setElement(sceneElement);
-				gui.addHUD(actionsHUD);
+				gameObjectManager.addHUD(actionsHUD);
 			}
 		} else {
-			gui.removeHUD(actionsHUD);
+			gameObjectManager.removeHUD(actionsHUD);
 		}
 	}
 

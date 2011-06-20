@@ -47,6 +47,7 @@ import es.eucm.eadventure.common.model.params.EAdPosition;
 import es.eucm.eadventure.engine.core.GameState;
 import es.eucm.eadventure.engine.core.MouseState;
 import es.eucm.eadventure.engine.core.gameobjects.GameObject;
+import es.eucm.eadventure.engine.core.gameobjects.GameObjectManager;
 import es.eucm.eadventure.engine.core.gameobjects.SceneElementGO;
 import es.eucm.eadventure.engine.core.gameobjects.huds.ActionsHUD;
 import es.eucm.eadventure.engine.core.guiactions.GUIAction;
@@ -95,11 +96,17 @@ public class ActionsHUDImpl implements ActionsHUD {
 
 	protected SceneElementGO<?> sceneElement;
 
+	private GameObjectManager gameObjectManager;
+	
 	@Inject
-	public ActionsHUDImpl(GUI gui) {
+	public ActionsHUDImpl(GUI gui, GameObjectManager gameObjectManager) {
 		this.gui = gui;
+		this.gameObjectManager = gameObjectManager;
 	}
 
+	/* (non-Javadoc)
+	 * @see es.eucm.eadventure.engine.core.gameobjects.GameObject#processAction(es.eucm.eadventure.engine.core.guiactions.GUIAction)
+	 */
 	@Override
 	public boolean processAction(GUIAction action) {
 		if (action instanceof MouseAction) {
@@ -109,14 +116,14 @@ public class ActionsHUDImpl implements ActionsHUD {
 			case RIGHT_CLICK:
 			case LEFT_CLICK:
 				logger.info("Remove actions HUD");
-				gui.removeHUD(this);
+				gameObjectManager.removeHUD(this);
 				temp.consume();
 			default:
 			}
 
 		}
-
-		return false;
+		action.consume();
+		return true;
 	}
 
 	/*

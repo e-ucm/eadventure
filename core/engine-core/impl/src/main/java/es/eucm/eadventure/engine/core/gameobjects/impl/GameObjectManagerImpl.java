@@ -118,7 +118,8 @@ public class GameObjectManagerImpl implements GameObjectManager {
 	 */
 	@Override
 	public void addHUD(HudGO<?> hud) {
-		huds.add(hud);
+		if (!huds.contains(hud))
+			huds.add(hud);
 		logger.info("Added HUD. size: " + huds.size() + "; huds: " + huds);
 	}
 

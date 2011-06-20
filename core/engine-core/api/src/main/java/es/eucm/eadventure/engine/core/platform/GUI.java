@@ -41,7 +41,6 @@ import java.util.List;
 
 import es.eucm.eadventure.common.resources.assets.drawable.Image;
 import es.eucm.eadventure.engine.core.gameobjects.GameObject;
-import es.eucm.eadventure.engine.core.gameobjects.huds.HudGO;
 
 /**
  * This interface is implemented by the class that implements the high level
@@ -69,20 +68,6 @@ public interface GUI {
 	 * @return
 	 */
 	List<GameObject<?>> getGameObjects();
-
-	/**
-	 * Add a new HUD (Head-up display) to the game
-	 * 
-	 * @param hud
-	 */
-	void addHUD(HudGO<?> hud);
-
-	/**
-	 * Remove a HUD (Head-up display) from the game
-	 * 
-	 * @param effectHUD
-	 */
-	void removeHUD(HudGO<?> effectHUD);
 
 	/**
 	 * Show a special resource on the screen (e.g. video, HTML, etc.)

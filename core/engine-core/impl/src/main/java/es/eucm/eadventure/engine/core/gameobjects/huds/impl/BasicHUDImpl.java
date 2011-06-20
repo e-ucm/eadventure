@@ -51,6 +51,7 @@ import es.eucm.eadventure.engine.core.GameState;
 import es.eucm.eadventure.engine.core.MouseState;
 import es.eucm.eadventure.engine.core.gameobjects.GameObject;
 import es.eucm.eadventure.engine.core.gameobjects.GameObjectFactory;
+import es.eucm.eadventure.engine.core.gameobjects.GameObjectManager;
 import es.eucm.eadventure.engine.core.gameobjects.huds.BasicHUD;
 import es.eucm.eadventure.engine.core.gameobjects.huds.MenuHUD;
 import es.eucm.eadventure.engine.core.guiactions.GUIAction;
@@ -83,14 +84,17 @@ public class BasicHUDImpl implements BasicHUD<Void> {
 	
 	private GameState gameState;
 	
+	private GameObjectManager gameObjectManager;
+	
 	@Inject
-	public BasicHUDImpl(GUI gui, MenuHUD menuHUD, Game game, GameObjectFactory gameObjectFactory, GameState gameState) {
+	public BasicHUDImpl(GUI gui, MenuHUD menuHUD, Game game, GameObjectFactory gameObjectFactory, GameState gameState, GameObjectManager gameObjectManager) {
 		logger.info("New instance");
 		this.gui = gui;
 		this.menuHUD = menuHUD;
 		this.game = game;
 		this.gameObjectFactory = gameObjectFactory;
 		this.gameState = gameState;
+		this.gameObjectManager = gameObjectManager;
 	}
 
 	/*
@@ -104,7 +108,7 @@ public class BasicHUDImpl implements BasicHUD<Void> {
 	public boolean processAction(GUIAction action) {
 		if (action instanceof KeyAction
 				&& ((KeyAction) action).getKeyCode() == KeyCode.ESC) {
-			gui.addHUD(menuHUD);
+			gameObjectManager.addHUD(menuHUD);
 			gameState.setPaused(true);
 			action.consume();
 			return true;

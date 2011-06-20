@@ -52,6 +52,7 @@ import es.eucm.eadventure.common.resources.EAdString;
 import es.eucm.eadventure.common.resources.assets.drawable.impl.CaptionImpl;
 import es.eucm.eadventure.engine.core.GameState;
 import es.eucm.eadventure.engine.core.gameobjects.GameObjectFactory;
+import es.eucm.eadventure.engine.core.gameobjects.GameObjectManager;
 import es.eucm.eadventure.engine.core.gameobjects.huds.MenuHUD;
 import es.eucm.eadventure.engine.core.gameobjects.huds.impl.MenuHUDImpl;
 import es.eucm.eadventure.engine.core.platform.GUI;
@@ -76,8 +77,8 @@ public class DesktopMenuHUDImpl extends MenuHUDImpl {
 	private GameObjectFactory gameObjectFactory;
 
 	@Inject
-	public DesktopMenuHUDImpl(GameObjectFactory gameObjectFactory, GUI gui, MenuHUD menuHUD, GameState gameState) {
-		super(gui, gameState);
+	public DesktopMenuHUDImpl(GameObjectFactory gameObjectFactory, GUI gui, MenuHUD menuHUD, GameState gameState, GameObjectManager gameObjectManager) {
+		super(gui, gameState, gameObjectManager);
 		logger.info("New instance");
 		
 		this.gameObjectFactory = gameObjectFactory;

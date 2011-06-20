@@ -46,6 +46,7 @@ import es.eucm.eadventure.common.model.params.guievents.EAdKeyEvent.KeyCode;
 import es.eucm.eadventure.engine.core.GameState;
 import es.eucm.eadventure.engine.core.MouseState;
 import es.eucm.eadventure.engine.core.gameobjects.GameObject;
+import es.eucm.eadventure.engine.core.gameobjects.GameObjectManager;
 import es.eucm.eadventure.engine.core.gameobjects.huds.MenuHUD;
 import es.eucm.eadventure.engine.core.guiactions.GUIAction;
 import es.eucm.eadventure.engine.core.guiactions.KeyAction;
@@ -72,11 +73,14 @@ public abstract class MenuHUDImpl implements MenuHUD {
 	 */
 	private GameState gameState;
 	
+	private GameObjectManager gameObjectManager;
+	
 	@Inject
-	public MenuHUDImpl(GUI gui, GameState gameState) {
+	public MenuHUDImpl(GUI gui, GameState gameState, GameObjectManager gameObjectManager) {
 		logger.info("New instance");
 		this.gui = gui;
 		this.gameState = gameState;
+		this.gameObjectManager = gameObjectManager;
 	}
 
 	/*
@@ -90,7 +94,7 @@ public abstract class MenuHUDImpl implements MenuHUD {
 	public boolean processAction(GUIAction action) {
 		if (action instanceof KeyAction
 				&& ((KeyAction) action).getKeyCode() == KeyCode.ESC) {
-			gui.removeHUD(this);
+			gameObjectManager.removeHUD(this);
 			gameState.setPaused(false);
 			action.consume();
 			return true;

@@ -98,8 +98,6 @@ public class DesktopBasicInventoryGO extends BasicInventoryGO {
 				removedActors.add(actor);
 			else {
 				EAdActorReferenceImpl ref = includedActors.get(actor);
-				EAdActorActionsEffect showActions = new EAdActorActionsEffect( ref.getId()+ "_showActions", ref);
-				ref.getBehavior().addBehavior(EAdMouseEventImpl.MOUSE_RIGHT_CLICK, showActions);
 				ref.getPosition().setX(20);
 				ref.getPosition().setY(60);
 				//TODO position actor
@@ -115,6 +113,8 @@ public class DesktopBasicInventoryGO extends BasicInventoryGO {
 		for (EAdActor actor : gameState.getInventoryActors())  {
 			if (!includedActors.keySet().contains(actor)) {
 				EAdActorReferenceImpl ref = new EAdActorReferenceImpl(actor);
+				EAdActorActionsEffect showActions = new EAdActorActionsEffect( ref.getId()+ "_showActions", ref);
+				ref.getBehavior().addBehavior(EAdMouseEventImpl.MOUSE_RIGHT_CLICK, showActions);
 				((ActorReferenceGOImpl) gameObjectFactory.get(ref)).setInventoryReference(true);
 				includedActors.put(actor, ref);
 				inventory.getComponents().add(ref);

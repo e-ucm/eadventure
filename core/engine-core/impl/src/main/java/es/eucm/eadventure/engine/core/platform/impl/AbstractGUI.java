@@ -45,7 +45,6 @@ import es.eucm.eadventure.engine.core.KeyboardState;
 import es.eucm.eadventure.engine.core.MouseState;
 import es.eucm.eadventure.engine.core.gameobjects.GameObject;
 import es.eucm.eadventure.engine.core.gameobjects.GameObjectManager;
-import es.eucm.eadventure.engine.core.gameobjects.huds.HudGO;
 import es.eucm.eadventure.engine.core.guiactions.KeyAction;
 import es.eucm.eadventure.engine.core.guiactions.MouseAction;
 import es.eucm.eadventure.engine.core.guiactions.impl.MouseActionImpl;
@@ -133,19 +132,7 @@ public abstract class AbstractGUI<T> implements GUI {
 		gameObjects.add(element, offsetX, offsetY);
 		element.doLayout(offsetX, offsetY);
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * es.eucm.eadventure.engine.core.platform.GUI#addHUD(es.eucm.eadventure
-	 * .engine.core.gameobjects.huds.HudGO)
-	 */
-	@Override
-	public void addHUD(HudGO<?> hud) {
-		gameObjects.addHUD(hud);
-	}
-
+	
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -155,19 +142,7 @@ public abstract class AbstractGUI<T> implements GUI {
 	public List<GameObject<?>> getGameObjects() {
 		return gameObjects.getGameObjects();
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * es.eucm.eadventure.engine.core.platform.GUI#removeHUD(es.eucm.eadventure
-	 * .engine.core.gameobjects.huds.HudGO)
-	 */
-	@Override
-	public void removeHUD(HudGO<?> hud) {
-		gameObjects.removeHUD(hud);
-	}
-
+	
 	/*
 	 * (non-Javadoc)
 	 * 
