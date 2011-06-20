@@ -32,28 +32,52 @@ public class EAdModifyActorState extends AbstractEAdEffect {
 	@Param("actor")
 	private EAdActor actor;
 	
+	/**
+	 * Constructor. Actor will be null, default modification will be {@link Modification.PLACE_IN_INVENTORY}
+	 * 
+	 * @param id The id of the effect
+	 */
 	public EAdModifyActorState(String id) {
 		this(id, null, Modification.PLACE_IN_INVENTORY);
 	}
 	
+	/**
+	 * Constructor
+	 * 
+	 * @param id The id of the effect
+	 * @param actor The {@link EAdActor} to be modified
+	 * @param modification The {@link Modification} to the actor state
+	 */
 	public EAdModifyActorState(String id, EAdActor actor, Modification modification) {
 		super(id);
 		this.modification = modification;
 		this.actor = actor;
 	}
 	
+	/**
+	 * @param modification The {@link Modification} to be performed to the actor
+	 */
 	public void setModification(Modification modification) {
 		this.modification = modification;
 	}
 	
+	/**
+	 * @return The {@link Modification} to be performed to the actor
+	 */
 	public Modification getModification() {
 		return modification;
 	}
 	
+	/**
+	 * @param actor Set the {@link EAdActor} to be modified
+	 */
 	public void setActor(EAdActor actor) {
 		this.actor = actor;
 	}
 	
+	/**
+	 * @return Get the {@link EAdActor} to be modified
+	 */
 	public EAdActor getActor() {
 		return actor;
 	}

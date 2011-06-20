@@ -70,6 +70,8 @@ public class ActorReferenceGOImpl extends SceneElementGOImpl<EAdActorReference>
 			.getLogger("ActorReferneceGOImpl");
 
 	protected ActorGO actor;
+	
+	private boolean inventoryReference;
 
 	@Inject
 	public ActorReferenceGOImpl(AssetHandler assetHandler, ValueMap valueMap,
@@ -78,6 +80,7 @@ public class ActorReferenceGOImpl extends SceneElementGOImpl<EAdActorReference>
 		this.valueMap = valueMap;
 		this.assetHandler = assetHandler;
 		this.gameState = gameState;
+		this.inventoryReference = false;
 	}
 
 	private boolean isRemoved() {
@@ -159,6 +162,14 @@ public class ActorReferenceGOImpl extends SceneElementGOImpl<EAdActorReference>
 	public List<EAdAction> getValidActions() {
 		return actor.getValidActions();
 	}
+	
+	@Override
+	public boolean isVisible() {
+		if (!inventoryReference && gameState.getInventoryActors().contains(element
+				.getReferencedActor()))
+			return false;
+		return super.isVisible();
+	}
 
 	@Override
 	public List<RuntimeAsset<?>> getAssets(List<RuntimeAsset<?>> assetList,
@@ -202,6 +213,10 @@ public class ActorReferenceGOImpl extends SceneElementGOImpl<EAdActorReference>
 			}
 		}
 		return assetList;
+	}
+	
+	public void setInventoryReference(boolean inventoryReference) {
+		this.inventoryReference = inventoryReference;
 	}
 
 }

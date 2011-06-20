@@ -44,6 +44,7 @@ import com.google.inject.Injector;
 import com.google.inject.Singleton;
 
 import es.eucm.eadventure.common.model.effects.impl.EAdChangeScene;
+import es.eucm.eadventure.common.model.effects.impl.EAdModifyActorState;
 import es.eucm.eadventure.common.model.elements.EAdActorReference;
 import es.eucm.eadventure.common.model.elements.EAdScene;
 import es.eucm.eadventure.common.model.elements.EAdTransition;
@@ -91,6 +92,8 @@ public class TestDesktopPlatformLauncher  {
 		sh.addString(new EAdString("orientedName"), "Oriented");
 		sh.addString(new EAdString("stringId"), "Esto es un string no ya largo, sino larguíiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiisimo sólo para probar si todo ese código que hay por ahí para e incluso le pongo variables como mi nombre que es #nombre e incluso un número que es #n cortar las líneas funciona más o menos bien, que estaría bien, vamos, que tampoco...");
 
+		sh.addString(new EAdString("default"), "default");
+
 		Game game = injector.getInstance(Game.class);
 		LoadingScreen loadingScreen = injector.getInstance(LoadingScreen.class);
 		
@@ -104,6 +107,19 @@ public class TestDesktopPlatformLauncher  {
 		button.addBehavior(EAdMouseEventImpl.MOUSE_LEFT_CLICK, new EAdChangeScene("id", VideoSceneFactoryTest.getVideoScene(), EAdTransition.BASIC));
 		button.setPosition(new EAdPosition(200, 200));
 		scene.getSceneElements().add(button);
+		
+		EAdButton button2 = new EAdButton("button");
+		button2.setUpNewInstance();
+		button2.addBehavior(EAdMouseEventImpl.MOUSE_LEFT_CLICK, new EAdModifyActorState("id", actorReference.getReferencedActor(), EAdModifyActorState.Modification.PLACE_IN_INVENTORY));
+		button2.setPosition(new EAdPosition(200, 300));
+		scene.getSceneElements().add(button2);
+
+		EAdButton button3 = new EAdButton("button");
+		button3.setUpNewInstance();
+		button3.addBehavior(EAdMouseEventImpl.MOUSE_LEFT_CLICK, new EAdModifyActorState("id", actorReference.getReferencedActor(), EAdModifyActorState.Modification.PLACE_IN_SCENE));
+		button3.setPosition(new EAdPosition(200, 400));
+		scene.getSceneElements().add(button3);
+
 		
 		loadingScreen.setInitialScreen(scene);
 		
