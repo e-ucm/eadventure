@@ -35,7 +35,7 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package es.eucm.eadventure.engine.core.platform.demos;
+package es.eucm.eadventure.plugin.box2d;
 
 import java.io.File;
 
@@ -60,9 +60,11 @@ import es.eucm.eadventure.common.model.params.EAdBorderedColor;
 import es.eucm.eadventure.common.model.params.EAdPosition;
 import es.eucm.eadventure.common.model.params.EAdPosition.Corner;
 import es.eucm.eadventure.common.resources.EAdBundleId;
+import es.eucm.eadventure.common.resources.EAdString;
 import es.eucm.eadventure.common.resources.StringHandler;
 import es.eucm.eadventure.common.resources.assets.drawable.impl.RectangleShape;
 import es.eucm.eadventure.engine.core.impl.LoadingScreen;
+import es.eucm.eadventure.engine.core.impl.factorymapproviders.GameObjectFactoryMapProvider;
 import es.eucm.eadventure.engine.core.impl.modules.BasicGameModule;
 import es.eucm.eadventure.engine.core.platform.PlatformLauncher;
 import es.eucm.eadventure.engine.core.platform.impl.DesktopPlatformLauncher;
@@ -72,14 +74,12 @@ import es.eucm.eadventure.engine.core.platform.impl.extra.DesktopAssetRendererMo
 import es.eucm.eadventure.engine.core.platform.impl.extra.DesktopModule;
 
 @Singleton
-/**
- * A demo demonstrating rotation interpolation in an element
- */
-public class RotationDemo {
+public class TestBox2DPlatformLauncher {
 
 	public static void main(String[] args) {
 		System.setProperty("com.apple.mrj.application.apple.menu.about.name",
 				"eAdventure");
+		GameObjectFactoryMapProvider.add(Box2DEffect.class, Box2DGO.class);
 
 		Injector injector = Guice.createInjector(
 				new DesktopAssetHandlerModule(),
@@ -93,6 +93,22 @@ public class RotationDemo {
 		StringHandler sh = injector.getInstance(StringHandler.class);
 		DesktopStringLoader.loadStrings(sh, ClassLoader
 				.getSystemResourceAsStream("values/strings.properties"));
+
+		sh.addString(new EAdString("question"),
+				"¿Qué pregunta te podría hacer?");
+		sh.addString(new EAdString("answer1"), "Que como estoy, a lo mejor");
+		sh.addString(new EAdString("answer2"), "No sé, lo que veas.");
+		sh.addString(new EAdString("answer3"),
+				"A lo mejor algo relacionado con el mundo e las preguntas.");
+		sh.addString(new EAdString("stringName"), "Start game");
+		sh.addString(new EAdString("panielName"), "Paniel");
+		sh.addString(new EAdString("panielDescription"),
+				"Es Paniel. Parece ser que le gusta hacer el moonwalker todo el rato. #f");
+		sh.addString(new EAdString("handAction"), "¡Chócala!");
+		sh.addString(new EAdString("orientedName"), "Oriented");
+		sh.addString(
+				new EAdString("stringId"),
+				"Esto es un string no ya largo, sino larguíiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiisimo sólo para probar si todo ese código que hay por ahí para e incluso le pongo variables como mi nombre que es #nombre e incluso un número que es #n cortar las líneas funciona más o menos bien, que estaría bien, vamos, que tampoco...");
 
 		LoadingScreen loadingScreen = injector.getInstance(LoadingScreen.class);
 
@@ -112,9 +128,25 @@ public class RotationDemo {
 		ground.getResources().addAsset(bundle,
 				EAdBasicSceneElement.appearance, rectangle3);
 
-		ground.setPosition(new EAdPosition(Corner.CENTER, 400, 300));
+		ground.setPosition(new EAdPosition(Corner.CENTER, 400, 550));
+
+		RectangleShape rectangle2 = new RectangleShape(15, 25,
+				EAdBorderedColor.BLACK_ON_WHITE);
 
 		scene.getSceneElements().add(ground);
+
+		Box2DEffect effect = new Box2DEffect("box2D");
+
+		for (int i = 0; i < 8; i++) {
+			for (int j = 0; j < 3; j++) {
+				EAdBasicSceneElement box = new EAdBasicSceneElement("box");
+				box.getResources().addAsset(box.getInitialBundle(),
+						EAdBasicSceneElement.appearance, rectangle2);
+				box.setPosition(new EAdPosition(Corner.CENTER, 100 + i * 50, i * 50 + j * 50));
+				scene.getSceneElements().add(box);
+				effect.box.add(box);
+			}
+		}
 		
 		EAdChangeAppearance change = new EAdChangeAppearance( "change" );
 		change.setElement(ground);
@@ -129,18 +161,22 @@ public class RotationDemo {
 
 		EAdSceneElementEvent event = new EAdSceneElementEventImpl("added ");
 		EAdMacro macro = new EAdMacroImpl( "macro");
+
+		effect.ground = ground;
 		
-		EAdVarInterpolationEffect interpolation = new EAdVarInterpolationEffect("rotation" );
-		interpolation.setInterpolation(ground.rotationVar(), 0, (float) (2.0f * Math.PI), 60000, LoopType.RESTART);
-		
-		macro.getEffects().add(interpolation);
+		macro.getEffects().add(effect);
 
 		event.addEffect(SceneElementEvent.ADDED_TO_SCENE, new EAdTriggerMacro( macro ));
 		ground.getEvents().add(event);
 
 		loadingScreen.setInitialScreen(scene);
-		
+
+		// for (EAdTimer timer : scene.timers)
+		// game.getAdventureModel().getChapters().get(0).getTimers().add(timer);
+
+		// TODO extract file from args or use default?
 		File file = null;
+		// File file = new File("/ProyectoJuegoFINAL.ead");
 		((DesktopPlatformLauncher) launcher).launch(file);
 	}
 
