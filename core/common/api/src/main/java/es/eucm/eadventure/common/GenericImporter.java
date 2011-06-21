@@ -37,11 +37,18 @@
 
 package es.eucm.eadventure.common;
 
-import es.eucm.eadventure.common.model.EAdElement;
-
 /**
+ * <p>
  * An importer for converting old model {@link AdventureData} objects into new
  * model {@link EAdventureModel} objects
+ * </p>
+ * <p>
+ * The conversion of elements is divided in two steps (initialization and
+ * conversion, through the {@link GenericImporter#init} and
+ * {@link GenericImporter#convert} methods respectably) in order to support
+ * recursive conversion of elements. Using the conversion method directly
+ * resulted in infinite loops, as expected when an element had a reference to
+ * itself in one of its children.
  * 
  * @param <OldT>
  *            Old class class name from old model {@link AdventureData}
@@ -50,7 +57,6 @@ import es.eucm.eadventure.common.model.EAdElement;
  */
 public interface GenericImporter<OldT, NewT> {
 
-	
 	/**
 	 * Returns a new model object equivalent to the oldObject. Null if
 	 * conversion failed
@@ -58,16 +64,15 @@ public interface GenericImporter<OldT, NewT> {
 	 * @param oldObject
 	 * @return
 	 */
-	NewT init( OldT oldObject );
-	
-	
+	NewT init(OldT oldObject);
+
 	/**
 	 * Converts the parameters of the old object to those of the new one
 	 * 
 	 * @param oldObject
-	 * @param newElement 
+	 * @param newElement
 	 * @return
 	 */
-	NewT convert( OldT oldObject, Object newElement );
-	
+	NewT convert(OldT oldObject, Object newElement);
+
 }

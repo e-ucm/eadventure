@@ -115,10 +115,12 @@ public class ActionImporter implements EAdElementImporter<Action, EAdAction> {
 							EAdBasicAction.appearance,
 							new ImageImpl(getHighlightDrawablePath(oldObject
 									.getType())));
+			//TODO should add default effects (e.g. grab should place in inventory, if there is no cancel effect?)
 		}
 
 		return action;
 	}
+
 
 	public static String getDrawablePath(int actionType) {
 		String image = null;
