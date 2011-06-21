@@ -82,18 +82,18 @@ public class BasicSceneElementGO extends SceneElementGOImpl<EAdBasicSceneElement
 	 * @see es.eucm.eadventure.engine.core.gameobjects.impl.SceneElementGOImpl#getAsset()
 	 */
 	@Override
-	public RuntimeAsset<?> getAsset() {
+	public DrawableAsset<?> getAsset() {
 		AssetDescriptor a = element.getResources().getAsset(getCurrentBundle(), EAdBasicSceneElement.appearance);
  
 		if (a instanceof OrientedAsset) {
 			a = ((OrientedAsset) a).getAssetDescritpor(orientation);
 		}
 
-		RuntimeAsset<?> r = assetHandler.getRuntimeAsset(a);
+		DrawableAsset<?> r = (DrawableAsset<?>) assetHandler.getRuntimeAsset(a);
 		if (r instanceof DrawableAsset) {
-			setWidth( ((DrawableAsset<?>) r).getWidth() );
-			setHeight( ((DrawableAsset<?>) r).getHeight() );
-			return ((DrawableAsset<?>) r).getDrawable();
+			setWidth( r.getWidth() );
+			setHeight( r.getHeight() );
+			return r.getDrawable();
 		}
 		return r;
 	}

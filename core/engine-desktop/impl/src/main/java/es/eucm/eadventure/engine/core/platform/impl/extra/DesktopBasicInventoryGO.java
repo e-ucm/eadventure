@@ -20,6 +20,7 @@ import es.eucm.eadventure.common.model.params.EAdPosition;
 import es.eucm.eadventure.common.model.params.EAdPosition.Corner;
 import es.eucm.eadventure.common.resources.assets.drawable.impl.RectangleShape;
 import es.eucm.eadventure.engine.core.GameState;
+import es.eucm.eadventure.engine.core.gameobjects.SceneElementGO;
 import es.eucm.eadventure.engine.core.gameobjects.impl.ActorReferenceGOImpl;
 import es.eucm.eadventure.engine.core.gameobjects.impl.inventory.BasicInventoryGO;
 
@@ -37,6 +38,8 @@ public class DesktopBasicInventoryGO extends BasicInventoryGO {
 	
 	private static int SENSE_HEIGHT = 40;
 	
+	private static int INVENTORY_HEIGHT = 100;
+	
 	public DesktopBasicInventoryGO() {
 		bottomPart = new EAdBasicSceneElement("bottomInventory");
 		RectangleShape rect = new RectangleShape(800, SENSE_HEIGHT + 2, EAdBorderedColor.TRANSPARENT);
@@ -51,7 +54,7 @@ public class DesktopBasicInventoryGO extends BasicInventoryGO {
 		inventory = new EAdComplexSceneElement("inventory");
 		inventory.setPosition(new EAdPosition(Corner.BOTTOM_LEFT, 0, 700));
 		
-		RectangleShape rect2 = new RectangleShape(800, 100, EAdBorderedColor.BLACK_ON_WHITE);
+		RectangleShape rect2 = new RectangleShape(800, INVENTORY_HEIGHT, EAdBorderedColor.BLACK_ON_WHITE);
 		inventory.getResources().addAsset(inventory.getInitialBundle(), EAdBasicSceneElement.appearance, rect2);
 
 		centerPart = new EAdBasicSceneElement("centerPart");
@@ -106,8 +109,8 @@ public class DesktopBasicInventoryGO extends BasicInventoryGO {
 				removedActors.add(actor);
 			else {
 				EAdActorReferenceImpl ref = includedActors.get(actor);
-				ref.getPosition().setX(20);
-				ref.getPosition().setY(60);
+				ref.setPosition(new EAdPosition(EAdPosition.Corner.CENTER, 60, 60));
+				
 				//TODO position actor
 			}
 		}
@@ -126,6 +129,10 @@ public class DesktopBasicInventoryGO extends BasicInventoryGO {
 				((ActorReferenceGOImpl) gameObjectFactory.get(ref)).setInventoryReference(true);
 				includedActors.put(actor, ref);
 				inventory.getComponents().add(ref);
+				SceneElementGO<?> go = (SceneElementGO<?>) gameObjectFactory.get(ref);
+				int maxSide = Math.max(go.getAsset().getHeight(), go.getAsset().getWidth());
+				float scale = (float) INVENTORY_HEIGHT / maxSide;
+				go.setScale(scale);
 			}
 		}
 	}

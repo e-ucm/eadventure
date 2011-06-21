@@ -9,7 +9,7 @@ import es.eucm.eadventure.engine.core.MouseState;
 import es.eucm.eadventure.engine.core.gameobjects.GameObject;
 import es.eucm.eadventure.engine.core.gameobjects.SceneElementGO;
 import es.eucm.eadventure.engine.core.guiactions.GUIAction;
-import es.eucm.eadventure.engine.core.platform.RuntimeAsset;
+import es.eucm.eadventure.engine.core.platform.DrawableAsset;
 
 public abstract class SceneElementGOImpl<T extends EAdSceneElement> extends
 		AbstractGameObject<T> implements SceneElementGO<T> {
@@ -128,7 +128,7 @@ public abstract class SceneElementGOImpl<T extends EAdSceneElement> extends
 	}
 
 	@Override
-	public abstract RuntimeAsset<?> getAsset();
+	public abstract DrawableAsset<?> getAsset();
 
 	@Override
 	public int getWidth() {

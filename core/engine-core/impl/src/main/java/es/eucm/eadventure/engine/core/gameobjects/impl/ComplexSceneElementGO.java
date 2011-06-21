@@ -75,7 +75,7 @@ public class ComplexSceneElementGO extends
 	}
 
 	@Override
-	public RuntimeAsset<?> getAsset() {
+	public DrawableAsset<?> getAsset() {
 		AssetDescriptor a = element.getResources().getAsset(getCurrentBundle(),
 				EAdBasicSceneElement.appearance);
 
@@ -83,11 +83,11 @@ public class ComplexSceneElementGO extends
 			a = ((OrientedAsset) a).getAssetDescritpor(orientation);
 		}
 
-		RuntimeAsset<?> r = assetHandler.getRuntimeAsset(a);
+		DrawableAsset<?> r = (DrawableAsset<?>) assetHandler.getRuntimeAsset(a);
 		if (r instanceof DrawableAsset) {
-			setWidth(((DrawableAsset<?>) r).getWidth());
-			setHeight(((DrawableAsset<?>) r).getHeight());
-			return ((DrawableAsset<?>) r).getDrawable();
+			setWidth(r.getWidth());
+			setHeight(r.getHeight());
+			return r.getDrawable();
 		}
 		return r;
 	}

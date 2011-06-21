@@ -44,7 +44,7 @@ import es.eucm.eadventure.common.interfaces.Positioned;
 import es.eucm.eadventure.common.model.actions.EAdAction;
 import es.eucm.eadventure.common.model.elements.EAdSceneElement;
 import es.eucm.eadventure.common.model.params.EAdPosition;
-import es.eucm.eadventure.engine.core.platform.RuntimeAsset;
+import es.eucm.eadventure.engine.core.platform.DrawableAsset;
 
 /**
  * 
@@ -62,7 +62,7 @@ public interface SceneElementGO<T extends EAdSceneElement> extends
 
 	void setScale(float scale);
 
-	RuntimeAsset<?> getAsset();
+	DrawableAsset<?> getAsset();
 
 	int getWidth();
 

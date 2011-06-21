@@ -134,7 +134,7 @@ public class ActorReferenceGOImpl extends SceneElementGOImpl<EAdActorReference>
 	}
 
 	@Override
-	public RuntimeAsset<?> getAsset() {
+	public DrawableAsset<?> getAsset() {
 		if (isRemoved())
 			return null;
 
@@ -148,11 +148,11 @@ public class ActorReferenceGOImpl extends SceneElementGOImpl<EAdActorReference>
 			a = ((OrientedAsset) a).getAssetDescritpor(orientation);
 		}
 
-		RuntimeAsset<?> r = assetHandler.getRuntimeAsset(a);
+		DrawableAsset<?> r = (DrawableAsset<?>) assetHandler.getRuntimeAsset(a);
 		if (r instanceof DrawableAsset) {
-			setWidth(((DrawableAsset<?>) r).getWidth());
-			setHeight(((DrawableAsset<?>) r).getHeight());
-			return ((DrawableAsset<?>) r).getDrawable();
+			setWidth(r.getWidth());
+			setHeight(r.getHeight());
+			return r.getDrawable();
 		}
 
 		return r;
