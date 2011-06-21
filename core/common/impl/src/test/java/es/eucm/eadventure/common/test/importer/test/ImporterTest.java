@@ -35,38 +35,46 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package es.eucm.eadventure.common;
+package es.eucm.eadventure.common.test.importer.test;
 
+import junit.framework.TestCase;
 
-/**
- * An importer for converting old model {@link AdventureData} objects into new
- * model {@link EAdventureModel} objects
- * 
- * @param <OldT>
- *            Old class class name from old model {@link AdventureData}
- * @param <NewT>
- *            New class class name from new model {@link EAdventureModel}
- */
-public interface GenericImporter<OldT, NewT> {
+import org.junit.Before;
+import org.junit.Test;
 
+import com.google.inject.Guice;
+import com.google.inject.Injector;
+
+import es.eucm.eadventure.common.data.adventure.AdventureData;
+import es.eucm.eadventure.common.impl.importer.EAdventure1XImporter;
+import es.eucm.eadventure.common.impl.importer.ImporterConfigurationModule;
+import es.eucm.eadventure.common.model.EAdAdventureModel;
+
+public class ImporterTest extends TestCase {
+
+	private EAdventure1XImporter importer;
 	
-	/**
-	 * Returns a new model object equivalent to the oldObject. Null if
-	 * conversion failed
-	 * 
-	 * @param oldObject
-	 * @return
-	 */
-	NewT init( OldT oldObject );
+	private String projectFolder = "src/test/resources/Un paseo por eAdventure 1.2/";
 	
+	@Before
+	public void setUp( ) {
+		Injector injector = Guice.createInjector( new ImporterConfigurationModule( projectFolder ) );
+		importer = injector.getInstance( EAdventure1XImporter.class );
+	}
 	
-	/**
-	 * Converts the parameters of the old object to those of the new one
-	 * 
-	 * @param oldObject
-	 * @param newElement 
-	 * @return
-	 */
-	NewT convert( OldT oldObject, Object newElement );
+	@Test
+	public void testImportGame( ) {
+		EAdAdventureModel data = importer.importGame( projectFolder, "src/test/resources/Import Un paseo por eAdventure 1.2/"  );
+		assertNotNull( data );
+		AdventureData oldData = importer.loadGame( projectFolder );
+		assertNotNull( oldData );
+		//TODO test specific parts of the model
+	}
 	
+	@Test
+	public void testImportGameFromZip( ){
+		EAdAdventureModel data = importer.importGame( "src/test/resources/Chocolate.ead", "src/test/resources/Chocolate.ead" );
+		assertNotNull( data );
+	}
+
 }

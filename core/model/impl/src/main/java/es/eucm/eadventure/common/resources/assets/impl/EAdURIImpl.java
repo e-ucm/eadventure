@@ -52,6 +52,10 @@ public class EAdURIImpl implements EAdURI {
 	public EAdURIImpl( String uri ){
 		this.uri = uri;
 	}
+	
+	public String getURI(){
+		return uri;
+	}
 
 	@Override
 	public String toString( ) {

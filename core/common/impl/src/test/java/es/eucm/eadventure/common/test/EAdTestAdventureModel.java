@@ -37,49 +37,50 @@
 
 package es.eucm.eadventure.common.test;
 
-import junit.framework.TestCase;
+import es.eucm.eadventure.common.model.elements.EAdTimer;
+import es.eucm.eadventure.common.model.elmentfactories.scenedemos.BasicScene;
+import es.eucm.eadventure.common.model.impl.EAdAdventureModelImpl;
+import es.eucm.eadventure.common.model.impl.EAdChapterImpl;
+import es.eucm.eadventure.common.resources.EAdString;
+import es.eucm.eadventure.common.resources.StringHandler;
+import es.eucm.eadventure.common.resources.impl.DefaultStringHandler;
 
-import org.junit.Before;
-import org.junit.Test;
+public class EAdTestAdventureModel extends EAdAdventureModelImpl {
 
-import com.google.inject.Guice;
-import com.google.inject.Injector;
+	private StringHandler stringHandler;
 
-import es.eucm.eadventure.common.EAdElementImporter;
-import es.eucm.eadventure.common.data.adventure.AdventureData;
-import es.eucm.eadventure.common.impl.importer.EAdventure1XImporter;
-import es.eucm.eadventure.common.impl.importer.ImporterConfigurationModule;
-import es.eucm.eadventure.common.impl.importer.subimporters.AdventureImporter;
-import es.eucm.eadventure.common.model.EAdAdventureModel;
+	public EAdTestAdventureModel() {
+		// TODO Habrá que guardar también las claves para los strings
+		stringHandler = new DefaultStringHandler();
 
-public class ImporterTest extends TestCase {
+		// Chapter 1
+		EAdChapterImpl c = new EAdChapterImpl("chapter1");
 
-	private EAdventure1XImporter importer;
-	
-	private EAdElementImporter<AdventureData, EAdAdventureModel> adventureImporter;
-	
-	private String projectFolder = "src/test/resources/Un paseo por eAdventure 1.2/";
-	
-	@Before
-	public void setUp( ) {
-		Injector injector = Guice.createInjector( new ImporterConfigurationModule( projectFolder ) );
-		importer = injector.getInstance( EAdventure1XImporter.class );
-		adventureImporter = injector.getInstance( AdventureImporter.class );
-	}
-	
-	@Test
-	public void testImportGame( ) {
-		EAdAdventureModel data = importer.importGame( projectFolder, "src/test/resources/Import Un paseo por eAdventure 1.2/"  );
-		AdventureData oldData = importer.loadGame( projectFolder );
-		assertNotNull( data );
+		EAdString chapter1Description = new EAdString("chapter1_description");
+		stringHandler.addString(chapter1Description,
+				"A test chapter for reading and writing XML");
+		c.setDescription(chapter1Description);
+
+		EAdString chapter1Title = new EAdString("chapter1_title");
+		stringHandler.addString(chapter1Title, "Test Chapter 1");
+		c.setTitle(chapter1Title);
 		
-		//TODO test specific parts of the model
+		this.getChapters().add(c);
+
+		// Space
+
+		BasicScene space = new BasicScene("space1", c);
+		for (EAdTimer timer : space.timers)
+			c.getTimers().add(timer);
+		c.getScenes().add(space);
+		
+		if (space.panielActor != null)
+			c.getActors().add(space.panielActor);
+		if (space.orientedActor != null)
+			c.getActors().add(space.orientedActor);
+		if (space.buttonActor != null)
+			c.getActors().add(space.buttonActor);
 	}
-	
-	@Test
-	public void testImportGameFromZip( ){
-		EAdAdventureModel data = importer.importGame( "src/test/resources/Chocolate.ead", "src/test/resources/Chocolate.ead" );
-		assertNotNull( data );
-	}
+
 
 }

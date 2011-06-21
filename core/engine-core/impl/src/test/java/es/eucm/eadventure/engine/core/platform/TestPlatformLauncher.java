@@ -37,12 +37,10 @@
 
 package es.eucm.eadventure.engine.core.platform;
 
-import java.awt.Component;
-import java.io.File;
-
 import com.google.inject.Inject;
 import com.google.inject.Injector;
 
+import es.eucm.eadventure.common.resources.assets.EAdURI;
 import es.eucm.eadventure.engine.core.Game;
 import es.eucm.eadventure.engine.core.GameLoop;
 
@@ -59,7 +57,8 @@ public class TestPlatformLauncher implements PlatformLauncher {
 		this.gameLoop = gameLoop;
 	}
 
-	public void launch(File file) {
+	@Override
+	public void launch(EAdURI file) {
 		gui.initilize();
 		gameLoop.setGame(game);
 
