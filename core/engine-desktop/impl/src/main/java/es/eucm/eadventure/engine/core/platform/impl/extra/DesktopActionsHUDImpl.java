@@ -96,6 +96,7 @@ public class DesktopActionsHUDImpl extends ActionsHUDImpl {
 		// (o de varias)
 		int i = 0;
 		double[] angles = getStartEndAngles();
+		float scale = (float) (0.5f / Math.sqrt(getActions().size()) + 0.5f) ;
 		for (EAdAction eAdAction : this.getActions()) {
 			EAdBasicSceneElement action = new EAdBasicSceneElement("action");
 			i++;
@@ -107,6 +108,7 @@ public class DesktopActionsHUDImpl extends ActionsHUDImpl {
 			int y = - (int) (radius * Math.cos(angle));
 			action.setPosition(new EAdPosition(EAdPosition.Corner.CENTER, this
 					.getX() + x, this.getY() + y));
+			action.setScale(scale);
 
 			// TODO null?
 			EAdActorActionsEffect e = new EAdActorActionsEffect("", null,

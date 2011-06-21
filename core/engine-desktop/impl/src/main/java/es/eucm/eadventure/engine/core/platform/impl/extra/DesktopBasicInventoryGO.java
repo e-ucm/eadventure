@@ -28,6 +28,8 @@ public class DesktopBasicInventoryGO extends BasicInventoryGO {
 	private EAdBasicSceneElement bottomPart;
 
 	private EAdBasicSceneElement topPart;
+	
+	private EAdBasicSceneElement centerPart;
 
 	private EAdComplexSceneElement inventory;
 	
@@ -52,6 +54,10 @@ public class DesktopBasicInventoryGO extends BasicInventoryGO {
 		RectangleShape rect2 = new RectangleShape(800, 100, EAdBorderedColor.BLACK_ON_WHITE);
 		inventory.getResources().addAsset(inventory.getInitialBundle(), EAdBasicSceneElement.appearance, rect2);
 
+		centerPart = new EAdBasicSceneElement("centerPart");
+		centerPart.getResources().addAsset(centerPart.getInitialBundle(), EAdBasicSceneElement.appearance,  new RectangleShape(800, 600, EAdBorderedColor.TRANSPARENT));
+		centerPart.setPosition(new EAdPosition(Corner.TOP_LEFT, 0, 0));
+		
 		
 		EAdMoveSceneElement e = new EAdMoveSceneElement("moveInventoryToBottom", inventory, 0, 700, MovementSpeed.INSTANT);
 		bottomPart.addBehavior(EAdMouseEventImpl.MOUSE_ENTERED, e);
@@ -60,8 +66,8 @@ public class DesktopBasicInventoryGO extends BasicInventoryGO {
 		
 		EAdMoveSceneElement e2 = new EAdMoveSceneElement("hideInventoryBottom", inventory, 0, 700, MovementSpeed.NORMAL);
 		e2.setCondition(new VarValCondition(inventory.positionYVar(), 350, Operator.GREATER));
-		bottomPart.addBehavior(EAdMouseEventImpl.MOUSE_EXITED, e2);
-		
+//		bottomPart.addBehavior(EAdMouseEventImpl.MOUSE_EXITED, e2);
+		centerPart.addBehavior(EAdMouseEventImpl.MOUSE_MOVED, e2);
 
 		e = new EAdMoveSceneElement("moveInventoryToTop", inventory, 0, 0, MovementSpeed.INSTANT);
 		topPart.addBehavior(EAdMouseEventImpl.MOUSE_ENTERED, e);
@@ -71,7 +77,8 @@ public class DesktopBasicInventoryGO extends BasicInventoryGO {
 		
 		e2 = new EAdMoveSceneElement("hideInventoryTop", inventory, 0, 0, MovementSpeed.NORMAL);
 		e2.setCondition(new VarValCondition(inventory.positionYVar(), 350, Operator.LESS));
-		topPart.addBehavior(EAdMouseEventImpl.MOUSE_EXITED, e2);
+//		topPart.addBehavior(EAdMouseEventImpl.MOUSE_EXITED, e2);
+		centerPart.addBehavior(EAdMouseEventImpl.MOUSE_MOVED, e2);
 		
 		includedActors = new HashMap<EAdActor, EAdActorReferenceImpl>();
 		
@@ -79,6 +86,7 @@ public class DesktopBasicInventoryGO extends BasicInventoryGO {
 	
 	@Override
 	public void doLayout(int offsetX, int offsetY) {
+		gui.addElement(gameObjectFactory.get(centerPart), 0, 0);
 		gui.addElement(gameObjectFactory.get(inventory), 0, 0);
 		gui.addElement(gameObjectFactory.get(bottomPart), 0, 0);
 		gui.addElement(gameObjectFactory.get(topPart), 0, 0);
