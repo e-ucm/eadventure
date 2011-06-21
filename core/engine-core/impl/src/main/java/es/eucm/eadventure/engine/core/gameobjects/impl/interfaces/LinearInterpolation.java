@@ -35,7 +35,7 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package es.eucm.eadventure.engine.core.gameobjects.impl.interfaces.impl;
+package es.eucm.eadventure.engine.core.gameobjects.impl.interfaces;
 
 import es.eucm.eadventure.common.model.variables.EAdVar;
 import es.eucm.eadventure.engine.core.ValueMap;

@@ -144,7 +144,7 @@ public abstract class AbstractGameObject<T extends EAdElement> implements GameOb
 		return null;
 	}
 	
-	protected EAdBundleId getCurrentBundle() {
+	public EAdBundleId getCurrentBundle() {
 		EAdBundleId current = valueMap.getValue((EAdElement) element, EAdBundleId.class);
 		if (current == null) {
 			current = element.getInitialBundle();

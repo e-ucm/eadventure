@@ -34,7 +34,7 @@
  *      You should have received a copy of the GNU Lesser General Public License
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
-package es.eucm.eadventure.engine.core.gameobjects.impl;
+package es.eucm.eadventure.engine.core.gameobjects.impl.sceneelements;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -50,6 +50,7 @@ import es.eucm.eadventure.engine.core.EvaluatorFactory;
 import es.eucm.eadventure.engine.core.GameState;
 import es.eucm.eadventure.engine.core.ValueMap;
 import es.eucm.eadventure.engine.core.gameobjects.ActorGO;
+import es.eucm.eadventure.engine.core.gameobjects.impl.AbstractGameObject;
 import es.eucm.eadventure.engine.core.guiactions.GUIAction;
 import es.eucm.eadventure.engine.core.platform.RuntimeAsset;
 

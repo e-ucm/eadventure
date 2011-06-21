@@ -1,4 +1,4 @@
-package es.eucm.eadventure.engine.core.gameobjects.impl;
+package es.eucm.eadventure.engine.core.gameobjects.impl.sceneelements;
 
 import java.util.logging.Logger;
 
@@ -8,6 +8,7 @@ import es.eucm.eadventure.engine.core.GameState;
 import es.eucm.eadventure.engine.core.MouseState;
 import es.eucm.eadventure.engine.core.gameobjects.GameObject;
 import es.eucm.eadventure.engine.core.gameobjects.SceneElementGO;
+import es.eucm.eadventure.engine.core.gameobjects.impl.AbstractGameObject;
 import es.eucm.eadventure.engine.core.guiactions.GUIAction;
 import es.eucm.eadventure.engine.core.platform.DrawableAsset;
 

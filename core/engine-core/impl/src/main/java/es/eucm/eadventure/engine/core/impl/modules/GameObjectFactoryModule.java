@@ -8,6 +8,8 @@ import es.eucm.eadventure.common.model.EAdElement;
 
 import es.eucm.eadventure.engine.core.gameobjects.*;
 import es.eucm.eadventure.engine.core.gameobjects.impl.*;
+import es.eucm.eadventure.engine.core.gameobjects.impl.sceneelements.ActorGOImpl;
+import es.eucm.eadventure.engine.core.gameobjects.impl.sceneelements.ActorReferenceGOImpl;
 import es.eucm.eadventure.engine.core.impl.factorymapproviders.GameObjectFactoryMapProvider;
 
 public class GameObjectFactoryModule extends AbstractModule {

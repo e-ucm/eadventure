@@ -1,4 +1,4 @@
-package es.eucm.eadventure.engine.core.gameobjects.impl;
+package es.eucm.eadventure.engine.core.gameobjects.impl.sceneelements;
 
 import java.util.ArrayList;
 import java.util.List;

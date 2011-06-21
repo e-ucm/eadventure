@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import es.eucm.eadventure.common.model.conditions.impl.EmptyCondition;
 import es.eucm.eadventure.common.model.conditions.impl.VarCondition.Operator;
 import es.eucm.eadventure.common.model.conditions.impl.VarValCondition;
 import es.eucm.eadventure.common.model.effects.impl.EAdActorActionsEffect;
@@ -21,8 +22,8 @@ import es.eucm.eadventure.common.model.params.EAdPosition.Corner;
 import es.eucm.eadventure.common.resources.assets.drawable.impl.RectangleShape;
 import es.eucm.eadventure.engine.core.GameState;
 import es.eucm.eadventure.engine.core.gameobjects.SceneElementGO;
-import es.eucm.eadventure.engine.core.gameobjects.impl.ActorReferenceGOImpl;
 import es.eucm.eadventure.engine.core.gameobjects.impl.inventory.BasicInventoryGO;
+import es.eucm.eadventure.engine.core.gameobjects.impl.sceneelements.ActorReferenceGOImpl;
 
 public class DesktopBasicInventoryGO extends BasicInventoryGO {
 
@@ -42,22 +43,26 @@ public class DesktopBasicInventoryGO extends BasicInventoryGO {
 	
 	public DesktopBasicInventoryGO() {
 		bottomPart = new EAdBasicSceneElement("bottomInventory");
+		bottomPart.setDraggabe(EmptyCondition.FALSE_EMPTY_CONDITION);
 		RectangleShape rect = new RectangleShape(800, SENSE_HEIGHT + 2, EAdBorderedColor.TRANSPARENT);
 		
 		bottomPart.getResources().addAsset(bottomPart.getInitialBundle(), EAdBasicSceneElement.appearance, rect);
 		bottomPart.setPosition(new EAdPosition(Corner.BOTTOM_LEFT, 0, 601));
 		
 		topPart = new EAdBasicSceneElement("topInventory");
+		topPart.setDraggabe(EmptyCondition.FALSE_EMPTY_CONDITION);
 		topPart.getResources().addAsset(topPart.getInitialBundle(), EAdBasicSceneElement.appearance, rect);
 		topPart.setPosition(new EAdPosition(Corner.TOP_LEFT, 0, -1));
 		
 		inventory = new EAdComplexSceneElement("inventory");
+		inventory.setDraggabe(EmptyCondition.FALSE_EMPTY_CONDITION);
 		inventory.setPosition(new EAdPosition(Corner.BOTTOM_LEFT, 0, 700));
 		
 		RectangleShape rect2 = new RectangleShape(800, INVENTORY_HEIGHT, EAdBorderedColor.BLACK_ON_WHITE);
 		inventory.getResources().addAsset(inventory.getInitialBundle(), EAdBasicSceneElement.appearance, rect2);
 
 		centerPart = new EAdBasicSceneElement("centerPart");
+		centerPart.setDraggabe(EmptyCondition.FALSE_EMPTY_CONDITION);
 		centerPart.getResources().addAsset(centerPart.getInitialBundle(), EAdBasicSceneElement.appearance,  new RectangleShape(800, 600, EAdBorderedColor.TRANSPARENT));
 		centerPart.setPosition(new EAdPosition(Corner.TOP_LEFT, 0, 0));
 		

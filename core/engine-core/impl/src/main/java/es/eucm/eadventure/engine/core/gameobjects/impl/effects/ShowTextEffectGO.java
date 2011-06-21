@@ -42,7 +42,7 @@ import java.util.logging.Logger;
 
 import es.eucm.eadventure.common.model.effects.impl.text.EAdShowText;
 import es.eucm.eadventure.common.model.params.guievents.EAdMouseEvent.MouseActionType;
-import es.eucm.eadventure.engine.core.gameobjects.impl.BasicSceneElementGO;
+import es.eucm.eadventure.engine.core.gameobjects.impl.sceneelements.BasicSceneElementGO;
 import es.eucm.eadventure.engine.core.guiactions.GUIAction;
 import es.eucm.eadventure.engine.core.guiactions.MouseAction;
 import es.eucm.eadventure.engine.core.platform.assets.impl.RuntimeCaption;

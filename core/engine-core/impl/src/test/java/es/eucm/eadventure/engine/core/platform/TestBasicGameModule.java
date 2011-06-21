@@ -73,8 +73,6 @@ import es.eucm.eadventure.engine.core.gameobjects.GameObjectFactory;
 import es.eucm.eadventure.engine.core.gameobjects.SceneGO;
 import es.eucm.eadventure.engine.core.gameobjects.huds.EffectHUD;
 import es.eucm.eadventure.engine.core.gameobjects.huds.impl.EffectHUDImpl;
-import es.eucm.eadventure.engine.core.gameobjects.impl.ActorGOImpl;
-import es.eucm.eadventure.engine.core.gameobjects.impl.ActorReferenceGOImpl;
 import es.eucm.eadventure.engine.core.gameobjects.impl.GameObjectFactoryImpl;
 import es.eucm.eadventure.engine.core.gameobjects.impl.SceneGOImpl;
 import es.eucm.eadventure.engine.core.gameobjects.impl.effects.CancelEffectGO;
@@ -84,6 +82,8 @@ import es.eucm.eadventure.engine.core.gameobjects.impl.effects.HighlightEffectGO
 import es.eucm.eadventure.engine.core.gameobjects.impl.effects.MoveSceneElementGO;
 import es.eucm.eadventure.engine.core.gameobjects.impl.effects.ShowTextEffectGO;
 import es.eucm.eadventure.engine.core.gameobjects.impl.effects.WaitEffectGO;
+import es.eucm.eadventure.engine.core.gameobjects.impl.sceneelements.ActorGOImpl;
+import es.eucm.eadventure.engine.core.gameobjects.impl.sceneelements.ActorReferenceGOImpl;
 import es.eucm.eadventure.engine.core.impl.GameControllerImpl;
 import es.eucm.eadventure.engine.core.impl.GameImpl;
 import es.eucm.eadventure.engine.core.impl.GameStateImpl;

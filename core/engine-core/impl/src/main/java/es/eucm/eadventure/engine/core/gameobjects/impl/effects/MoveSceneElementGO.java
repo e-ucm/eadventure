@@ -46,7 +46,7 @@ import es.eucm.eadventure.engine.core.GameLoop;
 import es.eucm.eadventure.engine.core.GameState;
 import es.eucm.eadventure.engine.core.OperatorFactory;
 import es.eucm.eadventure.engine.core.gameobjects.SceneElementGO;
-import es.eucm.eadventure.engine.core.gameobjects.impl.interfaces.impl.LinearInterpolation;
+import es.eucm.eadventure.engine.core.gameobjects.impl.interfaces.LinearInterpolation;
 import es.eucm.eadventure.engine.core.gameobjects.interfaces.Interpolation;
 
 /**

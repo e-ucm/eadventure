@@ -45,8 +45,6 @@ import es.eucm.eadventure.engine.core.gameobjects.ActorGO;
 import es.eucm.eadventure.engine.core.gameobjects.ActorReferenceGO;
 import es.eucm.eadventure.engine.core.gameobjects.GameObject;
 import es.eucm.eadventure.engine.core.gameobjects.TimerGO;
-import es.eucm.eadventure.engine.core.gameobjects.impl.BasicSceneElementGO;
-import es.eucm.eadventure.engine.core.gameobjects.impl.ComplexSceneElementGO;
 import es.eucm.eadventure.engine.core.gameobjects.impl.ComposedSceneGOImpl;
 import es.eucm.eadventure.engine.core.gameobjects.impl.SceneGOImpl;
 import es.eucm.eadventure.engine.core.gameobjects.impl.VideoSceneGO;
@@ -70,6 +68,8 @@ import es.eucm.eadventure.engine.core.gameobjects.impl.events.SceneElementEventG
 import es.eucm.eadventure.engine.core.gameobjects.impl.events.SystemEventGO;
 import es.eucm.eadventure.engine.core.gameobjects.impl.events.TimerEventGO;
 import es.eucm.eadventure.engine.core.gameobjects.impl.inventory.BasicInventoryGO;
+import es.eucm.eadventure.engine.core.gameobjects.impl.sceneelements.BasicSceneElementGO;
+import es.eucm.eadventure.engine.core.gameobjects.impl.sceneelements.ComplexSceneElementGO;
 
 @Singleton
 public class GameObjectFactoryMapProvider
