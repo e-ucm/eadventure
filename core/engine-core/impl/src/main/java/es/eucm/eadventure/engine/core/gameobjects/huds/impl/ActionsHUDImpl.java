@@ -139,8 +139,9 @@ public class ActionsHUDImpl implements ActionsHUD {
 		float width = ref.getWidth() * ref.getScale();
 		float height = ref.getHeight() * ref.getScale();
 		int radius = (int) Math.sqrt(Math.pow(width, 2) + Math.pow(height, 2)) / 2;
-		setElementProperties(ref.getPosition().getJavaX(width)
-				+ (int) (width / 2), ref.getPosition().getJavaY(height)
+		int[] offset = this.gui.getGameElementGUIOffset(ref);
+		setElementProperties(offset[0] + ref.getPosition().getJavaX(width)
+				+ (int) (width / 2), offset[1] + ref.getPosition().getJavaY(height)
 				+ (int) (height / 2), radius);
 		actions = ref.getValidActions();
 	}

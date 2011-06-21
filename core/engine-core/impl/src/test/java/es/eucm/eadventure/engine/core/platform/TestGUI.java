@@ -42,6 +42,7 @@ import com.google.inject.Inject;
 import es.eucm.eadventure.common.resources.assets.drawable.Image;
 import es.eucm.eadventure.engine.core.KeyboardState;
 import es.eucm.eadventure.engine.core.MouseState;
+import es.eucm.eadventure.engine.core.gameobjects.GameObject;
 import es.eucm.eadventure.engine.core.gameobjects.GameObjectManager;
 import es.eucm.eadventure.engine.core.platform.GraphicRendererFactory;
 import es.eucm.eadventure.engine.core.platform.PlatformConfiguration;
@@ -79,6 +80,12 @@ public class TestGUI extends AbstractGUI<Void>{
 	@Override
 	public void initilize() {
 		
+	}
+
+	@Override
+	public int[] getGameElementGUIOffset(GameObject<?> gameObject) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

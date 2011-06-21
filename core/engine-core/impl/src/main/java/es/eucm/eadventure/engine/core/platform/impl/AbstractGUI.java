@@ -313,5 +313,16 @@ public abstract class AbstractGUI<T> implements GUI {
 	public int getHeight() {
 		return platformConfiguration.getHeight();
 	}
+	
+	public int[] getGameElementGUIOffset(GameObject<?> gameObject) {
+		synchronized (GameObjectManager.lock) {
+			int pos = gameObjects.getGameObjects().indexOf(gameObject);
+			if (pos == -1)
+				return null;
+			int[] offset = gameObjects.getOffsets().get(pos);
+			return offset;
+		}
+	}
+
 
 }

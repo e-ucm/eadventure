@@ -82,26 +82,33 @@ public interface GUI {
 	 *            Boolean indicating if the resource should be scaled to the
 	 *            full game screen.
 	 */
-	void showSpecialResource(Object object, int x, int y,
-			boolean fullscreen);
+	void showSpecialResource(Object object, int x, int y, boolean fullscreen);
 
 	/**
-	 * <p>Do layout of the game elements, swap the game object manager to prepare for drawing
-	 * and process the dragging element if needed.</p>
+	 * <p>
+	 * Do layout of the game elements, swap the game object manager to prepare
+	 * for drawing and process the dragging element if needed.
+	 * </p>
 	 */
 	void prepareGUI();
 
 	/**
-	 * <p>Commit the current game state into the screen</p>
+	 * <p>
+	 * Commit the current game state into the screen
+	 * </p>
 	 * 
 	 * @param interpolation
-	 * Value provided to smooth animations, between 0 and 1, represents how much the game has advanced
-	 * within the frame cycle
+	 *            Value provided to smooth animations, between 0 and 1,
+	 *            represents how much the game has advanced within the frame
+	 *            cycle
 	 */
 	void commit(float interpolation);
 
 	/**
-	 * <p>Commit the current game state into an image</p>
+	 * <p>
+	 * Commit the current game state into an image
+	 * </p>
+	 * 
 	 * @return
 	 */
 	RuntimeAsset<Image> commitToImage();
@@ -125,4 +132,15 @@ public interface GUI {
 	 */
 	int getHeight();
 
+	/**
+	 * <p>
+	 * Return the offset (as an array with the x and y values) of a
+	 * {@link GameObject} in the screen.
+	 * </p>
+	 * 
+	 * @param gameObject
+	 *            The {@link GameObject} for which the offset is needed
+	 * @return An array with the x and y offsets (i.e. [xOffset, yOffset])
+	 */
+	int[] getGameElementGUIOffset(GameObject<?> gameObject);
 }
