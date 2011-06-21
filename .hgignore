@@ -7,3 +7,4 @@ syntax: glob
 *.settings
 */target/*
 */ProjectImported/*
+*/EAdventure1Project/*
