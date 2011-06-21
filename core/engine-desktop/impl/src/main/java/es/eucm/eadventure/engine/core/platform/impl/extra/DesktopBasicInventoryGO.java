@@ -127,6 +127,7 @@ public class DesktopBasicInventoryGO extends BasicInventoryGO {
 	 */
 	private void removeOldActors(List<EAdActor> removedActors) {
 		for (EAdActor actor : removedActors) {
+			inventory.getComponents().remove(includedActors.get(actor));
 			includedActors.remove(actor);
 			//TODO free resources?
 		}

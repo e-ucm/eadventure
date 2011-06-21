@@ -92,7 +92,7 @@ public class ActionsHUDImpl implements ActionsHUD {
 	/**
 	 * The radius of the actions HUD
 	 */
-	private int radius;
+	protected int radius;
 
 	protected SceneElementGO<?> sceneElement;
 
@@ -138,7 +138,8 @@ public class ActionsHUDImpl implements ActionsHUD {
 		sceneElement = ref;
 		float width = ref.getWidth() * ref.getScale();
 		float height = ref.getHeight() * ref.getScale();
-		int radius = (int) Math.sqrt(Math.pow(width, 2) + Math.pow(height, 2)) / 2;
+		radius = (int) Math.sqrt(Math.pow(width, 2) + Math.pow(height, 2)) / 2;
+		radius = Math.min(250, radius);
 		int[] offset = this.gui.getGameElementGUIOffset(ref);
 		setElementProperties(offset[0] + ref.getPosition().getJavaX(width)
 				+ (int) (width / 2), offset[1] + ref.getPosition().getJavaY(height)

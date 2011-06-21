@@ -27,6 +27,11 @@ public class BasicActorFactoryTest {
 		basicActor.setDescription(description);
 
 		basicActor.getActions().add(BasicActionFactoryTest.getGrabAction());
+
+		basicActor.getActions().add(BasicActionFactoryTest.getGrabAction());
+
+		basicActor.getActions().add(BasicActionFactoryTest.getGrabAction());
+
 		
 		return basicActor;
 	}

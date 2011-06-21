@@ -63,15 +63,25 @@ import es.eucm.eadventure.engine.core.platform.GUI;
 @Singleton
 public class DesktopActionsHUDImpl extends ActionsHUDImpl {
 
-	private static final Logger logger = Logger.getLogger("DesktopActionsHUDImpl");
-	
+	/**
+	 * Logger
+	 */
+	private static final Logger logger = Logger
+			.getLogger("DesktopActionsHUDImpl");
+
+	/**
+	 * List of action game objects
+	 */
 	private List<GameObject<?>> actionGOs;
-	
+
+	/**
+	 * Game object factory
+	 */
 	private GameObjectFactory gameObjectFactory;
-	
+
 	@Inject
-	public DesktopActionsHUDImpl(GUI gui,
-			GameObjectFactory gameObjectFactory, GameObjectManager gameObjectManager) {
+	public DesktopActionsHUDImpl(GUI gui, GameObjectFactory gameObjectFactory,
+			GameObjectManager gameObjectManager) {
 		super(gui, gameObjectManager);
 		actionGOs = new ArrayList<GameObject<?>>();
 		this.gameObjectFactory = gameObjectFactory;
@@ -82,48 +92,99 @@ public class DesktopActionsHUDImpl extends ActionsHUDImpl {
 	public void setElement(SceneElementGO<?> reference) {
 		super.setElement(reference);
 		actionGOs.clear();
-		// FIXME Habrá que distribuir las acciones de alguna manera más exacta (o de varias)
-		float radius = 50;
+		// FIXME Habrá que distribuir las acciones de alguna manera más exacta
+		// (o de varias)
 		int i = 0;
+		double[] angles = getStartEndAngles();
 		for (EAdAction eAdAction : this.getActions()) {
 			EAdBasicSceneElement action = new EAdBasicSceneElement("action");
-			float angle = (float) (( 2 * Math.PI / getActions().size() ) * i);
 			i++;
-			
-			int x = (int) (radius * Math.cos( angle ));
-			int y = (int) (radius * Math.sin( angle ));
-			action.setPosition(new EAdPosition(EAdPosition.Corner.CENTER, this.getX() + x, this.getY() + y));
-			
-			//TODO null?
-			EAdActorActionsEffect e = new EAdActorActionsEffect("", null, Change.HIDE_ACTIONS);
+
+			double angle = angles[0]
+					+ ((angles[1] - angles[0]) / (getActions().size() + 1)) * i;
+
+			int x = (int) (radius * Math.sin(angle));
+			int y = - (int) (radius * Math.cos(angle));
+			action.setPosition(new EAdPosition(EAdPosition.Corner.CENTER, this
+					.getX() + x, this.getY() + y));
+
+			// TODO null?
+			EAdActorActionsEffect e = new EAdActorActionsEffect("", null,
+					Change.HIDE_ACTIONS);
 			action.addBehavior(EAdMouseEventImpl.MOUSE_LEFT_CLICK, e);
 			action.addBehavior(EAdMouseEventImpl.MOUSE_RIGHT_CLICK, e);
-			action.addBehavior(EAdMouseEventImpl.MOUSE_LEFT_CLICK, eAdAction.getEffects());
-			action.addBehavior(EAdMouseEventImpl.MOUSE_RIGHT_CLICK, eAdAction.getEffects());
-			
-			AssetDescriptor asset = eAdAction.getAsset(eAdAction.getInitialBundle(), EAdBasicAction.appearance);
-			action.getResources().addAsset(action.getInitialBundle(), EAdBasicSceneElement.appearance, asset);
+			action.addBehavior(EAdMouseEventImpl.MOUSE_LEFT_CLICK,
+					eAdAction.getEffects());
+			action.addBehavior(EAdMouseEventImpl.MOUSE_RIGHT_CLICK,
+					eAdAction.getEffects());
 
-			if (eAdAction.getResources().getBundles().contains(eAdAction.getHighlightBundle())) {
-				action.getResources().addBundle(eAdAction.getHighlightBundle()); 
-				action.getResources().addAsset(eAdAction.getHighlightBundle(), EAdBasicSceneElement.appearance, eAdAction.getAsset(eAdAction.getHighlightBundle(), EAdBasicAction.appearance));
-				action.addBehavior(EAdMouseEventImpl.MOUSE_ENTERED, new EAdChangeAppearance("action_mouseEnter", action, eAdAction.getHighlightBundle()));
-			}
-			 else
-				action.getResources().addAsset(eAdAction.getHighlightBundle(), EAdBasicSceneElement.appearance, asset);
+			AssetDescriptor asset = eAdAction.getAsset(
+					eAdAction.getInitialBundle(), EAdBasicAction.appearance);
+			action.getResources().addAsset(action.getInitialBundle(),
+					EAdBasicSceneElement.appearance, asset);
 
-			action.addBehavior(EAdMouseEventImpl.MOUSE_EXITED, new EAdChangeAppearance("action_mouseExit", action, action.getInitialBundle()));
+			if (eAdAction.getResources().getBundles()
+					.contains(eAdAction.getHighlightBundle())) {
+				action.getResources().addBundle(eAdAction.getHighlightBundle());
+				action.getResources().addAsset(
+						eAdAction.getHighlightBundle(),
+						EAdBasicSceneElement.appearance,
+						eAdAction.getAsset(eAdAction.getHighlightBundle(),
+								EAdBasicAction.appearance));
+				action.addBehavior(EAdMouseEventImpl.MOUSE_ENTERED,
+						new EAdChangeAppearance("action_mouseEnter", action,
+								eAdAction.getHighlightBundle()));
+			} else
+				action.getResources().addAsset(eAdAction.getHighlightBundle(),
+						EAdBasicSceneElement.appearance, asset);
+
+			action.addBehavior(
+					EAdMouseEventImpl.MOUSE_EXITED,
+					new EAdChangeAppearance("action_mouseExit", action, action
+							.getInitialBundle()));
 			actionGOs.add(gameObjectFactory.get(action));
 		}
-
 	}
-	
+
+	public double[] getStartEndAngles() {
+		double[] angles = new double[] { - Math.PI, Math.PI };
+
+		if (this.getY() + radius > 600) {
+			double h = 600 - this.getY();
+			double a = Math.asin(h / radius);
+			angles = new double[] { -Math.PI / 2 - a, Math.PI / 2 + a };
+		}
+
+		if (this.getY() - radius < 0) {
+			double h = this.getY();
+			double a = Math.asin(h / radius);
+			angles = new double[] { a, Math.PI / 2 + a };
+		}
+
+		//TODO check offset
+		if (this.getX() - radius < 0) {
+			double w = this.getX();
+			double a = Math.acos(w / radius);
+			angles = new double[] { Math.max(-a, angles[0]), Math.min(Math.PI + a, angles[1]) };
+		}
+		
+		//TODO check offset
+		if (this.getX() + radius > 800) {
+			double w = 800 - this.getX();
+			double a = Math.acos(w / radius);
+			angles = new double[] { Math.max(-a, angles[0]), Math.min(Math.PI + a, angles[1]) };
+		}
+		
+		logger.info("Action angles: " + angles[0] + "; " + angles[1]);
+		
+		return angles;
+	}
+
 	@Override
 	public void doLayout(int offsetX, int offsetY) {
-		//TODO ...
+		// TODO ...
 		for (GameObject<?> action : actionGOs)
 			gui.addElement(action, offsetX, offsetY);
 	}
-
 
 }
