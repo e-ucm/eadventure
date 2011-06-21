@@ -37,10 +37,21 @@
 
 package es.eucm.eadventure.engine.core.platform;
 
+import es.eucm.eadventure.common.resources.assets.EAdURI;
+
 /**
  * This interface is implemented by the appropriate launcher for each platform.
- *
+ * 
  */
 public interface PlatformLauncher {
+
+	/**
+	 * 
+	 * Launch the game engine with a given adventure file
+	 * 
+	 * @param adevntureURI
+	 *            The adventure file uri
+	 */
+	void launch(EAdURI adevntureURI);
 
 }

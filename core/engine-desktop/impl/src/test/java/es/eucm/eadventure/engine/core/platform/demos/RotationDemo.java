@@ -37,10 +37,6 @@
 
 package es.eucm.eadventure.engine.core.platform.demos;
 
-import java.io.File;
-
-import com.google.inject.Guice;
-import com.google.inject.Injector;
 import com.google.inject.Singleton;
 
 import es.eucm.eadventure.common.model.effects.EAdMacro;
@@ -60,42 +56,20 @@ import es.eucm.eadventure.common.model.params.EAdBorderedColor;
 import es.eucm.eadventure.common.model.params.EAdPosition;
 import es.eucm.eadventure.common.model.params.EAdPosition.Corner;
 import es.eucm.eadventure.common.resources.EAdBundleId;
-import es.eucm.eadventure.common.resources.StringHandler;
 import es.eucm.eadventure.common.resources.assets.drawable.impl.RectangleShape;
-import es.eucm.eadventure.engine.core.impl.LoadingScreen;
-import es.eucm.eadventure.engine.core.impl.modules.BasicGameModule;
-import es.eucm.eadventure.engine.core.platform.PlatformLauncher;
-import es.eucm.eadventure.engine.core.platform.impl.DesktopPlatformLauncher;
-import es.eucm.eadventure.engine.core.platform.impl.DesktopStringLoader;
-import es.eucm.eadventure.engine.core.platform.impl.extra.DesktopAssetHandlerModule;
-import es.eucm.eadventure.engine.core.platform.impl.extra.DesktopAssetRendererModule;
-import es.eucm.eadventure.engine.core.platform.impl.extra.DesktopModule;
 
 @Singleton
 /**
  * A demo demonstrating rotation interpolation in an element
  */
 public class RotationDemo {
+	
+	public RotationDemo(EAdScene scene) {
+		// TODO Auto-generated constructor stub
+	}
 
-	public static void main(String[] args) {
-		System.setProperty("com.apple.mrj.application.apple.menu.about.name",
-				"eAdventure");
-
-		Injector injector = Guice.createInjector(
-				new DesktopAssetHandlerModule(),
-				new DesktopAssetRendererModule(null), new DesktopModule(),
-				new BasicGameModule());
-
-		PlatformLauncher launcher = injector
-				.getInstance(PlatformLauncher.class);
-
-		// TODO set language
-		StringHandler sh = injector.getInstance(StringHandler.class);
-		DesktopStringLoader.loadStrings(sh, ClassLoader
-				.getSystemResourceAsStream("values/strings.properties"));
-
-		LoadingScreen loadingScreen = injector.getInstance(LoadingScreen.class);
-
+	
+	public EAdScene createInitialScene() {
 		EAdScene scene = BasicSceneFactoryTest.getBasicScene();
 
 		EAdBasicSceneElement ground = new EAdBasicSceneElement("ground");
@@ -137,11 +111,11 @@ public class RotationDemo {
 
 		event.addEffect(SceneElementEvent.ADDED_TO_SCENE, new EAdTriggerMacro( macro ));
 		ground.getEvents().add(event);
+		return scene;
+	}
 
-		loadingScreen.setInitialScreen(scene);
+	public static void main(String[] args) {
 		
-		File file = null;
-		((DesktopPlatformLauncher) launcher).launch(file);
 	}
 
 }

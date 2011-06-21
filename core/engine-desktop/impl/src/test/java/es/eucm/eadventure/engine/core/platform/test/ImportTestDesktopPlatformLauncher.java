@@ -15,6 +15,7 @@ import es.eucm.eadventure.common.model.EAdAdventureModel;
 import es.eucm.eadventure.common.model.elements.EAdScene;
 import es.eucm.eadventure.common.resources.EAdString;
 import es.eucm.eadventure.common.resources.StringHandler;
+import es.eucm.eadventure.common.resources.assets.impl.EAdURIImpl;
 import es.eucm.eadventure.engine.core.impl.LoadingScreen;
 import es.eucm.eadventure.engine.core.impl.modules.BasicGameModule;
 import es.eucm.eadventure.engine.core.platform.AssetHandler;
@@ -115,7 +116,7 @@ public class ImportTestDesktopPlatformLauncher {
 			// TODO extract file from args or use default?
 			File file = new File(folder, "ProjectImported");
 			// File file = new File("/ProyectoJuegoFINAL.ead");
-			((DesktopPlatformLauncher) launcher).launch(file);
+			((DesktopPlatformLauncher) launcher).launch(new EAdURIImpl( file.toString() ));
 		}
 
 	}

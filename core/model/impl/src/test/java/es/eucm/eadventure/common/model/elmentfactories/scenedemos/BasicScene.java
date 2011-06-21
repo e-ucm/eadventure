@@ -35,11 +35,10 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package es.eucm.eadventure.common.test;
+package es.eucm.eadventure.common.model.elmentfactories.scenedemos;
 
 import java.util.ArrayList;
 
-import es.eucm.eadventure.common.interfaces.Element;
 import es.eucm.eadventure.common.interfaces.Oriented.Orientation;
 import es.eucm.eadventure.common.model.EAdChapter;
 import es.eucm.eadventure.common.model.actions.impl.EAdBasicAction;
@@ -48,14 +47,14 @@ import es.eucm.eadventure.common.model.behaviors.impl.EAdBehaviorImpl;
 import es.eucm.eadventure.common.model.conditions.impl.EmptyCondition;
 import es.eucm.eadventure.common.model.conditions.impl.FlagCondition;
 import es.eucm.eadventure.common.model.conditions.impl.ORCondition;
-import es.eucm.eadventure.common.model.conditions.impl.VarCondition.Operator;
 import es.eucm.eadventure.common.model.conditions.impl.VarCondition;
+import es.eucm.eadventure.common.model.conditions.impl.VarCondition.Operator;
 import es.eucm.eadventure.common.model.conditions.impl.VarValCondition;
+import es.eucm.eadventure.common.model.effects.impl.EAdActorActionsEffect;
 import es.eucm.eadventure.common.model.effects.impl.EAdChangeAppearance;
 import es.eucm.eadventure.common.model.effects.impl.EAdChangeScene;
 import es.eucm.eadventure.common.model.effects.impl.EAdMoveSceneElement;
 import es.eucm.eadventure.common.model.effects.impl.EAdMoveSceneElement.MovementSpeed;
-import es.eucm.eadventure.common.model.effects.impl.EAdActorActionsEffect;
 import es.eucm.eadventure.common.model.effects.impl.EAdWaitEffect;
 import es.eucm.eadventure.common.model.effects.impl.actorreference.EAdHighlightActorReference;
 import es.eucm.eadventure.common.model.effects.impl.text.EAdShowQuestion;
@@ -80,6 +79,7 @@ import es.eucm.eadventure.common.model.events.EAdTimerEvent.TimerEvent;
 import es.eucm.eadventure.common.model.events.impl.EAdConditionEventImpl;
 import es.eucm.eadventure.common.model.events.impl.EAdTimerEventImpl;
 import es.eucm.eadventure.common.model.guievents.impl.EAdMouseEventImpl;
+import es.eucm.eadventure.common.model.impl.EAdChapterImpl;
 import es.eucm.eadventure.common.model.params.EAdBorderedColor;
 import es.eucm.eadventure.common.model.params.EAdColor;
 import es.eucm.eadventure.common.model.params.EAdPosition;
@@ -96,8 +96,7 @@ import es.eucm.eadventure.common.resources.assets.drawable.impl.CaptionImpl;
 import es.eucm.eadventure.common.resources.assets.drawable.impl.ImageImpl;
 import es.eucm.eadventure.common.resources.assets.drawable.impl.IrregularShape;
 
-@Element(detailed = EAdSceneImpl.class, runtime = EAdSceneImpl.class)
-public class BasicGameElementTestScreen extends EAdSceneImpl implements EAdScene {
+public class BasicScene extends EAdSceneImpl implements EAdScene {
 
 	private EAdShowQuestion showQuestionEffect;
 
@@ -120,7 +119,11 @@ public class BasicGameElementTestScreen extends EAdSceneImpl implements EAdScene
 	
 	public EAdChapter chapter;
 	
-	public BasicGameElementTestScreen(String id, EAdChapter chapter) {
+	public BasicScene( ){
+		this( "BasicScene", new EAdChapterImpl("chapter1") );
+	}
+	
+	public BasicScene(String id, EAdChapter chapter) {
 		super(id);
 		this.chapter = chapter;
 		this.returnable = true;

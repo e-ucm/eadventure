@@ -37,8 +37,6 @@
 
 package es.eucm.eadventure.engine.core.platform.test;
 
-import java.io.File;
-
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.google.inject.Singleton;
@@ -57,7 +55,7 @@ import es.eucm.eadventure.common.model.guievents.impl.EAdMouseEventImpl;
 import es.eucm.eadventure.common.model.params.EAdPosition;
 import es.eucm.eadventure.common.resources.EAdString;
 import es.eucm.eadventure.common.resources.StringHandler;
-import es.eucm.eadventure.engine.core.Game;
+import es.eucm.eadventure.common.resources.assets.EAdURI;
 import es.eucm.eadventure.engine.core.impl.LoadingScreen;
 import es.eucm.eadventure.engine.core.impl.modules.BasicGameModule;
 import es.eucm.eadventure.engine.core.platform.PlatformLauncher;
@@ -94,7 +92,6 @@ public class TestDesktopPlatformLauncher  {
 
 		sh.addString(new EAdString("default"), "default");
 
-		Game game = injector.getInstance(Game.class);
 		LoadingScreen loadingScreen = injector.getInstance(LoadingScreen.class);
 		
 		EAdScene scene = BasicSceneFactoryTest.getBasicScene();
@@ -128,7 +125,7 @@ public class TestDesktopPlatformLauncher  {
 
 		
 		//TODO extract file from args or use default?
-		File file = null;
+		EAdURI file = null;
 		//File file = new File("/ProyectoJuegoFINAL.ead");
 		((DesktopPlatformLauncher) launcher).launch(file);
 	}

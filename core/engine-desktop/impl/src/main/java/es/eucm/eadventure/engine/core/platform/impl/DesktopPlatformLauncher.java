@@ -44,6 +44,8 @@ import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.google.inject.Singleton;
 
+import es.eucm.eadventure.common.resources.assets.EAdURI;
+import es.eucm.eadventure.common.resources.assets.impl.EAdURIImpl;
 import es.eucm.eadventure.engine.core.impl.modules.BasicGameModule;
 import es.eucm.eadventure.engine.core.platform.AssetHandler;
 import es.eucm.eadventure.engine.core.platform.PlatformControl;
@@ -77,13 +79,12 @@ public class DesktopPlatformLauncher implements PlatformLauncher {
 		this.assetHandler = assetHandler;
 	}
 
-	/**
-	 * Launch the game engine with a given adventure file
-	 * 
-	 * @param file The adventure file
-	 */
-	public void launch(File resourceFile) {
-		((DesktopAssetHandler) assetHandler).setResourceLocation(resourceFile);
+	@Override
+	public void launch(EAdURI uri) {
+		if ( uri != null ){
+			File resourceFile = new File( uri.getURI() );
+			((DesktopAssetHandler) assetHandler).setResourceLocation(resourceFile);
+		}
 		platformControl.start();
 	}
 	
@@ -95,17 +96,17 @@ public class DesktopPlatformLauncher implements PlatformLauncher {
 
 		PlatformLauncher launcher = injector.getInstance(PlatformLauncher.class);
 		
-		File file = null;
+		EAdURI file = null;
 
 		if (args.length == 0) {
 			//TODO use default file
 			//File file = new File("/ProyectoJuegoFINAL.ead");
 		} else {
 			//TODO extract file from args
-			file = new File(args[0]);
+			file = new EAdURIImpl( args[0] );
 		}
 		
-		((DesktopPlatformLauncher) launcher).launch(file);
+		launcher.launch( file );
 	}
 
 }
