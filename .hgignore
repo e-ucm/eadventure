@@ -6,3 +6,5 @@ syntax: glob
 *.prefs
 *.settings
 */target/*
+*/ProjectImported/*
+*/EAdventure1Project/*

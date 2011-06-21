@@ -39,8 +39,15 @@ package es.eucm.eadventure.common.resources.assets;
 
 /**
  * Represents a pointer to a file
- *
+ * 
  */
 public interface EAdURI extends AssetDescriptor {
+
+	/**
+	 * Returns a string representing the uri
+	 * 
+	 * @return a string representing the uri
+	 */
+	String getURI();
 
 }

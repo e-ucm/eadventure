@@ -108,8 +108,14 @@ public class GameObjectFactoryImpl implements GameObjectFactory {
 
 		Class<? extends GameObject<?>> tempClass = classMap.get(element.getClass());
 		if (tempClass == null) {
-			Element annotation = element.getClass().getAnnotation(Element.class);
-			if (annotation == null) {
+			Class<?> clazz = element.getClass();
+			Element annotation = null;
+			while (annotation == null && clazz != null ) {
+				annotation = clazz.getAnnotation(Element.class);
+				clazz = clazz.getSuperclass();
+			}
+			
+			if ( annotation == null ){
 				logger.log(Level.SEVERE, "No element annotation for class " + element.getClass());
 				return null;
 			}

@@ -37,7 +37,6 @@
 
 package es.eucm.eadventure.engine.core.platform;
 
-import java.io.File;
 import java.util.List;
 import java.util.Queue;
 

@@ -35,18 +35,30 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package es.eucm.eadventure.common.test;
+package es.eucm.eadventure.common.model.util.test;
 
-import es.eucm.eadventure.common.data.adventure.AdventureData;
+import junit.framework.TestCase;
 
-public class ImporterTestAux {
+import org.junit.Test;
 
+import es.eucm.eadventure.common.model.guievents.impl.EAdMouseEventImpl;
+import es.eucm.eadventure.common.model.params.guievents.EAdMouseEvent;
+
+public class EAdMouseEventTest extends TestCase {
 	
-	public static AdventureData getAdventureData( ){
-		// TODO more complex
-		AdventureData data = new AdventureData( );
-		data.setTitle( "Test adventure" );
-		data.setDescription( "Test data for unit tests" );
-		return data;
+	private EAdMouseEvent event1, event2, event3;
+	
+	@Override
+	public void setUp() {
+		event1 = EAdMouseEventImpl.getMouseEvent( EAdMouseEvent.MouseActionType.DOUBLE_CLICK );
+		event2 = EAdMouseEventImpl.getMouseEvent( EAdMouseEvent.MouseActionType.DOUBLE_CLICK );
+		event3 = EAdMouseEventImpl.getMouseEvent( EAdMouseEvent.MouseActionType.DRAG );
 	}
+
+	@Test
+	public void testEqualsObject() {
+		assertEquals( event1, event2 );
+		assertTrue( ! event1.equals( event3 ) );
+	}
+
 }

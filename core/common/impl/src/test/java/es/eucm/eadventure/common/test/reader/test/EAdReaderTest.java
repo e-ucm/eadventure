@@ -35,7 +35,7 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package es.eucm.eadventure.common.test;
+package es.eucm.eadventure.common.test.reader.test;
 
 import java.io.File;
 import java.io.FileInputStream;

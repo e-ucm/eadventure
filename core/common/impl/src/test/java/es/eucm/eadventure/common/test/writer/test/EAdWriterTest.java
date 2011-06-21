@@ -35,7 +35,7 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package es.eucm.eadventure.common.test.writer;
+package es.eucm.eadventure.common.test.writer.test;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -59,6 +59,7 @@ import es.eucm.eadventure.common.impl.reader.subparsers.AdventureHandler;
 import es.eucm.eadventure.common.impl.writer.EAdAdventureModelWriter;
 import es.eucm.eadventure.common.model.EAdAdventureModel;
 import es.eucm.eadventure.common.model.impl.EAdAdventureModelImpl;
+import es.eucm.eadventure.common.test.EAdTestAdventureModel;
 
 public class EAdWriterTest extends TestCase {
 	

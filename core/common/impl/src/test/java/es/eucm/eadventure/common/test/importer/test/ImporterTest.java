@@ -35,34 +35,46 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package es.eucm.eadventure.engine.core.platform;
+package es.eucm.eadventure.common.test.importer.test;
 
-import com.google.inject.Inject;
+import junit.framework.TestCase;
+
+import org.junit.Before;
+import org.junit.Test;
+
+import com.google.inject.Guice;
 import com.google.inject.Injector;
 
-import es.eucm.eadventure.common.resources.assets.EAdURI;
-import es.eucm.eadventure.engine.core.Game;
-import es.eucm.eadventure.engine.core.GameLoop;
+import es.eucm.eadventure.common.data.adventure.AdventureData;
+import es.eucm.eadventure.common.impl.importer.EAdventure1XImporter;
+import es.eucm.eadventure.common.impl.importer.ImporterConfigurationModule;
+import es.eucm.eadventure.common.model.EAdAdventureModel;
 
-public class TestPlatformLauncher implements PlatformLauncher {
+public class ImporterTest extends TestCase {
+
+	private EAdventure1XImporter importer;
 	
-	private GUI gui;
-	private Game game;
-	private GameLoop gameLoop;
+	private String projectFolder = "src/test/resources/Un paseo por eAdventure 1.2/";
 	
-	@Inject
-	public TestPlatformLauncher( GUI gui, Game game, GameLoop gameLoop, Injector injector ){
-		this.gui = gui;
-		this.game = game;
-		this.gameLoop = gameLoop;
+	@Before
+	public void setUp( ) {
+		Injector injector = Guice.createInjector( new ImporterConfigurationModule( projectFolder ) );
+		importer = injector.getInstance( EAdventure1XImporter.class );
 	}
-
-	@Override
-	public void launch(EAdURI file) {
-		gui.initilize();
-		gameLoop.setGame(game);
-
-		game.loadGame();
+	
+	@Test
+	public void testImportGame( ) {
+		EAdAdventureModel data = importer.importGame( projectFolder, "src/test/resources/Import Un paseo por eAdventure 1.2/"  );
+		assertNotNull( data );
+		AdventureData oldData = importer.loadGame( projectFolder );
+		assertNotNull( oldData );
+		//TODO test specific parts of the model
+	}
+	
+	@Test
+	public void testImportGameFromZip( ){
+		EAdAdventureModel data = importer.importGame( "src/test/resources/Chocolate.ead", "src/test/resources/Chocolate.ead" );
+		assertNotNull( data );
 	}
 
 }
