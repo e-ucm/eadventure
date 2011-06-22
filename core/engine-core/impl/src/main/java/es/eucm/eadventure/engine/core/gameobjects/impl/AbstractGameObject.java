@@ -160,7 +160,7 @@ public abstract class AbstractGameObject<T extends EAdElement> implements GameOb
 	}
 	
 	public String toString( ){
-		return  element.getClass() + "_GameObject: " + element.getId();
+		return  getClass().getSimpleName() + ": " + element.getId();
 	}
 
 }

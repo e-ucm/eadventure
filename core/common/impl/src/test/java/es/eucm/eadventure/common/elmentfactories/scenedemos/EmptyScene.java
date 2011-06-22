@@ -1,4 +1,4 @@
-package es.eucm.eadventure.common.model.elmentfactories.scenedemos;
+package es.eucm.eadventure.common.elmentfactories.scenedemos;
 
 import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
 import es.eucm.eadventure.common.model.elements.impl.EAdSceneImpl;

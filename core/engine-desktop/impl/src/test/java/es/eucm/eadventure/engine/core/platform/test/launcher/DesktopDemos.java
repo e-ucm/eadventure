@@ -17,8 +17,10 @@ import javax.swing.ListSelectionModel;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 
+import es.eucm.eadventure.common.elmentfactories.StringFactory;
+import es.eucm.eadventure.common.elmentfactories.scenedemos.SceneDemos;
 import es.eucm.eadventure.common.model.elements.EAdScene;
-import es.eucm.eadventure.common.model.elmentfactories.scenedemos.SceneDemos;
+import es.eucm.eadventure.common.resources.StringHandler;
 import es.eucm.eadventure.engine.core.impl.modules.BasicGameModule;
 import es.eucm.eadventure.engine.core.platform.impl.extra.DesktopAssetHandlerModule;
 import es.eucm.eadventure.engine.core.platform.impl.extra.DesktopAssetRendererModule;
@@ -42,6 +44,11 @@ public class DesktopDemos extends BaseTestLauncher {
 				new DesktopAssetHandlerModule(),
 				new DesktopAssetRendererModule(null), new DesktopModule(),
 				new BasicGameModule());
+		
+		// FIXME Init strings. This probably could be done in a better way
+		StringHandler sh = injector.getInstance(StringHandler.class);
+		StringFactory stringFactory = new StringFactory();
+		stringFactory.addStrings(sh);
 
 		Object classes[] = SceneDemos.getInstance().getSceneDemos().toArray();
 

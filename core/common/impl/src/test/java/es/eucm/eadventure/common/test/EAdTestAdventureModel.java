@@ -37,8 +37,8 @@
 
 package es.eucm.eadventure.common.test;
 
+import es.eucm.eadventure.common.elmentfactories.scenedemos.BasicScene;
 import es.eucm.eadventure.common.model.elements.EAdTimer;
-import es.eucm.eadventure.common.model.elmentfactories.scenedemos.BasicScene;
 import es.eucm.eadventure.common.model.impl.EAdAdventureModelImpl;
 import es.eucm.eadventure.common.model.impl.EAdChapterImpl;
 import es.eucm.eadventure.common.resources.EAdString;

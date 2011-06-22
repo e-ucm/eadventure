@@ -35,7 +35,7 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package es.eucm.eadventure.common.model.elmentfactories.scenedemos;
+package es.eucm.eadventure.common.elmentfactories.scenedemos;
 
 import java.util.ArrayList;
 

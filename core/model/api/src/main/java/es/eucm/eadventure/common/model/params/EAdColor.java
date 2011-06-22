@@ -64,6 +64,67 @@ public class EAdColor {
 	 * Red EAdColor
 	 */
 	public static EAdColor RED = new EAdColor(255, 0, 0);
+	
+	/**
+	 * Blue EAdColor
+	 */
+	public static EAdColor BLUE = new EAdColor( 0, 0, 255);
+	
+	/**
+	 * Green EAdColor
+	 */
+	public static EAdColor GREEN = new EAdColor( 0, 255, 0);
+	
+	/**
+	 * Cyan EAdColor
+	 */
+	public static EAdColor CYAN = new EAdColor( 0, 255, 255);
+	
+	/**
+	 * Yellow EAdColor
+	 */
+	public static EAdColor YELLOW = new EAdColor( 255, 255, 0);
+	
+	/**
+	 * Orange EAdColor
+	 */
+	public static EAdColor ORANGE = new EAdColor( 255, 125, 0 );
+	
+	/**
+	 * Magenta EAdColor
+	 */
+	public static EAdColor MAGENTA = new EAdColor( 255, 0, 255);
+	
+	/**
+	 * Gray EAdColor
+	 */
+	public static EAdColor GRAY = new EAdColor( 125, 125, 125);
+	
+	/**
+	 * Dark gray EAdColor
+	 */
+	public static EAdColor DARK_GRAY = new EAdColor( 62, 62, 62);
+	
+	/**
+	 * Light gray EAdColor
+	 */
+	public static EAdColor LIGHT_GRAY = new EAdColor( 200, 200, 200);
+	
+	/**
+	 * Brown EAdColor
+	 */
+	public static EAdColor BROWN = new EAdColor( 200, 50, 0);
+	
+	/**
+	 * Dark brown EAdColor
+	 */
+	public static EAdColor DARK_BROWN = new EAdColor( 100, 50, 0);
+	
+	/**
+	 * Light brown EAdColor
+	 */
+	public static EAdColor LIGHT_BROWN = new EAdColor( 150, 75, 0);
+	
 
 	/**
 	 * The red value of the color

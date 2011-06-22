@@ -1,4 +1,4 @@
-package es.eucm.eadventure.common.model.elmentfactories;
+package es.eucm.eadventure.common.elmentfactories;
 
 import java.util.ArrayList;
 

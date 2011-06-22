@@ -1,4 +1,4 @@
-package es.eucm.eadventure.common.model.elmentfactories.scenedemos;
+package es.eucm.eadventure.common.elmentfactories.scenedemos;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,6 +20,7 @@ public class SceneDemos {
 		sceneDemos = new ArrayList<Class<? extends EAdScene>>();
 		sceneDemos.add(EmptyScene.class);
 		sceneDemos.add(BasicScene.class);
+		sceneDemos.add(ShapeScene.class);
 	}
 	
 	public List<Class<? extends EAdScene>> getSceneDemos( ){

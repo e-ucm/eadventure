@@ -52,6 +52,12 @@ public interface Shape extends Drawable {
 	EAdBorderedColor getColor();
 	
 	/**
+	 * Sets the color for the shape
+	 * @param color the color
+	 */
+	void setColor( EAdBorderedColor color );
+	
+	/**
 	 * <p>Return the width, in resolution independent pixels, of the border</p>
 	 * 
 	 * @return the pixels of the border

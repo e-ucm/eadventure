@@ -67,8 +67,7 @@ public abstract class AbstractGUI<T> implements GUI {
 	/**
 	 * Logger
 	 */
-	private static final Logger logger = Logger
-			.getLogger("Abstract GUI");
+	private static final Logger logger = Logger.getLogger("Abstract GUI");
 
 	/**
 	 * Maximum number of events to be processes per cycle
@@ -105,7 +104,7 @@ public abstract class AbstractGUI<T> implements GUI {
 	 * The current keyboard state
 	 */
 	protected KeyboardState keyboardState;
-	
+
 	@SuppressWarnings({ "unchecked" })
 	public AbstractGUI(PlatformConfiguration platformConfiguration,
 			GraphicRendererFactory<?> assetRendererFactory,
@@ -132,7 +131,7 @@ public abstract class AbstractGUI<T> implements GUI {
 		gameObjects.add(element, offsetX, offsetY);
 		element.doLayout(offsetX, offsetY);
 	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -142,7 +141,7 @@ public abstract class AbstractGUI<T> implements GUI {
 	public List<GameObject<?>> getGameObjects() {
 		return gameObjects.getGameObjects();
 	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -154,7 +153,7 @@ public abstract class AbstractGUI<T> implements GUI {
 			gameObjects.add(gameObjects.getHUD(), 0, 0);
 			gameObjects.getHUD().doLayout(0, 0);
 		}
-		
+
 		gameObjects.swap();
 
 		if (mouseState.getDraggingGameObject() != null) {
@@ -196,13 +195,15 @@ public abstract class AbstractGUI<T> implements GUI {
 
 				if (graphicRendererFactory.contains(tempGameObject,
 						mouseState.getVirtualMouseX() - offset[0],
-						mouseState.getVirtualMouseY() - offset[1] )) {
-					mouseState.setElementGameObject(tempGameObject, offset[0], offset[1]);
+						mouseState.getVirtualMouseY() - offset[1])) {
+					mouseState.setElementGameObject(tempGameObject, offset[0],
+							offset[1]);
 					if (tempGameObject != gameObject) {
 						tempGameObject.processAction(new MouseActionImpl(
 								MouseActionType.ENTERED, mouseState
 										.getVirtualMouseX(), mouseState
 										.getVirtualMouseY()));
+
 					}
 				}
 			}
@@ -232,13 +233,18 @@ public abstract class AbstractGUI<T> implements GUI {
 						.size() > MAX_EVENTS_IN_QUEUE)) {
 			j++;
 			MouseAction action = mouseState.getMouseEvents().poll();
-			
+
 			for (int i = gameObjects.getGameObjects().size() - 1; i >= 0; i--) {
 				GameObject<?> gameObject = gameObjects.getGameObjects().get(i);
 				int[] offset = gameObjects.getOffsets().get(i);
 				if (graphicRendererFactory.contains(gameObject,
-						action.getVirtualX() - offset[0], action.getVirtualY() - offset[1])) {
-					logger.info("Action " + action + " passed to " + (gameObject.getElement() != null ? gameObject.getElement().toString() : "") );
+						action.getVirtualX() - offset[0], action.getVirtualY()
+								- offset[1])) {
+					logger.info("Action "
+							+ action
+							+ " passed to "
+							+ (gameObject.getElement() != null ? gameObject
+									.getElement().toString() : ""));
 					gameObject.processAction(action);
 				}
 				if (action.isConsumed())
@@ -289,7 +295,8 @@ public abstract class AbstractGUI<T> implements GUI {
 		synchronized (GameObjectManager.lock) {
 			for (int i = 0; i < gameObjects.getGameObjects().size(); i++) {
 				int[] offset = gameObjects.getOffsets().get(i);
-				graphicRendererFactory.render(g, gameObjects.getGameObjects().get(i), interpolation, offset[0], offset[1]);
+				graphicRendererFactory.render(g, gameObjects.getGameObjects()
+						.get(i), interpolation, offset[0], offset[1]);
 			}
 		}
 	}
@@ -313,7 +320,7 @@ public abstract class AbstractGUI<T> implements GUI {
 	public int getHeight() {
 		return platformConfiguration.getHeight();
 	}
-	
+
 	public int[] getGameElementGUIOffset(GameObject<?> gameObject) {
 		synchronized (GameObjectManager.lock) {
 			int pos = gameObjects.getGameObjects().indexOf(gameObject);
@@ -323,6 +330,5 @@ public abstract class AbstractGUI<T> implements GUI {
 			return offset;
 		}
 	}
-
 
 }
