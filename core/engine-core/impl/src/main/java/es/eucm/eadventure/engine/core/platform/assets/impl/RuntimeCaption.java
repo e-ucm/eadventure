@@ -169,8 +169,6 @@ public class RuntimeCaption implements DrawableAsset<Caption> {
 	public void setDescriptor(Caption descriptor) {
 		this.caption = descriptor;
 		loadAsset();
-		// minimumHeight = font == null || element.getMinimumHeight() >
-		// font.lineHeight() ? element.getMinimumHeight() : font.lineHeight();
 	}
 
 	/* (non-Javadoc)
@@ -229,7 +227,7 @@ public class RuntimeCaption implements DrawableAsset<Caption> {
 		int maximumHeight = (int) (caption.getMaximumWidth() < 0 ? platformConfiguration.getHeight() : caption.getMaximumHeight());
 		
 
-		// If width for drawing the text is infinite, we have only one line
+		// If width for d	rawing the text is infinite, we have only one line
 		if (maximumWidth == Caption.INFINITE_SIZE ) {
 			lines.add(text);
 			totalParts = 1;

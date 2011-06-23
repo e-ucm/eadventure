@@ -45,6 +45,8 @@ public class EAdBasicSceneElement extends AbstractEAdElementWithBehavior impleme
 	protected BooleanVar visible = new BooleanVar("visible", this);
 	
 	protected FloatVar rotation = new FloatVar("roation", this);
+	
+	protected FloatVar alpha = new FloatVar("alpha", this);
 
 	public EAdBasicSceneElement(String id) {
 		super(id);
@@ -53,6 +55,7 @@ public class EAdBasicSceneElement extends AbstractEAdElementWithBehavior impleme
 		setInitialOrientation(Orientation.SOUTH);
 		draggable = EmptyCondition.FALSE_EMPTY_CONDITION;
 		visible.setInitialValue(Boolean.TRUE);
+		alpha.setInitialValue(1.0f);
 	}
 
 	@Override
@@ -134,6 +137,11 @@ public class EAdBasicSceneElement extends AbstractEAdElementWithBehavior impleme
 	@Override
 	public EAdVar<Float> rotationVar() {
 		return rotation;
+	}
+
+	@Override
+	public EAdVar<Float> alphaVar() {
+		return alpha;
 	}
 
 }

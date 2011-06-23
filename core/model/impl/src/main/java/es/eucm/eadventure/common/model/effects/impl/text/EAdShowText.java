@@ -39,8 +39,13 @@ package es.eucm.eadventure.common.model.effects.impl.text;
 
 import es.eucm.eadventure.common.interfaces.Element;
 import es.eucm.eadventure.common.interfaces.Param;
+import es.eucm.eadventure.common.model.effects.EAdEffect;
 import es.eucm.eadventure.common.model.effects.impl.AbstractEAdEffect;
+import es.eucm.eadventure.common.model.effects.impl.EAdVarInterpolationEffect;
+import es.eucm.eadventure.common.model.effects.impl.EAdVarInterpolationEffect.LoopType;
 import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
+import es.eucm.eadventure.common.model.events.EAdSceneElementEvent;
+import es.eucm.eadventure.common.model.events.impl.EAdSceneElementEventImpl;
 import es.eucm.eadventure.common.model.params.EAdPosition;
 import es.eucm.eadventure.common.resources.assets.drawable.Caption;
 
@@ -52,6 +57,11 @@ import es.eucm.eadventure.common.resources.assets.drawable.Caption;
  */
 @Element(runtime = EAdShowText.class, detailed = EAdShowText.class)
 public class EAdShowText extends AbstractEAdEffect {
+	
+	public enum ShowTextAnimation {
+		NONE,
+		FADE_IN;
+	}
 
 	@Param("text")
 	private EAdBasicSceneElement text;
@@ -105,9 +115,25 @@ public class EAdShowText extends AbstractEAdEffect {
 	public int getLoops() {
 		return loops;
 	}
+	
+	public void setText( EAdBasicSceneElement text ){
+		setText(text, ShowTextAnimation.NONE);
+	}
 
-	public void setText(EAdBasicSceneElement text) {
+	public void setText(EAdBasicSceneElement text, ShowTextAnimation animation ) {
 		this.text = text;
+		switch ( animation ){
+		case FADE_IN:
+			text.alphaVar().setInitialValue(0.0f);
+			EAdVarInterpolationEffect effect = new EAdVarInterpolationEffect( "textFadeIn" );
+			effect.setInterpolation(text.alphaVar(), 0.0f, 1.0f, 500, LoopType.NO_LOOP);
+			
+			EAdSceneElementEventImpl event = new EAdSceneElementEventImpl( "event" );
+			event.addEffect(EAdSceneElementEvent.SceneElementEvent.ADDED_TO_SCENE, effect);
+			
+			text.getEvents().add(event);
+			break;
+		}
 	}
 
 	public EAdBasicSceneElement getText() {
@@ -119,11 +145,16 @@ public class EAdShowText extends AbstractEAdEffect {
 	 * 
 	 * @param caption
 	 */
-	public void setCaption(Caption caption, int x, int y) {
-		text = new EAdBasicSceneElement(this.id + "_caption");
+	public void setCaption(Caption caption, int x, int y, ShowTextAnimation animation ) {
+		EAdBasicSceneElement text = new EAdBasicSceneElement(this.id + "_caption");
 		text.getResources().addAsset(text.getInitialBundle(),
 				EAdBasicSceneElement.appearance, caption);
 		text.setPosition(new EAdPosition(x, y));
+		setText(text, animation);
+	}
+	
+	public void setCaption(Caption caption, int x, int y){
+		this.setCaption(caption, x, y, ShowTextAnimation.NONE);
 	}
 
 }

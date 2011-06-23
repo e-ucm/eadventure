@@ -68,6 +68,12 @@ public interface EAdSceneElement extends EAdElement, Positioned {
 	EAdVar<Float> rotationVar();
 	
 	/**
+	 * Returns the runtime variable holding the alpha for the scene element
+	 * @return
+	 */
+	EAdVar<Float> alphaVar();
+	
+	/**
 	 * Returns the effects list associated with the given GUI event,
 	 * {@code null} if there is no effects associated. This method shouldn't be
 	 * used to add new effects to the actor. Returned list could be {@code null}

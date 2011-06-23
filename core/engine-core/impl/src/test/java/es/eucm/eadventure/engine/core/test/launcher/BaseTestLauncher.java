@@ -2,6 +2,7 @@ package es.eucm.eadventure.engine.core.test.launcher;
 
 import com.google.inject.Injector;
 
+import es.eucm.eadventure.common.elmentfactories.EAdElementsFactory;
 import es.eucm.eadventure.common.model.elements.EAdScene;
 import es.eucm.eadventure.common.resources.StringHandler;
 import es.eucm.eadventure.engine.core.impl.LoadingScreen;
@@ -22,6 +23,9 @@ public abstract class BaseTestLauncher {
 		launcher = injector.getInstance(PlatformLauncher.class);
 		loadingScreen = injector.getInstance(LoadingScreen.class);
 		loadingScreen.setInitialScreen(injector.getInstance(scene));
+		// FIXME Init strings. This probably could be done in a better way
+		StringHandler sh = injector.getInstance(StringHandler.class);
+		EAdElementsFactory.getInstance().getStringFactory().addStrings(sh);
 	}
 
 	/**

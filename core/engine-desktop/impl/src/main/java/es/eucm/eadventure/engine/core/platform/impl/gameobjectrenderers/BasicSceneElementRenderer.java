@@ -36,6 +36,7 @@
  */
 package es.eucm.eadventure.engine.core.platform.impl.gameobjectrenderers;
 
+import java.awt.AlphaComposite;
 import java.awt.Graphics2D;
 import java.util.logging.Logger;
 
@@ -81,10 +82,7 @@ public class BasicSceneElementRenderer implements
 	@Override
 	public void render(Graphics2D g, SceneElementGO<?> basicSceneElement,
 			float interpolation, int offsetX, int offsetY) {
-		Graphics2D g2 = (Graphics2D) g.create();
-		double centerX = basicSceneElement.getPosition().getJavaX(basicSceneElement.getWidth()) + basicSceneElement.getWidth() / 2;
-		double centerY = basicSceneElement.getPosition().getJavaY(basicSceneElement.getHeight()) + basicSceneElement.getHeight() / 2;
-		g2.rotate(basicSceneElement.getRotation(), centerX, centerY);
+		Graphics2D g2 = prepareGraphics( g, basicSceneElement );
 		factory.render(g2, basicSceneElement.getAsset(), basicSceneElement.getPosition(), basicSceneElement.getScale(), offsetX, offsetY);
 	}
 
@@ -99,10 +97,18 @@ public class BasicSceneElementRenderer implements
 	@Override
 	public void render(Graphics2D g, SceneElementGO<?> basicSceneElement,
 			EAdPosition position, float scale, int offsetX, int offsetY) {
-		Graphics2D g2 = (Graphics2D) g.create();
-		g2.rotate(basicSceneElement.getRotation(), basicSceneElement.getPosition().getJavaX(basicSceneElement.getWidth()), basicSceneElement.getPosition().getJavaY(basicSceneElement.getHeight()));
+		Graphics2D g2 = prepareGraphics( g, basicSceneElement );
 		factory.render(g2, basicSceneElement.getAsset(), position, scale
 				* basicSceneElement.getScale(), offsetX, offsetY);
+	}
+	
+	private Graphics2D prepareGraphics( Graphics2D g, SceneElementGO<?> basicSceneElement ){
+		Graphics2D g2 = (Graphics2D) g.create();
+		double centerX = basicSceneElement.getPosition().getJavaX(basicSceneElement.getWidth()) + basicSceneElement.getWidth() / 2;
+		double centerY = basicSceneElement.getPosition().getJavaY(basicSceneElement.getHeight()) + basicSceneElement.getHeight() / 2;
+		g2.rotate(basicSceneElement.getRotation(), centerX, centerY);
+		g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, basicSceneElement.getAlpha()));
+		return g2;
 	}
 
 	/*

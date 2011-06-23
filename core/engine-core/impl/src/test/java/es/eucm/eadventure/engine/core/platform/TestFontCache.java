@@ -37,11 +37,18 @@
 
 package es.eucm.eadventure.engine.core.platform;
 
+import com.google.inject.Inject;
+
 import es.eucm.eadventure.common.model.params.EAdFont;
 import es.eucm.eadventure.common.model.params.EAdRectangle;
 import es.eucm.eadventure.engine.core.platform.impl.FontCacheImpl;
 
 public class TestFontCache extends FontCacheImpl {
+
+	@Inject
+	public TestFontCache(AssetHandler assetHandler) {
+		super(assetHandler); 
+	}
 
 	@Override
 	public void addEAdFont(EAdFont font) {

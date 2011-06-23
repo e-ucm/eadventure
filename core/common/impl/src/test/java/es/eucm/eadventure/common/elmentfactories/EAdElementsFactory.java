@@ -1,5 +1,6 @@
 package es.eucm.eadventure.common.elmentfactories;
 
+import es.eucm.eadventure.common.elmentfactories.assets.CaptionFactory;
 import es.eucm.eadventure.common.elmentfactories.assets.ShapeFactory;
 import es.eucm.eadventure.common.elmentfactories.effects.EffectFactory;
 import es.eucm.eadventure.common.elmentfactories.events.EventsFactory;
@@ -20,6 +21,18 @@ public class EAdElementsFactory {
 	private EffectFactory effectFactory = new EffectFactory();
 	
 	private EventsFactory eventsFactory = new EventsFactory();
+	
+	private StringFactory stringFactory = new StringFactory();
+	
+	private CaptionFactory captionFactory = new CaptionFactory();
+
+	public CaptionFactory getCaptionFactory() {
+		return captionFactory;
+	}
+
+	public StringFactory getStringFactory() {
+		return stringFactory;
+	}
 
 	public EventsFactory getEventsFactory() {
 		return eventsFactory;

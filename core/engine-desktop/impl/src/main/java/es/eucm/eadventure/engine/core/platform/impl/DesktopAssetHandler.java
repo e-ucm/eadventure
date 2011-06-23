@@ -200,7 +200,7 @@ public class DesktopAssetHandler extends AbstractAssetHandler {
 	 * Loads a file as an input stream
 	 * 
 	 * @param path
-	 *            Path of the file
+	 *            path of the file
 	 * @return The file as an input stream
 	 */
 	public InputStream getResourceAsStream(String path) {

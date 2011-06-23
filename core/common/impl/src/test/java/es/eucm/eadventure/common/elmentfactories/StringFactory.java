@@ -1,6 +1,8 @@
 package es.eucm.eadventure.common.elmentfactories;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import com.google.inject.Singleton;
 
@@ -13,6 +15,8 @@ import es.eucm.eadventure.common.resources.StringHandler;
  */
 @Singleton
 public class StringFactory {
+
+	private static int ID_GENERATOR = 0;
 
 	public enum StringType {
 		LONG_STRING, MEDIUM_STRING, SHORT_STRING;
@@ -39,7 +43,10 @@ public class StringFactory {
 
 	private static ArrayList<EAdString> strings;
 
+	private Map<EAdString, String> userStrings;
+
 	public StringFactory() {
+		userStrings = new HashMap<EAdString, String>();
 		if (strings == null) {
 			strings = new ArrayList<EAdString>();
 			for (StringType type : StringType.values()) {
@@ -61,6 +68,10 @@ public class StringFactory {
 			stringHandler.addString(string,
 					StringType.values()[i++].getString());
 		}
+
+		for (EAdString string : userStrings.keySet()) {
+			stringHandler.addString(string, userStrings.get(string));
+		}
 	}
 
 	/**
@@ -72,5 +83,18 @@ public class StringFactory {
 	 */
 	public EAdString getString(StringType stringType) {
 		return strings.get(stringType.ordinal());
+	}
+
+	/**
+	 * Creates an EAdString for the given string
+	 * 
+	 * @param string
+	 * @return
+	 */
+	public EAdString getString(String string) {
+		EAdString eadString = new EAdString("string" + ID_GENERATOR
+				+ (int) (Math.random() * 100));
+		userStrings.put(eadString, string);
+		return eadString;
 	}
 }

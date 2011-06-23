@@ -1,6 +1,7 @@
 package es.eucm.eadventure.common.elmentfactories.sceneelments;
 
 import es.eucm.eadventure.common.elmentfactories.EAdElementsFactory;
+import es.eucm.eadventure.common.model.effects.EAdEffect;
 import es.eucm.eadventure.common.model.elements.EAdSceneElement;
 import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
 import es.eucm.eadventure.common.model.guievents.impl.EAdMouseEventImpl;
@@ -40,7 +41,19 @@ public class SceneElementFactory {
 		sceneElement.getResources().addBundle(bundle);
 		sceneElement.getResources().addAsset(bundle, EAdBasicSceneElement.appearance, appearance2);
 		sceneElement.addBehavior(EAdMouseEventImpl.MOUSE_LEFT_CLICK, EAdElementsFactory.getInstance().getEffectFactory().getChangeAppearance(sceneElement, bundle));
-		sceneElement.addBehavior(EAdMouseEventImpl.MOUSE_EXITED, EAdElementsFactory.getInstance().getEffectFactory().getChangeAppearance(sceneElement, sceneElement.getInitialBundle()));	
+		sceneElement.addBehavior(EAdMouseEventImpl.MOUSE_RIGHT_CLICK, EAdElementsFactory.getInstance().getEffectFactory().getChangeAppearance(sceneElement, sceneElement.getInitialBundle()));	
+		return sceneElement;
+	}
+	
+	/**
+	 * Creates an scene element with the givena appearance which launches the given effect when right clicked
+	 * @param appearance
+	 * @param effect
+	 * @return
+	 */
+	public EAdSceneElement createSceneElement( AssetDescriptor appearance, int x, int y, EAdEffect effect ){
+		EAdBasicSceneElement sceneElement = this.createSceneElement(appearance, x, y);
+		sceneElement.addBehavior(EAdMouseEventImpl.MOUSE_LEFT_CLICK, effect);
 		return sceneElement;
 	}
 

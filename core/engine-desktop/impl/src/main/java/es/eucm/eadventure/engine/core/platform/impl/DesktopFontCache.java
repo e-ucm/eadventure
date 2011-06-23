@@ -39,9 +39,11 @@ package es.eucm.eadventure.engine.core.platform.impl;
 
 import java.util.logging.Logger;
 
+import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 import es.eucm.eadventure.common.model.params.EAdFont;
+import es.eucm.eadventure.engine.core.platform.AssetHandler;
 import es.eucm.eadventure.engine.core.platform.assets.impl.DesktopEngineFont;
 
 @Singleton
@@ -50,14 +52,16 @@ public class DesktopFontCache extends FontCacheImpl {
 	private static final Logger logger = Logger
 	.getLogger("DesktopFontCache");
 
-	public DesktopFontCache() {
+	@Inject
+	public DesktopFontCache(AssetHandler assetHandler) {
+		super( assetHandler );
 		logger.info("New instance");
 	}
 	
 	@Override
 	public void addEAdFont(EAdFont font) {
 		if (!fontCache.containsKey(font)) {
-			fontCache.put(font, new DesktopEngineFont(font));
+			fontCache.put(font, new DesktopEngineFont(font, assetHandler));
 		}
 	}
 

@@ -26,6 +26,7 @@ public class VarInterpolationGO extends
 		this.valueMap = valueMap;
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public void initilize() {
 		super.initilize();
@@ -33,6 +34,13 @@ public class VarInterpolationGO extends
 		integer = element.getVar().getType().equals(Integer.class);
 		interpolationLength = element.getEndValue() - element.getInitialValue();
 		finished = false;
+		
+		if (integer)
+			valueMap.setValue((EAdVar<Integer>) element.getVar(),
+					(int) element.getInitialValue());
+		else
+			valueMap.setValue((EAdVar<Float>) element.getVar(),
+					(Float) element.getInitialValue());
 
 	}
 

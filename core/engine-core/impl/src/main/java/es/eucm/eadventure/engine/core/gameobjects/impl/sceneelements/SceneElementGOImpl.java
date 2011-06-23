@@ -28,6 +28,8 @@ public abstract class SceneElementGOImpl<T extends EAdSceneElement> extends
 	private int width;
 
 	private int height;
+	
+	private float alpha;
 
 	protected boolean visible;
 
@@ -59,6 +61,7 @@ public abstract class SceneElementGOImpl<T extends EAdSceneElement> extends
 		visible = valueMap.getValue(element.visibleVar());
 		this.rotation = valueMap.getValue(element.rotationVar());
 		this.scale = element.getScale();
+		this.alpha = valueMap.getValue(element.alphaVar());
 		// TODO
 		// this.orientation = new Orientation(element.getInitialOrientation());
 		this.orientation = element.getInitialOrientation();
@@ -100,6 +103,7 @@ public abstract class SceneElementGOImpl<T extends EAdSceneElement> extends
 		this.position.setY(valueMap.getValue(element.positionYVar()));
 		this.setVisible(valueMap.getValue(element.visibleVar()));
 		this.rotation = valueMap.getValue(element.rotationVar());
+		this.alpha = valueMap.getValue(element.alphaVar());
 	}
 
 	@Override
@@ -182,6 +186,10 @@ public abstract class SceneElementGOImpl<T extends EAdSceneElement> extends
 	@Override
 	public int getCenterY(){
 		return (int) (( position.getJavaY(height) + height / 2 ) * scale );
+	}
+	
+	public float getAlpha(){
+		return alpha;
 	}
 
 }

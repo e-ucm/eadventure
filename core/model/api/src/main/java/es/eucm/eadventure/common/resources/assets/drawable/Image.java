@@ -38,6 +38,7 @@
 package es.eucm.eadventure.common.resources.assets.drawable;
 
 
+
 /**
  * General image asset interface.
  */

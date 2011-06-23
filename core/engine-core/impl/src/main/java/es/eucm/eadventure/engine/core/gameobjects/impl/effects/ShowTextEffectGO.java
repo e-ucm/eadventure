@@ -42,6 +42,7 @@ import java.util.logging.Logger;
 
 import es.eucm.eadventure.common.model.effects.impl.text.EAdShowText;
 import es.eucm.eadventure.common.model.params.guievents.EAdMouseEvent.MouseActionType;
+import es.eucm.eadventure.engine.core.GameState;
 import es.eucm.eadventure.engine.core.gameobjects.impl.sceneelements.BasicSceneElementGO;
 import es.eucm.eadventure.engine.core.guiactions.GUIAction;
 import es.eucm.eadventure.engine.core.guiactions.MouseAction;
@@ -80,6 +81,7 @@ public class ShowTextEffectGO extends AbstractEffectGO<EAdShowText> {
 	public void initilize() {
 		super.initilize();
 		textGO = (BasicSceneElementGO) gameObjectFactory.get(element.getText());
+		textGO.setElement(element.getText());
 		textGO.getAsset().loadAsset();
 		if (textGO.getAsset() instanceof RuntimeCaption) {
 			caption = (RuntimeCaption) textGO.getAsset();
@@ -103,6 +105,11 @@ public class ShowTextEffectGO extends AbstractEffectGO<EAdShowText> {
 		if (textGO == null)
 			return false;
 		return caption.getTimesRead() > 0;
+	}
+	
+	public void update( GameState state ){
+		super.update(state);
+		textGO.update(state);
 	}
 
 }

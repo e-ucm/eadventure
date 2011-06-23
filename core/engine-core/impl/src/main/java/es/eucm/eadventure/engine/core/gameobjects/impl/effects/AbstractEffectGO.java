@@ -46,11 +46,11 @@ public abstract class AbstractEffectGO<P extends EAdEffect> extends
 	
 	private boolean stopped = false;
 	
-	private boolean initilized = false;
+	private boolean initialized = false;
 
 	@Override
 	public void initilize() {
-		initilized = true;
+		initialized = true;
 	}
 	
 	public P getEffect( ){
@@ -78,7 +78,12 @@ public abstract class AbstractEffectGO<P extends EAdEffect> extends
 	}
 	
 	public boolean isInitilized() {
-		return initilized;
+		return initialized;
+	}
+	
+	public void finish(){
+		initialized = false;
+		stopped = true;
 	}
 
 }

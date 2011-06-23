@@ -37,6 +37,8 @@
 
 package es.eucm.eadventure.common.model.params;
 
+import es.eucm.eadventure.common.resources.assets.EAdURI;
+
 /**
  * EAdFont represents a text font and its metrics
  * 
@@ -61,11 +63,16 @@ public class EAdFont {
 	private Style style;
 	
 	/**
+	 * URI to the *.ttf file for the name font
+	 */
+	private EAdURI uri;
+	
+	/**
 	 * Regular EAdFont
 	 */
 	public static final EAdFont REGULAR = new EAdFont(25.0f);
 	
-	public static final EAdFont REGULAR_BOLD = new EAdFont("Arial", 25.0f, Style.BOLD);
+	public static final EAdFont REGULAR_BOLD = new EAdFont(null, 25.0f, Style.BOLD);
 	
 	/**
 	 * Big EAdFont
@@ -74,6 +81,19 @@ public class EAdFont {
 	
 	public EAdFont(float size) {
 		this("Arial", size);
+	}
+	
+	public EAdFont( EAdURI uri, float size ){
+		this( uri.getURI(), size );
+		this.uri = uri;
+	}
+	
+	public boolean isTTF( ){
+		return uri != null;
+	}
+	
+	public EAdURI getURI( ){
+		return uri;
 	}
 
 	public EAdFont(String name, float size) {

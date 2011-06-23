@@ -152,6 +152,7 @@ public class GameImpl implements Game {
 				effectGO.update(gameState);
 
 				if (effectGO.isStopped() || effectGO.isFinished()) {
+					effectGO.finish();
 					finishedEffects.add(effectGO);
 				} else if (effectGO.isBlocking())
 					// If effect is blocking, get out of the loop

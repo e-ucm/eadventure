@@ -21,6 +21,7 @@ public class SceneDemos {
 		sceneDemos.add(EmptyScene.class);
 		sceneDemos.add(BasicScene.class);
 		sceneDemos.add(ShapeScene.class);
+		sceneDemos.add(TextsScene.class);
 	}
 	
 	public List<Class<? extends EAdScene>> getSceneDemos( ){

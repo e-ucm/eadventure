@@ -59,6 +59,8 @@ public interface SceneElementGO<T extends EAdSceneElement> extends
 	void setPosition(EAdPosition position);
 
 	float getScale();
+	
+	float getAlpha();
 
 	void setScale(float scale);
 

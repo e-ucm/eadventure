@@ -103,4 +103,9 @@ public interface EffectGO<P extends EAdEffect> extends GameObject<P> {
 
 	boolean isInitilized();
 
+	/**
+	 * Ends the effect
+	 */
+	void finish();
+
 }

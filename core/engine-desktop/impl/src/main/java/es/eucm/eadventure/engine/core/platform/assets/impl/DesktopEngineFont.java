@@ -38,12 +38,17 @@
 package es.eucm.eadventure.engine.core.platform.assets.impl;
 
 import java.awt.Font;
+import java.awt.FontFormatException;
 import java.awt.Rectangle;
 import java.awt.font.FontRenderContext;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
 
 import es.eucm.eadventure.common.model.params.EAdFont;
 import es.eucm.eadventure.common.model.params.EAdFont.Style;
 import es.eucm.eadventure.common.model.params.EAdRectangle;
+import es.eucm.eadventure.engine.core.platform.AssetHandler;
 import es.eucm.eadventure.engine.core.platform.RuntimeFont;
 
 public class DesktopEngineFont implements RuntimeFont {
@@ -54,12 +59,25 @@ public class DesktopEngineFont implements RuntimeFont {
 
 	private static FontRenderContext frc = new FontRenderContext(null, true,
 			true);
-	
-	public DesktopEngineFont(EAdFont font) {
+
+	public DesktopEngineFont(EAdFont font, AssetHandler assetHandler) {
 		this.eadFont = font;
-		if (font == null)
-			this.font = Font.getFont(Font.DIALOG);
-		else
+		if (eadFont.isTTF()) {
+			try {
+				this.font = Font.createFont(
+						Font.TRUETYPE_FONT,
+						new FileInputStream(new File(assetHandler
+								.getAbsolutePath(eadFont.getURI().getURI()))));
+				this.font = this.font.deriveFont(eadFont.getSize());
+				
+			} catch (FontFormatException e) {
+				this.font = new Font(font.getName(), getStyle(font.getStyle()),
+						(int) font.getSize());
+			} catch (IOException e) {
+				this.font = new Font(font.getName(), getStyle(font.getStyle()),
+						(int) font.getSize());
+			}
+		} else
 			this.font = new Font(font.getName(), getStyle(font.getStyle()),
 					(int) font.getSize());
 	}
