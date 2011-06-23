@@ -62,7 +62,7 @@ package es.eucm.eadventure.common.model.params;
 public class EAdPosition {
 
 	public static enum Corner {
-		TOP_LEFT, BOTTOM_LEFT, BOTTOM_CENTER, CENTER
+		TOP_LEFT, BOTTOM_LEFT, BOTTOM_CENTER, CENTER, TOP_RIGHT
 	}
 
 	private int x;
@@ -82,6 +82,10 @@ public class EAdPosition {
 		switch (corner) {
 		case TOP_LEFT:
 			despX = 0f;
+			despY = 0f;
+			break;
+		case TOP_RIGHT:
+			despX = 1f;
 			despY = 0f;
 			break;
 		case BOTTOM_LEFT:

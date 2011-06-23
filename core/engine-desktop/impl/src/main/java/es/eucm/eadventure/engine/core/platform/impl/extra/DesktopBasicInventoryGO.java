@@ -9,6 +9,7 @@ import es.eucm.eadventure.common.model.conditions.impl.EmptyCondition;
 import es.eucm.eadventure.common.model.conditions.impl.VarCondition.Operator;
 import es.eucm.eadventure.common.model.conditions.impl.VarValCondition;
 import es.eucm.eadventure.common.model.effects.impl.EAdActorActionsEffect;
+import es.eucm.eadventure.common.model.effects.impl.EAdChangeAppearance;
 import es.eucm.eadventure.common.model.effects.impl.EAdMoveSceneElement;
 import es.eucm.eadventure.common.model.effects.impl.EAdMoveSceneElement.MovementSpeed;
 import es.eucm.eadventure.common.model.effects.impl.EAdVarInterpolationEffect;
@@ -21,6 +22,7 @@ import es.eucm.eadventure.common.model.params.EAdBorderedColor;
 import es.eucm.eadventure.common.model.params.EAdPosition;
 import es.eucm.eadventure.common.model.params.EAdPosition.Corner;
 import es.eucm.eadventure.common.model.variables.impl.operations.LiteralExpressionOperation;
+import es.eucm.eadventure.common.resources.EAdBundleId;
 import es.eucm.eadventure.common.resources.assets.drawable.impl.ImageImpl;
 import es.eucm.eadventure.common.resources.assets.drawable.impl.RectangleShape;
 import es.eucm.eadventure.engine.core.GameState;
@@ -57,14 +59,15 @@ public class DesktopBasicInventoryGO extends BasicInventoryGO {
 	 * center sensor, which hides the inventory
 	 */
 	private EAdBasicSceneElement centerSensor;
-
-	private EAdBasicSceneElement rightArrow;
 	
 	/**
 	 * the actual inventory
 	 */
 	private EAdComplexSceneElement inventory;
 	
+	/**
+	 * the object that contains the elements in the inventory
+	 */
 	private EAdComplexSceneElement inventoryContent;
 	
 	/**
@@ -86,9 +89,8 @@ public class DesktopBasicInventoryGO extends BasicInventoryGO {
 		inventoryContent.getResources().addAsset(inventoryContent.getInitialBundle(), EAdBasicSceneElement.appearance, rect2);
 		inventory.getComponents().add(inventoryContent);
 
-		createRightArrow();
-		//TODO add arrows
-
+		createArrow("Right", "+", 800, Corner.TOP_RIGHT);
+		createArrow("Left", "-", 0, Corner.TOP_LEFT);
 		
 		RectangleShape rect = new RectangleShape(800, SENSE_HEIGHT + 2, EAdBorderedColor.TRANSPARENT);
 
@@ -101,17 +103,35 @@ public class DesktopBasicInventoryGO extends BasicInventoryGO {
 		includedActors = new HashMap<EAdActor, EAdActorReferenceImpl>();
 	}
 	
-	private void createRightArrow() {
-		rightArrow = new EAdBasicSceneElement("rightArrow");
-		rightArrow.setDraggabe(EmptyCondition.FALSE_EMPTY_CONDITION);
-		rightArrow.setPosition(new EAdPosition(Corner.TOP_LEFT, 0, 0));
-		ImageImpl image = new ImageImpl("@drawable/arrowLeft.png");
-		rightArrow.getResources().addAsset(rightArrow.getInitialBundle(), EAdBasicSceneElement.appearance, image);
-		inventory.getComponents().add(rightArrow);
+	/**
+	 * Create an inventory arrow
+	 * 
+	 * @param dirname the name of the direction (to get the resoucers, i.e. "Left" or "Right")
+	 * @param sign The sign of the increment/decrement
+	 * @param pos The position of the arrow
+	 * @param corner The center of the arrow image
+	 * @return the arrow
+	 */
+	private EAdBasicSceneElement createArrow(String dirname, String sign, int pos, Corner corner) {
+		EAdBasicSceneElement arrow = new EAdBasicSceneElement("arrow" + dirname);
+		arrow.setDraggabe(EmptyCondition.FALSE_EMPTY_CONDITION);
+		arrow.setPosition(new EAdPosition(corner, pos, 0));
+		ImageImpl image = new ImageImpl("@drawable/arrow" + dirname + ".png");
+		arrow.getResources().addAsset(arrow.getInitialBundle(), EAdBasicSceneElement.appearance, image);
 		
-		rightArrow.addBehavior(EAdMouseEventImpl.MOUSE_LEFT_CLICK, new EAdVarInterpolationEffect("id", inventoryContent.positionXVar(), new LiteralExpressionOperation("id", "[0] - " + INVENTORY_HEIGHT, inventoryContent.positionXVar()), 200));
+		ImageImpl image2 = new ImageImpl("@drawable/arrowHighlight" + dirname + ".png");
+		EAdBundleId highlightBundle = new EAdBundleId("highlight");
+		arrow.getResources().addAsset(highlightBundle, EAdBasicSceneElement.appearance, image2);
+
+		arrow.addBehavior(EAdMouseEventImpl.MOUSE_ENTERED, new EAdChangeAppearance("id", arrow, highlightBundle));
+		arrow.addBehavior(EAdMouseEventImpl.MOUSE_EXITED, new EAdChangeAppearance("id", arrow, arrow.getInitialBundle()));
+
+		inventory.getComponents().add(arrow);
+		
+		arrow.addBehavior(EAdMouseEventImpl.MOUSE_LEFT_CLICK, new EAdVarInterpolationEffect("id", inventoryContent.positionXVar(), new LiteralExpressionOperation("id", "[0]" + sign + INVENTORY_HEIGHT, inventoryContent.positionXVar()), 200));
+		return arrow;
 	}
-	
+
 	/**
 	 * Create the center sensor part
 	 */
