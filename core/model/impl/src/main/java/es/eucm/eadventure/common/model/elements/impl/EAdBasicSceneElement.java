@@ -15,42 +15,44 @@ import es.eucm.eadventure.common.resources.annotation.Asset;
 import es.eucm.eadventure.common.resources.annotation.Bundled;
 import es.eucm.eadventure.common.resources.assets.drawable.Drawable;
 
-public class EAdBasicSceneElement extends AbstractEAdElementWithBehavior implements
-		EAdSceneElement {
+public class EAdBasicSceneElement extends AbstractEAdElementWithBehavior
+		implements EAdSceneElement {
 
 	@Param("position")
 	private EAdPosition position;
 
-	@Param("scale")
-	private float scale;
-
 	@Param("orientation")
 	private Oriented.Orientation orientation;
-	
+
 	@Param("draggable")
 	private EAdCondition draggable;
-	
+
 	@Bundled
 	@Asset({ Drawable.class })
 	public static final String appearance = "appearance";
-	
+
 	protected IntegerVar positionX = new IntegerVar("positionX", this);
 
 	protected IntegerVar positionY = new IntegerVar("positionY", this);
-	
-	protected IntegerVar width = new IntegerVar("width", this );
-	
+
+	protected IntegerVar width = new IntegerVar("width", this);
+
 	protected IntegerVar height = new IntegerVar("height", this);
-	
+
 	protected BooleanVar visible = new BooleanVar("visible", this);
-	
+
 	protected FloatVar rotation = new FloatVar("roation", this);
-	
+
 	protected FloatVar alpha = new FloatVar("alpha", this);
+	
+	protected FloatVar scale = new FloatVar("scale", this);
+
+	private boolean clone;
 
 	public EAdBasicSceneElement(String id) {
 		super(id);
 		setScale(1.0f);
+		clone = false;
 		setPosition(new EAdPosition(0, 0));
 		setInitialOrientation(Orientation.SOUTH);
 		draggable = EmptyCondition.FALSE_EMPTY_CONDITION;
@@ -68,7 +70,7 @@ public class EAdBasicSceneElement extends AbstractEAdElementWithBehavior impleme
 	}
 
 	@Override
-	public float getScale() {
+	public EAdVar<Float> scaleVar() {
 		return scale;
 	}
 
@@ -79,7 +81,7 @@ public class EAdBasicSceneElement extends AbstractEAdElementWithBehavior impleme
 	 *            the scale
 	 */
 	public void setScale(float scale) {
-		this.scale = scale;
+		this.scale.setInitialValue(scale);
 	}
 
 	@Override
@@ -97,16 +99,16 @@ public class EAdBasicSceneElement extends AbstractEAdElementWithBehavior impleme
 		this.orientation = orientation;
 
 	}
-	
+
 	public EAdCondition getDraggabe() {
 		return draggable;
 	}
-	
+
 	public void setDraggabe(EAdCondition draggable) {
 		this.draggable = draggable;
 	}
-	
-	public String toString( ){
+
+	public String toString() {
 		return id + " - Scene element";
 	}
 
@@ -119,8 +121,8 @@ public class EAdBasicSceneElement extends AbstractEAdElementWithBehavior impleme
 	public EAdVar<Integer> positionYVar() {
 		return positionY;
 	}
-	
-	public EAdVar<Boolean> visibleVar(){
+
+	public EAdVar<Boolean> visibleVar() {
 		return visible;
 	}
 
@@ -142,6 +144,23 @@ public class EAdBasicSceneElement extends AbstractEAdElementWithBehavior impleme
 	@Override
 	public EAdVar<Float> alphaVar() {
 		return alpha;
+	}
+
+	@Override
+	public boolean isClone() {
+		return clone;
+	}
+
+	/**
+	 * Sets whether if this scene element must be cloned whenever is added to
+	 * the game. This means that all its variables will be set with its initial
+	 * values, instead of storing their last values
+	 * 
+	 * @param clone
+	 *            if this elements produces clones when its added to the game
+	 */
+	public void setClone(boolean clone) {
+		this.clone = clone;
 	}
 
 }

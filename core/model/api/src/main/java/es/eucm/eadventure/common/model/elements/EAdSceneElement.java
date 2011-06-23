@@ -1,7 +1,7 @@
 package es.eucm.eadventure.common.model.elements;
 
-import es.eucm.eadventure.common.interfaces.Positioned;
 import es.eucm.eadventure.common.interfaces.Oriented.Orientation;
+import es.eucm.eadventure.common.interfaces.Positioned;
 import es.eucm.eadventure.common.model.EAdElement;
 import es.eucm.eadventure.common.model.EAdElementList;
 import es.eucm.eadventure.common.model.effects.EAdEffect;
@@ -15,7 +15,7 @@ public interface EAdSceneElement extends EAdElement, Positioned {
 	 * 
 	 * @return the scale value.
 	 */
-	float getScale();
+	EAdVar<Float> scaleVar();
 
 	/**
 	 * Returns initial orientation for this actor reference
@@ -52,7 +52,7 @@ public interface EAdSceneElement extends EAdElement, Positioned {
 	 * @return
 	 */
 	EAdVar<Integer> widthVar();
-	
+
 	/**
 	 * Returns the runtime variable holding the height of the scene element,
 	 * during game
@@ -60,19 +60,21 @@ public interface EAdSceneElement extends EAdElement, Positioned {
 	 * @return
 	 */
 	EAdVar<Integer> heightVar();
-	
+
 	/**
 	 * Returns the runtime variable holding the rotation of the scene element
+	 * 
 	 * @return
 	 */
 	EAdVar<Float> rotationVar();
-	
+
 	/**
 	 * Returns the runtime variable holding the alpha for the scene element
+	 * 
 	 * @return
 	 */
 	EAdVar<Float> alphaVar();
-	
+
 	/**
 	 * Returns the effects list associated with the given GUI event,
 	 * {@code null} if there is no effects associated. This method shouldn't be
@@ -83,5 +85,14 @@ public interface EAdSceneElement extends EAdElement, Positioned {
 	 * @return the effects list associated with the given event
 	 */
 	EAdElementList<EAdEffect> getEffects(EAdGUIEvent event);
+
+	/**
+	 * Returns true if this scene element must be cloned whenever is added to
+	 * the game. This means that all its variables will be set with its initial
+	 * values, instead of storing their last values
+	 * 
+	 * @return if this element must be cloned whenever is added to the game
+	 */
+	boolean isClone();
 
 }

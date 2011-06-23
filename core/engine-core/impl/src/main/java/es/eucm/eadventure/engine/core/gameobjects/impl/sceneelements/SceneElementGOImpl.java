@@ -28,7 +28,7 @@ public abstract class SceneElementGOImpl<T extends EAdSceneElement> extends
 	private int width;
 
 	private int height;
-	
+
 	private float alpha;
 
 	protected boolean visible;
@@ -58,13 +58,23 @@ public abstract class SceneElementGOImpl<T extends EAdSceneElement> extends
 		valueMap.setValue(element.positionXVar(), position.getX());
 		valueMap.setValue(element.positionYVar(), position.getY());
 
+		// If element is a clone, sets its vars to its initial values, if not,
+		// it preserves the values contained by the valueMap
+		if (element.isClone()) {
+			valueMap.setValue(element.visibleVar(), element.visibleVar().getInitialValue());
+			valueMap.setValue(element.scaleVar(), element.scaleVar()
+					.getInitialValue());
+			valueMap.setValue(element.alphaVar(), element.alphaVar()
+					.getInitialValue());
+			valueMap.setValue(element.rotationVar(), element.rotationVar()
+					.getInitialValue());
+		}
+
 		visible = valueMap.getValue(element.visibleVar());
-		this.rotation = valueMap.getValue(element.rotationVar());
-		this.scale = element.getScale();
-		this.alpha = valueMap.getValue(element.alphaVar());
-		// TODO
-		// this.orientation = new Orientation(element.getInitialOrientation());
-		this.orientation = element.getInitialOrientation();
+		rotation = valueMap.getValue(element.rotationVar());
+		scale = valueMap.getValue(element.scaleVar());
+		alpha = valueMap.getValue(element.alphaVar());
+		orientation = element.getInitialOrientation();
 	}
 
 	@Override
@@ -177,18 +187,18 @@ public abstract class SceneElementGOImpl<T extends EAdSceneElement> extends
 	public float getRotation() {
 		return rotation;
 	}
-	
+
 	@Override
-	public int getCenterX(){
-		return (int) (( position.getJavaX(width) + width / 2 ) * scale);
+	public int getCenterX() {
+		return (int) ((position.getJavaX(width) + width / 2) * scale);
 	}
-	
+
 	@Override
-	public int getCenterY(){
-		return (int) (( position.getJavaY(height) + height / 2 ) * scale );
+	public int getCenterY() {
+		return (int) ((position.getJavaY(height) + height / 2) * scale);
 	}
-	
-	public float getAlpha(){
+
+	public float getAlpha() {
 		return alpha;
 	}
 
