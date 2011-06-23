@@ -209,8 +209,8 @@ public class EAdShowQuestion extends EAdComplexBlockingEffect {
 
 			EAdVarInterpolationEffect interpolation = new EAdVarInterpolationEffect(
 					"answer_interpolation");
-			interpolation.setInterpolation(a.positionXVar(), -800,
-					marginLeft * 2, 500,
+			interpolation.setInterpolation(a.positionXVar(), new LiteralExpressionOperation("id", "-800"),
+					new LiteralExpressionOperation("id", "" + (marginLeft * 2)), 500,
 					EAdVarInterpolationEffect.LoopType.NO_LOOP);
 			macro.getEffects().add(interpolation);
 

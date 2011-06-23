@@ -11,6 +11,7 @@ import es.eucm.eadventure.common.model.conditions.impl.VarValCondition;
 import es.eucm.eadventure.common.model.effects.impl.EAdActorActionsEffect;
 import es.eucm.eadventure.common.model.effects.impl.EAdMoveSceneElement;
 import es.eucm.eadventure.common.model.effects.impl.EAdMoveSceneElement.MovementSpeed;
+import es.eucm.eadventure.common.model.effects.impl.EAdVarInterpolationEffect;
 import es.eucm.eadventure.common.model.elements.EAdActor;
 import es.eucm.eadventure.common.model.elements.impl.EAdActorReferenceImpl;
 import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
@@ -19,12 +20,17 @@ import es.eucm.eadventure.common.model.guievents.impl.EAdMouseEventImpl;
 import es.eucm.eadventure.common.model.params.EAdBorderedColor;
 import es.eucm.eadventure.common.model.params.EAdPosition;
 import es.eucm.eadventure.common.model.params.EAdPosition.Corner;
+import es.eucm.eadventure.common.model.variables.impl.operations.LiteralExpressionOperation;
+import es.eucm.eadventure.common.resources.assets.drawable.impl.ImageImpl;
 import es.eucm.eadventure.common.resources.assets.drawable.impl.RectangleShape;
 import es.eucm.eadventure.engine.core.GameState;
 import es.eucm.eadventure.engine.core.gameobjects.SceneElementGO;
 import es.eucm.eadventure.engine.core.gameobjects.impl.inventory.BasicInventoryGO;
 import es.eucm.eadventure.engine.core.gameobjects.impl.sceneelements.ActorReferenceGOImpl;
 
+/**
+ * Desktop implementation of the {@link BasicInventoryGO}
+ */
 public class DesktopBasicInventoryGO extends BasicInventoryGO {
 	
 	/**
@@ -52,10 +58,14 @@ public class DesktopBasicInventoryGO extends BasicInventoryGO {
 	 */
 	private EAdBasicSceneElement centerSensor;
 
+	private EAdBasicSceneElement rightArrow;
+	
 	/**
 	 * the actual inventory
 	 */
 	private EAdComplexSceneElement inventory;
+	
+	private EAdComplexSceneElement inventoryContent;
 	
 	/**
 	 * the map of actors and actor references in the inventory
@@ -66,10 +76,20 @@ public class DesktopBasicInventoryGO extends BasicInventoryGO {
 		inventory = new EAdComplexSceneElement("inventory");
 		inventory.setDraggabe(EmptyCondition.FALSE_EMPTY_CONDITION);
 		inventory.setPosition(new EAdPosition(Corner.BOTTOM_LEFT, 0, 700));
-		
 		RectangleShape rect2 = new RectangleShape(800, INVENTORY_HEIGHT, EAdBorderedColor.BLACK_ON_WHITE);
 		inventory.getResources().addAsset(inventory.getInitialBundle(), EAdBasicSceneElement.appearance, rect2);
+		
+		inventoryContent = new EAdComplexSceneElement("inventoryContent");
+		inventoryContent.setDraggabe(EmptyCondition.FALSE_EMPTY_CONDITION);
+		inventoryContent.setPosition(new EAdPosition(Corner.TOP_LEFT, INVENTORY_HEIGHT / 2 + 10, 0));
+		rect2 = new RectangleShape(800, INVENTORY_HEIGHT, EAdBorderedColor.TRANSPARENT);
+		inventoryContent.getResources().addAsset(inventoryContent.getInitialBundle(), EAdBasicSceneElement.appearance, rect2);
+		inventory.getComponents().add(inventoryContent);
 
+		createRightArrow();
+		//TODO add arrows
+
+		
 		RectangleShape rect = new RectangleShape(800, SENSE_HEIGHT + 2, EAdBorderedColor.TRANSPARENT);
 
 		bottomSensor = createSensorPart(rect, 601, 600, 700);
@@ -79,6 +99,17 @@ public class DesktopBasicInventoryGO extends BasicInventoryGO {
 		createCenterPart();
 		
 		includedActors = new HashMap<EAdActor, EAdActorReferenceImpl>();
+	}
+	
+	private void createRightArrow() {
+		rightArrow = new EAdBasicSceneElement("rightArrow");
+		rightArrow.setDraggabe(EmptyCondition.FALSE_EMPTY_CONDITION);
+		rightArrow.setPosition(new EAdPosition(Corner.TOP_LEFT, 0, 0));
+		ImageImpl image = new ImageImpl("@drawable/arrowLeft.png");
+		rightArrow.getResources().addAsset(rightArrow.getInitialBundle(), EAdBasicSceneElement.appearance, image);
+		inventory.getComponents().add(rightArrow);
+		
+		rightArrow.addBehavior(EAdMouseEventImpl.MOUSE_LEFT_CLICK, new EAdVarInterpolationEffect("id", inventoryContent.positionXVar(), new LiteralExpressionOperation("id", "[0] - " + INVENTORY_HEIGHT, inventoryContent.positionXVar()), 200));
 	}
 	
 	/**
@@ -165,7 +196,7 @@ public class DesktopBasicInventoryGO extends BasicInventoryGO {
 				ref.setPosition(new EAdPosition(EAdPosition.Corner.CENTER, INVENTORY_HEIGHT / 2 + 10, INVENTORY_HEIGHT / 2));
 				((ActorReferenceGOImpl) gameObjectFactory.get(ref)).setInventoryReference(true);
 				includedActors.put(actor, ref);
-				inventory.getComponents().add(ref);
+				inventoryContent.getComponents().add(ref);
 				SceneElementGO<?> go = (SceneElementGO<?>) gameObjectFactory.get(ref);
 				int maxSide = Math.max(go.getAsset().getHeight(), go.getAsset().getWidth());
 				float scale = (float) INVENTORY_HEIGHT / maxSide;
@@ -179,7 +210,7 @@ public class DesktopBasicInventoryGO extends BasicInventoryGO {
 	 */
 	private void removeOldActors(List<EAdActor> removedActors) {
 		for (EAdActor actor : removedActors) {
-			inventory.getComponents().remove(includedActors.get(actor));
+			inventoryContent.getComponents().remove(includedActors.get(actor));
 			includedActors.remove(actor);
 			//TODO free resources?
 		}
