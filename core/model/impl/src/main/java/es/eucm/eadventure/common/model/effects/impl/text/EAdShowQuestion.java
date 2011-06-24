@@ -127,6 +127,7 @@ public class EAdShowQuestion extends EAdComplexBlockingEffect {
 		visibleEffect.setOperation(BooleanOperation.TRUE_OP);
 
 		if (questionElement != null) {
+			((EAdBasicSceneElement) questionElement).setClone( true );
 			questionElement.getPosition().set(marginLeft, 10, Corner.TOP_LEFT);
 			components.add(questionElement);
 			questionElement.visibleVar().setInitialValue(false);
@@ -156,6 +157,7 @@ public class EAdShowQuestion extends EAdComplexBlockingEffect {
 		int i = 0;
 		for (Answer a : answers) {
 			a.visibleVar().setInitialValue(Boolean.FALSE);
+			a.setClone(true);
 			a.setUpNewInstance(selectedAnswer, endEffect, i++);
 			a.setPosition(new EAdPosition(Corner.TOP_LEFT, 0, 0));
 			components.add(a);
@@ -218,8 +220,8 @@ public class EAdShowQuestion extends EAdComplexBlockingEffect {
 
 	}
 
-	public void setQuestion(EAdBasicSceneElement questionElement) {
-		this.questionElement = questionElement;
+	public void setQuestion(EAdSceneElement eAdSceneElement) {
+		this.questionElement = eAdSceneElement;
 	}
 
 }

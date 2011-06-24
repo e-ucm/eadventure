@@ -122,6 +122,7 @@ public class EAdShowText extends AbstractEAdEffect {
 
 	public void setText(EAdBasicSceneElement text, ShowTextAnimation animation ) {
 		this.text = text;
+		text.setClone(true);
 		switch ( animation ){
 		case FADE_IN:
 			text.alphaVar().setInitialValue(0.0f);
