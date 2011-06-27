@@ -126,8 +126,7 @@ public class EAdShowText extends AbstractEAdEffect {
 		switch ( animation ){
 		case FADE_IN:
 			text.alphaVar().setInitialValue(0.0f);
-			EAdVarInterpolationEffect effect = new EAdVarInterpolationEffect( "textFadeIn" );
-			effect.setInterpolation(text.alphaVar(), 0.0f, 1.0f, 500, LoopType.NO_LOOP);
+			EAdVarInterpolationEffect effect = new EAdVarInterpolationEffect( "textFadeIn", text.alphaVar(), 0.0f, 1.0f, 500, LoopType.NO_LOOP);
 			
 			EAdSceneElementEventImpl event = new EAdSceneElementEventImpl( "event" );
 			event.addEffect(EAdSceneElementEvent.SceneElementEvent.ADDED_TO_SCENE, effect);

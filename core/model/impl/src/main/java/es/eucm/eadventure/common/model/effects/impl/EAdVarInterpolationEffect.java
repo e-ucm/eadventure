@@ -49,12 +49,26 @@ public class EAdVarInterpolationEffect extends AbstractEAdEffect {
 	@Param("loop")
 	private LoopType loopType;
 
-	public EAdVarInterpolationEffect(String id) {
-		super(id);
-	}
-
 	public EAdVarInterpolationEffect(String id, EAdVar<?> var, 
 			LiteralExpressionOperation endValue, int time) {
+		super(id);
+		LiteralExpressionOperation startValue = new LiteralExpressionOperation("id", "[0]", var);
+		setInterpolation(var, startValue, endValue, time, LoopType.NO_LOOP);
+	}
+	
+	public EAdVarInterpolationEffect(String id, EAdVar<?> var2, float start, float end, int time, LoopType loop) {
+		super(id);
+		LiteralExpressionOperation startValue = new LiteralExpressionOperation("id", "" + start);
+		LiteralExpressionOperation endValue = new LiteralExpressionOperation("id", "" + end);
+		setInterpolation(var2, startValue, endValue, time, loop);
+	}
+
+
+	public EAdVarInterpolationEffect(String id,
+			EAdVar<?> positionXVar,
+			LiteralExpressionOperation literalExpressionOperation,
+			LiteralExpressionOperation literalExpressionOperation2, int time,
+			LoopType noLoop) {
 		super(id);
 		LiteralExpressionOperation startValue = new LiteralExpressionOperation("id", "[0]", var);
 		setInterpolation(var, startValue, endValue, time, LoopType.NO_LOOP);
@@ -73,6 +87,7 @@ public class EAdVarInterpolationEffect extends AbstractEAdEffect {
 			float endValue, int time, LoopType loop) {
 		setInterpolation(var, new LiteralExpressionOperation("id", "" + initialValue), new LiteralExpressionOperation("" + endValue), time, loop);
 	}
+
 
 	public EAdVar<?> getVar() {
 		return var;

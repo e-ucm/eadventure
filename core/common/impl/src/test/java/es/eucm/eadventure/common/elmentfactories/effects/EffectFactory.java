@@ -30,8 +30,7 @@ public class EffectFactory {
 	public EAdVarInterpolationEffect getInterpolationEffect(EAdVar<?> var,
 			float startValue, float endValue, int time, LoopType loop) {
 		EAdVarInterpolationEffect interpolation = new EAdVarInterpolationEffect(
-				"interpolationEffect" + ID_GENERATOR++);
-		interpolation.setInterpolation(var, startValue, endValue, time, loop);
+				"interpolationEffect" + ID_GENERATOR++, var, startValue, endValue, time, loop);
 		return interpolation;
 	}
 

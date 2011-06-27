@@ -33,7 +33,6 @@ public class VarInterpolationGO extends
 		this.operatorFactory = operatorFactory;
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
 	public void initilize() {
 		super.initilize();
@@ -44,12 +43,7 @@ public class VarInterpolationGO extends
 		interpolationLength = endValue - startValue;
 		finished = false;
 
-		if (integer)
-			valueMap.setValue((EAdVar<Integer>) element.getVar(),
-					(int) element.getInitialValue());
-		else
-			valueMap.setValue((EAdVar<Float>) element.getVar(),
-					(Float) element.getInitialValue());
+		operatorFactory.operate(element.getVar(), element.getInitialValue());
 	}
 
 	@Override
