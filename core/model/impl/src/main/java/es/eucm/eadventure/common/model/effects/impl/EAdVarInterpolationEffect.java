@@ -65,12 +65,11 @@ public class EAdVarInterpolationEffect extends AbstractEAdEffect {
 
 
 	public EAdVarInterpolationEffect(String id,
-			EAdVar<?> positionXVar,
-			LiteralExpressionOperation literalExpressionOperation,
-			LiteralExpressionOperation literalExpressionOperation2, int time,
+			EAdVar<?> var,
+			LiteralExpressionOperation startValue,
+			LiteralExpressionOperation endValue, int time,
 			LoopType noLoop) {
 		super(id);
-		LiteralExpressionOperation startValue = new LiteralExpressionOperation("id", "[0]", var);
 		setInterpolation(var, startValue, endValue, time, LoopType.NO_LOOP);
 	}
 

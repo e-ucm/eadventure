@@ -24,11 +24,6 @@
     </dependency>
     <dependency>
     	<groupId>es.eucm.eadventure</groupId>
-    	<artifactId>common-impl</artifactId>
-    	<version>${project.version}</version>
-    </dependency>
-    <dependency>
-    	<groupId>es.eucm.eadventure</groupId>
     	<artifactId>utils</artifactId>
     	<version>${project.version}</version>
     </dependency>
