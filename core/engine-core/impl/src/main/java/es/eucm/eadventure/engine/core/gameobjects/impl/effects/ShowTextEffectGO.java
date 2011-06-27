@@ -40,8 +40,16 @@ package es.eucm.eadventure.engine.core.gameobjects.impl.effects;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import es.eucm.eadventure.common.model.effects.impl.EAdVarInterpolationEffect;
+import es.eucm.eadventure.common.model.effects.impl.EAdVarInterpolationEffect.LoopType;
 import es.eucm.eadventure.common.model.effects.impl.text.EAdShowText;
+import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
+import es.eucm.eadventure.common.model.events.EAdSceneElementTimedEvent.SceneElementTimedEventType;
+import es.eucm.eadventure.common.model.events.impl.EAdSceneElementTimedEventImpl;
+import es.eucm.eadventure.common.model.params.EAdPosition;
+import es.eucm.eadventure.common.model.params.EAdPosition.Corner;
 import es.eucm.eadventure.common.model.params.guievents.EAdMouseEvent.MouseActionType;
+import es.eucm.eadventure.common.resources.assets.drawable.impl.IrregularShape;
 import es.eucm.eadventure.engine.core.GameState;
 import es.eucm.eadventure.engine.core.gameobjects.impl.sceneelements.BasicSceneElementGO;
 import es.eucm.eadventure.engine.core.guiactions.GUIAction;
@@ -50,15 +58,14 @@ import es.eucm.eadventure.engine.core.platform.assets.impl.RuntimeCaption;
 
 public class ShowTextEffectGO extends AbstractEffectGO<EAdShowText> {
 
-	private static final Logger logger = Logger
-			.getLogger("ShowTextEffectGO");
+	private static final Logger logger = Logger.getLogger("ShowTextEffectGO");
 
 	private BasicSceneElementGO textGO;
-	
-	private BasicSceneElementGO indicator;
+
+	private BasicSceneElementGO indicatorGO;
 
 	private RuntimeCaption caption;
-	
+
 	@Override
 	public boolean processAction(GUIAction action) {
 		if (action instanceof MouseAction) {
@@ -75,8 +82,13 @@ public class ShowTextEffectGO extends AbstractEffectGO<EAdShowText> {
 
 	@Override
 	public void doLayout(int offsetX, int offsetY) {
-		if (element.getLoops() < 0 || (textGO != null && caption.getTimesRead() < element.getLoops() ))
+		if (element.getLoops() < 0
+				|| (textGO != null && caption.getTimesRead() < element
+						.getLoops())) {
 			gui.addElement(textGO, offsetX, offsetY);
+			if (caption.getCurrentPart() != caption.getTotalParts() - 1)
+				gui.addElement(indicatorGO, offsetX, offsetY);
+		}
 	}
 
 	@Override
@@ -89,14 +101,49 @@ public class ShowTextEffectGO extends AbstractEffectGO<EAdShowText> {
 			caption = (RuntimeCaption) textGO.getAsset();
 			caption.reset();
 			caption.setLoops(element.getLoops());
-			int textRight = textGO.getPosition().getJavaX(caption.getWidth()) + caption.getWidth(); 
-			if (  textRight > gui.getWidth() ){
-				int newX = textGO.getPosition().getJavaX(caption.getWidth()) - ( textRight - (int) ( platformConfiguration.getWidth() / platformConfiguration.getScale() ));
-				this.valueMap.setValue(textGO.getElement().positionXVar(), newX);
+			int textRight = textGO.getPosition().getJavaX(caption.getWidth())
+					+ caption.getWidth();
+			if (textRight > gui.getWidth()) {
+				int newX = textGO.getPosition().getJavaX(caption.getWidth())
+						- (textRight - (int) (platformConfiguration.getWidth() / platformConfiguration
+								.getScale()));
+				this.valueMap
+						.setValue(textGO.getElement().positionXVar(), newX);
+				textGO.getPosition().setX(newX);
+
 			}
+			initIndicator(caption, textGO.getPosition());
 		} else {
-			logger.log(Level.WARNING, "TextGO " + element.getId() + " has a non caption asset");
+			logger.log(Level.WARNING, "TextGO " + element.getId()
+					+ " has a non caption asset");
 		}
+	}
+
+	private void initIndicator(RuntimeCaption caption, EAdPosition p) {
+		EAdBasicSceneElement indicator = new EAdBasicSceneElement("text indicator");
+		
+		EAdSceneElementTimedEventImpl event = new EAdSceneElementTimedEventImpl( "triangle_blink" );
+		event.addEffect(SceneElementTimedEventType.START_TIME, new EAdVarInterpolationEffect("blink_interpolation", indicator.alphaVar(), 1.0f, 0.0f, 1000, LoopType.NO_LOOP ));
+		event.setTime(1100);
+		indicator.getEvents().add(event);
+		
+		int size = 15;
+
+		IrregularShape triangle = new IrregularShape();
+		triangle.getPositions().add(new EAdPosition(0, 0));
+		triangle.getPositions().add(new EAdPosition(size, 0));
+		triangle.getPositions().add(new EAdPosition(size / 2, size));
+		triangle.setColor(caption.getCaption().getTextColor());
+		indicator.getResources().addAsset(indicator.getInitialBundle(),
+				EAdBasicSceneElement.appearance, triangle);
+
+		EAdPosition position = new EAdPosition(Corner.TOP_LEFT,
+				p.getJavaX(caption.getWidth()) + caption.getWidth() - size * 2,
+				p.getJavaY(caption.getHeight()) + caption.getHeight() - size
+						* 2);
+		indicator.setPosition(position);
+		
+		indicatorGO = (BasicSceneElementGO) gameObjectFactory.get(indicator);
 	}
 
 	@Override
@@ -106,17 +153,20 @@ public class ShowTextEffectGO extends AbstractEffectGO<EAdShowText> {
 
 	@Override
 	public boolean isFinished() {
-		if ( element.getLoops() < 0 ){
+		if (element.getLoops() < 0) {
 			return false;
 		}
 		if (textGO == null)
 			return false;
 		return caption.getTimesRead() > 0;
 	}
-	
-	public void update( GameState state ){
+
+	public void update(GameState state) {
 		super.update(state);
 		textGO.update(state);
+		if ( indicatorGO != null )
+			indicatorGO.update(state);
+
 	}
 
 }

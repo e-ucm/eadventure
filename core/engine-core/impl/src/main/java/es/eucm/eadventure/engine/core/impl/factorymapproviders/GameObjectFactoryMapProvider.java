@@ -67,7 +67,7 @@ import es.eucm.eadventure.engine.core.gameobjects.impl.effects.VarInterpolationG
 import es.eucm.eadventure.engine.core.gameobjects.impl.effects.WaitEffectGO;
 import es.eucm.eadventure.engine.core.gameobjects.impl.events.ConditionEventGO;
 import es.eucm.eadventure.engine.core.gameobjects.impl.events.SceneElementEventGO;
-import es.eucm.eadventure.engine.core.gameobjects.impl.events.SceneElementTimedEvent;
+import es.eucm.eadventure.engine.core.gameobjects.impl.events.SceneElementTimedEventGO;
 import es.eucm.eadventure.engine.core.gameobjects.impl.events.SystemEventGO;
 import es.eucm.eadventure.engine.core.gameobjects.impl.events.TimerEventGO;
 import es.eucm.eadventure.engine.core.gameobjects.impl.inventory.BasicInventoryGO;
@@ -134,8 +134,8 @@ public class GameObjectFactoryMapProvider
 		factoryMap.put(EAdTimerEventImpl.class, TimerEventGO.class);
 		factoryMap.put(EAdSceneElementEvent.class, SceneElementEventGO.class);
 		factoryMap.put(EAdSceneElementEventImpl.class, SceneElementEventGO.class);
-		factoryMap.put(EAdSceneElementTimedEvent.class, SceneElementTimedEvent.class );
-		factoryMap.put(EAdSceneElementTimedEventImpl.class, SceneElementTimedEvent.class );
+		factoryMap.put(EAdSceneElementTimedEvent.class, SceneElementTimedEventGO.class );
+		factoryMap.put(EAdSceneElementTimedEventImpl.class, SceneElementTimedEventGO.class );
 	}
 
 	public static void add(Class<? extends EAdElement> element,

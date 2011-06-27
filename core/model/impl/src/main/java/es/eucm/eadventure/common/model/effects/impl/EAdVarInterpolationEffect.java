@@ -48,8 +48,14 @@ public class EAdVarInterpolationEffect extends AbstractEAdEffect {
 	@Param("loop")
 	private LoopType loopType;
 
-	public EAdVarInterpolationEffect(String id) {
+	public EAdVarInterpolationEffect(String id, EAdVar<?> var, float initialValue,
+			float endValue, int time, LoopType loop ) {
 		super(id);
+		this.setInterpolation(var, initialValue, endValue, time, loop);
+	}
+	
+	public EAdVarInterpolationEffect( String id ){
+		this( id, null, 0, 0, 0, null );
 	}
 
 	public void setInterpolation(EAdVar<?> var, float initialValue,
