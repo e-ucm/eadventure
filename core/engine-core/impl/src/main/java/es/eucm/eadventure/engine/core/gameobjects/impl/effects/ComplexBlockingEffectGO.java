@@ -39,6 +39,7 @@ package es.eucm.eadventure.engine.core.gameobjects.impl.effects;
 
 import com.google.inject.Inject;
 
+import es.eucm.eadventure.common.model.effects.EAdEffect;
 import es.eucm.eadventure.common.model.effects.impl.EAdComplexBlockingEffect;
 import es.eucm.eadventure.common.model.elements.EAdSceneElement;
 import es.eucm.eadventure.engine.core.EvaluatorFactory;
@@ -48,7 +49,7 @@ import es.eucm.eadventure.engine.core.gameobjects.SceneElementGO;
 public class ComplexBlockingEffectGO extends AbstractEffectGO<EAdComplexBlockingEffect> {
 
 	@Inject
-	EvaluatorFactory evaluatorFactory;
+	private EvaluatorFactory evaluatorFactory;
 	
 	@Override
 	public void initilize() {
@@ -82,6 +83,14 @@ public class ComplexBlockingEffectGO extends AbstractEffectGO<EAdComplexBlocking
 		for ( EAdSceneElement e: element.getComponents() ){
 			gameObjectFactory.get(e).update(gameState);
 		}
+	}
+	
+	public void finish( ){
+		super.finish();
+		for ( EAdEffect e: element.getFinalEffects( ) ){
+			gameState.addEffect(e);	
+		}
+		
 	}
 	
 

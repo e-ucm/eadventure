@@ -43,8 +43,6 @@ import es.eucm.eadventure.common.resources.assets.drawable.Drawable;
 
 public class FramesAnimation implements Drawable {
 
-	private static final long serialVersionUID = -2099505162599945812L;
-
 	private EAdElementList<Frame> frames;
 	
 	public FramesAnimation() {

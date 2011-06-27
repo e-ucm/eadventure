@@ -1,5 +1,7 @@
 package es.eucm.eadventure.common.model.elements;
 
+import java.util.List;
+
 import es.eucm.eadventure.common.interfaces.Oriented.Orientation;
 import es.eucm.eadventure.common.interfaces.Positioned;
 import es.eucm.eadventure.common.model.EAdElement;
@@ -94,5 +96,12 @@ public interface EAdSceneElement extends EAdElement, Positioned {
 	 * @return if this element must be cloned whenever is added to the game
 	 */
 	boolean isClone();
+
+	/**
+	 * Returns a list of all vars of this scene element
+	 * 
+	 * @return a list of all vars of this scene element
+	 */
+	List<EAdVar<?>> getVars();
 
 }

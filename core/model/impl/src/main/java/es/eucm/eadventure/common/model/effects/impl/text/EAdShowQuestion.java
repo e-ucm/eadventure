@@ -43,6 +43,7 @@ import es.eucm.eadventure.common.model.EAdElementList;
 import es.eucm.eadventure.common.model.conditions.impl.EmptyCondition;
 import es.eucm.eadventure.common.model.conditions.impl.FlagCondition;
 import es.eucm.eadventure.common.model.conditions.impl.NOTCondition;
+import es.eucm.eadventure.common.model.effects.EAdEffect;
 import es.eucm.eadventure.common.model.effects.EAdMacro;
 import es.eucm.eadventure.common.model.effects.impl.EAdComplexBlockingEffect;
 import es.eucm.eadventure.common.model.effects.impl.EAdMacroImpl;
@@ -116,6 +117,10 @@ public class EAdShowQuestion extends EAdComplexBlockingEffect {
 		// Vars
 		selectedAnswer = new IntegerVar(id + "_selectedAnswer" + ID_GENERATOR++);
 		answered = new BooleanVar(id + "_answerd" + ID_GENERATOR++);
+		answered.setInitialValue(false);
+		selectedAnswer.setInitialValue(-1);
+		
+		
 
 		// Effects
 		EAdChangeVarValueEffect invisibleEffect = new EAdChangeVarValueEffect(
@@ -133,6 +138,8 @@ public class EAdShowQuestion extends EAdComplexBlockingEffect {
 			questionElement.visibleVar().setInitialValue(false);
 			invisibleEffect.addVar(questionElement.visibleVar());
 			visibleEffect.addVar(questionElement.visibleVar());
+			questionElement.getVars().add(answered);
+			questionElement.getVars().add(selectedAnswer);
 		}
 
 		for (Answer a : answers) {
@@ -143,9 +150,14 @@ public class EAdShowQuestion extends EAdComplexBlockingEffect {
 		// Start macro
 		EAdMacro startMacro = new EAdMacroImpl("startQuestionMacro");
 		startMacro.getEffects().add(invisibleEffect);
-		addVarsInit(startMacro);
 		addPositioningEvent(startMacro);
 		startMacro.getEffects().add(visibleEffect);
+		
+		// Reset answered
+		EAdEffect resetAnswered = new EAdChangeVarValueEffect("questionInitAnswered", answered,
+				BooleanOperation.FALSE_OP);
+		this.getFinalEffects().add(resetAnswered);
+		this.getFinalEffects().add(invisibleEffect);
 
 		// Events
 		EAdSceneElementEvent addedEvent = new EAdSceneElementEventImpl(
@@ -172,12 +184,6 @@ public class EAdShowQuestion extends EAdComplexBlockingEffect {
 		getEvents().add(addedEvent);
 		this.setBlockingCondition(new NOTCondition(new FlagCondition(answered)));
 
-	}
-
-	private void addVarsInit(EAdMacro startMacro) {
-		startMacro.getEffects().add(
-				new EAdChangeVarValueEffect("questionInitAnswered", answered,
-						BooleanOperation.FALSE_OP));
 	}
 
 	private void addPositioningEvent(EAdMacro macro) {

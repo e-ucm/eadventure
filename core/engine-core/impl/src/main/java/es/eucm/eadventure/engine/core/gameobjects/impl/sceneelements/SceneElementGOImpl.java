@@ -4,6 +4,7 @@ import java.util.logging.Logger;
 
 import es.eucm.eadventure.common.model.elements.EAdSceneElement;
 import es.eucm.eadventure.common.model.params.EAdPosition;
+import es.eucm.eadventure.common.model.variables.EAdVar;
 import es.eucm.eadventure.engine.core.GameState;
 import es.eucm.eadventure.engine.core.MouseState;
 import es.eucm.eadventure.engine.core.gameobjects.GameObject;
@@ -51,23 +52,20 @@ public abstract class SceneElementGOImpl<T extends EAdSceneElement> extends
 	 * Should be implemented to get position, scale, orientation and other
 	 * values
 	 */
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Override
 	public void setElement(T element) {
 		super.setElement(element);
 		this.position = new EAdPosition(element.getPosition());
-		valueMap.setValue(element.positionXVar(), position.getX());
-		valueMap.setValue(element.positionYVar(), position.getY());
+		element.positionXVar().setInitialValue(position.getX());
+		element.positionYVar().setInitialValue(position.getY());
 
 		// If element is a clone, sets its vars to its initial values, if not,
 		// it preserves the values contained by the valueMap
 		if (element.isClone()) {
-			valueMap.setValue(element.visibleVar(), element.visibleVar().getInitialValue());
-			valueMap.setValue(element.scaleVar(), element.scaleVar()
-					.getInitialValue());
-			valueMap.setValue(element.alphaVar(), element.alphaVar()
-					.getInitialValue());
-			valueMap.setValue(element.rotationVar(), element.rotationVar()
-					.getInitialValue());
+			for (EAdVar var : element.getVars()) {
+				valueMap.setValue(var, var.getInitialValue());
+			}
 		}
 
 		visible = valueMap.getValue(element.visibleVar());

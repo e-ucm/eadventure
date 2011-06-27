@@ -1,5 +1,8 @@
 package es.eucm.eadventure.common.model.elements.impl;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import es.eucm.eadventure.common.interfaces.Oriented;
 import es.eucm.eadventure.common.interfaces.Oriented.Orientation;
 import es.eucm.eadventure.common.interfaces.Param;
@@ -30,6 +33,8 @@ public class EAdBasicSceneElement extends AbstractEAdElementWithBehavior
 	@Bundled
 	@Asset({ Drawable.class })
 	public static final String appearance = "appearance";
+	
+	private List<EAdVar<?>> vars;
 
 	protected IntegerVar positionX = new IntegerVar("positionX", this);
 
@@ -58,6 +63,15 @@ public class EAdBasicSceneElement extends AbstractEAdElementWithBehavior
 		draggable = EmptyCondition.FALSE_EMPTY_CONDITION;
 		visible.setInitialValue(Boolean.TRUE);
 		alpha.setInitialValue(1.0f);
+		vars = new ArrayList<EAdVar<?>>();
+		vars.add(positionX);
+		vars.add(positionY);
+		vars.add(width);
+		vars.add(height);
+		vars.add(visible);
+		vars.add(rotation);
+		vars.add(alpha);
+		vars.add(scale);
 	}
 
 	@Override
@@ -161,6 +175,11 @@ public class EAdBasicSceneElement extends AbstractEAdElementWithBehavior
 	 */
 	public void setClone(boolean clone) {
 		this.clone = clone;
+	}
+
+	@Override
+	public List<EAdVar<?>> getVars() {
+		return vars;
 	}
 
 }
