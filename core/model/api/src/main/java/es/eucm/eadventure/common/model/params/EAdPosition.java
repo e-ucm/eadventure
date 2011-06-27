@@ -60,7 +60,7 @@ package es.eucm.eadventure.common.model.params;
  * </code>
  */
 public class EAdPosition {
-
+	
 	public static enum Corner {
 		TOP_LEFT, BOTTOM_LEFT, BOTTOM_CENTER, CENTER, TOP_RIGHT
 	}
