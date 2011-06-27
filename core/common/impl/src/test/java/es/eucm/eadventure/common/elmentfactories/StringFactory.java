@@ -19,7 +19,7 @@ public class StringFactory {
 	private static int ID_GENERATOR = 0;
 
 	public enum StringType {
-		LONG_STRING, MEDIUM_STRING, SHORT_STRING;
+		VERY_LONG_STRING, LONG_STRING, MEDIUM_STRING, SHORT_STRING;
 
 		/**
 		 * Returns the string associated to this {@link StringType}
@@ -28,6 +28,12 @@ public class StringFactory {
 		 */
 		public String getString() {
 			switch (this) {
+			case VERY_LONG_STRING:
+				String s = "";
+				for ( int i = 0; i < 5; i++ ){
+					s += LONG_STRING.getString() + MEDIUM_STRING.getString() + SHORT_STRING.getString();
+				}
+				return s;
 			case LONG_STRING:
 				return "This is a very looooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooong string, to test show text effects and other eventso or effectes related to text. Just to make sure that evvvvvveryyyyyyyythinnnngggggg is OKKKKKKK!!!!!!!!!!!!!";
 			case MEDIUM_STRING:

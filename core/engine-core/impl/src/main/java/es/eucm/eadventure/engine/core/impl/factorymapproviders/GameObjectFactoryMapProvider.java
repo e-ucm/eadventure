@@ -35,9 +35,11 @@ import es.eucm.eadventure.common.model.elements.impl.EAdSceneImpl;
 import es.eucm.eadventure.common.model.elements.impl.EAdTimerImpl;
 import es.eucm.eadventure.common.model.elements.impl.EAdVideoScene;
 import es.eucm.eadventure.common.model.events.EAdSceneElementEvent;
+import es.eucm.eadventure.common.model.events.EAdSceneElementTimedEvent;
 import es.eucm.eadventure.common.model.events.EAdTimerEvent;
 import es.eucm.eadventure.common.model.events.impl.EAdConditionEventImpl;
 import es.eucm.eadventure.common.model.events.impl.EAdSceneElementEventImpl;
+import es.eucm.eadventure.common.model.events.impl.EAdSceneElementTimedEventImpl;
 import es.eucm.eadventure.common.model.events.impl.EAdSystemEventImpl;
 import es.eucm.eadventure.common.model.events.impl.EAdTimerEventImpl;
 import es.eucm.eadventure.common.model.impl.inventory.EAdBasicInventory;
@@ -48,6 +50,7 @@ import es.eucm.eadventure.engine.core.gameobjects.TimerGO;
 import es.eucm.eadventure.engine.core.gameobjects.impl.ComposedSceneGOImpl;
 import es.eucm.eadventure.engine.core.gameobjects.impl.SceneGOImpl;
 import es.eucm.eadventure.engine.core.gameobjects.impl.VideoSceneGO;
+import es.eucm.eadventure.engine.core.gameobjects.impl.effects.ActorActionsEffectGO;
 import es.eucm.eadventure.engine.core.gameobjects.impl.effects.CancelEffectGO;
 import es.eucm.eadventure.engine.core.gameobjects.impl.effects.ChangeAppearanceGO;
 import es.eucm.eadventure.engine.core.gameobjects.impl.effects.ChangeScreenGO;
@@ -58,13 +61,13 @@ import es.eucm.eadventure.engine.core.gameobjects.impl.effects.ModifyActorStateG
 import es.eucm.eadventure.engine.core.gameobjects.impl.effects.MoveSceneElementGO;
 import es.eucm.eadventure.engine.core.gameobjects.impl.effects.QuitGameEffectGO;
 import es.eucm.eadventure.engine.core.gameobjects.impl.effects.RandomEffectGO;
-import es.eucm.eadventure.engine.core.gameobjects.impl.effects.ActorActionsEffectGO;
 import es.eucm.eadventure.engine.core.gameobjects.impl.effects.ShowTextEffectGO;
 import es.eucm.eadventure.engine.core.gameobjects.impl.effects.TriggerMacroEffectGO;
 import es.eucm.eadventure.engine.core.gameobjects.impl.effects.VarInterpolationGO;
 import es.eucm.eadventure.engine.core.gameobjects.impl.effects.WaitEffectGO;
 import es.eucm.eadventure.engine.core.gameobjects.impl.events.ConditionEventGO;
 import es.eucm.eadventure.engine.core.gameobjects.impl.events.SceneElementEventGO;
+import es.eucm.eadventure.engine.core.gameobjects.impl.events.SceneElementTimedEvent;
 import es.eucm.eadventure.engine.core.gameobjects.impl.events.SystemEventGO;
 import es.eucm.eadventure.engine.core.gameobjects.impl.events.TimerEventGO;
 import es.eucm.eadventure.engine.core.gameobjects.impl.inventory.BasicInventoryGO;
@@ -131,6 +134,8 @@ public class GameObjectFactoryMapProvider
 		factoryMap.put(EAdTimerEventImpl.class, TimerEventGO.class);
 		factoryMap.put(EAdSceneElementEvent.class, SceneElementEventGO.class);
 		factoryMap.put(EAdSceneElementEventImpl.class, SceneElementEventGO.class);
+		factoryMap.put(EAdSceneElementTimedEvent.class, SceneElementTimedEvent.class );
+		factoryMap.put(EAdSceneElementTimedEventImpl.class, SceneElementTimedEvent.class );
 	}
 
 	public static void add(Class<? extends EAdElement> element,

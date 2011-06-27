@@ -13,6 +13,8 @@ import es.eucm.eadventure.common.model.effects.impl.text.extra.Answer;
 import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
 import es.eucm.eadventure.common.model.variables.EAdVar;
 import es.eucm.eadventure.common.resources.EAdBundleId;
+import es.eucm.eadventure.common.resources.assets.drawable.Caption;
+import es.eucm.eadventure.common.resources.assets.drawable.impl.CaptionImpl;
 
 public class EffectFactory {
 
@@ -34,11 +36,18 @@ public class EffectFactory {
 	}
 
 	public EAdShowText getShowText(String text, int x, int y,
-			ShowTextAnimation animation) {
+			ShowTextAnimation animation, int maximumHeight) {
 		EAdShowText effect = new EAdShowText();
-		effect.setCaption(EAdElementsFactory.getInstance().getCaptionFactory()
-				.createCaption(text), x, y, animation);
+		CaptionImpl c = EAdElementsFactory.getInstance().getCaptionFactory()
+				.createCaption(text);
+		c.setMaximumHeight(maximumHeight);
+		effect.setCaption(c, x, y, animation);
 		return effect;
+	}
+	
+	public EAdShowText getShowText(String text, int x, int y,
+			ShowTextAnimation animation){
+		return this.getShowText(text, x, y, animation, Caption.SCREEN_SIZE);
 	}
 
 	/**
@@ -49,19 +58,24 @@ public class EffectFactory {
 	 * @param nAnswers
 	 * @return
 	 */
-	public EAdShowQuestion getShowQuestion( String question, int nAnswers ){
-		EAdShowQuestion effect = new EAdShowQuestion( );
-		effect.setQuestion( EAdElementsFactory.getInstance().getSceneElementFactory().createSceneElement( question, 10, 10 ) );
-		for ( int i = 0; i < nAnswers; i++ ){
+	public EAdShowQuestion getShowQuestion(String question, int nAnswers) {
+		EAdShowQuestion effect = new EAdShowQuestion();
+		effect.setQuestion(EAdElementsFactory.getInstance()
+				.getSceneElementFactory().createSceneElement(question, 10, 10));
+		for (int i = 0; i < nAnswers; i++) {
 			int ordinal = i % StringType.values().length;
-			Answer a = new Answer("answer" +  ID_GENERATOR++ );
+			Answer a = new Answer("answer" + ID_GENERATOR++);
 			String s = StringType.values()[ordinal].getString();
-			a.getResources().addAsset(a.getInitialBundle(), EAdBasicSceneElement.appearance, EAdElementsFactory.getInstance().getCaptionFactory().createCaption(s));
+			a.getResources().addAsset(
+					a.getInitialBundle(),
+					EAdBasicSceneElement.appearance,
+					EAdElementsFactory.getInstance().getCaptionFactory()
+							.createCaption(s));
 			effect.getAnswers().add(a);
 		}
 		effect.setUpNewInstance();
 		return effect;
-		
+
 	}
 
 	public EAdShowText getShowText(String text, int x, int y) {

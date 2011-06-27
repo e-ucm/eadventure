@@ -54,6 +54,8 @@ public class ShowTextEffectGO extends AbstractEffectGO<EAdShowText> {
 			.getLogger("ShowTextEffectGO");
 
 	private BasicSceneElementGO textGO;
+	
+	private BasicSceneElementGO indicator;
 
 	private RuntimeCaption caption;
 	
@@ -86,7 +88,12 @@ public class ShowTextEffectGO extends AbstractEffectGO<EAdShowText> {
 		if (textGO.getAsset() instanceof RuntimeCaption) {
 			caption = (RuntimeCaption) textGO.getAsset();
 			caption.reset();
-			caption.setLoops(getEffect().getLoops());
+			caption.setLoops(element.getLoops());
+			int textRight = textGO.getPosition().getJavaX(caption.getWidth()) + caption.getWidth(); 
+			if (  textRight > gui.getWidth() ){
+				int newX = textGO.getPosition().getJavaX(caption.getWidth()) - ( textRight - (int) ( platformConfiguration.getWidth() / platformConfiguration.getScale() ));
+				this.valueMap.setValue(textGO.getElement().positionXVar(), newX);
+			}
 		} else {
 			logger.log(Level.WARNING, "TextGO " + element.getId() + " has a non caption asset");
 		}

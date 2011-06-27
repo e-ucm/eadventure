@@ -57,6 +57,7 @@ import es.eucm.eadventure.engine.core.gameobjects.impl.events.AbstractEventGO;
 import es.eucm.eadventure.engine.core.guiactions.GUIAction;
 import es.eucm.eadventure.engine.core.platform.AssetHandler;
 import es.eucm.eadventure.engine.core.platform.GUI;
+import es.eucm.eadventure.engine.core.platform.PlatformConfiguration;
 import es.eucm.eadventure.engine.core.platform.RuntimeAsset;
 
 public abstract class AbstractGameObject<T extends EAdElement> implements GameObject<T> {
@@ -87,6 +88,9 @@ public abstract class AbstractGameObject<T extends EAdElement> implements GameOb
 	
 	@Inject
 	protected ValueMap valueMap;
+	
+	@Inject
+	protected PlatformConfiguration platformConfiguration;
 	
 	protected T element;
 

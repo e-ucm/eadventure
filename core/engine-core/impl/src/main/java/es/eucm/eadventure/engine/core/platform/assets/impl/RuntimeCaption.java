@@ -111,7 +111,7 @@ public class RuntimeCaption implements DrawableAsset<Caption> {
 	 * infinite
 	 */
 	private int loops;
-	
+
 	/**
 	 * Current text wrapped
 	 */
@@ -120,12 +120,13 @@ public class RuntimeCaption implements DrawableAsset<Caption> {
 	private VariableMap valueMap;
 
 	private StringHandler stringHandler;
-	
+
 	private PlatformConfiguration platformConfiguration;
 
 	@Inject
 	public RuntimeCaption(FontCacheImpl fontCache, VariableMap valueMap,
-			StringHandler stringHandler, PlatformConfiguration platformConfiguration) {
+			StringHandler stringHandler,
+			PlatformConfiguration platformConfiguration) {
 		this.fontCache = fontCache;
 		this.valueMap = valueMap;
 		this.stringHandler = stringHandler;
@@ -133,7 +134,9 @@ public class RuntimeCaption implements DrawableAsset<Caption> {
 		logger.info("New instance");
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see es.eucm.eadventure.engine.core.platform.RuntimeAsset#loadAsset()
 	 */
 	@Override
@@ -146,15 +149,19 @@ public class RuntimeCaption implements DrawableAsset<Caption> {
 		return true;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see es.eucm.eadventure.engine.core.platform.RuntimeAsset#freeMemory()
 	 */
 	@Override
 	public void freeMemory() {
-		//DO NOTHING
+		// DO NOTHING
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see es.eucm.eadventure.engine.core.platform.RuntimeAsset#isLoaded()
 	 */
 	@Override
@@ -162,8 +169,12 @@ public class RuntimeCaption implements DrawableAsset<Caption> {
 		return lines != null;
 	}
 
-	/* (non-Javadoc)
-	 * @see es.eucm.eadventure.engine.core.platform.RuntimeAsset#setDescriptor(es.eucm.eadventure.common.resources.assets.AssetDescriptor)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * es.eucm.eadventure.engine.core.platform.RuntimeAsset#setDescriptor(es
+	 * .eucm.eadventure.common.resources.assets.AssetDescriptor)
 	 */
 	@Override
 	public void setDescriptor(Caption descriptor) {
@@ -171,14 +182,17 @@ public class RuntimeCaption implements DrawableAsset<Caption> {
 		loadAsset();
 	}
 
-	/* (non-Javadoc)
-	 * @see es.eucm.eadventure.engine.core.platform.RuntimeAsset#update(es.eucm.eadventure.engine.core.GameState)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see es.eucm.eadventure.engine.core.platform.RuntimeAsset#update(es.eucm.
+	 * eadventure.engine.core.GameState)
 	 */
 	@Override
 	public void update(GameState state) {
 		if (!isLoaded())
 			loadAsset();
-		
+
 		timeShown -= GameLoop.SKIP_MILLIS_TICK;
 		if (timeShown <= 0) {
 			goForward(1);
@@ -186,9 +200,9 @@ public class RuntimeCaption implements DrawableAsset<Caption> {
 
 		text = valueMap.processTextVars(stringHandler.getString(caption
 				.getText()));
-		
+
 		// If text has changed
-		if ( !currentText.equals(text))
+		if (!currentText.equals(text))
 			wrapText();
 	}
 
@@ -222,13 +236,15 @@ public class RuntimeCaption implements DrawableAsset<Caption> {
 		totalParts = 0;
 		bounds = new EAdRectangle(0, 0, 0, 0);
 		lineHeight = font.lineHeight();
-		
-		int maximumWidth = (int) (caption.getMaximumWidth() == Caption.SCREEN_SIZE ? ( platformConfiguration.getWidth() - caption.getPadding() * 2 ) / platformConfiguration.getScale() : caption.getMaximumWidth());
-		int maximumHeight = (int) (caption.getMaximumWidth() < 0 ? platformConfiguration.getHeight() : caption.getMaximumHeight());
-		
 
-		// If width for d	rawing the text is infinite, we have only one line
-		if (maximumWidth == Caption.INFINITE_SIZE ) {
+		int maximumWidth = (int) (caption.getMaximumWidth() == Caption.SCREEN_SIZE ? (platformConfiguration
+				.getWidth() - caption.getPadding() * 2)
+				/ platformConfiguration.getScale() : caption.getMaximumWidth());
+		int maximumHeight = (int) (caption.getMaximumHeight() < 0 ? platformConfiguration
+				.getHeight() : caption.getMaximumHeight());
+
+		// If width for drawing the text is infinite, we have only one line
+		if (maximumWidth == Caption.INFINITE_SIZE) {
 			lines.add(text);
 			totalParts = 1;
 			int lineWidth = font.stringWidth(text);
@@ -249,7 +265,7 @@ public class RuntimeCaption implements DrawableAsset<Caption> {
 
 				int nextWordWidth = font.stringWidth(words[contWord] + " ");
 
-				if (currentLineWidth + nextWordWidth <= maximumWidth ) {
+				if (currentLineWidth + nextWordWidth <= maximumWidth) {
 					currentLineWidth += nextWordWidth;
 					line += words[contWord++] + " ";
 				} else if (line != "") {
@@ -275,13 +291,13 @@ public class RuntimeCaption implements DrawableAsset<Caption> {
 		}
 
 		linesInPart = maximumHeight / lineHeight;
-		linesInPart = linesInPart < lines.size() ?  linesInPart : lines.size();
+		linesInPart = linesInPart < lines.size() ? linesInPart : lines.size();
 		totalParts = (int) Math
 				.ceil((float) lines.size() / (float) linesInPart);
 
 		bounds.height = linesInPart * lineHeight;
-				
-		if ( caption.hasBubble() ){
+
+		if (caption.hasBubble()) {
 			bounds.width += caption.getPadding() * 2;
 			bounds.height += caption.getPadding() * 2;
 		}
@@ -325,17 +341,23 @@ public class RuntimeCaption implements DrawableAsset<Caption> {
 	public void goForward(int i) {
 		currentPart += i;
 		if (currentPart >= totalParts) {
-			if (loops > 0) {
-				while (currentPart >= totalParts) {
-					currentPart -= totalParts;
-					loops--;
-				}
+			while (currentPart >= totalParts) {
+				currentPart -= totalParts;
+				loops--;
 				timesRead++;
-			} else {
-				currentPart = totalParts - 1;
 			}
+			if (loops <= 0)
+				currentPart = totalParts - 1;
 		}
 		updateTimeShown();
+	}
+
+	public int getCurrentPart() {
+		return currentPart;
+	}
+
+	public int getTotalParts() {
+		return totalParts;
 	}
 
 	/**
@@ -392,11 +414,11 @@ public class RuntimeCaption implements DrawableAsset<Caption> {
 		loops = 0;
 		updateTimeShown();
 	}
-	
+
 	public Caption getCaption() {
 		return caption;
 	}
-	
+
 	public EAdRectangle getBounds() {
 		return bounds;
 	}
