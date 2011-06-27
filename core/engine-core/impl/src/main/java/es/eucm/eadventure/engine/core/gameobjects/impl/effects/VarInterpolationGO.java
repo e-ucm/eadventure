@@ -4,8 +4,10 @@ import com.google.inject.Inject;
 
 import es.eucm.eadventure.common.model.effects.impl.EAdVarInterpolationEffect;
 import es.eucm.eadventure.common.model.variables.EAdVar;
+import es.eucm.eadventure.common.model.variables.impl.vars.IntegerVar;
 import es.eucm.eadventure.engine.core.GameLoop;
 import es.eucm.eadventure.engine.core.GameState;
+import es.eucm.eadventure.engine.core.OperatorFactory;
 import es.eucm.eadventure.engine.core.ValueMap;
 
 public class VarInterpolationGO extends
@@ -20,10 +22,15 @@ public class VarInterpolationGO extends
 	private ValueMap valueMap;
 
 	private boolean finished;
+	
+	private OperatorFactory operatorFactory;
 
+	private float startValue;
+	
 	@Inject
-	public VarInterpolationGO(ValueMap valueMap) {
+	public VarInterpolationGO(ValueMap valueMap, OperatorFactory operatorFactory) {
 		this.valueMap = valueMap;
+		this.operatorFactory = operatorFactory;
 	}
 
 	@SuppressWarnings("unchecked")
@@ -32,16 +39,17 @@ public class VarInterpolationGO extends
 		super.initilize();
 		currentTime = 0;
 		integer = element.getVar().getType().equals(Integer.class);
-		interpolationLength = element.getEndValue() - element.getInitialValue();
+		startValue = operatorFactory.operate(new IntegerVar(" "), element.getInitialValue());
+		float endValue = operatorFactory.operate(new IntegerVar(" "), element.getEndValue());
+		interpolationLength = endValue - startValue;
 		finished = false;
-		
+
 		if (integer)
 			valueMap.setValue((EAdVar<Integer>) element.getVar(),
 					(int) element.getInitialValue());
 		else
 			valueMap.setValue((EAdVar<Float>) element.getVar(),
 					(Float) element.getInitialValue());
-
 	}
 
 	@Override
@@ -72,6 +80,7 @@ public class VarInterpolationGO extends
 			}
 		}
 
+		//TODO this should be done "automatically"
 		if (integer)
 			valueMap.setValue((EAdVar<Integer>) element.getVar(),
 					(Integer) interpolation());
@@ -81,7 +90,7 @@ public class VarInterpolationGO extends
 	}
 
 	public Object interpolation() {
-		float f = element.getInitialValue() + (float) currentTime / element.getInterpolationTime() * interpolationLength;
+		float f = startValue + (float) currentTime / element.getInterpolationTime() * interpolationLength;
 		if (integer)
 			return new Integer((int) f);
 		else

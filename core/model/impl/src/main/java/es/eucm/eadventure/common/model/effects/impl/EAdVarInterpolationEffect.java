@@ -3,6 +3,7 @@ package es.eucm.eadventure.common.model.effects.impl;
 import es.eucm.eadventure.common.interfaces.Element;
 import es.eucm.eadventure.common.interfaces.Param;
 import es.eucm.eadventure.common.model.variables.EAdVar;
+import es.eucm.eadventure.common.model.variables.impl.operations.LiteralExpressionOperation;
 
 /**
  * Effect that performs an interpolation between two values in an {@link EAdVar}
@@ -37,10 +38,10 @@ public class EAdVarInterpolationEffect extends AbstractEAdEffect {
 	private EAdVar<?> var;
 
 	@Param("initialValue")
-	private float initialValue;
+	private LiteralExpressionOperation initialValue;
 
 	@Param("endValue")
-	private float endValue;
+	private LiteralExpressionOperation endValue;
 
 	@Param("time")
 	private int interpolationTime;
@@ -48,18 +49,19 @@ public class EAdVarInterpolationEffect extends AbstractEAdEffect {
 	@Param("loop")
 	private LoopType loopType;
 
-	public EAdVarInterpolationEffect(String id, EAdVar<?> var, float initialValue,
-			float endValue, int time, LoopType loop ) {
+	public EAdVarInterpolationEffect(String id) {
 		super(id);
-		this.setInterpolation(var, initialValue, endValue, time, loop);
-	}
-	
-	public EAdVarInterpolationEffect( String id ){
-		this( id, null, 0, 0, 0, null );
 	}
 
-	public void setInterpolation(EAdVar<?> var, float initialValue,
-			float endValue, int time, LoopType loop) {
+	public EAdVarInterpolationEffect(String id, EAdVar<?> var, 
+			LiteralExpressionOperation endValue, int time) {
+		super(id);
+		LiteralExpressionOperation startValue = new LiteralExpressionOperation("id", "[0]", var);
+		setInterpolation(var, startValue, endValue, time, LoopType.NO_LOOP);
+	}
+
+	public void setInterpolation(EAdVar<?> var, LiteralExpressionOperation initialValue,
+			LiteralExpressionOperation endValue, int time, LoopType loop) {
 		this.var = var;
 		this.initialValue = initialValue;
 		this.endValue = endValue;
@@ -67,15 +69,20 @@ public class EAdVarInterpolationEffect extends AbstractEAdEffect {
 		this.loopType = loop;
 	}
 
+	public void setInterpolation(EAdVar<?> var, float initialValue,
+			float endValue, int time, LoopType loop) {
+		setInterpolation(var, new LiteralExpressionOperation("id", "" + initialValue), new LiteralExpressionOperation("" + endValue), time, loop);
+	}
+
 	public EAdVar<?> getVar() {
 		return var;
 	}
 
-	public float getInitialValue() {
+	public LiteralExpressionOperation getInitialValue() {
 		return initialValue;
 	}
 
-	public float getEndValue() {
+	public LiteralExpressionOperation getEndValue() {
 		return endValue;
 	}
 

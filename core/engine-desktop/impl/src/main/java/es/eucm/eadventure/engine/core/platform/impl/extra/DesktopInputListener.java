@@ -46,13 +46,16 @@ import java.util.logging.Logger;
 
 import es.eucm.eadventure.common.model.EAdElement;
 import es.eucm.eadventure.common.model.params.guievents.EAdKeyEvent.KeyActionType;
+import es.eucm.eadventure.common.model.params.guievents.EAdKeyEvent.KeyCode;
 import es.eucm.eadventure.common.model.params.guievents.EAdMouseEvent.MouseActionType;
 import es.eucm.eadventure.engine.core.KeyboardState;
 import es.eucm.eadventure.engine.core.MouseState;
 import es.eucm.eadventure.engine.core.gameobjects.GameObject;
 import es.eucm.eadventure.engine.core.guiactions.DropAction;
+import es.eucm.eadventure.engine.core.guiactions.KeyAction;
 import es.eucm.eadventure.engine.core.guiactions.MouseAction;
 import es.eucm.eadventure.engine.core.guiactions.impl.DropActionImpl;
+import es.eucm.eadventure.engine.core.guiactions.impl.KeyActionImpl;
 import es.eucm.eadventure.engine.core.guiactions.impl.MouseActionImpl;
 
 /**
@@ -88,7 +91,7 @@ public class DesktopInputListener implements MouseListener,
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
-		MouseAction action = MouseActionFactory.getMouseAction(e,
+		MouseAction action = getMouseAction(e,
 				mouseState.getVirtualMouseX(), mouseState.getVirtualMouseY(), true);
 		if (action != null)
 			mouseState.getMouseEvents().add(action);
@@ -99,7 +102,7 @@ public class DesktopInputListener implements MouseListener,
 		mouseState.setMousePressed(true);
 		mouseState.setMousePosition(e.getX(), e.getY());
 		
-		MouseAction action = MouseActionFactory.getMouseAction(e,
+		MouseAction action = getMouseAction(e,
 				mouseState.getVirtualMouseX(), mouseState.getVirtualMouseY(), false);
 		if (action != null)
 			mouseState.getMouseEvents().add(action);
@@ -150,14 +153,14 @@ public class DesktopInputListener implements MouseListener,
 	@Override
 	public void keyTyped(KeyEvent e) {
 		keyboardState.getKeyActions().add(
-				KeyboardActionFactory.getKeyboardAction(
+				getKeyboardAction(
 						KeyActionType.KEY_TYPED, e));
 	}
 
 	@Override
 	public void keyPressed(KeyEvent e) {
 		keyboardState.getKeyActions().add(
-				KeyboardActionFactory.getKeyboardAction(
+				getKeyboardAction(
 						KeyActionType.KEY_PRESSED, e));
 
 		// TODO should be done by the GUI or the BasicHUDGO?
@@ -173,5 +176,60 @@ public class DesktopInputListener implements MouseListener,
 	public void keyReleased(KeyEvent e) {
 
 	}
+	
+	/**
+	 * Get the GUI {@link KeyAction}, form the Java {@link KeyActionType}
+	 * 
+	 * @param actionType The action type
+	 * @param keyEvent The key event
+	 * @return The GUI {@link KeyAction}
+	 */
+	public KeyAction getKeyboardAction(KeyActionType actionType, KeyEvent keyEvent) {
+		switch (keyEvent.getKeyCode()) {
+		case KeyEvent.VK_UP:
+			return new KeyActionImpl(actionType, KeyCode.ARROW_UP);
+		case KeyEvent.VK_DOWN:
+			return new KeyActionImpl(actionType, KeyCode.ARROW_DOWN);
+		case KeyEvent.VK_LEFT:
+			return new KeyActionImpl(actionType, KeyCode.ARROW_LEFT);
+		case KeyEvent.VK_RIGHT:
+			return new KeyActionImpl(actionType, KeyCode.ARROW_RIGHT);
+		case KeyEvent.VK_ENTER:
+			return new KeyActionImpl(actionType, KeyCode.RETURN);
+		case KeyEvent.VK_ESCAPE:
+			return new KeyActionImpl(actionType, KeyCode.ESC);
+		}
+		if (keyEvent.getKeyChar() != 0)
+			return new KeyActionImpl(actionType, keyEvent.getKeyChar());
+		return null;
+	}
+	
+	/**
+	 * Get the GUI {@link MouseAction} from the Java {@link MouseEvent}, given the position in the virtual GUI representation
+	 * 
+	 * @param e The Java {@link MouseEvent}
+	 * @param virtualX The position along the X axis
+	 * @param virtualY The position along the Y axis
+	 * @param click True if the mouse button is clicked
+	 * @return The GUI {@link MouseAction}
+	 */
+	public MouseAction getMouseAction(MouseEvent e, int virtualX, int virtualY, boolean click) {
+		if (e.getButton() == MouseEvent.NOBUTTON) {
+			return null; //new MouseActionImpl(MouseAction.MouseActionType.MOVED, virtualX, virtualY);
+		} else if (e.getButton() == MouseEvent.BUTTON1 && e.getClickCount() == 1 && !click) {
+			return new MouseActionImpl(MouseActionType.PRESSED, virtualX, virtualY);
+		} else if (e.getButton() == MouseEvent.BUTTON1 && e.getClickCount() == 1 && click) {
+			return new MouseActionImpl(MouseActionType.LEFT_CLICK, virtualX, virtualY);
+		} else if (e.getButton() == MouseEvent.BUTTON1 && e.getClickCount() == 2 && click) {
+			return new MouseActionImpl(MouseActionType.DOUBLE_CLICK, virtualX, virtualY);
+		} else if (e.getButton() == MouseEvent.BUTTON3 && e.getClickCount() == 1 && click) {
+			return new MouseActionImpl(MouseActionType.RIGHT_CLICK, virtualX, virtualY);
+		} else if (e.getButton() == MouseEvent.BUTTON1 && e.getClickCount() == 0 && click) {
+			return null;
+		}
+	 	return null;
+		
+	}
+
 
 }
