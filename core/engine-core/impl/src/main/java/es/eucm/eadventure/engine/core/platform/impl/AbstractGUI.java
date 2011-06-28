@@ -40,9 +40,11 @@ package es.eucm.eadventure.engine.core.platform.impl;
 import java.util.List;
 import java.util.logging.Logger;
 
+import es.eucm.eadventure.common.model.elements.EAdSceneElement;
 import es.eucm.eadventure.common.model.params.guievents.EAdMouseEvent.MouseActionType;
 import es.eucm.eadventure.engine.core.KeyboardState;
 import es.eucm.eadventure.engine.core.MouseState;
+import es.eucm.eadventure.engine.core.ValueMap;
 import es.eucm.eadventure.engine.core.gameobjects.GameObject;
 import es.eucm.eadventure.engine.core.gameobjects.GameObjectManager;
 import es.eucm.eadventure.engine.core.guiactions.KeyAction;
@@ -104,17 +106,21 @@ public abstract class AbstractGUI<T> implements GUI {
 	 * The current keyboard state
 	 */
 	protected KeyboardState keyboardState;
+	
+	protected ValueMap valueMap;
 
 	@SuppressWarnings({ "unchecked" })
 	public AbstractGUI(PlatformConfiguration platformConfiguration,
 			GraphicRendererFactory<?> assetRendererFactory,
 			GameObjectManager gameObjectManager, MouseState mouseState,
-			KeyboardState keyboardState) {
+			KeyboardState keyboardState,
+			ValueMap valueMap) {
 		this.platformConfiguration = platformConfiguration;
 		this.graphicRendererFactory = (GraphicRendererFactory<T>) assetRendererFactory;
 		this.gameObjects = gameObjectManager;
 		this.mouseState = mouseState;
 		this.keyboardState = keyboardState;
+		this.valueMap = valueMap;
 	}
 
 	/*
@@ -189,8 +195,10 @@ public abstract class AbstractGUI<T> implements GUI {
 
 			for (int i = gameObjects.getGameObjects().size() - 1; i >= 0
 					&& mouseState.getGameObjectUnderMouse() == null; i--) {
-				GameObject<?> tempGameObject = gameObjects.getGameObjects()
-						.get(i);
+				GameObject<?> tempGameObject = gameObjects.getGameObjects().get(i);
+				if (tempGameObject.getElement() instanceof EAdSceneElement
+						&& !valueMap.getValue(((EAdSceneElement) tempGameObject.getElement()).visibleVar()))
+					continue;
 				int[] offset = gameObjects.getOffsets().get(i);
 
 				if (graphicRendererFactory.contains(tempGameObject,

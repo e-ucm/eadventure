@@ -8,11 +8,13 @@ import java.util.Map;
 import es.eucm.eadventure.common.model.conditions.impl.EmptyCondition;
 import es.eucm.eadventure.common.model.conditions.impl.VarCondition.Operator;
 import es.eucm.eadventure.common.model.conditions.impl.VarValCondition;
+import es.eucm.eadventure.common.model.effects.EAdEffect;
 import es.eucm.eadventure.common.model.effects.impl.EAdActorActionsEffect;
 import es.eucm.eadventure.common.model.effects.impl.EAdChangeAppearance;
 import es.eucm.eadventure.common.model.effects.impl.EAdMoveSceneElement;
 import es.eucm.eadventure.common.model.effects.impl.EAdMoveSceneElement.MovementSpeed;
 import es.eucm.eadventure.common.model.effects.impl.EAdVarInterpolationEffect;
+import es.eucm.eadventure.common.model.effects.impl.variables.EAdChangeVarValueEffect;
 import es.eucm.eadventure.common.model.elements.EAdActor;
 import es.eucm.eadventure.common.model.elements.impl.EAdActorReferenceImpl;
 import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
@@ -21,6 +23,7 @@ import es.eucm.eadventure.common.model.guievents.impl.EAdMouseEventImpl;
 import es.eucm.eadventure.common.model.params.EAdBorderedColor;
 import es.eucm.eadventure.common.model.params.EAdPosition;
 import es.eucm.eadventure.common.model.params.EAdPosition.Corner;
+import es.eucm.eadventure.common.model.variables.impl.operations.BooleanOperation;
 import es.eucm.eadventure.common.model.variables.impl.operations.LiteralExpressionOperation;
 import es.eucm.eadventure.common.resources.EAdBundleId;
 import es.eucm.eadventure.common.resources.assets.drawable.impl.ImageImpl;
@@ -94,11 +97,11 @@ public class DesktopBasicInventoryGO extends BasicInventoryGO {
 		
 		RectangleShape rect = new RectangleShape(800, SENSE_HEIGHT + 2, EAdBorderedColor.TRANSPARENT);
 
+		createCenterPart();
+
 		bottomSensor = createSensorPart(rect, 601, 600, 700);
 		
-		topSensor = createSensorPart(rect, -1, 100, 0);
-		
-		createCenterPart();
+		topSensor = createSensorPart(rect, -1, 100, 0);		
 		
 		includedActors = new HashMap<EAdActor, EAdActorReferenceImpl>();
 	}
@@ -141,11 +144,17 @@ public class DesktopBasicInventoryGO extends BasicInventoryGO {
 		centerSensor.getResources().addAsset(centerSensor.getInitialBundle(), EAdBasicSceneElement.appearance,  new RectangleShape(800, 600, EAdBorderedColor.TRANSPARENT));
 		centerSensor.setPosition(new EAdPosition(Corner.TOP_LEFT, 0, 0));
 		
-		EAdMoveSceneElement e2 = new EAdMoveSceneElement("hideInventoryBottom", inventory, 0, 700, MovementSpeed.NORMAL);
+		EAdEffect e2 = new EAdMoveSceneElement("hideInventoryBottom", inventory, 0, 700, MovementSpeed.NORMAL);
+		e2.setCondition(new VarValCondition(inventory.positionYVar(), 350, Operator.GREATER));
+		centerSensor.addBehavior(EAdMouseEventImpl.MOUSE_MOVED, e2);
+		e2 = new EAdChangeVarValueEffect("id", centerSensor.visibleVar(), BooleanOperation.FALSE_OP);
 		e2.setCondition(new VarValCondition(inventory.positionYVar(), 350, Operator.GREATER));
 		centerSensor.addBehavior(EAdMouseEventImpl.MOUSE_MOVED, e2);
 
 		e2 = new EAdMoveSceneElement("hideInventoryTop", inventory, 0, 0, MovementSpeed.NORMAL);
+		e2.setCondition(new VarValCondition(inventory.positionYVar(), 350, Operator.LESS));
+		centerSensor.addBehavior(EAdMouseEventImpl.MOUSE_MOVED, e2);
+		e2 = new EAdChangeVarValueEffect("id", centerSensor.visibleVar(), BooleanOperation.FALSE_OP);
 		e2.setCondition(new VarValCondition(inventory.positionYVar(), 350, Operator.LESS));
 		centerSensor.addBehavior(EAdMouseEventImpl.MOUSE_MOVED, e2);
 	}
@@ -165,9 +174,11 @@ public class DesktopBasicInventoryGO extends BasicInventoryGO {
 		part.getResources().addAsset(part.getInitialBundle(), EAdBasicSceneElement.appearance, rect);
 		part.setPosition(new EAdPosition(Corner.BOTTOM_LEFT, 0, sensorPos));
 		
-		EAdMoveSceneElement e = new EAdMoveSceneElement("moveInventory", inventory, 0, hidePos, MovementSpeed.INSTANT);
+		EAdEffect e = new EAdMoveSceneElement("moveInventory", inventory, 0, hidePos, MovementSpeed.INSTANT);
 		part.addBehavior(EAdMouseEventImpl.MOUSE_ENTERED, e);
 		e = new EAdMoveSceneElement("showInventory", inventory, 0, inventoryPos, MovementSpeed.FAST);
+		part.addBehavior(EAdMouseEventImpl.MOUSE_ENTERED, e);
+		e = new EAdChangeVarValueEffect("showCentralSensor", centerSensor.visibleVar(), BooleanOperation.TRUE_OP);
 		part.addBehavior(EAdMouseEventImpl.MOUSE_ENTERED, e);
 		return part;
 	}

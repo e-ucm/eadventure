@@ -60,6 +60,7 @@ import com.google.inject.Singleton;
 import es.eucm.eadventure.common.resources.assets.drawable.Image;
 import es.eucm.eadventure.engine.core.KeyboardState;
 import es.eucm.eadventure.engine.core.MouseState;
+import es.eucm.eadventure.engine.core.ValueMap;
 import es.eucm.eadventure.engine.core.gameobjects.GameObjectManager;
 import es.eucm.eadventure.engine.core.gameobjects.huds.BasicHUD;
 import es.eucm.eadventure.engine.core.guiactions.KeyAction;
@@ -114,9 +115,9 @@ public class DesktopGUI extends AbstractGUI<Graphics2D> implements GUI {
 	public DesktopGUI(PlatformConfiguration platformConfiguration,
 			GraphicRendererFactory<?> assetRendererFactory,
 			GameObjectManager gameObjectManager, MouseState mouseState,
-			KeyboardState keyboardState, BasicHUD basicDesktopHUD) {
+			KeyboardState keyboardState, BasicHUD basicDesktopHUD, ValueMap valueMap) {
 		super(platformConfiguration, assetRendererFactory, gameObjectManager,
-				mouseState, keyboardState);
+				mouseState, keyboardState, valueMap);
 		this.gameObjects.addHUD(basicDesktopHUD);
 		try {
 			this.robot = new Robot();
