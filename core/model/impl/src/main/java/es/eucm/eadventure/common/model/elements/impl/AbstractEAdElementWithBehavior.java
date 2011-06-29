@@ -1,7 +1,7 @@
 package es.eucm.eadventure.common.model.elements.impl;
 
 import es.eucm.eadventure.common.interfaces.Param;
-import es.eucm.eadventure.common.model.EAdElementList;
+import es.eucm.eadventure.common.model.EAdList;
 import es.eucm.eadventure.common.model.behavior.EAdBehavior;
 import es.eucm.eadventure.common.model.behaviors.impl.EAdBehaviorImpl;
 import es.eucm.eadventure.common.model.effects.EAdEffect;
@@ -18,7 +18,7 @@ public abstract class AbstractEAdElementWithBehavior extends AbstractEAdElement 
 		this.behavior = new EAdBehaviorImpl(id + "behaviors");
 	}
 	
-	public EAdElementList<EAdEffect> getEffects(EAdGUIEvent event) {
+	public EAdList<EAdEffect> getEffects(EAdGUIEvent event) {
 		return behavior.getEffects(event);
 	}
 
@@ -36,7 +36,7 @@ public abstract class AbstractEAdElementWithBehavior extends AbstractEAdElement 
 
 
 	public void addBehavior(EAdGUIEvent event,
-			EAdElementList<EAdEffect> effects) {
+			EAdList<EAdEffect> effects) {
 		behavior.addBehavior(event, effects);
 	}
 

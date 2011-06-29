@@ -38,12 +38,12 @@
 package es.eucm.eadventure.common.model.behaviors.impl;
 
 import es.eucm.eadventure.common.interfaces.Element;
-import es.eucm.eadventure.common.model.EAdElementList;
+import es.eucm.eadventure.common.model.EAdList;
 import es.eucm.eadventure.common.model.EAdMap;
 import es.eucm.eadventure.common.model.behavior.EAdBehavior;
 import es.eucm.eadventure.common.model.effects.EAdEffect;
 import es.eucm.eadventure.common.model.impl.AbstractEAdElement;
-import es.eucm.eadventure.common.model.impl.EAdElementListImpl;
+import es.eucm.eadventure.common.model.impl.EAdListImpl;
 import es.eucm.eadventure.common.model.impl.EAdMapImpl;
 import es.eucm.eadventure.common.model.params.guievents.EAdGUIEvent;
 
@@ -64,7 +64,7 @@ public class EAdBehaviorImpl extends AbstractEAdElement implements EAdBehavior {
 	/**
 	 * All behaviors contained by this bundle, associated with its events
 	 */
-	protected EAdMap<String, EAdElementList<EAdEffect>> behavior;
+	protected EAdMap<String, EAdList<EAdEffect>> behavior;
 
 	/**
 	 * Constructs an empty behavior
@@ -76,8 +76,8 @@ public class EAdBehaviorImpl extends AbstractEAdElement implements EAdBehavior {
 	 */
 	public EAdBehaviorImpl(String id) {
 		super(id);
-		behavior = new EAdMapImpl<String, EAdElementList<EAdEffect>>(id
-				+ "_behavior", String.class, EAdElementList.class);
+		behavior = new EAdMapImpl<String, EAdList<EAdEffect>>(id
+				+ "_behavior", String.class, EAdList.class);
 	}
 
 	/*
@@ -90,9 +90,9 @@ public class EAdBehaviorImpl extends AbstractEAdElement implements EAdBehavior {
 	 */
 	@Override
 	public void addBehavior(EAdGUIEvent event, EAdEffect effect) {
-		EAdElementList<EAdEffect> list = behavior.get(event.toString());
+		EAdList<EAdEffect> list = behavior.get(event.toString());
 		if (list == null) {
-			list = new EAdElementListImpl<EAdEffect>(EAdEffect.class);
+			list = new EAdListImpl<EAdEffect>(EAdEffect.class);
 			list.add(effect);
 			behavior.put(event.toString(), list);
 		} else
@@ -107,12 +107,12 @@ public class EAdBehaviorImpl extends AbstractEAdElement implements EAdBehavior {
 	 * .eadventure.common.model.params.guievents.EAdGUIEvent)
 	 */
 	@Override
-	public EAdElementList<EAdEffect> getEffects(EAdGUIEvent event) {
+	public EAdList<EAdEffect> getEffects(EAdGUIEvent event) {
 		return behavior.get(event.toString());
 	}
 
 	@Override
-	public void addBehavior(EAdGUIEvent event, EAdElementList<EAdEffect> effects) {
+	public void addBehavior(EAdGUIEvent event, EAdList<EAdEffect> effects) {
 		for (int i = effects.size() - 1; i >= 0; i--)
 			addBehavior(event, effects.get(i));
 	}

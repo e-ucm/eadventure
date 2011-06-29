@@ -37,9 +37,9 @@
 
 package es.eucm.eadventure.common.model.variables.impl;
 
-import es.eucm.eadventure.common.model.EAdElementList;
+import es.eucm.eadventure.common.model.EAdList;
 import es.eucm.eadventure.common.model.impl.AbstractEAdElement;
-import es.eucm.eadventure.common.model.impl.EAdElementListImpl;
+import es.eucm.eadventure.common.model.impl.EAdListImpl;
 import es.eucm.eadventure.common.model.variables.EAdOperation;
 import es.eucm.eadventure.common.model.variables.EAdVar;
 
@@ -48,14 +48,14 @@ public abstract class EAdOperationImpl extends AbstractEAdElement implements EAd
 	/**
 	 * List of the variables
 	 */
-	protected EAdElementList<EAdVar<?>> varList;
+	protected EAdList<EAdVar<?>> varList;
 
 	public EAdOperationImpl(String id) {
 		super(id);
-		varList = new EAdElementListImpl<EAdVar<?>>(EAdVar.class);
+		varList = new EAdListImpl<EAdVar<?>>(EAdVar.class);
 	}
 	
-	public EAdElementList<EAdVar<?>> getVarList() {
+	public EAdList<EAdVar<?>> getVarList() {
 		return varList;
 	}
 

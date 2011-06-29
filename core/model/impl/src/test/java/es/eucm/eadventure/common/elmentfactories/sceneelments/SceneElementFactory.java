@@ -50,11 +50,11 @@ public class SceneElementFactory {
 		sceneElement.getResources().addBundle(bundle);
 		sceneElement.getResources().addAsset(bundle,
 				EAdBasicSceneElement.appearance, appearance2);
-		sceneElement.addBehavior(EAdMouseEventImpl.MOUSE_LEFT_CLICK,
+		sceneElement.addBehavior(EAdMouseEventImpl.MOUSE_ENTERED,
 				EAdElementsFactory.getInstance().getEffectFactory()
 						.getChangeAppearance(sceneElement, bundle));
 		sceneElement.addBehavior(
-				EAdMouseEventImpl.MOUSE_RIGHT_CLICK,
+				EAdMouseEventImpl.MOUSE_EXITED,
 				EAdElementsFactory
 						.getInstance()
 						.getEffectFactory()

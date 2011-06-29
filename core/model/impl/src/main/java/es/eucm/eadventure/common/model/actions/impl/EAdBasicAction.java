@@ -39,11 +39,11 @@ package es.eucm.eadventure.common.model.actions.impl;
 
 import es.eucm.eadventure.common.interfaces.Element;
 import es.eucm.eadventure.common.interfaces.Param;
-import es.eucm.eadventure.common.model.EAdElementList;
+import es.eucm.eadventure.common.model.EAdList;
 import es.eucm.eadventure.common.model.actions.EAdAction;
 import es.eucm.eadventure.common.model.effects.EAdEffect;
 import es.eucm.eadventure.common.model.impl.AbstractEAdConditionedElement;
-import es.eucm.eadventure.common.model.impl.EAdElementListImpl;
+import es.eucm.eadventure.common.model.impl.EAdListImpl;
 import es.eucm.eadventure.common.resources.EAdBundleId;
 import es.eucm.eadventure.common.resources.EAdString;
 import es.eucm.eadventure.common.resources.annotation.Asset;
@@ -60,20 +60,20 @@ public class EAdBasicAction extends AbstractEAdConditionedElement implements EAd
 	@Param("name")
 	private EAdString name;
 
-	private EAdElementList<EAdEffect> effects;
+	private EAdList<EAdEffect> effects;
 
 	private EAdBundleId highlightBundle;
 	
 	public EAdBasicAction(String id) {
 		super(id);
-		effects = new EAdElementListImpl<EAdEffect>(EAdEffect.class);
+		effects = new EAdListImpl<EAdEffect>(EAdEffect.class);
 		highlightBundle = new EAdBundleId(id + "_highlightBundle");
 		//FIXME 
 		//this.getResources().addBundle(highlightBundle);
 	}
 
 	@Override
-	public EAdElementList<EAdEffect> getEffects() {
+	public EAdList<EAdEffect> getEffects() {
 		return effects;
 	}
 

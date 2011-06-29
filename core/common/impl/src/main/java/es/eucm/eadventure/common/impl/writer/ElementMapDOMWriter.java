@@ -46,7 +46,7 @@ import org.w3c.dom.Node;
 import org.w3c.dom.Element;
 
 import es.eucm.eadventure.common.model.EAdElement;
-import es.eucm.eadventure.common.model.EAdElementList;
+import es.eucm.eadventure.common.model.EAdList;
 import es.eucm.eadventure.common.model.EAdMap;
 
 public class ElementMapDOMWriter extends DOMWriter<EAdMap<?, ?>> {
@@ -76,8 +76,8 @@ public class ElementMapDOMWriter extends DOMWriter<EAdMap<?, ?>> {
     		for (Object o : map.keySet()) {
     			Element entryNode = doc.createElement( "entry" );
     			entryNode.setAttribute("key", o.toString());
-    			if (map.get(o) instanceof EAdElementList) {
-					EAdElementList<?> list = (EAdElementList<?>) map.get(o);
+    			if (map.get(o) instanceof EAdList) {
+					EAdList<?> list = (EAdList<?>) map.get(o);
 					ElementListDOMWriter listWriter = new ElementListDOMWriter(o.toString());
 					Node listNode = listWriter.buildNode(list);
 					doc.adoptNode(listNode);

@@ -38,7 +38,7 @@
 package es.eucm.eadventure.common.model.elements;
 
 import es.eucm.eadventure.common.model.EAdElement;
-import es.eucm.eadventure.common.model.EAdElementList;
+import es.eucm.eadventure.common.model.EAdList;
 import es.eucm.eadventure.common.model.variables.EAdVar;
 
 /**
@@ -50,7 +50,7 @@ public interface EAdScene extends EAdElement {
 	/**
 	 * @return the {@link EAdSceneElement}s that make up the scene
 	 */
-	EAdElementList<EAdSceneElement> getSceneElements();
+	EAdList<EAdSceneElement> getSceneElements();
 	
 	/**
 	 * @return the background element of the scene

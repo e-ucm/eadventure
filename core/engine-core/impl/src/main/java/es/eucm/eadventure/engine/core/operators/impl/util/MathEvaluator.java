@@ -37,7 +37,7 @@
 
 package es.eucm.eadventure.engine.core.operators.impl.util;
 
-import es.eucm.eadventure.common.model.EAdElementList;
+import es.eucm.eadventure.common.model.EAdList;
 import es.eucm.eadventure.common.model.variables.EAdVar;
 import es.eucm.eadventure.engine.core.ValueMap;
 
@@ -66,7 +66,7 @@ public class MathEvaluator {
 	private Node node = null;
 	private String expression = null;
 	private ValueMap variables;
-	EAdElementList<EAdVar<?>> varList;
+	EAdList<EAdVar<?>> varList;
 
 	/***
 	 * creates an empty MathEvaluator. You need to use setExpression(String s)
@@ -80,7 +80,7 @@ public class MathEvaluator {
 	 * creates a MathEvaluator and assign the math expression string.
 	 */
 	public MathEvaluator(String s, ValueMap variables,
-			EAdElementList<EAdVar<?>> varList) {
+			EAdList<EAdVar<?>> varList) {
 		init();
 		setExpression(s, variables, varList);
 	}
@@ -96,7 +96,7 @@ public class MathEvaluator {
 	 * @param eAdElementList
 	 */
 	public void setExpression(String s, ValueMap variables,
-			EAdElementList<EAdVar<?>> varList) {
+			EAdList<EAdVar<?>> varList) {
 		expression = s;
 		this.variables = variables;
 		this.varList = varList;

@@ -49,7 +49,7 @@ import es.eucm.eadventure.common.impl.reader.subparsers.extra.EntryData;
 import es.eucm.eadventure.common.impl.reader.subparsers.extra.ObjectFactory;
 import es.eucm.eadventure.common.model.EAdAdventureModel;
 import es.eucm.eadventure.common.model.EAdElement;
-import es.eucm.eadventure.common.model.EAdElementList;
+import es.eucm.eadventure.common.model.EAdList;
 import es.eucm.eadventure.common.model.EAdMap;
 import es.eucm.eadventure.common.resources.EAdResources;
 
@@ -122,8 +122,8 @@ public class AdventureHandler extends DefaultHandler {
 			subparserStack.push(mapSubparser);
 		} else if (qName.equals("entry") && elementStack.peek() instanceof EAdMap) {
 			subparserStack.push(new EntrySubparser((EAdMap<?, ?>) elementStack.peek(), attributes));
-		} else if (qName.equals("entry") && elementStack.peek() instanceof EAdElementList) {
-			subparserStack.push(new EntrySubparser((EAdElementList<?>) elementStack.peek(), attributes));
+		} else if (qName.equals("entry") && elementStack.peek() instanceof EAdList) {
+			subparserStack.push(new EntrySubparser((EAdList<?>) elementStack.peek(), attributes));
 		}
 	}
 

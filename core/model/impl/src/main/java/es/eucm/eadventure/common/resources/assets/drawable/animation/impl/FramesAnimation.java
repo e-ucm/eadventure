@@ -37,16 +37,16 @@
 
 package es.eucm.eadventure.common.resources.assets.drawable.animation.impl;
 
-import es.eucm.eadventure.common.model.EAdElementList;
-import es.eucm.eadventure.common.model.impl.EAdElementListImpl;
+import es.eucm.eadventure.common.model.EAdList;
+import es.eucm.eadventure.common.model.impl.EAdListImpl;
 import es.eucm.eadventure.common.resources.assets.drawable.Drawable;
 
 public class FramesAnimation implements Drawable {
 
-	private EAdElementList<Frame> frames;
+	private EAdList<Frame> frames;
 	
 	public FramesAnimation() {
-		frames = new EAdElementListImpl<Frame>(Frame.class);
+		frames = new EAdListImpl<Frame>(Frame.class);
 	}
 	
 	public void addFrame(Frame frame) {

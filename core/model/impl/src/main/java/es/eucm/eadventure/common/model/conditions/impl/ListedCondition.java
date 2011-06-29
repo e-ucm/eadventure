@@ -40,10 +40,10 @@ package es.eucm.eadventure.common.model.conditions.impl;
 import java.util.Iterator;
 
 import es.eucm.eadventure.common.interfaces.Param;
-import es.eucm.eadventure.common.model.EAdElementList;
+import es.eucm.eadventure.common.model.EAdList;
 import es.eucm.eadventure.common.model.elements.EAdCondition;
 import es.eucm.eadventure.common.model.impl.AbstractEAdElement;
-import es.eucm.eadventure.common.model.impl.EAdElementListImpl;
+import es.eucm.eadventure.common.model.impl.EAdListImpl;
 
 public abstract class ListedCondition extends AbstractEAdElement implements EAdCondition {
 
@@ -69,7 +69,7 @@ public abstract class ListedCondition extends AbstractEAdElement implements EAdC
 		OTHER
 	}
 	
-	private EAdElementList<EAdCondition> conditions;
+	private EAdList<EAdCondition> conditions;
 	
 	@Param("operator")
 	private Operator operator;
@@ -80,7 +80,7 @@ public abstract class ListedCondition extends AbstractEAdElement implements EAdC
 	
 	public ListedCondition(String id, Operator operator, EAdCondition... condition) {
 		super(id);
-		conditions = new EAdElementListImpl<EAdCondition>(EAdCondition.class);
+		conditions = new EAdListImpl<EAdCondition>(EAdCondition.class);
 		for (int i = 0; i < condition.length; i++)
 			if ( condition[i] != null )
 				conditions.add(condition[i]);
@@ -114,7 +114,7 @@ public abstract class ListedCondition extends AbstractEAdElement implements EAdC
 		return conditions.iterator();
 	}
 	
-	public EAdElementList<EAdCondition> getConds() {
+	public EAdList<EAdCondition> getConds() {
 		return conditions;
 	}
 	

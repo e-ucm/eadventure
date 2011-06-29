@@ -39,9 +39,9 @@ package es.eucm.eadventure.common.model.effects.impl.variables;
 
 import es.eucm.eadventure.common.interfaces.Element;
 import es.eucm.eadventure.common.interfaces.Param;
-import es.eucm.eadventure.common.model.EAdElementList;
+import es.eucm.eadventure.common.model.EAdList;
 import es.eucm.eadventure.common.model.effects.impl.AbstractEAdEffect;
-import es.eucm.eadventure.common.model.impl.EAdElementListImpl;
+import es.eucm.eadventure.common.model.impl.EAdListImpl;
 import es.eucm.eadventure.common.model.variables.EAdOperation;
 import es.eucm.eadventure.common.model.variables.EAdVar;
 
@@ -56,7 +56,7 @@ public class EAdChangeVarValueEffect extends AbstractEAdEffect {
 	 * Variable to be changed
 	 */
 	@Param("vars")
-	private EAdElementList<EAdVar<?>> vars;
+	private EAdList<EAdVar<?>> vars;
 
 	/**
 	 * Operation to be done. The result of this operation should be assigned to
@@ -88,7 +88,7 @@ public class EAdChangeVarValueEffect extends AbstractEAdEffect {
 	public EAdChangeVarValueEffect(String id, EAdVar<?> var,
 			EAdOperation operation) {
 		super(id);
-		this.vars = new EAdElementListImpl<EAdVar<?>>(EAdVar.class);
+		this.vars = new EAdListImpl<EAdVar<?>>(EAdVar.class);
 		if (var != null)
 			vars.add(var);
 		this.operation = operation;
@@ -120,7 +120,7 @@ public class EAdChangeVarValueEffect extends AbstractEAdEffect {
 	 * 
 	 * @return the var to be updated with the operation result
 	 */
-	public EAdElementList<EAdVar<?>> getVars() {
+	public EAdList<EAdVar<?>> getVars() {
 		return vars;
 	}
 

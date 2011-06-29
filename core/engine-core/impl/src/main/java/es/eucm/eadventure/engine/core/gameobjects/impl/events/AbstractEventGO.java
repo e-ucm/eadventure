@@ -37,7 +37,7 @@
 
 package es.eucm.eadventure.engine.core.gameobjects.impl.events;
 
-import es.eucm.eadventure.common.model.EAdElementList;
+import es.eucm.eadventure.common.model.EAdList;
 import es.eucm.eadventure.common.model.effects.EAdEffect;
 import es.eucm.eadventure.common.model.events.EAdEvent;
 import es.eucm.eadventure.engine.core.gameobjects.GameObject;
@@ -53,7 +53,7 @@ public abstract class AbstractEventGO<T extends EAdEvent> extends AbstractGameOb
 		
 	}
 
-	protected void runEffects(EAdElementList<EAdEffect> effects) {
+	protected void runEffects(EAdList<EAdEffect> effects) {
 		if (effects != null) {
 			for (EAdEffect effect : effects)
 				gameState.addEffect(effect);

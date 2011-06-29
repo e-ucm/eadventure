@@ -38,7 +38,7 @@
 package es.eucm.eadventure.common.model.events;
 
 import es.eucm.eadventure.common.model.EAdElement;
-import es.eucm.eadventure.common.model.EAdElementList;
+import es.eucm.eadventure.common.model.EAdList;
 import es.eucm.eadventure.common.model.effects.EAdEffect;
 
 /**
@@ -52,7 +52,7 @@ public interface EAdEvent extends EAdElement {
 	 * 
 	 * @return The list of effects
 	 */
-	EAdElementList<EAdEffect> getEffects(Enum<?> event);
+	EAdList<EAdEffect> getEffects(Enum<?> event);
 	
 	void addEffect(Enum<?> event, EAdEffect effect);
 

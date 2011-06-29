@@ -44,9 +44,9 @@ import java.util.logging.Logger;
 import org.xml.sax.Attributes;
 
 import es.eucm.eadventure.common.model.EAdElement;
-import es.eucm.eadventure.common.model.EAdElementList;
+import es.eucm.eadventure.common.model.EAdList;
 import es.eucm.eadventure.common.model.EAdMap;
-import es.eucm.eadventure.common.model.impl.EAdElementListImpl;
+import es.eucm.eadventure.common.model.impl.EAdListImpl;
 
 /**
  * Subparser for the list element.
@@ -59,7 +59,7 @@ public class ListSubparser extends Subparser {
 	/**
 	 * The list of elements.
 	 */
-	protected EAdElementList<Object> elementList;
+	protected EAdList<Object> elementList;
 
 	public ListSubparser(EAdElement peek, Attributes attributes) {
 		init(peek, attributes);
@@ -69,12 +69,12 @@ public class ListSubparser extends Subparser {
 	protected void init(EAdElement peek, Attributes attributes) {
 		String name = attributes.getValue("name");
 		if (peek instanceof EAdMap) {
-			elementList = new EAdElementListImpl<Object>(Object.class);
+			elementList = new EAdListImpl<Object>(Object.class);
 		} else { 
 			Field field = getField(peek, name);
 			try {
 				field.setAccessible(true);
-				elementList = (EAdElementList<Object>) field.get(peek);
+				elementList = (EAdList<Object>) field.get(peek);
 				field.setAccessible(false);
 			} catch (IllegalArgumentException e) {
 				logger.log(Level.SEVERE, e.getMessage(), e);

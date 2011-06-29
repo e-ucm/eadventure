@@ -38,9 +38,9 @@
 package es.eucm.eadventure.common.model.effects.impl;
 
 import es.eucm.eadventure.common.interfaces.Element;
-import es.eucm.eadventure.common.model.EAdElementList;
+import es.eucm.eadventure.common.model.EAdList;
 import es.eucm.eadventure.common.model.effects.EAdEffect;
-import es.eucm.eadventure.common.model.impl.EAdElementListImpl;
+import es.eucm.eadventure.common.model.impl.EAdListImpl;
 
 /**
  * This effects cancels other effects
@@ -52,7 +52,7 @@ public class EAdCancelEffect extends AbstractEAdEffect {
 	/**
 	 * Effect to be stopped
 	 */
-	private EAdElementList<EAdEffect> effects;
+	private EAdList<EAdEffect> effects;
 
 	/**
 	 * Creates a cancel effect. If it's not added any effect with
@@ -64,7 +64,7 @@ public class EAdCancelEffect extends AbstractEAdEffect {
 	 */
 	public EAdCancelEffect(String id) {
 		super(id);
-		effects = new EAdElementListImpl<EAdEffect>(EAdEffect.class);
+		effects = new EAdListImpl<EAdEffect>(EAdEffect.class);
 	}
 
 	/**
@@ -83,7 +83,7 @@ public class EAdCancelEffect extends AbstractEAdEffect {
 	 * 
 	 * @return the effects to be canceled
 	 */
-	public EAdElementList<EAdEffect> getEffects() {
+	public EAdList<EAdEffect> getEffects() {
 		return effects;
 	}
 

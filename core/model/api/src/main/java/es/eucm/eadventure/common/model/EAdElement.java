@@ -97,6 +97,6 @@ public interface EAdElement extends Copyable<EAdElement> {
 	 * 
 	 * @return The list of events associated with this element
 	 */
-	EAdElementList<EAdEvent> getEvents( );
+	EAdList<EAdEvent> getEvents( );
 
 }

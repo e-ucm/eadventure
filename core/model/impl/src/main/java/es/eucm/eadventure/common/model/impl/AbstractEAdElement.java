@@ -43,7 +43,7 @@ import java.util.logging.Logger;
 import es.eucm.eadventure.common.interfaces.CopyNotSupportedException;
 import es.eucm.eadventure.common.interfaces.Param;
 import es.eucm.eadventure.common.model.EAdElement;
-import es.eucm.eadventure.common.model.EAdElementList;
+import es.eucm.eadventure.common.model.EAdList;
 import es.eucm.eadventure.common.model.events.EAdEvent;
 import es.eucm.eadventure.common.resources.EAdBundleId;
 import es.eucm.eadventure.common.resources.EAdResources;
@@ -67,7 +67,7 @@ public abstract class AbstractEAdElement implements EAdElement {
 	/**
 	 * Events associated with this element
 	 */
-	protected EAdElementList<EAdEvent> events;
+	protected EAdList<EAdEvent> events;
 
 //	private static final Logger logger = LoggerFactory
 //			.getLogger(AbstractEAdElement.class);
@@ -85,8 +85,8 @@ public abstract class AbstractEAdElement implements EAdElement {
 	public AbstractEAdElement(String id) {
 		this.id = id;
 		resources = new EAdResourcesImpl(getClass());
-		if (!(this instanceof EAdElementList))
-			events = new EAdElementListImpl<EAdEvent>(EAdEvent.class);
+		if (!(this instanceof EAdList))
+			events = new EAdListImpl<EAdEvent>(EAdEvent.class);
 	}
 
 	/**
@@ -181,7 +181,7 @@ public abstract class AbstractEAdElement implements EAdElement {
 	 * @see es.eucm.eadventure.common.model.EAdElement#getEvents()
 	 */
 	@Override
-	public EAdElementList<EAdEvent> getEvents() {
+	public EAdList<EAdEvent> getEvents() {
 		return events;
 	}
 

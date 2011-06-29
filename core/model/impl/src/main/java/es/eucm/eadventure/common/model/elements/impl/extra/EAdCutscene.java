@@ -3,7 +3,7 @@ package es.eucm.eadventure.common.model.elements.impl.extra;
 import es.eucm.eadventure.common.interfaces.Element;
 import es.eucm.eadventure.common.interfaces.Param;
 import es.eucm.eadventure.common.model.EAdChapter;
-import es.eucm.eadventure.common.model.EAdElementList;
+import es.eucm.eadventure.common.model.EAdList;
 import es.eucm.eadventure.common.model.conditions.impl.EmptyCondition;
 import es.eucm.eadventure.common.model.conditions.impl.FlagCondition;
 import es.eucm.eadventure.common.model.effects.impl.EAdChangeScene;
@@ -18,7 +18,7 @@ import es.eucm.eadventure.common.model.events.EAdTimerEvent.TimerEvent;
 import es.eucm.eadventure.common.model.events.impl.EAdConditionEventImpl;
 import es.eucm.eadventure.common.model.events.impl.EAdTimerEventImpl;
 import es.eucm.eadventure.common.model.guievents.impl.EAdMouseEventImpl;
-import es.eucm.eadventure.common.model.impl.EAdElementListImpl;
+import es.eucm.eadventure.common.model.impl.EAdListImpl;
 import es.eucm.eadventure.common.model.variables.impl.operations.BooleanOperation;
 import es.eucm.eadventure.common.model.variables.impl.operations.LiteralExpressionOperation;
 
@@ -28,17 +28,17 @@ import es.eucm.eadventure.common.model.variables.impl.operations.LiteralExpressi
 @Element(detailed = EAdCutscene.class, runtime = EAdComposedScene.class)
 public class EAdCutscene extends EAdComposedScene {
 
-	EAdElementList<Integer> times;
+	EAdList<Integer> times;
 	
-	EAdElementList<EAdSlide> slides;
+	EAdList<EAdSlide> slides;
 	
 	@Param("nextScene")
 	EAdScene nextScene;
 	
 	public EAdCutscene(String id) {
 		super(id);
-		times = new EAdElementListImpl<Integer>(Integer.class);
-		slides = new EAdElementListImpl<EAdSlide>(EAdSlide.class);
+		times = new EAdListImpl<Integer>(Integer.class);
+		slides = new EAdListImpl<EAdSlide>(EAdSlide.class);
 	}
 	
 	

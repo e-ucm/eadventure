@@ -56,21 +56,21 @@ public interface EAdChapter extends EAdElement {
 	 * 
 	 * @return the scenes of the game.
 	 */
-	EAdElementList<EAdScene> getScenes();
+	EAdList<EAdScene> getScenes();
 	
 	/**
 	 * Returns actors of the game.
 	 * 
 	 * @return the actors of the game.
 	 */
-	EAdElementList<EAdActor> getActors();
+	EAdList<EAdActor> getActors();
 	
 	/**
 	 * Returns the timers of the game.
 	 * 
 	 * @return the timers of the game.
 	 */
-	EAdElementList<EAdTimer> getTimers();
+	EAdList<EAdTimer> getTimers();
 	
 	/**
 	 * @return The title of the chapter

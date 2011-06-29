@@ -38,22 +38,21 @@
 package es.eucm.eadventure.common.resources.assets.drawable.impl;
 
 import es.eucm.eadventure.common.interfaces.Param;
-import es.eucm.eadventure.common.model.EAdElementList;
-import es.eucm.eadventure.common.model.impl.EAdElementListImpl;
+import es.eucm.eadventure.common.model.EAdList;
+import es.eucm.eadventure.common.model.impl.EAdListImpl;
 import es.eucm.eadventure.common.model.params.EAdBorderedColor;
 import es.eucm.eadventure.common.model.params.EAdPosition;
-import es.eucm.eadventure.common.resources.assets.drawable.Shape;
 
 /**
  * <p>Rectangular shape asset</p>
  * 
  */
-public class IrregularShape implements Shape {
+public class IrregularShape extends BezierShape {
 
 	@Param("color")
 	private EAdBorderedColor color;
 	
-	private EAdElementList<EAdPosition> positions;
+	private EAdList<EAdPosition> positions;
 	
 	@Param("borderWidth")
 	private int borderWidth;
@@ -61,7 +60,7 @@ public class IrregularShape implements Shape {
 	public IrregularShape() {
 		color = EAdBorderedColor.TRANSPARENT;
 		borderWidth = 1;
-		positions = new EAdElementListImpl<EAdPosition>(EAdPosition.class);
+		positions = new EAdListImpl<EAdPosition>(EAdPosition.class);
 	}
 	
 	/* (non-Javadoc)
@@ -85,7 +84,7 @@ public class IrregularShape implements Shape {
 		this.borderWidth = borderWidth;
 	}
 	
-	public EAdElementList<EAdPosition> getPositions() {
+	public EAdList<EAdPosition> getPositions() {
 		return positions;
 	}
 	

@@ -38,7 +38,7 @@
 package es.eucm.eadventure.common.model.behavior;
 
 import es.eucm.eadventure.common.model.EAdElement;
-import es.eucm.eadventure.common.model.EAdElementList;
+import es.eucm.eadventure.common.model.EAdList;
 import es.eucm.eadventure.common.model.effects.EAdEffect;
 import es.eucm.eadventure.common.model.params.guievents.EAdGUIEvent;
 
@@ -59,7 +59,7 @@ public interface EAdBehavior extends EAdElement {
 	 * @return a list with the attached effects to the given event, if exists.
 	 *         If not, returns {@code null}
 	 */
-	EAdElementList<EAdEffect> getEffects(EAdGUIEvent event);
+	EAdList<EAdEffect> getEffects(EAdGUIEvent event);
 
 	/**
 	 * Adds an effect associated with an event
@@ -79,6 +79,6 @@ public interface EAdBehavior extends EAdElement {
 	 * @param effects
 	 *            a list of effects
 	 */
-	void addBehavior(EAdGUIEvent event, EAdElementList<EAdEffect> effects);
+	void addBehavior(EAdGUIEvent event, EAdList<EAdEffect> effects);
 
 }

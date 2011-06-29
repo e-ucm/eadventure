@@ -41,7 +41,7 @@ import java.util.logging.Logger;
 
 import com.google.inject.Inject;
 
-import es.eucm.eadventure.common.model.EAdElementList;
+import es.eucm.eadventure.common.model.EAdList;
 import es.eucm.eadventure.common.resources.assets.drawable.ComposedDrawable;
 import es.eucm.eadventure.common.resources.assets.drawable.Drawable;
 import es.eucm.eadventure.engine.core.GameState;
@@ -86,7 +86,7 @@ public class RuntimeComposedDrawable implements DrawableAsset<ComposedDrawable> 
 			assetHandler.getRuntimeAsset(asset).update(state);
 	}
 	
-	public EAdElementList<Drawable> getAssetList() {
+	public EAdList<Drawable> getAssetList() {
 		return assetDescriptor.getAssetList();
 	}
 	

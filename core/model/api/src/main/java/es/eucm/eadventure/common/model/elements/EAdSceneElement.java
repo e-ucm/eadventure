@@ -5,7 +5,7 @@ import java.util.List;
 import es.eucm.eadventure.common.interfaces.Oriented.Orientation;
 import es.eucm.eadventure.common.interfaces.Positioned;
 import es.eucm.eadventure.common.model.EAdElement;
-import es.eucm.eadventure.common.model.EAdElementList;
+import es.eucm.eadventure.common.model.EAdList;
 import es.eucm.eadventure.common.model.effects.EAdEffect;
 import es.eucm.eadventure.common.model.params.guievents.EAdGUIEvent;
 import es.eucm.eadventure.common.model.variables.EAdVar;
@@ -86,7 +86,7 @@ public interface EAdSceneElement extends EAdElement, Positioned {
 	 *            the GUI event
 	 * @return the effects list associated with the given event
 	 */
-	EAdElementList<EAdEffect> getEffects(EAdGUIEvent event);
+	EAdList<EAdEffect> getEffects(EAdGUIEvent event);
 
 	/**
 	 * Returns true if this scene element must be cloned whenever is added to

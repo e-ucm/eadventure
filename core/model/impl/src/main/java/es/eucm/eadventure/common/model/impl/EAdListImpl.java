@@ -43,13 +43,13 @@ import java.util.List;
 
 import es.eucm.eadventure.common.interfaces.CopyNotSupportedException;
 import es.eucm.eadventure.common.model.EAdElement;
-import es.eucm.eadventure.common.model.EAdElementList;
+import es.eucm.eadventure.common.model.EAdList;
 import es.eucm.eadventure.common.resources.EAdResources;
 
 /**
  * Generic implementation of a list of eAdventure elements.
  */
-public class EAdElementListImpl<P> extends AbstractEAdElement implements EAdElementList<P> {
+public class EAdListImpl<P> extends AbstractEAdElement implements EAdList<P> {
 
 	/**
 	 * Lists elements.
@@ -59,29 +59,29 @@ public class EAdElementListImpl<P> extends AbstractEAdElement implements EAdElem
 	private Class<?> clazz;
 	
 	/**
-	 * Constructs a {@link EAdElementListImpl} with the specified parent element.
+	 * Constructs a {@link EAdListImpl} with the specified parent element.
 	 * 
 	 * @param parent parent element.
 	 */
-	public EAdElementListImpl(Class<?> clazz){
+	public EAdListImpl(Class<?> clazz){
 		super("list");
 		this.clazz = clazz;
 		elements = new ArrayList<P>();
 	}
 
 	@SuppressWarnings("unchecked")
-	public EAdElementListImpl<P> copy() {
+	public EAdListImpl<P> copy() {
 		try {
-			return (EAdElementListImpl<P>) super.copy();
+			return (EAdListImpl<P>) super.copy();
 		} catch (ClassCastException e) {
 			throw new CopyNotSupportedException(e);
 		}
 	}
 	
 	@SuppressWarnings("unchecked")
-	public EAdElementListImpl<P> copy(boolean deepCopy){
+	public EAdListImpl<P> copy(boolean deepCopy){
 		try {
-			EAdElementListImpl<P> copy = (EAdElementListImpl<P>) super.copy(deepCopy);
+			EAdListImpl<P> copy = (EAdListImpl<P>) super.copy(deepCopy);
 			if(deepCopy){
 				copy.elements = new ArrayList<P>();
 				for(P e: this.elements){
@@ -144,8 +144,8 @@ public class EAdElementListImpl<P> extends AbstractEAdElement implements EAdElem
 	}
 	
 	public boolean equals( Object o ){
-		if ( o instanceof EAdElementList ){
-			EAdElementList<?> list = ( EAdElementList<?> ) o;
+		if ( o instanceof EAdList ){
+			EAdList<?> list = ( EAdList<?> ) o;
 			if ( list.size() == this.size() ){
 				for ( int i = 0; i < this.size(); i++ ){
 					if ( !list.get(i).equals(this.get(i)) )

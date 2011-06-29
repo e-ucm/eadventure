@@ -42,7 +42,7 @@ import es.eucm.eadventure.common.interfaces.Element;
 import es.eucm.eadventure.common.interfaces.Param;
 import es.eucm.eadventure.common.model.EAdAdventureModel;
 import es.eucm.eadventure.common.model.EAdChapter;
-import es.eucm.eadventure.common.model.EAdElementList;
+import es.eucm.eadventure.common.model.EAdList;
 import es.eucm.eadventure.common.model.EAdInventory;
 import es.eucm.eadventure.common.model.events.EAdEvent;
 import es.eucm.eadventure.common.model.impl.inventory.EAdBasicInventory;
@@ -63,7 +63,7 @@ public class EAdAdventureModelImpl implements EAdAdventureModel {
 	 */
 	private PlayerMode playerMode;
 
-	private EAdElementList<EAdChapter> chapters;
+	private EAdList<EAdChapter> chapters;
 
 	@Param("description")
 	private EAdString description;
@@ -76,19 +76,19 @@ public class EAdAdventureModelImpl implements EAdAdventureModel {
 	
 	private EAdResources resources;
 	
-	private EAdElementList<EAdEvent> events;
+	private EAdList<EAdEvent> events;
 	
 	/**
 	 * Constructs a {@link EAdAdventureModelImpl}.
 	 */
 	public EAdAdventureModelImpl() {
 		resources = new EAdResourcesImpl(getClass());
-		chapters = new EAdElementListImpl<EAdChapter>(EAdChapter.class);
-		events = new EAdElementListImpl<EAdEvent>(EAdEvent.class);
+		chapters = new EAdListImpl<EAdChapter>(EAdChapter.class);
+		events = new EAdListImpl<EAdEvent>(EAdEvent.class);
 		inventory = new EAdBasicInventory();
 	}
 	
-	public EAdElementList<EAdChapter> getChapters() {
+	public EAdList<EAdChapter> getChapters() {
 		return chapters;
 	}
 	
@@ -180,7 +180,7 @@ public class EAdAdventureModelImpl implements EAdAdventureModel {
 	 * @see es.eucm.eadventure.common.model.EAdElement#getEvents()
 	 */
 	@Override
-	public EAdElementList<EAdEvent> getEvents() {
+	public EAdList<EAdEvent> getEvents() {
 		return events;
 	}
 

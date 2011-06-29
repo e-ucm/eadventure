@@ -37,23 +37,23 @@
 
 package es.eucm.eadventure.common.model.effects.impl;
 
-import es.eucm.eadventure.common.model.EAdElementList;
+import es.eucm.eadventure.common.model.EAdList;
 import es.eucm.eadventure.common.model.effects.EAdEffect;
 import es.eucm.eadventure.common.model.effects.EAdMacro;
 import es.eucm.eadventure.common.model.impl.AbstractEAdElement;
-import es.eucm.eadventure.common.model.impl.EAdElementListImpl;
+import es.eucm.eadventure.common.model.impl.EAdListImpl;
 
 public class EAdMacroImpl extends AbstractEAdElement implements EAdMacro {
 
-	protected EAdElementList<EAdEffect> effects;
+	protected EAdList<EAdEffect> effects;
 	
 	public EAdMacroImpl(String id) {
 		super( id);
-		this.effects = new EAdElementListImpl<EAdEffect>(EAdEffect.class);
+		this.effects = new EAdListImpl<EAdEffect>(EAdEffect.class);
 	}
 
 	@Override
-	public EAdElementList<EAdEffect> getEffects() {
+	public EAdList<EAdEffect> getEffects() {
 		return effects;
 	}
 

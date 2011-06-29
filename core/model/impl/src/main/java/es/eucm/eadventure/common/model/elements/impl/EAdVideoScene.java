@@ -2,14 +2,14 @@ package es.eucm.eadventure.common.model.elements.impl;
 
 import es.eucm.eadventure.common.interfaces.Element;
 import es.eucm.eadventure.common.interfaces.Param;
-import es.eucm.eadventure.common.model.EAdElementList;
+import es.eucm.eadventure.common.model.EAdList;
 import es.eucm.eadventure.common.model.conditions.impl.EmptyCondition;
 import es.eucm.eadventure.common.model.effects.EAdEffect;
 import es.eucm.eadventure.common.model.effects.impl.EAdChangeScene;
 import es.eucm.eadventure.common.model.effects.impl.variables.EAdChangeVarValueEffect;
 import es.eucm.eadventure.common.model.elements.EAdScene;
 import es.eucm.eadventure.common.model.elements.EAdSceneElement;
-import es.eucm.eadventure.common.model.impl.EAdElementListImpl;
+import es.eucm.eadventure.common.model.impl.EAdListImpl;
 import es.eucm.eadventure.common.model.variables.impl.operations.BooleanOperation;
 import es.eucm.eadventure.common.model.variables.impl.vars.BooleanVar;
 import es.eucm.eadventure.common.resources.annotation.Asset;
@@ -24,12 +24,12 @@ public class EAdVideoScene extends EAdSceneImpl implements EAdScene {
 	@Param("videoFinishedVar")
 	private BooleanVar videoFinishedVar;
 	
-	private EAdElementList<EAdEffect> finalEffects;
+	private EAdList<EAdEffect> finalEffects;
 
 	public EAdVideoScene(String id) {
 		super(id);
 		videoFinishedVar = new BooleanVar(id + "_videoFinishedVar");
-		finalEffects = new EAdElementListImpl<EAdEffect>(EAdEffect.class);
+		finalEffects = new EAdListImpl<EAdEffect>(EAdEffect.class);
 	}
 	
 	public BooleanVar getVideoFinishedVar() {
@@ -37,11 +37,11 @@ public class EAdVideoScene extends EAdSceneImpl implements EAdScene {
 	}
 	
 	@Override
-	public EAdElementList<EAdSceneElement> getSceneElements() {
+	public EAdList<EAdSceneElement> getSceneElements() {
 		return null;
 	}
 
-	public EAdElementList<EAdEffect> getFinalEffects() {
+	public EAdList<EAdEffect> getFinalEffects() {
 		return finalEffects;
 	}
 

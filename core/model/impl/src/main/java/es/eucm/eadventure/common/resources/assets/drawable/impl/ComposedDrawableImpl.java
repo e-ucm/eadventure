@@ -37,21 +37,21 @@
 
 package es.eucm.eadventure.common.resources.assets.drawable.impl;
 
-import es.eucm.eadventure.common.model.EAdElementList;
-import es.eucm.eadventure.common.model.impl.EAdElementListImpl;
+import es.eucm.eadventure.common.model.EAdList;
+import es.eucm.eadventure.common.model.impl.EAdListImpl;
 import es.eucm.eadventure.common.resources.assets.drawable.ComposedDrawable;
 import es.eucm.eadventure.common.resources.assets.drawable.Drawable;
 
 public class ComposedDrawableImpl implements ComposedDrawable {
 
-	EAdElementList<Drawable> assetList;
+	EAdList<Drawable> assetList;
 	
 	public ComposedDrawableImpl() {
-		assetList = new EAdElementListImpl<Drawable>(Drawable.class);
+		assetList = new EAdListImpl<Drawable>(Drawable.class);
 	}
 	
 	@Override
-	public EAdElementList<Drawable> getAssetList() {
+	public EAdList<Drawable> getAssetList() {
 		return assetList;
 	}
 

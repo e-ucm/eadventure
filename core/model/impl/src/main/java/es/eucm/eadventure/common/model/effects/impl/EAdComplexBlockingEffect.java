@@ -4,18 +4,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 import es.eucm.eadventure.common.interfaces.Element;
-import es.eucm.eadventure.common.model.EAdElementList;
+import es.eucm.eadventure.common.model.EAdList;
 import es.eucm.eadventure.common.model.conditions.impl.EmptyCondition;
 import es.eucm.eadventure.common.model.effects.EAdEffect;
 import es.eucm.eadventure.common.model.elements.EAdCondition;
 import es.eucm.eadventure.common.model.elements.EAdSceneElement;
-import es.eucm.eadventure.common.model.impl.EAdElementListImpl;
+import es.eucm.eadventure.common.model.impl.EAdListImpl;
 
 @Element(detailed = EAdComplexBlockingEffect.class, runtime = EAdComplexBlockingEffect.class)
 public class EAdComplexBlockingEffect extends AbstractEAdEffect implements
 		EAdEffect {
 
-	protected EAdElementList<EAdSceneElement> components;
+	protected EAdList<EAdSceneElement> components;
 
 	protected ArrayList<EAdEffect> finalEffects;
 
@@ -23,13 +23,13 @@ public class EAdComplexBlockingEffect extends AbstractEAdEffect implements
 
 	public EAdComplexBlockingEffect(String id) {
 		super(id);
-		components = new EAdElementListImpl<EAdSceneElement>(
+		components = new EAdListImpl<EAdSceneElement>(
 				EAdSceneElement.class);
 		blockingCondition = EmptyCondition.TRUE_EMPTY_CONDITION;
 		finalEffects = new ArrayList<EAdEffect>();
 	}
 
-	public EAdElementList<EAdSceneElement> getComponents() {
+	public EAdList<EAdSceneElement> getComponents() {
 		return components;
 	}
 

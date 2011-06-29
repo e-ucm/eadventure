@@ -37,7 +37,7 @@
 package es.eucm.eadventure.common.model.effects;
 
 import es.eucm.eadventure.common.model.EAdElement;
-import es.eucm.eadventure.common.model.EAdElementList;
+import es.eucm.eadventure.common.model.EAdList;
 
 /**
  * A macro represents a list of effects that can be referenced as a single
@@ -50,6 +50,6 @@ public interface EAdMacro extends EAdElement {
 	 * 
 	 * @return the list of effects
 	 */
-	EAdElementList<EAdEffect> getEffects();
+	EAdList<EAdEffect> getEffects();
 
 }

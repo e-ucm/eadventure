@@ -1,17 +1,17 @@
 package es.eucm.eadventure.common.model.elements.impl;
 
 import es.eucm.eadventure.common.interfaces.Param;
-import es.eucm.eadventure.common.model.EAdElementList;
+import es.eucm.eadventure.common.model.EAdList;
 import es.eucm.eadventure.common.model.elements.EAdScene;
 import es.eucm.eadventure.common.model.elements.EAdSceneElement;
 import es.eucm.eadventure.common.model.impl.AbstractEAdElement;
-import es.eucm.eadventure.common.model.impl.EAdElementListImpl;
+import es.eucm.eadventure.common.model.impl.EAdListImpl;
 import es.eucm.eadventure.common.model.variables.impl.vars.BooleanVar;
 import es.eucm.eadventure.common.model.variables.impl.vars.IntegerVar;
 
 public class EAdComposedScene extends AbstractEAdElement implements EAdScene {
 
-	protected EAdElementList<EAdScene> scenes;
+	protected EAdList<EAdScene> scenes;
 
 	/**
 	 * Pointer to the variable that manages the current scene
@@ -23,13 +23,13 @@ public class EAdComposedScene extends AbstractEAdElement implements EAdScene {
 
 	public EAdComposedScene(String id) {
 		super(id);
-		scenes = new EAdElementListImpl<EAdScene>(EAdScene.class);
+		scenes = new EAdListImpl<EAdScene>(EAdScene.class);
 		currentScene = new IntegerVar("currentScene");
 		sceneLoaded = new BooleanVar("sceneLoaded");
 	}
 
 	@Override
-	public EAdElementList<EAdSceneElement> getSceneElements() {
+	public EAdList<EAdSceneElement> getSceneElements() {
 		return null;
 	}
 
@@ -47,7 +47,7 @@ public class EAdComposedScene extends AbstractEAdElement implements EAdScene {
 		return currentScene;
 	}
 
-	public EAdElementList<EAdScene> getScenes() {
+	public EAdList<EAdScene> getScenes() {
 		return scenes;
 	}
 

@@ -37,7 +37,7 @@
 
 package es.eucm.eadventure.common.resources.assets.drawable;
 
-import es.eucm.eadventure.common.model.EAdElementList;
+import es.eucm.eadventure.common.model.EAdList;
 
 /**
  * <p>
@@ -48,6 +48,6 @@ import es.eucm.eadventure.common.model.EAdElementList;
  */
 public interface ComposedDrawable extends Drawable {
 
-	EAdElementList<Drawable> getAssetList();
+	EAdList<Drawable> getAssetList();
 
 }

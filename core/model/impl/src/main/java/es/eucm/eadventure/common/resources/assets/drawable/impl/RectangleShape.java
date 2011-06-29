@@ -39,13 +39,12 @@ package es.eucm.eadventure.common.resources.assets.drawable.impl;
 
 import es.eucm.eadventure.common.interfaces.Param;
 import es.eucm.eadventure.common.model.params.EAdBorderedColor;
-import es.eucm.eadventure.common.resources.assets.drawable.Shape;
 
 /**
  * <p>Rectangular shape asset</p>
  * 
  */
-public class RectangleShape implements Shape {
+public class RectangleShape extends BezierShape {
 
 	@Param("color")
 	private EAdBorderedColor color;

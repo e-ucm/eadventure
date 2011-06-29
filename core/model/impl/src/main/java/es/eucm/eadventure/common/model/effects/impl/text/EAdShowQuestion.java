@@ -39,7 +39,7 @@ package es.eucm.eadventure.common.model.effects.impl.text;
 
 import es.eucm.eadventure.common.interfaces.Element;
 import es.eucm.eadventure.common.interfaces.Param;
-import es.eucm.eadventure.common.model.EAdElementList;
+import es.eucm.eadventure.common.model.EAdList;
 import es.eucm.eadventure.common.model.conditions.impl.EmptyCondition;
 import es.eucm.eadventure.common.model.conditions.impl.FlagCondition;
 import es.eucm.eadventure.common.model.conditions.impl.NOTCondition;
@@ -56,7 +56,7 @@ import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
 import es.eucm.eadventure.common.model.events.EAdSceneElementEvent;
 import es.eucm.eadventure.common.model.events.EAdSceneElementEvent.SceneElementEvent;
 import es.eucm.eadventure.common.model.events.impl.EAdSceneElementEventImpl;
-import es.eucm.eadventure.common.model.impl.EAdElementListImpl;
+import es.eucm.eadventure.common.model.impl.EAdListImpl;
 import es.eucm.eadventure.common.model.params.EAdPosition;
 import es.eucm.eadventure.common.model.params.EAdPosition.Corner;
 import es.eucm.eadventure.common.model.variables.impl.operations.BooleanOperation;
@@ -81,7 +81,7 @@ public class EAdShowQuestion extends EAdComplexBlockingEffect {
 	/**
 	 * List of {@link Answer}s to the question
 	 */
-	private EAdElementList<Answer> answers;
+	private EAdList<Answer> answers;
 
 	@Param("questionElement")
 	private EAdSceneElement questionElement;
@@ -95,7 +95,7 @@ public class EAdShowQuestion extends EAdComplexBlockingEffect {
 
 	public EAdShowQuestion(String id) {
 		super(id);
-		answers = new EAdElementListImpl<Answer>(Answer.class);
+		answers = new EAdListImpl<Answer>(Answer.class);
 	}
 
 	public EAdShowQuestion() {
@@ -107,7 +107,7 @@ public class EAdShowQuestion extends EAdComplexBlockingEffect {
 	 * 
 	 * @return the {@link Answer}s to the question
 	 */
-	public EAdElementList<Answer> getAnswers() {
+	public EAdList<Answer> getAnswers() {
 		return answers;
 	}
 

@@ -39,11 +39,11 @@ package es.eucm.eadventure.common.model.elements.impl;
 
 import es.eucm.eadventure.common.interfaces.Element;
 import es.eucm.eadventure.common.interfaces.Param;
-import es.eucm.eadventure.common.model.EAdElementList;
+import es.eucm.eadventure.common.model.EAdList;
 import es.eucm.eadventure.common.model.elements.EAdSceneElement;
 import es.eucm.eadventure.common.model.elements.EAdScene;
 import es.eucm.eadventure.common.model.impl.AbstractEAdElement;
-import es.eucm.eadventure.common.model.impl.EAdElementListImpl;
+import es.eucm.eadventure.common.model.impl.EAdListImpl;
 import es.eucm.eadventure.common.model.variables.impl.vars.BooleanVar;
 import es.eucm.eadventure.common.resources.EAdString;
 
@@ -69,7 +69,7 @@ public class EAdSceneImpl extends AbstractEAdElement implements EAdScene {
 	@Param("returnable")
 	protected boolean returnable;
 	
-	private EAdElementList<EAdSceneElement> actorReferences;
+	private EAdList<EAdSceneElement> actorReferences;
 	
 	private BooleanVar sceneLoaded;
 	
@@ -80,14 +80,14 @@ public class EAdSceneImpl extends AbstractEAdElement implements EAdScene {
 	 */
 	public EAdSceneImpl(String id) {
 		super(id);
-		actorReferences = new EAdElementListImpl<EAdSceneElement>(EAdSceneElement.class);
+		actorReferences = new EAdListImpl<EAdSceneElement>(EAdSceneElement.class);
 		background = new EAdBasicSceneElement(id + "_background");
 		returnable = true;
 		sceneLoaded = new BooleanVar("sceneLoaded");
 	}
 
 	@Override
-	public EAdElementList<EAdSceneElement> getSceneElements() {
+	public EAdList<EAdSceneElement> getSceneElements() {
 		return actorReferences;
 	}
 

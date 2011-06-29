@@ -40,7 +40,7 @@ package es.eucm.eadventure.common.model;
 /**
  * Interface for all the list elements in the eAdventure game model
  */
-public interface EAdElementList<P> extends EAdElement,
+public interface EAdList<P> extends EAdElement,
 		Iterable<P> {
 
 	/**

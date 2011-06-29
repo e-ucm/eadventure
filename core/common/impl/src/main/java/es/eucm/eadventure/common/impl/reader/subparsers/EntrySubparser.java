@@ -45,7 +45,7 @@ import org.xml.sax.Attributes;
 
 import es.eucm.eadventure.common.impl.reader.subparsers.extra.ObjectFactory;
 import es.eucm.eadventure.common.model.EAdElement;
-import es.eucm.eadventure.common.model.EAdElementList;
+import es.eucm.eadventure.common.model.EAdList;
 import es.eucm.eadventure.common.model.EAdMap;
 
 /**
@@ -71,7 +71,7 @@ public class EntrySubparser extends Subparser {
 	private EAdMap map;
 	
 	@SuppressWarnings("rawtypes")
-	private EAdElementList list;
+	private EAdList list;
 	
 	/**
 	 * The element possibly used as the value for the param
@@ -86,7 +86,7 @@ public class EntrySubparser extends Subparser {
 		this.map = object;
 	}
 
-	public EntrySubparser(EAdElementList<?> peek, Attributes attributes) {
+	public EntrySubparser(EAdList<?> peek, Attributes attributes) {
 		currentString = new StringBuffer();
 		this.list = peek;
 	}

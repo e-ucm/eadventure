@@ -6,7 +6,7 @@ import java.util.logging.Logger;
 
 import com.google.inject.Inject;
 
-import es.eucm.eadventure.common.model.EAdElementList;
+import es.eucm.eadventure.common.model.EAdList;
 import es.eucm.eadventure.common.model.actions.EAdAction;
 import es.eucm.eadventure.common.model.effects.EAdEffect;
 import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
@@ -59,7 +59,7 @@ public class BasicSceneElementGO extends SceneElementGOImpl<EAdBasicSceneElement
 	 */
 	@Override
 	public boolean processAction(GUIAction action) {
-		EAdElementList<EAdEffect> list = element.getEffects(action.getGUIEvent());
+		EAdList<EAdEffect> list = element.getEffects(action.getGUIEvent());
 		if (list != null && list.size() > 0) {
 			action.consume();
 			for (EAdEffect e : list) {

@@ -45,7 +45,7 @@ import org.xml.sax.helpers.AttributesImpl;
 import es.eucm.eadventure.common.impl.reader.subparsers.ParamSubparser;
 import es.eucm.eadventure.common.interfaces.Param;
 import es.eucm.eadventure.common.model.EAdElement;
-import es.eucm.eadventure.common.model.EAdElementList;
+import es.eucm.eadventure.common.model.EAdList;
 import es.eucm.eadventure.common.model.events.EAdEvent;
 import es.eucm.eadventure.common.resources.EAdBundleId;
 import es.eucm.eadventure.common.resources.EAdResources;
@@ -99,7 +99,7 @@ public class ParamSubparserTest extends TestCase {
 		public EAdResources getResources() {return null;}
 
 		@Override
-		public EAdElementList<EAdEvent> getEvents() {
+		public EAdList<EAdEvent> getEvents() {
 			return null;
 		}
 	}

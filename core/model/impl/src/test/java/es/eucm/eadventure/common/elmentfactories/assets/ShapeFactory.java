@@ -3,6 +3,7 @@ package es.eucm.eadventure.common.elmentfactories.assets;
 import es.eucm.eadventure.common.model.params.EAdBorderedColor;
 import es.eucm.eadventure.common.model.params.EAdPosition;
 import es.eucm.eadventure.common.resources.assets.drawable.Shape;
+import es.eucm.eadventure.common.resources.assets.drawable.impl.BezierShape;
 import es.eucm.eadventure.common.resources.assets.drawable.impl.IrregularShape;
 import es.eucm.eadventure.common.resources.assets.drawable.impl.RectangleShape;
 
@@ -35,7 +36,7 @@ public class ShapeFactory {
 		} else {
 			s = new RectangleShape(width, height);
 		}
-		s.setColor(color);
+		((BezierShape) s).setColor(color);
 		return s;
 	}
 

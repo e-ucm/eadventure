@@ -46,9 +46,9 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
 import es.eucm.eadventure.common.model.EAdElement;
-import es.eucm.eadventure.common.model.EAdElementList;
+import es.eucm.eadventure.common.model.EAdList;
 
-public class ElementListDOMWriter extends DOMWriter<EAdElementList<?>> {
+public class ElementListDOMWriter extends DOMWriter<EAdList<?>> {
 
 	private static final Logger logger = Logger.getLogger("ElementListDOMWriter");
 	
@@ -59,7 +59,7 @@ public class ElementListDOMWriter extends DOMWriter<EAdElementList<?>> {
 	}
 
 	@Override
-	public Node buildNode(EAdElementList<?> list) {
+	public Node buildNode(EAdList<?> list) {
         try {
         	initilizeDOMWriter();
 

@@ -37,7 +37,7 @@
 
 package es.eucm.eadventure.common.model.actions;
 
-import es.eucm.eadventure.common.model.EAdElementList;
+import es.eucm.eadventure.common.model.EAdList;
 import es.eucm.eadventure.common.model.effects.EAdEffect;
 import es.eucm.eadventure.common.model.elements.EAdConditionedElement;
 import es.eucm.eadventure.common.resources.EAdBundleId;
@@ -56,7 +56,7 @@ public interface EAdAction extends EAdConditionedElement {
 	 * 
 	 * @return The list of effects
 	 */
-	EAdElementList<EAdEffect> getEffects();
+	EAdList<EAdEffect> getEffects();
 
 	/**
 	 * The name of the action

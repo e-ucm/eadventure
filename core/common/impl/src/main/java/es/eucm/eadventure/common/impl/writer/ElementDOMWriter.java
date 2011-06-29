@@ -49,7 +49,7 @@ import es.eucm.eadventure.common.interfaces.EAdRuntimeException;
 import es.eucm.eadventure.common.interfaces.Element;
 import es.eucm.eadventure.common.interfaces.Param;
 import es.eucm.eadventure.common.model.EAdElement;
-import es.eucm.eadventure.common.model.EAdElementList;
+import es.eucm.eadventure.common.model.EAdList;
 import es.eucm.eadventure.common.model.EAdMap;
 import es.eucm.eadventure.common.resources.EAdResources;
 
@@ -97,8 +97,8 @@ public class ElementDOMWriter extends DOMWriter<EAdElement> {
 					boolean accessible = field.isAccessible();
 					field.setAccessible(true);
 
-					if (field.get(element) instanceof EAdElementList) {
-						EAdElementList<?> list = (EAdElementList<?>) field
+					if (field.get(element) instanceof EAdList) {
+						EAdList<?> list = (EAdList<?>) field
 								.get(element);
 						ElementListDOMWriter listWriter = new ElementListDOMWriter(field.getName());
 						Node listNode = listWriter.buildNode(list);
