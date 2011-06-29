@@ -37,78 +37,26 @@
 
 package es.eucm.eadventure.common.resources.assets.drawable.impl;
 
-import es.eucm.eadventure.common.interfaces.Param;
 import es.eucm.eadventure.common.model.params.EAdBorderedColor;
+
 
 /**
  * <p>Rectangular shape asset</p>
  * 
  */
 public class RectangleShape extends BezierShape {
-
-	@Param("color")
-	private EAdBorderedColor color;
-
-	@Param("width")
-	private int width;
 	
-	@Param("height")
-	private int height;
-	
-	@Param("borderWidth")
-	private int borderWidth;
-	
-	public RectangleShape() {
-		this(100, 100);
-	}
-
-	public RectangleShape(int width, int height) {
-		this(width, height, EAdBorderedColor.TRANSPARENT);
+	public RectangleShape(int width, int height ){
+		this( width, height, EAdBorderedColor.TRANSPARENT );
 	}
 	
-	public RectangleShape(int width, int height, EAdBorderedColor color) {
-		this.color = color;
-		this.width = width;
-		this.height = height;
-		borderWidth = 1;
-	}
-
-
-	/* (non-Javadoc)
-	 * @see es.eucm.eadventure.common.resources.assets.drawable.Shape#getColor()
-	 */
-	@Override
-	public EAdBorderedColor getColor() {
-		return color;
-	}
-	
-	public void setColor(EAdBorderedColor color) {
-		this.color = color;
-	}
-	
-	public int getWidth() {
-		return width;
-	}
-	
-	public void setWidth(int width) {
-		this.width = width;
-	}
-	
-	public int getHeight() {
-		return height;
-	}
-	
-	public void setHeight(int height) {
-		this.height = height;
-	}
-
-	@Override
-	public int getBorderWidth() {
-		return borderWidth;
-	}
-	
-	public void setBorderWidth(int borderWidth) {
-		this.borderWidth = borderWidth;
+	public RectangleShape(int width, int height, EAdBorderedColor color ) {
+		super( 0, 0 );
+		lineTo( width, 0 );
+		lineTo( width, height );
+		lineTo( 0, height );
+		close( );
+		super.setColor(color);
 	}
 	
 }

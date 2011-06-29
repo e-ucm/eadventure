@@ -44,32 +44,36 @@ import java.awt.Stroke;
 import java.awt.geom.AffineTransform;
 
 import es.eucm.eadventure.common.model.params.EAdPosition;
+import es.eucm.eadventure.common.resources.assets.drawable.impl.BezierShape;
 import es.eucm.eadventure.engine.core.platform.AssetRenderer;
+import es.eucm.eadventure.engine.core.platform.assets.impl.DesktopBezierShape;
 import es.eucm.eadventure.engine.core.platform.assets.impl.DesktopEngineColor;
-import es.eucm.eadventure.engine.core.platform.assets.impl.DesktopEngineIrregularShape;
 
-public class DesktopIrregularShapeRenderer implements AssetRenderer<Graphics2D, DesktopEngineIrregularShape> {
+public class DesktopBezierShapeRenderer implements AssetRenderer<Graphics2D, DesktopBezierShape> {
 
 	@Override
-	public void render(Graphics2D graphicContext, DesktopEngineIrregularShape asset,
+	public void render(Graphics2D graphicContext, DesktopBezierShape asset,
 			EAdPosition position, float scale, int offsetX, int offsetY) {
+		
 		if (!asset.isLoaded())
 			asset.loadAsset();
+		
+		BezierShape assetDescriptor = asset.getAssetDescriptor();
 		int x = position.getJavaX(asset.getWidth() * scale) + offsetX;
 		int y = position.getJavaY(asset.getHeight() * scale) + offsetY;
-		if (asset.getColor().getBorderColor().getAlpha() != 0 || asset.getColor().getCenterColor().getAlpha() != 0) {
+		if (assetDescriptor.getColor().getBorderColor().getAlpha() != 0 || assetDescriptor.getColor().getCenterColor().getAlpha() != 0) {
 			Color temp = graphicContext.getColor();
 			AffineTransform at = graphicContext.getTransform();
 			AffineTransform newTransform = (AffineTransform) at.clone();
 			newTransform.translate(x, y);
 			newTransform.scale(scale, scale);
 			graphicContext.setTransform(newTransform);
-			graphicContext.setColor(new DesktopEngineColor(asset.getColor().getCenterColor()).getColor());
-			graphicContext.fillPolygon(asset.getPolygon());
-			graphicContext.setColor(new DesktopEngineColor(asset.getColor().getBorderColor()).getColor());
+			graphicContext.setColor(new DesktopEngineColor(assetDescriptor.getColor().getCenterColor()).getColor());
+			graphicContext.fill(asset.getShape());
+			graphicContext.setColor(new DesktopEngineColor(assetDescriptor.getColor().getBorderColor()).getColor());
 			Stroke s = graphicContext.getStroke();
-			graphicContext.setStroke(new BasicStroke(asset.getBorderWidth()));
-			graphicContext.drawPolygon(asset.getPolygon());
+			graphicContext.setStroke(new BasicStroke(assetDescriptor.getBorderWidth()));
+			graphicContext.draw(asset.getShape());
 			graphicContext.setStroke(s);
 			graphicContext.setColor(temp);
 			graphicContext.setTransform(at);
@@ -77,9 +81,9 @@ public class DesktopIrregularShapeRenderer implements AssetRenderer<Graphics2D, 
 	}
 
 	@Override
-	public boolean contains(int x, int y, DesktopEngineIrregularShape asset) {
+	public boolean contains(int x, int y, DesktopBezierShape asset) {
 		if (asset != null && x < asset.getWidth() && y < asset.getHeight()){
-			return asset.getPolygon().contains(x, y);
+			return asset.getShape().contains(x, y);
 		}
 		return false;
 	}

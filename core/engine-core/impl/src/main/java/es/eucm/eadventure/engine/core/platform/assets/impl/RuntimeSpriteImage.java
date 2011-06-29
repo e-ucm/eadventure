@@ -127,5 +127,10 @@ public abstract class RuntimeSpriteImage implements DrawableAsset<SpriteImage> {
 	public int getCols() {
 		return cols;
 	}
+	
+	@Override
+	public SpriteImage getAssetDescriptor() {
+		return assetDescriptor;
+	}
 
 }

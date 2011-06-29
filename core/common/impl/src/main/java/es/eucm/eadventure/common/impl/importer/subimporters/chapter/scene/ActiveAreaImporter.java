@@ -24,7 +24,7 @@ import es.eucm.eadventure.common.model.params.EAdBorderedColor;
 import es.eucm.eadventure.common.model.params.EAdPosition;
 import es.eucm.eadventure.common.model.variables.impl.operations.BooleanOperation;
 import es.eucm.eadventure.common.resources.assets.drawable.Shape;
-import es.eucm.eadventure.common.resources.assets.drawable.impl.IrregularShape;
+import es.eucm.eadventure.common.resources.assets.drawable.impl.BezierShape;
 import es.eucm.eadventure.common.resources.assets.drawable.impl.RectangleShape;
 
 public class ActiveAreaImporter implements
@@ -61,22 +61,24 @@ public class ActiveAreaImporter implements
 
 		Shape shape = null;
 		if (oldObject.isRectangular()) {
-			shape = new RectangleShape();
-			((RectangleShape) shape).setHeight(oldObject.getHeight());
-			((RectangleShape) shape).setWidth(oldObject.getWidth());
+			shape = new RectangleShape(oldObject.getWidth(), oldObject.getHeight());
 			newActiveAreaReference.setPosition(new EAdPosition(
 					EAdPosition.Corner.TOP_LEFT, oldObject.getX(), oldObject
 							.getY()));
 			// FIXME deleted when active areas were working
 			((RectangleShape) shape).setColor(EAdBorderedColor.BLACK_ON_WHITE);
 		} else {
-			shape = new IrregularShape();
+			shape = null;
+			int i = 0;
 			for (Point p : oldObject.getPoints()) {
-				((IrregularShape) shape).getPositions().add(
-						new EAdPosition(p.x, p.y));
+				if ( i == 0 )
+					shape = new BezierShape(p.x, p.y);
+				else
+					((BezierShape) shape).lineTo(p.x, p.y);
 			}
-			// FIXME deleted when active areas were working
-			((IrregularShape) shape).setColor(EAdBorderedColor.BLACK_ON_WHITE);
+			((BezierShape) shape).close();
+			// FIXME deleted when exits were working
+			((BezierShape) shape).setColor(EAdBorderedColor.BLACK_ON_WHITE);
 			newActiveAreaReference.setPosition(new EAdPosition(
 					EAdPosition.Corner.TOP_LEFT, 0, 0));
 		}

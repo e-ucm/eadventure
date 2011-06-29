@@ -46,6 +46,7 @@ import javax.imageio.ImageIO;
 
 import com.google.inject.Inject;
 
+import es.eucm.eadventure.common.resources.assets.drawable.Image;
 import es.eucm.eadventure.engine.core.platform.AssetHandler;
 import es.eucm.eadventure.engine.core.platform.impl.DesktopAssetHandler;
 

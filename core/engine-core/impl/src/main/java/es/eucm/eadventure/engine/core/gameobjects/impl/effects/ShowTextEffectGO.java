@@ -49,7 +49,7 @@ import es.eucm.eadventure.common.model.events.impl.EAdSceneElementTimedEventImpl
 import es.eucm.eadventure.common.model.params.EAdPosition;
 import es.eucm.eadventure.common.model.params.EAdPosition.Corner;
 import es.eucm.eadventure.common.model.params.guievents.EAdMouseEvent.MouseActionType;
-import es.eucm.eadventure.common.resources.assets.drawable.impl.IrregularShape;
+import es.eucm.eadventure.common.resources.assets.drawable.impl.BezierShape;
 import es.eucm.eadventure.engine.core.GameState;
 import es.eucm.eadventure.engine.core.gameobjects.impl.sceneelements.BasicSceneElementGO;
 import es.eucm.eadventure.engine.core.guiactions.GUIAction;
@@ -129,10 +129,10 @@ public class ShowTextEffectGO extends AbstractEffectGO<EAdShowText> {
 		
 		int size = 15;
 
-		IrregularShape triangle = new IrregularShape();
-		triangle.getPositions().add(new EAdPosition(0, 0));
-		triangle.getPositions().add(new EAdPosition(size, 0));
-		triangle.getPositions().add(new EAdPosition(size / 2, size));
+		BezierShape triangle = new BezierShape(0, 0);
+		triangle.lineTo(size, 0);
+		triangle.lineTo(size / 2, size );
+		triangle.close();
 		triangle.setColor(caption.getCaption().getTextColor());
 		indicator.getResources().addAsset(indicator.getInitialBundle(),
 				EAdBasicSceneElement.appearance, triangle);

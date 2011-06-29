@@ -131,4 +131,9 @@ public class RuntimeComposedDrawable implements DrawableAsset<ComposedDrawable> 
 		return loaded;
 	}
 
+	@Override
+	public ComposedDrawable getAssetDescriptor() {
+		return assetDescriptor;
+	}
+
 }

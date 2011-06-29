@@ -177,4 +177,9 @@ public class RuntimeFramesAnimation implements DrawableAsset<FramesAnimation> {
 		return (DrawableAsset<S>) currentImage;
 
 	}
+
+	@Override
+	public FramesAnimation getAssetDescriptor() {
+		return framesAnimation;
+	}
 }

@@ -92,9 +92,9 @@ import es.eucm.eadventure.common.resources.EAdString;
 import es.eucm.eadventure.common.resources.assets.drawable.animation.impl.BundledDrawableImpl;
 import es.eucm.eadventure.common.resources.assets.drawable.animation.impl.Frame;
 import es.eucm.eadventure.common.resources.assets.drawable.animation.impl.FramesAnimation;
+import es.eucm.eadventure.common.resources.assets.drawable.impl.BezierShape;
 import es.eucm.eadventure.common.resources.assets.drawable.impl.CaptionImpl;
 import es.eucm.eadventure.common.resources.assets.drawable.impl.ImageImpl;
-import es.eucm.eadventure.common.resources.assets.drawable.impl.IrregularShape;
 
 public class BasicScene extends EAdSceneImpl implements EAdScene {
 
@@ -148,21 +148,19 @@ public class BasicScene extends EAdSceneImpl implements EAdScene {
 		((EAdTimerImpl) timer).setTime(new Integer(3000));
 		timers.add(timer);
 		
-		IrregularShape is = new IrregularShape();
+		BezierShape is = new BezierShape(40, 40);
 		is.setBorderWidth(4);
 		is.setColor(EAdBorderedColor.BLACK_ON_WHITE);
-		is.getPositions().add(new EAdPosition(40, 40));
-		is.getPositions().add(new EAdPosition(200, 40));
-		is.getPositions().add(new EAdPosition(40, 200));
+		is.lineTo(new EAdPosition(200, 40));
+		is.lineTo(new EAdPosition(40, 200));
 		EAdBasicSceneElement bse = new EAdBasicSceneElement("ide");
 		bse.getResources().addAsset(bse.getInitialBundle(), EAdBasicSceneElement.appearance, is);
 
-		is = new IrregularShape();
+		is = new BezierShape(40, 40);
 		is.setBorderWidth(4);
 		is.setColor(EAdBorderedColor.WHITE_ON_BLACK);
-		is.getPositions().add(new EAdPosition(40, 40));
-		is.getPositions().add(new EAdPosition(200, 40));
-		is.getPositions().add(new EAdPosition(40, 200));
+		is.lineTo(new EAdPosition(200, 40));
+		is.lineTo(new EAdPosition(40, 200));
 		EAdBundleId bid = new EAdBundleId("other");
 		bse.getResources().addAsset(bid, EAdBasicSceneElement.appearance, is);
 		

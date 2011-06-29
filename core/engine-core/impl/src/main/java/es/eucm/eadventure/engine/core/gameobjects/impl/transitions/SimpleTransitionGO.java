@@ -57,11 +57,10 @@ public class SimpleTransitionGO extends SceneGOImpl implements
 		loadingText.getResources().addAsset(loadingText.getInitialBundle(), EAdBasicSceneElement.appearance, caption);
 		loadingText.setPosition(EAdPosition.volatileEAdPosition(750, 550, 1.0f, 1.0f));
 		
-		RectangleShape rs = new RectangleShape();
-		rs.setColor(new EAdBorderedColor(new EAdColor(100, 100, 100, 30), EAdColor.BLACK));
 		//TODO remove static references to 800 and 600
-		rs.setWidth(800);
-		rs.setHeight(600);
+		RectangleShape rs = new RectangleShape(800, 600);
+		rs.setColor(new EAdBorderedColor(new EAdColor(100, 100, 100, 30), EAdColor.BLACK));
+		
 		screenBlock = new EAdBasicSceneElement("screenBlock");
 		screenBlock.getResources().addAsset(screenBlock.getInitialBundle(), EAdBasicSceneElement.appearance, rs);
 	}

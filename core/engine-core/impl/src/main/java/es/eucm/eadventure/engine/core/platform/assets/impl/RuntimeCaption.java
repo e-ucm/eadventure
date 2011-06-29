@@ -423,4 +423,9 @@ public class RuntimeCaption implements DrawableAsset<Caption> {
 		return bounds;
 	}
 
+	@Override
+	public Caption getAssetDescriptor() {
+		return caption;
+	}
+
 }

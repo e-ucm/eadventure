@@ -23,7 +23,7 @@ import es.eucm.eadventure.common.model.params.EAdBorderedColor;
 import es.eucm.eadventure.common.model.params.EAdPosition;
 import es.eucm.eadventure.common.model.variables.impl.operations.BooleanOperation;
 import es.eucm.eadventure.common.resources.assets.drawable.Shape;
-import es.eucm.eadventure.common.resources.assets.drawable.impl.IrregularShape;
+import es.eucm.eadventure.common.resources.assets.drawable.impl.BezierShape;
 import es.eucm.eadventure.common.resources.assets.drawable.impl.RectangleShape;
 
 public class ExitImporter implements EAdElementImporter<Exit, EAdSceneElement> {
@@ -54,21 +54,23 @@ public class ExitImporter implements EAdElementImporter<Exit, EAdSceneElement> {
 			int xRight = oldObject.getX1();
 			int yTop = oldObject.getY0();
 			int yBottom = oldObject.getY1();
-			shape = new RectangleShape();
-			((RectangleShape) shape).setHeight(yBottom - yTop);
-			((RectangleShape) shape).setWidth(xRight - xLeft);
+			shape = new RectangleShape(yBottom - yTop, xRight - xLeft);
 			newExit.setPosition(new EAdPosition(EAdPosition.Corner.TOP_LEFT,
 					xLeft, yTop));
 			// FIXME deleted when exits were working
 			((RectangleShape) shape).setColor(EAdBorderedColor.BLACK_ON_WHITE);
 		} else {
-			shape = new IrregularShape();
+			shape = null;
+			int i = 0;
 			for (Point p : oldObject.getPoints()) {
-				((IrregularShape) shape).getPositions().add(
-						new EAdPosition(p.x, p.y));
+				if ( i == 0 )
+					shape = new BezierShape(p.x, p.y);
+				else
+					((BezierShape) shape).lineTo(p.x, p.y);
 			}
+			((BezierShape) shape).close();
 			// FIXME deleted when exits were working
-			((IrregularShape) shape).setColor(EAdBorderedColor.BLACK_ON_WHITE);
+			((BezierShape) shape).setColor(EAdBorderedColor.BLACK_ON_WHITE);
 			newExit.setPosition(new EAdPosition(EAdPosition.Corner.TOP_LEFT, 0,
 					0));
 		}

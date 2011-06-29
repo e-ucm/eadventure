@@ -4,7 +4,6 @@ import es.eucm.eadventure.common.model.params.EAdBorderedColor;
 import es.eucm.eadventure.common.model.params.EAdPosition;
 import es.eucm.eadventure.common.resources.assets.drawable.Shape;
 import es.eucm.eadventure.common.resources.assets.drawable.impl.BezierShape;
-import es.eucm.eadventure.common.resources.assets.drawable.impl.IrregularShape;
 import es.eucm.eadventure.common.resources.assets.drawable.impl.RectangleShape;
 
 public class ShapeFactory {
@@ -41,51 +40,55 @@ public class ShapeFactory {
 	}
 
 	public Shape createCircle(int width) {
-		IrregularShape circle = new IrregularShape();
+		
 		int points = width;
 		float angle = (float) (2 * Math.PI / points);
 		float acc = 0;
 		// Radius
 		width = width / 2;
 
-		for (int i = 0; i < points; i++) {
+		BezierShape circle = new BezierShape(width * 2, width);
+		for (int i = 1; i < points; i++) {
+			acc += angle;
 			int x = (int) (Math.cos(acc) * width);
 			int y = (int) (Math.sin(acc) * width);
 			x += width;
 			y += width;
-			circle.getPositions().add(new EAdPosition(x, y));
-			acc += angle;
+			circle.lineTo(x, y);
 		}
+		circle.close();
 		return circle;
 	}
 
 	public Shape createTriangle(int width, int height) {
-		IrregularShape triangle = new IrregularShape();
-		triangle.getPositions().add(new EAdPosition(width / 2, 0));
-		triangle.getPositions().add(new EAdPosition(0, height));
-		triangle.getPositions().add(new EAdPosition(width, height));
+		BezierShape triangle = new BezierShape(width / 2, 0);
+		triangle.lineTo(new EAdPosition(0, height));
+		triangle.lineTo(new EAdPosition(width, height));
+		triangle.close();
 		return triangle;
 	}
 
 	public Shape createRandomIrregularShape(int width, int height) {
 		int nPoints = width / 5;
-		IrregularShape shape = new IrregularShape();
+		BezierShape shape = new BezierShape(0, 0);
 		for (int i = 0; i < nPoints; i++) {
 			int x = (int) (Math.random() * width);
 			int y = (int) (Math.random() * height);
-			shape.getPositions().add(new EAdPosition(x, y));
+			shape.lineTo(new EAdPosition(x, y));
 		}
+		
+		shape.close();
 		return shape;
 	}
 	
 	public Shape createIrregularShape1(int width, int height) {
-		IrregularShape shape = new IrregularShape();
-		shape.getPositions().add(new EAdPosition( width / 5, 0 ));
-		shape.getPositions().add(new EAdPosition( width - width / 5, 0));
-		shape.getPositions().add(new EAdPosition( width, height));
-		shape.getPositions().add(new EAdPosition( width - width / 5, height));
-		shape.getPositions().add(new EAdPosition( width / 2, height / 2));
-		shape.getPositions().add(new EAdPosition( width / 5, height));
+		BezierShape shape = new BezierShape(width / 5, 0);
+		shape.lineTo(new EAdPosition( width - width / 5, 0));
+		shape.lineTo(new EAdPosition( width, height));
+		shape.lineTo(new EAdPosition( width - width / 5, height));
+		shape.lineTo(new EAdPosition( width / 2, height / 2));
+		shape.lineTo(new EAdPosition( width / 5, height));
+		shape.close();
 		return shape;
 	}
 
