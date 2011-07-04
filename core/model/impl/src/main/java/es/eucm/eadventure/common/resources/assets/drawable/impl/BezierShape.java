@@ -62,13 +62,13 @@ public class BezierShape implements Shape {
 		this.lineTo(new EAdPosition(x, y ));
 	}
 	
-	public void cubeTo( EAdPosition p1, EAdPosition p2 ){
+	public void quadTo( EAdPosition p1, EAdPosition p2 ){
 		points.add(p1);
 		points.add(p2);
 		segmentsLength.add(2);
 	}
 	
-	public void quadTo( EAdPosition p1, EAdPosition p2, EAdPosition p3 ){
+	public void curveTo( EAdPosition p1, EAdPosition p2, EAdPosition p3 ){
 		points.add(p1);
 		points.add(p2);
 		points.add(p3);
@@ -89,6 +89,10 @@ public class BezierShape implements Shape {
 
 	public EAdList<Integer> getSegmentsLength() {
 		return segmentsLength;
+	}
+
+	public void cubeTo(int x1, int y1, int x2, int y2) {
+		quadTo(new EAdPosition(x1, y1), new EAdPosition(x2, y2));
 	}
 
 }

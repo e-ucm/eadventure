@@ -9,7 +9,7 @@ import es.eucm.eadventure.common.resources.assets.drawable.impl.RectangleShape;
 public class ShapeFactory {
 
 	public enum ShapeType {
-		RECTANGULAR_SHAPE, CIRCLE_SHAPE, TRIANGLE_SHAPE, IRREGULAR_RANDOM_SHAPE, IRREGULAR_SHAPE_1;
+		RECTANGULAR_SHAPE, CIRCLE_SHAPE, TRIANGLE_SHAPE, IRREGULAR_RANDOM_SHAPE, IRREGULAR_SHAPE_1, DROP_SHAPE;
 	}
 
 	public Shape getElement(Enum<?> type, int width, int height,
@@ -28,6 +28,9 @@ public class ShapeFactory {
 				break;
 			case IRREGULAR_SHAPE_1:
 				s = createIrregularShape1( width, height );
+				break;
+			case DROP_SHAPE:
+				s = createDropShape( width, height );
 				break;
 			default:
 				s = new RectangleShape(width, height);
@@ -88,6 +91,15 @@ public class ShapeFactory {
 		shape.lineTo(new EAdPosition( width - width / 5, height));
 		shape.lineTo(new EAdPosition( width / 2, height / 2));
 		shape.lineTo(new EAdPosition( width / 5, height));
+		shape.close();
+		return shape;
+	}
+	
+	public Shape createDropShape( int width, int height ){
+		BezierShape shape = new BezierShape( width / 2, 0 );
+		shape.lineTo(width, 2 * height / 3 );
+		shape.cubeTo(width, height, width / 2, height );
+		shape.cubeTo(0, height, 0, 2 * height / 3 );
 		shape.close();
 		return shape;
 	}

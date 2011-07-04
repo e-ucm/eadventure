@@ -52,6 +52,12 @@ public class ShapeScene extends EmptyScene {
 		AssetDescriptor asset41 = shapeFactory.getElement(ShapeFactory.ShapeType.IRREGULAR_RANDOM_SHAPE, size, size, new EAdBorderedColor( EAdColor.GRAY, EAdColor.BROWN ));
 		AssetDescriptor asset42 = shapeFactory.getElement(ShapeFactory.ShapeType.IRREGULAR_RANDOM_SHAPE, size, size, new EAdBorderedColor( EAdColor.DARK_GRAY, EAdColor.BLACK ));
 		getSceneElements().add(EAdElementsFactory.getInstance().getSceneElementFactory().createSceneElement(asset41, asset42, x, margin));
+		x = margin;
+		
+		// Drop shape
+		AssetDescriptor asset61 = shapeFactory.getElement(ShapeFactory.ShapeType.DROP_SHAPE, size, size, new EAdBorderedColor( EAdColor.GRAY, EAdColor.BROWN ));
+		AssetDescriptor asset62 = shapeFactory.getElement(ShapeFactory.ShapeType.DROP_SHAPE, size, size, new EAdBorderedColor( EAdColor.DARK_GRAY, EAdColor.BLACK ));
+		getSceneElements().add(EAdElementsFactory.getInstance().getSceneElementFactory().createSceneElement(asset61, asset62, x, margin * 2 + size));
 		x+= margin + size;
 		
 		// Rectangle rotating
