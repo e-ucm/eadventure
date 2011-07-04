@@ -14,15 +14,15 @@ public class DesktopEngineSpriteImage extends RuntimeSpriteImage {
 	}
 
 	public BufferedImage getImage() {
-		return ((DesktopEngineImage) assetHandler.getRuntimeAsset(assetDescriptor.getImage())).getImage();
+		return ((DesktopEngineImage) assetHandler.getRuntimeAsset(descriptor.getImage())).getImage();
 	}
 
 	public int getSprite() {
-		return assetDescriptor.getSprite();
+		return descriptor.getSprite();
 	}
 
 	public int getTotalSprites() {
-		return assetDescriptor.getTotalSprites();
+		return descriptor.getTotalSprites();
 	}
 
 

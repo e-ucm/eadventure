@@ -78,6 +78,13 @@ public interface EAdSceneElement extends EAdElement, Positioned {
 	EAdVar<Float> alphaVar();
 
 	/**
+	 * Returns the var holding the state name of the element
+	 * 
+	 * @return the state var
+	 */
+	EAdVar<String> stateVar();
+
+	/**
 	 * Returns the effects list associated with the given GUI event,
 	 * {@code null} if there is no effects associated. This method shouldn't be
 	 * used to add new effects to the actor. Returned list could be {@code null}

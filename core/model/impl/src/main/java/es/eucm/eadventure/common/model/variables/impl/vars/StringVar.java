@@ -37,28 +37,34 @@
 
 package es.eucm.eadventure.common.model.variables.impl.vars;
 
+import es.eucm.eadventure.common.model.EAdElement;
 import es.eucm.eadventure.common.model.variables.impl.EAdVarImpl;
 
 public class StringVar extends EAdVarImpl<String> {
 
 	public StringVar(String name) {
-		super(String.class, name);
+		this(name, null);
+	}
+
+	public StringVar(String name, EAdElement element) {
+		super(String.class, name, element);
 		this.setInitialValue("");
 	}
-	
-	/* (non-Javadoc)
-	 * @see java.lang.Object#toString()
-	 * name
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see java.lang.Object#toString() name
 	 */
 	@Override
 	public String toString() {
 		return "String;" + name;
 	}
-	
+
 	public static StringVar valueOf(String string) {
 		String[] strings = string.split(";");
 		String name = strings[1];
 		return new StringVar(name);
 	}
-	
+
 }

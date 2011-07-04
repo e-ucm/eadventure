@@ -53,12 +53,9 @@ import es.eucm.eadventure.engine.core.platform.DrawableAsset;
  * Represents a runtime bundled anmation, base on a {@link BundledAnimation}
  * 
  */
-public class RuntimeBundledAnimation extends AbstractRuntimeAsset<BundledDrawable> implements DrawableAsset<BundledDrawable> {
-
-	/**
-	 * Current state for the animation
-	 */
-	private String currentState;
+public class RuntimeBundledAnimation extends
+		AbstractRuntimeAsset<BundledDrawable> implements
+		DrawableAsset<BundledDrawable> {
 
 	private AssetHandler assetHandler;
 
@@ -75,23 +72,13 @@ public class RuntimeBundledAnimation extends AbstractRuntimeAsset<BundledDrawabl
 	 */
 	private DrawableAsset<?> currentDrawable;
 
-	/**
-	 * Sets current state
-	 * 
-	 * @param currentState
-	 *            the new state
-	 */
-	public void setState(String currentState) {
-		this.currentState = currentState;
-	}
-
 	@Override
 	public boolean loadAsset() {
-		if (!states.containsKey(currentState)) {
-			AssetDescriptor a = descriptor.getDrawable(currentState);
+		if (!states.containsKey(state)) {
+			AssetDescriptor a = descriptor.getDrawable(state);
 			currentDrawable = (DrawableAsset<?>) assetHandler
 					.getRuntimeAsset(a);
-			states.put(currentState, currentDrawable);
+			states.put(state, currentDrawable);
 
 		}
 		return true;
@@ -107,12 +94,12 @@ public class RuntimeBundledAnimation extends AbstractRuntimeAsset<BundledDrawabl
 
 	@Override
 	public boolean isLoaded() {
-		return states.get(currentState) != null;
+		return states.get(state) != null;
 	}
 
 	@Override
 	public void update(GameState state) {
-		if ( currentDrawable != null )
+		if (currentDrawable != null)
 			currentDrawable.update(state);
 	}
 
@@ -132,11 +119,11 @@ public class RuntimeBundledAnimation extends AbstractRuntimeAsset<BundledDrawabl
 
 	@Override
 	public <S extends Drawable> DrawableAsset<S> getDrawable() {
-		if ( !isLoaded()){
+		if (!isLoaded()) {
 			loadAsset();
 		}
-		
-		currentDrawable = states.get(currentState);
+
+		currentDrawable = states.get(state);
 		return currentDrawable.getDrawable();
 	}
 

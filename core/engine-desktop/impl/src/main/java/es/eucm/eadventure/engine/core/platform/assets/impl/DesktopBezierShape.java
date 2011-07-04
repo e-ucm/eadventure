@@ -13,32 +13,32 @@ public class DesktopBezierShape extends RuntimeBezierShape {
 		super.loadAsset();
 		path = new GeneralPath();
 		
-		EAdPosition p = shape.getPoints().get(0);
+		EAdPosition p = descriptor.getPoints().get(0);
 		path.moveTo(p.getX(), p.getY());
 		
 		int pointIndex = 1;
 		EAdPosition p1, p2, p3;
-		for ( Integer i: shape.getSegmentsLength() ){
+		for ( Integer i: descriptor.getSegmentsLength() ){
 				switch( i ){
 				case 1:
-					p1 = shape.getPoints().get(pointIndex++);
+					p1 = descriptor.getPoints().get(pointIndex++);
 					path.lineTo(p1.getX(), p1.getY());
 					break;
 				case 2:
-					p1 = shape.getPoints().get(pointIndex++);
-					p2 = shape.getPoints().get(pointIndex++);
+					p1 = descriptor.getPoints().get(pointIndex++);
+					p2 = descriptor.getPoints().get(pointIndex++);
 					path.quadTo(p1.getX(), p1.getY(), p2.getX(), p2.getY());
 					break;
 				case 3:
-					p1 = shape.getPoints().get(pointIndex++);
-					p2 = shape.getPoints().get(pointIndex++);
-					p3 = shape.getPoints().get(pointIndex++);
+					p1 = descriptor.getPoints().get(pointIndex++);
+					p2 = descriptor.getPoints().get(pointIndex++);
+					p3 = descriptor.getPoints().get(pointIndex++);
 					path.curveTo(p1.getX(), p1.getY(), p2.getX(), p2.getY(), p3.getX(), p3.getY());
 					break;			
 			}
 		}
 		
-		if ( shape.isClosed() )
+		if ( descriptor.isClosed() )
 			path.closePath();
 		
 		return true;

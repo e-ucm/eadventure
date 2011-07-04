@@ -55,7 +55,7 @@ public class DesktopEngineCaption extends RuntimeCaption {
 	}
 
 	public void setHasBuble(boolean b) {
-		((CaptionImpl) this.caption).setHasBubble(b);
+		((CaptionImpl) this.descriptor).setHasBubble(b);
 	}
 
 	public int getLineHeight() {

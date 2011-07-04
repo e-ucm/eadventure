@@ -52,17 +52,12 @@ import es.eucm.eadventure.engine.core.platform.DrawableAsset;
  * Represents a runtime engine composed drawable, associated with an {@link AssetDescritpor}
  * 
  */
-public class RuntimeComposedDrawable implements DrawableAsset<ComposedDrawable> {
+public class RuntimeComposedDrawable extends AbstractRuntimeAsset<ComposedDrawable> implements DrawableAsset<ComposedDrawable> {
 	
 	/**
 	 * Logger
 	 */
 	private Logger logger = Logger.getLogger("RuntimeComposedDrawable");
-
-	/**
-	 * The image asset descriptor
-	 */
-	protected ComposedDrawable assetDescriptor;
 
 	/**
 	 * The asset handler
@@ -74,20 +69,15 @@ public class RuntimeComposedDrawable implements DrawableAsset<ComposedDrawable> 
 		this.assetHandler = assetHandler;
 		logger.info("New instance");
 	}
-	
-	@Override
-	public void setDescriptor(ComposedDrawable descriptor) {
-		this.assetDescriptor = (ComposedDrawable) descriptor;
-	}
 
 	@Override
 	public void update(GameState state) {
-		for (Drawable asset : assetDescriptor.getAssetList())
+		for (Drawable asset : descriptor.getAssetList())
 			assetHandler.getRuntimeAsset(asset).update(state);
 	}
 	
 	public EAdList<Drawable> getAssetList() {
-		return assetDescriptor.getAssetList();
+		return descriptor.getAssetList();
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -98,42 +88,37 @@ public class RuntimeComposedDrawable implements DrawableAsset<ComposedDrawable> 
 	
 	public int getWidth() {
 		int width = 0;
-		for (Drawable asset : assetDescriptor.getAssetList())
+		for (Drawable asset : descriptor.getAssetList())
 			width = Math.max(((DrawableAsset<?>) assetHandler.getRuntimeAsset(asset)).getWidth(), width);
 		return width;
 	}
 
 	public int getHeight() {
 		int height = 0;
-		for (Drawable asset : assetDescriptor.getAssetList())
+		for (Drawable asset : descriptor.getAssetList())
 			height = Math.max(((DrawableAsset<?>) assetHandler.getRuntimeAsset(asset)).getHeight(), height);
 		return height;
 	}
 
 	@Override
 	public boolean loadAsset() {
-		for (Drawable asset : assetDescriptor.getAssetList())
+		for (Drawable asset : descriptor.getAssetList())
 			assetHandler.getRuntimeAsset(asset).loadAsset();
 		return assetHandler != null;
 	}
 
 	@Override
 	public void freeMemory() {
-		for (Drawable asset : assetDescriptor.getAssetList())
+		for (Drawable asset : descriptor.getAssetList())
 			assetHandler.getRuntimeAsset(asset).freeMemory();
 	}
 
 	@Override
 	public boolean isLoaded() {
 		boolean loaded = true;
-		for (Drawable asset : assetDescriptor.getAssetList())
+		for (Drawable asset : descriptor.getAssetList())
 			loaded = loaded & assetHandler.getRuntimeAsset(asset).isLoaded();
 		return loaded;
-	}
-
-	@Override
-	public ComposedDrawable getAssetDescriptor() {
-		return assetDescriptor;
 	}
 
 }

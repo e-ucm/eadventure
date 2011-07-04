@@ -6,9 +6,7 @@ import es.eucm.eadventure.common.resources.assets.drawable.impl.BezierShape;
 import es.eucm.eadventure.engine.core.GameState;
 import es.eucm.eadventure.engine.core.platform.DrawableAsset;
 
-public abstract class RuntimeBezierShape implements DrawableAsset<BezierShape>{
-	
-	protected BezierShape shape;
+public abstract class RuntimeBezierShape extends AbstractRuntimeAsset<BezierShape> implements DrawableAsset<BezierShape>{
 	
 	protected boolean loaded = false;
 	
@@ -20,15 +18,15 @@ public abstract class RuntimeBezierShape implements DrawableAsset<BezierShape>{
 	public boolean loadAsset(){
 		int point = 0;
 		
-		EAdPosition p = shape.getPoints().get(point);
+		EAdPosition p = descriptor.getPoints().get(point);
 		int xMax = p.getX();
 		int xMin = p.getX();
 		int yMax = p.getY();
 		int yMin = p.getY(); 
 		
-		for ( Integer i : shape.getSegmentsLength() ){
+		for ( Integer i : descriptor.getSegmentsLength() ){
 			point += i;
-			p = shape.getPoints().get(point);
+			p = descriptor.getPoints().get(point);
 			xMax = xMax < p.getX() ? p.getX() : xMax;
 			xMin = xMin > p.getX() ? p.getX() : xMin;
 			yMax = yMax < p.getY() ? p.getY() : yMax;
@@ -61,12 +59,6 @@ public abstract class RuntimeBezierShape implements DrawableAsset<BezierShape>{
 	}
 
 	@Override
-	public void setDescriptor(BezierShape descriptor) {
-		this.shape = descriptor;
-		
-	}
-
-	@Override
 	public void update(GameState state) {
 		
 	}
@@ -76,11 +68,6 @@ public abstract class RuntimeBezierShape implements DrawableAsset<BezierShape>{
 	@Override
 	public <S extends Drawable> DrawableAsset<S> getDrawable() {
 		return (DrawableAsset<S>) this;
-	}
-	
-	@Override
-	public BezierShape getAssetDescriptor() {
-		return shape;
 	}
 	
 

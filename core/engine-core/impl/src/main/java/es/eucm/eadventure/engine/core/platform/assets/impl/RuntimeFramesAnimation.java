@@ -58,7 +58,7 @@ import es.eucm.eadventure.engine.core.platform.RuntimeAsset;
  * 
  * 
  */
-public class RuntimeFramesAnimation implements DrawableAsset<FramesAnimation> {
+public class RuntimeFramesAnimation extends AbstractRuntimeAsset<FramesAnimation> implements DrawableAsset<FramesAnimation> {
 	
 	/**
 	 * Logger
@@ -75,11 +75,6 @@ public class RuntimeFramesAnimation implements DrawableAsset<FramesAnimation> {
 	 * The list of images that make the animation
 	 */
 	private List<DrawableAsset<Image>> images;
-
-	/**
-	 * The animation frame
-	 */
-	private FramesAnimation framesAnimation;
 
 	/**
 	 * The elapsed time
@@ -106,12 +101,12 @@ public class RuntimeFramesAnimation implements DrawableAsset<FramesAnimation> {
 	@Override
 	public boolean loadAsset() {
 		if (!isLoaded()) {
-			for (int i = 0; i < framesAnimation.getFrameCount(); i++) {
-				DrawableAsset<Image> image = (DrawableAsset<Image>) assetHandler.getRuntimeAsset((Image) framesAnimation.getFrame(i));
+			for (int i = 0; i < descriptor.getFrameCount(); i++) {
+				DrawableAsset<Image> image = (DrawableAsset<Image>) assetHandler.getRuntimeAsset((Image) descriptor.getFrame(i));
 				images.add(image);
-				totalTime += framesAnimation.getFrame(i).getTime();
+				totalTime += descriptor.getFrame(i).getTime();
 			}
-			if (framesAnimation.getFrameCount() > 0)
+			if (descriptor.getFrameCount() > 0)
 				currentImage = images.get(0);
 			else
 				logger.log(Level.WARNING, "Animation has no frames!!");
@@ -129,12 +124,7 @@ public class RuntimeFramesAnimation implements DrawableAsset<FramesAnimation> {
 
 	@Override
 	public boolean isLoaded() {
-		return images.size() == framesAnimation.getFrameCount();
-	}
-
-	@Override
-	public void setDescriptor(FramesAnimation descriptor) {
-		this.framesAnimation = descriptor;
+		return images.size() == descriptor.getFrameCount();
 	}
 
 	@Override
@@ -168,8 +158,8 @@ public class RuntimeFramesAnimation implements DrawableAsset<FramesAnimation> {
 		int accumulated = time;
 		int i = 0;
 
-		while (accumulated > framesAnimation.getFrame(i).getTime()) {
-			accumulated -= framesAnimation.getFrame(i).getTime();
+		while (accumulated > descriptor.getFrame(i).getTime()) {
+			accumulated -= descriptor.getFrame(i).getTime();
 			i++;
 		}
 
@@ -178,8 +168,4 @@ public class RuntimeFramesAnimation implements DrawableAsset<FramesAnimation> {
 
 	}
 
-	@Override
-	public FramesAnimation getAssetDescriptor() {
-		return framesAnimation;
-	}
 }

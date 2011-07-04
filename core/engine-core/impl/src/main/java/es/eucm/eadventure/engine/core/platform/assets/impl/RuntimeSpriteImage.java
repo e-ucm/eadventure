@@ -51,17 +51,12 @@ import es.eucm.eadventure.engine.core.platform.DrawableAsset;
  * Represents a runtime engine sprite image, associated with an {@link AssetDescritpor}
  * 
  */
-public abstract class RuntimeSpriteImage implements DrawableAsset<SpriteImage> {
+public abstract class RuntimeSpriteImage extends AbstractRuntimeAsset<SpriteImage> implements DrawableAsset<SpriteImage> {
 	
 	/**
 	 * Logger
 	 */
 	private Logger logger = Logger.getLogger("RuntimeSpriteImage");
-
-	/**
-	 * The image asset descriptor
-	 */
-	protected SpriteImage assetDescriptor;
 
 	/**
 	 * The asset handler
@@ -80,14 +75,14 @@ public abstract class RuntimeSpriteImage implements DrawableAsset<SpriteImage> {
 	
 	@Override
 	public void setDescriptor(SpriteImage descriptor) {
-		this.assetDescriptor = (SpriteImage) descriptor;
-		this.rows = (int) Math.sqrt(assetDescriptor.getTotalSprites());
-		this.cols = (int) Math.sqrt(assetDescriptor.getTotalSprites());
+		this.descriptor = (SpriteImage) descriptor;
+		this.rows = (int) Math.sqrt(descriptor.getTotalSprites());
+		this.cols = (int) Math.sqrt(descriptor.getTotalSprites());
 	}
 
 	@Override
 	public void update(GameState state) {		
-		assetHandler.getRuntimeAsset(assetDescriptor.getImage()).update(state);
+		assetHandler.getRuntimeAsset(descriptor.getImage()).update(state);
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -97,27 +92,27 @@ public abstract class RuntimeSpriteImage implements DrawableAsset<SpriteImage> {
 	}
 	
 	public int getWidth() {
-		return ((RuntimeImage) assetHandler.getRuntimeAsset(assetDescriptor.getImage())).getWidth() / rows;
+		return ((RuntimeImage) assetHandler.getRuntimeAsset(descriptor.getImage())).getWidth() / rows;
 	}
 
 	public int getHeight() {
-		return ((RuntimeImage) assetHandler.getRuntimeAsset(assetDescriptor.getImage())).getHeight() / cols;
+		return ((RuntimeImage) assetHandler.getRuntimeAsset(descriptor.getImage())).getHeight() / cols;
 	}
 
 	@Override
 	public boolean loadAsset() {
-		assetHandler.getRuntimeAsset(assetDescriptor.getImage()).loadAsset();
+		assetHandler.getRuntimeAsset(descriptor.getImage()).loadAsset();
 		return assetHandler != null;
 	}
 
 	@Override
 	public void freeMemory() {
-		assetHandler.getRuntimeAsset(assetDescriptor.getImage()).freeMemory();
+		assetHandler.getRuntimeAsset(descriptor.getImage()).freeMemory();
 	}
 
 	@Override
 	public boolean isLoaded() {
-		return assetHandler.getRuntimeAsset(assetDescriptor.getImage()).isLoaded();
+		return assetHandler.getRuntimeAsset(descriptor.getImage()).isLoaded();
 	}
 	
 	public int getRows() {
@@ -126,11 +121,6 @@ public abstract class RuntimeSpriteImage implements DrawableAsset<SpriteImage> {
 	
 	public int getCols() {
 		return cols;
-	}
-	
-	@Override
-	public SpriteImage getAssetDescriptor() {
-		return assetDescriptor;
 	}
 
 }

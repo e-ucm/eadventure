@@ -55,7 +55,8 @@ import es.eucm.eadventure.engine.core.platform.PlatformConfiguration;
 import es.eucm.eadventure.engine.core.platform.RuntimeFont;
 import es.eucm.eadventure.engine.core.platform.impl.FontCacheImpl;
 
-public class RuntimeCaption implements DrawableAsset<Caption> {
+public class RuntimeCaption extends AbstractRuntimeAsset<Caption> implements
+		DrawableAsset<Caption> {
 
 	private Logger logger = Logger.getLogger("RuntimeCaption");
 
@@ -84,8 +85,6 @@ public class RuntimeCaption implements DrawableAsset<Caption> {
 	protected FontCacheImpl fontCache;
 
 	private int linesInPart;
-
-	protected Caption caption;
 
 	/**
 	 * When some text is too long, it could be divided separate parts that will
@@ -141,8 +140,8 @@ public class RuntimeCaption implements DrawableAsset<Caption> {
 	 */
 	@Override
 	public boolean loadAsset() {
-		font = fontCache.get(caption.getFont());
-		text = valueMap.processTextVars(stringHandler.getString(caption
+		font = fontCache.get(descriptor.getFont());
+		text = valueMap.processTextVars(stringHandler.getString(descriptor
 				.getText()));
 		lines = new ArrayList<String>();
 		wrapText();
@@ -172,19 +171,6 @@ public class RuntimeCaption implements DrawableAsset<Caption> {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * es.eucm.eadventure.engine.core.platform.RuntimeAsset#setDescriptor(es
-	 * .eucm.eadventure.common.resources.assets.AssetDescriptor)
-	 */
-	@Override
-	public void setDescriptor(Caption descriptor) {
-		this.caption = descriptor;
-		loadAsset();
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
 	 * @see es.eucm.eadventure.engine.core.platform.RuntimeAsset#update(es.eucm.
 	 * eadventure.engine.core.GameState)
 	 */
@@ -198,7 +184,7 @@ public class RuntimeCaption implements DrawableAsset<Caption> {
 			goForward(1);
 		}
 
-		text = valueMap.processTextVars(stringHandler.getString(caption
+		text = valueMap.processTextVars(stringHandler.getString(descriptor
 				.getText()));
 
 		// If text has changed
@@ -221,7 +207,7 @@ public class RuntimeCaption implements DrawableAsset<Caption> {
 	}
 
 	public float getAlpha() {
-		return caption.getAlpha();
+		return descriptor.getAlpha();
 	}
 
 	@SuppressWarnings("unchecked")
@@ -237,21 +223,22 @@ public class RuntimeCaption implements DrawableAsset<Caption> {
 		bounds = new EAdRectangle(0, 0, 0, 0);
 		lineHeight = font.lineHeight();
 
-		int maximumWidth = (int) (caption.getMaximumWidth() == Caption.SCREEN_SIZE ? (platformConfiguration
-				.getWidth() - caption.getPadding() * 2)
-				/ platformConfiguration.getScale() : caption.getMaximumWidth());
-		int maximumHeight = (int) (caption.getMaximumHeight() < 0 ? platformConfiguration
-				.getHeight() : caption.getMaximumHeight());
+		int maximumWidth = (int) (descriptor.getMaximumWidth() == Caption.SCREEN_SIZE ? (platformConfiguration
+				.getWidth() - descriptor.getPadding() * 2)
+				/ platformConfiguration.getScale() : descriptor
+				.getMaximumWidth());
+		int maximumHeight = (int) (descriptor.getMaximumHeight() < 0 ? platformConfiguration
+				.getHeight() : descriptor.getMaximumHeight());
 
 		// If width for drawing the text is infinite, we have only one line
 		if (maximumWidth == Caption.INFINITE_SIZE) {
 			lines.add(text);
 			totalParts = 1;
 			int lineWidth = font.stringWidth(text);
-			bounds.width = lineWidth > caption.getMinimumWidth() ? lineWidth
-					: caption.getMinimumWidth();
+			bounds.width = lineWidth > descriptor.getMinimumWidth() ? lineWidth
+					: descriptor.getMinimumWidth();
 		} else {
-			bounds.width = caption.getMinimumWidth() > 0 ? caption
+			bounds.width = descriptor.getMinimumWidth() > 0 ? descriptor
 					.getMinimumWidth() : 0;
 			String[] words = text.split(" ");
 
@@ -297,9 +284,9 @@ public class RuntimeCaption implements DrawableAsset<Caption> {
 
 		bounds.height = linesInPart * lineHeight;
 
-		if (caption.hasBubble()) {
-			bounds.width += caption.getPadding() * 2;
-			bounds.height += caption.getPadding() * 2;
+		if (descriptor.hasBubble()) {
+			bounds.width += descriptor.getPadding() * 2;
+			bounds.height += descriptor.getPadding() * 2;
 		}
 	}
 
@@ -416,16 +403,11 @@ public class RuntimeCaption implements DrawableAsset<Caption> {
 	}
 
 	public Caption getCaption() {
-		return caption;
+		return descriptor;
 	}
 
 	public EAdRectangle getBounds() {
 		return bounds;
-	}
-
-	@Override
-	public Caption getAssetDescriptor() {
-		return caption;
 	}
 
 }

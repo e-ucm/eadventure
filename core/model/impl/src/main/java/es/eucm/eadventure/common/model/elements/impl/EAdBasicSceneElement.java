@@ -14,6 +14,7 @@ import es.eucm.eadventure.common.model.variables.EAdVar;
 import es.eucm.eadventure.common.model.variables.impl.vars.BooleanVar;
 import es.eucm.eadventure.common.model.variables.impl.vars.FloatVar;
 import es.eucm.eadventure.common.model.variables.impl.vars.IntegerVar;
+import es.eucm.eadventure.common.model.variables.impl.vars.StringVar;
 import es.eucm.eadventure.common.resources.annotation.Asset;
 import es.eucm.eadventure.common.resources.annotation.Bundled;
 import es.eucm.eadventure.common.resources.assets.drawable.Drawable;
@@ -51,6 +52,8 @@ public class EAdBasicSceneElement extends AbstractEAdElementWithBehavior
 	protected FloatVar alpha = new FloatVar("alpha", this);
 	
 	protected FloatVar scale = new FloatVar("scale", this);
+	
+	protected StringVar state = new StringVar("state", this);
 
 	private boolean clone;
 
@@ -63,6 +66,7 @@ public class EAdBasicSceneElement extends AbstractEAdElementWithBehavior
 		draggable = EmptyCondition.FALSE_EMPTY_CONDITION;
 		visible.setInitialValue(Boolean.TRUE);
 		alpha.setInitialValue(1.0f);
+		state.setInitialValue("default");
 		vars = new ArrayList<EAdVar<?>>();
 		vars.add(positionX);
 		vars.add(positionY);
@@ -72,6 +76,7 @@ public class EAdBasicSceneElement extends AbstractEAdElementWithBehavior
 		vars.add(rotation);
 		vars.add(alpha);
 		vars.add(scale);
+		vars.add(state);
 	}
 
 	@Override
@@ -175,6 +180,11 @@ public class EAdBasicSceneElement extends AbstractEAdElementWithBehavior
 	 */
 	public void setClone(boolean clone) {
 		this.clone = clone;
+	}
+	
+	@Override
+	public EAdVar<String> stateVar(){
+		return state;
 	}
 
 	@Override

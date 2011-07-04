@@ -74,9 +74,10 @@ public interface RuntimeAsset<T extends AssetDescriptor> {
 	 *            the {@link AssetDescriptor}
 	 */
 	void setDescriptor(T descriptor);
-	
+
 	/**
 	 * Returns the asset descriptor for this runtime asset
+	 * 
 	 * @return
 	 */
 	T getAssetDescriptor();
@@ -88,5 +89,13 @@ public interface RuntimeAsset<T extends AssetDescriptor> {
 	 *            the game state
 	 */
 	void update(GameState state);
+
+	/**
+	 * Sets the current state for the asset. Some assets depends on a state
+	 * 
+	 * @param state
+	 *            the state name
+	 */
+	void setState(String state);
 
 }

@@ -44,6 +44,8 @@ public abstract class AbstractRuntimeAsset<T extends AssetDescriptor> implements
 
 	protected T descriptor;
 	
+	protected String state;
+	
 	@Override
 	public void setDescriptor(T descriptor) {
 		this.descriptor = descriptor;
@@ -52,5 +54,9 @@ public abstract class AbstractRuntimeAsset<T extends AssetDescriptor> implements
 	@Override
 	public T getAssetDescriptor() {
 		return descriptor;
+	}
+	
+	public void setState(String state){
+		this.state = state;
 	}
 }
