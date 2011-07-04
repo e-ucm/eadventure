@@ -5,6 +5,8 @@ import es.eucm.eadventure.common.resources.assets.AssetDescriptor;
 public interface SpecialAssetRenderer<A extends AssetDescriptor, Component> {
 
 	Component getComponent(A asset);
+	
+	boolean start();
 
 	boolean isFinished();
 	

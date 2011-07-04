@@ -40,6 +40,8 @@ public class DesktopVideoRenderer implements SpecialAssetRenderer<Video, Compone
 	
 	private AssetHandler assetHandler;
 	
+	private Component video;
+	
 	@Inject
 	public DesktopVideoRenderer(AssetHandler assetHandler) {
 		this.assetHandler = assetHandler;
@@ -58,7 +60,7 @@ public class DesktopVideoRenderer implements SpecialAssetRenderer<Video, Compone
 	        	logger.severe("Could not load video codec!");
 	        }
 		}
-		Component video = null;
+		video = null;
 		finished = false;
 		
 		Manager.setHint(Manager.LIGHTWEIGHT_RENDERER, true);
@@ -101,9 +103,6 @@ public class DesktopVideoRenderer implements SpecialAssetRenderer<Video, Compone
 			});
 			video = mediaPlayer.getVisualComponent();
 			
-			if( video != null ) {
-	            mediaPlayer.start( );
-	        }
 		} catch (NoPlayerException e) {
 			logger.log(Level.SEVERE, "No player", e);
 		} catch (MalformedURLException e) {
@@ -116,7 +115,17 @@ public class DesktopVideoRenderer implements SpecialAssetRenderer<Video, Compone
 		return video;
 	}
 
+	@Override
 	public boolean isFinished() {
 		return finished;
+	}
+
+	@Override
+	public boolean start() {
+		if( video != null ) {
+            mediaPlayer.start( );
+            return true;
+        }
+		return false;
 	}
 }
