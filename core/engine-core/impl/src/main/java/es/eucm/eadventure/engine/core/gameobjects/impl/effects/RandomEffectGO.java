@@ -37,7 +37,7 @@ public class RandomEffectGO extends AbstractEffectGO<EAdRandomEffect> {
 		for ( EAdEffect effect: effects.keySet() ){
 			float inc = effects.get(effect);
 			if ( acc <= random && random < acc + inc ){
-				gameState.addEffect(effect);
+				gameState.addEffect(effect, action);
 				break;
 			}
 			acc += inc;

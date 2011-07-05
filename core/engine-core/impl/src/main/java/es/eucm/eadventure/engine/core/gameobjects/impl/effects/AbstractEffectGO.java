@@ -40,6 +40,7 @@ package es.eucm.eadventure.engine.core.gameobjects.impl.effects;
 import es.eucm.eadventure.common.model.effects.EAdEffect;
 import es.eucm.eadventure.engine.core.gameobjects.EffectGO;
 import es.eucm.eadventure.engine.core.gameobjects.impl.AbstractGameObject;
+import es.eucm.eadventure.engine.core.guiactions.GUIAction;
 
 public abstract class AbstractEffectGO<P extends EAdEffect> extends
 		AbstractGameObject<P> implements EffectGO<P> {
@@ -47,6 +48,8 @@ public abstract class AbstractEffectGO<P extends EAdEffect> extends
 	private boolean stopped = false;
 	
 	private boolean initialized = false;
+	
+	protected GUIAction action;
 
 	@Override
 	public void initilize() {
@@ -84,6 +87,10 @@ public abstract class AbstractEffectGO<P extends EAdEffect> extends
 	public void finish(){
 		initialized = false;
 		stopped = true;
+	}
+	
+	public void setGUIAction( GUIAction action ){
+		this.action = action;
 	}
 
 }

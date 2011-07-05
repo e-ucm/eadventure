@@ -59,10 +59,6 @@ public class SceneGOImpl extends AbstractGameObject<EAdScene> implements SceneGO
 		logger.info( "New instance" );
 	}
 	
-	public void setElement(EAdScene space) {
-		super.setElement(space);
-	}
-	
 	public void doLayout(int offsetX, int offsetY) {
 		//TODO scene offset
 		gui.addElement(gameObjectFactory.get(element.getBackground()), offsetX, offsetY);

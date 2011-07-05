@@ -38,6 +38,7 @@
 package es.eucm.eadventure.engine.core.gameobjects;
 
 import es.eucm.eadventure.common.model.effects.EAdEffect;
+import es.eucm.eadventure.engine.core.guiactions.GUIAction;
 
 public interface EffectGO<P extends EAdEffect> extends GameObject<P> {
 
@@ -107,5 +108,13 @@ public interface EffectGO<P extends EAdEffect> extends GameObject<P> {
 	 * Ends the effect
 	 */
 	void finish();
+
+	/**
+	 * Sets the gui action that launched this effect
+	 * 
+	 * @param gui
+	 *            the gui action
+	 */
+	void setGUIAction(GUIAction gui);
 
 }

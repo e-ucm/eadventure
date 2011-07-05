@@ -49,7 +49,7 @@ public class TriggerMacroEffectGO extends AbstractEffectGO<EAdTriggerMacro> {
 			gameState.addEffect(0, element.getMacro().getEffects().get(i));
 		}*/
 		for ( EAdEffect e: element.getMacro().getEffects()){
-			gameState.addEffect(e);
+			gameState.addEffect(e, action);
 		}
 	}
 	

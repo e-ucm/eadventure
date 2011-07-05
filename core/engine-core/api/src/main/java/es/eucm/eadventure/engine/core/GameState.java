@@ -45,6 +45,7 @@ import es.eucm.eadventure.common.model.elements.EAdActor;
 import es.eucm.eadventure.common.model.elements.EAdScene;
 import es.eucm.eadventure.engine.core.gameobjects.EffectGO;
 import es.eucm.eadventure.engine.core.gameobjects.SceneGO;
+import es.eucm.eadventure.engine.core.guiactions.GUIAction;
 
 /**
  * The state of the game.
@@ -90,12 +91,22 @@ public interface GameState {
 	void setScene(SceneGO<? extends EAdScene> scene);
 
 	/**
+	 * Adds an effect without any gui action associated
+	 * 
+	 * @param e
+	 *            the effect
+	 */
+	void addEffect(EAdEffect e);
+
+	/**
 	 * Adds a new effect to the effects' tail
 	 * 
 	 * @param e
 	 *            the new effect
+	 * @param action
+	 *            the action that launched the effect
 	 */
-	void addEffect(EAdEffect e);
+	void addEffect(EAdEffect e, GUIAction action);
 
 	/**
 	 * Adds a new effect in a specific position in the queue
@@ -104,8 +115,9 @@ public interface GameState {
 	 *            the position where to add the new effect
 	 * @param e
 	 *            the new effect to be added to the queue
+	 * @param action
 	 */
-	void addEffect(int pos, EAdEffect e);
+	void addEffect(int pos, EAdEffect e, GUIAction action);
 
 	/**
 	 * Adds the effects waiting in the queue (after being added with

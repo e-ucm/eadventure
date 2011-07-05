@@ -55,6 +55,7 @@ import es.eucm.eadventure.engine.core.ValueMap;
 import es.eucm.eadventure.engine.core.gameobjects.EffectGO;
 import es.eucm.eadventure.engine.core.gameobjects.GameObjectFactory;
 import es.eucm.eadventure.engine.core.gameobjects.SceneGO;
+import es.eucm.eadventure.engine.core.guiactions.GUIAction;
 
 @Singleton
 public class GameStateImpl implements GameState {
@@ -79,6 +80,11 @@ public class GameStateImpl implements GameState {
 	 * Queue for effects added
 	 */
 	private List<EAdEffect> effectsQueue;
+	
+	/**
+	 * Queue for the actions linked to effects
+	 */
+	private List<GUIAction> actionsQueue;
 
 	private static Logger logger = Logger.getLogger("GameState");
 
@@ -89,6 +95,7 @@ public class GameStateImpl implements GameState {
 			GameObjectFactory gameObjectFactory, ValueMap valueMap) {
 		effects = new ArrayList<EffectGO<?>>();
 		effectsQueue = new ArrayList<EAdEffect>();
+		actionsQueue = new ArrayList<GUIAction>();
 		this.scene = (SceneGO<?>) gameObjectFactory.get(loadingScreen);
 		this.valueMap = valueMap;
 		this.gameObjectFactory = gameObjectFactory;
@@ -147,8 +154,8 @@ public class GameStateImpl implements GameState {
 	 * .common.model.effects.EAdEffect)
 	 */
 	@Override
-	public void addEffect(EAdEffect e) {
-		addEffect(effectsQueue.size(), e);
+	public void addEffect(EAdEffect e, GUIAction action) {
+		addEffect(effectsQueue.size(), e, action);
 	}
 
 	/*
@@ -159,8 +166,9 @@ public class GameStateImpl implements GameState {
 	 */
 	@Override
 	// TODO consider leaving effect initilization for later
-	public void addEffect(int pos, EAdEffect e) {
+	public void addEffect(int pos, EAdEffect e, GUIAction action) {
 		effectsQueue.add(pos, e);
+		actionsQueue.add(action);
 	}
 
 	@Override
@@ -201,16 +209,26 @@ public class GameStateImpl implements GameState {
 	@SuppressWarnings("unchecked")
 	@Override
 	public void updateEffectsQueue() {
+		int i = 0;
 		for (EAdEffect e : effectsQueue) {
 			@SuppressWarnings("rawtypes")
 			EffectGO effectGO = (EffectGO) gameObjectFactory.get(e);
 			if (!effects.contains(effectGO)) {
 				effectGO.setElement(e);
+				effectGO.setGUIAction(actionsQueue.get(i++));
 				effects.add(effectGO);
 			}
 			logger.info("Added " + effectGO);
 		}
 		effectsQueue.clear();
+		actionsQueue.clear();
+		
+		
+	}
+
+	@Override
+	public void addEffect(EAdEffect e) {
+		this.addEffect(e, null);
 	}
 
 }

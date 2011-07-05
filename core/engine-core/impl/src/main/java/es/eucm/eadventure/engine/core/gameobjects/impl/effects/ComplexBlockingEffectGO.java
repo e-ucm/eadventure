@@ -50,11 +50,6 @@ public class ComplexBlockingEffectGO extends AbstractEffectGO<EAdComplexBlocking
 
 	@Inject
 	private EvaluatorFactory evaluatorFactory;
-	
-	@Override
-	public void initilize() {
-		super.initilize();
-	}
 
 	@Override
 	public void doLayout(int offsetX, int offsetY) {
@@ -88,7 +83,7 @@ public class ComplexBlockingEffectGO extends AbstractEffectGO<EAdComplexBlocking
 	public void finish( ){
 		super.finish();
 		for ( EAdEffect e: element.getFinalEffects( ) ){
-			gameState.addEffect(e);	
+			gameState.addEffect(e, action);	
 		}
 		
 	}
