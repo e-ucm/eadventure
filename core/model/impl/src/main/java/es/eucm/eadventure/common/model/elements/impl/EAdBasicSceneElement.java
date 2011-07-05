@@ -3,6 +3,7 @@ package es.eucm.eadventure.common.model.elements.impl;
 import java.util.ArrayList;
 import java.util.List;
 
+import es.eucm.eadventure.common.interfaces.Element;
 import es.eucm.eadventure.common.interfaces.Oriented;
 import es.eucm.eadventure.common.interfaces.Oriented.Orientation;
 import es.eucm.eadventure.common.interfaces.Param;
@@ -19,6 +20,7 @@ import es.eucm.eadventure.common.resources.annotation.Asset;
 import es.eucm.eadventure.common.resources.annotation.Bundled;
 import es.eucm.eadventure.common.resources.assets.drawable.Drawable;
 
+@Element(detailed = EAdBasicSceneElement.class, runtime = EAdBasicSceneElement.class)
 public class EAdBasicSceneElement extends AbstractEAdElementWithBehavior
 		implements EAdSceneElement {
 
@@ -52,13 +54,13 @@ public class EAdBasicSceneElement extends AbstractEAdElementWithBehavior
 	protected FloatVar alpha = new FloatVar("alpha", this);
 	
 	protected FloatVar scale = new FloatVar("scale", this);
-	
-	protected StringVar state = new StringVar("state", this);
 
 	private boolean clone;
 
 	public EAdBasicSceneElement(String id) {
-		super(id);
+			
+	protected StringVar state = new StringVar("state", this);
+super(id);
 		setScale(1.0f);
 		clone = false;
 		setPosition(new EAdPosition(0, 0));
@@ -66,8 +68,8 @@ public class EAdBasicSceneElement extends AbstractEAdElementWithBehavior
 		draggable = EmptyCondition.FALSE_EMPTY_CONDITION;
 		visible.setInitialValue(Boolean.TRUE);
 		alpha.setInitialValue(1.0f);
-		state.setInitialValue("default");
 		vars = new ArrayList<EAdVar<?>>();
+		state.setInitialValue("default");
 		vars.add(positionX);
 		vars.add(positionY);
 		vars.add(width);

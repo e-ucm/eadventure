@@ -74,7 +74,7 @@ public class EAdChapterImpl extends AbstractEAdElement implements EAdChapter {
 	@Param("description")
 	private EAdString description;
 	
-//	@Param("initialScreen")
+	@Param("initialScreen")
 	private EAdScene initialScreen;
 	
 //	@Param("loadingScreen")

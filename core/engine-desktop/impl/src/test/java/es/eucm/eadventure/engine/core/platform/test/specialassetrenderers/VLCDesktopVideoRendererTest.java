@@ -17,9 +17,9 @@ import org.junit.Test;
 
 import es.eucm.eadventure.common.resources.assets.multimedia.Video;
 import es.eucm.eadventure.common.resources.assets.multimedia.impl.VideoImpl;
-import es.eucm.eadventure.engine.core.platform.impl.specialassetrenderers.DesktopVideoRenderer;
+import es.eucm.eadventure.engine.core.platform.impl.specialassetrenderers.VLCDesktopVideoRenderer;
 
-public class DesktopVideoRendererTest extends TestCase {
+public class VLCDesktopVideoRendererTest extends TestCase {
 
 	private JFrame frame;
 	
@@ -32,7 +32,7 @@ public class DesktopVideoRendererTest extends TestCase {
 		assertTrue(file.exists());
 		Video video = new VideoImpl(file.getAbsolutePath());
 		assertTrue(new File(video.getURI()).exists());
-		final DesktopVideoRenderer desktopVideoRenderer = new DesktopVideoRenderer(null);
+		final VLCDesktopVideoRenderer desktopVideoRenderer = new VLCDesktopVideoRenderer(null);
 		o = desktopVideoRenderer.getComponent(video);
 		assertTrue(o != null);
 		assertTrue(o instanceof Component);
@@ -50,8 +50,7 @@ public class DesktopVideoRendererTest extends TestCase {
 				desktopVideoRenderer.start();
 			}
 		}).start();
-
-
+		
 		while(!desktopVideoRenderer.isFinished()) {
 			try {
 				Thread.sleep(2000);

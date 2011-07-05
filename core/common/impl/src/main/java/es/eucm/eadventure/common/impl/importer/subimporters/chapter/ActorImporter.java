@@ -54,7 +54,8 @@ public abstract class ActorImporter<P extends Element> implements
 	@Override
 	public EAdActor convert(P oldObject, Object object) {
 		EAdBasicActor actor = (EAdBasicActor) object;
-
+		elementFactory.getCurrentChapterModel().getActors().add(actor);
+		
 		actor.setName(new EAdString(stringHandler.getUniqueId()));
 		stringHandler.addString(actor.getName(), oldObject.getName());
 
