@@ -37,6 +37,7 @@
 
 package es.eucm.eadventure.common.model.effects.impl;
 
+import es.eucm.eadventure.common.interfaces.Element;
 import es.eucm.eadventure.common.interfaces.Param;
 import es.eucm.eadventure.common.model.effects.EAdEffect;
 import es.eucm.eadventure.common.model.effects.EAdMacro;
@@ -44,6 +45,7 @@ import es.eucm.eadventure.common.model.effects.EAdMacro;
 /**
  * Effect to trigger the effects contained in a macro
  */
+@Element(detailed = EAdTriggerMacro.class, runtime = EAdTriggerMacro.class)
 public class EAdTriggerMacro extends AbstractEAdEffect implements EAdEffect {
 
 	@Param("macro")

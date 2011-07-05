@@ -6,11 +6,9 @@ import java.util.Map;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.google.inject.Singleton;
-import com.google.inject.TypeLiteral;
 
 import es.eucm.eadventure.common.EAdElementImporter;
 import es.eucm.eadventure.common.GenericImporter;
-import es.eucm.eadventure.common.data.HasId;
 import es.eucm.eadventure.common.data.adventure.AdventureData;
 import es.eucm.eadventure.common.data.adventure.DescriptorData;
 import es.eucm.eadventure.common.data.chapter.Chapter;
@@ -21,11 +19,7 @@ import es.eucm.eadventure.common.impl.importer.interfaces.EAdElementFactory;
 import es.eucm.eadventure.common.model.EAdChapter;
 import es.eucm.eadventure.common.model.EAdElement;
 import es.eucm.eadventure.common.model.effects.EAdEffect;
-import es.eucm.eadventure.common.model.elements.EAdActor;
 import es.eucm.eadventure.common.model.elements.EAdCondition;
-import es.eucm.eadventure.common.model.elements.EAdScene;
-import es.eucm.eadventure.common.model.elements.impl.EAdBasicActor;
-import es.eucm.eadventure.common.model.elements.impl.EAdSceneImpl;
 import es.eucm.eadventure.common.model.variables.EAdVar;
 import es.eucm.eadventure.common.model.variables.impl.vars.BooleanVar;
 import es.eucm.eadventure.common.model.variables.impl.vars.IntegerVar;
@@ -36,7 +30,6 @@ public class EAdElementFactoryImpl implements EAdElementFactory {
 	private Map<String, Map<String, EAdElement>> elements;
 	private Map<String, Map<String, EAdVar<?>>> chapterVars;
 	private Map<String, Map<String, EAdCondition>> chapterGlobalStates;
-	private Map<Object, Object> genericElementMap;
 	
 	
 	private Map<String, Object> oldType;
@@ -65,7 +58,6 @@ public class EAdElementFactoryImpl implements EAdElementFactory {
 		elements = new HashMap<String, Map<String, EAdElement>>();
 		chapterVars = new HashMap<String, Map<String, EAdVar<?>>>();
 		chapterGlobalStates = new HashMap<String, Map<String, EAdCondition>>();
-		genericElementMap = new HashMap<Object, Object>();
 		oldType = new HashMap<String, Object>();
 		this.injector = injector;
 	}

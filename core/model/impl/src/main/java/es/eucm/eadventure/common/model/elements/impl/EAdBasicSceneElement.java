@@ -3,6 +3,7 @@ package es.eucm.eadventure.common.model.elements.impl;
 import java.util.ArrayList;
 import java.util.List;
 
+import es.eucm.eadventure.common.interfaces.Element;
 import es.eucm.eadventure.common.interfaces.Oriented;
 import es.eucm.eadventure.common.interfaces.Oriented.Orientation;
 import es.eucm.eadventure.common.interfaces.Param;
@@ -18,6 +19,7 @@ import es.eucm.eadventure.common.resources.annotation.Asset;
 import es.eucm.eadventure.common.resources.annotation.Bundled;
 import es.eucm.eadventure.common.resources.assets.drawable.Drawable;
 
+@Element(detailed = EAdBasicSceneElement.class, runtime = EAdBasicSceneElement.class)
 public class EAdBasicSceneElement extends AbstractEAdElementWithBehavior
 		implements EAdSceneElement {
 
