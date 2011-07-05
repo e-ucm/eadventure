@@ -35,28 +35,40 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package es.eucm.eadventure.common.impl.importer.subimporters.chapter;
+package es.eucm.eadventure.common.impl.importer.subimporters.macros;
+
+import com.google.inject.Inject;
 
 import es.eucm.eadventure.common.EAdElementImporter;
-import es.eucm.eadventure.common.data.chapter.Timer;
-import es.eucm.eadventure.common.model.events.EAdEvent;
-import es.eucm.eadventure.common.model.events.impl.EAdTimerEventImpl;
+import es.eucm.eadventure.common.data.chapter.effects.AbstractEffect;
+import es.eucm.eadventure.common.data.chapter.effects.Macro;
+import es.eucm.eadventure.common.impl.importer.interfaces.EffectsImporterFactory;
+import es.eucm.eadventure.common.model.effects.EAdEffect;
+import es.eucm.eadventure.common.model.effects.EAdMacro;
+import es.eucm.eadventure.common.model.effects.impl.EAdMacroImpl;
 
-public class TimerImporter implements EAdElementImporter<Timer, EAdEvent>{
+public class MacroImporter implements EAdElementImporter<Macro, EAdMacro>{
 	
-	private static int ID = 0; 
-
+	private EffectsImporterFactory effectImporter;
+	
+	@Inject
+	public MacroImporter(EffectsImporterFactory effectImporter) {
+		this.effectImporter = effectImporter;
+	}
 	@Override
-	public EAdEvent init( Timer oldTimer ) {
-		return new EAdTimerEventImpl( "timer" + ID++ );
+	public EAdMacro init( Macro oldMacro ) {
+		return new EAdMacroImpl( oldMacro.getId() );
 	}
 
 	@Override
-	public EAdEvent convert( Timer oldTimer, Object object) {
-		EAdEvent newTimer = (EAdTimerEventImpl) object;
+	public EAdMacro convert( Macro oldMacro, Object object) {
+		EAdMacroImpl newMacro = (EAdMacroImpl) object;
 		
-		//TODO do conversion
+		for (AbstractEffect e : oldMacro.getEffects()) {
+			EAdEffect newEffect = (EAdEffect) effectImporter.getEffect(e);
+			newMacro.getEffects().add(newEffect);
+		}
 		
-		return newTimer;
+		return newMacro;
 	}
 }

@@ -56,6 +56,7 @@ import es.eucm.eadventure.common.data.chapter.conversation.GraphConversation;
 import es.eucm.eadventure.common.data.chapter.conversation.line.ConversationLine;
 import es.eucm.eadventure.common.data.chapter.conversation.node.DialogueConversationNode;
 import es.eucm.eadventure.common.data.chapter.conversation.node.OptionConversationNode;
+import es.eucm.eadventure.common.data.chapter.effects.Macro;
 import es.eucm.eadventure.common.data.chapter.elements.ActiveArea;
 import es.eucm.eadventure.common.data.chapter.elements.Atrezzo;
 import es.eucm.eadventure.common.data.chapter.elements.Item;
@@ -92,6 +93,7 @@ import es.eucm.eadventure.common.impl.importer.subimporters.conditions.Condition
 import es.eucm.eadventure.common.impl.importer.subimporters.conditions.FlagConditionImporter;
 import es.eucm.eadventure.common.impl.importer.subimporters.conditions.VarConditionImporter;
 import es.eucm.eadventure.common.impl.importer.subimporters.effects.EffectsImporterModule;
+import es.eucm.eadventure.common.impl.importer.subimporters.macros.MacroImporter;
 import es.eucm.eadventure.common.loader.InputStreamCreator;
 import es.eucm.eadventure.common.model.EAdAdventureModel;
 import es.eucm.eadventure.common.model.EAdChapter;
@@ -99,6 +101,7 @@ import es.eucm.eadventure.common.model.actions.EAdAction;
 import es.eucm.eadventure.common.model.conditions.impl.FlagCondition;
 import es.eucm.eadventure.common.model.conditions.impl.VarCondition;
 import es.eucm.eadventure.common.model.effects.EAdEffect;
+import es.eucm.eadventure.common.model.effects.EAdMacro;
 import es.eucm.eadventure.common.model.effects.impl.EAdTriggerMacro;
 import es.eucm.eadventure.common.model.effects.impl.text.EAdShowQuestion;
 import es.eucm.eadventure.common.model.effects.impl.text.EAdShowText;
@@ -161,6 +164,9 @@ public class ImporterConfigurationModule extends AbstractModule {
 		
 		bind(new TypeLiteral<EAdElementImporter<Conditions, EAdCondition>>() {}).to(ConditionsImporter.class);
 		EAdElementFactoryImpl.importerMap.put(Conditions.class, ConditionsImporter.class);
+
+		bind(new TypeLiteral<EAdElementImporter<Macro, EAdMacro>>() {}).to(MacroImporter.class);
+		EAdElementFactoryImpl.importerMap.put(Macro.class, MacroImporter.class);
 
 		bind(new TypeLiteral<EAdElementImporter<Action, EAdAction>>() {}).to(ActionImporter.class);
 		EAdElementFactoryImpl.importerMap.put(Action.class, ActionImporter.class);

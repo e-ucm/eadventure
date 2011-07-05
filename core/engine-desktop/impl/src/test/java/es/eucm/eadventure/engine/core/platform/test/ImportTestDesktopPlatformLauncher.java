@@ -114,7 +114,7 @@ public class ImportTestDesktopPlatformLauncher {
 			PlatformLauncher launcher = injector
 					.getInstance(PlatformLauncher.class);
 			// TODO extract file from args or use default?
-			File file = new File(folder, "ProjectImported");
+			File file = new File(folder, projectName + "Imported");
 			// File file = new File("/ProyectoJuegoFINAL.ead");
 			((DesktopPlatformLauncher) launcher).launch(new EAdURIImpl( file.toString() ));
 		}

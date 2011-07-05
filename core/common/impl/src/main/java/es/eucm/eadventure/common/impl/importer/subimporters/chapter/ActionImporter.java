@@ -43,6 +43,7 @@ public class ActionImporter implements EAdElementImporter<Action, EAdAction> {
 		this.stringHandler = stringHandler;
 		this.effectsImporterFactory = effectsImporterFactory;
 		this.conditionsImporter = conditionsImporter;
+		this.resourceImporter = resourceImporter;
 	}
 
 	@Override

@@ -13,6 +13,7 @@ import es.eucm.eadventure.common.data.chapter.effects.ActivateEffect;
 import es.eucm.eadventure.common.data.chapter.effects.DeactivateEffect;
 import es.eucm.eadventure.common.data.chapter.effects.DecrementVarEffect;
 import es.eucm.eadventure.common.data.chapter.effects.IncrementVarEffect;
+import es.eucm.eadventure.common.data.chapter.effects.MacroReferenceEffect;
 import es.eucm.eadventure.common.data.chapter.effects.RandomEffect;
 import es.eucm.eadventure.common.data.chapter.effects.SetValueEffect;
 import es.eucm.eadventure.common.data.chapter.effects.ShowTextEffect;
@@ -53,6 +54,7 @@ public class EffectsImporterModule extends AbstractModule implements MapProvider
 		factoryMap.put(TriggerLastSceneEffect.class, TriggerPreviousSceneImporter.class);
 		factoryMap.put(SpeakPlayerEffect.class, SpeakPlayerEffectImporter.class);
 		factoryMap.put(SpeakCharEffect.class, SpeakCharEffectImporter.class);
+		factoryMap.put(MacroReferenceEffect.class, TriggerMacroImporter.class);
 		
 	}
 	
