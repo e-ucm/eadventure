@@ -16,9 +16,14 @@ import es.eucm.eadventure.common.data.chapter.effects.IncrementVarEffect;
 import es.eucm.eadventure.common.data.chapter.effects.RandomEffect;
 import es.eucm.eadventure.common.data.chapter.effects.SetValueEffect;
 import es.eucm.eadventure.common.data.chapter.effects.ShowTextEffect;
+import es.eucm.eadventure.common.data.chapter.effects.SpeakCharEffect;
+import es.eucm.eadventure.common.data.chapter.effects.SpeakPlayerEffect;
 import es.eucm.eadventure.common.data.chapter.effects.TriggerConversationEffect;
 import es.eucm.eadventure.common.data.chapter.effects.TriggerLastSceneEffect;
 import es.eucm.eadventure.common.impl.importer.interfaces.EffectsImporterFactory;
+import es.eucm.eadventure.common.impl.importer.subimporters.effects.texts.ShowTextEffectImporter;
+import es.eucm.eadventure.common.impl.importer.subimporters.effects.texts.SpeakCharEffectImporter;
+import es.eucm.eadventure.common.impl.importer.subimporters.effects.texts.SpeakPlayerEffectImporter;
 import es.eucm.eadventure.common.impl.importer.subimporters.effects.variables.ActivateFlagImporter;
 import es.eucm.eadventure.common.impl.importer.subimporters.effects.variables.DeactivateFlagImporter;
 import es.eucm.eadventure.common.impl.importer.subimporters.effects.variables.DecrementVarImporter;
@@ -42,6 +47,9 @@ public class EffectsImporterModule extends AbstractModule implements MapProvider
 		factoryMap.put(RandomEffect.class, RandomEffectImporter.class);
 		factoryMap.put(TriggerConversationEffect.class, TriggerConversationImporter.class);
 		factoryMap.put(TriggerLastSceneEffect.class, TriggerPreviousSceneImporter.class);
+		factoryMap.put(SpeakPlayerEffect.class, SpeakPlayerEffectImporter.class);
+		factoryMap.put(SpeakCharEffect.class, SpeakCharEffectImporter.class);
+		
 	}
 	
 	@Override

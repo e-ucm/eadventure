@@ -212,7 +212,7 @@ public class EAdColor {
 	 * @return The EAdColor represented by the string
 	 */
 	public static EAdColor valueOf(String string) {
-		if (string != null) {
+		if (string != null && string.length() == 10 ) {
 			EAdColor color = new EAdColor();
 			color.setRed(Integer.parseInt(string.substring(2, 4), 16));
 			color.setGreen(Integer.parseInt(string.substring(4, 6), 16));

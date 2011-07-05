@@ -58,8 +58,9 @@ package es.eucm.eadventure.common;
 public interface GenericImporter<OldT, NewT> {
 
 	/**
-	 * Returns a new model object equivalent to the oldObject. Null if
-	 * conversion failed
+	 * Returns a new model empty object equivalent to the oldObject. Null if
+	 * conversion failed. Its parameters will be filled through
+	 * {@link GenericImporter#convert(Object, Object)}
 	 * 
 	 * @param oldObject
 	 * @return
@@ -70,7 +71,10 @@ public interface GenericImporter<OldT, NewT> {
 	 * Converts the parameters of the old object to those of the new one
 	 * 
 	 * @param oldObject
+	 *            the old object
 	 * @param newElement
+	 *            the new element. It'll be filled with the parameters from
+	 *            oldObject
 	 * @return
 	 */
 	NewT convert(OldT oldObject, Object newElement);
