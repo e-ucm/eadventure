@@ -55,12 +55,12 @@ public class EAdBasicSceneElement extends AbstractEAdElementWithBehavior
 	
 	protected FloatVar scale = new FloatVar("scale", this);
 
+	protected StringVar state = new StringVar("state", this);
+
 	private boolean clone;
 
 	public EAdBasicSceneElement(String id) {
-			
-	protected StringVar state = new StringVar("state", this);
-super(id);
+		super(id);
 		setScale(1.0f);
 		clone = false;
 		setPosition(new EAdPosition(0, 0));

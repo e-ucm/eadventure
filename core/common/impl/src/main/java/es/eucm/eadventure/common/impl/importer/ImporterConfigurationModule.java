@@ -62,6 +62,7 @@ import es.eucm.eadventure.common.data.chapter.elements.Item;
 import es.eucm.eadventure.common.data.chapter.elements.NPC;
 import es.eucm.eadventure.common.data.chapter.scenes.Scene;
 import es.eucm.eadventure.common.data.chapter.scenes.Slidescene;
+import es.eucm.eadventure.common.data.chapter.scenes.Videoscene;
 import es.eucm.eadventure.common.impl.importer.auxiliar.EAdElementFactoryImpl;
 import es.eucm.eadventure.common.impl.importer.auxiliar.ImporterImageLoaderFactory;
 import es.eucm.eadventure.common.impl.importer.auxiliar.TemporalInputStreamCreator;
@@ -82,6 +83,7 @@ import es.eucm.eadventure.common.impl.importer.subimporters.chapter.conversation
 import es.eucm.eadventure.common.impl.importer.subimporters.chapter.conversations.LineImporterToShowText;
 import es.eucm.eadventure.common.impl.importer.subimporters.chapter.conversations.OptionConversationImporter;
 import es.eucm.eadventure.common.impl.importer.subimporters.chapter.cutscene.SlidesceneImporter;
+import es.eucm.eadventure.common.impl.importer.subimporters.chapter.cutscene.VideosceneImporter;
 import es.eucm.eadventure.common.impl.importer.subimporters.chapter.scene.ActiveAreaImporter;
 import es.eucm.eadventure.common.impl.importer.subimporters.chapter.scene.ElementReferenceImporter;
 import es.eucm.eadventure.common.impl.importer.subimporters.chapter.scene.ExitImporter;
@@ -105,6 +107,7 @@ import es.eucm.eadventure.common.model.elements.EAdActorReference;
 import es.eucm.eadventure.common.model.elements.EAdCondition;
 import es.eucm.eadventure.common.model.elements.EAdSceneElement;
 import es.eucm.eadventure.common.model.elements.impl.EAdSceneImpl;
+import es.eucm.eadventure.common.model.elements.impl.EAdVideoScene;
 import es.eucm.eadventure.common.model.elements.impl.extra.EAdCutscene;
 import es.eucm.eadventure.common.resources.assets.drawable.Caption;
 import es.eucm.eadventure.common.resources.assets.drawable.animation.impl.Frame;
@@ -139,6 +142,9 @@ public class ImporterConfigurationModule extends AbstractModule {
 
 		bind(new TypeLiteral<EAdElementImporter<Slidescene, EAdCutscene>>() {}).to(SlidesceneImporter.class);
 		EAdElementFactoryImpl.importerMap.put(Slidescene.class, SlidesceneImporter.class);
+
+		bind(new TypeLiteral<EAdElementImporter<Videoscene, EAdVideoScene>>() {}).to(VideosceneImporter.class);
+		EAdElementFactoryImpl.importerMap.put(Videoscene.class, VideosceneImporter.class);
 
 		bind(new TypeLiteral<EAdElementImporter<ElementReference, EAdActorReference>>() {}).to(ElementReferenceImporter.class);
 		EAdElementFactoryImpl.importerMap.put(ElementReference.class, ElementReferenceImporter.class);

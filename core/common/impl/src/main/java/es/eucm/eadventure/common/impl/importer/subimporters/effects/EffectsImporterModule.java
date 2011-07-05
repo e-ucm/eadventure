@@ -19,6 +19,7 @@ import es.eucm.eadventure.common.data.chapter.effects.ShowTextEffect;
 import es.eucm.eadventure.common.data.chapter.effects.SpeakCharEffect;
 import es.eucm.eadventure.common.data.chapter.effects.SpeakPlayerEffect;
 import es.eucm.eadventure.common.data.chapter.effects.TriggerConversationEffect;
+import es.eucm.eadventure.common.data.chapter.effects.TriggerCutsceneEffect;
 import es.eucm.eadventure.common.data.chapter.effects.TriggerLastSceneEffect;
 import es.eucm.eadventure.common.impl.importer.interfaces.EffectsImporterFactory;
 import es.eucm.eadventure.common.impl.importer.subimporters.effects.texts.ShowTextEffectImporter;
@@ -46,6 +47,7 @@ public class EffectsImporterModule extends AbstractModule implements MapProvider
 		factoryMap.put(DecrementVarEffect.class, DecrementVarImporter.class);
 		factoryMap.put(RandomEffect.class, RandomEffectImporter.class);
 		factoryMap.put(TriggerConversationEffect.class, TriggerConversationImporter.class);
+		factoryMap.put(TriggerCutsceneEffect.class, TriggerCutsceneImporter.class);
 		factoryMap.put(TriggerLastSceneEffect.class, TriggerPreviousSceneImporter.class);
 		factoryMap.put(SpeakPlayerEffect.class, SpeakPlayerEffectImporter.class);
 		factoryMap.put(SpeakCharEffect.class, SpeakCharEffectImporter.class);

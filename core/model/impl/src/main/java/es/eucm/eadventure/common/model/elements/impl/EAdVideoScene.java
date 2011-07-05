@@ -2,6 +2,7 @@ package es.eucm.eadventure.common.model.elements.impl;
 
 import es.eucm.eadventure.common.interfaces.Element;
 import es.eucm.eadventure.common.interfaces.Param;
+import es.eucm.eadventure.common.model.EAdChapter;
 import es.eucm.eadventure.common.model.EAdList;
 import es.eucm.eadventure.common.model.conditions.impl.EmptyCondition;
 import es.eucm.eadventure.common.model.effects.EAdEffect;
@@ -9,6 +10,7 @@ import es.eucm.eadventure.common.model.effects.impl.EAdChangeScene;
 import es.eucm.eadventure.common.model.effects.impl.variables.EAdChangeVarValueEffect;
 import es.eucm.eadventure.common.model.elements.EAdScene;
 import es.eucm.eadventure.common.model.elements.EAdSceneElement;
+import es.eucm.eadventure.common.model.elements.EAdTransition;
 import es.eucm.eadventure.common.model.impl.EAdListImpl;
 import es.eucm.eadventure.common.model.variables.impl.operations.BooleanOperation;
 import es.eucm.eadventure.common.model.variables.impl.vars.BooleanVar;
@@ -23,6 +25,9 @@ public class EAdVideoScene extends EAdSceneImpl implements EAdScene {
 	
 	@Param("videoFinishedVar")
 	private BooleanVar videoFinishedVar;
+	
+	@Param("nextScene")
+	EAdScene nextScene;
 	
 	private EAdList<EAdEffect> finalEffects;
 
@@ -52,8 +57,16 @@ public class EAdVideoScene extends EAdSceneImpl implements EAdScene {
 	
 	public void setUpForEngine() {
 		finalEffects.add(new EAdChangeVarValueEffect("finishVide", videoFinishedVar, new BooleanOperation("id", EmptyCondition.TRUE_EMPTY_CONDITION)));
-		finalEffects.add(new EAdChangeScene("changeScene"));
+		EAdChangeScene e3 = new EAdChangeScene("changeScene", nextScene, EAdTransition.DISPLACE);
+		finalEffects.add(e3);
+	}
 
+	public void setNextScene(EAdScene nextScene) {
+		this.nextScene = nextScene;
+	}
+	
+	public EAdScene getNextScene() {
+		return nextScene;
 	}
 
 }
