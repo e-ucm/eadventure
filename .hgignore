@@ -8,3 +8,5 @@ syntax: glob
 */target/*
 */ProjectImported/*
 */EAdventure1Project/*
+syntax: regexp
+^core/engine-android/impl/bin$
