@@ -9,6 +9,8 @@ import es.eucm.eadventure.engine.core.impl.modules.BasicGameModule;
 import es.eucm.eadventure.engine.core.platform.AssetHandler;
 import es.eucm.eadventure.engine.core.platform.GUI;
 import es.eucm.eadventure.engine.core.platform.PlatformConfiguration;
+import es.eucm.eadventure.engine.extra.AndroidAssetHandlerModule;
+import es.eucm.eadventure.engine.extra.AndroidAssetRendererModule;
 import es.eucm.eadventure.engine.extra.AndroidModule;
 import es.eucm.eadventure.engine.extra.EAdventureSurfaceView;
 import android.app.Activity;
@@ -39,7 +41,7 @@ public class EAdventureEngineActivity extends Activity {
         surfaceView = new EAdventureSurfaceView(this);
         setContentView(surfaceView);
 
-        injector = Guice.createInjector(new AndroidModule(), new BasicGameModule());
+        injector = Guice.createInjector(new AndroidAssetHandlerModule(), new AndroidAssetRendererModule(null), new AndroidModule(), new BasicGameModule());
 
         dm = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(dm);

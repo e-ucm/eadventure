@@ -10,7 +10,6 @@ import com.google.inject.Singleton;
 import com.google.inject.TypeLiteral;
 
 import es.eucm.eadventure.common.interfaces.MapProvider;
-import es.eucm.eadventure.common.resources.assets.multimedia.Video;
 import es.eucm.eadventure.engine.AndroidGraphicRendererFactory;
 import es.eucm.eadventure.engine.assetrenderers.AndroidCaptionRenderer;
 import es.eucm.eadventure.engine.assetrenderers.AndroidComposedDrawableRenderer;
@@ -24,11 +23,8 @@ import es.eucm.eadventure.engine.core.gameobjects.TransitionGO;
 import es.eucm.eadventure.engine.core.gameobjects.huds.ActionsHUD;
 import es.eucm.eadventure.engine.core.gameobjects.huds.BasicHUD;
 import es.eucm.eadventure.engine.core.gameobjects.huds.EffectHUD;
-import es.eucm.eadventure.engine.core.gameobjects.huds.MenuHUD;
 import es.eucm.eadventure.engine.core.gameobjects.huds.impl.BasicHUDImpl;
-import es.eucm.eadventure.engine.core.gameobjects.huds.impl.MenuHUDImpl;
 import es.eucm.eadventure.engine.core.gameobjects.impl.SceneGOImpl;
-import es.eucm.eadventure.engine.core.gameobjects.impl.VideoSceneGO;
 import es.eucm.eadventure.engine.core.gameobjects.impl.effects.ComplexBlockingEffectGO;
 import es.eucm.eadventure.engine.core.gameobjects.impl.inventory.BasicInventoryGO;
 import es.eucm.eadventure.engine.core.gameobjects.impl.sceneelements.BasicSceneElementGO;
@@ -36,7 +32,6 @@ import es.eucm.eadventure.engine.core.gameobjects.impl.sceneelements.ComplexScen
 import es.eucm.eadventure.engine.core.platform.GameObjectRenderer;
 import es.eucm.eadventure.engine.core.platform.GraphicRenderer;
 import es.eucm.eadventure.engine.core.platform.GraphicRendererFactory;
-import es.eucm.eadventure.engine.core.platform.SpecialAssetRenderer;
 import es.eucm.eadventure.engine.core.platform.assets.impl.RuntimeComposedDrawable;
 import es.eucm.eadventure.engine.core.platform.assets.impl.RuntimeDisplacedDrawable;
 import es.eucm.eadventure.engine.gameobjectrenderers.ActionsHudGORenderer;
