@@ -155,7 +155,7 @@ public class GameStateImpl implements GameState {
 	 * .common.model.effects.EAdEffect)
 	 */
 	@Override
-	public void addEffect(EAdEffect e, GUIAction action) {
+	synchronized public void addEffect(EAdEffect e, GUIAction action) {
 		addEffect(effectsQueue.size(), e, action);
 	}
 
@@ -167,7 +167,7 @@ public class GameStateImpl implements GameState {
 	 */
 	@Override
 	// TODO consider leaving effect initilization for later
-	public void addEffect(int pos, EAdEffect e, GUIAction action) {
+	synchronized public void addEffect(int pos, EAdEffect e, GUIAction action) {
 		effectsQueue.add(pos, e);
 		actionsQueue.add(action);
 	}
@@ -209,7 +209,7 @@ public class GameStateImpl implements GameState {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public void updateEffectsQueue() {
+	synchronized public void updateEffectsQueue() {
 		int i = 0;
 		for (EAdEffect e : effectsQueue) {
 			@SuppressWarnings("rawtypes")
