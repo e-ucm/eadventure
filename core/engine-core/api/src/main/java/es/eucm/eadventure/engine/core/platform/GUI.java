@@ -52,6 +52,7 @@ public interface GUI {
 	 * The virtual height of eAdventure game representations
 	 */
 	static final int VIRTUAL_HEIGHT = 600;
+	static final int VIRTUAL_WIDTH = 800;
 
 	/**
 	 * Add an element to the scene. The order of the elements is used during

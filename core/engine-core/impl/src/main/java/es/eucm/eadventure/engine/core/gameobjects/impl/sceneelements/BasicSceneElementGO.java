@@ -90,7 +90,8 @@ public class BasicSceneElementGO extends SceneElementGOImpl<EAdBasicSceneElement
 		}
 
 		DrawableAsset<?> r = (DrawableAsset<?>) assetHandler.getRuntimeAsset(a);
-		if (r instanceof DrawableAsset) {
+		r.loadAsset();
+		if (r instanceof DrawableAsset && r.isLoaded()) {
 			setWidth( r.getWidth() );
 			setHeight( r.getHeight() );
 			return r.getDrawable();
