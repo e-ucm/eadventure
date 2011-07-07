@@ -85,4 +85,7 @@ public class AndroidPlatformConfiguration implements PlatformConfiguration {
 		return (double) getHeight() / GUI.VIRTUAL_HEIGHT;
 	}
 	
+	public double getScaleW() {
+		return (double) getWidth() / GUI.VIRTUAL_WIDTH;
+	}	
 }

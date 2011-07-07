@@ -49,12 +49,14 @@ import android.graphics.Rect;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
+import es.eucm.eadventure.common.model.params.EAdPosition;
 import es.eucm.eadventure.engine.AndroidPlatformConfiguration;
 import es.eucm.eadventure.engine.core.MouseState;
 import es.eucm.eadventure.engine.core.gameobjects.huds.impl.BasicHUDImpl;
 import es.eucm.eadventure.engine.core.platform.GameObjectRenderer;
 import es.eucm.eadventure.engine.core.platform.GraphicRendererFactory;
 import es.eucm.eadventure.engine.core.platform.PlatformConfiguration;
+import es.eucm.eadventure.engine.extra.AndroidCanvas;
 
 @Singleton
 public class BasicHudGORenderer implements GameObjectRenderer<Canvas, BasicHUDImpl> {
@@ -90,7 +92,6 @@ public class BasicHudGORenderer implements GameObjectRenderer<Canvas, BasicHUDIm
 		borderPaint.setStrokeWidth((int)(this.platformConfiguration.getScale()*8));
 		
 		clip = new Path();
-		
 		if (this.platformConfiguration.isFullscreen()){
 			magGlass = Bitmap.createBitmap((int) (this.platformConfiguration.getScaleW()*200), (int) (this.platformConfiguration.getScale()*200), Bitmap.Config.ARGB_8888);
 			clip.addCircle((float)(this.platformConfiguration.getScaleW()*100), (float)(this.platformConfiguration.getScale()*100), (float)(this.platformConfiguration.getScaleW()*this.platformConfiguration.getScale()*100), Path.Direction.CCW);
@@ -104,15 +105,20 @@ public class BasicHudGORenderer implements GameObjectRenderer<Canvas, BasicHUDIm
 				
 		logger.info("New instance");
 	}
+	@Override
+	public boolean contains(BasicHUDImpl object, int virutalX,
+			int virtualY) {
+		return false;
+	}
 
 	@Override
-	public void render(Canvas g, BasicHUDImpl object,
-			float interpolation) {
+	public void render(Canvas graphicContext, BasicHUDImpl object,
+			float interpolation, int offsetX, int offsetY) {
 		if (mouseState.getVirtualMouseX() != -1 && mouseState.getVirtualMouseY() != -1) {			
 			Canvas c = new Canvas(magGlass);
 			c.clipPath(clip);
 	
-			c.drawBitmap(((AndroidCanvas) g).getBitmap(),
+			c.drawBitmap(((AndroidCanvas) graphicContext).getBitmap(),
 					new Rect(mouseState.getRawX() - (int)(this.platformConfiguration.getScaleW()*20), mouseState.getRawY() - (int)(this.platformConfiguration.getScale()*20),
 					mouseState.getRawX() + (int)(this.platformConfiguration.getScaleW()*20), mouseState.getRawY() + (int)(this.platformConfiguration.getScale()*20)),
 					rect, null);
@@ -133,31 +139,27 @@ public class BasicHudGORenderer implements GameObjectRenderer<Canvas, BasicHUDIm
 				y = this.platformConfiguration.getHeight() - (int) (100*this.platformConfiguration.getScale());	
 	
 			
-			g.save();
-			g.setMatrix(null);
+			graphicContext.save();
+			graphicContext.setMatrix(null);
 			
-            g.drawBitmap(magGlass, x, y, null);
+			graphicContext.drawBitmap(magGlass, x, y, null);
             
-            g.restore();
+			graphicContext.restore();
             
-            if (mouseState.getElementUnderMouse() != null && mouseState.getElementUnderMouse() instanceof Named)
-    			graphicRendererFactory.render(g, new TextGOImpl(((Named) mouseState.getElementUnderMouse()).getName(),
+            /* TODO draw element name
+            if (mouseState.getGameObjectUnderMouse() != null && mouseState.getGameObjectUnderMouse() instanceof Named)
+    			graphicRendererFactory.render(g, new TextGOImpl(((Named) mouseState.getGameObjectUnderMouse()).getName(),
     					x + (int)(this.platformConfiguration.getScaleW()*100), y - (int)(this.platformConfiguration.getScale()), null, null), 0.0f);
-                      
+              */        
     		
 		}
-		
 	}
 
 	@Override
 	public void render(Canvas graphicContext, BasicHUDImpl object,
-			int x, int y, float scale) {
-	}
-
-	@Override
-	public boolean contains(BasicHUDImpl object, int virutalX,
-			int virtualY) {
-		return false;
+			EAdPosition position, float scale, int offsetX, int offsetY) {
+		// Do nothing
+		
 	}
 	
 

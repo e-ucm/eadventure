@@ -14,10 +14,13 @@ import es.eucm.eadventure.engine.core.platform.GraphicRendererFactory;
 import es.eucm.eadventure.engine.core.platform.PlatformConfiguration;
 import es.eucm.eadventure.engine.core.platform.RuntimeAsset;
 import es.eucm.eadventure.engine.core.platform.impl.AbstractGUI;
+import es.eucm.eadventure.engine.extra.AndroidCanvas;
 
 @Singleton
 public class AndroidGUI extends AbstractGUI<Canvas> {
 
+	private AndroidCanvas canvas;
+	
 	@SuppressWarnings("rawtypes")
 	@Inject
 	public AndroidGUI(PlatformConfiguration platformConfiguration,
@@ -46,8 +49,8 @@ public class AndroidGUI extends AbstractGUI<Canvas> {
 	public void commit(float interpolation) {
 		processInput();
 		
-		if (g != null) {
-			render(g, interpolation);
+		if (canvas != null) {
+			render(canvas, interpolation);
 		}
 	}
 
@@ -56,6 +59,10 @@ public class AndroidGUI extends AbstractGUI<Canvas> {
 			boolean fullscreen) {
 		// TODO Auto-generated method stub
 		
+	}
+
+	public void setCanvas(AndroidCanvas aCanvas) {
+		this.canvas = aCanvas;
 	}
 
 }

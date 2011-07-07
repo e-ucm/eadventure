@@ -8,6 +8,7 @@ import android.graphics.Color;
 import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.view.SurfaceHolder;
+import es.eucm.eadventure.engine.AndroidGUI;
 import es.eucm.eadventure.engine.AndroidPlatformConfiguration;
 import es.eucm.eadventure.engine.core.platform.GUI;
 import es.eucm.eadventure.engine.core.platform.PlatformConfiguration;
@@ -22,7 +23,7 @@ public class EAdventureRenderingThread extends Thread {
 
     private SurfaceHolder mSurfaceHolder;
     
-    private GUI gui;
+    private AndroidGUI gui;
     
     private AndroidPlatformConfiguration platformConfiguration;
     
@@ -33,13 +34,12 @@ public class EAdventureRenderingThread extends Thread {
     @SuppressWarnings("unused")
 	private static final Logger logger = Logger.getLogger("EAdventureRenderingThread");
     
-    @SuppressWarnings("unchecked")
 	public EAdventureRenderingThread(SurfaceHolder holder, GUI aGUI, PlatformConfiguration platformConfiguration) {
     	super();
     	mDone = false;
     	mSurfaceHolder = holder;
     	this.platformConfiguration = (AndroidPlatformConfiguration) platformConfiguration;
-    	gui = aGUI;        	
+    	gui = (AndroidGUI) aGUI;        	
     }
     
     @Override
@@ -75,7 +75,6 @@ public class EAdventureRenderingThread extends Thread {
 	    		Canvas canvas2 = mSurfaceHolder.lockCanvas();                 
 	
 	    		if (canvas2 != null) {
-//	    			Canvas aCanvas = new Canvas(bitmap);
 	    			aCanvas = new AndroidCanvas(bitmap);
 	    			aCanvas.drawColor(Color.WHITE);
 					Matrix matrix = new Matrix();		
@@ -88,7 +87,8 @@ public class EAdventureRenderingThread extends Thread {
 					
 					aCanvas.setMatrix(matrix);
 	    			
-	    			gui.commit(aCanvas, 0.0f);
+					gui.setCanvas(aCanvas);
+	    			gui.commit(0.0f);
 	    			
 	    			canvas2.drawBitmap(aCanvas.getBitmap(), 0, 0, new Paint());
 //	    			canvas2.drawBitmap(bitmap, 0, 0, new Paint());

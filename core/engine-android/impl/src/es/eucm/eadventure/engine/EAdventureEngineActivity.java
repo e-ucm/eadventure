@@ -1,5 +1,6 @@
 package es.eucm.eadventure.engine;
 
+import com.google.inject.Guice;
 import com.google.inject.Injector;
 
 import es.eucm.eadventure.engine.core.GameController;
@@ -8,6 +9,8 @@ import es.eucm.eadventure.engine.core.impl.modules.BasicGameModule;
 import es.eucm.eadventure.engine.core.platform.AssetHandler;
 import es.eucm.eadventure.engine.core.platform.GUI;
 import es.eucm.eadventure.engine.core.platform.PlatformConfiguration;
+import es.eucm.eadventure.engine.extra.AndroidModule;
+import es.eucm.eadventure.engine.extra.EAdventureSurfaceView;
 import android.app.Activity;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
