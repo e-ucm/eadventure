@@ -8,6 +8,7 @@ import es.eucm.eadventure.engine.AndroidAssetHandler;
 import es.eucm.eadventure.engine.AndroidFontCache;
 import es.eucm.eadventure.engine.AndroidGUI;
 import es.eucm.eadventure.engine.AndroidPlatformConfiguration;
+import es.eucm.eadventure.engine.AndroidTransitionFactory;
 import es.eucm.eadventure.engine.core.GameLoop;
 import es.eucm.eadventure.engine.core.GameProfiler;
 import es.eucm.eadventure.engine.core.KeyboardState;
@@ -26,6 +27,7 @@ import es.eucm.eadventure.engine.core.impl.factorymapproviders.GameObjectFactory
 import es.eucm.eadventure.engine.core.platform.AssetHandler;
 import es.eucm.eadventure.engine.core.platform.GUI;
 import es.eucm.eadventure.engine.core.platform.PlatformConfiguration;
+import es.eucm.eadventure.engine.core.platform.TransitionFactory;
 import es.eucm.eadventure.engine.core.platform.impl.FontCacheImpl;
 
 public class AndroidModule extends AbstractModule {
@@ -43,6 +45,7 @@ public class AndroidModule extends AbstractModule {
 		bind(GameProfiler.class).to(GameProfilerImpl.class);
 		bind(GUI.class).to(AndroidGUI.class);
 		bind(PlatformConfiguration.class).to(AndroidPlatformConfiguration.class);
+		bind(AndroidPlatformConfiguration.class);
 		bind(MouseState.class).to(MouseStateImpl.class);
 		bind(KeyboardState.class).to(KeyboardStateImpl.class);
 		bind(GameObjectManager.class).to(GameObjectManagerImpl.class);
@@ -50,5 +53,6 @@ public class AndroidModule extends AbstractModule {
 		bind(BasicHUD.class).to(BasicHUDImpl.class);
 		bind(FontCacheImpl.class).to(AndroidFontCache.class);
 		bind(MenuHUD.class).to(AndroidMenuHUDImpl.class);
+		bind(TransitionFactory.class).to(AndroidTransitionFactory.class);
 	}
 }

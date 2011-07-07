@@ -76,11 +76,6 @@ public class BasicGameModule extends AbstractModule {
 		bind(EffectHUD.class).to(EffectHUDImpl.class);
 		bind(FontCache.class).to(FontCacheImpl.class);
 
-		/** TODO remove from here
-		bind(new TypeLiteral<Reader<EAdAdventureModel>>() {
-		}).to(EAdAdventureModelReader.class);
-		bind(AdventureHandler.class);
-		*/
 		bind(EAdAdventureModel.class).to(EAdAdventureModelImpl.class);
 		bind(String.class).annotatedWith(Names.named("classParam")).toInstance(
 				"class");

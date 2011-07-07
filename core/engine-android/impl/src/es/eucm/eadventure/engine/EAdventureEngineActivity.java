@@ -3,8 +3,12 @@ package es.eucm.eadventure.engine;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 
+import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
+import es.eucm.eadventure.common.model.elements.impl.EAdSceneImpl;
+import es.eucm.eadventure.common.resources.assets.drawable.impl.ImageImpl;
 import es.eucm.eadventure.engine.core.GameController;
 import es.eucm.eadventure.engine.core.MouseState;
+import es.eucm.eadventure.engine.core.impl.LoadingScreen;
 import es.eucm.eadventure.engine.core.impl.modules.BasicGameModule;
 import es.eucm.eadventure.engine.core.platform.AssetHandler;
 import es.eucm.eadventure.engine.core.platform.GUI;
@@ -54,6 +58,13 @@ public class EAdventureEngineActivity extends Activity {
         //TODO fix this
         AndroidAssetHandler aah = (AndroidAssetHandler) injector.getInstance(AssetHandler.class);
         aah.setResources(getResources());
+
+		LoadingScreen loadingScreen = injector.getInstance(LoadingScreen.class);
+
+		EAdSceneImpl sceneImpl = new EAdSceneImpl("scene");
+		sceneImpl.getBackground().getResources().addAsset(sceneImpl.getBackground().getInitialBundle(), EAdBasicSceneElement.appearance, new ImageImpl("@drawable/background1.png"));
+
+		loadingScreen.setInitialScreen(sceneImpl);
 
         surfaceView.start(injector.getInstance(GUI.class),
         		config,

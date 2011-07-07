@@ -42,12 +42,12 @@ public class AndroidAssetHandler extends AbstractAssetHandler {
 		
 		public void setResources(Resources resources) {
 			this.resources = resources;
+			setLoaded(true);
 		}
 
 		@Override
 		public String getAbsolutePath(String uri) {
-			//TODO!
-			return null;
+			return uri.replace("@", "/sdcard/eAd2/");
 		}
 
 	}

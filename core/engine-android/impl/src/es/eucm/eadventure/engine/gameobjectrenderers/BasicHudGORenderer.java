@@ -54,7 +54,6 @@ import es.eucm.eadventure.engine.AndroidPlatformConfiguration;
 import es.eucm.eadventure.engine.core.MouseState;
 import es.eucm.eadventure.engine.core.gameobjects.huds.impl.BasicHUDImpl;
 import es.eucm.eadventure.engine.core.platform.GameObjectRenderer;
-import es.eucm.eadventure.engine.core.platform.GraphicRendererFactory;
 import es.eucm.eadventure.engine.core.platform.PlatformConfiguration;
 import es.eucm.eadventure.engine.extra.AndroidCanvas;
 
@@ -62,8 +61,6 @@ import es.eucm.eadventure.engine.extra.AndroidCanvas;
 public class BasicHudGORenderer implements GameObjectRenderer<Canvas, BasicHUDImpl> {
 
 	private MouseState mouseState;
-	
-	private GraphicRendererFactory<Canvas> graphicRendererFactory;
 	
 	private Path clip;
 	
@@ -77,13 +74,10 @@ public class BasicHudGORenderer implements GameObjectRenderer<Canvas, BasicHUDIm
 	
 	private static final Logger logger = Logger.getLogger("BasicHudGORenderer");
 	
-	@SuppressWarnings({ "unchecked" })
 	@Inject
-	public BasicHudGORenderer(GraphicRendererFactory<?> graphicRendererFactory,
-			PlatformConfiguration platformConfiguration,
+	public BasicHudGORenderer(PlatformConfiguration platformConfiguration,
 			MouseState mouseState) {
 		this.mouseState = mouseState;
-		this.graphicRendererFactory = (GraphicRendererFactory<Canvas>) graphicRendererFactory;
 		this.platformConfiguration = (AndroidPlatformConfiguration) platformConfiguration;
 		
 		borderPaint = new Paint();

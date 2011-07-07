@@ -38,6 +38,7 @@
 package es.eucm.eadventure.engine.core.impl;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Stack;
 import java.util.logging.Logger;
@@ -94,7 +95,7 @@ public class GameStateImpl implements GameState {
 	public GameStateImpl(@Named("LoadingScreen") EAdScene loadingScreen,
 			GameObjectFactory gameObjectFactory, ValueMap valueMap) {
 		effects = new ArrayList<EffectGO<?>>();
-		effectsQueue = new ArrayList<EAdEffect>();
+		effectsQueue = Collections.synchronizedList(new ArrayList<EAdEffect>());
 		actionsQueue = new ArrayList<GUIAction>();
 		this.scene = (SceneGO<?>) gameObjectFactory.get(loadingScreen);
 		this.valueMap = valueMap;

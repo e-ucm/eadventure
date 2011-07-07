@@ -17,12 +17,15 @@ import es.eucm.eadventure.common.resources.assets.drawable.SpriteImage;
 import es.eucm.eadventure.common.resources.assets.drawable.animation.impl.BundledDrawableImpl;
 import es.eucm.eadventure.common.resources.assets.drawable.animation.impl.Frame;
 import es.eucm.eadventure.common.resources.assets.drawable.animation.impl.FramesAnimation;
+import es.eucm.eadventure.common.resources.assets.drawable.impl.BezierShape;
 import es.eucm.eadventure.common.resources.assets.drawable.impl.CaptionImpl;
 import es.eucm.eadventure.common.resources.assets.drawable.impl.ComposedDrawableImpl;
 import es.eucm.eadventure.common.resources.assets.drawable.impl.DisplacedDrawableImpl;
 import es.eucm.eadventure.common.resources.assets.drawable.impl.ImageImpl;
+import es.eucm.eadventure.common.resources.assets.drawable.impl.RectangleShape;
 import es.eucm.eadventure.common.resources.impl.DefaultStringHandler;
 import es.eucm.eadventure.engine.AndroidAssetHandler;
+import es.eucm.eadventure.engine.assets.AndroidBezierShape;
 import es.eucm.eadventure.engine.assets.AndroidEngineCaption;
 import es.eucm.eadventure.engine.assets.AndroidEngineImage;
 import es.eucm.eadventure.engine.core.platform.AssetHandler;
@@ -52,9 +55,8 @@ public class AndroidAssetHandlerModule extends AbstractModule {
 		map.put(CaptionImpl.class, AndroidEngineCaption.class);
 		map.put(ComposedDrawable.class, RuntimeComposedDrawable.class);
 		map.put(ComposedDrawableImpl.class, RuntimeComposedDrawable.class);
-		//TODO Bezier
-		//map.put(RectangleShape.class, DesktopBezierShape.class);
-		//map.put(BezierShape.class, DesktopBezierShape.class);
+		map.put(RectangleShape.class, AndroidBezierShape.class);
+		map.put(BezierShape.class, AndroidBezierShape.class);
 		map.put(BundledDrawableImpl.class, RuntimeBundledAnimation.class);
 		map.put(BundledDrawable.class, RuntimeBundledAnimation.class);
 		map.put(DisplacedDrawable.class, RuntimeDisplacedDrawable.class);

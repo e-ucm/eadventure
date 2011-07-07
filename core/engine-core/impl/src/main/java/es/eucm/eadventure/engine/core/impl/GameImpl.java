@@ -117,7 +117,7 @@ public class GameImpl implements Game {
 	
 			gameState.getScene().update(gameState);
 			gui.addElement(gameState.getScene(), 0, 0);
-	
+			
 			basicHud.update(gameState);
 			gui.addElement(basicHud, 0, 0);
 		}

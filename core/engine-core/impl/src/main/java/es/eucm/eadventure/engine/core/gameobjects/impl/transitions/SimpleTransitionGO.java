@@ -143,7 +143,8 @@ public class SimpleTransitionGO extends SceneGOImpl implements
 		
 		if (loaded) {
 			gameState.setScene(nextSceneGO);
-			previousSceneImage.freeMemory();
+			if (previousSceneImage != null)
+				previousSceneImage.freeMemory();
 		}
 	}
 	

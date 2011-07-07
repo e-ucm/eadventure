@@ -27,10 +27,9 @@ public class AndroidGUI extends AbstractGUI<Canvas> {
 			GraphicRendererFactory<?> assetRendererFactory,
 			GameObjectManager gameObjectManager,
 			MouseState mouseState,
-			KeyboardState keyboardState, BasicHUD basicHUD, ValueMap valueMap) {
+			KeyboardState keyboardState, ValueMap valueMap) {
 		super(platformConfiguration, assetRendererFactory, gameObjectManager,
 				mouseState, keyboardState, valueMap);
-		this.gameObjects.addHUD(basicHUD);
 	}
 	
 	@Override
