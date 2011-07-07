@@ -3,6 +3,7 @@ package es.eucm.eadventure.engine.extra;
 import com.google.inject.AbstractModule;
 import com.google.inject.name.Names;
 
+import es.eucm.eadventure.common.model.impl.inventory.EAdBasicInventory;
 import es.eucm.eadventure.engine.AndroidAssetHandler;
 import es.eucm.eadventure.engine.AndroidFontCache;
 import es.eucm.eadventure.engine.AndroidGUI;
@@ -21,6 +22,7 @@ import es.eucm.eadventure.engine.core.impl.GameLoopImpl;
 import es.eucm.eadventure.engine.core.impl.GameProfilerImpl;
 import es.eucm.eadventure.engine.core.impl.KeyboardStateImpl;
 import es.eucm.eadventure.engine.core.impl.MouseStateImpl;
+import es.eucm.eadventure.engine.core.impl.factorymapproviders.GameObjectFactoryMapProvider;
 import es.eucm.eadventure.engine.core.platform.AssetHandler;
 import es.eucm.eadventure.engine.core.platform.GUI;
 import es.eucm.eadventure.engine.core.platform.PlatformConfiguration;
@@ -28,6 +30,10 @@ import es.eucm.eadventure.engine.core.platform.impl.FontCacheImpl;
 
 public class AndroidModule extends AbstractModule {
 
+	public AndroidModule() {
+		GameObjectFactoryMapProvider.add(EAdBasicInventory.class, AndroidBasicInventoryGO.class);
+	}
+	
 	@Override
 	protected void configure() {
 		install(new AndroidAssetRendererModule(null));

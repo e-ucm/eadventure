@@ -64,7 +64,7 @@ public class AndroidAssetRendererModule extends AbstractModule implements MapPro
 		factoryMap.put(BasicHUDImpl.class, injector.getInstance(BasicHudGORenderer.class));
 		//factoryMap.put(MenuHUD.class, injector.getInstance(MenuHUDGORenderer.class));
 		//factoryMap.put(MenuHUDImpl.class, injector.getInstance(MenuHUDGORenderer.class));
-		//factoryMap.put(DesktopMenuHUDImpl.class, injector.getInstance(MenuHUDGORenderer.class));
+		//factoryMap.put(AndroidMenuHUDImpl.class, injector.getInstance(MenuHUDGORenderer.class));
 		factoryMap.put(ActionsHUD.class, injector.getInstance(ActionsHudGORenderer.class));
 		factoryMap.put(EffectHUD.class, injector.getInstance(EffectHudGORenderer.class));
 		factoryMap.put(AndroidActionsHUDImpl.class, injector.getInstance(ActionsHudGORenderer.class));
@@ -74,7 +74,7 @@ public class AndroidAssetRendererModule extends AbstractModule implements MapPro
 		factoryMap.put(SceneGOImpl.class, injector.getInstance(SceneGORenderer.class));
 		factoryMap.put(TransitionGO.class, injector.getInstance(TransitionGORenderer.class));
 		factoryMap.put(BasicInventoryGO.class, injector.getInstance(BasicInventoryGORenderer.class));
-		//factoryMap.put(DesktopBasicInventoryGO.class, injector.getInstance(BasicInventoryGORenderer.class));
+		factoryMap.put(AndroidBasicInventoryGO.class, injector.getInstance(BasicInventoryGORenderer.class));
 		//factoryMap.put(VideoSceneGO.class, injector.getInstance(VideoSceneGORenderer.class));
 		}
 	}
