@@ -22,16 +22,17 @@ public class ShapedElementImporter {
 		} else {
 			shape = null;
 			int i = 0;
+			int x = oldObject.getX();
+			int y = oldObject.getY();
 			for (Point p : oldObject.getPoints()) {
 				if ( i == 0 )
-					shape = new BezierShape(p.x, p.y);
+					shape = new BezierShape(p.x - x, p.y - y);
 				else
-					((BezierShape) shape).lineTo(p.x, p.y);
+					((BezierShape) shape).lineTo(p.x - x, p.y - y);
 				i++;
 			}
 			((BezierShape) shape).close();
-			newElement.setPosition(new EAdPosition(EAdPosition.Corner.TOP_LEFT, 0,
-					0));
+			newElement.setPosition(new EAdPosition(EAdPosition.Corner.TOP_LEFT, x, y));
 		}
 		// FIXME deleted when exits were working
 		shape.setColor(EAdBorderedColor.BLACK_ON_WHITE);
