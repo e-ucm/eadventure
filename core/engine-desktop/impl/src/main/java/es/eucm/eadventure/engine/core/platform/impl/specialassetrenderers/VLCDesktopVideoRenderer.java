@@ -4,6 +4,7 @@ import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Component;
 import java.io.File;
+import java.lang.reflect.InvocationTargetException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -12,6 +13,7 @@ import com.google.inject.Inject;
 import es.eucm.eadventure.common.resources.assets.multimedia.Video;
 import es.eucm.eadventure.engine.core.platform.AssetHandler;
 import es.eucm.eadventure.engine.core.platform.SpecialAssetRenderer;
+import es.eucm.eadventure.engine.core.platform.impl.specialassetrenderers.extra.WinRegistry;
 
 import uk.co.caprica.vlcj.binding.internal.libvlc_media_t;
 import uk.co.caprica.vlcj.player.MediaPlayer;
@@ -161,11 +163,22 @@ public class VLCDesktopVideoRenderer implements SpecialAssetRenderer<Video, Comp
 	public static void initilizeVariables() {
 		String os = System.getProperty("os.name").toLowerCase();
 		if (os.contains("win")) {
-			// exists?
-			// not exists, extract
-			// exists, use it!
-			String pathLibvlc = null;
-			String pathPlugins = null;
+			String temp = null;
+			try {
+				temp = WinRegistry.readString(WinRegistry.HKEY_LOCAL_MACHINE,
+							"Software\\VideoLAN\\VLC", "InstallDir");
+				System.out.println(temp);
+			} catch (IllegalArgumentException e) {
+			} catch (IllegalAccessException e) {
+			} catch (InvocationTargetException e) {
+			}
+			
+			if (temp == null) {
+				// not exists, extract
+					
+			}
+			String pathLibvlc = temp;
+			String pathPlugins = temp + "\\plugins";
 			System.setProperty("jna.library.path", pathLibvlc);
 			System.setProperty("VLC_PLUGIN_PATH", pathPlugins);
 			vlcOptions = "--no-video-title-show";
