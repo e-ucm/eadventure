@@ -164,7 +164,7 @@ public class ActionImporter implements EAdElementImporter<Action, EAdAction> {
 			image = "olddefaults/btnMouthHighlighted.png";
 			break;
 		default:
-			image = "olddefaults/btnErrorHighlighted.png";
+			image = "olddefaults/btnError.png";
 		}
 		image = DRAWABLE_PATH + image;
 
