@@ -34,6 +34,8 @@ public class DesktopVideoRenderer implements SpecialAssetRenderer<Video, Compone
 	
 	private boolean finished = false;
 	
+	private boolean started = false;
+	
 	private Player mediaPlayer;
 	
 	private static String CODEC_CLASS_NAME = "net.sourceforge.jffmpeg.VideoDecoder";
@@ -122,8 +124,9 @@ public class DesktopVideoRenderer implements SpecialAssetRenderer<Video, Compone
 
 	@Override
 	public boolean start() {
-		if( video != null ) {
+		if( !started && video != null ) {
             mediaPlayer.start( );
+            started = true;
             return true;
         }
 		return false;

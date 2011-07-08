@@ -49,6 +49,8 @@ public class VideoSceneGO extends AbstractGameObject<EAdVideoScene> implements S
 			for ( EAdEffect e: element.getFinalEffects()){
 				gameState.addEffect(e);
 			}
+		} else {
+			specialAssetRenderer.start();
 		}
 	}
 

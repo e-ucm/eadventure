@@ -54,6 +54,7 @@ import es.eucm.eadventure.engine.core.platform.impl.gameobjectrenderers.SceneGOR
 import es.eucm.eadventure.engine.core.platform.impl.gameobjectrenderers.TransitionGORenderer;
 import es.eucm.eadventure.engine.core.platform.impl.gameobjectrenderers.VideoSceneGORenderer;
 import es.eucm.eadventure.engine.core.platform.impl.specialassetrenderers.DesktopVideoRenderer;
+import es.eucm.eadventure.engine.core.platform.impl.specialassetrenderers.VLCDesktopVideoRenderer;
 
 @Singleton
 public class DesktopAssetRendererModule extends AbstractModule implements MapProvider<Class<?>, GraphicRenderer<?, ?>> {

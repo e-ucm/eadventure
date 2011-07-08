@@ -29,6 +29,8 @@ public class VLCDesktopVideoRenderer implements SpecialAssetRenderer<Video, Comp
 	private CanvasVideoSurface videoSurface;
 	
 	protected boolean finished;
+	
+	protected boolean started;
 
 	private static MediaPlayerFactory mediaPlayerFactory;
 	
@@ -53,6 +55,7 @@ public class VLCDesktopVideoRenderer implements SpecialAssetRenderer<Video, Comp
 		
 		Canvas canvas = new Canvas();
 		canvas.setBackground(Color.black);
+		started = false;
 		
 		mediaPlayer = mediaPlayerFactory.newEmbeddedMediaPlayer();
 		videoSurface = mediaPlayerFactory.newVideoSurface(canvas);
@@ -75,6 +78,7 @@ public class VLCDesktopVideoRenderer implements SpecialAssetRenderer<Video, Comp
 			@Override
 			public void finished(MediaPlayer arg0) {
 				finished = true;
+				started = false;
 			}
 
 			@Override
@@ -189,9 +193,13 @@ public class VLCDesktopVideoRenderer implements SpecialAssetRenderer<Video, Comp
 
 	@Override
 	public boolean start() {
-		String [] mediaOptions ={};
-		mediaPlayer.playMedia(path, mediaOptions);
-		return true;
+		if (!started) {
+			String [] mediaOptions ={};
+			mediaPlayer.playMedia(path, mediaOptions);
+			started = true;
+			return true;
+		}
+		return false;
 	}
 	
 }

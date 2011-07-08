@@ -98,6 +98,8 @@ public class ResourceImporterImpl implements ResourceImporter {
 	private void createFolders() {
 		File f = new File(newAdventurePath + "/drawable");
 		f.mkdirs();
+		f = new File(newAdventurePath + "/binary");
+		f.mkdirs();
 
 	}
 
@@ -133,7 +135,8 @@ public class ResourceImporterImpl implements ResourceImporter {
 		return "drawable";
 	}
 
-	private boolean copyFile(String oldURI, String newURI) {
+	@Override
+	public boolean copyFile(String oldURI, String newURI) {
 		File resourceFile = new File(oldAdventurePath, oldURI);
 
 		File toResourceFile = new File(newAdventurePath, newURI);

@@ -37,8 +37,6 @@
 
 package es.eucm.eadventure.engine.core.platform.impl.extra;
 
-import java.awt.Component;
-
 import com.google.inject.AbstractModule;
 import com.google.inject.TypeLiteral;
 import com.google.inject.name.Names;
@@ -48,7 +46,6 @@ import es.eucm.eadventure.common.impl.reader.EAdAdventureModelReader;
 import es.eucm.eadventure.common.impl.reader.subparsers.AdventureHandler;
 import es.eucm.eadventure.common.model.EAdAdventureModel;
 import es.eucm.eadventure.common.model.impl.inventory.EAdBasicInventory;
-import es.eucm.eadventure.common.resources.assets.multimedia.Video;
 import es.eucm.eadventure.engine.core.GameLoop;
 import es.eucm.eadventure.engine.core.GameProfiler;
 import es.eucm.eadventure.engine.core.KeyboardState;
@@ -64,7 +61,6 @@ import es.eucm.eadventure.engine.core.impl.GameLoopImpl;
 import es.eucm.eadventure.engine.core.impl.GameProfilerImpl;
 import es.eucm.eadventure.engine.core.platform.*;
 import es.eucm.eadventure.engine.core.platform.impl.*;
-import es.eucm.eadventure.engine.core.platform.impl.specialassetrenderers.DesktopVideoRenderer;
 
 public class DesktopModule extends AbstractModule {
 
@@ -92,8 +88,6 @@ public class DesktopModule extends AbstractModule {
 		bind(MenuHUD.class).to(DesktopMenuHUDImpl.class);
 		bind(FontCacheImpl.class).to(DesktopFontCache.class);
 		bind(TransitionFactory.class).to(DesktopTransitionFactory.class);
-		
-		bind(new TypeLiteral<SpecialAssetRenderer<Video, Component>>() {}).to(DesktopVideoRenderer.class);
 	}
 
 }

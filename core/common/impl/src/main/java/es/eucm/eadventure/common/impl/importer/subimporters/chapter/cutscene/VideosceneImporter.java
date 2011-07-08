@@ -127,7 +127,11 @@ public class VideosceneImporter implements EAdElementImporter<Videoscene, EAdVid
 			EAdChapter chapter) {
 		Resources res = oldSlidesceneScene.getResources().get(0);
 		String assetPath = res.getAssetPath(Videoscene.RESOURCE_TYPE_VIDEO);
-		Video video = new VideoImpl(assetPath);
+		String[] temp = assetPath.split("/");
+		String name = temp[temp.length - 1];
+		resourceImporter.copyFile(assetPath, "binary/" + name);
+		
+		Video video = new VideoImpl("@binary/" + name);
 		cutscene.getResources().addAsset(EAdVideoScene.video, video);
 	}
 

@@ -31,4 +31,6 @@ public interface ResourceImporter {
 	void importResources(EAdElement element, List<Resources> resources,
 			Map<String, String> resourcesStrings,
 			Map<String, Class<?>> resourcesClasses);
+
+	boolean copyFile(String oldURI, String newURI);
 }
