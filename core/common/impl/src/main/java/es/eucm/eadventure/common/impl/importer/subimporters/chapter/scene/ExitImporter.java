@@ -20,7 +20,7 @@ import es.eucm.eadventure.common.model.guievents.impl.EAdMouseEventImpl;
 import es.eucm.eadventure.common.model.variables.impl.operations.BooleanOperation;
 import es.eucm.eadventure.common.resources.assets.drawable.Shape;
 
-public class ExitImporter extends ShapedElementImporter implements EAdElementImporter<Exit, EAdSceneElement> {
+public class ExitImporter implements EAdElementImporter<Exit, EAdSceneElement> {
 
 	private static int ID_GENERATOR = 0;
 	private EAdElementImporter<Conditions, EAdCondition> conditionsImporter;
@@ -41,7 +41,7 @@ public class ExitImporter extends ShapedElementImporter implements EAdElementImp
 	public EAdSceneElement convert(Exit oldObject, Object object) {
 		EAdBasicSceneElement newExit = (EAdBasicSceneElement) object;
 
-		Shape shape = importShape(oldObject, newExit);
+		Shape shape = ShapedElementImporter.importShape(oldObject, newExit);
 
 		newExit.getResources().addAsset(newExit.getInitialBundle(),
 				EAdBasicSceneElement.appearance, shape);

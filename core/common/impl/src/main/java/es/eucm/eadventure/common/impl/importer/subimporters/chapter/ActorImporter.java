@@ -76,12 +76,15 @@ public abstract class ActorImporter<P extends Element> implements
 		resourceImporter.importResources(actor, oldObject.getResources(),
 				properties, classes);
 
-		addActions(oldObject, actor);
+		addActions(oldObject, actor, actionImporter, stringHandler);
 
 		return actor;
 	}
 
-	protected void addActions(P oldObject, EAdBasicActor actor) {
+	public static <P extends Element> void addActions(P oldObject,
+			EAdBasicActor actor,
+			EAdElementImporter<Action, EAdAction> actionImporter,
+			StringHandler stringHandler) {
 		// Add examine action if it's not defined in oldObject actions
 		boolean addExamine = true;
 

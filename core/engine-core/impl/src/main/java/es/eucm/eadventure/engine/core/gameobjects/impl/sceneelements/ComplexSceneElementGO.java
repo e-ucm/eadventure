@@ -17,6 +17,7 @@ import es.eucm.eadventure.engine.core.GameState;
 import es.eucm.eadventure.engine.core.MouseState;
 import es.eucm.eadventure.engine.core.ValueMap;
 import es.eucm.eadventure.engine.core.gameobjects.GameObject;
+import es.eucm.eadventure.engine.core.gameobjects.SceneElementGO;
 import es.eucm.eadventure.engine.core.guiactions.GUIAction;
 import es.eucm.eadventure.engine.core.platform.AssetHandler;
 import es.eucm.eadventure.engine.core.platform.DrawableAsset;
@@ -69,9 +70,11 @@ public class ComplexSceneElementGO extends
 	public void doLayout(int offsetX, int offsetY) {
 		int newOffsetX = offsetX + this.getPosition().getJavaX(getWidth());
 		int newOffsetY = offsetY + this.getPosition().getJavaY(getHeight());
-		for (EAdSceneElement sceneElement : element.getComponents())
-			gui.addElement(gameObjectFactory.get(sceneElement), newOffsetX,
-					newOffsetY);
+		for (EAdSceneElement sceneElement : element.getComponents()) {
+ 			SceneElementGO<?> go = (SceneElementGO<?>) gameObjectFactory.get(sceneElement);
+ 			if (go.isVisible())
+ 				gui.addElement(go, newOffsetX, newOffsetY);
+		}
 	}
 
 	@Override

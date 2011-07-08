@@ -12,7 +12,7 @@ import es.eucm.eadventure.common.resources.assets.drawable.impl.RectangleShape;
 
 public class ShapedElementImporter {
 
-	protected Shape importShape(Rectangle oldObject, EAdBasicSceneElement newElement) {
+	public static Shape importShape(Rectangle oldObject, EAdBasicSceneElement newElement) {
 		Shape shape = null;
 		if (oldObject.isRectangular()) {
 			shape = new RectangleShape(oldObject.getWidth(), oldObject.getHeight());
