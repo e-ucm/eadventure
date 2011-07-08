@@ -167,6 +167,9 @@ public class VLCDesktopVideoRenderer implements SpecialAssetRenderer<Video, Comp
 			try {
 				temp = WinRegistry.readString(WinRegistry.HKEY_LOCAL_MACHINE,
 							"Software\\VideoLAN\\VLC", "InstallDir");
+				if ( temp == null )
+					temp = WinRegistry.readString(WinRegistry.HKEY_LOCAL_MACHINE,
+							"Software\\Wow6432Node\\VideoLAN\\VLC", "InstallDir");
 				System.out.println(temp);
 			} catch (IllegalArgumentException e) {
 			} catch (IllegalAccessException e) {
