@@ -97,4 +97,7 @@ public interface SceneElementGO<T extends EAdSceneElement> extends
 	 */
 	int getCenterY();
 
+	int getY();
+
+	
 }

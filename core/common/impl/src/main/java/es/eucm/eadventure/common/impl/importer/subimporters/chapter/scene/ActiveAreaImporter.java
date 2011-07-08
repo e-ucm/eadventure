@@ -1,7 +1,5 @@
 package es.eucm.eadventure.common.impl.importer.subimporters.chapter.scene;
 
-import java.awt.Point;
-
 import com.google.inject.Inject;
 
 import es.eucm.eadventure.common.EAdElementImporter;
@@ -20,14 +18,10 @@ import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
 import es.eucm.eadventure.common.model.events.EAdConditionEvent;
 import es.eucm.eadventure.common.model.events.impl.EAdConditionEventImpl;
 import es.eucm.eadventure.common.model.guievents.impl.EAdMouseEventImpl;
-import es.eucm.eadventure.common.model.params.EAdBorderedColor;
-import es.eucm.eadventure.common.model.params.EAdPosition;
 import es.eucm.eadventure.common.model.variables.impl.operations.BooleanOperation;
 import es.eucm.eadventure.common.resources.assets.drawable.Shape;
-import es.eucm.eadventure.common.resources.assets.drawable.impl.BezierShape;
-import es.eucm.eadventure.common.resources.assets.drawable.impl.RectangleShape;
 
-public class ActiveAreaImporter implements
+public class ActiveAreaImporter extends ShapedElementImporter implements
 		EAdElementImporter<ActiveArea, EAdSceneElement> {
 
 	private EAdElementImporter<Conditions, EAdCondition> conditionsImporter;
@@ -56,32 +50,10 @@ public class ActiveAreaImporter implements
 
 		EAdBasicActor newActiveArea = (EAdBasicActor) newActiveAreaReference.getReferencedActor();
 
-		
 		importActions( oldObject, newActiveArea, newActiveAreaReference );
 
-		Shape shape = null;
-		if (oldObject.isRectangular()) {
-			shape = new RectangleShape(oldObject.getWidth(), oldObject.getHeight());
-			newActiveAreaReference.setPosition(new EAdPosition(
-					EAdPosition.Corner.TOP_LEFT, oldObject.getX(), oldObject
-							.getY()));
-			// FIXME deleted when active areas were working
-			((RectangleShape) shape).setColor(EAdBorderedColor.BLACK_ON_WHITE);
-		} else {
-			shape = null;
-			int i = 0;
-			for (Point p : oldObject.getPoints()) {
-				if ( i == 0 )
-					shape = new BezierShape(p.x, p.y);
-				else
-					((BezierShape) shape).lineTo(p.x, p.y);
-			}
-			((BezierShape) shape).close();
-			// FIXME deleted when exits were working
-			((BezierShape) shape).setColor(EAdBorderedColor.BLACK_ON_WHITE);
-			newActiveAreaReference.setPosition(new EAdPosition(
-					EAdPosition.Corner.TOP_LEFT, 0, 0));
-		}
+		Shape shape = importShape(oldObject, newActiveAreaReference);
+
 		newActiveArea.getResources().addAsset(newActiveArea.getInitialBundle(),
 				EAdBasicSceneElement.appearance, shape);
 

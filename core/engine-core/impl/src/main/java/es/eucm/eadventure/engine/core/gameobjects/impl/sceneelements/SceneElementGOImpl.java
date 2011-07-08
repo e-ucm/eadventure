@@ -196,6 +196,11 @@ public abstract class SceneElementGOImpl<T extends EAdSceneElement> extends
 		return (int) ((position.getJavaY(height) + height / 2) * scale);
 	}
 
+	@Override
+	public int getY() {
+		return (int) ((position.getJavaY(height) + height) * scale);
+	}
+
 	public float getAlpha() {
 		return alpha;
 	}

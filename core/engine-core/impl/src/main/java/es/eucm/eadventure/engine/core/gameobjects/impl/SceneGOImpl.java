@@ -37,11 +37,13 @@
 
 package es.eucm.eadventure.engine.core.gameobjects.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
 import com.google.inject.Inject;
 
+import es.eucm.eadventure.common.model.elements.EAdActorReference;
 import es.eucm.eadventure.common.model.elements.EAdScene;
 import es.eucm.eadventure.common.model.elements.EAdSceneElement;
 import es.eucm.eadventure.engine.core.GameState;
@@ -62,11 +64,28 @@ public class SceneGOImpl extends AbstractGameObject<EAdScene> implements SceneGO
 	public void doLayout(int offsetX, int offsetY) {
 		//TODO scene offset
 		gui.addElement(gameObjectFactory.get(element.getBackground()), offsetX, offsetY);
+		//TODO sort elements?
+		for (SceneElementGO<?> sceneElementGO : getSortedElements()) {
+			gui.addElement(sceneElementGO, offsetX, offsetY);
+		}
+	}
+	
+	private List<SceneElementGO<?>> getSortedElements() {
+		List<SceneElementGO<?>> list = new ArrayList<SceneElementGO<?>>();
 		for (EAdSceneElement sceneElement : element.getSceneElements()) {
 			SceneElementGO<?> sceneElementGO = (SceneElementGO<?>) gameObjectFactory.get(sceneElement);
-			if ( sceneElementGO.isVisible() )
-				gui.addElement(sceneElementGO, offsetX, offsetY);
+			if ( sceneElementGO.isVisible() ) {
+				if (sceneElement instanceof EAdActorReference) {
+					//TODO could there be a better way than explicitly comparing?
+					int i = 0;
+					while (list.size() > i && list.get(i) instanceof EAdActorReference && list.get(i).getY() < sceneElementGO.getCenterY())
+						i++;
+					list.add(i, sceneElementGO);
+				}
+				list.add(sceneElementGO);
+			}
 		}
+		return list;
 	}
 	
 	@Override

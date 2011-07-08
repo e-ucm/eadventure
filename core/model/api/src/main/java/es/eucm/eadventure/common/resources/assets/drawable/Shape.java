@@ -57,5 +57,7 @@ public interface Shape extends Drawable {
 	 * @return the pixels of the border
 	 */
 	int getBorderWidth();
+
+	void setColor(EAdBorderedColor blackOnWhite);
 	
 }

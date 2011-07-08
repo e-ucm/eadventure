@@ -1,7 +1,5 @@
 package es.eucm.eadventure.common.impl.importer.subimporters.chapter.scene;
 
-import java.awt.Point;
-
 import com.google.inject.Inject;
 
 import es.eucm.eadventure.common.EAdElementImporter;
@@ -19,14 +17,10 @@ import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
 import es.eucm.eadventure.common.model.events.EAdConditionEvent;
 import es.eucm.eadventure.common.model.events.impl.EAdConditionEventImpl;
 import es.eucm.eadventure.common.model.guievents.impl.EAdMouseEventImpl;
-import es.eucm.eadventure.common.model.params.EAdBorderedColor;
-import es.eucm.eadventure.common.model.params.EAdPosition;
 import es.eucm.eadventure.common.model.variables.impl.operations.BooleanOperation;
 import es.eucm.eadventure.common.resources.assets.drawable.Shape;
-import es.eucm.eadventure.common.resources.assets.drawable.impl.BezierShape;
-import es.eucm.eadventure.common.resources.assets.drawable.impl.RectangleShape;
 
-public class ExitImporter implements EAdElementImporter<Exit, EAdSceneElement> {
+public class ExitImporter extends ShapedElementImporter implements EAdElementImporter<Exit, EAdSceneElement> {
 
 	private static int ID_GENERATOR = 0;
 	private EAdElementImporter<Conditions, EAdCondition> conditionsImporter;
@@ -47,33 +41,7 @@ public class ExitImporter implements EAdElementImporter<Exit, EAdSceneElement> {
 	public EAdSceneElement convert(Exit oldObject, Object object) {
 		EAdBasicSceneElement newExit = (EAdBasicSceneElement) object;
 
-		Shape shape = null;
-
-		if (oldObject.isRectangular()) {
-			int xLeft = oldObject.getX0();
-			int xRight = oldObject.getX1();
-			int yTop = oldObject.getY0();
-			int yBottom = oldObject.getY1();
-			shape = new RectangleShape(yBottom - yTop, xRight - xLeft);
-			newExit.setPosition(new EAdPosition(EAdPosition.Corner.TOP_LEFT,
-					xLeft, yTop));
-			// FIXME deleted when exits were working
-			((RectangleShape) shape).setColor(EAdBorderedColor.BLACK_ON_WHITE);
-		} else {
-			shape = null;
-			int i = 0;
-			for (Point p : oldObject.getPoints()) {
-				if ( i == 0 )
-					shape = new BezierShape(p.x, p.y);
-				else
-					((BezierShape) shape).lineTo(p.x, p.y);
-			}
-			((BezierShape) shape).close();
-			// FIXME deleted when exits were working
-			((BezierShape) shape).setColor(EAdBorderedColor.BLACK_ON_WHITE);
-			newExit.setPosition(new EAdPosition(EAdPosition.Corner.TOP_LEFT, 0,
-					0));
-		}
+		Shape shape = importShape(oldObject, newExit);
 
 		newExit.getResources().addAsset(newExit.getInitialBundle(),
 				EAdBasicSceneElement.appearance, shape);

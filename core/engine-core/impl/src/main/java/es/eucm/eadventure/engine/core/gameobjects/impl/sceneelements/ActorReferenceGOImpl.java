@@ -94,8 +94,10 @@ public class ActorReferenceGOImpl extends SceneElementGOImpl<EAdActorReference>
 	public GameObject<?> getDraggableElement(MouseState mouseState) {
 		if (isRemoved())
 			return null;
-		// TODO check if draggable
-		return this;
+		for (EAdAction action : actor.getValidActions() ) {
+			// TODO return true if one of the valid actions is draggable?
+		}
+		return null;
 	}
 
 	@Override
