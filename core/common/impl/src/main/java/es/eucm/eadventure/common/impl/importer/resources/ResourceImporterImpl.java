@@ -32,6 +32,7 @@ import es.eucm.eadventure.common.model.events.impl.EAdConditionEventImpl;
 import es.eucm.eadventure.common.resources.EAdBundleId;
 import es.eucm.eadventure.common.resources.EAdResources;
 import es.eucm.eadventure.common.resources.assets.AssetDescriptor;
+import es.eucm.eadventure.common.resources.assets.drawable.animation.impl.Frame;
 import es.eucm.eadventure.common.resources.assets.drawable.animation.impl.FramesAnimation;
 
 /**
@@ -101,7 +102,8 @@ public class ResourceImporterImpl implements ResourceImporter {
 	}
 
 	/**
-	 * Returns the new URI for an old resource situated in oldURI
+	 * Returns the new URI for an old resource situated in oldURI. It also
+	 * copies the old resource to its new location
 	 * 
 	 * @param oldURI
 	 *            the old URI
@@ -149,10 +151,8 @@ public class ResourceImporterImpl implements ResourceImporter {
 			out.close();
 
 		} catch (FileNotFoundException e) {
-			e.printStackTrace();
 			return false;
 		} catch (IOException e) {
-			e.printStackTrace();
 			return false;
 		}
 		return true;
@@ -178,11 +178,15 @@ public class ResourceImporterImpl implements ResourceImporter {
 			for (String resourceType : resourcesStrings.keySet()) {
 				String assetPath = r.getAssetPath(resourceType);
 				AssetDescriptor asset = null;
-				if (assetPath.endsWith("eaa")) {
-					Animation a = Loader.loadAnimation(inputStreamCreator,
-							assetPath, imageLoader);
-					asset = animationImporter.init(a);
-					asset = animationImporter.convert(a, asset);
+				if (assetPath.startsWith("assets/animation")) {
+					if (assetPath.endsWith(".eaa")) {
+						Animation a = Loader.loadAnimation(inputStreamCreator,
+								assetPath, imageLoader);
+						asset = animationImporter.init(a);
+						asset = animationImporter.convert(a, asset);
+					} else {
+						asset = importPNGAnimation(assetPath);
+					}
 				} else {
 					String newAssetPath = getURI(assetPath);
 
@@ -215,10 +219,9 @@ public class ResourceImporterImpl implements ResourceImporter {
 			EAdConditionEvent conditionEvent = new EAdConditionEventImpl(
 					bundleId.getBundleId() + "_condition_" + i);
 
-			EAdCondition condition = conditionsImporter.init(r
-					.getConditions());
-			condition = conditionsImporter.convert(r
-					.getConditions(), condition);
+			EAdCondition condition = conditionsImporter.init(r.getConditions());
+			condition = conditionsImporter
+					.convert(r.getConditions(), condition);
 			conditionEvent.setCondition(condition);
 
 			EAdChangeAppearance changeAppereance = new EAdChangeAppearance(
@@ -230,6 +233,25 @@ public class ResourceImporterImpl implements ResourceImporter {
 			i++;
 		}
 
+	}
+
+	/**
+	 * Imports an animation in the form _01.png, _02.png, etc.
+	 * 
+	 * @param assetPath
+	 *            the root asset path
+	 * @return the asset
+	 */ 
+	private AssetDescriptor importPNGAnimation(String assetPath) {
+		FramesAnimation frames = new FramesAnimation();
+		int frame = 1;
+		int frameTime = 500;
+		String newPath = getURI( assetPath + "_0" + frame++ + ".png");
+		while ( newPath != null ){
+			frames.addFrame(new Frame( newPath, frameTime ));
+			newPath = getURI( assetPath + "_0" + frame++ + ".png");
+		}
+		return frames;
 	}
 
 	public boolean equals(Resources oldResources, EAdResources newResources) {
