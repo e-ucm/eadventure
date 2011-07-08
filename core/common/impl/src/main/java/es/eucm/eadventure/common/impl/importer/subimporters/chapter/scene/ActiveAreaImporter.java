@@ -10,6 +10,7 @@ import es.eucm.eadventure.common.impl.importer.subimporters.chapter.ActorImporte
 import es.eucm.eadventure.common.model.actions.EAdAction;
 import es.eucm.eadventure.common.model.conditions.impl.EmptyCondition;
 import es.eucm.eadventure.common.model.effects.impl.EAdActorActionsEffect;
+import es.eucm.eadventure.common.model.effects.impl.EAdChangeAppearance;
 import es.eucm.eadventure.common.model.effects.impl.variables.EAdChangeVarValueEffect;
 import es.eucm.eadventure.common.model.elements.EAdCondition;
 import es.eucm.eadventure.common.model.elements.EAdSceneElement;
@@ -19,7 +20,9 @@ import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
 import es.eucm.eadventure.common.model.events.EAdConditionEvent;
 import es.eucm.eadventure.common.model.events.impl.EAdConditionEventImpl;
 import es.eucm.eadventure.common.model.guievents.impl.EAdMouseEventImpl;
+import es.eucm.eadventure.common.model.params.EAdBorderedColor;
 import es.eucm.eadventure.common.model.variables.impl.operations.BooleanOperation;
+import es.eucm.eadventure.common.resources.EAdBundleId;
 import es.eucm.eadventure.common.resources.StringHandler;
 import es.eucm.eadventure.common.resources.assets.drawable.Shape;
 
@@ -62,10 +65,20 @@ public class ActiveAreaImporter implements
 				+ "_showActions", newActiveAreaReference);
 		newActiveAreaReference.addBehavior(EAdMouseEventImpl.MOUSE_RIGHT_CLICK, showActions);
 
+		
 		Shape shape = ShapedElementImporter.importShape(oldObject, newActiveAreaReference);
 
 		newActiveArea.getResources().addAsset(newActiveArea.getInitialBundle(),
 				EAdBasicSceneElement.appearance, shape);
+		
+		Shape shape2 = ShapedElementImporter.importShape(oldObject, newActiveAreaReference);
+		shape2.setColor(EAdBorderedColor.BLACK_ON_WHITE);
+		EAdBundleId id = new EAdBundleId("id");
+		newActiveArea.getResources().addAsset(id, EAdBasicSceneElement.appearance, shape2);
+		newActiveAreaReference.addBehavior(EAdMouseEventImpl.MOUSE_ENTERED, new EAdChangeAppearance("test", newActiveArea, id));
+		newActiveAreaReference.addBehavior(EAdMouseEventImpl.MOUSE_EXITED, new EAdChangeAppearance("test", newActiveArea, newActiveArea.getInitialBundle()));
+		
+
 
 		// Event to show (or not) the active area
 		EAdCondition condition = conditionsImporter.init(oldObject
