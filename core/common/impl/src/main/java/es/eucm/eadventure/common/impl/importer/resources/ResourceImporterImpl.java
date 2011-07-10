@@ -25,6 +25,9 @@ import es.eucm.eadventure.common.impl.importer.interfaces.ResourceImporter;
 import es.eucm.eadventure.common.loader.InputStreamCreator;
 import es.eucm.eadventure.common.loader.Loader;
 import es.eucm.eadventure.common.model.EAdElement;
+import es.eucm.eadventure.common.model.conditions.impl.ANDCondition;
+import es.eucm.eadventure.common.model.conditions.impl.NOTCondition;
+import es.eucm.eadventure.common.model.conditions.impl.ORCondition;
 import es.eucm.eadventure.common.model.effects.impl.EAdChangeAppearance;
 import es.eucm.eadventure.common.model.elements.EAdCondition;
 import es.eucm.eadventure.common.model.events.EAdConditionEvent;
@@ -166,16 +169,19 @@ public class ResourceImporterImpl implements ResourceImporter {
 			Map<String, String> resourcesStrings,
 			Map<String, Class<?>> resourcesClasses) {
 		int i = 0;
+		EAdCondition previousCondition = null;
+		
 		// We iterate for the resources. Each resource is associated to some
 		// conditions. These
 		// conditions are transformed in ConditionedEvents.
 		for (Resources r : resources) {
-			EAdBundleId bundleId = new EAdBundleId(element.getId() + "_bundle_"
-					+ i);
-			element.getResources().addBundle(bundleId);
-
+			EAdBundleId bundleId;
 			if (i == 0) {
-				element.getResources().setInitialBundle(bundleId);
+				bundleId = element.getInitialBundle();
+			} else {
+				bundleId = new EAdBundleId(element.getId() + "_bundle_"
+						+ i);
+				element.getResources().addBundle(bundleId);
 			}
 
 			for (String resourceType : resourcesStrings.keySet()) {
@@ -225,14 +231,28 @@ public class ResourceImporterImpl implements ResourceImporter {
 			EAdCondition condition = conditionsImporter.init(r.getConditions());
 			condition = conditionsImporter
 					.convert(r.getConditions(), condition);
+
+			if (previousCondition == null) {
+				previousCondition = new NOTCondition(condition);
+			} else {
+				EAdCondition temp = condition;
+				condition = new ANDCondition(condition, previousCondition);
+				previousCondition = new ANDCondition(previousCondition, new NOTCondition(temp));
+			}
 			conditionEvent.setCondition(condition);
 
+			
 			EAdChangeAppearance changeAppereance = new EAdChangeAppearance(
 					conditionEvent.getId() + "change_appearence");
+			changeAppereance.setElement(element);
+			changeAppereance.setBundleId(bundleId);
 			conditionEvent.addEffect(
 					EAdConditionEvent.ConditionedEvent.CONDITIONS_MET,
 					changeAppereance);
+			
 
+			element.getEvents().add(conditionEvent);
+			
 			i++;
 		}
 
