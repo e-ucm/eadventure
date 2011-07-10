@@ -176,5 +176,4 @@ public class EffectHUDImpl implements EffectHUD {
 		return assetList;
 	}
 
-
 }

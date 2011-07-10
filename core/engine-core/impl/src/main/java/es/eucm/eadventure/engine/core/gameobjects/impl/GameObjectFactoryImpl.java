@@ -125,7 +125,6 @@ public class GameObjectFactoryImpl implements GameObjectFactory {
 		if (tempClass == null) {
 			logger.log(Level.SEVERE, "No game element mapped for class " + element.getClass());
 		} else {
-			
 			temp = (GameObject<T>) injector.getInstance(tempClass);
 			temp.setElement(element);
 			
@@ -135,18 +134,4 @@ public class GameObjectFactoryImpl implements GameObjectFactory {
 		}
 		return temp;
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * es.eucm.eadventure.engine.core.gameobjects.GameObjectFactory#get(java
-	 * .lang.Class)
-	 */
-	@Override
-	public <T extends GameObject<?>> T get(Class<T> gameObjectClass) {
-		// TODO maybe use a cache
-		return injector.getInstance(gameObjectClass);
-	}
-
 }

@@ -37,59 +37,77 @@
 
 package es.eucm.eadventure.engine.core.gameobjects.impl.effects;
 
+import com.google.inject.Inject;
+
 import es.eucm.eadventure.common.model.effects.EAdEffect;
+import es.eucm.eadventure.common.resources.StringHandler;
+import es.eucm.eadventure.engine.core.GameState;
+import es.eucm.eadventure.engine.core.ValueMap;
 import es.eucm.eadventure.engine.core.gameobjects.EffectGO;
+import es.eucm.eadventure.engine.core.gameobjects.GameObjectFactory;
 import es.eucm.eadventure.engine.core.gameobjects.impl.AbstractGameObject;
 import es.eucm.eadventure.engine.core.guiactions.GUIAction;
+import es.eucm.eadventure.engine.core.platform.AssetHandler;
+import es.eucm.eadventure.engine.core.platform.GUI;
+import es.eucm.eadventure.engine.core.platform.PlatformConfiguration;
 
 public abstract class AbstractEffectGO<P extends EAdEffect> extends
 		AbstractGameObject<P> implements EffectGO<P> {
-	
+
+	@Inject
+	public AbstractEffectGO(AssetHandler assetHandler,
+			StringHandler stringHandler, GameObjectFactory gameObjectFactory,
+			GUI gui, GameState gameState, ValueMap valueMap,
+			PlatformConfiguration platformConfiguration) {
+		super(assetHandler, stringHandler, gameObjectFactory, gui, gameState,
+				valueMap, platformConfiguration);
+	}
+
 	private boolean stopped = false;
-	
+
 	private boolean initialized = false;
-	
+
 	protected GUIAction action;
 
 	@Override
 	public void initilize() {
 		initialized = true;
 	}
-	
-	public P getEffect( ){
+
+	public P getEffect() {
 		return element;
 	}
 
 	public boolean isBlocking() {
 		return element.isBlocking();
 	}
-	
-	public boolean isOpaque(){
+
+	public boolean isOpaque() {
 		return element.isOpaque();
 	}
-	
-	public boolean isStopped( ){
+
+	public boolean isStopped() {
 		return stopped;
 	}
-	
-	public void stop( ){
+
+	public void stop() {
 		stopped = true;
 	}
-	
-	public void run( ){
+
+	public void run() {
 		stopped = false;
 	}
-	
+
 	public boolean isInitilized() {
 		return initialized;
 	}
-	
-	public void finish(){
+
+	public void finish() {
 		initialized = false;
 		stopped = true;
 	}
-	
-	public void setGUIAction( GUIAction action ){
+
+	public void setGUIAction(GUIAction action) {
 		this.action = action;
 	}
 

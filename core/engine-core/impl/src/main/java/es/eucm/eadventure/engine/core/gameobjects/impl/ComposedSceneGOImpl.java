@@ -44,9 +44,14 @@ import com.google.inject.Inject;
 
 import es.eucm.eadventure.common.model.elements.EAdScene;
 import es.eucm.eadventure.common.model.elements.impl.EAdComposedScene;
+import es.eucm.eadventure.common.resources.StringHandler;
 import es.eucm.eadventure.engine.core.GameState;
+import es.eucm.eadventure.engine.core.ValueMap;
 import es.eucm.eadventure.engine.core.gameobjects.GameObjectFactory;
 import es.eucm.eadventure.engine.core.gameobjects.SceneGO;
+import es.eucm.eadventure.engine.core.platform.AssetHandler;
+import es.eucm.eadventure.engine.core.platform.GUI;
+import es.eucm.eadventure.engine.core.platform.PlatformConfiguration;
 import es.eucm.eadventure.engine.core.platform.RuntimeAsset;
 
 public class ComposedSceneGOImpl extends AbstractGameObject<EAdComposedScene> implements SceneGO<EAdComposedScene> {
@@ -56,8 +61,12 @@ public class ComposedSceneGOImpl extends AbstractGameObject<EAdComposedScene> im
 	private EAdScene currentScene;
 	
 	@Inject
-	public ComposedSceneGOImpl(GameObjectFactory gameObjectFactory) {
-		super();
+	public ComposedSceneGOImpl(AssetHandler assetHandler,
+			StringHandler stringHandler, GameObjectFactory gameObjectFactory,
+			GUI gui, GameState gameState, ValueMap valueMap,
+			PlatformConfiguration platformConfiguration) {
+		super(assetHandler, stringHandler, gameObjectFactory, gui, gameState, valueMap,
+				platformConfiguration);
 		logger.info( "New instance" );
 	}
 	
@@ -103,4 +112,5 @@ public class ComposedSceneGOImpl extends AbstractGameObject<EAdComposedScene> im
 		int currentSceneIndex = valueMap.getValue(element.currentSceneVar());
 		currentScene = element.getScenes().get(currentSceneIndex);
 	}
+
 }

@@ -41,17 +41,30 @@ import com.google.inject.Inject;
 
 import es.eucm.eadventure.common.model.effects.impl.variables.EAdChangeVarValueEffect;
 import es.eucm.eadventure.common.model.variables.EAdVar;
+import es.eucm.eadventure.common.resources.StringHandler;
 import es.eucm.eadventure.engine.core.GameState;
 import es.eucm.eadventure.engine.core.OperatorFactory;
+import es.eucm.eadventure.engine.core.ValueMap;
+import es.eucm.eadventure.engine.core.gameobjects.GameObjectFactory;
+import es.eucm.eadventure.engine.core.platform.AssetHandler;
+import es.eucm.eadventure.engine.core.platform.GUI;
+import es.eucm.eadventure.engine.core.platform.PlatformConfiguration;
 
 public class ChangeVariableGO extends AbstractEffectGO<EAdChangeVarValueEffect> {
 
 	private OperatorFactory operatorFactory;
 
 	@Inject
-	public ChangeVariableGO(OperatorFactory operatorFactory) {
+	public ChangeVariableGO(AssetHandler assetHandler,
+			StringHandler stringHandler, GameObjectFactory gameObjectFactory,
+			GUI gui, GameState gameState, ValueMap valueMap,
+			PlatformConfiguration platformConfiguration, OperatorFactory operatorFactory) {
+		super(assetHandler, stringHandler, gameObjectFactory, gui, gameState, valueMap,
+				platformConfiguration);
 		this.operatorFactory = operatorFactory;
 	}
+
+
 
 	@Override
 	public void update(GameState gameState) {

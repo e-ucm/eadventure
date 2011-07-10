@@ -45,7 +45,6 @@ import es.eucm.eadventure.common.Reader;
 import es.eucm.eadventure.common.impl.reader.EAdAdventureModelReader;
 import es.eucm.eadventure.common.impl.reader.subparsers.AdventureHandler;
 import es.eucm.eadventure.common.model.EAdAdventureModel;
-import es.eucm.eadventure.common.model.impl.inventory.EAdBasicInventory;
 import es.eucm.eadventure.engine.core.GameLoop;
 import es.eucm.eadventure.engine.core.GameProfiler;
 import es.eucm.eadventure.engine.core.KeyboardState;
@@ -54,19 +53,15 @@ import es.eucm.eadventure.engine.core.gameobjects.GameObjectManager;
 import es.eucm.eadventure.engine.core.gameobjects.huds.*;
 import es.eucm.eadventure.engine.core.gameobjects.huds.impl.*;
 import es.eucm.eadventure.engine.core.gameobjects.impl.*;
+import es.eucm.eadventure.engine.core.gameobjects.impl.inventory.BasicInventoryGO;
 import es.eucm.eadventure.engine.core.impl.KeyboardStateImpl;
 import es.eucm.eadventure.engine.core.impl.MouseStateImpl;
-import es.eucm.eadventure.engine.core.impl.factorymapproviders.GameObjectFactoryMapProvider;
 import es.eucm.eadventure.engine.core.impl.GameLoopImpl;
 import es.eucm.eadventure.engine.core.impl.GameProfilerImpl;
 import es.eucm.eadventure.engine.core.platform.*;
 import es.eucm.eadventure.engine.core.platform.impl.*;
 
 public class DesktopModule extends AbstractModule {
-
-	public DesktopModule() {
-		GameObjectFactoryMapProvider.add(EAdBasicInventory.class, DesktopBasicInventoryGO.class);
-	}
 
 	@Override
 	protected void configure() {
@@ -88,6 +83,7 @@ public class DesktopModule extends AbstractModule {
 		bind(MenuHUD.class).to(DesktopMenuHUDImpl.class);
 		bind(FontCacheImpl.class).to(DesktopFontCache.class);
 		bind(TransitionFactory.class).to(DesktopTransitionFactory.class);
+		bind(BasicInventoryGO.class).to(DesktopBasicInventoryGO.class);
 	}
 
 }

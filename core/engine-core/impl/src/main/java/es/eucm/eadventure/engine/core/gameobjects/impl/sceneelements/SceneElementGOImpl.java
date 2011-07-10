@@ -2,16 +2,24 @@ package es.eucm.eadventure.engine.core.gameobjects.impl.sceneelements;
 
 import java.util.logging.Logger;
 
+import com.google.inject.Inject;
+
 import es.eucm.eadventure.common.model.elements.EAdSceneElement;
 import es.eucm.eadventure.common.model.params.EAdPosition;
 import es.eucm.eadventure.common.model.variables.EAdVar;
+import es.eucm.eadventure.common.resources.StringHandler;
 import es.eucm.eadventure.engine.core.GameState;
 import es.eucm.eadventure.engine.core.MouseState;
+import es.eucm.eadventure.engine.core.ValueMap;
 import es.eucm.eadventure.engine.core.gameobjects.GameObject;
+import es.eucm.eadventure.engine.core.gameobjects.GameObjectFactory;
 import es.eucm.eadventure.engine.core.gameobjects.SceneElementGO;
 import es.eucm.eadventure.engine.core.gameobjects.impl.AbstractGameObject;
 import es.eucm.eadventure.engine.core.guiactions.GUIAction;
+import es.eucm.eadventure.engine.core.platform.AssetHandler;
 import es.eucm.eadventure.engine.core.platform.DrawableAsset;
+import es.eucm.eadventure.engine.core.platform.GUI;
+import es.eucm.eadventure.engine.core.platform.PlatformConfiguration;
 
 public abstract class SceneElementGOImpl<T extends EAdSceneElement> extends
 		AbstractGameObject<T> implements SceneElementGO<T> {
@@ -34,11 +42,18 @@ public abstract class SceneElementGOImpl<T extends EAdSceneElement> extends
 
 	protected boolean visible;
 
-	public SceneElementGOImpl() {
+	@Inject
+	public SceneElementGOImpl(AssetHandler assetHandler,
+			StringHandler stringHandler, GameObjectFactory gameObjectFactory,
+			GUI gui, GameState gameState, ValueMap valueMap,
+			PlatformConfiguration platformConfiguration) {
+		super(assetHandler, stringHandler, gameObjectFactory, gui, gameState, valueMap,
+				platformConfiguration);
 		logger.info("New instance");
 		visible = true;
 	}
 
+	
 	@Override
 	public abstract boolean processAction(GUIAction action);
 

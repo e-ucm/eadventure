@@ -40,6 +40,14 @@ package es.eucm.eadventure.engine.core.gameobjects.impl.effects;
 import com.google.inject.Inject;
 
 import es.eucm.eadventure.common.model.effects.impl.EAdQuitGame;
+import es.eucm.eadventure.common.resources.StringHandler;
+import es.eucm.eadventure.engine.core.GameState;
+import es.eucm.eadventure.engine.core.ValueMap;
+import es.eucm.eadventure.engine.core.gameobjects.GameObject;
+import es.eucm.eadventure.engine.core.gameobjects.GameObjectFactory;
+import es.eucm.eadventure.engine.core.platform.AssetHandler;
+import es.eucm.eadventure.engine.core.platform.GUI;
+import es.eucm.eadventure.engine.core.platform.PlatformConfiguration;
 import es.eucm.eadventure.engine.core.platform.PlatformControl;
 
 /**
@@ -50,10 +58,16 @@ import es.eucm.eadventure.engine.core.platform.PlatformControl;
  */
 public class QuitGameEffectGO extends AbstractEffectGO<EAdQuitGame> {
 
-	private PlatformControl platformControl;
 
+	private PlatformControl platformControl;
+	
 	@Inject
-	public QuitGameEffectGO(PlatformControl platformControl) {
+	public QuitGameEffectGO(AssetHandler assetHandler,
+			StringHandler stringHandler, GameObjectFactory gameObjectFactory,
+			GUI gui, GameState gameState, ValueMap valueMap,
+			PlatformConfiguration platformConfiguration, PlatformControl platformControl) {
+		super(assetHandler, stringHandler, gameObjectFactory, gui, gameState, valueMap,
+				platformConfiguration);
 		this.platformControl = platformControl;
 	}
 

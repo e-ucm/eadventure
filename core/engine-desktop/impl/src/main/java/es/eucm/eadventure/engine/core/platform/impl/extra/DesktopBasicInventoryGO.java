@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.google.inject.Inject;
+
 import es.eucm.eadventure.common.model.conditions.impl.EmptyCondition;
 import es.eucm.eadventure.common.model.conditions.impl.VarCondition.Operator;
 import es.eucm.eadventure.common.model.conditions.impl.VarValCondition;
@@ -26,12 +28,18 @@ import es.eucm.eadventure.common.model.params.EAdPosition.Corner;
 import es.eucm.eadventure.common.model.variables.impl.operations.BooleanOperation;
 import es.eucm.eadventure.common.model.variables.impl.operations.LiteralExpressionOperation;
 import es.eucm.eadventure.common.resources.EAdBundleId;
+import es.eucm.eadventure.common.resources.StringHandler;
 import es.eucm.eadventure.common.resources.assets.drawable.impl.ImageImpl;
 import es.eucm.eadventure.common.resources.assets.drawable.impl.RectangleShape;
 import es.eucm.eadventure.engine.core.GameState;
+import es.eucm.eadventure.engine.core.ValueMap;
+import es.eucm.eadventure.engine.core.gameobjects.GameObjectFactory;
 import es.eucm.eadventure.engine.core.gameobjects.SceneElementGO;
 import es.eucm.eadventure.engine.core.gameobjects.impl.inventory.BasicInventoryGO;
 import es.eucm.eadventure.engine.core.gameobjects.impl.sceneelements.ActorReferenceGOImpl;
+import es.eucm.eadventure.engine.core.platform.AssetHandler;
+import es.eucm.eadventure.engine.core.platform.GUI;
+import es.eucm.eadventure.engine.core.platform.PlatformConfiguration;
 
 /**
  * Desktop implementation of the {@link BasicInventoryGO}
@@ -78,7 +86,14 @@ public class DesktopBasicInventoryGO extends BasicInventoryGO {
 	 */
 	private Map<EAdActor, EAdActorReferenceImpl> includedActors;
 	
-	public DesktopBasicInventoryGO() {
+	@Inject
+	public DesktopBasicInventoryGO(AssetHandler assetHandler,
+			StringHandler stringHandler, GameObjectFactory gameObjectFactory,
+			GUI gui, GameState gameState, ValueMap valueMap,
+			PlatformConfiguration platformConfiguration) {
+		super(assetHandler, stringHandler, gameObjectFactory, gui, gameState, valueMap,
+				platformConfiguration);
+
 		inventory = new EAdComplexSceneElement("inventory");
 		inventory.setDraggabe(EmptyCondition.FALSE_EMPTY_CONDITION);
 		inventory.setPosition(new EAdPosition(Corner.BOTTOM_LEFT, 0, 700));

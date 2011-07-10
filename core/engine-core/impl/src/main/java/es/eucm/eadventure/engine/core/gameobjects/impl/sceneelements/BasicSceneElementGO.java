@@ -11,6 +11,7 @@ import es.eucm.eadventure.common.model.actions.EAdAction;
 import es.eucm.eadventure.common.model.effects.EAdEffect;
 import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
 import es.eucm.eadventure.common.resources.EAdBundleId;
+import es.eucm.eadventure.common.resources.StringHandler;
 import es.eucm.eadventure.common.resources.assets.AssetDescriptor;
 import es.eucm.eadventure.common.resources.assets.OrientedAsset;
 import es.eucm.eadventure.engine.core.EvaluatorFactory;
@@ -18,9 +19,12 @@ import es.eucm.eadventure.engine.core.GameState;
 import es.eucm.eadventure.engine.core.MouseState;
 import es.eucm.eadventure.engine.core.ValueMap;
 import es.eucm.eadventure.engine.core.gameobjects.GameObject;
+import es.eucm.eadventure.engine.core.gameobjects.GameObjectFactory;
 import es.eucm.eadventure.engine.core.guiactions.GUIAction;
 import es.eucm.eadventure.engine.core.platform.AssetHandler;
 import es.eucm.eadventure.engine.core.platform.DrawableAsset;
+import es.eucm.eadventure.engine.core.platform.GUI;
+import es.eucm.eadventure.engine.core.platform.PlatformConfiguration;
 import es.eucm.eadventure.engine.core.platform.RuntimeAsset;
 
 public class BasicSceneElementGO extends SceneElementGOImpl<EAdBasicSceneElement> {
@@ -31,10 +35,13 @@ public class BasicSceneElementGO extends SceneElementGOImpl<EAdBasicSceneElement
 	private EvaluatorFactory evaluatorFactory;
 	
 	@Inject
-	public BasicSceneElementGO(AssetHandler assetHandler, ValueMap valueMap, EvaluatorFactory evaluatorFactory) {
+	public BasicSceneElementGO(AssetHandler assetHandler,
+			StringHandler stringHandler, GameObjectFactory gameObjectFactory,
+			GUI gui, GameState gameState, ValueMap valueMap,
+			PlatformConfiguration platformConfiguration, EvaluatorFactory evaluatorFactory) {
+		super(assetHandler, stringHandler, gameObjectFactory, gui, gameState, valueMap,
+				platformConfiguration);
 		logger.info("New instance");
-		this.valueMap = valueMap;
-		this.assetHandler = assetHandler;
 		this.evaluatorFactory = evaluatorFactory;
 	}
 	

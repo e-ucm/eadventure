@@ -5,10 +5,15 @@ import com.google.inject.Inject;
 import es.eucm.eadventure.common.model.effects.impl.EAdVarInterpolationEffect;
 import es.eucm.eadventure.common.model.variables.EAdVar;
 import es.eucm.eadventure.common.model.variables.impl.vars.IntegerVar;
+import es.eucm.eadventure.common.resources.StringHandler;
 import es.eucm.eadventure.engine.core.GameLoop;
 import es.eucm.eadventure.engine.core.GameState;
 import es.eucm.eadventure.engine.core.OperatorFactory;
 import es.eucm.eadventure.engine.core.ValueMap;
+import es.eucm.eadventure.engine.core.gameobjects.GameObjectFactory;
+import es.eucm.eadventure.engine.core.platform.AssetHandler;
+import es.eucm.eadventure.engine.core.platform.GUI;
+import es.eucm.eadventure.engine.core.platform.PlatformConfiguration;
 
 public class VarInterpolationGO extends
 		AbstractEffectGO<EAdVarInterpolationEffect> {
@@ -19,17 +24,19 @@ public class VarInterpolationGO extends
 
 	private boolean integer;
 
-	private ValueMap valueMap;
-
 	private boolean finished;
 	
 	private OperatorFactory operatorFactory;
 
 	private float startValue;
-	
+
 	@Inject
-	public VarInterpolationGO(ValueMap valueMap, OperatorFactory operatorFactory) {
-		this.valueMap = valueMap;
+	public VarInterpolationGO(AssetHandler assetHandler,
+			StringHandler stringHandler, GameObjectFactory gameObjectFactory,
+			GUI gui, GameState gameState, ValueMap valueMap,
+			PlatformConfiguration platformConfiguration, OperatorFactory operatorFactory) {
+		super(assetHandler, stringHandler, gameObjectFactory, gui, gameState, valueMap,
+				platformConfiguration);
 		this.operatorFactory = operatorFactory;
 	}
 

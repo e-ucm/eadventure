@@ -105,14 +105,21 @@ public interface GameObject<T> {
 	T getElement();
 
 	/**
-	 * <p>Adds the assets used by this game object to the list and returns it</p>
-	 * <p>This method is used to manage memory consumed by assets, allowing the releasing or
-	 * pre-caching of assets as required.</p>
+	 * <p>
+	 * Adds the assets used by this game object to the list and returns it
+	 * </p>
+	 * <p>
+	 * This method is used to manage memory consumed by assets, allowing the
+	 * releasing or pre-caching of assets as required.
+	 * </p>
 	 * 
-	 * @param assetList The list where to add the assets
-	 * @param allAssets If true all assets are added, if false only required ones are
+	 * @param assetList
+	 *            The list where to add the assets
+	 * @param allAssets
+	 *            If true all assets are added, if false only required ones are
 	 * @return The list of assets with the ones of this game object added
 	 */
-	List<RuntimeAsset<?>> getAssets(List<RuntimeAsset<?>> assetList, boolean allAssets);
+	List<RuntimeAsset<?>> getAssets(List<RuntimeAsset<?>> assetList,
+			boolean allAssets);
 
 }

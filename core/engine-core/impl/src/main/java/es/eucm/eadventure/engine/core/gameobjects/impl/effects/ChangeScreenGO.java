@@ -40,19 +40,31 @@ package es.eucm.eadventure.engine.core.gameobjects.impl.effects;
 import com.google.inject.Inject;
 
 import es.eucm.eadventure.common.model.effects.impl.EAdChangeScene;
+import es.eucm.eadventure.common.resources.StringHandler;
 import es.eucm.eadventure.engine.core.GameState;
+import es.eucm.eadventure.engine.core.ValueMap;
+import es.eucm.eadventure.engine.core.gameobjects.GameObjectFactory;
 import es.eucm.eadventure.engine.core.gameobjects.TransitionGO;
+import es.eucm.eadventure.engine.core.platform.AssetHandler;
+import es.eucm.eadventure.engine.core.platform.GUI;
+import es.eucm.eadventure.engine.core.platform.PlatformConfiguration;
 import es.eucm.eadventure.engine.core.platform.TransitionFactory;
 
 public class ChangeScreenGO extends AbstractEffectGO<EAdChangeScene> {
 
 	private TransitionFactory transitionFactory;
-	
+
 	@Inject
-	public ChangeScreenGO(TransitionFactory transitionFactory) {
+	public ChangeScreenGO(AssetHandler assetHandler,
+			StringHandler stringHandler, GameObjectFactory gameObjectFactory,
+			GUI gui, GameState gameState, ValueMap valueMap,
+			PlatformConfiguration platformConfiguration, TransitionFactory transitionFactory) {
+		super(assetHandler, stringHandler, gameObjectFactory, gui, gameState, valueMap,
+				platformConfiguration);
 		this.transitionFactory = transitionFactory;
 	}
-	
+
+		
 	@Override
 	public void update(GameState gameState) {
 		TransitionGO transition = transitionFactory.getTransition(element.getTransition());

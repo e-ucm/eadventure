@@ -63,14 +63,4 @@ public interface GameObjectFactory {
 	 */
 	<T extends EAdElement> GameObject<?> get(T element);
 
-	/**
-	 * Returns a object that extends from {@link GameObject} based on a class
-	 * that extends {@link GameObject}. Possibly useful for optimizations
-	 * 
-	 * @param <T>
-	 * @param gameObjectClass
-	 * @return
-	 */
-	<T extends GameObject<?>> T get(Class<T> gameObjectClass);
-
 }

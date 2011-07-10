@@ -42,14 +42,29 @@ import com.google.inject.Inject;
 import es.eucm.eadventure.common.model.effects.EAdEffect;
 import es.eucm.eadventure.common.model.effects.impl.EAdComplexBlockingEffect;
 import es.eucm.eadventure.common.model.elements.EAdSceneElement;
+import es.eucm.eadventure.common.resources.StringHandler;
 import es.eucm.eadventure.engine.core.EvaluatorFactory;
 import es.eucm.eadventure.engine.core.GameState;
+import es.eucm.eadventure.engine.core.ValueMap;
+import es.eucm.eadventure.engine.core.gameobjects.GameObjectFactory;
 import es.eucm.eadventure.engine.core.gameobjects.SceneElementGO;
+import es.eucm.eadventure.engine.core.platform.AssetHandler;
+import es.eucm.eadventure.engine.core.platform.GUI;
+import es.eucm.eadventure.engine.core.platform.PlatformConfiguration;
 
 public class ComplexBlockingEffectGO extends AbstractEffectGO<EAdComplexBlockingEffect> {
 
-	@Inject
 	private EvaluatorFactory evaluatorFactory;
+
+	@Inject
+	public ComplexBlockingEffectGO(AssetHandler assetHandler,
+			StringHandler stringHandler, GameObjectFactory gameObjectFactory,
+			GUI gui, GameState gameState, ValueMap valueMap,
+			PlatformConfiguration platformConfiguration, EvaluatorFactory evaluatorFactory) {
+		super(assetHandler, stringHandler, gameObjectFactory, gui, gameState, valueMap,
+				platformConfiguration);
+		this.evaluatorFactory = evaluatorFactory;
+	}
 
 	@Override
 	public void doLayout(int offsetX, int offsetY) {
@@ -87,6 +102,4 @@ public class ComplexBlockingEffectGO extends AbstractEffectGO<EAdComplexBlocking
 		}
 		
 	}
-	
-
 }

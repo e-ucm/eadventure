@@ -46,21 +46,30 @@ import com.google.inject.Inject;
 import es.eucm.eadventure.common.model.elements.EAdActorReference;
 import es.eucm.eadventure.common.model.elements.EAdScene;
 import es.eucm.eadventure.common.model.elements.EAdSceneElement;
+import es.eucm.eadventure.common.resources.StringHandler;
 import es.eucm.eadventure.engine.core.GameState;
+import es.eucm.eadventure.engine.core.ValueMap;
+import es.eucm.eadventure.engine.core.gameobjects.GameObjectFactory;
 import es.eucm.eadventure.engine.core.gameobjects.SceneElementGO;
 import es.eucm.eadventure.engine.core.gameobjects.SceneGO;
+import es.eucm.eadventure.engine.core.platform.AssetHandler;
+import es.eucm.eadventure.engine.core.platform.GUI;
+import es.eucm.eadventure.engine.core.platform.PlatformConfiguration;
 import es.eucm.eadventure.engine.core.platform.RuntimeAsset;
 
 public class SceneGOImpl extends AbstractGameObject<EAdScene> implements SceneGO<EAdScene> {
 
 	private static final Logger logger = Logger.getLogger("ScreenGOImpl");
-	
+
 	@Inject
-	public SceneGOImpl( ) {
-		super();
+	public SceneGOImpl(AssetHandler assetHandler, StringHandler stringHandler,
+			GameObjectFactory gameObjectFactory, GUI gui, GameState gameState,
+			ValueMap valueMap, PlatformConfiguration platformConfiguration) {
+		super(assetHandler, stringHandler, gameObjectFactory, gui, gameState, valueMap,
+				platformConfiguration);
 		logger.info( "New instance" );
 	}
-	
+
 	public void doLayout(int offsetX, int offsetY) {
 		//TODO scene offset
 		gui.addElement(gameObjectFactory.get(element.getBackground()), offsetX, offsetY);

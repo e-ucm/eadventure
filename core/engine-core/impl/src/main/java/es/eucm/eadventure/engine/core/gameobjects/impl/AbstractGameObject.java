@@ -65,31 +65,24 @@ public abstract class AbstractGameObject<T extends EAdElement> implements GameOb
 	/**
 	 * The game's asset handler
 	 */
-	@Inject
 	protected AssetHandler assetHandler;
 
 	/**
 	 * The string handler
 	 */
-	@Inject
 	protected StringHandler stringHandler;
 
-	@Inject
 	protected GameObjectFactory gameObjectFactory;
 
-	@Inject
 	protected GUI gui;
 
 	@Inject
 	protected Injector injector;
 
-	@Inject
 	protected GameState gameState;
 	
-	@Inject
 	protected ValueMap valueMap;
 	
-	@Inject
 	protected PlatformConfiguration platformConfiguration;
 	
 	protected T element;
@@ -97,7 +90,15 @@ public abstract class AbstractGameObject<T extends EAdElement> implements GameOb
 	private ArrayList<AbstractEventGO<?>> eventGOList;
 	
 	@Inject
-	public AbstractGameObject() {
+	public AbstractGameObject(AssetHandler assetHandler, StringHandler stringHandler, GameObjectFactory gameObjectFactory,
+			GUI gui, GameState gameState, ValueMap valueMap, PlatformConfiguration platformConfiguration) {
+		this.assetHandler = assetHandler;
+		this.stringHandler = stringHandler;
+		this.gameObjectFactory = gameObjectFactory;
+		this.gui = gui;
+		this.gameState = gameState;
+		this.valueMap = valueMap;
+		this.platformConfiguration = platformConfiguration;
 	}
 
 	@Override

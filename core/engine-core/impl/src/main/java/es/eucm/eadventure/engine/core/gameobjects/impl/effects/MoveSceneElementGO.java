@@ -42,12 +42,18 @@ import com.google.inject.Inject;
 import es.eucm.eadventure.common.interfaces.Oriented.Orientation;
 import es.eucm.eadventure.common.model.effects.impl.EAdMoveSceneElement;
 import es.eucm.eadventure.common.model.variables.impl.vars.IntegerVar;
+import es.eucm.eadventure.common.resources.StringHandler;
 import es.eucm.eadventure.engine.core.GameLoop;
 import es.eucm.eadventure.engine.core.GameState;
 import es.eucm.eadventure.engine.core.OperatorFactory;
+import es.eucm.eadventure.engine.core.ValueMap;
+import es.eucm.eadventure.engine.core.gameobjects.GameObjectFactory;
 import es.eucm.eadventure.engine.core.gameobjects.SceneElementGO;
 import es.eucm.eadventure.engine.core.gameobjects.impl.interfaces.LinearInterpolation;
 import es.eucm.eadventure.engine.core.gameobjects.interfaces.Interpolation;
+import es.eucm.eadventure.engine.core.platform.AssetHandler;
+import es.eucm.eadventure.engine.core.platform.GUI;
+import es.eucm.eadventure.engine.core.platform.PlatformConfiguration;
 
 /**
  * Game object for {@link EAdMoveSceneElement} effect
@@ -68,9 +74,18 @@ public class MoveSceneElementGO extends AbstractEffectGO<EAdMoveSceneElement> {
 
 	private boolean isIsometric = true;
 
-	@Inject
 	private OperatorFactory operatorFactory;
-	
+
+	@Inject
+	public MoveSceneElementGO(AssetHandler assetHandler,
+			StringHandler stringHandler, GameObjectFactory gameObjectFactory,
+			GUI gui, GameState gameState, ValueMap valueMap,
+			PlatformConfiguration platformConfiguration, OperatorFactory operatorFactory) {
+		super(assetHandler, stringHandler, gameObjectFactory, gui, gameState, valueMap,
+				platformConfiguration);
+		this.operatorFactory = operatorFactory;
+	}
+
 	@Override
 	public void initilize() {
 		super.initilize();

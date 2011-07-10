@@ -46,12 +46,17 @@ import es.eucm.eadventure.common.model.actions.EAdAction;
 import es.eucm.eadventure.common.model.elements.EAdActor;
 import es.eucm.eadventure.common.model.elements.impl.EAdBasicActor;
 import es.eucm.eadventure.common.resources.EAdString;
+import es.eucm.eadventure.common.resources.StringHandler;
 import es.eucm.eadventure.engine.core.EvaluatorFactory;
 import es.eucm.eadventure.engine.core.GameState;
 import es.eucm.eadventure.engine.core.ValueMap;
 import es.eucm.eadventure.engine.core.gameobjects.ActorGO;
+import es.eucm.eadventure.engine.core.gameobjects.GameObjectFactory;
 import es.eucm.eadventure.engine.core.gameobjects.impl.AbstractGameObject;
 import es.eucm.eadventure.engine.core.guiactions.GUIAction;
+import es.eucm.eadventure.engine.core.platform.AssetHandler;
+import es.eucm.eadventure.engine.core.platform.GUI;
+import es.eucm.eadventure.engine.core.platform.PlatformConfiguration;
 import es.eucm.eadventure.engine.core.platform.RuntimeAsset;
 
 public class ActorGOImpl extends AbstractGameObject<EAdActor> implements
@@ -66,10 +71,13 @@ public class ActorGOImpl extends AbstractGameObject<EAdActor> implements
 	private EvaluatorFactory evaluator;
 
 	@Inject
-	public ActorGOImpl(EvaluatorFactory evaluator, ValueMap valueMap ) {
-		logger.info("New instance");
+	public ActorGOImpl(AssetHandler assetHandler, StringHandler stringHandler,
+			GameObjectFactory gameObjectFactory, GUI gui, GameState gameState,
+			ValueMap valueMap, PlatformConfiguration platformConfiguration, EvaluatorFactory evaluator) {
+		super(assetHandler, stringHandler, gameObjectFactory, gui, gameState, valueMap,
+				platformConfiguration);
 		this.evaluator = evaluator;
-		this.valueMap = valueMap;
+		logger.info("New instance");
 	}
 
 	@Override
@@ -108,7 +116,5 @@ public class ActorGOImpl extends AbstractGameObject<EAdActor> implements
 			boolean allAssets) {
 		return assetList;
 	}
-	
-
 
 }

@@ -37,15 +37,33 @@
 
 package es.eucm.eadventure.engine.core.gameobjects.impl.events;
 
+import com.google.inject.Inject;
+
 import es.eucm.eadventure.common.model.EAdList;
 import es.eucm.eadventure.common.model.effects.EAdEffect;
 import es.eucm.eadventure.common.model.events.EAdEvent;
+import es.eucm.eadventure.common.resources.StringHandler;
+import es.eucm.eadventure.engine.core.GameState;
+import es.eucm.eadventure.engine.core.ValueMap;
 import es.eucm.eadventure.engine.core.gameobjects.GameObject;
+import es.eucm.eadventure.engine.core.gameobjects.GameObjectFactory;
 import es.eucm.eadventure.engine.core.gameobjects.impl.AbstractGameObject;
+import es.eucm.eadventure.engine.core.platform.AssetHandler;
+import es.eucm.eadventure.engine.core.platform.GUI;
+import es.eucm.eadventure.engine.core.platform.PlatformConfiguration;
 
 public abstract class AbstractEventGO<T extends EAdEvent> extends AbstractGameObject<T> implements
 		GameObject<T> {
 	
+	@Inject
+	public AbstractEventGO(AssetHandler assetHandler,
+			StringHandler stringHandler, GameObjectFactory gameObjectFactory,
+			GUI gui, GameState gameState, ValueMap valueMap,
+			PlatformConfiguration platformConfiguration) {
+		super(assetHandler, stringHandler, gameObjectFactory, gui, gameState, valueMap,
+				platformConfiguration);
+	}
+
 	/**
 	 * Initializes the event
 	 */

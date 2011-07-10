@@ -66,7 +66,6 @@ public class ExitImporter implements EAdElementImporter<Exit, EAdSceneElement> {
 
 		newExit.addBehavior(EAdMouseEventImpl.MOUSE_LEFT_CLICK, effect);
 				
-		
 		EAdConditionEventImpl event = new EAdConditionEventImpl( newExit.getId() + "_VisibleEvent" );
 		event.setCondition(condition);
 		

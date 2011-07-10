@@ -49,13 +49,11 @@ import es.eucm.eadventure.engine.core.GameState;
 import es.eucm.eadventure.engine.core.ValueMap;
 import es.eucm.eadventure.engine.core.gameobjects.huds.EffectHUD;
 import es.eucm.eadventure.engine.core.gameobjects.huds.impl.EffectHUDImpl;
-import es.eucm.eadventure.engine.core.gameobjects.impl.SceneGOImpl;
 import es.eucm.eadventure.engine.core.impl.GameControllerImpl;
 import es.eucm.eadventure.engine.core.impl.GameImpl;
 import es.eucm.eadventure.engine.core.impl.GameStateImpl;
 import es.eucm.eadventure.engine.core.impl.LoadingScreen;
 import es.eucm.eadventure.engine.core.impl.VariableMap;
-import es.eucm.eadventure.engine.core.impl.factorymapproviders.GameObjectFactoryMapProvider;
 import es.eucm.eadventure.engine.core.platform.FontCache;
 import es.eucm.eadventure.engine.core.platform.impl.FontCacheImpl;
 
@@ -63,8 +61,6 @@ public class BasicGameModule extends AbstractModule {
 
 	@Override
 	protected void configure() {
-		setLoadingScreen();
-
 		install(new GameObjectFactoryModule());
 		install(new EvaluatorFactoryModule());
 		install(new OperatorFactoryModule());
@@ -79,16 +75,9 @@ public class BasicGameModule extends AbstractModule {
 		bind(EAdAdventureModel.class).to(EAdAdventureModelImpl.class);
 		bind(String.class).annotatedWith(Names.named("classParam")).toInstance(
 				"class");
-		
-	}
-	
-	protected void setLoadingScreen()
-	{
 		bind(EAdScene.class).annotatedWith(Names.named("LoadingScreen")).to(
 				LoadingScreen.class);
-		GameObjectFactoryMapProvider.add(LoadingScreen.class, SceneGOImpl.class);
-	}
 
-	
+	}
 
 }

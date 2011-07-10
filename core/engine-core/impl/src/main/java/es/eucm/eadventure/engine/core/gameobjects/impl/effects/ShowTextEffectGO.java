@@ -40,6 +40,8 @@ package es.eucm.eadventure.engine.core.gameobjects.impl.effects;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import com.google.inject.Inject;
+
 import es.eucm.eadventure.common.model.effects.impl.EAdVarInterpolationEffect;
 import es.eucm.eadventure.common.model.effects.impl.EAdVarInterpolationEffect.LoopType;
 import es.eucm.eadventure.common.model.effects.impl.text.EAdShowText;
@@ -49,11 +51,17 @@ import es.eucm.eadventure.common.model.events.impl.EAdSceneElementTimedEventImpl
 import es.eucm.eadventure.common.model.params.EAdPosition;
 import es.eucm.eadventure.common.model.params.EAdPosition.Corner;
 import es.eucm.eadventure.common.model.params.guievents.EAdMouseEvent.MouseActionType;
+import es.eucm.eadventure.common.resources.StringHandler;
 import es.eucm.eadventure.common.resources.assets.drawable.impl.BezierShape;
 import es.eucm.eadventure.engine.core.GameState;
+import es.eucm.eadventure.engine.core.ValueMap;
+import es.eucm.eadventure.engine.core.gameobjects.GameObjectFactory;
 import es.eucm.eadventure.engine.core.gameobjects.impl.sceneelements.BasicSceneElementGO;
 import es.eucm.eadventure.engine.core.guiactions.GUIAction;
 import es.eucm.eadventure.engine.core.guiactions.MouseAction;
+import es.eucm.eadventure.engine.core.platform.AssetHandler;
+import es.eucm.eadventure.engine.core.platform.GUI;
+import es.eucm.eadventure.engine.core.platform.PlatformConfiguration;
 import es.eucm.eadventure.engine.core.platform.assets.impl.RuntimeCaption;
 
 public class ShowTextEffectGO extends AbstractEffectGO<EAdShowText> {
@@ -65,6 +73,15 @@ public class ShowTextEffectGO extends AbstractEffectGO<EAdShowText> {
 	private BasicSceneElementGO indicatorGO;
 
 	private RuntimeCaption caption;
+
+	@Inject
+	public ShowTextEffectGO(AssetHandler assetHandler,
+			StringHandler stringHandler, GameObjectFactory gameObjectFactory,
+			GUI gui, GameState gameState, ValueMap valueMap,
+			PlatformConfiguration platformConfiguration) {
+		super(assetHandler, stringHandler, gameObjectFactory, gui, gameState, valueMap,
+				platformConfiguration);
+	}
 
 	@Override
 	public boolean processAction(GUIAction action) {

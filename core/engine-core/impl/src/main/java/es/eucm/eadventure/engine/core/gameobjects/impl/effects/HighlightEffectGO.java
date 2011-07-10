@@ -37,9 +37,17 @@
 
 package es.eucm.eadventure.engine.core.gameobjects.impl.effects;
 
+import com.google.inject.Inject;
+
 import es.eucm.eadventure.common.model.effects.impl.actorreference.EAdHighlightActorReference;
+import es.eucm.eadventure.common.resources.StringHandler;
 import es.eucm.eadventure.engine.core.GameState;
+import es.eucm.eadventure.engine.core.ValueMap;
 import es.eucm.eadventure.engine.core.gameobjects.ActorReferenceGO;
+import es.eucm.eadventure.engine.core.gameobjects.GameObjectFactory;
+import es.eucm.eadventure.engine.core.platform.AssetHandler;
+import es.eucm.eadventure.engine.core.platform.GUI;
+import es.eucm.eadventure.engine.core.platform.PlatformConfiguration;
 import es.eucm.eadventure.engine.core.GameLoop;
 
 public class HighlightEffectGO extends AbstractEffectGO<EAdHighlightActorReference> {
@@ -51,6 +59,15 @@ public class HighlightEffectGO extends AbstractEffectGO<EAdHighlightActorReferen
 	private float oldScale;
 
 	private boolean started;
+
+	@Inject
+	public HighlightEffectGO(AssetHandler assetHandler,
+			StringHandler stringHandler, GameObjectFactory gameObjectFactory,
+			GUI gui, GameState gameState, ValueMap valueMap,
+			PlatformConfiguration platformConfiguration) {
+		super(assetHandler, stringHandler, gameObjectFactory, gui, gameState, valueMap,
+				platformConfiguration);
+	}
 
 	@Override
 	public void initilize() {
