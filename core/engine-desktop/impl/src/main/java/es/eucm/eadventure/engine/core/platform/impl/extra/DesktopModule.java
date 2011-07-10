@@ -38,8 +38,9 @@
 package es.eucm.eadventure.engine.core.platform.impl.extra;
 
 import com.google.inject.AbstractModule;
+import com.google.inject.Provides;
 import com.google.inject.TypeLiteral;
-import com.google.inject.name.Names;
+import com.google.inject.name.Named;
 
 import es.eucm.eadventure.common.Reader;
 import es.eucm.eadventure.common.impl.reader.EAdAdventureModelReader;
@@ -70,7 +71,6 @@ public class DesktopModule extends AbstractModule {
 		bind(AdventureHandler.class);
 		bind(GameLoop.class).to(GameLoopImpl.class);
 		bind(GameProfiler.class).to(GameProfilerImpl.class);
-		bind(Boolean.class).annotatedWith(Names.named("threaded")).toInstance(Boolean.FALSE);
 		bind(GUI.class).to(DesktopGUI.class);
 		bind(PlatformConfiguration.class).to(DesktopPlatformConfiguration.class);
 		bind(PlatformControl.class).to(DesktopPlatformControl.class);
@@ -84,6 +84,12 @@ public class DesktopModule extends AbstractModule {
 		bind(FontCacheImpl.class).to(DesktopFontCache.class);
 		bind(TransitionFactory.class).to(DesktopTransitionFactory.class);
 		bind(BasicInventoryGO.class).to(DesktopBasicInventoryGO.class);
+	}
+	
+	@Provides
+	@Named("threaded")
+	public boolean provideThreaded() {
+		return Boolean.FALSE;
 	}
 
 }

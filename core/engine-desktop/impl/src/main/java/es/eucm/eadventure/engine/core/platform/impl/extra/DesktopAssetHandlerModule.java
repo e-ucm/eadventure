@@ -4,6 +4,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.google.inject.AbstractModule;
+import com.google.inject.Provides;
+import com.google.inject.Singleton;
 import com.google.inject.TypeLiteral;
 
 import es.eucm.eadventure.common.resources.StringHandler;
@@ -44,11 +46,13 @@ public class DesktopAssetHandlerModule extends AbstractModule {
 	protected void configure() {
 		bind(StringHandler.class).to(DefaultStringHandler.class);
 		bind(AssetHandler.class).to(DesktopAssetHandler.class);
-		
+	}
+
+	@Provides
+	@Singleton
+	Map<Class<? extends AssetDescriptor>, Class<? extends RuntimeAsset<?>>> provideMap() {
 		Map<Class<? extends AssetDescriptor>, Class<? extends RuntimeAsset<?>>> map = new HashMap<Class<? extends AssetDescriptor>, Class<? extends RuntimeAsset<?>>>( );
-
-		bind( new TypeLiteral<Map<Class<? extends AssetDescriptor>, Class<? extends RuntimeAsset<?>>>>( ) {} ).toInstance( map );
-
+	  
 		map.put(FramesAnimation.class, RuntimeFramesAnimation.class);
 		map.put(ImageImpl.class, DesktopEngineImage.class);
 		map.put(Image.class, DesktopEngineImage.class);
@@ -65,8 +69,9 @@ public class DesktopAssetHandlerModule extends AbstractModule {
 		map.put(DisplacedDrawableImpl.class, RuntimeDisplacedDrawable.class);
 		map.put(SpriteImage.class, RuntimeSpriteImage.class);
 		map.put(SpriteImageImpl.class, DesktopEngineSpriteImage.class);
+		
+		return map;
 	}
-
 	
 	
 }

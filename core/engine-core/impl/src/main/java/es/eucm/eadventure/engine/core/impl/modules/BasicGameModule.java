@@ -38,6 +38,8 @@
 package es.eucm.eadventure.engine.core.impl.modules;
 
 import com.google.inject.AbstractModule;
+import com.google.inject.Provides;
+import com.google.inject.name.Named;
 import com.google.inject.name.Names;
 
 import es.eucm.eadventure.common.model.EAdAdventureModel;
@@ -73,11 +75,16 @@ public class BasicGameModule extends AbstractModule {
 		bind(FontCache.class).to(FontCacheImpl.class);
 
 		bind(EAdAdventureModel.class).to(EAdAdventureModelImpl.class);
-		bind(String.class).annotatedWith(Names.named("classParam")).toInstance(
-				"class");
 		bind(EAdScene.class).annotatedWith(Names.named("LoadingScreen")).to(
 				LoadingScreen.class);
 
 	}
+	
+	@Provides
+	@Named("classParam")
+	public String provideThreaded() {
+		return "class";
+	}
+
 
 }

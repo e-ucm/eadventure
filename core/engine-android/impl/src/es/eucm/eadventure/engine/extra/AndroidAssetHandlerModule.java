@@ -4,7 +4,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.google.inject.AbstractModule;
-import com.google.inject.TypeLiteral;
+import com.google.inject.Provides;
+import com.google.inject.Singleton;
 
 import es.eucm.eadventure.common.resources.StringHandler;
 import es.eucm.eadventure.common.resources.assets.AssetDescriptor;
@@ -42,10 +43,12 @@ public class AndroidAssetHandlerModule extends AbstractModule {
 	protected void configure() {
 		bind(StringHandler.class).to(DefaultStringHandler.class);
 		bind(AssetHandler.class).to(AndroidAssetHandler.class);
-		
+	}
+	
+	@Provides
+	@Singleton
+	Map<Class<? extends AssetDescriptor>, Class<? extends RuntimeAsset<?>>> provideMap() {
 		Map<Class<? extends AssetDescriptor>, Class<? extends RuntimeAsset<?>>> map = new HashMap<Class<? extends AssetDescriptor>, Class<? extends RuntimeAsset<?>>>( );
-
-		bind( new TypeLiteral<Map<Class<? extends AssetDescriptor>, Class<? extends RuntimeAsset<?>>>>( ) {} ).toInstance( map );
 
 		map.put(FramesAnimation.class, RuntimeFramesAnimation.class);
 		map.put(ImageImpl.class, AndroidEngineImage.class);
@@ -64,6 +67,8 @@ public class AndroidAssetHandlerModule extends AbstractModule {
 		map.put(SpriteImage.class, RuntimeSpriteImage.class);
 		//TODO Sprite image
 		//map.put(SpriteImageImpl.class, AndroidEngineSpriteImage.class);
+		
+		return map;
 	}
 
 	

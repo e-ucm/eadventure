@@ -1,6 +1,8 @@
 package es.eucm.eadventure.engine.extra;
 
 import com.google.inject.AbstractModule;
+import com.google.inject.Provides;
+import com.google.inject.name.Named;
 import com.google.inject.name.Names;
 
 import es.eucm.eadventure.common.model.impl.inventory.EAdBasicInventory;
@@ -39,7 +41,6 @@ public class AndroidModule extends AbstractModule {
 	@Override
 	protected void configure() {
 		install(new AndroidAssetRendererModule(null));
-		bind(Boolean.class).annotatedWith(Names.named("threaded")).toInstance(Boolean.TRUE);
 		bind(AssetHandler.class).to(AndroidAssetHandler.class);
 		bind(GameLoop.class).to(GameLoopImpl.class);
 		bind(GameProfiler.class).to(GameProfilerImpl.class);
@@ -55,4 +56,11 @@ public class AndroidModule extends AbstractModule {
 		bind(MenuHUD.class).to(AndroidMenuHUDImpl.class);
 		bind(TransitionFactory.class).to(AndroidTransitionFactory.class);
 	}
+	
+	@Provides
+	@Named("threaded")
+	public boolean provideThreaded() {
+		return Boolean.TRUE;
+	}
+
 }
