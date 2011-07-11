@@ -134,8 +134,14 @@ public class GameImpl implements Game {
 		finishedEffects.clear();
 		boolean block = false;
 		int i = 0;
-		while (i < gameState.getEffects().size() && !block ) {
+		while (i < gameState.getEffects().size() ) {
 			EffectGO<?> effectGO = gameState.getEffects().get(i);
+			i++;
+			
+			if (block && effectGO.isQueueable())
+				continue;
+				
+			
 			if (!effectGO.isInitilized()) {
 				if (evaluatorFactory.evaluate(effectGO.getEffect()
 						.getCondition())) {
@@ -157,9 +163,7 @@ public class GameImpl implements Game {
 				} else if (effectGO.isBlocking())
 					// If effect is blocking, get out of the loop
 					block = true;
-
 			}
-			i++;
 		}
 
 		// Delete finished effects

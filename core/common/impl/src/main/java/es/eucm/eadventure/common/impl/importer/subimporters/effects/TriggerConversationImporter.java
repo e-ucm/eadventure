@@ -27,6 +27,7 @@ public class TriggerConversationImporter extends EffectImporter<TriggerConversat
 	public EAdEffect init(TriggerConversationEffect oldObject) {
 		EAdMacro macro = new EAdMacroImpl("macroConversation");
 		EAdTriggerMacro triggerMacro = new EAdTriggerMacro( macro );
+		triggerMacro.setQueueable(true);
 		return triggerMacro;
 	}
 	

@@ -29,6 +29,7 @@ public class RandomEffectImporter extends
 	public EAdRandomEffect init(RandomEffect oldObject) {
 		EAdRandomEffect effect = new EAdRandomEffect("randomEffect"
 				+ ID_GENERATOR++);
+		effect.setQueueable(true);
 		return effect;
 	}
 	

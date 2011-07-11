@@ -38,6 +38,9 @@ public class DecrementVarImporter extends
 		EAdChangeVarValueEffect effect = new EAdChangeVarValueEffect(
 				"changeVarValueFromIncrement" + ID_GENERATOR++, var, op);
 		super.importConditions(oldObject, effect);
+		
+		effect.setQueueable(true);
+		
 		return effect;
 	}
 	

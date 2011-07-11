@@ -30,6 +30,7 @@ public class TriggerSceneImporter extends EffectImporter<TriggerSceneEffect, EAd
 	@Override
 	public EAdEffect convert(TriggerSceneEffect oldObject, Object object) {
 		EAdChangeScene changeScene =  (EAdChangeScene) object;
+		changeScene.setQueueable(true);
 		
 		EAdScene scene = (EAdScene) factory.getElementById(oldObject.getTargetId());
 		changeScene.setNextScene(scene);

@@ -37,6 +37,7 @@ public class SetValueImporter extends
 		EAdChangeVarValueEffect effect = new EAdChangeVarValueEffect(
 				"changeVarValueFromSet" + ID_GENERATOR++, var, op);
 		super.importConditions(oldObject, effect);
+		effect.setQueueable(true);
 		return effect;
 	}
 

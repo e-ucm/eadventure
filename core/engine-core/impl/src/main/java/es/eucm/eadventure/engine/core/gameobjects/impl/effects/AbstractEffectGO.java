@@ -78,14 +78,22 @@ public abstract class AbstractEffectGO<P extends EAdEffect> extends
 		return element;
 	}
 
+	@Override
 	public boolean isBlocking() {
 		return element.isBlocking();
 	}
 
+	@Override
 	public boolean isOpaque() {
 		return element.isOpaque();
 	}
+	
+	@Override
+	public boolean isQueueable() {
+		return element.isQueueable();
+	}
 
+	@Override
 	public boolean isStopped() {
 		return stopped;
 	}

@@ -19,7 +19,9 @@ public class TriggerPreviousSceneImporter extends EffectImporter<TriggerLastScen
 
 	@Override
 	public EAdEffect init(TriggerLastSceneEffect oldObject) {
-		return new EAdChangeScene("gotToPreviousScene");
+		EAdChangeScene changeScene = new EAdChangeScene("gotToPreviousScene");
+		changeScene.setQueueable(true);
+		return changeScene;
 	}
 
 	@Override

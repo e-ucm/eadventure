@@ -31,6 +31,8 @@ public class TriggerCutsceneImporter extends EffectImporter<TriggerCutsceneEffec
 	public EAdEffect convert(TriggerCutsceneEffect oldObject, Object object) {
 		EAdChangeScene changeScene =  (EAdChangeScene) object;
 		
+		changeScene.setQueueable(true);
+		
 		EAdScene scene = (EAdScene) factory.getElementById(oldObject.getTargetId());
 		changeScene.setNextScene(scene);
 		

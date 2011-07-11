@@ -32,6 +32,8 @@ public class TriggerMacroImporter extends EffectImporter<MacroReferenceEffect, E
 	public EAdEffect convert(MacroReferenceEffect oldObject, Object object) {
 		EAdTriggerMacro effect = (EAdTriggerMacro) object;
 		
+		effect.setQueueable(true);
+		
 		importConditions(oldObject, effect);
 		effect.setMacro((EAdMacro) factory.getElementById(oldObject.getTargetId()));
 		

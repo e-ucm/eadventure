@@ -63,6 +63,12 @@ public abstract class AbstractEAdEffect extends AbstractEAdConditionedElement
 	 */
 	@Param("opaque")
 	private boolean opaque;
+	
+	/**
+	 * Indicates that this effect is queued and can be blocked
+	 */
+	@Param("queueable")
+	private boolean queueable;
 
 	/**
 	 * Creates an non-blocking and non-opaque effect with next effects list
@@ -77,6 +83,7 @@ public abstract class AbstractEAdEffect extends AbstractEAdConditionedElement
 		super(id);
 		blocking = false;
 		opaque = false;
+		queueable = false;
 	}
 
 	/**
@@ -100,6 +107,10 @@ public abstract class AbstractEAdEffect extends AbstractEAdConditionedElement
 	public void setOpaque(boolean opaque) {
 		this.opaque = opaque;
 	}
+	
+	public void setQueueable(boolean queueable) {
+		this.queueable = queueable;
+	}
 
 	/*
 	 * (non-Javadoc)
@@ -119,6 +130,11 @@ public abstract class AbstractEAdEffect extends AbstractEAdConditionedElement
 	@Override
 	public boolean isOpaque() {
 		return opaque;
+	}
+	
+	@Override
+	public boolean isQueueable() {
+		return queueable;
 	}
 
 }

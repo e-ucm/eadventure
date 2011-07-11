@@ -65,4 +65,6 @@ public interface EAdEffect extends EAdConditionedElement {
 	 */
 	boolean isOpaque();
 
+	boolean isQueueable();
+
 }

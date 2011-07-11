@@ -117,4 +117,6 @@ public interface EffectGO<P extends EAdEffect> extends GameObject<P> {
 	 */
 	void setGUIAction(GUIAction gui);
 
+	boolean isQueueable();
+
 }

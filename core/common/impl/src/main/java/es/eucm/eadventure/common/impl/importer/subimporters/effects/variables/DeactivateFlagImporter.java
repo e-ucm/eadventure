@@ -36,6 +36,8 @@ public class DeactivateFlagImporter extends EffectImporter<DeactivateEffect, EAd
 		EAdChangeVarValueEffect changeVar = new EAdChangeVarValueEffect( "changeVarValue" + ID_GENERATOR++, var, op );
 		super.importConditions(oldObject, changeVar);
 		
+		changeVar.setQueueable(true);
+		
 		return changeVar;
 	}
 	
