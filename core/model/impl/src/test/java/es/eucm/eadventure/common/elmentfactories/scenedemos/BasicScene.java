@@ -55,8 +55,6 @@ import es.eucm.eadventure.common.model.effects.impl.EAdChangeAppearance;
 import es.eucm.eadventure.common.model.effects.impl.EAdChangeScene;
 import es.eucm.eadventure.common.model.effects.impl.EAdMoveSceneElement;
 import es.eucm.eadventure.common.model.effects.impl.EAdMoveSceneElement.MovementSpeed;
-import es.eucm.eadventure.common.model.effects.impl.EAdWaitEffect;
-import es.eucm.eadventure.common.model.effects.impl.actorreference.EAdHighlightActorReference;
 import es.eucm.eadventure.common.model.effects.impl.text.EAdShowQuestion;
 import es.eucm.eadventure.common.model.effects.impl.text.EAdShowText;
 import es.eucm.eadventure.common.model.effects.impl.text.extra.Answer;
@@ -100,20 +98,20 @@ public class BasicScene extends EAdSceneImpl implements EAdScene {
 
 	private EAdShowQuestion showQuestionEffect;
 
-	private EAdShowText showTextEffect;
+	//private EAdShowText showTextEffect;
 
 	public EAdBasicActor buttonActor, panielActor, orientedActor;
 
-	private EAdMoveSceneElement move1, move2, move3, move4;
+	//private EAdMoveSceneElement move1, move2, move3, move4;
 
 	private EAdChangeScene changeScreenEffect;
 
 	private EAdActorReferenceImpl buttonReference, panielReference,
 			orientedReference;
 
-	private EAdHighlightActorReference hle;
-
-	private EAdWaitEffect wait;
+//	private EAdHighlightActorReference hle;
+//
+//	private EAdWaitEffect wait;
 
 	public ArrayList<EAdTimer> timers;
 	
@@ -211,16 +209,16 @@ public class BasicScene extends EAdSceneImpl implements EAdScene {
 	}
 
 
-	private void initOtherEffects() {
-		hle = new EAdHighlightActorReference("hightLight");
-		hle.setTime(2000);
-		hle.setBlocking(false);
-		hle.setOpaque(false);
-
-		wait = new EAdWaitEffect("wait");
-		wait.setTime(2000);
-
-	}
+//	private void initOtherEffects() {
+//		hle = new EAdHighlightActorReference("hightLight");
+//		hle.setTime(2000);
+//		hle.setBlocking(false);
+//		hle.setOpaque(false);
+//
+//		wait = new EAdWaitEffect("wait");
+//		wait.setTime(2000);
+//
+//	}
 
 	private void initShowQuestion() {
 		showQuestionEffect = new EAdShowQuestion("question");
@@ -435,7 +433,7 @@ public class BasicScene extends EAdSceneImpl implements EAdScene {
 
 	}
 
-	private void initShowText() {
+	//private void initShowText() {
 		/*
 		showTextEffect = new EAdShowText(null, "id3");
 		EAdString string = new EAdString("stringId");
@@ -457,27 +455,27 @@ public class BasicScene extends EAdSceneImpl implements EAdScene {
 				new EAdColor(80, 80, 80)));
 		textImpl.setPosition(new EAdPosition(30, 50));
 		*/
-	}
+	//}
 
-	private void initMoveActor() {
-		move1 = new EAdMoveSceneElement("move");
-		
-		move1.setTargetCoordiantes(new LiteralExpressionOperation("id", "50"), new LiteralExpressionOperation("id", "400"));
-
-		move2 = new EAdMoveSceneElement("move2");
-		move2.setTargetCoordiantes(new LiteralExpressionOperation("id", "400"), new LiteralExpressionOperation("id", "400"));
-
-		move3 = new EAdMoveSceneElement("move3");
-
-		move3.setTargetCoordiantes(new LiteralExpressionOperation("id", "50"), new LiteralExpressionOperation("id", "50"));
-
-		move4 = new EAdMoveSceneElement("move4");
-		move4.setTargetCoordiantes(new LiteralExpressionOperation("id", "500"), new LiteralExpressionOperation("id", "500"));
-		move4.setSpeed(MovementSpeed.SLOW);
-		move4.setBlocking(false);
-		move4.setOpaque(false);
-
-	}
+//	private void initMoveActor() {
+//		move1 = new EAdMoveSceneElement("move");
+//		
+//		move1.setTargetCoordiantes(new LiteralExpressionOperation("id", "50"), new LiteralExpressionOperation("id", "400"));
+//
+//		move2 = new EAdMoveSceneElement("move2");
+//		move2.setTargetCoordiantes(new LiteralExpressionOperation("id", "400"), new LiteralExpressionOperation("id", "400"));
+//
+//		move3 = new EAdMoveSceneElement("move3");
+//
+//		move3.setTargetCoordiantes(new LiteralExpressionOperation("id", "50"), new LiteralExpressionOperation("id", "50"));
+//
+//		move4 = new EAdMoveSceneElement("move4");
+//		move4.setTargetCoordiantes(new LiteralExpressionOperation("id", "500"), new LiteralExpressionOperation("id", "500"));
+//		move4.setSpeed(MovementSpeed.SLOW);
+//		move4.setBlocking(false);
+//		move4.setOpaque(false);
+//
+//	}
 
 	private void initChangeScreen() {
 
@@ -489,8 +487,4 @@ public class BasicScene extends EAdSceneImpl implements EAdScene {
 		changeScreenEffect.setNextScene(space2);
 	}
 
-	private void initReferences() {
-
-
-	}
 }

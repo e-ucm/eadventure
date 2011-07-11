@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?><!DOCTYPE game-descriptor SYSTEM "descriptor.dtd">
-<game-descriptor versionNumber="68">
+<game-descriptor versionNumber="70">
 	<title>Adventure title</title>
 	<description/>
 	<configuration defaultClickAction="showDetails" keepShowing="no" perspective="regular">
 		<gui inventoryPosition="top_bottom" type="contextual"/>
-		<mode playerTransparent="yes"/>
+		<mode playerTransparent="no"/>
 		<graphics mode="windowed"/>
 	</configuration>
 	<contents>

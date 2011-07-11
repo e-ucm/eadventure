@@ -40,10 +40,11 @@ package es.eucm.eadventure.common.model.elements.impl;
 import es.eucm.eadventure.common.interfaces.Element;
 import es.eucm.eadventure.common.interfaces.Param;
 import es.eucm.eadventure.common.model.EAdList;
-import es.eucm.eadventure.common.model.elements.EAdSceneElement;
 import es.eucm.eadventure.common.model.elements.EAdScene;
+import es.eucm.eadventure.common.model.elements.EAdSceneElement;
 import es.eucm.eadventure.common.model.impl.AbstractEAdElement;
 import es.eucm.eadventure.common.model.impl.EAdListImpl;
+import es.eucm.eadventure.common.model.trajectories.TrajectoryGenerator;
 import es.eucm.eadventure.common.model.variables.impl.vars.BooleanVar;
 import es.eucm.eadventure.common.resources.EAdString;
 
@@ -62,6 +63,9 @@ public class EAdSceneImpl extends AbstractEAdElement implements EAdScene {
 
 	@Param("background")
 	protected EAdBasicSceneElement background;
+	
+	@Param("trajectoryGenerator")
+	protected TrajectoryGenerator trajectoryGenerator;
 
 	/**
 	 * This property indicates if the game can return to this scene after a cutscene or similiar
@@ -139,6 +143,15 @@ public class EAdSceneImpl extends AbstractEAdElement implements EAdScene {
 	@Override
 	public BooleanVar sceneLoaded() {
 		return sceneLoaded;
+	}
+	
+	public void setTrajectoryGenerator(TrajectoryGenerator trajectoryGenerator){
+		this.trajectoryGenerator = trajectoryGenerator;
+	}
+
+	@Override
+	public TrajectoryGenerator getTrajectoryGenerator() {
+		return trajectoryGenerator;
 	}
 
 }
