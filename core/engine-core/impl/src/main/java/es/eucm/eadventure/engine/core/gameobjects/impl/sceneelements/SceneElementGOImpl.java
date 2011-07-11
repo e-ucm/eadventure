@@ -124,7 +124,6 @@ public abstract class SceneElementGOImpl<T extends EAdSceneElement> extends
 		this.getAsset().update(state);
 		this.position.setX(valueMap.getValue(element.positionXVar()));
 		this.position.setY(valueMap.getValue(element.positionYVar()));
-		this.setVisible(valueMap.getValue(element.visibleVar()));
 		this.rotation = valueMap.getValue(element.rotationVar());
 		this.alpha = valueMap.getValue(element.alphaVar());
 	}
@@ -179,11 +178,7 @@ public abstract class SceneElementGOImpl<T extends EAdSceneElement> extends
 	}
 
 	public boolean isVisible() {
-		return visible;
-	}
-
-	public void setVisible(boolean visible) {
-		this.visible = visible;
+		return valueMap.getValue(element.visibleVar());
 	}
 
 	public void setWidth(int width) {

@@ -194,6 +194,7 @@ public class EmptyTransitionGO extends SceneGOImpl implements TransitionGO {
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
+			nextSceneGO.update(gameState);
 			loaded = true;
 		}
 		

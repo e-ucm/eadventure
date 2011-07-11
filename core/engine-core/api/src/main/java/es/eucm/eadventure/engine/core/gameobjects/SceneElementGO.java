@@ -81,8 +81,6 @@ public interface SceneElementGO<T extends EAdSceneElement> extends
 
 	boolean isVisible();
 
-	void setVisible(boolean visible);
-
 	/**
 	 * Returns the x coordinate of scene element center, using the scale
 	 * 

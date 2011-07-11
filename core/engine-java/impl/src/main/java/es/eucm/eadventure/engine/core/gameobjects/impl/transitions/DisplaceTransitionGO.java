@@ -95,7 +95,7 @@ public class DisplaceTransitionGO extends EmptyTransitionGO implements Transitio
 		}
 		
 		if (loaded) {
-			cont += 3 ;
+			cont += 3;
 			if (cont > 100) {
 				gameState.setScene(nextSceneGO);
 				previousSceneImage.freeMemory();

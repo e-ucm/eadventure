@@ -126,7 +126,6 @@ public class SimpleTransitionGO extends SceneGOImpl implements
 			loading = true;
 			nextSceneGO = (SceneGO<?>) gameObjectFactory.get(nextEAdScene);
 
-			
 			List<RuntimeAsset<?>> newAssetList = nextSceneGO.getAssets(new ArrayList<RuntimeAsset<?>>(), false);
 
 			List<RuntimeAsset<?>> oldAssetList = new ArrayList<RuntimeAsset<?>>();
@@ -143,6 +142,8 @@ public class SimpleTransitionGO extends SceneGOImpl implements
 				if (asset != null && !asset.isLoaded())
 					asset.loadAsset();
 			}
+			
+			nextSceneGO.update(gameState);
 			loaded = true;
 		}
 		
