@@ -43,6 +43,7 @@ import es.eucm.eadventure.common.model.EAdChapter;
 import es.eucm.eadventure.common.model.effects.EAdEffect;
 import es.eucm.eadventure.common.model.elements.EAdActor;
 import es.eucm.eadventure.common.model.elements.EAdScene;
+import es.eucm.eadventure.common.model.elements.EAdSceneElement;
 import es.eucm.eadventure.engine.core.gameobjects.EffectGO;
 import es.eucm.eadventure.engine.core.gameobjects.SceneGO;
 import es.eucm.eadventure.engine.core.guiactions.GUIAction;
@@ -124,6 +125,18 @@ public interface GameState {
 	 * {@link GameState#addEffect(EAdEffect)} ) the effects lists
 	 */
 	void updateEffectsQueue();
+	
+	/**
+	 * Returns the active element of the game
+	 * @return
+	 */
+	EAdSceneElement getActiveElement();
+	
+	/**
+	 * Sets the active element of the game
+	 * @param activeElement
+	 */
+	void setActiveElement( EAdSceneElement activeElement );
 
 	EAdScene getPreviousScene();
 

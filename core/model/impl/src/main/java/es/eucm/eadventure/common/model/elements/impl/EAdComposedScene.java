@@ -6,6 +6,7 @@ import es.eucm.eadventure.common.model.elements.EAdScene;
 import es.eucm.eadventure.common.model.elements.EAdSceneElement;
 import es.eucm.eadventure.common.model.impl.AbstractEAdElement;
 import es.eucm.eadventure.common.model.impl.EAdListImpl;
+import es.eucm.eadventure.common.model.trajectories.TrajectoryGenerator;
 import es.eucm.eadventure.common.model.variables.impl.vars.BooleanVar;
 import es.eucm.eadventure.common.model.variables.impl.vars.IntegerVar;
 
@@ -54,6 +55,11 @@ public class EAdComposedScene extends AbstractEAdElement implements EAdScene {
 	@Override
 	public BooleanVar sceneLoaded() {
 		return sceneLoaded;
+	}
+
+	@Override
+	public TrajectoryGenerator getTrajectoryGenerator() {
+		return null;
 	}
 
 }

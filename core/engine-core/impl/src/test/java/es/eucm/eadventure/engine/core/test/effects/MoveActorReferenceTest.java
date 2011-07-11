@@ -41,8 +41,8 @@ import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 
-import es.eucm.eadventure.common.model.effects.impl.EAdMoveSceneElement;
-import es.eucm.eadventure.common.model.effects.impl.EAdMoveSceneElement.MovementSpeed;
+import es.eucm.eadventure.common.model.effects.impl.sceneelements.EAdMoveSceneElement;
+import es.eucm.eadventure.common.model.effects.impl.sceneelements.EAdMoveSceneElement.MovementSpeed;
 import es.eucm.eadventure.common.model.params.EAdPosition;
 import es.eucm.eadventure.common.model.variables.impl.operations.LiteralExpressionOperation;
 

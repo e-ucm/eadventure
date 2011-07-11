@@ -5,7 +5,7 @@
 			<asset type="background" uri="assets/background/background.jpg"/>
 		</resources>
 		<name/>
-		<default-initial-position x="178" y="401"/>
+		<default-initial-position x="232" y="408"/>
 		<exits>
 			<exit destinyX="-2147483648" destinyY="-2147483648" hasInfluenceArea="no" height="118" idTarget="SceneId1" not-effects="no" rectangular="yes" transitionTime="0" transitionType="0" width="116" x="665" y="19">
 				<exit-look text=""/>
@@ -163,19 +163,19 @@
 	<character id="CharacterId">
 		<resources name="No name">
 			<asset type="standup" uri="assets/animation/characteranimation.eaa"/>
-			<asset type="standdown" uri="assets/special/EmptyAnimation"/>
 			<asset type="standright" uri="assets/special/EmptyAnimation"/>
-			<asset type="standleft" uri="assets/special/EmptyAnimation"/>
-			<asset type="speakup" uri="assets/special/EmptyAnimation"/>
-			<asset type="speakdown" uri="assets/special/EmptyAnimation"/>
-			<asset type="speakright" uri="assets/special/EmptyAnimation"/>
-			<asset type="speakleft" uri="assets/special/EmptyAnimation"/>
-			<asset type="useright" uri="assets/special/EmptyAnimation"/>
-			<asset type="useleft" uri="assets/special/EmptyAnimation"/>
-			<asset type="walkup" uri="assets/special/EmptyAnimation"/>
 			<asset type="walkdown" uri="assets/special/EmptyAnimation"/>
+			<asset type="speakup" uri="assets/special/EmptyAnimation"/>
 			<asset type="walkright" uri="assets/special/EmptyAnimation"/>
 			<asset type="walkleft" uri="assets/special/EmptyAnimation"/>
+			<asset type="walkup" uri="assets/special/EmptyAnimation"/>
+			<asset type="speakdown" uri="assets/special/EmptyAnimation"/>
+			<asset type="speakright" uri="assets/special/EmptyAnimation"/>
+			<asset type="standdown" uri="assets/special/EmptyAnimation"/>
+			<asset type="useright" uri="assets/special/EmptyAnimation"/>
+			<asset type="speakleft" uri="assets/special/EmptyAnimation"/>
+			<asset type="useleft" uri="assets/special/EmptyAnimation"/>
+			<asset type="standleft" uri="assets/special/EmptyAnimation"/>
 		</resources>
 		<textcolor bubbleBkgColor="#FFFFFF" bubbleBorderColor="#00000" showsSpeechBubble="no">
 			<frontcolor color="#FFFFFF"/>

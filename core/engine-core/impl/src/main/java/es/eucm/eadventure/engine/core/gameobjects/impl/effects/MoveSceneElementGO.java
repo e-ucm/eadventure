@@ -40,17 +40,16 @@ package es.eucm.eadventure.engine.core.gameobjects.impl.effects;
 import com.google.inject.Inject;
 
 import es.eucm.eadventure.common.interfaces.Oriented.Orientation;
-import es.eucm.eadventure.common.model.effects.impl.EAdMoveSceneElement;
+import es.eucm.eadventure.common.model.effects.impl.EAdVarInterpolationEffect;
+import es.eucm.eadventure.common.model.effects.impl.EAdVarInterpolationEffect.LoopType;
+import es.eucm.eadventure.common.model.effects.impl.sceneelements.EAdMoveSceneElement;
 import es.eucm.eadventure.common.model.variables.impl.vars.IntegerVar;
 import es.eucm.eadventure.common.resources.StringHandler;
-import es.eucm.eadventure.engine.core.GameLoop;
 import es.eucm.eadventure.engine.core.GameState;
 import es.eucm.eadventure.engine.core.OperatorFactory;
 import es.eucm.eadventure.engine.core.ValueMap;
 import es.eucm.eadventure.engine.core.gameobjects.GameObjectFactory;
 import es.eucm.eadventure.engine.core.gameobjects.SceneElementGO;
-import es.eucm.eadventure.engine.core.gameobjects.impl.interfaces.LinearInterpolation;
-import es.eucm.eadventure.engine.core.gameobjects.interfaces.Interpolation;
 import es.eucm.eadventure.engine.core.platform.AssetHandler;
 import es.eucm.eadventure.engine.core.platform.GUI;
 import es.eucm.eadventure.engine.core.platform.PlatformConfiguration;
@@ -66,11 +65,6 @@ public class MoveSceneElementGO extends AbstractEffectGO<EAdMoveSceneElement> {
 	 * Pixels traveled per second
 	 */
 	private static final int PIXELS_PER_SECOND = 100;
-
-	/**
-	 * Movement interpolation
-	 */
-	private Interpolation interpolationX, interpolationY;
 
 	private boolean isIsometric = true;
 
@@ -107,13 +101,15 @@ public class MoveSceneElementGO extends AbstractEffectGO<EAdMoveSceneElement> {
 			int timeToFinish = Math.round((distance * 1000 / PIXELS_PER_SECOND)
 					* effect.getSpeed().getSpeedFactor());
 	
-			interpolationX = new LinearInterpolation<Integer>(a.getElement().positionXVar(), x,
-					targetX, timeToFinish, 0, false, valueMap);
-			interpolationY = new LinearInterpolation<Integer>(a.getElement().positionYVar(), y,
-					targetY, timeToFinish, 0, false, valueMap);
+			
+			EAdVarInterpolationEffect interpolationX = new EAdVarInterpolationEffect("interpolationX", a.getElement().positionXVar(), x,
+					targetX, timeToFinish, LoopType.NO_LOOP);
+			EAdVarInterpolationEffect interpolationY = new EAdVarInterpolationEffect("interpolationY", a.getElement().positionYVar(), y,
+					targetY, timeToFinish, LoopType.NO_LOOP);
+			
+			gameState.addEffect(interpolationX);
+			gameState.addEffect(interpolationY);
 	
-			interpolationX.play();
-			interpolationY.play();
 			updateDirection(a, x, targetX, y, targetY);
 		} else {
 			valueMap.setValue(a.getElement().positionXVar(), targetX);
@@ -176,26 +172,12 @@ public class MoveSceneElementGO extends AbstractEffectGO<EAdMoveSceneElement> {
 	}
 
 	@Override
-	public void update(GameState state) {
-		if (interpolationX != null && interpolationY != null) {
-			interpolationX.update(GameLoop.SKIP_MILLIS_TICK);
-			interpolationY.update(GameLoop.SKIP_MILLIS_TICK);
-		}
-	}
-
-	@Override
 	public boolean isVisualEffect() {
 		return false;
 	}
 
 	@Override
 	public boolean isFinished() {
-		if (interpolationX != null && interpolationY != null) {
-			boolean finished  = !interpolationX.isRunning() && !interpolationY.isRunning();
-			if (finished)
-				valueMap.setValue(element.animationEnded(), Boolean.TRUE);
-			return finished;
-		}
 		return true;
 	}
 

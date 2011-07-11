@@ -35,11 +35,13 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package es.eucm.eadventure.common.model.effects.impl;
+package es.eucm.eadventure.common.model.effects.impl.sceneelements;
 
 import es.eucm.eadventure.common.interfaces.Element;
 import es.eucm.eadventure.common.interfaces.Param;
 import es.eucm.eadventure.common.model.effects.EAdEffect;
+import es.eucm.eadventure.common.model.effects.EAdSceneElementEffect;
+import es.eucm.eadventure.common.model.effects.impl.AbstractEAdEffect;
 import es.eucm.eadventure.common.model.elements.EAdActorReference;
 import es.eucm.eadventure.common.model.elements.EAdSceneElement;
 import es.eucm.eadventure.common.model.variables.impl.operations.LiteralExpressionOperation;
@@ -52,7 +54,7 @@ import es.eucm.eadventure.common.model.variables.impl.vars.BooleanVar;
  * 
  */
 @Element(runtime = EAdMoveSceneElement.class, detailed = EAdMoveSceneElement.class)
-public class EAdMoveSceneElement extends AbstractEAdEffect implements EAdEffect {
+public class EAdMoveSceneElement extends AbstractEAdEffect implements EAdSceneElementEffect {
 
 	/**
 	 * 
