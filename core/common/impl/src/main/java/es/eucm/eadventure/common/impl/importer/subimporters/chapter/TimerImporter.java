@@ -70,7 +70,8 @@ public class TimerImporter implements EAdElementImporter<Timer, EAdTimer>{
 	private EffectsImporterFactory effectsImporter;
 
 	@Inject
-	public TimerImporter(EAdElementImporter<Conditions, EAdCondition> conditionsImporter, EffectsImporterFactory effectsImporter) {
+	public TimerImporter(EAdElementImporter<Conditions, EAdCondition> conditionsImporter,
+			EffectsImporterFactory effectsImporter) {
 		this.conditionsImporter = conditionsImporter;
 		this.effectsImporter = effectsImporter;
 	}

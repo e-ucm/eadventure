@@ -16,6 +16,7 @@ import es.eucm.eadventure.common.model.actions.EAdAction;
 import es.eucm.eadventure.common.model.actions.impl.EAdBasicAction;
 import es.eucm.eadventure.common.model.effects.EAdEffect;
 import es.eucm.eadventure.common.model.elements.EAdCondition;
+import es.eucm.eadventure.common.resources.EAdBundleId;
 import es.eucm.eadventure.common.resources.EAdString;
 import es.eucm.eadventure.common.resources.StringHandler;
 import es.eucm.eadventure.common.resources.assets.drawable.impl.ImageImpl;
@@ -91,21 +92,27 @@ public class ActionImporter implements EAdElementImporter<Action, EAdAction> {
 			// old resources are named "buttonOver" and "buttonPressed"
 
 			Map<String, String> resourcesStrings = new HashMap<String, String>();
-			resourcesStrings.put("buttonNormal", EAdBasicAction.appearance);
-
 			Map<String, Class<?>> resourcesClasses = new HashMap<String, Class<?>>();
+
+			EAdBundleId temp = action.getInitialBundle();
+			action.setInitialBundle(action.getHighlightBundle());
+			
+			resourcesStrings.put("buttonOver", EAdBasicAction.appearance);
+			resourcesClasses.put("buttonOver", ImageImpl.class);
+			resourceImporter.importResources(action,
+					((CustomAction) oldObject).getResources(),
+					resourcesStrings, resourcesClasses);
+
+			action.setInitialBundle(temp);
+
+			resourcesStrings.clear();
+			resourcesClasses.clear();
+			resourcesStrings.put("buttonNormal", EAdBasicAction.appearance);
 			resourcesClasses.put("buttonNormal", ImageImpl.class);
 
 			resourceImporter.importResources(action,
 					((CustomAction) oldObject).getResources(),
 					resourcesStrings, resourcesClasses);
-
-			action.getResources()
-					.addAsset(
-							action.getHighlightBundle(),
-							EAdBasicAction.appearance,
-							new ImageImpl(getHighlightDrawablePath(oldObject
-									.getType())));
 		} else {
 			action.getResources().addAsset(action.getNormalBundle(),
 					EAdBasicAction.appearance,

@@ -164,6 +164,11 @@ public abstract class AbstractEAdElement implements EAdElement {
 	public EAdBundleId getInitialBundle() {
 		return resources.getInitialBundle();
 	}
+	
+	protected void setInitialBundle(EAdBundleId temp) {
+		resources.setInitialBundle(temp);
+	}
+
 
 	/*
 	 * (non-Javadoc)

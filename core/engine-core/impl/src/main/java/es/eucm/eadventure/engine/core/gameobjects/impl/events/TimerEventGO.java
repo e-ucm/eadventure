@@ -36,8 +36,8 @@ public class TimerEventGO extends AbstractEventGO<EAdTimerEvent> {
 			}
 			triggered = true;
 		} else if (triggered == true){
-				triggered = false;
-				runEffects(element.getEffects(EAdTimerEvent.TimerEvent.TIMER_RESTARTED));
+			triggered = false;
+			runEffects(element.getEffects(EAdTimerEvent.TimerEvent.TIMER_RESTARTED));
 		}
 
 	
