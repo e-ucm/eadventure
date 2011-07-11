@@ -1,5 +1,7 @@
 package es.eucm.eadventure.engine.core.gameobjects.impl.effects;
 
+import com.google.inject.Inject;
+
 import es.eucm.eadventure.common.model.effects.impl.sceneelements.EAdMakeActiveElementEffect;
 import es.eucm.eadventure.common.resources.StringHandler;
 import es.eucm.eadventure.engine.core.GameState;
@@ -12,6 +14,7 @@ import es.eucm.eadventure.engine.core.platform.PlatformConfiguration;
 public class MakeActiveElementEffectGO extends
 		AbstractEffectGO<EAdMakeActiveElementEffect> {
 
+	@Inject
 	public MakeActiveElementEffectGO(AssetHandler assetHandler,
 			StringHandler stringHandler, GameObjectFactory gameObjectFactory,
 			GUI gui, GameState gameState, ValueMap valueMap,

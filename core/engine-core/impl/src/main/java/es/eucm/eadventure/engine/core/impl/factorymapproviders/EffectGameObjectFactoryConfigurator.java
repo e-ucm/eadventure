@@ -9,6 +9,7 @@ import es.eucm.eadventure.common.model.effects.impl.EAdChangeAppearance;
 import es.eucm.eadventure.common.model.effects.impl.EAdChangeScene;
 import es.eucm.eadventure.common.model.effects.impl.EAdComplexBlockingEffect;
 import es.eucm.eadventure.common.model.effects.impl.EAdModifyActorState;
+import es.eucm.eadventure.common.model.effects.impl.EAdMoveActiveElement;
 import es.eucm.eadventure.common.model.effects.impl.EAdQuitGame;
 import es.eucm.eadventure.common.model.effects.impl.EAdRandomEffect;
 import es.eucm.eadventure.common.model.effects.impl.EAdTriggerMacro;
@@ -29,6 +30,7 @@ import es.eucm.eadventure.engine.core.gameobjects.impl.effects.ComplexBlockingEf
 import es.eucm.eadventure.engine.core.gameobjects.impl.effects.HighlightEffectGO;
 import es.eucm.eadventure.engine.core.gameobjects.impl.effects.MakeActiveElementEffectGO;
 import es.eucm.eadventure.engine.core.gameobjects.impl.effects.ModifyActorStateGO;
+import es.eucm.eadventure.engine.core.gameobjects.impl.effects.MoveActiveElementGO;
 import es.eucm.eadventure.engine.core.gameobjects.impl.effects.MoveSceneElementGO;
 import es.eucm.eadventure.engine.core.gameobjects.impl.effects.QuitGameEffectGO;
 import es.eucm.eadventure.engine.core.gameobjects.impl.effects.RandomEffectGO;
@@ -59,6 +61,7 @@ public class EffectGameObjectFactoryConfigurator {
 		factoryMap.put(EAdRandomEffect.class, RandomEffectGO.class);
 		factoryMap.put(EAdVarInterpolationEffect.class, VarInterpolationGO.class);
 		factoryMap.put(EAdMakeActiveElementEffect.class, MakeActiveElementEffectGO.class);
+		factoryMap.put(EAdMoveActiveElement.class, MoveActiveElementGO.class);
 	}
 
 }

@@ -1,5 +1,7 @@
 package es.eucm.eadventure.engine.core.gameobjects.impl.effects;
 
+import com.google.inject.Inject;
+
 import es.eucm.eadventure.common.model.EAdList;
 import es.eucm.eadventure.common.model.effects.impl.EAdMoveActiveElement;
 import es.eucm.eadventure.common.model.effects.impl.sceneelements.EAdMoveSceneElement;
@@ -17,6 +19,7 @@ import es.eucm.eadventure.engine.core.platform.PlatformConfiguration;
 
 public class MoveActiveElementGO extends AbstractEffectGO<EAdMoveActiveElement> {
 
+	@Inject
 	public MoveActiveElementGO(AssetHandler assetHandler,
 			StringHandler stringHandler, GameObjectFactory gameObjectFactory,
 			GUI gui, GameState gameState, ValueMap valueMap,

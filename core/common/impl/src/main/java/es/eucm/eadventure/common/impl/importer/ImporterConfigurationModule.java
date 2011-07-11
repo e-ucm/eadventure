@@ -62,6 +62,7 @@ import es.eucm.eadventure.common.data.chapter.elements.ActiveArea;
 import es.eucm.eadventure.common.data.chapter.elements.Atrezzo;
 import es.eucm.eadventure.common.data.chapter.elements.Item;
 import es.eucm.eadventure.common.data.chapter.elements.NPC;
+import es.eucm.eadventure.common.data.chapter.elements.Player;
 import es.eucm.eadventure.common.data.chapter.scenes.Scene;
 import es.eucm.eadventure.common.data.chapter.scenes.Slidescene;
 import es.eucm.eadventure.common.data.chapter.scenes.Videoscene;
@@ -163,6 +164,7 @@ public class ImporterConfigurationModule extends AbstractModule {
 
 		bind(new TypeLiteral<EAdElementImporter<NPC, EAdActor>>() {}).to(NPCImporter.class);
 		EAdElementFactoryImpl.importerMap.put(NPC.class, NPCImporter.class);
+		EAdElementFactoryImpl.importerMap.put(Player.class, NPCImporter.class);
 
 		
 		bind(new TypeLiteral<EAdElementImporter<Conditions, EAdCondition>>() {}).to(ConditionsImporter.class);
