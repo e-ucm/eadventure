@@ -59,22 +59,25 @@ public class ExitImporter implements EAdElementImporter<Exit, EAdSceneElement> {
 		condition = conditionsImporter.convert(oldObject
 				.getConditions(), condition);
 
+		for (Effect e : oldObject.getEffects().getEffects()) {
+			EAdEffect eadEffect = effectsImporterFactory.getEffect(e);
+			eadEffect.setCondition(condition);
+			newExit.addBehavior(EAdMouseEventImpl.MOUSE_LEFT_CLICK, eadEffect);
+		}
+		
 		EAdScene scene = (EAdScene) factory.getElementById(oldObject.getNextSceneId());
 		EAdChangeScene effect = new EAdChangeScene("change_screen_"
 				+ newExit.getId(), scene, EAdTransition.BASIC);
 		effect.setCondition(condition);
 
 		newExit.addBehavior(EAdMouseEventImpl.MOUSE_LEFT_CLICK, effect);
-				
-		EAdConditionEventImpl event = new EAdConditionEventImpl( newExit.getId() + "_VisibleEvent" );
-		event.setCondition(condition);
-		
 
-		for (Effect e : oldObject.getEffects().getEffects()) {
+		for (Effect e : oldObject.getPostEffects().getEffects()) {
 			EAdEffect eadEffect = effectsImporterFactory.getEffect(e);
 			eadEffect.setCondition(condition);
 			newExit.addBehavior(EAdMouseEventImpl.MOUSE_LEFT_CLICK, eadEffect);
 		}
+
 
 		boolean hasNotEffects = false;
 		for (Effect e : oldObject.getNotEffects().getEffects()) {
@@ -85,6 +88,9 @@ public class ExitImporter implements EAdElementImporter<Exit, EAdSceneElement> {
 		}
 		
 		if (!hasNotEffects) {
+			EAdConditionEventImpl event = new EAdConditionEventImpl( newExit.getId() + "_VisibleEvent" );
+			event.setCondition(condition);
+
 			EAdChangeVarValueEffect visibleVar = new EAdChangeVarValueEffect( newExit.getId() + "_visibleEffect" );
 			visibleVar.addVar(newExit.visibleVar());
 			BooleanOperation op = new BooleanOperation( "booleanOpTrue" );

@@ -69,27 +69,33 @@ public class EAdElementFactoryImpl implements EAdElementFactory {
 
 	@Override
 	public EAdElement getElementById(String id) {
+		Map<String, EAdElement> chapterElements = getChapterElements();
+
+		EAdElement element = chapterElements.get(id);
+		if (element == null) {
+			element = getElement(id, oldType.get(id));
+		}
+		return element;
+	}
+	
+	@Override
+	public <S> EAdElement getElement(String id, S oldElement) {
+		EAdElementImporter<S, EAdElement> importer = (EAdElementImporter<S, EAdElement>) findElementImporter(oldElement.getClass());
+		EAdElement newElement = importer.init(oldElement);
+		getChapterElements().put(id, newElement);
+		newElement = importer.convert(oldElement, newElement);
+		return newElement;
+	}
+	
+	private Map<String, EAdElement> getChapterElements() {
 		Map<String, EAdElement> chapterElements = elements.get(currentChapter.getId());
 
 		if (chapterElements == null) {
 			chapterElements = new HashMap<String, EAdElement>();
 			elements.put(currentChapter.getId(), chapterElements);
 		}
-
-		EAdElement element = chapterElements.get(id);
-		if (element == null) {
-			element = getElement(oldType.get(id).getClass(), id, chapterElements);
-		}
-		return element;
-	}
-	
-	private <S> EAdElement getElement(Class<S> clazz, String id, Map<String, EAdElement> chapterElements) {
-		Object element = oldType.get(id);
-		EAdElementImporter<S, ? extends EAdElement> importer = findElementImporter(clazz);
-		EAdElement newElement = importer.init((S) element);
-		chapterElements.put(id, newElement);
-		newElement = importer.convert((S) element, newElement);
-		return newElement;
+		
+		return chapterElements;
 	}
 	
 	private <S, I extends EAdElement> EAdElementImporter<S, I> findElementImporter(Class<S> clazz) {

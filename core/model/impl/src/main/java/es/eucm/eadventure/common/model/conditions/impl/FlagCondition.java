@@ -40,7 +40,7 @@ package es.eucm.eadventure.common.model.conditions.impl;
 import es.eucm.eadventure.common.interfaces.Element;
 import es.eucm.eadventure.common.interfaces.Param;
 import es.eucm.eadventure.common.model.elements.EAdCondition;
-import es.eucm.eadventure.common.model.variables.impl.vars.BooleanVar;
+import es.eucm.eadventure.common.model.variables.EAdVar;
 
 @Element(runtime = FlagCondition.class, detailed = FlagCondition.class)
 public class FlagCondition extends AbstractEAdCondition implements EAdCondition {
@@ -50,16 +50,16 @@ public class FlagCondition extends AbstractEAdCondition implements EAdCondition 
 	}
 
 	@Param("flag")
-	private BooleanVar flag;
+	private EAdVar<Boolean> flag;
 
 	@Param("value")
 	private Value value;
 
-	public FlagCondition(BooleanVar flag) {
+	public FlagCondition(EAdVar<Boolean> flag) {
 		this(flag, Value.ACTIVE);
 	}
 
-	public FlagCondition(BooleanVar flag, Value value) {
+	public FlagCondition(EAdVar<Boolean> flag, Value value) {
 		this.flag = flag;
 		this.value = value;
 	}
@@ -67,7 +67,7 @@ public class FlagCondition extends AbstractEAdCondition implements EAdCondition 
 	/**
 	 * @return the flag
 	 */
-	public BooleanVar getFlag() {
+	public EAdVar<Boolean> getFlag() {
 		return flag;
 	}
 
@@ -75,7 +75,7 @@ public class FlagCondition extends AbstractEAdCondition implements EAdCondition 
 	 * @param flag
 	 *            the flag to set
 	 */
-	public void setFlag(BooleanVar flag) {
+	public void setFlag(EAdVar<Boolean> flag) {
 		this.flag = flag;
 	}
 

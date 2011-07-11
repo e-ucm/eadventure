@@ -50,6 +50,7 @@ import es.eucm.eadventure.common.data.chapter.Action;
 import es.eucm.eadventure.common.data.chapter.Chapter;
 import es.eucm.eadventure.common.data.chapter.ElementReference;
 import es.eucm.eadventure.common.data.chapter.Exit;
+import es.eucm.eadventure.common.data.chapter.Timer;
 import es.eucm.eadventure.common.data.chapter.conditions.Conditions;
 import es.eucm.eadventure.common.data.chapter.conversation.Conversation;
 import es.eucm.eadventure.common.data.chapter.conversation.GraphConversation;
@@ -78,6 +79,7 @@ import es.eucm.eadventure.common.impl.importer.subimporters.chapter.AtrezzoImpor
 import es.eucm.eadventure.common.impl.importer.subimporters.chapter.ChapterImporter;
 import es.eucm.eadventure.common.impl.importer.subimporters.chapter.ItemImporter;
 import es.eucm.eadventure.common.impl.importer.subimporters.chapter.NPCImporter;
+import es.eucm.eadventure.common.impl.importer.subimporters.chapter.TimerImporter;
 import es.eucm.eadventure.common.impl.importer.subimporters.chapter.conversations.ConversationImporter;
 import es.eucm.eadventure.common.impl.importer.subimporters.chapter.conversations.DialogueNodeImporter;
 import es.eucm.eadventure.common.impl.importer.subimporters.chapter.conversations.LineImporterToCaption;
@@ -109,6 +111,7 @@ import es.eucm.eadventure.common.model.elements.EAdActor;
 import es.eucm.eadventure.common.model.elements.EAdActorReference;
 import es.eucm.eadventure.common.model.elements.EAdCondition;
 import es.eucm.eadventure.common.model.elements.EAdSceneElement;
+import es.eucm.eadventure.common.model.elements.EAdTimer;
 import es.eucm.eadventure.common.model.elements.impl.EAdSceneImpl;
 import es.eucm.eadventure.common.model.elements.impl.EAdVideoScene;
 import es.eucm.eadventure.common.model.elements.impl.extra.EAdCutscene;
@@ -220,6 +223,12 @@ public class ImporterConfigurationModule extends AbstractModule {
 				new TypeLiteral<EAdElementImporter<OptionConversationNode, EAdShowQuestion>>() {
 				}).to(OptionConversationImporter.class);
 		EAdElementFactoryImpl.importerMap.put(OptionConversationNode.class, OptionConversationImporter.class);
+		
+		bind(
+				new TypeLiteral<EAdElementImporter<Timer, EAdTimer>>() {
+				}).to(TimerImporter.class);
+		EAdElementFactoryImpl.importerMap.put(Timer.class, TimerImporter.class);
+
 
 		bind(ResourceImporter.class).to(ResourceImporterImpl.class);
 		bind(EAdElementFactory.class).to(EAdElementFactoryImpl.class);

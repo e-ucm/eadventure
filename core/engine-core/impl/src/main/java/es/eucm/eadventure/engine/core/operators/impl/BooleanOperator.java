@@ -63,7 +63,6 @@ public class BooleanOperator implements Operator<BooleanOperation> {
 	@Override
 	public <S> S operate(EAdVar<S> varName,
 			BooleanOperation operation) {
-
 		Boolean b = evaluatorFactory.evaluate(operation.getCondition());
 		if (varName.getType() == Boolean.class) {
 			valueMap.setValue(varName, (S) b);

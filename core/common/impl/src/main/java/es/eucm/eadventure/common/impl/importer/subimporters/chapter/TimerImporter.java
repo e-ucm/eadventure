@@ -37,25 +37,91 @@
 
 package es.eucm.eadventure.common.impl.importer.subimporters.chapter;
 
+import com.google.inject.Inject;
+
 import es.eucm.eadventure.common.EAdElementImporter;
 import es.eucm.eadventure.common.data.chapter.Timer;
-import es.eucm.eadventure.common.model.events.EAdEvent;
+import es.eucm.eadventure.common.data.chapter.conditions.Conditions;
+import es.eucm.eadventure.common.data.chapter.effects.Effect;
+import es.eucm.eadventure.common.impl.importer.interfaces.EffectsImporterFactory;
+import es.eucm.eadventure.common.model.conditions.impl.EmptyCondition;
+import es.eucm.eadventure.common.model.effects.EAdEffect;
+import es.eucm.eadventure.common.model.effects.impl.EAdMacroImpl;
+import es.eucm.eadventure.common.model.effects.impl.EAdTriggerMacro;
+import es.eucm.eadventure.common.model.effects.impl.variables.EAdChangeVarValueEffect;
+import es.eucm.eadventure.common.model.elements.EAdCondition;
+import es.eucm.eadventure.common.model.elements.EAdTimer;
+import es.eucm.eadventure.common.model.elements.impl.EAdTimerImpl;
+import es.eucm.eadventure.common.model.events.EAdConditionEvent;
+import es.eucm.eadventure.common.model.events.EAdTimerEvent;
+import es.eucm.eadventure.common.model.events.impl.EAdConditionEventImpl;
 import es.eucm.eadventure.common.model.events.impl.EAdTimerEventImpl;
+import es.eucm.eadventure.common.model.variables.impl.operations.BooleanOperation;
 
-public class TimerImporter implements EAdElementImporter<Timer, EAdEvent>{
+public class TimerImporter implements EAdElementImporter<Timer, EAdTimer>{
 	
 	private static int ID = 0; 
 
+	/**
+	 * Conditions importer
+	 */
+	private EAdElementImporter<Conditions, EAdCondition> conditionsImporter;
+
+	private EffectsImporterFactory effectsImporter;
+
+	@Inject
+	public TimerImporter(EAdElementImporter<Conditions, EAdCondition> conditionsImporter, EffectsImporterFactory effectsImporter) {
+		this.conditionsImporter = conditionsImporter;
+		this.effectsImporter = effectsImporter;
+	}
+	
 	@Override
-	public EAdEvent init( Timer oldTimer ) {
-		return new EAdTimerEventImpl( "timer" + ID++ );
+	public EAdTimer init( Timer oldTimer ) {
+		return new EAdTimerImpl( "timer" + ID++ );
 	}
 
 	@Override
-	public EAdEvent convert( Timer oldTimer, Object object) {
-		EAdEvent newTimer = (EAdTimerEventImpl) object;
+	public EAdTimer convert( Timer oldTimer, Object object) {
+		EAdTimerImpl newTimer = (EAdTimerImpl) object;
 		
-		//TODO do conversion
+		newTimer.setTime(oldTimer.getTime().intValue());
+		
+		EAdCondition condition = conditionsImporter.init(oldTimer.getInitCond());
+		condition = conditionsImporter
+				.convert(oldTimer.getInitCond(), condition);
+		
+		EAdConditionEventImpl startEvent = new EAdConditionEventImpl("timerStart", condition);
+		EAdChangeVarValueEffect startEffect = new EAdChangeVarValueEffect("timerStartEffect", newTimer.timerStartedVar(), new BooleanOperation("", EmptyCondition.TRUE_EMPTY_CONDITION));
+		startEvent.addEffect(EAdConditionEvent.ConditionedEvent.CONDITIONS_MET, startEffect);
+		newTimer.getEvents().add(startEvent);
+		
+		EAdMacroImpl endedMacro = new EAdMacroImpl("timerEndMacro");
+		EAdTriggerMacro triggerEndedMacro = new EAdTriggerMacro("triggerMacro_" + endedMacro.getId());
+		triggerEndedMacro.setMacro(endedMacro);
+		
+		for (Effect e : oldTimer.getEffects().getEffects()) {
+			EAdEffect effect = effectsImporter.getEffect(e);
+			if (effect != null)
+				endedMacro.getEffects().add(effect);
+		}
+		
+		EAdMacroImpl stoppedMacro = new EAdMacroImpl("timerStoppedMacro");
+		EAdTriggerMacro triggerStoppedMacro = new EAdTriggerMacro("triggerMacro_" + stoppedMacro.getId());
+		triggerStoppedMacro.setMacro(stoppedMacro);
+		
+		for (Effect e : oldTimer.getPostEffects().getEffects()) {
+			EAdEffect effect = effectsImporter.getEffect(e);
+			if (effect != null)
+				stoppedMacro.getEffects().add(effect);
+		}
+
+
+		EAdTimerEventImpl stopTimerEvent = new EAdTimerEventImpl("timerEvent", newTimer);
+		stopTimerEvent.addEffect(EAdTimerEvent.TimerEvent.TIMER_ENDED, triggerEndedMacro);
+		stopTimerEvent.addEffect(EAdTimerEvent.TimerEvent.TIMER_STOPPED, triggerStoppedMacro);
+		
+		newTimer.getEvents().add(stopTimerEvent);
+		
 		
 		return newTimer;
 	}

@@ -1,6 +1,8 @@
 package es.eucm.eadventure.engine.core.gameobjects.impl;
 
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import com.google.inject.Inject;
 
@@ -23,6 +25,8 @@ import es.eucm.eadventure.engine.core.platform.RuntimeAsset;
 public class TimerGOImpl extends AbstractGameObject<EAdTimer> implements TimerGO {
 
 	private double passedTime;
+	
+	private static final Logger logger = Logger.getLogger("TimerGOImpl");
 
 	@Inject
 	public TimerGOImpl(AssetHandler assetHandler, StringHandler stringHandler,
@@ -66,14 +70,23 @@ public class TimerGOImpl extends AbstractGameObject<EAdTimer> implements TimerGO
 
 	@Override
 	public void update(GameState gameState) {
-		if (valueMap.getValue(element.timerEndedVar()))
+		super.update(gameState);
+		if (valueMap.getValue(element.timerEndedVar())) {
+			logger.log(Level.INFO, "ENDED");
 			valueMap.setValue(element.timerEndedVar(), Boolean.FALSE);
+			//TODO trigger finished effects
+		}
 		if (valueMap.getValue(element.timerStartedVar())) {
+			if (passedTime == 0)
+				logger.log(Level.INFO, "STARTED");
+			
 			passedTime += GameLoop.SKIP_MILLIS_TICK;
 			if (passedTime > element.getTime()) {
 				valueMap.setValue(element.timerEndedVar(), Boolean.TRUE);
-				//TODO should now if restart
+
+				//TODO should not do this if restart
 				valueMap.setValue(element.timerStartedVar(), Boolean.FALSE);
+				passedTime = 0;
 			}
 		}
 	}
