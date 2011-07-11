@@ -16,6 +16,7 @@ import es.eucm.eadventure.common.model.elements.EAdScene;
 import es.eucm.eadventure.common.resources.EAdString;
 import es.eucm.eadventure.common.resources.StringHandler;
 import es.eucm.eadventure.common.resources.assets.impl.EAdURIImpl;
+import es.eucm.eadventure.engine.core.Game;
 import es.eucm.eadventure.engine.core.impl.LoadingScreen;
 import es.eucm.eadventure.engine.core.impl.modules.BasicGameModule;
 import es.eucm.eadventure.engine.core.platform.AssetHandler;
@@ -107,6 +108,9 @@ public class ImportTestDesktopPlatformLauncher {
 					.getInstance(LoadingScreen.class);
 			loadingScreen.setInitialScreen(screen);
 
+			Game game = injector.getInstance(Game.class);
+			game.setGame(model, model.getChapters().get(0));
+			
 			System.setProperty(
 					"com.apple.mrj.application.apple.menu.about.name",
 					"eAdventure");

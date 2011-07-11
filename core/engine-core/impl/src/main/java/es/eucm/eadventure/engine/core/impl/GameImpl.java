@@ -45,6 +45,7 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 import es.eucm.eadventure.common.model.EAdAdventureModel;
+import es.eucm.eadventure.common.model.EAdChapter;
 import es.eucm.eadventure.common.model.elements.EAdConditionedElement;
 import es.eucm.eadventure.common.model.elements.EAdTimer;
 import es.eucm.eadventure.common.model.impl.EAdAdventureModelImpl;
@@ -141,7 +142,6 @@ public class GameImpl implements Game {
 			if (block && effectGO.isQueueable())
 				continue;
 				
-			
 			if (!effectGO.isInitilized()) {
 				if (evaluatorFactory.evaluate(effectGO.getEffect()
 						.getCondition())) {
@@ -213,6 +213,12 @@ public class GameImpl implements Game {
 		
 		//TODO should probably be more careful loading chapter
 		gameState.setCurrentChapter(adventure.getChapters().get(0));
+	}
+
+	@Override
+	public void setGame(EAdAdventureModel model, EAdChapter eAdChapter) {
+		this.adventure = model;
+		gameState.setCurrentChapter(eAdChapter);
 	}
 
 }

@@ -72,13 +72,13 @@ public class AdventureImporter implements EAdElementImporter<AdventureData, EAdA
 
 	@Override
 	public EAdAdventureModel init( AdventureData oldData ) {
-		factory.setOldDataModel(oldData);
 		EAdAdventureModelImpl model = new EAdAdventureModelImpl( );
 		return model;
 	}
 	
 	@Override
 	public EAdAdventureModel convert( AdventureData oldData, Object object ) {
+		factory.setOldDataModel(oldData);
 		EAdAdventureModelImpl model = (EAdAdventureModelImpl) object;
 
 		model.setPlayerMode( getPlayerMode( oldData ) );

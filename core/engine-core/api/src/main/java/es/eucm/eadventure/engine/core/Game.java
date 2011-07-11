@@ -38,6 +38,7 @@
 package es.eucm.eadventure.engine.core;
 
 import es.eucm.eadventure.common.model.EAdAdventureModel;
+import es.eucm.eadventure.common.model.EAdChapter;
 import es.eucm.eadventure.common.model.elements.EAdConditionedElement;
 
 /**
@@ -84,5 +85,7 @@ public interface Game {
 	 * Load the game
 	 */
 	void loadGame();
+
+	void setGame(EAdAdventureModel model, EAdChapter eAdChapter);
 
 }

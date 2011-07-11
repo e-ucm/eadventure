@@ -84,7 +84,7 @@ public class TimerImporter implements EAdElementImporter<Timer, EAdTimer>{
 	public EAdTimer convert( Timer oldTimer, Object object) {
 		EAdTimerImpl newTimer = (EAdTimerImpl) object;
 		
-		newTimer.setTime(oldTimer.getTime().intValue());
+		newTimer.setTime(oldTimer.getTime().intValue() * 1000);
 		
 		EAdCondition condition = conditionsImporter.init(oldTimer.getInitCond());
 		condition = conditionsImporter
@@ -114,7 +114,6 @@ public class TimerImporter implements EAdElementImporter<Timer, EAdTimer>{
 			if (effect != null)
 				stoppedMacro.getEffects().add(effect);
 		}
-
 
 		EAdTimerEventImpl stopTimerEvent = new EAdTimerEventImpl("timerEvent", newTimer);
 		stopTimerEvent.addEffect(EAdTimerEvent.TimerEvent.TIMER_ENDED, triggerEndedMacro);

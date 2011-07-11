@@ -29,8 +29,11 @@ public class TimerEventGO extends AbstractEventGO<EAdTimerEvent> {
 		super.update(state);
 		TimerGO timer = (TimerGO) gameObjectFactory.get(element.getTimer());
 		if (valueMap.getValue(timer.getElement().timerEndedVar())) {
-			if (!triggered)
+			if (!triggered) {
+				//TODO this should only run if it does not restart
+				runEffects(element.getEffects(EAdTimerEvent.TimerEvent.TIMER_STOPPED));
 				runEffects(element.getEffects(EAdTimerEvent.TimerEvent.TIMER_ENDED));
+			}
 			triggered = true;
 		} else if (triggered == true){
 				triggered = false;
