@@ -27,9 +27,11 @@ public class AndroidGUI extends AbstractGUI<Canvas> {
 			GraphicRendererFactory<?> assetRendererFactory,
 			GameObjectManager gameObjectManager,
 			MouseState mouseState,
+			BasicHUD androidBasicHUD,
 			KeyboardState keyboardState, ValueMap valueMap) {
 		super(platformConfiguration, assetRendererFactory, gameObjectManager,
 				mouseState, keyboardState, valueMap);
+		gameObjects.addHUD(androidBasicHUD);
 	}
 	
 	@Override
@@ -40,8 +42,7 @@ public class AndroidGUI extends AbstractGUI<Canvas> {
 
 	@Override
 	public void initilize() {
-		
-		
+		// Nothing to initialize
 	}
 
 	@Override
@@ -56,8 +57,7 @@ public class AndroidGUI extends AbstractGUI<Canvas> {
 	@Override
 	public void showSpecialResource(Object object, int x, int y,
 			boolean fullscreen) {
-		// TODO Auto-generated method stub
-		
+		// TODO Process request, possible object could be an intent?
 	}
 
 	public void setCanvas(AndroidCanvas aCanvas) {

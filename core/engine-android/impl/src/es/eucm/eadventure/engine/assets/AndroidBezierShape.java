@@ -33,8 +33,7 @@ public class AndroidBezierShape extends RuntimeBezierShape {
 					p1 = descriptor.getPoints().get(pointIndex++);
 					p2 = descriptor.getPoints().get(pointIndex++);
 					p3 = descriptor.getPoints().get(pointIndex++);
-					//TODO no curveTO! addArc?
-					//path.curveTo(p1.getX(), p1.getY(), p2.getX(), p2.getY(), p3.getX(), p3.getY());
+					path.cubicTo(p1.getX(), p1.getY(), p2.getX(), p2.getY(), p3.getX(), p3.getY());
 					break;			
 			}
 		}
