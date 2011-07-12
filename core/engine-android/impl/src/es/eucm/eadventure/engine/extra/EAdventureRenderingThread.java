@@ -15,6 +15,8 @@ import es.eucm.eadventure.engine.core.platform.PlatformConfiguration;
 
 public class EAdventureRenderingThread extends Thread {
 
+	public static final Object canvasLock = new Object();
+	
     private boolean mDone;
     private boolean mPaused;
     private boolean mHasFocus;
@@ -75,7 +77,6 @@ public class EAdventureRenderingThread extends Thread {
 	    		Canvas canvas2 = mSurfaceHolder.lockCanvas();                 
 	
 	    		if (canvas2 != null) {
-	    			aCanvas = new AndroidCanvas(bitmap);
 	    			aCanvas.drawColor(Color.WHITE);
 					Matrix matrix = new Matrix();		
 					
@@ -90,7 +91,9 @@ public class EAdventureRenderingThread extends Thread {
 					gui.setCanvas(aCanvas);
 	    			gui.commit(0.0f);
 	    			
-	    			canvas2.drawBitmap(aCanvas.getBitmap(), 0, 0, new Paint());
+	    			synchronized (EAdventureRenderingThread.canvasLock) {
+	    				canvas2.drawBitmap(aCanvas.getBitmap(), 0, 0, new Paint());
+	    			}
 //	    			canvas2.drawBitmap(bitmap, 0, 0, new Paint());
 	    			mSurfaceHolder.unlockCanvasAndPost(canvas2);            
 	    		}

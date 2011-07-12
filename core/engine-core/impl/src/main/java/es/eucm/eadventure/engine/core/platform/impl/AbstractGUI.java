@@ -37,7 +37,7 @@
 
 package es.eucm.eadventure.engine.core.platform.impl;
 
-import java.util.List;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import es.eucm.eadventure.common.model.elements.EAdSceneElement;
@@ -137,17 +137,6 @@ public abstract class AbstractGUI<T> implements GUI {
 		gameObjects.add(element, offsetX, offsetY);
 		element.doLayout(offsetX, offsetY);
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see es.eucm.eadventure.engine.core.platform.GUI#getGameObjects()
-	 */
-	@Override
-	public List<GameObject<?>> getGameObjects() {
-		return gameObjects.getGameObjects();
-	}
-
 	/*
 	 * (non-Javadoc)
 	 * 

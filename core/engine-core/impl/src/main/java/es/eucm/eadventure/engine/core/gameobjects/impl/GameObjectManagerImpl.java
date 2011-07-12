@@ -156,9 +156,8 @@ public class GameObjectManagerImpl implements GameObjectManager {
 	@Override
 	public void swap() {
 		synchronized (lock) {
-			int temp = pointer;
 			pointer = bufferPointer;
-			bufferPointer = temp;
+			bufferPointer = (bufferPointer + 1) % 2 ;
 			gameObjects[bufferPointer].clear();
 			offsets[bufferPointer].clear();
 		}

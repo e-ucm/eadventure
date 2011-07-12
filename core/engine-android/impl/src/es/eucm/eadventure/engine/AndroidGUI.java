@@ -15,6 +15,7 @@ import es.eucm.eadventure.engine.core.platform.PlatformConfiguration;
 import es.eucm.eadventure.engine.core.platform.RuntimeAsset;
 import es.eucm.eadventure.engine.core.platform.impl.AbstractGUI;
 import es.eucm.eadventure.engine.extra.AndroidCanvas;
+import es.eucm.eadventure.engine.extra.EAdventureRenderingThread;
 
 @Singleton
 public class AndroidGUI extends AbstractGUI<Canvas> {
@@ -37,6 +38,7 @@ public class AndroidGUI extends AbstractGUI<Canvas> {
 	@Override
 	public RuntimeAsset<Image> commitToImage() {
 		//FIXME does not commit to image
+		//		canvas.getBitmap();?
 		return null;
 	}
 
@@ -50,7 +52,9 @@ public class AndroidGUI extends AbstractGUI<Canvas> {
 		processInput();
 		
 		if (canvas != null) {
-			render(canvas, interpolation);
+			synchronized(EAdventureRenderingThread.canvasLock) {
+				render(canvas, interpolation);
+			}
 		}
 	}
 

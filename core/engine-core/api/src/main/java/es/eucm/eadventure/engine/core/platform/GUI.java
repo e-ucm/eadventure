@@ -37,8 +37,6 @@
 
 package es.eucm.eadventure.engine.core.platform;
 
-import java.util.List;
-
 import es.eucm.eadventure.common.resources.assets.drawable.Image;
 import es.eucm.eadventure.engine.core.gameobjects.GameObject;
 
@@ -62,13 +60,6 @@ public interface GUI {
 	 *            An EAdFunctional element.
 	 */
 	void addElement(GameObject<?> go, int offsetX, int offsetY);
-
-	/**
-	 * Returns the list of game objects in the GUI
-	 * 
-	 * @return
-	 */
-	List<GameObject<?>> getGameObjects();
 
 	/**
 	 * Show a special resource on the screen (e.g. video, HTML, etc.)
