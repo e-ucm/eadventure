@@ -193,7 +193,7 @@ public abstract class AbstractGUI<T> implements GUI {
 			GameObject<?> gameObject = mouseState.getGameObjectUnderMouse();
 			mouseState.setElementGameObject(null, 0, 0);
 
-			for (int i = gameObjects.getGameObjects().size() - 1; i >= 0
+			for (int i = gameObjects.getGameObjects().size() - 1; i >= 0 && i < gameObjects.getGameObjects().size()
 					&& mouseState.getGameObjectUnderMouse() == null; i--) {
 				GameObject<?> tempGameObject = gameObjects.getGameObjects().get(i);
 				if (tempGameObject.getElement() instanceof EAdSceneElement

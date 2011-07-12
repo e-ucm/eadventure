@@ -34,13 +34,16 @@ public class AndroidEngineImage extends RuntimeImage {
 
 	@Override
 	public int getWidth() {
-		return image.getWidth();
+		if (image != null)
+			return image.getWidth();
+		return 1;
 	}
-
 
 	@Override
 	public int getHeight() {
-		return image.getHeight();
+		if (image != null)
+			return image.getHeight();
+		return 1;
 	}
 	
 	@Override

@@ -33,7 +33,11 @@ public class AndroidImageAssetRenderer implements AssetRenderer<Canvas, AndroidE
 				graphicContext.drawBitmap(asset.getImage(), matrix, null);
 			}
 		} else {
-			logger.info("null asset");
+			if (asset == null)
+				logger.info("Null asset..." );
+			else {
+				logger.info("Null image: " + asset.getAssetDescriptor().getURI());
+			}
 		}
 	}	
 

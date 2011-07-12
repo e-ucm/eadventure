@@ -104,6 +104,7 @@ public class RuntimeFramesAnimation extends AbstractRuntimeAsset<FramesAnimation
 			for (int i = 0; i < descriptor.getFrameCount(); i++) {
 				DrawableAsset<Image> image = (DrawableAsset<Image>) assetHandler.getRuntimeAsset((Image) descriptor.getFrame(i));
 				images.add(image);
+				image.loadAsset();
 				totalTime += descriptor.getFrame(i).getTime();
 			}
 			if (descriptor.getFrameCount() > 0)

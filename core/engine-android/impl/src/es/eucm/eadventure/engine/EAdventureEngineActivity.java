@@ -3,6 +3,8 @@ package es.eucm.eadventure.engine;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 
+import es.eucm.eadventure.common.elmentfactories.scenedemos.BasicScene;
+import es.eucm.eadventure.common.model.elements.EAdScene;
 import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
 import es.eucm.eadventure.common.model.elements.impl.EAdSceneImpl;
 import es.eucm.eadventure.common.resources.assets.drawable.impl.ImageImpl;
@@ -11,6 +13,7 @@ import es.eucm.eadventure.engine.core.MouseState;
 import es.eucm.eadventure.engine.core.impl.LoadingScreen;
 import es.eucm.eadventure.engine.core.impl.modules.BasicGameModule;
 import es.eucm.eadventure.engine.core.platform.AssetHandler;
+import es.eucm.eadventure.engine.core.platform.EffectOpaqueBlockTestScreen;
 import es.eucm.eadventure.engine.core.platform.GUI;
 import es.eucm.eadventure.engine.core.platform.PlatformConfiguration;
 import es.eucm.eadventure.engine.extra.AndroidAssetHandlerModule;
@@ -64,6 +67,8 @@ public class EAdventureEngineActivity extends Activity {
 		EAdSceneImpl sceneImpl = new EAdSceneImpl("scene");
 		sceneImpl.getBackground().getResources().addAsset(sceneImpl.getBackground().getInitialBundle(), EAdBasicSceneElement.appearance, new ImageImpl("@drawable/background1.png"));
 
+		//EAdSceneImpl sceneImpl = new BasicScene();
+		
 		loadingScreen.setInitialScreen(sceneImpl);
 
         surfaceView.start(injector.getInstance(GUI.class),
