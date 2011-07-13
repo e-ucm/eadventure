@@ -37,10 +37,22 @@
 
 package es.eucm.eadventure.common.resources.assets.drawable;
 
+import es.eucm.eadventure.common.interfaces.Oriented.Orientation;
 
 /**
- * Animation interface
+ * 
+ * Implemented by all assets which are oriented
+ * 
  */
-public interface Animation extends Drawable {
+public interface OrientedDrawable extends Drawable{
+
+	/**
+	 * Returns the {@link Drawable} associated with the given orientation
+	 * 
+	 * @param orientation
+	 *            the orientation
+	 * @return the {@link Drawable} associated with the given orientation
+	 */
+	Drawable getDrawable(Orientation orientation);
 
 }

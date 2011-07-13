@@ -52,7 +52,6 @@ import es.eucm.eadventure.common.resources.EAdBundleId;
 import es.eucm.eadventure.common.resources.EAdString;
 import es.eucm.eadventure.common.resources.StringHandler;
 import es.eucm.eadventure.common.resources.assets.AssetDescriptor;
-import es.eucm.eadventure.common.resources.assets.OrientedAsset;
 import es.eucm.eadventure.engine.core.GameState;
 import es.eucm.eadventure.engine.core.MouseState;
 import es.eucm.eadventure.engine.core.ValueMap;
@@ -74,7 +73,7 @@ public class ActorReferenceGOImpl extends SceneElementGOImpl<EAdActorReference>
 			.getLogger("ActorReferneceGOImpl");
 
 	protected ActorGO actor;
-	
+
 	private boolean inventoryReference;
 
 	@Inject
@@ -82,8 +81,8 @@ public class ActorReferenceGOImpl extends SceneElementGOImpl<EAdActorReference>
 			StringHandler stringHandler, GameObjectFactory gameObjectFactory,
 			GUI gui, GameState gameState, ValueMap valueMap,
 			PlatformConfiguration platformConfiguration) {
-		super(assetHandler, stringHandler, gameObjectFactory, gui, gameState, valueMap,
-				platformConfiguration);
+		super(assetHandler, stringHandler, gameObjectFactory, gui, gameState,
+				valueMap, platformConfiguration);
 		logger.info("New instance");
 		this.inventoryReference = false;
 	}
@@ -99,10 +98,10 @@ public class ActorReferenceGOImpl extends SceneElementGOImpl<EAdActorReference>
 	public GameObject<?> getDraggableElement(MouseState mouseState) {
 		if (isRemoved())
 			return null;
-		/* TODO return "this" if one of the valid actions is draggable?
-		for (EAdAction action : actor.getValidActions() ) {
-		}
-		*/
+		/*
+		 * TODO return "this" if one of the valid actions is draggable? for
+		 * (EAdAction action : actor.getValidActions() ) { }
+		 */
 		return null;
 	}
 
@@ -152,29 +151,19 @@ public class ActorReferenceGOImpl extends SceneElementGOImpl<EAdActorReference>
 				.getAsset(((ActorGOImpl) actor).getCurrentBundle(),
 						EAdBasicActor.appearance);
 
-		if (a instanceof OrientedAsset) {
-			a = ((OrientedAsset) a).getAssetDescritpor(orientation);
-		}
-
-		DrawableAsset<?> r = (DrawableAsset<?>) assetHandler.getRuntimeAsset(a);
-		if (r instanceof DrawableAsset) {
-			setWidth(r.getWidth());
-			setHeight(r.getHeight());
-			return r.getDrawable();
-		}
-
-		return r;
+		return getAsset(a);
 	}
 
 	@Override
 	public List<EAdAction> getValidActions() {
 		return actor.getValidActions();
 	}
-	
+
 	@Override
 	public boolean isVisible() {
-		if (!inventoryReference && gameState.getInventoryActors().contains(element
-				.getReferencedActor()))
+		if (!inventoryReference
+				&& gameState.getInventoryActors().contains(
+						element.getReferencedActor()))
 			return false;
 		return super.isVisible();
 	}
@@ -196,33 +185,12 @@ public class ActorReferenceGOImpl extends SceneElementGOImpl<EAdActorReference>
 		for (EAdBundleId bundle : bundles) {
 			AssetDescriptor a = actor.getElement().getResources()
 					.getAsset(bundle, EAdBasicActor.appearance);
+			super.getAssetsRecursively(a, assetList, allAssets);
 
-			if (a instanceof OrientedAsset) {
-				if (!allAssets)
-					assetList.add(assetHandler
-							.getRuntimeAsset(((OrientedAsset) a)
-									.getAssetDescritpor(orientation)));
-				else {
-					assetList.add(assetHandler
-							.getRuntimeAsset(((OrientedAsset) a)
-									.getAssetDescritpor(Orientation.EAST)));
-					assetList.add(assetHandler
-							.getRuntimeAsset(((OrientedAsset) a)
-									.getAssetDescritpor(Orientation.NORTH)));
-					assetList.add(assetHandler
-							.getRuntimeAsset(((OrientedAsset) a)
-									.getAssetDescritpor(Orientation.SOUTH)));
-					assetList.add(assetHandler
-							.getRuntimeAsset(((OrientedAsset) a)
-									.getAssetDescritpor(Orientation.WEST)));
-				}
-			} else {
-				assetList.add(assetHandler.getRuntimeAsset(a));
-			}
 		}
 		return assetList;
 	}
-	
+
 	public void setInventoryReference(boolean inventoryReference) {
 		this.inventoryReference = inventoryReference;
 	}

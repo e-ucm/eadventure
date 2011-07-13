@@ -37,13 +37,15 @@
 
 package es.eucm.eadventure.common.resources.assets.drawable;
 
-
-
 /**
  * General image asset interface.
  */
 public interface Image extends Drawable {
 
+	/**
+	 * 
+	 * @return The uri to the image
+	 */
 	String getURI();
-	
+
 }

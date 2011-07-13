@@ -133,7 +133,7 @@ public class DesktopBasicInventoryGO extends BasicInventoryGO {
 	private EAdBasicSceneElement createArrow(String dirname, String sign, int pos, Corner corner) {
 		EAdBasicSceneElement arrow = new EAdBasicSceneElement("arrow" + dirname);
 		arrow.setDraggabe(EmptyCondition.FALSE_EMPTY_CONDITION);
-		arrow.setPosition(new EAdPosition(corner, pos, 0));
+		arrow.setPosition(new EAdPosition(corner, pos, -INVENTORY_HEIGHT));
 		ImageImpl image = new ImageImpl("@drawable/arrow" + dirname + ".png");
 		arrow.getResources().addAsset(arrow.getInitialBundle(), EAdBasicSceneElement.appearance, image);
 		

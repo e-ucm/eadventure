@@ -39,14 +39,11 @@ package es.eucm.eadventure.common.resources.assets.drawable;
 
 import java.util.Set;
 
-import es.eucm.eadventure.common.interfaces.Oriented.Orientation;
-import es.eucm.eadventure.common.resources.assets.OrientedAsset;
-
 /**
  * Represents a drawable bundle, in which each drawable is associated with a
  * state defined by a {@link String}
  */
-public interface BundledDrawable extends Drawable, OrientedAsset {
+public interface StateDrawable extends Drawable {
 
 	/**
 	 * Returns a {@link Drawable} for a given state state.
@@ -64,29 +61,16 @@ public interface BundledDrawable extends Drawable, OrientedAsset {
 	 * @param stateName
 	 *            State name for the animation
 	 * @param animation
-	 *            {@link Animation} to be added to the bundle
+	 *            {@link Drawable} to be added to the bundle
 	 * @return <b>true</b> if the bundle does not contain an animation for the
 	 *         given state name. <b>false</b> otherwise
 	 */
 	boolean addDrawable(String stateName, Drawable animation);
 
 	/**
-	 * Adds an animation to the bundle. This animation will be associated with
-	 * the given orientation
+	 * Get the states in the drawable bundle
 	 * 
-	 * @param orientation
-	 *            orientation for the animation
-	 * @param animation
-	 *            {@link Animation} to be added to the bundle
-	 * @return <b>true</b> if the bundle does not contain an animation for the
-	 *         given state name. <b>false</b> otherwise
-	 */
-	boolean addDrawable(Orientation orientation, Drawable animation);
-
-	/**
-	 * Get the states in the animation bundle
-	 * 
-	 * @return A set with all the states in the animation bundle
+	 * @return A set with all the states in the drawable bundle
 	 */
 	Set<String> getStates();
 
