@@ -87,9 +87,9 @@ import es.eucm.eadventure.common.model.variables.impl.operations.LiteralExpressi
 import es.eucm.eadventure.common.model.variables.impl.vars.FloatVar;
 import es.eucm.eadventure.common.resources.EAdBundleId;
 import es.eucm.eadventure.common.resources.EAdString;
-import es.eucm.eadventure.common.resources.assets.drawable.animation.impl.BundledDrawableImpl;
 import es.eucm.eadventure.common.resources.assets.drawable.animation.impl.Frame;
 import es.eucm.eadventure.common.resources.assets.drawable.animation.impl.FramesAnimation;
+import es.eucm.eadventure.common.resources.assets.drawable.animation.impl.OrientedDrawableImpl;
 import es.eucm.eadventure.common.resources.assets.drawable.impl.BezierShape;
 import es.eucm.eadventure.common.resources.assets.drawable.impl.CaptionImpl;
 import es.eucm.eadventure.common.resources.assets.drawable.impl.ImageImpl;
@@ -407,14 +407,14 @@ public class BasicScene extends EAdSceneImpl implements EAdScene {
 	}
 
 	private void initOrientedActor() {
-		BundledDrawableImpl anim = new BundledDrawableImpl();
-		anim.addDrawable(Orientation.NORTH, new ImageImpl(
+		OrientedDrawableImpl anim = new OrientedDrawableImpl();
+		anim.setDrawable(Orientation.N, new ImageImpl(
 				"@drawable/going_up.jpg"));
-		anim.addDrawable(Orientation.SOUTH, new ImageImpl(
+		anim.setDrawable(Orientation.S, new ImageImpl(
 				"@drawable/going_down.png"));
-		anim.addDrawable(Orientation.WEST, new ImageImpl(
+		anim.setDrawable(Orientation.W, new ImageImpl(
 				"@drawable/going_left.png"));
-		anim.addDrawable(Orientation.EAST, new ImageImpl(
+		anim.setDrawable(Orientation.E, new ImageImpl(
 				"@drawable/going_right.jpg"));
 		orientedActor = new EAdBasicActor("Oriented");
 		orientedActor.getResources().addAsset(orientedActor.getInitialBundle(),
@@ -426,7 +426,7 @@ public class BasicScene extends EAdSceneImpl implements EAdScene {
 				orientedActor);
 		orientedReference.setPosition(new EAdPosition(
 				EAdPosition.Corner.BOTTOM_CENTER, 50, 50));
-		orientedReference.setInitialOrientation(Orientation.NORTH);
+		orientedReference.setInitialOrientation(Orientation.N);
 		orientedReference.setScale(1.0f);
 		
 		this.getSceneElements().add(orientedReference);

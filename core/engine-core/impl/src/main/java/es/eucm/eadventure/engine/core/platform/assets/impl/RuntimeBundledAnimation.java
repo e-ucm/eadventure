@@ -43,7 +43,7 @@ import java.util.Map;
 import com.google.inject.Inject;
 
 import es.eucm.eadventure.common.resources.assets.AssetDescriptor;
-import es.eucm.eadventure.common.resources.assets.drawable.BundledDrawable;
+import es.eucm.eadventure.common.resources.assets.drawable.StateDrawable;
 import es.eucm.eadventure.common.resources.assets.drawable.Drawable;
 import es.eucm.eadventure.engine.core.GameState;
 import es.eucm.eadventure.engine.core.platform.AssetHandler;
@@ -54,8 +54,8 @@ import es.eucm.eadventure.engine.core.platform.DrawableAsset;
  * 
  */
 public class RuntimeBundledAnimation extends
-		AbstractRuntimeAsset<BundledDrawable> implements
-		DrawableAsset<BundledDrawable> {
+		AbstractRuntimeAsset<StateDrawable> implements
+		DrawableAsset<StateDrawable> {
 
 	private AssetHandler assetHandler;
 

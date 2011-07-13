@@ -35,24 +35,51 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package es.eucm.eadventure.common.resources.assets;
+package es.eucm.eadventure.common.resources.assets.drawable.animation.impl;
 
-import es.eucm.eadventure.common.interfaces.Oriented.Orientation;
+import java.util.Set;
+
+import es.eucm.eadventure.common.model.EAdMap;
+import es.eucm.eadventure.common.model.impl.EAdMapImpl;
+import es.eucm.eadventure.common.resources.assets.drawable.Drawable;
+import es.eucm.eadventure.common.resources.assets.drawable.StateDrawable;
 
 /**
+ * Basic implementation for a {@link StateDrawable}
  * 
- * Implemented by all assets which are oriented
+ * @author anserran
  * 
  */
-public interface OrientedAsset {
+public class StateDrawableImpl implements StateDrawable {
+
+	private EAdMap<String, Drawable> drawables;
 
 	/**
-	 * Returns the {@link AssetDescriptor} associated with the given orientation
-	 * 
-	 * @param orientation
-	 *            the orientation
-	 * @return the {@link AssetDescriptor} associated with the given orientation
+	 * Constructs an empty bundle of drawables
 	 */
-	AssetDescriptor getAssetDescritpor(Orientation orientation);
+	public StateDrawableImpl() {
+		drawables = new EAdMapImpl<String, Drawable>("drawablesBundle", String.class,
+				Drawable.class);
+	}
+
+	@Override
+	public boolean addDrawable(String stateName, Drawable drawable) {
+		if (drawables.containsKey(stateName))
+			return false;
+		else {
+			drawables.put(stateName, drawable);
+			return true;
+		}
+	}
+
+	@Override
+	public Set<String> getStates() {
+		return drawables.keySet();
+	}
+
+	@Override
+	public Drawable getDrawable(String stateName) {
+		return drawables.get(stateName);
+	}
 
 }

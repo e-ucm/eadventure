@@ -46,27 +46,43 @@ public interface Oriented {
 
 	/**
 	 * 
-	 * Enum representing all four cardinal points: {@link Orientation#NORTH},
-	 * {@link Orientation#SOUTH},{@link Orientation#EAST},
-	 * {@link Orientation#WEST}
+	 * Enum representing all eight possible orientation in eAdventure
 	 * 
 	 */
 	public enum Orientation {
-		NORTH, SOUTH, EAST, WEST;
+		/**
+		 * North
+		 */
+		N,
 
-		public String toString() {
-			switch (this) {
-			case NORTH:
-				return "NORTH";
-			case SOUTH:
-				return "SOUTH";
-			case WEST:
-				return "WEST";
-			default:
-				return "EAST";
-			}
-
-		}
+		/**
+		 * Northeast
+		 */
+		NE,
+		/**
+		 * East
+		 */
+		E,
+		/**
+		 * Southeast
+		 */
+		SE,
+		/**
+		 * South
+		 */
+		S,
+		/**
+		 * Southwest
+		 */
+		SW,
+		/**
+		 * West
+		 */
+		W,
+		/**
+		 * Northwest
+		 */
+		NW;
 	};
 
 	/**

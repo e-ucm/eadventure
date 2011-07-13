@@ -7,8 +7,6 @@ import es.eucm.eadventure.common.data.chapter.ElementReference;
 import es.eucm.eadventure.common.data.chapter.conditions.Conditions;
 import es.eucm.eadventure.common.impl.importer.interfaces.EAdElementFactory;
 import es.eucm.eadventure.common.interfaces.Oriented.Orientation;
-import es.eucm.eadventure.common.model.conditions.impl.EmptyCondition;
-import es.eucm.eadventure.common.model.conditions.impl.NOTCondition;
 import es.eucm.eadventure.common.model.effects.impl.EAdActorActionsEffect;
 import es.eucm.eadventure.common.model.effects.impl.variables.EAdChangeVarValueEffect;
 import es.eucm.eadventure.common.model.elements.EAdActorReference;
@@ -64,7 +62,7 @@ public class ElementReferenceImporter implements
 		newRef.setPosition(new EAdPosition(EAdPosition.Corner.BOTTOM_CENTER,
 				oldObject.getX(), oldObject.getY()));
 		newRef.setScale(oldObject.getScale());
-		newRef.setInitialOrientation(Orientation.SOUTH);
+		newRef.setInitialOrientation(Orientation.S);
 		EAdBasicActor actor = (EAdBasicActor) factory.getElementById(oldObject
 				.getTargetId());
 		newRef.setReferencedActor(actor);

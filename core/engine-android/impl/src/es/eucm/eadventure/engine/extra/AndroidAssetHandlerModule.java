@@ -9,13 +9,13 @@ import com.google.inject.Singleton;
 
 import es.eucm.eadventure.common.resources.StringHandler;
 import es.eucm.eadventure.common.resources.assets.AssetDescriptor;
-import es.eucm.eadventure.common.resources.assets.drawable.BundledDrawable;
+import es.eucm.eadventure.common.resources.assets.drawable.StateDrawable;
 import es.eucm.eadventure.common.resources.assets.drawable.Caption;
 import es.eucm.eadventure.common.resources.assets.drawable.ComposedDrawable;
 import es.eucm.eadventure.common.resources.assets.drawable.DisplacedDrawable;
 import es.eucm.eadventure.common.resources.assets.drawable.Image;
 import es.eucm.eadventure.common.resources.assets.drawable.SpriteImage;
-import es.eucm.eadventure.common.resources.assets.drawable.animation.impl.BundledDrawableImpl;
+import es.eucm.eadventure.common.resources.assets.drawable.animation.impl.StateDrawableImpl;
 import es.eucm.eadventure.common.resources.assets.drawable.animation.impl.Frame;
 import es.eucm.eadventure.common.resources.assets.drawable.animation.impl.FramesAnimation;
 import es.eucm.eadventure.common.resources.assets.drawable.impl.BezierShape;
@@ -60,8 +60,8 @@ public class AndroidAssetHandlerModule extends AbstractModule {
 		map.put(ComposedDrawableImpl.class, RuntimeComposedDrawable.class);
 		map.put(RectangleShape.class, AndroidBezierShape.class);
 		map.put(BezierShape.class, AndroidBezierShape.class);
-		map.put(BundledDrawableImpl.class, RuntimeBundledAnimation.class);
-		map.put(BundledDrawable.class, RuntimeBundledAnimation.class);
+		map.put(StateDrawableImpl.class, RuntimeBundledAnimation.class);
+		map.put(StateDrawable.class, RuntimeBundledAnimation.class);
 		map.put(DisplacedDrawable.class, RuntimeDisplacedDrawable.class);
 		map.put(DisplacedDrawableImpl.class, RuntimeDisplacedDrawable.class);
 		map.put(SpriteImage.class, RuntimeSpriteImage.class);

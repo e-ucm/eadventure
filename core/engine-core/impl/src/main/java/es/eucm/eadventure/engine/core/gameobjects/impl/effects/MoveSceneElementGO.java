@@ -121,7 +121,7 @@ public class MoveSceneElementGO extends AbstractEffectGO<EAdMoveSceneElement> {
 
 	private void updateDirection(SceneElementGO<?> a, float x, float targetX,
 			float y, float targetY) {
-		Orientation tempDirection = Orientation.EAST;
+		Orientation tempDirection = Orientation.E;
 
 		// FIXME Este isometric debe venir de alguna parte
 		if (isIsometric) {
@@ -130,14 +130,14 @@ public class MoveSceneElementGO extends AbstractEffectGO<EAdMoveSceneElement> {
 			double module = Math.sqrt(xv * xv + yv * yv);
 			double angle = Math.acos(xv / module) * Math.signum(-yv);
 
-			tempDirection = Orientation.WEST;
+			tempDirection = Orientation.W;
 
 			if (angle < 3 * Math.PI / 4 && angle >= Math.PI / 4) {
-				tempDirection = Orientation.NORTH;
+				tempDirection = Orientation.N;
 			} else if (angle < Math.PI / 4 && angle >= -Math.PI / 4) {
-				tempDirection = Orientation.EAST;
+				tempDirection = Orientation.E;
 			} else if (angle < -Math.PI / 4 && angle >= -3 * Math.PI / 4) {
-				tempDirection = Orientation.SOUTH;
+				tempDirection = Orientation.S;
 			}
 
 		} else {
@@ -154,15 +154,15 @@ public class MoveSceneElementGO extends AbstractEffectGO<EAdMoveSceneElement> {
 				velocityY = -PIXELS_PER_SECOND;
 			if (Math.abs(velocityY) > Math.abs(velocityX)) {
 				if (velocityY > 0) {
-					tempDirection = Orientation.SOUTH;
+					tempDirection = Orientation.S;
 				} else if (velocityY < 0) {
-					tempDirection = Orientation.NORTH;
+					tempDirection = Orientation.N;
 				}
 			} else {
 				if (velocityX > 0) {
-					tempDirection = Orientation.EAST;
+					tempDirection = Orientation.E;
 				} else if (velocityX < 0) {
-					tempDirection = Orientation.WEST;
+					tempDirection = Orientation.W;
 				}
 			}
 		}
