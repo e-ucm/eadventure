@@ -113,9 +113,9 @@ public class ShowTextEffectGO extends AbstractEffectGO<EAdShowText> {
 		super.initilize();
 		textGO = (BasicSceneElementGO) gameObjectFactory.get(element.getText());
 		textGO.setElement(element.getText());
-		textGO.getAsset().loadAsset();
-		if (textGO.getAsset() instanceof RuntimeCaption) {
-			caption = (RuntimeCaption) textGO.getAsset();
+		textGO.getRenderAsset().loadAsset();
+		if (textGO.getRenderAsset() instanceof RuntimeCaption) {
+			caption = (RuntimeCaption) textGO.getRenderAsset();
 			caption.reset();
 			caption.setLoops(element.getLoops());
 			int textRight = textGO.getPosition().getJavaX(caption.getWidth())

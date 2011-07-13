@@ -61,7 +61,6 @@ import es.eucm.eadventure.engine.core.gameobjects.GameObject;
 import es.eucm.eadventure.engine.core.gameobjects.GameObjectFactory;
 import es.eucm.eadventure.engine.core.guiactions.GUIAction;
 import es.eucm.eadventure.engine.core.platform.AssetHandler;
-import es.eucm.eadventure.engine.core.platform.DrawableAsset;
 import es.eucm.eadventure.engine.core.platform.GUI;
 import es.eucm.eadventure.engine.core.platform.PlatformConfiguration;
 import es.eucm.eadventure.engine.core.platform.RuntimeAsset;
@@ -111,7 +110,7 @@ public class ActorReferenceGOImpl extends SceneElementGOImpl<EAdActorReference>
 				.getReferencedActor());
 		super.setElement(actorReference);
 		// To update width and height
-		getAsset();
+		getRenderAsset();
 	}
 
 	@Override
@@ -139,19 +138,15 @@ public class ActorReferenceGOImpl extends SceneElementGOImpl<EAdActorReference>
 			actor.update(state);
 		}
 	}
-
-	@Override
-	public DrawableAsset<?> getAsset() {
-		if (isRemoved())
-			return null;
-
+	
+	public AssetDescriptor getCurrentAssetDescriptor(){
 		AssetDescriptor a = actor
 				.getElement()
 				.getResources()
 				.getAsset(((ActorGOImpl) actor).getCurrentBundle(),
 						EAdBasicActor.appearance);
-
-		return getAsset(a);
+		
+		return getCurrentAssetDescriptor( a );
 	}
 
 	@Override

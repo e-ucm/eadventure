@@ -165,38 +165,49 @@ public abstract class SceneElementGOImpl<T extends EAdSceneElement> extends
 	}
 
 	@Override
-	public DrawableAsset<?> getAsset() {
+	public AssetDescriptor getCurrentAssetDescriptor() {
 		AssetDescriptor a = element.getResources().getAsset(getCurrentBundle(),
 				EAdBasicSceneElement.appearance);
 
-		return getAsset(a);
+		return getCurrentAssetDescriptor(a);
 	}
 
-	protected DrawableAsset<?> getAsset(AssetDescriptor a) {
+	protected AssetDescriptor getCurrentAssetDescriptor(AssetDescriptor a) {
 		if (a == null)
 			return null;
 
 		// Check state
 		if (a instanceof StateDrawable) {
 			StateDrawable stateDrawable = (StateDrawable) a;
-			return getAsset(stateDrawable.getDrawable(state));
+			return getCurrentAssetDescriptor(stateDrawable.getDrawable(state));
 		}
 		// Check orientation
 		else if (a instanceof OrientedDrawable) {
-			return getAsset(((OrientedDrawable) a).getDrawable(orientation));
+			return getCurrentAssetDescriptor(((OrientedDrawable) a)
+					.getDrawable(orientation));
 		} else {
-			DrawableAsset<?> r = (DrawableAsset<?>) assetHandler
-					.getRuntimeAsset(a);
-			if (!r.isLoaded())
-				r.loadAsset();
-			if (r instanceof DrawableAsset && r.isLoaded()) {
-				setWidth(r.getWidth());
-				setHeight(r.getHeight());
-				return r.getDrawable();
-			}
-			return r;
+			return a;
 		}
+	}
 
+	@Override
+	public DrawableAsset<?> getAsset() {
+		DrawableAsset<?> r = (DrawableAsset<?>) assetHandler
+				.getRuntimeAsset(getCurrentAssetDescriptor());
+		if (!r.isLoaded())
+			r.loadAsset();
+		return r;
+	}
+
+	@Override
+	public DrawableAsset<?> getRenderAsset() {
+		DrawableAsset<?> r = getAsset();
+		if (r instanceof DrawableAsset && r.isLoaded()) {
+			setWidth(r.getWidth());
+			setHeight(r.getHeight());
+			return r.getDrawable();
+		}
+		return r;
 	}
 
 	@Override

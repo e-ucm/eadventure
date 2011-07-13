@@ -44,6 +44,7 @@ import es.eucm.eadventure.common.interfaces.Positioned;
 import es.eucm.eadventure.common.model.actions.EAdAction;
 import es.eucm.eadventure.common.model.elements.EAdSceneElement;
 import es.eucm.eadventure.common.model.params.EAdPosition;
+import es.eucm.eadventure.common.resources.assets.AssetDescriptor;
 import es.eucm.eadventure.engine.core.platform.DrawableAsset;
 
 /**
@@ -59,12 +60,31 @@ public interface SceneElementGO<T extends EAdSceneElement> extends
 	void setPosition(EAdPosition position);
 
 	float getScale();
-	
+
 	float getAlpha();
 
 	void setScale(float scale);
 
+	/**
+	 * Returns the final drawable asset to be rendered for this scene element
+	 * 
+	 * @return
+	 */
+	DrawableAsset<?> getRenderAsset();
+
+	/**
+	 * Returns the runtime asset representing the scene element
+	 * 
+	 * @return
+	 */
 	DrawableAsset<?> getAsset();
+
+	/**
+	 * Returns the current asset descriptor, used for rendering
+	 * 
+	 * @return
+	 */
+	AssetDescriptor getCurrentAssetDescriptor();
 
 	int getWidth();
 
@@ -97,5 +117,4 @@ public interface SceneElementGO<T extends EAdSceneElement> extends
 
 	int getY();
 
-	
 }

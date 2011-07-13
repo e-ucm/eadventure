@@ -165,7 +165,7 @@ public class BasicScene extends EAdSceneImpl implements EAdScene {
 		bse.addBehavior(EAdMouseEventImpl.MOUSE_ENTERED, new EAdChangeAppearance("id", bse, bid));
 		bse.addBehavior(EAdMouseEventImpl.MOUSE_EXITED, new EAdChangeAppearance("id", bse, bse.getInitialBundle()));
 		bse.addBehavior(EAdMouseEventImpl.MOUSE_LEFT_CLICK, new EAdChangeVarValueEffect("id", timer.timerStartedVar(), new BooleanOperation("id", EmptyCondition.TRUE_EMPTY_CONDITION)));
-		this.getSceneElements().add(bse);
+		//this.getSceneElements().add(bse);
 		
 		EAdTimerEvent timerEvent = new EAdTimerEventImpl("id", timer);
 		bse.getEvents().add(timerEvent);
@@ -264,13 +264,13 @@ public class BasicScene extends EAdSceneImpl implements EAdScene {
 		button.setText(new CaptionImpl(new EAdString("start_ball")));
 		button.setUpNewInstance();
 		button.setPosition(new EAdPosition(Corner.CENTER, 400, 400));
-		getSceneElements().add(button);
+		//getSceneElements().add(button);
 
 		EAdBasicSceneElement ball = new EAdBasicSceneElement("ball");
 		ball.getResources().addAsset(ball.getInitialBundle(), EAdBasicSceneElement.appearance, new ImageImpl("@drawable/soccer-ball.png"));
 		ball.setPosition(new EAdPosition(Corner.CENTER, 300, 300));
 		ball.setScale(0.4f);
-		getSceneElements().add(ball);
+		//getSceneElements().add(ball);
 	
 		FloatVar dirX = new FloatVar("ball_dirX");
 		FloatVar dirY = new FloatVar("ball_dirY");
@@ -328,7 +328,7 @@ public class BasicScene extends EAdSceneImpl implements EAdScene {
 				EAdPosition.Corner.BOTTOM_CENTER, 200, 200));
 		buttonReference.setScale(0.8f);
 		
-		this.getSceneElements().add(buttonReference);
+		//this.getSceneElements().add(buttonReference);
 	}
 
 	private void initPanielActor() {
@@ -429,7 +429,7 @@ public class BasicScene extends EAdSceneImpl implements EAdScene {
 		orientedReference.setInitialOrientation(Orientation.N);
 		orientedReference.setScale(1.0f);
 		
-		this.getSceneElements().add(orientedReference);
+		//this.getSceneElements().add(orientedReference);
 
 	}
 

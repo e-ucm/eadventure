@@ -83,7 +83,7 @@ public class BasicSceneElementRenderer implements
 	public void render(Canvas g, SceneElementGO<?> basicSceneElement,
 			float interpolation, int offsetX, int offsetY) {
 		Canvas g2 = prepareGraphics( g, basicSceneElement );
-		factory.render(g2, basicSceneElement.getAsset(), basicSceneElement.getPosition(), basicSceneElement.getScale(), offsetX, offsetY);
+		factory.render(g2, basicSceneElement.getRenderAsset(), basicSceneElement.getPosition(), basicSceneElement.getScale(), offsetX, offsetY);
 		g2.restore();
 	}
 
@@ -99,7 +99,7 @@ public class BasicSceneElementRenderer implements
 	public void render(Canvas g, SceneElementGO<?> basicSceneElement,
 			EAdPosition position, float scale, int offsetX, int offsetY) {
 		Canvas g2 = prepareGraphics( g, basicSceneElement );
-		factory.render(g2, basicSceneElement.getAsset(), position, scale
+		factory.render(g2, basicSceneElement.getRenderAsset(), position, scale
 				* basicSceneElement.getScale(), offsetX, offsetY);
 		g2.restore();
 	}
@@ -142,7 +142,7 @@ public class BasicSceneElementRenderer implements
 				.getScale());
 		
 		return x > 0 && y > 0
-				&& factory.contains(x, y, basicSceneElement.getAsset());
+				&& factory.contains(x, y, basicSceneElement.getRenderAsset());
 	}
 
 }
