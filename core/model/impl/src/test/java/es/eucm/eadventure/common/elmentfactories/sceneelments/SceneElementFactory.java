@@ -2,7 +2,6 @@ package es.eucm.eadventure.common.elmentfactories.sceneelments;
 
 import es.eucm.eadventure.common.elmentfactories.EAdElementsFactory;
 import es.eucm.eadventure.common.model.effects.EAdEffect;
-import es.eucm.eadventure.common.model.elements.EAdSceneElement;
 import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
 import es.eucm.eadventure.common.model.guievents.impl.EAdMouseEventImpl;
 import es.eucm.eadventure.common.model.params.EAdPosition;
@@ -42,7 +41,7 @@ public class SceneElementFactory {
 	 * @param y
 	 * @return
 	 */
-	public EAdSceneElement createSceneElement(AssetDescriptor appearance1,
+	public EAdBasicSceneElement createSceneElement(AssetDescriptor appearance1,
 			AssetDescriptor appearance2, int x, int y) {
 		EAdBasicSceneElement sceneElement = createSceneElement(appearance1, x,
 				y);
@@ -71,7 +70,7 @@ public class SceneElementFactory {
 	 * @param effect
 	 * @return
 	 */
-	public EAdSceneElement createSceneElement(AssetDescriptor appearance,
+	public EAdBasicSceneElement createSceneElement(AssetDescriptor appearance,
 			int x, int y, EAdEffect effect) {
 		EAdBasicSceneElement sceneElement = this.createSceneElement(appearance,
 				x, y);
@@ -87,12 +86,12 @@ public class SceneElementFactory {
 	 * @param y
 	 * @return
 	 */
-	public EAdSceneElement createSceneElement(String text, int x, int y) {
+	public EAdBasicSceneElement createSceneElement(String text, int x, int y) {
 		return createSceneElement(EAdElementsFactory.getInstance()
 				.getCaptionFactory().createCaption(text), x, y);
 	}
 
-	public EAdSceneElement createSceneElement(String string, int x, int y,
+	public EAdBasicSceneElement createSceneElement(String string, int x, int y,
 			EAdEffect effect) {
 		return createSceneElement(EAdElementsFactory.getInstance()
 				.getCaptionFactory().createCaption(string), x, y, effect);

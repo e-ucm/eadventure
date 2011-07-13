@@ -136,6 +136,8 @@ public abstract class SceneElementGOImpl<T extends EAdSceneElement> extends
 		this.position.setY(valueMap.getValue(element.positionYVar()));
 		this.rotation = valueMap.getValue(element.rotationVar());
 		this.alpha = valueMap.getValue(element.alphaVar());
+		this.orientation = valueMap.getValue(element.orientationVar());
+		this.state = valueMap.getValue(element.stateVar());
 	}
 
 	@Override
