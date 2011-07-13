@@ -65,8 +65,8 @@ public class ShapeFactory {
 
 	public Shape createTriangle(int width, int height) {
 		BezierShape triangle = new BezierShape(width / 2, 0);
-		triangle.lineTo(new EAdPosition(0, height));
 		triangle.lineTo(new EAdPosition(width, height));
+		triangle.lineTo(new EAdPosition(0, height));
 		triangle.close();
 		return triangle;
 	}

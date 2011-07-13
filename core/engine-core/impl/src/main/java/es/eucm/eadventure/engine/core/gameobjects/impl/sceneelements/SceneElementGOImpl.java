@@ -96,7 +96,7 @@ public abstract class SceneElementGOImpl<T extends EAdSceneElement> extends
 		rotation = valueMap.getValue(element.rotationVar());
 		scale = valueMap.getValue(element.scaleVar());
 		alpha = valueMap.getValue(element.alphaVar());
-		orientation = element.getInitialOrientation();
+		orientation = valueMap.getValue(element.orientationVar());
 		state = valueMap.getValue(element.stateVar());
 	}
 
