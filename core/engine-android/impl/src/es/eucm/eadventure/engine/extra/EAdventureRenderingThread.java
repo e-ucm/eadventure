@@ -49,7 +49,8 @@ public class EAdventureRenderingThread extends Thread {
 
     	Bitmap bitmap = Bitmap.createBitmap(platformConfiguration.getWidth(), platformConfiguration.getHeight(), Bitmap.Config.RGB_565);
     	aCanvas = new AndroidCanvas(bitmap);
-    	
+		gui.setCanvas(aCanvas);
+
     	/*
     	 * This is our main activity thread's loop, we go until
     	 * asked to quit.
@@ -77,6 +78,7 @@ public class EAdventureRenderingThread extends Thread {
 	    		Canvas canvas2 = mSurfaceHolder.lockCanvas();                 
 	
 	    		if (canvas2 != null) {
+	    			/*
 	    			aCanvas.drawColor(Color.WHITE);
 					Matrix matrix = new Matrix();		
 					
@@ -88,8 +90,7 @@ public class EAdventureRenderingThread extends Thread {
 					
 					aCanvas.setMatrix(matrix);
 	    			
-					gui.setCanvas(aCanvas);
-	    			gui.commit(0.0f);
+	    			gui.commit(0.0f);*/
 	    			
 	    			synchronized (EAdventureRenderingThread.canvasLock) {
 	    				canvas2.drawBitmap(aCanvas.getBitmap(), 0, 0, new Paint());

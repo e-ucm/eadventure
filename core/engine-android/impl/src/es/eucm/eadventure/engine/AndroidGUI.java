@@ -1,9 +1,16 @@
 package es.eucm.eadventure.engine;
 
+import java.util.logging.Logger;
+
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
+import android.app.ActivityManager;
+import android.app.ActivityManager.MemoryInfo;
 import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Matrix;
+import android.util.Log;
 import es.eucm.eadventure.common.resources.assets.drawable.Image;
 import es.eucm.eadventure.engine.core.KeyboardState;
 import es.eucm.eadventure.engine.core.MouseState;
@@ -53,6 +60,8 @@ public class AndroidGUI extends AbstractGUI<Canvas> {
 		
 		if (canvas != null) {
 			synchronized(EAdventureRenderingThread.canvasLock) {
+				//canvas.drawColor(Color.WHITE);
+				
 				render(canvas, interpolation);
 			}
 		}
@@ -66,6 +75,17 @@ public class AndroidGUI extends AbstractGUI<Canvas> {
 
 	public void setCanvas(AndroidCanvas aCanvas) {
 		this.canvas = aCanvas;
+		
+		Matrix matrix = new Matrix();		
+		
+		if (platformConfiguration.isFullscreen())
+			matrix.preScale((float) ((AndroidPlatformConfiguration) platformConfiguration).getScaleW(),
+				(float) platformConfiguration.getScale());
+		else matrix.preScale((float) platformConfiguration.getScale(),
+				(float) platformConfiguration.getScale()); 
+		
+		canvas.setMatrix(matrix);
+
 	}
 
 }

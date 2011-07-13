@@ -5,7 +5,9 @@ import com.google.inject.Injector;
 
 import es.eucm.eadventure.common.elmentfactories.scenedemos.BasicScene;
 import es.eucm.eadventure.common.elmentfactories.scenedemos.ShapeScene;
+import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
 import es.eucm.eadventure.common.model.elements.impl.EAdSceneImpl;
+import es.eucm.eadventure.common.resources.assets.drawable.impl.ImageImpl;
 import es.eucm.eadventure.engine.core.GameController;
 import es.eucm.eadventure.engine.core.MouseState;
 import es.eucm.eadventure.engine.core.impl.LoadingScreen;
@@ -61,10 +63,10 @@ public class EAdventureEngineActivity extends Activity {
 
 		LoadingScreen loadingScreen = injector.getInstance(LoadingScreen.class);
 
-		//EAdSceneImpl sceneImpl = new EAdSceneImpl("scene");
-		//sceneImpl.getBackground().getResources().addAsset(sceneImpl.getBackground().getInitialBundle(), EAdBasicSceneElement.appearance, new ImageImpl("@drawable/background1.png"));
+		EAdSceneImpl sceneImpl = new EAdSceneImpl("scene");
+		sceneImpl.getBackground().getResources().addAsset(sceneImpl.getBackground().getInitialBundle(), EAdBasicSceneElement.appearance, new ImageImpl("@drawable/background1.png"));
 
-		EAdSceneImpl sceneImpl = new BasicScene();
+		//EAdSceneImpl sceneImpl = new BasicScene();
 		
 		loadingScreen.setInitialScreen(sceneImpl);
 
