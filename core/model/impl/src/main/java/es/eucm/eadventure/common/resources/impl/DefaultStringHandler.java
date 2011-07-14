@@ -37,9 +37,12 @@
 
 package es.eucm.eadventure.common.resources.impl;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Random;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.google.inject.Inject;
@@ -60,6 +63,11 @@ public class DefaultStringHandler implements StringHandler {
 	private Map<EAdString, String> cache;
 
 	/**
+	 * List to store missing strings in the game
+	 */
+	private List<EAdString> missingStrings;
+	
+	/**
 	 * Logger
 	 */
 	private static final Logger logger = Logger
@@ -68,14 +76,16 @@ public class DefaultStringHandler implements StringHandler {
 	@Inject
 	public DefaultStringHandler() {
 		this.cache = new HashMap<EAdString, String>();
+		this.missingStrings = new ArrayList<EAdString>();
 	}
 
 	@Override
 	public String getString(EAdString eAdString) {
 		String string = cache.get(eAdString);
-		if (string == null) {
-			logger.info("Missing engine string " + eAdString);
-			return "Missing " + eAdString;
+		if (string == null && !missingStrings.contains(eAdString)) {
+			logger.log(Level.SEVERE, "Missing engine string " + eAdString);
+			missingStrings.add(eAdString);
+			return "ERR:" + eAdString;
 		}
 		return string;
 	}

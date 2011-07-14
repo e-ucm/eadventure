@@ -4,6 +4,7 @@ import com.google.inject.Guice;
 import com.google.inject.Injector;
 
 import es.eucm.eadventure.common.elmentfactories.scenedemos.BasicScene;
+import es.eucm.eadventure.common.elmentfactories.scenedemos.CharacterScene;
 import es.eucm.eadventure.common.elmentfactories.scenedemos.ShapeScene;
 import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
 import es.eucm.eadventure.common.model.elements.impl.EAdSceneImpl;
@@ -66,7 +67,7 @@ public class EAdventureEngineActivity extends Activity {
 		EAdSceneImpl sceneImpl = new EAdSceneImpl("scene");
 		sceneImpl.getBackground().getResources().addAsset(sceneImpl.getBackground().getInitialBundle(), EAdBasicSceneElement.appearance, new ImageImpl("@drawable/background1.png"));
 
-		//EAdSceneImpl sceneImpl = new BasicScene();
+		sceneImpl = new CharacterScene();
 		
 		loadingScreen.setInitialScreen(sceneImpl);
 
