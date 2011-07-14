@@ -74,9 +74,10 @@ public class MoveSceneElementGO extends AbstractEffectGO<EAdMoveSceneElement> {
 	public MoveSceneElementGO(AssetHandler assetHandler,
 			StringHandler stringHandler, GameObjectFactory gameObjectFactory,
 			GUI gui, GameState gameState, ValueMap valueMap,
-			PlatformConfiguration platformConfiguration, OperatorFactory operatorFactory) {
-		super(assetHandler, stringHandler, gameObjectFactory, gui, gameState, valueMap,
-				platformConfiguration);
+			PlatformConfiguration platformConfiguration,
+			OperatorFactory operatorFactory) {
+		super(assetHandler, stringHandler, gameObjectFactory, gui, gameState,
+				valueMap, platformConfiguration);
 		this.operatorFactory = operatorFactory;
 	}
 
@@ -91,25 +92,32 @@ public class MoveSceneElementGO extends AbstractEffectGO<EAdMoveSceneElement> {
 		int x = valueMap.getValue(element.getSceneElement().positionXVar());
 		int y = valueMap.getValue(element.getSceneElement().positionYVar());
 
-		int targetX = this.operatorFactory.operate(new IntegerVar(" "), effect.getXTarget());
-		int targetY = this.operatorFactory.operate(new IntegerVar(" "), effect.getYTarget());
-		
+		int targetX = this.operatorFactory.operate(new IntegerVar(" "),
+				effect.getXTarget());
+		int targetY = this.operatorFactory.operate(new IntegerVar(" "),
+				effect.getYTarget());
+
 		float distance = (float) Math.sqrt(Math.pow(x - targetX, 2)
 				+ Math.pow(y - targetY, 2));
 
 		if (effect.getSpeed() != EAdMoveSceneElement.MovementSpeed.INSTANT) {
 			int timeToFinish = Math.round((distance * 1000 / PIXELS_PER_SECOND)
 					* effect.getSpeed().getSpeedFactor());
-	
-			
-			EAdVarInterpolationEffect interpolationX = new EAdVarInterpolationEffect("interpolationX", a.getElement().positionXVar(), x,
-					targetX, timeToFinish, LoopType.NO_LOOP);
-			EAdVarInterpolationEffect interpolationY = new EAdVarInterpolationEffect("interpolationY", a.getElement().positionYVar(), y,
-					targetY, timeToFinish, LoopType.NO_LOOP);
-			
-			gameState.addEffect(interpolationX);
-			gameState.addEffect(interpolationY);
-	
+
+			if (targetX != x) {
+				EAdVarInterpolationEffect interpolationX = new EAdVarInterpolationEffect(
+						"interpolationX", a.getElement().positionXVar(), x,
+						targetX, timeToFinish, LoopType.NO_LOOP);
+				gameState.addEffect(interpolationX);
+			}
+
+			if (targetY != y) {
+				EAdVarInterpolationEffect interpolationY = new EAdVarInterpolationEffect(
+						"interpolationY", a.getElement().positionYVar(), y,
+						targetY, timeToFinish, LoopType.NO_LOOP);
+				gameState.addEffect(interpolationY);
+			}
+
 			updateDirection(a, x, targetX, y, targetY);
 		} else {
 			valueMap.setValue(a.getElement().positionXVar(), targetX);

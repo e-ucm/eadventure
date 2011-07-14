@@ -83,6 +83,10 @@ public class ComplexSceneElementGO extends
 
 	public void setElement(EAdComplexSceneElement basicSceneElement) {
 		super.setElement(basicSceneElement);
+		for (EAdSceneElement sceneElement : element.getComponents()) {
+ 			SceneElementGO<?> go = (SceneElementGO<?>) gameObjectFactory.get(sceneElement);
+ 			go.getRenderAsset();
+		}
 	}
 
 	@Override
@@ -108,6 +112,7 @@ public class ComplexSceneElementGO extends
 
 	@Override
 	public void doLayout(int offsetX, int offsetY) {
+		updateDimensions();
 		int newOffsetX = offsetX + this.getPosition().getJavaX(getWidth());
 		int newOffsetY = offsetY + this.getPosition().getJavaY(getHeight());
 		for (EAdSceneElement sceneElement : element.getComponents()) {
@@ -115,6 +120,29 @@ public class ComplexSceneElementGO extends
  			if (go.isVisible())
  				gui.addElement(go, newOffsetX, newOffsetY);
 		}
+	}
+
+	private void updateDimensions() {
+		int minX = Integer.MAX_VALUE;
+		int minY = minX;
+		int maxX = Integer.MIN_VALUE;
+		int maxY = maxX;
+		for (EAdSceneElement sceneElement : element.getComponents()) {
+ 			SceneElementGO<?> go = (SceneElementGO<?>) gameObjectFactory.get(sceneElement);
+ 			int xLeft = go.getPosition().getJavaX(go.getWidth());
+ 			int xRight = xLeft + go.getWidth();
+ 			int yTop = go.getPosition().getJavaY(go.getHeight());
+ 			int yBottom = yTop + go.getHeight();
+ 			
+ 			minX = xLeft < minX ? xLeft : minX;
+ 			maxX = xRight > maxX ? xRight : maxX;
+ 			minY = yTop < minY ? yTop : minY;
+ 			maxY = yBottom >  maxY ? yBottom : maxY;
+		}
+		
+		this.setWidth(maxX - minX);
+		this.setHeight(maxY - minY);
+		
 	}
 
 	@Override

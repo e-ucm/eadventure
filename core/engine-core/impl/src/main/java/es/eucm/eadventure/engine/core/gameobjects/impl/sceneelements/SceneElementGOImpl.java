@@ -135,6 +135,9 @@ public abstract class SceneElementGOImpl<T extends EAdSceneElement> extends
 		alpha = valueMap.getValue(element.alphaVar());
 		orientation = valueMap.getValue(element.orientationVar());
 		state = valueMap.getValue(element.stateVar());
+		
+		// To load dimensions
+		getRenderAsset();
 	}
 
 	@Override

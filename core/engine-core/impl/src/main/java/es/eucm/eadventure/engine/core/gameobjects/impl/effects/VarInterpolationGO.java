@@ -37,6 +37,8 @@
 
 package es.eucm.eadventure.engine.core.gameobjects.impl.effects;
 
+import java.util.logging.Logger;
+
 import com.google.inject.Inject;
 
 import es.eucm.eadventure.common.model.effects.impl.EAdVarInterpolationEffect;
@@ -54,6 +56,8 @@ import es.eucm.eadventure.engine.core.platform.PlatformConfiguration;
 
 public class VarInterpolationGO extends
 		AbstractEffectGO<EAdVarInterpolationEffect> {
+	
+	private static Logger logger = Logger.getLogger("VarInterpolationGO");
 
 	private int currentTime;
 
@@ -62,18 +66,21 @@ public class VarInterpolationGO extends
 	private boolean integer;
 
 	private boolean finished;
-	
+
 	private OperatorFactory operatorFactory;
 
 	private float startValue;
+
+	private float endValue;
 
 	@Inject
 	public VarInterpolationGO(AssetHandler assetHandler,
 			StringHandler stringHandler, GameObjectFactory gameObjectFactory,
 			GUI gui, GameState gameState, ValueMap valueMap,
-			PlatformConfiguration platformConfiguration, OperatorFactory operatorFactory) {
-		super(assetHandler, stringHandler, gameObjectFactory, gui, gameState, valueMap,
-				platformConfiguration);
+			PlatformConfiguration platformConfiguration,
+			OperatorFactory operatorFactory) {
+		super(assetHandler, stringHandler, gameObjectFactory, gui, gameState,
+				valueMap, platformConfiguration);
 		this.operatorFactory = operatorFactory;
 	}
 
@@ -82,10 +89,13 @@ public class VarInterpolationGO extends
 		super.initilize();
 		currentTime = 0;
 		integer = element.getVar().getType().equals(Integer.class);
-		startValue = operatorFactory.operate(new IntegerVar(" "), element.getInitialValue());
-		float endValue = operatorFactory.operate(new IntegerVar(" "), element.getEndValue());
+		startValue = operatorFactory.operate(new IntegerVar(" "),
+				element.getInitialValue());
+		endValue = operatorFactory.operate(new IntegerVar(" "),
+				element.getEndValue());
 		interpolationLength = endValue - startValue;
 		finished = false;
+		logger.info(element.getVar() + " is going to be inerpolated from " + startValue + " to " + endValue );
 
 		operatorFactory.operate(element.getVar(), element.getInitialValue());
 	}
@@ -114,23 +124,32 @@ public class VarInterpolationGO extends
 			default:
 				currentTime = element.getInterpolationTime();
 				finished = true;
-				break;
+				if (integer)
+					valueMap.setValue((EAdVar<Integer>) element.getVar(),
+							Math.round(endValue) );
+				else
+					valueMap.setValue((EAdVar<Float>) element.getVar(),
+							(Float) endValue );
+				
+				logger.info(element.getVar().toString() + " set to " + endValue );
 			}
-		}
+		} else {
 
-		//TODO this should be done "automatically"
-		if (integer)
-			valueMap.setValue((EAdVar<Integer>) element.getVar(),
-					(Integer) interpolation());
-		else
-			valueMap.setValue((EAdVar<Float>) element.getVar(),
-					(Float) interpolation());
+			// TODO this should be done "automatically"
+			if (integer)
+				valueMap.setValue((EAdVar<Integer>) element.getVar(),
+						(Integer) interpolation());
+			else
+				valueMap.setValue((EAdVar<Float>) element.getVar(),
+						(Float) interpolation());
+		}
 	}
 
 	public Object interpolation() {
-		float f = startValue + (float) currentTime / element.getInterpolationTime() * interpolationLength;
+		float f = startValue + (float) currentTime
+				/ element.getInterpolationTime() * interpolationLength;
 		if (integer)
-			return new Integer((int) f);
+			return new Integer( Math.round(f) );
 		else
 			return new Float(f);
 
