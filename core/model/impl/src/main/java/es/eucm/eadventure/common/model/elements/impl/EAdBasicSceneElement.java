@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import es.eucm.eadventure.common.interfaces.Element;
-import es.eucm.eadventure.common.interfaces.Oriented;
 import es.eucm.eadventure.common.interfaces.Oriented.Orientation;
 import es.eucm.eadventure.common.interfaces.Param;
 import es.eucm.eadventure.common.model.conditions.impl.EmptyCondition;
@@ -12,6 +11,7 @@ import es.eucm.eadventure.common.model.elements.EAdCondition;
 import es.eucm.eadventure.common.model.elements.EAdSceneElement;
 import es.eucm.eadventure.common.model.params.EAdPosition;
 import es.eucm.eadventure.common.model.variables.EAdVar;
+import es.eucm.eadventure.common.model.variables.impl.EAdVarImpl;
 import es.eucm.eadventure.common.model.variables.impl.vars.BooleanVar;
 import es.eucm.eadventure.common.model.variables.impl.vars.FloatVar;
 import es.eucm.eadventure.common.model.variables.impl.vars.IntegerVar;
@@ -26,9 +26,6 @@ public class EAdBasicSceneElement extends AbstractEAdElementWithBehavior
 
 	@Param("position")
 	private EAdPosition position;
-
-	@Param("orientation")
-	private Oriented.Orientation orientation;
 
 	@Param("draggable")
 	private EAdCondition draggable;
@@ -56,6 +53,8 @@ public class EAdBasicSceneElement extends AbstractEAdElementWithBehavior
 	protected FloatVar scale = new FloatVar("scale", this);
 
 	protected StringVar state = new StringVar("state", this);
+	
+	protected EAdVar<Orientation> orientation = new EAdVarImpl<Orientation>(Orientation.class, "orientation", this);
 
 	private boolean clone;
 
@@ -64,7 +63,7 @@ public class EAdBasicSceneElement extends AbstractEAdElementWithBehavior
 		setScale(1.0f);
 		clone = false;
 		setPosition(new EAdPosition(0, 0));
-		setInitialOrientation(Orientation.SOUTH);
+		setInitialOrientation(Orientation.S);
 		draggable = EmptyCondition.FALSE_EMPTY_CONDITION;
 		visible.setInitialValue(Boolean.TRUE);
 		alpha.setInitialValue(1.0f);
@@ -79,6 +78,7 @@ public class EAdBasicSceneElement extends AbstractEAdElementWithBehavior
 		vars.add(alpha);
 		vars.add(scale);
 		vars.add(state);
+		vars.add(orientation);
 	}
 
 	@Override
@@ -105,11 +105,6 @@ public class EAdBasicSceneElement extends AbstractEAdElementWithBehavior
 		this.scale.setInitialValue(scale);
 	}
 
-	@Override
-	public Orientation getInitialOrientation() {
-		return orientation;
-	}
-
 	/**
 	 * Sets the initial orientation for the actor reference
 	 * 
@@ -117,7 +112,7 @@ public class EAdBasicSceneElement extends AbstractEAdElementWithBehavior
 	 *            the orientation
 	 */
 	public void setInitialOrientation(Orientation orientation) {
-		this.orientation = orientation;
+		this.orientation.setInitialValue(orientation);
 
 	}
 
@@ -192,6 +187,11 @@ public class EAdBasicSceneElement extends AbstractEAdElementWithBehavior
 	@Override
 	public List<EAdVar<?>> getVars() {
 		return vars;
+	}
+
+	@Override
+	public EAdVar<Orientation> orientationVar() {
+		return orientation;
 	}
 
 }

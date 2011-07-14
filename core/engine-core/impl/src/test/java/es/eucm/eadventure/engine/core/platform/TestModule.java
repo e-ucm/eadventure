@@ -46,8 +46,8 @@ import com.google.inject.name.Names;
 
 import es.eucm.eadventure.common.resources.StringHandler;
 import es.eucm.eadventure.common.resources.assets.AssetDescriptor;
-import es.eucm.eadventure.common.resources.assets.drawable.BundledDrawable;
-import es.eucm.eadventure.common.resources.assets.drawable.animation.impl.BundledDrawableImpl;
+import es.eucm.eadventure.common.resources.assets.drawable.StateDrawable;
+import es.eucm.eadventure.common.resources.assets.drawable.animation.impl.StateDrawableImpl;
 import es.eucm.eadventure.common.resources.assets.drawable.animation.impl.FramesAnimation;
 import es.eucm.eadventure.common.resources.impl.DefaultStringHandler;
 import es.eucm.eadventure.engine.core.KeyboardState;
@@ -88,8 +88,8 @@ public class TestModule extends AbstractModule {
 		bind( new TypeLiteral<Map<Class<? extends AssetDescriptor>, Class<? extends RuntimeAsset<?>>>>( ) {} ).toInstance( map );
 
 		map.put(FramesAnimation.class, RuntimeFramesAnimation.class);
-		map.put(BundledDrawableImpl.class, RuntimeBundledAnimation.class);
-		map.put(BundledDrawable.class, RuntimeBundledAnimation.class);
+		map.put(StateDrawableImpl.class, RuntimeBundledAnimation.class);
+		map.put(StateDrawable.class, RuntimeBundledAnimation.class);
 	}
 
 	protected void configureAssetRenderer() {

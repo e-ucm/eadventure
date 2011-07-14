@@ -48,6 +48,11 @@ import es.eucm.eadventure.common.model.EAdList;
  */
 public interface ComposedDrawable extends Drawable {
 
+	/**
+	 * A list with the {@link Drawable} compounding this element
+	 * 
+	 * @return
+	 */
 	EAdList<Drawable> getAssetList();
 
 }

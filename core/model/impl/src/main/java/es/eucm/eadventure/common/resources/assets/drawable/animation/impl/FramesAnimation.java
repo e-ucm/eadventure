@@ -41,22 +41,46 @@ import es.eucm.eadventure.common.model.EAdList;
 import es.eucm.eadventure.common.model.impl.EAdListImpl;
 import es.eucm.eadventure.common.resources.assets.drawable.Drawable;
 
+/**
+ * Represents a frames animation. Contains frames
+ * 
+ */
 public class FramesAnimation implements Drawable {
 
 	private EAdList<Frame> frames;
-	
+
+	/**
+	 * Constructs an empty animation
+	 */
 	public FramesAnimation() {
 		frames = new EAdListImpl<Frame>(Frame.class);
 	}
-	
+
+	/**
+	 * Adds a frame to the and of the animation
+	 * 
+	 * @param frame
+	 */
 	public void addFrame(Frame frame) {
 		frames.add(frame);
 	}
-	
+
+	/**
+	 * Returns the frame situated at the given index
+	 * 
+	 * @param index
+	 *            index
+	 * @return the frame at the index
+	 */
 	public Frame getFrame(int index) {
 		return frames.get(index);
 	}
-	
+
+	/**
+	 * Returns the total number of frames of this animation
+	 * 
+	 * @return the number of frames
+	 */
 	public int getFrameCount() {
 		return frames.size();
 	}

@@ -38,13 +38,17 @@
 package es.eucm.eadventure.common.resources.assets.drawable.animation.impl;
 
 import es.eucm.eadventure.common.interfaces.Param;
-import es.eucm.eadventure.common.resources.assets.drawable.Image;
 import es.eucm.eadventure.common.resources.assets.drawable.impl.ImageImpl;
 
-public class Frame extends ImageImpl implements Image {
+/**
+ * 
+ * Represents a frame within a {@link FramesAnimation}
+ * 
+ */
+public class Frame extends ImageImpl {
 
 	/**
-	 * Default frame time in milliseconds
+	 * Default frame time in milliseconds, with a value of 300 ms
 	 */
 	public static final int DEFAULT_FRAME_TIME = 300;
 
@@ -54,33 +58,29 @@ public class Frame extends ImageImpl implements Image {
 	@Param("time")
 	private int time;
 
+	/**
+	 * Constructs a frame with the given image. Sets the frame time to
+	 * {@link Frame#DEFAULT_FRAME_TIME}
+	 * 
+	 * @param uri
+	 *            the uri to the image for the frame
+	 */
 	public Frame(String uri) {
 		super(uri);
 		this.time = DEFAULT_FRAME_TIME;
 	}
 
+	/**
+	 * Constructs a frame with the given image and time.
+	 * 
+	 * @param uri
+	 *            the uri to the image for the frame
+	 * @param time
+	 *            the time for the frame
+	 */
 	public Frame(String uri, int time) {
 		super(uri);
 		this.time = time;
-	}
-
-	/**
-	 * Constructor for {@link Frame}
-	 * 
-	 * @param time
-	 *            Time for this frame, in milliseconds
-	 */
-	public Frame(int time) {
-		this.time = time;
-	}
-
-	/**
-	 * Constructor for {@link Frame} . Sets frame time to
-	 * <i>DEFAULT_FRAME_TIME</i>.
-	 * 
-	 */
-	public Frame() {
-		this(DEFAULT_FRAME_TIME);
 	}
 
 	/**

@@ -244,7 +244,7 @@ public class AndroidBasicInventoryGO extends BasicInventoryGO {
 				includedActors.put(actor, ref);
 				inventoryContent.getComponents().add(ref);
 				SceneElementGO<?> go = (SceneElementGO<?>) gameObjectFactory.get(ref);
-				int maxSide = Math.max(go.getAsset().getHeight(), go.getAsset().getWidth());
+				int maxSide = Math.max(go.getRenderAsset().getHeight(), go.getRenderAsset().getWidth());
 				float scale = (float) INVENTORY_HEIGHT / maxSide;
 				go.setScale(scale);
 			}

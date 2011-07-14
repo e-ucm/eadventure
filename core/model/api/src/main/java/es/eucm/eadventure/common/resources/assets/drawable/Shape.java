@@ -42,22 +42,34 @@ import es.eucm.eadventure.common.model.params.EAdBorderedColor;
 public interface Shape extends Drawable {
 
 	/**
-	 * <p>Return the color with which to draw the shape.</p>
-	 * <p>The color can have alpha = 0 if the shape is expected to be invisible.
-	 * As it uses {@link EAdBorderedColor} it can be used to paint just the outline
-	 * of the shape.</p>
+	 * <p>
+	 * Return the color with which to draw the shape.
+	 * </p>
+	 * <p>
+	 * The color can have alpha = 0 if the shape is expected to be invisible. As
+	 * it uses {@link EAdBorderedColor} it can be used to paint just the outline
+	 * of the shape.
+	 * </p>
 	 * 
 	 * @return The color of the shape
 	 */
 	EAdBorderedColor getColor();
-	
+
 	/**
-	 * <p>Return the width, in resolution independent pixels, of the border</p>
+	 * <p>
+	 * Return the width, in resolution independent pixels, of the border
+	 * </p>
 	 * 
 	 * @return the pixels of the border
 	 */
 	int getBorderWidth();
 
-	void setColor(EAdBorderedColor blackOnWhite);
-	
+	/**
+	 * Sets the color for the shape
+	 * 
+	 * @param color
+	 *            the color
+	 */
+	void setColor(EAdBorderedColor color);
+
 }

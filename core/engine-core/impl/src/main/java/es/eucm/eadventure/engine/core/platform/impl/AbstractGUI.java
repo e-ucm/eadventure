@@ -37,7 +37,6 @@
 
 package es.eucm.eadventure.engine.core.platform.impl;
 
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import es.eucm.eadventure.common.model.elements.EAdSceneElement;

@@ -20,13 +20,6 @@ public interface EAdSceneElement extends EAdElement, Positioned {
 	EAdVar<Float> scaleVar();
 
 	/**
-	 * Returns initial orientation for this actor reference
-	 * 
-	 * @return initial orientation for this actor reference
-	 */
-	Orientation getInitialOrientation();
-
-	/**
 	 * Returns the runtime variable holding the x position of the scene element
 	 * 
 	 * @return the runtime variable holding the x position of the scene element
@@ -103,6 +96,13 @@ public interface EAdSceneElement extends EAdElement, Positioned {
 	 * @return if this element must be cloned whenever is added to the game
 	 */
 	boolean isClone();
+
+	/**
+	 * Returns the orientation var
+	 * 
+	 * @return
+	 */
+	EAdVar<Orientation> orientationVar();
 
 	/**
 	 * Returns a list of all vars of this scene element

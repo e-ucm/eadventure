@@ -61,7 +61,7 @@ public interface ActorReferenceGO extends GameObject<EAdActorReference>, Oriente
 
 	EAdString getName();
 	
-	RuntimeAsset<?> getAsset();
+	RuntimeAsset<?> getRenderAsset();
 	
 	int getWidth();
 	

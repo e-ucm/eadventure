@@ -10,7 +10,9 @@ import es.eucm.eadventure.common.model.effects.impl.text.EAdShowQuestion;
 import es.eucm.eadventure.common.model.effects.impl.text.EAdShowText;
 import es.eucm.eadventure.common.model.effects.impl.text.EAdShowText.ShowTextAnimation;
 import es.eucm.eadventure.common.model.effects.impl.text.extra.Answer;
+import es.eucm.eadventure.common.model.effects.impl.variables.EAdChangeVarValueEffect;
 import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
+import es.eucm.eadventure.common.model.variables.EAdOperation;
 import es.eucm.eadventure.common.model.variables.EAdVar;
 import es.eucm.eadventure.common.resources.EAdBundleId;
 import es.eucm.eadventure.common.resources.assets.drawable.Caption;
@@ -79,6 +81,13 @@ public class EffectFactory {
 
 	public EAdShowText getShowText(String text, int x, int y) {
 		return this.getShowText(text, x, y, ShowTextAnimation.NONE);
+	}
+
+	public EAdChangeVarValueEffect getChangeVarValueEffect(EAdVar<?> var,
+			EAdOperation operation) {
+		EAdChangeVarValueEffect effect = new EAdChangeVarValueEffect( "changeVarValue" + ID_GENERATOR++, var, operation );
+		return effect;
+		
 	}
 
 }

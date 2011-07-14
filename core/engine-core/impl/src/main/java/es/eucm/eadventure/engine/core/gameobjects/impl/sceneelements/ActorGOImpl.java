@@ -98,17 +98,6 @@ public class ActorGOImpl extends AbstractGameObject<EAdActor> implements
 	@Override
 	public EAdString getName() {
 		return element.getName();
-	} 
-	
-	@Override
-	public void update(GameState state) {
-		super.update(state);
-		RuntimeAsset<?> asset = assetHandler.getRuntimeAsset(
-				getElement(), getCurrentBundle(),
-				EAdBasicActor.appearance);
-		if (asset != null) {
-			asset.update(state);
-		}
 	}
 
 	@Override

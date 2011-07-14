@@ -53,7 +53,6 @@ import es.eucm.eadventure.engine.core.platform.impl.gameobjectrenderers.MenuHUDG
 import es.eucm.eadventure.engine.core.platform.impl.gameobjectrenderers.SceneGORenderer;
 import es.eucm.eadventure.engine.core.platform.impl.gameobjectrenderers.TransitionGORenderer;
 import es.eucm.eadventure.engine.core.platform.impl.gameobjectrenderers.VideoSceneGORenderer;
-import es.eucm.eadventure.engine.core.platform.impl.specialassetrenderers.DesktopVideoRenderer;
 import es.eucm.eadventure.engine.core.platform.impl.specialassetrenderers.VLCDesktopVideoRenderer;
 
 @Singleton
