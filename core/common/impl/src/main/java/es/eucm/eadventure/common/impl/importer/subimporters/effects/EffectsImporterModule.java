@@ -47,6 +47,7 @@ import com.google.inject.name.Names;
 
 import es.eucm.eadventure.common.EAdElementImporter;
 import es.eucm.eadventure.common.data.chapter.effects.ActivateEffect;
+import es.eucm.eadventure.common.data.chapter.effects.CancelActionEffect;
 import es.eucm.eadventure.common.data.chapter.effects.DeactivateEffect;
 import es.eucm.eadventure.common.data.chapter.effects.DecrementVarEffect;
 import es.eucm.eadventure.common.data.chapter.effects.IncrementVarEffect;
@@ -92,6 +93,7 @@ public class EffectsImporterModule extends AbstractModule implements MapProvider
 		factoryMap.put(SpeakPlayerEffect.class, SpeakPlayerEffectImporter.class);
 		factoryMap.put(SpeakCharEffect.class, SpeakCharEffectImporter.class);
 		factoryMap.put(MacroReferenceEffect.class, TriggerMacroImporter.class);
+		factoryMap.put(CancelActionEffect.class, CancelActionEffectImporter.class);
 		
 	}
 	

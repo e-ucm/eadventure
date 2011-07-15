@@ -130,7 +130,7 @@ public abstract class ActorImporter<P extends Element> implements
 				addExamine = false;
 
 			EAdAction action = actionImporter.init(a);
-			action = actionImporter.convert(a, action);
+			action = ((ActionImporter) actionImporter).convert(a, action, actor);
 			actor.getActions().add(action);
 		}
 

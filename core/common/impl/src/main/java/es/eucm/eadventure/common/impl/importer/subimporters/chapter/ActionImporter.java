@@ -37,7 +37,9 @@
 
 package es.eucm.eadventure.common.impl.importer.subimporters.chapter;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import com.google.inject.Inject;
@@ -46,12 +48,17 @@ import es.eucm.eadventure.common.EAdElementImporter;
 import es.eucm.eadventure.common.data.chapter.Action;
 import es.eucm.eadventure.common.data.chapter.CustomAction;
 import es.eucm.eadventure.common.data.chapter.conditions.Conditions;
+import es.eucm.eadventure.common.data.chapter.effects.AbstractEffect;
+import es.eucm.eadventure.common.data.chapter.effects.CancelActionEffect;
 import es.eucm.eadventure.common.data.chapter.effects.Effect;
 import es.eucm.eadventure.common.impl.importer.interfaces.EffectsImporterFactory;
 import es.eucm.eadventure.common.impl.importer.interfaces.ResourceImporter;
 import es.eucm.eadventure.common.model.actions.EAdAction;
 import es.eucm.eadventure.common.model.actions.impl.EAdBasicAction;
 import es.eucm.eadventure.common.model.effects.EAdEffect;
+import es.eucm.eadventure.common.model.effects.impl.EAdModifyActorState;
+import es.eucm.eadventure.common.model.effects.impl.EAdModifyActorState.Modification;
+import es.eucm.eadventure.common.model.elements.EAdActor;
 import es.eucm.eadventure.common.model.elements.EAdCondition;
 import es.eucm.eadventure.common.resources.EAdBundleId;
 import es.eucm.eadventure.common.resources.EAdString;
@@ -92,6 +99,10 @@ public class ActionImporter implements EAdElementImporter<Action, EAdAction> {
 
 	@Override
 	public EAdAction convert(Action oldObject, Object object) {
+		return null;
+	}
+	
+	public EAdAction convert(Action oldObject, Object object, EAdActor actor) {
 		EAdBasicAction action = (EAdBasicAction) object;
 
 		EAdCondition condition = conditionsImporter.init(oldObject
@@ -160,7 +171,10 @@ public class ActionImporter implements EAdElementImporter<Action, EAdAction> {
 							EAdBasicAction.appearance,
 							new ImageImpl(getHighlightDrawablePath(oldObject
 									.getType())));
-			//TODO should add default effects (e.g. grab should place in inventory, if there is no cancel effect?)
+			
+			List<EAdEffect> list = getEffects(oldObject.getType(), oldObject.getEffects().getEffects(), actor);
+			for (EAdEffect e : list)
+				action.getEffects().add(e);
 		}
 
 		return action;
@@ -189,6 +203,31 @@ public class ActionImporter implements EAdElementImporter<Action, EAdAction> {
 		image = DRAWABLE_PATH + image;
 
 		return image;
+	}
+	
+	public static List<EAdEffect> getEffects(int actionType, List<AbstractEffect> originalList, EAdActor actor) {
+		List<EAdEffect> list = new ArrayList<EAdEffect>();
+		for (AbstractEffect e : originalList)
+			if (e instanceof CancelActionEffect)
+				return list;
+		switch (actionType) {
+		case Action.GRAB:
+			EAdModifyActorState modifyState = new EAdModifyActorState("grabEffect", actor, Modification.PLACE_IN_INVENTORY);
+			list.add(modifyState);
+			break;
+		case Action.DRAG_TO:
+		case Action.GIVE_TO:
+		case Action.USE:
+			//TODO
+		case Action.USE_WITH:
+			//TODO
+		case Action.EXAMINE:
+			//TODO
+		case Action.TALK_TO:
+			//TODO
+		default:
+		}
+		return list;
 	}
 
 	public static String getHighlightDrawablePath(int actionType) {
