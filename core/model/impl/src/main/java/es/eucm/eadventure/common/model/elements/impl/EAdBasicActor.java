@@ -50,7 +50,7 @@ import es.eucm.eadventure.common.resources.annotation.Bundled;
 import es.eucm.eadventure.common.resources.assets.drawable.Drawable;
 
 @Element(runtime = EAdBasicActor.class, detailed = EAdBasicActor.class)
-public class EAdBasicActor extends AbstractEAdElement implements EAdActor {
+public class EAdBasicActor extends EAdBasicSceneElement implements EAdActor {
 
 	private EAdList<EAdAction> actions;
 

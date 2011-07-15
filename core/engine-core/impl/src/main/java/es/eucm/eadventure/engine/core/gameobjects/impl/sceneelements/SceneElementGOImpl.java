@@ -85,7 +85,7 @@ public abstract class SceneElementGOImpl<T extends EAdSceneElement> extends
 
 	private int height;
 
-	private float alpha;
+	protected float alpha;
 
 	protected boolean visible;
 

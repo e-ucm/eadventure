@@ -37,14 +37,13 @@
 
 package es.eucm.eadventure.common.model.elements;
 
-import es.eucm.eadventure.common.model.EAdElement;
 import es.eucm.eadventure.common.resources.EAdString;
 
 /**
  * Actor in the eAdventure model. Actors are reusable elements, placed in
  * eAdventure scene.
  */
-public interface EAdActor extends EAdElement {
+public interface EAdActor extends EAdSceneElement {
 
 	/**
 	 * Returns actor's name
