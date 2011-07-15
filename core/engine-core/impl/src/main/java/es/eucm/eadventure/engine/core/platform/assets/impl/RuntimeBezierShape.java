@@ -72,6 +72,7 @@ public abstract class RuntimeBezierShape extends AbstractRuntimeAsset<BezierShap
 		
 		width = xMax - xMin;
 		height = yMax - yMin;
+		loaded = true;
 		return true;
 	}
 	
