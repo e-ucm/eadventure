@@ -70,7 +70,7 @@ public class EAdBasicSceneElement extends AbstractEAdElementWithBehavior
 	@Bundled
 	@Asset({ Drawable.class })
 	public static final String appearance = "appearance";
-	
+
 	private List<EAdVar<?>> vars;
 
 	protected IntegerVar positionX = new IntegerVar("positionX", this);
@@ -86,12 +86,13 @@ public class EAdBasicSceneElement extends AbstractEAdElementWithBehavior
 	protected FloatVar rotation = new FloatVar("roation", this);
 
 	protected FloatVar alpha = new FloatVar("alpha", this);
-	
+
 	protected FloatVar scale = new FloatVar("scale", this);
 
 	protected StringVar state = new StringVar("state", this);
-	
-	protected EAdVar<Orientation> orientation = new EAdVarImpl<Orientation>(Orientation.class, "orientation", this);
+
+	protected EAdVar<Orientation> orientation = new EAdVarImpl<Orientation>(
+			Orientation.class, "orientation", this);
 
 	private boolean clone;
 
@@ -105,7 +106,8 @@ public class EAdBasicSceneElement extends AbstractEAdElementWithBehavior
 		visible.setInitialValue(Boolean.TRUE);
 		alpha.setInitialValue(1.0f);
 		vars = new ArrayList<EAdVar<?>>();
-		state.setInitialValue("default");
+		state.setInitialValue(EAdSceneElement.CommonStates.EAD_STATE_DEFAULT
+				.toString());
 		vars.add(positionX);
 		vars.add(positionY);
 		vars.add(width);
@@ -215,9 +217,9 @@ public class EAdBasicSceneElement extends AbstractEAdElementWithBehavior
 	public void setClone(boolean clone) {
 		this.clone = clone;
 	}
-	
+
 	@Override
-	public EAdVar<String> stateVar(){
+	public EAdVar<String> stateVar() {
 		return state;
 	}
 

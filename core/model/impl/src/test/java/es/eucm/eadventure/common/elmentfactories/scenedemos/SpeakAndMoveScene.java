@@ -4,6 +4,7 @@ import es.eucm.eadventure.common.elmentfactories.EAdElementsFactory;
 import es.eucm.eadventure.common.model.effects.EAdEffect;
 import es.eucm.eadventure.common.model.effects.impl.EAdMoveActiveElement;
 import es.eucm.eadventure.common.model.effects.impl.sceneelements.EAdMakeActiveElementEffect;
+import es.eucm.eadventure.common.model.elements.EAdSceneElement.CommonStates;
 import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
 import es.eucm.eadventure.common.model.events.EAdSceneElementEvent;
 import es.eucm.eadventure.common.model.events.EAdSceneElementEvent.SceneElementEvent;
@@ -20,7 +21,7 @@ public class SpeakAndMoveScene extends EmptyScene {
 				.getSceneElementFactory()
 				.createSceneElement(CharacterScene.getStateDrawable(), 100, 300);
 
-		character.stateVar().setInitialValue(CharacterScene.STATE_STAND);
+		character.stateVar().setInitialValue(CommonStates.EAD_STATE_DEFAULT.toString());
 
 		character.setScale(3.0f);
 		character.setPosition(new EAdPosition(400, 300));
@@ -28,8 +29,8 @@ public class SpeakAndMoveScene extends EmptyScene {
 		EAdEffect effect = EAdElementsFactory
 				.getInstance()
 				.getEffectFactory()
-				.getSpeakEffect("Hey! Don't touch me, sir!",
-						character.positionXVar(), character.positionYVar());
+				.getSpeakEffect("Hey! Don't touch me, sir! Somebody said, it could be here. I can't count the reasons I should stay. I'm tired of wait and see... There's another way. Give me some love, somebody said, it could be here, but... I should stay. I'm tired of wait and see... There's another way. Give me some love, somebody said, it could be here, but... I should stay. I'm tired of wait and see... There's another way. Give me some love, somebody said, it could be here, but...",
+						character);
 
 		character.addBehavior(EAdMouseEventImpl.MOUSE_LEFT_CLICK, effect);
 

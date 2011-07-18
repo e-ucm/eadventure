@@ -147,5 +147,27 @@ public interface EAdSceneElement extends EAdElement, Positioned {
 	 * @return a list of all vars of this scene element
 	 */
 	List<EAdVar<?>> getVars();
+	
+	/**
+	 * An enum with common states for scene elements
+	 * @author anserran
+	 *
+	 */
+	public enum CommonStates {
+		/**
+		 * Default state
+		 */
+		EAD_STATE_DEFAULT,
+		
+		/**
+		 * Talking state
+		 */
+		EAD_STATE_TALKING,
+		
+		/**
+		 * Walking state
+		 */
+		EAD_STATE_WALKING;
+	}
 
 }

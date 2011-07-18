@@ -3,6 +3,8 @@ package es.eucm.eadventure.engine.core.gameobjects.impl.effects;
 import com.google.inject.Inject;
 
 import es.eucm.eadventure.common.model.effects.impl.text.EAdSpeakEffect;
+import es.eucm.eadventure.common.model.elements.EAdSceneElement;
+import es.eucm.eadventure.common.model.elements.EAdSceneElement.CommonStates;
 import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
 import es.eucm.eadventure.common.model.elements.impl.EAdComplexSceneElement;
 import es.eucm.eadventure.common.model.params.EAdPosition;
@@ -24,9 +26,17 @@ import es.eucm.eadventure.engine.core.platform.PlatformConfiguration;
 
 public class SpeakEffectGO extends AbstractEffectGO<EAdSpeakEffect> {
 
+	private static final int MARGIN_PROPORTION = 40;
+
+	private static final int HEIGHT_PROPORTION = 4;
+
+	private static final int MARGIN = 30;
+
 	private GameObject<?> ballon;
 
 	private boolean finished;
+
+	private String previousState;
 
 	@Inject
 	public SpeakEffectGO(AssetHandler assetHandler,
@@ -53,27 +63,37 @@ public class SpeakEffectGO extends AbstractEffectGO<EAdSpeakEffect> {
 	public void initilize() {
 		super.initilize();
 		finished = false;
+		ballon = gameObjectFactory.get(getSceneElement());
+
+		if (element.getStateVar() != null) {
+			previousState = valueMap.getValue(element.getStateVar());
+			valueMap.setValue(element.getStateVar(),
+					CommonStates.EAD_STATE_TALKING.toString());
+		}
+	}
+
+	private EAdSceneElement getSceneElement() {
 		int width = platformConfiguration.getVirtualWidth();
 		int height = platformConfiguration.getVirtualHeight();
-		int horizontalMargin = width / 40;
-		int verticalMargin = height / 40;
+		int horizontalMargin = width / MARGIN_PROPORTION;
+		int verticalMargin = height / MARGIN_PROPORTION;
 		int left = horizontalMargin;
 		int right = width - horizontalMargin;
 		int top = verticalMargin;
-		int bottom = height / 4 + top;
+		int bottom = height / HEIGHT_PROPORTION + top;
 
 		BezierShape rectangle = null;
 
 		if (element.getPosX() != null && element.getPosY() != null) {
 			int xOrigin = valueMap.getValue(element.getPosX());
 			int yOrigin = valueMap.getValue(element.getPosY());
-			
-			if ( yOrigin < height / 2 ){
-				int offsetY = height - ( bottom - top ) - horizontalMargin * 2;
+
+			if (yOrigin < height / 2) {
+				int offsetY = height - (bottom - top) - horizontalMargin * 2;
 				top += offsetY;
-				bottom += offsetY; 
+				bottom += offsetY;
 			}
-			
+
 			rectangle = new BallonShape(left, top, right, bottom,
 					BallonType.RECTANGLE, xOrigin, yOrigin);
 		} else {
@@ -83,26 +103,26 @@ public class SpeakEffectGO extends AbstractEffectGO<EAdSpeakEffect> {
 			rectangle = new BallonShape(left, top, right, bottom,
 					BallonType.RECTANGLE);
 		}
-		rectangle.setColor(element.getBubbleColor());
 
-		CaptionImpl text = new CaptionImpl( );
+		rectangle.setColor(element.getBubbleColor());
+		CaptionImpl text = new CaptionImpl();
 		text.setText(element.getString());
 		text.setTextColor(element.getTextColor());
-		text.setMaximumWidth(right - left);
-		text.setMaximumHeight(bottom - top );
-		
+		text.setMaximumWidth(right - left - MARGIN * 2);
+		text.setMaximumHeight(bottom - top - MARGIN * 2);
+		text.setFont(element.getFont());
+
 		EAdBasicSceneElement textSE = new EAdBasicSceneElement("text");
 		textSE.getResources().addAsset(textSE.getInitialBundle(),
 				EAdBasicSceneElement.appearance, text);
-		textSE.setPosition(new EAdPosition( left, top ));
-		
+		textSE.setPosition(new EAdPosition(left + MARGIN, top));
+
 		EAdComplexSceneElement complex = new EAdComplexSceneElement("complex");
 		complex.getResources().addAsset(complex.getInitialBundle(),
 				EAdBasicSceneElement.appearance, rectangle);
 		complex.getComponents().add(textSE);
-		
-		
-		ballon = gameObjectFactory.get(complex);
+
+		return complex;
 	}
 
 	@Override
@@ -117,6 +137,14 @@ public class SpeakEffectGO extends AbstractEffectGO<EAdSpeakEffect> {
 	@Override
 	public boolean isFinished() {
 		return finished;
+	}
+
+	@Override
+	public void finish() {
+		super.finish();
+		if (element.getStateVar() != null) {
+			valueMap.setValue(element.getStateVar(), previousState);
+		}
 	}
 
 }

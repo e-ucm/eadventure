@@ -49,6 +49,7 @@ import es.eucm.eadventure.common.model.effects.impl.text.EAdShowText.ShowTextAni
 import es.eucm.eadventure.common.model.effects.impl.text.EAdSpeakEffect;
 import es.eucm.eadventure.common.model.effects.impl.text.extra.Answer;
 import es.eucm.eadventure.common.model.effects.impl.variables.EAdChangeVarValueEffect;
+import es.eucm.eadventure.common.model.elements.EAdSceneElement;
 import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
 import es.eucm.eadventure.common.model.variables.EAdOperation;
 import es.eucm.eadventure.common.model.variables.EAdVar;
@@ -129,12 +130,13 @@ public class EffectFactory {
 		
 	}
 	
-	public EAdSpeakEffect getSpeakEffect( String text, EAdVar<Integer> posX, EAdVar<Integer> posY ){
+	public EAdSpeakEffect getSpeakEffect( String text, EAdSceneElement sceneElement ){
 		EAdSpeakEffect effect = new EAdSpeakEffect( "speakEffect" + ID_GENERATOR++ );
 		EAdString string = EAdElementsFactory.getInstance().getStringFactory().getString(text);
 		
 		effect.setText(string);
-		effect.setPosition(posX, posY);
+		effect.setPosition(sceneElement.positionXVar(), sceneElement.positionYVar());
+		effect.setStateVar(sceneElement.stateVar());
 		
 		return effect;
 	}

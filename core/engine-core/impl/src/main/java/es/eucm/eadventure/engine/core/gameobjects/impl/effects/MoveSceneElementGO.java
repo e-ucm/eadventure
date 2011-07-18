@@ -43,6 +43,7 @@ import es.eucm.eadventure.common.interfaces.Oriented.Orientation;
 import es.eucm.eadventure.common.model.effects.impl.EAdVarInterpolationEffect;
 import es.eucm.eadventure.common.model.effects.impl.EAdVarInterpolationEffect.LoopType;
 import es.eucm.eadventure.common.model.effects.impl.sceneelements.EAdMoveSceneElement;
+import es.eucm.eadventure.common.model.elements.EAdSceneElement.CommonStates;
 import es.eucm.eadventure.common.model.variables.impl.vars.IntegerVar;
 import es.eucm.eadventure.common.resources.StringHandler;
 import es.eucm.eadventure.engine.core.GameState;
@@ -64,11 +65,13 @@ public class MoveSceneElementGO extends AbstractEffectGO<EAdMoveSceneElement> {
 	/**
 	 * Pixels traveled per second
 	 */
-	private static final int PIXELS_PER_SECOND = 100;
+	private static final int PIXELS_PER_SECOND = 200;
 
 	private boolean isIsometric = true;
 
 	private OperatorFactory operatorFactory;
+
+	private String previousState;
 
 	@Inject
 	public MoveSceneElementGO(AssetHandler assetHandler,
@@ -84,6 +87,11 @@ public class MoveSceneElementGO extends AbstractEffectGO<EAdMoveSceneElement> {
 	@Override
 	public void initilize() {
 		super.initilize();
+
+		previousState = valueMap.getValue(element.getSceneElement().stateVar());
+		valueMap.setValue(element.getSceneElement().stateVar(),
+				CommonStates.EAD_STATE_WALKING.toString());
+
 		valueMap.setValue(element.animationEnded(), Boolean.FALSE);
 		EAdMoveSceneElement effect = element;
 		SceneElementGO<?> a = (SceneElementGO<?>) gameObjectFactory.get(effect
@@ -105,17 +113,15 @@ public class MoveSceneElementGO extends AbstractEffectGO<EAdMoveSceneElement> {
 					* effect.getSpeed().getSpeedFactor());
 
 			if (targetX != x) {
-				EAdVarInterpolationEffect interpolationX = new EAdVarInterpolationEffect(
+				gameState.addEffect(new EAdVarInterpolationEffect(
 						"interpolationX", a.getElement().positionXVar(), x,
-						targetX, timeToFinish, LoopType.NO_LOOP);
-				gameState.addEffect(interpolationX);
+						targetX, timeToFinish, LoopType.NO_LOOP));
 			}
 
 			if (targetY != y) {
-				EAdVarInterpolationEffect interpolationY = new EAdVarInterpolationEffect(
+				gameState.addEffect(new EAdVarInterpolationEffect(
 						"interpolationY", a.getElement().positionYVar(), y,
-						targetY, timeToFinish, LoopType.NO_LOOP);
-				gameState.addEffect(interpolationY);
+						targetY, timeToFinish, LoopType.NO_LOOP));
 			}
 
 			updateDirection(a, x, targetX, y, targetY);
@@ -175,7 +181,8 @@ public class MoveSceneElementGO extends AbstractEffectGO<EAdMoveSceneElement> {
 			}
 		}
 
-		a.setOrientation(tempDirection);
+		valueMap.setValue(element.getSceneElement().orientationVar(),
+				tempDirection);
 
 	}
 

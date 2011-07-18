@@ -40,6 +40,7 @@ package es.eucm.eadventure.common.elmentfactories.scenedemos;
 import es.eucm.eadventure.common.elmentfactories.EAdElementsFactory;
 import es.eucm.eadventure.common.interfaces.Oriented.Orientation;
 import es.eucm.eadventure.common.model.effects.EAdEffect;
+import es.eucm.eadventure.common.model.elements.EAdSceneElement.CommonStates;
 import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
 import es.eucm.eadventure.common.model.variables.impl.operations.AssignOperation;
 import es.eucm.eadventure.common.resources.assets.drawable.OrientedDrawable;
@@ -51,48 +52,41 @@ import es.eucm.eadventure.common.resources.assets.drawable.impl.ImageImpl;
 
 public class CharacterScene extends EmptyScene {
 
-	private static String standUris[] = new String[] { "@drawable/stand_up.png",
-			"@drawable/red_stand_right.png", "@drawable/stand_down.png",
-			"@drawable/red_stand_left.png" };
-	
-	private static String talkDownUris[] = new String[]{
-			"@drawable/stand_down.png", "@drawable/stand_down_talking.png"
-	};
-	
-	private static String talkRightUris[] = new String[]{
-			"@drawable/red_stand_right.png", "@drawable/red_stand_right_talking.png"
-	};
-	
-	private static String talkLeftUris[]= new String[]{
-			"@drawable/red_stand_left.png", "@drawable/red_stand_left_talking.png"
-	};
-	
-	private static String walkDownUris[] = new String[]{
-			"@drawable/walking_down.png", "@drawable/walking_down_2.png"	
-	};
-	
-	private static String walkUpUris[] = new String[]{
-			"@drawable/walking_up_1.png", "@drawable/walking_up_2.png"	
-	};
-	
-	private static String walkRightUris[] = new String[]{
-			"@drawable/walking_right_1.png", "@drawable/walking_right_2.png"	
-	};
-	
-	private static String walkLeftUris[] = new String[]{
-			"@drawable/walking_left_1.png", "@drawable/walking_left_2.png"	
-	};
-	
-	public static final String STATE_STAND = "stand";
-	public static final String STATE_TALK = "talk";
-	public static final String STATE_WALK = "walk";
+	private static String standUris[] = new String[] {
+			"@drawable/stand_up.png", "@drawable/red_stand_right.png",
+			"@drawable/stand_down.png", "@drawable/red_stand_left.png" };
+
+	private static String talkDownUris[] = new String[] {
+			"@drawable/stand_down.png", "@drawable/stand_down_talking.png" };
+
+	private static String talkRightUris[] = new String[] {
+			"@drawable/red_stand_right.png",
+			"@drawable/red_stand_right_talking.png" };
+
+	private static String talkLeftUris[] = new String[] {
+			"@drawable/red_stand_left.png",
+			"@drawable/red_stand_left_talking.png" };
+
+	private static String walkDownUris[] = new String[] {
+			"@drawable/walking_down.png", "@drawable/walking_down_2.png" };
+
+	private static String walkUpUris[] = new String[] {
+			"@drawable/walking_up_1.png", "@drawable/walking_up_2.png" };
+
+	private static String walkRightUris[] = new String[] {
+			"@drawable/walking_right_1.png", "@drawable/walking_right_2.png" };
+
+	private static String walkLeftUris[] = new String[] {
+			"@drawable/walking_left_1.png", "@drawable/walking_left_2.png" };
 
 	public CharacterScene() {
 
 		EAdBasicSceneElement element = EAdElementsFactory.getInstance()
-				.getSceneElementFactory().createSceneElement(getStateDrawable(), 100, 300);
-		
-		element.stateVar().setInitialValue(STATE_STAND);
+				.getSceneElementFactory()
+				.createSceneElement(getStateDrawable(), 100, 300);
+
+		element.stateVar().setInitialValue(
+				CommonStates.EAD_STATE_DEFAULT.toString());
 
 		element.setScale(3.0f);
 
@@ -109,7 +103,7 @@ public class CharacterScene extends EmptyScene {
 				.createSceneElement(new ImageImpl("@drawable/arrow_up.png"),
 						100, 10, goUpEffect);
 		this.getSceneElements().add(goUpArrow);
-		
+
 		EAdEffect goDownEffect = EAdElementsFactory
 				.getInstance()
 				.getEffectFactory()
@@ -121,7 +115,7 @@ public class CharacterScene extends EmptyScene {
 				.createSceneElement(new ImageImpl("@drawable/arrow_down.png"),
 						100, 120, goDownEffect);
 		this.getSceneElements().add(goDownArrow);
-		
+
 		EAdEffect goLeftEffect = EAdElementsFactory
 				.getInstance()
 				.getEffectFactory()
@@ -133,7 +127,7 @@ public class CharacterScene extends EmptyScene {
 				.createSceneElement(new ImageImpl("@drawable/arrow_left.png"),
 						0, 60, goLeftEffect);
 		this.getSceneElements().add(goLeftArrow);
-		
+
 		EAdEffect goRightEffect = EAdElementsFactory
 				.getInstance()
 				.getEffectFactory()
@@ -145,65 +139,99 @@ public class CharacterScene extends EmptyScene {
 				.createSceneElement(new ImageImpl("@drawable/arrow_right.png"),
 						200, 60, goRightEffect);
 		this.getSceneElements().add(goRightArrow);
-		
+
 		// Change state buttons
-		EAdEffect standEffect = EAdElementsFactory.getInstance().getEffectFactory().getChangeVarValueEffect(element.stateVar(), new AssignOperation("assignState", STATE_STAND));
-		EAdBasicSceneElement stand = EAdElementsFactory.getInstance().getSceneElementFactory().createSceneElement("Stand", 300, 10, standEffect );
+		EAdEffect standEffect = EAdElementsFactory
+				.getInstance()
+				.getEffectFactory()
+				.getChangeVarValueEffect(
+						element.stateVar(),
+						new AssignOperation("assignState",
+								CommonStates.EAD_STATE_DEFAULT.toString()));
+		EAdBasicSceneElement stand = EAdElementsFactory.getInstance()
+				.getSceneElementFactory()
+				.createSceneElement("Stand", 300, 10, standEffect);
 		this.getSceneElements().add(stand);
-		
-		EAdEffect talkEffect = EAdElementsFactory.getInstance().getEffectFactory().getChangeVarValueEffect(element.stateVar(), new AssignOperation("assignState", STATE_TALK));
-		EAdBasicSceneElement talk = EAdElementsFactory.getInstance().getSceneElementFactory().createSceneElement("Talk", 300, 110, talkEffect );
+
+		EAdEffect talkEffect = EAdElementsFactory
+				.getInstance()
+				.getEffectFactory()
+				.getChangeVarValueEffect(
+						element.stateVar(),
+						new AssignOperation("assignState",
+								CommonStates.EAD_STATE_TALKING.toString()));
+		EAdBasicSceneElement talk = EAdElementsFactory.getInstance()
+				.getSceneElementFactory()
+				.createSceneElement("Talk", 300, 110, talkEffect);
 		this.getSceneElements().add(talk);
-		
-		EAdEffect walkEffect = EAdElementsFactory.getInstance().getEffectFactory().getChangeVarValueEffect(element.stateVar(), new AssignOperation("assignState", STATE_WALK));
-		EAdBasicSceneElement walk = EAdElementsFactory.getInstance().getSceneElementFactory().createSceneElement("Walk", 300, 210, walkEffect );
+
+		EAdEffect walkEffect = EAdElementsFactory
+				.getInstance()
+				.getEffectFactory()
+				.getChangeVarValueEffect(
+						element.stateVar(),
+						new AssignOperation("assignState",
+								CommonStates.EAD_STATE_WALKING.toString()));
+		EAdBasicSceneElement walk = EAdElementsFactory.getInstance()
+				.getSceneElementFactory()
+				.createSceneElement("Walk", 300, 210, walkEffect);
 		this.getSceneElements().add(walk);
 	}
-	
-	private static OrientedDrawable getTalkDrawable(){
+
+	private static OrientedDrawable getTalkDrawable() {
 		OrientedDrawableImpl oriented = new OrientedDrawableImpl();
-		oriented.setDrawable(Orientation.N, new ImageImpl("@drawable/stand_up.png"));
-		
-		FramesAnimation right = EAdElementsFactory.getInstance().getDrawableFactory().getFramesAnimation(talkRightUris, 500);
+		oriented.setDrawable(Orientation.N, new ImageImpl(
+				"@drawable/stand_up.png"));
+
+		FramesAnimation right = EAdElementsFactory.getInstance()
+				.getDrawableFactory().getFramesAnimation(talkRightUris, 500);
 		oriented.setDrawable(Orientation.E, right);
-		
-		FramesAnimation left = EAdElementsFactory.getInstance().getDrawableFactory().getFramesAnimation(talkLeftUris, 500);
+
+		FramesAnimation left = EAdElementsFactory.getInstance()
+				.getDrawableFactory().getFramesAnimation(talkLeftUris, 500);
 		oriented.setDrawable(Orientation.W, left);
-		
-		FramesAnimation down = EAdElementsFactory.getInstance().getDrawableFactory().getFramesAnimation(talkDownUris, 500);
+
+		FramesAnimation down = EAdElementsFactory.getInstance()
+				.getDrawableFactory().getFramesAnimation(talkDownUris, 500);
 		oriented.setDrawable(Orientation.S, down);
-		
+
 		return oriented;
 	}
-	
-	private static OrientedDrawable getWalkDrawable( ){
+
+	private static OrientedDrawable getWalkDrawable() {
 		OrientedDrawableImpl oriented = new OrientedDrawableImpl();
-		
-		FramesAnimation up = EAdElementsFactory.getInstance().getDrawableFactory().getFramesAnimation(walkUpUris, 500);
+
+		FramesAnimation up = EAdElementsFactory.getInstance()
+				.getDrawableFactory().getFramesAnimation(walkUpUris, 500);
 		oriented.setDrawable(Orientation.N, up);
-		
-		FramesAnimation right = EAdElementsFactory.getInstance().getDrawableFactory().getFramesAnimation(walkRightUris, 500);
+
+		FramesAnimation right = EAdElementsFactory.getInstance()
+				.getDrawableFactory().getFramesAnimation(walkRightUris, 500);
 		oriented.setDrawable(Orientation.E, right);
-		
-		FramesAnimation left = EAdElementsFactory.getInstance().getDrawableFactory().getFramesAnimation(walkLeftUris, 500);
+
+		FramesAnimation left = EAdElementsFactory.getInstance()
+				.getDrawableFactory().getFramesAnimation(walkLeftUris, 500);
 		oriented.setDrawable(Orientation.W, left);
-		
-		FramesAnimation down = EAdElementsFactory.getInstance().getDrawableFactory().getFramesAnimation(walkDownUris, 500);
+
+		FramesAnimation down = EAdElementsFactory.getInstance()
+				.getDrawableFactory().getFramesAnimation(walkDownUris, 500);
 		oriented.setDrawable(Orientation.S, down);
-		
+
 		return oriented;
 	}
-	
-	public static StateDrawable getStateDrawable( ){
+
+	public static StateDrawable getStateDrawable() {
 		OrientedDrawable stand = EAdElementsFactory.getInstance()
 				.getDrawableFactory().getOrientedDrawable(standUris);
-		
-		
-		StateDrawableImpl stateDrawable = new StateDrawableImpl( );
-		stateDrawable.addDrawable(STATE_STAND, stand);
-		stateDrawable.addDrawable(STATE_TALK, getTalkDrawable());
-		stateDrawable.addDrawable(STATE_WALK, getWalkDrawable());
-		
+
+		StateDrawableImpl stateDrawable = new StateDrawableImpl();
+		stateDrawable.addDrawable(CommonStates.EAD_STATE_DEFAULT.toString(),
+				stand);
+		stateDrawable.addDrawable(CommonStates.EAD_STATE_TALKING.toString(),
+				getTalkDrawable());
+		stateDrawable.addDrawable(CommonStates.EAD_STATE_WALKING.toString(),
+				getWalkDrawable());
+
 		return stateDrawable;
 	}
 
