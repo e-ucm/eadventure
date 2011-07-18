@@ -99,4 +99,9 @@ public class EAdComposedScene extends AbstractEAdElement implements EAdScene {
 		return null;
 	}
 
+	@Override
+	public boolean acceptsVisualEffects() {
+		return false;
+	}
+
 }

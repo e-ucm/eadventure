@@ -80,9 +80,6 @@ public class BasicHudGORenderer implements
 		this.mouseState = mouseState;
 		this.assetHandler = assetHandler;
 		this.graphicRendererFactory = (GraphicRendererFactory<Graphics2D>) graphicRendererFactory;
-		caption = new CaptionImpl();
-		((CaptionImpl) caption).setTextColor(EAdBorderedColor.BLACK_ON_WHITE);
-		((CaptionImpl) caption).setFont(EAdFont.REGULAR);
 		logger.info("New intance");
 	}
 
@@ -100,14 +97,23 @@ public class BasicHudGORenderer implements
 
 		//TODO probably should check if it wants its name to be painted
 		GameObject<?> underMouse = mouseState.getGameObjectUnderMouse();
-		if (underMouse != null && underMouse instanceof ActorReferenceGO
+		if (underMouse != null
+				&& underMouse instanceof ActorReferenceGO
 				&& ((ActorReferenceGO) underMouse).getName() != null) {
 			EAdString name = ((ActorReferenceGO) underMouse).getName();
-			caption.setText(name);
+			if (caption == null || !caption.getText().equals(name))
+				renewCaption(name);
 			graphicRendererFactory.render(g, assetHandler.getRuntimeAsset(caption), EAdPosition.volatileEAdPosition(
 					mouseState.getVirtualMouseX(),
 					mouseState.getVirtualMouseY()), 1.0f, 0, 0);
 		}
+	}
+	
+	private void renewCaption(EAdString text) {
+		caption = new CaptionImpl();
+		((CaptionImpl) caption).setTextColor(EAdBorderedColor.BLACK_ON_WHITE);
+		((CaptionImpl) caption).setFont(EAdFont.REGULAR);
+		caption.setText(text);
 	}
 
 	@Override

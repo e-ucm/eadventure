@@ -37,8 +37,6 @@
 
 package es.eucm.eadventure.common.impl.importer.interfaces;
 
-import java.util.Map;
-
 import es.eucm.eadventure.common.data.adventure.AdventureData;
 import es.eucm.eadventure.common.data.chapter.Chapter;
 import es.eucm.eadventure.common.model.EAdChapter;

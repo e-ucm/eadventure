@@ -49,7 +49,7 @@ import es.eucm.eadventure.common.model.variables.impl.vars.BooleanVar;
 import es.eucm.eadventure.common.resources.EAdString;
 
 /**
- * @author eugenio
+ * <p>Default implementation of the {@link EAdScene} interface</p>
  *
  */
 @Element(runtime = EAdSceneImpl.class, detailed = EAdSceneImpl.class)
@@ -66,6 +66,10 @@ public class EAdSceneImpl extends AbstractEAdElement implements EAdScene {
 	
 	@Param("trajectoryGenerator")
 	protected TrajectoryGenerator trajectoryGenerator;
+	
+	@Param("acceptsVisualEffects")
+	protected boolean acceptsVisualEffects;
+	
 
 	/**
 	 * This property indicates if the game can return to this scene after a cutscene or similiar
@@ -88,6 +92,7 @@ public class EAdSceneImpl extends AbstractEAdElement implements EAdScene {
 		background = new EAdBasicSceneElement(id + "_background");
 		returnable = true;
 		sceneLoaded = new BooleanVar("sceneLoaded");
+		acceptsVisualEffects = true;
 	}
 
 	@Override
@@ -152,6 +157,11 @@ public class EAdSceneImpl extends AbstractEAdElement implements EAdScene {
 	@Override
 	public TrajectoryGenerator getTrajectoryGenerator() {
 		return trajectoryGenerator;
+	}
+
+	@Override
+	public boolean acceptsVisualEffects() {
+		return acceptsVisualEffects;
 	}
 
 }

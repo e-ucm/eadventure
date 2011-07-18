@@ -70,5 +70,7 @@ public interface EAdScene extends EAdElement {
 	 * @return
 	 */
 	TrajectoryGenerator getTrajectoryGenerator( );
+
+	boolean acceptsVisualEffects();
 	
 }
