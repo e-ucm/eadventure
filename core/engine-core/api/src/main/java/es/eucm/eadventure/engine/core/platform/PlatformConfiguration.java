@@ -51,11 +51,27 @@ public interface PlatformConfiguration {
 	int getWidth();
 
 	/**
+	 * Returns the virtual width of the current representation. It's the result
+	 * obtained of {@link PlatformConfiguration#getWidth()} /
+	 * {@link PlatformConfiguration#getScale()}
+	 * 
+	 * @return
+	 */
+	int getVirtualWidth();
+
+	/**
 	 * Get the height of the actual representation.
 	 * 
 	 * @return The height in pixels of the representation.
 	 */
 	int getHeight();
+
+	/**
+	 * Returns the virtual height of the current representation. It's the result
+	 * obtained of {@link PlatformConfiguration#getHeight()} /
+	 * {@link PlatformConfiguration#getScale()}
+	 * */
+	int getVirtualHeight();
 
 	/**
 	 * Set the width of the actual representation.

@@ -4,11 +4,14 @@ import com.google.inject.Inject;
 
 import es.eucm.eadventure.common.model.effects.impl.text.EAdSpeakEffect;
 import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
+import es.eucm.eadventure.common.model.elements.impl.EAdComplexSceneElement;
+import es.eucm.eadventure.common.model.params.EAdPosition;
 import es.eucm.eadventure.common.model.params.guievents.EAdMouseEvent.MouseActionType;
 import es.eucm.eadventure.common.resources.StringHandler;
 import es.eucm.eadventure.common.resources.assets.drawable.impl.BallonShape;
 import es.eucm.eadventure.common.resources.assets.drawable.impl.BallonShape.BallonType;
 import es.eucm.eadventure.common.resources.assets.drawable.impl.BezierShape;
+import es.eucm.eadventure.common.resources.assets.drawable.impl.CaptionImpl;
 import es.eucm.eadventure.engine.core.GameState;
 import es.eucm.eadventure.engine.core.ValueMap;
 import es.eucm.eadventure.engine.core.gameobjects.GameObject;
@@ -50,10 +53,8 @@ public class SpeakEffectGO extends AbstractEffectGO<EAdSpeakEffect> {
 	public void initilize() {
 		super.initilize();
 		finished = false;
-		int width = (int) (platformConfiguration.getWidth() / platformConfiguration
-				.getScale());
-		int height = (int) (platformConfiguration.getHeight() / platformConfiguration
-				.getScale());
+		int width = platformConfiguration.getVirtualWidth();
+		int height = platformConfiguration.getVirtualHeight();
 		int horizontalMargin = width / 40;
 		int verticalMargin = height / 40;
 		int left = horizontalMargin;
@@ -83,11 +84,25 @@ public class SpeakEffectGO extends AbstractEffectGO<EAdSpeakEffect> {
 					BallonType.RECTANGLE);
 		}
 		rectangle.setColor(element.getBubbleColor());
-		EAdBasicSceneElement ballonSE = new EAdBasicSceneElement("ballon");
-		ballonSE.getResources().addAsset(ballonSE.getInitialBundle(),
-				EAdBasicSceneElement.appearance, rectangle);
 
-		ballon = gameObjectFactory.get(ballonSE);
+		CaptionImpl text = new CaptionImpl( );
+		text.setText(element.getString());
+		text.setTextColor(element.getTextColor());
+		text.setMaximumWidth(right - left);
+		text.setMaximumHeight(bottom - top );
+		
+		EAdBasicSceneElement textSE = new EAdBasicSceneElement("text");
+		textSE.getResources().addAsset(textSE.getInitialBundle(),
+				EAdBasicSceneElement.appearance, text);
+		textSE.setPosition(new EAdPosition( left, top ));
+		
+		EAdComplexSceneElement complex = new EAdComplexSceneElement("complex");
+		complex.getResources().addAsset(complex.getInitialBundle(),
+				EAdBasicSceneElement.appearance, rectangle);
+		complex.getComponents().add(textSE);
+		
+		
+		ballon = gameObjectFactory.get(complex);
 	}
 
 	@Override

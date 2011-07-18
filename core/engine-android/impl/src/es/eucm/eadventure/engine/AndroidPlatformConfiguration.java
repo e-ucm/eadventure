@@ -40,45 +40,10 @@ package es.eucm.eadventure.engine;
 import com.google.inject.Singleton;
 
 import es.eucm.eadventure.engine.core.platform.GUI;
-import es.eucm.eadventure.engine.core.platform.PlatformConfiguration;
+import es.eucm.eadventure.engine.core.platform.impl.AbstractPlatformConfiguration;
 
 @Singleton
-public class AndroidPlatformConfiguration implements PlatformConfiguration {
-
-	private int width; 
-	
-	private int height;
-	
-	private boolean fullscreen = false;
-	
-	@Override
-	public int getWidth() {
-		return width;
-	}
-
-	@Override
-	public int getHeight() {
-		return height;
-	}
-	
-	@Override
-	public void setWidth(int width) {
-		this.width = width;
-	}
-
-	@Override
-	public void setHeight(int height) {
-		this.height = height;
-	}
-	
-	@Override
-	public boolean isFullscreen() {
-		return fullscreen;
-	}
-	
-	public void setFullscreen(boolean fullscr) {
-		fullscreen = fullscr;
-	}
+public class AndroidPlatformConfiguration extends AbstractPlatformConfiguration {
 
 	@Override
 	public double getScale() {

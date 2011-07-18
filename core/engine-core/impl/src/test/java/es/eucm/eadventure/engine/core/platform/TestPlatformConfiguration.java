@@ -37,44 +37,16 @@
 
 package es.eucm.eadventure.engine.core.platform;
 
-import es.eucm.eadventure.engine.core.platform.PlatformConfiguration;
+import es.eucm.eadventure.engine.core.platform.impl.AbstractPlatformConfiguration;
 
-public class TestPlatformConfiguration implements PlatformConfiguration {
 
-	@Override
-	public int getWidth() {
-
-		return 0;
-	}
-
-	@Override
-	public int getHeight() {
-
-		return 0;
-	}
-
-	@Override
-	public void setWidth(int width) {
-
-		
-	}
-
-	@Override
-	public void setHeight(int height) {
-
-		
-	}
-
-	@Override
-	public boolean isFullscreen() {
-	
-		return false;
-	}
+public class TestPlatformConfiguration extends AbstractPlatformConfiguration {
 
 	@Override
 	public double getScale() {
-
-		return 0;
+		return 1;
 	}
+
+
 
 }

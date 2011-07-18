@@ -50,7 +50,7 @@ import es.eucm.eadventure.engine.core.platform.PlatformConfiguration;
  * @see PlatformConfiguration
  */
 @Singleton
-public class DesktopPlatformConfiguration implements PlatformConfiguration {
+public class DesktopPlatformConfiguration extends AbstractPlatformConfiguration {
 
 	/**
 	 * Default window width for desktop games
@@ -60,80 +60,14 @@ public class DesktopPlatformConfiguration implements PlatformConfiguration {
 	/**
 	 * Default window height for desktop games
 	 */
-	public static final int DEFAULT_HEIGHT = 360;
-
-	/**
-	 * The width of the game window
-	 */
-	private int width = DEFAULT_WIDTH;
-
-	/**
-	 * The height of the game window
-	 */
-	private int height = DEFAULT_HEIGHT;
-
-	/**
-	 * Full screen games are scaled to cover the whole screen real state
-	 */
-	private boolean fullscreen = false;
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * es.eucm.eadventure.engine.core.platform.PlatformConfiguration#getWidth()
-	 */
-	@Override
-	public int getWidth() {
-		return width;
+	public static final int DEFAULT_HEIGHT = 360; 
+	
+	public DesktopPlatformConfiguration( ){
+		setHeight( DEFAULT_HEIGHT );
+		setWidth( DEFAULT_WIDTH );
+		fullscreen = false;	
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * es.eucm.eadventure.engine.core.platform.PlatformConfiguration#getHeight()
-	 */
-	@Override
-	public int getHeight() {
-		return height;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * es.eucm.eadventure.engine.core.platform.PlatformConfiguration#setWidth
-	 * (int)
-	 */
-	@Override
-	public void setWidth(int width) {
-		this.width = width;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * es.eucm.eadventure.engine.core.platform.PlatformConfiguration#setHeight
-	 * (int)
-	 */
-	@Override
-	public void setHeight(int height) {
-		this.height = height;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * es.eucm.eadventure.engine.core.platform.PlatformConfiguration#isFullscreen
-	 * ()
-	 */
-	@Override
-	public boolean isFullscreen() {
-		return fullscreen;
-	}
 
 	/*
 	 * (non-Javadoc)
