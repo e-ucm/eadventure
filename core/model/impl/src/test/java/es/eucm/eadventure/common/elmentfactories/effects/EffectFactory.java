@@ -46,12 +46,14 @@ import es.eucm.eadventure.common.model.effects.impl.EAdVarInterpolationEffect.Lo
 import es.eucm.eadventure.common.model.effects.impl.text.EAdShowQuestion;
 import es.eucm.eadventure.common.model.effects.impl.text.EAdShowText;
 import es.eucm.eadventure.common.model.effects.impl.text.EAdShowText.ShowTextAnimation;
+import es.eucm.eadventure.common.model.effects.impl.text.EAdSpeakEffect;
 import es.eucm.eadventure.common.model.effects.impl.text.extra.Answer;
 import es.eucm.eadventure.common.model.effects.impl.variables.EAdChangeVarValueEffect;
 import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
 import es.eucm.eadventure.common.model.variables.EAdOperation;
 import es.eucm.eadventure.common.model.variables.EAdVar;
 import es.eucm.eadventure.common.resources.EAdBundleId;
+import es.eucm.eadventure.common.resources.EAdString;
 import es.eucm.eadventure.common.resources.assets.drawable.Caption;
 import es.eucm.eadventure.common.resources.assets.drawable.impl.CaptionImpl;
 
@@ -125,6 +127,16 @@ public class EffectFactory {
 		EAdChangeVarValueEffect effect = new EAdChangeVarValueEffect( "changeVarValue" + ID_GENERATOR++, var, operation );
 		return effect;
 		
+	}
+	
+	public EAdSpeakEffect getSpeakEffect( String text, EAdVar<Integer> posX, EAdVar<Integer> posY ){
+		EAdSpeakEffect effect = new EAdSpeakEffect( "speakEffect" + ID_GENERATOR++ );
+		EAdString string = EAdElementsFactory.getInstance().getStringFactory().getString(text);
+		
+		effect.setText(string);
+		effect.setPosition(posX, posY);
+		
+		return effect;
 	}
 
 }

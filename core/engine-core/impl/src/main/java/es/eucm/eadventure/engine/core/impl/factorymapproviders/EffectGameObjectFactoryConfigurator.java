@@ -56,6 +56,7 @@ import es.eucm.eadventure.common.model.effects.impl.actorreference.EAdHighlightA
 import es.eucm.eadventure.common.model.effects.impl.sceneelements.EAdMakeActiveElementEffect;
 import es.eucm.eadventure.common.model.effects.impl.sceneelements.EAdMoveSceneElement;
 import es.eucm.eadventure.common.model.effects.impl.text.EAdShowText;
+import es.eucm.eadventure.common.model.effects.impl.text.EAdSpeakEffect;
 import es.eucm.eadventure.common.model.effects.impl.variables.EAdChangeVarValueEffect;
 import es.eucm.eadventure.engine.core.gameobjects.GameObject;
 import es.eucm.eadventure.engine.core.gameobjects.impl.effects.ActorActionsEffectGO;
@@ -72,6 +73,7 @@ import es.eucm.eadventure.engine.core.gameobjects.impl.effects.MoveSceneElementG
 import es.eucm.eadventure.engine.core.gameobjects.impl.effects.QuitGameEffectGO;
 import es.eucm.eadventure.engine.core.gameobjects.impl.effects.RandomEffectGO;
 import es.eucm.eadventure.engine.core.gameobjects.impl.effects.ShowTextEffectGO;
+import es.eucm.eadventure.engine.core.gameobjects.impl.effects.SpeakEffectGO;
 import es.eucm.eadventure.engine.core.gameobjects.impl.effects.TriggerMacroEffectGO;
 import es.eucm.eadventure.engine.core.gameobjects.impl.effects.VarInterpolationGO;
 import es.eucm.eadventure.engine.core.gameobjects.impl.effects.WaitEffectGO;
@@ -99,6 +101,7 @@ public class EffectGameObjectFactoryConfigurator {
 		factoryMap.put(EAdVarInterpolationEffect.class, VarInterpolationGO.class);
 		factoryMap.put(EAdMakeActiveElementEffect.class, MakeActiveElementEffectGO.class);
 		factoryMap.put(EAdMoveActiveElement.class, MoveActiveElementGO.class);
+		factoryMap.put(EAdSpeakEffect.class, SpeakEffectGO.class);
 	}
 
 }

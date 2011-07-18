@@ -95,7 +95,7 @@ public class MoveActiveElementGO extends AbstractEffectGO<EAdMoveActiveElement> 
 
 	@Override
 	public boolean isFinished() {
-		return false;
+		return true;
 	}
 
 }

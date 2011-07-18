@@ -91,7 +91,7 @@ public abstract class AbstractAssetHandler implements AssetHandler {
 	private Map<Class<? extends AssetDescriptor>, Class<? extends RuntimeAsset<?>>> classMap;
 
 	private boolean loaded = false;
-	
+
 	/**
 	 * Default constructor, values are supplied by injection
 	 * 
@@ -129,16 +129,22 @@ public abstract class AbstractAssetHandler implements AssetHandler {
 		}
 		try {
 			RuntimeAsset<T> temp = (RuntimeAsset<T>) cache.get(descriptor);
+
 			if (temp == null) {
-				Class<? extends RuntimeAsset<?>> tempClass = classMap
-						.get(descriptor.getClass());
+				Class<?> clazz = descriptor.getClass();
+				Class<? extends RuntimeAsset<?>> tempClass = null;
+				while (clazz != null && tempClass == null) {
+					tempClass = classMap.get(clazz);
+					clazz = clazz.getSuperclass();
+				}
 				temp = (RuntimeAsset<T>) injector.getInstance(tempClass);
 				temp.setDescriptor(descriptor);
 				cache.put(descriptor, temp);
 			}
 			return temp;
 		} catch (NullPointerException e) {
-			logger.log(Level.SEVERE, "Null pointer, descriptor:" + descriptor, e);
+			logger.log(Level.SEVERE, "Null pointer, descriptor:" + descriptor,
+					e);
 			throw e;
 		}
 	}
@@ -159,9 +165,11 @@ public abstract class AbstractAssetHandler implements AssetHandler {
 			descriptor = element.getAsset(id);
 
 		if (descriptor == null) {
-			logger.log(Level.SEVERE, "No such asset. element: " + element.getClass()
-					+ "; bundleId: " + (bundleId != null ? bundleId : "null")
-					+ "; id: " + id);
+			logger.log(Level.SEVERE,
+					"No such asset. element: " + element.getClass()
+							+ "; bundleId: "
+							+ (bundleId != null ? bundleId : "null") + "; id: "
+							+ id);
 			return null;
 		}
 
@@ -213,15 +221,17 @@ public abstract class AbstractAssetHandler implements AssetHandler {
 
 		return (temp);
 	}
-	
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see es.eucm.eadventure.engine.core.platform.AssetHandler#isLoaded()
 	 */
 	@Override
 	public boolean isLoaded() {
 		return loaded;
 	}
-	
+
 	protected void setLoaded(boolean loaded) {
 		this.loaded = loaded;
 	}

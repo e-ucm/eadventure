@@ -51,41 +51,41 @@ import es.eucm.eadventure.common.resources.assets.drawable.impl.ImageImpl;
 
 public class CharacterScene extends EmptyScene {
 
-	private String standUris[] = new String[] { "@drawable/stand_up.png",
+	private static String standUris[] = new String[] { "@drawable/stand_up.png",
 			"@drawable/red_stand_right.png", "@drawable/stand_down.png",
 			"@drawable/red_stand_left.png" };
 	
-	private String talkDownUris[] = new String[]{
+	private static String talkDownUris[] = new String[]{
 			"@drawable/stand_down.png", "@drawable/stand_down_talking.png"
 	};
 	
-	private String talkRightUris[] = new String[]{
+	private static String talkRightUris[] = new String[]{
 			"@drawable/red_stand_right.png", "@drawable/red_stand_right_talking.png"
 	};
 	
-	private String talkLeftUris[]= new String[]{
+	private static String talkLeftUris[]= new String[]{
 			"@drawable/red_stand_left.png", "@drawable/red_stand_left_talking.png"
 	};
 	
-	private String walkDownUris[] = new String[]{
+	private static String walkDownUris[] = new String[]{
 			"@drawable/walking_down.png", "@drawable/walking_down_2.png"	
 	};
 	
-	private String walkUpUris[] = new String[]{
+	private static String walkUpUris[] = new String[]{
 			"@drawable/walking_up_1.png", "@drawable/walking_up_2.png"	
 	};
 	
-	private String walkRightUris[] = new String[]{
+	private static String walkRightUris[] = new String[]{
 			"@drawable/walking_right_1.png", "@drawable/walking_right_2.png"	
 	};
 	
-	private String walkLeftUris[] = new String[]{
+	private static String walkLeftUris[] = new String[]{
 			"@drawable/walking_left_1.png", "@drawable/walking_left_2.png"	
 	};
 	
-	private static final String STATE_STAND = "stand";
-	private static final String STATE_TALK = "talk";
-	private static final String STATE_WALK = "walk";
+	public static final String STATE_STAND = "stand";
+	public static final String STATE_TALK = "talk";
+	public static final String STATE_WALK = "walk";
 
 	public CharacterScene() {
 
@@ -160,7 +160,7 @@ public class CharacterScene extends EmptyScene {
 		this.getSceneElements().add(walk);
 	}
 	
-	private OrientedDrawable getTalkDrawable(){
+	private static OrientedDrawable getTalkDrawable(){
 		OrientedDrawableImpl oriented = new OrientedDrawableImpl();
 		oriented.setDrawable(Orientation.N, new ImageImpl("@drawable/stand_up.png"));
 		
@@ -176,7 +176,7 @@ public class CharacterScene extends EmptyScene {
 		return oriented;
 	}
 	
-	private OrientedDrawable getWalkDrawable( ){
+	private static OrientedDrawable getWalkDrawable( ){
 		OrientedDrawableImpl oriented = new OrientedDrawableImpl();
 		
 		FramesAnimation up = EAdElementsFactory.getInstance().getDrawableFactory().getFramesAnimation(walkUpUris, 500);
@@ -194,7 +194,7 @@ public class CharacterScene extends EmptyScene {
 		return oriented;
 	}
 	
-	private StateDrawable getStateDrawable( ){
+	public static StateDrawable getStateDrawable( ){
 		OrientedDrawable stand = EAdElementsFactory.getInstance()
 				.getDrawableFactory().getOrientedDrawable(standUris);
 		

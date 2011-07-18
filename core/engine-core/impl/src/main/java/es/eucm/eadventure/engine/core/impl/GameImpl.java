@@ -172,9 +172,13 @@ public class GameImpl implements Game {
 			gameState.getEffects().remove(e);
 		}
 
-		// TODO Should check if any is visual, not just the first one
-		if (gameState.getEffects().size() > 0
-				&& gameState.getEffects().get(0).isVisualEffect()) {
+		boolean visualEffect = false;
+		int index = 0;
+		while(!visualEffect && index < gameState.getEffects().size() ){
+			visualEffect = gameState.getEffects().get(index++).isVisualEffect();
+		}
+		
+		if (visualEffect) {
 			if (!effectHUDon) {
 				gameObjectManager.addHUD(effectHUD);
 				effectHUDon = true;

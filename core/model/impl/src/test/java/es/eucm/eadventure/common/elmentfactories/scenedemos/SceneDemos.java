@@ -60,6 +60,7 @@ public class SceneDemos {
 		sceneDemos.add(ShapeScene.class);
 		sceneDemos.add(TextsScene.class);
 		sceneDemos.add(CharacterScene.class);
+		sceneDemos.add(SpeakAndMoveScene.class);
 	}
 	
 	public List<Class<? extends EAdScene>> getSceneDemos( ){
