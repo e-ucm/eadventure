@@ -41,8 +41,6 @@ import java.util.logging.Logger;
 
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.view.SurfaceHolder;
 import es.eucm.eadventure.engine.AndroidGUI;

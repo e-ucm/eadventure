@@ -47,24 +47,21 @@ import com.google.inject.Singleton;
 import es.eucm.eadventure.common.model.params.EAdPosition;
 import es.eucm.eadventure.engine.core.gameobjects.huds.impl.ActionsHUDImpl;
 import es.eucm.eadventure.engine.core.platform.GameObjectRenderer;
-import es.eucm.eadventure.engine.core.platform.PlatformConfiguration;
 
 @Singleton
-public class ActionsHudGORenderer implements GameObjectRenderer<Canvas, ActionsHUDImpl> {
+public class ActionsHudGORenderer implements
+		GameObjectRenderer<Canvas, ActionsHUDImpl> {
 
-	private PlatformConfiguration platformConfiguration;
-	
-	private static final Logger logger = Logger.getLogger("ActionsHudGORenderer");
-	
+	private static final Logger logger = Logger
+			.getLogger("ActionsHudGORenderer");
+
 	@Inject
-	public ActionsHudGORenderer(PlatformConfiguration platformConfiguration) {
-		this.platformConfiguration = platformConfiguration;
+	public ActionsHudGORenderer() {
 		logger.info("New intance");
 	}
 
 	@Override
-	public boolean contains(ActionsHUDImpl object, int virutalX,
-			int virtualY) {
+	public boolean contains(ActionsHUDImpl object, int virutalX, int virtualY) {
 		return true;
 	}
 
@@ -72,15 +69,14 @@ public class ActionsHudGORenderer implements GameObjectRenderer<Canvas, ActionsH
 	public void render(Canvas graphicContext, ActionsHUDImpl object,
 			float interpolation, int offsetX, int offsetY) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void render(Canvas graphicContext, ActionsHUDImpl object,
 			EAdPosition position, float scale, int offsetX, int offsetY) {
 		// TODO Auto-generated method stub
-		
+
 	}
-	
 
 }

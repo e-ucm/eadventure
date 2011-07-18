@@ -37,12 +37,16 @@
 
 package es.eucm.eadventure.engine;
 
+import android.app.Activity;
+import android.os.Bundle;
+import android.util.DisplayMetrics;
+import android.view.Window;
+import android.view.WindowManager;
+
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 
-import es.eucm.eadventure.common.elmentfactories.scenedemos.BasicScene;
 import es.eucm.eadventure.common.elmentfactories.scenedemos.CharacterScene;
-import es.eucm.eadventure.common.elmentfactories.scenedemos.ShapeScene;
 import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
 import es.eucm.eadventure.common.model.elements.impl.EAdSceneImpl;
 import es.eucm.eadventure.common.resources.assets.drawable.impl.ImageImpl;
@@ -57,11 +61,6 @@ import es.eucm.eadventure.engine.extra.AndroidAssetHandlerModule;
 import es.eucm.eadventure.engine.extra.AndroidAssetRendererModule;
 import es.eucm.eadventure.engine.extra.AndroidModule;
 import es.eucm.eadventure.engine.extra.EAdventureSurfaceView;
-import android.app.Activity;
-import android.os.Bundle;
-import android.util.DisplayMetrics;
-import android.view.Window;
-import android.view.WindowManager;
 
 public class EAdventureEngineActivity extends Activity {
 

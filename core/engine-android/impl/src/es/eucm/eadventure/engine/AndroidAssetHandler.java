@@ -53,7 +53,7 @@ import es.eucm.eadventure.engine.core.platform.impl.AbstractAssetHandler;
 
 @Singleton
 public class AndroidAssetHandler extends AbstractAssetHandler {
-
+	
 		private Resources resources;
 		
 		private static final Logger logger = Logger.getLogger("AndroidAssetHandler");
@@ -63,6 +63,7 @@ public class AndroidAssetHandler extends AbstractAssetHandler {
 				Injector injector,
 				Map<Class<? extends AssetDescriptor>, Class<? extends RuntimeAsset<?>>> classMap) {
 			super(injector, classMap);
+			logger.info("New instance");
 		}
 		
 		@Override

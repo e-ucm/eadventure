@@ -37,17 +37,12 @@
 
 package es.eucm.eadventure.engine;
 
-import java.util.logging.Logger;
+import android.graphics.Canvas;
+import android.graphics.Matrix;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
-import android.app.ActivityManager;
-import android.app.ActivityManager.MemoryInfo;
-import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.Matrix;
-import android.util.Log;
 import es.eucm.eadventure.common.resources.assets.drawable.Image;
 import es.eucm.eadventure.engine.core.KeyboardState;
 import es.eucm.eadventure.engine.core.MouseState;

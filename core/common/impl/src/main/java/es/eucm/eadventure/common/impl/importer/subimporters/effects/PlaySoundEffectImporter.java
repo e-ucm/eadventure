@@ -41,24 +41,16 @@ import com.google.inject.Inject;
 
 import es.eucm.eadventure.common.EAdElementImporter;
 import es.eucm.eadventure.common.data.chapter.conditions.Conditions;
-import es.eucm.eadventure.common.data.chapter.effects.MacroReferenceEffect;
 import es.eucm.eadventure.common.data.chapter.effects.PlaySoundEffect;
-import es.eucm.eadventure.common.impl.importer.interfaces.EAdElementFactory;
 import es.eucm.eadventure.common.model.effects.EAdEffect;
-import es.eucm.eadventure.common.model.effects.EAdMacro;
-import es.eucm.eadventure.common.model.effects.impl.EAdTriggerMacro;
 import es.eucm.eadventure.common.model.elements.EAdCondition;
 
 public class PlaySoundEffectImporter extends EffectImporter<PlaySoundEffect, EAdEffect>{
 	
-	private EAdElementFactory factory;
-	
 	@Inject
 	public PlaySoundEffectImporter(
-			EAdElementImporter<Conditions, EAdCondition> conditionImporter,
-			EAdElementFactory factory) {
+			EAdElementImporter<Conditions, EAdCondition> conditionImporter) {
 		super(conditionImporter);
-		this.factory = factory;
 	}
 
 	@Override
