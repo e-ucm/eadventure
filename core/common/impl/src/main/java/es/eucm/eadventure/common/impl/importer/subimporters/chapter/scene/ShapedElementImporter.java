@@ -41,7 +41,6 @@ import java.awt.Point;
 
 import es.eucm.eadventure.common.data.chapter.Rectangle;
 import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
-import es.eucm.eadventure.common.model.params.EAdBorderedColor;
 import es.eucm.eadventure.common.model.params.EAdPosition;
 import es.eucm.eadventure.common.resources.assets.drawable.Shape;
 import es.eucm.eadventure.common.resources.assets.drawable.impl.BezierShape;
@@ -71,8 +70,6 @@ public class ShapedElementImporter {
 			((BezierShape) shape).close();
 			newElement.setPosition(new EAdPosition(EAdPosition.Corner.TOP_LEFT, x, y));
 		}
-		// FIXME deleted when exits were working
-		shape.setColor(EAdBorderedColor.BLACK_ON_WHITE);
 		return shape;
 	}
 	

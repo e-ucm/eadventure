@@ -237,10 +237,12 @@ public class DesktopBasicInventoryGO extends BasicInventoryGO {
 	
 	@Override
 	public void doLayout(int offsetX, int offsetY) {
-		gui.addElement(gameObjectFactory.get(centerSensor), 0, 0);
-		gui.addElement(gameObjectFactory.get(inventory), 0, 0);
-		gui.addElement(gameObjectFactory.get(bottomSensor), 0, 0);
-		gui.addElement(gameObjectFactory.get(topSensor), 0, 0);
+		if (gameState.getScene().acceptsVisualEffects()) {
+			gui.addElement(gameObjectFactory.get(centerSensor), 0, 0);
+			gui.addElement(gameObjectFactory.get(inventory), 0, 0);
+			gui.addElement(gameObjectFactory.get(bottomSensor), 0, 0);
+			gui.addElement(gameObjectFactory.get(topSensor), 0, 0);
+		}
 	}
 	
 	@Override

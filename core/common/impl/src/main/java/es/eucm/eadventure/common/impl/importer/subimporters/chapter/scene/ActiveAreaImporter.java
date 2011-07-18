@@ -57,9 +57,9 @@ import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
 import es.eucm.eadventure.common.model.events.EAdConditionEvent;
 import es.eucm.eadventure.common.model.events.impl.EAdConditionEventImpl;
 import es.eucm.eadventure.common.model.guievents.impl.EAdMouseEventImpl;
-import es.eucm.eadventure.common.model.params.EAdBorderedColor;
 import es.eucm.eadventure.common.model.variables.impl.operations.BooleanOperation;
 import es.eucm.eadventure.common.resources.EAdBundleId;
+import es.eucm.eadventure.common.resources.EAdString;
 import es.eucm.eadventure.common.resources.StringHandler;
 import es.eucm.eadventure.common.resources.assets.drawable.Shape;
 
@@ -102,6 +102,17 @@ public class ActiveAreaImporter implements
 				+ "_showActions", newActiveAreaReference);
 		newActiveAreaReference.addBehavior(EAdMouseEventImpl.MOUSE_RIGHT_CLICK, showActions);
 
+		newActiveArea.setName(new EAdString(stringHandler.getUniqueId()));
+		stringHandler.addString(newActiveArea.getName(), oldObject.getName());
+
+		newActiveArea.setDescription(new EAdString(stringHandler.getUniqueId()));
+		stringHandler.addString(newActiveArea.getDescription(),
+				oldObject.getDescription());
+
+		newActiveArea.setDetailedDescription(new EAdString(stringHandler.getUniqueId()));
+		stringHandler.addString(newActiveArea.getDetailedDescription(),
+				oldObject.getDetailedDescription());
+
 		
 		Shape shape = ShapedElementImporter.importShape(oldObject, newActiveAreaReference);
 
@@ -109,7 +120,6 @@ public class ActiveAreaImporter implements
 				EAdBasicSceneElement.appearance, shape);
 		
 		Shape shape2 = ShapedElementImporter.importShape(oldObject, newActiveAreaReference);
-		shape2.setColor(EAdBorderedColor.BLACK_ON_WHITE);
 		EAdBundleId id = new EAdBundleId("id");
 		newActiveArea.getResources().addAsset(id, EAdBasicSceneElement.appearance, shape2);
 		newActiveAreaReference.addBehavior(EAdMouseEventImpl.MOUSE_ENTERED, new EAdChangeAppearance("test", newActiveArea, id));

@@ -107,7 +107,9 @@ public class SceneGOImpl extends AbstractGameObject<EAdScene> implements SceneGO
 
 	@Override
 	public boolean acceptsVisualEffects() {
-		return true;
+		if (element != null)
+			return element.acceptsVisualEffects();
+		return false;
 	}
 
 	@Override

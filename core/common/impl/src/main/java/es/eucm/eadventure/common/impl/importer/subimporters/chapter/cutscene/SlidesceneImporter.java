@@ -43,25 +43,18 @@ import es.eucm.eadventure.common.EAdElementImporter;
 import es.eucm.eadventure.common.GenericImporter;
 import es.eucm.eadventure.common.data.animation.Animation;
 import es.eucm.eadventure.common.data.animation.ImageLoaderFactory;
-import es.eucm.eadventure.common.data.chapter.ElementReference;
-import es.eucm.eadventure.common.data.chapter.Exit;
 import es.eucm.eadventure.common.data.chapter.conditions.Conditions;
-import es.eucm.eadventure.common.data.chapter.elements.ActiveArea;
 import es.eucm.eadventure.common.data.chapter.resources.Resources;
 import es.eucm.eadventure.common.data.chapter.scenes.Slidescene;
 import es.eucm.eadventure.common.impl.importer.interfaces.EAdElementFactory;
-import es.eucm.eadventure.common.impl.importer.interfaces.ResourceImporter;
 import es.eucm.eadventure.common.loader.InputStreamCreator;
 import es.eucm.eadventure.common.loader.Loader;
 import es.eucm.eadventure.common.model.EAdChapter;
-import es.eucm.eadventure.common.model.elements.EAdActorReference;
 import es.eucm.eadventure.common.model.elements.EAdCondition;
 import es.eucm.eadventure.common.model.elements.EAdScene;
-import es.eucm.eadventure.common.model.elements.EAdSceneElement;
 import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
 import es.eucm.eadventure.common.model.elements.impl.extra.EAdCutscene;
 import es.eucm.eadventure.common.model.elements.impl.extra.EAdSlide;
-import es.eucm.eadventure.common.resources.StringHandler;
 import es.eucm.eadventure.common.resources.assets.drawable.animation.impl.Frame;
 import es.eucm.eadventure.common.resources.assets.drawable.animation.impl.FramesAnimation;
 import es.eucm.eadventure.common.resources.assets.drawable.impl.ImageImpl;
@@ -74,16 +67,6 @@ import es.eucm.eadventure.common.resources.assets.multimedia.impl.SoundImpl;
  */
 public class SlidesceneImporter implements EAdElementImporter<Slidescene, EAdCutscene> {
 
-	/**
-	 * String handler
-	 */
-	private StringHandler stringHandler;
-
-	/**
-	 * Resources importer
-	 */
-	private ResourceImporter resourceImporter;
-
 	private EAdElementFactory factory;
 
 	private ImageLoaderFactory imageLoader;
@@ -93,15 +76,11 @@ public class SlidesceneImporter implements EAdElementImporter<Slidescene, EAdCut
 	private GenericImporter<Animation, FramesAnimation> animationImporter;
 
 	@Inject
-	public SlidesceneImporter(StringHandler stringHandler,
-			EAdElementImporter<Conditions, EAdCondition> conditionsImporter,
-			ResourceImporter resourceImporter,
+	public SlidesceneImporter(EAdElementImporter<Conditions, EAdCondition> conditionsImporter,
 			EAdElementFactory factory,
 			ImageLoaderFactory imageLoader,
 			InputStreamCreator inputStreamCreator,
 			GenericImporter<Animation, FramesAnimation> animationImporter) {
-		this.stringHandler = stringHandler;
-		this.resourceImporter = resourceImporter;
 		this.factory = factory;
 		this.imageLoader = imageLoader;
 		this.inputStreamCreator = inputStreamCreator;

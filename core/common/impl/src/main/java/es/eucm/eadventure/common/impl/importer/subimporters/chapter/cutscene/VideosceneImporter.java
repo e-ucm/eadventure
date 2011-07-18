@@ -40,22 +40,16 @@ package es.eucm.eadventure.common.impl.importer.subimporters.chapter.cutscene;
 import com.google.inject.Inject;
 
 import es.eucm.eadventure.common.EAdElementImporter;
-import es.eucm.eadventure.common.GenericImporter;
-import es.eucm.eadventure.common.data.animation.Animation;
-import es.eucm.eadventure.common.data.animation.ImageLoaderFactory;
 import es.eucm.eadventure.common.data.chapter.conditions.Conditions;
 import es.eucm.eadventure.common.data.chapter.resources.Resources;
 import es.eucm.eadventure.common.data.chapter.scenes.Slidescene;
 import es.eucm.eadventure.common.data.chapter.scenes.Videoscene;
 import es.eucm.eadventure.common.impl.importer.interfaces.EAdElementFactory;
 import es.eucm.eadventure.common.impl.importer.interfaces.ResourceImporter;
-import es.eucm.eadventure.common.loader.InputStreamCreator;
 import es.eucm.eadventure.common.model.EAdChapter;
 import es.eucm.eadventure.common.model.elements.EAdCondition;
 import es.eucm.eadventure.common.model.elements.EAdScene;
 import es.eucm.eadventure.common.model.elements.impl.EAdVideoScene;
-import es.eucm.eadventure.common.resources.StringHandler;
-import es.eucm.eadventure.common.resources.assets.drawable.animation.impl.FramesAnimation;
 import es.eucm.eadventure.common.resources.assets.multimedia.Video;
 import es.eucm.eadventure.common.resources.assets.multimedia.impl.VideoImpl;
 
@@ -66,37 +60,18 @@ import es.eucm.eadventure.common.resources.assets.multimedia.impl.VideoImpl;
 public class VideosceneImporter implements EAdElementImporter<Videoscene, EAdVideoScene> {
 
 	/**
-	 * String handler
-	 */
-	private StringHandler stringHandler;
-
-	/**
 	 * Resources importer
 	 */
 	private ResourceImporter resourceImporter;
 
 	private EAdElementFactory factory;
 
-	private ImageLoaderFactory imageLoader;
-
-	private InputStreamCreator inputStreamCreator;
-	
-	private GenericImporter<Animation, FramesAnimation> animationImporter;
-
 	@Inject
-	public VideosceneImporter(StringHandler stringHandler,
-			EAdElementImporter<Conditions, EAdCondition> conditionsImporter,
+	public VideosceneImporter(EAdElementImporter<Conditions, EAdCondition> conditionsImporter,
 			ResourceImporter resourceImporter,
-			EAdElementFactory factory,
-			ImageLoaderFactory imageLoader,
-			InputStreamCreator inputStreamCreator,
-			GenericImporter<Animation, FramesAnimation> animationImporter) {
-		this.stringHandler = stringHandler;
+			EAdElementFactory factory) {
 		this.resourceImporter = resourceImporter;
 		this.factory = factory;
-		this.imageLoader = imageLoader;
-		this.inputStreamCreator = inputStreamCreator;
-		this.animationImporter = animationImporter;
 	}
 
 	@Override
