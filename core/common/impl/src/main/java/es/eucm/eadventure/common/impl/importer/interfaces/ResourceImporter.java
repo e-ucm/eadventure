@@ -42,6 +42,7 @@ import java.util.Map;
 
 import es.eucm.eadventure.common.data.chapter.resources.Resources;
 import es.eucm.eadventure.common.model.EAdElement;
+import es.eucm.eadventure.common.resources.assets.AssetDescriptor;
 
 public interface ResourceImporter {
 
@@ -54,7 +55,7 @@ public interface ResourceImporter {
 	 *         problem with the import
 	 */
 	String getURI(String oldURI);
-	
+
 	/**
 	 * Set the paths for the resources importer
 	 * 
@@ -67,7 +68,19 @@ public interface ResourceImporter {
 
 	void importResources(EAdElement element, List<Resources> resources,
 			Map<String, String> resourcesStrings,
-			Map<String, Class<?>> resourcesClasses);
+			Map<String, Object> resourcesObjectsClasses);
 
 	boolean copyFile(String oldURI, String newURI);
+
+	/**
+	 * Returns an asset descriptor for an old asset path and the class in the
+	 * new model
+	 * 
+	 * @param assetPath
+	 *            old asset path
+	 * @param clazz
+	 *            the class in the new model
+	 * @return
+	 */
+	AssetDescriptor getAssetDescritptor(String assetPath, Class<?> clazz);
 }

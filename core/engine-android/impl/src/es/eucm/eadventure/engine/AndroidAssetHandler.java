@@ -54,7 +54,7 @@ import es.eucm.eadventure.engine.core.platform.impl.AbstractAssetHandler;
 @Singleton
 public class AndroidAssetHandler extends AbstractAssetHandler {
 	
-		private Resources resources;
+		protected Resources resources;
 		
 		private static final Logger logger = Logger.getLogger("AndroidAssetHandler");
 
@@ -68,13 +68,12 @@ public class AndroidAssetHandler extends AbstractAssetHandler {
 		
 		@Override
 		public void initilize() {
-			// TODO Auto-generated method stub
+			
 
 		}
 
 		@Override
 		public void terminate() {
-			// TODO Auto-generated method stub
 
 		}
 		

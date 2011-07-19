@@ -40,8 +40,6 @@ package es.eucm.eadventure.engine.core.operators.impl.util;
 import es.eucm.eadventure.common.model.EAdList;
 import es.eucm.eadventure.common.model.variables.EAdVar;
 import es.eucm.eadventure.engine.core.ValueMap;
-
-//FIXME ¿Escribir al dueño para pedir permiso?
 /************************************************************************
  * <i>Mathematic expression evaluator.</i> Supports the following functions: +,
  * -, *, /, ^, %, cos, sin, tan, acos, asin, atan, sqrt, sqr, log, min, max,

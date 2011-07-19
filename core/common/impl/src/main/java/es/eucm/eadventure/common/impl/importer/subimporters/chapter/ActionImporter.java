@@ -140,7 +140,7 @@ public class ActionImporter implements EAdElementImporter<Action, EAdAction> {
 			// old resources are named "buttonOver" and "buttonPressed"
 
 			Map<String, String> resourcesStrings = new HashMap<String, String>();
-			Map<String, Class<?>> resourcesClasses = new HashMap<String, Class<?>>();
+			Map<String, Object> resourcesClasses = new HashMap<String, Object>();
 
 			EAdBundleId temp = action.getInitialBundle();
 			action.setInitialBundle(action.getHighlightBundle());

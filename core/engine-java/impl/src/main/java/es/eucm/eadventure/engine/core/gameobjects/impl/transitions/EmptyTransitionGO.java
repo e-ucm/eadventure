@@ -167,8 +167,6 @@ public class EmptyTransitionGO extends SceneGOImpl implements TransitionGO {
 		public void run() {
 			nextSceneGO = (SceneGO<?>) gameObjectFactory.get(nextEAdScene);
 			try {
-				//FIXME wait time to simulate loading, should be removed
-				Thread.sleep(0);
 
 				//TODO what if it's not possible to create previous scene image?
 				while (previousSceneImage == null) {

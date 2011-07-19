@@ -38,7 +38,7 @@
 package es.eucm.eadventure.editor.control.commands.impl;
 
 import es.eucm.eadventure.common.model.EAdElement;
-import es.eucm.eadventure.common.model.EAdElementList;
+import es.eucm.eadventure.common.model.EAdList;
 import es.eucm.eadventure.editor.control.Command;
 
 /**
@@ -49,7 +49,7 @@ public class RemoveElementCommand<P extends EAdElement> extends Command{
 	/**
 	 * The list from which the specified elements will be removed.
 	 */
-	private EAdElementList<P> elementList;
+	private EAdList<P> elementList;
 	/**
 	 * The element to be removed from the list.
 	 */
@@ -68,7 +68,7 @@ public class RemoveElementCommand<P extends EAdElement> extends Command{
      *            The P element to be removed from a list by the command
      *
      */
-	public RemoveElementCommand(EAdElementList<P> list, P e) {
+	public RemoveElementCommand(EAdList<P> list, P e) {
 		this.elementList = list;
 		this.anElement = e;
 	}

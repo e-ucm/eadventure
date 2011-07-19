@@ -43,27 +43,19 @@ import org.junit.Test;
 
 import es.eucm.eadventure.common.impl.writer.EAdAdventureModelWriter;
 import es.eucm.eadventure.common.model.EAdAdventureModel;
-import es.eucm.eadventure.common.model.EAdChapterModel;
 import es.eucm.eadventure.common.model.actions.impl.EAdBasicAction;
-import es.eucm.eadventure.common.model.effects.impl.EAdChangeScreen;
-import es.eucm.eadventure.common.model.effects.impl.actorreference.EAdMoveActorReference;
 import es.eucm.eadventure.common.model.effects.impl.text.EAdShowQuestion;
 import es.eucm.eadventure.common.model.effects.impl.text.EAdShowText;
-import es.eucm.eadventure.common.model.effects.impl.text.extra.TextAnswer;
-import es.eucm.eadventure.common.model.elements.EAdScreen;
 import es.eucm.eadventure.common.model.elements.impl.EAdActorReferenceImpl;
 import es.eucm.eadventure.common.model.elements.impl.EAdBasicActor;
-import es.eucm.eadventure.common.model.elements.impl.EAdSpace;
-import es.eucm.eadventure.common.model.elements.impl.EAdTextImpl;
 import es.eucm.eadventure.common.model.impl.EAdAdventureModelImpl;
-import es.eucm.eadventure.common.model.impl.EAdChapterModelImpl;
 import es.eucm.eadventure.common.model.params.EAdBorderedColor;
 import es.eucm.eadventure.common.model.params.EAdFont;
 import es.eucm.eadventure.common.model.params.EAdPosition;
 import es.eucm.eadventure.common.resources.EAdString;
-import es.eucm.eadventure.common.resources.assets.animation.frameanimation.Frame;
-import es.eucm.eadventure.common.resources.assets.animation.frameanimation.FramesAnimation;
-import es.eucm.eadventure.common.resources.assets.impl.ImageImpl;
+import es.eucm.eadventure.common.resources.assets.drawable.animation.impl.Frame;
+import es.eucm.eadventure.common.resources.assets.drawable.animation.impl.FramesAnimation;
+import es.eucm.eadventure.common.resources.assets.drawable.impl.ImageImpl;
 
 public class WriterTest extends TestCase {
 

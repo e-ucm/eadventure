@@ -38,7 +38,7 @@
 package es.eucm.eadventure.editor.control.commands.impl;
 
 import es.eucm.eadventure.common.model.EAdElement;
-import es.eucm.eadventure.common.model.EAdElementList;
+import es.eucm.eadventure.common.model.EAdList;
 import es.eucm.eadventure.editor.control.Command;
 
 /**
@@ -49,7 +49,7 @@ public class MoveElementCommand<P extends EAdElement> extends Command {
 	/**
 	 * The list in which the specified elements will be moved.
 	 */
-	private EAdElementList<P> elementList;
+	private EAdList<P> elementList;
 	/**
 	 * The element to be moved in the list.
 	 */
@@ -74,7 +74,7 @@ public class MoveElementCommand<P extends EAdElement> extends Command {
      *            The index in the list where the element is to be moved
      *
      */
-	public MoveElementCommand(EAdElementList<P> list, P e, int ind) {
+	public MoveElementCommand(EAdList<P> list, P e, int ind) {
 		this.elementList = list;
 		this.anElement = e;
 		this.newIndex = ind;

@@ -85,7 +85,6 @@ public class HighlightEffectGO extends AbstractEffectGO<EAdHighlightActorReferen
 	}
 
 	public void update(GameState gameSate) {
-		//FIXME ¿Y si queremos que el highlight se represente de otra manera?
 		if (time > 0) {
 			if (!started) {
 				actorGO.setScale(oldScale * 2);

@@ -38,7 +38,7 @@
 package es.eucm.eadventure.editor.control.commands.impl;
 
 import es.eucm.eadventure.common.model.EAdElement;
-import es.eucm.eadventure.common.model.EAdElementList;
+import es.eucm.eadventure.common.model.EAdList;
 import es.eucm.eadventure.editor.control.Command;
 
 public class DuplicateElementCommand<P extends EAdElement> extends Command {
@@ -46,7 +46,7 @@ public class DuplicateElementCommand<P extends EAdElement> extends Command {
 	/**
 	 * The list in which the duplicated elements will be placed.
 	 */
-	private EAdElementList<P> elementList;
+	private EAdList<P> elementList;
 	/**
 	 * The element to be duplicated
 	 */
@@ -66,7 +66,7 @@ public class DuplicateElementCommand<P extends EAdElement> extends Command {
      *            The P element to be added to a list by the command
      *
      */
-	public DuplicateElementCommand(EAdElementList<P> list, P e) {
+	public DuplicateElementCommand(EAdList<P> list, P e) {
 		this.elementList = list;
 		this.anElement = e;		
 	}

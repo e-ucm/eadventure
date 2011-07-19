@@ -59,7 +59,6 @@ public class ItemImporter extends ActorImporter<Item> {
 			EAdElementFactory elementFactory,
 			EAdElementImporter<Action, EAdAction> actionImporter) {
 		super(stringHandler, resourceImporter, elementFactory, actionImporter);
-		// TODO Auto-generated constructor stub
 	}
 
 	@Override
@@ -70,8 +69,8 @@ public class ItemImporter extends ActorImporter<Item> {
 		properties = new HashMap<String, String>();
 		properties.put(Item.RESOURCE_TYPE_IMAGE, EAdBasicActor.appearance);
 
-		classes = new HashMap<String, Class<?>>();
-		classes.put(Item.RESOURCE_TYPE_IMAGE, ImageImpl.class);
+		objectClasses = new HashMap<String, Object>();
+		objectClasses.put(Item.RESOURCE_TYPE_IMAGE, ImageImpl.class);
 
 	}
 	

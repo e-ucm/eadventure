@@ -41,13 +41,13 @@ import java.awt.BorderLayout;
 
 import javax.swing.JFrame;
 
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
+
 import es.eucm.eadventure.common.model.EAdElement;
-import es.eucm.eadventure.common.model.EAdElementList;
-import es.eucm.eadventure.common.model.elements.EAdScreen;
-import es.eucm.eadventure.common.model.elements.impl.EAdSpace;
-import es.eucm.eadventure.common.model.impl.EAdElementListImpl;
-import es.eucm.eadventure.common.resources.assets.impl.ImageImpl;
-import org.mockito.*;
+import es.eucm.eadventure.common.model.EAdList;
+import es.eucm.eadventure.common.model.impl.EAdListImpl;
+import es.eucm.eadventure.common.resources.assets.drawable.impl.ImageImpl;
 
 public class SceneLinksPanelTest {
 	
@@ -64,7 +64,7 @@ public class SceneLinksPanelTest {
  
     	MockitoAnnotations.initMocks(this);
 
-		EAdElementList<EAdScreen> list = new EAdElementListImpl<EAdScreen>(mockElement);
+		EAdList<EAdScreen> list = new EAdListImpl<EAdScreen>(mockElement);
 
 		EAdSpace space = new EAdSpace(mockElement, "Scene1");
 		space.getResources().addAsset(space.getInitialBundle(), EAdSpace.appearance, new ImageImpl("@drawable/loading.png"));

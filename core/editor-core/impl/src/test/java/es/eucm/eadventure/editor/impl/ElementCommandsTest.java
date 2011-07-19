@@ -37,18 +37,21 @@
 
 package es.eucm.eadventure.editor.impl;
 
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 import junit.framework.TestCase;
-import org.junit.*;
-import org.mockito.*;
+
+import org.junit.Before;
+import org.junit.Test;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 
 import es.eucm.eadventure.common.model.EAdElement;
-import es.eucm.eadventure.common.model.EAdElementList;
-import es.eucm.eadventure.common.model.effects.impl.EAdEffectImpl;
-import es.eucm.eadventure.common.model.impl.EAdElementListImpl;
+import es.eucm.eadventure.common.model.EAdList;
+import es.eucm.eadventure.common.model.impl.EAdListImpl;
 import es.eucm.eadventure.editor.control.commands.impl.AddElementCommand;
 import es.eucm.eadventure.editor.control.commands.impl.MoveElementCommand;
 import es.eucm.eadventure.editor.control.commands.impl.RemoveElementCommand;
-import static org.mockito.Mockito.*;
 
 /**
  * Class for testing the right functionality of generic Commands to modify the lists of EAdElement instances in the game model.
@@ -59,7 +62,7 @@ public class ElementCommandsTest extends TestCase {
 	 * The mock object list in which the elements will be modified
 	 */
 	@Mock
-	private EAdElementList<EAdElement> mockList;
+	private EAdList<EAdElement> mockList;
 	/**
 	 * The mock object element to be modified
 	 */
@@ -69,7 +72,7 @@ public class ElementCommandsTest extends TestCase {
 	/**
 	 * The list in which the elements will be modified
 	 */
-	private EAdElementList<EAdElement> elemList;
+	private EAdList<EAdElement> elemList;
 	/**
 	 * The parent element to create EAdElement instances
 	 */
@@ -100,7 +103,7 @@ public class ElementCommandsTest extends TestCase {
     	MockitoAnnotations.initMocks(this);
     	
     	element = new EAdEffectImpl(pelement,"");
-    	elemList = new EAdElementListImpl<EAdElement>(pelement);
+    	elemList = new EAdListImpl<EAdElement>(pelement);
     	elemList.add(pelement);
     	
     	addComm = new AddElementCommand<EAdElement>(elemList, element);

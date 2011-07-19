@@ -37,7 +37,7 @@
 
 package es.eucm.eadventure.editor.impl.conditionspanel;
 
-import es.eucm.eadventure.common.model.EAdElementList;
+import es.eucm.eadventure.common.model.EAdList;
 import es.eucm.eadventure.common.model.conditions.impl.ANDCondition;
 import es.eucm.eadventure.common.model.conditions.impl.FlagCondition;
 import es.eucm.eadventure.common.model.conditions.impl.ListedCondition;
@@ -247,7 +247,7 @@ public class ConditionsController {
 
 		if (!listCondition.getOperator().equals(operator)){
 
-			EAdElementList<EAdCondition> oldList = (EAdElementList<EAdCondition>) listCondition.getConds();
+			EAdList<EAdCondition> oldList = (EAdList<EAdCondition>) listCondition.getConds();
 
 			if (operator.equals(Operator.OR))	
 				listCondition = new ORCondition(oldList.get(0));			

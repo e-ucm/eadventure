@@ -64,7 +64,7 @@ public abstract class ActorImporter<P extends Element> implements
 
 	protected ResourceImporter resourceImporter;
 
-	protected Map<String, Class<?>> classes;
+	protected Map<String, Object> objectClasses;
 
 	protected Map<String, String> properties;
 
@@ -111,7 +111,7 @@ public abstract class ActorImporter<P extends Element> implements
 		initResourcesCorrespondencies();
 
 		resourceImporter.importResources(actor, oldObject.getResources(),
-				properties, classes);
+				properties, objectClasses);
 
 		addActions(oldObject, actor, actionImporter, stringHandler);
 

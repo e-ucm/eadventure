@@ -105,9 +105,6 @@ public class AndroidCaptionRenderer implements
 			String string, int yOffset) {
 		float alpha = text.getAlpha();
 		EAdBorderedColor textColor = text.getCaption().getTextColor();
-		AndroidEngineFont deFont = (AndroidEngineFont) text.getFont();
-		
-		//TODO "add" alpha to colors?
 
 		int borderColor = new AndroidEngineColor(textColor.getBorderColor())
 				.getColor();
@@ -115,6 +112,7 @@ public class AndroidCaptionRenderer implements
 				.getColor();
 
 		Paint p = new Paint();
+		p.setAlpha(Math.round(alpha * 255));
 		p.setColor(borderColor);
 		p.setTypeface(((AndroidEngineFont) text.getFont()).getFont());
 		

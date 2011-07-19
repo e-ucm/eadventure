@@ -78,8 +78,6 @@ public class EAdElementFactoryImpl implements EAdElementFactory {
 	private AdventureData model;
 
 	private EAdElementImporter<Conditions, EAdCondition> conditionImporter;
-	
-	private EAdElementImporter<Conversation, EAdEffect> conversationImporter;
 
 	private Injector injector;
 	
@@ -91,7 +89,6 @@ public class EAdElementFactoryImpl implements EAdElementFactory {
 			EAdElementImporter<Conversation, EAdEffect> conversationImporter,
 			Injector injector) {
 		this.conditionImporter = conditionImporter;
-		this.conversationImporter = conversationImporter;
 		elements = new HashMap<String, Map<String, EAdElement>>();
 		chapterVars = new HashMap<String, Map<String, EAdVar<?>>>();
 		chapterGlobalStates = new HashMap<String, Map<String, EAdCondition>>();
@@ -115,6 +112,7 @@ public class EAdElementFactoryImpl implements EAdElementFactory {
 		return element;
 	}
 	
+	@SuppressWarnings("unchecked")
 	@Override
 	public <S> EAdElement getElement(String id, S oldElement) {
 		EAdElementImporter<S, EAdElement> importer = (EAdElementImporter<S, EAdElement>) findElementImporter(oldElement.getClass());
@@ -135,10 +133,12 @@ public class EAdElementFactoryImpl implements EAdElementFactory {
 		return chapterElements;
 	}
 	
+	@SuppressWarnings("unchecked")
 	private <S, I extends EAdElement> EAdElementImporter<S, I> findElementImporter(Class<S> clazz) {
 		return (EAdElementImporter<S, I>) findGenericImporter(clazz);
 	}
 	
+	@SuppressWarnings("unchecked")
 	private <S, I> GenericImporter<S, I> findGenericImporter(Class<S> clazz) {
 		Class<? extends GenericImporter<?, ?>> importerClass = importerMap.get(clazz);
 		GenericImporter<?, ?> genericImporter = injector.getInstance(importerClass);

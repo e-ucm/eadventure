@@ -128,9 +128,8 @@ public class SlidesceneImporter implements EAdElementImporter<Slidescene, EAdCut
 		}
 		
 		for (Resources r : oldSlidesceneScene.getResources()) {
-			// FIXME Music is imported to chapter level. So, the chapter will
-			// remain with the last sound track appeared in the scenes. Maybe a
-			// "ChangeSoundEffect" should be added
+			// Music is imported to chapter level. So, the chapter will
+			// remain with the last sound track appeared in the scenes
 			String musicPath = r.getAssetPath(Slidescene.RESOURCE_TYPE_MUSIC);
 
 			if (musicPath != null) {

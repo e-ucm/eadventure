@@ -167,7 +167,14 @@ public interface EAdSceneElement extends EAdElement, Positioned {
 		/**
 		 * Walking state
 		 */
-		EAD_STATE_WALKING;
+		EAD_STATE_WALKING,
+		
+		/**
+		 * Using state
+		 */
+		EAD_STATE_USING;
+		
+		
 	}
 
 }

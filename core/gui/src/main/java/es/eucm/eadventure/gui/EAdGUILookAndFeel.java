@@ -120,10 +120,8 @@ public class EAdGUILookAndFeel extends BasicLookAndFeel {
 		} catch (UnsupportedLookAndFeelException e) {
 			e.printStackTrace();
 		} catch (FontFormatException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
     }
@@ -149,10 +147,8 @@ public class EAdGUILookAndFeel extends BasicLookAndFeel {
 		    	}
 		    }
 		} catch (FontFormatException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
     	

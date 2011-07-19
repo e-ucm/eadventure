@@ -245,7 +245,7 @@ public class SceneImporter implements EAdElementImporter<Scene, EAdSceneImpl> {
 		resourcesStrings.put(Scene.RESOURCE_TYPE_BACKGROUND,
 				EAdBasicSceneElement.appearance);
 
-		Map<String, Class<?>> resourcesClasses = new HashMap<String, Class<?>>();
+		Map<String, Object> resourcesClasses = new HashMap<String, Object>();
 		resourcesClasses.put(Scene.RESOURCE_TYPE_BACKGROUND, ImageImpl.class);
 
 		resourceImporter.importResources(space.getBackground(),
@@ -253,9 +253,8 @@ public class SceneImporter implements EAdElementImporter<Scene, EAdSceneImpl> {
 
 		for (Resources r : oldScene.getResources()) {
 
-			// FIXME Music is imported to chapter level. So, the chapter will
-			// remain with the last sound track appeared in the scenes. Maybe a
-			// "ChangeSoundEffect" should be added
+			// Music is imported to chapter level. So, the chapter will
+			// remain with the last sound track appeared in the scenes
 			String musicPath = r.getAssetPath(Scene.RESOURCE_TYPE_MUSIC);
 
 			if (musicPath != null) {

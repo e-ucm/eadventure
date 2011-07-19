@@ -60,7 +60,6 @@ public abstract class BaseTestLauncher {
 		launcher = injector.getInstance(PlatformLauncher.class);
 		loadingScreen = injector.getInstance(LoadingScreen.class);
 		loadingScreen.setInitialScreen(injector.getInstance(scene));
-		// FIXME Init strings. This probably could be done in a better way
 		StringHandler sh = injector.getInstance(StringHandler.class);
 		EAdElementsFactory.getInstance().getStringFactory().addStrings(sh);
 	}

@@ -40,8 +40,8 @@ package es.eucm.eadventure.editor.impl;
 import java.util.ArrayList;
 import java.util.List;
 
-import es.eucm.eadventure.common.model.variables.impl.BooleanVar;
-import es.eucm.eadventure.common.model.variables.impl.NumberVar;
+import es.eucm.eadventure.common.model.variables.impl.vars.BooleanVar;
+import es.eucm.eadventure.common.model.variables.impl.vars.NumberVar;
 
 /**
  * This class holds the name of all the active flags in the script. * 

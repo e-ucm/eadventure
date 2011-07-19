@@ -72,8 +72,8 @@ public class AtrezzoImporter extends ActorImporter<Atrezzo>{
 		properties = new HashMap<String, String>();
 		properties.put(Atrezzo.RESOURCE_TYPE_IMAGE, EAdBasicActor.appearance);
 		
-		classes = new HashMap<String, Class<?>>();
-		classes.put(Atrezzo.RESOURCE_TYPE_IMAGE, ImageImpl.class);
+		objectClasses = new HashMap<String, Object>();
+		objectClasses.put(Atrezzo.RESOURCE_TYPE_IMAGE, ImageImpl.class);
 		
 	}
 

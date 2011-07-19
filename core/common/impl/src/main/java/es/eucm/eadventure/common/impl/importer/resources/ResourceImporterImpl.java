@@ -69,7 +69,6 @@ import es.eucm.eadventure.common.model.elements.EAdCondition;
 import es.eucm.eadventure.common.model.events.EAdConditionEvent;
 import es.eucm.eadventure.common.model.events.impl.EAdConditionEventImpl;
 import es.eucm.eadventure.common.resources.EAdBundleId;
-import es.eucm.eadventure.common.resources.EAdResources;
 import es.eucm.eadventure.common.resources.assets.AssetDescriptor;
 import es.eucm.eadventure.common.resources.assets.drawable.animation.impl.Frame;
 import es.eucm.eadventure.common.resources.assets.drawable.animation.impl.FramesAnimation;
@@ -81,6 +80,10 @@ import es.eucm.eadventure.common.resources.assets.drawable.animation.impl.Frames
  */
 @Singleton
 public class ResourceImporterImpl implements ResourceImporter {
+
+	private static String DRAWABLE = "drawable";
+
+	private static String BINARY = "binary";
 
 	/**
 	 * Conditions importer
@@ -170,8 +173,10 @@ public class ResourceImporterImpl implements ResourceImporter {
 	}
 
 	private String getFolder(String oldURI) {
-		// FIXME Use constants for directory
-		return "drawable";
+		if (oldURI.endsWith(".png") || oldURI.endsWith(".jpg"))
+			return DRAWABLE;
+		else
+			return BINARY;
 	}
 
 	@Override
@@ -203,10 +208,10 @@ public class ResourceImporterImpl implements ResourceImporter {
 
 	public void importResources(EAdElement element, List<Resources> resources,
 			Map<String, String> resourcesStrings,
-			Map<String, Class<?>> resourcesClasses) {
+			Map<String, Object> resourcesObjectClasses) {
 		int i = 0;
 		EAdCondition previousCondition = null;
-		
+
 		// We iterate for the resources. Each resource is associated to some
 		// conditions. These
 		// conditions are transformed in ConditionedEvents.
@@ -215,49 +220,25 @@ public class ResourceImporterImpl implements ResourceImporter {
 			if (i == 0) {
 				bundleId = element.getInitialBundle();
 			} else {
-				bundleId = new EAdBundleId(element.getId() + "_bundle_"
-						+ i);
+				bundleId = new EAdBundleId(element.getId() + "_bundle_" + i);
 				element.getResources().addBundle(bundleId);
 			}
 
 			for (String resourceType : resourcesStrings.keySet()) {
 				String assetPath = r.getAssetPath(resourceType);
+				Object o = resourcesObjectClasses.get(resourceType);
 				AssetDescriptor asset = null;
-				if (assetPath.startsWith("assets/animation")) {
-					if (assetPath.endsWith(".eaa")) {
-						Animation a = Loader.loadAnimation(inputStreamCreator,
-								assetPath, imageLoader);
-						asset = animationImporter.init(a);
-						asset = animationImporter.convert(a, asset);
-					} else {
-						asset = importPNGAnimation(assetPath);
-					}
-				} else {
-					String newAssetPath = getURI(assetPath);
-
-					// FIXME Check exceptions
-					try {
-						asset = (AssetDescriptor) resourcesClasses
-								.get(resourceType).getConstructor(String.class)
-								.newInstance(newAssetPath);
-
-					} catch (IllegalArgumentException e) {
-						e.printStackTrace();
-					} catch (SecurityException e) {
-						e.printStackTrace();
-					} catch (InstantiationException e) {
-						e.printStackTrace();
-					} catch (IllegalAccessException e) {
-						e.printStackTrace();
-					} catch (InvocationTargetException e) {
-						e.printStackTrace();
-					} catch (NoSuchMethodException e) {
-						e.printStackTrace();
-					}
+				if (o instanceof Class) {
+					asset = this.getAssetDescritptor(assetPath, (Class<?>) o);
+				} else if (o instanceof AssetDescriptor) {
+					asset = (AssetDescriptor) o;
 				}
 
-				String propertyName = resourcesStrings.get(resourceType);
-				element.getResources().addAsset(bundleId, propertyName, asset);
+				if (asset != null) {
+					String propertyName = resourcesStrings.get(resourceType);
+					element.getResources().addAsset(bundleId, propertyName,
+							asset);
+				}
 
 			}
 
@@ -273,11 +254,11 @@ public class ResourceImporterImpl implements ResourceImporter {
 			} else {
 				EAdCondition temp = condition;
 				condition = new ANDCondition(condition, previousCondition);
-				previousCondition = new ANDCondition(previousCondition, new NOTCondition(temp));
+				previousCondition = new ANDCondition(previousCondition,
+						new NOTCondition(temp));
 			}
 			conditionEvent.setCondition(condition);
 
-			
 			EAdChangeAppearance changeAppereance = new EAdChangeAppearance(
 					conditionEvent.getId() + "change_appearence");
 			changeAppereance.setElement(element);
@@ -285,12 +266,48 @@ public class ResourceImporterImpl implements ResourceImporter {
 			conditionEvent.addEffect(
 					EAdConditionEvent.ConditionedEvent.CONDITIONS_MET,
 					changeAppereance);
-			
 
 			element.getEvents().add(conditionEvent);
-			
+
 			i++;
 		}
+
+	}
+
+	public AssetDescriptor getAssetDescritptor(String assetPath, Class<?> clazz) {
+		AssetDescriptor asset = null;
+		if (assetPath.startsWith("assets/animation")) {
+			if (assetPath.endsWith(".eaa")) {
+				Animation a = Loader.loadAnimation(inputStreamCreator,
+						assetPath, imageLoader);
+				asset = animationImporter.init(a);
+				asset = animationImporter.convert(a, asset);
+			} else {
+				asset = importPNGAnimation(assetPath);
+			}
+		} else {
+			String newAssetPath = getURI(assetPath);
+
+			try {
+				asset = (AssetDescriptor) clazz.getConstructor(String.class)
+						.newInstance(newAssetPath);
+
+			} catch (IllegalArgumentException e) {
+				e.printStackTrace();
+			} catch (SecurityException e) {
+				e.printStackTrace();
+			} catch (InstantiationException e) {
+				e.printStackTrace();
+			} catch (IllegalAccessException e) {
+				e.printStackTrace();
+			} catch (InvocationTargetException e) {
+				e.printStackTrace();
+			} catch (NoSuchMethodException e) {
+				e.printStackTrace();
+			}
+		}
+
+		return asset;
 
 	}
 
@@ -300,22 +317,17 @@ public class ResourceImporterImpl implements ResourceImporter {
 	 * @param assetPath
 	 *            the root asset path
 	 * @return the asset
-	 */ 
+	 */
 	private AssetDescriptor importPNGAnimation(String assetPath) {
 		FramesAnimation frames = new FramesAnimation();
 		int frame = 1;
 		int frameTime = 500;
-		String newPath = getURI( assetPath + "_0" + frame++ + ".png");
-		while ( newPath != null ){
-			frames.addFrame(new Frame( newPath, frameTime ));
-			newPath = getURI( assetPath + "_0" + frame++ + ".png");
+		String newPath = getURI(assetPath + "_0" + frame++ + ".png");
+		while (newPath != null) {
+			frames.addFrame(new Frame(newPath, frameTime));
+			newPath = getURI(assetPath + "_0" + frame++ + ".png");
 		}
 		return frames;
-	}
-
-	public boolean equals(Resources oldResources, EAdResources newResources) {
-		// FIXME equals resources
-		return false;
 	}
 
 }

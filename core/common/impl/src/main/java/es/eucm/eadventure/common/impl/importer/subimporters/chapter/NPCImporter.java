@@ -47,7 +47,8 @@ import es.eucm.eadventure.common.data.chapter.elements.NPC;
 import es.eucm.eadventure.common.impl.importer.interfaces.EAdElementFactory;
 import es.eucm.eadventure.common.impl.importer.interfaces.ResourceImporter;
 import es.eucm.eadventure.common.model.actions.EAdAction;
-import es.eucm.eadventure.common.model.elements.impl.EAdBasicActor;
+import es.eucm.eadventure.common.model.elements.EAdActor;
+import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
 import es.eucm.eadventure.common.resources.StringHandler;
 import es.eucm.eadventure.common.resources.assets.drawable.impl.ImageImpl;
 
@@ -60,17 +61,29 @@ public class NPCImporter extends ActorImporter<NPC> {
 			EAdElementImporter<Action, EAdAction> actionImporter) {
 		super(stringHandler, resourceImporter, elementFactory, actionImporter);
 	}
+	
+
+
+	@Override
+	public EAdActor convert(NPC oldObject, Object object) {
+		EAdActor actor = super.convert(oldObject, object);
+		
+		
+		return actor;
+	}
+
+
 
 	@Override
 	public void initResourcesCorrespondencies() {
-		// FIXME animations, other frames...
-
+		//FIXME animations, 
+		
 		properties = new HashMap<String, String>();
-		properties.put(NPC.RESOURCE_TYPE_STAND_DOWN, EAdBasicActor.appearance);
-
-		classes = new HashMap<String, Class<?>>();
-		classes.put(NPC.RESOURCE_TYPE_STAND_DOWN, ImageImpl.class);
-
+		properties.put(NPC.RESOURCE_TYPE_STAND_DOWN, EAdBasicSceneElement.appearance);
+		
+		objectClasses = new HashMap<String, Object>();
+		objectClasses.put(NPC.RESOURCE_TYPE_STAND_DOWN, ImageImpl.class);
+		
 	}
 
 }

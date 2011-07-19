@@ -51,14 +51,15 @@ import java.util.List;
 import java.util.Random;
 
 import javax.imageio.ImageIO;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import es.eucm.eadventure.common.model.EAdElementList;
+import es.eucm.eadventure.common.model.EAdList;
 import es.eucm.eadventure.common.model.elements.EAdScene;
 import es.eucm.eadventure.common.model.elements.EAdSceneElement;
 import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
-import es.eucm.eadventure.common.resources.assets.impl.ImageImpl;
+import es.eucm.eadventure.common.resources.assets.drawable.impl.ImageImpl;
 import es.eucm.eadventure.gui.eadcanvaspanel.EAdCanvasPanel;
 import es.eucm.eadventure.gui.eadcanvaspanel.listeners.DragListener;
 import es.eucm.eadventure.gui.eadcanvaspanel.scrollcontainers.EAdFixScrollCanvasPanel;
@@ -85,7 +86,7 @@ public class SceneLinksPanel extends EAdFixScrollCanvasPanel {
 	/**
 	 * The list of scenes to show on the panel
 	 */
-	private EAdElementList<EAdScene> scenes;
+	private EAdList<EAdScene> scenes;
 	/**
 	 * The list of elements used to show the scenes on the panel
 	 */
@@ -105,7 +106,7 @@ public class SceneLinksPanel extends EAdFixScrollCanvasPanel {
 	 * @param scns the list of scenes to show on the panel
 	 * 
 	 */
-	public SceneLinksPanel(EAdElementList<EAdScene> scns) {
+	public SceneLinksPanel(EAdList<EAdScene> scns) {
 
 		this.scenes = scns;
 		drawingScale = (double)(0.35f * (1 - Math.log(this.scenes.size())/Math.log(100)));
@@ -177,7 +178,7 @@ public class SceneLinksPanel extends EAdFixScrollCanvasPanel {
 	/**
 	 * Setter for the list of scenes attribute 
 	 */
-	public void setScenes(EAdElementList<EAdScene> scns){
+	public void setScenes(EAdList<EAdScene> scns){
 
 		this.scenes = scns;
 	}		
@@ -252,7 +253,7 @@ public class SceneLinksPanel extends EAdFixScrollCanvasPanel {
 	 *            The list of lines where to add the new one
 	 */
 	//TODO To be used when the scenes are linked one to another 
-	private void addLine( int x1, int y1, SceneElement temp, Color color, Stroke stroke, List<Line> lines ) {
+	protected void addLine( int x1, int y1, SceneElement temp, Color color, Stroke stroke, List<Line> lines ) {
 
 		double w = temp.getWidth() * drawingScale / 2;
 		double h = temp.getHeight() * drawingScale / 2;
