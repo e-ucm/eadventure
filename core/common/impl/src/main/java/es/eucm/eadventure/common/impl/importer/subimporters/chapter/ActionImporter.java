@@ -55,6 +55,7 @@ import es.eucm.eadventure.common.impl.importer.interfaces.EffectsImporterFactory
 import es.eucm.eadventure.common.impl.importer.interfaces.ResourceImporter;
 import es.eucm.eadventure.common.model.actions.EAdAction;
 import es.eucm.eadventure.common.model.actions.impl.EAdBasicAction;
+import es.eucm.eadventure.common.model.conditions.impl.EmptyCondition;
 import es.eucm.eadventure.common.model.effects.EAdEffect;
 import es.eucm.eadventure.common.model.effects.impl.EAdModifyActorState;
 import es.eucm.eadventure.common.model.effects.impl.EAdModifyActorState.Modification;
@@ -111,6 +112,8 @@ public class ActionImporter implements EAdElementImporter<Action, EAdAction> {
 				.getConditions(), condition);
 		if (condition != null)
 			action.setCondition(condition);
+		else
+			action.setCondition(EmptyCondition.TRUE_EMPTY_CONDITION);
 
 		// FIXME ¿Y qué pasa con los NoEffects?
 
