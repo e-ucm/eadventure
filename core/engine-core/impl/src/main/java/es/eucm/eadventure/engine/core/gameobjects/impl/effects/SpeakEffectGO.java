@@ -1,4 +1,4 @@
-package es.eucm.eadventure.engine.core.gameobjects.impl.effects;
+ package es.eucm.eadventure.engine.core.gameobjects.impl.effects;
 
 import com.google.inject.Inject;
 
@@ -11,18 +11,19 @@ import es.eucm.eadventure.common.model.params.EAdPosition;
 import es.eucm.eadventure.common.model.params.guievents.EAdMouseEvent.MouseActionType;
 import es.eucm.eadventure.common.resources.StringHandler;
 import es.eucm.eadventure.common.resources.assets.drawable.impl.BallonShape;
-import es.eucm.eadventure.common.resources.assets.drawable.impl.BallonShape.BallonType;
 import es.eucm.eadventure.common.resources.assets.drawable.impl.BezierShape;
 import es.eucm.eadventure.common.resources.assets.drawable.impl.CaptionImpl;
 import es.eucm.eadventure.engine.core.GameState;
 import es.eucm.eadventure.engine.core.ValueMap;
 import es.eucm.eadventure.engine.core.gameobjects.GameObject;
 import es.eucm.eadventure.engine.core.gameobjects.GameObjectFactory;
+import es.eucm.eadventure.engine.core.gameobjects.SceneElementGO;
 import es.eucm.eadventure.engine.core.guiactions.GUIAction;
 import es.eucm.eadventure.engine.core.guiactions.MouseAction;
 import es.eucm.eadventure.engine.core.platform.AssetHandler;
 import es.eucm.eadventure.engine.core.platform.GUI;
 import es.eucm.eadventure.engine.core.platform.PlatformConfiguration;
+import es.eucm.eadventure.engine.core.platform.assets.impl.RuntimeCaption;
 
 public class SpeakEffectGO extends AbstractEffectGO<EAdSpeakEffect> {
 
@@ -33,6 +34,8 @@ public class SpeakEffectGO extends AbstractEffectGO<EAdSpeakEffect> {
 	private static final int MARGIN = 30;
 
 	private GameObject<?> ballon;
+
+	private RuntimeCaption caption;
 
 	private boolean finished;
 
@@ -53,7 +56,10 @@ public class SpeakEffectGO extends AbstractEffectGO<EAdSpeakEffect> {
 			MouseAction mouseAction = (MouseAction) action;
 
 			if (mouseAction.getType() == MouseActionType.LEFT_CLICK) {
-				finished = true;
+				if ( caption.getTimesRead() >= 1 || caption.getCurrentPart() == caption.getTotalParts() - 1)
+					finished = true;
+				else
+					caption.goForward(1);
 			}
 		}
 		return super.processAction(action);
@@ -70,6 +76,7 @@ public class SpeakEffectGO extends AbstractEffectGO<EAdSpeakEffect> {
 			valueMap.setValue(element.getStateVar(),
 					CommonStates.EAD_STATE_TALKING.toString());
 		}
+
 	}
 
 	private EAdSceneElement getSceneElement() {
@@ -95,13 +102,13 @@ public class SpeakEffectGO extends AbstractEffectGO<EAdSpeakEffect> {
 			}
 
 			rectangle = new BallonShape(left, top, right, bottom,
-					BallonType.RECTANGLE, xOrigin, yOrigin);
+					element.getBallonType(), xOrigin, yOrigin);
 		} else {
 			int offsetY = height / 2 - (bottom - top) / 2;
 			top += offsetY;
 			bottom += offsetY;
 			rectangle = new BallonShape(left, top, right, bottom,
-					BallonType.RECTANGLE);
+					element.getBallonType());
 		}
 
 		rectangle.setColor(element.getBubbleColor());
@@ -122,6 +129,9 @@ public class SpeakEffectGO extends AbstractEffectGO<EAdSpeakEffect> {
 				EAdBasicSceneElement.appearance, rectangle);
 		complex.getComponents().add(textSE);
 
+		caption = (RuntimeCaption) ((SceneElementGO<?>) gameObjectFactory
+				.get(textSE)).getRenderAsset();
+
 		return complex;
 	}
 
@@ -137,6 +147,12 @@ public class SpeakEffectGO extends AbstractEffectGO<EAdSpeakEffect> {
 	@Override
 	public boolean isFinished() {
 		return finished;
+	}
+
+	public void update(GameState state) {
+		super.update(state);
+		ballon.update(state);
+		finished = finished || caption.getTimesRead() > 0;
 	}
 
 	@Override

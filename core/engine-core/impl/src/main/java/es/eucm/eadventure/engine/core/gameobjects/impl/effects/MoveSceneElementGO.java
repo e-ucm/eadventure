@@ -71,8 +71,6 @@ public class MoveSceneElementGO extends AbstractEffectGO<EAdMoveSceneElement> {
 
 	private OperatorFactory operatorFactory;
 
-	private String previousState;
-
 	@Inject
 	public MoveSceneElementGO(AssetHandler assetHandler,
 			StringHandler stringHandler, GameObjectFactory gameObjectFactory,
@@ -88,7 +86,6 @@ public class MoveSceneElementGO extends AbstractEffectGO<EAdMoveSceneElement> {
 	public void initilize() {
 		super.initilize();
 
-		previousState = valueMap.getValue(element.getSceneElement().stateVar());
 		valueMap.setValue(element.getSceneElement().stateVar(),
 				CommonStates.EAD_STATE_WALKING.toString());
 

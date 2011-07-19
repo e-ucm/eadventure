@@ -288,6 +288,8 @@ public class RuntimeCaption extends AbstractRuntimeAsset<Caption> implements
 			bounds.width += descriptor.getPadding() * 2;
 			bounds.height += descriptor.getPadding() * 2;
 		}
+		
+		reset();
 	}
 
 	private String splitLongWord(RuntimeFont f, List<String> lines,

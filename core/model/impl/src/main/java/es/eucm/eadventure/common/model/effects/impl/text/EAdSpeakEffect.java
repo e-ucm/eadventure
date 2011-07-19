@@ -6,6 +6,7 @@ import es.eucm.eadventure.common.model.params.EAdBorderedColor;
 import es.eucm.eadventure.common.model.params.EAdFont;
 import es.eucm.eadventure.common.model.variables.EAdVar;
 import es.eucm.eadventure.common.resources.EAdString;
+import es.eucm.eadventure.common.resources.assets.drawable.impl.BallonShape.BalloonType;
 
 /**
  * 
@@ -25,6 +26,8 @@ public class EAdSpeakEffect extends AbstractEAdEffect {
 	private EAdBorderedColor textColor, bubbleColor;
 
 	private EAdFont font;
+	
+	private BalloonType ballonType;
 
 	/**
 	 * Creates an speak effect, with no text and no position, with text color of
@@ -38,6 +41,7 @@ public class EAdSpeakEffect extends AbstractEAdEffect {
 		textColor = EAdBorderedColor.WHITE_ON_BLACK;
 		bubbleColor = EAdBorderedColor.BLACK_ON_WHITE;
 		font = EAdFont.REGULAR;
+		ballonType = BalloonType.RECTANGLE;
 	}
 
 	/**
@@ -84,6 +88,14 @@ public class EAdSpeakEffect extends AbstractEAdEffect {
 	 */
 	public void setStateVar(EAdVar<String> stateVar) {
 		this.stateVar = stateVar;
+	}
+	
+	public void setBalloonType( BalloonType type ){
+		this.ballonType = type;
+	}
+	
+	public BalloonType getBallonType( ){
+		return ballonType;
 	}
 	
 	public EAdVar<String> getStateVar(){
