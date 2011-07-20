@@ -64,8 +64,6 @@ public class ItemImporter extends ActorImporter<Item> {
 	@Override
 	public void initResourcesCorrespondencies() {
 
-		// FIXME Item.RESOURCE_TYPE_ICON is ignored
-
 		properties = new HashMap<String, String>();
 		properties.put(Item.RESOURCE_TYPE_IMAGE, EAdBasicActor.appearance);
 

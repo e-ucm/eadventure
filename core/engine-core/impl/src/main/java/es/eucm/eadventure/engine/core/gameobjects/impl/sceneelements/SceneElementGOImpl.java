@@ -43,6 +43,7 @@ import java.util.logging.Logger;
 
 import com.google.inject.Inject;
 
+import es.eucm.eadventure.common.model.actions.EAdAction;
 import es.eucm.eadventure.common.model.elements.EAdSceneElement;
 import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
 import es.eucm.eadventure.common.model.params.EAdPosition;
@@ -363,6 +364,11 @@ public abstract class SceneElementGOImpl<T extends EAdSceneElement> extends
 
 	public float getAlpha() {
 		return alpha;
+	}
+	
+	@Override
+	public List<EAdAction> getValidActions() {
+		return null;
 	}
 
 }

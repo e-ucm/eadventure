@@ -157,7 +157,7 @@ public class CharacterScene extends EmptyScene {
 						200, 60, goRightEffect);
 		this.getSceneElements().add(goRightArrow);
 		
-		element.addBehavior(EAdKeyEventImpl.KEY_ARROW_UP, goRightEffect);
+		element.addBehavior(EAdKeyEventImpl.KEY_ARROW_RIGHT, goRightEffect);
 
 		// Change state buttons
 		EAdEffect standEffect = EAdElementsFactory

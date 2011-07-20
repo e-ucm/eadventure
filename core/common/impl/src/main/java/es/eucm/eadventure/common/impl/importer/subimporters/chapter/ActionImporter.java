@@ -93,22 +93,21 @@ public class ActionImporter implements EAdElementImporter<Action, EAdAction> {
 
 	@Override
 	public EAdAction init(Action oldObject) {
-		return new EAdBasicAction(oldObject.getTargetId()
-				+ "_action");
+		return new EAdBasicAction(oldObject.getTargetId() + "_action");
 	}
 
 	@Override
 	public EAdAction convert(Action oldObject, Object object) {
 		return null;
 	}
-	
+
 	public EAdAction convert(Action oldObject, Object object, EAdActor actor) {
 		EAdBasicAction action = (EAdBasicAction) object;
 
 		EAdCondition condition = conditionsImporter.init(oldObject
 				.getConditions());
-		condition = conditionsImporter.convert(oldObject
-				.getConditions(), condition);
+		condition = conditionsImporter.convert(oldObject.getConditions(),
+				condition);
 		if (condition != null)
 			action.setCondition(condition);
 
@@ -144,7 +143,7 @@ public class ActionImporter implements EAdElementImporter<Action, EAdAction> {
 
 			EAdBundleId temp = action.getInitialBundle();
 			action.setInitialBundle(action.getHighlightBundle());
-			
+
 			resourcesStrings.put("buttonOver", EAdBasicAction.appearance);
 			resourcesClasses.put("buttonOver", ImageImpl.class);
 			resourceImporter.importResources(action,
@@ -171,15 +170,15 @@ public class ActionImporter implements EAdElementImporter<Action, EAdAction> {
 							EAdBasicAction.appearance,
 							new ImageImpl(getHighlightDrawablePath(oldObject
 									.getType())));
-			
-			List<EAdEffect> list = getEffects(oldObject.getType(), oldObject.getEffects().getEffects(), actor);
+
+			List<EAdEffect> list = getEffects(oldObject.getType(), oldObject
+					.getEffects().getEffects(), actor);
 			for (EAdEffect e : list)
 				action.getEffects().add(e);
 		}
 
 		return action;
 	}
-
 
 	public static String getDrawablePath(int actionType) {
 		String image = null;
@@ -204,27 +203,30 @@ public class ActionImporter implements EAdElementImporter<Action, EAdAction> {
 
 		return image;
 	}
-	
-	public static List<EAdEffect> getEffects(int actionType, List<AbstractEffect> originalList, EAdActor actor) {
+
+	public static List<EAdEffect> getEffects(int actionType,
+			List<AbstractEffect> originalList, EAdActor actor) {
 		List<EAdEffect> list = new ArrayList<EAdEffect>();
 		for (AbstractEffect e : originalList)
 			if (e instanceof CancelActionEffect)
 				return list;
 		switch (actionType) {
 		case Action.GRAB:
-			EAdModifyActorState modifyState = new EAdModifyActorState("grabEffect", actor, Modification.PLACE_IN_INVENTORY);
+			EAdModifyActorState modifyState = new EAdModifyActorState(
+					"grabEffect", actor, Modification.PLACE_IN_INVENTORY);
 			list.add(modifyState);
 			break;
+		// TODO Effects for the rest of actions
 		case Action.DRAG_TO:
 		case Action.GIVE_TO:
 		case Action.USE:
-			//TODO
+
 		case Action.USE_WITH:
-			//TODO
+
 		case Action.EXAMINE:
-			//TODO
+
 		case Action.TALK_TO:
-			//TODO
+
 		default:
 		}
 		return list;

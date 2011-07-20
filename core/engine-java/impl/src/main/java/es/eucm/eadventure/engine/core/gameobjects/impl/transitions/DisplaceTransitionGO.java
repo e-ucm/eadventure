@@ -65,7 +65,7 @@ public class DisplaceTransitionGO extends EmptyTransitionGO implements Transitio
 
 	@Override
 	public void setElement(EAdScene element) {
-		//TODO
+		
 	}
 
 	/* (non-Javadoc)

@@ -129,10 +129,10 @@ public class ChapterImporter implements EAdElementImporter<Chapter, EAdChapter> 
 		*/
 		
 		// TODO oldChapter.getAdaptationName( );
-		// TODO oldChapter.getAdaptationProfiles( )
-		// TODO oldChapter.getAdaptationProfilesNames( )
-		// TODO oldChapter.getAssessmentName( )
-		// TODO oldChapter.getAssessmentProfiles( )
+		// oldChapter.getAdaptationProfiles( )
+		// oldChapter.getAdaptationProfilesNames( )
+		// oldChapter.getAssessmentName( )
+		// oldChapter.getAssessmentProfiles( )
 
 		newChapter.setInitialScreen((EAdScene) elementFactory.getElementById(oldChapter.getInitialGeneralScene().getId()));
 		

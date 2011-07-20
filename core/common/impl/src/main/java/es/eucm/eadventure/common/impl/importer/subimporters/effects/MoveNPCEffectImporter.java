@@ -79,11 +79,9 @@ public class MoveNPCEffectImporter extends EffectImporter<MoveNPCEffect, EAdEffe
 		
 		importConditions(oldObject, effect);
 		
-		//TODO change appearance
+		//TODO change appearance, speed?
 		macro.getEffects().add(new EAdMoveSceneElement("move", (EAdActor) factory.getElementById(oldObject.getTargetId()), 
 				oldObject.getX(), oldObject.getY(), MovementSpeed.NORMAL));
-		//TODO speed?
-		//TODO change appearance
 
 		return effect;
 	}

@@ -61,9 +61,6 @@ public class NOTConditionEvaluator implements Evaluator<NOTCondition> {
 
 	@Override
 	public boolean evaluate(NOTCondition condition) {
-		//TODO should be unnecessary
-		if (condition == null || condition.getCondition() == null)
-			return true;
 		Boolean value = evaluatorFactory.evaluate(condition.getCondition());
 		return !value;
 	}

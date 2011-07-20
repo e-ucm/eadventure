@@ -74,7 +74,6 @@ public class BooleanOperationTest extends OperatorsTest<BooleanOperation> {
 		super.addOperationTest(new BooleanVar("Integer"), trueOp, Boolean.TRUE);
 		super.addOperationTest(new BooleanVar("Integer"), falseOp, Boolean.FALSE);
 		
-		//TODO test more comples operation or is assigment enough?
 	}
 
 }

@@ -43,7 +43,6 @@ import java.util.logging.Logger;
 import com.google.inject.Inject;
 
 import es.eucm.eadventure.common.model.EAdList;
-import es.eucm.eadventure.common.model.actions.EAdAction;
 import es.eucm.eadventure.common.model.effects.EAdEffect;
 import es.eucm.eadventure.common.model.elements.EAdSceneElement;
 import es.eucm.eadventure.common.model.elements.impl.EAdComplexSceneElement;
@@ -143,12 +142,6 @@ public class ComplexSceneElementGO extends
 		this.setWidth(maxX - minX);
 		this.setHeight(maxY - minY);
 		
-	}
-
-	@Override
-	public List<EAdAction> getValidActions() {
-		// TODO?
-		return null;
 	}
 
 	@Override

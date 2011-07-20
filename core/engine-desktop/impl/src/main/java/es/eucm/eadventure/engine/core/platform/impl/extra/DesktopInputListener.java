@@ -166,8 +166,8 @@ public class DesktopInputListener implements MouseListener,
 		// TODO should be done by the GUI or the BasicHUDGO?
 		/*
 		 * if (e.getKeyCode() == KeyEvent.VK_UP) { Robot r; try { r = new
-		 * Robot(); r.mouseMove(20, 20); } catch (AWTException e1) { // TODO
-		 * Auto-generated catch block e1.printStackTrace(); } }
+		 * Robot(); r.mouseMove(20, 20); } catch (AWTException e1) { 
+		 * catch block e1.printStackTrace(); } }
 		 */
 
 	}

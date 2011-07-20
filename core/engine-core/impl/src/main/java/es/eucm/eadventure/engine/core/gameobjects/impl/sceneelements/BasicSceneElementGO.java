@@ -116,10 +116,4 @@ public class BasicSceneElementGO extends SceneElementGOImpl<EAdBasicSceneElement
 		super.update(state);
 	}
 
-	@Override
-	public List<EAdAction> getValidActions() {
-		//TODO?
-		return null;
-	}
-
 }
