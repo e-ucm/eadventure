@@ -43,6 +43,7 @@ import es.eucm.eadventure.common.model.EAdElement;
 import es.eucm.eadventure.common.model.effects.impl.EAdChangeAppearance;
 import es.eucm.eadventure.common.model.effects.impl.EAdVarInterpolationEffect;
 import es.eucm.eadventure.common.model.effects.impl.EAdVarInterpolationEffect.LoopType;
+import es.eucm.eadventure.common.model.effects.impl.sceneelements.EAdMakeActiveElementEffect;
 import es.eucm.eadventure.common.model.effects.impl.text.EAdShowQuestion;
 import es.eucm.eadventure.common.model.effects.impl.text.EAdShowText;
 import es.eucm.eadventure.common.model.effects.impl.text.EAdShowText.ShowTextAnimation;
@@ -138,6 +139,12 @@ public class EffectFactory {
 		effect.setPosition(sceneElement.positionXVar(), sceneElement.positionYVar());
 		effect.setStateVar(sceneElement.stateVar());
 		
+		return effect;
+	}
+
+	public EAdMakeActiveElementEffect getMakeActiveElement(EAdSceneElement element) {
+		EAdMakeActiveElementEffect effect = new EAdMakeActiveElementEffect( "makeActive" );
+		effect.setSceneElement(element);
 		return effect;
 	}
 

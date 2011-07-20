@@ -63,7 +63,6 @@ public class EAdAdventureModelWriter implements Writer<EAdAdventureModel> {
 	
 	@Override
 	public boolean write(EAdAdventureModel data, URI fileURI) {
-		// TODO Auto-generated method stub
 		return false;
 	}
 

@@ -58,9 +58,11 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 import es.eucm.eadventure.common.resources.assets.drawable.Image;
+import es.eucm.eadventure.engine.core.GameState;
 import es.eucm.eadventure.engine.core.KeyboardState;
 import es.eucm.eadventure.engine.core.MouseState;
 import es.eucm.eadventure.engine.core.ValueMap;
+import es.eucm.eadventure.engine.core.gameobjects.GameObjectFactory;
 import es.eucm.eadventure.engine.core.gameobjects.GameObjectManager;
 import es.eucm.eadventure.engine.core.gameobjects.huds.BasicHUD;
 import es.eucm.eadventure.engine.core.guiactions.KeyAction;
@@ -85,8 +87,7 @@ public class DesktopGUI extends AbstractGUI<Graphics2D> implements GUI {
 	/**
 	 * The class logger
 	 */
-	private static final Logger logger = Logger
-			.getLogger("DesktopGUI");
+	private static final Logger logger = Logger.getLogger("DesktopGUI");
 
 	/**
 	 * The {@code JFrame} where the game is represented
@@ -107,7 +108,7 @@ public class DesktopGUI extends AbstractGUI<Graphics2D> implements GUI {
 	 * Represent how many pixels the mouse moves when the arrow keys are pressed
 	 */
 	private int MOUSE_MOVE = 20;
-	
+
 	private Object currentComponent;
 
 	@SuppressWarnings("rawtypes")
@@ -115,18 +116,25 @@ public class DesktopGUI extends AbstractGUI<Graphics2D> implements GUI {
 	public DesktopGUI(PlatformConfiguration platformConfiguration,
 			GraphicRendererFactory<?> assetRendererFactory,
 			GameObjectManager gameObjectManager, MouseState mouseState,
-			KeyboardState keyboardState, BasicHUD basicDesktopHUD, ValueMap valueMap) {
+			KeyboardState keyboardState, BasicHUD basicDesktopHUD,
+			ValueMap valueMap, GameState gameState,
+			GameObjectFactory gameObjectFactory) {
 		super(platformConfiguration, assetRendererFactory, gameObjectManager,
-				mouseState, keyboardState, valueMap);
+				mouseState, keyboardState, valueMap, gameState,
+				gameObjectFactory);
 		this.gameObjects.addHUD(basicDesktopHUD);
 		try {
 			this.robot = new Robot();
 		} catch (AWTException e) {
 		}
 	}
-	
-	/* (non-Javadoc)
-	 * @see es.eucm.eadventure.engine.core.platform.GUI#showSpecialResource(java.lang.Object, int, int, boolean)
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * es.eucm.eadventure.engine.core.platform.GUI#showSpecialResource(java.
+	 * lang.Object, int, int, boolean)
 	 */
 	@Override
 	public void showSpecialResource(final Object resource, int x, int y,
@@ -155,7 +163,8 @@ public class DesktopGUI extends AbstractGUI<Graphics2D> implements GUI {
 					@Override
 					public void run() {
 						frame.remove(canvas);
-						((Component) resource).setBounds(0, 0, frame.getWidth(), frame.getHeight());
+						((Component) resource).setBounds(0, 0,
+								frame.getWidth(), frame.getHeight());
 						frame.add((Component) resource);
 						frame.validate();
 					}
@@ -163,7 +172,7 @@ public class DesktopGUI extends AbstractGUI<Graphics2D> implements GUI {
 				currentComponent = resource;
 			}
 		}
-		
+
 	}
 
 	/*
@@ -174,10 +183,10 @@ public class DesktopGUI extends AbstractGUI<Graphics2D> implements GUI {
 	@Override
 	public void commit(final float interpolation) {
 		processInput();
-		
+
 		if (currentComponent != null)
 			return;
-		
+
 		SwingUtilities.doInEDTNow(new Runnable() {
 			@Override
 			public void run() {
@@ -247,6 +256,7 @@ public class DesktopGUI extends AbstractGUI<Graphics2D> implements GUI {
 
 	/**
 	 * Set the appropriate rendering hints to get the best graphic results.
+	 * 
 	 * @param g
 	 */
 	private void setRenderingHints(Graphics2D g) {

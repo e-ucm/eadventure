@@ -92,8 +92,6 @@ public class AndroidActionsHUDImpl extends ActionsHUDImpl {
 	public void setElement(SceneElementGO<?> reference) {
 		super.setElement(reference);
 		actionGOs.clear();
-		// FIXME Habrá que distribuir las acciones de alguna manera más exacta
-		// (o de varias)
 		int i = 0;
 		double[] angles = getStartEndAngles();
 		float scale = (float) (0.5f / Math.sqrt(getActions().size()) + 0.5f) ;

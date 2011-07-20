@@ -15,8 +15,9 @@
 			</exit>
 		</exits>
 		<objects>
-			<object-ref hasInfluenceArea="no" idTarget="ItemId" layer="1" scale="1.0324324" x="640" y="555"/>
-			<object-ref hasInfluenceArea="no" idTarget="ItemId1" layer="0" scale="9.125" x="503" y="274"/>
+			<object-ref hasInfluenceArea="no" idTarget="ItemId" layer="2" scale="1.0324324" x="640" y="555"/>
+			<object-ref hasInfluenceArea="no" idTarget="ItemId1" layer="1" scale="9.125" x="503" y="274"/>
+			<object-ref hasInfluenceArea="no" idTarget="ItemId2" layer="0" scale="6.9375" x="119" y="471"/>
 		</objects>
 		<active-areas>
 			<active-area hasInfluenceArea="no" height="362" id="IdObject" rectangular="yes" width="116" x="33" y="186">
@@ -36,7 +37,7 @@
 			</active-area>
 		</active-areas>
 		<atrezzo>
-			<atrezzo-ref idTarget="AtrezzoId" layer="2" scale="0.6243094" x="92" y="185"/>
+			<atrezzo-ref idTarget="AtrezzoId" layer="3" scale="0.6243094" x="92" y="185"/>
 		</atrezzo>
 	</scene>
 	<scene id="SceneId1" playerLayer="-1" playerScale="1.0" start="no">
@@ -127,6 +128,25 @@
 					<show-text borderColor="-16777216" frontColor="-1" x="400" y="500">This enables an action in the blond guy.</show-text>
 					<condition/>
 					<speak-player>This is being said by the player, you.</speak-player>
+					<condition/>
+				</effect>
+			</use>
+		</actions>
+	</object>
+	<object id="ItemId2" returnsWhenDragged="yes">
+		<resources name="No name">
+			<asset type="image" uri="assets/image/bomb.png"/>
+			<asset type="icon" uri="assets/special/EmptyIcon.png"/>
+		</resources>
+		<description>
+			<name/>
+			<brief/>
+			<detailed/>
+		</description>
+		<actions>
+			<use keepDistance="35" needsGoTo="yes" not-effects="no">
+				<effect>
+					<speak-player>It's that a bomb? Oh, god!</speak-player>
 					<condition/>
 				</effect>
 			</use>

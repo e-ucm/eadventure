@@ -55,31 +55,22 @@ public class DesktopPlatformControl implements PlatformControl {
 	
 	@Override
 	public void start() {
-		// TODO Auto-generated method stub
-
 		gameController.start();
 	}
 
 	@Override
 	public void stop() {
-		// TODO Auto-generated method stub
-
 		gameController.stop();
 		System.exit(0);
 	}
 
 	@Override
 	public void pause() {
-		// TODO Auto-generated method stub
-
 		gameController.pause();
-
 	}
 
 	@Override
 	public void resume() {
-		// TODO Auto-generated method stub
-
 		gameController.resume();
 
 	}

@@ -41,10 +41,12 @@ import java.util.logging.Logger;
 
 import es.eucm.eadventure.common.model.elements.EAdSceneElement;
 import es.eucm.eadventure.common.model.params.guievents.EAdMouseEvent.MouseActionType;
+import es.eucm.eadventure.engine.core.GameState;
 import es.eucm.eadventure.engine.core.KeyboardState;
 import es.eucm.eadventure.engine.core.MouseState;
 import es.eucm.eadventure.engine.core.ValueMap;
 import es.eucm.eadventure.engine.core.gameobjects.GameObject;
+import es.eucm.eadventure.engine.core.gameobjects.GameObjectFactory;
 import es.eucm.eadventure.engine.core.gameobjects.GameObjectManager;
 import es.eucm.eadventure.engine.core.guiactions.KeyAction;
 import es.eucm.eadventure.engine.core.guiactions.MouseAction;
@@ -107,19 +109,25 @@ public abstract class AbstractGUI<T> implements GUI {
 	protected KeyboardState keyboardState;
 	
 	protected ValueMap valueMap;
+	
+	protected GameState gameState;
+
+	protected GameObjectFactory gameObjectFactory;
 
 	@SuppressWarnings({ "unchecked" })
 	public AbstractGUI(PlatformConfiguration platformConfiguration,
 			GraphicRendererFactory<?> assetRendererFactory,
 			GameObjectManager gameObjectManager, MouseState mouseState,
 			KeyboardState keyboardState,
-			ValueMap valueMap) {
+			ValueMap valueMap, GameState gameState, GameObjectFactory gameObjectFactory ) {
 		this.platformConfiguration = platformConfiguration;
 		this.graphicRendererFactory = (GraphicRendererFactory<T>) assetRendererFactory;
 		this.gameObjects = gameObjectManager;
 		this.mouseState = mouseState;
 		this.keyboardState = keyboardState;
 		this.valueMap = valueMap;
+		this.gameState = gameState;
+		this.gameObjectFactory = gameObjectFactory;
 	}
 
 	/*
@@ -271,11 +279,10 @@ public abstract class AbstractGUI<T> implements GUI {
 	protected void processKeyAction(KeyAction action) {
 		for (int i = gameObjects.getGameObjects().size() - 1; action != null
 				&& i >= 0 && !action.isConsumed(); i--) {
-			// TODO Should there be some kind of keyboard focus? Maybe should
-			// look if it is under mouse?
 			logger.info("Action " + action + " passed to "
 					+ gameObjects.getGameObjects().get(i));
-			gameObjects.getGameObjects().get(i).processAction(action);
+			
+			gameObjectFactory.get( gameState.getActiveElement() ).processAction(action);
 		}
 	}
 

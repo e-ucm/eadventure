@@ -74,7 +74,6 @@ public class TestAssetHandler implements AssetHandler {
 
 	@Override
 	public boolean isLoaded() {
-		// TODO Auto-generated method stub
 		return false;
 	}
 

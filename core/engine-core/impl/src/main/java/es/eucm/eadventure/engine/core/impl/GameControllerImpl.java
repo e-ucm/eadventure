@@ -92,7 +92,7 @@ public class GameControllerImpl implements GameController {
 	 */
 	@Override
 	public void stop() {
-		// TODO Auto-generated method stub
+		
 		
 	}
 

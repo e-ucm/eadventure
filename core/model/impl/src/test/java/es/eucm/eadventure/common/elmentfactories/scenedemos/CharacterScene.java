@@ -42,6 +42,10 @@ import es.eucm.eadventure.common.interfaces.Oriented.Orientation;
 import es.eucm.eadventure.common.model.effects.EAdEffect;
 import es.eucm.eadventure.common.model.elements.EAdSceneElement.CommonStates;
 import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
+import es.eucm.eadventure.common.model.events.EAdSceneElementEvent;
+import es.eucm.eadventure.common.model.events.EAdSceneElementEvent.SceneElementEvent;
+import es.eucm.eadventure.common.model.events.impl.EAdSceneElementEventImpl;
+import es.eucm.eadventure.common.model.guievents.impl.EAdKeyEventImpl;
 import es.eucm.eadventure.common.model.variables.impl.operations.AssignOperation;
 import es.eucm.eadventure.common.resources.assets.drawable.OrientedDrawable;
 import es.eucm.eadventure.common.resources.assets.drawable.StateDrawable;
@@ -84,6 +88,13 @@ public class CharacterScene extends EmptyScene {
 		EAdBasicSceneElement element = EAdElementsFactory.getInstance()
 				.getSceneElementFactory()
 				.createSceneElement(getStateDrawable(), 100, 300);
+		
+		
+		EAdSceneElementEvent event = new EAdSceneElementEventImpl( "makeActive");
+		
+		event.addEffect(SceneElementEvent.ADDED_TO_SCENE, EAdElementsFactory.getInstance().getEffectFactory().getMakeActiveElement( element ));
+		
+		element.getEvents().add(event);
 
 		element.stateVar().setInitialValue(
 				CommonStates.EAD_STATE_DEFAULT.toString());
@@ -103,6 +114,8 @@ public class CharacterScene extends EmptyScene {
 				.createSceneElement(new ImageImpl("@drawable/arrow_up.png"),
 						100, 10, goUpEffect);
 		this.getSceneElements().add(goUpArrow);
+		
+		element.addBehavior(EAdKeyEventImpl.KEY_ARROW_UP, goUpEffect);
 
 		EAdEffect goDownEffect = EAdElementsFactory
 				.getInstance()
@@ -115,6 +128,8 @@ public class CharacterScene extends EmptyScene {
 				.createSceneElement(new ImageImpl("@drawable/arrow_down.png"),
 						100, 120, goDownEffect);
 		this.getSceneElements().add(goDownArrow);
+		
+		element.addBehavior(EAdKeyEventImpl.KEY_ARROW_DOWN, goDownEffect);
 
 		EAdEffect goLeftEffect = EAdElementsFactory
 				.getInstance()
@@ -127,6 +142,8 @@ public class CharacterScene extends EmptyScene {
 				.createSceneElement(new ImageImpl("@drawable/arrow_left.png"),
 						0, 60, goLeftEffect);
 		this.getSceneElements().add(goLeftArrow);
+		
+		element.addBehavior(EAdKeyEventImpl.KEY_ARROW_LEFT, goLeftEffect);
 
 		EAdEffect goRightEffect = EAdElementsFactory
 				.getInstance()
@@ -139,6 +156,8 @@ public class CharacterScene extends EmptyScene {
 				.createSceneElement(new ImageImpl("@drawable/arrow_right.png"),
 						200, 60, goRightEffect);
 		this.getSceneElements().add(goRightArrow);
+		
+		element.addBehavior(EAdKeyEventImpl.KEY_ARROW_UP, goRightEffect);
 
 		// Change state buttons
 		EAdEffect standEffect = EAdElementsFactory

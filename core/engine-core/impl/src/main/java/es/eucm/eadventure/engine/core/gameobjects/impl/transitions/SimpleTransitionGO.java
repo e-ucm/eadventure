@@ -117,7 +117,7 @@ public class SimpleTransitionGO extends SceneGOImpl implements
 
 	@Override
 	public void setElement(EAdScene element) {
-		// TODO Auto-generated method stub
+		
 
 	}
 
