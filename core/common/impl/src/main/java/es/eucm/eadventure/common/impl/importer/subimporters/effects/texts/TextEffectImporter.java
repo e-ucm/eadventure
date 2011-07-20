@@ -42,12 +42,12 @@ import es.eucm.eadventure.common.data.chapter.conditions.Conditions;
 import es.eucm.eadventure.common.data.chapter.effects.AbstractEffect;
 import es.eucm.eadventure.common.impl.importer.interfaces.EAdElementFactory;
 import es.eucm.eadventure.common.impl.importer.subimporters.effects.EffectImporter;
-import es.eucm.eadventure.common.model.effects.impl.text.EAdShowText;
+import es.eucm.eadventure.common.model.effects.impl.text.EAdSpeakEffect;
 import es.eucm.eadventure.common.model.elements.EAdCondition;
 import es.eucm.eadventure.common.resources.StringHandler;
 
 public abstract class TextEffectImporter<T extends AbstractEffect> extends
-		EffectImporter<T, EAdShowText> {
+		EffectImporter<T, EAdSpeakEffect> {
 
 	protected static int ID_GENERATOR = 0;
 
@@ -64,12 +64,12 @@ public abstract class TextEffectImporter<T extends AbstractEffect> extends
 	}
 
 	@Override
-	public EAdShowText init(T oldObject) {
-		return new EAdShowText("showText" + ID_GENERATOR++);
+	public EAdSpeakEffect init(T oldObject) {
+		return new EAdSpeakEffect("showText" + ID_GENERATOR++);
 	}
 
-	public EAdShowText convert(T oldObject, Object object) {
-		EAdShowText showText = (EAdShowText) object;
+	public EAdSpeakEffect convert(T oldObject, Object object) {
+		EAdSpeakEffect showText = (EAdSpeakEffect) object;
 		super.importConditions(oldObject, showText);
 
 		showText.setBlocking(true);

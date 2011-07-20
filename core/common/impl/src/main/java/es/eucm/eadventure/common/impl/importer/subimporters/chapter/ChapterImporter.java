@@ -105,6 +105,7 @@ public class ChapterImporter implements EAdElementImporter<Chapter, EAdChapter> 
 		registerOldElements(oldChapter.getGlobalStates());
 		registerOldElements(oldChapter.getMacros());
 		registerOldElements(oldChapter.getConversations());
+		elementFactory.registerOldElement(oldChapter.getPlayer().getId(), oldChapter.getPlayer());
 		
 		importElements(oldChapter.getAtrezzo());
 		importElements(oldChapter.getItems());
@@ -140,7 +141,7 @@ public class ChapterImporter implements EAdElementImporter<Chapter, EAdChapter> 
 	
 	private void registerOldElements(List<? extends HasId> list) {
 		for (HasId element : list) 
-			elementFactory.registerOldElement(element.getId(), element);
+			elementFactory.registerOldElement(element.getId(), element);		
 	}
 
 	private void importElements(List<? extends HasId> list) {

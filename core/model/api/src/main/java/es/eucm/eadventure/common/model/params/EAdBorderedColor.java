@@ -44,8 +44,6 @@ package es.eucm.eadventure.common.model.params;
  * </p>
  */
 public class EAdBorderedColor {
-
-	//TODO Could add border thickness?
 	
 	/**
 	 * Basic black border and white center EAdBordered color

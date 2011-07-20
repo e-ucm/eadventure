@@ -72,6 +72,8 @@ public class VarInterpolationGO extends
 	private float startValue;
 
 	private float endValue;
+	
+	private boolean reverse;
 
 	@Inject
 	public VarInterpolationGO(AssetHandler assetHandler,
@@ -88,6 +90,7 @@ public class VarInterpolationGO extends
 	public void initilize() {
 		super.initilize();
 		currentTime = 0;
+		reverse = false;
 		integer = element.getVar().getType().equals(Integer.class);
 		startValue = operatorFactory.operate(new IntegerVar(" "),
 				element.getInitialValue());
@@ -115,11 +118,16 @@ public class VarInterpolationGO extends
 		currentTime += GameLoop.SKIP_MILLIS_TICK;
 		if (currentTime > element.getInterpolationTime()) {
 			switch (element.getLoopType()) {
-			// TODO Backwards
 			case RESTART:
 				while (currentTime > element.getInterpolationTime()) {
 					currentTime -= element.getInterpolationTime();
 				}
+				break;
+			case REVERSE:
+				while (currentTime > element.getInterpolationTime()) {
+					currentTime -= element.getInterpolationTime();
+				}
+				reverse = !reverse;
 				break;
 			default:
 				currentTime = element.getInterpolationTime();
@@ -146,8 +154,15 @@ public class VarInterpolationGO extends
 	}
 
 	public Object interpolation() {
-		float f = startValue + (float) currentTime
+		float f = (float) currentTime
 				/ element.getInterpolationTime() * interpolationLength;
+		
+		if ( reverse ){
+			f = endValue - f;
+		}
+		else
+			f += startValue;
+		
 		if (integer)
 			return new Integer( Math.round(f) );
 		else

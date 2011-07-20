@@ -101,8 +101,7 @@ public class EmptyTransitionGO extends SceneGOImpl implements TransitionGO {
 		loadingText.getResources().addAsset(loadingText.getInitialBundle(), EAdBasicSceneElement.appearance, caption);
 		loadingText.setPosition(EAdPosition.volatileEAdPosition(750, 550, 1.0f, 1.0f));
 		
-		//TODO remove static references to 800 and 600
-		RectangleShape rs = new RectangleShape(800, 600);
+		RectangleShape rs = new RectangleShape(platformConfiguration.getVirtualWidth(), platformConfiguration.getVirtualHeight());
 		rs.setColor(new EAdBorderedColor(new EAdColor(100, 100, 100, 30), EAdColor.BLACK));
 		
 		screenBlock = new EAdBasicSceneElement("screenBlock");
