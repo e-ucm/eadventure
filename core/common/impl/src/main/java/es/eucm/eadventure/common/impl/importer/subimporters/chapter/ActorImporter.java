@@ -37,6 +37,7 @@
 
 package es.eucm.eadventure.common.impl.importer.subimporters.chapter;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import com.google.inject.Inject;
@@ -48,8 +49,12 @@ import es.eucm.eadventure.common.impl.importer.interfaces.EAdElementFactory;
 import es.eucm.eadventure.common.impl.importer.interfaces.ResourceImporter;
 import es.eucm.eadventure.common.model.actions.EAdAction;
 import es.eucm.eadventure.common.model.actions.impl.EAdBasicAction;
+import es.eucm.eadventure.common.model.conditions.impl.ANDCondition;
+import es.eucm.eadventure.common.model.conditions.impl.NOTCondition;
+import es.eucm.eadventure.common.model.conditions.impl.ORCondition;
 import es.eucm.eadventure.common.model.effects.impl.text.EAdShowText;
 import es.eucm.eadventure.common.model.elements.EAdActor;
+import es.eucm.eadventure.common.model.elements.EAdCondition;
 import es.eucm.eadventure.common.model.elements.impl.EAdBasicActor;
 import es.eucm.eadventure.common.resources.EAdString;
 import es.eucm.eadventure.common.resources.StringHandler;
@@ -125,6 +130,8 @@ public abstract class ActorImporter<P extends Element> implements
 		// Add examine action if it's not defined in oldObject actions
 		boolean addExamine = true;
 
+		HashMap<String, EAdCondition> previousConditions = new HashMap<String, EAdCondition>();
+		
 		for (Action a : oldObject.getActions()) {
 			if (addExamine && a.getType() == Action.EXAMINE)
 				addExamine = false;
@@ -132,6 +139,17 @@ public abstract class ActorImporter<P extends Element> implements
 			EAdAction action = actionImporter.init(a);
 			action = ((ActionImporter) actionImporter).convert(a, action, actor);
 			actor.getActions().add(action);
+			
+			String name = stringHandler.getString(action.getName());
+			if (previousConditions.containsKey(name)) {
+				EAdCondition conditions = action.getCondition();
+				action.setCondition(new ANDCondition(conditions, previousConditions.get(name)));
+				conditions = new ANDCondition(new NOTCondition(conditions), previousConditions.get(name));
+				previousConditions.remove(name);
+				previousConditions.put(name, conditions);
+			} else {
+				previousConditions.put(name, new NOTCondition(action.getCondition()));
+			}
 		}
 
 		if (addExamine) {
