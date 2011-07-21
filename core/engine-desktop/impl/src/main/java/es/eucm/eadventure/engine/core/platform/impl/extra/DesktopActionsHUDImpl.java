@@ -45,14 +45,7 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 import es.eucm.eadventure.common.model.actions.EAdAction;
-import es.eucm.eadventure.common.model.actions.impl.EAdBasicAction;
-import es.eucm.eadventure.common.model.effects.impl.EAdActorActionsEffect;
-import es.eucm.eadventure.common.model.effects.impl.EAdActorActionsEffect.Change;
-import es.eucm.eadventure.common.model.effects.impl.EAdChangeAppearance;
-import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
-import es.eucm.eadventure.common.model.guievents.impl.EAdMouseEventImpl;
 import es.eucm.eadventure.common.model.params.EAdPosition;
-import es.eucm.eadventure.common.resources.assets.AssetDescriptor;
 import es.eucm.eadventure.engine.core.gameobjects.GameObject;
 import es.eucm.eadventure.engine.core.gameobjects.GameObjectFactory;
 import es.eucm.eadventure.engine.core.gameobjects.GameObjectManager;
@@ -98,52 +91,17 @@ public class DesktopActionsHUDImpl extends ActionsHUDImpl {
 		double[] angles = getStartEndAngles();
 		float scale = (float) (0.5f / Math.sqrt(getActions().size()) + 0.5f) ;
 		for (EAdAction eAdAction : this.getActions()) {
-			EAdBasicSceneElement action = new EAdBasicSceneElement("action");
+			DesktopAction action = new DesktopAction(eAdAction);
 			i++;
-
+			
 			double angle = angles[0]
 					+ ((angles[1] - angles[0]) / (getActions().size() + 1)) * i;
-
 			int x = (int) (radius * Math.sin(angle));
 			int y = - (int) (radius * Math.cos(angle));
 			action.setPosition(new EAdPosition(EAdPosition.Corner.CENTER, this
 					.getX() + x, this.getY() + y));
 			action.setScale(scale);
-
-			// TODO null?
-			EAdActorActionsEffect e = new EAdActorActionsEffect("", null,
-					Change.HIDE_ACTIONS);
-			action.addBehavior(EAdMouseEventImpl.MOUSE_LEFT_CLICK, e);
-			action.addBehavior(EAdMouseEventImpl.MOUSE_RIGHT_CLICK, e);
-			action.addBehavior(EAdMouseEventImpl.MOUSE_LEFT_CLICK,
-					eAdAction.getEffects());
-			action.addBehavior(EAdMouseEventImpl.MOUSE_RIGHT_CLICK,
-					eAdAction.getEffects());
-
-			AssetDescriptor asset = eAdAction.getAsset(
-					eAdAction.getInitialBundle(), EAdBasicAction.appearance);
-			action.getResources().addAsset(action.getInitialBundle(),
-					EAdBasicSceneElement.appearance, asset);
-
-			if (eAdAction.getResources().getBundles()
-					.contains(eAdAction.getHighlightBundle())) {
-				action.getResources().addBundle(eAdAction.getHighlightBundle());
-				action.getResources().addAsset(
-						eAdAction.getHighlightBundle(),
-						EAdBasicSceneElement.appearance,
-						eAdAction.getAsset(eAdAction.getHighlightBundle(),
-								EAdBasicAction.appearance));
-				action.addBehavior(EAdMouseEventImpl.MOUSE_ENTERED,
-						new EAdChangeAppearance("action_mouseEnter", action,
-								eAdAction.getHighlightBundle()));
-			} else
-				action.getResources().addAsset(eAdAction.getHighlightBundle(),
-						EAdBasicSceneElement.appearance, asset);
-
-			action.addBehavior(
-					EAdMouseEventImpl.MOUSE_EXITED,
-					new EAdChangeAppearance("action_mouseExit", action, action
-							.getInitialBundle()));
+			
 			actionGOs.add(gameObjectFactory.get(action));
 		}
 	}
