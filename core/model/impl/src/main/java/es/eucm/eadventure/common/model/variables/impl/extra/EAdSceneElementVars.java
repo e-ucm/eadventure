@@ -3,6 +3,7 @@ package es.eucm.eadventure.common.model.variables.impl.extra;
 import es.eucm.eadventure.common.interfaces.Oriented.Orientation;
 import es.eucm.eadventure.common.model.EAdElement;
 import es.eucm.eadventure.common.model.elements.EAdSceneElement.CommonStates;
+import es.eucm.eadventure.common.model.params.EAdPosition;
 import es.eucm.eadventure.common.model.variables.EAdVarDef;
 import es.eucm.eadventure.common.model.variables.impl.EAdElementVarsImpl;
 import es.eucm.eadventure.common.model.variables.impl.EAdVarDefImpl;
@@ -39,6 +40,9 @@ public class EAdSceneElementVars extends EAdElementVarsImpl {
 	public static final EAdVarDef<Integer> VAR_HEIGHT = new EAdVarDefImpl<Integer>(
 			"height", Integer.class, 0);
 
+	public static final EAdVarDef<EAdPosition> VAR_POSITION = new EAdVarDefImpl<EAdPosition>(
+			"position", EAdPosition.class, new EAdPosition(0, 0));
+
 	public EAdSceneElementVars(EAdElement element) {
 		super(element);
 		add(VAR_ORIENTATION);
@@ -51,6 +55,7 @@ public class EAdSceneElementVars extends EAdElementVarsImpl {
 		add(VAR_Y);
 		add(VAR_WIDTH);
 		add(VAR_HEIGHT);
+		add(VAR_POSITION);
 
 	}
 

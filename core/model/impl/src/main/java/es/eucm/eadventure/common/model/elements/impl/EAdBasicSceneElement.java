@@ -57,9 +57,6 @@ public class EAdBasicSceneElement extends AbstractEAdElementWithBehavior
 	@Param("vars")
 	private EAdSceneElementVars vars;
 
-	@Param("position")
-	private EAdPosition position;
-
 	@Param("draggable")
 	private EAdCondition draggable;
 
@@ -78,13 +75,8 @@ public class EAdBasicSceneElement extends AbstractEAdElementWithBehavior
 		
 	}
 
-	@Override
-	public EAdPosition getPosition() {
-		return position;
-	}
-
 	public void setPosition(EAdPosition position) {
-		this.position = position;
+		vars.getVar(EAdSceneElementVars.VAR_POSITION).setInitialValue(position);
 	}
 
 

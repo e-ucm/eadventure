@@ -133,7 +133,7 @@ public class EAdShowQuestion extends EAdComplexBlockingEffect {
 
 		if (questionElement != null) {
 			((EAdBasicSceneElement) questionElement).setClone(true);
-			questionElement.getPosition().set(marginLeft, 10, Corner.TOP_LEFT);
+			((EAdBasicSceneElement) questionElement).setPosition(new EAdPosition( Corner.TOP_LEFT, marginLeft, 10 ));
 			components.add(questionElement);
 
 			EAdVar<Boolean> qEvisibleVar = questionElement.getVars().getVar(

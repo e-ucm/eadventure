@@ -44,6 +44,7 @@ import org.junit.Test;
 import es.eucm.eadventure.common.model.effects.impl.sceneelements.EAdMoveSceneElement;
 import es.eucm.eadventure.common.model.effects.impl.sceneelements.EAdMoveSceneElement.MovementSpeed;
 import es.eucm.eadventure.common.model.params.EAdPosition;
+import es.eucm.eadventure.common.model.variables.impl.extra.EAdSceneElementVars;
 import es.eucm.eadventure.common.model.variables.impl.operations.LiteralExpressionOperation;
 
 public class MoveActorReferenceTest extends EffectTest {
@@ -56,7 +57,7 @@ public class MoveActorReferenceTest extends EffectTest {
 		move.setSpeed(MovementSpeed.FAST);
 		testEngine.addEffect(move);
 		assertEquals(testEngine.gameObjectFactory.get(testEngine.reference1)
-				.getPosition(), testEngine.reference1.getPosition());
+				.getPosition(), testEngine.reference1.getVars().getVar(EAdSceneElementVars.VAR_POSITION));
 		testEngine.update();
 		testEngine.update();
 		testEngine.update();

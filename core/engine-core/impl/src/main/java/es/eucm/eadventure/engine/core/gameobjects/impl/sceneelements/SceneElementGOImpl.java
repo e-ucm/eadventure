@@ -123,7 +123,7 @@ public abstract class SceneElementGOImpl<T extends EAdSceneElement> extends
 		
 		EAdElementVars vars = element.getVars();
 		
-		this.position = new EAdPosition(element.getPosition());
+		this.position = vars.getVar(EAdSceneElementVars.VAR_POSITION).getInitialValue();
 		vars.getVar(EAdSceneElementVars.VAR_X).setInitialValue(position.getX());
 		vars.getVar(EAdSceneElementVars.VAR_Y).setInitialValue(position.getY());
 

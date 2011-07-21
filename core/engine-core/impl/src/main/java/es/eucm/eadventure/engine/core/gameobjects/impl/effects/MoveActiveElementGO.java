@@ -45,6 +45,7 @@ import es.eucm.eadventure.common.model.effects.impl.sceneelements.EAdMoveSceneEl
 import es.eucm.eadventure.common.model.effects.impl.sceneelements.EAdMoveSceneElement.MovementSpeed;
 import es.eucm.eadventure.common.model.elements.EAdScene;
 import es.eucm.eadventure.common.model.params.EAdPosition;
+import es.eucm.eadventure.common.model.variables.impl.extra.EAdSceneElementVars;
 import es.eucm.eadventure.common.resources.StringHandler;
 import es.eucm.eadventure.engine.core.GameState;
 import es.eucm.eadventure.engine.core.ValueMap;
@@ -74,10 +75,13 @@ public class MoveActiveElementGO extends AbstractEffectGO<EAdMoveActiveElement> 
 			int y = ((MouseAction) action).getVirtualY();
 			EAdScene scene = (EAdScene) object;
 			if (scene.getTrajectoryGenerator() != null) {
+				EAdPosition pos = new EAdPosition(0, 0);
+				pos.setX(valueMap.getValue(gameState.getActiveElement()
+						.getVars().getVar(EAdSceneElementVars.VAR_X)));
+				pos.setY(valueMap.getValue(gameState.getActiveElement()
+						.getVars().getVar(EAdSceneElementVars.VAR_Y)));
 				EAdList<EAdPosition> trajectory = scene
-						.getTrajectoryGenerator().getTrajectory(
-								gameState.getActiveElement().getPosition(), x,
-								y);
+						.getTrajectoryGenerator().getTrajectory(pos, x, y);
 				for (EAdPosition p : trajectory) {
 					EAdMoveSceneElement effect = new EAdMoveSceneElement(
 							"trajectory", gameState.getActiveElement(),
