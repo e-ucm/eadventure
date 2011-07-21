@@ -59,6 +59,7 @@ import es.eucm.eadventure.common.model.events.EAdConditionEvent;
 import es.eucm.eadventure.common.model.events.impl.EAdConditionEventImpl;
 import es.eucm.eadventure.common.model.guievents.impl.EAdMouseEventImpl;
 import es.eucm.eadventure.common.model.params.EAdBorderedColor;
+import es.eucm.eadventure.common.model.variables.impl.extra.EAdSceneElementVars;
 import es.eucm.eadventure.common.model.variables.impl.operations.BooleanOperation;
 import es.eucm.eadventure.common.resources.assets.drawable.Shape;
 
@@ -133,14 +134,14 @@ public class ExitImporter implements EAdElementImporter<Exit, EAdSceneElement> {
 			event.setCondition(condition);
 
 			EAdChangeVarValueEffect visibleVar = new EAdChangeVarValueEffect( newExit.getId() + "_visibleEffect" );
-			visibleVar.addVar(newExit.visibleVar());
+			visibleVar.addVar(newExit.getVars().getVar(EAdSceneElementVars.VAR_VISIBLE));
 			BooleanOperation op = new BooleanOperation( "booleanOpTrue" );
 			op.setCondition(EmptyCondition.TRUE_EMPTY_CONDITION);
 			visibleVar.setOperation( op );
 			event.addEffect(EAdConditionEvent.ConditionedEvent.CONDITIONS_MET, visibleVar);
 			
 			EAdChangeVarValueEffect notVisibleVar = new EAdChangeVarValueEffect( newExit.getId() + "_notVisibleEffect" );
-			notVisibleVar.addVar(newExit.visibleVar());
+			notVisibleVar.addVar(newExit.getVars().getVar(EAdSceneElementVars.VAR_VISIBLE));
 			op = new BooleanOperation( "booleanOpFalse" );
 			op.setCondition(EmptyCondition.FALSE_EMPTY_CONDITION);
 			notVisibleVar.setOperation( op );

@@ -37,82 +37,14 @@
 
 package es.eucm.eadventure.common.model.elements;
 
-import java.util.List;
-
-import es.eucm.eadventure.common.interfaces.Oriented.Orientation;
 import es.eucm.eadventure.common.interfaces.Positioned;
 import es.eucm.eadventure.common.model.EAdElement;
 import es.eucm.eadventure.common.model.EAdList;
 import es.eucm.eadventure.common.model.effects.EAdEffect;
 import es.eucm.eadventure.common.model.params.guievents.EAdGUIEvent;
-import es.eucm.eadventure.common.model.variables.EAdVar;
+import es.eucm.eadventure.common.model.variables.EAdElementVars;
 
 public interface EAdSceneElement extends EAdElement, Positioned {
-
-	/**
-	 * Gets the scale of the scene element.
-	 * 
-	 * @return the scale value.
-	 */
-	EAdVar<Float> scaleVar();
-
-	/**
-	 * Returns the runtime variable holding the x position of the scene element
-	 * 
-	 * @return the runtime variable holding the x position of the scene element
-	 */
-	EAdVar<Integer> positionXVar();
-
-	/**
-	 * Returns the runtime variable holding the y position of the scene element
-	 * 
-	 * @return the runtime variable holding the y position of the scene element
-	 */
-	EAdVar<Integer> positionYVar();
-
-	/**
-	 * Returns the runtime variable associated to the visibility of the element
-	 * 
-	 * @return
-	 */
-	EAdVar<Boolean> visibleVar();
-
-	/**
-	 * Returns the runtime variable holding the width of the scene element,
-	 * during game
-	 * 
-	 * @return
-	 */
-	EAdVar<Integer> widthVar();
-
-	/**
-	 * Returns the runtime variable holding the height of the scene element,
-	 * during game
-	 * 
-	 * @return
-	 */
-	EAdVar<Integer> heightVar();
-
-	/**
-	 * Returns the runtime variable holding the rotation of the scene element
-	 * 
-	 * @return
-	 */
-	EAdVar<Float> rotationVar();
-
-	/**
-	 * Returns the runtime variable holding the alpha for the scene element
-	 * 
-	 * @return
-	 */
-	EAdVar<Float> alphaVar();
-
-	/**
-	 * Returns the var holding the state name of the element
-	 * 
-	 * @return the state var
-	 */
-	EAdVar<String> stateVar();
 
 	/**
 	 * Returns the effects list associated with the given GUI event,
@@ -135,18 +67,11 @@ public interface EAdSceneElement extends EAdElement, Positioned {
 	boolean isClone();
 
 	/**
-	 * Returns the orientation var
+	 * Returns the container for all vars of this scene element
 	 * 
 	 * @return
 	 */
-	EAdVar<Orientation> orientationVar();
-
-	/**
-	 * Returns a list of all vars of this scene element
-	 * 
-	 * @return a list of all vars of this scene element
-	 */
-	List<EAdVar<?>> getVars();
+	EAdElementVars getVars();
 	
 	/**
 	 * An enum with common states for scene elements

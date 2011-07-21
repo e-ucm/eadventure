@@ -44,6 +44,7 @@ import es.eucm.eadventure.common.model.effects.impl.EAdVarInterpolationEffect;
 import es.eucm.eadventure.common.model.effects.impl.EAdVarInterpolationEffect.LoopType;
 import es.eucm.eadventure.common.model.effects.impl.sceneelements.EAdMoveSceneElement;
 import es.eucm.eadventure.common.model.elements.EAdSceneElement.CommonStates;
+import es.eucm.eadventure.common.model.variables.impl.extra.EAdSceneElementVars;
 import es.eucm.eadventure.common.model.variables.impl.vars.IntegerVar;
 import es.eucm.eadventure.common.resources.StringHandler;
 import es.eucm.eadventure.engine.core.GameState;
@@ -86,7 +87,7 @@ public class MoveSceneElementGO extends AbstractEffectGO<EAdMoveSceneElement> {
 	public void initilize() {
 		super.initilize();
 
-		valueMap.setValue(element.getSceneElement().stateVar(),
+		valueMap.setValue(element.getSceneElement().getVars().getVar(EAdSceneElementVars.VAR_STATE),
 				CommonStates.EAD_STATE_WALKING.toString());
 
 		valueMap.setValue(element.animationEnded(), Boolean.FALSE);
@@ -94,8 +95,8 @@ public class MoveSceneElementGO extends AbstractEffectGO<EAdMoveSceneElement> {
 		SceneElementGO<?> a = (SceneElementGO<?>) gameObjectFactory.get(effect
 				.getSceneElement());
 
-		int x = valueMap.getValue(element.getSceneElement().positionXVar());
-		int y = valueMap.getValue(element.getSceneElement().positionYVar());
+		int x = valueMap.getValue(element.getSceneElement().getVars().getVar(EAdSceneElementVars.VAR_X));
+		int y = valueMap.getValue(element.getSceneElement().getVars().getVar(EAdSceneElementVars.VAR_Y));
 
 		int targetX = this.operatorFactory.operate(new IntegerVar(" "),
 				effect.getXTarget());
@@ -111,20 +112,20 @@ public class MoveSceneElementGO extends AbstractEffectGO<EAdMoveSceneElement> {
 
 			if (targetX != x) {
 				gameState.addEffect(new EAdVarInterpolationEffect(
-						"interpolationX", a.getElement().positionXVar(), x,
+						"interpolationX", a.getElement().getVars().getVar(EAdSceneElementVars.VAR_X), x,
 						targetX, timeToFinish, LoopType.NO_LOOP));
 			}
 
 			if (targetY != y) {
 				gameState.addEffect(new EAdVarInterpolationEffect(
-						"interpolationY", a.getElement().positionYVar(), y,
+						"interpolationY", a.getElement().getVars().getVar(EAdSceneElementVars.VAR_Y), y,
 						targetY, timeToFinish, LoopType.NO_LOOP));
 			}
 
 			updateDirection(a, x, targetX, y, targetY);
 		} else {
-			valueMap.setValue(a.getElement().positionXVar(), targetX);
-			valueMap.setValue(a.getElement().positionYVar(), targetY);
+			valueMap.setValue(a.getElement().getVars().getVar(EAdSceneElementVars.VAR_X), targetX);
+			valueMap.setValue(a.getElement().getVars().getVar(EAdSceneElementVars.VAR_Y), targetY);
 			valueMap.setValue(element.animationEnded(), Boolean.TRUE);
 		}
 
@@ -178,7 +179,7 @@ public class MoveSceneElementGO extends AbstractEffectGO<EAdMoveSceneElement> {
 			}
 		}
 
-		valueMap.setValue(element.getSceneElement().orientationVar(),
+		valueMap.setValue(element.getSceneElement().getVars().getVar(EAdSceneElementVars.VAR_ORIENTATION),
 				tempDirection);
 
 	}

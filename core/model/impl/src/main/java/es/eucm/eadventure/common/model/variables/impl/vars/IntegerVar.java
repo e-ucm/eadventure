@@ -46,8 +46,7 @@ public class IntegerVar extends NumberVar<Integer> {
 	}
 
 	public IntegerVar(String name, EAdElement element) {
-		super(Integer.class, name, element);
-		this.setInitialValue(0);
+		super(Integer.class, name, 0, element);
 	}
 
 	/* (non-Javadoc)
@@ -56,7 +55,7 @@ public class IntegerVar extends NumberVar<Integer> {
 	 */
 	@Override
 	public String toString() {
-		return "Integer;" + name;
+		return "Integer;" + getName();
 	}
 	
 	public static IntegerVar valueOf(String string) {

@@ -44,9 +44,11 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 import es.eucm.eadventure.common.resources.assets.drawable.Image;
+import es.eucm.eadventure.engine.core.GameState;
 import es.eucm.eadventure.engine.core.KeyboardState;
 import es.eucm.eadventure.engine.core.MouseState;
 import es.eucm.eadventure.engine.core.ValueMap;
+import es.eucm.eadventure.engine.core.gameobjects.GameObjectFactory;
 import es.eucm.eadventure.engine.core.gameobjects.GameObjectManager;
 import es.eucm.eadventure.engine.core.gameobjects.huds.BasicHUD;
 import es.eucm.eadventure.engine.core.platform.GraphicRendererFactory;
@@ -60,24 +62,25 @@ import es.eucm.eadventure.engine.extra.EAdventureRenderingThread;
 public class AndroidGUI extends AbstractGUI<Canvas> {
 
 	private AndroidCanvas canvas;
-	
+
 	@SuppressWarnings("rawtypes")
 	@Inject
 	public AndroidGUI(PlatformConfiguration platformConfiguration,
 			GraphicRendererFactory<?> assetRendererFactory,
-			GameObjectManager gameObjectManager,
-			MouseState mouseState,
-			BasicHUD androidBasicHUD,
-			KeyboardState keyboardState, ValueMap valueMap) {
+			GameObjectManager gameObjectManager, MouseState mouseState,
+			BasicHUD androidBasicHUD, KeyboardState keyboardState,
+			ValueMap valueMap, GameState gameState,
+			GameObjectFactory gameObjectFactory) {
 		super(platformConfiguration, assetRendererFactory, gameObjectManager,
-				mouseState, keyboardState, valueMap);
+				mouseState, keyboardState, valueMap, gameState,
+				gameObjectFactory);
 		gameObjects.addHUD(androidBasicHUD);
 	}
-	
+
 	@Override
 	public RuntimeAsset<Image> commitToImage() {
-		//FIXME does not commit to image
-		//		canvas.getBitmap();?
+		// FIXME does not commit to image
+		// canvas.getBitmap();?
 		return null;
 	}
 
@@ -89,11 +92,11 @@ public class AndroidGUI extends AbstractGUI<Canvas> {
 	@Override
 	public void commit(float interpolation) {
 		processInput();
-		
+
 		if (canvas != null) {
-			synchronized(EAdventureRenderingThread.canvasLock) {
-				//canvas.drawColor(Color.WHITE);
-				
+			synchronized (EAdventureRenderingThread.canvasLock) {
+				// canvas.drawColor(Color.WHITE);
+
 				render(canvas, interpolation);
 			}
 		}
@@ -107,15 +110,18 @@ public class AndroidGUI extends AbstractGUI<Canvas> {
 
 	public void setCanvas(AndroidCanvas aCanvas) {
 		this.canvas = aCanvas;
-		
-		Matrix matrix = new Matrix();		
-		
+
+		Matrix matrix = new Matrix();
+
 		if (platformConfiguration.isFullscreen())
-			matrix.preScale((float) ((AndroidPlatformConfiguration) platformConfiguration).getScaleW(),
-				(float) platformConfiguration.getScale());
-		else matrix.preScale((float) platformConfiguration.getScale(),
-				(float) platformConfiguration.getScale()); 
-		
+			matrix.preScale(
+					(float) ((AndroidPlatformConfiguration) platformConfiguration)
+							.getScaleW(), (float) platformConfiguration
+							.getScale());
+		else
+			matrix.preScale((float) platformConfiguration.getScale(),
+					(float) platformConfiguration.getScale());
+
 		canvas.setMatrix(matrix);
 
 	}

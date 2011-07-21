@@ -47,8 +47,7 @@ public class StringVar extends EAdVarImpl<String> {
 	}
 
 	public StringVar(String name, EAdElement element) {
-		super(String.class, name, element);
-		this.setInitialValue("");
+		super(String.class, name, "", element);
 	}
 
 	/*
@@ -58,7 +57,7 @@ public class StringVar extends EAdVarImpl<String> {
 	 */
 	@Override
 	public String toString() {
-		return "String;" + name;
+		return "String;" + getName();
 	}
 
 	public static StringVar valueOf(String string) {

@@ -48,8 +48,7 @@ public class BooleanVar extends EAdVarImpl<Boolean> implements EAdVar<Boolean> {
 	}
 
 	public BooleanVar(String name, EAdElement element) {
-		super(Boolean.class, name, element);
-		setInitialValue(Boolean.FALSE);
+		super(Boolean.class, name, Boolean.FALSE, element);
 	}
 
 	/* (non-Javadoc)
@@ -58,7 +57,7 @@ public class BooleanVar extends EAdVarImpl<Boolean> implements EAdVar<Boolean> {
 	 */
 	@Override
 	public String toString() {
-		return "Boolean;" + name;
+		return "Boolean;" + getName();
 	}
 	
 	public static BooleanVar valueOf(String string) {

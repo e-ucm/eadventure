@@ -56,6 +56,7 @@ import es.eucm.eadventure.common.model.events.impl.EAdConditionEventImpl;
 import es.eucm.eadventure.common.model.events.impl.EAdSystemEventImpl;
 import es.eucm.eadventure.common.model.guievents.impl.EAdMouseEventImpl;
 import es.eucm.eadventure.common.model.params.EAdPosition;
+import es.eucm.eadventure.common.model.variables.impl.extra.EAdSceneElementVars;
 import es.eucm.eadventure.common.model.variables.impl.operations.BooleanOperation;
 
 /**
@@ -109,7 +110,7 @@ public class ElementReferenceImporter implements
 				.convert(oldObject.getConditions(), condition);
 
 		EAdConditionEventImpl visibilityEvent = new EAdConditionEventImpl("visibilityCondition", condition);
-		EAdChangeVarValueEffect visibilityEffect = new EAdChangeVarValueEffect("visibilityConditionEffect", newRef.visibleVar(), new BooleanOperation("", condition));
+		EAdChangeVarValueEffect visibilityEffect = new EAdChangeVarValueEffect("visibilityConditionEffect", newRef.getVars().getVar(EAdSceneElementVars.VAR_VISIBLE), new BooleanOperation("", condition));
 		visibilityEvent.addEffect(EAdConditionEvent.ConditionedEvent.CONDITIONS_MET, visibilityEffect);
 		visibilityEvent.addEffect(EAdConditionEvent.ConditionedEvent.CONDITIONS_UNMET, visibilityEffect);
 		newRef.getEvents().add(visibilityEvent);

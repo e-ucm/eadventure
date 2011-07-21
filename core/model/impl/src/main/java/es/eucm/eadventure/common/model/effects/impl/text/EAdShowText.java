@@ -47,6 +47,7 @@ import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
 import es.eucm.eadventure.common.model.events.EAdSceneElementEvent;
 import es.eucm.eadventure.common.model.events.impl.EAdSceneElementEventImpl;
 import es.eucm.eadventure.common.model.params.EAdPosition;
+import es.eucm.eadventure.common.model.variables.impl.extra.EAdSceneElementVars;
 import es.eucm.eadventure.common.resources.assets.drawable.Caption;
 
 /**
@@ -125,11 +126,11 @@ public class EAdShowText extends AbstractEAdEffect {
 		text.setClone(true);
 		switch ( animation ){
 		case NONE:
-			text.alphaVar().setInitialValue(1.0f);
+			text.getVars().getVar(EAdSceneElementVars.VAR_ALPHA).setInitialValue(1.0f);
 			break;
 		case FADE_IN:
-			text.alphaVar().setInitialValue(0.0f);
-			EAdVarInterpolationEffect effect = new EAdVarInterpolationEffect( "textFadeIn", text.alphaVar(), 0.0f, 1.0f, 500, LoopType.NO_LOOP);
+			text.getVars().getVar(EAdSceneElementVars.VAR_ALPHA).setInitialValue(0.0f);
+			EAdVarInterpolationEffect effect = new EAdVarInterpolationEffect( "textFadeIn", text.getVars().getVar(EAdSceneElementVars.VAR_ALPHA), 0.0f, 1.0f, 500, LoopType.NO_LOOP);
 			
 			EAdSceneElementEventImpl event = new EAdSceneElementEventImpl( "event" );
 			event.addEffect(EAdSceneElementEvent.SceneElementEvent.ADDED_TO_SCENE, effect);

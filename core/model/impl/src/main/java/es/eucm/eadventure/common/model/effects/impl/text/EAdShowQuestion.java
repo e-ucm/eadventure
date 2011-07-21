@@ -59,6 +59,8 @@ import es.eucm.eadventure.common.model.events.impl.EAdSceneElementEventImpl;
 import es.eucm.eadventure.common.model.impl.EAdListImpl;
 import es.eucm.eadventure.common.model.params.EAdPosition;
 import es.eucm.eadventure.common.model.params.EAdPosition.Corner;
+import es.eucm.eadventure.common.model.variables.EAdVar;
+import es.eucm.eadventure.common.model.variables.impl.extra.EAdSceneElementVars;
 import es.eucm.eadventure.common.model.variables.impl.operations.BooleanOperation;
 import es.eucm.eadventure.common.model.variables.impl.operations.LiteralExpressionOperation;
 import es.eucm.eadventure.common.model.variables.impl.vars.BooleanVar;
@@ -89,7 +91,7 @@ public class EAdShowQuestion extends EAdComplexBlockingEffect {
 	@Param("marginLeft")
 	private int marginLeft = 10;
 
-	private BooleanVar answered;
+	private EAdVar<Boolean> answered;
 
 	private IntegerVar selectedAnswer;
 
@@ -119,8 +121,6 @@ public class EAdShowQuestion extends EAdComplexBlockingEffect {
 		answered = new BooleanVar(id + "_answerd" + ID_GENERATOR++);
 		answered.setInitialValue(false);
 		selectedAnswer.setInitialValue(-1);
-		
-		
 
 		// Effects
 		EAdChangeVarValueEffect invisibleEffect = new EAdChangeVarValueEffect(
@@ -132,19 +132,25 @@ public class EAdShowQuestion extends EAdComplexBlockingEffect {
 		visibleEffect.setOperation(BooleanOperation.TRUE_OP);
 
 		if (questionElement != null) {
-			((EAdBasicSceneElement) questionElement).setClone( true );
+			((EAdBasicSceneElement) questionElement).setClone(true);
 			questionElement.getPosition().set(marginLeft, 10, Corner.TOP_LEFT);
 			components.add(questionElement);
-			questionElement.visibleVar().setInitialValue(false);
-			invisibleEffect.addVar(questionElement.visibleVar());
-			visibleEffect.addVar(questionElement.visibleVar());
+
+			EAdVar<Boolean> qEvisibleVar = questionElement.getVars().getVar(
+					EAdSceneElementVars.VAR_VISIBLE);
+
+			qEvisibleVar.setInitialValue(false);
+			invisibleEffect.addVar(qEvisibleVar);
+			visibleEffect.addVar(qEvisibleVar);
 			questionElement.getVars().add(answered);
 			questionElement.getVars().add(selectedAnswer);
 		}
 
 		for (Answer a : answers) {
-			invisibleEffect.addVar(a.visibleVar());
-			visibleEffect.addVar(a.visibleVar());
+			invisibleEffect.addVar(a.getVars().getVar(
+					EAdSceneElementVars.VAR_VISIBLE));
+			visibleEffect.addVar(a.getVars().getVar(
+					EAdSceneElementVars.VAR_VISIBLE));
 		}
 
 		// Start macro
@@ -152,10 +158,10 @@ public class EAdShowQuestion extends EAdComplexBlockingEffect {
 		startMacro.getEffects().add(invisibleEffect);
 		addPositioningEvent(startMacro);
 		startMacro.getEffects().add(visibleEffect);
-		
+
 		// Reset answered
-		EAdEffect resetAnswered = new EAdChangeVarValueEffect("questionInitAnswered", answered,
-				BooleanOperation.FALSE_OP);
+		EAdEffect resetAnswered = new EAdChangeVarValueEffect(
+				"questionInitAnswered", answered, BooleanOperation.FALSE_OP);
 		this.getFinalEffects().add(resetAnswered);
 		this.getFinalEffects().add(invisibleEffect);
 
@@ -168,7 +174,8 @@ public class EAdShowQuestion extends EAdComplexBlockingEffect {
 
 		int i = 0;
 		for (Answer a : answers) {
-			a.visibleVar().setInitialValue(Boolean.FALSE);
+			a.getVars().getVar(EAdSceneElementVars.VAR_VISIBLE)
+					.setInitialValue(Boolean.FALSE);
 			a.setClone(true);
 			a.setUpNewInstance(selectedAnswer, endEffect, i++);
 			a.setPosition(new EAdPosition(Corner.TOP_LEFT, 0, 0));
@@ -203,12 +210,15 @@ public class EAdShowQuestion extends EAdComplexBlockingEffect {
 
 			EAdChangeVarValueEffect effect = new EAdChangeVarValueEffect(id
 					+ "positoningAnswer" + i);
-			effect.addVar(a.positionYVar());
+			effect.addVar(a.getVars().getVar(
+					EAdSceneElementVars.VAR_Y));
 			if (previousElement != null) {
 				effect.setOperation(new LiteralExpressionOperation(effect
 						.getId() + "_op", "[0] + [1] + " + marginLeft,
-						previousElement.positionYVar(), previousElement
-								.heightVar()));
+						previousElement.getVars().getVar(
+								EAdSceneElementVars.VAR_Y), previousElement
+								.getVars().getVar(
+										EAdSceneElementVars.VAR_HEIGHT)));
 			} else
 				effect.setOperation(new LiteralExpressionOperation(effect
 						.getId() + "_op", "0 + " + marginLeft));
@@ -216,9 +226,12 @@ public class EAdShowQuestion extends EAdComplexBlockingEffect {
 			macro.getEffects().add(effect);
 
 			EAdVarInterpolationEffect interpolation = new EAdVarInterpolationEffect(
-					"answer_interpolation", a.positionXVar(), new LiteralExpressionOperation("id", "-800"),
-					new LiteralExpressionOperation("id", "" + (marginLeft * 2)), 500,
-					EAdVarInterpolationEffect.LoopType.NO_LOOP);
+					"answer_interpolation",
+					a.getVars().getVar(
+							EAdSceneElementVars.VAR_X),
+					new LiteralExpressionOperation("id", "-800"),
+					new LiteralExpressionOperation("id", "" + (marginLeft * 2)),
+					500, EAdVarInterpolationEffect.LoopType.NO_LOOP);
 			macro.getEffects().add(interpolation);
 
 		}

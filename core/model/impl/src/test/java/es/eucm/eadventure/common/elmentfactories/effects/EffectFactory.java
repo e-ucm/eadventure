@@ -54,6 +54,7 @@ import es.eucm.eadventure.common.model.elements.EAdSceneElement;
 import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
 import es.eucm.eadventure.common.model.variables.EAdOperation;
 import es.eucm.eadventure.common.model.variables.EAdVar;
+import es.eucm.eadventure.common.model.variables.impl.extra.EAdSceneElementVars;
 import es.eucm.eadventure.common.resources.EAdBundleId;
 import es.eucm.eadventure.common.resources.EAdString;
 import es.eucm.eadventure.common.resources.assets.drawable.Caption;
@@ -136,8 +137,8 @@ public class EffectFactory {
 		EAdString string = EAdElementsFactory.getInstance().getStringFactory().getString(text);
 		
 		effect.setText(string);
-		effect.setPosition(sceneElement.positionXVar(), sceneElement.positionYVar());
-		effect.setStateVar(sceneElement.stateVar());
+		effect.setPosition(sceneElement.getVars().getVar(EAdSceneElementVars.VAR_X), sceneElement.getVars().getVar(EAdSceneElementVars.VAR_Y));
+		effect.setStateVar(sceneElement.getVars().getVar(EAdSceneElementVars.VAR_STATE));
 		
 		return effect;
 	}

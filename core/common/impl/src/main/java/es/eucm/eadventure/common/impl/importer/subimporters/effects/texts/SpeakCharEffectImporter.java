@@ -49,6 +49,7 @@ import es.eucm.eadventure.common.model.elements.EAdCondition;
 import es.eucm.eadventure.common.model.elements.EAdSceneElement;
 import es.eucm.eadventure.common.model.params.EAdBorderedColor;
 import es.eucm.eadventure.common.model.params.EAdColor;
+import es.eucm.eadventure.common.model.variables.impl.extra.EAdSceneElementVars;
 import es.eucm.eadventure.common.resources.EAdString;
 import es.eucm.eadventure.common.resources.StringHandler;
 
@@ -83,7 +84,7 @@ public class SpeakCharEffectImporter extends
 		// FIXME Wrong, element holds an actor, and we need the reference
 		EAdSceneElement element = (EAdSceneElement) factory.getElementById(p.getId());
 		
-		effect.setPosition(element.positionXVar(), element.positionYVar());
+		effect.setPosition(element.getVars().getVar(EAdSceneElementVars.VAR_X), element.getVars().getVar(EAdSceneElementVars.VAR_Y));
 
 		return effect;
 	}

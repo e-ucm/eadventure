@@ -51,6 +51,7 @@ import es.eucm.eadventure.common.model.events.impl.EAdSceneElementTimedEventImpl
 import es.eucm.eadventure.common.model.params.EAdPosition;
 import es.eucm.eadventure.common.model.params.EAdPosition.Corner;
 import es.eucm.eadventure.common.model.params.guievents.EAdMouseEvent.MouseActionType;
+import es.eucm.eadventure.common.model.variables.impl.extra.EAdSceneElementVars;
 import es.eucm.eadventure.common.resources.StringHandler;
 import es.eucm.eadventure.common.resources.assets.drawable.impl.BezierShape;
 import es.eucm.eadventure.engine.core.GameState;
@@ -125,7 +126,7 @@ public class ShowTextEffectGO extends AbstractEffectGO<EAdShowText> {
 						- (textRight - (int) (platformConfiguration.getWidth() / platformConfiguration
 								.getScale()));
 				this.valueMap
-						.setValue(textGO.getElement().positionXVar(), newX);
+						.setValue(textGO.getElement().getVars().getVar(EAdSceneElementVars.VAR_X), newX);
 				textGO.getPosition().setX(newX);
 
 			}
@@ -140,7 +141,7 @@ public class ShowTextEffectGO extends AbstractEffectGO<EAdShowText> {
 		EAdBasicSceneElement indicator = new EAdBasicSceneElement("text indicator");
 		
 		EAdSceneElementTimedEventImpl event = new EAdSceneElementTimedEventImpl( "triangle_blink" );
-		event.addEffect(SceneElementTimedEventType.START_TIME, new EAdVarInterpolationEffect("blink_interpolation", indicator.alphaVar(), 1.0f, 0.0f, 1000, LoopType.NO_LOOP ));
+		event.addEffect(SceneElementTimedEventType.START_TIME, new EAdVarInterpolationEffect("blink_interpolation", indicator.getVars().getVar(EAdSceneElementVars.VAR_ALPHA), 1.0f, 0.0f, 1000, LoopType.NO_LOOP ));
 		event.setTime(1100);
 		indicator.getEvents().add(event);
 		

@@ -82,6 +82,7 @@ import es.eucm.eadventure.common.model.params.EAdBorderedColor;
 import es.eucm.eadventure.common.model.params.EAdColor;
 import es.eucm.eadventure.common.model.params.EAdPosition;
 import es.eucm.eadventure.common.model.params.EAdPosition.Corner;
+import es.eucm.eadventure.common.model.variables.impl.extra.EAdSceneElementVars;
 import es.eucm.eadventure.common.model.variables.impl.operations.BooleanOperation;
 import es.eucm.eadventure.common.model.variables.impl.operations.LiteralExpressionOperation;
 import es.eucm.eadventure.common.model.variables.impl.vars.FloatVar;
@@ -171,7 +172,7 @@ public class BasicScene extends EAdSceneImpl implements EAdScene {
 		bse.getEvents().add(timerEvent);
 		timerEvent.addEffect(TimerEvent.TIMER_ENDED, 
 				new EAdMoveSceneElement("id"));
-//				new EAdChangeVarValueEffect("var", panielReference.positionXVar(), new LiteralExpressionOperation("id", "10")));
+//				new EAdChangeVarValueEffect("var", panielReference.getVars().getVar(EAdSceneElementVars.VAR_X), new LiteralExpressionOperation("id", "10")));
 		
 		
 		EAdCutscene cutscene = new EAdCutscene("id");
@@ -236,8 +237,8 @@ public class BasicScene extends EAdSceneImpl implements EAdScene {
 		answer.getResources().addAsset(answer.getInitialBundle(), Answer.appearance, captionImpl);
 
 		EAdChangeVarValueEffect changePos = new EAdChangeVarValueEffect("id");
-		changePos.addVar(this.panielReference.positionXVar());
-		changePos.setOperation(new LiteralExpressionOperation("id", "[0] + 200", panielReference.positionXVar()));
+		changePos.addVar(this.panielReference.getVars().getVar(EAdSceneElementVars.VAR_X));
+		changePos.setOperation(new LiteralExpressionOperation("id", "[0] + 200", panielReference.getVars().getVar(EAdSceneElementVars.VAR_X)));
 		answer.getMacro().getEffects().add(changePos);
 		showQuestionEffect.getAnswers().add(answer);
 		
@@ -280,8 +281,8 @@ public class BasicScene extends EAdSceneImpl implements EAdScene {
 		setVar = new EAdChangeVarValueEffect("i", dirY, new LiteralExpressionOperation("1", "1"));
 		button.addBehavior(EAdMouseEventImpl.MOUSE_LEFT_CLICK, setVar);
 		
-		LiteralExpressionOperation leX = new LiteralExpressionOperation("id", "[0] + (abs(400*(1+[1]) - [0]*[1]) min abs(300*(1+[2]) - [3]*[2]))*[1] - 50*[1]", ball.positionXVar(), dirX, dirY, ball.positionYVar());
-		LiteralExpressionOperation leY = new LiteralExpressionOperation("id", "[3] + (abs(400*(1+[1]) - [0]*[1]) min abs(300*(1+[2]) - [3]*[2]))*[2] - 50*[2]", ball.positionXVar(), dirX, dirY, ball.positionYVar());
+		LiteralExpressionOperation leX = new LiteralExpressionOperation("id", "[0] + (abs(400*(1+[1]) - [0]*[1]) min abs(300*(1+[2]) - [3]*[2]))*[1] - 50*[1]", ball.getVars().getVar(EAdSceneElementVars.VAR_X), dirX, dirY, ball.getVars().getVar(EAdSceneElementVars.VAR_Y));
+		LiteralExpressionOperation leY = new LiteralExpressionOperation("id", "[3] + (abs(400*(1+[1]) - [0]*[1]) min abs(300*(1+[2]) - [3]*[2]))*[2] - 50*[2]", ball.getVars().getVar(EAdSceneElementVars.VAR_X), dirX, dirY, ball.getVars().getVar(EAdSceneElementVars.VAR_Y));
 		EAdMoveSceneElement move = new EAdMoveSceneElement(id, ball, leX, leY, MovementSpeed.FAST);
 		button.addBehavior(EAdMouseEventImpl.MOUSE_LEFT_CLICK, move);
 		
@@ -289,10 +290,10 @@ public class BasicScene extends EAdSceneImpl implements EAdScene {
 		ce.setCondition(new FlagCondition(move.animationEnded()));
 		
 		setVar = new EAdChangeVarValueEffect("i", dirX, new LiteralExpressionOperation("1", "0-[0]", dirX));
-		setVar.setCondition(new ORCondition(new VarValCondition(ball.positionXVar(), 51, Operator.LESS_EQUAL), new VarValCondition(ball.positionXVar(), 749, Operator.GREATER_EQUAL)));
+		setVar.setCondition(new ORCondition(new VarValCondition(ball.getVars().getVar(EAdSceneElementVars.VAR_X), 51, Operator.LESS_EQUAL), new VarValCondition(ball.getVars().getVar(EAdSceneElementVars.VAR_X), 749, Operator.GREATER_EQUAL)));
 		ce.addEffect(ConditionedEvent.CONDITIONS_MET, setVar);
 		setVar = new EAdChangeVarValueEffect("i", dirY, new LiteralExpressionOperation("1", "0-[0]", dirY));
-		setVar.setCondition(new ORCondition(new VarValCondition(ball.positionYVar(), 51, Operator.LESS_EQUAL), new VarValCondition(ball.positionYVar(), 549, Operator.GREATER_EQUAL)));
+		setVar.setCondition(new ORCondition(new VarValCondition(ball.getVars().getVar(EAdSceneElementVars.VAR_Y), 51, Operator.LESS_EQUAL), new VarValCondition(ball.getVars().getVar(EAdSceneElementVars.VAR_Y), 549, Operator.GREATER_EQUAL)));
 		ce.addEffect(ConditionedEvent.CONDITIONS_MET, setVar);
 
 		ce.addEffect(ConditionedEvent.CONDITIONS_MET, move);

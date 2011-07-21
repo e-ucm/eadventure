@@ -42,8 +42,7 @@ import es.eucm.eadventure.common.model.EAdElement;
 public class FloatVar extends NumberVar<Float> {
 	
 	public FloatVar( String name, EAdElement element ){
-		super( Float.class, name, element );
-		this.setInitialValue(0.0f);
+		super( Float.class, name, 0.0f, element );
 	}
 
 	public FloatVar(String name) {
@@ -56,7 +55,7 @@ public class FloatVar extends NumberVar<Float> {
 	 */
 	@Override
 	public String toString() {
-		return "Float;" + name;
+		return "Float;" + getName();
 	}
 	
 	public static FloatVar valueOf(String string) {

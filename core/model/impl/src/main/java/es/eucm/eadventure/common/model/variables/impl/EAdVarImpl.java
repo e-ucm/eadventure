@@ -39,57 +39,54 @@ package es.eucm.eadventure.common.model.variables.impl;
 
 import es.eucm.eadventure.common.model.EAdElement;
 import es.eucm.eadventure.common.model.variables.EAdVar;
+import es.eucm.eadventure.common.model.variables.EAdVarDef;
 
 public class EAdVarImpl<T> implements EAdVar<T> {
 
-	private Class<T> type;
-	
-	protected String name;
-	
+	private EAdVarDef<T> varDef;
+
 	private EAdElement element;
-	
-	private T initialValue;
 
-	public EAdVarImpl(Class<T> type, String name, EAdElement element) {
-		this.type = type;
-		this.name = name;
+	private boolean isModifiedInitialValue;
+
+	private T modifiedInitialValue;
+
+	public EAdVarImpl(EAdVarDef<T> varDef, EAdElement element) {
 		this.element = element;
+		this.varDef = varDef;
 	}
 
-	public EAdVarImpl(Class<T> type, String name) {
-		this(type, name, null);
+	public EAdVarImpl(Class<T> type, String name, T initialValue,
+			EAdElement element) {
+		this(new EAdVarDefImpl<T>(name, type, initialValue), element);
 	}
 
-	@Override
-	public Class<T> getType() {
-		return type;
+	public EAdVarImpl(Class<T> type, String name, T initialValue,
+			boolean isConstant, boolean isGlobal, EAdElement element) {
+		this(new EAdVarDefImpl<T>(name, type, initialValue, isConstant,
+				isGlobal), element);
 	}
 
-	@Override
-	public String getName() {
-		return name;
-	}
-	
 	@Override
 	public void setInitialValue(T value) {
-		this.initialValue = value;
-		
+		this.modifiedInitialValue = value;
+		isModifiedInitialValue = true;
+
 	}
-	
+
 	@Override
 	public T getInitialValue() {
-		return initialValue;
+		if (isModifiedInitialValue)
+			return modifiedInitialValue;
+		else
+			return varDef.getInitialValue();
 	}
 
 	@Override
 	public EAdElement getElement() {
 		return element;
 	}
-	
-	public void setElement(EAdElement element) {
-		this.element = element;
-	}
-	
+
 	@Override
 	public boolean equals(Object o) {
 		if (o == null || !(o instanceof EAdVar))
@@ -101,7 +98,7 @@ public class EAdVarImpl<T> implements EAdVar<T> {
 			return false;
 		return true;
 	}
-	
+
 	@Override
 	public int hashCode() {
 		if (element != null)
@@ -109,5 +106,29 @@ public class EAdVarImpl<T> implements EAdVar<T> {
 		else
 			return element.hashCode() + getName().hashCode();
 	}
-	
+
+	@Override
+	public String getName() {
+		return varDef.getName();
+	}
+
+	@Override
+	public Class<T> getType() {
+		return varDef.getType();
+	}
+
+	@Override
+	public boolean isConstant() {
+		return varDef.isConstant();
+	}
+
+	@Override
+	public boolean isGlobal() {
+		return varDef.isGlobal();
+	}
+
+	public void setElement(EAdElement eAdElement) {
+		this.element = eAdElement;
+	}
+
 }

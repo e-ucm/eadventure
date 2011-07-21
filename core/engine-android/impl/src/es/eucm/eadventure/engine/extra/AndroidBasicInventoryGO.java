@@ -62,6 +62,7 @@ import es.eucm.eadventure.common.model.guievents.impl.EAdMouseEventImpl;
 import es.eucm.eadventure.common.model.params.EAdBorderedColor;
 import es.eucm.eadventure.common.model.params.EAdPosition;
 import es.eucm.eadventure.common.model.params.EAdPosition.Corner;
+import es.eucm.eadventure.common.model.variables.impl.extra.EAdSceneElementVars;
 import es.eucm.eadventure.common.model.variables.impl.operations.BooleanOperation;
 import es.eucm.eadventure.common.model.variables.impl.operations.LiteralExpressionOperation;
 import es.eucm.eadventure.common.resources.EAdBundleId;
@@ -183,7 +184,7 @@ public class AndroidBasicInventoryGO extends BasicInventoryGO {
 
 		inventory.getComponents().add(arrow);
 		
-		arrow.addBehavior(EAdMouseEventImpl.MOUSE_LEFT_CLICK, new EAdVarInterpolationEffect("id", inventoryContent.positionXVar(), new LiteralExpressionOperation("id", "[0]" + sign + INVENTORY_HEIGHT, inventoryContent.positionXVar()), 200));
+		arrow.addBehavior(EAdMouseEventImpl.MOUSE_LEFT_CLICK, new EAdVarInterpolationEffect("id", inventoryContent.getVars().getVar(EAdSceneElementVars.VAR_X), new LiteralExpressionOperation("id", "[0]" + sign + INVENTORY_HEIGHT, inventoryContent.getVars().getVar(EAdSceneElementVars.VAR_X)), 200));
 		return arrow;
 	}
 
@@ -197,17 +198,17 @@ public class AndroidBasicInventoryGO extends BasicInventoryGO {
 		centerSensor.setPosition(new EAdPosition(Corner.TOP_LEFT, 0, 0));
 		
 		EAdEffect e2 = new EAdMoveSceneElement("hideInventoryBottom", inventory, 0, 700, MovementSpeed.NORMAL);
-		e2.setCondition(new VarValCondition(inventory.positionYVar(), 350, Operator.GREATER));
+		e2.setCondition(new VarValCondition(inventory.getVars().getVar(EAdSceneElementVars.VAR_Y), 350, Operator.GREATER));
 		centerSensor.addBehavior(EAdMouseEventImpl.MOUSE_MOVED, e2);
-		e2 = new EAdChangeVarValueEffect("id", centerSensor.visibleVar(), BooleanOperation.FALSE_OP);
-		e2.setCondition(new VarValCondition(inventory.positionYVar(), 350, Operator.GREATER));
+		e2 = new EAdChangeVarValueEffect("id", centerSensor.getVars().getVar(EAdSceneElementVars.VAR_VISIBLE), BooleanOperation.FALSE_OP);
+		e2.setCondition(new VarValCondition(inventory.getVars().getVar(EAdSceneElementVars.VAR_Y), 350, Operator.GREATER));
 		centerSensor.addBehavior(EAdMouseEventImpl.MOUSE_MOVED, e2);
 
 		e2 = new EAdMoveSceneElement("hideInventoryTop", inventory, 0, 0, MovementSpeed.NORMAL);
-		e2.setCondition(new VarValCondition(inventory.positionYVar(), 350, Operator.LESS));
+		e2.setCondition(new VarValCondition(inventory.getVars().getVar(EAdSceneElementVars.VAR_Y), 350, Operator.LESS));
 		centerSensor.addBehavior(EAdMouseEventImpl.MOUSE_MOVED, e2);
-		e2 = new EAdChangeVarValueEffect("id", centerSensor.visibleVar(), BooleanOperation.FALSE_OP);
-		e2.setCondition(new VarValCondition(inventory.positionYVar(), 350, Operator.LESS));
+		e2 = new EAdChangeVarValueEffect("id", centerSensor.getVars().getVar(EAdSceneElementVars.VAR_VISIBLE), BooleanOperation.FALSE_OP);
+		e2.setCondition(new VarValCondition(inventory.getVars().getVar(EAdSceneElementVars.VAR_Y), 350, Operator.LESS));
 		centerSensor.addBehavior(EAdMouseEventImpl.MOUSE_MOVED, e2);
 	}
 	
@@ -230,7 +231,7 @@ public class AndroidBasicInventoryGO extends BasicInventoryGO {
 		part.addBehavior(EAdMouseEventImpl.MOUSE_ENTERED, e);
 		e = new EAdMoveSceneElement("showInventory", inventory, 0, inventoryPos, MovementSpeed.FAST);
 		part.addBehavior(EAdMouseEventImpl.MOUSE_ENTERED, e);
-		e = new EAdChangeVarValueEffect("showCentralSensor", centerSensor.visibleVar(), BooleanOperation.TRUE_OP);
+		e = new EAdChangeVarValueEffect("showCentralSensor", centerSensor.getVars().getVar(EAdSceneElementVars.VAR_VISIBLE), BooleanOperation.TRUE_OP);
 		part.addBehavior(EAdMouseEventImpl.MOUSE_ENTERED, e);
 		return part;
 	}
@@ -258,7 +259,7 @@ public class AndroidBasicInventoryGO extends BasicInventoryGO {
 				removedActors.add(actor);
 			else {
 				EAdActorReferenceImpl ref = includedActors.get(actor);
-				valueMap.setValue(ref.positionXVar(), cont * (10 + INVENTORY_HEIGHT) + INVENTORY_HEIGHT / 2);
+				valueMap.setValue(ref.getVars().getVar(EAdSceneElementVars.VAR_X), cont * (10 + INVENTORY_HEIGHT) + INVENTORY_HEIGHT / 2);
 				
 				//TODO position actor
 				cont++;

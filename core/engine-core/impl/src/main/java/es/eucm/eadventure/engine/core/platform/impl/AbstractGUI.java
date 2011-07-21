@@ -41,6 +41,7 @@ import java.util.logging.Logger;
 
 import es.eucm.eadventure.common.model.elements.EAdSceneElement;
 import es.eucm.eadventure.common.model.params.guievents.EAdMouseEvent.MouseActionType;
+import es.eucm.eadventure.common.model.variables.impl.extra.EAdSceneElementVars;
 import es.eucm.eadventure.engine.core.GameState;
 import es.eucm.eadventure.engine.core.KeyboardState;
 import es.eucm.eadventure.engine.core.MouseState;
@@ -193,7 +194,7 @@ public abstract class AbstractGUI<T> implements GUI {
 					&& mouseState.getGameObjectUnderMouse() == null; i--) {
 				GameObject<?> tempGameObject = gameObjects.getGameObjects().get(i);
 				if (tempGameObject.getElement() instanceof EAdSceneElement
-						&& !valueMap.getValue(((EAdSceneElement) tempGameObject.getElement()).visibleVar()))
+						&& !valueMap.getValue(((EAdSceneElement) tempGameObject.getElement()).getVars().getVar(EAdSceneElementVars.VAR_VISIBLE)))
 					continue;
 				int[] offset = gameObjects.getOffsets().get(i);
 

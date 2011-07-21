@@ -46,21 +46,7 @@ import es.eucm.eadventure.common.model.EAdElement;
  * @param <T>
  *            Java class for the variable
  */
-public interface EAdVar<T> {
-
-	/**
-	 * Returns the Java class for this variable
-	 * 
-	 * @return the Java class for this variable
-	 */
-	Class<T> getType();
-
-	/**
-	 * Returns the name for the variable
-	 * 
-	 * @return the name for the variable
-	 */
-	String getName();
+public interface EAdVar<T> extends EAdVarDef<T> {
 
 	/**
 	 * If the variable is associated to an {@link EAdElement} returns that
@@ -70,13 +56,6 @@ public interface EAdVar<T> {
 	 *         if variable is not linked to any element
 	 */
 	EAdElement getElement();
-
-	/**
-	 * Returns the initial value for this variable
-	 * 
-	 * @return the initial value for this variable
-	 */
-	T getInitialValue();
 
 	/**
 	 * Sets the initial value for this variable

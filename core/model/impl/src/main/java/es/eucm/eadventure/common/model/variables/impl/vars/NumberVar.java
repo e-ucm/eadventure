@@ -42,12 +42,12 @@ import es.eucm.eadventure.common.model.variables.impl.EAdVarImpl;
 
 public abstract class NumberVar<T extends Number> extends EAdVarImpl<T> {
 
-	public NumberVar(Class<T> type, String name) {
-		super(type, name);
+	public NumberVar(Class<T> type, String name, T initialValue ) {
+		this(type, name, initialValue, null);
 	}
-
-	public NumberVar(Class<T> type, String name, EAdElement element) {
-		super(type, name, element);
+	
+	public NumberVar(Class<T> type, String name, T initialValue, EAdElement element ) {
+		super(type, name, initialValue, element);
 	}
 
 	public static NumberVar<?> valueOf(String string) {

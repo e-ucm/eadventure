@@ -47,7 +47,9 @@ import es.eucm.eadventure.common.model.actions.EAdAction;
 import es.eucm.eadventure.common.model.elements.EAdSceneElement;
 import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
 import es.eucm.eadventure.common.model.params.EAdPosition;
+import es.eucm.eadventure.common.model.variables.EAdElementVars;
 import es.eucm.eadventure.common.model.variables.EAdVar;
+import es.eucm.eadventure.common.model.variables.impl.extra.EAdSceneElementVars;
 import es.eucm.eadventure.common.resources.EAdBundleId;
 import es.eucm.eadventure.common.resources.StringHandler;
 import es.eucm.eadventure.common.resources.assets.AssetDescriptor;
@@ -118,27 +120,34 @@ public abstract class SceneElementGOImpl<T extends EAdSceneElement> extends
 	@Override
 	public void setElement(T element) {
 		super.setElement(element);
+		
+		EAdElementVars vars = element.getVars();
+		
 		this.position = new EAdPosition(element.getPosition());
-		element.positionXVar().setInitialValue(position.getX());
-		element.positionYVar().setInitialValue(position.getY());
+		vars.getVar(EAdSceneElementVars.VAR_X).setInitialValue(position.getX());
+		vars.getVar(EAdSceneElementVars.VAR_Y).setInitialValue(position.getY());
 
 		// If element is a clone, sets its vars to its initial values, if not,
 		// it preserves the values contained by the valueMap
 		if (element.isClone()) {
-			for (EAdVar var : element.getVars()) {
+			for (EAdVar var : vars.getVars()) {
 				valueMap.setValue(var, var.getInitialValue());
 			}
 		}
-
-		visible = valueMap.getValue(element.visibleVar());
-		rotation = valueMap.getValue(element.rotationVar());
-		scale = valueMap.getValue(element.scaleVar());
-		alpha = valueMap.getValue(element.alphaVar());
-		orientation = valueMap.getValue(element.orientationVar());
-		state = valueMap.getValue(element.stateVar());
+		
+		updateVars( vars );
 		
 		// To load dimensions
 		getRenderAsset();
+	}
+	
+	private void updateVars( EAdElementVars vars ){
+		visible = valueMap.getValue(vars.getVar(EAdSceneElementVars.VAR_VISIBLE));
+		rotation = valueMap.getValue(vars.getVar(EAdSceneElementVars.VAR_ROTATION));
+		scale = valueMap.getValue(vars.getVar(EAdSceneElementVars.VAR_SCALE));
+		alpha = valueMap.getValue(vars.getVar(EAdSceneElementVars.VAR_ALPHA));
+		orientation = valueMap.getValue(vars.getVar(EAdSceneElementVars.VAR_ORIENTATION));
+		state = valueMap.getValue(vars.getVar(EAdSceneElementVars.VAR_STATE));
 	}
 
 	@Override
@@ -173,12 +182,9 @@ public abstract class SceneElementGOImpl<T extends EAdSceneElement> extends
 	public void update(GameState state) {
 		super.update(state);
 		this.getAsset().update(state);
-		this.position.setX(valueMap.getValue(element.positionXVar()));
-		this.position.setY(valueMap.getValue(element.positionYVar()));
-		this.rotation = valueMap.getValue(element.rotationVar());
-		this.alpha = valueMap.getValue(element.alphaVar());
-		this.orientation = valueMap.getValue(element.orientationVar());
-		this.state = valueMap.getValue(element.stateVar());
+		this.position.setX(valueMap.getValue(element.getVars().getVar(EAdSceneElementVars.VAR_X)));
+		this.position.setY(valueMap.getValue(element.getVars().getVar(EAdSceneElementVars.VAR_Y)));
+		updateVars( element.getVars() );
 	}
 
 	@Override
@@ -329,17 +335,17 @@ public abstract class SceneElementGOImpl<T extends EAdSceneElement> extends
 	}
 
 	public boolean isVisible() {
-		return valueMap.getValue(element.visibleVar());
+		return valueMap.getValue(element.getVars().getVar(EAdSceneElementVars.VAR_VISIBLE));
 	}
 
 	public void setWidth(int width) {
 		this.width = width;
-		valueMap.setValue(element.widthVar(), width);
+		valueMap.setValue(element.getVars().getVar(EAdSceneElementVars.VAR_WIDTH), width);
 	}
 
 	public void setHeight(int height) {
 		this.height = height;
-		valueMap.setValue(element.heightVar(), height);
+		valueMap.setValue(element.getVars().getVar(EAdSceneElementVars.VAR_HEIGHT), height);
 	}
 
 	@Override
