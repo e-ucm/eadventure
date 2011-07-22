@@ -64,5 +64,14 @@ public class TextsScene extends EmptyScene {
 		EAdEffect effect2 = EAdElementsFactory.getInstance().getEffectFactory().getShowText(StringType.VERY_LONG_STRING.getString(), 400, 200, ShowTextAnimation.FADE_IN, 100 );
 		getSceneElements().add(EAdElementsFactory.getInstance().getSceneElementFactory().createSceneElement(caption3, 10, 200, effect2));
 	}
+	
+	@Override
+	public String getDescription() {
+		return "A scene for test texts";
+	}
+	
+	public String getDemoName(){
+		return "Texts Scene";
+	}
 
 }

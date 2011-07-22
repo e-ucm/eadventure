@@ -109,5 +109,14 @@ public class ShapeScene extends EmptyScene {
 		getSceneElements().add(rotatingRectangle);
 		
 	}
+	
+	@Override
+	public String getDescription() {
+		return "A scene with some shapes";
+	}
+	
+	public String getDemoName(){
+		return "Shape Scene";
+	}
 
 }

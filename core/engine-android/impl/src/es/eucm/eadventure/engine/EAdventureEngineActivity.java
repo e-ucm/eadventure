@@ -46,10 +46,8 @@ import android.view.WindowManager;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 
-import es.eucm.eadventure.common.elmentfactories.scenedemos.CharacterScene;
-import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
+import es.eucm.eadventure.common.model.elements.EAdScene;
 import es.eucm.eadventure.common.model.elements.impl.EAdSceneImpl;
-import es.eucm.eadventure.common.resources.assets.drawable.impl.ImageImpl;
 import es.eucm.eadventure.engine.core.GameController;
 import es.eucm.eadventure.engine.core.MouseState;
 import es.eucm.eadventure.engine.core.impl.LoadingScreen;
@@ -99,11 +97,11 @@ public class EAdventureEngineActivity extends Activity {
         aah.setResources(getResources());
 
 		LoadingScreen loadingScreen = injector.getInstance(LoadingScreen.class);
+		
+		@SuppressWarnings("unchecked")
+		Class<? extends EAdScene> demoClass = (Class<? extends EAdScene>) getIntent().getExtras().getSerializable("demo");
 
-		EAdSceneImpl sceneImpl = new EAdSceneImpl("scene");
-		sceneImpl.getBackground().getResources().addAsset(sceneImpl.getBackground().getInitialBundle(), EAdBasicSceneElement.appearance, new ImageImpl("@drawable/background1.png"));
-
-		sceneImpl = new CharacterScene();
+		EAdSceneImpl sceneImpl = (EAdSceneImpl) injector.getInstance(demoClass);
 		
 		loadingScreen.setInitialScreen(sceneImpl);
 

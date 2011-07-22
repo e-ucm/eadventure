@@ -51,7 +51,6 @@ import es.eucm.eadventure.common.model.actions.EAdAction;
 import es.eucm.eadventure.common.model.actions.impl.EAdBasicAction;
 import es.eucm.eadventure.common.model.conditions.impl.ANDCondition;
 import es.eucm.eadventure.common.model.conditions.impl.NOTCondition;
-import es.eucm.eadventure.common.model.conditions.impl.ORCondition;
 import es.eucm.eadventure.common.model.effects.impl.text.EAdShowText;
 import es.eucm.eadventure.common.model.elements.EAdActor;
 import es.eucm.eadventure.common.model.elements.EAdCondition;

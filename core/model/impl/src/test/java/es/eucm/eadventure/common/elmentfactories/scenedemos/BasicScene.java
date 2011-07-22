@@ -59,7 +59,6 @@ import es.eucm.eadventure.common.model.effects.impl.text.EAdShowQuestion;
 import es.eucm.eadventure.common.model.effects.impl.text.EAdShowText;
 import es.eucm.eadventure.common.model.effects.impl.text.extra.Answer;
 import es.eucm.eadventure.common.model.effects.impl.variables.EAdChangeVarValueEffect;
-import es.eucm.eadventure.common.model.elements.EAdScene;
 import es.eucm.eadventure.common.model.elements.EAdTimer;
 import es.eucm.eadventure.common.model.elements.EAdTransition;
 import es.eucm.eadventure.common.model.elements.impl.EAdActorReferenceImpl;
@@ -95,7 +94,7 @@ import es.eucm.eadventure.common.resources.assets.drawable.impl.BezierShape;
 import es.eucm.eadventure.common.resources.assets.drawable.impl.CaptionImpl;
 import es.eucm.eadventure.common.resources.assets.drawable.impl.ImageImpl;
 
-public class BasicScene extends EAdSceneImpl implements EAdScene {
+public class BasicScene extends EAdSceneImpl implements SceneDemo {
 
 	private EAdShowQuestion showQuestionEffect;
 
@@ -486,6 +485,15 @@ public class BasicScene extends EAdSceneImpl implements EAdScene {
 
 		changeScreenEffect = new EAdChangeScene("changscree");
 		changeScreenEffect.setNextScene(space2);
+	}
+	
+	@Override
+	public String getDescription() {
+		return "A scene with basics elements";
+	}
+	
+	public String getDemoName(){
+		return "Basic Scene";
 	}
 
 }

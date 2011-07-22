@@ -74,5 +74,14 @@ public class SpeakAndMoveScene extends EmptyScene {
 		getBackground().addBehavior(EAdMouseEventImpl.MOUSE_RIGHT_CLICK,
 				new EAdMoveActiveElement("moveCharacter"));
 	}
+	
+	@Override
+	public String getDescription() {
+		return "A scene with a character moving and talking";
+	}
+	
+	public String getDemoName(){
+		return "Speak and Move Scene";
+	}
 
 }

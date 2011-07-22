@@ -45,7 +45,7 @@ import es.eucm.eadventure.common.resources.assets.drawable.impl.ImageImpl;
  * An empty scene
  * 
  */
-public class EmptyScene extends EAdSceneImpl {
+public class EmptyScene extends EAdSceneImpl implements SceneDemo {
 
 	public EmptyScene() {
 		super("EmptyScene");
@@ -53,6 +53,15 @@ public class EmptyScene extends EAdSceneImpl {
 				getBackground().getInitialBundle(),
 				EAdBasicSceneElement.appearance,
 				new ImageImpl("@drawable/Loading.png"));
+	}
+
+	@Override
+	public String getDescription() {
+		return "An empty scene";
+	}
+	
+	public String getDemoName(){
+		return "Empty Scene";
 	}
 
 }

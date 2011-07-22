@@ -40,8 +40,6 @@ package es.eucm.eadventure.common.elmentfactories.scenedemos;
 import java.util.ArrayList;
 import java.util.List;
 
-import es.eucm.eadventure.common.model.elements.EAdScene;
-
 /**
  * A class holding all scenes that can be tested
  *
@@ -51,26 +49,43 @@ public class SceneDemos {
 	
 	private static SceneDemos instance;
 	
-	private List<Class<? extends EAdScene>> sceneDemos;
+	private List<Class<? extends SceneDemo>> sceneDemosClass;
+	private List<SceneDemo> sceneDemos;
 	
 	private SceneDemos(){
-		sceneDemos = new ArrayList<Class<? extends EAdScene>>();
-		sceneDemos.add(EmptyScene.class);
-		sceneDemos.add(BasicScene.class);
-		sceneDemos.add(ShapeScene.class);
-		sceneDemos.add(TextsScene.class);
-		sceneDemos.add(CharacterScene.class);
-		sceneDemos.add(SpeakAndMoveScene.class);
+		sceneDemosClass = new ArrayList<Class<? extends SceneDemo>>();
+		sceneDemosClass.add(EmptyScene.class);
+		sceneDemosClass.add(BasicScene.class);
+		sceneDemosClass.add(ShapeScene.class);
+		sceneDemosClass.add(TextsScene.class);
+		sceneDemosClass.add(CharacterScene.class);
+		sceneDemosClass.add(SpeakAndMoveScene.class);
+		
+		sceneDemos = new ArrayList<SceneDemo>();
+		sceneDemos.add(new EmptyScene());
+		sceneDemos.add(new BasicScene());
+		sceneDemos.add(new ShapeScene());
+		sceneDemos.add(new TextsScene());
+		sceneDemos.add(new CharacterScene());
+		sceneDemos.add(new SpeakAndMoveScene());
 	}
 	
-	public List<Class<? extends EAdScene>> getSceneDemos( ){
-		return sceneDemos;
+	public List<Class<? extends SceneDemo>> getSceneDemos( ){
+		return sceneDemosClass;
 	}
 	
 	public static SceneDemos getInstance(){
 		if ( instance == null )
 			instance = new SceneDemos();
 		return instance;
+	}
+
+	public List<String> getSceneDemosDescriptions() {
+		List<String> strings = new ArrayList<String>();
+		for ( SceneDemo scene: sceneDemos ){
+			strings.add(scene.getDemoName() + " - " + scene.getDescription() );
+		}
+		return strings;
 	}
 	
 

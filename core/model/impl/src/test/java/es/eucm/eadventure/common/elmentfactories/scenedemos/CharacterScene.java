@@ -254,5 +254,14 @@ public class CharacterScene extends EmptyScene {
 
 		return stateDrawable;
 	}
+	
+	@Override
+	public String getDescription() {
+		return "A scene with a character";
+	}
+	
+	public String getDemoName(){
+		return "Character Scene";
+	}
 
 }

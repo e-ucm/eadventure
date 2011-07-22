@@ -41,6 +41,7 @@ import java.util.Map;
 import java.util.logging.Logger;
 
 import android.content.res.Resources;
+import android.os.Environment;
 
 import com.google.inject.Inject;
 import com.google.inject.Injector;
@@ -56,6 +57,8 @@ public class AndroidAssetHandler extends AbstractAssetHandler {
 	
 		protected Resources resources;
 		
+		private String sdCardLocation;
+		
 		private static final Logger logger = Logger.getLogger("AndroidAssetHandler");
 
 		@Inject
@@ -64,6 +67,7 @@ public class AndroidAssetHandler extends AbstractAssetHandler {
 				Map<Class<? extends AssetDescriptor>, Class<? extends RuntimeAsset<?>>> classMap) {
 			super(injector, classMap);
 			logger.info("New instance");
+			sdCardLocation = Environment.getExternalStorageDirectory().getAbsolutePath();
 		}
 		
 		@Override
@@ -84,7 +88,7 @@ public class AndroidAssetHandler extends AbstractAssetHandler {
 
 		@Override
 		public String getAbsolutePath(String uri) {
-			return uri.replace("@", "/sdcard/eAd2/");
+			return uri.replace("@", sdCardLocation + "/eAd2/");
 		}
 
 	}
