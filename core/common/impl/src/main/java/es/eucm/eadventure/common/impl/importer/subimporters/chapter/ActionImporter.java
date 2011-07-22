@@ -55,9 +55,14 @@ import es.eucm.eadventure.common.impl.importer.interfaces.EffectsImporterFactory
 import es.eucm.eadventure.common.impl.importer.interfaces.ResourceImporter;
 import es.eucm.eadventure.common.model.actions.EAdAction;
 import es.eucm.eadventure.common.model.actions.impl.EAdBasicAction;
+import es.eucm.eadventure.common.model.conditions.impl.EmptyCondition;
+import es.eucm.eadventure.common.model.conditions.impl.NOTCondition;
 import es.eucm.eadventure.common.model.effects.EAdEffect;
+import es.eucm.eadventure.common.model.effects.EAdMacro;
+import es.eucm.eadventure.common.model.effects.impl.EAdMacroImpl;
 import es.eucm.eadventure.common.model.effects.impl.EAdModifyActorState;
 import es.eucm.eadventure.common.model.effects.impl.EAdModifyActorState.Modification;
+import es.eucm.eadventure.common.model.effects.impl.EAdTriggerMacro;
 import es.eucm.eadventure.common.model.elements.EAdActor;
 import es.eucm.eadventure.common.model.elements.EAdCondition;
 import es.eucm.eadventure.common.resources.EAdBundleId;
@@ -110,9 +115,14 @@ public class ActionImporter implements EAdElementImporter<Action, EAdAction> {
 				condition);
 		if (condition != null)
 			action.setCondition(condition);
+		else
+			action.setCondition(EmptyCondition.TRUE_EMPTY_CONDITION);
 
-		// FIXME ¿Y qué pasa con los NoEffects?
-
+		EAdMacro effects = new EAdMacroImpl("actionEffects");
+		EAdTriggerMacro triggerEffects = new EAdTriggerMacro("actionEffectTrigger", effects);
+		triggerEffects.setCondition(action.getCondition());
+		action.getEffects().add(triggerEffects);
+		
 		String actionName = "Action";
 		if (oldObject instanceof CustomAction) {
 			CustomAction customAction = (CustomAction) oldObject;
@@ -128,10 +138,25 @@ public class ActionImporter implements EAdElementImporter<Action, EAdAction> {
 		for (Effect e : oldObject.getEffects().getEffects()) {
 			EAdEffect effect = effectsImporterFactory.getEffect(e);
 			if (effect != null)
-				action.getEffects().add(effect);
+				effects.getEffects().add(effect);
+		}
+		
+		if (oldObject.getNotEffects() != null
+				&& !oldObject.getNotEffects().isEmpty()) {
+			EAdMacro notEffects = new EAdMacroImpl("actionNotEffects");
+			EAdTriggerMacro triggerNotEffects = new EAdTriggerMacro("actionNotEffectTrigger", notEffects);
+			triggerNotEffects.setCondition(new NOTCondition(action.getCondition()));
+			action.getEffects().add(triggerNotEffects);
+			action.setCondition(EmptyCondition.TRUE_EMPTY_CONDITION);
+
+			for (Effect e : oldObject.getEffects().getEffects()) {
+				EAdEffect effect = effectsImporterFactory.getEffect(e);
+				if (effect != null)
+					notEffects.getEffects().add(effect);
+			}
 		}
 
-		// FIXME No effects, keep distance
+		// FIXME keep distance?
 
 		if (oldObject instanceof CustomAction) {
 			// TODO highlight and pressed are now appearances, but resource
