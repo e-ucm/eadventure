@@ -43,8 +43,8 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 import es.eucm.eadventure.common.model.conditions.impl.NOTCondition;
-import es.eucm.eadventure.engine.core.EvaluatorFactory;
 import es.eucm.eadventure.engine.core.evaluators.Evaluator;
+import es.eucm.eadventure.engine.core.evaluators.EvaluatorFactory;
 
 @Singleton
 public class NOTConditionEvaluator implements Evaluator<NOTCondition> {

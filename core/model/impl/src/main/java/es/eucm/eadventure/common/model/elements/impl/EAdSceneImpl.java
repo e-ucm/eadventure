@@ -44,7 +44,7 @@ import es.eucm.eadventure.common.model.elements.EAdScene;
 import es.eucm.eadventure.common.model.elements.EAdSceneElement;
 import es.eucm.eadventure.common.model.impl.AbstractEAdElement;
 import es.eucm.eadventure.common.model.impl.EAdListImpl;
-import es.eucm.eadventure.common.model.trajectories.TrajectoryGenerator;
+import es.eucm.eadventure.common.model.trajectories.TrajectoryDefinition;
 import es.eucm.eadventure.common.model.variables.impl.vars.BooleanVar;
 import es.eucm.eadventure.common.resources.EAdString;
 
@@ -65,7 +65,7 @@ public class EAdSceneImpl extends AbstractEAdElement implements EAdScene {
 	protected EAdBasicSceneElement background;
 	
 	@Param("trajectoryGenerator")
-	protected TrajectoryGenerator trajectoryGenerator;
+	protected TrajectoryDefinition trajectoryGenerator;
 	
 	@Param("acceptsVisualEffects")
 	protected boolean acceptsVisualEffects;
@@ -150,12 +150,12 @@ public class EAdSceneImpl extends AbstractEAdElement implements EAdScene {
 		return sceneLoaded;
 	}
 	
-	public void setTrajectoryGenerator(TrajectoryGenerator trajectoryGenerator){
+	public void setTrajectoryGenerator(TrajectoryDefinition trajectoryGenerator){
 		this.trajectoryGenerator = trajectoryGenerator;
 	}
 
 	@Override
-	public TrajectoryGenerator getTrajectoryGenerator() {
+	public TrajectoryDefinition getTrajectoryGenerator() {
 		return trajectoryGenerator;
 	}
 

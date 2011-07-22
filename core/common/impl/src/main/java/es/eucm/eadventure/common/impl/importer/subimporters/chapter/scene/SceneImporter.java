@@ -70,7 +70,7 @@ import es.eucm.eadventure.common.model.events.EAdSceneElementEvent.SceneElementE
 import es.eucm.eadventure.common.model.events.impl.EAdSceneElementEventImpl;
 import es.eucm.eadventure.common.model.guievents.impl.EAdMouseEventImpl;
 import es.eucm.eadventure.common.model.params.EAdPosition;
-import es.eucm.eadventure.common.model.trajectories.impl.SimpleTrajectoryGenerator;
+import es.eucm.eadventure.common.model.trajectories.impl.SimpleTrajectoryDefinition;
 import es.eucm.eadventure.common.resources.EAdString;
 import es.eucm.eadventure.common.resources.StringHandler;
 import es.eucm.eadventure.common.resources.assets.drawable.impl.ImageImpl;
@@ -186,7 +186,7 @@ public class SceneImporter implements EAdElementImporter<Scene, EAdSceneImpl> {
 
 			space.getSceneElements().add(playerReference);
 
-			space.setTrajectoryGenerator(new SimpleTrajectoryGenerator(false));
+			space.setTrajectoryGenerator(new SimpleTrajectoryDefinition(false));
 
 			space.getBackground().addBehavior(
 					EAdMouseEventImpl.MOUSE_LEFT_CLICK,

@@ -39,7 +39,7 @@ package es.eucm.eadventure.common.model.elements;
 
 import es.eucm.eadventure.common.model.EAdElement;
 import es.eucm.eadventure.common.model.EAdList;
-import es.eucm.eadventure.common.model.trajectories.TrajectoryGenerator;
+import es.eucm.eadventure.common.model.trajectories.TrajectoryDefinition;
 import es.eucm.eadventure.common.model.variables.EAdVar;
 
 /**
@@ -69,7 +69,7 @@ public interface EAdScene extends EAdElement {
 	 * Returns the trajectory generator for this scene
 	 * @return
 	 */
-	TrajectoryGenerator getTrajectoryGenerator( );
+	TrajectoryDefinition getTrajectoryGenerator( );
 
 	boolean acceptsVisualEffects();
 	

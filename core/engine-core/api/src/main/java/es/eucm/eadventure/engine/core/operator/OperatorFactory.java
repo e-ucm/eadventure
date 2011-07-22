@@ -35,49 +35,34 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package es.eucm.eadventure.common.model.trajectories.impl;
+package es.eucm.eadventure.engine.core.operator;
 
-import es.eucm.eadventure.common.interfaces.Element;
-import es.eucm.eadventure.common.interfaces.Param;
-import es.eucm.eadventure.common.model.EAdList;
-import es.eucm.eadventure.common.model.impl.EAdListImpl;
-import es.eucm.eadventure.common.model.params.EAdPosition;
-import es.eucm.eadventure.common.model.trajectories.TrajectoryGenerator;
+import es.eucm.eadventure.common.model.variables.EAdOperation;
+import es.eucm.eadventure.common.model.variables.EAdVar;
+import es.eucm.eadventure.engine.core.ValueMap;
 
 /**
- * A simple trajectory generator. Trace the trajectory to a point with a
- * straight line.
- * 
+ * A factory with all {@link Operator} for all {@link EAdOperation}.
  */
-@Element(runtime = SimpleTrajectoryGenerator.class, detailed = SimpleTrajectoryGenerator.class)
-public class SimpleTrajectoryGenerator implements TrajectoryGenerator {
-
-	@Param("onlyHorizontal")
-	private boolean onlyHorizontal;
+public interface OperatorFactory {
 
 	/**
-	 * Creates an instance
+	 * <p>
+	 * Calculates the result of the given {@link EAdOperation} with the current
+	 * values in the {@link ValueMap}
+	 * </p>
+	 * The value should be stored in the {@link ValueMap} by the actual
+	 * {@link Operator}
 	 * 
-	 * @param onlyHorizontal
-	 *            if trajectories should be only horizontal
+	 * @param <T>
+	 * @param eAdVar
+	 *            the var where the result will be stored
+	 * @param eAdOperation
+	 *            operation to be done
+	 * @return operation's result. If operation is {@code null}, a null is
+	 *         returned.
 	 */
-	public SimpleTrajectoryGenerator(boolean onlyHorizontal) {
-		this.onlyHorizontal = onlyHorizontal;
-	}
-
-	@Override
-	public EAdList<EAdPosition> getTrajectory(EAdPosition currentPosition,
-			int x, int y) {
-		EAdList<EAdPosition> list = new EAdListImpl<EAdPosition>(
-				EAdPosition.class);
-		if (onlyHorizontal) {
-			list.add(new EAdPosition(x, currentPosition.getY()));
-		} else {
-			list.add(new EAdPosition(x, y));
-		}
-
-		return list;
-
-	}
+	public <T extends EAdOperation, S> S operate(EAdVar<S> eAdVar,
+			T eAdOperation);
 
 }

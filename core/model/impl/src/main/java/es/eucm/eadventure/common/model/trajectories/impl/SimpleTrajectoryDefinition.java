@@ -35,38 +35,35 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package es.eucm.eadventure.engine.core.impl;
+package es.eucm.eadventure.common.model.trajectories.impl;
 
-import java.util.logging.Logger;
+import es.eucm.eadventure.common.interfaces.Element;
+import es.eucm.eadventure.common.interfaces.Param;
+import es.eucm.eadventure.common.model.trajectories.TrajectoryDefinition;
 
-import com.google.inject.Inject;
+/**
+ * A simple trajectory generator. Trace the trajectory to a point with a
+ * straight line.
+ * 
+ */
+@Element(runtime = SimpleTrajectoryDefinition.class, detailed = SimpleTrajectoryDefinition.class)
+public class SimpleTrajectoryDefinition implements TrajectoryDefinition {
 
-import es.eucm.eadventure.common.interfaces.AbstractFactory;
-import es.eucm.eadventure.common.interfaces.MapProvider;
-import es.eucm.eadventure.common.model.variables.EAdOperation;
-import es.eucm.eadventure.common.model.variables.EAdVar;
-import es.eucm.eadventure.engine.core.OperatorFactory;
-import es.eucm.eadventure.engine.core.operator.Operator;
+	@Param("onlyHorizontal")
+	private boolean onlyHorizontal;
 
-public class OperatorFactoryImpl extends AbstractFactory<Operator<?>> implements OperatorFactory {
-	
-	private Logger log = Logger.getLogger("Operator Factory");
-	
-	@Inject
-	public OperatorFactoryImpl(MapProvider<Class<?>, Operator<?>> map) {
-		super(map);
+	/**
+	 * Creates an instance
+	 * 
+	 * @param onlyHorizontal
+	 *            if trajectories should be only horizontal
+	 */
+	public SimpleTrajectoryDefinition(boolean onlyHorizontal) {
+		this.onlyHorizontal = onlyHorizontal;
 	}
 	
-	@SuppressWarnings("unchecked")
-	@Override
-	public <T extends EAdOperation, S> S operate(EAdVar<S> varResult, T operation) {
-		if ( operation == null ){
-			log.severe("null operation attempted: null was returned");
-			return null;
-		}
-		Operator<T> operator = (Operator<T>) get(operation.getClass());
-		S result =  operator.operate(varResult, operation);
-		return result;
+	public boolean isOnlyHoriztonal( ){
+		return onlyHorizontal;
 	}
 
 }

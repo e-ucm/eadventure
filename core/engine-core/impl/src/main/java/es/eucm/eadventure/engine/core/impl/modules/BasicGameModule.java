@@ -66,6 +66,7 @@ public class BasicGameModule extends AbstractModule {
 		install(new GameObjectFactoryModule());
 		install(new EvaluatorFactoryModule());
 		install(new OperatorFactoryModule());
+		install(new TrajectoryFactoryModule());
 		
 		bind(ValueMap.class).to(VariableMap.class);
 		bind(GameState.class).to(GameStateImpl.class);

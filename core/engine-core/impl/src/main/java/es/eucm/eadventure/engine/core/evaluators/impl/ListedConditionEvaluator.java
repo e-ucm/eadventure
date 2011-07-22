@@ -47,8 +47,8 @@ import com.google.inject.Singleton;
 import es.eucm.eadventure.common.model.conditions.impl.EmptyCondition;
 import es.eucm.eadventure.common.model.conditions.impl.ListedCondition;
 import es.eucm.eadventure.common.model.elements.EAdCondition;
-import es.eucm.eadventure.engine.core.EvaluatorFactory;
 import es.eucm.eadventure.engine.core.evaluators.Evaluator;
+import es.eucm.eadventure.engine.core.evaluators.EvaluatorFactory;
 
 @Singleton
 public class ListedConditionEvaluator implements Evaluator<ListedCondition> {

@@ -37,9 +37,10 @@
 
 package es.eucm.eadventure.engine.core.gameobjects.impl.effects;
 
+import java.util.List;
+
 import com.google.inject.Inject;
 
-import es.eucm.eadventure.common.model.EAdList;
 import es.eucm.eadventure.common.model.effects.impl.EAdMoveActiveElement;
 import es.eucm.eadventure.common.model.effects.impl.sceneelements.EAdMoveSceneElement;
 import es.eucm.eadventure.common.model.effects.impl.sceneelements.EAdMoveSceneElement.MovementSpeed;
@@ -54,16 +55,21 @@ import es.eucm.eadventure.engine.core.guiactions.MouseAction;
 import es.eucm.eadventure.engine.core.platform.AssetHandler;
 import es.eucm.eadventure.engine.core.platform.GUI;
 import es.eucm.eadventure.engine.core.platform.PlatformConfiguration;
+import es.eucm.eadventure.engine.core.trajectories.TrajectoryFactory;
 
 public class MoveActiveElementGO extends AbstractEffectGO<EAdMoveActiveElement> {
+
+	private TrajectoryFactory trajectoryFactory;
 
 	@Inject
 	public MoveActiveElementGO(AssetHandler assetHandler,
 			StringHandler stringHandler, GameObjectFactory gameObjectFactory,
 			GUI gui, GameState gameState, ValueMap valueMap,
-			PlatformConfiguration platformConfiguration) {
+			PlatformConfiguration platformConfiguration,
+			TrajectoryFactory trajectoryFactory) {
 		super(assetHandler, stringHandler, gameObjectFactory, gui, gameState,
 				valueMap, platformConfiguration);
+		this.trajectoryFactory = trajectoryFactory;
 	}
 
 	@Override
@@ -80,8 +86,8 @@ public class MoveActiveElementGO extends AbstractEffectGO<EAdMoveActiveElement> 
 						.getVars().getVar(EAdSceneElementVars.VAR_X)));
 				pos.setY(valueMap.getValue(gameState.getActiveElement()
 						.getVars().getVar(EAdSceneElementVars.VAR_Y)));
-				EAdList<EAdPosition> trajectory = scene
-						.getTrajectoryGenerator().getTrajectory(pos, x, y);
+				List<EAdPosition> trajectory = trajectoryFactory.getTrajectory(
+						scene.getTrajectoryGenerator(), pos, x, y);
 				for (EAdPosition p : trajectory) {
 					EAdMoveSceneElement effect = new EAdMoveSceneElement(
 							"trajectory", gameState.getActiveElement(),

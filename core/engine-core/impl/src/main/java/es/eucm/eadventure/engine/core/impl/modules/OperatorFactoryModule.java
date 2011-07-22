@@ -42,10 +42,10 @@ import com.google.inject.Singleton;
 import com.google.inject.TypeLiteral;
 
 import es.eucm.eadventure.common.interfaces.MapProvider;
-import es.eucm.eadventure.engine.core.OperatorFactory;
-import es.eucm.eadventure.engine.core.impl.OperatorFactoryImpl;
 import es.eucm.eadventure.engine.core.impl.factorymapproviders.OperatorFactoryMapProvider;
 import es.eucm.eadventure.engine.core.operator.Operator;
+import es.eucm.eadventure.engine.core.operator.OperatorFactory;
+import es.eucm.eadventure.engine.core.operators.impl.OperatorFactoryImpl;
 
 @Singleton
 public class OperatorFactoryModule extends AbstractModule {

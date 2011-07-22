@@ -11,7 +11,7 @@ import es.eucm.eadventure.common.model.events.EAdSceneElementEvent.SceneElementE
 import es.eucm.eadventure.common.model.events.impl.EAdSceneElementEventImpl;
 import es.eucm.eadventure.common.model.guievents.impl.EAdMouseEventImpl;
 import es.eucm.eadventure.common.model.params.EAdPosition;
-import es.eucm.eadventure.common.model.trajectories.impl.SimpleTrajectoryGenerator;
+import es.eucm.eadventure.common.model.trajectories.impl.SimpleTrajectoryDefinition;
 import es.eucm.eadventure.common.model.variables.impl.extra.EAdSceneElementVars;
 import es.eucm.eadventure.common.resources.assets.drawable.impl.BallonShape.BalloonType;
 
@@ -69,7 +69,7 @@ public class SpeakAndMoveScene extends EmptyScene {
 		event.addEffect(SceneElementEvent.ADDED_TO_SCENE, makeActive);
 		character.getEvents().add(event);
 
-		setTrajectoryGenerator(new SimpleTrajectoryGenerator(false));
+		setTrajectoryGenerator(new SimpleTrajectoryDefinition(false));
 
 		getBackground().addBehavior(EAdMouseEventImpl.MOUSE_RIGHT_CLICK,
 				new EAdMoveActiveElement("moveCharacter"));

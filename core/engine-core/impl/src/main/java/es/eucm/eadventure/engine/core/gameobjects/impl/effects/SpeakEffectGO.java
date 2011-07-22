@@ -55,7 +55,7 @@ public class SpeakEffectGO extends AbstractEffectGO<EAdSpeakEffect> {
 		if (action instanceof MouseAction) {
 			MouseAction mouseAction = (MouseAction) action;
 
-			if (mouseAction.getType() == MouseActionType.LEFT_CLICK) {
+			if (mouseAction.getType() == MouseActionType.PRESSED) {
 				if ( caption.getTimesRead() >= 1 || caption.getCurrentPart() == caption.getTotalParts() - 1)
 					finished = true;
 				else

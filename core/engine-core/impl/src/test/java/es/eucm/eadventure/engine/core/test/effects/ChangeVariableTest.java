@@ -46,8 +46,8 @@ import es.eucm.eadventure.common.model.effects.impl.variables.EAdChangeVarValueE
 import es.eucm.eadventure.common.model.variables.EAdOperation;
 import es.eucm.eadventure.common.model.variables.impl.operations.LiteralExpressionOperation;
 import es.eucm.eadventure.common.model.variables.impl.vars.FloatVar;
-import es.eucm.eadventure.engine.core.OperatorFactory;
 import es.eucm.eadventure.engine.core.ValueMap;
+import es.eucm.eadventure.engine.core.operator.OperatorFactory;
 
 public class ChangeVariableTest extends EffectTest {
 	

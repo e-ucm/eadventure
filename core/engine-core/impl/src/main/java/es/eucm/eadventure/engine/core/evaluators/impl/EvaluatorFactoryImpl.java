@@ -35,26 +35,38 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package es.eucm.eadventure.engine.core;
+package es.eucm.eadventure.engine.core.evaluators.impl;
 
+import java.util.logging.Logger;
+
+import com.google.inject.Inject;
+import com.google.inject.Singleton;
+
+import es.eucm.eadventure.common.interfaces.AbstractFactory;
+import es.eucm.eadventure.common.interfaces.MapProvider;
 import es.eucm.eadventure.common.model.elements.EAdCondition;
+import es.eucm.eadventure.engine.core.evaluators.Evaluator;
+import es.eucm.eadventure.engine.core.evaluators.EvaluatorFactory;
 
-/**
- * Factory to provide the evaluator and evaluate the different {@link EAdCondition} elements.
- */
-public interface EvaluatorFactory {
+@Singleton
+public class EvaluatorFactoryImpl extends AbstractFactory<Evaluator<?>> implements EvaluatorFactory {
 
-	/**
-	 * Evaluates a condition, using the required evaluator, based on a given
-	 * {@link ValeMap}.
-	 * 
-	 * @param <T>
-	 *            The actual condition class
-	 * @param condition
-	 *            The condition to be evaluated
-	 * @return The result of evaluating the condition according to the given set
-	 *         of values
-	 */
-	public <T extends EAdCondition> boolean evaluate( T condition);
+	@SuppressWarnings("unused")
+	private static final Logger logger = Logger.getLogger("EvaluatorFactoryImpl");
+	
+
+	@Inject
+	public EvaluatorFactoryImpl(MapProvider<Class<?>, Evaluator<?>> mapProvider) {
+		super(mapProvider);
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public <T extends EAdCondition> boolean evaluate(T condition) {
+		if (condition == null)
+			return true;
+		Evaluator<T> evaluator = (Evaluator<T>) get(condition.getClass());
+		return evaluator.evaluate(condition);
+	}
 
 }

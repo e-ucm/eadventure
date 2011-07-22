@@ -35,33 +35,38 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package es.eucm.eadventure.engine.core;
+package es.eucm.eadventure.engine.core.operators.impl;
 
+import java.util.logging.Logger;
+
+import com.google.inject.Inject;
+
+import es.eucm.eadventure.common.interfaces.AbstractFactory;
+import es.eucm.eadventure.common.interfaces.MapProvider;
 import es.eucm.eadventure.common.model.variables.EAdOperation;
 import es.eucm.eadventure.common.model.variables.EAdVar;
+import es.eucm.eadventure.engine.core.operator.Operator;
+import es.eucm.eadventure.engine.core.operator.OperatorFactory;
 
-/**
- * A factory with all {@link Operator} for all {@link EAdOperation}.
- */
-public interface OperatorFactory {
-
-	/**
-	 * <p>
-	 * Calculates the result of the given {@link EAdOperation} with the current
-	 * values in the {@link ValueMap}
-	 * </p>
-	 * The value should be stored in the {@link ValueMap} by the actual
-	 * {@link Operator}
-	 * 
-	 * @param <T>
-	 * @param eAdVar
-	 *            the var where the result will be stored
-	 * @param eAdOperation
-	 *            operation to be done
-	 * @return operation's result. If operation is {@code null}, a null is
-	 *         returned.
-	 */
-	public <T extends EAdOperation, S> S operate(EAdVar<S> eAdVar,
-			T eAdOperation);
+public class OperatorFactoryImpl extends AbstractFactory<Operator<?>> implements OperatorFactory {
+	
+	private Logger log = Logger.getLogger("Operator Factory");
+	
+	@Inject
+	public OperatorFactoryImpl(MapProvider<Class<?>, Operator<?>> map) {
+		super(map);
+	}
+	
+	@SuppressWarnings("unchecked")
+	@Override
+	public <T extends EAdOperation, S> S operate(EAdVar<S> varResult, T operation) {
+		if ( operation == null ){
+			log.severe("null operation attempted: null was returned");
+			return null;
+		}
+		Operator<T> operator = (Operator<T>) get(operation.getClass());
+		S result =  operator.operate(varResult, operation);
+		return result;
+	}
 
 }

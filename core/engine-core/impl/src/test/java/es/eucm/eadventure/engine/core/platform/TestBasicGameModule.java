@@ -88,6 +88,7 @@ import es.eucm.eadventure.engine.core.impl.GameStateImpl;
 import es.eucm.eadventure.engine.core.impl.ValueMapImpl;
 import es.eucm.eadventure.engine.core.impl.modules.EvaluatorFactoryModule;
 import es.eucm.eadventure.engine.core.impl.modules.OperatorFactoryModule;
+import es.eucm.eadventure.engine.core.impl.modules.TrajectoryFactoryModule;
 import es.eucm.eadventure.engine.core.platform.impl.FontCacheImpl;
 
 public class TestBasicGameModule extends AbstractModule {
@@ -98,6 +99,7 @@ public class TestBasicGameModule extends AbstractModule {
 		configureGameObjectFactory();
 		install(new EvaluatorFactoryModule());
 		install(new OperatorFactoryModule());
+		install(new TrajectoryFactoryModule());
 		bind(ValueMap.class).to(ValueMapImpl.class);
 		bind(GameState.class).to(GameStateImpl.class);
 		bind(GameController.class).to(GameControllerImpl.class);
