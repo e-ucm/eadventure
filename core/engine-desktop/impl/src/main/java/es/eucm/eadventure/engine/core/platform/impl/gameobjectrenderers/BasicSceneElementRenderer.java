@@ -102,7 +102,7 @@ public class BasicSceneElementRenderer implements
 				* basicSceneElement.getScale(), offsetX, offsetY);
 	}
 	
-	private Graphics2D prepareGraphics( Graphics2D g, SceneElementGO<?> basicSceneElement ){
+	protected Graphics2D prepareGraphics( Graphics2D g, SceneElementGO<?> basicSceneElement ){
 		Graphics2D g2 = (Graphics2D) g.create();
 		double centerX = basicSceneElement.getPosition().getJavaX(basicSceneElement.getWidth()) + basicSceneElement.getWidth() / 2;
 		double centerY = basicSceneElement.getPosition().getJavaY(basicSceneElement.getHeight()) + basicSceneElement.getHeight() / 2;

@@ -71,6 +71,19 @@ public class EAdVarInterpolationEffect extends AbstractEAdEffect {
 		RESTART
 	};
 
+	public enum InterpolationType {
+		/**
+		 * Linear interpolation
+		 */
+		LINEAR,
+
+		/**
+		 * Bounces in the end
+		 */
+		BOUNCE_END;
+
+	}
+
 	@Param("var")
 	private EAdVar<?> var;
 
@@ -82,48 +95,72 @@ public class EAdVarInterpolationEffect extends AbstractEAdEffect {
 
 	@Param("time")
 	private int interpolationTime;
-	
+
 	@Param("loop")
 	private LoopType loopType;
 
-	public EAdVarInterpolationEffect(String id, EAdVar<?> var, 
+	@Param("interpolation")
+	private InterpolationType interpolationType;
+
+	public EAdVarInterpolationEffect(String id, EAdVar<?> var,
 			LiteralExpressionOperation endValue, int time) {
 		super(id);
-		LiteralExpressionOperation startValue = new LiteralExpressionOperation("id", "[0]", var);
-		setInterpolation(var, startValue, endValue, time, LoopType.NO_LOOP);
+		LiteralExpressionOperation startValue = new LiteralExpressionOperation(
+				"id", "[0]", var);
+		setInterpolation(var, startValue, endValue, time, LoopType.NO_LOOP,
+				InterpolationType.LINEAR);
 	}
-	
-	public EAdVarInterpolationEffect(String id, EAdVar<?> var2, float start, float end, int time, LoopType loop) {
+
+	public EAdVarInterpolationEffect(String id, EAdVar<?> var2, float start,
+			float end, int time, LoopType loop,
+			InterpolationType interpolationType) {
 		super(id);
-		LiteralExpressionOperation startValue = new LiteralExpressionOperation("id", "" + start);
-		LiteralExpressionOperation endValue = new LiteralExpressionOperation("id", "" + end);
-		setInterpolation(var2, startValue, endValue, time, loop);
+		LiteralExpressionOperation startValue = new LiteralExpressionOperation(
+				"id", "" + start);
+		LiteralExpressionOperation endValue = new LiteralExpressionOperation(
+				"id", "" + end);
+		setInterpolation(var2, startValue, endValue, time, loop,
+				interpolationType);
 	}
 
+	public EAdVarInterpolationEffect(String id, EAdVar<?> var2, float start,
+			float end, int time, LoopType loop) {
+		super(id);
+		LiteralExpressionOperation startValue = new LiteralExpressionOperation(
+				"id", "" + start);
+		LiteralExpressionOperation endValue = new LiteralExpressionOperation(
+				"id", "" + end);
+		setInterpolation(var2, startValue, endValue, time, loop,
+				InterpolationType.LINEAR);
+	}
 
-	public EAdVarInterpolationEffect(String id,
-			EAdVar<?> var,
+	public EAdVarInterpolationEffect(String id, EAdVar<?> var,
 			LiteralExpressionOperation startValue,
-			LiteralExpressionOperation endValue, int time,
-			LoopType noLoop) {
+			LiteralExpressionOperation endValue, int time, LoopType noLoop) {
 		super(id);
-		setInterpolation(var, startValue, endValue, time, LoopType.NO_LOOP);
+		setInterpolation(var, startValue, endValue, time, LoopType.NO_LOOP,
+				InterpolationType.LINEAR);
 	}
 
-	public void setInterpolation(EAdVar<?> var, LiteralExpressionOperation initialValue,
-			LiteralExpressionOperation endValue, int time, LoopType loop) {
+	public void setInterpolation(EAdVar<?> var,
+			LiteralExpressionOperation initialValue,
+			LiteralExpressionOperation endValue, int time, LoopType loop,
+			InterpolationType interpolationType) {
 		this.var = var;
 		this.initialValue = initialValue;
 		this.endValue = endValue;
 		this.interpolationTime = time;
 		this.loopType = loop;
+		this.interpolationType = interpolationType;
 	}
 
 	public void setInterpolation(EAdVar<?> var, float initialValue,
-			float endValue, int time, LoopType loop) {
-		setInterpolation(var, new LiteralExpressionOperation("id", "" + initialValue), new LiteralExpressionOperation("" + endValue), time, loop);
+			float endValue, int time, LoopType loop,
+			InterpolationType interpolationType) {
+		setInterpolation(var, new LiteralExpressionOperation("id", ""
+				+ initialValue), new LiteralExpressionOperation("" + endValue),
+				time, loop, interpolationType);
 	}
-
 
 	public EAdVar<?> getVar() {
 		return var;
@@ -143,6 +180,10 @@ public class EAdVarInterpolationEffect extends AbstractEAdEffect {
 
 	public LoopType getLoopType() {
 		return loopType;
+	}
+
+	public InterpolationType getInterpolationType() {
+		return interpolationType;
 	}
 
 }

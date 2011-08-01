@@ -40,6 +40,7 @@ package es.eucm.eadventure.common.elmentfactories.scenedemos;
 import es.eucm.eadventure.common.elmentfactories.EAdElementsFactory;
 import es.eucm.eadventure.common.elmentfactories.assets.ShapeFactory;
 import es.eucm.eadventure.common.model.effects.impl.EAdVarInterpolationEffect;
+import es.eucm.eadventure.common.model.effects.impl.EAdVarInterpolationEffect.InterpolationType;
 import es.eucm.eadventure.common.model.effects.impl.EAdVarInterpolationEffect.LoopType;
 import es.eucm.eadventure.common.model.elements.EAdSceneElement;
 import es.eucm.eadventure.common.model.events.EAdSceneElementEvent;
@@ -103,7 +104,7 @@ public class ShapeScene extends EmptyScene {
 		AssetDescriptor asset22 = shapeFactory.getElement(ShapeFactory.ShapeType.RECTANGULAR_SHAPE, size, size * 3, new EAdBorderedColor( EAdColor.LIGHT_BROWN, EAdColor.DARK_BROWN));
 		EAdSceneElement rotatingRectangle = EAdElementsFactory.getInstance().getSceneElementFactory().createSceneElement(asset21, asset22, 330, 200);
 		getSceneElements().add(rotatingRectangle);
-		EAdVarInterpolationEffect interpolation = EAdElementsFactory.getInstance().getEffectFactory().getInterpolationEffect(rotatingRectangle.getVars().getVar(EAdSceneElementVars.VAR_ROTATION), 0, (float) (2.0f * Math.PI), 10000, LoopType.REVERSE); 
+		EAdVarInterpolationEffect interpolation = EAdElementsFactory.getInstance().getEffectFactory().getInterpolationEffect(rotatingRectangle.getVars().getVar(EAdSceneElementVars.VAR_ROTATION), 0, (float) (Math.PI * 2.0), 2000, LoopType.RESTART, InterpolationType.LINEAR); 
 		EAdSceneElementEvent event = EAdElementsFactory.getInstance().getEventsFactory().getEvent(SceneElementEvent.ADDED_TO_SCENE, interpolation);
 		rotatingRectangle.getEvents().add(event);
 		getSceneElements().add(rotatingRectangle);

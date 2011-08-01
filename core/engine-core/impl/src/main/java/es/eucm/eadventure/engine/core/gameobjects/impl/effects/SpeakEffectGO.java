@@ -1,7 +1,10 @@
- package es.eucm.eadventure.engine.core.gameobjects.impl.effects;
+package es.eucm.eadventure.engine.core.gameobjects.impl.effects;
 
 import com.google.inject.Inject;
 
+import es.eucm.eadventure.common.model.effects.impl.EAdVarInterpolationEffect;
+import es.eucm.eadventure.common.model.effects.impl.EAdVarInterpolationEffect.InterpolationType;
+import es.eucm.eadventure.common.model.effects.impl.EAdVarInterpolationEffect.LoopType;
 import es.eucm.eadventure.common.model.effects.impl.text.EAdSpeakEffect;
 import es.eucm.eadventure.common.model.elements.EAdSceneElement;
 import es.eucm.eadventure.common.model.elements.EAdSceneElement.CommonStates;
@@ -9,13 +12,13 @@ import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
 import es.eucm.eadventure.common.model.elements.impl.EAdComplexSceneElement;
 import es.eucm.eadventure.common.model.params.EAdPosition;
 import es.eucm.eadventure.common.model.params.guievents.EAdMouseEvent.MouseActionType;
+import es.eucm.eadventure.common.model.variables.impl.extra.EAdSceneElementVars;
 import es.eucm.eadventure.common.resources.StringHandler;
 import es.eucm.eadventure.common.resources.assets.drawable.impl.BallonShape;
 import es.eucm.eadventure.common.resources.assets.drawable.impl.BezierShape;
 import es.eucm.eadventure.common.resources.assets.drawable.impl.CaptionImpl;
 import es.eucm.eadventure.engine.core.GameState;
 import es.eucm.eadventure.engine.core.ValueMap;
-import es.eucm.eadventure.engine.core.gameobjects.GameObject;
 import es.eucm.eadventure.engine.core.gameobjects.GameObjectFactory;
 import es.eucm.eadventure.engine.core.gameobjects.SceneElementGO;
 import es.eucm.eadventure.engine.core.guiactions.GUIAction;
@@ -27,19 +30,21 @@ import es.eucm.eadventure.engine.core.platform.assets.impl.RuntimeCaption;
 
 public class SpeakEffectGO extends AbstractEffectGO<EAdSpeakEffect> {
 
-	private static final int MARGIN_PROPORTION = 40;
+	private static final int MARGIN_PROPORTION = 35;
 
 	private static final int HEIGHT_PROPORTION = 4;
 
 	private static final int MARGIN = 30;
 
-	private GameObject<?> ballon;
+	private SceneElementGO<?> ballon;
 
 	private RuntimeCaption caption;
 
 	private boolean finished;
 
 	private String previousState;
+
+	private EAdBasicSceneElement textSE;
 
 	@Inject
 	public SpeakEffectGO(AssetHandler assetHandler,
@@ -56,7 +61,8 @@ public class SpeakEffectGO extends AbstractEffectGO<EAdSpeakEffect> {
 			MouseAction mouseAction = (MouseAction) action;
 
 			if (mouseAction.getType() == MouseActionType.PRESSED) {
-				if ( caption.getTimesRead() >= 1 || caption.getCurrentPart() == caption.getTotalParts() - 1)
+				if (caption.getTimesRead() >= 1
+						|| caption.getCurrentPart() == caption.getTotalParts() - 1)
 					finished = true;
 				else
 					caption.goForward(1);
@@ -69,7 +75,7 @@ public class SpeakEffectGO extends AbstractEffectGO<EAdSpeakEffect> {
 	public void initilize() {
 		super.initilize();
 		finished = false;
-		ballon = gameObjectFactory.get(getSceneElement());
+		ballon = (SceneElementGO<?>) gameObjectFactory.get(getSceneElement());
 
 		if (element.getStateVar() != null) {
 			previousState = valueMap.getValue(element.getStateVar());
@@ -119,7 +125,7 @@ public class SpeakEffectGO extends AbstractEffectGO<EAdSpeakEffect> {
 		text.setMaximumHeight(bottom - top - MARGIN * 2);
 		text.setFont(element.getFont());
 
-		EAdBasicSceneElement textSE = new EAdBasicSceneElement("text");
+		textSE = new EAdBasicSceneElement("text");
 		textSE.getResources().addAsset(textSE.getInitialBundle(),
 				EAdBasicSceneElement.appearance, text);
 		textSE.setPosition(new EAdPosition(left + MARGIN, top));

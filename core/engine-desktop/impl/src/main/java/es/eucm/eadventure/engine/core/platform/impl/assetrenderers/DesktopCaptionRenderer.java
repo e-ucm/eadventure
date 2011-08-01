@@ -70,11 +70,14 @@ public class DesktopCaptionRenderer implements
 			asset.loadAsset();
 		
 		Graphics2D g2 = (Graphics2D) g.create();
+		// TODO This is not OK
+		g2.scale(scale, scale);
 
 		int xLeft = position.getJavaX(asset.getWidth() * scale);
 		int yTop = position.getJavaY(asset.getHeight() * scale);
 		int width = (int) (asset.getWidth() * scale);
 		int height = (int) (asset.getHeight() * scale);
+
 
 		g2.translate(offsetX + xLeft, offsetY + yTop);
 

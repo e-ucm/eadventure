@@ -70,8 +70,8 @@ public class ComplexSceneElementGO extends
 			StringHandler stringHandler, GameObjectFactory gameObjectFactory,
 			GUI gui, GameState gameState, ValueMap valueMap,
 			PlatformConfiguration platformConfiguration) {
-		super(assetHandler, stringHandler, gameObjectFactory, gui, gameState, valueMap,
-				platformConfiguration);
+		super(assetHandler, stringHandler, gameObjectFactory, gui, gameState,
+				valueMap, platformConfiguration);
 		logger.info("New instance");
 	}
 
@@ -83,15 +83,15 @@ public class ComplexSceneElementGO extends
 	public void setElement(EAdComplexSceneElement basicSceneElement) {
 		super.setElement(basicSceneElement);
 		for (EAdSceneElement sceneElement : element.getComponents()) {
- 			SceneElementGO<?> go = (SceneElementGO<?>) gameObjectFactory.get(sceneElement);
- 			go.getRenderAsset();
+			SceneElementGO<?> go = (SceneElementGO<?>) gameObjectFactory
+					.get(sceneElement);
+			go.getRenderAsset();
 		}
 	}
 
 	@Override
 	public boolean processAction(GUIAction action) {
-		EAdList<EAdEffect> list = element.getEffects(action
-				.getGUIEvent());
+		EAdList<EAdEffect> list = element.getEffects(action.getGUIEvent());
 		if (list != null && list.size() > 0) {
 			action.consume();
 			for (EAdEffect e : element.getEffects(action.getGUIEvent())) {
@@ -105,8 +105,12 @@ public class ComplexSceneElementGO extends
 	@Override
 	public void update(GameState state) {
 		super.update(state);
-		for (EAdSceneElement sceneElement : element.getComponents())
+		// FIXME rotation, scale and alpha of the complex element must affect
+		// to its components
+		for (EAdSceneElement sceneElement : element.getComponents()) {
 			gameObjectFactory.get(sceneElement).update(state);
+		}
+
 	}
 
 	@Override
@@ -115,9 +119,10 @@ public class ComplexSceneElementGO extends
 		int newOffsetX = offsetX + this.getPosition().getJavaX(getWidth());
 		int newOffsetY = offsetY + this.getPosition().getJavaY(getHeight());
 		for (EAdSceneElement sceneElement : element.getComponents()) {
- 			SceneElementGO<?> go = (SceneElementGO<?>) gameObjectFactory.get(sceneElement);
- 			if (go.isVisible())
- 				gui.addElement(go, newOffsetX, newOffsetY);
+			SceneElementGO<?> go = (SceneElementGO<?>) gameObjectFactory
+					.get(sceneElement);
+			if (go.isVisible())
+				gui.addElement(go, newOffsetX, newOffsetY);
 		}
 	}
 
@@ -127,21 +132,22 @@ public class ComplexSceneElementGO extends
 		int maxX = Integer.MIN_VALUE;
 		int maxY = maxX;
 		for (EAdSceneElement sceneElement : element.getComponents()) {
- 			SceneElementGO<?> go = (SceneElementGO<?>) gameObjectFactory.get(sceneElement);
- 			int xLeft = go.getPosition().getJavaX(go.getWidth());
- 			int xRight = xLeft + go.getWidth();
- 			int yTop = go.getPosition().getJavaY(go.getHeight());
- 			int yBottom = yTop + go.getHeight();
- 			
- 			minX = xLeft < minX ? xLeft : minX;
- 			maxX = xRight > maxX ? xRight : maxX;
- 			minY = yTop < minY ? yTop : minY;
- 			maxY = yBottom >  maxY ? yBottom : maxY;
+			SceneElementGO<?> go = (SceneElementGO<?>) gameObjectFactory
+					.get(sceneElement);
+			int xLeft = go.getPosition().getJavaX(go.getWidth());
+			int xRight = xLeft + go.getWidth();
+			int yTop = go.getPosition().getJavaY(go.getHeight());
+			int yBottom = yTop + go.getHeight();
+
+			minX = xLeft < minX ? xLeft : minX;
+			maxX = xRight > maxX ? xRight : maxX;
+			minY = yTop < minY ? yTop : minY;
+			maxY = yBottom > maxY ? yBottom : maxY;
 		}
-		
+
 		this.setWidth(maxX - minX);
 		this.setHeight(maxY - minY);
-		
+
 	}
 
 	@Override

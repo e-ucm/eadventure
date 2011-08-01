@@ -331,7 +331,7 @@ public abstract class SceneElementGOImpl<T extends EAdSceneElement> extends
 
 	@Override
 	public void setScale(float scale) {
-		this.scale = scale;
+		valueMap.setValue(getElement().getVars().getVar(EAdSceneElementVars.VAR_SCALE), scale);
 	}
 
 	public boolean isVisible() {

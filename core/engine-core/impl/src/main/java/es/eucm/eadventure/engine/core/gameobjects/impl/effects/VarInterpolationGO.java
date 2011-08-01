@@ -43,7 +43,7 @@ import com.google.inject.Inject;
 
 import es.eucm.eadventure.common.model.effects.impl.EAdVarInterpolationEffect;
 import es.eucm.eadventure.common.model.variables.EAdVar;
-import es.eucm.eadventure.common.model.variables.impl.vars.IntegerVar;
+import es.eucm.eadventure.common.model.variables.impl.vars.FloatVar;
 import es.eucm.eadventure.common.resources.StringHandler;
 import es.eucm.eadventure.engine.core.GameLoop;
 import es.eucm.eadventure.engine.core.GameState;
@@ -56,7 +56,7 @@ import es.eucm.eadventure.engine.core.platform.PlatformConfiguration;
 
 public class VarInterpolationGO extends
 		AbstractEffectGO<EAdVarInterpolationEffect> {
-	
+
 	private static Logger logger = Logger.getLogger("VarInterpolationGO");
 
 	private int currentTime;
@@ -72,7 +72,7 @@ public class VarInterpolationGO extends
 	private float startValue;
 
 	private float endValue;
-	
+
 	private boolean reverse;
 
 	@Inject
@@ -92,13 +92,14 @@ public class VarInterpolationGO extends
 		currentTime = 0;
 		reverse = false;
 		integer = element.getVar().getType().equals(Integer.class);
-		startValue = operatorFactory.operate(new IntegerVar(" "),
-				element.getInitialValue());
-		endValue = operatorFactory.operate(new IntegerVar(" "),
-				element.getEndValue());
+		startValue = ((Number) operatorFactory.operate(new FloatVar(" "),
+				element.getInitialValue())).floatValue();
+		endValue = ((Number) operatorFactory.operate(new FloatVar(" "),
+				element.getEndValue())).floatValue();
 		interpolationLength = endValue - startValue;
 		finished = false;
-		logger.info(element.getVar() + " is going to be inerpolated from " + startValue + " to " + endValue );
+		logger.info(element.getVar() + " is going to be inerpolated from "
+				+ startValue + " to " + endValue);
 
 		operatorFactory.operate(element.getVar(), element.getInitialValue());
 	}
@@ -134,12 +135,12 @@ public class VarInterpolationGO extends
 				finished = true;
 				if (integer)
 					valueMap.setValue((EAdVar<Integer>) element.getVar(),
-							Math.round(endValue) );
+							Math.round(endValue));
 				else
 					valueMap.setValue((EAdVar<Float>) element.getVar(),
-							(Float) endValue );
-				
-				logger.info(element.getVar().toString() + " set to " + endValue );
+							(Float) endValue);
+
+				logger.info(element.getVar().toString() + " set to " + endValue);
 			}
 		} else {
 
@@ -154,20 +155,50 @@ public class VarInterpolationGO extends
 	}
 
 	public Object interpolation() {
-		float f = (float) currentTime
-				/ element.getInterpolationTime() * interpolationLength;
-		
-		if ( reverse ){
-			f = endValue - f;
+		float f = 0;
+
+		switch (element.getInterpolationType()) {
+		case BOUNCE_END:
+			f = bounceEndInterpolation();
+			break;
+		default:
+			f = linearInterpolation();
 		}
-		else
-			f += startValue;
-		
+
 		if (integer)
-			return new Integer( Math.round(f) );
+			return new Integer(Math.round(f));
 		else
 			return new Float(f);
 
+	}
+
+	private float bounceEndInterpolation() {
+		float linearLength = interpolationLength * 1.1f;
+		float bounceLength = linearLength - interpolationLength; 
+		float bounceValue = startValue + linearLength;
+		float linearTime = element.getInterpolationTime() * 0.98f;
+		float bounceTime = element.getInterpolationTime() - linearTime;
+		
+		if ( currentTime <= linearTime ){
+			return startValue + ( (float) currentTime / linearTime ) * linearLength;
+		}
+		else {
+			float timeToFinish = 1.0f - ( element.getInterpolationTime() - currentTime ) / bounceTime; 
+			return bounceValue - bounceLength * timeToFinish;
+		}
+	
+	}
+
+	public float linearInterpolation() {
+		float f = (float) currentTime / element.getInterpolationTime()
+				* interpolationLength;
+		
+		if (reverse) {
+			f = endValue - f;
+		} else
+			f += startValue;
+		
+		return f;
 	}
 
 }

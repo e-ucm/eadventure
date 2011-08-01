@@ -42,6 +42,7 @@ import es.eucm.eadventure.common.elmentfactories.StringFactory.StringType;
 import es.eucm.eadventure.common.model.EAdElement;
 import es.eucm.eadventure.common.model.effects.impl.EAdChangeAppearance;
 import es.eucm.eadventure.common.model.effects.impl.EAdVarInterpolationEffect;
+import es.eucm.eadventure.common.model.effects.impl.EAdVarInterpolationEffect.InterpolationType;
 import es.eucm.eadventure.common.model.effects.impl.EAdVarInterpolationEffect.LoopType;
 import es.eucm.eadventure.common.model.effects.impl.sceneelements.EAdMakeActiveElementEffect;
 import es.eucm.eadventure.common.model.effects.impl.text.EAdShowQuestion;
@@ -72,9 +73,9 @@ public class EffectFactory {
 	}
 
 	public EAdVarInterpolationEffect getInterpolationEffect(EAdVar<?> var,
-			float startValue, float endValue, int time, LoopType loop) {
+			float startValue, float endValue, int time, LoopType loop, InterpolationType interpolationType) {
 		EAdVarInterpolationEffect interpolation = new EAdVarInterpolationEffect(
-				"interpolationEffect" + ID_GENERATOR++, var, startValue, endValue, time, loop);
+				"interpolationEffect" + ID_GENERATOR++, var, startValue, endValue, time, loop, interpolationType);
 		return interpolation;
 	}
 

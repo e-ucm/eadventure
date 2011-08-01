@@ -27,11 +27,11 @@ public class BallonShape extends BezierShape {
 			switch (this) {
 			case RECTANGLE:
 			case ROUNDED_RECTANGLE:
-				return 2;
+				return 3;
 			case CLOUD:
-				return 1;
+				return 2;
 			case ELECTRIC:
-				return 4;
+				return 6;
 			}
 			return 1;
 		}
