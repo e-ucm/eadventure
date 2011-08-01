@@ -37,6 +37,7 @@
 
 package es.eucm.eadventure.engine.core.impl;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Level;
@@ -103,14 +104,20 @@ public class ValueMapImpl implements ValueMap {
 	@Override
 	public void clean() {
 		int i = 0;
+		ArrayList<EAdVar<?>> auxList = new ArrayList<EAdVar<?>>();
 		logger.log(Level.INFO, "Cleaning...");
 		for ( Map<?, ?> m: map.values() ){
 			Map<EAdVar<?>, ?> mp = (Map<EAdVar<?>, ?>) m;
+			auxList.clear();
 			for ( EAdVar<?> var: mp.keySet() ){
 				if ( !var.isConstant() && !var.isGlobal()){
-					mp.remove(var);
+					auxList.add(var);
 					i++;
 				}
+			}
+			
+			for ( EAdVar<?> var: auxList ){
+				mp.remove(var);
 			}
 		}
 		logger.log(Level.INFO, i + " variables deleted.");

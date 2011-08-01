@@ -5,7 +5,6 @@
 			<asset type="background" uri="assets/background/background.jpg"/>
 		</resources>
 		<name/>
-		<default-initial-position x="232" y="408"/>
 		<exits>
 			<exit destinyX="-2147483648" destinyY="-2147483648" hasInfluenceArea="no" height="118" idTarget="SceneId1" not-effects="no" rectangular="yes" transitionTime="0" transitionType="0" width="116" x="665" y="19">
 				<exit-look text=""/>
@@ -39,6 +38,18 @@
 		<atrezzo>
 			<atrezzo-ref idTarget="AtrezzoId" layer="3" scale="0.6243094" x="92" y="185"/>
 		</atrezzo>
+		<trajectory>
+			<node id="node9091" scale="3.4" x="221" y="383"/>
+			<node id="node6393" scale="2.2" x="373" y="184"/>
+			<node id="node360" scale="2.6" x="685" y="293"/>
+			<node id="node577" scale="2.45" x="426" y="440"/>
+			<initialnode id="node6393"/>
+			<side idEnd="node577" idStart="node9091" length="212"/>
+			<side idEnd="node6393" idStart="node9091" length="250"/>
+			<side idEnd="node577" idStart="node6393" length="261"/>
+			<side idEnd="node360" idStart="node577" length="297"/>
+			<side idEnd="node360" idStart="node6393" length="330"/>
+		</trajectory>
 	</scene>
 	<scene id="SceneId1" playerLayer="-1" playerScale="1.0" start="no">
 		<resources name="No name">
@@ -135,8 +146,8 @@
 	</object>
 	<object id="ItemId2" returnsWhenDragged="yes">
 		<resources name="No name">
-			<asset type="image" uri="assets/image/bomb.png"/>
 			<asset type="icon" uri="assets/special/EmptyIcon.png"/>
+			<asset type="image" uri="assets/image/bomb.png"/>
 		</resources>
 		<description>
 			<name/>

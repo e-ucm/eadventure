@@ -42,17 +42,17 @@ import java.util.List;
 
 /**
  * A class holding all scenes that can be tested
- *
+ * 
  */
 
 public class SceneDemos {
-	
+
 	private static SceneDemos instance;
-	
+
 	private List<Class<? extends SceneDemo>> sceneDemosClass;
 	private List<SceneDemo> sceneDemos;
-	
-	private SceneDemos(){
+
+	private SceneDemos() {
 		sceneDemosClass = new ArrayList<Class<? extends SceneDemo>>();
 		sceneDemosClass.add(EmptyScene.class);
 		sceneDemosClass.add(BasicScene.class);
@@ -60,7 +60,8 @@ public class SceneDemos {
 		sceneDemosClass.add(TextsScene.class);
 		sceneDemosClass.add(CharacterScene.class);
 		sceneDemosClass.add(SpeakAndMoveScene.class);
-		
+		sceneDemosClass.add(ComplexElementScene.class);
+
 		sceneDemos = new ArrayList<SceneDemo>();
 		sceneDemos.add(new EmptyScene());
 		sceneDemos.add(new BasicScene());
@@ -68,25 +69,25 @@ public class SceneDemos {
 		sceneDemos.add(new TextsScene());
 		sceneDemos.add(new CharacterScene());
 		sceneDemos.add(new SpeakAndMoveScene());
+		sceneDemos.add(new ComplexElementScene());
 	}
-	
-	public List<Class<? extends SceneDemo>> getSceneDemos( ){
+
+	public List<Class<? extends SceneDemo>> getSceneDemos() {
 		return sceneDemosClass;
 	}
-	
-	public static SceneDemos getInstance(){
-		if ( instance == null )
+
+	public static SceneDemos getInstance() {
+		if (instance == null)
 			instance = new SceneDemos();
 		return instance;
 	}
 
 	public List<String> getSceneDemosDescriptions() {
 		List<String> strings = new ArrayList<String>();
-		for ( SceneDemo scene: sceneDemos ){
-			strings.add(scene.getDemoName() + " - " + scene.getDescription() );
+		for (SceneDemo scene : sceneDemos) {
+			strings.add(scene.getDemoName() + " - " + scene.getDescription());
 		}
 		return strings;
 	}
-	
 
 }

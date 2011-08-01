@@ -62,4 +62,12 @@ public interface EAdElementVars {
 	 */
 	Collection<EAdVar<?>> getVars();
 
+	/**
+	 * Adds the given variables to the container
+	 * 
+	 * @param eAdVarDefs
+	 *            an array with variables to be added
+	 */
+	void add(EAdVarDef<?>[] eAdVarDefs);
+
 }

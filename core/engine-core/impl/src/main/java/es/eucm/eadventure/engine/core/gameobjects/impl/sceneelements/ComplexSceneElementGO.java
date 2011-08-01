@@ -46,10 +46,13 @@ import es.eucm.eadventure.common.model.EAdList;
 import es.eucm.eadventure.common.model.effects.EAdEffect;
 import es.eucm.eadventure.common.model.elements.EAdSceneElement;
 import es.eucm.eadventure.common.model.elements.impl.EAdComplexSceneElement;
+import es.eucm.eadventure.common.model.variables.EAdElementVars;
+import es.eucm.eadventure.common.model.variables.impl.extra.EAdSceneElementVars;
 import es.eucm.eadventure.common.resources.StringHandler;
 import es.eucm.eadventure.engine.core.GameState;
 import es.eucm.eadventure.engine.core.MouseState;
 import es.eucm.eadventure.engine.core.ValueMap;
+import es.eucm.eadventure.engine.core.evaluators.EvaluatorFactory;
 import es.eucm.eadventure.engine.core.gameobjects.GameObject;
 import es.eucm.eadventure.engine.core.gameobjects.GameObjectFactory;
 import es.eucm.eadventure.engine.core.gameobjects.SceneElementGO;
@@ -65,19 +68,26 @@ public class ComplexSceneElementGO extends
 	private static final Logger logger = Logger
 			.getLogger("EAdComplexSceneElement");
 
+	private EvaluatorFactory evaluatorFactory;
+	
+	private int elementOffsetX, elementOffsetY;
+
 	@Inject
 	public ComplexSceneElementGO(AssetHandler assetHandler,
 			StringHandler stringHandler, GameObjectFactory gameObjectFactory,
 			GUI gui, GameState gameState, ValueMap valueMap,
-			PlatformConfiguration platformConfiguration) {
+			PlatformConfiguration platformConfiguration,
+			EvaluatorFactory evaluatorFactory) {
 		super(assetHandler, stringHandler, gameObjectFactory, gui, gameState,
 				valueMap, platformConfiguration);
 		logger.info("New instance");
+		this.evaluatorFactory = evaluatorFactory;
 	}
 
 	public GameObject<?> getDraggableElement(MouseState mouseState) {
-		// TODO check if draggable
-		return this;
+		if (evaluatorFactory.evaluate(element.getDraggabe()))
+			return this;
+		return null;
 	}
 
 	public void setElement(EAdComplexSceneElement basicSceneElement) {
@@ -105,28 +115,27 @@ public class ComplexSceneElementGO extends
 	@Override
 	public void update(GameState state) {
 		super.update(state);
-		// FIXME rotation, scale and alpha of the complex element must affect
-		// to its components
 		for (EAdSceneElement sceneElement : element.getComponents()) {
 			gameObjectFactory.get(sceneElement).update(state);
 		}
-
 	}
 
-	@Override
-	public void doLayout(int offsetX, int offsetY) {
-		updateDimensions();
-		int newOffsetX = offsetX + this.getPosition().getJavaX(getWidth());
-		int newOffsetY = offsetY + this.getPosition().getJavaY(getHeight());
-		for (EAdSceneElement sceneElement : element.getComponents()) {
-			SceneElementGO<?> go = (SceneElementGO<?>) gameObjectFactory
-					.get(sceneElement);
-			if (go.isVisible())
-				gui.addElement(go, newOffsetX, newOffsetY);
+	protected void updateVars(EAdElementVars vars) {
+		super.updateVars(vars);
+		setWidth(valueMap.getValue(element.getVars().getVar(EAdSceneElementVars.VAR_WIDTH)));
+		setHeight(valueMap.getValue(element.getVars().getVar(EAdSceneElementVars.VAR_HEIGHT)));
+		boolean updateWidth = valueMap.getValue(element.getVars().getVar(EAdComplexSceneElement.VAR_AUTO_SIZE_HORIZONTAL));
+		boolean updateHeight = valueMap.getValue(element.getVars().getVar(EAdComplexSceneElement.VAR_AUTO_SIZE_VERTICAL));
+		
+		elementOffsetX = valueMap.getValue(element.getVars().getVar(EAdComplexSceneElement.VAR_OFFSET_X));
+		elementOffsetY = valueMap.getValue(element.getVars().getVar(EAdComplexSceneElement.VAR_OFFSET_Y));
+		
+		if ( updateWidth || updateHeight ){
+			updateDimensions( updateWidth, updateHeight );
 		}
 	}
 
-	private void updateDimensions() {
+	private void updateDimensions(boolean updateWidth, boolean updateHeight) {
 		int minX = Integer.MAX_VALUE;
 		int minY = minX;
 		int maxX = Integer.MIN_VALUE;
@@ -145,9 +154,24 @@ public class ComplexSceneElementGO extends
 			maxY = yBottom > maxY ? yBottom : maxY;
 		}
 
-		this.setWidth(maxX - minX);
-		this.setHeight(maxY - minY);
+		if (updateWidth)
+			this.setWidth(maxX - minX);
 
+		if (updateHeight)
+			this.setHeight(maxY - minY);
+
+	}
+
+	@Override
+	public void doLayout(int offsetX, int offsetY) {
+		int newOffsetX = offsetX + this.getPosition().getJavaX(getWidth()) - elementOffsetX;
+		int newOffsetY = offsetY + this.getPosition().getJavaY(getHeight()) - elementOffsetY;
+		for (EAdSceneElement sceneElement : element.getComponents()) {
+			SceneElementGO<?> go = (SceneElementGO<?>) gameObjectFactory
+					.get(sceneElement);
+			if (go.isVisible())
+				gui.addElement(go, newOffsetX, newOffsetY);
+		}
 	}
 
 	@Override

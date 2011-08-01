@@ -58,4 +58,12 @@ public class EAdElementVarsImpl implements EAdElementVars {
 		return vars.values();
 	}
 
+	@Override
+	public void add(EAdVarDef<?>[] eAdVarDefs) {
+		for ( EAdVarDef<?> var: eAdVarDefs ){
+			this.add(var);
+		}
+		
+	}
+
 }

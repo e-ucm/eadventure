@@ -141,7 +141,7 @@ public abstract class SceneElementGOImpl<T extends EAdSceneElement> extends
 		getRenderAsset();
 	}
 	
-	private void updateVars( EAdElementVars vars ){
+	protected void updateVars( EAdElementVars vars ){
 		visible = valueMap.getValue(vars.getVar(EAdSceneElementVars.VAR_VISIBLE));
 		rotation = valueMap.getValue(vars.getVar(EAdSceneElementVars.VAR_ROTATION));
 		scale = valueMap.getValue(vars.getVar(EAdSceneElementVars.VAR_SCALE));

@@ -106,12 +106,4 @@ public class BasicSceneElementGO extends SceneElementGOImpl<EAdBasicSceneElement
 		return false;
 	}
 
-	/* (non-Javadoc)
-	 * @see es.eucm.eadventure.engine.core.gameobjects.impl.SceneElementGOImpl#update(es.eucm.eadventure.engine.core.GameState)
-	 */
-	@Override
-	public void update(GameState state) {
-		super.update(state);
-	}
-
 }
