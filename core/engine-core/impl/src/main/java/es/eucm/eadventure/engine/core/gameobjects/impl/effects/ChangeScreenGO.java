@@ -75,6 +75,7 @@ public class ChangeScreenGO extends AbstractEffectGO<EAdChangeScene> {
 		transition.setPrevious(gameState.getScene());
 		
 		gameState.setScene(transition);
+		valueMap.clean();
 	}
 
 	@Override

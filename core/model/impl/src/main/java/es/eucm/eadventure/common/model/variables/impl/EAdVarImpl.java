@@ -101,10 +101,10 @@ public class EAdVarImpl<T> implements EAdVar<T> {
 
 	@Override
 	public int hashCode() {
-		if (element != null)
-			return getName().hashCode();
+		if (element == null)
+			return super.hashCode();
 		else
-			return element.hashCode() + getName().hashCode();
+			return element.hashCode() + super.hashCode();
 	}
 
 	@Override

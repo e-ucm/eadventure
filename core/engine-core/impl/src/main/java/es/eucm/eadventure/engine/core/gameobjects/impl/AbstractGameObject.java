@@ -46,6 +46,8 @@ import com.google.inject.Injector;
 import es.eucm.eadventure.common.model.EAdElement;
 import es.eucm.eadventure.common.model.events.EAdEvent;
 import es.eucm.eadventure.common.model.params.EAdPosition;
+import es.eucm.eadventure.common.model.variables.EAdVar;
+import es.eucm.eadventure.common.model.variables.impl.EAdVarImpl;
 import es.eucm.eadventure.common.resources.EAdBundleId;
 import es.eucm.eadventure.common.resources.StringHandler;
 import es.eucm.eadventure.engine.core.GameState;
@@ -60,7 +62,8 @@ import es.eucm.eadventure.engine.core.platform.GUI;
 import es.eucm.eadventure.engine.core.platform.PlatformConfiguration;
 import es.eucm.eadventure.engine.core.platform.RuntimeAsset;
 
-public abstract class AbstractGameObject<T extends EAdElement> implements GameObject<T> {
+public abstract class AbstractGameObject<T extends EAdElement> implements
+		GameObject<T> {
 
 	/**
 	 * The game's asset handler
@@ -80,18 +83,22 @@ public abstract class AbstractGameObject<T extends EAdElement> implements GameOb
 	protected Injector injector;
 
 	protected GameState gameState;
-	
+
 	protected ValueMap valueMap;
-	
+
 	protected PlatformConfiguration platformConfiguration;
-	
+
 	protected T element;
 
 	private ArrayList<AbstractEventGO<?>> eventGOList;
-	
+
+	private EAdVar<EAdBundleId> bundleVar;
+
 	@Inject
-	public AbstractGameObject(AssetHandler assetHandler, StringHandler stringHandler, GameObjectFactory gameObjectFactory,
-			GUI gui, GameState gameState, ValueMap valueMap, PlatformConfiguration platformConfiguration) {
+	public AbstractGameObject(AssetHandler assetHandler,
+			StringHandler stringHandler, GameObjectFactory gameObjectFactory,
+			GUI gui, GameState gameState, ValueMap valueMap,
+			PlatformConfiguration platformConfiguration) {
 		this.assetHandler = assetHandler;
 		this.stringHandler = stringHandler;
 		this.gameObjectFactory = gameObjectFactory;
@@ -109,18 +116,21 @@ public abstract class AbstractGameObject<T extends EAdElement> implements GameOb
 	@Override
 	public void setElement(T element) {
 		this.element = element;
+		this.bundleVar = new EAdVarImpl<EAdBundleId>(EAdBundleId.class,
+				"bundleId", element.getInitialBundle(), element);
 		eventGOList = new ArrayList<AbstractEventGO<?>>();
 		if (element.getEvents() != null) {
 			for (EAdEvent event : element.getEvents()) {
-				AbstractEventGO<?> eventGO = (AbstractEventGO<?>) gameObjectFactory.get(event);
+				AbstractEventGO<?> eventGO = (AbstractEventGO<?>) gameObjectFactory
+						.get(event);
 				eventGO.initialize();
 				eventGOList.add(eventGO);
 			}
 		}
 	}
-	
+
 	@Override
-	public T getElement( ){
+	public T getElement() {
 		return element;
 	}
 
@@ -148,24 +158,29 @@ public abstract class AbstractGameObject<T extends EAdElement> implements GameOb
 		// Implemented by inherited classes
 		return null;
 	}
-	
+
 	public EAdBundleId getCurrentBundle() {
-		EAdBundleId current = valueMap.getValue((EAdElement) element, EAdBundleId.class);
+		EAdBundleId current = valueMap.getValue(bundleVar);
 		if (current == null) {
 			current = element.getInitialBundle();
-			valueMap.setValue((EAdElement) element, current);
+			valueMap.setValue(bundleVar, current);
 		}
 		return current;
 	}
+	
+	public void setCurrentBundle(EAdBundleId bundle){
+		valueMap.setValue(bundleVar, bundle);
+	}
+	
 
 	@Override
 	public List<RuntimeAsset<?>> getAssets(List<RuntimeAsset<?>> assetList,
 			boolean allAssets) {
 		return assetList;
 	}
-	
-	public String toString( ){
-		return  getClass().getSimpleName() + ": " + element.getId();
+
+	public String toString() {
+		return getClass().getSimpleName() + ": " + element.getId();
 	}
 
 }

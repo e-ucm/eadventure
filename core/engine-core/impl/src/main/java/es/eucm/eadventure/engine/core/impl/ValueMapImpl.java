@@ -39,14 +39,12 @@ package es.eucm.eadventure.engine.core.impl;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
-import es.eucm.eadventure.common.model.EAdElement;
 import es.eucm.eadventure.common.model.variables.EAdVar;
 import es.eucm.eadventure.engine.core.ValueMap;
 
@@ -55,8 +53,7 @@ public class ValueMapImpl implements ValueMap {
 
 	protected Map<Class<?>, Map<?, ?>> map;
 
-	private static final Logger logger = Logger
-			.getLogger("Value Map");
+	private static final Logger logger = Logger.getLogger("Value Map");
 
 	@Inject
 	public ValueMapImpl() {
@@ -64,71 +61,59 @@ public class ValueMapImpl implements ValueMap {
 		logger.info("New instance");
 	}
 
-	@Override
-	public <T> void setValue(EAdElement id, T value) {
-		@SuppressWarnings("unchecked")
-		Map<EAdElement, T> valMap = (Map<EAdElement, T>) map.get(value.getClass());
-		if (valMap == null) {
-			valMap = new HashMap<EAdElement, T>();
-			map.put(value.getClass(), valMap);
-			logger.info("New value map " + id.getClass() + "  " + value.getClass());
-		}
-		valMap.put(id, value);
-	}
-
-	@Override
-	public <T> T getValue(EAdElement id, Class<T> clazz) {
-		@SuppressWarnings("unchecked")
-		Map<EAdElement, T> valMap = (Map<EAdElement, T>) map.get(clazz);
-		if (valMap == null) {
-			logger.log(Level.WARNING, "No values for the class " + clazz);
-			return null;
-		}
-		T value = valMap.get(id);
-		if (value == null)
-			logger.log(Level.WARNING, "No such value " + id);
-		return value;
-	}
-
-	@Override
-	public <S> boolean contains(S id) {
-		for (Entry<Class<?>, Map<?, ?>> m : this.map.entrySet()) {
-			Object o = m.getValue().get(id);
-			if (o != null)
-				return true;
-		}
-		return false;
-	}
-
+	@SuppressWarnings("unchecked")
 	@Override
 	public <S> void setValue(EAdVar<S> var, S value) {
-		@SuppressWarnings("unchecked")
-		Map<String, S> valMap = (Map<String, S>) map.get(var.getType());
-		if (valMap == null) {
-			valMap = new HashMap<String, S>();
-			map.put(var.getType(), valMap);
-			logger.info("New value map String " + var.getType());
+		if (var.isConstant()) {
+			logger.log(Level.WARNING, "Attempted to modify a constant value");
+			return;
+		} else {
+			Map<EAdVar<S>, S> valMap = (Map<EAdVar<S>, S>) map.get(var
+					.getType());
+			if (valMap == null) {
+				valMap = new HashMap<EAdVar<S>, S>();
+				map.put(var.getType(), valMap);
+				logger.info("New value map String " + var.getType());
+			}
+
+			valMap.put(var, value);
 		}
-		
-		valMap.put((var.getElement() != null ? "" + var.getElement().hashCode() : "") + var.getName(), value);
 	}
 
 	@SuppressWarnings("unchecked")
 	@Override
 	public <S> S getValue(EAdVar<S> var) {
-		Map<String, S> valMap = (Map<String, S>) map.get(var.getType());
+		Map<EAdVar<S>, S> valMap = (Map<EAdVar<S>, S>) map.get(var.getType());
 		if (valMap == null) {
-			logger.log(Level.WARNING, "No values for the class " + var.getType());
+			logger.log(Level.WARNING, "Initializing variable " + var);
 			setValue(var, var.getInitialValue());
-			valMap = (Map<String, S>) map.get(var.getType());
+			valMap = (Map<EAdVar<S>, S>) map.get(var.getType());
 		}
-		S value = valMap.get((var.getElement() != null ? "" + var.getElement().hashCode() : "") + var.getName() );
+		S value = valMap.get(var);
 		if (value == null) {
-			logger.log(Level.WARNING, "No such value " + (var.getElement() != null ? "" + var.getElement().hashCode() : "") + var.getName() + " of type " + var.getType());
+			logger.log(Level.WARNING, "No such value " + var.getName()
+					+ " of type " + var.getType());
 			setValue(var, var.getInitialValue());
 			value = var.getInitialValue();
 		}
 		return value;
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public void clean() {
+		int i = 0;
+		logger.log(Level.INFO, "Cleaning...");
+		for ( Map<?, ?> m: map.values() ){
+			Map<EAdVar<?>, ?> mp = (Map<EAdVar<?>, ?>) m;
+			for ( EAdVar<?> var: mp.keySet() ){
+				if ( !var.isConstant() && !var.isGlobal()){
+					mp.remove(var);
+					i++;
+				}
+			}
+		}
+		logger.log(Level.INFO, i + " variables deleted.");
 	}
 
 }

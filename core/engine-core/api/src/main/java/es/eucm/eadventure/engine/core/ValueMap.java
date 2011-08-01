@@ -37,7 +37,6 @@
 
 package es.eucm.eadventure.engine.core;
 
-import es.eucm.eadventure.common.model.EAdElement;
 import es.eucm.eadventure.common.model.variables.EAdVar;
 
 /**
@@ -47,34 +46,11 @@ import es.eucm.eadventure.common.model.variables.EAdVar;
 public interface ValueMap {
 
 	/**
-	 * Sets the value for a identifier
-	 * 
-	 * @param <T>
-	 *            Undefined type of the value
-	 * @param id
-	 *            The identifier
-	 * @param value
-	 *            The value
-	 */
-	<T> void setValue(EAdElement id, T value);
-
-	/**
 	 * @param var
 	 * @param value
 	 */
 	<S> void setValue(EAdVar<S> var, S value);
-	
-	/**
-	 * Returns the value associated with an identifier, given the class of the
-	 * expected value
-	 * 
-	 * @param <T>
-	 * @param id
-	 * @param clazz
-	 * @return
-	 */
-	<T> T getValue(EAdElement id, Class<T> clazz);
-	
+
 	/**
 	 * @param <S>
 	 * @param var
@@ -83,12 +59,7 @@ public interface ValueMap {
 	<S> S getValue(EAdVar<S> var);
 
 	/**
-	 * Returns {@code true} if the given var is contained by this
-	 * {@link ValueMap}
-	 * 
-	 * @param id
-	 *            the id
-	 * @return if the given id is contained by this {@link ValueMap}
+	 * Deletes from the value map all the local variables.
 	 */
-	<S> boolean contains(S id);
+	void clean();
 }

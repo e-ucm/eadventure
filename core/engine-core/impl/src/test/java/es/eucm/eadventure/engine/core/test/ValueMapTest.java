@@ -72,11 +72,7 @@ public class ValueMapTest {
 		assertEquals(v.getValue(new IntegerVar("age")), new Integer(35));
 		assertEquals(v.getValue(new FloatVar("height")), new Float(1.88f));
 		assertEquals(v.getValue(new StringVar("non-existing-var")), null);
-
-		assertTrue(v.contains("name"));
-		assertTrue(v.contains("age"));
-		assertFalse(v.contains("ссс"));
-
+		
 		v.setValue(new StringVar("name"), "Peter");
 
 		assertEquals(v.getValue(new StringVar("name")), "Peter");
