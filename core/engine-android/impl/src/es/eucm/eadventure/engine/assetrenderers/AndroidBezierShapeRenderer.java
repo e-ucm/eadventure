@@ -39,6 +39,7 @@ package es.eucm.eadventure.engine.assetrenderers;
 
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.graphics.Paint.Style;
 import es.eucm.eadventure.common.model.params.EAdPosition;
 import es.eucm.eadventure.common.resources.assets.drawable.impl.BezierShape;
 import es.eucm.eadventure.engine.assets.AndroidBezierShape;
@@ -64,9 +65,11 @@ public class AndroidBezierShapeRenderer implements AssetRenderer<Canvas, Android
 			graphicContext.translate(x, y);
 			graphicContext.scale(scale, scale);
 
+			paint.setStyle(Style.FILL);
 			paint.setColor(new AndroidEngineColor(assetDescriptor.getColor().getCenterColor()).getColor());
 			graphicContext.drawPath(asset.getShape(), paint);
 
+			paint.setStyle(Style.STROKE);
 			paint.setColor(new AndroidEngineColor(assetDescriptor.getColor().getBorderColor()).getColor());
 			paint.setStrokeWidth(assetDescriptor.getBorderWidth());
 			graphicContext.drawPath(asset.getShape(), paint);

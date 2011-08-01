@@ -46,8 +46,10 @@ import android.view.WindowManager;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 
+import es.eucm.eadventure.common.elmentfactories.EAdElementsFactory;
 import es.eucm.eadventure.common.model.elements.EAdScene;
 import es.eucm.eadventure.common.model.elements.impl.EAdSceneImpl;
+import es.eucm.eadventure.common.resources.StringHandler;
 import es.eucm.eadventure.engine.core.GameController;
 import es.eucm.eadventure.engine.core.MouseState;
 import es.eucm.eadventure.engine.core.impl.LoadingScreen;
@@ -102,6 +104,9 @@ public class EAdventureEngineActivity extends Activity {
 		Class<? extends EAdScene> demoClass = (Class<? extends EAdScene>) getIntent().getExtras().getSerializable("demo");
 
 		EAdSceneImpl sceneImpl = (EAdSceneImpl) injector.getInstance(demoClass);
+		
+		StringHandler sh = injector.getInstance(StringHandler.class);
+		EAdElementsFactory.getInstance().getStringFactory().addStrings(sh);
 		
 		loadingScreen.setInitialScreen(sceneImpl);
 
