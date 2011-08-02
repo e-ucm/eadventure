@@ -40,6 +40,7 @@ package es.eucm.eadventure.engine;
 import java.util.Map;
 import java.util.logging.Logger;
 
+import android.content.Context;
 import android.content.res.Resources;
 import android.os.Environment;
 
@@ -56,6 +57,8 @@ import es.eucm.eadventure.engine.core.platform.impl.AbstractAssetHandler;
 public class AndroidAssetHandler extends AbstractAssetHandler {
 	
 		protected Resources resources;
+		
+		private Context context;
 		
 		private String sdCardLocation;
 		
@@ -89,6 +92,14 @@ public class AndroidAssetHandler extends AbstractAssetHandler {
 		@Override
 		public String getAbsolutePath(String uri) {
 			return uri.replace("@", sdCardLocation + "/eAd2/");
+		}
+		
+		public Context getContext( ){
+			return context;
+		}
+		
+		public void setContext( Context context ){
+			this.context = context;
 		}
 
 	}

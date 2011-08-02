@@ -97,6 +97,7 @@ public class EAdventureEngineActivity extends Activity {
         //TODO fix this
         AndroidAssetHandler aah = (AndroidAssetHandler) injector.getInstance(AssetHandler.class);
         aah.setResources(getResources());
+        aah.setContext(this);
 
 		LoadingScreen loadingScreen = injector.getInstance(LoadingScreen.class);
 		

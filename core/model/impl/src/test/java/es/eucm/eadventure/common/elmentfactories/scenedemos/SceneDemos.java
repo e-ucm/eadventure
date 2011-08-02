@@ -61,6 +61,7 @@ public class SceneDemos {
 		sceneDemosClass.add(CharacterScene.class);
 		sceneDemosClass.add(SpeakAndMoveScene.class);
 		sceneDemosClass.add(ComplexElementScene.class);
+		sceneDemosClass.add(SoundScene.class);
 
 		sceneDemos = new ArrayList<SceneDemo>();
 		sceneDemos.add(new EmptyScene());
@@ -70,6 +71,7 @@ public class SceneDemos {
 		sceneDemos.add(new CharacterScene());
 		sceneDemos.add(new SpeakAndMoveScene());
 		sceneDemos.add(new ComplexElementScene());
+		sceneDemos.add(new SoundScene());
 	}
 
 	public List<Class<? extends SceneDemo>> getSceneDemos() {

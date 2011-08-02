@@ -46,26 +46,29 @@ import com.google.inject.Singleton;
 
 import es.eucm.eadventure.common.resources.StringHandler;
 import es.eucm.eadventure.common.resources.assets.AssetDescriptor;
-import es.eucm.eadventure.common.resources.assets.drawable.StateDrawable;
 import es.eucm.eadventure.common.resources.assets.drawable.Caption;
 import es.eucm.eadventure.common.resources.assets.drawable.ComposedDrawable;
 import es.eucm.eadventure.common.resources.assets.drawable.DisplacedDrawable;
 import es.eucm.eadventure.common.resources.assets.drawable.Image;
 import es.eucm.eadventure.common.resources.assets.drawable.SpriteImage;
-import es.eucm.eadventure.common.resources.assets.drawable.animation.impl.StateDrawableImpl;
+import es.eucm.eadventure.common.resources.assets.drawable.StateDrawable;
 import es.eucm.eadventure.common.resources.assets.drawable.animation.impl.Frame;
 import es.eucm.eadventure.common.resources.assets.drawable.animation.impl.FramesAnimation;
+import es.eucm.eadventure.common.resources.assets.drawable.animation.impl.StateDrawableImpl;
 import es.eucm.eadventure.common.resources.assets.drawable.impl.BezierShape;
 import es.eucm.eadventure.common.resources.assets.drawable.impl.CaptionImpl;
 import es.eucm.eadventure.common.resources.assets.drawable.impl.ComposedDrawableImpl;
 import es.eucm.eadventure.common.resources.assets.drawable.impl.DisplacedDrawableImpl;
 import es.eucm.eadventure.common.resources.assets.drawable.impl.ImageImpl;
 import es.eucm.eadventure.common.resources.assets.drawable.impl.RectangleShape;
+import es.eucm.eadventure.common.resources.assets.multimedia.Sound;
+import es.eucm.eadventure.common.resources.assets.multimedia.impl.SoundImpl;
 import es.eucm.eadventure.common.resources.impl.DefaultStringHandler;
 import es.eucm.eadventure.engine.AndroidAssetHandler;
 import es.eucm.eadventure.engine.assets.AndroidBezierShape;
 import es.eucm.eadventure.engine.assets.AndroidEngineCaption;
 import es.eucm.eadventure.engine.assets.AndroidEngineImage;
+import es.eucm.eadventure.engine.assets.AndroidSound;
 import es.eucm.eadventure.engine.core.platform.AssetHandler;
 import es.eucm.eadventure.engine.core.platform.RuntimeAsset;
 import es.eucm.eadventure.engine.core.platform.assets.impl.RuntimeBundledAnimation;
@@ -102,6 +105,8 @@ public class AndroidAssetHandlerModule extends AbstractModule {
 		map.put(DisplacedDrawable.class, RuntimeDisplacedDrawable.class);
 		map.put(DisplacedDrawableImpl.class, RuntimeDisplacedDrawable.class);
 		map.put(SpriteImage.class, RuntimeSpriteImage.class);
+		map.put(Sound.class, AndroidSound.class);
+		map.put(SoundImpl.class, AndroidSound.class);
 		//TODO Sprite image
 		//map.put(SpriteImageImpl.class, AndroidEngineSpriteImage.class);
 		

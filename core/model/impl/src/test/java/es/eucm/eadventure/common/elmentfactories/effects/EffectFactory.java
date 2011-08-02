@@ -41,6 +41,7 @@ import es.eucm.eadventure.common.elmentfactories.EAdElementsFactory;
 import es.eucm.eadventure.common.elmentfactories.StringFactory.StringType;
 import es.eucm.eadventure.common.model.EAdElement;
 import es.eucm.eadventure.common.model.effects.impl.EAdChangeAppearance;
+import es.eucm.eadventure.common.model.effects.impl.EAdPlaySoundEffect;
 import es.eucm.eadventure.common.model.effects.impl.EAdVarInterpolationEffect;
 import es.eucm.eadventure.common.model.effects.impl.EAdVarInterpolationEffect.InterpolationType;
 import es.eucm.eadventure.common.model.effects.impl.EAdVarInterpolationEffect.LoopType;
@@ -60,6 +61,7 @@ import es.eucm.eadventure.common.resources.EAdBundleId;
 import es.eucm.eadventure.common.resources.EAdString;
 import es.eucm.eadventure.common.resources.assets.drawable.Caption;
 import es.eucm.eadventure.common.resources.assets.drawable.impl.CaptionImpl;
+import es.eucm.eadventure.common.resources.assets.multimedia.impl.SoundImpl;
 
 public class EffectFactory {
 
@@ -73,9 +75,11 @@ public class EffectFactory {
 	}
 
 	public EAdVarInterpolationEffect getInterpolationEffect(EAdVar<?> var,
-			float startValue, float endValue, int time, LoopType loop, InterpolationType interpolationType) {
+			float startValue, float endValue, int time, LoopType loop,
+			InterpolationType interpolationType) {
 		EAdVarInterpolationEffect interpolation = new EAdVarInterpolationEffect(
-				"interpolationEffect" + ID_GENERATOR++, var, startValue, endValue, time, loop, interpolationType);
+				"interpolationEffect" + ID_GENERATOR++, var, startValue,
+				endValue, time, loop, interpolationType);
 		return interpolation;
 	}
 
@@ -88,9 +92,9 @@ public class EffectFactory {
 		effect.setCaption(c, x, y, animation);
 		return effect;
 	}
-	
+
 	public EAdShowText getShowText(String text, int x, int y,
-			ShowTextAnimation animation){
+			ShowTextAnimation animation) {
 		return this.getShowText(text, x, y, animation, Caption.SCREEN_SIZE);
 	}
 
@@ -128,26 +132,40 @@ public class EffectFactory {
 
 	public EAdChangeVarValueEffect getChangeVarValueEffect(EAdVar<?> var,
 			EAdOperation operation) {
-		EAdChangeVarValueEffect effect = new EAdChangeVarValueEffect( "changeVarValue" + ID_GENERATOR++, var, operation );
+		EAdChangeVarValueEffect effect = new EAdChangeVarValueEffect(
+				"changeVarValue" + ID_GENERATOR++, var, operation);
 		return effect;
-		
+
 	}
-	
-	public EAdSpeakEffect getSpeakEffect( String text, EAdSceneElement sceneElement ){
-		EAdSpeakEffect effect = new EAdSpeakEffect( "speakEffect" + ID_GENERATOR++ );
-		EAdString string = EAdElementsFactory.getInstance().getStringFactory().getString(text);
-		
+
+	public EAdSpeakEffect getSpeakEffect(String text,
+			EAdSceneElement sceneElement) {
+		EAdSpeakEffect effect = new EAdSpeakEffect("speakEffect"
+				+ ID_GENERATOR++);
+		EAdString string = EAdElementsFactory.getInstance().getStringFactory()
+				.getString(text);
+
 		effect.setText(string);
-		effect.setPosition(sceneElement.getVars().getVar(EAdSceneElementVars.VAR_X), sceneElement.getVars().getVar(EAdSceneElementVars.VAR_Y));
-		effect.setStateVar(sceneElement.getVars().getVar(EAdSceneElementVars.VAR_STATE));
-		
+		effect.setPosition(
+				sceneElement.getVars().getVar(EAdSceneElementVars.VAR_X),
+				sceneElement.getVars().getVar(EAdSceneElementVars.VAR_Y));
+		effect.setStateVar(sceneElement.getVars().getVar(
+				EAdSceneElementVars.VAR_STATE));
+
 		return effect;
 	}
 
-	public EAdMakeActiveElementEffect getMakeActiveElement(EAdSceneElement element) {
-		EAdMakeActiveElementEffect effect = new EAdMakeActiveElementEffect( "makeActive" );
+	public EAdMakeActiveElementEffect getMakeActiveElement(
+			EAdSceneElement element) {
+		EAdMakeActiveElementEffect effect = new EAdMakeActiveElementEffect(
+				"makeActive");
 		effect.setSceneElement(element);
 		return effect;
+	}
+
+	public EAdPlaySoundEffect getPlaySound(String string) {
+		SoundImpl sound = new SoundImpl(string);
+		return new EAdPlaySoundEffect("playSound" + ID_GENERATOR++, sound);
 	}
 
 }
