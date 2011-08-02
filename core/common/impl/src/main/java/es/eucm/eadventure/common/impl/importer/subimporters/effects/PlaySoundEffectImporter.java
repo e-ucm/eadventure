@@ -42,27 +42,35 @@ import com.google.inject.Inject;
 import es.eucm.eadventure.common.EAdElementImporter;
 import es.eucm.eadventure.common.data.chapter.conditions.Conditions;
 import es.eucm.eadventure.common.data.chapter.effects.PlaySoundEffect;
-import es.eucm.eadventure.common.model.effects.EAdEffect;
+import es.eucm.eadventure.common.impl.importer.interfaces.ResourceImporter;
+import es.eucm.eadventure.common.model.effects.impl.EAdPlaySoundEffect;
 import es.eucm.eadventure.common.model.elements.EAdCondition;
+import es.eucm.eadventure.common.resources.assets.multimedia.impl.SoundImpl;
 
-public class PlaySoundEffectImporter extends EffectImporter<PlaySoundEffect, EAdEffect>{
+public class PlaySoundEffectImporter extends EffectImporter<PlaySoundEffect, EAdPlaySoundEffect>{
+	
+	private static int ID_GENERATOR = 0;
+	
+	private ResourceImporter resourceImporter;
 	
 	@Inject
 	public PlaySoundEffectImporter(
-			EAdElementImporter<Conditions, EAdCondition> conditionImporter) {
+			EAdElementImporter<Conditions, EAdCondition> conditionImporter, ResourceImporter resourceImporter ) {
 		super(conditionImporter);
+		this.resourceImporter = resourceImporter;
 	}
 
 	@Override
-	public EAdEffect init(PlaySoundEffect oldObject) {
-		//TODO
-		return null;
+	public EAdPlaySoundEffect init(PlaySoundEffect oldObject) {
+		return new EAdPlaySoundEffect("playSoundEffect" + ID_GENERATOR++ );
 	}
 
 	@Override
-	public EAdEffect convert(PlaySoundEffect oldObject, Object object) {
-		//TODO
-		return null;
+	public EAdPlaySoundEffect convert(PlaySoundEffect oldObject, Object object) {
+		String newURI = resourceImporter.getURI(oldObject.getPath());
+		EAdPlaySoundEffect effect = (EAdPlaySoundEffect) object;
+		effect.setSound(new SoundImpl(newURI));
+		return effect;
 	}
 
 }

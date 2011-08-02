@@ -45,9 +45,14 @@ import es.eucm.eadventure.common.model.EAdElement;
 import es.eucm.eadventure.common.resources.assets.AssetDescriptor;
 
 public interface ResourceImporter {
+	
+	public static final String DRAWABLE = "drawable";
+
+	public static final String BINARY = "binary";
 
 	/**
-	 * Returns the new URI for an old resource situated in oldURI
+	 * Returns the new URI for an old resource situated in oldURI. It also
+	 * copies the old resource to its new location
 	 * 
 	 * @param oldURI
 	 *            the old URI

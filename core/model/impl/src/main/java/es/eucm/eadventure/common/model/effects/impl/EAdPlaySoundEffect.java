@@ -25,6 +25,14 @@ public class EAdPlaySoundEffect extends AbstractEAdEffect {
 		super(id);
 		this.sound = sound;
 	}
+	
+	public EAdPlaySoundEffect(String id){
+		this( id, null );
+	}
+	
+	public void setSound( Sound sound ){
+		this.sound = sound;
+	}
 
 	/**
 	 * Returns the sound to be played

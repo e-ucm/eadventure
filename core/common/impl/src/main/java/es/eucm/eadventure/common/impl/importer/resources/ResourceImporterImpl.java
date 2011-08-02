@@ -81,10 +81,6 @@ import es.eucm.eadventure.common.resources.assets.drawable.animation.impl.Frames
 @Singleton
 public class ResourceImporterImpl implements ResourceImporter {
 
-	private static String DRAWABLE = "drawable";
-
-	private static String BINARY = "binary";
-
 	/**
 	 * Conditions importer
 	 */
@@ -145,15 +141,7 @@ public class ResourceImporterImpl implements ResourceImporter {
 
 	}
 
-	/**
-	 * Returns the new URI for an old resource situated in oldURI. It also
-	 * copies the old resource to its new location
-	 * 
-	 * @param oldURI
-	 *            the old URI
-	 * @return the new URI for the resource. {@code null} it there was any
-	 *         problem with the import
-	 */
+	@Override
 	public String getURI(String oldURI) {
 		String newURI = urisCorrespondences.get(oldURI);
 		if (newURI == null) {
