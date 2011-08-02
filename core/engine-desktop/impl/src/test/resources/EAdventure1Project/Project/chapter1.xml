@@ -5,6 +5,7 @@
 			<asset type="background" uri="assets/background/background.jpg"/>
 		</resources>
 		<name/>
+		<default-initial-position x="400" y="300"/>
 		<exits>
 			<exit destinyX="-2147483648" destinyY="-2147483648" hasInfluenceArea="no" height="118" idTarget="SceneId1" not-effects="no" rectangular="yes" transitionTime="0" transitionType="0" width="116" x="665" y="19">
 				<exit-look text=""/>
@@ -14,9 +15,10 @@
 			</exit>
 		</exits>
 		<objects>
-			<object-ref hasInfluenceArea="no" idTarget="ItemId" layer="2" scale="1.0324324" x="640" y="555"/>
-			<object-ref hasInfluenceArea="no" idTarget="ItemId1" layer="1" scale="9.125" x="503" y="274"/>
-			<object-ref hasInfluenceArea="no" idTarget="ItemId2" layer="0" scale="6.9375" x="119" y="471"/>
+			<object-ref hasInfluenceArea="no" idTarget="ItemId" layer="3" scale="1.0324324" x="640" y="555"/>
+			<object-ref hasInfluenceArea="no" idTarget="ItemId1" layer="2" scale="9.125" x="505" y="258"/>
+			<object-ref hasInfluenceArea="no" idTarget="ItemId2" layer="1" scale="6.9375" x="119" y="471"/>
+			<object-ref hasInfluenceArea="yes" idTarget="ItemId2" influenceHeight="85" influenceWidth="85" influenceX="-22" influenceY="-24" layer="0" scale="2.8125" x="334" y="270"/>
 		</objects>
 		<active-areas>
 			<active-area hasInfluenceArea="no" height="362" id="IdObject" rectangular="yes" width="116" x="33" y="186">
@@ -36,7 +38,7 @@
 			</active-area>
 		</active-areas>
 		<atrezzo>
-			<atrezzo-ref idTarget="AtrezzoId" layer="3" scale="0.6243094" x="92" y="185"/>
+			<atrezzo-ref idTarget="AtrezzoId" layer="4" scale="0.6243094" x="92" y="185"/>
 		</atrezzo>
 		<trajectory>
 			<node id="node9091" scale="3.4" x="221" y="383"/>
@@ -157,7 +159,7 @@
 		<actions>
 			<use keepDistance="35" needsGoTo="yes" not-effects="no">
 				<effect>
-					<speak-player>It's that a bomb? Oh, god!</speak-player>
+					<play-sound background="no" uri="assets/audio/Centrífuga.mp3"/>
 					<condition/>
 				</effect>
 			</use>
