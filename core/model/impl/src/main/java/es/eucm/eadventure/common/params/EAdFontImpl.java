@@ -38,124 +38,122 @@
 package es.eucm.eadventure.common.params;
 
 import es.eucm.eadventure.common.resources.EAdURI;
+import es.eucm.eadventure.common.resources.assets.impl.EAdURIImpl;
 
 /**
  * EAdFont represents a text font and its metrics
  * 
  */
 public class EAdFontImpl implements EAdFont {
-	
+
 	/**
 	 * Name of the font
 	 */
 	private String name;
-	
+
 	/**
 	 * Size of the font
 	 */
 	private float size;
-	
+
 	/**
 	 * Style of the font
 	 */
 	private Style style;
-	
+
 	/**
 	 * URI to the *.ttf file for the name font
 	 */
 	private EAdURI uri;
-	
+
 	/**
 	 * Regular EAdFont
 	 */
 	public static final EAdFontImpl REGULAR = new EAdFontImpl(25.0f);
-	
-	public static final EAdFontImpl REGULAR_BOLD = new EAdFontImpl(null, 25.0f, Style.BOLD);
-	
+
+	public static final EAdFontImpl REGULAR_BOLD = new EAdFontImpl(null, 25.0f,
+			Style.BOLD);
+
 	/**
 	 * Big EAdFont
 	 */
 	public static final EAdFontImpl BIG = new EAdFontImpl(35.0f);
-	
+
 	public EAdFontImpl(float size) {
 		this("Arial", size);
 	}
-	
-	public EAdFontImpl( EAdURI uri, float size ){
-		this( uri.getPath(), size );
+
+	public EAdFontImpl(EAdURI uri, float size) {
+		this(uri.getPath(), size);
 		this.uri = uri;
 	}
-	
-	public boolean isTTF( ){
+
+	@Override
+	public boolean isTTF() {
 		return uri != null;
 	}
-	
-	public EAdURI getURI( ){
+
+	@Override
+	public EAdURI getURI() {
 		return uri;
+	}
+
+	public EAdFontImpl(String data) {
+		parse(data);
 	}
 
 	public EAdFontImpl(String name, float size) {
 		this(name, size, Style.PLAIN);
 	}
-	
+
 	public EAdFontImpl(String name, float size, Style style) {
 		setName(name);
 		setSize(size);
 		setStyle(style);
 	}
-	
-	/* (non-Javadoc)
-	 * @see java.lang.Object#toString()
-	 * name;size;style
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see java.lang.Object#toString() name;size;style
 	 */
 	@Override
 	public String toString() {
-		return name + ";" + size + ";" + style;
+		return toStringData();
 	}
-	
-	public static EAdFontImpl valueOf(String string) {
-		String[] strings = string.split(";");
-		String name = strings[0];
-		float size = Float.parseFloat(strings[1]);
-		Style style = Style.valueOf(strings[2]);
-		return new EAdFontImpl(name, size, style);
-	}
-	
+
 	@Override
 	public boolean equals(Object o) {
 		if (o != null && o instanceof EAdFontImpl) {
 			EAdFontImpl temp = (EAdFontImpl) o;
-			if (temp.name.equals(name)
-					&& temp.size == size
+			if (temp.name.equals(name) && temp.size == size
 					&& temp.style.equals(style))
 				return true;
 		}
 		return false;
 	}
-	
-	/**
-	 * @return the name
-	 */
+
+	@Override
 	public String getName() {
 		return name;
 	}
 
 	/**
-	 * @param name the name to set
+	 * @param name
+	 *            the name to set
 	 */
 	public void setName(String name) {
 		this.name = name;
 	}
 
-	/**
-	 * @return the size
-	 */
+	@Override
 	public float getSize() {
 		return size;
 	}
 
 	/**
-	 * @param size the size to set
+	 * @param size
+	 *            the size to set
 	 */
 	public void setSize(float size) {
 		this.size = size;
@@ -169,7 +167,8 @@ public class EAdFontImpl implements EAdFont {
 	}
 
 	/**
-	 * @param style the style to set
+	 * @param style
+	 *            the style to set
 	 */
 	public void setStyle(Style style) {
 		this.style = style;
@@ -177,14 +176,27 @@ public class EAdFontImpl implements EAdFont {
 
 	@Override
 	public String toStringData() {
-		// TODO Auto-generated method stub
-		return null;
+		String data = "";
+		if (uri != null)
+			data += name;
+		else
+			data += "uri;" + uri.getPath();
+		data += ":" + size + ":" + style;
+		return data;
 	}
 
 	@Override
 	public void parse(String data) {
-		// TODO Auto-generated method stub
-		
+		String[] strings = data.split(":");
+		name = strings[0];
+		if (name.startsWith("uri")) {
+			String[] uriData = name.split(";");
+			uri = new EAdURIImpl(uriData[1]);
+		}
+
+		size = Float.parseFloat(strings[1]);
+		style = Style.valueOf(strings[2]);
+
 	}
-	
+
 }

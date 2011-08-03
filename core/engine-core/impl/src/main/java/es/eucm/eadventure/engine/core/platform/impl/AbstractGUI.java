@@ -71,7 +71,7 @@ public abstract class AbstractGUI<T> implements GUI {
 	/**
 	 * Logger
 	 */
-	private static final Logger logger = Logger.getLogger("Abstract GUI");
+	private static final Logger logger = Logger.getLogger("AbstractGUI");
 
 	/**
 	 * Maximum number of events to be processes per cycle
@@ -108,9 +108,9 @@ public abstract class AbstractGUI<T> implements GUI {
 	 * The current keyboard state
 	 */
 	protected KeyboardState keyboardState;
-	
+
 	protected ValueMap valueMap;
-	
+
 	protected GameState gameState;
 
 	protected GameObjectFactory gameObjectFactory;
@@ -119,8 +119,8 @@ public abstract class AbstractGUI<T> implements GUI {
 	public AbstractGUI(PlatformConfiguration platformConfiguration,
 			GraphicRendererFactory<?> assetRendererFactory,
 			GameObjectManager gameObjectManager, MouseState mouseState,
-			KeyboardState keyboardState,
-			ValueMap valueMap, GameState gameState, GameObjectFactory gameObjectFactory ) {
+			KeyboardState keyboardState, ValueMap valueMap,
+			GameState gameState, GameObjectFactory gameObjectFactory) {
 		this.platformConfiguration = platformConfiguration;
 		this.graphicRendererFactory = (GraphicRendererFactory<T>) assetRendererFactory;
 		this.gameObjects = gameObjectManager;
@@ -145,6 +145,7 @@ public abstract class AbstractGUI<T> implements GUI {
 		gameObjects.add(element, offsetX, offsetY);
 		element.doLayout(offsetX, offsetY);
 	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -190,11 +191,15 @@ public abstract class AbstractGUI<T> implements GUI {
 			GameObject<?> gameObject = mouseState.getGameObjectUnderMouse();
 			mouseState.setElementGameObject(null, 0, 0);
 
-			for (int i = gameObjects.getGameObjects().size() - 1; i >= 0 && i < gameObjects.getGameObjects().size()
+			for (int i = gameObjects.getGameObjects().size() - 1; i >= 0
+					&& i < gameObjects.getGameObjects().size()
 					&& mouseState.getGameObjectUnderMouse() == null; i--) {
-				GameObject<?> tempGameObject = gameObjects.getGameObjects().get(i);
+				GameObject<?> tempGameObject = gameObjects.getGameObjects()
+						.get(i);
 				if (tempGameObject.getElement() instanceof EAdSceneElement
-						&& !valueMap.getValue(((EAdSceneElement) tempGameObject.getElement()).getVars().getVar(EAdSceneElementVars.VAR_VISIBLE)))
+						&& !valueMap.getValue(((EAdSceneElement) tempGameObject
+								.getElement()).getVars().getVar(
+								EAdSceneElementVars.VAR_VISIBLE)))
 					continue;
 				int[] offset = gameObjects.getOffsets().get(i);
 
@@ -282,8 +287,10 @@ public abstract class AbstractGUI<T> implements GUI {
 				&& i >= 0 && !action.isConsumed(); i--) {
 			logger.info("Action " + action + " passed to "
 					+ gameObjects.getGameObjects().get(i));
-			
-			gameObjectFactory.get( gameState.getActiveElement() ).processAction(action);
+
+			if (gameState.getActiveElement() != null)
+				gameObjectFactory.get(gameState.getActiveElement())
+						.processAction(action);
 		}
 	}
 

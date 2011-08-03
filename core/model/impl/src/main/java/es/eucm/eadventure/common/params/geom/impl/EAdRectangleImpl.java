@@ -109,17 +109,7 @@ public class EAdRectangleImpl implements EAdRectangle, EAdParam {
 		return height;
 	}
 
-	/**
-	 * Returns <b>true</b> if the given point is contained by this rectangle;
-	 * <b>false</b> otherwise
-	 * 
-	 * @param x
-	 *            x coordinate
-	 * @param y
-	 *            y coordinate
-	 * @return <b>true</b> if the given point is contained by this rectangle;
-	 *         <b>false</b> otherwise
-	 */
+	@Override
 	public boolean contains(int x, int y) {
 		return (this.x <= x & x <= this.x + width && this.y <= y
 				& y <= this.y + height);

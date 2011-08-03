@@ -79,7 +79,7 @@ public class ObjectFactory {
 		else if (fieldType == Float.class || fieldType == float.class)
 			return Float.parseFloat(value);
 		else if (fieldType == EAdFontImpl.class)
-			return EAdFontImpl.valueOf(value);
+			return new EAdFontImpl(value);
 		else if (fieldType == EAdColor.class)
 			return new EAdColor(value);
 		else if (fieldType == EAdBorderedColor.class)

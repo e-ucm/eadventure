@@ -40,7 +40,6 @@ package es.eucm.eadventure.engine.core.platform.impl;
 import java.awt.AWTException;
 import java.awt.Canvas;
 import java.awt.Component;
-import java.awt.Dimension;
 import java.awt.Graphics2D;
 import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
@@ -314,11 +313,7 @@ public class DesktopGUI extends AbstractGUI<Graphics2D> implements GUI {
 					} else {
 						// TODO Centers game, might be necessary to change in
 						// debug mode
-						Dimension screenSize = Toolkit.getDefaultToolkit()
-								.getScreenSize();
-						frame.setLocation(
-								(screenSize.width - frame.getWidth()) / 2,
-								(screenSize.height - frame.getHeight()) / 2);
+						frame.setLocationRelativeTo(null);
 					}
 
 					frame.setVisible(true);

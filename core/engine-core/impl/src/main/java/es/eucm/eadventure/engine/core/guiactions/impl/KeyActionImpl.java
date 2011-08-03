@@ -102,5 +102,9 @@ public class KeyActionImpl implements KeyAction {
 	public EAdGUIEvent getGUIEvent() {
 		return this.keyEvent;
 	}
+	
+	public String toString( ){
+		return keyEvent.toString();
+	}
 
 }

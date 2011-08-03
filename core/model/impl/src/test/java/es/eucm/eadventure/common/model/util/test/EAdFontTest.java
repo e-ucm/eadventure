@@ -58,7 +58,7 @@ public class EAdFontTest extends TestCase {
 
 	@Test
 	public void testParse() {
-		EAdFontImpl font1 = EAdFontImpl.valueOf("name;10.0;" + EAdFontImpl.Style.ITALIC.toString());
+		EAdFontImpl font1 = new EAdFontImpl("name;10.0;" + EAdFontImpl.Style.ITALIC.toString());
 		assertEquals(font1, new EAdFontImpl("name", 10.0f, EAdFontImpl.Style.ITALIC));
 	}
 

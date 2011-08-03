@@ -155,45 +155,27 @@ public class EAdPositionImpl implements EAdPosition {
 		}
 	}
 
-	/**
-	 * @return the x coordinate
-	 */
+	@Override
 	public int getX() {
 		return x;
 	}
 
-	/**
-	 * Sets the x coordinate
-	 * 
-	 * @param x
-	 *            the x to set
-	 */
+	@Override
 	public void setX(int x) {
 		this.x = x;
 	}
 
-	/**
-	 * @return the y coordinate
-	 */
+	@Override
 	public int getY() {
 		return y;
 	}
 
-	/**
-	 * Sets the y coordinate
-	 * 
-	 * @param y
-	 *            the y to set
-	 */
+	@Override
 	public void setY(int y) {
 		this.y = y;
 	}
 
-	/**
-	 * Returns the displacement in the x axis
-	 * 
-	 * @return
-	 */
+	@Override
 	public float getDispX() {
 		return dispX;
 	}
@@ -208,11 +190,7 @@ public class EAdPositionImpl implements EAdPosition {
 		this.dispX = dispX;
 	}
 
-	/**
-	 * Returns the displacement in the y axis
-	 * 
-	 * @return
-	 */
+	@Override
 	public float getDispY() {
 		return dispY;
 	}
@@ -227,44 +205,14 @@ public class EAdPositionImpl implements EAdPosition {
 		this.dispY = despY;
 	}
 
-	/**
-	 * Return the value of x in java coordinate system given a width. The
-	 * calculation done is {@code x - dispX * width}
-	 * 
-	 * @param width
-	 *            The width of the element
-	 * @return the x value in the java coordinate system
-	 */
+	@Override
 	public int getJavaX(float width) {
 		return (int) (x - dispX * width);
 	}
 
-	/**
-	 * Return the value of y in java coordinate system given a height. The
-	 * calculation done is {@code y - dispY * height}
-	 * 
-	 * @param height
-	 *            The height of the element
-	 * @return the y value in the java coordinate system
-	 */
+	@Override
 	public int getJavaY(float height) {
 		return (int) (y - dispY * height);
-	}
-
-	/**
-	 * Sets the position
-	 * 
-	 * @param x
-	 *            x coordinate
-	 * @param y
-	 *            y coordinate
-	 * @param corner
-	 *            Corner which x and y coordinates are referred to
-	 */
-	public void set(int x, int y, Corner corner) {
-		setX(x);
-		setY(y);
-		setCorner(corner);
 	}
 
 	/**
