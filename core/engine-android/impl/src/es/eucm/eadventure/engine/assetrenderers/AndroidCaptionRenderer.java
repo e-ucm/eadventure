@@ -39,6 +39,9 @@ package es.eucm.eadventure.engine.assetrenderers;
 
 import android.graphics.Canvas;
 import android.graphics.Path;
+
+import com.google.inject.Inject;
+
 import es.eucm.eadventure.common.params.EAdFill;
 import es.eucm.eadventure.common.params.geom.EAdPosition;
 import es.eucm.eadventure.engine.assets.AndroidEngineCaption;
@@ -50,6 +53,7 @@ public class AndroidCaptionRenderer implements
 
 	private FillFactory<Canvas, Path> fillFactory;
 
+	@Inject
 	public AndroidCaptionRenderer(FillFactory<Canvas, Path> fillFactory) {
 		this.fillFactory = fillFactory;
 	}

@@ -40,6 +40,7 @@ package es.eucm.eadventure.engine.assetrenderers;
 import android.graphics.Canvas;
 import android.graphics.Path;
 
+import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 import es.eucm.eadventure.common.params.geom.EAdPosition;
@@ -53,6 +54,7 @@ public class AndroidBezierShapeRenderer implements AssetRenderer<Canvas, Android
 	
 	private FillFactory<Canvas, Path> fillFactory;
 	
+	@Inject
 	public AndroidBezierShapeRenderer(FillFactory<Canvas, Path> fillFactory){
 		this.fillFactory = fillFactory;
 	}
