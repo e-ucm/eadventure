@@ -37,7 +37,8 @@
 
 package es.eucm.eadventure.common.interfaces;
 
-import es.eucm.eadventure.common.model.params.EAdPosition;
+import es.eucm.eadventure.common.params.geom.EAdPosition;
+
 
 /**
  * Implemented by classes with a position 

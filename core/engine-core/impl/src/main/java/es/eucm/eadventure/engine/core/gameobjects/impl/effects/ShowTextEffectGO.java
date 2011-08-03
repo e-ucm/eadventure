@@ -48,10 +48,11 @@ import es.eucm.eadventure.common.model.effects.impl.text.EAdShowText;
 import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
 import es.eucm.eadventure.common.model.events.EAdSceneElementTimedEvent.SceneElementTimedEventType;
 import es.eucm.eadventure.common.model.events.impl.EAdSceneElementTimedEventImpl;
-import es.eucm.eadventure.common.model.params.EAdPosition;
-import es.eucm.eadventure.common.model.params.EAdPosition.Corner;
-import es.eucm.eadventure.common.model.params.guievents.EAdMouseEvent.MouseActionType;
+import es.eucm.eadventure.common.model.guievents.EAdMouseEvent.MouseActionType;
 import es.eucm.eadventure.common.model.variables.impl.extra.EAdSceneElementVars;
+import es.eucm.eadventure.common.params.geom.EAdPosition;
+import es.eucm.eadventure.common.params.geom.impl.EAdPositionImpl;
+import es.eucm.eadventure.common.params.geom.impl.EAdPositionImpl.Corner;
 import es.eucm.eadventure.common.resources.StringHandler;
 import es.eucm.eadventure.common.resources.assets.drawable.impl.BezierShape;
 import es.eucm.eadventure.engine.core.GameState;
@@ -151,11 +152,11 @@ public class ShowTextEffectGO extends AbstractEffectGO<EAdShowText> {
 		triangle.lineTo(size, 0);
 		triangle.lineTo(size / 2, size );
 		triangle.close();
-		triangle.setColor(caption.getCaption().getTextColor());
+		triangle.setFill(caption.getCaption().getTextFill());
 		indicator.getResources().addAsset(indicator.getInitialBundle(),
 				EAdBasicSceneElement.appearance, triangle);
 
-		EAdPosition position = new EAdPosition(Corner.TOP_LEFT,
+		EAdPositionImpl position = new EAdPositionImpl(Corner.TOP_LEFT,
 				p.getJavaX(caption.getWidth()) + caption.getWidth() - size * 2,
 				p.getJavaY(caption.getHeight()) + caption.getHeight() - size
 						* 2);

@@ -37,7 +37,7 @@
 
 package es.eucm.eadventure.common.resources.assets.drawable;
 
-import es.eucm.eadventure.common.model.params.EAdPosition;
+import es.eucm.eadventure.common.params.geom.EAdPosition;
 
 public interface DisplacedDrawable extends Drawable {
 

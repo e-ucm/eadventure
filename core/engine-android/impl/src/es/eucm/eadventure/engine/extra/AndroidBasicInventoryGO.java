@@ -59,12 +59,12 @@ import es.eucm.eadventure.common.model.elements.impl.EAdActorReferenceImpl;
 import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
 import es.eucm.eadventure.common.model.elements.impl.EAdComplexSceneElement;
 import es.eucm.eadventure.common.model.guievents.impl.EAdMouseEventImpl;
-import es.eucm.eadventure.common.model.params.EAdBorderedColor;
-import es.eucm.eadventure.common.model.params.EAdPosition;
-import es.eucm.eadventure.common.model.params.EAdPosition.Corner;
 import es.eucm.eadventure.common.model.variables.impl.extra.EAdSceneElementVars;
 import es.eucm.eadventure.common.model.variables.impl.operations.BooleanOperation;
 import es.eucm.eadventure.common.model.variables.impl.operations.LiteralExpressionOperation;
+import es.eucm.eadventure.common.params.fills.impl.EAdBorderedColor;
+import es.eucm.eadventure.common.params.geom.impl.EAdPositionImpl;
+import es.eucm.eadventure.common.params.geom.impl.EAdPositionImpl.Corner;
 import es.eucm.eadventure.common.resources.EAdBundleId;
 import es.eucm.eadventure.common.resources.StringHandler;
 import es.eucm.eadventure.common.resources.assets.drawable.impl.ImageImpl;
@@ -134,13 +134,13 @@ public class AndroidBasicInventoryGO extends BasicInventoryGO {
 
 		inventory = new EAdComplexSceneElement("inventory");
 		inventory.setDraggabe(EmptyCondition.FALSE_EMPTY_CONDITION);
-		inventory.setPosition(new EAdPosition(Corner.BOTTOM_LEFT, 0, 700));
+		inventory.setPosition(new EAdPositionImpl(Corner.BOTTOM_LEFT, 0, 700));
 		RectangleShape rect2 = new RectangleShape(800, INVENTORY_HEIGHT, EAdBorderedColor.BLACK_ON_WHITE);
 		inventory.getResources().addAsset(inventory.getInitialBundle(), EAdBasicSceneElement.appearance, rect2);
 		
 		inventoryContent = new EAdComplexSceneElement("inventoryContent");
 		inventoryContent.setDraggabe(EmptyCondition.FALSE_EMPTY_CONDITION);
-		inventoryContent.setPosition(new EAdPosition(Corner.TOP_LEFT, INVENTORY_HEIGHT / 2 + 10, 0));
+		inventoryContent.setPosition(new EAdPositionImpl(Corner.TOP_LEFT, INVENTORY_HEIGHT / 2 + 10, 0));
 		rect2 = new RectangleShape(800, INVENTORY_HEIGHT, EAdBorderedColor.TRANSPARENT);
 		inventoryContent.getResources().addAsset(inventoryContent.getInitialBundle(), EAdBasicSceneElement.appearance, rect2);
 		inventory.getComponents().add(inventoryContent);
@@ -171,7 +171,7 @@ public class AndroidBasicInventoryGO extends BasicInventoryGO {
 	private EAdBasicSceneElement createArrow(String dirname, String sign, int pos, Corner corner) {
 		EAdBasicSceneElement arrow = new EAdBasicSceneElement("arrow" + dirname);
 		arrow.setDraggabe(EmptyCondition.FALSE_EMPTY_CONDITION);
-		arrow.setPosition(new EAdPosition(corner, pos, 0));
+		arrow.setPosition(new EAdPositionImpl(corner, pos, 0));
 		ImageImpl image = new ImageImpl("@drawable/arrow" + dirname + ".png");
 		arrow.getResources().addAsset(arrow.getInitialBundle(), EAdBasicSceneElement.appearance, image);
 		
@@ -195,7 +195,7 @@ public class AndroidBasicInventoryGO extends BasicInventoryGO {
 		centerSensor = new EAdBasicSceneElement("centerPart");
 		centerSensor.setDraggabe(EmptyCondition.FALSE_EMPTY_CONDITION);
 		centerSensor.getResources().addAsset(centerSensor.getInitialBundle(), EAdBasicSceneElement.appearance,  new RectangleShape(800, 600, EAdBorderedColor.TRANSPARENT));
-		centerSensor.setPosition(new EAdPosition(Corner.TOP_LEFT, 0, 0));
+		centerSensor.setPosition(new EAdPositionImpl(Corner.TOP_LEFT, 0, 0));
 		
 		EAdEffect e2 = new EAdMoveSceneElement("hideInventoryBottom", inventory, 0, 700, MovementSpeed.NORMAL);
 		e2.setCondition(new VarValCondition(inventory.getVars().getVar(EAdSceneElementVars.VAR_Y), 350, Operator.GREATER));
@@ -225,7 +225,7 @@ public class AndroidBasicInventoryGO extends BasicInventoryGO {
 		EAdBasicSceneElement part = new EAdBasicSceneElement("inventorySensor");
 		part.setDraggabe(EmptyCondition.FALSE_EMPTY_CONDITION);
 		part.getResources().addAsset(part.getInitialBundle(), EAdBasicSceneElement.appearance, rect);
-		part.setPosition(new EAdPosition(Corner.BOTTOM_LEFT, 0, sensorPos));
+		part.setPosition(new EAdPositionImpl(Corner.BOTTOM_LEFT, 0, sensorPos));
 		
 		EAdEffect e = new EAdMoveSceneElement("moveInventory", inventory, 0, hidePos, MovementSpeed.INSTANT);
 		part.addBehavior(EAdMouseEventImpl.MOUSE_ENTERED, e);
@@ -277,7 +277,7 @@ public class AndroidBasicInventoryGO extends BasicInventoryGO {
 				EAdActorReferenceImpl ref = new EAdActorReferenceImpl(actor);
 				EAdActorActionsEffect showActions = new EAdActorActionsEffect( ref.getId()+ "_showActions", ref);
 				ref.getBehavior().addBehavior(EAdMouseEventImpl.MOUSE_RIGHT_CLICK, showActions);
-				ref.setPosition(new EAdPosition(EAdPosition.Corner.CENTER, INVENTORY_HEIGHT / 2 + 10, INVENTORY_HEIGHT / 2));
+				ref.setPosition(new EAdPositionImpl(EAdPositionImpl.Corner.CENTER, INVENTORY_HEIGHT / 2 + 10, INVENTORY_HEIGHT / 2));
 				((ActorReferenceGOImpl) gameObjectFactory.get(ref)).setInventoryReference(true);
 				includedActors.put(actor, ref);
 				inventoryContent.getComponents().add(ref);

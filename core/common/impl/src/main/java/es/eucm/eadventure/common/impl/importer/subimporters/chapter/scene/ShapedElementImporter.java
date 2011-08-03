@@ -41,7 +41,7 @@ import java.awt.Point;
 
 import es.eucm.eadventure.common.data.chapter.Rectangle;
 import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
-import es.eucm.eadventure.common.model.params.EAdPosition;
+import es.eucm.eadventure.common.params.geom.impl.EAdPositionImpl;
 import es.eucm.eadventure.common.resources.assets.drawable.Shape;
 import es.eucm.eadventure.common.resources.assets.drawable.impl.BezierShape;
 import es.eucm.eadventure.common.resources.assets.drawable.impl.RectangleShape;
@@ -52,7 +52,7 @@ public class ShapedElementImporter {
 		Shape shape = null;
 		if (oldObject.isRectangular()) {
 			shape = new RectangleShape(oldObject.getWidth(), oldObject.getHeight());
-			newElement.setPosition(new EAdPosition(EAdPosition.Corner.TOP_LEFT,
+			newElement.setPosition(new EAdPositionImpl(EAdPositionImpl.Corner.TOP_LEFT,
 					oldObject.getX(), oldObject.getY()));
 			
 		} else {
@@ -68,7 +68,7 @@ public class ShapedElementImporter {
 				i++;
 			}
 			((BezierShape) shape).close();
-			newElement.setPosition(new EAdPosition(EAdPosition.Corner.TOP_LEFT, x, y));
+			newElement.setPosition(new EAdPositionImpl(EAdPositionImpl.Corner.TOP_LEFT, x, y));
 		}
 		return shape;
 	}

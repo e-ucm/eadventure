@@ -38,7 +38,7 @@
 package es.eucm.eadventure.engine.assets;
 
 import android.graphics.Color;
-import es.eucm.eadventure.common.model.params.EAdColor;
+import es.eucm.eadventure.common.params.fills.impl.EAdColor;
 
 public class AndroidEngineColor {
 

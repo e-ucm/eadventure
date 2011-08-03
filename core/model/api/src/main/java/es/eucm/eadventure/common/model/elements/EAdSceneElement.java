@@ -40,7 +40,7 @@ package es.eucm.eadventure.common.model.elements;
 import es.eucm.eadventure.common.model.EAdElement;
 import es.eucm.eadventure.common.model.EAdList;
 import es.eucm.eadventure.common.model.effects.EAdEffect;
-import es.eucm.eadventure.common.model.params.guievents.EAdGUIEvent;
+import es.eucm.eadventure.common.model.guievents.EAdGUIEvent;
 import es.eucm.eadventure.common.model.variables.EAdElementVars;
 
 public interface EAdSceneElement extends EAdElement {

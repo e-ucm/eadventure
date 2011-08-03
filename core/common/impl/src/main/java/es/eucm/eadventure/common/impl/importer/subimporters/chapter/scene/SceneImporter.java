@@ -69,8 +69,8 @@ import es.eucm.eadventure.common.model.events.EAdSceneElementEvent;
 import es.eucm.eadventure.common.model.events.EAdSceneElementEvent.SceneElementEvent;
 import es.eucm.eadventure.common.model.events.impl.EAdSceneElementEventImpl;
 import es.eucm.eadventure.common.model.guievents.impl.EAdMouseEventImpl;
-import es.eucm.eadventure.common.model.params.EAdPosition;
 import es.eucm.eadventure.common.model.trajectories.impl.SimpleTrajectoryDefinition;
+import es.eucm.eadventure.common.params.geom.impl.EAdPositionImpl;
 import es.eucm.eadventure.common.resources.EAdString;
 import es.eucm.eadventure.common.resources.StringHandler;
 import es.eucm.eadventure.common.resources.assets.drawable.impl.ImageImpl;
@@ -169,7 +169,7 @@ public class SceneImporter implements EAdElementImporter<Scene, EAdSceneImpl> {
 			EAdActorReferenceImpl playerReference = new EAdActorReferenceImpl(
 					player.getId() + "_reference");
 			playerReference.setReferencedActor(player);
-			EAdPosition p = new EAdPosition(EAdPosition.Corner.BOTTOM_CENTER,
+			EAdPositionImpl p = new EAdPositionImpl(EAdPositionImpl.Corner.BOTTOM_CENTER,
 					oldScene.getPositionX(), oldScene.getPositionY());
 			playerReference.setPosition(p);
 			playerReference.setScale(oldScene.getPlayerScale());

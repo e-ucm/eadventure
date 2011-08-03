@@ -57,14 +57,14 @@ import es.eucm.eadventure.common.model.events.EAdSceneElementEvent;
 import es.eucm.eadventure.common.model.events.EAdSceneElementEvent.SceneElementEvent;
 import es.eucm.eadventure.common.model.events.impl.EAdSceneElementEventImpl;
 import es.eucm.eadventure.common.model.impl.EAdListImpl;
-import es.eucm.eadventure.common.model.params.EAdPosition;
-import es.eucm.eadventure.common.model.params.EAdPosition.Corner;
 import es.eucm.eadventure.common.model.variables.EAdVar;
 import es.eucm.eadventure.common.model.variables.impl.extra.EAdSceneElementVars;
 import es.eucm.eadventure.common.model.variables.impl.operations.BooleanOperation;
 import es.eucm.eadventure.common.model.variables.impl.operations.LiteralExpressionOperation;
 import es.eucm.eadventure.common.model.variables.impl.vars.BooleanVar;
 import es.eucm.eadventure.common.model.variables.impl.vars.IntegerVar;
+import es.eucm.eadventure.common.params.geom.impl.EAdPositionImpl;
+import es.eucm.eadventure.common.params.geom.impl.EAdPositionImpl.Corner;
 
 /**
  * <p>
@@ -133,7 +133,7 @@ public class EAdShowQuestion extends EAdComplexBlockingEffect {
 
 		if (questionElement != null) {
 			((EAdBasicSceneElement) questionElement).setClone(true);
-			((EAdBasicSceneElement) questionElement).setPosition(new EAdPosition( Corner.TOP_LEFT, marginLeft, 10 ));
+			((EAdBasicSceneElement) questionElement).setPosition(new EAdPositionImpl( Corner.TOP_LEFT, marginLeft, 10 ));
 			components.add(questionElement);
 
 			EAdVar<Boolean> qEvisibleVar = questionElement.getVars().getVar(
@@ -178,7 +178,7 @@ public class EAdShowQuestion extends EAdComplexBlockingEffect {
 					.setInitialValue(Boolean.FALSE);
 			a.setClone(true);
 			a.setUpNewInstance(selectedAnswer, endEffect, i++);
-			a.setPosition(new EAdPosition(Corner.TOP_LEFT, 0, 0));
+			a.setPosition(new EAdPositionImpl(Corner.TOP_LEFT, 0, 0));
 			components.add(a);
 		}
 

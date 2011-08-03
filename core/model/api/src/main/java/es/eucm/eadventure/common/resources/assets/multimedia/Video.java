@@ -37,13 +37,12 @@
 
 package es.eucm.eadventure.common.resources.assets.multimedia;
 
+import es.eucm.eadventure.common.interfaces.HasURI;
 import es.eucm.eadventure.common.resources.assets.AssetDescriptor;
 
 /**
  * General video asset interface.
  */
-public interface Video extends AssetDescriptor {
-
-	String getURI();
+public interface Video extends AssetDescriptor, HasURI {
 
 }

@@ -39,8 +39,9 @@ package es.eucm.eadventure.engine.core.platform;
 
 import com.google.inject.Inject;
 
-import es.eucm.eadventure.common.model.params.EAdFont;
-import es.eucm.eadventure.common.model.params.EAdRectangle;
+import es.eucm.eadventure.common.params.EAdFont;
+import es.eucm.eadventure.common.params.EAdFontImpl;
+import es.eucm.eadventure.common.params.geom.impl.EAdRectangleImpl;
 import es.eucm.eadventure.engine.core.platform.impl.FontCacheImpl;
 
 public class TestFontCache extends FontCacheImpl {
@@ -55,7 +56,7 @@ public class TestFontCache extends FontCacheImpl {
 		this.fontCache.put(font, new RuntimeFont(){
 
 			@Override
-			public EAdFont getEAdFont() {
+			public EAdFontImpl getEAdFont() {
 				return null;
 			}
 
@@ -70,8 +71,8 @@ public class TestFontCache extends FontCacheImpl {
 			}
 
 			@Override
-			public EAdRectangle stringBounds(String string) {
-				return new EAdRectangle( 0, -1, string.length(), 1 );
+			public EAdRectangleImpl stringBounds(String string) {
+				return new EAdRectangleImpl( 0, -1, string.length(), 1 );
 			}
 			
 		});

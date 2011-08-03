@@ -88,7 +88,7 @@ public class AndroidEngineImage extends RuntimeImage {
 		BitmapFactory.Options sBitmapOptions = new BitmapFactory.Options();
 		sBitmapOptions.inPreferredConfig = Bitmap.Config.RGB_565;
 	
-		image = BitmapFactory.decodeFile(assetHandler.getAbsolutePath(descriptor.getURI()), sBitmapOptions);
+		image = BitmapFactory.decodeFile(assetHandler.getAbsolutePath(descriptor.getURI().getPath()), sBitmapOptions);
 
 		logger.info("New instance, loaded = " + (image != null));
 		return image != null;

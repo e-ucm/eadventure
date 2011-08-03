@@ -41,7 +41,7 @@ import junit.framework.TestCase;
 
 import org.junit.Test;
 
-import es.eucm.eadventure.common.model.params.EAdFont;
+import es.eucm.eadventure.common.params.EAdFontImpl;
 
 public class EAdFontTest extends TestCase {
 
@@ -52,14 +52,14 @@ public class EAdFontTest extends TestCase {
 	
 	@Test
 	public void testToString() {
-		EAdFont font1 = new EAdFont("name", 10.0f, EAdFont.Style.ITALIC);
-		assertEquals("name;10.0;" + EAdFont.Style.ITALIC.toString(), font1.toString());
+		EAdFontImpl font1 = new EAdFontImpl("name", 10.0f, EAdFontImpl.Style.ITALIC);
+		assertEquals("name;10.0;" + EAdFontImpl.Style.ITALIC.toString(), font1.toString());
 	}
 
 	@Test
 	public void testParse() {
-		EAdFont font1 = EAdFont.valueOf("name;10.0;" + EAdFont.Style.ITALIC.toString());
-		assertEquals(font1, new EAdFont("name", 10.0f, EAdFont.Style.ITALIC));
+		EAdFontImpl font1 = EAdFontImpl.valueOf("name;10.0;" + EAdFontImpl.Style.ITALIC.toString());
+		assertEquals(font1, new EAdFontImpl("name", 10.0f, EAdFontImpl.Style.ITALIC));
 	}
 
 

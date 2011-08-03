@@ -45,8 +45,8 @@ import es.eucm.eadventure.common.data.chapter.effects.ShowTextEffect;
 import es.eucm.eadventure.common.impl.importer.interfaces.EAdElementFactory;
 import es.eucm.eadventure.common.model.effects.impl.text.EAdSpeakEffect;
 import es.eucm.eadventure.common.model.elements.EAdCondition;
-import es.eucm.eadventure.common.model.params.EAdBorderedColor;
-import es.eucm.eadventure.common.model.params.EAdColor;
+import es.eucm.eadventure.common.params.fills.impl.EAdBorderedColor;
+import es.eucm.eadventure.common.params.fills.impl.EAdColor;
 import es.eucm.eadventure.common.resources.EAdString;
 import es.eucm.eadventure.common.resources.StringHandler;
 
@@ -65,9 +65,9 @@ public class ShowTextEffectImporter extends TextEffectImporter<ShowTextEffect> {
 		EAdString text = stringHandler.addNewString(oldObject.getText());
 		showText.setText(text);
 
-		EAdColor center = EAdColor.valueOf(Integer.toHexString(oldObject
+		EAdColor center = new EAdColor(Integer.toHexString(oldObject
 				.getRgbFrontColor()) + "ff");
-		EAdColor border = EAdColor.valueOf(Integer.toHexString(oldObject
+		EAdColor border = new EAdColor(Integer.toHexString(oldObject
 				.getRgbBorderColor()) + "ff");
 		showText.setColor(new EAdBorderedColor(center, border), EAdBorderedColor.TRANSPARENT);
 

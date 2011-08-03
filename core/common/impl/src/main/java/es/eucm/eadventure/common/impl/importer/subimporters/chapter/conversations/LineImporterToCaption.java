@@ -44,14 +44,15 @@ import es.eucm.eadventure.common.data.chapter.conversation.line.ConversationLine
 import es.eucm.eadventure.common.data.chapter.elements.NPC;
 import es.eucm.eadventure.common.data.chapter.elements.Player;
 import es.eucm.eadventure.common.impl.importer.interfaces.EAdElementFactory;
-import es.eucm.eadventure.common.model.params.EAdBorderedColor;
-import es.eucm.eadventure.common.model.params.EAdColor;
+import es.eucm.eadventure.common.params.fills.impl.EAdBorderedColor;
+import es.eucm.eadventure.common.params.fills.impl.EAdColor;
 import es.eucm.eadventure.common.resources.EAdString;
 import es.eucm.eadventure.common.resources.StringHandler;
 import es.eucm.eadventure.common.resources.assets.drawable.Caption;
 import es.eucm.eadventure.common.resources.assets.drawable.impl.CaptionImpl;
 
-public class LineImporterToCaption implements GenericImporter<ConversationLine, Caption> {
+public class LineImporterToCaption implements
+		GenericImporter<ConversationLine, Caption> {
 
 	@Inject
 	private EAdElementFactory factory;
@@ -62,7 +63,7 @@ public class LineImporterToCaption implements GenericImporter<ConversationLine, 
 	public Caption init(ConversationLine line) {
 		return null;
 	}
-	
+
 	@Override
 	public Caption convert(ConversationLine line, Object object) {
 		// Set caption attributes
@@ -77,20 +78,19 @@ public class LineImporterToCaption implements GenericImporter<ConversationLine, 
 					line.getName());
 
 		if (character != null) {
-			String bg = getColor( character.getBubbleBkgColor() );
-			String borderBg = getColor( character.getBubbleBorderColor() );
-			String textColor = getColor( character.getTextFrontColor() );
-			String textBorderColor = getColor( character.getTextBorderColor() );
+			String bg = getColor(character.getBubbleBkgColor());
+			String borderBg = getColor(character.getBubbleBorderColor());
+			String textColor = getColor(character.getTextFrontColor());
+			String textBorderColor = getColor(character.getTextBorderColor());
 
 			if (bg != null) {
 				EAdBorderedColor bubble = new EAdBorderedColor(
-						EAdColor.valueOf(bg), EAdColor.valueOf(borderBg));
+						new EAdColor(bg), new EAdColor(borderBg));
 				caption.setBubbleColor(bubble);
 			}
 
 			EAdBorderedColor text = new EAdBorderedColor(
-					EAdColor.valueOf(textColor),
-					EAdColor.valueOf(textBorderColor));
+					new EAdColor(textColor), new EAdColor(textBorderColor));
 
 			caption.setTextColor(text);
 		}

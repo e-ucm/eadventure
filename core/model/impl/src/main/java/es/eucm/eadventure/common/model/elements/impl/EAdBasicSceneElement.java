@@ -43,9 +43,9 @@ import es.eucm.eadventure.common.interfaces.Param;
 import es.eucm.eadventure.common.model.conditions.impl.EmptyCondition;
 import es.eucm.eadventure.common.model.elements.EAdCondition;
 import es.eucm.eadventure.common.model.elements.EAdSceneElement;
-import es.eucm.eadventure.common.model.params.EAdPosition;
 import es.eucm.eadventure.common.model.variables.EAdElementVars;
 import es.eucm.eadventure.common.model.variables.impl.extra.EAdSceneElementVars;
+import es.eucm.eadventure.common.params.geom.impl.EAdPositionImpl;
 import es.eucm.eadventure.common.resources.annotation.Asset;
 import es.eucm.eadventure.common.resources.annotation.Bundled;
 import es.eucm.eadventure.common.resources.assets.drawable.Drawable;
@@ -71,11 +71,11 @@ public class EAdBasicSceneElement extends AbstractEAdElementWithBehavior
 		clone = false;
 		draggable = EmptyCondition.FALSE_EMPTY_CONDITION;
 		vars = new EAdSceneElementVars( this );
-		setPosition(new EAdPosition(0, 0));
+		setPosition(new EAdPositionImpl(0, 0));
 		
 	}
 
-	public void setPosition(EAdPosition position) {
+	public void setPosition(EAdPositionImpl position) {
 		vars.getVar(EAdSceneElementVars.VAR_POSITION).setInitialValue(position);
 	}
 

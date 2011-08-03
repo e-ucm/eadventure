@@ -41,7 +41,7 @@ import java.util.logging.Logger;
 
 import com.google.inject.Singleton;
 
-import es.eucm.eadventure.common.model.params.guievents.EAdMouseEvent.MouseActionType;
+import es.eucm.eadventure.common.model.guievents.EAdMouseEvent.MouseActionType;
 import es.eucm.eadventure.engine.core.MouseState;
 import es.eucm.eadventure.engine.core.guiactions.MouseAction;
 import es.eucm.eadventure.engine.core.guiactions.impl.MouseActionImpl;

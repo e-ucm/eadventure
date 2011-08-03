@@ -39,14 +39,14 @@ package es.eucm.eadventure.engine.assetrenderers;
 
 import java.util.logging.Logger;
 
-import com.google.inject.Singleton;
-
-import es.eucm.eadventure.common.model.params.EAdPosition;
-import es.eucm.eadventure.engine.assets.AndroidEngineImage;
-import es.eucm.eadventure.engine.core.platform.AssetRenderer;
-
 import android.graphics.Canvas;
 import android.graphics.Matrix;
+
+import com.google.inject.Singleton;
+
+import es.eucm.eadventure.common.params.geom.EAdPosition;
+import es.eucm.eadventure.engine.assets.AndroidEngineImage;
+import es.eucm.eadventure.engine.core.platform.AssetRenderer;
 
 @Singleton
 public class AndroidImageAssetRenderer implements AssetRenderer<Canvas, AndroidEngineImage> {

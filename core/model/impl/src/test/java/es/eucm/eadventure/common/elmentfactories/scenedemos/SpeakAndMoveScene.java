@@ -10,9 +10,9 @@ import es.eucm.eadventure.common.model.events.EAdSceneElementEvent;
 import es.eucm.eadventure.common.model.events.EAdSceneElementEvent.SceneElementEvent;
 import es.eucm.eadventure.common.model.events.impl.EAdSceneElementEventImpl;
 import es.eucm.eadventure.common.model.guievents.impl.EAdMouseEventImpl;
-import es.eucm.eadventure.common.model.params.EAdPosition;
 import es.eucm.eadventure.common.model.trajectories.impl.SimpleTrajectoryDefinition;
 import es.eucm.eadventure.common.model.variables.impl.extra.EAdSceneElementVars;
+import es.eucm.eadventure.common.params.geom.impl.EAdPositionImpl;
 import es.eucm.eadventure.common.resources.assets.drawable.impl.BallonShape.BalloonType;
 
 public class SpeakAndMoveScene extends EmptyScene {
@@ -26,7 +26,7 @@ public class SpeakAndMoveScene extends EmptyScene {
 		character.getVars().getVar(EAdSceneElementVars.VAR_STATE).setInitialValue(CommonStates.EAD_STATE_DEFAULT.toString());
 
 		character.setScale(3.0f);
-		character.setPosition(new EAdPosition(400, 300));
+		character.setPosition(new EAdPositionImpl(400, 300));
 
 		EAdSpeakEffect effect = EAdElementsFactory
 				.getInstance()

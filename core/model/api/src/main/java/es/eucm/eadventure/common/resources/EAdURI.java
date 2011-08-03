@@ -35,19 +35,19 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package es.eucm.eadventure.common.resources.assets;
+package es.eucm.eadventure.common.resources;
 
 /**
- * Represents a pointer to a file
+ * Represents an eAdventur URI
  * 
  */
-public interface EAdURI extends AssetDescriptor {
+public interface EAdURI {
 
 	/**
 	 * Returns a string representing the uri
 	 * 
 	 * @return a string representing the uri
 	 */
-	String getURI();
+	String getPath();
 
 }

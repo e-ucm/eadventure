@@ -40,22 +40,20 @@ package es.eucm.eadventure.common.resources.assets.drawable.impl;
 import es.eucm.eadventure.common.interfaces.Param;
 import es.eucm.eadventure.common.model.EAdList;
 import es.eucm.eadventure.common.model.impl.EAdListImpl;
-import es.eucm.eadventure.common.model.params.EAdBorderedColor;
-import es.eucm.eadventure.common.model.params.EAdPosition;
+import es.eucm.eadventure.common.params.EAdFill;
+import es.eucm.eadventure.common.params.fills.impl.EAdBorderedColor;
+import es.eucm.eadventure.common.params.geom.impl.EAdPositionImpl;
 import es.eucm.eadventure.common.resources.assets.drawable.Shape;
 
 public class BezierShape implements Shape {
 
 	@Param("color")
-	private EAdBorderedColor color;
-
-	@Param("borderWidth")
-	private int borderWidth;
+	private EAdFill color;
 
 	@Param("closed")
 	private boolean closed;
 
-	private EAdList<EAdPosition> points;
+	private EAdList<EAdPositionImpl> points;
 
 	private EAdList<Integer> segmentsLength;
 
@@ -63,14 +61,14 @@ public class BezierShape implements Shape {
 		color = EAdBorderedColor.TRANSPARENT;
 	}
 
-	public BezierShape(EAdPosition startPoint) {
+	public BezierShape(EAdPositionImpl startPoint) {
 		this();
 		init(startPoint);
 
 	}
 
-	private void init(EAdPosition startPoint) {
-		points = new EAdListImpl<EAdPosition>(EAdPosition.class);
+	private void init(EAdPositionImpl startPoint) {
+		points = new EAdListImpl<EAdPositionImpl>(EAdPositionImpl.class);
 		segmentsLength = new EAdListImpl<Integer>(Integer.class);
 		points.add(startPoint);
 		closed = false;
@@ -78,7 +76,7 @@ public class BezierShape implements Shape {
 	}
 
 	public BezierShape(int x, int y) {
-		this(new EAdPosition(x, y));
+		this(new EAdPositionImpl(x, y));
 	}
 
 	/**
@@ -90,43 +88,34 @@ public class BezierShape implements Shape {
 	 *            y coordinate
 	 */
 	public void moveTo(int x, int y) {
-		init(new EAdPosition(x, y));
+		init(new EAdPositionImpl(x, y));
 	}
 
 	@Override
-	public EAdBorderedColor getColor() {
+	public EAdFill getFill() {
 		return color;
 	}
 
-	@Override
-	public int getBorderWidth() {
-		return borderWidth;
+	public void setFill(EAdFill color) {
+		this.color = (EAdFill) color;
 	}
 
-	public void setColor(EAdBorderedColor color) {
-		this.color = color;
-	}
-
-	public void setBorderWidth(int borderWidth) {
-		this.borderWidth = borderWidth;
-	}
-
-	public void lineTo(EAdPosition p) {
+	public void lineTo(EAdPositionImpl p) {
 		points.add(p);
 		segmentsLength.add(1);
 	}
 
 	public void lineTo(int x, int y) {
-		this.lineTo(new EAdPosition(x, y));
+		this.lineTo(new EAdPositionImpl(x, y));
 	}
 
-	public void quadTo(EAdPosition p1, EAdPosition p2) {
+	public void quadTo(EAdPositionImpl p1, EAdPositionImpl p2) {
 		points.add(p1);
 		points.add(p2);
 		segmentsLength.add(2);
 	}
 
-	public void curveTo(EAdPosition p1, EAdPosition p2, EAdPosition p3) {
+	public void curveTo(EAdPositionImpl p1, EAdPositionImpl p2, EAdPositionImpl p3) {
 		points.add(p1);
 		points.add(p2);
 		points.add(p3);
@@ -141,7 +130,7 @@ public class BezierShape implements Shape {
 		return closed;
 	}
 
-	public EAdList<EAdPosition> getPoints() {
+	public EAdList<EAdPositionImpl> getPoints() {
 		return points;
 	}
 
@@ -150,7 +139,7 @@ public class BezierShape implements Shape {
 	}
 
 	public void cubeTo(int x1, int y1, int x2, int y2) {
-		quadTo(new EAdPosition(x1, y1), new EAdPosition(x2, y2));
+		quadTo(new EAdPositionImpl(x1, y1), new EAdPositionImpl(x2, y2));
 	}
 
 }

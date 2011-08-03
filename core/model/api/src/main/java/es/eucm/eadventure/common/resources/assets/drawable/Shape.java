@@ -37,7 +37,7 @@
 
 package es.eucm.eadventure.common.resources.assets.drawable;
 
-import es.eucm.eadventure.common.model.params.EAdBorderedColor;
+import es.eucm.eadventure.common.params.EAdFill;
 
 public interface Shape extends Drawable {
 
@@ -53,16 +53,7 @@ public interface Shape extends Drawable {
 	 * 
 	 * @return The color of the shape
 	 */
-	EAdBorderedColor getColor();
-
-	/**
-	 * <p>
-	 * Return the width, in resolution independent pixels, of the border
-	 * </p>
-	 * 
-	 * @return the pixels of the border
-	 */
-	int getBorderWidth();
+	EAdFill getFill();
 
 	/**
 	 * Sets the color for the shape
@@ -70,6 +61,6 @@ public interface Shape extends Drawable {
 	 * @param color
 	 *            the color
 	 */
-	void setColor(EAdBorderedColor color);
+	void setFill(EAdFill color);
 
 }

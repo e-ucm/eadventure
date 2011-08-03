@@ -43,10 +43,6 @@ import java.util.Map;
 import java.util.logging.Logger;
 
 import es.eucm.eadventure.common.model.EAdElement;
-import es.eucm.eadventure.common.model.params.EAdBorderedColor;
-import es.eucm.eadventure.common.model.params.EAdColor;
-import es.eucm.eadventure.common.model.params.EAdFont;
-import es.eucm.eadventure.common.model.params.EAdPosition;
 import es.eucm.eadventure.common.model.variables.EAdVar;
 import es.eucm.eadventure.common.model.variables.impl.EAdVarImpl;
 import es.eucm.eadventure.common.model.variables.impl.vars.BooleanVar;
@@ -54,6 +50,10 @@ import es.eucm.eadventure.common.model.variables.impl.vars.FloatVar;
 import es.eucm.eadventure.common.model.variables.impl.vars.IntegerVar;
 import es.eucm.eadventure.common.model.variables.impl.vars.NumberVar;
 import es.eucm.eadventure.common.model.variables.impl.vars.StringVar;
+import es.eucm.eadventure.common.params.EAdFontImpl;
+import es.eucm.eadventure.common.params.fills.impl.EAdBorderedColor;
+import es.eucm.eadventure.common.params.fills.impl.EAdColor;
+import es.eucm.eadventure.common.params.geom.impl.EAdPositionImpl;
 import es.eucm.eadventure.common.resources.EAdBundleId;
 import es.eucm.eadventure.common.resources.EAdString;
 
@@ -78,14 +78,14 @@ public class ObjectFactory {
 			return Boolean.parseBoolean(value);
 		else if (fieldType == Float.class || fieldType == float.class)
 			return Float.parseFloat(value);
-		else if (fieldType == EAdFont.class)
-			return EAdFont.valueOf(value);
+		else if (fieldType == EAdFontImpl.class)
+			return EAdFontImpl.valueOf(value);
 		else if (fieldType == EAdColor.class)
-			return EAdColor.valueOf(value);
+			return new EAdColor(value);
 		else if (fieldType == EAdBorderedColor.class)
-			return EAdBorderedColor.valueOf(value);
-		else if (fieldType == EAdPosition.class)
-			return EAdPosition.valueOf(value);
+			return new EAdBorderedColor(value);
+		else if (fieldType == EAdPositionImpl.class)
+			return new EAdPositionImpl(value);
 		else if (fieldType == EAdString.class || fieldType == EAdString.class) {
 			//TODO register?
 			return new EAdString(value);

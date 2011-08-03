@@ -37,10 +37,10 @@
 
 package es.eucm.eadventure.engine.core.guiactions.impl;
 
+import es.eucm.eadventure.common.model.guievents.EAdGUIEvent;
+import es.eucm.eadventure.common.model.guievents.EAdKeyEvent.KeyActionType;
+import es.eucm.eadventure.common.model.guievents.EAdKeyEvent.KeyCode;
 import es.eucm.eadventure.common.model.guievents.impl.EAdKeyEventImpl;
-import es.eucm.eadventure.common.model.params.guievents.EAdGUIEvent;
-import es.eucm.eadventure.common.model.params.guievents.EAdKeyEvent.KeyActionType;
-import es.eucm.eadventure.common.model.params.guievents.EAdKeyEvent.KeyCode;
 import es.eucm.eadventure.engine.core.guiactions.KeyAction;
 
 public class KeyActionImpl implements KeyAction {

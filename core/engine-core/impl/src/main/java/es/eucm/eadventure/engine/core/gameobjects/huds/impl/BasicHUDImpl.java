@@ -44,8 +44,8 @@ import java.util.logging.Logger;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
-import es.eucm.eadventure.common.model.params.EAdPosition;
-import es.eucm.eadventure.common.model.params.guievents.EAdKeyEvent.KeyCode;
+import es.eucm.eadventure.common.model.guievents.EAdKeyEvent.KeyCode;
+import es.eucm.eadventure.common.params.geom.impl.EAdPositionImpl;
 import es.eucm.eadventure.engine.core.Game;
 import es.eucm.eadventure.engine.core.GameState;
 import es.eucm.eadventure.engine.core.MouseState;
@@ -146,7 +146,7 @@ public class BasicHUDImpl implements BasicHUD<Void> {
 	}
 
 	@Override
-	public EAdPosition getPosition() {
+	public EAdPositionImpl getPosition() {
 		return null;
 	}
 

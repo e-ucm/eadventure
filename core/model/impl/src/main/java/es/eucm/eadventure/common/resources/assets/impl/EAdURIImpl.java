@@ -38,7 +38,7 @@
 package es.eucm.eadventure.common.resources.assets.impl;
 
 import es.eucm.eadventure.common.interfaces.Param;
-import es.eucm.eadventure.common.resources.assets.EAdURI;
+import es.eucm.eadventure.common.resources.EAdURI;
 
 public class EAdURIImpl implements EAdURI {
 	
@@ -53,7 +53,7 @@ public class EAdURIImpl implements EAdURI {
 		this.uri = uri;
 	}
 	
-	public String getURI(){
+	public String getPath(){
 		return uri;
 	}
 

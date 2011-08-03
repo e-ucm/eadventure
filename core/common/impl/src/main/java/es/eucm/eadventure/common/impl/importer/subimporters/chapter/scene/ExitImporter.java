@@ -58,9 +58,9 @@ import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
 import es.eucm.eadventure.common.model.events.EAdConditionEvent;
 import es.eucm.eadventure.common.model.events.impl.EAdConditionEventImpl;
 import es.eucm.eadventure.common.model.guievents.impl.EAdMouseEventImpl;
-import es.eucm.eadventure.common.model.params.EAdBorderedColor;
 import es.eucm.eadventure.common.model.variables.impl.extra.EAdSceneElementVars;
 import es.eucm.eadventure.common.model.variables.impl.operations.BooleanOperation;
+import es.eucm.eadventure.common.params.fills.impl.EAdBorderedColor;
 import es.eucm.eadventure.common.resources.assets.drawable.Shape;
 
 public class ExitImporter implements EAdElementImporter<Exit, EAdSceneElement> {
@@ -90,7 +90,7 @@ public class ExitImporter implements EAdElementImporter<Exit, EAdSceneElement> {
 		Shape shape = ShapedElementImporter.importShape(oldObject, newExit);
 
 		// FIXME deleted when exits display name and icon
-		shape.setColor(EAdBorderedColor.BLACK_ON_WHITE);
+		shape.setFill(EAdBorderedColor.BLACK_ON_WHITE);
 
 		newExit.getResources().addAsset(newExit.getInitialBundle(),
 				EAdBasicSceneElement.appearance, shape);

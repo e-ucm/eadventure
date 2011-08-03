@@ -46,7 +46,7 @@ import es.eucm.eadventure.common.model.elements.impl.EAdBasicActor;
 import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
 import es.eucm.eadventure.common.model.elements.impl.EAdSceneImpl;
 import es.eucm.eadventure.common.model.guievents.impl.EAdMouseEventImpl;
-import es.eucm.eadventure.common.model.params.EAdPosition;
+import es.eucm.eadventure.common.params.geom.impl.EAdPositionImpl;
 import es.eucm.eadventure.common.resources.EAdString;
 import es.eucm.eadventure.common.resources.StringHandler;
 import es.eucm.eadventure.common.resources.assets.drawable.impl.ImageImpl;
@@ -86,8 +86,8 @@ public class EffectOpaqueBlockTestScreen extends EAdSceneImpl implements EAdScen
 //		buttonActor.setBehavior(b);
 		
 		buttonReference = new EAdActorReferenceImpl( "id4", buttonActor);
-		buttonReference.setPosition(new EAdPosition(
-				EAdPosition.Corner.BOTTOM_CENTER, 200, 200));
+		buttonReference.setPosition(new EAdPositionImpl(
+				EAdPositionImpl.Corner.BOTTOM_CENTER, 200, 200));
 	}
 	
 	private void initButtonActor2() {
@@ -110,8 +110,8 @@ public class EffectOpaqueBlockTestScreen extends EAdSceneImpl implements EAdScen
 		waitEffect3.setBlocking( false );
 		buttonActor2.addBehavior(EAdMouseEventImpl.MOUSE_LEFT_CLICK, waitEffect3 );
 		
-		buttonActor2.setPosition(new EAdPosition(
-				EAdPosition.Corner.BOTTOM_CENTER, 10, 10));
+		buttonActor2.setPosition(new EAdPositionImpl(
+				EAdPositionImpl.Corner.BOTTOM_CENTER, 10, 10));
 	}
 
 }

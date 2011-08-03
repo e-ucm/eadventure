@@ -52,10 +52,10 @@ import es.eucm.eadventure.common.model.elements.test.BasicActorFactoryTest;
 import es.eucm.eadventure.common.model.elements.test.BasicSceneFactoryTest;
 import es.eucm.eadventure.common.model.elements.test.VideoSceneFactoryTest;
 import es.eucm.eadventure.common.model.guievents.impl.EAdMouseEventImpl;
-import es.eucm.eadventure.common.model.params.EAdPosition;
+import es.eucm.eadventure.common.params.geom.impl.EAdPositionImpl;
 import es.eucm.eadventure.common.resources.EAdString;
+import es.eucm.eadventure.common.resources.EAdURI;
 import es.eucm.eadventure.common.resources.StringHandler;
-import es.eucm.eadventure.common.resources.assets.EAdURI;
 import es.eucm.eadventure.engine.core.impl.LoadingScreen;
 import es.eucm.eadventure.engine.core.impl.modules.BasicGameModule;
 import es.eucm.eadventure.engine.core.platform.PlatformLauncher;
@@ -120,56 +120,56 @@ public class TestDesktopPlatformLauncher  {
 		EAdButton button = new EAdButton("button");
 		button.setUpNewInstance();
 		button.addBehavior(EAdMouseEventImpl.MOUSE_LEFT_CLICK, new EAdChangeScene("id", VideoSceneFactoryTest.getVideoScene(), EAdTransition.BASIC));
-		button.setPosition(new EAdPosition(200, 200));
+		button.setPosition(new EAdPositionImpl(200, 200));
 		scene.getSceneElements().add(button);
 		
 		EAdButton button2 = new EAdButton("button");
 		button2.setUpNewInstance();
 		button2.addBehavior(EAdMouseEventImpl.MOUSE_LEFT_CLICK, new EAdModifyActorState("id", actorReference.getReferencedActor(), EAdModifyActorState.Modification.PLACE_IN_INVENTORY));
-		button2.setPosition(new EAdPosition(200, 300));
+		button2.setPosition(new EAdPositionImpl(200, 300));
 		scene.getSceneElements().add(button2);
 
 		button2 = new EAdButton("button");
 		button2.setUpNewInstance();
 		button2.addBehavior(EAdMouseEventImpl.MOUSE_LEFT_CLICK, new EAdModifyActorState("id", actorReference2.getReferencedActor(), EAdModifyActorState.Modification.PLACE_IN_INVENTORY));
-		button2.setPosition(new EAdPosition(220, 320));
+		button2.setPosition(new EAdPositionImpl(220, 320));
 		scene.getSceneElements().add(button2);
 
 		button2 = new EAdButton("button");
 		button2.setUpNewInstance();
 		button2.addBehavior(EAdMouseEventImpl.MOUSE_LEFT_CLICK, new EAdModifyActorState("id", actorReference3.getReferencedActor(), EAdModifyActorState.Modification.PLACE_IN_INVENTORY));
-		button2.setPosition(new EAdPosition(240, 340));
+		button2.setPosition(new EAdPositionImpl(240, 340));
 		scene.getSceneElements().add(button2);
 
 		button2 = new EAdButton("button");
 		button2.setUpNewInstance();
 		button2.addBehavior(EAdMouseEventImpl.MOUSE_LEFT_CLICK, new EAdModifyActorState("id", actorReference4.getReferencedActor(), EAdModifyActorState.Modification.PLACE_IN_INVENTORY));
-		button2.setPosition(new EAdPosition(260, 360));
+		button2.setPosition(new EAdPositionImpl(260, 360));
 		scene.getSceneElements().add(button2);
 
 		button2 = new EAdButton("button");
 		button2.setUpNewInstance();
 		button2.addBehavior(EAdMouseEventImpl.MOUSE_LEFT_CLICK, new EAdModifyActorState("id", actorReference5.getReferencedActor(), EAdModifyActorState.Modification.PLACE_IN_INVENTORY));
-		button2.setPosition(new EAdPosition(280, 380));
+		button2.setPosition(new EAdPositionImpl(280, 380));
 		scene.getSceneElements().add(button2);
 
 		button2 = new EAdButton("button");
 		button2.setUpNewInstance();
 		button2.addBehavior(EAdMouseEventImpl.MOUSE_LEFT_CLICK, new EAdModifyActorState("id", actorReference6.getReferencedActor(), EAdModifyActorState.Modification.PLACE_IN_INVENTORY));
-		button2.setPosition(new EAdPosition(300, 400));
+		button2.setPosition(new EAdPositionImpl(300, 400));
 		scene.getSceneElements().add(button2);
 
 		button2 = new EAdButton("button");
 		button2.setUpNewInstance();
 		button2.addBehavior(EAdMouseEventImpl.MOUSE_LEFT_CLICK, new EAdModifyActorState("id", actorReference7.getReferencedActor(), EAdModifyActorState.Modification.PLACE_IN_INVENTORY));
-		button2.setPosition(new EAdPosition(320, 420));
+		button2.setPosition(new EAdPositionImpl(320, 420));
 		scene.getSceneElements().add(button2);
 
 		
 		EAdButton button3 = new EAdButton("button");
 		button3.setUpNewInstance();
 		button3.addBehavior(EAdMouseEventImpl.MOUSE_LEFT_CLICK, new EAdModifyActorState("id", actorReference.getReferencedActor(), EAdModifyActorState.Modification.PLACE_IN_SCENE));
-		button3.setPosition(new EAdPosition(200, 400));
+		button3.setPosition(new EAdPositionImpl(200, 400));
 		scene.getSceneElements().add(button3);
 
 		

@@ -43,8 +43,8 @@ import es.eucm.eadventure.common.model.behaviors.impl.EAdBehaviorImpl;
 import es.eucm.eadventure.common.model.effects.impl.EAdChangeAppearance;
 import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
 import es.eucm.eadventure.common.model.guievents.impl.EAdMouseEventImpl;
-import es.eucm.eadventure.common.model.params.EAdPosition;
-import es.eucm.eadventure.common.model.params.EAdPosition.Corner;
+import es.eucm.eadventure.common.params.geom.impl.EAdPositionImpl;
+import es.eucm.eadventure.common.params.geom.impl.EAdPositionImpl.Corner;
 import es.eucm.eadventure.common.resources.EAdBundleId;
 import es.eucm.eadventure.common.resources.EAdString;
 import es.eucm.eadventure.common.resources.assets.drawable.Caption;
@@ -78,7 +78,7 @@ public class EAdButton extends EAdBasicSceneElement {
 		Image image = new ImageImpl("@drawable/button_normal.png");
 
 		DisplacedDrawableImpl dd = new DisplacedDrawableImpl();
-		dd.setDisplacement(new EAdPosition(Corner.CENTER, -30, -40));
+		dd.setDisplacement(new EAdPositionImpl(Corner.CENTER, -30, -40));
 		dd.setDrawable(this.text);
 		
 		ComposedDrawable cd = new ComposedDrawableImpl();

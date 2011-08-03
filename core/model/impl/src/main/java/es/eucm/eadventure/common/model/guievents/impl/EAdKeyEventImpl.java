@@ -39,7 +39,7 @@ package es.eucm.eadventure.common.model.guievents.impl;
 
 import es.eucm.eadventure.common.interfaces.Element;
 import es.eucm.eadventure.common.interfaces.Param;
-import es.eucm.eadventure.common.model.params.guievents.EAdKeyEvent;
+import es.eucm.eadventure.common.model.guievents.EAdKeyEvent;
 
 @Element(runtime = EAdKeyEventImpl.class, detailed = EAdKeyEventImpl.class)
 public class EAdKeyEventImpl implements EAdKeyEvent {

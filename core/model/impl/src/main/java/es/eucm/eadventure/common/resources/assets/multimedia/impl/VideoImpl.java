@@ -38,23 +38,25 @@
 package es.eucm.eadventure.common.resources.assets.multimedia.impl;
 
 import es.eucm.eadventure.common.interfaces.Param;
+import es.eucm.eadventure.common.resources.EAdURI;
+import es.eucm.eadventure.common.resources.assets.impl.EAdURIImpl;
 import es.eucm.eadventure.common.resources.assets.multimedia.Video;
 
 public class VideoImpl implements Video {
 
 	@Param("uri")
-	private String uri;
+	private EAdURI uri;
 
 	public VideoImpl() {
 		this(null);
 	}
-	
+
 	public VideoImpl(String uri) {
-		this.uri = uri;
+		this.uri = new EAdURIImpl(uri);
 	}
-	
+
 	@Override
-	public String getURI() {
+	public EAdURI getURI() {
 		return uri;
 	}
 

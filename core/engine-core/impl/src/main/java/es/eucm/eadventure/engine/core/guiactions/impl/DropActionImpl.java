@@ -38,9 +38,9 @@
 package es.eucm.eadventure.engine.core.guiactions.impl;
 
 import es.eucm.eadventure.common.model.EAdElement;
+import es.eucm.eadventure.common.model.guievents.EAdGUIEvent;
+import es.eucm.eadventure.common.model.guievents.EAdMouseEvent.MouseActionType;
 import es.eucm.eadventure.common.model.guievents.impl.EAdDropEvent;
-import es.eucm.eadventure.common.model.params.guievents.EAdGUIEvent;
-import es.eucm.eadventure.common.model.params.guievents.EAdMouseEvent.MouseActionType;
 import es.eucm.eadventure.engine.core.gameobjects.GameObject;
 import es.eucm.eadventure.engine.core.guiactions.DropAction;
 

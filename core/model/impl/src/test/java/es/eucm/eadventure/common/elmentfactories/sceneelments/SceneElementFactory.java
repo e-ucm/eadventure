@@ -41,7 +41,7 @@ import es.eucm.eadventure.common.elmentfactories.EAdElementsFactory;
 import es.eucm.eadventure.common.model.effects.EAdEffect;
 import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
 import es.eucm.eadventure.common.model.guievents.impl.EAdMouseEventImpl;
-import es.eucm.eadventure.common.model.params.EAdPosition;
+import es.eucm.eadventure.common.params.geom.impl.EAdPositionImpl;
 import es.eucm.eadventure.common.resources.EAdBundleId;
 import es.eucm.eadventure.common.resources.assets.AssetDescriptor;
 
@@ -64,7 +64,7 @@ public class SceneElementFactory {
 				"sceneElement" + ID_GENERATOR++);
 		sceneElement.getResources().addAsset(sceneElement.getInitialBundle(),
 				EAdBasicSceneElement.appearance, appearance);
-		sceneElement.setPosition(new EAdPosition(x, y));
+		sceneElement.setPosition(new EAdPositionImpl(x, y));
 		return sceneElement;
 	}
 

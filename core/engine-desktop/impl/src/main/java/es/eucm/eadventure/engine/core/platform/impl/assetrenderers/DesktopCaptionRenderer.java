@@ -38,27 +38,32 @@
 package es.eucm.eadventure.engine.core.platform.impl.assetrenderers;
 
 import java.awt.AlphaComposite;
-import java.awt.Color;
 import java.awt.Composite;
-import java.awt.GradientPaint;
 import java.awt.Graphics2D;
-import java.util.logging.Logger;
+import java.awt.Rectangle;
+import java.awt.Shape;
+import java.awt.geom.AffineTransform;
 
-import es.eucm.eadventure.common.model.params.EAdBorderedColor;
-import es.eucm.eadventure.common.model.params.EAdPosition;
+import com.google.inject.Inject;
+import com.google.inject.Singleton;
+
+import es.eucm.eadventure.common.params.EAdFill;
+import es.eucm.eadventure.common.params.geom.EAdPosition;
 import es.eucm.eadventure.engine.core.platform.AssetRenderer;
+import es.eucm.eadventure.engine.core.platform.FillFactory;
 import es.eucm.eadventure.engine.core.platform.assets.impl.DesktopEngineCaption;
-import es.eucm.eadventure.engine.core.platform.assets.impl.DesktopEngineColor;
 import es.eucm.eadventure.engine.core.platform.assets.impl.DesktopEngineFont;
 
+@Singleton
 public class DesktopCaptionRenderer implements
 		AssetRenderer<Graphics2D, DesktopEngineCaption> {
 
-	private static final Logger logger = Logger
-			.getLogger("DesktopCaptionRenderer");
+	private FillFactory<Graphics2D, Shape> fillFactory;
 
-	public DesktopCaptionRenderer() {
-		logger.info("New instance");
+	@Inject
+	public DesktopCaptionRenderer(
+			FillFactory<Graphics2D, Shape> fillFactory) {
+		this.fillFactory = fillFactory;
 	}
 
 	@Override
@@ -68,7 +73,7 @@ public class DesktopCaptionRenderer implements
 
 		if (!asset.isLoaded())
 			asset.loadAsset();
-		
+
 		Graphics2D g2 = (Graphics2D) g.create();
 		// TODO This is not OK
 		g2.scale(scale, scale);
@@ -78,19 +83,18 @@ public class DesktopCaptionRenderer implements
 		int width = (int) (asset.getWidth() * scale);
 		int height = (int) (asset.getHeight() * scale);
 
-
 		g2.translate(offsetX + xLeft, offsetY + yTop);
 
 		if (asset.getCaption().hasBubble()
-				& asset.getCaption().getBubbleColor() != null)
-			drawBubble(g2, width, height, asset.getCaption().getBubbleColor());
+				& asset.getCaption().getBubbleFill() != null)
+			drawBubble(g2, width, height, asset.getCaption().getBubbleFill());
 
-		
-		g2.translate(asset.getCaption().getPadding(), asset.getCaption().getPadding() );
+		g2.translate(asset.getCaption().getPadding(), asset.getCaption()
+				.getPadding());
 		int yOffset = 0;
 		for (String s : asset.getText()) {
-			yOffset += asset.getFont().stringBounds(s).height;
-			drawString(g2, asset, s, yOffset );
+			yOffset += asset.getFont().stringBounds(s).getHeight();
+			drawString(g2, asset, s, yOffset);
 		}
 
 	}
@@ -107,51 +111,29 @@ public class DesktopCaptionRenderer implements
 	protected void drawString(Graphics2D g, DesktopEngineCaption text,
 			String string, int yOffset) {
 		float alpha = text.getAlpha();
-		EAdBorderedColor textColor = text.getCaption().getTextColor();
+
 		DesktopEngineFont deFont = (DesktopEngineFont) text.getFont();
 		Composite c = g.getComposite();
+		AffineTransform a = g.getTransform();
 		if (alpha != 1.0f)
 			g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER,
 					alpha));
 
 		g.setFont(deFont.getFont());
+		g.translate(0, yOffset);
 
-		Color borderColor = new DesktopEngineColor(textColor.getBorderColor())
-				.getColor();
-		Color color = new DesktopEngineColor(textColor.getCenterColor())
-				.getColor();
+		fillFactory.fill(text.getAssetDescriptor().getTextFill(), g, string);
 
-		g.setColor(borderColor);
-
-		g.drawString(string, -1, yOffset - 1);
-		g.drawString(string, 1, yOffset + 1);
-		g.drawString(string, -1, yOffset + 1);
-		g.drawString(string, 1, yOffset - 1);
-
-		g.setColor(color);
-
-		g.drawString(string, 0, yOffset);
 		g.setComposite(c);
+		g.setTransform(a);
 	}
 
 	private void drawBubble(Graphics2D g, int width, int height,
-			EAdBorderedColor bubbleColor) {
+			EAdFill bubbleFill) {
 
-		DesktopEngineColor color = new DesktopEngineColor(
-				bubbleColor.getCenterColor());
+		Shape shape = new Rectangle(0, 0, width, height);
 
-		if (bubbleColor != null) {
-			g.setPaint(new GradientPaint(0, 0, color.getColor(), 0, height,
-					color.getColor().darker()));
-			g.fillRoundRect(0, 0, width, height, 15, 15);
-		}
-
-		DesktopEngineColor border = new DesktopEngineColor(
-				bubbleColor.getBorderColor());
-		if (border != null) {
-			g.setColor(border.getColor());
-			g.drawRoundRect(0, 0, width, height, 15, 15);
-		}
+		fillFactory.fill(bubbleFill, g, shape);
 
 	}
 

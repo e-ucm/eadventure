@@ -45,7 +45,7 @@ import com.google.inject.Injector;
 import com.google.inject.Singleton;
 
 import es.eucm.eadventure.common.model.impl.inventory.EAdBasicInventory;
-import es.eucm.eadventure.common.resources.assets.EAdURI;
+import es.eucm.eadventure.common.resources.EAdURI;
 import es.eucm.eadventure.common.resources.assets.impl.EAdURIImpl;
 import es.eucm.eadventure.engine.core.impl.factorymapproviders.GameObjectFactoryMapProvider;
 import es.eucm.eadventure.engine.core.impl.modules.BasicGameModule;
@@ -87,7 +87,7 @@ public class DesktopPlatformLauncher implements PlatformLauncher {
 	@Override
 	public void launch(EAdURI uri) {
 		if ( uri != null ){
-			File resourceFile = new File( uri.getURI() );
+			File resourceFile = new File( uri.getPath() );
 			((DesktopAssetHandler) assetHandler).setResourceLocation(resourceFile);
 		}
 		platformControl.start();

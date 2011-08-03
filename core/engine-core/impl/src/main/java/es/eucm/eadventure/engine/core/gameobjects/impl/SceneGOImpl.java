@@ -87,7 +87,7 @@ public class SceneGOImpl extends AbstractGameObject<EAdScene> implements SceneGO
 				if (sceneElement instanceof EAdActorReference) {
 					//TODO could there be a better way than explicitly comparing?
 					int i = 0;
-					while (list.size() > i && list.get(i) instanceof EAdActorReference && list.get(i).getY() < sceneElementGO.getCenterY())
+					while (list.size() > i && list.get(i) instanceof EAdActorReference && list.get(i).getCenterY() < sceneElementGO.getCenterY())
 						i++;
 					list.add(i, sceneElementGO);
 				}

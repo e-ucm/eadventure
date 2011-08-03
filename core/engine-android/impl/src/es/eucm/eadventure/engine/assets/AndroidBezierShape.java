@@ -38,7 +38,7 @@
 package es.eucm.eadventure.engine.assets;
 
 import android.graphics.Path;
-import es.eucm.eadventure.common.model.params.EAdPosition;
+import es.eucm.eadventure.common.params.geom.impl.EAdPositionImpl;
 import es.eucm.eadventure.engine.core.platform.assets.impl.RuntimeBezierShape;
 
 public class AndroidBezierShape extends RuntimeBezierShape {
@@ -50,11 +50,11 @@ public class AndroidBezierShape extends RuntimeBezierShape {
 		super.loadAsset();
 		path = new Path();
 		
-		EAdPosition p = descriptor.getPoints().get(0);
+		EAdPositionImpl p = descriptor.getPoints().get(0);
 		path.moveTo(p.getX(), p.getY());
 		
 		int pointIndex = 1;
-		EAdPosition p1, p2, p3;
+		EAdPositionImpl p1, p2, p3;
 		for ( Integer i: descriptor.getSegmentsLength() ){
 				switch( i ){
 				case 1:

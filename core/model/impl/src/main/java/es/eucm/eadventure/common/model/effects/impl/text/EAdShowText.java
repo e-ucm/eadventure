@@ -46,8 +46,8 @@ import es.eucm.eadventure.common.model.effects.impl.EAdVarInterpolationEffect.Lo
 import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
 import es.eucm.eadventure.common.model.events.EAdSceneElementEvent;
 import es.eucm.eadventure.common.model.events.impl.EAdSceneElementEventImpl;
-import es.eucm.eadventure.common.model.params.EAdPosition;
 import es.eucm.eadventure.common.model.variables.impl.extra.EAdSceneElementVars;
+import es.eucm.eadventure.common.params.geom.impl.EAdPositionImpl;
 import es.eucm.eadventure.common.resources.assets.drawable.Caption;
 
 /**
@@ -153,7 +153,7 @@ public class EAdShowText extends AbstractEAdEffect {
 		EAdBasicSceneElement text = new EAdBasicSceneElement(this.id + "_caption");
 		text.getResources().addAsset(text.getInitialBundle(),
 				EAdBasicSceneElement.appearance, caption);
-		text.setPosition(new EAdPosition(x, y));
+		text.setPosition(new EAdPositionImpl(x, y));
 		setText(text, animation);
 	}
 	

@@ -45,9 +45,9 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 
-import es.eucm.eadventure.common.model.params.EAdFont;
-import es.eucm.eadventure.common.model.params.EAdFont.Style;
-import es.eucm.eadventure.common.model.params.EAdRectangle;
+import es.eucm.eadventure.common.params.EAdFont;
+import es.eucm.eadventure.common.params.EAdFont.Style;
+import es.eucm.eadventure.common.params.geom.impl.EAdRectangleImpl;
 import es.eucm.eadventure.engine.core.platform.AssetHandler;
 import es.eucm.eadventure.engine.core.platform.RuntimeFont;
 
@@ -67,7 +67,7 @@ public class DesktopEngineFont implements RuntimeFont {
 				this.font = Font.createFont(
 						Font.TRUETYPE_FONT,
 						new FileInputStream(new File(assetHandler
-								.getAbsolutePath(eadFont.getURI().getURI()))));
+								.getAbsolutePath(eadFont.getURI().getPath()))));
 				this.font = this.font.deriveFont(eadFont.getSize());
 				
 			} catch (FontFormatException e) {
@@ -114,9 +114,9 @@ public class DesktopEngineFont implements RuntimeFont {
 	}
 
 	@Override
-	public EAdRectangle stringBounds(String string) {
+	public EAdRectangleImpl stringBounds(String string) {
 		Rectangle r = font.getStringBounds(string, frc).getBounds();
-		return new EAdRectangle(r.x, r.y, r.width, r.height);
+		return new EAdRectangleImpl(r.x, r.y, r.width, r.height);
 	}
 
 }

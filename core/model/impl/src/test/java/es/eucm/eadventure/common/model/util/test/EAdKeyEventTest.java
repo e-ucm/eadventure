@@ -41,8 +41,8 @@ import junit.framework.TestCase;
 
 import org.junit.Test;
 
+import es.eucm.eadventure.common.model.guievents.EAdKeyEvent;
 import es.eucm.eadventure.common.model.guievents.impl.EAdKeyEventImpl;
-import es.eucm.eadventure.common.model.params.guievents.EAdKeyEvent;
 
 public class EAdKeyEventTest extends TestCase {
 	

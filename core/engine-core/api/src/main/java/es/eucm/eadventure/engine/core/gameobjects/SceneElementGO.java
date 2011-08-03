@@ -40,10 +40,9 @@ package es.eucm.eadventure.engine.core.gameobjects;
 import java.util.List;
 
 import es.eucm.eadventure.common.interfaces.Oriented;
-import es.eucm.eadventure.common.interfaces.Positioned;
 import es.eucm.eadventure.common.model.actions.EAdAction;
 import es.eucm.eadventure.common.model.elements.EAdSceneElement;
-import es.eucm.eadventure.common.model.params.EAdPosition;
+import es.eucm.eadventure.common.params.geom.EAdPosition;
 import es.eucm.eadventure.common.resources.assets.AssetDescriptor;
 import es.eucm.eadventure.engine.core.platform.DrawableAsset;
 
@@ -53,9 +52,7 @@ import es.eucm.eadventure.engine.core.platform.DrawableAsset;
  * 
  */
 public interface SceneElementGO<T extends EAdSceneElement> extends
-		GameObject<T>, Oriented, Positioned {
-
-	EAdPosition getPosition();
+		GameObject<T>, Oriented {
 
 	void setPosition(EAdPosition position);
 
@@ -114,7 +111,5 @@ public interface SceneElementGO<T extends EAdSceneElement> extends
 	 * @return
 	 */
 	int getCenterY();
-
-	int getY();
 
 }

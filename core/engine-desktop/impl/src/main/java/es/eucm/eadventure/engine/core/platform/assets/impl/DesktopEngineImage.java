@@ -107,7 +107,7 @@ public class DesktopEngineImage extends RuntimeImage {
 		if (image == null && assetHandler != null) {
 			try {
 				image = ImageIO.read(((DesktopAssetHandler) assetHandler
-						).getResourceAsStream(descriptor.getURI()));
+						).getResourceAsStream(descriptor.getURI().getPath()));
 				logger.log(Level.INFO, "Image loaded: " + descriptor.getURI());
 				return true;
 			} catch (IOException e) {

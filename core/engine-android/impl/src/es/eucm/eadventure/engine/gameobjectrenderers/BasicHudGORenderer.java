@@ -49,7 +49,7 @@ import android.graphics.Rect;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
-import es.eucm.eadventure.common.model.params.EAdPosition;
+import es.eucm.eadventure.common.params.geom.EAdPosition;
 import es.eucm.eadventure.engine.AndroidPlatformConfiguration;
 import es.eucm.eadventure.engine.core.MouseState;
 import es.eucm.eadventure.engine.core.gameobjects.huds.BasicHUD;

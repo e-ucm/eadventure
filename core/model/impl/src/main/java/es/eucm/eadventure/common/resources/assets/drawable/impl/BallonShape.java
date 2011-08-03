@@ -23,18 +23,6 @@ public class BallonShape extends BezierShape {
 			return null;
 		}
 		
-		public int getBorderWidth( ){
-			switch (this) {
-			case RECTANGLE:
-			case ROUNDED_RECTANGLE:
-				return 3;
-			case CLOUD:
-				return 2;
-			case ELECTRIC:
-				return 6;
-			}
-			return 1;
-		}
 	}
 
 	public BallonShape(int left, int top, int right, int bottom,
@@ -56,8 +44,6 @@ public class BallonShape extends BezierShape {
 					yOrigin);
 
 		hasOrigin = hasOrigin && originSide != null;
-		
-		this.setBorderWidth( ballonType.getBorderWidth() );
 
 		BalloonStroke stroke = ballonType.getStroke();
 

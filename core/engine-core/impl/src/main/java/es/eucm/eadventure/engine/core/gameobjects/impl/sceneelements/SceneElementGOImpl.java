@@ -46,10 +46,10 @@ import com.google.inject.Inject;
 import es.eucm.eadventure.common.model.actions.EAdAction;
 import es.eucm.eadventure.common.model.elements.EAdSceneElement;
 import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
-import es.eucm.eadventure.common.model.params.EAdPosition;
 import es.eucm.eadventure.common.model.variables.EAdElementVars;
 import es.eucm.eadventure.common.model.variables.EAdVar;
 import es.eucm.eadventure.common.model.variables.impl.extra.EAdSceneElementVars;
+import es.eucm.eadventure.common.params.geom.EAdPosition;
 import es.eucm.eadventure.common.resources.EAdBundleId;
 import es.eucm.eadventure.common.resources.StringHandler;
 import es.eucm.eadventure.common.resources.assets.AssetDescriptor;
@@ -361,11 +361,6 @@ public abstract class SceneElementGOImpl<T extends EAdSceneElement> extends
 	@Override
 	public int getCenterY() {
 		return (int) ((position.getJavaY(height) + height / 2) * scale);
-	}
-
-	@Override
-	public int getY() {
-		return (int) ((position.getJavaY(height) + height) * scale);
 	}
 
 	public float getAlpha() {

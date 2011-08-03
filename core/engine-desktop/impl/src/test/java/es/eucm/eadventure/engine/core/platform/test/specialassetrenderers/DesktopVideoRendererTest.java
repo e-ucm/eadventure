@@ -68,7 +68,7 @@ public class DesktopVideoRendererTest extends TestCase {
 		File file = new File(temp.nextElement().toURI());
 		assertTrue(file.exists());
 		Video video = new VideoImpl(file.getAbsolutePath());
-		assertTrue(new File(video.getURI()).exists());
+		assertTrue(new File(video.getURI().getPath()).exists());
 		final DesktopVideoRenderer desktopVideoRenderer = new DesktopVideoRenderer(null);
 		o = desktopVideoRenderer.getComponent(video);
 		assertTrue(o != null);

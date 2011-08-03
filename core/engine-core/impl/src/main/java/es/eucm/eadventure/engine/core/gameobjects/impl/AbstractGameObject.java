@@ -41,13 +41,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.google.inject.Inject;
-import com.google.inject.Injector;
 
 import es.eucm.eadventure.common.model.EAdElement;
 import es.eucm.eadventure.common.model.events.EAdEvent;
-import es.eucm.eadventure.common.model.params.EAdPosition;
 import es.eucm.eadventure.common.model.variables.EAdVar;
 import es.eucm.eadventure.common.model.variables.impl.EAdVarImpl;
+import es.eucm.eadventure.common.params.geom.EAdPosition;
 import es.eucm.eadventure.common.resources.EAdBundleId;
 import es.eucm.eadventure.common.resources.StringHandler;
 import es.eucm.eadventure.engine.core.GameState;
@@ -78,9 +77,6 @@ public abstract class AbstractGameObject<T extends EAdElement> implements
 	protected GameObjectFactory gameObjectFactory;
 
 	protected GUI gui;
-
-	@Inject
-	protected Injector injector;
 
 	protected GameState gameState;
 

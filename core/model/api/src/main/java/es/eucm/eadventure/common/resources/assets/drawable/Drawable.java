@@ -41,7 +41,7 @@ import es.eucm.eadventure.common.resources.assets.AssetDescriptor;
 
 /**
  * 
- * Represents something that can be drawn
+ * Implemented for those assets which can be drawn
  * 
  */
 public interface Drawable extends AssetDescriptor {

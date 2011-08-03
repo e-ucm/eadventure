@@ -42,8 +42,8 @@ import es.eucm.eadventure.common.model.EAdList;
 import es.eucm.eadventure.common.model.behavior.EAdBehavior;
 import es.eucm.eadventure.common.model.behaviors.impl.EAdBehaviorImpl;
 import es.eucm.eadventure.common.model.effects.EAdEffect;
+import es.eucm.eadventure.common.model.guievents.EAdGUIEvent;
 import es.eucm.eadventure.common.model.impl.AbstractEAdElement;
-import es.eucm.eadventure.common.model.params.guievents.EAdGUIEvent;
 
 public abstract class AbstractEAdElementWithBehavior extends AbstractEAdElement {
 

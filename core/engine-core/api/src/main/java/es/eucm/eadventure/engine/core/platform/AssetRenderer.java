@@ -37,7 +37,7 @@
 
 package es.eucm.eadventure.engine.core.platform;
 
-import es.eucm.eadventure.common.model.params.EAdPosition;
+import es.eucm.eadventure.common.params.geom.EAdPosition;
 
 /**
  * <p>

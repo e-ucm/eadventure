@@ -35,7 +35,9 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package es.eucm.eadventure.common.model.params;
+package es.eucm.eadventure.common.params.fills.impl;
+
+import es.eucm.eadventure.common.params.EAdFill;
 
 /**
  * <p>
@@ -43,7 +45,7 @@ package es.eucm.eadventure.common.model.params;
  * </p>
  * 
  */
-public class EAdColor {
+public class EAdColor implements EAdFill {
 
 	/**
 	 * White EAdColor
@@ -64,67 +66,66 @@ public class EAdColor {
 	 * Red EAdColor
 	 */
 	public static EAdColor RED = new EAdColor(255, 0, 0);
-	
+
 	/**
 	 * Blue EAdColor
 	 */
-	public static EAdColor BLUE = new EAdColor( 0, 0, 255);
-	
+	public static EAdColor BLUE = new EAdColor(0, 0, 255);
+
 	/**
 	 * Green EAdColor
 	 */
-	public static EAdColor GREEN = new EAdColor( 0, 255, 0);
-	
+	public static EAdColor GREEN = new EAdColor(0, 255, 0);
+
 	/**
 	 * Cyan EAdColor
 	 */
-	public static EAdColor CYAN = new EAdColor( 0, 255, 255);
-	
+	public static EAdColor CYAN = new EAdColor(0, 255, 255);
+
 	/**
 	 * Yellow EAdColor
 	 */
-	public static EAdColor YELLOW = new EAdColor( 255, 255, 0);
-	
+	public static EAdColor YELLOW = new EAdColor(255, 255, 0);
+
 	/**
 	 * Orange EAdColor
 	 */
-	public static EAdColor ORANGE = new EAdColor( 255, 125, 0 );
-	
+	public static EAdColor ORANGE = new EAdColor(255, 125, 0);
+
 	/**
 	 * Magenta EAdColor
 	 */
-	public static EAdColor MAGENTA = new EAdColor( 255, 0, 255);
-	
+	public static EAdColor MAGENTA = new EAdColor(255, 0, 255);
+
 	/**
 	 * Gray EAdColor
 	 */
-	public static EAdColor GRAY = new EAdColor( 125, 125, 125);
-	
+	public static EAdColor GRAY = new EAdColor(125, 125, 125);
+
 	/**
 	 * Dark gray EAdColor
 	 */
-	public static EAdColor DARK_GRAY = new EAdColor( 62, 62, 62);
-	
+	public static EAdColor DARK_GRAY = new EAdColor(62, 62, 62);
+
 	/**
 	 * Light gray EAdColor
 	 */
-	public static EAdColor LIGHT_GRAY = new EAdColor( 200, 200, 200);
-	
+	public static EAdColor LIGHT_GRAY = new EAdColor(200, 200, 200);
+
 	/**
 	 * Brown EAdColor
 	 */
-	public static EAdColor BROWN = new EAdColor( 200, 50, 0);
-	
+	public static EAdColor BROWN = new EAdColor(200, 50, 0);
+
 	/**
 	 * Dark brown EAdColor
 	 */
-	public static EAdColor DARK_BROWN = new EAdColor( 100, 50, 0);
-	
+	public static EAdColor DARK_BROWN = new EAdColor(100, 50, 0);
+
 	/**
 	 * Light brown EAdColor
 	 */
-	public static EAdColor LIGHT_BROWN = new EAdColor( 150, 75, 0);
-	
+	public static EAdColor LIGHT_BROWN = new EAdColor(150, 75, 0);
 
 	/**
 	 * The red value of the color
@@ -147,7 +148,7 @@ public class EAdColor {
 	private int alpha;
 
 	/**
-	 * Create a new white color
+	 * Creates a new white color, with the values of white
 	 */
 	public EAdColor() {
 		this(255, 255, 255, 255);
@@ -186,53 +187,16 @@ public class EAdColor {
 		setAlpha(alpha);
 	}
 
-	@Override
-	public String toString() {
-		String color = "0x";
-		color += valueToString(red);
-		color += valueToString(green);
-		color += valueToString(blue);
-		color += valueToString(alpha);
-		return color;
-	}
-
-	private String valueToString(int value) {
-		String temp = Integer.toHexString(value);
-		if (temp.length() < 2)
-			temp = "00" + temp;
-		return temp.substring(temp.length() - 2);
-	}
-
 	/**
-	 * Parse the value of a color from a string. If string is {@code null}
-	 * returns {@link EAdColor#TRANSPARENT}
+	 * Parse the value of a color from a string in the hexadecimal form
+	 * {@code 0xRRGGBBAA}.
 	 * 
 	 * @param string
 	 *            The string with the color value
-	 * @return The EAdColor represented by the string
+	 * 
 	 */
-	public static EAdColor valueOf(String string) {
-		if (string != null && string.length() == 10 ) {
-			EAdColor color = new EAdColor();
-			color.setRed(Integer.parseInt(string.substring(2, 4), 16));
-			color.setGreen(Integer.parseInt(string.substring(4, 6), 16));
-			color.setBlue(Integer.parseInt(string.substring(6, 8), 16));
-			color.setAlpha(Integer.parseInt(string.substring(8, 10), 16));
-			return color;
-		} else
-			return EAdColor.TRANSPARENT;
-	}
-
-	@Override
-	public boolean equals(Object o) {
-		if (o != null && o instanceof EAdColor) {
-			EAdColor temp = (EAdColor) o;
-			if (temp.red == red && temp.blue == blue && temp.green == green
-					&& temp.alpha == alpha)
-				return true;
-		}
-		return false;
-
+	public EAdColor(String data) {
+		parse(data);
 	}
 
 	/**
@@ -318,6 +282,50 @@ public class EAdColor {
 			return 255;
 		else
 			return value;
+	}
+
+	@Override
+	public String toString() {
+		return toStringData();
+	}
+
+	private String valueToString(int value) {
+		String temp = Integer.toHexString(value);
+		if (temp.length() < 2)
+			temp = "00" + temp;
+		return temp.substring(temp.length() - 2);
+	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (o != null && o instanceof EAdColor) {
+			EAdColor temp = (EAdColor) o;
+			if (temp.red == red && temp.blue == blue && temp.green == green
+					&& temp.alpha == alpha)
+				return true;
+		}
+		return false;
+
+	}
+
+	@Override
+	public String toStringData() {
+		String color = "0x";
+		color += valueToString(red);
+		color += valueToString(green);
+		color += valueToString(blue);
+		color += valueToString(alpha);
+		return color;
+	}
+
+	@Override
+	public void parse(String data) {
+		if (data != null && data.length() == 10) {
+			setRed(Integer.parseInt(data.substring(2, 4), 16));
+			setGreen(Integer.parseInt(data.substring(4, 6), 16));
+			setBlue(Integer.parseInt(data.substring(6, 8), 16));
+			setAlpha(Integer.parseInt(data.substring(8, 10), 16));
+		}
 	}
 
 }

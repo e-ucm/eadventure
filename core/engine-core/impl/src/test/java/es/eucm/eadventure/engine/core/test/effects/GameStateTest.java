@@ -42,7 +42,7 @@ import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 
-import es.eucm.eadventure.common.model.params.guievents.EAdMouseEvent.MouseActionType;
+import es.eucm.eadventure.common.model.guievents.EAdMouseEvent.MouseActionType;
 import es.eucm.eadventure.engine.core.guiactions.impl.MouseActionImpl;
 
 public class GameStateTest extends EffectTest {

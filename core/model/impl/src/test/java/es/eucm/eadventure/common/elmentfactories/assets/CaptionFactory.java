@@ -38,14 +38,14 @@
 package es.eucm.eadventure.common.elmentfactories.assets;
 
 import es.eucm.eadventure.common.elmentfactories.EAdElementsFactory;
-import es.eucm.eadventure.common.model.params.EAdBorderedColor;
-import es.eucm.eadventure.common.model.params.EAdFont;
+import es.eucm.eadventure.common.params.EAdFontImpl;
+import es.eucm.eadventure.common.params.fills.impl.EAdBorderedColor;
 import es.eucm.eadventure.common.resources.assets.drawable.impl.CaptionImpl;
 
 public class CaptionFactory {
 
 	public CaptionImpl createCaption(String text, EAdBorderedColor textColor,
-			EAdBorderedColor bubbleColor, EAdFont font) {
+			EAdBorderedColor bubbleColor, EAdFontImpl font) {
 		CaptionImpl caption = new CaptionImpl();
 		caption.setText(EAdElementsFactory.getInstance().getStringFactory()
 				.getString(text));
@@ -58,7 +58,7 @@ public class CaptionFactory {
 
 	public CaptionImpl createCaption(String text, EAdBorderedColor textColor,
 			EAdBorderedColor bubbleColor) {
-		return createCaption(text, textColor, bubbleColor, EAdFont.REGULAR);
+		return createCaption(text, textColor, bubbleColor, EAdFontImpl.REGULAR);
 	}
 
 	public CaptionImpl createCaption(String text) {

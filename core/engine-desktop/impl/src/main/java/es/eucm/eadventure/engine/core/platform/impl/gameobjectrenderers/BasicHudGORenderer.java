@@ -43,9 +43,10 @@ import java.util.logging.Logger;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
-import es.eucm.eadventure.common.model.params.EAdBorderedColor;
-import es.eucm.eadventure.common.model.params.EAdFont;
-import es.eucm.eadventure.common.model.params.EAdPosition;
+import es.eucm.eadventure.common.params.EAdFontImpl;
+import es.eucm.eadventure.common.params.fills.impl.EAdBorderedColor;
+import es.eucm.eadventure.common.params.geom.EAdPosition;
+import es.eucm.eadventure.common.params.geom.impl.EAdPositionImpl;
 import es.eucm.eadventure.common.resources.EAdString;
 import es.eucm.eadventure.common.resources.assets.drawable.impl.CaptionImpl;
 import es.eucm.eadventure.engine.core.MouseState;
@@ -88,11 +89,11 @@ public class BasicHudGORenderer implements
 
 		if (mouseState.getDraggingGameObject() != null && mouseState.isInside()) {
 			GameObject<?> actor = mouseState.getDraggingGameObject();
-			graphicRendererFactory.render(g, actor, EAdPosition
+			graphicRendererFactory.render(g, actor, EAdPositionImpl
 					.volatileEAdPosition(
 							mouseState.getVirtualMouseX() - mouseState.getMouseDifX(),
 							mouseState.getVirtualMouseY() - mouseState.getMouseDifY(),
-							actor.getPosition().getDespX(), actor.getPosition().getDespY()), 1.0f, 0, 0);
+							actor.getPosition().getDispX(), actor.getPosition().getY()), 1.0f, 0, 0);
 		}
 
 		//TODO probably should check if it wants its name to be painted
@@ -103,7 +104,7 @@ public class BasicHudGORenderer implements
 			EAdString name = ((ActorReferenceGO) underMouse).getName();
 			if (caption == null || !caption.getText().equals(name))
 				renewCaption(name);
-			graphicRendererFactory.render(g, assetHandler.getRuntimeAsset(caption), EAdPosition.volatileEAdPosition(
+			graphicRendererFactory.render(g, assetHandler.getRuntimeAsset(caption), EAdPositionImpl.volatileEAdPosition(
 					mouseState.getVirtualMouseX(),
 					mouseState.getVirtualMouseY()), 1.0f, 0, 0);
 		}
@@ -112,7 +113,7 @@ public class BasicHudGORenderer implements
 	private void renewCaption(EAdString text) {
 		caption = new CaptionImpl();
 		((CaptionImpl) caption).setTextColor(EAdBorderedColor.BLACK_ON_WHITE);
-		((CaptionImpl) caption).setFont(EAdFont.REGULAR);
+		((CaptionImpl) caption).setFont(EAdFontImpl.REGULAR);
 		caption.setText(text);
 	}
 

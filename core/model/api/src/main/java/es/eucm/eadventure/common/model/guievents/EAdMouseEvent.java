@@ -35,14 +35,27 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package es.eucm.eadventure.common.model.params.guievents;
-
+package es.eucm.eadventure.common.model.guievents;
 
 /**
- * Implemented by all classes that represents the data contained in a GUI event.
- * Inherited classes will only contain static information about the event, the
- * minimal information required to completely describe it.
+ * Represents a mouse event static data
  */
-public interface EAdGUIEvent {
+public interface EAdMouseEvent extends EAdGUIEvent {
+
+	/**
+	 * 
+	 * Mouse event's type
+	 * 
+	 */
+	public enum MouseActionType {
+		RIGHT_CLICK, LEFT_CLICK, DOUBLE_CLICK, DRAG, ENTERED, EXITED, MOVED, DROP, PRESSED
+	}
+
+	/**
+	 * Returns mouse event type
+	 * 
+	 * @return mouse event type
+	 */
+	MouseActionType getType();
 
 }

@@ -37,7 +37,7 @@
 
 package es.eucm.eadventure.engine.core.guiactions;
 
-import es.eucm.eadventure.common.model.params.guievents.EAdGUIEvent;
+import es.eucm.eadventure.common.model.guievents.EAdGUIEvent;
 
 /**
  * <p>

@@ -35,24 +35,78 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package es.eucm.eadventure.common.model.params;
+package es.eucm.eadventure.common.params.geom.impl;
+
+import es.eucm.eadventure.common.params.EAdParam;
+import es.eucm.eadventure.common.params.geom.EAdRectangle;
 
 /**
  * Represents a 2D rectangle. It has an ( x, y ) coordinate, width and height
  * 
  */
-public class EAdRectangle {
+public class EAdRectangleImpl implements EAdRectangle, EAdParam {
 
+	/**
+	 * x top left coordinate of the rectangle
+	 */
 	public int x;
+
+	/**
+	 * y top left coordinate of the rectangle
+	 */
 	public int y;
+
+	/**
+	 * rectangle's width
+	 */
 	public int width;
+
+	/**
+	 * rectangle's height
+	 */
 	public int height;
 
-	public EAdRectangle(int x, int y, int width, int height) {
+	/**
+	 * Creates a rectangle
+	 * 
+	 * @param x
+	 *            x top left coordinate of the rectangle
+	 * @param y
+	 *            y top left coordinate of the rectangle
+	 * @param width
+	 *            rectangle's width
+	 * @param height
+	 *            rectangle's height
+	 */
+	public EAdRectangleImpl(int x, int y, int width, int height) {
 		this.x = x;
 		this.y = y;
 		this.width = width;
 		this.height = height;
+	}
+	
+	public EAdRectangleImpl( String string ){
+		parse( string );
+	}
+	
+	@Override
+	public int getX() {
+		return x;
+	}
+
+	@Override
+	public int getY() {
+		return y;
+	}
+
+	@Override
+	public int getWidth() {
+		return width;
+	}
+
+	@Override
+	public int getHeight() {
+		return height;
 	}
 
 	/**
@@ -71,10 +125,24 @@ public class EAdRectangle {
 				& y <= this.y + height);
 	}
 
-	private static EAdRectangle volatileEAdRectangle = new EAdRectangle(0, 0,
+	private static EAdRectangleImpl volatileEAdRectangle = new EAdRectangleImpl(0, 0,
 			0, 0);
 
-	public static EAdRectangle getVolatileEAdRectangle(int x, int y, int width,
+	/**
+	 * Returns a static rectangle that could be used to do some calculations,
+	 * avoiding the creation of a new rectangle
+	 * 
+	 * @param x
+	 *            x top left coordinate of the rectangle
+	 * @param y
+	 *            y top left coordinate of the rectangle
+	 * @param width
+	 *            rectangle's width
+	 * @param height
+	 *            rectangle's height
+	 * @return
+	 */
+	public static EAdRectangleImpl getVolatileEAdRectangle(int x, int y, int width,
 			int height) {
 		volatileEAdRectangle.x = x;
 		volatileEAdRectangle.y = y;
@@ -89,10 +157,25 @@ public class EAdRectangle {
 	 * @param position
 	 *            new position
 	 */
-	public void setPosition(EAdPosition position) {
+	public void setPosition(EAdPositionImpl position) {
 		this.x = position.getX();
 		this.y = position.getY();
 
+	}
+
+	@Override
+	public String toStringData() {
+		return x + ":" + y + ":" + width + ":" + height;
+	}
+
+	@Override
+	public void parse(String data) {
+		String[] temp = data.split(":");
+		int i = 0;
+		x = Integer.parseInt(temp[i++]);
+		y = Integer.parseInt(temp[i++]);
+		width = Integer.parseInt(temp[i++]);
+		height = Integer.parseInt(temp[i++]);
 	}
 
 }

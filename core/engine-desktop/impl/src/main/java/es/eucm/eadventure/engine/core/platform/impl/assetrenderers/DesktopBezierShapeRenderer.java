@@ -37,52 +37,58 @@
 
 package es.eucm.eadventure.engine.core.platform.impl.assetrenderers;
 
-import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics2D;
+import java.awt.Shape;
 import java.awt.Stroke;
 import java.awt.geom.AffineTransform;
 
-import es.eucm.eadventure.common.model.params.EAdPosition;
-import es.eucm.eadventure.common.resources.assets.drawable.impl.BezierShape;
-import es.eucm.eadventure.engine.core.platform.AssetRenderer;
-import es.eucm.eadventure.engine.core.platform.assets.impl.DesktopBezierShape;
-import es.eucm.eadventure.engine.core.platform.assets.impl.DesktopEngineColor;
+import com.google.inject.Inject;
+import com.google.inject.Singleton;
 
-public class DesktopBezierShapeRenderer implements AssetRenderer<Graphics2D, DesktopBezierShape> {
+import es.eucm.eadventure.common.params.geom.EAdPosition;
+import es.eucm.eadventure.engine.core.platform.AssetRenderer;
+import es.eucm.eadventure.engine.core.platform.FillFactory;
+import es.eucm.eadventure.engine.core.platform.assets.impl.DesktopBezierShape;
+
+@Singleton
+public class DesktopBezierShapeRenderer implements
+		AssetRenderer<Graphics2D, DesktopBezierShape> {
+	
+	private FillFactory<Graphics2D, Shape> fillFactory;
+	
+	@Inject
+	public DesktopBezierShapeRenderer( FillFactory<Graphics2D, Shape> fillFactory){
+		this.fillFactory = fillFactory;
+	}
 
 	@Override
 	public void render(Graphics2D graphicContext, DesktopBezierShape asset,
 			EAdPosition position, float scale, int offsetX, int offsetY) {
-		
+
 		if (!asset.isLoaded())
 			asset.loadAsset();
-		
-		BezierShape assetDescriptor = asset.getAssetDescriptor();
+
 		int x = position.getJavaX(asset.getWidth() * scale) + offsetX;
 		int y = position.getJavaY(asset.getHeight() * scale) + offsetY;
-		if (assetDescriptor.getColor().getBorderColor().getAlpha() != 0 || assetDescriptor.getColor().getCenterColor().getAlpha() != 0) {
-			Color temp = graphicContext.getColor();
-			AffineTransform at = graphicContext.getTransform();
-			AffineTransform newTransform = (AffineTransform) at.clone();
-			newTransform.translate(x, y);
-			newTransform.scale(scale, scale);
-			graphicContext.setTransform(newTransform);
-			graphicContext.setColor(new DesktopEngineColor(assetDescriptor.getColor().getCenterColor()).getColor());
-			graphicContext.fill(asset.getShape());
-			graphicContext.setColor(new DesktopEngineColor(assetDescriptor.getColor().getBorderColor()).getColor());
-			Stroke s = graphicContext.getStroke();
-			graphicContext.setStroke(new BasicStroke(assetDescriptor.getBorderWidth()));
-			graphicContext.draw(asset.getShape());
-			graphicContext.setStroke(s);
-			graphicContext.setColor(temp);
-			graphicContext.setTransform(at);
-		}
+
+		Color temp = graphicContext.getColor();
+		AffineTransform at = graphicContext.getTransform();
+		AffineTransform newTransform = (AffineTransform) at.clone();
+		newTransform.translate(x, y);
+		newTransform.scale(scale, scale);
+		graphicContext.setTransform(newTransform);
+		Stroke s = graphicContext.getStroke();
+		fillFactory.fill(asset.getAssetDescriptor().getFill(), graphicContext, asset.getShape());
+		graphicContext.setStroke(s);
+		graphicContext.setColor(temp);
+		graphicContext.setTransform(at);
+
 	}
 
 	@Override
 	public boolean contains(int x, int y, DesktopBezierShape asset) {
-		if (asset != null && x < asset.getWidth() && y < asset.getHeight()){
+		if (asset != null && x < asset.getWidth() && y < asset.getHeight()) {
 			return asset.getShape().contains(x, y);
 		}
 		return false;

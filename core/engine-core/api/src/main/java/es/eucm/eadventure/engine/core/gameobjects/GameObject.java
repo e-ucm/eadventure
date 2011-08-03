@@ -39,7 +39,7 @@ package es.eucm.eadventure.engine.core.gameobjects;
 
 import java.util.List;
 
-import es.eucm.eadventure.common.model.params.EAdPosition;
+import es.eucm.eadventure.common.interfaces.Positioned;
 import es.eucm.eadventure.engine.core.GameState;
 import es.eucm.eadventure.engine.core.MouseState;
 import es.eucm.eadventure.engine.core.guiactions.GUIAction;
@@ -51,7 +51,7 @@ import es.eucm.eadventure.engine.core.platform.RuntimeAsset;
  * @param <T>
  *            The type of element represented by the game object
  */
-public interface GameObject<T> {
+public interface GameObject<T> extends Positioned {
 
 	/**
 	 * Process the action in the graphic interface (click, etc.)
@@ -90,12 +90,6 @@ public interface GameObject<T> {
 	 *            Current game state
 	 */
 	void update(GameState state);
-
-	/**
-	 * @return The position of the game object. The position can be null if the
-	 *         object does not have one
-	 */
-	EAdPosition getPosition();
 
 	/**
 	 * Returns the represented element by this game object

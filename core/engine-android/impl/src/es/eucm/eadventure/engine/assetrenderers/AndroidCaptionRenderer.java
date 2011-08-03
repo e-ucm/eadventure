@@ -37,28 +37,21 @@
 
 package es.eucm.eadventure.engine.assetrenderers;
 
-import java.util.logging.Logger;
-
 import android.graphics.Canvas;
-import android.graphics.Paint;
-import android.graphics.Paint.Style;
-import android.graphics.RectF;
-
-import es.eucm.eadventure.common.model.params.EAdBorderedColor;
-import es.eucm.eadventure.common.model.params.EAdPosition;
+import android.graphics.Path;
+import es.eucm.eadventure.common.params.EAdFill;
+import es.eucm.eadventure.common.params.geom.EAdPosition;
 import es.eucm.eadventure.engine.assets.AndroidEngineCaption;
-import es.eucm.eadventure.engine.assets.AndroidEngineColor;
-import es.eucm.eadventure.engine.assets.AndroidEngineFont;
 import es.eucm.eadventure.engine.core.platform.AssetRenderer;
+import es.eucm.eadventure.engine.core.platform.FillFactory;
 
 public class AndroidCaptionRenderer implements
 		AssetRenderer<Canvas, AndroidEngineCaption> {
 
-	private static final Logger logger = Logger
-			.getLogger("DesktopCaptionRenderer");
+	private FillFactory<Canvas, Path> fillFactory;
 
-	public AndroidCaptionRenderer() {
-		logger.info("New instance");
+	public AndroidCaptionRenderer(FillFactory<Canvas, Path> fillFactory) {
+		this.fillFactory = fillFactory;
 	}
 
 	@Override
@@ -68,7 +61,7 @@ public class AndroidCaptionRenderer implements
 
 		if (!asset.isLoaded())
 			asset.loadAsset();
-		
+
 		int xLeft = position.getJavaX(asset.getWidth() * scale);
 		int yTop = position.getJavaY(asset.getHeight() * scale);
 		int width = (int) (asset.getWidth() * scale);
@@ -78,15 +71,15 @@ public class AndroidCaptionRenderer implements
 		g.translate(offsetX + xLeft, offsetY + yTop);
 
 		if (asset.getCaption().hasBubble()
-				& asset.getCaption().getBubbleColor() != null)
-			drawBubble(g, width, height, asset.getCaption().getBubbleColor());
+				& asset.getCaption().getBubbleFill() != null)
+			drawBubble(g, width, height, asset.getCaption().getBubbleFill());
 
-		
-		g.translate(asset.getCaption().getPadding(), asset.getCaption().getPadding() );
+		g.translate(asset.getCaption().getPadding(), asset.getCaption()
+				.getPadding());
 		int yOffset = 0;
 		for (String s : asset.getText()) {
 			yOffset += asset.getFont().lineHeight();
-			drawString(g, asset, s, yOffset );
+			drawString(g, asset, s, yOffset);
 		}
 		g.restore();
 
@@ -103,50 +96,18 @@ public class AndroidCaptionRenderer implements
 
 	protected void drawString(Canvas g, AndroidEngineCaption text,
 			String string, int yOffset) {
-		float alpha = text.getAlpha();
-		EAdBorderedColor textColor = text.getCaption().getTextColor();
 
-		int borderColor = new AndroidEngineColor(textColor.getBorderColor())
-				.getColor();
-		int color = new AndroidEngineColor(textColor.getCenterColor())
-				.getColor();
-
-		Paint p = new Paint();
-		p.setAlpha(Math.round(alpha * 255));
-		p.setColor(borderColor);
-		p.setTypeface(((AndroidEngineFont) text.getFont()).getFont());
-		
-		g.drawText(string, -1, yOffset - 1, p);
-		g.drawText(string, 1, yOffset - 1, p);
-		g.drawText(string, -1, yOffset + 1, p);
-		g.drawText(string, 1, yOffset + 1, p);
-
-		p.setColor(color);
-
-		g.drawText(string, 0, yOffset, p);
+		g.save();
+		g.translate(0, yOffset);
+		fillFactory.fill(text.getAssetDescriptor().getTextFill(), g, string);
+		g.restore();
 	}
 
-	private void drawBubble(Canvas g, int width, int height,
-			EAdBorderedColor bubbleColor) {
+	private void drawBubble(Canvas g, int width, int height, EAdFill bubbleColor) {
 
-		AndroidEngineColor color = new AndroidEngineColor(
-				bubbleColor.getCenterColor());
-
-		if (bubbleColor != null) {
-			Paint p = new Paint();
-			p.setColor(color.getColor());
-			p.setStyle(Style.FILL);
-			g.drawRoundRect(new RectF(0, 0, width, height), 15, 15, p);
-		}
-
-		AndroidEngineColor border = new AndroidEngineColor(
-				bubbleColor.getBorderColor());
-		if (border != null) {
-			Paint p = new Paint();
-			p.setColor(border.getColor());
-			p.setStyle(Style.STROKE);
-			g.drawRoundRect(new RectF(0, 0, width, height), 15, 15, p);
-		}
+		Path p = new Path();
+		p.addRect(0, 0, width, height, Path.Direction.CW);
+		fillFactory.fill(bubbleColor, g, p);
 
 	}
 

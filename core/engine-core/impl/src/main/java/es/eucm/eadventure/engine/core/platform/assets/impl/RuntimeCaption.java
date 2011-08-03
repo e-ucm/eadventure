@@ -43,7 +43,7 @@ import java.util.logging.Logger;
 
 import com.google.inject.Inject;
 
-import es.eucm.eadventure.common.model.params.EAdRectangle;
+import es.eucm.eadventure.common.params.geom.impl.EAdRectangleImpl;
 import es.eucm.eadventure.common.resources.StringHandler;
 import es.eucm.eadventure.common.resources.assets.drawable.Caption;
 import es.eucm.eadventure.common.resources.assets.drawable.Drawable;
@@ -76,7 +76,7 @@ public class RuntimeCaption extends AbstractRuntimeAsset<Caption> implements
 
 	protected RuntimeFont font;
 
-	protected EAdRectangle bounds;
+	protected EAdRectangleImpl bounds;
 
 	protected float alpha;
 
@@ -220,7 +220,7 @@ public class RuntimeCaption extends AbstractRuntimeAsset<Caption> implements
 		this.currentText = text;
 		lines = new ArrayList<String>();
 		totalParts = 0;
-		bounds = new EAdRectangle(0, 0, 0, 0);
+		bounds = new EAdRectangleImpl(0, 0, 0, 0);
 		lineHeight = font.lineHeight();
 
 		int maximumWidth = (int) (descriptor.getMaximumWidth() == Caption.SCREEN_SIZE ? (platformConfiguration
@@ -408,7 +408,7 @@ public class RuntimeCaption extends AbstractRuntimeAsset<Caption> implements
 		return descriptor;
 	}
 
-	public EAdRectangle getBounds() {
+	public EAdRectangleImpl getBounds() {
 		return bounds;
 	}
 

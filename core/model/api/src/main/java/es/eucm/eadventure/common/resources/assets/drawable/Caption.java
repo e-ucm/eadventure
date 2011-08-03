@@ -37,8 +37,8 @@
 
 package es.eucm.eadventure.common.resources.assets.drawable;
 
-import es.eucm.eadventure.common.model.params.EAdBorderedColor;
-import es.eucm.eadventure.common.model.params.EAdFont;
+import es.eucm.eadventure.common.params.EAdFill;
+import es.eucm.eadventure.common.params.EAdFont;
 import es.eucm.eadventure.common.resources.EAdString;
 
 /**
@@ -79,7 +79,7 @@ public interface Caption extends Drawable {
 	 * 
 	 * @return
 	 */
-	public EAdBorderedColor getTextColor();
+	public EAdFill getTextFill();
 
 	/**
 	 * Returns whether this caption has a bubble
@@ -100,7 +100,7 @@ public interface Caption extends Drawable {
 	 * 
 	 * @return
 	 */
-	public EAdBorderedColor getBubbleColor();
+	public EAdFill getBubbleFill();
 
 	/**
 	 * Returns the alpha value for the caption

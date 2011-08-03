@@ -41,7 +41,7 @@ import java.awt.Graphics2D;
 
 import com.google.inject.Singleton;
 
-import es.eucm.eadventure.common.model.params.EAdPosition;
+import es.eucm.eadventure.common.params.geom.EAdPosition;
 import es.eucm.eadventure.engine.core.gameobjects.impl.VideoSceneGO;
 import es.eucm.eadventure.engine.core.platform.GameObjectRenderer;
 

@@ -41,7 +41,7 @@ import junit.framework.TestCase;
 
 import org.junit.Test;
 
-import es.eucm.eadventure.common.model.params.EAdColor;
+import es.eucm.eadventure.common.params.fills.impl.EAdColor;
 
 public class EAdColorTest extends TestCase {
 
@@ -66,9 +66,9 @@ public class EAdColorTest extends TestCase {
 
 	@Test
 	public void testParse() {
-		EAdColor black = EAdColor.valueOf("0x000000ff");
+		EAdColor black = new EAdColor("0x000000ff");
 		assertEquals(black, new EAdColor(0,0,0));
-		EAdColor white = EAdColor.valueOf("0xffffffff");
+		EAdColor white = new EAdColor("0xffffffff");
 		assertEquals(white, new EAdColor(255,255,255));
 	}
 

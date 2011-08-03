@@ -44,8 +44,9 @@ import java.util.logging.Logger;
 
 import com.google.inject.Inject;
 
-import es.eucm.eadventure.common.model.params.EAdFont;
-import es.eucm.eadventure.common.model.params.EAdRectangle;
+import es.eucm.eadventure.common.params.EAdFont;
+import es.eucm.eadventure.common.params.EAdFontImpl;
+import es.eucm.eadventure.common.params.geom.EAdRectangle;
 import es.eucm.eadventure.engine.core.platform.AssetHandler;
 import es.eucm.eadventure.engine.core.platform.FontCache;
 import es.eucm.eadventure.engine.core.platform.RuntimeFont;
@@ -69,20 +70,20 @@ public abstract class FontCacheImpl implements FontCache {
 	 * Puts a runtime font in the cache
 	 * 
 	 * @param font
-	 *            {@link EAdFont}
+	 *            {@link EAdFontImpl}
 	 * @param rFont
-	 *            {@link RuntimeFont} associated to the given {@link EAdFont}
+	 *            {@link RuntimeFont} associated to the given {@link EAdFontImpl}
 	 */
 	public void put(EAdFont font, RuntimeFont rFont) {
 		fontCache.put(font, rFont);
 	}
 
 	/**
-	 * Returns {@link RuntimeFont} associated to the given {@link EAdFont}
+	 * Returns {@link RuntimeFont} associated to the given {@link EAdFontImpl}
 	 * 
 	 * @param font
-	 *            the {@link EAdFont}
-	 * @return {@link RuntimeFont} associated to the given {@link EAdFont}
+	 *            the {@link EAdFontImpl}
+	 * @return {@link RuntimeFont} associated to the given {@link EAdFontImpl}
 	 */
 	public RuntimeFont get(EAdFont font) {
 		if ( !fontCache.containsKey(font) ){
@@ -126,7 +127,7 @@ public abstract class FontCacheImpl implements FontCache {
 	}
 
 	/**
-	 * Returns the string bounds with the given {@link EAdFont}, <b>null</b> if
+	 * Returns the string bounds with the given {@link EAdFontImpl}, <b>null</b> if
 	 * font is not present in the cache
 	 * 
 	 * @param string
@@ -143,10 +144,10 @@ public abstract class FontCacheImpl implements FontCache {
 
 	/**
 	 * Adds a new {@link RuntimeFont} to cache based on the given
-	 * {@link EAdFont}
+	 * {@link EAdFontImpl}
 	 * 
 	 * @param font
-	 *            given {@link EAdFont}
+	 *            given {@link EAdFontImpl}
 	 */
 	public abstract void addEAdFont(EAdFont font);
 

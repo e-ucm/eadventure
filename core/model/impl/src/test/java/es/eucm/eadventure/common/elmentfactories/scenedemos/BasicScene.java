@@ -77,14 +77,14 @@ import es.eucm.eadventure.common.model.events.impl.EAdConditionEventImpl;
 import es.eucm.eadventure.common.model.events.impl.EAdTimerEventImpl;
 import es.eucm.eadventure.common.model.guievents.impl.EAdMouseEventImpl;
 import es.eucm.eadventure.common.model.impl.EAdChapterImpl;
-import es.eucm.eadventure.common.model.params.EAdBorderedColor;
-import es.eucm.eadventure.common.model.params.EAdColor;
-import es.eucm.eadventure.common.model.params.EAdPosition;
-import es.eucm.eadventure.common.model.params.EAdPosition.Corner;
 import es.eucm.eadventure.common.model.variables.impl.extra.EAdSceneElementVars;
 import es.eucm.eadventure.common.model.variables.impl.operations.BooleanOperation;
 import es.eucm.eadventure.common.model.variables.impl.operations.LiteralExpressionOperation;
 import es.eucm.eadventure.common.model.variables.impl.vars.FloatVar;
+import es.eucm.eadventure.common.params.fills.impl.EAdBorderedColor;
+import es.eucm.eadventure.common.params.fills.impl.EAdColor;
+import es.eucm.eadventure.common.params.geom.impl.EAdPositionImpl;
+import es.eucm.eadventure.common.params.geom.impl.EAdPositionImpl.Corner;
 import es.eucm.eadventure.common.resources.EAdBundleId;
 import es.eucm.eadventure.common.resources.EAdString;
 import es.eucm.eadventure.common.resources.assets.drawable.animation.impl.Frame;
@@ -147,18 +147,16 @@ public class BasicScene extends EAdSceneImpl implements SceneDemo {
 		timers.add(timer);
 		
 		BezierShape is = new BezierShape(40, 40);
-		is.setBorderWidth(4);
-		is.setColor(EAdBorderedColor.BLACK_ON_WHITE);
-		is.lineTo(new EAdPosition(200, 40));
-		is.lineTo(new EAdPosition(40, 200));
+		is.setFill(EAdBorderedColor.BLACK_ON_WHITE);
+		is.lineTo(new EAdPositionImpl(200, 40));
+		is.lineTo(new EAdPositionImpl(40, 200));
 		EAdBasicSceneElement bse = new EAdBasicSceneElement("ide");
 		bse.getResources().addAsset(bse.getInitialBundle(), EAdBasicSceneElement.appearance, is);
 
 		is = new BezierShape(40, 40);
-		is.setBorderWidth(4);
-		is.setColor(EAdBorderedColor.WHITE_ON_BLACK);
-		is.lineTo(new EAdPosition(200, 40));
-		is.lineTo(new EAdPosition(40, 200));
+		is.setFill(EAdBorderedColor.WHITE_ON_BLACK);
+		is.lineTo(new EAdPositionImpl(200, 40));
+		is.lineTo(new EAdPositionImpl(40, 200));
 		EAdBundleId bid = new EAdBundleId("other");
 		bse.getResources().addAsset(bid, EAdBasicSceneElement.appearance, is);
 		
@@ -263,12 +261,12 @@ public class BasicScene extends EAdSceneImpl implements SceneDemo {
 		EAdButton button = new EAdButton("ball_button");
 		button.setText(new CaptionImpl(new EAdString("start_ball")));
 		button.setUpNewInstance();
-		button.setPosition(new EAdPosition(Corner.CENTER, 400, 400));
+		button.setPosition(new EAdPositionImpl(Corner.CENTER, 400, 400));
 		//getSceneElements().add(button);
 
 		EAdBasicSceneElement ball = new EAdBasicSceneElement("ball");
 		ball.getResources().addAsset(ball.getInitialBundle(), EAdBasicSceneElement.appearance, new ImageImpl("@drawable/soccer-ball.png"));
-		ball.setPosition(new EAdPosition(Corner.CENTER, 300, 300));
+		ball.setPosition(new EAdPositionImpl(Corner.CENTER, 300, 300));
 		ball.setScale(0.4f);
 		//getSceneElements().add(ball);
 	
@@ -324,8 +322,8 @@ public class BasicScene extends EAdSceneImpl implements SceneDemo {
 		buttonActor.setName(name);
 		
 		buttonReference = new EAdActorReferenceImpl("id4", buttonActor);
-		buttonReference.setPosition(new EAdPosition(
-				EAdPosition.Corner.BOTTOM_CENTER, 200, 200));
+		buttonReference.setPosition(new EAdPositionImpl(
+				EAdPositionImpl.Corner.BOTTOM_CENTER, 200, 200));
 		buttonReference.setScale(0.8f);
 		
 		//this.getSceneElements().add(buttonReference);
@@ -350,8 +348,8 @@ public class BasicScene extends EAdSceneImpl implements SceneDemo {
 				EAdBasicActor.appearance, shape);
 */
 		panielReference = new EAdActorReferenceImpl("id5", panielActor);
-		panielReference.setPosition(new EAdPosition(
-				EAdPosition.Corner.BOTTOM_CENTER, 400, 300));
+		panielReference.setPosition(new EAdPositionImpl(
+				EAdPositionImpl.Corner.BOTTOM_CENTER, 400, 300));
 		panielReference.setScale(0.5f);
 
 
@@ -372,7 +370,7 @@ public class BasicScene extends EAdSceneImpl implements SceneDemo {
 		EAdShowText actionEffect = new EAdShowText("effectAction");
 		EAdBasicSceneElement actionText = new EAdBasicSceneElement("rr");
 		
-		actionText.setPosition(new EAdPosition(100, 100));
+		actionText.setPosition(new EAdPositionImpl(100, 100));
 		CaptionImpl caption = new CaptionImpl();
 		caption.setBubbleColor(null);
 		caption.setText(hand);
@@ -424,8 +422,8 @@ public class BasicScene extends EAdSceneImpl implements SceneDemo {
 		
 		orientedReference = new EAdActorReferenceImpl("oriented_ref",
 				orientedActor);
-		orientedReference.setPosition(new EAdPosition(
-				EAdPosition.Corner.BOTTOM_CENTER, 50, 50));
+		orientedReference.setPosition(new EAdPositionImpl(
+				EAdPositionImpl.Corner.BOTTOM_CENTER, 50, 50));
 		orientedReference.setInitialOrientation(Orientation.N);
 		orientedReference.setScale(1.0f);
 		

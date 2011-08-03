@@ -37,18 +37,12 @@
 
 package es.eucm.eadventure.common.resources.assets.multimedia;
 
+import es.eucm.eadventure.common.interfaces.HasURI;
 import es.eucm.eadventure.common.resources.assets.AssetDescriptor;
 
 /**
  * General sound asset interface.
  */
-public interface Sound extends AssetDescriptor {
-
-	/**
-	 * Returns the URI associated to this Sound
-	 * 
-	 * @return the URI associated to this Sound
-	 */
-	String getURI();
+public interface Sound extends AssetDescriptor, HasURI {
 
 }

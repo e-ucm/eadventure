@@ -2,8 +2,8 @@ package es.eucm.eadventure.engine.core.trajectories;
 
 import java.util.List;
 
-import es.eucm.eadventure.common.model.params.EAdPosition;
 import es.eucm.eadventure.common.model.trajectories.TrajectoryDefinition;
+import es.eucm.eadventure.common.params.geom.EAdPosition;
 
 /**
  * General interface for trajectories generators. Trajectories are build from a

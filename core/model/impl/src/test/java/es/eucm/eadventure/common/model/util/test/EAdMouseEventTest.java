@@ -41,8 +41,8 @@ import junit.framework.TestCase;
 
 import org.junit.Test;
 
+import es.eucm.eadventure.common.model.guievents.EAdMouseEvent;
 import es.eucm.eadventure.common.model.guievents.impl.EAdMouseEventImpl;
-import es.eucm.eadventure.common.model.params.guievents.EAdMouseEvent;
 
 public class EAdMouseEventTest extends TestCase {
 	

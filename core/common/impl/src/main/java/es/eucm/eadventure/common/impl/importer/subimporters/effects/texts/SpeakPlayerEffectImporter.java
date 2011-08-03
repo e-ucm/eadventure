@@ -47,9 +47,9 @@ import es.eucm.eadventure.common.impl.importer.interfaces.EAdElementFactory;
 import es.eucm.eadventure.common.model.effects.impl.text.EAdSpeakEffect;
 import es.eucm.eadventure.common.model.elements.EAdCondition;
 import es.eucm.eadventure.common.model.elements.EAdSceneElement;
-import es.eucm.eadventure.common.model.params.EAdBorderedColor;
-import es.eucm.eadventure.common.model.params.EAdColor;
 import es.eucm.eadventure.common.model.variables.impl.extra.EAdSceneElementVars;
+import es.eucm.eadventure.common.params.fills.impl.EAdBorderedColor;
+import es.eucm.eadventure.common.params.fills.impl.EAdColor;
 import es.eucm.eadventure.common.resources.EAdString;
 import es.eucm.eadventure.common.resources.StringHandler;
 import es.eucm.eadventure.common.resources.assets.drawable.impl.BallonShape.BalloonType;
@@ -74,11 +74,11 @@ public class SpeakPlayerEffectImporter extends
 
 		Player p = factory.getCurrentOldChapterModel().getPlayer();
 
-		EAdColor center = EAdColor.valueOf("0x" + p.getTextFrontColor().substring(1) + "ff");
-		EAdColor border = EAdColor.valueOf("0x" + p.getTextBorderColor().substring(1) + "ff");
+		EAdColor center = new EAdColor("0x" + p.getTextFrontColor().substring(1) + "ff");
+		EAdColor border = new EAdColor("0x" + p.getTextBorderColor().substring(1) + "ff");
 
-		EAdColor bubbleCenter = EAdColor.valueOf("0x" + p.getBubbleBkgColor().substring(1) + "ff");
-		EAdColor bubbleBorder = EAdColor.valueOf("0x" + p.getBubbleBorderColor().substring(1)
+		EAdColor bubbleCenter = new EAdColor("0x" + p.getBubbleBkgColor().substring(1) + "ff");
+		EAdColor bubbleBorder = new EAdColor("0x" + p.getBubbleBorderColor().substring(1)
 				+ "ff");
 		
 		effect.setColor(new EAdBorderedColor(center, border), new EAdBorderedColor(bubbleCenter, bubbleBorder));

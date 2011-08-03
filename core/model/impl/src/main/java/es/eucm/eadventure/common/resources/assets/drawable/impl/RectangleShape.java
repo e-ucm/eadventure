@@ -37,7 +37,7 @@
 
 package es.eucm.eadventure.common.resources.assets.drawable.impl;
 
-import es.eucm.eadventure.common.model.params.EAdBorderedColor;
+import es.eucm.eadventure.common.params.fills.impl.EAdBorderedColor;
 
 
 /**
@@ -56,7 +56,7 @@ public class RectangleShape extends BezierShape {
 		lineTo( width, height );
 		lineTo( 0, height );
 		close( );
-		super.setColor(color);
+		super.setFill(color);
 	}
 	
 }

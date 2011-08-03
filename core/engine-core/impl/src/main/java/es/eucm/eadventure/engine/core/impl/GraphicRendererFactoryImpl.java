@@ -47,12 +47,12 @@ import com.google.inject.name.Named;
 import es.eucm.eadventure.common.interfaces.AbstractFactory;
 import es.eucm.eadventure.common.interfaces.EAdRuntimeException;
 import es.eucm.eadventure.common.interfaces.MapProvider;
-import es.eucm.eadventure.common.model.params.EAdPosition;
+import es.eucm.eadventure.common.params.geom.EAdPosition;
 import es.eucm.eadventure.engine.core.gameobjects.GameObject;
 import es.eucm.eadventure.engine.core.platform.AssetRenderer;
 import es.eucm.eadventure.engine.core.platform.GameObjectRenderer;
-import es.eucm.eadventure.engine.core.platform.GraphicRendererFactory;
 import es.eucm.eadventure.engine.core.platform.GraphicRenderer;
+import es.eucm.eadventure.engine.core.platform.GraphicRendererFactory;
 import es.eucm.eadventure.engine.core.platform.RuntimeAsset;
 
 @Singleton

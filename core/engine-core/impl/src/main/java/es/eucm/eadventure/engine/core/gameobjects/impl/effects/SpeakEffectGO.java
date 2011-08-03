@@ -7,8 +7,8 @@ import es.eucm.eadventure.common.model.elements.EAdSceneElement;
 import es.eucm.eadventure.common.model.elements.EAdSceneElement.CommonStates;
 import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
 import es.eucm.eadventure.common.model.elements.impl.EAdComplexSceneElement;
-import es.eucm.eadventure.common.model.params.EAdPosition;
-import es.eucm.eadventure.common.model.params.guievents.EAdMouseEvent.MouseActionType;
+import es.eucm.eadventure.common.model.guievents.EAdMouseEvent.MouseActionType;
+import es.eucm.eadventure.common.params.geom.impl.EAdPositionImpl;
 import es.eucm.eadventure.common.resources.StringHandler;
 import es.eucm.eadventure.common.resources.assets.drawable.impl.BallonShape;
 import es.eucm.eadventure.common.resources.assets.drawable.impl.BezierShape;
@@ -113,7 +113,7 @@ public class SpeakEffectGO extends AbstractEffectGO<EAdSpeakEffect> {
 					element.getBallonType());
 		}
 
-		rectangle.setColor(element.getBubbleColor());
+		rectangle.setFill(element.getBubbleColor());
 		CaptionImpl text = new CaptionImpl();
 		text.setText(element.getString());
 		text.setTextColor(element.getTextColor());
@@ -124,7 +124,7 @@ public class SpeakEffectGO extends AbstractEffectGO<EAdSpeakEffect> {
 		textSE = new EAdBasicSceneElement("text");
 		textSE.getResources().addAsset(textSE.getInitialBundle(),
 				EAdBasicSceneElement.appearance, text);
-		textSE.setPosition(new EAdPosition(left + MARGIN, top));
+		textSE.setPosition(new EAdPositionImpl(left + MARGIN, top));
 
 		EAdComplexSceneElement complex = new EAdComplexSceneElement("complex");
 		complex.getResources().addAsset(complex.getInitialBundle(),

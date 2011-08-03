@@ -44,9 +44,9 @@ import com.google.inject.Inject;
 
 import es.eucm.eadventure.common.model.elements.EAdScene;
 import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
-import es.eucm.eadventure.common.model.params.EAdBorderedColor;
-import es.eucm.eadventure.common.model.params.EAdColor;
-import es.eucm.eadventure.common.model.params.EAdPosition;
+import es.eucm.eadventure.common.params.fills.impl.EAdBorderedColor;
+import es.eucm.eadventure.common.params.fills.impl.EAdColor;
+import es.eucm.eadventure.common.params.geom.impl.EAdPositionImpl;
 import es.eucm.eadventure.common.resources.EAdString;
 import es.eucm.eadventure.common.resources.StringHandler;
 import es.eucm.eadventure.common.resources.assets.drawable.Caption;
@@ -99,10 +99,10 @@ public class EmptyTransitionGO extends SceneGOImpl implements TransitionGO {
 		caption = new CaptionImpl(string);
 		loadingText = new EAdBasicSceneElement("loadingText");
 		loadingText.getResources().addAsset(loadingText.getInitialBundle(), EAdBasicSceneElement.appearance, caption);
-		loadingText.setPosition(EAdPosition.volatileEAdPosition(750, 550, 1.0f, 1.0f));
+		loadingText.setPosition(EAdPositionImpl.volatileEAdPosition(750, 550, 1.0f, 1.0f));
 		
 		RectangleShape rs = new RectangleShape(platformConfiguration.getVirtualWidth(), platformConfiguration.getVirtualHeight());
-		rs.setColor(new EAdBorderedColor(new EAdColor(100, 100, 100, 30), EAdColor.BLACK));
+		rs.setFill(new EAdBorderedColor(new EAdColor(100, 100, 100, 30), EAdColor.BLACK));
 		
 		screenBlock = new EAdBasicSceneElement("screenBlock");
 		screenBlock.getResources().addAsset(screenBlock.getInitialBundle(), EAdBasicSceneElement.appearance, rs);

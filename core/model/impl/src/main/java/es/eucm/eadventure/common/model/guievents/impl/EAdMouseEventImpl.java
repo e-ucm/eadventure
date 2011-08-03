@@ -39,7 +39,7 @@ package es.eucm.eadventure.common.model.guievents.impl;
 
 import es.eucm.eadventure.common.interfaces.Element;
 import es.eucm.eadventure.common.interfaces.Param;
-import es.eucm.eadventure.common.model.params.guievents.EAdMouseEvent;
+import es.eucm.eadventure.common.model.guievents.EAdMouseEvent;
 
 @Element(runtime = EAdMouseEventImpl.class, detailed = EAdMouseEventImpl.class)
 public class EAdMouseEventImpl implements EAdMouseEvent {

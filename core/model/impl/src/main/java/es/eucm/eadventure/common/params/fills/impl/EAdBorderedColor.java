@@ -35,7 +35,9 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package es.eucm.eadventure.common.model.params;
+package es.eucm.eadventure.common.params.fills.impl;
+
+import es.eucm.eadventure.common.params.EAdFill;
 
 /**
  * <p>
@@ -43,8 +45,8 @@ package es.eucm.eadventure.common.model.params;
  * one representing the border.
  * </p>
  */
-public class EAdBorderedColor {
-	
+public class EAdBorderedColor implements EAdFill {
+
 	/**
 	 * Basic black border and white center EAdBordered color
 	 */
@@ -72,29 +74,28 @@ public class EAdBorderedColor {
 	 * The color of the border
 	 */
 	private EAdColor borderColor;
+	
+	/**
+	 * Border width
+	 */
+	private int width = 1;
 
-	public EAdBorderedColor(EAdColor centerColor, EAdColor borderColor) {
+	public EAdBorderedColor(String string) {
+		parse(string);
+	}
+	
+	public EAdBorderedColor(EAdColor centerColor, EAdColor borderColor){
+		this( centerColor, borderColor, 1 );
+	}
+
+	public EAdBorderedColor(EAdColor centerColor, EAdColor borderColor, int width ) {
 		this.centerColor = centerColor;
 		this.borderColor = borderColor;
 	}
 
 	@Override
 	public String toString() {
-		return centerColor.toString() + ":" + borderColor.toString();
-	}
-
-	/**
-	 * Parses a string and returns the corresponding border color.
-	 * 
-	 * @param string
-	 *            A string representing a bordered color
-	 * @return The EAdBorderedColor
-	 */
-	public static EAdBorderedColor valueOf(String string) {
-		String temp[] = string.split(":");
-		EAdBorderedColor color = new EAdBorderedColor(
-				EAdColor.valueOf(temp[0]), EAdColor.valueOf(temp[1]));
-		return color;
+		return toStringData();
 	}
 
 	@Override
@@ -145,6 +146,24 @@ public class EAdBorderedColor {
 	 */
 	public void setCenterColor(EAdColor color) {
 		this.centerColor = color;
+	}
+	
+	public int getWidth( ){
+		return width;
+	}
+
+	@Override
+	public String toStringData() {
+		return centerColor.toStringData() + ":" + borderColor.toStringData() + ":" + width;
+	}
+
+	@Override
+	public void parse(String data) {
+		String temp[] = data.split(":");
+		setCenterColor(new EAdColor(temp[0]));
+		setBorderColor(new EAdColor(temp[1]));
+		width = Integer.parseInt(temp[2]);
+
 	}
 
 }

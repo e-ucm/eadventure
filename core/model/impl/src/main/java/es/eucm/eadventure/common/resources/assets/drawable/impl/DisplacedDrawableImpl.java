@@ -38,14 +38,15 @@
 package es.eucm.eadventure.common.resources.assets.drawable.impl;
 
 import es.eucm.eadventure.common.interfaces.Param;
-import es.eucm.eadventure.common.model.params.EAdPosition;
+import es.eucm.eadventure.common.params.geom.EAdPosition;
+import es.eucm.eadventure.common.params.geom.impl.EAdPositionImpl;
 import es.eucm.eadventure.common.resources.assets.drawable.DisplacedDrawable;
 import es.eucm.eadventure.common.resources.assets.drawable.Drawable;
 
 public class DisplacedDrawableImpl implements DisplacedDrawable {
 
 	@Param("displacement")
-	EAdPosition displacement;
+	EAdPositionImpl displacement;
 	
 	@Param("asset")
 	Drawable asset;
@@ -63,7 +64,7 @@ public class DisplacedDrawableImpl implements DisplacedDrawable {
 	 * 
 	 * @param position
 	 */
-	public void setDisplacement(EAdPosition position) {
+	public void setDisplacement(EAdPositionImpl position) {
 		displacement = position;
 	}
 

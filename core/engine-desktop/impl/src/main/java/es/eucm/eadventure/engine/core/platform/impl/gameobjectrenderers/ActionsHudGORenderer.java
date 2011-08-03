@@ -50,7 +50,7 @@ import java.util.logging.Logger;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
-import es.eucm.eadventure.common.model.params.EAdPosition;
+import es.eucm.eadventure.common.params.geom.EAdPosition;
 import es.eucm.eadventure.engine.core.gameobjects.huds.impl.ActionsHUDImpl;
 import es.eucm.eadventure.engine.core.platform.GameObjectRenderer;
 import es.eucm.eadventure.engine.core.platform.PlatformConfiguration;

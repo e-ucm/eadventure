@@ -37,8 +37,8 @@
 
 package es.eucm.eadventure.engine.core.platform;
 
-import es.eucm.eadventure.common.model.params.EAdFont;
-import es.eucm.eadventure.common.model.params.EAdRectangle;
+import es.eucm.eadventure.common.params.EAdFont;
+import es.eucm.eadventure.common.params.geom.EAdRectangle;
 
 /**
  * Represents a runtime font. Unlike {@link EAdFont}, which only contains static

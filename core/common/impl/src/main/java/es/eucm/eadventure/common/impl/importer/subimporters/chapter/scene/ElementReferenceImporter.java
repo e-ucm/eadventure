@@ -55,9 +55,9 @@ import es.eucm.eadventure.common.model.events.EAdSystemEvent;
 import es.eucm.eadventure.common.model.events.impl.EAdConditionEventImpl;
 import es.eucm.eadventure.common.model.events.impl.EAdSystemEventImpl;
 import es.eucm.eadventure.common.model.guievents.impl.EAdMouseEventImpl;
-import es.eucm.eadventure.common.model.params.EAdPosition;
 import es.eucm.eadventure.common.model.variables.impl.extra.EAdSceneElementVars;
 import es.eucm.eadventure.common.model.variables.impl.operations.BooleanOperation;
+import es.eucm.eadventure.common.params.geom.impl.EAdPositionImpl;
 
 /**
  * Elements reference importer
@@ -97,7 +97,7 @@ public class ElementReferenceImporter implements
 
 		EAdActorReferenceImpl newRef = (EAdActorReferenceImpl) object;
 
-		newRef.setPosition(new EAdPosition(EAdPosition.Corner.BOTTOM_CENTER,
+		newRef.setPosition(new EAdPositionImpl(EAdPositionImpl.Corner.BOTTOM_CENTER,
 				oldObject.getX(), oldObject.getY()));
 		newRef.setScale(oldObject.getScale());
 		newRef.setInitialOrientation(Orientation.S);

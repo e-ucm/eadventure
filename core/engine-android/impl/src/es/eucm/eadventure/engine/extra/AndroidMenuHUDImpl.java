@@ -47,7 +47,7 @@ import es.eucm.eadventure.common.model.effects.impl.EAdQuitGame;
 import es.eucm.eadventure.common.model.elements.EAdSceneElement;
 import es.eucm.eadventure.common.model.elements.impl.extra.EAdButton;
 import es.eucm.eadventure.common.model.guievents.impl.EAdMouseEventImpl;
-import es.eucm.eadventure.common.model.params.EAdPosition;
+import es.eucm.eadventure.common.params.geom.impl.EAdPositionImpl;
 import es.eucm.eadventure.common.resources.EAdString;
 import es.eucm.eadventure.common.resources.assets.drawable.impl.CaptionImpl;
 import es.eucm.eadventure.engine.core.GameState;
@@ -88,7 +88,7 @@ public class AndroidMenuHUDImpl extends MenuHUDImpl {
 		((EAdButton) button).setUpNewInstance();
 		((EAdButton) button).getBehavior().addBehavior(EAdMouseEventImpl.MOUSE_LEFT_CLICK,
 				new EAdQuitGame("menuButton_quitGame"));
-		((EAdButton) button).setPosition(new EAdPosition(EAdPosition.Corner.CENTER,
+		((EAdButton) button).setPosition(new EAdPositionImpl(EAdPositionImpl.Corner.CENTER,
 				300, 300));
 	}
 

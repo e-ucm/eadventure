@@ -35,7 +35,7 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package es.eucm.eadventure.common.model.params.guievents;
+package es.eucm.eadventure.common.model.guievents;
 
 /**
  * Represents static data of a key event

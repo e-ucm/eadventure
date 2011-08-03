@@ -37,8 +37,8 @@
 
 package es.eucm.eadventure.common.elmentfactories.assets;
 
-import es.eucm.eadventure.common.model.params.EAdBorderedColor;
-import es.eucm.eadventure.common.model.params.EAdPosition;
+import es.eucm.eadventure.common.params.fills.impl.EAdBorderedColor;
+import es.eucm.eadventure.common.params.geom.impl.EAdPositionImpl;
 import es.eucm.eadventure.common.resources.assets.drawable.Shape;
 import es.eucm.eadventure.common.resources.assets.drawable.impl.BezierShape;
 import es.eucm.eadventure.common.resources.assets.drawable.impl.RectangleShape;
@@ -75,7 +75,7 @@ public class ShapeFactory {
 		} else {
 			s = new RectangleShape(width, height);
 		}
-		((BezierShape) s).setColor(color);
+		((BezierShape) s).setFill(color);
 		return s;
 	}
 
@@ -102,8 +102,8 @@ public class ShapeFactory {
 
 	public Shape createTriangle(int width, int height) {
 		BezierShape triangle = new BezierShape(width / 2, 0);
-		triangle.lineTo(new EAdPosition(width, height));
-		triangle.lineTo(new EAdPosition(0, height));
+		triangle.lineTo(new EAdPositionImpl(width, height));
+		triangle.lineTo(new EAdPositionImpl(0, height));
 		triangle.close();
 		return triangle;
 	}
@@ -114,7 +114,7 @@ public class ShapeFactory {
 		for (int i = 0; i < nPoints; i++) {
 			int x = (int) (Math.random() * width);
 			int y = (int) (Math.random() * height);
-			shape.lineTo(new EAdPosition(x, y));
+			shape.lineTo(new EAdPositionImpl(x, y));
 		}
 		
 		shape.close();
@@ -123,11 +123,11 @@ public class ShapeFactory {
 	
 	public Shape createIrregularShape1(int width, int height) {
 		BezierShape shape = new BezierShape(width / 5, 0);
-		shape.lineTo(new EAdPosition( width - width / 5, 0));
-		shape.lineTo(new EAdPosition( width, height));
-		shape.lineTo(new EAdPosition( width - width / 5, height));
-		shape.lineTo(new EAdPosition( width / 2, height / 2));
-		shape.lineTo(new EAdPosition( width / 5, height));
+		shape.lineTo(new EAdPositionImpl( width - width / 5, 0));
+		shape.lineTo(new EAdPositionImpl( width, height));
+		shape.lineTo(new EAdPositionImpl( width - width / 5, height));
+		shape.lineTo(new EAdPositionImpl( width / 2, height / 2));
+		shape.lineTo(new EAdPositionImpl( width / 5, height));
 		shape.close();
 		return shape;
 	}

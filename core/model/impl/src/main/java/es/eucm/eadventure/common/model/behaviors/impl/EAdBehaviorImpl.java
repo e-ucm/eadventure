@@ -42,10 +42,10 @@ import es.eucm.eadventure.common.model.EAdList;
 import es.eucm.eadventure.common.model.EAdMap;
 import es.eucm.eadventure.common.model.behavior.EAdBehavior;
 import es.eucm.eadventure.common.model.effects.EAdEffect;
+import es.eucm.eadventure.common.model.guievents.EAdGUIEvent;
 import es.eucm.eadventure.common.model.impl.AbstractEAdElement;
 import es.eucm.eadventure.common.model.impl.EAdListImpl;
 import es.eucm.eadventure.common.model.impl.EAdMapImpl;
-import es.eucm.eadventure.common.model.params.guievents.EAdGUIEvent;
 
 /**
  * 

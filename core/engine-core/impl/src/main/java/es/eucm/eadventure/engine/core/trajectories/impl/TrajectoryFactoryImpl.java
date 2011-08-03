@@ -6,8 +6,8 @@ import com.google.inject.Inject;
 
 import es.eucm.eadventure.common.interfaces.AbstractFactory;
 import es.eucm.eadventure.common.interfaces.MapProvider;
-import es.eucm.eadventure.common.model.params.EAdPosition;
 import es.eucm.eadventure.common.model.trajectories.TrajectoryDefinition;
+import es.eucm.eadventure.common.params.geom.EAdPosition;
 import es.eucm.eadventure.engine.core.trajectories.TrajectoryFactory;
 import es.eucm.eadventure.engine.core.trajectories.TrajectoryGenerator;
 

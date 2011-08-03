@@ -42,10 +42,9 @@ import java.io.File;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.Typeface;
-
-import es.eucm.eadventure.common.model.params.EAdFont;
-import es.eucm.eadventure.common.model.params.EAdFont.Style;
-import es.eucm.eadventure.common.model.params.EAdRectangle;
+import es.eucm.eadventure.common.params.EAdFont;
+import es.eucm.eadventure.common.params.EAdFont.Style;
+import es.eucm.eadventure.common.params.geom.impl.EAdRectangleImpl;
 import es.eucm.eadventure.engine.core.platform.AssetHandler;
 import es.eucm.eadventure.engine.core.platform.RuntimeFont;
 
@@ -62,7 +61,7 @@ public class AndroidEngineFont implements RuntimeFont {
 		if (eadFont.isTTF()) {
 				this.font = Typeface.createFromFile(
 						new File(assetHandler
-								.getAbsolutePath(eadFont.getURI().getURI())));
+								.getAbsolutePath(eadFont.getURI().getPath())));
 		} else
 			this.font = Typeface.create(font.getName(), getStyle(font.getStyle()));
 		textPaint = new Paint();
@@ -104,10 +103,10 @@ public class AndroidEngineFont implements RuntimeFont {
 	}
 
 	@Override
-	public EAdRectangle stringBounds(String string) {
+	public EAdRectangleImpl stringBounds(String string) {
 		Rect bounds = new Rect();
 		textPaint.getTextBounds(string,0,string.length(),bounds);
-		return new EAdRectangle(0, 0, bounds.width(), bounds.height());
+		return new EAdRectangleImpl(0, 0, bounds.width(), bounds.height());
 	}
 
 }

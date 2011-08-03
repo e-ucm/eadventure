@@ -45,7 +45,7 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 import es.eucm.eadventure.common.model.actions.EAdAction;
-import es.eucm.eadventure.common.model.params.EAdPosition;
+import es.eucm.eadventure.common.params.geom.impl.EAdPositionImpl;
 import es.eucm.eadventure.engine.core.gameobjects.GameObject;
 import es.eucm.eadventure.engine.core.gameobjects.GameObjectFactory;
 import es.eucm.eadventure.engine.core.gameobjects.GameObjectManager;
@@ -96,7 +96,7 @@ public class DesktopActionsHUDImpl extends ActionsHUDImpl {
 					+ ((angles[1] - angles[0]) / (getActions().size() + 1)) * i;
 			int x = (int) (radius * Math.sin(angle));
 			int y = - (int) (radius * Math.cos(angle));
-			action.setPosition(new EAdPosition(EAdPosition.Corner.CENTER, this
+			action.setPosition(new EAdPositionImpl(EAdPositionImpl.Corner.CENTER, this
 					.getX() + x, this.getY() + y));
 			action.setScale(scale);
 			

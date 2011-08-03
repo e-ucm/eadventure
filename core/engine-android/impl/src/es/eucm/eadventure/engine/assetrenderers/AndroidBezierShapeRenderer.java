@@ -38,15 +38,24 @@
 package es.eucm.eadventure.engine.assetrenderers;
 
 import android.graphics.Canvas;
-import android.graphics.Paint;
-import android.graphics.Paint.Style;
-import es.eucm.eadventure.common.model.params.EAdPosition;
+import android.graphics.Path;
+
+import com.google.inject.Singleton;
+
+import es.eucm.eadventure.common.params.geom.EAdPosition;
 import es.eucm.eadventure.common.resources.assets.drawable.impl.BezierShape;
 import es.eucm.eadventure.engine.assets.AndroidBezierShape;
-import es.eucm.eadventure.engine.assets.AndroidEngineColor;
 import es.eucm.eadventure.engine.core.platform.AssetRenderer;
+import es.eucm.eadventure.engine.core.platform.FillFactory;
 
+@Singleton
 public class AndroidBezierShapeRenderer implements AssetRenderer<Canvas, AndroidBezierShape> {
+	
+	private FillFactory<Canvas, Path> fillFactory;
+	
+	public AndroidBezierShapeRenderer(FillFactory<Canvas, Path> fillFactory){
+		this.fillFactory = fillFactory;
+	}
 
 	@Override
 	public void render(Canvas graphicContext, AndroidBezierShape asset,
@@ -58,25 +67,17 @@ public class AndroidBezierShapeRenderer implements AssetRenderer<Canvas, Android
 		BezierShape assetDescriptor = asset.getAssetDescriptor();
 		int x = position.getJavaX(asset.getWidth() * scale) + offsetX;
 		int y = position.getJavaY(asset.getHeight() * scale) + offsetY;
-		if (assetDescriptor.getColor().getBorderColor().getAlpha() != 0 || assetDescriptor.getColor().getCenterColor().getAlpha() != 0) {
-			Paint paint = new Paint();
+		
 			graphicContext.save();
 
 			graphicContext.translate(x, y);
 			graphicContext.scale(scale, scale);
 
-			paint.setStyle(Style.FILL);
-			paint.setColor(new AndroidEngineColor(assetDescriptor.getColor().getCenterColor()).getColor());
-			graphicContext.drawPath(asset.getShape(), paint);
-
-			paint.setStyle(Style.STROKE);
-			paint.setColor(new AndroidEngineColor(assetDescriptor.getColor().getBorderColor()).getColor());
-			paint.setStrokeWidth(assetDescriptor.getBorderWidth());
-			graphicContext.drawPath(asset.getShape(), paint);
+			fillFactory.fill(assetDescriptor.getFill(), graphicContext, asset.getShape());
 
 			graphicContext.restore();
 
-		}
+		
 	}
 
 	@Override

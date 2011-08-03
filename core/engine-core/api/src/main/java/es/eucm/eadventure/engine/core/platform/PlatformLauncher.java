@@ -37,7 +37,7 @@
 
 package es.eucm.eadventure.engine.core.platform;
 
-import es.eucm.eadventure.common.resources.assets.EAdURI;
+import es.eucm.eadventure.common.resources.EAdURI;
 
 /**
  * This interface is implemented by the appropriate launcher for each platform.

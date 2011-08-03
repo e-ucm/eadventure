@@ -38,7 +38,7 @@
 package es.eucm.eadventure.engine.core.platform;
 
 import es.eucm.eadventure.common.interfaces.Positioned;
-import es.eucm.eadventure.common.model.params.EAdPosition;
+import es.eucm.eadventure.common.params.geom.EAdPosition;
 import es.eucm.eadventure.engine.core.gameobjects.GameObject;
 import es.eucm.eadventure.engine.core.gameobjects.huds.HudGO;
 

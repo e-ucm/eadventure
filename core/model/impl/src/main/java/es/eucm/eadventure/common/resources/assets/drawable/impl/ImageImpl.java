@@ -38,22 +38,25 @@
 package es.eucm.eadventure.common.resources.assets.drawable.impl;
 
 import es.eucm.eadventure.common.interfaces.Param;
+import es.eucm.eadventure.common.resources.EAdURI;
 import es.eucm.eadventure.common.resources.assets.drawable.Image;
+import es.eucm.eadventure.common.resources.assets.impl.EAdURIImpl;
 
 public class ImageImpl implements Image {
 	
 	@Param("uri")
-	private String uri;
-	
-	public ImageImpl() {
-		this(null);
-	}
+	private EAdURI uri;
 
 	public ImageImpl(String uri) {
+		this.uri = new EAdURIImpl(uri);
+	}
+	
+	public ImageImpl(EAdURI uri) {
 		this.uri = uri;
 	}
 
-	public String getURI() {
+	@Override
+	public EAdURI getURI() {
 		return uri;
 	}
 

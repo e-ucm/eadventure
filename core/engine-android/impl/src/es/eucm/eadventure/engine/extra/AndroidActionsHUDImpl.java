@@ -51,7 +51,7 @@ import es.eucm.eadventure.common.model.effects.impl.EAdActorActionsEffect.Change
 import es.eucm.eadventure.common.model.effects.impl.EAdChangeAppearance;
 import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
 import es.eucm.eadventure.common.model.guievents.impl.EAdMouseEventImpl;
-import es.eucm.eadventure.common.model.params.EAdPosition;
+import es.eucm.eadventure.common.params.geom.impl.EAdPositionImpl;
 import es.eucm.eadventure.common.resources.assets.AssetDescriptor;
 import es.eucm.eadventure.engine.core.gameobjects.GameObject;
 import es.eucm.eadventure.engine.core.gameobjects.GameObjectFactory;
@@ -104,7 +104,7 @@ public class AndroidActionsHUDImpl extends ActionsHUDImpl {
 
 			int x = (int) (radius * Math.sin(angle));
 			int y = - (int) (radius * Math.cos(angle));
-			action.setPosition(new EAdPosition(EAdPosition.Corner.CENTER, this
+			action.setPosition(new EAdPositionImpl(EAdPositionImpl.Corner.CENTER, this
 					.getX() + x, this.getY() + y));
 			action.setScale(scale);
 

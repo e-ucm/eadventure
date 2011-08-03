@@ -45,9 +45,9 @@ import es.eucm.eadventure.common.model.effects.impl.EAdVarInterpolationEffect.Lo
 import es.eucm.eadventure.common.model.elements.EAdSceneElement;
 import es.eucm.eadventure.common.model.events.EAdSceneElementEvent;
 import es.eucm.eadventure.common.model.events.EAdSceneElementEvent.SceneElementEvent;
-import es.eucm.eadventure.common.model.params.EAdBorderedColor;
-import es.eucm.eadventure.common.model.params.EAdColor;
 import es.eucm.eadventure.common.model.variables.impl.extra.EAdSceneElementVars;
+import es.eucm.eadventure.common.params.fills.impl.EAdBorderedColor;
+import es.eucm.eadventure.common.params.fills.impl.EAdColor;
 import es.eucm.eadventure.common.resources.assets.AssetDescriptor;
 
 /**

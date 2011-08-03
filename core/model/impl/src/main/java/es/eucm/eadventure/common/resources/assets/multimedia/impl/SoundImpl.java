@@ -38,6 +38,8 @@
 package es.eucm.eadventure.common.resources.assets.multimedia.impl;
 
 import es.eucm.eadventure.common.interfaces.Param;
+import es.eucm.eadventure.common.resources.EAdURI;
+import es.eucm.eadventure.common.resources.assets.impl.EAdURIImpl;
 import es.eucm.eadventure.common.resources.assets.multimedia.Sound;
 
 /**
@@ -47,7 +49,7 @@ import es.eucm.eadventure.common.resources.assets.multimedia.Sound;
 public class SoundImpl implements Sound {
 
 	@Param("uri")
-	private String uri;
+	private EAdURI uri;
 
 	/**
 	 * Creates a sound asset with the given URI
@@ -56,10 +58,10 @@ public class SoundImpl implements Sound {
 	 *            the URI
 	 */
 	public SoundImpl(String uri) {
-		this.uri = uri;
+		this.uri = new EAdURIImpl( uri );
 	}
 
-	public String getURI() {
+	public EAdURI getURI() {
 		return uri;
 	}
 

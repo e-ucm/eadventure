@@ -35,17 +35,15 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package es.eucm.eadventure.common.model.params;
+package es.eucm.eadventure.common.params;
 
-import es.eucm.eadventure.common.resources.assets.EAdURI;
+import es.eucm.eadventure.common.resources.EAdURI;
 
 /**
  * EAdFont represents a text font and its metrics
  * 
  */
-public class EAdFont {
-
-	public static enum Style {BOLD, PLAIN, ITALIC};
+public class EAdFontImpl implements EAdFont {
 	
 	/**
 	 * Name of the font
@@ -70,21 +68,21 @@ public class EAdFont {
 	/**
 	 * Regular EAdFont
 	 */
-	public static final EAdFont REGULAR = new EAdFont(25.0f);
+	public static final EAdFontImpl REGULAR = new EAdFontImpl(25.0f);
 	
-	public static final EAdFont REGULAR_BOLD = new EAdFont(null, 25.0f, Style.BOLD);
+	public static final EAdFontImpl REGULAR_BOLD = new EAdFontImpl(null, 25.0f, Style.BOLD);
 	
 	/**
 	 * Big EAdFont
 	 */
-	public static final EAdFont BIG = new EAdFont(35.0f);
+	public static final EAdFontImpl BIG = new EAdFontImpl(35.0f);
 	
-	public EAdFont(float size) {
+	public EAdFontImpl(float size) {
 		this("Arial", size);
 	}
 	
-	public EAdFont( EAdURI uri, float size ){
-		this( uri.getURI(), size );
+	public EAdFontImpl( EAdURI uri, float size ){
+		this( uri.getPath(), size );
 		this.uri = uri;
 	}
 	
@@ -96,11 +94,11 @@ public class EAdFont {
 		return uri;
 	}
 
-	public EAdFont(String name, float size) {
+	public EAdFontImpl(String name, float size) {
 		this(name, size, Style.PLAIN);
 	}
 	
-	public EAdFont(String name, float size, Style style) {
+	public EAdFontImpl(String name, float size, Style style) {
 		setName(name);
 		setSize(size);
 		setStyle(style);
@@ -115,18 +113,18 @@ public class EAdFont {
 		return name + ";" + size + ";" + style;
 	}
 	
-	public static EAdFont valueOf(String string) {
+	public static EAdFontImpl valueOf(String string) {
 		String[] strings = string.split(";");
 		String name = strings[0];
 		float size = Float.parseFloat(strings[1]);
 		Style style = Style.valueOf(strings[2]);
-		return new EAdFont(name, size, style);
+		return new EAdFontImpl(name, size, style);
 	}
 	
 	@Override
 	public boolean equals(Object o) {
-		if (o != null && o instanceof EAdFont) {
-			EAdFont temp = (EAdFont) o;
+		if (o != null && o instanceof EAdFontImpl) {
+			EAdFontImpl temp = (EAdFontImpl) o;
 			if (temp.name.equals(name)
 					&& temp.size == size
 					&& temp.style.equals(style))
@@ -175,6 +173,18 @@ public class EAdFont {
 	 */
 	public void setStyle(Style style) {
 		this.style = style;
+	}
+
+	@Override
+	public String toStringData() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void parse(String data) {
+		// TODO Auto-generated method stub
+		
 	}
 	
 }

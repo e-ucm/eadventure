@@ -38,9 +38,9 @@
 package es.eucm.eadventure.common.resources.assets.drawable.impl;
 
 import es.eucm.eadventure.common.interfaces.Param;
-import es.eucm.eadventure.common.model.params.EAdBorderedColor;
-import es.eucm.eadventure.common.model.params.EAdColor;
-import es.eucm.eadventure.common.model.params.EAdFont;
+import es.eucm.eadventure.common.params.EAdFontImpl;
+import es.eucm.eadventure.common.params.fills.impl.EAdBorderedColor;
+import es.eucm.eadventure.common.params.fills.impl.EAdColor;
 import es.eucm.eadventure.common.resources.EAdString;
 import es.eucm.eadventure.common.resources.assets.drawable.Caption;
 
@@ -55,7 +55,7 @@ public class CaptionImpl implements Caption {
 	private EAdString label;
 
 	@Param("font")
-	private EAdFont font;
+	private EAdFontImpl font;
 
 	@Param("textColor")
 	private EAdBorderedColor textColor;
@@ -92,7 +92,7 @@ public class CaptionImpl implements Caption {
 		this.label = label;
 		textColor = new EAdBorderedColor(EAdColor.BLACK, EAdColor.WHITE);
 		bubbleColor = new EAdBorderedColor(EAdColor.WHITE, EAdColor.BLACK);
-		this.font = EAdFont.BIG;
+		this.font = EAdFontImpl.BIG;
 		this.hasBubble = false;
 		this.bubbleColor = null;
 		maxHeight = SCREEN_SIZE;
@@ -118,16 +118,16 @@ public class CaptionImpl implements Caption {
 	}
 
 	@Override
-	public EAdFont getFont() {
+	public EAdFontImpl getFont() {
 		return font;
 	}
 
-	public void setFont(EAdFont font) {
+	public void setFont(EAdFontImpl font) {
 		this.font = font;
 	}
 
 	@Override
-	public EAdBorderedColor getTextColor() {
+	public EAdBorderedColor getTextFill() {
 		return textColor;
 	}
 
@@ -141,7 +141,7 @@ public class CaptionImpl implements Caption {
 	}
 
 	@Override
-	public EAdBorderedColor getBubbleColor() {
+	public EAdBorderedColor getBubbleFill() {
 		return bubbleColor;
 	}
 

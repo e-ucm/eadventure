@@ -41,7 +41,7 @@ import java.util.logging.Logger;
 
 import com.google.inject.Inject;
 
-import es.eucm.eadventure.common.model.params.EAdPosition;
+import es.eucm.eadventure.common.params.geom.EAdPosition;
 import es.eucm.eadventure.common.resources.assets.AssetDescriptor;
 import es.eucm.eadventure.common.resources.assets.drawable.DisplacedDrawable;
 import es.eucm.eadventure.common.resources.assets.drawable.Drawable;
