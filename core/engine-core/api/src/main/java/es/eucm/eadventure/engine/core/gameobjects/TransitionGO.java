@@ -38,7 +38,7 @@
 package es.eucm.eadventure.engine.core.gameobjects;
 
 import es.eucm.eadventure.common.model.elements.EAdScene;
-import es.eucm.eadventure.common.resources.assets.drawable.Image;
+import es.eucm.eadventure.common.resources.assets.drawable.basics.Image;
 import es.eucm.eadventure.engine.core.platform.RuntimeAsset;
 
 public interface TransitionGO extends SceneGO<EAdScene> {

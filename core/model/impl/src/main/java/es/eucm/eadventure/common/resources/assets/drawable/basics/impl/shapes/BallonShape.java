@@ -1,4 +1,4 @@
-package es.eucm.eadventure.common.resources.assets.drawable.impl;
+package es.eucm.eadventure.common.resources.assets.drawable.basics.impl.shapes;
 
 import es.eucm.eadventure.common.interfaces.Oriented.Orientation;
 

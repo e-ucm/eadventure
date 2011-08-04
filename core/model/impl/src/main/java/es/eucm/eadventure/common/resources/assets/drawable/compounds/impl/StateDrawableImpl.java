@@ -35,53 +35,51 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package es.eucm.eadventure.common.resources.assets.drawable.animation.impl;
+package es.eucm.eadventure.common.resources.assets.drawable.compounds.impl;
 
-import es.eucm.eadventure.common.model.EAdList;
-import es.eucm.eadventure.common.model.impl.EAdListImpl;
+import java.util.Set;
+
+import es.eucm.eadventure.common.model.EAdMap;
+import es.eucm.eadventure.common.model.impl.EAdMapImpl;
 import es.eucm.eadventure.common.resources.assets.drawable.Drawable;
+import es.eucm.eadventure.common.resources.assets.drawable.compounds.StateDrawable;
 
 /**
- * Represents a frames animation. Contains frames
+ * Basic implementation for a {@link StateDrawable}
+ * 
+ * @author anserran
  * 
  */
-public class FramesAnimation implements Drawable {
+public class StateDrawableImpl implements StateDrawable {
 
-	private EAdList<Frame> frames;
-
-	/**
-	 * Constructs an empty animation
-	 */
-	public FramesAnimation() {
-		frames = new EAdListImpl<Frame>(Frame.class);
-	}
+	private EAdMap<String, Drawable> drawables;
 
 	/**
-	 * Adds a frame to the and of the animation
-	 * 
-	 * @param frame
+	 * Constructs an empty bundle of drawables
 	 */
-	public void addFrame(Frame frame) {
-		frames.add(frame);
+	public StateDrawableImpl() {
+		drawables = new EAdMapImpl<String, Drawable>("drawablesBundle", String.class,
+				Drawable.class);
 	}
 
-	/**
-	 * Returns the frame situated at the given index
-	 * 
-	 * @param index
-	 *            index
-	 * @return the frame at the index
-	 */
-	public Frame getFrame(int index) {
-		return frames.get(index);
+	@Override
+	public boolean addDrawable(String stateName, Drawable drawable) {
+		if (drawables.containsKey(stateName))
+			return false;
+		else {
+			drawables.put(stateName, drawable);
+			return true;
+		}
 	}
 
-	/**
-	 * Returns the total number of frames of this animation
-	 * 
-	 * @return the number of frames
-	 */
-	public int getFrameCount() {
-		return frames.size();
+	@Override
+	public Set<String> getStates() {
+		return drawables.keySet();
 	}
+
+	@Override
+	public Drawable getDrawable(String stateName) {
+		return drawables.get(stateName);
+	}
+
 }

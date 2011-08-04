@@ -87,12 +87,12 @@ import es.eucm.eadventure.common.params.geom.impl.EAdPositionImpl;
 import es.eucm.eadventure.common.params.geom.impl.EAdPositionImpl.Corner;
 import es.eucm.eadventure.common.resources.EAdBundleId;
 import es.eucm.eadventure.common.resources.EAdString;
-import es.eucm.eadventure.common.resources.assets.drawable.animation.impl.Frame;
-import es.eucm.eadventure.common.resources.assets.drawable.animation.impl.FramesAnimation;
-import es.eucm.eadventure.common.resources.assets.drawable.animation.impl.OrientedDrawableImpl;
-import es.eucm.eadventure.common.resources.assets.drawable.impl.BezierShape;
-import es.eucm.eadventure.common.resources.assets.drawable.impl.CaptionImpl;
-import es.eucm.eadventure.common.resources.assets.drawable.impl.ImageImpl;
+import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.CaptionImpl;
+import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.ImageImpl;
+import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.animation.Frame;
+import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.animation.FramesAnimation;
+import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.shapes.BezierShape;
+import es.eucm.eadventure.common.resources.assets.drawable.compounds.impl.OrientedDrawableImpl;
 
 public class BasicScene extends EAdSceneImpl implements SceneDemo {
 

@@ -116,9 +116,9 @@ import es.eucm.eadventure.common.model.elements.EAdTimer;
 import es.eucm.eadventure.common.model.elements.impl.EAdSceneImpl;
 import es.eucm.eadventure.common.model.elements.impl.EAdVideoScene;
 import es.eucm.eadventure.common.model.elements.impl.extra.EAdCutscene;
-import es.eucm.eadventure.common.resources.assets.drawable.Caption;
-import es.eucm.eadventure.common.resources.assets.drawable.animation.impl.Frame;
-import es.eucm.eadventure.common.resources.assets.drawable.animation.impl.FramesAnimation;
+import es.eucm.eadventure.common.resources.assets.drawable.basics.Caption;
+import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.animation.Frame;
+import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.animation.FramesAnimation;
 
 /**
  * Guice module to configure the <e-Adventure> 1.X game importer

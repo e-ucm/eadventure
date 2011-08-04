@@ -48,7 +48,7 @@ import es.eucm.eadventure.common.model.events.EAdSceneElementEvent;
 import es.eucm.eadventure.common.model.events.impl.EAdSceneElementEventImpl;
 import es.eucm.eadventure.common.model.variables.impl.extra.EAdSceneElementVars;
 import es.eucm.eadventure.common.params.geom.impl.EAdPositionImpl;
-import es.eucm.eadventure.common.resources.assets.drawable.Caption;
+import es.eucm.eadventure.common.resources.assets.drawable.basics.Caption;
 
 /**
  * <p>

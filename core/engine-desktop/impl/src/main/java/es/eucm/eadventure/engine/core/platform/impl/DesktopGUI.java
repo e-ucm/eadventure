@@ -56,7 +56,7 @@ import javax.swing.JFrame;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
-import es.eucm.eadventure.common.resources.assets.drawable.Image;
+import es.eucm.eadventure.common.resources.assets.drawable.basics.Image;
 import es.eucm.eadventure.engine.core.GameState;
 import es.eucm.eadventure.engine.core.KeyboardState;
 import es.eucm.eadventure.engine.core.MouseState;

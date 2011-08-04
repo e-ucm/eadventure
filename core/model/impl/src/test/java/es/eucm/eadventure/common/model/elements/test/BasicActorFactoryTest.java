@@ -41,8 +41,8 @@ import es.eucm.eadventure.common.model.actions.test.BasicActionFactoryTest;
 import es.eucm.eadventure.common.model.elements.EAdActor;
 import es.eucm.eadventure.common.model.elements.impl.EAdBasicActor;
 import es.eucm.eadventure.common.resources.EAdString;
-import es.eucm.eadventure.common.resources.assets.drawable.animation.impl.Frame;
-import es.eucm.eadventure.common.resources.assets.drawable.animation.impl.FramesAnimation;
+import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.animation.Frame;
+import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.animation.FramesAnimation;
 
 public class BasicActorFactoryTest {
 

@@ -6,7 +6,7 @@ import es.eucm.eadventure.common.model.variables.EAdVar;
 import es.eucm.eadventure.common.params.EAdFontImpl;
 import es.eucm.eadventure.common.params.fills.impl.EAdBorderedColor;
 import es.eucm.eadventure.common.resources.EAdString;
-import es.eucm.eadventure.common.resources.assets.drawable.impl.BallonShape.BalloonType;
+import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.shapes.BallonShape.BalloonType;
 
 /**
  * 

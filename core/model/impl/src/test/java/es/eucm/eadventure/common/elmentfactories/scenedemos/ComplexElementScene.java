@@ -4,7 +4,7 @@ import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
 import es.eucm.eadventure.common.model.elements.impl.EAdComplexSceneElement;
 import es.eucm.eadventure.common.params.fills.impl.EAdBorderedColor;
 import es.eucm.eadventure.common.params.geom.impl.EAdPositionImpl;
-import es.eucm.eadventure.common.resources.assets.drawable.impl.RectangleShape;
+import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.shapes.RectangleShape;
 
 public class ComplexElementScene extends EmptyScene {
 	

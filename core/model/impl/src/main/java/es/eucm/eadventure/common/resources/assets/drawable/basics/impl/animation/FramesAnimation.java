@@ -35,46 +35,53 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package es.eucm.eadventure.common.resources.assets.drawable.animation.impl;
+package es.eucm.eadventure.common.resources.assets.drawable.basics.impl.animation;
 
-import es.eucm.eadventure.common.interfaces.Oriented.Orientation;
-import es.eucm.eadventure.common.model.EAdMap;
-import es.eucm.eadventure.common.model.impl.EAdMapImpl;
+import es.eucm.eadventure.common.model.EAdList;
+import es.eucm.eadventure.common.model.impl.EAdListImpl;
 import es.eucm.eadventure.common.resources.assets.drawable.Drawable;
-import es.eucm.eadventure.common.resources.assets.drawable.OrientedDrawable;
 
 /**
- * Default implementation for {@link OrientedDrawable}
- * 
+ * Represents a frames animation. Contains frames
  * 
  */
-public class OrientedDrawableImpl implements OrientedDrawable {
+public class FramesAnimation implements Drawable {
 
-	private EAdMap<Orientation, Drawable> drawables;
+	private EAdList<Frame> frames;
 
 	/**
-	 * Constructs an empty oriented asset
+	 * Constructs an empty animation
 	 */
-	public OrientedDrawableImpl() {
-		drawables = new EAdMapImpl<Orientation, Drawable>("orientedDrawable",
-				Orientation.class, Drawable.class);
+	public FramesAnimation() {
+		frames = new EAdListImpl<Frame>(Frame.class);
 	}
 
 	/**
-	 * Links the given orientation with the given drawable
+	 * Adds a frame to the and of the animation
 	 * 
-	 * @param orientation
-	 *            the orientation
-	 * @param drawable
-	 *            the drawable
+	 * @param frame
 	 */
-	public void setDrawable(Orientation orientation, Drawable drawable) {
-		drawables.put(orientation, drawable);
+	public void addFrame(Frame frame) {
+		frames.add(frame);
 	}
 
-	@Override
-	public Drawable getDrawable(Orientation orientation) {
-		return drawables.get(orientation);
+	/**
+	 * Returns the frame situated at the given index
+	 * 
+	 * @param index
+	 *            index
+	 * @return the frame at the index
+	 */
+	public Frame getFrame(int index) {
+		return frames.get(index);
 	}
 
+	/**
+	 * Returns the total number of frames of this animation
+	 * 
+	 * @return the number of frames
+	 */
+	public int getFrameCount() {
+		return frames.size();
+	}
 }

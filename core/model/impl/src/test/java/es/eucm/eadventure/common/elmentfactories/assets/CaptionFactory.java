@@ -38,31 +38,36 @@
 package es.eucm.eadventure.common.elmentfactories.assets;
 
 import es.eucm.eadventure.common.elmentfactories.EAdElementsFactory;
+import es.eucm.eadventure.common.params.EAdFont;
 import es.eucm.eadventure.common.params.EAdFontImpl;
 import es.eucm.eadventure.common.params.fills.impl.EAdBorderedColor;
-import es.eucm.eadventure.common.resources.assets.drawable.impl.CaptionImpl;
+import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.CaptionImpl;
+import es.eucm.eadventure.common.resources.assets.impl.EAdURIImpl;
 
 public class CaptionFactory {
+	
+	private EAdFont droidFont = new EAdFontImpl( new EAdURIImpl( "@binary/DroidSans-Bold.ttf"), 20);
 
 	public CaptionImpl createCaption(String text, EAdBorderedColor textColor,
-			EAdBorderedColor bubbleColor, EAdFontImpl font) {
+			EAdBorderedColor bubbleColor, EAdFont font) {
 		CaptionImpl caption = new CaptionImpl();
 		caption.setText(EAdElementsFactory.getInstance().getStringFactory()
 				.getString(text));
 		caption.setTextColor(textColor);
 		caption.setBubbleColor(bubbleColor);
 		caption.setFont(font);
+		caption.setPadding(0);
 		return caption;
 
 	}
 
 	public CaptionImpl createCaption(String text, EAdBorderedColor textColor,
 			EAdBorderedColor bubbleColor) {
-		return createCaption(text, textColor, bubbleColor, EAdFontImpl.REGULAR);
+		return createCaption(text, textColor, bubbleColor, droidFont );
 	}
 
 	public CaptionImpl createCaption(String text) {
-		return createCaption(text, EAdBorderedColor.WHITE_ON_BLACK, EAdBorderedColor.BLACK_ON_WHITE);
+		return createCaption(text, EAdBorderedColor.WHITE_ON_BLACK, EAdBorderedColor.TRANSPARENT);
 	}
 
 }

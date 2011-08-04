@@ -35,20 +35,49 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package es.eucm.eadventure.common.resources.annotation;
+package es.eucm.eadventure.common.resources.assets.drawable.basics.impl;
 
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
-/**
- * Annotates constant names of assets with the potential classes.
- */
-@Retention(RetentionPolicy.RUNTIME)
-@Target(ElementType.PARAMETER)
-public @interface ParamenterName {
+import es.eucm.eadventure.common.interfaces.Param;
+import es.eucm.eadventure.common.resources.assets.drawable.basics.Image;
+import es.eucm.eadventure.common.resources.assets.drawable.basics.SpriteImage;
 
-	String value();
+public class SpriteImageImpl implements SpriteImage {
+
+	private static final Logger logger = Logger.getLogger("SpriteImageImpl");
+	
+	@Param("image")
+	private Image image;
+	
+	@Param("totalSprites")
+	private int totalSprites;
+
+	@Param("sprite")
+	private int sprite;
+
+	public SpriteImageImpl(Image image, int totalSprites, int sprite) {
+		this.image = image;
+		this.totalSprites = totalSprites;
+		this.sprite = sprite;
+		if (sprite >= totalSprites)
+			logger.log(Level.SEVERE, "Sprite number is invalid for number of sprites");
+	}
+	
+	@Override
+	public Image getImage() {
+		return image;
+	}
+
+	@Override
+	public int getTotalSprites() {
+		return totalSprites;
+	}
+
+	@Override
+	public int getSprite() {
+		return sprite;
+	}
 
 }

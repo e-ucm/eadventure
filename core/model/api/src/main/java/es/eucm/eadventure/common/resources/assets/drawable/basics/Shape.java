@@ -35,54 +35,32 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package es.eucm.eadventure.common.resources.assets.drawable.impl;
+package es.eucm.eadventure.common.resources.assets.drawable.basics;
 
-import es.eucm.eadventure.common.interfaces.Param;
-import es.eucm.eadventure.common.params.geom.EAdPosition;
-import es.eucm.eadventure.common.params.geom.impl.EAdPositionImpl;
-import es.eucm.eadventure.common.resources.assets.drawable.DisplacedDrawable;
-import es.eucm.eadventure.common.resources.assets.drawable.Drawable;
+import es.eucm.eadventure.common.params.EAdFill;
 
-public class DisplacedDrawableImpl implements DisplacedDrawable {
+public interface Shape extends BasicDrawable {
 
-	@Param("displacement")
-	EAdPositionImpl displacement;
-	
-	@Param("asset")
-	Drawable asset;
-	
-	/* (non-Javadoc)
-	 * @see es.eucm.eadventure.common.resources.assets.drawable.DisplacedDrawable#getDisplacement()
-	 */
-	@Override
-	public EAdPosition getDisplacement() {
-		return displacement;
-	}
-	
 	/**
-	 * Set the relative displacement of the asset
+	 * <p>
+	 * Return the color with which to draw the shape.
+	 * </p>
+	 * <p>
+	 * The color can have alpha = 0 if the shape is expected to be invisible. As
+	 * it uses {@link EAdBorderedColor} it can be used to paint just the outline
+	 * of the shape.
+	 * </p>
 	 * 
-	 * @param position
+	 * @return The color of the shape
 	 */
-	public void setDisplacement(EAdPositionImpl position) {
-		displacement = position;
-	}
+	EAdFill getFill();
 
-	/* (non-Javadoc)
-	 * @see es.eucm.eadventure.common.resources.assets.drawable.DisplacedDrawable#getDrawable()
-	 */
-	@Override
-	public Drawable getDrawable() {
-		return asset;
-	}
-	
 	/**
-	 * Set the drawable asset
+	 * Sets the color for the shape
 	 * 
-	 * @param asset
+	 * @param color
+	 *            the color
 	 */
-	public void setDrawable(Drawable asset) {
-		this.asset = asset;
-	}
+	void setFill(EAdFill color);
 
 }

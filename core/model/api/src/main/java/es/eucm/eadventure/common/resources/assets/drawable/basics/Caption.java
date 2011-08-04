@@ -35,7 +35,7 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package es.eucm.eadventure.common.resources.assets.drawable;
+package es.eucm.eadventure.common.resources.assets.drawable.basics;
 
 import es.eucm.eadventure.common.params.EAdFill;
 import es.eucm.eadventure.common.params.EAdFont;
@@ -46,7 +46,7 @@ import es.eucm.eadventure.common.resources.EAdString;
  * 
  * 
  */
-public interface Caption extends Drawable {
+public interface Caption extends BasicDrawable {
 
 	/**
 	 * Constant that can be used to define infinite maximum width/height for the
@@ -101,13 +101,6 @@ public interface Caption extends Drawable {
 	 * @return
 	 */
 	public EAdFill getBubbleFill();
-
-	/**
-	 * Returns the alpha value for the caption
-	 * 
-	 * @return
-	 */
-	public float getAlpha();
 
 	/**
 	 * Returns the maximum width for this text, and integer greater than zero,

@@ -35,10 +35,10 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package es.eucm.eadventure.common.resources.assets.drawable.animation.impl;
+package es.eucm.eadventure.common.resources.assets.drawable.basics.impl.animation;
 
 import es.eucm.eadventure.common.interfaces.Param;
-import es.eucm.eadventure.common.resources.assets.drawable.impl.ImageImpl;
+import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.ImageImpl;
 
 /**
  * 

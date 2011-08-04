@@ -55,9 +55,9 @@ import es.eucm.eadventure.common.model.elements.EAdScene;
 import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
 import es.eucm.eadventure.common.model.elements.impl.extra.EAdCutscene;
 import es.eucm.eadventure.common.model.elements.impl.extra.EAdSlide;
-import es.eucm.eadventure.common.resources.assets.drawable.animation.impl.Frame;
-import es.eucm.eadventure.common.resources.assets.drawable.animation.impl.FramesAnimation;
-import es.eucm.eadventure.common.resources.assets.drawable.impl.ImageImpl;
+import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.ImageImpl;
+import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.animation.Frame;
+import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.animation.FramesAnimation;
 import es.eucm.eadventure.common.resources.assets.multimedia.Sound;
 import es.eucm.eadventure.common.resources.assets.multimedia.impl.SoundImpl;
 

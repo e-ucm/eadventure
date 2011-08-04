@@ -44,7 +44,7 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 import es.eucm.eadventure.common.params.geom.EAdPosition;
-import es.eucm.eadventure.common.resources.assets.drawable.impl.BezierShape;
+import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.shapes.BezierShape;
 import es.eucm.eadventure.engine.assets.AndroidBezierShape;
 import es.eucm.eadventure.engine.core.platform.AssetRenderer;
 import es.eucm.eadventure.engine.core.platform.FillFactory;

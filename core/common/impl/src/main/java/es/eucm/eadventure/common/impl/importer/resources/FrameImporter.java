@@ -41,7 +41,7 @@ import com.google.inject.Inject;
 
 import es.eucm.eadventure.common.GenericImporter;
 import es.eucm.eadventure.common.impl.importer.interfaces.ResourceImporter;
-import es.eucm.eadventure.common.resources.assets.drawable.animation.impl.Frame;
+import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.animation.Frame;
 
 public class FrameImporter implements GenericImporter<es.eucm.eadventure.common.data.animation.Frame, Frame>{
 

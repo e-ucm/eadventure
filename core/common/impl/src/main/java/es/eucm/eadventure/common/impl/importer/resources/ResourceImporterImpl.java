@@ -70,8 +70,8 @@ import es.eucm.eadventure.common.model.events.EAdConditionEvent;
 import es.eucm.eadventure.common.model.events.impl.EAdConditionEventImpl;
 import es.eucm.eadventure.common.resources.EAdBundleId;
 import es.eucm.eadventure.common.resources.assets.AssetDescriptor;
-import es.eucm.eadventure.common.resources.assets.drawable.animation.impl.Frame;
-import es.eucm.eadventure.common.resources.assets.drawable.animation.impl.FramesAnimation;
+import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.animation.Frame;
+import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.animation.FramesAnimation;
 
 /**
  * Resource Importer

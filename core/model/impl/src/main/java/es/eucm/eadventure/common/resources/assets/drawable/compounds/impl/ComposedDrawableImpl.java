@@ -35,28 +35,37 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package es.eucm.eadventure.common.resources.assets.drawable.impl;
+package es.eucm.eadventure.common.resources.assets.drawable.compounds.impl;
 
-import es.eucm.eadventure.common.params.fills.impl.EAdBorderedColor;
+import es.eucm.eadventure.common.model.EAdList;
+import es.eucm.eadventure.common.model.impl.EAdListImpl;
+import es.eucm.eadventure.common.params.geom.impl.EAdPositionImpl;
+import es.eucm.eadventure.common.resources.assets.drawable.basics.BasicDrawable;
+import es.eucm.eadventure.common.resources.assets.drawable.compounds.ComposedDrawable;
+import es.eucm.eadventure.common.resources.assets.drawable.compounds.DisplacedDrawable;
 
+public class ComposedDrawableImpl implements ComposedDrawable {
 
-/**
- * <p>Rectangular shape asset</p>
- * 
- */
-public class RectangleShape extends BezierShape {
-	
-	public RectangleShape(int width, int height ){
-		this( width, height, EAdBorderedColor.TRANSPARENT );
+	EAdList<DisplacedDrawable> assetList;
+
+	public ComposedDrawableImpl() {
+		assetList = new EAdListImpl<DisplacedDrawable>(DisplacedDrawable.class);
 	}
-	
-	public RectangleShape(int width, int height, EAdBorderedColor color ) {
-		super( 0, 0 );
-		lineTo( width, 0 );
-		lineTo( width, height );
-		lineTo( 0, height );
-		close( );
-		super.setFill(color);
+
+	@Override
+	public EAdList<DisplacedDrawable> getAssetList() {
+		return assetList;
 	}
-	
+
+	@Override
+	public void addDrawable(BasicDrawable drawable, int xOffset, int yOffset) {
+		assetList.add(new DisplacedDrawableImpl(drawable, new EAdPositionImpl(
+				xOffset, yOffset)));
+	}
+
+	@Override
+	public void addDrawable(BasicDrawable drawable) {
+		addDrawable(drawable, 0, 0);
+	}
+
 }

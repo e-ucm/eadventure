@@ -68,7 +68,7 @@ import es.eucm.eadventure.common.model.elements.EAdCondition;
 import es.eucm.eadventure.common.resources.EAdBundleId;
 import es.eucm.eadventure.common.resources.EAdString;
 import es.eucm.eadventure.common.resources.StringHandler;
-import es.eucm.eadventure.common.resources.assets.drawable.impl.ImageImpl;
+import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.ImageImpl;
 
 public class ActionImporter implements EAdElementImporter<Action, EAdAction> {
 

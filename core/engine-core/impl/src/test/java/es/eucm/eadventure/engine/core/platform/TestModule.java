@@ -46,9 +46,9 @@ import com.google.inject.name.Names;
 
 import es.eucm.eadventure.common.resources.StringHandler;
 import es.eucm.eadventure.common.resources.assets.AssetDescriptor;
-import es.eucm.eadventure.common.resources.assets.drawable.StateDrawable;
-import es.eucm.eadventure.common.resources.assets.drawable.animation.impl.StateDrawableImpl;
-import es.eucm.eadventure.common.resources.assets.drawable.animation.impl.FramesAnimation;
+import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.animation.FramesAnimation;
+import es.eucm.eadventure.common.resources.assets.drawable.compounds.StateDrawable;
+import es.eucm.eadventure.common.resources.assets.drawable.compounds.impl.StateDrawableImpl;
 import es.eucm.eadventure.common.resources.impl.DefaultStringHandler;
 import es.eucm.eadventure.engine.core.KeyboardState;
 import es.eucm.eadventure.engine.core.MouseState;

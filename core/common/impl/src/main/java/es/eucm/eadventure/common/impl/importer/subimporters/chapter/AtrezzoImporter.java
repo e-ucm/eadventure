@@ -49,7 +49,7 @@ import es.eucm.eadventure.common.impl.importer.interfaces.ResourceImporter;
 import es.eucm.eadventure.common.model.actions.EAdAction;
 import es.eucm.eadventure.common.model.elements.impl.EAdBasicActor;
 import es.eucm.eadventure.common.resources.StringHandler;
-import es.eucm.eadventure.common.resources.assets.drawable.impl.ImageImpl;
+import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.ImageImpl;
 
 
 public class AtrezzoImporter extends ActorImporter<Atrezzo>{

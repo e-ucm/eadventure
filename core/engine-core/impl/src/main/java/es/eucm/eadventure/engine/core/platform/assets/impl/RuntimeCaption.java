@@ -45,8 +45,8 @@ import com.google.inject.Inject;
 
 import es.eucm.eadventure.common.params.geom.impl.EAdRectangleImpl;
 import es.eucm.eadventure.common.resources.StringHandler;
-import es.eucm.eadventure.common.resources.assets.drawable.Caption;
 import es.eucm.eadventure.common.resources.assets.drawable.Drawable;
+import es.eucm.eadventure.common.resources.assets.drawable.basics.Caption;
 import es.eucm.eadventure.engine.core.GameLoop;
 import es.eucm.eadventure.engine.core.GameState;
 import es.eucm.eadventure.engine.core.impl.VariableMap;
@@ -204,10 +204,6 @@ public class RuntimeCaption extends AbstractRuntimeAsset<Caption> implements
 		if (bounds == null)
 			return 1;
 		return bounds.height;
-	}
-
-	public float getAlpha() {
-		return descriptor.getAlpha();
 	}
 
 	@SuppressWarnings("unchecked")

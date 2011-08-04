@@ -48,7 +48,7 @@ import es.eucm.eadventure.common.params.fills.impl.EAdBorderedColor;
 import es.eucm.eadventure.common.params.geom.EAdPosition;
 import es.eucm.eadventure.common.params.geom.impl.EAdPositionImpl;
 import es.eucm.eadventure.common.resources.EAdString;
-import es.eucm.eadventure.common.resources.assets.drawable.impl.CaptionImpl;
+import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.CaptionImpl;
 import es.eucm.eadventure.engine.core.MouseState;
 import es.eucm.eadventure.engine.core.gameobjects.ActorReferenceGO;
 import es.eucm.eadventure.engine.core.gameobjects.GameObject;

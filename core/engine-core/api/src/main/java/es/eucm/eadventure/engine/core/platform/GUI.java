@@ -37,7 +37,7 @@
 
 package es.eucm.eadventure.engine.core.platform;
 
-import es.eucm.eadventure.common.resources.assets.drawable.Image;
+import es.eucm.eadventure.common.resources.assets.drawable.basics.Image;
 import es.eucm.eadventure.engine.core.gameobjects.GameObject;
 
 /**

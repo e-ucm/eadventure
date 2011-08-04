@@ -43,8 +43,8 @@ import es.eucm.eadventure.common.model.effects.impl.text.EAdShowText;
 import es.eucm.eadventure.common.params.fills.impl.EAdBorderedColor;
 import es.eucm.eadventure.common.params.fills.impl.EAdColor;
 import es.eucm.eadventure.common.resources.EAdString;
-import es.eucm.eadventure.common.resources.assets.drawable.impl.CaptionImpl;
-import es.eucm.eadventure.common.resources.assets.drawable.impl.ImageImpl;
+import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.CaptionImpl;
+import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.ImageImpl;
 
 public class BasicActionFactoryTest {
 

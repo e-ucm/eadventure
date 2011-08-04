@@ -59,8 +59,8 @@ import es.eucm.eadventure.common.model.variables.EAdVar;
 import es.eucm.eadventure.common.model.variables.impl.extra.EAdSceneElementVars;
 import es.eucm.eadventure.common.resources.EAdBundleId;
 import es.eucm.eadventure.common.resources.EAdString;
-import es.eucm.eadventure.common.resources.assets.drawable.Caption;
-import es.eucm.eadventure.common.resources.assets.drawable.impl.CaptionImpl;
+import es.eucm.eadventure.common.resources.assets.drawable.basics.Caption;
+import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.CaptionImpl;
 import es.eucm.eadventure.common.resources.assets.multimedia.impl.SoundImpl;
 
 public class EffectFactory {

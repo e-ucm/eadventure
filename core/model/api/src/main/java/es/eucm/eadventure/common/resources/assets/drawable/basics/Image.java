@@ -35,43 +35,13 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package es.eucm.eadventure.common.resources.assets.drawable;
+package es.eucm.eadventure.common.resources.assets.drawable.basics;
 
-import java.util.Set;
+import es.eucm.eadventure.common.interfaces.HasURI;
 
 /**
- * Represents a drawable bundle, in which each drawable is associated with a
- * state defined by a {@link String}
+ * General image asset interface.
  */
-public interface StateDrawable extends Drawable {
-
-	/**
-	 * Returns a {@link Drawable} for a given state state.
-	 * 
-	 * @param stateName
-	 *            Sate name for the animation
-	 * @return a {@link Drawable} for a given state state.
-	 */
-	Drawable getDrawable(String stateName);
-
-	/**
-	 * Adds an animation to the bundle. This animation will be associated with
-	 * the given state name
-	 * 
-	 * @param stateName
-	 *            State name for the animation
-	 * @param animation
-	 *            {@link Drawable} to be added to the bundle
-	 * @return <b>true</b> if the bundle does not contain an animation for the
-	 *         given state name. <b>false</b> otherwise
-	 */
-	boolean addDrawable(String stateName, Drawable animation);
-
-	/**
-	 * Get the states in the drawable bundle
-	 * 
-	 * @return A set with all the states in the drawable bundle
-	 */
-	Set<String> getStates();
+public interface Image extends BasicDrawable, HasURI {
 
 }

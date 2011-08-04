@@ -13,7 +13,7 @@ import es.eucm.eadventure.common.model.guievents.impl.EAdMouseEventImpl;
 import es.eucm.eadventure.common.model.trajectories.impl.SimpleTrajectoryDefinition;
 import es.eucm.eadventure.common.model.variables.impl.extra.EAdSceneElementVars;
 import es.eucm.eadventure.common.params.geom.impl.EAdPositionImpl;
-import es.eucm.eadventure.common.resources.assets.drawable.impl.BallonShape.BalloonType;
+import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.shapes.BallonShape.BalloonType;
 
 public class SpeakAndMoveScene extends EmptyScene {
 

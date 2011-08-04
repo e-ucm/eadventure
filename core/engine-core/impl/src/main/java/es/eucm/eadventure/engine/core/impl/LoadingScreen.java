@@ -50,7 +50,7 @@ import es.eucm.eadventure.common.model.events.EAdEvent;
 import es.eucm.eadventure.common.model.events.EAdSystemEvent.Event;
 import es.eucm.eadventure.common.model.events.impl.EAdSystemEventImpl;
 import es.eucm.eadventure.common.resources.StringHandler;
-import es.eucm.eadventure.common.resources.assets.drawable.impl.ImageImpl;
+import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.ImageImpl;
 
 @Singleton
 public class LoadingScreen extends EAdSceneImpl implements EAdScene {

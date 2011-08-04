@@ -35,24 +35,28 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package es.eucm.eadventure.common.resources.assets.drawable;
+package es.eucm.eadventure.common.resources.assets.drawable.basics.impl.shapes;
 
-import es.eucm.eadventure.common.params.geom.EAdPosition;
+import es.eucm.eadventure.common.params.fills.impl.EAdBorderedColor;
 
-public interface DisplacedDrawable extends Drawable {
 
-	/**
-	 * Return the displacement in reference to the parent element
-	 * 
-	 * @return The displacement of this drawable asset
-	 */
-	EAdPosition getDisplacement();
+/**
+ * <p>Rectangular shape asset</p>
+ * 
+ */
+public class RectangleShape extends BezierShape {
 	
-	/**
-	 * The drawable asset
-	 * 
-	 * @return The asset
-	 */
-	Drawable getDrawable();
-
+	public RectangleShape(int width, int height ){
+		this( width, height, EAdBorderedColor.TRANSPARENT );
+	}
+	
+	public RectangleShape(int width, int height, EAdBorderedColor color ) {
+		super( 0, 0 );
+		lineTo( width, 0 );
+		lineTo( width, height );
+		lineTo( 0, height );
+		close( );
+		super.setFill(color);
+	}
+	
 }

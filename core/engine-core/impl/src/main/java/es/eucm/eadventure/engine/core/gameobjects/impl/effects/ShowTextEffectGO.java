@@ -54,7 +54,7 @@ import es.eucm.eadventure.common.params.geom.EAdPosition;
 import es.eucm.eadventure.common.params.geom.impl.EAdPositionImpl;
 import es.eucm.eadventure.common.params.geom.impl.EAdPositionImpl.Corner;
 import es.eucm.eadventure.common.resources.StringHandler;
-import es.eucm.eadventure.common.resources.assets.drawable.impl.BezierShape;
+import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.shapes.BezierShape;
 import es.eucm.eadventure.engine.core.GameState;
 import es.eucm.eadventure.engine.core.ValueMap;
 import es.eucm.eadventure.engine.core.gameobjects.GameObjectFactory;

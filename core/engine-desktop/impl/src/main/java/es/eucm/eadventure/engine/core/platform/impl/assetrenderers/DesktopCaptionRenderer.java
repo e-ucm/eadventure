@@ -37,7 +37,6 @@
 
 package es.eucm.eadventure.engine.core.platform.impl.assetrenderers;
 
-import java.awt.AlphaComposite;
 import java.awt.Composite;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
@@ -61,8 +60,7 @@ public class DesktopCaptionRenderer implements
 	private FillFactory<Graphics2D, Shape> fillFactory;
 
 	@Inject
-	public DesktopCaptionRenderer(
-			FillFactory<Graphics2D, Shape> fillFactory) {
+	public DesktopCaptionRenderer(FillFactory<Graphics2D, Shape> fillFactory) {
 		this.fillFactory = fillFactory;
 	}
 
@@ -110,14 +108,10 @@ public class DesktopCaptionRenderer implements
 
 	protected void drawString(Graphics2D g, DesktopEngineCaption text,
 			String string, int yOffset) {
-		float alpha = text.getAlpha();
 
 		DesktopEngineFont deFont = (DesktopEngineFont) text.getFont();
 		Composite c = g.getComposite();
 		AffineTransform a = g.getTransform();
-		if (alpha != 1.0f)
-			g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER,
-					alpha));
 
 		g.setFont(deFont.getFont());
 		g.translate(0, yOffset);

@@ -4,7 +4,7 @@ import es.eucm.eadventure.common.elmentfactories.EAdElementsFactory;
 import es.eucm.eadventure.common.model.effects.EAdEffect;
 import es.eucm.eadventure.common.params.EAdFontImpl;
 import es.eucm.eadventure.common.params.fills.impl.EAdBorderedColor;
-import es.eucm.eadventure.common.resources.assets.drawable.impl.CaptionImpl;
+import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.CaptionImpl;
 import es.eucm.eadventure.common.resources.assets.impl.EAdURIImpl;
 
 public class SoundScene extends EmptyScene {

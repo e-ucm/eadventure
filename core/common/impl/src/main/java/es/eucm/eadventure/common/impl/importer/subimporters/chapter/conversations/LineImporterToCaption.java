@@ -48,8 +48,8 @@ import es.eucm.eadventure.common.params.fills.impl.EAdBorderedColor;
 import es.eucm.eadventure.common.params.fills.impl.EAdColor;
 import es.eucm.eadventure.common.resources.EAdString;
 import es.eucm.eadventure.common.resources.StringHandler;
-import es.eucm.eadventure.common.resources.assets.drawable.Caption;
-import es.eucm.eadventure.common.resources.assets.drawable.impl.CaptionImpl;
+import es.eucm.eadventure.common.resources.assets.drawable.basics.Caption;
+import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.CaptionImpl;
 
 public class LineImporterToCaption implements
 		GenericImporter<ConversationLine, Caption> {

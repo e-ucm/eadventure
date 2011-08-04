@@ -39,9 +39,9 @@ package es.eucm.eadventure.common.elmentfactories.assets;
 
 import es.eucm.eadventure.common.params.fills.impl.EAdBorderedColor;
 import es.eucm.eadventure.common.params.geom.impl.EAdPositionImpl;
-import es.eucm.eadventure.common.resources.assets.drawable.Shape;
-import es.eucm.eadventure.common.resources.assets.drawable.impl.BezierShape;
-import es.eucm.eadventure.common.resources.assets.drawable.impl.RectangleShape;
+import es.eucm.eadventure.common.resources.assets.drawable.basics.Shape;
+import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.shapes.BezierShape;
+import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.shapes.RectangleShape;
 
 public class ShapeFactory {
 

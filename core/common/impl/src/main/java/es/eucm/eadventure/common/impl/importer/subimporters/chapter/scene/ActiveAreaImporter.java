@@ -62,7 +62,7 @@ import es.eucm.eadventure.common.model.variables.impl.operations.BooleanOperatio
 import es.eucm.eadventure.common.resources.EAdBundleId;
 import es.eucm.eadventure.common.resources.EAdString;
 import es.eucm.eadventure.common.resources.StringHandler;
-import es.eucm.eadventure.common.resources.assets.drawable.Shape;
+import es.eucm.eadventure.common.resources.assets.drawable.basics.Shape;
 
 public class ActiveAreaImporter implements
 		EAdElementImporter<ActiveArea, EAdSceneElement> {

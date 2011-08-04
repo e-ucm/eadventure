@@ -57,9 +57,9 @@ import es.eucm.eadventure.common.model.elements.EAdCondition;
 import es.eucm.eadventure.common.model.elements.impl.EAdBasicActor;
 import es.eucm.eadventure.common.resources.EAdString;
 import es.eucm.eadventure.common.resources.StringHandler;
-import es.eucm.eadventure.common.resources.assets.drawable.Caption;
-import es.eucm.eadventure.common.resources.assets.drawable.impl.CaptionImpl;
-import es.eucm.eadventure.common.resources.assets.drawable.impl.ImageImpl;
+import es.eucm.eadventure.common.resources.assets.drawable.basics.Caption;
+import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.CaptionImpl;
+import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.ImageImpl;
 
 public abstract class ActorImporter<P extends Element> implements
 		EAdElementImporter<P, EAdActor> {

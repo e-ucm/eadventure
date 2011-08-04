@@ -35,24 +35,46 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package es.eucm.eadventure.common.resources.assets.drawable;
+package es.eucm.eadventure.common.resources.assets.drawable.compounds.impl;
 
 import es.eucm.eadventure.common.interfaces.Oriented.Orientation;
+import es.eucm.eadventure.common.model.EAdMap;
+import es.eucm.eadventure.common.model.impl.EAdMapImpl;
+import es.eucm.eadventure.common.resources.assets.drawable.Drawable;
+import es.eucm.eadventure.common.resources.assets.drawable.compounds.OrientedDrawable;
 
 /**
+ * Default implementation for {@link OrientedDrawable}
  * 
- * Implemented by all assets which are oriented
  * 
  */
-public interface OrientedDrawable extends Drawable{
+public class OrientedDrawableImpl implements OrientedDrawable {
+
+	private EAdMap<Orientation, Drawable> drawables;
 
 	/**
-	 * Returns the {@link Drawable} associated with the given orientation
+	 * Constructs an empty oriented asset
+	 */
+	public OrientedDrawableImpl() {
+		drawables = new EAdMapImpl<Orientation, Drawable>("orientedDrawable",
+				Orientation.class, Drawable.class);
+	}
+
+	/**
+	 * Links the given orientation with the given drawable
 	 * 
 	 * @param orientation
 	 *            the orientation
-	 * @return the {@link Drawable} associated with the given orientation
+	 * @param drawable
+	 *            the drawable
 	 */
-	Drawable getDrawable(Orientation orientation);
+	public void setDrawable(Orientation orientation, Drawable drawable) {
+		drawables.put(orientation, drawable);
+	}
+
+	@Override
+	public Drawable getDrawable(Orientation orientation) {
+		return drawables.get(orientation);
+	}
 
 }

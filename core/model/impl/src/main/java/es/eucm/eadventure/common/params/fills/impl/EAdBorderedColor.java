@@ -91,6 +91,7 @@ public class EAdBorderedColor implements EAdFill {
 	public EAdBorderedColor(EAdColor centerColor, EAdColor borderColor, int width ) {
 		this.centerColor = centerColor;
 		this.borderColor = borderColor;
+		this.width = width;
 	}
 
 	@Override

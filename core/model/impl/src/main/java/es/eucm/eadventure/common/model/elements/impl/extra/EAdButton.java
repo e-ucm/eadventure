@@ -47,13 +47,13 @@ import es.eucm.eadventure.common.params.geom.impl.EAdPositionImpl;
 import es.eucm.eadventure.common.params.geom.impl.EAdPositionImpl.Corner;
 import es.eucm.eadventure.common.resources.EAdBundleId;
 import es.eucm.eadventure.common.resources.EAdString;
-import es.eucm.eadventure.common.resources.assets.drawable.Caption;
-import es.eucm.eadventure.common.resources.assets.drawable.ComposedDrawable;
-import es.eucm.eadventure.common.resources.assets.drawable.Image;
-import es.eucm.eadventure.common.resources.assets.drawable.impl.CaptionImpl;
-import es.eucm.eadventure.common.resources.assets.drawable.impl.ComposedDrawableImpl;
-import es.eucm.eadventure.common.resources.assets.drawable.impl.DisplacedDrawableImpl;
-import es.eucm.eadventure.common.resources.assets.drawable.impl.ImageImpl;
+import es.eucm.eadventure.common.resources.assets.drawable.basics.Caption;
+import es.eucm.eadventure.common.resources.assets.drawable.basics.Image;
+import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.CaptionImpl;
+import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.ImageImpl;
+import es.eucm.eadventure.common.resources.assets.drawable.compounds.ComposedDrawable;
+import es.eucm.eadventure.common.resources.assets.drawable.compounds.impl.ComposedDrawableImpl;
+import es.eucm.eadventure.common.resources.assets.drawable.compounds.impl.DisplacedDrawableImpl;
 
 @Element(runtime=EAdBasicSceneElement.class, detailed=EAdButton.class)
 public class EAdButton extends EAdBasicSceneElement {
@@ -77,21 +77,19 @@ public class EAdButton extends EAdBasicSceneElement {
 	public void setUpNewInstance() {
 		Image image = new ImageImpl("@drawable/button_normal.png");
 
-		DisplacedDrawableImpl dd = new DisplacedDrawableImpl();
-		dd.setDisplacement(new EAdPositionImpl(Corner.CENTER, -30, -40));
-		dd.setDrawable(this.text);
+		DisplacedDrawableImpl dd = new DisplacedDrawableImpl(this.text, new EAdPositionImpl(Corner.CENTER, -30, -40));
 		
 		ComposedDrawable cd = new ComposedDrawableImpl();
-		cd.getAssetList().add(image);
-		cd.getAssetList().add(dd);
+		cd.addDrawable(image);
+		cd.addDrawable(dd);
 
 		getResources().addAsset(getInitialBundle(), EAdBasicSceneElement.appearance, cd);
 		
 		EAdBundleId pressedBundle = new EAdBundleId("pressed");
 		Image image2 = new ImageImpl("@drawable/button_pressed.png");
 		ComposedDrawable cd2 = new ComposedDrawableImpl();
-		cd2.getAssetList().add(image2);
-		cd2.getAssetList().add(dd);
+		cd2.addDrawable(image2);
+		cd2.addDrawable(dd);
 
 		getResources().addAsset(pressedBundle, EAdBasicSceneElement.appearance, cd2);
 

@@ -45,7 +45,7 @@ import es.eucm.eadventure.common.data.chapter.conditions.Conditions;
 import es.eucm.eadventure.common.data.chapter.conversation.line.ConversationLine;
 import es.eucm.eadventure.common.model.effects.impl.text.EAdShowText;
 import es.eucm.eadventure.common.model.elements.EAdCondition;
-import es.eucm.eadventure.common.resources.assets.drawable.Caption;
+import es.eucm.eadventure.common.resources.assets.drawable.basics.Caption;
 
 public class LineImporterToShowText implements EAdElementImporter<ConversationLine, EAdShowText>{
 	

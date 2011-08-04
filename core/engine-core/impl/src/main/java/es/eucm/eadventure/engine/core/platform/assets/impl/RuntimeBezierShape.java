@@ -39,7 +39,7 @@ package es.eucm.eadventure.engine.core.platform.assets.impl;
 
 import es.eucm.eadventure.common.params.geom.impl.EAdPositionImpl;
 import es.eucm.eadventure.common.resources.assets.drawable.Drawable;
-import es.eucm.eadventure.common.resources.assets.drawable.impl.BezierShape;
+import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.shapes.BezierShape;
 import es.eucm.eadventure.engine.core.GameState;
 import es.eucm.eadventure.engine.core.platform.DrawableAsset;
 

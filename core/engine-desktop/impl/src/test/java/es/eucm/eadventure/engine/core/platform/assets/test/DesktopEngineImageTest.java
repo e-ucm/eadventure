@@ -42,8 +42,8 @@ import org.junit.Test;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 
-import es.eucm.eadventure.common.resources.assets.drawable.Image;
-import es.eucm.eadventure.common.resources.assets.drawable.impl.ImageImpl;
+import es.eucm.eadventure.common.resources.assets.drawable.basics.Image;
+import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.ImageImpl;
 import es.eucm.eadventure.engine.core.platform.assets.impl.DesktopEngineImage;
 import es.eucm.eadventure.engine.core.platform.impl.extra.DesktopAssetHandlerModule;
 import junit.framework.TestCase;

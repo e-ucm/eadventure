@@ -35,9 +35,10 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package es.eucm.eadventure.common.resources.assets.drawable;
+package es.eucm.eadventure.common.resources.assets.drawable.compounds;
 
 import es.eucm.eadventure.common.model.EAdList;
+import es.eucm.eadventure.common.resources.assets.drawable.basics.BasicDrawable;
 
 /**
  * <p>
@@ -46,13 +47,30 @@ import es.eucm.eadventure.common.model.EAdList;
  * </p>
  * 
  */
-public interface ComposedDrawable extends Drawable {
+public interface ComposedDrawable extends BasicDrawable {
 
 	/**
-	 * A list with the {@link Drawable} compounding this element
+	 * A list with the {@link DisplacedDrawable} compounding this element
 	 * 
 	 * @return
 	 */
-	EAdList<Drawable> getAssetList();
+	EAdList<DisplacedDrawable> getAssetList();
+
+	/**
+	 * Adds a drawable to this composed drawable with the given offset
+	 * 
+	 * @param drawable
+	 *            the drawable
+	 * @param xOffset
+	 *            the offset in the x coordinate
+	 * @param yOffset
+	 *            the offset in the y coordinate
+	 */
+	void addDrawable(BasicDrawable drawable, int xOffset, int yOffset);
+
+	/**
+	 * Adds a drawable to this composed drawable with the zero offset
+	 */
+	void addDrawable(BasicDrawable drawable);
 
 }

@@ -35,33 +35,59 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package es.eucm.eadventure.common.resources.assets.drawable;
+package es.eucm.eadventure.common.resources.assets.drawable.compounds.impl;
 
-/**
- * General image asset interface.
- */
-public interface SpriteImage extends Drawable {
+import es.eucm.eadventure.common.interfaces.Param;
+import es.eucm.eadventure.common.params.geom.EAdPosition;
+import es.eucm.eadventure.common.params.geom.impl.EAdPositionImpl;
+import es.eucm.eadventure.common.resources.assets.drawable.basics.BasicDrawable;
+import es.eucm.eadventure.common.resources.assets.drawable.compounds.DisplacedDrawable;
 
-	/**
-	 * Returns the image containing all spritres together
-	 * 
-	 * @return
+public class DisplacedDrawableImpl implements DisplacedDrawable {
+
+	@Param("displacement")
+	private EAdPosition displacement;
+	
+	@Param("asset")
+	private BasicDrawable drawable;
+	
+	public DisplacedDrawableImpl( BasicDrawable drawable, EAdPosition displacement ){
+		this.drawable = drawable;
+		this.displacement = displacement;
+	}
+	
+	/* (non-Javadoc)
+	 * @see es.eucm.eadventure.common.resources.assets.drawable.DisplacedDrawable#getDisplacement()
 	 */
-	Image getImage();
-
+	@Override
+	public EAdPosition getDisplacement() {
+		return displacement;
+	}
+	
 	/**
-	 * Returns the total number of sprites in the image return by
-	 * {@link SpriteImage#getImage()}
+	 * Set the relative displacement of the asset
 	 * 
-	 * @return
+	 * @param position
 	 */
-	int getTotalSprites();
+	public void setDisplacement(EAdPositionImpl position) {
+		displacement = position;
+	}
 
-	/**
-	 * Returns the number of sprite represented by this sprite
-	 * 
-	 * @return
+	/* (non-Javadoc)
+	 * @see es.eucm.eadventure.common.resources.assets.drawable.DisplacedDrawable#getDrawable()
 	 */
-	int getSprite();
+	@Override
+	public BasicDrawable getDrawable() {
+		return drawable;
+	}
+	
+	/**
+	 * Set the drawable asset
+	 * 
+	 * @param asset
+	 */
+	public void setDrawable(BasicDrawable asset) {
+		this.drawable = asset;
+	}
 
 }

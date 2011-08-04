@@ -49,7 +49,7 @@ import es.eucm.eadventure.common.model.elements.impl.extra.EAdButton;
 import es.eucm.eadventure.common.model.guievents.impl.EAdMouseEventImpl;
 import es.eucm.eadventure.common.params.geom.impl.EAdPositionImpl;
 import es.eucm.eadventure.common.resources.EAdString;
-import es.eucm.eadventure.common.resources.assets.drawable.impl.CaptionImpl;
+import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.CaptionImpl;
 import es.eucm.eadventure.engine.core.GameState;
 import es.eucm.eadventure.engine.core.gameobjects.GameObjectFactory;
 import es.eucm.eadventure.engine.core.gameobjects.GameObjectManager;

@@ -48,12 +48,12 @@ import es.eucm.eadventure.common.model.events.impl.EAdSceneElementEventImpl;
 import es.eucm.eadventure.common.model.guievents.impl.EAdKeyEventImpl;
 import es.eucm.eadventure.common.model.variables.impl.extra.EAdSceneElementVars;
 import es.eucm.eadventure.common.model.variables.impl.operations.AssignOperation;
-import es.eucm.eadventure.common.resources.assets.drawable.OrientedDrawable;
-import es.eucm.eadventure.common.resources.assets.drawable.StateDrawable;
-import es.eucm.eadventure.common.resources.assets.drawable.animation.impl.FramesAnimation;
-import es.eucm.eadventure.common.resources.assets.drawable.animation.impl.OrientedDrawableImpl;
-import es.eucm.eadventure.common.resources.assets.drawable.animation.impl.StateDrawableImpl;
-import es.eucm.eadventure.common.resources.assets.drawable.impl.ImageImpl;
+import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.ImageImpl;
+import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.animation.FramesAnimation;
+import es.eucm.eadventure.common.resources.assets.drawable.compounds.OrientedDrawable;
+import es.eucm.eadventure.common.resources.assets.drawable.compounds.StateDrawable;
+import es.eucm.eadventure.common.resources.assets.drawable.compounds.impl.OrientedDrawableImpl;
+import es.eucm.eadventure.common.resources.assets.drawable.compounds.impl.StateDrawableImpl;
 
 public class CharacterScene extends EmptyScene {
 

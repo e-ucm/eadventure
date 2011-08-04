@@ -61,7 +61,7 @@ import es.eucm.eadventure.common.model.guievents.impl.EAdMouseEventImpl;
 import es.eucm.eadventure.common.model.variables.impl.extra.EAdSceneElementVars;
 import es.eucm.eadventure.common.model.variables.impl.operations.BooleanOperation;
 import es.eucm.eadventure.common.params.fills.impl.EAdBorderedColor;
-import es.eucm.eadventure.common.resources.assets.drawable.Shape;
+import es.eucm.eadventure.common.resources.assets.drawable.basics.Shape;
 
 public class ExitImporter implements EAdElementImporter<Exit, EAdSceneElement> {
 

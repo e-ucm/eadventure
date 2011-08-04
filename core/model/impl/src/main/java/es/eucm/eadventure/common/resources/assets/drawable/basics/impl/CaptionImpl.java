@@ -35,14 +35,15 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package es.eucm.eadventure.common.resources.assets.drawable.impl;
+package es.eucm.eadventure.common.resources.assets.drawable.basics.impl;
 
 import es.eucm.eadventure.common.interfaces.Param;
+import es.eucm.eadventure.common.params.EAdFont;
 import es.eucm.eadventure.common.params.EAdFontImpl;
 import es.eucm.eadventure.common.params.fills.impl.EAdBorderedColor;
 import es.eucm.eadventure.common.params.fills.impl.EAdColor;
 import es.eucm.eadventure.common.resources.EAdString;
-import es.eucm.eadventure.common.resources.assets.drawable.Caption;
+import es.eucm.eadventure.common.resources.assets.drawable.basics.Caption;
 
 public class CaptionImpl implements Caption {
 
@@ -55,7 +56,7 @@ public class CaptionImpl implements Caption {
 	private EAdString label;
 
 	@Param("font")
-	private EAdFontImpl font;
+	private EAdFont font;
 
 	@Param("textColor")
 	private EAdBorderedColor textColor;
@@ -65,9 +66,6 @@ public class CaptionImpl implements Caption {
 
 	@Param("bubbleColor")
 	private EAdBorderedColor bubbleColor;
-
-	@Param("alpha")
-	private float alpha;
 
 	@Param("maxWidth")
 	private int maxWidth;
@@ -99,7 +97,6 @@ public class CaptionImpl implements Caption {
 		maxWidth = SCREEN_SIZE;
 		minWidth = 0;
 		minHeight = 0;
-		alpha = 1.0f;
 		padding = DEFAULT_PADDING;
 	}
 
@@ -118,11 +115,11 @@ public class CaptionImpl implements Caption {
 	}
 
 	@Override
-	public EAdFontImpl getFont() {
+	public EAdFont getFont() {
 		return font;
 	}
 
-	public void setFont(EAdFontImpl font) {
+	public void setFont(EAdFont font) {
 		this.font = font;
 	}
 
@@ -148,11 +145,6 @@ public class CaptionImpl implements Caption {
 	public void setBubbleColor(EAdBorderedColor bubbleColor) {
 		this.bubbleColor = bubbleColor;
 		setHasBubble(bubbleColor != null);
-	}
-
-	@Override
-	public float getAlpha() {
-		return alpha;
 	}
 
 	@Override
@@ -191,7 +183,8 @@ public class CaptionImpl implements Caption {
 	 * Sets maximum height for this text. Could be a positive number or
 	 * {@link Caption#INFINITE_SIZE} or {@link Caption#SCREEN_SIZE}
 	 * 
-	 * @param maxHeight the height
+	 * @param maxHeight
+	 *            the height
 	 */
 	public void setMaximumHeight(int maxHeight) {
 		this.maxHeight = maxHeight;
@@ -226,6 +219,10 @@ public class CaptionImpl implements Caption {
 	@Override
 	public int getPadding() {
 		return padding;
+	}
+
+	public void setPadding(int padding) {
+		this.padding = padding;
 	}
 
 }

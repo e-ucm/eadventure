@@ -46,7 +46,7 @@ import es.eucm.eadventure.common.data.chapter.conversation.node.OptionConversati
 import es.eucm.eadventure.common.model.effects.impl.text.EAdShowQuestion;
 import es.eucm.eadventure.common.model.effects.impl.text.extra.Answer;
 import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
-import es.eucm.eadventure.common.resources.assets.drawable.Caption;
+import es.eucm.eadventure.common.resources.assets.drawable.basics.Caption;
 
 public class OptionConversationImporter implements EAdElementImporter<OptionConversationNode, EAdShowQuestion>{
 	

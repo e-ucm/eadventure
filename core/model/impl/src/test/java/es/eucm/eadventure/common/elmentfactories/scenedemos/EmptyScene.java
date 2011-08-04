@@ -39,7 +39,9 @@ package es.eucm.eadventure.common.elmentfactories.scenedemos;
 
 import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
 import es.eucm.eadventure.common.model.elements.impl.EAdSceneImpl;
-import es.eucm.eadventure.common.resources.assets.drawable.impl.ImageImpl;
+import es.eucm.eadventure.common.params.EAdFill;
+import es.eucm.eadventure.common.params.fills.impl.EAdColor;
+import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.shapes.RectangleShape;
 
 /**
  * An empty scene
@@ -47,20 +49,27 @@ import es.eucm.eadventure.common.resources.assets.drawable.impl.ImageImpl;
  */
 public class EmptyScene extends EAdSceneImpl implements SceneDemo {
 
+	private RectangleShape rectangle;
+
 	public EmptyScene() {
 		super("EmptyScene");
+		rectangle = new RectangleShape(800, 600);
+		rectangle.setFill(new EAdColor(0, 0, 0));
 		getBackground().getResources().addAsset(
 				getBackground().getInitialBundle(),
-				EAdBasicSceneElement.appearance,
-				new ImageImpl("@drawable/Loading.png"));
+				EAdBasicSceneElement.appearance, rectangle);
+	}
+	
+	public void setBackgroundFill( EAdFill fill ){
+		rectangle.setFill(fill);
 	}
 
 	@Override
 	public String getDescription() {
 		return "An empty scene";
 	}
-	
-	public String getDemoName(){
+
+	public String getDemoName() {
 		return "Empty Scene";
 	}
 

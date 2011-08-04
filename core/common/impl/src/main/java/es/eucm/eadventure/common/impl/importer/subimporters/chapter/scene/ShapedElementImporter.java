@@ -42,9 +42,9 @@ import java.awt.Point;
 import es.eucm.eadventure.common.data.chapter.Rectangle;
 import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
 import es.eucm.eadventure.common.params.geom.impl.EAdPositionImpl;
-import es.eucm.eadventure.common.resources.assets.drawable.Shape;
-import es.eucm.eadventure.common.resources.assets.drawable.impl.BezierShape;
-import es.eucm.eadventure.common.resources.assets.drawable.impl.RectangleShape;
+import es.eucm.eadventure.common.resources.assets.drawable.basics.Shape;
+import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.shapes.BezierShape;
+import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.shapes.RectangleShape;
 
 public class ShapedElementImporter {
 

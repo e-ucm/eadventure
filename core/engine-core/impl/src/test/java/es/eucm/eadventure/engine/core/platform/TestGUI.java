@@ -39,7 +39,7 @@ package es.eucm.eadventure.engine.core.platform;
 
 import com.google.inject.Inject;
 
-import es.eucm.eadventure.common.resources.assets.drawable.Image;
+import es.eucm.eadventure.common.resources.assets.drawable.basics.Image;
 import es.eucm.eadventure.engine.core.GameState;
 import es.eucm.eadventure.engine.core.KeyboardState;
 import es.eucm.eadventure.engine.core.MouseState;

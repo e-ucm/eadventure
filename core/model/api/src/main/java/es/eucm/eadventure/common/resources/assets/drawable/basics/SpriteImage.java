@@ -35,32 +35,34 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package es.eucm.eadventure.common.resources.assets.drawable;
+package es.eucm.eadventure.common.resources.assets.drawable.basics;
 
-import es.eucm.eadventure.common.params.EAdFill;
 
-public interface Shape extends Drawable {
-
-	/**
-	 * <p>
-	 * Return the color with which to draw the shape.
-	 * </p>
-	 * <p>
-	 * The color can have alpha = 0 if the shape is expected to be invisible. As
-	 * it uses {@link EAdBorderedColor} it can be used to paint just the outline
-	 * of the shape.
-	 * </p>
-	 * 
-	 * @return The color of the shape
-	 */
-	EAdFill getFill();
+/**
+ * General sprite image asset interface.
+ */
+public interface SpriteImage extends BasicDrawable {
 
 	/**
-	 * Sets the color for the shape
+	 * Returns the image containing all sprites together
 	 * 
-	 * @param color
-	 *            the color
+	 * @return
 	 */
-	void setFill(EAdFill color);
+	Image getImage();
+
+	/**
+	 * Returns the total number of sprites in the image return by
+	 * {@link SpriteImage#getImage()}
+	 * 
+	 * @return
+	 */
+	int getTotalSprites();
+
+	/**
+	 * Returns the number of sprite represented by this sprite
+	 * 
+	 * @return
+	 */
+	int getSprite();
 
 }

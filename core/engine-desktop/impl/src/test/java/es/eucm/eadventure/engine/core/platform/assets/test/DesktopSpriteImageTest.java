@@ -42,10 +42,10 @@ import org.junit.Test;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 
-import es.eucm.eadventure.common.resources.assets.drawable.Image;
-import es.eucm.eadventure.common.resources.assets.drawable.SpriteImage;
-import es.eucm.eadventure.common.resources.assets.drawable.impl.ImageImpl;
-import es.eucm.eadventure.common.resources.assets.drawable.impl.SpriteImageImpl;
+import es.eucm.eadventure.common.resources.assets.drawable.basics.Image;
+import es.eucm.eadventure.common.resources.assets.drawable.basics.SpriteImage;
+import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.ImageImpl;
+import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.SpriteImageImpl;
 import es.eucm.eadventure.engine.core.platform.assets.impl.DesktopEngineSpriteImage;
 import es.eucm.eadventure.engine.core.platform.impl.extra.DesktopAssetHandlerModule;
 import junit.framework.TestCase;

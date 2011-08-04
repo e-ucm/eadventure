@@ -52,7 +52,7 @@ import es.eucm.eadventure.common.params.fills.impl.EAdBorderedColor;
 import es.eucm.eadventure.common.params.fills.impl.EAdColor;
 import es.eucm.eadventure.common.resources.EAdString;
 import es.eucm.eadventure.common.resources.StringHandler;
-import es.eucm.eadventure.common.resources.assets.drawable.impl.BallonShape.BalloonType;
+import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.shapes.BallonShape.BalloonType;
 
 public class SpeakPlayerEffectImporter extends
 		TextEffectImporter<SpeakPlayerEffect> {

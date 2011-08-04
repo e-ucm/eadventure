@@ -35,11 +35,11 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package es.eucm.eadventure.common.resources.assets.drawable.impl;
+package es.eucm.eadventure.common.resources.assets.drawable.basics.impl;
 
 import es.eucm.eadventure.common.interfaces.Param;
 import es.eucm.eadventure.common.resources.EAdURI;
-import es.eucm.eadventure.common.resources.assets.drawable.Image;
+import es.eucm.eadventure.common.resources.assets.drawable.basics.Image;
 import es.eucm.eadventure.common.resources.assets.impl.EAdURIImpl;
 
 public class ImageImpl implements Image {
