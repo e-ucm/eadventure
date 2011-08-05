@@ -37,18 +37,17 @@
 
 package es.eucm.eadventure.engine.core.platform.assets.test;
 
+import junit.framework.TestCase;
+
 import org.junit.Test;
 
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 
-import es.eucm.eadventure.common.resources.assets.drawable.basics.Image;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.SpriteImage;
-import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.ImageImpl;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.SpriteImageImpl;
 import es.eucm.eadventure.engine.core.platform.assets.impl.DesktopEngineSpriteImage;
 import es.eucm.eadventure.engine.core.platform.impl.extra.DesktopAssetHandlerModule;
-import junit.framework.TestCase;
 
 public class DesktopSpriteImageTest extends TestCase {
 
@@ -68,13 +67,13 @@ public class DesktopSpriteImageTest extends TestCase {
 		
 		spriteImage1 = injector.getInstance(DesktopEngineSpriteImage.class);
 		
-		Image imageDescriptor = new ImageImpl("@drawable/loading.png");
-		sprite1 = new SpriteImageImpl(imageDescriptor, 9, 2);
+		
+		sprite1 = new SpriteImageImpl("@drawable/loading.png", 9, 2);
 		spriteImage1.setDescriptor(sprite1);
 		
 		spriteImage2 = injector.getInstance(DesktopEngineSpriteImage.class);
 
-		sprite2 = new SpriteImageImpl(imageDescriptor, 9, 6);
+		sprite2 = new SpriteImageImpl("@drawable/loading.png", 9, 6);
 		spriteImage2.setDescriptor(sprite2);
 		
 		

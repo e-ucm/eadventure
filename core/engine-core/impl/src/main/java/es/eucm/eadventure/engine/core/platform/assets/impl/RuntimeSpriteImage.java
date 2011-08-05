@@ -42,6 +42,7 @@ import java.util.logging.Logger;
 import com.google.inject.Inject;
 
 import es.eucm.eadventure.common.resources.assets.drawable.Drawable;
+import es.eucm.eadventure.common.resources.assets.drawable.basics.Image;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.SpriteImage;
 import es.eucm.eadventure.engine.core.GameState;
 import es.eucm.eadventure.engine.core.platform.AssetHandler;
@@ -82,7 +83,7 @@ public abstract class RuntimeSpriteImage extends AbstractRuntimeAsset<SpriteImag
 
 	@Override
 	public void update(GameState state) {		
-		assetHandler.getRuntimeAsset(descriptor.getImage()).update(state);
+		assetHandler.getRuntimeAsset(descriptor).update(state);
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -92,27 +93,27 @@ public abstract class RuntimeSpriteImage extends AbstractRuntimeAsset<SpriteImag
 	}
 	
 	public int getWidth() {
-		return ((RuntimeImage) assetHandler.getRuntimeAsset(descriptor.getImage())).getWidth() / rows;
+		return ((RuntimeImage) assetHandler.getRuntimeAsset((Image) descriptor)).getWidth() / rows;
 	}
 
 	public int getHeight() {
-		return ((RuntimeImage) assetHandler.getRuntimeAsset(descriptor.getImage())).getHeight() / cols;
+		return ((RuntimeImage) assetHandler.getRuntimeAsset((Image) descriptor)).getHeight() / cols;
 	}
 
 	@Override
 	public boolean loadAsset() {
-		assetHandler.getRuntimeAsset(descriptor.getImage()).loadAsset();
+		assetHandler.getRuntimeAsset(descriptor).loadAsset();
 		return assetHandler != null;
 	}
 
 	@Override
 	public void freeMemory() {
-		assetHandler.getRuntimeAsset(descriptor.getImage()).freeMemory();
+		assetHandler.getRuntimeAsset(descriptor).freeMemory();
 	}
 
 	@Override
 	public boolean isLoaded() {
-		return assetHandler.getRuntimeAsset(descriptor.getImage()).isLoaded();
+		return assetHandler.getRuntimeAsset(descriptor).isLoaded();
 	}
 	
 	public int getRows() {

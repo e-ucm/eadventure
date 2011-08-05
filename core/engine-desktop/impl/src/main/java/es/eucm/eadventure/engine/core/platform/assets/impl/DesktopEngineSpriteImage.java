@@ -41,6 +41,7 @@ import java.awt.image.BufferedImage;
 
 import com.google.inject.Inject;
 
+import es.eucm.eadventure.common.resources.assets.drawable.basics.Image;
 import es.eucm.eadventure.engine.core.platform.AssetHandler;
 
 public class DesktopEngineSpriteImage extends RuntimeSpriteImage {
@@ -51,7 +52,7 @@ public class DesktopEngineSpriteImage extends RuntimeSpriteImage {
 	}
 
 	public BufferedImage getImage() {
-		return ((DesktopEngineImage) assetHandler.getRuntimeAsset(descriptor.getImage())).getImage();
+		return ((DesktopEngineImage) assetHandler.getRuntimeAsset((Image) descriptor)).getImage();
 	}
 
 	public int getSprite() {

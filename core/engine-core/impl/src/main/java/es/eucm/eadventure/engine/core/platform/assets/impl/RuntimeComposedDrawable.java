@@ -73,12 +73,12 @@ public class RuntimeComposedDrawable extends AbstractRuntimeAsset<ComposedDrawab
 
 	@Override
 	public void update(GameState state) {
-		for (Drawable asset : descriptor.getAssetList())
+		for (Drawable asset : descriptor.getDrawables())
 			assetHandler.getRuntimeAsset(asset).update(state);
 	}
 	
 	public EAdList<DisplacedDrawable> getAssetList() {
-		return descriptor.getAssetList();
+		return descriptor.getDrawables();
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -89,35 +89,35 @@ public class RuntimeComposedDrawable extends AbstractRuntimeAsset<ComposedDrawab
 	
 	public int getWidth() {
 		int width = 0;
-		for (Drawable asset : descriptor.getAssetList())
+		for (Drawable asset : descriptor.getDrawables())
 			width = Math.max(((DrawableAsset<?>) assetHandler.getRuntimeAsset(asset)).getWidth(), width);
 		return width;
 	}
 
 	public int getHeight() {
 		int height = 0;
-		for (Drawable asset : descriptor.getAssetList())
+		for (Drawable asset : descriptor.getDrawables())
 			height = Math.max(((DrawableAsset<?>) assetHandler.getRuntimeAsset(asset)).getHeight(), height);
 		return height;
 	}
 
 	@Override
 	public boolean loadAsset() {
-		for (Drawable asset : descriptor.getAssetList())
+		for (Drawable asset : descriptor.getDrawables())
 			assetHandler.getRuntimeAsset(asset).loadAsset();
 		return assetHandler != null;
 	}
 
 	@Override
 	public void freeMemory() {
-		for (Drawable asset : descriptor.getAssetList())
+		for (Drawable asset : descriptor.getDrawables())
 			assetHandler.getRuntimeAsset(asset).freeMemory();
 	}
 
 	@Override
 	public boolean isLoaded() {
 		boolean loaded = true;
-		for (Drawable asset : descriptor.getAssetList())
+		for (Drawable asset : descriptor.getDrawables())
 			loaded = loaded & assetHandler.getRuntimeAsset(asset).isLoaded();
 		return loaded;
 	}

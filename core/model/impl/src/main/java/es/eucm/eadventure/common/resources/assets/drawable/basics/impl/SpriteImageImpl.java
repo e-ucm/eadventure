@@ -41,15 +41,11 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import es.eucm.eadventure.common.interfaces.Param;
-import es.eucm.eadventure.common.resources.assets.drawable.basics.Image;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.SpriteImage;
 
-public class SpriteImageImpl implements SpriteImage {
+public class SpriteImageImpl extends ImageImpl implements SpriteImage {
 
 	private static final Logger logger = Logger.getLogger("SpriteImageImpl");
-	
-	@Param("image")
-	private Image image;
 	
 	@Param("totalSprites")
 	private int totalSprites;
@@ -57,17 +53,12 @@ public class SpriteImageImpl implements SpriteImage {
 	@Param("sprite")
 	private int sprite;
 
-	public SpriteImageImpl(Image image, int totalSprites, int sprite) {
-		this.image = image;
+	public SpriteImageImpl(String uri, int totalSprites, int sprite) {
+		super( uri );
 		this.totalSprites = totalSprites;
 		this.sprite = sprite;
 		if (sprite >= totalSprites)
 			logger.log(Level.SEVERE, "Sprite number is invalid for number of sprites");
-	}
-	
-	@Override
-	public Image getImage() {
-		return image;
 	}
 
 	@Override

@@ -41,14 +41,7 @@ package es.eucm.eadventure.common.resources.assets.drawable.basics;
 /**
  * General sprite image asset interface.
  */
-public interface SpriteImage extends BasicDrawable {
-
-	/**
-	 * Returns the image containing all sprites together
-	 * 
-	 * @return
-	 */
-	Image getImage();
+public interface SpriteImage extends Image {
 
 	/**
 	 * Returns the total number of sprites in the image return by
