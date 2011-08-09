@@ -38,8 +38,8 @@
 package es.eucm.eadventure.common.model.behavior;
 
 import es.eucm.eadventure.common.model.EAdElement;
-import es.eucm.eadventure.common.model.EAdList;
 import es.eucm.eadventure.common.model.effects.EAdEffect;
+import es.eucm.eadventure.common.model.extra.EAdList;
 import es.eucm.eadventure.common.model.guievents.EAdGUIEvent;
 
 /**

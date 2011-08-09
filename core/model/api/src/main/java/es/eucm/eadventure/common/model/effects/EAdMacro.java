@@ -37,7 +37,7 @@
 package es.eucm.eadventure.common.model.effects;
 
 import es.eucm.eadventure.common.model.EAdElement;
-import es.eucm.eadventure.common.model.EAdList;
+import es.eucm.eadventure.common.model.extra.EAdList;
 
 /**
  * A macro represents a list of effects that can be referenced as a single

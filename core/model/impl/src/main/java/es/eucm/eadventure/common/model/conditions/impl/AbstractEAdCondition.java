@@ -38,9 +38,9 @@
 package es.eucm.eadventure.common.model.conditions.impl;
 
 import es.eucm.eadventure.common.model.elements.EAdCondition;
-import es.eucm.eadventure.common.model.impl.AbstractEAdElement;
+import es.eucm.eadventure.common.model.impl.EAdElementImpl;
 
-public abstract class AbstractEAdCondition extends AbstractEAdElement implements
+public abstract class AbstractEAdCondition extends EAdElementImpl implements
 		EAdCondition {
 
 	public AbstractEAdCondition(String id) {

@@ -46,6 +46,7 @@ import com.google.inject.Inject;
 import es.eucm.eadventure.common.model.elements.EAdTimer;
 import es.eucm.eadventure.common.params.geom.impl.EAdPositionImpl;
 import es.eucm.eadventure.common.resources.StringHandler;
+import es.eucm.eadventure.engine.core.GameLoop;
 import es.eucm.eadventure.engine.core.GameState;
 import es.eucm.eadventure.engine.core.MouseState;
 import es.eucm.eadventure.engine.core.ValueMap;
@@ -53,13 +54,12 @@ import es.eucm.eadventure.engine.core.gameobjects.GameObject;
 import es.eucm.eadventure.engine.core.gameobjects.GameObjectFactory;
 import es.eucm.eadventure.engine.core.gameobjects.TimerGO;
 import es.eucm.eadventure.engine.core.guiactions.GUIAction;
-import es.eucm.eadventure.engine.core.GameLoop;
 import es.eucm.eadventure.engine.core.platform.AssetHandler;
 import es.eucm.eadventure.engine.core.platform.GUI;
 import es.eucm.eadventure.engine.core.platform.PlatformConfiguration;
 import es.eucm.eadventure.engine.core.platform.RuntimeAsset;
 
-public class TimerGOImpl extends AbstractGameObject<EAdTimer> implements TimerGO {
+public class TimerGOImpl extends GameObjectImpl<EAdTimer> implements TimerGO {
 
 	private double passedTime;
 	

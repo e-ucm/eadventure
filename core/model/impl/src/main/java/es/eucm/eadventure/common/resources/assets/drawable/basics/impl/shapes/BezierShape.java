@@ -38,8 +38,8 @@
 package es.eucm.eadventure.common.resources.assets.drawable.basics.impl.shapes;
 
 import es.eucm.eadventure.common.interfaces.Param;
-import es.eucm.eadventure.common.model.EAdList;
-import es.eucm.eadventure.common.model.impl.EAdListImpl;
+import es.eucm.eadventure.common.model.extra.EAdList;
+import es.eucm.eadventure.common.model.extra.impl.EAdListImpl;
 import es.eucm.eadventure.common.params.EAdFill;
 import es.eucm.eadventure.common.params.fills.impl.EAdBorderedColor;
 import es.eucm.eadventure.common.params.geom.impl.EAdPositionImpl;

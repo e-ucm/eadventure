@@ -38,9 +38,9 @@
 package es.eucm.eadventure.common.model.effects.impl;
 
 import es.eucm.eadventure.common.interfaces.Element;
-import es.eucm.eadventure.common.model.EAdMap;
 import es.eucm.eadventure.common.model.effects.EAdEffect;
-import es.eucm.eadventure.common.model.impl.EAdMapImpl;
+import es.eucm.eadventure.common.model.extra.EAdMap;
+import es.eucm.eadventure.common.model.extra.impl.EAdMapImpl;
 
 /**
  * An effect that launches a random effect from a list of effects
@@ -57,8 +57,7 @@ public class EAdRandomEffect extends AbstractEAdEffect {
 
 	public EAdRandomEffect(String id) {
 		super(id);
-		effects = new EAdMapImpl<EAdEffect, Float>(id + "_randomEffectMap",
-				EAdEffect.class, Float.class);
+		effects = new EAdMapImpl<EAdEffect, Float>(EAdEffect.class, Float.class);
 	}
 
 	/**

@@ -39,6 +39,9 @@ package es.eucm.eadventure.common.model.effects.impl;
 
 import es.eucm.eadventure.common.interfaces.Param;
 import es.eucm.eadventure.common.model.effects.EAdEffect;
+import es.eucm.eadventure.common.model.events.EAdEvent;
+import es.eucm.eadventure.common.model.extra.EAdList;
+import es.eucm.eadventure.common.model.extra.impl.EAdListImpl;
 import es.eucm.eadventure.common.model.impl.AbstractEAdConditionedElement;
 
 /**
@@ -69,6 +72,8 @@ public abstract class AbstractEAdEffect extends AbstractEAdConditionedElement
 	 */
 	@Param("queueable")
 	private boolean queueable;
+	
+	private EAdList<EAdEvent> events;
 
 	/**
 	 * Creates an non-blocking and non-opaque effect with next effects list
@@ -84,6 +89,11 @@ public abstract class AbstractEAdEffect extends AbstractEAdConditionedElement
 		blocking = false;
 		opaque = false;
 		queueable = false;
+		events = new EAdListImpl<EAdEvent>( EAdEvent.class );
+	}
+	
+	public AbstractEAdEffect( ){
+		this( "effect" );
 	}
 
 	/**
@@ -135,6 +145,10 @@ public abstract class AbstractEAdEffect extends AbstractEAdConditionedElement
 	@Override
 	public boolean isQueueable() {
 		return queueable;
+	}
+	
+	public EAdList<EAdEvent> getEvents(){
+		return events;
 	}
 
 }

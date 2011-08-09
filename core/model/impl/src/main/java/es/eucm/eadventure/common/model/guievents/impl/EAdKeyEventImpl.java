@@ -39,17 +39,22 @@ package es.eucm.eadventure.common.model.guievents.impl;
 
 import es.eucm.eadventure.common.interfaces.Element;
 import es.eucm.eadventure.common.interfaces.Param;
+import es.eucm.eadventure.common.model.EAdElement;
 import es.eucm.eadventure.common.model.guievents.EAdKeyEvent;
+import es.eucm.eadventure.common.model.impl.EAdElementImpl;
 
 @Element(runtime = EAdKeyEventImpl.class, detailed = EAdKeyEventImpl.class)
-public class EAdKeyEventImpl implements EAdKeyEvent {
+public class EAdKeyEventImpl extends EAdElementImpl implements EAdKeyEvent {
 
 	public static final EAdKeyEvent KEY_ARROW_DOWN = new EAdKeyEventImpl(
-			EAdKeyEvent.KeyActionType.KEY_PRESSED, EAdKeyEvent.KeyCode.ARROW_DOWN);
+			EAdKeyEvent.KeyActionType.KEY_PRESSED,
+			EAdKeyEvent.KeyCode.ARROW_DOWN);
 	public static final EAdKeyEvent KEY_ARROW_LEFT = new EAdKeyEventImpl(
-			EAdKeyEvent.KeyActionType.KEY_PRESSED, EAdKeyEvent.KeyCode.ARROW_LEFT);
+			EAdKeyEvent.KeyActionType.KEY_PRESSED,
+			EAdKeyEvent.KeyCode.ARROW_LEFT);
 	public static final EAdKeyEvent KEY_ARROW_RIGHT = new EAdKeyEventImpl(
-			EAdKeyEvent.KeyActionType.KEY_PRESSED, EAdKeyEvent.KeyCode.ARROW_RIGHT);
+			EAdKeyEvent.KeyActionType.KEY_PRESSED,
+			EAdKeyEvent.KeyCode.ARROW_RIGHT);
 	public static final EAdKeyEvent KEY_ARROW_UP = new EAdKeyEventImpl(
 			EAdKeyEvent.KeyActionType.KEY_PRESSED, EAdKeyEvent.KeyCode.ARROW_UP);
 	public static final EAdKeyEvent KEY_ESC = new EAdKeyEventImpl(
@@ -65,11 +70,13 @@ public class EAdKeyEventImpl implements EAdKeyEvent {
 	private char c;
 
 	public EAdKeyEventImpl(KeyActionType type, KeyCode keyCode) {
+		super("KeyEvent_" + type + "_" + keyCode);
 		this.type = type;
 		this.keyCode = keyCode;
 	}
 
 	public EAdKeyEventImpl(KeyActionType type, char c) {
+		super("KeyEvent_" + type + "_" + c);
 		this.type = type;
 		this.keyCode = KeyCode.LETTER;
 		this.c = c;
@@ -91,6 +98,34 @@ public class EAdKeyEventImpl implements EAdKeyEvent {
 		return c;
 	}
 
+	/**
+	 * Sets char for this event
+	 * 
+	 * @param letter
+	 *            the letter
+	 */
+	public void setChar(char letter) {
+		this.c = letter;
+	}
+
+	public String toString() {
+		return type.toString() + "_" + keyCode.toString() + "_" + c;
+	}
+
+	@Override
+	public EAdElement copy() {
+		if (keyCode != null)
+			return new EAdKeyEventImpl(type, keyCode);
+		else
+			return new EAdKeyEventImpl(type, c);
+	}
+
+	@Override
+	public EAdElement copy(boolean deepCopy) {
+		return copy();
+	}
+
+	@Override
 	public boolean equals(Object o) {
 		if (o instanceof EAdKeyEvent) {
 			EAdKeyEvent e = (EAdKeyEvent) o;
@@ -103,20 +138,6 @@ public class EAdKeyEventImpl implements EAdKeyEvent {
 			return false;
 		}
 		return false;
-	}
-
-	/**
-	 * Sets char for this event
-	 * 
-	 * @param letter
-	 *            the letter
-	 */
-	public void setChar(char letter) {
-		this.c = letter;
-	}
-	
-	public String toString( ){
-		return type.toString() + "_" + keyCode.toString() + "_" + c;
 	}
 
 }

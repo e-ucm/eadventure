@@ -46,7 +46,7 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
 import es.eucm.eadventure.common.model.EAdElement;
-import es.eucm.eadventure.common.model.EAdList;
+import es.eucm.eadventure.common.model.extra.EAdList;
 
 public class ElementListDOMWriter extends DOMWriter<EAdList<?>> {
 

@@ -37,8 +37,7 @@
 
 package es.eucm.eadventure.common.model.elements;
 
-import es.eucm.eadventure.common.model.EAdElement;
-import es.eucm.eadventure.common.model.EAdList;
+import es.eucm.eadventure.common.model.extra.EAdList;
 import es.eucm.eadventure.common.model.trajectories.TrajectoryDefinition;
 import es.eucm.eadventure.common.model.variables.EAdVar;
 
@@ -46,7 +45,7 @@ import es.eucm.eadventure.common.model.variables.EAdVar;
  * Scenes in the eAdventure model. Scenes are the fundamental elements
  * of games.
  */
-public interface EAdScene extends EAdElement {
+public interface EAdScene extends EAdGeneralElement {
 	
 	/**
 	 * @return the {@link EAdSceneElement}s that make up the scene

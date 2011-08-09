@@ -38,14 +38,14 @@
 package es.eucm.eadventure.common.model.behaviors.impl;
 
 import es.eucm.eadventure.common.interfaces.Element;
-import es.eucm.eadventure.common.model.EAdList;
-import es.eucm.eadventure.common.model.EAdMap;
 import es.eucm.eadventure.common.model.behavior.EAdBehavior;
 import es.eucm.eadventure.common.model.effects.EAdEffect;
+import es.eucm.eadventure.common.model.extra.EAdList;
+import es.eucm.eadventure.common.model.extra.EAdMap;
+import es.eucm.eadventure.common.model.extra.impl.EAdListImpl;
+import es.eucm.eadventure.common.model.extra.impl.EAdMapImpl;
 import es.eucm.eadventure.common.model.guievents.EAdGUIEvent;
-import es.eucm.eadventure.common.model.impl.AbstractEAdElement;
-import es.eucm.eadventure.common.model.impl.EAdListImpl;
-import es.eucm.eadventure.common.model.impl.EAdMapImpl;
+import es.eucm.eadventure.common.model.impl.EAdGeneralElementImpl;
 
 /**
  * 
@@ -59,7 +59,7 @@ import es.eucm.eadventure.common.model.impl.EAdMapImpl;
  * 
  */
 @Element(runtime = EAdBehaviorImpl.class, detailed = EAdBehaviorImpl.class)
-public class EAdBehaviorImpl extends AbstractEAdElement implements EAdBehavior {
+public class EAdBehaviorImpl extends EAdGeneralElementImpl implements EAdBehavior {
 
 	/**
 	 * All behaviors contained by this bundle, associated with its events
@@ -76,8 +76,7 @@ public class EAdBehaviorImpl extends AbstractEAdElement implements EAdBehavior {
 	 */
 	public EAdBehaviorImpl(String id) {
 		super(id);
-		behavior = new EAdMapImpl<String, EAdList<EAdEffect>>(id
-				+ "_behavior", String.class, EAdList.class);
+		behavior = new EAdMapImpl<String, EAdList<EAdEffect>>(String.class, EAdList.class);
 	}
 
 	/*

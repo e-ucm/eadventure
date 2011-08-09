@@ -35,7 +35,7 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package es.eucm.eadventure.common.interfaces;
+package es.eucm.eadventure.common.interfaces.features;
 
 /**
  * 

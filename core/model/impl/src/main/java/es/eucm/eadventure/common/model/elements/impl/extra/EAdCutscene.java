@@ -40,7 +40,6 @@ package es.eucm.eadventure.common.model.elements.impl.extra;
 import es.eucm.eadventure.common.interfaces.Element;
 import es.eucm.eadventure.common.interfaces.Param;
 import es.eucm.eadventure.common.model.EAdChapter;
-import es.eucm.eadventure.common.model.EAdList;
 import es.eucm.eadventure.common.model.conditions.impl.EmptyCondition;
 import es.eucm.eadventure.common.model.conditions.impl.FlagCondition;
 import es.eucm.eadventure.common.model.effects.impl.EAdChangeScene;
@@ -54,8 +53,9 @@ import es.eucm.eadventure.common.model.events.EAdEvent;
 import es.eucm.eadventure.common.model.events.EAdTimerEvent.TimerEvent;
 import es.eucm.eadventure.common.model.events.impl.EAdConditionEventImpl;
 import es.eucm.eadventure.common.model.events.impl.EAdTimerEventImpl;
+import es.eucm.eadventure.common.model.extra.EAdList;
+import es.eucm.eadventure.common.model.extra.impl.EAdListImpl;
 import es.eucm.eadventure.common.model.guievents.impl.EAdMouseEventImpl;
-import es.eucm.eadventure.common.model.impl.EAdListImpl;
 import es.eucm.eadventure.common.model.variables.impl.operations.BooleanOperation;
 import es.eucm.eadventure.common.model.variables.impl.operations.LiteralExpressionOperation;
 

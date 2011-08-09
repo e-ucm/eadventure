@@ -37,13 +37,14 @@
 
 package es.eucm.eadventure.common.model.guievents;
 
+import es.eucm.eadventure.common.model.EAdElement;
+
 
 /**
  * Implemented by all classes that represents the data contained in a GUI event.
  * Inherited classes will only contain static information about the event, the
  * minimal information required to completely describe it.
  */
-public interface EAdGUIEvent {
+public interface EAdGUIEvent extends EAdElement {
 
-	// FIXME What is a EAdGUIEvent? An EAdElement? An EAdParam?
 }

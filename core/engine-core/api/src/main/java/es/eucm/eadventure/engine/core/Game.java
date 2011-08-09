@@ -37,9 +37,9 @@
 
 package es.eucm.eadventure.engine.core;
 
+import es.eucm.eadventure.common.interfaces.features.Conditioned;
 import es.eucm.eadventure.common.model.EAdAdventureModel;
 import es.eucm.eadventure.common.model.EAdChapter;
-import es.eucm.eadventure.common.model.elements.EAdConditionedElement;
 
 /**
  * Main game interface. Include the methods to update the game state, render the
@@ -65,14 +65,14 @@ public interface Game {
 	void render(float interpolation);
 
 	/**
-	 * Evaluates the {@link EAdConditionedElement} according to the current game
+	 * Evaluates the {@link Conditioned} according to the current game
 	 * state.
 	 * 
 	 * @param condition
 	 *            The condition to be evaluated
 	 * @return The result of evaluating the condition
 	 */
-	boolean evaluateCondition(EAdConditionedElement condition);
+	boolean evaluateCondition(Conditioned condition);
 
 	/**
 	 * Returns the current adventure game model ({@link EAdAdventureModel})

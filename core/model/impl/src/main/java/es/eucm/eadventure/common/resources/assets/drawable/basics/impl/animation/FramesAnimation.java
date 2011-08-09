@@ -37,8 +37,8 @@
 
 package es.eucm.eadventure.common.resources.assets.drawable.basics.impl.animation;
 
-import es.eucm.eadventure.common.model.EAdList;
-import es.eucm.eadventure.common.model.impl.EAdListImpl;
+import es.eucm.eadventure.common.model.extra.EAdList;
+import es.eucm.eadventure.common.model.extra.impl.EAdListImpl;
 import es.eucm.eadventure.common.resources.assets.drawable.Drawable;
 
 /**

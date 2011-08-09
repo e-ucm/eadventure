@@ -37,6 +37,8 @@
 
 package es.eucm.eadventure.common.model;
 
-public interface EAdInventory extends EAdElement {
+import es.eucm.eadventure.common.model.elements.EAdGeneralElement;
+
+public interface EAdInventory extends EAdGeneralElement {
 
 }

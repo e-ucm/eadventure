@@ -46,8 +46,8 @@ import org.w3c.dom.Node;
 import org.w3c.dom.Element;
 
 import es.eucm.eadventure.common.model.EAdElement;
-import es.eucm.eadventure.common.model.EAdList;
-import es.eucm.eadventure.common.model.EAdMap;
+import es.eucm.eadventure.common.model.extra.EAdList;
+import es.eucm.eadventure.common.model.extra.EAdMap;
 
 public class ElementMapDOMWriter extends DOMWriter<EAdMap<?, ?>> {
 

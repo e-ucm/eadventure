@@ -39,7 +39,7 @@ package es.eucm.eadventure.engine.core.gameobjects;
 
 import java.util.List;
 
-import es.eucm.eadventure.common.interfaces.Oriented;
+import es.eucm.eadventure.common.interfaces.features.Oriented;
 import es.eucm.eadventure.common.model.actions.EAdAction;
 import es.eucm.eadventure.common.model.elements.EAdSceneElement;
 import es.eucm.eadventure.common.params.geom.EAdPosition;

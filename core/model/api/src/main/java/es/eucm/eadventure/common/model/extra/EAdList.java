@@ -35,12 +35,12 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package es.eucm.eadventure.common.model;
+package es.eucm.eadventure.common.model.extra;
 
 /**
  * Interface for all the list elements in the eAdventure game model
  */
-public interface EAdList<P> extends EAdElement,
+public interface EAdList<P> extends
 		Iterable<P> {
 
 	/**

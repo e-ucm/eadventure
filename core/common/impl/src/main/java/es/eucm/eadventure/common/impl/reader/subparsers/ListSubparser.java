@@ -44,9 +44,9 @@ import java.util.logging.Logger;
 import org.xml.sax.Attributes;
 
 import es.eucm.eadventure.common.model.EAdElement;
-import es.eucm.eadventure.common.model.EAdList;
-import es.eucm.eadventure.common.model.EAdMap;
-import es.eucm.eadventure.common.model.impl.EAdListImpl;
+import es.eucm.eadventure.common.model.extra.EAdList;
+import es.eucm.eadventure.common.model.extra.EAdMap;
+import es.eucm.eadventure.common.model.extra.impl.EAdListImpl;
 
 /**
  * Subparser for the list element.

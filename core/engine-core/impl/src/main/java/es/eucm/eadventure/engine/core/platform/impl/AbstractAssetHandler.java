@@ -47,7 +47,7 @@ import java.util.logging.Logger;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
 
-import es.eucm.eadventure.common.model.EAdElement;
+import es.eucm.eadventure.common.interfaces.features.Resourced;
 import es.eucm.eadventure.common.resources.EAdBundleId;
 import es.eucm.eadventure.common.resources.assets.AssetDescriptor;
 import es.eucm.eadventure.engine.core.platform.AssetHandler;
@@ -158,7 +158,7 @@ public abstract class AbstractAssetHandler implements AssetHandler {
 	 * es.eucm.eadventure.common.resources.EAdBundleId, java.lang.String)
 	 */
 	@Override
-	public RuntimeAsset<?> getRuntimeAsset(EAdElement element,
+	public RuntimeAsset<?> getRuntimeAsset(Resourced element,
 			EAdBundleId bundleId, String id) {
 		AssetDescriptor descriptor = element.getAsset(bundleId, id);
 		if (descriptor == null)
@@ -191,7 +191,7 @@ public abstract class AbstractAssetHandler implements AssetHandler {
 	 * es.eucm.eadventure.common.model.EAdElement, java.lang.String)
 	 */
 	@Override
-	public RuntimeAsset<?> getRuntimeAsset(EAdElement element, String id) {
+	public RuntimeAsset<?> getRuntimeAsset(Resourced element, String id) {
 		return getRuntimeAsset(element, null, id);
 	}
 

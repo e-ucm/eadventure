@@ -37,6 +37,7 @@
 
 package es.eucm.eadventure.common.model;
 
+import es.eucm.eadventure.common.model.extra.EAdList;
 import es.eucm.eadventure.common.resources.EAdString;
 
 /**

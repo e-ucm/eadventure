@@ -37,7 +37,7 @@
 
 package es.eucm.eadventure.engine.core.platform;
 
-import es.eucm.eadventure.common.model.EAdElement;
+import es.eucm.eadventure.common.interfaces.features.Resourced;
 import es.eucm.eadventure.common.resources.EAdBundleId;
 import es.eucm.eadventure.common.resources.assets.AssetDescriptor;
 
@@ -76,7 +76,7 @@ public interface AssetHandler {
 	 * @return The platform-independent runtime asset
 	 * @see RuntimeAsset
 	 */
-	RuntimeAsset<?> getRuntimeAsset(EAdElement element, EAdBundleId bundleId,
+	RuntimeAsset<?> getRuntimeAsset(Resourced element, EAdBundleId bundleId,
 			String id);
 
 	/**
@@ -90,7 +90,7 @@ public interface AssetHandler {
 	 * @return The platform-independent runtime asset
 	 * @see RuntimeAsset
 	 */
-	RuntimeAsset<?> getRuntimeAsset(EAdElement element, String id);
+	RuntimeAsset<?> getRuntimeAsset(Resourced element, String id);
 
 	/**
 	 * Returns the runtime asset for a given asset descriptor

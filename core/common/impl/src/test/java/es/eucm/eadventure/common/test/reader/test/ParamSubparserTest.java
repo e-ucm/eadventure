@@ -45,11 +45,6 @@ import org.xml.sax.helpers.AttributesImpl;
 import es.eucm.eadventure.common.impl.reader.subparsers.ParamSubparser;
 import es.eucm.eadventure.common.interfaces.Param;
 import es.eucm.eadventure.common.model.EAdElement;
-import es.eucm.eadventure.common.model.EAdList;
-import es.eucm.eadventure.common.model.events.EAdEvent;
-import es.eucm.eadventure.common.resources.EAdBundleId;
-import es.eucm.eadventure.common.resources.EAdResources;
-import es.eucm.eadventure.common.resources.assets.AssetDescriptor;
 
 public class ParamSubparserTest extends TestCase {
 
@@ -93,15 +88,8 @@ public class ParamSubparserTest extends TestCase {
 		
 		public EAdElement copy() {return null;}
 		public EAdElement copy(boolean deepCopy) {return null;}
-		public AssetDescriptor getAsset(String id) {return null;}
-		public AssetDescriptor getAsset(EAdBundleId bundleId, String id) {return null;}
-		public EAdBundleId getInitialBundle() {return null;}
-		public EAdResources getResources() {return null;}
 
-		@Override
-		public EAdList<EAdEvent> getEvents() {
-			return null;
-		}
+
 	}
 
 	private TestElement testElement;

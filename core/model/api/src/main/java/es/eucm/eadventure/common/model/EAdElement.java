@@ -38,10 +38,6 @@
 package es.eucm.eadventure.common.model;
 
 import es.eucm.eadventure.common.interfaces.Copyable;
-import es.eucm.eadventure.common.model.events.EAdEvent;
-import es.eucm.eadventure.common.resources.EAdBundleId;
-import es.eucm.eadventure.common.resources.EAdResources;
-import es.eucm.eadventure.common.resources.assets.AssetDescriptor;
 
 /**
  * Base interface for eAdventure's game model objects.
@@ -49,54 +45,11 @@ import es.eucm.eadventure.common.resources.assets.AssetDescriptor;
 public interface EAdElement extends Copyable<EAdElement> {
 
 	/**
-	 * Get the asset for the given id.
+	 * Get an id of the element. Keep in mind that is not an unique id. It's
+	 * just a name used in for debugging purposes
 	 * 
-	 * @param id
-	 *            The id of the asset
-	 * @return The asset with that id
-	 */
-	AssetDescriptor getAsset( String id );
-
-	/**
-	 * Get the asset for the given id.
-	 * 
-	 * @param id
-	 *            The id of the asset
-	 * @return The asset with that id
-	 */
-	AssetDescriptor getAsset( EAdBundleId bundleId, String id );
-
-	/**
-	 * Get the bundle {@link EAdBunldeId} initially selected for the element.
-	 * The initial or default bundle of the element is a parameter set during
-	 * edition.
-	 * 
-	 * 
-	 * @return The initial bundle of assets. Initial bundle could be null for
-	 *         elements with no initial bundle.
-	 */
-	EAdBundleId getInitialBundle( );
-
-	/**
-	 * Get the resources {@link EAdResources} of this element.
-	 * 
-	 * @return The resources associated with the element. Resources should never
-	 *         be null.
-	 */
-	EAdResources getResources( );
-	
-	/**
-	 * Get the id of the element
-	 * 
-	 * @return The unique id of this element
+	 * @return
 	 */
 	String getId();
-	
-	/**
-	 * Returns a list of events associated with this element
-	 * 
-	 * @return The list of events associated with this element
-	 */
-	EAdList<EAdEvent> getEvents( );
 
 }

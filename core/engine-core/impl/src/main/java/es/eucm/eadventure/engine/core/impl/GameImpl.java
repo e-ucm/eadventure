@@ -44,9 +44,9 @@ import java.util.logging.Logger;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
+import es.eucm.eadventure.common.interfaces.features.Conditioned;
 import es.eucm.eadventure.common.model.EAdAdventureModel;
 import es.eucm.eadventure.common.model.EAdChapter;
-import es.eucm.eadventure.common.model.elements.EAdConditionedElement;
 import es.eucm.eadventure.common.model.elements.EAdTimer;
 import es.eucm.eadventure.common.model.impl.EAdAdventureModelImpl;
 import es.eucm.eadventure.common.model.impl.EAdChapterImpl;
@@ -199,7 +199,7 @@ public class GameImpl implements Game {
 	}
 
 	@Override
-	public boolean evaluateCondition(EAdConditionedElement condition) {
+	public boolean evaluateCondition(Conditioned condition) {
 		return evaluatorFactory.evaluate(condition.getCondition());
 	}
 

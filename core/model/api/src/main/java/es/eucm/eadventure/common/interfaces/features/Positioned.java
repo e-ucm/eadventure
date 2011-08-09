@@ -35,17 +35,21 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package es.eucm.eadventure.common.model.behaviors.impl;
+package es.eucm.eadventure.common.interfaces.features;
 
-import es.eucm.eadventure.common.interfaces.Element;
+import es.eucm.eadventure.common.params.geom.EAdPosition;
 
-@Element(runtime = EAdActorReferenceBehaviour.class, detailed = EAdBehaviorImpl.class)
-public class EAdActorReferenceBehaviour extends EAdBehaviorImpl {
+/**
+ * Implemented by classes with a position
+ * 
+ */
+public interface Positioned {
 
-	public EAdActorReferenceBehaviour(String id) {
-		super(id);
-		
-		
-	}
+	/**
+	 * Returns the position of the element
+	 * 
+	 * @return the position of the element
+	 */
+	EAdPosition getPosition();
 
 }

@@ -37,7 +37,9 @@
 
 package es.eucm.eadventure.common.model.effects;
 
-import es.eucm.eadventure.common.model.elements.EAdConditionedElement;
+import es.eucm.eadventure.common.interfaces.features.Conditioned;
+import es.eucm.eadventure.common.interfaces.features.Evented;
+import es.eucm.eadventure.common.model.EAdElement;
 
 /**
  * <p>An effect in the eAdventure model represents any set of
@@ -46,7 +48,7 @@ import es.eucm.eadventure.common.model.elements.EAdConditionedElement;
  * an animation).</p>
  * 
  */
-public interface EAdEffect extends EAdConditionedElement {
+public interface EAdEffect extends EAdElement, Conditioned, Evented {
 
 	/**
 	 * If returns {@code true} means no subsequent effects will be triggered

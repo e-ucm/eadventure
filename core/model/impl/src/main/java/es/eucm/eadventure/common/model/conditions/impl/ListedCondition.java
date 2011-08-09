@@ -40,12 +40,12 @@ package es.eucm.eadventure.common.model.conditions.impl;
 import java.util.Iterator;
 
 import es.eucm.eadventure.common.interfaces.Param;
-import es.eucm.eadventure.common.model.EAdList;
 import es.eucm.eadventure.common.model.elements.EAdCondition;
-import es.eucm.eadventure.common.model.impl.AbstractEAdElement;
-import es.eucm.eadventure.common.model.impl.EAdListImpl;
+import es.eucm.eadventure.common.model.extra.EAdList;
+import es.eucm.eadventure.common.model.extra.impl.EAdListImpl;
+import es.eucm.eadventure.common.model.impl.EAdGeneralElementImpl;
 
-public abstract class ListedCondition extends AbstractEAdElement implements EAdCondition {
+public abstract class ListedCondition extends EAdGeneralElementImpl implements EAdCondition {
 
 	/**
 	 * Operator for conditions

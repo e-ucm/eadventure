@@ -42,15 +42,11 @@ import es.eucm.eadventure.common.interfaces.Element;
 import es.eucm.eadventure.common.interfaces.Param;
 import es.eucm.eadventure.common.model.EAdAdventureModel;
 import es.eucm.eadventure.common.model.EAdChapter;
-import es.eucm.eadventure.common.model.EAdList;
 import es.eucm.eadventure.common.model.EAdInventory;
-import es.eucm.eadventure.common.model.events.EAdEvent;
+import es.eucm.eadventure.common.model.extra.EAdList;
+import es.eucm.eadventure.common.model.extra.impl.EAdListImpl;
 import es.eucm.eadventure.common.model.impl.inventory.EAdBasicInventory;
-import es.eucm.eadventure.common.resources.EAdBundleId;
-import es.eucm.eadventure.common.resources.EAdResources;
 import es.eucm.eadventure.common.resources.EAdString;
-import es.eucm.eadventure.common.resources.assets.AssetDescriptor;
-import es.eucm.eadventure.common.resources.impl.EAdResourcesImpl;
 
 /**
  * The eAdventure game model.
@@ -74,17 +70,11 @@ public class EAdAdventureModelImpl implements EAdAdventureModel {
 	@Param("inventory")
 	private EAdInventory inventory;
 	
-	private EAdResources resources;
-	
-	private EAdList<EAdEvent> events;
-	
 	/**
 	 * Constructs a {@link EAdAdventureModelImpl}.
 	 */
 	public EAdAdventureModelImpl() {
-		resources = new EAdResourcesImpl(getClass());
 		chapters = new EAdListImpl<EAdChapter>(EAdChapter.class);
-		events = new EAdListImpl<EAdEvent>(EAdEvent.class);
 		inventory = new EAdBasicInventory();
 	}
 	
@@ -122,26 +112,6 @@ public class EAdAdventureModelImpl implements EAdAdventureModel {
 		}
 	}
 	
-	@Override
-	public AssetDescriptor getAsset(String id) {
-		return resources.getAsset(id);
-	}
-
-	@Override
-	public AssetDescriptor getAsset(EAdBundleId bundleId, String id) {
-		return resources.getAsset(id);
-	}
-
-	@Override
-	public EAdBundleId getInitialBundle() {
-		return resources.getInitialBundle();
-	}
-
-	@Override
-	public EAdResources getResources() {
-		return resources;
-	}
-	
 	public String getId() {
 		return "adventure";
 	}
@@ -174,14 +144,6 @@ public class EAdAdventureModelImpl implements EAdAdventureModel {
 	 */
 	public void setTitle(EAdString title) {
 		this.title = title;
-	}
-	
-	/* (non-Javadoc)
-	 * @see es.eucm.eadventure.common.model.EAdElement#getEvents()
-	 */
-	@Override
-	public EAdList<EAdEvent> getEvents() {
-		return events;
 	}
 
 	@Override

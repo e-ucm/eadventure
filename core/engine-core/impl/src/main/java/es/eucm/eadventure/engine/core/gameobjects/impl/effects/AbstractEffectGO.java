@@ -45,14 +45,14 @@ import es.eucm.eadventure.engine.core.GameState;
 import es.eucm.eadventure.engine.core.ValueMap;
 import es.eucm.eadventure.engine.core.gameobjects.EffectGO;
 import es.eucm.eadventure.engine.core.gameobjects.GameObjectFactory;
-import es.eucm.eadventure.engine.core.gameobjects.impl.AbstractGameObject;
+import es.eucm.eadventure.engine.core.gameobjects.impl.GameObjectImpl;
 import es.eucm.eadventure.engine.core.guiactions.GUIAction;
 import es.eucm.eadventure.engine.core.platform.AssetHandler;
 import es.eucm.eadventure.engine.core.platform.GUI;
 import es.eucm.eadventure.engine.core.platform.PlatformConfiguration;
 
 public abstract class AbstractEffectGO<P extends EAdEffect> extends
-		AbstractGameObject<P> implements EffectGO<P> {
+		GameObjectImpl<P> implements EffectGO<P> {
 
 	@Inject
 	public AbstractEffectGO(AssetHandler assetHandler,

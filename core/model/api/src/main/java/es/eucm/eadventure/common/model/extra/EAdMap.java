@@ -35,17 +35,25 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package es.eucm.eadventure.common.model;
+package es.eucm.eadventure.common.model.extra;
 
 import java.util.Map;
 
 /**
  * Interface for all maps in the eAdventure game model
  */
-public interface EAdMap<T, S> extends Map<T, S>, EAdElement {
+public interface EAdMap<T, S> extends Map<T, S>{
 
+	/**
+	 * Returns the class for the key elements
+	 * @return
+	 */
 	public Class<?> getKeyClass();
 	
+	/**
+	 * Returns the class for the value elements
+	 * @return
+	 */
 	public Class<?> getValueClass();
 	
 }

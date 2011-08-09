@@ -38,16 +38,16 @@
 package es.eucm.eadventure.common.model.elements.impl;
 
 import es.eucm.eadventure.common.interfaces.Param;
-import es.eucm.eadventure.common.model.EAdList;
 import es.eucm.eadventure.common.model.elements.EAdScene;
 import es.eucm.eadventure.common.model.elements.EAdSceneElement;
-import es.eucm.eadventure.common.model.impl.AbstractEAdElement;
-import es.eucm.eadventure.common.model.impl.EAdListImpl;
+import es.eucm.eadventure.common.model.extra.EAdList;
+import es.eucm.eadventure.common.model.extra.impl.EAdListImpl;
+import es.eucm.eadventure.common.model.impl.EAdGeneralElementImpl;
 import es.eucm.eadventure.common.model.trajectories.TrajectoryDefinition;
 import es.eucm.eadventure.common.model.variables.impl.vars.BooleanVar;
 import es.eucm.eadventure.common.model.variables.impl.vars.IntegerVar;
 
-public class EAdComposedScene extends AbstractEAdElement implements EAdScene {
+public class EAdComposedScene extends EAdGeneralElementImpl implements EAdScene {
 
 	protected EAdList<EAdScene> scenes;
 

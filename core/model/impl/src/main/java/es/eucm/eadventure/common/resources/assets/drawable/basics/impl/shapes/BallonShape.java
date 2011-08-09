@@ -1,6 +1,6 @@
 package es.eucm.eadventure.common.resources.assets.drawable.basics.impl.shapes;
 
-import es.eucm.eadventure.common.interfaces.Oriented.Orientation;
+import es.eucm.eadventure.common.interfaces.features.Oriented.Orientation;
 
 public class BallonShape extends BezierShape {
 

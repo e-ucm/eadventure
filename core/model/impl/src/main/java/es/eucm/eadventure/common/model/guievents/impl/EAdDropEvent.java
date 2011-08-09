@@ -41,17 +41,19 @@ import es.eucm.eadventure.common.interfaces.Element;
 import es.eucm.eadventure.common.interfaces.Param;
 import es.eucm.eadventure.common.model.EAdElement;
 import es.eucm.eadventure.common.model.guievents.EAdGUIEvent;
+import es.eucm.eadventure.common.model.impl.EAdElementImpl;
 
 @Element(detailed = EAdDropEvent.class, runtime = EAdDropEvent.class)
-public class EAdDropEvent implements EAdGUIEvent {
+public class EAdDropEvent extends EAdElementImpl implements EAdGUIEvent {
 
 	@Param("carryElement")
 	private EAdElement carryElement;
-	
+
 	public EAdDropEvent(EAdElement object) {
+		super( "dropEvent_" + object.getId());
 		this.carryElement = object;
 	}
-	
+
 	@Override
 	public boolean equals(Object o) {
 		if (o instanceof EAdDropEvent) {
@@ -62,11 +64,25 @@ public class EAdDropEvent implements EAdGUIEvent {
 		}
 		return false;
 	}
-	
+
 	@Override
 	public String toString() {
 		return "Drop " + carryElement.getId();
 	}
-	
+
+	@Override
+	public EAdElement copy() {
+		return new EAdDropEvent(carryElement);
+
+	}
+
+	@Override
+	public EAdElement copy(boolean deepCopy) {
+		if (deepCopy) {
+			EAdElement element = carryElement.copy(true);
+			return new EAdDropEvent(element);
+		} else
+			return copy();
+	}
 
 }

@@ -38,8 +38,8 @@
 package es.eucm.eadventure.common.model.events;
 
 import es.eucm.eadventure.common.model.EAdElement;
-import es.eucm.eadventure.common.model.EAdList;
 import es.eucm.eadventure.common.model.effects.EAdEffect;
+import es.eucm.eadventure.common.model.extra.EAdList;
 
 /**
  * <p>Event element in the eAdventure model, common interface for timers, GPS

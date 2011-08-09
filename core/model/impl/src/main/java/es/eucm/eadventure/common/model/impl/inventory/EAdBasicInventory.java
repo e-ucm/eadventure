@@ -39,10 +39,10 @@ package es.eucm.eadventure.common.model.impl.inventory;
 
 import es.eucm.eadventure.common.interfaces.Element;
 import es.eucm.eadventure.common.model.EAdInventory;
-import es.eucm.eadventure.common.model.impl.AbstractEAdElement;
+import es.eucm.eadventure.common.model.impl.EAdGeneralElementImpl;
 
 @Element(detailed = EAdBasicInventory.class, runtime = EAdBasicInventory.class)
-public class EAdBasicInventory extends AbstractEAdElement implements
+public class EAdBasicInventory extends EAdGeneralElementImpl implements
 		EAdInventory {
 
 	public EAdBasicInventory() {

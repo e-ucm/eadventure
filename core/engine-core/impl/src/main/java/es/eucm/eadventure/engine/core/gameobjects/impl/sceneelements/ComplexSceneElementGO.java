@@ -42,10 +42,10 @@ import java.util.logging.Logger;
 
 import com.google.inject.Inject;
 
-import es.eucm.eadventure.common.model.EAdList;
 import es.eucm.eadventure.common.model.effects.EAdEffect;
 import es.eucm.eadventure.common.model.elements.EAdSceneElement;
 import es.eucm.eadventure.common.model.elements.impl.EAdComplexSceneElement;
+import es.eucm.eadventure.common.model.extra.EAdList;
 import es.eucm.eadventure.common.model.variables.EAdElementVars;
 import es.eucm.eadventure.common.model.variables.impl.extra.EAdSceneElementVars;
 import es.eucm.eadventure.common.resources.StringHandler;

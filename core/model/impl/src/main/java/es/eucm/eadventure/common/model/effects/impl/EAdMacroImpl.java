@@ -38,14 +38,14 @@
 package es.eucm.eadventure.common.model.effects.impl;
 
 import es.eucm.eadventure.common.interfaces.Element;
-import es.eucm.eadventure.common.model.EAdList;
 import es.eucm.eadventure.common.model.effects.EAdEffect;
 import es.eucm.eadventure.common.model.effects.EAdMacro;
-import es.eucm.eadventure.common.model.impl.AbstractEAdElement;
-import es.eucm.eadventure.common.model.impl.EAdListImpl;
+import es.eucm.eadventure.common.model.extra.EAdList;
+import es.eucm.eadventure.common.model.extra.impl.EAdListImpl;
+import es.eucm.eadventure.common.model.impl.EAdGeneralElementImpl;
 
 @Element(detailed = EAdMacroImpl.class, runtime = EAdMacroImpl.class)
-public class EAdMacroImpl extends AbstractEAdElement implements EAdMacro {
+public class EAdMacroImpl extends EAdGeneralElementImpl implements EAdMacro {
 
 	protected EAdList<EAdEffect> effects;
 	

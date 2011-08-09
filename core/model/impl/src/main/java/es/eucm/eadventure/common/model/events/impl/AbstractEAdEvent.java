@@ -37,19 +37,19 @@
 
 package es.eucm.eadventure.common.model.events.impl;
 
-import es.eucm.eadventure.common.model.EAdList;
-import es.eucm.eadventure.common.model.EAdMap;
 import es.eucm.eadventure.common.model.effects.EAdEffect;
 import es.eucm.eadventure.common.model.events.EAdEvent;
-import es.eucm.eadventure.common.model.impl.AbstractEAdElement;
-import es.eucm.eadventure.common.model.impl.EAdListImpl;
-import es.eucm.eadventure.common.model.impl.EAdMapImpl;
+import es.eucm.eadventure.common.model.extra.EAdList;
+import es.eucm.eadventure.common.model.extra.EAdMap;
+import es.eucm.eadventure.common.model.extra.impl.EAdListImpl;
+import es.eucm.eadventure.common.model.extra.impl.EAdMapImpl;
+import es.eucm.eadventure.common.model.impl.EAdGeneralElementImpl;
 
 /**
  * <p>Abstract implementation of an eAdventure event.</p>
  * 
  */
-public abstract class AbstractEAdEvent extends AbstractEAdElement implements EAdEvent {
+public abstract class AbstractEAdEvent extends EAdGeneralElementImpl implements EAdEvent {
 
 	/**
 	 * List of effects
@@ -58,7 +58,7 @@ public abstract class AbstractEAdEvent extends AbstractEAdElement implements EAd
 	
 	public AbstractEAdEvent(String id) {
 		super(id);
-		effects = new EAdMapImpl<Enum<?>, EAdList<EAdEffect>>(id + "_map", Enum.class, EAdList.class);
+		effects = new EAdMapImpl<Enum<?>, EAdList<EAdEffect>>( Enum.class, EAdList.class);
 	}
 	
 	/* (non-Javadoc)

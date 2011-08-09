@@ -41,12 +41,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import es.eucm.eadventure.common.interfaces.Element;
-import es.eucm.eadventure.common.model.EAdList;
 import es.eucm.eadventure.common.model.conditions.impl.EmptyCondition;
 import es.eucm.eadventure.common.model.effects.EAdEffect;
 import es.eucm.eadventure.common.model.elements.EAdCondition;
 import es.eucm.eadventure.common.model.elements.EAdSceneElement;
-import es.eucm.eadventure.common.model.impl.EAdListImpl;
+import es.eucm.eadventure.common.model.extra.EAdList;
+import es.eucm.eadventure.common.model.extra.impl.EAdListImpl;
 
 @Element(detailed = EAdComplexBlockingEffect.class, runtime = EAdComplexBlockingEffect.class)
 public class EAdComplexBlockingEffect extends AbstractEAdEffect implements

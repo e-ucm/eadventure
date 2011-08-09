@@ -38,14 +38,14 @@
 package es.eucm.eadventure.common.model.elements.impl;
 
 import es.eucm.eadventure.common.interfaces.Param;
-import es.eucm.eadventure.common.model.EAdList;
 import es.eucm.eadventure.common.model.behavior.EAdBehavior;
 import es.eucm.eadventure.common.model.behaviors.impl.EAdBehaviorImpl;
 import es.eucm.eadventure.common.model.effects.EAdEffect;
+import es.eucm.eadventure.common.model.extra.EAdList;
 import es.eucm.eadventure.common.model.guievents.EAdGUIEvent;
-import es.eucm.eadventure.common.model.impl.AbstractEAdElement;
+import es.eucm.eadventure.common.model.impl.EAdGeneralElementImpl;
 
-public abstract class AbstractEAdElementWithBehavior extends AbstractEAdElement {
+public abstract class AbstractEAdElementWithBehavior extends EAdGeneralElementImpl {
 
 	@Param("behavior")
 	protected EAdBehavior behavior;

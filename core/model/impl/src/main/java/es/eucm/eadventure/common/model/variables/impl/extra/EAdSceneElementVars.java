@@ -1,6 +1,6 @@
 package es.eucm.eadventure.common.model.variables.impl.extra;
 
-import es.eucm.eadventure.common.interfaces.Oriented.Orientation;
+import es.eucm.eadventure.common.interfaces.features.Oriented.Orientation;
 import es.eucm.eadventure.common.model.EAdElement;
 import es.eucm.eadventure.common.model.elements.EAdSceneElement.CommonStates;
 import es.eucm.eadventure.common.model.variables.EAdVarDef;

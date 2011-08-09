@@ -37,7 +37,7 @@
 
 package es.eucm.eadventure.engine.core.operators.impl.util;
 
-import es.eucm.eadventure.common.model.EAdList;
+import es.eucm.eadventure.common.model.extra.EAdList;
 import es.eucm.eadventure.common.model.variables.EAdVar;
 import es.eucm.eadventure.engine.core.ValueMap;
 /************************************************************************

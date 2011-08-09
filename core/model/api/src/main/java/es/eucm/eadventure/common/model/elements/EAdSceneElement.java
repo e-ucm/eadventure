@@ -37,13 +37,12 @@
 
 package es.eucm.eadventure.common.model.elements;
 
-import es.eucm.eadventure.common.model.EAdElement;
-import es.eucm.eadventure.common.model.EAdList;
 import es.eucm.eadventure.common.model.effects.EAdEffect;
+import es.eucm.eadventure.common.model.extra.EAdList;
 import es.eucm.eadventure.common.model.guievents.EAdGUIEvent;
 import es.eucm.eadventure.common.model.variables.EAdElementVars;
 
-public interface EAdSceneElement extends EAdElement {
+public interface EAdSceneElement extends EAdGeneralElement {
 
 	/**
 	 * Returns the effects list associated with the given GUI event,
@@ -66,39 +65,38 @@ public interface EAdSceneElement extends EAdElement {
 	boolean isClone();
 
 	/**
-	 * Returns the container for all vars of this scene element
+	 * Returns the container for all variables of this scene element
 	 * 
 	 * @return
 	 */
 	EAdElementVars getVars();
-	
+
 	/**
-	 * An enum with common states for scene elements
-	 * @author anserran
-	 *
+	 * An enumerate with common states for scene elements
+	 * 
+	 * 
 	 */
 	public enum CommonStates {
 		/**
 		 * Default state
 		 */
 		EAD_STATE_DEFAULT,
-		
+
 		/**
 		 * Talking state
 		 */
 		EAD_STATE_TALKING,
-		
+
 		/**
 		 * Walking state
 		 */
 		EAD_STATE_WALKING,
-		
+
 		/**
 		 * Using state
 		 */
 		EAD_STATE_USING;
-		
-		
+
 	}
 
 }

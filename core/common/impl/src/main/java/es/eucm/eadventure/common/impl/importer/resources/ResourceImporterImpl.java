@@ -61,10 +61,10 @@ import es.eucm.eadventure.common.data.chapter.resources.Resources;
 import es.eucm.eadventure.common.impl.importer.interfaces.ResourceImporter;
 import es.eucm.eadventure.common.loader.InputStreamCreator;
 import es.eucm.eadventure.common.loader.Loader;
-import es.eucm.eadventure.common.model.EAdElement;
 import es.eucm.eadventure.common.model.conditions.impl.ANDCondition;
 import es.eucm.eadventure.common.model.conditions.impl.NOTCondition;
 import es.eucm.eadventure.common.model.effects.impl.EAdChangeAppearance;
+import es.eucm.eadventure.common.model.elements.EAdGeneralElement;
 import es.eucm.eadventure.common.model.elements.EAdCondition;
 import es.eucm.eadventure.common.model.events.EAdConditionEvent;
 import es.eucm.eadventure.common.model.events.impl.EAdConditionEventImpl;
@@ -194,7 +194,7 @@ public class ResourceImporterImpl implements ResourceImporter {
 
 	}
 
-	public void importResources(EAdElement element, List<Resources> resources,
+	public void importResources(EAdGeneralElement element, List<Resources> resources,
 			Map<String, String> resourcesStrings,
 			Map<String, Object> resourcesObjectClasses) {
 		int i = 0;

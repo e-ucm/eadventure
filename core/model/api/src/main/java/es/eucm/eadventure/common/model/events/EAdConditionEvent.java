@@ -37,9 +37,9 @@
 
 package es.eucm.eadventure.common.model.events;
 
-import es.eucm.eadventure.common.model.elements.EAdConditionedElement;
+import es.eucm.eadventure.common.interfaces.features.Conditioned;
 
-public interface EAdConditionEvent extends EAdEvent, EAdConditionedElement {
+public interface EAdConditionEvent extends EAdEvent, Conditioned {
 
 	public enum ConditionedEvent { CONDITIONS_MET, CONDITIONS_UNMET };
 	

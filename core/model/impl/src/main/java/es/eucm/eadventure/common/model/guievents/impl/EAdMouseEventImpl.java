@@ -39,10 +39,12 @@ package es.eucm.eadventure.common.model.guievents.impl;
 
 import es.eucm.eadventure.common.interfaces.Element;
 import es.eucm.eadventure.common.interfaces.Param;
+import es.eucm.eadventure.common.model.EAdElement;
 import es.eucm.eadventure.common.model.guievents.EAdMouseEvent;
+import es.eucm.eadventure.common.model.impl.EAdElementImpl;
 
 @Element(runtime = EAdMouseEventImpl.class, detailed = EAdMouseEventImpl.class)
-public class EAdMouseEventImpl implements EAdMouseEvent {
+public class EAdMouseEventImpl extends EAdElementImpl implements EAdMouseEvent {
 
 	@Param("type")
 	private MouseActionType type;
@@ -120,6 +122,16 @@ public class EAdMouseEventImpl implements EAdMouseEvent {
 
 	public String toString() {
 		return type.toString();
+	}
+
+	@Override
+	public EAdElement copy() {
+		return this;
+	}
+
+	@Override
+	public EAdElement copy(boolean deepCopy) {
+		return this;
 	}
 
 }

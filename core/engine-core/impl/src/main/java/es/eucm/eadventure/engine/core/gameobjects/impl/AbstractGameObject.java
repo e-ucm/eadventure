@@ -38,80 +38,39 @@
 package es.eucm.eadventure.engine.core.gameobjects.impl;
 
 import java.util.ArrayList;
-import java.util.List;
 
-import com.google.inject.Inject;
-
-import es.eucm.eadventure.common.model.EAdElement;
+import es.eucm.eadventure.common.model.elements.EAdGeneralElement;
 import es.eucm.eadventure.common.model.events.EAdEvent;
 import es.eucm.eadventure.common.model.variables.EAdVar;
 import es.eucm.eadventure.common.model.variables.impl.EAdVarImpl;
-import es.eucm.eadventure.common.params.geom.EAdPosition;
 import es.eucm.eadventure.common.resources.EAdBundleId;
 import es.eucm.eadventure.common.resources.StringHandler;
 import es.eucm.eadventure.engine.core.GameState;
-import es.eucm.eadventure.engine.core.MouseState;
 import es.eucm.eadventure.engine.core.ValueMap;
-import es.eucm.eadventure.engine.core.gameobjects.GameObject;
 import es.eucm.eadventure.engine.core.gameobjects.GameObjectFactory;
 import es.eucm.eadventure.engine.core.gameobjects.impl.events.AbstractEventGO;
-import es.eucm.eadventure.engine.core.guiactions.GUIAction;
 import es.eucm.eadventure.engine.core.platform.AssetHandler;
 import es.eucm.eadventure.engine.core.platform.GUI;
 import es.eucm.eadventure.engine.core.platform.PlatformConfiguration;
-import es.eucm.eadventure.engine.core.platform.RuntimeAsset;
 
-public abstract class AbstractGameObject<T extends EAdElement> implements
-		GameObject<T> {
-
-	/**
-	 * The game's asset handler
-	 */
-	protected AssetHandler assetHandler;
-
-	/**
-	 * The string handler
-	 */
-	protected StringHandler stringHandler;
-
-	protected GameObjectFactory gameObjectFactory;
-
-	protected GUI gui;
-
-	protected GameState gameState;
-
-	protected ValueMap valueMap;
-
-	protected PlatformConfiguration platformConfiguration;
-
-	protected T element;
-
-	private ArrayList<AbstractEventGO<?>> eventGOList;
-
+public abstract class AbstractGameObject<T extends EAdGeneralElement> extends
+		GameObjectImpl<T> {
+	
 	private EAdVar<EAdBundleId> bundleVar;
-
-	@Inject
+	
+	private ArrayList<AbstractEventGO<?>> eventGOList;
+	
 	public AbstractGameObject(AssetHandler assetHandler,
 			StringHandler stringHandler, GameObjectFactory gameObjectFactory,
 			GUI gui, GameState gameState, ValueMap valueMap,
 			PlatformConfiguration platformConfiguration) {
-		this.assetHandler = assetHandler;
-		this.stringHandler = stringHandler;
-		this.gameObjectFactory = gameObjectFactory;
-		this.gui = gui;
-		this.gameState = gameState;
-		this.valueMap = valueMap;
-		this.platformConfiguration = platformConfiguration;
-	}
-
-	@Override
-	public boolean processAction(GUIAction action) {
-		return false;
+		super(assetHandler, stringHandler, gameObjectFactory, gui, gameState, valueMap,
+				platformConfiguration);
 	}
 
 	@Override
 	public void setElement(T element) {
-		this.element = element;
+		super.setElement( element );
 		this.bundleVar = new EAdVarImpl<EAdBundleId>(EAdBundleId.class,
 				"bundleId", element.getInitialBundle(), element);
 		eventGOList = new ArrayList<AbstractEventGO<?>>();
@@ -126,33 +85,11 @@ public abstract class AbstractGameObject<T extends EAdElement> implements
 	}
 
 	@Override
-	public T getElement() {
-		return element;
-	}
-
-	@Override
-	public GameObject<?> getDraggableElement(MouseState mouseState) {
-		// Implemented by inherited classes
-		return null;
-	}
-
-	@Override
-	public void doLayout(int offsetX, int offsetY) {
-		// Implemented by inherited classes
-
-	}
-
-	@Override
 	public void update(GameState state) {
+		super.update(state);
 		if (eventGOList != null)
 			for (AbstractEventGO<?> eventGO : eventGOList)
 				eventGO.update(state);
-	}
-
-	@Override
-	public EAdPosition getPosition() {
-		// Implemented by inherited classes
-		return null;
 	}
 
 	public EAdBundleId getCurrentBundle() {
@@ -166,13 +103,6 @@ public abstract class AbstractGameObject<T extends EAdElement> implements
 	
 	public void setCurrentBundle(EAdBundleId bundle){
 		valueMap.setValue(bundleVar, bundle);
-	}
-	
-
-	@Override
-	public List<RuntimeAsset<?>> getAssets(List<RuntimeAsset<?>> assetList,
-			boolean allAssets) {
-		return assetList;
 	}
 
 	public String toString() {

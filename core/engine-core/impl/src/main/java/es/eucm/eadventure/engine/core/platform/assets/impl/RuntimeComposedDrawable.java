@@ -41,7 +41,7 @@ import java.util.logging.Logger;
 
 import com.google.inject.Inject;
 
-import es.eucm.eadventure.common.model.EAdList;
+import es.eucm.eadventure.common.model.extra.EAdList;
 import es.eucm.eadventure.common.resources.assets.drawable.Drawable;
 import es.eucm.eadventure.common.resources.assets.drawable.compounds.ComposedDrawable;
 import es.eucm.eadventure.common.resources.assets.drawable.compounds.DisplacedDrawable;

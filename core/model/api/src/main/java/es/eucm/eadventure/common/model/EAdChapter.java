@@ -38,14 +38,16 @@
 package es.eucm.eadventure.common.model;
 
 import es.eucm.eadventure.common.model.elements.EAdActor;
+import es.eucm.eadventure.common.model.elements.EAdGeneralElement;
 import es.eucm.eadventure.common.model.elements.EAdScene;
 import es.eucm.eadventure.common.model.elements.EAdTimer;
+import es.eucm.eadventure.common.model.extra.EAdList;
 import es.eucm.eadventure.common.resources.EAdString;
 import es.eucm.eadventure.common.resources.annotation.Asset;
 import es.eucm.eadventure.common.resources.annotation.Bundled;
 import es.eucm.eadventure.common.resources.assets.multimedia.Sound;
 
-public interface EAdChapter extends EAdElement {
+public interface EAdChapter extends EAdGeneralElement {
 	
 	@Bundled
 	@Asset({Sound.class})

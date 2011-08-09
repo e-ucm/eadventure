@@ -35,7 +35,7 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package es.eucm.eadventure.common.model.impl;
+package es.eucm.eadventure.common.model.extra.impl;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -43,13 +43,12 @@ import java.util.List;
 
 import es.eucm.eadventure.common.interfaces.CopyNotSupportedException;
 import es.eucm.eadventure.common.model.EAdElement;
-import es.eucm.eadventure.common.model.EAdList;
-import es.eucm.eadventure.common.resources.EAdResources;
+import es.eucm.eadventure.common.model.extra.EAdList;
 
 /**
  * Generic implementation of a list of eAdventure elements.
  */
-public class EAdListImpl<P> extends AbstractEAdElement implements EAdList<P> {
+public class EAdListImpl<P> implements EAdList<P> {
 
 	/**
 	 * Lists elements.
@@ -64,15 +63,13 @@ public class EAdListImpl<P> extends AbstractEAdElement implements EAdList<P> {
 	 * @param parent parent element.
 	 */
 	public EAdListImpl(Class<?> clazz){
-		super("list");
 		this.clazz = clazz;
 		elements = new ArrayList<P>();
 	}
 
-	@SuppressWarnings("unchecked")
 	public EAdListImpl<P> copy() {
 		try {
-			return (EAdListImpl<P>) super.copy();
+			return (EAdListImpl<P>) copy(true);
 		} catch (ClassCastException e) {
 			throw new CopyNotSupportedException(e);
 		}
@@ -81,7 +78,7 @@ public class EAdListImpl<P> extends AbstractEAdElement implements EAdList<P> {
 	@SuppressWarnings("unchecked")
 	public EAdListImpl<P> copy(boolean deepCopy){
 		try {
-			EAdListImpl<P> copy = (EAdListImpl<P>) super.copy(deepCopy);
+			EAdListImpl<P> copy = new EAdListImpl<P>(Object.class);
 			if(deepCopy){
 				copy.elements = new ArrayList<P>();
 				for(P e: this.elements){
@@ -119,11 +116,6 @@ public class EAdListImpl<P> extends AbstractEAdElement implements EAdList<P> {
 	}
 
 	@Override
-	public EAdResources getResources() {
-		return null;
-	}
-
-	@Override
 	public Iterator<P> iterator() {
 		return this.elements.iterator();
 	}
@@ -145,7 +137,7 @@ public class EAdListImpl<P> extends AbstractEAdElement implements EAdList<P> {
 	
 	public boolean equals( Object o ){
 		if ( o instanceof EAdList ){
-			EAdList<?> list = ( EAdList<?> ) o;
+			EAdList<?> list = (es.eucm.eadventure.common.model.extra.EAdList<?> ) o;
 			if ( list.size() == this.size() ){
 				for ( int i = 0; i < this.size(); i++ ){
 					if ( !list.get(i).equals(this.get(i)) )

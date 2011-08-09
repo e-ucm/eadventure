@@ -39,7 +39,7 @@ package es.eucm.eadventure.engine.core.gameobjects.impl.effects;
 
 import com.google.inject.Inject;
 
-import es.eucm.eadventure.common.interfaces.Oriented.Orientation;
+import es.eucm.eadventure.common.interfaces.features.Oriented.Orientation;
 import es.eucm.eadventure.common.model.effects.impl.EAdVarInterpolationEffect;
 import es.eucm.eadventure.common.model.effects.impl.EAdVarInterpolationEffect.LoopType;
 import es.eucm.eadventure.common.model.effects.impl.sceneelements.EAdMoveSceneElement;

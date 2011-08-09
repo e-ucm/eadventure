@@ -39,7 +39,7 @@ package es.eucm.eadventure.common.elmentfactories.scenedemos;
 
 import java.util.ArrayList;
 
-import es.eucm.eadventure.common.interfaces.Oriented.Orientation;
+import es.eucm.eadventure.common.interfaces.features.Oriented.Orientation;
 import es.eucm.eadventure.common.model.EAdChapter;
 import es.eucm.eadventure.common.model.actions.impl.EAdBasicAction;
 import es.eucm.eadventure.common.model.behavior.EAdBehavior;

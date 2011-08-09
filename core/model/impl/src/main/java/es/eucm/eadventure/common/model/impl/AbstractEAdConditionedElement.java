@@ -38,15 +38,15 @@
 package es.eucm.eadventure.common.model.impl;
 
 import es.eucm.eadventure.common.interfaces.Param;
+import es.eucm.eadventure.common.interfaces.features.Conditioned;
 import es.eucm.eadventure.common.model.elements.EAdCondition;
-import es.eucm.eadventure.common.model.elements.EAdConditionedElement;
 
 /**
  * Abstract implementation of the EAdConditionElement based on the abstract
  * implementation of the EAdElement
  */
-public abstract class AbstractEAdConditionedElement extends AbstractEAdElement implements
-		EAdConditionedElement {
+public abstract class AbstractEAdConditionedElement extends EAdElementImpl implements
+		Conditioned {
 
 	public AbstractEAdConditionedElement(String id) {
 		super(id);

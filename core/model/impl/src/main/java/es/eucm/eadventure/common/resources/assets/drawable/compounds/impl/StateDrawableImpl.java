@@ -39,8 +39,8 @@ package es.eucm.eadventure.common.resources.assets.drawable.compounds.impl;
 
 import java.util.Set;
 
-import es.eucm.eadventure.common.model.EAdMap;
-import es.eucm.eadventure.common.model.impl.EAdMapImpl;
+import es.eucm.eadventure.common.model.extra.EAdMap;
+import es.eucm.eadventure.common.model.extra.impl.EAdMapImpl;
 import es.eucm.eadventure.common.resources.assets.drawable.Drawable;
 import es.eucm.eadventure.common.resources.assets.drawable.compounds.StateDrawable;
 
@@ -58,7 +58,7 @@ public class StateDrawableImpl implements StateDrawable {
 	 * Constructs an empty bundle of drawables
 	 */
 	public StateDrawableImpl() {
-		drawables = new EAdMapImpl<String, Drawable>("drawablesBundle", String.class,
+		drawables = new EAdMapImpl<String, Drawable>(String.class,
 				Drawable.class);
 	}
 

@@ -43,6 +43,7 @@ import java.util.logging.Logger;
 import org.xml.sax.Attributes;
 
 import es.eucm.eadventure.common.impl.reader.subparsers.extra.EntryData;
+import es.eucm.eadventure.common.interfaces.features.Resourced;
 import es.eucm.eadventure.common.model.EAdElement;
 import es.eucm.eadventure.common.resources.assets.AssetDescriptor;
 
@@ -87,7 +88,7 @@ public class ResourcesSubparser extends Subparser {
 	 */
 	public ResourcesSubparser(EAdElement object, Attributes attributes) {
 		if (attributes.getIndex("initialBundle") != -1) {
-			object.getResources().getInitialBundle().setBundleId(attributes.getValue("initialBundle"));
+			((Resourced) object).getResources().getInitialBundle().setBundleId(attributes.getValue("initialBundle"));
 		}
 		this.object = object;
 	}
@@ -104,7 +105,7 @@ public class ResourcesSubparser extends Subparser {
 	public void addChild(Object element) {
 		if (element instanceof EntryData) {
 			if (((EntryData) element).getValue() instanceof AssetDescriptor)
-				object.getResources().addAsset(((EntryData) element).getKey(), (AssetDescriptor) ((EntryData) element).getValue());
+				((Resourced) object).getResources().addAsset(((EntryData) element).getKey(), (AssetDescriptor) ((EntryData) element).getValue());
 		} else
 			logger.log(Level.SEVERE, "Tried to add wrong child to resources " + element);
 	}

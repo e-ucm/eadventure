@@ -41,7 +41,7 @@ import java.util.List;
 import java.util.Map;
 
 import es.eucm.eadventure.common.data.chapter.resources.Resources;
-import es.eucm.eadventure.common.model.EAdElement;
+import es.eucm.eadventure.common.model.elements.EAdGeneralElement;
 import es.eucm.eadventure.common.resources.assets.AssetDescriptor;
 
 public interface ResourceImporter {
@@ -71,7 +71,7 @@ public interface ResourceImporter {
 	 */
 	public void setPaths(String oldAventurePath, String newAdventurePath);
 
-	void importResources(EAdElement element, List<Resources> resources,
+	void importResources(EAdGeneralElement element, List<Resources> resources,
 			Map<String, String> resourcesStrings,
 			Map<String, Object> resourcesObjectsClasses);
 

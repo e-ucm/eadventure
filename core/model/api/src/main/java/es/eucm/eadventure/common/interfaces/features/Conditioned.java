@@ -35,17 +35,27 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package es.eucm.eadventure.common.interfaces;
+package es.eucm.eadventure.common.interfaces.features;
 
-import es.eucm.eadventure.common.params.geom.EAdPosition;
-
+import es.eucm.eadventure.common.model.elements.EAdCondition;
 
 /**
- * Implemented by classes with a position 
- *
+ * An element to define conditions in the model
  */
-public interface Positioned {
+public interface Conditioned {
+
+	/**
+	 * Get the actual condition condition
+	 * 
+	 * @return The condition
+	 */
+	public EAdCondition getCondition();
 	
-	EAdPosition getPosition();
+	/**
+	 * Set the actual condition
+	 * 
+	 * @param condition The condition
+	 */
+	public void setCondition(EAdCondition condition);
 	
 }

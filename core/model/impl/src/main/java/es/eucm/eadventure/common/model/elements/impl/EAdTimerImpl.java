@@ -40,12 +40,12 @@ package es.eucm.eadventure.common.model.elements.impl;
 import es.eucm.eadventure.common.interfaces.Element;
 import es.eucm.eadventure.common.interfaces.Param;
 import es.eucm.eadventure.common.model.elements.EAdTimer;
-import es.eucm.eadventure.common.model.impl.AbstractEAdElement;
+import es.eucm.eadventure.common.model.impl.EAdGeneralElementImpl;
 import es.eucm.eadventure.common.model.variables.EAdVar;
 import es.eucm.eadventure.common.model.variables.impl.vars.BooleanVar;
 
 @Element(detailed = EAdTimerImpl.class, runtime = EAdTimerImpl.class)
-public class EAdTimerImpl extends AbstractEAdElement implements EAdTimer {
+public class EAdTimerImpl extends EAdGeneralElementImpl implements EAdTimer {
 	
 	/**
 	 * Time in millisecons

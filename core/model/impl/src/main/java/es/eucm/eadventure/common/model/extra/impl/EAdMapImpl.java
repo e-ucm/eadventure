@@ -35,16 +35,16 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package es.eucm.eadventure.common.model.impl;
+package es.eucm.eadventure.common.model.extra.impl;
 
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
-import es.eucm.eadventure.common.model.EAdMap;
+import es.eucm.eadventure.common.model.extra.EAdMap;
 
-public class EAdMapImpl<S, T> extends AbstractEAdElement implements EAdMap<S, T> {
+public class EAdMapImpl<S, T> implements EAdMap<S, T> {
 	
 	private Map<S, T> map;
 
@@ -60,8 +60,7 @@ public class EAdMapImpl<S, T> extends AbstractEAdElement implements EAdMap<S, T>
 	 * @param id
 	 *            Element's id
 	 */
-	public EAdMapImpl(String id, Class<?> keyClass, Class<?> valueClass) {
-		super(id);
+	public EAdMapImpl(Class<?> keyClass, Class<?> valueClass) {
 		map = new HashMap<S, T>( );
     	this.keyClass = keyClass;
     	this.valueClass = valueClass;

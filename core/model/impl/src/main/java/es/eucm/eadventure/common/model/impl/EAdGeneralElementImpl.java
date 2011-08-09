@@ -40,11 +40,11 @@ package es.eucm.eadventure.common.model.impl;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import es.eucm.eadventure.common.interfaces.CopyNotSupportedException;
 import es.eucm.eadventure.common.interfaces.Param;
-import es.eucm.eadventure.common.model.EAdElement;
-import es.eucm.eadventure.common.model.EAdList;
+import es.eucm.eadventure.common.model.elements.EAdGeneralElement;
 import es.eucm.eadventure.common.model.events.EAdEvent;
+import es.eucm.eadventure.common.model.extra.EAdList;
+import es.eucm.eadventure.common.model.extra.impl.EAdListImpl;
 import es.eucm.eadventure.common.resources.EAdBundleId;
 import es.eucm.eadventure.common.resources.EAdResources;
 import es.eucm.eadventure.common.resources.assets.AssetDescriptor;
@@ -54,7 +54,7 @@ import es.eucm.eadventure.common.resources.impl.EAdResourcesImpl;
  * Abstract {@link es.eucm.eadventure.common.model.EAdElement} implementation.
  * 
  */
-public abstract class AbstractEAdElement implements EAdElement {
+public abstract class EAdGeneralElementImpl extends EAdElementImpl implements EAdGeneralElement {
 
 	/**
 	 * Resources of the eAdElement
@@ -74,7 +74,7 @@ public abstract class AbstractEAdElement implements EAdElement {
 	private static final Logger logger = Logger.getLogger("AbstractEAdElement");
 
 	/**
-	 * Constructs a {@link AbstractEAdElement} with the specified parent
+	 * Constructs a {@link EAdGeneralElementImpl} with the specified parent
 	 * element.
 	 * 
 	 * @param id
@@ -82,37 +82,11 @@ public abstract class AbstractEAdElement implements EAdElement {
 	 * @throws NullPointerException
 	 *             if {@code parent} is {@code null}.
 	 */
-	public AbstractEAdElement(String id) {
+	public EAdGeneralElementImpl(String id) {
 		this.id = id;
 		resources = new EAdResourcesImpl(getClass());
 		if (!(this instanceof EAdList))
 			events = new EAdListImpl<EAdEvent>(EAdEvent.class);
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public AbstractEAdElement copy() {
-		try {
-			//TODO removed clone for GWT, should find other solution?
-			//return (AbstractEAdElement) super.clone();
-			return null;
-		} catch (Exception e) {
-			throw new CopyNotSupportedException(e);
-		}
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public AbstractEAdElement copy(boolean deepCopy) {
-		AbstractEAdElement copy = copy();
-		if (deepCopy) {
-			//TODO
-		}
-		return copy;
 	}
 
 	/*

@@ -38,7 +38,7 @@
 package es.eucm.eadventure.common.elmentfactories.scenedemos;
 
 import es.eucm.eadventure.common.elmentfactories.EAdElementsFactory;
-import es.eucm.eadventure.common.interfaces.Oriented.Orientation;
+import es.eucm.eadventure.common.interfaces.features.Oriented.Orientation;
 import es.eucm.eadventure.common.model.effects.EAdEffect;
 import es.eucm.eadventure.common.model.elements.EAdSceneElement.CommonStates;
 import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
