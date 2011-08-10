@@ -53,15 +53,12 @@ import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.CaptionIm
 import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.ImageImpl;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.SpriteImageImpl;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.animation.Frame;
-import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.animation.FramesAnimation;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.shapes.BezierShape;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.shapes.RectangleShape;
 import es.eucm.eadventure.common.resources.assets.drawable.compounds.ComposedDrawable;
 import es.eucm.eadventure.common.resources.assets.drawable.compounds.DisplacedDrawable;
-import es.eucm.eadventure.common.resources.assets.drawable.compounds.StateDrawable;
 import es.eucm.eadventure.common.resources.assets.drawable.compounds.impl.ComposedDrawableImpl;
 import es.eucm.eadventure.common.resources.assets.drawable.compounds.impl.DisplacedDrawableImpl;
-import es.eucm.eadventure.common.resources.assets.drawable.compounds.impl.StateDrawableImpl;
 import es.eucm.eadventure.common.resources.assets.multimedia.Sound;
 import es.eucm.eadventure.common.resources.assets.multimedia.impl.SoundImpl;
 import es.eucm.eadventure.common.resources.impl.DefaultStringHandler;
@@ -72,10 +69,8 @@ import es.eucm.eadventure.engine.core.platform.assets.impl.DesktopEngineCaption;
 import es.eucm.eadventure.engine.core.platform.assets.impl.DesktopEngineImage;
 import es.eucm.eadventure.engine.core.platform.assets.impl.DesktopEngineSpriteImage;
 import es.eucm.eadventure.engine.core.platform.assets.impl.DesktopSound;
-import es.eucm.eadventure.engine.core.platform.assets.impl.RuntimeBundledAnimation;
 import es.eucm.eadventure.engine.core.platform.assets.impl.RuntimeComposedDrawable;
 import es.eucm.eadventure.engine.core.platform.assets.impl.RuntimeDisplacedDrawable;
-import es.eucm.eadventure.engine.core.platform.assets.impl.RuntimeFramesAnimation;
 import es.eucm.eadventure.engine.core.platform.assets.impl.RuntimeSpriteImage;
 import es.eucm.eadventure.engine.core.platform.impl.DesktopAssetHandler;
 
@@ -92,7 +87,6 @@ public class DesktopAssetHandlerModule extends AbstractModule {
 	Map<Class<? extends AssetDescriptor>, Class<? extends RuntimeAsset<?>>> provideMap() {
 		Map<Class<? extends AssetDescriptor>, Class<? extends RuntimeAsset<?>>> map = new HashMap<Class<? extends AssetDescriptor>, Class<? extends RuntimeAsset<?>>>( );
 	  
-		map.put(FramesAnimation.class, RuntimeFramesAnimation.class);
 		map.put(ImageImpl.class, DesktopEngineImage.class);
 		map.put(Image.class, DesktopEngineImage.class);
 		map.put(Frame.class, DesktopEngineImage.class);
@@ -102,8 +96,6 @@ public class DesktopAssetHandlerModule extends AbstractModule {
 		map.put(ComposedDrawableImpl.class, RuntimeComposedDrawable.class);
 		map.put(RectangleShape.class, DesktopBezierShape.class);
 		map.put(BezierShape.class, DesktopBezierShape.class);
-		map.put(StateDrawableImpl.class, RuntimeBundledAnimation.class);
-		map.put(StateDrawable.class, RuntimeBundledAnimation.class);
 		map.put(DisplacedDrawable.class, RuntimeDisplacedDrawable.class);
 		map.put(DisplacedDrawableImpl.class, RuntimeDisplacedDrawable.class);
 		map.put(SpriteImage.class, RuntimeSpriteImage.class);

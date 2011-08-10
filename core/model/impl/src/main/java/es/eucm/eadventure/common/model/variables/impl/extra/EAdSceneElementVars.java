@@ -6,6 +6,7 @@ import es.eucm.eadventure.common.model.elements.EAdSceneElement.CommonStates;
 import es.eucm.eadventure.common.model.variables.EAdVarDef;
 import es.eucm.eadventure.common.model.variables.impl.EAdElementVarsImpl;
 import es.eucm.eadventure.common.model.variables.impl.EAdVarDefImpl;
+import es.eucm.eadventure.common.params.geom.EAdPosition;
 import es.eucm.eadventure.common.params.geom.impl.EAdPositionImpl;
 
 public class EAdSceneElementVars extends EAdElementVarsImpl {
@@ -40,8 +41,11 @@ public class EAdSceneElementVars extends EAdElementVarsImpl {
 	public static final EAdVarDef<Integer> VAR_HEIGHT = new EAdVarDefImpl<Integer>(
 			"height", Integer.class, 0);
 
-	public static final EAdVarDef<EAdPositionImpl> VAR_POSITION = new EAdVarDefImpl<EAdPositionImpl>(
-			"position", EAdPositionImpl.class, new EAdPositionImpl(0, 0));
+	public static final EAdVarDef<EAdPosition> VAR_POSITION = new EAdVarDefImpl<EAdPosition>(
+			"position", EAdPosition.class, new EAdPositionImpl(0, 0));
+	
+	public static final EAdVarDef<Integer> VAR_TIME_DISPLAYED = new EAdVarDefImpl<Integer>(
+			"timeDisplayed", Integer.class, 0);
 
 	public EAdSceneElementVars(EAdElement element) {
 		super(element);
@@ -56,6 +60,7 @@ public class EAdSceneElementVars extends EAdElementVarsImpl {
 		add(VAR_WIDTH);
 		add(VAR_HEIGHT);
 		add(VAR_POSITION);
+		add(VAR_TIME_DISPLAYED);
 
 	}
 

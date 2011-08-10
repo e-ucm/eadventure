@@ -317,4 +317,11 @@ public class EAdPositionImpl implements EAdPosition {
 		dispY = Float.parseFloat(temp[3]);
 	}
 
+	@Override
+	public void set(int x, int y) {
+		setX( x );
+		setY( y );
+		
+	}
+
 }

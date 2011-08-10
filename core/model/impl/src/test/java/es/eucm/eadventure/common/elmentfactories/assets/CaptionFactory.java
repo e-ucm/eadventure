@@ -56,7 +56,6 @@ public class CaptionFactory {
 		caption.setTextColor(textColor);
 		caption.setBubbleColor(bubbleColor);
 		caption.setFont(font);
-		caption.setPadding(0);
 		return caption;
 
 	}
@@ -67,7 +66,7 @@ public class CaptionFactory {
 	}
 
 	public CaptionImpl createCaption(String text) {
-		return createCaption(text, EAdBorderedColor.WHITE_ON_BLACK, EAdBorderedColor.TRANSPARENT);
+		return createCaption(text, EAdBorderedColor.WHITE_ON_BLACK, EAdBorderedColor.TRANSPARENT );
 	}
 
 }

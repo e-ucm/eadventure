@@ -43,14 +43,16 @@ import es.eucm.eadventure.common.model.variables.EAdVar;
 import es.eucm.eadventure.common.model.variables.impl.EAdOperationImpl;
 
 /**
- * <p>A literal arithmetical expression ( such as -5-6/(-2) + sqr(15+x) ) that can
+ * <p>
+ * A literal arithmetical expression ( such as -5-6/(-2) + sqr(15+x) ) that can
  * be evaluated.
  * </p>
- * <p>Supports the following functions: +, -, *, /, ^, %, cos, sin, tan, acos,
+ * <p>
+ * Supports the following functions: +, -, *, /, ^, %, cos, sin, tan, acos,
  * asin, atan, sqrt, sqr, log, min, max, ceil, floor, abs, neg, rndr
  * </p>
  */
-@Element( runtime = LiteralExpressionOperation.class, detailed = LiteralExpressionOperation.class)
+@Element(runtime = LiteralExpressionOperation.class, detailed = LiteralExpressionOperation.class)
 public class LiteralExpressionOperation extends EAdOperationImpl {
 
 	/**
@@ -75,12 +77,12 @@ public class LiteralExpressionOperation extends EAdOperationImpl {
 	 * @param parent
 	 * @param id
 	 * @param expression
-	 * @param floatVar3 
-	 * @param floatVar2 
-	 * @param floatVar 
+	 * @param floatVar3
+	 * @param floatVar2
+	 * @param floatVar
 	 */
-	public LiteralExpressionOperation(String id,
-			String expression, EAdVar<?>... floatVar) {
+	public LiteralExpressionOperation(String id, String expression,
+			EAdVar<?>... floatVar) {
 		super(id);
 		this.expression = expression;
 		if (floatVar != null) {
@@ -108,5 +110,19 @@ public class LiteralExpressionOperation extends EAdOperationImpl {
 		return expression;
 	}
 
+	/**
+	 * Returns an expression to increment a variable with the given value
+	 * 
+	 * @param var
+	 *            the variable to be incremented
+	 * @param increment
+	 *            the increment
+	 * @return the operation
+	 */
+	public static LiteralExpressionOperation getIncrementExpression(
+			EAdVar<Integer> var, Integer increment) {
+		return new LiteralExpressionOperation("increment",
+				"[0] + " + increment, var);
+	}
 
 }

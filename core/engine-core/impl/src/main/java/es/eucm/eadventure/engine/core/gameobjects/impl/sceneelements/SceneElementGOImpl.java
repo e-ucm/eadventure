@@ -49,12 +49,15 @@ import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
 import es.eucm.eadventure.common.model.variables.EAdElementVars;
 import es.eucm.eadventure.common.model.variables.EAdVar;
 import es.eucm.eadventure.common.model.variables.impl.extra.EAdSceneElementVars;
+import es.eucm.eadventure.common.model.variables.impl.operations.LiteralExpressionOperation;
 import es.eucm.eadventure.common.params.geom.EAdPosition;
 import es.eucm.eadventure.common.resources.EAdBundleId;
 import es.eucm.eadventure.common.resources.StringHandler;
 import es.eucm.eadventure.common.resources.assets.AssetDescriptor;
+import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.animation.FramesAnimation;
 import es.eucm.eadventure.common.resources.assets.drawable.compounds.OrientedDrawable;
 import es.eucm.eadventure.common.resources.assets.drawable.compounds.StateDrawable;
+import es.eucm.eadventure.engine.core.GameLoop;
 import es.eucm.eadventure.engine.core.GameState;
 import es.eucm.eadventure.engine.core.MouseState;
 import es.eucm.eadventure.engine.core.ValueMap;
@@ -88,6 +91,8 @@ public abstract class SceneElementGOImpl<T extends EAdSceneElement> extends
 
 	private int height;
 
+	private long timeDisplayed;
+
 	protected float alpha;
 
 	protected boolean visible;
@@ -120,10 +125,11 @@ public abstract class SceneElementGOImpl<T extends EAdSceneElement> extends
 	@Override
 	public void setElement(T element) {
 		super.setElement(element);
-		
+
 		EAdElementVars vars = element.getVars();
-		
-		this.position = vars.getVar(EAdSceneElementVars.VAR_POSITION).getInitialValue();
+
+		this.position = vars.getVar(EAdSceneElementVars.VAR_POSITION)
+				.getInitialValue();
 		vars.getVar(EAdSceneElementVars.VAR_X).setInitialValue(position.getX());
 		vars.getVar(EAdSceneElementVars.VAR_Y).setInitialValue(position.getY());
 
@@ -134,20 +140,25 @@ public abstract class SceneElementGOImpl<T extends EAdSceneElement> extends
 				valueMap.setValue(var, var.getInitialValue());
 			}
 		}
-		
-		updateVars( vars );
-		
+
+		updateVars(vars);
+
 		// To load dimensions
 		getRenderAsset();
 	}
-	
-	protected void updateVars( EAdElementVars vars ){
-		visible = valueMap.getValue(vars.getVar(EAdSceneElementVars.VAR_VISIBLE));
-		rotation = valueMap.getValue(vars.getVar(EAdSceneElementVars.VAR_ROTATION));
+
+	protected void updateVars(EAdElementVars vars) {
+		visible = valueMap.getValue(vars
+				.getVar(EAdSceneElementVars.VAR_VISIBLE));
+		rotation = valueMap.getValue(vars
+				.getVar(EAdSceneElementVars.VAR_ROTATION));
 		scale = valueMap.getValue(vars.getVar(EAdSceneElementVars.VAR_SCALE));
 		alpha = valueMap.getValue(vars.getVar(EAdSceneElementVars.VAR_ALPHA));
-		orientation = valueMap.getValue(vars.getVar(EAdSceneElementVars.VAR_ORIENTATION));
+		orientation = valueMap.getValue(vars
+				.getVar(EAdSceneElementVars.VAR_ORIENTATION));
 		state = valueMap.getValue(vars.getVar(EAdSceneElementVars.VAR_STATE));
+		timeDisplayed = valueMap.getValue(vars
+				.getVar(EAdSceneElementVars.VAR_TIME_DISPLAYED));
 	}
 
 	@Override
@@ -181,10 +192,19 @@ public abstract class SceneElementGOImpl<T extends EAdSceneElement> extends
 	@Override
 	public void update(GameState state) {
 		super.update(state);
+		valueMap.setValue(
+				element.getVars()
+						.getVar(EAdSceneElementVars.VAR_TIME_DISPLAYED),
+				LiteralExpressionOperation.getIncrementExpression(
+						element.getVars().getVar(
+								EAdSceneElementVars.VAR_TIME_DISPLAYED),
+						GameLoop.SKIP_MILLIS_TICK));
 		this.getAsset().update(state);
-		this.position.setX(valueMap.getValue(element.getVars().getVar(EAdSceneElementVars.VAR_X)));
-		this.position.setY(valueMap.getValue(element.getVars().getVar(EAdSceneElementVars.VAR_Y)));
-		updateVars( element.getVars() );
+		this.position.setX(valueMap.getValue(element.getVars().getVar(
+				EAdSceneElementVars.VAR_X)));
+		this.position.setY(valueMap.getValue(element.getVars().getVar(
+				EAdSceneElementVars.VAR_Y)));
+		updateVars(element.getVars());
 	}
 
 	@Override
@@ -234,6 +254,10 @@ public abstract class SceneElementGOImpl<T extends EAdSceneElement> extends
 		else if (a instanceof OrientedDrawable) {
 			return getCurrentAssetDescriptor(((OrientedDrawable) a)
 					.getDrawable(orientation));
+		}
+		// Check frame animation
+		else if (a instanceof FramesAnimation) {
+			return ((FramesAnimation) a).getFrameFromTime(timeDisplayed);
 		} else {
 			return a;
 		}
@@ -310,6 +334,18 @@ public abstract class SceneElementGOImpl<T extends EAdSceneElement> extends
 							assetList, allAssets);
 				}
 			}
+		} else if (a instanceof FramesAnimation) {
+			if (!allAssets)
+				getAssetsRecursively(
+						((FramesAnimation) a).getFrameFromTime(timeDisplayed),
+						assetList, allAssets);
+			else {
+				for (int i = 0; i < ((FramesAnimation) a).getFrameCount(); i++) {
+					getAssetsRecursively(
+							((FramesAnimation) a).getFrameFromTime(i),
+							assetList, allAssets);
+				}
+			}
 		} else
 			assetList.add(assetHandler.getRuntimeAsset(a));
 	}
@@ -331,21 +367,27 @@ public abstract class SceneElementGOImpl<T extends EAdSceneElement> extends
 
 	@Override
 	public void setScale(float scale) {
-		valueMap.setValue(getElement().getVars().getVar(EAdSceneElementVars.VAR_SCALE), scale);
+		valueMap.setValue(
+				getElement().getVars().getVar(EAdSceneElementVars.VAR_SCALE),
+				scale);
 	}
 
 	public boolean isVisible() {
-		return valueMap.getValue(element.getVars().getVar(EAdSceneElementVars.VAR_VISIBLE));
+		return valueMap.getValue(element.getVars().getVar(
+				EAdSceneElementVars.VAR_VISIBLE));
 	}
 
 	public void setWidth(int width) {
 		this.width = width;
-		valueMap.setValue(element.getVars().getVar(EAdSceneElementVars.VAR_WIDTH), width);
+		valueMap.setValue(
+				element.getVars().getVar(EAdSceneElementVars.VAR_WIDTH), width);
 	}
 
 	public void setHeight(int height) {
 		this.height = height;
-		valueMap.setValue(element.getVars().getVar(EAdSceneElementVars.VAR_HEIGHT), height);
+		valueMap.setValue(
+				element.getVars().getVar(EAdSceneElementVars.VAR_HEIGHT),
+				height);
 	}
 
 	@Override
@@ -366,7 +408,7 @@ public abstract class SceneElementGOImpl<T extends EAdSceneElement> extends
 	public float getAlpha() {
 		return alpha;
 	}
-	
+
 	@Override
 	public List<EAdAction> getValidActions() {
 		return null;

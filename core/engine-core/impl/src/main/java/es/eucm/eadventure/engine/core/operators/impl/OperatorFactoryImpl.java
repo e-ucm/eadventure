@@ -40,6 +40,7 @@ package es.eucm.eadventure.engine.core.operators.impl;
 import java.util.logging.Logger;
 
 import com.google.inject.Inject;
+import com.google.inject.Singleton;
 
 import es.eucm.eadventure.common.interfaces.AbstractFactory;
 import es.eucm.eadventure.common.interfaces.MapProvider;
@@ -48,6 +49,7 @@ import es.eucm.eadventure.common.model.variables.EAdVar;
 import es.eucm.eadventure.engine.core.operator.Operator;
 import es.eucm.eadventure.engine.core.operator.OperatorFactory;
 
+@Singleton
 public class OperatorFactoryImpl extends AbstractFactory<Operator<?>> implements OperatorFactory {
 	
 	private Logger log = Logger.getLogger("Operator Factory");

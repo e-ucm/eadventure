@@ -46,20 +46,25 @@ import java.util.logging.Logger;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
+import es.eucm.eadventure.common.model.variables.EAdOperation;
 import es.eucm.eadventure.common.model.variables.EAdVar;
 import es.eucm.eadventure.engine.core.ValueMap;
+import es.eucm.eadventure.engine.core.operator.OperatorFactory;
 
 @Singleton
 public class ValueMapImpl implements ValueMap {
 
 	protected Map<Class<?>, Map<?, ?>> map;
+	
+	private OperatorFactory operatorFactory;
 
 	private static final Logger logger = Logger.getLogger("Value Map");
 
 	@Inject
-	public ValueMapImpl() {
+	public ValueMapImpl(OperatorFactory operatorFactory) {
 		map = new HashMap<Class<?>, Map<?, ?>>();
 		logger.info("New instance");
+		this.operatorFactory = operatorFactory;
 	}
 
 	@SuppressWarnings("unchecked")
@@ -121,6 +126,10 @@ public class ValueMapImpl implements ValueMap {
 			}
 		}
 		logger.log(Level.INFO, i + " variables deleted.");
+	}
+
+	public <S> void setValue(EAdVar<S> var, EAdOperation operation) {
+		operatorFactory.operate(var, operation);
 	}
 
 }

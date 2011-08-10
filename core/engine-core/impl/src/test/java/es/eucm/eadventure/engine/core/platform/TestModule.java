@@ -46,9 +46,6 @@ import com.google.inject.name.Names;
 
 import es.eucm.eadventure.common.resources.StringHandler;
 import es.eucm.eadventure.common.resources.assets.AssetDescriptor;
-import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.animation.FramesAnimation;
-import es.eucm.eadventure.common.resources.assets.drawable.compounds.StateDrawable;
-import es.eucm.eadventure.common.resources.assets.drawable.compounds.impl.StateDrawableImpl;
 import es.eucm.eadventure.common.resources.impl.DefaultStringHandler;
 import es.eucm.eadventure.engine.core.KeyboardState;
 import es.eucm.eadventure.engine.core.MouseState;
@@ -57,8 +54,6 @@ import es.eucm.eadventure.engine.core.gameobjects.huds.BasicHUD;
 import es.eucm.eadventure.engine.core.gameobjects.huds.impl.BasicHUDImpl;
 import es.eucm.eadventure.engine.core.gameobjects.impl.GameObjectManagerImpl;
 import es.eucm.eadventure.engine.core.impl.KeyboardStateImpl;
-import es.eucm.eadventure.engine.core.platform.assets.impl.RuntimeBundledAnimation;
-import es.eucm.eadventure.engine.core.platform.assets.impl.RuntimeFramesAnimation;
 import es.eucm.eadventure.engine.core.platform.impl.FontCacheImpl;
 
 public class TestModule extends AbstractModule {
@@ -87,9 +82,6 @@ public class TestModule extends AbstractModule {
 
 		bind( new TypeLiteral<Map<Class<? extends AssetDescriptor>, Class<? extends RuntimeAsset<?>>>>( ) {} ).toInstance( map );
 
-		map.put(FramesAnimation.class, RuntimeFramesAnimation.class);
-		map.put(StateDrawableImpl.class, RuntimeBundledAnimation.class);
-		map.put(StateDrawable.class, RuntimeBundledAnimation.class);
 	}
 
 	protected void configureAssetRenderer() {

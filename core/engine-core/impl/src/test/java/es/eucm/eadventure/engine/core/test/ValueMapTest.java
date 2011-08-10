@@ -37,10 +37,12 @@
 
 package es.eucm.eadventure.engine.core.test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 import org.junit.Before;
 import org.junit.Test;
+
+import com.google.inject.Inject;
 
 import es.eucm.eadventure.common.model.variables.impl.vars.BooleanVar;
 import es.eucm.eadventure.common.model.variables.impl.vars.FloatVar;
@@ -51,11 +53,11 @@ import es.eucm.eadventure.engine.core.impl.VariableMap;
 
 public class ValueMapTest {
 
+	@Inject
 	private ValueMap v;
 
 	@Before
 	public void setUp() throws Exception {
-		v = new VariableMap();
 		v.setValue(new StringVar("name"), "John");
 		v.setValue(new StringVar("surname"), "Doe");
 		v.setValue(new IntegerVar("age"), new Integer(35));

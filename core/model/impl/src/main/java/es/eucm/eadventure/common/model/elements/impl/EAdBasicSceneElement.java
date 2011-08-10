@@ -38,13 +38,14 @@
 package es.eucm.eadventure.common.model.elements.impl;
 
 import es.eucm.eadventure.common.interfaces.Element;
-import es.eucm.eadventure.common.interfaces.features.Oriented.Orientation;
 import es.eucm.eadventure.common.interfaces.Param;
+import es.eucm.eadventure.common.interfaces.features.Oriented.Orientation;
 import es.eucm.eadventure.common.model.conditions.impl.EmptyCondition;
 import es.eucm.eadventure.common.model.elements.EAdCondition;
 import es.eucm.eadventure.common.model.elements.EAdSceneElement;
 import es.eucm.eadventure.common.model.variables.EAdElementVars;
 import es.eucm.eadventure.common.model.variables.impl.extra.EAdSceneElementVars;
+import es.eucm.eadventure.common.params.geom.EAdPosition;
 import es.eucm.eadventure.common.params.geom.impl.EAdPositionImpl;
 import es.eucm.eadventure.common.resources.annotation.Asset;
 import es.eucm.eadventure.common.resources.annotation.Bundled;
@@ -75,8 +76,12 @@ public class EAdBasicSceneElement extends AbstractEAdElementWithBehavior
 		
 	}
 
-	public void setPosition(EAdPositionImpl position) {
+	public void setPosition(EAdPosition position) {
 		vars.getVar(EAdSceneElementVars.VAR_POSITION).setInitialValue(position);
+	}
+	
+	public void setPosition( int x, int y ){
+		vars.getVar(EAdSceneElementVars.VAR_POSITION).getInitialValue().set(x, y );
 	}
 
 

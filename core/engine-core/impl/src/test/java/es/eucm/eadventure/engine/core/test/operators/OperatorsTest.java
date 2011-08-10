@@ -43,15 +43,17 @@ import java.util.ArrayList;
 
 import org.junit.Test;
 
+import com.google.inject.Inject;
+
 import es.eucm.eadventure.common.model.variables.EAdOperation;
 import es.eucm.eadventure.common.model.variables.EAdVar;
 import es.eucm.eadventure.engine.core.ValueMap;
-import es.eucm.eadventure.engine.core.impl.ValueMapImpl;
 import es.eucm.eadventure.engine.core.operator.Operator;
 
 public abstract class OperatorsTest<T extends EAdOperation> {
 	
-	protected static ValueMap valueMap = new ValueMapImpl( );
+	@Inject
+	protected static ValueMap valueMap;
 	protected Operator<T> operator;
 	
 	private ArrayList<T> operations = new ArrayList<T>();

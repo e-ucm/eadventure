@@ -9,8 +9,8 @@ import es.eucm.eadventure.common.model.variables.impl.operations.AssignOperation
 import es.eucm.eadventure.common.params.fills.impl.EAdBorderedColor;
 import es.eucm.eadventure.common.params.fills.impl.EAdColor;
 import es.eucm.eadventure.common.params.fills.impl.EAdLinearGradient;
-import es.eucm.eadventure.common.resources.assets.drawable.basics.Caption;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.Image;
+import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.CaptionImpl;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.ImageImpl;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.animation.FramesAnimation;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.shapes.RectangleShape;
@@ -29,8 +29,9 @@ public class DrawablesScene extends EmptyScene {
 
 		// eAdventure logo
 		Image drawable = new ImageImpl("@drawable/eAdventureLogo.png");
-		Caption caption = EAdElementsFactory.getInstance().getCaptionFactory()
+		CaptionImpl caption = EAdElementsFactory.getInstance().getCaptionFactory()
 				.createCaption("Image");
+		caption.setPadding(0);
 		ComposedDrawable composed = new ComposedDrawableImpl();
 		composed.addDrawable(caption);
 		composed.addDrawable(drawable, 0, 40);
@@ -43,6 +44,7 @@ public class DrawablesScene extends EmptyScene {
 		// Shaded rectangle
 		caption = EAdElementsFactory.getInstance().getCaptionFactory()
 				.createCaption("Composed Drawable");
+		caption.setPadding(0);
 
 		int rWidth = 60;
 		int rHeight = 40;
@@ -100,10 +102,14 @@ public class DrawablesScene extends EmptyScene {
 				rectangle1);
 		stateDrawable.addDrawable(CommonStates.EAD_STATE_TALKING.toString(),
 				rectangle2);
+		
+		caption = EAdElementsFactory.getInstance().getCaptionFactory()
+				.createCaption("State Drawable");
+		caption.setPadding(0);
 
 		getSceneElements().add(
 				EAdElementsFactory.getInstance().getSceneElementFactory()
-						.createSceneElement("State Drawable", x, y));
+						.createSceneElement(caption, x, y));
 		EAdBasicSceneElement sceneElement = EAdElementsFactory.getInstance()
 				.getSceneElementFactory()
 				.createSceneElement(stateDrawable, x + 50, y + 40);
@@ -139,9 +145,13 @@ public class DrawablesScene extends EmptyScene {
 		FramesAnimation animation = EAdElementsFactory.getInstance()
 				.getDrawableFactory().getFramesAnimation(uris, 500);
 
+		caption = EAdElementsFactory.getInstance().getCaptionFactory()
+				.createCaption("Frames animation");
+		caption.setPadding(0);
+		
 		getSceneElements().add(
 				EAdElementsFactory.getInstance().getSceneElementFactory()
-						.createSceneElement("Frames animation", margin, 180));
+						.createSceneElement(caption, margin, 180));
 
 		EAdBasicSceneElement paniel = EAdElementsFactory.getInstance()
 				.getSceneElementFactory()

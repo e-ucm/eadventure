@@ -60,12 +60,22 @@ public interface EAdPosition extends EAdParam {
 	 * @return
 	 */
 	float getDispX();
-	
+
 	/**
 	 * Returns the displacement in the y axis
 	 * 
 	 * @return
 	 */
 	float getDispY();
+
+	/**
+	 * Sets x and y coordinates for this position
+	 * 
+	 * @param x
+	 *            the x coordinate
+	 * @param y
+	 *            the y coordinate
+	 */
+	void set(int x, int y);
 
 }

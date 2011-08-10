@@ -37,6 +37,7 @@
 
 package es.eucm.eadventure.engine.core;
 
+import es.eucm.eadventure.common.model.variables.EAdOperation;
 import es.eucm.eadventure.common.model.variables.EAdVar;
 
 /**
@@ -50,6 +51,13 @@ public interface ValueMap {
 	 * @param value
 	 */
 	<S> void setValue(EAdVar<S> var, S value);
+	
+	/**
+	 * Sets the variable to the result value of the operation
+	 * @param var
+	 * @param operation
+	 */
+	<S> void setValue(EAdVar<S> var, EAdOperation operation );
 
 	/**
 	 * @param <S>
