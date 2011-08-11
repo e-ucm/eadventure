@@ -22,6 +22,10 @@ public class EAdVarDefImpl<T> implements EAdVarDef<T> {
 
 	@Param("global")
 	private boolean global;
+	
+	public EAdVarDefImpl( String id ){
+		this.id = id;
+	}
 
 	/**
 	 * Constructs a variable definition

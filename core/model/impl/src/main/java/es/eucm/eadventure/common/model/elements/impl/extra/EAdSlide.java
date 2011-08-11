@@ -44,7 +44,7 @@ import es.eucm.eadventure.common.model.elements.impl.EAdSceneImpl;
 /**
  * <p>One of the slides of the cutscene</p>
  */
-@Element(detailed = EAdSlide.class, runtime = EAdSceneImpl.class)
+@Element(detailed = EAdSlide.class, runtime = EAdSlide.class)
 public class EAdSlide extends EAdSceneImpl {
 
 	@Param("time")

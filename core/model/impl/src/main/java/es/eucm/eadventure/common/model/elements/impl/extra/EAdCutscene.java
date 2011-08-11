@@ -62,7 +62,7 @@ import es.eucm.eadventure.common.model.variables.impl.operations.LiteralExpressi
 /**
  *
  */
-@Element(detailed = EAdCutscene.class, runtime = EAdComposedScene.class)
+@Element(detailed = EAdCutscene.class, runtime = EAdCutscene.class)
 public class EAdCutscene extends EAdComposedScene {
 
 	EAdList<Integer> times;

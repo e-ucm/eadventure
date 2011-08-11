@@ -107,6 +107,8 @@ public class ParamDOMWriter extends DOMWriter<Field> {
 					value += ";";
 				}
 				node.setTextContent(value);
+			} else if ( field.get(element) instanceof Class ){
+				node.setTextContent(((Class<?>) field.get(element)).getName());
 			} else {
 				node.setTextContent(field.get(element).toString());
 			}

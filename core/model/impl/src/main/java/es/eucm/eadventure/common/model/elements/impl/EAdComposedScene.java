@@ -37,7 +37,6 @@
 
 package es.eucm.eadventure.common.model.elements.impl;
 
-import es.eucm.eadventure.common.interfaces.Param;
 import es.eucm.eadventure.common.model.elements.EAdScene;
 import es.eucm.eadventure.common.model.elements.EAdSceneElement;
 import es.eucm.eadventure.common.model.extra.EAdList;
@@ -54,7 +53,7 @@ public class EAdComposedScene extends EAdGeneralElementImpl implements EAdScene 
 	/**
 	 * Pointer to the variable that manages the current scene
 	 */
-	@Param("currentScene")
+	//@Param("currentScene")
 	protected IntegerVar currentScene;
 	
 	private BooleanVar sceneLoaded;

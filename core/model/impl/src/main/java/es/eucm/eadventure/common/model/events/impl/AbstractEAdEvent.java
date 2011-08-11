@@ -43,13 +43,13 @@ import es.eucm.eadventure.common.model.extra.EAdList;
 import es.eucm.eadventure.common.model.extra.EAdMap;
 import es.eucm.eadventure.common.model.extra.impl.EAdListImpl;
 import es.eucm.eadventure.common.model.extra.impl.EAdMapImpl;
-import es.eucm.eadventure.common.model.impl.EAdGeneralElementImpl;
+import es.eucm.eadventure.common.model.impl.EAdElementImpl;
 
 /**
  * <p>Abstract implementation of an eAdventure event.</p>
  * 
  */
-public abstract class AbstractEAdEvent extends EAdGeneralElementImpl implements EAdEvent {
+public abstract class AbstractEAdEvent extends EAdElementImpl implements EAdEvent {
 
 	/**
 	 * List of effects

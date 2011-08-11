@@ -45,6 +45,8 @@ import org.xml.sax.Attributes;
 import es.eucm.eadventure.common.impl.reader.subparsers.extra.EntryData;
 import es.eucm.eadventure.common.interfaces.features.Resourced;
 import es.eucm.eadventure.common.model.EAdElement;
+import es.eucm.eadventure.common.resources.EAdBundleId;
+import es.eucm.eadventure.common.resources.EAdResources;
 import es.eucm.eadventure.common.resources.assets.AssetDescriptor;
 
 /**
@@ -88,7 +90,9 @@ public class ResourcesSubparser extends Subparser {
 	 */
 	public ResourcesSubparser(EAdElement object, Attributes attributes) {
 		if (attributes.getIndex("initialBundle") != -1) {
-			((Resourced) object).getResources().getInitialBundle().setBundleId(attributes.getValue("initialBundle"));
+			EAdResources resources = ((Resourced) object).getResources();
+			EAdBundleId bundleId = resources.getInitialBundle();
+			bundleId.setBundleId(attributes.getValue("initialBundle"));
 		}
 		this.object = object;
 	}

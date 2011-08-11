@@ -54,6 +54,10 @@ public class FlagCondition extends AbstractEAdCondition implements EAdCondition 
 
 	@Param("value")
 	private Value value;
+	
+	public FlagCondition( String id ){
+		super( id );
+	}
 
 	public FlagCondition(EAdVar<Boolean> flag) {
 		this(flag, Value.ACTIVE);

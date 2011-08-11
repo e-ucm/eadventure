@@ -20,12 +20,19 @@ public class EAdElementVarsImpl implements EAdElementVars {
 	private EAdElement element;
 	
 	private String id;
+	
+	public EAdElementVarsImpl(String id){
+		this( id, null );
+	}
 
-	public EAdElementVarsImpl(EAdElement element) {
+	public EAdElementVarsImpl(String id, EAdElement element) {
 		this.element = element;
-		this.id = element.getId() + "_vars";
+		this.id = id;
 		vars = new EAdMapImpl<String, EAdVar<?>>(String.class, EAdVar.class);
-
+	}
+	
+	public EAdElementVarsImpl(EAdElement element){
+		this(element.getId() + "_vars", element);
 	}
 
 	@Override

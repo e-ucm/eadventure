@@ -45,7 +45,7 @@ import es.eucm.eadventure.common.model.extra.EAdMap;
 import es.eucm.eadventure.common.model.extra.impl.EAdListImpl;
 import es.eucm.eadventure.common.model.extra.impl.EAdMapImpl;
 import es.eucm.eadventure.common.model.guievents.EAdGUIEvent;
-import es.eucm.eadventure.common.model.impl.EAdGeneralElementImpl;
+import es.eucm.eadventure.common.model.impl.EAdElementImpl;
 
 /**
  * 
@@ -59,7 +59,7 @@ import es.eucm.eadventure.common.model.impl.EAdGeneralElementImpl;
  * 
  */
 @Element(runtime = EAdBehaviorImpl.class, detailed = EAdBehaviorImpl.class)
-public class EAdBehaviorImpl extends EAdGeneralElementImpl implements EAdBehavior {
+public class EAdBehaviorImpl extends EAdElementImpl implements EAdBehavior {
 
 	/**
 	 * All behaviors contained by this bundle, associated with its events

@@ -38,7 +38,6 @@
 package es.eucm.eadventure.common.test;
 
 import es.eucm.eadventure.common.elmentfactories.scenedemos.BasicScene;
-import es.eucm.eadventure.common.model.elements.EAdTimer;
 import es.eucm.eadventure.common.model.impl.EAdAdventureModelImpl;
 import es.eucm.eadventure.common.model.impl.EAdChapterImpl;
 import es.eucm.eadventure.common.resources.EAdString;
@@ -69,17 +68,19 @@ public class EAdTestAdventureModel extends EAdAdventureModelImpl {
 
 		// Space
 
-		BasicScene space = new BasicScene("space1", c);
-		for (EAdTimer timer : space.timers)
-			c.getTimers().add(timer);
-		c.getScenes().add(space);
+		BasicScene scene = new BasicScene("basicScene", c);
+		c.getScenes().add(scene);
 		
-		if (space.panielActor != null)
-			c.getActors().add(space.panielActor);
-		if (space.orientedActor != null)
-			c.getActors().add(space.orientedActor);
-		if (space.buttonActor != null)
-			c.getActors().add(space.buttonActor);
+//		for (EAdTimer timer : space.timers)
+//			c.getTimers().add(timer);
+
+//		
+//		if (space.panielActor != null)
+//			c.getActors().add(space.panielActor);
+//		if (space.orientedActor != null)
+//			c.getActors().add(space.orientedActor);
+//		if (space.buttonActor != null)
+//			c.getActors().add(space.buttonActor);
 	}
 
 

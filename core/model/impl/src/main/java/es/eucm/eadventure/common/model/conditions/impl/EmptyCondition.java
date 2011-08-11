@@ -57,6 +57,10 @@ public class EmptyCondition extends AbstractEAdCondition implements
 
 	@Param("value")
 	private Value value;
+	
+	public EmptyCondition(String id ){
+		super( id );
+	}
 
 	public EmptyCondition(Value value) {
 		super("emptyCondition");

@@ -46,6 +46,10 @@ public class ImageImpl implements Image {
 	
 	@Param("uri")
 	private EAdURI uri;
+	
+	public ImageImpl( ){
+		
+	}
 
 	public ImageImpl(String uri) {
 		this.uri = new EAdURIImpl(uri);

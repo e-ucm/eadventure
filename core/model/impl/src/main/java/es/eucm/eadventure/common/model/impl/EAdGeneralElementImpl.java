@@ -40,7 +40,6 @@ package es.eucm.eadventure.common.model.impl;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import es.eucm.eadventure.common.interfaces.Param;
 import es.eucm.eadventure.common.model.elements.EAdGeneralElement;
 import es.eucm.eadventure.common.model.events.EAdEvent;
 import es.eucm.eadventure.common.model.extra.EAdList;
@@ -61,9 +60,6 @@ public abstract class EAdGeneralElementImpl extends EAdElementImpl implements EA
 	 */
 	private EAdResources resources;
 
-	@Param("id")
-	protected String id;
-
 	/**
 	 * Events associated with this element
 	 */
@@ -81,7 +77,7 @@ public abstract class EAdGeneralElementImpl extends EAdElementImpl implements EA
 	 *             if {@code parent} is {@code null}.
 	 */
 	public EAdGeneralElementImpl(String id) {
-		this.id = id;
+		super(id);
 		resources = new EAdResourcesImpl(getClass());
 		if (!(this instanceof EAdList))
 			events = new EAdListImpl<EAdEvent>(EAdEvent.class);

@@ -57,8 +57,16 @@ public class EAdVarImpl<T> implements EAdVar<T> {
 
 	@Param("initValue")
 	private T modifiedInitialValue;
+	
+	@Param("id")
+	private String id;
+	
+	public EAdVarImpl( String id ){
+		this.id = id;
+	}
 
 	public EAdVarImpl(EAdVarDef<T> varDef, EAdElement element) {
+		this.id = varDef.getId() + "_variable";
 		this.element = element;
 		this.varDef = varDef;
 	}
@@ -140,7 +148,7 @@ public class EAdVarImpl<T> implements EAdVar<T> {
 
 	@Override
 	public String getId() {
-		return varDef.getId() + "_variable";
+		return id;
 	}
 
 	@Override

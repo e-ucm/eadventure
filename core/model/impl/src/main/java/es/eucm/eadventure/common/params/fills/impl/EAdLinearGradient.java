@@ -67,13 +67,13 @@ public class EAdLinearGradient implements EAdFill {
 
 	@Override
 	public String toStringData() {
-		return color1.toStringData() + ":" + color2.toStringData() + ":"
+		return color1.toStringData() + ";" + color2.toStringData() + ";"
 				+ vertical;
 	}
 
 	@Override
 	public void parse(String data) {
-		String temp[] = data.split(":");
+		String temp[] = data.split(";");
 		int i = 0;
 		color1 = new EAdColor(temp[i++]);
 		color2 = new EAdColor(temp[i++]);

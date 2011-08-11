@@ -52,6 +52,10 @@ public class EAdActorActionsEffect extends AbstractEAdEffect {
 	@Param("change")
 	private Change change;
 	
+	public EAdActorActionsEffect(String id){
+		super(id);
+	}
+	
 	public EAdActorActionsEffect(String id, EAdSceneElement actionElement) {
 		super(id);
 		this.actionElement = actionElement;

@@ -56,7 +56,7 @@ public class EAdBasicSceneElement extends AbstractEAdElementWithBehavior
 		implements EAdSceneElement {
 	
 	@Param("vars")
-	private EAdSceneElementVars vars;
+	private EAdElementVars vars;
 
 	@Param("draggable")
 	private EAdCondition draggable;

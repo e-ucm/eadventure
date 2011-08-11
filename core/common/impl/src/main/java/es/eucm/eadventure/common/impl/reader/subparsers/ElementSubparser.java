@@ -71,8 +71,8 @@ public class ElementSubparser extends Subparser {
 		if (ObjectFactory.getObject(uniqueId, EAdElement.class) == null ) {
 			try {
 				Class<?> clazz = ClassLoader.getSystemClassLoader().loadClass(className);
-				Constructor<?> con = clazz.getConstructor(EAdElement.class, String.class);
-				this.element = (EAdElement) con.newInstance(new Object[]{element, id});
+				Constructor<?> con = clazz.getConstructor(String.class);
+				this.element = (EAdElement) con.newInstance(new Object[]{id});
 				ObjectFactory.put(uniqueId, this.element);
 			} catch (NullPointerException e) {
 				logger.log(Level.SEVERE, "Null pointer, className:" + className + "; uniqueId:" + uniqueId, e);

@@ -39,11 +39,11 @@ package es.eucm.eadventure.common.model.variables.impl;
 
 import es.eucm.eadventure.common.model.extra.EAdList;
 import es.eucm.eadventure.common.model.extra.impl.EAdListImpl;
-import es.eucm.eadventure.common.model.impl.EAdGeneralElementImpl;
+import es.eucm.eadventure.common.model.impl.EAdElementImpl;
 import es.eucm.eadventure.common.model.variables.EAdOperation;
 import es.eucm.eadventure.common.model.variables.EAdVar;
 
-public abstract class EAdOperationImpl extends EAdGeneralElementImpl implements EAdOperation {
+public abstract class EAdOperationImpl extends EAdElementImpl implements EAdOperation {
 
 	/**
 	 * List of the variables
