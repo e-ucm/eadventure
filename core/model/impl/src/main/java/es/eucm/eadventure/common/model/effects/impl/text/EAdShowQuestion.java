@@ -72,7 +72,7 @@ import es.eucm.eadventure.common.params.geom.impl.EAdPositionImpl.Corner;
  * </p>
  * 
  */
-@Element(runtime = EAdComplexBlockingEffect.class, detailed = EAdShowQuestion.class)
+@Element(runtime = EAdShowQuestion.class, detailed = EAdShowQuestion.class)
 public class EAdShowQuestion extends EAdComplexBlockingEffect {
 
 	/**

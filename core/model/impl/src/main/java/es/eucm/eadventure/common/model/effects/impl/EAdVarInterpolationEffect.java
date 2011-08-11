@@ -102,6 +102,10 @@ public class EAdVarInterpolationEffect extends AbstractEAdEffect {
 	@Param("interpolation")
 	private InterpolationType interpolationType;
 
+	public EAdVarInterpolationEffect(String id) {
+		super(id);
+	}
+
 	public EAdVarInterpolationEffect(String id, EAdVar<?> var,
 			LiteralExpressionOperation endValue, int time) {
 		super(id);

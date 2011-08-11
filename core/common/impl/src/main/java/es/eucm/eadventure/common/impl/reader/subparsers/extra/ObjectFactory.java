@@ -73,7 +73,7 @@ public class ObjectFactory {
 
 	@SuppressWarnings("unchecked")
 	public static Object getObject(String value, Class<?> fieldType) {
-		if (fieldType == null)
+		if (fieldType == null || fieldType == String.class )
 			return value;
 		if (fieldType == Integer.class || fieldType == int.class)
 			return Integer.parseInt(value);

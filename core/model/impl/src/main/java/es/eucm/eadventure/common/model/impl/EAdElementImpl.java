@@ -1,14 +1,12 @@
 package es.eucm.eadventure.common.model.impl;
 
 import es.eucm.eadventure.common.interfaces.CopyNotSupportedException;
-import es.eucm.eadventure.common.interfaces.Param;
 import es.eucm.eadventure.common.model.EAdElement;
 
 public abstract class EAdElementImpl implements EAdElement {
 
 	private static int ID_GENERATOR = 0;
-
-	@Param("id")
+	
 	protected String id;
 
 	public EAdElementImpl() {
