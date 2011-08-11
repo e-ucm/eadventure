@@ -159,4 +159,9 @@ public class EAdListImpl<P> implements EAdList<P> {
 		elements.clear();
 	}
 
+	@Override
+	public String getId() {
+		return "list";
+	}
+
 }

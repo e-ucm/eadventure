@@ -2,6 +2,8 @@ package es.eucm.eadventure.common.model.variables.impl;
 
 import java.util.Collection;
 
+import es.eucm.eadventure.common.interfaces.Element;
+import es.eucm.eadventure.common.interfaces.Param;
 import es.eucm.eadventure.common.model.EAdElement;
 import es.eucm.eadventure.common.model.extra.EAdMap;
 import es.eucm.eadventure.common.model.extra.impl.EAdMapImpl;
@@ -9,14 +11,19 @@ import es.eucm.eadventure.common.model.variables.EAdElementVars;
 import es.eucm.eadventure.common.model.variables.EAdVar;
 import es.eucm.eadventure.common.model.variables.EAdVarDef;
 
+@Element(runtime = EAdElementVarsImpl.class, detailed = EAdElementVarsImpl.class)
 public class EAdElementVarsImpl implements EAdElementVars {
 
 	private EAdMap<String, EAdVar<?>> vars;
 
+	@Param("element")
 	private EAdElement element;
+	
+	private String id;
 
 	public EAdElementVarsImpl(EAdElement element) {
 		this.element = element;
+		this.id = element.getId() + "_vars";
 		vars = new EAdMapImpl<String, EAdVar<?>>(String.class, EAdVar.class);
 
 	}
@@ -64,6 +71,23 @@ public class EAdElementVarsImpl implements EAdElementVars {
 			this.add(var);
 		}
 
+	}
+
+	@Override
+	public String getId() {
+		return id;
+	}
+
+	@Override
+	public EAdElement copy() {
+		// TODO Copy vars
+		return null;
+	}
+
+	@Override
+	public EAdElement copy(boolean deepCopy) {
+		// TODO copy vars
+		return null;
 	}
 
 }

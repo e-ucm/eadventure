@@ -1,17 +1,26 @@
 package es.eucm.eadventure.common.model.variables.impl;
 
+import es.eucm.eadventure.common.interfaces.Element;
+import es.eucm.eadventure.common.interfaces.Param;
+import es.eucm.eadventure.common.model.EAdElement;
 import es.eucm.eadventure.common.model.variables.EAdVarDef;
 
+@Element(detailed = EAdVarDefImpl.class, runtime = EAdVarDefImpl.class)
 public class EAdVarDefImpl<T> implements EAdVarDef<T> {
 
-	private String name;
+	@Param("id")
+	private String id;
 
+	@Param("class")
 	private Class<T> type;
 
+	@Param("initialValue")
 	private T initialValue;
 
+	@Param("constant")
 	private boolean constant;
 
+	@Param("global")
 	private boolean global;
 
 	/**
@@ -31,7 +40,7 @@ public class EAdVarDefImpl<T> implements EAdVarDef<T> {
 	public EAdVarDefImpl(String name, Class<T> type, T initialValue,
 			boolean constant, boolean global) {
 		super();
-		this.name = name;
+		this.id = name;
 		this.type = type;
 		this.initialValue = initialValue;
 		this.constant = constant;
@@ -49,7 +58,7 @@ public class EAdVarDefImpl<T> implements EAdVarDef<T> {
 
 	@Override
 	public String getName() {
-		return name;
+		return id;
 	}
 
 	@Override
@@ -65,6 +74,23 @@ public class EAdVarDefImpl<T> implements EAdVarDef<T> {
 	@Override
 	public boolean isGlobal() {
 		return global;
+	}
+
+	@Override
+	public String getId() {
+		return id;
+	}
+
+	@Override
+	public EAdElement copy() {
+		// TODO copy var def
+		return null;
+	}
+
+	@Override
+	public EAdElement copy(boolean deepCopy) {
+		// TODO copy var def
+		return null;
 	}
 
 }

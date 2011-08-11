@@ -10,7 +10,7 @@ import es.eucm.eadventure.common.model.EAdElement;
  * with an {@link EAdElement}
  * 
  */
-public interface EAdElementVars {
+public interface EAdElementVars extends EAdElement {
 
 	/**
 	 * Returns the {@link EAdElement} associated with this variables container

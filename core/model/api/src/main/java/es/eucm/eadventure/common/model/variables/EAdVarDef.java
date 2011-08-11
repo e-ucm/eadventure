@@ -1,5 +1,7 @@
 package es.eucm.eadventure.common.model.variables;
 
+import es.eucm.eadventure.common.model.EAdElement;
+
 /**
  * General interface for the definition of an eAdventure variable. Definitions
  * of variables are constructed from:
@@ -18,7 +20,7 @@ package es.eucm.eadventure.common.model.variables;
  * @param <T>
  *            Class of the variable's value
  */
-public interface EAdVarDef<T> {
+public interface EAdVarDef<T> extends EAdElement {
 
 	/**
 	 * Returns the variable's name

@@ -177,7 +177,7 @@ public class EAdFontImpl implements EAdFont {
 	@Override
 	public String toStringData() {
 		String data = "";
-		if (uri != null)
+		if (uri == null)
 			data += name;
 		else
 			data += "uri;" + uri.getPath();

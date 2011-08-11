@@ -37,18 +37,25 @@
 
 package es.eucm.eadventure.common.model.variables.impl;
 
+import es.eucm.eadventure.common.interfaces.Element;
+import es.eucm.eadventure.common.interfaces.Param;
 import es.eucm.eadventure.common.model.EAdElement;
 import es.eucm.eadventure.common.model.variables.EAdVar;
 import es.eucm.eadventure.common.model.variables.EAdVarDef;
 
+@Element(detailed = EAdVarImpl.class, runtime = EAdVarImpl.class)
 public class EAdVarImpl<T> implements EAdVar<T> {
 
+	@Param("varDef")
 	private EAdVarDef<T> varDef;
 
+	@Param("element")
 	private EAdElement element;
 
+	@Param("modified")
 	private boolean isModifiedInitialValue;
 
+	@Param("initValue")
 	private T modifiedInitialValue;
 
 	public EAdVarImpl(EAdVarDef<T> varDef, EAdElement element) {
@@ -129,6 +136,23 @@ public class EAdVarImpl<T> implements EAdVar<T> {
 
 	public void setElement(EAdElement eAdElement) {
 		this.element = eAdElement;
+	}
+
+	@Override
+	public String getId() {
+		return varDef.getId() + "_variable";
+	}
+
+	@Override
+	public EAdElement copy() {
+		// TODO copy var
+		return null;
+	}
+
+	@Override
+	public EAdElement copy(boolean deepCopy) {
+		// TODO copy var
+		return null;
 	}
 
 }

@@ -69,8 +69,6 @@ public abstract class EAdGeneralElementImpl extends EAdElementImpl implements EA
 	 */
 	protected EAdList<EAdEvent> events;
 
-//	private static final Logger logger = LoggerFactory
-//			.getLogger(AbstractEAdElement.class);
 	private static final Logger logger = Logger.getLogger("AbstractEAdElement");
 
 	/**

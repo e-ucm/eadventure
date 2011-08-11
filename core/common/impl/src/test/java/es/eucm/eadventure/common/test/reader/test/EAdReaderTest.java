@@ -68,7 +68,7 @@ public class EAdReaderTest extends TestCase {
 		Injector injector = Guice.createInjector( new ConfigurationModule( ) );
 		reader = injector.getInstance( EAdAdventureModelReader.class );
 
-		f = new File( "src/test/resources/testAdventure2.xml" );
+		f = new File( "src/test/resources/result.xml" );
 	}
 
 	public class ConfigurationModule extends AbstractModule {
