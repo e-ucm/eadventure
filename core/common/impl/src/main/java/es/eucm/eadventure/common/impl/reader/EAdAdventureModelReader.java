@@ -56,7 +56,7 @@ import com.google.inject.Inject;
 
 import es.eucm.eadventure.common.Reader;
 import es.eucm.eadventure.common.impl.reader.subparsers.AdventureHandler;
-import es.eucm.eadventure.common.model.EAdAdventureModel;
+import es.eucm.eadventure.common.model.elements.EAdAdventureModel;
 
 /**
  * The reader for the XML representation of the model

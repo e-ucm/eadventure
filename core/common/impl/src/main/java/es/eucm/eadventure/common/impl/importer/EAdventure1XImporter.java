@@ -52,7 +52,7 @@ import es.eucm.eadventure.common.impl.importer.interfaces.ResourceImporter;
 import es.eucm.eadventure.common.impl.writer.EAdAdventureModelWriter;
 import es.eucm.eadventure.common.loader.Loader;
 import es.eucm.eadventure.common.loader.incidences.Incidence;
-import es.eucm.eadventure.common.model.EAdAdventureModel;
+import es.eucm.eadventure.common.model.elements.EAdAdventureModel;
 
 /**
  * An importer for old games from 1.x version

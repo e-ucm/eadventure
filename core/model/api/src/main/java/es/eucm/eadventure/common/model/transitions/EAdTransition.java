@@ -35,10 +35,10 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package es.eucm.eadventure.common.model;
+package es.eucm.eadventure.common.model.transitions;
 
-import es.eucm.eadventure.common.model.elements.EAdGeneralElement;
+public enum EAdTransition {
 
-public interface EAdInventory extends EAdGeneralElement {
-
+	BASIC, DISPLACE
+	
 }

@@ -40,12 +40,14 @@ package es.eucm.eadventure.common.model.impl;
 import es.eucm.eadventure.common.interfaces.CopyNotSupportedException;
 import es.eucm.eadventure.common.interfaces.Element;
 import es.eucm.eadventure.common.interfaces.Param;
-import es.eucm.eadventure.common.model.EAdAdventureModel;
-import es.eucm.eadventure.common.model.EAdChapter;
-import es.eucm.eadventure.common.model.EAdInventory;
+import es.eucm.eadventure.common.model.elements.EAdAdventureModel;
+import es.eucm.eadventure.common.model.elements.EAdChapter;
+import es.eucm.eadventure.common.model.elements.EAdInventory;
 import es.eucm.eadventure.common.model.extra.EAdList;
 import es.eucm.eadventure.common.model.extra.impl.EAdListImpl;
 import es.eucm.eadventure.common.model.impl.inventory.EAdBasicInventory;
+import es.eucm.eadventure.common.model.variables.EAdElementVars;
+import es.eucm.eadventure.common.model.variables.impl.EAdElementVarsImpl;
 import es.eucm.eadventure.common.resources.EAdString;
 
 /**
@@ -70,12 +72,15 @@ public class EAdAdventureModelImpl implements EAdAdventureModel {
 	@Param("inventory")
 	private EAdInventory inventory;
 	
+	private EAdElementVars vars;
+	
 	/**
 	 * Constructs a {@link EAdAdventureModelImpl}.
 	 */
 	public EAdAdventureModelImpl() {
 		chapters = new EAdListImpl<EAdChapter>(EAdChapter.class);
 		inventory = new EAdBasicInventory();
+		vars = new EAdElementVarsImpl(this);
 	}
 	
 	public EAdList<EAdChapter> getChapters() {
@@ -153,6 +158,11 @@ public class EAdAdventureModelImpl implements EAdAdventureModel {
 	
 	public void setInventory(EAdInventory inventory) {
 		this.inventory = inventory;
+	}
+
+	@Override
+	public EAdElementVars getVars() {
+		return vars;
 	}
 	
 }

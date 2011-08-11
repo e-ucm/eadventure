@@ -39,7 +39,7 @@ package es.eucm.eadventure.engine.core.gameobjects.impl.inventory;
 
 import com.google.inject.Inject;
 
-import es.eucm.eadventure.common.model.EAdInventory;
+import es.eucm.eadventure.common.model.elements.EAdInventory;
 import es.eucm.eadventure.common.resources.StringHandler;
 import es.eucm.eadventure.engine.core.GameState;
 import es.eucm.eadventure.engine.core.ValueMap;

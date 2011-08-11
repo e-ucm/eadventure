@@ -40,7 +40,7 @@ package es.eucm.eadventure.common.model.effects.impl;
 import es.eucm.eadventure.common.interfaces.Element;
 import es.eucm.eadventure.common.interfaces.Param;
 import es.eucm.eadventure.common.model.elements.EAdScene;
-import es.eucm.eadventure.common.model.elements.EAdTransition;
+import es.eucm.eadventure.common.model.transitions.EAdTransition;
 
 /**
  * <p>Change the current scene, if the next scene is set to null, go to

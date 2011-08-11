@@ -98,8 +98,6 @@ import es.eucm.eadventure.common.impl.importer.subimporters.conditions.VarCondit
 import es.eucm.eadventure.common.impl.importer.subimporters.effects.EffectsImporterModule;
 import es.eucm.eadventure.common.impl.importer.subimporters.macros.MacroImporter;
 import es.eucm.eadventure.common.loader.InputStreamCreator;
-import es.eucm.eadventure.common.model.EAdAdventureModel;
-import es.eucm.eadventure.common.model.EAdChapter;
 import es.eucm.eadventure.common.model.actions.EAdAction;
 import es.eucm.eadventure.common.model.conditions.impl.FlagCondition;
 import es.eucm.eadventure.common.model.conditions.impl.VarCondition;
@@ -110,6 +108,8 @@ import es.eucm.eadventure.common.model.effects.impl.text.EAdShowQuestion;
 import es.eucm.eadventure.common.model.effects.impl.text.EAdShowText;
 import es.eucm.eadventure.common.model.elements.EAdActor;
 import es.eucm.eadventure.common.model.elements.EAdActorReference;
+import es.eucm.eadventure.common.model.elements.EAdAdventureModel;
+import es.eucm.eadventure.common.model.elements.EAdChapter;
 import es.eucm.eadventure.common.model.elements.EAdCondition;
 import es.eucm.eadventure.common.model.elements.EAdSceneElement;
 import es.eucm.eadventure.common.model.elements.EAdTimer;

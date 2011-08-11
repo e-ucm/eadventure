@@ -37,8 +37,51 @@
 
 package es.eucm.eadventure.common.model.elements;
 
-public enum EAdTransition {
+import es.eucm.eadventure.common.interfaces.features.Variabled;
+import es.eucm.eadventure.common.model.EAdElement;
+import es.eucm.eadventure.common.model.extra.EAdList;
+import es.eucm.eadventure.common.resources.EAdString;
 
-	BASIC, DISPLACE
+/**
+ * Interface for an eAdventure game static model.
+ */
+public interface EAdAdventureModel extends EAdElement, Variabled {
+
+	/**
+	 * Available player modes
+	 */
+	enum PlayerMode { FIRST_PERSON, THIRD_PERSON };
+
+	/**
+	 * @param playerMode the playerMode to set
+	 */
+	void setPlayerMode(PlayerMode playerMode);
 	
+	/**
+	 * @return the player mode
+	 */
+	PlayerMode getPlayerMode();
+	
+	/**
+	 * Returns the chapters of the adventures.
+	 * 
+	 * @return the chapters in the adventure
+	 */
+	EAdList<EAdChapter> getChapters();
+
+	/**
+	 * @return the inventory used in this adventure
+	 */
+	EAdInventory getInventory();
+	
+	/**
+	 * @return the description of the adventure
+	 */
+	EAdString getDescription();
+
+	/**
+	 * @return the title of the adventure
+	 */
+	EAdString getTitle();
+
 }

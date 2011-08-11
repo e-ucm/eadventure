@@ -39,7 +39,7 @@ package es.eucm.eadventure.editor.control;
 
 import java.util.Locale;
 
-import es.eucm.eadventure.common.model.EAdAdventureModel;
+import es.eucm.eadventure.common.model.elements.EAdAdventureModel;
 
 /**
  * Game editor controller.

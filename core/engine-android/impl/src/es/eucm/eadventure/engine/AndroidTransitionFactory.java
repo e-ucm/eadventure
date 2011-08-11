@@ -40,7 +40,7 @@ package es.eucm.eadventure.engine;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
 
-import es.eucm.eadventure.common.model.elements.EAdTransition;
+import es.eucm.eadventure.common.model.transitions.EAdTransition;
 import es.eucm.eadventure.engine.core.gameobjects.TransitionGO;
 import es.eucm.eadventure.engine.core.gameobjects.impl.transitions.SimpleTransitionGO;
 import es.eucm.eadventure.engine.core.platform.TransitionFactory;

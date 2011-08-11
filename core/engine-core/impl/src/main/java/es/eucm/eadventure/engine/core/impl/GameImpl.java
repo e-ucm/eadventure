@@ -45,8 +45,8 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 import es.eucm.eadventure.common.interfaces.features.Conditioned;
-import es.eucm.eadventure.common.model.EAdAdventureModel;
-import es.eucm.eadventure.common.model.EAdChapter;
+import es.eucm.eadventure.common.model.elements.EAdAdventureModel;
+import es.eucm.eadventure.common.model.elements.EAdChapter;
 import es.eucm.eadventure.common.model.elements.EAdTimer;
 import es.eucm.eadventure.common.model.impl.EAdAdventureModelImpl;
 import es.eucm.eadventure.common.model.impl.EAdChapterImpl;

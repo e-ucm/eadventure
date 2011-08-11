@@ -45,8 +45,8 @@ import es.eucm.eadventure.common.interfaces.Copyable;
 public interface EAdElement extends Copyable<EAdElement> {
 
 	/**
-	 * Get an id of the element. Keep in mind that is not an unique id. It's
-	 * just a name used in for debugging purposes
+	 * Get an id of the element. Keep in mind that it's not an unique id. It's
+	 * just a name used for debugging purposes
 	 * 
 	 * @return
 	 */

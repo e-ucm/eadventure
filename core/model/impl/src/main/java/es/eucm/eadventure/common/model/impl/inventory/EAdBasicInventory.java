@@ -38,7 +38,7 @@
 package es.eucm.eadventure.common.model.impl.inventory;
 
 import es.eucm.eadventure.common.interfaces.Element;
-import es.eucm.eadventure.common.model.EAdInventory;
+import es.eucm.eadventure.common.model.elements.EAdInventory;
 import es.eucm.eadventure.common.model.impl.EAdGeneralElementImpl;
 
 @Element(detailed = EAdBasicInventory.class, runtime = EAdBasicInventory.class)

@@ -35,62 +35,60 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package es.eucm.eadventure.common.model;
+package es.eucm.eadventure.common.model.elements;
 
-import es.eucm.eadventure.common.model.elements.EAdActor;
-import es.eucm.eadventure.common.model.elements.EAdGeneralElement;
-import es.eucm.eadventure.common.model.elements.EAdScene;
-import es.eucm.eadventure.common.model.elements.EAdTimer;
+import es.eucm.eadventure.common.interfaces.features.Variabled;
 import es.eucm.eadventure.common.model.extra.EAdList;
 import es.eucm.eadventure.common.resources.EAdString;
 import es.eucm.eadventure.common.resources.annotation.Asset;
 import es.eucm.eadventure.common.resources.annotation.Bundled;
 import es.eucm.eadventure.common.resources.assets.multimedia.Sound;
 
-public interface EAdChapter extends EAdGeneralElement {
-	
+public interface EAdChapter extends EAdGeneralElement, Variabled {
+
 	@Bundled
-	@Asset({Sound.class})
+	@Asset({ Sound.class })
 	final static String music = "music";
 
 	/**
-	 * Returns the scenes of the game.
+	 * Returns the scenes of the chapter.
 	 * 
-	 * @return the scenes of the game.
+	 * @return the scenes of the chapter.
 	 */
 	EAdList<EAdScene> getScenes();
-	
+
 	/**
-	 * Returns actors of the game.
+	 * Returns actors of the chapter.
 	 * 
-	 * @return the actors of the game.
+	 * @return the actors of the chapter.
 	 */
 	EAdList<EAdActor> getActors();
-	
+
 	/**
-	 * Returns the timers of the game.
+	 * Returns the timers of the chapter.
 	 * 
-	 * @return the timers of the game.
+	 * @return the timers of the chapter.
 	 */
 	EAdList<EAdTimer> getTimers();
-	
+
 	/**
 	 * @return The title of the chapter
 	 */
 	EAdString getTitle();
-	
+
 	/**
 	 * @return The description of the chapter
 	 */
 	EAdString getDescription();
-	
+
 	/**
 	 * @return The first screen in the game
 	 */
 	EAdScene getInitialScreen();
-	
+
 	/**
-	 * @return The loading screen, to be used in place of the defautl when possible
+	 * @return The loading screen, to be used in place of the default when
+	 *         possible
 	 */
 	EAdScene getLoadingScreen();
 

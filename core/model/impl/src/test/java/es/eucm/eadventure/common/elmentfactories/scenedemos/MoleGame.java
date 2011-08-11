@@ -37,6 +37,7 @@ public class MoleGame extends EmptyScene {
 						getMole(200 * i + margin, 200 * j + margin));
 
 			}
+		
 	}
 
 	private EAdSceneElement getHole(int x, int y) {
@@ -64,7 +65,7 @@ public class MoleGame extends EmptyScene {
 						mole.getVars().getVar(EAdSceneElementVars.VAR_VISIBLE),
 						BooleanOperation.FALSE_OP);
 		
-		mole.addBehavior(EAdMouseEventImpl.MOUSE_LEFT_CLICK, effect);
+		mole.addBehavior(EAdMouseEventImpl.MOUSE_PRESSED, effect);
 		
 		return mole;
 

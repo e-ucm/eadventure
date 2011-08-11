@@ -46,7 +46,7 @@ import es.eucm.eadventure.common.data.chapter.scenes.Slidescene;
 import es.eucm.eadventure.common.data.chapter.scenes.Videoscene;
 import es.eucm.eadventure.common.impl.importer.interfaces.EAdElementFactory;
 import es.eucm.eadventure.common.impl.importer.interfaces.ResourceImporter;
-import es.eucm.eadventure.common.model.EAdChapter;
+import es.eucm.eadventure.common.model.elements.EAdChapter;
 import es.eucm.eadventure.common.model.elements.EAdCondition;
 import es.eucm.eadventure.common.model.elements.EAdScene;
 import es.eucm.eadventure.common.model.elements.impl.EAdVideoScene;

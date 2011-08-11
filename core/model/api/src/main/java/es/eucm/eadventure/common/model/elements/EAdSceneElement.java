@@ -37,12 +37,12 @@
 
 package es.eucm.eadventure.common.model.elements;
 
+import es.eucm.eadventure.common.interfaces.features.Variabled;
 import es.eucm.eadventure.common.model.effects.EAdEffect;
 import es.eucm.eadventure.common.model.extra.EAdList;
 import es.eucm.eadventure.common.model.guievents.EAdGUIEvent;
-import es.eucm.eadventure.common.model.variables.EAdElementVars;
 
-public interface EAdSceneElement extends EAdGeneralElement {
+public interface EAdSceneElement extends EAdGeneralElement, Variabled {
 
 	/**
 	 * Returns the effects list associated with the given GUI event,
@@ -63,13 +63,6 @@ public interface EAdSceneElement extends EAdGeneralElement {
 	 * @return if this element must be cloned whenever is added to the game
 	 */
 	boolean isClone();
-
-	/**
-	 * Returns the container for all variables of this scene element
-	 * 
-	 * @return
-	 */
-	EAdElementVars getVars();
 
 	/**
 	 * An enumerate with common states for scene elements
