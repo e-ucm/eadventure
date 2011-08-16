@@ -140,4 +140,9 @@ public class EAdBasicSceneElement extends AbstractEAdElementWithBehavior
 		return vars;
 	}
 
+	@Override
+	public EAdPosition getPosition() {
+		return vars.getVar(EAdSceneElementVars.VAR_POSITION).getInitialValue();
+	}
+
 }

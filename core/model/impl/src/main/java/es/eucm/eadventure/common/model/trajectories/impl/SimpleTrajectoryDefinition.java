@@ -39,6 +39,7 @@ package es.eucm.eadventure.common.model.trajectories.impl;
 
 import es.eucm.eadventure.common.interfaces.Element;
 import es.eucm.eadventure.common.interfaces.Param;
+import es.eucm.eadventure.common.model.impl.EAdElementImpl;
 import es.eucm.eadventure.common.model.trajectories.TrajectoryDefinition;
 
 /**
@@ -47,7 +48,7 @@ import es.eucm.eadventure.common.model.trajectories.TrajectoryDefinition;
  * 
  */
 @Element(runtime = SimpleTrajectoryDefinition.class, detailed = SimpleTrajectoryDefinition.class)
-public class SimpleTrajectoryDefinition implements TrajectoryDefinition {
+public class SimpleTrajectoryDefinition extends EAdElementImpl implements TrajectoryDefinition {
 
 	@Param("onlyHorizontal")
 	private boolean onlyHorizontal;

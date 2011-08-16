@@ -69,6 +69,7 @@ import es.eucm.eadventure.common.model.events.EAdSceneElementEvent;
 import es.eucm.eadventure.common.model.events.EAdSceneElementEvent.SceneElementEvent;
 import es.eucm.eadventure.common.model.events.impl.EAdSceneElementEventImpl;
 import es.eucm.eadventure.common.model.guievents.impl.EAdMouseEventImpl;
+import es.eucm.eadventure.common.model.trajectories.impl.NodeTrajectoryDefinition;
 import es.eucm.eadventure.common.model.trajectories.impl.SimpleTrajectoryDefinition;
 import es.eucm.eadventure.common.params.geom.impl.EAdPositionImpl;
 import es.eucm.eadventure.common.resources.EAdString;
@@ -104,6 +105,16 @@ public class SceneImporter implements EAdElementImporter<Scene, EAdSceneImpl> {
 	private EAdElementImporter<Exit, EAdSceneElement> exitsImporter;
 
 	/**
+	 * Trajectory importer
+	 */
+	private EAdElementImporter<Trajectory, NodeTrajectoryDefinition> trajectoryImporter;
+
+	/**
+	 * Barrier importer
+	 */
+	private EAdElementImporter<Barrier, EAdSceneElement> barrierImporter;
+
+	/**
 	 * Active areas importer
 	 */
 	private EAdElementImporter<ActiveArea, EAdSceneElement> activeAreasImporter;
@@ -118,48 +129,52 @@ public class SceneImporter implements EAdElementImporter<Scene, EAdSceneImpl> {
 			EAdElementImporter<ElementReference, EAdActorReference> referencesImporter,
 			EAdElementImporter<ActiveArea, EAdSceneElement> activeAreasImporter,
 			EAdElementFactory factory,
-			EAdElementImporter<Exit, EAdSceneElement> exitsImporter) {
+			EAdElementImporter<Exit, EAdSceneElement> exitsImporter,
+			EAdElementImporter<Trajectory, NodeTrajectoryDefinition> trajectoryImporter,
+			EAdElementImporter<Barrier, EAdSceneElement> barrierImporter) {
 		this.stringHandler = stringHandler;
 		this.resourceImporter = resourceImporter;
 		this.exitsImporter = exitsImporter;
 		this.referencesImporter = referencesImporter;
 		this.activeAreasImporter = activeAreasImporter;
+		this.trajectoryImporter = trajectoryImporter;
+		this.barrierImporter = barrierImporter;
 		this.factory = factory;
 	}
 
 	@Override
 	public EAdSceneImpl init(Scene oldScene) {
-		EAdSceneImpl space = new EAdSceneImpl(oldScene.getId());
-		return space;
+		EAdSceneImpl scene = new EAdSceneImpl(oldScene.getId());
+		return scene;
 	}
 
 	@Override
 	public EAdSceneImpl convert(Scene oldScene, Object object) {
 		EAdChapter chapter = factory.getCurrentChapterModel();
-		EAdSceneImpl space = (EAdSceneImpl) object;
-		chapter.getScenes().add(space);
+		EAdSceneImpl scene = (EAdSceneImpl) object;
+		chapter.getScenes().add(scene);
 
-		importDocumentation(space, oldScene);
-		importResources(space, oldScene, chapter);
-		importSceneElements(space, oldScene, chapter);
+		importDocumentation(scene, oldScene);
+		importResources(scene, oldScene, chapter);
+		importSceneElements(scene, oldScene, chapter);
 
-		return space;
+		return scene;
 	}
 
-	private void importSceneElements(EAdSceneImpl space, Scene oldScene,
+	private void importSceneElements(EAdSceneImpl scene, Scene oldScene,
 			EAdChapter chapter) {
-		importExits(space, oldScene.getExits());
-		importAciveAreas(space, oldScene.getActiveAreas());
-		importBarriers(space, oldScene.getBarriers());
-		importTrajectory(space, oldScene.getTrajectory());
-		importReferences(space, oldScene.getItemReferences(), chapter);
-		importReferences(space, oldScene.getAtrezzoReferences(), chapter);
-		importReferences(space, oldScene.getCharacterReferences(), chapter);
-		addPlayer(space, oldScene, chapter);
+		importExits(scene, oldScene.getExits());
+		importAciveAreas(scene, oldScene.getActiveAreas());
+		importTrajectory(scene, oldScene.getTrajectory(),
+				oldScene.getBarriers());
+		importReferences(scene, oldScene.getItemReferences(), chapter);
+		importReferences(scene, oldScene.getAtrezzoReferences(), chapter);
+		importReferences(scene, oldScene.getCharacterReferences(), chapter);
+		addPlayer(scene, oldScene, chapter);
 
 	}
 
-	private void addPlayer(EAdSceneImpl space, Scene oldScene,
+	private void addPlayer(EAdSceneImpl scene, Scene oldScene,
 			EAdChapter chapter) {
 		if (factory.isFirstPerson()) {
 
@@ -169,7 +184,8 @@ public class SceneImporter implements EAdElementImporter<Scene, EAdSceneImpl> {
 			EAdActorReferenceImpl playerReference = new EAdActorReferenceImpl(
 					player.getId() + "_reference");
 			playerReference.setReferencedActor(player);
-			EAdPositionImpl p = new EAdPositionImpl(EAdPositionImpl.Corner.BOTTOM_CENTER,
+			EAdPositionImpl p = new EAdPositionImpl(
+					EAdPositionImpl.Corner.BOTTOM_CENTER,
 					oldScene.getPositionX(), oldScene.getPositionY());
 			playerReference.setPosition(p);
 			playerReference.setScale(oldScene.getPlayerScale());
@@ -184,58 +200,69 @@ public class SceneImporter implements EAdElementImporter<Scene, EAdSceneImpl> {
 			event.addEffect(SceneElementEvent.ADDED_TO_SCENE, effect);
 			playerReference.getEvents().add(event);
 
-			space.getSceneElements().add(playerReference);
+			scene.getSceneElements().add(playerReference);
 
-			space.setTrajectoryGenerator(new SimpleTrajectoryDefinition(false));
+			scene.setTrajectoryGenerator(new SimpleTrajectoryDefinition(false));
 
-			space.getBackground().addBehavior(
+			scene.getBackground().addBehavior(
 					EAdMouseEventImpl.MOUSE_LEFT_CLICK,
 					new EAdMoveActiveElement("moveCharacter"));
 		}
 
 	}
 
-	private void importTrajectory(EAdSceneImpl space, Trajectory trajectory) {
-		// TODO Import trajectory
+	private void importTrajectory(EAdSceneImpl scene, Trajectory trajectory,
+			List<Barrier> barriers) {
+		if (trajectory == null) {
+			scene.setTrajectoryGenerator(new SimpleTrajectoryDefinition( true ));
+		} else {
+			NodeTrajectoryDefinition nodeDef = trajectoryImporter
+					.init(trajectory);
+			nodeDef = trajectoryImporter.convert(trajectory, nodeDef);
+			scene.setTrajectoryGenerator(nodeDef);
+
+			for (Barrier b : barriers) {
+				EAdSceneElement barrier = barrierImporter.init(b);
+				barrier = barrierImporter.convert(b, barrier);
+
+				nodeDef.addBarrier(barrier);
+				scene.getSceneElements().add(barrier);
+			}
+		}
 
 	}
 
-	private void importBarriers(EAdSceneImpl space, List<Barrier> barriers) {
-		// TODO Import barriers
-
-	}
-
-	private void importAciveAreas(EAdSceneImpl space, List<ActiveArea> list) {
+	private void importAciveAreas(EAdSceneImpl scene, List<ActiveArea> list) {
 		for (ActiveArea a : list) {
 			EAdSceneElement se = activeAreasImporter.init(a);
 			se = activeAreasImporter.convert(a, se);
 			if (se != null)
-				space.getSceneElements().add(se);
+				scene.getSceneElements().add(se);
 		}
 
 	}
 
-	private void importExits(EAdSceneImpl space, List<Exit> list) {
+	private void importExits(EAdSceneImpl scene, List<Exit> list) {
 		for (Exit e : list) {
 			EAdSceneElement se = exitsImporter.init(e);
 			se = exitsImporter.convert(e, se);
 			if (se != null)
-				space.getSceneElements().add(se);
+				scene.getSceneElements().add(se);
 		}
 
 	}
 
-	private void importReferences(EAdSceneImpl space,
+	private void importReferences(EAdSceneImpl scene,
 			List<ElementReference> references, EAdChapter chapter) {
 		for (ElementReference oldRef : references) {
 			EAdActorReference newRef = referencesImporter.init(oldRef);
 			newRef = referencesImporter.convert(oldRef, newRef);
-			space.getSceneElements().add(newRef);
+			scene.getSceneElements().add(newRef);
 		}
 
 	}
 
-	private void importResources(EAdSceneImpl space, Scene oldScene,
+	private void importResources(EAdSceneImpl scene, Scene oldScene,
 			EAdChapter chapter) {
 
 		// FIXME Scene.RESOURCE_TYPE_FOREGROUND, Scene.RESOURCE_TYPE_HARDMAP
@@ -248,7 +275,7 @@ public class SceneImporter implements EAdElementImporter<Scene, EAdSceneImpl> {
 		Map<String, Object> resourcesClasses = new HashMap<String, Object>();
 		resourcesClasses.put(Scene.RESOURCE_TYPE_BACKGROUND, ImageImpl.class);
 
-		resourceImporter.importResources(space.getBackground(),
+		resourceImporter.importResources(scene.getBackground(),
 				oldScene.getResources(), resourcesStrings, resourcesClasses);
 
 		for (Resources r : oldScene.getResources()) {
@@ -266,12 +293,12 @@ public class SceneImporter implements EAdElementImporter<Scene, EAdSceneImpl> {
 
 	}
 
-	private void importDocumentation(EAdSceneImpl space, Scene oldScene) {
-		space.setName(new EAdString(stringHandler.getUniqueId()));
-		stringHandler.addString(space.getName(), oldScene.getName());
+	private void importDocumentation(EAdSceneImpl scene, Scene oldScene) {
+		scene.setName(new EAdString(stringHandler.getUniqueId()));
+		stringHandler.addString(scene.getName(), oldScene.getName());
 
-		space.setDocumentation(new EAdString(stringHandler.getUniqueId()));
-		stringHandler.addString(space.getDocumentation(),
+		scene.setDocumentation(new EAdString(stringHandler.getUniqueId()));
+		stringHandler.addString(scene.getDocumentation(),
 				oldScene.getDocumentation());
 	}
 

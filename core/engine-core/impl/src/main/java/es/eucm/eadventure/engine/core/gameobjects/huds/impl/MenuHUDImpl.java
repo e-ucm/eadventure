@@ -42,6 +42,7 @@ import java.util.logging.Logger;
 import com.google.inject.Inject;
 
 import es.eucm.eadventure.common.model.guievents.EAdKeyEvent.KeyCode;
+import es.eucm.eadventure.common.params.geom.EAdPosition;
 import es.eucm.eadventure.common.params.geom.impl.EAdPositionImpl;
 import es.eucm.eadventure.engine.core.GameState;
 import es.eucm.eadventure.engine.core.MouseState;
@@ -137,6 +138,11 @@ public abstract class MenuHUDImpl implements MenuHUD {
 	@Override
 	public EAdPositionImpl getPosition() {
 		return null;
+	}
+	
+	@Override
+	public void setPosition( EAdPosition position ){
+		
 	}
 
 	/*

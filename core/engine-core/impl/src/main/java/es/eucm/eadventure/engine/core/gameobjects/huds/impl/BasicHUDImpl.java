@@ -45,6 +45,7 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 import es.eucm.eadventure.common.model.guievents.EAdKeyEvent.KeyCode;
+import es.eucm.eadventure.common.params.geom.EAdPosition;
 import es.eucm.eadventure.common.params.geom.impl.EAdPositionImpl;
 import es.eucm.eadventure.engine.core.Game;
 import es.eucm.eadventure.engine.core.GameState;
@@ -159,6 +160,11 @@ public class BasicHUDImpl implements BasicHUD<Void> {
 	public List<RuntimeAsset<?>> getAssets(List<RuntimeAsset<?>> assetList,
 			boolean allAssets) {
 		return assetList;
+	}
+
+	@Override
+	public void setPosition(EAdPosition p) {
+		
 	}
 
 }

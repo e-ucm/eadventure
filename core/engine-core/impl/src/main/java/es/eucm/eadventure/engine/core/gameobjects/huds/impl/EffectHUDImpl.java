@@ -42,6 +42,7 @@ import java.util.logging.Logger;
 
 import com.google.inject.Inject;
 
+import es.eucm.eadventure.common.params.geom.EAdPosition;
 import es.eucm.eadventure.common.params.geom.impl.EAdPositionImpl;
 import es.eucm.eadventure.engine.core.GameState;
 import es.eucm.eadventure.engine.core.MouseState;
@@ -174,6 +175,11 @@ public class EffectHUDImpl implements EffectHUD {
 	public List<RuntimeAsset<?>> getAssets(List<RuntimeAsset<?>> assetList,
 			boolean allAssets) {
 		return assetList;
+	}
+
+	@Override
+	public void setPosition(EAdPosition p) {
+		
 	}
 
 }

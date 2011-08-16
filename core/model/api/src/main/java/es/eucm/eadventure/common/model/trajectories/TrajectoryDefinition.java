@@ -37,10 +37,12 @@
 
 package es.eucm.eadventure.common.model.trajectories;
 
+import es.eucm.eadventure.common.model.EAdElement;
+
 /**
  * General interface for trajectory definitions. 
  * 
  */
-public interface TrajectoryDefinition {
+public interface TrajectoryDefinition extends EAdElement {
 
 }

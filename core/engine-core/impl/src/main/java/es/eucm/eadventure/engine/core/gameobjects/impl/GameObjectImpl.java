@@ -18,7 +18,8 @@ import es.eucm.eadventure.engine.core.platform.GUI;
 import es.eucm.eadventure.engine.core.platform.PlatformConfiguration;
 import es.eucm.eadventure.engine.core.platform.RuntimeAsset;
 
-public abstract class GameObjectImpl<T extends EAdElement> implements GameObject<T> {
+public abstract class GameObjectImpl<T extends EAdElement> implements
+		GameObject<T> {
 	/**
 	 * The game's asset handler
 	 */
@@ -40,7 +41,7 @@ public abstract class GameObjectImpl<T extends EAdElement> implements GameObject
 	protected PlatformConfiguration platformConfiguration;
 
 	protected T element;
-	
+
 	@Inject
 	public GameObjectImpl(AssetHandler assetHandler,
 			StringHandler stringHandler, GameObjectFactory gameObjectFactory,
@@ -54,17 +55,17 @@ public abstract class GameObjectImpl<T extends EAdElement> implements GameObject
 		this.valueMap = valueMap;
 		this.platformConfiguration = platformConfiguration;
 	}
-	
+
 	@Override
 	public void setElement(T element) {
 		this.element = element;
 	}
-	
+
 	@Override
 	public T getElement() {
 		return element;
 	}
-	
+
 	@Override
 	public GameObject<?> getDraggableElement(MouseState mouseState) {
 		// Implemented by inherited classes
@@ -76,23 +77,28 @@ public abstract class GameObjectImpl<T extends EAdElement> implements GameObject
 		// Implemented by inherited classes
 
 	}
-	
+
 	@Override
 	public EAdPosition getPosition() {
 		// Implemented by inherited classes
 		return null;
 	}
-	
+
+	@Override
+	public void setPosition(EAdPosition p) {
+		// Implemented by inherited classes
+	}
+
 	@Override
 	public void update(GameState state) {
-	
+
 	}
-	
+
 	@Override
 	public boolean processAction(GUIAction action) {
 		return false;
 	}
-	
+
 	@Override
 	public List<RuntimeAsset<?>> getAssets(List<RuntimeAsset<?>> assetList,
 			boolean allAssets) {

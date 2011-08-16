@@ -37,12 +37,13 @@
 
 package es.eucm.eadventure.common.model.elements;
 
+import es.eucm.eadventure.common.interfaces.features.Positioned;
 import es.eucm.eadventure.common.interfaces.features.Variabled;
 import es.eucm.eadventure.common.model.effects.EAdEffect;
 import es.eucm.eadventure.common.model.extra.EAdList;
 import es.eucm.eadventure.common.model.guievents.EAdGUIEvent;
 
-public interface EAdSceneElement extends EAdGeneralElement, Variabled {
+public interface EAdSceneElement extends EAdGeneralElement, Variabled, Positioned {
 
 	/**
 	 * Returns the effects list associated with the given GUI event,

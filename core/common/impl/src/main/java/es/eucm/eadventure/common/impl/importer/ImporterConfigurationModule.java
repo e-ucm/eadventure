@@ -51,6 +51,7 @@ import es.eucm.eadventure.common.data.chapter.Chapter;
 import es.eucm.eadventure.common.data.chapter.ElementReference;
 import es.eucm.eadventure.common.data.chapter.Exit;
 import es.eucm.eadventure.common.data.chapter.Timer;
+import es.eucm.eadventure.common.data.chapter.Trajectory;
 import es.eucm.eadventure.common.data.chapter.conditions.Conditions;
 import es.eucm.eadventure.common.data.chapter.conversation.Conversation;
 import es.eucm.eadventure.common.data.chapter.conversation.GraphConversation;
@@ -60,6 +61,7 @@ import es.eucm.eadventure.common.data.chapter.conversation.node.OptionConversati
 import es.eucm.eadventure.common.data.chapter.effects.Macro;
 import es.eucm.eadventure.common.data.chapter.elements.ActiveArea;
 import es.eucm.eadventure.common.data.chapter.elements.Atrezzo;
+import es.eucm.eadventure.common.data.chapter.elements.Barrier;
 import es.eucm.eadventure.common.data.chapter.elements.Item;
 import es.eucm.eadventure.common.data.chapter.elements.NPC;
 import es.eucm.eadventure.common.data.chapter.elements.Player;
@@ -89,9 +91,11 @@ import es.eucm.eadventure.common.impl.importer.subimporters.chapter.conversation
 import es.eucm.eadventure.common.impl.importer.subimporters.chapter.cutscene.SlidesceneImporter;
 import es.eucm.eadventure.common.impl.importer.subimporters.chapter.cutscene.VideosceneImporter;
 import es.eucm.eadventure.common.impl.importer.subimporters.chapter.scene.ActiveAreaImporter;
+import es.eucm.eadventure.common.impl.importer.subimporters.chapter.scene.BarrierImporter;
 import es.eucm.eadventure.common.impl.importer.subimporters.chapter.scene.ElementReferenceImporter;
 import es.eucm.eadventure.common.impl.importer.subimporters.chapter.scene.ExitImporter;
 import es.eucm.eadventure.common.impl.importer.subimporters.chapter.scene.SceneImporter;
+import es.eucm.eadventure.common.impl.importer.subimporters.chapter.scene.TrajectoryImporter;
 import es.eucm.eadventure.common.impl.importer.subimporters.conditions.ConditionsImporter;
 import es.eucm.eadventure.common.impl.importer.subimporters.conditions.FlagConditionImporter;
 import es.eucm.eadventure.common.impl.importer.subimporters.conditions.VarConditionImporter;
@@ -116,6 +120,7 @@ import es.eucm.eadventure.common.model.elements.EAdTimer;
 import es.eucm.eadventure.common.model.elements.impl.EAdSceneImpl;
 import es.eucm.eadventure.common.model.elements.impl.EAdVideoScene;
 import es.eucm.eadventure.common.model.elements.impl.extra.EAdCutscene;
+import es.eucm.eadventure.common.model.trajectories.impl.NodeTrajectoryDefinition;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.Caption;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.animation.Frame;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.animation.FramesAnimation;
@@ -230,6 +235,16 @@ public class ImporterConfigurationModule extends AbstractModule {
 				new TypeLiteral<EAdElementImporter<Timer, EAdTimer>>() {
 				}).to(TimerImporter.class);
 		EAdElementFactoryImpl.importerMap.put(Timer.class, TimerImporter.class);
+		
+		bind(
+				new TypeLiteral<EAdElementImporter<Trajectory, NodeTrajectoryDefinition>>() {
+				}).to(TrajectoryImporter.class);
+		EAdElementFactoryImpl.importerMap.put(Trajectory.class, TrajectoryImporter.class);
+		
+		bind(
+				new TypeLiteral<EAdElementImporter<Barrier, EAdSceneElement>>() {
+				}).to(BarrierImporter.class);
+		EAdElementFactoryImpl.importerMap.put(Barrier.class, BarrierImporter.class);
 
 
 		bind(ResourceImporter.class).to(ResourceImporterImpl.class);

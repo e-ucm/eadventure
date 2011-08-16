@@ -52,4 +52,12 @@ public interface Positioned {
 	 */
 	EAdPosition getPosition();
 
+	/**
+	 * Sets the position of the element
+	 * 
+	 * @param p
+	 *            the position of the element
+	 */
+	void setPosition(EAdPosition p);
+
 }

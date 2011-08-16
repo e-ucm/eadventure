@@ -43,6 +43,7 @@ import java.util.logging.Logger;
 import com.google.inject.Inject;
 
 import es.eucm.eadventure.common.model.actions.EAdAction;
+import es.eucm.eadventure.common.params.geom.EAdPosition;
 import es.eucm.eadventure.common.params.geom.impl.EAdPositionImpl;
 import es.eucm.eadventure.engine.core.GameState;
 import es.eucm.eadventure.engine.core.MouseState;
@@ -218,6 +219,12 @@ public class ActionsHUDImpl implements ActionsHUD {
 			boolean allAssets) {
 		//TODO
 		return assetList;
+	}
+
+	@Override
+	public void setPosition(EAdPosition p) {
+		
+		
 	}
 
 }
