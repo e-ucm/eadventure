@@ -52,8 +52,10 @@ import es.eucm.eadventure.common.model.impl.EAdAdventureModelImpl;
 import es.eucm.eadventure.common.model.impl.EAdChapterImpl;
 import es.eucm.eadventure.engine.core.Game;
 import es.eucm.eadventure.engine.core.GameState;
+import es.eucm.eadventure.engine.core.debuggers.EAdDebugger;
 import es.eucm.eadventure.engine.core.evaluators.EvaluatorFactory;
 import es.eucm.eadventure.engine.core.gameobjects.EffectGO;
+import es.eucm.eadventure.engine.core.gameobjects.GameObject;
 import es.eucm.eadventure.engine.core.gameobjects.GameObjectFactory;
 import es.eucm.eadventure.engine.core.gameobjects.GameObjectManager;
 import es.eucm.eadventure.engine.core.gameobjects.huds.BasicHUD;
@@ -88,6 +90,8 @@ public class GameImpl implements Game {
 	private GameObjectFactory gameObjectFactory;
 	
 	private GameObjectManager gameObjectManager;
+	
+	private EAdDebugger debugger;
 
 	@Inject
 	public GameImpl(GUI gui, EvaluatorFactory evaluatorFactory,
@@ -95,7 +99,8 @@ public class GameImpl implements Game {
 			AssetHandler assetHandler,
 			@SuppressWarnings("rawtypes") BasicHUD basicHud,
 			GameObjectFactory gameObjectFactory,
-			GameObjectManager gameObjectManager) {
+			GameObjectManager gameObjectManager,
+			EAdDebugger debugger) {
 		this.gui = gui;
 		this.evaluatorFactory = evaluatorFactory;
 		this.gameState = gameState;
@@ -108,6 +113,7 @@ public class GameImpl implements Game {
 		this.adventure.getChapters().add(new EAdChapterImpl(""));
 		this.gameObjectFactory = gameObjectFactory;
 		this.gameObjectManager = gameObjectManager;
+		this.debugger = debugger;
 	}
 
 	@Override
@@ -121,6 +127,10 @@ public class GameImpl implements Game {
 			
 			basicHud.update(gameState);
 			gui.addElement(basicHud, 0, 0);
+			
+			for ( GameObject<?> go: debugger.getGameObjects()){
+				gui.addElement(go, 0, 0);
+			}
 		}
 		gui.prepareGUI();
 	}

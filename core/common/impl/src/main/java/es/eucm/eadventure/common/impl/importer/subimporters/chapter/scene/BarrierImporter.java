@@ -15,6 +15,7 @@ import es.eucm.eadventure.common.model.events.impl.EAdConditionEventImpl;
 import es.eucm.eadventure.common.model.trajectories.impl.NodeTrajectoryDefinition;
 import es.eucm.eadventure.common.model.variables.EAdVar;
 import es.eucm.eadventure.common.model.variables.impl.operations.BooleanOperation;
+import es.eucm.eadventure.common.params.fills.impl.EAdColor;
 import es.eucm.eadventure.common.params.geom.impl.EAdPositionImpl;
 import es.eucm.eadventure.common.params.geom.impl.EAdPositionImpl.Corner;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.shapes.RectangleShape;
@@ -63,8 +64,8 @@ public class BarrierImporter implements
 			
 			barrier.getEvents().add(event);
 		}
-		
-		barrier.getResources().addAsset(barrier.getInitialBundle(), EAdBasicSceneElement.appearance, new RectangleShape( oldObject.getWidth(), oldObject.getHeight() ));
+		RectangleShape rectangle = new RectangleShape( oldObject.getWidth(), oldObject.getHeight() );
+		barrier.getResources().addAsset(barrier.getInitialBundle(), EAdBasicSceneElement.appearance, rectangle);
 		barrier.setPosition( new EAdPositionImpl( Corner.TOP_LEFT, oldObject.getX(), oldObject.getY()));
 
 		return barrier;

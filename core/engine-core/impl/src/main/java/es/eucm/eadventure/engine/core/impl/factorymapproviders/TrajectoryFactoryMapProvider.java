@@ -5,9 +5,11 @@ import java.util.Map;
 
 import com.google.inject.Inject;
 
+import es.eucm.eadventure.common.model.trajectories.impl.NodeTrajectoryDefinition;
 import es.eucm.eadventure.common.model.trajectories.impl.SimpleTrajectoryDefinition;
 import es.eucm.eadventure.engine.core.trajectories.TrajectoryFactory;
 import es.eucm.eadventure.engine.core.trajectories.TrajectoryGenerator;
+import es.eucm.eadventure.engine.core.trajectories.impl.NodeTrajectoryGenerator;
 import es.eucm.eadventure.engine.core.trajectories.impl.SimpleTrajectoryGenerator;
 
 public class TrajectoryFactoryMapProvider extends AbstractMapProvider<Class<?>, TrajectoryGenerator<?>> {
@@ -18,6 +20,7 @@ public class TrajectoryFactoryMapProvider extends AbstractMapProvider<Class<?>, 
 	public TrajectoryFactoryMapProvider(TrajectoryFactory trajectoryFactory) {
 		super();
 		factoryMap.put(SimpleTrajectoryDefinition.class, new SimpleTrajectoryGenerator());
+		factoryMap.put(NodeTrajectoryDefinition.class, new NodeTrajectoryGenerator());
 		factoryMap.putAll(tempMap);
 	}
 	

@@ -54,6 +54,8 @@ import es.eucm.eadventure.common.resources.EAdString;
 import es.eucm.eadventure.common.resources.StringHandler;
 import es.eucm.eadventure.common.resources.assets.impl.EAdURIImpl;
 import es.eucm.eadventure.engine.core.Game;
+import es.eucm.eadventure.engine.core.debuggers.impl.EAdMainDebugger;
+import es.eucm.eadventure.engine.core.debuggers.impl.TrajectoryDebugger;
 import es.eucm.eadventure.engine.core.impl.LoadingScreen;
 import es.eucm.eadventure.engine.core.impl.modules.BasicGameModule;
 import es.eucm.eadventure.engine.core.platform.AssetHandler;
@@ -97,6 +99,7 @@ public class ImportTestDesktopPlatformLauncher {
 	}
 
 	public static void main(String[] args) {
+		EAdMainDebugger.addDebugger(TrajectoryDebugger.class);
 
 		
 		// Default directory

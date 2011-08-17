@@ -94,7 +94,7 @@ public class EAdComposedScene extends EAdGeneralElementImpl implements EAdScene 
 	}
 
 	@Override
-	public TrajectoryDefinition getTrajectoryGenerator() {
+	public TrajectoryDefinition getTrajectoryDefinition() {
 		return null;
 	}
 

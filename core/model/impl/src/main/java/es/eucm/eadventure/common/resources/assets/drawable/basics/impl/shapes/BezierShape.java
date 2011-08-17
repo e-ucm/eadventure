@@ -45,10 +45,10 @@ import es.eucm.eadventure.common.params.fills.impl.EAdBorderedColor;
 import es.eucm.eadventure.common.params.geom.impl.EAdPositionImpl;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.Shape;
 
-public class BezierShape implements Shape {
+public class BezierShape implements Shape, Cloneable {
 
-	@Param("color")
-	private EAdFill color;
+	@Param("fill")
+	private EAdFill fill;
 
 	@Param("closed")
 	private boolean closed;
@@ -58,7 +58,9 @@ public class BezierShape implements Shape {
 	private EAdList<Integer> segmentsLength;
 
 	public BezierShape() {
-		color = EAdBorderedColor.TRANSPARENT;
+		points = new EAdListImpl<EAdPositionImpl>(EAdPositionImpl.class);
+		segmentsLength = new EAdListImpl<Integer>(Integer.class);
+		fill = EAdBorderedColor.TRANSPARENT;
 	}
 
 	public BezierShape(EAdPositionImpl startPoint) {
@@ -68,8 +70,6 @@ public class BezierShape implements Shape {
 	}
 
 	private void init(EAdPositionImpl startPoint) {
-		points = new EAdListImpl<EAdPositionImpl>(EAdPositionImpl.class);
-		segmentsLength = new EAdListImpl<Integer>(Integer.class);
 		points.add(startPoint);
 		closed = false;
 
@@ -93,11 +93,11 @@ public class BezierShape implements Shape {
 
 	@Override
 	public EAdFill getFill() {
-		return color;
+		return fill;
 	}
 
 	public void setFill(EAdFill color) {
-		this.color = (EAdFill) color;
+		this.fill = (EAdFill) color;
 	}
 
 	public void lineTo(EAdPositionImpl p) {
@@ -140,6 +140,22 @@ public class BezierShape implements Shape {
 
 	public void cubeTo(int x1, int y1, int x2, int y2) {
 		quadTo(new EAdPositionImpl(x1, y1), new EAdPositionImpl(x2, y2));
+	}
+	
+	public Object clone(){
+		BezierShape s = new BezierShape();
+		s.closed = closed;
+		for ( Integer i: segmentsLength ){
+			s.segmentsLength.add(new Integer(i.intValue()));
+		}
+		
+		for ( EAdPositionImpl p: points ){
+			s.points.add(new EAdPositionImpl( p.getX(), p.getY()));
+		}
+		
+		s.fill = fill;
+		
+		return s;
 	}
 
 }

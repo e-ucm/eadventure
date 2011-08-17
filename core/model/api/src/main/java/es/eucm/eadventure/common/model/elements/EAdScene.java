@@ -68,7 +68,7 @@ public interface EAdScene extends EAdGeneralElement {
 	 * Returns the trajectory generator for this scene
 	 * @return
 	 */
-	TrajectoryDefinition getTrajectoryGenerator( );
+	TrajectoryDefinition getTrajectoryDefinition( );
 
 	boolean acceptsVisualEffects();
 	

@@ -71,7 +71,9 @@ import es.eucm.eadventure.common.model.events.impl.EAdSceneElementEventImpl;
 import es.eucm.eadventure.common.model.guievents.impl.EAdMouseEventImpl;
 import es.eucm.eadventure.common.model.trajectories.impl.NodeTrajectoryDefinition;
 import es.eucm.eadventure.common.model.trajectories.impl.SimpleTrajectoryDefinition;
+import es.eucm.eadventure.common.model.variables.impl.extra.EAdSceneElementVars;
 import es.eucm.eadventure.common.params.geom.impl.EAdPositionImpl;
+import es.eucm.eadventure.common.params.geom.impl.EAdPositionImpl.Corner;
 import es.eucm.eadventure.common.resources.EAdString;
 import es.eucm.eadventure.common.resources.StringHandler;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.ImageImpl;
@@ -165,19 +167,19 @@ public class SceneImporter implements EAdElementImporter<Scene, EAdSceneImpl> {
 			EAdChapter chapter) {
 		importExits(scene, oldScene.getExits());
 		importAciveAreas(scene, oldScene.getActiveAreas());
-		importTrajectory(scene, oldScene.getTrajectory(),
-				oldScene.getBarriers());
 		importReferences(scene, oldScene.getItemReferences(), chapter);
 		importReferences(scene, oldScene.getAtrezzoReferences(), chapter);
 		importReferences(scene, oldScene.getCharacterReferences(), chapter);
-		addPlayer(scene, oldScene, chapter);
+		EAdSceneElement playerReference = addPlayer(scene, oldScene, chapter);
+		importTrajectory(scene, oldScene.getTrajectory(),
+				oldScene.getBarriers(), playerReference);
 
 	}
 
-	private void addPlayer(EAdSceneImpl scene, Scene oldScene,
+	private EAdActorReference addPlayer(EAdSceneImpl scene, Scene oldScene,
 			EAdChapter chapter) {
 		if (factory.isFirstPerson()) {
-
+			return null;
 		} else {
 			EAdActor player = (EAdActor) factory.getElement(Player.IDENTIFIER,
 					factory.getCurrentOldChapterModel().getPlayer());
@@ -202,19 +204,26 @@ public class SceneImporter implements EAdElementImporter<Scene, EAdSceneImpl> {
 
 			scene.getSceneElements().add(playerReference);
 
-			scene.setTrajectoryGenerator(new SimpleTrajectoryDefinition(false));
-
 			scene.getBackground().addBehavior(
 					EAdMouseEventImpl.MOUSE_LEFT_CLICK,
 					new EAdMoveActiveElement("moveCharacter"));
+
+			playerReference.setPosition(new EAdPositionImpl(
+					Corner.BOTTOM_CENTER, oldScene.getPositionX(), oldScene
+							.getPositionY()));
+			
+			playerReference.getVars().getVar(EAdSceneElementVars.VAR_STATE)
+			.setInitialValue(EAdSceneElement.CommonStates.EAD_STATE_DEFAULT.toString());
+
+			return playerReference;
 		}
 
 	}
 
 	private void importTrajectory(EAdSceneImpl scene, Trajectory trajectory,
-			List<Barrier> barriers) {
+			List<Barrier> barriers, EAdSceneElement playerReference) {
 		if (trajectory == null) {
-			scene.setTrajectoryGenerator(new SimpleTrajectoryDefinition( true ));
+			scene.setTrajectoryGenerator(new SimpleTrajectoryDefinition(true));
 		} else {
 			NodeTrajectoryDefinition nodeDef = trajectoryImporter
 					.init(trajectory);
@@ -228,6 +237,12 @@ public class SceneImporter implements EAdElementImporter<Scene, EAdSceneImpl> {
 				nodeDef.addBarrier(barrier);
 				scene.getSceneElements().add(barrier);
 			}
+
+			playerReference.setPosition(new EAdPositionImpl(
+					Corner.BOTTOM_CENTER, nodeDef.getInitial().getX(), nodeDef
+							.getInitial().getY()));
+			playerReference.getVars().getVar(EAdSceneElementVars.VAR_SCALE)
+					.setInitialValue(nodeDef.getInitial().getScale());
 		}
 
 	}

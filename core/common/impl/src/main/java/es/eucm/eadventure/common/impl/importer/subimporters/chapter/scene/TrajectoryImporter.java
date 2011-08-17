@@ -28,6 +28,8 @@ public class TrajectoryImporter implements
 		for (Side s : oldObject.getSides()) {
 			trajectory.addSide(s.getIDStart(), s.getIDEnd(), s.getLength());
 		}
+		
+		trajectory.setInitial(oldObject.getInitial().getID());
 
 		return trajectory;
 	}

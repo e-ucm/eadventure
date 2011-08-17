@@ -37,6 +37,15 @@
 				</actions>
 			</active-area>
 		</active-areas>
+		<barriers>
+			<barrier height="97" width="54" x="280" y="367">
+				<description>
+					<name/>
+					<brief/>
+					<detailed/>
+				</description>
+			</barrier>
+		</barriers>
 		<atrezzo>
 			<atrezzo-ref idTarget="AtrezzoId" layer="4" scale="0.6243094" x="92" y="185"/>
 		</atrezzo>
@@ -45,7 +54,7 @@
 			<node id="node6393" scale="2.2" x="373" y="184"/>
 			<node id="node360" scale="2.6" x="685" y="293"/>
 			<node id="node577" scale="2.45" x="426" y="440"/>
-			<initialnode id="node6393"/>
+			<initialnode id="node360"/>
 			<side idEnd="node577" idStart="node9091" length="212"/>
 			<side idEnd="node6393" idStart="node9091" length="250"/>
 			<side idEnd="node577" idStart="node6393" length="261"/>

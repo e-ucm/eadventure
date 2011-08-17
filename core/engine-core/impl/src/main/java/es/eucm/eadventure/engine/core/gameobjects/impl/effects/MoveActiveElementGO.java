@@ -81,14 +81,14 @@ public class MoveActiveElementGO extends AbstractEffectGO<EAdMoveActiveElement> 
 			int x = ((MouseAction) action).getVirtualX();
 			int y = ((MouseAction) action).getVirtualY();
 			EAdScene scene = (EAdScene) object;
-			if (scene.getTrajectoryGenerator() != null) {
+			if (scene.getTrajectoryDefinition() != null) {
 				EAdPositionImpl pos = new EAdPositionImpl(0, 0);
 				pos.setX(valueMap.getValue(gameState.getActiveElement()
 						.getVars().getVar(EAdSceneElementVars.VAR_X)));
 				pos.setY(valueMap.getValue(gameState.getActiveElement()
 						.getVars().getVar(EAdSceneElementVars.VAR_Y)));
 				List<EAdPosition> trajectory = trajectoryFactory.getTrajectory(
-						scene.getTrajectoryGenerator(), pos, x, y);
+						scene.getTrajectoryDefinition(), pos, x, y);
 				for (EAdPosition p : trajectory) {
 					EAdMoveSceneElement effect = new EAdMoveSceneElement(
 							"trajectory", gameState.getActiveElement(),

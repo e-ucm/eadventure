@@ -260,4 +260,8 @@ public class NodeTrajectoryDefinition extends EAdElementImpl implements
 		}
 	}
 
+	public List<EAdSceneElement> getBarriers() {
+		return barriers;
+	}
+
 }
