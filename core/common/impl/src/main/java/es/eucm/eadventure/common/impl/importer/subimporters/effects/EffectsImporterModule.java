@@ -52,6 +52,7 @@ import es.eucm.eadventure.common.data.chapter.effects.ConsumeObjectEffect;
 import es.eucm.eadventure.common.data.chapter.effects.DeactivateEffect;
 import es.eucm.eadventure.common.data.chapter.effects.DecrementVarEffect;
 import es.eucm.eadventure.common.data.chapter.effects.GenerateObjectEffect;
+import es.eucm.eadventure.common.data.chapter.effects.HighlightItemEffect;
 import es.eucm.eadventure.common.data.chapter.effects.IncrementVarEffect;
 import es.eucm.eadventure.common.data.chapter.effects.MacroReferenceEffect;
 import es.eucm.eadventure.common.data.chapter.effects.MoveNPCEffect;
@@ -108,6 +109,7 @@ public class EffectsImporterModule extends AbstractModule implements MapProvider
 		factoryMap.put(MoveObjectEffect.class, MoveObjectEffectImporter.class);
 		factoryMap.put(MovePlayerEffect.class, MovePlayerEffectImporter.class);
 		factoryMap.put(WaitTimeEffect.class, WaitEffectImporter.class);
+		factoryMap.put(HighlightItemEffect.class, HighlightEffectImporter.class);
 	}
 	
 	@Override

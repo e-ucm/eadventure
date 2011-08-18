@@ -53,7 +53,7 @@ import es.eucm.eadventure.common.model.effects.impl.EAdRandomEffect;
 import es.eucm.eadventure.common.model.effects.impl.EAdTriggerMacro;
 import es.eucm.eadventure.common.model.effects.impl.EAdVarInterpolationEffect;
 import es.eucm.eadventure.common.model.effects.impl.EAdWaitEffect;
-import es.eucm.eadventure.common.model.effects.impl.actorreference.EAdHighlightActorReference;
+import es.eucm.eadventure.common.model.effects.impl.actorreference.EAdHighlightSceneElement;
 import es.eucm.eadventure.common.model.effects.impl.sceneelements.EAdMakeActiveElementEffect;
 import es.eucm.eadventure.common.model.effects.impl.sceneelements.EAdMoveSceneElement;
 import es.eucm.eadventure.common.model.effects.impl.text.EAdShowText;
@@ -89,7 +89,7 @@ public class EffectGameObjectFactoryConfigurator {
 				ComplexBlockingEffectGO.class);
 		factoryMap.put(EAdChangeScene.class, ChangeScreenGO.class);
 		factoryMap.put(EAdMoveSceneElement.class, MoveSceneElementGO.class);
-		factoryMap.put(EAdHighlightActorReference.class,
+		factoryMap.put(EAdHighlightSceneElement.class,
 				HighlightEffectGO.class);
 		factoryMap.put(EAdWaitEffect.class, WaitEffectGO.class);
 		factoryMap.put(EAdCancelEffect.class, CancelEffectGO.class);

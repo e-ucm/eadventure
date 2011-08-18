@@ -39,22 +39,20 @@ package es.eucm.eadventure.engine.core.gameobjects.impl.effects;
 
 import com.google.inject.Inject;
 
-import es.eucm.eadventure.common.model.effects.impl.actorreference.EAdHighlightActorReference;
+import es.eucm.eadventure.common.model.effects.impl.actorreference.EAdHighlightSceneElement;
+import es.eucm.eadventure.common.model.variables.impl.extra.EAdSceneElementVars;
 import es.eucm.eadventure.common.resources.StringHandler;
+import es.eucm.eadventure.engine.core.GameLoop;
 import es.eucm.eadventure.engine.core.GameState;
 import es.eucm.eadventure.engine.core.ValueMap;
-import es.eucm.eadventure.engine.core.gameobjects.ActorReferenceGO;
 import es.eucm.eadventure.engine.core.gameobjects.GameObjectFactory;
 import es.eucm.eadventure.engine.core.platform.AssetHandler;
 import es.eucm.eadventure.engine.core.platform.GUI;
 import es.eucm.eadventure.engine.core.platform.PlatformConfiguration;
-import es.eucm.eadventure.engine.core.GameLoop;
 
-public class HighlightEffectGO extends AbstractEffectGO<EAdHighlightActorReference> {
+public class HighlightEffectGO extends AbstractEffectGO<EAdHighlightSceneElement> {
 
 	private int time;
-
-	private ActorReferenceGO actorGO;
 
 	private float oldScale;
 
@@ -72,9 +70,7 @@ public class HighlightEffectGO extends AbstractEffectGO<EAdHighlightActorReferen
 	@Override
 	public void initilize() {
 		super.initilize();
-		actorGO = (ActorReferenceGO) gameObjectFactory.get(element
-				.getActorReference());
-		oldScale = actorGO.getScale();
+		oldScale = valueMap.getValue( element.getSceneElement().getVars().getVar(EAdSceneElementVars.VAR_SCALE) );
 		time = element.getTime();
 		started = false;
 	}
@@ -87,12 +83,12 @@ public class HighlightEffectGO extends AbstractEffectGO<EAdHighlightActorReferen
 	public void update(GameState gameSate) {
 		if (time > 0) {
 			if (!started) {
-				actorGO.setScale(oldScale * 2);
+				valueMap.setValue( element.getSceneElement().getVars().getVar(EAdSceneElementVars.VAR_SCALE), oldScale * 2 );
 				started = true;
 			}
 			time -= GameLoop.SKIP_MILLIS_TICK;
 			if (time <= 0) {
-				actorGO.setScale(oldScale);
+				valueMap.setValue( element.getSceneElement().getVars().getVar(EAdSceneElementVars.VAR_SCALE), oldScale );
 			}
 		}
 	}

@@ -48,7 +48,7 @@ import es.eucm.eadventure.common.model.EAdElement;
 import es.eucm.eadventure.common.model.effects.impl.EAdCancelEffect;
 import es.eucm.eadventure.common.model.effects.impl.EAdChangeScene;
 import es.eucm.eadventure.common.model.effects.impl.EAdWaitEffect;
-import es.eucm.eadventure.common.model.effects.impl.actorreference.EAdHighlightActorReference;
+import es.eucm.eadventure.common.model.effects.impl.actorreference.EAdHighlightSceneElement;
 import es.eucm.eadventure.common.model.effects.impl.sceneelements.EAdMoveSceneElement;
 import es.eucm.eadventure.common.model.effects.impl.text.EAdShowText;
 import es.eucm.eadventure.common.model.effects.impl.variables.EAdChangeVarValueEffect;
@@ -137,7 +137,7 @@ public class TestBasicGameModule extends AbstractModule {
 		map.put(EAdShowText.class, ShowTextEffectGO.class);
 		map.put(EAdChangeScene.class, ChangeScreenGO.class);
 		map.put(EAdMoveSceneElement.class, MoveSceneElementGO.class);
-		map.put(EAdHighlightActorReference.class, HighlightEffectGO.class);
+		map.put(EAdHighlightSceneElement.class, HighlightEffectGO.class);
 		map.put(EAdWaitEffect.class, WaitEffectGO.class);
 		map.put(EAdCancelEffect.class, CancelEffectGO.class);
 		map.put(EAdChangeVarValueEffect.class, ChangeVariableGO.class);

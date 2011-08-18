@@ -40,43 +40,43 @@ package es.eucm.eadventure.common.model.effects.impl.actorreference;
 import es.eucm.eadventure.common.interfaces.Element;
 import es.eucm.eadventure.common.interfaces.Param;
 import es.eucm.eadventure.common.model.effects.impl.AbstractEAdEffect;
-import es.eucm.eadventure.common.model.elements.EAdActorReference;
+import es.eucm.eadventure.common.model.elements.EAdSceneElement;
 
 /**
- * Effect used to highlight an actor reference
+ * Effect used to highlight an scene element
  * 
  * 
  */
-@Element(runtime = EAdHighlightActorReference.class, detailed = EAdHighlightActorReference.class)
-public class EAdHighlightActorReference extends AbstractEAdEffect {
+@Element(runtime = EAdHighlightSceneElement.class, detailed = EAdHighlightSceneElement.class)
+public class EAdHighlightSceneElement extends AbstractEAdEffect {
 
-	@Param("actor")
-	private EAdActorReference actor;
+	@Param("element")
+	private EAdSceneElement sceneElement;
 
 	@Param("time")
 	private int time;
 
-	public EAdHighlightActorReference(String id) {
+	public EAdHighlightSceneElement(String id) {
 		super(id);
 	}
 
 	/**
-	 * Gets the actor reference associated to this effect
+	 * Gets the scene element associated to this effect
 	 * 
-	 * @return the actor reference associated to this effect
+	 * @return the scene element associated to this effect
 	 */
-	public EAdActorReference getActorReference() {
-		return actor;
+	public EAdSceneElement getSceneElement() {
+		return sceneElement;
 	}
 
 	/**
-	 * Sets actor reference for this effect
+	 * Sets scene element for this effect
 	 * 
-	 * @param actor
-	 *            the actor
+	 * @param sceneElement
+	 *            the scene element
 	 */
-	public void setActorReference(EAdActorReference actor) {
-		this.actor = actor;
+	public void setSceneElement(EAdSceneElement sceneElement) {
+		this.sceneElement = sceneElement;
 	}
 
 	/**
