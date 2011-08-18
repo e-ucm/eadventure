@@ -69,8 +69,7 @@ public abstract class TextEffectImporter<T extends AbstractEffect> extends
 	}
 
 	public EAdSpeakEffect convert(T oldObject, Object object) {
-		EAdSpeakEffect showText = (EAdSpeakEffect) object;
-		super.importConditions(oldObject, showText);
+		EAdSpeakEffect showText = super.convert(oldObject, object);
 
 		showText.setBlocking(true);
 		showText.setOpaque(true);

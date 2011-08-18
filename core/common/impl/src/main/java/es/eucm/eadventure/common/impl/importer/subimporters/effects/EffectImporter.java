@@ -67,6 +67,8 @@ public abstract class EffectImporter<OldEffect extends AbstractEffect, NewEffect
 	@SuppressWarnings("unchecked")
 	public NewEffect convert(OldEffect oldObject, Object newElement) {
 		importConditions(oldObject, (NewEffect) newElement);
+		((NewEffect) newElement).setQueueable(true);
+		((NewEffect) newElement).setBlocking(true);
 		return (NewEffect) newElement;
 	}
 

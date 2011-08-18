@@ -43,7 +43,6 @@ import es.eucm.eadventure.common.EAdElementImporter;
 import es.eucm.eadventure.common.data.chapter.conditions.Conditions;
 import es.eucm.eadventure.common.data.chapter.effects.MoveNPCEffect;
 import es.eucm.eadventure.common.impl.importer.interfaces.EAdElementFactory;
-import es.eucm.eadventure.common.model.effects.EAdEffect;
 import es.eucm.eadventure.common.model.effects.impl.EAdMacroImpl;
 import es.eucm.eadventure.common.model.effects.impl.EAdTriggerMacro;
 import es.eucm.eadventure.common.model.effects.impl.sceneelements.EAdMoveSceneElement;
@@ -51,7 +50,7 @@ import es.eucm.eadventure.common.model.effects.impl.sceneelements.EAdMoveSceneEl
 import es.eucm.eadventure.common.model.elements.EAdActor;
 import es.eucm.eadventure.common.model.elements.EAdCondition;
 
-public class MoveNPCEffectImporter extends EffectImporter<MoveNPCEffect, EAdEffect>{
+public class MoveNPCEffectImporter extends EffectImporter<MoveNPCEffect, EAdTriggerMacro>{
 	
 	private EAdElementFactory factory;
 	
@@ -64,20 +63,15 @@ public class MoveNPCEffectImporter extends EffectImporter<MoveNPCEffect, EAdEffe
 	}
 
 	@Override
-	public EAdEffect init(MoveNPCEffect oldObject) {
+	public EAdTriggerMacro init(MoveNPCEffect oldObject) {
 		return new EAdTriggerMacro("moveNPC" + oldObject.getTargetId());
 	}
 
 	@Override
-	public EAdEffect convert(MoveNPCEffect oldObject, Object object) {
-		EAdTriggerMacro effect = (EAdTriggerMacro) object;
-		
+	public EAdTriggerMacro convert(MoveNPCEffect oldObject, Object object) {
+		EAdTriggerMacro effect = super.convert(oldObject, object);	
 		EAdMacroImpl macro = new EAdMacroImpl("macro");
 		effect.setMacro(macro);
-		
-		effect.setQueueable(true);
-		
-		importConditions(oldObject, effect);
 		
 		//TODO change appearance, speed?
 		macro.getEffects().add(new EAdMoveSceneElement("move", (EAdActor) factory.getElementById(oldObject.getTargetId()), 

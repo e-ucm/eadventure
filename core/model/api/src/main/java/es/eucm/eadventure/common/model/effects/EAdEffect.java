@@ -68,5 +68,11 @@ public interface EAdEffect extends EAdElement, Conditioned, Evented {
 	boolean isOpaque();
 
 	boolean isQueueable();
+	
+	void setQueueable( boolean queueable );
+	
+	void setBlocking( boolean blocking );
+	
+	void setOpaque( boolean opaque );
 
 }

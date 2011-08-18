@@ -49,7 +49,7 @@ import es.eucm.eadventure.common.model.effects.impl.EAdMacroImpl;
 import es.eucm.eadventure.common.model.effects.impl.EAdTriggerMacro;
 import es.eucm.eadventure.common.model.elements.EAdCondition;
 
-public class TriggerConversationImporter extends EffectImporter<TriggerConversationEffect, EAdEffect>{
+public class TriggerConversationImporter extends EffectImporter<TriggerConversationEffect, EAdTriggerMacro>{
 	
 	private EAdElementFactory factory;
 	
@@ -61,7 +61,7 @@ public class TriggerConversationImporter extends EffectImporter<TriggerConversat
 	}
 
 	@Override
-	public EAdEffect init(TriggerConversationEffect oldObject) {
+	public EAdTriggerMacro init(TriggerConversationEffect oldObject) {
 		EAdMacro macro = new EAdMacroImpl("macroConversation");
 		EAdTriggerMacro triggerMacro = new EAdTriggerMacro( macro );
 		triggerMacro.setQueueable(true);
@@ -69,11 +69,9 @@ public class TriggerConversationImporter extends EffectImporter<TriggerConversat
 	}
 	
 	@Override
-	public EAdEffect convert(TriggerConversationEffect oldObject, Object object) {
-		EAdTriggerMacro triggerMacro = (EAdTriggerMacro) object;
+	public EAdTriggerMacro convert(TriggerConversationEffect oldObject, Object object) {
+		EAdTriggerMacro triggerMacro = super.convert(oldObject, object);
 		EAdMacro macro = triggerMacro.getMacro();
-
-		super.importConditions(oldObject, triggerMacro);
 		
 		EAdEffect effect = (EAdEffect) factory.getElementById(oldObject.getTargetId());
 		if ( effect != null )

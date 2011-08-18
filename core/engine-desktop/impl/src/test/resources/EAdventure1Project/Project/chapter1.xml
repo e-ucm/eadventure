@@ -151,6 +151,8 @@
 					<condition/>
 					<speak-player>This is being said by the player, you.</speak-player>
 					<condition/>
+					<move-player x="191" y="367"/>
+					<condition/>
 				</effect>
 			</use>
 		</actions>

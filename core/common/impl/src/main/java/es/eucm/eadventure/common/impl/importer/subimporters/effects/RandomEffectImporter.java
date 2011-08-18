@@ -72,9 +72,7 @@ public class RandomEffectImporter extends
 	
 	@Override
 	public EAdRandomEffect convert(RandomEffect oldObject, Object object) {
-		EAdRandomEffect effect = (EAdRandomEffect) object;
-
-		super.importConditions(oldObject, effect);
+		EAdRandomEffect effect = super.convert(oldObject, object);
 
 		EAdEffect positiveEffect = (EAdEffect) effectsImporterFactory
 				.getEffect(oldObject.getPositiveEffect());

@@ -42,11 +42,10 @@ import com.google.inject.Inject;
 import es.eucm.eadventure.common.EAdElementImporter;
 import es.eucm.eadventure.common.data.chapter.conditions.Conditions;
 import es.eucm.eadventure.common.data.chapter.effects.TriggerLastSceneEffect;
-import es.eucm.eadventure.common.model.effects.EAdEffect;
 import es.eucm.eadventure.common.model.effects.impl.EAdChangeScene;
 import es.eucm.eadventure.common.model.elements.EAdCondition;
 
-public class TriggerPreviousSceneImporter extends EffectImporter<TriggerLastSceneEffect, EAdEffect>{
+public class TriggerPreviousSceneImporter extends EffectImporter<TriggerLastSceneEffect, EAdChangeScene>{
 	
 	@Inject
 	public TriggerPreviousSceneImporter(
@@ -55,15 +54,14 @@ public class TriggerPreviousSceneImporter extends EffectImporter<TriggerLastScen
 	}
 
 	@Override
-	public EAdEffect init(TriggerLastSceneEffect oldObject) {
+	public EAdChangeScene init(TriggerLastSceneEffect oldObject) {
 		EAdChangeScene changeScene = new EAdChangeScene("gotToPreviousScene");
-		changeScene.setQueueable(true);
 		return changeScene;
 	}
 
 	@Override
-	public EAdEffect convert(TriggerLastSceneEffect oldObject, Object object) {
-		return (EAdChangeScene) object;
+	public EAdChangeScene convert(TriggerLastSceneEffect oldObject, Object object) {
+		return super.convert(oldObject, object);
 	}
 
 }
