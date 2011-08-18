@@ -78,8 +78,10 @@ public class MoveActiveElementGO extends AbstractEffectGO<EAdMoveActiveElement> 
 		super.initilize();
 		Object object = gameState.getScene().getElement();
 		if (object instanceof EAdScene && action instanceof MouseAction) {
-			int x = ((MouseAction) action).getVirtualX();
-			int y = ((MouseAction) action).getVirtualY();
+			int x = element.getTargetX() == EAdMoveActiveElement.MOUSE_COORDINATE ? ((MouseAction) action)
+					.getVirtualX() : element.getTargetX();
+			int y = element.getTargetY() == EAdMoveActiveElement.MOUSE_COORDINATE ? ((MouseAction) action)
+					.getVirtualY() : element.getTargetY();
 			EAdScene scene = (EAdScene) object;
 			if (scene.getTrajectoryDefinition() != null) {
 				EAdPositionImpl pos = new EAdPositionImpl(0, 0);

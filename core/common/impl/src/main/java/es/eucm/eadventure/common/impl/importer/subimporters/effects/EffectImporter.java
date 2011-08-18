@@ -43,19 +43,31 @@ import es.eucm.eadventure.common.data.chapter.effects.AbstractEffect;
 import es.eucm.eadventure.common.model.effects.EAdEffect;
 import es.eucm.eadventure.common.model.elements.EAdCondition;
 
-public abstract class EffectImporter<OldEffect extends AbstractEffect, NewEffect extends EAdEffect> implements EAdElementImporter<OldEffect, NewEffect>{
+public abstract class EffectImporter<OldEffect extends AbstractEffect, NewEffect extends EAdEffect>
+		implements EAdElementImporter<OldEffect, NewEffect> {
+
+	protected static int ID_GENERATOR = 0;
 	
 	private EAdElementImporter<Conditions, EAdCondition> conditionImporter;
-	
-	public EffectImporter(EAdElementImporter<Conditions, EAdCondition> conditionImporter ){
+
+	public EffectImporter(
+			EAdElementImporter<Conditions, EAdCondition> conditionImporter) {
 		this.conditionImporter = conditionImporter;
 	}
-	
-	protected void importConditions( OldEffect oldEffect, NewEffect newEffect ){
-		EAdCondition condition = conditionImporter.init( oldEffect.getConditions() );
-		condition = conditionImporter.convert( oldEffect.getConditions(), condition );
-		if ( condition != null )
+
+	protected void importConditions(OldEffect oldEffect, NewEffect newEffect) {
+		EAdCondition condition = conditionImporter.init(oldEffect
+				.getConditions());
+		condition = conditionImporter.convert(oldEffect.getConditions(),
+				condition);
+		if (condition != null)
 			newEffect.setCondition(condition);
+	}
+
+	@SuppressWarnings("unchecked")
+	public NewEffect convert(OldEffect oldObject, Object newElement) {
+		importConditions(oldObject, (NewEffect) newElement);
+		return (NewEffect) newElement;
 	}
 
 }

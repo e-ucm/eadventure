@@ -42,8 +42,58 @@ import es.eucm.eadventure.common.interfaces.Element;
 @Element(detailed = EAdMoveActiveElement.class, runtime = EAdMoveActiveElement.class)
 public class EAdMoveActiveElement extends AbstractEAdEffect {
 
+	public static final int MOUSE_COORDINATE = -1;
+
+	private int targetX;
+
+	private int targetY;
+
 	public EAdMoveActiveElement(String id) {
 		super(id);
+		targetX = MOUSE_COORDINATE;
+		targetY = MOUSE_COORDINATE;
+	}
+
+	/**
+	 * Return the x coordinate to move the active element. If x is
+	 * {@link EAdMoveActiveElement#MOUSE_COORDINATE}, the target will be the
+	 * mouse position
+	 * 
+	 * @return
+	 */
+	public int getTargetX() {
+		return targetX;
+	}
+
+	/**
+	 * Sets the x coordinate to move the active element. If x is
+	 * {@link EAdMoveActiveElement#MOUSE_COORDINATE}, the target will be the
+	 * mouse position
+	 * 
+	 * @return
+	 */
+	public void setTargetX(int targetX) {
+		this.targetX = targetX;
+	}
+
+	/**
+	 * Return the y coordinate to move the active element. If y is
+	 * {@link EAdMoveActiveElement#MOUSE_COORDINATE}, the target will be the
+	 * mouse position
+	 */
+	public int getTargetY() {
+		return targetY;
+	}
+
+	/**
+	 * Sets the y coordinate to move the active element. If x is
+	 * {@link EAdMoveActiveElement#MOUSE_COORDINATE}, the target will be the
+	 * mouse position
+	 * 
+	 * @return
+	 */
+	public void setTargetY(int targetY) {
+		this.targetY = targetY;
 	}
 
 }

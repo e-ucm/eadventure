@@ -56,6 +56,7 @@ import es.eucm.eadventure.common.data.chapter.effects.IncrementVarEffect;
 import es.eucm.eadventure.common.data.chapter.effects.MacroReferenceEffect;
 import es.eucm.eadventure.common.data.chapter.effects.MoveNPCEffect;
 import es.eucm.eadventure.common.data.chapter.effects.MoveObjectEffect;
+import es.eucm.eadventure.common.data.chapter.effects.MovePlayerEffect;
 import es.eucm.eadventure.common.data.chapter.effects.PlaySoundEffect;
 import es.eucm.eadventure.common.data.chapter.effects.RandomEffect;
 import es.eucm.eadventure.common.data.chapter.effects.SetValueEffect;
@@ -104,6 +105,7 @@ public class EffectsImporterModule extends AbstractModule implements MapProvider
 		factoryMap.put(GenerateObjectEffect.class, GenerateObjectEffectImporter.class);
 		factoryMap.put(MoveNPCEffect.class, MoveNPCEffectImporter.class);
 		factoryMap.put(MoveObjectEffect.class, MoveObjectEffectImporter.class);
+		factoryMap.put(MovePlayerEffect.class, MovePlayerEffectImporter.class);
 	}
 	
 	@Override
