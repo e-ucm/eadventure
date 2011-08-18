@@ -45,16 +45,15 @@ import java.net.MalformedURLException;
 import java.net.URL;
 
 import com.google.inject.Inject;
-import com.google.inject.name.Named;
 
 import es.eucm.eadventure.common.loader.InputStreamCreator;
 
-public class TemporalInputStreamCreator implements InputStreamCreator {
+public class EAPInputStreamCreator implements InputStreamCreator {
 
 	private String absolutePath;
 
 	@Inject
-	public TemporalInputStreamCreator( @Named("projectFolder") String projectFolder ) {
+	public EAPInputStreamCreator( String projectFolder ) {
 
 		this.absolutePath = projectFolder;
 	}

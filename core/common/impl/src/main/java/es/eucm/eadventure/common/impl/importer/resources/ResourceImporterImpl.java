@@ -38,7 +38,6 @@
 package es.eucm.eadventure.common.impl.importer.resources;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -64,8 +63,8 @@ import es.eucm.eadventure.common.loader.Loader;
 import es.eucm.eadventure.common.model.conditions.impl.ANDCondition;
 import es.eucm.eadventure.common.model.conditions.impl.NOTCondition;
 import es.eucm.eadventure.common.model.effects.impl.EAdChangeAppearance;
-import es.eucm.eadventure.common.model.elements.EAdGeneralElement;
 import es.eucm.eadventure.common.model.elements.EAdCondition;
+import es.eucm.eadventure.common.model.elements.EAdGeneralElement;
 import es.eucm.eadventure.common.model.events.EAdConditionEvent;
 import es.eucm.eadventure.common.model.events.impl.EAdConditionEventImpl;
 import es.eucm.eadventure.common.resources.EAdBundleId;
@@ -96,11 +95,6 @@ public class ResourceImporterImpl implements ResourceImporter {
 	private InputStreamCreator inputStreamCreator;
 
 	/**
-	 * Absolute path where the old adventure is placed
-	 */
-	private String oldAdventurePath;
-
-	/**
 	 * Absolute path where the new adventure must be placed
 	 */
 	private String newAdventurePath;
@@ -126,8 +120,7 @@ public class ResourceImporterImpl implements ResourceImporter {
 	}
 
 	@Override
-	public void setPaths(String oldAventurePath, String newAdventurePath) {
-		this.oldAdventurePath = oldAventurePath;
+	public void setPath(String newAdventurePath) {
 		this.newAdventurePath = newAdventurePath;
 
 		createFolders();
@@ -169,12 +162,13 @@ public class ResourceImporterImpl implements ResourceImporter {
 
 	@Override
 	public boolean copyFile(String oldURI, String newURI) {
-		File resourceFile = new File(oldAdventurePath, oldURI);
 
 		File toResourceFile = new File(newAdventurePath, newURI);
 
 		try {
-			InputStream in = new FileInputStream(resourceFile);
+			InputStream in = inputStreamCreator.buildInputStream(oldURI);
+			if ( in == null )
+				return false;
 			OutputStream out = new FileOutputStream(toResourceFile);
 
 			byte[] buf = new byte[1024];
@@ -264,6 +258,15 @@ public class ResourceImporterImpl implements ResourceImporter {
 
 	public AssetDescriptor getAssetDescritptor(String assetPath, Class<?> clazz) {
 		AssetDescriptor asset = null;
+		
+		// Special case
+		if ( assetPath.equals("assets/special/EmptyAnimation")){
+			if ( inputStreamCreator.buildInputStream(assetPath + ".eaa") != null )
+				assetPath += ".eaa";
+			else {
+				assetPath += "_01.png";
+			}
+		}
 		if (assetPath.startsWith("assets/animation")) {
 			if (assetPath.endsWith(".eaa")) {
 				Animation a = Loader.loadAnimation(inputStreamCreator,

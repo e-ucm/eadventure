@@ -64,16 +64,16 @@ public class ImporterTest extends TestCase {
 	
 	@Test
 	public void testImportGame( ) {
-		EAdAdventureModel data = importer.importGame( projectFolder, "src/test/resources/Import Un paseo por eAdventure 1.2/"  );
+		EAdAdventureModel data = importer.importGame( "src/test/resources/Import Un paseo por eAdventure 1.2/"  );
 		assertNotNull( data );
-		AdventureData oldData = importer.loadGame( projectFolder );
+		AdventureData oldData = importer.loadGame(  );
 		assertNotNull( oldData );
 		//TODO test specific parts of the model
 	}
 	
 	@Test
 	public void testImportGameFromZip( ){
-		EAdAdventureModel data = importer.importGame( "src/test/resources/Chocolate.ead", "src/test/resources/Chocolate.ead" );
+		EAdAdventureModel data = importer.importGame(  "src/test/resources/Chocolate.ead" );
 		assertNotNull( data );
 	}
 

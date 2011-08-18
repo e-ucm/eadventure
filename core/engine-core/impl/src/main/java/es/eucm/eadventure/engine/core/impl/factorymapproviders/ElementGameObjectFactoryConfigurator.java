@@ -52,6 +52,8 @@ import es.eucm.eadventure.common.model.elements.impl.EAdComposedScene;
 import es.eucm.eadventure.common.model.elements.impl.EAdSceneImpl;
 import es.eucm.eadventure.common.model.elements.impl.EAdTimerImpl;
 import es.eucm.eadventure.common.model.elements.impl.EAdVideoScene;
+import es.eucm.eadventure.common.model.elements.impl.extra.EAdCutscene;
+import es.eucm.eadventure.common.model.elements.impl.extra.EAdSlide;
 import es.eucm.eadventure.common.model.impl.inventory.EAdBasicInventory;
 import es.eucm.eadventure.engine.core.gameobjects.ActorGO;
 import es.eucm.eadventure.engine.core.gameobjects.ActorReferenceGO;
@@ -71,6 +73,8 @@ public class ElementGameObjectFactoryConfigurator {
 		factoryMap.put(EAdScene.class, SceneGOImpl.class);
 		factoryMap.put(EAdSceneImpl.class, SceneGOImpl.class);
 		factoryMap.put(EAdComposedScene.class, ComposedSceneGOImpl.class);
+		factoryMap.put(EAdCutscene.class, ComposedSceneGOImpl.class);
+		factoryMap.put(EAdSlide.class, SceneGOImpl.class);
 		factoryMap.put(EAdActorReference.class, ActorReferenceGO.class);
 		factoryMap.put(EAdActorReferenceImpl.class, ActorReferenceGO.class);
 		factoryMap.put(EAdBasicSceneElement.class, BasicSceneElementGO.class);

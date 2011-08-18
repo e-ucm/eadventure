@@ -37,19 +37,14 @@
 
 package es.eucm.eadventure.common.impl.importer;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.OutputStream;
 import java.util.ArrayList;
 
 import com.google.inject.Inject;
 
 import es.eucm.eadventure.common.EAdElementImporter;
 import es.eucm.eadventure.common.data.adventure.AdventureData;
-import es.eucm.eadventure.common.impl.importer.auxiliar.TemporalInputStreamCreator;
 import es.eucm.eadventure.common.impl.importer.interfaces.ResourceImporter;
-import es.eucm.eadventure.common.impl.writer.EAdAdventureModelWriter;
+import es.eucm.eadventure.common.loader.InputStreamCreator;
 import es.eucm.eadventure.common.loader.Loader;
 import es.eucm.eadventure.common.loader.incidences.Incidence;
 import es.eucm.eadventure.common.model.elements.EAdAdventureModel;
@@ -64,60 +59,55 @@ public class EAdventure1XImporter {
 
 	private ResourceImporter resourceImporter;
 
+	private InputStreamCreator inputStreamCreator;
+
 	@Inject
 	public EAdventure1XImporter(
 			EAdElementImporter<AdventureData, EAdAdventureModel> adventureImp,
-			ResourceImporter resourceImporter) {
+			ResourceImporter resourceImporter,
+			InputStreamCreator inputStreamCreator) {
 		this.adventureImporter = adventureImp;
 		this.resourceImporter = resourceImporter;
+		this.inputStreamCreator = inputStreamCreator;
 	}
 
 	/**
 	 * Imports and old game form 1.x version
 	 * 
-	 * @param file
-	 *            Could be the project folder, an *.eap file or and *.ead file
 	 * @param destiny
 	 *            Folder path where the import project will be stored
 	 * @return An {@link EAdventureModel} complete with all game information
 	 */
-	public EAdAdventureModel importGame(String file, String destiny) {
-		String folder = file;
-		if ( file.endsWith(".eap") ){
-			folder = file.substring(0, file.length() - 4 );
-		}
-		
-		AdventureData adventureData = this.loadGame(folder);
-		
-		resourceImporter.setPaths(folder, destiny);
+	public EAdAdventureModel importGame(String destiny) {
+		AdventureData adventureData = loadGame();
+
+		resourceImporter.setPath(destiny);
 
 		EAdAdventureModel model = adventureImporter.init(adventureData);
 		model = adventureImporter.convert(adventureData, model);
 		
-		EAdAdventureModelWriter writer = new EAdAdventureModelWriter();
-		
-		try {
-			OutputStream os = new FileOutputStream( new File( destiny, "data.xml"));
-			writer.write(model, os);
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		}
-		
+// TODO write to the new model xml
+//		EAdAdventureModelWriter writer = new EAdAdventureModelWriter();
+//
+//		try {
+//			OutputStream os = new FileOutputStream(
+//					new File(destiny, "data.xml"));
+//			writer.write(model, os);
+//		} catch (FileNotFoundException e) {
+//			e.printStackTrace();
+//		}
+
 		return model;
 
 	}
 
 	/**
-	 * Loads an old model AdventureData from a file
+	 * Loads an old model AdventureData
 	 * 
-	 * @param file
-	 *            Could be the project folder, an *.eap file or and *.ead file
-	 * @return An old data model game
 	 */
-	public AdventureData loadGame(String file) {
+	public AdventureData loadGame() {
 		ArrayList<Incidence> incidences = new ArrayList<Incidence>();
-		return Loader.loadAdventureData(new TemporalInputStreamCreator(file),
-				incidences, true);
+		return Loader.loadAdventureData(inputStreamCreator, incidences, true);
 	}
 
 }

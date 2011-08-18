@@ -68,18 +68,18 @@ public class GameObjectFactoryImpl implements GameObjectFactory {
 	 * The map of instances of {@link GameObject}s for each {@link EAdElement}
 	 * in the eAdventure game model
 	 */
-	Map<EAdElement, GameObject<?>> objectMap;
+	private Map<EAdElement, GameObject<?>> objectMap;
 
 	/**
 	 * A class map of the {@link EAdElement} in the eAdventure model and the
 	 * {@link GameObject} classes in the engine runtime
 	 */
-	Map<Class<? extends EAdElement>, Class<? extends GameObject<?>>> classMap;
+	private Map<Class<? extends EAdElement>, Class<? extends GameObject<?>>> classMap;
 
 	/**
 	 * The guice injector
 	 */
-	Injector injector;
+	private Injector injector;
 
 	@Inject
 	public GameObjectFactoryImpl(

@@ -101,17 +101,16 @@ public class ImportTestDesktopPlatformLauncher {
 	public static void main(String[] args) {
 		EAdMainDebugger.addDebugger(TrajectoryDebugger.class);
 
-		
 		// Default directory
 		File directory = new File("src/test/resources/EAdventure1Project/");
-		
+
 		JFileChooser fileChooser = new JFileChooser(directory);
 
 		FileFilter filter = new FileFilter() {
 
 			@Override
 			public boolean accept(File f) {
-				return f.isDirectory() || f.getName().endsWith(".eap");
+				return f.isDirectory() || f.getName().endsWith(".eap") || f.getName().endsWith(".ead");
 			}
 
 			@Override
@@ -122,24 +121,26 @@ public class ImportTestDesktopPlatformLauncher {
 		};
 		fileChooser.setFileFilter(filter);
 
-		if (fileChooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION ) {
-			
+		if (fileChooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
+
 			File f = fileChooser.getSelectedFile();
 
 			String folder = f.getParentFile().getAbsolutePath();
-			
-			String projectName = f.getName();
-			projectName = projectName.substring(0, projectName.length() - 4 );
 
-			Injector injector = Guice.createInjector(
-					new ImporterConfigurationModule(folder + "/" + projectName ),
-					new DesktopAssetHandlerModule(),
-					new DesktopAssetRendererModule(null), new DesktopModule(), new BasicGameModule());
+			String projectName = f.getName();
+
+			Injector injector = Guice
+					.createInjector(new ImporterConfigurationModule(folder
+							+ "/" + projectName),
+							new DesktopAssetHandlerModule(),
+							new DesktopAssetRendererModule(null),
+							new DesktopModule(), new BasicGameModule());
 			EAdventure1XImporter importer = injector
 					.getInstance(EAdventure1XImporter.class);
 
-			EAdAdventureModel model = importer.importGame(f.getAbsolutePath(),
-					folder + "/" + projectName + "Imported");
+			projectName = projectName.substring(0, projectName.length() - 4); 
+			EAdAdventureModel model = importer.importGame(folder + "/"
+					+  projectName + "Imported");
 
 			screen = model.getChapters().get(0).getInitialScreen();
 			injector.getInstance(StringHandler.class).addString(
@@ -150,7 +151,7 @@ public class ImportTestDesktopPlatformLauncher {
 
 			Game game = injector.getInstance(Game.class);
 			game.setGame(model, model.getChapters().get(0));
-			
+
 			System.setProperty(
 					"com.apple.mrj.application.apple.menu.about.name",
 					"eAdventure");
@@ -160,7 +161,8 @@ public class ImportTestDesktopPlatformLauncher {
 			// TODO extract file from args or use default?
 			File file = new File(folder, projectName + "Imported");
 			// File file = new File("/ProyectoJuegoFINAL.ead");
-			((DesktopPlatformLauncher) launcher).launch(new EAdURIImpl( file.toString() ));
+			((DesktopPlatformLauncher) launcher).launch(new EAdURIImpl(file
+					.toString()));
 		}
 
 	}

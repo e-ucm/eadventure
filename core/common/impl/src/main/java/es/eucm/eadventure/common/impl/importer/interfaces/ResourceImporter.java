@@ -62,14 +62,12 @@ public interface ResourceImporter {
 	String getURI(String oldURI);
 
 	/**
-	 * Set the paths for the resources importer
-	 * 
-	 * @param oldAventurePath
-	 *            Absolute path where the old adventure is placed
+	 * Set the path for the resources importer
+	 *
 	 * @param newAdventurePath
 	 *            Absolute path where the new adventure must be placed
 	 */
-	public void setPaths(String oldAventurePath, String newAdventurePath);
+	public void setPath(String newAdventurePath);
 
 	void importResources(EAdGeneralElement element, List<Resources> resources,
 			Map<String, String> resourcesStrings,
