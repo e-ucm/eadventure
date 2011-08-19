@@ -35,40 +35,63 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package es.eucm.eadventure.common.model.actions.test;
+package es.eucm.eadventure.engine.core.gameobjects.impl.effects;
 
-import es.eucm.eadventure.common.model.actions.EAdAction;
-import es.eucm.eadventure.common.model.actions.impl.EAdBasicAction;
+import com.google.inject.Inject;
+
 import es.eucm.eadventure.common.model.effects.impl.timedevents.EAdShowSceneElement;
-import es.eucm.eadventure.common.params.fills.impl.EAdBorderedColor;
-import es.eucm.eadventure.common.params.fills.impl.EAdColor;
-import es.eucm.eadventure.common.resources.EAdString;
-import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.CaptionImpl;
-import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.ImageImpl;
+import es.eucm.eadventure.common.resources.StringHandler;
+import es.eucm.eadventure.engine.core.GameLoop;
+import es.eucm.eadventure.engine.core.GameState;
+import es.eucm.eadventure.engine.core.ValueMap;
+import es.eucm.eadventure.engine.core.gameobjects.GameObjectFactory;
+import es.eucm.eadventure.engine.core.gameobjects.SceneElementGO;
+import es.eucm.eadventure.engine.core.platform.AssetHandler;
+import es.eucm.eadventure.engine.core.platform.GUI;
+import es.eucm.eadventure.engine.core.platform.PlatformConfiguration;
 
-public class BasicActionFactoryTest {
+public class ShowSceneElementGO extends AbstractEffectGO<EAdShowSceneElement> {
 
-	public static EAdAction getGrabAction() {
-		EAdBasicAction action = new EAdBasicAction("action");
-		action.getResources().addAsset(action.getInitialBundle(), EAdBasicAction.appearance,
-				new ImageImpl("@drawable/grab.png"));
-		
-		EAdString hand = new EAdString("handAction");
-		action.setName(hand);
-		
-		//TODO Should be created in another place
-		EAdShowSceneElement actionEffect = new EAdShowSceneElement("effectAction");
+	private SceneElementGO<?> sceneElement;
+	
+	private int time;
 
-		CaptionImpl caption = new CaptionImpl();
-		caption.setBubbleColor(null);
-		caption.setText(hand);
-		caption.setTextColor(new EAdBorderedColor(new EAdColor(120, 20, 20),
-				new EAdColor(34, 50, 60)));
-
-		actionEffect.setCaption(caption, 40, 100);
-		
-		action.getEffects().add(actionEffect);
-		
-		return action;
+	@Inject
+	public ShowSceneElementGO(AssetHandler assetHandler,
+			StringHandler stringHandler, GameObjectFactory gameObjectFactory,
+			GUI gui, GameState gameState, ValueMap valueMap,
+			PlatformConfiguration platformConfiguration) {
+		super(assetHandler, stringHandler, gameObjectFactory, gui, gameState,
+				valueMap, platformConfiguration);
 	}
+
+	@Override
+	public void doLayout(int offsetX, int offsetY) {
+		gui.addElement(sceneElement, offsetX, offsetY);
+	}
+
+	@Override
+	public void initilize() {
+		super.initilize();
+		time = element.getTime();
+		sceneElement = (SceneElementGO<?>) this.gameObjectFactory.get(element.getSceneElement());
+
+	}
+
+	@Override
+	public boolean isVisualEffect() {
+		return true;
+	}
+
+	@Override
+	public boolean isFinished() {
+		return time <= 0;
+	}
+
+	public void update(GameState state) {
+		super.update(state);
+		time -= GameLoop.SKIP_MILLIS_TICK;
+
+	}
+
 }

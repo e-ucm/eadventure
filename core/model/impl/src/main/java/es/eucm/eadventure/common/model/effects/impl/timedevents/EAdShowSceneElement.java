@@ -35,7 +35,7 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package es.eucm.eadventure.common.model.effects.impl.text;
+package es.eucm.eadventure.common.model.effects.impl.timedevents;
 
 import es.eucm.eadventure.common.interfaces.Element;
 import es.eucm.eadventure.common.interfaces.Param;
@@ -43,6 +43,7 @@ import es.eucm.eadventure.common.model.effects.EAdEffect;
 import es.eucm.eadventure.common.model.effects.impl.AbstractEAdEffect;
 import es.eucm.eadventure.common.model.effects.impl.EAdVarInterpolationEffect;
 import es.eucm.eadventure.common.model.effects.impl.EAdVarInterpolationEffect.LoopType;
+import es.eucm.eadventure.common.model.elements.EAdSceneElement;
 import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
 import es.eucm.eadventure.common.model.events.EAdSceneElementEvent;
 import es.eucm.eadventure.common.model.events.impl.EAdSceneElementEventImpl;
@@ -56,74 +57,34 @@ import es.eucm.eadventure.common.resources.assets.drawable.basics.Caption;
  * </p>
  * 
  */
-@Element(runtime = EAdShowText.class, detailed = EAdShowText.class)
-public class EAdShowText extends AbstractEAdEffect {
+@Element(runtime = EAdShowSceneElement.class, detailed = EAdShowSceneElement.class)
+public class EAdShowSceneElement extends AbstractEAdEffect {
 	
 	public enum ShowTextAnimation {
 		NONE,
 		FADE_IN;
-	}
+}
+	
+	@Param("time")
+	private int time;
 
-	@Param("text")
-	private EAdBasicSceneElement text;
+	@Param("sceneElement")
+	private EAdSceneElement sceneElement;
 
-	/**
-	 * How many times text must be shown entirely. If -1, text is shown until
-	 * the effect is stopped
-	 */
-	// TODO This could be a boolean, as the loops are calculated based on the
-	// text length or the TTS system used
-	@Param("loops")
-	private int loops;
-
-	/**
-	 * Creates an empty an non-blocking and non-opaque <b>Show Text Effect</b>
-	 * with only one loop. Text for this effect must be set with
-	 * {@link EAdShowText#setText(EAdTextImpl)}
-	 * 
-	 * @param id
-	 *            Element's id
-	 */
-	public EAdShowText(String id) {
+	public EAdShowSceneElement(String id) {
 		super(id);
-		loops = 1;
 	}
 
-	/**
-	 * Creates an empty an non-blocking and non-opaque <b>Show Text Effect</b>
-	 * with only one loop. Text for this effect must be set with
-	 * {@link EAdShowText#setText(EAdTextImpl)}
-	 */
-	public EAdShowText() {
+	public EAdShowSceneElement() {
 		this("showTextEffect");
 	}
-
-	/**
-	 * Sets the loops for this effect
-	 * 
-	 * @param loops
-	 *            How many times text must be shown entirely. If -1, text is
-	 *            shown until the effect is stopped
-	 */
-	public void setLoops(int loops) {
-		this.loops = loops;
-	}
-
-	/**
-	 * @return How many times text must be shown entirely. If -1, text is shown
-	 *         until the effect is stopped
-	 */
-	public int getLoops() {
-		return loops;
-	}
 	
-	public void setText( EAdBasicSceneElement text ){
-		setText(text, ShowTextAnimation.NONE);
+	public void setSceneElement( EAdSceneElement text ){
+		setSceneElement(text, ShowTextAnimation.NONE);
 	}
 
-	public void setText(EAdBasicSceneElement text, ShowTextAnimation animation ) {
-		this.text = text;
-		text.setClone(true);
+	public void setSceneElement(EAdSceneElement text, ShowTextAnimation animation ) {
+		this.sceneElement = text;
 		switch ( animation ){
 		case NONE:
 			text.getVars().getVar(EAdSceneElementVars.VAR_ALPHA).setInitialValue(1.0f);
@@ -140,8 +101,8 @@ public class EAdShowText extends AbstractEAdEffect {
 		}
 	}
 
-	public EAdBasicSceneElement getText() {
-		return text;
+	public EAdSceneElement getSceneElement() {
+		return sceneElement;
 	}
 
 	/**
@@ -154,11 +115,19 @@ public class EAdShowText extends AbstractEAdEffect {
 		text.getResources().addAsset(text.getInitialBundle(),
 				EAdBasicSceneElement.appearance, caption);
 		text.setPosition(new EAdPositionImpl(x, y));
-		setText(text, animation);
+		setSceneElement(text, animation);
 	}
 	
 	public void setCaption(Caption caption, int x, int y){
 		this.setCaption(caption, x, y, ShowTextAnimation.NONE);
+	}
+	
+	public int getTime() {
+		return time;
+	}
+
+	public void setTime(int time) {
+		this.time = time;
 	}
 
 }

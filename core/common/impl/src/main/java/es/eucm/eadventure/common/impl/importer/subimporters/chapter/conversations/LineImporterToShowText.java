@@ -43,11 +43,11 @@ import es.eucm.eadventure.common.EAdElementImporter;
 import es.eucm.eadventure.common.GenericImporter;
 import es.eucm.eadventure.common.data.chapter.conditions.Conditions;
 import es.eucm.eadventure.common.data.chapter.conversation.line.ConversationLine;
-import es.eucm.eadventure.common.model.effects.impl.text.EAdShowText;
+import es.eucm.eadventure.common.model.effects.impl.timedevents.EAdShowSceneElement;
 import es.eucm.eadventure.common.model.elements.EAdCondition;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.Caption;
 
-public class LineImporterToShowText implements EAdElementImporter<ConversationLine, EAdShowText>{
+public class LineImporterToShowText implements EAdElementImporter<ConversationLine, EAdShowSceneElement>{
 	
 	@Inject
 	private EAdElementImporter<Conditions, EAdCondition> conditionsImporter;
@@ -55,13 +55,13 @@ public class LineImporterToShowText implements EAdElementImporter<ConversationLi
 	@Inject
 	private GenericImporter<ConversationLine, Caption> captionImporter;
 
-	public EAdShowText init(ConversationLine line) {
-		return new EAdShowText();
+	public EAdShowSceneElement init(ConversationLine line) {
+		return new EAdShowSceneElement();
 	}
 	
 	@Override
-	public EAdShowText convert(ConversationLine line, Object object) {
-		EAdShowText effect = (EAdShowText) object;
+	public EAdShowSceneElement convert(ConversationLine line, Object object) {
+		EAdShowSceneElement effect = (EAdShowSceneElement) object;
 
 		// Set conditions
 

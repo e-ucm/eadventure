@@ -52,12 +52,12 @@ import es.eucm.eadventure.common.model.effects.impl.EAdQuitGame;
 import es.eucm.eadventure.common.model.effects.impl.EAdRandomEffect;
 import es.eucm.eadventure.common.model.effects.impl.EAdTriggerMacro;
 import es.eucm.eadventure.common.model.effects.impl.EAdVarInterpolationEffect;
-import es.eucm.eadventure.common.model.effects.impl.EAdWaitEffect;
-import es.eucm.eadventure.common.model.effects.impl.actorreference.EAdHighlightSceneElement;
 import es.eucm.eadventure.common.model.effects.impl.sceneelements.EAdMakeActiveElementEffect;
 import es.eucm.eadventure.common.model.effects.impl.sceneelements.EAdMoveSceneElement;
-import es.eucm.eadventure.common.model.effects.impl.text.EAdShowText;
 import es.eucm.eadventure.common.model.effects.impl.text.EAdSpeakEffect;
+import es.eucm.eadventure.common.model.effects.impl.timedevents.EAdHighlightSceneElement;
+import es.eucm.eadventure.common.model.effects.impl.timedevents.EAdShowSceneElement;
+import es.eucm.eadventure.common.model.effects.impl.timedevents.EAdWaitEffect;
 import es.eucm.eadventure.common.model.effects.impl.variables.EAdChangeVarValueEffect;
 import es.eucm.eadventure.engine.core.gameobjects.GameObject;
 import es.eucm.eadventure.engine.core.gameobjects.impl.effects.ActorActionsEffectGO;
@@ -74,7 +74,7 @@ import es.eucm.eadventure.engine.core.gameobjects.impl.effects.MoveSceneElementG
 import es.eucm.eadventure.engine.core.gameobjects.impl.effects.PlaySoundEffectGO;
 import es.eucm.eadventure.engine.core.gameobjects.impl.effects.QuitGameEffectGO;
 import es.eucm.eadventure.engine.core.gameobjects.impl.effects.RandomEffectGO;
-import es.eucm.eadventure.engine.core.gameobjects.impl.effects.ShowTextEffectGO;
+import es.eucm.eadventure.engine.core.gameobjects.impl.effects.ShowSceneElementGO;
 import es.eucm.eadventure.engine.core.gameobjects.impl.effects.SpeakEffectGO;
 import es.eucm.eadventure.engine.core.gameobjects.impl.effects.TriggerMacroEffectGO;
 import es.eucm.eadventure.engine.core.gameobjects.impl.effects.VarInterpolationGO;
@@ -84,7 +84,7 @@ public class EffectGameObjectFactoryConfigurator {
 	
 	public void configure(
 			Map<Class<? extends EAdElement>, Class<? extends GameObject<?>>> factoryMap) {
-		factoryMap.put(EAdShowText.class, ShowTextEffectGO.class);
+		factoryMap.put(EAdShowSceneElement.class, ShowSceneElementGO.class);
 		factoryMap.put(EAdComplexBlockingEffect.class,
 				ComplexBlockingEffectGO.class);
 		factoryMap.put(EAdChangeScene.class, ChangeScreenGO.class);

@@ -55,8 +55,8 @@ import es.eucm.eadventure.common.model.effects.impl.EAdChangeScene;
 import es.eucm.eadventure.common.model.effects.impl.sceneelements.EAdMoveSceneElement;
 import es.eucm.eadventure.common.model.effects.impl.sceneelements.EAdMoveSceneElement.MovementSpeed;
 import es.eucm.eadventure.common.model.effects.impl.text.EAdShowQuestion;
-import es.eucm.eadventure.common.model.effects.impl.text.EAdShowText;
 import es.eucm.eadventure.common.model.effects.impl.text.extra.Answer;
+import es.eucm.eadventure.common.model.effects.impl.timedevents.EAdShowSceneElement;
 import es.eucm.eadventure.common.model.effects.impl.variables.EAdChangeVarValueEffect;
 import es.eucm.eadventure.common.model.elements.EAdChapter;
 import es.eucm.eadventure.common.model.elements.EAdTimer;
@@ -367,7 +367,7 @@ public class BasicScene extends EAdSceneImpl implements SceneDemo {
 		EAdString hand = new EAdString("handAction");
 		action.setName(hand);
 		
-		EAdShowText actionEffect = new EAdShowText("effectAction");
+		EAdShowSceneElement actionEffect = new EAdShowSceneElement("effectAction");
 		EAdBasicSceneElement actionText = new EAdBasicSceneElement("rr");
 		
 		actionText.setPosition(new EAdPositionImpl(100, 100));
@@ -378,8 +378,7 @@ public class BasicScene extends EAdSceneImpl implements SceneDemo {
 				new EAdColor(34, 50, 60)));
 		
 		actionText.getResources().addAsset(actionText.getInitialBundle(), EAdBasicSceneElement.appearance, caption);
-		actionEffect.setText(actionText);
-		actionEffect.setLoops(400);
+		actionEffect.setSceneElement(actionText);
 
 		action.getEffects().add(actionEffect);
 

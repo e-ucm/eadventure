@@ -41,7 +41,7 @@ import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 
-import es.eucm.eadventure.common.model.effects.impl.actorreference.EAdHighlightSceneElement;
+import es.eucm.eadventure.common.model.effects.impl.timedevents.EAdHighlightSceneElement;
 import es.eucm.eadventure.engine.core.GameLoop;
 
 public class HighlightEffectTest extends EffectTest{

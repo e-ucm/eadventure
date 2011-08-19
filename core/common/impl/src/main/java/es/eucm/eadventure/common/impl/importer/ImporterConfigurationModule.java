@@ -110,7 +110,7 @@ import es.eucm.eadventure.common.model.effects.EAdEffect;
 import es.eucm.eadventure.common.model.effects.EAdMacro;
 import es.eucm.eadventure.common.model.effects.impl.EAdTriggerMacro;
 import es.eucm.eadventure.common.model.effects.impl.text.EAdShowQuestion;
-import es.eucm.eadventure.common.model.effects.impl.text.EAdShowText;
+import es.eucm.eadventure.common.model.effects.impl.timedevents.EAdShowSceneElement;
 import es.eucm.eadventure.common.model.elements.EAdActor;
 import es.eucm.eadventure.common.model.elements.EAdActorReference;
 import es.eucm.eadventure.common.model.elements.EAdAdventureModel;
@@ -264,7 +264,7 @@ public class ImporterConfigurationModule extends AbstractModule {
 				LineImporterToCaption.class);
 
 		bind(
-				new TypeLiteral<EAdElementImporter<ConversationLine, EAdShowText>>() {
+				new TypeLiteral<EAdElementImporter<ConversationLine, EAdShowSceneElement>>() {
 				}).to(LineImporterToShowText.class);
 		EAdElementFactoryImpl.importerMap.put(ConversationLine.class,
 				LineImporterToShowText.class);

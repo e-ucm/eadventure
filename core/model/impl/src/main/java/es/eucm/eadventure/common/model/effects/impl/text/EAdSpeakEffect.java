@@ -2,6 +2,7 @@ package es.eucm.eadventure.common.model.effects.impl.text;
 
 import es.eucm.eadventure.common.interfaces.Element;
 import es.eucm.eadventure.common.model.effects.impl.AbstractEAdEffect;
+import es.eucm.eadventure.common.model.effects.impl.timedevents.EAdShowSceneElement;
 import es.eucm.eadventure.common.model.variables.EAdVar;
 import es.eucm.eadventure.common.params.EAdFontImpl;
 import es.eucm.eadventure.common.params.fills.impl.EAdBorderedColor;
@@ -14,7 +15,7 @@ import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.shapes.Ba
  * at a given position
  * 
  */
-@Element(runtime = EAdShowText.class, detailed = EAdShowText.class)
+@Element(runtime = EAdShowSceneElement.class, detailed = EAdShowSceneElement.class)
 public class EAdSpeakEffect extends AbstractEAdEffect {
 
 	private EAdVar<Integer> posX, posY;

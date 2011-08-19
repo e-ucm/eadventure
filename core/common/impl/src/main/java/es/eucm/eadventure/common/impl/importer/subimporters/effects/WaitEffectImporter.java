@@ -5,7 +5,7 @@ import com.google.inject.Inject;
 import es.eucm.eadventure.common.EAdElementImporter;
 import es.eucm.eadventure.common.data.chapter.conditions.Conditions;
 import es.eucm.eadventure.common.data.chapter.effects.WaitTimeEffect;
-import es.eucm.eadventure.common.model.effects.impl.EAdWaitEffect;
+import es.eucm.eadventure.common.model.effects.impl.timedevents.EAdWaitEffect;
 import es.eucm.eadventure.common.model.elements.EAdCondition;
 
 public class WaitEffectImporter extends EffectImporter<WaitTimeEffect, EAdWaitEffect>{

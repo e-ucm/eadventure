@@ -47,10 +47,10 @@ import es.eucm.eadventure.common.model.effects.impl.EAdVarInterpolationEffect.In
 import es.eucm.eadventure.common.model.effects.impl.EAdVarInterpolationEffect.LoopType;
 import es.eucm.eadventure.common.model.effects.impl.sceneelements.EAdMakeActiveElementEffect;
 import es.eucm.eadventure.common.model.effects.impl.text.EAdShowQuestion;
-import es.eucm.eadventure.common.model.effects.impl.text.EAdShowText;
-import es.eucm.eadventure.common.model.effects.impl.text.EAdShowText.ShowTextAnimation;
 import es.eucm.eadventure.common.model.effects.impl.text.EAdSpeakEffect;
 import es.eucm.eadventure.common.model.effects.impl.text.extra.Answer;
+import es.eucm.eadventure.common.model.effects.impl.timedevents.EAdShowSceneElement;
+import es.eucm.eadventure.common.model.effects.impl.timedevents.EAdShowSceneElement.ShowTextAnimation;
 import es.eucm.eadventure.common.model.effects.impl.variables.EAdChangeVarValueEffect;
 import es.eucm.eadventure.common.model.elements.EAdSceneElement;
 import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
@@ -83,9 +83,9 @@ public class EffectFactory {
 		return interpolation;
 	}
 
-	public EAdShowText getShowText(String text, int x, int y,
+	public EAdShowSceneElement getShowText(String text, int x, int y,
 			ShowTextAnimation animation, int maximumHeight) {
-		EAdShowText effect = new EAdShowText();
+		EAdShowSceneElement effect = new EAdShowSceneElement();
 		CaptionImpl c = EAdElementsFactory.getInstance().getCaptionFactory()
 				.createCaption(text);
 		c.setMaximumHeight(maximumHeight);
@@ -93,7 +93,7 @@ public class EffectFactory {
 		return effect;
 	}
 
-	public EAdShowText getShowText(String text, int x, int y,
+	public EAdShowSceneElement getShowText(String text, int x, int y,
 			ShowTextAnimation animation) {
 		return this.getShowText(text, x, y, animation, Caption.SCREEN_SIZE);
 	}
@@ -126,7 +126,7 @@ public class EffectFactory {
 
 	}
 
-	public EAdShowText getShowText(String text, int x, int y) {
+	public EAdShowSceneElement getShowText(String text, int x, int y) {
 		return this.getShowText(text, x, y, ShowTextAnimation.NONE);
 	}
 

@@ -48,20 +48,20 @@ import es.eucm.eadventure.common.model.effects.EAdEffect;
 import es.eucm.eadventure.common.model.effects.EAdMacro;
 import es.eucm.eadventure.common.model.effects.impl.EAdMacroImpl;
 import es.eucm.eadventure.common.model.effects.impl.EAdTriggerMacro;
-import es.eucm.eadventure.common.model.effects.impl.text.EAdShowText;
+import es.eucm.eadventure.common.model.effects.impl.timedevents.EAdShowSceneElement;
 
 public class DialogueNodeImporter implements
 		EAdElementImporter<DialogueConversationNode, EAdTriggerMacro> {
 
 	private static int ID_GENERATOR = 0;
 
-	private EAdElementImporter<ConversationLine, EAdShowText> conversationLineImporter;
+	private EAdElementImporter<ConversationLine, EAdShowSceneElement> conversationLineImporter;
 
 	private EffectsImporterFactory effectsImporter;
 
 	@Inject
 	public DialogueNodeImporter(EffectsImporterFactory effectsImporter,
-			EAdElementImporter<ConversationLine, EAdShowText> conversationLineImporter) {
+			EAdElementImporter<ConversationLine, EAdShowSceneElement> conversationLineImporter) {
 
 		this.effectsImporter = effectsImporter;
 		this.conversationLineImporter = conversationLineImporter;
@@ -83,7 +83,7 @@ public class DialogueNodeImporter implements
 		EAdMacro macro = triggerMacro.getMacro();
 		
 		for (int i = 0; i < oldObject.getLineCount(); i++) {
-			EAdShowText effect = conversationLineImporter.init(oldObject
+			EAdShowSceneElement effect = conversationLineImporter.init(oldObject
 					.getLine(i));
 			effect = conversationLineImporter.convert(oldObject
 					.getLine(i), effect);

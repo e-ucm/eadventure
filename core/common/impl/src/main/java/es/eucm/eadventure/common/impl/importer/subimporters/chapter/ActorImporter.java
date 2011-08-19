@@ -51,7 +51,7 @@ import es.eucm.eadventure.common.model.actions.EAdAction;
 import es.eucm.eadventure.common.model.actions.impl.EAdBasicAction;
 import es.eucm.eadventure.common.model.conditions.impl.ANDCondition;
 import es.eucm.eadventure.common.model.conditions.impl.NOTCondition;
-import es.eucm.eadventure.common.model.effects.impl.text.EAdShowText;
+import es.eucm.eadventure.common.model.effects.impl.timedevents.EAdShowSceneElement;
 import es.eucm.eadventure.common.model.elements.EAdActor;
 import es.eucm.eadventure.common.model.elements.EAdCondition;
 import es.eucm.eadventure.common.model.elements.impl.EAdBasicActor;
@@ -157,7 +157,7 @@ public abstract class ActorImporter<P extends Element> implements
 			EAdString description = new EAdString(stringHandler.getUniqueId());
 			stringHandler.addString(description, oldObject.getDescription());
 
-			EAdShowText effect = new EAdShowText(examineAction.getId()
+			EAdShowSceneElement effect = new EAdShowSceneElement(examineAction.getId()
 					+ "_showText");
 
 			Caption caption = new CaptionImpl(description);

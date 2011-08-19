@@ -42,7 +42,7 @@ import static org.junit.Assert.assertEquals;
 import org.junit.Test;
 
 import es.eucm.eadventure.common.model.effects.impl.EAdCancelEffect;
-import es.eucm.eadventure.common.model.effects.impl.EAdWaitEffect;
+import es.eucm.eadventure.common.model.effects.impl.timedevents.EAdWaitEffect;
 import es.eucm.eadventure.engine.core.GameLoop;
 
 public class CancelEffectTest extends EffectTest {
