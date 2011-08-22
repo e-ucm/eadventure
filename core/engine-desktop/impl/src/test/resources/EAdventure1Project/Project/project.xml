@@ -17,9 +17,11 @@
 <entry key="Chapter0.SceneId.Y">243</entry>
 <entry key="Chapter0.SceneId.X">115</entry>
 <entry key="Chapter0.ConversationId.3.Y">406</entry>
+<entry key="ANIMATION">1</entry>
 <entry key="Chapter0.ConversationId.3.X">211</entry>
 <entry key="Chapter0.Questions.3.Y">350</entry>
 <entry key="Chapter0.Questions.3.X">451</entry>
+<entry key="BOOK">2</entry>
 <entry key="Chapter0.ConversationId.2.Y">282</entry>
 <entry key="Chapter0.ConversationId.2.X">276</entry>
 <entry key="Chapter0.Questions.2.Y">350</entry>
@@ -34,8 +36,8 @@
 <entry key="Chapter0.ConversationId.1.X">283</entry>
 <entry key="Chapter0.Questions.1.X">351</entry>
 <entry key="Chapter0.ConversationId.0.Y">66</entry>
-<entry key="Chapter0.ConversationId.0.X">279</entry>
 <entry key="Chapter0.Questions.0.Y">150</entry>
+<entry key="Chapter0.ConversationId.0.X">279</entry>
 <entry key="SOUND">1</entry>
 <entry key="Chapter0.Questions.0.X">351</entry>
 <entry key="MVPLAYER">2</entry>

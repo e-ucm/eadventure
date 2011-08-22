@@ -128,10 +128,7 @@ public abstract class SceneElementGOImpl<T extends EAdSceneElement> extends
 
 		EAdElementVars vars = element.getVars();
 
-		this.position = vars.getVar(EAdSceneElementVars.VAR_POSITION)
-				.getInitialValue();
-		vars.getVar(EAdSceneElementVars.VAR_X).setInitialValue(position.getX());
-		vars.getVar(EAdSceneElementVars.VAR_Y).setInitialValue(position.getY());
+
 
 		// If element is a clone, sets its vars to its initial values, if not,
 		// it preserves the values contained by the valueMap
@@ -140,9 +137,12 @@ public abstract class SceneElementGOImpl<T extends EAdSceneElement> extends
 				valueMap.setValue(var, var.getInitialValue());
 			}
 		}
+		
+		position = valueMap.getValue(vars.getVar(EAdSceneElementVars.VAR_POSITION));
+		valueMap.setValue(vars.getVar(EAdSceneElementVars.VAR_X), position.getX());
+		valueMap.setValue(vars.getVar(EAdSceneElementVars.VAR_Y), position.getY());
 
 		updateVars(vars);
-
 		// To load dimensions
 		getRenderAsset();
 	}

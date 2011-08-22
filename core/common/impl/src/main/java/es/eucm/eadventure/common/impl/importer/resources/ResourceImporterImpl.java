@@ -321,4 +321,9 @@ public class ResourceImporterImpl implements ResourceImporter {
 		return frames;
 	}
 
+	@Override
+	public String getNewProjecFolder() {
+		return newAdventurePath;
+	}
+
 }

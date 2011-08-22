@@ -52,6 +52,7 @@ import es.eucm.eadventure.common.data.chapter.ElementReference;
 import es.eucm.eadventure.common.data.chapter.Exit;
 import es.eucm.eadventure.common.data.chapter.Timer;
 import es.eucm.eadventure.common.data.chapter.Trajectory;
+import es.eucm.eadventure.common.data.chapter.book.Book;
 import es.eucm.eadventure.common.data.chapter.conditions.Conditions;
 import es.eucm.eadventure.common.data.chapter.conversation.Conversation;
 import es.eucm.eadventure.common.data.chapter.conversation.GraphConversation;
@@ -78,6 +79,7 @@ import es.eucm.eadventure.common.impl.importer.resources.AnimationImporter;
 import es.eucm.eadventure.common.impl.importer.resources.FrameImporter;
 import es.eucm.eadventure.common.impl.importer.resources.ResourceImporterImpl;
 import es.eucm.eadventure.common.impl.importer.subimporters.AdventureImporter;
+import es.eucm.eadventure.common.impl.importer.subimporters.books.BookImporter;
 import es.eucm.eadventure.common.impl.importer.subimporters.chapter.ActionImporter;
 import es.eucm.eadventure.common.impl.importer.subimporters.chapter.AtrezzoImporter;
 import es.eucm.eadventure.common.impl.importer.subimporters.chapter.ChapterImporter;
@@ -116,6 +118,7 @@ import es.eucm.eadventure.common.model.elements.EAdActorReference;
 import es.eucm.eadventure.common.model.elements.EAdAdventureModel;
 import es.eucm.eadventure.common.model.elements.EAdChapter;
 import es.eucm.eadventure.common.model.elements.EAdCondition;
+import es.eucm.eadventure.common.model.elements.EAdScene;
 import es.eucm.eadventure.common.model.elements.EAdSceneElement;
 import es.eucm.eadventure.common.model.elements.EAdTimer;
 import es.eucm.eadventure.common.model.elements.impl.EAdSceneImpl;
@@ -289,6 +292,10 @@ public class ImporterConfigurationModule extends AbstractModule {
 		}).to(BarrierImporter.class);
 		EAdElementFactoryImpl.importerMap.put(Barrier.class,
 				BarrierImporter.class);
+
+		bind(new TypeLiteral<EAdElementImporter<Book, EAdScene>>() {
+		}).to(BookImporter.class);
+		EAdElementFactoryImpl.importerMap.put(Book.class, BookImporter.class);
 
 		bind(ResourceImporter.class).to(ResourceImporterImpl.class);
 		bind(EAdElementFactory.class).to(EAdElementFactoryImpl.class);

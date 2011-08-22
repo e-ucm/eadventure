@@ -63,7 +63,7 @@ import es.eucm.eadventure.engine.core.gameobjects.GameObject;
 import es.eucm.eadventure.engine.core.gameobjects.impl.effects.ActorActionsEffectGO;
 import es.eucm.eadventure.engine.core.gameobjects.impl.effects.CancelEffectGO;
 import es.eucm.eadventure.engine.core.gameobjects.impl.effects.ChangeAppearanceGO;
-import es.eucm.eadventure.engine.core.gameobjects.impl.effects.ChangeScreenGO;
+import es.eucm.eadventure.engine.core.gameobjects.impl.effects.ChangeSceneGO;
 import es.eucm.eadventure.engine.core.gameobjects.impl.effects.ChangeVariableGO;
 import es.eucm.eadventure.engine.core.gameobjects.impl.effects.ComplexBlockingEffectGO;
 import es.eucm.eadventure.engine.core.gameobjects.impl.effects.HighlightEffectGO;
@@ -87,7 +87,7 @@ public class EffectGameObjectFactoryConfigurator {
 		factoryMap.put(EAdShowSceneElement.class, ShowSceneElementGO.class);
 		factoryMap.put(EAdComplexBlockingEffect.class,
 				ComplexBlockingEffectGO.class);
-		factoryMap.put(EAdChangeScene.class, ChangeScreenGO.class);
+		factoryMap.put(EAdChangeScene.class, ChangeSceneGO.class);
 		factoryMap.put(EAdMoveSceneElement.class, MoveSceneElementGO.class);
 		factoryMap.put(EAdHighlightSceneElement.class,
 				HighlightEffectGO.class);

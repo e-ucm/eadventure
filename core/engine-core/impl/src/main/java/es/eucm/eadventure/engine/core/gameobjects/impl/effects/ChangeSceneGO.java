@@ -50,12 +50,12 @@ import es.eucm.eadventure.engine.core.platform.GUI;
 import es.eucm.eadventure.engine.core.platform.PlatformConfiguration;
 import es.eucm.eadventure.engine.core.platform.TransitionFactory;
 
-public class ChangeScreenGO extends AbstractEffectGO<EAdChangeScene> {
+public class ChangeSceneGO extends AbstractEffectGO<EAdChangeScene> {
 
 	private TransitionFactory transitionFactory;
 
 	@Inject
-	public ChangeScreenGO(AssetHandler assetHandler,
+	public ChangeSceneGO(AssetHandler assetHandler,
 			StringHandler stringHandler, GameObjectFactory gameObjectFactory,
 			GUI gui, GameState gameState, ValueMap valueMap,
 			PlatformConfiguration platformConfiguration, TransitionFactory transitionFactory) {
@@ -75,7 +75,7 @@ public class ChangeScreenGO extends AbstractEffectGO<EAdChangeScene> {
 		transition.setPrevious(gameState.getScene());
 		
 		gameState.setScene(transition);
-		valueMap.clean();
+		//valueMap.clean();
 	}
 
 	@Override

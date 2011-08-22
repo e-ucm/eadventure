@@ -120,14 +120,16 @@ public class GameStateImpl implements GameState {
 	 * engine.core.gameobjects.SceneGO)
 	 */
 	@Override
-	public void setScene(SceneGO<? extends EAdScene> scene) {
-		if (this.scene != null && this.scene.getElement() != null)
+	public void setScene(SceneGO<? extends EAdScene> newScene) {
+		if (this.scene != null && this.scene.getElement() != null){
 			valueMap.setValue(this.scene.getElement().sceneLoaded(), Boolean.FALSE);
-		this.scene = scene;
+			if (scene.getElement().isReturnable())
+				previousSceneStack.push(scene.getElement());
+		}
+		this.scene = newScene;
 		if (this.scene != null && this.scene.getElement() != null)
-			valueMap.setValue(scene.getElement().sceneLoaded(), Boolean.TRUE);
-		if ((scene.getElement() != null) && scene.getElement().isReturnable())
-			previousSceneStack.push(scene.getElement());
+			valueMap.setValue(newScene.getElement().sceneLoaded(), Boolean.TRUE);
+		
 	}
 
 	/*

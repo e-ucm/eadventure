@@ -15,10 +15,9 @@
 			</exit>
 		</exits>
 		<objects>
-			<object-ref hasInfluenceArea="no" idTarget="ItemId" layer="3" scale="1.0324324" x="640" y="555"/>
-			<object-ref hasInfluenceArea="no" idTarget="ItemId1" layer="2" scale="9.125" x="505" y="258"/>
-			<object-ref hasInfluenceArea="no" idTarget="ItemId2" layer="1" scale="6.9375" x="119" y="471"/>
-			<object-ref hasInfluenceArea="yes" idTarget="ItemId2" influenceHeight="85" influenceWidth="85" influenceX="-22" influenceY="-24" layer="0" scale="2.8125" x="334" y="270"/>
+			<object-ref hasInfluenceArea="no" idTarget="ItemId" layer="2" scale="1.0324324" x="640" y="555"/>
+			<object-ref hasInfluenceArea="no" idTarget="ItemId1" layer="1" scale="9.125" x="505" y="258"/>
+			<object-ref hasInfluenceArea="yes" idTarget="ItemId3" influenceHeight="118" influenceWidth="118" influenceX="-16" influenceY="-18" layer="0" scale="4.875" x="261" y="346"/>
 		</objects>
 		<active-areas>
 			<active-area hasInfluenceArea="no" height="362" id="IdObject" rectangular="yes" width="116" x="33" y="186">
@@ -47,7 +46,7 @@
 			</barrier>
 		</barriers>
 		<atrezzo>
-			<atrezzo-ref idTarget="AtrezzoId" layer="4" scale="0.6243094" x="92" y="185"/>
+			<atrezzo-ref idTarget="AtrezzoId" layer="3" scale="0.6243094" x="92" y="185"/>
 		</atrezzo>
 		<trajectory>
 			<node id="node9091" scale="3.4" x="221" y="383"/>
@@ -91,6 +90,20 @@
 			<atrezzo-ref idTarget="AtrezzoId" layer="0" scale="1.0" x="583" y="337"/>
 		</atrezzo>
 	</scene>
+	<book id="BookId" xNextPage="99" xPreviousPage="18" yNextPage="32" yPreviousPage="31">
+		<resources name="No name">
+			<asset type="background" uri="assets/special/DefaultBook.jpg"/>
+		</resources>
+		<text>
+			<title>A nice traditional book.</title>With paragraphs and all that. Aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaand a lot stuff more. Cool stuff. a
+			<bullet>Even bullet points.</bullet>
+			<img src="assets/image/peter.jpg"/>
+			<title>E-learning</title>E-learning comprises all forms of electronically supported learning and teaching. The information and communication systems, whether networked learning or not, serve as specific media to implement the learning process.[1] The term will still most likely be utilized to reference out-of-classroom and in-classroom educational experiences via technology, even as advances continue in regard to devices and curriculum.
+			<title>Higher education</title>By 2006, 3.5 million students were participating in on-line learning at institutions of higher education in the United States.[4] According to the Sloan Foundation reports,[5][6] there has been an increase of around 12–14 percent per year on average in enrollments for fully online learning over the five years 2004–2009 in the US post-secondary system, compared with an average of approximately 2 per cent increase per year in enrollments overall. Allen and Seamen (2009)[5] claim that almost a quarter of all students in post-secondary education were taking fully online courses in 2008, and a report by Ambient Insight Research[7] suggests that in 2009, 44 per cent of post-secondary students in the USA were taking some or all of their courses online, and projected that this figure would rise to 81 percent by 2014. Thus it can be seen that e-learning is moving rapidly from the margins to being a predominant form of post-secondary education, at least in the USA.
+			<bullet>Many higher education, for-profit institutions, now offer on-line classes. By contrast, only about half of private, non-profit schools offer them. The Sloan report, based on a poll of academic leaders, indicated that students generally appear to be at least as satisfied with their on-line classes as they are with traditional ones. Private institutions may become more involved with on-line presentations as the cost of instituting such a system decreases. Properly trained staff must also be hired to work with students on-line. These staff members need to understand the content area, and also be highly trained in the use of the computer and Internet. Online education is rapidly increasing, and online doctoral programs have even developed at leading research universities.[8]</bullet>
+			<bullet>E-learning is also utilized by public K-12 schools in the United States. Some E-Learning environments take place in a traditional classroom, others allow students to attend classes from home or other locations. There are several states that are utilizing cyber and virtual school platforms for E-learning across the country that continued to increase. Virtual school enables students to log into synchronous learning or asynchronous learning courses anywhere there is an internet connection. Technology kits are usually provided that include computers, printers, and reimbursement for home internet use. Students are to use technology for school use only and must meet weekly work submission requirements. Teachers employed by K-12 online public cyber schools must be certified teachers in the state they are teaching in. Cyber schools allow for students to maintain their own pacing and progress, course selection, and provides the flexibility for students to create their own schedule.[citation needed]</bullet>
+		</text>
+	</book>
 	<object id="ItemId" returnsWhenDragged="yes">
 		<documentation>This a nice blond guy. All natural.</documentation>
 		<resources name="No name">
@@ -118,6 +131,8 @@
 						<show-text borderColor="-16777216" frontColor="-1" x="400" y="500">Thisis effect with probability 1</show-text>
 						<show-text borderColor="-16777216" frontColor="-1" x="400" y="500">This effect with probability 2</show-text>
 					</random-effect>
+					<condition/>
+					<trigger-book idTarget="BookId"/>
 					<condition/>
 				</effect>
 			</examine>
@@ -151,7 +166,7 @@
 					<condition/>
 					<speak-player>This is being said by the player, you.</speak-player>
 					<condition/>
-					<move-player x="191" y="367"/>
+					<play-animation uri="assets/animation/walking_down.eaa" x="366" y="348"/>
 					<condition/>
 				</effect>
 			</use>
@@ -171,6 +186,25 @@
 			<use keepDistance="35" needsGoTo="yes" not-effects="no">
 				<effect>
 					<play-sound background="no" uri="assets/audio/Centrífuga.mp3"/>
+					<condition/>
+				</effect>
+			</use>
+		</actions>
+	</object>
+	<object id="ItemId3" returnsWhenDragged="yes">
+		<resources name="No name">
+			<asset type="icon" uri="assets/special/EmptyIcon.png"/>
+			<asset type="image" uri="assets/image/bomb.png"/>
+		</resources>
+		<description>
+			<name/>
+			<brief/>
+			<detailed/>
+		</description>
+		<actions>
+			<use keepDistance="35" needsGoTo="yes" not-effects="no">
+				<effect>
+					<trigger-book idTarget="BookId"/>
 					<condition/>
 				</effect>
 			</use>

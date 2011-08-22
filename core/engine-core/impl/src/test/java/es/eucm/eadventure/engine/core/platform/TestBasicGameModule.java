@@ -74,7 +74,7 @@ import es.eucm.eadventure.engine.core.gameobjects.huds.impl.EffectHUDImpl;
 import es.eucm.eadventure.engine.core.gameobjects.impl.GameObjectFactoryImpl;
 import es.eucm.eadventure.engine.core.gameobjects.impl.SceneGOImpl;
 import es.eucm.eadventure.engine.core.gameobjects.impl.effects.CancelEffectGO;
-import es.eucm.eadventure.engine.core.gameobjects.impl.effects.ChangeScreenGO;
+import es.eucm.eadventure.engine.core.gameobjects.impl.effects.ChangeSceneGO;
 import es.eucm.eadventure.engine.core.gameobjects.impl.effects.ChangeVariableGO;
 import es.eucm.eadventure.engine.core.gameobjects.impl.effects.HighlightEffectGO;
 import es.eucm.eadventure.engine.core.gameobjects.impl.effects.MoveSceneElementGO;
@@ -135,7 +135,7 @@ public class TestBasicGameModule extends AbstractModule {
 		map.put(EAdBasicActor.class, ActorGO.class);
 
 		map.put(EAdShowSceneElement.class, ShowSceneElementGO.class);
-		map.put(EAdChangeScene.class, ChangeScreenGO.class);
+		map.put(EAdChangeScene.class, ChangeSceneGO.class);
 		map.put(EAdMoveSceneElement.class, MoveSceneElementGO.class);
 		map.put(EAdHighlightSceneElement.class, HighlightEffectGO.class);
 		map.put(EAdWaitEffect.class, WaitEffectGO.class);

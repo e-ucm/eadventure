@@ -45,7 +45,7 @@ import es.eucm.eadventure.common.model.elements.EAdGeneralElement;
 import es.eucm.eadventure.common.resources.assets.AssetDescriptor;
 
 public interface ResourceImporter {
-	
+
 	public static final String DRAWABLE = "drawable";
 
 	public static final String BINARY = "binary";
@@ -63,7 +63,7 @@ public interface ResourceImporter {
 
 	/**
 	 * Set the path for the resources importer
-	 *
+	 * 
 	 * @param newAdventurePath
 	 *            Absolute path where the new adventure must be placed
 	 */
@@ -86,4 +86,11 @@ public interface ResourceImporter {
 	 * @return
 	 */
 	AssetDescriptor getAssetDescritptor(String assetPath, Class<?> clazz);
+
+	/**
+	 * Returns the folder where project is being imported
+	 * 
+	 * @return
+	 */
+	String getNewProjecFolder();
 }

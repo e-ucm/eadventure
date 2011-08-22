@@ -92,6 +92,10 @@ public class LiteralExpressionOperation extends EAdOperationImpl {
 		}
 	}
 
+	public LiteralExpressionOperation(String expression, EAdVar<?>... floatVar) {
+		this("literalExpression", expression, floatVar);
+	}
+
 	/**
 	 * Sets the literal expression to be evaluated
 	 * 

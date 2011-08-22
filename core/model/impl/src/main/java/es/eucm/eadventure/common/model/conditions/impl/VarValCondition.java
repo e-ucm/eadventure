@@ -70,6 +70,13 @@ public class VarValCondition extends VarCondition {
 		this.var = var;
 		this.val = val.floatValue();
 	}
+	
+	public VarValCondition(String id, EAdVar<? extends Number> var, Number val, Operator op) {
+		super(op);
+		this.var = var;
+		this.val = val.floatValue();
+		this.id = id;
+	}
 
 	/**
 	 * @return the var

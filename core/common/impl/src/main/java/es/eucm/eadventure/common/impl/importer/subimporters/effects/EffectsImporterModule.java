@@ -65,6 +65,7 @@ import es.eucm.eadventure.common.data.chapter.effects.SetValueEffect;
 import es.eucm.eadventure.common.data.chapter.effects.ShowTextEffect;
 import es.eucm.eadventure.common.data.chapter.effects.SpeakCharEffect;
 import es.eucm.eadventure.common.data.chapter.effects.SpeakPlayerEffect;
+import es.eucm.eadventure.common.data.chapter.effects.TriggerBookEffect;
 import es.eucm.eadventure.common.data.chapter.effects.TriggerConversationEffect;
 import es.eucm.eadventure.common.data.chapter.effects.TriggerCutsceneEffect;
 import es.eucm.eadventure.common.data.chapter.effects.TriggerLastSceneEffect;
@@ -112,6 +113,7 @@ public class EffectsImporterModule extends AbstractModule implements MapProvider
 		factoryMap.put(WaitTimeEffect.class, WaitEffectImporter.class);
 		factoryMap.put(HighlightItemEffect.class, HighlightEffectImporter.class);
 		factoryMap.put(PlayAnimationEffect.class, PlayAnimationEffectImporter.class);
+		factoryMap.put(TriggerBookEffect.class, TriggerBookEffectImporter.class);
 	}
 	
 	@Override
