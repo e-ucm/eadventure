@@ -37,6 +37,7 @@
 
 package es.eucm.eadventure.common.impl.importer.subimporters.chapter;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import com.google.inject.Inject;
@@ -44,13 +45,20 @@ import com.google.inject.Inject;
 import es.eucm.eadventure.common.EAdElementImporter;
 import es.eucm.eadventure.common.data.chapter.Action;
 import es.eucm.eadventure.common.data.chapter.elements.NPC;
+import es.eucm.eadventure.common.data.chapter.resources.Resources;
 import es.eucm.eadventure.common.impl.importer.interfaces.EAdElementFactory;
 import es.eucm.eadventure.common.impl.importer.interfaces.ResourceImporter;
+import es.eucm.eadventure.common.interfaces.features.Oriented.Orientation;
 import es.eucm.eadventure.common.model.actions.EAdAction;
-import es.eucm.eadventure.common.model.elements.EAdActor;
+import es.eucm.eadventure.common.model.elements.EAdSceneElement.CommonStates;
 import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
 import es.eucm.eadventure.common.resources.StringHandler;
+import es.eucm.eadventure.common.resources.assets.drawable.Drawable;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.ImageImpl;
+import es.eucm.eadventure.common.resources.assets.drawable.compounds.OrientedDrawable;
+import es.eucm.eadventure.common.resources.assets.drawable.compounds.StateDrawable;
+import es.eucm.eadventure.common.resources.assets.drawable.compounds.impl.OrientedDrawableImpl;
+import es.eucm.eadventure.common.resources.assets.drawable.compounds.impl.StateDrawableImpl;
 
 public class NPCImporter extends ActorImporter<NPC> {
 
@@ -61,29 +69,73 @@ public class NPCImporter extends ActorImporter<NPC> {
 			EAdElementImporter<Action, EAdAction> actionImporter) {
 		super(stringHandler, resourceImporter, elementFactory, actionImporter);
 	}
-	
-
-
-	@Override
-	public EAdActor convert(NPC oldObject, Object object) {
-		EAdActor actor = super.convert(oldObject, object);
-		
-		
-		return actor;
-	}
-
-
 
 	@Override
 	public void initResourcesCorrespondencies() {
-		//FIXME animations, 
-		
+		ArrayList<StateDrawable> drawables = new ArrayList<StateDrawable>();
+
 		properties = new HashMap<String, String>();
-		properties.put(NPC.RESOURCE_TYPE_STAND_DOWN, EAdBasicSceneElement.appearance);
-		
+		properties.put(NPC.RESOURCE_TYPE_STAND_DOWN,
+				EAdBasicSceneElement.appearance);
+
 		objectClasses = new HashMap<String, Object>();
-		objectClasses.put(NPC.RESOURCE_TYPE_STAND_DOWN, ImageImpl.class);
-		
+		objectClasses.put(NPC.RESOURCE_TYPE_STAND_DOWN, drawables);
+
+		for (Resources r : element.getResources()) {
+
+			StateDrawableImpl stateDrawable = new StateDrawableImpl();
+
+			OrientedDrawable stand = getOrientedAsset(r,
+					NPC.RESOURCE_TYPE_STAND_UP, NPC.RESOURCE_TYPE_STAND_DOWN,
+					NPC.RESOURCE_TYPE_STAND_RIGHT, NPC.RESOURCE_TYPE_STAND_LEFT);
+			stateDrawable.addDrawable(
+					CommonStates.EAD_STATE_DEFAULT.toString(), stand);
+
+			OrientedDrawable walk = getOrientedAsset(r,
+					NPC.RESOURCE_TYPE_WALK_UP, NPC.RESOURCE_TYPE_WALK_DOWN,
+					NPC.RESOURCE_TYPE_WALK_RIGHT, NPC.RESOURCE_TYPE_WALK_LEFT);
+			stateDrawable.addDrawable(
+					CommonStates.EAD_STATE_WALKING.toString(),
+					walk == null ? stand : walk);
+
+			OrientedDrawable talking = getOrientedAsset(r,
+					NPC.RESOURCE_TYPE_SPEAK_UP, NPC.RESOURCE_TYPE_SPEAK_DOWN,
+					NPC.RESOURCE_TYPE_SPEAK_RIGHT, NPC.RESOURCE_TYPE_SPEAK_LEFT);
+			stateDrawable.addDrawable(
+					CommonStates.EAD_STATE_TALKING.toString(),
+					talking == null ? stand : talking);
+
+			OrientedDrawable using = getOrientedAsset(r,
+					NPC.RESOURCE_TYPE_USE_RIGHT, NPC.RESOURCE_TYPE_USE_LEFT,
+					NPC.RESOURCE_TYPE_SPEAK_RIGHT, NPC.RESOURCE_TYPE_USE_LEFT);
+			stateDrawable.addDrawable(CommonStates.EAD_STATE_USING.toString(),
+					using == null ? stand : using);
+
+			drawables.add(stateDrawable);
+		}
+
 	}
 
+	private OrientedDrawable getOrientedAsset(Resources r, String up,
+			String down, String right, String left) {
+		if (up == null && down == null && right == null && left == null)
+			return null;
+
+		OrientedDrawableImpl oriented = new OrientedDrawableImpl();
+		Drawable north = (Drawable) resourceImporter.getAssetDescritptor(r.getAssetPath(up),
+				ImageImpl.class);
+		Drawable south = (Drawable) resourceImporter.getAssetDescritptor(r.getAssetPath(down),
+				ImageImpl.class);
+		Drawable east = (Drawable) resourceImporter.getAssetDescritptor(r.getAssetPath(right),
+				ImageImpl.class);
+		Drawable west = (Drawable) resourceImporter.getAssetDescritptor(r.getAssetPath(left),
+				ImageImpl.class);
+
+		oriented.setDrawable(Orientation.N, north);
+		oriented.setDrawable(Orientation.S, south);
+		oriented.setDrawable(Orientation.E, east);
+		oriented.setDrawable(Orientation.W, west);
+
+		return oriented;
+	}
 }

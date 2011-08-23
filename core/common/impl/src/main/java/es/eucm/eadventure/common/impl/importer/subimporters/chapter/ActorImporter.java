@@ -75,6 +75,8 @@ public abstract class ActorImporter<P extends Element> implements
 	protected EAdElementFactory elementFactory;
 
 	protected EAdElementImporter<Action, EAdAction> actionImporter;
+	
+	protected P element;
 
 	@Inject
 	public ActorImporter(StringHandler stringHandler,
@@ -89,6 +91,7 @@ public abstract class ActorImporter<P extends Element> implements
 
 	@Override
 	public EAdActor init(P oldObject) {
+		this.element = oldObject;
 		return new EAdBasicActor(oldObject.getId());
 	}
 	

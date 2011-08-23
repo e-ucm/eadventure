@@ -212,6 +212,8 @@ public class ResourceImporterImpl implements ResourceImporter {
 				AssetDescriptor asset = null;
 				if (o instanceof Class) {
 					asset = this.getAssetDescritptor(assetPath, (Class<?>) o);
+				} else if ( o instanceof List ){
+					asset = (AssetDescriptor) ((List<?>) o).get(i);
 				} else if (o instanceof AssetDescriptor) {
 					asset = (AssetDescriptor) o;
 				}
@@ -257,6 +259,9 @@ public class ResourceImporterImpl implements ResourceImporter {
 	}
 
 	public AssetDescriptor getAssetDescritptor(String assetPath, Class<?> clazz) {
+		if ( assetPath == null )
+			return null;
+		
 		AssetDescriptor asset = null;
 		
 		// Special case

@@ -188,6 +188,7 @@ public class EAdElementFactoryImpl implements EAdElementFactory {
 			else
 				var = new IntegerVar(id);
 			vars.put(id, var);
+			currentChapter.getVars().add(var);
 		}
 		return var;
 	}
