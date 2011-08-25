@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+<comment>Project Configuration</comment>
+<entry key="Chapter0.ConversationId.1.X">216</entry>
+<entry key="SPNPC">5</entry>
+<entry key="SOUND">1</entry>
+<entry key="Chapter0.ConversationId.3.Y">307</entry>
+<entry key="Chapter0.ConversationId.3.X">272</entry>
+<entry key="DECREMENT">2</entry>
+<entry key="DEACTIVATE">1</entry>
+<entry key="MVNPC">4</entry>
+<entry key="CONVERSATION">1</entry>
+<entry key="Chapter0.SceneId.Y">302</entry>
+<entry key="autosave">yes</entry>
+<entry key="Chapter0.ConversationId.0.Y">98</entry>
+<entry key="Chapter0.SceneId.X">284</entry>
+<entry key="Chapter0.ConversationId.0.X">214</entry>
+<entry key="ANIMATION">1</entry>
+<entry key="Chapter0.ConversationId.2.Y">304</entry>
+<entry key="Chapter0.ConversationId.2.X">147</entry>
+<entry key="Chapter0.ConversationId.4.Y">281</entry>
+<entry key="INCREMENT">2</entry>
+<entry key="Chapter0.ConversationId.4.X">564</entry>
+<entry key="Chapter0.SceneId.Visible">true</entry>
+<entry key="ACTIVATE">1</entry>
+<entry key="SHOWTEXT">2</entry>
+<entry key="SETVALUE">1</entry>
+<entry key="Chapter0.ConversationId.1.Y">200</entry>
+</properties>

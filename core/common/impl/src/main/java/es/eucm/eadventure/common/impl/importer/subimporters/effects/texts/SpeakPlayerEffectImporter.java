@@ -42,7 +42,7 @@ import com.google.inject.Inject;
 import es.eucm.eadventure.common.EAdElementImporter;
 import es.eucm.eadventure.common.data.chapter.conditions.Conditions;
 import es.eucm.eadventure.common.data.chapter.effects.SpeakPlayerEffect;
-import es.eucm.eadventure.common.data.chapter.elements.Player;
+import es.eucm.eadventure.common.data.chapter.elements.NPC;
 import es.eucm.eadventure.common.impl.importer.interfaces.EAdElementFactory;
 import es.eucm.eadventure.common.model.effects.impl.text.EAdSpeakEffect;
 import es.eucm.eadventure.common.model.elements.EAdCondition;
@@ -56,6 +56,8 @@ import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.shapes.Ba
 
 public class SpeakPlayerEffectImporter extends
 		TextEffectImporter<SpeakPlayerEffect> {
+	
+	private NPC npc;
 
 	@Inject
 	public SpeakPlayerEffectImporter(StringHandler stringHandler,
@@ -63,32 +65,64 @@ public class SpeakPlayerEffectImporter extends
 			EAdElementFactory factory) {
 		super(stringHandler, conditionImporter, factory);
 	}
+	
+	@Override
+	public EAdSpeakEffect init(SpeakPlayerEffect oldObject) {
+		npc = factory.getCurrentOldChapterModel().getPlayer();
+		return super.init(oldObject);
+	}
 
 	@Override
-	public EAdSpeakEffect convert(SpeakPlayerEffect oldObject, Object newElement) {
-		EAdSpeakEffect effect = super.convert(oldObject, newElement);
+	public EAdSpeakEffect convert(SpeakPlayerEffect oldObject, Object object) {
+		EAdSpeakEffect effect = super.convert(oldObject, object);
 
-		EAdString text = stringHandler.addNewString(oldObject.getLine());
+		String line = oldObject.getLine();
+
+		BalloonType type = BalloonType.ROUNDED_RECTANGLE;
+		if (line.startsWith(SpeakCharEffectImporter.WHISPER)) {
+			// TODO Whisper balloon
+			type = BalloonType.ROUNDED_RECTANGLE;
+			line = line.substring(SpeakCharEffectImporter.WHISPER.length());
+		} else if (line.startsWith(SpeakCharEffectImporter.THOUGHT)) {
+			type = BalloonType.CLOUD;
+			line = line.substring(SpeakCharEffectImporter.THOUGHT.length());
+		} else if (line.startsWith(SpeakCharEffectImporter.YELL)) {
+			type = BalloonType.ELECTRIC;
+			line = line.substring(SpeakCharEffectImporter.YELL.length());
+		}
+
+		EAdString text = stringHandler.addNewString(line);
 		effect.setText(text);
-		effect.setBalloonType(BalloonType.ROUNDED_RECTANGLE);
+		effect.setBalloonType(type);
 
-		Player p = factory.getCurrentOldChapterModel().getPlayer();
+		EAdColor center = new EAdColor("0x"
+				+ npc.getTextFrontColor().substring(1) + "ff");
+		EAdColor border = new EAdColor("0x"
+				+ npc.getTextBorderColor().substring(1) + "ff");
 
-		EAdColor center = new EAdColor("0x" + p.getTextFrontColor().substring(1) + "ff");
-		EAdColor border = new EAdColor("0x" + p.getTextBorderColor().substring(1) + "ff");
+		EAdColor bubbleCenter = new EAdColor("0x"
+				+ npc.getBubbleBkgColor().substring(1) + "ff");
+		EAdColor bubbleBorder = new EAdColor("0x"
+				+ npc.getBubbleBorderColor().substring(1) + "ff");
 
-		EAdColor bubbleCenter = new EAdColor("0x" + p.getBubbleBkgColor().substring(1) + "ff");
-		EAdColor bubbleBorder = new EAdColor("0x" + p.getBubbleBorderColor().substring(1)
-				+ "ff");
-		
-		effect.setColor(new EAdBorderedColor(center, border), new EAdBorderedColor(bubbleCenter, bubbleBorder));
-		
+		effect.setColor(new EAdBorderedColor(center, border),
+				new EAdBorderedColor(bubbleCenter, bubbleBorder));
+
 		// FIXME Wrong, element holds an actor, and we need the reference
-		EAdSceneElement element = (EAdSceneElement) factory.getElementById(Player.IDENTIFIER);
-		
-		effect.setPosition(element.getVars().getVar(EAdSceneElementVars.VAR_X), element.getVars().getVar(EAdSceneElementVars.VAR_Y));
+		EAdSceneElement element = (EAdSceneElement) factory
+				.getElementById(npc.getId());
+
+		effect.setPosition(element.getVars().getVar(
+				EAdSceneElementVars.VAR_POSITION));
+		effect.setStateVar(element.getVars().getVar(
+				EAdSceneElementVars.VAR_STATE));
+		effect.setDimensions(
+				element.getVars().getVar(EAdSceneElementVars.VAR_WIDTH),
+				element.getVars().getVar(EAdSceneElementVars.VAR_HEIGHT), element.getVars().getVar(EAdSceneElementVars.VAR_SCALE));
 
 		return effect;
 	}
+
+	
 
 }

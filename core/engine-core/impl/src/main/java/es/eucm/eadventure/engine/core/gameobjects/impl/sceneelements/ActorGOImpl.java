@@ -128,7 +128,7 @@ public class ActorGOImpl extends SceneElementGOImpl<EAdActor> implements
 						&& currentReference != se
 						&& se != null) {
 						currentReference = (EAdActorReference) se;
-						
+						valueMap.setValue(element.getVars().getVar(EAdSceneElementVars.VAR_POSITION), valueMap.getValue(currentReference.getVars().getVar(EAdSceneElementVars.VAR_POSITION)));
 						valueMap.setValue(element.getVars().getVar(EAdSceneElementVars.VAR_X), valueMap.getValue(currentReference.getVars().getVar(EAdSceneElementVars.VAR_X)));
 						valueMap.setValue(element.getVars().getVar(EAdSceneElementVars.VAR_Y), valueMap.getValue(currentReference.getVars().getVar(EAdSceneElementVars.VAR_Y)));
 						valueMap.setValue(element.getVars().getVar(EAdSceneElementVars.VAR_VISIBLE), valueMap.getValue(currentReference.getVars().getVar(EAdSceneElementVars.VAR_VISIBLE)));
@@ -143,6 +143,7 @@ public class ActorGOImpl extends SceneElementGOImpl<EAdActor> implements
 		}
 		
 		if (currentReference != null) {
+			valueMap.setValue(currentReference.getVars().getVar(EAdSceneElementVars.VAR_POSITION), valueMap.getValue(element.getVars().getVar(EAdSceneElementVars.VAR_POSITION)));
 			valueMap.setValue(currentReference.getVars().getVar(EAdSceneElementVars.VAR_X), valueMap.getValue(element.getVars().getVar(EAdSceneElementVars.VAR_X)));
 			valueMap.setValue(currentReference.getVars().getVar(EAdSceneElementVars.VAR_Y), valueMap.getValue(element.getVars().getVar(EAdSceneElementVars.VAR_Y)));
 			valueMap.setValue(currentReference.getVars().getVar(EAdSceneElementVars.VAR_VISIBLE), valueMap.getValue(element.getVars().getVar(EAdSceneElementVars.VAR_VISIBLE)));

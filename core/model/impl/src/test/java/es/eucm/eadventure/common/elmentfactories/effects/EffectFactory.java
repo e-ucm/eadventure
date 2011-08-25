@@ -147,8 +147,7 @@ public class EffectFactory {
 
 		effect.setText(string);
 		effect.setPosition(
-				sceneElement.getVars().getVar(EAdSceneElementVars.VAR_X),
-				sceneElement.getVars().getVar(EAdSceneElementVars.VAR_Y));
+				sceneElement.getVars().getVar(EAdSceneElementVars.VAR_POSITION));
 		effect.setStateVar(sceneElement.getVars().getVar(
 				EAdSceneElementVars.VAR_STATE));
 

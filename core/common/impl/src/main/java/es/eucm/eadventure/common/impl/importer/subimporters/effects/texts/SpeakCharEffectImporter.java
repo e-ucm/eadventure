@@ -52,9 +52,16 @@ import es.eucm.eadventure.common.params.fills.impl.EAdBorderedColor;
 import es.eucm.eadventure.common.params.fills.impl.EAdColor;
 import es.eucm.eadventure.common.resources.EAdString;
 import es.eucm.eadventure.common.resources.StringHandler;
+import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.shapes.BallonShape.BalloonType;
 
 public class SpeakCharEffectImporter extends
 		TextEffectImporter<SpeakCharEffect> {
+
+	public static final String WHISPER = "#:*";
+	public static final String THOUGHT = "#O";
+	public static final String YELL = "#!";
+
+	private NPC npc;
 
 	@Inject
 	public SpeakCharEffectImporter(StringHandler stringHandler,
@@ -64,27 +71,60 @@ public class SpeakCharEffectImporter extends
 	}
 
 	@Override
+	public EAdSpeakEffect init(SpeakCharEffect oldObject) {
+		npc = factory.getCurrentOldChapterModel().getCharacter(
+				oldObject.getTargetId());
+		return super.init(oldObject);
+	}
+
+	@Override
 	public EAdSpeakEffect convert(SpeakCharEffect oldObject, Object object) {
 		EAdSpeakEffect effect = super.convert(oldObject, object);
 
-		EAdString text = stringHandler.addNewString(oldObject.getLine());
+		String line = oldObject.getLine();
+
+		BalloonType type = BalloonType.ROUNDED_RECTANGLE;
+		if (line.startsWith(WHISPER)) {
+			// TODO Whisper balloon
+			type = BalloonType.ROUNDED_RECTANGLE;
+			line = line.substring(WHISPER.length());
+		} else if (line.startsWith(THOUGHT)) {
+			type = BalloonType.CLOUD;
+			line = line.substring(THOUGHT.length());
+		} else if (line.startsWith(YELL)) {
+			type = BalloonType.ELECTRIC;
+			line = line.substring(YELL.length());
+		}
+
+		EAdString text = stringHandler.addNewString(line);
 		effect.setText(text);
+		effect.setBalloonType(type);
 
-		NPC p = factory.getCurrentOldChapterModel().getCharacter(
-				oldObject.getTargetId());
-		
-		EAdColor center = new EAdColor("0x" + p.getTextFrontColor().substring(1) + "ff");
-		EAdColor border = new EAdColor("0x" + p.getTextBorderColor().substring(1) + "ff");
+		EAdColor center = new EAdColor("0x"
+				+ npc.getTextFrontColor().substring(1) + "ff");
+		EAdColor border = new EAdColor("0x"
+				+ npc.getTextBorderColor().substring(1) + "ff");
 
-		EAdColor bubbleCenter = new EAdColor("0x" + p.getBubbleBkgColor().substring(1) + "ff");
-		EAdColor bubbleBorder = new EAdColor("0x" + p.getBubbleBorderColor().substring(1) + "ff");
-		
-		effect.setColor(new EAdBorderedColor(center, border), new EAdBorderedColor(bubbleCenter, bubbleBorder));
-		
+		EAdColor bubbleCenter = new EAdColor("0x"
+				+ npc.getBubbleBkgColor().substring(1) + "ff");
+		EAdColor bubbleBorder = new EAdColor("0x"
+				+ npc.getBubbleBorderColor().substring(1) + "ff");
+
+		effect.setColor(new EAdBorderedColor(center, border),
+				new EAdBorderedColor(bubbleCenter, bubbleBorder));
+
 		// FIXME Wrong, element holds an actor, and we need the reference
-		EAdSceneElement element = (EAdSceneElement) factory.getElementById(p.getId());
-		
-		effect.setPosition(element.getVars().getVar(EAdSceneElementVars.VAR_X), element.getVars().getVar(EAdSceneElementVars.VAR_Y));
+		EAdSceneElement element = (EAdSceneElement) factory.getElementById(npc
+				.getId());
+
+		effect.setPosition(element.getVars().getVar(
+				EAdSceneElementVars.VAR_POSITION));
+		effect.setStateVar(element.getVars().getVar(
+				EAdSceneElementVars.VAR_STATE));
+		effect.setDimensions(
+				element.getVars().getVar(EAdSceneElementVars.VAR_WIDTH),
+				element.getVars().getVar(EAdSceneElementVars.VAR_HEIGHT),
+				element.getVars().getVar(EAdSceneElementVars.VAR_SCALE));
 
 		return effect;
 	}

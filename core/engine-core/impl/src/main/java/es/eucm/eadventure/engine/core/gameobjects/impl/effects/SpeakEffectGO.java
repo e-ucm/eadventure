@@ -8,6 +8,7 @@ import es.eucm.eadventure.common.model.elements.EAdSceneElement.CommonStates;
 import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
 import es.eucm.eadventure.common.model.elements.impl.EAdComplexSceneElement;
 import es.eucm.eadventure.common.model.guievents.EAdMouseEvent.MouseActionType;
+import es.eucm.eadventure.common.params.geom.EAdPosition;
 import es.eucm.eadventure.common.params.geom.impl.EAdPositionImpl;
 import es.eucm.eadventure.common.resources.StringHandler;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.CaptionImpl;
@@ -93,14 +94,19 @@ public class SpeakEffectGO extends AbstractEffectGO<EAdSpeakEffect> {
 
 		BezierShape rectangle = null;
 
-		if (element.getPosX() != null && element.getPosY() != null) {
-			int xOrigin = valueMap.getValue(element.getPosX());
-			int yOrigin = valueMap.getValue(element.getPosY());
+		if (element.getPosition() != null ) {
+			EAdPosition pos = valueMap.getValue( element.getPosition() );
+			float scale = element.getScale() == null ? 1 : valueMap.getValue(element.getScale());
+			int elementWidth = (int) (( element.getWidth() == null ? 0 : valueMap.getValue(element.getWidth()) ) * scale);
+			int elementHeight = (int) (( element.getHeight() == null ? 0 : valueMap.getValue(element.getHeight()) ) * scale);
+			int xOrigin = pos.getJavaX(elementWidth) + elementWidth / 2;
+			int yOrigin = pos.getJavaY(elementHeight);
 
-			if (yOrigin < height / 2) {
+			if (yOrigin + elementHeight / 2 < height / 2) {
 				int offsetY = height - (bottom - top) - horizontalMargin * 2;
 				top += offsetY;
 				bottom += offsetY;
+				yOrigin += elementHeight;
 			}
 
 			rectangle = new BallonShape(left, top, right, bottom,
@@ -133,6 +139,7 @@ public class SpeakEffectGO extends AbstractEffectGO<EAdSpeakEffect> {
 
 		caption = (RuntimeCaption) ((SceneElementGO<?>) gameObjectFactory
 				.get(textSE)).getRenderAsset();
+		caption.reset();
 
 		return complex;
 	}

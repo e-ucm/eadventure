@@ -6,6 +6,7 @@ import es.eucm.eadventure.common.model.effects.impl.timedevents.EAdShowSceneElem
 import es.eucm.eadventure.common.model.variables.EAdVar;
 import es.eucm.eadventure.common.params.EAdFontImpl;
 import es.eucm.eadventure.common.params.fills.impl.EAdBorderedColor;
+import es.eucm.eadventure.common.params.geom.EAdPosition;
 import es.eucm.eadventure.common.resources.EAdString;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.shapes.BallonShape.BalloonType;
 
@@ -18,7 +19,9 @@ import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.shapes.Ba
 @Element(runtime = EAdShowSceneElement.class, detailed = EAdShowSceneElement.class)
 public class EAdSpeakEffect extends AbstractEAdEffect {
 
-	private EAdVar<Integer> posX, posY;
+	private EAdVar<EAdPosition> position;
+	
+	private EAdVar<Integer> width, height;
 
 	private EAdVar<String> stateVar;
 
@@ -29,6 +32,8 @@ public class EAdSpeakEffect extends AbstractEAdEffect {
 	private EAdFontImpl font;
 	
 	private BalloonType ballonType;
+
+	private EAdVar<Float> scale;
 
 	/**
 	 * Creates an speak effect, with no text and no position, with text color of
@@ -55,16 +60,19 @@ public class EAdSpeakEffect extends AbstractEAdEffect {
 	}
 
 	/**
-	 * Sets the variables that determines the origin of the balloon
+	 * Sets the variable that determines the origin of the balloon
 	 * 
-	 * @param posX
-	 *            variable for x coordinate
-	 * @param posY
-	 *            variable for y coordinate
+	 * @param position
+	 *            variable holding the position 
 	 */
-	public void setPosition(EAdVar<Integer> posX, EAdVar<Integer> posY) {
-		this.posX = posX;
-		this.posY = posY;
+	public void setPosition(EAdVar<EAdPosition> pos) {
+		this.position = pos;
+	}
+	
+	public void setDimensions( EAdVar<Integer> width, EAdVar<Integer> height, EAdVar<Float> scale ){
+		this.width = width;
+		this.height = height;
+		this.scale = scale;
 	}
 
 	/**
@@ -107,12 +115,8 @@ public class EAdSpeakEffect extends AbstractEAdEffect {
 		this.font = font;
 	}
 
-	public EAdVar<Integer> getPosX() {
-		return posX;
-	}
-
-	public EAdVar<Integer> getPosY() {
-		return posY;
+	public EAdVar<EAdPosition> getPosition() {
+		return position;
 	}
 
 	public EAdString getString() {
@@ -129,6 +133,18 @@ public class EAdSpeakEffect extends AbstractEAdEffect {
 
 	public EAdFontImpl getFont() {
 		return font;
+	}
+	
+	public EAdVar<Integer> getWidth(){
+		return width;
+	}
+	
+	public EAdVar<Integer> getHeight(){
+		return height;
+	}
+	
+	public EAdVar<Float> getScale(){
+		return scale;
 	}
 
 }

@@ -10,3 +10,5 @@ syntax: glob
 */EAdventure1Project/*
 syntax: regexp
 ^core/engine-android/impl/bin$
+syntax: regexp
+^core/engine-desktop/impl/src/test/resources/FirstPersonEffectsTestImported$
