@@ -134,4 +134,9 @@ public class GameObjectFactoryImpl implements GameObjectFactory {
 		}
 		return temp;
 	}
+
+	@Override
+	public void clean() {
+		objectMap.clear();
+	}
 }

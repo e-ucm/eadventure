@@ -16,6 +16,7 @@
 <entry key="Chapter0.ConversationId.0.Y">98</entry>
 <entry key="Chapter0.SceneId.X">284</entry>
 <entry key="Chapter0.ConversationId.0.X">214</entry>
+<entry key="WAITTIME">1</entry>
 <entry key="ANIMATION">1</entry>
 <entry key="Chapter0.ConversationId.2.Y">304</entry>
 <entry key="Chapter0.ConversationId.2.X">147</entry>
@@ -24,7 +25,8 @@
 <entry key="Chapter0.ConversationId.4.X">564</entry>
 <entry key="Chapter0.SceneId.Visible">true</entry>
 <entry key="ACTIVATE">1</entry>
-<entry key="SHOWTEXT">2</entry>
+<entry key="BOOK">1</entry>
+<entry key="SHOWTEXT">4</entry>
 <entry key="SETVALUE">1</entry>
 <entry key="Chapter0.ConversationId.1.Y">200</entry>
 </properties>

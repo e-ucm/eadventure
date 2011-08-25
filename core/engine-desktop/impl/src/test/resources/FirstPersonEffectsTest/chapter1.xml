@@ -7,17 +7,36 @@
 		<name/>
 		<default-initial-position x="400" y="300"/>
 		<objects>
-			<object-ref hasInfluenceArea="no" idTarget="ItemId" layer="6" scale="1.5479453" x="108" y="157"/>
-			<object-ref hasInfluenceArea="no" idTarget="ResetButton" layer="5" scale="1.0" x="636" y="143"/>
-			<object-ref hasInfluenceArea="no" idTarget="Counter" layer="4" scale="1.0" x="699" y="142"/>
-			<object-ref hasInfluenceArea="no" idTarget="IncrementButton" layer="3" scale="1.0" x="636" y="83"/>
-			<object-ref hasInfluenceArea="no" idTarget="DecrementButton" layer="2" scale="1.0" x="638" y="201"/>
-			<object-ref hasInfluenceArea="no" idTarget="PlaySound" layer="0" scale="1.0" x="638" y="301"/>
+			<object-ref hasInfluenceArea="no" idTarget="ItemId" layer="7" scale="1.5479453" x="108" y="157"/>
+			<object-ref hasInfluenceArea="no" idTarget="ResetButton" layer="6" scale="1.0" x="636" y="143"/>
+			<object-ref hasInfluenceArea="no" idTarget="Counter" layer="5" scale="1.0" x="699" y="142"/>
+			<object-ref hasInfluenceArea="no" idTarget="IncrementButton" layer="4" scale="1.0" x="636" y="83"/>
+			<object-ref hasInfluenceArea="no" idTarget="DecrementButton" layer="3" scale="1.0" x="638" y="201"/>
+			<object-ref hasInfluenceArea="no" idTarget="PlaySound" layer="1" scale="1.0" x="638" y="301"/>
+			<object-ref hasInfluenceArea="no" idTarget="ItemId1" layer="0" scale="5.6875" x="429" y="463"/>
 		</objects>
 		<characters>
-			<character-ref hasInfluenceArea="no" idTarget="CharacterId" layer="1" scale="3.95" x="111" y="487"/>
+			<character-ref hasInfluenceArea="no" idTarget="CharacterId" layer="2" scale="3.95" x="111" y="487"/>
 		</characters>
 	</scene>
+	<book id="BookId" xNextPage="412" xPreviousPage="310" yNextPage="487" yPreviousPage="487">
+		<resources name="No name">
+			<asset type="arrowLeftOver" uri="assets/special/DefaultLeftOverArrow.png"/>
+			<asset type="background" uri="assets/special/DefaultBook.jpg"/>
+			<asset type="arrowLeftNormal" uri="assets/special/DefaultLeftNormalArrow.png"/>
+		</resources>
+		<text>
+			<title>The book that couldn't be read</title>Once upon a time, there was this book that couldn't be read. Its exactly this book you're reading. Here is a photo, if you don't believe me.
+			<img src="assets/image/DefaultBook.jpg"/>
+			<bullet/>Maybe it's not the best photo, but:
+			<bullet>I don't care at all about what you think&#13;
+</bullet>
+			<title/>
+			<bullet>And b), how can this bee a book that can't be read when obviously you're reading it!</bullet>
+			<title>THE END!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!&#13;
+TO BE CONTINUED????</title>
+		</text>
+	</book>
 	<object id="ItemId" returnsWhenDragged="yes">
 		<resources name="No name">
 			<condition>
@@ -230,6 +249,40 @@
 					<condition/>
 				</effect>
 			</custom>
+			<custom keepDistance="0" name="Wait Time" needsGoTo="no" not-effects="no">
+				<resources name="No name">
+					<asset type="buttonOver" uri="gui/buttons/assets_arrows_DefaultLeftOverArrow.png"/>
+					<asset type="buttonNormal" uri="gui/buttons/assets_arrows_DefaultLeftOverArrow.png"/>
+					<asset type="buttonPressed" uri="assets/special/EmptyIcon.png"/>
+				</resources>
+				<effect>
+					<show-text borderColor="-16777216" frontColor="-1" x="400" y="500">Now you wait.</show-text>
+					<condition/>
+					<wait-time time="5"/>
+					<condition/>
+					<show-text borderColor="-16777216" frontColor="-1" x="400" y="500">You waited five seconds, didn't you?</show-text>
+					<condition/>
+				</effect>
+			</custom>
+		</actions>
+	</object>
+	<object id="ItemId1" returnsWhenDragged="yes">
+		<resources name="No name">
+			<asset type="image" uri="assets/image/enemiy.png"/>
+			<asset type="icon" uri="assets/special/EmptyIcon.png"/>
+		</resources>
+		<description>
+			<name/>
+			<brief/>
+			<detailed/>
+		</description>
+		<actions>
+			<use keepDistance="35" needsGoTo="yes" not-effects="no">
+				<effect>
+					<trigger-book idTarget="BookId"/>
+					<condition/>
+				</effect>
+			</use>
 		</actions>
 	</object>
 	<player>

@@ -63,4 +63,9 @@ public interface GameObjectFactory {
 	 */
 	<T extends EAdElement> GameObject<?> get(T element);
 
+	/**
+	 * Cleans all temporary elements in the factory
+	 */
+	void clean();
+
 }

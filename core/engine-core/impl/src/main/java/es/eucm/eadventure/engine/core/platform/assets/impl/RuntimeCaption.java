@@ -284,7 +284,7 @@ public class RuntimeCaption extends AbstractRuntimeAsset<Caption> implements
 			bounds.width += descriptor.getPadding() * 2;
 			bounds.height += descriptor.getPadding() * 2;
 		}
-		
+
 		reset();
 	}
 
@@ -324,15 +324,17 @@ public class RuntimeCaption extends AbstractRuntimeAsset<Caption> implements
 	 *            steps to go forward
 	 */
 	public void goForward(int i) {
-		currentPart += i;
-		if (currentPart >= totalParts) {
-			while (currentPart >= totalParts) {
-				currentPart -= totalParts;
-				loops--;
-				timesRead++;
+		if (totalParts > 0) {
+			currentPart += i;
+			if (currentPart >= totalParts) {
+				while (currentPart >= totalParts) {
+					currentPart -= totalParts;
+					loops--;
+					timesRead++;
+				}
+				if (loops <= 0)
+					currentPart = totalParts - 1;
 			}
-			if (loops <= 0)
-				currentPart = totalParts - 1;
 		}
 		updateTimeShown();
 	}

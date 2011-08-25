@@ -147,46 +147,47 @@ public class BookImporter implements EAdElementImporter<Book, EAdScene> {
 		image = new ComposedDrawableImpl();
 
 		for (BookParagraph p : oldObject.getParagraphs()) {
-			switch (p.getType()) {
-			case BookParagraph.TITLE:
-				addTextDrawable(p.getContent(), titleFont, titleEAdFont, 0,
-						TITLE_HEIGHT, TEXT_WIDTH);
-				break;
-			case BookParagraph.TEXT:
-				addTextDrawable(p.getContent(), textFont, textEAdFont, 0,
-						LINE_HEIGHT, TEXT_WIDTH);
-				break;
-			case BookParagraph.BULLET:
-				if (dispY + LINE_HEIGHT > PAGE_TEXT_HEIGHT) {
-					column++;
-					dispY = TEXT_Y;
-				}
-				CircleShape bullet = new CircleShape(0, 0, BULLET_WIDTH / 3);
-				bullet.setFill(EAdColor.BLACK);
-				image.addDrawable(bullet, getDispX() + BULLET_WIDTH / 2, dispY
-						+ LINE_HEIGHT / 2);
-				addTextDrawable(p.getContent(), textFont, textEAdFont,
-						BULLET_WIDTH, LINE_HEIGHT, TEXT_WIDTH_BULLET);
-				break;
-			case BookParagraph.IMAGE:
-				Image i = (Image) resourceImporter.getAssetDescritptor(
-						p.getContent(), ImageImpl.class);
-				try {
-					BufferedImage im = ImageIO.read(new File(resourceImporter
-							.getNewProjecFolder(), i.getURI().toString()
-							.substring(1)));
-					int height = im.getHeight();
-					if (dispY + height > PAGE_TEXT_HEIGHT) {
+			if (p.getContent() != null && !p.getContent().equals(""))
+				switch (p.getType()) {
+				case BookParagraph.TITLE:
+					addTextDrawable(p.getContent(), titleFont, titleEAdFont, 0,
+							TITLE_HEIGHT, TEXT_WIDTH);
+					break;
+				case BookParagraph.TEXT:
+					addTextDrawable(p.getContent(), textFont, textEAdFont, 0,
+							LINE_HEIGHT, TEXT_WIDTH);
+					break;
+				case BookParagraph.BULLET:
+					if (dispY + LINE_HEIGHT > PAGE_TEXT_HEIGHT) {
 						column++;
 						dispY = TEXT_Y;
 					}
-					image.addDrawable(i, getDispX(), dispY);
-					dispY += height;
-				} catch (IOException e) {
-					e.printStackTrace();
+					CircleShape bullet = new CircleShape(0, 0, BULLET_WIDTH / 3);
+					bullet.setFill(EAdColor.BLACK);
+					image.addDrawable(bullet, getDispX() + BULLET_WIDTH / 2,
+							dispY + LINE_HEIGHT / 2);
+					addTextDrawable(p.getContent(), textFont, textEAdFont,
+							BULLET_WIDTH, LINE_HEIGHT, TEXT_WIDTH_BULLET);
+					break;
+				case BookParagraph.IMAGE:
+					Image i = (Image) resourceImporter.getAssetDescritptor(
+							p.getContent(), ImageImpl.class);
+					try {
+						BufferedImage im = ImageIO.read(new File(
+								resourceImporter.getNewProjecFolder(), i
+										.getURI().toString().substring(1)));
+						int height = im.getHeight();
+						if (dispY + height > PAGE_TEXT_HEIGHT) {
+							column++;
+							dispY = TEXT_Y;
+						}
+						image.addDrawable(i, getDispX(), dispY);
+						dispY += height;
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+					break;
 				}
-				break;
-			}
 		}
 
 		EAdBasicSceneElement content = new EAdBasicSceneElement(
@@ -195,15 +196,16 @@ public class BookImporter implements EAdElementImporter<Book, EAdScene> {
 				EAdBasicSceneElement.appearance, image);
 		content.setPosition(0, 0);
 		content.setClone(true);
-		
 
 		EAdVar<Integer> xVar = content.getVars().getVar(
 				EAdSceneElementVars.VAR_X);
-		
-		EAdSceneElementEvent event = new EAdSceneElementEventImpl("restartBook" );
-		event.addEffect(SceneElementEvent.ADDED_TO_SCENE, new EAdChangeVarValueEffect("restarBook", xVar, new AssignOperation( "assign", 0 )));
+
+		EAdSceneElementEvent event = new EAdSceneElementEventImpl("restartBook");
+		event.addEffect(SceneElementEvent.ADDED_TO_SCENE,
+				new EAdChangeVarValueEffect("restarBook", xVar,
+						new AssignOperation("assign", 0)));
 		content.getEvents().add(event);
-		
+
 		EAdCondition leftCondition = new VarValCondition("leftCondition", xVar,
 				0, Operator.LESS);
 		EAdBasicSceneElement leftArrow = getArrow(oldObject, content,
@@ -357,8 +359,7 @@ public class BookImporter implements EAdElementImporter<Book, EAdScene> {
 			String normal, String over) {
 		AssetDescriptor normalAsset = getArrowAsset(book, normal);
 
-		
-		AssetDescriptor overAsset = getArrowAsset( book, over ); 
+		AssetDescriptor overAsset = getArrowAsset(book, over);
 		arrow.getResources().addAsset(arrow.getInitialBundle(),
 				EAdBasicSceneElement.appearance, normalAsset);
 
@@ -378,35 +379,33 @@ public class BookImporter implements EAdElementImporter<Book, EAdScene> {
 		arrow.addBehavior(EAdMouseEventImpl.MOUSE_EXITED, change2);
 
 	}
-	
+
 	private static final String normalLeft = "assets/special/DefaultLeftNormalArrow.png";
 	private static final String overLeft = "assets/special/DefaultLeftOverArrow.png";
-	
+
 	private String normalRight, overRight;
 
 	private AssetDescriptor getArrowAsset(Book book, String resource) {
 		String path = book.getResources().get(0).getAssetPath(resource);
 		if (path != null) {
 			return resourceImporter.getAssetDescritptor(path, ImageImpl.class);
-		}
-		else {
-			if ( resource.equals(Book.RESOURCE_TYPE_ARROW_LEFT_NORMAL)){
-				return resourceImporter.getAssetDescritptor(normalLeft, ImageImpl.class);
-			}
-			else if ( resource.equals(Book.RESOURCE_TYPE_ARROW_LEFT_OVER)){
-				return resourceImporter.getAssetDescritptor(overLeft, ImageImpl.class);
-			}
-			else if ( resource.equals(Book.RESOURCE_TYPE_ARROW_RIGHT_NORMAL)){
-				if ( normalRight == null ){
+		} else {
+			if (resource.equals(Book.RESOURCE_TYPE_ARROW_LEFT_NORMAL)) {
+				return resourceImporter.getAssetDescritptor(normalLeft,
+						ImageImpl.class);
+			} else if (resource.equals(Book.RESOURCE_TYPE_ARROW_LEFT_OVER)) {
+				return resourceImporter.getAssetDescritptor(overLeft,
+						ImageImpl.class);
+			} else if (resource.equals(Book.RESOURCE_TYPE_ARROW_RIGHT_NORMAL)) {
+				if (normalRight == null) {
 					loadNormalRight();
 				}
-				return new ImageImpl( normalRight );
-			}
-			else if ( resource.equals(Book.RESOURCE_TYPE_ARROW_RIGHT_OVER)){
-				if ( overRight == null ){
+				return new ImageImpl(normalRight);
+			} else if (resource.equals(Book.RESOURCE_TYPE_ARROW_RIGHT_OVER)) {
+				if (overRight == null) {
 					loadOverRight();
 				}
-				return new ImageImpl( overRight );
+				return new ImageImpl(overRight);
 			}
 		}
 		return null;
@@ -414,38 +413,47 @@ public class BookImporter implements EAdElementImporter<Book, EAdScene> {
 	}
 
 	private void loadOverRight() {
-		ImageImpl i = (ImageImpl) resourceImporter.getAssetDescritptor(overLeft, ImageImpl.class);
+		ImageImpl i = (ImageImpl) resourceImporter.getAssetDescritptor(
+				overLeft, ImageImpl.class);
 		try {
 			BufferedImage im = ImageIO.read(new File(resourceImporter
 					.getNewProjecFolder(), i.getURI().toString().substring(1)));
 			overRight = "drawable/assets_special_DefaultOverRightArrow.png";
-			BufferedImage out = new BufferedImage( im.getWidth(), im.getHeight(), BufferedImage.TYPE_4BYTE_ABGR );
+			BufferedImage out = new BufferedImage(im.getWidth(),
+					im.getHeight(), BufferedImage.TYPE_4BYTE_ABGR);
 			Graphics2D g = (Graphics2D) out.getGraphics();
-			
-			g.drawImage(im, AffineTransform.getRotateInstance(Math.PI, im.getWidth() / 2, im.getHeight() / 2 ), null);
-			ImageIO.write(out, "png", new File( resourceImporter.getNewProjecFolder(), overRight ));
+
+			g.drawImage(im, AffineTransform.getRotateInstance(Math.PI,
+					im.getWidth() / 2, im.getHeight() / 2), null);
+			ImageIO.write(out, "png",
+					new File(resourceImporter.getNewProjecFolder(), overRight));
 			overRight = "@" + overRight;
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		
-		
+
 	}
 
 	private void loadNormalRight() {
-		ImageImpl i = (ImageImpl) resourceImporter.getAssetDescritptor(normalLeft, ImageImpl.class);
+		ImageImpl i = (ImageImpl) resourceImporter.getAssetDescritptor(
+				normalLeft, ImageImpl.class);
 		try {
 			BufferedImage im = ImageIO.read(new File(resourceImporter
 					.getNewProjecFolder(), i.getURI().toString().substring(1)));
 			normalRight = "drawable/assets_special_DefaultNormalRightArrow.png";
-			BufferedImage out = new BufferedImage( im.getWidth(), im.getHeight(), BufferedImage.TYPE_4BYTE_ABGR );
+			BufferedImage out = new BufferedImage(im.getWidth(),
+					im.getHeight(), BufferedImage.TYPE_4BYTE_ABGR);
 			Graphics2D g = (Graphics2D) out.getGraphics();
-			g.drawImage(im, AffineTransform.getRotateInstance(Math.PI, im.getWidth() / 2, im.getHeight() / 2 ), null);
-			ImageIO.write(out, "png", new File( resourceImporter.getNewProjecFolder(), normalRight ));
-			normalRight = "@" + normalRight; 
+			g.drawImage(im, AffineTransform.getRotateInstance(Math.PI,
+					im.getWidth() / 2, im.getHeight() / 2), null);
+			ImageIO.write(
+					out,
+					"png",
+					new File(resourceImporter.getNewProjecFolder(), normalRight));
+			normalRight = "@" + normalRight;
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		
+
 	}
 }
