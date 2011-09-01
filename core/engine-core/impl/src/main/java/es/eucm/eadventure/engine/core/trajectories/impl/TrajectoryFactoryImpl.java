@@ -8,6 +8,7 @@ import es.eucm.eadventure.common.interfaces.AbstractFactory;
 import es.eucm.eadventure.common.interfaces.MapProvider;
 import es.eucm.eadventure.common.model.trajectories.TrajectoryDefinition;
 import es.eucm.eadventure.common.params.geom.EAdPosition;
+import es.eucm.eadventure.engine.core.gameobjects.SceneElementGO;
 import es.eucm.eadventure.engine.core.trajectories.TrajectoryFactory;
 import es.eucm.eadventure.engine.core.trajectories.TrajectoryGenerator;
 
@@ -21,14 +22,29 @@ public class TrajectoryFactoryImpl extends
 	}
 
 	@Override
-	public <T extends TrajectoryDefinition> List<EAdPosition> getTrajectory(
-			T trajectoryDefinition, EAdPosition currentPosition, int x, int y) {
+	public List<EAdPosition> getTrajectory(
+			TrajectoryDefinition trajectoryDefinition, EAdPosition currentPosition, int x, int y) {
 
 		@SuppressWarnings("unchecked")
-		TrajectoryGenerator<T> generator = (TrajectoryGenerator<T>) this
+		TrajectoryGenerator<TrajectoryDefinition> generator = (TrajectoryGenerator<TrajectoryDefinition>) this
 				.get(trajectoryDefinition.getClass());
 
 		return generator.getTrajectory(trajectoryDefinition, currentPosition,
 				x, y);
+	}
+
+	@Override
+	public List<EAdPosition> getTrajectory(
+			TrajectoryDefinition trajectoryDefinition,
+			EAdPosition currentPosition, SceneElementGO<?> sceneElement) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public boolean canGetTo(TrajectoryDefinition trajectoryDefinition,
+			EAdPosition currentPosition, SceneElementGO<?> sceneElement) {
+		// TODO Auto-generated method stub
+		return false;
 	}
 }

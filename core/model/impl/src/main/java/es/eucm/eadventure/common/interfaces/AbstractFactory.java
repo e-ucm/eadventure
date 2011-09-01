@@ -68,7 +68,10 @@ public abstract class AbstractFactory<T> implements Factory<T> {
 		T element = map.get(object);
 		if (element == null) {
 			logger.log(Level.INFO, "No element in factory for object " + object + " " + this.getClass());
-			for (Class<?> i : object.getInterfaces()) {
+			//TODO Not supported by GWT
+			/*
+			Class<?>[] interfaces = object.getInterfaces();
+			for (Class<?> i : interfaces) {
 				element = map.get(i);
 				if (element != null) {
 					logger.info("Using super class in factory for object of class " + object.getClass() + " using " + i);
@@ -76,6 +79,7 @@ public abstract class AbstractFactory<T> implements Factory<T> {
 					return element;
 				}
 			}
+			*/
 			throw new EAdRuntimeException("No element in factory for object (or for any of its interfaces) " + object);
 		}
 		return element;

@@ -41,6 +41,7 @@ import es.eucm.eadventure.common.interfaces.Element;
 import es.eucm.eadventure.common.interfaces.Param;
 import es.eucm.eadventure.common.model.elements.EAdActor;
 import es.eucm.eadventure.common.model.elements.EAdActorReference;
+import es.eucm.eadventure.common.params.geom.EAdRectangle;
 
 @Element(runtime = EAdActorReferenceImpl.class, detailed = EAdActorReferenceImpl.class)
 public class EAdActorReferenceImpl extends EAdBasicSceneElement implements
@@ -48,6 +49,9 @@ public class EAdActorReferenceImpl extends EAdBasicSceneElement implements
 
 	@Param("referencedActor")
 	private EAdActor referencedActor;
+	
+	@Param("influenceArea")
+	private EAdRectangle influenceArea;
 
 	/**
 	 * Creates an empty actor reference
@@ -99,6 +103,15 @@ public class EAdActorReferenceImpl extends EAdBasicSceneElement implements
 	@Override
 	public EAdActor getReferencedActor() {
 		return referencedActor;
+	}
+
+	public void setInfluenceArea(EAdRectangle r) {
+		this.influenceArea = r;
+	}
+
+	@Override
+	public EAdRectangle getInfluenceArea() {
+		return influenceArea;
 	}
 
 }

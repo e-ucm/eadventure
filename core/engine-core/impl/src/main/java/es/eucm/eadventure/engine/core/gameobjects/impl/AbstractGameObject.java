@@ -106,7 +106,7 @@ public abstract class AbstractGameObject<T extends EAdGeneralElement> extends
 	}
 
 	public String toString() {
-		return getClass().getSimpleName() + ": " + element.getId();
+		return getClass().getName() + ": " + element.getId();
 	}
 
 }

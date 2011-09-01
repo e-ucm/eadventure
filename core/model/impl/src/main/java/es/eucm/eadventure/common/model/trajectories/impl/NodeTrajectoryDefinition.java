@@ -113,7 +113,7 @@ public class NodeTrajectoryDefinition extends EAdElementImpl implements
 		barriers.add(barrier);
 	}
 
-	public class Node implements Cloneable {
+	public class Node {
 
 		private String id;
 
@@ -178,20 +178,13 @@ public class NodeTrajectoryDefinition extends EAdElementImpl implements
 			this.scale = scale;
 		}
 
-		@Override
-		public Object clone() throws CloneNotSupportedException {
-
-			Node n = (Node) super.clone();
-			// the id mut be unique for each node in the chapter
-			n.id = "node" + (new Random()).nextInt(10000);
-			n.scale = scale;
-			n.x = x;
-			n.y = y;
+		public Node copy() {
+			Node n = new Node("node" + (new Random()).nextInt(10000), x, y, scale);
 			return n;
 		}
 	}
 
-	public class Side implements Cloneable {
+	public class Side {
 
 		private String idStart;
 
@@ -245,10 +238,9 @@ public class NodeTrajectoryDefinition extends EAdElementImpl implements
 			return length;
 		}
 
-		@Override
-		public Object clone() throws CloneNotSupportedException {
+		public Side copy() {
 
-			Side s = (Side) super.clone();
+			Side s = new Side(null, null);
 			s.idEnd = (idEnd != null ? new String(idEnd) : null);
 			s.idStart = (idStart != null ? new String(idStart) : null);
 			s.length = length;

@@ -98,7 +98,8 @@ public class GameStateImpl implements GameState {
 	public GameStateImpl(@Named("LoadingScreen") EAdScene loadingScreen,
 			GameObjectFactory gameObjectFactory, ValueMap valueMap) {
 		effects = new ArrayList<EffectGO<?>>();
-		effectsQueue = Collections.synchronizedList(new ArrayList<EAdEffect>());
+//		effectsQueue = Collections.synchronizedList(new ArrayList<EAdEffect>());
+		effectsQueue = new ArrayList<EAdEffect>();
 		actionsQueue = new ArrayList<GUIAction>();
 		this.scene = (SceneGO<?>) gameObjectFactory.get(loadingScreen);
 		this.valueMap = valueMap;
@@ -216,15 +217,17 @@ public class GameStateImpl implements GameState {
 	@Override
 	synchronized public void updateEffectsQueue() {
 		int i = 0;
-		for (EAdEffect e : effectsQueue) {
-			@SuppressWarnings("rawtypes")
-			EffectGO effectGO = (EffectGO) gameObjectFactory.get(e);
-			effectGO.setGUIAction(actionsQueue.get(i++));
-			if (!effects.contains(effectGO)) {
-				effectGO.setElement(e);
-				effects.add(effectGO);
+		synchronized(effectsQueue) {
+			for (EAdEffect e : effectsQueue) {
+				@SuppressWarnings("rawtypes")
+				EffectGO effectGO = (EffectGO) gameObjectFactory.get(e);
+				effectGO.setGUIAction(actionsQueue.get(i++));
+				if (!effects.contains(effectGO)) {
+					effectGO.setElement(e);
+					effects.add(effectGO);
+				}
+				logger.info("Added " + effectGO);
 			}
-			logger.info("Added " + effectGO);
 		}
 		effectsQueue.clear();
 		actionsQueue.clear();

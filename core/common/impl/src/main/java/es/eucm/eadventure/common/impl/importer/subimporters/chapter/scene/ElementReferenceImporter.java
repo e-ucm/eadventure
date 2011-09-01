@@ -58,6 +58,7 @@ import es.eucm.eadventure.common.model.guievents.impl.EAdMouseEventImpl;
 import es.eucm.eadventure.common.model.variables.impl.extra.EAdSceneElementVars;
 import es.eucm.eadventure.common.model.variables.impl.operations.BooleanOperation;
 import es.eucm.eadventure.common.params.geom.impl.EAdPositionImpl;
+import es.eucm.eadventure.common.params.geom.impl.EAdRectangleImpl;
 
 /**
  * Elements reference importer
@@ -124,6 +125,16 @@ public class ElementReferenceImporter implements
 					+ "_showActions", newRef);
 			newRef.addBehavior(EAdMouseEventImpl.MOUSE_RIGHT_CLICK, showActions);
 		}
+		
+		if (oldObject.getInfluenceArea() != null) {
+			int x = oldObject.getInfluenceArea().getX();
+			int y = oldObject.getInfluenceArea().getY();
+			int width = oldObject.getInfluenceArea().getWidth();
+			int height = oldObject.getInfluenceArea().getHeight();
+			EAdRectangleImpl r = new EAdRectangleImpl(x, y, width, height);
+			newRef.setInfluenceArea(r);
+		}
+		
 		return newRef;
 	}
 }

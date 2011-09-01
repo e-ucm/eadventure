@@ -37,6 +37,8 @@
 
 package es.eucm.eadventure.common.model.elements;
 
+import es.eucm.eadventure.common.params.geom.EAdRectangle;
+
 /**
  * An actor reference in the eAdventure model. Actor references provide
  * additional information for an actor, used to provide position and scale
@@ -50,5 +52,7 @@ public interface EAdActorReference extends EAdSceneElement {
 	 * @return The referenced actor.
 	 */
 	EAdActor getReferencedActor();
+
+	EAdRectangle getInfluenceArea();
 
 }

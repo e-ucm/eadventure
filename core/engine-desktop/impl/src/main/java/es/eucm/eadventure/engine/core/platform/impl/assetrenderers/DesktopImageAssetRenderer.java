@@ -63,13 +63,14 @@ public class DesktopImageAssetRenderer implements AssetRenderer<Graphics2D, Desk
 		if (asset != null) {
 			if (!asset.isLoaded())
 				asset.loadAsset();
-			
-			int x = position.getJavaX(asset.getWidth() * scale) + offsetX;
-			int y = position.getJavaY(asset.getHeight() * scale) + offsetY;
-			if (scale == 1.0f)
-				graphicContext.drawImage(asset.getImage(), x, y, null);
-			else {
-				graphicContext.drawImage(asset.getImage(), x, y, (int) (asset.getWidth() * scale), (int) (asset.getHeight() * scale), null);
+			if (asset.isLoaded()) {
+				int x = position.getJavaX(asset.getWidth() * scale) + offsetX;
+				int y = position.getJavaY(asset.getHeight() * scale) + offsetY;
+				if (scale == 1.0f)
+					graphicContext.drawImage(asset.getImage(), x, y, null);
+				else {
+					graphicContext.drawImage(asset.getImage(), x, y, (int) (asset.getWidth() * scale), (int) (asset.getHeight() * scale), null);
+				}
 			}
 		}
 	}

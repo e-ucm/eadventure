@@ -38,7 +38,6 @@
 package es.eucm.eadventure.engine.core.impl;
 
 import com.google.inject.Inject;
-import com.google.inject.Injector;
 import com.google.inject.Singleton;
 
 import es.eucm.eadventure.common.interfaces.Param;
@@ -59,7 +58,7 @@ public class LoadingScreen extends EAdSceneImpl implements EAdScene {
 	private EAdChangeScene effect;
 	
 	@Inject
-	public LoadingScreen(Injector injector, StringHandler stringHandler) {
+	public LoadingScreen(StringHandler stringHandler) {
 		super( "LoadingScreen");
 		
 		getBackground().getResources().addAsset(getBackground().getInitialBundle(), EAdBasicSceneElement.appearance,

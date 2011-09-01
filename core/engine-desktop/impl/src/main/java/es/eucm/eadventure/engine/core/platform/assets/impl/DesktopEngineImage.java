@@ -114,6 +114,10 @@ public class DesktopEngineImage extends RuntimeImage {
 				logger.log(Level.SEVERE, 
 						"Could not load image! " + descriptor.getURI(), e);
 				return false;
+			} catch (Exception e) {
+				logger.log(Level.SEVERE, 
+						"Could not load image! " + descriptor.getURI(), e);
+				return false;
 			}
 		}
 		return assetHandler != null;

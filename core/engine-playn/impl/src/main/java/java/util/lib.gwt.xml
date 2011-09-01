@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE module PUBLIC "-//Google Inc.//DTD Google Web Toolkit 0.0.999//EN" "http://google-web-toolkit.googlecode.com/svn/tags/0.0.999/distro-source/core/src/gwt-module.dtd">
-<module rename-to='model'>
+<module rename-to='lib'>
   <!-- Inherit the core Web Toolkit stuff.                        -->
   <inherits name='com.google.gwt.user.User'/>
 
@@ -15,10 +15,7 @@
   <!-- Other module inherits                                      -->
 
   <!-- Specify the paths for translatable code                    -->
-  <source path='interfaces'/>
-  <source path='model' excludes="**/*Test.java"/>
-  <source path='resources' />
-  <source path='params' />
-  <source path='impl'/>
+  <source path=''/>
+  <source path='concurrent'/>
 
 </module>

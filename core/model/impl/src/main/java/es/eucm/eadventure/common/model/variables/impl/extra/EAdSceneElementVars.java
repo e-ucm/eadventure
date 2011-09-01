@@ -46,7 +46,7 @@ public class EAdSceneElementVars extends EAdElementVarsImpl {
 	
 	public static final EAdVarDef<Integer> VAR_TIME_DISPLAYED = new EAdVarDefImpl<Integer>(
 			"timeDisplayed", Integer.class, 0);
-
+	
 	public EAdSceneElementVars(EAdElement element) {
 		super(element);
 		add(VAR_ORIENTATION);
@@ -61,7 +61,6 @@ public class EAdSceneElementVars extends EAdElementVarsImpl {
 		add(VAR_HEIGHT);
 		add(VAR_POSITION);
 		add(VAR_TIME_DISPLAYED);
-
 	}
 
 }
