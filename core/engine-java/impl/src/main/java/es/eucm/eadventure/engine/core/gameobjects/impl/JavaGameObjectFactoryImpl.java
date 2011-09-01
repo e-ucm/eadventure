@@ -9,7 +9,7 @@ import es.eucm.eadventure.common.model.EAdElement;
 import es.eucm.eadventure.engine.core.gameobjects.GameObject;
 
 @Singleton
-public class JavaGameObjectFactoryImpl extends GameObjectFactoryImpl {
+public abstract class JavaGameObjectFactoryImpl extends GameObjectFactoryImpl {
 
 	/**
 	 * The guice injector
@@ -28,7 +28,5 @@ public class JavaGameObjectFactoryImpl extends GameObjectFactoryImpl {
 	public GameObject<?> getInstance(Class<? extends GameObject<?>> clazz) {
 		return injector.getInstance(clazz);
 	}
-	
-	
 
 }

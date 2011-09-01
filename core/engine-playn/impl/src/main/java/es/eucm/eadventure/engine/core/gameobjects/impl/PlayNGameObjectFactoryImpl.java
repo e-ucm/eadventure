@@ -20,4 +20,10 @@ public class PlayNGameObjectFactoryImpl extends GameObjectFactoryImpl {
 		return null;
 	}
 
+	@Override
+	public void clean() {
+		// TODO Auto-generated method stub
+		
+	}
+
 }
