@@ -57,6 +57,7 @@ import es.eucm.eadventure.engine.core.gameobjects.huds.BasicHUD;
 import es.eucm.eadventure.engine.core.gameobjects.huds.EffectHUD;
 import es.eucm.eadventure.engine.core.gameobjects.huds.MenuHUD;
 import es.eucm.eadventure.engine.core.gameobjects.huds.impl.BasicHUDImpl;
+import es.eucm.eadventure.engine.core.gameobjects.huds.impl.EffectHUDImpl;
 import es.eucm.eadventure.engine.core.gameobjects.huds.impl.MenuHUDImpl;
 import es.eucm.eadventure.engine.core.gameobjects.impl.ComposedSceneGOImpl;
 import es.eucm.eadventure.engine.core.gameobjects.impl.SceneGOImpl;
@@ -66,8 +67,8 @@ import es.eucm.eadventure.engine.core.gameobjects.impl.inventory.BasicInventoryG
 import es.eucm.eadventure.engine.core.gameobjects.impl.sceneelements.ActorReferenceGOImpl;
 import es.eucm.eadventure.engine.core.gameobjects.impl.sceneelements.BasicSceneElementGO;
 import es.eucm.eadventure.engine.core.gameobjects.impl.sceneelements.ComplexSceneElementGO;
-import es.eucm.eadventure.engine.core.gameobjects.impl.transitions.EmptyTransitionGO;
 import es.eucm.eadventure.engine.core.gameobjects.impl.transitions.DisplaceTransitionGO;
+import es.eucm.eadventure.engine.core.gameobjects.impl.transitions.EmptyTransitionGO;
 import es.eucm.eadventure.engine.core.platform.GameObjectRenderer;
 import es.eucm.eadventure.engine.core.platform.GraphicRenderer;
 import es.eucm.eadventure.engine.core.platform.GraphicRendererFactory;
@@ -123,6 +124,7 @@ public class DesktopAssetRendererModule extends AbstractModule implements MapPro
 			factoryMap.put(DesktopMenuHUDImpl.class, injector.getInstance(MenuHUDGORenderer.class));
 			factoryMap.put(ActionsHUD.class, injector.getInstance(ActionsHudGORenderer.class));
 			factoryMap.put(EffectHUD.class, injector.getInstance(EffectHudGORenderer.class));
+			factoryMap.put(EffectHUDImpl.class, injector.getInstance(EffectHudGORenderer.class));
 			factoryMap.put(DesktopActionsHUDImpl.class, injector.getInstance(ActionsHudGORenderer.class));
 			
 			factoryMap.put(ComplexBlockingEffectGO.class, injector.getInstance(EffectsGORenderer.class));
