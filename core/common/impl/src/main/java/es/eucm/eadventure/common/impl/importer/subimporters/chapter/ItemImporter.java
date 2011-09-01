@@ -42,19 +42,19 @@ import java.util.HashMap;
 import com.google.inject.Inject;
 
 import es.eucm.eadventure.common.EAdElementImporter;
+import es.eucm.eadventure.common.StringsWriter;
 import es.eucm.eadventure.common.data.chapter.Action;
 import es.eucm.eadventure.common.data.chapter.elements.Item;
 import es.eucm.eadventure.common.impl.importer.interfaces.EAdElementFactory;
 import es.eucm.eadventure.common.impl.importer.interfaces.ResourceImporter;
 import es.eucm.eadventure.common.model.actions.EAdAction;
 import es.eucm.eadventure.common.model.elements.impl.EAdBasicActor;
-import es.eucm.eadventure.common.resources.StringHandler;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.ImageImpl;
 
 public class ItemImporter extends ActorImporter<Item> {
 
 	@Inject
-	public ItemImporter(StringHandler stringHandler,
+	public ItemImporter(StringsWriter stringHandler,
 			ResourceImporter resourceImporter,
 			EAdElementFactory elementFactory,
 			EAdElementImporter<Action, EAdAction> actionImporter) {

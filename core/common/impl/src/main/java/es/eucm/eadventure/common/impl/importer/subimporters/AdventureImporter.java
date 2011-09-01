@@ -40,14 +40,13 @@ package es.eucm.eadventure.common.impl.importer.subimporters;
 import com.google.inject.Inject;
 
 import es.eucm.eadventure.common.EAdElementImporter;
+import es.eucm.eadventure.common.StringsWriter;
 import es.eucm.eadventure.common.data.adventure.AdventureData;
 import es.eucm.eadventure.common.data.chapter.Chapter;
 import es.eucm.eadventure.common.impl.importer.interfaces.EAdElementFactory;
 import es.eucm.eadventure.common.model.elements.EAdAdventureModel;
 import es.eucm.eadventure.common.model.elements.EAdChapter;
 import es.eucm.eadventure.common.model.impl.EAdAdventureModelImpl;
-import es.eucm.eadventure.common.resources.EAdString;
-import es.eucm.eadventure.common.resources.StringHandler;
 
 /**
  * An importer for old adventures
@@ -58,15 +57,15 @@ public class AdventureImporter implements EAdElementImporter<AdventureData, EAdA
 
 	private EAdElementImporter<Chapter, EAdChapter> chapterImporter;
 
-	private StringHandler stringHandler;
+	private StringsWriter stringsWriter;
 	
 	private EAdElementFactory factory;
 	
 	@Inject
 	public AdventureImporter(EAdElementImporter<Chapter, EAdChapter> chapterImporter,
-			StringHandler stringHandler, EAdElementFactory factory) {
+			StringsWriter stringHandler, EAdElementFactory factory) {
 		this.chapterImporter = chapterImporter;
-		this.stringHandler = stringHandler;
+		this.stringsWriter = stringHandler;
 		this.factory = factory;
 	}
 
@@ -80,14 +79,9 @@ public class AdventureImporter implements EAdElementImporter<AdventureData, EAdA
 	public EAdAdventureModel convert( AdventureData oldData, Object object ) {
 		factory.setOldDataModel(oldData);
 		EAdAdventureModelImpl model = (EAdAdventureModelImpl) object;
-
 		model.setPlayerMode( getPlayerMode( oldData ) );
-		
-		model.setTitle(new EAdString(stringHandler.getUniqueId()));
-		stringHandler.addString(model.getTitle(), oldData.getTitle( ));
-
-		model.setDescription(new EAdString(stringHandler.getUniqueId()));
-		stringHandler.addString(model.getDescription(), oldData.getDescription());
+		model.setTitle(stringsWriter.addString(oldData.getTitle( )));
+		model.setDescription(stringsWriter.addString(oldData.getDescription()));
 
 		for ( Chapter oldChapter : oldData.getChapters( ) ) {
 			EAdChapter newChapter = chapterImporter.init( oldChapter );
@@ -99,6 +93,7 @@ public class AdventureImporter implements EAdElementImporter<AdventureData, EAdA
 			newChapter = chapterImporter.convert( oldChapter, newChapter );
 
 		}
+	
 		return model;
 	}
 

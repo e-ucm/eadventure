@@ -97,5 +97,12 @@ public class BooleanOperation extends EAdOperationImpl {
 	public void setCondition(EAdCondition condition) {
 		this.condition = condition;
 	}
+	
+	public boolean equals( Object object ){
+		if ( object instanceof BooleanOperation ){
+			return super.equals(object) && condition.equals(((BooleanOperation) object).condition);
+		}
+		return false;
+	}
 
 }

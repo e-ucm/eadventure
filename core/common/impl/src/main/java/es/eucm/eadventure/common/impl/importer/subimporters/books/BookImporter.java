@@ -15,6 +15,7 @@ import javax.imageio.ImageIO;
 import com.google.inject.Inject;
 
 import es.eucm.eadventure.common.EAdElementImporter;
+import es.eucm.eadventure.common.StringsWriter;
 import es.eucm.eadventure.common.data.chapter.book.Book;
 import es.eucm.eadventure.common.data.chapter.book.BookParagraph;
 import es.eucm.eadventure.common.impl.importer.interfaces.ResourceImporter;
@@ -49,7 +50,6 @@ import es.eucm.eadventure.common.params.EAdFont.Style;
 import es.eucm.eadventure.common.params.EAdFontImpl;
 import es.eucm.eadventure.common.params.fills.impl.EAdColor;
 import es.eucm.eadventure.common.resources.EAdBundleId;
-import es.eucm.eadventure.common.resources.StringHandler;
 import es.eucm.eadventure.common.resources.assets.AssetDescriptor;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.Image;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.CaptionImpl;
@@ -114,12 +114,12 @@ public class BookImporter implements EAdElementImporter<Book, EAdScene> {
 	private ComposedDrawableImpl image;
 	private int column;
 
-	private StringHandler stringHandler;
+	private StringsWriter stringHandler;
 	private ResourceImporter resourceImporter;
 
 	@Inject
 	public BookImporter(ResourceImporter resourceImporter,
-			StringHandler stringHandler) {
+			StringsWriter stringHandler) {
 		this.resourceImporter = resourceImporter;
 		this.stringHandler = stringHandler;
 	}
@@ -275,7 +275,7 @@ public class BookImporter implements EAdElementImporter<Book, EAdScene> {
 			int xOffset, int lineHeight, int textWidth) {
 		List<String> lines = getLines(text, font, textWidth);
 		for (String l : lines) {
-			CaptionImpl caption = new CaptionImpl(stringHandler.addNewString(l));
+			CaptionImpl caption = new CaptionImpl(stringHandler.addString(l));
 			caption.setFont(eadFont);
 			caption.setPadding(0);
 			if (dispY + lineHeight > PAGE_TEXT_HEIGHT) {

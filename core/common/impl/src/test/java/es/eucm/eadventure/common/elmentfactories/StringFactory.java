@@ -43,8 +43,8 @@ import java.util.Map;
 
 import com.google.inject.Singleton;
 
+import es.eucm.eadventure.common.StringsWriter;
 import es.eucm.eadventure.common.resources.EAdString;
-import es.eucm.eadventure.common.resources.StringHandler;
 
 /**
  * A factory providing {@link EAdString}s for testing
@@ -105,15 +105,15 @@ public class StringFactory {
 	 * @param stringHandler
 	 *            string handler
 	 */
-	public void addStrings(StringHandler stringHandler) {
+	public void addStrings(StringsWriter stringHandler) {
 		int i = 0;
 		for (EAdString string : strings) {
-			stringHandler.addString(string,
+			stringHandler.setString(string,
 					StringType.values()[i++].getString());
 		}
 
 		for (EAdString string : userStrings.keySet()) {
-			stringHandler.addString(string, userStrings.get(string));
+			stringHandler.setString(string, userStrings.get(string));
 		}
 	}
 

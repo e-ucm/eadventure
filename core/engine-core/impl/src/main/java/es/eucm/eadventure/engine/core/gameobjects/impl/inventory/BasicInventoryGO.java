@@ -39,8 +39,8 @@ package es.eucm.eadventure.engine.core.gameobjects.impl.inventory;
 
 import com.google.inject.Inject;
 
+import es.eucm.eadventure.common.StringsReader;
 import es.eucm.eadventure.common.model.elements.EAdInventory;
-import es.eucm.eadventure.common.resources.StringHandler;
 import es.eucm.eadventure.engine.core.GameState;
 import es.eucm.eadventure.engine.core.ValueMap;
 import es.eucm.eadventure.engine.core.gameobjects.GameObjectFactory;
@@ -61,7 +61,7 @@ public abstract class BasicInventoryGO extends AbstractGameObject<EAdInventory> 
 
 	@Inject
 	public BasicInventoryGO(AssetHandler assetHandler,
-			StringHandler stringHandler, GameObjectFactory gameObjectFactory,
+			StringsReader stringHandler, GameObjectFactory gameObjectFactory,
 			GUI gui, GameState gameState, ValueMap valueMap,
 			PlatformConfiguration platformConfiguration) {
 		super(assetHandler, stringHandler, gameObjectFactory, gui, gameState, valueMap,

@@ -40,6 +40,7 @@ package es.eucm.eadventure.common.impl.importer.subimporters.effects.texts;
 import com.google.inject.Inject;
 
 import es.eucm.eadventure.common.EAdElementImporter;
+import es.eucm.eadventure.common.StringsWriter;
 import es.eucm.eadventure.common.data.chapter.conditions.Conditions;
 import es.eucm.eadventure.common.data.chapter.effects.SpeakCharEffect;
 import es.eucm.eadventure.common.data.chapter.elements.NPC;
@@ -51,7 +52,6 @@ import es.eucm.eadventure.common.model.variables.impl.extra.EAdSceneElementVars;
 import es.eucm.eadventure.common.params.fills.impl.EAdBorderedColor;
 import es.eucm.eadventure.common.params.fills.impl.EAdColor;
 import es.eucm.eadventure.common.resources.EAdString;
-import es.eucm.eadventure.common.resources.StringHandler;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.shapes.BallonShape.BalloonType;
 
 public class SpeakCharEffectImporter extends
@@ -64,7 +64,7 @@ public class SpeakCharEffectImporter extends
 	private NPC npc;
 
 	@Inject
-	public SpeakCharEffectImporter(StringHandler stringHandler,
+	public SpeakCharEffectImporter(StringsWriter stringHandler,
 			EAdElementImporter<Conditions, EAdCondition> conditionImporter,
 			EAdElementFactory factory) {
 		super(stringHandler, conditionImporter, factory);
@@ -96,7 +96,7 @@ public class SpeakCharEffectImporter extends
 			line = line.substring(YELL.length());
 		}
 
-		EAdString text = stringHandler.addNewString(line);
+		EAdString text = stringHandler.addString(line);
 		effect.setText(text);
 		effect.setBalloonType(type);
 

@@ -35,15 +35,19 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package es.eucm.eadventure.common.resources;
+package es.eucm.eadventure.common;
 
-public interface StringHandler {
+import java.io.OutputStream;
 
-	String getString(EAdString string);
+import es.eucm.eadventure.common.resources.EAdString;
 
-	String getUniqueId();
+/**
+ * A general interface defining a string handler to read and write new strings
+ * 
+ */
+public interface StringsWriter extends StringsReader {
 
-	void addString(EAdString eAdString, String string);
+	void setString(EAdString eAdString, String string);
 
 	/**
 	 * Adds a new string value to the string handler and returns a new
@@ -54,6 +58,15 @@ public interface StringHandler {
 	 * @return a new {@link EAdString
 
 	 */
-	EAdString addNewString(String string);
+	EAdString addString(String string);
+
+	/**
+	 * Saves the current strings list
+	 * 
+	 * @param outputStream
+	 *            the output stream
+	 * @return if save was OK
+	 */
+	boolean save(OutputStream outputStream);
 
 }

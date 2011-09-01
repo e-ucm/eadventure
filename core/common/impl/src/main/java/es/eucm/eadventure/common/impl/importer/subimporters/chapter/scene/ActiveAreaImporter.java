@@ -40,6 +40,7 @@ package es.eucm.eadventure.common.impl.importer.subimporters.chapter.scene;
 import com.google.inject.Inject;
 
 import es.eucm.eadventure.common.EAdElementImporter;
+import es.eucm.eadventure.common.StringsWriter;
 import es.eucm.eadventure.common.data.chapter.Action;
 import es.eucm.eadventure.common.data.chapter.conditions.Conditions;
 import es.eucm.eadventure.common.data.chapter.elements.ActiveArea;
@@ -60,8 +61,6 @@ import es.eucm.eadventure.common.model.guievents.impl.EAdMouseEventImpl;
 import es.eucm.eadventure.common.model.variables.impl.extra.EAdSceneElementVars;
 import es.eucm.eadventure.common.model.variables.impl.operations.BooleanOperation;
 import es.eucm.eadventure.common.resources.EAdBundleId;
-import es.eucm.eadventure.common.resources.EAdString;
-import es.eucm.eadventure.common.resources.StringHandler;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.Shape;
 
 public class ActiveAreaImporter implements
@@ -71,13 +70,13 @@ public class ActiveAreaImporter implements
 
 	private EAdElementImporter<Action, EAdAction> actionImporter;
 
-	private StringHandler stringHandler;
-	
+	private StringsWriter stringHandler;
+
 	@Inject
 	public ActiveAreaImporter(
 			EAdElementImporter<Conditions, EAdCondition> conditionsImporter,
 			EAdElementImporter<Action, EAdAction> actionImporter,
-			StringHandler stringHandler) {
+			StringsWriter stringHandler) {
 		this.conditionsImporter = conditionsImporter;
 		this.actionImporter = actionImporter;
 		this.stringHandler = stringHandler;
@@ -90,49 +89,52 @@ public class ActiveAreaImporter implements
 				newActiveArea);
 		return newActiveAreaReference;
 	}
-	
+
 	@Override
 	public EAdSceneElement convert(ActiveArea oldObject, Object object) {
 		// Reference to the active area
 		EAdActorReferenceImpl newActiveAreaReference = (EAdActorReferenceImpl) object;
 
-		EAdBasicActor newActiveArea = (EAdBasicActor) newActiveAreaReference.getReferencedActor();
+		EAdBasicActor newActiveArea = (EAdBasicActor) newActiveAreaReference
+				.getReferencedActor();
 
-		ActorImporter.addActions(oldObject, newActiveArea, actionImporter, stringHandler);
-		EAdActorActionsEffect showActions = new EAdActorActionsEffect(newActiveArea.getId()
-				+ "_showActions", newActiveAreaReference);
-		newActiveAreaReference.addBehavior(EAdMouseEventImpl.MOUSE_RIGHT_CLICK, showActions);
+		ActorImporter.addActions(oldObject, newActiveArea, actionImporter,
+				stringHandler);
+		EAdActorActionsEffect showActions = new EAdActorActionsEffect(
+				newActiveArea.getId() + "_showActions", newActiveAreaReference);
+		newActiveAreaReference.addBehavior(EAdMouseEventImpl.MOUSE_RIGHT_CLICK,
+				showActions);
 
-		newActiveArea.setName(new EAdString(stringHandler.getUniqueId()));
-		stringHandler.addString(newActiveArea.getName(), oldObject.getName());
+		newActiveArea.setName(stringHandler.addString(oldObject.getName()));
+		newActiveArea.setDescription(stringHandler.addString(oldObject
+				.getDescription()));
 
-		newActiveArea.setDescription(new EAdString(stringHandler.getUniqueId()));
-		stringHandler.addString(newActiveArea.getDescription(),
-				oldObject.getDescription());
+		newActiveArea.setDetailedDescription(stringHandler.addString(oldObject
+				.getDetailedDescription()));
 
-		newActiveArea.setDetailedDescription(new EAdString(stringHandler.getUniqueId()));
-		stringHandler.addString(newActiveArea.getDetailedDescription(),
-				oldObject.getDetailedDescription());
-
-		
-		Shape shape = ShapedElementImporter.importShape(oldObject, newActiveAreaReference);
+		Shape shape = ShapedElementImporter.importShape(oldObject,
+				newActiveAreaReference);
 
 		newActiveArea.getResources().addAsset(newActiveArea.getInitialBundle(),
 				EAdBasicSceneElement.appearance, shape);
-		
-		Shape shape2 = ShapedElementImporter.importShape(oldObject, newActiveAreaReference);
-		EAdBundleId id = new EAdBundleId("id");
-		newActiveArea.getResources().addAsset(id, EAdBasicSceneElement.appearance, shape2);
-		newActiveAreaReference.addBehavior(EAdMouseEventImpl.MOUSE_ENTERED, new EAdChangeAppearance("test", newActiveArea, id));
-		newActiveAreaReference.addBehavior(EAdMouseEventImpl.MOUSE_EXITED, new EAdChangeAppearance("test", newActiveArea, newActiveArea.getInitialBundle()));
-		
 
+		Shape shape2 = ShapedElementImporter.importShape(oldObject,
+				newActiveAreaReference);
+		EAdBundleId id = new EAdBundleId("id");
+		newActiveArea.getResources().addAsset(id,
+				EAdBasicSceneElement.appearance, shape2);
+		newActiveAreaReference.addBehavior(EAdMouseEventImpl.MOUSE_ENTERED,
+				new EAdChangeAppearance("test", newActiveArea, id));
+		newActiveAreaReference.addBehavior(
+				EAdMouseEventImpl.MOUSE_EXITED,
+				new EAdChangeAppearance("test", newActiveArea, newActiveArea
+						.getInitialBundle()));
 
 		// Event to show (or not) the active area
 		EAdCondition condition = conditionsImporter.init(oldObject
 				.getConditions());
-		condition = conditionsImporter.convert(oldObject
-				.getConditions(), condition);
+		condition = conditionsImporter.convert(oldObject.getConditions(),
+				condition);
 
 		EAdConditionEventImpl event = new EAdConditionEventImpl(
 				newActiveAreaReference.getId() + "_VisibleEvent");
@@ -140,7 +142,8 @@ public class ActiveAreaImporter implements
 
 		EAdChangeVarValueEffect visibleVar = new EAdChangeVarValueEffect(
 				newActiveAreaReference.getId() + "_visibleEffect");
-		visibleVar.addVar(newActiveAreaReference.getVars().getVar(EAdSceneElementVars.VAR_VISIBLE));
+		visibleVar.addVar(newActiveAreaReference.getVars().getVar(
+				EAdSceneElementVars.VAR_VISIBLE));
 		BooleanOperation op = new BooleanOperation("booleanOpTrue");
 		op.setCondition(EmptyCondition.TRUE_EMPTY_CONDITION);
 		visibleVar.setOperation(op);
@@ -149,7 +152,8 @@ public class ActiveAreaImporter implements
 
 		EAdChangeVarValueEffect notVisibleVar = new EAdChangeVarValueEffect(
 				newActiveArea.getId() + "_notVisibleEffect");
-		notVisibleVar.addVar(newActiveAreaReference.getVars().getVar(EAdSceneElementVars.VAR_VISIBLE));
+		notVisibleVar.addVar(newActiveAreaReference.getVars().getVar(
+				EAdSceneElementVars.VAR_VISIBLE));
 		op = new BooleanOperation("booleanOpFalse");
 		op.setCondition(EmptyCondition.FALSE_EMPTY_CONDITION);
 		notVisibleVar.setOperation(op);

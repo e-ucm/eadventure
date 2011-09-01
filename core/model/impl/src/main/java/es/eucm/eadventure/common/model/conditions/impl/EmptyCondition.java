@@ -81,5 +81,12 @@ public class EmptyCondition extends AbstractEAdCondition implements
 	public void setValue(Value value) {
 		this.value = value;
 	}
+	
+	public boolean equals( Object object ){
+		if ( object instanceof EmptyCondition ){
+			return ((EmptyCondition) object).value.equals(value);
+		}
+		return false;
+	}
 
 }

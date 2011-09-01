@@ -40,6 +40,7 @@ package es.eucm.eadventure.common.impl.importer.subimporters.effects.texts;
 import com.google.inject.Inject;
 
 import es.eucm.eadventure.common.EAdElementImporter;
+import es.eucm.eadventure.common.StringsWriter;
 import es.eucm.eadventure.common.data.chapter.conditions.Conditions;
 import es.eucm.eadventure.common.data.chapter.effects.ShowTextEffect;
 import es.eucm.eadventure.common.impl.importer.interfaces.EAdElementFactory;
@@ -48,12 +49,11 @@ import es.eucm.eadventure.common.model.elements.EAdCondition;
 import es.eucm.eadventure.common.params.fills.impl.EAdBorderedColor;
 import es.eucm.eadventure.common.params.fills.impl.EAdColor;
 import es.eucm.eadventure.common.resources.EAdString;
-import es.eucm.eadventure.common.resources.StringHandler;
 
 public class ShowTextEffectImporter extends TextEffectImporter<ShowTextEffect> {
 
 	@Inject
-	public ShowTextEffectImporter(StringHandler stringHandler,
+	public ShowTextEffectImporter(StringsWriter stringHandler,
 			EAdElementImporter<Conditions, EAdCondition> conditionImporter, EAdElementFactory factory) {
 		super(stringHandler, conditionImporter, factory);
 	}
@@ -62,7 +62,7 @@ public class ShowTextEffectImporter extends TextEffectImporter<ShowTextEffect> {
 	public EAdSpeakEffect convert(ShowTextEffect oldObject, Object object) {
 		EAdSpeakEffect showText = super.convert(oldObject, object);
 
-		EAdString text = stringHandler.addNewString(oldObject.getText());
+		EAdString text = stringHandler.addString(oldObject.getText());
 		showText.setText(text);
 
 		EAdColor center = new EAdColor(Integer.toHexString(oldObject

@@ -18,6 +18,29 @@
 		<characters>
 			<character-ref hasInfluenceArea="no" idTarget="CharacterId" layer="2" scale="3.95" x="111" y="487"/>
 		</characters>
+		<active-areas>
+			<active-area hasInfluenceArea="yes" height="229" id="IdObject" influenceHeight="255" influenceWidth="192" influenceX="0" influenceY="0" rectangular="no" width="196" x="275" y="158">
+				<description>
+					<name>ddf</name>
+					<brief>dd</brief>
+					<detailed>ddddd</detailed>
+				</description>
+				<actions>
+					<examine keepDistance="0" needsGoTo="no" not-effects="no">
+						<effect>
+							<show-text borderColor="-16777216" frontColor="-1" x="400" y="500">Bingo!</show-text>
+							<condition/>
+						</effect>
+					</examine>
+				</actions>
+				<point x="275" y="160"/>
+				<point x="275" y="387"/>
+				<point x="338" y="265"/>
+				<point x="384" y="377"/>
+				<point x="471" y="379"/>
+				<point x="398" y="158"/>
+			</active-area>
+		</active-areas>
 	</scene>
 	<book id="BookId" xNextPage="412" xPreviousPage="310" yNextPage="487" yPreviousPage="487">
 		<resources name="No name">
@@ -283,6 +306,35 @@ TO BE CONTINUED????</title>
 					<condition/>
 				</effect>
 			</use>
+			<custom keepDistance="0" name="Random effect" needsGoTo="no" not-effects="no">
+				<resources name="No name">
+					<asset type="buttonOver" uri="gui/buttons/assets_arrows_DefaultLeftOverArrow.png"/>
+					<asset type="buttonNormal" uri="gui/buttons/assets_arrows_DefaultLeftOverArrow.png"/>
+					<asset type="buttonPressed" uri="assets/special/EmptyIcon.png"/>
+				</resources>
+				<effect>
+					<random-effect probability="24">
+						<show-text borderColor="-16777216" frontColor="-1" x="328" y="123">Effect with low probability</show-text>
+						<show-text borderColor="-16777216" frontColor="-1" x="400" y="500">Effect with high probability</show-text>
+					</random-effect>
+					<condition/>
+				</effect>
+			</custom>
+			<custom keepDistance="0" name="Highlight" needsGoTo="no" not-effects="no">
+				<resources name="No name">
+					<asset type="buttonOver" uri="gui/buttons/assets_arrows_DefaultLeftOverArrow.png"/>
+					<asset type="buttonNormal" uri="gui/buttons/assets_arrows_DefaultLeftOverArrow.png"/>
+					<asset type="buttonPressed" uri="assets/special/EmptyIcon.png"/>
+				</resources>
+				<effect>
+					<highlight-item animated="yes" idTarget="ItemId1" type="blue"/>
+					<condition/>
+					<wait-time time="1"/>
+					<condition/>
+					<highlight-item animated="yes" idTarget="ItemId1" type="none"/>
+					<condition/>
+				</effect>
+			</custom>
 		</actions>
 	</object>
 	<player>
