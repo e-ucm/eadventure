@@ -44,7 +44,8 @@ import com.google.inject.AbstractModule;
 import com.google.inject.Provides;
 import com.google.inject.Singleton;
 
-import es.eucm.eadventure.common.resources.StringHandler;
+import es.eucm.eadventure.common.StringsWriter;
+import es.eucm.eadventure.common.impl.strings.DefaultStringsWriter;
 import es.eucm.eadventure.common.resources.assets.AssetDescriptor;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.Caption;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.Image;
@@ -60,7 +61,6 @@ import es.eucm.eadventure.common.resources.assets.drawable.compounds.impl.Compos
 import es.eucm.eadventure.common.resources.assets.drawable.compounds.impl.DisplacedDrawableImpl;
 import es.eucm.eadventure.common.resources.assets.multimedia.Sound;
 import es.eucm.eadventure.common.resources.assets.multimedia.impl.SoundImpl;
-import es.eucm.eadventure.common.resources.impl.DefaultStringHandler;
 import es.eucm.eadventure.engine.AndroidAssetHandler;
 import es.eucm.eadventure.engine.assets.AndroidBezierShape;
 import es.eucm.eadventure.engine.assets.AndroidEngineCaption;
@@ -76,7 +76,7 @@ public class AndroidAssetHandlerModule extends AbstractModule {
 
 	@Override
 	protected void configure() {
-		bind(StringHandler.class).to(DefaultStringHandler.class);
+		bind(StringsWriter.class).to(DefaultStringsWriter.class);
 		bind(AssetHandler.class).to(AndroidAssetHandler.class);
 	}
 	

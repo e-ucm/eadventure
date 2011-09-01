@@ -42,6 +42,7 @@ import java.util.List;
 import com.google.inject.Inject;
 
 import es.eucm.eadventure.common.EAdElementImporter;
+import es.eucm.eadventure.common.StringsWriter;
 import es.eucm.eadventure.common.data.HasId;
 import es.eucm.eadventure.common.data.chapter.Chapter;
 import es.eucm.eadventure.common.data.chapter.Timer;
@@ -50,8 +51,6 @@ import es.eucm.eadventure.common.model.elements.EAdChapter;
 import es.eucm.eadventure.common.model.elements.EAdScene;
 import es.eucm.eadventure.common.model.elements.EAdTimer;
 import es.eucm.eadventure.common.model.impl.EAdChapterImpl;
-import es.eucm.eadventure.common.resources.EAdString;
-import es.eucm.eadventure.common.resources.StringHandler;
 
 /**
  * Chapter importer
@@ -64,14 +63,12 @@ public class ChapterImporter implements EAdElementImporter<Chapter, EAdChapter> 
 	/**
 	 * String handler
 	 */
-	private StringHandler stringHandler;
-	
-	
+	private StringsWriter stringHandler;
+
 	private EAdElementFactory elementFactory;
 
 	@Inject
-	public ChapterImporter(
-			StringHandler stringHandler,
+	public ChapterImporter(StringsWriter stringHandler,
 			EAdElementFactory elementFactory) {
 		this.stringHandler = stringHandler;
 		this.elementFactory = elementFactory;
@@ -79,23 +76,19 @@ public class ChapterImporter implements EAdElementImporter<Chapter, EAdChapter> 
 
 	@Override
 	public EAdChapter init(Chapter oldChapter) {
-		EAdChapterImpl newChapter = new EAdChapterImpl(
-				"chapter" + CHAPTER_ID++);
+		EAdChapterImpl newChapter = new EAdChapterImpl("chapter" + CHAPTER_ID++);
 		return newChapter;
 	}
-	
+
 	@Override
 	public EAdChapter convert(Chapter oldChapter, Object object) {
 		EAdChapterImpl newChapter = (EAdChapterImpl) object;
-		elementFactory.setCurrentChapterModel( newChapter, oldChapter );
+		elementFactory.setCurrentChapterModel(newChapter, oldChapter);
 
-		newChapter.setTitle(new EAdString(stringHandler.getUniqueId()));
-		stringHandler.addString(newChapter.getTitle(), oldChapter.getTitle());
+		newChapter.setTitle(stringHandler.addString(oldChapter.getTitle()));
+		newChapter.setDescription(stringHandler.addString(oldChapter
+				.getDescription()));
 
-		newChapter.setDescription(new EAdString(stringHandler.getUniqueId()));
-		stringHandler.addString(newChapter.getDescription(),
-				oldChapter.getDescription());
-		
 		registerOldElements(oldChapter.getAtrezzo());
 		registerOldElements(oldChapter.getItems());
 		registerOldElements(oldChapter.getCharacters());
@@ -105,8 +98,9 @@ public class ChapterImporter implements EAdElementImporter<Chapter, EAdChapter> 
 		registerOldElements(oldChapter.getGlobalStates());
 		registerOldElements(oldChapter.getMacros());
 		registerOldElements(oldChapter.getConversations());
-		elementFactory.registerOldElement(oldChapter.getPlayer().getId(), oldChapter.getPlayer());
-		
+		elementFactory.registerOldElement(oldChapter.getPlayer().getId(),
+				oldChapter.getPlayer());
+
 		importElements(oldChapter.getAtrezzo());
 		importElements(oldChapter.getItems());
 		importElements(oldChapter.getCharacters());
@@ -115,37 +109,37 @@ public class ChapterImporter implements EAdElementImporter<Chapter, EAdChapter> 
 		importElements(oldChapter.getBooks());
 		importElements(oldChapter.getGlobalStates());
 		importElements(oldChapter.getMacros());
-		
+
 		for (Timer timer : oldChapter.getTimers()) {
-			newChapter.getTimers().add((EAdTimer) elementFactory.getElement("timer", timer));
+			newChapter.getTimers().add(
+					(EAdTimer) elementFactory.getElement("timer", timer));
 		}
-		
-		
+
 		// Import player
 		/*
-		EAdActor player = characterImporter.convert(oldChapter.getPlayer());
-		if ( player !=  null )
-			newChapter.getActors().add(player);
-		*/
-		
+		 * EAdActor player = characterImporter.convert(oldChapter.getPlayer());
+		 * if ( player != null ) newChapter.getActors().add(player);
+		 */
+
 		// TODO oldChapter.getAdaptationName( );
 		// oldChapter.getAdaptationProfiles( )
 		// oldChapter.getAdaptationProfilesNames( )
 		// oldChapter.getAssessmentName( )
 		// oldChapter.getAssessmentProfiles( )
 
-		newChapter.setInitialScreen((EAdScene) elementFactory.getElementById(oldChapter.getInitialGeneralScene().getId()));
-		
+		newChapter.setInitialScreen((EAdScene) elementFactory
+				.getElementById(oldChapter.getInitialGeneralScene().getId()));
+
 		return newChapter;
 	}
-	
+
 	private void registerOldElements(List<? extends HasId> list) {
-		for (HasId element : list) 
-			elementFactory.registerOldElement(element.getId(), element);		
+		for (HasId element : list)
+			elementFactory.registerOldElement(element.getId(), element);
 	}
 
 	private void importElements(List<? extends HasId> list) {
-		for (HasId element : list) 
+		for (HasId element : list)
 			elementFactory.getElementById(element.getId());
 	}
 

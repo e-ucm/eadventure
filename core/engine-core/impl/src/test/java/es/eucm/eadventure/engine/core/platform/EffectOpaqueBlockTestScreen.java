@@ -39,6 +39,7 @@ package es.eucm.eadventure.engine.core.platform;
 
 import com.google.inject.Inject;
 
+import es.eucm.eadventure.common.StringsWriter;
 import es.eucm.eadventure.common.model.effects.impl.timedevents.EAdWaitEffect;
 import es.eucm.eadventure.common.model.elements.EAdScene;
 import es.eucm.eadventure.common.model.elements.impl.EAdActorReferenceImpl;
@@ -48,20 +49,19 @@ import es.eucm.eadventure.common.model.elements.impl.EAdSceneImpl;
 import es.eucm.eadventure.common.model.guievents.impl.EAdMouseEventImpl;
 import es.eucm.eadventure.common.params.geom.impl.EAdPositionImpl;
 import es.eucm.eadventure.common.resources.EAdString;
-import es.eucm.eadventure.common.resources.StringHandler;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.ImageImpl;
 import es.eucm.eadventure.engine.core.GameLoop;
 
 public class EffectOpaqueBlockTestScreen extends EAdSceneImpl implements EAdScene {
 
 	private EAdBasicActor buttonActor;
-	private StringHandler stringHandler;
+	private StringsWriter stringHandler;
 	private EAdActorReferenceImpl buttonReference;
 	private EAdActorReferenceImpl buttonReference2;
 	private EAdBasicSceneElement buttonActor2;
 
 	@Inject
-	public EffectOpaqueBlockTestScreen(StringHandler stringHandler) {
+	public EffectOpaqueBlockTestScreen(StringsWriter stringHandler) {
 			super("LoadingScreen");
 			
 			this.stringHandler = stringHandler;
@@ -79,7 +79,7 @@ public class EffectOpaqueBlockTestScreen extends EAdSceneImpl implements EAdScen
 				EAdBasicActor.appearance, new ImageImpl("@drawable/start.png"));
 		EAdString name = new EAdString("stringName");
 		buttonActor.setName(name);
-		stringHandler.addString(name, "Start game");
+		stringHandler.setString(name, "Start game");
 		
 //		EAdBehavior b = new StandardBehavior(buttonActor, "b");
 		
@@ -96,7 +96,7 @@ public class EffectOpaqueBlockTestScreen extends EAdSceneImpl implements EAdScen
 				EAdBasicActor.appearance, new ImageImpl("@drawable/start.png"));
 		EAdString name = new EAdString("stringName");
 		//buttonActor2.setName(name);
-		stringHandler.addString(name, "Start game");
+		stringHandler.setString(name, "Start game");
 		
 		EAdWaitEffect waitEffect = new EAdWaitEffect( "wait", GameLoop.SKIP_MILLIS_TICK + 1);
 		buttonActor2.addBehavior(EAdMouseEventImpl.MOUSE_LEFT_CLICK, waitEffect );

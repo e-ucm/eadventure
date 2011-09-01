@@ -43,8 +43,8 @@ import java.util.logging.Logger;
 
 import com.google.inject.Inject;
 
+import es.eucm.eadventure.common.StringsReader;
 import es.eucm.eadventure.common.params.geom.impl.EAdRectangleImpl;
-import es.eucm.eadventure.common.resources.StringHandler;
 import es.eucm.eadventure.common.resources.assets.drawable.Drawable;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.Caption;
 import es.eucm.eadventure.engine.core.GameLoop;
@@ -118,17 +118,17 @@ public class RuntimeCaption extends AbstractRuntimeAsset<Caption> implements
 
 	private VariableMap valueMap;
 
-	private StringHandler stringHandler;
+	private StringsReader stringsReader;
 
 	private PlatformConfiguration platformConfiguration;
 
 	@Inject
 	public RuntimeCaption(FontCacheImpl fontCache, VariableMap valueMap,
-			StringHandler stringHandler,
+			StringsReader stringsReader,
 			PlatformConfiguration platformConfiguration) {
 		this.fontCache = fontCache;
 		this.valueMap = valueMap;
-		this.stringHandler = stringHandler;
+		this.stringsReader = stringsReader;
 		this.platformConfiguration = platformConfiguration;
 		logger.info("New instance");
 	}
@@ -141,7 +141,7 @@ public class RuntimeCaption extends AbstractRuntimeAsset<Caption> implements
 	@Override
 	public boolean loadAsset() {
 		font = fontCache.get(descriptor.getFont());
-		text = valueMap.processTextVars(stringHandler.getString(descriptor
+		text = valueMap.processTextVars(stringsReader.getString(descriptor
 				.getText()));
 		lines = new ArrayList<String>();
 		wrapText();
@@ -184,7 +184,7 @@ public class RuntimeCaption extends AbstractRuntimeAsset<Caption> implements
 			goForward(1);
 		}
 
-		text = valueMap.processTextVars(stringHandler.getString(descriptor
+		text = valueMap.processTextVars(stringsReader.getString(descriptor
 				.getText()));
 
 		// If text has changed
@@ -284,7 +284,7 @@ public class RuntimeCaption extends AbstractRuntimeAsset<Caption> implements
 			bounds.width += descriptor.getPadding() * 2;
 			bounds.height += descriptor.getPadding() * 2;
 		}
-		
+
 		reset();
 	}
 
@@ -324,15 +324,17 @@ public class RuntimeCaption extends AbstractRuntimeAsset<Caption> implements
 	 *            steps to go forward
 	 */
 	public void goForward(int i) {
-		currentPart += i;
-		if (currentPart >= totalParts) {
-			while (currentPart >= totalParts) {
-				currentPart -= totalParts;
-				loops--;
-				timesRead++;
+		if (totalParts > 0) {
+			currentPart += i;
+			if (currentPart >= totalParts) {
+				while (currentPart >= totalParts) {
+					currentPart -= totalParts;
+					loops--;
+					timesRead++;
+				}
+				if (loops <= 0)
+					currentPart = totalParts - 1;
 			}
-			if (loops <= 0)
-				currentPart = totalParts - 1;
 		}
 		updateTimeShown();
 	}

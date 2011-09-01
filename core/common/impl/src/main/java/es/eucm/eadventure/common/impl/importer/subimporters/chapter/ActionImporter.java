@@ -45,6 +45,7 @@ import java.util.Map;
 import com.google.inject.Inject;
 
 import es.eucm.eadventure.common.EAdElementImporter;
+import es.eucm.eadventure.common.StringsWriter;
 import es.eucm.eadventure.common.data.chapter.Action;
 import es.eucm.eadventure.common.data.chapter.CustomAction;
 import es.eucm.eadventure.common.data.chapter.conditions.Conditions;
@@ -66,13 +67,11 @@ import es.eucm.eadventure.common.model.effects.impl.EAdTriggerMacro;
 import es.eucm.eadventure.common.model.elements.EAdActor;
 import es.eucm.eadventure.common.model.elements.EAdCondition;
 import es.eucm.eadventure.common.resources.EAdBundleId;
-import es.eucm.eadventure.common.resources.EAdString;
-import es.eucm.eadventure.common.resources.StringHandler;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.ImageImpl;
 
 public class ActionImporter implements EAdElementImporter<Action, EAdAction> {
 
-	private StringHandler stringHandler;
+	private StringsWriter stringHandler;
 
 	private EffectsImporterFactory effectsImporterFactory;
 
@@ -86,7 +85,7 @@ public class ActionImporter implements EAdElementImporter<Action, EAdAction> {
 	public static final String DRAWABLE_PATH = "@drawable/";
 
 	@Inject
-	public ActionImporter(StringHandler stringHandler,
+	public ActionImporter(StringsWriter stringHandler,
 			EffectsImporterFactory effectsImporterFactory,
 			ResourceImporter resourceImporter,
 			EAdElementImporter<Conditions, EAdCondition> conditionsImporter) {
@@ -119,10 +118,11 @@ public class ActionImporter implements EAdElementImporter<Action, EAdAction> {
 			action.setCondition(EmptyCondition.TRUE_EMPTY_CONDITION);
 
 		EAdMacro effects = new EAdMacroImpl("actionEffects");
-		EAdTriggerMacro triggerEffects = new EAdTriggerMacro("actionEffectTrigger", effects);
+		EAdTriggerMacro triggerEffects = new EAdTriggerMacro(
+				"actionEffectTrigger", effects);
 		triggerEffects.setCondition(action.getCondition());
 		action.getEffects().add(triggerEffects);
-		
+
 		String actionName = "Action";
 		if (oldObject instanceof CustomAction) {
 			CustomAction customAction = (CustomAction) oldObject;
@@ -131,21 +131,21 @@ public class ActionImporter implements EAdElementImporter<Action, EAdAction> {
 			actionName = getActionName(oldObject.getType());
 		}
 
-		EAdString actionNameString = new EAdString(stringHandler.getUniqueId());
-		stringHandler.addString(actionNameString, actionName);
-		action.setName(actionNameString);
+		action.setName(stringHandler.addString(actionName));
 
 		for (Effect e : oldObject.getEffects().getEffects()) {
 			EAdEffect effect = effectsImporterFactory.getEffect(e);
 			if (effect != null)
 				effects.getEffects().add(effect);
 		}
-		
+
 		if (oldObject.getNotEffects() != null
 				&& !oldObject.getNotEffects().isEmpty()) {
 			EAdMacro notEffects = new EAdMacroImpl("actionNotEffects");
-			EAdTriggerMacro triggerNotEffects = new EAdTriggerMacro("actionNotEffectTrigger", notEffects);
-			triggerNotEffects.setCondition(new NOTCondition(action.getCondition()));
+			EAdTriggerMacro triggerNotEffects = new EAdTriggerMacro(
+					"actionNotEffectTrigger", notEffects);
+			triggerNotEffects.setCondition(new NOTCondition(action
+					.getCondition()));
 			action.getEffects().add(triggerNotEffects);
 			action.setCondition(EmptyCondition.TRUE_EMPTY_CONDITION);
 

@@ -38,7 +38,6 @@
 package es.eucm.eadventure.engine.core.impl;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Stack;
 import java.util.logging.Logger;
@@ -122,6 +121,9 @@ public class GameStateImpl implements GameState {
 	 */
 	@Override
 	public void setScene(SceneGO<? extends EAdScene> newScene) {
+		// Clean caches
+		valueMap.clean();
+		gameObjectFactory.clean();
 		if (this.scene != null && this.scene.getElement() != null){
 			valueMap.setValue(this.scene.getElement().sceneLoaded(), Boolean.FALSE);
 			if (scene.getElement().isReturnable())

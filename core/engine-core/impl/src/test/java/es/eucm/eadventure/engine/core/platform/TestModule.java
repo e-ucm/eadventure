@@ -44,9 +44,8 @@ import com.google.inject.AbstractModule;
 import com.google.inject.TypeLiteral;
 import com.google.inject.name.Names;
 
-import es.eucm.eadventure.common.resources.StringHandler;
+import es.eucm.eadventure.common.StringsReader;
 import es.eucm.eadventure.common.resources.assets.AssetDescriptor;
-import es.eucm.eadventure.common.resources.impl.DefaultStringHandler;
 import es.eucm.eadventure.engine.core.KeyboardState;
 import es.eucm.eadventure.engine.core.MouseState;
 import es.eucm.eadventure.engine.core.gameobjects.GameObjectManager;
@@ -75,7 +74,7 @@ public class TestModule extends AbstractModule {
 	}
 	
 	private void configureAssetHandler() {
-		bind(StringHandler.class).to(DefaultStringHandler.class);
+		bind(StringsReader.class).to(TestStringsReader.class);
 		bind(AssetHandler.class).to(TestAssetHandler.class);
 		
 		Map<Class<? extends AssetDescriptor>, Class<? extends RuntimeAsset<?>>> map = new HashMap<Class<? extends AssetDescriptor>, Class<? extends RuntimeAsset<?>>>( );

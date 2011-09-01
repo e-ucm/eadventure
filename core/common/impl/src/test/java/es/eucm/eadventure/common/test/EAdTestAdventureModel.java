@@ -37,31 +37,31 @@
 
 package es.eucm.eadventure.common.test;
 
+import es.eucm.eadventure.common.StringsWriter;
 import es.eucm.eadventure.common.elmentfactories.scenedemos.BasicScene;
+import es.eucm.eadventure.common.impl.strings.DefaultStringsWriter;
 import es.eucm.eadventure.common.model.impl.EAdAdventureModelImpl;
 import es.eucm.eadventure.common.model.impl.EAdChapterImpl;
 import es.eucm.eadventure.common.resources.EAdString;
-import es.eucm.eadventure.common.resources.StringHandler;
-import es.eucm.eadventure.common.resources.impl.DefaultStringHandler;
 
 public class EAdTestAdventureModel extends EAdAdventureModelImpl {
 
-	private StringHandler stringHandler;
+	private StringsWriter stringHandler;
 
 	public EAdTestAdventureModel() {
 		// TODO Habrá que guardar también las claves para los strings
-		stringHandler = new DefaultStringHandler();
+		stringHandler = new DefaultStringsWriter();
 
 		// Chapter 1
 		EAdChapterImpl c = new EAdChapterImpl("chapter1");
 
 		EAdString chapter1Description = new EAdString("chapter1_description");
-		stringHandler.addString(chapter1Description,
+		stringHandler.setString(chapter1Description,
 				"A test chapter for reading and writing XML");
 		c.setDescription(chapter1Description);
 
 		EAdString chapter1Title = new EAdString("chapter1_title");
-		stringHandler.addString(chapter1Title, "Test Chapter 1");
+		stringHandler.setString(chapter1Title, "Test Chapter 1");
 		c.setTitle(chapter1Title);
 		
 		this.getChapters().add(c);

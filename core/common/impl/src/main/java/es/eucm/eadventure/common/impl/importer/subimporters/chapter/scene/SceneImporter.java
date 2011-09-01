@@ -44,6 +44,7 @@ import java.util.Map;
 import com.google.inject.Inject;
 
 import es.eucm.eadventure.common.EAdElementImporter;
+import es.eucm.eadventure.common.StringsWriter;
 import es.eucm.eadventure.common.data.chapter.ElementReference;
 import es.eucm.eadventure.common.data.chapter.Exit;
 import es.eucm.eadventure.common.data.chapter.Trajectory;
@@ -74,8 +75,6 @@ import es.eucm.eadventure.common.model.trajectories.impl.SimpleTrajectoryDefinit
 import es.eucm.eadventure.common.model.variables.impl.extra.EAdSceneElementVars;
 import es.eucm.eadventure.common.params.geom.impl.EAdPositionImpl;
 import es.eucm.eadventure.common.params.geom.impl.EAdPositionImpl.Corner;
-import es.eucm.eadventure.common.resources.EAdString;
-import es.eucm.eadventure.common.resources.StringHandler;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.ImageImpl;
 import es.eucm.eadventure.common.resources.assets.multimedia.Sound;
 import es.eucm.eadventure.common.resources.assets.multimedia.impl.SoundImpl;
@@ -89,7 +88,7 @@ public class SceneImporter implements EAdElementImporter<Scene, EAdSceneImpl> {
 	/**
 	 * String handler
 	 */
-	private StringHandler stringHandler;
+	private StringsWriter stringHandler;
 
 	/**
 	 * References importer
@@ -125,7 +124,7 @@ public class SceneImporter implements EAdElementImporter<Scene, EAdSceneImpl> {
 
 	@Inject
 	public SceneImporter(
-			StringHandler stringHandler,
+			StringsWriter stringHandler,
 			EAdElementImporter<Conditions, EAdCondition> conditionsImporter,
 			ResourceImporter resourceImporter,
 			EAdElementImporter<ElementReference, EAdActorReference> referencesImporter,
@@ -211,9 +210,13 @@ public class SceneImporter implements EAdElementImporter<Scene, EAdSceneImpl> {
 			playerReference.setPosition(new EAdPositionImpl(
 					Corner.BOTTOM_CENTER, oldScene.getPositionX(), oldScene
 							.getPositionY()));
-			
-			playerReference.getVars().getVar(EAdSceneElementVars.VAR_STATE)
-			.setInitialValue(EAdSceneElement.CommonStates.EAD_STATE_DEFAULT.toString());
+
+			playerReference
+					.getVars()
+					.getVar(EAdSceneElementVars.VAR_STATE)
+					.setInitialValue(
+							EAdSceneElement.CommonStates.EAD_STATE_DEFAULT
+									.toString());
 
 			return playerReference;
 		}
@@ -309,12 +312,9 @@ public class SceneImporter implements EAdElementImporter<Scene, EAdSceneImpl> {
 	}
 
 	private void importDocumentation(EAdSceneImpl scene, Scene oldScene) {
-		scene.setName(new EAdString(stringHandler.getUniqueId()));
-		stringHandler.addString(scene.getName(), oldScene.getName());
-
-		scene.setDocumentation(new EAdString(stringHandler.getUniqueId()));
-		stringHandler.addString(scene.getDocumentation(),
-				oldScene.getDocumentation());
+		scene.setName(stringHandler.addString(oldScene.getName()));
+		scene.setDocumentation(stringHandler.addString(oldScene
+				.getDocumentation()));
 	}
 
 }

@@ -58,5 +58,21 @@ public abstract class EAdOperationImpl extends EAdElementImpl implements EAdOper
 	public EAdList<EAdVar<?>> getVarList() {
 		return varList;
 	}
+	
+	public boolean equals( Object object ){
+		if ( object instanceof EAdOperationImpl ){
+			if ( super.equals(object) ){
+				int i = 0;
+				for ( EAdVar<?> var1: varList ){
+					EAdVar<?> var2 = ((EAdOperationImpl) object).varList.get(i++);
+					if ( !var1.equals(var2)){
+						return false;
+					}
+				}
+				return true;
+			}
+		}
+		return false;
+	}
 
 }

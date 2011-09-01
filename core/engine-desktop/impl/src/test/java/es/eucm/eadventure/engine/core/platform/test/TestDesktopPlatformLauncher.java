@@ -41,6 +41,7 @@ import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.google.inject.Singleton;
 
+import es.eucm.eadventure.common.StringsWriter;
 import es.eucm.eadventure.common.model.effects.impl.EAdChangeScene;
 import es.eucm.eadventure.common.model.effects.impl.EAdModifyActorState;
 import es.eucm.eadventure.common.model.elements.EAdActorReference;
@@ -55,12 +56,10 @@ import es.eucm.eadventure.common.model.transitions.EAdTransition;
 import es.eucm.eadventure.common.params.geom.impl.EAdPositionImpl;
 import es.eucm.eadventure.common.resources.EAdString;
 import es.eucm.eadventure.common.resources.EAdURI;
-import es.eucm.eadventure.common.resources.StringHandler;
 import es.eucm.eadventure.engine.core.impl.LoadingScreen;
 import es.eucm.eadventure.engine.core.impl.modules.BasicGameModule;
 import es.eucm.eadventure.engine.core.platform.PlatformLauncher;
 import es.eucm.eadventure.engine.core.platform.impl.DesktopPlatformLauncher;
-import es.eucm.eadventure.engine.core.platform.impl.DesktopStringLoader;
 import es.eucm.eadventure.engine.core.platform.impl.extra.DesktopAssetHandlerModule;
 import es.eucm.eadventure.engine.core.platform.impl.extra.DesktopAssetRendererModule;
 import es.eucm.eadventure.engine.core.platform.impl.extra.DesktopModule;
@@ -76,21 +75,20 @@ public class TestDesktopPlatformLauncher  {
 		PlatformLauncher launcher = injector.getInstance(PlatformLauncher.class);
 		
 		//TODO set language
-		StringHandler sh = injector.getInstance(StringHandler.class);
-		DesktopStringLoader.loadStrings(sh, ClassLoader.getSystemResourceAsStream("values/strings.properties"));
+		StringsWriter sh = injector.getInstance(StringsWriter.class);
 
-		sh.addString(new EAdString("question"), "¿Qué pregunta te podría hacer?");
-		sh.addString(new EAdString("answer1"), "Que como estoy, a lo mejor");
-		sh.addString(new EAdString("answer2"), "No sé, lo que veas.");
-		sh.addString(new EAdString("answer3"), "A lo mejor algo relacionado con el mundo e las preguntas.");
-		sh.addString(new EAdString("stringName"), "Start game");
-		sh.addString(new EAdString("panielName"), "Paniel");
-		sh.addString(new EAdString("panielDescription"), "Es Paniel. Parece ser que le gusta hacer el moonwalker todo el rato. #f");
-		sh.addString(new EAdString("handAction"), "¡Chócala!");
-		sh.addString(new EAdString("orientedName"), "Oriented");
-		sh.addString(new EAdString("stringId"), "Esto es un string no ya largo, sino larguíiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiisimo sólo para probar si todo ese código que hay por ahí para e incluso le pongo variables como mi nombre que es #nombre e incluso un número que es #n cortar las líneas funciona más o menos bien, que estaría bien, vamos, que tampoco...");
+		sh.setString(new EAdString("question"), "¿Qué pregunta te podría hacer?");
+		sh.setString(new EAdString("answer1"), "Que como estoy, a lo mejor");
+		sh.setString(new EAdString("answer2"), "No sé, lo que veas.");
+		sh.setString(new EAdString("answer3"), "A lo mejor algo relacionado con el mundo e las preguntas.");
+		sh.setString(new EAdString("stringName"), "Start game");
+		sh.setString(new EAdString("panielName"), "Paniel");
+		sh.setString(new EAdString("panielDescription"), "Es Paniel. Parece ser que le gusta hacer el moonwalker todo el rato. #f");
+		sh.setString(new EAdString("handAction"), "¡Chócala!");
+		sh.setString(new EAdString("orientedName"), "Oriented");
+		sh.setString(new EAdString("stringId"), "Esto es un string no ya largo, sino larguíiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiisimo sólo para probar si todo ese código que hay por ahí para e incluso le pongo variables como mi nombre que es #nombre e incluso un número que es #n cortar las líneas funciona más o menos bien, que estaría bien, vamos, que tampoco...");
 
-		sh.addString(new EAdString("default"), "default");
+		sh.setString(new EAdString("default"), "default");
 
 		LoadingScreen loadingScreen = injector.getInstance(LoadingScreen.class);
 		

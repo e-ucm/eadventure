@@ -24,7 +24,7 @@ public class WaitEffectImporter extends EffectImporter<WaitTimeEffect, EAdWaitEf
 	@Override
 	public EAdWaitEffect convert(WaitTimeEffect oldObject, Object newElement) {
 		EAdWaitEffect effect = super.convert(oldObject, newElement);
-		effect.setTime(oldObject.getTime());
+		effect.setTime(oldObject.getTime() * 1000);
 		return effect;
 	}
 	

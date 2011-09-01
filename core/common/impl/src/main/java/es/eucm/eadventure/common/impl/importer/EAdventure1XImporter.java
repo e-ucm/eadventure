@@ -37,11 +37,15 @@
 
 package es.eucm.eadventure.common.impl.importer;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.util.ArrayList;
 
 import com.google.inject.Inject;
 
 import es.eucm.eadventure.common.EAdElementImporter;
+import es.eucm.eadventure.common.StringsWriter;
 import es.eucm.eadventure.common.data.adventure.AdventureData;
 import es.eucm.eadventure.common.impl.importer.interfaces.ResourceImporter;
 import es.eucm.eadventure.common.loader.InputStreamCreator;
@@ -60,15 +64,19 @@ public class EAdventure1XImporter {
 	private ResourceImporter resourceImporter;
 
 	private InputStreamCreator inputStreamCreator;
+	
+	private StringsWriter stringsWriter;
 
 	@Inject
 	public EAdventure1XImporter(
 			EAdElementImporter<AdventureData, EAdAdventureModel> adventureImp,
 			ResourceImporter resourceImporter,
-			InputStreamCreator inputStreamCreator) {
+			InputStreamCreator inputStreamCreator,
+			StringsWriter stringsWriter) {
 		this.adventureImporter = adventureImp;
 		this.resourceImporter = resourceImporter;
 		this.inputStreamCreator = inputStreamCreator;
+		this.stringsWriter = stringsWriter;
 	}
 
 	/**
@@ -96,7 +104,13 @@ public class EAdventure1XImporter {
 //		} catch (FileNotFoundException e) {
 //			e.printStackTrace();
 //		}
-
+		
+		File f = new File( destiny, "values/strings.xml");
+		try {
+			stringsWriter.save(new FileOutputStream(f));
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
 		return model;
 
 	}

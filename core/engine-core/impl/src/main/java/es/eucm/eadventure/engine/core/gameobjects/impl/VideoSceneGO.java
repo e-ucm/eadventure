@@ -41,9 +41,9 @@ import java.util.logging.Logger;
 
 import com.google.inject.Inject;
 
+import es.eucm.eadventure.common.StringsReader;
 import es.eucm.eadventure.common.model.effects.EAdEffect;
 import es.eucm.eadventure.common.model.elements.impl.EAdVideoScene;
-import es.eucm.eadventure.common.resources.StringHandler;
 import es.eucm.eadventure.common.resources.assets.multimedia.Video;
 import es.eucm.eadventure.engine.core.GameState;
 import es.eucm.eadventure.engine.core.ValueMap;
@@ -64,11 +64,11 @@ public class VideoSceneGO extends AbstractGameObject<EAdVideoScene> implements
 	private Object component;
 
 	@Inject
-	public VideoSceneGO(AssetHandler assetHandler, StringHandler stringHandler,
+	public VideoSceneGO(AssetHandler assetHandler, StringsReader stringsReader,
 			GameObjectFactory gameObjectFactory, GUI gui, GameState gameState,
 			ValueMap valueMap, PlatformConfiguration platformConfiguration,
 			SpecialAssetRenderer<Video, ?> specialAssetRenderer) {
-		super(assetHandler, stringHandler, gameObjectFactory, gui, gameState,
+		super(assetHandler, stringsReader, gameObjectFactory, gui, gameState,
 				valueMap, platformConfiguration);
 		logger.info("New instance");
 		this.specialAssetRenderer = specialAssetRenderer;

@@ -43,6 +43,7 @@ import java.util.Map;
 import com.google.inject.Inject;
 
 import es.eucm.eadventure.common.EAdElementImporter;
+import es.eucm.eadventure.common.StringsWriter;
 import es.eucm.eadventure.common.data.chapter.Action;
 import es.eucm.eadventure.common.data.chapter.elements.Element;
 import es.eucm.eadventure.common.impl.importer.interfaces.EAdElementFactory;
@@ -56,7 +57,6 @@ import es.eucm.eadventure.common.model.elements.EAdActor;
 import es.eucm.eadventure.common.model.elements.EAdCondition;
 import es.eucm.eadventure.common.model.elements.impl.EAdBasicActor;
 import es.eucm.eadventure.common.resources.EAdString;
-import es.eucm.eadventure.common.resources.StringHandler;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.Caption;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.CaptionImpl;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.ImageImpl;
@@ -64,7 +64,7 @@ import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.ImageImpl
 public abstract class ActorImporter<P extends Element> implements
 		EAdElementImporter<P, EAdActor> {
 
-	protected StringHandler stringHandler;
+	protected StringsWriter stringHandler;
 
 	protected ResourceImporter resourceImporter;
 
@@ -75,11 +75,11 @@ public abstract class ActorImporter<P extends Element> implements
 	protected EAdElementFactory elementFactory;
 
 	protected EAdElementImporter<Action, EAdAction> actionImporter;
-	
+
 	protected P element;
 
 	@Inject
-	public ActorImporter(StringHandler stringHandler,
+	public ActorImporter(StringsWriter stringHandler,
 			ResourceImporter resourceImporter,
 			EAdElementFactory elementFactory,
 			EAdElementImporter<Action, EAdAction> actionImporter) {
@@ -94,26 +94,21 @@ public abstract class ActorImporter<P extends Element> implements
 		this.element = oldObject;
 		return new EAdBasicActor(oldObject.getId());
 	}
-	
+
 	@Override
 	public EAdActor convert(P oldObject, Object object) {
 		EAdBasicActor actor = (EAdBasicActor) object;
 		elementFactory.getCurrentChapterModel().getActors().add(actor);
-		
-		actor.setName(new EAdString(stringHandler.getUniqueId()));
-		stringHandler.addString(actor.getName(), oldObject.getName());
 
-		actor.setDescription(new EAdString(stringHandler.getUniqueId()));
-		stringHandler.addString(actor.getDescription(),
-				oldObject.getDescription());
+		actor.setName(stringHandler.addString(oldObject.getName()));
 
-		actor.setDetailedDescription(new EAdString(stringHandler.getUniqueId()));
-		stringHandler.addString(actor.getDetailedDescription(),
-				oldObject.getDetailedDescription());
+		actor.setDescription(stringHandler.addString(oldObject.getDescription()));
 
-		actor.setDocumentation(new EAdString(stringHandler.getUniqueId()));
-		stringHandler.addString(actor.getDocumentation(),
-				oldObject.getDocumentation());
+		actor.setDetailedDescription(stringHandler.addString(oldObject
+				.getDetailedDescription()));
+
+		actor.setDocumentation(stringHandler.addString(oldObject
+				.getDocumentation()));
 
 		initResourcesCorrespondencies();
 
@@ -128,49 +123,60 @@ public abstract class ActorImporter<P extends Element> implements
 	public static <P extends Element> void addActions(P oldObject,
 			EAdBasicActor actor,
 			EAdElementImporter<Action, EAdAction> actionImporter,
-			StringHandler stringHandler) {
+			StringsWriter stringHandler) {
 		// Add examine action if it's not defined in oldObject actions
 		boolean addExamine = true;
 
 		HashMap<String, EAdCondition> previousConditions = new HashMap<String, EAdCondition>();
-		
+
 		for (Action a : oldObject.getActions()) {
 			if (addExamine && a.getType() == Action.EXAMINE)
 				addExamine = false;
 
 			EAdAction action = actionImporter.init(a);
-			action = ((ActionImporter) actionImporter).convert(a, action, actor);
+			action = ((ActionImporter) actionImporter)
+					.convert(a, action, actor);
 			actor.getActions().add(action);
-			
+
 			String name = stringHandler.getString(action.getName());
 			if (previousConditions.containsKey(name)) {
 				EAdCondition conditions = action.getCondition();
-				action.setCondition(new ANDCondition(conditions, previousConditions.get(name)));
-				conditions = new ANDCondition(new NOTCondition(conditions), previousConditions.get(name));
+				action.setCondition(new ANDCondition(conditions,
+						previousConditions.get(name)));
+				conditions = new ANDCondition(new NOTCondition(conditions),
+						previousConditions.get(name));
 				previousConditions.remove(name);
 				previousConditions.put(name, conditions);
 			} else {
-				previousConditions.put(name, new NOTCondition(action.getCondition()));
+				previousConditions.put(name,
+						new NOTCondition(action.getCondition()));
 			}
 		}
 
 		if (addExamine) {
 			EAdBasicAction examineAction = new EAdBasicAction(actor.getId()
 					+ "_action_examinate");
-			EAdString description = new EAdString(stringHandler.getUniqueId());
-			stringHandler.addString(description, oldObject.getDescription());
+			EAdString description = stringHandler.addString(oldObject
+					.getDescription());
 
-			EAdShowSceneElement effect = new EAdShowSceneElement(examineAction.getId()
-					+ "_showText");
+			EAdShowSceneElement effect = new EAdShowSceneElement(
+					examineAction.getId() + "_showText");
 
 			Caption caption = new CaptionImpl(description);
 			effect.setCaption(caption, 300, 300);
 
 			examineAction.getEffects().add(effect);
 
-			
-			examineAction.getResources().addAsset(examineAction.getNormalBundle(), EAdBasicAction.appearance, new ImageImpl(ActionImporter.getDrawablePath(Action.EXAMINE)));
-			examineAction.getResources().addAsset(examineAction.getHighlightBundle(), EAdBasicAction.appearance, new ImageImpl(ActionImporter.getHighlightDrawablePath(Action.EXAMINE)));
+			examineAction.getResources().addAsset(
+					examineAction.getNormalBundle(),
+					EAdBasicAction.appearance,
+					new ImageImpl(ActionImporter
+							.getDrawablePath(Action.EXAMINE)));
+			examineAction.getResources().addAsset(
+					examineAction.getHighlightBundle(),
+					EAdBasicAction.appearance,
+					new ImageImpl(ActionImporter
+							.getHighlightDrawablePath(Action.EXAMINE)));
 
 			actor.getActions().add(examineAction);
 
@@ -179,6 +185,5 @@ public abstract class ActorImporter<P extends Element> implements
 	}
 
 	public abstract void initResourcesCorrespondencies();
-
 
 }
