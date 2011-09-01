@@ -12,3 +12,7 @@ syntax: regexp
 ^core/engine-android/impl/bin$
 syntax: regexp
 ^core/engine-desktop/impl/src/test/resources/FirstPersonEffectsTestImported$
+syntax: regexp
+^core/engine-playn/impl/war/eadengine$
+syntax: regexp
+^core/engine-playn/impl/war/WEB-INF/deploy$

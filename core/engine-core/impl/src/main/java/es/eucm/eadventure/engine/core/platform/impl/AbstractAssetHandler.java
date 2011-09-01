@@ -73,11 +73,6 @@ public abstract class AbstractAssetHandler implements AssetHandler {
 	private static final Logger logger = Logger
 			.getLogger("AbstractAssetHandler");
 
-	/**
-	 * An instance of the guice injector, used to load the necessary runtime
-	 * assets
-	 */
-	private Injector injector;
 
 	/**
 	 * A cache of the runtime assets for each asset descriptor
@@ -105,9 +100,7 @@ public abstract class AbstractAssetHandler implements AssetHandler {
 	 */
 	@Inject
 	public AbstractAssetHandler(
-			Injector injector,
 			Map<Class<? extends AssetDescriptor>, Class<? extends RuntimeAsset<?>>> classMap) {
-		this.injector = injector;
 		this.classMap = classMap;
 		cache = new HashMap<AssetDescriptor, RuntimeAsset<?>>();
 	}
@@ -137,7 +130,7 @@ public abstract class AbstractAssetHandler implements AssetHandler {
 					tempClass = classMap.get(clazz);
 					clazz = clazz.getSuperclass();
 				}
-				temp = (RuntimeAsset<T>) injector.getInstance(tempClass);
+				temp = (RuntimeAsset<T>) getInstance(tempClass);
 				temp.setDescriptor(descriptor);
 				cache.put(descriptor, temp);
 			}
@@ -148,6 +141,8 @@ public abstract class AbstractAssetHandler implements AssetHandler {
 			throw e;
 		}
 	}
+
+	public abstract RuntimeAsset<?> getInstance(Class<? extends RuntimeAsset<?>> clazz);
 
 	/*
 	 * (non-Javadoc)
