@@ -43,11 +43,11 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 import es.eucm.eadventure.common.interfaces.MapProvider;
-import es.eucm.eadventure.engine.core.impl.GraphicRendererFactoryImpl;
+import es.eucm.eadventure.engine.core.impl.JavaGraphicRendererFactoryImpl;
 import es.eucm.eadventure.engine.core.platform.GraphicRenderer;
 
 @Singleton
-public class DesktopGraphicRendererFactory extends GraphicRendererFactoryImpl<Graphics2D> {
+public class DesktopGraphicRendererFactory extends JavaGraphicRendererFactoryImpl<Graphics2D> {
 	
 	@Inject
 	public DesktopGraphicRendererFactory(MapProvider<Class<?>, GraphicRenderer<?, ?>> mapProvider) {

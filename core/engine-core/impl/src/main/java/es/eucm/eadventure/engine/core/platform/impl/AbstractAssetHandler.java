@@ -37,8 +37,6 @@
 
 package es.eucm.eadventure.engine.core.platform.impl;
 
-import java.io.File;
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Level;
@@ -190,32 +188,6 @@ public abstract class AbstractAssetHandler implements AssetHandler {
 		return getRuntimeAsset(element, null, id);
 	}
 
-	/**
-	 * Helper method to create a directory within the system temporary directory
-	 * 
-	 * @param name
-	 *            The name of the directory
-	 * @return The reference to the directory
-	 * @throws IOException
-	 *             A exception if the directory couldn't be created
-	 */
-	protected File createTempDirectory(String name) throws IOException {
-		final File temp;
-
-		temp = File.createTempFile(name, null);
-
-		if (!(temp.delete())) {
-			throw new IOException("Could not delete temp file: "
-					+ temp.getAbsolutePath());
-		}
-
-		if (!(temp.mkdir())) {
-			throw new IOException("Could not create temp directory: "
-					+ temp.getAbsolutePath());
-		}
-
-		return (temp);
-	}
 
 	/*
 	 * (non-Javadoc)
