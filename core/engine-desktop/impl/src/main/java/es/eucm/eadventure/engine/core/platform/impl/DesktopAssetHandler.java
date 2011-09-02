@@ -73,7 +73,7 @@ import es.eucm.eadventure.engine.core.platform.RuntimeAsset;
  * 
  */
 @Singleton
-public class DesktopAssetHandler extends AbstractAssetHandler {
+public class DesktopAssetHandler extends JavaAbstractAssetHandler {
 
 	/**
 	 * Map of original file names to file references in the temporary directory

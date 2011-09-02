@@ -66,7 +66,7 @@ public class GameObjectFactoryModule extends AbstractModule {
 		bind(EventGameObjectFactoryConfigurator.class);
 		
 		bind(new TypeLiteral<MapProvider<Class<? extends EAdElement>, Class<? extends GameObject<?>>>>() {}).to(GameObjectFactoryMapProvider.class);
-		bind(GameObjectFactory.class).to(GameObjectFactoryImpl.class);
+		bind(GameObjectFactory.class).to(JavaGameObjectFactoryImpl.class);
 	}
 
 
