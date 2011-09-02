@@ -43,7 +43,7 @@ import java.util.logging.Logger;
 
 import com.google.inject.Inject;
 
-import es.eucm.eadventure.common.StringsReader;
+import es.eucm.eadventure.common.StringHandler;
 import es.eucm.eadventure.common.params.geom.impl.EAdRectangleImpl;
 import es.eucm.eadventure.common.resources.assets.drawable.Drawable;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.Caption;
@@ -118,13 +118,13 @@ public class RuntimeCaption extends AbstractRuntimeAsset<Caption> implements
 
 	private VariableMap valueMap;
 
-	private StringsReader stringsReader;
+	private StringHandler stringsReader;
 
 	private PlatformConfiguration platformConfiguration;
 
 	@Inject
 	public RuntimeCaption(FontCacheImpl fontCache, VariableMap valueMap,
-			StringsReader stringsReader,
+			StringHandler stringsReader,
 			PlatformConfiguration platformConfiguration) {
 		this.fontCache = fontCache;
 		this.valueMap = valueMap;

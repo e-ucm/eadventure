@@ -15,7 +15,7 @@ import javax.imageio.ImageIO;
 import com.google.inject.Inject;
 
 import es.eucm.eadventure.common.EAdElementImporter;
-import es.eucm.eadventure.common.StringsWriter;
+import es.eucm.eadventure.common.StringHandler;
 import es.eucm.eadventure.common.data.chapter.book.Book;
 import es.eucm.eadventure.common.data.chapter.book.BookParagraph;
 import es.eucm.eadventure.common.impl.importer.interfaces.ResourceImporter;
@@ -114,12 +114,12 @@ public class BookImporter implements EAdElementImporter<Book, EAdScene> {
 	private ComposedDrawableImpl image;
 	private int column;
 
-	private StringsWriter stringHandler;
+	private StringHandler stringHandler;
 	private ResourceImporter resourceImporter;
 
 	@Inject
 	public BookImporter(ResourceImporter resourceImporter,
-			StringsWriter stringHandler) {
+			StringHandler stringHandler) {
 		this.resourceImporter = resourceImporter;
 		this.stringHandler = stringHandler;
 	}

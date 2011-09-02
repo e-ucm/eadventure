@@ -42,7 +42,7 @@ import java.util.logging.Logger;
 
 import com.google.inject.Inject;
 
-import es.eucm.eadventure.common.StringsReader;
+import es.eucm.eadventure.common.StringHandler;
 import es.eucm.eadventure.common.model.elements.EAdScene;
 import es.eucm.eadventure.common.model.elements.impl.EAdComposedScene;
 import es.eucm.eadventure.engine.core.GameState;
@@ -62,7 +62,7 @@ public class ComposedSceneGOImpl extends AbstractGameObject<EAdComposedScene> im
 	
 	@Inject
 	public ComposedSceneGOImpl(AssetHandler assetHandler,
-			StringsReader stringsReader, GameObjectFactory gameObjectFactory,
+			StringHandler stringsReader, GameObjectFactory gameObjectFactory,
 			GUI gui, GameState gameState, ValueMap valueMap,
 			PlatformConfiguration platformConfiguration) {
 		super(assetHandler, stringsReader, gameObjectFactory, gui, gameState, valueMap,

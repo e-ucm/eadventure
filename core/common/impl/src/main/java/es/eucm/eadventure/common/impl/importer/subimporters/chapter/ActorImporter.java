@@ -43,7 +43,7 @@ import java.util.Map;
 import com.google.inject.Inject;
 
 import es.eucm.eadventure.common.EAdElementImporter;
-import es.eucm.eadventure.common.StringsWriter;
+import es.eucm.eadventure.common.StringHandler;
 import es.eucm.eadventure.common.data.chapter.Action;
 import es.eucm.eadventure.common.data.chapter.elements.Element;
 import es.eucm.eadventure.common.impl.importer.interfaces.EAdElementFactory;
@@ -64,7 +64,7 @@ import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.ImageImpl
 public abstract class ActorImporter<P extends Element> implements
 		EAdElementImporter<P, EAdActor> {
 
-	protected StringsWriter stringHandler;
+	protected StringHandler stringHandler;
 
 	protected ResourceImporter resourceImporter;
 
@@ -79,7 +79,7 @@ public abstract class ActorImporter<P extends Element> implements
 	protected P element;
 
 	@Inject
-	public ActorImporter(StringsWriter stringHandler,
+	public ActorImporter(StringHandler stringHandler,
 			ResourceImporter resourceImporter,
 			EAdElementFactory elementFactory,
 			EAdElementImporter<Action, EAdAction> actionImporter) {
@@ -123,7 +123,7 @@ public abstract class ActorImporter<P extends Element> implements
 	public static <P extends Element> void addActions(P oldObject,
 			EAdBasicActor actor,
 			EAdElementImporter<Action, EAdAction> actionImporter,
-			StringsWriter stringHandler) {
+			StringHandler stringHandler) {
 		// Add examine action if it's not defined in oldObject actions
 		boolean addExamine = true;
 

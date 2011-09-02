@@ -39,7 +39,7 @@ package es.eucm.eadventure.engine.core.gameobjects.impl.effects;
 
 import com.google.inject.Inject;
 
-import es.eucm.eadventure.common.StringsReader;
+import es.eucm.eadventure.common.StringHandler;
 import es.eucm.eadventure.common.model.effects.EAdEffect;
 import es.eucm.eadventure.common.model.effects.impl.EAdComplexBlockingEffect;
 import es.eucm.eadventure.common.model.elements.EAdSceneElement;
@@ -58,7 +58,7 @@ public class ComplexBlockingEffectGO extends AbstractEffectGO<EAdComplexBlocking
 
 	@Inject
 	public ComplexBlockingEffectGO(AssetHandler assetHandler,
-			StringsReader stringHandler, GameObjectFactory gameObjectFactory,
+			StringHandler stringHandler, GameObjectFactory gameObjectFactory,
 			GUI gui, GameState gameState, ValueMap valueMap,
 			PlatformConfiguration platformConfiguration, EvaluatorFactory evaluatorFactory) {
 		super(assetHandler, stringHandler, gameObjectFactory, gui, gameState, valueMap,

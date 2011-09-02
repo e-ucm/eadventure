@@ -40,7 +40,7 @@ package es.eucm.eadventure.common.impl.importer.subimporters.effects.texts;
 import com.google.inject.Inject;
 
 import es.eucm.eadventure.common.EAdElementImporter;
-import es.eucm.eadventure.common.StringsWriter;
+import es.eucm.eadventure.common.StringHandler;
 import es.eucm.eadventure.common.data.chapter.conditions.Conditions;
 import es.eucm.eadventure.common.data.chapter.effects.SpeakCharEffect;
 import es.eucm.eadventure.common.data.chapter.elements.NPC;
@@ -64,7 +64,7 @@ public class SpeakCharEffectImporter extends
 	private NPC npc;
 
 	@Inject
-	public SpeakCharEffectImporter(StringsWriter stringHandler,
+	public SpeakCharEffectImporter(StringHandler stringHandler,
 			EAdElementImporter<Conditions, EAdCondition> conditionImporter,
 			EAdElementFactory factory) {
 		super(stringHandler, conditionImporter, factory);

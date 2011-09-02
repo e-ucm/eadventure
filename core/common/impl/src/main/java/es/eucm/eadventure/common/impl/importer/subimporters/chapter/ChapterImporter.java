@@ -42,7 +42,7 @@ import java.util.List;
 import com.google.inject.Inject;
 
 import es.eucm.eadventure.common.EAdElementImporter;
-import es.eucm.eadventure.common.StringsWriter;
+import es.eucm.eadventure.common.StringHandler;
 import es.eucm.eadventure.common.data.HasId;
 import es.eucm.eadventure.common.data.chapter.Chapter;
 import es.eucm.eadventure.common.data.chapter.Timer;
@@ -63,12 +63,12 @@ public class ChapterImporter implements EAdElementImporter<Chapter, EAdChapter> 
 	/**
 	 * String handler
 	 */
-	private StringsWriter stringHandler;
+	private StringHandler stringHandler;
 
 	private EAdElementFactory elementFactory;
 
 	@Inject
-	public ChapterImporter(StringsWriter stringHandler,
+	public ChapterImporter(StringHandler stringHandler,
 			EAdElementFactory elementFactory) {
 		this.stringHandler = stringHandler;
 		this.elementFactory = elementFactory;

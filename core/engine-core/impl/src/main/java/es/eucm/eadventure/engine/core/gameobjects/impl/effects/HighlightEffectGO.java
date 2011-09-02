@@ -39,7 +39,7 @@ package es.eucm.eadventure.engine.core.gameobjects.impl.effects;
 
 import com.google.inject.Inject;
 
-import es.eucm.eadventure.common.StringsReader;
+import es.eucm.eadventure.common.StringHandler;
 import es.eucm.eadventure.common.model.effects.impl.timedevents.EAdHighlightSceneElement;
 import es.eucm.eadventure.common.model.variables.impl.extra.EAdSceneElementVars;
 import es.eucm.eadventure.engine.core.GameLoop;
@@ -60,7 +60,7 @@ public class HighlightEffectGO extends AbstractEffectGO<EAdHighlightSceneElement
 
 	@Inject
 	public HighlightEffectGO(AssetHandler assetHandler,
-			StringsReader stringHandler, GameObjectFactory gameObjectFactory,
+			StringHandler stringHandler, GameObjectFactory gameObjectFactory,
 			GUI gui, GameState gameState, ValueMap valueMap,
 			PlatformConfiguration platformConfiguration) {
 		super(assetHandler, stringHandler, gameObjectFactory, gui, gameState, valueMap,

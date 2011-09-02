@@ -39,7 +39,7 @@ package es.eucm.eadventure.engine.core.gameobjects.impl.events;
 
 import com.google.inject.Inject;
 
-import es.eucm.eadventure.common.StringsReader;
+import es.eucm.eadventure.common.StringHandler;
 import es.eucm.eadventure.common.model.events.EAdTimerEvent;
 import es.eucm.eadventure.engine.core.GameState;
 import es.eucm.eadventure.engine.core.ValueMap;
@@ -54,7 +54,7 @@ public class TimerEventGO extends AbstractEventGO<EAdTimerEvent> {
 	private boolean triggered;
 
 	@Inject
-	public TimerEventGO(AssetHandler assetHandler, StringsReader stringHandler,
+	public TimerEventGO(AssetHandler assetHandler, StringHandler stringHandler,
 			GameObjectFactory gameObjectFactory, GUI gui, GameState gameState,
 			ValueMap valueMap, PlatformConfiguration platformConfiguration) {
 		super(assetHandler, stringHandler, gameObjectFactory, gui, gameState, valueMap,

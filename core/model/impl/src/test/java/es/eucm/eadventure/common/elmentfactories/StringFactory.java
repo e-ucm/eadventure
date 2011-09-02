@@ -43,7 +43,6 @@ import java.util.Map;
 
 import com.google.inject.Singleton;
 
-import es.eucm.eadventure.common.StringsWriter;
 import es.eucm.eadventure.common.resources.EAdString;
 
 /**
@@ -99,22 +98,18 @@ public class StringFactory {
 		}
 	}
 
-	/**
-	 * Adds the strings define by this factory to the given string handler
-	 * 
-	 * @param stringHandler
-	 *            string handler
-	 */
-	public void addStrings(StringsWriter stringHandler) {
+	public Map<EAdString, String> getStrings() {
+		Map<EAdString, String> shstrings = new HashMap<EAdString, String>();
 		int i = 0;
 		for (EAdString string : strings) {
-			stringHandler.setString(string,
+			shstrings.put(string,
 					StringType.values()[i++].getString());
 		}
 
 		for (EAdString string : userStrings.keySet()) {
-			stringHandler.setString(string, userStrings.get(string));
+			shstrings.put(string, userStrings.get(string));
 		}
+		return shstrings;
 	}
 
 	/**

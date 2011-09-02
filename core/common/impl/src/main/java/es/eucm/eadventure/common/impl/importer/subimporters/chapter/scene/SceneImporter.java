@@ -44,7 +44,7 @@ import java.util.Map;
 import com.google.inject.Inject;
 
 import es.eucm.eadventure.common.EAdElementImporter;
-import es.eucm.eadventure.common.StringsWriter;
+import es.eucm.eadventure.common.StringHandler;
 import es.eucm.eadventure.common.data.chapter.ElementReference;
 import es.eucm.eadventure.common.data.chapter.Exit;
 import es.eucm.eadventure.common.data.chapter.Trajectory;
@@ -88,7 +88,7 @@ public class SceneImporter implements EAdElementImporter<Scene, EAdSceneImpl> {
 	/**
 	 * String handler
 	 */
-	private StringsWriter stringHandler;
+	private StringHandler stringHandler;
 
 	/**
 	 * References importer
@@ -124,7 +124,7 @@ public class SceneImporter implements EAdElementImporter<Scene, EAdSceneImpl> {
 
 	@Inject
 	public SceneImporter(
-			StringsWriter stringHandler,
+			StringHandler stringHandler,
 			EAdElementImporter<Conditions, EAdCondition> conditionsImporter,
 			ResourceImporter resourceImporter,
 			EAdElementImporter<ElementReference, EAdActorReference> referencesImporter,

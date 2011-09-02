@@ -42,7 +42,7 @@ import java.util.HashMap;
 import com.google.inject.Inject;
 
 import es.eucm.eadventure.common.EAdElementImporter;
-import es.eucm.eadventure.common.StringsWriter;
+import es.eucm.eadventure.common.StringHandler;
 import es.eucm.eadventure.common.data.chapter.Action;
 import es.eucm.eadventure.common.data.chapter.elements.Atrezzo;
 import es.eucm.eadventure.common.impl.importer.interfaces.EAdElementFactory;
@@ -55,7 +55,7 @@ import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.ImageImpl
 public class AtrezzoImporter extends ActorImporter<Atrezzo>{
 	
 	@Inject
-	public AtrezzoImporter(StringsWriter stringHandler,
+	public AtrezzoImporter(StringHandler stringHandler,
 			ResourceImporter resourceImporter,
 			EAdElementFactory elementFactory,
 			EAdElementImporter<Action, EAdAction> actionImporter) {

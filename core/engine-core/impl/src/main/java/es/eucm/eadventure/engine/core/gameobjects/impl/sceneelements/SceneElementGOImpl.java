@@ -43,7 +43,7 @@ import java.util.logging.Logger;
 
 import com.google.inject.Inject;
 
-import es.eucm.eadventure.common.StringsReader;
+import es.eucm.eadventure.common.StringHandler;
 import es.eucm.eadventure.common.model.actions.EAdAction;
 import es.eucm.eadventure.common.model.elements.EAdSceneElement;
 import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
@@ -99,7 +99,7 @@ public abstract class SceneElementGOImpl<T extends EAdSceneElement> extends
 
 	@Inject
 	public SceneElementGOImpl(AssetHandler assetHandler,
-			StringsReader stringHandler, GameObjectFactory gameObjectFactory,
+			StringHandler stringHandler, GameObjectFactory gameObjectFactory,
 			GUI gui, GameState gameState, ValueMap valueMap,
 			PlatformConfiguration platformConfiguration) {
 		super(assetHandler, stringHandler, gameObjectFactory, gui, gameState,

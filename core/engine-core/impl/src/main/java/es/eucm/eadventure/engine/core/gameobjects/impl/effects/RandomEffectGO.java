@@ -39,7 +39,7 @@ package es.eucm.eadventure.engine.core.gameobjects.impl.effects;
 
 import com.google.inject.Inject;
 
-import es.eucm.eadventure.common.StringsReader;
+import es.eucm.eadventure.common.StringHandler;
 import es.eucm.eadventure.common.model.effects.EAdEffect;
 import es.eucm.eadventure.common.model.effects.impl.EAdRandomEffect;
 import es.eucm.eadventure.common.model.extra.EAdMap;
@@ -62,7 +62,7 @@ public class RandomEffectGO extends AbstractEffectGO<EAdRandomEffect> {
 
 	@Inject
 	public RandomEffectGO(AssetHandler assetHandler,
-			StringsReader stringHandler, GameObjectFactory gameObjectFactory,
+			StringHandler stringHandler, GameObjectFactory gameObjectFactory,
 			GUI gui, GameState gameState, ValueMap valueMap,
 			PlatformConfiguration platformConfiguration) {
 		super(assetHandler, stringHandler, gameObjectFactory, gui, gameState, valueMap,

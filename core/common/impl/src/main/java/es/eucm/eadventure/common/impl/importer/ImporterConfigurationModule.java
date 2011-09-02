@@ -43,7 +43,6 @@ import com.google.inject.name.Names;
 
 import es.eucm.eadventure.common.EAdElementImporter;
 import es.eucm.eadventure.common.GenericImporter;
-import es.eucm.eadventure.common.StringsWriter;
 import es.eucm.eadventure.common.data.adventure.AdventureData;
 import es.eucm.eadventure.common.data.animation.Animation;
 import es.eucm.eadventure.common.data.animation.ImageLoaderFactory;
@@ -105,7 +104,6 @@ import es.eucm.eadventure.common.impl.importer.subimporters.conditions.FlagCondi
 import es.eucm.eadventure.common.impl.importer.subimporters.conditions.VarConditionImporter;
 import es.eucm.eadventure.common.impl.importer.subimporters.effects.EffectsImporterModule;
 import es.eucm.eadventure.common.impl.importer.subimporters.macros.MacroImporter;
-import es.eucm.eadventure.common.impl.strings.DefaultStringsWriter;
 import es.eucm.eadventure.common.loader.InputStreamCreator;
 import es.eucm.eadventure.common.model.actions.EAdAction;
 import es.eucm.eadventure.common.model.conditions.impl.FlagCondition;
@@ -153,6 +151,8 @@ public class ImporterConfigurationModule extends AbstractModule {
 
 		bind(String.class).annotatedWith(Names.named("projectFolder"))
 				.toInstance(projectFile);
+		bind(String.class).annotatedWith(Names.named("StringsFile"))
+				.toInstance(projectFile + "/strings.xml");
 
 		bind(
 				new TypeLiteral<EAdElementImporter<AdventureData, EAdAdventureModel>>() {
@@ -302,7 +302,6 @@ public class ImporterConfigurationModule extends AbstractModule {
 		bind(ResourceImporter.class).to(ResourceImporterImpl.class);
 		bind(EAdElementFactory.class).to(EAdElementFactoryImpl.class);
 		bind(ImageLoaderFactory.class).to(ImporterImageLoaderFactory.class);
-		bind(StringsWriter.class).to(DefaultStringsWriter.class);
 
 		if (projectFile.endsWith(".eap")) {
 			projectFile = projectFile.substring(0, projectFile.length() - 4);

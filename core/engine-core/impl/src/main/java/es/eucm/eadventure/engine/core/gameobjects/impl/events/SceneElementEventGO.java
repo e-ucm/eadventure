@@ -39,7 +39,7 @@ package es.eucm.eadventure.engine.core.gameobjects.impl.events;
 
 import com.google.inject.Inject;
 
-import es.eucm.eadventure.common.StringsReader;
+import es.eucm.eadventure.common.StringHandler;
 import es.eucm.eadventure.common.model.events.EAdSceneElementEvent;
 import es.eucm.eadventure.common.model.events.EAdSceneElementEvent.SceneElementEvent;
 import es.eucm.eadventure.engine.core.GameState;
@@ -55,7 +55,7 @@ public class SceneElementEventGO extends AbstractEventGO<EAdSceneElementEvent>{
 	
 	@Inject
 	public SceneElementEventGO(AssetHandler assetHandler,
-			StringsReader stringHandler, GameObjectFactory gameObjectFactory,
+			StringHandler stringHandler, GameObjectFactory gameObjectFactory,
 			GUI gui, GameState gameState, ValueMap valueMap,
 			PlatformConfiguration platformConfiguration) {
 		super(assetHandler, stringHandler, gameObjectFactory, gui, gameState, valueMap,

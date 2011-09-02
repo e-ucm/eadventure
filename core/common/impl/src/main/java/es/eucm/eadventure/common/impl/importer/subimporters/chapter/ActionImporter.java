@@ -45,7 +45,7 @@ import java.util.Map;
 import com.google.inject.Inject;
 
 import es.eucm.eadventure.common.EAdElementImporter;
-import es.eucm.eadventure.common.StringsWriter;
+import es.eucm.eadventure.common.StringHandler;
 import es.eucm.eadventure.common.data.chapter.Action;
 import es.eucm.eadventure.common.data.chapter.CustomAction;
 import es.eucm.eadventure.common.data.chapter.conditions.Conditions;
@@ -71,7 +71,7 @@ import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.ImageImpl
 
 public class ActionImporter implements EAdElementImporter<Action, EAdAction> {
 
-	private StringsWriter stringHandler;
+	private StringHandler stringHandler;
 
 	private EffectsImporterFactory effectsImporterFactory;
 
@@ -85,7 +85,7 @@ public class ActionImporter implements EAdElementImporter<Action, EAdAction> {
 	public static final String DRAWABLE_PATH = "@drawable/";
 
 	@Inject
-	public ActionImporter(StringsWriter stringHandler,
+	public ActionImporter(StringHandler stringHandler,
 			EffectsImporterFactory effectsImporterFactory,
 			ResourceImporter resourceImporter,
 			EAdElementImporter<Conditions, EAdCondition> conditionsImporter) {

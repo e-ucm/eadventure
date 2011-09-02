@@ -43,7 +43,7 @@ import java.util.logging.Logger;
 
 import com.google.inject.Inject;
 
-import es.eucm.eadventure.common.StringsReader;
+import es.eucm.eadventure.common.StringHandler;
 import es.eucm.eadventure.common.model.elements.EAdActorReference;
 import es.eucm.eadventure.common.model.elements.EAdScene;
 import es.eucm.eadventure.common.model.elements.EAdSceneElement;
@@ -62,7 +62,7 @@ public class SceneGOImpl extends AbstractGameObject<EAdScene> implements SceneGO
 	private static final Logger logger = Logger.getLogger("ScreenGOImpl");
 
 	@Inject
-	public SceneGOImpl(AssetHandler assetHandler, StringsReader stringsReader,
+	public SceneGOImpl(AssetHandler assetHandler, StringHandler stringsReader,
 			GameObjectFactory gameObjectFactory, GUI gui, GameState gameState,
 			ValueMap valueMap, PlatformConfiguration platformConfiguration) {
 		super(assetHandler, stringsReader, gameObjectFactory, gui, gameState, valueMap,

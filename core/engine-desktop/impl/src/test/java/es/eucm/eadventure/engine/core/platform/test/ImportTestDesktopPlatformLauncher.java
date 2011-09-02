@@ -46,7 +46,7 @@ import com.google.inject.Guice;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
 
-import es.eucm.eadventure.common.StringsWriter;
+import es.eucm.eadventure.common.StringHandler;
 import es.eucm.eadventure.common.impl.importer.EAdventure1XImporter;
 import es.eucm.eadventure.common.impl.importer.ImporterConfigurationModule;
 import es.eucm.eadventure.common.model.elements.EAdAdventureModel;
@@ -143,7 +143,7 @@ public class ImportTestDesktopPlatformLauncher {
 					+  projectName + "Imported");
 
 			screen = model.getChapters().get(0).getInitialScreen();
-			injector.getInstance(StringsWriter.class).setString(
+			injector.getInstance(StringHandler.class).setString(
 					new EAdString("Loading"), "loading");
 			LoadingScreen loadingScreen = injector
 					.getInstance(LoadingScreen.class);

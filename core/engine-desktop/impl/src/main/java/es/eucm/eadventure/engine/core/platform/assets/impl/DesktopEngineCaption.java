@@ -39,7 +39,7 @@ package es.eucm.eadventure.engine.core.platform.assets.impl;
 
 import com.google.inject.Inject;
 
-import es.eucm.eadventure.common.StringsReader;
+import es.eucm.eadventure.common.StringHandler;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.CaptionImpl;
 import es.eucm.eadventure.engine.core.impl.VariableMap;
 import es.eucm.eadventure.engine.core.platform.PlatformConfiguration;
@@ -50,7 +50,7 @@ public class DesktopEngineCaption extends RuntimeCaption {
 
 	@Inject
 	public DesktopEngineCaption(FontCacheImpl fontCache, VariableMap valueMap,
-			StringsReader stringHandler, PlatformConfiguration platformConfiguration) {
+			StringHandler stringHandler, PlatformConfiguration platformConfiguration) {
 		super(fontCache, valueMap, stringHandler, platformConfiguration );
 	}
 

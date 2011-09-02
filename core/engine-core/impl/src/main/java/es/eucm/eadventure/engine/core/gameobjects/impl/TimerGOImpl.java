@@ -43,7 +43,7 @@ import java.util.logging.Logger;
 
 import com.google.inject.Inject;
 
-import es.eucm.eadventure.common.StringsReader;
+import es.eucm.eadventure.common.StringHandler;
 import es.eucm.eadventure.common.model.elements.EAdTimer;
 import es.eucm.eadventure.common.params.geom.impl.EAdPositionImpl;
 import es.eucm.eadventure.engine.core.GameLoop;
@@ -66,7 +66,7 @@ public class TimerGOImpl extends GameObjectImpl<EAdTimer> implements TimerGO {
 	private static final Logger logger = Logger.getLogger("TimerGOImpl");
 
 	@Inject
-	public TimerGOImpl(AssetHandler assetHandler, StringsReader stringsReader,
+	public TimerGOImpl(AssetHandler assetHandler, StringHandler stringsReader,
 			GameObjectFactory gameObjectFactory, GUI gui, GameState gameState,
 			ValueMap valueMap, PlatformConfiguration platformConfiguration) {
 		super(assetHandler, stringsReader, gameObjectFactory, gui, gameState, valueMap,

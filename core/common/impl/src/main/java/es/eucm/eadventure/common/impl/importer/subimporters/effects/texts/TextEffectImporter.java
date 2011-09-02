@@ -38,7 +38,7 @@
 package es.eucm.eadventure.common.impl.importer.subimporters.effects.texts;
 
 import es.eucm.eadventure.common.EAdElementImporter;
-import es.eucm.eadventure.common.StringsWriter;
+import es.eucm.eadventure.common.StringHandler;
 import es.eucm.eadventure.common.data.chapter.conditions.Conditions;
 import es.eucm.eadventure.common.data.chapter.effects.AbstractEffect;
 import es.eucm.eadventure.common.impl.importer.interfaces.EAdElementFactory;
@@ -51,11 +51,11 @@ public abstract class TextEffectImporter<T extends AbstractEffect> extends
 
 	protected static int ID_GENERATOR = 0;
 
-	protected StringsWriter stringHandler;
+	protected StringHandler stringHandler;
 
 	protected EAdElementFactory factory;
 
-	public TextEffectImporter(StringsWriter stringHandler,
+	public TextEffectImporter(StringHandler stringHandler,
 			EAdElementImporter<Conditions, EAdCondition> conditionImporter,
 			EAdElementFactory factory) {
 		super(conditionImporter);

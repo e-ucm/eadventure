@@ -44,10 +44,9 @@ import com.google.inject.AbstractModule;
 import com.google.inject.Provides;
 import com.google.inject.Singleton;
 
-import es.eucm.eadventure.common.StringsReader;
-import es.eucm.eadventure.common.StringsWriter;
-import es.eucm.eadventure.common.impl.strings.DefaultStringsReader;
-import es.eucm.eadventure.common.impl.strings.DefaultStringsWriter;
+import es.eucm.eadventure.common.StringFileHandler;
+import es.eucm.eadventure.common.StringHandler;
+import es.eucm.eadventure.common.impl.strings.DefaultStringFileHandler;
 import es.eucm.eadventure.common.resources.assets.AssetDescriptor;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.Caption;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.Image;
@@ -64,6 +63,7 @@ import es.eucm.eadventure.common.resources.assets.drawable.compounds.impl.Compos
 import es.eucm.eadventure.common.resources.assets.drawable.compounds.impl.DisplacedDrawableImpl;
 import es.eucm.eadventure.common.resources.assets.multimedia.Sound;
 import es.eucm.eadventure.common.resources.assets.multimedia.impl.SoundImpl;
+import es.eucm.eadventure.engine.core.impl.DefaultStringHandler;
 import es.eucm.eadventure.engine.core.platform.AssetHandler;
 import es.eucm.eadventure.engine.core.platform.RuntimeAsset;
 import es.eucm.eadventure.engine.core.platform.assets.impl.DesktopBezierShape;
@@ -80,16 +80,16 @@ public class DesktopAssetHandlerModule extends AbstractModule {
 
 	@Override
 	protected void configure() {
-		bind(StringsWriter.class).to(DefaultStringsWriter.class);
-		bind(StringsReader.class).to(DefaultStringsReader.class);
+		bind(StringFileHandler.class).to(DefaultStringFileHandler.class);
+		bind(StringHandler.class).to(DefaultStringHandler.class);
 		bind(AssetHandler.class).to(DesktopAssetHandler.class);
 	}
 
 	@Provides
 	@Singleton
 	Map<Class<? extends AssetDescriptor>, Class<? extends RuntimeAsset<?>>> provideMap() {
-		Map<Class<? extends AssetDescriptor>, Class<? extends RuntimeAsset<?>>> map = new HashMap<Class<? extends AssetDescriptor>, Class<? extends RuntimeAsset<?>>>( );
-	  
+		Map<Class<? extends AssetDescriptor>, Class<? extends RuntimeAsset<?>>> map = new HashMap<Class<? extends AssetDescriptor>, Class<? extends RuntimeAsset<?>>>();
+
 		map.put(ImageImpl.class, DesktopEngineImage.class);
 		map.put(Image.class, DesktopEngineImage.class);
 		map.put(Frame.class, DesktopEngineImage.class);
@@ -105,10 +105,8 @@ public class DesktopAssetHandlerModule extends AbstractModule {
 		map.put(SpriteImageImpl.class, DesktopEngineSpriteImage.class);
 		map.put(Sound.class, DesktopSound.class);
 		map.put(SoundImpl.class, DesktopSound.class);
-		
+
 		return map;
 	}
-	
-	
-}
 
+}

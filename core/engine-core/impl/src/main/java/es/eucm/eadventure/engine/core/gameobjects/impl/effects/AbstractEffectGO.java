@@ -39,7 +39,7 @@ package es.eucm.eadventure.engine.core.gameobjects.impl.effects;
 
 import com.google.inject.Inject;
 
-import es.eucm.eadventure.common.StringsReader;
+import es.eucm.eadventure.common.StringHandler;
 import es.eucm.eadventure.common.model.effects.EAdEffect;
 import es.eucm.eadventure.engine.core.GameState;
 import es.eucm.eadventure.engine.core.ValueMap;
@@ -56,7 +56,7 @@ public abstract class AbstractEffectGO<P extends EAdEffect> extends
 
 	@Inject
 	public AbstractEffectGO(AssetHandler assetHandler,
-			StringsReader stringsReader, GameObjectFactory gameObjectFactory,
+			StringHandler stringsReader, GameObjectFactory gameObjectFactory,
 			GUI gui, GameState gameState, ValueMap valueMap,
 			PlatformConfiguration platformConfiguration) {
 		super(assetHandler, stringsReader, gameObjectFactory, gui, gameState,

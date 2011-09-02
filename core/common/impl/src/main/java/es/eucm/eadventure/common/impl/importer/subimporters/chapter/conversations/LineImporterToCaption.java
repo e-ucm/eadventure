@@ -40,7 +40,7 @@ package es.eucm.eadventure.common.impl.importer.subimporters.chapter.conversatio
 import com.google.inject.Inject;
 
 import es.eucm.eadventure.common.GenericImporter;
-import es.eucm.eadventure.common.StringsWriter;
+import es.eucm.eadventure.common.StringHandler;
 import es.eucm.eadventure.common.data.chapter.conversation.line.ConversationLine;
 import es.eucm.eadventure.common.data.chapter.elements.NPC;
 import es.eucm.eadventure.common.data.chapter.elements.Player;
@@ -58,7 +58,7 @@ public class LineImporterToCaption implements
 	private EAdElementFactory factory;
 
 	@Inject
-	private StringsWriter stringHandler;
+	private StringHandler stringHandler;
 
 	public Caption init(ConversationLine line) {
 		return null;

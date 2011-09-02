@@ -41,7 +41,7 @@ import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.google.inject.Singleton;
 
-import es.eucm.eadventure.common.StringsWriter;
+import es.eucm.eadventure.common.StringHandler;
 import es.eucm.eadventure.common.model.effects.impl.EAdChangeScene;
 import es.eucm.eadventure.common.model.effects.impl.EAdModifyActorState;
 import es.eucm.eadventure.common.model.elements.EAdActorReference;
@@ -75,7 +75,7 @@ public class TestDesktopPlatformLauncher  {
 		PlatformLauncher launcher = injector.getInstance(PlatformLauncher.class);
 		
 		//TODO set language
-		StringsWriter sh = injector.getInstance(StringsWriter.class);
+		StringHandler sh = injector.getInstance(StringHandler.class);
 
 		sh.setString(new EAdString("question"), "¿Qué pregunta te podría hacer?");
 		sh.setString(new EAdString("answer1"), "Que como estoy, a lo mejor");

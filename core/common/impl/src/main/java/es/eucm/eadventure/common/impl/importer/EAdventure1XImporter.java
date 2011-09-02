@@ -45,7 +45,8 @@ import java.util.ArrayList;
 import com.google.inject.Inject;
 
 import es.eucm.eadventure.common.EAdElementImporter;
-import es.eucm.eadventure.common.StringsWriter;
+import es.eucm.eadventure.common.StringFileHandler;
+import es.eucm.eadventure.common.StringHandler;
 import es.eucm.eadventure.common.data.adventure.AdventureData;
 import es.eucm.eadventure.common.impl.importer.interfaces.ResourceImporter;
 import es.eucm.eadventure.common.loader.InputStreamCreator;
@@ -65,18 +66,21 @@ public class EAdventure1XImporter {
 
 	private InputStreamCreator inputStreamCreator;
 	
-	private StringsWriter stringsWriter;
+	private StringHandler stringsHandler;
+	
+	private StringFileHandler stringFileHandler;
 
 	@Inject
 	public EAdventure1XImporter(
 			EAdElementImporter<AdventureData, EAdAdventureModel> adventureImp,
 			ResourceImporter resourceImporter,
 			InputStreamCreator inputStreamCreator,
-			StringsWriter stringsWriter) {
+			StringHandler stringsWriter, StringFileHandler stringFileHandler) {
 		this.adventureImporter = adventureImp;
 		this.resourceImporter = resourceImporter;
 		this.inputStreamCreator = inputStreamCreator;
-		this.stringsWriter = stringsWriter;
+		this.stringsHandler = stringsWriter;
+		this.stringFileHandler = stringFileHandler;
 	}
 
 	/**
@@ -105,9 +109,10 @@ public class EAdventure1XImporter {
 //			e.printStackTrace();
 //		}
 		
-		File f = new File( destiny, "values/strings.xml");
+		File f = new File( destiny, "strings.xml");
+		
 		try {
-			stringsWriter.save(new FileOutputStream(f));
+			stringFileHandler.write(new FileOutputStream(f), stringsHandler.getStrings());
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}

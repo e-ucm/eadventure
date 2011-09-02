@@ -40,7 +40,7 @@ package es.eucm.eadventure.common.impl.importer.subimporters.chapter.scene;
 import com.google.inject.Inject;
 
 import es.eucm.eadventure.common.EAdElementImporter;
-import es.eucm.eadventure.common.StringsWriter;
+import es.eucm.eadventure.common.StringHandler;
 import es.eucm.eadventure.common.data.chapter.Action;
 import es.eucm.eadventure.common.data.chapter.conditions.Conditions;
 import es.eucm.eadventure.common.data.chapter.elements.ActiveArea;
@@ -70,13 +70,13 @@ public class ActiveAreaImporter implements
 
 	private EAdElementImporter<Action, EAdAction> actionImporter;
 
-	private StringsWriter stringHandler;
+	private StringHandler stringHandler;
 
 	@Inject
 	public ActiveAreaImporter(
 			EAdElementImporter<Conditions, EAdCondition> conditionsImporter,
 			EAdElementImporter<Action, EAdAction> actionImporter,
-			StringsWriter stringHandler) {
+			StringHandler stringHandler) {
 		this.conditionsImporter = conditionsImporter;
 		this.actionImporter = actionImporter;
 		this.stringHandler = stringHandler;

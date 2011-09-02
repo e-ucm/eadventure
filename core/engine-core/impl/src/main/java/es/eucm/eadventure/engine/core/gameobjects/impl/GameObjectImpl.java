@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.google.inject.Inject;
 
-import es.eucm.eadventure.common.StringsReader;
+import es.eucm.eadventure.common.StringHandler;
 import es.eucm.eadventure.common.model.EAdElement;
 import es.eucm.eadventure.common.params.geom.EAdPosition;
 import es.eucm.eadventure.engine.core.GameState;
@@ -28,7 +28,7 @@ public abstract class GameObjectImpl<T extends EAdElement> implements
 	/**
 	 * The string handler
 	 */
-	protected StringsReader stringsReader;
+	protected StringHandler stringsReader;
 
 	protected GameObjectFactory gameObjectFactory;
 
@@ -44,7 +44,7 @@ public abstract class GameObjectImpl<T extends EAdElement> implements
 
 	@Inject
 	public GameObjectImpl(AssetHandler assetHandler,
-			StringsReader stringReader, GameObjectFactory gameObjectFactory,
+			StringHandler stringReader, GameObjectFactory gameObjectFactory,
 			GUI gui, GameState gameState, ValueMap valueMap,
 			PlatformConfiguration platformConfiguration) {
 		this.assetHandler = assetHandler;

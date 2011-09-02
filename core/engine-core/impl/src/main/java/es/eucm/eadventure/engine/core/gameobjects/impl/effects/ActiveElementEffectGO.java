@@ -37,7 +37,7 @@
 
 package es.eucm.eadventure.engine.core.gameobjects.impl.effects;
 
-import es.eucm.eadventure.common.StringsReader;
+import es.eucm.eadventure.common.StringHandler;
 import es.eucm.eadventure.common.model.effects.impl.sceneelements.EAdActiveElementEffect;
 import es.eucm.eadventure.engine.core.GameState;
 import es.eucm.eadventure.engine.core.ValueMap;
@@ -49,7 +49,7 @@ import es.eucm.eadventure.engine.core.platform.PlatformConfiguration;
 public class ActiveElementEffectGO extends AbstractEffectGO<EAdActiveElementEffect>{
 
 	public ActiveElementEffectGO(AssetHandler assetHandler,
-			StringsReader stringHandler, GameObjectFactory gameObjectFactory,
+			StringHandler stringHandler, GameObjectFactory gameObjectFactory,
 			GUI gui, GameState gameState, ValueMap valueMap,
 			PlatformConfiguration platformConfiguration) {
 		super(assetHandler, stringHandler, gameObjectFactory, gui, gameState, valueMap,

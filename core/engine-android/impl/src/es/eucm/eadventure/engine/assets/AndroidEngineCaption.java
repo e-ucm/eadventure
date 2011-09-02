@@ -39,7 +39,7 @@ package es.eucm.eadventure.engine.assets;
 
 import com.google.inject.Inject;
 
-import es.eucm.eadventure.common.StringsReader;
+import es.eucm.eadventure.common.StringHandler;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.CaptionImpl;
 import es.eucm.eadventure.engine.core.impl.VariableMap;
 import es.eucm.eadventure.engine.core.platform.PlatformConfiguration;
@@ -51,7 +51,7 @@ public class AndroidEngineCaption extends RuntimeCaption {
 
 	@Inject
 	public AndroidEngineCaption(FontCacheImpl fontCache, VariableMap valueMap,
-			StringsReader stringHandler, PlatformConfiguration platformConfiguration) {
+			StringHandler stringHandler, PlatformConfiguration platformConfiguration) {
 		super(fontCache, valueMap, stringHandler, platformConfiguration );
 	}
 

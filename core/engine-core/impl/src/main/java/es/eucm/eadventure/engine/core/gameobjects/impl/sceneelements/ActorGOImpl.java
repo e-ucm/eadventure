@@ -42,7 +42,7 @@ import java.util.logging.Logger;
 
 import com.google.inject.Inject;
 
-import es.eucm.eadventure.common.StringsReader;
+import es.eucm.eadventure.common.StringHandler;
 import es.eucm.eadventure.common.model.actions.EAdAction;
 import es.eucm.eadventure.common.model.elements.EAdActor;
 import es.eucm.eadventure.common.model.elements.EAdActorReference;
@@ -78,7 +78,7 @@ public class ActorGOImpl extends SceneElementGOImpl<EAdActor> implements
 	private EAdScene lastScene;
 
 	@Inject
-	public ActorGOImpl(AssetHandler assetHandler, StringsReader stringHandler,
+	public ActorGOImpl(AssetHandler assetHandler, StringHandler stringHandler,
 			GameObjectFactory gameObjectFactory, GUI gui, GameState gameState,
 			ValueMap valueMap, PlatformConfiguration platformConfiguration, EvaluatorFactory evaluator) {
 		super(assetHandler, stringHandler, gameObjectFactory, gui, gameState, valueMap,

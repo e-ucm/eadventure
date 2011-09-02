@@ -40,7 +40,7 @@ package es.eucm.eadventure.common.impl.importer.subimporters;
 import com.google.inject.Inject;
 
 import es.eucm.eadventure.common.EAdElementImporter;
-import es.eucm.eadventure.common.StringsWriter;
+import es.eucm.eadventure.common.StringHandler;
 import es.eucm.eadventure.common.data.adventure.AdventureData;
 import es.eucm.eadventure.common.data.chapter.Chapter;
 import es.eucm.eadventure.common.impl.importer.interfaces.EAdElementFactory;
@@ -57,13 +57,13 @@ public class AdventureImporter implements EAdElementImporter<AdventureData, EAdA
 
 	private EAdElementImporter<Chapter, EAdChapter> chapterImporter;
 
-	private StringsWriter stringsWriter;
+	private StringHandler stringsWriter;
 	
 	private EAdElementFactory factory;
 	
 	@Inject
 	public AdventureImporter(EAdElementImporter<Chapter, EAdChapter> chapterImporter,
-			StringsWriter stringHandler, EAdElementFactory factory) {
+			StringHandler stringHandler, EAdElementFactory factory) {
 		this.chapterImporter = chapterImporter;
 		this.stringsWriter = stringHandler;
 		this.factory = factory;

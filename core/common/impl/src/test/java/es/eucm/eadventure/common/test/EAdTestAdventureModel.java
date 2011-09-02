@@ -37,20 +37,59 @@
 
 package es.eucm.eadventure.common.test;
 
-import es.eucm.eadventure.common.StringsWriter;
+import java.util.Map;
+
+import es.eucm.eadventure.common.StringHandler;
 import es.eucm.eadventure.common.elmentfactories.scenedemos.BasicScene;
-import es.eucm.eadventure.common.impl.strings.DefaultStringsWriter;
 import es.eucm.eadventure.common.model.impl.EAdAdventureModelImpl;
 import es.eucm.eadventure.common.model.impl.EAdChapterImpl;
 import es.eucm.eadventure.common.resources.EAdString;
 
 public class EAdTestAdventureModel extends EAdAdventureModelImpl {
 
-	private StringsWriter stringHandler;
+	private StringHandler stringHandler;
 
 	public EAdTestAdventureModel() {
 		// TODO Habrá que guardar también las claves para los strings
-		stringHandler = new DefaultStringsWriter();
+		stringHandler = new StringHandler(){
+
+			@Override
+			public String getString(EAdString string) {
+				// TODO Auto-generated method stub
+				return null;
+			}
+
+			@Override
+			public void setString(EAdString eAdString, String string) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void setStrings(Map<EAdString, String> strings) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void addStrings(Map<EAdString, String> strings) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public EAdString addString(String string) {
+				// TODO Auto-generated method stub
+				return null;
+			}
+
+			@Override
+			public Map<EAdString, String> getStrings() {
+				// TODO Auto-generated method stub
+				return null;
+			}
+			
+		};
 
 		// Chapter 1
 		EAdChapterImpl c = new EAdChapterImpl("chapter1");

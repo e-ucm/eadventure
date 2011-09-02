@@ -39,7 +39,7 @@ package es.eucm.eadventure.engine.core.platform;
 
 import com.google.inject.Inject;
 
-import es.eucm.eadventure.common.StringsWriter;
+import es.eucm.eadventure.common.StringHandler;
 import es.eucm.eadventure.common.model.effects.impl.timedevents.EAdWaitEffect;
 import es.eucm.eadventure.common.model.elements.EAdScene;
 import es.eucm.eadventure.common.model.elements.impl.EAdActorReferenceImpl;
@@ -55,13 +55,13 @@ import es.eucm.eadventure.engine.core.GameLoop;
 public class EffectOpaqueBlockTestScreen extends EAdSceneImpl implements EAdScene {
 
 	private EAdBasicActor buttonActor;
-	private StringsWriter stringHandler;
+	private StringHandler stringHandler;
 	private EAdActorReferenceImpl buttonReference;
 	private EAdActorReferenceImpl buttonReference2;
 	private EAdBasicSceneElement buttonActor2;
 
 	@Inject
-	public EffectOpaqueBlockTestScreen(StringsWriter stringHandler) {
+	public EffectOpaqueBlockTestScreen(StringHandler stringHandler) {
 			super("LoadingScreen");
 			
 			this.stringHandler = stringHandler;

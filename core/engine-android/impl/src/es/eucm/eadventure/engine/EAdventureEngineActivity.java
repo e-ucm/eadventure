@@ -46,7 +46,7 @@ import android.view.WindowManager;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 
-import es.eucm.eadventure.common.StringsWriter;
+import es.eucm.eadventure.common.StringHandler;
 import es.eucm.eadventure.common.elmentfactories.EAdElementsFactory;
 import es.eucm.eadventure.common.model.elements.EAdScene;
 import es.eucm.eadventure.common.model.elements.impl.EAdSceneImpl;
@@ -71,73 +71,78 @@ public class EAdventureEngineActivity extends Activity {
 	private Injector injector;
 
 	private EAdventureSurfaceView surfaceView;
-	
+
 	/** Called when the activity is first created. */
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
 
-        requestWindowFeature(Window.FEATURE_NO_TITLE);  
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,   
-                                WindowManager.LayoutParams.FLAG_FULLSCREEN);  
-        
-        surfaceView = new EAdventureSurfaceView(this);
-        setContentView(surfaceView);
+		requestWindowFeature(Window.FEATURE_NO_TITLE);
+		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+				WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
-        injector = Guice.createInjector(new AndroidAssetHandlerModule(), new AndroidAssetRendererModule(null), new AndroidModule(), new BasicGameModule());
+		surfaceView = new EAdventureSurfaceView(this);
+		setContentView(surfaceView);
 
-        dm = new DisplayMetrics();
-        getWindowManager().getDefaultDisplay().getMetrics(dm);
+		injector = Guice.createInjector(new AndroidAssetHandlerModule(),
+				new AndroidAssetRendererModule(null), new AndroidModule(),
+				new BasicGameModule());
 
-        AndroidPlatformConfiguration config = (AndroidPlatformConfiguration) injector.getInstance(PlatformConfiguration.class);
-        config.setWidth(dm.widthPixels);
-        config.setHeight(dm.heightPixels);
-        config.setFullscreen(true);
+		dm = new DisplayMetrics();
+		getWindowManager().getDefaultDisplay().getMetrics(dm);
 
-        //TODO fix this
-        AndroidAssetHandler aah = (AndroidAssetHandler) injector.getInstance(AssetHandler.class);
-        aah.setResources(getResources());
-        aah.setContext(this);
+		AndroidPlatformConfiguration config = (AndroidPlatformConfiguration) injector
+				.getInstance(PlatformConfiguration.class);
+		config.setWidth(dm.widthPixels);
+		config.setHeight(dm.heightPixels);
+		config.setFullscreen(true);
+
+		// TODO fix this
+		AndroidAssetHandler aah = (AndroidAssetHandler) injector
+				.getInstance(AssetHandler.class);
+		aah.setResources(getResources());
+		aah.setContext(this);
 
 		LoadingScreen loadingScreen = injector.getInstance(LoadingScreen.class);
-		
+
 		@SuppressWarnings("unchecked")
-		Class<? extends EAdScene> demoClass = (Class<? extends EAdScene>) getIntent().getExtras().getSerializable("demo");
+		Class<? extends EAdScene> demoClass = (Class<? extends EAdScene>) getIntent()
+				.getExtras().getSerializable("demo");
 
 		EAdSceneImpl sceneImpl = (EAdSceneImpl) injector.getInstance(demoClass);
-		
-		StringsWriter sh = injector.getInstance(StringsWriter.class);
-		EAdElementsFactory.getInstance().getStringFactory().addStrings(sh);
-		
+
+		StringHandler sh = injector.getInstance(StringHandler.class);
+		sh.addStrings(EAdElementsFactory.getInstance().getStringFactory()
+				.getStrings());
+
 		loadingScreen.setInitialScreen(sceneImpl);
 
-        surfaceView.start(injector.getInstance(GUI.class),
-        		config,
-        		injector.getInstance(MouseState.class));
-        
-        gameController = injector.getInstance(GameController.class);
-        gameController.start();        
-    }
+		surfaceView.start(injector.getInstance(GUI.class), config,
+				injector.getInstance(MouseState.class));
+
+		gameController = injector.getInstance(GameController.class);
+		gameController.start();
+	}
 
 	@Override
-    protected void onPause() {
+	protected void onPause() {
 		super.onPause();
 		gameController.pause();
-    }
-    
+	}
+
 	@Override
-    protected void onResume() {
-    	super.onResume();
-    	gameController.resume();
-    }
-    
+	protected void onResume() {
+		super.onResume();
+		gameController.resume();
+	}
+
 	@Override
 	protected void onDestroy() {
-        super.onDestroy();
-        gameController.stop();
+		super.onDestroy();
+		gameController.stop();
 
-        Runtime r = Runtime.getRuntime();
-        r.gc();
-    }
-	
+		Runtime r = Runtime.getRuntime();
+		r.gc();
+	}
+
 }

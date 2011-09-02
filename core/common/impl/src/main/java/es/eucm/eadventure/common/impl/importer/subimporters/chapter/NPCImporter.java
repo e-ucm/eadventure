@@ -43,7 +43,7 @@ import java.util.HashMap;
 import com.google.inject.Inject;
 
 import es.eucm.eadventure.common.EAdElementImporter;
-import es.eucm.eadventure.common.StringsWriter;
+import es.eucm.eadventure.common.StringHandler;
 import es.eucm.eadventure.common.data.chapter.Action;
 import es.eucm.eadventure.common.data.chapter.elements.NPC;
 import es.eucm.eadventure.common.data.chapter.resources.Resources;
@@ -63,7 +63,7 @@ import es.eucm.eadventure.common.resources.assets.drawable.compounds.impl.StateD
 public class NPCImporter extends ActorImporter<NPC> {
 
 	@Inject
-	public NPCImporter(StringsWriter stringHandler,
+	public NPCImporter(StringHandler stringHandler,
 			ResourceImporter resourceImporter,
 			EAdElementFactory elementFactory,
 			EAdElementImporter<Action, EAdAction> actionImporter) {
