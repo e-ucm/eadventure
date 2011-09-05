@@ -37,8 +37,6 @@
 
 package es.eucm.eadventure.engine.core.platform.impl;
 
-import java.io.File;
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Level;
@@ -73,11 +71,6 @@ public abstract class AbstractAssetHandler implements AssetHandler {
 	private static final Logger logger = Logger
 			.getLogger("AbstractAssetHandler");
 
-	/**
-	 * An instance of the guice injector, used to load the necessary runtime
-	 * assets
-	 */
-	private Injector injector;
 
 	/**
 	 * A cache of the runtime assets for each asset descriptor
@@ -105,9 +98,7 @@ public abstract class AbstractAssetHandler implements AssetHandler {
 	 */
 	@Inject
 	public AbstractAssetHandler(
-			Injector injector,
 			Map<Class<? extends AssetDescriptor>, Class<? extends RuntimeAsset<?>>> classMap) {
-		this.injector = injector;
 		this.classMap = classMap;
 		cache = new HashMap<AssetDescriptor, RuntimeAsset<?>>();
 	}
@@ -137,7 +128,7 @@ public abstract class AbstractAssetHandler implements AssetHandler {
 					tempClass = classMap.get(clazz);
 					clazz = clazz.getSuperclass();
 				}
-				temp = (RuntimeAsset<T>) injector.getInstance(tempClass);
+				temp = (RuntimeAsset<T>) getInstance(tempClass);
 				temp.setDescriptor(descriptor);
 				cache.put(descriptor, temp);
 			}
@@ -148,6 +139,8 @@ public abstract class AbstractAssetHandler implements AssetHandler {
 			throw e;
 		}
 	}
+
+	public abstract RuntimeAsset<?> getInstance(Class<? extends RuntimeAsset<?>> clazz);
 
 	/*
 	 * (non-Javadoc)
@@ -195,32 +188,6 @@ public abstract class AbstractAssetHandler implements AssetHandler {
 		return getRuntimeAsset(element, null, id);
 	}
 
-	/**
-	 * Helper method to create a directory within the system temporary directory
-	 * 
-	 * @param name
-	 *            The name of the directory
-	 * @return The reference to the directory
-	 * @throws IOException
-	 *             A exception if the directory couldn't be created
-	 */
-	protected File createTempDirectory(String name) throws IOException {
-		final File temp;
-
-		temp = File.createTempFile(name, null);
-
-		if (!(temp.delete())) {
-			throw new IOException("Could not delete temp file: "
-					+ temp.getAbsolutePath());
-		}
-
-		if (!(temp.mkdir())) {
-			throw new IOException("Could not create temp directory: "
-					+ temp.getAbsolutePath());
-		}
-
-		return (temp);
-	}
 
 	/*
 	 * (non-Javadoc)

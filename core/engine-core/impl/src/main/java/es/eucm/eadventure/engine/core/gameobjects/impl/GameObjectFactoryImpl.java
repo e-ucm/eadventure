@@ -43,7 +43,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.google.inject.Inject;
-import com.google.inject.Injector;
 import com.google.inject.Singleton;
 
 import es.eucm.eadventure.common.interfaces.MapProvider;
@@ -59,7 +58,7 @@ import es.eucm.eadventure.engine.core.gameobjects.GameObjectFactory;
  * </p>
  */
 @Singleton
-public class GameObjectFactoryImpl implements GameObjectFactory {
+public abstract class GameObjectFactoryImpl implements GameObjectFactory {
 
 	private static final Logger logger = Logger
 			.getLogger("GameObjectFactoryImpl");
@@ -76,17 +75,10 @@ public class GameObjectFactoryImpl implements GameObjectFactory {
 	 */
 	private Map<Class<? extends EAdElement>, Class<? extends GameObject<?>>> classMap;
 
-	/**
-	 * The guice injector
-	 */
-	private Injector injector;
-
 	@Inject
 	public GameObjectFactoryImpl(
-			MapProvider<Class<? extends EAdElement>, Class<? extends GameObject<?>>> map,
-			Injector injector) {
+			MapProvider<Class<? extends EAdElement>, Class<? extends GameObject<?>>> map) {
 		this.classMap = map.getMap();
-		this.injector = injector;
 		this.objectMap = new HashMap<EAdElement, GameObject<?>>();
 		logger.info("New instance");
 	}
@@ -125,7 +117,7 @@ public class GameObjectFactoryImpl implements GameObjectFactory {
 		if (tempClass == null) {
 			logger.log(Level.SEVERE, "No game element mapped for class " + element.getClass());
 		} else {
-			temp = (GameObject<T>) injector.getInstance(tempClass);
+			temp = (GameObject<T>) getInstance(tempClass);
 			temp.setElement(element);
 			
 			//TODO temporary code, to allow effect running multiple times
@@ -134,9 +126,6 @@ public class GameObjectFactoryImpl implements GameObjectFactory {
 		}
 		return temp;
 	}
-
-	@Override
-	public void clean() {
-		objectMap.clear();
-	}
+	
+	public abstract GameObject<?> getInstance(Class<? extends GameObject<?>> clazz);
 }

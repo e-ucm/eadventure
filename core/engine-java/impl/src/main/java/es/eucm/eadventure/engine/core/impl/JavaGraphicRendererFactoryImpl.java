@@ -45,6 +45,7 @@ import com.google.inject.Singleton;
 import com.google.inject.name.Named;
 
 import es.eucm.eadventure.common.interfaces.AbstractFactory;
+import es.eucm.eadventure.common.interfaces.EAdRuntimeException;
 import es.eucm.eadventure.common.interfaces.MapProvider;
 import es.eucm.eadventure.common.params.geom.EAdPosition;
 import es.eucm.eadventure.engine.core.gameobjects.GameObject;
@@ -55,12 +56,12 @@ import es.eucm.eadventure.engine.core.platform.GraphicRendererFactory;
 import es.eucm.eadventure.engine.core.platform.RuntimeAsset;
 
 @Singleton
-public abstract class GraphicRendererFactoryImpl<S> extends AbstractFactory<GraphicRenderer<?, ?>> implements GraphicRendererFactory<S> {
+public abstract class JavaGraphicRendererFactoryImpl<S> extends AbstractFactory<GraphicRenderer<?, ?>> implements GraphicRendererFactory<S> {
 
 	private static final Logger logger = Logger.getLogger("GraphicRendererFactoryImpl");
 
 	@Inject
-	public GraphicRendererFactoryImpl(@Named("GraphicRenderer") MapProvider<Class<?>, GraphicRenderer<?, ?>> mapProvider) {
+	public JavaGraphicRendererFactoryImpl(@Named("GraphicRenderer") MapProvider<Class<?>, GraphicRenderer<?, ?>> mapProvider) {
 		super(mapProvider);
 	}
 
@@ -88,7 +89,7 @@ public abstract class GraphicRendererFactoryImpl<S> extends AbstractFactory<Grap
 			gameObjectRenderer.render(graphicContext, object, interpolation, offsetX, offsetY);
 		} catch (Exception e) {
 			logger.log(Level.SEVERE, e.getMessage(), e);
-			//throw new EAdRuntimeException(e.getMessage());
+			throw new EAdRuntimeException(e.getMessage());
 		}
 	}
 

@@ -42,11 +42,11 @@ import com.google.inject.Singleton;
 
 import android.graphics.Canvas;
 import es.eucm.eadventure.common.interfaces.MapProvider;
-import es.eucm.eadventure.engine.core.impl.GraphicRendererFactoryImpl;
+import es.eucm.eadventure.engine.core.impl.JavaGraphicRendererFactoryImpl;
 import es.eucm.eadventure.engine.core.platform.GraphicRenderer;
 
 @Singleton
-public class AndroidGraphicRendererFactory extends GraphicRendererFactoryImpl<Canvas> {
+public class AndroidGraphicRendererFactory extends JavaGraphicRendererFactoryImpl<Canvas> {
 
 	@Inject
 	public AndroidGraphicRendererFactory(MapProvider<Class<?>, GraphicRenderer<?, ?>> mapProvider) {
