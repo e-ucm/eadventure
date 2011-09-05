@@ -48,8 +48,8 @@ import es.eucm.eadventure.common.impl.importer.subimporters.effects.EffectImport
 import es.eucm.eadventure.common.model.conditions.impl.EmptyCondition;
 import es.eucm.eadventure.common.model.effects.impl.variables.EAdChangeFieldValueEffect;
 import es.eucm.eadventure.common.model.elements.EAdCondition;
+import es.eucm.eadventure.common.model.variables.EAdField;
 import es.eucm.eadventure.common.model.variables.impl.operations.BooleanOperation;
-import es.eucm.eadventure.engine.core.variables.EAdVar;
 
 public class ActivateFlagImporter extends EffectImporter<ActivateEffect, EAdChangeFieldValueEffect>{
 
@@ -63,11 +63,10 @@ public class ActivateFlagImporter extends EffectImporter<ActivateEffect, EAdChan
 		super(conditionImporter);
 		this.factory = factory;
 	}
-
-	@SuppressWarnings("unchecked")
+	
 	@Override
 	public EAdChangeFieldValueEffect init(ActivateEffect oldObject) {
-		EAdVar<Boolean> var = (EAdVar<Boolean>) factory.getVarByOldId(oldObject.getTargetId(), Condition.FLAG_CONDITION);
+		EAdField<?> var = factory.getVarByOldId(oldObject.getTargetId(), Condition.FLAG_CONDITION);
 		BooleanOperation op = new BooleanOperation( "boolOperation" );
 		op.setCondition(EmptyCondition.TRUE_EMPTY_CONDITION);
 		

@@ -57,15 +57,15 @@ import es.eucm.eadventure.common.model.EAdElement;
 import es.eucm.eadventure.common.model.effects.EAdEffect;
 import es.eucm.eadventure.common.model.elements.EAdChapter;
 import es.eucm.eadventure.common.model.elements.EAdCondition;
-import es.eucm.eadventure.common.model.variables.impl.vars.BooleanVar;
-import es.eucm.eadventure.common.model.variables.impl.vars.IntegerVar;
-import es.eucm.eadventure.engine.core.variables.EAdVar;
+import es.eucm.eadventure.common.model.variables.EAdField;
+import es.eucm.eadventure.common.model.variables.impl.EAdFieldImpl;
+import es.eucm.eadventure.common.model.variables.impl.EAdVarDefImpl;
 
 @Singleton
 public class EAdElementFactoryImpl implements EAdElementFactory {
 
 	private Map<String, Map<String, EAdElement>> elements;
-	private Map<String, Map<String, EAdVar<?>>> chapterVars;
+	private Map<String, Map<String, EAdField<?>>> chapterVars;
 	private Map<String, Map<String, EAdCondition>> chapterGlobalStates;
 	
 	
@@ -90,7 +90,7 @@ public class EAdElementFactoryImpl implements EAdElementFactory {
 			Injector injector) {
 		this.conditionImporter = conditionImporter;
 		elements = new HashMap<String, Map<String, EAdElement>>();
-		chapterVars = new HashMap<String, Map<String, EAdVar<?>>>();
+		chapterVars = new HashMap<String, Map<String, EAdField<?>>>();
 		chapterGlobalStates = new HashMap<String, Map<String, EAdCondition>>();
 		oldType = new HashMap<String, Object>();
 		this.injector = injector;
@@ -173,22 +173,21 @@ public class EAdElementFactoryImpl implements EAdElementFactory {
 		return model.getPlayerMode() == DescriptorData.MODE_PLAYER_1STPERSON;
 	}
 
-	public EAdVar<?> getVarByOldId(String id, int type) {
-		Map<String, EAdVar<?>> vars = chapterVars.get(currentChapter.getId());
+	public EAdField<?> getVarByOldId(String id, int type) {
+		Map<String, EAdField<?>> vars = chapterVars.get(currentChapter.getId());
 
 		if (vars == null) {
-			vars = new HashMap<String, EAdVar<?>>();
+			vars = new HashMap<String, EAdField<?>>();
 			chapterVars.put(currentChapter.getId(), vars);
 		}
 
-		EAdVar<?> var = vars.get(id);
+		EAdField<?> var = vars.get(id);
 		if (var == null) {
 			if (type == Condition.FLAG_CONDITION)
-				var = new BooleanVar(id);
+				var = new EAdFieldImpl<Boolean>( currentChapter, new EAdVarDefImpl<Boolean>(id, Boolean.class, Boolean.FALSE));
 			else
-				var = new IntegerVar(id);
+				var = new EAdFieldImpl<Integer>( currentChapter, new EAdVarDefImpl<Integer>(id, Integer.class, 0));
 			vars.put(id, var);
-			currentChapter.getVars().add(var);
 		}
 		return var;
 	}

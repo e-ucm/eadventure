@@ -40,7 +40,8 @@ import es.eucm.eadventure.common.model.events.EAdSceneElementEvent.SceneElementE
 import es.eucm.eadventure.common.model.events.impl.EAdConditionEventImpl;
 import es.eucm.eadventure.common.model.events.impl.EAdSceneElementEventImpl;
 import es.eucm.eadventure.common.model.guievents.impl.EAdMouseEventImpl;
-import es.eucm.eadventure.common.model.variables.impl.extra.EAdSceneElementVars;
+import es.eucm.eadventure.common.model.variables.EAdField;
+import es.eucm.eadventure.common.model.variables.impl.EAdFieldImpl;
 import es.eucm.eadventure.common.model.variables.impl.operations.AssignOperation;
 import es.eucm.eadventure.common.model.variables.impl.operations.BooleanOperation;
 import es.eucm.eadventure.common.model.variables.impl.operations.LiteralExpressionOperation;
@@ -55,7 +56,6 @@ import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.CaptionIm
 import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.ImageImpl;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.shapes.CircleShape;
 import es.eucm.eadventure.common.resources.assets.drawable.compounds.impl.ComposedDrawableImpl;
-import es.eucm.eadventure.engine.core.variables.EAdVar;
 
 public class BookImporter implements EAdElementImporter<Book, EAdScene> {
 
@@ -197,8 +197,8 @@ public class BookImporter implements EAdElementImporter<Book, EAdScene> {
 		content.setPosition(0, 0);
 		content.setClone(true);
 
-		EAdVar<Integer> xVar = content.getVars().getVar(
-				EAdSceneElementVars.VAR_X);
+		EAdField<Integer> xVar = new EAdFieldImpl<Integer>(content,
+				EAdBasicSceneElement.VAR_X);
 
 		EAdSceneElementEvent event = new EAdSceneElementEventImpl("restartBook");
 		event.addEffect(SceneElementEvent.ADDED_TO_SCENE,
@@ -245,11 +245,11 @@ public class BookImporter implements EAdElementImporter<Book, EAdScene> {
 		EAdBasicSceneElement arrow = new EAdBasicSceneElement("arrow");
 		this.addAppearance(book, arrow, resourceNormal, resourceOver);
 
-		EAdVar<Integer> xVar = content.getVars().getVar(
-				EAdSceneElementVars.VAR_X);
+		EAdField<Integer> xVar = new EAdFieldImpl<Integer>(content,
+				EAdBasicSceneElement.VAR_X);
 
-		EAdVar<Boolean> visibleVar = arrow.getVars().getVar(
-				EAdSceneElementVars.VAR_VISIBLE);
+		EAdField<Boolean> visibleVar = new EAdFieldImpl<Boolean>(arrow,
+				EAdBasicSceneElement.VAR_VISIBLE);
 		EAdVarInterpolationEffect move = new EAdVarInterpolationEffect(
 				"changePage");
 		move.setInterpolation(xVar,

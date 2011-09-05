@@ -43,6 +43,7 @@ import java.util.Map;
 import java.util.logging.Logger;
 
 import es.eucm.eadventure.common.model.EAdElement;
+import es.eucm.eadventure.common.model.variables.EAdVarDef;
 import es.eucm.eadventure.common.params.EAdFill;
 import es.eucm.eadventure.common.params.EAdFont;
 import es.eucm.eadventure.common.params.EAdFontImpl;
@@ -57,8 +58,6 @@ import es.eucm.eadventure.common.resources.EAdBundleId;
 import es.eucm.eadventure.common.resources.EAdString;
 import es.eucm.eadventure.common.resources.EAdURI;
 import es.eucm.eadventure.common.resources.assets.impl.EAdURIImpl;
-import es.eucm.eadventure.engine.core.impl.variables.EAdVarImpl;
-import es.eucm.eadventure.engine.core.variables.EAdVar;
 
 /**
  * Includes methods to generate an object of a given type from a string value
@@ -69,7 +68,7 @@ public class ObjectFactory {
 
 	private static Map<String, EAdElement> elementMap;
 
-	private static Map<String, ArrayList<EAdVar<?>>> pendingVarMap;
+//	private static Map<String, ArrayList<EAdVarDef<?>>> pendingVarMap;
 
 	@SuppressWarnings("unchecked")
 	public static Object getObject(String value, Class<?> fieldType) {
@@ -143,14 +142,11 @@ public class ObjectFactory {
 
 	public static void initilize() {
 		elementMap = new HashMap<String, EAdElement>();
-		pendingVarMap = new HashMap<String, ArrayList<EAdVar<?>>>();
+	//	pendingVarMap = new HashMap<String, ArrayList<EAdVarDef<?>>>();
 	}
 
 	public static void put(String id, EAdElement element) {
 		logger.info("Added element id:" + id + "; element:" + element);
 		elementMap.put(id, element);
-		if (pendingVarMap.get(id) != null)
-			for (EAdVar<?> var : pendingVarMap.get(id))
-				((EAdVarImpl<?>) var).setElement(element);
 	}
 }

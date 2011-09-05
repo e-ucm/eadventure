@@ -13,11 +13,12 @@ import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
 import es.eucm.eadventure.common.model.events.EAdConditionEvent;
 import es.eucm.eadventure.common.model.events.impl.EAdConditionEventImpl;
 import es.eucm.eadventure.common.model.trajectories.impl.NodeTrajectoryDefinition;
+import es.eucm.eadventure.common.model.variables.EAdField;
+import es.eucm.eadventure.common.model.variables.impl.EAdFieldImpl;
 import es.eucm.eadventure.common.model.variables.impl.operations.BooleanOperation;
 import es.eucm.eadventure.common.params.geom.impl.EAdPositionImpl;
 import es.eucm.eadventure.common.params.geom.impl.EAdPositionImpl.Corner;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.shapes.RectangleShape;
-import es.eucm.eadventure.engine.core.variables.EAdVar;
 
 @Singleton
 public class BarrierImporter implements
@@ -38,8 +39,7 @@ public class BarrierImporter implements
 
 	@Override
 	public EAdSceneElement convert(Barrier oldObject, Object newElement) {
-		EAdSceneElement barrier = (EAdSceneElement) newElement;
-		barrier.getVars().add(NodeTrajectoryDefinition.VAR_BARRIER_ON);
+		EAdBasicSceneElement barrier = (EAdBasicSceneElement) newElement;
 
 		if (oldObject.getConditions() != null) {
 			EAdCondition condition = conditionsImporter.init(oldObject
@@ -49,7 +49,7 @@ public class BarrierImporter implements
 			EAdConditionEvent event = new EAdConditionEventImpl(
 					"barrierCondition");
 			event.setCondition(condition);
-			EAdVar<Boolean> barrierOn = barrier.getVars().getVar(
+			EAdField<Boolean> barrierOn = new EAdFieldImpl<Boolean>(barrier,
 					NodeTrajectoryDefinition.VAR_BARRIER_ON);
 			event.addEffect(
 					EAdConditionEvent.ConditionedEvent.CONDITIONS_MET,

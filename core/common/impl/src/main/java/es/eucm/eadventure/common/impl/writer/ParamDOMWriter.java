@@ -47,7 +47,6 @@ import org.w3c.dom.Node;
 
 import es.eucm.eadventure.common.interfaces.Param;
 import es.eucm.eadventure.common.model.EAdElement;
-import es.eucm.eadventure.engine.core.variables.EAdVar;
 
 /**
  * <p>DOM writer for the "param" element in the eAdventure 2 xml</p>
@@ -96,17 +95,6 @@ public class ParamDOMWriter extends DOMWriter<Field> {
 					doc.adoptNode(newNode);
 					node.appendChild(newNode);
 				}
-			} else if (field.get(element) instanceof EAdVar) {
-				EAdVar<?> elementVar = (EAdVar<?>) field.get(element);
-				String value = elementVar.toString();
-				if (elementVar.getElement() != null) {
-					if (!elementMap.containsKey(elementVar.getElement()))
-						elementMap.put(elementVar.getElement(), ""+elementMap.keySet().size());
-					value += elementMap.get(elementVar.getElement()) + ";";
-				} else {
-					value += ";";
-				}
-				node.setTextContent(value);
 			} else if ( field.get(element) instanceof Class ){
 				node.setTextContent(((Class<?>) field.get(element)).getName());
 			} else {

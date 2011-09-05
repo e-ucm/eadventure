@@ -20,10 +20,6 @@ public class EAdVarDefImpl<T> implements EAdVarDef<T> {
 	@Param("initialValue")
 	private T initialValue;
 
-	public EAdVarDefImpl(String id) {
-		this.id = id;
-	}
-
 	/**
 	 * Constructs a variable definition
 	 * 
@@ -72,11 +68,7 @@ public class EAdVarDefImpl<T> implements EAdVarDef<T> {
 
 	@Override
 	public EAdElement copy(boolean deepCopy) {
-		EAdVarDefImpl<T> element = new EAdVarDefImpl<T>(id);
-		element.name = name;
-		element.type = type;
-		element.initialValue = initialValue;
-		return element;
+		return new EAdVarDefImpl<T>(name, type, initialValue);
 	}
 
 }

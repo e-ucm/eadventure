@@ -27,8 +27,7 @@ public class ActivateFlagTest extends
 	public boolean equals(ActivateEffect oldObject,
 			EAdChangeFieldValueEffect newObject) {
 		boolean ok = super.equals(oldObject, newObject);
-		ok = newObject.getOperation().equals(BooleanOperation.TRUE_OP) && ok;
-		ok = newObject.getVars().size() == 0;		
+		ok = newObject.getOperation().equals(BooleanOperation.TRUE_OP) && ok;		
 		return ok;
 	}
 

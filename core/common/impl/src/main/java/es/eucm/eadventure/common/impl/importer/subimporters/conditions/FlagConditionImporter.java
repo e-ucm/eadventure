@@ -44,7 +44,7 @@ import es.eucm.eadventure.common.data.chapter.conditions.Condition;
 import es.eucm.eadventure.common.impl.importer.interfaces.EAdElementFactory;
 import es.eucm.eadventure.common.model.conditions.impl.FlagCondition;
 import es.eucm.eadventure.common.model.conditions.impl.FlagCondition.Value;
-import es.eucm.eadventure.common.model.variables.impl.vars.BooleanVar;
+import es.eucm.eadventure.common.model.variables.EAdField;
 
 public class FlagConditionImporter
 		implements
@@ -57,8 +57,9 @@ public class FlagConditionImporter
 		this.factory = factory;
 	}
 
+	@SuppressWarnings("unchecked")
 	public FlagCondition init(es.eucm.eadventure.common.data.chapter.conditions.FlagCondition oldObject) {
-		BooleanVar var = (BooleanVar) factory.getVarByOldId(oldObject.getId(),
+		EAdField<Boolean> var = (EAdField<Boolean>) factory.getVarByOldId(oldObject.getId(),
 				Condition.FLAG_CONDITION);
 		FlagCondition f = new FlagCondition(var);
 		if (oldObject.isActiveState())

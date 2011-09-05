@@ -8,7 +8,6 @@ import es.eucm.eadventure.common.data.chapter.effects.PlayAnimationEffect;
 import es.eucm.eadventure.common.impl.importer.interfaces.ResourceImporter;
 import es.eucm.eadventure.common.model.effects.impl.timedevents.EAdShowSceneElement;
 import es.eucm.eadventure.common.model.elements.EAdCondition;
-import es.eucm.eadventure.common.model.elements.EAdSceneElement;
 import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
 import es.eucm.eadventure.common.params.geom.impl.EAdPositionImpl;
 import es.eucm.eadventure.common.resources.assets.AssetDescriptor;
@@ -37,7 +36,7 @@ public class PlayAnimationEffectImporter extends
 	public EAdShowSceneElement convert(PlayAnimationEffect oldObject,
 			Object newElement) {
 		EAdShowSceneElement effect = super.convert(oldObject, newElement);
-		EAdSceneElement element = new EAdBasicSceneElement("animation"
+		EAdBasicSceneElement element = new EAdBasicSceneElement("animation"
 				+ ID_GENERATOR++);
 		element.setPosition(new EAdPositionImpl(oldObject.getX(), oldObject
 				.getY()));

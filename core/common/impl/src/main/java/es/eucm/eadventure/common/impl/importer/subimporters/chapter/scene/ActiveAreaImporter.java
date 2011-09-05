@@ -58,7 +58,8 @@ import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
 import es.eucm.eadventure.common.model.events.EAdConditionEvent;
 import es.eucm.eadventure.common.model.events.impl.EAdConditionEventImpl;
 import es.eucm.eadventure.common.model.guievents.impl.EAdMouseEventImpl;
-import es.eucm.eadventure.common.model.variables.impl.extra.EAdSceneElementVars;
+import es.eucm.eadventure.common.model.variables.EAdField;
+import es.eucm.eadventure.common.model.variables.impl.EAdFieldImpl;
 import es.eucm.eadventure.common.model.variables.impl.operations.BooleanOperation;
 import es.eucm.eadventure.common.resources.EAdBundleId;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.Shape;
@@ -140,10 +141,12 @@ public class ActiveAreaImporter implements
 				newActiveAreaReference.getId() + "_VisibleEvent");
 		event.setCondition(condition);
 
+		EAdField<Boolean> visibleField = new EAdFieldImpl<Boolean>(
+				newActiveAreaReference, EAdBasicSceneElement.VAR_VISIBLE);
+
 		EAdChangeFieldValueEffect visibleVar = new EAdChangeFieldValueEffect(
 				newActiveAreaReference.getId() + "_visibleEffect");
-		visibleVar.addVar(newActiveAreaReference.getVars().getVar(
-				EAdSceneElementVars.VAR_VISIBLE));
+		visibleVar.addVar(visibleField);
 		BooleanOperation op = new BooleanOperation("booleanOpTrue");
 		op.setCondition(EmptyCondition.TRUE_EMPTY_CONDITION);
 		visibleVar.setOperation(op);
@@ -152,8 +155,7 @@ public class ActiveAreaImporter implements
 
 		EAdChangeFieldValueEffect notVisibleVar = new EAdChangeFieldValueEffect(
 				newActiveArea.getId() + "_notVisibleEffect");
-		notVisibleVar.addVar(newActiveAreaReference.getVars().getVar(
-				EAdSceneElementVars.VAR_VISIBLE));
+		notVisibleVar.addVar(visibleField);
 		op = new BooleanOperation("booleanOpFalse");
 		op.setCondition(EmptyCondition.FALSE_EMPTY_CONDITION);
 		notVisibleVar.setOperation(op);

@@ -47,8 +47,8 @@ import es.eucm.eadventure.common.impl.importer.interfaces.EAdElementFactory;
 import es.eucm.eadventure.common.impl.importer.subimporters.effects.EffectImporter;
 import es.eucm.eadventure.common.model.effects.impl.variables.EAdChangeFieldValueEffect;
 import es.eucm.eadventure.common.model.elements.EAdCondition;
+import es.eucm.eadventure.common.model.variables.EAdField;
 import es.eucm.eadventure.common.model.variables.impl.operations.LiteralExpressionOperation;
-import es.eucm.eadventure.engine.core.variables.EAdVar;
 
 public class IncrementVarImporter extends
 		EffectImporter<IncrementVarEffect, EAdChangeFieldValueEffect> {
@@ -66,7 +66,7 @@ public class IncrementVarImporter extends
 
 	@Override
 	public EAdChangeFieldValueEffect init(IncrementVarEffect oldObject) {
-		EAdVar<?> var = factory.getVarByOldId(oldObject.getTargetId(),
+		EAdField<?> var = factory.getVarByOldId(oldObject.getTargetId(),
 				Condition.VAR_CONDITION);
 
 		LiteralExpressionOperation op = new LiteralExpressionOperation(

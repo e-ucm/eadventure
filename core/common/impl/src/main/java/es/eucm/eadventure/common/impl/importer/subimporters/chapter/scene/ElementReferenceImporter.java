@@ -50,12 +50,13 @@ import es.eucm.eadventure.common.model.elements.EAdActorReference;
 import es.eucm.eadventure.common.model.elements.EAdCondition;
 import es.eucm.eadventure.common.model.elements.impl.EAdActorReferenceImpl;
 import es.eucm.eadventure.common.model.elements.impl.EAdBasicActor;
+import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
 import es.eucm.eadventure.common.model.events.EAdConditionEvent;
 import es.eucm.eadventure.common.model.events.EAdSystemEvent;
 import es.eucm.eadventure.common.model.events.impl.EAdConditionEventImpl;
 import es.eucm.eadventure.common.model.events.impl.EAdSystemEventImpl;
 import es.eucm.eadventure.common.model.guievents.impl.EAdMouseEventImpl;
-import es.eucm.eadventure.common.model.variables.impl.extra.EAdSceneElementVars;
+import es.eucm.eadventure.common.model.variables.impl.EAdFieldImpl;
 import es.eucm.eadventure.common.model.variables.impl.operations.BooleanOperation;
 import es.eucm.eadventure.common.params.geom.impl.EAdPositionImpl;
 import es.eucm.eadventure.common.params.geom.impl.EAdRectangleImpl;
@@ -70,13 +71,13 @@ public class ElementReferenceImporter implements
 	private EAdElementFactory factory;
 
 	private EAdElementImporter<Conditions, EAdCondition> conditionsImporter;
-	
+
 	private EAdElementFactory elementFactory;
-	
+
 	@Inject
 	public ElementReferenceImporter(EAdElementFactory factory,
 			EAdElementImporter<Conditions, EAdCondition> conditionsImporter,
-			EAdElementFactory elementFactory){
+			EAdElementFactory elementFactory) {
 		this.factory = factory;
 		this.conditionsImporter = conditionsImporter;
 		this.elementFactory = elementFactory;
@@ -92,40 +93,53 @@ public class ElementReferenceImporter implements
 				oldObject.getTargetId() + "_reference_" + ID_GENERATOR++);
 		return newRef;
 	}
-	
+
 	@Override
 	public EAdActorReference convert(ElementReference oldObject, Object object) {
 
 		EAdActorReferenceImpl newRef = (EAdActorReferenceImpl) object;
 
-		newRef.setPosition(new EAdPositionImpl(EAdPositionImpl.Corner.BOTTOM_CENTER,
-				oldObject.getX(), oldObject.getY()));
+		newRef.setPosition(new EAdPositionImpl(
+				EAdPositionImpl.Corner.BOTTOM_CENTER, oldObject.getX(),
+				oldObject.getY()));
 		newRef.setScale(oldObject.getScale());
 		newRef.setInitialOrientation(Orientation.S);
 		EAdBasicActor actor = (EAdBasicActor) factory.getElementById(oldObject
 				.getTargetId());
 		newRef.setReferencedActor(actor);
-		
-		EAdCondition condition = conditionsImporter.init(oldObject.getConditions());
-		condition = conditionsImporter
-				.convert(oldObject.getConditions(), condition);
 
-		EAdConditionEventImpl visibilityEvent = new EAdConditionEventImpl("visibilityCondition", condition);
-		EAdChangeFieldValueEffect visibilityEffect = new EAdChangeFieldValueEffect("visibilityConditionEffect", newRef.getVars().getVar(EAdSceneElementVars.VAR_VISIBLE), new BooleanOperation("", condition));
-		visibilityEvent.addEffect(EAdConditionEvent.ConditionedEvent.CONDITIONS_MET, visibilityEffect);
-		visibilityEvent.addEffect(EAdConditionEvent.ConditionedEvent.CONDITIONS_UNMET, visibilityEffect);
+		EAdCondition condition = conditionsImporter.init(oldObject
+				.getConditions());
+		condition = conditionsImporter.convert(oldObject.getConditions(),
+				condition);
+
+		EAdConditionEventImpl visibilityEvent = new EAdConditionEventImpl(
+				"visibilityCondition", condition);
+		EAdChangeFieldValueEffect visibilityEffect = new EAdChangeFieldValueEffect(
+				"visibilityConditionEffect", new EAdFieldImpl<Boolean>(newRef,
+						EAdBasicSceneElement.VAR_VISIBLE),
+				new BooleanOperation("", condition));
+		visibilityEvent.addEffect(
+				EAdConditionEvent.ConditionedEvent.CONDITIONS_MET,
+				visibilityEffect);
+		visibilityEvent.addEffect(
+				EAdConditionEvent.ConditionedEvent.CONDITIONS_UNMET,
+				visibilityEffect);
 		newRef.getEvents().add(visibilityEvent);
-		
-		EAdSystemEventImpl startVisibilityEvent = new EAdSystemEventImpl("startVisibilityEvent");
-		startVisibilityEvent.addEffect(EAdSystemEvent.Event.GAME_LOADED, visibilityEffect);
-		elementFactory.getCurrentChapterModel().getEvents().add(startVisibilityEvent);
+
+		EAdSystemEventImpl startVisibilityEvent = new EAdSystemEventImpl(
+				"startVisibilityEvent");
+		startVisibilityEvent.addEffect(EAdSystemEvent.Event.GAME_LOADED,
+				visibilityEffect);
+		elementFactory.getCurrentChapterModel().getEvents()
+				.add(startVisibilityEvent);
 
 		if (actor.getActions().size() != 0) {
-			EAdActorActionsEffect showActions = new EAdActorActionsEffect(actor.getId()
-					+ "_showActions", newRef);
+			EAdActorActionsEffect showActions = new EAdActorActionsEffect(
+					actor.getId() + "_showActions", newRef);
 			newRef.addBehavior(EAdMouseEventImpl.MOUSE_RIGHT_CLICK, showActions);
 		}
-		
+
 		if (oldObject.getInfluenceArea() != null) {
 			int x = oldObject.getInfluenceArea().getX();
 			int y = oldObject.getInfluenceArea().getY();
@@ -134,7 +148,7 @@ public class ElementReferenceImporter implements
 			EAdRectangleImpl r = new EAdRectangleImpl(x, y, width, height);
 			newRef.setInfluenceArea(r);
 		}
-		
+
 		return newRef;
 	}
 }

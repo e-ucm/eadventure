@@ -58,7 +58,8 @@ import es.eucm.eadventure.common.model.events.EAdConditionEvent;
 import es.eucm.eadventure.common.model.events.impl.EAdConditionEventImpl;
 import es.eucm.eadventure.common.model.guievents.impl.EAdMouseEventImpl;
 import es.eucm.eadventure.common.model.transitions.EAdTransition;
-import es.eucm.eadventure.common.model.variables.impl.extra.EAdSceneElementVars;
+import es.eucm.eadventure.common.model.variables.EAdField;
+import es.eucm.eadventure.common.model.variables.impl.EAdFieldImpl;
 import es.eucm.eadventure.common.model.variables.impl.operations.BooleanOperation;
 import es.eucm.eadventure.common.params.fills.impl.EAdBorderedColor;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.Shape;
@@ -71,7 +72,8 @@ public class ExitImporter implements EAdElementImporter<Exit, EAdSceneElement> {
 	private EffectsImporterFactory effectsImporterFactory;
 
 	@Inject
-	public ExitImporter(EAdElementImporter<Conditions, EAdCondition> conditionsImporter,
+	public ExitImporter(
+			EAdElementImporter<Conditions, EAdCondition> conditionsImporter,
 			EAdElementFactory factory,
 			EffectsImporterFactory effectsImporterFactory) {
 		this.conditionsImporter = conditionsImporter;
@@ -80,9 +82,11 @@ public class ExitImporter implements EAdElementImporter<Exit, EAdSceneElement> {
 	}
 
 	public EAdSceneElement init(Exit oldObject) {
-		EAdBasicSceneElement newExit = new EAdBasicSceneElement("exit" + ID_GENERATOR++);
+		EAdBasicSceneElement newExit = new EAdBasicSceneElement("exit"
+				+ ID_GENERATOR++);
 		return newExit;
 	}
+
 	@Override
 	public EAdSceneElement convert(Exit oldObject, Object object) {
 		EAdBasicSceneElement newExit = (EAdBasicSceneElement) object;
@@ -98,16 +102,17 @@ public class ExitImporter implements EAdElementImporter<Exit, EAdSceneElement> {
 		// Event to show (or not) the exit
 		EAdCondition condition = conditionsImporter.init(oldObject
 				.getConditions());
-		condition = conditionsImporter.convert(oldObject
-				.getConditions(), condition);
+		condition = conditionsImporter.convert(oldObject.getConditions(),
+				condition);
 
 		for (Effect e : oldObject.getEffects().getEffects()) {
 			EAdEffect eadEffect = effectsImporterFactory.getEffect(e);
 			eadEffect.setCondition(condition);
 			newExit.addBehavior(EAdMouseEventImpl.MOUSE_LEFT_CLICK, eadEffect);
 		}
-		
-		EAdScene scene = (EAdScene) factory.getElementById(oldObject.getNextSceneId());
+
+		EAdScene scene = (EAdScene) factory.getElementById(oldObject
+				.getNextSceneId());
 		EAdChangeScene effect = new EAdChangeScene("change_screen_"
 				+ newExit.getId(), scene, EAdTransition.BASIC);
 		effect.setCondition(condition);
@@ -120,7 +125,6 @@ public class ExitImporter implements EAdElementImporter<Exit, EAdSceneElement> {
 			newExit.addBehavior(EAdMouseEventImpl.MOUSE_LEFT_CLICK, eadEffect);
 		}
 
-
 		boolean hasNotEffects = false;
 		for (Effect e : oldObject.getNotEffects().getEffects()) {
 			hasNotEffects = true;
@@ -128,25 +132,34 @@ public class ExitImporter implements EAdElementImporter<Exit, EAdSceneElement> {
 			eadEffect.setCondition(new NOTCondition(condition));
 			newExit.addBehavior(EAdMouseEventImpl.MOUSE_LEFT_CLICK, eadEffect);
 		}
-		
+
 		if (!hasNotEffects) {
-			EAdConditionEventImpl event = new EAdConditionEventImpl( newExit.getId() + "_VisibleEvent" );
+			EAdConditionEventImpl event = new EAdConditionEventImpl(
+					newExit.getId() + "_VisibleEvent");
 			event.setCondition(condition);
 
-			EAdChangeFieldValueEffect visibleVar = new EAdChangeFieldValueEffect( newExit.getId() + "_visibleEffect" );
-			visibleVar.addVar(newExit.getVars().getVar(EAdSceneElementVars.VAR_VISIBLE));
-			BooleanOperation op = new BooleanOperation( "booleanOpTrue" );
+			EAdField<Boolean> visibleField = new EAdFieldImpl<Boolean>(newExit,
+					EAdBasicSceneElement.VAR_VISIBLE);
+
+			EAdChangeFieldValueEffect visibleVar = new EAdChangeFieldValueEffect(
+					newExit.getId() + "_visibleEffect");
+			visibleVar.addVar(visibleField);
+			BooleanOperation op = new BooleanOperation("booleanOpTrue");
 			op.setCondition(EmptyCondition.TRUE_EMPTY_CONDITION);
-			visibleVar.setOperation( op );
-			event.addEffect(EAdConditionEvent.ConditionedEvent.CONDITIONS_MET, visibleVar);
-			
-			EAdChangeFieldValueEffect notVisibleVar = new EAdChangeFieldValueEffect( newExit.getId() + "_notVisibleEffect" );
-			notVisibleVar.addVar(newExit.getVars().getVar(EAdSceneElementVars.VAR_VISIBLE));
-			op = new BooleanOperation( "booleanOpFalse" );
+			visibleVar.setOperation(op);
+			event.addEffect(EAdConditionEvent.ConditionedEvent.CONDITIONS_MET,
+					visibleVar);
+
+			EAdChangeFieldValueEffect notVisibleVar = new EAdChangeFieldValueEffect(
+					newExit.getId() + "_notVisibleEffect");
+			notVisibleVar.addVar(visibleField);
+			op = new BooleanOperation("booleanOpFalse");
 			op.setCondition(EmptyCondition.FALSE_EMPTY_CONDITION);
-			notVisibleVar.setOperation( op );
-			event.addEffect(EAdConditionEvent.ConditionedEvent.CONDITIONS_UNMET, notVisibleVar);
-			
+			notVisibleVar.setOperation(op);
+			event.addEffect(
+					EAdConditionEvent.ConditionedEvent.CONDITIONS_UNMET,
+					notVisibleVar);
+
 			newExit.getEvents().add(event);
 		}
 

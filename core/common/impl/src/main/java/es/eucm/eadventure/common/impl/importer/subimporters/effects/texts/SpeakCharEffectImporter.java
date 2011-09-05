@@ -48,7 +48,9 @@ import es.eucm.eadventure.common.impl.importer.interfaces.EAdElementFactory;
 import es.eucm.eadventure.common.model.effects.impl.text.EAdSpeakEffect;
 import es.eucm.eadventure.common.model.elements.EAdCondition;
 import es.eucm.eadventure.common.model.elements.EAdSceneElement;
-import es.eucm.eadventure.common.model.variables.impl.extra.EAdSceneElementVars;
+import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
+import es.eucm.eadventure.common.model.variables.EAdField;
+import es.eucm.eadventure.common.model.variables.impl.EAdFieldImpl;
 import es.eucm.eadventure.common.params.fills.impl.EAdBorderedColor;
 import es.eucm.eadventure.common.params.fills.impl.EAdColor;
 import es.eucm.eadventure.common.resources.EAdString;
@@ -117,14 +119,26 @@ public class SpeakCharEffectImporter extends
 		EAdSceneElement element = (EAdSceneElement) factory.getElementById(npc
 				.getId());
 
-		effect.setPosition(element.getVars().getVar(
-				EAdSceneElementVars.VAR_POSITION));
-		effect.setStateVar(element.getVars().getVar(
-				EAdSceneElementVars.VAR_STATE));
-		effect.setDimensions(
-				element.getVars().getVar(EAdSceneElementVars.VAR_WIDTH),
-				element.getVars().getVar(EAdSceneElementVars.VAR_HEIGHT),
-				element.getVars().getVar(EAdSceneElementVars.VAR_SCALE));
+		EAdField<Integer> x = new EAdFieldImpl<Integer>(element,
+				EAdBasicSceneElement.VAR_X);
+		EAdField<Integer> y = new EAdFieldImpl<Integer>(element,
+				EAdBasicSceneElement.VAR_Y);
+		EAdField<Integer> width = new EAdFieldImpl<Integer>(element,
+				EAdBasicSceneElement.VAR_WIDTH);
+		EAdField<Integer> height = new EAdFieldImpl<Integer>(element,
+				EAdBasicSceneElement.VAR_HEIGHT);
+		EAdField<String> state = new EAdFieldImpl<String>(element,
+				EAdBasicSceneElement.VAR_STATE);
+		EAdField<Float> dispX = new EAdFieldImpl<Float>(element,
+				EAdBasicSceneElement.VAR_DISP_X);
+		EAdField<Float> dispY = new EAdFieldImpl<Float>(element,
+				EAdBasicSceneElement.VAR_DISP_Y);
+		EAdField<Float> scale = new EAdFieldImpl<Float>(element,
+				EAdBasicSceneElement.VAR_SCALE);
+
+		effect.setPosition(x, y, dispX, dispY);
+		effect.setStateVar(state);
+		effect.setDimensions(width, height, scale);
 
 		return effect;
 	}

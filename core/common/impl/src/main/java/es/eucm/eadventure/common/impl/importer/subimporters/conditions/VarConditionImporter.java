@@ -45,7 +45,7 @@ import es.eucm.eadventure.common.impl.importer.interfaces.EAdElementFactory;
 import es.eucm.eadventure.common.model.conditions.impl.VarCondition;
 import es.eucm.eadventure.common.model.conditions.impl.VarCondition.Operator;
 import es.eucm.eadventure.common.model.conditions.impl.VarValCondition;
-import es.eucm.eadventure.common.model.variables.impl.vars.IntegerVar;
+import es.eucm.eadventure.common.model.variables.EAdField;
 
 public class VarConditionImporter implements EAdElementImporter<es.eucm.eadventure.common.data.chapter.conditions.VarCondition, VarCondition>{
 
@@ -56,11 +56,12 @@ public class VarConditionImporter implements EAdElementImporter<es.eucm.eadventu
 		this.factory = factory;
 	}
 	
+	@SuppressWarnings("unchecked")
 	@Override
 	public VarCondition init(
 			es.eucm.eadventure.common.data.chapter.conditions.VarCondition oldObject) {
 		Operator op = getOperator( oldObject.getState() );
-		IntegerVar var = (IntegerVar) factory.getVarByOldId(oldObject.getId(), Condition.VAR_CONDITION);
+		EAdField<Integer> var = (EAdField<Integer>) factory.getVarByOldId(oldObject.getId(), Condition.VAR_CONDITION);
 		
 		VarValCondition condition = new VarValCondition(var, oldObject.getValue(), op );
 		return condition;

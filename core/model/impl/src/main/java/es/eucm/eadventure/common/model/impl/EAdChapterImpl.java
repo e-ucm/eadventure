@@ -45,7 +45,10 @@ import es.eucm.eadventure.common.model.elements.EAdChapter;
 import es.eucm.eadventure.common.model.elements.EAdScene;
 import es.eucm.eadventure.common.model.elements.EAdTimer;
 import es.eucm.eadventure.common.model.extra.EAdList;
+import es.eucm.eadventure.common.model.extra.EAdMap;
 import es.eucm.eadventure.common.model.extra.impl.EAdListImpl;
+import es.eucm.eadventure.common.model.extra.impl.EAdMapImpl;
+import es.eucm.eadventure.common.model.variables.EAdVarDef;
 import es.eucm.eadventure.common.resources.EAdString;
 
 /**
@@ -81,6 +84,8 @@ public class EAdChapterImpl extends EAdGeneralElementImpl implements EAdChapter 
 	@Param("loadingScreen")
 	private EAdScene loadingScreen;
 	
+	private EAdMap<EAdVarDef<?>, Object> vars;
+	
 	/**
 	 * Default constructor.
 	 * 
@@ -91,6 +96,8 @@ public class EAdChapterImpl extends EAdGeneralElementImpl implements EAdChapter 
 		scenes = new EAdListImpl<EAdScene>(EAdScene.class);
 		actors = new EAdListImpl<EAdActor>(EAdActor.class);
 		timers = new EAdListImpl<EAdTimer>(EAdTimer.class);
+		vars = new EAdMapImpl<EAdVarDef<?>, Object>(EAdVarDef.class,
+				Object.class);
 
 	}
 	
@@ -213,6 +220,16 @@ public class EAdChapterImpl extends EAdGeneralElementImpl implements EAdChapter 
 	 */
 	public void setLoadingScreen(EAdScene screen) {
 		this.loadingScreen = screen;
+	}
+
+	@Override
+	public EAdMap<EAdVarDef<?>, Object> getVars() {
+		return vars;
+	}
+
+	@Override
+	public <T> void setVarInitialValue(EAdVarDef<T> var, T value) {
+		vars.put(var, value);
 	}
 
 }
