@@ -84,13 +84,6 @@ public class BasicSceneElementGO extends SceneElementGOImpl<EAdBasicSceneElement
 	}
 
 	/* (non-Javadoc)
-	 * @see es.eucm.eadventure.engine.core.gameobjects.impl.SceneElementGOImpl#setElement(es.eucm.eadventure.common.model.elements.EAdSceneElement)
-	 */
-	public void setElement(EAdBasicSceneElement basicSceneElement) {
-		super.setElement(basicSceneElement);
-	}
-
-	/* (non-Javadoc)
 	 * @see es.eucm.eadventure.engine.core.gameobjects.impl.SceneElementGOImpl#processAction(es.eucm.eadventure.engine.core.guiactions.GUIAction)
 	 */
 	@Override

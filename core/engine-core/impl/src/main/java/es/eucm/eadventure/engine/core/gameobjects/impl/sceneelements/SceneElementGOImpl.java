@@ -139,9 +139,8 @@ public abstract class SceneElementGOImpl<T extends EAdSceneElement> extends
 		}
 		
 		position = valueMap.getValue(vars.getVar(EAdSceneElementVars.VAR_POSITION));
-		valueMap.setValue(vars.getVar(EAdSceneElementVars.VAR_X), position.getX());
-		valueMap.setValue(vars.getVar(EAdSceneElementVars.VAR_Y), position.getY());
-
+		vars.getVar(EAdSceneElementVars.VAR_X).setInitialValue(position.getX());
+		vars.getVar(EAdSceneElementVars.VAR_Y).setInitialValue(position.getY());
 		updateVars(vars);
 		// To load dimensions
 		getRenderAsset();

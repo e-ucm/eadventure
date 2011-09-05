@@ -238,36 +238,36 @@ public class DesktopBasicInventoryGO extends BasicInventoryGO {
 	
 	@Override
 	public void doLayout(int offsetX, int offsetY) {
-		if (gameState.getScene().acceptsVisualEffects()) {
-			gui.addElement(gameObjectFactory.get(centerSensor), 0, 0);
-			gui.addElement(gameObjectFactory.get(inventory), 0, 0);
-			gui.addElement(gameObjectFactory.get(bottomSensor), 0, 0);
-			gui.addElement(gameObjectFactory.get(topSensor), 0, 0);
-		}
+//		if (gameState.getScene().acceptsVisualEffects()) {
+//			gui.addElement(gameObjectFactory.get(centerSensor), 0, 0);
+//			gui.addElement(gameObjectFactory.get(inventory), 0, 0);
+//			gui.addElement(gameObjectFactory.get(bottomSensor), 0, 0);
+//			gui.addElement(gameObjectFactory.get(topSensor), 0, 0);
+//		}
 	}
 	
 	@Override
 	public void update(GameState gameState) {
-		super.update(gameState);
-		gameObjectFactory.get(bottomSensor).update(gameState);
-		gameObjectFactory.get(topSensor).update(gameState);
-		gameObjectFactory.get(inventory).update(gameState);
-		
-		List<EAdActor> removedActors = new ArrayList<EAdActor>();
-		addNewActors();
-		int cont = 0;
-		for (EAdActor actor : includedActors.keySet()) {
-			if (!gameState.getInventoryActors().contains(actor))
-				removedActors.add(actor);
-			else {
-				EAdActorReferenceImpl ref = includedActors.get(actor);
-				valueMap.setValue(ref.getVars().getVar(EAdSceneElementVars.VAR_X), cont * (10 + INVENTORY_HEIGHT) + INVENTORY_HEIGHT / 2);
-				
-				//TODO position actor
-				cont++;
-			}
-		}
-		removeOldActors(removedActors);
+//		super.update(gameState);
+//		gameObjectFactory.get(bottomSensor).update(gameState);
+//		gameObjectFactory.get(topSensor).update(gameState);
+//		gameObjectFactory.get(inventory).update(gameState);
+//		
+//		List<EAdActor> removedActors = new ArrayList<EAdActor>();
+//		addNewActors();
+//		int cont = 0;
+//		for (EAdActor actor : includedActors.keySet()) {
+//			if (!gameState.getInventoryActors().contains(actor))
+//				removedActors.add(actor);
+//			else {
+//				EAdActorReferenceImpl ref = includedActors.get(actor);
+//				valueMap.setValue(ref.getVars().getVar(EAdSceneElementVars.VAR_X), cont * (10 + INVENTORY_HEIGHT) + INVENTORY_HEIGHT / 2);
+//				
+//				//TODO position actor
+//				cont++;
+//			}
+//		}
+//		removeOldActors(removedActors);
 	}
 	
 	/**

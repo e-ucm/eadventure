@@ -41,7 +41,7 @@ public class MoleGame extends EmptyScene {
 	}
 
 	private EAdSceneElement getHole(int x, int y) {
-		EAdBasicSceneElement hole = new EAdBasicSceneElement("hole");
+		EAdBasicSceneElement hole = new EAdBasicSceneElement("hole" + x );
 		hole.getResources().addAsset(hole.getInitialBundle(),
 				EAdBasicSceneElement.appearance, holeImage);
 		hole.setPosition(x, y);
