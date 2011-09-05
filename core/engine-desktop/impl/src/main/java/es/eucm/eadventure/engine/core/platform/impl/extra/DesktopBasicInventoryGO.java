@@ -207,8 +207,7 @@ public class DesktopBasicInventoryGO extends BasicInventoryGO {
 		arrow.addBehavior(EAdMouseEventImpl.MOUSE_LEFT_CLICK,
 				new EAdVarInterpolationEffect("id", xField,
 						new LiteralExpressionOperation("id", "[0]" + sign
-								+ INVENTORY_HEIGHT, new EAdFieldImpl<Integer>(
-								inventoryContent, EAdBasicSceneElement.VAR_X)),
+								+ INVENTORY_HEIGHT, xField),
 						200));
 		return arrow;
 	}
@@ -287,10 +286,10 @@ public class DesktopBasicInventoryGO extends BasicInventoryGO {
 	@Override
 	public void doLayout(int offsetX, int offsetY) {
 		if (gameState.getScene().acceptsVisualEffects()) {
-			gui.addElement(gameObjectFactory.get(centerSensor), 0, 0);
-			gui.addElement(gameObjectFactory.get(inventory), 0, 0);
-			gui.addElement(gameObjectFactory.get(bottomSensor), 0, 0);
-			gui.addElement(gameObjectFactory.get(topSensor), 0, 0);
+//			gui.addElement(gameObjectFactory.get(centerSensor), 0, 0);
+//			gui.addElement(gameObjectFactory.get(inventory), 0, 0);
+//			gui.addElement(gameObjectFactory.get(bottomSensor), 0, 0);
+//			gui.addElement(gameObjectFactory.get(topSensor), 0, 0);
 		}
 	}
 

@@ -196,7 +196,7 @@ public abstract class AbstractGUI<T> implements GUI {
 				GameObject<?> tempGameObject = gameObjects.getGameObjects()
 						.get(i);
 				if (tempGameObject instanceof SceneElementGOImpl 
-						&& ((SceneElementGOImpl<?>) tempGameObject).isVisible())
+						&& !((SceneElementGOImpl<?>) tempGameObject).isVisible())
 					continue;
 				int[] offset = gameObjects.getOffsets().get(i);
 

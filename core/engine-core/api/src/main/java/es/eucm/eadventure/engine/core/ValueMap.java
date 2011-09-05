@@ -55,6 +55,10 @@ public interface ValueMap {
 	<S> void setValue(EAdField<S> var, S value);
 	
 	<S> void setValue(EAdElement element, EAdVarDef<S> varDef, S value);
+	
+	
+	//FIXME this has to change, to dissappear
+	void setValue(EAdVarDef<?> varDef, Object value, EAdElement element );
 
 	/**
 	 * Sets the variable to the result value of the operation

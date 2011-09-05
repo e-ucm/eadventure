@@ -39,6 +39,7 @@ package es.eucm.eadventure.engine.core.gameobjects.impl.sceneelements;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map.Entry;
 import java.util.logging.Logger;
 
 import com.google.inject.Inject;
@@ -47,6 +48,7 @@ import es.eucm.eadventure.common.StringHandler;
 import es.eucm.eadventure.common.model.actions.EAdAction;
 import es.eucm.eadventure.common.model.elements.EAdSceneElement;
 import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
+import es.eucm.eadventure.common.model.variables.EAdVarDef;
 import es.eucm.eadventure.common.params.geom.EAdPosition;
 import es.eucm.eadventure.common.params.geom.impl.EAdPositionImpl;
 import es.eucm.eadventure.common.resources.EAdBundleId;
@@ -102,7 +104,6 @@ public abstract class SceneElementGOImpl<T extends EAdSceneElement> extends
 		super(assetHandler, stringHandler, gameObjectFactory, gui, gameState,
 				valueMap, platformConfiguration);
 		logger.info("New instance");
-		visible = true;
 	}
 
 	@Override
@@ -125,6 +126,11 @@ public abstract class SceneElementGOImpl<T extends EAdSceneElement> extends
 		// must be removed
 		if (element.isClone()) {
 			valueMap.remove(element);
+		}
+
+		for (Entry<EAdVarDef<?>, Object> entry : element.getVars().entrySet()) {
+			//FIXME this has to change, to dissappear
+			valueMap.setValue(entry.getKey(), entry.getValue(), element);
 		}
 
 		position = new EAdPositionImpl(0, 0);
