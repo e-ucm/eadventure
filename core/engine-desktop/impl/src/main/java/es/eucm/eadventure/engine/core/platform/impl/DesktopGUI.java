@@ -110,7 +110,6 @@ public class DesktopGUI extends AbstractGUI<Graphics2D> implements GUI {
 
 	private Object currentComponent;
 
-	@SuppressWarnings("rawtypes")
 	@Inject
 	public DesktopGUI(PlatformConfiguration platformConfiguration,
 			GraphicRendererFactory<?> assetRendererFactory,

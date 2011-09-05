@@ -44,8 +44,6 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.os.Environment;
 
-import com.google.inject.Inject;
-import com.google.inject.Injector;
 import com.google.inject.Singleton;
 
 import es.eucm.eadventure.common.resources.assets.AssetDescriptor;
@@ -56,6 +54,13 @@ import es.eucm.eadventure.engine.core.platform.impl.AbstractAssetHandler;
 @Singleton
 public class AndroidAssetHandler extends AbstractAssetHandler {
 	
+		public AndroidAssetHandler(
+			Map<Class<? extends AssetDescriptor>, Class<? extends RuntimeAsset<?>>> classMap) {
+		super(classMap);
+		logger.info("New instance");
+		sdCardLocation = Environment.getExternalStorageDirectory().getAbsolutePath();
+	}
+
 		protected Resources resources;
 		
 		private Context context;
@@ -64,14 +69,7 @@ public class AndroidAssetHandler extends AbstractAssetHandler {
 		
 		private static final Logger logger = Logger.getLogger("AndroidAssetHandler");
 
-		@Inject
-		public AndroidAssetHandler(
-				Injector injector,
-				Map<Class<? extends AssetDescriptor>, Class<? extends RuntimeAsset<?>>> classMap) {
-			super(injector, classMap);
-			logger.info("New instance");
-			sdCardLocation = Environment.getExternalStorageDirectory().getAbsolutePath();
-		}
+
 		
 		@Override
 		public void initilize() {
@@ -100,6 +98,13 @@ public class AndroidAssetHandler extends AbstractAssetHandler {
 		
 		public void setContext( Context context ){
 			this.context = context;
+		}
+
+		@Override
+		public RuntimeAsset<?> getInstance(
+				Class<? extends RuntimeAsset<?>> clazz) {
+			// TODO Auto-generated method stub
+			return null;
 		}
 
 	}

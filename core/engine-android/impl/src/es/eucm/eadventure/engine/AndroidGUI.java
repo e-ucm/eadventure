@@ -63,7 +63,6 @@ public class AndroidGUI extends AbstractGUI<Canvas> {
 
 	private AndroidCanvas canvas;
 
-	@SuppressWarnings("rawtypes")
 	@Inject
 	public AndroidGUI(PlatformConfiguration platformConfiguration,
 			GraphicRendererFactory<?> assetRendererFactory,
