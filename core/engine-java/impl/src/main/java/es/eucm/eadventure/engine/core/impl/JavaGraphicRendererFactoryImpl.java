@@ -56,7 +56,7 @@ import es.eucm.eadventure.engine.core.platform.GraphicRendererFactory;
 import es.eucm.eadventure.engine.core.platform.RuntimeAsset;
 
 @Singleton
-public abstract class JavaGraphicRendererFactoryImpl<S> extends AbstractFactory<GraphicRenderer<?, ?>> implements GraphicRendererFactory<S> {
+public class JavaGraphicRendererFactoryImpl<S> extends AbstractFactory<GraphicRenderer<?, ?>> implements GraphicRendererFactory<S> {
 
 	private static final Logger logger = Logger.getLogger("GraphicRendererFactoryImpl");
 
