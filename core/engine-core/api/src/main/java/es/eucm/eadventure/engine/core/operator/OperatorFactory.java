@@ -37,9 +37,9 @@
 
 package es.eucm.eadventure.engine.core.operator;
 
+import es.eucm.eadventure.common.model.variables.EAdField;
 import es.eucm.eadventure.common.model.variables.EAdOperation;
-import es.eucm.eadventure.engine.core.variables.EAdVar;
-import es.eucm.eadventure.engine.core.variables.ValueMap;
+import es.eucm.eadventure.engine.core.ValueMap;
 
 /**
  * A factory with all {@link Operator} for all {@link EAdOperation}.
@@ -62,7 +62,8 @@ public interface OperatorFactory {
 	 * @return operation's result. If operation is {@code null}, a null is
 	 *         returned.
 	 */
-	public <T extends EAdOperation, S> S operate(EAdVar<S> eAdVar,
-			T eAdOperation);
+	<T extends EAdOperation, S> S operate(EAdField<S> eAdVar, T eAdOperation);
+
+	<T extends EAdOperation, S> S operate(Class<S> eAdVar, T eAdOperation);
 
 }

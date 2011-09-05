@@ -43,29 +43,22 @@ import com.google.inject.Singleton;
 import es.eucm.eadventure.common.model.variables.impl.operations.BooleanOperation;
 import es.eucm.eadventure.engine.core.evaluators.EvaluatorFactory;
 import es.eucm.eadventure.engine.core.operator.Operator;
-import es.eucm.eadventure.engine.core.variables.EAdVar;
-import es.eucm.eadventure.engine.core.variables.ValueMap;
 
 @Singleton
 public class BooleanOperator implements Operator<BooleanOperation> {
 
-	private ValueMap valueMap;
-	
 	private EvaluatorFactory evaluatorFactory;
-	
+
 	@Inject
-	public BooleanOperator(ValueMap valueMap, EvaluatorFactory evaluatorFactory) {
-		this.valueMap = valueMap;
+	public BooleanOperator(EvaluatorFactory evaluatorFactory) {
 		this.evaluatorFactory = evaluatorFactory;
 	}
-	
+
 	@SuppressWarnings("unchecked")
 	@Override
-	public <S> S operate(EAdVar<S> varName,
-			BooleanOperation operation) {
+	public <S> S operate(Class<S> clazz, BooleanOperation operation) {
 		Boolean b = evaluatorFactory.evaluate(operation.getCondition());
-		if (varName.getType() == Boolean.class) {
-			valueMap.setValue(varName, (S) b);
+		if (clazz.equals(Boolean.class)) {
 			return (S) b;
 		} else
 			return (S) Boolean.FALSE;

@@ -120,7 +120,7 @@ public class EAdChangeFieldValueEffect extends AbstractEAdEffect {
 	 * 
 	 * @return a list of the fields to be updated with the operation result
 	 */
-	public EAdList<EAdField<?>> getVars() {
+	public EAdList<EAdField<?>> getFields() {
 		return fields;
 	}
 

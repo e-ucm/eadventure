@@ -15,6 +15,7 @@ import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.CaptionIm
 import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.shapes.BallonShape;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.shapes.BezierShape;
 import es.eucm.eadventure.engine.core.GameState;
+import es.eucm.eadventure.engine.core.ValueMap;
 import es.eucm.eadventure.engine.core.gameobjects.GameObjectFactory;
 import es.eucm.eadventure.engine.core.gameobjects.SceneElementGO;
 import es.eucm.eadventure.engine.core.guiactions.GUIAction;
@@ -23,7 +24,6 @@ import es.eucm.eadventure.engine.core.platform.AssetHandler;
 import es.eucm.eadventure.engine.core.platform.GUI;
 import es.eucm.eadventure.engine.core.platform.PlatformConfiguration;
 import es.eucm.eadventure.engine.core.platform.assets.impl.RuntimeCaption;
-import es.eucm.eadventure.engine.core.variables.ValueMap;
 
 public class SpeakEffectGO extends AbstractEffectGO<EAdSpeakEffect> {
 
@@ -94,11 +94,20 @@ public class SpeakEffectGO extends AbstractEffectGO<EAdSpeakEffect> {
 
 		BezierShape rectangle = null;
 
-		if (element.getPosition() != null ) {
-			EAdPosition pos = valueMap.getValue( element.getPosition() );
-			float scale = element.getScale() == null ? 1 : valueMap.getValue(element.getScale());
-			int elementWidth = (int) (( element.getWidth() == null ? 0 : valueMap.getValue(element.getWidth()) ) * scale);
-			int elementHeight = (int) (( element.getHeight() == null ? 0 : valueMap.getValue(element.getHeight()) ) * scale);
+		if (element.getX() != null && element.getY() != null) {
+			int x = valueMap.getValue(element.getX());
+			int y = valueMap.getValue(element.getY());
+			float dispX = element.getDispX() == null ? 0 : valueMap
+					.getValue(element.getDispX());
+			float dispY = element.getDispY() == null ? 0 : valueMap
+					.getValue(element.getDispY());
+			EAdPosition pos = new EAdPositionImpl(x, y, dispX, dispY);
+			float scale = element.getScale() == null ? 1 : valueMap
+					.getValue(element.getScale());
+			int elementWidth = (int) ((element.getWidth() == null ? 0
+					: valueMap.getValue(element.getWidth())) * scale);
+			int elementHeight = (int) ((element.getHeight() == null ? 0
+					: valueMap.getValue(element.getHeight())) * scale);
 			int xOrigin = pos.getJavaX(elementWidth) + elementWidth / 2;
 			int yOrigin = pos.getJavaY(elementHeight);
 

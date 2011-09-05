@@ -166,7 +166,7 @@ public class EAdVarInterpolationEffect extends AbstractEAdEffect {
 				time, loop, interpolationType);
 	}
 
-	public EAdField<?> getVar() {
+	public EAdField<?> getField() {
 		return var;
 	}
 

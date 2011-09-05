@@ -46,40 +46,41 @@ import es.eucm.eadventure.common.StringHandler;
 import es.eucm.eadventure.common.model.elements.EAdScene;
 import es.eucm.eadventure.common.model.elements.impl.EAdComposedScene;
 import es.eucm.eadventure.engine.core.GameState;
+import es.eucm.eadventure.engine.core.ValueMap;
 import es.eucm.eadventure.engine.core.gameobjects.GameObjectFactory;
 import es.eucm.eadventure.engine.core.gameobjects.SceneGO;
 import es.eucm.eadventure.engine.core.platform.AssetHandler;
 import es.eucm.eadventure.engine.core.platform.GUI;
 import es.eucm.eadventure.engine.core.platform.PlatformConfiguration;
 import es.eucm.eadventure.engine.core.platform.RuntimeAsset;
-import es.eucm.eadventure.engine.core.variables.ValueMap;
 
-public class ComposedSceneGOImpl extends AbstractGameObject<EAdComposedScene> implements SceneGO<EAdComposedScene> {
+public class ComposedSceneGOImpl extends AbstractGameObject<EAdComposedScene>
+		implements SceneGO<EAdComposedScene> {
 
 	private static final Logger logger = Logger.getLogger("ScreenGOImpl");
-	
+
 	private EAdScene currentScene;
-	
+
 	@Inject
 	public ComposedSceneGOImpl(AssetHandler assetHandler,
 			StringHandler stringsReader, GameObjectFactory gameObjectFactory,
 			GUI gui, GameState gameState, ValueMap valueMap,
 			PlatformConfiguration platformConfiguration) {
-		super(assetHandler, stringsReader, gameObjectFactory, gui, gameState, valueMap,
-				platformConfiguration);
-		logger.info( "New instance" );
+		super(assetHandler, stringsReader, gameObjectFactory, gui, gameState,
+				valueMap, platformConfiguration);
+		logger.info("New instance");
 	}
-	
+
 	public void setElement(EAdComposedScene scene) {
 		super.setElement(scene);
 	}
-	
+
 	public void doLayout(int offsetX, int offsetY) {
 		if (currentScene == null)
 			updateScene();
 		gameObjectFactory.get(currentScene).doLayout(offsetX, offsetY);
 	}
-	
+
 	@Override
 	public void update(GameState state) {
 		super.update(state);
@@ -91,25 +92,29 @@ public class ComposedSceneGOImpl extends AbstractGameObject<EAdComposedScene> im
 	public boolean acceptsVisualEffects() {
 		if (currentScene == null)
 			updateScene();
-		return ((SceneGO<?>) gameObjectFactory.get(currentScene)).acceptsVisualEffects();
+		return ((SceneGO<?>) gameObjectFactory.get(currentScene))
+				.acceptsVisualEffects();
 	}
 
 	@Override
-	public List<RuntimeAsset<?>> getAssets(
-			List<RuntimeAsset<?>> assetList, boolean allAssets) {
+	public List<RuntimeAsset<?>> getAssets(List<RuntimeAsset<?>> assetList,
+			boolean allAssets) {
 		if (currentScene == null)
 			updateScene();
 		if (!allAssets) {
-			assetList = gameObjectFactory.get(currentScene).getAssets(assetList, allAssets);
+			assetList = gameObjectFactory.get(currentScene).getAssets(
+					assetList, allAssets);
 		} else {
 			for (EAdScene scene : element.getScenes())
-				assetList = gameObjectFactory.get(scene).getAssets(assetList, allAssets);
+				assetList = gameObjectFactory.get(scene).getAssets(assetList,
+						allAssets);
 		}
 		return assetList;
 	}
 
 	private void updateScene() {
-		int currentSceneIndex = valueMap.getValue(element.currentSceneVar());
+		int currentSceneIndex = valueMap.getValue(element,
+				EAdComposedScene.VAR_CURRENT_SCENE);
 		currentScene = element.getScenes().get(currentSceneIndex);
 	}
 

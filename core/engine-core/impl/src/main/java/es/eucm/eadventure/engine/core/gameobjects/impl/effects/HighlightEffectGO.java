@@ -41,16 +41,17 @@ import com.google.inject.Inject;
 
 import es.eucm.eadventure.common.StringHandler;
 import es.eucm.eadventure.common.model.effects.impl.timedevents.EAdHighlightSceneElement;
-import es.eucm.eadventure.common.model.variables.impl.extra.EAdSceneElementVars;
+import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
 import es.eucm.eadventure.engine.core.GameLoop;
 import es.eucm.eadventure.engine.core.GameState;
+import es.eucm.eadventure.engine.core.ValueMap;
 import es.eucm.eadventure.engine.core.gameobjects.GameObjectFactory;
 import es.eucm.eadventure.engine.core.platform.AssetHandler;
 import es.eucm.eadventure.engine.core.platform.GUI;
 import es.eucm.eadventure.engine.core.platform.PlatformConfiguration;
-import es.eucm.eadventure.engine.core.variables.ValueMap;
 
-public class HighlightEffectGO extends AbstractEffectGO<EAdHighlightSceneElement> {
+public class HighlightEffectGO extends
+		AbstractEffectGO<EAdHighlightSceneElement> {
 
 	private int time;
 
@@ -63,14 +64,14 @@ public class HighlightEffectGO extends AbstractEffectGO<EAdHighlightSceneElement
 			StringHandler stringHandler, GameObjectFactory gameObjectFactory,
 			GUI gui, GameState gameState, ValueMap valueMap,
 			PlatformConfiguration platformConfiguration) {
-		super(assetHandler, stringHandler, gameObjectFactory, gui, gameState, valueMap,
-				platformConfiguration);
+		super(assetHandler, stringHandler, gameObjectFactory, gui, gameState,
+				valueMap, platformConfiguration);
 	}
 
 	@Override
 	public void initilize() {
 		super.initilize();
-		oldScale = valueMap.getValue( element.getSceneElement().getVars().getVar(EAdSceneElementVars.VAR_SCALE) );
+		oldScale = valueMap.getValue(element, EAdBasicSceneElement.VAR_SCALE);
 		time = element.getTime();
 		started = false;
 	}
@@ -83,12 +84,14 @@ public class HighlightEffectGO extends AbstractEffectGO<EAdHighlightSceneElement
 	public void update(GameState gameSate) {
 		if (time > 0) {
 			if (!started) {
-				valueMap.setValue( element.getSceneElement().getVars().getVar(EAdSceneElementVars.VAR_SCALE), oldScale * 2 );
+				valueMap.setValue(element, EAdBasicSceneElement.VAR_SCALE,
+						oldScale * 2);
 				started = true;
 			}
 			time -= GameLoop.SKIP_MILLIS_TICK;
 			if (time <= 0) {
-				valueMap.setValue( element.getSceneElement().getVars().getVar(EAdSceneElementVars.VAR_SCALE), oldScale );
+				valueMap.setValue(element, EAdBasicSceneElement.VAR_SCALE,
+						oldScale);
 			}
 		}
 	}

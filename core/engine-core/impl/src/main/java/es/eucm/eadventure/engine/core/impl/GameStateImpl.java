@@ -51,12 +51,13 @@ import es.eucm.eadventure.common.model.elements.EAdActor;
 import es.eucm.eadventure.common.model.elements.EAdChapter;
 import es.eucm.eadventure.common.model.elements.EAdScene;
 import es.eucm.eadventure.common.model.elements.EAdSceneElement;
+import es.eucm.eadventure.common.model.elements.impl.EAdSceneImpl;
 import es.eucm.eadventure.engine.core.GameState;
+import es.eucm.eadventure.engine.core.ValueMap;
 import es.eucm.eadventure.engine.core.gameobjects.EffectGO;
 import es.eucm.eadventure.engine.core.gameobjects.GameObjectFactory;
 import es.eucm.eadventure.engine.core.gameobjects.SceneGO;
 import es.eucm.eadventure.engine.core.guiactions.GUIAction;
-import es.eucm.eadventure.engine.core.variables.ValueMap;
 
 @Singleton
 public class GameStateImpl implements GameState {
@@ -123,17 +124,17 @@ public class GameStateImpl implements GameState {
 	@Override
 	public void setScene(SceneGO<? extends EAdScene> newScene) {
 		// Clean caches
-		valueMap.clean();
 		gameObjectFactory.clean();
 		if (this.scene != null && this.scene.getElement() != null) {
-			valueMap.setValue(this.scene.getElement().sceneLoaded(),
+			valueMap.setValue(scene.getElement(), EAdSceneImpl.VAR_SCENE_LOADED,
 					Boolean.FALSE);
 			if (scene.getElement().isReturnable())
 				previousSceneStack.push(scene.getElement());
 		}
 		this.scene = newScene;
 		if (this.scene != null && this.scene.getElement() != null)
-			valueMap.setValue(newScene.getElement().sceneLoaded(), Boolean.TRUE);
+			valueMap.setValue(scene.getElement(), EAdSceneImpl.VAR_SCENE_LOADED,
+					Boolean.TRUE);
 
 	}
 

@@ -201,7 +201,7 @@ public class EAdPositionImpl implements EAdPosition {
 	 * @param dispX
 	 *            the displacement
 	 */
-	public void setDespY(float despY) {
+	public void setDispY(float despY) {
 		this.dispY = despY;
 	}
 

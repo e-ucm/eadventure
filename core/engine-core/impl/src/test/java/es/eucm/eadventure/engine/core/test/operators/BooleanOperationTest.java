@@ -41,22 +41,20 @@ import org.junit.Before;
 
 import es.eucm.eadventure.common.model.conditions.impl.EmptyCondition;
 import es.eucm.eadventure.common.model.variables.impl.operations.BooleanOperation;
-import es.eucm.eadventure.common.model.variables.impl.vars.BooleanVar;
-import es.eucm.eadventure.common.model.variables.impl.vars.IntegerVar;
 import es.eucm.eadventure.engine.core.operators.impl.BooleanOperator;
 
 public class BooleanOperationTest extends OperatorsTest<BooleanOperation> {
 
 	public BooleanOperationTest() {
-		super(new BooleanOperator(valueMap, null));
+		super(new BooleanOperator(null));
 	}
 
 	@Before
 	public void setUp() {
-		valueMap.setValue(new BooleanVar("SomeBoolean"), Boolean.FALSE);
-		valueMap.setValue(new BooleanVar("SomeBooleanTrue"), Boolean.TRUE);
-		valueMap.setValue(new BooleanVar("SomeBooleanFalse"), Boolean.FALSE);
-		valueMap.setValue(new IntegerVar("Integer"), new Integer(10));
+//		valueMap.setValue(new EAdVarDef<Boolean>("SomeBoolean", Boolean.class), Boolean.FALSE);
+//		valueMap.setValue(new EAdVarDef<Boolean>("SomeBooleanTrue"), Boolean.TRUE);
+//		valueMap.setValue(new EAdVarDef<Boolean>("SomeBooleanFalse"), Boolean.FALSE);
+//		valueMap.setValue(new EAdVarDef<Integer>("Integer"), new Integer(10));
 	}
 
 	@Override
@@ -65,14 +63,14 @@ public class BooleanOperationTest extends OperatorsTest<BooleanOperation> {
 
 		BooleanOperation trueOp = new BooleanOperation( "neverMind", EmptyCondition.TRUE_EMPTY_CONDITION);
 
-		super.addOperationTest(new BooleanVar("SomeBoolean"), falseOp, Boolean.FALSE);
-		super.addOperationTest(new BooleanVar("SomeBooleanTrue"), falseOp, Boolean.FALSE);
-		super.addOperationTest(new BooleanVar("SomeBooleanFalse"), falseOp, Boolean.FALSE);
-		super.addOperationTest(new BooleanVar("SomeBoolean"), trueOp, Boolean.TRUE);
-		super.addOperationTest(new BooleanVar("SomeBooleanTrue"), trueOp, Boolean.TRUE);
-		super.addOperationTest(new BooleanVar("SomeBooleanFalse"), trueOp, Boolean.TRUE);
-		super.addOperationTest(new BooleanVar("Integer"), trueOp, Boolean.TRUE);
-		super.addOperationTest(new BooleanVar("Integer"), falseOp, Boolean.FALSE);
+//		super.addOperationTest(new EAdVarImpl<Boolean>("SomeBoolean"), falseOp, Boolean.FALSE);
+//		super.addOperationTest(new EAdVarImpl<Boolean>("SomeBooleanTrue"), falseOp, Boolean.FALSE);
+//		super.addOperationTest(new EAdVarImpl<Boolean>("SomeBooleanFalse"), falseOp, Boolean.FALSE);
+//		super.addOperationTest(new EAdVarImpl<Boolean>("SomeBoolean"), trueOp, Boolean.TRUE);
+//		super.addOperationTest(new EAdVarImpl<Boolean>("SomeBooleanTrue"), trueOp, Boolean.TRUE);
+//		super.addOperationTest(new EAdVarImpl<Boolean>("SomeBooleanFalse"), trueOp, Boolean.TRUE);
+//		super.addOperationTest(new EAdVarImpl<Boolean>("Integer"), trueOp, Boolean.TRUE);
+//		super.addOperationTest(new EAdVarImpl<Boolean>("Integer"), falseOp, Boolean.FALSE);
 		
 	}
 

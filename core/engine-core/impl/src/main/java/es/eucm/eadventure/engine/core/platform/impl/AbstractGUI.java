@@ -39,22 +39,21 @@ package es.eucm.eadventure.engine.core.platform.impl;
 
 import java.util.logging.Logger;
 
-import es.eucm.eadventure.common.model.elements.EAdSceneElement;
 import es.eucm.eadventure.common.model.guievents.EAdMouseEvent.MouseActionType;
-import es.eucm.eadventure.common.model.variables.impl.extra.EAdSceneElementVars;
 import es.eucm.eadventure.engine.core.GameState;
 import es.eucm.eadventure.engine.core.KeyboardState;
 import es.eucm.eadventure.engine.core.MouseState;
+import es.eucm.eadventure.engine.core.ValueMap;
 import es.eucm.eadventure.engine.core.gameobjects.GameObject;
 import es.eucm.eadventure.engine.core.gameobjects.GameObjectFactory;
 import es.eucm.eadventure.engine.core.gameobjects.GameObjectManager;
+import es.eucm.eadventure.engine.core.gameobjects.impl.sceneelements.SceneElementGOImpl;
 import es.eucm.eadventure.engine.core.guiactions.KeyAction;
 import es.eucm.eadventure.engine.core.guiactions.MouseAction;
 import es.eucm.eadventure.engine.core.guiactions.impl.MouseActionImpl;
 import es.eucm.eadventure.engine.core.platform.GUI;
 import es.eucm.eadventure.engine.core.platform.GraphicRendererFactory;
 import es.eucm.eadventure.engine.core.platform.PlatformConfiguration;
-import es.eucm.eadventure.engine.core.variables.ValueMap;
 
 /**
  * <p>
@@ -196,10 +195,8 @@ public abstract class AbstractGUI<T> implements GUI {
 					&& mouseState.getGameObjectUnderMouse() == null; i--) {
 				GameObject<?> tempGameObject = gameObjects.getGameObjects()
 						.get(i);
-				if (tempGameObject.getElement() instanceof EAdSceneElement
-						&& !valueMap.getValue(((EAdSceneElement) tempGameObject
-								.getElement()).getVars().getVar(
-								EAdSceneElementVars.VAR_VISIBLE)))
+				if (tempGameObject instanceof SceneElementGOImpl 
+						&& ((SceneElementGOImpl<?>) tempGameObject).isVisible())
 					continue;
 				int[] offset = gameObjects.getOffsets().get(i);
 

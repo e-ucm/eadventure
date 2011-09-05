@@ -46,17 +46,17 @@ import es.eucm.eadventure.common.model.effects.impl.EAdMoveActiveElement;
 import es.eucm.eadventure.common.model.effects.impl.sceneelements.EAdMoveSceneElement;
 import es.eucm.eadventure.common.model.effects.impl.sceneelements.EAdMoveSceneElement.MovementSpeed;
 import es.eucm.eadventure.common.model.elements.EAdScene;
-import es.eucm.eadventure.common.model.variables.impl.extra.EAdSceneElementVars;
+import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
 import es.eucm.eadventure.common.params.geom.EAdPosition;
 import es.eucm.eadventure.common.params.geom.impl.EAdPositionImpl;
 import es.eucm.eadventure.engine.core.GameState;
+import es.eucm.eadventure.engine.core.ValueMap;
 import es.eucm.eadventure.engine.core.gameobjects.GameObjectFactory;
 import es.eucm.eadventure.engine.core.guiactions.MouseAction;
 import es.eucm.eadventure.engine.core.platform.AssetHandler;
 import es.eucm.eadventure.engine.core.platform.GUI;
 import es.eucm.eadventure.engine.core.platform.PlatformConfiguration;
 import es.eucm.eadventure.engine.core.trajectories.TrajectoryFactory;
-import es.eucm.eadventure.engine.core.variables.ValueMap;
 
 public class MoveActiveElementGO extends AbstractEffectGO<EAdMoveActiveElement> {
 
@@ -85,10 +85,10 @@ public class MoveActiveElementGO extends AbstractEffectGO<EAdMoveActiveElement> 
 			EAdScene scene = (EAdScene) object;
 			if (scene.getTrajectoryDefinition() != null) {
 				EAdPositionImpl pos = new EAdPositionImpl(0, 0);
-				pos.setX(valueMap.getValue(gameState.getActiveElement()
-						.getVars().getVar(EAdSceneElementVars.VAR_X)));
-				pos.setY(valueMap.getValue(gameState.getActiveElement()
-						.getVars().getVar(EAdSceneElementVars.VAR_Y)));
+				pos.setX(valueMap.getValue(gameState.getActiveElement(),
+						EAdBasicSceneElement.VAR_X));
+				pos.setY(valueMap.getValue(gameState.getActiveElement(),
+						EAdBasicSceneElement.VAR_Y));
 				List<EAdPosition> trajectory = trajectoryFactory.getTrajectory(
 						scene.getTrajectoryDefinition(), pos, x, y);
 				for (EAdPosition p : trajectory) {

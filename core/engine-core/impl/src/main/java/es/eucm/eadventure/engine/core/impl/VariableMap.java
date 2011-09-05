@@ -35,7 +35,7 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package es.eucm.eadventure.engine.core.impl.variables;
+package es.eucm.eadventure.engine.core.impl;
 
 import java.util.Map;
 import java.util.logging.Logger;
@@ -43,8 +43,8 @@ import java.util.logging.Logger;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
+import es.eucm.eadventure.engine.core.ValueMap;
 import es.eucm.eadventure.engine.core.operator.OperatorFactory;
-import es.eucm.eadventure.engine.core.variables.ValueMap;
 
 @Singleton
 public class VariableMap extends ValueMapImpl implements ValueMap {

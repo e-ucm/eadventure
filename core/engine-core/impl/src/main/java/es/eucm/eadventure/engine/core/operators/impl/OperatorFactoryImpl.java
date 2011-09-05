@@ -44,31 +44,46 @@ import com.google.inject.Singleton;
 
 import es.eucm.eadventure.common.interfaces.AbstractFactory;
 import es.eucm.eadventure.common.interfaces.MapProvider;
+import es.eucm.eadventure.common.model.variables.EAdField;
 import es.eucm.eadventure.common.model.variables.EAdOperation;
+import es.eucm.eadventure.engine.core.ValueMap;
 import es.eucm.eadventure.engine.core.operator.Operator;
 import es.eucm.eadventure.engine.core.operator.OperatorFactory;
-import es.eucm.eadventure.engine.core.variables.EAdVar;
 
 @Singleton
-public class OperatorFactoryImpl extends AbstractFactory<Operator<?>> implements OperatorFactory {
-	
+public class OperatorFactoryImpl extends AbstractFactory<Operator<?>> implements
+		OperatorFactory {
+
 	private Logger log = Logger.getLogger("Operator Factory");
-	
+
+	private ValueMap valueMap;
+
 	@Inject
-	public OperatorFactoryImpl(MapProvider<Class<?>, Operator<?>> map) {
+	public OperatorFactoryImpl(MapProvider<Class<?>, Operator<?>> map,
+			ValueMap valueMap) {
 		super(map);
+		this.valueMap = valueMap;
 	}
-	
+
+	@Override
+	public <T extends EAdOperation, S> S operate(EAdField<S> fieldResult,
+			T operation) {
+		S result = operate(fieldResult.getVarDefinition().getType(), operation);
+		if (result != null)
+			valueMap.setValue(fieldResult, result);
+		return result;
+
+	}
+
 	@SuppressWarnings("unchecked")
 	@Override
-	public <T extends EAdOperation, S> S operate(EAdVar<S> varResult, T operation) {
-		if ( operation == null ){
+	public <T extends EAdOperation, S> S operate(Class<S> clazz, T operation) {
+		if (operation == null) {
 			log.severe("null operation attempted: null was returned");
 			return null;
 		}
 		Operator<T> operator = (Operator<T>) get(operation.getClass());
-		S result =  operator.operate(varResult, operation);
-		return result;
+		return operator.operate(clazz, operation);
 	}
 
 }

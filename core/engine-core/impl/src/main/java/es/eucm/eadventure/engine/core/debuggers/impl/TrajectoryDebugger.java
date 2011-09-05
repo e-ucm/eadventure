@@ -15,17 +15,17 @@ import es.eucm.eadventure.common.model.trajectories.impl.NodeTrajectoryDefinitio
 import es.eucm.eadventure.common.model.trajectories.impl.NodeTrajectoryDefinition.Side;
 import es.eucm.eadventure.common.params.fills.impl.EAdBorderedColor;
 import es.eucm.eadventure.common.params.fills.impl.EAdColor;
+import es.eucm.eadventure.common.params.geom.EAdPosition;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.shapes.BezierShape;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.shapes.CircleShape;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.shapes.LineShape;
 import es.eucm.eadventure.common.resources.assets.drawable.compounds.ComposedDrawable;
 import es.eucm.eadventure.common.resources.assets.drawable.compounds.impl.ComposedDrawableImpl;
 import es.eucm.eadventure.engine.core.GameState;
+import es.eucm.eadventure.engine.core.ValueMap;
 import es.eucm.eadventure.engine.core.debuggers.EAdDebugger;
 import es.eucm.eadventure.engine.core.gameobjects.GameObject;
 import es.eucm.eadventure.engine.core.gameobjects.GameObjectFactory;
-import es.eucm.eadventure.engine.core.variables.EAdVar;
-import es.eucm.eadventure.engine.core.variables.ValueMap;
 
 @Singleton
 public class TrajectoryDebugger implements EAdDebugger {
@@ -64,11 +64,8 @@ public class TrajectoryDebugger implements EAdDebugger {
 		if (currentTrajectory != null) {
 			int i = 0;
 			for (EAdSceneElement e : currentTrajectory.getBarriers()) {
-				EAdVar<Boolean> var = e.getVars().getVar(
-						NodeTrajectoryDefinition.VAR_BARRIER_ON);
-
 				barriers.get(i).setFill(
-						valueMap.getValue(var) ? EAdColor.YELLOW
+						valueMap.getValue(e, NodeTrajectoryDefinition.VAR_BARRIER_ON) ? EAdColor.YELLOW
 								: EAdColor.TRANSPARENT);
 				i++;
 			}
@@ -127,7 +124,8 @@ public class TrajectoryDebugger implements EAdDebugger {
 			BezierShape barrier = (BezierShape) s.clone();
 			barrier.setFill(EAdColor.YELLOW);
 			barriers.add(barrier);
-			map.addDrawable(barrier, e.getPosition().getX(), e.getPosition().getY());
+			EAdPosition p = gameObjectFactory.get(e).getPosition();
+			map.addDrawable(barrier, p.getX(), p.getY());
 		}
 
 		gameObjects.add(gameObjectFactory.get(mapElement));

@@ -45,12 +45,12 @@ import com.google.inject.Inject;
 import es.eucm.eadventure.common.StringHandler;
 import es.eucm.eadventure.common.model.effects.EAdEffect;
 import es.eucm.eadventure.common.model.elements.EAdSceneElement;
+import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
 import es.eucm.eadventure.common.model.elements.impl.EAdComplexSceneElement;
 import es.eucm.eadventure.common.model.extra.EAdList;
-import es.eucm.eadventure.common.model.variables.EAdElementVars;
-import es.eucm.eadventure.common.model.variables.impl.extra.EAdSceneElementVars;
 import es.eucm.eadventure.engine.core.GameState;
 import es.eucm.eadventure.engine.core.MouseState;
+import es.eucm.eadventure.engine.core.ValueMap;
 import es.eucm.eadventure.engine.core.evaluators.EvaluatorFactory;
 import es.eucm.eadventure.engine.core.gameobjects.GameObject;
 import es.eucm.eadventure.engine.core.gameobjects.GameObjectFactory;
@@ -60,7 +60,6 @@ import es.eucm.eadventure.engine.core.platform.AssetHandler;
 import es.eucm.eadventure.engine.core.platform.GUI;
 import es.eucm.eadventure.engine.core.platform.PlatformConfiguration;
 import es.eucm.eadventure.engine.core.platform.RuntimeAsset;
-import es.eucm.eadventure.engine.core.variables.ValueMap;
 
 public class ComplexSceneElementGO extends
 		SceneElementGOImpl<EAdComplexSceneElement> {
@@ -69,7 +68,7 @@ public class ComplexSceneElementGO extends
 			.getLogger("EAdComplexSceneElement");
 
 	private EvaluatorFactory evaluatorFactory;
-	
+
 	private int elementOffsetX, elementOffsetY;
 
 	@Inject
@@ -120,18 +119,22 @@ public class ComplexSceneElementGO extends
 		}
 	}
 
-	protected void updateVars(EAdElementVars vars) {
-		super.updateVars(vars);
-		setWidth(valueMap.getValue(element.getVars().getVar(EAdSceneElementVars.VAR_WIDTH)));
-		setHeight(valueMap.getValue(element.getVars().getVar(EAdSceneElementVars.VAR_HEIGHT)));
-		boolean updateWidth = valueMap.getValue(element.getVars().getVar(EAdComplexSceneElement.VAR_AUTO_SIZE_HORIZONTAL));
-		boolean updateHeight = valueMap.getValue(element.getVars().getVar(EAdComplexSceneElement.VAR_AUTO_SIZE_VERTICAL));
-		
-		elementOffsetX = valueMap.getValue(element.getVars().getVar(EAdComplexSceneElement.VAR_OFFSET_X));
-		elementOffsetY = valueMap.getValue(element.getVars().getVar(EAdComplexSceneElement.VAR_OFFSET_Y));
-		
-		if ( updateWidth || updateHeight ){
-			updateDimensions( updateWidth, updateHeight );
+	protected void updateVars() {
+		super.updateVars();
+		setWidth(valueMap.getValue(element, EAdBasicSceneElement.VAR_WIDTH));
+		setHeight(valueMap.getValue(element, EAdBasicSceneElement.VAR_HEIGHT));
+		boolean updateWidth = valueMap.getValue(element,
+				EAdComplexSceneElement.VAR_AUTO_SIZE_HORIZONTAL);
+		boolean updateHeight = valueMap.getValue(element,
+				EAdComplexSceneElement.VAR_AUTO_SIZE_VERTICAL);
+
+		elementOffsetX = valueMap.getValue(element,
+				EAdComplexSceneElement.VAR_OFFSET_X);
+		elementOffsetY = valueMap.getValue(element,
+				EAdComplexSceneElement.VAR_OFFSET_Y);
+
+		if (updateWidth || updateHeight) {
+			updateDimensions(updateWidth, updateHeight);
 		}
 	}
 
@@ -164,8 +167,10 @@ public class ComplexSceneElementGO extends
 
 	@Override
 	public void doLayout(int offsetX, int offsetY) {
-		int newOffsetX = offsetX + this.getPosition().getJavaX(getWidth()) - elementOffsetX;
-		int newOffsetY = offsetY + this.getPosition().getJavaY(getHeight()) - elementOffsetY;
+		int newOffsetX = offsetX + this.getPosition().getJavaX(getWidth())
+				- elementOffsetX;
+		int newOffsetY = offsetY + this.getPosition().getJavaY(getHeight())
+				- elementOffsetY;
 		for (EAdSceneElement sceneElement : element.getComponents()) {
 			SceneElementGO<?> go = (SceneElementGO<?>) gameObjectFactory
 					.get(sceneElement);

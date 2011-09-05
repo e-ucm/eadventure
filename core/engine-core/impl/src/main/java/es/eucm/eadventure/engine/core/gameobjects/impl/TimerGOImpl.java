@@ -45,10 +45,12 @@ import com.google.inject.Inject;
 
 import es.eucm.eadventure.common.StringHandler;
 import es.eucm.eadventure.common.model.elements.EAdTimer;
+import es.eucm.eadventure.common.model.elements.impl.EAdTimerImpl;
 import es.eucm.eadventure.common.params.geom.impl.EAdPositionImpl;
 import es.eucm.eadventure.engine.core.GameLoop;
 import es.eucm.eadventure.engine.core.GameState;
 import es.eucm.eadventure.engine.core.MouseState;
+import es.eucm.eadventure.engine.core.ValueMap;
 import es.eucm.eadventure.engine.core.gameobjects.GameObject;
 import es.eucm.eadventure.engine.core.gameobjects.GameObjectFactory;
 import es.eucm.eadventure.engine.core.gameobjects.TimerGO;
@@ -57,7 +59,6 @@ import es.eucm.eadventure.engine.core.platform.AssetHandler;
 import es.eucm.eadventure.engine.core.platform.GUI;
 import es.eucm.eadventure.engine.core.platform.PlatformConfiguration;
 import es.eucm.eadventure.engine.core.platform.RuntimeAsset;
-import es.eucm.eadventure.engine.core.variables.ValueMap;
 
 public class TimerGOImpl extends GameObjectImpl<EAdTimer> implements TimerGO {
 
@@ -76,13 +77,6 @@ public class TimerGOImpl extends GameObjectImpl<EAdTimer> implements TimerGO {
 	@Override
 	public boolean processAction(GUIAction action) {
 		return false;
-	}
-
-	@Override
-	public void setElement(EAdTimer element) {
-		super.setElement(element);
-		valueMap.setValue(element.timerStartedVar(), Boolean.FALSE);
-		valueMap.setValue(element.timerEndedVar(), Boolean.FALSE);
 	}
 
 	@Override
@@ -108,21 +102,21 @@ public class TimerGOImpl extends GameObjectImpl<EAdTimer> implements TimerGO {
 	@Override
 	public void update(GameState gameState) {
 		super.update(gameState);
-		if (valueMap.getValue(element.timerEndedVar())) {
+		if (valueMap.getValue(element, EAdTimerImpl.VAR_ENDED)) {
 			logger.log(Level.INFO, "ENDED");
-			valueMap.setValue(element.timerEndedVar(), Boolean.FALSE);
+			valueMap.setValue(element, EAdTimerImpl.VAR_ENDED, Boolean.FALSE);
 			//TODO trigger finished effects
 		}
-		if (valueMap.getValue(element.timerStartedVar())) {
+		if (valueMap.getValue(element, EAdTimerImpl.VAR_STARTED)) {
 			if (passedTime == 0)
 				logger.log(Level.INFO, "STARTED");
 			
 			passedTime += GameLoop.SKIP_MILLIS_TICK;
 			if (passedTime > element.getTime()) {
-				valueMap.setValue(element.timerEndedVar(), Boolean.TRUE);
+				valueMap.setValue(element, EAdTimerImpl.VAR_ENDED, Boolean.TRUE);
 
 				//TODO should not do this if restart
-				valueMap.setValue(element.timerStartedVar(), Boolean.FALSE);
+				valueMap.setValue(element, EAdTimerImpl.VAR_STARTED, Boolean.FALSE);
 				passedTime = 0;
 			}
 		}

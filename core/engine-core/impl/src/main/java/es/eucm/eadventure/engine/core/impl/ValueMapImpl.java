@@ -35,101 +35,90 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package es.eucm.eadventure.engine.core.impl.variables;
+package es.eucm.eadventure.engine.core.impl;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
+import es.eucm.eadventure.common.model.EAdElement;
+import es.eucm.eadventure.common.model.variables.EAdField;
 import es.eucm.eadventure.common.model.variables.EAdOperation;
+import es.eucm.eadventure.common.model.variables.EAdVarDef;
+import es.eucm.eadventure.common.model.variables.impl.EAdFieldImpl;
+import es.eucm.eadventure.engine.core.ValueMap;
 import es.eucm.eadventure.engine.core.operator.OperatorFactory;
-import es.eucm.eadventure.engine.core.variables.EAdVar;
-import es.eucm.eadventure.engine.core.variables.ValueMap;
 
 @Singleton
 public class ValueMapImpl implements ValueMap {
 
-	protected Map<Class<?>, Map<?, ?>> map;
-	
+	protected Map<EAdElement, Map<EAdVarDef<?>, Object>> map;
+
 	private OperatorFactory operatorFactory;
 
 	private static final Logger logger = Logger.getLogger("Value Map");
 
 	@Inject
 	public ValueMapImpl(OperatorFactory operatorFactory) {
-		map = new HashMap<Class<?>, Map<?, ?>>();
+		map = new HashMap<EAdElement, Map<EAdVarDef<?>, Object>>();
 		logger.info("New instance");
 		this.operatorFactory = operatorFactory;
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
-	public <S> void setValue(EAdVar<S> var, S value) {
-		if (var.isConstant()) {
-			logger.log(Level.WARNING, "Attempted to modify a constant value");
-			return;
-		} else {
-			Map<EAdVar<S>, S> valMap = (Map<EAdVar<S>, S>) map.get(var
-					.getType());
-			if (valMap == null) {
-				valMap = new HashMap<EAdVar<S>, S>();
-				map.put(var.getType(), valMap);
-				logger.info("New value map String " + var.getType());
-			}
-
-			valMap.put(var, value);
-		}
-	}
-
-	@SuppressWarnings("unchecked")
-	@Override
-	public <S> S getValue(EAdVar<S> var) {
-		Map<EAdVar<S>, S> valMap = (Map<EAdVar<S>, S>) map.get(var.getType());
+	public <S> void setValue(EAdElement element, EAdVarDef<S> varDef, S value) {
+		Map<EAdVarDef<?>, Object> valMap = map.get(element);
 		if (valMap == null) {
-			logger.log(Level.WARNING, "Initializing variable " + var);
-			setValue(var, var.getInitialValue());
-			valMap = (Map<EAdVar<S>, S>) map.get(var.getType());
+			valMap = new HashMap<EAdVarDef<?>, Object>();
+			map.put(element, valMap);
+			logger.info("New value map String " + varDef.getType());
 		}
-		S value = valMap.get(var);
-		if (value == null) {
-			logger.log(Level.WARNING, "No such value " + var.getName()
-					+ " of type " + var.getType());
-			setValue(var, var.getInitialValue());
-			value = var.getInitialValue();
-		}
-		return value;
+
+		valMap.put(varDef, value);
+	}
+
+	@Override
+	public <S> void setValue(EAdField<S> field, S value) {
+		setValue(field.getElement(), field.getVarDefinition(), value);
+	}
+
+	@Override
+	public <S> S getValue(EAdField<S> var) {
+		return getValue(var.getElement(), var.getVarDefinition());
+	}
+
+	public <S> void setValue(EAdField<S> var, EAdOperation operation) {
+		operatorFactory.operate(var, operation);
 	}
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public void clean() {
-		int i = 0;
-		ArrayList<EAdVar<?>> auxList = new ArrayList<EAdVar<?>>();
-		logger.log(Level.INFO, "Cleaning...");
-		for ( Map<?, ?> m: map.values() ){
-			Map<EAdVar<?>, ?> mp = (Map<EAdVar<?>, ?>) m;
-			auxList.clear();
-			for ( EAdVar<?> var: mp.keySet() ){
-				if ( !var.isConstant() && !var.isGlobal()){
-					auxList.add(var);
-					i++;
-				}
-			}
-			
-			for ( EAdVar<?> var: auxList ){
-				mp.remove(var);
-			}
+	public <S> S getValue(EAdElement element, EAdVarDef<S> varDef) {
+		Map<EAdVarDef<?>, Object> valMap = map.get(element);
+		if (valMap == null) {
+			// If the variable has not been set, returns the initial value
+			return varDef.getInitialValue();
 		}
-		logger.log(Level.INFO, i + " variables deleted.");
+		Object value = valMap.get(varDef);
+		// If the variable has not been set, returns the initial value
+		return value == null || !value.getClass().equals(varDef.getType()) ? varDef
+				.getInitialValue() : (S) value;
 	}
 
-	public <S> void setValue(EAdVar<S> var, EAdOperation operation) {
-		operatorFactory.operate(var, operation);
+	@Override
+	public void remove(EAdElement element) {
+		map.remove(element);
+	}
+
+	@Override
+	public <S> void setValue(EAdElement element, EAdVarDef<S> var,
+			EAdOperation operation) {
+		// TODO try to avoid the new
+		setValue(new EAdFieldImpl<S>(element, var), operation);
+
 	}
 
 }

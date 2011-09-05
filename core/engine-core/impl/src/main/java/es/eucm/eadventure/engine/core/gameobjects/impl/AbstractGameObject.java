@@ -42,37 +42,37 @@ import java.util.ArrayList;
 import es.eucm.eadventure.common.StringHandler;
 import es.eucm.eadventure.common.model.elements.EAdGeneralElement;
 import es.eucm.eadventure.common.model.events.EAdEvent;
+import es.eucm.eadventure.common.model.variables.EAdVarDef;
+import es.eucm.eadventure.common.model.variables.impl.EAdVarDefImpl;
 import es.eucm.eadventure.common.resources.EAdBundleId;
 import es.eucm.eadventure.engine.core.GameState;
+import es.eucm.eadventure.engine.core.ValueMap;
 import es.eucm.eadventure.engine.core.gameobjects.GameObjectFactory;
 import es.eucm.eadventure.engine.core.gameobjects.impl.events.AbstractEventGO;
-import es.eucm.eadventure.engine.core.impl.variables.EAdVarImpl;
 import es.eucm.eadventure.engine.core.platform.AssetHandler;
 import es.eucm.eadventure.engine.core.platform.GUI;
 import es.eucm.eadventure.engine.core.platform.PlatformConfiguration;
-import es.eucm.eadventure.engine.core.variables.EAdVar;
-import es.eucm.eadventure.engine.core.variables.ValueMap;
 
 public abstract class AbstractGameObject<T extends EAdGeneralElement> extends
 		GameObjectImpl<T> {
-	
-	private EAdVar<EAdBundleId> bundleVar;
-	
+
+	public static final EAdVarDef<EAdBundleId> VAR_BUNDLE_ID = new EAdVarDefImpl<EAdBundleId>(
+			"bundle_id", EAdBundleId.class, null);
+
 	private ArrayList<AbstractEventGO<?>> eventGOList;
-	
+
 	public AbstractGameObject(AssetHandler assetHandler,
 			StringHandler stringsReader, GameObjectFactory gameObjectFactory,
 			GUI gui, GameState gameState, ValueMap valueMap,
 			PlatformConfiguration platformConfiguration) {
-		super(assetHandler, stringsReader, gameObjectFactory, gui, gameState, valueMap,
-				platformConfiguration);
+		super(assetHandler, stringsReader, gameObjectFactory, gui, gameState,
+				valueMap, platformConfiguration);
 	}
 
 	@Override
 	public void setElement(T element) {
-		super.setElement( element );
-		this.bundleVar = new EAdVarImpl<EAdBundleId>(EAdBundleId.class,
-				"bundleId", element.getInitialBundle(), element);
+		super.setElement(element);
+		valueMap.setValue(element, VAR_BUNDLE_ID, element.getInitialBundle());
 		eventGOList = new ArrayList<AbstractEventGO<?>>();
 		if (element.getEvents() != null) {
 			for (EAdEvent event : element.getEvents()) {
@@ -93,16 +93,16 @@ public abstract class AbstractGameObject<T extends EAdGeneralElement> extends
 	}
 
 	public EAdBundleId getCurrentBundle() {
-		EAdBundleId current = valueMap.getValue(bundleVar);
+		EAdBundleId current = valueMap.getValue(element, VAR_BUNDLE_ID);
 		if (current == null) {
 			current = element.getInitialBundle();
-			valueMap.setValue(bundleVar, current);
+			valueMap.setValue(element, VAR_BUNDLE_ID, current);
 		}
 		return current;
 	}
-	
-	public void setCurrentBundle(EAdBundleId bundle){
-		valueMap.setValue(bundleVar, bundle);
+
+	public void setCurrentBundle(EAdBundleId bundle) {
+		valueMap.setValue(element, VAR_BUNDLE_ID, bundle);
 	}
 
 	public String toString() {

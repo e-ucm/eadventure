@@ -47,10 +47,8 @@ import es.eucm.eadventure.common.StringHandler;
 import es.eucm.eadventure.common.model.actions.EAdAction;
 import es.eucm.eadventure.common.model.elements.EAdSceneElement;
 import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
-import es.eucm.eadventure.common.model.variables.EAdElementVars;
-import es.eucm.eadventure.common.model.variables.impl.extra.EAdSceneElementVars;
-import es.eucm.eadventure.common.model.variables.impl.operations.LiteralExpressionOperation;
 import es.eucm.eadventure.common.params.geom.EAdPosition;
+import es.eucm.eadventure.common.params.geom.impl.EAdPositionImpl;
 import es.eucm.eadventure.common.resources.EAdBundleId;
 import es.eucm.eadventure.common.resources.assets.AssetDescriptor;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.animation.FramesAnimation;
@@ -59,6 +57,7 @@ import es.eucm.eadventure.common.resources.assets.drawable.compounds.StateDrawab
 import es.eucm.eadventure.engine.core.GameLoop;
 import es.eucm.eadventure.engine.core.GameState;
 import es.eucm.eadventure.engine.core.MouseState;
+import es.eucm.eadventure.engine.core.ValueMap;
 import es.eucm.eadventure.engine.core.gameobjects.GameObject;
 import es.eucm.eadventure.engine.core.gameobjects.GameObjectFactory;
 import es.eucm.eadventure.engine.core.gameobjects.SceneElementGO;
@@ -69,15 +68,13 @@ import es.eucm.eadventure.engine.core.platform.DrawableAsset;
 import es.eucm.eadventure.engine.core.platform.GUI;
 import es.eucm.eadventure.engine.core.platform.PlatformConfiguration;
 import es.eucm.eadventure.engine.core.platform.RuntimeAsset;
-import es.eucm.eadventure.engine.core.variables.EAdVar;
-import es.eucm.eadventure.engine.core.variables.ValueMap;
 
 public abstract class SceneElementGOImpl<T extends EAdSceneElement> extends
 		AbstractGameObject<T> implements SceneElementGO<T> {
 
 	private static final Logger logger = Logger.getLogger("SceneElementGOImpl");
 
-	protected EAdPosition position;
+	protected EAdPositionImpl position;
 
 	protected float scale;
 
@@ -91,7 +88,7 @@ public abstract class SceneElementGOImpl<T extends EAdSceneElement> extends
 
 	private int height;
 
-	private long timeDisplayed;
+	private int timeDisplayed;
 
 	protected float alpha;
 
@@ -121,62 +118,43 @@ public abstract class SceneElementGOImpl<T extends EAdSceneElement> extends
 	 * Should be implemented to get position, scale, orientation and other
 	 * values
 	 */
-	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Override
 	public void setElement(T element) {
 		super.setElement(element);
-
-		EAdElementVars vars = element.getVars();
-
-
-
-		// If element is a clone, sets its vars to its initial values, if not,
-		// it preserves the values contained by the valueMap
+		// If element is a clone, all fields associated to it in the value map
+		// must be removed
 		if (element.isClone()) {
-			for (EAdVar var : vars.getVars()) {
-				valueMap.setValue(var, var.getInitialValue());
-			}
+			valueMap.remove(element);
 		}
-		
-		position = valueMap.getValue(vars.getVar(EAdSceneElementVars.VAR_POSITION));
-		vars.getVar(EAdSceneElementVars.VAR_X).setInitialValue(position.getX());
-		vars.getVar(EAdSceneElementVars.VAR_Y).setInitialValue(position.getY());
-		updateVars(vars);
+
+		position = new EAdPositionImpl(0, 0);
+		updateVars();
 		// To load dimensions
 		getRenderAsset();
 	}
 
-	protected void updateVars(EAdElementVars vars) {
-		visible = valueMap.getValue(vars
-				.getVar(EAdSceneElementVars.VAR_VISIBLE));
-		rotation = valueMap.getValue(vars
-				.getVar(EAdSceneElementVars.VAR_ROTATION));
-		scale = valueMap.getValue(vars.getVar(EAdSceneElementVars.VAR_SCALE));
-		alpha = valueMap.getValue(vars.getVar(EAdSceneElementVars.VAR_ALPHA));
-		orientation = valueMap.getValue(vars
-				.getVar(EAdSceneElementVars.VAR_ORIENTATION));
-		state = valueMap.getValue(vars.getVar(EAdSceneElementVars.VAR_STATE));
-		timeDisplayed = valueMap.getValue(vars
-				.getVar(EAdSceneElementVars.VAR_TIME_DISPLAYED));
+	protected void updateVars() {
+		visible = valueMap.getValue(element, EAdBasicSceneElement.VAR_VISIBLE);
+		rotation = valueMap
+				.getValue(element, EAdBasicSceneElement.VAR_ROTATION);
+		scale = valueMap.getValue(element, EAdBasicSceneElement.VAR_SCALE);
+		alpha = valueMap.getValue(element, EAdBasicSceneElement.VAR_ALPHA);
+		orientation = valueMap.getValue(element,
+				EAdBasicSceneElement.VAR_ORIENTATION);
+		state = valueMap.getValue(element, EAdBasicSceneElement.VAR_STATE);
+		timeDisplayed = valueMap.getValue(element,
+				EAdBasicSceneElement.VAR_TIME_DISPLAYED);
+		position.setX(valueMap.getValue(element, EAdBasicSceneElement.VAR_X));
+		position.setY(valueMap.getValue(element, EAdBasicSceneElement.VAR_Y));
+		position.setDispX(valueMap.getValue(element,
+				EAdBasicSceneElement.VAR_DISP_X));
+		position.setDispY(valueMap.getValue(element,
+				EAdBasicSceneElement.VAR_DISP_Y));
 	}
 
 	@Override
 	public GameObject<?> getDraggableElement(MouseState mouseState) {
 		return null;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * es.eucm.eadventure.engine.core.gameobjects.impl.AbstractGameObject#doLayout
-	 * ()
-	 * 
-	 * Should layout all sub-elements and resource
-	 */
-	@Override
-	public void doLayout(int offsetX, int offsetY) {
-		super.doLayout(offsetX, offsetY);
 	}
 
 	/*
@@ -191,19 +169,11 @@ public abstract class SceneElementGOImpl<T extends EAdSceneElement> extends
 	@Override
 	public void update(GameState state) {
 		super.update(state);
-		valueMap.setValue(
-				element.getVars()
-						.getVar(EAdSceneElementVars.VAR_TIME_DISPLAYED),
-				LiteralExpressionOperation.getIncrementExpression(
-						element.getVars().getVar(
-								EAdSceneElementVars.VAR_TIME_DISPLAYED),
-						GameLoop.SKIP_MILLIS_TICK));
+
+		valueMap.setValue(element, EAdBasicSceneElement.VAR_TIME_DISPLAYED,
+				timeDisplayed + GameLoop.SKIP_MILLIS_TICK);
 		this.getAsset().update(state);
-		this.position.setX(valueMap.getValue(element.getVars().getVar(
-				EAdSceneElementVars.VAR_X)));
-		this.position.setY(valueMap.getValue(element.getVars().getVar(
-				EAdSceneElementVars.VAR_Y)));
-		updateVars(element.getVars());
+		updateVars();
 	}
 
 	@Override
@@ -218,13 +188,18 @@ public abstract class SceneElementGOImpl<T extends EAdSceneElement> extends
 
 	@Override
 	public void setPosition(EAdPosition position) {
-		this.position = position;
+		valueMap.setValue(element, EAdBasicSceneElement.VAR_X, position.getX());
+		valueMap.setValue(element, EAdBasicSceneElement.VAR_Y, position.getY());
+		valueMap.setValue(element, EAdBasicSceneElement.VAR_DISP_X,
+				position.getDispX());
+		valueMap.setValue(element, EAdBasicSceneElement.VAR_DISP_Y,
+				position.getDispY());
 	}
 
 	@Override
 	public void setOrientation(Orientation orientation) {
-		this.orientation = orientation;
-
+		valueMap.setValue(element, EAdBasicSceneElement.VAR_ORIENTATION,
+				orientation);
 	}
 
 	@Override
@@ -366,27 +341,21 @@ public abstract class SceneElementGOImpl<T extends EAdSceneElement> extends
 
 	@Override
 	public void setScale(float scale) {
-		valueMap.setValue(
-				getElement().getVars().getVar(EAdSceneElementVars.VAR_SCALE),
-				scale);
+		valueMap.setValue(element, EAdBasicSceneElement.VAR_SCALE, scale);
 	}
 
 	public boolean isVisible() {
-		return valueMap.getValue(element.getVars().getVar(
-				EAdSceneElementVars.VAR_VISIBLE));
+		return visible;
 	}
 
 	public void setWidth(int width) {
 		this.width = width;
-		valueMap.setValue(
-				element.getVars().getVar(EAdSceneElementVars.VAR_WIDTH), width);
+		valueMap.setValue(element, EAdBasicSceneElement.VAR_WIDTH, width);
 	}
 
 	public void setHeight(int height) {
 		this.height = height;
-		valueMap.setValue(
-				element.getVars().getVar(EAdSceneElementVars.VAR_HEIGHT),
-				height);
+		valueMap.setValue(element, EAdBasicSceneElement.VAR_HEIGHT, height);
 	}
 
 	@Override

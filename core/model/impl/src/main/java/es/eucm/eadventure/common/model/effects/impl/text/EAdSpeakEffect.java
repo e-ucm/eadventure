@@ -146,5 +146,21 @@ public class EAdSpeakEffect extends AbstractEAdEffect {
 	public EAdField<Float> getScale(){
 		return scale;
 	}
+	
+	public EAdField<Integer> getX() {
+		return x;
+	}
+
+	public EAdField<Integer> getY() {
+		return y;
+	}
+
+	public EAdField<Float> getDispX() {
+		return dispX;
+	}
+
+	public EAdField<Float> getDispY() {
+		return dispY;
+	}
 
 }

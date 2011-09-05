@@ -49,6 +49,9 @@ public class EAdTimerImpl extends EAdGeneralElementImpl implements EAdTimer {
 
 	public static final EAdVarDef<Boolean> VAR_STARTED = new EAdVarDefImpl<Boolean>(
 			"started", Boolean.class, Boolean.FALSE);
+	
+	public static final EAdVarDef<Boolean> VAR_ENDED = new EAdVarDefImpl<Boolean>(
+			"ended", Boolean.class, Boolean.FALSE);
 
 	/**
 	 * Time in millisecons

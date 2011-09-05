@@ -35,9 +35,12 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package es.eucm.eadventure.engine.core.variables;
+package es.eucm.eadventure.engine.core;
 
+import es.eucm.eadventure.common.model.EAdElement;
+import es.eucm.eadventure.common.model.variables.EAdField;
 import es.eucm.eadventure.common.model.variables.EAdOperation;
+import es.eucm.eadventure.common.model.variables.EAdVarDef;
 
 /**
  * The value map interfaces allows for the definition of key-value pairs of
@@ -49,24 +52,36 @@ public interface ValueMap {
 	 * @param var
 	 * @param value
 	 */
-	<S> void setValue(EAdVar<S> var, S value);
+	<S> void setValue(EAdField<S> var, S value);
 	
+	<S> void setValue(EAdElement element, EAdVarDef<S> varDef, S value);
+
 	/**
 	 * Sets the variable to the result value of the operation
+	 * 
 	 * @param var
 	 * @param operation
 	 */
-	<S> void setValue(EAdVar<S> var, EAdOperation operation );
+	<S> void setValue(EAdField<S> var, EAdOperation operation);
+	
+	<S> void setValue(EAdElement element, EAdVarDef<S> var, EAdOperation operation);
+	
 
 	/**
 	 * @param <S>
 	 * @param var
 	 * @return
 	 */
-	<S> S getValue(EAdVar<S> var);
+	<S> S getValue(EAdField<S> var);
+	
+	<S> S getValue( EAdElement element, EAdVarDef<S> varDef );
 
 	/**
-	 * Deletes from the value map all the local variables.
+	 * Removes all fields associated to the given element
+	 * 
+	 * @param element
+	 *            the element
 	 */
-	void clean();
+	void remove(EAdElement element);
+
 }

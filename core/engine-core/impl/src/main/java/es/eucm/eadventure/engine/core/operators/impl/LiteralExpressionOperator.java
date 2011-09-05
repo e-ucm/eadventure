@@ -41,10 +41,9 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 import es.eucm.eadventure.common.model.variables.impl.operations.LiteralExpressionOperation;
+import es.eucm.eadventure.engine.core.ValueMap;
 import es.eucm.eadventure.engine.core.operator.Operator;
 import es.eucm.eadventure.engine.core.operators.impl.util.MathEvaluator;
-import es.eucm.eadventure.engine.core.variables.EAdVar;
-import es.eucm.eadventure.engine.core.variables.ValueMap;
 
 /**
  * Calculates results for {@link LiteralExpressionOperation}. The result
@@ -64,26 +63,22 @@ public class LiteralExpressionOperator implements
 	private static final MathEvaluator evaluator = new MathEvaluator();
 
 	private ValueMap valueMap;
-	
+
 	@Inject
 	public LiteralExpressionOperator(ValueMap valueMap) {
 		this.valueMap = valueMap;
 	}
-	
+
 	@SuppressWarnings("unchecked")
 	@Override
-	public <S> S operate(EAdVar<S> varResult,
-			LiteralExpressionOperation operation) {
-		//TODO Comprobar si no hay una forma mejor que apa–os de casting
-		evaluator.setExpression(operation.getExpression(), valueMap, operation.getVarList());
-		if (varResult != null) {
-			if (varResult.getType() == Integer.class) {
-				valueMap.setValue(varResult, (S) new Integer(evaluator.getValue().intValue()));
-				return (S) new Integer(evaluator.getValue().intValue());
-			} else
-				valueMap.setValue(varResult, (S) evaluator.getValue());
-		}
-		return (S) evaluator.getValue();
+	public <S> S operate(Class<S> clazz, LiteralExpressionOperation operation) {
+		evaluator.setExpression(operation.getExpression(), valueMap,
+				operation.getVarList());
+
+		if (clazz.equals(Integer.class))
+			return (S) new Integer(evaluator.getValue().intValue());
+		else
+			return (S) evaluator.getValue();
 	}
 
 }

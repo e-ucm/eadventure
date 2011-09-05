@@ -38,8 +38,8 @@
 package es.eucm.eadventure.engine.core.operators.impl.util;
 
 import es.eucm.eadventure.common.model.extra.EAdList;
-import es.eucm.eadventure.engine.core.variables.EAdVar;
-import es.eucm.eadventure.engine.core.variables.ValueMap;
+import es.eucm.eadventure.common.model.variables.EAdField;
+import es.eucm.eadventure.engine.core.ValueMap;
 /************************************************************************
  * <i>Mathematic expression evaluator.</i> Supports the following functions: +,
  * -, *, /, ^, %, cos, sin, tan, acos, asin, atan, sqrt, sqr, log, min, max,
@@ -64,7 +64,7 @@ public class MathEvaluator {
 	private Node node = null;
 	private String expression = null;
 	private ValueMap variables;
-	EAdList<EAdVar<?>> varList;
+	private EAdList<EAdField<?>> varList;
 
 	/***
 	 * creates an empty MathEvaluator. You need to use setExpression(String s)
@@ -78,7 +78,7 @@ public class MathEvaluator {
 	 * creates a MathEvaluator and assign the math expression string.
 	 */
 	public MathEvaluator(String s, ValueMap variables,
-			EAdList<EAdVar<?>> varList) {
+			EAdList<EAdField<?>> varList) {
 		init();
 		setExpression(s, variables, varList);
 	}
@@ -94,7 +94,7 @@ public class MathEvaluator {
 	 * @param eAdElementList
 	 */
 	public void setExpression(String s, ValueMap variables,
-			EAdList<EAdVar<?>> varList) {
+			EAdList<EAdField<?>> varList) {
 		expression = s;
 		this.variables = variables;
 		this.varList = varList;
@@ -243,7 +243,7 @@ public class MathEvaluator {
 			id = id.replace("[", "");
 			id = id.replace("]", "");
 		int index = Integer.parseInt(id);
-		EAdVar<?> number = varList.get(index);
+		EAdField<?> number = varList.get(index);
 		Object o = variables.getValue(number);
 		if (o instanceof Number) {
 			return ((Number) o).doubleValue();

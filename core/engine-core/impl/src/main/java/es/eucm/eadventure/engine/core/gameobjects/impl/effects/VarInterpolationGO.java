@@ -43,16 +43,15 @@ import com.google.inject.Inject;
 
 import es.eucm.eadventure.common.StringHandler;
 import es.eucm.eadventure.common.model.effects.impl.EAdVarInterpolationEffect;
-import es.eucm.eadventure.common.model.variables.impl.vars.FloatVar;
+import es.eucm.eadventure.common.model.variables.EAdField;
 import es.eucm.eadventure.engine.core.GameLoop;
 import es.eucm.eadventure.engine.core.GameState;
+import es.eucm.eadventure.engine.core.ValueMap;
 import es.eucm.eadventure.engine.core.gameobjects.GameObjectFactory;
 import es.eucm.eadventure.engine.core.operator.OperatorFactory;
 import es.eucm.eadventure.engine.core.platform.AssetHandler;
 import es.eucm.eadventure.engine.core.platform.GUI;
 import es.eucm.eadventure.engine.core.platform.PlatformConfiguration;
-import es.eucm.eadventure.engine.core.variables.EAdVar;
-import es.eucm.eadventure.engine.core.variables.ValueMap;
 
 public class VarInterpolationGO extends
 		AbstractEffectGO<EAdVarInterpolationEffect> {
@@ -91,17 +90,18 @@ public class VarInterpolationGO extends
 		super.initilize();
 		currentTime = 0;
 		reverse = false;
-		integer = element.getVar().getType().equals(Integer.class);
-		startValue = ((Number) operatorFactory.operate(new FloatVar(" "),
+		integer = element.getField().getVarDefinition().getType()
+				.equals(Integer.class);
+		startValue = ((Number) operatorFactory.operate(Float.class,
 				element.getInitialValue())).floatValue();
-		endValue = ((Number) operatorFactory.operate(new FloatVar(" "),
+		endValue = ((Number) operatorFactory.operate(Float.class,
 				element.getEndValue())).floatValue();
 		interpolationLength = endValue - startValue;
 		finished = false;
-		logger.info(element.getVar() + " is going to be inerpolated from "
+		logger.info(element.getField() + " is going to be inerpolated from "
 				+ startValue + " to " + endValue);
 
-		operatorFactory.operate(element.getVar(), element.getInitialValue());
+		operatorFactory.operate(element.getField(), element.getInitialValue());
 	}
 
 	@Override
@@ -134,22 +134,23 @@ public class VarInterpolationGO extends
 				currentTime = element.getInterpolationTime();
 				finished = true;
 				if (integer)
-					valueMap.setValue((EAdVar<Integer>) element.getVar(),
+					valueMap.setValue((EAdField<Integer>) element.getField(),
 							Math.round(endValue));
 				else
-					valueMap.setValue((EAdVar<Float>) element.getVar(),
+					valueMap.setValue((EAdField<Float>) element.getField(),
 							(Float) endValue);
 
-				logger.info(element.getVar().toString() + " set to " + endValue);
+				logger.info(element.getField().toString() + " set to "
+						+ endValue);
 			}
 		} else {
 
 			// TODO this should be done "automatically"
 			if (integer)
-				valueMap.setValue((EAdVar<Integer>) element.getVar(),
+				valueMap.setValue((EAdField<Integer>) element.getField(),
 						(Integer) interpolation());
 			else
-				valueMap.setValue((EAdVar<Float>) element.getVar(),
+				valueMap.setValue((EAdField<Float>) element.getField(),
 						(Float) interpolation());
 		}
 	}
@@ -174,30 +175,32 @@ public class VarInterpolationGO extends
 
 	private float bounceEndInterpolation() {
 		float linearLength = interpolationLength * 1.1f;
-		float bounceLength = linearLength - interpolationLength; 
+		float bounceLength = linearLength - interpolationLength;
 		float bounceValue = startValue + linearLength;
 		float linearTime = element.getInterpolationTime() * 0.98f;
 		float bounceTime = element.getInterpolationTime() - linearTime;
-		
-		if ( currentTime <= linearTime ){
-			return startValue + ( (float) currentTime / linearTime ) * linearLength;
-		}
-		else {
-			float timeToFinish = 1.0f - ( element.getInterpolationTime() - currentTime ) / bounceTime; 
+
+		if (currentTime <= linearTime) {
+			return startValue + ((float) currentTime / linearTime)
+					* linearLength;
+		} else {
+			float timeToFinish = 1.0f
+					- (element.getInterpolationTime() - currentTime)
+					/ bounceTime;
 			return bounceValue - bounceLength * timeToFinish;
 		}
-	
+
 	}
 
 	public float linearInterpolation() {
 		float f = (float) currentTime / element.getInterpolationTime()
 				* interpolationLength;
-		
+
 		if (reverse) {
 			f = endValue - f;
 		} else
 			f += startValue;
-		
+
 		return f;
 	}
 

@@ -38,13 +38,12 @@
 package es.eucm.eadventure.engine.core.operator;
 
 import es.eucm.eadventure.common.model.variables.EAdOperation;
-import es.eucm.eadventure.engine.core.variables.EAdVar;
-import es.eucm.eadventure.engine.core.variables.ValueMap;
+import es.eucm.eadventure.engine.core.ValueMap;
 
 /**
  * 
- * Takes an {@link EAdOperation} and calculates its result through {@link
- * Operator#operate(EAdVar, EAdOperation)}
+ * Takes an {@link EAdOperation} and calculates its result through
+ * {@link Operator#operate(EAdVar, EAdOperation)}
  * 
  * @param <T extends EAdOperation> This parameter represents the operation in
  *        the model that this Operator performs
@@ -59,11 +58,13 @@ public interface Operator<T extends EAdOperation> {
 	 * {@link ValueMap} if possible.
 	 * 
 	 * 
-	 * @param varResult
-	 *            the var where the result will be stored
+	 * @param clazz
+	 *            the expect class for the result
+	 * @param operation
+	 *            the operation to calculate
 	 * 
 	 * @return an object with the operation result
 	 */
-	<S> S operate(EAdVar<S> varResult, T operation);
+	<S> S operate(Class<S> clazz, T operation);
 
 }

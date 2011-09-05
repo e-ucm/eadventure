@@ -44,6 +44,8 @@ import es.eucm.eadventure.common.model.effects.EAdSceneElementEffect;
 import es.eucm.eadventure.common.model.effects.impl.AbstractEAdEffect;
 import es.eucm.eadventure.common.model.elements.EAdActorReference;
 import es.eucm.eadventure.common.model.elements.EAdSceneElement;
+import es.eucm.eadventure.common.model.variables.EAdVarDef;
+import es.eucm.eadventure.common.model.variables.impl.EAdVarDefImpl;
 import es.eucm.eadventure.common.model.variables.impl.operations.LiteralExpressionOperation;
 
 /**
@@ -53,7 +55,11 @@ import es.eucm.eadventure.common.model.variables.impl.operations.LiteralExpressi
  * 
  */
 @Element(runtime = EAdMoveSceneElement.class, detailed = EAdMoveSceneElement.class)
-public class EAdMoveSceneElement extends AbstractEAdEffect implements EAdSceneElementEffect {
+public class EAdMoveSceneElement extends AbstractEAdEffect implements
+		EAdSceneElementEffect {
+
+	public static final EAdVarDef<Boolean> VAR_ANIMATION_ENDED = new EAdVarDefImpl<Boolean>(
+			"animation_ended", Boolean.class, Boolean.FALSE);
 
 	/**
 	 * 
@@ -97,7 +103,7 @@ public class EAdMoveSceneElement extends AbstractEAdEffect implements EAdSceneEl
 	 */
 	@Param("speed")
 	private MovementSpeed speed;
-	
+
 	/**
 	 * Constructs an move actor reference effect, with target set to
 	 * {@code ( 0, 0 )} and speed set to {@link MovementSpeed#NORMAL}
@@ -110,18 +116,25 @@ public class EAdMoveSceneElement extends AbstractEAdEffect implements EAdSceneEl
 	}
 
 	public EAdMoveSceneElement(String id, EAdSceneElement element) {
-		this(id, element, new LiteralExpressionOperation("id", "0"),  new LiteralExpressionOperation("id", "0"));
+		this(id, element, new LiteralExpressionOperation("id", "0"),
+				new LiteralExpressionOperation("id", "0"));
 	}
-	
-	public EAdMoveSceneElement(String id, EAdSceneElement element, LiteralExpressionOperation xTarget, LiteralExpressionOperation yTarget) {
+
+	public EAdMoveSceneElement(String id, EAdSceneElement element,
+			LiteralExpressionOperation xTarget,
+			LiteralExpressionOperation yTarget) {
 		this(id, element, xTarget, yTarget, MovementSpeed.NORMAL);
 	}
 
-	public EAdMoveSceneElement(String id, EAdSceneElement element, int xTarget, int yTarget, MovementSpeed speed) { 
-		this(id, element, new LiteralExpressionOperation("id", "" + xTarget),  new LiteralExpressionOperation("id", "" + yTarget), speed);
+	public EAdMoveSceneElement(String id, EAdSceneElement element, int xTarget,
+			int yTarget, MovementSpeed speed) {
+		this(id, element, new LiteralExpressionOperation("id", "" + xTarget),
+				new LiteralExpressionOperation("id", "" + yTarget), speed);
 	}
-	 
-	public EAdMoveSceneElement(String id, EAdSceneElement element, LiteralExpressionOperation xTarget, LiteralExpressionOperation yTarget, MovementSpeed speed) {
+
+	public EAdMoveSceneElement(String id, EAdSceneElement element,
+			LiteralExpressionOperation xTarget,
+			LiteralExpressionOperation yTarget, MovementSpeed speed) {
 		super(id);
 		this.element = element;
 		this.xTarget = xTarget;
@@ -129,7 +142,6 @@ public class EAdMoveSceneElement extends AbstractEAdEffect implements EAdSceneEl
 		this.speed = speed;
 	}
 
-	
 	/**
 	 * Sets scene element for this effect
 	 * 
@@ -148,7 +160,8 @@ public class EAdMoveSceneElement extends AbstractEAdEffect implements EAdSceneEl
 	 * @param y
 	 *            the expression to calculate the y value
 	 */
-	public void setTargetCoordiantes(LiteralExpressionOperation x, LiteralExpressionOperation y) {
+	public void setTargetCoordiantes(LiteralExpressionOperation x,
+			LiteralExpressionOperation y) {
 		xTarget = x;
 		yTarget = y;
 	}
@@ -196,7 +209,8 @@ public class EAdMoveSceneElement extends AbstractEAdEffect implements EAdSceneEl
 	}
 
 	public void setTargetCoordiantes(int i, int j) {
-		setTargetCoordiantes(new LiteralExpressionOperation("id", "" + i), new LiteralExpressionOperation("id", "" + j));
+		setTargetCoordiantes(new LiteralExpressionOperation("id", "" + i),
+				new LiteralExpressionOperation("id", "" + j));
 	}
 
 }
