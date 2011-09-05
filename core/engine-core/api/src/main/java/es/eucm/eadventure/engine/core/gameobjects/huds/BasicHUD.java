@@ -37,6 +37,6 @@
 
 package es.eucm.eadventure.engine.core.gameobjects.huds;
 
-public interface BasicHUD<T> extends HudGO<T> {
+public interface BasicHUD extends HudGO<Void> {
 
 }

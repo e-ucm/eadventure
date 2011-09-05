@@ -14,11 +14,12 @@ import com.google.inject.Injector;
 import es.eucm.eadventure.common.EAdElementImporter;
 import es.eucm.eadventure.common.impl.importer.ImporterConfigurationModule;
 import es.eucm.eadventure.common.model.EAdElement;
+import es.eucm.eadventure.common.test.CommonTestModule;
 
 public abstract class ImporterTestTemplate<OldType, NewType extends EAdElement> {
 
 	public static final Injector INJECTOR = Guice
-			.createInjector(new ImporterConfigurationModule(""));
+			.createInjector(new ImporterConfigurationModule("project.eap"), new CommonTestModule());
 
 	protected EAdElementImporter<OldType, NewType> importer;
 	protected List<OldType> oldObjects;

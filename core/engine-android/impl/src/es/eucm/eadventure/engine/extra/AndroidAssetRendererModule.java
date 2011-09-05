@@ -66,6 +66,7 @@ import es.eucm.eadventure.engine.core.gameobjects.huds.BasicHUD;
 import es.eucm.eadventure.engine.core.gameobjects.huds.EffectHUD;
 import es.eucm.eadventure.engine.core.gameobjects.huds.MenuHUD;
 import es.eucm.eadventure.engine.core.gameobjects.huds.impl.BasicHUDImpl;
+import es.eucm.eadventure.engine.core.gameobjects.huds.impl.EffectHUDImpl;
 import es.eucm.eadventure.engine.core.gameobjects.huds.impl.MenuHUDImpl;
 import es.eucm.eadventure.engine.core.gameobjects.impl.SceneGOImpl;
 import es.eucm.eadventure.engine.core.gameobjects.impl.effects.ComplexBlockingEffectGO;
@@ -112,6 +113,7 @@ public class AndroidAssetRendererModule extends AbstractModule implements MapPro
 		factoryMap.put(AndroidMenuHUDImpl.class, injector.getInstance(MenuHUDGORenderer.class));
 		factoryMap.put(ActionsHUD.class, injector.getInstance(ActionsHudGORenderer.class));
 		factoryMap.put(EffectHUD.class, injector.getInstance(EffectHudGORenderer.class));
+		factoryMap.put(EffectHUDImpl.class, injector.getInstance(EffectHudGORenderer.class));
 		factoryMap.put(AndroidActionsHUDImpl.class, injector.getInstance(ActionsHudGORenderer.class));
 		
 		factoryMap.put(ComplexBlockingEffectGO.class, injector.getInstance(EffectsGORenderer.class));

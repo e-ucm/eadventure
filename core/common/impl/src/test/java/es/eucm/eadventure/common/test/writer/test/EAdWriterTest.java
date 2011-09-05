@@ -59,7 +59,6 @@ import es.eucm.eadventure.common.impl.reader.subparsers.AdventureHandler;
 import es.eucm.eadventure.common.impl.writer.EAdAdventureModelWriter;
 import es.eucm.eadventure.common.model.elements.EAdAdventureModel;
 import es.eucm.eadventure.common.model.impl.EAdAdventureModelImpl;
-import es.eucm.eadventure.common.test.EAdTestAdventureModel;
 
 public class EAdWriterTest extends TestCase {
 	
@@ -74,7 +73,8 @@ public class EAdWriterTest extends TestCase {
 		reader = injector.getInstance( EAdAdventureModelReader.class );
 		
 		file = new File( "src/test/resources/result.xml" );
-		model = new EAdTestAdventureModel( );
+		model = new EAdAdventureModelImpl();
+		
 		writer = new EAdAdventureModelWriter( );
 		
 	}

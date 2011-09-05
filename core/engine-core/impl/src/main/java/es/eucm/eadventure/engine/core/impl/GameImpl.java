@@ -78,7 +78,7 @@ public class GameImpl implements Game {
 
 	private EffectHUD effectHUD;
 
-	private BasicHUD<?> basicHud;
+	private BasicHUD basicHud;
 
 	private static final Logger logger = Logger.getLogger("GameImpl");
 
@@ -97,7 +97,7 @@ public class GameImpl implements Game {
 	public GameImpl(GUI gui, EvaluatorFactory evaluatorFactory,
 			GameState gameState, EffectHUD effectHUD,
 			AssetHandler assetHandler,
-			@SuppressWarnings("rawtypes") BasicHUD basicHud,
+			BasicHUD basicHud,
 			GameObjectFactory gameObjectFactory,
 			GameObjectManager gameObjectManager,
 			EAdDebugger debugger) {

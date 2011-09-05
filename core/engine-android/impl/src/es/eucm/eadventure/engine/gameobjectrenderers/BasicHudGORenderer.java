@@ -58,7 +58,7 @@ import es.eucm.eadventure.engine.core.platform.PlatformConfiguration;
 import es.eucm.eadventure.engine.extra.AndroidCanvas;
 
 @Singleton
-public class BasicHudGORenderer implements GameObjectRenderer<Canvas, BasicHUD<?>> {
+public class BasicHudGORenderer implements GameObjectRenderer<Canvas, BasicHUD> {
 
 	private MouseState mouseState;
 	
@@ -100,13 +100,13 @@ public class BasicHudGORenderer implements GameObjectRenderer<Canvas, BasicHUD<?
 		logger.info("New instance");
 	}
 	@Override
-	public boolean contains(BasicHUD<?> object, int virutalX,
+	public boolean contains(BasicHUD object, int virutalX,
 			int virtualY) {
 		return false;
 	}
 
 	@Override
-	public void render(Canvas graphicContext, BasicHUD<?> object,
+	public void render(Canvas graphicContext, BasicHUD object,
 			float interpolation, int offsetX, int offsetY) {
 		if (mouseState.getVirtualMouseX() != -1 && mouseState.getVirtualMouseY() != -1) {			
 			Canvas c = new Canvas(magGlass);
@@ -150,7 +150,7 @@ public class BasicHudGORenderer implements GameObjectRenderer<Canvas, BasicHUD<?
 	}
 
 	@Override
-	public void render(Canvas graphicContext, BasicHUD<?> object,
+	public void render(Canvas graphicContext, BasicHUD object,
 			EAdPosition position, float scale, int offsetX, int offsetY) {
 		// Do nothing
 		

@@ -67,7 +67,7 @@ import es.eucm.eadventure.engine.core.platform.RuntimeAsset;
  * 
  */
 @Singleton
-public class BasicHUDImpl implements BasicHUD<Void> {
+public class BasicHUDImpl implements BasicHUD {
 
 	/**
 	 * The logger

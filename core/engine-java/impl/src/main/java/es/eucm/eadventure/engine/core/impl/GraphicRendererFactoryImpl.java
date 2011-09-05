@@ -45,7 +45,6 @@ import com.google.inject.Singleton;
 import com.google.inject.name.Named;
 
 import es.eucm.eadventure.common.interfaces.AbstractFactory;
-import es.eucm.eadventure.common.interfaces.EAdRuntimeException;
 import es.eucm.eadventure.common.interfaces.MapProvider;
 import es.eucm.eadventure.common.params.geom.EAdPosition;
 import es.eucm.eadventure.engine.core.gameobjects.GameObject;
@@ -89,7 +88,7 @@ public abstract class GraphicRendererFactoryImpl<S> extends AbstractFactory<Grap
 			gameObjectRenderer.render(graphicContext, object, interpolation, offsetX, offsetY);
 		} catch (Exception e) {
 			logger.log(Level.SEVERE, e.getMessage(), e);
-			throw new EAdRuntimeException(e.getMessage());
+			//throw new EAdRuntimeException(e.getMessage());
 		}
 	}
 
