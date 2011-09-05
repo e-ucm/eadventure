@@ -40,11 +40,11 @@ package es.eucm.eadventure.engine.core.operators.impl;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
-import es.eucm.eadventure.common.model.variables.EAdVar;
 import es.eucm.eadventure.common.model.variables.impl.operations.LiteralExpressionOperation;
-import es.eucm.eadventure.engine.core.ValueMap;
 import es.eucm.eadventure.engine.core.operator.Operator;
 import es.eucm.eadventure.engine.core.operators.impl.util.MathEvaluator;
+import es.eucm.eadventure.engine.core.variables.EAdVar;
+import es.eucm.eadventure.engine.core.variables.ValueMap;
 
 /**
  * Calculates results for {@link LiteralExpressionOperation}. The result

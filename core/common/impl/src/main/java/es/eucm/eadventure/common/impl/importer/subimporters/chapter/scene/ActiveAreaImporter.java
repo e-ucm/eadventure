@@ -49,7 +49,7 @@ import es.eucm.eadventure.common.model.actions.EAdAction;
 import es.eucm.eadventure.common.model.conditions.impl.EmptyCondition;
 import es.eucm.eadventure.common.model.effects.impl.EAdActorActionsEffect;
 import es.eucm.eadventure.common.model.effects.impl.EAdChangeAppearance;
-import es.eucm.eadventure.common.model.effects.impl.variables.EAdChangeVarValueEffect;
+import es.eucm.eadventure.common.model.effects.impl.variables.EAdChangeFieldValueEffect;
 import es.eucm.eadventure.common.model.elements.EAdCondition;
 import es.eucm.eadventure.common.model.elements.EAdSceneElement;
 import es.eucm.eadventure.common.model.elements.impl.EAdActorReferenceImpl;
@@ -140,7 +140,7 @@ public class ActiveAreaImporter implements
 				newActiveAreaReference.getId() + "_VisibleEvent");
 		event.setCondition(condition);
 
-		EAdChangeVarValueEffect visibleVar = new EAdChangeVarValueEffect(
+		EAdChangeFieldValueEffect visibleVar = new EAdChangeFieldValueEffect(
 				newActiveAreaReference.getId() + "_visibleEffect");
 		visibleVar.addVar(newActiveAreaReference.getVars().getVar(
 				EAdSceneElementVars.VAR_VISIBLE));
@@ -150,7 +150,7 @@ public class ActiveAreaImporter implements
 		event.addEffect(EAdConditionEvent.ConditionedEvent.CONDITIONS_MET,
 				visibleVar);
 
-		EAdChangeVarValueEffect notVisibleVar = new EAdChangeVarValueEffect(
+		EAdChangeFieldValueEffect notVisibleVar = new EAdChangeFieldValueEffect(
 				newActiveArea.getId() + "_notVisibleEffect");
 		notVisibleVar.addVar(newActiveAreaReference.getVars().getVar(
 				EAdSceneElementVars.VAR_VISIBLE));

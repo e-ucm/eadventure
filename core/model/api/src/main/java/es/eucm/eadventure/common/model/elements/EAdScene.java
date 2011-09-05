@@ -39,7 +39,6 @@ package es.eucm.eadventure.common.model.elements;
 
 import es.eucm.eadventure.common.model.extra.EAdList;
 import es.eucm.eadventure.common.model.trajectories.TrajectoryDefinition;
-import es.eucm.eadventure.common.model.variables.EAdVar;
 
 /**
  * Scenes in the eAdventure model. Scenes are the fundamental elements
@@ -61,8 +60,6 @@ public interface EAdScene extends EAdGeneralElement {
 	 * @return true if the game can return to this scene after a cutscene or similiar
 	 */
 	boolean isReturnable();
-
-	EAdVar<Boolean> sceneLoaded();
 	
 	/**
 	 * Returns the trajectory generator for this scene

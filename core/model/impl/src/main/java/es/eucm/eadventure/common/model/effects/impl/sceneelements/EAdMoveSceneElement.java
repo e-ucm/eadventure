@@ -45,7 +45,6 @@ import es.eucm.eadventure.common.model.effects.impl.AbstractEAdEffect;
 import es.eucm.eadventure.common.model.elements.EAdActorReference;
 import es.eucm.eadventure.common.model.elements.EAdSceneElement;
 import es.eucm.eadventure.common.model.variables.impl.operations.LiteralExpressionOperation;
-import es.eucm.eadventure.common.model.variables.impl.vars.BooleanVar;
 
 /**
  * 
@@ -98,8 +97,6 @@ public class EAdMoveSceneElement extends AbstractEAdEffect implements EAdSceneEl
 	 */
 	@Param("speed")
 	private MovementSpeed speed;
-
-	private BooleanVar animationEnded;
 	
 	/**
 	 * Constructs an move actor reference effect, with target set to
@@ -130,7 +127,6 @@ public class EAdMoveSceneElement extends AbstractEAdEffect implements EAdSceneEl
 		this.xTarget = xTarget;
 		this.yTarget = yTarget;
 		this.speed = speed;
-		animationEnded = new BooleanVar("animationEnded", this);
 	}
 
 	
@@ -197,10 +193,6 @@ public class EAdMoveSceneElement extends AbstractEAdEffect implements EAdSceneEl
 	 */
 	public MovementSpeed getSpeed() {
 		return speed;
-	}
-	
-	public BooleanVar animationEnded() {
-		return animationEnded;
 	}
 
 	public void setTargetCoordiantes(int i, int j) {

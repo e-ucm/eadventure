@@ -43,10 +43,11 @@ import es.eucm.eadventure.common.interfaces.features.Oriented.Orientation;
 import es.eucm.eadventure.common.model.conditions.impl.EmptyCondition;
 import es.eucm.eadventure.common.model.elements.EAdCondition;
 import es.eucm.eadventure.common.model.elements.EAdSceneElement;
-import es.eucm.eadventure.common.model.variables.EAdElementVars;
-import es.eucm.eadventure.common.model.variables.impl.extra.EAdSceneElementVars;
+import es.eucm.eadventure.common.model.extra.EAdMap;
+import es.eucm.eadventure.common.model.extra.impl.EAdMapImpl;
+import es.eucm.eadventure.common.model.variables.EAdVarDef;
+import es.eucm.eadventure.common.model.variables.impl.EAdVarDefImpl;
 import es.eucm.eadventure.common.params.geom.EAdPosition;
-import es.eucm.eadventure.common.params.geom.impl.EAdPositionImpl;
 import es.eucm.eadventure.common.resources.annotation.Asset;
 import es.eucm.eadventure.common.resources.annotation.Bundled;
 import es.eucm.eadventure.common.resources.assets.drawable.Drawable;
@@ -54,9 +55,47 @@ import es.eucm.eadventure.common.resources.assets.drawable.Drawable;
 @Element(detailed = EAdBasicSceneElement.class, runtime = EAdBasicSceneElement.class)
 public class EAdBasicSceneElement extends AbstractEAdElementWithBehavior
 		implements EAdSceneElement {
+
+	public static final EAdVarDef<Orientation> VAR_ORIENTATION = new EAdVarDefImpl<Orientation>(
+			"orientation", Orientation.class, Orientation.S);
+
+	public static final EAdVarDef<String> VAR_STATE = new EAdVarDefImpl<String>(
+			"state", String.class, CommonStates.EAD_STATE_DEFAULT.toString());
+
+	public static final EAdVarDef<Float> VAR_SCALE = new EAdVarDefImpl<Float>(
+			"scale", Float.class, 1.0f);
+
+	public static final EAdVarDef<Float> VAR_ALPHA = new EAdVarDefImpl<Float>(
+			"alpha", Float.class, 1.0f);
+
+	public static final EAdVarDef<Float> VAR_ROTATION = new EAdVarDefImpl<Float>(
+			"rotation", Float.class, 0.0f);
+
+	public static final EAdVarDef<Boolean> VAR_VISIBLE = new EAdVarDefImpl<Boolean>(
+			"visible", Boolean.class, Boolean.TRUE);
 	
-	@Param("vars")
-	private EAdElementVars vars;
+	public static final EAdVarDef<Integer> VAR_X = new EAdVarDefImpl<Integer>(
+			"x", Integer.class, 0);
+
+	public static final EAdVarDef<Integer> VAR_Y = new EAdVarDefImpl<Integer>(
+			"y", Integer.class, 0);
+	
+	public static final EAdVarDef<Float> VAR_DISP_X = new EAdVarDefImpl<Float>(
+			"disp_x", Float.class, 0.0f);
+
+	public static final EAdVarDef<Float> VAR_DISP_Y = new EAdVarDefImpl<Float>(
+			"disp_y", Float.class, 0.0f);
+
+	public static final EAdVarDef<Integer> VAR_WIDTH = new EAdVarDefImpl<Integer>(
+			"width", Integer.class, 0);
+
+	public static final EAdVarDef<Integer> VAR_HEIGHT = new EAdVarDefImpl<Integer>(
+			"height", Integer.class, 0);
+
+	public static final EAdVarDef<Integer> VAR_TIME_DISPLAYED = new EAdVarDefImpl<Integer>(
+			"timeDisplayed", Integer.class, 0);
+
+	private EAdMap<EAdVarDef<?>, Object> vars;
 
 	@Param("draggable")
 	private EAdCondition draggable;
@@ -71,19 +110,20 @@ public class EAdBasicSceneElement extends AbstractEAdElementWithBehavior
 		super(id);
 		clone = false;
 		draggable = EmptyCondition.FALSE_EMPTY_CONDITION;
-		vars = new EAdSceneElementVars( this );
-		setPosition(new EAdPositionImpl(0, 0));
-		
+		vars = new EAdMapImpl<EAdVarDef<?>, Object>(EAdVarDef.class,
+				Object.class);
+	}
+
+	public <T> void setVarInitialValue(EAdVarDef<T> var, T value) {
+		vars.put(var, value);
 	}
 
 	public void setPosition(EAdPosition position) {
-		vars.getVar(EAdSceneElementVars.VAR_POSITION).setInitialValue(position);
+		vars.put(VAR_X, position.getX());
+		vars.put(VAR_Y, position.getY());
+		vars.put(VAR_DISP_X, position.getDispX());
+		vars.put(VAR_DISP_Y, position.getDispY());
 	}
-	
-	public void setPosition( int x, int y ){
-		vars.getVar(EAdSceneElementVars.VAR_POSITION).getInitialValue().set(x, y );
-	}
-
 
 	/**
 	 * Sets scale for this reference
@@ -92,7 +132,7 @@ public class EAdBasicSceneElement extends AbstractEAdElementWithBehavior
 	 *            the scale
 	 */
 	public void setScale(float scale) {
-		vars.getVar(EAdSceneElementVars.VAR_SCALE).setInitialValue(scale);
+		vars.put(VAR_SCALE, scale);
 	}
 
 	/**
@@ -102,7 +142,7 @@ public class EAdBasicSceneElement extends AbstractEAdElementWithBehavior
 	 *            the orientation
 	 */
 	public void setInitialOrientation(Orientation orientation) {
-		vars.getVar(EAdSceneElementVars.VAR_ORIENTATION).setInitialValue(orientation);
+		vars.put(VAR_ORIENTATION, orientation);
 
 	}
 
@@ -136,13 +176,13 @@ public class EAdBasicSceneElement extends AbstractEAdElementWithBehavior
 	}
 
 	@Override
-	public EAdElementVars getVars() {
+	public EAdMap<EAdVarDef<?>, Object> getVars() {
 		return vars;
 	}
 
-	@Override
-	public EAdPosition getPosition() {
-		return vars.getVar(EAdSceneElementVars.VAR_POSITION).getInitialValue();
+	public void setPosition(int x, int y) {
+		vars.put(VAR_X, x);
+		vars.put(VAR_Y, y);	
 	}
 
 }

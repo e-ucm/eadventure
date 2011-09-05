@@ -48,8 +48,8 @@ import es.eucm.eadventure.common.model.variables.impl.vars.BooleanVar;
 import es.eucm.eadventure.common.model.variables.impl.vars.FloatVar;
 import es.eucm.eadventure.common.model.variables.impl.vars.IntegerVar;
 import es.eucm.eadventure.common.model.variables.impl.vars.StringVar;
-import es.eucm.eadventure.engine.core.ValueMap;
-import es.eucm.eadventure.engine.core.impl.VariableMap;
+import es.eucm.eadventure.engine.core.impl.variables.VariableMap;
+import es.eucm.eadventure.engine.core.variables.ValueMap;
 
 public class ValueMapTest {
 

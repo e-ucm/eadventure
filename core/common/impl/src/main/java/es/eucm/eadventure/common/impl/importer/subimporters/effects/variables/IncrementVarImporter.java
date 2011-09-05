@@ -45,13 +45,13 @@ import es.eucm.eadventure.common.data.chapter.conditions.Conditions;
 import es.eucm.eadventure.common.data.chapter.effects.IncrementVarEffect;
 import es.eucm.eadventure.common.impl.importer.interfaces.EAdElementFactory;
 import es.eucm.eadventure.common.impl.importer.subimporters.effects.EffectImporter;
-import es.eucm.eadventure.common.model.effects.impl.variables.EAdChangeVarValueEffect;
+import es.eucm.eadventure.common.model.effects.impl.variables.EAdChangeFieldValueEffect;
 import es.eucm.eadventure.common.model.elements.EAdCondition;
-import es.eucm.eadventure.common.model.variables.EAdVar;
 import es.eucm.eadventure.common.model.variables.impl.operations.LiteralExpressionOperation;
+import es.eucm.eadventure.engine.core.variables.EAdVar;
 
 public class IncrementVarImporter extends
-		EffectImporter<IncrementVarEffect, EAdChangeVarValueEffect> {
+		EffectImporter<IncrementVarEffect, EAdChangeFieldValueEffect> {
 	private EAdElementFactory factory;
 
 	private static int ID_GENERATOR = 0;
@@ -65,14 +65,14 @@ public class IncrementVarImporter extends
 	}
 
 	@Override
-	public EAdChangeVarValueEffect init(IncrementVarEffect oldObject) {
+	public EAdChangeFieldValueEffect init(IncrementVarEffect oldObject) {
 		EAdVar<?> var = factory.getVarByOldId(oldObject.getTargetId(),
 				Condition.VAR_CONDITION);
 
 		LiteralExpressionOperation op = new LiteralExpressionOperation(
 				"literalExpression", "[0] + "
 						+ oldObject.getIncrement(), var);
-		EAdChangeVarValueEffect effect = new EAdChangeVarValueEffect(
+		EAdChangeFieldValueEffect effect = new EAdChangeFieldValueEffect(
 				"changeVarValueFromIncrement" + ID_GENERATOR++, var, op);
 		super.importConditions(oldObject, effect);
 		effect.setQueueable(true);
@@ -80,7 +80,7 @@ public class IncrementVarImporter extends
 	}
 	
 	@Override
-	public EAdChangeVarValueEffect convert(IncrementVarEffect oldObject, Object object) {
-		return (EAdChangeVarValueEffect) object;
+	public EAdChangeFieldValueEffect convert(IncrementVarEffect oldObject, Object object) {
+		return (EAdChangeFieldValueEffect) object;
 	}
 }

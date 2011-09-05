@@ -27,7 +27,7 @@ import es.eucm.eadventure.common.model.effects.impl.EAdChangeScene;
 import es.eucm.eadventure.common.model.effects.impl.EAdVarInterpolationEffect;
 import es.eucm.eadventure.common.model.effects.impl.EAdVarInterpolationEffect.InterpolationType;
 import es.eucm.eadventure.common.model.effects.impl.EAdVarInterpolationEffect.LoopType;
-import es.eucm.eadventure.common.model.effects.impl.variables.EAdChangeVarValueEffect;
+import es.eucm.eadventure.common.model.effects.impl.variables.EAdChangeFieldValueEffect;
 import es.eucm.eadventure.common.model.elements.EAdCondition;
 import es.eucm.eadventure.common.model.elements.EAdScene;
 import es.eucm.eadventure.common.model.elements.EAdSceneElement;
@@ -40,7 +40,6 @@ import es.eucm.eadventure.common.model.events.EAdSceneElementEvent.SceneElementE
 import es.eucm.eadventure.common.model.events.impl.EAdConditionEventImpl;
 import es.eucm.eadventure.common.model.events.impl.EAdSceneElementEventImpl;
 import es.eucm.eadventure.common.model.guievents.impl.EAdMouseEventImpl;
-import es.eucm.eadventure.common.model.variables.EAdVar;
 import es.eucm.eadventure.common.model.variables.impl.extra.EAdSceneElementVars;
 import es.eucm.eadventure.common.model.variables.impl.operations.AssignOperation;
 import es.eucm.eadventure.common.model.variables.impl.operations.BooleanOperation;
@@ -56,6 +55,7 @@ import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.CaptionIm
 import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.ImageImpl;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.shapes.CircleShape;
 import es.eucm.eadventure.common.resources.assets.drawable.compounds.impl.ComposedDrawableImpl;
+import es.eucm.eadventure.engine.core.variables.EAdVar;
 
 public class BookImporter implements EAdElementImporter<Book, EAdScene> {
 
@@ -202,7 +202,7 @@ public class BookImporter implements EAdElementImporter<Book, EAdScene> {
 
 		EAdSceneElementEvent event = new EAdSceneElementEventImpl("restartBook");
 		event.addEffect(SceneElementEvent.ADDED_TO_SCENE,
-				new EAdChangeVarValueEffect("restarBook", xVar,
+				new EAdChangeFieldValueEffect("restarBook", xVar,
 						new AssignOperation("assign", 0)));
 		content.getEvents().add(event);
 
@@ -260,10 +260,10 @@ public class BookImporter implements EAdElementImporter<Book, EAdScene> {
 		EAdConditionEvent event = new EAdConditionEventImpl("event");
 		event.setCondition(condition);
 		event.addEffect(ConditionedEvent.CONDITIONS_MET,
-				new EAdChangeVarValueEffect("visible", visibleVar,
+				new EAdChangeFieldValueEffect("visible", visibleVar,
 						BooleanOperation.TRUE_OP));
 		event.addEffect(ConditionedEvent.CONDITIONS_UNMET,
-				new EAdChangeVarValueEffect("notVisible", visibleVar,
+				new EAdChangeFieldValueEffect("notVisible", visibleVar,
 						BooleanOperation.FALSE_OP));
 		arrow.getEvents().add(event);
 

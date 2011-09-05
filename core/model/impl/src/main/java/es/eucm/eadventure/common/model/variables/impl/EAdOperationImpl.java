@@ -40,22 +40,22 @@ package es.eucm.eadventure.common.model.variables.impl;
 import es.eucm.eadventure.common.model.extra.EAdList;
 import es.eucm.eadventure.common.model.extra.impl.EAdListImpl;
 import es.eucm.eadventure.common.model.impl.EAdElementImpl;
+import es.eucm.eadventure.common.model.variables.EAdField;
 import es.eucm.eadventure.common.model.variables.EAdOperation;
-import es.eucm.eadventure.common.model.variables.EAdVar;
 
 public abstract class EAdOperationImpl extends EAdElementImpl implements EAdOperation {
 
 	/**
 	 * List of the variables
 	 */
-	protected EAdList<EAdVar<?>> varList;
+	protected EAdList<EAdField<?>> varList;
 
 	public EAdOperationImpl(String id) {
 		super(id);
-		varList = new EAdListImpl<EAdVar<?>>(EAdVar.class);
+		varList = new EAdListImpl<EAdField<?>>(EAdField.class);
 	}
 	
-	public EAdList<EAdVar<?>> getVarList() {
+	public EAdList<EAdField<?>> getVarList() {
 		return varList;
 	}
 	
@@ -63,8 +63,8 @@ public abstract class EAdOperationImpl extends EAdElementImpl implements EAdOper
 		if ( object instanceof EAdOperationImpl ){
 			if ( super.equals(object) ){
 				int i = 0;
-				for ( EAdVar<?> var1: varList ){
-					EAdVar<?> var2 = ((EAdOperationImpl) object).varList.get(i++);
+				for ( EAdField<?> var1: varList ){
+					EAdField<?> var2 = ((EAdOperationImpl) object).varList.get(i++);
 					if ( !var1.equals(var2)){
 						return false;
 					}

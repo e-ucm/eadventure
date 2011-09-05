@@ -45,53 +45,57 @@ import es.eucm.eadventure.common.model.extra.EAdList;
 import es.eucm.eadventure.common.model.extra.impl.EAdListImpl;
 import es.eucm.eadventure.common.model.impl.EAdGeneralElementImpl;
 import es.eucm.eadventure.common.model.trajectories.TrajectoryDefinition;
-import es.eucm.eadventure.common.model.variables.impl.vars.BooleanVar;
+import es.eucm.eadventure.common.model.variables.EAdVarDef;
+import es.eucm.eadventure.common.model.variables.impl.EAdVarDefImpl;
 import es.eucm.eadventure.common.resources.EAdString;
 
 /**
- * <p>Default implementation of the {@link EAdScene} interface</p>
- *
+ * <p>
+ * Default implementation of the {@link EAdScene} interface
+ * </p>
+ * 
  */
 @Element(runtime = EAdSceneImpl.class, detailed = EAdSceneImpl.class)
 public class EAdSceneImpl extends EAdGeneralElementImpl implements EAdScene {
-	
+
+	public static final EAdVarDef<Boolean> VAR_SCENE_LOADED = new EAdVarDefImpl<Boolean>(
+			"scene_loaded", Boolean.class, Boolean.FALSE);
+
 	@Param("name")
 	private EAdString name;
-	
+
 	@Param("documentation")
 	private EAdString documentation;
 
 	@Param("background")
 	protected EAdBasicSceneElement background;
-	
+
 	@Param("trajectoryGenerator")
 	protected TrajectoryDefinition trajectoryGenerator;
-	
+
 	@Param("acceptsVisualEffects")
 	protected boolean acceptsVisualEffects;
-	
 
 	/**
-	 * This property indicates if the game can return to this scene after a cutscene or similiar
+	 * This property indicates if the game can return to this scene after a
+	 * cutscene or similiar
 	 */
 	@Param("returnable")
 	protected boolean returnable;
-	
+
 	private EAdList<EAdSceneElement> sceneElements;
-	
-	private BooleanVar sceneLoaded;
-	
+
 	/**
 	 * Default constructor.
 	 * 
-	 * @param parent The parent element in the model
+	 * @param parent
+	 *            The parent element in the model
 	 */
 	public EAdSceneImpl(String id) {
 		super(id);
 		sceneElements = new EAdListImpl<EAdSceneElement>(EAdSceneElement.class);
 		background = new EAdBasicSceneElement(id + "_background");
 		returnable = true;
-		sceneLoaded = new BooleanVar("sceneLoaded");
 		acceptsVisualEffects = true;
 	}
 
@@ -108,7 +112,8 @@ public class EAdSceneImpl extends EAdGeneralElementImpl implements EAdScene {
 	}
 
 	/**
-	 * @param name the name to set
+	 * @param name
+	 *            the name to set
 	 */
 	public void setName(EAdString name) {
 		this.name = name;
@@ -122,16 +127,17 @@ public class EAdSceneImpl extends EAdGeneralElementImpl implements EAdScene {
 	}
 
 	/**
-	 * @param documentation the documentation to set
+	 * @param documentation
+	 *            the documentation to set
 	 */
 	public void setDocumentation(EAdString documentation) {
 		this.documentation = documentation;
-	}	
-	
+	}
+
 	public EAdBasicSceneElement getBackground() {
 		return background;
 	}
-	
+
 	public void setBackground(EAdBasicSceneElement background) {
 		this.background = background;
 	}
@@ -145,12 +151,7 @@ public class EAdSceneImpl extends EAdGeneralElementImpl implements EAdScene {
 		this.returnable = returnable;
 	}
 
-	@Override
-	public BooleanVar sceneLoaded() {
-		return sceneLoaded;
-	}
-	
-	public void setTrajectoryGenerator(TrajectoryDefinition trajectoryGenerator){
+	public void setTrajectoryGenerator(TrajectoryDefinition trajectoryGenerator) {
 		this.trajectoryGenerator = trajectoryGenerator;
 	}
 

@@ -58,7 +58,7 @@ import es.eucm.eadventure.common.model.effects.impl.text.EAdSpeakEffect;
 import es.eucm.eadventure.common.model.effects.impl.timedevents.EAdHighlightSceneElement;
 import es.eucm.eadventure.common.model.effects.impl.timedevents.EAdShowSceneElement;
 import es.eucm.eadventure.common.model.effects.impl.timedevents.EAdWaitEffect;
-import es.eucm.eadventure.common.model.effects.impl.variables.EAdChangeVarValueEffect;
+import es.eucm.eadventure.common.model.effects.impl.variables.EAdChangeFieldValueEffect;
 import es.eucm.eadventure.engine.core.gameobjects.GameObject;
 import es.eucm.eadventure.engine.core.gameobjects.impl.effects.ActorActionsEffectGO;
 import es.eucm.eadventure.engine.core.gameobjects.impl.effects.CancelEffectGO;
@@ -93,7 +93,7 @@ public class EffectGameObjectFactoryConfigurator {
 				HighlightEffectGO.class);
 		factoryMap.put(EAdWaitEffect.class, WaitEffectGO.class);
 		factoryMap.put(EAdCancelEffect.class, CancelEffectGO.class);
-		factoryMap.put(EAdChangeVarValueEffect.class, ChangeVariableGO.class);
+		factoryMap.put(EAdChangeFieldValueEffect.class, ChangeVariableGO.class);
 		factoryMap.put(EAdActorActionsEffect.class, ActorActionsEffectGO.class);
 		factoryMap.put(EAdQuitGame.class, QuitGameEffectGO.class);
 		factoryMap.put(EAdChangeAppearance.class, ChangeAppearanceGO.class);

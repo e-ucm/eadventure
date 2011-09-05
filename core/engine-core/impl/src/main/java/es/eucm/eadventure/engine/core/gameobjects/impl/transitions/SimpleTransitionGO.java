@@ -55,7 +55,6 @@ import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.CaptionIm
 import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.shapes.RectangleShape;
 import es.eucm.eadventure.engine.core.GameState;
 import es.eucm.eadventure.engine.core.MouseState;
-import es.eucm.eadventure.engine.core.ValueMap;
 import es.eucm.eadventure.engine.core.gameobjects.GameObject;
 import es.eucm.eadventure.engine.core.gameobjects.GameObjectFactory;
 import es.eucm.eadventure.engine.core.gameobjects.SceneGO;
@@ -65,6 +64,7 @@ import es.eucm.eadventure.engine.core.platform.AssetHandler;
 import es.eucm.eadventure.engine.core.platform.GUI;
 import es.eucm.eadventure.engine.core.platform.PlatformConfiguration;
 import es.eucm.eadventure.engine.core.platform.RuntimeAsset;
+import es.eucm.eadventure.engine.core.variables.ValueMap;
 
 public class SimpleTransitionGO extends SceneGOImpl implements
 		TransitionGO {

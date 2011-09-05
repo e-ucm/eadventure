@@ -35,7 +35,7 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package es.eucm.eadventure.engine.core.impl;
+package es.eucm.eadventure.engine.core.impl.variables;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -47,9 +47,9 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 import es.eucm.eadventure.common.model.variables.EAdOperation;
-import es.eucm.eadventure.common.model.variables.EAdVar;
-import es.eucm.eadventure.engine.core.ValueMap;
 import es.eucm.eadventure.engine.core.operator.OperatorFactory;
+import es.eucm.eadventure.engine.core.variables.EAdVar;
+import es.eucm.eadventure.engine.core.variables.ValueMap;
 
 @Singleton
 public class ValueMapImpl implements ValueMap {

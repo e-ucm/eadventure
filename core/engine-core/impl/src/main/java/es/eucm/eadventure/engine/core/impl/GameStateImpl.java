@@ -52,11 +52,11 @@ import es.eucm.eadventure.common.model.elements.EAdChapter;
 import es.eucm.eadventure.common.model.elements.EAdScene;
 import es.eucm.eadventure.common.model.elements.EAdSceneElement;
 import es.eucm.eadventure.engine.core.GameState;
-import es.eucm.eadventure.engine.core.ValueMap;
 import es.eucm.eadventure.engine.core.gameobjects.EffectGO;
 import es.eucm.eadventure.engine.core.gameobjects.GameObjectFactory;
 import es.eucm.eadventure.engine.core.gameobjects.SceneGO;
 import es.eucm.eadventure.engine.core.guiactions.GUIAction;
+import es.eucm.eadventure.engine.core.variables.ValueMap;
 
 @Singleton
 public class GameStateImpl implements GameState {
@@ -76,14 +76,14 @@ public class GameStateImpl implements GameState {
 	private List<EAdActor> inventoryActors;
 
 	private EAdChapter currentChapter;
-	
+
 	private EAdSceneElement activeElement;
 
 	/**
 	 * Queue for effects added
 	 */
 	private List<EAdEffect> effectsQueue;
-	
+
 	/**
 	 * Queue for the actions linked to effects
 	 */
@@ -97,7 +97,8 @@ public class GameStateImpl implements GameState {
 	public GameStateImpl(@Named("LoadingScreen") EAdScene loadingScreen,
 			GameObjectFactory gameObjectFactory, ValueMap valueMap) {
 		effects = new ArrayList<EffectGO<?>>();
-//		effectsQueue = Collections.synchronizedList(new ArrayList<EAdEffect>());
+		// effectsQueue = Collections.synchronizedList(new
+		// ArrayList<EAdEffect>());
 		effectsQueue = new ArrayList<EAdEffect>();
 		actionsQueue = new ArrayList<GUIAction>();
 		this.scene = (SceneGO<?>) gameObjectFactory.get(loadingScreen);
@@ -124,15 +125,16 @@ public class GameStateImpl implements GameState {
 		// Clean caches
 		valueMap.clean();
 		gameObjectFactory.clean();
-		if (this.scene != null && this.scene.getElement() != null){
-			valueMap.setValue(this.scene.getElement().sceneLoaded(), Boolean.FALSE);
+		if (this.scene != null && this.scene.getElement() != null) {
+			valueMap.setValue(this.scene.getElement().sceneLoaded(),
+					Boolean.FALSE);
 			if (scene.getElement().isReturnable())
 				previousSceneStack.push(scene.getElement());
 		}
 		this.scene = newScene;
 		if (this.scene != null && this.scene.getElement() != null)
 			valueMap.setValue(newScene.getElement().sceneLoaded(), Boolean.TRUE);
-		
+
 	}
 
 	/*
@@ -163,8 +165,8 @@ public class GameStateImpl implements GameState {
 	 * .common.model.effects.EAdEffect)
 	 */
 	@Override
-	synchronized public void addEffect(EAdEffect e, GUIAction action) {
-		addEffect(effectsQueue.size(), e, action);
+	public void addEffect(EAdEffect e, GUIAction action) {
+		addEffect(-1, e, action);
 	}
 
 	/*
@@ -175,8 +177,11 @@ public class GameStateImpl implements GameState {
 	 */
 	@Override
 	// TODO consider leaving effect initilization for later
-	synchronized public void addEffect(int pos, EAdEffect e, GUIAction action) {
-		effectsQueue.add(pos, e);
+	public void addEffect(int pos, EAdEffect e, GUIAction action) {
+		synchronized (effectsQueue) {
+			pos = pos == -1 ? effectsQueue.size() : pos;
+			effectsQueue.add(pos, e);
+		}
 		actionsQueue.add(action);
 	}
 
@@ -217,9 +222,9 @@ public class GameStateImpl implements GameState {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	synchronized public void updateEffectsQueue() {
+	public void updateEffectsQueue() {
 		int i = 0;
-		synchronized(effectsQueue) {
+		synchronized (effectsQueue) {
 			for (EAdEffect e : effectsQueue) {
 				@SuppressWarnings("rawtypes")
 				EffectGO effectGO = (EffectGO) gameObjectFactory.get(e);
@@ -230,11 +235,10 @@ public class GameStateImpl implements GameState {
 				}
 				logger.info("Added " + effectGO);
 			}
+			effectsQueue.clear();
 		}
-		effectsQueue.clear();
 		actionsQueue.clear();
-		
-		
+
 	}
 
 	@Override
@@ -249,7 +253,7 @@ public class GameStateImpl implements GameState {
 
 	@Override
 	public void setActiveElement(EAdSceneElement activeElement) {
-		this.activeElement = activeElement;	
+		this.activeElement = activeElement;
 	}
 
 }

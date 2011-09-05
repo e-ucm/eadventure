@@ -54,7 +54,7 @@ import es.eucm.eadventure.common.model.effects.impl.EAdChangeAppearance;
 import es.eucm.eadventure.common.model.effects.impl.EAdVarInterpolationEffect;
 import es.eucm.eadventure.common.model.effects.impl.sceneelements.EAdMoveSceneElement;
 import es.eucm.eadventure.common.model.effects.impl.sceneelements.EAdMoveSceneElement.MovementSpeed;
-import es.eucm.eadventure.common.model.effects.impl.variables.EAdChangeVarValueEffect;
+import es.eucm.eadventure.common.model.effects.impl.variables.EAdChangeFieldValueEffect;
 import es.eucm.eadventure.common.model.elements.EAdActor;
 import es.eucm.eadventure.common.model.elements.impl.EAdActorReferenceImpl;
 import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
@@ -70,7 +70,6 @@ import es.eucm.eadventure.common.resources.EAdBundleId;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.ImageImpl;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.shapes.RectangleShape;
 import es.eucm.eadventure.engine.core.GameState;
-import es.eucm.eadventure.engine.core.ValueMap;
 import es.eucm.eadventure.engine.core.gameobjects.GameObjectFactory;
 import es.eucm.eadventure.engine.core.gameobjects.SceneElementGO;
 import es.eucm.eadventure.engine.core.gameobjects.impl.inventory.BasicInventoryGO;
@@ -78,6 +77,7 @@ import es.eucm.eadventure.engine.core.gameobjects.impl.sceneelements.ActorRefere
 import es.eucm.eadventure.engine.core.platform.AssetHandler;
 import es.eucm.eadventure.engine.core.platform.GUI;
 import es.eucm.eadventure.engine.core.platform.PlatformConfiguration;
+import es.eucm.eadventure.engine.core.variables.ValueMap;
 
 /**
  * Desktop implementation of the {@link BasicInventoryGO}
@@ -200,14 +200,14 @@ public class DesktopBasicInventoryGO extends BasicInventoryGO {
 		EAdEffect e2 = new EAdMoveSceneElement("hideInventoryBottom", inventory, 0, 700, MovementSpeed.NORMAL);
 		e2.setCondition(new VarValCondition(inventory.getVars().getVar(EAdSceneElementVars.VAR_Y), 350, Operator.GREATER));
 		centerSensor.addBehavior(EAdMouseEventImpl.MOUSE_MOVED, e2);
-		e2 = new EAdChangeVarValueEffect("id", centerSensor.getVars().getVar(EAdSceneElementVars.VAR_VISIBLE), BooleanOperation.FALSE_OP);
+		e2 = new EAdChangeFieldValueEffect("id", centerSensor.getVars().getVar(EAdSceneElementVars.VAR_VISIBLE), BooleanOperation.FALSE_OP);
 		e2.setCondition(new VarValCondition(inventory.getVars().getVar(EAdSceneElementVars.VAR_Y), 350, Operator.GREATER));
 		centerSensor.addBehavior(EAdMouseEventImpl.MOUSE_MOVED, e2);
 
 		e2 = new EAdMoveSceneElement("hideInventoryTop", inventory, 0, 0, MovementSpeed.NORMAL);
 		e2.setCondition(new VarValCondition(inventory.getVars().getVar(EAdSceneElementVars.VAR_Y), 350, Operator.LESS));
 		centerSensor.addBehavior(EAdMouseEventImpl.MOUSE_MOVED, e2);
-		e2 = new EAdChangeVarValueEffect("id", centerSensor.getVars().getVar(EAdSceneElementVars.VAR_VISIBLE), BooleanOperation.FALSE_OP);
+		e2 = new EAdChangeFieldValueEffect("id", centerSensor.getVars().getVar(EAdSceneElementVars.VAR_VISIBLE), BooleanOperation.FALSE_OP);
 		e2.setCondition(new VarValCondition(inventory.getVars().getVar(EAdSceneElementVars.VAR_Y), 350, Operator.LESS));
 		centerSensor.addBehavior(EAdMouseEventImpl.MOUSE_MOVED, e2);
 	}
@@ -231,7 +231,7 @@ public class DesktopBasicInventoryGO extends BasicInventoryGO {
 		part.addBehavior(EAdMouseEventImpl.MOUSE_ENTERED, e);
 		e = new EAdMoveSceneElement("showInventory", inventory, 0, inventoryPos, MovementSpeed.FAST);
 		part.addBehavior(EAdMouseEventImpl.MOUSE_ENTERED, e);
-		e = new EAdChangeVarValueEffect("showCentralSensor", centerSensor.getVars().getVar(EAdSceneElementVars.VAR_VISIBLE), BooleanOperation.TRUE_OP);
+		e = new EAdChangeFieldValueEffect("showCentralSensor", centerSensor.getVars().getVar(EAdSceneElementVars.VAR_VISIBLE), BooleanOperation.TRUE_OP);
 		part.addBehavior(EAdMouseEventImpl.MOUSE_ENTERED, e);
 		return part;
 	}

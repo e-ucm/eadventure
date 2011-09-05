@@ -47,6 +47,7 @@ import es.eucm.eadventure.common.model.elements.EAdSceneElement;
 import es.eucm.eadventure.engine.core.gameobjects.EffectGO;
 import es.eucm.eadventure.engine.core.gameobjects.SceneGO;
 import es.eucm.eadventure.engine.core.guiactions.GUIAction;
+import es.eucm.eadventure.engine.core.variables.ValueMap;
 
 /**
  * The state of the game.

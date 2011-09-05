@@ -46,12 +46,12 @@ import es.eucm.eadventure.common.data.chapter.effects.ActivateEffect;
 import es.eucm.eadventure.common.impl.importer.interfaces.EAdElementFactory;
 import es.eucm.eadventure.common.impl.importer.subimporters.effects.EffectImporter;
 import es.eucm.eadventure.common.model.conditions.impl.EmptyCondition;
-import es.eucm.eadventure.common.model.effects.impl.variables.EAdChangeVarValueEffect;
+import es.eucm.eadventure.common.model.effects.impl.variables.EAdChangeFieldValueEffect;
 import es.eucm.eadventure.common.model.elements.EAdCondition;
-import es.eucm.eadventure.common.model.variables.EAdVar;
 import es.eucm.eadventure.common.model.variables.impl.operations.BooleanOperation;
+import es.eucm.eadventure.engine.core.variables.EAdVar;
 
-public class ActivateFlagImporter extends EffectImporter<ActivateEffect, EAdChangeVarValueEffect>{
+public class ActivateFlagImporter extends EffectImporter<ActivateEffect, EAdChangeFieldValueEffect>{
 
 	private EAdElementFactory factory;
 	
@@ -66,12 +66,12 @@ public class ActivateFlagImporter extends EffectImporter<ActivateEffect, EAdChan
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public EAdChangeVarValueEffect init(ActivateEffect oldObject) {
+	public EAdChangeFieldValueEffect init(ActivateEffect oldObject) {
 		EAdVar<Boolean> var = (EAdVar<Boolean>) factory.getVarByOldId(oldObject.getTargetId(), Condition.FLAG_CONDITION);
 		BooleanOperation op = new BooleanOperation( "boolOperation" );
 		op.setCondition(EmptyCondition.TRUE_EMPTY_CONDITION);
 		
-		EAdChangeVarValueEffect changeVar = new EAdChangeVarValueEffect( "changeVarValue" + ID_GENERATOR++, var, op );
+		EAdChangeFieldValueEffect changeVar = new EAdChangeFieldValueEffect( "changeVarValue" + ID_GENERATOR++, var, op );
 		super.importConditions(oldObject, changeVar);
 
 		changeVar.setQueueable(true);
@@ -80,8 +80,8 @@ public class ActivateFlagImporter extends EffectImporter<ActivateEffect, EAdChan
 	}
 
 	@Override
-	public EAdChangeVarValueEffect convert(ActivateEffect oldObject, Object object) {
-		return (EAdChangeVarValueEffect) object;
+	public EAdChangeFieldValueEffect convert(ActivateEffect oldObject, Object object) {
+		return (EAdChangeFieldValueEffect) object;
 	}
 
 }

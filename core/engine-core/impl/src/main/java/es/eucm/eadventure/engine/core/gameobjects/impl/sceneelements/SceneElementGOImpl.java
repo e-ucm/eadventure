@@ -48,7 +48,6 @@ import es.eucm.eadventure.common.model.actions.EAdAction;
 import es.eucm.eadventure.common.model.elements.EAdSceneElement;
 import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
 import es.eucm.eadventure.common.model.variables.EAdElementVars;
-import es.eucm.eadventure.common.model.variables.EAdVar;
 import es.eucm.eadventure.common.model.variables.impl.extra.EAdSceneElementVars;
 import es.eucm.eadventure.common.model.variables.impl.operations.LiteralExpressionOperation;
 import es.eucm.eadventure.common.params.geom.EAdPosition;
@@ -60,7 +59,6 @@ import es.eucm.eadventure.common.resources.assets.drawable.compounds.StateDrawab
 import es.eucm.eadventure.engine.core.GameLoop;
 import es.eucm.eadventure.engine.core.GameState;
 import es.eucm.eadventure.engine.core.MouseState;
-import es.eucm.eadventure.engine.core.ValueMap;
 import es.eucm.eadventure.engine.core.gameobjects.GameObject;
 import es.eucm.eadventure.engine.core.gameobjects.GameObjectFactory;
 import es.eucm.eadventure.engine.core.gameobjects.SceneElementGO;
@@ -71,6 +69,8 @@ import es.eucm.eadventure.engine.core.platform.DrawableAsset;
 import es.eucm.eadventure.engine.core.platform.GUI;
 import es.eucm.eadventure.engine.core.platform.PlatformConfiguration;
 import es.eucm.eadventure.engine.core.platform.RuntimeAsset;
+import es.eucm.eadventure.engine.core.variables.EAdVar;
+import es.eucm.eadventure.engine.core.variables.ValueMap;
 
 public abstract class SceneElementGOImpl<T extends EAdSceneElement> extends
 		AbstractGameObject<T> implements SceneElementGO<T> {

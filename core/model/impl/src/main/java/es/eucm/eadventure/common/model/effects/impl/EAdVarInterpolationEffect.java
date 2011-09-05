@@ -39,7 +39,7 @@ package es.eucm.eadventure.common.model.effects.impl;
 
 import es.eucm.eadventure.common.interfaces.Element;
 import es.eucm.eadventure.common.interfaces.Param;
-import es.eucm.eadventure.common.model.variables.EAdVar;
+import es.eucm.eadventure.common.model.variables.EAdField;
 import es.eucm.eadventure.common.model.variables.impl.operations.LiteralExpressionOperation;
 
 /**
@@ -85,7 +85,7 @@ public class EAdVarInterpolationEffect extends AbstractEAdEffect {
 	}
 
 	@Param("var")
-	private EAdVar<?> var;
+	private EAdField<?> var;
 
 	@Param("initialValue")
 	private LiteralExpressionOperation initialValue;
@@ -106,7 +106,7 @@ public class EAdVarInterpolationEffect extends AbstractEAdEffect {
 		super(id);
 	}
 
-	public EAdVarInterpolationEffect(String id, EAdVar<?> var,
+	public EAdVarInterpolationEffect(String id, EAdField<?> var,
 			LiteralExpressionOperation endValue, int time) {
 		super(id);
 		LiteralExpressionOperation startValue = new LiteralExpressionOperation(
@@ -115,7 +115,7 @@ public class EAdVarInterpolationEffect extends AbstractEAdEffect {
 				InterpolationType.LINEAR);
 	}
 
-	public EAdVarInterpolationEffect(String id, EAdVar<?> var2, float start,
+	public EAdVarInterpolationEffect(String id, EAdField<?> var2, float start,
 			float end, int time, LoopType loop,
 			InterpolationType interpolationType) {
 		super(id);
@@ -127,7 +127,7 @@ public class EAdVarInterpolationEffect extends AbstractEAdEffect {
 				interpolationType);
 	}
 
-	public EAdVarInterpolationEffect(String id, EAdVar<?> var2, float start,
+	public EAdVarInterpolationEffect(String id, EAdField<?> var2, float start,
 			float end, int time, LoopType loop) {
 		super(id);
 		LiteralExpressionOperation startValue = new LiteralExpressionOperation(
@@ -138,7 +138,7 @@ public class EAdVarInterpolationEffect extends AbstractEAdEffect {
 				InterpolationType.LINEAR);
 	}
 
-	public EAdVarInterpolationEffect(String id, EAdVar<?> var,
+	public EAdVarInterpolationEffect(String id, EAdField<?> var,
 			LiteralExpressionOperation startValue,
 			LiteralExpressionOperation endValue, int time, LoopType noLoop) {
 		super(id);
@@ -146,7 +146,7 @@ public class EAdVarInterpolationEffect extends AbstractEAdEffect {
 				InterpolationType.LINEAR);
 	}
 
-	public void setInterpolation(EAdVar<?> var,
+	public void setInterpolation(EAdField<?> var,
 			LiteralExpressionOperation initialValue,
 			LiteralExpressionOperation endValue, int time, LoopType loop,
 			InterpolationType interpolationType) {
@@ -158,7 +158,7 @@ public class EAdVarInterpolationEffect extends AbstractEAdEffect {
 		this.interpolationType = interpolationType;
 	}
 
-	public void setInterpolation(EAdVar<?> var, float initialValue,
+	public void setInterpolation(EAdField<?> var, float initialValue,
 			float endValue, int time, LoopType loop,
 			InterpolationType interpolationType) {
 		setInterpolation(var, new LiteralExpressionOperation("id", ""
@@ -166,7 +166,7 @@ public class EAdVarInterpolationEffect extends AbstractEAdEffect {
 				time, loop, interpolationType);
 	}
 
-	public EAdVar<?> getVar() {
+	public EAdField<?> getVar() {
 		return var;
 	}
 

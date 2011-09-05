@@ -38,8 +38,8 @@
 package es.eucm.eadventure.engine.core.operator;
 
 import es.eucm.eadventure.common.model.variables.EAdOperation;
-import es.eucm.eadventure.common.model.variables.EAdVar;
-import es.eucm.eadventure.engine.core.ValueMap;
+import es.eucm.eadventure.engine.core.variables.EAdVar;
+import es.eucm.eadventure.engine.core.variables.ValueMap;
 
 /**
  * 

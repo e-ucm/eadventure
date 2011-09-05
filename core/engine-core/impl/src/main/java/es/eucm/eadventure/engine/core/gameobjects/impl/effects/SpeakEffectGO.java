@@ -15,7 +15,6 @@ import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.CaptionIm
 import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.shapes.BallonShape;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.shapes.BezierShape;
 import es.eucm.eadventure.engine.core.GameState;
-import es.eucm.eadventure.engine.core.ValueMap;
 import es.eucm.eadventure.engine.core.gameobjects.GameObjectFactory;
 import es.eucm.eadventure.engine.core.gameobjects.SceneElementGO;
 import es.eucm.eadventure.engine.core.guiactions.GUIAction;
@@ -24,6 +23,7 @@ import es.eucm.eadventure.engine.core.platform.AssetHandler;
 import es.eucm.eadventure.engine.core.platform.GUI;
 import es.eucm.eadventure.engine.core.platform.PlatformConfiguration;
 import es.eucm.eadventure.engine.core.platform.assets.impl.RuntimeCaption;
+import es.eucm.eadventure.engine.core.variables.ValueMap;
 
 public class SpeakEffectGO extends AbstractEffectGO<EAdSpeakEffect> {
 

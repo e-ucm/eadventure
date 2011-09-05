@@ -39,7 +39,7 @@ package es.eucm.eadventure.common.model.variables.impl.operations;
 
 import es.eucm.eadventure.common.interfaces.Element;
 import es.eucm.eadventure.common.interfaces.Param;
-import es.eucm.eadventure.common.model.variables.EAdVar;
+import es.eucm.eadventure.common.model.variables.EAdField;
 import es.eucm.eadventure.common.model.variables.impl.EAdOperationImpl;
 
 /**
@@ -79,20 +79,20 @@ public class LiteralExpressionOperation extends EAdOperationImpl {
 	 * @param expression
 	 * @param floatVar3
 	 * @param floatVar2
-	 * @param floatVar
+	 * @param fields
 	 */
 	public LiteralExpressionOperation(String id, String expression,
-			EAdVar<?>... floatVar) {
+			EAdField<?>... fields) {
 		super(id);
 		this.expression = expression;
-		if (floatVar != null) {
-			for (EAdVar<?> f : floatVar) {
+		if (fields != null) {
+			for (EAdField<?> f : fields) {
 				varList.add(f);
 			}
 		}
 	}
 
-	public LiteralExpressionOperation(String expression, EAdVar<?>... floatVar) {
+	public LiteralExpressionOperation(String expression, EAdField<?>... floatVar) {
 		this("literalExpression", expression, floatVar);
 	}
 
@@ -124,7 +124,7 @@ public class LiteralExpressionOperation extends EAdOperationImpl {
 	 * @return the operation
 	 */
 	public static LiteralExpressionOperation getIncrementExpression(
-			EAdVar<Integer> var, Integer increment) {
+			EAdField<?> var, Integer increment) {
 		return new LiteralExpressionOperation("increment",
 				"[0] + " + increment, var);
 	}

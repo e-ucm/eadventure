@@ -43,7 +43,6 @@ import es.eucm.eadventure.common.model.extra.EAdList;
 import es.eucm.eadventure.common.model.extra.impl.EAdListImpl;
 import es.eucm.eadventure.common.model.variables.EAdVarDef;
 import es.eucm.eadventure.common.model.variables.impl.EAdVarDefImpl;
-import es.eucm.eadventure.common.model.variables.impl.extra.EAdSceneElementVars;
 
 /**
  * Represents an scene element that is compound with other scene elements. This
@@ -92,9 +91,6 @@ public class EAdComplexSceneElement extends EAdBasicSceneElement implements
 	public EAdComplexSceneElement(String id) {
 		super(id);
 		components = new EAdListImpl<EAdSceneElement>(EAdSceneElement.class);
-		getVars().add(
-				new EAdVarDef<?>[] { VAR_AUTO_SIZE_VERTICAL,
-						VAR_AUTO_SIZE_HORIZONTAL, VAR_OFFSET_X, VAR_OFFSET_Y });
 	}
 
 	/**
@@ -114,11 +110,10 @@ public class EAdComplexSceneElement extends EAdBasicSceneElement implements
 	 *            the width
 	 */
 	public void setBounds(int width, int height) {
-		getVars().getVar(VAR_AUTO_SIZE_HORIZONTAL).setInitialValue(width <= 0);
-		getVars().getVar(EAdSceneElementVars.VAR_WIDTH).setInitialValue(width);
-		getVars().getVar(VAR_AUTO_SIZE_VERTICAL).setInitialValue(height <= 0);
-		getVars().getVar(EAdSceneElementVars.VAR_HEIGHT)
-				.setInitialValue(height);
+		setVarInitialValue(VAR_AUTO_SIZE_HORIZONTAL, width <= 0);
+		setVarInitialValue(VAR_WIDTH, width);
+		setVarInitialValue(VAR_AUTO_SIZE_VERTICAL, height <= 0);
+		setVarInitialValue(VAR_HEIGHT, height);
 
 	}
 
@@ -131,7 +126,7 @@ public class EAdComplexSceneElement extends EAdBasicSceneElement implements
 	 *            y offset
 	 */
 	public void setInitialOffset(int xOffset, int yOffset) {
-		getVars().getVar(VAR_OFFSET_X).setInitialValue(xOffset);
-		getVars().getVar(VAR_OFFSET_Y).setInitialValue(yOffset);
+		setVarInitialValue(VAR_OFFSET_X, xOffset);
+		setVarInitialValue(VAR_OFFSET_Y, yOffset);
 	}
 }

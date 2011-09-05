@@ -47,7 +47,7 @@ import org.w3c.dom.Node;
 
 import es.eucm.eadventure.common.interfaces.Param;
 import es.eucm.eadventure.common.model.EAdElement;
-import es.eucm.eadventure.common.model.variables.EAdVar;
+import es.eucm.eadventure.engine.core.variables.EAdVar;
 
 /**
  * <p>DOM writer for the "param" element in the eAdventure 2 xml</p>

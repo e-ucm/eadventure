@@ -46,12 +46,12 @@ import com.google.inject.Singleton;
 import es.eucm.eadventure.common.model.variables.impl.operations.AssignOperation;
 import es.eucm.eadventure.common.model.variables.impl.operations.BooleanOperation;
 import es.eucm.eadventure.common.model.variables.impl.operations.LiteralExpressionOperation;
-import es.eucm.eadventure.engine.core.ValueMap;
 import es.eucm.eadventure.engine.core.evaluators.EvaluatorFactory;
 import es.eucm.eadventure.engine.core.operator.Operator;
 import es.eucm.eadventure.engine.core.operators.impl.AssignOperator;
 import es.eucm.eadventure.engine.core.operators.impl.BooleanOperator;
 import es.eucm.eadventure.engine.core.operators.impl.LiteralExpressionOperator;
+import es.eucm.eadventure.engine.core.variables.ValueMap;
 
 @Singleton
 public class OperatorFactoryMapProvider extends AbstractMapProvider<Class<?>, Operator<?>> {

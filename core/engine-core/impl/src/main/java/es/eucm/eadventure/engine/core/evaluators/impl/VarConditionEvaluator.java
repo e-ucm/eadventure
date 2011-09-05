@@ -46,8 +46,8 @@ import com.google.inject.Singleton;
 import es.eucm.eadventure.common.model.conditions.impl.VarCondition;
 import es.eucm.eadventure.common.model.conditions.impl.VarValCondition;
 import es.eucm.eadventure.common.model.conditions.impl.VarVarCondition;
-import es.eucm.eadventure.engine.core.ValueMap;
 import es.eucm.eadventure.engine.core.evaluators.Evaluator;
+import es.eucm.eadventure.engine.core.variables.ValueMap;
 
 @Singleton
 public class VarConditionEvaluator implements Evaluator<VarCondition> {

@@ -9,10 +9,6 @@ import es.eucm.eadventure.common.model.EAdElement;
  * <li><b>Name</b>: A string naming the variable</li>
  * <li><b>Class</b>: The class of the variable's value</li>
  * <li><b>Initial value</b>: The initial value for the variable</li>
- * <li><b>Constant</b>: If the variable value can be modified during runtime</li>
- * <li><b>Global</b>: If the variable is global. Global variables are stored
- * during all the game. Not global variables are deleted in release of
- * unnecessary resources</li>
  * </ul>
  * 
  * Variables are constructed from an {@link EAdVarDef}.
@@ -43,16 +39,4 @@ public interface EAdVarDef<T> extends EAdElement {
 	 */
 	T getInitialValue();
 
-	/**
-	 * Returns whether this variable must remain constant during the game
-	 * 
-	 * @return
-	 */
-	boolean isConstant();
-	
-	/**
-	 * Returns if this 
-	 * @return
-	 */
-	boolean isGlobal();
 }

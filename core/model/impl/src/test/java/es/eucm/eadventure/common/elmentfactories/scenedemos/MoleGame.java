@@ -5,7 +5,7 @@ import es.eucm.eadventure.common.model.effects.EAdEffect;
 import es.eucm.eadventure.common.model.elements.EAdSceneElement;
 import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
 import es.eucm.eadventure.common.model.guievents.impl.EAdMouseEventImpl;
-import es.eucm.eadventure.common.model.variables.impl.extra.EAdSceneElementVars;
+import es.eucm.eadventure.common.model.variables.impl.EAdFieldImpl;
 import es.eucm.eadventure.common.model.variables.impl.operations.BooleanOperation;
 import es.eucm.eadventure.common.params.fills.impl.EAdColor;
 import es.eucm.eadventure.common.params.fills.impl.EAdLinearGradient;
@@ -54,15 +54,14 @@ public class MoleGame extends EmptyScene {
 				EAdBasicSceneElement.appearance, this.mole);
 		mole.setPosition(x, y);
 		int initTime = (int) Math.round(Math.random() * 5500);
-		mole.getVars().getVar(EAdSceneElementVars.VAR_TIME_DISPLAYED)
-				.setInitialValue(initTime);
+		mole.setVarInitialValue(EAdBasicSceneElement.VAR_TIME_DISPLAYED, initTime);
 		
 
 		EAdEffect effect = EAdElementsFactory
 				.getInstance()
 				.getEffectFactory()
 				.getChangeVarValueEffect(
-						mole.getVars().getVar(EAdSceneElementVars.VAR_VISIBLE),
+						new EAdFieldImpl<Boolean>(mole, EAdBasicSceneElement.VAR_VISIBLE),
 						BooleanOperation.FALSE_OP);
 		
 		mole.addBehavior(EAdMouseEventImpl.MOUSE_PRESSED, effect);

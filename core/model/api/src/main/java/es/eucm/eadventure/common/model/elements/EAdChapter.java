@@ -37,14 +37,13 @@
 
 package es.eucm.eadventure.common.model.elements;
 
-import es.eucm.eadventure.common.interfaces.features.Variabled;
 import es.eucm.eadventure.common.model.extra.EAdList;
 import es.eucm.eadventure.common.resources.EAdString;
 import es.eucm.eadventure.common.resources.annotation.Asset;
 import es.eucm.eadventure.common.resources.annotation.Bundled;
 import es.eucm.eadventure.common.resources.assets.multimedia.Sound;
 
-public interface EAdChapter extends EAdGeneralElement, Variabled {
+public interface EAdChapter extends EAdGeneralElement {
 
 	@Bundled
 	@Asset({ Sound.class })

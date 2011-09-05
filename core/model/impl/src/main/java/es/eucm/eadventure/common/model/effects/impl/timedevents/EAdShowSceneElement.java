@@ -47,7 +47,7 @@ import es.eucm.eadventure.common.model.elements.EAdSceneElement;
 import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
 import es.eucm.eadventure.common.model.events.EAdSceneElementEvent;
 import es.eucm.eadventure.common.model.events.impl.EAdSceneElementEventImpl;
-import es.eucm.eadventure.common.model.variables.impl.extra.EAdSceneElementVars;
+import es.eucm.eadventure.common.model.variables.impl.EAdFieldImpl;
 import es.eucm.eadventure.common.params.geom.impl.EAdPositionImpl;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.Caption;
 
@@ -59,12 +59,11 @@ import es.eucm.eadventure.common.resources.assets.drawable.basics.Caption;
  */
 @Element(runtime = EAdShowSceneElement.class, detailed = EAdShowSceneElement.class)
 public class EAdShowSceneElement extends AbstractEAdEffect {
-	
+
 	public enum ShowTextAnimation {
-		NONE,
-		FADE_IN;
-}
-	
+		NONE, FADE_IN;
+	}
+
 	@Param("time")
 	private int time;
 
@@ -78,24 +77,28 @@ public class EAdShowSceneElement extends AbstractEAdEffect {
 	public EAdShowSceneElement() {
 		this("showTextEffect");
 	}
-	
-	public void setSceneElement( EAdSceneElement text ){
+
+	public void setSceneElement(EAdSceneElement text) {
 		setSceneElement(text, ShowTextAnimation.NONE);
 	}
 
-	public void setSceneElement(EAdSceneElement text, ShowTextAnimation animation ) {
+	public void setSceneElement(EAdSceneElement text,
+			ShowTextAnimation animation) {
 		this.sceneElement = text;
-		switch ( animation ){
-		case NONE:
-			text.getVars().getVar(EAdSceneElementVars.VAR_ALPHA).setInitialValue(1.0f);
-			break;
+		switch (animation) {
 		case FADE_IN:
-			text.getVars().getVar(EAdSceneElementVars.VAR_ALPHA).setInitialValue(0.0f);
-			EAdVarInterpolationEffect effect = new EAdVarInterpolationEffect( "textFadeIn", text.getVars().getVar(EAdSceneElementVars.VAR_ALPHA), 0.0f, 1.0f, 500, LoopType.NO_LOOP);
-			
-			EAdSceneElementEventImpl event = new EAdSceneElementEventImpl( "event" );
-			event.addEffect(EAdSceneElementEvent.SceneElementEvent.ADDED_TO_SCENE, effect);
-			
+			text.setVarInitialValue(EAdBasicSceneElement.VAR_ALPHA, 0.0f);
+			EAdVarInterpolationEffect effect = new EAdVarInterpolationEffect(
+					"textFadeIn", new EAdFieldImpl<Float>(text,
+							EAdBasicSceneElement.VAR_ALPHA), 0.0f, 1.0f, 500,
+					LoopType.NO_LOOP);
+
+			EAdSceneElementEventImpl event = new EAdSceneElementEventImpl(
+					"event");
+			event.addEffect(
+					EAdSceneElementEvent.SceneElementEvent.ADDED_TO_SCENE,
+					effect);
+
 			text.getEvents().add(event);
 			break;
 		}
@@ -110,18 +113,20 @@ public class EAdShowSceneElement extends AbstractEAdEffect {
 	 * 
 	 * @param caption
 	 */
-	public void setCaption(Caption caption, int x, int y, ShowTextAnimation animation ) {
-		EAdBasicSceneElement text = new EAdBasicSceneElement(this.id + "_caption");
+	public void setCaption(Caption caption, int x, int y,
+			ShowTextAnimation animation) {
+		EAdBasicSceneElement text = new EAdBasicSceneElement(this.id
+				+ "_caption");
 		text.getResources().addAsset(text.getInitialBundle(),
 				EAdBasicSceneElement.appearance, caption);
 		text.setPosition(new EAdPositionImpl(x, y));
 		setSceneElement(text, animation);
 	}
-	
-	public void setCaption(Caption caption, int x, int y){
+
+	public void setCaption(Caption caption, int x, int y) {
 		this.setCaption(caption, x, y, ShowTextAnimation.NONE);
 	}
-	
+
 	public int getTime() {
 		return time;
 	}

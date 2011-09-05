@@ -35,30 +35,34 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package es.eucm.eadventure.common.model.variables.impl.vars;
+package es.eucm.eadventure.engine.core.variables;
 
 import es.eucm.eadventure.common.model.EAdElement;
-import es.eucm.eadventure.common.model.variables.impl.EAdVarImpl;
+import es.eucm.eadventure.common.model.variables.EAdVarDef;
 
-public abstract class NumberVar<T extends Number> extends EAdVarImpl<T> {
+/**
+ * General interface for variables in eAdventure
+ * 
+ * 
+ * @param <T>
+ *            Java class for the variable
+ */
+public interface EAdVar<T> {
 
-	public NumberVar(Class<T> type, String name, T initialValue ) {
-		this(type, name, initialValue, null);
-	}
-	
-	public NumberVar(Class<T> type, String name, T initialValue, EAdElement element ) {
-		super(type, name, initialValue, element);
-	}
+	/**
+	 * If the variable is associated to an {@link EAdElement} returns that
+	 * element
+	 * 
+	 * @return the {@link EAdElement} associated to the variable. {@code null}
+	 *         if variable is not linked to any element
+	 */
+	EAdElement getElement();
 
-	public static NumberVar<?> valueOf(String string) {
-		String[] strings = string.split(";");
-		String type = strings[0];
-		String name = strings[1];
-		if (type.equals("Integer"))
-			return new IntegerVar(name);
-		if (type.equals("Float"))
-			return new FloatVar(name);
-		return null;
-	}
+	/**
+	 * Returns the definition for this variable
+	 * 
+	 * @return
+	 */
+	EAdVarDef<T> getDefinition();
 
 }

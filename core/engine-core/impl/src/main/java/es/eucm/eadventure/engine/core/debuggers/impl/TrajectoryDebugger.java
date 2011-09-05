@@ -13,7 +13,6 @@ import es.eucm.eadventure.common.model.trajectories.TrajectoryDefinition;
 import es.eucm.eadventure.common.model.trajectories.impl.NodeTrajectoryDefinition;
 import es.eucm.eadventure.common.model.trajectories.impl.NodeTrajectoryDefinition.Node;
 import es.eucm.eadventure.common.model.trajectories.impl.NodeTrajectoryDefinition.Side;
-import es.eucm.eadventure.common.model.variables.EAdVar;
 import es.eucm.eadventure.common.params.fills.impl.EAdBorderedColor;
 import es.eucm.eadventure.common.params.fills.impl.EAdColor;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.shapes.BezierShape;
@@ -22,10 +21,11 @@ import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.shapes.Li
 import es.eucm.eadventure.common.resources.assets.drawable.compounds.ComposedDrawable;
 import es.eucm.eadventure.common.resources.assets.drawable.compounds.impl.ComposedDrawableImpl;
 import es.eucm.eadventure.engine.core.GameState;
-import es.eucm.eadventure.engine.core.ValueMap;
 import es.eucm.eadventure.engine.core.debuggers.EAdDebugger;
 import es.eucm.eadventure.engine.core.gameobjects.GameObject;
 import es.eucm.eadventure.engine.core.gameobjects.GameObjectFactory;
+import es.eucm.eadventure.engine.core.variables.EAdVar;
+import es.eucm.eadventure.engine.core.variables.ValueMap;
 
 @Singleton
 public class TrajectoryDebugger implements EAdDebugger {

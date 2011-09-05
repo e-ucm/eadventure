@@ -35,13 +35,14 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package es.eucm.eadventure.common.model.variables.impl;
+package es.eucm.eadventure.engine.core.impl.variables;
 
 import es.eucm.eadventure.common.interfaces.Element;
 import es.eucm.eadventure.common.interfaces.Param;
 import es.eucm.eadventure.common.model.EAdElement;
-import es.eucm.eadventure.common.model.variables.EAdVar;
 import es.eucm.eadventure.common.model.variables.EAdVarDef;
+import es.eucm.eadventure.common.model.variables.impl.EAdVarDefImpl;
+import es.eucm.eadventure.engine.core.variables.EAdVar;
 
 @Element(detailed = EAdVarImpl.class, runtime = EAdVarImpl.class)
 public class EAdVarImpl<T> implements EAdVar<T> {

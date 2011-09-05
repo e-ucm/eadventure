@@ -49,7 +49,7 @@ import es.eucm.eadventure.common.model.effects.impl.EAdMacroImpl;
 import es.eucm.eadventure.common.model.effects.impl.EAdTriggerMacro;
 import es.eucm.eadventure.common.model.effects.impl.EAdVarInterpolationEffect;
 import es.eucm.eadventure.common.model.effects.impl.text.extra.Answer;
-import es.eucm.eadventure.common.model.effects.impl.variables.EAdChangeVarValueEffect;
+import es.eucm.eadventure.common.model.effects.impl.variables.EAdChangeFieldValueEffect;
 import es.eucm.eadventure.common.model.elements.EAdSceneElement;
 import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
 import es.eucm.eadventure.common.model.events.EAdSceneElementEvent;
@@ -57,12 +57,12 @@ import es.eucm.eadventure.common.model.events.EAdSceneElementEvent.SceneElementE
 import es.eucm.eadventure.common.model.events.impl.EAdSceneElementEventImpl;
 import es.eucm.eadventure.common.model.extra.EAdList;
 import es.eucm.eadventure.common.model.extra.impl.EAdListImpl;
-import es.eucm.eadventure.common.model.variables.EAdVar;
-import es.eucm.eadventure.common.model.variables.impl.extra.EAdSceneElementVars;
+import es.eucm.eadventure.common.model.variables.EAdField;
+import es.eucm.eadventure.common.model.variables.EAdVarDef;
+import es.eucm.eadventure.common.model.variables.impl.EAdFieldImpl;
+import es.eucm.eadventure.common.model.variables.impl.EAdVarDefImpl;
 import es.eucm.eadventure.common.model.variables.impl.operations.BooleanOperation;
 import es.eucm.eadventure.common.model.variables.impl.operations.LiteralExpressionOperation;
-import es.eucm.eadventure.common.model.variables.impl.vars.BooleanVar;
-import es.eucm.eadventure.common.model.variables.impl.vars.IntegerVar;
 import es.eucm.eadventure.common.params.geom.impl.EAdPositionImpl;
 import es.eucm.eadventure.common.params.geom.impl.EAdPositionImpl.Corner;
 
@@ -74,6 +74,12 @@ import es.eucm.eadventure.common.params.geom.impl.EAdPositionImpl.Corner;
  */
 @Element(runtime = EAdShowQuestion.class, detailed = EAdShowQuestion.class)
 public class EAdShowQuestion extends EAdComplexBlockingEffect {
+
+	public static final EAdVarDef<Boolean> VAR_ANSWERED = new EAdVarDefImpl<Boolean>(
+			"answered", Boolean.class, Boolean.FALSE);
+
+	public static final EAdVarDef<Integer> VAR_SELECTED_ANSWER = new EAdVarDefImpl<Integer>(
+			"selected_answer", Integer.class, -1);
 
 	/**
 	 * Used to generate unique variables
@@ -91,9 +97,9 @@ public class EAdShowQuestion extends EAdComplexBlockingEffect {
 	@Param("marginLeft")
 	private int marginLeft = 10;
 
-	private EAdVar<Boolean> answered;
+	private EAdFieldImpl<Integer> selectedAnswer;
 
-	private IntegerVar selectedAnswer;
+	private EAdFieldImpl<Boolean> answered;
 
 	public EAdShowQuestion(String id) {
 		super(id);
@@ -117,41 +123,34 @@ public class EAdShowQuestion extends EAdComplexBlockingEffect {
 		components.clear();
 
 		// Vars
-		selectedAnswer = new IntegerVar(id + "_selectedAnswer" + ID_GENERATOR++);
-		answered = new BooleanVar(id + "_answerd" + ID_GENERATOR++);
-		answered.setInitialValue(false);
-		selectedAnswer.setInitialValue(-1);
+		selectedAnswer = new EAdFieldImpl<Integer>(this, VAR_SELECTED_ANSWER);
+		answered = new EAdFieldImpl<Boolean>(this, VAR_ANSWERED);
 
 		// Effects
-		EAdChangeVarValueEffect invisibleEffect = new EAdChangeVarValueEffect(
+		EAdChangeFieldValueEffect invisibleEffect = new EAdChangeFieldValueEffect(
 				"questionInvisibleEffect");
 		invisibleEffect.setOperation(BooleanOperation.FALSE_OP);
 
-		EAdChangeVarValueEffect visibleEffect = new EAdChangeVarValueEffect(
+		EAdChangeFieldValueEffect visibleEffect = new EAdChangeFieldValueEffect(
 				"questionVisibleEffect");
 		visibleEffect.setOperation(BooleanOperation.TRUE_OP);
 
 		if (questionElement != null) {
 			((EAdBasicSceneElement) questionElement).setClone(true);
-			((EAdBasicSceneElement) questionElement).setPosition(new EAdPositionImpl( Corner.TOP_LEFT, marginLeft, 10 ));
+			((EAdBasicSceneElement) questionElement)
+					.setPosition(new EAdPositionImpl(Corner.TOP_LEFT,
+							marginLeft, 10));
 			components.add(questionElement);
 
-			EAdVar<Boolean> qEvisibleVar = questionElement.getVars().getVar(
-					EAdSceneElementVars.VAR_VISIBLE);
+			EAdField<Boolean> qEvisibleVar = new EAdFieldImpl<Boolean>(this,
+					EAdBasicSceneElement.VAR_VISIBLE);
 
-			qEvisibleVar.setInitialValue(false);
+			//qEvisibleVar.setInitialValue(false);
 			invisibleEffect.addVar(qEvisibleVar);
 			visibleEffect.addVar(qEvisibleVar);
-			questionElement.getVars().add(answered);
-			questionElement.getVars().add(selectedAnswer);
 		}
 
-		for (Answer a : answers) {
-			invisibleEffect.addVar(a.getVars().getVar(
-					EAdSceneElementVars.VAR_VISIBLE));
-			visibleEffect.addVar(a.getVars().getVar(
-					EAdSceneElementVars.VAR_VISIBLE));
-		}
+
 
 		// Start macro
 		EAdMacro startMacro = new EAdMacroImpl("startQuestionMacro");
@@ -160,7 +159,7 @@ public class EAdShowQuestion extends EAdComplexBlockingEffect {
 		startMacro.getEffects().add(visibleEffect);
 
 		// Reset answered
-		EAdEffect resetAnswered = new EAdChangeVarValueEffect(
+		EAdEffect resetAnswered = new EAdChangeFieldValueEffect(
 				"questionInitAnswered", answered, BooleanOperation.FALSE_OP);
 		this.getFinalEffects().add(resetAnswered);
 		this.getFinalEffects().add(invisibleEffect);
@@ -169,13 +168,13 @@ public class EAdShowQuestion extends EAdComplexBlockingEffect {
 		EAdSceneElementEvent addedEvent = new EAdSceneElementEventImpl(
 				"questionAddedEvent");
 
-		EAdChangeVarValueEffect endEffect = new EAdChangeVarValueEffect(id
+		EAdChangeFieldValueEffect endEffect = new EAdChangeFieldValueEffect(id
 				+ "_endEffect", answered, BooleanOperation.TRUE_OP);
 
 		int i = 0;
 		for (Answer a : answers) {
-			a.getVars().getVar(EAdSceneElementVars.VAR_VISIBLE)
-					.setInitialValue(Boolean.FALSE);
+//			a.getVars().getVar(EAdSceneElementVars.VAR_VISIBLE)
+//					.setInitialValue(Boolean.FALSE);
 			a.setClone(true);
 			a.setUpNewInstance(selectedAnswer, endEffect, i++);
 			a.setPosition(new EAdPositionImpl(Corner.TOP_LEFT, 0, 0));
@@ -195,8 +194,8 @@ public class EAdShowQuestion extends EAdComplexBlockingEffect {
 
 	private void addPositioningEvent(EAdMacro macro) {
 
-		EAdChangeVarValueEffect initQuestion = new EAdChangeVarValueEffect(id
-				+ "initializaingAnswred");
+		EAdChangeFieldValueEffect initQuestion = new EAdChangeFieldValueEffect(
+				id + "initializaingAnswred");
 		initQuestion.addVar(answered);
 		initQuestion.setOperation(new BooleanOperation("visibleAnswer",
 				EmptyCondition.FALSE_EMPTY_CONDITION));
@@ -208,31 +207,29 @@ public class EAdShowQuestion extends EAdComplexBlockingEffect {
 					: answers.get(i - 1);
 			Answer a = answers.get(i);
 
-			EAdChangeVarValueEffect effect = new EAdChangeVarValueEffect(id
+			EAdChangeFieldValueEffect effect = new EAdChangeFieldValueEffect(id
 					+ "positoningAnswer" + i);
-			effect.addVar(a.getVars().getVar(
-					EAdSceneElementVars.VAR_Y));
+//			effect.addVar(a.getVars().getVar(EAdSceneElementVars.VAR_Y));
 			if (previousElement != null) {
-				effect.setOperation(new LiteralExpressionOperation(effect
-						.getId() + "_op", "[0] + [1] + " + marginLeft,
-						previousElement.getVars().getVar(
-								EAdSceneElementVars.VAR_Y), previousElement
-								.getVars().getVar(
-										EAdSceneElementVars.VAR_HEIGHT)));
+//				effect.setOperation(new LiteralExpressionOperation(effect
+//						.getId() + "_op", "[0] + [1] + " + marginLeft,
+//						previousElement.getVars().getVar(
+//								EAdSceneElementVars.VAR_Y), previousElement
+//								.getVars().getVar(
+//										EAdSceneElementVars.VAR_HEIGHT)));
 			} else
 				effect.setOperation(new LiteralExpressionOperation(effect
 						.getId() + "_op", "0 + " + marginLeft));
 
 			macro.getEffects().add(effect);
 
-			EAdVarInterpolationEffect interpolation = new EAdVarInterpolationEffect(
-					"answer_interpolation",
-					a.getVars().getVar(
-							EAdSceneElementVars.VAR_X),
-					new LiteralExpressionOperation("id", "-800"),
-					new LiteralExpressionOperation("id", "" + (marginLeft * 2)),
-					500, EAdVarInterpolationEffect.LoopType.NO_LOOP);
-			macro.getEffects().add(interpolation);
+//			EAdVarInterpolationEffect interpolation = new EAdVarInterpolationEffect(
+//					"answer_interpolation",
+//					a.getVars().getVar(EAdSceneElementVars.VAR_X),
+//					new LiteralExpressionOperation("id", "-800"),
+//					new LiteralExpressionOperation("id", "" + (marginLeft * 2)),
+//					500, EAdVarInterpolationEffect.LoopType.NO_LOOP);
+//			macro.getEffects().add(interpolation);
 
 		}
 

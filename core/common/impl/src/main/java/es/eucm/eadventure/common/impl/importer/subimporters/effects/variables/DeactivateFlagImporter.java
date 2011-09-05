@@ -46,12 +46,12 @@ import es.eucm.eadventure.common.data.chapter.effects.DeactivateEffect;
 import es.eucm.eadventure.common.impl.importer.interfaces.EAdElementFactory;
 import es.eucm.eadventure.common.impl.importer.subimporters.effects.EffectImporter;
 import es.eucm.eadventure.common.model.conditions.impl.EmptyCondition;
-import es.eucm.eadventure.common.model.effects.impl.variables.EAdChangeVarValueEffect;
+import es.eucm.eadventure.common.model.effects.impl.variables.EAdChangeFieldValueEffect;
 import es.eucm.eadventure.common.model.elements.EAdCondition;
-import es.eucm.eadventure.common.model.variables.EAdVar;
 import es.eucm.eadventure.common.model.variables.impl.operations.BooleanOperation;
+import es.eucm.eadventure.engine.core.variables.EAdVar;
 
-public class DeactivateFlagImporter extends EffectImporter<DeactivateEffect, EAdChangeVarValueEffect>{
+public class DeactivateFlagImporter extends EffectImporter<DeactivateEffect, EAdChangeFieldValueEffect>{
 	
 	private EAdElementFactory factory;
 	
@@ -66,12 +66,12 @@ public class DeactivateFlagImporter extends EffectImporter<DeactivateEffect, EAd
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public EAdChangeVarValueEffect init(DeactivateEffect oldObject) {
+	public EAdChangeFieldValueEffect init(DeactivateEffect oldObject) {
 		EAdVar<Boolean> var = (EAdVar<Boolean>) factory.getVarByOldId(oldObject.getTargetId(), Condition.FLAG_CONDITION);
 		BooleanOperation op = new BooleanOperation( "boolOperation" );
 		op.setCondition(EmptyCondition.FALSE_EMPTY_CONDITION);
 		
-		EAdChangeVarValueEffect changeVar = new EAdChangeVarValueEffect( "changeVarValue" + ID_GENERATOR++, var, op );
+		EAdChangeFieldValueEffect changeVar = new EAdChangeFieldValueEffect( "changeVarValue" + ID_GENERATOR++, var, op );
 		super.importConditions(oldObject, changeVar);
 		
 		changeVar.setQueueable(true);
@@ -80,8 +80,8 @@ public class DeactivateFlagImporter extends EffectImporter<DeactivateEffect, EAd
 	}
 	
 	@Override
-	public EAdChangeVarValueEffect convert(DeactivateEffect oldObject, Object object) {
-		return (EAdChangeVarValueEffect) object;
+	public EAdChangeFieldValueEffect convert(DeactivateEffect oldObject, Object object) {
+		return (EAdChangeFieldValueEffect) object;
 	}
 
 }

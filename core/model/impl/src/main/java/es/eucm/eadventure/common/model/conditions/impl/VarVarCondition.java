@@ -39,7 +39,7 @@ package es.eucm.eadventure.common.model.conditions.impl;
 
 import es.eucm.eadventure.common.interfaces.Element;
 import es.eucm.eadventure.common.interfaces.Param;
-import es.eucm.eadventure.common.model.variables.impl.vars.NumberVar;
+import es.eucm.eadventure.common.model.variables.EAdField;
 
 /**
  * Condition comparing the values of two variables
@@ -49,10 +49,10 @@ import es.eucm.eadventure.common.model.variables.impl.vars.NumberVar;
 public class VarVarCondition extends VarCondition {
 
 	@Param("var1")
-	private NumberVar<?> var1;
+	private EAdField<? extends Number> var1;
 
 	@Param("var2")
-	private NumberVar<?> var2;
+	private EAdField<? extends Number> var2;
 
 	/**
 	 * Constructs a condition comparing two number variables
@@ -64,7 +64,7 @@ public class VarVarCondition extends VarCondition {
 	 * @param op
 	 *            operator used to compare
 	 */
-	public VarVarCondition(NumberVar<?> var1, NumberVar<?> var2, Operator op) {
+	public VarVarCondition(EAdField<? extends Number> var1, EAdField<? extends Number> var2, Operator op) {
 		super(op);
 		this.var1 = var1;
 		this.var2 = var2;
@@ -73,7 +73,7 @@ public class VarVarCondition extends VarCondition {
 	/**
 	 * @return the var1
 	 */
-	public NumberVar<?> getVar1() {
+	public EAdField<? extends Number> getVar1() {
 		return var1;
 	}
 
@@ -81,14 +81,14 @@ public class VarVarCondition extends VarCondition {
 	 * @param var1
 	 *            the var1 to set
 	 */
-	public void setVar1(NumberVar<?> var1) {
+	public void setVar1(EAdField<? extends Number> var1) {
 		this.var1 = var1;
 	}
 
 	/**
 	 * @return the var2
 	 */
-	public NumberVar<?> getVar2() {
+	public EAdField<? extends Number> getVar2() {
 		return var2;
 	}
 
@@ -96,7 +96,7 @@ public class VarVarCondition extends VarCondition {
 	 * @param var2
 	 *            the var2 to set
 	 */
-	public void setVar2(NumberVar<?> var2) {
+	public void setVar2(EAdField<? extends Number> var2) {
 		this.var2 = var2;
 	}
 

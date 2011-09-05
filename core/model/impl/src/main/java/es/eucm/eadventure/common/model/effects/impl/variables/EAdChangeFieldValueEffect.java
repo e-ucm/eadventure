@@ -42,21 +42,21 @@ import es.eucm.eadventure.common.interfaces.Param;
 import es.eucm.eadventure.common.model.effects.impl.AbstractEAdEffect;
 import es.eucm.eadventure.common.model.extra.EAdList;
 import es.eucm.eadventure.common.model.extra.impl.EAdListImpl;
+import es.eucm.eadventure.common.model.variables.EAdField;
 import es.eucm.eadventure.common.model.variables.EAdOperation;
-import es.eucm.eadventure.common.model.variables.EAdVar;
 
 /**
- * Effect for changing variables' values
+ * Effect for changing a field value
  * 
  */
-@Element(runtime = EAdChangeVarValueEffect.class, detailed = EAdChangeVarValueEffect.class)
-public class EAdChangeVarValueEffect extends AbstractEAdEffect {
+@Element(runtime = EAdChangeFieldValueEffect.class, detailed = EAdChangeFieldValueEffect.class)
+public class EAdChangeFieldValueEffect extends AbstractEAdEffect {
 
 	/**
-	 * Variable to be changed
+	 * Field to be changed
 	 */
-	@Param("vars")
-	private EAdList<EAdVar<?>> vars;
+	@Param("fields")
+	private EAdList<EAdField<?>> fields;
 
 	/**
 	 * Operation to be done. The result of this operation should be assigned to
@@ -71,7 +71,7 @@ public class EAdChangeVarValueEffect extends AbstractEAdEffect {
 	 * @param id
 	 *            Elements's id
 	 */
-	public EAdChangeVarValueEffect(String id) {
+	public EAdChangeFieldValueEffect(String id) {
 		this(id, null, null);
 	}
 
@@ -81,32 +81,32 @@ public class EAdChangeVarValueEffect extends AbstractEAdEffect {
 	 * @param id
 	 *            Elements id
 	 * @param var
-	 *            The var to be changed
+	 *            The field to be changed
 	 * @param operation
-	 *            The operation to be performed to obtain the value of the var
+	 *            The operation to be performed to obtain the value of the field
 	 */
-	public EAdChangeVarValueEffect(String id, EAdVar<?> var,
+	public EAdChangeFieldValueEffect(String id, EAdField<?> field,
 			EAdOperation operation) {
 		super(id);
-		this.vars = new EAdListImpl<EAdVar<?>>(EAdVar.class);
-		if (var != null)
-			vars.add(var);
+		this.fields = new EAdListImpl<EAdField<?>>(EAdField.class);
+		if (field != null)
+			fields.add(field);
 		this.operation = operation;
 	}
 
 	/**
-	 * Sets the var to be updated with the operation result
+	 * Adds a field to be updated with the operation result
 	 * 
 	 * @param var
 	 *            the variable
 	 */
-	public void addVar(EAdVar<?> var) {
-		vars.add(var);
+	public void addVar(EAdField<?> var) {
+		fields.add(var);
 	}
 
 	/**
 	 * Sets the operation to be done by this effect. The result of this
-	 * operation should be assigned to the variable
+	 * operation should be assigned to the fields contained by the effect
 	 * 
 	 * @param operation
 	 *            the operation
@@ -116,12 +116,12 @@ public class EAdChangeVarValueEffect extends AbstractEAdEffect {
 	}
 
 	/**
-	 * Returns the var to be updated with the operation result
+	 * Returns a list of the fields to be updated with the operation result
 	 * 
-	 * @return the var to be updated with the operation result
+	 * @return a list of the fields to be updated with the operation result
 	 */
-	public EAdList<EAdVar<?>> getVars() {
-		return vars;
+	public EAdList<EAdField<?>> getVars() {
+		return fields;
 	}
 
 	/**

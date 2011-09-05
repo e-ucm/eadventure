@@ -42,41 +42,41 @@ import es.eucm.eadventure.common.interfaces.Param;
 import es.eucm.eadventure.common.model.conditions.impl.EmptyCondition;
 import es.eucm.eadventure.common.model.effects.EAdEffect;
 import es.eucm.eadventure.common.model.effects.impl.EAdChangeScene;
-import es.eucm.eadventure.common.model.effects.impl.variables.EAdChangeVarValueEffect;
+import es.eucm.eadventure.common.model.effects.impl.variables.EAdChangeFieldValueEffect;
 import es.eucm.eadventure.common.model.elements.EAdScene;
 import es.eucm.eadventure.common.model.elements.EAdSceneElement;
 import es.eucm.eadventure.common.model.extra.EAdList;
 import es.eucm.eadventure.common.model.extra.impl.EAdListImpl;
 import es.eucm.eadventure.common.model.transitions.EAdTransition;
+import es.eucm.eadventure.common.model.variables.EAdVarDef;
+import es.eucm.eadventure.common.model.variables.impl.EAdFieldImpl;
+import es.eucm.eadventure.common.model.variables.impl.EAdVarDefImpl;
 import es.eucm.eadventure.common.model.variables.impl.operations.BooleanOperation;
-import es.eucm.eadventure.common.model.variables.impl.vars.BooleanVar;
 import es.eucm.eadventure.common.resources.annotation.Asset;
 import es.eucm.eadventure.common.resources.assets.multimedia.Video;
 
 @Element(detailed = EAdVideoScene.class, runtime = EAdVideoScene.class)
 public class EAdVideoScene extends EAdSceneImpl implements EAdScene {
 
+	/**
+	 * Variable to defining if the video is finished playing
+	 */
+	public static final EAdVarDef<Boolean> VAR_FINISHED = new EAdVarDefImpl<Boolean>(
+			"finished", Boolean.class, Boolean.FALSE);
+
 	@Asset({ Video.class })
 	public static final String video = "video";
-	
-	@Param("videoFinishedVar")
-	private BooleanVar videoFinishedVar;
-	
+
 	@Param("nextScene")
-	EAdScene nextScene;
-	
+	private EAdScene nextScene;
+
 	private EAdList<EAdEffect> finalEffects;
 
 	public EAdVideoScene(String id) {
 		super(id);
-		videoFinishedVar = new BooleanVar(id + "_videoFinishedVar");
 		finalEffects = new EAdListImpl<EAdEffect>(EAdEffect.class);
 	}
-	
-	public BooleanVar getVideoFinishedVar() {
-		return videoFinishedVar;
-	}
-	
+
 	@Override
 	public EAdList<EAdSceneElement> getSceneElements() {
 		return null;
@@ -89,18 +89,21 @@ public class EAdVideoScene extends EAdSceneImpl implements EAdScene {
 	@Override
 	public boolean isReturnable() {
 		return false;
-	}	
-	
+	}
+
 	public void setUpForEngine() {
-		finalEffects.add(new EAdChangeVarValueEffect("finishVide", videoFinishedVar, new BooleanOperation("id", EmptyCondition.TRUE_EMPTY_CONDITION)));
-		EAdChangeScene e3 = new EAdChangeScene("changeScene", nextScene, EAdTransition.DISPLACE);
+		finalEffects.add(new EAdChangeFieldValueEffect("finishVide",
+				new EAdFieldImpl<Boolean>( this, VAR_FINISHED ), new BooleanOperation("id",
+						EmptyCondition.TRUE_EMPTY_CONDITION)));
+		EAdChangeScene e3 = new EAdChangeScene("changeScene", nextScene,
+				EAdTransition.DISPLACE);
 		finalEffects.add(e3);
 	}
 
 	public void setNextScene(EAdScene nextScene) {
 		this.nextScene = nextScene;
 	}
-	
+
 	public EAdScene getNextScene() {
 		return nextScene;
 	}

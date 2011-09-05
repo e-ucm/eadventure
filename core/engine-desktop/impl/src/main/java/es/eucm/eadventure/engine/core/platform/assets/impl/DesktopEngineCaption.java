@@ -41,7 +41,7 @@ import com.google.inject.Inject;
 
 import es.eucm.eadventure.common.StringHandler;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.CaptionImpl;
-import es.eucm.eadventure.engine.core.impl.VariableMap;
+import es.eucm.eadventure.engine.core.impl.variables.VariableMap;
 import es.eucm.eadventure.engine.core.platform.PlatformConfiguration;
 import es.eucm.eadventure.engine.core.platform.RuntimeFont;
 import es.eucm.eadventure.engine.core.platform.impl.FontCacheImpl;

@@ -35,34 +35,38 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package es.eucm.eadventure.common.model.variables;
+package es.eucm.eadventure.engine.core.variables;
 
-import es.eucm.eadventure.common.model.EAdElement;
+import es.eucm.eadventure.common.model.variables.EAdOperation;
 
 /**
- * General interface for variables in eAdventure
- * 
- * 
- * @param <T>
- *            Java class for the variable
+ * The value map interfaces allows for the definition of key-value pairs of
+ * different classes.
  */
-public interface EAdVar<T> extends EAdVarDef<T> {
+public interface ValueMap {
 
 	/**
-	 * If the variable is associated to an {@link EAdElement} returns that
-	 * element
-	 * 
-	 * @return the {@link EAdElement} associated to the variable. {@code null}
-	 *         if variable is not linked to any element
-	 */
-	EAdElement getElement();
-
-	/**
-	 * Sets the initial value for this variable
-	 * 
+	 * @param var
 	 * @param value
-	 *            the initial value for this variable
 	 */
-	void setInitialValue(T value);
+	<S> void setValue(EAdVar<S> var, S value);
+	
+	/**
+	 * Sets the variable to the result value of the operation
+	 * @param var
+	 * @param operation
+	 */
+	<S> void setValue(EAdVar<S> var, EAdOperation operation );
 
+	/**
+	 * @param <S>
+	 * @param var
+	 * @return
+	 */
+	<S> S getValue(EAdVar<S> var);
+
+	/**
+	 * Deletes from the value map all the local variables.
+	 */
+	void clean();
 }

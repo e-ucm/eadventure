@@ -54,7 +54,6 @@ import es.eucm.eadventure.common.resources.EAdString;
 import es.eucm.eadventure.common.resources.assets.AssetDescriptor;
 import es.eucm.eadventure.engine.core.GameState;
 import es.eucm.eadventure.engine.core.MouseState;
-import es.eucm.eadventure.engine.core.ValueMap;
 import es.eucm.eadventure.engine.core.gameobjects.ActorGO;
 import es.eucm.eadventure.engine.core.gameobjects.ActorReferenceGO;
 import es.eucm.eadventure.engine.core.gameobjects.GameObject;
@@ -64,6 +63,7 @@ import es.eucm.eadventure.engine.core.platform.AssetHandler;
 import es.eucm.eadventure.engine.core.platform.GUI;
 import es.eucm.eadventure.engine.core.platform.PlatformConfiguration;
 import es.eucm.eadventure.engine.core.platform.RuntimeAsset;
+import es.eucm.eadventure.engine.core.variables.ValueMap;
 
 public class ActorReferenceGOImpl extends SceneElementGOImpl<EAdActorReference>
 		implements ActorReferenceGO {

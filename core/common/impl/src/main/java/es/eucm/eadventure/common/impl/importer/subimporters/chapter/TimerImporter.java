@@ -48,7 +48,7 @@ import es.eucm.eadventure.common.model.conditions.impl.EmptyCondition;
 import es.eucm.eadventure.common.model.effects.EAdEffect;
 import es.eucm.eadventure.common.model.effects.impl.EAdMacroImpl;
 import es.eucm.eadventure.common.model.effects.impl.EAdTriggerMacro;
-import es.eucm.eadventure.common.model.effects.impl.variables.EAdChangeVarValueEffect;
+import es.eucm.eadventure.common.model.effects.impl.variables.EAdChangeFieldValueEffect;
 import es.eucm.eadventure.common.model.elements.EAdCondition;
 import es.eucm.eadventure.common.model.elements.EAdTimer;
 import es.eucm.eadventure.common.model.elements.impl.EAdTimerImpl;
@@ -92,7 +92,7 @@ public class TimerImporter implements EAdElementImporter<Timer, EAdTimer>{
 				.convert(oldTimer.getInitCond(), condition);
 		
 		EAdConditionEventImpl startEvent = new EAdConditionEventImpl("timerStart", condition);
-		EAdChangeVarValueEffect startEffect = new EAdChangeVarValueEffect("timerStartEffect", newTimer.timerStartedVar(), new BooleanOperation("", EmptyCondition.TRUE_EMPTY_CONDITION));
+		EAdChangeFieldValueEffect startEffect = new EAdChangeFieldValueEffect("timerStartEffect", newTimer.timerStartedVar(), new BooleanOperation("", EmptyCondition.TRUE_EMPTY_CONDITION));
 		startEvent.addEffect(EAdConditionEvent.ConditionedEvent.CONDITIONS_MET, startEffect);
 		newTimer.getEvents().add(startEvent);
 		

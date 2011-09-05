@@ -46,8 +46,6 @@ import es.eucm.eadventure.common.model.elements.EAdScene;
 import es.eucm.eadventure.common.model.elements.EAdTimer;
 import es.eucm.eadventure.common.model.extra.EAdList;
 import es.eucm.eadventure.common.model.extra.impl.EAdListImpl;
-import es.eucm.eadventure.common.model.variables.EAdElementVars;
-import es.eucm.eadventure.common.model.variables.impl.EAdElementVarsImpl;
 import es.eucm.eadventure.common.resources.EAdString;
 
 /**
@@ -83,9 +81,6 @@ public class EAdChapterImpl extends EAdGeneralElementImpl implements EAdChapter 
 	@Param("loadingScreen")
 	private EAdScene loadingScreen;
 	
-	@Param("vars")
-	private EAdElementVars vars;
-	
 	/**
 	 * Default constructor.
 	 * 
@@ -96,7 +91,7 @@ public class EAdChapterImpl extends EAdGeneralElementImpl implements EAdChapter 
 		scenes = new EAdListImpl<EAdScene>(EAdScene.class);
 		actors = new EAdListImpl<EAdActor>(EAdActor.class);
 		timers = new EAdListImpl<EAdTimer>(EAdTimer.class);
-		vars = new EAdElementVarsImpl(this);
+
 	}
 	
 	/* (non-Javadoc)
@@ -220,8 +215,4 @@ public class EAdChapterImpl extends EAdGeneralElementImpl implements EAdChapter 
 		this.loadingScreen = screen;
 	}
 
-	@Override
-	public EAdElementVars getVars() {
-		return vars;
-	}
 }

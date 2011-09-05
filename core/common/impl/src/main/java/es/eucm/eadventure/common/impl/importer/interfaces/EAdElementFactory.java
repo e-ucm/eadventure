@@ -42,7 +42,7 @@ import es.eucm.eadventure.common.data.chapter.Chapter;
 import es.eucm.eadventure.common.model.EAdElement;
 import es.eucm.eadventure.common.model.elements.EAdChapter;
 import es.eucm.eadventure.common.model.elements.EAdCondition;
-import es.eucm.eadventure.common.model.variables.EAdVar;
+import es.eucm.eadventure.engine.core.variables.EAdVar;
 
 public interface EAdElementFactory {
 

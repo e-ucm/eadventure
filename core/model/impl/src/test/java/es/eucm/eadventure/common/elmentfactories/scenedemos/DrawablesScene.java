@@ -4,7 +4,7 @@ import es.eucm.eadventure.common.elmentfactories.EAdElementsFactory;
 import es.eucm.eadventure.common.model.elements.EAdSceneElement.CommonStates;
 import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
 import es.eucm.eadventure.common.model.guievents.impl.EAdMouseEventImpl;
-import es.eucm.eadventure.common.model.variables.impl.extra.EAdSceneElementVars;
+import es.eucm.eadventure.common.model.variables.impl.EAdFieldImpl;
 import es.eucm.eadventure.common.model.variables.impl.operations.AssignOperation;
 import es.eucm.eadventure.common.params.fills.impl.EAdBorderedColor;
 import es.eucm.eadventure.common.params.fills.impl.EAdColor;
@@ -119,8 +119,7 @@ public class DrawablesScene extends EmptyScene {
 						.getInstance()
 						.getEffectFactory()
 						.getChangeVarValueEffect(
-								sceneElement.getVars().getVar(
-										EAdSceneElementVars.VAR_STATE),
+								new EAdFieldImpl<String>( sceneElement, EAdBasicSceneElement.VAR_STATE),
 								new AssignOperation("assign",
 										CommonStates.EAD_STATE_DEFAULT
 												.toString())));
@@ -130,8 +129,7 @@ public class DrawablesScene extends EmptyScene {
 						.getInstance()
 						.getEffectFactory()
 						.getChangeVarValueEffect(
-								sceneElement.getVars().getVar(
-										EAdSceneElementVars.VAR_STATE),
+								new EAdFieldImpl<String>( sceneElement, EAdBasicSceneElement.VAR_STATE),
 								new AssignOperation("assign",
 										CommonStates.EAD_STATE_TALKING
 												.toString())));

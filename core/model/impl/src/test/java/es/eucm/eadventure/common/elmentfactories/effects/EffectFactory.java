@@ -51,12 +51,12 @@ import es.eucm.eadventure.common.model.effects.impl.text.EAdSpeakEffect;
 import es.eucm.eadventure.common.model.effects.impl.text.extra.Answer;
 import es.eucm.eadventure.common.model.effects.impl.timedevents.EAdShowSceneElement;
 import es.eucm.eadventure.common.model.effects.impl.timedevents.EAdShowSceneElement.ShowTextAnimation;
-import es.eucm.eadventure.common.model.effects.impl.variables.EAdChangeVarValueEffect;
+import es.eucm.eadventure.common.model.effects.impl.variables.EAdChangeFieldValueEffect;
 import es.eucm.eadventure.common.model.elements.EAdSceneElement;
 import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
+import es.eucm.eadventure.common.model.variables.EAdField;
 import es.eucm.eadventure.common.model.variables.EAdOperation;
-import es.eucm.eadventure.common.model.variables.EAdVar;
-import es.eucm.eadventure.common.model.variables.impl.extra.EAdSceneElementVars;
+import es.eucm.eadventure.common.model.variables.impl.EAdFieldImpl;
 import es.eucm.eadventure.common.resources.EAdBundleId;
 import es.eucm.eadventure.common.resources.EAdString;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.Caption;
@@ -74,7 +74,7 @@ public class EffectFactory {
 		return effect;
 	}
 
-	public EAdVarInterpolationEffect getInterpolationEffect(EAdVar<?> var,
+	public EAdVarInterpolationEffect getInterpolationEffect(EAdField<?> var,
 			float startValue, float endValue, int time, LoopType loop,
 			InterpolationType interpolationType) {
 		EAdVarInterpolationEffect interpolation = new EAdVarInterpolationEffect(
@@ -130,9 +130,9 @@ public class EffectFactory {
 		return this.getShowText(text, x, y, ShowTextAnimation.NONE);
 	}
 
-	public EAdChangeVarValueEffect getChangeVarValueEffect(EAdVar<?> var,
+	public EAdChangeFieldValueEffect getChangeVarValueEffect(EAdField<?> var,
 			EAdOperation operation) {
-		EAdChangeVarValueEffect effect = new EAdChangeVarValueEffect(
+		EAdChangeFieldValueEffect effect = new EAdChangeFieldValueEffect(
 				"changeVarValue" + ID_GENERATOR++, var, operation);
 		return effect;
 
@@ -146,10 +146,13 @@ public class EffectFactory {
 				.getString(text);
 
 		effect.setText(string);
-		effect.setPosition(
-				sceneElement.getVars().getVar(EAdSceneElementVars.VAR_POSITION));
-		effect.setStateVar(sceneElement.getVars().getVar(
-				EAdSceneElementVars.VAR_STATE));
+		effect.setPosition(new EAdFieldImpl<Integer>(sceneElement,
+				EAdBasicSceneElement.VAR_X), new EAdFieldImpl<Integer>(sceneElement,
+						EAdBasicSceneElement.VAR_Y), new EAdFieldImpl<Float>(sceneElement,
+								EAdBasicSceneElement.VAR_DISP_X), new EAdFieldImpl<Float>(sceneElement,
+										EAdBasicSceneElement.VAR_DISP_Y));
+		effect.setStateVar(new EAdFieldImpl<String>(sceneElement,
+				EAdBasicSceneElement.VAR_STATE));
 
 		return effect;
 	}

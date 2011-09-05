@@ -45,7 +45,7 @@ import es.eucm.eadventure.common.data.chapter.conditions.Conditions;
 import es.eucm.eadventure.common.impl.importer.interfaces.EAdElementFactory;
 import es.eucm.eadventure.common.interfaces.features.Oriented.Orientation;
 import es.eucm.eadventure.common.model.effects.impl.EAdActorActionsEffect;
-import es.eucm.eadventure.common.model.effects.impl.variables.EAdChangeVarValueEffect;
+import es.eucm.eadventure.common.model.effects.impl.variables.EAdChangeFieldValueEffect;
 import es.eucm.eadventure.common.model.elements.EAdActorReference;
 import es.eucm.eadventure.common.model.elements.EAdCondition;
 import es.eucm.eadventure.common.model.elements.impl.EAdActorReferenceImpl;
@@ -111,7 +111,7 @@ public class ElementReferenceImporter implements
 				.convert(oldObject.getConditions(), condition);
 
 		EAdConditionEventImpl visibilityEvent = new EAdConditionEventImpl("visibilityCondition", condition);
-		EAdChangeVarValueEffect visibilityEffect = new EAdChangeVarValueEffect("visibilityConditionEffect", newRef.getVars().getVar(EAdSceneElementVars.VAR_VISIBLE), new BooleanOperation("", condition));
+		EAdChangeFieldValueEffect visibilityEffect = new EAdChangeFieldValueEffect("visibilityConditionEffect", newRef.getVars().getVar(EAdSceneElementVars.VAR_VISIBLE), new BooleanOperation("", condition));
 		visibilityEvent.addEffect(EAdConditionEvent.ConditionedEvent.CONDITIONS_MET, visibilityEffect);
 		visibilityEvent.addEffect(EAdConditionEvent.ConditionedEvent.CONDITIONS_UNMET, visibilityEffect);
 		newRef.getEvents().add(visibilityEvent);

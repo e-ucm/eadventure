@@ -2,12 +2,12 @@ package es.eucm.eadventure.common.test.importer.subimporters.effects.variables;
 
 import es.eucm.eadventure.common.data.chapter.effects.ActivateEffect;
 import es.eucm.eadventure.common.impl.importer.subimporters.effects.variables.ActivateFlagImporter;
-import es.eucm.eadventure.common.model.effects.impl.variables.EAdChangeVarValueEffect;
+import es.eucm.eadventure.common.model.effects.impl.variables.EAdChangeFieldValueEffect;
 import es.eucm.eadventure.common.model.variables.impl.operations.BooleanOperation;
 import es.eucm.eadventure.common.test.importer.subimporters.effects.EffectTest;
 
 public class ActivateFlagTest extends
-		EffectTest<ActivateEffect, EAdChangeVarValueEffect> {
+		EffectTest<ActivateEffect, EAdChangeFieldValueEffect> {
 
 	public ActivateFlagTest() {
 		super(ActivateFlagImporter.class);
@@ -25,7 +25,7 @@ public class ActivateFlagTest extends
 
 	@Override
 	public boolean equals(ActivateEffect oldObject,
-			EAdChangeVarValueEffect newObject) {
+			EAdChangeFieldValueEffect newObject) {
 		boolean ok = super.equals(oldObject, newObject);
 		ok = newObject.getOperation().equals(BooleanOperation.TRUE_OP) && ok;
 		ok = newObject.getVars().size() == 0;		

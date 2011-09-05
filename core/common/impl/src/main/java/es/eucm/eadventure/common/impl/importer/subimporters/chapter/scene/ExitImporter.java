@@ -49,7 +49,7 @@ import es.eucm.eadventure.common.model.conditions.impl.EmptyCondition;
 import es.eucm.eadventure.common.model.conditions.impl.NOTCondition;
 import es.eucm.eadventure.common.model.effects.EAdEffect;
 import es.eucm.eadventure.common.model.effects.impl.EAdChangeScene;
-import es.eucm.eadventure.common.model.effects.impl.variables.EAdChangeVarValueEffect;
+import es.eucm.eadventure.common.model.effects.impl.variables.EAdChangeFieldValueEffect;
 import es.eucm.eadventure.common.model.elements.EAdCondition;
 import es.eucm.eadventure.common.model.elements.EAdScene;
 import es.eucm.eadventure.common.model.elements.EAdSceneElement;
@@ -133,14 +133,14 @@ public class ExitImporter implements EAdElementImporter<Exit, EAdSceneElement> {
 			EAdConditionEventImpl event = new EAdConditionEventImpl( newExit.getId() + "_VisibleEvent" );
 			event.setCondition(condition);
 
-			EAdChangeVarValueEffect visibleVar = new EAdChangeVarValueEffect( newExit.getId() + "_visibleEffect" );
+			EAdChangeFieldValueEffect visibleVar = new EAdChangeFieldValueEffect( newExit.getId() + "_visibleEffect" );
 			visibleVar.addVar(newExit.getVars().getVar(EAdSceneElementVars.VAR_VISIBLE));
 			BooleanOperation op = new BooleanOperation( "booleanOpTrue" );
 			op.setCondition(EmptyCondition.TRUE_EMPTY_CONDITION);
 			visibleVar.setOperation( op );
 			event.addEffect(EAdConditionEvent.ConditionedEvent.CONDITIONS_MET, visibleVar);
 			
-			EAdChangeVarValueEffect notVisibleVar = new EAdChangeVarValueEffect( newExit.getId() + "_notVisibleEffect" );
+			EAdChangeFieldValueEffect notVisibleVar = new EAdChangeFieldValueEffect( newExit.getId() + "_notVisibleEffect" );
 			notVisibleVar.addVar(newExit.getVars().getVar(EAdSceneElementVars.VAR_VISIBLE));
 			op = new BooleanOperation( "booleanOpFalse" );
 			op.setCondition(EmptyCondition.FALSE_EMPTY_CONDITION);

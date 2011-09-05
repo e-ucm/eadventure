@@ -3,10 +3,9 @@ package es.eucm.eadventure.common.model.effects.impl.text;
 import es.eucm.eadventure.common.interfaces.Element;
 import es.eucm.eadventure.common.model.effects.impl.AbstractEAdEffect;
 import es.eucm.eadventure.common.model.effects.impl.timedevents.EAdShowSceneElement;
-import es.eucm.eadventure.common.model.variables.EAdVar;
+import es.eucm.eadventure.common.model.variables.EAdField;
 import es.eucm.eadventure.common.params.EAdFontImpl;
 import es.eucm.eadventure.common.params.fills.impl.EAdBorderedColor;
-import es.eucm.eadventure.common.params.geom.EAdPosition;
 import es.eucm.eadventure.common.resources.EAdString;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.shapes.BallonShape.BalloonType;
 
@@ -19,11 +18,13 @@ import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.shapes.Ba
 @Element(runtime = EAdShowSceneElement.class, detailed = EAdShowSceneElement.class)
 public class EAdSpeakEffect extends AbstractEAdEffect {
 
-	private EAdVar<EAdPosition> position;
+	private EAdField<Integer> x, y;
 	
-	private EAdVar<Integer> width, height;
+	private EAdField<Float> dispX, dispY;
+	
+	private EAdField<Integer> width, height;
 
-	private EAdVar<String> stateVar;
+	private EAdField<String> stateVar;
 
 	private EAdString string;
 
@@ -33,7 +34,7 @@ public class EAdSpeakEffect extends AbstractEAdEffect {
 	
 	private BalloonType ballonType;
 
-	private EAdVar<Float> scale;
+	private EAdField<Float> scale;
 
 	/**
 	 * Creates an speak effect, with no text and no position, with text color of
@@ -65,11 +66,14 @@ public class EAdSpeakEffect extends AbstractEAdEffect {
 	 * @param position
 	 *            variable holding the position 
 	 */
-	public void setPosition(EAdVar<EAdPosition> pos) {
-		this.position = pos;
+	public void setPosition(EAdField<Integer> x, EAdField<Integer> y, EAdField<Float> dispX, EAdField<Float> dispY) {
+		this.x = x;
+		this.y = y;
+		this.dispX = dispX;
+		this.dispY = dispY;
 	}
 	
-	public void setDimensions( EAdVar<Integer> width, EAdVar<Integer> height, EAdVar<Float> scale ){
+	public void setDimensions( EAdField<Integer> width, EAdField<Integer> height, EAdField<Float> scale ){
 		this.width = width;
 		this.height = height;
 		this.scale = scale;
@@ -95,7 +99,7 @@ public class EAdSpeakEffect extends AbstractEAdEffect {
 	 * 
 	 * @param stateVar the state var
 	 */
-	public void setStateVar(EAdVar<String> stateVar) {
+	public void setStateVar(EAdField<String> stateVar) {
 		this.stateVar = stateVar;
 	}
 	
@@ -107,16 +111,12 @@ public class EAdSpeakEffect extends AbstractEAdEffect {
 		return ballonType;
 	}
 	
-	public EAdVar<String> getStateVar(){
+	public EAdField<String> getStateVar(){
 		return stateVar;
 	}
 
 	public void setFont(EAdFontImpl font) {
 		this.font = font;
-	}
-
-	public EAdVar<EAdPosition> getPosition() {
-		return position;
 	}
 
 	public EAdString getString() {
@@ -135,15 +135,15 @@ public class EAdSpeakEffect extends AbstractEAdEffect {
 		return font;
 	}
 	
-	public EAdVar<Integer> getWidth(){
+	public EAdField<Integer> getWidth(){
 		return width;
 	}
 	
-	public EAdVar<Integer> getHeight(){
+	public EAdField<Integer> getHeight(){
 		return height;
 	}
 	
-	public EAdVar<Float> getScale(){
+	public EAdField<Float> getScale(){
 		return scale;
 	}
 

@@ -4,14 +4,12 @@ import es.eucm.eadventure.common.elmentfactories.EAdElementsFactory;
 import es.eucm.eadventure.common.model.effects.impl.EAdMoveActiveElement;
 import es.eucm.eadventure.common.model.effects.impl.sceneelements.EAdMakeActiveElementEffect;
 import es.eucm.eadventure.common.model.effects.impl.text.EAdSpeakEffect;
-import es.eucm.eadventure.common.model.elements.EAdSceneElement.CommonStates;
 import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
 import es.eucm.eadventure.common.model.events.EAdSceneElementEvent;
 import es.eucm.eadventure.common.model.events.EAdSceneElementEvent.SceneElementEvent;
 import es.eucm.eadventure.common.model.events.impl.EAdSceneElementEventImpl;
 import es.eucm.eadventure.common.model.guievents.impl.EAdMouseEventImpl;
 import es.eucm.eadventure.common.model.trajectories.impl.SimpleTrajectoryDefinition;
-import es.eucm.eadventure.common.model.variables.impl.extra.EAdSceneElementVars;
 import es.eucm.eadventure.common.params.geom.impl.EAdPositionImpl;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.shapes.BallonShape.BalloonType;
 
@@ -22,8 +20,6 @@ public class SpeakAndMoveScene extends EmptyScene {
 				.getInstance()
 				.getSceneElementFactory()
 				.createSceneElement(CharacterScene.getStateDrawable(), 100, 300);
-
-		character.getVars().getVar(EAdSceneElementVars.VAR_STATE).setInitialValue(CommonStates.EAD_STATE_DEFAULT.toString());
 
 		character.setScale(3.0f);
 		character.setPosition(new EAdPositionImpl(400, 300));

@@ -45,9 +45,9 @@ import com.google.inject.Singleton;
 import es.eucm.eadventure.common.interfaces.AbstractFactory;
 import es.eucm.eadventure.common.interfaces.MapProvider;
 import es.eucm.eadventure.common.model.variables.EAdOperation;
-import es.eucm.eadventure.common.model.variables.EAdVar;
 import es.eucm.eadventure.engine.core.operator.Operator;
 import es.eucm.eadventure.engine.core.operator.OperatorFactory;
+import es.eucm.eadventure.engine.core.variables.EAdVar;
 
 @Singleton
 public class OperatorFactoryImpl extends AbstractFactory<Operator<?>> implements OperatorFactory {

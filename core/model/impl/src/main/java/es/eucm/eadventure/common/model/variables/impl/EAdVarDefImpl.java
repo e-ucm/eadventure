@@ -11,19 +11,16 @@ public class EAdVarDefImpl<T> implements EAdVarDef<T> {
 	@Param("id")
 	private String id;
 
+	@Param("name")
+	private String name;
+
 	@Param("class")
 	private Class<T> type;
 
 	@Param("initialValue")
 	private T initialValue;
 
-	@Param("constant")
-	private boolean constant;
-
-	@Param("global")
-	private boolean global;
-	
-	public EAdVarDefImpl( String id ){
+	public EAdVarDefImpl(String id) {
 		this.id = id;
 	}
 
@@ -41,18 +38,11 @@ public class EAdVarDefImpl<T> implements EAdVarDef<T> {
 	 * @param global
 	 *            if the variable is global
 	 */
-	public EAdVarDefImpl(String name, Class<T> type, T initialValue,
-			boolean constant, boolean global) {
-		super();
-		this.id = name;
+	public EAdVarDefImpl(String name, Class<T> type, T initialValue) {
+		this.id = "var_" + "name_" + Math.round(Math.random() * 100);
+		this.name = name;
 		this.type = type;
 		this.initialValue = initialValue;
-		this.constant = constant;
-		this.global = global;
-	}
-	
-	public EAdVarDefImpl( String name, Class<T> type, T initialValue ){
-		this( name, type, initialValue, false, false);
 	}
 
 	@Override
@@ -62,22 +52,12 @@ public class EAdVarDefImpl<T> implements EAdVarDef<T> {
 
 	@Override
 	public String getName() {
-		return id;
+		return name;
 	}
 
 	@Override
 	public T getInitialValue() {
 		return initialValue;
-	}
-
-	@Override
-	public boolean isConstant() {
-		return constant;
-	}
-
-	@Override
-	public boolean isGlobal() {
-		return global;
 	}
 
 	@Override
@@ -87,14 +67,16 @@ public class EAdVarDefImpl<T> implements EAdVarDef<T> {
 
 	@Override
 	public EAdElement copy() {
-		// TODO copy var def
-		return null;
+		return copy(true);
 	}
 
 	@Override
 	public EAdElement copy(boolean deepCopy) {
-		// TODO copy var def
-		return null;
+		EAdVarDefImpl<T> element = new EAdVarDefImpl<T>(id);
+		element.name = name;
+		element.type = type;
+		element.initialValue = initialValue;
+		return element;
 	}
 
 }

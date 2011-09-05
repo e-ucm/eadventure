@@ -43,8 +43,6 @@ import java.util.Map;
 import java.util.logging.Logger;
 
 import es.eucm.eadventure.common.model.EAdElement;
-import es.eucm.eadventure.common.model.variables.EAdVar;
-import es.eucm.eadventure.common.model.variables.impl.EAdVarImpl;
 import es.eucm.eadventure.common.params.EAdFill;
 import es.eucm.eadventure.common.params.EAdFont;
 import es.eucm.eadventure.common.params.EAdFontImpl;
@@ -59,6 +57,8 @@ import es.eucm.eadventure.common.resources.EAdBundleId;
 import es.eucm.eadventure.common.resources.EAdString;
 import es.eucm.eadventure.common.resources.EAdURI;
 import es.eucm.eadventure.common.resources.assets.impl.EAdURIImpl;
+import es.eucm.eadventure.engine.core.impl.variables.EAdVarImpl;
+import es.eucm.eadventure.engine.core.variables.EAdVar;
 
 /**
  * Includes methods to generate an object of a given type from a string value

@@ -39,7 +39,7 @@ package es.eucm.eadventure.common.model.conditions.impl;
 
 import es.eucm.eadventure.common.interfaces.Element;
 import es.eucm.eadventure.common.interfaces.Param;
-import es.eucm.eadventure.common.model.variables.EAdVar;
+import es.eucm.eadventure.common.model.variables.EAdField;
 
 /**
  * Condition comparing a variable with a value
@@ -50,7 +50,7 @@ import es.eucm.eadventure.common.model.variables.EAdVar;
 public class VarValCondition extends VarCondition {
 
 	@Param("variable")
-	private EAdVar<? extends Number> var;
+	private EAdField<? extends Number> var;
 
 	@Param("value")
 	private Float val;
@@ -65,13 +65,13 @@ public class VarValCondition extends VarCondition {
 	 * @param value
 	 *            operator used to compare
 	 */
-	public VarValCondition(EAdVar<? extends Number> var, Number val, Operator op) {
+	public VarValCondition(EAdField<? extends Number> var, Number val, Operator op) {
 		super(op);
 		this.var = var;
 		this.val = val.floatValue();
 	}
 	
-	public VarValCondition(String id, EAdVar<? extends Number> var, Number val, Operator op) {
+	public VarValCondition(String id, EAdField<? extends Number> var, Number val, Operator op) {
 		super(op);
 		this.var = var;
 		this.val = val.floatValue();
@@ -81,7 +81,7 @@ public class VarValCondition extends VarCondition {
 	/**
 	 * @return the var
 	 */
-	public EAdVar<? extends Number> getVar() {
+	public EAdField<? extends Number> getVar() {
 		return var;
 	}
 
@@ -89,7 +89,7 @@ public class VarValCondition extends VarCondition {
 	 * @param var
 	 *            the var to set
 	 */
-	public void setVar(EAdVar<? extends Number> var) {
+	public void setVar(EAdField<? extends Number> var) {
 		this.var = var;
 	}
 

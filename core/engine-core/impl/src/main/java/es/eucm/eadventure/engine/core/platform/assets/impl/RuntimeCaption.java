@@ -49,7 +49,7 @@ import es.eucm.eadventure.common.resources.assets.drawable.Drawable;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.Caption;
 import es.eucm.eadventure.engine.core.GameLoop;
 import es.eucm.eadventure.engine.core.GameState;
-import es.eucm.eadventure.engine.core.impl.VariableMap;
+import es.eucm.eadventure.engine.core.impl.variables.VariableMap;
 import es.eucm.eadventure.engine.core.platform.DrawableAsset;
 import es.eucm.eadventure.engine.core.platform.PlatformConfiguration;
 import es.eucm.eadventure.engine.core.platform.RuntimeFont;

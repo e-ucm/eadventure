@@ -41,46 +41,33 @@ import es.eucm.eadventure.common.interfaces.Element;
 import es.eucm.eadventure.common.interfaces.Param;
 import es.eucm.eadventure.common.model.elements.EAdTimer;
 import es.eucm.eadventure.common.model.impl.EAdGeneralElementImpl;
-import es.eucm.eadventure.common.model.variables.EAdVar;
-import es.eucm.eadventure.common.model.variables.impl.vars.BooleanVar;
+import es.eucm.eadventure.common.model.variables.EAdVarDef;
+import es.eucm.eadventure.common.model.variables.impl.EAdVarDefImpl;
 
 @Element(detailed = EAdTimerImpl.class, runtime = EAdTimerImpl.class)
 public class EAdTimerImpl extends EAdGeneralElementImpl implements EAdTimer {
-	
+
+	public static final EAdVarDef<Boolean> VAR_STARTED = new EAdVarDefImpl<Boolean>(
+			"started", Boolean.class, Boolean.FALSE);
+
 	/**
 	 * Time in millisecons
 	 */
 	@Param("time")
 	private Integer time;
-	
-	private EAdVar<Boolean> timerStarted;
-
-	private EAdVar<Boolean> timerEnded;
 
 	public EAdTimerImpl(String id) {
 		super(id);
 		time = 5000;
-		timerStarted = new BooleanVar("timerStarted", this);
-		timerEnded = new BooleanVar("timerEnded", this);
 	}
 
 	@Override
 	public Integer getTime() {
 		return time;
 	}
-	
+
 	public void setTime(Integer time) {
 		this.time = time;
 	}
 
-	@Override
-	public EAdVar<Boolean> timerStartedVar() {
-		return timerStarted;
-	}
-
-	@Override
-	public EAdVar<Boolean> timerEndedVar() {
-		return timerEnded;
-	}
-	
 }

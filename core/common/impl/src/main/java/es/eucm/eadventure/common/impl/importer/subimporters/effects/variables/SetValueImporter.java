@@ -45,13 +45,13 @@ import es.eucm.eadventure.common.data.chapter.conditions.Conditions;
 import es.eucm.eadventure.common.data.chapter.effects.SetValueEffect;
 import es.eucm.eadventure.common.impl.importer.interfaces.EAdElementFactory;
 import es.eucm.eadventure.common.impl.importer.subimporters.effects.EffectImporter;
-import es.eucm.eadventure.common.model.effects.impl.variables.EAdChangeVarValueEffect;
+import es.eucm.eadventure.common.model.effects.impl.variables.EAdChangeFieldValueEffect;
 import es.eucm.eadventure.common.model.elements.EAdCondition;
-import es.eucm.eadventure.common.model.variables.EAdVar;
 import es.eucm.eadventure.common.model.variables.impl.operations.LiteralExpressionOperation;
+import es.eucm.eadventure.engine.core.variables.EAdVar;
 
 public class SetValueImporter extends
-		EffectImporter<SetValueEffect, EAdChangeVarValueEffect> {
+		EffectImporter<SetValueEffect, EAdChangeFieldValueEffect> {
 
 	private EAdElementFactory factory;
 
@@ -66,12 +66,12 @@ public class SetValueImporter extends
 	}
 
 	@Override
-	public EAdChangeVarValueEffect init(SetValueEffect oldObject) {
+	public EAdChangeFieldValueEffect init(SetValueEffect oldObject) {
 		EAdVar<?> var = factory.getVarByOldId(oldObject.getTargetId(),
 				Condition.VAR_CONDITION);
 		LiteralExpressionOperation op = new LiteralExpressionOperation(
 				"literalExpression", oldObject.getValue() + "", var);
-		EAdChangeVarValueEffect effect = new EAdChangeVarValueEffect(
+		EAdChangeFieldValueEffect effect = new EAdChangeFieldValueEffect(
 				"changeVarValueFromSet" + ID_GENERATOR++, var, op);
 		super.importConditions(oldObject, effect);
 		effect.setQueueable(true);
@@ -79,8 +79,8 @@ public class SetValueImporter extends
 	}
 
 	@Override
-	public EAdChangeVarValueEffect convert(SetValueEffect oldObject, Object object) {
-		return (EAdChangeVarValueEffect) object;
+	public EAdChangeFieldValueEffect convert(SetValueEffect oldObject, Object object) {
+		return (EAdChangeFieldValueEffect) object;
 	}
 
 }

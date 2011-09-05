@@ -48,7 +48,6 @@ import es.eucm.eadventure.common.model.impl.EAdAdventureModelImpl;
 import es.eucm.eadventure.engine.core.Game;
 import es.eucm.eadventure.engine.core.GameController;
 import es.eucm.eadventure.engine.core.GameState;
-import es.eucm.eadventure.engine.core.ValueMap;
 import es.eucm.eadventure.engine.core.debuggers.EAdDebugger;
 import es.eucm.eadventure.engine.core.debuggers.impl.EAdMainDebugger;
 import es.eucm.eadventure.engine.core.gameobjects.huds.EffectHUD;
@@ -57,9 +56,10 @@ import es.eucm.eadventure.engine.core.impl.GameControllerImpl;
 import es.eucm.eadventure.engine.core.impl.GameImpl;
 import es.eucm.eadventure.engine.core.impl.GameStateImpl;
 import es.eucm.eadventure.engine.core.impl.LoadingScreen;
-import es.eucm.eadventure.engine.core.impl.VariableMap;
+import es.eucm.eadventure.engine.core.impl.variables.VariableMap;
 import es.eucm.eadventure.engine.core.platform.FontCache;
 import es.eucm.eadventure.engine.core.platform.impl.FontCacheImpl;
+import es.eucm.eadventure.engine.core.variables.ValueMap;
 
 public class BasicGameModule extends AbstractModule {
 

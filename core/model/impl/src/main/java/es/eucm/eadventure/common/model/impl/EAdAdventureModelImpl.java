@@ -44,10 +44,11 @@ import es.eucm.eadventure.common.model.elements.EAdAdventureModel;
 import es.eucm.eadventure.common.model.elements.EAdChapter;
 import es.eucm.eadventure.common.model.elements.EAdInventory;
 import es.eucm.eadventure.common.model.extra.EAdList;
+import es.eucm.eadventure.common.model.extra.EAdMap;
 import es.eucm.eadventure.common.model.extra.impl.EAdListImpl;
+import es.eucm.eadventure.common.model.extra.impl.EAdMapImpl;
 import es.eucm.eadventure.common.model.impl.inventory.EAdBasicInventory;
-import es.eucm.eadventure.common.model.variables.EAdElementVars;
-import es.eucm.eadventure.common.model.variables.impl.EAdElementVarsImpl;
+import es.eucm.eadventure.common.model.variables.EAdVarDef;
 import es.eucm.eadventure.common.resources.EAdString;
 
 /**
@@ -72,7 +73,7 @@ public class EAdAdventureModelImpl implements EAdAdventureModel {
 	@Param("inventory")
 	private EAdInventory inventory;
 	
-	private EAdElementVars vars;
+	private EAdMap<EAdVarDef<?>, Object> vars;
 	
 	/**
 	 * Constructs a {@link EAdAdventureModelImpl}.
@@ -80,7 +81,8 @@ public class EAdAdventureModelImpl implements EAdAdventureModel {
 	public EAdAdventureModelImpl() {
 		chapters = new EAdListImpl<EAdChapter>(EAdChapter.class);
 		inventory = new EAdBasicInventory();
-		vars = new EAdElementVarsImpl(this);
+		vars = new EAdMapImpl<EAdVarDef<?>, Object>(EAdVarDef.class,
+				Object.class);
 	}
 	
 	public EAdList<EAdChapter> getChapters() {
@@ -161,8 +163,14 @@ public class EAdAdventureModelImpl implements EAdAdventureModel {
 	}
 
 	@Override
-	public EAdElementVars getVars() {
+	public EAdMap<EAdVarDef<?>, Object> getVars() {
 		return vars;
 	}
+
+	@Override
+	public <T> void setVarInitialValue(EAdVarDef<T> var, T value) {
+		vars.put(var, value);
+	}
+
 	
 }

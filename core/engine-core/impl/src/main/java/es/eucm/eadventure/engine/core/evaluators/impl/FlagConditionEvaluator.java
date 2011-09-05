@@ -44,8 +44,8 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 import es.eucm.eadventure.common.model.conditions.impl.FlagCondition;
-import es.eucm.eadventure.engine.core.ValueMap;
 import es.eucm.eadventure.engine.core.evaluators.Evaluator;
+import es.eucm.eadventure.engine.core.variables.ValueMap;
 
 @Singleton
 public class FlagConditionEvaluator implements Evaluator<FlagCondition> {

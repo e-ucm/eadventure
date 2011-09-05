@@ -44,11 +44,12 @@ import es.eucm.eadventure.common.model.effects.EAdEffect;
 import es.eucm.eadventure.common.model.effects.EAdMacro;
 import es.eucm.eadventure.common.model.effects.impl.EAdMacroImpl;
 import es.eucm.eadventure.common.model.effects.impl.EAdTriggerMacro;
-import es.eucm.eadventure.common.model.effects.impl.variables.EAdChangeVarValueEffect;
+import es.eucm.eadventure.common.model.effects.impl.text.EAdShowQuestion;
+import es.eucm.eadventure.common.model.effects.impl.variables.EAdChangeFieldValueEffect;
 import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
 import es.eucm.eadventure.common.model.guievents.impl.EAdMouseEventImpl;
+import es.eucm.eadventure.common.model.variables.EAdField;
 import es.eucm.eadventure.common.model.variables.impl.operations.LiteralExpressionOperation;
-import es.eucm.eadventure.common.model.variables.impl.vars.IntegerVar;
 
 /**
  * <p>
@@ -60,7 +61,7 @@ public class Answer extends EAdBasicSceneElement {
 
 	@Param("macro")
 	private EAdMacro macro;
-	
+
 	public Answer(String id) {
 		super(id);
 		macro = new EAdMacroImpl(id + "_macro");
@@ -74,35 +75,37 @@ public class Answer extends EAdBasicSceneElement {
 	public EAdMacro getMacro() {
 		return macro;
 	}
-	
+
 	public void setMacro(EAdMacro macro) {
 		this.macro = macro;
 	}
-	
-	public void setUpNewInstance(IntegerVar selectedAnswer, EAdEffect endEffect, int index) {
+
+	public void setUpNewInstance(EAdField<Integer> selectedAnswer,
+			EAdEffect endEffect, int index) {
 		behavior = new EAdBehaviorImpl(id + "_answer" + index + "Behavior");
-		
-		EAdChangeVarValueEffect selectEffect = new EAdChangeVarValueEffect("setSelected");
+
+		EAdChangeFieldValueEffect selectEffect = new EAdChangeFieldValueEffect(
+				"setSelected");
 		selectEffect.addVar(selectedAnswer);
-		selectEffect.setOperation(new LiteralExpressionOperation("exp", "" + index));
+		selectEffect.setOperation(new LiteralExpressionOperation("exp", ""
+				+ index));
 		behavior.addBehavior(EAdMouseEventImpl.MOUSE_ENTERED, selectEffect);
-		
-		EAdChangeVarValueEffect unselectEffect = new EAdChangeVarValueEffect("setUnselected");
+
+		EAdChangeFieldValueEffect unselectEffect = new EAdChangeFieldValueEffect(
+				"setUnselected");
 		unselectEffect.addVar(selectedAnswer);
-		unselectEffect.setOperation(new LiteralExpressionOperation("exp", "-1"));
+		unselectEffect
+				.setOperation(new LiteralExpressionOperation("exp", "-1"));
 		behavior.addBehavior(EAdMouseEventImpl.MOUSE_EXITED, unselectEffect);
-		
-		
-		EAdTriggerMacro triggerMacro = new EAdTriggerMacro( id + "_triggerMacro");
+
+		EAdTriggerMacro triggerMacro = new EAdTriggerMacro(id + "_triggerMacro");
 		triggerMacro.setMacro(macro);
 		behavior.addBehavior(EAdMouseEventImpl.MOUSE_LEFT_CLICK, endEffect);
 		behavior.addBehavior(EAdMouseEventImpl.MOUSE_RIGHT_CLICK, endEffect);
 		behavior.addBehavior(EAdMouseEventImpl.MOUSE_LEFT_CLICK, triggerMacro);
 		behavior.addBehavior(EAdMouseEventImpl.MOUSE_RIGHT_CLICK, triggerMacro);
-		
-		//TODO Appearance change for selected/not selected
+
+		// TODO Appearance change for selected/not selected
 	}
-	
-	
-	
+
 }

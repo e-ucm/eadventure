@@ -38,8 +38,8 @@
 package es.eucm.eadventure.engine.core.operators.impl.util;
 
 import es.eucm.eadventure.common.model.extra.EAdList;
-import es.eucm.eadventure.common.model.variables.EAdVar;
-import es.eucm.eadventure.engine.core.ValueMap;
+import es.eucm.eadventure.engine.core.variables.EAdVar;
+import es.eucm.eadventure.engine.core.variables.ValueMap;
 /************************************************************************
  * <i>Mathematic expression evaluator.</i> Supports the following functions: +,
  * -, *, /, ^, %, cos, sin, tan, acos, asin, atan, sqrt, sqr, log, min, max,

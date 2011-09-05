@@ -37,10 +37,10 @@
 
 package es.eucm.eadventure.engine.core.operators.impl;
 
-import es.eucm.eadventure.common.model.variables.EAdVar;
 import es.eucm.eadventure.common.model.variables.impl.operations.AssignOperation;
-import es.eucm.eadventure.engine.core.ValueMap;
 import es.eucm.eadventure.engine.core.operator.Operator;
+import es.eucm.eadventure.engine.core.variables.EAdVar;
+import es.eucm.eadventure.engine.core.variables.ValueMap;
 
 public class AssignOperator implements Operator<AssignOperation> {
 
