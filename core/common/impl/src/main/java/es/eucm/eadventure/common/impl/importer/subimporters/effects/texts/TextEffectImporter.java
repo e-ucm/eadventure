@@ -38,13 +38,13 @@
 package es.eucm.eadventure.common.impl.importer.subimporters.effects.texts;
 
 import es.eucm.eadventure.common.EAdElementImporter;
-import es.eucm.eadventure.common.StringHandler;
 import es.eucm.eadventure.common.data.chapter.conditions.Conditions;
 import es.eucm.eadventure.common.data.chapter.effects.AbstractEffect;
 import es.eucm.eadventure.common.impl.importer.interfaces.EAdElementFactory;
 import es.eucm.eadventure.common.impl.importer.subimporters.effects.EffectImporter;
 import es.eucm.eadventure.common.model.effects.impl.text.EAdSpeakEffect;
 import es.eucm.eadventure.common.model.elements.EAdCondition;
+import es.eucm.eadventure.common.resources.StringHandler;
 
 public abstract class TextEffectImporter<T extends AbstractEffect> extends
 		EffectImporter<T, EAdSpeakEffect> {

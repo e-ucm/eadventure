@@ -45,8 +45,8 @@ import com.google.inject.Provides;
 import com.google.inject.Singleton;
 
 import es.eucm.eadventure.common.StringFileHandler;
-import es.eucm.eadventure.common.StringHandler;
 import es.eucm.eadventure.common.impl.strings.DefaultStringFileHandler;
+import es.eucm.eadventure.common.resources.StringHandler;
 import es.eucm.eadventure.common.resources.assets.AssetDescriptor;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.Caption;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.Image;

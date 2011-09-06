@@ -43,7 +43,6 @@ import java.util.Map;
 import com.google.inject.Inject;
 
 import es.eucm.eadventure.common.EAdElementImporter;
-import es.eucm.eadventure.common.StringHandler;
 import es.eucm.eadventure.common.data.chapter.Action;
 import es.eucm.eadventure.common.data.chapter.elements.Element;
 import es.eucm.eadventure.common.impl.importer.interfaces.EAdElementFactory;
@@ -57,6 +56,7 @@ import es.eucm.eadventure.common.model.elements.EAdActor;
 import es.eucm.eadventure.common.model.elements.EAdCondition;
 import es.eucm.eadventure.common.model.elements.impl.EAdBasicActor;
 import es.eucm.eadventure.common.resources.EAdString;
+import es.eucm.eadventure.common.resources.StringHandler;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.Caption;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.CaptionImpl;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.ImageImpl;

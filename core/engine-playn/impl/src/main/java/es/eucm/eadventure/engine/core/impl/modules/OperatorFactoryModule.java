@@ -35,41 +35,25 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package es.eucm.eadventure.engine.core.gameobjects.impl.events;
+package es.eucm.eadventure.engine.core.impl.modules;
 
-import com.google.inject.Inject;
+import com.google.gwt.inject.client.AbstractGinModule;
+import com.google.inject.Singleton;
+import com.google.inject.TypeLiteral;
 
-import es.eucm.eadventure.common.model.events.EAdSystemEvent;
-import es.eucm.eadventure.common.model.events.EAdSystemEvent.Event;
-import es.eucm.eadventure.common.resources.StringHandler;
-import es.eucm.eadventure.engine.core.GameState;
-import es.eucm.eadventure.engine.core.ValueMap;
-import es.eucm.eadventure.engine.core.gameobjects.GameObjectFactory;
-import es.eucm.eadventure.engine.core.platform.AssetHandler;
-import es.eucm.eadventure.engine.core.platform.GUI;
-import es.eucm.eadventure.engine.core.platform.PlatformConfiguration;
+import es.eucm.eadventure.common.interfaces.MapProvider;
+import es.eucm.eadventure.engine.core.impl.factorymapproviders.OperatorFactoryMapProvider;
+import es.eucm.eadventure.engine.core.operator.Operator;
+import es.eucm.eadventure.engine.core.operator.OperatorFactory;
+import es.eucm.eadventure.engine.core.operators.impl.OperatorFactoryImpl;
 
-public class SystemEventGO extends AbstractEventGO<EAdSystemEvent> {
-
-	private boolean triggered = false;
-
-	@Inject
-	public SystemEventGO(AssetHandler assetHandler,
-			StringHandler stringHandler, GameObjectFactory gameObjectFactory,
-			GUI gui, GameState gameState, ValueMap valueMap,
-			PlatformConfiguration platformConfiguration) {
-		super(assetHandler, stringHandler, gameObjectFactory, gui, gameState, valueMap,
-				platformConfiguration);
-	}
+@Singleton
+public class OperatorFactoryModule extends AbstractGinModule {
 
 	@Override
-	public void update(GameState state) {
-		super.update(state);
-		//TODO probably not enough to just check for assets loaded
-		if (assetHandler.isLoaded() && !triggered) {
-			runEffects(element.getEffects(Event.GAME_LOADED));
-			triggered = true;
-		} 
+	protected void configure() {
+		bind(new TypeLiteral<MapProvider<Class<?>, Operator<?>>>() {}).to(OperatorFactoryMapProvider.class);
+		bind( OperatorFactory.class).to(OperatorFactoryImpl.class);
 	}
 
 }

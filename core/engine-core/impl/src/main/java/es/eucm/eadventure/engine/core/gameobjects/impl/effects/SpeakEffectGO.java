@@ -2,7 +2,6 @@ package es.eucm.eadventure.engine.core.gameobjects.impl.effects;
 
 import com.google.inject.Inject;
 
-import es.eucm.eadventure.common.StringHandler;
 import es.eucm.eadventure.common.model.effects.impl.text.EAdSpeakEffect;
 import es.eucm.eadventure.common.model.elements.EAdSceneElement;
 import es.eucm.eadventure.common.model.elements.EAdSceneElement.CommonStates;
@@ -11,6 +10,7 @@ import es.eucm.eadventure.common.model.elements.impl.EAdComplexSceneElement;
 import es.eucm.eadventure.common.model.guievents.EAdMouseEvent.MouseActionType;
 import es.eucm.eadventure.common.params.geom.EAdPosition;
 import es.eucm.eadventure.common.params.geom.impl.EAdPositionImpl;
+import es.eucm.eadventure.common.resources.StringHandler;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.CaptionImpl;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.shapes.BallonShape;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.shapes.BezierShape;

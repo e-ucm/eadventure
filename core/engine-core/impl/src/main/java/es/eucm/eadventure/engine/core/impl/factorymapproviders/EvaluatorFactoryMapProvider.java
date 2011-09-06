@@ -41,7 +41,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.google.inject.Inject;
-import com.google.inject.Injector;
 import com.google.inject.Singleton;
 
 import es.eucm.eadventure.common.model.conditions.impl.ANDCondition;
@@ -65,15 +64,20 @@ public class EvaluatorFactoryMapProvider extends AbstractMapProvider<Class<?>, E
 	private static Map<Class<?>, Evaluator<?>> tempMap = new HashMap<Class<?>, Evaluator<?>>();
 	
 	@Inject
-	public EvaluatorFactoryMapProvider(EvaluatorFactory evaluatorFactory, Injector injector) {
+	public EvaluatorFactoryMapProvider(EvaluatorFactory evaluatorFactory,
+			EmptyConditionEvaluator emptyConditionEvaluator,
+			FlagConditionEvaluator flagConditionEvaluator,
+			VarConditionEvaluator varConditionEvaluator,
+			ListedConditionEvaluator listedConditionEvaluator,
+			NOTConditionEvaluator notConditionEvaluator) {
 		super();
-		factoryMap.put(EmptyCondition.class, injector.getInstance(EmptyConditionEvaluator.class));
-		factoryMap.put(FlagCondition.class, injector.getInstance(FlagConditionEvaluator.class));
-		factoryMap.put(VarVarCondition.class, injector.getInstance(VarConditionEvaluator.class));
-		factoryMap.put(VarValCondition.class, injector.getInstance(VarConditionEvaluator.class));
-		factoryMap.put(ANDCondition.class, injector.getInstance(ListedConditionEvaluator.class));
-		factoryMap.put(ORCondition.class, injector.getInstance(ListedConditionEvaluator.class));
-		factoryMap.put(NOTCondition.class, injector.getInstance(NOTConditionEvaluator.class));
+		factoryMap.put(EmptyCondition.class, emptyConditionEvaluator);
+		factoryMap.put(FlagCondition.class, flagConditionEvaluator);
+		factoryMap.put(VarVarCondition.class, varConditionEvaluator);
+		factoryMap.put(VarValCondition.class, varConditionEvaluator);
+		factoryMap.put(ANDCondition.class, listedConditionEvaluator);
+		factoryMap.put(ORCondition.class, listedConditionEvaluator);
+		factoryMap.put(NOTCondition.class, notConditionEvaluator);
 		factoryMap.putAll(tempMap);
 	}
 	

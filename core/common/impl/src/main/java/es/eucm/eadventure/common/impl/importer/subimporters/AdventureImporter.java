@@ -40,13 +40,13 @@ package es.eucm.eadventure.common.impl.importer.subimporters;
 import com.google.inject.Inject;
 
 import es.eucm.eadventure.common.EAdElementImporter;
-import es.eucm.eadventure.common.StringHandler;
 import es.eucm.eadventure.common.data.adventure.AdventureData;
 import es.eucm.eadventure.common.data.chapter.Chapter;
 import es.eucm.eadventure.common.impl.importer.interfaces.EAdElementFactory;
 import es.eucm.eadventure.common.model.elements.EAdAdventureModel;
 import es.eucm.eadventure.common.model.elements.EAdChapter;
 import es.eucm.eadventure.common.model.impl.EAdAdventureModelImpl;
+import es.eucm.eadventure.common.resources.StringHandler;
 
 /**
  * An importer for old adventures

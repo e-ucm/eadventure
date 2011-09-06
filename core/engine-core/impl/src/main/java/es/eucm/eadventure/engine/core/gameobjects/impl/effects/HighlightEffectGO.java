@@ -39,9 +39,9 @@ package es.eucm.eadventure.engine.core.gameobjects.impl.effects;
 
 import com.google.inject.Inject;
 
-import es.eucm.eadventure.common.StringHandler;
 import es.eucm.eadventure.common.model.effects.impl.timedevents.EAdHighlightSceneElement;
 import es.eucm.eadventure.common.model.variables.impl.extra.EAdSceneElementVars;
+import es.eucm.eadventure.common.resources.StringHandler;
 import es.eucm.eadventure.engine.core.GameLoop;
 import es.eucm.eadventure.engine.core.GameState;
 import es.eucm.eadventure.engine.core.ValueMap;

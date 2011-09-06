@@ -39,9 +39,9 @@ package es.eucm.eadventure.engine.core.gameobjects.impl.events;
 
 import com.google.inject.Inject;
 
-import es.eucm.eadventure.common.StringHandler;
 import es.eucm.eadventure.common.model.events.EAdConditionEvent;
 import es.eucm.eadventure.common.model.events.impl.EAdConditionEventImpl;
+import es.eucm.eadventure.common.resources.StringHandler;
 import es.eucm.eadventure.engine.core.GameState;
 import es.eucm.eadventure.engine.core.ValueMap;
 import es.eucm.eadventure.engine.core.evaluators.EvaluatorFactory;
