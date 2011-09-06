@@ -48,9 +48,11 @@ import es.eucm.eadventure.common.StringHandler;
 import es.eucm.eadventure.common.model.conditions.impl.EmptyCondition;
 import es.eucm.eadventure.common.model.conditions.impl.VarCondition.Operator;
 import es.eucm.eadventure.common.model.conditions.impl.VarValCondition;
-import es.eucm.eadventure.common.model.effects.EAdEffect;
+import es.eucm.eadventure.common.model.effects.EAdMacro;
 import es.eucm.eadventure.common.model.effects.impl.EAdActorActionsEffect;
 import es.eucm.eadventure.common.model.effects.impl.EAdChangeAppearance;
+import es.eucm.eadventure.common.model.effects.impl.EAdMacroImpl;
+import es.eucm.eadventure.common.model.effects.impl.EAdTriggerMacro;
 import es.eucm.eadventure.common.model.effects.impl.EAdVarInterpolationEffect;
 import es.eucm.eadventure.common.model.effects.impl.sceneelements.EAdMoveSceneElement;
 import es.eucm.eadventure.common.model.effects.impl.sceneelements.EAdMoveSceneElement.MovementSpeed;
@@ -207,8 +209,7 @@ public class DesktopBasicInventoryGO extends BasicInventoryGO {
 		arrow.addBehavior(EAdMouseEventImpl.MOUSE_LEFT_CLICK,
 				new EAdVarInterpolationEffect("id", xField,
 						new LiteralExpressionOperation("id", "[0]" + sign
-								+ INVENTORY_HEIGHT, xField),
-						200));
+								+ INVENTORY_HEIGHT, xField), 200));
 		return arrow;
 	}
 
@@ -229,23 +230,37 @@ public class DesktopBasicInventoryGO extends BasicInventoryGO {
 		EAdFieldImpl<Boolean> visibleField = new EAdFieldImpl<Boolean>(
 				centerSensor, EAdBasicSceneElement.VAR_VISIBLE);
 
-		EAdEffect e2 = new EAdMoveSceneElement("hideInventoryBottom",
-				inventory, 0, 700, MovementSpeed.NORMAL);
-		e2.setCondition(new VarValCondition(yField, 350, Operator.GREATER));
-		centerSensor.addBehavior(EAdMouseEventImpl.MOUSE_MOVED, e2);
-		e2 = new EAdChangeFieldValueEffect("id", visibleField,
-				BooleanOperation.FALSE_OP);
-		e2.setCondition(new VarValCondition(yField, 350, Operator.GREATER));
-		centerSensor.addBehavior(EAdMouseEventImpl.MOUSE_MOVED, e2);
+		// Hide inventory bottom
+		EAdMacro macro = new EAdMacroImpl("hideInventory");
 
-		e2 = new EAdMoveSceneElement("hideInventoryTop", inventory, 0, 0,
-				MovementSpeed.NORMAL);
-		e2.setCondition(new VarValCondition(yField, 350, Operator.LESS));
-		centerSensor.addBehavior(EAdMouseEventImpl.MOUSE_MOVED, e2);
-		e2 = new EAdChangeFieldValueEffect("id", visibleField,
-				BooleanOperation.FALSE_OP);
-		e2.setCondition(new VarValCondition(yField, 350, Operator.LESS));
-		centerSensor.addBehavior(EAdMouseEventImpl.MOUSE_MOVED, e2);
+		macro.getEffects().add(
+				new EAdMoveSceneElement("hideInventoryBottom", inventory, 0,
+						700, MovementSpeed.NORMAL));
+
+		macro.getEffects().add(
+				new EAdChangeFieldValueEffect("id", visibleField,
+						BooleanOperation.FALSE_OP));
+
+		EAdTriggerMacro triggerMacro = new EAdTriggerMacro(macro);
+		triggerMacro.setCondition(new VarValCondition(yField, 350,
+				Operator.GREATER));
+		centerSensor.addBehavior(EAdMouseEventImpl.MOUSE_MOVED, triggerMacro);
+
+		// Hide inventory top
+		macro = new EAdMacroImpl("hideInventory");
+
+		macro.getEffects().add(
+				new EAdMoveSceneElement("hideInventoryTop", inventory, 0, 0,
+						MovementSpeed.NORMAL));
+
+		macro.getEffects().add(
+				new EAdChangeFieldValueEffect("id", visibleField,
+						BooleanOperation.FALSE_OP));
+
+		triggerMacro = new EAdTriggerMacro(macro);
+		triggerMacro.setCondition(new VarValCondition(yField, 350,
+				Operator.LESS));
+		centerSensor.addBehavior(EAdMouseEventImpl.MOUSE_MOVED, triggerMacro);
 	}
 
 	/**
@@ -269,27 +284,33 @@ public class DesktopBasicInventoryGO extends BasicInventoryGO {
 				EAdBasicSceneElement.appearance, rect);
 		part.setPosition(new EAdPositionImpl(Corner.BOTTOM_LEFT, 0, sensorPos));
 
-		EAdEffect e = new EAdMoveSceneElement("moveInventory", inventory, 0,
-				hidePos, MovementSpeed.INSTANT);
-		part.addBehavior(EAdMouseEventImpl.MOUSE_ENTERED, e);
-		e = new EAdMoveSceneElement("showInventory", inventory, 0,
-				inventoryPos, MovementSpeed.FAST);
-		part.addBehavior(EAdMouseEventImpl.MOUSE_ENTERED, e);
-		e = new EAdChangeFieldValueEffect("showCentralSensor",
-				new EAdFieldImpl<Boolean>(centerSensor,
-						EAdBasicSceneElement.VAR_VISIBLE),
-				BooleanOperation.TRUE_OP);
-		part.addBehavior(EAdMouseEventImpl.MOUSE_ENTERED, e);
+		EAdMacroImpl macro = new EAdMacroImpl("showInventoryMacro");
+		macro.getEffects().add(
+				new EAdMoveSceneElement("moveInventory", inventory, 0, hidePos,
+						MovementSpeed.INSTANT));
+
+		macro.getEffects().add(
+				new EAdMoveSceneElement("showInventory", inventory, 0,
+						inventoryPos, MovementSpeed.FAST));
+
+		macro.getEffects().add(
+				new EAdChangeFieldValueEffect("showCentralSensor",
+						new EAdFieldImpl<Boolean>(centerSensor,
+								EAdBasicSceneElement.VAR_VISIBLE),
+						BooleanOperation.TRUE_OP));
+
+		part.addBehavior(EAdMouseEventImpl.MOUSE_ENTERED, new EAdTriggerMacro(
+				"showInventoryMacro", macro));
 		return part;
 	}
 
 	@Override
 	public void doLayout(int offsetX, int offsetY) {
 		if (gameState.getScene().acceptsVisualEffects()) {
-//			gui.addElement(gameObjectFactory.get(centerSensor), 0, 0);
-//			gui.addElement(gameObjectFactory.get(inventory), 0, 0);
-//			gui.addElement(gameObjectFactory.get(bottomSensor), 0, 0);
-//			gui.addElement(gameObjectFactory.get(topSensor), 0, 0);
+			gui.addElement(gameObjectFactory.get(centerSensor), 0, 0);
+			gui.addElement(gameObjectFactory.get(inventory), 0, 0);
+			gui.addElement(gameObjectFactory.get(bottomSensor), 0, 0);
+			gui.addElement(gameObjectFactory.get(topSensor), 0, 0);
 		}
 	}
 

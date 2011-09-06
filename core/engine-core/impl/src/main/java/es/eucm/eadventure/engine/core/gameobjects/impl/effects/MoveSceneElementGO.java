@@ -96,8 +96,8 @@ public class MoveSceneElementGO extends AbstractEffectGO<EAdMoveSceneElement> {
 		SceneElementGO<?> a = (SceneElementGO<?>) gameObjectFactory.get(effect
 				.getSceneElement());
 
-		int x = valueMap.getValue(element, EAdBasicSceneElement.VAR_X);
-		int y = valueMap.getValue(element, EAdBasicSceneElement.VAR_Y);
+		int x = valueMap.getValue(a.getElement(), EAdBasicSceneElement.VAR_X);
+		int y = valueMap.getValue(a.getElement(), EAdBasicSceneElement.VAR_Y);
 
 		int targetX = this.operatorFactory.operate(Integer.class,
 				effect.getXTarget());
