@@ -37,12 +37,16 @@
 
 package es.eucm.eadventure.engine.core.test.operators;
 
+import com.google.inject.Inject;
+
 import es.eucm.eadventure.common.model.variables.impl.operations.LiteralExpressionOperation;
+import es.eucm.eadventure.engine.core.ValueMap;
 import es.eucm.eadventure.engine.core.operators.impl.LiteralExpressionOperator;
 
 public class LiteralExpressionTest extends OperatorsTest<LiteralExpressionOperation>{
 
-	public LiteralExpressionTest( ) {
+	@Inject
+	public LiteralExpressionTest(ValueMap valueMap ) {
 		super(new LiteralExpressionOperator(valueMap));
 	}
 

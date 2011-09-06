@@ -44,70 +44,69 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.os.Environment;
 
+import com.google.inject.Inject;
+import com.google.inject.Injector;
 import com.google.inject.Singleton;
 
 import es.eucm.eadventure.common.resources.assets.AssetDescriptor;
 import es.eucm.eadventure.engine.core.platform.RuntimeAsset;
 import es.eucm.eadventure.engine.core.platform.impl.AbstractAssetHandler;
 
-
 @Singleton
 public class AndroidAssetHandler extends AbstractAssetHandler {
 	
-		public AndroidAssetHandler(
+	protected Resources resources;
+
+	private Context context;
+
+	private String sdCardLocation;
+
+	private static final Logger logger = Logger
+			.getLogger("AndroidAssetHandler");
+	
+	private Injector injector;
+
+	@Inject
+	public AndroidAssetHandler(Injector injector,
 			Map<Class<? extends AssetDescriptor>, Class<? extends RuntimeAsset<?>>> classMap) {
 		super(classMap);
 		logger.info("New instance");
-		sdCardLocation = Environment.getExternalStorageDirectory().getAbsolutePath();
+		sdCardLocation = Environment.getExternalStorageDirectory()
+				.getAbsolutePath();
+		this.injector = injector;
 	}
 
-		protected Resources resources;
-		
-		private Context context;
-		
-		private String sdCardLocation;
-		
-		private static final Logger logger = Logger.getLogger("AndroidAssetHandler");
-
-
-		
-		@Override
-		public void initilize() {
-			
-
-		}
-
-		@Override
-		public void terminate() {
-
-		}
-		
-		public void setResources(Resources resources) {
-			this.resources = resources;
-			setLoaded(true);
-		}
-
-		@Override
-		public String getAbsolutePath(String uri) {
-			return uri.replace("@", sdCardLocation + "/eAd2/");
-		}
-		
-		public Context getContext( ){
-			return context;
-		}
-		
-		public void setContext( Context context ){
-			this.context = context;
-		}
-
-		@Override
-		public RuntimeAsset<?> getInstance(
-				Class<? extends RuntimeAsset<?>> clazz) {
-			// TODO Auto-generated method stub
-			return null;
-		}
+	@Override
+	public void initilize() {
 
 	}
 
+	@Override
+	public void terminate() {
 
+	}
 
+	public void setResources(Resources resources) {
+		this.resources = resources;
+		setLoaded(true);
+	}
+
+	@Override
+	public String getAbsolutePath(String uri) {
+		return uri.replace("@", sdCardLocation + "/eAd2/");
+	}
+
+	public Context getContext() {
+		return context;
+	}
+
+	public void setContext(Context context) {
+		this.context = context;
+	}
+
+	@Override
+	public RuntimeAsset<?> getInstance(Class<? extends RuntimeAsset<?>> clazz) {
+		return injector.getInstance(clazz);
+	}
+
+}

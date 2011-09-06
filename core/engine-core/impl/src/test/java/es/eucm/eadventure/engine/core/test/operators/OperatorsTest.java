@@ -37,50 +37,54 @@
 
 package es.eucm.eadventure.engine.core.test.operators;
 
+import static org.junit.Assert.assertEquals;
+
 import java.util.ArrayList;
 
 import org.junit.Test;
 
 import com.google.inject.Inject;
 
+import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
 import es.eucm.eadventure.common.model.variables.EAdOperation;
+import es.eucm.eadventure.common.model.variables.EAdVarDef;
 import es.eucm.eadventure.engine.core.ValueMap;
 import es.eucm.eadventure.engine.core.operator.Operator;
 
 public abstract class OperatorsTest<T extends EAdOperation> {
-	
+
 	@Inject
-	protected static ValueMap valueMap;
+	protected ValueMap valueMap;
 	protected Operator<T> operator;
-	
+
 	private ArrayList<T> operations = new ArrayList<T>();
-	private ArrayList<Object> results = new ArrayList<Object>( );
-//	private ArrayList<EAdVar<?>> varNames = new ArrayList<EAdVar<?>>( );
-	
-	public OperatorsTest( Operator<T> operator ){
+	private ArrayList<Object> results = new ArrayList<Object>();
+	private ArrayList<EAdVarDef<?>> varDefs = new ArrayList<EAdVarDef<?>>();
+	protected EAdBasicSceneElement dummyElement = new EAdBasicSceneElement(
+			"dummyElement");
+
+	public OperatorsTest(Operator<T> operator) {
 		this.operator = operator;
 		generateOperations();
 	}
-	
-	public abstract void generateOperations( );
-	
-	public void addOperationTest( Class<?> varName, T operation, Object result ){
+
+	public abstract void generateOperations();
+
+	public void addOperationTest(EAdVarDef<?> varDef, T operation, Object result) {
 		operations.add(operation);
 		results.add(result);
-//		varNames.add(varName);
+		varDefs.add(varDef);
 	}
-	
+
 	@Test
-	public void testOperations(){
+	public void testOperations() {
 		int i = 0;
-		for ( T op: operations ){
-			Double result = (Double) results.get(i);
-//			Double value = (Double) operator.operate(varNames.get(i), op);
-			
-//			assertEquals(value, result, result * 0.0000005 );
+		for (T op : operations) {
+			Object result = results.get(i);
+			Object value = operator.operate(result.getClass(), op);
+			assertEquals(value, result);
 			i++;
 		}
 	}
-	
 
 }
