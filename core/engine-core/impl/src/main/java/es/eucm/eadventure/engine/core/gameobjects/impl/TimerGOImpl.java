@@ -43,7 +43,6 @@ import java.util.logging.Logger;
 
 import com.google.inject.Inject;
 
-import es.eucm.eadventure.common.StringHandler;
 import es.eucm.eadventure.common.model.elements.EAdTimer;
 import es.eucm.eadventure.common.model.elements.impl.EAdTimerImpl;
 import es.eucm.eadventure.common.params.geom.impl.EAdPositionImpl;
