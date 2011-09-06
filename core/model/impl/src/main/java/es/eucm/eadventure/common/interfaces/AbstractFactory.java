@@ -69,7 +69,7 @@ public abstract class AbstractFactory<T> implements Factory<T> {
 		if (element == null) {
 			logger.log(Level.INFO, "No element in factory for object " + object + " " + this.getClass());
 			//TODO Not supported by GWT
-			/*
+			
 			Class<?>[] interfaces = object.getInterfaces();
 			for (Class<?> i : interfaces) {
 				element = map.get(i);
@@ -79,7 +79,7 @@ public abstract class AbstractFactory<T> implements Factory<T> {
 					return element;
 				}
 			}
-			*/
+			
 			throw new EAdRuntimeException("No element in factory for object (or for any of its interfaces) " + object);
 		}
 		return element;
