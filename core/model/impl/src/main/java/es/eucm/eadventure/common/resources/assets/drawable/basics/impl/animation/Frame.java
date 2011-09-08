@@ -101,5 +101,12 @@ public class Frame extends ImageImpl {
 	public int getTime() {
 		return time;
 	}
+	
+	public boolean equals( Object o ){
+		if ( o instanceof Frame ){
+			return super.equals(o) && ((Frame) o).time == time;
+		}
+		return false;
+	}
 
 }

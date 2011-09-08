@@ -54,11 +54,14 @@ import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.google.inject.name.Names;
 
+import es.eucm.eadventure.common.elmentfactories.scenedemos.EmptyScene;
 import es.eucm.eadventure.common.impl.reader.EAdAdventureModelReader;
 import es.eucm.eadventure.common.impl.reader.subparsers.AdventureHandler;
 import es.eucm.eadventure.common.impl.writer.EAdAdventureModelWriter;
 import es.eucm.eadventure.common.model.elements.EAdAdventureModel;
+import es.eucm.eadventure.common.model.elements.EAdChapter;
 import es.eucm.eadventure.common.model.impl.EAdAdventureModelImpl;
+import es.eucm.eadventure.common.model.impl.EAdChapterImpl;
 
 public class EAdWriterTest extends TestCase {
 	
@@ -66,6 +69,7 @@ public class EAdWriterTest extends TestCase {
 	private EAdAdventureModelImpl model;
 	private EAdAdventureModelWriter writer;
 	private EAdAdventureModelReader reader;
+	private File file2;
 	
 	@Before
 	public void setUp( ){
@@ -73,7 +77,14 @@ public class EAdWriterTest extends TestCase {
 		reader = injector.getInstance( EAdAdventureModelReader.class );
 		
 		file = new File( "src/test/resources/result.xml" );
+		file2 = new File( "src/test/resources/result2.xml" );
 		model = new EAdAdventureModelImpl();
+		EAdChapter chapter = new EAdChapterImpl("chapter1");
+		
+		model.getChapters().add(chapter);
+		model.getChapters().add(chapter);
+		
+		chapter.getScenes().add(new EmptyScene());
 		
 		writer = new EAdAdventureModelWriter( );
 		
@@ -100,7 +111,14 @@ public class EAdWriterTest extends TestCase {
 			InputStream is = new FileInputStream( file );
 			EAdAdventureModel modelRead = reader.read(is);
 			
-			assertNotNull(modelRead);
+			is.close();
+			
+			os = new FileOutputStream( file2 );
+			writer.write(modelRead, os);
+			
+			os.close();
+			
+//			assertNotNull(modelRead);
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 			fail();

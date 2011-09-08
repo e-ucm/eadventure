@@ -37,6 +37,7 @@
 
 package es.eucm.eadventure.common.resources.assets.drawable.basics.impl.animation;
 
+import es.eucm.eadventure.common.interfaces.Param;
 import es.eucm.eadventure.common.model.extra.EAdList;
 import es.eucm.eadventure.common.model.extra.impl.EAdListImpl;
 import es.eucm.eadventure.common.resources.assets.drawable.Drawable;
@@ -47,9 +48,11 @@ import es.eucm.eadventure.common.resources.assets.drawable.Drawable;
  */
 public class FramesAnimation implements Drawable {
 
-	private EAdList<Frame> frames;
-	
+	@Param("totalTime")
 	private int totalTime;
+	
+	@Param("frames")
+	private EAdList<Frame> frames;
 
 	/**
 	 * Constructs an empty animation

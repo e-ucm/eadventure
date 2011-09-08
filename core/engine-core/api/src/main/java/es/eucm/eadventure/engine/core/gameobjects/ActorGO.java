@@ -41,7 +41,7 @@ import java.util.List;
 
 import es.eucm.eadventure.common.model.actions.EAdAction;
 import es.eucm.eadventure.common.model.elements.EAdActor;
-import es.eucm.eadventure.common.resources.EAdString;
+import es.eucm.eadventure.common.params.EAdString;
 
 /**
  * Implemented by that classes that represents an Actor Game Object

@@ -37,14 +37,12 @@
 
 package es.eucm.eadventure.common.params;
 
-import es.eucm.eadventure.common.resources.EAdURI;
-import es.eucm.eadventure.common.resources.assets.impl.EAdURIImpl;
 
 /**
  * EAdFont represents a text font and its metrics
  * 
  */
-public class EAdFontImpl implements EAdFont {
+public class EAdFontImpl extends EAdParamImpl implements EAdFont {
 
 	/**
 	 * Name of the font
@@ -123,17 +121,6 @@ public class EAdFontImpl implements EAdFont {
 	}
 
 	@Override
-	public boolean equals(Object o) {
-		if (o != null && o instanceof EAdFontImpl) {
-			EAdFontImpl temp = (EAdFontImpl) o;
-			if (temp.name.equals(name) && temp.size == size
-					&& temp.style.equals(style))
-				return true;
-		}
-		return false;
-	}
-
-	@Override
 	public String getName() {
 		return name;
 	}
@@ -196,7 +183,6 @@ public class EAdFontImpl implements EAdFont {
 
 		size = Float.parseFloat(strings[1]);
 		style = Style.valueOf(strings[2]);
-
 	}
 
 }

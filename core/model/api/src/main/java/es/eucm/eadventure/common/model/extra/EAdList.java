@@ -37,13 +37,12 @@
 
 package es.eucm.eadventure.common.model.extra;
 
-import es.eucm.eadventure.common.model.EAdElement;
 
 /**
  * Interface for all the list elements in the eAdventure game model
  */
 public interface EAdList<P> extends
-		Iterable<P>, EAdElement {
+		Iterable<P> {
 
 	/**
 	 * <p>

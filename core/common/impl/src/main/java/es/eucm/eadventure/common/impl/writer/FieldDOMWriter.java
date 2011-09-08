@@ -37,6 +37,7 @@
 
 package es.eucm.eadventure.common.impl.writer;
 
+import java.lang.reflect.Field;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -45,58 +46,71 @@ import javax.xml.parsers.ParserConfigurationException;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
+import es.eucm.eadventure.common.interfaces.Param;
 import es.eucm.eadventure.common.model.EAdElement;
-import es.eucm.eadventure.common.model.extra.EAdList;
 
-public class ElementListDOMWriter extends DOMWriter<EAdList<?>> {
+/**
+ * <p>DOM writer for the "param" element in the eAdventure 2 xml</p>
+ *
+ */
+public class FieldDOMWriter extends DOMWriter<Field> {
 
-	private static final Logger logger = Logger.getLogger("ElementListDOMWriter");
+	/**
+	 * The logger
+	 */
+	private static final Logger logger = Logger
+			.getLogger("ParamDOMWriter");
+
+	/**
+	 * The element where to add the param
+	 */
+	private Object element;
 	
-	private String id;
-	
-	public ElementListDOMWriter(String id) {
-		this.id = id;
+	public FieldDOMWriter(Object element) {
+		this.element = element;
+		try {
+			initilizeDOMWriter();
+		} catch (ParserConfigurationException e) {
+			logger.log(Level.SEVERE, e.getMessage(), e);
+		}
 	}
 
 	@Override
-	public Node buildNode(EAdList<?> list) {
-        try {
-        	initilizeDOMWriter();
+	public Element buildNode(Field field) {
+		Param param = field.getAnnotation(Param.class);
+		String name = param.value();
+		
+    	node = doc.createElement( "param" );
+    	node.setAttribute("name", name);
 
-        	node = doc.createElement( "list" );
-        	node.setAttribute("name", id);
-
-    		for (Object o : list) {
-    			if (o instanceof EAdElement) {
-	    			EAdElement newElement = (EAdElement) o;
-					if (mappedElement.contains(newElement)) {
-						Element newNode = doc.createElement("element");
-						newNode.setAttribute("uniqueId", elementMap.get(newElement));
-						newNode.setTextContent(elementMap.get(newElement));
-						node.appendChild(newNode);
-					} else {
-		    			ElementDOMWriter domWriter = new ElementDOMWriter();
-		    			Node newNode = domWriter.buildNode(newElement);
-		    			doc.adoptNode(newNode);
-		    			node.appendChild(newNode);
-					}
-    			} else {
-					Element newNode = doc.createElement("entry");
-					newNode.setTextContent(o.toString());
+    	try {
+			if (field.get(element) instanceof EAdElement) {
+				EAdElement newElement = (EAdElement) field.get(element);
+				if (mappedElement.contains(newElement)) {
+					logger.info("Added element id:" + elementMap.get(newElement) + "; element:" + newElement);
+					node.setAttribute("uniqueId", elementMap.get(newElement));
+					node.setTextContent(elementMap.get(newElement));
+				} else {
+					ElementDOMWriter domWriter = new ElementDOMWriter();
+					Node newNode = domWriter.buildNode((EAdElement) field.get(element));
+					doc.adoptNode(newNode);
 					node.appendChild(newNode);
-    			}
-    		}
-
-        }
-        catch( ParserConfigurationException e ) {
-        	logger.log(Level.SEVERE, "Error writing element " + list, e);
-        	return null;
-        } catch (IllegalArgumentException e) {
-        	logger.log(Level.SEVERE, "Illegal argument " + list, e);
-		} 
-
-        return node;
+				}
+			} else if ( field.get(element) instanceof Class ){
+				node.setTextContent(((Class<?>) field.get(element)).getName());
+			} else {
+				node.setTextContent(field.get(element).toString());
+			}
+		} catch (IllegalArgumentException e) {
+			logger.log(Level.SEVERE, e.getMessage(), e);
+		} catch (IllegalAccessException e) {
+			logger.log(Level.SEVERE, e.getMessage(), e);
+		}
+		
+		return node;
 	}
 	
+	
+
 	
 }

@@ -56,7 +56,7 @@ import es.eucm.eadventure.common.model.effects.impl.timedevents.EAdShowSceneElem
 import es.eucm.eadventure.common.model.elements.EAdActor;
 import es.eucm.eadventure.common.model.elements.EAdCondition;
 import es.eucm.eadventure.common.model.elements.impl.EAdBasicActor;
-import es.eucm.eadventure.common.resources.EAdString;
+import es.eucm.eadventure.common.params.EAdString;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.Caption;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.CaptionImpl;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.ImageImpl;

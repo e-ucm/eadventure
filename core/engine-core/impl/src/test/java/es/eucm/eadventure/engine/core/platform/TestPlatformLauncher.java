@@ -40,7 +40,7 @@ package es.eucm.eadventure.engine.core.platform;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
 
-import es.eucm.eadventure.common.resources.EAdURI;
+import es.eucm.eadventure.common.params.EAdURI;
 import es.eucm.eadventure.engine.core.Game;
 import es.eucm.eadventure.engine.core.GameLoop;
 

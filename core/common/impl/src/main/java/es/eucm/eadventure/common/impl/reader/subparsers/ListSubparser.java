@@ -43,45 +43,38 @@ import java.util.logging.Logger;
 
 import org.xml.sax.Attributes;
 
-import es.eucm.eadventure.common.model.EAdElement;
 import es.eucm.eadventure.common.model.extra.EAdList;
-import es.eucm.eadventure.common.model.extra.EAdMap;
-import es.eucm.eadventure.common.model.extra.impl.EAdListImpl;
 
 /**
  * Subparser for the list element.
  */
 public class ListSubparser extends Subparser {
 
-	private static final Logger logger = Logger
-			.getLogger("ListSubparser");
+	private static final Logger logger = Logger.getLogger("ListSubparser");
 
 	/**
 	 * The list of elements.
 	 */
 	protected EAdList<Object> elementList;
 
-	public ListSubparser(EAdElement peek, Attributes attributes) {
-		init(peek, attributes);
+	public ListSubparser(Object parent, Attributes attributes) {
+		init(parent, attributes);
 	}
-	
+
 	@SuppressWarnings("unchecked")
-	protected void init(EAdElement peek, Attributes attributes) {
-		String name = attributes.getValue("name");
-		if (peek instanceof EAdMap) {
-			elementList = new EAdListImpl<Object>(Object.class);
-		} else { 
-			Field field = getField(peek, name);
-			try {
-				field.setAccessible(true);
-				elementList = (EAdList<Object>) field.get(peek);
-				field.setAccessible(false);
-			} catch (IllegalArgumentException e) {
-				logger.log(Level.SEVERE, e.getMessage(), e);
-			} catch (IllegalAccessException e) {
-				logger.log(Level.SEVERE, e.getMessage(), e);
-			}
+	protected void init(Object parent, Attributes attributes) {
+		String paramValue = attributes.getValue("param");
+		Field field = getField(parent, paramValue);
+		try {
+			field.setAccessible(true);
+			elementList = (EAdList<Object>) field.get(parent);
+			field.setAccessible(false);
+		} catch (IllegalArgumentException e) {
+			logger.log(Level.SEVERE, e.getMessage(), e);
+		} catch (IllegalAccessException e) {
+			logger.log(Level.SEVERE, e.getMessage(), e);
 		}
+
 	}
 
 	/*
@@ -119,7 +112,7 @@ public class ListSubparser extends Subparser {
 		// DO NOTHING
 	}
 
-	public Object getList() {
+	public Object getObject() {
 		return elementList;
 	}
 

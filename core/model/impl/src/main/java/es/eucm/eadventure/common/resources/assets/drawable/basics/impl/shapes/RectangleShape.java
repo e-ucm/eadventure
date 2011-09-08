@@ -46,6 +46,10 @@ import es.eucm.eadventure.common.params.fills.impl.EAdBorderedColor;
  */
 public class RectangleShape extends BezierShape {
 	
+	public RectangleShape( ){
+		
+	}
+	
 	public RectangleShape(int width, int height ){
 		this( width, height, EAdBorderedColor.TRANSPARENT );
 	}

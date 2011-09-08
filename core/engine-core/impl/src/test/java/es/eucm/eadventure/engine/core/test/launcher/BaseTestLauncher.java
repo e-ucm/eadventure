@@ -37,11 +37,15 @@
 
 package es.eucm.eadventure.engine.core.test.launcher;
 
+import java.util.Map;
+
 import com.google.inject.Injector;
 
 import es.eucm.eadventure.common.StringHandler;
 import es.eucm.eadventure.common.elmentfactories.EAdElementsFactory;
+import es.eucm.eadventure.common.model.elements.EAdAdventureModel;
 import es.eucm.eadventure.common.model.elements.EAdScene;
+import es.eucm.eadventure.common.params.EAdString;
 import es.eucm.eadventure.engine.core.impl.LoadingScreen;
 import es.eucm.eadventure.engine.core.platform.PlatformLauncher;
 
@@ -55,13 +59,25 @@ public abstract class BaseTestLauncher {
 	private PlatformLauncher launcher;
 
 	private LoadingScreen loadingScreen;
-
-	public BaseTestLauncher(Injector injector, Class<? extends EAdScene> scene) {
+	
+	public BaseTestLauncher(Injector injector){
 		launcher = injector.getInstance(PlatformLauncher.class);
 		loadingScreen = injector.getInstance(LoadingScreen.class);
+	}
+
+	public BaseTestLauncher(Injector injector, Class<? extends EAdScene> scene) {
+		this( injector );
 		loadingScreen.setInitialScreen(injector.getInstance(scene));
 		StringHandler stringHandler = injector.getInstance(StringHandler.class);
 		stringHandler.addStrings(EAdElementsFactory.getInstance().getStringFactory().getStrings());
+	}
+	
+	public BaseTestLauncher(Injector injector, EAdAdventureModel model, Map<EAdString, String> strings){
+		this( injector );
+		EAdScene scene = model.getChapters().get(0).getInitialScene();
+		loadingScreen.setInitialScreen(scene);
+		StringHandler stringHandler = injector.getInstance(StringHandler.class);
+		stringHandler.setStrings(strings);
 	}
 
 	/**

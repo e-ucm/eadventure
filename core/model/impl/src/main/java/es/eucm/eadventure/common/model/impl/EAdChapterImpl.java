@@ -49,7 +49,7 @@ import es.eucm.eadventure.common.model.extra.EAdMap;
 import es.eucm.eadventure.common.model.extra.impl.EAdListImpl;
 import es.eucm.eadventure.common.model.extra.impl.EAdMapImpl;
 import es.eucm.eadventure.common.model.variables.EAdVarDef;
-import es.eucm.eadventure.common.resources.EAdString;
+import es.eucm.eadventure.common.params.EAdString;
 
 /**
  * Model of the eAdventure chapter.
@@ -60,16 +60,19 @@ public class EAdChapterImpl extends EAdGeneralElementImpl implements EAdChapter 
 	/**
 	 * Scenes of the game
 	 */
+	@Param("scenes")
 	private EAdList<EAdScene> scenes;
 	
 	/**
 	 * Actors of the game
 	 */
+	@Param("actors")
 	private EAdList<EAdActor> actors;
 	
 	/**
 	 * Timers of the game
 	 */
+	@Param("timers")
 	private EAdList<EAdTimer> timers;
 	
 	@Param("title")
@@ -192,7 +195,7 @@ public class EAdChapterImpl extends EAdGeneralElementImpl implements EAdChapter 
 	 * @see es.eucm.eadventure.common.model.EAdChapterModel#getInitialScreen()
 	 */
 	@Override
-	public EAdScene getInitialScreen() {
+	public EAdScene getInitialScene() {
 		return initialScreen;
 	}
 
@@ -201,7 +204,7 @@ public class EAdChapterImpl extends EAdGeneralElementImpl implements EAdChapter 
 	 * 
 	 * @param screen
 	 */
-	public void setInitialScreen(EAdScene screen) {
+	public void setInitialScene(EAdScene screen) {
 		this.initialScreen = screen;
 	}
 	

@@ -43,6 +43,7 @@ import java.util.logging.Logger;
 
 import org.xml.sax.Attributes;
 
+import es.eucm.eadventure.common.impl.reader.subparsers.extra.AssetId;
 import es.eucm.eadventure.common.resources.assets.AssetDescriptor;
 
 /**
@@ -69,8 +70,9 @@ public class AssetSubparser extends Subparser {
 	 * @param bundle
 	 *            The attributes of the bundle
 	 */
-	public AssetSubparser(Attributes attributes) {
+	public AssetSubparser(AssetId assetId, Attributes attributes) {
 		String className = attributes.getValue("class");
+		assetId.setAssetId( attributes.getValue("id") );
 		try {
 			Class<?> clazz = ClassLoader.getSystemClassLoader().loadClass(className);
 			Constructor<?> con = clazz.getConstructor();
@@ -92,7 +94,7 @@ public class AssetSubparser extends Subparser {
 	public void addChild(Object element) {
 	}
 
-	public Object getAsset() {
+	public Object getObject() {
 		return asset;
 	}
 

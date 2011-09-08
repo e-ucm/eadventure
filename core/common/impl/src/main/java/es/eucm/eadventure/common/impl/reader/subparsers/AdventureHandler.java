@@ -45,20 +45,15 @@ import org.xml.sax.helpers.DefaultHandler;
 import com.google.inject.Inject;
 import com.google.inject.name.Named;
 
-import es.eucm.eadventure.common.impl.reader.subparsers.extra.EntryData;
+import es.eucm.eadventure.common.impl.reader.subparsers.extra.AssetId;
 import es.eucm.eadventure.common.impl.reader.subparsers.extra.ObjectFactory;
-import es.eucm.eadventure.common.interfaces.features.Resourced;
 import es.eucm.eadventure.common.model.EAdElement;
 import es.eucm.eadventure.common.model.elements.EAdAdventureModel;
-import es.eucm.eadventure.common.model.extra.EAdList;
-import es.eucm.eadventure.common.model.extra.EAdMap;
 import es.eucm.eadventure.common.resources.EAdResources;
 
 public class AdventureHandler extends DefaultHandler {
 
 	private EAdAdventureModel adventureModel;
-
-	private Stack<Object> elementStack;
 
 	private Stack<Subparser> subparserStack;
 
@@ -69,8 +64,6 @@ public class AdventureHandler extends DefaultHandler {
 			@Named("classParam") String classParam) {
 		this.adventureModel = adventureModel;
 		subparserStack = new Stack<Subparser>();
-		elementStack = new Stack<Object>();
-		elementStack.push(adventureModel);
 		ObjectFactory.initilize();
 		this.classParam = classParam;
 	}
@@ -82,77 +75,56 @@ public class AdventureHandler extends DefaultHandler {
 	@Override
 	public void startElement(String uri, String localName, String qName,
 			Attributes attributes) {
-		if (qName.equals("param")) {
-			subparserStack.push(new ParamSubparser(elementStack.peek(),
-					attributes));
+		if (qName.equals("adventure")) {
+			String packageName = attributes.getValue("package");
+			Subparser.init(packageName);
+		} else if (qName.equals("element")) {
+			Object o = null;
+			if ( !subparserStack.isEmpty() ){
+				o = subparserStack.peek().getObject();
+			}
+			subparserStack.push(new ElementSubparser(o, attributes, classParam));
+		} else if (qName.equals("list")) {
+			subparserStack.push(new ListSubparser(subparserStack.peek()
+					.getObject(), attributes));
+		} else if (qName.equals("map")) {
+			subparserStack.push(new MapSubparser(subparserStack.peek()
+					.getObject(), attributes));
+		} else if (qName.equals("object") || qName.equals("param")) {
+			subparserStack.push(new ObjectSubparser(subparserStack.peek()
+					.getObject(), attributes));
 		} else if (qName.equals("resources")) {
-			subparserStack.push(new ResourcesSubparser(
-					(EAdElement) elementStack.peek(), attributes));
+			subparserStack
+					.push(new ResourcesSubparser((EAdElement) subparserStack
+							.peek().getObject(), attributes));
 		} else if (qName.equals("bundle")) {
-			if (elementStack.peek() instanceof Resourced) {
-				EAdResources resources = ((Resourced) elementStack.peek())
-						.getResources();
+			if (subparserStack.peek().getObject() instanceof EAdResources) {
+				EAdResources resources = (EAdResources) subparserStack.peek()
+						.getObject();
 				BundleSubparser bundleSubparser = new BundleSubparser(
 						resources, attributes);
 				subparserStack.push(bundleSubparser);
 			}
 		} else if (qName.equals("asset")) {
-			AssetSubparser assetSubparser = new AssetSubparser(attributes);
-			subparserStack.peek().addChild(
-					new EntryData(attributes.getValue("id"), assetSubparser
-							.getAsset()));
+			AssetSubparser assetSubparser = new AssetSubparser(
+					(AssetId) subparserStack.peek(), attributes);
 			subparserStack.push(assetSubparser);
-			elementStack.push(assetSubparser.getAsset());
-		} else if (qName.equals("element")) {
-			ElementSubparser elementSubparser = new ElementSubparser(
-					(EAdElement) elementStack.peek(), attributes, classParam);
-			EAdElement element = elementSubparser.getElement();
-
-			subparserStack.peek().addChild(element);
-
-			subparserStack.push(elementSubparser);
-			elementStack.push(element);
-		} else if (qName.equals("element-ref")) {
-			// EAdElement element = elementMap.get(attributes.getValue("id"));
-			ElementSubparser elementSubparser = new ElementSubparser(
-					(EAdElement) elementStack.peek(), attributes, classParam);
-			EAdElement element = elementSubparser.getElement();
-
-			subparserStack.peek().addChild(element);
-
-			subparserStack.push(elementSubparser);
-			elementStack.push(element);
-		} else if (qName.equals("list")) {
-			ListSubparser listSubparser = new ListSubparser(
-					(EAdElement) elementStack.peek(), attributes);
-			if (subparserStack.size() > 0)
-				subparserStack.peek().addChild(listSubparser.getList());
-			subparserStack.push(listSubparser);
-			elementStack.push(listSubparser.getList());
-		} else if (qName.equals("map")) {
-			MapSubparser mapSubparser = new MapSubparser(
-					(EAdElement) elementStack.peek(), attributes);
-			elementStack.push(mapSubparser.getMap());
-			subparserStack.push(mapSubparser);
-		} else if (qName.equals("entry")
-				&& elementStack.peek() instanceof EAdMap) {
-			subparserStack.push(new EntrySubparser((EAdMap<?, ?>) elementStack
-					.peek(), attributes));
-		} else if (qName.equals("entry")
-				&& elementStack.peek() instanceof EAdList) {
-			subparserStack.push(new EntrySubparser((EAdList<?>) elementStack
-					.peek(), attributes));
 		}
 	}
 
 	@Override
 	public void endElement(String uri, String localName, String qName) {
-		if (qName.equals("element") || qName.equals("element-ref")
-				|| qName.equals("map") || qName.equals("asset")
-				|| qName.equals("list"))
-			elementStack.pop();
-		if (!subparserStack.isEmpty())
-			subparserStack.pop().endElement();
+
+		if (subparserStack.size() == 1)
+			adventureModel = (EAdAdventureModel) subparserStack.peek()
+					.getObject();
+
+		if (subparserStack.size() >= 2) {
+			Subparser parser = subparserStack.pop();
+			parser.endElement();
+			subparserStack.peek().addChild(parser.getObject());
+
+		}
 	}
 
 	@Override

@@ -40,9 +40,9 @@ package es.eucm.eadventure.common.resources.assets.drawable.basics.impl;
 import es.eucm.eadventure.common.interfaces.Param;
 import es.eucm.eadventure.common.params.EAdFont;
 import es.eucm.eadventure.common.params.EAdFontImpl;
+import es.eucm.eadventure.common.params.EAdString;
 import es.eucm.eadventure.common.params.fills.impl.EAdBorderedColor;
 import es.eucm.eadventure.common.params.fills.impl.EAdColor;
-import es.eucm.eadventure.common.resources.EAdString;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.Caption;
 
 public class CaptionImpl implements Caption {

@@ -39,8 +39,8 @@ package es.eucm.eadventure.engine.core.gameobjects;
 
 import es.eucm.eadventure.common.interfaces.features.Oriented;
 import es.eucm.eadventure.common.model.elements.EAdActorReference;
+import es.eucm.eadventure.common.params.EAdString;
 import es.eucm.eadventure.common.params.geom.EAdPosition;
-import es.eucm.eadventure.common.resources.EAdString;
 import es.eucm.eadventure.engine.core.platform.RuntimeAsset;
 
 /**

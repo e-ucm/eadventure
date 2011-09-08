@@ -42,10 +42,10 @@ import es.eucm.eadventure.common.elmentfactories.StringFactory.StringType;
 import es.eucm.eadventure.common.model.effects.EAdEffect;
 import es.eucm.eadventure.common.model.effects.impl.timedevents.EAdShowSceneElement.ShowTextAnimation;
 import es.eucm.eadventure.common.params.EAdFontImpl;
+import es.eucm.eadventure.common.params.EAdURIImpl;
 import es.eucm.eadventure.common.params.fills.impl.EAdBorderedColor;
 import es.eucm.eadventure.common.params.fills.impl.EAdColor;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.CaptionImpl;
-import es.eucm.eadventure.common.resources.assets.impl.EAdURIImpl;
 
 public class TextsScene extends EmptyScene {
 	

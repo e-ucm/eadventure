@@ -52,26 +52,34 @@ import es.eucm.eadventure.engine.core.evaluators.Evaluator;
 @Singleton
 public class VarConditionEvaluator implements Evaluator<VarCondition> {
 
-	private static final Logger logger = Logger.getLogger("VarConditionEvaluator");
-	
-	@Inject
+	private static final Logger logger = Logger
+			.getLogger("VarConditionEvaluator");
+
 	private ValueMap valueMap;
+
+	@Inject
+	public VarConditionEvaluator(ValueMap valueMap) {
+		this.valueMap = valueMap;
+	}
 
 	@Override
 	public boolean evaluate(VarCondition condition) {
 		Number value1 = null;
 		Number value2 = null;
 		if (condition instanceof VarVarCondition) {
-			value1 = (Number) valueMap.getValue(((VarVarCondition) condition).getVar1());
-			value2 = (Number) valueMap.getValue(((VarVarCondition) condition).getVar2());
+			value1 = (Number) valueMap.getValue(((VarVarCondition) condition)
+					.getVar1());
+			value2 = (Number) valueMap.getValue(((VarVarCondition) condition)
+					.getVar2());
 		} else if (condition instanceof VarValCondition) {
-			value1 = (Number) valueMap.getValue(((VarValCondition) condition).getVar());
-			
+			value1 = (Number) valueMap.getValue(((VarValCondition) condition)
+					.getVar());
+
 			value2 = (((VarValCondition) condition).getVal());
 		}
 		if (value1 == null || value2 == null)
 			return false;
-		switch(condition.getOperator()) {
+		switch (condition.getOperator()) {
 		case EQUAL:
 			return value1.floatValue() == value2.floatValue();
 		case DIFFERENT:

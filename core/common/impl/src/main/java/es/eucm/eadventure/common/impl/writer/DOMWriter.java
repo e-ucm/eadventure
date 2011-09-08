@@ -47,9 +47,13 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
-import org.w3c.dom.Node;
 
 import es.eucm.eadventure.common.model.EAdElement;
+import es.eucm.eadventure.common.model.extra.EAdList;
+import es.eucm.eadventure.common.model.extra.EAdMap;
+import es.eucm.eadventure.common.params.EAdParam;
+import es.eucm.eadventure.common.resources.EAdResources;
+import es.eucm.eadventure.common.resources.assets.AssetDescriptor;
 
 /**
  * Abstract implementation of a DOMWriter
@@ -58,6 +62,8 @@ import es.eucm.eadventure.common.model.EAdElement;
  *            The type of the element writen by this DOMWriter
  */
 public abstract class DOMWriter<T> {
+	
+	public static final String PACKAGE = "es.eucm.eadventure.common.model";
 
 	/**
 	 * The xml document builder factory
@@ -83,14 +89,33 @@ public abstract class DOMWriter<T> {
 	 * Element map
 	 */
 	protected static Map<EAdElement, String> elementMap = new HashMap<EAdElement, String>();
-	
+
 	protected static ArrayList<EAdElement> mappedElement = new ArrayList<EAdElement>();
+
+	/**
+	 * A map to store repeated params and save some space in XML
+	 */
+	protected static Map<String, String> paramsMap = new HashMap<String, String>();
+
+	/**
+	 * A map to store repeated assets and save some space in XML
+	 */
+	protected static ArrayList<AssetDescriptor> mappedAsset = new ArrayList<AssetDescriptor>();
+	
+	public static void initMaps(){
+		elementMap.clear();
+		mappedElement.clear();
+		paramsMap.clear();
+		mappedAsset.clear();
+	}
+	
+
 	/**
 	 * Initialize the elements of the DOMWriter
 	 * 
 	 * @throws ParserConfigurationException
 	 */
-	protected void initilizeDOMWriter() throws ParserConfigurationException {
+	public void initilizeDOMWriter() throws ParserConfigurationException {
 		dbf = DocumentBuilderFactory.newInstance();
 		db = dbf.newDocumentBuilder();
 		doc = db.newDocument();
@@ -105,6 +130,28 @@ public abstract class DOMWriter<T> {
 	 *            The data to be placed in the node
 	 * @return The xml node created by the DOMWriter
 	 */
-	public abstract Node buildNode(T data);
+	public abstract Element buildNode(T data);
+
+	public DOMWriter<?> getDOMWriter(Object o) {
+		DOMWriter<?> writer = null;
+		if (o instanceof EAdElement) {
+			writer = new ElementDOMWriter();
+		} else if (o instanceof EAdList) {
+			writer = new ListDOMWriter();
+		} else if (o instanceof EAdMap) {
+			writer = new MapDOMWriter();
+		} else if (o instanceof EAdParam) {
+			writer = new ParamDOMWriter();
+		} else if (o instanceof EAdResources) {
+			writer = new ResourcesDOMWriter();
+		} else {
+			writer = new DefaultDOMWriter();
+		}
+		return writer;
+	}
+	
+	public String shortClass( String clazz ){
+		return clazz.startsWith(PACKAGE) ? clazz.substring(PACKAGE.length()) : clazz;
+	}
 
 }

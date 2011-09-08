@@ -37,6 +37,7 @@
 
 package es.eucm.eadventure.common.resources.assets.drawable.compounds.impl;
 
+import es.eucm.eadventure.common.interfaces.Param;
 import es.eucm.eadventure.common.model.extra.EAdList;
 import es.eucm.eadventure.common.model.extra.impl.EAdListImpl;
 import es.eucm.eadventure.common.params.geom.impl.EAdPositionImpl;
@@ -46,7 +47,8 @@ import es.eucm.eadventure.common.resources.assets.drawable.compounds.DisplacedDr
 
 public class ComposedDrawableImpl implements ComposedDrawable {
 
-	EAdList<DisplacedDrawable> assetList;
+	@Param("assetList")
+	private EAdList<DisplacedDrawable> assetList;
 
 	public ComposedDrawableImpl() {
 		assetList = new EAdListImpl<DisplacedDrawable>(DisplacedDrawable.class);

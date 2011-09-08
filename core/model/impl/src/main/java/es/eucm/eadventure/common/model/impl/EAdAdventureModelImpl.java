@@ -49,7 +49,7 @@ import es.eucm.eadventure.common.model.extra.impl.EAdListImpl;
 import es.eucm.eadventure.common.model.extra.impl.EAdMapImpl;
 import es.eucm.eadventure.common.model.impl.inventory.EAdBasicInventory;
 import es.eucm.eadventure.common.model.variables.EAdVarDef;
-import es.eucm.eadventure.common.resources.EAdString;
+import es.eucm.eadventure.common.params.EAdString;
 
 /**
  * The eAdventure game model.
@@ -60,9 +60,8 @@ public class EAdAdventureModelImpl implements EAdAdventureModel {
 	/**
 	 * Mode of the player.
 	 */
+	@Param("playerMode")
 	private PlayerMode playerMode;
-
-	private EAdList<EAdChapter> chapters;
 
 	@Param("description")
 	private EAdString description;
@@ -73,6 +72,10 @@ public class EAdAdventureModelImpl implements EAdAdventureModel {
 	@Param("inventory")
 	private EAdInventory inventory;
 	
+	@Param("chapter")
+	private EAdList<EAdChapter> chapters;
+	
+	@Param("vars")
 	private EAdMap<EAdVarDef<?>, Object> vars;
 	
 	/**

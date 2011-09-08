@@ -43,7 +43,6 @@ import java.util.logging.Logger;
 
 import org.xml.sax.Attributes;
 
-import es.eucm.eadventure.common.model.EAdElement;
 import es.eucm.eadventure.common.model.extra.EAdMap;
 
 public class MapSubparser extends Subparser {
@@ -53,14 +52,17 @@ public class MapSubparser extends Subparser {
 	/**
 	 * The list of elements.
 	 */
-	private EAdMap<?, ?> map;
+	private EAdMap<Object, Object> map;
+	
+	private Object key;
 
-	public MapSubparser(EAdElement parent, Attributes attributes) {
-		String name = attributes.getValue("name");
+	@SuppressWarnings("unchecked")
+	public MapSubparser(Object parent, Attributes attributes) {
+		String name = attributes.getValue("param");
 		Field field = getField(parent, name);
 		try {
 			field.setAccessible(true);
-			map = (EAdMap<?, ?>) field.get(parent);
+			map = (EAdMap<Object, Object>) field.get(parent);
 			field.setAccessible(false);
 		} catch (IllegalArgumentException e) {
 			logger.log(Level.SEVERE, e.getMessage(), e);
@@ -101,10 +103,16 @@ public class MapSubparser extends Subparser {
 	 */
 	@Override
 	public void addChild(Object element) {
-		// DO NOTHING
+		if ( key == null ){
+			key = element;
+		}
+		else {
+			map.put(key, element);
+			key = null;
+		}
 	}
 
-	public EAdMap<?, ?> getMap() {
+	public Object getObject() {
 		return map;
 	}
 }

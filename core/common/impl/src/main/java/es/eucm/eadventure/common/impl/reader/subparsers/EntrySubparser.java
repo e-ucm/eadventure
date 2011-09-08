@@ -133,4 +133,10 @@ public class EntrySubparser extends Subparser {
 		else
 			logger.log(Level.SEVERE, "Tried to add wrong type of element " + element);
 	}
+
+	@Override
+	public Object getObject() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

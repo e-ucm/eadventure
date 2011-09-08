@@ -47,7 +47,7 @@ import es.eucm.eadventure.common.model.impl.EAdGeneralElementImpl;
 import es.eucm.eadventure.common.model.trajectories.TrajectoryDefinition;
 import es.eucm.eadventure.common.model.variables.EAdVarDef;
 import es.eucm.eadventure.common.model.variables.impl.EAdVarDefImpl;
-import es.eucm.eadventure.common.resources.EAdString;
+import es.eucm.eadventure.common.params.EAdString;
 
 /**
  * <p>

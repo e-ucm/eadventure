@@ -83,7 +83,7 @@ public class EAdShowQuestion extends EAdComplexBlockingEffect {
 	/**
 	 * Used to generate unique variables
 	 */
-	private static int ID_GENERATOR = 0;
+//	private static int ID_GENERATOR = 0;
 
 	/**
 	 * List of {@link Answer}s to the question
@@ -204,7 +204,7 @@ public class EAdShowQuestion extends EAdComplexBlockingEffect {
 		for (int i = 0; i < answers.size(); i++) {
 			EAdSceneElement previousElement = i == 0 ? questionElement
 					: answers.get(i - 1);
-			Answer a = answers.get(i);
+//			Answer a = answers.get(i);
 
 			EAdChangeFieldValueEffect effect = new EAdChangeFieldValueEffect(id
 					+ "positoningAnswer" + i);

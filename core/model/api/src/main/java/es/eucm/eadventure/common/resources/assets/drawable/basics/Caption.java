@@ -39,7 +39,7 @@ package es.eucm.eadventure.common.resources.assets.drawable.basics;
 
 import es.eucm.eadventure.common.params.EAdFill;
 import es.eucm.eadventure.common.params.EAdFont;
-import es.eucm.eadventure.common.resources.EAdString;
+import es.eucm.eadventure.common.params.EAdString;
 
 /**
  * General interface for texts to be shown during the game

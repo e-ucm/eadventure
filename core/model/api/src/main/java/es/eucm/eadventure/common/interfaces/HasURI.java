@@ -1,6 +1,6 @@
 package es.eucm.eadventure.common.interfaces;
 
-import es.eucm.eadventure.common.resources.EAdURI;
+import es.eucm.eadventure.common.params.EAdURI;
 
 /**
  * Implemented by those elements which has an URI

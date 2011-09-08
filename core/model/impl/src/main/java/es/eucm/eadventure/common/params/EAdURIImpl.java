@@ -35,22 +35,15 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package es.eucm.eadventure.common.resources.assets.impl;
+package es.eucm.eadventure.common.params;
 
-import es.eucm.eadventure.common.interfaces.Param;
-import es.eucm.eadventure.common.resources.EAdURI;
 
-public class EAdURIImpl implements EAdURI {
+public class EAdURIImpl extends EAdParamImpl implements EAdURI {
 	
-	@Param("uri")
 	private String uri;
 	
-	public EAdURIImpl() {
-		this(null);
-	}
-	
 	public EAdURIImpl( String uri ){
-		this.uri = uri;
+		parse( uri );
 	}
 	
 	public String getPath(){
@@ -60,6 +53,16 @@ public class EAdURIImpl implements EAdURI {
 	@Override
 	public String toString( ) {
 		return uri;
+	}
+
+	@Override
+	public String toStringData() {
+		return uri;
+	}
+
+	@Override
+	public void parse(String data) {
+		this.uri = data;
 	}
 
 }

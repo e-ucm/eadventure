@@ -49,25 +49,30 @@ import es.eucm.eadventure.engine.core.evaluators.Evaluator;
 
 @Singleton
 public class FlagConditionEvaluator implements Evaluator<FlagCondition> {
-	
-	private static final Logger logger = Logger.getLogger("FlagConditionEvaluator");
+
+	private static final Logger logger = Logger
+			.getLogger("FlagConditionEvaluator");
+
+	private ValueMap valueMap;
 
 	@Inject
-	private ValueMap valueMap;
-	
+	public FlagConditionEvaluator(ValueMap valueMap) {
+		this.valueMap = valueMap;
+	}
+
 	@Override
 	public boolean evaluate(FlagCondition condition) {
 		Boolean value = valueMap.getValue(condition.getFlag());
 		if (value == null)
 			return false;
-		switch(condition.getValue()) {
-			case ACTIVE:
-				return value;
-			case INACTIVE:
-				return !value;
-			default:
-				logger.log(Level.SEVERE, "Invalid value for flag condition");
-				return false;
+		switch (condition.getValue()) {
+		case ACTIVE:
+			return value;
+		case INACTIVE:
+			return !value;
+		default:
+			logger.log(Level.SEVERE, "Invalid value for flag condition");
+			return false;
 		}
 	}
 

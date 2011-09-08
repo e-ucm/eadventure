@@ -37,7 +37,6 @@
 
 package es.eucm.eadventure.common.impl.reader.subparsers;
 
-
 import java.lang.reflect.Field;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -45,70 +44,74 @@ import java.util.logging.Logger;
 import org.xml.sax.Attributes;
 
 import es.eucm.eadventure.common.impl.reader.subparsers.extra.ObjectFactory;
-import es.eucm.eadventure.common.model.EAdElement;
+import es.eucm.eadventure.common.model.extra.EAdList;
 
 /**
- * Parser for the param element. The param element should be 
+ * Parser for the param element. The param element should be
  * {@code <param name="RESOURCE_NAME">value</param>}.
  */
-public class ParamSubparser extends Subparser {
+public class ObjectSubparser extends Subparser {
 
 	/**
-	 * Current string being parsed 
+	 * Current string being parsed
 	 */
 	private StringBuffer currentString;
-	
+
 	/**
 	 * Name of the param
 	 */
-	private String name;
-	
+	private String paramValue;
+
 	/**
 	 * The object where to set the param
 	 */
-	private Object object;
-	
-	/**
-	 * The element possibly used as the value for the param
-	 */
-	private EAdElement element;
-	
+	private Object parent;
+
+	private Object element;
+
 	private static final Logger logger = Logger.getLogger("ParamSubparser");
-	
-	public ParamSubparser(Object object, Attributes attributes) {
+
+	public ObjectSubparser(Object object, Attributes attributes) {
 		currentString = new StringBuffer();
-		this.name = attributes.getValue("name");
-		this.object = object;
+		this.paramValue = attributes.getValue("param");
+		this.parent = object;
 	}
-	
+
 	@Override
-    public void characters( char[] buf, int offset, int len ) {
-        currentString.append( new String( buf, offset, len ) );
-    }
+	public void characters(char[] buf, int offset, int len) {
+		currentString.append(new String(buf, offset, len));
+	}
 
 	@Override
 	public void endElement() {
-		String value = currentString.toString().trim();
-		try {
-			Field field = getField(object, name);
-								
-			boolean accessible = field.isAccessible();
-			field.setAccessible(true);
 
-			if (element != null)
-				field.set(object, element);
-			else
-				field.set(object, ObjectFactory.getObject(value, field.getType()));
-						
-			field.setAccessible(accessible);
-		} catch (NullPointerException e) {
-			logger.log(Level.SEVERE, e.getMessage(), e);
-		} catch (SecurityException e) {
-			logger.log(Level.SEVERE, e.getMessage(), e);
-		} catch (IllegalArgumentException e) {
-			logger.log(Level.SEVERE, e.getMessage(), e);
-		} catch (IllegalAccessException e) {
-			logger.log(Level.SEVERE, e.getMessage(), e);
+		String value = currentString.toString().trim();
+		if (paramValue != null)
+			try {
+				Field field = getField(parent, paramValue);
+
+				if (field != null) {
+					boolean accessible = field.isAccessible();
+					field.setAccessible(true);
+					this.element = ObjectFactory.getObject(value,
+							field.getType());
+					field.set(parent, element);
+					field.setAccessible(accessible);
+				}
+
+			} catch (NullPointerException e) {
+				logger.log(Level.SEVERE, e.getMessage(), e);
+			} catch (SecurityException e) {
+				logger.log(Level.SEVERE, e.getMessage(), e);
+			} catch (IllegalArgumentException e) {
+				logger.log(Level.SEVERE, e.getMessage(), e);
+			} catch (IllegalAccessException e) {
+				logger.log(Level.SEVERE, e.getMessage(), e);
+			}
+		else {
+			if ( parent instanceof EAdList ){
+				this.element = ObjectFactory.getObject(value, ((EAdList<?>) parent).getValueClass());
+			}
 		}
 	}
 
@@ -119,9 +122,11 @@ public class ParamSubparser extends Subparser {
 	 */
 	@Override
 	public void addChild(Object element) {
-		if (element instanceof EAdElement)
-			this.element = (EAdElement) element;
-		else
-			logger.log(Level.SEVERE, "Tried to add wrong type of element " + element);
+
+	}
+
+	@Override
+	public Object getObject() {
+		return element;
 	}
 }

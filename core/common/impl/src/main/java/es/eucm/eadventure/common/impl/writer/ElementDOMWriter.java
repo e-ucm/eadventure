@@ -43,38 +43,39 @@ import java.util.logging.Logger;
 
 import javax.xml.parsers.ParserConfigurationException;
 
-import org.w3c.dom.Node;
+import org.w3c.dom.Element;
 
 import es.eucm.eadventure.common.interfaces.EAdRuntimeException;
-import es.eucm.eadventure.common.interfaces.Element;
 import es.eucm.eadventure.common.interfaces.Param;
 import es.eucm.eadventure.common.model.EAdElement;
-import es.eucm.eadventure.common.model.extra.EAdList;
-import es.eucm.eadventure.common.model.extra.EAdMap;
-import es.eucm.eadventure.common.resources.EAdResources;
 
 public class ElementDOMWriter extends DOMWriter<EAdElement> {
 
-	public static final Logger logger = Logger
-			.getLogger("ElementDOMWriter");
+	public static final Logger logger = Logger.getLogger("ElementDOMWriter");
 
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@Override
-	public Node buildNode(EAdElement element) {
+	public org.w3c.dom.Element buildNode(EAdElement element) {
 		try {
 			initilizeDOMWriter();
-
 			node = doc.createElement("element");
-			node.setAttribute("id", element.getId());
+
 			if (!elementMap.containsKey(element))
 				elementMap.put(element, "" + elementMap.keySet().size());
+			else {
+				node.setTextContent(elementMap.get(element));
+				return node;
+			}
 			mappedElement.add(element);
+			node.setAttribute("id", element.getId());
 			node.setAttribute("uniqueId", elementMap.get(element));
 
 			Class<?> clazz = element.getClass();
-			Element annotation = null;
-			
+			es.eucm.eadventure.common.interfaces.Element annotation = null;
+
 			while (annotation == null && clazz != null) {
-				annotation = clazz.getAnnotation(Element.class);
+				annotation = clazz
+						.getAnnotation(es.eucm.eadventure.common.interfaces.Element.class);
 				clazz = clazz.getSuperclass();
 			}
 
@@ -84,60 +85,44 @@ public class ElementDOMWriter extends DOMWriter<EAdElement> {
 				throw new EAdRuntimeException("No Element annotation in class "
 						+ element.getClass());
 			}
-			node.setAttribute("type", annotation.detailed().getCanonicalName());
-			node.setAttribute("class", annotation.runtime().getCanonicalName());
 
-			ParamDOMWriter paramDOMWriter = new ParamDOMWriter(element);
+			node.setAttribute("type", shortClass(annotation.detailed()
+					.getCanonicalName()));
+			node.setAttribute("class", shortClass(annotation.runtime()
+					.getCanonicalName()));
 
 			clazz = element.getClass();
 
 			while (clazz != null) {
 				Field[] fields = clazz.getDeclaredFields();
 				for (Field field : fields) {
-					boolean accessible = field.isAccessible();
-					field.setAccessible(true);
+					Param param = field.getAnnotation(Param.class);
+					if (param != null) {
+						boolean accessible = field.isAccessible();
+						field.setAccessible(true);
+						Object o = field.get(element);
+						if (o != null) {
+							DOMWriter writer = super.getDOMWriter(o);
+							Element newNode = writer.buildNode(o);
+							newNode.setAttribute("param", param.value());
+							doc.adoptNode(newNode);
+							node.appendChild(newNode);
 
-					if (field.get(element) instanceof EAdList) {
-						EAdList<?> list = (EAdList<?>) field
-								.get(element);
-						ElementListDOMWriter listWriter = new ElementListDOMWriter(field.getName());
-						Node listNode = listWriter.buildNode(list);
-						doc.adoptNode(listNode);
-						node.appendChild(listNode);
-					} else if ( field.get(element) instanceof EAdMap ){
-						EAdMap<?, ?> map = (EAdMap<?, ?>) field.get(element);
-						ElementMapDOMWriter mapWriter = new ElementMapDOMWriter( field.getName() );
-						Node mapNode = mapWriter.buildNode(map);
-						doc.adoptNode(mapNode);
-						node.appendChild(mapNode);
-					} else if ( field.get(element) instanceof EAdResources ) {
-						ResourcesDOMWriter resourcesWriter = new ResourcesDOMWriter( );
-						Node resourcesNode = resourcesWriter.buildNode((EAdResources) field.get(element));
-						doc.adoptNode(resourcesNode);
-						node.appendChild(resourcesNode);
-					} else if (field.isAnnotationPresent(Param.class)) {
-						if (field.get(element) != null) {
-							Node paramNode = paramDOMWriter.buildNode(field);
-							if (paramNode != null) {
-								doc.adoptNode(paramNode);
-								node.appendChild(paramNode);
-							}
 						}
+
+						field.setAccessible(accessible);
 					}
 
-					field.setAccessible(accessible);
 				}
-				
 				clazz = clazz.getSuperclass();
 			}
 
-		} catch (ParserConfigurationException e) {
-			logger.log(Level.SEVERE, "Error writing element " + element, e);
-			return null;
 		} catch (IllegalArgumentException e) {
 			logger.log(Level.SEVERE, e.getMessage(), e);
 		} catch (IllegalAccessException e) {
 			logger.log(Level.SEVERE, e.getMessage(), e);
+		} catch (ParserConfigurationException e) {
+			e.printStackTrace();
 		}
 
 		return node;

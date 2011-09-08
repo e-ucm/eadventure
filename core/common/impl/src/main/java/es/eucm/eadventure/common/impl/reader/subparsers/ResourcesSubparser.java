@@ -37,12 +37,9 @@
 
 package es.eucm.eadventure.common.impl.reader.subparsers;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
 import org.xml.sax.Attributes;
 
-import es.eucm.eadventure.common.impl.reader.subparsers.extra.EntryData;
+import es.eucm.eadventure.common.impl.reader.subparsers.extra.AssetId;
 import es.eucm.eadventure.common.interfaces.features.Resourced;
 import es.eucm.eadventure.common.model.EAdElement;
 import es.eucm.eadventure.common.resources.EAdBundleId;
@@ -58,27 +55,32 @@ import es.eucm.eadventure.common.resources.assets.AssetDescriptor;
  * {@code <resources />} if there are no resources<br>
  * if there are resources then it should be:<br>
  * {@code <resources>}<br>
- * &nbsp;&nbsp;&nbsp;{@code <asset id="ASSET_ID" class="ASSETDESCRIPTOR_CLASS">ASSET_VALUE</asset>} x N<br>
+ * &nbsp;&nbsp;&nbsp;
+ * {@code <asset id="ASSET_ID" class="ASSETDESCRIPTOR_CLASS">ASSET_VALUE</asset>}
+ * x N<br>
  * {@code </resources>}<br>
  * and if there are bundles:<br>
  * {@code <resources> initialBundle="INITIAL_BUNDLEID"}<br>
- * &nbsp;&nbsp;&nbsp;{@code   <asset id="ASSET_ID" class="ASSETDESCRIPTOR_CLASS">ASSET_VALUE</asset>} x N<br>
+ * &nbsp;&nbsp;&nbsp;
+ * {@code   <asset id="ASSET_ID" class="ASSETDESCRIPTOR_CLASS">ASSET_VALUE</asset>}
+ * x N<br>
  * &nbsp;&nbsp;&nbsp;{@code	<bundle id="BUNDLE_ID">}<br>
- * &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{@code   <asset id="ASSET_ID" class="ASSETDESCRIPTOR_CLASS">ASSET_VALUE</asset>} x N<br>
+ * &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ * {@code   <asset id="ASSET_ID" class="ASSETDESCRIPTOR_CLASS">ASSET_VALUE</asset>}
+ * x N<br>
  * &nbsp;&nbsp;&nbsp;{@code	</bundle>}<br>
  * {@code </resources>}<br>
  * 
  * </p>
  */
-public class ResourcesSubparser extends Subparser {
+public class ResourcesSubparser extends Subparser implements AssetId {
 
 	/**
 	 * The object where the asset belongs
 	 */
-	private EAdElement object;
-	
-	private static final Logger logger = Logger
-			.getLogger("ResourcesSubparser");
+	private EAdResources resources;
+
+	private String id;
 
 	/**
 	 * Constructor for the asset parser.
@@ -90,11 +92,10 @@ public class ResourcesSubparser extends Subparser {
 	 */
 	public ResourcesSubparser(EAdElement object, Attributes attributes) {
 		if (attributes.getIndex("initialBundle") != -1) {
-			EAdResources resources = ((Resourced) object).getResources();
+			resources = ((Resourced) object).getResources();
 			EAdBundleId bundleId = resources.getInitialBundle();
 			bundleId.setBundleId(attributes.getValue("initialBundle"));
 		}
-		this.object = object;
 	}
 
 	@Override
@@ -107,11 +108,19 @@ public class ResourcesSubparser extends Subparser {
 
 	@Override
 	public void addChild(Object element) {
-		if (element instanceof EntryData) {
-			if (((EntryData) element).getValue() instanceof AssetDescriptor)
-				((Resourced) object).getResources().addAsset(((EntryData) element).getKey(), (AssetDescriptor) ((EntryData) element).getValue());
-		} else
-			logger.log(Level.SEVERE, "Tried to add wrong child to resources " + element);
+		if (element instanceof AssetDescriptor)
+			resources.addAsset(id, (AssetDescriptor) element);
+	}
+
+	@Override
+	public Object getObject() {
+		return resources;
+	}
+
+	@Override
+	public void setAssetId(String assetId) {
+		this.id = assetId;
+
 	}
 
 }

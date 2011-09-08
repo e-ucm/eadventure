@@ -39,12 +39,10 @@ package es.eucm.eadventure.common.model.extra;
 
 import java.util.Map;
 
-import es.eucm.eadventure.common.model.EAdElement;
-
 /**
  * Interface for all maps in the eAdventure game model
  */
-public interface EAdMap<T, S> extends Map<T, S>, EAdElement {
+public interface EAdMap<T, S> extends Map<T, S> {
 
 	/**
 	 * Returns the class for the key elements

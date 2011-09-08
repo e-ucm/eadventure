@@ -38,6 +38,7 @@
 package es.eucm.eadventure.common.params.fills.impl;
 
 import es.eucm.eadventure.common.params.EAdFill;
+import es.eucm.eadventure.common.params.EAdParamImpl;
 
 /**
  * <p>
@@ -45,7 +46,9 @@ import es.eucm.eadventure.common.params.EAdFill;
  * one representing the border.
  * </p>
  */
-public class EAdBorderedColor implements EAdFill {
+public class EAdBorderedColor extends EAdParamImpl implements EAdFill {
+
+	public static final String SEPARATOR = ":";
 
 	/**
 	 * Basic black border and white center EAdBordered color
@@ -74,7 +77,7 @@ public class EAdBorderedColor implements EAdFill {
 	 * The color of the border
 	 */
 	private EAdColor borderColor;
-	
+
 	/**
 	 * Border width
 	 */
@@ -83,12 +86,13 @@ public class EAdBorderedColor implements EAdFill {
 	public EAdBorderedColor(String string) {
 		parse(string);
 	}
-	
-	public EAdBorderedColor(EAdColor centerColor, EAdColor borderColor){
-		this( centerColor, borderColor, 1 );
+
+	public EAdBorderedColor(EAdColor centerColor, EAdColor borderColor) {
+		this(centerColor, borderColor, 1);
 	}
 
-	public EAdBorderedColor(EAdColor centerColor, EAdColor borderColor, int width ) {
+	public EAdBorderedColor(EAdColor centerColor, EAdColor borderColor,
+			int width) {
 		this.centerColor = centerColor;
 		this.borderColor = borderColor;
 		this.width = width;
@@ -97,18 +101,6 @@ public class EAdBorderedColor implements EAdFill {
 	@Override
 	public String toString() {
 		return toStringData();
-	}
-
-	@Override
-	public boolean equals(Object o) {
-		if (o != null && o instanceof EAdBorderedColor) {
-			EAdBorderedColor temp = (EAdBorderedColor) o;
-			if (temp.borderColor.equals(borderColor)
-					&& temp.centerColor.equals(centerColor))
-				return true;
-		}
-		return false;
-
 	}
 
 	/**
@@ -148,19 +140,20 @@ public class EAdBorderedColor implements EAdFill {
 	public void setCenterColor(EAdColor color) {
 		this.centerColor = color;
 	}
-	
-	public int getWidth( ){
+
+	public int getWidth() {
 		return width;
 	}
 
 	@Override
 	public String toStringData() {
-		return centerColor.toStringData() + ":" + borderColor.toStringData() + ":" + width;
+		return centerColor.toStringData() + SEPARATOR
+				+ borderColor.toStringData() + SEPARATOR + width;
 	}
 
 	@Override
 	public void parse(String data) {
-		String temp[] = data.split(":");
+		String temp[] = data.split(SEPARATOR);
 		setCenterColor(new EAdColor(temp[0]));
 		setBorderColor(new EAdColor(temp[1]));
 		width = Integer.parseInt(temp[2]);

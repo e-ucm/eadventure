@@ -43,7 +43,7 @@ import java.util.Map;
 
 import com.google.inject.Singleton;
 
-import es.eucm.eadventure.common.resources.EAdString;
+import es.eucm.eadventure.common.params.EAdString;
 
 /**
  * A factory providing {@link EAdString}s for testing

@@ -35,43 +35,60 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package es.eucm.eadventure.common.resources;
+package es.eucm.eadventure.common.impl.writer;
 
-/**
- * General internationalized string asset interface.
- */
-public class EAdString {
-	
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+import javax.xml.parsers.ParserConfigurationException;
+
+import org.w3c.dom.Element;
+
+import es.eucm.eadventure.common.model.extra.EAdMap;
+
+public class MapDOMWriter extends DOMWriter<EAdMap<?, ?>> {
+
 	/**
-	 * The id
+	 * The logger
 	 */
-	private String id;
-	
-	/**
-	 * Construct a new string with the given id
-	 * 
-	 * @param id The id of the EAdString
-	 */
-	public EAdString(String id) {
-		this.id = id;
-	}
-	
+	private static final Logger logger = Logger.getLogger("ElementMapDOMWriter");
+
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Override
-	public String toString() {
-		return id;
-	}
-	
-	@Override
-	public int hashCode() {
-		return id.hashCode();
-	}
-	
-	@Override
-	public boolean equals( Object o ){
-		if ( o instanceof EAdString ){
-			return ((EAdString) o).id.equals(id);
-		}
-		return false;
+	public Element buildNode(EAdMap<?, ?> map) {
+        try {
+        	initilizeDOMWriter();
+
+        	node = doc.createElement( "map" );
+
+    		for (Object o : map.keySet()) {
+    			Element entryNode = doc.createElement( "entry" );
+    			Element keyNode = doc.createElement( "key" );
+    			Element valueNode = doc.createElement( "value" );
+    			
+    			DOMWriter writer = super.getDOMWriter(o);
+    			Element keyValue = writer.buildNode(o);
+    			keyNode.appendChild(keyValue);
+    			
+    			writer = super.getDOMWriter(map.get(o));
+    			Element valueValue = writer.buildNode(map.get(o));
+    			valueNode.appendChild(valueValue);
+
+    			entryNode.appendChild(keyNode);
+    			entryNode.appendChild(valueNode);
+    			node.appendChild(entryNode);
+    		}
+
+
+        }
+        catch( ParserConfigurationException e ) {
+        	logger.log(Level.SEVERE, "Error writing element " + map, e);
+        	return null;
+        } catch (IllegalArgumentException e) {
+        	logger.log(Level.SEVERE, "Illegal argument " + map, e);
+		} 
+
+        return node;
 	}
 	
 }

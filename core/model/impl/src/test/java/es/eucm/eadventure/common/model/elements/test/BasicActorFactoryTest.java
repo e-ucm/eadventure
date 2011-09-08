@@ -40,7 +40,7 @@ package es.eucm.eadventure.common.model.elements.test;
 import es.eucm.eadventure.common.model.actions.test.BasicActionFactoryTest;
 import es.eucm.eadventure.common.model.elements.EAdActor;
 import es.eucm.eadventure.common.model.elements.impl.EAdBasicActor;
-import es.eucm.eadventure.common.resources.EAdString;
+import es.eucm.eadventure.common.params.EAdString;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.animation.Frame;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.animation.FramesAnimation;
 

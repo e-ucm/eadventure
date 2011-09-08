@@ -76,19 +76,20 @@ public class EAdAdventureModelWriter implements Writer<EAdAdventureModel> {
 	            Document doc = db.newDocument( );
 	            Transformer transformer = null;
 	            OutputStreamWriter outputStreamWriter = null;
+	            
+	            DOMWriter.initMaps();
+	            
+	            Element root = doc.createElement("adventure");
+	            root.setAttribute("package", DOMWriter.PACKAGE);
+	            doc.adoptNode(root);
+	            doc.appendChild(root);
 
-	            Element mainNode = doc.createElement( "adventure" );
-
-	            ElementListDOMWriter listDOMWriter = new ElementListDOMWriter("chapters");
-	            Node newNode = listDOMWriter.buildNode(data.getChapters());
+	            ElementDOMWriter listDOMWriter = new ElementDOMWriter();
+	            Node newNode = listDOMWriter.buildNode(data);
 	            doc.adoptNode(newNode);
-	            mainNode.appendChild(newNode);
-
-	            doc.adoptNode( mainNode );
-	            doc.appendChild( mainNode );
+	            root.appendChild( newNode );
 
 	            transformer = tf.newTransformer( );
-	            //transformer.setOutputProperty( OutputKeys.DOCTYPE_SYSTEM, "animation.dtd" );
 
 	            outputStreamWriter = new OutputStreamWriter( outputStream, "UTF-8" );
 	            transformer.transform( new DOMSource( doc ), new StreamResult( outputStreamWriter ) );

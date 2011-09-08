@@ -3,7 +3,7 @@ package es.eucm.eadventure.engine.core.platform;
 import java.util.Map;
 
 import es.eucm.eadventure.common.StringHandler;
-import es.eucm.eadventure.common.resources.EAdString;
+import es.eucm.eadventure.common.params.EAdString;
 
 public class TestStringsReader implements StringHandler {
 

@@ -37,14 +37,16 @@
 
 package es.eucm.eadventure.common.params.geom.impl;
 
-import es.eucm.eadventure.common.params.EAdParam;
+import es.eucm.eadventure.common.params.EAdParamImpl;
 import es.eucm.eadventure.common.params.geom.EAdRectangle;
 
 /**
  * Represents a 2D rectangle. It has an ( x, y ) coordinate, width and height
  * 
  */
-public class EAdRectangleImpl implements EAdRectangle, EAdParam {
+public class EAdRectangleImpl extends EAdParamImpl implements EAdRectangle {
+	
+	public static final String SEPARATOR = ";";
 
 	/**
 	 * x top left coordinate of the rectangle
@@ -155,12 +157,12 @@ public class EAdRectangleImpl implements EAdRectangle, EAdParam {
 
 	@Override
 	public String toStringData() {
-		return x + ":" + y + ":" + width + ":" + height;
+		return x + SEPARATOR + y + SEPARATOR + width + SEPARATOR + height;
 	}
 
 	@Override
 	public void parse(String data) {
-		String[] temp = data.split(":");
+		String[] temp = data.split(SEPARATOR);
 		int i = 0;
 		x = Integer.parseInt(temp[i++]);
 		y = Integer.parseInt(temp[i++]);

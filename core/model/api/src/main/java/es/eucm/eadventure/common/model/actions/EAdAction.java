@@ -41,8 +41,8 @@ import es.eucm.eadventure.common.interfaces.features.Conditioned;
 import es.eucm.eadventure.common.model.effects.EAdEffect;
 import es.eucm.eadventure.common.model.elements.EAdGeneralElement;
 import es.eucm.eadventure.common.model.extra.EAdList;
+import es.eucm.eadventure.common.params.EAdString;
 import es.eucm.eadventure.common.resources.EAdBundleId;
-import es.eucm.eadventure.common.resources.EAdString;
 
 /**
  * <p>A game action (grab, use, etc.) in the eAdventure model</p>

@@ -37,80 +37,45 @@
 
 package es.eucm.eadventure.common.impl.writer;
 
-import javax.xml.parsers.ParserConfigurationException;
-
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import org.w3c.dom.Node;
+import javax.xml.parsers.ParserConfigurationException;
+
 import org.w3c.dom.Element;
+import org.w3c.dom.Node;
 
-import es.eucm.eadventure.common.model.EAdElement;
 import es.eucm.eadventure.common.model.extra.EAdList;
-import es.eucm.eadventure.common.model.extra.EAdMap;
 
-public class ElementMapDOMWriter extends DOMWriter<EAdMap<?, ?>> {
+public class ListDOMWriter extends DOMWriter<EAdList<?>> {
 
-	/**
-	 * The logger
-	 */
-	private static final Logger logger = Logger.getLogger("ElementMapDOMWriter");
-	
-	/**
-	 * The id of the element map
-	 */
-	private String id;
-	
-	public ElementMapDOMWriter(String id) {
-		this.id = id;
-	}
+	private static final Logger logger = Logger.getLogger("ElementListDOMWriter");
 
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Override
-	public Node buildNode(EAdMap<?, ?> map) {
+	public Element buildNode(EAdList<?> list) {
         try {
         	initilizeDOMWriter();
 
-        	node = doc.createElement( "map" );
-        	node.setAttribute("name", id);
+        	node = doc.createElement( "list" );
 
-    		for (Object o : map.keySet()) {
-    			Element entryNode = doc.createElement( "entry" );
-    			entryNode.setAttribute("key", o.toString());
-    			if (map.get(o) instanceof EAdList) {
-					EAdList<?> list = (EAdList<?>) map.get(o);
-					ElementListDOMWriter listWriter = new ElementListDOMWriter(o.toString());
-					Node listNode = listWriter.buildNode(list);
-					doc.adoptNode(listNode);
-					entryNode.appendChild(listNode);
-    			} else if (map.get(o) instanceof EAdElement) {
-    				EAdElement newElement = (EAdElement) map.get(o);
-    				if (mappedElement.contains(newElement)) {
-    					logger.info("Added element id:" + elementMap.get(newElement) + "; element:" + newElement);
-    					entryNode.setAttribute("uniqueId", elementMap.get(newElement));
-    					entryNode.setTextContent(elementMap.get(newElement));
-    				} else {
-    					ElementDOMWriter domWriter = new ElementDOMWriter();
-    					Node newNode = domWriter.buildNode((EAdElement) map.get(o));
-    					doc.adoptNode(newNode);
-    					entryNode.appendChild(newNode);
-    				}
-    			} else {
-    				entryNode.setTextContent(map.get(o).toString());
-    			}
-    			
-    			node.appendChild(entryNode);
+    		for (Object o : list) {
+    			DOMWriter writer = super.getDOMWriter(o);
+    			Node newNode = writer.buildNode(o);
+    			doc.adoptNode(newNode);
+    			node.appendChild(newNode);
     		}
-
 
         }
         catch( ParserConfigurationException e ) {
-        	logger.log(Level.SEVERE, "Error writing element " + map, e);
+        	logger.log(Level.SEVERE, "Error writing element " + list, e);
         	return null;
         } catch (IllegalArgumentException e) {
-        	logger.log(Level.SEVERE, "Illegal argument " + map, e);
+        	logger.log(Level.SEVERE, "Illegal argument " + list, e);
 		} 
 
         return node;
 	}
+	
 	
 }

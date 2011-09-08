@@ -38,6 +38,7 @@
 package es.eucm.eadventure.common.params.fills.impl;
 
 import es.eucm.eadventure.common.params.EAdFill;
+import es.eucm.eadventure.common.params.EAdParamImpl;
 
 /**
  * <p>
@@ -45,7 +46,7 @@ import es.eucm.eadventure.common.params.EAdFill;
  * </p>
  * 
  */
-public class EAdColor implements EAdFill {
+public class EAdColor extends EAdParamImpl implements EAdFill {
 
 	/**
 	 * White EAdColor
@@ -294,18 +295,6 @@ public class EAdColor implements EAdFill {
 		if (temp.length() < 2)
 			temp = "00" + temp;
 		return temp.substring(temp.length() - 2);
-	}
-
-	@Override
-	public boolean equals(Object o) {
-		if (o != null && o instanceof EAdColor) {
-			EAdColor temp = (EAdColor) o;
-			if (temp.red == red && temp.blue == blue && temp.green == green
-					&& temp.alpha == alpha)
-				return true;
-		}
-		return false;
-
 	}
 
 	@Override

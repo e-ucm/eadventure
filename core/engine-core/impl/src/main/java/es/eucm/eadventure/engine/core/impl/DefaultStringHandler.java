@@ -7,7 +7,7 @@ import java.util.Map.Entry;
 import com.google.inject.Singleton;
 
 import es.eucm.eadventure.common.StringHandler;
-import es.eucm.eadventure.common.resources.EAdString;
+import es.eucm.eadventure.common.params.EAdString;
 
 @Singleton
 public class DefaultStringHandler implements StringHandler {

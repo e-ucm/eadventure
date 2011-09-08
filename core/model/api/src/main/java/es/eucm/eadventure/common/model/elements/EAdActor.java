@@ -37,7 +37,7 @@
 
 package es.eucm.eadventure.common.model.elements;
 
-import es.eucm.eadventure.common.resources.EAdString;
+import es.eucm.eadventure.common.params.EAdString;
 
 /**
  * Actor in the eAdventure model. Actors are reusable elements, placed in

@@ -37,12 +37,9 @@
 
 package es.eucm.eadventure.common.impl.reader.subparsers;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
 import org.xml.sax.Attributes;
 
-import es.eucm.eadventure.common.impl.reader.subparsers.extra.EntryData;
+import es.eucm.eadventure.common.impl.reader.subparsers.extra.AssetId;
 import es.eucm.eadventure.common.resources.EAdBundleId;
 import es.eucm.eadventure.common.resources.EAdResources;
 import es.eucm.eadventure.common.resources.assets.AssetDescriptor;
@@ -54,22 +51,23 @@ import es.eucm.eadventure.common.resources.assets.AssetDescriptor;
  * <p>
  * The resource element should be<br>
  * {@code	<bundle id="BUNDLE_ID">}<br>
- * &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{@code   <asset id="ASSET_ID" class="ASSETDESCRIPTOR_CLASS">ASSET_VALUE</asset>} x N<br>
+ * &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ * {@code   <asset id="ASSET_ID" class="ASSETDESCRIPTOR_CLASS">ASSET_VALUE</asset>}
+ * x N<br>
  * {@code	</bundle>}<br>
  * 
  * </p>
  */
-public class BundleSubparser extends Subparser {
+public class BundleSubparser extends Subparser implements AssetId {
 
 	/**
 	 * The object where the asset belongs
 	 */
 	private EAdResources resources;
-	
+
 	private EAdBundleId bundleId;
 
-	private static final Logger logger = Logger
-			.getLogger("ResourcesSubparser");
+	private String id;
 
 	/**
 	 * Constructor for the bundle parser.
@@ -97,11 +95,18 @@ public class BundleSubparser extends Subparser {
 
 	@Override
 	public void addChild(Object element) {
-		if (element instanceof EntryData) {
-			if (((EntryData) element).getValue() instanceof AssetDescriptor)
-				resources.addAsset(bundleId, ((EntryData) element).getKey(), (AssetDescriptor) ((EntryData) element).getValue());
-		} else
-			logger.log(Level.SEVERE, "Tried to add wrong child to resources " + element);
+		if (element instanceof AssetDescriptor)
+			resources.addAsset(bundleId, id, (AssetDescriptor) element);
+	}
+
+	@Override
+	public Object getObject() {
+		return bundleId;
+	}
+
+	@Override
+	public void setAssetId(String assetId) {
+		this.id = assetId;
 	}
 
 }

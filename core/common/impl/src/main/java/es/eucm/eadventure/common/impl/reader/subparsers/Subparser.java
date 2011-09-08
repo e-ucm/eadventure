@@ -37,9 +37,7 @@
 
 package es.eucm.eadventure.common.impl.reader.subparsers;
 
-import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import es.eucm.eadventure.common.interfaces.Param;
@@ -49,8 +47,14 @@ import es.eucm.eadventure.common.interfaces.Param;
  */
 public abstract class Subparser {
 
-	private static final Logger logger = Logger.getLogger("Subparser");
-	
+	protected static final Logger logger = Logger.getLogger("Subparser");
+
+	private static String packageName;
+
+	public static void init(String packageN) {
+		packageName = packageN;
+	}
+
 	/**
 	 * End the subparsing of the element
 	 */
@@ -59,45 +63,37 @@ public abstract class Subparser {
 	/**
 	 * Gets the {@link Field} object identified by the given id. It gives
 	 * precedence to Fields annotated with the id though the {@link Param}
-	 * annotation, if non is found it checks if the id coincides with
-	 * the name of a field.
+	 * annotation, if non is found it checks if the id coincides with the name
+	 * of a field.
 	 * 
-	 * @param object The object for where the field should be
-	 * @param id The id of the field
+	 * @param object
+	 *            The object for where the field should be
+	 * @param paramValue
+	 *            The id of the field
 	 * @return The field corresponding to the given id
 	 */
-	public Field getField(Object object, String id) {
-		Field field = null;
-		Field[] fields = object.getClass().getDeclaredFields();
-		for (int i = 0; i < fields.length && field == null; i++) {
-			Field f = fields[i];
-			Annotation a = f.getAnnotation(Param.class);
-			if (a != null && ((Param) a).value().equals(id))
-				field = f;
+	public Field getField(Object object, String paramValue) {
+		Class<?> clazz = object.getClass();
+		while (clazz != null) {
+			for ( Field f: clazz.getDeclaredFields() ){
+				Param a = f.getAnnotation(Param.class);
+				if (a != null && a.value().equals(paramValue))
+					return f;
+			}
+			clazz = clazz.getSuperclass();
 		}
 
-		Class<?> clazz = object.getClass();
-		while (field == null && clazz != Object.class) {
-			try {
-				field = clazz.getDeclaredField(id);
-			} catch (NoSuchFieldException e) {
-				try {
-					clazz = clazz.getSuperclass();
-				} catch (SecurityException e1) {
-					logger.log(Level.SEVERE, "Security excpetion " + object + " " + id, e);
-				} 
-			} catch (NullPointerException e) {
-				logger.log(Level.SEVERE, "Null pointer " + object + " " + id, e);
-			}
-		}
-		if (field == null) 
-			logger.log(Level.SEVERE, "No such field " + object + " " + id);
-		
-		return field;
+		return null;
 	}
 
 	public abstract void characters(char[] buf, int offset, int len);
 
 	public abstract void addChild(Object element);
+
+	public abstract Object getObject();
+
+	public String translateClass(String clazz) {
+		return clazz.startsWith(".") ? packageName + clazz : clazz;
+	}
 
 }

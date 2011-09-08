@@ -41,7 +41,7 @@ import es.eucm.eadventure.common.interfaces.Element;
 import es.eucm.eadventure.common.interfaces.Param;
 import es.eucm.eadventure.common.model.elements.EAdTimer;
 import es.eucm.eadventure.common.model.events.EAdTimerEvent;
-import es.eucm.eadventure.common.resources.EAdString;
+import es.eucm.eadventure.common.params.EAdString;
 
 @Element(runtime = EAdTimerEventImpl.class, detailed = EAdTimerEventImpl.class)
 public class EAdTimerEventImpl extends AbstractEAdEvent implements EAdTimerEvent {

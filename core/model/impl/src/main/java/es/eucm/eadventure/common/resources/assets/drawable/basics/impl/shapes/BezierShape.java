@@ -53,8 +53,10 @@ public class BezierShape implements Shape, Cloneable {
 	@Param("closed")
 	private boolean closed;
 
+	@Param("points")
 	private EAdList<EAdPositionImpl> points;
 
+	@Param("segmentsLength")
 	private EAdList<Integer> segmentsLength;
 
 	public BezierShape() {

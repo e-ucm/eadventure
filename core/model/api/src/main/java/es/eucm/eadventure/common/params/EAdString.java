@@ -35,19 +35,53 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package es.eucm.eadventure.common.resources;
+package es.eucm.eadventure.common.params;
 
 /**
- * Represents an eAdventur URI
- * 
+ * General internationalized string asset interface.
  */
-public interface EAdURI {
-
+public class EAdString implements EAdParam {
+	
 	/**
-	 * Returns a string representing the uri
-	 * 
-	 * @return a string representing the uri
+	 * The id
 	 */
-	String getPath();
+	private String id;
+	
+	/**
+	 * Construct a new string with the given id
+	 * 
+	 * @param id The id of the EAdString
+	 */
+	public EAdString(String id) {
+		this.id = id;
+	}
+	
+	@Override
+	public String toString() {
+		return id;
+	}
+	
+	@Override
+	public int hashCode() {
+		return id.hashCode();
+	}
+	
+	@Override
+	public boolean equals( Object o ){
+		if ( o instanceof EAdString ){
+			return ((EAdString) o).id.equals(id);
+		}
+		return false;
+	}
 
+	@Override
+	public String toStringData() {
+		return id;
+	}
+
+	@Override
+	public void parse(String data) {
+		this.id = data;
+	}
+	
 }

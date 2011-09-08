@@ -2,7 +2,7 @@ package es.eucm.eadventure.common;
 
 import java.util.Map;
 
-import es.eucm.eadventure.common.resources.EAdString;
+import es.eucm.eadventure.common.params.EAdString;
 
 /**
  * A handler to translate {@link EAdString} to readable text in a given language

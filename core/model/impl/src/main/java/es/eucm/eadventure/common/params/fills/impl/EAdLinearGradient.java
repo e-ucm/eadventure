@@ -1,12 +1,15 @@
 package es.eucm.eadventure.common.params.fills.impl;
 
 import es.eucm.eadventure.common.params.EAdFill;
+import es.eucm.eadventure.common.params.EAdParamImpl;
 
 /**
  * Linear gradient fill
  * 
  */
-public class EAdLinearGradient implements EAdFill {
+public class EAdLinearGradient extends EAdParamImpl implements EAdFill {
+	
+	public static final String SEPARATOR = ";";
 
 	private boolean vertical;
 
@@ -67,13 +70,13 @@ public class EAdLinearGradient implements EAdFill {
 
 	@Override
 	public String toStringData() {
-		return color1.toStringData() + ";" + color2.toStringData() + ";"
+		return color1.toStringData() + SEPARATOR + color2.toStringData() + SEPARATOR
 				+ vertical;
 	}
 
 	@Override
 	public void parse(String data) {
-		String temp[] = data.split(";");
+		String temp[] = data.split(SEPARATOR);
 		int i = 0;
 		color1 = new EAdColor(temp[i++]);
 		color2 = new EAdColor(temp[i++]);

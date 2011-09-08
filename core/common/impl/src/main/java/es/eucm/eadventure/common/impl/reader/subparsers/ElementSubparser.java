@@ -38,74 +38,116 @@
 package es.eucm.eadventure.common.impl.reader.subparsers;
 
 import java.lang.reflect.Constructor;
+import java.lang.reflect.Field;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import org.xml.sax.Attributes;
 
-import es.eucm.eadventure.common.impl.reader.subparsers.extra.ObjectFactory;
 import es.eucm.eadventure.common.model.EAdElement;
 
 /**
- * Parser for the element. The element should be 
- * {@code <element id="ID"
+ * Parser for the element. The element should be {@code <element id="ID"
  *  type="ENGINE_TYPE"
  *  class="EDITOR_TYPE"></element>}.
  */
 public class ElementSubparser extends Subparser {
 
-	/**
-	 * The logger
-	 */
-	private static final Logger logger = Logger.getLogger("ElementSubparser");
-	
+	private static Map<String, EAdElement> elementMap = new HashMap<String, EAdElement>();
+
+	private StringBuffer string;
+
 	/**
 	 * Element
 	 */
 	private EAdElement element;
 	
-	public ElementSubparser(EAdElement element, Attributes attributes, String classParam) {
-		String className = attributes.getValue(classParam);
-		String id = attributes.getValue("id");
-		String uniqueId = attributes.getValue("uniqueId");
-		if (ObjectFactory.getObject(uniqueId, EAdElement.class) == null ) {
+	private String paramValue;
+	
+	private Object parent;
+
+	public ElementSubparser(Object o, Attributes attributes, String classParam) {
+		parent = o;
+		// If element is new
+		if (attributes.getIndex("id") != -1) {
+			String className = translateClass(attributes.getValue(classParam));
+			String id = attributes.getValue("id");
+			String uniqueId = attributes.getValue("uniqueId");
+			paramValue = attributes.getValue("param");
+
+			Class<?> clazz = null;
 			try {
-				Class<?> clazz = ClassLoader.getSystemClassLoader().loadClass(className);
+				clazz = ClassLoader.getSystemClassLoader().loadClass(className);
 				Constructor<?> con = clazz.getConstructor(String.class);
-				this.element = (EAdElement) con.newInstance(new Object[]{id});
-				ObjectFactory.put(uniqueId, this.element);
-			} catch (NullPointerException e) {
-				logger.log(Level.SEVERE, "Null pointer, className:" + className + "; uniqueId:" + uniqueId, e);
-			}catch (Exception e) {
-				logger.log(Level.SEVERE, e.getMessage(), e);
+				this.element = (EAdElement) con
+						.newInstance(new Object[] { id });
+
+				elementMap.put(uniqueId, element);
+			} catch (ClassNotFoundException e) {
+				e.printStackTrace();
+			} catch (SecurityException e) {
+				e.printStackTrace();
+			} catch (NoSuchMethodException e) {
+				Constructor<?> con;
+				try {
+					con = clazz.getConstructor();
+					this.element = (EAdElement) con.newInstance();
+				} catch (Exception e1) {
+					e1.printStackTrace();
+				}
+			} catch (Exception e) {
+
 			}
+
+			// If element is repeated
 		} else {
+			string = new StringBuffer();
+		}
+
+	}
+
+	@Override
+	public void endElement() {
+		if (string != null) {
+			element = elementMap.get(string.toString());
+		}
+		
+		if ( paramValue != null && parent != null ){
 			try {
-				this.element = (EAdElement) ObjectFactory.getObject(uniqueId, EAdElement.class);
-			} catch (ClassCastException e) {
-				logger.log(Level.SEVERE, "Class cast excpetion, uniqueId:" + uniqueId, e);
+				Field field = getField(parent, paramValue);
+
+				if (field != null) {
+					boolean accessible = field.isAccessible();
+					field.setAccessible(true);
+					field.set(parent, element);
+					field.setAccessible(accessible);
+				}
+				
+			} catch (NullPointerException e) {
+				logger.log(Level.SEVERE, e.getMessage(), e);
+			} catch (SecurityException e) {
+				logger.log(Level.SEVERE, e.getMessage(), e);
+			} catch (IllegalArgumentException e) {
+				logger.log(Level.SEVERE, e.getMessage(), e);
+			} catch (IllegalAccessException e) {
+				logger.log(Level.SEVERE, e.getMessage(), e);
 			}
 		}
 	}
 
 	@Override
-	public void endElement() {
-	}
-	
-	@Override
 	public void addChild(Object element) {
-		if (element instanceof EAdElement)
-			this.element = (EAdElement) element;
-		else
-			logger.log(Level.SEVERE, "Tried to add element of wrong type " + element);
+
 	}
 
-	public EAdElement getElement() {
+	public Object getObject() {
 		return element;
 	}
 
 	@Override
 	public void characters(char[] buf, int offset, int len) {
+		string.append(buf, offset, len);
 	}
 
 }

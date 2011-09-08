@@ -37,6 +37,7 @@
 
 package es.eucm.eadventure.common.params.geom.impl;
 
+import es.eucm.eadventure.common.params.EAdParamImpl;
 import es.eucm.eadventure.common.params.geom.EAdPosition;
 
 /**
@@ -61,7 +62,9 @@ import es.eucm.eadventure.common.params.geom.EAdPosition;
  * 5 . . . . . . . . . .<br>
  * </code>
  */
-public class EAdPositionImpl implements EAdPosition {
+public class EAdPositionImpl extends EAdParamImpl implements EAdPosition {
+
+	public static final String SEPARATOR = ":";
 
 	public static enum Corner {
 		TOP_LEFT, BOTTOM_LEFT, BOTTOM_CENTER, CENTER, TOP_RIGHT
@@ -125,9 +128,9 @@ public class EAdPositionImpl implements EAdPosition {
 	public EAdPositionImpl(EAdPositionImpl position) {
 		this(position.x, position.y, position.dispX, position.dispY);
 	}
-	
-	public EAdPositionImpl( String data ){
-		parse( data );
+
+	public EAdPositionImpl(String data) {
+		parse(data);
 	}
 
 	private void setCorner(Corner corner) {
@@ -233,18 +236,8 @@ public class EAdPositionImpl implements EAdPosition {
 		return toStringData();
 	}
 
-	@Override
-	public boolean equals(Object o) {
-		if (o != null && o instanceof EAdPositionImpl) {
-			EAdPositionImpl temp = (EAdPositionImpl) o;
-			if (temp.x == x && temp.y == y && temp.dispX == dispX
-					&& temp.dispY == dispY)
-				return true;
-		}
-		return false;
-	}
-
-	private static EAdPositionImpl volatileEAdPosition = new EAdPositionImpl(0, 0);
+	private static EAdPositionImpl volatileEAdPosition = new EAdPositionImpl(0,
+			0);
 
 	/**
 	 * Returns a static position, with the corner set to {@link Corner#TOP_LEFT}
@@ -273,7 +266,8 @@ public class EAdPositionImpl implements EAdPosition {
 	 * 
 	 * @return the static position
 	 */
-	public static EAdPositionImpl volatileEAdPosition(Corner corner, int x, int y) {
+	public static EAdPositionImpl volatileEAdPosition(Corner corner, int x,
+			int y) {
 		volatileEAdPosition.x = x;
 		volatileEAdPosition.y = y;
 		volatileEAdPosition.setCorner(corner);
@@ -294,8 +288,8 @@ public class EAdPositionImpl implements EAdPosition {
 	 *            displacement in the y axis
 	 * @return the static position
 	 */
-	public static EAdPositionImpl volatileEAdPosition(int x, int y, float dispX,
-			float dispY) {
+	public static EAdPositionImpl volatileEAdPosition(int x, int y,
+			float dispX, float dispY) {
 		volatileEAdPosition.x = x;
 		volatileEAdPosition.y = y;
 		volatileEAdPosition.dispX = dispX;
@@ -305,12 +299,12 @@ public class EAdPositionImpl implements EAdPosition {
 
 	@Override
 	public String toStringData() {
-		return x + ":" + y + ":" + dispX + ":" + dispY;
+		return x + SEPARATOR + y + SEPARATOR + dispX + SEPARATOR + dispY;
 	}
 
 	@Override
 	public void parse(String data) {
-		String temp[] = data.split(":");
+		String temp[] = data.split(SEPARATOR);
 		x = Integer.parseInt(temp[0]);
 		y = Integer.parseInt(temp[1]);
 		dispX = Float.parseFloat(temp[2]);
@@ -319,9 +313,9 @@ public class EAdPositionImpl implements EAdPosition {
 
 	@Override
 	public void set(int x, int y) {
-		setX( x );
-		setY( y );
-		
+		setX(x);
+		setY(y);
+
 	}
 
 }

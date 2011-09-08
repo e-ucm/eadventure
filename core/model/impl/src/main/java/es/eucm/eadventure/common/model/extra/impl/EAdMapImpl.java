@@ -42,7 +42,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
-import es.eucm.eadventure.common.model.EAdElement;
 import es.eucm.eadventure.common.model.extra.EAdMap;
 
 public class EAdMapImpl<S, T> implements EAdMap<S, T> {
@@ -136,23 +135,6 @@ public class EAdMapImpl<S, T> implements EAdMap<S, T> {
 	@Override
 	public Class<?> getValueClass() {
 		return this.valueClass;
-	}
-
-	@Override
-	public String getId() {
-		return "map";
-	}
-
-	@Override
-	public EAdElement copy() {
-		// TODO copy map
-		return null;
-	}
-
-	@Override
-	public EAdElement copy(boolean deepCopy) {
-		// TODO copy map
-		return null;
 	}
 	
 }

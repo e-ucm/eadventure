@@ -45,8 +45,8 @@ import com.google.inject.Injector;
 import com.google.inject.Singleton;
 
 import es.eucm.eadventure.common.model.impl.inventory.EAdBasicInventory;
-import es.eucm.eadventure.common.resources.EAdURI;
-import es.eucm.eadventure.common.resources.assets.impl.EAdURIImpl;
+import es.eucm.eadventure.common.params.EAdURI;
+import es.eucm.eadventure.common.params.EAdURIImpl;
 import es.eucm.eadventure.engine.core.impl.factorymapproviders.GameObjectFactoryMapProvider;
 import es.eucm.eadventure.engine.core.impl.modules.BasicGameModule;
 import es.eucm.eadventure.engine.core.platform.AssetHandler;

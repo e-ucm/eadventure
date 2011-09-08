@@ -38,8 +38,8 @@
 package es.eucm.eadventure.common.resources.assets.multimedia.impl;
 
 import es.eucm.eadventure.common.interfaces.Param;
-import es.eucm.eadventure.common.resources.EAdURI;
-import es.eucm.eadventure.common.resources.assets.impl.EAdURIImpl;
+import es.eucm.eadventure.common.params.EAdURI;
+import es.eucm.eadventure.common.params.EAdURIImpl;
 import es.eucm.eadventure.common.resources.assets.multimedia.Sound;
 
 /**

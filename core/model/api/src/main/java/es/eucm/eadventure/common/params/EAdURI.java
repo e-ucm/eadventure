@@ -35,34 +35,19 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package es.eucm.eadventure.engine.core.evaluators.impl;
+package es.eucm.eadventure.common.params;
 
-import java.util.logging.Logger;
+/**
+ * Represents an eAdventur URI
+ * 
+ */
+public interface EAdURI extends EAdParam {
 
-import com.google.inject.Inject;
-import com.google.inject.Singleton;
-
-import es.eucm.eadventure.common.model.conditions.impl.NOTCondition;
-import es.eucm.eadventure.engine.core.evaluators.Evaluator;
-import es.eucm.eadventure.engine.core.evaluators.EvaluatorFactory;
-
-@Singleton
-public class NOTConditionEvaluator implements Evaluator<NOTCondition> {
-	
-	@SuppressWarnings("unused")
-	private Logger logger = Logger.getLogger("NOTConditionEvaluator");
-
-	private EvaluatorFactory evaluatorFactory;
-
-	@Inject
-	public NOTConditionEvaluator(EvaluatorFactory evaluatorFactory2) {
-		this.evaluatorFactory = evaluatorFactory2;
-	}
-
-	@Override
-	public boolean evaluate(NOTCondition condition) {
-		Boolean value = evaluatorFactory.evaluate(condition.getCondition());
-		return !value;
-	}
+	/**
+	 * Returns a string representing the uri
+	 * 
+	 * @return a string representing the uri
+	 */
+	String getPath();
 
 }
