@@ -95,6 +95,7 @@ public class EAdBasicSceneElement extends AbstractEAdElementWithBehavior
 	public static final EAdVarDef<Integer> VAR_TIME_DISPLAYED = new EAdVarDefImpl<Integer>(
 			"timeDisplayed", Integer.class, 0);
 
+	@Param("vars")
 	private EAdMap<EAdVarDef<?>, Object> vars;
 
 	@Param("draggable")
@@ -104,6 +105,7 @@ public class EAdBasicSceneElement extends AbstractEAdElementWithBehavior
 	@Asset({ Drawable.class })
 	public static final String appearance = "appearance";
 
+	@Param("clone")
 	private boolean clone;
 
 	public EAdBasicSceneElement(String id) {

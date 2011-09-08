@@ -58,6 +58,7 @@ public class ListDOMWriter extends DOMWriter<EAdList<?>> {
         	initilizeDOMWriter();
 
         	node = doc.createElement( "list" );
+        	node.setAttribute("class", list.getValueClass().getName());
 
     		for (Object o : list) {
     			DOMWriter writer = super.getDOMWriter(o);

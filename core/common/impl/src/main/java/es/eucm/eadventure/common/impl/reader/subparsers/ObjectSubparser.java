@@ -45,6 +45,7 @@ import org.xml.sax.Attributes;
 
 import es.eucm.eadventure.common.impl.reader.subparsers.extra.ObjectFactory;
 import es.eucm.eadventure.common.model.extra.EAdList;
+import es.eucm.eadventure.common.model.extra.EAdMap;
 
 /**
  * Parser for the param element. The param element should be
@@ -69,12 +70,19 @@ public class ObjectSubparser extends Subparser {
 
 	private Object element;
 
+	private String className;
+
+	private Subparser parser;
+
 	private static final Logger logger = Logger.getLogger("ParamSubparser");
 
-	public ObjectSubparser(Object object, Attributes attributes) {
+	public ObjectSubparser(Subparser parser, Object object,
+			Attributes attributes) {
 		currentString = new StringBuffer();
 		this.paramValue = attributes.getValue("param");
+		this.className = attributes.getValue("class");
 		this.parent = object;
+		this.parser = parser;
 	}
 
 	@Override
@@ -90,11 +98,14 @@ public class ObjectSubparser extends Subparser {
 			try {
 				Field field = getField(parent, paramValue);
 
+				Class<?> clazz = className != null ? ClassLoader
+						.getSystemClassLoader().loadClass(className) : field
+						.getType();
+
 				if (field != null) {
 					boolean accessible = field.isAccessible();
 					field.setAccessible(true);
-					this.element = ObjectFactory.getObject(value,
-							field.getType());
+					this.element = ObjectFactory.getObject(value, clazz);
 					field.set(parent, element);
 					field.setAccessible(accessible);
 				}
@@ -107,10 +118,28 @@ public class ObjectSubparser extends Subparser {
 				logger.log(Level.SEVERE, e.getMessage(), e);
 			} catch (IllegalAccessException e) {
 				logger.log(Level.SEVERE, e.getMessage(), e);
+			} catch (ClassNotFoundException e) {
+				e.printStackTrace();
 			}
 		else {
-			if ( parent instanceof EAdList ){
-				this.element = ObjectFactory.getObject(value, ((EAdList<?>) parent).getValueClass());
+			try {
+				if (className != null) {
+					Class<?> defaultClazz = ClassLoader.getSystemClassLoader()
+							.loadClass(className);
+					this.element = ObjectFactory.getObject(value, defaultClazz);
+				}
+				else if (parent instanceof EAdList) {
+					this.element = ObjectFactory.getObject(value,
+							((EAdList<?>) parent).getValueClass());
+				} else if (parent instanceof EAdMap
+						&& parser instanceof MapSubparser) {
+					Class<?> clazz = ((MapSubparser) parser).getKey() == null ? ((EAdMap<?, ?>) parent)
+							.getKeyClass() : ((EAdMap<?, ?>) parent)
+							.getValueClass();
+					this.element = ObjectFactory.getObject(value, clazz);
+				}
+			} catch (ClassNotFoundException e) {
+				e.printStackTrace();
 			}
 		}
 	}

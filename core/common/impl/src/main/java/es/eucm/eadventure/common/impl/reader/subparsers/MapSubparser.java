@@ -115,4 +115,8 @@ public class MapSubparser extends Subparser {
 	public Object getObject() {
 		return map;
 	}
+	
+	public Object getKey(){
+		return key;
+	}
 }

@@ -51,6 +51,7 @@ import es.eucm.eadventure.common.resources.assets.drawable.Drawable;
 @Element(runtime = EAdBasicActor.class, detailed = EAdBasicActor.class)
 public class EAdBasicActor extends EAdBasicSceneElement implements EAdActor {
 
+	@Param("actions")
 	private EAdList<EAdAction> actions;
 
 	@Bundled

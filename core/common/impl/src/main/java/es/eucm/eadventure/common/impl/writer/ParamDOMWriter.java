@@ -18,7 +18,7 @@ public class ParamDOMWriter extends DOMWriter<EAdParam>{
 			e.printStackTrace();
 		}
 		node = doc.createElement("param");
-		String value = paramsMap.get(data);
+		String value = paramsMap.get(data.toStringData());
 		if ( value == null ){
 			value = data.toStringData();
 			paramsMap.put(value, "" + paramsMap.keySet().size());

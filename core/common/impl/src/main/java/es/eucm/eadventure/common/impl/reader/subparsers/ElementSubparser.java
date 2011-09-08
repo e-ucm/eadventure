@@ -69,12 +69,12 @@ public class ElementSubparser extends Subparser {
 
 	public ElementSubparser(Object o, Attributes attributes, String classParam) {
 		parent = o;
+		paramValue = attributes.getValue("param");
 		// If element is new
 		if (attributes.getIndex("id") != -1) {
 			String className = translateClass(attributes.getValue(classParam));
 			String id = attributes.getValue("id");
 			String uniqueId = attributes.getValue("uniqueId");
-			paramValue = attributes.getValue("param");
 
 			Class<?> clazz = null;
 			try {

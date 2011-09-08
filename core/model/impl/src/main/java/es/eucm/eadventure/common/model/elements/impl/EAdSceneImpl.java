@@ -83,6 +83,7 @@ public class EAdSceneImpl extends EAdGeneralElementImpl implements EAdScene {
 	@Param("returnable")
 	protected boolean returnable;
 
+	@Param("sceneElements")
 	private EAdList<EAdSceneElement> sceneElements;
 
 	/**

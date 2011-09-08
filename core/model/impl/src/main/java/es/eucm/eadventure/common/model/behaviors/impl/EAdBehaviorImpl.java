@@ -38,6 +38,7 @@
 package es.eucm.eadventure.common.model.behaviors.impl;
 
 import es.eucm.eadventure.common.interfaces.Element;
+import es.eucm.eadventure.common.interfaces.Param;
 import es.eucm.eadventure.common.model.behavior.EAdBehavior;
 import es.eucm.eadventure.common.model.effects.EAdEffect;
 import es.eucm.eadventure.common.model.extra.EAdList;
@@ -64,7 +65,8 @@ public class EAdBehaviorImpl extends EAdElementImpl implements EAdBehavior {
 	/**
 	 * All behaviors contained by this bundle, associated with its events
 	 */
-	protected EAdMap<String, EAdList<EAdEffect>> behavior;
+	@Param("behavior")
+	protected EAdMap<EAdGUIEvent, EAdList<EAdEffect>> behavior;
 
 	/**
 	 * Constructs an empty behavior
@@ -76,7 +78,7 @@ public class EAdBehaviorImpl extends EAdElementImpl implements EAdBehavior {
 	 */
 	public EAdBehaviorImpl(String id) {
 		super(id);
-		behavior = new EAdMapImpl<String, EAdList<EAdEffect>>(String.class, EAdList.class);
+		behavior = new EAdMapImpl<EAdGUIEvent, EAdList<EAdEffect>>(String.class, EAdList.class);
 	}
 
 	/*
@@ -89,11 +91,11 @@ public class EAdBehaviorImpl extends EAdElementImpl implements EAdBehavior {
 	 */
 	@Override
 	public void addBehavior(EAdGUIEvent event, EAdEffect effect) {
-		EAdList<EAdEffect> list = behavior.get(event.toString());
+		EAdList<EAdEffect> list = behavior.get(event);
 		if (list == null) {
 			list = new EAdListImpl<EAdEffect>(EAdEffect.class);
 			list.add(effect);
-			behavior.put(event.toString(), list);
+			behavior.put(event, list);
 		} else
 			list.add(effect);
 	}
@@ -107,7 +109,7 @@ public class EAdBehaviorImpl extends EAdElementImpl implements EAdBehavior {
 	 */
 	@Override
 	public EAdList<EAdEffect> getEffects(EAdGUIEvent event) {
-		return behavior.get(event.toString());
+		return behavior.get(event);
 	}
 
 	@Override

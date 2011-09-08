@@ -65,6 +65,10 @@ public class EAdMouseEventImpl extends EAdElementImpl implements EAdMouseEvent {
 			EAdMouseEvent.MouseActionType.MOVED);
 	public static final EAdMouseEvent MOUSE_PRESSED = new EAdMouseEventImpl(
 			EAdMouseEvent.MouseActionType.PRESSED);
+	
+	public EAdMouseEventImpl( ){
+		
+	}
 
 	/**
 	 * Returns an {@link EAdMouseEvent} with the given type

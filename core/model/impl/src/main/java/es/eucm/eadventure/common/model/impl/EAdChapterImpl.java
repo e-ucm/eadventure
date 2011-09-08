@@ -87,6 +87,7 @@ public class EAdChapterImpl extends EAdGeneralElementImpl implements EAdChapter 
 	@Param("loadingScreen")
 	private EAdScene loadingScreen;
 	
+	@Param("vars")
 	private EAdMap<EAdVarDef<?>, Object> vars;
 	
 	/**

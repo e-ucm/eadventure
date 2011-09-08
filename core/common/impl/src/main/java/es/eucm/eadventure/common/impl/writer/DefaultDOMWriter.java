@@ -14,7 +14,12 @@ public class DefaultDOMWriter extends DOMWriter<Object> {
 			e.printStackTrace();
 		}
 		node = doc.createElement("object");
-		node.setTextContent(data.toString());
+		node.setAttribute("class", data.getClass().getName());
+
+		if (data instanceof Class) {
+			node.setTextContent(((Class<?>) data).getName());
+		} else
+			node.setTextContent(data.toString());
 		return node;
 	}
 

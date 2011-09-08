@@ -73,6 +73,7 @@ public abstract class AbstractEAdEffect extends AbstractEAdConditionedElement
 	@Param("queueable")
 	private boolean queueable;
 	
+	@Param("events")
 	private EAdList<EAdEvent> events;
 
 	/**

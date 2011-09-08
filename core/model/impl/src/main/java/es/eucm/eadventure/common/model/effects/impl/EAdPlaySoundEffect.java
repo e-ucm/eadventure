@@ -1,5 +1,6 @@
 package es.eucm.eadventure.common.model.effects.impl;
 
+import es.eucm.eadventure.common.interfaces.Element;
 import es.eucm.eadventure.common.interfaces.Param;
 import es.eucm.eadventure.common.resources.assets.multimedia.Sound;
 
@@ -8,6 +9,7 @@ import es.eucm.eadventure.common.resources.assets.multimedia.Sound;
  * 
  * 
  */
+@Element(detailed = EAdPlaySoundEffect.class, runtime = EAdPlaySoundEffect.class)
 public class EAdPlaySoundEffect extends AbstractEAdEffect {
 
 	@Param("sound")

@@ -38,6 +38,7 @@
 package es.eucm.eadventure.common.model.effects.impl;
 
 import es.eucm.eadventure.common.interfaces.Element;
+import es.eucm.eadventure.common.interfaces.Param;
 import es.eucm.eadventure.common.model.effects.EAdEffect;
 import es.eucm.eadventure.common.model.extra.EAdMap;
 import es.eucm.eadventure.common.model.extra.impl.EAdMapImpl;
@@ -53,6 +54,7 @@ public class EAdRandomEffect extends AbstractEAdEffect {
 	/**
 	 * Effect's list
 	 */
+	@Param("effects")
 	private EAdMap<EAdEffect, Float> effects;
 
 	public EAdRandomEffect(String id) {

@@ -37,6 +37,7 @@
 
 package es.eucm.eadventure.common.model.variables.impl;
 
+import es.eucm.eadventure.common.interfaces.Param;
 import es.eucm.eadventure.common.model.extra.EAdList;
 import es.eucm.eadventure.common.model.extra.impl.EAdListImpl;
 import es.eucm.eadventure.common.model.impl.EAdElementImpl;
@@ -48,6 +49,7 @@ public abstract class EAdOperationImpl extends EAdElementImpl implements EAdOper
 	/**
 	 * List of the variables
 	 */
+	@Param("varList")
 	protected EAdList<EAdField<?>> varList;
 
 	public EAdOperationImpl(String id) {

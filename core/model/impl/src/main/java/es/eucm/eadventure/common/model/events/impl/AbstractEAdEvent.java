@@ -37,6 +37,7 @@
 
 package es.eucm.eadventure.common.model.events.impl;
 
+import es.eucm.eadventure.common.interfaces.Param;
 import es.eucm.eadventure.common.model.effects.EAdEffect;
 import es.eucm.eadventure.common.model.events.EAdEvent;
 import es.eucm.eadventure.common.model.extra.EAdList;
@@ -54,6 +55,7 @@ public abstract class AbstractEAdEvent extends EAdElementImpl implements EAdEven
 	/**
 	 * List of effects
 	 */
+	@Param("effects")
 	private EAdMap<Enum<?>, EAdList<EAdEffect>> effects;
 	
 	public AbstractEAdEvent(String id) {

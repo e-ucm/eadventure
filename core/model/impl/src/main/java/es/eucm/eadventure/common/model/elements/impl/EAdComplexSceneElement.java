@@ -37,6 +37,7 @@
 
 package es.eucm.eadventure.common.model.elements.impl;
 
+import es.eucm.eadventure.common.interfaces.Param;
 import es.eucm.eadventure.common.model.EAdElement;
 import es.eucm.eadventure.common.model.elements.EAdSceneElement;
 import es.eucm.eadventure.common.model.extra.EAdList;
@@ -80,6 +81,7 @@ public class EAdComplexSceneElement extends EAdBasicSceneElement implements
 	public static final EAdVarDef<Integer> VAR_OFFSET_Y = new EAdVarDefImpl<Integer>(
 			"offsetY", Integer.class, 0);
 
+	@Param("components")
 	protected EAdList<EAdSceneElement> components;
 
 	/**

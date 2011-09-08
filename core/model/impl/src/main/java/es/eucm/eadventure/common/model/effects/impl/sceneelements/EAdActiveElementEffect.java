@@ -37,6 +37,8 @@
 
 package es.eucm.eadventure.common.model.effects.impl.sceneelements;
 
+import es.eucm.eadventure.common.interfaces.Element;
+import es.eucm.eadventure.common.interfaces.Param;
 import es.eucm.eadventure.common.model.effects.EAdSceneElementEffect;
 import es.eucm.eadventure.common.model.effects.impl.AbstractEAdEffect;
 
@@ -45,8 +47,10 @@ import es.eucm.eadventure.common.model.effects.impl.AbstractEAdEffect;
  * 
  *
  */
+@Element(detailed = EAdActiveElementEffect.class, runtime = EAdActiveElementEffect.class)
 public class EAdActiveElementEffect extends AbstractEAdEffect {
 	
+	@Param("effect")
 	private EAdSceneElementEffect effect;
 
 	public EAdActiveElementEffect(String id) {

@@ -70,6 +70,7 @@ public class EAdVideoScene extends EAdSceneImpl implements EAdScene {
 	@Param("nextScene")
 	private EAdScene nextScene;
 
+	@Param("finalEffects")
 	private EAdList<EAdEffect> finalEffects;
 
 	public EAdVideoScene(String id) {

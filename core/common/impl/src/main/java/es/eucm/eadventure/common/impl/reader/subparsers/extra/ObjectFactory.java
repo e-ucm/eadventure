@@ -67,6 +67,7 @@ public class ObjectFactory {
 	public static Object getObject(String value, Class<?> fieldType) {
 		if ( EAdParam.class.isAssignableFrom(fieldType)){
 			if ( paramsMap.containsKey(value)){
+				logger.info(value + " was compressed." );
 				return paramsMap.get(value);
 			}
 			else {
@@ -95,6 +96,7 @@ public class ObjectFactory {
 				else if (fieldType == EAdString.class) {
 					param = new EAdString(value);
 				}
+				paramsMap.put(paramsMap.keySet().size() + "", param);
 				return param;
 			}
 		}
@@ -116,7 +118,7 @@ public class ObjectFactory {
 			}
 		else if (fieldType.isEnum())
 			return Enum.valueOf(fieldType.asSubclass(Enum.class), value);
-		else{
+		else {
 			logger.info("The field type was not recognised. The string is returned");
 			return value;
 		}

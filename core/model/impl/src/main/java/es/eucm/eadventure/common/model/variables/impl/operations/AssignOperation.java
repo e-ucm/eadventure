@@ -38,6 +38,7 @@
 package es.eucm.eadventure.common.model.variables.impl.operations;
 
 import es.eucm.eadventure.common.interfaces.Element;
+import es.eucm.eadventure.common.interfaces.Param;
 import es.eucm.eadventure.common.model.variables.impl.EAdOperationImpl;
 
 /**
@@ -48,7 +49,12 @@ import es.eucm.eadventure.common.model.variables.impl.EAdOperationImpl;
 @Element(runtime = AssignOperation.class, detailed = AssignOperation.class)
 public class AssignOperation extends EAdOperationImpl {
 
+	@Param("value")
 	private Object value;
+
+	public AssignOperation(String id) {
+		super(id);
+	}
 
 	/**
 	 * Creates an assign operation

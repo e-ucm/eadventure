@@ -38,14 +38,17 @@
 package es.eucm.eadventure.common.model.effects.impl;
 
 import es.eucm.eadventure.common.interfaces.Element;
+import es.eucm.eadventure.common.interfaces.Param;
 
 @Element(detailed = EAdMoveActiveElement.class, runtime = EAdMoveActiveElement.class)
 public class EAdMoveActiveElement extends AbstractEAdEffect {
 
 	public static final int MOUSE_COORDINATE = -1;
 
+	@Param("targetX")
 	private int targetX;
 
+	@Param("targetY")
 	private int targetY;
 
 	public EAdMoveActiveElement(String id) {

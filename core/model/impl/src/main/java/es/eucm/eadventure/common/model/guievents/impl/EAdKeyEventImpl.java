@@ -67,7 +67,11 @@ public class EAdKeyEventImpl extends EAdElementImpl implements EAdKeyEvent {
 	private KeyCode keyCode;
 
 	@Param("char")
-	private char c;
+	private Character c;
+	
+	public EAdKeyEventImpl( ){
+		
+	}
 
 	public EAdKeyEventImpl(KeyActionType type, KeyCode keyCode) {
 		super("KeyEvent_" + type + "_" + keyCode);

@@ -95,5 +95,9 @@ public class SceneDemos {
 		}
 		return strings;
 	}
+	
+	public List<SceneDemo> getScenes(){
+		return sceneDemos;
+	}
 
 }

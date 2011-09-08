@@ -80,10 +80,11 @@ public class AdventureHandler extends DefaultHandler {
 			Subparser.init(packageName);
 		} else if (qName.equals("element")) {
 			Object o = null;
-			if ( !subparserStack.isEmpty() ){
+			if (!subparserStack.isEmpty()) {
 				o = subparserStack.peek().getObject();
 			}
-			subparserStack.push(new ElementSubparser(o, attributes, classParam));
+			subparserStack
+					.push(new ElementSubparser(o, attributes, classParam));
 		} else if (qName.equals("list")) {
 			subparserStack.push(new ListSubparser(subparserStack.peek()
 					.getObject(), attributes));
@@ -91,8 +92,8 @@ public class AdventureHandler extends DefaultHandler {
 			subparserStack.push(new MapSubparser(subparserStack.peek()
 					.getObject(), attributes));
 		} else if (qName.equals("object") || qName.equals("param")) {
-			subparserStack.push(new ObjectSubparser(subparserStack.peek()
-					.getObject(), attributes));
+			subparserStack.push(new ObjectSubparser(subparserStack.peek(),
+					subparserStack.peek().getObject(), attributes));
 		} else if (qName.equals("resources")) {
 			subparserStack
 					.push(new ResourcesSubparser((EAdElement) subparserStack
@@ -107,7 +108,7 @@ public class AdventureHandler extends DefaultHandler {
 			}
 		} else if (qName.equals("asset")) {
 			AssetSubparser assetSubparser = new AssetSubparser(
-					(AssetId) subparserStack.peek(), attributes);
+					subparserStack.peek(), attributes);
 			subparserStack.push(assetSubparser);
 		}
 	}

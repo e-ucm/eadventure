@@ -1,6 +1,7 @@
 package es.eucm.eadventure.common.model.effects.impl.text;
 
 import es.eucm.eadventure.common.interfaces.Element;
+import es.eucm.eadventure.common.interfaces.Param;
 import es.eucm.eadventure.common.model.effects.impl.AbstractEAdEffect;
 import es.eucm.eadventure.common.model.effects.impl.timedevents.EAdShowSceneElement;
 import es.eucm.eadventure.common.model.variables.EAdField;
@@ -18,22 +19,43 @@ import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.shapes.Ba
 @Element(runtime = EAdShowSceneElement.class, detailed = EAdShowSceneElement.class)
 public class EAdSpeakEffect extends AbstractEAdEffect {
 
-	private EAdField<Integer> x, y;
+	@Param("x")
+	private EAdField<Integer> x;
 	
-	private EAdField<Float> dispX, dispY;
+	@Param("y")
+	private EAdField<Integer> y;
 	
-	private EAdField<Integer> width, height;
+	@Param("dispX")
+	private EAdField<Float> dispX;
+	
+	@Param("dispY")
+	private EAdField<Float> dispY;
+	
+	@Param("width")
+	private EAdField<Integer> width;
+	
+	@Param("height")
+	private EAdField<Integer> height;
 
+	@Param("stateVar")
 	private EAdField<String> stateVar;
 
+	@Param("string")
 	private EAdString string;
 
-	private EAdBorderedColor textColor, bubbleColor;
+	@Param("textColor")
+	private EAdBorderedColor textColor;
+	
+	@Param("bubbleColor")
+	private EAdBorderedColor bubbleColor;
 
+	@Param("font")
 	private EAdFontImpl font;
 	
+	@Param("ballonType")
 	private BalloonType ballonType;
 
+	@Param("scale")
 	private EAdField<Float> scale;
 
 	/**

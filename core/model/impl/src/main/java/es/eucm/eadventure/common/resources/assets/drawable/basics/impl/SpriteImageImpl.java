@@ -53,6 +53,10 @@ public class SpriteImageImpl extends ImageImpl implements SpriteImage {
 	@Param("sprite")
 	private int sprite;
 
+	public SpriteImageImpl(){
+		
+	}
+	
 	public SpriteImageImpl(String uri, int totalSprites, int sprite) {
 		super( uri );
 		this.totalSprites = totalSprites;

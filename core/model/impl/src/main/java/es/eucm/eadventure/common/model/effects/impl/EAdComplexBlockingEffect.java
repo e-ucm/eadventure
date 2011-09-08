@@ -37,10 +37,8 @@
 
 package es.eucm.eadventure.common.model.effects.impl;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import es.eucm.eadventure.common.interfaces.Element;
+import es.eucm.eadventure.common.interfaces.Param;
 import es.eucm.eadventure.common.model.conditions.impl.EmptyCondition;
 import es.eucm.eadventure.common.model.effects.EAdEffect;
 import es.eucm.eadventure.common.model.elements.EAdCondition;
@@ -52,10 +50,13 @@ import es.eucm.eadventure.common.model.extra.impl.EAdListImpl;
 public class EAdComplexBlockingEffect extends AbstractEAdEffect implements
 		EAdEffect {
 
+	@Param("componentes")
 	protected EAdList<EAdSceneElement> components;
 
-	protected ArrayList<EAdEffect> finalEffects;
+	@Param("finalEffects")
+	protected EAdList<EAdEffect> finalEffects;
 
+	@Param("blockingCondition")
 	private EAdCondition blockingCondition;
 
 	public EAdComplexBlockingEffect(String id) {
@@ -63,7 +64,7 @@ public class EAdComplexBlockingEffect extends AbstractEAdEffect implements
 		components = new EAdListImpl<EAdSceneElement>(
 				EAdSceneElement.class);
 		blockingCondition = EmptyCondition.TRUE_EMPTY_CONDITION;
-		finalEffects = new ArrayList<EAdEffect>();
+		finalEffects = new EAdListImpl<EAdEffect>(EAdEffect.class);
 	}
 
 	public EAdList<EAdSceneElement> getComponents() {
@@ -84,7 +85,7 @@ public class EAdComplexBlockingEffect extends AbstractEAdEffect implements
 	 * 
 	 * @return
 	 */
-	public List<EAdEffect> getFinalEffects() {
+	public EAdList<EAdEffect> getFinalEffects() {
 		return finalEffects;
 	}
 }

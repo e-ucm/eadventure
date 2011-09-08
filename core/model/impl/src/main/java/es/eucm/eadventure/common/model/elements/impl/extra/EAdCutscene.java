@@ -68,6 +68,7 @@ import es.eucm.eadventure.common.model.variables.impl.operations.LiteralExpressi
 @Element(detailed = EAdCutscene.class, runtime = EAdCutscene.class)
 public class EAdCutscene extends EAdComposedScene {
 
+	@Param("slides")
 	private EAdList<EAdSlide> slides;
 
 	@Param("nextScene")

@@ -37,13 +37,18 @@
 
 package es.eucm.eadventure.common.model.events.impl;
 
+import es.eucm.eadventure.common.interfaces.Element;
+import es.eucm.eadventure.common.interfaces.Param;
 import es.eucm.eadventure.common.model.events.EAdSceneElementTimedEvent;
 
+@Element(detailed = EAdSceneElementTimedEventImpl.class, runtime = EAdSceneElementTimedEventImpl.class)
 public class EAdSceneElementTimedEventImpl extends AbstractEAdEvent implements
 		EAdSceneElementTimedEvent {
 
+	@Param("time")
 	private int time;
 
+	@Param("repeats")
 	private int repeats;
 
 	/**

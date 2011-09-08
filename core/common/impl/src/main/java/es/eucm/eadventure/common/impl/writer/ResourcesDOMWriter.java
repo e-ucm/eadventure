@@ -37,7 +37,6 @@
 
 package es.eucm.eadventure.common.impl.writer;
 
-import java.lang.reflect.Field;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -46,7 +45,6 @@ import javax.xml.parsers.ParserConfigurationException;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
-import es.eucm.eadventure.common.interfaces.Param;
 import es.eucm.eadventure.common.resources.EAdAssetBundle;
 import es.eucm.eadventure.common.resources.EAdBundleId;
 import es.eucm.eadventure.common.resources.EAdResources;
@@ -94,6 +92,7 @@ public class ResourcesDOMWriter extends DOMWriter<EAdResources> {
 
 		for (String assetId : ((EAdAssetBundleImpl) resources).getIds()) {
 			Node assetNode = processAsset(assetId, resources.getAsset(assetId));
+			doc.adoptNode(assetNode);
 			node.appendChild(assetNode);
 		}
 
@@ -122,6 +121,7 @@ public class ResourcesDOMWriter extends DOMWriter<EAdResources> {
 
 		for (String assetId : ((EAdAssetBundleImpl) bundle).getIds()) {
 			Node assetNode = processAsset(assetId, bundle.getAsset(assetId));
+			doc.adoptNode(assetNode);
 			bundleNode.appendChild(assetNode);
 		}
 
@@ -139,52 +139,9 @@ public class ResourcesDOMWriter extends DOMWriter<EAdResources> {
 	 */
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	private Node processAsset(String id, AssetDescriptor assetDescriptor) {
-		Element assetNode = doc.createElement("asset");
+		DOMWriter writer = super.getDOMWriter(assetDescriptor);
+		Element assetNode = writer.buildNode(assetDescriptor);
 		assetNode.setAttribute("id", id);
-		int index = mappedAsset.indexOf(assetDescriptor);
-		if (index != -1) {
-			assetNode.setTextContent("" + index);
-			return assetNode;
-		}
-
-		mappedAsset.add(assetDescriptor);
-		assetNode.setAttribute("class", assetDescriptor.getClass()
-				.getCanonicalName());
-
-		Class<?> clazz = assetDescriptor.getClass();
-		try {
-			while (clazz != null) {
-				Field[] fields = clazz.getDeclaredFields();
-				for (Field field : fields) {
-					Param param = field.getAnnotation(Param.class);
-					if (param != null) {
-						boolean accessible = field.isAccessible();
-						field.setAccessible(true);
-						Object o;
-
-						o = field.get(assetDescriptor);
-
-						if (o != null) {
-							DOMWriter writer = super.getDOMWriter(o);
-							Element newNode = writer.buildNode(o);
-							newNode.setAttribute("param", param.value());
-							doc.adoptNode(newNode);
-							assetNode.appendChild(newNode);
-
-						}
-
-						field.setAccessible(accessible);
-					}
-
-				}
-				clazz = clazz.getSuperclass();
-			}
-		} catch (IllegalArgumentException e) {
-			e.printStackTrace();
-		} catch (IllegalAccessException e) {
-			e.printStackTrace();
-		}
-
 		return assetNode;
 	}
 }

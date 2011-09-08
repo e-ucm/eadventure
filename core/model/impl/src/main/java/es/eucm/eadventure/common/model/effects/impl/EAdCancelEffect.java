@@ -38,6 +38,7 @@
 package es.eucm.eadventure.common.model.effects.impl;
 
 import es.eucm.eadventure.common.interfaces.Element;
+import es.eucm.eadventure.common.interfaces.Param;
 import es.eucm.eadventure.common.model.effects.EAdEffect;
 import es.eucm.eadventure.common.model.extra.EAdList;
 import es.eucm.eadventure.common.model.extra.impl.EAdListImpl;
@@ -52,6 +53,7 @@ public class EAdCancelEffect extends AbstractEAdEffect {
 	/**
 	 * Effect to be stopped
 	 */
+	@Param("effects")
 	private EAdList<EAdEffect> effects;
 
 	/**

@@ -62,7 +62,7 @@ import es.eucm.eadventure.common.resources.assets.AssetDescriptor;
  *            The type of the element writen by this DOMWriter
  */
 public abstract class DOMWriter<T> {
-	
+
 	public static final String PACKAGE = "es.eucm.eadventure.common.model";
 
 	/**
@@ -101,14 +101,13 @@ public abstract class DOMWriter<T> {
 	 * A map to store repeated assets and save some space in XML
 	 */
 	protected static ArrayList<AssetDescriptor> mappedAsset = new ArrayList<AssetDescriptor>();
-	
-	public static void initMaps(){
+
+	public static void initMaps() {
 		elementMap.clear();
 		mappedElement.clear();
 		paramsMap.clear();
 		mappedAsset.clear();
 	}
-	
 
 	/**
 	 * Initialize the elements of the DOMWriter
@@ -144,14 +143,17 @@ public abstract class DOMWriter<T> {
 			writer = new ParamDOMWriter();
 		} else if (o instanceof EAdResources) {
 			writer = new ResourcesDOMWriter();
+		} else if (o instanceof AssetDescriptor) {
+			writer = new AssetDOMWriter();
 		} else {
 			writer = new DefaultDOMWriter();
 		}
 		return writer;
 	}
-	
-	public String shortClass( String clazz ){
-		return clazz.startsWith(PACKAGE) ? clazz.substring(PACKAGE.length()) : clazz;
+
+	public String shortClass(String clazz) {
+		return clazz.startsWith(PACKAGE) ? clazz.substring(PACKAGE.length())
+				: clazz;
 	}
 
 }

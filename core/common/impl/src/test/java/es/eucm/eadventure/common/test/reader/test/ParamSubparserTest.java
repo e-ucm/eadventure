@@ -103,7 +103,7 @@ public class ParamSubparserTest extends TestCase {
 	public void testPrivateField() {
 		AttributesImpl attributes = new AttributesImpl();
 		attributes.addAttribute("", "name", "name", "", "privateField");
-		ObjectSubparser subparser = new ObjectSubparser(testElement, attributes);
+		ObjectSubparser subparser = new ObjectSubparser(null, testElement, attributes);
 		
 		subparser.characters("test".toCharArray(), 0, 4);
 		
@@ -117,7 +117,7 @@ public class ParamSubparserTest extends TestCase {
 		AttributesImpl attributes = new AttributesImpl();
 		attributes.addAttribute("", "name", "name", "", "publicField");
 
-		ObjectSubparser subparser = new ObjectSubparser(testElement, attributes);
+		ObjectSubparser subparser = new ObjectSubparser(null, testElement, attributes);
 		
 		subparser.characters("test".toCharArray(), 0, 4);
 		
@@ -131,7 +131,7 @@ public class ParamSubparserTest extends TestCase {
 		AttributesImpl attributes = new AttributesImpl();
 		attributes.addAttribute("", "name", "name", "", "integerField");
 
-		ObjectSubparser subparser = new ObjectSubparser(testElement, attributes);
+		ObjectSubparser subparser = new ObjectSubparser(null, testElement, attributes);
 		
 		subparser.characters("10".toCharArray(), 0, 2);
 		
@@ -145,7 +145,7 @@ public class ParamSubparserTest extends TestCase {
 		AttributesImpl attributes = new AttributesImpl();
 		attributes.addAttribute("", "name", "name", "", "booleanField");
 
-		ObjectSubparser subparser = new ObjectSubparser(testElement, attributes);
+		ObjectSubparser subparser = new ObjectSubparser(null, testElement, attributes);
 		
 		subparser.characters("true".toCharArray(), 0, 4);
 		
@@ -159,7 +159,7 @@ public class ParamSubparserTest extends TestCase {
 		AttributesImpl attributes = new AttributesImpl();
 		attributes.addAttribute("", "name", "name", "", "data");
 
-		ObjectSubparser subparser = new ObjectSubparser(testElement, attributes);
+		ObjectSubparser subparser = new ObjectSubparser(null, testElement, attributes);
 		
 		subparser.characters("32523".toCharArray(), 0, 5);
 		

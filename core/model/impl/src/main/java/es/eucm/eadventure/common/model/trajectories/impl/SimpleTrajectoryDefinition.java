@@ -52,6 +52,10 @@ public class SimpleTrajectoryDefinition extends EAdElementImpl implements Trajec
 
 	@Param("onlyHorizontal")
 	private boolean onlyHorizontal;
+	
+	public SimpleTrajectoryDefinition( ){
+		onlyHorizontal = true;
+	}
 
 	/**
 	 * Creates an instance

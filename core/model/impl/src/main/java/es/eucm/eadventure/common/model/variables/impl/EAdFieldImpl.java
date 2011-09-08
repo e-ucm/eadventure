@@ -15,6 +15,10 @@ public class EAdFieldImpl<T> implements EAdField<T> {
 	@Param("variable")
 	private EAdVarDef<T> varDef;
 
+	public EAdFieldImpl() {
+
+	}
+
 	public EAdFieldImpl(EAdElement element, EAdVarDef<T> varDef) {
 		this.element = element;
 		this.varDef = varDef;

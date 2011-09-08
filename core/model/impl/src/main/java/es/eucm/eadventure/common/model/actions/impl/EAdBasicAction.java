@@ -61,10 +61,13 @@ public class EAdBasicAction extends EAdGeneralElementImpl implements EAdAction {
 	@Param("name")
 	private EAdString name;
 
+	@Param("effects")
 	private EAdList<EAdEffect> effects;
 
+	@Param("highlightBundle")
 	private EAdBundleId highlightBundle;
 
+	@Param("condition")
 	private EAdCondition condition;
 	
 	public EAdBasicAction(String id) {

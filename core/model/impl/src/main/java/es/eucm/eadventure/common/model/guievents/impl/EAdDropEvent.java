@@ -48,6 +48,10 @@ public class EAdDropEvent extends EAdElementImpl implements EAdGUIEvent {
 
 	@Param("carryElement")
 	private EAdElement carryElement;
+	
+	public EAdDropEvent(){
+		
+	}
 
 	public EAdDropEvent(EAdElement object) {
 		super( "dropEvent_" + object.getId());

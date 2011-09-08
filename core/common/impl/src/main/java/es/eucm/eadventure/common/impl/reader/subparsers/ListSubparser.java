@@ -44,6 +44,7 @@ import java.util.logging.Logger;
 import org.xml.sax.Attributes;
 
 import es.eucm.eadventure.common.model.extra.EAdList;
+import es.eucm.eadventure.common.model.extra.impl.EAdListImpl;
 
 /**
  * Subparser for the list element.
@@ -61,18 +62,30 @@ public class ListSubparser extends Subparser {
 		init(parent, attributes);
 	}
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	protected void init(Object parent, Attributes attributes) {
 		String paramValue = attributes.getValue("param");
-		Field field = getField(parent, paramValue);
-		try {
-			field.setAccessible(true);
-			elementList = (EAdList<Object>) field.get(parent);
-			field.setAccessible(false);
-		} catch (IllegalArgumentException e) {
-			logger.log(Level.SEVERE, e.getMessage(), e);
-		} catch (IllegalAccessException e) {
-			logger.log(Level.SEVERE, e.getMessage(), e);
+		if (paramValue != null) {
+			Field field = getField(parent, paramValue);
+			try {
+				field.setAccessible(true);
+				elementList = (EAdList<Object>) field.get(parent);
+				field.setAccessible(false);
+			} catch (IllegalArgumentException e) {
+				logger.log(Level.SEVERE, e.getMessage(), e);
+			} catch (IllegalAccessException e) {
+				logger.log(Level.SEVERE, e.getMessage(), e);
+			}
+		}
+		else {
+			String clazzName = attributes.getValue("class");
+			try {
+				Class<?>  clazz = ClassLoader.getSystemClassLoader().loadClass(clazzName);
+				elementList = new EAdListImpl(clazz);
+			} catch (ClassNotFoundException e) {
+				e.printStackTrace();
+			}
+			
 		}
 
 	}

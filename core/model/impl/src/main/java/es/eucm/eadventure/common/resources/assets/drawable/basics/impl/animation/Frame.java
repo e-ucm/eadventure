@@ -58,6 +58,10 @@ public class Frame extends ImageImpl {
 	@Param("time")
 	private int time;
 
+	public Frame(){
+		
+	}
+	
 	/**
 	 * Constructs a frame with the given image. Sets the frame time to
 	 * {@link Frame#DEFAULT_FRAME_TIME}

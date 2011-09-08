@@ -69,6 +69,7 @@ public abstract class ListedCondition extends EAdGeneralElementImpl implements E
 		OTHER
 	}
 	
+	@Param("conditions")
 	private EAdList<EAdCondition> conditions;
 	
 	@Param("operator")

@@ -51,6 +51,10 @@ public class DisplacedDrawableImpl implements DisplacedDrawable {
 	@Param("asset")
 	private BasicDrawable drawable;
 	
+	public DisplacedDrawableImpl(){
+		
+	}
+	
 	public DisplacedDrawableImpl( BasicDrawable drawable, EAdPosition displacement ){
 		this.drawable = drawable;
 		this.displacement = displacement;

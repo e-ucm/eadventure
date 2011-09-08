@@ -20,6 +20,10 @@ public class EAdVarDefImpl<T> implements EAdVarDef<T> {
 	@Param("initialValue")
 	private T initialValue;
 
+	public EAdVarDefImpl(String id) {
+		this.id = id;
+	}
+
 	/**
 	 * Constructs a variable definition
 	 * 

@@ -48,6 +48,8 @@ import org.w3c.dom.Element;
 import es.eucm.eadventure.common.interfaces.EAdRuntimeException;
 import es.eucm.eadventure.common.interfaces.Param;
 import es.eucm.eadventure.common.model.EAdElement;
+import es.eucm.eadventure.common.model.extra.EAdList;
+import es.eucm.eadventure.common.model.extra.EAdMap;
 
 public class ElementDOMWriter extends DOMWriter<EAdElement> {
 
@@ -87,9 +89,9 @@ public class ElementDOMWriter extends DOMWriter<EAdElement> {
 			}
 
 			node.setAttribute("type", shortClass(annotation.detailed()
-					.getCanonicalName()));
+					.getName()));
 			node.setAttribute("class", shortClass(annotation.runtime()
-					.getCanonicalName()));
+					.getName()));
 
 			clazz = element.getClass();
 
@@ -101,7 +103,16 @@ public class ElementDOMWriter extends DOMWriter<EAdElement> {
 						boolean accessible = field.isAccessible();
 						field.setAccessible(true);
 						Object o = field.get(element);
-						if (o != null) {
+						boolean go = o != null;
+						if ( go && o instanceof EAdList && ((EAdList) o).size() == 0 ){
+							go = false;
+						}
+						
+						if ( go && o instanceof EAdMap && ((EAdMap) o).isEmpty()){
+							go = false;
+						}
+						
+						if ( go ) {
 							DOMWriter writer = super.getDOMWriter(o);
 							Element newNode = writer.buildNode(o);
 							newNode.setAttribute("param", param.value());

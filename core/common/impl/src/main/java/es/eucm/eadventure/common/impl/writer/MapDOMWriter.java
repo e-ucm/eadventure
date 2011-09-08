@@ -51,44 +51,39 @@ public class MapDOMWriter extends DOMWriter<EAdMap<?, ?>> {
 	/**
 	 * The logger
 	 */
-	private static final Logger logger = Logger.getLogger("ElementMapDOMWriter");
+	private static final Logger logger = Logger
+			.getLogger("ElementMapDOMWriter");
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Override
 	public Element buildNode(EAdMap<?, ?> map) {
-        try {
-        	initilizeDOMWriter();
+		try {
+			initilizeDOMWriter();
 
-        	node = doc.createElement( "map" );
+			node = doc.createElement("map");
 
-    		for (Object o : map.keySet()) {
-    			Element entryNode = doc.createElement( "entry" );
-    			Element keyNode = doc.createElement( "key" );
-    			Element valueNode = doc.createElement( "value" );
-    			
-    			DOMWriter writer = super.getDOMWriter(o);
-    			Element keyValue = writer.buildNode(o);
-    			keyNode.appendChild(keyValue);
-    			
-    			writer = super.getDOMWriter(map.get(o));
-    			Element valueValue = writer.buildNode(map.get(o));
-    			valueNode.appendChild(valueValue);
+			for (Object o : map.keySet()) {
 
-    			entryNode.appendChild(keyNode);
-    			entryNode.appendChild(valueNode);
-    			node.appendChild(entryNode);
-    		}
+				DOMWriter writer = super.getDOMWriter(o);
+				Element key = writer.buildNode(o);
+				doc.adoptNode(key);
+				node.appendChild(key);
 
+				writer = super.getDOMWriter(map.get(o));
+				Element value = writer.buildNode(map.get(o));
+				doc.adoptNode(value);
+				node.appendChild(value);
 
-        }
-        catch( ParserConfigurationException e ) {
-        	logger.log(Level.SEVERE, "Error writing element " + map, e);
-        	return null;
-        } catch (IllegalArgumentException e) {
-        	logger.log(Level.SEVERE, "Illegal argument " + map, e);
-		} 
+			}
 
-        return node;
+		} catch (ParserConfigurationException e) {
+			logger.log(Level.SEVERE, "Error writing element " + map, e);
+			return null;
+		} catch (IllegalArgumentException e) {
+			logger.log(Level.SEVERE, "Illegal argument " + map, e);
+		}
+
+		return node;
 	}
-	
+
 }

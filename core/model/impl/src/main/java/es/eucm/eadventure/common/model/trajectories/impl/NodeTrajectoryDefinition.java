@@ -1,10 +1,13 @@
 package es.eucm.eadventure.common.model.trajectories.impl;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Random;
 
+import es.eucm.eadventure.common.interfaces.Element;
+import es.eucm.eadventure.common.interfaces.Param;
+import es.eucm.eadventure.common.model.EAdElement;
 import es.eucm.eadventure.common.model.elements.EAdSceneElement;
+import es.eucm.eadventure.common.model.extra.EAdList;
+import es.eucm.eadventure.common.model.extra.impl.EAdListImpl;
 import es.eucm.eadventure.common.model.impl.EAdElementImpl;
 import es.eucm.eadventure.common.model.trajectories.TrajectoryDefinition;
 import es.eucm.eadventure.common.model.variables.EAdVarDef;
@@ -15,6 +18,7 @@ import es.eucm.eadventure.common.model.variables.impl.EAdVarDefImpl;
  * Trajectory based on nodes and sides, originally developed in e-Adventure 1.X
  * 
  */
+@Element(detailed = NodeTrajectoryDefinition.class, runtime = NodeTrajectoryDefinition.class)
 public class NodeTrajectoryDefinition extends EAdElementImpl implements
 		TrajectoryDefinition {
 
@@ -24,18 +28,22 @@ public class NodeTrajectoryDefinition extends EAdElementImpl implements
 	public static final EAdVarDef<Boolean> VAR_BARRIER_ON = new EAdVarDefImpl<Boolean>(
 			"barrierOn", Boolean.class, Boolean.FALSE);
 
-	private List<Node> nodes;
+	@Param("nodes")
+	private EAdList<Node> nodes;
 
-	private List<Side> sides;
+	@Param("sides")
+	private EAdList<Side> sides;
 
-	private List<EAdSceneElement> barriers;
+	@Param("barriers")
+	private EAdList<EAdSceneElement> barriers;
 
+	@Param("initial")
 	private Node initial;
 
 	public NodeTrajectoryDefinition() {
-		nodes = new ArrayList<Node>();
-		sides = new ArrayList<Side>();
-		barriers = new ArrayList<EAdSceneElement>();
+		nodes = new EAdListImpl<Node>(Node.class);
+		sides = new EAdListImpl<Side>(Side.class);
+		barriers = new EAdListImpl<EAdSceneElement>(EAdSceneElement.class);
 		initial = null;
 	}
 
@@ -99,12 +107,12 @@ public class NodeTrajectoryDefinition extends EAdElementImpl implements
 		return initial;
 	}
 
-	public List<Node> getNodes() {
+	public EAdList<Node> getNodes() {
 
 		return nodes;
 	}
 
-	public List<Side> getSides() {
+	public EAdList<Side> getSides() {
 
 		return sides;
 	}
@@ -113,14 +121,18 @@ public class NodeTrajectoryDefinition extends EAdElementImpl implements
 		barriers.add(barrier);
 	}
 
-	public class Node {
+	@Element(detailed = Node.class, runtime = Node.class)
+	public class Node implements EAdElement {
 
 		private String id;
 
+		@Param("x")
 		private int x;
 
+		@Param("y")
 		private int y;
 
+		@Param("scale")
 		private float scale;
 
 		public Node(String id, int x, int y, float scale) {
@@ -131,7 +143,7 @@ public class NodeTrajectoryDefinition extends EAdElementImpl implements
 			this.scale = scale;
 		}
 
-		public String getID() {
+		public String getId() {
 
 			return id;
 		}
@@ -179,12 +191,20 @@ public class NodeTrajectoryDefinition extends EAdElementImpl implements
 		}
 
 		public Node copy() {
-			Node n = new Node("node" + (new Random()).nextInt(10000), x, y, scale);
+			Node n = new Node("node" + (new Random()).nextInt(10000), x, y,
+					scale);
 			return n;
 		}
+
+		@Override
+		public EAdElement copy(boolean deepCopy) {
+			return copy();
+		}
+
 	}
 
-	public class Side {
+	@Element(detailed = Side.class, runtime = Side.class)
+	public class Side implements EAdElement {
 
 		private String idStart;
 
@@ -238,7 +258,7 @@ public class NodeTrajectoryDefinition extends EAdElementImpl implements
 			return length;
 		}
 
-		public Side copy() {
+		public EAdElement copy() {
 
 			Side s = new Side(null, null);
 			s.idEnd = (idEnd != null ? new String(idEnd) : null);
@@ -250,9 +270,19 @@ public class NodeTrajectoryDefinition extends EAdElementImpl implements
 		public float getRealLength() {
 			return realLength;
 		}
+
+		@Override
+		public EAdElement copy(boolean deepCopy) {
+			return copy();
+		}
+
+		@Override
+		public String getId() {
+			return idStart + "_" + idEnd;
+		}
 	}
 
-	public List<EAdSceneElement> getBarriers() {
+	public EAdList<EAdSceneElement> getBarriers() {
 		return barriers;
 	}
 
