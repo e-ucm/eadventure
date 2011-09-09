@@ -51,7 +51,6 @@ import es.eucm.eadventure.common.model.effects.impl.sceneelements.EAdMoveSceneEl
 import es.eucm.eadventure.common.model.effects.impl.timedevents.EAdHighlightSceneElement;
 import es.eucm.eadventure.common.model.effects.impl.timedevents.EAdShowSceneElement;
 import es.eucm.eadventure.common.model.effects.impl.timedevents.EAdWaitEffect;
-import es.eucm.eadventure.common.model.effects.impl.variables.EAdChangeVarValueEffect;
 import es.eucm.eadventure.common.model.elements.EAdActor;
 import es.eucm.eadventure.common.model.elements.EAdActorReference;
 import es.eucm.eadventure.common.model.elements.EAdAdventureModel;
@@ -140,7 +139,7 @@ public class TestBasicGameModule extends AbstractModule {
 		map.put(EAdHighlightSceneElement.class, HighlightEffectGO.class);
 		map.put(EAdWaitEffect.class, WaitEffectGO.class);
 		map.put(EAdCancelEffect.class, CancelEffectGO.class);
-		map.put(EAdChangeVarValueEffect.class, ChangeVariableGO.class);
+		//map.put(EAdChangeVarValueEffect.class, ChangeVariableGO.class);
 
 		for (Class<? extends EAdElement> key_value : tempMap.keySet())
 			map.put(key_value, tempMap.get(key_value));

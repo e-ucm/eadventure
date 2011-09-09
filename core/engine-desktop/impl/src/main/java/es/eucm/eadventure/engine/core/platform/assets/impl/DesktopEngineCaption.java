@@ -39,7 +39,7 @@ package es.eucm.eadventure.engine.core.platform.assets.impl;
 
 import com.google.inject.Inject;
 
-import es.eucm.eadventure.common.StringHandler;
+import es.eucm.eadventure.common.resources.StringHandler;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.CaptionImpl;
 import es.eucm.eadventure.engine.core.impl.VariableMap;
 import es.eucm.eadventure.engine.core.platform.PlatformConfiguration;

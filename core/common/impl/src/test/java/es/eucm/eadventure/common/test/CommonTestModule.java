@@ -5,8 +5,8 @@ import java.util.Map;
 
 import com.google.inject.AbstractModule;
 
-import es.eucm.eadventure.common.StringHandler;
 import es.eucm.eadventure.common.params.EAdString;
+import es.eucm.eadventure.common.resources.StringHandler;
 
 public class CommonTestModule extends AbstractModule{
 
