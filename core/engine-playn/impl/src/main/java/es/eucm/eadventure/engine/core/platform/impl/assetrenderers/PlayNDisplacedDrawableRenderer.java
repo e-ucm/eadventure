@@ -37,8 +37,9 @@
 
 package es.eucm.eadventure.engine.core.platform.impl.assetrenderers;
 
-import java.awt.Graphics2D;
 import java.util.logging.Logger;
+
+import playn.core.Surface;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -50,27 +51,27 @@ import es.eucm.eadventure.engine.core.platform.GraphicRendererFactory;
 import es.eucm.eadventure.engine.core.platform.assets.impl.RuntimeDisplacedDrawable;
 
 @Singleton
-public class PlayNDisplacedDrawableRenderer implements AssetRenderer<Graphics2D, RuntimeDisplacedDrawable> {
+public class PlayNDisplacedDrawableRenderer implements AssetRenderer<Surface, RuntimeDisplacedDrawable> {
 
 	/**
 	 * Logger
 	 */
-	private static final Logger logger = Logger.getLogger("DesktopDisplacedDrawableRenderer");
+	private static final Logger logger = Logger.getLogger("PlayNDisplacedDrawableRenderer");
 
 	private AssetHandler assetHandler;
 	
-	private GraphicRendererFactory<Graphics2D> rendererFactory;
+	private GraphicRendererFactory<Surface> rendererFactory;
 	
 	@SuppressWarnings("unchecked")
 	@Inject
 	public PlayNDisplacedDrawableRenderer(AssetHandler assetHandler, GraphicRendererFactory<?> rendererFactory) {
 		logger.info("New instance");
 		this.assetHandler = assetHandler;
-		this.rendererFactory = (GraphicRendererFactory<Graphics2D>) rendererFactory;
+		this.rendererFactory = (GraphicRendererFactory<Surface>) rendererFactory;
 	}
 	
 	@Override
-	public void render(Graphics2D graphicContext, RuntimeDisplacedDrawable asset, EAdPosition position, float scale, int offsetX, int offsetY) {
+	public void render(Surface graphicContext, RuntimeDisplacedDrawable asset, EAdPosition position, float scale, int offsetX, int offsetY) {
 		rendererFactory.render(graphicContext, assetHandler.getRuntimeAsset(asset.getDrawableAsset()), position, scale, offsetX + asset.getDisplacement().getX(), offsetY + asset.getDisplacement().getY());
 	}
 

@@ -40,6 +40,7 @@ package es.eucm.eadventure.engine.core.platform.impl.assetrenderers;
 import java.awt.Graphics2D;
 import java.util.logging.Logger;
 
+import playn.core.Surface;
 import playn.core.SurfaceLayer;
 
 import com.google.inject.Singleton;
@@ -49,19 +50,19 @@ import es.eucm.eadventure.engine.core.platform.AssetRenderer;
 import es.eucm.eadventure.engine.core.platform.assets.impl.PlayNEngineSpriteImage;
 
 @Singleton
-public class PlayNSpriteImageRenderer implements AssetRenderer<SurfaceLayer, PlayNEngineSpriteImage> {
+public class PlayNSpriteImageRenderer implements AssetRenderer<Surface, PlayNEngineSpriteImage> {
 
 	/**
 	 * Logger
 	 */
-	private static final Logger logger = Logger.getLogger("DesktopSpriteImageRenderer");
+	private static final Logger logger = Logger.getLogger("PlayNSpriteImageRenderer");
 
 	public PlayNSpriteImageRenderer() {
 		logger.info("New instance");
 	}
 	
 	@Override
-	public void render(SurfaceLayer graphicContext, PlayNEngineSpriteImage asset, EAdPosition position, float scale, int offsetX, int offsetY) {
+	public void render(Surface graphicContext, PlayNEngineSpriteImage asset, EAdPosition position, float scale, int offsetX, int offsetY) {
 		if (asset != null) {
 			if (!asset.isLoaded())
 				asset.loadAsset();
@@ -82,11 +83,15 @@ public class PlayNSpriteImageRenderer implements AssetRenderer<SurfaceLayer, Pla
 	@Override
 	public boolean contains(int x, int y, PlayNEngineSpriteImage asset) {
 		if (asset != null && x < asset.getWidth() && y < asset.getHeight()){
+			/*
 			int oldX = (asset.getSprite() % asset.getRows()) * asset.getWidth();
 			int oldY = (asset.getSprite() / asset.getCols()) * asset.getHeight();
 
 			int alpha = asset.getImage().getRGB( oldX + x, oldY + y ) >>> 24;
         	return alpha > 128;
+			 */
+			//FIXME No elimination of transparent areas
+        	return true;
 		}
 		return false;
 	}		

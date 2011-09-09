@@ -37,8 +37,9 @@
 
 package es.eucm.eadventure.engine.core.platform.impl.assetrenderers;
 
-import java.awt.Graphics2D;
 import java.util.logging.Logger;
+
+import playn.core.Surface;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -51,7 +52,7 @@ import es.eucm.eadventure.engine.core.platform.GraphicRendererFactory;
 import es.eucm.eadventure.engine.core.platform.assets.impl.RuntimeComposedDrawable;
 
 @Singleton
-public class PlayNComposedDrawableRenderer implements AssetRenderer<Graphics2D, RuntimeComposedDrawable> {
+public class PlayNComposedDrawableRenderer implements AssetRenderer<Surface, RuntimeComposedDrawable> {
 
 	/**
 	 * Logger
@@ -60,18 +61,18 @@ public class PlayNComposedDrawableRenderer implements AssetRenderer<Graphics2D, 
 
 	private AssetHandler assetHandler;
 	
-	private GraphicRendererFactory<Graphics2D> rendererFactory;
+	private GraphicRendererFactory<Surface> rendererFactory;
 	
 	@SuppressWarnings("unchecked")
 	@Inject
 	public PlayNComposedDrawableRenderer(AssetHandler assetHandler, GraphicRendererFactory<?> rendererFactory) {
 		logger.info("New instance");
 		this.assetHandler = assetHandler;
-		this.rendererFactory = (GraphicRendererFactory<Graphics2D>) rendererFactory;
+		this.rendererFactory = (GraphicRendererFactory<Surface>) rendererFactory;
 	}
 	
 	@Override
-	public void render(Graphics2D graphicContext, RuntimeComposedDrawable asset, EAdPosition position, float scale, int offsetX, int offsetY) {
+	public void render(Surface graphicContext, RuntimeComposedDrawable asset, EAdPosition position, float scale, int offsetX, int offsetY) {
 		for (Drawable drawable : asset.getAssetList())
 			rendererFactory.render(graphicContext, assetHandler.getRuntimeAsset(drawable), position, scale, offsetX, offsetY);
 	}

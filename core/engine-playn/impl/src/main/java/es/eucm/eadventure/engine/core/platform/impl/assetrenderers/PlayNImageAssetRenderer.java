@@ -39,7 +39,7 @@ package es.eucm.eadventure.engine.core.platform.impl.assetrenderers;
 
 import java.util.logging.Logger;
 
-import playn.core.SurfaceLayer;
+import playn.core.Surface;
 
 import com.google.inject.Singleton;
 
@@ -48,7 +48,7 @@ import es.eucm.eadventure.engine.core.platform.AssetRenderer;
 import es.eucm.eadventure.engine.core.platform.assets.impl.PlayNEngineImage;
 
 @Singleton
-public class PlayNImageAssetRenderer implements AssetRenderer<SurfaceLayer, PlayNEngineImage> {
+public class PlayNImageAssetRenderer implements AssetRenderer<Surface, PlayNEngineImage> {
 
 	/**
 	 * Logger
@@ -60,17 +60,17 @@ public class PlayNImageAssetRenderer implements AssetRenderer<SurfaceLayer, Play
 	}
 	
 	@Override
-	public void render(SurfaceLayer graphicContext, PlayNEngineImage asset, EAdPosition position, float scale, int offsetX, int offsetY) {
+	public void render(Surface graphicContext, PlayNEngineImage asset, EAdPosition position, float scale, int offsetX, int offsetY) {
 		if (asset != null) {
 			if (!asset.isLoaded())
 				asset.loadAsset();
 			if (asset.isLoaded()) {
 				int x = position.getJavaX(asset.getWidth() * scale) + offsetX;
 				int y = position.getJavaY(asset.getHeight() * scale) + offsetY;
-				if (scale == 1.0f)
-					graphicContext.drawImage(asset.getImage(), x, y, null);
-				else {
-					graphicContext.drawImage(asset.getImage(), x, y, (int) (asset.getWidth() * scale), (int) (asset.getHeight() * scale), null);
+				if (scale == 1.0f) {
+					graphicContext.drawImage(asset.getImage(), x, y);
+				} else {
+					graphicContext.drawImage(asset.getImage(), x, y, (int) (asset.getWidth() * scale), (int) (asset.getHeight() * scale));
 				}
 			}
 		}

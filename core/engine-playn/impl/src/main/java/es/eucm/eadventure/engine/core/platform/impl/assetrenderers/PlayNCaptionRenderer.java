@@ -43,7 +43,7 @@ import java.awt.Rectangle;
 import java.awt.Shape;
 import java.awt.geom.AffineTransform;
 
-import playn.core.SurfaceLayer;
+import playn.core.Surface;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -57,17 +57,17 @@ import es.eucm.eadventure.engine.core.platform.assets.impl.PlayNEngineFont;
 
 @Singleton
 public class PlayNCaptionRenderer implements
-		AssetRenderer<SurfaceLayer, PlayNEngineCaption> {
+		AssetRenderer<Surface, PlayNEngineCaption> {
 
-	private FillFactory<SurfaceLayer, Shape> fillFactory;
+	private FillFactory<Surface, Shape> fillFactory;
 
 	@Inject
-	public PlayNCaptionRenderer(FillFactory<SurfaceLayer, Shape> fillFactory) {
+	public PlayNCaptionRenderer(FillFactory<Surface, Shape> fillFactory) {
 		this.fillFactory = fillFactory;
 	}
 
 	@Override
-	public void render(SurfaceLayer g, PlayNEngineCaption asset,
+	public void render(Surface g, PlayNEngineCaption asset,
 			EAdPosition position, float scale, int offsetX, int offsetY) {
 		// TODO use offsets
 
@@ -108,7 +108,7 @@ public class PlayNCaptionRenderer implements
 		return tempValue;
 	}
 
-	protected void drawString(SurfaceLayer g, PlayNEngineCaption text,
+	protected void drawString(Surface g, PlayNEngineCaption text,
 			String string, int yOffset) {
 
 		PlayNEngineFont deFont = (PlayNEngineFont) text.getFont();
@@ -124,7 +124,7 @@ public class PlayNCaptionRenderer implements
 		g.setTransform(a);
 	}
 
-	private void drawBubble(SurfaceLayer g, int width, int height,
+	private void drawBubble(Surface g, int width, int height,
 			EAdFill bubbleFill) {
 
 		Shape shape = new Rectangle(0, 0, width, height);

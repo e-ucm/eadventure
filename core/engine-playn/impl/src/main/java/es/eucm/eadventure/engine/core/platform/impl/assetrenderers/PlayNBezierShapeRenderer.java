@@ -43,6 +43,7 @@ import java.awt.Shape;
 import java.awt.Stroke;
 import java.awt.geom.AffineTransform;
 
+import playn.core.Surface;
 import playn.core.SurfaceLayer;
 
 import com.google.inject.Inject;
@@ -55,17 +56,17 @@ import es.eucm.eadventure.engine.core.platform.assets.impl.PlayNBezierShape;
 
 @Singleton
 public class PlayNBezierShapeRenderer implements
-		AssetRenderer<SurfaceLayer, PlayNBezierShape> {
+		AssetRenderer<Surface, PlayNBezierShape> {
 	
-	private FillFactory<SurfaceLayer, Shape> fillFactory;
+	private FillFactory<Surface, Shape> fillFactory;
 	
 	@Inject
-	public PlayNBezierShapeRenderer( FillFactory<SurfaceLayer, Shape> fillFactory){
+	public PlayNBezierShapeRenderer( FillFactory<Surface, Shape> fillFactory){
 		this.fillFactory = fillFactory;
 	}
 
 	@Override
-	public void render(SurfaceLayer graphicContext, PlayNBezierShape asset,
+	public void render(Surface graphicContext, PlayNBezierShape asset,
 			EAdPosition position, float scale, int offsetX, int offsetY) {
 
 		if (!asset.isLoaded())
