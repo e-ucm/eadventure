@@ -1,25 +1,22 @@
 package es.eucm.eadventure.common.impl.writer;
 
-import javax.xml.parsers.ParserConfigurationException;
-
 import org.w3c.dom.Element;
 
 import es.eucm.eadventure.common.params.EAdParam;
 
-public class ParamDOMWriter extends DOMWriter<EAdParam>{
-	
-	public static final String PREFIX = "param";
+/**
+ * Writer for {@link EAdParam}
+ * 
+ */
+public class ParamDOMWriter extends DOMWriter<EAdParam> {
+
+	public static final String TAG = "param";
 
 	@Override
 	public Element buildNode(EAdParam data) {
-		try {
-			initilizeDOMWriter();
-		} catch (ParserConfigurationException e) {
-			e.printStackTrace();
-		}
-		node = doc.createElement("param");
+		Element node = doc.createElement(TAG);
 		String value = paramsMap.get(data.toStringData());
-		if ( value == null ){
+		if (value == null) {
 			value = data.toStringData();
 			paramsMap.put(value, "" + paramsMap.keySet().size());
 		}

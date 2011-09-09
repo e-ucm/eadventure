@@ -37,46 +37,25 @@
 
 package es.eucm.eadventure.common.impl.writer;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
-import javax.xml.parsers.ParserConfigurationException;
-
 import org.w3c.dom.Element;
-import org.w3c.dom.Node;
 
 import es.eucm.eadventure.common.model.extra.EAdList;
 
 public class ListDOMWriter extends DOMWriter<EAdList<?>> {
 
-	private static final Logger logger = Logger.getLogger("ElementListDOMWriter");
+	public static final String TAG = "list";
 
-	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Override
 	public Element buildNode(EAdList<?> list) {
-        try {
-        	initilizeDOMWriter();
+		Element node = doc.createElement(TAG);
+		node.setAttribute(CLASS_AT, list.getValueClass().getName());
 
-        	node = doc.createElement( "list" );
-        	node.setAttribute("class", list.getValueClass().getName());
-
-    		for (Object o : list) {
-    			DOMWriter writer = super.getDOMWriter(o);
-    			Node newNode = writer.buildNode(o);
-    			doc.adoptNode(newNode);
-    			node.appendChild(newNode);
-    		}
-
-        }
-        catch( ParserConfigurationException e ) {
-        	logger.log(Level.SEVERE, "Error writing element " + list, e);
-        	return null;
-        } catch (IllegalArgumentException e) {
-        	logger.log(Level.SEVERE, "Illegal argument " + list, e);
-		} 
-
-        return node;
+		for (Object o : list) {
+			Element newNode = super.initNode(o);
+			doc.adoptNode(newNode);
+			node.appendChild(newNode);
+		}
+		return node;
 	}
-	
-	
+
 }

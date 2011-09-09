@@ -40,8 +40,8 @@ package es.eucm.eadventure.common.impl.writer;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.logging.Logger;
 
-import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
@@ -65,25 +65,22 @@ public abstract class DOMWriter<T> {
 
 	public static final String PACKAGE = "es.eucm.eadventure.common.model";
 
-	/**
-	 * The xml document builder factory
-	 */
-	protected DocumentBuilderFactory dbf;
+	public static final String CLASS_AT = "class";
 
-	/**
-	 * The xml document builder
-	 */
-	protected DocumentBuilder db;
+	public static final String ID_AT = "id";
+
+	public static final String PARAM_AT = "param";
+
+	public static final String TYPE_AT = "type";
+
+	public static final String UNIQUE_ID_AT = "uniqueId";
+
+	protected static final Logger logger = Logger.getLogger("DOMWriter");
 
 	/**
 	 * The xml document
 	 */
-	protected Document doc;
-
-	/**
-	 * The node element of this writer
-	 */
-	protected Element node;
+	protected static Document doc;
 
 	/**
 	 * Element map
@@ -107,17 +104,13 @@ public abstract class DOMWriter<T> {
 		mappedElement.clear();
 		paramsMap.clear();
 		mappedAsset.clear();
-	}
 
-	/**
-	 * Initialize the elements of the DOMWriter
-	 * 
-	 * @throws ParserConfigurationException
-	 */
-	public void initilizeDOMWriter() throws ParserConfigurationException {
-		dbf = DocumentBuilderFactory.newInstance();
-		db = dbf.newDocumentBuilder();
-		doc = db.newDocument();
+		try {
+			doc = DocumentBuilderFactory.newInstance().newDocumentBuilder()
+					.newDocument();
+		} catch (ParserConfigurationException e) {
+			e.printStackTrace();
+		}
 	}
 
 	/**
@@ -131,24 +124,29 @@ public abstract class DOMWriter<T> {
 	 */
 	public abstract Element buildNode(T data);
 
-	public DOMWriter<?> getDOMWriter(Object o) {
-		DOMWriter<?> writer = null;
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	public Element initNode(Object data) {
+		DOMWriter writer = getDOMWriter(data);
+		return writer.buildNode(data);
+	}
+
+	@SuppressWarnings("rawtypes")
+	public DOMWriter getDOMWriter(Object o) {
 		if (o instanceof EAdElement) {
-			writer = new ElementDOMWriter();
+			return new ElementDOMWriter();
 		} else if (o instanceof EAdList) {
-			writer = new ListDOMWriter();
+			return new ListDOMWriter();
 		} else if (o instanceof EAdMap) {
-			writer = new MapDOMWriter();
+			return new MapDOMWriter();
 		} else if (o instanceof EAdParam) {
-			writer = new ParamDOMWriter();
+			return new ParamDOMWriter();
 		} else if (o instanceof EAdResources) {
-			writer = new ResourcesDOMWriter();
+			return new ResourcesDOMWriter();
 		} else if (o instanceof AssetDescriptor) {
-			writer = new AssetDOMWriter();
+			return new AssetDOMWriter();
 		} else {
-			writer = new DefaultDOMWriter();
+			return new DefaultDOMWriter();
 		}
-		return writer;
 	}
 
 	public String shortClass(String clazz) {

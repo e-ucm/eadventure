@@ -37,50 +37,27 @@
 
 package es.eucm.eadventure.common.impl.writer;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
-import javax.xml.parsers.ParserConfigurationException;
-
 import org.w3c.dom.Element;
 
 import es.eucm.eadventure.common.model.extra.EAdMap;
 
 public class MapDOMWriter extends DOMWriter<EAdMap<?, ?>> {
+	
+	public static final String TAG = "map";
 
-	/**
-	 * The logger
-	 */
-	private static final Logger logger = Logger
-			.getLogger("ElementMapDOMWriter");
-
-	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Override
 	public Element buildNode(EAdMap<?, ?> map) {
-		try {
-			initilizeDOMWriter();
 
-			node = doc.createElement("map");
+		Element node = doc.createElement(TAG);
 
-			for (Object o : map.keySet()) {
+		for (Object o : map.keySet()) {
+			Element key = super.initNode(o);
+			doc.adoptNode(key);
+			node.appendChild(key);
 
-				DOMWriter writer = super.getDOMWriter(o);
-				Element key = writer.buildNode(o);
-				doc.adoptNode(key);
-				node.appendChild(key);
-
-				writer = super.getDOMWriter(map.get(o));
-				Element value = writer.buildNode(map.get(o));
-				doc.adoptNode(value);
-				node.appendChild(value);
-
-			}
-
-		} catch (ParserConfigurationException e) {
-			logger.log(Level.SEVERE, "Error writing element " + map, e);
-			return null;
-		} catch (IllegalArgumentException e) {
-			logger.log(Level.SEVERE, "Illegal argument " + map, e);
+			Element value = super.initNode(map.get(o));
+			doc.adoptNode(value);
+			node.appendChild(value);
 		}
 
 		return node;

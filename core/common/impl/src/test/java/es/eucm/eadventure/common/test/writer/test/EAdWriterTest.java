@@ -54,10 +54,7 @@ import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.google.inject.name.Names;
 
-import es.eucm.eadventure.common.elmentfactories.scenedemos.EmptyScene;
 import es.eucm.eadventure.common.elmentfactories.scenedemos.SceneDemos;
-import es.eucm.eadventure.common.elmentfactories.scenedemos.ShapeScene;
-import es.eucm.eadventure.common.elmentfactories.scenedemos.TextsScene;
 import es.eucm.eadventure.common.impl.reader.EAdAdventureModelReader;
 import es.eucm.eadventure.common.impl.reader.subparsers.AdventureHandler;
 import es.eucm.eadventure.common.impl.writer.EAdAdventureModelWriter;

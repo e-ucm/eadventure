@@ -37,31 +37,22 @@
 
 package es.eucm.eadventure.common.impl.writer;
 
-import java.lang.reflect.Field;
 import java.util.logging.Level;
-import java.util.logging.Logger;
-
-import javax.xml.parsers.ParserConfigurationException;
 
 import org.w3c.dom.Element;
 
 import es.eucm.eadventure.common.interfaces.EAdRuntimeException;
-import es.eucm.eadventure.common.interfaces.Param;
 import es.eucm.eadventure.common.model.EAdElement;
-import es.eucm.eadventure.common.model.extra.EAdList;
-import es.eucm.eadventure.common.model.extra.EAdMap;
 
-public class ElementDOMWriter extends DOMWriter<EAdElement> {
+public class ElementDOMWriter extends FieldParamWriter<EAdElement> {
 
-	public static final Logger logger = Logger.getLogger("ElementDOMWriter");
+	public static final String TAG = "element";
 
-	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@Override
 	public org.w3c.dom.Element buildNode(EAdElement element) {
+		Element node = doc.createElement(TAG);
 		try {
-			initilizeDOMWriter();
-			node = doc.createElement("element");
-
+			// Check if the element is new
 			if (!elementMap.containsKey(element))
 				elementMap.put(element, "" + elementMap.keySet().size());
 			else {
@@ -69,9 +60,12 @@ public class ElementDOMWriter extends DOMWriter<EAdElement> {
 				return node;
 			}
 			mappedElement.add(element);
-			node.setAttribute("id", element.getId());
-			node.setAttribute("uniqueId", elementMap.get(element));
 
+			// Set id and unique id
+			node.setAttribute(ID_AT, element.getId());
+			node.setAttribute(UNIQUE_ID_AT, elementMap.get(element));
+
+			// Look for Element annotation
 			Class<?> clazz = element.getClass();
 			es.eucm.eadventure.common.interfaces.Element annotation = null;
 
@@ -86,54 +80,21 @@ public class ElementDOMWriter extends DOMWriter<EAdElement> {
 						+ element.getClass());
 				throw new EAdRuntimeException("No Element annotation in class "
 						+ element.getClass());
-			}
+			} else {
 
-			node.setAttribute("type", shortClass(annotation.detailed()
-					.getName()));
-			node.setAttribute("class", shortClass(annotation.runtime()
-					.getName()));
+				node.setAttribute(TYPE_AT, shortClass(annotation.detailed()
+						.getName()));
+				node.setAttribute(CLASS_AT, shortClass(annotation.runtime()
+						.getName()));
+			}
 
 			clazz = element.getClass();
 
-			while (clazz != null) {
-				Field[] fields = clazz.getDeclaredFields();
-				for (Field field : fields) {
-					Param param = field.getAnnotation(Param.class);
-					if (param != null) {
-						boolean accessible = field.isAccessible();
-						field.setAccessible(true);
-						Object o = field.get(element);
-						boolean go = o != null;
-						if ( go && o instanceof EAdList && ((EAdList) o).size() == 0 ){
-							go = false;
-						}
-						
-						if ( go && o instanceof EAdMap && ((EAdMap) o).isEmpty()){
-							go = false;
-						}
-						
-						if ( go ) {
-							DOMWriter writer = super.getDOMWriter(o);
-							Element newNode = writer.buildNode(o);
-							newNode.setAttribute("param", param.value());
-							doc.adoptNode(newNode);
-							node.appendChild(newNode);
-
-						}
-
-						field.setAccessible(accessible);
-					}
-
-				}
-				clazz = clazz.getSuperclass();
-			}
+			// Add Param fields
+			super.processParams(node, element);
 
 		} catch (IllegalArgumentException e) {
 			logger.log(Level.SEVERE, e.getMessage(), e);
-		} catch (IllegalAccessException e) {
-			logger.log(Level.SEVERE, e.getMessage(), e);
-		} catch (ParserConfigurationException e) {
-			e.printStackTrace();
 		}
 
 		return node;

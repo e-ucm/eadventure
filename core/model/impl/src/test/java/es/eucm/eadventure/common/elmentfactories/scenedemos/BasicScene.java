@@ -97,7 +97,8 @@ public class BasicScene extends EAdSceneImpl implements SceneDemo {
 
 	private EAdChangeScene changeScreenEffect;
 
-	private EAdActorReferenceImpl buttonReference, panielReference,
+//	private EAdActorReferenceImpl buttonReference; 
+	private EAdActorReferenceImpl panielReference,
 			orientedReference;
 
 	// private EAdHighlightActorReference hle;

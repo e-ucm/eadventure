@@ -50,16 +50,16 @@ public class LiteralExpressionTest extends OperatorsTest<LiteralExpressionOperat
 		super(new LiteralExpressionOperator(valueMap));
 	}
 
-	private int x;
-	private float y, z;
-	private double w;
+//	private int x;
+//	private float y, z;
+//	private double w;
 	
 	@Override
 	public void generateOperations() {
-		x = 1;
-		y = 0.5f;
-		z = 4.2f;
-		w = 10928408.868979;
+//		x = 1;
+//		y = 0.5f;
+//		z = 4.2f;
+//		w = 10928408.868979;
 //		valueMap.setValue(new FloatVar("x"), new Float(x));
 //		valueMap.setValue(new FloatVar("y"), y );
 //		valueMap.setValue(new FloatVar("z"), z );
@@ -82,20 +82,20 @@ public class LiteralExpressionTest extends OperatorsTest<LiteralExpressionOperat
 				
 			};
 			
-			Double results[] = new Double[]{
-					new Double( 3 + 5 + 8 ),
-					new Double( x + y + z ),
-					new Double( x * y / z ),
-					new Double( (5  + x ) * y * ( z - 4 ) ),
-					new Double( Math.cos( 4 + z ) - (5  + x ) * y * Math.sqrt( z - 4 ) ),
-					new Double( 0 ),
-					new Double( 2 ),
-					new Double( Math.pow(w, z)),
-					new Double( Float.POSITIVE_INFINITY ),
-					new Double( 300 ),
-					new Double( 800 )
-					
-			};
+//			Double results[] = new Double[]{
+//					new Double( 3 + 5 + 8 ),
+//					new Double( x + y + z ),
+//					new Double( x * y / z ),
+//					new Double( (5  + x ) * y * ( z - 4 ) ),
+//					new Double( Math.cos( 4 + z ) - (5  + x ) * y * Math.sqrt( z - 4 ) ),
+//					new Double( 0 ),
+//					new Double( 2 ),
+//					new Double( Math.pow(w, z)),
+//					new Double( Float.POSITIVE_INFINITY ),
+//					new Double( 300 ),
+//					new Double( 800 )
+//					
+//			};
 			
 		for ( int i = 0; i < operations.length; i++ ){
 //			this.addOperationTest(new FloatVar("neverMind"), operations[i], results[i]);

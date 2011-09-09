@@ -1,20 +1,20 @@
 package es.eucm.eadventure.common.impl.writer;
 
-import javax.xml.parsers.ParserConfigurationException;
-
 import org.w3c.dom.Element;
 
+/**
+ * 
+ * Writer for those elements that don't have a specific writer
+ * 
+ */
 public class DefaultDOMWriter extends DOMWriter<Object> {
+	
+	public static final String TAG = "object";
 
 	@Override
 	public Element buildNode(Object data) {
-		try {
-			initilizeDOMWriter();
-		} catch (ParserConfigurationException e) {
-			e.printStackTrace();
-		}
-		node = doc.createElement("object");
-		node.setAttribute("class", data.getClass().getName());
+		Element node = doc.createElement(TAG);
+		node.setAttribute(CLASS_AT, data.getClass().getName());
 
 		if (data instanceof Class) {
 			node.setTextContent(((Class<?>) data).getName());

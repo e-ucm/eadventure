@@ -45,7 +45,6 @@ import org.xml.sax.helpers.DefaultHandler;
 import com.google.inject.Inject;
 import com.google.inject.name.Named;
 
-import es.eucm.eadventure.common.impl.reader.subparsers.extra.AssetId;
 import es.eucm.eadventure.common.impl.reader.subparsers.extra.ObjectFactory;
 import es.eucm.eadventure.common.model.EAdElement;
 import es.eucm.eadventure.common.model.elements.EAdAdventureModel;

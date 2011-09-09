@@ -37,11 +37,6 @@
 
 package es.eucm.eadventure.common.impl.writer;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
-import javax.xml.parsers.ParserConfigurationException;
-
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
@@ -59,22 +54,12 @@ import es.eucm.eadventure.common.resources.impl.EAdResourcesImpl;
  * 
  */
 public class ResourcesDOMWriter extends DOMWriter<EAdResources> {
-
-	/**
-	 * The logger
-	 */
-	private static final Logger logger = Logger.getLogger("ResourcesDOMWriter");
-
-	/**
-	 * Default constructor
-	 */
-	public ResourcesDOMWriter() {
-		try {
-			initilizeDOMWriter();
-		} catch (ParserConfigurationException e) {
-			logger.log(Level.SEVERE, e.getMessage(), e);
-		}
-	}
+	
+	public static final String TAG_RESOURCES = "resources";
+	
+	public static final String TAG_BUNDLE = "bundle";
+	
+	public static final String INITIAL_BUNDLE_AT = "initialBundle";
 
 	/*
 	 * (non-Javadoc)
@@ -85,9 +70,9 @@ public class ResourcesDOMWriter extends DOMWriter<EAdResources> {
 	 */
 	@Override
 	public Element buildNode(EAdResources resources) {
-		node = doc.createElement("resources");
+		Element node = doc.createElement(TAG_RESOURCES);
 		if (resources.getInitialBundle() != null)
-			node.setAttribute("initialBundle", resources.getInitialBundle()
+			node.setAttribute(INITIAL_BUNDLE_AT, resources.getInitialBundle()
 					.getBundleId());
 
 		for (String assetId : ((EAdAssetBundleImpl) resources).getIds()) {
@@ -116,8 +101,8 @@ public class ResourcesDOMWriter extends DOMWriter<EAdResources> {
 	 * @return the node created with the bundle information
 	 */
 	private Node processBundle(EAdBundleId id, EAdAssetBundle bundle) {
-		Element bundleNode = doc.createElement("bundle");
-		bundleNode.setAttribute("id", id.getBundleId());
+		Element bundleNode = doc.createElement(TAG_BUNDLE);
+		bundleNode.setAttribute(ID_AT, id.getBundleId());
 
 		for (String assetId : ((EAdAssetBundleImpl) bundle).getIds()) {
 			Node assetNode = processAsset(assetId, bundle.getAsset(assetId));
@@ -137,11 +122,9 @@ public class ResourcesDOMWriter extends DOMWriter<EAdResources> {
 	 *            The {@link AssetDescriptor}
 	 * @return the node created with the asset information
 	 */
-	@SuppressWarnings({ "rawtypes", "unchecked" })
 	private Node processAsset(String id, AssetDescriptor assetDescriptor) {
-		DOMWriter writer = super.getDOMWriter(assetDescriptor);
-		Element assetNode = writer.buildNode(assetDescriptor);
-		assetNode.setAttribute("id", id);
+		Element assetNode = super.initNode(assetDescriptor);
+		assetNode.setAttribute(ID_AT, id);
 		return assetNode;
 	}
 }
