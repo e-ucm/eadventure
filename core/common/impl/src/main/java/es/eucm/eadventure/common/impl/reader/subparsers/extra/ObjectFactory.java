@@ -37,22 +37,15 @@
 
 package es.eucm.eadventure.common.impl.reader.subparsers.extra;
 
+import java.lang.reflect.Constructor;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Logger;
 
-import es.eucm.eadventure.common.params.EAdFill;
-import es.eucm.eadventure.common.params.EAdFontImpl;
+import es.eucm.eadventure.common.model.EAdElement;
 import es.eucm.eadventure.common.params.EAdParam;
-import es.eucm.eadventure.common.params.EAdString;
-import es.eucm.eadventure.common.params.EAdURI;
-import es.eucm.eadventure.common.params.EAdURIImpl;
-import es.eucm.eadventure.common.params.fills.impl.EAdBorderedColor;
-import es.eucm.eadventure.common.params.fills.impl.EAdColor;
-import es.eucm.eadventure.common.params.fills.impl.EAdLinearGradient;
-import es.eucm.eadventure.common.params.geom.impl.EAdPositionImpl;
-import es.eucm.eadventure.common.params.geom.impl.EAdRectangleImpl;
 import es.eucm.eadventure.common.resources.EAdBundleId;
+import es.eucm.eadventure.common.resources.assets.AssetDescriptor;
 
 /**
  * Includes methods to generate an object of a given type from a string value
@@ -62,6 +55,8 @@ public class ObjectFactory {
 	private static final Logger logger = Logger.getLogger("ObjectFactory");
 	
 	private static Map<String, EAdParam> paramsMap = new HashMap<String, EAdParam>();
+	private static Map<String, AssetDescriptor> assetsMap = new HashMap<String, AssetDescriptor>();
+	private static Map<String, EAdElement> elementsMap = new HashMap<String, EAdElement>();
 
 	@SuppressWarnings("unchecked")
 	public static Object getObject(String value, Class<?> fieldType) {
@@ -71,43 +66,27 @@ public class ObjectFactory {
 				return paramsMap.get(value);
 			}
 			else {
-				EAdParam param = null;
-				if (fieldType == EAdPositionImpl.class)
-					param = new EAdPositionImpl(value);
-				else if (fieldType == EAdFontImpl.class)
-					param = new EAdFontImpl(value);
-				else if (fieldType == EAdRectangleImpl.class)
-					param = new EAdRectangleImpl(value);
-				else if (EAdFill.class.isAssignableFrom(fieldType)) {
-					if (value.contains(EAdBorderedColor.SEPARATOR)) {
-						param = new EAdBorderedColor(value);
-					} else if (value.contains(EAdLinearGradient.SEPARATOR)) {
-						param = new EAdLinearGradient(value);
-					} else
-						param = new EAdColor(value);
-				} else if (fieldType == EAdBorderedColor.class)
-					param = new EAdBorderedColor(value);
-				else if (fieldType == EAdLinearGradient.class)
-					param = new EAdLinearGradient(value);
-				else if (fieldType == EAdColor.class)
-					param = new EAdColor(value);
-				else if (fieldType == EAdURI.class)
-					param = new EAdURIImpl(value);
-				else if (fieldType == EAdString.class) {
-					param = new EAdString(value);
-				}
+				EAdParam param = constructParam( value, (Class<? extends EAdParam>) fieldType );
 				paramsMap.put(paramsMap.keySet().size() + "", param);
 				return param;
 			}
+		} else if ( EAdElement.class.isAssignableFrom(fieldType)){
+			EAdElement element = elementsMap.get(value);
+			return element;
+		} else if ( AssetDescriptor.class.isAssignableFrom(fieldType)){
+			return assetsMap.get(value);
 		}
-		if (fieldType == null || fieldType == String.class )
+		else if (fieldType == String.class )
 			return value;
-		if (fieldType == Integer.class || fieldType == int.class)
+		else if (fieldType == Integer.class || fieldType == int.class)
 			return Integer.parseInt(value);
 		else if (fieldType == Boolean.class || fieldType == boolean.class)
 			return Boolean.parseBoolean(value);
 		else if (fieldType == Float.class || fieldType == float.class)
 			return Float.parseFloat(value);
+		else if (fieldType == Character.class || fieldType == char.class){
+			return new Character(value.charAt(0));
+		}
 		else if (fieldType == EAdBundleId.class)
 			return new EAdBundleId(value);
 		else if (fieldType == Class.class)
@@ -127,5 +106,25 @@ public class ObjectFactory {
 
 	public static void initilize() {
 		paramsMap.clear();
+		elementsMap.clear();
+		assetsMap.clear();
+	}
+	
+	public static void addElement( String id, EAdElement element){
+		elementsMap.put(id, element);
+	}
+	
+	public static void addAsset( String id, AssetDescriptor descriptor ){
+		assetsMap.put(id, descriptor);
+	}
+	
+	private static EAdParam constructParam( String value, Class<? extends EAdParam> clazz ){
+		try {
+			Constructor<?> c = clazz.getConstructor(String.class);
+			return (EAdParam) c.newInstance(value);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
 }

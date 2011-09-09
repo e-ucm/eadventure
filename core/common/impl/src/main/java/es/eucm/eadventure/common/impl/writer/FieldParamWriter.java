@@ -7,6 +7,7 @@ import org.w3c.dom.Element;
 import es.eucm.eadventure.common.interfaces.Param;
 import es.eucm.eadventure.common.model.extra.EAdList;
 import es.eucm.eadventure.common.model.extra.EAdMap;
+import es.eucm.eadventure.common.resources.EAdResources;
 
 public abstract class FieldParamWriter<T> extends DOMWriter<T> {
 
@@ -61,6 +62,10 @@ public abstract class FieldParamWriter<T> extends DOMWriter<T> {
 		if (o instanceof EAdMap && ((EAdMap<?, ?>) o).isEmpty()) {
 			return true;
 		}
+		
+		if ( o instanceof EAdResources && ((EAdResources) o).isEmpty())
+			return true;
+		
 		return false;
 	}
 

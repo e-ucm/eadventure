@@ -38,13 +38,11 @@
 package es.eucm.eadventure.common.impl.reader.subparsers;
 
 import java.lang.reflect.Constructor;
-import java.lang.reflect.Field;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.logging.Level;
 
 import org.xml.sax.Attributes;
 
+import es.eucm.eadventure.common.impl.reader.subparsers.extra.ObjectFactory;
+import es.eucm.eadventure.common.impl.writer.DOMWriter;
 import es.eucm.eadventure.common.model.EAdElement;
 
 /**
@@ -52,38 +50,23 @@ import es.eucm.eadventure.common.model.EAdElement;
  *  type="ENGINE_TYPE"
  *  class="EDITOR_TYPE"></element>}.
  */
-public class ElementSubparser extends Subparser {
+public class ElementSubparser extends Subparser<EAdElement> {
 
-	private static Map<String, EAdElement> elementMap = new HashMap<String, EAdElement>();
-
-	private StringBuffer string;
-
-	/**
-	 * Element
-	 */
-	private EAdElement element;
-	
-	private String paramValue;
-	
-	private Object parent;
-
-	public ElementSubparser(Object o, Attributes attributes, String classParam) {
-		parent = o;
-		paramValue = attributes.getValue("param");
+	public ElementSubparser(Object o, Attributes attributes) {
+		super(o, attributes, EAdElement.class);
 		// If element is new
-		if (attributes.getIndex("id") != -1) {
-			String className = translateClass(attributes.getValue(classParam));
-			String id = attributes.getValue("id");
-			String uniqueId = attributes.getValue("uniqueId");
+		if ( attributes.getIndex(DOMWriter.ID_AT) != -1) {
+			String id = attributes.getValue(DOMWriter.ID_AT);
+			String uniqueId = attributes.getValue(DOMWriter.UNIQUE_ID_AT);
 
-			Class<?> clazz = null;
+			Class<?> c = null;
 			try {
-				clazz = ClassLoader.getSystemClassLoader().loadClass(className);
-				Constructor<?> con = clazz.getConstructor(String.class);
-				this.element = (EAdElement) con
+				c = ClassLoader.getSystemClassLoader().loadClass(clazz);
+				Constructor<?> con = c.getConstructor(String.class);
+				element = (EAdElement) con
 						.newInstance(new Object[] { id });
 
-				elementMap.put(uniqueId, element);
+				
 			} catch (ClassNotFoundException e) {
 				e.printStackTrace();
 			} catch (SecurityException e) {
@@ -91,7 +74,7 @@ public class ElementSubparser extends Subparser {
 			} catch (NoSuchMethodException e) {
 				Constructor<?> con;
 				try {
-					con = clazz.getConstructor();
+					con = c.getConstructor();
 					this.element = (EAdElement) con.newInstance();
 				} catch (Exception e1) {
 					e1.printStackTrace();
@@ -99,55 +82,10 @@ public class ElementSubparser extends Subparser {
 			} catch (Exception e) {
 
 			}
-
-			// If element is repeated
-		} else {
-			string = new StringBuffer();
+			if ( element != null )
+				ObjectFactory.addElement(uniqueId, element);
 		}
 
-	}
-
-	@Override
-	public void endElement() {
-		if (string != null) {
-			element = elementMap.get(string.toString());
-		}
-		
-		if ( paramValue != null && parent != null ){
-			try {
-				Field field = getField(parent, paramValue);
-
-				if (field != null) {
-					boolean accessible = field.isAccessible();
-					field.setAccessible(true);
-					field.set(parent, element);
-					field.setAccessible(accessible);
-				}
-				
-			} catch (NullPointerException e) {
-				logger.log(Level.SEVERE, e.getMessage(), e);
-			} catch (SecurityException e) {
-				logger.log(Level.SEVERE, e.getMessage(), e);
-			} catch (IllegalArgumentException e) {
-				logger.log(Level.SEVERE, e.getMessage(), e);
-			} catch (IllegalAccessException e) {
-				logger.log(Level.SEVERE, e.getMessage(), e);
-			}
-		}
-	}
-
-	@Override
-	public void addChild(Object element) {
-
-	}
-
-	public Object getObject() {
-		return element;
-	}
-
-	@Override
-	public void characters(char[] buf, int offset, int len) {
-		string.append(buf, offset, len);
 	}
 
 }

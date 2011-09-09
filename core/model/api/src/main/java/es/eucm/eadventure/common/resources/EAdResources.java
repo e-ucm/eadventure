@@ -106,5 +106,7 @@ public interface EAdResources extends EAdAssetBundle {
 	 * @return The list of bundles in this resource
 	 */
 	Collection<EAdBundleId> getBundles();
+	
+	boolean isEmpty();
 
 }

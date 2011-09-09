@@ -153,4 +153,18 @@ public class EAdResourcesImpl extends EAdAssetBundleImpl implements EAdResources
 		return assetBundles.keySet();
 	}
 
+	@Override
+	public boolean isEmpty() {
+		if ( super.isEmpty() ){
+			for ( EAdAssetBundle assetBundle: assetBundles.values()){
+				if ( !assetBundle.isEmpty()){
+					return false;
+				}
+			}
+			return true;
+		}
+		return false;
+			
+	}
+
 }

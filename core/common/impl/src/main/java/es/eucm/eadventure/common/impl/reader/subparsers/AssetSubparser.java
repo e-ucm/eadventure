@@ -38,14 +38,14 @@
 package es.eucm.eadventure.common.impl.reader.subparsers;
 
 import java.lang.reflect.Constructor;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.xml.sax.Attributes;
 
 import es.eucm.eadventure.common.impl.reader.subparsers.extra.AssetId;
+import es.eucm.eadventure.common.impl.reader.subparsers.extra.ObjectFactory;
+import es.eucm.eadventure.common.impl.writer.DOMWriter;
 import es.eucm.eadventure.common.resources.assets.AssetDescriptor;
 
 /**
@@ -58,15 +58,9 @@ import es.eucm.eadventure.common.resources.assets.AssetDescriptor;
  * <br>
  * </p>
  */
-public class AssetSubparser extends Subparser {
-
-	private AssetDescriptor asset;
+public class AssetSubparser extends Subparser<AssetDescriptor> {
 
 	private static final Logger logger = Logger.getLogger("AssetSubparser");
-
-	private static Map<String, AssetDescriptor> mappedAssets = new HashMap<String, AssetDescriptor>();
-
-	private StringBuffer string;
 
 	/**
 	 * Constructor for the asset parser.
@@ -77,44 +71,21 @@ public class AssetSubparser extends Subparser {
 	 *            The attributes of the bundle
 	 */
 	public AssetSubparser(Object assetId, Attributes attributes) {
+		super( assetId, attributes, AssetDescriptor.class );
 		if (assetId instanceof AssetId) {
-			((AssetId) assetId).setAssetId(attributes.getValue("id"));
+			((AssetId) assetId).setAssetId(attributes.getValue(DOMWriter.ID_AT));
 		}
-		String className = attributes.getValue("class");
-		if (className != null) {
-			String uniqueId = attributes.getValue("uniqueId");
+		if (clazz != null) {
+			String uniqueId = attributes.getValue(DOMWriter.UNIQUE_ID_AT);
 			try {
-				Class<?> clazz = ClassLoader.getSystemClassLoader().loadClass(
-						className);
-				Constructor<?> con = clazz.getConstructor();
-				this.asset = (AssetDescriptor) con.newInstance(new Object[] {});
-				mappedAssets.put(uniqueId, asset);
+				Class<?> c = ClassLoader.getSystemClassLoader().loadClass(
+						clazz);
+				Constructor<?> con = c.getConstructor();
+				element = (AssetDescriptor) con.newInstance(new Object[] {});
+				ObjectFactory.addAsset(uniqueId, element);
 			} catch (Exception e) {
 				logger.log(Level.SEVERE, e.getMessage(), e);
 			}
-		} else {
-			string = new StringBuffer();
 		}
 	}
-
-	@Override
-	public void characters(char[] buf, int offset, int len) {
-		string.append(buf, offset, len);
-	}
-
-	@Override
-	public void endElement() {
-		if (string != null) {
-			asset = mappedAssets.get(string.toString());
-		}
-	}
-
-	@Override
-	public void addChild(Object element) {
-	}
-
-	public Object getObject() {
-		return asset;
-	}
-
 }

@@ -42,10 +42,15 @@ import java.util.Stack;
 import org.xml.sax.Attributes;
 import org.xml.sax.helpers.DefaultHandler;
 
-import com.google.inject.Inject;
-import com.google.inject.name.Named;
-
 import es.eucm.eadventure.common.impl.reader.subparsers.extra.ObjectFactory;
+import es.eucm.eadventure.common.impl.writer.AssetDOMWriter;
+import es.eucm.eadventure.common.impl.writer.DOMWriter;
+import es.eucm.eadventure.common.impl.writer.DefaultDOMWriter;
+import es.eucm.eadventure.common.impl.writer.ElementDOMWriter;
+import es.eucm.eadventure.common.impl.writer.ListDOMWriter;
+import es.eucm.eadventure.common.impl.writer.MapDOMWriter;
+import es.eucm.eadventure.common.impl.writer.ParamDOMWriter;
+import es.eucm.eadventure.common.impl.writer.ResourcesDOMWriter;
 import es.eucm.eadventure.common.model.EAdElement;
 import es.eucm.eadventure.common.model.elements.EAdAdventureModel;
 import es.eucm.eadventure.common.resources.EAdResources;
@@ -54,17 +59,11 @@ public class AdventureHandler extends DefaultHandler {
 
 	private EAdAdventureModel adventureModel;
 
-	private Stack<Subparser> subparserStack;
+	private Stack<Subparser<?>> parserStack;
 
-	private String classParam;
-
-	@Inject
-	public AdventureHandler(EAdAdventureModel adventureModel,
-			@Named("classParam") String classParam) {
-		this.adventureModel = adventureModel;
-		subparserStack = new Stack<Subparser>();
+	public AdventureHandler() {
+		parserStack = new Stack<Subparser<?>>();
 		ObjectFactory.initilize();
-		this.classParam = classParam;
 	}
 
 	public EAdAdventureModel getAdventureModel() {
@@ -74,63 +73,63 @@ public class AdventureHandler extends DefaultHandler {
 	@Override
 	public void startElement(String uri, String localName, String qName,
 			Attributes attributes) {
-		if (qName.equals("adventure")) {
-			String packageName = attributes.getValue("package");
+		if (qName.equals(DOMWriter.ROOT_TAG)) {
+			String packageName = attributes.getValue(DOMWriter.PACKAGE_AT);
 			Subparser.init(packageName);
-		} else if (qName.equals("element")) {
+		} else if (qName.equals(ElementDOMWriter.TAG)) {
 			Object o = null;
-			if (!subparserStack.isEmpty()) {
-				o = subparserStack.peek().getObject();
+			if (!parserStack.isEmpty()) {
+				o = parserStack.peek().getObject();
 			}
-			subparserStack
-					.push(new ElementSubparser(o, attributes, classParam));
-		} else if (qName.equals("list")) {
-			subparserStack.push(new ListSubparser(subparserStack.peek()
+			parserStack.push(new ElementSubparser(o, attributes));
+		} else if (qName.equals(ListDOMWriter.TAG)) {
+			parserStack.push(new ListSubparser(parserStack.peek()
 					.getObject(), attributes));
-		} else if (qName.equals("map")) {
-			subparserStack.push(new MapSubparser(subparserStack.peek()
+		} else if (qName.equals(MapDOMWriter.TAG)) {
+			parserStack.push(new MapSubparser(parserStack.peek()
 					.getObject(), attributes));
-		} else if (qName.equals("object") || qName.equals("param")) {
-			subparserStack.push(new ObjectSubparser(subparserStack.peek(),
-					subparserStack.peek().getObject(), attributes));
-		} else if (qName.equals("resources")) {
-			subparserStack
-					.push(new ResourcesSubparser((EAdElement) subparserStack
+		} else if (qName.equals(DefaultDOMWriter.TAG)
+				|| qName.equals(ParamDOMWriter.TAG)) {
+			parserStack.push(new ObjectSubparser(parserStack.peek()
+					.getObject(), attributes));
+		} else if (qName.equals(ResourcesDOMWriter.TAG_RESOURCES)) {
+			parserStack
+					.push(new ResourcesSubparser((EAdElement) parserStack
 							.peek().getObject(), attributes));
-		} else if (qName.equals("bundle")) {
-			if (subparserStack.peek().getObject() instanceof EAdResources) {
-				EAdResources resources = (EAdResources) subparserStack.peek()
+		} else if (qName.equals(ResourcesDOMWriter.TAG_BUNDLE)) {
+			if (parserStack.peek().getObject() instanceof EAdResources) {
+				EAdResources resources = (EAdResources) parserStack.peek()
 						.getObject();
 				BundleSubparser bundleSubparser = new BundleSubparser(
 						resources, attributes);
-				subparserStack.push(bundleSubparser);
+				parserStack.push(bundleSubparser);
 			}
-		} else if (qName.equals("asset")) {
+		} else if (qName.equals(AssetDOMWriter.TAG)) {
 			AssetSubparser assetSubparser = new AssetSubparser(
-					subparserStack.peek(), attributes);
-			subparserStack.push(assetSubparser);
+					parserStack.peek(), attributes);
+			parserStack.push(assetSubparser);
 		}
 	}
 
 	@Override
 	public void endElement(String uri, String localName, String qName) {
 
-		if (subparserStack.size() == 1)
-			adventureModel = (EAdAdventureModel) subparserStack.peek()
+		if (parserStack.size() == 1)
+			adventureModel = (EAdAdventureModel) parserStack.peek()
 					.getObject();
 
-		if (subparserStack.size() >= 2) {
-			Subparser parser = subparserStack.pop();
+		if (parserStack.size() >= 2) {
+			Subparser<?> parser = parserStack.pop();
 			parser.endElement();
-			subparserStack.peek().addChild(parser.getObject());
+			parserStack.peek().addChild(parser.getObject());
 
 		}
 	}
 
 	@Override
 	public void characters(char[] buf, int offset, int len) {
-		if (!subparserStack.isEmpty())
-			subparserStack.peek().characters(buf, offset, len);
+		if (!parserStack.isEmpty())
+			parserStack.peek().characters(buf, offset, len);
 	}
 
 }

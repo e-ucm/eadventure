@@ -20,6 +20,7 @@ public class ParamDOMWriter extends DOMWriter<EAdParam> {
 			value = data.toStringData();
 			paramsMap.put(value, "" + paramsMap.keySet().size());
 		}
+		node.setAttribute(CLASS_AT, shortClass(data.getClass().getName()));
 		node.setTextContent(value);
 		return node;
 	}

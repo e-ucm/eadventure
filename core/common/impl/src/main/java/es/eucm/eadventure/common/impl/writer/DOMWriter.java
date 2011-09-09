@@ -63,7 +63,7 @@ import es.eucm.eadventure.common.resources.assets.AssetDescriptor;
  */
 public abstract class DOMWriter<T> {
 
-	public static final String PACKAGE = "es.eucm.eadventure.common.model";
+	public static final String PACKAGE = "es.eucm.eadventure.common";
 
 	public static final String CLASS_AT = "class";
 
@@ -74,6 +74,10 @@ public abstract class DOMWriter<T> {
 	public static final String TYPE_AT = "type";
 
 	public static final String UNIQUE_ID_AT = "uniqueId";
+	
+	public static final String ROOT_TAG = "adventure";
+	
+	public static final String PACKAGE_AT = "package";
 
 	protected static final Logger logger = Logger.getLogger("DOMWriter");
 

@@ -48,12 +48,14 @@ public class ListDOMWriter extends DOMWriter<EAdList<?>> {
 	@Override
 	public Element buildNode(EAdList<?> list) {
 		Element node = doc.createElement(TAG);
-		node.setAttribute(CLASS_AT, list.getValueClass().getName());
+		node.setAttribute(CLASS_AT, shortClass(list.getValueClass().getName()));
 
 		for (Object o : list) {
-			Element newNode = super.initNode(o);
-			doc.adoptNode(newNode);
-			node.appendChild(newNode);
+			if (o != null) {
+				Element newNode = super.initNode(o);
+				doc.adoptNode(newNode);
+				node.appendChild(newNode);
+			}
 		}
 		return node;
 	}

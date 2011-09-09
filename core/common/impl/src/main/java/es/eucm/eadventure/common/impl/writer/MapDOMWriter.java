@@ -42,7 +42,7 @@ import org.w3c.dom.Element;
 import es.eucm.eadventure.common.model.extra.EAdMap;
 
 public class MapDOMWriter extends DOMWriter<EAdMap<?, ?>> {
-	
+
 	public static final String TAG = "map";
 
 	@Override
@@ -51,13 +51,15 @@ public class MapDOMWriter extends DOMWriter<EAdMap<?, ?>> {
 		Element node = doc.createElement(TAG);
 
 		for (Object o : map.keySet()) {
-			Element key = super.initNode(o);
-			doc.adoptNode(key);
-			node.appendChild(key);
+			if (o != null && map.get(o) != null) {
+				Element key = super.initNode(o);
+				doc.adoptNode(key);
+				node.appendChild(key);
 
-			Element value = super.initNode(map.get(o));
-			doc.adoptNode(value);
-			node.appendChild(value);
+				Element value = super.initNode(map.get(o));
+				doc.adoptNode(value);
+				node.appendChild(value);
+			}
 		}
 
 		return node;

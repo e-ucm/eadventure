@@ -84,4 +84,6 @@ public interface EAdAssetBundle {
 	 */
 	EAdAssetBundle duplicate();
 	
+	boolean isEmpty();
+	
 }

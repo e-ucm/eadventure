@@ -79,8 +79,8 @@ public class EAdAdventureModelWriter implements Writer<EAdAdventureModel> {
 	            
 	            DOMWriter.initMaps();
 	            
-	            Element root = doc.createElement("adventure");
-	            root.setAttribute("package", DOMWriter.PACKAGE);
+	            Element root = doc.createElement(DOMWriter.ROOT_TAG);
+	            root.setAttribute(DOMWriter.PACKAGE_AT, DOMWriter.PACKAGE);
 	            doc.adoptNode(root);
 	            doc.appendChild(root);
 

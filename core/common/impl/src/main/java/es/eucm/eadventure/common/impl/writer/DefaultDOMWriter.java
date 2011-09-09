@@ -14,7 +14,7 @@ public class DefaultDOMWriter extends DOMWriter<Object> {
 	@Override
 	public Element buildNode(Object data) {
 		Element node = doc.createElement(TAG);
-		node.setAttribute(CLASS_AT, data.getClass().getName());
+		node.setAttribute(CLASS_AT, shortClass(data.getClass().getName()));
 
 		if (data instanceof Class) {
 			node.setTextContent(((Class<?>) data).getName());

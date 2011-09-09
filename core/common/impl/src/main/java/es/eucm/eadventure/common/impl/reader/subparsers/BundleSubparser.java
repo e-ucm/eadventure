@@ -40,6 +40,7 @@ package es.eucm.eadventure.common.impl.reader.subparsers;
 import org.xml.sax.Attributes;
 
 import es.eucm.eadventure.common.impl.reader.subparsers.extra.AssetId;
+import es.eucm.eadventure.common.impl.writer.DOMWriter;
 import es.eucm.eadventure.common.resources.EAdBundleId;
 import es.eucm.eadventure.common.resources.EAdResources;
 import es.eucm.eadventure.common.resources.assets.AssetDescriptor;
@@ -58,14 +59,12 @@ import es.eucm.eadventure.common.resources.assets.AssetDescriptor;
  * 
  * </p>
  */
-public class BundleSubparser extends Subparser implements AssetId {
+public class BundleSubparser extends Subparser<EAdBundleId> implements AssetId {
 
 	/**
 	 * The object where the asset belongs
 	 */
 	private EAdResources resources;
-
-	private EAdBundleId bundleId;
 
 	private String id;
 
@@ -76,12 +75,13 @@ public class BundleSubparser extends Subparser implements AssetId {
 	 *            The attributes of the bundle
 	 */
 	public BundleSubparser(EAdResources resources, Attributes attributes) {
-		this.bundleId = new EAdBundleId(attributes.getValue("id"));
+		super( resources, attributes, EAdBundleId.class );
+		element = new EAdBundleId(attributes.getValue(DOMWriter.ID_AT));
 		this.resources = resources;
-		if (bundleId.equals(resources.getInitialBundle())) {
-			bundleId = resources.getInitialBundle();
+		if (element.equals(resources.getInitialBundle())) {
+			element = resources.getInitialBundle();
 		} else {
-			resources.addBundle(bundleId);
+			resources.addBundle(element);
 		}
 	}
 
@@ -94,14 +94,9 @@ public class BundleSubparser extends Subparser implements AssetId {
 	}
 
 	@Override
-	public void addChild(Object element) {
-		if (element instanceof AssetDescriptor)
-			resources.addAsset(bundleId, id, (AssetDescriptor) element);
-	}
-
-	@Override
-	public Object getObject() {
-		return bundleId;
+	public void addChild(Object child) {
+		if (child instanceof AssetDescriptor)
+			resources.addAsset(element, id, (AssetDescriptor) child);
 	}
 
 	@Override

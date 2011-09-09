@@ -52,7 +52,7 @@ public class FlagCondition extends AbstractEAdCondition implements EAdCondition 
 	@Param("flag")
 	private EAdField<Boolean> flag;
 
-	@Param("value")
+	@Param("flagValue")
 	private Value value;
 	
 	public FlagCondition( String id ){

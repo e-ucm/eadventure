@@ -37,10 +37,6 @@
 
 package es.eucm.eadventure.common.impl.reader.subparsers;
 
-import java.lang.reflect.Field;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
 import org.xml.sax.Attributes;
 
 import es.eucm.eadventure.common.model.extra.EAdList;
@@ -49,56 +45,22 @@ import es.eucm.eadventure.common.model.extra.impl.EAdListImpl;
 /**
  * Subparser for the list element.
  */
-public class ListSubparser extends Subparser {
+public class ListSubparser extends Subparser<EAdList<Object>> {
 
-	private static final Logger logger = Logger.getLogger("ListSubparser");
-
-	/**
-	 * The list of elements.
-	 */
-	protected EAdList<Object> elementList;
-
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public ListSubparser(Object parent, Attributes attributes) {
-		init(parent, attributes);
-	}
-
-	@SuppressWarnings({ "unchecked", "rawtypes" })
-	protected void init(Object parent, Attributes attributes) {
-		String paramValue = attributes.getValue("param");
-		if (paramValue != null) {
-			Field field = getField(parent, paramValue);
+		super(parent, attributes, null);
+		if ( element == null ){
+			 
 			try {
-				field.setAccessible(true);
-				elementList = (EAdList<Object>) field.get(parent);
-				field.setAccessible(false);
-			} catch (IllegalArgumentException e) {
-				logger.log(Level.SEVERE, e.getMessage(), e);
-			} catch (IllegalAccessException e) {
-				logger.log(Level.SEVERE, e.getMessage(), e);
-			}
-		}
-		else {
-			String clazzName = attributes.getValue("class");
-			try {
-				Class<?>  clazz = ClassLoader.getSystemClassLoader().loadClass(clazzName);
-				elementList = new EAdListImpl(clazz);
+				Class<?> c = ClassLoader.getSystemClassLoader().loadClass(clazz);
+				element = new EAdListImpl(c);
 			} catch (ClassNotFoundException e) {
 				e.printStackTrace();
+				element = new EAdListImpl(Object.class);
 			}
 			
 		}
-
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * es.eucm.eadventure.common.impl.reader.subparsers.Subparser#endElement()
-	 */
-	@Override
-	public void endElement() {
-		// DO NOTHING
 	}
 
 	/*
@@ -109,24 +71,8 @@ public class ListSubparser extends Subparser {
 	 * (es.eucm.eadventure.common.model.EAdElement)
 	 */
 	@Override
-	public void addChild(Object element) {
-		elementList.add(element);
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * es.eucm.eadventure.common.impl.reader.subparsers.Subparser#characters
-	 * (char[], int, int)
-	 */
-	@Override
-	public void characters(char[] buf, int offset, int len) {
-		// DO NOTHING
-	}
-
-	public Object getObject() {
-		return elementList;
+	public void addChild(Object child) {
+		element.add(child);
 	}
 
 }

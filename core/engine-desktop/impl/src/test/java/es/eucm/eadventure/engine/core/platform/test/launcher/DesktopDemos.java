@@ -184,9 +184,7 @@ public class DesktopDemos extends BaseTestLauncher {
 									os.close();
 									FileInputStream is = new FileInputStream(f);
 									model = new EAdAdventureModelReader(
-											new AdventureHandler(
-													new EAdAdventureModelImpl(),
-													"class")).read(is);
+											new AdventureHandler()).read(is);
 									is.close();
 
 									new DesktopDemos(injector, model,

@@ -22,7 +22,7 @@ public class AssetDOMWriter extends FieldParamWriter<AssetDescriptor> {
 		// Set unique id and class
 		mappedAsset.add(assetDescriptor);
 		node.setAttribute(UNIQUE_ID_AT, mappedAsset.size() + "");
-		node.setAttribute(CLASS_AT, assetDescriptor.getClass().getName());
+		node.setAttribute(CLASS_AT, shortClass(assetDescriptor.getClass().getName()));
 
 		// Process Param fields
 		super.processParams(node, assetDescriptor);

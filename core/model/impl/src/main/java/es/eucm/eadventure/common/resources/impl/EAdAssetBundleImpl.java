@@ -133,4 +133,9 @@ public class EAdAssetBundleImpl implements EAdAssetBundle {
 	public Set<String> getIds() {
 		return assets.keySet();
 	}
+
+	@Override
+	public boolean isEmpty() {
+		return assets.isEmpty();
+	}
 }

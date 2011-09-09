@@ -51,6 +51,10 @@ public class SoundImpl implements Sound {
 	@Param("uri")
 	private EAdURI uri;
 
+	public SoundImpl() {
+
+	}
+
 	/**
 	 * Creates a sound asset with the given URI
 	 * 
@@ -58,7 +62,7 @@ public class SoundImpl implements Sound {
 	 *            the URI
 	 */
 	public SoundImpl(String uri) {
-		this.uri = new EAdURIImpl( uri );
+		this.uri = new EAdURIImpl(uri);
 	}
 
 	public EAdURI getURI() {

@@ -40,8 +40,8 @@ package es.eucm.eadventure.common.impl.reader.subparsers;
 import org.xml.sax.Attributes;
 
 import es.eucm.eadventure.common.impl.reader.subparsers.extra.AssetId;
+import es.eucm.eadventure.common.impl.writer.ResourcesDOMWriter;
 import es.eucm.eadventure.common.interfaces.features.Resourced;
-import es.eucm.eadventure.common.model.EAdElement;
 import es.eucm.eadventure.common.resources.EAdBundleId;
 import es.eucm.eadventure.common.resources.EAdResources;
 import es.eucm.eadventure.common.resources.assets.AssetDescriptor;
@@ -73,12 +73,7 @@ import es.eucm.eadventure.common.resources.assets.AssetDescriptor;
  * 
  * </p>
  */
-public class ResourcesSubparser extends Subparser implements AssetId {
-
-	/**
-	 * The object where the asset belongs
-	 */
-	private EAdResources resources;
+public class ResourcesSubparser extends Subparser<EAdResources> implements AssetId {
 
 	private String id;
 
@@ -90,31 +85,25 @@ public class ResourcesSubparser extends Subparser implements AssetId {
 	 * @param bundle
 	 *            The attributes of the bundle
 	 */
-	public ResourcesSubparser(EAdElement object, Attributes attributes) {
-		if (attributes.getIndex("initialBundle") != -1) {
-			resources = ((Resourced) object).getResources();
-			EAdBundleId bundleId = resources.getInitialBundle();
-			bundleId.setBundleId(attributes.getValue("initialBundle"));
+	public ResourcesSubparser(Object object, Attributes attributes) {
+		super( object, attributes, EAdResources.class );
+		if (attributes.getIndex(ResourcesDOMWriter.INITIAL_BUNDLE_AT) != -1) {
+			element = ((Resourced) object).getResources();
+			EAdBundleId bundleId = element.getInitialBundle();
+			bundleId.setBundleId(attributes.getValue(ResourcesDOMWriter.INITIAL_BUNDLE_AT));
 		}
 	}
 
 	@Override
-	public void characters(char[] buf, int offset, int len) {
-	}
-
-	@Override
 	public void endElement() {
+
 	}
 
 	@Override
-	public void addChild(Object element) {
-		if (element instanceof AssetDescriptor)
-			resources.addAsset(id, (AssetDescriptor) element);
-	}
-
-	@Override
-	public Object getObject() {
-		return resources;
+	public void addChild(Object child) {
+		if (child instanceof AssetDescriptor)
+			element.addAsset(id, (AssetDescriptor) child);
+			
 	}
 
 	@Override

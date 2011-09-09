@@ -37,86 +37,28 @@
 
 package es.eucm.eadventure.common.impl.reader.subparsers;
 
-import java.lang.reflect.Field;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
 import org.xml.sax.Attributes;
 
 import es.eucm.eadventure.common.model.extra.EAdMap;
 
-public class MapSubparser extends Subparser {
-
-	private static Logger logger = Logger.getLogger("MapSubparser");
-	
-	/**
-	 * The list of elements.
-	 */
-	private EAdMap<Object, Object> map;
+public class MapSubparser extends Subparser<EAdMap<Object, Object>> {
 	
 	private Object key;
 
-	@SuppressWarnings("unchecked")
 	public MapSubparser(Object parent, Attributes attributes) {
-		String name = attributes.getValue("param");
-		Field field = getField(parent, name);
-		try {
-			field.setAccessible(true);
-			map = (EAdMap<Object, Object>) field.get(parent);
-			field.setAccessible(false);
-		} catch (IllegalArgumentException e) {
-			logger.log(Level.SEVERE, e.getMessage(), e);
-		} catch (IllegalAccessException e) {
-			logger.log(Level.SEVERE, e.getMessage(), e);
-		}
+		super( parent, attributes, null );
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * es.eucm.eadventure.common.impl.reader.subparsers.Subparser#endElement()
-	 */
-	@Override
-	public void endElement() {
-		// DO NOTHING
-	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * es.eucm.eadventure.common.impl.reader.subparsers.Subparser#characters
-	 * (char[], int, int)
-	 */
 	@Override
-	public void characters(char[] buf, int offset, int len) {
-		// DO NOTHING
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * es.eucm.eadventure.common.impl.reader.subparsers.Subparser#addElement
-	 * (es.eucm.eadventure.common.model.EAdElement)
-	 */
-	@Override
-	public void addChild(Object element) {
+	public void addChild(Object child) {
 		if ( key == null ){
-			key = element;
+			key = child;
 		}
 		else {
-			map.put(key, element);
+			element.put(key, child);
 			key = null;
 		}
 	}
 
-	public Object getObject() {
-		return map;
-	}
-	
-	public Object getKey(){
-		return key;
-	}
 }
