@@ -45,7 +45,6 @@ import java.util.Map;
 import com.google.inject.Inject;
 
 import es.eucm.eadventure.common.EAdElementImporter;
-import es.eucm.eadventure.common.StringHandler;
 import es.eucm.eadventure.common.data.chapter.Action;
 import es.eucm.eadventure.common.data.chapter.CustomAction;
 import es.eucm.eadventure.common.data.chapter.conditions.Conditions;
@@ -67,6 +66,7 @@ import es.eucm.eadventure.common.model.effects.impl.EAdTriggerMacro;
 import es.eucm.eadventure.common.model.elements.EAdActor;
 import es.eucm.eadventure.common.model.elements.EAdCondition;
 import es.eucm.eadventure.common.resources.EAdBundleId;
+import es.eucm.eadventure.common.resources.StringHandler;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.ImageImpl;
 
 public class ActionImporter implements EAdElementImporter<Action, EAdAction> {

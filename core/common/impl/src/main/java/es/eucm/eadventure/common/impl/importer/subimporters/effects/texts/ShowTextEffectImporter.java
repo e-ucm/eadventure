@@ -40,7 +40,6 @@ package es.eucm.eadventure.common.impl.importer.subimporters.effects.texts;
 import com.google.inject.Inject;
 
 import es.eucm.eadventure.common.EAdElementImporter;
-import es.eucm.eadventure.common.StringHandler;
 import es.eucm.eadventure.common.data.chapter.conditions.Conditions;
 import es.eucm.eadventure.common.data.chapter.effects.ShowTextEffect;
 import es.eucm.eadventure.common.impl.importer.interfaces.EAdElementFactory;
@@ -49,6 +48,7 @@ import es.eucm.eadventure.common.model.elements.EAdCondition;
 import es.eucm.eadventure.common.params.EAdString;
 import es.eucm.eadventure.common.params.fills.impl.EAdBorderedColor;
 import es.eucm.eadventure.common.params.fills.impl.EAdColor;
+import es.eucm.eadventure.common.resources.StringHandler;
 
 public class ShowTextEffectImporter extends TextEffectImporter<ShowTextEffect> {
 

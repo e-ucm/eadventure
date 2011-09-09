@@ -46,10 +46,10 @@ import android.view.WindowManager;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 
-import es.eucm.eadventure.common.StringHandler;
 import es.eucm.eadventure.common.elmentfactories.EAdElementsFactory;
 import es.eucm.eadventure.common.model.elements.EAdScene;
 import es.eucm.eadventure.common.model.elements.impl.EAdSceneImpl;
+import es.eucm.eadventure.common.resources.StringHandler;
 import es.eucm.eadventure.engine.core.GameController;
 import es.eucm.eadventure.engine.core.MouseState;
 import es.eucm.eadventure.engine.core.impl.LoadingScreen;
