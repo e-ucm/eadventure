@@ -79,7 +79,8 @@ public class PlayNAssetHandlerModule extends AbstractGinModule {
 
 	@Override
 	protected void configure() {
-		bind(StringFileHandler.class).to(DefaultStringFileHandler.class);
+		//TODO Necessary?
+		//bind(StringFileHandler.class).to(DefaultStringFileHandler.class);
 		bind(StringHandler.class).to(DefaultStringHandler.class);
 		bind(AssetHandler.class).to(PlayNAssetHandler.class);
 	}

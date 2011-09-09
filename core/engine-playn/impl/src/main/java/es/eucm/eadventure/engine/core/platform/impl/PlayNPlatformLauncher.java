@@ -37,26 +37,18 @@
 
 package es.eucm.eadventure.engine.core.platform.impl;
 
-import java.io.File;
-
 import com.google.gwt.core.client.GWT;
-import com.google.inject.Guice;
 import com.google.inject.Inject;
-import com.google.inject.Injector;
 import com.google.inject.Singleton;
 
 import es.eucm.eadventure.common.model.impl.inventory.EAdBasicInventory;
 import es.eucm.eadventure.common.params.EAdURI;
 import es.eucm.eadventure.common.params.EAdURIImpl;
 import es.eucm.eadventure.engine.core.impl.factorymapproviders.GameObjectFactoryMapProvider;
-import es.eucm.eadventure.engine.core.impl.modules.BasicGameModule;
 import es.eucm.eadventure.engine.core.platform.AssetHandler;
 import es.eucm.eadventure.engine.core.platform.PlatformControl;
 import es.eucm.eadventure.engine.core.platform.PlatformLauncher;
-import es.eucm.eadventure.engine.core.platform.impl.extra.PlayNAssetHandlerModule;
-import es.eucm.eadventure.engine.core.platform.impl.extra.PlayNAssetRendererModule;
 import es.eucm.eadventure.engine.core.platform.impl.extra.PlayNBasicInventoryGO;
-import es.eucm.eadventure.engine.core.platform.impl.extra.PlayNModule;
 
 /**
  * <p>
@@ -89,10 +81,12 @@ public class PlayNPlatformLauncher implements PlatformLauncher {
 
 	@Override
 	public void launch(EAdURI uri) {
+		/* TODO Resource location is needed
 		if ( uri != null ){
 			File resourceFile = new File( uri.getPath() );
 			((PlayNAssetHandler) assetHandler).setResourceLocation(resourceFile);
 		}
+		*/
 		platformControl.start();
 	}
 	

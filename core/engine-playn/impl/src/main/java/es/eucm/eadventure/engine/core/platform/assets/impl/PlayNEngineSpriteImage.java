@@ -37,11 +37,10 @@
 
 package es.eucm.eadventure.engine.core.platform.assets.impl;
 
-import java.awt.image.BufferedImage;
+import playn.core.Image;
 
 import com.google.inject.Inject;
 
-import es.eucm.eadventure.common.resources.assets.drawable.basics.Image;
 import es.eucm.eadventure.engine.core.platform.AssetHandler;
 
 public class PlayNEngineSpriteImage extends RuntimeSpriteImage {
@@ -51,8 +50,8 @@ public class PlayNEngineSpriteImage extends RuntimeSpriteImage {
 		super(assetHandler);
 	}
 
-	public BufferedImage getImage() {
-		return ((PlayNEngineImage) assetHandler.getRuntimeAsset((Image) descriptor)).getImage();
+	public Image getImage() {
+		return ((PlayNEngineImage) assetHandler.getRuntimeAsset((es.eucm.eadventure.common.resources.assets.drawable.basics.Image) descriptor)).getImage();
 	}
 
 	public int getSprite() {
@@ -62,7 +61,5 @@ public class PlayNEngineSpriteImage extends RuntimeSpriteImage {
 	public int getTotalSprites() {
 		return descriptor.getTotalSprites();
 	}
-
-
 
 }

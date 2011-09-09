@@ -37,24 +37,24 @@
 
 package es.eucm.eadventure.engine.core.platform.assets.impl;
 
-import java.awt.image.BufferedImage;
-import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import javax.imageio.ImageIO;
+import playn.core.Image;
 
 import com.google.inject.Inject;
 
+import es.eucm.eadventure.engine.core.EAdEngine;
 import es.eucm.eadventure.engine.core.platform.AssetHandler;
-import es.eucm.eadventure.engine.core.platform.impl.PlayNAssetHandler;
 
 public class PlayNEngineImage extends RuntimeImage {
 
 	/**
 	 * The buffered image
 	 */
-	private BufferedImage image;
+	private Image image;
+	
+	private EAdEngine eAdEngine;
 
 	/**
 	 * The logger
@@ -63,8 +63,9 @@ public class PlayNEngineImage extends RuntimeImage {
 			.getLogger("DesktopEngineImage");
 
 	@Inject
-	public PlayNEngineImage(AssetHandler assetHandler) {
+	public PlayNEngineImage(AssetHandler assetHandler, EAdEngine eAdEngine) {
 		super(assetHandler);
+		this.eAdEngine = eAdEngine;
 		logger.info("New instance");
 	}
 
@@ -76,28 +77,23 @@ public class PlayNEngineImage extends RuntimeImage {
 	 */
 	public PlayNEngineImage(int width, int height) {
 		super(null);
-		image = new BufferedImage(width, height, BufferedImage.TYPE_4BYTE_ABGR);
-		
-		// Test code to see if it has any influence in performance
-		if (width >= 800)
-			image.setAccelerationPriority(1.0f);
-		
+		//TODO		
 		logger.info("New instance, width:" + width + "; height:" + height);
 	}
 
-	public BufferedImage getImage() {
+	public Image getImage() {
 		return image;
 	}
 
 	public int getWidth() {
 		if (image != null)
-			return image.getWidth();
+			return image.width();
 		return 1;
 	}
 
 	public int getHeight() {
 		if (image != null)
-			return image.getHeight();
+			return image.height();
 		return 1;
 	}
 
@@ -106,14 +102,9 @@ public class PlayNEngineImage extends RuntimeImage {
 		// Some DesktopEngineImage can be created without an assetHandler
 		if (image == null && assetHandler != null) {
 			try {
-				image = ImageIO.read(((PlayNAssetHandler) assetHandler
-						).getResourceAsStream(descriptor.getURI().getPath()));
+				image = eAdEngine.getImage(assetHandler.getAbsolutePath(descriptor.getURI().getPath()));
 				logger.log(Level.INFO, "Image loaded: " + descriptor.getURI());
 				return true;
-			} catch (IOException e) {
-				logger.log(Level.SEVERE, 
-						"Could not load image! " + descriptor.getURI(), e);
-				return false;
 			} catch (Exception e) {
 				logger.log(Level.SEVERE, 
 						"Could not load image! " + descriptor.getURI(), e);
@@ -126,7 +117,8 @@ public class PlayNEngineImage extends RuntimeImage {
 	@Override
 	public void freeMemory() {
 		if (image != null) {
-			image.flush();
+			//TODO flush image
+			//image.flush();
 			logger.log(Level.INFO, "Image flushed: " + (descriptor != null ? descriptor.getURI() : "no descriptor"));
 		}
 		image = null;

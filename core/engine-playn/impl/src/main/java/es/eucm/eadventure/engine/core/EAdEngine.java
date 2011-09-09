@@ -2,13 +2,16 @@ package es.eucm.eadventure.engine.core;
 
 import static playn.core.PlayN.*;
 
+import java.awt.image.BufferedImage;
+
 import playn.core.Game;
+import playn.core.Image;
 import playn.core.Keyboard;
 import playn.core.Keyboard.Event;
 import playn.core.Pointer;
 import playn.core.SurfaceLayer;
 
-public class EAdEngine implements Game, Keyboard.Listener {
+public class EAdEngine implements Game, Keyboard.Listener, GameLoop {
 
 	private SurfaceLayer gameLayer;
 
@@ -17,7 +20,7 @@ public class EAdEngine implements Game, Keyboard.Listener {
 	@Override
 	public void init() {
 		graphics().setSize(800, 600);
-
+				
 		gameLayer = graphics().createSurfaceLayer(graphics().width(),
 				graphics().height());
 		graphics().rootLayer().add(gameLayer);
@@ -77,6 +80,38 @@ public class EAdEngine implements Game, Keyboard.Listener {
 	@Override
 	public int updateRate() {
 		return 15;
+	}
+
+	public Image getImage(String absolutePath) {
+		return assetManager().getImage(absolutePath);
+	}
+
+	
+	//---- GameLoop -----
+	
+	
+	@Override
+	public void runLoop(boolean threaded) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void setGame(es.eucm.eadventure.engine.core.Game game) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void pause() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void resume() {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

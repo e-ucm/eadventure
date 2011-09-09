@@ -53,7 +53,7 @@ public class PlayNImageAssetRenderer implements AssetRenderer<SurfaceLayer, Play
 	/**
 	 * Logger
 	 */
-	private static final Logger logger = Logger.getLogger("DesktopImageAssetRenderer");
+	private static final Logger logger = Logger.getLogger("PlayNImageAssetRenderer");
 
 	public PlayNImageAssetRenderer() {
 		logger.info("New instance");
@@ -79,8 +79,10 @@ public class PlayNImageAssetRenderer implements AssetRenderer<SurfaceLayer, Play
 	@Override
 	public boolean contains(int x, int y, PlayNEngineImage asset) {
 		if (asset != null && x < asset.getWidth() && y < asset.getHeight()){
-            int alpha = asset.getImage().getRGB( x, y ) >>> 24;
-        	return alpha > 128;
+            //int alpha = asset.getImage().getRGB( x, y ) >>> 24;
+        	//return alpha > 128;
+			//FIXME No elimination of transparent areas
+			return true;
 		}
 		return false;
 	}		

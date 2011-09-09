@@ -37,21 +37,17 @@
 
 package es.eucm.eadventure.engine.core.platform.impl.extra;
 
-import java.awt.Graphics2D;
 import java.awt.Shape;
 
 import playn.core.SurfaceLayer;
 
 import com.google.gwt.inject.client.AbstractGinModule;
-import com.google.inject.AbstractModule;
 import com.google.inject.Provides;
 import com.google.inject.TypeLiteral;
 import com.google.inject.name.Named;
 
-import es.eucm.eadventure.common.model.elements.EAdAdventureModel;
 import es.eucm.eadventure.engine.core.EAdEngine;
 import es.eucm.eadventure.engine.core.GameLoop;
-import es.eucm.eadventure.engine.core.GameProfiler;
 import es.eucm.eadventure.engine.core.KeyboardState;
 import es.eucm.eadventure.engine.core.MouseState;
 import es.eucm.eadventure.engine.core.gameobjects.GameObjectManager;
@@ -61,8 +57,6 @@ import es.eucm.eadventure.engine.core.gameobjects.huds.MenuHUD;
 import es.eucm.eadventure.engine.core.gameobjects.huds.impl.BasicHUDImpl;
 import es.eucm.eadventure.engine.core.gameobjects.impl.GameObjectManagerImpl;
 import es.eucm.eadventure.engine.core.gameobjects.impl.inventory.BasicInventoryGO;
-import es.eucm.eadventure.engine.core.impl.GameLoopImpl;
-import es.eucm.eadventure.engine.core.impl.GameProfilerImpl;
 import es.eucm.eadventure.engine.core.impl.KeyboardStateImpl;
 import es.eucm.eadventure.engine.core.impl.MouseStateImpl;
 import es.eucm.eadventure.engine.core.platform.FillFactory;
@@ -85,7 +79,9 @@ public class PlayNModule extends AbstractGinModule {
 	@Override
 	protected void configure() {
 		bind(GameLoop.class).to(EAdEngine.class);
-		bind(GameProfiler.class).to(GameProfilerImpl.class);
+		
+		//TODO No profiler needed, should change something else?
+		//bind(GameProfiler.class).to(GameProfilerImpl.class);
 		bind(GUI.class).to(PlayNGUI.class);
 		bind(PlatformConfiguration.class)
 				.to(PlayNPlatformConfiguration.class);
