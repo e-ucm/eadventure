@@ -40,6 +40,7 @@ package es.eucm.eadventure.engine.core.platform.impl.extra;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.google.gwt.inject.client.AbstractGinModule;
 import com.google.inject.AbstractModule;
 import com.google.inject.Provides;
 import com.google.inject.Singleton;
@@ -64,18 +65,17 @@ import es.eucm.eadventure.common.resources.assets.multimedia.impl.SoundImpl;
 import es.eucm.eadventure.engine.core.impl.DefaultStringHandler;
 import es.eucm.eadventure.engine.core.platform.AssetHandler;
 import es.eucm.eadventure.engine.core.platform.RuntimeAsset;
-import es.eucm.eadventure.engine.core.platform.assets.impl.DesktopBezierShape;
-import es.eucm.eadventure.engine.core.platform.assets.impl.DesktopEngineCaption;
-import es.eucm.eadventure.engine.core.platform.assets.impl.DesktopEngineImage;
-import es.eucm.eadventure.engine.core.platform.assets.impl.DesktopEngineSpriteImage;
-import es.eucm.eadventure.engine.core.platform.assets.impl.DesktopSound;
+import es.eucm.eadventure.engine.core.platform.assets.impl.PlayNBezierShape;
+import es.eucm.eadventure.engine.core.platform.assets.impl.PlayNEngineCaption;
+import es.eucm.eadventure.engine.core.platform.assets.impl.PlayNEngineImage;
+import es.eucm.eadventure.engine.core.platform.assets.impl.PlayNEngineSpriteImage;
+import es.eucm.eadventure.engine.core.platform.assets.impl.PlayNSound;
 import es.eucm.eadventure.engine.core.platform.assets.impl.RuntimeComposedDrawable;
 import es.eucm.eadventure.engine.core.platform.assets.impl.RuntimeDisplacedDrawable;
 import es.eucm.eadventure.engine.core.platform.assets.impl.RuntimeSpriteImage;
-import es.eucm.eadventure.engine.core.platform.impl.DesktopAssetHandler;
 import es.eucm.eadventure.engine.core.platform.impl.PlayNAssetHandler;
 
-public class PlayNAssetHandlerModule extends AbstractModule {
+public class PlayNAssetHandlerModule extends AbstractGinModule {
 
 	@Override
 	protected void configure() {
@@ -89,21 +89,21 @@ public class PlayNAssetHandlerModule extends AbstractModule {
 	Map<Class<? extends AssetDescriptor>, Class<? extends RuntimeAsset<?>>> provideMap() {
 		Map<Class<? extends AssetDescriptor>, Class<? extends RuntimeAsset<?>>> map = new HashMap<Class<? extends AssetDescriptor>, Class<? extends RuntimeAsset<?>>>();
 
-		map.put(ImageImpl.class, DesktopEngineImage.class);
-		map.put(Image.class, DesktopEngineImage.class);
-		map.put(Frame.class, DesktopEngineImage.class);
-		map.put(Caption.class, DesktopEngineCaption.class);
-		map.put(CaptionImpl.class, DesktopEngineCaption.class);
+		map.put(ImageImpl.class, PlayNEngineImage.class);
+		map.put(Image.class, PlayNEngineImage.class);
+		map.put(Frame.class, PlayNEngineImage.class);
+		map.put(Caption.class, PlayNEngineCaption.class);
+		map.put(CaptionImpl.class, PlayNEngineCaption.class);
 		map.put(ComposedDrawable.class, RuntimeComposedDrawable.class);
 		map.put(ComposedDrawableImpl.class, RuntimeComposedDrawable.class);
-		map.put(RectangleShape.class, DesktopBezierShape.class);
-		map.put(BezierShape.class, DesktopBezierShape.class);
+		map.put(RectangleShape.class, PlayNBezierShape.class);
+		map.put(BezierShape.class, PlayNBezierShape.class);
 		map.put(DisplacedDrawable.class, RuntimeDisplacedDrawable.class);
 		map.put(DisplacedDrawableImpl.class, RuntimeDisplacedDrawable.class);
 		map.put(SpriteImage.class, RuntimeSpriteImage.class);
-		map.put(SpriteImageImpl.class, DesktopEngineSpriteImage.class);
-		map.put(Sound.class, DesktopSound.class);
-		map.put(SoundImpl.class, DesktopSound.class);
+		map.put(SpriteImageImpl.class, PlayNEngineSpriteImage.class);
+		map.put(Sound.class, PlayNSound.class);
+		map.put(SoundImpl.class, PlayNSound.class);
 
 		return map;
 	}

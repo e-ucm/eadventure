@@ -43,6 +43,8 @@ import java.awt.Rectangle;
 import java.awt.Shape;
 import java.awt.geom.AffineTransform;
 
+import playn.core.SurfaceLayer;
+
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
@@ -50,22 +52,22 @@ import es.eucm.eadventure.common.params.EAdFill;
 import es.eucm.eadventure.common.params.geom.EAdPosition;
 import es.eucm.eadventure.engine.core.platform.AssetRenderer;
 import es.eucm.eadventure.engine.core.platform.FillFactory;
-import es.eucm.eadventure.engine.core.platform.assets.impl.DesktopEngineCaption;
-import es.eucm.eadventure.engine.core.platform.assets.impl.DesktopEngineFont;
+import es.eucm.eadventure.engine.core.platform.assets.impl.PlayNEngineCaption;
+import es.eucm.eadventure.engine.core.platform.assets.impl.PlayNEngineFont;
 
 @Singleton
 public class PlayNCaptionRenderer implements
-		AssetRenderer<Graphics2D, DesktopEngineCaption> {
+		AssetRenderer<SurfaceLayer, PlayNEngineCaption> {
 
-	private FillFactory<Graphics2D, Shape> fillFactory;
+	private FillFactory<SurfaceLayer, Shape> fillFactory;
 
 	@Inject
-	public PlayNCaptionRenderer(FillFactory<Graphics2D, Shape> fillFactory) {
+	public PlayNCaptionRenderer(FillFactory<SurfaceLayer, Shape> fillFactory) {
 		this.fillFactory = fillFactory;
 	}
 
 	@Override
-	public void render(Graphics2D g, DesktopEngineCaption asset,
+	public void render(SurfaceLayer g, PlayNEngineCaption asset,
 			EAdPosition position, float scale, int offsetX, int offsetY) {
 		// TODO use offsets
 
@@ -98,7 +100,7 @@ public class PlayNCaptionRenderer implements
 	}
 
 	@Override
-	public boolean contains(int x, int y, DesktopEngineCaption asset) {
+	public boolean contains(int x, int y, PlayNEngineCaption asset) {
 		if (asset == null || asset.getBounds() == null)
 			return false;
 		boolean tempValue = x < asset.getBounds().width
@@ -106,10 +108,10 @@ public class PlayNCaptionRenderer implements
 		return tempValue;
 	}
 
-	protected void drawString(Graphics2D g, DesktopEngineCaption text,
+	protected void drawString(SurfaceLayer g, PlayNEngineCaption text,
 			String string, int yOffset) {
 
-		DesktopEngineFont deFont = (DesktopEngineFont) text.getFont();
+		PlayNEngineFont deFont = (PlayNEngineFont) text.getFont();
 		Composite c = g.getComposite();
 		AffineTransform a = g.getTransform();
 
@@ -122,7 +124,7 @@ public class PlayNCaptionRenderer implements
 		g.setTransform(a);
 	}
 
-	private void drawBubble(Graphics2D g, int width, int height,
+	private void drawBubble(SurfaceLayer g, int width, int height,
 			EAdFill bubbleFill) {
 
 		Shape shape = new Rectangle(0, 0, width, height);

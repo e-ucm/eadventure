@@ -40,15 +40,16 @@ package es.eucm.eadventure.engine.core.platform.impl.extra;
 import java.awt.Graphics2D;
 import java.awt.Shape;
 
+import playn.core.SurfaceLayer;
+
+import com.google.gwt.inject.client.AbstractGinModule;
 import com.google.inject.AbstractModule;
 import com.google.inject.Provides;
 import com.google.inject.TypeLiteral;
 import com.google.inject.name.Named;
 
-import es.eucm.eadventure.common.Reader;
-import es.eucm.eadventure.common.impl.reader.EAdAdventureModelReader;
-import es.eucm.eadventure.common.impl.reader.subparsers.AdventureHandler;
 import es.eucm.eadventure.common.model.elements.EAdAdventureModel;
+import es.eucm.eadventure.engine.core.EAdEngine;
 import es.eucm.eadventure.engine.core.GameLoop;
 import es.eucm.eadventure.engine.core.GameProfiler;
 import es.eucm.eadventure.engine.core.KeyboardState;
@@ -70,39 +71,36 @@ import es.eucm.eadventure.engine.core.platform.PlatformConfiguration;
 import es.eucm.eadventure.engine.core.platform.PlatformControl;
 import es.eucm.eadventure.engine.core.platform.PlatformLauncher;
 import es.eucm.eadventure.engine.core.platform.TransitionFactory;
-import es.eucm.eadventure.engine.core.platform.impl.DesktopFillFactory;
-import es.eucm.eadventure.engine.core.platform.impl.DesktopFontCache;
-import es.eucm.eadventure.engine.core.platform.impl.DesktopGUI;
-import es.eucm.eadventure.engine.core.platform.impl.DesktopPlatformConfiguration;
-import es.eucm.eadventure.engine.core.platform.impl.DesktopPlatformControl;
-import es.eucm.eadventure.engine.core.platform.impl.DesktopPlatformLauncher;
-import es.eucm.eadventure.engine.core.platform.impl.DesktopTransitionFactory;
 import es.eucm.eadventure.engine.core.platform.impl.FontCacheImpl;
+import es.eucm.eadventure.engine.core.platform.impl.PlayNFillFactory;
+import es.eucm.eadventure.engine.core.platform.impl.PlayNFontCache;
+import es.eucm.eadventure.engine.core.platform.impl.PlayNGUI;
+import es.eucm.eadventure.engine.core.platform.impl.PlayNPlatformConfiguration;
+import es.eucm.eadventure.engine.core.platform.impl.PlayNPlatformControl;
+import es.eucm.eadventure.engine.core.platform.impl.PlayNPlatformLauncher;
+import es.eucm.eadventure.engine.core.platform.impl.PlayNTransitionFactory;
 
-public class PlayNModule extends AbstractModule {
+public class PlayNModule extends AbstractGinModule {
 
 	@Override
 	protected void configure() {
-		bind(new TypeLiteral<Reader<EAdAdventureModel>>() {
-		}).to(EAdAdventureModelReader.class);
-		bind(AdventureHandler.class);
-		bind(GameLoop.class).to(GameLoopImpl.class);
+		bind(GameLoop.class).to(EAdEngine.class);
 		bind(GameProfiler.class).to(GameProfilerImpl.class);
-		bind(GUI.class).to(DesktopGUI.class);
+		bind(GUI.class).to(PlayNGUI.class);
 		bind(PlatformConfiguration.class)
-				.to(DesktopPlatformConfiguration.class);
-		bind(PlatformControl.class).to(DesktopPlatformControl.class);
-		bind(PlatformLauncher.class).to(DesktopPlatformLauncher.class);
+				.to(PlayNPlatformConfiguration.class);
+		bind(PlatformControl.class).to(PlayNPlatformControl.class);
+		bind(PlatformLauncher.class).to(PlayNPlatformLauncher.class);
 		bind(MouseState.class).to(MouseStateImpl.class);
 		bind(KeyboardState.class).to(KeyboardStateImpl.class);
 		bind(GameObjectManager.class).to(GameObjectManagerImpl.class);
 		bind(BasicHUD.class).to(BasicHUDImpl.class);
-		bind(ActionsHUD.class).to(DesktopActionsHUDImpl.class);
-		bind(MenuHUD.class).to(DesktopMenuHUDImpl.class);
-		bind(FontCacheImpl.class).to(DesktopFontCache.class);
-		bind(new TypeLiteral<FillFactory<Graphics2D, Shape>>() {
-		}).to(DesktopFillFactory.class);
-		bind(TransitionFactory.class).to(DesktopTransitionFactory.class);
+		bind(ActionsHUD.class).to(PlayNActionsHUDImpl.class);
+		bind(MenuHUD.class).to(PlayNMenuHUDImpl.class);
+		bind(FontCacheImpl.class).to(PlayNFontCache.class);
+		bind(new TypeLiteral<FillFactory<SurfaceLayer, Shape>>() {
+		}).to(PlayNFillFactory.class);
+		bind(TransitionFactory.class).to(PlayNTransitionFactory.class);
 		bind(BasicInventoryGO.class).to(PlayNBasicInventoryGO.class);
 	}
 

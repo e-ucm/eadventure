@@ -37,17 +37,18 @@
 
 package es.eucm.eadventure.engine.core.platform.impl.assetrenderers;
 
-import java.awt.Graphics2D;
 import java.util.logging.Logger;
+
+import playn.core.SurfaceLayer;
 
 import com.google.inject.Singleton;
 
 import es.eucm.eadventure.common.params.geom.EAdPosition;
 import es.eucm.eadventure.engine.core.platform.AssetRenderer;
-import es.eucm.eadventure.engine.core.platform.assets.impl.DesktopEngineImage;
+import es.eucm.eadventure.engine.core.platform.assets.impl.PlayNEngineImage;
 
 @Singleton
-public class PlayNImageAssetRenderer implements AssetRenderer<Graphics2D, DesktopEngineImage> {
+public class PlayNImageAssetRenderer implements AssetRenderer<SurfaceLayer, PlayNEngineImage> {
 
 	/**
 	 * Logger
@@ -59,7 +60,7 @@ public class PlayNImageAssetRenderer implements AssetRenderer<Graphics2D, Deskto
 	}
 	
 	@Override
-	public void render(Graphics2D graphicContext, DesktopEngineImage asset, EAdPosition position, float scale, int offsetX, int offsetY) {
+	public void render(SurfaceLayer graphicContext, PlayNEngineImage asset, EAdPosition position, float scale, int offsetX, int offsetY) {
 		if (asset != null) {
 			if (!asset.isLoaded())
 				asset.loadAsset();
@@ -76,7 +77,7 @@ public class PlayNImageAssetRenderer implements AssetRenderer<Graphics2D, Deskto
 	}
 
 	@Override
-	public boolean contains(int x, int y, DesktopEngineImage asset) {
+	public boolean contains(int x, int y, PlayNEngineImage asset) {
 		if (asset != null && x < asset.getWidth() && y < asset.getHeight()){
             int alpha = asset.getImage().getRGB( x, y ) >>> 24;
         	return alpha > 128;

@@ -51,11 +51,11 @@ import com.google.inject.Singleton;
 import es.eucm.eadventure.common.params.geom.EAdPosition;
 import es.eucm.eadventure.engine.core.platform.AssetRenderer;
 import es.eucm.eadventure.engine.core.platform.FillFactory;
-import es.eucm.eadventure.engine.core.platform.assets.impl.DesktopBezierShape;
+import es.eucm.eadventure.engine.core.platform.assets.impl.PlayNBezierShape;
 
 @Singleton
 public class PlayNBezierShapeRenderer implements
-		AssetRenderer<SurfaceLayer, DesktopBezierShape> {
+		AssetRenderer<SurfaceLayer, PlayNBezierShape> {
 	
 	private FillFactory<SurfaceLayer, Shape> fillFactory;
 	
@@ -65,7 +65,7 @@ public class PlayNBezierShapeRenderer implements
 	}
 
 	@Override
-	public void render(SurfaceLayer graphicContext, DesktopBezierShape asset,
+	public void render(SurfaceLayer graphicContext, PlayNBezierShape asset,
 			EAdPosition position, float scale, int offsetX, int offsetY) {
 
 		if (!asset.isLoaded())
@@ -89,7 +89,7 @@ public class PlayNBezierShapeRenderer implements
 	}
 
 	@Override
-	public boolean contains(int x, int y, DesktopBezierShape asset) {
+	public boolean contains(int x, int y, PlayNBezierShape asset) {
 		if (asset != null && x < asset.getWidth() && y < asset.getHeight()) {
 			return asset.getShape().contains(x, y);
 		}

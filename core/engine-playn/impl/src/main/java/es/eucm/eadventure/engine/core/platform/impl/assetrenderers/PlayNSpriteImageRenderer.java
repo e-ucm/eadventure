@@ -46,10 +46,10 @@ import com.google.inject.Singleton;
 
 import es.eucm.eadventure.common.params.geom.EAdPosition;
 import es.eucm.eadventure.engine.core.platform.AssetRenderer;
-import es.eucm.eadventure.engine.core.platform.assets.impl.DesktopEngineSpriteImage;
+import es.eucm.eadventure.engine.core.platform.assets.impl.PlayNEngineSpriteImage;
 
 @Singleton
-public class PlayNSpriteImageRenderer implements AssetRenderer<SurfaceLayer, DesktopEngineSpriteImage> {
+public class PlayNSpriteImageRenderer implements AssetRenderer<SurfaceLayer, PlayNEngineSpriteImage> {
 
 	/**
 	 * Logger
@@ -61,7 +61,7 @@ public class PlayNSpriteImageRenderer implements AssetRenderer<SurfaceLayer, Des
 	}
 	
 	@Override
-	public void render(SurfaceLayer graphicContext, DesktopEngineSpriteImage asset, EAdPosition position, float scale, int offsetX, int offsetY) {
+	public void render(SurfaceLayer graphicContext, PlayNEngineSpriteImage asset, EAdPosition position, float scale, int offsetX, int offsetY) {
 		if (asset != null) {
 			if (!asset.isLoaded())
 				asset.loadAsset();
@@ -80,7 +80,7 @@ public class PlayNSpriteImageRenderer implements AssetRenderer<SurfaceLayer, Des
 	}
 
 	@Override
-	public boolean contains(int x, int y, DesktopEngineSpriteImage asset) {
+	public boolean contains(int x, int y, PlayNEngineSpriteImage asset) {
 		if (asset != null && x < asset.getWidth() && y < asset.getHeight()){
 			int oldX = (asset.getSprite() % asset.getRows()) * asset.getWidth();
 			int oldY = (asset.getSprite() / asset.getCols()) * asset.getHeight();

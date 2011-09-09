@@ -40,6 +40,7 @@ package es.eucm.eadventure.engine.core.platform.impl.extra;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.google.gwt.inject.client.AbstractGinModule;
 import com.google.inject.AbstractModule;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
@@ -71,10 +72,10 @@ import es.eucm.eadventure.engine.core.platform.GameObjectRenderer;
 import es.eucm.eadventure.engine.core.platform.GraphicRenderer;
 import es.eucm.eadventure.engine.core.platform.GraphicRendererFactory;
 import es.eucm.eadventure.engine.core.platform.SpecialAssetRenderer;
-import es.eucm.eadventure.engine.core.platform.assets.impl.DesktopBezierShape;
-import es.eucm.eadventure.engine.core.platform.assets.impl.DesktopEngineCaption;
-import es.eucm.eadventure.engine.core.platform.assets.impl.DesktopEngineImage;
-import es.eucm.eadventure.engine.core.platform.assets.impl.DesktopEngineSpriteImage;
+import es.eucm.eadventure.engine.core.platform.assets.impl.PlayNBezierShape;
+import es.eucm.eadventure.engine.core.platform.assets.impl.PlayNEngineCaption;
+import es.eucm.eadventure.engine.core.platform.assets.impl.PlayNEngineImage;
+import es.eucm.eadventure.engine.core.platform.assets.impl.PlayNEngineSpriteImage;
 import es.eucm.eadventure.engine.core.platform.assets.impl.RuntimeComposedDrawable;
 import es.eucm.eadventure.engine.core.platform.assets.impl.RuntimeDisplacedDrawable;
 import es.eucm.eadventure.engine.core.platform.impl.PlayNGraphicRendererFactory;
@@ -97,7 +98,7 @@ import es.eucm.eadventure.engine.core.platform.impl.gameobjectrenderers.VideoSce
 import es.eucm.eadventure.engine.core.platform.impl.specialassetrenderers.PlayNVideoRenderer;
 
 @Singleton
-public class PlayNAssetRendererModule extends AbstractModule implements MapProvider<Class<?>, GraphicRenderer<?, ?>> {
+public class PlayNAssetRendererModule extends AbstractGinModule implements MapProvider<Class<?>, GraphicRenderer<?, ?>> {
 
 	private Map<Class<?>, GraphicRenderer<?, ?>> factoryMap;
 	
@@ -106,12 +107,12 @@ public class PlayNAssetRendererModule extends AbstractModule implements MapProvi
 		if (injector != null) {
 			factoryMap = new HashMap<Class<?>, GraphicRenderer<?, ?>>();		
 			
-			factoryMap.put(DesktopEngineImage.class, injector.getInstance(PlayNImageAssetRenderer.class));
-			factoryMap.put(DesktopEngineCaption.class, injector.getInstance(PlayNCaptionRenderer.class));
-			factoryMap.put(DesktopBezierShape.class, injector.getInstance(PlayNBezierShapeRenderer.class));
+			factoryMap.put(PlayNEngineImage.class, injector.getInstance(PlayNImageAssetRenderer.class));
+			factoryMap.put(PlayNEngineCaption.class, injector.getInstance(PlayNCaptionRenderer.class));
+			factoryMap.put(PlayNBezierShape.class, injector.getInstance(PlayNBezierShapeRenderer.class));
 			factoryMap.put(RuntimeComposedDrawable.class, injector.getInstance(PlayNComposedDrawableRenderer.class));
 			factoryMap.put(RuntimeDisplacedDrawable.class, injector.getInstance(PlayNDisplacedDrawableRenderer.class));
-			factoryMap.put(DesktopEngineSpriteImage.class, injector.getInstance(PlayNSpriteImageRenderer.class));
+			factoryMap.put(PlayNEngineSpriteImage.class, injector.getInstance(PlayNSpriteImageRenderer.class));
 			factoryMap.put(ActorReferenceGO.class, injector.getInstance(BasicSceneElementRenderer.class));
 			factoryMap.put(BasicSceneElementGO.class, injector.getInstance(BasicSceneElementRenderer.class));
 			factoryMap.put(ComplexSceneElementGO.class, injector.getInstance(BasicSceneElementRenderer.class));

@@ -39,19 +39,24 @@ package es.eucm.eadventure.engine.core.platform.impl;
 
 import java.io.File;
 
+import com.google.gwt.core.client.GWT;
 import com.google.inject.Guice;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.google.inject.Singleton;
 
 import es.eucm.eadventure.common.model.impl.inventory.EAdBasicInventory;
-import es.eucm.eadventure.common.resources.EAdURI;
-import es.eucm.eadventure.common.resources.assets.impl.EAdURIImpl;
+import es.eucm.eadventure.common.params.EAdURI;
+import es.eucm.eadventure.common.params.EAdURIImpl;
 import es.eucm.eadventure.engine.core.impl.factorymapproviders.GameObjectFactoryMapProvider;
 import es.eucm.eadventure.engine.core.impl.modules.BasicGameModule;
 import es.eucm.eadventure.engine.core.platform.AssetHandler;
 import es.eucm.eadventure.engine.core.platform.PlatformControl;
 import es.eucm.eadventure.engine.core.platform.PlatformLauncher;
+import es.eucm.eadventure.engine.core.platform.impl.extra.PlayNAssetHandlerModule;
+import es.eucm.eadventure.engine.core.platform.impl.extra.PlayNAssetRendererModule;
+import es.eucm.eadventure.engine.core.platform.impl.extra.PlayNBasicInventoryGO;
+import es.eucm.eadventure.engine.core.platform.impl.extra.PlayNModule;
 
 /**
  * <p>
@@ -61,6 +66,8 @@ import es.eucm.eadventure.engine.core.platform.PlatformLauncher;
 @Singleton
 public class PlayNPlatformLauncher implements PlatformLauncher {
 
+	private final static PlayNGinInjector injector = GWT.create(PlayNGinInjector.class);
+	
 	/**
 	 * The platform control implementation {@link PlatformContorl}
 	 */
@@ -92,10 +99,7 @@ public class PlayNPlatformLauncher implements PlatformLauncher {
 	public static void main(String[] args) {
 		System.setProperty("com.apple.mrj.application.apple.menu.about.name", "eAdventure");
 
-		
-		Injector injector = Guice.createInjector(new PlayNAssetHandlerModule(), new PlayNAssetRendererModule(null), new PlayNModule(), new BasicGameModule());
-
-		PlatformLauncher launcher = injector.getInstance(PlatformLauncher.class);
+		PlatformLauncher launcher = injector.getPlatformLauncher();
 		
 		EAdURI file = null;
 

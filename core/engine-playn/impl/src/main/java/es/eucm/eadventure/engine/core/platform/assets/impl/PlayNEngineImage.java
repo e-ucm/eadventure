@@ -47,6 +47,7 @@ import javax.imageio.ImageIO;
 import com.google.inject.Inject;
 
 import es.eucm.eadventure.engine.core.platform.AssetHandler;
+import es.eucm.eadventure.engine.core.platform.impl.PlayNAssetHandler;
 
 public class PlayNEngineImage extends RuntimeImage {
 

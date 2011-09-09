@@ -53,6 +53,8 @@ import java.util.logging.Logger;
 
 import javax.swing.JFrame;
 
+import playn.core.SurfaceLayer;
+
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
@@ -69,8 +71,8 @@ import es.eucm.eadventure.engine.core.platform.GUI;
 import es.eucm.eadventure.engine.core.platform.GraphicRendererFactory;
 import es.eucm.eadventure.engine.core.platform.PlatformConfiguration;
 import es.eucm.eadventure.engine.core.platform.RuntimeAsset;
-import es.eucm.eadventure.engine.core.platform.assets.impl.DesktopEngineImage;
-import es.eucm.eadventure.engine.core.platform.impl.extra.DesktopInputListener;
+import es.eucm.eadventure.engine.core.platform.assets.impl.PlayNEngineImage;
+import es.eucm.eadventure.engine.core.platform.impl.extra.PlayNInputListener;
 import es.eucm.eadventure.utils.swing.SwingExceptionHandler;
 import es.eucm.eadventure.utils.swing.SwingUtilities;
 
