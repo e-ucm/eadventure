@@ -84,7 +84,7 @@ import es.eucm.eadventure.engine.core.platform.PlatformConfiguration;
 /**
  * Desktop implementation of the {@link BasicInventoryGO}
  */
-public class DesktopBasicInventoryGO extends BasicInventoryGO {
+public class PlayNBasicInventoryGO extends BasicInventoryGO {
 
 	/**
 	 * The height of the top and bottom sensors
@@ -127,7 +127,7 @@ public class DesktopBasicInventoryGO extends BasicInventoryGO {
 	private Map<EAdActor, EAdActorReferenceImpl> includedActors;
 
 	@Inject
-	public DesktopBasicInventoryGO(AssetHandler assetHandler,
+	public PlayNBasicInventoryGO(AssetHandler assetHandler,
 			StringHandler stringHandler, GameObjectFactory gameObjectFactory,
 			GUI gui, GameState gameState, ValueMap valueMap,
 			PlatformConfiguration platformConfiguration) {

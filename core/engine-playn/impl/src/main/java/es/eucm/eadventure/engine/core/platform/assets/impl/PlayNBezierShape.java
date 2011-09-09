@@ -35,35 +35,54 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package es.eucm.eadventure.engine.core.test.effects;
+package es.eucm.eadventure.engine.core.platform.assets.impl;
 
-import static org.junit.Assert.assertEquals;
+import java.awt.geom.GeneralPath;
 
-import org.junit.Test;
-
-import es.eucm.eadventure.common.model.effects.impl.sceneelements.EAdMoveSceneElement;
-import es.eucm.eadventure.common.model.effects.impl.sceneelements.EAdMoveSceneElement.MovementSpeed;
-import es.eucm.eadventure.common.model.variables.impl.operations.LiteralExpressionOperation;
 import es.eucm.eadventure.common.params.geom.impl.EAdPositionImpl;
 
-public class MoveActorReferenceTest extends EffectTest {
+public class PlayNBezierShape extends RuntimeBezierShape {
+	
+	private GeneralPath path;
 
-	@Test
-	public void testMoveActor() {
-		EAdMoveSceneElement move = new EAdMoveSceneElement("id");
-		move.setSceneElement(testEngine.reference1);
-		move.setTargetCoordiantes(new LiteralExpressionOperation("id", "10"), new LiteralExpressionOperation("id", "10"));
-		move.setSpeed(MovementSpeed.FAST);
-		testEngine.addEffect(move);
-//		assertEquals(testEngine.gameObjectFactory.get(testEngine.reference1)
-//				.getPosition(), testEngine.reference1.getVars().getVar(EAdSceneElementVars.VAR_POSITION));
-		testEngine.update();
-		testEngine.update();
-		testEngine.update();
-		testEngine.update();
-		assertEquals(testEngine.gameObjectFactory.get(testEngine.reference1)
-				.getPosition(), new EAdPositionImpl( 10, 10 ));
+	@Override
+	public boolean loadAsset() {
+		super.loadAsset();
+		path = new GeneralPath();
 		
+		EAdPositionImpl p = descriptor.getPoints().get(0);
+		path.moveTo(p.getX(), p.getY());
+		
+		int pointIndex = 1;
+		EAdPositionImpl p1, p2, p3;
+		for ( Integer i: descriptor.getSegmentsLength() ){
+				switch( i ){
+				case 1:
+					p1 = descriptor.getPoints().get(pointIndex++);
+					path.lineTo(p1.getX(), p1.getY());
+					break;
+				case 2:
+					p1 = descriptor.getPoints().get(pointIndex++);
+					p2 = descriptor.getPoints().get(pointIndex++);
+					path.quadTo(p1.getX(), p1.getY(), p2.getX(), p2.getY());
+					break;
+				case 3:
+					p1 = descriptor.getPoints().get(pointIndex++);
+					p2 = descriptor.getPoints().get(pointIndex++);
+					p3 = descriptor.getPoints().get(pointIndex++);
+					path.curveTo(p1.getX(), p1.getY(), p2.getX(), p2.getY(), p3.getX(), p3.getY());
+					break;			
+			}
+		}
+		
+		if ( descriptor.isClosed() )
+			path.closePath();
+		
+		return true;
+	}
+	
+	public GeneralPath getShape( ){
+		return path;
 	}
 
 }

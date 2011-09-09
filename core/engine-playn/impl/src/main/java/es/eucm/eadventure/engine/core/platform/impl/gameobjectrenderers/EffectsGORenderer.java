@@ -35,35 +35,49 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package es.eucm.eadventure.engine.core.test.effects;
+package es.eucm.eadventure.engine.core.platform.impl.gameobjectrenderers;
 
-import static org.junit.Assert.assertEquals;
+import java.awt.Graphics2D;
+import java.util.logging.Logger;
 
-import org.junit.Test;
+import com.google.inject.Inject;
+import com.google.inject.Singleton;
 
-import es.eucm.eadventure.common.model.effects.impl.sceneelements.EAdMoveSceneElement;
-import es.eucm.eadventure.common.model.effects.impl.sceneelements.EAdMoveSceneElement.MovementSpeed;
-import es.eucm.eadventure.common.model.variables.impl.operations.LiteralExpressionOperation;
-import es.eucm.eadventure.common.params.geom.impl.EAdPositionImpl;
+import es.eucm.eadventure.common.params.geom.EAdPosition;
+import es.eucm.eadventure.engine.core.gameobjects.EffectGO;
+import es.eucm.eadventure.engine.core.platform.GameObjectRenderer;
 
-public class MoveActorReferenceTest extends EffectTest {
+/**
+ * A default effects game object renderer. This renderer should be used for
+ * those effects who have something to do in the method {@link EffectGO#processAction(es.eucm.eadventure.engine.core.guiactions.GUIAction)}
+ */
+@Singleton
+public class EffectsGORenderer implements
+		GameObjectRenderer<Graphics2D, EffectGO<?>> {
 
-	@Test
-	public void testMoveActor() {
-		EAdMoveSceneElement move = new EAdMoveSceneElement("id");
-		move.setSceneElement(testEngine.reference1);
-		move.setTargetCoordiantes(new LiteralExpressionOperation("id", "10"), new LiteralExpressionOperation("id", "10"));
-		move.setSpeed(MovementSpeed.FAST);
-		testEngine.addEffect(move);
-//		assertEquals(testEngine.gameObjectFactory.get(testEngine.reference1)
-//				.getPosition(), testEngine.reference1.getVars().getVar(EAdSceneElementVars.VAR_POSITION));
-		testEngine.update();
-		testEngine.update();
-		testEngine.update();
-		testEngine.update();
-		assertEquals(testEngine.gameObjectFactory.get(testEngine.reference1)
-				.getPosition(), new EAdPositionImpl( 10, 10 ));
-		
+	private static final Logger logger = Logger
+	.getLogger("EffectsGORenderer");
+
+	@Inject
+	public EffectsGORenderer() {
+		logger.info("New instance");
+	}
+	
+	@Override
+	public void render(Graphics2D graphicContext, EffectGO<?> object,
+			float interpolation, int offsetX, int offsetY) {
+
+	}
+
+	@Override
+	public void render(Graphics2D graphicContext, EffectGO<?> object,
+			EAdPosition position, float scale, int offsetX, int offsetY) {
+
+	}
+
+	@Override
+	public boolean contains(EffectGO<?> object, int virtualX, int virtualY) {
+		return true;
 	}
 
 }

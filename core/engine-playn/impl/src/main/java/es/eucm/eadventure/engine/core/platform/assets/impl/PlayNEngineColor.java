@@ -35,35 +35,23 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package es.eucm.eadventure.engine.core.test.effects;
+package es.eucm.eadventure.engine.core.platform.assets.impl;
 
-import static org.junit.Assert.assertEquals;
+import java.awt.Color;
 
-import org.junit.Test;
+import es.eucm.eadventure.common.params.fills.impl.EAdColor;
 
-import es.eucm.eadventure.common.model.effects.impl.sceneelements.EAdMoveSceneElement;
-import es.eucm.eadventure.common.model.effects.impl.sceneelements.EAdMoveSceneElement.MovementSpeed;
-import es.eucm.eadventure.common.model.variables.impl.operations.LiteralExpressionOperation;
-import es.eucm.eadventure.common.params.geom.impl.EAdPositionImpl;
+public class PlayNEngineColor {
 
-public class MoveActorReferenceTest extends EffectTest {
+	private Color color;
 
-	@Test
-	public void testMoveActor() {
-		EAdMoveSceneElement move = new EAdMoveSceneElement("id");
-		move.setSceneElement(testEngine.reference1);
-		move.setTargetCoordiantes(new LiteralExpressionOperation("id", "10"), new LiteralExpressionOperation("id", "10"));
-		move.setSpeed(MovementSpeed.FAST);
-		testEngine.addEffect(move);
-//		assertEquals(testEngine.gameObjectFactory.get(testEngine.reference1)
-//				.getPosition(), testEngine.reference1.getVars().getVar(EAdSceneElementVars.VAR_POSITION));
-		testEngine.update();
-		testEngine.update();
-		testEngine.update();
-		testEngine.update();
-		assertEquals(testEngine.gameObjectFactory.get(testEngine.reference1)
-				.getPosition(), new EAdPositionImpl( 10, 10 ));
-		
+	//TODO better implement some kind of factory with a cache
+	public PlayNEngineColor(EAdColor color) {
+		this.color = new Color(color.getRed(), color.getGreen(), color.getBlue(), color.getAlpha());
+	}
+
+	public Color getColor() {
+		return color;
 	}
 
 }
