@@ -143,5 +143,9 @@ public class EAdKeyEventImpl extends EAdElementImpl implements EAdKeyEvent {
 		}
 		return false;
 	}
+	
+	public int hashCode(){
+		return (type.toString() + keyCode.toString() + c + "").hashCode();
+	}
 
 }

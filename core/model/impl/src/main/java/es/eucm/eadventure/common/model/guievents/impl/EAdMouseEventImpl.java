@@ -65,9 +65,9 @@ public class EAdMouseEventImpl extends EAdElementImpl implements EAdMouseEvent {
 			EAdMouseEvent.MouseActionType.MOVED);
 	public static final EAdMouseEvent MOUSE_PRESSED = new EAdMouseEventImpl(
 			EAdMouseEvent.MouseActionType.PRESSED);
-	
-	public EAdMouseEventImpl( ){
-		
+
+	public EAdMouseEventImpl() {
+
 	}
 
 	/**
@@ -75,7 +75,7 @@ public class EAdMouseEventImpl extends EAdElementImpl implements EAdMouseEvent {
 	 * 
 	 * @param type
 	 *            event's type
-	 * @param draggingGameObject 
+	 * @param draggingGameObject
 	 * @return an {@link EAdMouseEvent} with the given type
 	 */
 	public static EAdMouseEvent getMouseEvent(MouseActionType type) {
@@ -136,6 +136,10 @@ public class EAdMouseEventImpl extends EAdElementImpl implements EAdMouseEvent {
 	@Override
 	public EAdElement copy(boolean deepCopy) {
 		return this;
+	}
+
+	public int hashCode() {
+		return type.hashCode();
 	}
 
 }

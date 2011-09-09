@@ -88,5 +88,9 @@ public class EAdDropEvent extends EAdElementImpl implements EAdGUIEvent {
 		} else
 			return copy();
 	}
+	
+	public int hashCode(){
+		return carryElement.hashCode();
+	}
 
 }

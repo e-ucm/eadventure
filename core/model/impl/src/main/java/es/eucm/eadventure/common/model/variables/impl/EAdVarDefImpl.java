@@ -74,5 +74,17 @@ public class EAdVarDefImpl<T> implements EAdVarDef<T> {
 	public EAdElement copy(boolean deepCopy) {
 		return new EAdVarDefImpl<T>(name, type, initialValue);
 	}
+	
+	public boolean equals( Object o ){
+		if ( o instanceof EAdVarDefImpl ){
+			EAdVarDefImpl<?> var = (EAdVarDefImpl<?>) o;
+			return var.name.equals(name) && var.type.equals(type) && var.initialValue.equals(initialValue);
+		}
+		return false;
+	}
+	
+	public int hashCode(){
+		return (name + type + initialValue + "").hashCode();
+	}
 
 }
