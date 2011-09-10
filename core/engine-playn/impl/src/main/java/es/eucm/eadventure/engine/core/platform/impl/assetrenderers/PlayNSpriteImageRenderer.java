@@ -37,11 +37,9 @@
 
 package es.eucm.eadventure.engine.core.platform.impl.assetrenderers;
 
-import java.awt.Graphics2D;
 import java.util.logging.Logger;
 
-import playn.core.Surface;
-import playn.core.SurfaceLayer;
+import playn.core.Canvas;
 
 import com.google.inject.Singleton;
 
@@ -50,7 +48,7 @@ import es.eucm.eadventure.engine.core.platform.AssetRenderer;
 import es.eucm.eadventure.engine.core.platform.assets.impl.PlayNEngineSpriteImage;
 
 @Singleton
-public class PlayNSpriteImageRenderer implements AssetRenderer<Surface, PlayNEngineSpriteImage> {
+public class PlayNSpriteImageRenderer implements AssetRenderer<Canvas, PlayNEngineSpriteImage> {
 
 	/**
 	 * Logger
@@ -62,7 +60,7 @@ public class PlayNSpriteImageRenderer implements AssetRenderer<Surface, PlayNEng
 	}
 	
 	@Override
-	public void render(Surface graphicContext, PlayNEngineSpriteImage asset, EAdPosition position, float scale, int offsetX, int offsetY) {
+	public void render(Canvas graphicContext, PlayNEngineSpriteImage asset, EAdPosition position, float scale, int offsetX, int offsetY) {
 		if (asset != null) {
 			if (!asset.isLoaded())
 				asset.loadAsset();
@@ -76,7 +74,7 @@ public class PlayNSpriteImageRenderer implements AssetRenderer<Surface, PlayNEng
 			int oldY = (asset.getSprite() / asset.getCols()) * asset.getHeight();
 			
 			graphicContext.drawImage(asset.getImage(), x, y, x + (int) (width * scale), y + (int) (height * scale),
-					oldX, oldY, oldX + width, oldY + height, null);
+					oldX, oldY, oldX + width, oldY + height);
 		}
 	}
 

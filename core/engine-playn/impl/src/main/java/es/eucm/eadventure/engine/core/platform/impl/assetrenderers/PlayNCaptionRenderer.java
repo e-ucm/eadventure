@@ -37,13 +37,10 @@
 
 package es.eucm.eadventure.engine.core.platform.impl.assetrenderers;
 
-import java.awt.Composite;
-import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.Shape;
-import java.awt.geom.AffineTransform;
 
-import playn.core.Surface;
+import playn.core.Canvas;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -53,50 +50,52 @@ import es.eucm.eadventure.common.params.geom.EAdPosition;
 import es.eucm.eadventure.engine.core.platform.AssetRenderer;
 import es.eucm.eadventure.engine.core.platform.FillFactory;
 import es.eucm.eadventure.engine.core.platform.assets.impl.PlayNEngineCaption;
-import es.eucm.eadventure.engine.core.platform.assets.impl.PlayNEngineFont;
 
 @Singleton
 public class PlayNCaptionRenderer implements
-		AssetRenderer<Surface, PlayNEngineCaption> {
+		AssetRenderer<Canvas, PlayNEngineCaption> {
 
-	private FillFactory<Surface, Shape> fillFactory;
+	private FillFactory<Canvas, Shape> fillFactory;
 
 	@Inject
-	public PlayNCaptionRenderer(FillFactory<Surface, Shape> fillFactory) {
+	public PlayNCaptionRenderer(FillFactory<Canvas, Shape> fillFactory) {
 		this.fillFactory = fillFactory;
 	}
 
 	@Override
-	public void render(Surface g, PlayNEngineCaption asset,
+	public void render(Canvas g, PlayNEngineCaption asset,
 			EAdPosition position, float scale, int offsetX, int offsetY) {
 		// TODO use offsets
 
 		if (!asset.isLoaded())
 			asset.loadAsset();
 
-		Graphics2D g2 = (Graphics2D) g.create();
-		// TODO This is not OK
-		g2.scale(scale, scale);
+		g.scale(scale, scale);
 
 		int xLeft = position.getJavaX(asset.getWidth() * scale);
 		int yTop = position.getJavaY(asset.getHeight() * scale);
 		int width = (int) (asset.getWidth() * scale);
 		int height = (int) (asset.getHeight() * scale);
 
-		g2.translate(offsetX + xLeft, offsetY + yTop);
+		g.translate(offsetX + xLeft, offsetY + yTop);
 
 		if (asset.getCaption().hasBubble()
 				& asset.getCaption().getBubbleFill() != null)
-			drawBubble(g2, width, height, asset.getCaption().getBubbleFill());
+			drawBubble(g, width, height, asset.getCaption().getBubbleFill());
 
-		g2.translate(asset.getCaption().getPadding(), asset.getCaption()
+		g.translate(asset.getCaption().getPadding(), asset.getCaption()
 				.getPadding());
 		int yOffset = 0;
 		for (String s : asset.getText()) {
 			yOffset += asset.getFont().stringBounds(s).getHeight();
-			drawString(g2, asset, s, yOffset);
+			drawString(g, asset, s, yOffset);
 		}
 
+		g.translate(-asset.getCaption().getPadding(), -asset.getCaption()
+				.getPadding());
+		g.translate(-(offsetX + xLeft), -(offsetY + yTop));
+
+		g.scale(1/scale, 1/scale);
 	}
 
 	@Override
@@ -108,23 +107,23 @@ public class PlayNCaptionRenderer implements
 		return tempValue;
 	}
 
-	protected void drawString(Surface g, PlayNEngineCaption text,
+	protected void drawString(Canvas g, PlayNEngineCaption text,
 			String string, int yOffset) {
 
-		PlayNEngineFont deFont = (PlayNEngineFont) text.getFont();
-		Composite c = g.getComposite();
-		AffineTransform a = g.getTransform();
+//		PlayNEngineFont deFont = (PlayNEngineFont) text.getFont();
+//		Composite c = g.getComposite();
+//		AffineTransform a = g.getTransform();
 
-		g.setFont(deFont.getFont());
+//		g.setFont(deFont.getFont());
 		g.translate(0, yOffset);
 
 		fillFactory.fill(text.getAssetDescriptor().getTextFill(), g, string);
 
-		g.setComposite(c);
-		g.setTransform(a);
+//		g.setComposite(c);
+//		g.setTransform(a);
 	}
 
-	private void drawBubble(Surface g, int width, int height,
+	private void drawBubble(Canvas g, int width, int height,
 			EAdFill bubbleFill) {
 
 		Shape shape = new Rectangle(0, 0, width, height);

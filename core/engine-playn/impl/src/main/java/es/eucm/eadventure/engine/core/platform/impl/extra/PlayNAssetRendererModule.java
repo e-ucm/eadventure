@@ -41,7 +41,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.google.gwt.inject.client.AbstractGinModule;
-import com.google.inject.AbstractModule;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.google.inject.Singleton;

@@ -39,7 +39,7 @@ package es.eucm.eadventure.engine.core.platform.impl.assetrenderers;
 
 import java.util.logging.Logger;
 
-import playn.core.Surface;
+import playn.core.Canvas;
 
 import com.google.inject.Singleton;
 
@@ -48,7 +48,7 @@ import es.eucm.eadventure.engine.core.platform.AssetRenderer;
 import es.eucm.eadventure.engine.core.platform.assets.impl.PlayNEngineImage;
 
 @Singleton
-public class PlayNImageAssetRenderer implements AssetRenderer<Surface, PlayNEngineImage> {
+public class PlayNImageAssetRenderer implements AssetRenderer<Canvas, PlayNEngineImage> {
 
 	/**
 	 * Logger
@@ -60,7 +60,7 @@ public class PlayNImageAssetRenderer implements AssetRenderer<Surface, PlayNEngi
 	}
 	
 	@Override
-	public void render(Surface graphicContext, PlayNEngineImage asset, EAdPosition position, float scale, int offsetX, int offsetY) {
+	public void render(Canvas graphicContext, PlayNEngineImage asset, EAdPosition position, float scale, int offsetX, int offsetY) {
 		if (asset != null) {
 			if (!asset.isLoaded())
 				asset.loadAsset();

@@ -11,7 +11,7 @@ import playn.core.Keyboard.Event;
 import playn.core.Pointer;
 import playn.core.SurfaceLayer;
 
-public class EAdEngine implements Game, Keyboard.Listener, GameLoop {
+public class EAdEngine implements Game, Keyboard.Listener {
 
 	private SurfaceLayer gameLayer;
 
@@ -84,34 +84,6 @@ public class EAdEngine implements Game, Keyboard.Listener, GameLoop {
 
 	public Image getImage(String absolutePath) {
 		return assetManager().getImage(absolutePath);
-	}
-
-	
-	//---- GameLoop -----
-	
-	
-	@Override
-	public void runLoop(boolean threaded) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void setGame(es.eucm.eadventure.engine.core.Game game) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void pause() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void resume() {
-		// TODO Auto-generated method stub
-		
 	}
 
 }

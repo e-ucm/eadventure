@@ -37,14 +37,9 @@
 
 package es.eucm.eadventure.engine.core.platform.impl.assetrenderers;
 
-import java.awt.Color;
-import java.awt.Graphics2D;
 import java.awt.Shape;
-import java.awt.Stroke;
-import java.awt.geom.AffineTransform;
 
-import playn.core.Surface;
-import playn.core.SurfaceLayer;
+import playn.core.Canvas;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -56,17 +51,17 @@ import es.eucm.eadventure.engine.core.platform.assets.impl.PlayNBezierShape;
 
 @Singleton
 public class PlayNBezierShapeRenderer implements
-		AssetRenderer<Surface, PlayNBezierShape> {
+		AssetRenderer<Canvas, PlayNBezierShape> {
 	
-	private FillFactory<Surface, Shape> fillFactory;
+	private FillFactory<Canvas, Shape> fillFactory;
 	
 	@Inject
-	public PlayNBezierShapeRenderer( FillFactory<Surface, Shape> fillFactory){
+	public PlayNBezierShapeRenderer( FillFactory<Canvas, Shape> fillFactory){
 		this.fillFactory = fillFactory;
 	}
 
 	@Override
-	public void render(Surface graphicContext, PlayNBezierShape asset,
+	public void render(Canvas graphicContext, PlayNBezierShape asset,
 			EAdPosition position, float scale, int offsetX, int offsetY) {
 
 		if (!asset.isLoaded())
@@ -75,17 +70,18 @@ public class PlayNBezierShapeRenderer implements
 		int x = position.getJavaX(asset.getWidth() * scale) + offsetX;
 		int y = position.getJavaY(asset.getHeight() * scale) + offsetY;
 
-		Color temp = graphicContext.getColor();
-		AffineTransform at = graphicContext.getTransform();
-		AffineTransform newTransform = (AffineTransform) at.clone();
-		newTransform.translate(x, y);
-		newTransform.scale(scale, scale);
-		graphicContext.setTransform(newTransform);
-		Stroke s = graphicContext.getStroke();
+//		Color temp = graphicContext.getColor();
+		
+		graphicContext.translate(x, y);
+		graphicContext.scale(scale, scale);
+
+//		Stroke s = graphicContext.getStroke();
 		fillFactory.fill(asset.getAssetDescriptor().getFill(), graphicContext, asset.getShape());
-		graphicContext.setStroke(s);
-		graphicContext.setColor(temp);
-		graphicContext.setTransform(at);
+//		graphicContext.setStroke(s);
+
+//		graphicContext.setColor(temp);
+		graphicContext.scale(1/scale, 1/scale);
+		graphicContext.translate(-x, -y);
 
 	}
 

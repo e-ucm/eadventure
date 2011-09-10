@@ -39,14 +39,13 @@ package es.eucm.eadventure.engine.core.platform.impl.extra;
 
 import java.awt.Shape;
 
-import playn.core.SurfaceLayer;
+import playn.core.Canvas;
 
 import com.google.gwt.inject.client.AbstractGinModule;
 import com.google.inject.Provides;
 import com.google.inject.TypeLiteral;
 import com.google.inject.name.Named;
 
-import es.eucm.eadventure.engine.core.EAdEngine;
 import es.eucm.eadventure.engine.core.GameLoop;
 import es.eucm.eadventure.engine.core.KeyboardState;
 import es.eucm.eadventure.engine.core.MouseState;
@@ -69,6 +68,7 @@ import es.eucm.eadventure.engine.core.platform.impl.FontCacheImpl;
 import es.eucm.eadventure.engine.core.platform.impl.PlayNFillFactory;
 import es.eucm.eadventure.engine.core.platform.impl.PlayNFontCache;
 import es.eucm.eadventure.engine.core.platform.impl.PlayNGUI;
+import es.eucm.eadventure.engine.core.platform.impl.PlayNGameLoop;
 import es.eucm.eadventure.engine.core.platform.impl.PlayNPlatformConfiguration;
 import es.eucm.eadventure.engine.core.platform.impl.PlayNPlatformControl;
 import es.eucm.eadventure.engine.core.platform.impl.PlayNPlatformLauncher;
@@ -78,7 +78,7 @@ public class PlayNModule extends AbstractGinModule {
 
 	@Override
 	protected void configure() {
-		bind(GameLoop.class).to(EAdEngine.class);
+		bind(GameLoop.class).to(PlayNGameLoop.class);
 		
 		//TODO No profiler needed, should change something else?
 		//bind(GameProfiler.class).to(GameProfilerImpl.class);
@@ -94,8 +94,7 @@ public class PlayNModule extends AbstractGinModule {
 		bind(ActionsHUD.class).to(PlayNActionsHUDImpl.class);
 		bind(MenuHUD.class).to(PlayNMenuHUDImpl.class);
 		bind(FontCacheImpl.class).to(PlayNFontCache.class);
-		bind(new TypeLiteral<FillFactory<SurfaceLayer, Shape>>() {
-		}).to(PlayNFillFactory.class);
+		bind(new TypeLiteral<FillFactory<Canvas, Shape>>() {}).to(PlayNFillFactory.class);
 		bind(TransitionFactory.class).to(PlayNTransitionFactory.class);
 		bind(BasicInventoryGO.class).to(PlayNBasicInventoryGO.class);
 	}
