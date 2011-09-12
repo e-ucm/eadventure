@@ -17,6 +17,8 @@
   <inherits name='playn.PlayN'/>
   <inherits name='es.eucm.eadventure.common.model'/>
   <inherits name='es.eucm.eadventure.engine.enginecore'/>
+  <inherits name='java.util.lib'/>
+
 
   <!--
     Optionally, enable gwt-log's advanced logging features:
@@ -32,5 +34,5 @@
 
   <public path="resources" />
 
-	<entry-point class='es.eucm.eadventure.engine.html.EAdEngineHtml'/>
+   <entry-point class='es.eucm.eadventure.engine.html.EAdEngineHtml'/>
 </module>

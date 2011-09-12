@@ -57,8 +57,6 @@ import es.eucm.eadventure.engine.core.platform.impl.extra.PlayNBasicInventoryGO;
  */
 @Singleton
 public class PlayNPlatformLauncher implements PlatformLauncher {
-
-	private final static PlayNGinInjector injector = GWT.create(PlayNGinInjector.class);
 	
 	/**
 	 * The platform control implementation {@link PlatformContorl}
@@ -92,8 +90,6 @@ public class PlayNPlatformLauncher implements PlatformLauncher {
 	
 	public static void main(String[] args) {
 		System.setProperty("com.apple.mrj.application.apple.menu.about.name", "eAdventure");
-
-		PlatformLauncher launcher = injector.getPlatformLauncher();
 		
 		EAdURI file = null;
 
@@ -105,7 +101,7 @@ public class PlayNPlatformLauncher implements PlatformLauncher {
 			file = new EAdURIImpl( args[0] );
 		}
 		
-		launcher.launch( file );
+		//launcher.launch( file );
 	}
 
 }

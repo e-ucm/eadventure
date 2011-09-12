@@ -2,29 +2,46 @@ package es.eucm.eadventure.engine.core;
 
 import static playn.core.PlayN.*;
 
-import java.awt.image.BufferedImage;
+import com.google.inject.Inject;
 
-import playn.core.Game;
+import playn.core.Canvas;
+import playn.core.CanvasLayer;
 import playn.core.Image;
 import playn.core.Keyboard;
 import playn.core.Keyboard.Event;
 import playn.core.Pointer;
-import playn.core.SurfaceLayer;
 
-public class EAdEngine implements Game, Keyboard.Listener {
+public class EAdEngine implements playn.core.Game, Keyboard.Listener {
 
-	private SurfaceLayer gameLayer;
+	private Canvas gameLayer;
 
 	private float touchVectorX, touchVectorY;
+	
+	private Game game;
 
+	@Inject
+	public EAdEngine(Game game) {
+		this.game = game;
+	}
+	
 	@Override
 	public void init() {
 		graphics().setSize(800, 600);
 				
+		/*
 		gameLayer = graphics().createSurfaceLayer(graphics().width(),
 				graphics().height());
 		graphics().rootLayer().add(gameLayer);
+		 */
+		
+		  CanvasLayer layer = graphics().createCanvasLayer(graphics().width(), graphics().height());
+		  graphics().rootLayer().add(layer);
 
+		  gameLayer = layer.canvas();
+		  gameLayer.setStrokeWidth(2);
+		  gameLayer.setStrokeColor(0xffff0000);
+		  gameLayer.strokeRect(1, 1, 46, 46);
+		
 		keyboard().setListener(this);
 		pointer().setListener(new Pointer.Listener() {
 			@Override
@@ -59,7 +76,7 @@ public class EAdEngine implements Game, Keyboard.Listener {
 
 	@Override
 	public void update(float delta) {
-		// TODO Auto-generated method stub
+		game.update();
 
 	}
 
@@ -73,8 +90,7 @@ public class EAdEngine implements Game, Keyboard.Listener {
 
 	@Override
 	public void paint(float alpha) {
-		// TODO Auto-generated method stub
-
+		game.render(alpha);
 	}
 
 	@Override
@@ -82,6 +98,10 @@ public class EAdEngine implements Game, Keyboard.Listener {
 		return 15;
 	}
 
+	public Canvas getCanvas() {
+		return gameLayer;
+	}
+	
 	public Image getImage(String absolutePath) {
 		return assetManager().getImage(absolutePath);
 	}
