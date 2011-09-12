@@ -70,8 +70,8 @@ public class AssetSubparser extends Subparser<AssetDescriptor> {
 	 * @param bundle
 	 *            The attributes of the bundle
 	 */
-	public AssetSubparser(Object assetId, Attributes attributes) {
-		super( assetId, attributes, AssetDescriptor.class );
+	public AssetSubparser(Object parent, Object assetId, Attributes attributes) {
+		super( parent, attributes, AssetDescriptor.class );
 		if (assetId instanceof AssetId) {
 			((AssetId) assetId).setAssetId(attributes.getValue(DOMWriter.ID_AT));
 		}

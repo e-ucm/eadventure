@@ -83,19 +83,18 @@ public class AdventureHandler extends DefaultHandler {
 			}
 			parserStack.push(new ElementSubparser(o, attributes));
 		} else if (qName.equals(ListDOMWriter.TAG)) {
-			parserStack.push(new ListSubparser(parserStack.peek()
-					.getObject(), attributes));
+			parserStack.push(new ListSubparser(parserStack.peek().getObject(),
+					attributes));
 		} else if (qName.equals(MapDOMWriter.TAG)) {
-			parserStack.push(new MapSubparser(parserStack.peek()
-					.getObject(), attributes));
+			parserStack.push(new MapSubparser(parserStack.peek().getObject(),
+					attributes));
 		} else if (qName.equals(DefaultDOMWriter.TAG)
 				|| qName.equals(ParamDOMWriter.TAG)) {
-			parserStack.push(new ObjectSubparser(parserStack.peek()
-					.getObject(), attributes));
+			parserStack.push(new ObjectSubparser(
+					parserStack.peek().getObject(), attributes));
 		} else if (qName.equals(ResourcesDOMWriter.TAG_RESOURCES)) {
-			parserStack
-					.push(new ResourcesSubparser((EAdElement) parserStack
-							.peek().getObject(), attributes));
+			parserStack.push(new ResourcesSubparser((EAdElement) parserStack
+					.peek().getObject(), attributes));
 		} else if (qName.equals(ResourcesDOMWriter.TAG_BUNDLE)) {
 			if (parserStack.peek().getObject() instanceof EAdResources) {
 				EAdResources resources = (EAdResources) parserStack.peek()
@@ -105,8 +104,8 @@ public class AdventureHandler extends DefaultHandler {
 				parserStack.push(bundleSubparser);
 			}
 		} else if (qName.equals(AssetDOMWriter.TAG)) {
-			AssetSubparser assetSubparser = new AssetSubparser(
-					parserStack.peek(), attributes);
+			AssetSubparser assetSubparser = new AssetSubparser(parserStack
+					.peek().getObject(), parserStack.peek(), attributes);
 			parserStack.push(assetSubparser);
 		}
 	}
@@ -115,8 +114,7 @@ public class AdventureHandler extends DefaultHandler {
 	public void endElement(String uri, String localName, String qName) {
 
 		if (parserStack.size() == 1)
-			adventureModel = (EAdAdventureModel) parserStack.peek()
-					.getObject();
+			adventureModel = (EAdAdventureModel) parserStack.peek().getObject();
 
 		if (parserStack.size() >= 2) {
 			Subparser<?> parser = parserStack.pop();
