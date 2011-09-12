@@ -263,7 +263,7 @@ public class PlayNGUI extends AbstractGUI<Canvas> implements GUI {
 	 * Initialize the {@code Canvas} element where the actual game is drawn
 	 */
 	private void initializeCanvas() {
-		
+		/*
 		canvas = new Canvas();
 		canvas.setSize(frame.getSize());
 		canvas.setBounds(0, 0, canvas.getWidth(), canvas.getHeight());
@@ -282,6 +282,7 @@ public class PlayNGUI extends AbstractGUI<Canvas> implements GUI {
 		canvas.addMouseListener(listener);
 		canvas.addMouseMotionListener(listener);
 		canvas.addKeyListener(listener);
+		*/
 	}
 
 }
