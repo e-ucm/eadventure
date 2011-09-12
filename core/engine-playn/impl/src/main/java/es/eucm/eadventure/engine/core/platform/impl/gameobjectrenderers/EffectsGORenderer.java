@@ -37,8 +37,9 @@
 
 package es.eucm.eadventure.engine.core.platform.impl.gameobjectrenderers;
 
-import java.awt.Graphics2D;
 import java.util.logging.Logger;
+
+import playn.core.Canvas;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -53,7 +54,7 @@ import es.eucm.eadventure.engine.core.platform.GameObjectRenderer;
  */
 @Singleton
 public class EffectsGORenderer implements
-		GameObjectRenderer<Graphics2D, EffectGO<?>> {
+		GameObjectRenderer<Canvas, EffectGO<?>> {
 
 	private static final Logger logger = Logger
 	.getLogger("EffectsGORenderer");
@@ -64,13 +65,13 @@ public class EffectsGORenderer implements
 	}
 	
 	@Override
-	public void render(Graphics2D graphicContext, EffectGO<?> object,
+	public void render(Canvas graphicContext, EffectGO<?> object,
 			float interpolation, int offsetX, int offsetY) {
 
 	}
 
 	@Override
-	public void render(Graphics2D graphicContext, EffectGO<?> object,
+	public void render(Canvas graphicContext, EffectGO<?> object,
 			EAdPosition position, float scale, int offsetX, int offsetY) {
 
 	}

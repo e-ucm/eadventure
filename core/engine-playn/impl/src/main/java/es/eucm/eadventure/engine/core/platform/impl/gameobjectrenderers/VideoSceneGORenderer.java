@@ -37,7 +37,8 @@
 
 package es.eucm.eadventure.engine.core.platform.impl.gameobjectrenderers;
 
-import java.awt.Graphics2D;
+
+import playn.core.Canvas;
 
 import com.google.inject.Singleton;
 
@@ -46,16 +47,16 @@ import es.eucm.eadventure.engine.core.gameobjects.impl.VideoSceneGO;
 import es.eucm.eadventure.engine.core.platform.GameObjectRenderer;
 
 @Singleton
-public class VideoSceneGORenderer implements GameObjectRenderer<Graphics2D, VideoSceneGO> {
+public class VideoSceneGORenderer implements GameObjectRenderer<Canvas, VideoSceneGO> {
 
 	@Override
-	public void render(Graphics2D graphicContext, VideoSceneGO object,
+	public void render(Canvas graphicContext, VideoSceneGO object,
 			float interpolation, int offsetX, int offsetY) {
 		// Do nothing
 	}
 
 	@Override
-	public void render(Graphics2D graphicContext, VideoSceneGO object,
+	public void render(Canvas graphicContext, VideoSceneGO object,
 			EAdPosition position, float scale, int offsetX, int offsetY) {
 		// Do nothing
 	}
