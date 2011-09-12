@@ -29,8 +29,8 @@
 									<asset
 										class=".resources.assets.drawable.basics.impl.shapes.RectangleShape"
 										id="appearance" uniqueId="1">
-										<param class=".params.fills.impl.EAdColor" param="fill">0xf0ffffff
-										</param>
+										<param class=".params.fills.impl.EAdLinearGradient"
+											param="fill">0xff0000ff;0xc83200ff;true</param>
 										<object class="java.lang.Boolean" param="closed">true</object>
 										<list class=".params.geom.impl.EAdPositionImpl" param="points">
 											<param class=".params.geom.impl.EAdPositionImpl">0:0:0.0:0.0</param>
@@ -51,656 +51,144 @@
 						<object class="java.lang.Boolean" param="returnable">true</object>
 						<list class=".model.elements.EAdSceneElement" param="sceneElements">
 							<element class=".model.elements.impl.EAdBasicSceneElement"
-								id="sceneElement0" type=".model.elements.impl.EAdBasicSceneElement"
+								id="hole60" type=".model.elements.impl.EAdBasicSceneElement"
 								uniqueId="7">
 								<map param="vars">
 									<element class=".model.variables.impl.EAdVarDefImpl"
-										id="var_name_7" type=".model.variables.impl.EAdVarDefImpl"
+										id="var_name_25" type=".model.variables.impl.EAdVarDefImpl"
 										uniqueId="8">
-										<object class="java.lang.String" param="id">var_name_7
-										</object>
-										<object class="java.lang.String" param="name">disp_y</object>
-										<object class="java.lang.Class" param="class">java.lang.Float
-										</object>
-										<object class="java.lang.Float" param="initialValue">0.0</object>
-									</element>
-									<object class="java.lang.Float">0.0</object>
-									<element class=".model.variables.impl.EAdVarDefImpl"
-										id="var_name_3" type=".model.variables.impl.EAdVarDefImpl"
-										uniqueId="9">
-										<object class="java.lang.String" param="id">var_name_3
+										<object class="java.lang.String" param="id">var_name_25
 										</object>
 										<object class="java.lang.String" param="name">x</object>
 										<object class="java.lang.Class" param="class">java.lang.Integer
 										</object>
 										<object class="java.lang.Integer" param="initialValue">0</object>
 									</element>
-									<object class="java.lang.Integer">50</object>
+									<object class="java.lang.Integer">60</object>
 									<element class=".model.variables.impl.EAdVarDefImpl"
-										id="var_name_95" type=".model.variables.impl.EAdVarDefImpl"
-										uniqueId="10">
-										<object class="java.lang.String" param="id">var_name_95
-										</object>
-										<object class="java.lang.String" param="name">disp_x</object>
-										<object class="java.lang.Class" param="class">java.lang.Float
-										</object>
-										<object class="java.lang.Float" param="initialValue">0.0</object>
-									</element>
-									<object class="java.lang.Float">0.0</object>
-									<element class=".model.variables.impl.EAdVarDefImpl"
-										id="var_name_57" type=".model.variables.impl.EAdVarDefImpl"
-										uniqueId="11">
-										<object class="java.lang.String" param="id">var_name_57
+										id="var_name_36" type=".model.variables.impl.EAdVarDefImpl"
+										uniqueId="9">
+										<object class="java.lang.String" param="id">var_name_36
 										</object>
 										<object class="java.lang.String" param="name">y</object>
 										<object class="java.lang.Class" param="class">java.lang.Integer
 										</object>
 										<object class="java.lang.Integer" param="initialValue">0</object>
 									</element>
-									<object class="java.lang.Integer">50</object>
+									<object class="java.lang.Integer">60</object>
 								</map>
 								<element param="draggable">5</element>
 								<object class="java.lang.Boolean" param="clone">false</object>
 								<element class=".model.behaviors.impl.EAdBehaviorImpl"
-									id="sceneElement0behaviors" param="behavior"
+									id="hole60behaviors" param="behavior"
+									type=".model.behaviors.impl.EAdBehaviorImpl" uniqueId="10" />
+								<resources initialBundle="default" param="resources">
+									<bundle id="default">
+										<asset class=".resources.assets.drawable.basics.impl.ImageImpl"
+											id="appearance" uniqueId="2">
+											<param class=".params.EAdURIImpl" param="uri">@drawable/hole.png
+											</param>
+										</asset>
+									</bundle>
+								</resources>
+							</element>
+							<element class=".model.elements.impl.EAdBasicSceneElement"
+								id="hole60" type=".model.elements.impl.EAdBasicSceneElement"
+								uniqueId="11">
+								<map param="vars">
+									<element>8</element>
+									<object class="java.lang.Integer">60</object>
+									<element>9</element>
+									<object class="java.lang.Integer">260</object>
+								</map>
+								<element param="draggable">5</element>
+								<object class="java.lang.Boolean" param="clone">false</object>
+								<element class=".model.behaviors.impl.EAdBehaviorImpl"
+									id="hole60behaviors" param="behavior"
 									type=".model.behaviors.impl.EAdBehaviorImpl" uniqueId="12" />
 								<resources initialBundle="default" param="resources">
 									<bundle id="default">
-										<asset
-											class=".resources.assets.drawable.compounds.impl.ComposedDrawableImpl"
-											id="appearance" uniqueId="2">
-											<list
-												class=".resources.assets.drawable.compounds.DisplacedDrawable"
-												param="assetList">
-												<asset
-													class=".resources.assets.drawable.compounds.impl.DisplacedDrawableImpl"
-													uniqueId="3">
-													<param class=".params.geom.impl.EAdPositionImpl"
-														param="displacement">1</param>
-													<asset class=".resources.assets.drawable.basics.impl.CaptionImpl"
-														param="asset" uniqueId="4">
-														<param class=".params.EAdString" param="label">string040
-														</param>
-														<param class=".params.EAdFontImpl" param="font">uri;@binary/DroidSans-Bold.ttf:20.0:PLAIN
-														</param>
-														<param class=".params.fills.impl.EAdBorderedColor"
-															param="textColor">0x000000ff:0xffffffff:1</param>
-														<object class="java.lang.Boolean" param="hasBubble">true
-														</object>
-														<param class=".params.fills.impl.EAdBorderedColor"
-															param="bubbleColor">0x00000000:0x00000000:1</param>
-														<object class="java.lang.Integer" param="maxWidth">-2</object>
-														<object class="java.lang.Integer" param="maxHeight">-2</object>
-														<object class="java.lang.Integer" param="minWidth">0</object>
-														<object class="java.lang.Integer" param="minHeight">0</object>
-														<object class="java.lang.Integer" param="padding">0</object>
-													</asset>
-												</asset>
-												<asset
-													class=".resources.assets.drawable.compounds.impl.DisplacedDrawableImpl"
-													uniqueId="5">
-													<param class=".params.geom.impl.EAdPositionImpl"
-														param="displacement">0:40:0.0:0.0</param>
-													<asset class=".resources.assets.drawable.basics.impl.ImageImpl"
-														param="asset" uniqueId="6">
-														<param class=".params.EAdURIImpl" param="uri">@drawable/eAdventureLogo.png
-														</param>
-													</asset>
-												</asset>
-											</list>
-										</asset>
+										<asset id="appearance">0</asset>
 									</bundle>
 								</resources>
 							</element>
 							<element class=".model.elements.impl.EAdBasicSceneElement"
-								id="sceneElement1" type=".model.elements.impl.EAdBasicSceneElement"
+								id="hole260" type=".model.elements.impl.EAdBasicSceneElement"
 								uniqueId="13">
 								<map param="vars">
 									<element>8</element>
-									<object class="java.lang.Float">0.0</object>
+									<object class="java.lang.Integer">260</object>
 									<element>9</element>
-									<object class="java.lang.Integer">250</object>
-									<element>10</element>
-									<object class="java.lang.Float">0.0</object>
-									<element>11</element>
-									<object class="java.lang.Integer">50</object>
+									<object class="java.lang.Integer">60</object>
 								</map>
 								<element param="draggable">5</element>
 								<object class="java.lang.Boolean" param="clone">false</object>
 								<element class=".model.behaviors.impl.EAdBehaviorImpl"
-									id="sceneElement1behaviors" param="behavior"
+									id="hole260behaviors" param="behavior"
 									type=".model.behaviors.impl.EAdBehaviorImpl" uniqueId="14" />
 								<resources initialBundle="default" param="resources">
 									<bundle id="default">
-										<asset
-											class=".resources.assets.drawable.compounds.impl.ComposedDrawableImpl"
-											id="appearance" uniqueId="7">
-											<list
-												class=".resources.assets.drawable.compounds.DisplacedDrawable"
-												param="assetList">
-												<asset
-													class=".resources.assets.drawable.compounds.impl.DisplacedDrawableImpl"
-													uniqueId="8">
-													<param class=".params.geom.impl.EAdPositionImpl"
-														param="displacement">1</param>
-													<asset class=".resources.assets.drawable.basics.impl.CaptionImpl"
-														param="asset" uniqueId="9">
-														<param class=".params.EAdString" param="label">string096
-														</param>
-														<param class=".params.EAdFontImpl" param="font">6</param>
-														<param class=".params.fills.impl.EAdBorderedColor"
-															param="textColor">7</param>
-														<object class="java.lang.Boolean" param="hasBubble">true
-														</object>
-														<param class=".params.fills.impl.EAdBorderedColor"
-															param="bubbleColor">8</param>
-														<object class="java.lang.Integer" param="maxWidth">-2</object>
-														<object class="java.lang.Integer" param="maxHeight">-2</object>
-														<object class="java.lang.Integer" param="minWidth">0</object>
-														<object class="java.lang.Integer" param="minHeight">0</object>
-														<object class="java.lang.Integer" param="padding">0</object>
-													</asset>
-												</asset>
-												<asset
-													class=".resources.assets.drawable.compounds.impl.DisplacedDrawableImpl"
-													uniqueId="10">
-													<param class=".params.geom.impl.EAdPositionImpl"
-														param="displacement">9</param>
-													<asset
-														class=".resources.assets.drawable.compounds.impl.ComposedDrawableImpl"
-														param="asset" uniqueId="11">
-														<list
-															class=".resources.assets.drawable.compounds.DisplacedDrawable"
-															param="assetList">
-															<asset
-																class=".resources.assets.drawable.compounds.impl.DisplacedDrawableImpl"
-																uniqueId="12">
-																<param class=".params.geom.impl.EAdPositionImpl"
-																	param="displacement">6:6:0.0:0.0</param>
-																<asset
-																	class=".resources.assets.drawable.basics.impl.shapes.RectangleShape"
-																	param="asset" uniqueId="13">
-																	<param class=".params.fills.impl.EAdColor" param="fill">
-																		0x64646464</param>
-																	<object class="java.lang.Boolean" param="closed">true
-																	</object>
-																	<list class=".params.geom.impl.EAdPositionImpl"
-																		param="points">
-																		<param class=".params.geom.impl.EAdPositionImpl">1</param>
-																		<param class=".params.geom.impl.EAdPositionImpl">60:0:0.0:0.0</param>
-																		<param class=".params.geom.impl.EAdPositionImpl">60:40:0.0:0.0</param>
-																		<param class=".params.geom.impl.EAdPositionImpl">9</param>
-																	</list>
-																	<list class="java.lang.Integer" param="segmentsLength">
-																		<object class="java.lang.Integer">1</object>
-																		<object class="java.lang.Integer">1</object>
-																		<object class="java.lang.Integer">1</object>
-																	</list>
-																</asset>
-															</asset>
-															<asset
-																class=".resources.assets.drawable.compounds.impl.DisplacedDrawableImpl"
-																uniqueId="14">
-																<param class=".params.geom.impl.EAdPositionImpl"
-																	param="displacement">1</param>
-																<asset
-																	class=".resources.assets.drawable.basics.impl.shapes.RectangleShape"
-																	param="asset" uniqueId="15">
-																	<param class=".params.fills.impl.EAdColor" param="fill">
-																		0xff0000ff</param>
-																	<object class="java.lang.Boolean" param="closed">true
-																	</object>
-																	<list class=".params.geom.impl.EAdPositionImpl"
-																		param="points">
-																		<param class=".params.geom.impl.EAdPositionImpl">1</param>
-																		<param class=".params.geom.impl.EAdPositionImpl">14</param>
-																		<param class=".params.geom.impl.EAdPositionImpl">15</param>
-																		<param class=".params.geom.impl.EAdPositionImpl">9</param>
-																	</list>
-																	<list class="java.lang.Integer" param="segmentsLength">
-																		<object class="java.lang.Integer">1</object>
-																		<object class="java.lang.Integer">1</object>
-																		<object class="java.lang.Integer">1</object>
-																	</list>
-																</asset>
-															</asset>
-															<asset
-																class=".resources.assets.drawable.compounds.impl.DisplacedDrawableImpl"
-																uniqueId="16">
-																<param class=".params.geom.impl.EAdPositionImpl"
-																	param="displacement">76:6:0.0:0.0</param>
-																<asset
-																	class=".resources.assets.drawable.basics.impl.shapes.RectangleShape"
-																	param="asset" uniqueId="17">
-																	<param class=".params.fills.impl.EAdColor" param="fill">
-																		13</param>
-																	<object class="java.lang.Boolean" param="closed">true
-																	</object>
-																	<list class=".params.geom.impl.EAdPositionImpl"
-																		param="points">
-																		<param class=".params.geom.impl.EAdPositionImpl">1</param>
-																		<param class=".params.geom.impl.EAdPositionImpl">14</param>
-																		<param class=".params.geom.impl.EAdPositionImpl">15</param>
-																		<param class=".params.geom.impl.EAdPositionImpl">9</param>
-																	</list>
-																	<list class="java.lang.Integer" param="segmentsLength">
-																		<object class="java.lang.Integer">1</object>
-																		<object class="java.lang.Integer">1</object>
-																		<object class="java.lang.Integer">1</object>
-																	</list>
-																</asset>
-															</asset>
-															<asset
-																class=".resources.assets.drawable.compounds.impl.DisplacedDrawableImpl"
-																uniqueId="18">
-																<param class=".params.geom.impl.EAdPositionImpl"
-																	param="displacement">70:0:0.0:0.0</param>
-																<asset
-																	class=".resources.assets.drawable.basics.impl.shapes.RectangleShape"
-																	param="asset" uniqueId="19">
-																	<param class=".params.fills.impl.EAdBorderedColor"
-																		param="fill">0x00ff00ff:0x000000ff:2</param>
-																	<object class="java.lang.Boolean" param="closed">true
-																	</object>
-																	<list class=".params.geom.impl.EAdPositionImpl"
-																		param="points">
-																		<param class=".params.geom.impl.EAdPositionImpl">1</param>
-																		<param class=".params.geom.impl.EAdPositionImpl">14</param>
-																		<param class=".params.geom.impl.EAdPositionImpl">15</param>
-																		<param class=".params.geom.impl.EAdPositionImpl">9</param>
-																	</list>
-																	<list class="java.lang.Integer" param="segmentsLength">
-																		<object class="java.lang.Integer">1</object>
-																		<object class="java.lang.Integer">1</object>
-																		<object class="java.lang.Integer">1</object>
-																	</list>
-																</asset>
-															</asset>
-															<asset
-																class=".resources.assets.drawable.compounds.impl.DisplacedDrawableImpl"
-																uniqueId="20">
-																<param class=".params.geom.impl.EAdPositionImpl"
-																	param="displacement">146:6:0.0:0.0</param>
-																<asset
-																	class=".resources.assets.drawable.basics.impl.shapes.RectangleShape"
-																	param="asset" uniqueId="21">
-																	<param class=".params.fills.impl.EAdColor" param="fill">
-																		13</param>
-																	<object class="java.lang.Boolean" param="closed">true
-																	</object>
-																	<list class=".params.geom.impl.EAdPositionImpl"
-																		param="points">
-																		<param class=".params.geom.impl.EAdPositionImpl">1</param>
-																		<param class=".params.geom.impl.EAdPositionImpl">14</param>
-																		<param class=".params.geom.impl.EAdPositionImpl">15</param>
-																		<param class=".params.geom.impl.EAdPositionImpl">9</param>
-																	</list>
-																	<list class="java.lang.Integer" param="segmentsLength">
-																		<object class="java.lang.Integer">1</object>
-																		<object class="java.lang.Integer">1</object>
-																		<object class="java.lang.Integer">1</object>
-																	</list>
-																</asset>
-															</asset>
-															<asset
-																class=".resources.assets.drawable.compounds.impl.DisplacedDrawableImpl"
-																uniqueId="22">
-																<param class=".params.geom.impl.EAdPositionImpl"
-																	param="displacement">140:0:0.0:0.0</param>
-																<asset
-																	class=".resources.assets.drawable.basics.impl.shapes.RectangleShape"
-																	param="asset" uniqueId="23">
-																	<param class=".params.fills.impl.EAdLinearGradient"
-																		param="fill">0x0000ffff;0xff00ffff;false</param>
-																	<object class="java.lang.Boolean" param="closed">true
-																	</object>
-																	<list class=".params.geom.impl.EAdPositionImpl"
-																		param="points">
-																		<param class=".params.geom.impl.EAdPositionImpl">1</param>
-																		<param class=".params.geom.impl.EAdPositionImpl">14</param>
-																		<param class=".params.geom.impl.EAdPositionImpl">15</param>
-																		<param class=".params.geom.impl.EAdPositionImpl">9</param>
-																	</list>
-																	<list class="java.lang.Integer" param="segmentsLength">
-																		<object class="java.lang.Integer">1</object>
-																		<object class="java.lang.Integer">1</object>
-																		<object class="java.lang.Integer">1</object>
-																	</list>
-																</asset>
-															</asset>
-														</list>
-													</asset>
-												</asset>
-											</list>
-										</asset>
+										<asset id="appearance">0</asset>
 									</bundle>
 								</resources>
 							</element>
 							<element class=".model.elements.impl.EAdBasicSceneElement"
-								id="sceneElement2" type=".model.elements.impl.EAdBasicSceneElement"
+								id="hole260" type=".model.elements.impl.EAdBasicSceneElement"
 								uniqueId="15">
 								<map param="vars">
 									<element>8</element>
-									<object class="java.lang.Float">0.0</object>
+									<object class="java.lang.Integer">260</object>
 									<element>9</element>
-									<object class="java.lang.Integer">500</object>
-									<element>10</element>
-									<object class="java.lang.Float">0.0</object>
-									<element>11</element>
-									<object class="java.lang.Integer">50</object>
+									<object class="java.lang.Integer">260</object>
 								</map>
 								<element param="draggable">5</element>
 								<object class="java.lang.Boolean" param="clone">false</object>
 								<element class=".model.behaviors.impl.EAdBehaviorImpl"
-									id="sceneElement2behaviors" param="behavior"
+									id="hole260behaviors" param="behavior"
 									type=".model.behaviors.impl.EAdBehaviorImpl" uniqueId="16" />
 								<resources initialBundle="default" param="resources">
 									<bundle id="default">
-										<asset class=".resources.assets.drawable.basics.impl.CaptionImpl"
-											id="appearance" uniqueId="24">
-											<param class=".params.EAdString" param="label">string088
-											</param>
-											<param class=".params.EAdFontImpl" param="font">6</param>
-											<param class=".params.fills.impl.EAdBorderedColor"
-												param="textColor">7</param>
-											<object class="java.lang.Boolean" param="hasBubble">true</object>
-											<param class=".params.fills.impl.EAdBorderedColor"
-												param="bubbleColor">8</param>
-											<object class="java.lang.Integer" param="maxWidth">-2</object>
-											<object class="java.lang.Integer" param="maxHeight">-2</object>
-											<object class="java.lang.Integer" param="minWidth">0</object>
-											<object class="java.lang.Integer" param="minHeight">0</object>
-											<object class="java.lang.Integer" param="padding">0</object>
-										</asset>
+										<asset id="appearance">0</asset>
 									</bundle>
 								</resources>
 							</element>
 							<element class=".model.elements.impl.EAdBasicSceneElement"
-								id="sceneElement3" type=".model.elements.impl.EAdBasicSceneElement"
+								id="hole460" type=".model.elements.impl.EAdBasicSceneElement"
 								uniqueId="17">
 								<map param="vars">
 									<element>8</element>
-									<object class="java.lang.Float">0.0</object>
+									<object class="java.lang.Integer">460</object>
 									<element>9</element>
-									<object class="java.lang.Integer">550</object>
-									<element>10</element>
-									<object class="java.lang.Float">0.0</object>
-									<element>11</element>
-									<object class="java.lang.Integer">90</object>
+									<object class="java.lang.Integer">60</object>
 								</map>
 								<element param="draggable">5</element>
 								<object class="java.lang.Boolean" param="clone">false</object>
 								<element class=".model.behaviors.impl.EAdBehaviorImpl"
-									id="sceneElement3behaviors" param="behavior"
-									type=".model.behaviors.impl.EAdBehaviorImpl" uniqueId="18">
-									<map param="behavior">
-										<element class=".model.guievents.impl.EAdMouseEventImpl"
-											id="EAdElement9526" type=".model.guievents.impl.EAdMouseEventImpl"
-											uniqueId="19">
-											<object class=".model.guievents.EAdMouseEvent$MouseActionType"
-												param="type">RIGHT_CLICK</object>
-										</element>
-										<list class=".model.effects.EAdEffect">
-											<element
-												class=".model.effects.impl.variables.EAdChangeFieldValueEffect"
-												id="changeVarValue0" type=".model.effects.impl.variables.EAdChangeFieldValueEffect"
-												uniqueId="20">
-												<list class=".model.variables.EAdField" param="fields">
-													<element class=".model.variables.impl.EAdFieldImpl"
-														id="sceneElement3_var_name_13_field" type=".model.variables.impl.EAdFieldImpl"
-														uniqueId="21">
-														<element param="element">17</element>
-														<element class=".model.variables.impl.EAdVarDefImpl"
-															id="var_name_13" param="variable"
-															type=".model.variables.impl.EAdVarDefImpl" uniqueId="22">
-															<object class="java.lang.String" param="id">var_name_13
-															</object>
-															<object class="java.lang.String" param="name">state
-															</object>
-															<object class="java.lang.Class" param="class">java.lang.String
-															</object>
-															<object class="java.lang.String" param="initialValue">EAD_STATE_DEFAULT
-															</object>
-														</element>
-													</element>
-												</list>
-												<element class=".model.variables.impl.operations.AssignOperation"
-													id="assign" param="operation"
-													type=".model.variables.impl.operations.AssignOperation"
-													uniqueId="23">
-													<object class="java.lang.String" param="value">EAD_STATE_DEFAULT
-													</object>
-												</element>
-												<object class="java.lang.Boolean" param="blocking">false
-												</object>
-												<object class="java.lang.Boolean" param="opaque">false
-												</object>
-												<object class="java.lang.Boolean" param="queueable">false
-												</object>
-											</element>
-										</list>
-										<element class=".model.guievents.impl.EAdMouseEventImpl"
-											id="EAdElement10208" type=".model.guievents.impl.EAdMouseEventImpl"
-											uniqueId="24">
-											<object class=".model.guievents.EAdMouseEvent$MouseActionType"
-												param="type">LEFT_CLICK</object>
-										</element>
-										<list class=".model.effects.EAdEffect">
-											<element
-												class=".model.effects.impl.variables.EAdChangeFieldValueEffect"
-												id="changeVarValue1" type=".model.effects.impl.variables.EAdChangeFieldValueEffect"
-												uniqueId="25">
-												<list class=".model.variables.EAdField" param="fields">
-													<element class=".model.variables.impl.EAdFieldImpl"
-														id="sceneElement3_var_name_13_field" type=".model.variables.impl.EAdFieldImpl"
-														uniqueId="26">
-														<element param="element">17</element>
-														<element param="variable">22</element>
-													</element>
-												</list>
-												<element class=".model.variables.impl.operations.AssignOperation"
-													id="assign" param="operation"
-													type=".model.variables.impl.operations.AssignOperation"
-													uniqueId="27">
-													<object class="java.lang.String" param="value">EAD_STATE_TALKING
-													</object>
-												</element>
-												<object class="java.lang.Boolean" param="blocking">false
-												</object>
-												<object class="java.lang.Boolean" param="opaque">false
-												</object>
-												<object class="java.lang.Boolean" param="queueable">false
-												</object>
-											</element>
-										</list>
-									</map>
-								</element>
+									id="hole460behaviors" param="behavior"
+									type=".model.behaviors.impl.EAdBehaviorImpl" uniqueId="18" />
 								<resources initialBundle="default" param="resources">
 									<bundle id="default">
-										<asset
-											class=".resources.assets.drawable.compounds.impl.StateDrawableImpl"
-											id="appearance" uniqueId="25">
-											<map param="drawables">
-												<object class="java.lang.String">EAD_STATE_TALKING</object>
-												<asset
-													class=".resources.assets.drawable.basics.impl.shapes.RectangleShape"
-													uniqueId="26">
-													<param class=".params.fills.impl.EAdBorderedColor"
-														param="fill">0x000000ff:0x964b00ff:8</param>
-													<object class="java.lang.Boolean" param="closed">true
-													</object>
-													<list class=".params.geom.impl.EAdPositionImpl" param="points">
-														<param class=".params.geom.impl.EAdPositionImpl">1</param>
-														<param class=".params.geom.impl.EAdPositionImpl">40:0:0.0:0.0</param>
-														<param class=".params.geom.impl.EAdPositionImpl">40:40:0.0:0.0</param>
-														<param class=".params.geom.impl.EAdPositionImpl">9</param>
-													</list>
-													<list class="java.lang.Integer" param="segmentsLength">
-														<object class="java.lang.Integer">1</object>
-														<object class="java.lang.Integer">1</object>
-														<object class="java.lang.Integer">1</object>
-													</list>
-												</asset>
-												<object class="java.lang.String">EAD_STATE_DEFAULT</object>
-												<asset
-													class=".resources.assets.drawable.basics.impl.shapes.RectangleShape"
-													uniqueId="27">
-													<param class=".params.fills.impl.EAdBorderedColor"
-														param="fill">0x964b00ff:0x964b00ff:8</param>
-													<object class="java.lang.Boolean" param="closed">true
-													</object>
-													<list class=".params.geom.impl.EAdPositionImpl" param="points">
-														<param class=".params.geom.impl.EAdPositionImpl">1</param>
-														<param class=".params.geom.impl.EAdPositionImpl">25</param>
-														<param class=".params.geom.impl.EAdPositionImpl">26</param>
-														<param class=".params.geom.impl.EAdPositionImpl">9</param>
-													</list>
-													<list class="java.lang.Integer" param="segmentsLength">
-														<object class="java.lang.Integer">1</object>
-														<object class="java.lang.Integer">1</object>
-														<object class="java.lang.Integer">1</object>
-													</list>
-												</asset>
-											</map>
-										</asset>
+										<asset id="appearance">0</asset>
 									</bundle>
 								</resources>
 							</element>
 							<element class=".model.elements.impl.EAdBasicSceneElement"
-								id="sceneElement4" type=".model.elements.impl.EAdBasicSceneElement"
-								uniqueId="28">
+								id="hole460" type=".model.elements.impl.EAdBasicSceneElement"
+								uniqueId="19">
 								<map param="vars">
 									<element>8</element>
-									<object class="java.lang.Float">0.0</object>
+									<object class="java.lang.Integer">460</object>
 									<element>9</element>
-									<object class="java.lang.Integer">50</object>
-									<element>10</element>
-									<object class="java.lang.Float">0.0</object>
-									<element>11</element>
-									<object class="java.lang.Integer">180</object>
+									<object class="java.lang.Integer">260</object>
 								</map>
 								<element param="draggable">5</element>
 								<object class="java.lang.Boolean" param="clone">false</object>
 								<element class=".model.behaviors.impl.EAdBehaviorImpl"
-									id="sceneElement4behaviors" param="behavior"
-									type=".model.behaviors.impl.EAdBehaviorImpl" uniqueId="29" />
+									id="hole460behaviors" param="behavior"
+									type=".model.behaviors.impl.EAdBehaviorImpl" uniqueId="20" />
 								<resources initialBundle="default" param="resources">
 									<bundle id="default">
-										<asset class=".resources.assets.drawable.basics.impl.CaptionImpl"
-											id="appearance" uniqueId="28">
-											<param class=".params.EAdString" param="label">string092
-											</param>
-											<param class=".params.EAdFontImpl" param="font">6</param>
-											<param class=".params.fills.impl.EAdBorderedColor"
-												param="textColor">7</param>
-											<object class="java.lang.Boolean" param="hasBubble">true</object>
-											<param class=".params.fills.impl.EAdBorderedColor"
-												param="bubbleColor">8</param>
-											<object class="java.lang.Integer" param="maxWidth">-2</object>
-											<object class="java.lang.Integer" param="maxHeight">-2</object>
-											<object class="java.lang.Integer" param="minWidth">0</object>
-											<object class="java.lang.Integer" param="minHeight">0</object>
-											<object class="java.lang.Integer" param="padding">0</object>
-										</asset>
-									</bundle>
-								</resources>
-							</element>
-							<element class=".model.elements.impl.EAdBasicSceneElement"
-								id="sceneElement5" type=".model.elements.impl.EAdBasicSceneElement"
-								uniqueId="30">
-								<map param="vars">
-									<element>8</element>
-									<object class="java.lang.Float">0.0</object>
-									<element class=".model.variables.impl.EAdVarDefImpl"
-										id="var_name_20" type=".model.variables.impl.EAdVarDefImpl"
-										uniqueId="31">
-										<object class="java.lang.String" param="id">var_name_20
-										</object>
-										<object class="java.lang.String" param="name">scale</object>
-										<object class="java.lang.Class" param="class">java.lang.Float
-										</object>
-										<object class="java.lang.Float" param="initialValue">1.0</object>
-									</element>
-									<object class="java.lang.Float">0.8</object>
-									<element>9</element>
-									<object class="java.lang.Integer">50</object>
-									<element>10</element>
-									<object class="java.lang.Float">0.0</object>
-									<element>11</element>
-									<object class="java.lang.Integer">220</object>
-								</map>
-								<element param="draggable">5</element>
-								<object class="java.lang.Boolean" param="clone">false</object>
-								<element class=".model.behaviors.impl.EAdBehaviorImpl"
-									id="sceneElement5behaviors" param="behavior"
-									type=".model.behaviors.impl.EAdBehaviorImpl" uniqueId="32" />
-								<resources initialBundle="default" param="resources">
-									<bundle id="default">
-										<asset
-											class=".resources.assets.drawable.basics.impl.animation.FramesAnimation"
-											id="appearance" uniqueId="29">
-											<object class="java.lang.Integer" param="totalTime">4000</object>
-											<list
-												class=".resources.assets.drawable.basics.impl.animation.Frame"
-												param="frames">
-												<asset
-													class=".resources.assets.drawable.basics.impl.animation.Frame"
-													uniqueId="30">
-													<object class="java.lang.Integer" param="time">500</object>
-													<param class=".params.EAdURIImpl" param="uri">@drawable/paniel_wlr_01.png
-													</param>
-												</asset>
-												<asset
-													class=".resources.assets.drawable.basics.impl.animation.Frame"
-													uniqueId="31">
-													<object class="java.lang.Integer" param="time">500</object>
-													<param class=".params.EAdURIImpl" param="uri">@drawable/paniel_wlr_02.png
-													</param>
-												</asset>
-												<asset
-													class=".resources.assets.drawable.basics.impl.animation.Frame"
-													uniqueId="32">
-													<object class="java.lang.Integer" param="time">500</object>
-													<param class=".params.EAdURIImpl" param="uri">@drawable/paniel_wlr_03.png
-													</param>
-												</asset>
-												<asset
-													class=".resources.assets.drawable.basics.impl.animation.Frame"
-													uniqueId="33">
-													<object class="java.lang.Integer" param="time">500</object>
-													<param class=".params.EAdURIImpl" param="uri">@drawable/paniel_wlr_04.png
-													</param>
-												</asset>
-												<asset
-													class=".resources.assets.drawable.basics.impl.animation.Frame"
-													uniqueId="34">
-													<object class="java.lang.Integer" param="time">500</object>
-													<param class=".params.EAdURIImpl" param="uri">@drawable/paniel_wlr_05.png
-													</param>
-												</asset>
-												<asset
-													class=".resources.assets.drawable.basics.impl.animation.Frame"
-													uniqueId="35">
-													<object class="java.lang.Integer" param="time">500</object>
-													<param class=".params.EAdURIImpl" param="uri">@drawable/paniel_wlr_06.png
-													</param>
-												</asset>
-												<asset
-													class=".resources.assets.drawable.basics.impl.animation.Frame"
-													uniqueId="36">
-													<object class="java.lang.Integer" param="time">500</object>
-													<param class=".params.EAdURIImpl" param="uri">@drawable/paniel_wlr_07.png
-													</param>
-												</asset>
-												<asset
-													class=".resources.assets.drawable.basics.impl.animation.Frame"
-													uniqueId="37">
-													<object class="java.lang.Integer" param="time">500</object>
-													<param class=".params.EAdURIImpl" param="uri">@drawable/paniel_wlr_08.png
-													</param>
-												</asset>
-											</list>
-										</asset>
+										<asset id="appearance">0</asset>
 									</bundle>
 								</resources>
 							</element>

@@ -70,5 +70,9 @@ public class ImageImpl implements Image {
 		}
 		return false;
 	}
+	
+	public int hashCode(){
+		return uri.hashCode() * 10;
+	}
 
 }

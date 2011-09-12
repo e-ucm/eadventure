@@ -64,5 +64,9 @@ public class EAdURIImpl extends EAdParamImpl implements EAdURI {
 	public void parse(String data) {
 		this.uri = data;
 	}
+	
+	public int hashCode( ){
+		return uri.hashCode();
+	}
 
 }

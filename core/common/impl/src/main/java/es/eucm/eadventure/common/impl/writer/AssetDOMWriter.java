@@ -19,9 +19,9 @@ public class AssetDOMWriter extends FieldParamWriter<AssetDescriptor> {
 			return node;
 		}
 
-		// Set unique id and class
-		mappedAsset.add(assetDescriptor);
+		// Set unique id and class (it has to be in this order)
 		node.setAttribute(UNIQUE_ID_AT, mappedAsset.size() + "");
+		mappedAsset.add(assetDescriptor);
 		node.setAttribute(CLASS_AT, shortClass(assetDescriptor.getClass().getName()));
 
 		// Process Param fields

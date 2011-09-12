@@ -74,5 +74,9 @@ public class SpriteImageImpl extends ImageImpl implements SpriteImage {
 	public int getSprite() {
 		return sprite;
 	}
+	
+	public int hashCode( ){
+		return super.hashCode() + sprite + totalSprites;
+	}
 
 }
