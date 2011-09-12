@@ -3,7 +3,6 @@ package es.eucm.eadventure.common.model.effects.impl.text;
 import es.eucm.eadventure.common.interfaces.Element;
 import es.eucm.eadventure.common.interfaces.Param;
 import es.eucm.eadventure.common.model.effects.impl.AbstractEAdEffect;
-import es.eucm.eadventure.common.model.effects.impl.timedevents.EAdShowSceneElement;
 import es.eucm.eadventure.common.model.variables.EAdField;
 import es.eucm.eadventure.common.params.EAdFontImpl;
 import es.eucm.eadventure.common.params.EAdString;
@@ -16,7 +15,7 @@ import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.shapes.Ba
  * at a given position
  * 
  */
-@Element(runtime = EAdShowSceneElement.class, detailed = EAdShowSceneElement.class)
+@Element(runtime = EAdSpeakEffect.class, detailed = EAdSpeakEffect.class)
 public class EAdSpeakEffect extends AbstractEAdEffect {
 
 	@Param("x")
