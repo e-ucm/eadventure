@@ -36,9 +36,15 @@ public class TrajectoryFactoryImpl extends
 	@Override
 	public List<EAdPosition> getTrajectory(
 			TrajectoryDefinition trajectoryDefinition,
-			EAdPosition currentPosition, SceneElementGO<?> sceneElement) {
-		// TODO Auto-generated method stub
-		return null;
+			EAdPosition currentPosition, int x, int y, SceneElementGO<?> sceneElement) {
+
+		@SuppressWarnings("unchecked")
+		TrajectoryGenerator<TrajectoryDefinition> generator = (TrajectoryGenerator<TrajectoryDefinition>) this
+				.get(trajectoryDefinition.getClass());
+
+		return generator.getTrajectory(trajectoryDefinition, currentPosition,
+				x, y, sceneElement);
+
 	}
 
 	@Override

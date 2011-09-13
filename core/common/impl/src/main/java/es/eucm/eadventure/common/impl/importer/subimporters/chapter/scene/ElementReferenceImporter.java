@@ -107,6 +107,12 @@ public class ElementReferenceImporter implements
 		EAdBasicActor actor = (EAdBasicActor) factory.getElementById(oldObject
 				.getTargetId());
 		newRef.setReferencedActor(actor);
+		if (oldObject.getInfluenceArea() != null) {
+			newRef.setInfluenceArea(new EAdRectangleImpl(oldObject.getInfluenceArea().getX(),
+					oldObject.getInfluenceArea().getY(),
+					oldObject.getInfluenceArea().getWidth(),
+					oldObject.getInfluenceArea().getHeight()));
+		}
 
 		EAdCondition condition = conditionsImporter.init(oldObject
 				.getConditions());
