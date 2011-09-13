@@ -6,6 +6,7 @@ import com.google.inject.Inject;
 
 import playn.core.Canvas;
 import playn.core.CanvasLayer;
+import playn.core.Graphics;
 import playn.core.Image;
 import playn.core.Keyboard;
 import playn.core.Keyboard.Event;
@@ -104,6 +105,10 @@ public class EAdEngine implements playn.core.Game, Keyboard.Listener {
 	
 	public Image getImage(String absolutePath) {
 		return assetManager().getImage(absolutePath);
+	}
+
+	public Graphics getGraphics() {
+		return graphics();
 	}
 
 }

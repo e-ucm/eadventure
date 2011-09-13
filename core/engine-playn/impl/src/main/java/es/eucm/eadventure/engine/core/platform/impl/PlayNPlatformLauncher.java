@@ -89,8 +89,6 @@ public class PlayNPlatformLauncher implements PlatformLauncher {
 	}
 	
 	public static void main(String[] args) {
-		System.setProperty("com.apple.mrj.application.apple.menu.about.name", "eAdventure");
-		
 		EAdURI file = null;
 
 		if (args.length == 0) {

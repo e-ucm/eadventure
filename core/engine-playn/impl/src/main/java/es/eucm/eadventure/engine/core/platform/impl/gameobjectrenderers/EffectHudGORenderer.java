@@ -37,8 +37,9 @@
 
 package es.eucm.eadventure.engine.core.platform.impl.gameobjectrenderers;
 
-import java.awt.Graphics2D;
 import java.util.logging.Logger;
+
+import playn.core.Canvas;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -49,7 +50,7 @@ import es.eucm.eadventure.engine.core.platform.GameObjectRenderer;
 
 @Singleton
 public class EffectHudGORenderer implements
-		GameObjectRenderer<Graphics2D, EffectHUDImpl> {
+		GameObjectRenderer<Canvas, EffectHUDImpl> {
 
 	private static final Logger logger = Logger
 			.getLogger("EffectHudGORenderer");
@@ -60,11 +61,11 @@ public class EffectHudGORenderer implements
 	}
 
 	@Override
-	public void render(Graphics2D g, EffectHUDImpl object, float interpolation, int offsetX, int offsetY) {
+	public void render(Canvas g, EffectHUDImpl object, float interpolation, int offsetX, int offsetY) {
 	}
 
 	@Override
-	public void render(Graphics2D graphicContext, EffectHUDImpl object, EAdPosition position, float scale, int offsetX, int offsetY) {
+	public void render(Canvas graphicContext, EffectHUDImpl object, EAdPosition position, float scale, int offsetX, int offsetY) {
 	}
 
 	@Override

@@ -37,20 +37,19 @@
 
 package es.eucm.eadventure.engine.core.platform.assets.impl;
 
-import java.awt.Color;
-
+import playn.core.Color;
 import es.eucm.eadventure.common.params.fills.impl.EAdColor;
 
 public class PlayNEngineColor {
 
-	private Color color;
+	private int color;
 
 	//TODO better implement some kind of factory with a cache
 	public PlayNEngineColor(EAdColor color) {
-		this.color = new Color(color.getRed(), color.getGreen(), color.getBlue(), color.getAlpha());
+		this.color = Color.argb(color.getAlpha(), color.getRed(), color.getGreen(), color.getBlue());
 	}
 
-	public Color getColor() {
+	public int getColor() {
 		return color;
 	}
 

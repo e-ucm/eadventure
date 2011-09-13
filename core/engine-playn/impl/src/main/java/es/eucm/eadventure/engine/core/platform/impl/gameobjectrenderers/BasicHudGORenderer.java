@@ -37,8 +37,9 @@
 
 package es.eucm.eadventure.engine.core.platform.impl.gameobjectrenderers;
 
-import java.awt.Graphics2D;
 import java.util.logging.Logger;
+
+import playn.core.Canvas;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -60,11 +61,11 @@ import es.eucm.eadventure.engine.core.platform.GraphicRendererFactory;
 
 @Singleton
 public class BasicHudGORenderer implements
-		GameObjectRenderer<Graphics2D, BasicHUDImpl> {
+		GameObjectRenderer<Canvas, BasicHUDImpl> {
 
 	private MouseState mouseState;
 
-	private GraphicRendererFactory<Graphics2D> graphicRendererFactory;
+	private GraphicRendererFactory<Canvas> graphicRendererFactory;
 
 	private AssetHandler assetHandler;
 	
@@ -80,12 +81,12 @@ public class BasicHudGORenderer implements
 			AssetHandler assetHandler) {
 		this.mouseState = mouseState;
 		this.assetHandler = assetHandler;
-		this.graphicRendererFactory = (GraphicRendererFactory<Graphics2D>) graphicRendererFactory;
+		this.graphicRendererFactory = (GraphicRendererFactory<Canvas>) graphicRendererFactory;
 		logger.info("New intance");
 	}
 
 	@Override
-	public void render(Graphics2D g, BasicHUDImpl object, float interpolation, int offsetX, int offsetY) {
+	public void render(Canvas g, BasicHUDImpl object, float interpolation, int offsetX, int offsetY) {
 
 		if (mouseState.getDraggingGameObject() != null && mouseState.isInside()) {
 			GameObject<?> actor = mouseState.getDraggingGameObject();
@@ -118,7 +119,7 @@ public class BasicHudGORenderer implements
 	}
 
 	@Override
-	public void render(Graphics2D graphicContext, BasicHUDImpl object,
+	public void render(Canvas graphicContext, BasicHUDImpl object,
 			EAdPosition position, float scale, int offsetX, int offsetY) {
 	}
 

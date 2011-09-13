@@ -37,14 +37,6 @@
 
 package es.eucm.eadventure.engine.core.platform.assets.impl;
 
-import java.awt.Font;
-import java.awt.FontFormatException;
-import java.awt.Rectangle;
-import java.awt.font.FontRenderContext;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-
 import es.eucm.eadventure.common.params.EAdFont;
 import es.eucm.eadventure.common.params.EAdFont.Style;
 import es.eucm.eadventure.common.params.geom.impl.EAdRectangleImpl;
@@ -55,47 +47,12 @@ public class PlayNEngineFont implements RuntimeFont {
 
 	private EAdFont eadFont;
 
-	private Font font;
-
-	private static FontRenderContext frc = new FontRenderContext(null, true,
-			true);
-
 	public PlayNEngineFont(EAdFont font, AssetHandler assetHandler) {
 		this.eadFont = font;
-		if (eadFont.isTTF()) {
-			try {
-				this.font = Font.createFont(
-						Font.TRUETYPE_FONT,
-						new FileInputStream(new File(assetHandler
-								.getAbsolutePath(eadFont.getURI().getPath()))));
-				this.font = this.font.deriveFont(eadFont.getSize());
-				
-			} catch (FontFormatException e) {
-				this.font = new Font(font.getName(), getStyle(font.getStyle()),
-						(int) font.getSize());
-			} catch (IOException e) {
-				this.font = new Font(font.getName(), getStyle(font.getStyle()),
-						(int) font.getSize());
-			}
-		} else
-			this.font = new Font(font.getName(), getStyle(font.getStyle()),
-					(int) font.getSize());
 	}
 
-	private int getStyle(Style style) {
-		switch (style) {
-		case BOLD:
-			return Font.BOLD;
-		case ITALIC:
-			return Font.ITALIC;
-		case PLAIN:
-		default:
-			return Font.PLAIN;
-		}
-	}
-
-	public Font getFont() {
-		return font;
+	public int getFont() {
+		return 0;
 	}
 
 	@Override
@@ -105,18 +62,20 @@ public class PlayNEngineFont implements RuntimeFont {
 
 	@Override
 	public int stringWidth(String string) {
-		return (int) font.getStringBounds(string, frc).getWidth();
+		//FIXME
+		return string.length() * 10;
 	}
 
 	@Override
 	public int lineHeight() {
-		return (int) font.getLineMetrics("nothing", frc).getHeight();
+		//FIXME
+		return 15;
 	}
 
 	@Override
 	public EAdRectangleImpl stringBounds(String string) {
-		Rectangle r = font.getStringBounds(string, frc).getBounds();
-		return new EAdRectangleImpl(r.x, r.y, r.width, r.height);
+		//FIXME
+		return new EAdRectangleImpl(0, 0, stringWidth(string), lineHeight());
 	}
 
 }

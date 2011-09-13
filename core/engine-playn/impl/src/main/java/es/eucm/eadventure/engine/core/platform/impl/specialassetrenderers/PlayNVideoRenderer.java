@@ -37,10 +37,6 @@
 
 package es.eucm.eadventure.engine.core.platform.impl.specialassetrenderers;
 
-import java.awt.Component;
-import java.io.IOException;
-import java.net.MalformedURLException;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.google.inject.Inject;
@@ -49,7 +45,8 @@ import es.eucm.eadventure.common.resources.assets.multimedia.Video;
 import es.eucm.eadventure.engine.core.platform.AssetHandler;
 import es.eucm.eadventure.engine.core.platform.SpecialAssetRenderer;
 
-public class PlayNVideoRenderer implements SpecialAssetRenderer<Video, Component> {
+//FIXME
+public class PlayNVideoRenderer implements SpecialAssetRenderer<Video, Void> {
 
 	private static Logger logger = Logger.getLogger("PlayNVideoRenderer");
 	
@@ -60,19 +57,17 @@ public class PlayNVideoRenderer implements SpecialAssetRenderer<Video, Component
 	private boolean started = false;
 	
 	private AssetHandler assetHandler;
-	
-	private Component video;
-	
+		
 	@Inject
 	public PlayNVideoRenderer(AssetHandler assetHandler) {
 		this.assetHandler = assetHandler;
 	}
 	
 	@Override
-	public Component getComponent(Video asset) {
-		video = null;
+	public Void getComponent(Video asset) {
 		finished = true;
-		return video;
+		//FIXME
+		return null;
 	}
 
 	@Override

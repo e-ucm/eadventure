@@ -60,6 +60,7 @@ import es.eucm.eadventure.common.model.guievents.impl.EAdMouseEventImpl;
 import es.eucm.eadventure.common.model.variables.EAdField;
 import es.eucm.eadventure.common.model.variables.impl.EAdFieldImpl;
 import es.eucm.eadventure.common.model.variables.impl.operations.BooleanOperation;
+import es.eucm.eadventure.common.params.geom.impl.EAdRectangleImpl;
 import es.eucm.eadventure.common.resources.EAdBundleId;
 import es.eucm.eadventure.common.resources.StringHandler;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.Shape;
@@ -112,6 +113,14 @@ public class ActiveAreaImporter implements
 
 		newActiveArea.setDetailedDescription(stringHandler.addString(oldObject
 				.getDetailedDescription()));
+		
+		if (oldObject.getInfluenceArea() != null) {
+			newActiveArea.setInfluenceArea(new EAdRectangleImpl(oldObject.getInfluenceArea().getX(),
+					oldObject.getInfluenceArea().getY(),
+					oldObject.getInfluenceArea().getWidth(),
+					oldObject.getInfluenceArea().getHeight()));
+		}
+
 
 		Shape shape = ShapedElementImporter.importShape(oldObject,
 				newActiveAreaReference);

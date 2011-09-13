@@ -61,7 +61,8 @@ public class PlayNPlatformControl implements PlatformControl {
 	@Override
 	public void stop() {
 		gameController.stop();
-		System.exit(0);
+		//FIXME ??
+		//System.exit(0);
 	}
 
 	@Override

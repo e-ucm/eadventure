@@ -37,9 +37,8 @@
 
 package es.eucm.eadventure.engine.core.platform.impl.extra;
 
-import java.awt.Shape;
-
 import playn.core.Canvas;
+import playn.core.Path;
 
 import com.google.gwt.inject.client.AbstractGinModule;
 import com.google.inject.Provides;
@@ -94,7 +93,7 @@ public class PlayNModule extends AbstractGinModule {
 		bind(ActionsHUD.class).to(PlayNActionsHUDImpl.class);
 		bind(MenuHUD.class).to(PlayNMenuHUDImpl.class);
 		bind(FontCacheImpl.class).to(PlayNFontCache.class);
-		bind(new TypeLiteral<FillFactory<Canvas, Shape>>() {}).to(PlayNFillFactory.class);
+		bind(new TypeLiteral<FillFactory<Canvas, Path>>() {}).to(PlayNFillFactory.class);
 		bind(TransitionFactory.class).to(PlayNTransitionFactory.class);
 		bind(BasicInventoryGO.class).to(PlayNBasicInventoryGO.class);
 	}

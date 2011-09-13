@@ -41,6 +41,7 @@ import es.eucm.eadventure.common.interfaces.features.Variabled;
 import es.eucm.eadventure.common.model.effects.EAdEffect;
 import es.eucm.eadventure.common.model.extra.EAdList;
 import es.eucm.eadventure.common.model.guievents.EAdGUIEvent;
+import es.eucm.eadventure.common.params.geom.EAdRectangle;
 
 public interface EAdSceneElement extends EAdGeneralElement, Variabled {
 
@@ -64,6 +65,8 @@ public interface EAdSceneElement extends EAdGeneralElement, Variabled {
 	 */
 	boolean isClone();
 
+	public EAdRectangle getInfluenceArea();
+	
 	/**
 	 * An enumerate with common states for scene elements
 	 * 

@@ -37,9 +37,8 @@
 
 package es.eucm.eadventure.engine.core.platform.impl.assetrenderers;
 
-import java.awt.Shape;
-
 import playn.core.Canvas;
+import playn.core.Path;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -53,10 +52,10 @@ import es.eucm.eadventure.engine.core.platform.assets.impl.PlayNBezierShape;
 public class PlayNBezierShapeRenderer implements
 		AssetRenderer<Canvas, PlayNBezierShape> {
 	
-	private FillFactory<Canvas, Shape> fillFactory;
+	private FillFactory<Canvas, Path> fillFactory;
 	
 	@Inject
-	public PlayNBezierShapeRenderer( FillFactory<Canvas, Shape> fillFactory){
+	public PlayNBezierShapeRenderer( FillFactory<Canvas, Path> fillFactory){
 		this.fillFactory = fillFactory;
 	}
 
@@ -88,7 +87,8 @@ public class PlayNBezierShapeRenderer implements
 	@Override
 	public boolean contains(int x, int y, PlayNBezierShape asset) {
 		if (asset != null && x < asset.getWidth() && y < asset.getHeight()) {
-			return asset.getShape().contains(x, y);
+			return true;
+			//return asset.getShape().contains(x, y);
 		}
 		return false;
 	}
