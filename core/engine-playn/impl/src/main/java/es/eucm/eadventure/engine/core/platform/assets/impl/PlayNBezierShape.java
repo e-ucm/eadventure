@@ -37,18 +37,27 @@
 
 package es.eucm.eadventure.engine.core.platform.assets.impl;
 
-import java.awt.geom.GeneralPath;
+import com.google.inject.Inject;
 
+import playn.core.Path;
 import es.eucm.eadventure.common.params.geom.impl.EAdPositionImpl;
+import es.eucm.eadventure.engine.core.EAdEngine;
 
 public class PlayNBezierShape extends RuntimeBezierShape {
 	
-	private GeneralPath path;
+	private Path path;
 
+	private EAdEngine eAdEngine;
+	
+	@Inject
+	public PlayNBezierShape(EAdEngine eAdEngine) {
+		this.eAdEngine = eAdEngine;
+	}
+	
 	@Override
 	public boolean loadAsset() {
 		super.loadAsset();
-		path = new GeneralPath();
+		path = eAdEngine.getGraphics().createPath();
 		
 		EAdPositionImpl p = descriptor.getPoints().get(0);
 		path.moveTo(p.getX(), p.getY());
@@ -64,24 +73,25 @@ public class PlayNBezierShape extends RuntimeBezierShape {
 				case 2:
 					p1 = descriptor.getPoints().get(pointIndex++);
 					p2 = descriptor.getPoints().get(pointIndex++);
-					path.quadTo(p1.getX(), p1.getY(), p2.getX(), p2.getY());
+					path.quadraticCurveTo(p1.getX(), p1.getY(), p2.getX(), p2.getY());
 					break;
 				case 3:
 					p1 = descriptor.getPoints().get(pointIndex++);
 					p2 = descriptor.getPoints().get(pointIndex++);
 					p3 = descriptor.getPoints().get(pointIndex++);
-					path.curveTo(p1.getX(), p1.getY(), p2.getX(), p2.getY(), p3.getX(), p3.getY());
+					//FIXME no curveTo?
+					//path.curveTo(p1.getX(), p1.getY(), p2.getX(), p2.getY(), p3.getX(), p3.getY());
 					break;			
 			}
 		}
 		
 		if ( descriptor.isClosed() )
-			path.closePath();
-		
+			path.close();
+
 		return true;
 	}
 	
-	public GeneralPath getShape( ){
+	public Path getShape( ){
 		return path;
 	}
 
