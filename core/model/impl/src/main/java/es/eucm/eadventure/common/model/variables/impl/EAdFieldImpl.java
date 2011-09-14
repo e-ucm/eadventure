@@ -58,5 +58,9 @@ public class EAdFieldImpl<T> implements EAdField<T> {
 		}
 		return false;
 	}
+	
+	public String toString(){
+		return this.element.getId() + "." + varDef.getName(); 
+	}
 
 }

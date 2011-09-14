@@ -128,8 +128,8 @@ public class ActorGOImpl extends SceneElementGOImpl<EAdActor> implements
 						&& currentReference != se
 						&& se != null) {
 						currentReference = (EAdActorReference) se;
-						valueMap.setValue(element, EAdBasicSceneElement.VAR_X, valueMap.getValue(currentReference, EAdBasicSceneElement.VAR_X));
-						valueMap.setValue(element, EAdBasicSceneElement.VAR_Y, valueMap.getValue(currentReference, EAdBasicSceneElement.VAR_Y));
+//						valueMap.setValue(element, EAdBasicSceneElement.VAR_X, valueMap.getValue(currentReference, EAdBasicSceneElement.VAR_X));
+//						valueMap.setValue(element, EAdBasicSceneElement.VAR_Y, valueMap.getValue(currentReference, EAdBasicSceneElement.VAR_Y));
 						valueMap.setValue(element, EAdBasicSceneElement.VAR_DISP_X, valueMap.getValue(currentReference, EAdBasicSceneElement.VAR_DISP_X));
 						valueMap.setValue(element, EAdBasicSceneElement.VAR_DISP_Y, valueMap.getValue(currentReference, EAdBasicSceneElement.VAR_DISP_Y));
 						valueMap.setValue(element, EAdBasicSceneElement.VAR_VISIBLE, valueMap.getValue(currentReference, EAdBasicSceneElement.VAR_VISIBLE));
@@ -144,8 +144,8 @@ public class ActorGOImpl extends SceneElementGOImpl<EAdActor> implements
 		}
 		
 		if (currentReference != null) {
-			valueMap.setValue(currentReference, EAdBasicSceneElement.VAR_X, valueMap.getValue(element, EAdBasicSceneElement.VAR_X));
-			valueMap.setValue(currentReference, EAdBasicSceneElement.VAR_Y, valueMap.getValue(element, EAdBasicSceneElement.VAR_Y));
+//			valueMap.setValue(currentReference, EAdBasicSceneElement.VAR_X, valueMap.getValue(element, EAdBasicSceneElement.VAR_X));
+//			valueMap.setValue(currentReference, EAdBasicSceneElement.VAR_Y, valueMap.getValue(element, EAdBasicSceneElement.VAR_Y));
 			valueMap.setValue(currentReference, EAdBasicSceneElement.VAR_DISP_X, valueMap.getValue(element, EAdBasicSceneElement.VAR_DISP_X));
 			valueMap.setValue(currentReference, EAdBasicSceneElement.VAR_DISP_Y, valueMap.getValue(element, EAdBasicSceneElement.VAR_DISP_Y));
 			valueMap.setValue(currentReference, EAdBasicSceneElement.VAR_VISIBLE, valueMap.getValue(element, EAdBasicSceneElement.VAR_VISIBLE));
