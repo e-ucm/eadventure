@@ -134,4 +134,9 @@ public abstract class GameObjectFactoryImpl implements GameObjectFactory {
 	public void remove(EAdElement element){
 		objectMap.remove(element);
 	}
+	
+	@Override
+	public void clean(){
+		objectMap.clear();
+	}
 }

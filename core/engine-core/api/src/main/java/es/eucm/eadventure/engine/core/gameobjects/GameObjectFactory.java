@@ -71,4 +71,9 @@ public interface GameObjectFactory {
 	 */
 	void remove(EAdElement element);
 
+	/**
+	 * Remove all elements from the cache
+	 */
+	void clean();
+
 }

@@ -46,7 +46,6 @@ import es.eucm.eadventure.common.EAdElementImporter;
 import es.eucm.eadventure.common.data.chapter.conversation.Conversation;
 import es.eucm.eadventure.common.data.chapter.conversation.node.ConversationNode;
 import es.eucm.eadventure.common.data.chapter.conversation.node.DialogueConversationNode;
-import es.eucm.eadventure.common.data.chapter.conversation.node.OptionConversationNode;
 import es.eucm.eadventure.common.impl.importer.interfaces.EffectsImporterFactory;
 import es.eucm.eadventure.common.model.effects.EAdEffect;
 import es.eucm.eadventure.common.model.effects.impl.EAdTriggerMacro;
@@ -66,7 +65,6 @@ public class ConversationImporter implements
 	@Inject
 	public ConversationImporter(
 			EAdElementImporter<DialogueConversationNode, EAdTriggerMacro> dialogueImporter,
-			EAdElementImporter<OptionConversationNode, EAdShowQuestion> optionNodeImporter,
 			EffectsImporterFactory effectFactory, StringHandler stringHandler) {
 		nodes = new HashMap<ConversationNode, EAdEffect>();
 		this.dialogueImporter = dialogueImporter;
