@@ -95,7 +95,8 @@ public class GameStateImpl implements GameState {
 	private boolean paused;
 
 	@Inject
-	public GameStateImpl(LoadingScreen scene, @Named("LoadingScreen") EAdScene loadingScreen,
+	public GameStateImpl(LoadingScreen scene,
+			@Named("LoadingScreen") EAdScene loadingScreen,
 			GameObjectFactory gameObjectFactory, ValueMap valueMap) {
 		effects = new ArrayList<EffectGO<?>>();
 		// effectsQueue = Collections.synchronizedList(new
@@ -124,18 +125,16 @@ public class GameStateImpl implements GameState {
 	 */
 	@Override
 	public void setScene(SceneGO<? extends EAdScene> newScene) {
-		// Clean caches
-		gameObjectFactory.clean();
 		if (this.scene != null && this.scene.getElement() != null) {
-			valueMap.setValue(scene.getElement(), EAdSceneImpl.VAR_SCENE_LOADED,
-					Boolean.FALSE);
+			valueMap.setValue(scene.getElement(),
+					EAdSceneImpl.VAR_SCENE_LOADED, Boolean.FALSE);
 			if (scene.getElement().isReturnable())
 				previousSceneStack.push(scene.getElement());
 		}
 		this.scene = newScene;
 		if (this.scene != null && this.scene.getElement() != null)
-			valueMap.setValue(scene.getElement(), EAdSceneImpl.VAR_SCENE_LOADED,
-					Boolean.TRUE);
+			valueMap.setValue(scene.getElement(),
+					EAdSceneImpl.VAR_SCENE_LOADED, Boolean.TRUE);
 
 	}
 
@@ -180,12 +179,13 @@ public class GameStateImpl implements GameState {
 	@Override
 	// TODO consider leaving effect initilization for later
 	public void addEffect(int pos, EAdEffect e, GUIAction action) {
-		synchronized (effectsQueue) {
-			pos = pos == -1 ? effectsQueue.size() : pos;
-			effectsQueue.add(pos, e);
-			actionsQueue.add(action);
-		}
-		
+		if (e != null)
+			synchronized (effectsQueue) {
+				pos = pos == -1 ? effectsQueue.size() : pos;
+				effectsQueue.add(pos, e);
+				actionsQueue.add(action);
+			}
+
 	}
 
 	@Override

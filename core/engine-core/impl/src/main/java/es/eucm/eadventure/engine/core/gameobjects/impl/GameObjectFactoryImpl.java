@@ -129,4 +129,9 @@ public abstract class GameObjectFactoryImpl implements GameObjectFactory {
 
 	public abstract GameObject<?> getInstance(
 			Class<? extends GameObject<?>> clazz);
+	
+	@Override
+	public void remove(EAdElement element){
+		objectMap.remove(element);
+	}
 }

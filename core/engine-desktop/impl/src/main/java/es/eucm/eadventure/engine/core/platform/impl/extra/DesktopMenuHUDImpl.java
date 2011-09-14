@@ -47,8 +47,8 @@ import es.eucm.eadventure.common.model.effects.impl.EAdQuitGame;
 import es.eucm.eadventure.common.model.elements.EAdSceneElement;
 import es.eucm.eadventure.common.model.elements.impl.extra.EAdButton;
 import es.eucm.eadventure.common.model.guievents.impl.EAdMouseEventImpl;
-import es.eucm.eadventure.common.params.EAdString;
 import es.eucm.eadventure.common.params.geom.impl.EAdPositionImpl;
+import es.eucm.eadventure.common.resources.StringHandler;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.CaptionImpl;
 import es.eucm.eadventure.engine.core.GameState;
 import es.eucm.eadventure.engine.core.gameobjects.GameObjectFactory;
@@ -77,14 +77,14 @@ public class DesktopMenuHUDImpl extends MenuHUDImpl {
 	private GameObjectFactory gameObjectFactory;
 
 	@Inject
-	public DesktopMenuHUDImpl(GameObjectFactory gameObjectFactory, GUI gui, MenuHUD menuHUD, GameState gameState, GameObjectManager gameObjectManager) {
+	public DesktopMenuHUDImpl(GameObjectFactory gameObjectFactory, GUI gui, MenuHUD menuHUD, GameState gameState, GameObjectManager gameObjectManager, StringHandler stringHandler) {
 		super(gui, gameState, gameObjectManager);
 		logger.info("New instance");
 		
 		this.gameObjectFactory = gameObjectFactory;
 
 		button = new EAdButton("menuButton");
-		((EAdButton) button).setText(new CaptionImpl(new EAdString("button")));
+		((EAdButton) button).setText(new CaptionImpl(stringHandler.addString("Exit")));
 		((EAdButton) button).setUpNewInstance();
 		((EAdButton) button).getBehavior().addBehavior(EAdMouseEventImpl.MOUSE_LEFT_CLICK,
 				new EAdQuitGame("menuButton_quitGame"));

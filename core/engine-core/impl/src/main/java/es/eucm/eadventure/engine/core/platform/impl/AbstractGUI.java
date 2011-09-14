@@ -280,14 +280,14 @@ public abstract class AbstractGUI<T> implements GUI {
 	 *            The keyboard action
 	 */
 	protected void processKeyAction(KeyAction action) {
+		if (gameState.getActiveElement() != null)
+			gameObjectFactory.get(gameState.getActiveElement())
+					.processAction(action);
 		for (int i = gameObjects.getGameObjects().size() - 1; action != null
 				&& i >= 0 && !action.isConsumed(); i--) {
 			logger.info("Action " + action + " passed to "
 					+ gameObjects.getGameObjects().get(i));
-
-			if (gameState.getActiveElement() != null)
-				gameObjectFactory.get(gameState.getActiveElement())
-						.processAction(action);
+			gameObjects.getGameObjects().get(i).processAction(action);
 		}
 	}
 

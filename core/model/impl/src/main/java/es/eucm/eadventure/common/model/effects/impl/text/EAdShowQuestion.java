@@ -127,7 +127,9 @@ public class EAdShowQuestion extends EAdComplexBlockingEffect {
 					"interpolationAnswer");
 			effect.setInterpolation(new EAdFieldImpl<Integer>(se,
 					EAdBasicSceneElement.VAR_X), initialX, 10, 500,
-					LoopType.NO_LOOP, InterpolationType.BOUNCE_END);
+					LoopType.NO_LOOP, InterpolationType.LINEAR);
+			
+			effect.setDelay(200*i);
 
 			EAdSceneElementEvent event = new EAdSceneElementEventImpl("event");
 			event.addEffect(SceneElementEvent.ADDED_TO_SCENE, effect);

@@ -120,6 +120,7 @@ public abstract class AbstractEffectGO<P extends EAdEffect> extends
 		initialized = false;
 		stopped = true;
 		valueMap.remove(element);
+		gameObjectFactory.remove(element);
 	}
 
 	public void setGUIAction(GUIAction action) {

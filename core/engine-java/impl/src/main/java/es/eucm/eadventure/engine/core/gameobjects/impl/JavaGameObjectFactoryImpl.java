@@ -29,9 +29,4 @@ public class JavaGameObjectFactoryImpl extends GameObjectFactoryImpl {
 		return injector.getInstance(clazz);
 	}
 
-	@Override
-	public void clean() {
-		// TODO Auto-generated method stub
-	}
-
 }

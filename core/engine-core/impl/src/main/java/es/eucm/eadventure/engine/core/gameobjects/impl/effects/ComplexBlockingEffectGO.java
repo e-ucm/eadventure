@@ -100,6 +100,7 @@ public class ComplexBlockingEffectGO extends
 		}
 		for (EAdElement e : element.getComponents()) {
 			valueMap.remove(e);
+			gameObjectFactory.remove(e);
 		}
 
 	}
