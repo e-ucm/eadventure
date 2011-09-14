@@ -35,6 +35,7 @@ public class NodeTrajectoryGenerator implements
 	@Inject
 	public NodeTrajectoryGenerator(GameObjectFactory gameObjectFactory) {
 		sides = new HashMap<NodeTrajectoryDefinition, List<FunctionalSide>>();
+		currentSide = new HashMap<NodeTrajectoryDefinition, Side>();
 		this.gameObjectFactory = gameObjectFactory;
 	}
 	
@@ -62,7 +63,8 @@ public class NodeTrajectoryGenerator implements
 	
 	private List<EAdPosition> pathToPositions(FunctionalPath path) {
 		List<EAdPosition> positions = new ArrayList<EAdPosition>();
-		for (FunctionalSide side : path.getSides()) {
+		for (int i = 0; i < path.getSides().size(); i++) {
+			FunctionalSide side = path.getSides().get(i);
 			positions.add(new EAdPositionImpl(side.getStartNode().getX(), side.getStartNode().getY()));
 		}
 		positions.add(new EAdPositionImpl((int)path.getDestX(), (int)path.getDestY()));

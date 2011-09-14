@@ -47,6 +47,8 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -104,6 +106,8 @@ public class ResourceImporterImpl implements ResourceImporter {
 	 * new adventure project
 	 */
 	private Map<String, String> urisCorrespondences;
+	
+	private static final Logger logger = Logger.getLogger("ResourceImporterImpl");
 
 	@Inject
 	public ResourceImporterImpl(
@@ -144,8 +148,10 @@ public class ResourceImporterImpl implements ResourceImporter {
 			String fileName = oldURI.replace("/", "_");
 			newURI = folder + "/" + fileName;
 
-			if (!copyFile(oldURI, newURI))
+			if (!copyFile(oldURI, newURI)) {
+				logger.log(Level.SEVERE, "Missing resource: " + oldURI);
 				return null;
+			}
 
 			newURI = "@" + newURI;
 			urisCorrespondences.put(oldURI, newURI);

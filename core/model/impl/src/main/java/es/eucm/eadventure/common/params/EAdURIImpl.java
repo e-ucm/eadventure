@@ -66,7 +66,7 @@ public class EAdURIImpl extends EAdParamImpl implements EAdURI {
 	}
 	
 	public int hashCode( ){
-		return uri.hashCode();
+		return (uri != null ? uri.hashCode() : 0);
 	}
 
 }
