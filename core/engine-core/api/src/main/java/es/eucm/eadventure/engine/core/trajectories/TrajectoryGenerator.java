@@ -41,11 +41,15 @@ public interface TrajectoryGenerator<T extends TrajectoryDefinition> {
 	 * 				the trajectory definition for which to calculate the actual trajectory
 	 * @param currentPosition
 	 * 				the start position for the trajectory
+	 * @param x
+	 *            target x coordinate
+	 * @param y
+	 *            target y coordinate
 	 * @param sceneElement
 	 * 				The element towards which to move
 	 * @return a list of points representing a trajectory
 	 */
-	List<EAdPosition> getTrajectory(T trajectoryDefinition, EAdPosition currentPosition, SceneElementGO<?> sceneElement);
+	List<EAdPosition> getTrajectory(T trajectoryDefinition, EAdPosition currentPosition, int x, int y, SceneElementGO<?> sceneElement);
 	
 	/**
 	 * Returns true if the player can get to the given {@link SceneElementGO} using the current

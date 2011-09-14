@@ -7,6 +7,7 @@ import com.google.inject.Inject;
 
 import es.eucm.eadventure.common.model.trajectories.impl.NodeTrajectoryDefinition;
 import es.eucm.eadventure.common.model.trajectories.impl.SimpleTrajectoryDefinition;
+import es.eucm.eadventure.engine.core.gameobjects.GameObjectFactory;
 import es.eucm.eadventure.engine.core.trajectories.TrajectoryFactory;
 import es.eucm.eadventure.engine.core.trajectories.TrajectoryGenerator;
 import es.eucm.eadventure.engine.core.trajectories.impl.NodeTrajectoryGenerator;
@@ -17,10 +18,11 @@ public class TrajectoryFactoryMapProvider extends AbstractMapProvider<Class<?>, 
 	private static Map<Class<?>, TrajectoryGenerator<?>> tempMap = new HashMap<Class<?>, TrajectoryGenerator<?>>();
 
 	@Inject
-	public TrajectoryFactoryMapProvider(TrajectoryFactory trajectoryFactory) {
+	public TrajectoryFactoryMapProvider(TrajectoryFactory trajectoryFactory,
+			GameObjectFactory gameObjectFactory) {
 		super();
 		factoryMap.put(SimpleTrajectoryDefinition.class, new SimpleTrajectoryGenerator());
-		factoryMap.put(NodeTrajectoryDefinition.class, new NodeTrajectoryGenerator());
+		factoryMap.put(NodeTrajectoryDefinition.class, new NodeTrajectoryGenerator(gameObjectFactory));
 		factoryMap.putAll(tempMap);
 	}
 	

@@ -48,6 +48,7 @@ import es.eucm.eadventure.common.model.extra.impl.EAdMapImpl;
 import es.eucm.eadventure.common.model.variables.EAdVarDef;
 import es.eucm.eadventure.common.model.variables.impl.EAdVarDefImpl;
 import es.eucm.eadventure.common.params.geom.EAdPosition;
+import es.eucm.eadventure.common.params.geom.EAdRectangle;
 import es.eucm.eadventure.common.resources.annotation.Asset;
 import es.eucm.eadventure.common.resources.annotation.Bundled;
 import es.eucm.eadventure.common.resources.assets.drawable.Drawable;
@@ -107,6 +108,9 @@ public class EAdBasicSceneElement extends AbstractEAdElementWithBehavior
 
 	@Param("clone")
 	private boolean clone;
+	
+	@Param("influenceArea")
+	private EAdRectangle influenceArea;
 
 	public EAdBasicSceneElement(String id) {
 		super(id);
@@ -158,6 +162,15 @@ public class EAdBasicSceneElement extends AbstractEAdElementWithBehavior
 
 	public String toString() {
 		return id + " - Scene element";
+	}
+	
+	@Override
+	public EAdRectangle getInfluenceArea() {
+		return influenceArea;
+	}
+	
+	public void setInfluenceArea(EAdRectangle influenceArea) {
+		this.influenceArea = influenceArea;
 	}
 
 	@Override

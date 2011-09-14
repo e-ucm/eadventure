@@ -31,15 +31,22 @@ public class SimpleTrajectoryGenerator implements
 	@Override
 	public List<EAdPosition> getTrajectory(
 			SimpleTrajectoryDefinition trajectoryDefinition,
-			EAdPosition currentPosition, SceneElementGO<?> sceneElement) {
-		// TODO Auto-generated method stub
-		return null;
+			EAdPosition currentPosition, int x, int y, SceneElementGO<?> sceneElement) {
+
+		List<EAdPosition> list = new ArrayList<EAdPosition>();
+		if (trajectoryDefinition.isOnlyHoriztonal()) {
+			list.add(new EAdPositionImpl(x, currentPosition.getY()));
+		} else {
+			list.add(new EAdPositionImpl(x, y));
+		}
+
+		return list;
 	}
 
 	@Override
 	public boolean canGetTo(SimpleTrajectoryDefinition trajectoryDefinition,
 			EAdPosition currentPosition, SceneElementGO<?> sceneElement) {
-		// TODO Auto-generated method stub
+		//TODO check barriers?
 		return false;
 	}
 

@@ -38,7 +38,6 @@
 package es.eucm.eadventure.engine.core.platform.impl;
 
 import com.google.inject.Inject;
-import com.google.inject.Injector;
 
 import es.eucm.eadventure.common.model.transitions.EAdTransition;
 import es.eucm.eadventure.engine.core.gameobjects.TransitionGO;
@@ -47,10 +46,10 @@ import es.eucm.eadventure.engine.core.platform.TransitionFactory;
 
 public class PlayNTransitionFactory implements TransitionFactory {
 	
-	private Injector injector;
+	private PlayNGinInjector injector;
 
 	@Inject
-	public PlayNTransitionFactory(Injector injector) {
+	public PlayNTransitionFactory(PlayNGinInjector injector) {
 		this.injector = injector;
 	}
 	
@@ -60,7 +59,7 @@ public class PlayNTransitionFactory implements TransitionFactory {
 		case BASIC:
 		case DISPLACE:
 		default:
-			return injector.getInstance(SimpleTransitionGO.class);
+			return injector.getSimpleTransitionGO();
 		}
 	}
 

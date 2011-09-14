@@ -37,9 +37,6 @@
 
 package es.eucm.eadventure.engine.core.platform.impl.assetrenderers;
 
-import java.awt.Rectangle;
-import java.awt.Shape;
-
 import playn.core.Canvas;
 
 import com.google.inject.Inject;
@@ -48,18 +45,17 @@ import com.google.inject.Singleton;
 import es.eucm.eadventure.common.params.EAdFill;
 import es.eucm.eadventure.common.params.geom.EAdPosition;
 import es.eucm.eadventure.engine.core.platform.AssetRenderer;
-import es.eucm.eadventure.engine.core.platform.FillFactory;
 import es.eucm.eadventure.engine.core.platform.assets.impl.PlayNEngineCaption;
 
 @Singleton
 public class PlayNCaptionRenderer implements
 		AssetRenderer<Canvas, PlayNEngineCaption> {
 
-	private FillFactory<Canvas, Shape> fillFactory;
+	//private FillFactory<Canvas, Shape> fillFactory;
 
 	@Inject
-	public PlayNCaptionRenderer(FillFactory<Canvas, Shape> fillFactory) {
-		this.fillFactory = fillFactory;
+	public PlayNCaptionRenderer(/*FillFactory<Canvas, Shape> fillFactory*/) {
+//		this.fillFactory = fillFactory;
 	}
 
 	@Override
@@ -117,7 +113,7 @@ public class PlayNCaptionRenderer implements
 //		g.setFont(deFont.getFont());
 		g.translate(0, yOffset);
 
-		fillFactory.fill(text.getAssetDescriptor().getTextFill(), g, string);
+//		fillFactory.fill(text.getAssetDescriptor().getTextFill(), g, string);
 
 //		g.setComposite(c);
 //		g.setTransform(a);
@@ -126,9 +122,9 @@ public class PlayNCaptionRenderer implements
 	private void drawBubble(Canvas g, int width, int height,
 			EAdFill bubbleFill) {
 
-		Shape shape = new Rectangle(0, 0, width, height);
+//		Shape shape = new Rectangle(0, 0, width, height);
 
-		fillFactory.fill(bubbleFill, g, shape);
+//		fillFactory.fill(bubbleFill, g, shape);
 
 	}
 

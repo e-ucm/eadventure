@@ -37,8 +37,9 @@
 package es.eucm.eadventure.engine.core.platform.impl.gameobjectrenderers;
 
 import java.awt.AlphaComposite;
-import java.awt.Graphics2D;
 import java.util.logging.Logger;
+
+import playn.core.Canvas;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -50,13 +51,13 @@ import es.eucm.eadventure.engine.core.platform.GraphicRendererFactory;
 
 @Singleton
 public class BasicSceneElementRenderer implements
-		GameObjectRenderer<Graphics2D, SceneElementGO<?>> {
+		GameObjectRenderer<Canvas, SceneElementGO<?>> {
 
 	/**
 	 * The {@link GraphicRendererFactor} used to display the elements in the
 	 * graphic context
 	 */
-	private GraphicRendererFactory<Graphics2D> factory;
+	private GraphicRendererFactory<Canvas> factory;
 
 	/**
 	 * Logger
@@ -67,7 +68,7 @@ public class BasicSceneElementRenderer implements
 	@SuppressWarnings("unchecked")
 	@Inject
 	public BasicSceneElementRenderer(GraphicRendererFactory<?> factory) {
-		this.factory = (GraphicRendererFactory<Graphics2D>) factory;
+		this.factory = (GraphicRendererFactory<Canvas>) factory;
 		logger.info("New instance");
 	}
 
@@ -80,9 +81,9 @@ public class BasicSceneElementRenderer implements
 	 * float)
 	 */
 	@Override
-	public void render(Graphics2D g, SceneElementGO<?> basicSceneElement,
+	public void render(Canvas g, SceneElementGO<?> basicSceneElement,
 			float interpolation, int offsetX, int offsetY) {
-		Graphics2D g2 = prepareGraphics( g, basicSceneElement );
+		Canvas g2 = prepareGraphics( g, basicSceneElement );
 		factory.render(g2, basicSceneElement.getRenderAsset(), basicSceneElement.getPosition(), basicSceneElement.getScale(), offsetX, offsetY);
 	}
 
@@ -95,20 +96,23 @@ public class BasicSceneElementRenderer implements
 	 * es.eucm.eadventure.common.model.params.EAdPosition, float)
 	 */
 	@Override
-	public void render(Graphics2D g, SceneElementGO<?> basicSceneElement,
+	public void render(Canvas g, SceneElementGO<?> basicSceneElement,
 			EAdPosition position, float scale, int offsetX, int offsetY) {
-		Graphics2D g2 = prepareGraphics( g, basicSceneElement );
+		Canvas g2 = prepareGraphics( g, basicSceneElement );
 		factory.render(g2, basicSceneElement.getRenderAsset(), position, scale
 				* basicSceneElement.getScale(), offsetX, offsetY);
 	}
 	
-	protected Graphics2D prepareGraphics( Graphics2D g, SceneElementGO<?> basicSceneElement ){
+	protected Canvas prepareGraphics( Canvas g, SceneElementGO<?> basicSceneElement ){
+		/* FIXME for PlayN
 		Graphics2D g2 = (Graphics2D) g.create();
 		double centerX = basicSceneElement.getPosition().getJavaX(basicSceneElement.getWidth()) + basicSceneElement.getWidth() / 2;
 		double centerY = basicSceneElement.getPosition().getJavaY(basicSceneElement.getHeight()) + basicSceneElement.getHeight() / 2;
 		g2.rotate(basicSceneElement.getRotation(), centerX, centerY);
 		g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, basicSceneElement.getAlpha()));
 		return g2;
+		*/
+		return g;
 	}
 
 	/*

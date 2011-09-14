@@ -37,8 +37,9 @@
 
 package es.eucm.eadventure.engine.core.platform.impl.gameobjectrenderers;
 
-import java.awt.Graphics2D;
 import java.util.logging.Logger;
+
+import playn.core.Canvas;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -49,7 +50,7 @@ import es.eucm.eadventure.engine.core.platform.GameObjectRenderer;
 
 @Singleton
 public class BasicInventoryGORenderer implements
-		GameObjectRenderer<Graphics2D, BasicInventoryGO> {
+		GameObjectRenderer<Canvas, BasicInventoryGO> {
 
 	private static final Logger logger = Logger
 	.getLogger("BasicInventoryGORenderer");
@@ -60,13 +61,13 @@ public class BasicInventoryGORenderer implements
 	}
 	
 	@Override
-	public void render(Graphics2D graphicContext, BasicInventoryGO object,
+	public void render(Canvas graphicContext, BasicInventoryGO object,
 			float interpolation, int offsetX, int offsetY) {
 		//DO NOTHING
 	}
 
 	@Override
-	public void render(Graphics2D graphicContext, BasicInventoryGO object,
+	public void render(Canvas graphicContext, BasicInventoryGO object,
 			EAdPosition position, float scale, int offsetX, int offsetY) {
 		//DO NOTHING
 	}

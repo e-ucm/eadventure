@@ -37,15 +37,9 @@
 
 package es.eucm.eadventure.engine.core.platform.impl.gameobjectrenderers;
 
-import java.awt.AlphaComposite;
-import java.awt.Color;
-import java.awt.Composite;
-import java.awt.Graphics2D;
-import java.awt.Rectangle;
-import java.awt.geom.AffineTransform;
-import java.awt.geom.Area;
-import java.awt.geom.Ellipse2D;
 import java.util.logging.Logger;
+
+import playn.core.Canvas;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -57,7 +51,7 @@ import es.eucm.eadventure.engine.core.platform.PlatformConfiguration;
 
 @Singleton
 public class ActionsHudGORenderer implements
-		GameObjectRenderer<Graphics2D, ActionsHUDImpl> {
+		GameObjectRenderer<Canvas, ActionsHUDImpl> {
 
 	/**
 	 * The current {@link PlatformConfiguration}
@@ -85,8 +79,9 @@ public class ActionsHudGORenderer implements
 	 * float)
 	 */
 	@Override
-	public void render(Graphics2D g, ActionsHUDImpl actionsHUD,
+	public void render(Canvas g, ActionsHUDImpl actionsHUD,
 			float interpolation, int offsetX, int offsetY) {
+		/* FIXME PlayN implementation
 		Color color = g.getColor();
 		Composite c = g.getComposite();
 		g.setComposite(AlphaComposite
@@ -106,6 +101,7 @@ public class ActionsHudGORenderer implements
 		g.fill(a);
 		g.setComposite(c);
 		g.setColor(color);
+		*/
 	}
 
 	/*
@@ -117,7 +113,7 @@ public class ActionsHudGORenderer implements
 	 * es.eucm.eadventure.common.model.params.EAdPosition, float)
 	 */
 	@Override
-	public void render(Graphics2D graphicContext, ActionsHUDImpl object,
+	public void render(Canvas graphicContext, ActionsHUDImpl object,
 			EAdPosition position, float scale, int offsetX, int offsetY) {
 	}
 

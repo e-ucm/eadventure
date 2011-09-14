@@ -37,11 +37,6 @@
 
 package es.eucm.eadventure.engine.core.platform.impl.extra;
 
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.awt.event.MouseMotionListener;
 import java.util.logging.Logger;
 
 import es.eucm.eadventure.common.model.EAdElement;
@@ -63,8 +58,7 @@ import es.eucm.eadventure.engine.core.guiactions.impl.MouseActionImpl;
  * engine input model </p>
  *
  */
-public class PlayNInputListener implements MouseListener,
-		MouseMotionListener, KeyListener {
+public class PlayNInputListener {
 
 	/**
 	 * The state of the mouse
@@ -89,91 +83,65 @@ public class PlayNInputListener implements MouseListener,
 		logger.info("New instance");
 	}
 
-	@Override
-	public void mouseClicked(MouseEvent e) {
-		MouseAction action = getMouseAction(e,
-				mouseState.getVirtualMouseX(), mouseState.getVirtualMouseY(), true);
+	public void mouseClicked(MouseAction action, int x, int y) {
 		if (action != null)
 			mouseState.getMouseEvents().add(action);
 	}
 
-	@Override
-	public void mousePressed(MouseEvent e) {
+	public void mousePressed(MouseAction action, int x, int y) {
 		mouseState.setMousePressed(true);
-		mouseState.setMousePosition(e.getX(), e.getY());
+		mouseState.setMousePosition(x, y);
 		
-		MouseAction action = getMouseAction(e,
-				mouseState.getVirtualMouseX(), mouseState.getVirtualMouseY(), false);
 		if (action != null)
 			mouseState.getMouseEvents().add(action);
 	}
 
 	@SuppressWarnings("unchecked")
-	@Override
-	public void mouseReleased(MouseEvent e) {
+	public void mouseReleased(MouseAction action, int x, int y) {
 		mouseState.setMousePressed(false);
-		mouseState.setMousePosition(e.getX(), e.getY());
+		mouseState.setMousePosition(x, y);
 		if (mouseState.getDraggingGameObject() != null) {
-			DropAction action = new DropActionImpl(mouseState.getVirtualMouseX(),
-					mouseState.getVirtualMouseY(),
-					(GameObject<? extends EAdElement>) mouseState.getDraggingGameObject());
+//			DropAction action = new DropActionImpl(mouseState.getVirtualMouseX(),
+//					mouseState.getVirtualMouseY(),
+//					(GameObject<? extends EAdElement>) mouseState.getDraggingGameObject());
 			mouseState.setDraggingGameObject(null);
 			mouseState.getMouseEvents().add(action);
 		} 
 	}
 
-	@Override
-	public void mouseEntered(MouseEvent e) {
-		mouseState.setMousePosition(e.getX(), e.getY());
+	public void mouseEntered(MouseAction action, int x, int y) {
+		mouseState.setMousePosition(x, y);
 	}
 
-	@Override
-	public void mouseExited(MouseEvent e) {
+	public void mouseExited(MouseAction action, int x, int y) {
 		mouseState.setMousePosition(MouseState.OUT_VAL, MouseState.OUT_VAL);
 	}
 
-	@Override
-	public void mouseDragged(MouseEvent e) {
-		mouseState.setMousePosition(e.getX(), e.getY());
+	public void mouseDragged(MouseAction action, int x, int y) {
+		mouseState.setMousePosition(x, y);
 		if (mouseState.getDraggingGameObject() == null
 				&& mouseState.getGameObjectUnderMouse() != null) {
 			mouseState.setDraggingGameObject(mouseState
 					.getGameObjectUnderMouse().getDraggableElement(mouseState));
-			MouseAction action = new MouseActionImpl(MouseActionType.DRAG,
-					mouseState.getVirtualMouseX(), mouseState.getVirtualMouseY());
+			//MouseAction action = new MouseActionImpl(MouseActionType.DRAG,
+			//		mouseState.getVirtualMouseX(), mouseState.getVirtualMouseY());
 			mouseState.getMouseEvents().add(action);
 		}
 	}
 
-	@Override
-	public void mouseMoved(MouseEvent e) {
-		mouseState.setMousePosition(e.getX(), e.getY());
+	public void mouseMoved(MouseAction action, int x, int y) {
+		mouseState.setMousePosition(x, y);
 	}
 
-	@Override
-	public void keyTyped(KeyEvent e) {
-		keyboardState.getKeyActions().add(
-				getKeyboardAction(
-						KeyActionType.KEY_TYPED, e));
+	public void keyTyped(KeyAction e) {
+		keyboardState.getKeyActions().add(e);
 	}
 
-	@Override
-	public void keyPressed(KeyEvent e) {
-		keyboardState.getKeyActions().add(
-				getKeyboardAction(
-						KeyActionType.KEY_PRESSED, e));
-
-		// TODO should be done by the GUI or the BasicHUDGO?
-		/*
-		 * if (e.getKeyCode() == KeyEvent.VK_UP) { Robot r; try { r = new
-		 * Robot(); r.mouseMove(20, 20); } catch (AWTException e1) { 
-		 * catch block e1.printStackTrace(); } }
-		 */
-
+	public void keyPressed(KeyAction e) {
+		keyboardState.getKeyActions().add(e);
 	}
 
-	@Override
-	public void keyReleased(KeyEvent e) {
+	public void keyReleased(KeyAction e) {
 
 	}
 	
@@ -184,6 +152,7 @@ public class PlayNInputListener implements MouseListener,
 	 * @param keyEvent The key event
 	 * @return The GUI {@link KeyAction}
 	 */
+	/*
 	public KeyAction getKeyboardAction(KeyActionType actionType, KeyEvent keyEvent) {
 		switch (keyEvent.getKeyCode()) {
 		case KeyEvent.VK_UP:
@@ -202,7 +171,7 @@ public class PlayNInputListener implements MouseListener,
 		if (keyEvent.getKeyChar() != 0)
 			return new KeyActionImpl(actionType, keyEvent.getKeyChar());
 		return null;
-	}
+	}*/
 	
 	/**
 	 * Get the GUI {@link MouseAction} from the Java {@link MouseEvent}, given the position in the virtual GUI representation
@@ -213,7 +182,8 @@ public class PlayNInputListener implements MouseListener,
 	 * @param click True if the mouse button is clicked
 	 * @return The GUI {@link MouseAction}
 	 */
-	public MouseAction getMouseAction(MouseEvent e, int virtualX, int virtualY, boolean click) {
+	/*
+	public MouseAction getMouseAction(int button, int virtualX, int virtualY, boolean click) {
 		if (e.getButton() == MouseEvent.NOBUTTON) {
 			return null; //new MouseActionImpl(MouseAction.MouseActionType.MOVED, virtualX, virtualY);
 		} else if (e.getButton() == MouseEvent.BUTTON1 && e.getClickCount() == 1 && !click) {
@@ -230,6 +200,6 @@ public class PlayNInputListener implements MouseListener,
 	 	return null;
 		
 	}
-
+*/
 
 }

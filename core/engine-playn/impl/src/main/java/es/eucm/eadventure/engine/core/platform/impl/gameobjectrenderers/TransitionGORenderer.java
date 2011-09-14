@@ -37,8 +37,9 @@
 
 package es.eucm.eadventure.engine.core.platform.impl.gameobjectrenderers;
 
-import java.awt.Graphics2D;
 import java.util.logging.Logger;
+
+import playn.core.Canvas;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -50,13 +51,13 @@ import es.eucm.eadventure.engine.core.platform.GameObjectRenderer;
 import es.eucm.eadventure.engine.core.platform.GraphicRendererFactory;
 
 @Singleton
-public class TransitionGORenderer  implements GameObjectRenderer<Graphics2D, TransitionGO> {
+public class TransitionGORenderer  implements GameObjectRenderer<Canvas, TransitionGO> {
 
 	/**
 	 * The {@link GraphicRendererFactor} used to display the elements in the
 	 * graphic context
 	 */
-	private GraphicRendererFactory<Graphics2D> factory;
+	private GraphicRendererFactory<Canvas> factory;
 
 	/**
 	 * Logger
@@ -67,18 +68,18 @@ public class TransitionGORenderer  implements GameObjectRenderer<Graphics2D, Tra
 	@SuppressWarnings("unchecked")
 	@Inject
 	public TransitionGORenderer(GraphicRendererFactory<?> factory) {
-		this.factory = (GraphicRendererFactory<Graphics2D>) factory;
+		this.factory = (GraphicRendererFactory<Canvas>) factory;
 		logger.info("New instance");
 	}
 
 	@Override
-	public void render(Graphics2D graphicContext, TransitionGO object,
+	public void render(Canvas graphicContext, TransitionGO object,
 			float interpolation, int offsetX, int offsetY) {
 		//Do nothing?
 	}
 	
 	@Override
-	public void render(Graphics2D graphicContext, TransitionGO object,
+	public void render(Canvas graphicContext, TransitionGO object,
 			EAdPosition position, float scale, int offsetX, int offsetY) {
 		if (object.getBackground() != null)
 			factory.render(graphicContext, object.getBackground(), EAdPositionImpl.volatileEAdPosition(0, 0), scale, offsetX, offsetY);
