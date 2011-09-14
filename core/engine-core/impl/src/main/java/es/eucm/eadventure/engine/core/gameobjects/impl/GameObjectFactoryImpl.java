@@ -45,10 +45,9 @@ import java.util.logging.Logger;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
-import es.eucm.eadventure.common.interfaces.MapProvider;
 import es.eucm.eadventure.common.interfaces.Element;
+import es.eucm.eadventure.common.interfaces.MapProvider;
 import es.eucm.eadventure.common.model.EAdElement;
-import es.eucm.eadventure.engine.core.gameobjects.EffectGO;
 import es.eucm.eadventure.engine.core.gameobjects.GameObject;
 import es.eucm.eadventure.engine.core.gameobjects.GameObjectFactory;
 
@@ -98,34 +97,36 @@ public abstract class GameObjectFactoryImpl implements GameObjectFactory {
 		if (temp != null)
 			return temp;
 
-		Class<? extends GameObject<?>> tempClass = classMap.get(element.getClass());
+		Class<? extends GameObject<?>> tempClass = classMap.get(element
+				.getClass());
 		if (tempClass == null) {
 			Class<?> clazz = element.getClass();
 			Element annotation = null;
-			while (annotation == null && clazz != null ) {
+			while (annotation == null && clazz != null) {
 				annotation = clazz.getAnnotation(Element.class);
 				clazz = clazz.getSuperclass();
 			}
-			
-			if ( annotation == null ){
-				logger.log(Level.SEVERE, "No element annotation for class " + element.getClass());
+
+			if (annotation == null) {
+				logger.log(Level.SEVERE, "No element annotation for class "
+						+ element.getClass());
 				return null;
 			}
 			Class<?> runtimeClass = annotation.runtime();
 			tempClass = classMap.get(runtimeClass);
 		}
 		if (tempClass == null) {
-			logger.log(Level.SEVERE, "No game element mapped for class " + element.getClass());
+			logger.log(Level.SEVERE, "No game element mapped for class "
+					+ element.getClass());
 		} else {
 			temp = (GameObject<T>) getInstance(tempClass);
 			temp.setElement(element);
-			
-			//TODO temporary code, to allow effect running multiple times
-			if (!(temp instanceof EffectGO))
-				objectMap.put(element, temp);
+
+			objectMap.put(element, temp);
 		}
 		return temp;
 	}
-	
-	public abstract GameObject<?> getInstance(Class<? extends GameObject<?>> clazz);
+
+	public abstract GameObject<?> getInstance(
+			Class<? extends GameObject<?>> clazz);
 }

@@ -64,6 +64,7 @@ public class SceneDemos {
 		sceneDemosClass.add(SoundScene.class);
 		sceneDemosClass.add(DrawablesScene.class);
 		sceneDemosClass.add(MoleGame.class);
+		sceneDemosClass.add(ShowQuestionScene.class);
 
 		sceneDemos = new ArrayList<SceneDemo>();
 		sceneDemos.add(new EmptyScene());
@@ -76,6 +77,7 @@ public class SceneDemos {
 		sceneDemos.add(new SoundScene());
 		sceneDemos.add(new DrawablesScene());
 		sceneDemos.add(new MoleGame());
+		sceneDemos.add(new ShowQuestionScene());
 	}
 
 	public List<Class<? extends SceneDemo>> getSceneDemos() {

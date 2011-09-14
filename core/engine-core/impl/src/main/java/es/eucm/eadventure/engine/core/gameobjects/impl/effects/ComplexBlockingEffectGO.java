@@ -39,39 +39,37 @@ package es.eucm.eadventure.engine.core.gameobjects.impl.effects;
 
 import com.google.inject.Inject;
 
+import es.eucm.eadventure.common.model.EAdElement;
 import es.eucm.eadventure.common.model.effects.EAdEffect;
 import es.eucm.eadventure.common.model.effects.impl.EAdComplexBlockingEffect;
 import es.eucm.eadventure.common.model.elements.EAdSceneElement;
 import es.eucm.eadventure.common.resources.StringHandler;
 import es.eucm.eadventure.engine.core.GameState;
 import es.eucm.eadventure.engine.core.ValueMap;
-import es.eucm.eadventure.engine.core.evaluators.EvaluatorFactory;
 import es.eucm.eadventure.engine.core.gameobjects.GameObjectFactory;
 import es.eucm.eadventure.engine.core.gameobjects.SceneElementGO;
 import es.eucm.eadventure.engine.core.platform.AssetHandler;
 import es.eucm.eadventure.engine.core.platform.GUI;
 import es.eucm.eadventure.engine.core.platform.PlatformConfiguration;
 
-public class ComplexBlockingEffectGO extends AbstractEffectGO<EAdComplexBlockingEffect> {
-
-	private EvaluatorFactory evaluatorFactory;
+public class ComplexBlockingEffectGO extends
+		AbstractEffectGO<EAdComplexBlockingEffect> {
 
 	@Inject
 	public ComplexBlockingEffectGO(AssetHandler assetHandler,
 			StringHandler stringHandler, GameObjectFactory gameObjectFactory,
 			GUI gui, GameState gameState, ValueMap valueMap,
-			PlatformConfiguration platformConfiguration, EvaluatorFactory evaluatorFactory) {
-		super(assetHandler, stringHandler, gameObjectFactory, gui, gameState, valueMap,
-				platformConfiguration);
-		this.evaluatorFactory = evaluatorFactory;
+			PlatformConfiguration platformConfiguration) {
+		super(assetHandler, stringHandler, gameObjectFactory, gui, gameState,
+				valueMap, platformConfiguration);
 	}
 
 	@Override
 	public void doLayout(int offsetX, int offsetY) {
-		//TODO check if correct offset
-		for (EAdSceneElement e : element.getComponents()){
+		// TODO check if correct offset
+		for (EAdSceneElement e : element.getComponents()) {
 			SceneElementGO<?> go = (SceneElementGO<?>) gameObjectFactory.get(e);
-			if ( go.isVisible() )
+			if (go.isVisible())
 				gui.addElement(go, offsetX, offsetY);
 		}
 	}
@@ -83,23 +81,26 @@ public class ComplexBlockingEffectGO extends AbstractEffectGO<EAdComplexBlocking
 
 	@Override
 	public boolean isFinished() {
-		boolean tempValue = evaluatorFactory.evaluate(element.getBlockingCondition());
-		return !tempValue;
+		return valueMap.getValue(element,
+				EAdComplexBlockingEffect.VAR_EFFECT_FINISHED);
 	}
-	
+
 	@Override
-	public void update( GameState gameState ){
+	public void update(GameState gameState) {
 		super.update(gameState);
-		for ( EAdSceneElement e: element.getComponents() ){
+		for (EAdSceneElement e : element.getComponents()) {
 			gameObjectFactory.get(e).update(gameState);
 		}
 	}
-	
-	public void finish( ){
+
+	public void finish() {
 		super.finish();
-		for ( EAdEffect e: element.getFinalEffects( ) ){
-			gameState.addEffect(e, action);	
+		for (EAdEffect e : element.getFinalEffects()) {
+			gameState.addEffect(e, action);
 		}
-		
+		for (EAdElement e : element.getComponents()) {
+			valueMap.remove(e);
+		}
+
 	}
 }

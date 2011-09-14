@@ -48,7 +48,6 @@ import es.eucm.eadventure.common.model.effects.impl.EAdVarInterpolationEffect.Lo
 import es.eucm.eadventure.common.model.effects.impl.sceneelements.EAdMakeActiveElementEffect;
 import es.eucm.eadventure.common.model.effects.impl.text.EAdShowQuestion;
 import es.eucm.eadventure.common.model.effects.impl.text.EAdSpeakEffect;
-import es.eucm.eadventure.common.model.effects.impl.text.extra.Answer;
 import es.eucm.eadventure.common.model.effects.impl.timedevents.EAdShowSceneElement;
 import es.eucm.eadventure.common.model.effects.impl.timedevents.EAdShowSceneElement.ShowTextAnimation;
 import es.eucm.eadventure.common.model.effects.impl.variables.EAdChangeFieldValueEffect;
@@ -108,18 +107,14 @@ public class EffectFactory {
 	 */
 	public EAdShowQuestion getShowQuestion(String question, int nAnswers) {
 		EAdShowQuestion effect = new EAdShowQuestion();
-		effect.setQuestion(EAdElementsFactory.getInstance()
-				.getSceneElementFactory().createSceneElement(question, 10, 10));
+		EAdString string = EAdElementsFactory.getInstance().getStringFactory()
+				.getString(question);
+		effect.setQuestion(string);
 		for (int i = 0; i < nAnswers; i++) {
 			int ordinal = i % StringType.values().length;
-			Answer a = new Answer("answer" + ID_GENERATOR++);
-			String s = StringType.values()[ordinal].getString();
-			a.getResources().addAsset(
-					a.getInitialBundle(),
-					EAdBasicSceneElement.appearance,
-					EAdElementsFactory.getInstance().getCaptionFactory()
-							.createCaption(s));
-			effect.getAnswers().add(a);
+			EAdString answerString = EAdElementsFactory.getInstance()
+					.getStringFactory().getString(StringType.values()[ordinal]);
+			effect.addAnswer(answerString, new EAdSpeakEffect("tal"));
 		}
 		effect.setUpNewInstance();
 		return effect;
@@ -147,10 +142,12 @@ public class EffectFactory {
 
 		effect.setText(string);
 		effect.setPosition(new EAdFieldImpl<Integer>(sceneElement,
-				EAdBasicSceneElement.VAR_X), new EAdFieldImpl<Integer>(sceneElement,
-						EAdBasicSceneElement.VAR_Y), new EAdFieldImpl<Float>(sceneElement,
-								EAdBasicSceneElement.VAR_DISP_X), new EAdFieldImpl<Float>(sceneElement,
-										EAdBasicSceneElement.VAR_DISP_Y));
+				EAdBasicSceneElement.VAR_X), new EAdFieldImpl<Integer>(
+				sceneElement, EAdBasicSceneElement.VAR_Y),
+				new EAdFieldImpl<Float>(sceneElement,
+						EAdBasicSceneElement.VAR_DISP_X),
+				new EAdFieldImpl<Float>(sceneElement,
+						EAdBasicSceneElement.VAR_DISP_Y));
 		effect.setStateVar(new EAdFieldImpl<String>(sceneElement,
 				EAdBasicSceneElement.VAR_STATE));
 

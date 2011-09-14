@@ -3,6 +3,7 @@ package es.eucm.eadventure.engine.core.platform.impl;
 import java.awt.AlphaComposite;
 import java.awt.BasicStroke;
 import java.awt.Color;
+import java.awt.Composite;
 import java.awt.GradientPaint;
 import java.awt.Graphics2D;
 import java.awt.Paint;
@@ -73,7 +74,7 @@ public class DesktopFillFactory implements FillFactory<Graphics2D, Shape> {
 			Rectangle2D bounds = g2.getFontMetrics().getStringBounds(text, g2);
 			GradientPaint p = getGradientPaint((EAdLinearGradient) fill,
 					(float) bounds.getWidth(), (float) bounds.getHeight());
-			
+
 			g2.setPaint(p);
 			g2.drawString(text, 0, 0);
 		}
@@ -81,9 +82,17 @@ public class DesktopFillFactory implements FillFactory<Graphics2D, Shape> {
 	}
 
 	private void prepareGraphics(EAdColor color, Graphics2D g2) {
-		if (color.getAlpha() > 0 && color.getAlpha() <= 255)
+		if (color.getAlpha() > 0 && color.getAlpha() <= 255) {
+
+			float factor = (float) color.getAlpha() / 255.0f;
+
+			Composite c = g2.getComposite();
+			if (c instanceof AlphaComposite) {
+				factor *= ((AlphaComposite) c).getAlpha();
+			}
 			g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER,
-					(float) color.getAlpha() / 255.0f));
+					factor));
+		}
 
 		paint = new Color(color.getRed(), color.getGreen(), color.getBlue());
 

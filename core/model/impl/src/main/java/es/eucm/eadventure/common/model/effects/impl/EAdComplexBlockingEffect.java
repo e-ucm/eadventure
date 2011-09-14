@@ -39,16 +39,19 @@ package es.eucm.eadventure.common.model.effects.impl;
 
 import es.eucm.eadventure.common.interfaces.Element;
 import es.eucm.eadventure.common.interfaces.Param;
-import es.eucm.eadventure.common.model.conditions.impl.EmptyCondition;
 import es.eucm.eadventure.common.model.effects.EAdEffect;
-import es.eucm.eadventure.common.model.elements.EAdCondition;
 import es.eucm.eadventure.common.model.elements.EAdSceneElement;
 import es.eucm.eadventure.common.model.extra.EAdList;
 import es.eucm.eadventure.common.model.extra.impl.EAdListImpl;
+import es.eucm.eadventure.common.model.variables.EAdVarDef;
+import es.eucm.eadventure.common.model.variables.impl.EAdVarDefImpl;
 
 @Element(detailed = EAdComplexBlockingEffect.class, runtime = EAdComplexBlockingEffect.class)
 public class EAdComplexBlockingEffect extends AbstractEAdEffect implements
 		EAdEffect {
+
+	public static final EAdVarDef<Boolean> VAR_EFFECT_FINISHED = new EAdVarDefImpl<Boolean>(
+			"effect_finished", Boolean.class, Boolean.FALSE);
 
 	@Param("componentes")
 	protected EAdList<EAdSceneElement> components;
@@ -56,27 +59,14 @@ public class EAdComplexBlockingEffect extends AbstractEAdEffect implements
 	@Param("finalEffects")
 	protected EAdList<EAdEffect> finalEffects;
 
-	@Param("blockingCondition")
-	private EAdCondition blockingCondition;
-
 	public EAdComplexBlockingEffect(String id) {
 		super(id);
-		components = new EAdListImpl<EAdSceneElement>(
-				EAdSceneElement.class);
-		blockingCondition = EmptyCondition.TRUE_EMPTY_CONDITION;
+		components = new EAdListImpl<EAdSceneElement>(EAdSceneElement.class);
 		finalEffects = new EAdListImpl<EAdEffect>(EAdEffect.class);
 	}
 
 	public EAdList<EAdSceneElement> getComponents() {
 		return components;
-	}
-
-	public EAdCondition getBlockingCondition() {
-		return blockingCondition;
-	}
-
-	public void setBlockingCondition(EAdCondition blockingCondition) {
-		this.blockingCondition = blockingCondition;
 	}
 
 	/**

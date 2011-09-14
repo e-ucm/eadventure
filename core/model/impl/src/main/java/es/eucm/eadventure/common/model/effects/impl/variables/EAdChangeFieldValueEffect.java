@@ -100,7 +100,7 @@ public class EAdChangeFieldValueEffect extends AbstractEAdEffect {
 	 * @param var
 	 *            the variable
 	 */
-	public void addVar(EAdField<?> var) {
+	public void addField(EAdField<?> var) {
 		fields.add(var);
 	}
 

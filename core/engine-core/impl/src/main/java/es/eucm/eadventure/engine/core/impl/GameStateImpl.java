@@ -183,8 +183,9 @@ public class GameStateImpl implements GameState {
 		synchronized (effectsQueue) {
 			pos = pos == -1 ? effectsQueue.size() : pos;
 			effectsQueue.add(pos, e);
+			actionsQueue.add(action);
 		}
-		actionsQueue.add(action);
+		
 	}
 
 	@Override
@@ -238,8 +239,8 @@ public class GameStateImpl implements GameState {
 				logger.info("Added " + effectGO);
 			}
 			effectsQueue.clear();
+			actionsQueue.clear();
 		}
-		actionsQueue.clear();
 
 	}
 

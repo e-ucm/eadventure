@@ -89,7 +89,7 @@ public class DesktopCaptionRenderer implements
 
 		g2.translate(asset.getCaption().getPadding(), asset.getCaption()
 				.getPadding());
-		int yOffset = 0;
+		int yOffset = - asset.getFont().lineHeight() / 4;
 		for (String s : asset.getText()) {
 			yOffset += asset.getFont().stringBounds(s).getHeight();
 			drawString(g2, asset, s, yOffset);

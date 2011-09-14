@@ -60,6 +60,8 @@ public class VarInterpolationGO extends
 
 	private int currentTime;
 
+	private int delay;
+
 	private float interpolationLength;
 
 	private boolean integer;
@@ -100,6 +102,7 @@ public class VarInterpolationGO extends
 		finished = false;
 		logger.info(element.getField() + " is going to be inerpolated from "
 				+ startValue + " to " + endValue);
+		delay = element.getDelay();
 
 		operatorFactory.operate(element.getField(), element.getInitialValue());
 	}
@@ -116,42 +119,47 @@ public class VarInterpolationGO extends
 
 	@SuppressWarnings("unchecked")
 	public void update(GameState gameSate) {
-		currentTime += GameLoop.SKIP_MILLIS_TICK;
-		if (currentTime > element.getInterpolationTime()) {
-			switch (element.getLoopType()) {
-			case RESTART:
-				while (currentTime > element.getInterpolationTime()) {
-					currentTime -= element.getInterpolationTime();
+		if (delay <= 0) {
+			currentTime += GameLoop.SKIP_MILLIS_TICK;
+			if (currentTime > element.getInterpolationTime()) {
+				switch (element.getLoopType()) {
+				case RESTART:
+					while (currentTime > element.getInterpolationTime()) {
+						currentTime -= element.getInterpolationTime();
+					}
+					break;
+				case REVERSE:
+					while (currentTime > element.getInterpolationTime()) {
+						currentTime -= element.getInterpolationTime();
+					}
+					reverse = !reverse;
+					break;
+				default:
+					currentTime = element.getInterpolationTime();
+					finished = true;
+					if (integer)
+						valueMap.setValue(
+								(EAdField<Integer>) element.getField(),
+								Math.round(endValue));
+					else
+						valueMap.setValue((EAdField<Float>) element.getField(),
+								(Float) endValue);
+
+					logger.info(element.getField().toString() + " set to "
+							+ endValue);
 				}
-				break;
-			case REVERSE:
-				while (currentTime > element.getInterpolationTime()) {
-					currentTime -= element.getInterpolationTime();
-				}
-				reverse = !reverse;
-				break;
-			default:
-				currentTime = element.getInterpolationTime();
-				finished = true;
+			} else {
+
+				// TODO this should be done "automatically"
 				if (integer)
 					valueMap.setValue((EAdField<Integer>) element.getField(),
-							Math.round(endValue));
+							(Integer) interpolation());
 				else
 					valueMap.setValue((EAdField<Float>) element.getField(),
-							(Float) endValue);
-
-				logger.info(element.getField().toString() + " set to "
-						+ endValue);
+							(Float) interpolation());
 			}
 		} else {
-
-			// TODO this should be done "automatically"
-			if (integer)
-				valueMap.setValue((EAdField<Integer>) element.getField(),
-						(Integer) interpolation());
-			else
-				valueMap.setValue((EAdField<Float>) element.getField(),
-						(Float) interpolation());
+			delay -= GameLoop.SKIP_MILLIS_TICK;
 		}
 	}
 
