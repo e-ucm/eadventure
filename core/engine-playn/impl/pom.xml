@@ -76,5 +76,11 @@
 			<artifactId>gin</artifactId>
 			<version>1.5.0</version>
 		</dependency>
+		
+		<dependency>
+			<groupId>com.gwtent</groupId>
+			<artifactId>GwtEnt</artifactId>
+			<version>2.0RC1</version>
+		</dependency>
 	</dependencies>
 </project>

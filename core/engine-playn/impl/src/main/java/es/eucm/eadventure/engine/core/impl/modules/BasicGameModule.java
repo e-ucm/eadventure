@@ -12,6 +12,8 @@ import es.eucm.eadventure.engine.core.Game;
 import es.eucm.eadventure.engine.core.GameController;
 import es.eucm.eadventure.engine.core.GameState;
 import es.eucm.eadventure.engine.core.ValueMap;
+import es.eucm.eadventure.engine.core.debuggers.EAdDebugger;
+import es.eucm.eadventure.engine.core.debuggers.impl.EAdMainDebugger;
 import es.eucm.eadventure.engine.core.gameobjects.huds.EffectHUD;
 import es.eucm.eadventure.engine.core.gameobjects.huds.impl.EffectHUDImpl;
 import es.eucm.eadventure.engine.core.impl.GameControllerImpl;
@@ -37,7 +39,7 @@ public class BasicGameModule extends AbstractGinModule {
 		bind(Game.class).to(GameImpl.class);
 		bind(EffectHUD.class).to(EffectHUDImpl.class);
 		bind(FontCache.class).to(FontCacheImpl.class);
-//		bind(EAdDebugger.class).to(EAdMainDebugger.class);
+		bind(EAdDebugger.class).to(EAdMainDebugger.class);
 
 		bind(EAdAdventureModel.class).to(EAdAdventureModelImpl.class);
 		bind(EAdScene.class).annotatedWith(Names.named("LoadingScreen")).to(

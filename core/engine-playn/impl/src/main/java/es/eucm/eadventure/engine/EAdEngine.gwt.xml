@@ -18,6 +18,7 @@
   <inherits name='es.eucm.eadventure.common.model'/>
   <inherits name='es.eucm.eadventure.engine.enginecore'/>
   <inherits name='java.util.lib'/>
+  <inherits name='com.gwtent.GwtEnt'/>
 
 
   <!--

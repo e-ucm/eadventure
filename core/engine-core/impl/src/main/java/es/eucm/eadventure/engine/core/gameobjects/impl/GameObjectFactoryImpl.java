@@ -46,7 +46,6 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 import es.eucm.eadventure.common.interfaces.MapProvider;
-import es.eucm.eadventure.common.interfaces.Element;
 import es.eucm.eadventure.common.model.EAdElement;
 import es.eucm.eadventure.engine.core.gameobjects.EffectGO;
 import es.eucm.eadventure.engine.core.gameobjects.GameObject;
@@ -100,18 +99,7 @@ public abstract class GameObjectFactoryImpl implements GameObjectFactory {
 
 		Class<? extends GameObject<?>> tempClass = classMap.get(element.getClass());
 		if (tempClass == null) {
-			Class<?> clazz = element.getClass();
-			Element annotation = null;
-			while (annotation == null && clazz != null ) {
-				annotation = clazz.getAnnotation(Element.class);
-				clazz = clazz.getSuperclass();
-			}
-			
-			if ( annotation == null ){
-				logger.log(Level.SEVERE, "No element annotation for class " + element.getClass());
-				return null;
-			}
-			Class<?> runtimeClass = annotation.runtime();
+			Class<?> runtimeClass = getRuntimeClass(element);
 			tempClass = classMap.get(runtimeClass);
 		}
 		if (tempClass == null) {
@@ -128,4 +116,6 @@ public abstract class GameObjectFactoryImpl implements GameObjectFactory {
 	}
 	
 	public abstract GameObject<?> getInstance(Class<? extends GameObject<?>> clazz);
+	
+	public abstract <T extends EAdElement> Class<?> getRuntimeClass(T element);
 }
