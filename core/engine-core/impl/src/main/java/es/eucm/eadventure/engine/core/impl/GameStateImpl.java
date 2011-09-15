@@ -39,6 +39,7 @@ package es.eucm.eadventure.engine.core.impl;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map.Entry;
 import java.util.Stack;
 import java.util.logging.Logger;
 
@@ -52,6 +53,7 @@ import es.eucm.eadventure.common.model.elements.EAdChapter;
 import es.eucm.eadventure.common.model.elements.EAdScene;
 import es.eucm.eadventure.common.model.elements.EAdSceneElement;
 import es.eucm.eadventure.common.model.elements.impl.EAdSceneImpl;
+import es.eucm.eadventure.common.model.variables.EAdVarDef;
 import es.eucm.eadventure.engine.core.GameState;
 import es.eucm.eadventure.engine.core.ValueMap;
 import es.eucm.eadventure.engine.core.gameobjects.EffectGO;
@@ -134,9 +136,14 @@ public class GameStateImpl implements GameState {
 				previousSceneStack.push(scene.getElement());
 		}
 		this.scene = newScene;
-		if (this.scene != null && this.scene.getElement() != null)
+		if (this.scene != null && this.scene.getElement() != null) {
 			valueMap.setValue(scene.getElement(),
 					EAdSceneImpl.VAR_SCENE_LOADED, Boolean.TRUE);
+			for (Entry<EAdVarDef<?>, Object> e : scene.getElement().getVars()
+					.entrySet()) {
+				valueMap.setValue(e.getKey(), e.getValue(), scene.getElement());
+			}
+		}
 
 	}
 

@@ -68,7 +68,7 @@ public class SpeakAndMoveScene extends EmptyScene {
 		event.addEffect(SceneElementEvent.ADDED_TO_SCENE, makeActive);
 		character.getEvents().add(event);
 
-		setTrajectoryGenerator(new SimpleTrajectoryDefinition(false));
+		setTrajectoryDefinition(new SimpleTrajectoryDefinition(false));
 
 		getBackground().addBehavior(EAdMouseEventImpl.MOUSE_RIGHT_CLICK,
 				new EAdMoveActiveElement("moveCharacter"));

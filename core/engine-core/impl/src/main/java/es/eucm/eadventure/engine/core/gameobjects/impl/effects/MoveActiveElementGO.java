@@ -46,6 +46,8 @@ import es.eucm.eadventure.common.model.effects.impl.sceneelements.EAdMoveSceneEl
 import es.eucm.eadventure.common.model.effects.impl.sceneelements.EAdMoveSceneElement.MovementSpeed;
 import es.eucm.eadventure.common.model.elements.EAdScene;
 import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
+import es.eucm.eadventure.common.model.elements.impl.EAdSceneImpl;
+import es.eucm.eadventure.common.model.trajectories.TrajectoryDefinition;
 import es.eucm.eadventure.common.params.geom.EAdPosition;
 import es.eucm.eadventure.common.params.geom.impl.EAdPositionImpl;
 import es.eucm.eadventure.common.resources.StringHandler;
@@ -83,14 +85,16 @@ public class MoveActiveElementGO extends AbstractEffectGO<EAdMoveActiveElement> 
 			int y = element.getTargetY() == EAdMoveActiveElement.MOUSE_COORDINATE ? ((MouseAction) action)
 					.getVirtualY() : element.getTargetY();
 			EAdScene scene = (EAdScene) object;
-			if (scene.getTrajectoryDefinition() != null) {
+			TrajectoryDefinition trajectoryDefinition = valueMap.getValue(
+					scene, EAdSceneImpl.VAR_TRAJECTORY_DEFINITION);
+			if (trajectoryDefinition != null) {
 				EAdPositionImpl pos = new EAdPositionImpl(0, 0);
 				pos.setX(valueMap.getValue(gameState.getActiveElement(),
 						EAdBasicSceneElement.VAR_X));
 				pos.setY(valueMap.getValue(gameState.getActiveElement(),
 						EAdBasicSceneElement.VAR_Y));
 				List<EAdPosition> trajectory = trajectoryFactory.getTrajectory(
-						scene.getTrajectoryDefinition(), pos, x, y);
+						trajectoryDefinition, pos, x, y);
 				for (EAdPosition p : trajectory) {
 					EAdMoveSceneElement effect = new EAdMoveSceneElement(
 							"trajectory", gameState.getActiveElement(),
