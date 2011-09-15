@@ -41,8 +41,11 @@ import es.eucm.eadventure.common.interfaces.Param;
 import es.eucm.eadventure.common.model.effects.EAdEffect;
 import es.eucm.eadventure.common.model.events.EAdEvent;
 import es.eucm.eadventure.common.model.extra.EAdList;
+import es.eucm.eadventure.common.model.extra.EAdMap;
 import es.eucm.eadventure.common.model.extra.impl.EAdListImpl;
+import es.eucm.eadventure.common.model.extra.impl.EAdMapImpl;
 import es.eucm.eadventure.common.model.impl.AbstractEAdConditionedElement;
+import es.eucm.eadventure.common.model.variables.EAdVarDef;
 
 /**
  * <p>
@@ -66,15 +69,18 @@ public abstract class AbstractEAdEffect extends AbstractEAdConditionedElement
 	 */
 	@Param("opaque")
 	private boolean opaque;
-	
+
 	/**
 	 * Indicates that this effect is queued and can be blocked
 	 */
 	@Param("queueable")
 	private boolean queueable;
-	
+
 	@Param("events")
 	private EAdList<EAdEvent> events;
+
+	@Param("initialVars")
+	private EAdMap<EAdVarDef<?>, Object> initialVars;
 
 	/**
 	 * Creates an non-blocking and non-opaque effect with next effects list
@@ -90,11 +96,13 @@ public abstract class AbstractEAdEffect extends AbstractEAdConditionedElement
 		blocking = false;
 		opaque = false;
 		queueable = false;
-		events = new EAdListImpl<EAdEvent>( EAdEvent.class );
+		events = new EAdListImpl<EAdEvent>(EAdEvent.class);
+		initialVars = new EAdMapImpl<EAdVarDef<?>, Object>(EAdVarDef.class,
+				Object.class);
 	}
-	
-	public AbstractEAdEffect( ){
-		this( "effect" );
+
+	public AbstractEAdEffect() {
+		this("effect");
 	}
 
 	/**
@@ -118,7 +126,7 @@ public abstract class AbstractEAdEffect extends AbstractEAdConditionedElement
 	public void setOpaque(boolean opaque) {
 		this.opaque = opaque;
 	}
-	
+
 	public void setQueueable(boolean queueable) {
 		this.queueable = queueable;
 	}
@@ -142,14 +150,22 @@ public abstract class AbstractEAdEffect extends AbstractEAdConditionedElement
 	public boolean isOpaque() {
 		return opaque;
 	}
-	
+
 	@Override
 	public boolean isQueueable() {
 		return queueable;
 	}
-	
-	public EAdList<EAdEvent> getEvents(){
+
+	public EAdList<EAdEvent> getEvents() {
 		return events;
+	}
+
+	public EAdMap<EAdVarDef<?>, Object> getVars() {
+		return initialVars;
+	}
+
+	public <T> void setVarInitialValue(EAdVarDef<T> var, T value) {
+		initialVars.put(var, value);
 	}
 
 }

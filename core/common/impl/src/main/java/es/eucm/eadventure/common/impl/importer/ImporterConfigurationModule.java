@@ -58,7 +58,6 @@ import es.eucm.eadventure.common.data.chapter.conversation.Conversation;
 import es.eucm.eadventure.common.data.chapter.conversation.GraphConversation;
 import es.eucm.eadventure.common.data.chapter.conversation.line.ConversationLine;
 import es.eucm.eadventure.common.data.chapter.conversation.node.DialogueConversationNode;
-import es.eucm.eadventure.common.data.chapter.conversation.node.OptionConversationNode;
 import es.eucm.eadventure.common.data.chapter.effects.Macro;
 import es.eucm.eadventure.common.data.chapter.elements.ActiveArea;
 import es.eucm.eadventure.common.data.chapter.elements.Atrezzo;
@@ -90,7 +89,6 @@ import es.eucm.eadventure.common.impl.importer.subimporters.chapter.conversation
 import es.eucm.eadventure.common.impl.importer.subimporters.chapter.conversations.DialogueNodeImporter;
 import es.eucm.eadventure.common.impl.importer.subimporters.chapter.conversations.LineImporterToCaption;
 import es.eucm.eadventure.common.impl.importer.subimporters.chapter.conversations.LineImporterToShowText;
-import es.eucm.eadventure.common.impl.importer.subimporters.chapter.conversations.OptionConversationImporter;
 import es.eucm.eadventure.common.impl.importer.subimporters.chapter.cutscene.SlidesceneImporter;
 import es.eucm.eadventure.common.impl.importer.subimporters.chapter.cutscene.VideosceneImporter;
 import es.eucm.eadventure.common.impl.importer.subimporters.chapter.scene.ActiveAreaImporter;
@@ -111,7 +109,6 @@ import es.eucm.eadventure.common.model.conditions.impl.VarCondition;
 import es.eucm.eadventure.common.model.effects.EAdEffect;
 import es.eucm.eadventure.common.model.effects.EAdMacro;
 import es.eucm.eadventure.common.model.effects.impl.EAdTriggerMacro;
-import es.eucm.eadventure.common.model.effects.impl.text.EAdShowQuestion;
 import es.eucm.eadventure.common.model.effects.impl.timedevents.EAdShowSceneElement;
 import es.eucm.eadventure.common.model.elements.EAdActor;
 import es.eucm.eadventure.common.model.elements.EAdActorReference;
@@ -273,12 +270,6 @@ public class ImporterConfigurationModule extends AbstractModule {
 				}).to(LineImporterToShowText.class);
 		EAdElementFactoryImpl.importerMap.put(ConversationLine.class,
 				LineImporterToShowText.class);
-
-		bind(
-				new TypeLiteral<EAdElementImporter<OptionConversationNode, EAdShowQuestion>>() {
-				}).to(OptionConversationImporter.class);
-		EAdElementFactoryImpl.importerMap.put(OptionConversationNode.class,
-				OptionConversationImporter.class);
 
 		bind(new TypeLiteral<EAdElementImporter<Timer, EAdTimer>>() {
 		}).to(TimerImporter.class);

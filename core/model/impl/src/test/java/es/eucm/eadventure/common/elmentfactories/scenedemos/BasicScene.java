@@ -231,51 +231,51 @@ public class BasicScene extends EAdSceneImpl implements SceneDemo {
 	// }
 
 	private void initShowQuestion() {
-		showQuestionEffect = new EAdShowQuestion("question");
-		CaptionImpl questionText = new CaptionImpl();
-		questionText.setBubbleColor(EAdBorderedColor.WHITE_ON_BLACK);
-		questionText.setText(new EAdString("question"));
-		questionText.setTextColor(EAdBorderedColor.BLACK_ON_WHITE);
-		EAdBasicSceneElement element = new EAdBasicSceneElement(
-				"question_element");
-		element.getResources().addAsset(element.getInitialBundle(),
-				EAdBasicSceneElement.appearance, questionText);
-		showQuestionEffect.setQuestion(element);
-
-		CaptionImpl captionImpl = new CaptionImpl();
-		captionImpl.setText(new EAdString("answer1"));
-		Answer answer = new Answer(showQuestionEffect.getId() + "_answer1");
-		answer.getResources().addAsset(answer.getInitialBundle(),
-				Answer.appearance, captionImpl);
-
-		EAdChangeFieldValueEffect changePos = new EAdChangeFieldValueEffect(
-				"id");
-		
-		EAdField<Integer> xField = new EAdFieldImpl<Integer>( panielReference,
-				EAdBasicSceneElement.VAR_X);
-		changePos.addVar(xField);
-		changePos.setOperation(new LiteralExpressionOperation("id",
-				"[0] + 200", xField));
-		answer.getMacro().getEffects().add(changePos);
-		showQuestionEffect.getAnswers().add(answer);
-
-		captionImpl = new CaptionImpl();
-		captionImpl.setText(new EAdString("answer2"));
-		answer = new Answer(showQuestionEffect.getId() + "_answer2");
-		answer.getResources().addAsset(answer.getInitialBundle(),
-				Answer.appearance, captionImpl);
-		answer.getMacro().getEffects().add(changeScreenEffect);
-		showQuestionEffect.getAnswers().add(answer);
-
-		captionImpl = new CaptionImpl();
-		captionImpl.setText(new EAdString("answer3"));
-		answer = new Answer(showQuestionEffect.getId() + "_answer3");
-		answer.getResources().addAsset(answer.getInitialBundle(),
-				Answer.appearance, captionImpl);
-		answer.getMacro().getEffects().add(changeScreenEffect);
-		showQuestionEffect.getAnswers().add(answer);
-
-		showQuestionEffect.setUpNewInstance();
+//		showQuestionEffect = new EAdShowQuestion("question");
+//		CaptionImpl questionText = new CaptionImpl();
+//		questionText.setBubbleColor(EAdBorderedColor.WHITE_ON_BLACK);
+//		questionText.setText(new EAdString("question"));
+//		questionText.setTextColor(EAdBorderedColor.BLACK_ON_WHITE);
+//		EAdBasicSceneElement element = new EAdBasicSceneElement(
+//				"question_element");
+//		element.getResources().addAsset(element.getInitialBundle(),
+//				EAdBasicSceneElement.appearance, questionText);
+//		showQuestionEffect.setQuestion(element);
+//
+//		CaptionImpl captionImpl = new CaptionImpl();
+//		captionImpl.setText(new EAdString("answer1"));
+//		Answer answer = new Answer(showQuestionEffect.getId() + "_answer1");
+//		answer.getResources().addAsset(answer.getInitialBundle(),
+//				Answer.appearance, captionImpl);
+//
+//		EAdChangeFieldValueEffect changePos = new EAdChangeFieldValueEffect(
+//				"id");
+//		
+//		EAdField<Integer> xField = new EAdFieldImpl<Integer>( panielReference,
+//				EAdBasicSceneElement.VAR_X);
+//		changePos.addVar(xField);
+//		changePos.setOperation(new LiteralExpressionOperation("id",
+//				"[0] + 200", xField));
+//		answer.getMacro().getEffects().add(changePos);
+//		showQuestionEffect.getAnswers().add(answer);
+//
+//		captionImpl = new CaptionImpl();
+//		captionImpl.setText(new EAdString("answer2"));
+//		answer = new Answer(showQuestionEffect.getId() + "_answer2");
+//		answer.getResources().addAsset(answer.getInitialBundle(),
+//				Answer.appearance, captionImpl);
+//		answer.getMacro().getEffects().add(changeScreenEffect);
+//		showQuestionEffect.getAnswers().add(answer);
+//
+//		captionImpl = new CaptionImpl();
+//		captionImpl.setText(new EAdString("answer3"));
+//		answer = new Answer(showQuestionEffect.getId() + "_answer3");
+//		answer.getResources().addAsset(answer.getInitialBundle(),
+//				Answer.appearance, captionImpl);
+//		answer.getMacro().getEffects().add(changeScreenEffect);
+//		showQuestionEffect.getAnswers().add(answer);
+//
+//		showQuestionEffect.setUpNewInstance();
 
 	}
 

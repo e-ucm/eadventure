@@ -25,5 +25,5 @@ public interface Variabled {
 	 * @param value
 	 *            the initial value
 	 */
-	public <T> void setVarInitialValue(EAdVarDef<T> var, T value);
+	<T> void setVarInitialValue(EAdVarDef<T> var, T value);
 }

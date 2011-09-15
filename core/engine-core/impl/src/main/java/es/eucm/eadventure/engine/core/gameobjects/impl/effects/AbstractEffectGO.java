@@ -37,9 +37,12 @@
 
 package es.eucm.eadventure.engine.core.gameobjects.impl.effects;
 
+import java.util.Map.Entry;
+
 import com.google.inject.Inject;
 
 import es.eucm.eadventure.common.model.effects.EAdEffect;
+import es.eucm.eadventure.common.model.variables.EAdVarDef;
 import es.eucm.eadventure.common.resources.StringHandler;
 import es.eucm.eadventure.engine.core.GameState;
 import es.eucm.eadventure.engine.core.ValueMap;
@@ -54,6 +57,12 @@ import es.eucm.eadventure.engine.core.platform.PlatformConfiguration;
 public abstract class AbstractEffectGO<P extends EAdEffect> extends
 		GameObjectImpl<P> implements EffectGO<P> {
 
+	private boolean stopped = false;
+
+	private boolean initialized = false;
+
+	protected GUIAction action;
+	
 	@Inject
 	public AbstractEffectGO(AssetHandler assetHandler,
 			StringHandler stringsReader, GameObjectFactory gameObjectFactory,
@@ -63,15 +72,12 @@ public abstract class AbstractEffectGO<P extends EAdEffect> extends
 				valueMap, platformConfiguration);
 	}
 
-	private boolean stopped = false;
-
-	private boolean initialized = false;
-
-	protected GUIAction action;
-
 	@Override
 	public void initilize() {
 		initialized = true;
+		for ( Entry<EAdVarDef<?>, Object> e: element.getVars().entrySet()){
+			valueMap.setValue(e.getKey(), e.getValue(), element);
+		}
 	}
 
 	public P getEffect() {
@@ -113,6 +119,8 @@ public abstract class AbstractEffectGO<P extends EAdEffect> extends
 	public void finish() {
 		initialized = false;
 		stopped = true;
+		valueMap.remove(element);
+		gameObjectFactory.remove(element);
 	}
 
 	public void setGUIAction(GUIAction action) {

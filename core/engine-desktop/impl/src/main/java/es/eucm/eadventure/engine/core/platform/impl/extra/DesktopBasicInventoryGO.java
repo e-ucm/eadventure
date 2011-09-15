@@ -230,6 +230,9 @@ public class DesktopBasicInventoryGO extends BasicInventoryGO {
 		EAdFieldImpl<Boolean> visibleField = new EAdFieldImpl<Boolean>(
 				centerSensor, EAdBasicSceneElement.VAR_VISIBLE);
 
+		centerSensor.setVarInitialValue(EAdBasicSceneElement.VAR_VISIBLE,
+				Boolean.FALSE);
+
 		// Hide inventory bottom
 		EAdMacro macro = new EAdMacroImpl("hideInventory");
 
@@ -320,6 +323,7 @@ public class DesktopBasicInventoryGO extends BasicInventoryGO {
 		gameObjectFactory.get(bottomSensor).update(gameState);
 		gameObjectFactory.get(topSensor).update(gameState);
 		gameObjectFactory.get(inventory).update(gameState);
+		gameObjectFactory.get(centerSensor).update(gameState);
 
 		List<EAdActor> removedActors = new ArrayList<EAdActor>();
 		addNewActors();

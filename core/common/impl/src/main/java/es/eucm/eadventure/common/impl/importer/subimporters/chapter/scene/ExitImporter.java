@@ -151,7 +151,7 @@ public class ExitImporter implements EAdElementImporter<Exit, EAdSceneElement> {
 
 			EAdChangeFieldValueEffect visibleVar = new EAdChangeFieldValueEffect(
 					newExit.getId() + "_visibleEffect");
-			visibleVar.addVar(visibleField);
+			visibleVar.addField(visibleField);
 			BooleanOperation op = new BooleanOperation("booleanOpTrue");
 			op.setCondition(EmptyCondition.TRUE_EMPTY_CONDITION);
 			visibleVar.setOperation(op);
@@ -160,7 +160,7 @@ public class ExitImporter implements EAdElementImporter<Exit, EAdSceneElement> {
 
 			EAdChangeFieldValueEffect notVisibleVar = new EAdChangeFieldValueEffect(
 					newExit.getId() + "_notVisibleEffect");
-			notVisibleVar.addVar(visibleField);
+			notVisibleVar.addField(visibleField);
 			op = new BooleanOperation("booleanOpFalse");
 			op.setCondition(EmptyCondition.FALSE_EMPTY_CONDITION);
 			notVisibleVar.setOperation(op);

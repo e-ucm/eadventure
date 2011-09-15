@@ -96,6 +96,9 @@ public class EAdVarInterpolationEffect extends AbstractEAdEffect {
 	@Param("time")
 	private int interpolationTime;
 
+	@Param("delay")
+	private int delay;
+
 	@Param("loop")
 	private LoopType loopType;
 
@@ -161,9 +164,9 @@ public class EAdVarInterpolationEffect extends AbstractEAdEffect {
 	public void setInterpolation(EAdField<?> var, float initialValue,
 			float endValue, int time, LoopType loop,
 			InterpolationType interpolationType) {
-		setInterpolation(var, new LiteralExpressionOperation("id", ""
-				+ initialValue), new LiteralExpressionOperation("" + endValue),
-				time, loop, interpolationType);
+		setInterpolation(var, new LiteralExpressionOperation("startValue", ""
+				+ initialValue), new LiteralExpressionOperation("endValue", ""
+				+ endValue), time, loop, interpolationType);
 	}
 
 	public EAdField<?> getField() {
@@ -176,6 +179,14 @@ public class EAdVarInterpolationEffect extends AbstractEAdEffect {
 
 	public LiteralExpressionOperation getEndValue() {
 		return endValue;
+	}
+
+	public void setDelay(int delay) {
+		this.delay = delay;
+	}
+
+	public int getDelay() {
+		return delay;
 	}
 
 	public int getInterpolationTime() {

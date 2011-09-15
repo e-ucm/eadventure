@@ -38,6 +38,7 @@
 package es.eucm.eadventure.common.resources.assets.drawable.basics.impl;
 
 import es.eucm.eadventure.common.interfaces.Param;
+import es.eucm.eadventure.common.params.EAdFill;
 import es.eucm.eadventure.common.params.EAdFont;
 import es.eucm.eadventure.common.params.EAdFontImpl;
 import es.eucm.eadventure.common.params.EAdString;
@@ -59,13 +60,13 @@ public class CaptionImpl implements Caption {
 	private EAdFont font;
 
 	@Param("textColor")
-	private EAdBorderedColor textColor;
+	private EAdFill textColor;
 
 	@Param("hasBubble")
 	private boolean hasBubble;
 
 	@Param("bubbleColor")
-	private EAdBorderedColor bubbleColor;
+	private EAdFill bubbleColor;
 
 	@Param("maxWidth")
 	private int maxWidth;
@@ -124,11 +125,11 @@ public class CaptionImpl implements Caption {
 	}
 
 	@Override
-	public EAdBorderedColor getTextFill() {
+	public EAdFill getTextFill() {
 		return textColor;
 	}
 
-	public void setTextColor(EAdBorderedColor textColor) {
+	public void setTextColor(EAdFill textColor) {
 		this.textColor = textColor;
 	}
 
@@ -138,11 +139,11 @@ public class CaptionImpl implements Caption {
 	}
 
 	@Override
-	public EAdBorderedColor getBubbleFill() {
+	public EAdFill getBubbleFill() {
 		return bubbleColor;
 	}
 
-	public void setBubbleColor(EAdBorderedColor bubbleColor) {
+	public void setBubbleColor(EAdFill bubbleColor) {
 		this.bubbleColor = bubbleColor;
 		setHasBubble(bubbleColor != null);
 	}

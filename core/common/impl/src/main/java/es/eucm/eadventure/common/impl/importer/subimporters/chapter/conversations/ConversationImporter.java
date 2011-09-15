@@ -46,28 +46,29 @@ import es.eucm.eadventure.common.EAdElementImporter;
 import es.eucm.eadventure.common.data.chapter.conversation.Conversation;
 import es.eucm.eadventure.common.data.chapter.conversation.node.ConversationNode;
 import es.eucm.eadventure.common.data.chapter.conversation.node.DialogueConversationNode;
-import es.eucm.eadventure.common.data.chapter.conversation.node.OptionConversationNode;
 import es.eucm.eadventure.common.impl.importer.interfaces.EffectsImporterFactory;
 import es.eucm.eadventure.common.model.effects.EAdEffect;
 import es.eucm.eadventure.common.model.effects.impl.EAdTriggerMacro;
 import es.eucm.eadventure.common.model.effects.impl.text.EAdShowQuestion;
+import es.eucm.eadventure.common.params.EAdString;
+import es.eucm.eadventure.common.resources.StringHandler;
 
-public class ConversationImporter implements EAdElementImporter<Conversation, EAdEffect> {
+public class ConversationImporter implements
+		EAdElementImporter<Conversation, EAdEffect> {
 
 	private Map<ConversationNode, EAdEffect> nodes;
 
-	private EAdElementImporter<OptionConversationNode, EAdShowQuestion> optionNodeImporter;
+	private StringHandler stringHandler;
 
 	private EAdElementImporter<DialogueConversationNode, EAdTriggerMacro> dialogueImporter;
 
 	@Inject
 	public ConversationImporter(
 			EAdElementImporter<DialogueConversationNode, EAdTriggerMacro> dialogueImporter,
-			EAdElementImporter<OptionConversationNode, EAdShowQuestion> optionNodeImporter,
-			EffectsImporterFactory effectFactory) {
+			EffectsImporterFactory effectFactory, StringHandler stringHandler) {
 		nodes = new HashMap<ConversationNode, EAdEffect>();
 		this.dialogueImporter = dialogueImporter;
-		this.optionNodeImporter = optionNodeImporter;
+		this.stringHandler = stringHandler;
 	}
 
 	@Override
@@ -81,18 +82,14 @@ public class ConversationImporter implements EAdElementImporter<Conversation, EA
 		for (ConversationNode node : oldObject.getAllNodes()) {
 			if (node.getType() == ConversationNode.DIALOGUE) {
 				EAdEffect effect = dialogueImporter
-				.init((DialogueConversationNode) node);
-				 effect = dialogueImporter
-				.convert((DialogueConversationNode) node, effect);
+						.init((DialogueConversationNode) node);
+				effect = dialogueImporter.convert(
+						(DialogueConversationNode) node, effect);
 				if (effect != null)
 					nodes.put(node, effect);
 			} else {
-				EAdEffect effect = optionNodeImporter
-				.init((OptionConversationNode) node);
-				effect = optionNodeImporter
-				.convert((OptionConversationNode) node, effect);
-				if (effect != null)
-					nodes.put(node, effect);
+				EAdEffect effect = new EAdShowQuestion();
+				nodes.put(node, effect);
 			}
 		}
 
@@ -109,12 +106,14 @@ public class ConversationImporter implements EAdElementImporter<Conversation, EA
 				EAdShowQuestion currentNodeEffect = (EAdShowQuestion) nodes
 						.get(node);
 				for (int i = 0; i < node.getChildCount(); i++) {
-					currentNodeEffect.getAnswers().get(i).getMacro()
-							.getEffects().add(nodes.get(node.getChild(i)));
+					EAdString string = stringHandler.addString(node
+							.getLineText(i));
+					currentNodeEffect.addAnswer(string,
+							nodes.get(node.getChild(i)));
 				}
 			}
 		}
-		EAdEffect initialEffect = nodes.get(oldObject.getRootNode()); 
+		EAdEffect initialEffect = nodes.get(oldObject.getRootNode());
 		return initialEffect;
 	}
 

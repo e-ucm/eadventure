@@ -45,6 +45,7 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 import es.eucm.eadventure.common.model.EAdElement;
+import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
 import es.eucm.eadventure.common.model.variables.EAdField;
 import es.eucm.eadventure.common.model.variables.EAdOperation;
 import es.eucm.eadventure.common.model.variables.EAdVarDef;
@@ -76,7 +77,7 @@ public class ValueMapImpl implements ValueMap {
 			map.put(element, valMap);
 			logger.info("New value map String " + varDef.getType());
 		}
-
+		
 		valMap.put(varDef, value);
 	}
 
@@ -123,7 +124,7 @@ public class ValueMapImpl implements ValueMap {
 
 	@Override
 	public void setValue(EAdVarDef<?> varDef, Object value, EAdElement element) {
-		if ( value.getClass().equals(varDef.getType())){
+		if (value.getClass().equals(varDef.getType())) {
 			Map<EAdVarDef<?>, Object> valMap = map.get(element);
 			if (valMap == null) {
 				valMap = new HashMap<EAdVarDef<?>, Object>();
@@ -132,8 +133,9 @@ public class ValueMapImpl implements ValueMap {
 			}
 
 			valMap.put(varDef, value);
+
 		}
-		
+
 	}
 
 }

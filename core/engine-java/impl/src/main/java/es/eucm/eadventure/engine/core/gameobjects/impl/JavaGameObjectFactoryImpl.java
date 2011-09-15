@@ -36,8 +36,13 @@ public class JavaGameObjectFactoryImpl extends GameObjectFactoryImpl {
 	}
 
 	@Override
-	public void clean() {
-		// TODO Auto-generated method stub
+	public void remove(EAdElement element){
+		objectMap.remove(element);
+	}
+	
+	@Override
+	public void clean(){
+		objectMap.clear();
 	}
 
 	@Override

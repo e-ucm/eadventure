@@ -66,7 +66,7 @@ public abstract class GameObjectFactoryImpl implements GameObjectFactory {
 	 * The map of instances of {@link GameObject}s for each {@link EAdElement}
 	 * in the eAdventure game model
 	 */
-	private Map<EAdElement, GameObject<?>> objectMap;
+	protected Map<EAdElement, GameObject<?>> objectMap;
 
 	/**
 	 * A class map of the {@link EAdElement} in the eAdventure model and the
@@ -107,10 +107,8 @@ public abstract class GameObjectFactoryImpl implements GameObjectFactory {
 		} else {
 			temp = (GameObject<T>) getInstance(tempClass);
 			temp.setElement(element);
-			
-			//TODO temporary code, to allow effect running multiple times
-			if (!(temp instanceof EffectGO))
-				objectMap.put(element, temp);
+
+			objectMap.put(element, temp);
 		}
 		return temp;
 	}
