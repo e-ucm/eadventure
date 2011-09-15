@@ -47,7 +47,6 @@ import com.google.inject.Singleton;
 
 import es.eucm.eadventure.common.interfaces.MapProvider;
 import es.eucm.eadventure.common.model.EAdElement;
-import es.eucm.eadventure.engine.core.gameobjects.EffectGO;
 import es.eucm.eadventure.engine.core.gameobjects.GameObject;
 import es.eucm.eadventure.engine.core.gameobjects.GameObjectFactory;
 
@@ -111,6 +110,16 @@ public abstract class GameObjectFactoryImpl implements GameObjectFactory {
 			objectMap.put(element, temp);
 		}
 		return temp;
+	}
+	
+	@Override
+	public void remove(EAdElement element){
+		objectMap.remove(element);
+	}
+	
+	@Override
+	public void clean(){
+		objectMap.clear();
 	}
 	
 	public abstract GameObject<?> getInstance(Class<? extends GameObject<?>> clazz);

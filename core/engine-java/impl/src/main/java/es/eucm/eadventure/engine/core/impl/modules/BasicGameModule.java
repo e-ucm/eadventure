@@ -42,6 +42,7 @@ import com.google.inject.Provides;
 import com.google.inject.name.Named;
 import com.google.inject.name.Names;
 
+import es.eucm.eadventure.common.interfaces.InterfacesProvider;
 import es.eucm.eadventure.common.model.elements.EAdAdventureModel;
 import es.eucm.eadventure.common.model.elements.EAdScene;
 import es.eucm.eadventure.common.model.impl.EAdAdventureModelImpl;
@@ -60,6 +61,7 @@ import es.eucm.eadventure.engine.core.impl.LoadingScreen;
 import es.eucm.eadventure.engine.core.impl.VariableMap;
 import es.eucm.eadventure.engine.core.platform.FontCache;
 import es.eucm.eadventure.engine.core.platform.impl.FontCacheImpl;
+import es.eucm.eadventure.engine.core.platform.impl.JavaInterfacesProvider;
 
 public class BasicGameModule extends AbstractModule {
 
@@ -77,6 +79,8 @@ public class BasicGameModule extends AbstractModule {
 		bind(EffectHUD.class).to(EffectHUDImpl.class);
 		bind(FontCache.class).to(FontCacheImpl.class);
 		bind(EAdDebugger.class).to(EAdMainDebugger.class);
+		
+		bind(InterfacesProvider.class).to(JavaInterfacesProvider.class);
 
 		bind(EAdAdventureModel.class).to(EAdAdventureModelImpl.class);
 		bind(EAdScene.class).annotatedWith(Names.named("LoadingScreen")).to(

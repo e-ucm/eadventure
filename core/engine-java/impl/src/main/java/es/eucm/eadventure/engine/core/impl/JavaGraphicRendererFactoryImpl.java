@@ -46,6 +46,7 @@ import com.google.inject.name.Named;
 
 import es.eucm.eadventure.common.interfaces.AbstractFactory;
 import es.eucm.eadventure.common.interfaces.EAdRuntimeException;
+import es.eucm.eadventure.common.interfaces.InterfacesProvider;
 import es.eucm.eadventure.common.interfaces.MapProvider;
 import es.eucm.eadventure.common.params.geom.EAdPosition;
 import es.eucm.eadventure.engine.core.gameobjects.GameObject;
@@ -61,8 +62,9 @@ public class JavaGraphicRendererFactoryImpl<S> extends AbstractFactory<GraphicRe
 	private static final Logger logger = Logger.getLogger("GraphicRendererFactoryImpl");
 
 	@Inject
-	public JavaGraphicRendererFactoryImpl(@Named("GraphicRenderer") MapProvider<Class<?>, GraphicRenderer<?, ?>> mapProvider) {
-		super(mapProvider);
+	public JavaGraphicRendererFactoryImpl(@Named("GraphicRenderer") MapProvider<Class<?>, GraphicRenderer<?, ?>> mapProvider,
+			InterfacesProvider interfacesProvider) {
+		super(mapProvider, interfacesProvider);
 	}
 
 	@SuppressWarnings("unchecked")

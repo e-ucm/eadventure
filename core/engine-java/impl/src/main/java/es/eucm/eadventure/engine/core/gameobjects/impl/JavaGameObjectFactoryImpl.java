@@ -36,16 +36,6 @@ public class JavaGameObjectFactoryImpl extends GameObjectFactoryImpl {
 	}
 
 	@Override
-	public void remove(EAdElement element){
-		objectMap.remove(element);
-	}
-	
-	@Override
-	public void clean(){
-		objectMap.clear();
-	}
-
-	@Override
 	public <T extends EAdElement> Class<?> getRuntimeClass(T element) {
 		Class<?> clazz = element.getClass();
 		Element annotation = null;

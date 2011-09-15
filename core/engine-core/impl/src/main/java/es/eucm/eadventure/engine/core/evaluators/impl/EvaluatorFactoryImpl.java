@@ -43,6 +43,7 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 import es.eucm.eadventure.common.interfaces.AbstractFactory;
+import es.eucm.eadventure.common.interfaces.InterfacesProvider;
 import es.eucm.eadventure.common.interfaces.MapProvider;
 import es.eucm.eadventure.common.model.elements.EAdCondition;
 import es.eucm.eadventure.engine.core.evaluators.Evaluator;
@@ -56,8 +57,9 @@ public class EvaluatorFactoryImpl extends AbstractFactory<Evaluator<?>> implemen
 	
 
 	@Inject
-	public EvaluatorFactoryImpl(MapProvider<Class<?>, Evaluator<?>> mapProvider) {
-		super(mapProvider);
+	public EvaluatorFactoryImpl(MapProvider<Class<?>, Evaluator<?>> mapProvider,
+			InterfacesProvider interfacesProvider) {
+		super(mapProvider, interfacesProvider);
 	}
 
 	@SuppressWarnings("unchecked")

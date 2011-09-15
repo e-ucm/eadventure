@@ -42,6 +42,7 @@ import java.awt.Graphics2D;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
+import es.eucm.eadventure.common.interfaces.InterfacesProvider;
 import es.eucm.eadventure.common.interfaces.MapProvider;
 import es.eucm.eadventure.engine.core.impl.JavaGraphicRendererFactoryImpl;
 import es.eucm.eadventure.engine.core.platform.GraphicRenderer;
@@ -50,8 +51,9 @@ import es.eucm.eadventure.engine.core.platform.GraphicRenderer;
 public class DesktopGraphicRendererFactory extends JavaGraphicRendererFactoryImpl<Graphics2D> {
 	
 	@Inject
-	public DesktopGraphicRendererFactory(MapProvider<Class<?>, GraphicRenderer<?, ?>> mapProvider) {
-		super(mapProvider);
+	public DesktopGraphicRendererFactory(MapProvider<Class<?>, GraphicRenderer<?, ?>> mapProvider,
+			InterfacesProvider interfacesProvider) {
+		super(mapProvider, interfacesProvider);
 	}
 
 }
