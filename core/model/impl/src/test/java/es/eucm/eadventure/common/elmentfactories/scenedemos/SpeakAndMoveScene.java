@@ -10,19 +10,22 @@ import es.eucm.eadventure.common.model.events.EAdSceneElementEvent.SceneElementE
 import es.eucm.eadventure.common.model.events.impl.EAdSceneElementEventImpl;
 import es.eucm.eadventure.common.model.guievents.impl.EAdMouseEventImpl;
 import es.eucm.eadventure.common.model.trajectories.impl.SimpleTrajectoryDefinition;
+import es.eucm.eadventure.common.params.fills.impl.EAdColor;
 import es.eucm.eadventure.common.params.geom.impl.EAdPositionImpl;
+import es.eucm.eadventure.common.params.geom.impl.EAdPositionImpl.Corner;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.shapes.BallonShape.BalloonType;
 
 public class SpeakAndMoveScene extends EmptyScene {
 
 	public SpeakAndMoveScene() {
+		super.setBackgroundFill(EAdColor.GREEN);
 		EAdBasicSceneElement character = EAdElementsFactory
 				.getInstance()
 				.getSceneElementFactory()
 				.createSceneElement(CharacterScene.getStateDrawable(), 100, 300);
 
 		character.setScale(3.0f);
-		character.setPosition(new EAdPositionImpl(400, 300));
+		character.setPosition(new EAdPositionImpl(Corner.BOTTOM_CENTER, 400, 300));
 
 		EAdSpeakEffect effect = EAdElementsFactory
 				.getInstance()
@@ -65,7 +68,7 @@ public class SpeakAndMoveScene extends EmptyScene {
 		event.addEffect(SceneElementEvent.ADDED_TO_SCENE, makeActive);
 		character.getEvents().add(event);
 
-		setTrajectoryGenerator(new SimpleTrajectoryDefinition(false));
+		setTrajectoryDefinition(new SimpleTrajectoryDefinition(false));
 
 		getBackground().addBehavior(EAdMouseEventImpl.MOUSE_RIGHT_CLICK,
 				new EAdMoveActiveElement("moveCharacter"));

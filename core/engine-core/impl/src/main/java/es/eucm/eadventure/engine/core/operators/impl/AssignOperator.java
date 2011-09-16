@@ -45,7 +45,7 @@ public class AssignOperator implements Operator<AssignOperation> {
 	@SuppressWarnings("unchecked")
 	@Override
 	public <S> S operate(Class<S> clazz, AssignOperation operation) {
-		if (clazz.equals(operation.getValue().getClass())) {
+		if (clazz.isAssignableFrom(operation.getValue().getClass())) {
 			return (S) operation.getValue();
 		}
 		return null;

@@ -42,12 +42,10 @@ import es.eucm.eadventure.common.model.elements.EAdScene;
 import es.eucm.eadventure.common.model.elements.EAdSceneElement;
 import es.eucm.eadventure.common.model.extra.EAdList;
 import es.eucm.eadventure.common.model.extra.impl.EAdListImpl;
-import es.eucm.eadventure.common.model.impl.EAdGeneralElementImpl;
-import es.eucm.eadventure.common.model.trajectories.TrajectoryDefinition;
 import es.eucm.eadventure.common.model.variables.EAdVarDef;
 import es.eucm.eadventure.common.model.variables.impl.EAdVarDefImpl;
 
-public class EAdComposedScene extends EAdGeneralElementImpl implements EAdScene {
+public class EAdComposedScene extends EAdSceneImpl implements EAdScene {
 	
 	public static final EAdVarDef<Integer> VAR_CURRENT_SCENE = new EAdVarDefImpl<Integer>(
 			"current_scene", Integer.class, 0);
@@ -66,22 +64,12 @@ public class EAdComposedScene extends EAdGeneralElementImpl implements EAdScene 
 	}
 
 	@Override
-	public EAdSceneElement getBackground() {
-		return null;
-	}
-
-	@Override
 	public boolean isReturnable() {
 		return false;
 	}
 
 	public EAdList<EAdScene> getScenes() {
 		return scenes;
-	}
-
-	@Override
-	public TrajectoryDefinition getTrajectoryDefinition() {
-		return null;
 	}
 
 	@Override

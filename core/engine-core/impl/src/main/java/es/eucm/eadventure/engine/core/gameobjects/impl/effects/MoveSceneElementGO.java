@@ -48,6 +48,7 @@ import es.eucm.eadventure.common.model.effects.EAdEffect;
 import es.eucm.eadventure.common.model.effects.impl.EAdVarInterpolationEffect;
 import es.eucm.eadventure.common.model.effects.impl.EAdVarInterpolationEffect.LoopType;
 import es.eucm.eadventure.common.model.effects.impl.sceneelements.EAdMoveSceneElement;
+import es.eucm.eadventure.common.model.elements.EAdSceneElement;
 import es.eucm.eadventure.common.model.elements.EAdSceneElement.CommonStates;
 import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
 import es.eucm.eadventure.common.model.variables.impl.EAdFieldImpl;
@@ -84,6 +85,8 @@ public class MoveSceneElementGO extends AbstractEffectGO<EAdMoveSceneElement> {
 
 	private boolean finished = false;
 
+	private String oldState;
+
 	@Inject
 	public MoveSceneElementGO(AssetHandler assetHandler,
 			StringHandler stringHandler, GameObjectFactory gameObjectFactory,
@@ -100,6 +103,9 @@ public class MoveSceneElementGO extends AbstractEffectGO<EAdMoveSceneElement> {
 	@Override
 	public void initilize() {
 		super.initilize();
+
+		oldState = valueMap.getValue(element.getSceneElement(),
+				EAdBasicSceneElement.VAR_STATE);
 
 		valueMap.setValue(element.getSceneElement(),
 				EAdBasicSceneElement.VAR_STATE,
@@ -160,7 +166,7 @@ public class MoveSceneElementGO extends AbstractEffectGO<EAdMoveSceneElement> {
 				effectGOs.add(effectGO);
 			}
 
-			updateDirection(a, x, targetX, y, targetY);
+			updateDirection(effect.getSceneElement(), x, targetX, y, targetY);
 		} else {
 			valueMap.setValue(a.getElement(), EAdBasicSceneElement.VAR_X,
 					targetX);
@@ -172,7 +178,7 @@ public class MoveSceneElementGO extends AbstractEffectGO<EAdMoveSceneElement> {
 
 	}
 
-	private void updateDirection(SceneElementGO<?> a, float x, float targetX,
+	private void updateDirection(EAdSceneElement sceneElement, float x, float targetX,
 			float y, float targetY) {
 		Orientation tempDirection = Orientation.E;
 
@@ -220,7 +226,7 @@ public class MoveSceneElementGO extends AbstractEffectGO<EAdMoveSceneElement> {
 			}
 		}
 
-		valueMap.setValue(element, EAdBasicSceneElement.VAR_ORIENTATION,
+		valueMap.setValue(sceneElement, EAdBasicSceneElement.VAR_ORIENTATION,
 				tempDirection);
 
 	}
@@ -244,13 +250,15 @@ public class MoveSceneElementGO extends AbstractEffectGO<EAdMoveSceneElement> {
 			}
 		}
 	}
-	
-	public void finish(){
+
+	public void finish() {
 		super.finish();
-		for ( EffectGO<?> effect: effectGOs ){
+		for (EffectGO<?> effect : effectGOs) {
 			gameObjectFactory.remove(effect.getElement());
 			effect.finish();
 		}
+		valueMap.setValue(element.getSceneElement(),
+				EAdBasicSceneElement.VAR_STATE, oldState);
 	}
 
 }

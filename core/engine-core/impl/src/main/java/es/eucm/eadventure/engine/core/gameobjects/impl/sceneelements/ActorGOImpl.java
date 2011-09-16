@@ -48,7 +48,6 @@ import es.eucm.eadventure.common.model.elements.EAdActorReference;
 import es.eucm.eadventure.common.model.elements.EAdScene;
 import es.eucm.eadventure.common.model.elements.EAdSceneElement;
 import es.eucm.eadventure.common.model.elements.impl.EAdBasicActor;
-import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
 import es.eucm.eadventure.common.params.EAdString;
 import es.eucm.eadventure.common.resources.StringHandler;
 import es.eucm.eadventure.engine.core.GameState;
@@ -130,14 +129,14 @@ public class ActorGOImpl extends SceneElementGOImpl<EAdActor> implements
 						currentReference = (EAdActorReference) se;
 //						valueMap.setValue(element, EAdBasicSceneElement.VAR_X, valueMap.getValue(currentReference, EAdBasicSceneElement.VAR_X));
 //						valueMap.setValue(element, EAdBasicSceneElement.VAR_Y, valueMap.getValue(currentReference, EAdBasicSceneElement.VAR_Y));
-						valueMap.setValue(element, EAdBasicSceneElement.VAR_DISP_X, valueMap.getValue(currentReference, EAdBasicSceneElement.VAR_DISP_X));
-						valueMap.setValue(element, EAdBasicSceneElement.VAR_DISP_Y, valueMap.getValue(currentReference, EAdBasicSceneElement.VAR_DISP_Y));
-						valueMap.setValue(element, EAdBasicSceneElement.VAR_VISIBLE, valueMap.getValue(currentReference, EAdBasicSceneElement.VAR_VISIBLE));
-						valueMap.setValue(element, EAdBasicSceneElement.VAR_ROTATION, valueMap.getValue(currentReference, EAdBasicSceneElement.VAR_ROTATION));
-						valueMap.setValue(element, EAdBasicSceneElement.VAR_SCALE, valueMap.getValue(currentReference, EAdBasicSceneElement.VAR_SCALE));
-						valueMap.setValue(element, EAdBasicSceneElement.VAR_ALPHA, valueMap.getValue(currentReference, EAdBasicSceneElement.VAR_ALPHA));
-						valueMap.setValue(element, EAdBasicSceneElement.VAR_ORIENTATION, valueMap.getValue(currentReference, EAdBasicSceneElement.VAR_ORIENTATION));
-						valueMap.setValue(element, EAdBasicSceneElement.VAR_STATE, valueMap.getValue(currentReference, EAdBasicSceneElement.VAR_STATE));
+//						valueMap.setValue(element, EAdBasicSceneElement.VAR_DISP_X, valueMap.getValue(currentReference, EAdBasicSceneElement.VAR_DISP_X));
+//						valueMap.setValue(element, EAdBasicSceneElement.VAR_DISP_Y, valueMap.getValue(currentReference, EAdBasicSceneElement.VAR_DISP_Y));
+//						valueMap.setValue(element, EAdBasicSceneElement.VAR_VISIBLE, valueMap.getValue(currentReference, EAdBasicSceneElement.VAR_VISIBLE));
+//						valueMap.setValue(element, EAdBasicSceneElement.VAR_ROTATION, valueMap.getValue(currentReference, EAdBasicSceneElement.VAR_ROTATION));
+//						valueMap.setValue(element, EAdBasicSceneElement.VAR_SCALE, valueMap.getValue(currentReference, EAdBasicSceneElement.VAR_SCALE));
+//						valueMap.setValue(element, EAdBasicSceneElement.VAR_ALPHA, valueMap.getValue(currentReference, EAdBasicSceneElement.VAR_ALPHA));
+//						valueMap.setValue(element, EAdBasicSceneElement.VAR_ORIENTATION, valueMap.getValue(currentReference, EAdBasicSceneElement.VAR_ORIENTATION));
+//						valueMap.setValue(element, EAdBasicSceneElement.VAR_STATE, valueMap.getValue(currentReference, EAdBasicSceneElement.VAR_STATE));
 				}
 			}
 			lastScene = state.getScene().getElement();
@@ -146,14 +145,14 @@ public class ActorGOImpl extends SceneElementGOImpl<EAdActor> implements
 		if (currentReference != null) {
 //			valueMap.setValue(currentReference, EAdBasicSceneElement.VAR_X, valueMap.getValue(element, EAdBasicSceneElement.VAR_X));
 //			valueMap.setValue(currentReference, EAdBasicSceneElement.VAR_Y, valueMap.getValue(element, EAdBasicSceneElement.VAR_Y));
-			valueMap.setValue(currentReference, EAdBasicSceneElement.VAR_DISP_X, valueMap.getValue(element, EAdBasicSceneElement.VAR_DISP_X));
-			valueMap.setValue(currentReference, EAdBasicSceneElement.VAR_DISP_Y, valueMap.getValue(element, EAdBasicSceneElement.VAR_DISP_Y));
-			valueMap.setValue(currentReference, EAdBasicSceneElement.VAR_VISIBLE, valueMap.getValue(element, EAdBasicSceneElement.VAR_VISIBLE));
-			valueMap.setValue(currentReference, EAdBasicSceneElement.VAR_ROTATION, valueMap.getValue(element, EAdBasicSceneElement.VAR_ROTATION));
-			valueMap.setValue(currentReference, EAdBasicSceneElement.VAR_SCALE, valueMap.getValue(element, EAdBasicSceneElement.VAR_SCALE));
-			valueMap.setValue(currentReference, EAdBasicSceneElement.VAR_ALPHA, valueMap.getValue(element, EAdBasicSceneElement.VAR_ALPHA));
-			valueMap.setValue(currentReference, EAdBasicSceneElement.VAR_ORIENTATION, valueMap.getValue(element, EAdBasicSceneElement.VAR_ORIENTATION));
-			valueMap.setValue(currentReference, EAdBasicSceneElement.VAR_STATE, valueMap.getValue(element, EAdBasicSceneElement.VAR_STATE));
+//			valueMap.setValue(currentReference, EAdBasicSceneElement.VAR_DISP_X, valueMap.getValue(element, EAdBasicSceneElement.VAR_DISP_X));
+//			valueMap.setValue(currentReference, EAdBasicSceneElement.VAR_DISP_Y, valueMap.getValue(element, EAdBasicSceneElement.VAR_DISP_Y));
+//			valueMap.setValue(currentReference, EAdBasicSceneElement.VAR_VISIBLE, valueMap.getValue(element, EAdBasicSceneElement.VAR_VISIBLE));
+//			valueMap.setValue(currentReference, EAdBasicSceneElement.VAR_ROTATION, valueMap.getValue(element, EAdBasicSceneElement.VAR_ROTATION));
+//			valueMap.setValue(currentReference, EAdBasicSceneElement.VAR_SCALE, valueMap.getValue(element, EAdBasicSceneElement.VAR_SCALE));
+//			valueMap.setValue(currentReference, EAdBasicSceneElement.VAR_ALPHA, valueMap.getValue(element, EAdBasicSceneElement.VAR_ALPHA));
+//			valueMap.setValue(currentReference, EAdBasicSceneElement.VAR_ORIENTATION, valueMap.getValue(element, EAdBasicSceneElement.VAR_ORIENTATION));
+//			valueMap.setValue(currentReference, EAdBasicSceneElement.VAR_STATE, valueMap.getValue(element, EAdBasicSceneElement.VAR_STATE));
 		}
 	}
 

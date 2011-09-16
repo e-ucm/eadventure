@@ -9,6 +9,7 @@ import com.google.inject.Singleton;
 import es.eucm.eadventure.common.model.elements.EAdScene;
 import es.eucm.eadventure.common.model.elements.EAdSceneElement;
 import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
+import es.eucm.eadventure.common.model.elements.impl.EAdSceneImpl;
 import es.eucm.eadventure.common.model.trajectories.TrajectoryDefinition;
 import es.eucm.eadventure.common.model.trajectories.impl.NodeTrajectoryDefinition;
 import es.eucm.eadventure.common.model.trajectories.impl.NodeTrajectoryDefinition.Node;
@@ -57,16 +58,20 @@ public class TrajectoryDebugger implements EAdDebugger {
 
 	@Override
 	public List<GameObject<?>> getGameObjects() {
-		if (currentScene != gameState.getScene().getElement()) {
+		if (currentScene != gameState.getScene().getElement()
+				|| valueMap.getValue(currentScene,
+						EAdSceneImpl.VAR_TRAJECTORY_DEFINITION) != currentTrajectory) {
 			createTrajectory();
 		}
 
 		if (currentTrajectory != null) {
 			int i = 0;
 			for (EAdSceneElement e : currentTrajectory.getBarriers()) {
-				barriers.get(i).setFill(
-						valueMap.getValue(e, NodeTrajectoryDefinition.VAR_BARRIER_ON) ? EAdColor.YELLOW
-								: EAdColor.TRANSPARENT);
+				barriers.get(i)
+						.setFill(
+								valueMap.getValue(e,
+										NodeTrajectoryDefinition.VAR_BARRIER_ON) ? EAdColor.YELLOW
+										: EAdColor.TRANSPARENT);
 				i++;
 			}
 		}
@@ -79,8 +84,8 @@ public class TrajectoryDebugger implements EAdDebugger {
 		currentScene = gameState.getScene().getElement();
 
 		if (currentScene != null) {
-			TrajectoryDefinition trajectory = currentScene
-					.getTrajectoryDefinition();
+			TrajectoryDefinition trajectory = valueMap.getValue(currentScene,
+					EAdSceneImpl.VAR_TRAJECTORY_DEFINITION);
 
 			if (trajectory instanceof NodeTrajectoryDefinition) {
 				createNodes((NodeTrajectoryDefinition) trajectory);

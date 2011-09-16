@@ -218,12 +218,12 @@ public class SceneImporter implements EAdElementImporter<Scene, EAdSceneImpl> {
 	private void importTrajectory(EAdSceneImpl scene, Trajectory trajectory,
 			List<Barrier> barriers, EAdBasicSceneElement playerReference) {
 		if (trajectory == null) {
-			scene.setTrajectoryGenerator(new SimpleTrajectoryDefinition(true));
+			scene.setTrajectoryDefinition(new SimpleTrajectoryDefinition(true));
 		} else {
 			NodeTrajectoryDefinition nodeDef = trajectoryImporter
 					.init(trajectory);
 			nodeDef = trajectoryImporter.convert(trajectory, nodeDef);
-			scene.setTrajectoryGenerator(nodeDef);
+			scene.setTrajectoryDefinition(nodeDef);
 
 			for (Barrier b : barriers) {
 				EAdSceneElement barrier = barrierImporter.init(b);

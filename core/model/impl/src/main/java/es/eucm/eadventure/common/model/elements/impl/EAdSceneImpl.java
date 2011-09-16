@@ -42,7 +42,9 @@ import es.eucm.eadventure.common.interfaces.Param;
 import es.eucm.eadventure.common.model.elements.EAdScene;
 import es.eucm.eadventure.common.model.elements.EAdSceneElement;
 import es.eucm.eadventure.common.model.extra.EAdList;
+import es.eucm.eadventure.common.model.extra.EAdMap;
 import es.eucm.eadventure.common.model.extra.impl.EAdListImpl;
+import es.eucm.eadventure.common.model.extra.impl.EAdMapImpl;
 import es.eucm.eadventure.common.model.impl.EAdGeneralElementImpl;
 import es.eucm.eadventure.common.model.trajectories.TrajectoryDefinition;
 import es.eucm.eadventure.common.model.variables.EAdVarDef;
@@ -61,6 +63,9 @@ public class EAdSceneImpl extends EAdGeneralElementImpl implements EAdScene {
 	public static final EAdVarDef<Boolean> VAR_SCENE_LOADED = new EAdVarDefImpl<Boolean>(
 			"scene_loaded", Boolean.class, Boolean.FALSE);
 
+	public static final EAdVarDef<TrajectoryDefinition> VAR_TRAJECTORY_DEFINITION = new EAdVarDefImpl<TrajectoryDefinition>(
+			"trajectory_generator", TrajectoryDefinition.class, null);
+
 	@Param("name")
 	private EAdString name;
 
@@ -70,11 +75,11 @@ public class EAdSceneImpl extends EAdGeneralElementImpl implements EAdScene {
 	@Param("background")
 	protected EAdBasicSceneElement background;
 
-	@Param("trajectoryGenerator")
-	protected TrajectoryDefinition trajectoryGenerator;
-
 	@Param("acceptsVisualEffects")
 	protected boolean acceptsVisualEffects;
+
+	@Param("vars")
+	private EAdMap<EAdVarDef<?>, Object> vars;
 
 	/**
 	 * This property indicates if the game can return to this scene after a
@@ -98,6 +103,8 @@ public class EAdSceneImpl extends EAdGeneralElementImpl implements EAdScene {
 		background = new EAdBasicSceneElement(id + "_background");
 		returnable = true;
 		acceptsVisualEffects = true;
+		vars = new EAdMapImpl<EAdVarDef<?>, Object>(EAdVarDef.class,
+				Object.class);
 	}
 
 	@Override
@@ -152,18 +159,25 @@ public class EAdSceneImpl extends EAdGeneralElementImpl implements EAdScene {
 		this.returnable = returnable;
 	}
 
-	public void setTrajectoryGenerator(TrajectoryDefinition trajectoryGenerator) {
-		this.trajectoryGenerator = trajectoryGenerator;
-	}
-
-	@Override
-	public TrajectoryDefinition getTrajectoryDefinition() {
-		return trajectoryGenerator;
+	public void setTrajectoryDefinition(
+			TrajectoryDefinition trajectoryDefinition) {
+		this.setVarInitialValue(VAR_TRAJECTORY_DEFINITION, trajectoryDefinition);
 	}
 
 	@Override
 	public boolean acceptsVisualEffects() {
 		return acceptsVisualEffects;
+	}
+
+	@Override
+	public EAdMap<EAdVarDef<?>, Object> getVars() {
+		return vars;
+	}
+
+	@Override
+	public <T> void setVarInitialValue(EAdVarDef<T> var, T value) {
+		vars.put(var, value);
+
 	}
 
 }

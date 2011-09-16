@@ -108,7 +108,8 @@ public class ValueMapImpl implements ValueMap {
 		}
 		Object value = valMap.get(varDef);
 		// If the variable has not been set, returns the initial value
-		return value == null || !value.getClass().equals(varDef.getType()) ? varDef
+		return value == null
+				|| !varDef.getType().isAssignableFrom(value.getClass()) ? varDef
 				.getInitialValue() : (S) value;
 	}
 
@@ -127,7 +128,7 @@ public class ValueMapImpl implements ValueMap {
 
 	@Override
 	public void setValue(EAdVarDef<?> varDef, Object value, EAdElement element) {
-		if (value.getClass().equals(varDef.getType())) {
+		if (varDef.getType().isAssignableFrom(value.getClass())) {
 			Map<EAdVarDef<?>, Object> valMap = map.get(element);
 			if (valMap == null) {
 				valMap = new HashMap<EAdVarDef<?>, Object>();

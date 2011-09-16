@@ -69,6 +69,10 @@ public class AssignOperation extends EAdOperationImpl {
 		this.value = value;
 	}
 
+	public AssignOperation(Object o) {
+		this("assignOperation", o);
+	}
+
 	/**
 	 * Returns the value to be assigned
 	 * 

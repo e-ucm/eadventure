@@ -47,4 +47,8 @@ public class EAdSceneElementEventImpl extends AbstractEAdEvent implements EAdSce
 		super(id);
 	}
 
+	public EAdSceneElementEventImpl() {
+		this("sceneElementEvent");
+	}
+
 }

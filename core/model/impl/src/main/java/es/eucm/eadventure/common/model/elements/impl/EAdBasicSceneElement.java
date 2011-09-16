@@ -74,13 +74,13 @@ public class EAdBasicSceneElement extends AbstractEAdElementWithBehavior
 
 	public static final EAdVarDef<Boolean> VAR_VISIBLE = new EAdVarDefImpl<Boolean>(
 			"visible", Boolean.class, Boolean.TRUE);
-	
+
 	public static final EAdVarDef<Integer> VAR_X = new EAdVarDefImpl<Integer>(
 			"x", Integer.class, 0);
 
 	public static final EAdVarDef<Integer> VAR_Y = new EAdVarDefImpl<Integer>(
 			"y", Integer.class, 0);
-	
+
 	public static final EAdVarDef<Float> VAR_DISP_X = new EAdVarDefImpl<Float>(
 			"disp_x", Float.class, 0.0f);
 
@@ -95,7 +95,7 @@ public class EAdBasicSceneElement extends AbstractEAdElementWithBehavior
 
 	public static final EAdVarDef<Integer> VAR_TIME_DISPLAYED = new EAdVarDefImpl<Integer>(
 			"timeDisplayed", Integer.class, 0);
-	
+
 	@Bundled
 	@Asset({ Drawable.class })
 	public static final String appearance = "appearance";
@@ -108,7 +108,7 @@ public class EAdBasicSceneElement extends AbstractEAdElementWithBehavior
 
 	@Param("clone")
 	private boolean clone;
-	
+
 	@Param("influenceArea")
 	private EAdRectangle influenceArea;
 
@@ -118,6 +118,20 @@ public class EAdBasicSceneElement extends AbstractEAdElementWithBehavior
 		draggable = EmptyCondition.FALSE_EMPTY_CONDITION;
 		vars = new EAdMapImpl<EAdVarDef<?>, Object>(EAdVarDef.class,
 				Object.class);
+	}
+
+	/**
+	 * Creates a basic scene element
+	 * 
+	 * @param id
+	 *            the id
+	 * @param appearance
+	 *            the initial appearance
+	 */
+	public EAdBasicSceneElement(String id, Drawable appearance) {
+		this(id);
+		getResources().addAsset(getInitialBundle(),
+				EAdBasicSceneElement.appearance, appearance);
 	}
 
 	public <T> void setVarInitialValue(EAdVarDef<T> var, T value) {
@@ -163,12 +177,12 @@ public class EAdBasicSceneElement extends AbstractEAdElementWithBehavior
 	public String toString() {
 		return id + " - Scene element";
 	}
-	
+
 	@Override
 	public EAdRectangle getInfluenceArea() {
 		return influenceArea;
 	}
-	
+
 	public void setInfluenceArea(EAdRectangle influenceArea) {
 		this.influenceArea = influenceArea;
 	}
@@ -197,7 +211,7 @@ public class EAdBasicSceneElement extends AbstractEAdElementWithBehavior
 
 	public void setPosition(int x, int y) {
 		vars.put(VAR_X, x);
-		vars.put(VAR_Y, y);	
+		vars.put(VAR_Y, y);
 	}
 
 }
