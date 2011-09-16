@@ -77,11 +77,15 @@ public abstract class MenuHUDImpl implements MenuHUD {
 	private GameObjectManager gameObjectManager;
 	
 	@Inject
-	public MenuHUDImpl(GUI gui, GameState gameState, GameObjectManager gameObjectManager) {
+	public MenuHUDImpl(GameState gameState, GameObjectManager gameObjectManager) {
 		logger.info("New instance");
-		this.gui = gui;
 		this.gameState = gameState;
 		this.gameObjectManager = gameObjectManager;
+	}
+
+	@Override
+	public void setGUI(GUI gui) {
+		this.gui = gui;
 	}
 
 	/*

@@ -121,6 +121,7 @@ public class DesktopGUI extends AbstractGUI<Graphics2D> implements GUI {
 				mouseState, keyboardState, valueMap, gameState,
 				gameObjectFactory);
 		this.gameObjects.addHUD(basicDesktopHUD);
+		basicDesktopHUD.setGUI(this);
 		try {
 			this.robot = new Robot();
 		} catch (AWTException e) {

@@ -39,10 +39,13 @@ package es.eucm.eadventure.engine.core.impl.factorymapproviders;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
+import es.eucm.eadventure.common.interfaces.EAdRuntimeException;
 import es.eucm.eadventure.common.model.variables.impl.operations.AssignOperation;
 import es.eucm.eadventure.common.model.variables.impl.operations.BooleanOperation;
 import es.eucm.eadventure.common.model.variables.impl.operations.LiteralExpressionOperation;
@@ -58,13 +61,28 @@ public class OperatorFactoryMapProvider extends AbstractMapProvider<Class<?>, Op
 
 	private static Map<Class<?>, Operator<?>> tempMap = new HashMap<Class<?>, Operator<?>>();
 
+	private static final Logger logger = Logger.getLogger("OperatorFactoryMapProvider");
+	
+	private EvaluatorFactory evaluatorFactory;
+	
 	@Inject
-	public OperatorFactoryMapProvider(ValueMap valueMap, EvaluatorFactory evaluatorFactory) {
+	public OperatorFactoryMapProvider(EvaluatorFactory evaluatorFactory) {
 		super();
+		this.evaluatorFactory = evaluatorFactory;
+	}
+	
+	@Override
+	public Map<Class<?>, Operator<?>> getMap() {
+		logger.log(Level.SEVERE, "Must call getMap(ValueMap), not getMap()");
+		throw new EAdRuntimeException("Must call getMap(ValueMap), not getMap()");
+	}
+	
+	public Map<Class<?>, Operator<?>> getMap(ValueMap valueMap) {
 		factoryMap.put(LiteralExpressionOperation.class, new LiteralExpressionOperator(valueMap));
 		factoryMap.put(BooleanOperation.class, new BooleanOperator(evaluatorFactory));
 		factoryMap.put(AssignOperation.class, new AssignOperator());
 		factoryMap.putAll(tempMap);
+		return super.getMap();
 	}
 	
 	public static void add(Class<?> operation, Operator<?> operator) {

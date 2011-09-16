@@ -45,7 +45,6 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 import es.eucm.eadventure.common.model.EAdElement;
-import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
 import es.eucm.eadventure.common.model.variables.EAdField;
 import es.eucm.eadventure.common.model.variables.EAdOperation;
 import es.eucm.eadventure.common.model.variables.EAdVarDef;
@@ -63,9 +62,13 @@ public class ValueMapImpl implements ValueMap {
 	private static final Logger logger = Logger.getLogger("Value Map");
 
 	@Inject
-	public ValueMapImpl(OperatorFactory operatorFactory) {
+	public ValueMapImpl() {
 		map = new HashMap<EAdElement, Map<EAdVarDef<?>, Object>>();
 		logger.info("New instance");
+	}
+
+	@Override
+	public void setOperatorFactory(OperatorFactory operatorFactory) {
 		this.operatorFactory = operatorFactory;
 	}
 

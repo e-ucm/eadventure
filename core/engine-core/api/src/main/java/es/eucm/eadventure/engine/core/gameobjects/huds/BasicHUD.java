@@ -37,6 +37,13 @@
 
 package es.eucm.eadventure.engine.core.gameobjects.huds;
 
+import es.eucm.eadventure.engine.core.Game;
+import es.eucm.eadventure.engine.core.platform.GUI;
+
 public interface BasicHUD extends HudGO<Void> {
+
+	void setGUI(GUI playNGUI);
+
+	void setGame(Game game);
 
 }

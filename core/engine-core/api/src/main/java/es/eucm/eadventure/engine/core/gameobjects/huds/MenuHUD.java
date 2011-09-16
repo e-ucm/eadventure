@@ -38,6 +38,7 @@
 package es.eucm.eadventure.engine.core.gameobjects.huds;
 
 import es.eucm.eadventure.engine.core.gameobjects.GameObject;
+import es.eucm.eadventure.engine.core.platform.GUI;
 
 /**
  * <p>
@@ -45,5 +46,7 @@ import es.eucm.eadventure.engine.core.gameobjects.GameObject;
  * </p>
  */
 public interface MenuHUD extends HudGO<Void> {
+
+	void setGUI(GUI gui);
 
 }

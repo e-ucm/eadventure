@@ -40,6 +40,7 @@ package es.eucm.eadventure.engine.core;
 import es.eucm.eadventure.common.interfaces.features.Conditioned;
 import es.eucm.eadventure.common.model.elements.EAdAdventureModel;
 import es.eucm.eadventure.common.model.elements.EAdChapter;
+import es.eucm.eadventure.engine.core.gameobjects.huds.BasicHUD;
 
 /**
  * Main game interface. Include the methods to update the game state, render the

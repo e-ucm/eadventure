@@ -77,8 +77,8 @@ public class DesktopMenuHUDImpl extends MenuHUDImpl {
 	private GameObjectFactory gameObjectFactory;
 
 	@Inject
-	public DesktopMenuHUDImpl(GameObjectFactory gameObjectFactory, GUI gui, MenuHUD menuHUD, GameState gameState, GameObjectManager gameObjectManager, StringHandler stringHandler) {
-		super(gui, gameState, gameObjectManager);
+	public DesktopMenuHUDImpl(GameObjectFactory gameObjectFactory, MenuHUD menuHUD, GameState gameState, GameObjectManager gameObjectManager, StringHandler stringHandler) {
+		super(gameState, gameObjectManager);
 		logger.info("New instance");
 		
 		this.gameObjectFactory = gameObjectFactory;

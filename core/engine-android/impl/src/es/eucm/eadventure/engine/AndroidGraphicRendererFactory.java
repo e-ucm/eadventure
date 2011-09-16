@@ -41,6 +41,7 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 import android.graphics.Canvas;
+import es.eucm.eadventure.common.interfaces.InterfacesProvider;
 import es.eucm.eadventure.common.interfaces.MapProvider;
 import es.eucm.eadventure.engine.core.impl.JavaGraphicRendererFactoryImpl;
 import es.eucm.eadventure.engine.core.platform.GraphicRenderer;
@@ -49,8 +50,9 @@ import es.eucm.eadventure.engine.core.platform.GraphicRenderer;
 public class AndroidGraphicRendererFactory extends JavaGraphicRendererFactoryImpl<Canvas> {
 
 	@Inject
-	public AndroidGraphicRendererFactory(MapProvider<Class<?>, GraphicRenderer<?, ?>> mapProvider) {
-		super(mapProvider);
+	public AndroidGraphicRendererFactory(MapProvider<Class<?>, GraphicRenderer<?, ?>> mapProvider,
+			InterfacesProvider interfacesProvider) {
+		super(mapProvider, interfacesProvider);
 	}
 
 }

@@ -41,12 +41,15 @@ import es.eucm.eadventure.common.model.EAdElement;
 import es.eucm.eadventure.common.model.variables.EAdField;
 import es.eucm.eadventure.common.model.variables.EAdOperation;
 import es.eucm.eadventure.common.model.variables.EAdVarDef;
+import es.eucm.eadventure.engine.core.operator.OperatorFactory;
 
 /**
  * The value map interfaces allows for the definition of key-value pairs of
  * different classes.
  */
 public interface ValueMap {
+	
+	void setOperatorFactory(OperatorFactory operatorFactory);
 
 	/**
 	 * @param var

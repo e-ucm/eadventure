@@ -18,3 +18,5 @@ syntax: regexp
 ^core/engine-playn/impl/war/WEB-INF/deploy$
 syntax: regexp
 ^core/engine-android/impl/gen/es/eucm/eadventure/engine/R\.java$
+syntax: regexp
+^core/engine-android/impl/gen$

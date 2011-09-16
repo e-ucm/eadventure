@@ -94,25 +94,29 @@ public class GameStateImpl implements GameState {
 
 	private boolean paused;
 
+	private EAdScene loadingScreen;
+	
 	@Inject
-	public GameStateImpl(LoadingScreen scene,
-			@Named("LoadingScreen") EAdScene loadingScreen,
+	public GameStateImpl(@Named("LoadingScreen") EAdScene loadingScreen,
 			GameObjectFactory gameObjectFactory, ValueMap valueMap) {
 		effects = new ArrayList<EffectGO<?>>();
 		// effectsQueue = Collections.synchronizedList(new
 		// ArrayList<EAdEffect>());
 		effectsQueue = new ArrayList<EAdEffect>();
 		actionsQueue = new ArrayList<GUIAction>();
-		this.scene = (SceneGO<?>) gameObjectFactory.get(loadingScreen);
+		this.loadingScreen = loadingScreen;
 		this.valueMap = valueMap;
 		this.gameObjectFactory = gameObjectFactory;
 		this.previousSceneStack = new Stack<EAdScene>();
-		previousSceneStack.push(scene);
 		removedActors = new ArrayList<EAdActor>();
 		inventoryActors = new ArrayList<EAdActor>();
 	}
 
 	public SceneGO<?> getScene() {
+		if (scene == null) {
+			this.scene = (SceneGO<?>) gameObjectFactory.get(loadingScreen);
+			previousSceneStack.push(loadingScreen);
+		}
 		return scene;
 	}
 

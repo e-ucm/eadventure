@@ -97,25 +97,26 @@ public class GameImpl implements Game {
 	public GameImpl(GUI gui, EvaluatorFactory evaluatorFactory,
 			GameState gameState, EffectHUD effectHUD,
 			AssetHandler assetHandler,
-			BasicHUD basicHud,
 			GameObjectFactory gameObjectFactory,
 			GameObjectManager gameObjectManager,
-			EAdDebugger debugger) {
+			EAdDebugger debugger,
+			BasicHUD basicHUD) {
 		this.gui = gui;
 		this.evaluatorFactory = evaluatorFactory;
 		this.gameState = gameState;
 		this.effectHUD = effectHUD;
 		this.assetHandler = assetHandler;
 		this.effectHUDon = false;
-		this.basicHud = basicHud;
 		this.gameObjectFactory = gameObjectFactory;
 		this.adventure = new EAdAdventureModelImpl();
 		this.adventure.getChapters().add(new EAdChapterImpl(""));
 		this.gameObjectFactory = gameObjectFactory;
 		this.gameObjectManager = gameObjectManager;
 		this.debugger = debugger;
+		this.basicHud = basicHUD;
+		this.basicHud.setGame(this);
 	}
-
+	
 	@Override
 	public void update() {
 			processEffects();

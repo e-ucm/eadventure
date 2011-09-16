@@ -1,8 +1,11 @@
 package es.eucm.eadventure.common.model.impl;
 
+import com.gwtent.reflection.client.Reflectable;
+
 import es.eucm.eadventure.common.interfaces.CopyNotSupportedException;
 import es.eucm.eadventure.common.model.EAdElement;
 
+@Reflectable
 public abstract class EAdElementImpl implements EAdElement {
 
 	private static int ID_GENERATOR = 0;

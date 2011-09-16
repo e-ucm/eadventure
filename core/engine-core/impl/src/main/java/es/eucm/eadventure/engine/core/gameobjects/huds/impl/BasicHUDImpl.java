@@ -88,14 +88,23 @@ public class BasicHUDImpl implements BasicHUD {
 	private GameObjectManager gameObjectManager;
 	
 	@Inject
-	public BasicHUDImpl(GUI gui, MenuHUD menuHUD, Game game, GameObjectFactory gameObjectFactory, GameState gameState, GameObjectManager gameObjectManager) {
+	public BasicHUDImpl(MenuHUD menuHUD, GameObjectFactory gameObjectFactory, GameState gameState, GameObjectManager gameObjectManager) {
 		logger.info("New instance");
-		this.gui = gui;
 		this.menuHUD = menuHUD;
-		this.game = game;
 		this.gameObjectFactory = gameObjectFactory;
 		this.gameState = gameState;
 		this.gameObjectManager = gameObjectManager;
+	}
+	
+	@Override
+	public void setGame(Game game) {
+		this.game = game;
+	}
+	
+	@Override
+	public void setGUI(GUI gui) {
+		this.gui = gui;
+		this.menuHUD.setGUI(gui);
 	}
 
 	/*

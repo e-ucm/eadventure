@@ -44,10 +44,10 @@ import com.google.inject.Singleton;
 
 import es.eucm.eadventure.common.interfaces.AbstractFactory;
 import es.eucm.eadventure.common.interfaces.InterfacesProvider;
-import es.eucm.eadventure.common.interfaces.MapProvider;
 import es.eucm.eadventure.common.model.variables.EAdField;
 import es.eucm.eadventure.common.model.variables.EAdOperation;
 import es.eucm.eadventure.engine.core.ValueMap;
+import es.eucm.eadventure.engine.core.impl.factorymapproviders.OperatorFactoryMapProvider;
 import es.eucm.eadventure.engine.core.operator.Operator;
 import es.eucm.eadventure.engine.core.operator.OperatorFactory;
 
@@ -58,13 +58,15 @@ public class OperatorFactoryImpl extends AbstractFactory<Operator<?>> implements
 	private Logger log = Logger.getLogger("Operator Factory");
 
 	private ValueMap valueMap;
-
+	
 	@Inject
-	public OperatorFactoryImpl(MapProvider<Class<?>, Operator<?>> map,
+	public OperatorFactoryImpl(OperatorFactoryMapProvider map,
 			ValueMap valueMap,
 			InterfacesProvider interfacesProvider) {
-		super(map, interfacesProvider);
+		super(null, interfacesProvider);
 		this.valueMap = valueMap;
+		this.valueMap.setOperatorFactory(this);
+		this.map = map.getMap(valueMap);
 	}
 
 	@Override

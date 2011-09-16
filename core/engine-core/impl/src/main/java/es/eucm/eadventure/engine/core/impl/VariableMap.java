@@ -44,14 +44,13 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 import es.eucm.eadventure.engine.core.ValueMap;
-import es.eucm.eadventure.engine.core.operator.OperatorFactory;
 
 @Singleton
 public class VariableMap extends ValueMapImpl implements ValueMap {
 
 	@Inject
-	public VariableMap(OperatorFactory operatorFactory) {
-		super(operatorFactory);
+	public VariableMap() {
+		super();
 	}
 
 	private Logger logger = Logger.getLogger("VariableMap");

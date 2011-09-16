@@ -55,16 +55,16 @@ import es.eucm.eadventure.common.interfaces.MapProvider;
  */
 public abstract class AbstractFactory<T> implements Factory<T> {
 
-	private Map<Class<?>, T> map;
+	protected Map<Class<?>, T> map;
 
 	private InterfacesProvider interfacesProvider;
 	
 	private static final Logger logger = Logger.getLogger("AbstractFactory");
 	
 	public AbstractFactory(MapProvider<Class<?>, T> mapProvider, InterfacesProvider interfacesProvider) {
-		this.map = mapProvider.getMap();
+		if (mapProvider != null)
+			this.map = mapProvider.getMap();
 		this.interfacesProvider = interfacesProvider;
-		
 	}
 	
 	@Override
@@ -72,7 +72,6 @@ public abstract class AbstractFactory<T> implements Factory<T> {
 		T element = map.get(object);
 		if (element == null) {
 			logger.log(Level.INFO, "No element in factory for object " + object + " " + this.getClass());
-			//TODO Not supported by GWT
 			Class<?>[] interfaces = interfacesProvider.getInterfaces(object);
 			for (Class<?> i : interfaces) {
 				element = map.get(i);

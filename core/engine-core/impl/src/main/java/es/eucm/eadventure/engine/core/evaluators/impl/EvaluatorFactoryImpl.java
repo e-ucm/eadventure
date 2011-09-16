@@ -61,6 +61,10 @@ public class EvaluatorFactoryImpl extends AbstractFactory<Evaluator<?>> implemen
 			InterfacesProvider interfacesProvider) {
 		super(mapProvider, interfacesProvider);
 	}
+	
+	public void setMap(MapProvider<Class<?>, Evaluator<?>> mapProvider) {
+		this.map = mapProvider.getMap();
+	}
 
 	@SuppressWarnings("unchecked")
 	@Override

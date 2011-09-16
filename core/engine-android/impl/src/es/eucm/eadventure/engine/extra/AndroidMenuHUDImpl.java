@@ -77,8 +77,8 @@ public class AndroidMenuHUDImpl extends MenuHUDImpl {
 	private GameObjectFactory gameObjectFactory;
 
 	@Inject
-	public AndroidMenuHUDImpl(GameObjectFactory gameObjectFactory, GUI gui, MenuHUD menuHUD, GameState gameState, GameObjectManager gameObjectManager) {
-		super(gui, gameState, gameObjectManager);
+	public AndroidMenuHUDImpl(GameObjectFactory gameObjectFactory, MenuHUD menuHUD, GameState gameState, GameObjectManager gameObjectManager) {
+		super(gameState, gameObjectManager);
 		logger.info("New instance");
 		
 		this.gameObjectFactory = gameObjectFactory;
