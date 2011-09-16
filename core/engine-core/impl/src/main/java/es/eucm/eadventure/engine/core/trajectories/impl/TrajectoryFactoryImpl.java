@@ -5,7 +5,7 @@ import java.util.List;
 import com.google.inject.Inject;
 
 import es.eucm.eadventure.common.interfaces.AbstractFactory;
-import es.eucm.eadventure.common.interfaces.InterfacesProvider;
+import es.eucm.eadventure.common.interfaces.ReflectionProvider;
 import es.eucm.eadventure.common.interfaces.MapProvider;
 import es.eucm.eadventure.common.model.trajectories.TrajectoryDefinition;
 import es.eucm.eadventure.common.params.geom.EAdPosition;
@@ -19,7 +19,7 @@ public class TrajectoryFactoryImpl extends
 	@Inject
 	public TrajectoryFactoryImpl(
 			MapProvider<Class<?>, TrajectoryGenerator<?>> mapProvider,
-			InterfacesProvider interfacesProvider) {
+			ReflectionProvider interfacesProvider) {
 		super(mapProvider, interfacesProvider);
 	}
 

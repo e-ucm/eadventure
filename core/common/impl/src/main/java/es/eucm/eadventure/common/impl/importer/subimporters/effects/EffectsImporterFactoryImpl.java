@@ -45,7 +45,7 @@ import es.eucm.eadventure.common.EAdElementImporter;
 import es.eucm.eadventure.common.data.chapter.effects.Effect;
 import es.eucm.eadventure.common.impl.importer.interfaces.EffectsImporterFactory;
 import es.eucm.eadventure.common.interfaces.AbstractFactory;
-import es.eucm.eadventure.common.interfaces.InterfacesProvider;
+import es.eucm.eadventure.common.interfaces.ReflectionProvider;
 import es.eucm.eadventure.common.interfaces.MapProvider;
 import es.eucm.eadventure.common.model.effects.EAdEffect;
 
@@ -58,7 +58,7 @@ public class EffectsImporterFactoryImpl extends
 	@Inject
 	public EffectsImporterFactoryImpl(
 			@Named("effects") MapProvider<Class<?>, Class<? extends EAdElementImporter<?, ?>>> map,
-			InterfacesProvider interfacesProvider,
+			ReflectionProvider interfacesProvider,
 			Injector injector) {
 		super(map, interfacesProvider);
 		this.injector = injector;

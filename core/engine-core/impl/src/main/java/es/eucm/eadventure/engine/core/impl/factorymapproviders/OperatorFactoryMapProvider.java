@@ -46,6 +46,7 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 import es.eucm.eadventure.common.interfaces.EAdRuntimeException;
+import es.eucm.eadventure.common.interfaces.ReflectionProvider;
 import es.eucm.eadventure.common.model.variables.impl.operations.AssignOperation;
 import es.eucm.eadventure.common.model.variables.impl.operations.BooleanOperation;
 import es.eucm.eadventure.common.model.variables.impl.operations.LiteralExpressionOperation;
@@ -65,10 +66,14 @@ public class OperatorFactoryMapProvider extends AbstractMapProvider<Class<?>, Op
 	
 	private EvaluatorFactory evaluatorFactory;
 	
+	private ReflectionProvider reflectionProvider;
+	
 	@Inject
-	public OperatorFactoryMapProvider(EvaluatorFactory evaluatorFactory) {
+	public OperatorFactoryMapProvider(EvaluatorFactory evaluatorFactory,
+			ReflectionProvider reflectionProvider) {
 		super();
 		this.evaluatorFactory = evaluatorFactory;
+		this.reflectionProvider = reflectionProvider;
 	}
 	
 	@Override
@@ -80,7 +85,7 @@ public class OperatorFactoryMapProvider extends AbstractMapProvider<Class<?>, Op
 	public Map<Class<?>, Operator<?>> getMap(ValueMap valueMap) {
 		factoryMap.put(LiteralExpressionOperation.class, new LiteralExpressionOperator(valueMap));
 		factoryMap.put(BooleanOperation.class, new BooleanOperator(evaluatorFactory));
-		factoryMap.put(AssignOperation.class, new AssignOperator());
+		factoryMap.put(AssignOperation.class, new AssignOperator(reflectionProvider));
 		factoryMap.putAll(tempMap);
 		return super.getMap();
 	}

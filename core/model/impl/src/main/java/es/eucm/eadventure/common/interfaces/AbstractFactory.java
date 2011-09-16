@@ -57,11 +57,11 @@ public abstract class AbstractFactory<T> implements Factory<T> {
 
 	protected Map<Class<?>, T> map;
 
-	private InterfacesProvider interfacesProvider;
+	private ReflectionProvider interfacesProvider;
 	
 	private static final Logger logger = Logger.getLogger("AbstractFactory");
 	
-	public AbstractFactory(MapProvider<Class<?>, T> mapProvider, InterfacesProvider interfacesProvider) {
+	public AbstractFactory(MapProvider<Class<?>, T> mapProvider, ReflectionProvider interfacesProvider) {
 		if (mapProvider != null)
 			this.map = mapProvider.getMap();
 		this.interfacesProvider = interfacesProvider;
