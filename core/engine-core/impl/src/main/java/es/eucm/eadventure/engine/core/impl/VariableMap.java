@@ -43,19 +43,18 @@ import java.util.logging.Logger;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
+import es.eucm.eadventure.common.interfaces.ReflectionProvider;
 import es.eucm.eadventure.engine.core.ValueMap;
 
 @Singleton
 public class VariableMap extends ValueMapImpl implements ValueMap {
 
-	@Inject
-	public VariableMap() {
-		super();
-	}
-
 	private Logger logger = Logger.getLogger("VariableMap");
 	
-
+	@Inject
+	public VariableMap(ReflectionProvider reflectionProvider) {
+		super(reflectionProvider);
+	}	
 	
 	/**
 	 * <p>

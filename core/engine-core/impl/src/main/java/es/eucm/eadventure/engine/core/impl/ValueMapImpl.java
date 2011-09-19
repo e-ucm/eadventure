@@ -44,6 +44,7 @@ import java.util.logging.Logger;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
+import es.eucm.eadventure.common.interfaces.ReflectionProvider;
 import es.eucm.eadventure.common.model.EAdElement;
 import es.eucm.eadventure.common.model.variables.EAdField;
 import es.eucm.eadventure.common.model.variables.EAdOperation;
@@ -61,10 +62,13 @@ public class ValueMapImpl implements ValueMap {
 
 	private static final Logger logger = Logger.getLogger("Value Map");
 
+	private ReflectionProvider reflectionProvider;
+
 	@Inject
-	public ValueMapImpl() {
+	public ValueMapImpl(ReflectionProvider reflectionProvider) {
 		map = new HashMap<EAdElement, Map<EAdVarDef<?>, Object>>();
 		logger.info("New instance");
+		this.reflectionProvider = reflectionProvider;
 	}
 
 	@Override
@@ -109,7 +113,7 @@ public class ValueMapImpl implements ValueMap {
 		Object value = valMap.get(varDef);
 		// If the variable has not been set, returns the initial value
 		return value == null
-				|| !varDef.getType().isAssignableFrom(value.getClass()) ? varDef
+				|| !reflectionProvider.isAssignableFrom(varDef.getClass(), value) ? varDef
 				.getInitialValue() : (S) value;
 	}
 
@@ -128,7 +132,7 @@ public class ValueMapImpl implements ValueMap {
 
 	@Override
 	public void setValue(EAdVarDef<?> varDef, Object value, EAdElement element) {
-		if (varDef.getType().isAssignableFrom(value.getClass())) {
+		if (reflectionProvider.isAssignableFrom(varDef.getClass(), value)) {
 			Map<EAdVarDef<?>, Object> valMap = map.get(element);
 			if (valMap == null) {
 				valMap = new HashMap<EAdVarDef<?>, Object>();

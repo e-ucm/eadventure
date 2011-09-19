@@ -37,15 +37,25 @@
 
 package es.eucm.eadventure.engine.core.operators.impl;
 
+import com.google.inject.Inject;
+
+import es.eucm.eadventure.common.interfaces.ReflectionProvider;
 import es.eucm.eadventure.common.model.variables.impl.operations.AssignOperation;
 import es.eucm.eadventure.engine.core.operator.Operator;
 
 public class AssignOperator implements Operator<AssignOperation> {
 
+	private ReflectionProvider reflectionProvider;
+	
+	@Inject
+	public AssignOperator(ReflectionProvider reflectionProvider) {
+		this.reflectionProvider = reflectionProvider;
+	}
+	
 	@SuppressWarnings("unchecked")
 	@Override
 	public <S> S operate(Class<S> clazz, AssignOperation operation) {
-		if (clazz.isAssignableFrom(operation.getValue().getClass())) {
+		if (reflectionProvider.isAssignableFrom(clazz, operation.getValue())) {
 			return (S) operation.getValue();
 		}
 		return null;

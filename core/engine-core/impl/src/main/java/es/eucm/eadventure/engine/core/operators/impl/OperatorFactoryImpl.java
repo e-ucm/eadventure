@@ -43,7 +43,7 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 import es.eucm.eadventure.common.interfaces.AbstractFactory;
-import es.eucm.eadventure.common.interfaces.InterfacesProvider;
+import es.eucm.eadventure.common.interfaces.ReflectionProvider;
 import es.eucm.eadventure.common.model.variables.EAdField;
 import es.eucm.eadventure.common.model.variables.EAdOperation;
 import es.eucm.eadventure.engine.core.ValueMap;
@@ -62,7 +62,7 @@ public class OperatorFactoryImpl extends AbstractFactory<Operator<?>> implements
 	@Inject
 	public OperatorFactoryImpl(OperatorFactoryMapProvider map,
 			ValueMap valueMap,
-			InterfacesProvider interfacesProvider) {
+			ReflectionProvider interfacesProvider) {
 		super(null, interfacesProvider);
 		this.valueMap = valueMap;
 		this.valueMap.setOperatorFactory(this);
