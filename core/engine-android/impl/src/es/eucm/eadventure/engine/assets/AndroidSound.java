@@ -46,4 +46,9 @@ public class AndroidSound extends RuntimeSound {
 		mediaPlayer.start();
 	}
 
+	@Override
+	public void stop() {
+		mediaPlayer.stop();
+	}
+
 }

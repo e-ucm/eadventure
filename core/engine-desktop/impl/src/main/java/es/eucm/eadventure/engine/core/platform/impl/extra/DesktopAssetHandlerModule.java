@@ -70,10 +70,10 @@ import es.eucm.eadventure.engine.core.platform.assets.impl.DesktopBezierShape;
 import es.eucm.eadventure.engine.core.platform.assets.impl.DesktopEngineCaption;
 import es.eucm.eadventure.engine.core.platform.assets.impl.DesktopEngineImage;
 import es.eucm.eadventure.engine.core.platform.assets.impl.DesktopEngineSpriteImage;
-import es.eucm.eadventure.engine.core.platform.assets.impl.DesktopSound;
 import es.eucm.eadventure.engine.core.platform.assets.impl.RuntimeComposedDrawable;
 import es.eucm.eadventure.engine.core.platform.assets.impl.RuntimeDisplacedDrawable;
 import es.eucm.eadventure.engine.core.platform.assets.impl.RuntimeSpriteImage;
+import es.eucm.eadventure.engine.core.platform.assets.impl.sound.DesktopSound;
 import es.eucm.eadventure.engine.core.platform.impl.DesktopAssetHandler;
 
 public class DesktopAssetHandlerModule extends AbstractModule {
