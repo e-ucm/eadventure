@@ -5,6 +5,6 @@ public interface ReflectionProvider {
 
 	Class<?>[] getInterfaces(Class<?> object);
 
-	boolean isAssignableFrom(Class<?> varDef, Object value);
+	boolean isAssignableFrom(Class<?> class1, Class<?> class2);
 
 }
