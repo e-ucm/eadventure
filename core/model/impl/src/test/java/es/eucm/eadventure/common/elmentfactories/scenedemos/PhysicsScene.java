@@ -14,6 +14,7 @@ import es.eucm.eadventure.common.params.fills.impl.EAdColor;
 import es.eucm.eadventure.common.params.fills.impl.EAdLinearGradient;
 import es.eucm.eadventure.common.params.geom.impl.EAdPositionImpl;
 import es.eucm.eadventure.common.params.geom.impl.EAdPositionImpl.Corner;
+import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.shapes.RectangleShape;
 
 public class PhysicsScene extends EmptyScene {
 
@@ -23,10 +24,20 @@ public class PhysicsScene extends EmptyScene {
 				.getSceneElementFactory()
 				.createSceneElement("GO Physics!", 400, 200);
 		e.setPosition(new EAdPositionImpl(Corner.CENTER, 400, 100));
+		
+		
+		RectangleShape groundS = new RectangleShape( 600, 20 );
+		groundS.setFill(new EAdLinearGradient( EAdColor.BROWN, EAdColor.DARK_BROWN));
+		EAdBasicSceneElement ground = new EAdBasicSceneElement("ground", groundS);
+		ground.setPosition(new EAdPositionImpl(Corner.CENTER, 400, 500));
+		
+		getSceneElements().add(e);
+		
 
 		EAdPhysicsEffect effect = new EAdPhysicsEffect();
 		effect.addSceneElement(e);
-		getSceneElements().add(e);
+		effect.addSceneElement(ground);
+		getSceneElements().add(ground);
 		
 		e.setVarInitialValue(EAdPhysicsEffect.VAR_PH_TYPE, PhType.DYNAMIC);
 

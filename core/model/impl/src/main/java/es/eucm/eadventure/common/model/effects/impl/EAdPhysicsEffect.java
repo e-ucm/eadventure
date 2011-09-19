@@ -26,13 +26,13 @@ public class EAdPhysicsEffect extends AbstractEAdEffect {
 			"ph_shape", PhShape.class, PhShape.RECTANGULAR);
 
 	public static final EAdVarDef<Float> VAR_PH_FRICTION = new EAdVarDefImpl<Float>(
-			"ph_friction", Float.class, 1.0f);
+			"ph_friction", Float.class, 0.0f);
 	
 	public static final EAdVarDef<Float> VAR_PH_RESTITUTION = new EAdVarDefImpl<Float>(
 			"ph_restitution", Float.class, 1.0f);
 	
 	public static final EAdVarDef<Float> VAR_PH_DENSITY = new EAdVarDefImpl<Float>(
-			"ph_restitution", Float.class, 1.0f);
+			"ph_restitution", Float.class, 10.0f);
 
 	/**
 	 * Elements that are affect by the physics

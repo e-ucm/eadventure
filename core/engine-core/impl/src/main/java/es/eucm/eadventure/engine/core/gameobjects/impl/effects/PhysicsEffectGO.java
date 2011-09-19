@@ -67,7 +67,7 @@ public class PhysicsEffectGO extends AbstractEffectGO<EAdPhysicsEffect> {
 				break;
 			default:
 				s = new PolygonShape();
-				((PolygonShape) s).setAsBox(width, height);
+				((PolygonShape) s).setAsBox(width / 2, height / 2 );
 				
 			}
 			
@@ -95,7 +95,7 @@ public class PhysicsEffectGO extends AbstractEffectGO<EAdPhysicsEffect> {
 			body.createFixture(fixture);
 
 			MassData data = new MassData();
-			data.mass = 1.0f;
+			data.mass = 1000.0f;
 
 			body.setMassData(data);
 
