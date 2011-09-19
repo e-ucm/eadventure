@@ -66,6 +66,7 @@ public class SceneDemos {
 		sceneDemosClass.add(MoleGame.class);
 		sceneDemosClass.add(ShowQuestionScene.class);
 		sceneDemosClass.add(TrajectoriesScene.class);
+		sceneDemosClass.add(PhysicsScene.class);
 
 		sceneDemos = new ArrayList<SceneDemo>();
 		sceneDemos.add(new EmptyScene());
@@ -80,6 +81,7 @@ public class SceneDemos {
 		sceneDemos.add(new MoleGame());
 		sceneDemos.add(new ShowQuestionScene());
 		sceneDemos.add(new TrajectoriesScene());
+		sceneDemos.add(new PhysicsScene());
 	}
 
 	public List<Class<? extends SceneDemo>> getSceneDemos() {
@@ -99,8 +101,8 @@ public class SceneDemos {
 		}
 		return strings;
 	}
-	
-	public List<SceneDemo> getScenes(){
+
+	public List<SceneDemo> getScenes() {
 		return sceneDemos;
 	}
 

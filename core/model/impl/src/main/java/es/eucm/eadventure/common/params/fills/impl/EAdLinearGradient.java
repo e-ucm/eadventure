@@ -8,7 +8,7 @@ import es.eucm.eadventure.common.params.EAdParamImpl;
  * 
  */
 public class EAdLinearGradient extends EAdParamImpl implements EAdFill {
-	
+
 	public static final String SEPARATOR = ";";
 
 	private boolean vertical;
@@ -31,6 +31,18 @@ public class EAdLinearGradient extends EAdParamImpl implements EAdFill {
 		this.color1 = color1;
 		this.color2 = color2;
 		this.vertical = vertical;
+	}
+
+	/**
+	 * Constructs a vertical linear gradient fill
+	 * 
+	 * @param color1
+	 *            start color
+	 * @param color2
+	 *            end color
+	 */
+	public EAdLinearGradient(EAdColor color1, EAdColor color2) {
+		this(color1, color2, true);
 	}
 
 	public EAdLinearGradient(String string) {
@@ -70,8 +82,8 @@ public class EAdLinearGradient extends EAdParamImpl implements EAdFill {
 
 	@Override
 	public String toStringData() {
-		return color1.toStringData() + SEPARATOR + color2.toStringData() + SEPARATOR
-				+ vertical;
+		return color1.toStringData() + SEPARATOR + color2.toStringData()
+				+ SEPARATOR + vertical;
 	}
 
 	@Override

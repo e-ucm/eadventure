@@ -47,6 +47,7 @@ import es.eucm.eadventure.common.model.effects.impl.EAdChangeScene;
 import es.eucm.eadventure.common.model.effects.impl.EAdComplexBlockingEffect;
 import es.eucm.eadventure.common.model.effects.impl.EAdModifyActorState;
 import es.eucm.eadventure.common.model.effects.impl.EAdMoveActiveElement;
+import es.eucm.eadventure.common.model.effects.impl.EAdPhysicsEffect;
 import es.eucm.eadventure.common.model.effects.impl.EAdPlaySoundEffect;
 import es.eucm.eadventure.common.model.effects.impl.EAdQuitGame;
 import es.eucm.eadventure.common.model.effects.impl.EAdRandomEffect;
@@ -71,6 +72,7 @@ import es.eucm.eadventure.engine.core.gameobjects.impl.effects.MakeActiveElement
 import es.eucm.eadventure.engine.core.gameobjects.impl.effects.ModifyActorStateGO;
 import es.eucm.eadventure.engine.core.gameobjects.impl.effects.MoveActiveElementGO;
 import es.eucm.eadventure.engine.core.gameobjects.impl.effects.MoveSceneElementGO;
+import es.eucm.eadventure.engine.core.gameobjects.impl.effects.PhysicsEffectGO;
 import es.eucm.eadventure.engine.core.gameobjects.impl.effects.PlaySoundEffectGO;
 import es.eucm.eadventure.engine.core.gameobjects.impl.effects.QuitGameEffectGO;
 import es.eucm.eadventure.engine.core.gameobjects.impl.effects.RandomEffectGO;
@@ -105,6 +107,8 @@ public class EffectGameObjectFactoryConfigurator {
 		factoryMap.put(EAdMoveActiveElement.class, MoveActiveElementGO.class);
 		factoryMap.put(EAdSpeakEffect.class, SpeakEffectGO.class);
 		factoryMap.put(EAdPlaySoundEffect.class, PlaySoundEffectGO.class);
+		factoryMap.put(EAdPhysicsEffect.class, PhysicsEffectGO.class);
+		
 	}
 
 }

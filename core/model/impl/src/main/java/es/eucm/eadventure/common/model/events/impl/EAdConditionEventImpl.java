@@ -43,16 +43,21 @@ import es.eucm.eadventure.common.model.conditions.impl.EmptyCondition;
 import es.eucm.eadventure.common.model.elements.EAdCondition;
 import es.eucm.eadventure.common.model.events.EAdConditionEvent;
 
-@Element(runtime=EAdConditionEventImpl.class,  detailed=EAdConditionEventImpl.class)
-public class EAdConditionEventImpl extends AbstractEAdEvent implements EAdConditionEvent {
+@Element(runtime = EAdConditionEventImpl.class, detailed = EAdConditionEventImpl.class)
+public class EAdConditionEventImpl extends AbstractEAdEvent implements
+		EAdConditionEvent {
 
 	@Param("condition")
 	private EAdCondition condition;
-	
+
 	public EAdConditionEventImpl(String id) {
 		this(id, EmptyCondition.FALSE_EMPTY_CONDITION);
 	}
-	
+
+	public EAdConditionEventImpl() {
+		this("conditionEvent");
+	}
+
 	public EAdConditionEventImpl(String id, EAdCondition condition) {
 		super(id);
 		this.condition = condition;
