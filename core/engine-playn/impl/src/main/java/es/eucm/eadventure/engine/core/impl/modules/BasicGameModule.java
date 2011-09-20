@@ -2,6 +2,7 @@ package es.eucm.eadventure.engine.core.impl.modules;
 
 import com.google.gwt.inject.client.AbstractGinModule;
 import com.google.inject.Provides;
+import com.google.inject.Singleton;
 import com.google.inject.name.Named;
 import com.google.inject.name.Names;
 
@@ -14,6 +15,7 @@ import es.eucm.eadventure.engine.core.GameState;
 import es.eucm.eadventure.engine.core.ValueMap;
 import es.eucm.eadventure.engine.core.debuggers.EAdDebugger;
 import es.eucm.eadventure.engine.core.debuggers.impl.EAdMainDebugger;
+import es.eucm.eadventure.engine.core.evaluators.EvaluatorFactory;
 import es.eucm.eadventure.engine.core.gameobjects.huds.EffectHUD;
 import es.eucm.eadventure.engine.core.gameobjects.huds.impl.EffectHUDImpl;
 import es.eucm.eadventure.engine.core.impl.GameControllerImpl;
@@ -23,27 +25,28 @@ import es.eucm.eadventure.engine.core.impl.LoadingScreen;
 import es.eucm.eadventure.engine.core.impl.VariableMap;
 import es.eucm.eadventure.engine.core.platform.FontCache;
 import es.eucm.eadventure.engine.core.platform.impl.FontCacheImpl;
+import es.eucm.eadventure.engine.core.platform.impl.extra.EvaluatorFactoryProvider;
 
 public class BasicGameModule extends AbstractGinModule {
 
 	@Override
 	protected void configure() {
 		install(new GameObjectFactoryModule());
-		install(new EvaluatorFactoryModule());
+		bind(EvaluatorFactory.class).toProvider(EvaluatorFactoryProvider.class);
 		install(new OperatorFactoryModule());
 		install(new TrajectoryFactoryModule());
 		
-		bind(ValueMap.class).to(VariableMap.class);
-		bind(GameState.class).to(GameStateImpl.class);
-		bind(GameController.class).to(GameControllerImpl.class);
-		bind(Game.class).to(GameImpl.class);
-		bind(EffectHUD.class).to(EffectHUDImpl.class);
-		bind(FontCache.class).to(FontCacheImpl.class);
-		bind(EAdDebugger.class).to(EAdMainDebugger.class);
+		bind(ValueMap.class).to(VariableMap.class).in(Singleton.class);
+		bind(GameState.class).to(GameStateImpl.class).in(Singleton.class);
+		bind(GameController.class).to(GameControllerImpl.class).in(Singleton.class);
+		bind(Game.class).to(GameImpl.class).in(Singleton.class);
+		bind(EffectHUD.class).to(EffectHUDImpl.class).in(Singleton.class);
+		bind(FontCache.class).to(FontCacheImpl.class).in(Singleton.class);
+		bind(EAdDebugger.class).to(EAdMainDebugger.class).in(Singleton.class);
 
 		bind(EAdAdventureModel.class).to(EAdAdventureModelImpl.class);
 		bind(EAdScene.class).annotatedWith(Names.named("LoadingScreen")).to(
-				LoadingScreen.class);
+				LoadingScreen.class).in(Singleton.class);
 
 	}
 	

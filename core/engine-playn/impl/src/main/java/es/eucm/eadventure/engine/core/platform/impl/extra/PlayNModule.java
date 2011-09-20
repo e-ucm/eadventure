@@ -42,10 +42,13 @@ import playn.core.Path;
 
 import com.google.gwt.inject.client.AbstractGinModule;
 import com.google.inject.Provides;
+import com.google.inject.Singleton;
 import com.google.inject.TypeLiteral;
 import com.google.inject.name.Named;
 
+import es.eucm.eadventure.common.interfaces.ReflectionProvider;
 import es.eucm.eadventure.engine.core.GameLoop;
+import es.eucm.eadventure.engine.core.GameProfiler;
 import es.eucm.eadventure.engine.core.KeyboardState;
 import es.eucm.eadventure.engine.core.MouseState;
 import es.eucm.eadventure.engine.core.gameobjects.GameObjectManager;
@@ -68,6 +71,8 @@ import es.eucm.eadventure.engine.core.platform.impl.PlayNFillFactory;
 import es.eucm.eadventure.engine.core.platform.impl.PlayNFontCache;
 import es.eucm.eadventure.engine.core.platform.impl.PlayNGUI;
 import es.eucm.eadventure.engine.core.platform.impl.PlayNGameLoop;
+import es.eucm.eadventure.engine.core.platform.impl.PlayNGameProfiler;
+import es.eucm.eadventure.engine.core.platform.impl.PlayNReflectionProvider;
 import es.eucm.eadventure.engine.core.platform.impl.PlayNPlatformConfiguration;
 import es.eucm.eadventure.engine.core.platform.impl.PlayNPlatformControl;
 import es.eucm.eadventure.engine.core.platform.impl.PlayNPlatformLauncher;
@@ -79,23 +84,23 @@ public class PlayNModule extends AbstractGinModule {
 	protected void configure() {
 		bind(GameLoop.class).to(PlayNGameLoop.class);
 		
-		//TODO No profiler needed, should change something else?
-		//bind(GameProfiler.class).to(GameProfilerImpl.class);
-		bind(GUI.class).to(PlayNGUI.class);
+		bind(ReflectionProvider.class).to(PlayNReflectionProvider.class).in(Singleton.class);
+		bind(GameProfiler.class).to(PlayNGameProfiler.class).in(Singleton.class);
+		bind(GUI.class).to(PlayNGUI.class).in(Singleton.class);
 		bind(PlatformConfiguration.class)
-				.to(PlayNPlatformConfiguration.class);
-		bind(PlatformControl.class).to(PlayNPlatformControl.class);
-		bind(PlatformLauncher.class).to(PlayNPlatformLauncher.class);
-		bind(MouseState.class).to(MouseStateImpl.class);
-		bind(KeyboardState.class).to(KeyboardStateImpl.class);
-		bind(GameObjectManager.class).to(GameObjectManagerImpl.class);
-		bind(BasicHUD.class).to(BasicHUDImpl.class);
-		bind(ActionsHUD.class).to(PlayNActionsHUDImpl.class);
-		bind(MenuHUD.class).to(PlayNMenuHUDImpl.class);
-		bind(FontCacheImpl.class).to(PlayNFontCache.class);
-		bind(new TypeLiteral<FillFactory<Canvas, Path>>() {}).to(PlayNFillFactory.class);
-		bind(TransitionFactory.class).to(PlayNTransitionFactory.class);
-		bind(BasicInventoryGO.class).to(PlayNBasicInventoryGO.class);
+				.to(PlayNPlatformConfiguration.class).in(Singleton.class);
+		bind(PlatformControl.class).to(PlayNPlatformControl.class).in(Singleton.class);
+		bind(PlatformLauncher.class).to(PlayNPlatformLauncher.class).in(Singleton.class);
+		bind(MouseState.class).to(MouseStateImpl.class).in(Singleton.class);
+		bind(KeyboardState.class).to(KeyboardStateImpl.class).in(Singleton.class);
+		bind(GameObjectManager.class).to(GameObjectManagerImpl.class).in(Singleton.class);
+		bind(BasicHUD.class).to(BasicHUDImpl.class).in(Singleton.class);
+		bind(ActionsHUD.class).to(PlayNActionsHUDImpl.class).in(Singleton.class);
+		bind(MenuHUD.class).to(PlayNMenuHUDImpl.class).in(Singleton.class);
+		bind(FontCacheImpl.class).to(PlayNFontCache.class).in(Singleton.class);
+		bind(new TypeLiteral<FillFactory<Canvas, Path>>() {}).to(PlayNFillFactory.class).in(Singleton.class);
+		bind(TransitionFactory.class).to(PlayNTransitionFactory.class).in(Singleton.class);
+		bind(BasicInventoryGO.class).to(PlayNBasicInventoryGO.class).in(Singleton.class);
 	}
 
 	@Provides
