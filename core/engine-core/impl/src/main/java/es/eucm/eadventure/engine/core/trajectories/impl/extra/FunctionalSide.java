@@ -36,6 +36,9 @@
  ******************************************************************************/
 package es.eucm.eadventure.engine.core.trajectories.impl.extra;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import es.eucm.eadventure.common.model.elements.EAdSceneElement;
 import es.eucm.eadventure.common.model.extra.EAdList;
 import es.eucm.eadventure.common.model.trajectories.impl.NodeTrajectoryDefinition;
@@ -60,10 +63,13 @@ public class FunctionalSide {
     private Node endNode;
     
     private GameObjectFactory gameObjectFactory;
+    
+    private List<FunctionalSide> followingSides;
 
     public FunctionalSide( Side side, NodeTrajectoryDefinition trajectory, boolean inverted,  GameObjectFactory gameObjectFactory ) {
     	this.gameObjectFactory = gameObjectFactory;
         this.side = side;
+        this.followingSides = new ArrayList<FunctionalSide>();
         length = side.getLength( );
         if( !inverted ) {
             startNode = trajectory.getNodeForId( side.getIDStart( ) );
@@ -223,5 +229,9 @@ public class FunctionalSide {
     public float getRealLength( ) {
         return realLength;
     }
+
+	public List<FunctionalSide> getFollowingSides() {
+		return followingSides;
+	}
 
 }

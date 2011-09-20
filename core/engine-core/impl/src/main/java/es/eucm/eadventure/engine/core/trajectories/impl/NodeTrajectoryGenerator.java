@@ -160,6 +160,11 @@ public class NodeTrajectoryGenerator implements
             	currentSides.add( temp );
 		}
         for (FunctionalSide side : currentSides) {
+        	for (FunctionalSide tempSide : currentSides) {
+        		if (tempSide.getStartNode() == side.getEndNode()
+        				&& tempSide.getEndNode() != side.getStartNode())
+        			side.getFollowingSides().add(tempSide);
+        	}
             if (side.getStartNode( ) == nodeTrajectoryDefinition.getInitial( )) {
                 currentSide.put(nodeTrajectoryDefinition, side.getSide( ));
             }
@@ -212,10 +217,8 @@ public class NodeTrajectoryGenerator implements
             FunctionalSide lastSide = originalPath.getSides( ).get( originalPath.getSides( ).size( ) - 1 );
 
             boolean continues = false;
-            for( FunctionalSide side : getSides(nodeTrajectoryDefinition) ) {
-                if( side.getStartNode( ) == lastSide.getEndNode( )
-                		&& side.getEndNode( ) != lastSide.getStartNode( )
-                		&& !originalPath.getSides().contains(side)
+            for( FunctionalSide side : lastSide.getFollowingSides() ) {
+                if( !originalPath.getSides().contains(side)
                 		&& !originalPath.getNodes().contains(side.getEndNode())) {
                     FunctionalPath temp = originalPath.newFunctionalPath( side.getLenght( ), 0, side );
                     if( temp != null ) {
@@ -224,9 +227,8 @@ public class NodeTrajectoryGenerator implements
                     }
                 }
             }
-            if( !continues ) {
+            if( !continues ) 
                 fullPathList.add( originalPath );
-            }
         }
         return fullPathList;
     }

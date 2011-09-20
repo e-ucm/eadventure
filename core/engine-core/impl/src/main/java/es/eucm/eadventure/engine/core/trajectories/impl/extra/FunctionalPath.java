@@ -129,13 +129,6 @@ public class FunctionalPath implements Comparable<FunctionalPath> {
     }
 
     public FunctionalPath newFunctionalPath( float length, float distance, FunctionalSide side ) {
-
-        if( sides.contains( side ) )
-            return null;
-        for( FunctionalSide tempSide : sides )
-            if( tempSide.getSide( ) == side.getSide( ) )
-                return null;
-
         FunctionalPath temp = new FunctionalPath( this.length, this.distance, this.sides );
         temp.addSide( length, distance, side );
         return temp;
