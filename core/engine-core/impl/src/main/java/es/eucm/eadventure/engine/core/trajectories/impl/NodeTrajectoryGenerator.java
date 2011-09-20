@@ -102,7 +102,7 @@ public class NodeTrajectoryGenerator implements
 
         List<FunctionalPath> fullPathList = getFullPathList( trajectoryDefinition, tempPaths );
 
-        //TODO change null for destinationElement when available
+
         FunctionalPath bestPath = getValidPaths( trajectoryDefinition, fullPathList, currentPosition, toX, toY, sceneElement );
 
         if( bestPath != null ) {
@@ -213,7 +213,10 @@ public class NodeTrajectoryGenerator implements
 
             boolean continues = false;
             for( FunctionalSide side : getSides(nodeTrajectoryDefinition) ) {
-                if( side.getStartNode( ) == lastSide.getEndNode( ) && side.getEndNode( ) != lastSide.getStartNode( ) ) {
+                if( side.getStartNode( ) == lastSide.getEndNode( )
+                		&& side.getEndNode( ) != lastSide.getStartNode( )
+                		&& !originalPath.getSides().contains(side)
+                		&& !originalPath.getNodes().contains(side.getEndNode())) {
                     FunctionalPath temp = originalPath.newFunctionalPath( side.getLenght( ), 0, side );
                     if( temp != null ) {
                         tempPaths.add( temp );

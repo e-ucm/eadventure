@@ -39,6 +39,7 @@ package es.eucm.eadventure.engine.core.trajectories.impl.extra;
 import java.util.ArrayList;
 import java.util.List;
 
+import es.eucm.eadventure.common.model.trajectories.impl.NodeTrajectoryDefinition.Node;
 import es.eucm.eadventure.common.model.trajectories.impl.NodeTrajectoryDefinition.Side;
 
 public class FunctionalPath implements Comparable<FunctionalPath> {
@@ -46,6 +47,8 @@ public class FunctionalPath implements Comparable<FunctionalPath> {
     private float length;
 
     private List<FunctionalSide> sides;
+    
+    private List<Node> nodes;
 
     private float destX;
 
@@ -59,6 +62,13 @@ public class FunctionalPath implements Comparable<FunctionalPath> {
 
         this.length = length;
         this.sides = new ArrayList<FunctionalSide>( sides );
+        this.nodes = new ArrayList<Node>();
+        if (sides != null) {
+	        for (FunctionalSide side : sides) {
+	        	nodes.add(side.getEndNode());
+	        	nodes.add(side.getStartNode());
+	        }
+        }
         this.distance = distance;
         getsTo = false;
     }
@@ -115,6 +125,7 @@ public class FunctionalPath implements Comparable<FunctionalPath> {
         sides.add( side );
         this.length += lenght;
         this.distance = distance;
+        this.nodes.add(side.getEndNode());
     }
 
     public FunctionalPath newFunctionalPath( float length, float distance, FunctionalSide side ) {
@@ -163,4 +174,8 @@ public class FunctionalPath implements Comparable<FunctionalPath> {
         }
         System.out.println( sides.get( sides.size( ) - 1 ).getEndNode( ).getId( ) );
     }
+
+	public List<Node> getNodes() {
+		return nodes;
+	}
 }
