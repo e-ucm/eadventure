@@ -45,4 +45,5 @@ import es.eucm.eadventure.common.model.EAdElement;
  */
 public interface TrajectoryDefinition extends EAdElement {
 
+
 }

@@ -43,7 +43,7 @@ import es.eucm.eadventure.common.model.elements.EAdSceneElement;
 import es.eucm.eadventure.common.model.extra.EAdList;
 import es.eucm.eadventure.common.model.trajectories.impl.NodeTrajectoryDefinition;
 import es.eucm.eadventure.common.model.trajectories.impl.NodeTrajectoryDefinition.Node;
-import es.eucm.eadventure.common.model.trajectories.impl.NodeTrajectoryDefinition.Side;
+import es.eucm.eadventure.common.model.trajectories.impl.Side;
 import es.eucm.eadventure.common.params.geom.EAdPosition;
 import es.eucm.eadventure.common.params.geom.EAdRectangle;
 import es.eucm.eadventure.common.params.geom.impl.EAdPositionImpl;
@@ -237,8 +237,11 @@ public class PathSideImpl implements PathSide {
 	}
 
 	@Override
-	public EAdPosition getEndPosition() {
-		return new EAdPositionImpl(endNode.getX(), endNode.getY());
+	public EAdPosition getEndPosition(boolean last) {
+		if (last)
+			return new EAdPositionImpl((int) this.posX, (int) this.posY);
+		else
+			return new EAdPositionImpl(this.endNode.getX(), this.endNode.getY());
 	}
 
 	@Override

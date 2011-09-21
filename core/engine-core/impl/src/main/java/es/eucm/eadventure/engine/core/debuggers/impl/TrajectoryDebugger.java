@@ -13,7 +13,7 @@ import es.eucm.eadventure.common.model.elements.impl.EAdSceneImpl;
 import es.eucm.eadventure.common.model.trajectories.TrajectoryDefinition;
 import es.eucm.eadventure.common.model.trajectories.impl.NodeTrajectoryDefinition;
 import es.eucm.eadventure.common.model.trajectories.impl.NodeTrajectoryDefinition.Node;
-import es.eucm.eadventure.common.model.trajectories.impl.NodeTrajectoryDefinition.Side;
+import es.eucm.eadventure.common.model.trajectories.impl.Side;
 import es.eucm.eadventure.common.params.fills.impl.EAdBorderedColor;
 import es.eucm.eadventure.common.params.fills.impl.EAdColor;
 import es.eucm.eadventure.common.params.geom.EAdPosition;

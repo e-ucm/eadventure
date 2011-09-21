@@ -17,7 +17,7 @@ public class SimpleSideImpl implements PathSide {
 	}
 
 	@Override
-	public EAdPosition getEndPosition() {
+	public EAdPosition getEndPosition(boolean last) {
 		return endPosition;
 	}
 
