@@ -98,8 +98,8 @@ public class BezierShape implements Shape, Cloneable {
 		return fill;
 	}
 
-	public void setFill(EAdFill color) {
-		this.fill = (EAdFill) color;
+	public void setFill(EAdFill fill) {
+		this.fill = fill;
 	}
 
 	public void lineTo(EAdPositionImpl p) {

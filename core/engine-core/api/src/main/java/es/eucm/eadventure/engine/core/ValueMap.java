@@ -48,7 +48,7 @@ import es.eucm.eadventure.engine.core.operator.OperatorFactory;
  * different classes.
  */
 public interface ValueMap {
-	
+
 	void setOperatorFactory(OperatorFactory operatorFactory);
 
 	/**
@@ -56,12 +56,11 @@ public interface ValueMap {
 	 * @param value
 	 */
 	<S> void setValue(EAdField<S> var, S value);
-	
+
 	<S> void setValue(EAdElement element, EAdVarDef<S> varDef, S value);
-	
-	
-	//FIXME this has to change, to dissappear
-	void setValue(EAdVarDef<?> varDef, Object value, EAdElement element );
+
+	// FIXME this has to change, to dissappear
+	void setValue(EAdVarDef<?> varDef, Object value, EAdElement element);
 
 	/**
 	 * Sets the variable to the result value of the operation
@@ -70,18 +69,43 @@ public interface ValueMap {
 	 * @param operation
 	 */
 	<S> void setValue(EAdField<S> var, EAdOperation operation);
-	
-	<S> void setValue(EAdElement element, EAdVarDef<S> var, EAdOperation operation);
-	
 
 	/**
-	 * @param <S>
+	 * Sets the variable value for the given element
+	 * 
+	 * @param element
+	 *            the element holding the variable. If the element is
+	 *            {@code null}, it's considered that the variable belongs to the
+	 *            system
 	 * @param var
-	 * @return
+	 *            the variable definition
+	 * @param operation
+	 *            the operation whose result will be assigned to the variable
 	 */
-	<S> S getValue(EAdField<S> var);
-	
-	<S> S getValue( EAdElement element, EAdVarDef<S> varDef );
+	<S> void setValue(EAdElement element, EAdVarDef<S> var,
+			EAdOperation operation);
+
+	/**
+	 * Returns the value of the field
+	 * 
+	 * @param <S>
+	 * @param field
+	 *            the field to be consulted
+	 * @return the value of the field
+	 */
+	<S> S getValue(EAdField<S> field);
+
+	/**
+	 * Returns the value of the variable in the given element
+	 * 
+	 * @param element
+	 *            the element. If the element is {@code null}, is considered as
+	 *            a system variable
+	 * @param varDef
+	 *            the variable definition to be consulted
+	 * @return the variable's value
+	 */
+	<S> S getValue(EAdElement element, EAdVarDef<S> varDef);
 
 	/**
 	 * Removes all fields associated to the given element

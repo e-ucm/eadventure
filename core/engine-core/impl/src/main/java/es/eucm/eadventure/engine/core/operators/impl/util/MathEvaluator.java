@@ -326,7 +326,8 @@ public class MathEvaluator {
 			int inBrackets = 0;
 			int startOperator = 0;
 
-			for (int i = 0; i < sLength; i++) {
+			int i = 0;
+			while ( i < sLength ) {
 				if (s.charAt(i) == '(')
 					inBrackets++;
 				else if (s.charAt(i) == ')')
@@ -342,10 +343,12 @@ public class MathEvaluator {
 											.getPriority()) {
 								nOperator = o;
 								startOperator = i;
+								i += nOperator.op.length() - 1;
 							}
 						}
 					}
 				}
+				i++;
 			}
 
 			if (nOperator != null) {
