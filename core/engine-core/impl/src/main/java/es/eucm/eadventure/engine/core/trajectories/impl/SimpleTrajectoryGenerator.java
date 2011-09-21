@@ -7,13 +7,15 @@ import es.eucm.eadventure.common.model.trajectories.impl.SimpleTrajectoryDefinit
 import es.eucm.eadventure.common.params.geom.EAdPosition;
 import es.eucm.eadventure.common.params.geom.impl.EAdPositionImpl;
 import es.eucm.eadventure.engine.core.gameobjects.SceneElementGO;
+import es.eucm.eadventure.engine.core.trajectories.Path;
 import es.eucm.eadventure.engine.core.trajectories.TrajectoryGenerator;
+import es.eucm.eadventure.engine.core.trajectories.impl.extra.SimplePathImpl;
 
 public class SimpleTrajectoryGenerator implements
 		TrajectoryGenerator<SimpleTrajectoryDefinition> {
 
 	@Override
-	public List<EAdPosition> getTrajectory(
+	public Path getTrajectory(
 			SimpleTrajectoryDefinition trajectoryDefinition,
 			EAdPosition currentPosition, int x, int y) {
 
@@ -24,12 +26,11 @@ public class SimpleTrajectoryGenerator implements
 			list.add(new EAdPositionImpl(x, y));
 		}
 
-		return list;
-
+		return new SimplePathImpl(list);
 	}
 
 	@Override
-	public List<EAdPosition> getTrajectory(
+	public Path getTrajectory(
 			SimpleTrajectoryDefinition trajectoryDefinition,
 			EAdPosition currentPosition, int x, int y, SceneElementGO<?> sceneElement) {
 
@@ -40,7 +41,7 @@ public class SimpleTrajectoryGenerator implements
 			list.add(new EAdPositionImpl(x, y));
 		}
 
-		return list;
+		return new SimplePathImpl(list);
 	}
 
 	@Override

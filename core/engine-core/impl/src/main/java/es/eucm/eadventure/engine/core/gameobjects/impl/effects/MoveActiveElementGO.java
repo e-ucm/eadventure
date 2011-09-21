@@ -58,6 +58,7 @@ import es.eucm.eadventure.engine.core.guiactions.MouseAction;
 import es.eucm.eadventure.engine.core.platform.AssetHandler;
 import es.eucm.eadventure.engine.core.platform.GUI;
 import es.eucm.eadventure.engine.core.platform.PlatformConfiguration;
+import es.eucm.eadventure.engine.core.trajectories.Path;
 import es.eucm.eadventure.engine.core.trajectories.TrajectoryFactory;
 
 public class MoveActiveElementGO extends AbstractEffectGO<EAdMoveActiveElement> {
@@ -93,9 +94,9 @@ public class MoveActiveElementGO extends AbstractEffectGO<EAdMoveActiveElement> 
 						EAdBasicSceneElement.VAR_X));
 				pos.setY(valueMap.getValue(gameState.getActiveElement(),
 						EAdBasicSceneElement.VAR_Y));
-				List<EAdPosition> trajectory = trajectoryFactory.getTrajectory(
+				Path trajectory = trajectoryFactory.getTrajectory(
 						trajectoryDefinition, pos, x, y);
-				for (EAdPosition p : trajectory) {
+				for (EAdPosition p : trajectory.getPositions()) {
 					EAdMoveSceneElement effect = new EAdMoveSceneElement(
 							"trajectory", gameState.getActiveElement(),
 							p.getX(), p.getY(), MovementSpeed.NORMAL);

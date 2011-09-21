@@ -50,7 +50,7 @@ import es.eucm.eadventure.engine.core.gameobjects.GameObjectFactory;
 import es.eucm.eadventure.engine.core.gameobjects.SceneElementGO;
 import es.eucm.eadventure.engine.core.trajectories.impl.NodeTrajectoryGenerator;
 
-public class FunctionalSide {
+public class PathSide {
 
     private Side side;
 
@@ -64,12 +64,12 @@ public class FunctionalSide {
     
     private GameObjectFactory gameObjectFactory;
     
-    private List<FunctionalSide> followingSides;
+    private List<PathSide> followingSides;
 
-    public FunctionalSide( Side side, NodeTrajectoryDefinition trajectory, boolean inverted,  GameObjectFactory gameObjectFactory ) {
+    public PathSide( Side side, NodeTrajectoryDefinition trajectory, boolean inverted,  GameObjectFactory gameObjectFactory ) {
     	this.gameObjectFactory = gameObjectFactory;
         this.side = side;
-        this.followingSides = new ArrayList<FunctionalSide>();
+        this.followingSides = new ArrayList<PathSide>();
         length = side.getLength( );
         if( !inverted ) {
             startNode = trajectory.getNodeForId( side.getIDStart( ) );
@@ -107,14 +107,14 @@ public class FunctionalSide {
     @Override
     public boolean equals( Object other ) {
 
-        if( other == null || !( other instanceof FunctionalSide ) ) {
+        if( other == null || !( other instanceof PathSide ) ) {
             return false;
         }
         else if( this == other ) {
             return true;
         }
         else {
-            FunctionalSide temp = (FunctionalSide) other;
+            PathSide temp = (PathSide) other;
             if( temp.getStartNode( ) == getStartNode( ) && temp.getEndNode( ) == getEndNode( ) )
                 return true;
             return false;
@@ -230,7 +230,7 @@ public class FunctionalSide {
         return realLength;
     }
 
-	public List<FunctionalSide> getFollowingSides() {
+	public List<PathSide> getFollowingSides() {
 		return followingSides;
 	}
 

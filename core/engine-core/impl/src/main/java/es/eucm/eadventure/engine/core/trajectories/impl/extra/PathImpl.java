@@ -41,12 +41,15 @@ import java.util.List;
 
 import es.eucm.eadventure.common.model.trajectories.impl.NodeTrajectoryDefinition.Node;
 import es.eucm.eadventure.common.model.trajectories.impl.NodeTrajectoryDefinition.Side;
+import es.eucm.eadventure.common.params.geom.EAdPosition;
+import es.eucm.eadventure.common.params.geom.impl.EAdPositionImpl;
+import es.eucm.eadventure.engine.core.trajectories.Path;
 
-public class FunctionalPath implements Comparable<FunctionalPath> {
+public class PathImpl implements Comparable<PathImpl>, Path {
 
     private float length;
 
-    private List<FunctionalSide> sides;
+    private List<PathSide> sides;
     
     private List<Node> nodes;
 
@@ -58,15 +61,15 @@ public class FunctionalPath implements Comparable<FunctionalPath> {
 
     private float distance;
 
-    public FunctionalPath( float length, float distance, List<FunctionalSide> sides ) {
+    public PathImpl( float length, float distance, List<PathSide> sides ) {
 
         this.length = length;
-        this.sides = new ArrayList<FunctionalSide>( sides );
+        this.sides = new ArrayList<PathSide>( sides );
         this.nodes = new ArrayList<Node>();
-        if (sides != null) {
-	        for (FunctionalSide side : sides) {
+        if (this.sides.size() > 0) {
+        	nodes.add(sides.get(0).getStartNode());
+	        for (PathSide side : sides) {
 	        	nodes.add(side.getEndNode());
-	        	nodes.add(side.getStartNode());
 	        }
         }
         this.distance = distance;
@@ -97,7 +100,7 @@ public class FunctionalPath implements Comparable<FunctionalPath> {
         }
     }
 
-    public List<FunctionalSide> getSides( ) {
+    public List<PathSide> getSides( ) {
 
         return sides;
     }
@@ -105,7 +108,7 @@ public class FunctionalPath implements Comparable<FunctionalPath> {
     public List<Side> getNormalSides( ) {
 
         List<Side> temp = new ArrayList<Side>( );
-        for( FunctionalSide side : sides )
+        for( PathSide side : sides )
             temp.add( side.getSide( ) );
         return temp;
     }
@@ -120,7 +123,7 @@ public class FunctionalPath implements Comparable<FunctionalPath> {
         return distance;
     }
 
-    public void addSide( float lenght, float distance, FunctionalSide side ) {
+    public void addSide( float lenght, float distance, PathSide side ) {
 
         sides.add( side );
         this.length += lenght;
@@ -128,27 +131,24 @@ public class FunctionalPath implements Comparable<FunctionalPath> {
         this.nodes.add(side.getEndNode());
     }
 
-    public FunctionalPath newFunctionalPath( float length, float distance, FunctionalSide side ) {
-        FunctionalPath temp = new FunctionalPath( this.length, this.distance, this.sides );
+    public PathImpl newFunctionalPath( float length, float distance, PathSide side ) {
+        PathImpl temp = new PathImpl( this.length, this.distance, this.sides );
         temp.addSide( length, distance, side );
         return temp;
     }
 
-    public int compareTo( FunctionalPath arg0 ) {
+    public int compareTo( PathImpl arg0 ) {
 
-        if( this.getsTo && !arg0.getsTo ) {
+        if( this.getsTo && !arg0.getsTo )
             return 1;
-        }
-        else if( !this.getsTo && arg0.getsTo ) {
+        else if( !this.getsTo && arg0.getsTo )
             return -1;
-        }
+
         int distDif = (int) ( arg0.distance - distance );
-        if( Math.abs( distDif ) < 200 ) {
+        if( Math.abs( distDif ) < 200 )
             return (int) ( arg0.length - length );
-        }
-        else {
+        else
             return distDif;
-        }
     }
 
     public float getDestX( ) {
@@ -162,7 +162,7 @@ public class FunctionalPath implements Comparable<FunctionalPath> {
     }
 
     public void print( ) {
-        for( FunctionalSide side : sides ) {
+        for( PathSide side : sides ) {
             System.out.print( side.getStartNode( ).getId( ) + "->" );
         }
         System.out.println( sides.get( sides.size( ) - 1 ).getEndNode( ).getId( ) );
@@ -171,4 +171,16 @@ public class FunctionalPath implements Comparable<FunctionalPath> {
 	public List<Node> getNodes() {
 		return nodes;
 	}
+	
+	@Override
+	public List<EAdPosition> getPositions() {
+		List<EAdPosition> positions = new ArrayList<EAdPosition>();
+		for (int i = 0; i < getSides().size(); i++) {
+			PathSide side = getSides().get(i);
+			positions.add(new EAdPositionImpl(side.getStartNode().getX(), side.getStartNode().getY()));
+		}
+		positions.add(new EAdPositionImpl((int)getDestX(), (int)getDestY()));
+		return positions;
+	}
+
 }

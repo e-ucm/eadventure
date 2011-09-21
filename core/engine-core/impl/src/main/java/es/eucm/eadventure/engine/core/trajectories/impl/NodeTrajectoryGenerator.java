@@ -14,19 +14,19 @@ import es.eucm.eadventure.common.model.trajectories.impl.NodeTrajectoryDefinitio
 import es.eucm.eadventure.common.model.trajectories.impl.NodeTrajectoryDefinition.Side;
 import es.eucm.eadventure.common.params.geom.EAdPosition;
 import es.eucm.eadventure.common.params.geom.EAdRectangle;
-import es.eucm.eadventure.common.params.geom.impl.EAdPositionImpl;
 import es.eucm.eadventure.common.params.geom.impl.EAdRectangleImpl;
 import es.eucm.eadventure.engine.core.gameobjects.GameObjectFactory;
 import es.eucm.eadventure.engine.core.gameobjects.SceneElementGO;
+import es.eucm.eadventure.engine.core.trajectories.Path;
 import es.eucm.eadventure.engine.core.trajectories.TrajectoryGenerator;
-import es.eucm.eadventure.engine.core.trajectories.impl.extra.FunctionalPath;
-import es.eucm.eadventure.engine.core.trajectories.impl.extra.FunctionalSide;
+import es.eucm.eadventure.engine.core.trajectories.impl.extra.PathImpl;
+import es.eucm.eadventure.engine.core.trajectories.impl.extra.PathSide;
 
 @Singleton
 public class NodeTrajectoryGenerator implements
 		TrajectoryGenerator<NodeTrajectoryDefinition> {
 
-	private Map<NodeTrajectoryDefinition, List<FunctionalSide>> sides;
+	private Map<NodeTrajectoryDefinition, List<PathSide>> sides;
 	
 	private Map<NodeTrajectoryDefinition, Side> currentSide;
 
@@ -34,25 +34,25 @@ public class NodeTrajectoryGenerator implements
 	
 	@Inject
 	public NodeTrajectoryGenerator(GameObjectFactory gameObjectFactory) {
-		sides = new HashMap<NodeTrajectoryDefinition, List<FunctionalSide>>();
+		sides = new HashMap<NodeTrajectoryDefinition, List<PathSide>>();
 		currentSide = new HashMap<NodeTrajectoryDefinition, Side>();
 		this.gameObjectFactory = gameObjectFactory;
 	}
 	
 	@Override
-	public List<EAdPosition> getTrajectory(
+	public Path getTrajectory(
 			NodeTrajectoryDefinition trajectoryDefinition,
 			EAdPosition currentPosition, int x, int y) {
 
-		return pathToPositions(pathToNearestPoint( trajectoryDefinition, currentPosition, x, y, null));
+		return pathToNearestPoint( trajectoryDefinition, currentPosition, x, y, null);
 	}
 
 	@Override
-	public List<EAdPosition> getTrajectory(
+	public Path getTrajectory(
 			NodeTrajectoryDefinition trajectoryDefinition,
 			EAdPosition currentPosition, int x, int y, SceneElementGO<?> sceneElement) {
 
-		return pathToPositions(pathToNearestPoint( trajectoryDefinition, currentPosition, x, y, sceneElement));
+		return pathToNearestPoint( trajectoryDefinition, currentPosition, x, y, sceneElement);
 	}
 
 	@Override
@@ -60,19 +60,9 @@ public class NodeTrajectoryGenerator implements
 			EAdPosition currentPosition, SceneElementGO<?> sceneElement) {
 		return pathToNearestPoint( trajectoryDefinition, currentPosition, sceneElement.getCenterX(), sceneElement.getCenterY(), sceneElement).isGetsTo();
 	}
-	
-	private List<EAdPosition> pathToPositions(FunctionalPath path) {
-		List<EAdPosition> positions = new ArrayList<EAdPosition>();
-		for (int i = 0; i < path.getSides().size(); i++) {
-			FunctionalSide side = path.getSides().get(i);
-			positions.add(new EAdPositionImpl(side.getStartNode().getX(), side.getStartNode().getY()));
-		}
-		positions.add(new EAdPositionImpl((int)path.getDestX(), (int)path.getDestY()));
-		return positions;
-	}
-	
+		
     /**
-     * Returns a path (list of FunctionalSides) from the a point to another. If
+     * Returns a {@link Path} from the a point to another. If
      * there is a destinationElement the destination point is ignored.
      * 
      * @param fromX
@@ -85,25 +75,25 @@ public class NodeTrajectoryGenerator implements
      *            The current position along the y-axis
      * @return The path to the destination
      */
-    private FunctionalPath pathToNearestPoint( NodeTrajectoryDefinition trajectoryDefinition, EAdPosition currentPosition, int toX, int toY, SceneElementGO<?> sceneElement ) {
+    private PathImpl pathToNearestPoint( NodeTrajectoryDefinition trajectoryDefinition, EAdPosition currentPosition, int toX, int toY, SceneElementGO<?> sceneElement ) {
 
-        List<FunctionalSide> currentSides = getCurrentValidSides(trajectoryDefinition);
+        List<PathSide> currentSides = getCurrentValidSides(trajectoryDefinition);
 
-        List<FunctionalPath> tempPaths = new ArrayList<FunctionalPath>( );
+        List<PathImpl> tempPaths = new ArrayList<PathImpl>( );
 
-        for( FunctionalSide currentSide : currentSides ) {
-            List<FunctionalSide> tempSides = new ArrayList<FunctionalSide>( );
+        for( PathSide currentSide : currentSides ) {
+            List<PathSide> tempSides = new ArrayList<PathSide>( );
             tempSides.add( currentSide );
             float distReal = getDistanceFast( currentPosition.getX(), currentPosition.getY(), currentSide.getEndNode( ).getX( ), currentSide.getEndNode( ).getY( ) );
             float dist = currentSide.getLenght( ) / currentSide.getRealLength( ) * distReal;
-            FunctionalPath newPath = new FunctionalPath( dist, Float.MAX_VALUE, tempSides );
+            PathImpl newPath = new PathImpl( dist, Float.MAX_VALUE, tempSides );
             tempPaths.add( newPath );
         }
 
-        List<FunctionalPath> fullPathList = getFullPathList( trajectoryDefinition, tempPaths );
+        List<PathImpl> fullPathList = getFullPathList( trajectoryDefinition, tempPaths );
 
 
-        FunctionalPath bestPath = getValidPaths( trajectoryDefinition, fullPathList, currentPosition, toX, toY, sceneElement );
+        PathImpl bestPath = getValidPaths( trajectoryDefinition, fullPathList, currentPosition, toX, toY, sceneElement );
 
         if( bestPath != null ) {
         	//this.nearestX = (int) bestPath.getDestX( );
@@ -116,13 +106,13 @@ public class NodeTrajectoryGenerator implements
             Node currentNode = trajectoryDefinition.getInitial( );
             //this.nearestX = currentNode.getX( );
             //this.nearestY = currentNode.getY( );
-            for (FunctionalSide side : getSides(trajectoryDefinition)) {
+            for (PathSide side : getSides(trajectoryDefinition)) {
                 if (side.getStartNode( ) == currentNode) {
                 	currentSide.put(trajectoryDefinition, side.getSide());
                 }
             }
             //this.getsTo = false;
-        	bestPath = new FunctionalPath(currentNode.getX( ), currentNode.getY( ), null);
+        	bestPath = new PathImpl(currentNode.getX( ), currentNode.getY( ), null);
         	bestPath.setGetsTo(false);
             //return new ArrayList<FunctionalSide>( );
         }
@@ -137,9 +127,9 @@ public class NodeTrajectoryGenerator implements
      * 
      * @return
      */
-    private List<FunctionalSide> getCurrentValidSides(NodeTrajectoryDefinition trajectoryDefinition ) {
-        List<FunctionalSide> tempList = new ArrayList<FunctionalSide>( );
-            for( FunctionalSide side : getSides(trajectoryDefinition) ) {
+    private List<PathSide> getCurrentValidSides(NodeTrajectoryDefinition trajectoryDefinition ) {
+        List<PathSide> tempList = new ArrayList<PathSide>( );
+            for( PathSide side : getSides(trajectoryDefinition) ) {
                 if( side.getSide( ) == getCurrentSide(trajectoryDefinition) )
                     tempList.add( side );
             }
@@ -147,20 +137,20 @@ public class NodeTrajectoryGenerator implements
     }
 
     
-	private List<FunctionalSide> getSides(NodeTrajectoryDefinition nodeTrajectoryDefinition) {
+	private List<PathSide> getSides(NodeTrajectoryDefinition nodeTrajectoryDefinition) {
 		if (sides.containsKey(nodeTrajectoryDefinition))
 			return sides.get(nodeTrajectoryDefinition);
-		List<FunctionalSide> currentSides = new ArrayList<FunctionalSide>();
+		List<PathSide> currentSides = new ArrayList<PathSide>();
 		for (Side side : nodeTrajectoryDefinition.getSides()) {
-            FunctionalSide temp = new FunctionalSide( side, nodeTrajectoryDefinition, false, gameObjectFactory );
+            PathSide temp = new PathSide( side, nodeTrajectoryDefinition, false, gameObjectFactory );
             if( !currentSides.contains( temp ) )
             	currentSides.add( temp );
-            temp = new FunctionalSide( side, nodeTrajectoryDefinition, true, gameObjectFactory );
+            temp = new PathSide( side, nodeTrajectoryDefinition, true, gameObjectFactory );
             if( !currentSides.contains( temp ) )
             	currentSides.add( temp );
 		}
-        for (FunctionalSide side : currentSides) {
-        	for (FunctionalSide tempSide : currentSides) {
+        for (PathSide side : currentSides) {
+        	for (PathSide tempSide : currentSides) {
         		if (tempSide.getStartNode() == side.getEndNode()
         				&& tempSide.getEndNode() != side.getStartNode())
         			side.getFollowingSides().add(tempSide);
@@ -206,21 +196,21 @@ public class NodeTrajectoryGenerator implements
      *            A list of the full paths
      * @return A list of all the possible paths for the given full paths
      */
-    private List<FunctionalPath> getFullPathList(NodeTrajectoryDefinition nodeTrajectoryDefinition, List<FunctionalPath> tempPaths ) {
+    private List<PathImpl> getFullPathList(NodeTrajectoryDefinition nodeTrajectoryDefinition, List<PathImpl> tempPaths ) {
 
-        List<FunctionalPath> fullPathList = new ArrayList<FunctionalPath>( );
+        List<PathImpl> fullPathList = new ArrayList<PathImpl>( );
 
         while( !tempPaths.isEmpty( ) ) {
-            FunctionalPath originalPath = tempPaths.get( 0 );
+            PathImpl originalPath = tempPaths.get( 0 );
             tempPaths.remove( 0 );
 
-            FunctionalSide lastSide = originalPath.getSides( ).get( originalPath.getSides( ).size( ) - 1 );
+            PathSide lastSide = originalPath.getSides( ).get( originalPath.getSides( ).size( ) - 1 );
 
             boolean continues = false;
-            for( FunctionalSide side : lastSide.getFollowingSides() ) {
+            for( PathSide side : lastSide.getFollowingSides() ) {
                 if( !originalPath.getSides().contains(side)
                 		&& !originalPath.getNodes().contains(side.getEndNode())) {
-                    FunctionalPath temp = originalPath.newFunctionalPath( side.getLenght( ), 0, side );
+                    PathImpl temp = originalPath.newFunctionalPath( side.getLenght( ), 0, side );
                     if( temp != null ) {
                         tempPaths.add( temp );
                         continues = true;
@@ -260,18 +250,18 @@ public class NodeTrajectoryGenerator implements
      *            The destination position along the y-axis
      * @return A list with all the paths that get to the destination.
      */
-    private FunctionalPath getValidPaths( NodeTrajectoryDefinition nodeTrajectoryDefinition,
-    		List<FunctionalPath> fullPathList, EAdPosition currentPosition, int toX, int toY,
+    private PathImpl getValidPaths( NodeTrajectoryDefinition nodeTrajectoryDefinition,
+    		List<PathImpl> fullPathList, EAdPosition currentPosition, int toX, int toY,
     		SceneElementGO<?> sceneElement) {
 
-        FunctionalPath best = null;
+        PathImpl best = null;
 
-        for( FunctionalSide side : getSides(nodeTrajectoryDefinition) ) {
+        for( PathSide side : getSides(nodeTrajectoryDefinition) ) {
             side.updateMinimunDistance( toX, toY, sceneElement, nodeTrajectoryDefinition.getBarriers() );
         }
 
-        for( FunctionalPath tempPath : fullPathList ) {
-            FunctionalPath newPath = new FunctionalPath( 0, Float.MAX_VALUE, new ArrayList<FunctionalSide>( ) );
+        for( PathImpl tempPath : fullPathList ) {
+            PathImpl newPath = new PathImpl( 0, Float.MAX_VALUE, new ArrayList<PathSide>( ) );
             float length = getDistance( currentPosition.getX(), currentPosition.getY(), tempPath.getSides( ).get( 0 ).getEndNode( ).getX( ), tempPath.getSides( ).get( 0 ).getEndNode( ).getY( ) ) / tempPath.getSides( ).get( 0 ).getRealLength() * tempPath.getSides( ).get( 0 ).getLenght( );
             newPath.addSide( length, Float.MAX_VALUE, tempPath.getSides( ).get( 0 ) );
 
@@ -306,7 +296,7 @@ public class NodeTrajectoryGenerator implements
                     }
                 }
                 else {
-                    FunctionalSide side = newPath.getSides( ).get( sideNr - 1 );
+                    PathSide side = newPath.getSides( ).get( sideNr - 1 );
                     end = side.end;
                     newPath.updateUpTo( side.dist, side.posX, side.posY );
                     newPath.setGetsTo( side.getsTo );
