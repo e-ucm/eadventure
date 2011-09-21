@@ -9,7 +9,6 @@ import es.eucm.eadventure.common.params.geom.impl.EAdPositionImpl;
 import es.eucm.eadventure.engine.core.gameobjects.SceneElementGO;
 import es.eucm.eadventure.engine.core.trajectories.Path;
 import es.eucm.eadventure.engine.core.trajectories.TrajectoryGenerator;
-import es.eucm.eadventure.engine.core.trajectories.impl.extra.SimplePathImpl;
 
 public class SimpleTrajectoryGenerator implements
 		TrajectoryGenerator<SimpleTrajectoryDefinition> {
@@ -26,7 +25,7 @@ public class SimpleTrajectoryGenerator implements
 			list.add(new EAdPositionImpl(x, y));
 		}
 
-		return new SimplePathImpl(list);
+		return new SimplePathImpl(list, currentPosition);
 	}
 
 	@Override
@@ -41,7 +40,7 @@ public class SimpleTrajectoryGenerator implements
 			list.add(new EAdPositionImpl(x, y));
 		}
 
-		return new SimplePathImpl(list);
+		return new SimplePathImpl(list,currentPosition);
 	}
 
 	@Override

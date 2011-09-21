@@ -18,15 +18,14 @@ import es.eucm.eadventure.common.params.geom.impl.EAdRectangleImpl;
 import es.eucm.eadventure.engine.core.gameobjects.GameObjectFactory;
 import es.eucm.eadventure.engine.core.gameobjects.SceneElementGO;
 import es.eucm.eadventure.engine.core.trajectories.Path;
+import es.eucm.eadventure.engine.core.trajectories.PathSide;
 import es.eucm.eadventure.engine.core.trajectories.TrajectoryGenerator;
-import es.eucm.eadventure.engine.core.trajectories.impl.extra.PathImpl;
-import es.eucm.eadventure.engine.core.trajectories.impl.extra.PathSide;
 
 @Singleton
 public class NodeTrajectoryGenerator implements
 		TrajectoryGenerator<NodeTrajectoryDefinition> {
 
-	private Map<NodeTrajectoryDefinition, List<PathSide>> sides;
+	private Map<NodeTrajectoryDefinition, List<PathSideImpl>> sides;
 	
 	private Map<NodeTrajectoryDefinition, Side> currentSide;
 
@@ -34,7 +33,7 @@ public class NodeTrajectoryGenerator implements
 	
 	@Inject
 	public NodeTrajectoryGenerator(GameObjectFactory gameObjectFactory) {
-		sides = new HashMap<NodeTrajectoryDefinition, List<PathSide>>();
+		sides = new HashMap<NodeTrajectoryDefinition, List<PathSideImpl>>();
 		currentSide = new HashMap<NodeTrajectoryDefinition, Side>();
 		this.gameObjectFactory = gameObjectFactory;
 	}
@@ -77,11 +76,11 @@ public class NodeTrajectoryGenerator implements
      */
     private PathImpl pathToNearestPoint( NodeTrajectoryDefinition trajectoryDefinition, EAdPosition currentPosition, int toX, int toY, SceneElementGO<?> sceneElement ) {
 
-        List<PathSide> currentSides = getCurrentValidSides(trajectoryDefinition);
+        List<PathSideImpl> currentSides = getCurrentValidSides(trajectoryDefinition);
 
         List<PathImpl> tempPaths = new ArrayList<PathImpl>( );
 
-        for( PathSide currentSide : currentSides ) {
+        for( PathSideImpl currentSide : currentSides ) {
             List<PathSide> tempSides = new ArrayList<PathSide>( );
             tempSides.add( currentSide );
             float distReal = getDistanceFast( currentPosition.getX(), currentPosition.getY(), currentSide.getEndNode( ).getX( ), currentSide.getEndNode( ).getY( ) );
@@ -98,7 +97,7 @@ public class NodeTrajectoryGenerator implements
         if( bestPath != null ) {
         	//this.nearestX = (int) bestPath.getDestX( );
             //this.nearestY = (int) bestPath.getDestY( );
-            currentSide.put(trajectoryDefinition, bestPath.getSides().get(0).getSide());
+            currentSide.put(trajectoryDefinition, ((PathSideImpl) bestPath.getSides().get(0)).getSide());
             //this.getsTo = bestPath.isGetsTo( );
             bestPath.getSides( );
         }
@@ -106,7 +105,7 @@ public class NodeTrajectoryGenerator implements
             Node currentNode = trajectoryDefinition.getInitial( );
             //this.nearestX = currentNode.getX( );
             //this.nearestY = currentNode.getY( );
-            for (PathSide side : getSides(trajectoryDefinition)) {
+            for (PathSideImpl side : getSides(trajectoryDefinition)) {
                 if (side.getStartNode( ) == currentNode) {
                 	currentSide.put(trajectoryDefinition, side.getSide());
                 }
@@ -127,9 +126,9 @@ public class NodeTrajectoryGenerator implements
      * 
      * @return
      */
-    private List<PathSide> getCurrentValidSides(NodeTrajectoryDefinition trajectoryDefinition ) {
-        List<PathSide> tempList = new ArrayList<PathSide>( );
-            for( PathSide side : getSides(trajectoryDefinition) ) {
+    private List<PathSideImpl> getCurrentValidSides(NodeTrajectoryDefinition trajectoryDefinition ) {
+        List<PathSideImpl> tempList = new ArrayList<PathSideImpl>( );
+            for( PathSideImpl side : getSides(trajectoryDefinition) ) {
                 if( side.getSide( ) == getCurrentSide(trajectoryDefinition) )
                     tempList.add( side );
             }
@@ -137,20 +136,20 @@ public class NodeTrajectoryGenerator implements
     }
 
     
-	private List<PathSide> getSides(NodeTrajectoryDefinition nodeTrajectoryDefinition) {
+	private List<PathSideImpl> getSides(NodeTrajectoryDefinition nodeTrajectoryDefinition) {
 		if (sides.containsKey(nodeTrajectoryDefinition))
 			return sides.get(nodeTrajectoryDefinition);
-		List<PathSide> currentSides = new ArrayList<PathSide>();
+		List<PathSideImpl> currentSides = new ArrayList<PathSideImpl>();
 		for (Side side : nodeTrajectoryDefinition.getSides()) {
-            PathSide temp = new PathSide( side, nodeTrajectoryDefinition, false, gameObjectFactory );
+            PathSideImpl temp = new PathSideImpl( side, nodeTrajectoryDefinition, false, gameObjectFactory );
             if( !currentSides.contains( temp ) )
             	currentSides.add( temp );
-            temp = new PathSide( side, nodeTrajectoryDefinition, true, gameObjectFactory );
+            temp = new PathSideImpl( side, nodeTrajectoryDefinition, true, gameObjectFactory );
             if( !currentSides.contains( temp ) )
             	currentSides.add( temp );
 		}
-        for (PathSide side : currentSides) {
-        	for (PathSide tempSide : currentSides) {
+        for (PathSideImpl side : currentSides) {
+        	for (PathSideImpl tempSide : currentSides) {
         		if (tempSide.getStartNode() == side.getEndNode()
         				&& tempSide.getEndNode() != side.getStartNode())
         			side.getFollowingSides().add(tempSide);
@@ -204,10 +203,10 @@ public class NodeTrajectoryGenerator implements
             PathImpl originalPath = tempPaths.get( 0 );
             tempPaths.remove( 0 );
 
-            PathSide lastSide = originalPath.getSides( ).get( originalPath.getSides( ).size( ) - 1 );
+            PathSideImpl lastSide = (PathSideImpl) originalPath.getSides( ).get( originalPath.getSides( ).size( ) - 1 );
 
             boolean continues = false;
-            for( PathSide side : lastSide.getFollowingSides() ) {
+            for( PathSideImpl side : lastSide.getFollowingSides() ) {
                 if( !originalPath.getSides().contains(side)
                 		&& !originalPath.getNodes().contains(side.getEndNode())) {
                     PathImpl temp = originalPath.newFunctionalPath( side.getLenght( ), 0, side );
@@ -256,13 +255,14 @@ public class NodeTrajectoryGenerator implements
 
         PathImpl best = null;
 
-        for( PathSide side : getSides(nodeTrajectoryDefinition) ) {
+        for( PathSideImpl side : getSides(nodeTrajectoryDefinition) ) {
             side.updateMinimunDistance( toX, toY, sceneElement, nodeTrajectoryDefinition.getBarriers() );
         }
 
         for( PathImpl tempPath : fullPathList ) {
             PathImpl newPath = new PathImpl( 0, Float.MAX_VALUE, new ArrayList<PathSide>( ) );
-            float length = getDistance( currentPosition.getX(), currentPosition.getY(), tempPath.getSides( ).get( 0 ).getEndNode( ).getX( ), tempPath.getSides( ).get( 0 ).getEndNode( ).getY( ) ) / tempPath.getSides( ).get( 0 ).getRealLength() * tempPath.getSides( ).get( 0 ).getLenght( );
+            PathSideImpl firstPath = ((PathSideImpl) tempPath.getSides( ).get( 0 ));
+            float length = getDistance( currentPosition.getX(), currentPosition.getY(), firstPath.getEndNode( ).getX( ), firstPath.getEndNode( ).getY( ) ) / firstPath.getRealLength() * firstPath.getLenght( );
             newPath.addSide( length, Float.MAX_VALUE, tempPath.getSides( ).get( 0 ) );
 
             float posX = currentPosition.getX();
@@ -272,7 +272,7 @@ public class NodeTrajectoryGenerator implements
             int sideNr = 1;
             while( !end && sideNr <= tempPath.getSides( ).size( ) ) {
                 if( sideNr == 1 ) {
-                    Node endNode = newPath.getSides( ).get( sideNr - 1 ).getEndNode( );
+                    Node endNode = ((PathSideImpl) newPath.getSides( ).get( sideNr - 1 )).getEndNode( );
                     float deltaX = endNode.getX( ) - posX;
                     float deltaY = endNode.getY( ) - posY;
 
@@ -296,7 +296,7 @@ public class NodeTrajectoryGenerator implements
                     }
                 }
                 else {
-                    PathSide side = newPath.getSides( ).get( sideNr - 1 );
+                    PathSideImpl side = (PathSideImpl) newPath.getSides( ).get( sideNr - 1 );
                     end = side.end;
                     newPath.updateUpTo( side.dist, side.posX, side.posY );
                     newPath.setGetsTo( side.getsTo );
@@ -313,8 +313,8 @@ public class NodeTrajectoryGenerator implements
 
                 if( sideNr < tempPath.getSides( ).size( ) ) {
                     newPath = newPath.newFunctionalPath( tempPath.getSides( ).get( sideNr ).getLenght( ), Float.MAX_VALUE, tempPath.getSides( ).get( sideNr ) );
-                    posX = tempPath.getSides( ).get( sideNr ).getStartNode( ).getX( );
-                    posY = tempPath.getSides( ).get( sideNr ).getStartNode( ).getY( );
+                    posX = ((PathSideImpl) tempPath.getSides( ).get( sideNr )).getStartNode( ).getX( );
+                    posY = ((PathSideImpl) tempPath.getSides( ).get( sideNr )).getStartNode( ).getY( );
                 }
 
                 sideNr++;

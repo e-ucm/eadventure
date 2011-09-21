@@ -34,16 +34,15 @@
  *     You should have received a copy of the GNU Lesser General Public License
  *     along with <e-Adventure>.  If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
-package es.eucm.eadventure.engine.core.trajectories.impl.extra;
+package es.eucm.eadventure.engine.core.trajectories.impl;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import es.eucm.eadventure.common.model.trajectories.impl.NodeTrajectoryDefinition.Node;
 import es.eucm.eadventure.common.model.trajectories.impl.NodeTrajectoryDefinition.Side;
-import es.eucm.eadventure.common.params.geom.EAdPosition;
-import es.eucm.eadventure.common.params.geom.impl.EAdPositionImpl;
 import es.eucm.eadventure.engine.core.trajectories.Path;
+import es.eucm.eadventure.engine.core.trajectories.PathSide;
 
 public class PathImpl implements Comparable<PathImpl>, Path {
 
@@ -67,9 +66,9 @@ public class PathImpl implements Comparable<PathImpl>, Path {
         this.sides = new ArrayList<PathSide>( sides );
         this.nodes = new ArrayList<Node>();
         if (this.sides.size() > 0) {
-        	nodes.add(sides.get(0).getStartNode());
+        	nodes.add(((PathSideImpl) sides.get(0)).getStartNode());
 	        for (PathSide side : sides) {
-	        	nodes.add(side.getEndNode());
+	        	nodes.add(((PathSideImpl) side).getEndNode());
 	        }
         }
         this.distance = distance;
@@ -100,6 +99,7 @@ public class PathImpl implements Comparable<PathImpl>, Path {
         }
     }
 
+    @Override
     public List<PathSide> getSides( ) {
 
         return sides;
@@ -109,7 +109,7 @@ public class PathImpl implements Comparable<PathImpl>, Path {
 
         List<Side> temp = new ArrayList<Side>( );
         for( PathSide side : sides )
-            temp.add( side.getSide( ) );
+            temp.add( ((PathSideImpl) side).getSide( ) );
         return temp;
     }
 
@@ -123,12 +123,12 @@ public class PathImpl implements Comparable<PathImpl>, Path {
         return distance;
     }
 
-    public void addSide( float lenght, float distance, PathSide side ) {
+    public void addSide( float lenght, float distance, PathSide pathSide ) {
 
-        sides.add( side );
+        sides.add( ((PathSideImpl) pathSide) );
         this.length += lenght;
         this.distance = distance;
-        this.nodes.add(side.getEndNode());
+        this.nodes.add(((PathSideImpl) pathSide).getEndNode());
     }
 
     public PathImpl newFunctionalPath( float length, float distance, PathSide side ) {
@@ -163,24 +163,13 @@ public class PathImpl implements Comparable<PathImpl>, Path {
 
     public void print( ) {
         for( PathSide side : sides ) {
-            System.out.print( side.getStartNode( ).getId( ) + "->" );
+            System.out.print( ((PathSideImpl) side).getStartNode( ).getId( ) + "->" );
         }
-        System.out.println( sides.get( sides.size( ) - 1 ).getEndNode( ).getId( ) );
+        System.out.println( ((PathSideImpl) sides.get( sides.size( ) - 1 )).getEndNode( ).getId( ) );
     }
 
 	public List<Node> getNodes() {
 		return nodes;
 	}
 	
-	@Override
-	public List<EAdPosition> getPositions() {
-		List<EAdPosition> positions = new ArrayList<EAdPosition>();
-		for (int i = 0; i < getSides().size(); i++) {
-			PathSide side = getSides().get(i);
-			positions.add(new EAdPositionImpl(side.getStartNode().getX(), side.getStartNode().getY()));
-		}
-		positions.add(new EAdPositionImpl((int)getDestX(), (int)getDestY()));
-		return positions;
-	}
-
 }

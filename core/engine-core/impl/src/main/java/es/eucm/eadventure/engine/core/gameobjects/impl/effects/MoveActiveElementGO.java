@@ -37,8 +37,6 @@
 
 package es.eucm.eadventure.engine.core.gameobjects.impl.effects;
 
-import java.util.List;
-
 import com.google.inject.Inject;
 
 import es.eucm.eadventure.common.model.effects.impl.EAdMoveActiveElement;
@@ -48,7 +46,6 @@ import es.eucm.eadventure.common.model.elements.EAdScene;
 import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
 import es.eucm.eadventure.common.model.elements.impl.EAdSceneImpl;
 import es.eucm.eadventure.common.model.trajectories.TrajectoryDefinition;
-import es.eucm.eadventure.common.params.geom.EAdPosition;
 import es.eucm.eadventure.common.params.geom.impl.EAdPositionImpl;
 import es.eucm.eadventure.common.resources.StringHandler;
 import es.eucm.eadventure.engine.core.GameState;
@@ -59,6 +56,7 @@ import es.eucm.eadventure.engine.core.platform.AssetHandler;
 import es.eucm.eadventure.engine.core.platform.GUI;
 import es.eucm.eadventure.engine.core.platform.PlatformConfiguration;
 import es.eucm.eadventure.engine.core.trajectories.Path;
+import es.eucm.eadventure.engine.core.trajectories.PathSide;
 import es.eucm.eadventure.engine.core.trajectories.TrajectoryFactory;
 
 public class MoveActiveElementGO extends AbstractEffectGO<EAdMoveActiveElement> {
@@ -96,10 +94,10 @@ public class MoveActiveElementGO extends AbstractEffectGO<EAdMoveActiveElement> 
 						EAdBasicSceneElement.VAR_Y));
 				Path trajectory = trajectoryFactory.getTrajectory(
 						trajectoryDefinition, pos, x, y);
-				for (EAdPosition p : trajectory.getPositions()) {
+				for (PathSide p : trajectory.getSides()) {
 					EAdMoveSceneElement effect = new EAdMoveSceneElement(
 							"trajectory", gameState.getActiveElement(),
-							p.getX(), p.getY(), MovementSpeed.NORMAL);
+							p.getEndPosition().getX(), p.getEndPosition().getY(), MovementSpeed.NORMAL);
 					effect.setBlocking(true);
 					effect.setQueueable(true);
 					gameState.addEffect(effect);
