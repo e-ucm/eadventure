@@ -42,9 +42,19 @@ import com.google.inject.TypeLiteral;
 
 import es.eucm.eadventure.common.interfaces.MapProvider;
 import es.eucm.eadventure.common.model.EAdElement;
-
-import es.eucm.eadventure.engine.core.gameobjects.*;
-import es.eucm.eadventure.engine.core.gameobjects.impl.*;
+import es.eucm.eadventure.common.model.effects.impl.physics.EAdPhysicsEffect;
+import es.eucm.eadventure.common.model.effects.impl.physics.PhApplyForce;
+import es.eucm.eadventure.engine.core.gameobjects.ActorGO;
+import es.eucm.eadventure.engine.core.gameobjects.ActorReferenceGO;
+import es.eucm.eadventure.engine.core.gameobjects.GameObject;
+import es.eucm.eadventure.engine.core.gameobjects.GameObjectFactory;
+import es.eucm.eadventure.engine.core.gameobjects.SceneGO;
+import es.eucm.eadventure.engine.core.gameobjects.TimerGO;
+import es.eucm.eadventure.engine.core.gameobjects.impl.JavaGameObjectFactoryImpl;
+import es.eucm.eadventure.engine.core.gameobjects.impl.SceneGOImpl;
+import es.eucm.eadventure.engine.core.gameobjects.impl.TimerGOImpl;
+import es.eucm.eadventure.engine.core.gameobjects.impl.effects.physics.PhApplyForceGO;
+import es.eucm.eadventure.engine.core.gameobjects.impl.effects.physics.PhysicsEffectGO;
 import es.eucm.eadventure.engine.core.gameobjects.impl.sceneelements.ActorGOImpl;
 import es.eucm.eadventure.engine.core.gameobjects.impl.sceneelements.ActorReferenceGOImpl;
 import es.eucm.eadventure.engine.core.impl.factorymapproviders.EffectGameObjectFactoryConfigurator;
@@ -67,6 +77,10 @@ public class GameObjectFactoryModule extends AbstractModule {
 		
 		bind(new TypeLiteral<MapProvider<Class<? extends EAdElement>, Class<? extends GameObject<?>>>>() {}).to(GameObjectFactoryMapProvider.class);
 		bind(GameObjectFactory.class).to(JavaGameObjectFactoryImpl.class);
+		
+		// Effects
+		GameObjectFactoryMapProvider.add(EAdPhysicsEffect.class, PhysicsEffectGO.class);
+		GameObjectFactoryMapProvider.add(PhApplyForce.class, PhApplyForceGO.class);
 	}
 
 
