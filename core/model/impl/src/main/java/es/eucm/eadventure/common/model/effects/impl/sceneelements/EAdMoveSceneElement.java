@@ -67,7 +67,7 @@ public class EAdMoveSceneElement extends AbstractEAdEffect implements
 	 * 
 	 */
 	public enum MovementSpeed {
-		SLOW, NORMAL, FAST, INSTANT;
+		SLOW, NORMAL, FAST, INSTANT, CUSTOM;
 
 		public float getSpeedFactor() {
 			switch (this) {
@@ -103,6 +103,9 @@ public class EAdMoveSceneElement extends AbstractEAdEffect implements
 	 */
 	@Param("speed")
 	private MovementSpeed speed;
+
+	@Param("speedFactor")
+	private float speedFactor;
 
 	/**
 	 * Constructs an move actor reference effect, with target set to
@@ -140,6 +143,7 @@ public class EAdMoveSceneElement extends AbstractEAdEffect implements
 		this.xTarget = xTarget;
 		this.yTarget = yTarget;
 		this.speed = speed;
+		this.speedFactor = 1.0f;
 	}
 
 	/**
@@ -211,6 +215,17 @@ public class EAdMoveSceneElement extends AbstractEAdEffect implements
 	public void setTargetCoordiantes(int i, int j) {
 		setTargetCoordiantes(new LiteralExpressionOperation("id", "" + i),
 				new LiteralExpressionOperation("id", "" + j));
+	}
+
+	public float getSpeedFactor() {
+		if (speed == MovementSpeed.CUSTOM) 
+			return speedFactor;
+		return speed.getSpeedFactor();
+	}
+	
+	public void setSpeedFactor(float speedFactor) {
+		this.speed = MovementSpeed.CUSTOM;
+		this.speedFactor = speedFactor;
 	}
 
 }

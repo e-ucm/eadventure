@@ -1,7 +1,5 @@
 package es.eucm.eadventure.engine.core.trajectories.impl;
 
-import java.util.List;
-
 import com.google.inject.Inject;
 
 import es.eucm.eadventure.common.interfaces.AbstractFactory;
@@ -10,6 +8,7 @@ import es.eucm.eadventure.common.interfaces.MapProvider;
 import es.eucm.eadventure.common.model.trajectories.TrajectoryDefinition;
 import es.eucm.eadventure.common.params.geom.EAdPosition;
 import es.eucm.eadventure.engine.core.gameobjects.SceneElementGO;
+import es.eucm.eadventure.engine.core.trajectories.Path;
 import es.eucm.eadventure.engine.core.trajectories.TrajectoryFactory;
 import es.eucm.eadventure.engine.core.trajectories.TrajectoryGenerator;
 
@@ -24,7 +23,7 @@ public class TrajectoryFactoryImpl extends
 	}
 
 	@Override
-	public List<EAdPosition> getTrajectory(
+	public Path getTrajectory(
 			TrajectoryDefinition trajectoryDefinition, EAdPosition currentPosition, int x, int y) {
 
 		@SuppressWarnings("unchecked")
@@ -36,7 +35,7 @@ public class TrajectoryFactoryImpl extends
 	}
 
 	@Override
-	public List<EAdPosition> getTrajectory(
+	public Path getTrajectory(
 			TrajectoryDefinition trajectoryDefinition,
 			EAdPosition currentPosition, int x, int y, SceneElementGO<?> sceneElement) {
 

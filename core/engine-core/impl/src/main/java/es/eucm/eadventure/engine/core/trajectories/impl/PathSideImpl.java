@@ -34,20 +34,25 @@
  *     You should have received a copy of the GNU Lesser General Public License
  *     along with <e-Adventure>.  If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
-package es.eucm.eadventure.engine.core.trajectories.impl.extra;
+package es.eucm.eadventure.engine.core.trajectories.impl;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import es.eucm.eadventure.common.model.elements.EAdSceneElement;
 import es.eucm.eadventure.common.model.extra.EAdList;
 import es.eucm.eadventure.common.model.trajectories.impl.NodeTrajectoryDefinition;
 import es.eucm.eadventure.common.model.trajectories.impl.NodeTrajectoryDefinition.Node;
 import es.eucm.eadventure.common.model.trajectories.impl.NodeTrajectoryDefinition.Side;
+import es.eucm.eadventure.common.params.geom.EAdPosition;
 import es.eucm.eadventure.common.params.geom.EAdRectangle;
+import es.eucm.eadventure.common.params.geom.impl.EAdPositionImpl;
 import es.eucm.eadventure.common.params.geom.impl.EAdRectangleImpl;
 import es.eucm.eadventure.engine.core.gameobjects.GameObjectFactory;
 import es.eucm.eadventure.engine.core.gameobjects.SceneElementGO;
-import es.eucm.eadventure.engine.core.trajectories.impl.NodeTrajectoryGenerator;
+import es.eucm.eadventure.engine.core.trajectories.PathSide;
 
-public class FunctionalSide {
+public class PathSideImpl implements PathSide {
 
     private Side side;
 
@@ -60,10 +65,13 @@ public class FunctionalSide {
     private Node endNode;
     
     private GameObjectFactory gameObjectFactory;
+    
+    private List<PathSideImpl> followingSides;
 
-    public FunctionalSide( Side side, NodeTrajectoryDefinition trajectory, boolean inverted,  GameObjectFactory gameObjectFactory ) {
+    public PathSideImpl( Side side, NodeTrajectoryDefinition trajectory, boolean inverted,  GameObjectFactory gameObjectFactory ) {
     	this.gameObjectFactory = gameObjectFactory;
         this.side = side;
+        this.followingSides = new ArrayList<PathSideImpl>();
         length = side.getLength( );
         if( !inverted ) {
             startNode = trajectory.getNodeForId( side.getIDStart( ) );
@@ -101,14 +109,14 @@ public class FunctionalSide {
     @Override
     public boolean equals( Object other ) {
 
-        if( other == null || !( other instanceof FunctionalSide ) ) {
+        if( other == null || !( other instanceof PathSideImpl ) ) {
             return false;
         }
         else if( this == other ) {
             return true;
         }
         else {
-            FunctionalSide temp = (FunctionalSide) other;
+            PathSideImpl temp = (PathSideImpl) other;
             if( temp.getStartNode( ) == getStartNode( ) && temp.getEndNode( ) == getEndNode( ) )
                 return true;
             return false;
@@ -223,5 +231,19 @@ public class FunctionalSide {
     public float getRealLength( ) {
         return realLength;
     }
+
+	public List<PathSideImpl> getFollowingSides() {
+		return followingSides;
+	}
+
+	@Override
+	public EAdPosition getEndPosition() {
+		return new EAdPositionImpl(endNode.getX(), endNode.getY());
+	}
+
+	@Override
+	public float getSpeedFactor() {
+		return realLength / length;
+	}
 
 }

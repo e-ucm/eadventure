@@ -53,9 +53,7 @@ import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.CaptionIm
 import es.eucm.eadventure.engine.core.GameState;
 import es.eucm.eadventure.engine.core.gameobjects.GameObjectFactory;
 import es.eucm.eadventure.engine.core.gameobjects.GameObjectManager;
-import es.eucm.eadventure.engine.core.gameobjects.huds.MenuHUD;
 import es.eucm.eadventure.engine.core.gameobjects.huds.impl.MenuHUDImpl;
-import es.eucm.eadventure.engine.core.platform.GUI;
 import es.eucm.eadventure.engine.core.platform.RuntimeAsset;
 
 @Singleton
@@ -77,8 +75,8 @@ public class PlayNMenuHUDImpl extends MenuHUDImpl {
 	private GameObjectFactory gameObjectFactory;
 
 	@Inject
-	public PlayNMenuHUDImpl(GameObjectFactory gameObjectFactory, GUI gui, MenuHUD menuHUD, GameState gameState, GameObjectManager gameObjectManager) {
-		super(gui, gameState, gameObjectManager);
+	public PlayNMenuHUDImpl(GameObjectFactory gameObjectFactory, GameState gameState, GameObjectManager gameObjectManager) {
+		super(gameState, gameObjectManager);
 		logger.info("New instance");
 		
 		this.gameObjectFactory = gameObjectFactory;
@@ -91,7 +89,7 @@ public class PlayNMenuHUDImpl extends MenuHUDImpl {
 		((EAdButton) button).setPosition(new EAdPositionImpl(EAdPositionImpl.Corner.CENTER,
 				300, 300));
 	}
-
+	
 	/*
 	 * (non-Javadoc)
 	 * 

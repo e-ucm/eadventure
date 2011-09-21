@@ -136,7 +136,7 @@ public class MoveSceneElementGO extends AbstractEffectGO<EAdMoveSceneElement> {
 
 		if (effect.getSpeed() != EAdMoveSceneElement.MovementSpeed.INSTANT) {
 			int timeToFinish = Math.round((distance * 1000 / PIXELS_PER_SECOND)
-					* effect.getSpeed().getSpeedFactor());
+					* effect.getSpeedFactor());
 
 			if (targetX != x) {
 				EAdEffect interpolation = new EAdVarInterpolationEffect(

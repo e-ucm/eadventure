@@ -30,10 +30,13 @@
   <!-- Inherit the GIN (guice for gwt) module -->
   <inherits name='com.google.gwt.inject.Inject'/>
 
+<!--  <set-property name="gwt.logging.logLevel" value="INFO"/>  -->
+  <set-property name="gwt.logging.enabled" value="TRUE"/>            
+
   <source path='core'/>
   <source path='html'/>
 
   <public path="resources" />
 
-   <entry-point class='es.eucm.eadventure.engine.html.EAdEngineHtml'/>
+  <entry-point class='es.eucm.eadventure.engine.html.EAdEngineHtml'/>
 </module>

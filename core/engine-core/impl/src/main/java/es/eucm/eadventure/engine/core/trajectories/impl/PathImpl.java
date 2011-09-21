@@ -34,18 +34,23 @@
  *     You should have received a copy of the GNU Lesser General Public License
  *     along with <e-Adventure>.  If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
-package es.eucm.eadventure.engine.core.trajectories.impl.extra;
+package es.eucm.eadventure.engine.core.trajectories.impl;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import es.eucm.eadventure.common.model.trajectories.impl.NodeTrajectoryDefinition.Node;
 import es.eucm.eadventure.common.model.trajectories.impl.NodeTrajectoryDefinition.Side;
+import es.eucm.eadventure.engine.core.trajectories.Path;
+import es.eucm.eadventure.engine.core.trajectories.PathSide;
 
-public class FunctionalPath implements Comparable<FunctionalPath> {
+public class PathImpl implements Comparable<PathImpl>, Path {
 
     private float length;
 
-    private List<FunctionalSide> sides;
+    private List<PathSide> sides;
+    
+    private List<Node> nodes;
 
     private float destX;
 
@@ -55,10 +60,17 @@ public class FunctionalPath implements Comparable<FunctionalPath> {
 
     private float distance;
 
-    public FunctionalPath( float length, float distance, List<FunctionalSide> sides ) {
+    public PathImpl( float length, float distance, List<PathSide> sides ) {
 
         this.length = length;
-        this.sides = new ArrayList<FunctionalSide>( sides );
+        this.sides = new ArrayList<PathSide>( sides );
+        this.nodes = new ArrayList<Node>();
+        if (this.sides.size() > 0) {
+        	nodes.add(((PathSideImpl) sides.get(0)).getStartNode());
+	        for (PathSide side : sides) {
+	        	nodes.add(((PathSideImpl) side).getEndNode());
+	        }
+        }
         this.distance = distance;
         getsTo = false;
     }
@@ -87,7 +99,8 @@ public class FunctionalPath implements Comparable<FunctionalPath> {
         }
     }
 
-    public List<FunctionalSide> getSides( ) {
+    @Override
+    public List<PathSide> getSides( ) {
 
         return sides;
     }
@@ -95,8 +108,8 @@ public class FunctionalPath implements Comparable<FunctionalPath> {
     public List<Side> getNormalSides( ) {
 
         List<Side> temp = new ArrayList<Side>( );
-        for( FunctionalSide side : sides )
-            temp.add( side.getSide( ) );
+        for( PathSide side : sides )
+            temp.add( ((PathSideImpl) side).getSide( ) );
         return temp;
     }
 
@@ -110,41 +123,32 @@ public class FunctionalPath implements Comparable<FunctionalPath> {
         return distance;
     }
 
-    public void addSide( float lenght, float distance, FunctionalSide side ) {
+    public void addSide( float lenght, float distance, PathSide pathSide ) {
 
-        sides.add( side );
+        sides.add( ((PathSideImpl) pathSide) );
         this.length += lenght;
         this.distance = distance;
+        this.nodes.add(((PathSideImpl) pathSide).getEndNode());
     }
 
-    public FunctionalPath newFunctionalPath( float length, float distance, FunctionalSide side ) {
-
-        if( sides.contains( side ) )
-            return null;
-        for( FunctionalSide tempSide : sides )
-            if( tempSide.getSide( ) == side.getSide( ) )
-                return null;
-
-        FunctionalPath temp = new FunctionalPath( this.length, this.distance, this.sides );
+    public PathImpl newFunctionalPath( float length, float distance, PathSide side ) {
+        PathImpl temp = new PathImpl( this.length, this.distance, this.sides );
         temp.addSide( length, distance, side );
         return temp;
     }
 
-    public int compareTo( FunctionalPath arg0 ) {
+    public int compareTo( PathImpl arg0 ) {
 
-        if( this.getsTo && !arg0.getsTo ) {
+        if( this.getsTo && !arg0.getsTo )
             return 1;
-        }
-        else if( !this.getsTo && arg0.getsTo ) {
+        else if( !this.getsTo && arg0.getsTo )
             return -1;
-        }
+
         int distDif = (int) ( arg0.distance - distance );
-        if( Math.abs( distDif ) < 200 ) {
+        if( Math.abs( distDif ) < 200 )
             return (int) ( arg0.length - length );
-        }
-        else {
+        else
             return distDif;
-        }
     }
 
     public float getDestX( ) {
@@ -158,9 +162,14 @@ public class FunctionalPath implements Comparable<FunctionalPath> {
     }
 
     public void print( ) {
-        for( FunctionalSide side : sides ) {
-            System.out.print( side.getStartNode( ).getId( ) + "->" );
+        for( PathSide side : sides ) {
+            System.out.print( ((PathSideImpl) side).getStartNode( ).getId( ) + "->" );
         }
-        System.out.println( sides.get( sides.size( ) - 1 ).getEndNode( ).getId( ) );
+        System.out.println( ((PathSideImpl) sides.get( sides.size( ) - 1 )).getEndNode( ).getId( ) );
     }
+
+	public List<Node> getNodes() {
+		return nodes;
+	}
+	
 }

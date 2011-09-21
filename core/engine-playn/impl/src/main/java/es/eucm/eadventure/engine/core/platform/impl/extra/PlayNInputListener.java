@@ -39,19 +39,10 @@ package es.eucm.eadventure.engine.core.platform.impl.extra;
 
 import java.util.logging.Logger;
 
-import es.eucm.eadventure.common.model.EAdElement;
-import es.eucm.eadventure.common.model.guievents.EAdKeyEvent.KeyActionType;
-import es.eucm.eadventure.common.model.guievents.EAdKeyEvent.KeyCode;
-import es.eucm.eadventure.common.model.guievents.EAdMouseEvent.MouseActionType;
 import es.eucm.eadventure.engine.core.KeyboardState;
 import es.eucm.eadventure.engine.core.MouseState;
-import es.eucm.eadventure.engine.core.gameobjects.GameObject;
-import es.eucm.eadventure.engine.core.guiactions.DropAction;
 import es.eucm.eadventure.engine.core.guiactions.KeyAction;
 import es.eucm.eadventure.engine.core.guiactions.MouseAction;
-import es.eucm.eadventure.engine.core.guiactions.impl.DropActionImpl;
-import es.eucm.eadventure.engine.core.guiactions.impl.KeyActionImpl;
-import es.eucm.eadventure.engine.core.guiactions.impl.MouseActionImpl;
 
 /**
  * <p> This class listens to input by the user and converts it into the
@@ -96,7 +87,6 @@ public class PlayNInputListener {
 			mouseState.getMouseEvents().add(action);
 	}
 
-	@SuppressWarnings("unchecked")
 	public void mouseReleased(MouseAction action, int x, int y) {
 		mouseState.setMousePressed(false);
 		mouseState.setMousePosition(x, y);
