@@ -50,8 +50,11 @@ import es.eucm.eadventure.common.model.elements.EAdChapter;
 import es.eucm.eadventure.common.model.elements.EAdTimer;
 import es.eucm.eadventure.common.model.impl.EAdAdventureModelImpl;
 import es.eucm.eadventure.common.model.impl.EAdChapterImpl;
+import es.eucm.eadventure.common.model.variables.impl.SystemVars;
 import es.eucm.eadventure.engine.core.Game;
 import es.eucm.eadventure.engine.core.GameState;
+import es.eucm.eadventure.engine.core.MouseState;
+import es.eucm.eadventure.engine.core.ValueMap;
 import es.eucm.eadventure.engine.core.debuggers.EAdDebugger;
 import es.eucm.eadventure.engine.core.evaluators.EvaluatorFactory;
 import es.eucm.eadventure.engine.core.gameobjects.EffectGO;
@@ -86,21 +89,23 @@ public class GameImpl implements Game {
 	private static ArrayList<EffectGO<?>> finishedEffects = new ArrayList<EffectGO<?>>();
 
 	private boolean effectHUDon;
-	
+
 	private GameObjectFactory gameObjectFactory;
-	
+
 	private GameObjectManager gameObjectManager;
-	
+
 	private EAdDebugger debugger;
+	
+	private ValueMap valueMap;
+	
+	private MouseState mouseState;
 
 	@Inject
 	public GameImpl(GUI gui, EvaluatorFactory evaluatorFactory,
 			GameState gameState, EffectHUD effectHUD,
-			AssetHandler assetHandler,
-			GameObjectFactory gameObjectFactory,
-			GameObjectManager gameObjectManager,
-			EAdDebugger debugger,
-			BasicHUD basicHUD) {
+			AssetHandler assetHandler, GameObjectFactory gameObjectFactory,
+			GameObjectManager gameObjectManager, EAdDebugger debugger,
+			BasicHUD basicHUD, ValueMap valueMap, MouseState mouseState) {
 		this.gui = gui;
 		this.evaluatorFactory = evaluatorFactory;
 		this.gameState = gameState;
@@ -115,27 +120,41 @@ public class GameImpl implements Game {
 		this.debugger = debugger;
 		this.basicHud = basicHUD;
 		this.basicHud.setGame(this);
+		this.valueMap = valueMap;
+		this.mouseState = mouseState;
 	}
-	
+
 	@Override
 	public void update() {
-			processEffects();
+		updateSystemVars();
+		processEffects();
 		if (!gameState.isPaused()) {
 			updateTimers();
-	
+
 			gameState.getScene().update(gameState);
 			gui.addElement(gameState.getScene(), 0, 0);
-			
+
 			basicHud.update(gameState);
 			gui.addElement(basicHud, 0, 0);
-			
-			for ( GameObject<?> go: debugger.getGameObjects()){
+
+			for (GameObject<?> go : debugger.getGameObjects()) {
 				gui.addElement(go, 0, 0);
 			}
 		}
 		gui.prepareGUI();
 	}
-	
+
+	/**
+	 * Updates the system variables. Any time a system variable is added to
+	 * {@link SystemVars}, its update must be added in here
+	 */
+	private void updateSystemVars() {
+		// Mouse
+		valueMap.setValue(null, SystemVars.MOUSE_X, mouseState.getVirtualMouseX());
+		valueMap.setValue(null, SystemVars.MOUSE_Y, mouseState.getVirtualMouseY());
+
+	}
+
 	private void updateTimers() {
 		for (EAdTimer timer : gameState.getCurrentChapter().getTimers())
 			gameObjectFactory.get(timer).update(gameState);
@@ -146,13 +165,13 @@ public class GameImpl implements Game {
 		finishedEffects.clear();
 		boolean block = false;
 		int i = 0;
-		while (i < gameState.getEffects().size() ) {
+		while (i < gameState.getEffects().size()) {
 			EffectGO<?> effectGO = gameState.getEffects().get(i);
 			i++;
-			
+
 			if (block && effectGO.isQueueable())
 				continue;
-				
+
 			if (!effectGO.isInitilized()) {
 				if (evaluatorFactory.evaluate(effectGO.getEffect()
 						.getCondition())) {
@@ -161,9 +180,9 @@ public class GameImpl implements Game {
 				} else {
 					finishedEffects.add(effectGO);
 				}
-			} 
-			
-			if ( effectGO.isInitilized() ){
+			}
+
+			if (effectGO.isInitilized()) {
 				// The order must be: update, then check if it's finished.
 				// Some effects take only one update to finish
 				effectGO.update(gameState);
@@ -179,16 +198,17 @@ public class GameImpl implements Game {
 
 		// Delete finished effects
 		for (EffectGO<?> e : finishedEffects) {
-			logger.log(Level.INFO, "Finished or discarded effect " + e.getClass());
+			logger.log(Level.INFO,
+					"Finished or discarded effect " + e.getClass());
 			gameState.getEffects().remove(e);
 		}
 
 		boolean visualEffect = false;
 		int index = 0;
-		while(!visualEffect && index < gameState.getEffects().size() ){
+		while (!visualEffect && index < gameState.getEffects().size()) {
 			visualEffect = gameState.getEffects().get(index++).isVisualEffect();
 		}
-		
+
 		if (visualEffect) {
 			if (!effectHUDon) {
 				gameObjectManager.addHUD(effectHUD);
@@ -222,11 +242,11 @@ public class GameImpl implements Game {
 	@Override
 	public void loadGame() {
 		assetHandler.initilize();
-		
-		//TODO should probably find multiplatform reading?
-		//reader.read(assetHandler.getResourceAsStream("@adventure.xml"));
-		
-		//TODO should probably be more careful loading chapter
+
+		// TODO should probably find multiplatform reading?
+		// reader.read(assetHandler.getResourceAsStream("@adventure.xml"));
+
+		// TODO should probably be more careful loading chapter
 		gameState.setCurrentChapter(adventure.getChapters().get(0));
 	}
 

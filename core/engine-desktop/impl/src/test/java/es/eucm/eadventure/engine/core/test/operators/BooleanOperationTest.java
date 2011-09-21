@@ -37,54 +37,18 @@
 
 package es.eucm.eadventure.engine.core.test.operators;
 
-import static org.junit.Assert.assertEquals;
+import es.eucm.eadventure.common.model.variables.impl.operations.BooleanOperation;
 
-import java.util.ArrayList;
+public class BooleanOperationTest extends OperatorsTest<BooleanOperation> {
 
-import org.junit.Test;
+	@Override
+	public void generateOperations() {
+		BooleanOperation falseOp = BooleanOperation.FALSE_OP;
+		BooleanOperation trueOp = BooleanOperation.TRUE_OP;
 
-import com.google.inject.Inject;
+		super.addOperationTest(falseOp, Boolean.FALSE);
+		super.addOperationTest(trueOp, Boolean.TRUE);
 
-import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
-import es.eucm.eadventure.common.model.variables.EAdOperation;
-import es.eucm.eadventure.common.model.variables.EAdVarDef;
-import es.eucm.eadventure.engine.core.ValueMap;
-import es.eucm.eadventure.engine.core.operator.Operator;
-
-public abstract class OperatorsTest<T extends EAdOperation> {
-
-	@Inject
-	protected ValueMap valueMap;
-	protected Operator<T> operator;
-
-	private ArrayList<T> operations = new ArrayList<T>();
-	private ArrayList<Object> results = new ArrayList<Object>();
-	private ArrayList<EAdVarDef<?>> varDefs = new ArrayList<EAdVarDef<?>>();
-	protected EAdBasicSceneElement dummyElement = new EAdBasicSceneElement(
-			"dummyElement");
-
-	public OperatorsTest(Operator<T> operator) {
-		this.operator = operator;
-		generateOperations();
-	}
-
-	public abstract void generateOperations();
-
-	public void addOperationTest(EAdVarDef<?> varDef, T operation, Object result) {
-		operations.add(operation);
-		results.add(result);
-		varDefs.add(varDef);
-	}
-
-	@Test
-	public void testOperations() {
-		int i = 0;
-		for (T op : operations) {
-			Object result = results.get(i);
-			Object value = operator.operate(result.getClass(), op);
-			assertEquals(value, result);
-			i++;
-		}
 	}
 
 }

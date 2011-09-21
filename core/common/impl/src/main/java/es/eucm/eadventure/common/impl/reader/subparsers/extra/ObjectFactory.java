@@ -109,7 +109,7 @@ public class ObjectFactory {
 		elementsMap.clear();
 		assetsMap.clear();
 	}
-	
+
 	public static void addElement( String id, EAdElement element){
 		elementsMap.put(id, element);
 	}

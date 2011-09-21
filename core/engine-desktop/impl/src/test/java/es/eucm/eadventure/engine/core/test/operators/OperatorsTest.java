@@ -37,49 +37,50 @@
 
 package es.eucm.eadventure.engine.core.test.operators;
 
-import es.eucm.eadventure.common.model.variables.EAdVarDef;
-import es.eucm.eadventure.common.model.variables.impl.EAdVarDefImpl;
-import es.eucm.eadventure.common.model.variables.impl.operations.BooleanOperation;
-import es.eucm.eadventure.engine.core.operators.impl.BooleanOperator;
+import static org.junit.Assert.assertEquals;
 
-public class BooleanOperationTest extends OperatorsTest<BooleanOperation> {
+import java.util.ArrayList;
 
-	private EAdVarDef<Boolean> someBoolean = new EAdVarDefImpl<Boolean>(
-			"SomeBoolean", Boolean.class, Boolean.FALSE);
-	private EAdVarDef<Boolean> someBooleanTrue = new EAdVarDefImpl<Boolean>(
-			"SomeBoolean", Boolean.class, Boolean.FALSE);
-	private EAdVarDef<Boolean> someBooleanFalse = new EAdVarDefImpl<Boolean>(
-			"SomeBoolean", Boolean.class, Boolean.FALSE);
-	private EAdVarDef<Integer> someInteger = new EAdVarDefImpl<Integer>(
-			"SomeBoolean", Integer.class, 0);
+import org.junit.Test;
 
-	public BooleanOperationTest() {
-		super(new BooleanOperator(null));
+import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
+import es.eucm.eadventure.common.model.variables.EAdOperation;
+import es.eucm.eadventure.engine.core.TestUtil;
+import es.eucm.eadventure.engine.core.ValueMap;
+import es.eucm.eadventure.engine.core.operator.OperatorFactory;
+
+public abstract class OperatorsTest<T extends EAdOperation> {
+
+	protected ValueMap valueMap;
+	protected OperatorFactory operatorFactory;
+
+	private ArrayList<T> operations = new ArrayList<T>();
+	private ArrayList<Object> results = new ArrayList<Object>();
+	protected EAdBasicSceneElement dummyElement = new EAdBasicSceneElement(
+			"dummyElement");
+
+	public OperatorsTest() {
+		operatorFactory = TestUtil.getInjector().getInstance(OperatorFactory.class);
+		valueMap = TestUtil.getInjector().getInstance(ValueMap.class);
+		generateOperations();
 	}
 
-	@Override
-	public void generateOperations() {
-		BooleanOperation falseOp = BooleanOperation.FALSE_OP;
+	public abstract void generateOperations();
 
-		BooleanOperation trueOp = BooleanOperation.TRUE_OP;
+	public void addOperationTest(T operation, Object result) {
+		operations.add(operation);
+		results.add(result);
+	}
 
-		super.addOperationTest(someBoolean, falseOp,
-				Boolean.FALSE);
-		super.addOperationTest(someBooleanTrue,
-				falseOp, Boolean.FALSE);
-		super.addOperationTest(someBooleanFalse,
-				falseOp, Boolean.FALSE);
-		super.addOperationTest(someBoolean, trueOp,
-				Boolean.TRUE);
-		super.addOperationTest(someBooleanTrue,
-				trueOp, Boolean.TRUE);
-		super.addOperationTest(someBooleanFalse,
-				trueOp, Boolean.TRUE);
-		super.addOperationTest(someInteger, trueOp,
-				Boolean.TRUE);
-		super.addOperationTest(someInteger, falseOp,
-				Boolean.FALSE);
-
+	@Test
+	public void testOperations() {
+		int i = 0;
+		for (T op : operations) {
+			Object result = results.get(i);
+			Object value = operatorFactory.operate(result.getClass(), op);
+			assertEquals(value, result);
+			i++;
+		}
 	}
 
 }
