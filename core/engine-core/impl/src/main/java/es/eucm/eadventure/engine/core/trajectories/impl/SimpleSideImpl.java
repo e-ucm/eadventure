@@ -21,4 +21,9 @@ public class SimpleSideImpl implements PathSide {
 		return endPosition;
 	}
 
+	@Override
+	public float getSpeedFactor() {
+		return 1;
+	}
+
 }

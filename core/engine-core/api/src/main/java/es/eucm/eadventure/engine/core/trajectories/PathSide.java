@@ -8,4 +8,6 @@ public interface PathSide {
 
 	EAdPosition getEndPosition();
 
+	float getSpeedFactor();
+
 }

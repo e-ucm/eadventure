@@ -241,4 +241,9 @@ public class PathSideImpl implements PathSide {
 		return new EAdPositionImpl(endNode.getX(), endNode.getY());
 	}
 
+	@Override
+	public float getSpeedFactor() {
+		return realLength / length;
+	}
+
 }

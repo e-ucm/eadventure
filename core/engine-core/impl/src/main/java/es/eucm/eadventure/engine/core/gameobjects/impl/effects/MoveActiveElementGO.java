@@ -98,6 +98,7 @@ public class MoveActiveElementGO extends AbstractEffectGO<EAdMoveActiveElement> 
 					EAdMoveSceneElement effect = new EAdMoveSceneElement(
 							"trajectory", gameState.getActiveElement(),
 							p.getEndPosition().getX(), p.getEndPosition().getY(), MovementSpeed.NORMAL);
+					effect.setSpeedFactor(p.getSpeedFactor());
 					effect.setBlocking(true);
 					effect.setQueueable(true);
 					gameState.addEffect(effect);
