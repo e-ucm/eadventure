@@ -1,7 +1,8 @@
-package es.eucm.eadventure.common.model.effects.impl;
+package es.eucm.eadventure.common.model.effects.impl.physics;
 
 import es.eucm.eadventure.common.interfaces.Element;
 import es.eucm.eadventure.common.interfaces.Param;
+import es.eucm.eadventure.common.model.effects.impl.AbstractEAdEffect;
 import es.eucm.eadventure.common.model.elements.EAdSceneElement;
 import es.eucm.eadventure.common.model.extra.EAdList;
 import es.eucm.eadventure.common.model.extra.impl.EAdListImpl;
@@ -26,13 +27,14 @@ public class EAdPhysicsEffect extends AbstractEAdEffect {
 			"ph_shape", PhShape.class, PhShape.RECTANGULAR);
 
 	public static final EAdVarDef<Float> VAR_PH_FRICTION = new EAdVarDefImpl<Float>(
-			"ph_friction", Float.class, 0.0f);
+			"ph_friction", Float.class, 0.3f);
 	
 	public static final EAdVarDef<Float> VAR_PH_RESTITUTION = new EAdVarDefImpl<Float>(
-			"ph_restitution", Float.class, 1.0f);
+			"ph_restitution", Float.class, 0.1f);
 	
 	public static final EAdVarDef<Float> VAR_PH_DENSITY = new EAdVarDefImpl<Float>(
-			"ph_restitution", Float.class, 10.0f);
+			"ph_restitution", Float.class, 1.0f);
+		
 
 	/**
 	 * Elements that are affect by the physics

@@ -86,5 +86,9 @@ public class EAdVarDefImpl<T> implements EAdVarDef<T> {
 	public int hashCode(){
 		return (name + type + initialValue + "").hashCode();
 	}
+	
+	public String toString(){
+		return name + ":" + type.getSimpleName() + ":" + initialValue; 
+	}
 
 }

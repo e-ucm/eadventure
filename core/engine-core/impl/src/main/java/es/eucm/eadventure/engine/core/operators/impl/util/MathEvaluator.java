@@ -44,7 +44,7 @@ import es.eucm.eadventure.engine.core.ValueMap;
  * <i>Mathematic expression evaluator.</i> Supports the following functions: +,
  * -, *, /, ^, %, cos, sin, tan, acos, asin, atan, sqrt, sqr, log, min, max,
  * ceil, floor, abs, neg, rndr.<br>
- * When the getValue() is called, a Double object is returned. If it returns
+ * When the getValue() is called, a Float object is returned. If it returns
  * null, an error occured.
  * <p>
  * 
@@ -123,7 +123,7 @@ public class MathEvaluator {
 	/***
 	 * evaluates and returns the value of the expression
 	 */
-	public Double getValue() {
+	public Float getValue() {
 		if (expression == null)
 			return null;
 
@@ -136,7 +136,7 @@ public class MathEvaluator {
 		}
 	}
 
-	private static Double evaluate(Node n) {
+	private static Float evaluate(Node n) {
 		if (n.hasOperator() && n.hasChild()) {
 			if (n.getOperator().getType() == 1)
 				n.setValue(evaluateExpression(n.getOperator(),
@@ -148,60 +148,60 @@ public class MathEvaluator {
 		return n.getValue();
 	}
 
-	private static Double evaluateExpression(Operator o, Double f1, Double f2) {
+	private static Float evaluateExpression(Operator o, Float f1, Float f2) {
 		String op = o.getOperator();
-		Double res = null;
+		Float res = null;
 
 		if ("+".equals(op))
-			res = new Double(f1.doubleValue() + f2.doubleValue());
+			res = new Float(f1.floatValue() + f2.floatValue());
 		else if ("-".equals(op))
-			res = new Double(f1.doubleValue() - f2.doubleValue());
+			res = new Float(f1.floatValue() - f2.floatValue());
 		else if ("*".equals(op))
-			res = new Double(f1.doubleValue() * f2.doubleValue());
+			res = new Float(f1.floatValue() * f2.floatValue());
 		else if ("/".equals(op))
-			res = new Double(f1.doubleValue() / f2.doubleValue());
+			res = new Float(f1.floatValue() / f2.floatValue());
 		else if ("^".equals(op))
-			res = new Double(Math.pow(f1.doubleValue(), f2.doubleValue()));
+			res = new Float(Math.pow(f1.floatValue(), f2.floatValue()));
 		else if ("%".equals(op))
-			res = new Double(f1.doubleValue() % f2.doubleValue());
+			res = new Float(f1.floatValue() % f2.floatValue());
 		else if ("&".equals(op))
-			res = new Double(f1.doubleValue() + f2.doubleValue()); // todo
+			res = new Float(f1.floatValue() + f2.floatValue()); // todo
 		else if ("|".equals(op))
-			res = new Double(f1.doubleValue() + f2.doubleValue()); // todo
+			res = new Float(f1.floatValue() + f2.floatValue()); // todo
 		else if ("cos".equals(op))
-			res = new Double(Math.cos(f1.doubleValue()));
+			res = new Float(Math.cos(f1.floatValue()));
 		else if ("sin".equals(op))
-			res = new Double(Math.sin(f1.doubleValue()));
+			res = new Float(Math.sin(f1.floatValue()));
 		else if ("tan".equals(op))
-			res = new Double(Math.tan(f1.doubleValue()));
+			res = new Float(Math.tan(f1.floatValue()));
 		else if ("acos".equals(op))
-			res = new Double(Math.acos(f1.doubleValue()));
+			res = new Float(Math.acos(f1.floatValue()));
 		else if ("asin".equals(op))
-			res = new Double(Math.asin(f1.doubleValue()));
+			res = new Float(Math.asin(f1.floatValue()));
 		else if ("atan".equals(op))
-			res = new Double(Math.atan(f1.doubleValue()));
+			res = new Float(Math.atan(f1.floatValue()));
 		else if ("sqr".equals(op))
-			res = new Double(f1.doubleValue() * f1.doubleValue());
+			res = new Float(f1.floatValue() * f1.floatValue());
 		else if ("sqrt".equals(op))
-			res = new Double(Math.sqrt(f1.doubleValue()));
+			res = new Float(Math.sqrt(f1.floatValue()));
 		else if ("log".equals(op))
-			res = new Double(Math.log(f1.doubleValue()));
+			res = new Float(Math.log(f1.floatValue()));
 		else if ("min".equals(op))
-			res = new Double(Math.min(f1.doubleValue(), f2.doubleValue()));
+			res = new Float(Math.min(f1.floatValue(), f2.floatValue()));
 		else if ("max".equals(op))
-			res = new Double(Math.max(f1.doubleValue(), f2.doubleValue()));
+			res = new Float(Math.max(f1.floatValue(), f2.floatValue()));
 		else if ("exp".equals(op))
-			res = new Double(Math.exp(f1.doubleValue()));
+			res = new Float(Math.exp(f1.floatValue()));
 		else if ("floor".equals(op))
-			res = new Double(Math.floor(f1.doubleValue()));
+			res = new Float(Math.floor(f1.floatValue()));
 		else if ("ceil".equals(op))
-			res = new Double(Math.ceil(f1.doubleValue()));
+			res = new Float(Math.ceil(f1.floatValue()));
 		else if ("abs".equals(op))
-			res = new Double(Math.abs(f1.doubleValue()));
+			res = new Float(Math.abs(f1.floatValue()));
 		else if ("neg".equals(op))
-			res = new Double(-f1.doubleValue());
+			res = new Float(-f1.floatValue());
 		else if ("rnd".equals(op))
-			res = new Double(Math.random() * f1.doubleValue());
+			res = new Float(Math.random() * f1.floatValue());
 
 		return res;
 	}
@@ -238,7 +238,7 @@ public class MathEvaluator {
 	/***
 	 * gets the variable's value that was assigned previously
 	 */
-	public Double getVariable(String id) {
+	public Float getVariable(String id) {
 		try {
 			id = id.replace("[", "");
 			id = id.replace("]", "");
@@ -246,21 +246,21 @@ public class MathEvaluator {
 		EAdField<?> number = varList.get(index);
 		Object o = variables.getValue(number);
 		if (o instanceof Number) {
-			return ((Number) o).doubleValue();
+			return ((Number) o).floatValue();
 		} else
-			return 0.0;
+			return 0.0f;
 		} catch (NumberFormatException e) {
-			return 0.0;
+			return 0.0f;
 		}
 	}
 
-	private Double getDouble(String s) {
+	private Float getFloat(String s) {
 		if (s == null)
 			return null;
 
-		Double res = null;
+		Float res = null;
 		try {
-			res = new Double(Double.parseDouble(s));
+			res = new Float(Float.parseFloat(s));
 		} catch (Exception e) {
 			return getVariable(s);
 		}
@@ -302,7 +302,7 @@ public class MathEvaluator {
 		public Node nLeft = null;
 		public Node nRight = null;
 		public int nLevel = 0;
-		public Double nValue = null;
+		public Float nValue = null;
 
 		public Node(String s) throws Exception {
 			init(null, s, 0);
@@ -320,7 +320,7 @@ public class MathEvaluator {
 				throw new Exception("Wrong number of brackets in [" + s + "]");
 
 			nString = s;
-			nValue = getDouble(s);
+			nValue = getFloat(s);
 			nLevel = level;
 			int sLength = s.length();
 			int inBrackets = 0;
@@ -471,11 +471,11 @@ public class MathEvaluator {
 			return nOperator;
 		}
 
-		protected Double getValue() {
+		protected Float getValue() {
 			return nValue;
 		}
 
-		protected void setValue(Double f) {
+		protected void setValue(Float f) {
 			nValue = f;
 		}
 

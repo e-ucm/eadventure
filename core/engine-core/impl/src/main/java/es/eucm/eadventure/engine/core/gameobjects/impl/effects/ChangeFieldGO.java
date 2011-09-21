@@ -50,12 +50,12 @@ import es.eucm.eadventure.engine.core.platform.AssetHandler;
 import es.eucm.eadventure.engine.core.platform.GUI;
 import es.eucm.eadventure.engine.core.platform.PlatformConfiguration;
 
-public class ChangeVariableGO extends AbstractEffectGO<EAdChangeFieldValueEffect> {
+public class ChangeFieldGO extends AbstractEffectGO<EAdChangeFieldValueEffect> {
 
 	private OperatorFactory operatorFactory;
 
 	@Inject
-	public ChangeVariableGO(AssetHandler assetHandler,
+	public ChangeFieldGO(AssetHandler assetHandler,
 			StringHandler stringHandler, GameObjectFactory gameObjectFactory,
 			GUI gui, GameState gameState, ValueMap valueMap,
 			PlatformConfiguration platformConfiguration, OperatorFactory operatorFactory) {

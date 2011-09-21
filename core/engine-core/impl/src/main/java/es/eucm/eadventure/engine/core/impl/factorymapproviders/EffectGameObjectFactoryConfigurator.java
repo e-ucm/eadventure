@@ -47,12 +47,13 @@ import es.eucm.eadventure.common.model.effects.impl.EAdChangeScene;
 import es.eucm.eadventure.common.model.effects.impl.EAdComplexBlockingEffect;
 import es.eucm.eadventure.common.model.effects.impl.EAdModifyActorState;
 import es.eucm.eadventure.common.model.effects.impl.EAdMoveActiveElement;
-import es.eucm.eadventure.common.model.effects.impl.EAdPhysicsEffect;
 import es.eucm.eadventure.common.model.effects.impl.EAdPlaySoundEffect;
 import es.eucm.eadventure.common.model.effects.impl.EAdQuitGame;
 import es.eucm.eadventure.common.model.effects.impl.EAdRandomEffect;
 import es.eucm.eadventure.common.model.effects.impl.EAdTriggerMacro;
 import es.eucm.eadventure.common.model.effects.impl.EAdVarInterpolationEffect;
+import es.eucm.eadventure.common.model.effects.impl.physics.EAdPhysicsEffect;
+import es.eucm.eadventure.common.model.effects.impl.physics.PhApplyForce;
 import es.eucm.eadventure.common.model.effects.impl.sceneelements.EAdMakeActiveElementEffect;
 import es.eucm.eadventure.common.model.effects.impl.sceneelements.EAdMoveSceneElement;
 import es.eucm.eadventure.common.model.effects.impl.text.EAdSpeakEffect;
@@ -64,15 +65,14 @@ import es.eucm.eadventure.engine.core.gameobjects.GameObject;
 import es.eucm.eadventure.engine.core.gameobjects.impl.effects.ActorActionsEffectGO;
 import es.eucm.eadventure.engine.core.gameobjects.impl.effects.CancelEffectGO;
 import es.eucm.eadventure.engine.core.gameobjects.impl.effects.ChangeAppearanceGO;
+import es.eucm.eadventure.engine.core.gameobjects.impl.effects.ChangeFieldGO;
 import es.eucm.eadventure.engine.core.gameobjects.impl.effects.ChangeSceneGO;
-import es.eucm.eadventure.engine.core.gameobjects.impl.effects.ChangeVariableGO;
 import es.eucm.eadventure.engine.core.gameobjects.impl.effects.ComplexBlockingEffectGO;
 import es.eucm.eadventure.engine.core.gameobjects.impl.effects.HighlightEffectGO;
 import es.eucm.eadventure.engine.core.gameobjects.impl.effects.MakeActiveElementEffectGO;
 import es.eucm.eadventure.engine.core.gameobjects.impl.effects.ModifyActorStateGO;
 import es.eucm.eadventure.engine.core.gameobjects.impl.effects.MoveActiveElementGO;
 import es.eucm.eadventure.engine.core.gameobjects.impl.effects.MoveSceneElementGO;
-import es.eucm.eadventure.engine.core.gameobjects.impl.effects.PhysicsEffectGO;
 import es.eucm.eadventure.engine.core.gameobjects.impl.effects.PlaySoundEffectGO;
 import es.eucm.eadventure.engine.core.gameobjects.impl.effects.QuitGameEffectGO;
 import es.eucm.eadventure.engine.core.gameobjects.impl.effects.RandomEffectGO;
@@ -81,6 +81,8 @@ import es.eucm.eadventure.engine.core.gameobjects.impl.effects.SpeakEffectGO;
 import es.eucm.eadventure.engine.core.gameobjects.impl.effects.TriggerMacroEffectGO;
 import es.eucm.eadventure.engine.core.gameobjects.impl.effects.VarInterpolationGO;
 import es.eucm.eadventure.engine.core.gameobjects.impl.effects.WaitEffectGO;
+import es.eucm.eadventure.engine.core.gameobjects.impl.effects.physics.PhApplyForceGO;
+import es.eucm.eadventure.engine.core.gameobjects.impl.effects.physics.PhysicsEffectGO;
 
 public class EffectGameObjectFactoryConfigurator {
 	
@@ -95,7 +97,7 @@ public class EffectGameObjectFactoryConfigurator {
 				HighlightEffectGO.class);
 		factoryMap.put(EAdWaitEffect.class, WaitEffectGO.class);
 		factoryMap.put(EAdCancelEffect.class, CancelEffectGO.class);
-		factoryMap.put(EAdChangeFieldValueEffect.class, ChangeVariableGO.class);
+		factoryMap.put(EAdChangeFieldValueEffect.class, ChangeFieldGO.class);
 		factoryMap.put(EAdActorActionsEffect.class, ActorActionsEffectGO.class);
 		factoryMap.put(EAdQuitGame.class, QuitGameEffectGO.class);
 		factoryMap.put(EAdChangeAppearance.class, ChangeAppearanceGO.class);
@@ -108,6 +110,7 @@ public class EffectGameObjectFactoryConfigurator {
 		factoryMap.put(EAdSpeakEffect.class, SpeakEffectGO.class);
 		factoryMap.put(EAdPlaySoundEffect.class, PlaySoundEffectGO.class);
 		factoryMap.put(EAdPhysicsEffect.class, PhysicsEffectGO.class);
+		factoryMap.put(PhApplyForce.class, PhApplyForceGO.class);
 		
 	}
 
