@@ -2,7 +2,6 @@ package es.eucm.eadventure.engine.core;
 
 import static playn.core.PlayN.*;
 
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.google.inject.Inject;

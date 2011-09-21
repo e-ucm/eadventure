@@ -6,7 +6,6 @@ import com.google.gwt.inject.client.Ginjector;
 import es.eucm.eadventure.engine.core.Game;
 import es.eucm.eadventure.engine.core.gameobjects.ActorGO;
 import es.eucm.eadventure.engine.core.gameobjects.ActorReferenceGO;
-import es.eucm.eadventure.engine.core.gameobjects.SceneElementGO;
 import es.eucm.eadventure.engine.core.gameobjects.SceneGO;
 import es.eucm.eadventure.engine.core.gameobjects.TimerGO;
 import es.eucm.eadventure.engine.core.gameobjects.impl.transitions.SimpleTransitionGO;
@@ -33,7 +32,7 @@ public interface PlayNGinInjector extends Ginjector {
 	public CancelEffectGO getCancelEffectGO();
 	public ChangeAppearanceGO getChangeAppearanceGO();
 	public ChangeSceneGO getChangeSceneGO();
-	public ChangeVariableGO getChangeVariableGO();
+	public ChangeFieldGO getChangeFieldGO();
 	public ComplexBlockingEffectGO getComplexBlockingEffectGO();
 	public HighlightEffectGO getHighlightEffectGO();
 	public MakeActiveElementEffectGO getMakeActiveElementEffectGO();

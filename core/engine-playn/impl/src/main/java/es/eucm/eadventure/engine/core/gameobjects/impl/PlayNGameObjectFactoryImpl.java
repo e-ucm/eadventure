@@ -6,9 +6,6 @@ import java.util.logging.Logger;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import com.gwtent.reflection.client.ClassHelper;
-import com.gwtent.reflection.client.ClassType;
-import com.gwtent.reflection.client.Reflectable;
-import com.gwtent.reflection.client.TypeOracle;
 
 import es.eucm.eadventure.common.interfaces.Element;
 import es.eucm.eadventure.common.interfaces.MapProvider;
@@ -16,15 +13,14 @@ import es.eucm.eadventure.common.model.EAdElement;
 import es.eucm.eadventure.engine.core.gameobjects.ActorGO;
 import es.eucm.eadventure.engine.core.gameobjects.ActorReferenceGO;
 import es.eucm.eadventure.engine.core.gameobjects.GameObject;
-import es.eucm.eadventure.engine.core.gameobjects.SceneElementGO;
 import es.eucm.eadventure.engine.core.gameobjects.SceneGO;
 import es.eucm.eadventure.engine.core.gameobjects.TimerGO;
 import es.eucm.eadventure.engine.core.gameobjects.impl.effects.ActiveElementEffectGO;
 import es.eucm.eadventure.engine.core.gameobjects.impl.effects.ActorActionsEffectGO;
 import es.eucm.eadventure.engine.core.gameobjects.impl.effects.CancelEffectGO;
 import es.eucm.eadventure.engine.core.gameobjects.impl.effects.ChangeAppearanceGO;
+import es.eucm.eadventure.engine.core.gameobjects.impl.effects.ChangeFieldGO;
 import es.eucm.eadventure.engine.core.gameobjects.impl.effects.ChangeSceneGO;
-import es.eucm.eadventure.engine.core.gameobjects.impl.effects.ChangeVariableGO;
 import es.eucm.eadventure.engine.core.gameobjects.impl.effects.ComplexBlockingEffectGO;
 import es.eucm.eadventure.engine.core.gameobjects.impl.effects.HighlightEffectGO;
 import es.eucm.eadventure.engine.core.gameobjects.impl.effects.MakeActiveElementEffectGO;
@@ -79,8 +75,8 @@ public class PlayNGameObjectFactoryImpl extends GameObjectFactoryImpl {
 			return ginjector.getChangeAppearanceGO();
 		if (clazz == ChangeSceneGO.class)
 			return ginjector.getChangeSceneGO();
-		if (clazz == ChangeVariableGO.class)
-			return ginjector.getChangeVariableGO();
+		if (clazz == ChangeFieldGO.class)
+			return ginjector.getChangeFieldGO();
 		if (clazz == ComplexBlockingEffectGO.class)
 			return ginjector.getComplexBlockingEffectGO();
 		if (clazz == HighlightEffectGO.class)
