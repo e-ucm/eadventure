@@ -19,7 +19,7 @@
   <inherits name='es.eucm.eadventure.engine.enginecore'/>
   <inherits name='java.util.lib'/>
   <inherits name='com.gwtent.GwtEnt'/>
-
+  <inherits name='com.google.gwt.logging.Logging'/>
 
   <!--
     Optionally, enable gwt-log's advanced logging features:
@@ -30,8 +30,10 @@
   <!-- Inherit the GIN (guice for gwt) module -->
   <inherits name='com.google.gwt.inject.Inject'/>
 
-<!--  <set-property name="gwt.logging.logLevel" value="INFO"/>  -->
-  <set-property name="gwt.logging.enabled" value="TRUE"/>            
+   <set-property name="gwt.logging.logLevel" value="INFO"/>
+   <set-property name="gwt.logging.enabled" value="TRUE"/>            
+   <set-property name="gwt.logging.consoleHandler" value="ENABLED" />
+   <set-property name="gwt.logging.popupHandler" value="DISABLED" />
 
   <source path='core'/>
   <source path='html'/>
