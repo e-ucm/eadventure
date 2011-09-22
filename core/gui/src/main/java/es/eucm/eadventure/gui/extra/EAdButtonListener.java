@@ -37,6 +37,7 @@
 
 package es.eucm.eadventure.gui.extra;
 
+import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
@@ -75,51 +76,43 @@ public class EAdButtonListener implements FocusListener, MouseListener, ActionLi
 	
     public void mouseClicked( MouseEvent e ) {
     	if (enabled) {
-            border.setDepthInmediatly( EAdBorder.BORDER );
-            border.setDepth( EAdBorder.BORDER - 2 );
+            border.click();
+            border.unclick();
     	}
     }
 
     public void mouseEntered( MouseEvent e ) {
     	if (enabled)
-    		border.setDepth( EAdBorder.BORDER - 2 );
+    		border.hightlight();
     }
 
     public void mouseExited( MouseEvent e ) {
     	if (enabled)
-    		border.setDepth( 0 );
+    		border.dehighlight();
     }
 
     public void mousePressed( MouseEvent e ) {
     	if (enabled)
-    		border.setDepthInmediatly(EAdBorder.BORDER);
+    		border.click();
     }
 
     public void mouseReleased( MouseEvent e ) {
     	if (enabled)
-    		border.setDepth( 0 );
+    		border.unclick();
     }
     
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
-        border.setDepthInmediatly( EAdBorder.BORDER );
+		border.click();
         if (button.getMousePosition() != null)
-        	border.setDepth( EAdBorder.BORDER - 2 );
+        	border.hightlight();
         else
-        	border.setDepth(0);
+        	border.dehighlight();
 	}
 	
 	@Override
 	public void propertyChange(PropertyChangeEvent arg0) {
     	this.enabled = button.isEnabled();
-        if (!enabled) {
-        	border.setDepthInmediatly( 3 );
-        } else {
-            if (button.getMousePosition() != null)
-                border.setDepthInmediatly( 0 );
-            else
-                border.setDepthInmediatly( EAdBorder.BORDER - 2 );
-        }
 	}
 
 

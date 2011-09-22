@@ -125,31 +125,11 @@ public class EAdPanel extends JPanel {
 			}
 			
 		});
-
-		this.addPropertyChangeListener("enabled", new PropertyChangeListener() {
-
-			@Override
-			public void propertyChange(PropertyChangeEvent arg0) {
-				if (isEnabled())
-					border.setDepthInmediatly(0);
-				else
-					border.setDepthInmediatly(3);
-			}
-			
-		});
-	}
-	
-	public void setDepth(int depth) {
-		border.setDepth(depth);
 	}
 
 	public void setColor(Color color) {
 		if (border != null)
 			border.setColor(color);
-	}
-
-	public void setDepthInmediatly(int border2) {
-		border.setDepthInmediatly(border2);
 	}
 
 }

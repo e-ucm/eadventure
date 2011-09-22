@@ -105,7 +105,7 @@ public class EAdTabbedPaneTopUI extends BasicTabbedPaneUI implements FocusListen
     public void installUI(JComponent c) {
         super.installUI( c );
         tabPane.addFocusListener(this);
-        this.tabAreaInsets = new Insets(6, 16, 0, 16);
+        this.tabAreaInsets = new Insets(6, 1, 0, 1);
         
         this.contentBorderInsets = new Insets(0, 12, 6, 6);
         this.selectedTabPadInsets = new Insets(6, 6, 0, 6);
@@ -148,12 +148,14 @@ public class EAdTabbedPaneTopUI extends BasicTabbedPaneUI implements FocusListen
         	color = EAdGUILookAndFeel.getFocusColor();
         Color newColor = new Color(color.getRed( ), color.getGreen( ), color.getBlue( ), 60);
         g.setColor(newColor);
-        g.fillRoundRect(rects[tabIndex].x, rects[tabIndex].y + EAdBorder.BORDER, rects[tabIndex].width, rects[tabIndex].height + 12, 6, 6);
-
-        g.setColor(EAdGUILookAndFeel.getBackgroundColor());
-        g.fillRoundRect(rects[tabIndex].x + EAdBorder.BORDER, rects[tabIndex].y, rects[tabIndex].width, rects[tabIndex].height + 12, 6, 6);
+        
+        
+//        g.fillRoundRect(rects[tabIndex].x, rects[tabIndex].y + EAdBorder.BORDER, rects[tabIndex].width, rects[tabIndex].height + 12, 6, 6);
+//        g.setColor(EAdGUILookAndFeel.getBackgroundColor());
+//        g.fillRoundRect(rects[tabIndex].x + EAdBorder.BORDER, rects[tabIndex].y, rects[tabIndex].width, rects[tabIndex].height + 12, 6, 6);
         g.setColor(color);
-        g.drawRoundRect(rects[tabIndex].x + EAdBorder.BORDER, rects[tabIndex].y, rects[tabIndex].width, rects[tabIndex].height + 12, 6, 6);
+        g.drawRect(rects[tabIndex].x + 6, rects[tabIndex].y, rects[tabIndex].width, rects[tabIndex].height + 12);
+//        g.drawRoundRect(rects[tabIndex].x + EAdBorder.BORDER, rects[tabIndex].y, rects[tabIndex].width, rects[tabIndex].height + 12, 6, 6);
         g.drawLine(rects[tabIndex].x,  rects[tabIndex].y + rects[tabIndex].height - 1,rects[tabIndex].x +  EAdBorder.BORDER , rects[tabIndex].y + rects[tabIndex].height - 1);
 
         g.translate( 0, -1 );
@@ -194,14 +196,11 @@ public class EAdTabbedPaneTopUI extends BasicTabbedPaneUI implements FocusListen
         Color color = EAdGUILookAndFeel.getForegroundColor();
         if (this.tabPane.hasFocus())
         	color = EAdGUILookAndFeel.getFocusColor();
-        Color newColor = new Color(color.getRed( ), color.getGreen( ), color.getBlue( ), 60);
-        g.setColor(newColor);
-        g.fillRoundRect(x, y + EAdBorder.BORDER, w - EAdBorder.BORDER - 1, h - EAdBorder.BORDER, 6, 6);
 
         g.setColor(EAdGUILookAndFeel.getBackgroundColor());
-        g.fillRoundRect(x + EAdBorder.BORDER, y, w - EAdBorder.BORDER - 1, h - EAdBorder.BORDER, 6, 6);
+//        g.fillRect(x + EAdBorder.BORDER, y, w - EAdBorder.BORDER - 1, h - EAdBorder.BORDER);
         g.setColor(color);
-        g.drawRoundRect(x + EAdBorder.BORDER, y -1 , w - EAdBorder.BORDER - 1, h - EAdBorder.BORDER, 6, 6);
+        g.drawRect(x,  y -1 , w - 1, h);
         
         g.setClip(c);
         
