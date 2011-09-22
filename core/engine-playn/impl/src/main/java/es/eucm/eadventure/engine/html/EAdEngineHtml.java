@@ -21,6 +21,7 @@ public class EAdEngineHtml extends HtmlGame {
 
 	    injector.getPlatformLauncher();
 	    Game game = injector.getGame();
+	    game.loadGame();
 	   
 	    PlayN.run(new EAdEngine(game));
 	}

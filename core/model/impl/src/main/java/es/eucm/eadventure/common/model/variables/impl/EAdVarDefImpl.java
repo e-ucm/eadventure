@@ -88,7 +88,7 @@ public class EAdVarDefImpl<T> implements EAdVarDef<T> {
 	}
 	
 	public String toString(){
-		return name + ":" + type.getSimpleName() + ":" + initialValue; 
+		return name + ":" + type.getName() + ":" + initialValue; 
 	}
 
 }
