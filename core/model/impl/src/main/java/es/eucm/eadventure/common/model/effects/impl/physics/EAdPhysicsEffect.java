@@ -33,7 +33,7 @@ public class EAdPhysicsEffect extends AbstractEAdEffect {
 			"ph_restitution", Float.class, 0.1f);
 	
 	public static final EAdVarDef<Float> VAR_PH_DENSITY = new EAdVarDefImpl<Float>(
-			"ph_restitution", Float.class, 1.0f);
+			"ph_restitution", Float.class, 0.001f);
 		
 
 	/**

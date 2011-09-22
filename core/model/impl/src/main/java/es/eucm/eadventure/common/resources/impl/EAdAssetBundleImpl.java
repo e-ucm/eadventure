@@ -42,8 +42,6 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import es.eucm.eadventure.common.resources.EAdAssetBundle;
 import es.eucm.eadventure.common.resources.EAdAssetDescriptor;
@@ -61,8 +59,6 @@ public class EAdAssetBundleImpl implements EAdAssetBundle {
 	 */
 	protected Map<String, AssetDescriptor> assets;
 
-	private Logger logger = Logger.getLogger( "EAdAssetBundleImpl" );
-
 	public EAdAssetBundleImpl( ) {
 		descriptors = new ArrayList<EAdAssetDescriptor>( );
 		assets = new HashMap<String, AssetDescriptor>( );
@@ -79,7 +75,6 @@ public class EAdAssetBundleImpl implements EAdAssetBundle {
 //			if ( d.getAssetId( ).equals( id ) ) {
 				AssetDescriptor assetPath = assets.get( id );
 				if ( assetPath == null ) {
-					logger.log(Level.WARNING, "Empty asset, id: " + id );
 					return null;
 				}
 				return assetPath;

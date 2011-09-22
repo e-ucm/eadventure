@@ -43,7 +43,7 @@ import com.google.inject.TypeLiteral;
 import es.eucm.eadventure.common.interfaces.MapProvider;
 import es.eucm.eadventure.common.model.EAdElement;
 import es.eucm.eadventure.common.model.effects.impl.physics.EAdPhysicsEffect;
-import es.eucm.eadventure.common.model.effects.impl.physics.PhApplyForce;
+import es.eucm.eadventure.common.model.effects.impl.physics.PhApplyImpluse;
 import es.eucm.eadventure.engine.core.gameobjects.ActorGO;
 import es.eucm.eadventure.engine.core.gameobjects.ActorReferenceGO;
 import es.eucm.eadventure.engine.core.gameobjects.GameObject;
@@ -80,7 +80,7 @@ public class GameObjectFactoryModule extends AbstractModule {
 		
 		// Effects
 		GameObjectFactoryMapProvider.add(EAdPhysicsEffect.class, PhysicsEffectGO.class);
-		GameObjectFactoryMapProvider.add(PhApplyForce.class, PhApplyForceGO.class);
+		GameObjectFactoryMapProvider.add(PhApplyImpluse.class, PhApplyForceGO.class);
 	}
 
 
