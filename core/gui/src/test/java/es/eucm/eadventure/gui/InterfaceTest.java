@@ -80,10 +80,10 @@ public class InterfaceTest extends EAdFrame {
         
         JButton button = new JButton("BIG");
         panel.add(button);
-        EAdButton buttonsmall = new EAdButton("small");
+        JButton buttonsmall = new JButton("small");
         panel.add(buttonsmall);
 
-        EAdButton modal = new EAdButton("modal");
+        JButton modal = new JButton("modal");
         modal.addActionListener(new ActionListener() {
 
 			@Override

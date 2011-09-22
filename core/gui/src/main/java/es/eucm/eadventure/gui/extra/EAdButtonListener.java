@@ -114,6 +114,4 @@ public class EAdButtonListener implements FocusListener, MouseListener, ActionLi
     	this.enabled = button.isEnabled();
 	}
 
-
-
 }

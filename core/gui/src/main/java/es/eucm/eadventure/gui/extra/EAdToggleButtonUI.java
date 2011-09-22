@@ -37,7 +37,6 @@
 
 package es.eucm.eadventure.gui.extra;
 
-import java.awt.AlphaComposite;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -87,12 +86,8 @@ public class EAdToggleButtonUI extends BasicToggleButtonUI {
 		
 		if (((JToggleButton) c).isSelected()) {
 			Graphics2D g2 = (Graphics2D) g.create();
-			g2.setColor(Color.BLUE);
-			g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.5f));
-			g2.fillRoundRect(EAdBorder.BORDER - border.getDepth(), 
-					border.getDepth(), 
-					c.getWidth() - EAdBorder.BORDER, 
-					c.getHeight() - EAdBorder.BORDER, 6, 6);
+			g2.setColor(new Color(0, 160, 0, 50));
+			g2.fillRoundRect(5, c.getHeight() - 6, c.getWidth() - 10, 5, 2, 2);
 			g2.dispose();
 		}
 

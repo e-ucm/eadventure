@@ -42,6 +42,7 @@ import java.awt.Dimension;
 import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Insets;
 import java.awt.RenderingHints;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
@@ -148,6 +149,11 @@ public class EAdTextField extends JTextField {
     	FontMetrics fm = getFontMetrics(getFont());
         this.setPreferredSize( new Dimension(fm.stringWidth(getText()) + 4 + EAdBorder.BORDER,
 				fm.getHeight() + 3 + EAdBorder.BORDER) );
+    }
+    
+    @Override
+    public Insets getInsets() {
+    	return new Insets(5, 5, 5, 5);
     }
 
 }

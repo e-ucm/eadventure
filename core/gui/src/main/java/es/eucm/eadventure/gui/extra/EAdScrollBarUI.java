@@ -68,8 +68,10 @@
 */
 package es.eucm.eadventure.gui.extra;
 
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.Rectangle;
 
 import javax.swing.JButton;
@@ -114,9 +116,8 @@ public class EAdScrollBarUI extends BasicScrollBarUI {
     @Override
     protected void paintThumb(Graphics g, JComponent c, Rectangle thumbBounds)  
     {
-        if(thumbBounds.isEmpty() || !scrollbar.isEnabled()) {
+        if(thumbBounds.isEmpty() || !scrollbar.isEnabled())
             return;
-        }
         
         int w = thumbBounds.width;
         int h = thumbBounds.height;     
@@ -124,20 +125,11 @@ public class EAdScrollBarUI extends BasicScrollBarUI {
         g.translate(thumbBounds.x, thumbBounds.y);
 
         Color color = EAdGUILookAndFeel.getForegroundColor();
-        Color newColor = new Color(color.getRed( ), color.getGreen( ), color.getBlue( ), 60);
-        g.setColor( newColor );
-        g.fillRect( 0, EAdBorder.BORDER, w-1-EAdBorder.BORDER, h-1-EAdBorder.BORDER );
-        if (isDragging) {
-            g.setColor( EAdGUILookAndFeel.getBackgroundColor() );
-            g.fillRect( 2, EAdBorder.BORDER - 2, w-1-EAdBorder.BORDER, h-1-EAdBorder.BORDER );
-            g.setColor( EAdGUILookAndFeel.getForegroundColor() );
-            g.drawRect( 2, EAdBorder.BORDER - 2, w-1-EAdBorder.BORDER, h-1-EAdBorder.BORDER );
-        } else {
-            g.setColor(EAdGUILookAndFeel.getBackgroundColor() );
-            g.fillRect( EAdBorder.BORDER, 0, w-1-EAdBorder.BORDER, h-1-EAdBorder.BORDER );
-            g.setColor( EAdGUILookAndFeel.getForegroundColor() );
-            g.drawRect( EAdBorder.BORDER, 0, w-1-EAdBorder.BORDER, h-1-EAdBorder.BORDER );
-        }
+
+        g.setColor(color);
+        if (isDragging)
+        	((Graphics2D) g).setStroke(new BasicStroke(2));
+        g.drawRect(1, 1, w - 2, h - 2);
         
         g.translate(-thumbBounds.x, -thumbBounds.y);
     }
