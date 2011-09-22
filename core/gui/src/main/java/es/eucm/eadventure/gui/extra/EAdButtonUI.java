@@ -65,7 +65,6 @@ public class EAdButtonUI extends BasicButtonUI {
 
 		EAdBorder border = new EAdBorder(c);
 
-		button.setBackground(EAdGUILookAndFeel.getBackgroundColor());
 		button.setForeground(EAdGUILookAndFeel.getForegroundColor());
 
 		button.setContentAreaFilled( false );
@@ -80,10 +79,7 @@ public class EAdButtonUI extends BasicButtonUI {
 	}
 
 	public void paint(Graphics g, JComponent c)  {
-        ((Graphics2D) g).setRenderingHint( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );
-        ((Graphics2D) g).setRenderingHint( RenderingHints.KEY_DITHERING, RenderingHints.VALUE_DITHER_ENABLE );
-        ((Graphics2D) g).setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
-
+       ((Graphics2D) g).setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
 		super.paint(g, c);
 	}
 }

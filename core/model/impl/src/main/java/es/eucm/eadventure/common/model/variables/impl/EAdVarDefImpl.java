@@ -76,9 +76,17 @@ public class EAdVarDefImpl<T> implements EAdVarDef<T> {
 	}
 	
 	public boolean equals( Object o ){
-		if ( o instanceof EAdVarDefImpl ){
+		if ( o != null && o instanceof EAdVarDefImpl ){
 			EAdVarDefImpl<?> var = (EAdVarDefImpl<?>) o;
-			return var.name.equals(name) && var.type.equals(type) && var.initialValue.equals(initialValue);
+			if (name == null ^ var.name == null)
+				return false;
+			if (type == null ^ var.type == null)
+				return false;
+			if (initialValue == null ^ var.initialValue == null)
+				return false;
+			return (name == null || var.name.equals(name)) 
+					&& (type == null || var.type.equals(type))
+					&& (initialValue == null || var.initialValue.equals(initialValue));
 		}
 		return false;
 	}
@@ -88,7 +96,7 @@ public class EAdVarDefImpl<T> implements EAdVarDef<T> {
 	}
 	
 	public String toString(){
-		return name + ":" + type.getSimpleName() + ":" + initialValue; 
+		return name + ":" + type.getName() + ":" + initialValue; 
 	}
 
 }

@@ -68,6 +68,7 @@
 */
 package es.eucm.eadventure.gui.extra;
 
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Graphics;
@@ -75,8 +76,6 @@ import java.awt.Graphics2D;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.geom.Area;
-import java.awt.geom.RoundRectangle2D;
 
 import javax.swing.JComponent;
 import javax.swing.JPopupMenu;
@@ -84,10 +83,8 @@ import javax.swing.Timer;
 import javax.swing.border.AbstractBorder;
 
 import es.eucm.eadventure.gui.EAdGUILookAndFeel;
-import es.eucm.eadventure.utils.swing.SwingUtilities;
 
 public class EAdBorder extends AbstractBorder {
-
     private static final long serialVersionUID = -9147851572724474559L;
 
     public static final int BORDER = 5;
@@ -98,13 +95,11 @@ public class EAdBorder extends AbstractBorder {
     
     private Color color = EAdGUILookAndFeel.getForegroundColor();
         
-    private Color borderColor = new Color(color.getRed( ), color.getGreen( ), color.getBlue( ), 60);
+    private Color borderColor = new Color(color.getRed( ), color.getGreen( ), color.getBlue( ), 40);
     	
     private JComponent component = null;
     
-    private Area area1;
-
-    private int oldX, oldY, oldH, oldW, oldDepth;
+    private int width = 1;
     
     public EAdBorder() {
     }
@@ -115,29 +110,24 @@ public class EAdBorder extends AbstractBorder {
 
     public void setColor(Color color) {
         this.color = color;
-        borderColor = new Color(color.getRed( ), color.getGreen( ), color.getBlue( ), 60);
+        borderColor = new Color(color.getRed( ), color.getGreen( ), color.getBlue( ), 40);
         if (component != null)
         	component.repaint( );
     }
-    
-    public void setDepthInmediatly(int newDepth) {
-        if (component != null) {
-            if (effectTimer != null)
-                effectTimer.stop( );
-            depth = newDepth;
-            SwingUtilities.doInEDTNow(new Runnable() {
-            	public void run() {
-                    component.repaint( );
-            	}
-            });
-        }
-    }
 
-    public void setDepth(final int newDepth) {
+    public void hightlight() {
+    	setDepth(10);
+    }
+    
+    public void dehighlight() {
+    	setDepth(0);
+    }
+    
+    private void setDepth(final int newDepth) {
         if (component != null) {
             if (effectTimer != null)
                 effectTimer.stop( );
-            effectTimer = new Timer(30, new ActionListener() { 
+            effectTimer = new Timer(80, new ActionListener() { 
                 public void actionPerformed(ActionEvent evt) { 
                     if (depth > newDepth)
                         depth--;
@@ -163,35 +153,18 @@ public class EAdBorder extends AbstractBorder {
         return depth;
     }
     
-    private void updateAreas(int x, int y, int w, int h) {
-        area1 = new Area(new RoundRectangle2D.Float(x, y + BORDER, w - BORDER - 1, h - BORDER - 1, 6, 6));
-        area1.subtract(new Area(new RoundRectangle2D.Float(x + BORDER -  depth, y + depth, w - BORDER - 1, h - BORDER - 1, 6, 6)));
-        
-		oldX = x;
-		oldY = y;
-		oldH = h;
-		oldW = w;
-		oldDepth = depth;
-    }
-    
-    
     @Override
     public void paintBorder(Component c, Graphics g, int x, int y, int w, int h)
-    {
-    	if (area1 == null || x != oldX || y != oldY || w != oldW || h != oldH	|| depth != oldDepth)
-    		updateAreas(x, y, w, h);
-    	
+    {    	
         Graphics2D g2 = (Graphics2D) g.create();
-
-        if (depth != BORDER) {
-	        g2.setColor(borderColor);
-	        g2.fill(area1);
-        }
         
-        g2.translate( - depth, depth );
+        Color color = new Color(borderColor.getRed(), borderColor.getGreen(), borderColor.getBlue(), borderColor.getAlpha() + (20 * depth));
+        
         g2.setColor(color);
         
-        g2.drawRoundRect(x + BORDER, y, w - BORDER - 1, h - BORDER - 1, 6, 6 );
+        g2.setStroke(new BasicStroke(width));
+        
+        g2.drawRect(x - 1 + width, y  - 1 + width, w - width, h - width );
         
         g2.dispose();
    }
@@ -199,10 +172,10 @@ public class EAdBorder extends AbstractBorder {
     @Override
     public Insets getBorderInsets(Component c) {
         if (c instanceof JPopupMenu)
-            return new Insets(depth + 1 + 3, BORDER - depth + 1 + 3, BORDER - depth + 1 + 3, depth + 1 + 3);
-        return new Insets(depth + 2 + 3, BORDER - depth + 2 + 3, BORDER - depth + 2 + 3, depth + 2 + 3);
+            return new Insets(1, 1, 1, 1);
+        return new Insets(6, 6, 6, 6);
     }
-    
+
     @Override
     public Insets getBorderInsets(Component c, Insets i) {
         return i;
@@ -214,5 +187,18 @@ public class EAdBorder extends AbstractBorder {
     public Color getColor( ) {
         return color;
     }
+
+	public void click() {
+		width = 2;
+    }
+
+	public void unclick() {
+		new Timer(200, new ActionListener() { 
+            public void actionPerformed(ActionEvent evt) { 
+                width = 1;
+            } 
+        }).start();
+	}
+
 
 }

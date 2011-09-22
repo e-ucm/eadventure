@@ -11,10 +11,13 @@ import com.google.inject.Singleton;
 import es.eucm.eadventure.common.model.elements.EAdSceneElement;
 import es.eucm.eadventure.common.model.trajectories.impl.NodeTrajectoryDefinition;
 import es.eucm.eadventure.common.model.trajectories.impl.NodeTrajectoryDefinition.Node;
-import es.eucm.eadventure.common.model.trajectories.impl.NodeTrajectoryDefinition.Side;
+import es.eucm.eadventure.common.model.trajectories.impl.Side;
+import es.eucm.eadventure.common.model.variables.EAdField;
+import es.eucm.eadventure.common.model.variables.impl.EAdFieldImpl;
 import es.eucm.eadventure.common.params.geom.EAdPosition;
 import es.eucm.eadventure.common.params.geom.EAdRectangle;
 import es.eucm.eadventure.common.params.geom.impl.EAdRectangleImpl;
+import es.eucm.eadventure.engine.core.ValueMap;
 import es.eucm.eadventure.engine.core.gameobjects.GameObjectFactory;
 import es.eucm.eadventure.engine.core.gameobjects.SceneElementGO;
 import es.eucm.eadventure.engine.core.trajectories.Path;
@@ -27,15 +30,16 @@ public class NodeTrajectoryGenerator implements
 
 	private Map<NodeTrajectoryDefinition, List<PathSideImpl>> sides;
 	
-	private Map<NodeTrajectoryDefinition, Side> currentSide;
-
 	private GameObjectFactory gameObjectFactory;
 	
+	private ValueMap valueMap;
+	
 	@Inject
-	public NodeTrajectoryGenerator(GameObjectFactory gameObjectFactory) {
+	public NodeTrajectoryGenerator(GameObjectFactory gameObjectFactory,
+			ValueMap valueMap) {
 		sides = new HashMap<NodeTrajectoryDefinition, List<PathSideImpl>>();
-		currentSide = new HashMap<NodeTrajectoryDefinition, Side>();
 		this.gameObjectFactory = gameObjectFactory;
+		this.valueMap = valueMap;
 	}
 	
 	@Override
@@ -97,9 +101,10 @@ public class NodeTrajectoryGenerator implements
         if( bestPath != null ) {
         	//this.nearestX = (int) bestPath.getDestX( );
             //this.nearestY = (int) bestPath.getDestY( );
-            currentSide.put(trajectoryDefinition, ((PathSideImpl) bestPath.getSides().get(0)).getSide());
+            //currentSide.put(trajectoryDefinition, bestPath.getSides().get(0));
             //this.getsTo = bestPath.isGetsTo( );
             bestPath.getSides( );
+            
         }
         else {
             Node currentNode = trajectoryDefinition.getInitial( );
@@ -107,7 +112,7 @@ public class NodeTrajectoryGenerator implements
             //this.nearestY = currentNode.getY( );
             for (PathSideImpl side : getSides(trajectoryDefinition)) {
                 if (side.getStartNode( ) == currentNode) {
-                	currentSide.put(trajectoryDefinition, side.getSide());
+                	//currentSide.put(trajectoryDefinition, side);
                 }
             }
             //this.getsTo = false;
@@ -155,7 +160,8 @@ public class NodeTrajectoryGenerator implements
         			side.getFollowingSides().add(tempSide);
         	}
             if (side.getStartNode( ) == nodeTrajectoryDefinition.getInitial( )) {
-                currentSide.put(nodeTrajectoryDefinition, side.getSide( ));
+        		EAdField<Side> currentSide = new EAdFieldImpl<Side>(nodeTrajectoryDefinition, NodeTrajectoryDefinition.VAR_CURRENT_SIDE);
+        		valueMap.setValue(currentSide, side.getSide());
             }
         }
         sides.put(nodeTrajectoryDefinition, currentSides);
@@ -163,7 +169,8 @@ public class NodeTrajectoryGenerator implements
 	}
 	
 	private Side getCurrentSide(NodeTrajectoryDefinition nodeTrajectoryDefinition) {
-		return currentSide.get(nodeTrajectoryDefinition);
+		Side side = valueMap.getValue(nodeTrajectoryDefinition, NodeTrajectoryDefinition.VAR_CURRENT_SIDE);
+		return side;
 	}
 	
     /**

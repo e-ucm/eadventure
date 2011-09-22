@@ -39,8 +39,15 @@ package es.eucm.eadventure.engine.core.trajectories.impl;
 import java.util.ArrayList;
 import java.util.List;
 
+import es.eucm.eadventure.common.model.effects.EAdEffect;
+import es.eucm.eadventure.common.model.effects.impl.variables.EAdChangeFieldValueEffect;
+import es.eucm.eadventure.common.model.trajectories.TrajectoryDefinition;
+import es.eucm.eadventure.common.model.trajectories.impl.NodeTrajectoryDefinition;
 import es.eucm.eadventure.common.model.trajectories.impl.NodeTrajectoryDefinition.Node;
-import es.eucm.eadventure.common.model.trajectories.impl.NodeTrajectoryDefinition.Side;
+import es.eucm.eadventure.common.model.trajectories.impl.Side;
+import es.eucm.eadventure.common.model.variables.EAdField;
+import es.eucm.eadventure.common.model.variables.impl.EAdFieldImpl;
+import es.eucm.eadventure.common.model.variables.impl.operations.AssignOperation;
 import es.eucm.eadventure.engine.core.trajectories.Path;
 import es.eucm.eadventure.engine.core.trajectories.PathSide;
 
@@ -51,7 +58,7 @@ public class PathImpl implements Comparable<PathImpl>, Path {
     private List<PathSide> sides;
     
     private List<Node> nodes;
-
+    
     private float destX;
 
     private float destY;
@@ -170,6 +177,12 @@ public class PathImpl implements Comparable<PathImpl>, Path {
 
 	public List<Node> getNodes() {
 		return nodes;
+	}
+
+	@Override
+	public EAdEffect getChangeSideEffect(PathSide p, TrajectoryDefinition trajectory) {
+		EAdField<Side> currentSide = new EAdFieldImpl<Side>(trajectory, NodeTrajectoryDefinition.VAR_CURRENT_SIDE);
+		return new EAdChangeFieldValueEffect("changeSide", currentSide, new AssignOperation(((PathSideImpl) p).getSide()));
 	}
 	
 }

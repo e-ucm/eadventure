@@ -6,8 +6,8 @@ public interface PathSide {
 
 	float getLenght();
 
-	EAdPosition getEndPosition();
-
 	float getSpeedFactor();
+
+	EAdPosition getEndPosition(boolean last);
 
 }
