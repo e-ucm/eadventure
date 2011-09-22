@@ -15,7 +15,7 @@ public class DemoSelectionActivity extends ListActivity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setListAdapter(new ArrayAdapter<String>( this, R.layout.list_item, SceneDemos.getInstance().getSceneDemosDescriptions() ));
+		setListAdapter(new ArrayAdapter<String>( this, R.layout.demo_selection_listitem, SceneDemos.getInstance().getSceneDemosDescriptions() ));
 		
 		ListView lv = this.getListView();
 		

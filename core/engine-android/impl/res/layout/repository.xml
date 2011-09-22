@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="fill_parent" android:layout_height="fill_parent">
+        
+	<ViewFlipper android:id="@+id/repository_activity_flipper"		
+	android:layout_height="fill_parent" android:layout_width="fill_parent">     
+	     	
+        <ListView android:id="@android:id/list" android:layout_width="wrap_content"
+			android:layout_height="wrap_content" android:layout_below="@+id/LinearLayout01"/>  
+		
+		<FrameLayout android:id="@+id/detailed_game_f_layout"
+			android:layout_width="fill_parent" android:layout_height="fill_parent"
+			xmlns:android="http://schemas.android.com/apk/res/android">
+			<ScrollView android:id="@+id/ScrollView01"
+				android:layout_width="fill_parent" android:fadeScrollbars="true"
+				android:scrollbars="vertical" android:layout_height="fill_parent">
+				<FrameLayout android:id="@+id/FrameLayout01"
+					android:layout_width="fill_parent" android:layout_gravity="top"
+					android:layout_height="wrap_content">
+					<LinearLayout android:id="@+id/LinearLayout02"
+						android:orientation="vertical" android:layout_width="fill_parent"
+						android:layout_height="fill_parent">
+						<LinearLayout android:id="@+id/detailed_game_linear_layout"
+							android:layout_gravity="top" android:layout_width="fill_parent"
+							android:layout_height="wrap_content" android:paddingBottom="20dip"
+							android:paddingTop="20dip" android:paddingRight="20dip"
+							android:paddingLeft="20dip">
+							<ImageView android:id="@+id/detailed_game_image_icon"
+								android:layout_width="wrap_content" android:layout_height="wrap_content"
+								android:src="@drawable/icon">
+							</ImageView>
+							<LinearLayout android:id="@+id/LinearLayout01"
+								android:layout_height="fill_parent" android:layout_width="fill_parent"
+								android:layout_marginLeft="20dip">
+
+								<TextView android:text="No title" android:id="@+id/detailed_game_title"
+									android:layout_width="fill_parent" android:layout_height="wrap_content"
+									android:gravity="center_horizontal" android:layout_gravity="center_vertical"
+									android:textSize="20dip"/>
+
+							</LinearLayout>
+						</LinearLayout>
+						<TextView android:id="@+id/detailed_game_description"
+							android:layout_width="fill_parent" android:text="No description"
+							android:layout_height="fill_parent" android:layout_marginLeft="20dip"
+							android:layout_marginRight="20dip">
+						</TextView>
+						<Button android:text="Download" android:id="@+id/detailed_game_download_button"
+							android:layout_height="wrap_content" android:layout_gravity="bottom|center_horizontal"
+							android:layout_width="fill_parent"/>
+					</LinearLayout>
+				</FrameLayout>
+			</ScrollView>
+		</FrameLayout>		
+		
+		<TextView android:id="@android:id/empty" android:text="@string/no_connection"
+			android:layout_height="fill_parent" android:layout_width="fill_parent"
+			android:gravity="center_vertical|center_horizontal"
+			android:layout_alignParentBottom="true" />  	       
+
+	</ViewFlipper>
+</LinearLayout>
