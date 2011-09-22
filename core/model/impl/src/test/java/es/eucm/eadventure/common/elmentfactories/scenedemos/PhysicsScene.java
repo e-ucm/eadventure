@@ -36,19 +36,16 @@ import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.shapes.Re
 public class PhysicsScene extends EmptyScene {
 
 	public PhysicsScene() {
-		this.setBackgroundFill(new EAdLinearGradient(EAdColor.BLUE,
-				EAdColor.CYAN));
+		init();
+	}
+	
+	protected void init(){
+		setBackgroundFill(new EAdLinearGradient(EAdColor.CYAN,
+				EAdColor.BLUE));
 		EAdBasicSceneElement e = EAdElementsFactory.getInstance()
 				.getSceneElementFactory()
 				.createSceneElement("GO Physics!", 400, 200);
 		e.setPosition(new EAdPositionImpl(Corner.CENTER, 400, 100));
-
-		RectangleShape groundS = new RectangleShape(750, 20);
-		groundS.setFill(new EAdLinearGradient(EAdColor.BROWN,
-				EAdColor.DARK_BROWN));
-		EAdBasicSceneElement ground = new EAdBasicSceneElement("ground",
-				groundS);
-		ground.setPosition(new EAdPositionImpl(Corner.CENTER, 400, 545));
 
 		getSceneElements().add(e);
 
@@ -59,8 +56,7 @@ public class PhysicsScene extends EmptyScene {
 		EAdPhysicsEffect effect = new EAdPhysicsEffect();
 		effect.addSceneElement(e);
 		effect.addSceneElement(e2);
-		effect.addSceneElement(ground);
-		getSceneElements().add(ground);
+
 
 		e.setVarInitialValue(EAdPhysicsEffect.VAR_PH_TYPE, PhType.DYNAMIC);
 		e.setVarInitialValue(EAdBasicSceneElement.VAR_ROTATION,
@@ -75,22 +71,49 @@ public class PhysicsScene extends EmptyScene {
 
 		getEvents().add(event);
 
-		e.addBehavior(EAdMouseEventImpl.MOUSE_LEFT_CLICK, new PhApplyForce(e,
+		getBackground().addBehavior(EAdMouseEventImpl.MOUSE_LEFT_CLICK, new PhApplyForce(e,
 				new EAdPositionImpl(0, 100)));
 
-		addCanon();
+		addCanon(effect);
+		addWalls(effect);
 	}
 
 	@Override
 	public String getDescription() {
 		return "A scene showing the use of jbox2d";
 	}
+	
+
+	protected void addWalls(EAdPhysicsEffect effect) {
+		RectangleShape groundS = new RectangleShape(750, 50);
+		groundS.setFill(new EAdLinearGradient(EAdColor.BROWN,
+				EAdColor.DARK_BROWN));
+		EAdBasicSceneElement ground = new EAdBasicSceneElement("ground",
+				groundS);
+		ground.setPosition(new EAdPositionImpl(Corner.CENTER, 400, 545));
+		
+		EAdBasicSceneElement wall = new EAdBasicSceneElement("wall", groundS);
+		wall.setPosition(new EAdPositionImpl(Corner.CENTER, 775, 300 ));
+		wall.setVarInitialValue(EAdBasicSceneElement.VAR_ROTATION, (float) Math.PI / 2.0f);
+		
+		EAdBasicSceneElement wall2 = new EAdBasicSceneElement("wall", groundS);
+		wall2.setPosition(new EAdPositionImpl(Corner.CENTER, 25, 300 ));
+		wall2.setVarInitialValue(EAdBasicSceneElement.VAR_ROTATION, (float) Math.PI / 2.0f);
+		
+		effect.addSceneElement(ground);
+		getSceneElements().add(ground);
+		effect.addSceneElement(wall);
+		getSceneElements().add(wall);
+		effect.addSceneElement(wall2);
+		getSceneElements().add(wall2);
+		
+	}
 
 	public String getDemoName() {
 		return "Physics Scene";
 	}
 
-	private void addCanon() {
+	private void addCanon(EAdPhysicsEffect effect) {
 
 		EAdBasicSceneElement canyon = new EAdBasicSceneElement("canyon",
 				new ImageImpl("@drawable/canyon.png"));

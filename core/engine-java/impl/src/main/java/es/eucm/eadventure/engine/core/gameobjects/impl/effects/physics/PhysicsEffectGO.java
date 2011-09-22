@@ -2,6 +2,7 @@ package es.eucm.eadventure.engine.core.gameobjects.impl.effects.physics;
 
 import java.util.ArrayList;
 
+import org.jbox2d.collision.shapes.CircleShape;
 import org.jbox2d.collision.shapes.PolygonShape;
 import org.jbox2d.collision.shapes.Shape;
 import org.jbox2d.common.Vec2;
@@ -73,7 +74,8 @@ public class PhysicsEffectGO extends AbstractEffectGO<EAdPhysicsEffect> {
 			Shape s = null;
 			switch (phShape) {
 			case CIRCULAR:
-				// TODO
+				s = new CircleShape();
+				s.m_radius = width / 2;
 				break;
 			default:
 				s = new PolygonShape();

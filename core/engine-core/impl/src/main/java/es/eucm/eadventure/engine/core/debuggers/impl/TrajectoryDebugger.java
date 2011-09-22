@@ -110,7 +110,7 @@ public class TrajectoryDebugger implements EAdDebugger {
 		}
 
 		for (Node n : trajectory.getNodes()) {
-			CircleShape circle = new CircleShape(n.getX(), n.getY(), 20);
+			CircleShape circle = new CircleShape(n.getX(), n.getY(), 20, 20);
 			EAdColor color = trajectory.getInitial() == n ? EAdColor.RED
 					: EAdColor.BLUE;
 

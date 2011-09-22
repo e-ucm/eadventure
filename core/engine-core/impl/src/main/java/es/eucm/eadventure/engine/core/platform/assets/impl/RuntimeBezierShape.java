@@ -55,20 +55,26 @@ public abstract class RuntimeBezierShape extends AbstractRuntimeAsset<BezierShap
 	public boolean loadAsset(){
 		int point = 0;
 		
-		EAdPositionImpl p = descriptor.getPoints().get(point);
-		int xMax = p.getX();
-		int xMin = p.getX();
-		int yMax = p.getY();
-		int yMin = p.getY(); 
+		EAdPositionImpl p = null;
+		int xMax = Integer.MIN_VALUE;
+		int xMin = Integer.MAX_VALUE;
+		int yMax = Integer.MIN_VALUE;
+		int yMin = Integer.MAX_VALUE; 
 		
 		for ( Integer i : descriptor.getSegmentsLength() ){
-			point += i;
 			p = descriptor.getPoints().get(point);
 			xMax = xMax < p.getX() ? p.getX() : xMax;
 			xMin = xMin > p.getX() ? p.getX() : xMin;
 			yMax = yMax < p.getY() ? p.getY() : yMax;
 			yMin = yMin > p.getY() ? p.getY() : yMin;
+			point += i;
 		}
+		
+		p = descriptor.getPoints().get(point);
+		xMax = xMax < p.getX() ? p.getX() : xMax;
+		xMin = xMin > p.getX() ? p.getX() : xMin;
+		yMax = yMax < p.getY() ? p.getY() : yMax;
+		yMin = yMin > p.getY() ? p.getY() : yMin;
 		
 		width = xMax - xMin;
 		height = yMax - yMin;

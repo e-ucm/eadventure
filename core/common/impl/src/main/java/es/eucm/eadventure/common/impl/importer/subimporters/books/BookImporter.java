@@ -162,7 +162,7 @@ public class BookImporter implements EAdElementImporter<Book, EAdScene> {
 						column++;
 						dispY = TEXT_Y;
 					}
-					CircleShape bullet = new CircleShape(0, 0, BULLET_WIDTH / 3);
+					CircleShape bullet = new CircleShape(0, 0, BULLET_WIDTH / 3, 20);
 					bullet.setFill(EAdColor.BLACK);
 					image.addDrawable(bullet, getDispX() + BULLET_WIDTH / 2,
 							dispY + LINE_HEIGHT / 2);

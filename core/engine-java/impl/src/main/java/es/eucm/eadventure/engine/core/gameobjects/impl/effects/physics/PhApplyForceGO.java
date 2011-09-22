@@ -6,7 +6,7 @@ import org.jbox2d.dynamics.Body;
 import com.google.inject.Inject;
 
 import es.eucm.eadventure.common.model.effects.impl.physics.PhApplyForce;
-import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
+import es.eucm.eadventure.common.params.geom.EAdPosition;
 import es.eucm.eadventure.common.resources.StringHandler;
 import es.eucm.eadventure.engine.core.GameState;
 import es.eucm.eadventure.engine.core.ValueMap;
@@ -32,12 +32,8 @@ public class PhApplyForceGO extends AbstractEffectGO<PhApplyForce>{
 		super.initilize();
 		Body b = valueMap.getValue(element.getElement(), PhysicsEffectGO.VAR_PH_BODY);
 		if ( b != null ){
-//			EAdPosition p = element.getForce();
-			int x = valueMap.getValue(element.getElement(), EAdBasicSceneElement.VAR_X);
-			int y = valueMap.getValue(element.getElement(), EAdBasicSceneElement.VAR_Y);
-			b.setLinearVelocity(new Vec2(x, y));
-			
-			
+			EAdPosition p = element.getForce();
+			b.setLinearVelocity(new Vec2(p.getX(), p.getY()));
 		}
 	}
 
