@@ -72,8 +72,6 @@ import java.awt.Color;
 import java.awt.LayoutManager;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
 
 import javax.swing.JPanel;
 

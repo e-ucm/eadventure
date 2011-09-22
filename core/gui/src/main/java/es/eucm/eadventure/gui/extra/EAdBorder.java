@@ -83,7 +83,6 @@ import javax.swing.Timer;
 import javax.swing.border.AbstractBorder;
 
 import es.eucm.eadventure.gui.EAdGUILookAndFeel;
-import es.eucm.eadventure.utils.swing.SwingUtilities;
 
 public class EAdBorder extends AbstractBorder {
     private static final long serialVersionUID = -9147851572724474559L;
