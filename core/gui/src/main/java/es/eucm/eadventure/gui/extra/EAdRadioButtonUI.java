@@ -83,10 +83,9 @@ public class EAdRadioButtonUI extends BasicRadioButtonUI {
             e.printStackTrace();
         }
         
-        radioButton.setBackground(EAdGUILookAndFeel.getBackgroundColor());
+        radioButton.setBackground(radioButton.isEnabled() ? EAdGUILookAndFeel.getBackgroundColor() : EAdGUILookAndFeel.getDisabledColor());
         radioButton.setForeground(EAdGUILookAndFeel.getForegroundColor());
         
-        radioButton.setContentAreaFilled( false );
         radioButton.setFocusPainted( false );
         radioButton.setBorderPainted( true );
 

@@ -67,10 +67,9 @@ public class EAdToggleButtonUI extends BasicToggleButtonUI {
 
 		border = new EAdBorder(c);
 
-		button.setBackground(EAdGUILookAndFeel.getBackgroundColor());
+		button.setBackground(button.isEnabled() ? EAdGUILookAndFeel.getBackgroundColor() : EAdGUILookAndFeel.getDisabledColor());
 		button.setForeground(EAdGUILookAndFeel.getForegroundColor());
 
-		button.setContentAreaFilled( false );
 		button.setFocusPainted( false );
 		button.setBackground( EAdGUILookAndFeel.getBackgroundColor() );
 		button.setBorder( border );

@@ -49,6 +49,7 @@ import java.beans.PropertyChangeListener;
 import javax.swing.JComponent;
 
 import es.eucm.eadventure.gui.EAdGUILookAndFeel;
+import es.eucm.eadventure.utils.swing.SwingUtilities;
 
 public class EAdButtonListener implements FocusListener, MouseListener, ActionListener, PropertyChangeListener {
 
@@ -112,6 +113,12 @@ public class EAdButtonListener implements FocusListener, MouseListener, ActionLi
 	@Override
 	public void propertyChange(PropertyChangeEvent arg0) {
     	this.enabled = button.isEnabled();
+    	button.setBackground(enabled ? EAdGUILookAndFeel.getBackgroundColor() : EAdGUILookAndFeel.getDisabledColor());
+        SwingUtilities.doInEDTNow( new Runnable( ) {
+            public void run( ) {
+            	button.repaint( );
+            }
+       } );
 	}
 
 }
