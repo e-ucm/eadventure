@@ -157,8 +157,8 @@ public class PhysicsScene extends EmptyScene {
 		event.addEffect(SceneElementEvent.ALWAYS, followMouse);
 		canyon.getEvents().add(event);
 
-		effect.addSceneElement(canyon);
-		effect.addSceneElement(canyonSupport);
+//		effect.addSceneElement(canyon);
+//		effect.addSceneElement(canyonSupport);
 
 		getSceneElements().add(canyon);
 		getSceneElements().add(canyonSupport);

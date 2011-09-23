@@ -50,6 +50,8 @@ public class DesktopAction extends EAdBasicSceneElement {
 				EAdMouseEventImpl.MOUSE_EXITED,
 				new EAdChangeAppearance("action_mouseExit", this, this
 						.getInitialBundle()));
+		
+		this.setVarInitialValue(EAdBasicSceneElement.VAR_NAME, eAdAction.getName());
 	}
 
 }

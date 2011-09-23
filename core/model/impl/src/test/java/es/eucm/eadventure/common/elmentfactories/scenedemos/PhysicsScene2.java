@@ -33,9 +33,9 @@ public class PhysicsScene2 extends PhysicsScene {
 
 		EAdBasicSceneElement e2 = new EAdBasicSceneElement("e2", rShape);
 		getSceneElements().add(e2);
-		e2.setPosition(new EAdPositionImpl(Corner.CENTER, 500, 300));
+		e2.setPosition(new EAdPositionImpl(Corner.CENTER, 500, 200));
 		e2.setVarInitialValue(EAdBasicSceneElement.VAR_ROTATION,
-				(float) Math.PI / 2.0f);
+				(float) Math.PI / 4.0f);
 
 		EAdPhysicsEffect effect = new EAdPhysicsEffect();
 		effect.addSceneElement(e2);
@@ -51,6 +51,20 @@ public class PhysicsScene2 extends PhysicsScene {
 		BezierShape circle = new CircleShape(20, 20, 20, 25);
 		circle.setFill(new EAdLinearGradient(EAdColor.LIGHT_GRAY,
 				EAdColor.BLACK));
+
+		EAdBasicSceneElement b = new EAdBasicSceneElement("ball", circle);
+		b.setPosition(new EAdPositionImpl(Corner.CENTER, 500, 0));
+		getSceneElements().add(b, 0);
+		effect.addSceneElement(b);
+		b.setVarInitialValue(EAdPhysicsEffect.VAR_PH_TYPE, PhType.DYNAMIC);
+		getBackground().addBehavior(
+				EAdMouseEventImpl.MOUSE_LEFT_CLICK,
+				new PhApplyImpluse(b, new LiteralExpressionOperation(
+						"xImpulse", "0"), new LiteralExpressionOperation(
+						"yImpulse", "-100")));
+		b.setVarInitialValue(EAdPhysicsEffect.VAR_PH_RESTITUTION, 0.3f);
+		b.setVarInitialValue(EAdPhysicsEffect.VAR_PH_SHAPE, PhShape.CIRCULAR);
+
 		for (int i = 0; i < 5; i++)
 			for (int j = 0; j < 5; j++) {
 				EAdBasicSceneElement e = new EAdBasicSceneElement("ball" + i
