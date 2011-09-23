@@ -97,6 +97,8 @@ public class EAdGUILookAndFeel extends BasicLookAndFeel {
     
     private Color forgroundColor = Color.BLACK;
     
+    private Color disabledColor = new Color(240, 240, 240);
+    
     private ColorUIResource focusColor = new ColorUIResource(Color.BLUE);
     
     static {
@@ -171,7 +173,6 @@ public class EAdGUILookAndFeel extends BasicLookAndFeel {
             UIManager.put("TabbedPane.focus", backgroundColor);
             UIManager.put("ComboBox.disabledBackground", backgroundColor);
             
-            
             UIManager.put("Panel.background", backgroundColor);
             UIManager.put("MenuBar.background", backgroundColor);
             UIManager.put("Menu.background", backgroundColor);
@@ -242,6 +243,13 @@ public class EAdGUILookAndFeel extends BasicLookAndFeel {
 	 */
 	public static Color getForegroundColor() {
 		return instance.forgroundColor;
+	}
+
+	/**
+	 * @return the disabledColor
+	 */
+	public static Color getDisabledColor() {
+		return instance.disabledColor;
 	}
 
 

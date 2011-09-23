@@ -66,8 +66,9 @@ public class EAdButtonUI extends BasicButtonUI {
 		EAdBorder border = new EAdBorder(c);
 
 		button.setForeground(EAdGUILookAndFeel.getForegroundColor());
+		button.setBackground(button.isEnabled() ? EAdGUILookAndFeel.getBackgroundColor() : EAdGUILookAndFeel.getDisabledColor());
 
-		button.setContentAreaFilled( false );
+		button.setContentAreaFilled( true );
 		button.setFocusPainted( false );
 		
 		button.setBorder( border );
