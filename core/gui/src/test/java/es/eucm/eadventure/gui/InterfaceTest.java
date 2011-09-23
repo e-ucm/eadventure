@@ -122,6 +122,13 @@ public class InterfaceTest extends EAdFrame {
         textField4.setEnabled(false);
         panel.add(textField4);
 
+        EAdTextField textField5 = new EAdTextField("name", 15);
+        panel.add(textField5);
+        EAdTextField textField6 = new EAdTextField("description", 15);
+        textField6.setEnabled(false);
+        panel.add(textField6);
+
+        
         JToggleButton toggleButton = new JToggleButton("toggle button");
         panel.add(toggleButton);
         JToggleButton toggleButton2 = new JToggleButton("toggle button");

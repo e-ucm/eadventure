@@ -57,6 +57,10 @@ public class EAdTextField extends JTextField {
     
     private Color borderColor;
     
+    private String title = null;
+    
+    private int titleLength = 0;
+    
     public EAdTextField(int size) {
         super(size);
         initialize();
@@ -67,9 +71,18 @@ public class EAdTextField extends JTextField {
         initialize();
     }
     
-    public EAdTextField(String string){
-    	super(string);
+    public EAdTextField(String title, int size){
+    	super(size);
+    	setTitle(title);
     	initialize();
+    }
+    
+    private void setTitle(String title) {
+    	this.title = title;
+    	if (title != null) {
+    		FontMetrics metrics = getFontMetrics(getFont());
+    		titleLength = metrics.stringWidth(title) + 10;
+    	}
     }
     
     private void initialize() {
@@ -95,16 +108,13 @@ public class EAdTextField extends JTextField {
         if (isEnabled( ))
             setBackground( EAdGUILookAndFeel.getBackgroundColor() );
         else
-            setBackground( new Color(240, 240, 240));
+            setBackground( EAdGUILookAndFeel.getDisabledColor());
     }
     
     @Override
     public void setEnabled(boolean enabled) {
         super.setEnabled(enabled);
-    	if (enabled)
-            setBackground( EAdGUILookAndFeel.getBackgroundColor() );
-        else
-            setBackground( new Color(240, 240, 240));
+        setBackground( enabled ? EAdGUILookAndFeel.getBackgroundColor() : EAdGUILookAndFeel.getDisabledColor());
     }
     
     @Override
@@ -114,19 +124,26 @@ public class EAdTextField extends JTextField {
         g.drawRect( 0, 0, this.getWidth( ) - 1, this.getHeight( ) - 1 );
         g.setColor(temp);
     }
+    
  
     @Override
     public void paintComponent(Graphics g) {
-        ((Graphics2D) g).setRenderingHint( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );
-        ((Graphics2D) g).setRenderingHint( RenderingHints.KEY_DITHERING, RenderingHints.VALUE_DITHER_ENABLE );
         ((Graphics2D) g).setRenderingHint( RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON );
 
         super.paintComponent(g);
         if (this.isEditable( ) && getToolTipText( ) != null && (this.getText( ) == null || this.getText( ).equals( "" ))) {
             Color temp = g.getColor( );
             g.setColor( Color.LIGHT_GRAY );
-            g.drawString( getToolTipText(), 6, (getHeight( ) - g.getFontMetrics( ).getHeight( ) ) / 2 + g.getFontMetrics( ).getAscent());
+            g.drawString( getToolTipText(), 6 + titleLength, (getHeight( ) - g.getFontMetrics( ).getHeight( ) ) / 2 + g.getFontMetrics( ).getAscent());
             g.setColor( temp );
+        }
+        
+        if (title != null) {
+	    	Color temp = g.getColor();
+	        g.setColor( borderColor );
+	        	g.drawLine(titleLength, 0, titleLength, this.getHeight());
+	        g.setColor(temp);
+	        g.drawString(title, 6, (getHeight( ) - g.getFontMetrics( ).getHeight( ) ) / 2 + g.getFontMetrics( ).getAscent());
         }
     }
     
@@ -153,7 +170,7 @@ public class EAdTextField extends JTextField {
     
     @Override
     public Insets getInsets() {
-    	return new Insets(5, 5, 5, 5);
+    	return new Insets(5, 5 + titleLength, 5, 5);
     }
 
 }
