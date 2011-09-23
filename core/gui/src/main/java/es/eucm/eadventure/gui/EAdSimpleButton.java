@@ -193,15 +193,11 @@ public class EAdSimpleButton extends JButton {
 	    public void paintBorder(Component c, Graphics g, int x, int y, int w, int h) {
 	    	Stroke s = ((Graphics2D) g).getStroke();
 	    	Color color = g.getColor();
-	    	((Graphics2D) g).setStroke(new BasicStroke(3.0f));
+	    	((Graphics2D) g).setStroke(new BasicStroke(1.0f));
 	    	
-	    	if (isFocusOwner()) {
-	    		g.setColor(EAdGUILookAndFeel.getFocusColor());
-	    		g.drawRoundRect(x, y, w - 1, h - 1, 6, 6);
-	    	} else {
-	    		g.setColor(EAdGUILookAndFeel.getForegroundColor());
-	    		g.drawRoundRect(x, y, w - 1, h - 1, 6, 6);
-	    	}
+	    	g.setColor(isFocusOwner() ? EAdGUILookAndFeel.getFocusColor(): EAdGUILookAndFeel.getForegroundColor());
+    		
+	    	g.drawRect(x, y, w - 1, h - 1);
 	    	
 	    	((Graphics2D) g).setStroke(s);
 	    	g.setColor(color);

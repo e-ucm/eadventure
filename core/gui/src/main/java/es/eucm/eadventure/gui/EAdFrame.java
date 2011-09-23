@@ -40,9 +40,7 @@ package es.eucm.eadventure.gui;
 import java.awt.AlphaComposite;
 import java.awt.BorderLayout;
 import java.awt.Component;
-import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.RenderingHints;
 import java.awt.image.BufferedImage;
 import java.awt.image.BufferedImageOp;
 
@@ -91,13 +89,6 @@ public class EAdFrame extends JFrame {
 
     	glass = new EAdGlassPane(this);
         super.add( glass, EAdBorderLayout.GLASS );
-    }
-    
-    public void paintComponents(Graphics g) {
-        ((Graphics2D) g).setRenderingHint( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );
-        ((Graphics2D) g).setRenderingHint( RenderingHints.KEY_DITHERING, RenderingHints.VALUE_DITHER_ENABLE );
-        ((Graphics2D) g).setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
-        super.paintComponents(g);
     }
     
     public void addModalPanel( final JPanel modalPanel ) {

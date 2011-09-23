@@ -40,7 +40,9 @@ package es.eucm.eadventure.gui;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.Insets;
+import java.awt.RenderingHints;
 
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
@@ -63,7 +65,8 @@ public class EAdTitlePanel extends JPanel {
 
 		@Override
 	    public void paintBorder(Component comp, Graphics g, int x, int y, int w, int h) {
-    		Color c = EAdGUILookAndFeel.getForegroundColor();
+		    ((Graphics2D) g).setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
+		    Color c = EAdGUILookAndFeel.getForegroundColor();
     		g.setColor(new Color(c.getRed(), c.getGreen(), c.getBlue(), 60));
 			g.drawRect(x, y, w - 1, h - 1);
 	    }
