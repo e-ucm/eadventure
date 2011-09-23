@@ -173,10 +173,9 @@ public class PhysicsScene extends EmptyScene {
 				EAdBasicSceneElement.appearance, circle);
 
 		PhApplyImpluse applyForce = new PhApplyImpluse();
-		float scale = 50;
-		applyForce.setForce(new LiteralExpressionOperation("sin([0]) * "
-				+ scale, rotationField), new LiteralExpressionOperation(
-				"cos([0]) * " + scale, rotationField));
+		applyForce.setForce(new LiteralExpressionOperation("[0] - [1]", mouseX,
+				canyonX), new LiteralExpressionOperation("[0] - [1]", mouseY,
+				canyonY));
 		EAdAddActorReferenceEffect addEffect = new EAdAddActorReferenceEffect(
 				bullet, new EAdPositionImpl(Corner.CENTER, 140, 470),
 				applyForce);
