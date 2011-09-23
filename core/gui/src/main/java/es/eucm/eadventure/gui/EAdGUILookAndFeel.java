@@ -202,7 +202,7 @@ public class EAdGUILookAndFeel extends BasicLookAndFeel {
 				basicPackageName + "BasicToolBarUI", "ToolTipUI",
 				basicPackageName + "BasicToolTipUI", "TreeUI",
 				basicPackageName + "BasicTreeUI", "RootPaneUI",
-				basicPackageName + "BasicRootPaneUI", };
+				basicPackageName + "BasicRootPaneUI", "SpinnerUI", eadPackageName + "EAdSpinnerUI"};
 
 		table.putDefaults(uiDefaults);
 	}

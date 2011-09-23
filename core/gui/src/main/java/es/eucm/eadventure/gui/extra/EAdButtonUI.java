@@ -72,7 +72,7 @@ public class EAdButtonUI extends BasicButtonUI {
 		button.setFocusPainted( false );
 		
 		button.setBorder( border );
-		EAdButtonListener eAdButtonListener = new EAdButtonListener( border, button );
+		EAdBorderListener eAdButtonListener = new EAdBorderListener( border, button );
 		button.addFocusListener(eAdButtonListener);
 		button.addMouseListener(eAdButtonListener);
 		button.addActionListener(eAdButtonListener);

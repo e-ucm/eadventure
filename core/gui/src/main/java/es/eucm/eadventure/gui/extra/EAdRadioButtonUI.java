@@ -95,7 +95,7 @@ public class EAdRadioButtonUI extends BasicRadioButtonUI {
         EAdBorder border = new EAdBorder(radioButton);
         radioButton.setBorder( border );
 
-        EAdButtonListener eAdButtonListener = new EAdButtonListener( border, radioButton );
+        EAdBorderListener eAdButtonListener = new EAdBorderListener( border, radioButton );
         radioButton.addMouseListener(eAdButtonListener);
         radioButton.addFocusListener(eAdButtonListener);
         radioButton.addActionListener(eAdButtonListener);

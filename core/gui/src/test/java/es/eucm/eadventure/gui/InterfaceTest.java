@@ -49,7 +49,10 @@ import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
+import javax.swing.JSpinner;
 import javax.swing.JToggleButton;
+import javax.swing.SpinnerModel;
+import javax.swing.SpinnerNumberModel;
 import javax.swing.WindowConstants;
 
 import es.eucm.eadventure.gui.extra.EAdModalPanel;
@@ -152,6 +155,11 @@ public class InterfaceTest extends EAdFrame {
 
         EAdSimpleButton simpleButton = new EAdSimpleButton(EAdSimpleButton.SimpleButton.REDO);
         panel.add(simpleButton);
+
+        SpinnerModel model = new SpinnerNumberModel(0, 0, 10, 1);
+        JSpinner spinner = new JSpinner(model);
+        panel.add(spinner);
+        
         
         EAdTabbedPane pane = new EAdTabbedPane();
         JPanel tab1 = new JPanel();

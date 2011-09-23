@@ -51,17 +51,17 @@ import javax.swing.JComponent;
 import es.eucm.eadventure.gui.EAdGUILookAndFeel;
 import es.eucm.eadventure.utils.swing.SwingUtilities;
 
-public class EAdButtonListener implements FocusListener, MouseListener, ActionListener, PropertyChangeListener {
+public class EAdBorderListener implements FocusListener, MouseListener, ActionListener, PropertyChangeListener {
 
 	private EAdBorder border;
 	
-	private JComponent button;
+	private JComponent component;
 	
 	private boolean enabled = true;
 	
-	public EAdButtonListener(EAdBorder border, JComponent button) {
+	public EAdBorderListener(EAdBorder border, JComponent component) {
 		this.border = border;
-		this.button = button;
+		this.component = component;
 	}
 	
 	@Override
@@ -73,7 +73,7 @@ public class EAdButtonListener implements FocusListener, MouseListener, ActionLi
 	@Override
 	public void focusLost(FocusEvent arg0) {
         border.setColor( EAdGUILookAndFeel.getForegroundColor() );
-        if (button.getMousePosition() != null || button.hasFocus())
+        if (component.getMousePosition() != null || component.hasFocus())
         	border.hightlight();
         else
         	border.dehighlight();
@@ -109,7 +109,7 @@ public class EAdButtonListener implements FocusListener, MouseListener, ActionLi
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
 		border.click();
-        if (button.getMousePosition() != null || button.hasFocus())
+        if (component.getMousePosition() != null || component.hasFocus())
         	border.hightlight();
         else
         	border.dehighlight();
@@ -117,11 +117,11 @@ public class EAdButtonListener implements FocusListener, MouseListener, ActionLi
 	
 	@Override
 	public void propertyChange(PropertyChangeEvent arg0) {
-    	this.enabled = button.isEnabled();
-    	button.setBackground(enabled ? EAdGUILookAndFeel.getBackgroundColor() : EAdGUILookAndFeel.getDisabledColor());
+    	this.enabled = component.isEnabled();
+    	component.setBackground(enabled ? EAdGUILookAndFeel.getBackgroundColor() : EAdGUILookAndFeel.getDisabledColor());
         SwingUtilities.doInEDTNow( new Runnable( ) {
             public void run( ) {
-            	button.repaint( );
+            	component.repaint( );
             }
        } );
 	}

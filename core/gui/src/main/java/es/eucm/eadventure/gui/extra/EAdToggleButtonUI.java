@@ -74,7 +74,7 @@ public class EAdToggleButtonUI extends BasicToggleButtonUI {
 		button.setFocusPainted( false );
 		button.setBackground( EAdGUILookAndFeel.getBackgroundColor() );
 		button.setBorder( border );
-		EAdButtonListener eAdButtonListener = new EAdButtonListener( border, button );
+		EAdBorderListener eAdButtonListener = new EAdBorderListener( border, button );
 		button.addFocusListener(eAdButtonListener);
 		button.addMouseListener(eAdButtonListener);
 		button.addActionListener(eAdButtonListener);
