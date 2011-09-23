@@ -138,13 +138,13 @@ public class EAdComboBoxUI extends BasicComboBoxUI {
             } );
         }
     }
-/*
+	
 	@Override
 	public Dimension getPreferredSize(JComponent c) {
 		Dimension d = super.getPreferredSize(c);
-        return new Dimension(d.width + 8, d.height - 12);
+        return new Dimension(Math.max(d.width, 30), Math.max(d.height, 12));
 	}
-	*/
+	
     @Override
     protected LayoutManager createLayoutManager() {
         return new LayoutManager() {
