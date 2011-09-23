@@ -13,6 +13,9 @@
 					<active flag="FlagId"/>
 				</condition>
 			</exit>
+			<exit destinyX="-2147483648" destinyY="-2147483648" hasInfluenceArea="yes" height="151" idTarget="SceneId2" influenceHeight="140" influenceWidth="140" influenceX="4" influenceY="-7" not-effects="no" rectangular="yes" transitionTime="0" transitionType="0" width="147" x="287" y="365">
+				<exit-look cursor-path="gui/cursors/ViewResults.png" text="Go to another place"/>
+			</exit>
 		</exits>
 		<objects>
 			<object-ref hasInfluenceArea="no" idTarget="ItemId" layer="2" scale="1.0324324" x="640" y="555"/>
@@ -89,6 +92,13 @@
 		<atrezzo>
 			<atrezzo-ref idTarget="AtrezzoId" layer="0" scale="1.0" x="583" y="337"/>
 		</atrezzo>
+	</scene>
+	<scene id="SceneId2" playerLayer="-1" playerScale="1.0" start="no">
+		<resources name="No name">
+			<asset type="background" uri="assets/background/anotherBackground.jpg"/>
+		</resources>
+		<name/>
+		<default-initial-position x="400" y="300"/>
 	</scene>
 	<book id="BookId" xNextPage="99" xPreviousPage="18" yNextPage="32" yPreviousPage="31">
 		<resources name="No name">

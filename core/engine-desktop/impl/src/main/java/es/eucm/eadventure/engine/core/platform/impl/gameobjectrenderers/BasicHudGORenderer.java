@@ -43,6 +43,8 @@ import java.util.logging.Logger;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
+import es.eucm.eadventure.common.model.EAdElement;
+import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
 import es.eucm.eadventure.common.params.EAdFontImpl;
 import es.eucm.eadventure.common.params.EAdString;
 import es.eucm.eadventure.common.params.fills.impl.EAdBorderedColor;
@@ -50,6 +52,7 @@ import es.eucm.eadventure.common.params.geom.EAdPosition;
 import es.eucm.eadventure.common.params.geom.impl.EAdPositionImpl;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.CaptionImpl;
 import es.eucm.eadventure.engine.core.MouseState;
+import es.eucm.eadventure.engine.core.ValueMap;
 import es.eucm.eadventure.engine.core.gameobjects.ActorReferenceGO;
 import es.eucm.eadventure.engine.core.gameobjects.GameObject;
 import es.eucm.eadventure.engine.core.gameobjects.GameObjectFactory;
@@ -67,49 +70,66 @@ public class BasicHudGORenderer implements
 	private GraphicRendererFactory<Graphics2D> graphicRendererFactory;
 
 	private AssetHandler assetHandler;
-	
-	private static final Logger logger = Logger
-			.getLogger("BasicHudGORenderer");
+
+	private static final Logger logger = Logger.getLogger("BasicHudGORenderer");
 
 	private CaptionImpl caption;
+
+	private ValueMap valueMap;
 
 	@SuppressWarnings({ "unchecked" })
 	@Inject
 	public BasicHudGORenderer(GraphicRendererFactory<?> graphicRendererFactory,
 			MouseState mouseState, GameObjectFactory gameObjectFactory,
-			AssetHandler assetHandler) {
+			AssetHandler assetHandler, ValueMap valueMap) {
 		this.mouseState = mouseState;
 		this.assetHandler = assetHandler;
 		this.graphicRendererFactory = (GraphicRendererFactory<Graphics2D>) graphicRendererFactory;
+		this.valueMap = valueMap;
 		logger.info("New intance");
 	}
 
 	@Override
-	public void render(Graphics2D g, BasicHUDImpl object, float interpolation, int offsetX, int offsetY) {
+	public void render(Graphics2D g, BasicHUDImpl object, float interpolation,
+			int offsetX, int offsetY) {
 
 		if (mouseState.getDraggingGameObject() != null && mouseState.isInside()) {
 			GameObject<?> actor = mouseState.getDraggingGameObject();
 			graphicRendererFactory.render(g, actor, EAdPositionImpl
 					.volatileEAdPosition(
-							mouseState.getVirtualMouseX() - mouseState.getMouseDifX(),
-							mouseState.getVirtualMouseY() - mouseState.getMouseDifY(),
-							actor.getPosition().getDispX(), actor.getPosition().getY()), 1.0f, 0, 0);
+							mouseState.getVirtualMouseX()
+									- mouseState.getMouseDifX(),
+							mouseState.getVirtualMouseY()
+									- mouseState.getMouseDifY(), actor
+									.getPosition().getDispX(), actor
+									.getPosition().getY()), 1.0f, 0, 0);
 		}
 
-		//TODO probably should check if it wants its name to be painted
+		// TODO probably should check if it wants its name to be painted
 		GameObject<?> underMouse = mouseState.getGameObjectUnderMouse();
-		if (underMouse != null
-				&& underMouse instanceof ActorReferenceGO
-				&& ((ActorReferenceGO) underMouse).getName() != null) {
-			EAdString name = ((ActorReferenceGO) underMouse).getName();
-			if (caption == null || !caption.getText().equals(name))
-				renewCaption(name);
-			graphicRendererFactory.render(g, assetHandler.getRuntimeAsset(caption), EAdPositionImpl.volatileEAdPosition(
-					mouseState.getVirtualMouseX(),
-					mouseState.getVirtualMouseY()), 1.0f, 0, 0);
+		EAdString name = null;
+		if (underMouse != null) {
+			if (underMouse instanceof ActorReferenceGO
+					&& ((ActorReferenceGO) underMouse).getName() != null) {
+				name = ((ActorReferenceGO) underMouse).getName();
+			} else if ( underMouse.getElement() instanceof EAdElement ){
+				name = valueMap.getValue((EAdElement) underMouse.getElement(),
+						EAdBasicSceneElement.VAR_NAME);
+			}
 		}
+
+		if (name != null && (caption == null || !caption.getText().equals(name)))
+			renewCaption(name);
+
+		if (name != null)
+			graphicRendererFactory.render(
+					g,
+					assetHandler.getRuntimeAsset(caption),
+					EAdPositionImpl.volatileEAdPosition(
+							mouseState.getVirtualMouseX(),
+							mouseState.getVirtualMouseY(), 0.5f, 2.0f), 1.0f, 0, 0);
 	}
-	
+
 	private void renewCaption(EAdString text) {
 		caption = new CaptionImpl();
 		((CaptionImpl) caption).setTextColor(EAdBorderedColor.BLACK_ON_WHITE);

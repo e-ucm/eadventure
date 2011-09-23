@@ -14,8 +14,8 @@
 <entry key="Chapter0.Questions.4.Y">350</entry>
 <entry key="Chapter0.Questions.4.X">551</entry>
 <entry key="ACTIVATE">3</entry>
-<entry key="Chapter0.SceneId.Y">243</entry>
-<entry key="Chapter0.SceneId.X">115</entry>
+<entry key="Chapter0.SceneId.Y">94</entry>
+<entry key="Chapter0.SceneId.X">692</entry>
 <entry key="Chapter0.ConversationId.3.Y">406</entry>
 <entry key="ANIMATION">1</entry>
 <entry key="Chapter0.ConversationId.3.X">211</entry>
@@ -43,8 +43,11 @@
 <entry key="MVPLAYER">2</entry>
 <entry key="autosave">yes</entry>
 <entry key="DEACTIVATE">1</entry>
-<entry key="Chapter0.SceneId1.Y">284</entry>
-<entry key="Chapter0.SceneId1.X">369</entry>
+<entry key="Chapter0.SceneId2.Y">368</entry>
+<entry key="Chapter0.SceneId2.X">14</entry>
+<entry key="Chapter0.SceneId1.Y">3</entry>
+<entry key="Chapter0.SceneId1.X">700</entry>
+<entry key="Chapter0.SceneId2.Visible">true</entry>
 <entry key="Chapter0.ConversationId.6.Y">185</entry>
 <entry key="Chapter0.ConversationId.6.X">481</entry>
 </properties>

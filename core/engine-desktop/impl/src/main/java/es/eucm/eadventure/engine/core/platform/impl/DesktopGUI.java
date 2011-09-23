@@ -40,14 +40,17 @@ package es.eucm.eadventure.engine.core.platform.impl;
 import java.awt.AWTException;
 import java.awt.Canvas;
 import java.awt.Component;
+import java.awt.Cursor;
 import java.awt.Graphics2D;
 import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
 import java.awt.MouseInfo;
+import java.awt.Point;
 import java.awt.RenderingHints;
 import java.awt.Robot;
 import java.awt.Toolkit;
 import java.awt.image.BufferStrategy;
+import java.util.Stack;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -65,6 +68,7 @@ import es.eucm.eadventure.engine.core.gameobjects.GameObjectFactory;
 import es.eucm.eadventure.engine.core.gameobjects.GameObjectManager;
 import es.eucm.eadventure.engine.core.gameobjects.huds.BasicHUD;
 import es.eucm.eadventure.engine.core.guiactions.KeyAction;
+import es.eucm.eadventure.engine.core.platform.AssetHandler;
 import es.eucm.eadventure.engine.core.platform.GUI;
 import es.eucm.eadventure.engine.core.platform.GraphicRendererFactory;
 import es.eucm.eadventure.engine.core.platform.PlatformConfiguration;
@@ -108,6 +112,16 @@ public class DesktopGUI extends AbstractGUI<Graphics2D> implements GUI {
 	 */
 	private int MOUSE_MOVE = 20;
 
+	/**
+	 * A stack to store cursors
+	 */
+	private Stack<Cursor> cursorsStack;
+
+	/**
+	 * Asset handler
+	 */
+	private AssetHandler assetHandler;
+
 	private Object currentComponent;
 
 	@Inject
@@ -116,7 +130,7 @@ public class DesktopGUI extends AbstractGUI<Graphics2D> implements GUI {
 			GameObjectManager gameObjectManager, MouseState mouseState,
 			KeyboardState keyboardState, BasicHUD basicDesktopHUD,
 			ValueMap valueMap, GameState gameState,
-			GameObjectFactory gameObjectFactory) {
+			GameObjectFactory gameObjectFactory, AssetHandler assetHandler) {
 		super(platformConfiguration, assetRendererFactory, gameObjectManager,
 				mouseState, keyboardState, valueMap, gameState,
 				gameObjectFactory);
@@ -126,6 +140,8 @@ public class DesktopGUI extends AbstractGUI<Graphics2D> implements GUI {
 			this.robot = new Robot();
 		} catch (AWTException e) {
 		}
+		cursorsStack = new Stack<Cursor>();
+		this.assetHandler = assetHandler;
 	}
 
 	/*
@@ -398,6 +414,23 @@ public class DesktopGUI extends AbstractGUI<Graphics2D> implements GUI {
 				}
 
 			}
+		}
+	}
+
+	@Override
+	public void changeCursor(Image image) {
+		if (image == null && !cursorsStack.isEmpty()) {
+			Cursor c = cursorsStack.pop();
+			canvas.setCursor(c);
+		} else if (image != null) {
+			DesktopEngineImage asset = (DesktopEngineImage) assetHandler
+					.getRuntimeAsset(image);
+			asset.loadAsset();
+			Cursor c = Toolkit.getDefaultToolkit().createCustomCursor(
+					asset.getImage(), new Point(0, 0),
+					image.getURI().toString());
+			cursorsStack.add(canvas.getCursor());
+			canvas.setCursor(c);
 		}
 	}
 
