@@ -44,11 +44,15 @@ public class EAdSpinnerUI extends BasicSpinnerUI {
 
     @Override
     protected JButton createNextButton() {
-        return new EAdButton(EAdButton.NORTH);
+    	EAdButton button = new EAdButton(EAdButton.NORTH);
+    	installNextButtonListeners(button);
+    	return button;
     }
 
     @Override
     protected JButton createPreviousButton() {
-        return new EAdButton(EAdButton.SOUTH);
+    	EAdButton button = new EAdButton(EAdButton.SOUTH);
+    	installPreviousButtonListeners(button);
+    	return button;
     } 
 }
