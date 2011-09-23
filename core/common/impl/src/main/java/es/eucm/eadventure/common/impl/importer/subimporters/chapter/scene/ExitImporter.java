@@ -41,13 +41,16 @@ import com.google.inject.Inject;
 
 import es.eucm.eadventure.common.EAdElementImporter;
 import es.eucm.eadventure.common.data.chapter.Exit;
+import es.eucm.eadventure.common.data.chapter.ExitLook;
 import es.eucm.eadventure.common.data.chapter.conditions.Conditions;
 import es.eucm.eadventure.common.data.chapter.effects.Effect;
 import es.eucm.eadventure.common.impl.importer.interfaces.EAdElementFactory;
 import es.eucm.eadventure.common.impl.importer.interfaces.EffectsImporterFactory;
+import es.eucm.eadventure.common.impl.importer.interfaces.ResourceImporter;
 import es.eucm.eadventure.common.model.conditions.impl.EmptyCondition;
 import es.eucm.eadventure.common.model.conditions.impl.NOTCondition;
 import es.eucm.eadventure.common.model.effects.EAdEffect;
+import es.eucm.eadventure.common.model.effects.impl.EAdChangeCursorEffect;
 import es.eucm.eadventure.common.model.effects.impl.EAdChangeScene;
 import es.eucm.eadventure.common.model.effects.impl.variables.EAdChangeFieldValueEffect;
 import es.eucm.eadventure.common.model.elements.EAdCondition;
@@ -61,9 +64,13 @@ import es.eucm.eadventure.common.model.transitions.EAdTransition;
 import es.eucm.eadventure.common.model.variables.EAdField;
 import es.eucm.eadventure.common.model.variables.impl.EAdFieldImpl;
 import es.eucm.eadventure.common.model.variables.impl.operations.BooleanOperation;
-import es.eucm.eadventure.common.params.fills.impl.EAdBorderedColor;
+import es.eucm.eadventure.common.params.EAdString;
+import es.eucm.eadventure.common.params.fills.impl.EAdColor;
 import es.eucm.eadventure.common.params.geom.impl.EAdRectangleImpl;
+import es.eucm.eadventure.common.resources.StringHandler;
+import es.eucm.eadventure.common.resources.assets.drawable.basics.Image;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.Shape;
+import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.ImageImpl;
 
 public class ExitImporter implements EAdElementImporter<Exit, EAdSceneElement> {
 
@@ -71,15 +78,20 @@ public class ExitImporter implements EAdElementImporter<Exit, EAdSceneElement> {
 	private EAdElementImporter<Conditions, EAdCondition> conditionsImporter;
 	private EAdElementFactory factory;
 	private EffectsImporterFactory effectsImporterFactory;
+	private StringHandler stringHandler;
+	private ResourceImporter resourceImporter;
 
 	@Inject
 	public ExitImporter(
 			EAdElementImporter<Conditions, EAdCondition> conditionsImporter,
 			EAdElementFactory factory,
-			EffectsImporterFactory effectsImporterFactory) {
+			EffectsImporterFactory effectsImporterFactory,
+			StringHandler stringHandler, ResourceImporter resourceImporter) {
 		this.conditionsImporter = conditionsImporter;
 		this.factory = factory;
 		this.effectsImporterFactory = effectsImporterFactory;
+		this.stringHandler = stringHandler;
+		this.resourceImporter = resourceImporter;
 	}
 
 	public EAdSceneElement init(Exit oldObject) {
@@ -93,9 +105,7 @@ public class ExitImporter implements EAdElementImporter<Exit, EAdSceneElement> {
 		EAdBasicSceneElement newExit = (EAdBasicSceneElement) object;
 
 		Shape shape = ShapedElementImporter.importShape(oldObject, newExit);
-
-		// FIXME deleted when exits display name and icon
-		shape.setFill(EAdBorderedColor.BLACK_ON_WHITE);
+		shape.setFill(EAdColor.TRANSPARENT);
 
 		newExit.getResources().addAsset(newExit.getInitialBundle(),
 				EAdBasicSceneElement.appearance, shape);
@@ -107,10 +117,10 @@ public class ExitImporter implements EAdElementImporter<Exit, EAdSceneElement> {
 				condition);
 
 		if (oldObject.getInfluenceArea() != null) {
-			newExit.setInfluenceArea(new EAdRectangleImpl(oldObject.getInfluenceArea().getX(),
-					oldObject.getInfluenceArea().getY(),
-					oldObject.getInfluenceArea().getWidth(),
-					oldObject.getInfluenceArea().getHeight()));
+			newExit.setInfluenceArea(new EAdRectangleImpl(oldObject
+					.getInfluenceArea().getX(), oldObject.getInfluenceArea()
+					.getY(), oldObject.getInfluenceArea().getWidth(), oldObject
+					.getInfluenceArea().getHeight()));
 		}
 
 		for (Effect e : oldObject.getEffects().getEffects()) {
@@ -170,6 +180,26 @@ public class ExitImporter implements EAdElementImporter<Exit, EAdSceneElement> {
 
 			newExit.getEvents().add(event);
 		}
+
+		// Add name
+		ExitLook exitLook = oldObject.getDefaultExitLook();
+
+		EAdString name = stringHandler.addString(exitLook.getExitText());
+		newExit.setVarInitialValue(EAdBasicSceneElement.VAR_NAME, name);
+
+		// Change cursor
+		Image cursor = null;
+		if (exitLook.getCursorPath() == null)
+			// Default
+			cursor = new ImageImpl("@drawable/exit.png");
+		else
+			cursor = (Image) resourceImporter.getAssetDescritptor(
+					exitLook.getCursorPath(), ImageImpl.class);
+		EAdChangeCursorEffect changeCursor = new EAdChangeCursorEffect(cursor);
+		EAdChangeCursorEffect changeCursorBack = new EAdChangeCursorEffect(null);
+
+		newExit.addBehavior(EAdMouseEventImpl.MOUSE_ENTERED, changeCursor);
+		newExit.addBehavior(EAdMouseEventImpl.MOUSE_EXITED, changeCursorBack);
 
 		return newExit;
 	}

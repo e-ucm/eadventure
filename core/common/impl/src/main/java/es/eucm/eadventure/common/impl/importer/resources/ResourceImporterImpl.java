@@ -106,8 +106,9 @@ public class ResourceImporterImpl implements ResourceImporter {
 	 * new adventure project
 	 */
 	private Map<String, String> urisCorrespondences;
-	
-	private static final Logger logger = Logger.getLogger("ResourceImporterImpl");
+
+	private static final Logger logger = Logger
+			.getLogger("ResourceImporterImpl");
 
 	@Inject
 	public ResourceImporterImpl(
@@ -173,7 +174,7 @@ public class ResourceImporterImpl implements ResourceImporter {
 
 		try {
 			InputStream in = inputStreamCreator.buildInputStream(oldURI);
-			if ( in == null )
+			if (in == null)
 				return false;
 			OutputStream out = new FileOutputStream(toResourceFile);
 
@@ -194,8 +195,8 @@ public class ResourceImporterImpl implements ResourceImporter {
 
 	}
 
-	public void importResources(EAdGeneralElement element, List<Resources> resources,
-			Map<String, String> resourcesStrings,
+	public void importResources(EAdGeneralElement element,
+			List<Resources> resources, Map<String, String> resourcesStrings,
 			Map<String, Object> resourcesObjectClasses) {
 		int i = 0;
 		EAdCondition previousCondition = null;
@@ -218,7 +219,7 @@ public class ResourceImporterImpl implements ResourceImporter {
 				AssetDescriptor asset = null;
 				if (o instanceof Class) {
 					asset = this.getAssetDescritptor(assetPath, (Class<?>) o);
-				} else if ( o instanceof List ){
+				} else if (o instanceof List) {
 					asset = (AssetDescriptor) ((List<?>) o).get(i);
 				} else if (o instanceof AssetDescriptor) {
 					asset = (AssetDescriptor) o;
@@ -264,21 +265,23 @@ public class ResourceImporterImpl implements ResourceImporter {
 
 	}
 
+	@Override
 	public AssetDescriptor getAssetDescritptor(String assetPath, Class<?> clazz) {
-		if ( assetPath == null )
+		if (assetPath == null)
 			return null;
-		
+
 		AssetDescriptor asset = null;
-		
+
 		// Special case
-		if ( assetPath.equals("assets/special/EmptyAnimation")){
-			if ( inputStreamCreator.buildInputStream(assetPath + ".eaa") != null )
-				assetPath += ".eaa";
-			else {
-				assetPath += "_01.png";
-			}
+		if (assetPath.startsWith("assets/special/EmptyAnimation")) {
+			if (!(assetPath.endsWith(".eaa") || assetPath.endsWith("_01.png")))
+				if (inputStreamCreator.buildInputStream(assetPath + ".eaa") != null)
+					assetPath += ".eaa";
+				else {
+					assetPath += "_01.png";
+				}
 		}
-		if (assetPath.startsWith("assets/animation")) {
+		if (assetPath.startsWith("assets/animation") || assetPath.startsWith("assets/special/EmptyAnimation")) {
 			if (assetPath.endsWith(".eaa")) {
 				Animation a = Loader.loadAnimation(inputStreamCreator,
 						assetPath, imageLoader);
