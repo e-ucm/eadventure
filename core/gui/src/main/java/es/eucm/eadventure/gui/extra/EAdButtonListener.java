@@ -67,11 +67,16 @@ public class EAdButtonListener implements FocusListener, MouseListener, ActionLi
 	@Override
 	public void focusGained(FocusEvent arg0) {
         border.setColor( EAdGUILookAndFeel.getFocusColor() );
+        border.hightlight();
 	}
 
 	@Override
 	public void focusLost(FocusEvent arg0) {
         border.setColor( EAdGUILookAndFeel.getForegroundColor() );
+        if (button.getMousePosition() != null || button.hasFocus())
+        	border.hightlight();
+        else
+        	border.dehighlight();
 	}
 	
     public void mouseClicked( MouseEvent e ) {
@@ -104,7 +109,7 @@ public class EAdButtonListener implements FocusListener, MouseListener, ActionLi
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
 		border.click();
-        if (button.getMousePosition() != null)
+        if (button.getMousePosition() != null || button.hasFocus())
         	border.hightlight();
         else
         	border.dehighlight();

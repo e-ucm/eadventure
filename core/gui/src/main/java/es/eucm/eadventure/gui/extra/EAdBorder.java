@@ -134,7 +134,7 @@ public class EAdBorder extends AbstractBorder {
                     if (depth < newDepth)
                         depth++;
                     
-                    if (depth == newDepth || depth <= 0 || depth >= BORDER  ) {
+                    if (depth == newDepth || depth <= 0 || depth >= 10  ) {
                         effectTimer.stop( );
                         effectTimer = null;
                     }
@@ -143,14 +143,6 @@ public class EAdBorder extends AbstractBorder {
             }); 
             effectTimer.start();
         }
-    }
-    
-    public void setInitialDept(int depth) {
-    	this.depth = depth;
-    }
-    
-    public int getDepth() {
-        return depth;
     }
     
     @Override

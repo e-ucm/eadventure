@@ -40,6 +40,7 @@ package es.eucm.eadventure.gui.extra;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.RenderingHints;
 
 import javax.swing.JComponent;
 import javax.swing.JToggleButton;
@@ -80,7 +81,9 @@ public class EAdToggleButtonUI extends BasicToggleButtonUI {
 		button.addPropertyChangeListener("enabled", eAdButtonListener);
 	}
 	
+	@Override
 	public void paint(Graphics g, JComponent c) {
+	    ((Graphics2D) g).setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
 		super.paint(g, c);
 		
 		if (((JToggleButton) c).isSelected()) {
@@ -91,5 +94,6 @@ public class EAdToggleButtonUI extends BasicToggleButtonUI {
 		}
 
 	}
-	
+
+
 }
