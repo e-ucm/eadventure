@@ -6,4 +6,5 @@ public interface Option extends InterfaceElement {
 	
 	String getToolTipText();
 	
+	FieldDescriptor getFieldDescriptor();
 }
