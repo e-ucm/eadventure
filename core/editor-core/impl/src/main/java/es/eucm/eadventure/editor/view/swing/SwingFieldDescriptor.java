@@ -6,7 +6,7 @@ import java.beans.PropertyDescriptor;
 
 import es.eucm.eadventure.editor.view.generics.impl.AbstractFieldDescriptor;
 
-public class SwingFieldDescriptor extends AbstractFieldDescriptor {
+public class SwingFieldDescriptor<S> extends AbstractFieldDescriptor<S> {
 
 	/**
 	 * Descriptor for the corresponding property
@@ -22,11 +22,12 @@ public class SwingFieldDescriptor extends AbstractFieldDescriptor {
 	 *  
 	 * @return
 	 */
+	@SuppressWarnings("unchecked")
 	@Override
-	public Object readValue() {
+	public S readValue() {
 		try {
 			if (pd == null) pd = getPropertyDescriptor(element.getClass(), fieldName);
-			return pd.getReadMethod().invoke(element);				
+			return (S) pd.getReadMethod().invoke(element);				
 		} catch (Exception e) {
 			throw new RuntimeException("Error reading field " + fieldName, e);
 		}

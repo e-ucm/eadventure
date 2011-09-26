@@ -3,7 +3,7 @@ package es.eucm.eadventure.editor.view.generics.impl;
 import es.eucm.eadventure.editor.view.generics.FieldDescriptor;
 import es.eucm.eadventure.editor.view.generics.Option;
 
-public class AbstractOption implements Option {
+public class AbstractOption<S> implements Option<S> {
 
 	/**
 	 * Label on the component
@@ -18,9 +18,9 @@ public class AbstractOption implements Option {
 	/**
 	 * Descriptor of the field represented by this option
 	 */
-	private FieldDescriptor fieldDescriptor;
+	private FieldDescriptor<S> fieldDescriptor;
 	
-	public AbstractOption(String label, String toolTipText, FieldDescriptor fieldDescriptor) {
+	public AbstractOption(String label, String toolTipText, FieldDescriptor<S> fieldDescriptor) {
 		this.label = label;
 		this.toolTipText = toolTipText;
 		this.fieldDescriptor = fieldDescriptor;
@@ -37,7 +37,7 @@ public class AbstractOption implements Option {
 	}
 	
 	@Override
-	public FieldDescriptor getFieldDescriptor() {
+	public FieldDescriptor<S> getFieldDescriptor() {
 		return fieldDescriptor;
 	}
 
