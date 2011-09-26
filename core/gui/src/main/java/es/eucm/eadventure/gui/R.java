@@ -51,7 +51,6 @@ import java.util.Set;
  */
 public class R {
 	public static class Drawable {
-		public static String conditions24x24_png;
 		public static String next_png;
 		public static String arrow_south_png;
 		public static String radio_checked_png;
@@ -72,13 +71,11 @@ public class R {
 		public static String undo_png;
 		public static String information_png;
 		public static String duplicate_png;
-		public static String no_conditions24x24_png;
 		public static String delete_png;
 		public static String conditions16x16_png;
 		public static String previous_png;
 		static {
 			Set<String> files = new HashSet<String>();
-			files.add("conditions24x24.png");
 			files.add("next.png");
 			files.add("arrow_south.png");
 			files.add("radio_checked.png");
@@ -99,7 +96,6 @@ public class R {
 			files.add("undo.png");
 			files.add("information.png");
 			files.add("duplicate.png");
-			files.add("no_conditions24x24.png");
 			files.add("delete.png");
 			files.add("conditions16x16.png");
 			files.add("previous.png");
