@@ -155,6 +155,7 @@ public abstract class AbstractGUI<T> implements GUI {
 	public void prepareGUI() {
 		if (gameObjects.getHUD() != null) {
 			gameObjects.add(gameObjects.getHUD(), 0, 0);
+			gameObjects.getHUD().update(gameState);
 			gameObjects.getHUD().doLayout(0, 0);
 		}
 
