@@ -53,6 +53,8 @@ import javax.swing.JSpinner;
 import javax.swing.JToggleButton;
 import javax.swing.SpinnerModel;
 import javax.swing.SpinnerNumberModel;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.WindowConstants;
 
 import es.eucm.eadventure.gui.extra.EAdModalPanel;
@@ -65,7 +67,12 @@ public class InterfaceTest extends EAdFrame {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		System.setProperty("awt.useSystemAAFontSettings", "on");
+		try {
+			UIManager.setLookAndFeel(EAdGUILookAndFeel.getInstance());
+		} catch (UnsupportedLookAndFeelException e) {
+			e.printStackTrace();
+		}
+
 	     new InterfaceTest();
 	}
 	

@@ -42,7 +42,10 @@ import java.awt.Dimension;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JSplitPane;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 
+import es.eucm.eadventure.gui.EAdGUILookAndFeel;
 import es.eucm.eadventure.gui.extra.EAdBorderLayout;
 import es.eucm.eadventure.gui.listpanel.columntypes.ConditionsCellRendererEditor;
 import es.eucm.eadventure.gui.listpanel.columntypes.ButtonCellRendererEditor;
@@ -53,6 +56,11 @@ public class TestListPanel {
 
 	public static void main(String args[]) {
 		
+		try {
+			UIManager.setLookAndFeel(EAdGUILookAndFeel.getInstance());
+		} catch (UnsupportedLookAndFeelException e) {
+			e.printStackTrace();
+		}
 
 		JFrame f = new JFrame("Test List Panel");
 

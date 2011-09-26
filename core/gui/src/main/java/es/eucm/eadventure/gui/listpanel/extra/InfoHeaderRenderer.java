@@ -39,10 +39,8 @@ package es.eucm.eadventure.gui.listpanel.extra;
 
 import java.awt.Color;
 import java.awt.Component;
-import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.Insets;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -62,6 +60,7 @@ import javax.swing.table.TableCellRenderer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import es.eucm.eadventure.gui.EAdGUILookAndFeel;
 import es.eucm.eadventure.gui.R;
 import es.eucm.eadventure.gui.listpanel.ListPanel;
 
@@ -104,14 +103,16 @@ public class InfoHeaderRenderer extends JPanel implements TableCellRenderer {
     }
 
     public Component getTableCellRendererComponent( final JTable table, final Object value, boolean isSelected, boolean hasFocus, int row, final int column ) {
-
         removeAll( );
-        setBorder( BorderFactory.createMatteBorder( 0, 0, 1, 1, Color.DARK_GRAY ) );
+        this.setBackground(EAdGUILookAndFeel.getBackgroundColor());
+        setBorder( BorderFactory.createCompoundBorder(
+        		BorderFactory.createMatteBorder( 0, 0, 0, 1, Color.DARK_GRAY ),
+        		BorderFactory.createMatteBorder( 0, 0, 2, 0, Color.BLACK )));
         GridBagConstraints c = new GridBagConstraints( );
         c.gridx = 0;
         c.gridy = 0;
         JLabel label = new JLabel( value.toString( ) );
-        label.setFont( label.getFont( ).deriveFont( Font.BOLD ) );
+        label.setFont( EAdGUILookAndFeel.getBoldFont().deriveFont(16.0f) );
         add( label, c );
         if( helpPath != null ) {
         	InputStream is = ClassLoader.getSystemResourceAsStream( R.Drawable.information_png );   
@@ -121,8 +122,7 @@ public class InfoHeaderRenderer extends JPanel implements TableCellRenderer {
 				e1.printStackTrace();
 			}
             infoButton.setContentAreaFilled( false );
-            infoButton.setMargin( new Insets( 0, 0, 0, 0 ) );
-            infoButton.setBorder( BorderFactory.createEmptyBorder( ) );
+            infoButton.setBorder( BorderFactory.createEmptyBorder( 0, 6, 0, 0 ) );
             c.gridx = 1;
             add( infoButton, c );
             JTableHeader header = table.getTableHeader( );
