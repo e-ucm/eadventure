@@ -32,18 +32,38 @@ public class ColumnDescriptor {
 		this.typeColumn = typeColumn;
 	}
 
+	/**
+	 * Return the name or label of the column
+	 * 
+	 * @return
+	 */
 	public String getName() {
 		return name;
 	}
 
+	/**
+	 * Return the help file for the column
+	 * 
+	 * @return
+	 */
 	public String getHelp() {
 		return help;
 	}
 
+	/**
+	 * Return the {@link CellRendererEditor} type of the column
+	 * 
+	 * @return
+	 */
 	public CellRenderEditor getTypeColumn() {
 		return typeColumn;
 	}
 
+	/**
+	 * True if the column's content is editable
+	 * 
+	 * @return
+	 */
 	public boolean isEditable() {
 		return typeColumn != null ? typeColumn.isEditable() : false;
 	}

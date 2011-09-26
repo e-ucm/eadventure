@@ -9,7 +9,7 @@ import es.eucm.eadventure.editor.view.ComponentProvider;
 import es.eucm.eadventure.editor.view.ProviderFactory;
 import es.eucm.eadventure.editor.view.generics.InterfaceElement;
 import es.eucm.eadventure.editor.view.generics.Panel;
-import es.eucm.eadventure.gui.EAdTitlePanel;
+import es.eucm.eadventure.gui.EAdBorderedPanel;
 
 public class PanelComponentProvider implements ComponentProvider<Panel, JPanel> {
 
@@ -27,7 +27,7 @@ public class PanelComponentProvider implements ComponentProvider<Panel, JPanel> 
 	public void setElement(Panel element2) {
 		this.element = element2;
 		if (element.getTitle() != null)
-			panel = new EAdTitlePanel(element.getTitle());
+			panel = new EAdBorderedPanel(element.getTitle());
 		else
 			panel = new JPanel();
 		panel.setLayout(new FlowLayout());

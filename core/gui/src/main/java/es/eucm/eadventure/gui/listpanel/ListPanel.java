@@ -82,15 +82,7 @@ public class ListPanel extends JPanel {
 	private EAdTable table;
 
 	// Buttons
-	private JButton newButton;
-
-	private JButton deleteButton;
-
-	private JButton duplicateButton;
-
-	private JButton moveUpButton;
-
-	private JButton moveDownButton;
+	private JButton newButton, deleteButton, duplicateButton, moveUpButton, moveDownButton;
 
 	private List<ColumnDescriptor> columnsList;
 

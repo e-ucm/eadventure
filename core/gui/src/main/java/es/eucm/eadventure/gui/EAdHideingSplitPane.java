@@ -50,6 +50,12 @@ import javax.swing.JPanel;
 
 import es.eucm.eadventure.utils.swing.SwingUtilities;
 
+/**
+ * <p>Split pane with a hiding left panel</p>
+ * This works similarly to {@link JSplitPane} but the left side
+ * panel will hide when the mouse leaves it and expand when the mouse
+ * hovers over it.
+ */
 public class EAdHideingSplitPane extends JPanel {
 
 	private static final long serialVersionUID = -4895653681865804475L;

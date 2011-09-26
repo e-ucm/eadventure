@@ -77,7 +77,7 @@ public class InterfaceTest extends EAdFrame {
         add(mainPanel);
         
         
-        EAdTitlePanel panel = new EAdTitlePanel("panel");
+        EAdBorderedPanel panel = new EAdBorderedPanel("panel");
         panel.setLayout(new FlowLayout());
         mainPanel.add(panel, BorderLayout.CENTER);
         

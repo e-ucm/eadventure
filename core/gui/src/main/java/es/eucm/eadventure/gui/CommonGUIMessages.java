@@ -55,7 +55,17 @@ public class CommonGUIMessages {
 	public static String duplicate;
 	
 	public static String rename;
-	
+
+	public static String undo;
+
+	public static String redo;
+
+	public static String search;
+
+	public static String back;
+
+	public static String forward;
+
 	static {
 		I18N.initializeMessages(CommonGUIMessages.class.getName(), CommonGUIMessages.class);
 	}

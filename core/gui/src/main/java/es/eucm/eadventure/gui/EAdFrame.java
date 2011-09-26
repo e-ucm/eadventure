@@ -54,22 +54,40 @@ import es.eucm.eadventure.gui.extra.EAdBorderLayout;
 import es.eucm.eadventure.gui.extra.EAdGlassPane;
 import es.eucm.eadventure.utils.swing.SwingUtilities;
 
+/**
+ * <p>JFrame extended to support modal panels within it.</p>
+ * This frame allows for panels to be placed on top of the interface
+ * in a modal manner. The parts of the interface that are still visible
+ * became darker and blurry to indicate modality.
+ * 
+ */
 public class EAdFrame extends JFrame {
 
-    private static final long serialVersionUID = -3453655199252661334L;
+    private static final long serialVersionUID = 1L;
     
+    /**
+     * The {@link EAdGlassPane} for the blurriness effect
+     */
     private EAdGlassPane glass;
     
+    /**
+     * The blurriness operation
+     */
     public BufferedImageOp op;
 
-    private BufferedImage image;
-    
-    private BufferedImage temp1;
-    
-    private BufferedImage temp2;
+    /**
+     * Images used for optimization
+     */
+    private BufferedImage image, temp1, temp2;
 
+    /**
+     * Panel with the interface contents
+     */
     private JPanel contentPane;
     
+    /**
+     * The current focus component in the interface
+     */
     private Component focus = null;
     
     public EAdFrame() {
@@ -91,6 +109,11 @@ public class EAdFrame extends JFrame {
         super.add( glass, EAdBorderLayout.GLASS );
     }
     
+    /**
+     * Add a modal panel to the application
+     * 
+     * @param modalPanel
+     */
     public void addModalPanel( final JPanel modalPanel ) {
     	if (!glass.isVisible()) {
     		focus = this.getFocusOwner();
@@ -134,6 +157,9 @@ public class EAdFrame extends JFrame {
     	return image;
     }
     
+    /**
+     * Remove the modal panel at the top
+     */
     public void removeModalPanel() {
         glass.removePanel( );
         contentPane.setVisible(!glass.isVisible());
@@ -147,6 +173,9 @@ public class EAdFrame extends JFrame {
         }
     }
     
+    /**
+     * @return true if the glass panel is visible (the interface is blurry and darkend)
+     */
     public boolean isGlassShowing() {
         return glass.isVisible( );
     }

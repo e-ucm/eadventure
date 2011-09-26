@@ -53,16 +53,14 @@ public class R {
 	public static class Drawable {
 		public static String conditions24x24_png;
 		public static String next_png;
-		public static String redo_selected_png;
 		public static String arrow_south_png;
 		public static String radio_checked_png;
 		public static String box_checked_png;
 		public static String no_conditions16x16_png;
 		public static String arrow_east_png;
-		public static String forward_selected_png;
 		public static String forward_png;
 		public static String radio_empty_png;
-		public static String back_png;
+		public static String backward_png;
 		public static String search_png;
 		public static String arrow_north_png;
 		public static String add_png;
@@ -73,28 +71,23 @@ public class R {
 		public static String arrow_west_png;
 		public static String undo_png;
 		public static String information_png;
-		public static String search_selected_png;
 		public static String duplicate_png;
 		public static String no_conditions24x24_png;
-		public static String undo_selected_png;
 		public static String delete_png;
 		public static String conditions16x16_png;
-		public static String back_selected_png;
 		public static String previous_png;
 		static {
 			Set<String> files = new HashSet<String>();
 			files.add("conditions24x24.png");
 			files.add("next.png");
-			files.add("redo_selected.png");
 			files.add("arrow_south.png");
 			files.add("radio_checked.png");
 			files.add("box_checked.png");
 			files.add("no_conditions16x16.png");
 			files.add("arrow_east.png");
-			files.add("forward_selected.png");
 			files.add("forward.png");
 			files.add("radio_empty.png");
-			files.add("back.png");
+			files.add("backward.png");
 			files.add("search.png");
 			files.add("arrow_north.png");
 			files.add("add.png");
@@ -105,13 +98,10 @@ public class R {
 			files.add("arrow_west.png");
 			files.add("undo.png");
 			files.add("information.png");
-			files.add("search_selected.png");
 			files.add("duplicate.png");
 			files.add("no_conditions24x24.png");
-			files.add("undo_selected.png");
 			files.add("delete.png");
 			files.add("conditions16x16.png");
-			files.add("back_selected.png");
 			files.add("previous.png");
 			I18N.initializeResources(Drawable.class.getName(), Drawable.class,
 					files);

@@ -53,7 +53,7 @@ import es.eucm.eadventure.editor.control.change.ChangeListener;
 import es.eucm.eadventure.editor.view.ToolPanel;
 import es.eucm.eadventure.gui.EAdSimpleButton;
 import es.eucm.eadventure.gui.EAdTextField;
-import es.eucm.eadventure.gui.EAdTitlePanel;
+import es.eucm.eadventure.gui.EAdBorderedPanel;
 import es.eucm.eadventure.utils.swing.SwingUtilities;
 
 /**
@@ -114,7 +114,7 @@ public class ToolPanelImpl implements ToolPanel, ChangeListener {
 		this.navigationController = navigationController;
 		this.navigationController.addChangeListener(this);
 
-		toolPanel = new EAdTitlePanel(Messages.tool_panel_title);
+		toolPanel = new EAdBorderedPanel(null);
 		SwingUtilities.doInEDTNow(new Runnable() {
 			public void run() {
 				addRedoButton();
@@ -162,7 +162,6 @@ public class ToolPanelImpl implements ToolPanel, ChangeListener {
 	 */
 	private void addRedoButton() {
 		redoButton = new EAdSimpleButton(EAdSimpleButton.SimpleButton.REDO);
-		redoButton.setToolTipText(Messages.tool_panel_redo);
 		toolPanel.add(redoButton);
 		redoButton.addActionListener(new ActionListener() {
 
@@ -179,7 +178,6 @@ public class ToolPanelImpl implements ToolPanel, ChangeListener {
 	 */
 	private void addUndoButton() {
 		undoButton = new EAdSimpleButton(EAdSimpleButton.SimpleButton.UNDO);
-		undoButton.setToolTipText(Messages.tool_panel_undo);
 		toolPanel.add(undoButton);
 		redoButton.addActionListener(new ActionListener() {
 
@@ -196,7 +194,6 @@ public class ToolPanelImpl implements ToolPanel, ChangeListener {
 	 */
 	private void addSearchFieldAndButton() {
 		searchButton = new EAdSimpleButton(EAdSimpleButton.SimpleButton.SEARCH);
-		searchButton.setToolTipText(Messages.tool_panel_search);
 		searchField = new EAdTextField(20);
 		searchField.setToolTipText("Search...");
 		toolPanel.add(searchField);
@@ -216,7 +213,6 @@ public class ToolPanelImpl implements ToolPanel, ChangeListener {
 	 */
 	private void addForwardButton() {
 		forwardButton = new EAdSimpleButton(EAdSimpleButton.SimpleButton.FORWARD);
-		forwardButton.setToolTipText(Messages.tool_panel_forward);
 		toolPanel.add(forwardButton);
 		forwardButton.addActionListener(new ActionListener() {
 
@@ -233,7 +229,6 @@ public class ToolPanelImpl implements ToolPanel, ChangeListener {
 	 */
 	private void addBackwardButton() {
 		backwardButton = new EAdSimpleButton(EAdSimpleButton.SimpleButton.BACKWARD);
-		backwardButton.setToolTipText(Messages.tool_panel_backward);
 		toolPanel.add(backwardButton);
 		backwardButton.addActionListener(new ActionListener() {
 

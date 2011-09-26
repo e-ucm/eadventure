@@ -46,19 +46,29 @@ import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 
 /**
- * A panel that has a border with a title.
+ * A panel that has a border with an optional title.
  */
-public class EAdTitlePanel extends JPanel {
+public class EAdBorderedPanel extends JPanel {
 
 	private static final long serialVersionUID = -5869276827319708715L;
+	
+	public EAdBorderedPanel() {
+		this(null);
+	}
 	
 	/**
 	 * @param title The title of the panel
 	 */
-	public EAdTitlePanel(String title) {
+	public EAdBorderedPanel(String title) {
 	    Color c = EAdGUILookAndFeel.getForegroundColor();
-        setBorder( BorderFactory.createTitledBorder( 
-        		BorderFactory.createLineBorder(new Color(c.getRed(), c.getGreen(), c.getBlue(), 60)), title ));
+	    if (title != null) {
+			setBorder( BorderFactory.createTitledBorder( 
+					BorderFactory.createLineBorder(new Color(c.getRed(), c.getGreen(), c.getBlue(), 60)), title ));
+	    } else {
+			setBorder( BorderFactory.createCompoundBorder( 
+					BorderFactory.createLineBorder(new Color(c.getRed(), c.getGreen(), c.getBlue(), 60)),
+					BorderFactory.createEmptyBorder(2, 2, 2, 2)));
+	    }
         setBackground(EAdGUILookAndFeel.getBackgroundColor());
 	}
 	

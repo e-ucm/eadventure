@@ -77,8 +77,9 @@ import javax.swing.text.StyleConstants;
 import javax.swing.text.html.HTMLDocument;
 import javax.swing.text.html.HTMLEditorKit;
 
-
-
+/**
+ * Extension of the HTML editor pane to use the {@link EAdGUILookAndFeel} fonts.
+ */
 public class EAdHTMLEditorPane extends JEditorPane {
 
     private static final long serialVersionUID = 6717078375202151618L;
