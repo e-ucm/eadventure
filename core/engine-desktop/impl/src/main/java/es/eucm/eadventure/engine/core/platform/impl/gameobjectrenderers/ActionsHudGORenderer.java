@@ -90,7 +90,7 @@ public class ActionsHudGORenderer implements
 		Color color = g.getColor();
 		Composite c = g.getComposite();
 		g.setComposite(AlphaComposite
-				.getInstance(AlphaComposite.SRC_OVER, 0.1f));
+				.getInstance(AlphaComposite.SRC_OVER, 0.8f));
 
 		g.setColor(Color.BLACK);
 		Area a = new Area(new Rectangle(platformConfiguration.getWidth(),

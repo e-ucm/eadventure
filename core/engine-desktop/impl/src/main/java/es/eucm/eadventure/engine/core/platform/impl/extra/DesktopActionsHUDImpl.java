@@ -45,7 +45,15 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 import es.eucm.eadventure.common.model.actions.EAdAction;
+import es.eucm.eadventure.common.model.effects.impl.variables.EAdChangeFieldValueEffect;
+import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
+import es.eucm.eadventure.common.model.guievents.impl.EAdMouseEventImpl;
+import es.eucm.eadventure.common.model.variables.impl.EAdFieldImpl;
+import es.eucm.eadventure.common.model.variables.impl.operations.BooleanOperation;
+import es.eucm.eadventure.common.params.EAdString;
 import es.eucm.eadventure.common.params.geom.impl.EAdPositionImpl;
+import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.CaptionImpl;
+import es.eucm.eadventure.engine.core.GameState;
 import es.eucm.eadventure.engine.core.gameobjects.GameObject;
 import es.eucm.eadventure.engine.core.gameobjects.GameObjectFactory;
 import es.eucm.eadventure.engine.core.gameobjects.GameObjectManager;
@@ -87,25 +95,66 @@ public class DesktopActionsHUDImpl extends ActionsHUDImpl {
 		actionGOs.clear();
 		int i = 0;
 		double[] angles = getStartEndAngles();
-		float scale = (float) (0.5f / Math.sqrt(getActions().size()) + 0.5f) ;
+		float scale = (float) (0.5f / Math.sqrt(getActions().size()) + 0.5f);
 		for (EAdAction eAdAction : this.getActions()) {
 			DesktopAction action = new DesktopAction(eAdAction);
 			i++;
-			
+
 			double angle = angles[0]
 					+ ((angles[1] - angles[0]) / (getActions().size() + 1)) * i;
 			int x = (int) (radius * Math.sin(angle));
-			int y = - (int) (radius * Math.cos(angle));
-			action.setPosition(new EAdPositionImpl(EAdPositionImpl.Corner.CENTER, this
-					.getX() + x, this.getY() + y));
+			int y = -(int) (radius * Math.cos(angle));
+			action.setPosition(new EAdPositionImpl(
+					EAdPositionImpl.Corner.CENTER, this.getX() + x, this.getY()
+							+ y));
 			action.setScale(scale);
+			// Action name
+			EAdString string = eAdAction.getName();
+			CaptionImpl c = new CaptionImpl(string);
+//			RectangleShape c = new RectangleShape( 400, 20 );
+//			c.setFill(EAdColor.RED);
+
+			EAdBasicSceneElement actionName = new EAdBasicSceneElement(
+					"actionName", c);
+			actionName.setPosition(new EAdPositionImpl(
+					EAdPositionImpl.Corner.CENTER, this.getX() + x, this.getY() + y));
+			actionName.setScale(scale);
+			actionName.setVarInitialValue(EAdBasicSceneElement.VAR_VISIBLE,
+					Boolean.FALSE);
+
+			EAdFieldImpl<Boolean> visibleField = new EAdFieldImpl<Boolean>(
+					actionName, EAdBasicSceneElement.VAR_VISIBLE);
+
+			EAdChangeFieldValueEffect visibleTrue = new EAdChangeFieldValueEffect(
+					"visibleTrue");
+			visibleTrue.addField(visibleField);
+			visibleTrue.setOperation(BooleanOperation.TRUE_OP);
+			action.addBehavior(EAdMouseEventImpl.MOUSE_ENTERED, visibleTrue);
+
+			EAdChangeFieldValueEffect visibleFalse = new EAdChangeFieldValueEffect(
+					"visibleFalse");
+			visibleFalse.addField(visibleField);
+			visibleFalse.setOperation(BooleanOperation.FALSE_OP);
+			action.addBehavior(EAdMouseEventImpl.MOUSE_EXITED, visibleFalse);
 			
+			
+			SceneElementGO<?> go = (SceneElementGO<?>) gameObjectFactory.get(actionName);
+			go.getAsset();
+			actionGOs.add(go);
 			actionGOs.add(gameObjectFactory.get(action));
 		}
 	}
 
+	@Override
+	public void update(GameState state) {
+		super.update(state);
+		for (GameObject<?> go : actionGOs) {
+			go.update(state);
+		}
+	}
+
 	public double[] getStartEndAngles() {
-		double[] angles = new double[] { - Math.PI, Math.PI };
+		double[] angles = new double[] { -Math.PI, Math.PI };
 
 		if (this.getY() + radius > 600) {
 			double h = 600 - this.getY();
@@ -119,22 +168,24 @@ public class DesktopActionsHUDImpl extends ActionsHUDImpl {
 			angles = new double[] { a, Math.PI / 2 + a };
 		}
 
-		//TODO check offset
+		// TODO check offset
 		if (this.getX() - radius < 0) {
 			double w = this.getX();
 			double a = Math.acos(w / radius);
-			angles = new double[] { Math.max(-a, angles[0]), Math.min(Math.PI + a, angles[1]) };
+			angles = new double[] { Math.max(-a, angles[0]),
+					Math.min(Math.PI + a, angles[1]) };
 		}
-		
-		//TODO check offset
+
+		// TODO check offset
 		if (this.getX() + radius > 800) {
 			double w = 800 - this.getX();
 			double a = Math.acos(w / radius);
-			angles = new double[] { Math.max(-a, angles[0]), Math.min(Math.PI + a, angles[1]) };
+			angles = new double[] { Math.max(-a, angles[0]),
+					Math.min(Math.PI + a, angles[1]) };
 		}
-		
+
 		logger.info("Action angles: " + angles[0] + "; " + angles[1]);
-		
+
 		return angles;
 	}
 
@@ -142,7 +193,8 @@ public class DesktopActionsHUDImpl extends ActionsHUDImpl {
 	public void doLayout(int offsetX, int offsetY) {
 		// TODO ...
 		for (GameObject<?> action : actionGOs)
-			gui.addElement(action, offsetX, offsetY);
+			if (((SceneElementGO<?>) action).isVisible())
+				gui.addElement(action, offsetX, offsetY);
 	}
 
 }
