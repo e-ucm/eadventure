@@ -35,7 +35,7 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package es.eucm.eadventure.gui.listpanel;
+package es.eucm.eadventure.gui.listpanel.extra;
 
 import java.awt.Cursor;
 import java.awt.datatransfer.DataFlavor;
@@ -53,8 +53,6 @@ import javax.swing.TransferHandler;
  * Handles drag & drop row reordering, it calls the method
  * {@link Reorderable#reorder(int, int)} with source and destination row after a
  * movement Drag and Drop
- * 
- * @author Sergio Bellón
  * 
  */
 public class EAdTableRowTransferHandler extends TransferHandler {

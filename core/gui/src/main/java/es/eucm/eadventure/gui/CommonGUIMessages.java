@@ -35,23 +35,29 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package es.eucm.eadventure.gui.structurepanel.extra;
+package es.eucm.eadventure.gui;
 
 import es.eucm.eadventure.utils.i18n.I18N;
 
 /**
  * Constants for the i18n messages.
  */
-public class Messages {
+public class CommonGUIMessages {
 
 	public static String add_new;
 
-	public static String rename;
+	public static String delete;
 	
+	public static String move_up;
+
+	public static String move_down;
+
 	public static String duplicate;
 	
+	public static String rename;
+	
 	static {
-		I18N.initializeMessages(Messages.class.getName(), Messages.class);
+		I18N.initializeMessages(CommonGUIMessages.class.getName(), CommonGUIMessages.class);
 	}
 
 }

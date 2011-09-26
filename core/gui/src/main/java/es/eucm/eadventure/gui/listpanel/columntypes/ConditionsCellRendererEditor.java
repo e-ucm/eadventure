@@ -56,6 +56,9 @@ import javax.swing.JTable;
 import es.eucm.eadventure.gui.R;
 
 
+/**
+ * 
+ */
 public class ConditionsCellRendererEditor extends AbstractCellEditor implements CellRenderEditor {
 
     private static final long serialVersionUID = 8128260157985286632L;
@@ -198,5 +201,10 @@ public class ConditionsCellRendererEditor extends AbstractCellEditor implements 
         return temp;
 
     }
+
+	@Override
+	public boolean isEditable() {
+		return true;
+	}
 
 }

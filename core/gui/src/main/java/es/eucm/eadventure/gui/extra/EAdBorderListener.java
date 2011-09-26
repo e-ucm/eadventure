@@ -119,6 +119,10 @@ public class EAdBorderListener implements FocusListener, MouseListener, ActionLi
 	public void propertyChange(PropertyChangeEvent arg0) {
     	this.enabled = component.isEnabled();
     	component.setBackground(enabled ? EAdGUILookAndFeel.getBackgroundColor() : EAdGUILookAndFeel.getDisabledColor());
+    	if (!enabled) {
+	    	border.unclick();
+	    	border.dehighlight();
+    	}
         SwingUtilities.doInEDTNow( new Runnable( ) {
             public void run( ) {
             	component.repaint( );

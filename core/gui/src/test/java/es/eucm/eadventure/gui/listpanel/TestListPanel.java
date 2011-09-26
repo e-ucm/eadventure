@@ -38,6 +38,8 @@
 package es.eucm.eadventure.gui.listpanel;
 
 import java.awt.Dimension;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.JFrame;
 import javax.swing.JSplitPane;
@@ -45,12 +47,13 @@ import javax.swing.JSplitPane;
 import es.eucm.eadventure.gui.EAdPanel;
 import es.eucm.eadventure.gui.extra.EAdBorderLayout;
 import es.eucm.eadventure.gui.listpanel.columntypes.ConditionsCellRendererEditor;
-import es.eucm.eadventure.gui.listpanel.columntypes.DocumentationCellRendererEditor;
+import es.eucm.eadventure.gui.listpanel.columntypes.ButtonCellRendererEditor;
 import es.eucm.eadventure.gui.listpanel.columntypes.StringCellRendererEditor;
 
 public class TestListPanel {
 
 	public static void main(String args[]) {
+		
 
 		JFrame f = new JFrame("Test List Panel");
 
@@ -62,17 +65,24 @@ public class TestListPanel {
 		ListPanel listPanel = new ListPanel(listPanelListener);
 		// ----------------EXAMPLE COLUMNS------------------
 		// Create a column only with a name
-		listPanel.addColumn("Primera", "", null);
+		listPanel.addColumn(new ColumnDescriptor("Primera", "", null));
 		// Create another column only with a string and the help (not
 		// implemented), furthermore is editable.
-		listPanel.addColumn("Segunda", "prueba.html",
-				new StringCellRendererEditor(), true);
+		listPanel.addColumn(new ColumnDescriptor("Segunda", "prueba.html",
+				new StringCellRendererEditor()));
 		// Create a column of conditions
-		listPanel.addColumn("Tercera", "conditions.html",
-				new ConditionsCellRendererEditor(), false);
+		listPanel.addColumn(new ColumnDescriptor("Tercera", "conditions.html",
+				new ConditionsCellRendererEditor()));
 		// Create a column of documentation
-		listPanel.addColumn("Cuarta", "documentation.html",
-				new DocumentationCellRendererEditor(), false);
+		listPanel.addColumn(new ColumnDescriptor("Cuarta", "documentation.html",
+				new ButtonCellRendererEditor("button", new ActionListener() {
+
+					@Override
+					public void actionPerformed(ActionEvent arg0) {
+						System.out.println("click");
+					}
+					
+				})));
 
 		//this initialize the panel, it's necessary
 		listPanel.createElements();

@@ -148,4 +148,10 @@ public class StringCellRendererEditor extends AbstractCellEditor implements Cell
         else
             return new JLabel( value );
     }
+    
+	@Override
+	public boolean isEditable() {
+		return true;
+	}
+
 }

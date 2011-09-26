@@ -35,7 +35,7 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package es.eucm.eadventure.gui.listpanel;
+package es.eucm.eadventure.gui.listpanel.extra;
 
 import java.awt.Color;
 import java.awt.Component;
@@ -63,11 +63,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import es.eucm.eadventure.gui.R;
+import es.eucm.eadventure.gui.listpanel.ListPanel;
 
 /**
  * Edit the header of each column to include a name and a help icon.
- * 
- * @author Sergio Bellón
  *
  */
 public class InfoHeaderRenderer extends JPanel implements TableCellRenderer {

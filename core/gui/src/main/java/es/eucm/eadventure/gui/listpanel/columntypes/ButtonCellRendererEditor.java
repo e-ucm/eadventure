@@ -39,59 +39,63 @@ package es.eucm.eadventure.gui.listpanel.columntypes;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
-import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.AbstractCellEditor;
 import javax.swing.BorderFactory;
-import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JTable;
+import javax.swing.border.Border;
 
-public class DocumentationCellRendererEditor extends AbstractCellEditor implements CellRenderEditor{
+import es.eucm.eadventure.gui.EAdButton;
 
-    private static final long serialVersionUID = 8128260157985286632L;
+public class ButtonCellRendererEditor extends AbstractCellEditor implements CellRenderEditor{
 
-    private String value;//TODO string ?
+    private static final long serialVersionUID = 1L;
 
-    public Object getCellEditorValue( ) {
-
-        return value;
+    private String label;
+    
+    private ActionListener actionListener;
+    
+    public ButtonCellRendererEditor(String label, ActionListener actionListener) {
+    	this.label = label;
+    	this.actionListener = actionListener;
     }
 
+    @Override
     public Component getTableCellEditorComponent( JTable table, Object value2, boolean isSelected, int row, int col ) {
-
-        if( value2 == null )
-            //TODO return null;
-        this.value = (String) value2;
-        return getComponent( isSelected, table );
+        return getComponent(isSelected, table);
     }
 
+    @Override
     public Component getTableCellRendererComponent( JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column ) {
-
-        if( value == null )
-            //TODO return null;
-        this.value = (String) value;
-        return getComponent( isSelected, table );
+        return getComponent(false, table);
+    }
+    
+    public JPanel getComponent(boolean isSelected, JTable table) {
+        JPanel containerPanel = new JPanel( );
+        Border border = BorderFactory.createEmptyBorder(2, 2, 2, 2);
+        if (isSelected) {
+            border = BorderFactory.createCompoundBorder(BorderFactory.createMatteBorder( 2, 0, 2, 0, table.getSelectionBackground( ) ), border);
+        }
+    	containerPanel.setBorder( border );
+        EAdButton button = new EAdButton( label );
+        button.setEnabled(isSelected);
+        button.addActionListener(actionListener);
+        containerPanel.setLayout( new BorderLayout( ) );
+        containerPanel.add( button, BorderLayout.CENTER );
+        containerPanel.add(button);
+        return containerPanel;
     }
 
-    private Component getComponent( boolean isSelected, JTable table ) {
+	@Override
+	public Object getCellEditorValue() {
+		return null;
+	}
 
-        JPanel temp = new JPanel( );
-        if( isSelected )
-            temp.setBorder( BorderFactory.createMatteBorder( 2, 0, 2, 0, table.getSelectionBackground( ) ) );
-        JButton button = new JButton( ( "Edit Documentation" ) );//TODO internationalize
-        button.setFocusable( false );
-        button.setEnabled( isSelected );
-        button.addActionListener( new ActionListener( ) {
+	@Override
+	public boolean isEditable() {
+		return true;
+	}
 
-            public void actionPerformed( ActionEvent arg0 ) {
-            	//TODO to do
-                //new DocumentationDialog( value );
-            }
-        } );
-        temp.setLayout( new BorderLayout( ) );
-        temp.add( button, BorderLayout.CENTER );
-        return temp;
-    }
 }

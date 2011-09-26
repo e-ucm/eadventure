@@ -49,8 +49,6 @@ import org.slf4j.LoggerFactory;
  * 
  * Always is created a element list is need to implement {@link ListPanelListener}
  * 
- * @author Sergio Bellón
- * 
  */
 public class TestElementList implements ListPanelListener {
 

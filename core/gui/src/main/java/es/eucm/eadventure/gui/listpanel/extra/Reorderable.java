@@ -35,13 +35,11 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package es.eucm.eadventure.gui.listpanel;
+package es.eucm.eadventure.gui.listpanel.extra;
 
 /**
  * This interface contains the method Reorder, to sort the rows in the table
  * after being modified by the Drag and Drop
- * 
- * @author Sergio Bellón
  */
 public interface Reorderable {
 	/**

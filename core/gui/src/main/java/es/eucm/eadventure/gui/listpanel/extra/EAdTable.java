@@ -35,7 +35,7 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package es.eucm.eadventure.gui.listpanel;
+package es.eucm.eadventure.gui.listpanel.extra;
 
 import java.util.List;
 
@@ -49,13 +49,12 @@ import javax.swing.table.AbstractTableModel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import es.eucm.eadventure.gui.listpanel.ListPanel.Column;
+import es.eucm.eadventure.gui.listpanel.ColumnDescriptor;
+import es.eucm.eadventure.gui.listpanel.ListPanel;
+import es.eucm.eadventure.gui.listpanel.ListPanelListener;
 
 /**
  * Represents the table where is showing the list of elements.
- * 
- * @author Sergio Bellón
- * 
  */
 public class EAdTable extends JTable {
 
@@ -72,7 +71,7 @@ public class EAdTable extends JTable {
 	// constant indicating the height of each cell, when it IS selected.
 	private static final int SELECTED_ROW_SIZE = 30;
 
-	private List<Column> columnsList;
+	private List<ColumnDescriptor> columnsList;
 
 	private ListPanelListener listPanelListener;
 
@@ -84,7 +83,7 @@ public class EAdTable extends JTable {
 	 * @param listPanelListener
 	 *            Listener to the elements.
 	 */
-	public EAdTable(List<Column> columnsList,
+	public EAdTable(List<ColumnDescriptor> columnsList,
 			ListPanelListener listPanelListener) {
 
 		super();
@@ -144,8 +143,6 @@ public class EAdTable extends JTable {
 
 	/**
 	 * Model of EAdTable.
-	 * 
-	 * @author Sergio Bellón
 	 * 
 	 */
 	public class EAdTableModel extends AbstractTableModel implements
