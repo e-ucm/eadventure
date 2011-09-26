@@ -38,8 +38,6 @@
 package es.eucm.eadventure.gui.listpanel;
 
 import java.awt.Dimension;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 import javax.swing.JFrame;
 import javax.swing.JSplitPane;
@@ -49,6 +47,7 @@ import es.eucm.eadventure.gui.extra.EAdBorderLayout;
 import es.eucm.eadventure.gui.listpanel.columntypes.ConditionsCellRendererEditor;
 import es.eucm.eadventure.gui.listpanel.columntypes.ButtonCellRendererEditor;
 import es.eucm.eadventure.gui.listpanel.columntypes.StringCellRendererEditor;
+import es.eucm.eadventure.gui.listpanel.columntypes.extra.TableButtonActionListener;
 
 public class TestListPanel {
 
@@ -75,11 +74,11 @@ public class TestListPanel {
 				new ConditionsCellRendererEditor()));
 		// Create a column of documentation
 		listPanel.addColumn(new ColumnDescriptor("Cuarta", "documentation.html",
-				new ButtonCellRendererEditor("button", new ActionListener() {
+				new ButtonCellRendererEditor<TestElement>("button", new TableButtonActionListener<TestElement>() {
 
 					@Override
-					public void actionPerformed(ActionEvent arg0) {
-						System.out.println("click");
+					public void processClick(TestElement element) {
+						System.out.println("click " + element);
 					}
 					
 				})));

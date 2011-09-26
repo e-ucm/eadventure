@@ -94,7 +94,6 @@ public class ConditionsCellRendererEditor extends AbstractCellEditor implements 
     }
 
     public Component getTableCellEditorComponent( JTable table, Object value, boolean isSelected, int row, int col ) {
-
         if( value == null )
             //TODO return null;
         this.value = (Object) value;
@@ -102,7 +101,6 @@ public class ConditionsCellRendererEditor extends AbstractCellEditor implements 
     }
 
     public Component getTableCellRendererComponent( JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column ) {
-
         if( value == null )
             //TODO return null;
         this.value = (Object) value;

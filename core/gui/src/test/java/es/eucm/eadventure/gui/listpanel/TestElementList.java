@@ -140,7 +140,7 @@ public class TestElementList implements ListPanelListener {
 		case 1:
 			return elements.get(rowIndex).getCadena2();
 		default:
-			return null;
+			return elements.get(rowIndex);
 		}
 	}
 

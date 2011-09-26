@@ -39,6 +39,7 @@ package es.eucm.eadventure.gui.listpanel.columntypes;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.AbstractCellEditor;
@@ -48,28 +49,33 @@ import javax.swing.JTable;
 import javax.swing.border.Border;
 
 import es.eucm.eadventure.gui.EAdButton;
+import es.eucm.eadventure.gui.listpanel.columntypes.extra.TableButtonActionListener;
 
-public class ButtonCellRendererEditor extends AbstractCellEditor implements CellRenderEditor{
+public class ButtonCellRendererEditor<S> extends AbstractCellEditor implements CellRenderEditor{
 
     private static final long serialVersionUID = 1L;
 
     private String label;
     
-    private ActionListener actionListener;
+    private TableButtonActionListener<S> actionListener;
     
-    public ButtonCellRendererEditor(String label, ActionListener actionListener) {
+    private S value;
+    
+    public ButtonCellRendererEditor(String label, TableButtonActionListener<S> actionListener) {
     	this.label = label;
     	this.actionListener = actionListener;
     }
 
-    @Override
+    @SuppressWarnings("unchecked")
+	@Override
     public Component getTableCellEditorComponent( JTable table, Object value2, boolean isSelected, int row, int col ) {
-        return getComponent(isSelected, table);
+    	value = (S) value2;
+    	return getComponent(isSelected, table);
     }
 
     @Override
     public Component getTableCellRendererComponent( JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column ) {
-        return getComponent(false, table);
+        return getComponent(isSelected, table);
     }
     
     public JPanel getComponent(boolean isSelected, JTable table) {
@@ -81,7 +87,14 @@ public class ButtonCellRendererEditor extends AbstractCellEditor implements Cell
     	containerPanel.setBorder( border );
         EAdButton button = new EAdButton( label );
         button.setEnabled(isSelected);
-        button.addActionListener(actionListener);
+        button.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				actionListener.processClick(value);
+			}
+        	
+        });
         containerPanel.setLayout( new BorderLayout( ) );
         containerPanel.add( button, BorderLayout.CENTER );
         containerPanel.add(button);
