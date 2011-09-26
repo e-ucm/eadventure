@@ -38,43 +38,38 @@
 package es.eucm.eadventure.gui;
 
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.Insets;
 import java.awt.RenderingHints;
 
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
-import javax.swing.border.AbstractBorder;
-import javax.swing.border.Border;
 
+/**
+ * A panel that has a border with a title.
+ */
 public class EAdTitlePanel extends JPanel {
 
 	private static final long serialVersionUID = -5869276827319708715L;
 	
+	/**
+	 * @param title The title of the panel
+	 */
 	public EAdTitlePanel(String title) {
-		Border border = new PanelBorder();
-        setBorder( BorderFactory.createTitledBorder( border, title ) );
+	    Color c = EAdGUILookAndFeel.getForegroundColor();
+        setBorder( BorderFactory.createTitledBorder( 
+        		BorderFactory.createLineBorder(new Color(c.getRed(), c.getGreen(), c.getBlue(), 60)), title ));
         setBackground(EAdGUILookAndFeel.getBackgroundColor());
 	}
-
-	private class PanelBorder extends AbstractBorder {
-		
-		private static final long serialVersionUID = 4669318117131018414L;
-
-		@Override
-	    public void paintBorder(Component comp, Graphics g, int x, int y, int w, int h) {
-		    ((Graphics2D) g).setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
-		    Color c = EAdGUILookAndFeel.getForegroundColor();
-    		g.setColor(new Color(c.getRed(), c.getGreen(), c.getBlue(), 60));
-			g.drawRect(x, y, w - 1, h - 1);
-	    }
-
-	}
-
+	
+	/* (non-Javadoc)
+	 * @see javax.swing.JComponent#paint(java.awt.Graphics)
+	 * 
+	 * Overriden to allow for antialiasing of title text
+	 */
 	@Override
-	public Insets getInsets() {
-		return new Insets(10,2,2,2);
+	public void paint(Graphics g) {
+	    ((Graphics2D) g).setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
+	    super.paint(g);
 	}
 }
