@@ -38,6 +38,7 @@
 package es.eucm.eadventure.editor.view.impl;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Image;
 import java.awt.Toolkit;
@@ -45,6 +46,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.imageio.ImageIO;
+import javax.swing.BorderFactory;
 import javax.swing.JMenuBar;
 import javax.swing.JPanel;
 
@@ -60,7 +62,6 @@ import es.eucm.eadventure.editor.view.ToolPanel;
 import es.eucm.eadventure.editor.view.menu.EditorMenuBar;
 import es.eucm.eadventure.gui.EAdFrame;
 import es.eucm.eadventure.gui.EAdHideingSplitPane;
-import es.eucm.eadventure.gui.EAdPanel;
 import es.eucm.eadventure.utils.swing.SwingUtilities;
 
 /**
@@ -83,7 +84,7 @@ public class EditorWindowImpl implements EditorWindow {
 	/**
 	 * Main left panel in the editor
 	 */
-	private EAdPanel leftPanel;
+	private JPanel leftPanel;
 
 	/**
 	 * The main panel where elements are edited
@@ -170,7 +171,8 @@ public class EditorWindowImpl implements EditorWindow {
 	 * Create the left editor panel
 	 */
 	private void createLeftPanel() {
-		leftPanel = new EAdPanel();
+		leftPanel = new JPanel();
+		leftPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 
 		leftPanel.setLayout(new BorderLayout());
 	}
@@ -256,7 +258,7 @@ public class EditorWindowImpl implements EditorWindow {
 	}
 
 	@Override
-	public EAdPanel getLeftPanel() {
+	public JPanel getLeftPanel() {
 		return leftPanel;
 	}
 

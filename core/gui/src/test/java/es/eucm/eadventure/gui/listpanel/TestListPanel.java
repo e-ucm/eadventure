@@ -40,9 +40,9 @@ package es.eucm.eadventure.gui.listpanel;
 import java.awt.Dimension;
 
 import javax.swing.JFrame;
+import javax.swing.JPanel;
 import javax.swing.JSplitPane;
 
-import es.eucm.eadventure.gui.EAdPanel;
 import es.eucm.eadventure.gui.extra.EAdBorderLayout;
 import es.eucm.eadventure.gui.listpanel.columntypes.ConditionsCellRendererEditor;
 import es.eucm.eadventure.gui.listpanel.columntypes.ButtonCellRendererEditor;
@@ -89,7 +89,7 @@ public class TestListPanel {
 
 		// Created a JSplitPanel with the ListPanel and a EAdPanel
 		JSplitPane tableWithSplit = new JSplitPane(JSplitPane.VERTICAL_SPLIT,
-				listPanel, new EAdPanel());
+				listPanel, new JPanel());
 		tableWithSplit.setOneTouchExpandable(true);
 		tableWithSplit.setDividerLocation(140);
 		tableWithSplit.setContinuousLayout(true);

@@ -72,7 +72,7 @@ public class InterfaceTest extends EAdFrame {
     public InterfaceTest() {
         setSize( 400,400 );
 
-        final EAdPanel mainPanel = new EAdPanel();
+        final JPanel mainPanel = new JPanel();
         mainPanel.setLayout(new BorderLayout());
         add(mainPanel);
         

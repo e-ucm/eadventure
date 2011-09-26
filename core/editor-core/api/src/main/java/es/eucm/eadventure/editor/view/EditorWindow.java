@@ -40,7 +40,6 @@ package es.eucm.eadventure.editor.view;
 import javax.swing.JPanel;
 
 import es.eucm.eadventure.editor.view.menu.EditorMenuBar;
-import es.eucm.eadventure.gui.EAdPanel;
 
 /**
  * Interface for the eAdventure editor window.
@@ -69,7 +68,7 @@ public interface EditorWindow {
 	
 	public JPanel getRightPanel();
 
-	public EAdPanel getLeftPanel();
+	public JPanel getLeftPanel();
 
 	public JPanel getMainPanel();
 
