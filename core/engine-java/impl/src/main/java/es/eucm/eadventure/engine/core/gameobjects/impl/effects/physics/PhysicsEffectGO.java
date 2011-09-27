@@ -9,6 +9,7 @@ import org.jbox2d.dynamics.BodyDef;
 import org.jbox2d.dynamics.BodyType;
 import org.jbox2d.dynamics.FixtureDef;
 import org.jbox2d.dynamics.World;
+import org.jbox2d.dynamics.joints.RevoluteJointDef;
 
 import com.google.inject.Inject;
 
@@ -66,6 +67,22 @@ public class PhysicsEffectGO extends AbstractEffectGO<EAdPhysicsEffect> {
 			createBody(world, e, valueMap);
 		}
 
+		for (EAdSceneElement e : element.getJoints()) {
+			createBody(world, e, valueMap);
+		}
+
+		RevoluteJointDef jd = new RevoluteJointDef();
+		jd.collideConnected = false;
+
+		for (int i = 0; i < element.getJoints().size() - 1; i += 2) {
+			EAdSceneElement e1 = element.getJoints().get(i);
+			EAdSceneElement e2 = element.getJoints().get(i + 1);
+			Body b1 = valueMap.getValue(e1, VAR_PH_BODY);
+			Body b2 = valueMap.getValue(e2, VAR_PH_BODY);
+			jd.initialize(b2, b1, new Vec2(b1.getPosition().x, b1.getPosition().y));
+			world.createJoint(jd);
+		}
+
 	}
 
 	@Override
@@ -99,8 +116,9 @@ public class PhysicsEffectGO extends AbstractEffectGO<EAdPhysicsEffect> {
 	public boolean isFinished() {
 		return false;
 	}
-	
-	public static void createBody(World world, EAdSceneElement e, ValueMap valueMap){
+
+	public static void createBody(World world, EAdSceneElement e,
+			ValueMap valueMap) {
 		int x = valueMap.getValue(e, EAdBasicSceneElement.VAR_X);
 		int y = valueMap.getValue(e, EAdBasicSceneElement.VAR_Y);
 		int width = valueMap.getValue(e, EAdBasicSceneElement.VAR_WIDTH);
@@ -108,8 +126,7 @@ public class PhysicsEffectGO extends AbstractEffectGO<EAdPhysicsEffect> {
 
 		// TODO what if corner is not center?
 		PhType phType = valueMap.getValue(e, EAdPhysicsEffect.VAR_PH_TYPE);
-		PhShape phShape = valueMap.getValue(e,
-				EAdPhysicsEffect.VAR_PH_SHAPE);
+		PhShape phShape = valueMap.getValue(e, EAdPhysicsEffect.VAR_PH_SHAPE);
 
 		Shape s = null;
 		switch (phShape) {
@@ -139,8 +156,7 @@ public class PhysicsEffectGO extends AbstractEffectGO<EAdPhysicsEffect> {
 
 		FixtureDef fixture = new FixtureDef();
 		fixture.shape = s;
-		fixture.density = valueMap.getValue(e,
-				EAdPhysicsEffect.VAR_PH_DENSITY);
+		fixture.density = valueMap.getValue(e, EAdPhysicsEffect.VAR_PH_DENSITY);
 		fixture.friction = valueMap.getValue(e,
 				EAdPhysicsEffect.VAR_PH_FRICTION);
 		fixture.restitution = valueMap.getValue(e,

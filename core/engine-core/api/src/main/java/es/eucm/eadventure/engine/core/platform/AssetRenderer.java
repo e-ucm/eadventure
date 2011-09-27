@@ -37,8 +37,6 @@
 
 package es.eucm.eadventure.engine.core.platform;
 
-import es.eucm.eadventure.common.params.geom.EAdPosition;
-
 /**
  * <p>
  * Graphic (i.e. screen) renderer for a runtime asset
@@ -57,19 +55,14 @@ public interface AssetRenderer<S, T extends RuntimeAsset<?>> extends
 		GraphicRenderer<S, T> {
 
 	/**
-	 * Render the {@link RuntimeAsset} into the graphic context in the given
-	 * position with the given scale
+	 * Render the {@link RuntimeAsset} into the graphic context in the ( 0, 0 )
 	 * 
 	 * @param graphicContext
 	 *            The graphic context where to draw
 	 * @param asset
 	 *            The {@link RuntimeAsset}
-	 * @param position
-	 *            The position of the {@link RuntimeAsset}
-	 * @param scale
-	 *            The scale of the asset in the graphic context
 	 */
-	void render(S graphicContext, T asset, EAdPosition position, float scale, int offsetX, int offsetY);
+	void render(S graphicContext, T asset);
 
 	/**
 	 * <p>

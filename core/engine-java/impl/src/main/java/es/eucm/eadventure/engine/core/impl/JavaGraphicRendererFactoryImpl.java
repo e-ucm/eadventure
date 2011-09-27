@@ -66,13 +66,11 @@ public class JavaGraphicRendererFactoryImpl<S> extends
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public <T extends RuntimeAsset<?>> void render(S graphicContext, T asset,
-			EAdPosition position, float scale, int offsetX, int offsetY) {
+	public <T extends RuntimeAsset<?>> void render(S graphicContext, T asset) {
 		if (graphicContext != null && asset != null) {
 			AssetRenderer<S, T> assetRenderer = (AssetRenderer<S, T>) get(asset
 					.getClass());
-			assetRenderer.render(graphicContext, asset, position, scale,
-					offsetX, offsetY);
+			assetRenderer.render(graphicContext, asset);
 		}
 	}
 

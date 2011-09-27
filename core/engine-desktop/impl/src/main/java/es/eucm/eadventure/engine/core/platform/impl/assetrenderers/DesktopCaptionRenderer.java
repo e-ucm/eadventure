@@ -47,7 +47,6 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 import es.eucm.eadventure.common.params.EAdFill;
-import es.eucm.eadventure.common.params.geom.EAdPosition;
 import es.eucm.eadventure.engine.core.platform.AssetRenderer;
 import es.eucm.eadventure.engine.core.platform.FillFactory;
 import es.eucm.eadventure.engine.core.platform.assets.impl.DesktopEngineCaption;
@@ -65,23 +64,14 @@ public class DesktopCaptionRenderer implements
 	}
 
 	@Override
-	public void render(Graphics2D g, DesktopEngineCaption asset,
-			EAdPosition position, float scale, int offsetX, int offsetY) {
-		// TODO use offsets
-
+	public void render(Graphics2D g, DesktopEngineCaption asset) {
 		if (!asset.isLoaded())
 			asset.loadAsset();
 
 		Graphics2D g2 = (Graphics2D) g.create();
-		// TODO This is not OK
-		g2.scale(scale, scale);
 
-		int xLeft = position.getJavaX(asset.getWidth() * scale);
-		int yTop = position.getJavaY(asset.getHeight() * scale);
-		int width = (int) (asset.getWidth() * scale);
-		int height = (int) (asset.getHeight() * scale);
-
-		g2.translate(offsetX + xLeft, offsetY + yTop);
+		int width = asset.getWidth();
+		int height = asset.getHeight() ;
 
 		if (asset.getCaption().hasBubble()
 				& asset.getCaption().getBubbleFill() != null)

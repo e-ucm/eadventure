@@ -50,6 +50,7 @@ import es.eucm.eadventure.common.params.EAdString;
 import es.eucm.eadventure.common.params.fills.impl.EAdBorderedColor;
 import es.eucm.eadventure.common.params.geom.EAdPosition;
 import es.eucm.eadventure.common.params.geom.impl.EAdPositionImpl;
+import es.eucm.eadventure.common.resources.assets.drawable.basics.Caption;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.CaptionImpl;
 import es.eucm.eadventure.engine.core.MouseState;
 import es.eucm.eadventure.engine.core.ValueMap;
@@ -60,6 +61,7 @@ import es.eucm.eadventure.engine.core.gameobjects.huds.impl.BasicHUDImpl;
 import es.eucm.eadventure.engine.core.platform.AssetHandler;
 import es.eucm.eadventure.engine.core.platform.GameObjectRenderer;
 import es.eucm.eadventure.engine.core.platform.GraphicRendererFactory;
+import es.eucm.eadventure.engine.core.platform.assets.impl.RuntimeCaption;
 
 @Singleton
 public class BasicHudGORenderer implements
@@ -69,11 +71,11 @@ public class BasicHudGORenderer implements
 
 	private GraphicRendererFactory<Graphics2D> graphicRendererFactory;
 
-	private AssetHandler assetHandler;
-
 	private static final Logger logger = Logger.getLogger("BasicHudGORenderer");
 
-	private CaptionImpl caption;
+	private AssetHandler assetHandler;
+
+	private Caption caption;
 
 	private ValueMap valueMap;
 
@@ -81,29 +83,17 @@ public class BasicHudGORenderer implements
 	@Inject
 	public BasicHudGORenderer(GraphicRendererFactory<?> graphicRendererFactory,
 			MouseState mouseState, GameObjectFactory gameObjectFactory,
-			AssetHandler assetHandler, ValueMap valueMap) {
+			ValueMap valueMap, AssetHandler assetHandler) {
 		this.mouseState = mouseState;
-		this.assetHandler = assetHandler;
 		this.graphicRendererFactory = (GraphicRendererFactory<Graphics2D>) graphicRendererFactory;
 		this.valueMap = valueMap;
+		this.assetHandler = assetHandler;
 		logger.info("New intance");
 	}
 
 	@Override
 	public void render(Graphics2D g, BasicHUDImpl object, float interpolation,
 			int offsetX, int offsetY) {
-
-		if (mouseState.getDraggingGameObject() != null && mouseState.isInside()) {
-			GameObject<?> actor = mouseState.getDraggingGameObject();
-			graphicRendererFactory.render(g, actor, EAdPositionImpl
-					.volatileEAdPosition(
-							mouseState.getVirtualMouseX()
-									- mouseState.getMouseDifX(),
-							mouseState.getVirtualMouseY()
-									- mouseState.getMouseDifY(), actor
-									.getPosition().getDispX(), actor
-									.getPosition().getY()), 1.0f, 0, 0);
-		}
 
 		// TODO probably should check if it wants its name to be painted
 		GameObject<?> underMouse = mouseState.getGameObjectUnderMouse();
@@ -112,29 +102,33 @@ public class BasicHudGORenderer implements
 			if (underMouse instanceof ActorReferenceGO
 					&& ((ActorReferenceGO) underMouse).getName() != null) {
 				name = ((ActorReferenceGO) underMouse).getName();
-			} else if ( underMouse.getElement() instanceof EAdElement ){
+			} else if (underMouse.getElement() instanceof EAdElement) {
 				name = valueMap.getValue((EAdElement) underMouse.getElement(),
 						EAdBasicSceneElement.VAR_NAME);
 			}
 		}
 
-		if (name != null && (caption == null || !caption.getText().equals(name)))
+		if (name != null
+				&& (caption == null || !caption.getText().equals(name)))
 			renewCaption(name);
 
-		if (name != null)
-			graphicRendererFactory.render(
-					g,
-					assetHandler.getRuntimeAsset(caption),
-					EAdPositionImpl.volatileEAdPosition(
-							mouseState.getVirtualMouseX(),
-							mouseState.getVirtualMouseY(), 0.5f, 2.0f), 1.0f, 0, 0);
+		if (name != null && caption != null) {
+			EAdPosition p = EAdPositionImpl.volatileEAdPosition(
+					mouseState.getVirtualMouseX(),
+					mouseState.getVirtualMouseY(), 0.5f, 2.0f);
+			Graphics2D g2 = (Graphics2D) g.create();
+			RuntimeCaption c = (RuntimeCaption) assetHandler
+					.getRuntimeAsset(caption);
+			g2.translate(p.getJavaX(c.getWidth()), p.getJavaY(c.getHeight()));
+			graphicRendererFactory.render(g2, c);
+		}
 	}
 
 	private void renewCaption(EAdString text) {
 		caption = new CaptionImpl();
 		((CaptionImpl) caption).setTextColor(EAdBorderedColor.BLACK_ON_WHITE);
 		((CaptionImpl) caption).setFont(EAdFontImpl.REGULAR);
-		caption.setText(text);
+		((CaptionImpl) caption).setText(text);
 	}
 
 	@Override

@@ -44,7 +44,6 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 import es.eucm.eadventure.common.params.geom.EAdPosition;
-import es.eucm.eadventure.common.params.geom.impl.EAdPositionImpl;
 import es.eucm.eadventure.engine.core.gameobjects.TransitionGO;
 import es.eucm.eadventure.engine.core.platform.GameObjectRenderer;
 import es.eucm.eadventure.engine.core.platform.GraphicRendererFactory;
@@ -80,8 +79,13 @@ public class TransitionGORenderer  implements GameObjectRenderer<Graphics2D, Tra
 	@Override
 	public void render(Graphics2D graphicContext, TransitionGO object,
 			EAdPosition position, float scale, int offsetX, int offsetY) {
-		if (object.getBackground() != null)
-			factory.render(graphicContext, object.getBackground(), EAdPositionImpl.volatileEAdPosition(0, 0), scale, offsetX, offsetY);
+		
+		if (object.getBackground() != null){
+			Graphics2D g2 = (Graphics2D) graphicContext.create();
+			g2.translate(offsetX, offsetY);
+			g2.scale(scale, scale);
+			factory.render(graphicContext, object.getBackground());
+		}
 	}
 	
 	@Override

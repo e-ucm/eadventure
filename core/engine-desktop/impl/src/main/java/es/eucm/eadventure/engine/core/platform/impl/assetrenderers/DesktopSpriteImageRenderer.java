@@ -42,51 +42,51 @@ import java.util.logging.Logger;
 
 import com.google.inject.Singleton;
 
-import es.eucm.eadventure.common.params.geom.EAdPosition;
 import es.eucm.eadventure.engine.core.platform.AssetRenderer;
 import es.eucm.eadventure.engine.core.platform.assets.impl.DesktopEngineSpriteImage;
 
 @Singleton
-public class DesktopSpriteImageRenderer implements AssetRenderer<Graphics2D, DesktopEngineSpriteImage> {
+public class DesktopSpriteImageRenderer implements
+		AssetRenderer<Graphics2D, DesktopEngineSpriteImage> {
 
 	/**
 	 * Logger
 	 */
-	private static final Logger logger = Logger.getLogger("DesktopSpriteImageRenderer");
+	private static final Logger logger = Logger
+			.getLogger("DesktopSpriteImageRenderer");
 
 	public DesktopSpriteImageRenderer() {
 		logger.info("New instance");
 	}
-	
+
 	@Override
-	public void render(Graphics2D graphicContext, DesktopEngineSpriteImage asset, EAdPosition position, float scale, int offsetX, int offsetY) {
+	public void render(Graphics2D graphicContext, DesktopEngineSpriteImage asset) {
 		if (asset != null) {
 			if (!asset.isLoaded())
 				asset.loadAsset();
-			
-			int x = position.getJavaX(asset.getWidth() * scale) + offsetX;
-			int y = position.getJavaY(asset.getHeight() * scale) + offsetY;
-			
+
 			int width = asset.getWidth();
 			int height = asset.getHeight();
 			int oldX = (asset.getSprite() % asset.getRows()) * asset.getWidth();
-			int oldY = (asset.getSprite() / asset.getCols()) * asset.getHeight();
-			
-			graphicContext.drawImage(asset.getImage(), x, y, x + (int) (width * scale), y + (int) (height * scale),
+			int oldY = (asset.getSprite() / asset.getCols())
+					* asset.getHeight();
+
+			graphicContext.drawImage(asset.getImage(), 0, 0, width, height,
 					oldX, oldY, oldX + width, oldY + height, null);
 		}
 	}
 
 	@Override
 	public boolean contains(int x, int y, DesktopEngineSpriteImage asset) {
-		if (asset != null && x < asset.getWidth() && y < asset.getHeight()){
+		if (asset != null && x < asset.getWidth() && y < asset.getHeight()) {
 			int oldX = (asset.getSprite() % asset.getRows()) * asset.getWidth();
-			int oldY = (asset.getSprite() / asset.getCols()) * asset.getHeight();
+			int oldY = (asset.getSprite() / asset.getCols())
+					* asset.getHeight();
 
-			int alpha = asset.getImage().getRGB( oldX + x, oldY + y ) >>> 24;
-        	return alpha > 128;
+			int alpha = asset.getImage().getRGB(oldX + x, oldY + y) >>> 24;
+			return alpha > 128;
 		}
 		return false;
-	}		
+	}
 
 }

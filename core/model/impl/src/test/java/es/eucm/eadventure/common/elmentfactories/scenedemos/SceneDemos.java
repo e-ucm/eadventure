@@ -68,6 +68,7 @@ public class SceneDemos {
 		sceneDemosClass.add(TrajectoriesScene.class);
 		sceneDemosClass.add(PhysicsScene.class);
 		sceneDemosClass.add(PhysicsScene2.class);
+		sceneDemosClass.add(DragDropScene.class);
 
 		sceneDemos = new ArrayList<SceneDemo>();
 		sceneDemos.add(new EmptyScene());
@@ -84,6 +85,7 @@ public class SceneDemos {
 		sceneDemos.add(new TrajectoriesScene());
 		sceneDemos.add(new PhysicsScene());
 		sceneDemos.add(new PhysicsScene2());
+		sceneDemos.add(new DragDropScene());
 	}
 
 	public List<Class<? extends SceneDemo>> getSceneDemos() {

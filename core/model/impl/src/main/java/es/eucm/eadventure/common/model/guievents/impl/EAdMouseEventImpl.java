@@ -46,9 +46,6 @@ import es.eucm.eadventure.common.model.impl.EAdElementImpl;
 @Element(runtime = EAdMouseEventImpl.class, detailed = EAdMouseEventImpl.class)
 public class EAdMouseEventImpl extends EAdElementImpl implements EAdMouseEvent {
 
-	@Param("type")
-	private MouseActionType type;
-
 	public static final EAdMouseEvent MOUSE_RIGHT_CLICK = new EAdMouseEventImpl(
 			EAdMouseEvent.MouseActionType.RIGHT_CLICK);
 	public static final EAdMouseEvent MOUSE_LEFT_CLICK = new EAdMouseEventImpl(
@@ -65,6 +62,11 @@ public class EAdMouseEventImpl extends EAdElementImpl implements EAdMouseEvent {
 			EAdMouseEvent.MouseActionType.MOVED);
 	public static final EAdMouseEvent MOUSE_PRESSED = new EAdMouseEventImpl(
 			EAdMouseEvent.MouseActionType.PRESSED);
+	public static final EAdMouseEvent MOUSE_RELEASED = new EAdMouseEventImpl(
+			EAdMouseEvent.MouseActionType.RELEASED);
+	
+	@Param("type")
+	private MouseActionType type;
 
 	public EAdMouseEventImpl() {
 
@@ -96,6 +98,8 @@ public class EAdMouseEventImpl extends EAdElementImpl implements EAdMouseEvent {
 			return MOUSE_MOVED;
 		case PRESSED:
 			return MOUSE_PRESSED;
+		case RELEASED:
+			return MOUSE_RELEASED;
 		}
 		return null;
 	}

@@ -166,8 +166,12 @@ public abstract class AbstractGUI<T> implements GUI {
 					mouseState.getDraggingGameObject())) {
 				mouseState.setDraggingGameObject(null);
 			} else {
-				gameObjects.getGameObjects().remove(
+				int pos = gameObjects.getGameObjects().indexOf(
 						mouseState.getDraggingGameObject());
+				if (pos != -1) {
+					gameObjects.getGameObjects().remove(pos);
+					gameObjects.getOffsets().remove(pos);
+				}
 			}
 		}
 	}
@@ -197,8 +201,9 @@ public abstract class AbstractGUI<T> implements GUI {
 					&& mouseState.getGameObjectUnderMouse() == null; i--) {
 				GameObject<?> tempGameObject = gameObjects.getGameObjects()
 						.get(i);
-				if (tempGameObject instanceof SceneElementGOImpl 
-						&& !((SceneElementGOImpl<?>) tempGameObject).isVisible())
+				if (tempGameObject instanceof SceneElementGOImpl
+						&& !((SceneElementGOImpl<?>) tempGameObject)
+								.isVisible())
 					continue;
 				int[] offset = gameObjects.getOffsets().get(i);
 
@@ -283,8 +288,8 @@ public abstract class AbstractGUI<T> implements GUI {
 	 */
 	protected void processKeyAction(KeyAction action) {
 		if (gameState.getActiveElement() != null)
-			gameObjectFactory.get(gameState.getActiveElement())
-					.processAction(action);
+			gameObjectFactory.get(gameState.getActiveElement()).processAction(
+					action);
 		for (int i = gameObjects.getGameObjects().size() - 1; action != null
 				&& i >= 0 && !action.isConsumed(); i--) {
 			logger.info("Action " + action + " passed to "
@@ -340,9 +345,9 @@ public abstract class AbstractGUI<T> implements GUI {
 			return offset;
 		}
 	}
-	
-	public void changeCursor(Image image){
-		
+
+	public void changeCursor(Image image) {
+
 	}
 
 }

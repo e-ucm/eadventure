@@ -41,10 +41,14 @@ public class EAdPhysicsEffect extends AbstractEAdEffect {
 	 */
 	@Param("elements")
 	private EAdList<EAdSceneElement> elements;
+	
+	@Param("joints")
+	private EAdList<EAdSceneElement> joints;
 
 	public EAdPhysicsEffect() {
 		super("physicsEffect");
 		elements = new EAdListImpl<EAdSceneElement>(EAdSceneElement.class);
+		joints = new EAdListImpl<EAdSceneElement>(EAdSceneElement.class);
 		setBlocking(false);
 		setQueueable(true);
 	}
@@ -52,9 +56,18 @@ public class EAdPhysicsEffect extends AbstractEAdEffect {
 	public void addSceneElement(EAdSceneElement element) {
 		this.elements.add(element);
 	}
+	
+	public void addJoint( EAdSceneElement e1, EAdSceneElement e2 ){
+		joints.add(e1);
+		joints.add(e2);
+	}
 
 	public EAdList<EAdSceneElement> getElements() {
 		return elements;
+	}
+	
+	public EAdList<EAdSceneElement> getJoints() {
+		return joints;
 	}
 
 }

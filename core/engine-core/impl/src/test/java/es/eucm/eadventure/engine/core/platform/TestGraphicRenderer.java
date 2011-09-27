@@ -42,21 +42,19 @@ import es.eucm.eadventure.common.params.geom.EAdPosition;
 import es.eucm.eadventure.engine.core.gameobjects.GameObject;
 import es.eucm.eadventure.engine.core.gameobjects.huds.HudGO;
 
-public class TestGraphicRenderer implements GraphicRendererFactory<Void>{
-	
+public class TestGraphicRenderer implements GraphicRendererFactory<Void> {
+
 	public static final int DIMENSION = 5;
 
 	@Override
-	public <T extends RuntimeAsset<?>> void render(Void graphicContext,
-			T asset, EAdPosition position, float scale, int offsetX, int offsetY) {
-	
-		
+	public <T extends RuntimeAsset<?>> void render(Void graphicContext, T asset) {
+
 	}
 
 	@Override
 	public <T extends GameObject<?>> void render(Void graphicContext, T asset,
 			EAdPosition position, float scale, int offsetX, int offsetY) {
-		
+
 	}
 
 	@Override
@@ -69,19 +67,18 @@ public class TestGraphicRenderer implements GraphicRendererFactory<Void>{
 	public <T extends GameObject<?>> void render(Void graphicContext,
 			T gameObject, float interpolation, int offsetX, int offsetY) {
 
-		
 	}
 
 	@Override
 	public <T extends GameObject<?>> boolean contains(T gameObject,
 			int virtualX, int virtualY) {
-		if ( gameObject instanceof Positioned ){
-			Positioned p = ( Positioned ) gameObject;
+		if (gameObject instanceof Positioned) {
+			Positioned p = (Positioned) gameObject;
 			int x = p.getPosition().getX();
 			int y = p.getPosition().getY();
-			return ( x  - DIMENSION < virtualX && x + DIMENSION > virtualX && y - DIMENSION < virtualY && y + DIMENSION > virtualY );
-		}
-		else if ( gameObject instanceof HudGO ){
+			return (x - DIMENSION < virtualX && x + DIMENSION > virtualX
+					&& y - DIMENSION < virtualY && y + DIMENSION > virtualY);
+		} else if (gameObject instanceof HudGO) {
 			return true;
 		}
 		return false;

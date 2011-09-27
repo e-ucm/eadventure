@@ -43,7 +43,6 @@ import java.util.logging.Logger;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
-import es.eucm.eadventure.common.params.geom.EAdPosition;
 import es.eucm.eadventure.common.resources.assets.drawable.Drawable;
 import es.eucm.eadventure.engine.core.platform.AssetHandler;
 import es.eucm.eadventure.engine.core.platform.AssetRenderer;
@@ -71,9 +70,10 @@ public class DesktopComposedDrawableRenderer implements AssetRenderer<Graphics2D
 	}
 	
 	@Override
-	public void render(Graphics2D graphicContext, RuntimeComposedDrawable asset, EAdPosition position, float scale, int offsetX, int offsetY) {
-		for (Drawable drawable : asset.getAssetList())
-			rendererFactory.render(graphicContext, assetHandler.getRuntimeAsset(drawable), position, scale, offsetX, offsetY);
+	public void render(Graphics2D graphicContext, RuntimeComposedDrawable asset) {
+		for (Drawable drawable : asset.getAssetList()){
+			rendererFactory.render(graphicContext, assetHandler.getRuntimeAsset(drawable));
+		}
 	}
 
 	@Override

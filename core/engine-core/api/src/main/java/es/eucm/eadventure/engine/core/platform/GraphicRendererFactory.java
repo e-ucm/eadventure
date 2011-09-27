@@ -47,7 +47,7 @@ import es.eucm.eadventure.engine.core.gameobjects.GameObject;
  */
 public interface GraphicRendererFactory<S> {
 
-	<T extends RuntimeAsset<?>> void render(S graphicContext, T asset, EAdPosition position, float scale, int offsetX, int offsetY);
+	<T extends RuntimeAsset<?>> void render(S graphicContext, T asset);
 
 	<T extends RuntimeAsset<?>> boolean contains(int x, int y, T asset);
 	

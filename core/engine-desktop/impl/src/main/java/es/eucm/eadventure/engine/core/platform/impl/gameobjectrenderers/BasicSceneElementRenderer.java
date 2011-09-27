@@ -82,8 +82,8 @@ public class BasicSceneElementRenderer implements
 	@Override
 	public void render(Graphics2D g, SceneElementGO<?> basicSceneElement,
 			float interpolation, int offsetX, int offsetY) {
-		Graphics2D g2 = prepareGraphics( g, basicSceneElement );
-		factory.render(g2, basicSceneElement.getRenderAsset(), basicSceneElement.getPosition(), basicSceneElement.getScale(), offsetX, offsetY);
+		Graphics2D g2 = prepareGraphics( g, basicSceneElement, 1.0f, offsetX, offsetY );
+		factory.render(g2, basicSceneElement.getRenderAsset());
 	}
 
 	/*
@@ -97,17 +97,26 @@ public class BasicSceneElementRenderer implements
 	@Override
 	public void render(Graphics2D g, SceneElementGO<?> basicSceneElement,
 			EAdPosition position, float scale, int offsetX, int offsetY) {
-		Graphics2D g2 = prepareGraphics( g, basicSceneElement );
-		factory.render(g2, basicSceneElement.getRenderAsset(), position, scale
-				* basicSceneElement.getScale(), offsetX, offsetY);
+		Graphics2D g2 = prepareGraphics( g, basicSceneElement, scale, offsetX, offsetY );
+		factory.render(g2, basicSceneElement.getRenderAsset());
 	}
 	
-	protected Graphics2D prepareGraphics( Graphics2D g, SceneElementGO<?> basicSceneElement ){
+	protected Graphics2D prepareGraphics( Graphics2D g, SceneElementGO<?> element, float scale, int offsetX, int offsetY ){
 		Graphics2D g2 = (Graphics2D) g.create();
-		double centerX = basicSceneElement.getPosition().getJavaX(basicSceneElement.getWidth()) + basicSceneElement.getWidth() / 2;
-		double centerY = basicSceneElement.getPosition().getJavaY(basicSceneElement.getHeight()) + basicSceneElement.getHeight() / 2;
-		g2.rotate(basicSceneElement.getRotation(), centerX, centerY);
-		g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, basicSceneElement.getAlpha()));
+		g2.scale(scale, scale);
+		
+		EAdPosition p = element.getPosition();
+		
+		int width = element.getWidth();
+		int height = element.getHeight();
+		int x = (int) (p.getJavaX(width) + offsetX);
+		int y = (int) (p.getJavaY(height)+ offsetY);
+		g2.translate(x, y);
+		double centerX = width / 2.0f;
+		double centerY = height / 2.0f;
+		g2.rotate(element.getRotation(), centerX, centerY);
+		g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, element.getAlpha()));
+		g2.scale(element.getScale(), element.getScale());
 		return g2;
 	}
 

@@ -42,46 +42,42 @@ import java.util.logging.Logger;
 
 import com.google.inject.Singleton;
 
-import es.eucm.eadventure.common.params.geom.EAdPosition;
 import es.eucm.eadventure.engine.core.platform.AssetRenderer;
 import es.eucm.eadventure.engine.core.platform.assets.impl.DesktopEngineImage;
 
 @Singleton
-public class DesktopImageAssetRenderer implements AssetRenderer<Graphics2D, DesktopEngineImage> {
+public class DesktopImageAssetRenderer implements
+		AssetRenderer<Graphics2D, DesktopEngineImage> {
 
 	/**
 	 * Logger
 	 */
-	private static final Logger logger = Logger.getLogger("DesktopImageAssetRenderer");
+	private static final Logger logger = Logger
+			.getLogger("DesktopImageAssetRenderer");
 
 	public DesktopImageAssetRenderer() {
 		logger.info("New instance");
 	}
-	
+
 	@Override
-	public void render(Graphics2D graphicContext, DesktopEngineImage asset, EAdPosition position, float scale, int offsetX, int offsetY) {
+	public void render(Graphics2D graphicContext, DesktopEngineImage asset) {
 		if (asset != null) {
 			if (!asset.isLoaded())
 				asset.loadAsset();
+			
 			if (asset.isLoaded()) {
-				int x = position.getJavaX(asset.getWidth() * scale) + offsetX;
-				int y = position.getJavaY(asset.getHeight() * scale) + offsetY;
-				if (scale == 1.0f)
-					graphicContext.drawImage(asset.getImage(), x, y, null);
-				else {
-					graphicContext.drawImage(asset.getImage(), x, y, (int) (asset.getWidth() * scale), (int) (asset.getHeight() * scale), null);
-				}
+				graphicContext.drawImage(asset.getImage(), 0, 0, null);
 			}
 		}
 	}
 
 	@Override
 	public boolean contains(int x, int y, DesktopEngineImage asset) {
-		if (asset != null && x < asset.getWidth() && y < asset.getHeight()){
-            int alpha = asset.getImage().getRGB( x, y ) >>> 24;
-        	return alpha > 128;
+		if (asset != null && x < asset.getWidth() && y < asset.getHeight()) {
+			int alpha = asset.getImage().getRGB(x, y) >>> 24;
+			return alpha > 128;
 		}
 		return false;
-	}		
+	}
 
 }

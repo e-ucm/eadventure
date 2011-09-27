@@ -43,40 +43,48 @@ import java.util.logging.Logger;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
-import es.eucm.eadventure.common.params.geom.EAdPosition;
 import es.eucm.eadventure.engine.core.platform.AssetHandler;
 import es.eucm.eadventure.engine.core.platform.AssetRenderer;
 import es.eucm.eadventure.engine.core.platform.GraphicRendererFactory;
 import es.eucm.eadventure.engine.core.platform.assets.impl.RuntimeDisplacedDrawable;
 
 @Singleton
-public class DesktopDisplacedDrawableRenderer implements AssetRenderer<Graphics2D, RuntimeDisplacedDrawable> {
+public class DesktopDisplacedDrawableRenderer implements
+		AssetRenderer<Graphics2D, RuntimeDisplacedDrawable> {
 
 	/**
 	 * Logger
 	 */
-	private static final Logger logger = Logger.getLogger("DesktopDisplacedDrawableRenderer");
+	private static final Logger logger = Logger
+			.getLogger("DesktopDisplacedDrawableRenderer");
 
 	private AssetHandler assetHandler;
-	
+
 	private GraphicRendererFactory<Graphics2D> rendererFactory;
-	
+
 	@SuppressWarnings("unchecked")
 	@Inject
-	public DesktopDisplacedDrawableRenderer(AssetHandler assetHandler, GraphicRendererFactory<?> rendererFactory) {
+	public DesktopDisplacedDrawableRenderer(AssetHandler assetHandler,
+			GraphicRendererFactory<?> rendererFactory) {
 		logger.info("New instance");
 		this.assetHandler = assetHandler;
 		this.rendererFactory = (GraphicRendererFactory<Graphics2D>) rendererFactory;
 	}
-	
+
 	@Override
-	public void render(Graphics2D graphicContext, RuntimeDisplacedDrawable asset, EAdPosition position, float scale, int offsetX, int offsetY) {
-		rendererFactory.render(graphicContext, assetHandler.getRuntimeAsset(asset.getDrawableAsset()), position, scale, offsetX + asset.getDisplacement().getX(), offsetY + asset.getDisplacement().getY());
+	public void render(Graphics2D graphicContext, RuntimeDisplacedDrawable asset) {
+		Graphics2D g = (Graphics2D) graphicContext.create();
+		g.translate(asset.getDisplacement().getX(), asset.getDisplacement()
+				.getY());
+		rendererFactory.render(g,
+				assetHandler.getRuntimeAsset(asset.getDrawableAsset()));
 	}
 
 	@Override
 	public boolean contains(int x, int y, RuntimeDisplacedDrawable asset) {
-		return rendererFactory.contains(x + asset.getDisplacement().getX(), y + asset.getDisplacement().getY(), assetHandler.getRuntimeAsset(asset.getDrawableAsset()));
-	}		
+		return rendererFactory.contains(x + asset.getDisplacement().getX(), y
+				+ asset.getDisplacement().getY(),
+				assetHandler.getRuntimeAsset(asset.getDrawableAsset()));
+	}
 
 }

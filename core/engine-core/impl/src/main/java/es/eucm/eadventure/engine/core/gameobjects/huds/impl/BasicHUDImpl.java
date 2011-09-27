@@ -72,35 +72,39 @@ public class BasicHUDImpl implements BasicHUD {
 	/**
 	 * The logger
 	 */
-	private static final Logger logger = Logger
-			.getLogger("BasicHUDImpl");
+	private static final Logger logger = Logger.getLogger("BasicHUDImpl");
 
 	private GUI gui;
 
 	private MenuHUD menuHUD;
 
 	private Game game;
-	
+
 	private GameObjectFactory gameObjectFactory;
-	
+
 	private GameState gameState;
-	
+
 	private GameObjectManager gameObjectManager;
-	
+
+	private MouseState mouseState;
+
 	@Inject
-	public BasicHUDImpl(MenuHUD menuHUD, GameObjectFactory gameObjectFactory, GameState gameState, GameObjectManager gameObjectManager) {
+	public BasicHUDImpl(MenuHUD menuHUD, GameObjectFactory gameObjectFactory,
+			GameState gameState, GameObjectManager gameObjectManager,
+			MouseState mouseState) {
 		logger.info("New instance");
 		this.menuHUD = menuHUD;
 		this.gameObjectFactory = gameObjectFactory;
 		this.gameState = gameState;
 		this.gameObjectManager = gameObjectManager;
+		this.mouseState = mouseState;
 	}
-	
+
 	@Override
 	public void setGame(Game game) {
 		this.game = game;
 	}
-	
+
 	@Override
 	public void setGUI(GUI gui) {
 		this.gui = gui;
@@ -147,12 +151,21 @@ public class BasicHUDImpl implements BasicHUD {
 	@Override
 	public void doLayout(int offsetX, int offsetY) {
 		if (game.getAdventureModel().getInventory() != null)
-			gui.addElement(gameObjectFactory.get(game.getAdventureModel().getInventory()), 0, 0);
+			gui.addElement(gameObjectFactory.get(game.getAdventureModel()
+					.getInventory()), 0, 0);
+
+		if (mouseState.getDraggingGameObject() != null && mouseState.isInside()) {
+			GameObject<?> draggedGO = mouseState.getDraggingGameObject();
+			gui.addElement(draggedGO, mouseState.getVirtualMouseX()
+					- mouseState.getMouseDifX(), mouseState.getVirtualMouseY()
+					- mouseState.getMouseDifY());
+		}
 	}
 
 	@Override
 	public void update(GameState state) {
-		gameObjectFactory.get(game.getAdventureModel().getInventory()).update(state);
+		gameObjectFactory.get(game.getAdventureModel().getInventory()).update(
+				state);
 	}
 
 	@Override
@@ -173,7 +186,7 @@ public class BasicHUDImpl implements BasicHUD {
 
 	@Override
 	public void setPosition(EAdPosition p) {
-		
+
 	}
 
 }

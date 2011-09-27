@@ -59,10 +59,14 @@ public class MouseActionImpl implements MouseAction {
 
 	private boolean consummed;
 
-	public MouseActionImpl(MouseActionType type, int virtualX, int virtualY) {
-		mouseEvent = EAdMouseEventImpl.getMouseEvent(type);
+	public MouseActionImpl(EAdMouseEvent event, int virtualX, int virtualY) {
+		mouseEvent = event;
 		this.virtualX = virtualX;
 		this.virtualY = virtualY;
+	}
+
+	public MouseActionImpl(MouseActionType type, int virtualX, int virtualY) {
+		this(EAdMouseEventImpl.getMouseEvent(type), virtualX, virtualY);
 	}
 
 	/**
@@ -112,10 +116,11 @@ public class MouseActionImpl implements MouseAction {
 	public EAdGUIEvent getGUIEvent() {
 		return mouseEvent;
 	}
-	
+
 	@Override
-	public String toString( ){
-		return mouseEvent.toString() + " in (" + virtualX + ", " + virtualY + ")"; 
+	public String toString() {
+		return mouseEvent.toString() + " in (" + virtualX + ", " + virtualY
+				+ ")";
 	}
 
 }

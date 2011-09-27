@@ -7,6 +7,9 @@ import es.eucm.eadventure.common.model.conditions.impl.VarCondition.Operator;
 import es.eucm.eadventure.common.model.conditions.impl.VarValCondition;
 import es.eucm.eadventure.common.model.conditions.impl.VarVarCondition;
 import es.eucm.eadventure.common.model.effects.impl.EAdAddActorReferenceEffect;
+import es.eucm.eadventure.common.model.effects.impl.EAdVarInterpolationEffect;
+import es.eucm.eadventure.common.model.effects.impl.EAdVarInterpolationEffect.InterpolationType;
+import es.eucm.eadventure.common.model.effects.impl.EAdVarInterpolationEffect.LoopType;
 import es.eucm.eadventure.common.model.effects.impl.physics.EAdPhysicsEffect;
 import es.eucm.eadventure.common.model.effects.impl.physics.EAdPhysicsEffect.PhType;
 import es.eucm.eadventure.common.model.effects.impl.physics.PhApplyImpluse;
@@ -43,10 +46,16 @@ public class PhysicsScene extends EmptyScene {
 
 	protected void init() {
 		setBackgroundFill(new EAdLinearGradient(EAdColor.CYAN, EAdColor.BLUE));
+
+		// Add sky
+
+		addSky();
+		
 		EAdBasicSceneElement e = EAdElementsFactory.getInstance()
 				.getSceneElementFactory()
 				.createSceneElement("GO Physics!", 400, 200);
-		e.setPosition(new EAdPositionImpl(Corner.CENTER, 400, 100));
+		
+		e.setPosition(new EAdPositionImpl(Corner.CENTER, 400, 200));
 
 		getSceneElements().add(e);
 
@@ -70,10 +79,12 @@ public class PhysicsScene extends EmptyScene {
 		event.setCondition(condition);
 		event.addEffect(ConditionedEvent.CONDITIONS_MET, effect);
 
-		getEvents().add(event);
+//		getEvents().add(event);
+		getBackground().addBehavior(EAdMouseEventImpl.MOUSE_RIGHT_CLICK, effect);
 
 		addCanyon(effect);
 		addWalls(effect);
+		addPendulum(effect);
 	}
 
 	@Override
@@ -157,9 +168,6 @@ public class PhysicsScene extends EmptyScene {
 		event.addEffect(SceneElementEvent.ALWAYS, followMouse);
 		canyon.getEvents().add(event);
 
-//		effect.addSceneElement(canyon);
-//		effect.addSceneElement(canyonSupport);
-
 		getSceneElements().add(canyon);
 		getSceneElements().add(canyonSupport);
 
@@ -183,6 +191,49 @@ public class PhysicsScene extends EmptyScene {
 		getBackground().addBehavior(EAdMouseEventImpl.MOUSE_LEFT_CLICK,
 				addEffect);
 
+	}
+
+	private void addPendulum(EAdPhysicsEffect effect) {
+
+		EAdBasicSceneElement holder = new EAdBasicSceneElement("holder",
+				new RectangleShape(100, 10, new EAdLinearGradient(
+						EAdColor.DARK_BROWN, EAdColor.LIGHT_BROWN)));
+		holder.setPosition(new EAdPositionImpl(Corner.CENTER, 400, 50));
+
+		EAdBasicSceneElement rope = new EAdBasicSceneElement("rope",
+				new RectangleShape(150, 10, new EAdLinearGradient(
+						EAdColor.YELLOW, EAdColor.LIGHT_BROWN)));
+
+		rope.setPosition(new EAdPositionImpl(Corner.CENTER, 450, 50));
+		rope.setVarInitialValue(EAdPhysicsEffect.VAR_PH_TYPE, PhType.DYNAMIC);
+		rope.setVarInitialValue(EAdPhysicsEffect.VAR_PH_FRICTION, 0.7f);
+		getSceneElements().add(rope);
+		getSceneElements().add(holder);
+
+		effect.addJoint(holder, rope);
+
+	}
+
+	private void addSky() {
+		getBackground()
+				.getResources()
+				.addAsset(this.getBackground().getInitialBundle(),
+						EAdBasicSceneElement.appearance,
+						new ImageImpl("@drawable/sky.png"));
+
+
+		EAdSceneElementEvent event = new EAdSceneElementEventImpl();
+
+		EAdVarInterpolationEffect effect = new EAdVarInterpolationEffect("sky");
+		effect.setInterpolation(new EAdFieldImpl<Integer>(getBackground(),
+				EAdBasicSceneElement.VAR_X), 0, -800, 100000, LoopType.REVERSE,
+				InterpolationType.LINEAR);
+
+		event.addEffect(EAdSceneElementEvent.SceneElementEvent.ADDED_TO_SCENE,
+				effect);
+		
+		this.getBackground().getEvents().add(event);
+		
 	}
 
 }

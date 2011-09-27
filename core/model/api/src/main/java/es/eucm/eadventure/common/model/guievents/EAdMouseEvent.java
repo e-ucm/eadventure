@@ -48,7 +48,7 @@ public interface EAdMouseEvent extends EAdGUIEvent {
 	 * 
 	 */
 	public enum MouseActionType {
-		RIGHT_CLICK, LEFT_CLICK, DOUBLE_CLICK, DRAG, ENTERED, EXITED, MOVED, DROP, PRESSED
+		RIGHT_CLICK, LEFT_CLICK, DOUBLE_CLICK, DRAG, ENTERED, EXITED, MOVED, DROP, PRESSED, RELEASED
 	}
 
 	/**

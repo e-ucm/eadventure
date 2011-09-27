@@ -37,16 +37,12 @@
 
 package es.eucm.eadventure.engine.core.platform.impl.assetrenderers;
 
-import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Shape;
-import java.awt.Stroke;
-import java.awt.geom.AffineTransform;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
-import es.eucm.eadventure.common.params.geom.EAdPosition;
 import es.eucm.eadventure.engine.core.platform.AssetRenderer;
 import es.eucm.eadventure.engine.core.platform.FillFactory;
 import es.eucm.eadventure.engine.core.platform.assets.impl.DesktopBezierShape;
@@ -63,26 +59,11 @@ public class DesktopBezierShapeRenderer implements
 	}
 
 	@Override
-	public void render(Graphics2D graphicContext, DesktopBezierShape asset,
-			EAdPosition position, float scale, int offsetX, int offsetY) {
-
+	public void render(Graphics2D graphicContext, DesktopBezierShape asset) {
 		if (!asset.isLoaded())
 			asset.loadAsset();
-
-		int x = position.getJavaX(asset.getWidth() * scale) + offsetX;
-		int y = position.getJavaY(asset.getHeight() * scale) + offsetY;
-
-		Color temp = graphicContext.getColor();
-		AffineTransform at = graphicContext.getTransform();
-		AffineTransform newTransform = (AffineTransform) at.clone();
-		newTransform.translate(x, y);
-		newTransform.scale(scale, scale);
-		graphicContext.setTransform(newTransform);
-		Stroke s = graphicContext.getStroke();
+		
 		fillFactory.fill(asset.getAssetDescriptor().getFill(), graphicContext, asset.getShape());
-		graphicContext.setStroke(s);
-		graphicContext.setColor(temp);
-		graphicContext.setTransform(at);
 
 	}
 

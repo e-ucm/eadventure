@@ -48,6 +48,7 @@ import es.eucm.eadventure.common.model.EAdElement;
 import es.eucm.eadventure.common.model.guievents.EAdKeyEvent.KeyActionType;
 import es.eucm.eadventure.common.model.guievents.EAdKeyEvent.KeyCode;
 import es.eucm.eadventure.common.model.guievents.EAdMouseEvent.MouseActionType;
+import es.eucm.eadventure.common.model.guievents.impl.EAdMouseEventImpl;
 import es.eucm.eadventure.engine.core.KeyboardState;
 import es.eucm.eadventure.engine.core.MouseState;
 import es.eucm.eadventure.engine.core.gameobjects.GameObject;
@@ -59,9 +60,11 @@ import es.eucm.eadventure.engine.core.guiactions.impl.KeyActionImpl;
 import es.eucm.eadventure.engine.core.guiactions.impl.MouseActionImpl;
 
 /**
- * <p> This class listens to input by the user and converts it into the
- * engine input model </p>
- *
+ * <p>
+ * This class listens to input by the user and converts it into the engine input
+ * model
+ * </p>
+ * 
  */
 public class DesktopInputListener implements MouseListener,
 		MouseMotionListener, KeyListener {
@@ -91,8 +94,8 @@ public class DesktopInputListener implements MouseListener,
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
-		MouseAction action = getMouseAction(e,
-				mouseState.getVirtualMouseX(), mouseState.getVirtualMouseY(), true);
+		MouseAction action = getMouseAction(e, mouseState.getVirtualMouseX(),
+				mouseState.getVirtualMouseY(), true);
 		if (action != null)
 			mouseState.getMouseEvents().add(action);
 	}
@@ -101,9 +104,9 @@ public class DesktopInputListener implements MouseListener,
 	public void mousePressed(MouseEvent e) {
 		mouseState.setMousePressed(true);
 		mouseState.setMousePosition(e.getX(), e.getY());
-		
-		MouseAction action = getMouseAction(e,
-				mouseState.getVirtualMouseX(), mouseState.getVirtualMouseY(), false);
+
+		MouseAction action = getMouseAction(e, mouseState.getVirtualMouseX(),
+				mouseState.getVirtualMouseY(), false);
 		if (action != null)
 			mouseState.getMouseEvents().add(action);
 	}
@@ -113,13 +116,19 @@ public class DesktopInputListener implements MouseListener,
 	public void mouseReleased(MouseEvent e) {
 		mouseState.setMousePressed(false);
 		mouseState.setMousePosition(e.getX(), e.getY());
+		mouseState.getMouseEvents().add(
+				new MouseActionImpl(EAdMouseEventImpl.MOUSE_RELEASED,
+						mouseState.getVirtualMouseX(), mouseState
+								.getVirtualMouseY()));
 		if (mouseState.getDraggingGameObject() != null) {
-			DropAction action = new DropActionImpl(mouseState.getVirtualMouseX(),
+			DropAction action = new DropActionImpl(
+					mouseState.getVirtualMouseX(),
 					mouseState.getVirtualMouseY(),
-					(GameObject<? extends EAdElement>) mouseState.getDraggingGameObject());
+					(GameObject<? extends EAdElement>) mouseState
+							.getDraggingGameObject());
 			mouseState.setDraggingGameObject(null);
 			mouseState.getMouseEvents().add(action);
-		} 
+		}
 	}
 
 	@Override
@@ -140,7 +149,8 @@ public class DesktopInputListener implements MouseListener,
 			mouseState.setDraggingGameObject(mouseState
 					.getGameObjectUnderMouse().getDraggableElement(mouseState));
 			MouseAction action = new MouseActionImpl(MouseActionType.DRAG,
-					mouseState.getVirtualMouseX(), mouseState.getVirtualMouseY());
+					mouseState.getVirtualMouseX(),
+					mouseState.getVirtualMouseY());
 			mouseState.getMouseEvents().add(action);
 		}
 	}
@@ -153,21 +163,19 @@ public class DesktopInputListener implements MouseListener,
 	@Override
 	public void keyTyped(KeyEvent e) {
 		keyboardState.getKeyActions().add(
-				getKeyboardAction(
-						KeyActionType.KEY_TYPED, e));
+				getKeyboardAction(KeyActionType.KEY_TYPED, e));
 	}
 
 	@Override
 	public void keyPressed(KeyEvent e) {
 		keyboardState.getKeyActions().add(
-				getKeyboardAction(
-						KeyActionType.KEY_PRESSED, e));
+				getKeyboardAction(KeyActionType.KEY_PRESSED, e));
 
 		// TODO should be done by the GUI or the BasicHUDGO?
 		/*
 		 * if (e.getKeyCode() == KeyEvent.VK_UP) { Robot r; try { r = new
-		 * Robot(); r.mouseMove(20, 20); } catch (AWTException e1) { 
-		 * catch block e1.printStackTrace(); } }
+		 * Robot(); r.mouseMove(20, 20); } catch (AWTException e1) { catch block
+		 * e1.printStackTrace(); } }
 		 */
 
 	}
@@ -176,15 +184,18 @@ public class DesktopInputListener implements MouseListener,
 	public void keyReleased(KeyEvent e) {
 
 	}
-	
+
 	/**
 	 * Get the GUI {@link KeyAction}, form the Java {@link KeyActionType}
 	 * 
-	 * @param actionType The action type
-	 * @param keyEvent The key event
+	 * @param actionType
+	 *            The action type
+	 * @param keyEvent
+	 *            The key event
 	 * @return The GUI {@link KeyAction}
 	 */
-	public KeyAction getKeyboardAction(KeyActionType actionType, KeyEvent keyEvent) {
+	public KeyAction getKeyboardAction(KeyActionType actionType,
+			KeyEvent keyEvent) {
 		switch (keyEvent.getKeyCode()) {
 		case KeyEvent.VK_UP:
 			return new KeyActionImpl(actionType, KeyCode.ARROW_UP);
@@ -203,33 +214,49 @@ public class DesktopInputListener implements MouseListener,
 			return new KeyActionImpl(actionType, keyEvent.getKeyChar());
 		return null;
 	}
-	
+
 	/**
-	 * Get the GUI {@link MouseAction} from the Java {@link MouseEvent}, given the position in the virtual GUI representation
+	 * Get the GUI {@link MouseAction} from the Java {@link MouseEvent}, given
+	 * the position in the virtual GUI representation
 	 * 
-	 * @param e The Java {@link MouseEvent}
-	 * @param virtualX The position along the X axis
-	 * @param virtualY The position along the Y axis
-	 * @param click True if the mouse button is clicked
+	 * @param e
+	 *            The Java {@link MouseEvent}
+	 * @param virtualX
+	 *            The position along the X axis
+	 * @param virtualY
+	 *            The position along the Y axis
+	 * @param click
+	 *            True if the mouse button is clicked
 	 * @return The GUI {@link MouseAction}
 	 */
-	public MouseAction getMouseAction(MouseEvent e, int virtualX, int virtualY, boolean click) {
+	public MouseAction getMouseAction(MouseEvent e, int virtualX, int virtualY,
+			boolean click) {
 		if (e.getButton() == MouseEvent.NOBUTTON) {
-			return null; //new MouseActionImpl(MouseAction.MouseActionType.MOVED, virtualX, virtualY);
-		} else if (e.getButton() == MouseEvent.BUTTON1 && e.getClickCount() == 1 && !click) {
-			return new MouseActionImpl(MouseActionType.PRESSED, virtualX, virtualY);
-		} else if (e.getButton() == MouseEvent.BUTTON1 && e.getClickCount() == 1 && click) {
-			return new MouseActionImpl(MouseActionType.LEFT_CLICK, virtualX, virtualY);
-		} else if (e.getButton() == MouseEvent.BUTTON1 && e.getClickCount() == 2 && click) {
-			return new MouseActionImpl(MouseActionType.DOUBLE_CLICK, virtualX, virtualY);
-		} else if (e.getButton() == MouseEvent.BUTTON3 && e.getClickCount() == 1 && click) {
-			return new MouseActionImpl(MouseActionType.RIGHT_CLICK, virtualX, virtualY);
-		} else if (e.getButton() == MouseEvent.BUTTON1 && e.getClickCount() == 0 && click) {
+			return null; // new
+							// MouseActionImpl(MouseAction.MouseActionType.MOVED,
+							// virtualX, virtualY);
+		} else if (e.getButton() == MouseEvent.BUTTON1
+				&& e.getClickCount() == 1 && !click) {
+			return new MouseActionImpl(MouseActionType.PRESSED, virtualX,
+					virtualY);
+		} else if (e.getButton() == MouseEvent.BUTTON1
+				&& e.getClickCount() == 1 && click) {
+			return new MouseActionImpl(MouseActionType.LEFT_CLICK, virtualX,
+					virtualY);
+		} else if (e.getButton() == MouseEvent.BUTTON1
+				&& e.getClickCount() == 2 && click) {
+			return new MouseActionImpl(MouseActionType.DOUBLE_CLICK, virtualX,
+					virtualY);
+		} else if (e.getButton() == MouseEvent.BUTTON3
+				&& e.getClickCount() == 1 && click) {
+			return new MouseActionImpl(MouseActionType.RIGHT_CLICK, virtualX,
+					virtualY);
+		} else if (e.getButton() == MouseEvent.BUTTON1
+				&& e.getClickCount() == 0 && click) {
 			return null;
 		}
-	 	return null;
-		
-	}
+		return null;
 
+	}
 
 }

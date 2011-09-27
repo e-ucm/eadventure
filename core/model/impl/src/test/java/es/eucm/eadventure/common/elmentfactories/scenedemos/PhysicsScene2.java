@@ -24,7 +24,7 @@ import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.shapes.Re
 public class PhysicsScene2 extends PhysicsScene {
 
 	public PhysicsScene2() {
-		setBackgroundFill(new EAdLinearGradient(EAdColor.CYAN, EAdColor.BLUE));
+		setBackgroundFill(new EAdLinearGradient(EAdColor.YELLOW, EAdColor.ORANGE));
 	}
 
 	protected void init() {
@@ -48,9 +48,9 @@ public class PhysicsScene2 extends PhysicsScene {
 
 		effect.addSceneElement(e3);
 
-		BezierShape circle = new CircleShape(20, 20, 20, 25);
-		circle.setFill(new EAdLinearGradient(EAdColor.LIGHT_GRAY,
-				EAdColor.BLACK));
+		BezierShape circle = new CircleShape(20, 20, 20, 60);
+		circle.setFill(new EAdLinearGradient(EAdColor.GREEN,
+				new EAdColor(0, 100, 0)));
 
 		EAdBasicSceneElement b = new EAdBasicSceneElement("ball", circle);
 		b.setPosition(new EAdPositionImpl(Corner.CENTER, 500, 0));
@@ -92,7 +92,9 @@ public class PhysicsScene2 extends PhysicsScene {
 		event.setCondition(condition);
 		event.addEffect(ConditionedEvent.CONDITIONS_MET, effect);
 
-		getEvents().add(event);
+		//getEvents().add(event);
+		
+		getBackground().addBehavior(EAdMouseEventImpl.MOUSE_RIGHT_CLICK, effect);
 
 		addWalls(effect);
 	}
