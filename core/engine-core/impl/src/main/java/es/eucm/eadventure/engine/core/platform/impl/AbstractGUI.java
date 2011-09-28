@@ -55,6 +55,9 @@ import es.eucm.eadventure.engine.core.guiactions.impl.MouseActionImpl;
 import es.eucm.eadventure.engine.core.platform.GUI;
 import es.eucm.eadventure.engine.core.platform.GraphicRendererFactory;
 import es.eucm.eadventure.engine.core.platform.PlatformConfiguration;
+import es.eucm.eadventure.engine.core.util.EAdTransformation;
+import es.eucm.eadventure.engine.core.util.impl.EAdMatrixImpl;
+import es.eucm.eadventure.engine.core.util.impl.EAdTransformationImpl;
 
 /**
  * <p>
@@ -115,6 +118,8 @@ public abstract class AbstractGUI<T> implements GUI {
 
 	protected GameObjectFactory gameObjectFactory;
 
+	private EAdTransformation initialTransformation = new EAdTransformationImpl();
+
 	@SuppressWarnings({ "unchecked" })
 	public AbstractGUI(PlatformConfiguration platformConfiguration,
 			GraphicRendererFactory<?> assetRendererFactory,
@@ -141,9 +146,16 @@ public abstract class AbstractGUI<T> implements GUI {
 	 * The element should not be offset as it is being dragged in the scene
 	 */
 	@Override
-	public void addElement(GameObject<?> element, int offsetX, int offsetY) {
-		gameObjects.add(element, offsetX, offsetY);
-		element.doLayout(offsetX, offsetY);
+	public void addElement(GameObject<?> element,
+			EAdTransformation transformation) {
+		EAdTransformation t = element.getTransformation();
+		if (t != null) {
+			EAdTransformation tResult = addTransformation(transformation, t);
+			if (tResult.isVisible()) {
+				gameObjects.add(element, tResult);
+				element.doLayout(tResult);
+			}
+		}
 	}
 
 	/*
@@ -154,9 +166,9 @@ public abstract class AbstractGUI<T> implements GUI {
 	@Override
 	public void prepareGUI() {
 		if (gameObjects.getHUD() != null) {
-			gameObjects.add(gameObjects.getHUD(), 0, 0);
+			gameObjects.add(gameObjects.getHUD(), initialTransformation);
 			gameObjects.getHUD().update(gameState);
-			gameObjects.getHUD().doLayout(0, 0);
+			gameObjects.getHUD().doLayout(initialTransformation);
 		}
 
 		gameObjects.swap();
@@ -170,7 +182,7 @@ public abstract class AbstractGUI<T> implements GUI {
 						mouseState.getDraggingGameObject());
 				if (pos != -1) {
 					gameObjects.getGameObjects().remove(pos);
-					gameObjects.getOffsets().remove(pos);
+					gameObjects.getTransformations().remove(pos);
 				}
 			}
 		}
@@ -202,16 +214,16 @@ public abstract class AbstractGUI<T> implements GUI {
 				GameObject<?> tempGameObject = gameObjects.getGameObjects()
 						.get(i);
 				if (tempGameObject instanceof SceneElementGOImpl
-						&& !((SceneElementGOImpl<?>) tempGameObject)
-								.isVisible())
+						&& tempGameObject.getTransformation().isVisible())
 					continue;
-				int[] offset = gameObjects.getOffsets().get(i);
+				EAdTransformation t = gameObjects.getTransformations().get(i);
 
 				if (graphicRendererFactory.contains(tempGameObject,
-						mouseState.getVirtualMouseX() - offset[0],
-						mouseState.getVirtualMouseY() - offset[1])) {
-					mouseState.setElementGameObject(tempGameObject, offset[0],
-							offset[1]);
+						mouseState.getVirtualMouseX(),
+						mouseState.getVirtualMouseY(), t)) {
+					mouseState.setElementGameObject(tempGameObject, (int) t
+							.getMatrix().getOffsetX(), (int) t.getMatrix()
+							.getOffsetY());
 					if (tempGameObject != gameObject) {
 						tempGameObject.processAction(new MouseActionImpl(
 								MouseActionType.ENTERED, mouseState
@@ -250,10 +262,9 @@ public abstract class AbstractGUI<T> implements GUI {
 
 			for (int i = gameObjects.getGameObjects().size() - 1; i >= 0; i--) {
 				GameObject<?> gameObject = gameObjects.getGameObjects().get(i);
-				int[] offset = gameObjects.getOffsets().get(i);
+				EAdTransformation t = gameObjects.getTransformations().get(i);
 				if (graphicRendererFactory.contains(gameObject,
-						action.getVirtualX() - offset[0], action.getVirtualY()
-								- offset[1])) {
+						action.getVirtualX(), action.getVirtualY(), t)) {
 					logger.info("Action "
 							+ action
 							+ " passed to "
@@ -309,9 +320,9 @@ public abstract class AbstractGUI<T> implements GUI {
 	protected void render(T g, float interpolation) {
 		synchronized (GameObjectManager.lock) {
 			for (int i = 0; i < gameObjects.getGameObjects().size(); i++) {
-				int[] offset = gameObjects.getOffsets().get(i);
+				EAdTransformation t = gameObjects.getTransformations().get(i);
 				graphicRendererFactory.render(g, gameObjects.getGameObjects()
-						.get(i), interpolation, offset[0], offset[1]);
+						.get(i), t);
 			}
 		}
 	}
@@ -341,13 +352,27 @@ public abstract class AbstractGUI<T> implements GUI {
 			int pos = gameObjects.getGameObjects().indexOf(gameObject);
 			if (pos == -1)
 				return null;
-			int[] offset = gameObjects.getOffsets().get(pos);
+			EAdTransformation t = gameObjects.getTransformations().get(pos);
+			int[] offset = new int[2];
+			offset[0] = (int) t.getMatrix().getOffsetX();
+			offset[1] = (int) t.getMatrix().getOffsetY();
 			return offset;
 		}
 	}
 
 	public void changeCursor(Image image) {
 
+	}
+
+	private EAdTransformation addTransformation(EAdTransformation t1,
+			EAdTransformation t2) {
+		EAdMatrixImpl m = new EAdMatrixImpl();
+		m.postMultiply(t1.getMatrix().getFlatMatrix());
+		m.postMultiply(t2.getMatrix().getFlatMatrix());
+		float alpha = t1.getAlpha() * t2.getAlpha();
+		boolean visible = t1.isVisible() && t2.isVisible();
+		EAdTransformationImpl t = new EAdTransformationImpl(m, visible, alpha);
+		return t;
 	}
 
 }

@@ -6,7 +6,7 @@ import es.eucm.eadventure.common.model.effects.impl.text.EAdSpeakEffect;
 import es.eucm.eadventure.common.model.elements.EAdSceneElement;
 import es.eucm.eadventure.common.model.elements.EAdSceneElement.CommonStates;
 import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
-import es.eucm.eadventure.common.model.elements.impl.EAdComplexSceneElement;
+import es.eucm.eadventure.common.model.elements.impl.EAdComposedElementImpl;
 import es.eucm.eadventure.common.model.guievents.EAdMouseEvent.MouseActionType;
 import es.eucm.eadventure.common.params.geom.EAdPosition;
 import es.eucm.eadventure.common.params.geom.impl.EAdPositionImpl;
@@ -141,10 +141,10 @@ public class SpeakEffectGO extends AbstractEffectGO<EAdSpeakEffect> {
 				EAdBasicSceneElement.appearance, text);
 		textSE.setPosition(new EAdPositionImpl(left + MARGIN, top));
 
-		EAdComplexSceneElement complex = new EAdComplexSceneElement("complex");
+		EAdComposedElementImpl complex = new EAdComposedElementImpl("complex");
 		complex.getResources().addAsset(complex.getInitialBundle(),
 				EAdBasicSceneElement.appearance, rectangle);
-		complex.getComponents().add(textSE);
+		complex.getElements().add(textSE);
 
 		caption = (RuntimeCaption) ((SceneElementGO<?>) gameObjectFactory
 				.get(textSE)).getRenderAsset();
@@ -159,7 +159,7 @@ public class SpeakEffectGO extends AbstractEffectGO<EAdSpeakEffect> {
 	}
 
 	public void doLayout(int offsetX, int offsetY) {
-		gui.addElement(ballon, offsetX, offsetY);
+		gui.addElement(ballon, null);
 	}
 
 	@Override

@@ -79,7 +79,7 @@ public class EAdVideoScene extends EAdSceneImpl implements EAdScene {
 	}
 
 	@Override
-	public EAdList<EAdSceneElement> getSceneElements() {
+	public EAdList<EAdSceneElement> getElements() {
 		return null;
 	}
 

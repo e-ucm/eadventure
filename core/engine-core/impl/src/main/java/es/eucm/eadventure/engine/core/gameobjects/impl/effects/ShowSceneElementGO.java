@@ -49,6 +49,7 @@ import es.eucm.eadventure.engine.core.gameobjects.SceneElementGO;
 import es.eucm.eadventure.engine.core.platform.AssetHandler;
 import es.eucm.eadventure.engine.core.platform.GUI;
 import es.eucm.eadventure.engine.core.platform.PlatformConfiguration;
+import es.eucm.eadventure.engine.core.util.EAdTransformation;
 
 public class ShowSceneElementGO extends AbstractEffectGO<EAdShowSceneElement> {
 
@@ -66,8 +67,9 @@ public class ShowSceneElementGO extends AbstractEffectGO<EAdShowSceneElement> {
 	}
 
 	@Override
-	public void doLayout(int offsetX, int offsetY) {
-		gui.addElement(sceneElement, offsetX, offsetY);
+	public void doLayout(EAdTransformation t) {
+		gui.addElement(sceneElement, t);
+		sceneElement.doLayout(t);
 	}
 
 	@Override

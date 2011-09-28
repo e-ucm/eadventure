@@ -67,6 +67,8 @@ public interface EAdSceneElement extends EAdGeneralElement, Variabled {
 
 	public EAdRectangle getInfluenceArea();
 	
+	EAdCondition getDraggabe();
+	
 	/**
 	 * An enumerate with common states for scene elements
 	 * 

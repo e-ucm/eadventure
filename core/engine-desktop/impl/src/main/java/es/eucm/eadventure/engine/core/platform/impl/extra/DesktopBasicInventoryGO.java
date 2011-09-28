@@ -59,7 +59,7 @@ import es.eucm.eadventure.common.model.effects.impl.variables.EAdChangeFieldValu
 import es.eucm.eadventure.common.model.elements.EAdActor;
 import es.eucm.eadventure.common.model.elements.impl.EAdActorReferenceImpl;
 import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
-import es.eucm.eadventure.common.model.elements.impl.EAdComplexSceneElement;
+import es.eucm.eadventure.common.model.elements.impl.EAdComposedElementImpl;
 import es.eucm.eadventure.common.model.guievents.impl.EAdMouseEventImpl;
 import es.eucm.eadventure.common.model.variables.impl.EAdFieldImpl;
 import es.eucm.eadventure.common.model.variables.impl.operations.BooleanOperation;
@@ -80,6 +80,7 @@ import es.eucm.eadventure.engine.core.gameobjects.impl.sceneelements.ActorRefere
 import es.eucm.eadventure.engine.core.platform.AssetHandler;
 import es.eucm.eadventure.engine.core.platform.GUI;
 import es.eucm.eadventure.engine.core.platform.PlatformConfiguration;
+import es.eucm.eadventure.engine.core.util.EAdTransformation;
 
 /**
  * Desktop implementation of the {@link BasicInventoryGO}
@@ -114,12 +115,12 @@ public class DesktopBasicInventoryGO extends BasicInventoryGO {
 	/**
 	 * the actual inventory
 	 */
-	private EAdComplexSceneElement inventory;
+	private EAdComposedElementImpl inventory;
 
 	/**
 	 * the object that contains the elements in the inventory
 	 */
-	private EAdComplexSceneElement inventoryContent;
+	private EAdComposedElementImpl inventoryContent;
 
 	/**
 	 * the map of actors and actor references in the inventory
@@ -134,7 +135,7 @@ public class DesktopBasicInventoryGO extends BasicInventoryGO {
 		super(assetHandler, stringHandler, gameObjectFactory, gui, gameState,
 				valueMap, platformConfiguration);
 
-		inventory = new EAdComplexSceneElement("inventory");
+		inventory = new EAdComposedElementImpl("inventory");
 		inventory.setDraggabe(EmptyCondition.FALSE_EMPTY_CONDITION);
 		inventory.setPosition(new EAdPositionImpl(Corner.BOTTOM_LEFT, 0, 700));
 		RectangleShape rect2 = new RectangleShape(800, INVENTORY_HEIGHT,
@@ -142,7 +143,7 @@ public class DesktopBasicInventoryGO extends BasicInventoryGO {
 		inventory.getResources().addAsset(inventory.getInitialBundle(),
 				EAdBasicSceneElement.appearance, rect2);
 
-		inventoryContent = new EAdComplexSceneElement("inventoryContent");
+		inventoryContent = new EAdComposedElementImpl("inventoryContent");
 		inventoryContent.setDraggabe(EmptyCondition.FALSE_EMPTY_CONDITION);
 		inventoryContent.setPosition(new EAdPositionImpl(Corner.TOP_LEFT,
 				INVENTORY_HEIGHT / 2 + 10, 0));
@@ -151,7 +152,7 @@ public class DesktopBasicInventoryGO extends BasicInventoryGO {
 		inventoryContent.getResources().addAsset(
 				inventoryContent.getInitialBundle(),
 				EAdBasicSceneElement.appearance, rect2);
-		inventory.getComponents().add(inventoryContent);
+		inventory.getElements().add(inventoryContent);
 
 		createArrow("Right", "+", 800, Corner.TOP_RIGHT);
 		createArrow("Left", "-", 0, Corner.TOP_LEFT);
@@ -202,7 +203,7 @@ public class DesktopBasicInventoryGO extends BasicInventoryGO {
 		arrow.addBehavior(EAdMouseEventImpl.MOUSE_EXITED,
 				new EAdChangeAppearance("id", arrow, arrow.getInitialBundle()));
 
-		inventory.getComponents().add(arrow);
+		inventory.getElements().add(arrow);
 
 		EAdFieldImpl<Integer> xField = new EAdFieldImpl<Integer>(
 				inventoryContent, EAdBasicSceneElement.VAR_X);
@@ -308,12 +309,12 @@ public class DesktopBasicInventoryGO extends BasicInventoryGO {
 	}
 
 	@Override
-	public void doLayout(int offsetX, int offsetY) {
+	public void doLayout(EAdTransformation t) {
 		if (gameState.getScene().acceptsVisualEffects()) {
-			gui.addElement(gameObjectFactory.get(centerSensor), 0, 0);
-			gui.addElement(gameObjectFactory.get(inventory), 0, 0);
-			gui.addElement(gameObjectFactory.get(bottomSensor), 0, 0);
-			gui.addElement(gameObjectFactory.get(topSensor), 0, 0);
+			gui.addElement(gameObjectFactory.get(centerSensor), t);
+			gui.addElement(gameObjectFactory.get(inventory), t);
+			gui.addElement(gameObjectFactory.get(bottomSensor), t);
+			gui.addElement(gameObjectFactory.get(topSensor), t);
 		}
 	}
 
@@ -360,7 +361,7 @@ public class DesktopBasicInventoryGO extends BasicInventoryGO {
 				((ActorReferenceGOImpl) gameObjectFactory.get(ref))
 						.setInventoryReference(true);
 				includedActors.put(actor, ref);
-				inventoryContent.getComponents().add(ref);
+				inventoryContent.getElements().add(ref);
 				SceneElementGO<?> go = (SceneElementGO<?>) gameObjectFactory
 						.get(ref);
 				int maxSide = Math.max(go.getRenderAsset().getHeight(), go
@@ -376,7 +377,7 @@ public class DesktopBasicInventoryGO extends BasicInventoryGO {
 	 */
 	private void removeOldActors(List<EAdActor> removedActors) {
 		for (EAdActor actor : removedActors) {
-			inventoryContent.getComponents().remove(includedActors.get(actor));
+			inventoryContent.getElements().remove(includedActors.get(actor));
 			includedActors.remove(actor);
 			// TODO free resources?
 		}

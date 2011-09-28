@@ -65,30 +65,30 @@ import es.eucm.eadventure.engine.core.platform.AssetHandler;
 import es.eucm.eadventure.engine.core.platform.GUI;
 import es.eucm.eadventure.engine.core.platform.PlatformConfiguration;
 import es.eucm.eadventure.engine.core.platform.RuntimeAsset;
+import es.eucm.eadventure.engine.core.util.EAdTransformation;
 
-public class SimpleTransitionGO extends SceneGOImpl implements
-		TransitionGO {
+public class SimpleTransitionGO extends SceneGOImpl implements TransitionGO {
 
 	private SceneGO<?> previousSceneGO;
-	
+
 	private EAdScene nextEAdScene;
-	
+
 	protected SceneGO<?> nextSceneGO;
-	
+
 	private RuntimeAsset<Image> background;
-	
+
 	private Caption caption;
-	
+
 	protected RuntimeAsset<Image> previousSceneImage;
-	
+
 	protected EAdBasicSceneElement loadingText;
-	
+
 	protected EAdBasicSceneElement screenBlock;
-	
+
 	protected boolean loading = false;
-	
+
 	protected boolean loaded = false;
-	
+
 	@Inject
 	public SimpleTransitionGO(AssetHandler assetHandler,
 			StringHandler stringHandler, GameObjectFactory gameObjectFactory,
@@ -96,19 +96,27 @@ public class SimpleTransitionGO extends SceneGOImpl implements
 			PlatformConfiguration platformConfiguration) {
 		super(assetHandler, stringHandler, gameObjectFactory, gui, gameState, valueMap,
 				platformConfiguration);
-		//TODO localize
+
+		// TODO localize
 		EAdString string = new EAdString("Loading");
 		caption = new CaptionImpl(string);
 		loadingText = new EAdBasicSceneElement("loadingText");
-		loadingText.getResources().addAsset(loadingText.getInitialBundle(), EAdBasicSceneElement.appearance, caption);
-		loadingText.setPosition(EAdPositionImpl.volatileEAdPosition(750, 550, 1.0f, 1.0f));
-		
-		RectangleShape rs = new RectangleShape(platformConfiguration.getVirtualWidth(), platformConfiguration.getVirtualHeight());
-		rs.setFill(new EAdBorderedColor(new EAdColor(100, 100, 100, 30), EAdColor.BLACK));
-		
+		loadingText.getResources().addAsset(loadingText.getInitialBundle(),
+				EAdBasicSceneElement.appearance, caption);
+		loadingText.setPosition(EAdPositionImpl.volatileEAdPosition(750, 550,
+				1.0f, 1.0f));
+
+		RectangleShape rs = new RectangleShape(
+				platformConfiguration.getVirtualWidth(),
+				platformConfiguration.getVirtualHeight());
+		rs.setFill(new EAdBorderedColor(new EAdColor(100, 100, 100, 30),
+				EAdColor.BLACK));
+
 		screenBlock = new EAdBasicSceneElement("screenBlock");
-		screenBlock.getResources().addAsset(screenBlock.getInitialBundle(), EAdBasicSceneElement.appearance, rs);
+		screenBlock.getResources().addAsset(screenBlock.getInitialBundle(),
+				EAdBasicSceneElement.appearance, rs);
 	}
+
 	@Override
 	public boolean acceptsVisualEffects() {
 		return false;
@@ -116,7 +124,6 @@ public class SimpleTransitionGO extends SceneGOImpl implements
 
 	@Override
 	public void setElement(EAdScene element) {
-		
 
 	}
 
@@ -124,18 +131,23 @@ public class SimpleTransitionGO extends SceneGOImpl implements
 	public GameObject<?> getDraggableElement(MouseState mouseState) {
 		return null;
 	}
-	/* (non-Javadoc)
-	 * @see es.eucm.eadventure.engine.core.gameobjects.impl.SceneGOImpl#doLayout(int, int)
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * es.eucm.eadventure.engine.core.gameobjects.impl.SceneGOImpl#doLayout(int,
+	 * int)
 	 * 
 	 * The bloking element and the loading text should never be offset
 	 */
-	
+
 	@Override
-	public void doLayout(int offsetX, int offsetY) {
-		gui.addElement(gameObjectFactory.get(screenBlock), 0, 0);
-		gui.addElement(gameObjectFactory.get(loadingText), 0, 0);
+	public void doLayout(EAdTransformation transformation) {
+		gui.addElement(gameObjectFactory.get(screenBlock), null);
+		gui.addElement(gameObjectFactory.get(loadingText), null);
 		if (loaded) {
-			gui.addElement(nextSceneGO, 0, 0);
+			gui.addElement(nextSceneGO, null);
 		}
 	}
 
@@ -162,11 +174,12 @@ public class SimpleTransitionGO extends SceneGOImpl implements
 			loading = true;
 			nextSceneGO = (SceneGO<?>) gameObjectFactory.get(nextEAdScene);
 
-			List<RuntimeAsset<?>> newAssetList = nextSceneGO.getAssets(new ArrayList<RuntimeAsset<?>>(), false);
+			List<RuntimeAsset<?>> newAssetList = nextSceneGO.getAssets(
+					new ArrayList<RuntimeAsset<?>>(), false);
 
 			List<RuntimeAsset<?>> oldAssetList = new ArrayList<RuntimeAsset<?>>();
 			oldAssetList = previousSceneGO.getAssets(oldAssetList, true);
-			 //unload unnecessary assets
+			// unload unnecessary assets
 			for (RuntimeAsset<?> asset : oldAssetList) {
 				if (asset != null && !newAssetList.contains(asset)) {
 					asset.freeMemory();
@@ -178,21 +191,20 @@ public class SimpleTransitionGO extends SceneGOImpl implements
 				if (asset != null && !asset.isLoaded())
 					asset.loadAsset();
 			}
-			
+
 			nextSceneGO.update(gameState);
 			loaded = true;
 		}
-		
+
 		if (previousSceneImage == null) {
 			previousSceneImage = gui.commitToImage();
 		}
-		
+
 		if (loaded) {
 			gameState.setScene(nextSceneGO);
 			if (previousSceneImage != null)
 				previousSceneImage.freeMemory();
 		}
 	}
-	
 
 }

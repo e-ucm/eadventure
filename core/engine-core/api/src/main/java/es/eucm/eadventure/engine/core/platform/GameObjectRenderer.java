@@ -37,8 +37,8 @@
 
 package es.eucm.eadventure.engine.core.platform;
 
-import es.eucm.eadventure.common.params.geom.EAdPosition;
 import es.eucm.eadventure.engine.core.gameobjects.GameObject;
+import es.eucm.eadventure.engine.core.util.EAdTransformation;
 
 /**
  * <p>
@@ -54,21 +54,6 @@ public interface GameObjectRenderer<S, T extends GameObject<?>> extends
 		GraphicRenderer<S, T> {
 
 	/**
-	 * Render the game object into the graphic context with a given
-	 * interpolation, to allow for better and smoother animations
-	 * 
-	 * @param graphicContext
-	 *            The graphic context (platform-dependent) into which to draw
-	 * @param object
-	 *            The {@link GameObject}
-	 * @param interpolation
-	 *            The interpolation, with a value between 0.0f and 1.0f
-	 * @param offsetY 
-	 * @param offsetX 
-	 */
-	void render(S graphicContext, T object, float interpolation, int offsetX, int offsetY);
-
-	/**
 	 * Render the game object into the graphic context, at a given position and
 	 * with a given scale
 	 * 
@@ -76,14 +61,10 @@ public interface GameObjectRenderer<S, T extends GameObject<?>> extends
 	 *            The graphic context (platform-dependent) into which to draw
 	 * @param object
 	 *            The {@link GameObject}
-	 * @param position
-	 *            The {@link EAdPosition} into which to draw
-	 * @param scale
-	 *            The scale with which to draw the game object
-	 * @param offsetX
-	 * @param offsetY 
+	 * @param transformation
+	 *            The transformation accumulated by the given element
 	 */
-	void render(S graphicContext, T object, EAdPosition position, float scale, int offsetX, int offsetY);
+	void render(S graphicContext, T object, EAdTransformation transformation);
 
 	/**
 	 * Returns true if the {@link GameObject} contains the point in the virtual
@@ -95,8 +76,11 @@ public interface GameObjectRenderer<S, T extends GameObject<?>> extends
 	 *            The virtual coordinate along the x axis
 	 * @param virtualY
 	 *            The virtual coordinate along the y axis
+	 * @param transformation
+	 *            the transformation accumulated by the given element
 	 * @return True if the point is contained and not transparent
 	 */
-	boolean contains(T object, int virtualX, int virtualY);
+	boolean contains(T object, int virtualX, int virtualY,
+			EAdTransformation transformation);
 
 }

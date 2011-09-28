@@ -119,8 +119,8 @@ public class ActorGOImpl extends SceneElementGOImpl<EAdActor> implements
 		if (lastScene != state.getScene()
 				&& state.getScene() != null
 				&& state.getScene().getElement() != null
-				&& state.getScene().getElement().getSceneElements() != null) {
-			for (EAdSceneElement se : state.getScene().getElement().getSceneElements()) {
+				&& state.getScene().getElement().getElements() != null) {
+			for (EAdSceneElement se : state.getScene().getElement().getElements()) {
 				if (se != null 
 						&& se instanceof EAdActorReference
 						&& ((EAdActorReference) se).getReferencedActor() == element

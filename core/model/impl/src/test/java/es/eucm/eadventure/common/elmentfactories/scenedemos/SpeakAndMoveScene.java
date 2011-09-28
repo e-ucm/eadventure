@@ -57,7 +57,7 @@ public class SpeakAndMoveScene extends EmptyScene {
 
 		character.addBehavior(EAdMouseEventImpl.MOUSE_RIGHT_CLICK, effect);
 
-		this.getSceneElements().add(character);
+		this.getElements().add(character);
 
 		EAdMakeActiveElementEffect makeActive = new EAdMakeActiveElementEffect(
 				"makeActiveCharacter");

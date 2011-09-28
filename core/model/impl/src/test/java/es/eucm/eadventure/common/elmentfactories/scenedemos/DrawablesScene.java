@@ -1,7 +1,6 @@
 package es.eucm.eadventure.common.elmentfactories.scenedemos;
 
 import es.eucm.eadventure.common.elmentfactories.EAdElementsFactory;
-import es.eucm.eadventure.common.model.elements.EAdSceneElement.CommonStates;
 import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
 import es.eucm.eadventure.common.model.guievents.impl.EAdMouseEventImpl;
 import es.eucm.eadventure.common.model.variables.impl.EAdFieldImpl;
@@ -35,7 +34,7 @@ public class DrawablesScene extends EmptyScene {
 		ComposedDrawable composed = new ComposedDrawableImpl();
 		composed.addDrawable(caption);
 		composed.addDrawable(drawable, 0, 40);
-		getSceneElements().add(
+		getElements().add(
 				EAdElementsFactory.getInstance().getSceneElementFactory()
 						.createSceneElement(composed, x, y));
 
@@ -82,7 +81,7 @@ public class DrawablesScene extends EmptyScene {
 		composed.addDrawable(caption);
 		composed.addDrawable(composedDrawable, 0, 40);
 
-		getSceneElements().add(
+		getElements().add(
 				EAdElementsFactory.getInstance().getSceneElementFactory()
 						.createSceneElement(composed, x, y));
 
@@ -107,7 +106,7 @@ public class DrawablesScene extends EmptyScene {
 				.createCaption("State Drawable");
 		caption.setPadding(0);
 
-		getSceneElements().add(
+		getElements().add(
 				EAdElementsFactory.getInstance().getSceneElementFactory()
 						.createSceneElement(caption, x, y));
 		EAdBasicSceneElement sceneElement = EAdElementsFactory.getInstance()
@@ -133,7 +132,7 @@ public class DrawablesScene extends EmptyScene {
 								new AssignOperation("assign",
 										CommonStates.EAD_STATE_TALKING
 												.toString())));
-		getSceneElements().add(sceneElement);
+		getElements().add(sceneElement);
 
 		// Frames
 		String uris[] = new String[8];
@@ -147,7 +146,7 @@ public class DrawablesScene extends EmptyScene {
 				.createCaption("Frames animation");
 		caption.setPadding(0);
 		
-		getSceneElements().add(
+		getElements().add(
 				EAdElementsFactory.getInstance().getSceneElementFactory()
 						.createSceneElement(caption, margin, 180));
 
@@ -155,7 +154,7 @@ public class DrawablesScene extends EmptyScene {
 				.getSceneElementFactory()
 				.createSceneElement(animation, margin, 220);
 		paniel.setScale(0.8f);
-		getSceneElements().add(paniel);
+		getElements().add(paniel);
 
 	}
 	

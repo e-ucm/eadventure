@@ -56,6 +56,7 @@ import es.eucm.eadventure.engine.core.gameobjects.GameObjectManager;
 import es.eucm.eadventure.engine.core.gameobjects.huds.MenuHUD;
 import es.eucm.eadventure.engine.core.gameobjects.huds.impl.MenuHUDImpl;
 import es.eucm.eadventure.engine.core.platform.RuntimeAsset;
+import es.eucm.eadventure.engine.core.util.EAdTransformation;
 
 @Singleton
 public class DesktopMenuHUDImpl extends MenuHUDImpl {
@@ -97,8 +98,8 @@ public class DesktopMenuHUDImpl extends MenuHUDImpl {
 	 * @see es.eucm.eadventure.engine.core.gameobjects.GameObject#doLayout()
 	 */
 	@Override
-	public void doLayout(int offsetX, int offsetY) {
-		gui.addElement(gameObjectFactory.get(button), offsetX, offsetY);
+	public void doLayout(EAdTransformation t) {
+		gui.addElement(gameObjectFactory.get(button), t);
 	}
 
 	/*

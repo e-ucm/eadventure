@@ -39,7 +39,6 @@ package es.eucm.eadventure.engine.core.gameobjects.impl;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Logger;
 
 import com.google.inject.Inject;
 
@@ -52,56 +51,65 @@ import es.eucm.eadventure.engine.core.ValueMap;
 import es.eucm.eadventure.engine.core.gameobjects.GameObjectFactory;
 import es.eucm.eadventure.engine.core.gameobjects.SceneElementGO;
 import es.eucm.eadventure.engine.core.gameobjects.SceneGO;
+import es.eucm.eadventure.engine.core.gameobjects.impl.sceneelements.SceneElementGOImpl;
+import es.eucm.eadventure.engine.core.guiactions.GUIAction;
 import es.eucm.eadventure.engine.core.platform.AssetHandler;
 import es.eucm.eadventure.engine.core.platform.GUI;
 import es.eucm.eadventure.engine.core.platform.PlatformConfiguration;
 import es.eucm.eadventure.engine.core.platform.RuntimeAsset;
+import es.eucm.eadventure.engine.core.util.EAdTransformation;
 
-public class SceneGOImpl extends AbstractGameObject<EAdScene> implements SceneGO<EAdScene> {
-
-	private static final Logger logger = Logger.getLogger("ScreenGOImpl");
+public class SceneGOImpl extends SceneElementGOImpl<EAdScene> implements
+		SceneGO<EAdScene> {
 
 	@Inject
-	public SceneGOImpl(AssetHandler assetHandler, StringHandler stringsReader,
+	public SceneGOImpl(AssetHandler assetHandler, StringHandler stringHandler,
 			GameObjectFactory gameObjectFactory, GUI gui, GameState gameState,
 			ValueMap valueMap, PlatformConfiguration platformConfiguration) {
-		super(assetHandler, stringsReader, gameObjectFactory, gui, gameState, valueMap,
+		super(assetHandler, stringHandler, gameObjectFactory, gui, gameState, valueMap,
 				platformConfiguration);
-		logger.info( "New instance" );
 	}
 
-	public void doLayout(int offsetX, int offsetY) {
-		//TODO scene offset
-		gui.addElement(gameObjectFactory.get(element.getBackground()), offsetX, offsetY);
-		//TODO sort elements?
-		for (SceneElementGO<?> sceneElementGO : getSortedElements()) {
-			gui.addElement(sceneElementGO, offsetX, offsetY);
+	public void doLayout(EAdTransformation transformation) {
+		super.doLayout(transformation);
+		gui.addElement(gameObjectFactory.get(element.getBackground()),
+				transformation);
+		for ( EAdSceneElement e: element.getElements() ){
+			gui.addElement(gameObjectFactory.get(e), transformation);
 		}
+		// TODO sort elements?
+		// for (SceneElementGO<?> sceneElementGO : getSortedElements()) {
+		// gui.addElement(sceneElementGO, transformation);
+		// }
 	}
-	
+
 	private List<SceneElementGO<?>> getSortedElements() {
 		List<SceneElementGO<?>> list = new ArrayList<SceneElementGO<?>>();
-		for (EAdSceneElement sceneElement : element.getSceneElements()) {
-			SceneElementGO<?> sceneElementGO = (SceneElementGO<?>) gameObjectFactory.get(sceneElement);
-			if ( sceneElementGO.isVisible() ) {
-				if (sceneElement instanceof EAdActorReference) {
-					//TODO could there be a better way than explicitly comparing?
-					int i = 0;
-					while (list.size() > i && list.get(i) instanceof EAdActorReference && list.get(i).getCenterY() < sceneElementGO.getCenterY())
-						i++;
-					list.add(i, sceneElementGO);
-				}
+		for (EAdSceneElement sceneElement : element.getElements()) {
+			SceneElementGO<?> sceneElementGO = (SceneElementGO<?>) gameObjectFactory
+					.get(sceneElement);
+
+			if (sceneElement instanceof EAdActorReference) {
+				// TODO could there be a better way than explicitly comparing?
+				int i = 0;
+				while (list.size() > i
+						&& list.get(i) instanceof EAdActorReference
+						&& list.get(i).getCenterY() < sceneElementGO
+								.getCenterY())
+					i++;
+				list.add(i, sceneElementGO);
+
 				list.add(sceneElementGO);
 			}
 		}
 		return list;
 	}
-	
+
 	@Override
 	public void update(GameState state) {
 		super.update(state);
 		gameObjectFactory.get(element.getBackground()).update(state);
-		for (EAdSceneElement sceneElement : element.getSceneElements())
+		for (EAdSceneElement sceneElement : element.getElements())
 			gameObjectFactory.get(sceneElement).update(state);
 	}
 
@@ -113,12 +121,19 @@ public class SceneGOImpl extends AbstractGameObject<EAdScene> implements SceneGO
 	}
 
 	@Override
-	public List<RuntimeAsset<?>> getAssets(
-			List<RuntimeAsset<?>> assetList, boolean allAssets) {
-		assetList = gameObjectFactory.get(element.getBackground()).getAssets(assetList, allAssets);
-		for (EAdSceneElement sceneElement : element.getSceneElements())
-			assetList = gameObjectFactory.get(sceneElement).getAssets(assetList, allAssets);
+	public List<RuntimeAsset<?>> getAssets(List<RuntimeAsset<?>> assetList,
+			boolean allAssets) {
+		assetList = gameObjectFactory.get(element.getBackground()).getAssets(
+				assetList, allAssets);
+		for (EAdSceneElement sceneElement : element.getElements())
+			assetList = gameObjectFactory.get(sceneElement).getAssets(
+					assetList, allAssets);
 		return assetList;
+	}
+
+	@Override
+	public boolean processAction(GUIAction action) {
+		return false;
 	}
 
 }

@@ -43,9 +43,10 @@ import java.util.logging.Logger;
 import com.google.inject.Inject;
 
 import es.eucm.eadventure.common.model.effects.EAdEffect;
+import es.eucm.eadventure.common.model.elements.EAdComposedElement;
 import es.eucm.eadventure.common.model.elements.EAdSceneElement;
 import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
-import es.eucm.eadventure.common.model.elements.impl.EAdComplexSceneElement;
+import es.eucm.eadventure.common.model.elements.impl.EAdComposedElementImpl;
 import es.eucm.eadventure.common.model.extra.EAdList;
 import es.eucm.eadventure.common.resources.StringHandler;
 import es.eucm.eadventure.engine.core.GameState;
@@ -60,16 +61,15 @@ import es.eucm.eadventure.engine.core.platform.AssetHandler;
 import es.eucm.eadventure.engine.core.platform.GUI;
 import es.eucm.eadventure.engine.core.platform.PlatformConfiguration;
 import es.eucm.eadventure.engine.core.platform.RuntimeAsset;
+import es.eucm.eadventure.engine.core.util.EAdTransformation;
 
 public class ComplexSceneElementGO extends
-		SceneElementGOImpl<EAdComplexSceneElement> {
+		SceneElementGOImpl<EAdComposedElement> {
 
 	private static final Logger logger = Logger
 			.getLogger("EAdComplexSceneElement");
 
 	private EvaluatorFactory evaluatorFactory;
-
-	private int elementOffsetX, elementOffsetY;
 
 	@Inject
 	public ComplexSceneElementGO(AssetHandler assetHandler,
@@ -84,14 +84,15 @@ public class ComplexSceneElementGO extends
 	}
 
 	public GameObject<?> getDraggableElement(MouseState mouseState) {
-		if (evaluatorFactory.evaluate(element.getDraggabe()))
+		if (evaluatorFactory.evaluate(((EAdBasicSceneElement) element)
+				.getDraggabe()))
 			return this;
 		return null;
 	}
 
-	public void setElement(EAdComplexSceneElement basicSceneElement) {
-		super.setElement(basicSceneElement);
-		for (EAdSceneElement sceneElement : element.getComponents()) {
+	public void setElement(EAdComposedElement element) {
+		super.setElement(element);
+		for (EAdSceneElement sceneElement : element.getElements()) {
 			SceneElementGO<?> go = (SceneElementGO<?>) gameObjectFactory
 					.get(sceneElement);
 			go.getRenderAsset();
@@ -114,7 +115,7 @@ public class ComplexSceneElementGO extends
 	@Override
 	public void update(GameState state) {
 		super.update(state);
-		for (EAdSceneElement sceneElement : element.getComponents()) {
+		for (EAdSceneElement sceneElement : element.getElements()) {
 			gameObjectFactory.get(sceneElement).update(state);
 		}
 	}
@@ -124,14 +125,9 @@ public class ComplexSceneElementGO extends
 		setWidth(valueMap.getValue(element, EAdBasicSceneElement.VAR_WIDTH));
 		setHeight(valueMap.getValue(element, EAdBasicSceneElement.VAR_HEIGHT));
 		boolean updateWidth = valueMap.getValue(element,
-				EAdComplexSceneElement.VAR_AUTO_SIZE_HORIZONTAL);
+				EAdComposedElementImpl.VAR_AUTO_SIZE_HORIZONTAL);
 		boolean updateHeight = valueMap.getValue(element,
-				EAdComplexSceneElement.VAR_AUTO_SIZE_VERTICAL);
-
-		elementOffsetX = valueMap.getValue(element,
-				EAdComplexSceneElement.VAR_OFFSET_X);
-		elementOffsetY = valueMap.getValue(element,
-				EAdComplexSceneElement.VAR_OFFSET_Y);
+				EAdComposedElementImpl.VAR_AUTO_SIZE_VERTICAL);
 
 		if (updateWidth || updateHeight) {
 			updateDimensions(updateWidth, updateHeight);
@@ -143,7 +139,7 @@ public class ComplexSceneElementGO extends
 		int minY = minX;
 		int maxX = Integer.MIN_VALUE;
 		int maxY = maxX;
-		for (EAdSceneElement sceneElement : element.getComponents()) {
+		for (EAdSceneElement sceneElement : element.getElements()) {
 			SceneElementGO<?> go = (SceneElementGO<?>) gameObjectFactory
 					.get(sceneElement);
 			int xLeft = go.getPosition().getJavaX(go.getWidth());
@@ -166,27 +162,23 @@ public class ComplexSceneElementGO extends
 	}
 
 	@Override
-	public void doLayout(int offsetX, int offsetY) {
-		int newOffsetX = offsetX + this.getPosition().getJavaX(getWidth())
-				- elementOffsetX;
-		int newOffsetY = offsetY + this.getPosition().getJavaY(getHeight())
-				- elementOffsetY;
-		for (EAdSceneElement sceneElement : element.getComponents()) {
+	public void doLayout(EAdTransformation transformation) {
+		for (EAdSceneElement sceneElement : element.getElements()) {
 			SceneElementGO<?> go = (SceneElementGO<?>) gameObjectFactory
 					.get(sceneElement);
-			if (go.isVisible())
-				gui.addElement(go, newOffsetX, newOffsetY);
+			gui.addElement(go, transformation);
+
 		}
 	}
 
 	@Override
 	public List<RuntimeAsset<?>> getAssets(List<RuntimeAsset<?>> assetList,
 			boolean allAssets) {
-		if (!isVisible() && !allAssets) {
+		if (visible && !allAssets) {
 			return assetList;
 		}
 
-		for (EAdSceneElement sceneElement : element.getComponents())
+		for (EAdSceneElement sceneElement : element.getElements())
 			assetList = gameObjectFactory.get(sceneElement).getAssets(
 					assetList, allAssets);
 		return assetList;

@@ -47,6 +47,7 @@ import com.google.inject.Singleton;
 import es.eucm.eadventure.common.params.geom.EAdPosition;
 import es.eucm.eadventure.engine.core.gameobjects.huds.impl.EffectHUDImpl;
 import es.eucm.eadventure.engine.core.platform.GameObjectRenderer;
+import es.eucm.eadventure.engine.core.util.EAdTransformation;
 
 @Singleton
 public class EffectHudGORenderer implements
@@ -69,7 +70,7 @@ public class EffectHudGORenderer implements
 	}
 
 	@Override
-	public boolean contains(EffectHUDImpl object, int virutalX, int virtualY) {
+	public boolean contains(EffectHUDImpl object, int virutalX, int virtualY, EAdTransformation transformation) {
 		return true;
 	}
 

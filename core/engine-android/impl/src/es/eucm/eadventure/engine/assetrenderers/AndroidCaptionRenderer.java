@@ -43,7 +43,6 @@ import android.graphics.Path;
 import com.google.inject.Inject;
 
 import es.eucm.eadventure.common.params.EAdFill;
-import es.eucm.eadventure.common.params.geom.EAdPosition;
 import es.eucm.eadventure.engine.assets.AndroidEngineCaption;
 import es.eucm.eadventure.engine.core.platform.AssetRenderer;
 import es.eucm.eadventure.engine.core.platform.FillFactory;
@@ -59,20 +58,13 @@ public class AndroidCaptionRenderer implements
 	}
 
 	@Override
-	public void render(Canvas g, AndroidEngineCaption asset,
-			EAdPosition position, float scale, int offsetX, int offsetY) {
-		// TODO use offsets
+	public void render(Canvas g, AndroidEngineCaption asset) {
 
 		if (!asset.isLoaded())
 			asset.loadAsset();
 
-		int xLeft = position.getJavaX(asset.getWidth() * scale);
-		int yTop = position.getJavaY(asset.getHeight() * scale);
-		int width = (int) (asset.getWidth() * scale);
-		int height = (int) (asset.getHeight() * scale);
-
-		g.save();
-		g.translate(offsetX + xLeft, offsetY + yTop);
+		int width = asset.getWidth();
+		int height = asset.getHeight();
 
 		if (asset.getCaption().hasBubble()
 				& asset.getCaption().getBubbleFill() != null)

@@ -4,14 +4,26 @@ public interface EAdMatrix {
 	
 	float[] getFlatMatrix();
 	
-	void translate( float x, float y );
+	void postTranslate( float x, float y );
 	
-	void rotate( float angle );
+	void preTranslate( float x, float y );
 	
-	void scale( float scaleX, float scaleY );
+	void postRotate( float angle );
+	
+	void preRotate( float angle );
+	
+	void postScale( float scaleX, float scaleY );
+	
+	void preScale( float scaleX, float scaleY );
 	
 	void preMultiply( float m[] );
 	
 	void postMultiply( float m[] );
+	
+	float getOffsetX();
+	
+	float getOffsetY();
+	
+	void setIdentity();
 
 }

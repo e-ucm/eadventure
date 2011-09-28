@@ -59,6 +59,7 @@ import es.eucm.eadventure.engine.core.platform.AssetHandler;
 import es.eucm.eadventure.engine.core.platform.GUI;
 import es.eucm.eadventure.engine.core.platform.PlatformConfiguration;
 import es.eucm.eadventure.engine.core.platform.RuntimeAsset;
+import es.eucm.eadventure.engine.core.util.EAdTransformation;
 
 public class TimerGOImpl extends GameObjectImpl<EAdTimer> implements TimerGO {
 
@@ -85,7 +86,7 @@ public class TimerGOImpl extends GameObjectImpl<EAdTimer> implements TimerGO {
 	}
 
 	@Override
-	public void doLayout(int offsetX, int offsetY) {
+	public void doLayout(EAdTransformation transformation) {
 	}
 
 	@Override

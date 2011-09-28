@@ -53,6 +53,7 @@ import es.eucm.eadventure.engine.core.platform.AssetHandler;
 import es.eucm.eadventure.engine.core.platform.GUI;
 import es.eucm.eadventure.engine.core.platform.PlatformConfiguration;
 import es.eucm.eadventure.engine.core.platform.RuntimeAsset;
+import es.eucm.eadventure.engine.core.util.EAdTransformation;
 
 public class ComposedSceneGOImpl extends AbstractGameObject<EAdComposedScene>
 		implements SceneGO<EAdComposedScene> {
@@ -75,10 +76,10 @@ public class ComposedSceneGOImpl extends AbstractGameObject<EAdComposedScene>
 		super.setElement(scene);
 	}
 
-	public void doLayout(int offsetX, int offsetY) {
+	public void doLayout(EAdTransformation transformation) {
 		if (currentScene == null)
 			updateScene();
-		gameObjectFactory.get(currentScene).doLayout(offsetX, offsetY);
+		gameObjectFactory.get(currentScene).doLayout(null);
 	}
 
 	@Override

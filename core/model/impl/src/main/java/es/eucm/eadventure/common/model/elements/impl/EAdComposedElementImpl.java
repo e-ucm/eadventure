@@ -38,7 +38,7 @@
 package es.eucm.eadventure.common.model.elements.impl;
 
 import es.eucm.eadventure.common.interfaces.Param;
-import es.eucm.eadventure.common.model.EAdElement;
+import es.eucm.eadventure.common.model.elements.EAdComposedElement;
 import es.eucm.eadventure.common.model.elements.EAdSceneElement;
 import es.eucm.eadventure.common.model.extra.EAdList;
 import es.eucm.eadventure.common.model.extra.impl.EAdListImpl;
@@ -52,8 +52,8 @@ import es.eucm.eadventure.common.model.variables.impl.EAdVarDefImpl;
  * 
  * 
  */
-public class EAdComplexSceneElement extends EAdBasicSceneElement implements
-		EAdElement, EAdSceneElement {
+public class EAdComposedElementImpl extends EAdBasicSceneElement implements
+		EAdComposedElement {
 
 	/**
 	 * A variable defining if this container must update its width to the
@@ -69,18 +69,6 @@ public class EAdComplexSceneElement extends EAdBasicSceneElement implements
 	public static final EAdVarDef<Boolean> VAR_AUTO_SIZE_VERTICAL = new EAdVarDefImpl<Boolean>(
 			"autoSizeV", Boolean.class, Boolean.TRUE);
 
-	/**
-	 * A variable defining the x offset for the container
-	 */
-	public static final EAdVarDef<Integer> VAR_OFFSET_X = new EAdVarDefImpl<Integer>(
-			"offsetX", Integer.class, 0);
-
-	/**
-	 * A variable defining the y offset for the container
-	 */
-	public static final EAdVarDef<Integer> VAR_OFFSET_Y = new EAdVarDefImpl<Integer>(
-			"offsetY", Integer.class, 0);
-
 	@Param("components")
 	protected EAdList<EAdSceneElement> components;
 
@@ -90,18 +78,9 @@ public class EAdComplexSceneElement extends EAdBasicSceneElement implements
 	 * @param id
 	 *            the id for the element
 	 */
-	public EAdComplexSceneElement(String id) {
+	public EAdComposedElementImpl(String id) {
 		super(id);
 		components = new EAdListImpl<EAdSceneElement>(EAdSceneElement.class);
-	}
-
-	/**
-	 * Returns the scene elements contained by this element
-	 * 
-	 * @return
-	 */
-	public EAdList<EAdSceneElement> getComponents() {
-		return components;
 	}
 
 	/**
@@ -119,16 +98,8 @@ public class EAdComplexSceneElement extends EAdBasicSceneElement implements
 
 	}
 
-	/**
-	 * Sets the initial offset for this container
-	 * 
-	 * @param xOffset
-	 *            x offset
-	 * @param yOffset
-	 *            y offset
-	 */
-	public void setInitialOffset(int xOffset, int yOffset) {
-		setVarInitialValue(VAR_OFFSET_X, xOffset);
-		setVarInitialValue(VAR_OFFSET_Y, yOffset);
+	@Override
+	public EAdList<EAdSceneElement> getElements() {
+		return components;
 	}
 }

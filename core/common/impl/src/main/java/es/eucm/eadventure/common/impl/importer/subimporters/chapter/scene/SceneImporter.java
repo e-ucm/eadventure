@@ -200,7 +200,7 @@ public class SceneImporter implements EAdElementImporter<Scene, EAdSceneImpl> {
 			event.addEffect(SceneElementEvent.ADDED_TO_SCENE, effect);
 			playerReference.getEvents().add(event);
 
-			scene.getSceneElements().add(playerReference);
+			scene.getElements().add(playerReference);
 
 			scene.getBackground().addBehavior(
 					EAdMouseEventImpl.MOUSE_LEFT_CLICK,
@@ -230,7 +230,7 @@ public class SceneImporter implements EAdElementImporter<Scene, EAdSceneImpl> {
 				barrier = barrierImporter.convert(b, barrier);
 
 				nodeDef.addBarrier(barrier);
-				scene.getSceneElements().add(barrier);
+				scene.getElements().add(barrier);
 			}
 
 			playerReference.setPosition(new EAdPositionImpl(
@@ -246,7 +246,7 @@ public class SceneImporter implements EAdElementImporter<Scene, EAdSceneImpl> {
 			EAdSceneElement se = activeAreasImporter.init(a);
 			se = activeAreasImporter.convert(a, se);
 			if (se != null)
-				scene.getSceneElements().add(se);
+				scene.getElements().add(se);
 		}
 
 	}
@@ -256,7 +256,7 @@ public class SceneImporter implements EAdElementImporter<Scene, EAdSceneImpl> {
 			EAdSceneElement se = exitsImporter.init(e);
 			se = exitsImporter.convert(e, se);
 			if (se != null)
-				scene.getSceneElements().add(se);
+				scene.getElements().add(se);
 		}
 
 	}
@@ -266,7 +266,7 @@ public class SceneImporter implements EAdElementImporter<Scene, EAdSceneImpl> {
 		for (ElementReference oldRef : references) {
 			EAdActorReference newRef = referencesImporter.init(oldRef);
 			newRef = referencesImporter.convert(oldRef, newRef);
-			scene.getSceneElements().add(newRef);
+			scene.getElements().add(newRef);
 		}
 
 	}

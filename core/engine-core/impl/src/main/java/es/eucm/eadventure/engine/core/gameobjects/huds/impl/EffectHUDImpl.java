@@ -41,6 +41,7 @@ import java.util.List;
 import java.util.logging.Logger;
 
 import com.google.inject.Inject;
+import com.google.inject.Singleton;
 
 import es.eucm.eadventure.common.params.geom.EAdPosition;
 import es.eucm.eadventure.common.params.geom.impl.EAdPositionImpl;
@@ -51,6 +52,8 @@ import es.eucm.eadventure.engine.core.gameobjects.GameObject;
 import es.eucm.eadventure.engine.core.gameobjects.huds.EffectHUD;
 import es.eucm.eadventure.engine.core.guiactions.GUIAction;
 import es.eucm.eadventure.engine.core.platform.RuntimeAsset;
+import es.eucm.eadventure.engine.core.util.EAdTransformation;
+import es.eucm.eadventure.engine.core.util.impl.EAdTransformationImpl;
 
 /**
  * <p>
@@ -58,6 +61,7 @@ import es.eucm.eadventure.engine.core.platform.RuntimeAsset;
  * </p>
  *
  */
+@Singleton
 public class EffectHUDImpl implements EffectHUD {
 
 	/**
@@ -122,7 +126,7 @@ public class EffectHUDImpl implements EffectHUD {
 	 * @see es.eucm.eadventure.engine.core.gameobjects.GameObject#doLayout()
 	 */
 	@Override
-	public void doLayout(int offsetX, int offsetY) {
+	public void doLayout(EAdTransformation transformation) {
 		int i = 0;
 		boolean block = false;
 		while (i < effects.size() && !block) {
@@ -133,7 +137,7 @@ public class EffectHUDImpl implements EffectHUD {
 				//TODO this creates a problem, should do some other way
 				//gui.addElement(this);
 			}		
-			e.doLayout(offsetX, offsetY);
+			e.doLayout(null);
 			block = e.isBlocking();
 			i++;
 		}
@@ -180,6 +184,11 @@ public class EffectHUDImpl implements EffectHUD {
 	@Override
 	public void setPosition(EAdPosition p) {
 		
+	}
+	
+	@Override
+	public EAdTransformation getTransformation() {
+		return EAdTransformationImpl.INITIAL_TRANSFORMATION;
 	}
 
 }

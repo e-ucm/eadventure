@@ -40,6 +40,7 @@ package es.eucm.eadventure.engine.core.gameobjects.huds.impl;
 import java.util.logging.Logger;
 
 import com.google.inject.Inject;
+import com.google.inject.Singleton;
 
 import es.eucm.eadventure.common.model.guievents.EAdKeyEvent.KeyCode;
 import es.eucm.eadventure.common.params.geom.EAdPosition;
@@ -52,11 +53,14 @@ import es.eucm.eadventure.engine.core.gameobjects.huds.MenuHUD;
 import es.eucm.eadventure.engine.core.guiactions.GUIAction;
 import es.eucm.eadventure.engine.core.guiactions.KeyAction;
 import es.eucm.eadventure.engine.core.platform.GUI;
+import es.eucm.eadventure.engine.core.util.EAdTransformation;
+import es.eucm.eadventure.engine.core.util.impl.EAdTransformationImpl;
 
 /**
  * <p>Abstract implementation of the Menu HUD</p>
  *
  */
+@Singleton
 public abstract class MenuHUDImpl implements MenuHUD {
 
 	/**
@@ -157,6 +161,11 @@ public abstract class MenuHUDImpl implements MenuHUD {
 	@Override
 	public Void getElement() {
 		return null;
+	}
+	
+	@Override
+	public EAdTransformation getTransformation() {
+		return EAdTransformationImpl.INITIAL_TRANSFORMATION;
 	}
 
 }

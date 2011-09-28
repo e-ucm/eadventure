@@ -41,10 +41,10 @@ import java.util.List;
 import java.util.logging.Logger;
 
 import com.google.inject.Inject;
+import com.google.inject.Singleton;
 
 import es.eucm.eadventure.common.model.actions.EAdAction;
 import es.eucm.eadventure.common.params.geom.EAdPosition;
-import es.eucm.eadventure.common.params.geom.impl.EAdPositionImpl;
 import es.eucm.eadventure.engine.core.GameState;
 import es.eucm.eadventure.engine.core.MouseState;
 import es.eucm.eadventure.engine.core.gameobjects.GameObject;
@@ -55,6 +55,8 @@ import es.eucm.eadventure.engine.core.guiactions.GUIAction;
 import es.eucm.eadventure.engine.core.guiactions.MouseAction;
 import es.eucm.eadventure.engine.core.platform.GUI;
 import es.eucm.eadventure.engine.core.platform.RuntimeAsset;
+import es.eucm.eadventure.engine.core.util.EAdTransformation;
+import es.eucm.eadventure.engine.core.util.impl.EAdTransformationImpl;
 
 /**
  * <p>
@@ -62,6 +64,7 @@ import es.eucm.eadventure.engine.core.platform.RuntimeAsset;
  * </p>
  * 
  */
+@Singleton
 public class ActionsHUDImpl implements ActionsHUD {
 
 	/**
@@ -137,8 +140,8 @@ public class ActionsHUDImpl implements ActionsHUD {
 	@Override
 	public void setElement(SceneElementGO<?> ref) {
 		sceneElement = ref;
-		float width = ref.getWidth() * ref.getScale();
-		float height = ref.getHeight() * ref.getScale();
+		float width = ref.getWidth();
+		float height = ref.getHeight();
 		radius = (int) Math.sqrt(Math.pow(width, 2) + Math.pow(height, 2)) / 2;
 		radius = Math.min(250, radius);
 		int[] offset = this.gui.getGameElementGUIOffset(ref);
@@ -184,31 +187,6 @@ public class ActionsHUDImpl implements ActionsHUD {
 		logger.info("properties: " + x + " " + y + " " + radius);
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see es.eucm.eadventure.engine.core.gameobjects.GameObject#doLayout()
-	 */
-	@Override
-	public void doLayout(int offsetX, int offsetY) {
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * es.eucm.eadventure.engine.core.gameobjects.GameObject#update(es.eucm.
-	 * eadventure.engine.core.GameState)
-	 */
-	@Override
-	public void update(GameState state) {
-	}
-
-	@Override
-	public EAdPositionImpl getPosition() {
-		return null;
-	}
-
 	@Override
 	public SceneElementGO<?> getElement() {
 		return sceneElement;
@@ -224,7 +202,26 @@ public class ActionsHUDImpl implements ActionsHUD {
 	@Override
 	public void setPosition(EAdPosition p) {
 		
+	}
+
+	@Override
+	public void doLayout(EAdTransformation transformation) {
 		
+	}
+
+	@Override
+	public void update(GameState state) {
+		
+	}
+
+	@Override
+	public EAdPosition getPosition() {
+		return null;
+	}
+	
+	@Override
+	public EAdTransformation getTransformation() {
+		return EAdTransformationImpl.INITIAL_TRANSFORMATION;
 	}
 
 }

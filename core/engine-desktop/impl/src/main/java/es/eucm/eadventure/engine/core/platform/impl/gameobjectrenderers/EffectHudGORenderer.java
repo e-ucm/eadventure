@@ -43,9 +43,9 @@ import java.util.logging.Logger;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
-import es.eucm.eadventure.common.params.geom.EAdPosition;
 import es.eucm.eadventure.engine.core.gameobjects.huds.impl.EffectHUDImpl;
 import es.eucm.eadventure.engine.core.platform.GameObjectRenderer;
+import es.eucm.eadventure.engine.core.util.EAdTransformation;
 
 @Singleton
 public class EffectHudGORenderer implements
@@ -60,15 +60,11 @@ public class EffectHudGORenderer implements
 	}
 
 	@Override
-	public void render(Graphics2D g, EffectHUDImpl object, float interpolation, int offsetX, int offsetY) {
+	public void render(Graphics2D graphicContext, EffectHUDImpl object, EAdTransformation transformation) {
 	}
 
 	@Override
-	public void render(Graphics2D graphicContext, EffectHUDImpl object, EAdPosition position, float scale, int offsetX, int offsetY) {
-	}
-
-	@Override
-	public boolean contains(EffectHUDImpl object, int virutalX, int virtualY) {
+	public boolean contains(EffectHUDImpl object, int virutalX, int virtualY, EAdTransformation transformation) {
 		return true;
 	}
 

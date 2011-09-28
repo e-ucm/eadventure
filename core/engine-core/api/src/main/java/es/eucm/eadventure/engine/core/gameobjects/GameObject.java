@@ -44,6 +44,7 @@ import es.eucm.eadventure.engine.core.GameState;
 import es.eucm.eadventure.engine.core.MouseState;
 import es.eucm.eadventure.engine.core.guiactions.GUIAction;
 import es.eucm.eadventure.engine.core.platform.RuntimeAsset;
+import es.eucm.eadventure.engine.core.util.EAdTransformation;
 
 /**
  * A game object
@@ -80,8 +81,11 @@ public interface GameObject<T> extends Positioned {
 
 	/**
 	 * Layout out the child game objects of this game objects
+	 * 
+	 * @param transformation
+	 *            the transformation accumulated by this game object container
 	 */
-	void doLayout(int offsetX, int offsetY);
+	void doLayout(EAdTransformation transformation);
 
 	/**
 	 * Updates game object. Usually used for animation
@@ -115,5 +119,13 @@ public interface GameObject<T> extends Positioned {
 	 */
 	List<RuntimeAsset<?>> getAssets(List<RuntimeAsset<?>> assetList,
 			boolean allAssets);
+
+	/**
+	 * Returns the transformation (translation, rotation, scale, etc.) of this
+	 * game object
+	 * 
+	 * @return the transformation
+	 */
+	EAdTransformation getTransformation();
 
 }

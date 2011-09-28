@@ -32,8 +32,8 @@ public class MoleGame extends EmptyScene {
 			for (int j = 0; j < 2; j++) {
 				EAdSceneElement hole = getHole(200 * i + margin, 200 * j
 						+ margin);
-				this.getSceneElements().add(hole);
-				this.getSceneElements().add(
+				this.getElements().add(hole);
+				this.getElements().add(
 						getMole(200 * i + margin, 200 * j + margin));
 
 			}

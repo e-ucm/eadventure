@@ -44,6 +44,7 @@ import com.google.inject.Singleton;
 import es.eucm.eadventure.common.params.geom.EAdPosition;
 import es.eucm.eadventure.engine.core.gameobjects.impl.VideoSceneGO;
 import es.eucm.eadventure.engine.core.platform.GameObjectRenderer;
+import es.eucm.eadventure.engine.core.util.EAdTransformation;
 
 @Singleton
 public class VideoSceneGORenderer implements GameObjectRenderer<Canvas, VideoSceneGO> {
@@ -61,7 +62,7 @@ public class VideoSceneGORenderer implements GameObjectRenderer<Canvas, VideoSce
 	}
 
 	@Override
-	public boolean contains(VideoSceneGO object, int virtualX, int virtualY) {
+	public boolean contains(VideoSceneGO object, int virtualX, int virtualY, EAdTransformation transformation) {
 		return true;
 	}
 

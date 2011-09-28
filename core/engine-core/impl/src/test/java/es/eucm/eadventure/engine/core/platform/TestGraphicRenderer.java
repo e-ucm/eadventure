@@ -38,9 +38,9 @@
 package es.eucm.eadventure.engine.core.platform;
 
 import es.eucm.eadventure.common.interfaces.features.Positioned;
-import es.eucm.eadventure.common.params.geom.EAdPosition;
 import es.eucm.eadventure.engine.core.gameobjects.GameObject;
 import es.eucm.eadventure.engine.core.gameobjects.huds.HudGO;
+import es.eucm.eadventure.engine.core.util.EAdTransformation;
 
 public class TestGraphicRenderer implements GraphicRendererFactory<Void> {
 
@@ -51,27 +51,11 @@ public class TestGraphicRenderer implements GraphicRendererFactory<Void> {
 
 	}
 
-	@Override
-	public <T extends GameObject<?>> void render(Void graphicContext, T asset,
-			EAdPosition position, float scale, int offsetX, int offsetY) {
 
-	}
-
-	@Override
-	public <T extends RuntimeAsset<?>> boolean contains(int x, int y, T asset) {
-
-		return false;
-	}
-
-	@Override
-	public <T extends GameObject<?>> void render(Void graphicContext,
-			T gameObject, float interpolation, int offsetX, int offsetY) {
-
-	}
 
 	@Override
 	public <T extends GameObject<?>> boolean contains(T gameObject,
-			int virtualX, int virtualY) {
+			int virtualX, int virtualY, EAdTransformation transformation) {
 		if (gameObject instanceof Positioned) {
 			Positioned p = (Positioned) gameObject;
 			int x = p.getPosition().getX();
@@ -82,6 +66,21 @@ public class TestGraphicRenderer implements GraphicRendererFactory<Void> {
 			return true;
 		}
 		return false;
+	}
+
+
+
+	@Override
+	public <T extends RuntimeAsset<?>> boolean contains(int x, int y, T asset) {
+		return false;
+	}
+
+
+
+	@Override
+	public <T extends GameObject<?>> void render(Void graphicContext,
+			T gameObject, EAdTransformation transformation) {
+
 	}
 
 }

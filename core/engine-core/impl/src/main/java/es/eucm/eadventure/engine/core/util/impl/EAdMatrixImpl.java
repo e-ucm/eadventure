@@ -23,7 +23,7 @@ public class EAdMatrixImpl implements EAdMatrix {
 	 * Constructs a matrix 3x3 with the identity
 	 */
 	public EAdMatrixImpl() {
-		m = new float[] { 1, 0, 0, 0, 1, 0, 0, 0, 1 };
+		m = getIdentity();
 	}
 
 	public EAdMatrixImpl(float m[]) {
@@ -36,15 +36,32 @@ public class EAdMatrixImpl implements EAdMatrix {
 	}
 
 	@Override
-	public void translate(float x, float y) {
+	public void postTranslate(float x, float y) {
 		float t[] = getIdentity();
 		t[6] = x;
 		t[7] = y;
 		postMultiply(t);
 	}
+	
+	@Override
+	public void preTranslate(float x, float y) {
+		float t[] = getIdentity();
+		t[6] = x;
+		t[7] = y;
+		preMultiply(t);
+	}
 
 	@Override
-	public void rotate(float angle) {
+	public void postRotate(float angle) {
+		postMultiply(getRotationMatrix(angle));
+	}
+	
+	@Override
+	public void preRotate(float angle) {
+		preMultiply(getRotationMatrix(angle));
+	}
+	
+	private float[] getRotationMatrix( float angle ){
 		float r[] = getIdentity();
 		float cos = (float) Math.cos(angle);
 		float sin = (float) Math.sin(angle);
@@ -52,15 +69,23 @@ public class EAdMatrixImpl implements EAdMatrix {
 		r[1] = sin;
 		r[3] = -sin;
 		r[4] = cos;
-		postMultiply(r);
+		return r;
 	}
 
 	@Override
-	public void scale(float scaleX, float scaleY) {
+	public void postScale(float scaleX, float scaleY) {
 		float s[] = getIdentity();
 		s[0] = scaleX;
 		s[4] = scaleY;
 		postMultiply(s);
+	}
+	
+	@Override
+	public void preScale(float scaleX, float scaleY) {
+		float s[] = getIdentity();
+		s[0] = scaleX;
+		s[4] = scaleY;
+		preMultiply(s);
 	}
 
 	@Override
@@ -92,6 +117,18 @@ public class EAdMatrixImpl implements EAdMatrix {
 
 	public static float[] getIdentity() {
 		return new float[] { 1, 0, 0, 0, 1, 0, 0, 0, 1 };
+	}
+
+	public float getOffsetX() {
+		return m[7];
+	}
+
+	public float getOffsetY() {
+		return m[8];
+	}
+
+	public void setIdentity() {
+		m = getIdentity();
 	}
 
 }

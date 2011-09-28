@@ -43,9 +43,9 @@ import java.util.logging.Logger;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
-import es.eucm.eadventure.common.params.geom.EAdPosition;
 import es.eucm.eadventure.engine.core.gameobjects.EffectGO;
 import es.eucm.eadventure.engine.core.platform.GameObjectRenderer;
+import es.eucm.eadventure.engine.core.util.EAdTransformation;
 
 /**
  * A default effects game object renderer. This renderer should be used for
@@ -62,21 +62,15 @@ public class EffectsGORenderer implements
 	public EffectsGORenderer() {
 		logger.info("New instance");
 	}
-	
+
 	@Override
 	public void render(Graphics2D graphicContext, EffectGO<?> object,
-			float interpolation, int offsetX, int offsetY) {
+			EAdTransformation transformation) {
 
 	}
 
 	@Override
-	public void render(Graphics2D graphicContext, EffectGO<?> object,
-			EAdPosition position, float scale, int offsetX, int offsetY) {
-
-	}
-
-	@Override
-	public boolean contains(EffectGO<?> object, int virtualX, int virtualY) {
+	public boolean contains(EffectGO<?> object, int virtualX, int virtualY, EAdTransformation transformation) {
 		return true;
 	}
 

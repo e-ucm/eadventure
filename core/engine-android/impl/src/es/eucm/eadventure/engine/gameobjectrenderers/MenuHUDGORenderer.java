@@ -47,6 +47,7 @@ import com.google.inject.Singleton;
 import es.eucm.eadventure.common.params.geom.EAdPosition;
 import es.eucm.eadventure.engine.core.gameobjects.huds.impl.MenuHUDImpl;
 import es.eucm.eadventure.engine.core.platform.GameObjectRenderer;
+import es.eucm.eadventure.engine.core.util.EAdTransformation;
 
 @Singleton
 public class MenuHUDGORenderer implements
@@ -73,7 +74,7 @@ public class MenuHUDGORenderer implements
 	}
 
 	@Override
-	public boolean contains(MenuHUDImpl object, int virtualX, int virtualY) {
+	public boolean contains(MenuHUDImpl object, int virtualX, int virtualY, EAdTransformation transformation) {
 		return true;
 	}
 

@@ -446,7 +446,7 @@ public class BasicScene extends EAdSceneImpl implements SceneDemo {
 
 		panielReference.setBehavior(behavior);
 
-		this.getSceneElements().add(panielReference);
+		this.getElements().add(panielReference);
 	}
 
 	private void initOrientedActor() {

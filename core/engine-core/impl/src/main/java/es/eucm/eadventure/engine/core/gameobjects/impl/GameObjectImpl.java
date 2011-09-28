@@ -17,6 +17,8 @@ import es.eucm.eadventure.engine.core.platform.AssetHandler;
 import es.eucm.eadventure.engine.core.platform.GUI;
 import es.eucm.eadventure.engine.core.platform.PlatformConfiguration;
 import es.eucm.eadventure.engine.core.platform.RuntimeAsset;
+import es.eucm.eadventure.engine.core.util.EAdTransformation;
+import es.eucm.eadventure.engine.core.util.impl.EAdTransformationImpl;
 
 public abstract class GameObjectImpl<T extends EAdElement> implements
 		GameObject<T> {
@@ -42,6 +44,8 @@ public abstract class GameObjectImpl<T extends EAdElement> implements
 
 	protected T element;
 
+	protected EAdTransformationImpl transformation;
+
 	@Inject
 	public GameObjectImpl(AssetHandler assetHandler,
 			StringHandler stringReader, GameObjectFactory gameObjectFactory,
@@ -59,6 +63,7 @@ public abstract class GameObjectImpl<T extends EAdElement> implements
 	@Override
 	public void setElement(T element) {
 		this.element = element;
+		this.transformation = new EAdTransformationImpl();
 	}
 
 	@Override
@@ -73,7 +78,7 @@ public abstract class GameObjectImpl<T extends EAdElement> implements
 	}
 
 	@Override
-	public void doLayout(int offsetX, int offsetY) {
+	public void doLayout(EAdTransformation transformation) {
 		// Implemented by inherited classes
 
 	}
@@ -92,6 +97,10 @@ public abstract class GameObjectImpl<T extends EAdElement> implements
 	@Override
 	public void update(GameState state) {
 
+	}
+
+	public EAdTransformation getTransformation() {
+		return transformation;
 	}
 
 	@Override

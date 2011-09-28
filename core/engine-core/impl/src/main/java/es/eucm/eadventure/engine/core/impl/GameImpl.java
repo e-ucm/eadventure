@@ -65,6 +65,9 @@ import es.eucm.eadventure.engine.core.gameobjects.huds.BasicHUD;
 import es.eucm.eadventure.engine.core.gameobjects.huds.EffectHUD;
 import es.eucm.eadventure.engine.core.platform.AssetHandler;
 import es.eucm.eadventure.engine.core.platform.GUI;
+import es.eucm.eadventure.engine.core.platform.PlatformConfiguration;
+import es.eucm.eadventure.engine.core.util.EAdTransformation;
+import es.eucm.eadventure.engine.core.util.impl.EAdTransformationImpl;
 
 @Singleton
 public class GameImpl implements Game {
@@ -99,13 +102,15 @@ public class GameImpl implements Game {
 	private ValueMap valueMap;
 	
 	private MouseState mouseState;
+	
+	private EAdTransformation initialTransformation = new EAdTransformationImpl();
 
 	@Inject
 	public GameImpl(GUI gui, EvaluatorFactory evaluatorFactory,
 			GameState gameState, EffectHUD effectHUD,
 			AssetHandler assetHandler, GameObjectFactory gameObjectFactory,
 			GameObjectManager gameObjectManager, EAdDebugger debugger,
-			BasicHUD basicHUD, ValueMap valueMap, MouseState mouseState) {
+			BasicHUD basicHUD, ValueMap valueMap, MouseState mouseState, PlatformConfiguration platformConfiguration ) {
 		this.gui = gui;
 		this.evaluatorFactory = evaluatorFactory;
 		this.gameState = gameState;
@@ -122,6 +127,7 @@ public class GameImpl implements Game {
 		this.basicHud.setGame(this);
 		this.valueMap = valueMap;
 		this.mouseState = mouseState;
+		initialTransformation.getMatrix().postScale((float) platformConfiguration.getScale(), (float) platformConfiguration.getScale());
 	}
 
 	@Override
@@ -132,13 +138,13 @@ public class GameImpl implements Game {
 			updateTimers();
 
 			gameState.getScene().update(gameState);
-			gui.addElement(gameState.getScene(), 0, 0);
+			gui.addElement(gameState.getScene(), initialTransformation);
 
 			basicHud.update(gameState);
-			gui.addElement(basicHud, 0, 0);
+			gui.addElement(basicHud, initialTransformation);
 
 			for (GameObject<?> go : debugger.getGameObjects()) {
-				gui.addElement(go, 0, 0);
+				gui.addElement(go, initialTransformation);
 			}
 		}
 		gui.prepareGUI();

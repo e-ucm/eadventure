@@ -50,10 +50,10 @@ import java.util.logging.Logger;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
-import es.eucm.eadventure.common.params.geom.EAdPosition;
 import es.eucm.eadventure.engine.core.gameobjects.huds.impl.ActionsHUDImpl;
 import es.eucm.eadventure.engine.core.platform.GameObjectRenderer;
 import es.eucm.eadventure.engine.core.platform.PlatformConfiguration;
+import es.eucm.eadventure.engine.core.util.EAdTransformation;
 
 @Singleton
 public class ActionsHudGORenderer implements
@@ -86,7 +86,7 @@ public class ActionsHudGORenderer implements
 	 */
 	@Override
 	public void render(Graphics2D g, ActionsHUDImpl actionsHUD,
-			float interpolation, int offsetX, int offsetY) {
+			EAdTransformation t) {
 		Color color = g.getColor();
 		Composite c = g.getComposite();
 		g.setComposite(AlphaComposite
@@ -112,24 +112,12 @@ public class ActionsHudGORenderer implements
 	 * (non-Javadoc)
 	 * 
 	 * @see
-	 * es.eucm.eadventure.engine.core.platform.GameObjectRenderer#render(java
-	 * .lang.Object, es.eucm.eadventure.engine.core.gameobjects.GameObject,
-	 * es.eucm.eadventure.common.model.params.EAdPosition, float)
-	 */
-	@Override
-	public void render(Graphics2D graphicContext, ActionsHUDImpl object,
-			EAdPosition position, float scale, int offsetX, int offsetY) {
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
 	 * es.eucm.eadventure.engine.core.platform.GameObjectRenderer#contains(es
 	 * .eucm.eadventure.engine.core.gameobjects.GameObject, int, int)
 	 */
 	@Override
-	public boolean contains(ActionsHUDImpl object, int virutalX, int virtualY) {
+	public boolean contains(ActionsHUDImpl object, int virutalX, int virtualY,
+			EAdTransformation transformation) {
 		return true;
 	}
 

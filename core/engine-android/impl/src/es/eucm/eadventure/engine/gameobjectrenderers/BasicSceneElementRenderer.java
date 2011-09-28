@@ -47,6 +47,7 @@ import es.eucm.eadventure.common.params.geom.EAdPosition;
 import es.eucm.eadventure.engine.core.gameobjects.SceneElementGO;
 import es.eucm.eadventure.engine.core.platform.GameObjectRenderer;
 import es.eucm.eadventure.engine.core.platform.GraphicRendererFactory;
+import es.eucm.eadventure.engine.core.util.EAdTransformation;
 
 @Singleton
 public class BasicSceneElementRenderer implements
@@ -83,7 +84,7 @@ public class BasicSceneElementRenderer implements
 	public void render(Canvas g, SceneElementGO<?> basicSceneElement,
 			float interpolation, int offsetX, int offsetY) {
 		Canvas g2 = prepareGraphics( g, basicSceneElement );
-		factory.render(g2, basicSceneElement.getRenderAsset(), basicSceneElement.getPosition(), basicSceneElement.getScale(), offsetX, offsetY);
+		factory.render(g2, basicSceneElement.getRenderAsset(), null);
 		g2.restore();
 	}
 
@@ -99,8 +100,7 @@ public class BasicSceneElementRenderer implements
 	public void render(Canvas g, SceneElementGO<?> basicSceneElement,
 			EAdPosition position, float scale, int offsetX, int offsetY) {
 		Canvas g2 = prepareGraphics( g, basicSceneElement );
-		factory.render(g2, basicSceneElement.getRenderAsset(), position, scale
-				* basicSceneElement.getScale(), offsetX, offsetY);
+		factory.render(g2, basicSceneElement.getRenderAsset(), null);
 		g2.restore();
 	}
 	
@@ -123,7 +123,7 @@ public class BasicSceneElementRenderer implements
 	 */
 	@Override
 	public boolean contains(SceneElementGO<?> basicSceneElement, int virtualX,
-			int virtualY) {
+			int virtualY, EAdTransformation transformation) {
 		
 		int centerX = basicSceneElement.getCenterX();
 		int centerY = basicSceneElement.getCenterY();

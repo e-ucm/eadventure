@@ -93,7 +93,7 @@ public class PhysicsEffectGO extends AbstractEffectGO<EAdPhysicsEffect> {
 
 		EAdScene scene = gameState.getScene().getElement();
 
-		for (EAdSceneElement e : scene.getSceneElements()) {
+		for (EAdSceneElement e : scene.getElements()) {
 			Body b = valueMap.getValue(e, VAR_PH_BODY);
 			if (b != null) {
 

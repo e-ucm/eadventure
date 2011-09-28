@@ -48,8 +48,10 @@ import es.eucm.eadventure.engine.core.gameobjects.TransitionGO;
 import es.eucm.eadventure.engine.core.platform.AssetHandler;
 import es.eucm.eadventure.engine.core.platform.GUI;
 import es.eucm.eadventure.engine.core.platform.PlatformConfiguration;
+import es.eucm.eadventure.engine.core.util.EAdTransformation;
 
-public class DisplaceTransitionGO extends EmptyTransitionGO implements TransitionGO {
+public class DisplaceTransitionGO extends EmptyTransitionGO implements
+		TransitionGO {
 
 	private int cont = 1;
 
@@ -62,38 +64,41 @@ public class DisplaceTransitionGO extends EmptyTransitionGO implements Transitio
 				platformConfiguration);
 	}
 
-
 	@Override
 	public void setElement(EAdScene element) {
-		
+
 	}
 
-	/* (non-Javadoc)
-	 * @see es.eucm.eadventure.engine.core.gameobjects.impl.SceneGOImpl#doLayout(int, int)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * es.eucm.eadventure.engine.core.gameobjects.impl.SceneGOImpl#doLayout(int,
+	 * int)
 	 * 
 	 * The bloking element and the loading text should never be offset
 	 */
 	@Override
-	public void doLayout(int offsetX, int offsetY) {
-		int x = 800 * 100  / cont;
-		gui.addElement(gameObjectFactory.get(screenBlock), x, 0);
-		gui.addElement(gameObjectFactory.get(loadingText), 0, 0);
+	public void doLayout(EAdTransformation transformation) {
+		// int x = 800 * 100 / cont;
+		gui.addElement(gameObjectFactory.get(screenBlock), null);
+		gui.addElement(gameObjectFactory.get(loadingText), null);
 		if (loaded) {
-			gui.addElement(nextSceneGO, x - 800, 0);
+			gui.addElement(nextSceneGO, null);
 		}
 	}
-	
+
 	@Override
 	public void update(GameState gameState) {
 		if (!loading) {
 			loading = true;
 			new Thread(new Loader()).start();
 		}
-		
+
 		if (previousSceneImage == null) {
 			previousSceneImage = gui.commitToImage();
 		}
-		
+
 		if (loaded) {
 			cont += 3;
 			if (cont > 100) {

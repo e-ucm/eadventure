@@ -45,10 +45,10 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 import es.eucm.eadventure.common.params.geom.EAdPosition;
-import es.eucm.eadventure.common.params.geom.impl.EAdPositionImpl;
 import es.eucm.eadventure.engine.core.gameobjects.TransitionGO;
 import es.eucm.eadventure.engine.core.platform.GameObjectRenderer;
 import es.eucm.eadventure.engine.core.platform.GraphicRendererFactory;
+import es.eucm.eadventure.engine.core.util.EAdTransformation;
 
 @Singleton
 public class TransitionGORenderer  implements GameObjectRenderer<Canvas, TransitionGO> {
@@ -82,11 +82,11 @@ public class TransitionGORenderer  implements GameObjectRenderer<Canvas, Transit
 	public void render(Canvas graphicContext, TransitionGO object,
 			EAdPosition position, float scale, int offsetX, int offsetY) {
 		if (object.getBackground() != null)
-			factory.render(graphicContext, object.getBackground(), EAdPositionImpl.volatileEAdPosition(0, 0), scale, offsetX, offsetY);
+			factory.render(graphicContext, object.getBackground(), null);
 	}
 	
 	@Override
-	public boolean contains(TransitionGO object, int virtualX, int virtualY) {
+	public boolean contains(TransitionGO object, int virtualX, int virtualY, EAdTransformation transformation) {
 		return false;
 	}
 	

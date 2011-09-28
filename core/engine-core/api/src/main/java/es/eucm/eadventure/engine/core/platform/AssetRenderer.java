@@ -65,21 +65,15 @@ public interface AssetRenderer<S, T extends RuntimeAsset<?>> extends
 	void render(S graphicContext, T asset);
 
 	/**
-	 * <p>
-	 * Returns true if the asset contains the coordinates (x,y)
-	 * </p>
-	 * <p>
-	 * This method should return false if the point (x, y) is transparent in the
-	 * asset
-	 * </p>
+	 * Returns if the asset contains the given point
 	 * 
 	 * @param x
-	 *            The x coordinates
+	 *            the x coordinate transformed with the parent transformation
 	 * @param y
-	 *            The y coordinates
+	 *            the y coordinate transformed with the parent transformation
 	 * @param asset
-	 *            The asset to check for the point (x, y)
-	 * @return true if the asset contains (x, y) and it is not transparent
+	 *            the asset to check
+	 * @return if the asset contains the given point
 	 */
 	boolean contains(int x, int y, T asset);
 

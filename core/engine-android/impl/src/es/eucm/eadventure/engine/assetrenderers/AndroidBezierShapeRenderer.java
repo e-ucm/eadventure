@@ -43,7 +43,6 @@ import android.graphics.Path;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
-import es.eucm.eadventure.common.params.geom.EAdPosition;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.shapes.BezierShape;
 import es.eucm.eadventure.engine.assets.AndroidBezierShape;
 import es.eucm.eadventure.engine.core.platform.AssetRenderer;
@@ -60,25 +59,13 @@ public class AndroidBezierShapeRenderer implements AssetRenderer<Canvas, Android
 	}
 
 	@Override
-	public void render(Canvas graphicContext, AndroidBezierShape asset,
-			EAdPosition position, float scale, int offsetX, int offsetY) {
+	public void render(Canvas graphicContext, AndroidBezierShape asset) {
 		
 		if (!asset.isLoaded())
 			asset.loadAsset();
 		
 		BezierShape assetDescriptor = asset.getAssetDescriptor();
-		int x = position.getJavaX(asset.getWidth() * scale) + offsetX;
-		int y = position.getJavaY(asset.getHeight() * scale) + offsetY;
-		
-			graphicContext.save();
-
-			graphicContext.translate(x, y);
-			graphicContext.scale(scale, scale);
-
-			fillFactory.fill(assetDescriptor.getFill(), graphicContext, asset.getShape());
-
-			graphicContext.restore();
-
+		fillFactory.fill(assetDescriptor.getFill(), graphicContext, asset.getShape());
 		
 	}
 

@@ -53,6 +53,7 @@ import es.eucm.eadventure.engine.core.platform.AssetHandler;
 import es.eucm.eadventure.engine.core.platform.GUI;
 import es.eucm.eadventure.engine.core.platform.PlatformConfiguration;
 import es.eucm.eadventure.engine.core.platform.SpecialAssetRenderer;
+import es.eucm.eadventure.engine.core.util.EAdTransformation;
 
 public class VideoSceneGO extends AbstractGameObject<EAdVideoScene> implements
 		SceneGO<EAdVideoScene> {
@@ -75,7 +76,7 @@ public class VideoSceneGO extends AbstractGameObject<EAdVideoScene> implements
 		this.component = null;
 	}
 	
-	public void doLayout(int offsetX, int offsetY) {
+	public void doLayout(EAdTransformation transformation) {
 		if (component == null)
 			component = specialAssetRenderer.getComponent((Video) element
 					.getAsset(EAdVideoScene.video));

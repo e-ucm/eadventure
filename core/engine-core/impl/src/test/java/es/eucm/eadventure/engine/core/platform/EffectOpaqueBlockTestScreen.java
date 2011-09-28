@@ -69,8 +69,8 @@ public class EffectOpaqueBlockTestScreen extends EAdSceneImpl implements EAdScen
 			initButtonActor();
 			initButtonActor2();
 			
-			getSceneElements().add(buttonReference);
-			getSceneElements().add(buttonReference2);
+			getElements().add(buttonReference);
+			getElements().add(buttonReference2);
 	}
 	
 	private void initButtonActor() {

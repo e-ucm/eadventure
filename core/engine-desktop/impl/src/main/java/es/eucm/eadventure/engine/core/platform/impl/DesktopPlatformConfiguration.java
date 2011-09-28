@@ -55,12 +55,12 @@ public class DesktopPlatformConfiguration extends AbstractPlatformConfiguration 
 	/**
 	 * Default window width for desktop games
 	 */
-	public static final int DEFAULT_WIDTH = 800;
+	public static final int DEFAULT_WIDTH = 400;
 
 	/**
 	 * Default window height for desktop games
 	 */
-	public static final int DEFAULT_HEIGHT = 600; 
+	public static final int DEFAULT_HEIGHT = 300; 
 	
 	public DesktopPlatformConfiguration( ){
 		setHeight( DEFAULT_HEIGHT );

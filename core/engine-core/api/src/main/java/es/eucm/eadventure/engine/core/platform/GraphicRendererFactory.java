@@ -37,25 +37,68 @@
 
 package es.eucm.eadventure.engine.core.platform;
 
-import es.eucm.eadventure.common.params.geom.EAdPosition;
 import es.eucm.eadventure.engine.core.gameobjects.GameObject;
+import es.eucm.eadventure.engine.core.util.EAdTransformation;
 
 /**
  * 
- *
- * @param <S> The class of the graphic context
+ * 
+ * @param <S>
+ *            The class of the graphic context
  */
 public interface GraphicRendererFactory<S> {
 
+	/**
+	 * Renders an asset at the (0, 0) of the given context
+	 * 
+	 * @param graphicContext
+	 *            graphic context
+	 * @param asset
+	 *            the asset to be rendered
+	 */
 	<T extends RuntimeAsset<?>> void render(S graphicContext, T asset);
 
+	/**
+	 * If the asset contains the given coordinates
+	 * 
+	 * @param x
+	 *            the transformed x coordinate
+	 * @param y
+	 *            the transformed y coordinate
+	 * @param asset
+	 *            the asset
+	 * @return if the asset contains the given coordinates
+	 */
 	<T extends RuntimeAsset<?>> boolean contains(int x, int y, T asset);
-	
-	<T extends GameObject<?>> void render(S graphicContext, T gameObject, float interpolation, int offsetX, int offsetY);
 
-	<T extends GameObject<?>> void render(S graphicContext, T gameObject, EAdPosition position, float scale, int offsetX, int offsetY);
+	/**
+	 * Renders a game object in the given graphic context, with the given
+	 * transformation
+	 * 
+	 * @param graphicContext
+	 *            the graphic context
+	 * @param gameObject
+	 *            the game object
+	 * @param transformation
+	 *            the transformation accumulated by the game object
+	 */
+	<T extends GameObject<?>> void render(S graphicContext, T gameObject,
+			EAdTransformation transformation);
 
-	<T extends GameObject<?>> boolean contains(T gameObject, int virtualX, int virtualY);
+	/**
+	 * Returns if the game object contains the given coordinates
+	 * 
+	 * @param gameObject
+	 *            the game object
+	 * @param virtualX
+	 *            the x coordinate of the mouse
+	 * @param virtualY
+	 *            the y coordinate of the mouse
+	 * @param transformation
+	 *            the transformation accumulated by the game object
+	 * @return it the game object contains the given coordinates
+	 */
+	<T extends GameObject<?>> boolean contains(T gameObject, int virtualX,
+			int virtualY, EAdTransformation transformation);
 
 }
-

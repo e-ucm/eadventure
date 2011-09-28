@@ -40,12 +40,8 @@ package es.eucm.eadventure.common.model.elements.impl;
 import es.eucm.eadventure.common.interfaces.Element;
 import es.eucm.eadventure.common.interfaces.Param;
 import es.eucm.eadventure.common.model.elements.EAdScene;
-import es.eucm.eadventure.common.model.elements.EAdSceneElement;
-import es.eucm.eadventure.common.model.extra.EAdList;
 import es.eucm.eadventure.common.model.extra.EAdMap;
-import es.eucm.eadventure.common.model.extra.impl.EAdListImpl;
 import es.eucm.eadventure.common.model.extra.impl.EAdMapImpl;
-import es.eucm.eadventure.common.model.impl.EAdGeneralElementImpl;
 import es.eucm.eadventure.common.model.trajectories.TrajectoryDefinition;
 import es.eucm.eadventure.common.model.variables.EAdVarDef;
 import es.eucm.eadventure.common.model.variables.impl.EAdVarDefImpl;
@@ -58,7 +54,7 @@ import es.eucm.eadventure.common.params.EAdString;
  * 
  */
 @Element(runtime = EAdSceneImpl.class, detailed = EAdSceneImpl.class)
-public class EAdSceneImpl extends EAdGeneralElementImpl implements EAdScene {
+public class EAdSceneImpl extends EAdComposedElementImpl implements EAdScene {
 
 	public static final EAdVarDef<Boolean> VAR_SCENE_LOADED = new EAdVarDefImpl<Boolean>(
 			"scene_loaded", Boolean.class, Boolean.FALSE);
@@ -88,9 +84,6 @@ public class EAdSceneImpl extends EAdGeneralElementImpl implements EAdScene {
 	@Param("returnable")
 	protected boolean returnable;
 
-	@Param("sceneElements")
-	private EAdList<EAdSceneElement> sceneElements;
-
 	/**
 	 * Default constructor.
 	 * 
@@ -99,17 +92,11 @@ public class EAdSceneImpl extends EAdGeneralElementImpl implements EAdScene {
 	 */
 	public EAdSceneImpl(String id) {
 		super(id);
-		sceneElements = new EAdListImpl<EAdSceneElement>(EAdSceneElement.class);
 		background = new EAdBasicSceneElement(id + "_background");
 		returnable = true;
 		acceptsVisualEffects = true;
 		vars = new EAdMapImpl<EAdVarDef<?>, Object>(EAdVarDef.class,
 				Object.class);
-	}
-
-	@Override
-	public EAdList<EAdSceneElement> getSceneElements() {
-		return sceneElements;
 	}
 
 	/**

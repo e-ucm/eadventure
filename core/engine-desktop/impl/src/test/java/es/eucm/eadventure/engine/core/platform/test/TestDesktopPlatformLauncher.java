@@ -95,80 +95,80 @@ public class TestDesktopPlatformLauncher  {
 		EAdScene scene = BasicSceneFactoryTest.getBasicScene();
 		
 		EAdActorReference actorReference = ActorReferenceFactoryTest.getActorReference(BasicActorFactoryTest.getActor());
-		scene.getSceneElements().add(actorReference);
+		scene.getElements().add(actorReference);
 
 		EAdActorReference actorReference2 = ActorReferenceFactoryTest.getActorReference(BasicActorFactoryTest.getActor());
-		scene.getSceneElements().add(actorReference2);
+		scene.getElements().add(actorReference2);
 
 		EAdActorReference actorReference3 = ActorReferenceFactoryTest.getActorReference(BasicActorFactoryTest.getActor());
-		scene.getSceneElements().add(actorReference3);
+		scene.getElements().add(actorReference3);
 
 		EAdActorReference actorReference4 = ActorReferenceFactoryTest.getActorReference(BasicActorFactoryTest.getActor());
-		scene.getSceneElements().add(actorReference4);
+		scene.getElements().add(actorReference4);
 
 		EAdActorReference actorReference5 = ActorReferenceFactoryTest.getActorReference(BasicActorFactoryTest.getActor());
-		scene.getSceneElements().add(actorReference5);
+		scene.getElements().add(actorReference5);
 
 		EAdActorReference actorReference6 = ActorReferenceFactoryTest.getActorReference(BasicActorFactoryTest.getActor());
-		scene.getSceneElements().add(actorReference6);
+		scene.getElements().add(actorReference6);
 
 		EAdActorReference actorReference7 = ActorReferenceFactoryTest.getActorReference(BasicActorFactoryTest.getActor());
-		scene.getSceneElements().add(actorReference7);
+		scene.getElements().add(actorReference7);
 
 		EAdButton button = new EAdButton("button");
 		button.setUpNewInstance();
 		button.addBehavior(EAdMouseEventImpl.MOUSE_LEFT_CLICK, new EAdChangeScene("id", VideoSceneFactoryTest.getVideoScene(), EAdTransition.BASIC));
 		button.setPosition(new EAdPositionImpl(200, 200));
-		scene.getSceneElements().add(button);
+		scene.getElements().add(button);
 		
 		EAdButton button2 = new EAdButton("button");
 		button2.setUpNewInstance();
 		button2.addBehavior(EAdMouseEventImpl.MOUSE_LEFT_CLICK, new EAdModifyActorState("id", actorReference.getReferencedActor(), EAdModifyActorState.Modification.PLACE_IN_INVENTORY));
 		button2.setPosition(new EAdPositionImpl(200, 300));
-		scene.getSceneElements().add(button2);
+		scene.getElements().add(button2);
 
 		button2 = new EAdButton("button");
 		button2.setUpNewInstance();
 		button2.addBehavior(EAdMouseEventImpl.MOUSE_LEFT_CLICK, new EAdModifyActorState("id", actorReference2.getReferencedActor(), EAdModifyActorState.Modification.PLACE_IN_INVENTORY));
 		button2.setPosition(new EAdPositionImpl(220, 320));
-		scene.getSceneElements().add(button2);
+		scene.getElements().add(button2);
 
 		button2 = new EAdButton("button");
 		button2.setUpNewInstance();
 		button2.addBehavior(EAdMouseEventImpl.MOUSE_LEFT_CLICK, new EAdModifyActorState("id", actorReference3.getReferencedActor(), EAdModifyActorState.Modification.PLACE_IN_INVENTORY));
 		button2.setPosition(new EAdPositionImpl(240, 340));
-		scene.getSceneElements().add(button2);
+		scene.getElements().add(button2);
 
 		button2 = new EAdButton("button");
 		button2.setUpNewInstance();
 		button2.addBehavior(EAdMouseEventImpl.MOUSE_LEFT_CLICK, new EAdModifyActorState("id", actorReference4.getReferencedActor(), EAdModifyActorState.Modification.PLACE_IN_INVENTORY));
 		button2.setPosition(new EAdPositionImpl(260, 360));
-		scene.getSceneElements().add(button2);
+		scene.getElements().add(button2);
 
 		button2 = new EAdButton("button");
 		button2.setUpNewInstance();
 		button2.addBehavior(EAdMouseEventImpl.MOUSE_LEFT_CLICK, new EAdModifyActorState("id", actorReference5.getReferencedActor(), EAdModifyActorState.Modification.PLACE_IN_INVENTORY));
 		button2.setPosition(new EAdPositionImpl(280, 380));
-		scene.getSceneElements().add(button2);
+		scene.getElements().add(button2);
 
 		button2 = new EAdButton("button");
 		button2.setUpNewInstance();
 		button2.addBehavior(EAdMouseEventImpl.MOUSE_LEFT_CLICK, new EAdModifyActorState("id", actorReference6.getReferencedActor(), EAdModifyActorState.Modification.PLACE_IN_INVENTORY));
 		button2.setPosition(new EAdPositionImpl(300, 400));
-		scene.getSceneElements().add(button2);
+		scene.getElements().add(button2);
 
 		button2 = new EAdButton("button");
 		button2.setUpNewInstance();
 		button2.addBehavior(EAdMouseEventImpl.MOUSE_LEFT_CLICK, new EAdModifyActorState("id", actorReference7.getReferencedActor(), EAdModifyActorState.Modification.PLACE_IN_INVENTORY));
 		button2.setPosition(new EAdPositionImpl(320, 420));
-		scene.getSceneElements().add(button2);
+		scene.getElements().add(button2);
 
 		
 		EAdButton button3 = new EAdButton("button");
 		button3.setUpNewInstance();
 		button3.addBehavior(EAdMouseEventImpl.MOUSE_LEFT_CLICK, new EAdModifyActorState("id", actorReference.getReferencedActor(), EAdModifyActorState.Modification.PLACE_IN_SCENE));
 		button3.setPosition(new EAdPositionImpl(200, 400));
-		scene.getSceneElements().add(button3);
+		scene.getElements().add(button3);
 
 		
 		loadingScreen.setInitialScreen(scene);

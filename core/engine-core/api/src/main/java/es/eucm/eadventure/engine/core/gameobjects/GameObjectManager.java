@@ -40,12 +40,13 @@ package es.eucm.eadventure.engine.core.gameobjects;
 import java.util.List;
 
 import es.eucm.eadventure.engine.core.gameobjects.huds.HudGO;
+import es.eucm.eadventure.engine.core.util.EAdTransformation;
 
 public interface GameObjectManager  {
 
 	static Boolean lock = Boolean.TRUE;
 
-	void add(GameObject<?> element, int offsetX, int offsetY);
+	void add(GameObject<?> element, EAdTransformation transformation);
 	
 	List<GameObject<?>> getGameObjects();
 
@@ -57,6 +58,6 @@ public interface GameObjectManager  {
 	
 	void swap();
 
-	List<int[]> getOffsets();
+	List<EAdTransformation> getTransformations();
 
 }

@@ -221,9 +221,6 @@ public class DesktopGUI extends AbstractGUI<Graphics2D> implements GUI {
 
 				g.setFont(g.getFont().deriveFont(20.0f));
 
-				g.scale(platformConfiguration.getScale(),
-						platformConfiguration.getScale());
-
 				render(g, interpolation);
 
 				g.dispose();

@@ -47,7 +47,7 @@ import es.eucm.eadventure.common.model.elements.EAdTimer;
 import es.eucm.eadventure.common.model.elements.impl.EAdActorReferenceImpl;
 import es.eucm.eadventure.common.model.elements.impl.EAdBasicActor;
 import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
-import es.eucm.eadventure.common.model.elements.impl.EAdComplexSceneElement;
+import es.eucm.eadventure.common.model.elements.impl.EAdComposedElementImpl;
 import es.eucm.eadventure.common.model.elements.impl.EAdComposedScene;
 import es.eucm.eadventure.common.model.elements.impl.EAdSceneImpl;
 import es.eucm.eadventure.common.model.elements.impl.EAdTimerImpl;
@@ -78,8 +78,7 @@ public class ElementGameObjectFactoryConfigurator {
 		factoryMap.put(EAdActorReference.class, ActorReferenceGO.class);
 		factoryMap.put(EAdActorReferenceImpl.class, ActorReferenceGO.class);
 		factoryMap.put(EAdBasicSceneElement.class, BasicSceneElementGO.class);
-		factoryMap.put(EAdComplexSceneElement.class,
-				ComplexSceneElementGO.class);
+		factoryMap.put(EAdComposedElementImpl.class, ComplexSceneElementGO.class);
 		factoryMap.put(EAdActor.class, ActorGO.class);
 		factoryMap.put(EAdBasicActor.class, ActorGO.class);
 		factoryMap.put(EAdTimer.class, TimerGO.class);

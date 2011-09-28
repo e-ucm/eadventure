@@ -39,6 +39,7 @@ package es.eucm.eadventure.engine.core.platform;
 
 import es.eucm.eadventure.common.resources.assets.drawable.basics.Image;
 import es.eucm.eadventure.engine.core.gameobjects.GameObject;
+import es.eucm.eadventure.engine.core.util.EAdTransformation;
 
 /**
  * This interface is implemented by the class that implements the high level
@@ -57,9 +58,11 @@ public interface GUI {
 	 * painting.
 	 * 
 	 * @param go
-	 *            An EAdFunctional element.
+	 *            the game object
+	 * @param transform
+	 *            the transformation of the parent element
 	 */
-	void addElement(GameObject<?> go, int offsetX, int offsetY);
+	void addElement(GameObject<?> go, EAdTransformation transform);
 
 	/**
 	 * Show a special resource on the screen (e.g. video, HTML, etc.)

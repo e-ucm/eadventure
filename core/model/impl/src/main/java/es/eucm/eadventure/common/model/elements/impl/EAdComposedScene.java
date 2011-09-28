@@ -59,7 +59,7 @@ public class EAdComposedScene extends EAdSceneImpl implements EAdScene {
 	}
 
 	@Override
-	public EAdList<EAdSceneElement> getSceneElements() {
+	public EAdList<EAdSceneElement> getElements() {
 		return null;
 	}
 

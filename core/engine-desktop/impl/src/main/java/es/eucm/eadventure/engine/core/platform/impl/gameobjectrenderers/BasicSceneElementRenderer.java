@@ -36,21 +36,19 @@
  */
 package es.eucm.eadventure.engine.core.platform.impl.gameobjectrenderers;
 
-import java.awt.AlphaComposite;
 import java.awt.Graphics2D;
 import java.util.logging.Logger;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
-import es.eucm.eadventure.common.params.geom.EAdPosition;
 import es.eucm.eadventure.engine.core.gameobjects.SceneElementGO;
-import es.eucm.eadventure.engine.core.platform.GameObjectRenderer;
 import es.eucm.eadventure.engine.core.platform.GraphicRendererFactory;
+import es.eucm.eadventure.engine.core.util.EAdTransformation;
 
 @Singleton
-public class BasicSceneElementRenderer implements
-		GameObjectRenderer<Graphics2D, SceneElementGO<?>> {
+public class BasicSceneElementRenderer extends
+		GameObjectRendererImpl<SceneElementGO<?>> {
 
 	/**
 	 * The {@link GraphicRendererFactor} used to display the elements in the
@@ -77,47 +75,13 @@ public class BasicSceneElementRenderer implements
 	 * @see
 	 * es.eucm.eadventure.engine.core.platform.GameObjectRenderer#render(java
 	 * .lang.Object, es.eucm.eadventure.engine.core.gameobjects.GameObject,
-	 * float)
-	 */
-	@Override
-	public void render(Graphics2D g, SceneElementGO<?> basicSceneElement,
-			float interpolation, int offsetX, int offsetY) {
-		Graphics2D g2 = prepareGraphics( g, basicSceneElement, 1.0f, offsetX, offsetY );
-		factory.render(g2, basicSceneElement.getRenderAsset());
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * es.eucm.eadventure.engine.core.platform.GameObjectRenderer#render(java
-	 * .lang.Object, es.eucm.eadventure.engine.core.gameobjects.GameObject,
 	 * es.eucm.eadventure.common.model.params.EAdPosition, float)
 	 */
 	@Override
 	public void render(Graphics2D g, SceneElementGO<?> basicSceneElement,
-			EAdPosition position, float scale, int offsetX, int offsetY) {
-		Graphics2D g2 = prepareGraphics( g, basicSceneElement, scale, offsetX, offsetY );
-		factory.render(g2, basicSceneElement.getRenderAsset());
-	}
-	
-	protected Graphics2D prepareGraphics( Graphics2D g, SceneElementGO<?> element, float scale, int offsetX, int offsetY ){
-		Graphics2D g2 = (Graphics2D) g.create();
-		g2.scale(scale, scale);
-		
-		EAdPosition p = element.getPosition();
-		
-		int width = element.getWidth();
-		int height = element.getHeight();
-		int x = (int) (p.getJavaX(width) + offsetX);
-		int y = (int) (p.getJavaY(height)+ offsetY);
-		g2.translate(x, y);
-		double centerX = width / 2.0f;
-		double centerY = height / 2.0f;
-		g2.rotate(element.getRotation(), centerX, centerY);
-		g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, element.getAlpha()));
-		g2.scale(element.getScale(), element.getScale());
-		return g2;
+			EAdTransformation transformation) {
+		factory.render(prepareGraphics(g, transformation),
+				basicSceneElement.getRenderAsset());
 	}
 
 	/*
@@ -129,26 +93,36 @@ public class BasicSceneElementRenderer implements
 	 */
 	@Override
 	public boolean contains(SceneElementGO<?> basicSceneElement, int virtualX,
-			int virtualY) {
-		
-		int centerX = basicSceneElement.getCenterX();
-		int centerY = basicSceneElement.getCenterY();
-		float rotation = -basicSceneElement.getRotation();
-		
-		virtualX = virtualX - centerX;
-		virtualY = virtualY - centerY;
-		int newVirtualX = (int) (virtualX * Math.cos(rotation) - virtualY * Math.sin(rotation)) + centerX;
-		int newVirtualY = (int) (virtualX * Math.sin(rotation) + virtualY * Math.cos(rotation)) + centerY;
-	
-		int x = (int) ((newVirtualX - basicSceneElement.getPosition().getJavaX(
-				basicSceneElement.getWidth() * basicSceneElement.getScale())) / basicSceneElement
-				.getScale());
-		int y = (int) ((newVirtualY - basicSceneElement.getPosition().getJavaY(
-				basicSceneElement.getHeight() * basicSceneElement.getScale())) / basicSceneElement
-				.getScale());
-		
-		return x > 0 && y > 0
-				&& factory.contains(x, y, basicSceneElement.getRenderAsset());
+			int virtualY, EAdTransformation transformation) {
+		// TODO contains renderer
+		// int centerX = basicSceneElement.getCenterX();
+		// int centerY = basicSceneElement.getCenterY();
+		// float rotation = -basicSceneElement.getRotation();
+		//
+		// virtualX = virtualX - centerX;
+		// virtualY = virtualY - centerY;
+		// int newVirtualX = (int) (virtualX * Math.cos(rotation) - virtualY
+		// * Math.sin(rotation))
+		// + centerX;
+		// int newVirtualY = (int) (virtualX * Math.sin(rotation) + virtualY
+		// * Math.cos(rotation))
+		// + centerY;
+		//
+		// int x = (int) ((newVirtualX -
+		// basicSceneElement.getPosition().getJavaX(
+		// basicSceneElement.getWidth() * basicSceneElement.getScale())) /
+		// basicSceneElement
+		// .getScale());
+		// int y = (int) ((newVirtualY -
+		// basicSceneElement.getPosition().getJavaY(
+		// basicSceneElement.getHeight() * basicSceneElement.getScale())) /
+		// basicSceneElement
+		// .getScale());
+
+		// return x > 0 && y > 0
+		// && factory.contains(x, y, basicSceneElement.getRenderAsset());
+
+		return false;
 	}
 
 }

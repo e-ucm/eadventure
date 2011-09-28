@@ -31,7 +31,7 @@ public class DragDropScene extends EmptyScene {
 		e1.addBehavior(EAdMouseEventImpl.MOUSE_PRESSED, changeRotation1);
 		e1.addBehavior(EAdMouseEventImpl.MOUSE_RELEASED, changeRotation2);
 		
-		getSceneElements().add(e1);
+		getElements().add(e1);
 		
 	}
 	

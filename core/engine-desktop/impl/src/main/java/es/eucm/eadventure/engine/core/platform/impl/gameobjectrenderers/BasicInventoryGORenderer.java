@@ -43,9 +43,9 @@ import java.util.logging.Logger;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
-import es.eucm.eadventure.common.params.geom.EAdPosition;
 import es.eucm.eadventure.engine.core.gameobjects.impl.inventory.BasicInventoryGO;
 import es.eucm.eadventure.engine.core.platform.GameObjectRenderer;
+import es.eucm.eadventure.engine.core.util.EAdTransformation;
 
 @Singleton
 public class BasicInventoryGORenderer implements
@@ -58,21 +58,15 @@ public class BasicInventoryGORenderer implements
 	public BasicInventoryGORenderer() {
 		logger.info("New instance");
 	}
-	
+
 	@Override
 	public void render(Graphics2D graphicContext, BasicInventoryGO object,
-			float interpolation, int offsetX, int offsetY) {
+			EAdTransformation transformation) {
 		//DO NOTHING
 	}
 
 	@Override
-	public void render(Graphics2D graphicContext, BasicInventoryGO object,
-			EAdPosition position, float scale, int offsetX, int offsetY) {
-		//DO NOTHING
-	}
-
-	@Override
-	public boolean contains(BasicInventoryGO object, int virtualX, int virtualY) {
+	public boolean contains(BasicInventoryGO object, int virtualX, int virtualY, EAdTransformation transformation) {
 		return false;
 	}
 

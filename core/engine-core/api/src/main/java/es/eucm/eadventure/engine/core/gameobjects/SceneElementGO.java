@@ -56,10 +56,6 @@ public interface SceneElementGO<T extends EAdSceneElement> extends
 
 	void setPosition(EAdPosition position);
 
-	float getScale();
-
-	float getAlpha();
-
 	void setScale(float scale);
 
 	/**
@@ -88,15 +84,6 @@ public interface SceneElementGO<T extends EAdSceneElement> extends
 	int getHeight();
 
 	List<EAdAction> getValidActions();
-
-	/**
-	 * Returns the current rotation for the scene element, in radians
-	 * 
-	 * @return
-	 */
-	float getRotation();
-
-	boolean isVisible();
 
 	/**
 	 * Returns the x coordinate of scene element center, using the scale

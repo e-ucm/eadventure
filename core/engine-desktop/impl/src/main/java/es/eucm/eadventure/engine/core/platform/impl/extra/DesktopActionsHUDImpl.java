@@ -60,6 +60,7 @@ import es.eucm.eadventure.engine.core.gameobjects.GameObjectManager;
 import es.eucm.eadventure.engine.core.gameobjects.SceneElementGO;
 import es.eucm.eadventure.engine.core.gameobjects.huds.impl.ActionsHUDImpl;
 import es.eucm.eadventure.engine.core.platform.GUI;
+import es.eucm.eadventure.engine.core.util.EAdTransformation;
 
 @Singleton
 public class DesktopActionsHUDImpl extends ActionsHUDImpl {
@@ -190,11 +191,9 @@ public class DesktopActionsHUDImpl extends ActionsHUDImpl {
 	}
 
 	@Override
-	public void doLayout(int offsetX, int offsetY) {
-		// TODO ...
+	public void doLayout(EAdTransformation t) {
 		for (GameObject<?> action : actionGOs)
-			if (((SceneElementGO<?>) action).isVisible())
-				gui.addElement(action, offsetX, offsetY);
+				gui.addElement(action, t);
 	}
 
 }

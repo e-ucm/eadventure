@@ -129,7 +129,7 @@ public abstract class SceneElementGOImpl<T extends EAdSceneElement> extends
 		}
 
 		for (Entry<EAdVarDef<?>, Object> entry : element.getVars().entrySet()) {
-			//FIXME this has to change, to dissappear
+			// FIXME this has to change, to disappear
 			valueMap.setValue(entry.getKey(), entry.getValue(), element);
 		}
 
@@ -156,6 +156,22 @@ public abstract class SceneElementGOImpl<T extends EAdSceneElement> extends
 				EAdBasicSceneElement.VAR_DISP_X));
 		position.setDispY(valueMap.getValue(element,
 				EAdBasicSceneElement.VAR_DISP_Y));
+
+		updateTransformation();
+	}
+
+	protected void updateTransformation() {
+		transformation.setAlpha(alpha);
+		transformation.setVisible(visible);
+		transformation.getMatrix().setIdentity();
+		transformation.getMatrix().postTranslate(position.getJavaX(width),
+				position.getJavaY(height));
+		transformation.getMatrix().postTranslate( width / 2,
+				height / 2);
+		transformation.getMatrix().postRotate(rotation);
+		transformation.getMatrix().postTranslate( - width / 2,
+				- height / 2);
+		transformation.getMatrix().postScale(scale, scale);
 	}
 
 	@Override
@@ -178,7 +194,7 @@ public abstract class SceneElementGOImpl<T extends EAdSceneElement> extends
 
 		valueMap.setValue(element, EAdBasicSceneElement.VAR_TIME_DISPLAYED,
 				timeDisplayed + GameLoop.SKIP_MILLIS_TICK);
-		if ( getAsset() != null ) 
+		if (getAsset() != null)
 			getAsset().update(state);
 		updateVars();
 	}
@@ -186,11 +202,6 @@ public abstract class SceneElementGOImpl<T extends EAdSceneElement> extends
 	@Override
 	public T getElement() {
 		return super.getElement();
-	}
-
-	@Override
-	public EAdPosition getPosition() {
-		return position;
 	}
 
 	@Override
@@ -268,7 +279,7 @@ public abstract class SceneElementGOImpl<T extends EAdSceneElement> extends
 	public List<RuntimeAsset<?>> getAssets(List<RuntimeAsset<?>> assetList,
 			boolean allAssets) {
 
-		if (!isVisible() && !allAssets) {
+		if (visible && !allAssets) {
 			return assetList;
 		}
 
@@ -342,17 +353,8 @@ public abstract class SceneElementGOImpl<T extends EAdSceneElement> extends
 	}
 
 	@Override
-	public float getScale() {
-		return scale;
-	}
-
-	@Override
 	public void setScale(float scale) {
 		valueMap.setValue(element, EAdBasicSceneElement.VAR_SCALE, scale);
-	}
-
-	public boolean isVisible() {
-		return visible;
 	}
 
 	public void setWidth(int width) {
@@ -366,11 +368,6 @@ public abstract class SceneElementGOImpl<T extends EAdSceneElement> extends
 	}
 
 	@Override
-	public float getRotation() {
-		return rotation;
-	}
-
-	@Override
 	public int getCenterX() {
 		return (int) ((position.getJavaX(width) + width / 2) * scale);
 	}
@@ -379,9 +376,9 @@ public abstract class SceneElementGOImpl<T extends EAdSceneElement> extends
 	public int getCenterY() {
 		return (int) ((position.getJavaY(height) + height / 2) * scale);
 	}
-
-	public float getAlpha() {
-		return alpha;
+	
+	public EAdPosition getPosition(){
+		return position;
 	}
 
 	@Override

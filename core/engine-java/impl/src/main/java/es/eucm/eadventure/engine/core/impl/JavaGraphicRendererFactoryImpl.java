@@ -44,13 +44,13 @@ import com.google.inject.name.Named;
 import es.eucm.eadventure.common.interfaces.AbstractFactory;
 import es.eucm.eadventure.common.interfaces.MapProvider;
 import es.eucm.eadventure.common.interfaces.ReflectionProvider;
-import es.eucm.eadventure.common.params.geom.EAdPosition;
 import es.eucm.eadventure.engine.core.gameobjects.GameObject;
 import es.eucm.eadventure.engine.core.platform.AssetRenderer;
 import es.eucm.eadventure.engine.core.platform.GameObjectRenderer;
 import es.eucm.eadventure.engine.core.platform.GraphicRenderer;
 import es.eucm.eadventure.engine.core.platform.GraphicRendererFactory;
 import es.eucm.eadventure.engine.core.platform.RuntimeAsset;
+import es.eucm.eadventure.engine.core.util.EAdTransformation;
 
 @Singleton
 public class JavaGraphicRendererFactoryImpl<S> extends
@@ -89,30 +89,20 @@ public class JavaGraphicRendererFactoryImpl<S> extends
 	@SuppressWarnings("unchecked")
 	@Override
 	public <T extends GameObject<?>> void render(S graphicContext, T object,
-			float interpolation, int offsetX, int offsetY) {
+			EAdTransformation transformation) {
 		GameObjectRenderer<S, T> gameObjectRenderer = (GameObjectRenderer<S, T>) get(object
 				.getClass());
-		gameObjectRenderer.render(graphicContext, object, interpolation,
-				offsetX, offsetY);
-	}
-
-	@SuppressWarnings("unchecked")
-	@Override
-	public <T extends GameObject<?>> void render(S graphicContext, T object,
-			EAdPosition position, float scale, int offsetX, int offsetY) {
-		GameObjectRenderer<S, T> gameObjectRenderer = (GameObjectRenderer<S, T>) get(object
-				.getClass());
-		gameObjectRenderer.render(graphicContext, object, position, scale,
-				offsetX, offsetY);
+		gameObjectRenderer.render(graphicContext, object, transformation);
 	}
 
 	@SuppressWarnings("unchecked")
 	@Override
 	public <T extends GameObject<?>> boolean contains(T gameObject,
-			int virtualX, int virtualY) {
+			int virtualX, int virtualY, EAdTransformation transformation) {
 		GameObjectRenderer<S, T> gameObjectRenderer = (GameObjectRenderer<S, T>) get(gameObject
 				.getClass());
-		return gameObjectRenderer.contains(gameObject, virtualX, virtualY);
+		return gameObjectRenderer.contains(gameObject, virtualX, virtualY,
+				transformation);
 	}
 
 }

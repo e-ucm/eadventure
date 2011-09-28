@@ -62,6 +62,7 @@ import es.eucm.eadventure.engine.core.platform.AssetHandler;
 import es.eucm.eadventure.engine.core.platform.GameObjectRenderer;
 import es.eucm.eadventure.engine.core.platform.GraphicRendererFactory;
 import es.eucm.eadventure.engine.core.platform.assets.impl.RuntimeCaption;
+import es.eucm.eadventure.engine.core.util.EAdTransformation;
 
 @Singleton
 public class BasicHudGORenderer implements
@@ -92,8 +93,7 @@ public class BasicHudGORenderer implements
 	}
 
 	@Override
-	public void render(Graphics2D g, BasicHUDImpl object, float interpolation,
-			int offsetX, int offsetY) {
+	public void render(Graphics2D g, BasicHUDImpl object, EAdTransformation t) {
 
 		// TODO probably should check if it wants its name to be painted
 		GameObject<?> underMouse = mouseState.getGameObjectUnderMouse();
@@ -132,12 +132,7 @@ public class BasicHudGORenderer implements
 	}
 
 	@Override
-	public void render(Graphics2D graphicContext, BasicHUDImpl object,
-			EAdPosition position, float scale, int offsetX, int offsetY) {
-	}
-
-	@Override
-	public boolean contains(BasicHUDImpl object, int virutalX, int virtualY) {
+	public boolean contains(BasicHUDImpl object, int virutalX, int virtualY, EAdTransformation transformation) {
 		return false;
 	}
 

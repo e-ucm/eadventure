@@ -51,6 +51,7 @@ import es.eucm.eadventure.engine.core.gameobjects.SceneElementGO;
 import es.eucm.eadventure.engine.core.platform.AssetHandler;
 import es.eucm.eadventure.engine.core.platform.GUI;
 import es.eucm.eadventure.engine.core.platform.PlatformConfiguration;
+import es.eucm.eadventure.engine.core.util.EAdTransformation;
 
 public class ComplexBlockingEffectGO extends
 		AbstractEffectGO<EAdComplexBlockingEffect> {
@@ -65,13 +66,12 @@ public class ComplexBlockingEffectGO extends
 	}
 
 	@Override
-	public void doLayout(int offsetX, int offsetY) {
-		// TODO check if correct offset
+	public void doLayout(EAdTransformation t) {
 		for (EAdSceneElement e : element.getComponents()) {
 			SceneElementGO<?> go = (SceneElementGO<?>) gameObjectFactory.get(e);
-			if (go.isVisible())
-				gui.addElement(go, offsetX, offsetY);
+			gui.addElement(go, t);
 		}
+
 	}
 
 	@Override

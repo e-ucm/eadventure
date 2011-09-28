@@ -46,13 +46,14 @@ import com.google.inject.Singleton;
 import es.eucm.eadventure.engine.core.gameobjects.GameObject;
 import es.eucm.eadventure.engine.core.gameobjects.GameObjectManager;
 import es.eucm.eadventure.engine.core.gameobjects.huds.HudGO;
+import es.eucm.eadventure.engine.core.util.EAdTransformation;
 
 @Singleton
 public class GameObjectManagerImpl implements GameObjectManager {
 
 	private ArrayList<GameObject<?>>[] gameObjects;
 	
-	private ArrayList<int[]>[] offsets;
+	private ArrayList<EAdTransformation>[] transformations;
 
 	private ArrayList<HudGO<?>> huds;
 
@@ -68,9 +69,9 @@ public class GameObjectManagerImpl implements GameObjectManager {
 		this.gameObjects = new ArrayList[2];
 		this.gameObjects[0] = new ArrayList<GameObject<?>>();
 		this.gameObjects[1] = new ArrayList<GameObject<?>>();
-		this.offsets = new ArrayList[2];
-		this.offsets[0] = new ArrayList<int[]>();
-		this.offsets[1] = new ArrayList<int[]>();
+		this.transformations = new ArrayList[2];
+		this.transformations[0] = new ArrayList<EAdTransformation>();
+		this.transformations[1] = new ArrayList<EAdTransformation>();
 		this.pointer = 0;
 		this.bufferPointer = 1;
 		this.huds = new ArrayList<HudGO<?>>();
@@ -85,10 +86,10 @@ public class GameObjectManagerImpl implements GameObjectManager {
 	 * .eadventure.engine.core.gameobjects.GameObject)
 	 */
 	@Override
-	public void add(GameObject<?> element, int offsetX, int offsetY) {
+	public void add(GameObject<?> element, EAdTransformation transformation) {
 		synchronized (GameObjectManager.lock) {
 			this.gameObjects[bufferPointer].add(element);
-			this.offsets[bufferPointer].add(new int[]{offsetX, offsetY});
+			this.transformations[bufferPointer].add(transformation);
 		}
 	}
 
@@ -105,8 +106,8 @@ public class GameObjectManagerImpl implements GameObjectManager {
 	}
 	
 	@Override
-	public List<int[]> getOffsets() {
-		return this.offsets[pointer];
+	public List<EAdTransformation> getTransformations() {
+		return this.transformations[pointer];
 	}
 
 	/*
@@ -159,7 +160,7 @@ public class GameObjectManagerImpl implements GameObjectManager {
 			pointer = bufferPointer;
 			bufferPointer = (bufferPointer + 1) % 2 ;
 			gameObjects[bufferPointer].clear();
-			offsets[bufferPointer].clear();
+			transformations[bufferPointer].clear();
 		}
 	}
 

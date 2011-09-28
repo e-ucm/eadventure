@@ -43,13 +43,12 @@ import java.util.logging.Logger;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
-import es.eucm.eadventure.common.params.geom.EAdPosition;
 import es.eucm.eadventure.engine.core.gameobjects.TransitionGO;
-import es.eucm.eadventure.engine.core.platform.GameObjectRenderer;
 import es.eucm.eadventure.engine.core.platform.GraphicRendererFactory;
+import es.eucm.eadventure.engine.core.util.EAdTransformation;
 
 @Singleton
-public class TransitionGORenderer  implements GameObjectRenderer<Graphics2D, TransitionGO> {
+public class TransitionGORenderer  extends GameObjectRendererImpl<TransitionGO> {
 
 	/**
 	 * The {@link GraphicRendererFactor} used to display the elements in the
@@ -69,27 +68,18 @@ public class TransitionGORenderer  implements GameObjectRenderer<Graphics2D, Tra
 		this.factory = (GraphicRendererFactory<Graphics2D>) factory;
 		logger.info("New instance");
 	}
-
-	@Override
-	public void render(Graphics2D graphicContext, TransitionGO object,
-			float interpolation, int offsetX, int offsetY) {
-		//Do nothing?
-	}
 	
 	@Override
 	public void render(Graphics2D graphicContext, TransitionGO object,
-			EAdPosition position, float scale, int offsetX, int offsetY) {
+			EAdTransformation transformation) {
 		
 		if (object.getBackground() != null){
-			Graphics2D g2 = (Graphics2D) graphicContext.create();
-			g2.translate(offsetX, offsetY);
-			g2.scale(scale, scale);
-			factory.render(graphicContext, object.getBackground());
+			factory.render(prepareGraphics(graphicContext, transformation), object.getBackground());
 		}
 	}
 	
 	@Override
-	public boolean contains(TransitionGO object, int virtualX, int virtualY) {
+	public boolean contains(TransitionGO object, int virtualX, int virtualY, EAdTransformation transformation) {
 		return false;
 	}
 	

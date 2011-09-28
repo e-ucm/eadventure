@@ -52,8 +52,6 @@ public interface ActorReferenceGO extends GameObject<EAdActorReference>, Oriente
 
 	void setPosition(EAdPosition position);
 
-	float getScale();
-
 	void setScale(float scale);
 
 	EAdString getName();

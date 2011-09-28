@@ -40,7 +40,6 @@ package es.eucm.eadventure.common.elmentfactories.scenedemos;
 import es.eucm.eadventure.common.elmentfactories.EAdElementsFactory;
 import es.eucm.eadventure.common.interfaces.features.Oriented.Orientation;
 import es.eucm.eadventure.common.model.effects.EAdEffect;
-import es.eucm.eadventure.common.model.elements.EAdSceneElement.CommonStates;
 import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
 import es.eucm.eadventure.common.model.events.EAdSceneElementEvent;
 import es.eucm.eadventure.common.model.events.EAdSceneElementEvent.SceneElementEvent;
@@ -99,7 +98,7 @@ public class CharacterScene extends EmptyScene {
 
 		element.setScale(3.0f);
 
-		this.getSceneElements().add(element);
+		this.getElements().add(element);
 
 		EAdEffect goUpEffect = EAdElementsFactory
 				.getInstance()
@@ -111,7 +110,7 @@ public class CharacterScene extends EmptyScene {
 				.getSceneElementFactory()
 				.createSceneElement(new ImageImpl("@drawable/arrow_up.png"),
 						100, 10, goUpEffect);
-		this.getSceneElements().add(goUpArrow);
+		this.getElements().add(goUpArrow);
 		
 		element.addBehavior(EAdKeyEventImpl.KEY_ARROW_UP, goUpEffect);
 
@@ -125,7 +124,7 @@ public class CharacterScene extends EmptyScene {
 				.getSceneElementFactory()
 				.createSceneElement(new ImageImpl("@drawable/arrow_down.png"),
 						100, 120, goDownEffect);
-		this.getSceneElements().add(goDownArrow);
+		this.getElements().add(goDownArrow);
 		
 		element.addBehavior(EAdKeyEventImpl.KEY_ARROW_DOWN, goDownEffect);
 
@@ -139,7 +138,7 @@ public class CharacterScene extends EmptyScene {
 				.getSceneElementFactory()
 				.createSceneElement(new ImageImpl("@drawable/arrow_left.png"),
 						0, 60, goLeftEffect);
-		this.getSceneElements().add(goLeftArrow);
+		this.getElements().add(goLeftArrow);
 		
 		element.addBehavior(EAdKeyEventImpl.KEY_ARROW_LEFT, goLeftEffect);
 
@@ -153,7 +152,7 @@ public class CharacterScene extends EmptyScene {
 				.getSceneElementFactory()
 				.createSceneElement(new ImageImpl("@drawable/arrow_right.png"),
 						200, 60, goRightEffect);
-		this.getSceneElements().add(goRightArrow);
+		this.getElements().add(goRightArrow);
 		
 		element.addBehavior(EAdKeyEventImpl.KEY_ARROW_RIGHT, goRightEffect);
 
@@ -168,7 +167,7 @@ public class CharacterScene extends EmptyScene {
 		EAdBasicSceneElement stand = EAdElementsFactory.getInstance()
 				.getSceneElementFactory()
 				.createSceneElement("Stand", 300, 10, standEffect);
-		this.getSceneElements().add(stand);
+		this.getElements().add(stand);
 
 		EAdEffect talkEffect = EAdElementsFactory
 				.getInstance()
@@ -180,7 +179,7 @@ public class CharacterScene extends EmptyScene {
 		EAdBasicSceneElement talk = EAdElementsFactory.getInstance()
 				.getSceneElementFactory()
 				.createSceneElement("Talk", 300, 110, talkEffect);
-		this.getSceneElements().add(talk);
+		this.getElements().add(talk);
 
 		EAdEffect walkEffect = EAdElementsFactory
 				.getInstance()
@@ -192,7 +191,7 @@ public class CharacterScene extends EmptyScene {
 		EAdBasicSceneElement walk = EAdElementsFactory.getInstance()
 				.getSceneElementFactory()
 				.createSceneElement("Walk", 300, 210, walkEffect);
-		this.getSceneElements().add(walk);
+		this.getElements().add(walk);
 	}
 
 	private static OrientedDrawable getTalkDrawable() {

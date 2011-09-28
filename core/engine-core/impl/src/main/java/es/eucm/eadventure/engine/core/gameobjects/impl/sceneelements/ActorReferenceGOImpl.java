@@ -155,18 +155,9 @@ public class ActorReferenceGOImpl extends SceneElementGOImpl<EAdActorReference>
 	}
 
 	@Override
-	public boolean isVisible() {
-		if (!inventoryReference
-				&& gameState.getInventoryActors().contains(
-						element.getReferencedActor()))
-			return false;
-		return super.isVisible();
-	}
-
-	@Override
 	public List<RuntimeAsset<?>> getAssets(List<RuntimeAsset<?>> assetList,
 			boolean allAssets) {
-		if (!isVisible() && !allAssets) {
+		if (visible && !allAssets) {
 			return assetList;
 		}
 

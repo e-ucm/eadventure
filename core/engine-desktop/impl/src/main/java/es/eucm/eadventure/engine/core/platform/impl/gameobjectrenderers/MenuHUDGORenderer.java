@@ -43,9 +43,9 @@ import java.util.logging.Logger;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
-import es.eucm.eadventure.common.params.geom.EAdPosition;
 import es.eucm.eadventure.engine.core.gameobjects.huds.impl.MenuHUDImpl;
 import es.eucm.eadventure.engine.core.platform.GameObjectRenderer;
+import es.eucm.eadventure.engine.core.util.EAdTransformation;
 
 @Singleton
 public class MenuHUDGORenderer implements
@@ -58,21 +58,15 @@ public class MenuHUDGORenderer implements
 	public MenuHUDGORenderer() {
 		logger.info("New instance");
 	}
-	
+
 	@Override
 	public void render(Graphics2D graphicContext, MenuHUDImpl object,
-			float interpolation, int offsetX, int offsetY) {
+			EAdTransformation transformation) {
 		//DO NOTHING
 	}
 
 	@Override
-	public void render(Graphics2D graphicContext, MenuHUDImpl object,
-			EAdPosition position, float scale, int offsetX, int offsetY) {
-		//DO NOTHING
-	}
-
-	@Override
-	public boolean contains(MenuHUDImpl object, int virtualX, int virtualY) {
+	public boolean contains(MenuHUDImpl object, int virtualX, int virtualY, EAdTransformation transformation) {
 		return true;
 	}
 

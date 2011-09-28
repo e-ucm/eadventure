@@ -59,6 +59,8 @@ import es.eucm.eadventure.engine.core.guiactions.GUIAction;
 import es.eucm.eadventure.engine.core.guiactions.KeyAction;
 import es.eucm.eadventure.engine.core.platform.GUI;
 import es.eucm.eadventure.engine.core.platform.RuntimeAsset;
+import es.eucm.eadventure.engine.core.util.EAdTransformation;
+import es.eucm.eadventure.engine.core.util.impl.EAdTransformationImpl;
 
 /**
  * <p>
@@ -149,16 +151,14 @@ public class BasicHUDImpl implements BasicHUD {
 	}
 
 	@Override
-	public void doLayout(int offsetX, int offsetY) {
+	public void doLayout(EAdTransformation transformation) {
 		if (game.getAdventureModel().getInventory() != null)
 			gui.addElement(gameObjectFactory.get(game.getAdventureModel()
-					.getInventory()), 0, 0);
+					.getInventory()), transformation);
 
 		if (mouseState.getDraggingGameObject() != null && mouseState.isInside()) {
 			GameObject<?> draggedGO = mouseState.getDraggingGameObject();
-			gui.addElement(draggedGO, mouseState.getVirtualMouseX()
-					- mouseState.getMouseDifX(), mouseState.getVirtualMouseY()
-					- mouseState.getMouseDifY());
+			gui.addElement(draggedGO, transformation);
 		}
 	}
 
@@ -187,6 +187,11 @@ public class BasicHUDImpl implements BasicHUD {
 	@Override
 	public void setPosition(EAdPosition p) {
 
+	}
+	
+	@Override
+	public EAdTransformation getTransformation() {
+		return EAdTransformationImpl.INITIAL_TRANSFORMATION;
 	}
 
 }

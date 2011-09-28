@@ -55,6 +55,7 @@ import es.eucm.eadventure.engine.core.MouseState;
 import es.eucm.eadventure.engine.core.gameobjects.huds.BasicHUD;
 import es.eucm.eadventure.engine.core.platform.GameObjectRenderer;
 import es.eucm.eadventure.engine.core.platform.PlatformConfiguration;
+import es.eucm.eadventure.engine.core.util.EAdTransformation;
 import es.eucm.eadventure.engine.extra.AndroidCanvas;
 
 @Singleton
@@ -101,7 +102,7 @@ public class BasicHudGORenderer implements GameObjectRenderer<Canvas, BasicHUD> 
 	}
 	@Override
 	public boolean contains(BasicHUD object, int virutalX,
-			int virtualY) {
+			int virtualY, EAdTransformation transformation) {
 		return false;
 	}
 
