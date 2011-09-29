@@ -66,11 +66,11 @@ public class AndroidGameLoopImpl implements GameLoop {
 	 */
 	public static boolean canvasLockPost;
 	
-	private static final Logger logger = Logger.getLogger("GameLoopImpl");	
+	private static final Logger logger = Logger.getLogger("AndroidGameLoopImpl");	
 	
 	static final int SKIP_NANOS_TICK = 1000000000 / TICKS_PER_SECOND;
 
-	static final int MAX_FRAMES_PER_SECOND = 30;
+	static final int MAX_FRAMES_PER_SECOND = 25;
 
 	static final int SKIP_MILLIS_FRAME = 1000 / MAX_FRAMES_PER_SECOND;
 
@@ -148,8 +148,8 @@ public class AndroidGameLoopImpl implements GameLoop {
 				game.render(interpolation);
 				gameProfiler.countFrame();
 			} else {
+				canvasLockPost = true;
 				try {
-					canvasLockPost = true;
 					Thread.sleep((nextFrameTime - tempTime) / 1000000);
 				} catch (InterruptedException e) {
 				}

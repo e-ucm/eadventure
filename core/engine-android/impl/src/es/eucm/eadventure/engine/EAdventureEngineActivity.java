@@ -91,9 +91,6 @@ public class EAdventureEngineActivity extends Activity {
 		config.setWidth(dm.widthPixels);
 		config.setHeight(dm.heightPixels);
 		config.setFullscreen(true);
-		
-		surfaceView = new EAdventureSurfaceView(this);
-		setContentView(surfaceView);
 
 		// TODO fix this
 		AndroidAssetHandler aah = (AndroidAssetHandler) injector
@@ -115,6 +112,8 @@ public class EAdventureEngineActivity extends Activity {
 
 		loadingScreen.setInitialScreen(sceneImpl);
 
+		surfaceView = new EAdventureSurfaceView(this);
+		setContentView(surfaceView);
 		surfaceView.start(injector.getInstance(GUI.class), config,
 				injector.getInstance(MouseState.class));
 

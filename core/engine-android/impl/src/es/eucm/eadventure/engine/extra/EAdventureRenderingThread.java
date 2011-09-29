@@ -81,7 +81,6 @@ public class EAdventureRenderingThread extends Thread {
 		final Bitmap bitmap = Bitmap.createBitmap(platformConfiguration.getWidth(), platformConfiguration.getHeight(), Bitmap.Config.RGB_565);
 		aCanvas = new AndroidCanvas(bitmap);
 		gui.setCanvas(aCanvas);
-
 		/*
 		 * This is our main activity thread's loop, we go until
 		 * asked to quit.
@@ -97,47 +96,47 @@ public class EAdventureRenderingThread extends Thread {
 						logger.info("Thread interrupted");
 					}
 				}
+
+				if (mDone) 
+					break;
+
 			}
-			if (mDone) 
-				break;
 
-		}
+			if (mHasSurface && !AndroidGameLoopImpl.canvasLockPost){
 
-		// Get ready to draw.            
-		Canvas c = null;
+				Canvas c = null;
+				// Get ready to draw.            
+				try {
+					c = mSurfaceHolder.lockCanvas();
+					/*
+	    			aCanvas.drawColor(Color.WHITE);
+					Matrix matrix = new Matrix();		
 
-		if (mHasSurface && !AndroidGameLoopImpl.canvasLockPost){
+					if (platformConfiguration.isFullscreen())
+						matrix.preScale((float) platformConfiguration.getScaleW(),
+							(float) platformConfiguration.getScale());
+					else matrix.preScale((float) platformConfiguration.getScale(),
+							(float) platformConfiguration.getScale()); 
 
-			try {
-				c = mSurfaceHolder.lockCanvas();
-				/*
-	    		aCanvas.drawColor(Color.WHITE);
-				Matrix matrix = new Matrix();		
+					aCanvas.setMatrix(matrix);
 
-				if (platformConfiguration.isFullscreen())
-					matrix.preScale((float) platformConfiguration.getScaleW(),
-						(float) platformConfiguration.getScale());
-				else matrix.preScale((float) platformConfiguration.getScale(),
-						(float) platformConfiguration.getScale()); 
+	    			gui.commit(0.0f);*/
 
-				aCanvas.setMatrix(matrix);
-
-	    		gui.commit(0.0f);*/
-				if (c != null){
-					synchronized (EAdventureRenderingThread.canvasLock){
-						synchronized (mSurfaceHolder){
+					synchronized (mSurfaceHolder){
+						synchronized (EAdventureRenderingThread.canvasLock){
 							c.drawBitmap(aCanvas.getBitmap(), 0, 0, null);
 						}
 					}
-				}
 
-			}
-			finally {
-				if (c != null) {
-					mSurfaceHolder.unlockCanvasAndPost(c);
+				}
+				finally {
+					if (c != null) {
+						mSurfaceHolder.unlockCanvasAndPost(c);
+					}
 				}
 			}
 		}
+
 	}
 
 

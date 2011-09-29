@@ -142,7 +142,7 @@ public class AndroidEngineImage extends RuntimeImage {
 	        o2.inPurgeable = true;
     		o2.inPreferredConfig = Bitmap.Config.RGB_565;
 	        o2.inSampleSize = scale;
-	        o2.inTempStorage = new byte[16*1024];
+	        
 	        fis = new FileInputStream(f);
 	        b = BitmapFactory.decodeStream(fis, null, o2);
 	        try {
