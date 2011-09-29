@@ -42,10 +42,9 @@ import javax.swing.table.TableCellRenderer;
 
 /**
  * Interface to define the format of a cell.
- * 
- * @author Sergio Bellón
- *
  */
 public interface CellRenderEditor extends TableCellEditor, TableCellRenderer{
 
+	boolean isEditable();
+	
 }

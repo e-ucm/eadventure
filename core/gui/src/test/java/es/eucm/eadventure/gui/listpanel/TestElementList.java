@@ -49,8 +49,6 @@ import org.slf4j.LoggerFactory;
  * 
  * Always is created a element list is need to implement {@link ListPanelListener}
  * 
- * @author Sergio Bellón
- * 
  */
 public class TestElementList implements ListPanelListener {
 
@@ -142,7 +140,7 @@ public class TestElementList implements ListPanelListener {
 		case 1:
 			return elements.get(rowIndex).getCadena2();
 		default:
-			return null;
+			return elements.get(rowIndex);
 		}
 	}
 

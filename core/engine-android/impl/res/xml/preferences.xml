@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+        <PreferenceCategory android:title="Engine Preferences">
+                <CheckBoxPreference android:id="@+id/check_box_pref_0"
+                        android:title="Enable audio"
+                        android:defaultValue="true"
+                        android:summary="Enable or disable audio"
+                        android:key="AudioPref" />
+                <CheckBoxPreference android:id="@+id/check_box_pref_1"
+                        android:title="Enable vibration"
+                        android:defaultValue="true"
+                        android:summary="Enable or disable vibration"
+                        android:key="VibratePref" />             
+        </PreferenceCategory>
+        <PreferenceCategory android:title="Developers">
+        		<CheckBoxPreference android:id="@+id/check_box_pref_2"
+                        android:title="Enable debugging"
+                        android:defaultValue="false"
+                        android:summary="Enable or disable debugging overlay"
+                        android:key="DebugPref" />
+        </PreferenceCategory>
+        <PreferenceCategory android:title="eAdventure games">
+               	<PreferenceScreen android:id="@+id/pref_screen_0"
+                android:title="Install from SDCard"
+                android:summary="Install ead games from external storage"
+                android:key="InstallPref"/>
+        </PreferenceCategory>
+        <PreferenceCategory android:title="Contact">
+        		<PreferenceScreen android:id="@+id/pref_screen_1"
+                android:title="eAdventure website"
+                android:summary="Contact us in our website"
+                android:key="WebPref"/>
+        </PreferenceCategory>
+</PreferenceScreen>

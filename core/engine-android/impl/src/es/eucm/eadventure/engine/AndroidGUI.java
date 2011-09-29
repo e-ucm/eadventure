@@ -91,15 +91,14 @@ public class AndroidGUI extends AbstractGUI<Canvas> {
 
 	@Override
 	public void commit(float interpolation) {
+		
 		processInput();
-
-		if (canvas != null) {
-			synchronized (EAdventureRenderingThread.canvasLock) {
-				// canvas.drawColor(Color.WHITE);
-
-				render(canvas, interpolation);
-			}
+		
+		synchronized (EAdventureRenderingThread.canvasLock) {
+			// canvas.drawColor(Color.WHITE);
+			render(canvas, interpolation);
 		}
+		
 	}
 
 	@Override
@@ -111,7 +110,7 @@ public class AndroidGUI extends AbstractGUI<Canvas> {
 	public void setCanvas(AndroidCanvas aCanvas) {
 		this.canvas = aCanvas;
 
-		Matrix matrix = new Matrix();
+		Matrix matrix = canvas.getMatrix();
 
 		if (platformConfiguration.isFullscreen())
 			matrix.preScale(

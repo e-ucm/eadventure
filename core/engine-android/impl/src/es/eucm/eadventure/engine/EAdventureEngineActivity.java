@@ -42,10 +42,8 @@ import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.view.Window;
 import android.view.WindowManager;
-
 import com.google.inject.Guice;
 import com.google.inject.Injector;
-
 import es.eucm.eadventure.common.elmentfactories.EAdElementsFactory;
 import es.eucm.eadventure.common.model.elements.EAdScene;
 import es.eucm.eadventure.common.model.elements.impl.EAdSceneImpl;
@@ -81,9 +79,6 @@ public class EAdventureEngineActivity extends Activity {
 		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
 				WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
-		surfaceView = new EAdventureSurfaceView(this);
-		setContentView(surfaceView);
-
 		injector = Guice.createInjector(new AndroidAssetHandlerModule(),
 				new AndroidAssetRendererModule(null), new AndroidModule(),
 				new BasicGameModule());
@@ -117,6 +112,8 @@ public class EAdventureEngineActivity extends Activity {
 
 		loadingScreen.setInitialScreen(sceneImpl);
 
+		surfaceView = new EAdventureSurfaceView(this);
+		setContentView(surfaceView);
 		surfaceView.start(injector.getInstance(GUI.class), config,
 				injector.getInstance(MouseState.class));
 
@@ -128,12 +125,14 @@ public class EAdventureEngineActivity extends Activity {
 	protected void onPause() {
 		super.onPause();
 		gameController.pause();
+		surfaceView.onPause();
 	}
 
 	@Override
 	protected void onResume() {
 		super.onResume();
 		gameController.resume();
+		surfaceView.onResume();
 	}
 
 	@Override

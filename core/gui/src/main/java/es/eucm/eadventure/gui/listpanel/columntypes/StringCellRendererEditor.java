@@ -49,10 +49,12 @@ import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTable;
-import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
+import javax.swing.border.Border;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
+
+import es.eucm.eadventure.gui.EAdTextField;
 
 public class StringCellRendererEditor extends AbstractCellEditor implements CellRenderEditor {
 
@@ -60,7 +62,7 @@ public class StringCellRendererEditor extends AbstractCellEditor implements Cell
 
     private String value;
 
-    private JTextField textField;
+    private EAdTextField textField;
 
     public Object getCellEditorValue( ) {
 
@@ -75,12 +77,16 @@ public class StringCellRendererEditor extends AbstractCellEditor implements Cell
 
     private Component createPanel( boolean isSelected, JTable table ) {
 
-        JPanel temp = new JPanel( );
-        if( isSelected )
-            temp.setBorder( BorderFactory.createMatteBorder( 2, 0, 2, 0, table.getSelectionBackground( ) ) );
+        JPanel containerPanel = new JPanel( );
+        Border border = BorderFactory.createEmptyBorder(2, 2, 2, 2);
+        if (isSelected) {
+            border = BorderFactory.createCompoundBorder(BorderFactory.createMatteBorder( 2, 0, 2, 0, table.getSelectionBackground( ) ), border);
+        }
+    	containerPanel.setBorder( border );
 
-        textField = new JTextField( this.value );
-        temp.addFocusListener( new FocusListener( ) {
+        textField = new EAdTextField(  );
+        textField.setText(this.value);
+        containerPanel.addFocusListener( new FocusListener( ) {
 
             public void focusGained( FocusEvent e ) {
 
@@ -134,9 +140,9 @@ public class StringCellRendererEditor extends AbstractCellEditor implements Cell
                 value = textField.getText( );
             }
         } );
-        temp.setLayout( new BorderLayout( ) );
-        temp.add( textField, BorderLayout.CENTER );
-        return temp;
+        containerPanel.setLayout( new BorderLayout( ) );
+        containerPanel.add( textField, BorderLayout.CENTER );
+        return containerPanel;
     }
 
     public Component getTableCellRendererComponent( JTable table, Object value2, boolean isSelected, boolean hasFocus, int row, int column ) {
@@ -148,4 +154,10 @@ public class StringCellRendererEditor extends AbstractCellEditor implements Cell
         else
             return new JLabel( value );
     }
+    
+	@Override
+	public boolean isEditable() {
+		return true;
+	}
+
 }

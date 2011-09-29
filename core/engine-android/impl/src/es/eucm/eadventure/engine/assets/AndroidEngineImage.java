@@ -37,6 +37,10 @@
 
 package es.eucm.eadventure.engine.assets;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -85,10 +89,8 @@ public class AndroidEngineImage extends RuntimeImage {
 	
 	@Override
 	public boolean loadAsset() {
-		BitmapFactory.Options sBitmapOptions = new BitmapFactory.Options();
-		sBitmapOptions.inPreferredConfig = Bitmap.Config.RGB_565;
-	
-		image = BitmapFactory.decodeFile(assetHandler.getAbsolutePath(descriptor.getURI().getPath()), sBitmapOptions);
+		
+		image = decodeFile(assetHandler.getAbsolutePath(descriptor.getURI().getPath()));
 
 		logger.info("New instance, loaded = " + (image != null));
 		return image != null;
@@ -107,5 +109,53 @@ public class AndroidEngineImage extends RuntimeImage {
 	public boolean isLoaded() {
 		return image != null;
 	}
+	
+	/**
+	 * Returns a bitmap considering its size in order to reduce the amount of memory used 
+	 */
+	private Bitmap decodeFile(String path){
+		
+		File f = new File(path);
+		final int IMAGE_MAX_SIZE = 800;
+	    Bitmap b = null;
+	    try {
+	        //Decode image size
+	        BitmapFactory.Options o = new BitmapFactory.Options();
+	        o.inJustDecodeBounds = true;
+
+	        FileInputStream fis = new FileInputStream(f);
+	        BitmapFactory.decodeStream(fis, null, o);
+	        try {
+				fis.close();
+			} catch (IOException e) {				
+				logger.info("Couldn't close file input stream");
+			}
+
+	        int scale = 1;
+	        if (o.outHeight > IMAGE_MAX_SIZE || o.outWidth > IMAGE_MAX_SIZE) {
+	            scale = (int) Math.pow(2, (int) Math.round(Math.log(IMAGE_MAX_SIZE / (double) Math.max(o.outHeight, o.outWidth)) / Math.log(0.5)));
+	        }
+
+	        //Decode with inSampleSize
+	        BitmapFactory.Options o2 = new BitmapFactory.Options();
+	        o2.inInputShareable = true;
+	        o2.inPurgeable = true;
+    		o2.inPreferredConfig = Bitmap.Config.RGB_565;
+	        o2.inSampleSize = scale;
+	        
+	        fis = new FileInputStream(f);
+	        b = BitmapFactory.decodeStream(fis, null, o2);
+	        try {
+				fis.close();
+			} catch (IOException e) {
+				logger.info("Couldn't close file input stream");
+			}
+	    } catch (FileNotFoundException e) {
+	    	logger.info("File not found");
+	    }
+	    return b;
+	}
+	
+	
 	
 }

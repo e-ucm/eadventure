@@ -52,151 +52,143 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JTable;
+import javax.swing.border.Border;
 
 import es.eucm.eadventure.gui.R;
 
+/**
+ * 
+ */
+public class ConditionsCellRendererEditor extends AbstractCellEditor implements
+		CellRenderEditor {
 
-public class ConditionsCellRendererEditor extends AbstractCellEditor implements CellRenderEditor {
+	private static final long serialVersionUID = 1L;
 
-    private static final long serialVersionUID = 8128260157985286632L;
+	private boolean useText;
 
-    public static final int NO_ICON = 0;
+	// TODO conditions controller
+	private Object value;
 
-    public static final int ICON_SMALL = 1;
+	public ConditionsCellRendererEditor() {
+		this.useText = false;
+	}
 
-    public static final int ICON_MEDIUM = 2;
+	public ConditionsCellRendererEditor(boolean useText) {
+		this.useText = useText;
+	}
 
-    private boolean useText;
+	public Object getCellEditorValue() {
 
-    private int iconSize;
+		return value;
+	}
 
-    //TODO conditions controller 
-    private Object value;
+	public Component getTableCellEditorComponent(JTable table, Object value,
+			boolean isSelected, int row, int col) {
+		if (value == null)
+			// TODO return null;
+			this.value = (Object) value;
+		return createButton(isSelected, table);
+	}
 
-    public ConditionsCellRendererEditor( ) {
+	public Component getTableCellRendererComponent(JTable table, Object value,
+			boolean isSelected, boolean hasFocus, int row, int column) {
+		if (value == null)
+			// TODO return null;
+			this.value = (Object) value;
+		return createButton(isSelected, table);
+	}
 
-        this.useText = false;
-        this.iconSize = ICON_SMALL;
-    }
+	private Icon createIcon() throws IOException {
 
-    public ConditionsCellRendererEditor( boolean useText, int iconSize ) {
+		// Create icon
+		InputStream is;
+		Icon icon = null;
 
-        this.useText = useText;
-        this.iconSize = iconSize;
-    }
+		boolean hasConditions = false;
 
-    public Object getCellEditorValue( ) {
+		if (hasConditions) {
+			is = ClassLoader
+					.getSystemResourceAsStream(R.Drawable.conditions16x16_png);
+			icon = new ImageIcon(ImageIO.read(is));
+		} else {
+			is = ClassLoader
+					.getSystemResourceAsStream(R.Drawable.no_conditions16x16_png);
+			icon = new ImageIcon(ImageIO.read(is));
+		}
 
-        return value;
-    }
+		return icon;
+	}
 
-    public Component getTableCellEditorComponent( JTable table, Object value, boolean isSelected, int row, int col ) {
+	private Component createButton(boolean isSelected, JTable table) {
 
-        if( value == null )
-            //TODO return null;
-        this.value = (Object) value;
-        return createButton( isSelected, table );
-    }
+		JPanel temp = new JPanel();
+		Border border = BorderFactory.createEmptyBorder(2, 2, 2, 2);
+		if (isSelected) {
+			border = BorderFactory.createCompoundBorder(
+					BorderFactory.createMatteBorder(2, 0, 2, 0,
+							table.getSelectionBackground()), border);
+		}
+		temp.setBorder(border);
+		JButton button = null;
 
-    public Component getTableCellRendererComponent( JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column ) {
+		// Create text (if applicable)
+		String text = null;
+		if (useText) {
+			// TODO Internationalization
+			text = ("GeneralText.EditConditions");
+		}
 
-        if( value == null )
-            //TODO return null;
-        this.value = (Object) value;
-        return createButton( isSelected, table );
-    }
-
-    private Icon createIcon( ) throws IOException {
-
-        // Create icon 
-        InputStream is;
-        Icon icon = null;
-        
-        boolean hasConditions = false;
-   
-        if( iconSize == ICON_SMALL ) {
-            if( hasConditions ) {
-            	is = ClassLoader.getSystemResourceAsStream(R.Drawable.conditions16x16_png);
-                icon = new ImageIcon(ImageIO.read(is) );
-            }
-            else {
-            	is = ClassLoader.getSystemResourceAsStream(R.Drawable.no_conditions16x16_png);
-                icon = new ImageIcon(ImageIO.read(is) );
-            }
-        }
-        if( iconSize == ICON_MEDIUM ) {
-            if( hasConditions ) {
-            	is = ClassLoader.getSystemResourceAsStream(R.Drawable.conditions24x24_png);
-                icon = new ImageIcon(ImageIO.read(is) );
-            }
-            else {
-            	is = ClassLoader.getSystemResourceAsStream(R.Drawable.no_conditions24x24_png);
-                icon = new ImageIcon(ImageIO.read(is) );
-            }
-        }
-        return icon;
-    }
-
-    private Component createButton( boolean isSelected, JTable table ) {
-
-        JPanel temp = new JPanel( );
-        temp.setOpaque( false );
-        if( isSelected )
-            temp.setBorder( BorderFactory.createMatteBorder( 2, 0, 2, 0, table.getSelectionBackground( ) ) );
-        JButton button = null;
-
-        // Create text (if applicable)
-        String text = null;
-        if( useText ) {
-            //TODO Internationalization
-            text = ( "GeneralText.EditConditions" );
-        }
-
-        // Create icon (if applicable)
-        Icon icon = null;
+		// Create icon (if applicable)
+		Icon icon = null;
 		try {
-			icon = createIcon( );
+			icon = createIcon();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 
-        // Create button
-        if( text != null && icon != null ) {
-            button = new JButton( text, icon );
-            button.setToolTipText( text );
-        }
-        else if( text != null ) {
-            button = new JButton( text );
-            button.setToolTipText( text );
-        }
-        else if( icon != null ) {
-            button = new JButton( icon );
-            button.setContentAreaFilled( false );
-            button.setOpaque( false );
-        }
+		// Create button
+		if (text != null && icon != null) {
+			button = new JButton(text, icon);
+			button.setToolTipText(text);
+		} else if (text != null) {
+			button = new JButton(text);
+			button.setToolTipText(text);
+		} else if (icon != null) {
+			button = new JButton(icon);
+			button.setContentAreaFilled(false);
+			button.setOpaque(false);
+		}
 
-        button.setFocusable( false );
-        button.setEnabled( isSelected );
+		button.setFocusable(false);
+		button.setEnabled(isSelected);
 
-        button.addActionListener( new ActionListener( ) {
+		button.addActionListener(new ActionListener() {
 
-            public void actionPerformed( ActionEvent arg0 ) {
+			public void actionPerformed(ActionEvent arg0) {
 
-                //TODO
-                //new ConditionsDialog( ConditionsCellRendererEditor.this.value );
-                //Update icon
-                try {
-					( (JButton) ( arg0.getSource( ) ) ).setIcon( createIcon( ) );
+				// TODO
+				// new ConditionsDialog( ConditionsCellRendererEditor.this.value
+				// );
+				// Update icon
+				try {
+					((JButton) (arg0.getSource())).setIcon(createIcon());
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
-            }
-        } );
-        temp.setLayout( new BorderLayout( ) );
-        temp.add( button, BorderLayout.CENTER );
-        //button.requestFocus();
-        return temp;
+			}
+		});
+		temp.setLayout(new BorderLayout());
+		temp.add(button, BorderLayout.CENTER);
+		// temp.add(button);
 
-    }
+		// button.requestFocus();
+		return temp;
+
+	}
+
+	@Override
+	public boolean isEditable() {
+		return true;
+	}
 
 }

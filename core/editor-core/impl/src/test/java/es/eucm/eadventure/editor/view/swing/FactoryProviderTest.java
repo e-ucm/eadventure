@@ -5,9 +5,16 @@ import java.awt.FlowLayout;
 import javax.swing.JComponent;
 import javax.swing.WindowConstants;
 
+import static org.mockito.Mockito.*;
+
 import es.eucm.eadventure.editor.view.ComponentProvider;
+import es.eucm.eadventure.editor.view.generics.FieldDescriptor;
+import es.eucm.eadventure.editor.view.generics.Panel;
+import es.eucm.eadventure.editor.view.generics.impl.PanelImpl;
 import es.eucm.eadventure.editor.view.generics.impl.TextOption;
 import es.eucm.eadventure.gui.EAdFrame;
+
+
 
 public class FactoryProviderTest extends EAdFrame {
 
@@ -23,14 +30,25 @@ public class FactoryProviderTest extends EAdFrame {
         setLayout(new FlowLayout());
         
         
-        TextOption option = new TextOption("name", "toolTip");
+        @SuppressWarnings("unchecked")
+		FieldDescriptor<String> fieldDescriptor = (FieldDescriptor<String>) mock(FieldDescriptor.class);
+        when(fieldDescriptor.readValue()).thenReturn("value");
+        
+        TextOption option = new TextOption("name", "toolTip", fieldDescriptor);
+        TextOption option2 = new TextOption("name2", "toolTip", fieldDescriptor);
+        Panel panel = new PanelImpl("title");
+        panel.getElements().add(option);
+        panel.getElements().add(option2);
+
+        
         SwingProviderFactory swingProviderFactory = new SwingProviderFactory();
-        ComponentProvider<TextOption, JComponent> componentProvider = swingProviderFactory.getProvider(option);
-        componentProvider.setElement(option);
+        ComponentProvider<Panel, JComponent> componentProvider = swingProviderFactory.getProvider(panel);
+        componentProvider.setElement(panel);
         add(componentProvider.getComponent());
         
         setVisible( true );
         setDefaultCloseOperation( WindowConstants.EXIT_ON_CLOSE );
+        pack();
     }
 	
 }

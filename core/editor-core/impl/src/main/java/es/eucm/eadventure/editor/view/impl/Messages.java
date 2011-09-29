@@ -46,18 +46,6 @@ public class Messages {
 
 	public static String splash_screen_loading_message;
 	
-	public static String tool_panel_title;
-	
-	public static String tool_panel_undo;
-	
-	public static String tool_panel_redo;
-	
-	public static String tool_panel_search;
-	
-	public static String tool_panel_backward;
-	
-	public static String tool_panel_forward;
-	
 	static {
 		I18N.initializeMessages(Messages.class.getName(), Messages.class);
 	}

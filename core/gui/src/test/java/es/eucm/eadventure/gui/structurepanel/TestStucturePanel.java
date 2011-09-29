@@ -45,7 +45,6 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import es.eucm.eadventure.gui.EAdHideingSplitPane;
-import es.eucm.eadventure.gui.EAdPanel;
 import es.eucm.eadventure.gui.extra.EAdBorderLayout;
 import es.eucm.eadventure.gui.structurepanel.StructureElement;
 import es.eucm.eadventure.gui.structurepanel.StructurePanel;
@@ -61,7 +60,7 @@ public class TestStucturePanel {
 		StructurePanel structurePanel = new StructurePanel(width,selectElement);
 		
 
-		EAdPanel right = new EAdPanel();
+		JPanel right = new JPanel();
 		
 		// agrego elementos de prueba
 		StructureElement chapterElement = new StructureElement(new StructureElementProvider() {
@@ -154,7 +153,7 @@ public class TestStucturePanel {
 //		EAdSplitPane pane = new EAdSplitPane(EAdSplitPane.HORIZONTAL_SPLIT, structurePanel, right);
 //		pane.setOneTouchExpandable(true);
 
-		JPanel panel = new EAdPanel();
+		JPanel panel = new JPanel();
 		panel.setLayout(new BorderLayout());
 		panel.add(structurePanel, BorderLayout.CENTER);
 

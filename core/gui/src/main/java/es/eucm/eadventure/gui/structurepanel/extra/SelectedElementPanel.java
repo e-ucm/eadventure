@@ -60,6 +60,7 @@ import javax.swing.event.TableModelListener;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import es.eucm.eadventure.gui.CommonGUIMessages;
 import es.eucm.eadventure.gui.EAdScrollPane;
 import es.eucm.eadventure.gui.R;
 import es.eucm.eadventure.gui.structurepanel.StructureElement;
@@ -153,7 +154,7 @@ public class SelectedElementPanel extends JPanel {
 		temp.add(list, BorderLayout.CENTER);
 
 		if (element.getProvider().canHaveChildren()) {
-			JButton addButton = new JButton(Messages.add_new, new ImageIcon(
+			JButton addButton = new JButton(CommonGUIMessages.add_new, new ImageIcon(
 					ClassLoader.getSystemResource(R.Drawable.add_png)
 							.getPath()));
 

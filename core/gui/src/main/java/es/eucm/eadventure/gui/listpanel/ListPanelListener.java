@@ -39,9 +39,6 @@ package es.eucm.eadventure.gui.listpanel;
 
 /**
  * Implements the listeners to update the elements.
- * 
- * @author Sergio Bellón
- *
  */
 public interface ListPanelListener {
 	

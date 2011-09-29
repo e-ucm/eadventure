@@ -76,6 +76,7 @@ import java.io.InputStream;
 import java.util.Enumeration;
 
 import javax.swing.JPopupMenu;
+import javax.swing.LookAndFeel;
 import javax.swing.UIDefaults;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
@@ -110,8 +111,14 @@ public class EAdGUILookAndFeel extends BasicLookAndFeel {
 			instance.font = Font.createFont(Font.TRUETYPE_FONT, is);
 			instance.font = instance.font.deriveFont(12.0f);
 
+			is = ClassLoader
+					.getSystemResourceAsStream("DroidSans-Bold.ttf");
+			instance.boldFont = Font.createFont(Font.TRUETYPE_FONT, is);
+			instance.boldFont = instance.boldFont.deriveFont(12.0f);
+
 			UIManager.put("javax.swing.plaf.FontUIResource",
 					new FontUIResource(instance.font));
+			System.setProperty("awt.useSystemAAFontSettings", "on");
 
 			UIManager
 					.setLookAndFeel("es.eucm.eadventure.gui.EAdGUILookAndFeel");
@@ -272,6 +279,10 @@ public class EAdGUILookAndFeel extends BasicLookAndFeel {
 	@Override
 	public boolean isSupportedLookAndFeel() {
 		return true;
+	}
+
+	public static LookAndFeel getInstance() {
+		return instance;
 	}
 
 }

@@ -43,6 +43,7 @@ import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 
 import javax.swing.JComponent;
+import javax.swing.JPanel;
 import javax.swing.JSplitPane;
 
 import es.eucm.eadventure.gui.extra.EAdBorder;
@@ -104,14 +105,14 @@ public class EAdSplitPane extends JSplitPane {
     	if (comp instanceof JComponent) {
     		JComponent jcomp = (JComponent) comp;
     		if (!(jcomp.getBorder() instanceof EAdBorder)) {
-    			EAdPanel panel = new EAdPanel();
+    			JPanel panel = new JPanel();
     			panel.setLayout(new BorderLayout());
     			panel.add(comp, BorderLayout.CENTER);
     			super.setLeftComponent(panel);
     		} else
     			super.setLeftComponent(comp);
     	} else {
-			EAdPanel panel = new EAdPanel();
+    		JPanel panel = new JPanel();
 			panel.add(comp);
 			super.setLeftComponent(panel);
     	}
@@ -122,14 +123,14 @@ public class EAdSplitPane extends JSplitPane {
     	if (comp instanceof JComponent) {
     		JComponent jcomp = (JComponent) comp;
     		if (!(jcomp.getBorder() instanceof EAdBorder)) {
-    			EAdPanel panel = new EAdPanel();
+    			JPanel panel = new JPanel();
     			panel.setLayout(new BorderLayout());
     			panel.add(comp, BorderLayout.CENTER);
     			super.setRightComponent(panel);
     		} else
     			super.setRightComponent(comp);
     	} else {
-			EAdPanel panel = new EAdPanel();
+    		JPanel panel = new JPanel();
 			panel.add(comp);
 			super.setRightComponent(panel);
     	}
