@@ -79,9 +79,6 @@ public class EAdventureEngineActivity extends Activity {
 		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
 				WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
-		surfaceView = new EAdventureSurfaceView(this);
-		setContentView(surfaceView);
-
 		injector = Guice.createInjector(new AndroidAssetHandlerModule(),
 				new AndroidAssetRendererModule(null), new AndroidModule(),
 				new BasicGameModule());
@@ -94,6 +91,9 @@ public class EAdventureEngineActivity extends Activity {
 		config.setWidth(dm.widthPixels);
 		config.setHeight(dm.heightPixels);
 		config.setFullscreen(true);
+		
+		surfaceView = new EAdventureSurfaceView(this);
+		setContentView(surfaceView);
 
 		// TODO fix this
 		AndroidAssetHandler aah = (AndroidAssetHandler) injector
@@ -126,12 +126,14 @@ public class EAdventureEngineActivity extends Activity {
 	protected void onPause() {
 		super.onPause();
 		gameController.pause();
+		surfaceView.onPause();
 	}
 
 	@Override
 	protected void onResume() {
 		super.onResume();
 		gameController.resume();
+		surfaceView.onResume();
 	}
 
 	@Override

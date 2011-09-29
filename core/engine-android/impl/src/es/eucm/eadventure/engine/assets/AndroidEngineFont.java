@@ -58,11 +58,11 @@ public class AndroidEngineFont implements RuntimeFont {
 
 	public AndroidEngineFont(EAdFont font, AssetHandler assetHandler) {
 		this.eadFont = font;
-		if (eadFont.isTTF()) {
+		/*if (eadFont.isTTF()) {
 				this.font = Typeface.createFromFile(
 						new File(assetHandler
 								.getAbsolutePath(eadFont.getURI().getPath())));
-		} else
+		} else*/
 			this.font = Typeface.create(font.getName(), getStyle(font.getStyle()));
 		textPaint = new Paint();
 	}

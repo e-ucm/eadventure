@@ -61,7 +61,6 @@ import es.eucm.eadventure.engine.core.gameobjects.huds.BasicHUD;
 import es.eucm.eadventure.engine.core.gameobjects.huds.MenuHUD;
 import es.eucm.eadventure.engine.core.gameobjects.huds.impl.BasicHUDImpl;
 import es.eucm.eadventure.engine.core.gameobjects.impl.GameObjectManagerImpl;
-import es.eucm.eadventure.engine.core.impl.GameLoopImpl;
 import es.eucm.eadventure.engine.core.impl.GameProfilerImpl;
 import es.eucm.eadventure.engine.core.impl.KeyboardStateImpl;
 import es.eucm.eadventure.engine.core.impl.MouseStateImpl;
@@ -82,7 +81,7 @@ public class AndroidModule extends AbstractModule {
 	protected void configure() {
 		//install(new AndroidAssetRendererModule(null));
 		//bind(AssetHandler.class).to(AndroidAssetHandler.class);
-		bind(GameLoop.class).to(GameLoopImpl.class);
+		bind(GameLoop.class).to(AndroidGameLoopImpl.class);
 		bind(GameProfiler.class).to(GameProfilerImpl.class);
 		bind(GUI.class).to(AndroidGUI.class);
 		bind(PlatformConfiguration.class).to(AndroidPlatformConfiguration.class);
