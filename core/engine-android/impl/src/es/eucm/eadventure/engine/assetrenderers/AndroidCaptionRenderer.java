@@ -69,7 +69,7 @@ public class AndroidCaptionRenderer implements
 		if (asset.getCaption().hasBubble()
 				& asset.getCaption().getBubbleFill() != null)
 			drawBubble(g, width, height, asset.getCaption().getBubbleFill());
-
+		
 		g.translate(asset.getCaption().getPadding(), asset.getCaption()
 				.getPadding());
 		int yOffset = 0;
@@ -77,7 +77,6 @@ public class AndroidCaptionRenderer implements
 			yOffset += asset.getFont().lineHeight();
 			drawString(g, asset, s, yOffset);
 		}
-		g.restore();
 
 	}
 

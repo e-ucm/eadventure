@@ -74,6 +74,7 @@ public class AndroidDisplacedDrawableRenderer implements AssetRenderer<Canvas, R
 		graphicContext.save();
 		graphicContext.translate(asset.getDisplacement().getX(), asset.getDisplacement().getY());
 		rendererFactory.render(graphicContext, assetHandler.getRuntimeAsset(asset.getDrawableAsset()));
+		graphicContext.restore();
 	}
 
 	@Override
