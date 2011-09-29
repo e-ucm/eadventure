@@ -49,7 +49,12 @@ import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
+import javax.swing.JSpinner;
 import javax.swing.JToggleButton;
+import javax.swing.SpinnerModel;
+import javax.swing.SpinnerNumberModel;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.WindowConstants;
 
 import es.eucm.eadventure.gui.extra.EAdModalPanel;
@@ -62,28 +67,33 @@ public class InterfaceTest extends EAdFrame {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		System.setProperty("awt.useSystemAAFontSettings", "on");
+		try {
+			UIManager.setLookAndFeel(EAdGUILookAndFeel.getInstance());
+		} catch (UnsupportedLookAndFeelException e) {
+			e.printStackTrace();
+		}
+
 	     new InterfaceTest();
 	}
 	
     public InterfaceTest() {
         setSize( 400,400 );
 
-        final EAdPanel mainPanel = new EAdPanel();
+        final JPanel mainPanel = new JPanel();
         mainPanel.setLayout(new BorderLayout());
         add(mainPanel);
         
         
-        EAdTitlePanel panel = new EAdTitlePanel("panel");
+        EAdBorderedPanel panel = new EAdBorderedPanel("panel");
         panel.setLayout(new FlowLayout());
         mainPanel.add(panel, BorderLayout.CENTER);
         
         JButton button = new JButton("BIG");
         panel.add(button);
-        EAdButton buttonsmall = new EAdButton("small");
+        JButton buttonsmall = new JButton("small");
         panel.add(buttonsmall);
 
-        EAdButton modal = new EAdButton("modal");
+        JButton modal = new JButton("modal");
         modal.addActionListener(new ActionListener() {
 
 			@Override
@@ -122,6 +132,13 @@ public class InterfaceTest extends EAdFrame {
         textField4.setEnabled(false);
         panel.add(textField4);
 
+        EAdTextField textField5 = new EAdTextField("name", 15);
+        panel.add(textField5);
+        EAdTextField textField6 = new EAdTextField("description", 15);
+        textField6.setEnabled(false);
+        panel.add(textField6);
+
+        
         JToggleButton toggleButton = new JToggleButton("toggle button");
         panel.add(toggleButton);
         JToggleButton toggleButton2 = new JToggleButton("toggle button");
@@ -145,6 +162,11 @@ public class InterfaceTest extends EAdFrame {
 
         EAdSimpleButton simpleButton = new EAdSimpleButton(EAdSimpleButton.SimpleButton.REDO);
         panel.add(simpleButton);
+
+        SpinnerModel model = new SpinnerNumberModel(0, 0, 10, 1);
+        JSpinner spinner = new JSpinner(model);
+        panel.add(spinner);
+        
         
         EAdTabbedPane pane = new EAdTabbedPane();
         JPanel tab1 = new JPanel();

@@ -65,6 +65,7 @@ public class VarValCondition extends VarCondition {
 	 * @param value
 	 *            operator used to compare
 	 */
+	// TODO use operations... Literal and all that
 	public VarValCondition(EAdField<? extends Number> var, Number val, Operator op) {
 		super(op);
 		this.var = var;

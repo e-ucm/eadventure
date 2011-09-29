@@ -2,6 +2,8 @@ package es.eucm.eadventure.engine.core;
 
 import static playn.core.PlayN.*;
 
+import java.util.logging.Logger;
+
 import com.google.inject.Inject;
 
 import playn.core.Canvas;
@@ -10,6 +12,7 @@ import playn.core.Graphics;
 import playn.core.Image;
 import playn.core.Keyboard;
 import playn.core.Keyboard.Event;
+import playn.core.PlayN;
 import playn.core.Pointer;
 
 public class EAdEngine implements playn.core.Game, Keyboard.Listener {
@@ -19,6 +22,8 @@ public class EAdEngine implements playn.core.Game, Keyboard.Listener {
 	private float touchVectorX, touchVectorY;
 	
 	private Game game;
+	
+	private static final Logger logger = Logger.getLogger("EAdEngine");
 
 	@Inject
 	public EAdEngine(Game game) {
@@ -28,6 +33,7 @@ public class EAdEngine implements playn.core.Game, Keyboard.Listener {
 	@Override
 	public void init() {
 		graphics().setSize(800, 600);
+		PlayN.log().debug("EAdEngine: init");
 				
 		/*
 		gameLayer = graphics().createSurfaceLayer(graphics().width(),
@@ -77,7 +83,11 @@ public class EAdEngine implements playn.core.Game, Keyboard.Listener {
 
 	@Override
 	public void update(float delta) {
+		PlayN.log().debug("EAdEngine: update");
 		game.update();
+		
+		game.render(0.0f);
+
 
 	}
 
@@ -91,6 +101,7 @@ public class EAdEngine implements playn.core.Game, Keyboard.Listener {
 
 	@Override
 	public void paint(float alpha) {
+		PlayN.log().debug("EAdEngine: paint");
 		game.render(alpha);
 	}
 

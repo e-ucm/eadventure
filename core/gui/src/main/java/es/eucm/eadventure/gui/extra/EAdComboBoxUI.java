@@ -138,11 +138,11 @@ public class EAdComboBoxUI extends BasicComboBoxUI {
             } );
         }
     }
-
+	
 	@Override
 	public Dimension getPreferredSize(JComponent c) {
 		Dimension d = super.getPreferredSize(c);
-        return new Dimension(d.width + 8 + EAdBorder.BORDER, d.height - EAdBorder.BORDER);
+        return new Dimension(Math.max(d.width, 50), Math.max(d.height, 28));
 	}
 	
     @Override
@@ -229,10 +229,14 @@ public class EAdComboBoxUI extends BasicComboBoxUI {
             	setColumns( (int ) ((float) metrics.stringWidth( emptyText2 ) / columnWidth) + 1);
                 setToolTipText(emptyText2);
             }
-            
-            
+        }
+        
+        @Override
+        public Insets getInsets() {
+        	return new Insets(6, 6, 6, 6);
         }
 
+       
         @Override
         public void setEnabled(boolean enabled) {
             super.setEnabled( enabled );
@@ -285,5 +289,7 @@ public class EAdComboBoxUI extends BasicComboBoxUI {
         }
 
     }
+    
+    
     
 }

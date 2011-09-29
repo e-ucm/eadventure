@@ -1,7 +1,5 @@
 package es.eucm.eadventure.engine.core.trajectories;
 
-import java.util.List;
-
 import es.eucm.eadventure.common.model.trajectories.TrajectoryDefinition;
 import es.eucm.eadventure.common.params.geom.EAdPosition;
 import es.eucm.eadventure.engine.core.gameobjects.SceneElementGO;
@@ -17,7 +15,7 @@ import es.eucm.eadventure.engine.core.gameobjects.SceneElementGO;
 public interface TrajectoryGenerator<T extends TrajectoryDefinition> {
 	
 	/**
-	 * Returns a list of points representing the trajectory to go to the given x
+	 * Returns a {@link Path} representing the trajectory to go to the given x
 	 * and y coordinates
 	 * 
 	 * @param trajectoryDefinition
@@ -28,12 +26,12 @@ public interface TrajectoryGenerator<T extends TrajectoryDefinition> {
 	 *            target x coordinate
 	 * @param y
 	 *            target y coordinate
-	 * @return the list of points
+	 * @return the path
 	 */
-	List<EAdPosition> getTrajectory(T trajectoryDefinition, EAdPosition currentPosition, int x, int y);
+	Path getTrajectory(T trajectoryDefinition, EAdPosition currentPosition, int x, int y);
 	
 	/**
-	 * Returns a list of points representing the trajectory to get as close as possible
+	 * Returns a {@link Path} representing the trajectory to get as close as possible
 	 * to the given {@link SceneElementGO}. The distance to the element will depend on different variables
 	 * of the SceneElement.
 	 * 
@@ -47,9 +45,9 @@ public interface TrajectoryGenerator<T extends TrajectoryDefinition> {
 	 *            target y coordinate
 	 * @param sceneElement
 	 * 				The element towards which to move
-	 * @return a list of points representing a trajectory
+	 * @return a path
 	 */
-	List<EAdPosition> getTrajectory(T trajectoryDefinition, EAdPosition currentPosition, int x, int y, SceneElementGO<?> sceneElement);
+	Path getTrajectory(T trajectoryDefinition, EAdPosition currentPosition, int x, int y, SceneElementGO<?> sceneElement);
 	
 	/**
 	 * Returns true if the player can get to the given {@link SceneElementGO} using the current

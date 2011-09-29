@@ -41,7 +41,7 @@ import java.util.Locale;
 
 import com.google.inject.Singleton;
 
-import es.eucm.eadventure.common.model.EAdAdventureModel;
+import es.eucm.eadventure.common.model.elements.EAdAdventureModel;
 import es.eucm.eadventure.editor.control.Controller;
 
 /**

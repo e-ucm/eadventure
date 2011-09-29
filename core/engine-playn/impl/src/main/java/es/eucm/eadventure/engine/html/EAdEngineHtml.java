@@ -4,7 +4,6 @@ import com.google.gwt.core.client.GWT;
 
 import es.eucm.eadventure.engine.core.EAdEngine;
 import es.eucm.eadventure.engine.core.Game;
-import es.eucm.eadventure.engine.core.platform.PlatformLauncher;
 import es.eucm.eadventure.engine.core.platform.impl.PlayNGinInjector;
 import playn.core.PlayN;
 import playn.html.HtmlAssetManager;
@@ -20,8 +19,9 @@ public class EAdEngineHtml extends HtmlGame {
 	    HtmlAssetManager assets = HtmlPlatform.register().assetManager();
 	    assets.setPathPrefix("eAd/");
 
-	    PlatformLauncher launcher = injector.getPlatformLauncher();
+	    injector.getPlatformLauncher();
 	    Game game = injector.getGame();
+	    game.loadGame();
 	   
 	    PlayN.run(new EAdEngine(game));
 	}

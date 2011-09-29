@@ -37,10 +37,10 @@
 
 package es.eucm.eadventure.gui.extra;
 
-import java.awt.AlphaComposite;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.RenderingHints;
 
 import javax.swing.JComponent;
 import javax.swing.JToggleButton;
@@ -68,34 +68,32 @@ public class EAdToggleButtonUI extends BasicToggleButtonUI {
 
 		border = new EAdBorder(c);
 
-		button.setBackground(EAdGUILookAndFeel.getBackgroundColor());
+		button.setBackground(button.isEnabled() ? EAdGUILookAndFeel.getBackgroundColor() : EAdGUILookAndFeel.getDisabledColor());
 		button.setForeground(EAdGUILookAndFeel.getForegroundColor());
 
-		button.setContentAreaFilled( false );
 		button.setFocusPainted( false );
 		button.setBackground( EAdGUILookAndFeel.getBackgroundColor() );
 		button.setBorder( border );
-		EAdButtonListener eAdButtonListener = new EAdButtonListener( border, button );
+		EAdBorderListener eAdButtonListener = new EAdBorderListener( border, button );
 		button.addFocusListener(eAdButtonListener);
 		button.addMouseListener(eAdButtonListener);
 		button.addActionListener(eAdButtonListener);
 		button.addPropertyChangeListener("enabled", eAdButtonListener);
 	}
 	
+	@Override
 	public void paint(Graphics g, JComponent c) {
+	    ((Graphics2D) g).setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
 		super.paint(g, c);
 		
 		if (((JToggleButton) c).isSelected()) {
 			Graphics2D g2 = (Graphics2D) g.create();
-			g2.setColor(Color.BLUE);
-			g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.5f));
-			g2.fillRoundRect(EAdBorder.BORDER - border.getDepth(), 
-					border.getDepth(), 
-					c.getWidth() - EAdBorder.BORDER, 
-					c.getHeight() - EAdBorder.BORDER, 6, 6);
+			g2.setColor(new Color(0, 160, 0, 50));
+			g2.fillRoundRect(5, c.getHeight() - 6, c.getWidth() - 10, 5, 2, 2);
 			g2.dispose();
 		}
 
 	}
-	
+
+
 }

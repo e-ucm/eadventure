@@ -40,6 +40,7 @@ package es.eucm.eadventure.engine.core.platform.impl;
 import java.util.logging.Logger;
 
 import es.eucm.eadventure.common.model.guievents.EAdMouseEvent.MouseActionType;
+import es.eucm.eadventure.common.resources.assets.drawable.basics.Image;
 import es.eucm.eadventure.engine.core.GameState;
 import es.eucm.eadventure.engine.core.KeyboardState;
 import es.eucm.eadventure.engine.core.MouseState;
@@ -154,6 +155,7 @@ public abstract class AbstractGUI<T> implements GUI {
 	public void prepareGUI() {
 		if (gameObjects.getHUD() != null) {
 			gameObjects.add(gameObjects.getHUD(), 0, 0);
+			gameObjects.getHUD().update(gameState);
 			gameObjects.getHUD().doLayout(0, 0);
 		}
 
@@ -337,6 +339,10 @@ public abstract class AbstractGUI<T> implements GUI {
 			int[] offset = gameObjects.getOffsets().get(pos);
 			return offset;
 		}
+	}
+	
+	public void changeCursor(Image image){
+		
 	}
 
 }

@@ -39,6 +39,9 @@ package es.eucm.eadventure.gui.extra;
 
 import java.awt.Dimension;
 import java.awt.FontMetrics;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.RenderingHints;
 import java.io.IOException;
 import java.io.InputStream;
 
@@ -83,17 +86,16 @@ public class EAdRadioButtonUI extends BasicRadioButtonUI {
             e.printStackTrace();
         }
         
-        radioButton.setBackground(EAdGUILookAndFeel.getBackgroundColor());
+        radioButton.setBackground(radioButton.isEnabled() ? EAdGUILookAndFeel.getBackgroundColor() : EAdGUILookAndFeel.getDisabledColor());
         radioButton.setForeground(EAdGUILookAndFeel.getForegroundColor());
         
-        radioButton.setContentAreaFilled( false );
         radioButton.setFocusPainted( false );
         radioButton.setBorderPainted( true );
 
         EAdBorder border = new EAdBorder(radioButton);
         radioButton.setBorder( border );
 
-        EAdButtonListener eAdButtonListener = new EAdButtonListener( border, radioButton );
+        EAdBorderListener eAdButtonListener = new EAdBorderListener( border, radioButton );
         radioButton.addMouseListener(eAdButtonListener);
         radioButton.addFocusListener(eAdButtonListener);
         radioButton.addActionListener(eAdButtonListener);
@@ -108,5 +110,11 @@ public class EAdRadioButtonUI extends BasicRadioButtonUI {
         return new Dimension(fm.stringWidth(r.getText()) + r.getIcon().getIconWidth() + 16 + 2*EAdBorder.BORDER,
 				(int) (1.2f*fm.getHeight()) + 4 + EAdBorder.BORDER);
 	}
+
+	@Override
+	public void paint(Graphics g, JComponent c)  {
+	       ((Graphics2D) g).setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
+			super.paint(g, c);
+		}
 
 }

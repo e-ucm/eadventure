@@ -48,6 +48,11 @@ public interface EAdSceneElementEvent extends EAdEvent {
 		/**
 		 * Triggered when the element is added to the scene
 		 */
-		ADDED_TO_SCENE
+		ADDED_TO_SCENE,
+		
+		/**
+		 * Triggered in every update
+		 */
+		ALWAYS
 	};
 }

@@ -59,6 +59,7 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.table.AbstractTableModel;
 
+import es.eucm.eadventure.gui.CommonGUIMessages;
 import es.eucm.eadventure.gui.R;
 import es.eucm.eadventure.gui.structurepanel.StructureElement;
 import es.eucm.eadventure.gui.structurepanel.StructureSubElement;
@@ -317,7 +318,7 @@ public class StructureSubElementCell extends JPanel {
 		remove.setContentAreaFilled(false);
 		remove.setMargin(new Insets(0, 0, 0, 0));
 		remove.setBorder(BorderFactory.createEmptyBorder());
-		remove.setToolTipText(Messages.duplicate);
+		remove.setToolTipText(CommonGUIMessages.duplicate);
 		remove.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent arg0) {
@@ -344,7 +345,7 @@ public class StructureSubElementCell extends JPanel {
 	 *            The panel where the button goes
 	 */
 	private void addRenameButton(GridBagConstraints c, JPanel optionsPanel) {
-		JButton rename = new JButton(Messages.rename);
+		JButton rename = new JButton(CommonGUIMessages.rename);
 
 		rename.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {

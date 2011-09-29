@@ -37,7 +37,6 @@
 
 package es.eucm.eadventure.engine.core.platform.impl;
 
-import com.google.gwt.core.client.GWT;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 

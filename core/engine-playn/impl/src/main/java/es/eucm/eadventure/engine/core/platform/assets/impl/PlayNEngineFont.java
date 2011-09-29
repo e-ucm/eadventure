@@ -38,7 +38,6 @@
 package es.eucm.eadventure.engine.core.platform.assets.impl;
 
 import es.eucm.eadventure.common.params.EAdFont;
-import es.eucm.eadventure.common.params.EAdFont.Style;
 import es.eucm.eadventure.common.params.geom.impl.EAdRectangleImpl;
 import es.eucm.eadventure.engine.core.platform.AssetHandler;
 import es.eucm.eadventure.engine.core.platform.RuntimeFont;

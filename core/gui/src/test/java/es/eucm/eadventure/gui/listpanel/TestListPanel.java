@@ -40,17 +40,27 @@ package es.eucm.eadventure.gui.listpanel;
 import java.awt.Dimension;
 
 import javax.swing.JFrame;
+import javax.swing.JPanel;
 import javax.swing.JSplitPane;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 
-import es.eucm.eadventure.gui.EAdPanel;
+import es.eucm.eadventure.gui.EAdGUILookAndFeel;
 import es.eucm.eadventure.gui.extra.EAdBorderLayout;
 import es.eucm.eadventure.gui.listpanel.columntypes.ConditionsCellRendererEditor;
-import es.eucm.eadventure.gui.listpanel.columntypes.DocumentationCellRendererEditor;
+import es.eucm.eadventure.gui.listpanel.columntypes.ButtonCellRendererEditor;
 import es.eucm.eadventure.gui.listpanel.columntypes.StringCellRendererEditor;
+import es.eucm.eadventure.gui.listpanel.columntypes.extra.TableButtonActionListener;
 
 public class TestListPanel {
 
 	public static void main(String args[]) {
+		
+		try {
+			UIManager.setLookAndFeel(EAdGUILookAndFeel.getInstance());
+		} catch (UnsupportedLookAndFeelException e) {
+			e.printStackTrace();
+		}
 
 		JFrame f = new JFrame("Test List Panel");
 
@@ -62,17 +72,24 @@ public class TestListPanel {
 		ListPanel listPanel = new ListPanel(listPanelListener);
 		// ----------------EXAMPLE COLUMNS------------------
 		// Create a column only with a name
-		listPanel.addColumn("Primera", "", null);
+		listPanel.addColumn(new ColumnDescriptor("Primera", "", null));
 		// Create another column only with a string and the help (not
 		// implemented), furthermore is editable.
-		listPanel.addColumn("Segunda", "prueba.html",
-				new StringCellRendererEditor(), true);
+		listPanel.addColumn(new ColumnDescriptor("Segunda", "prueba.html",
+				new StringCellRendererEditor()));
 		// Create a column of conditions
-		listPanel.addColumn("Tercera", "conditions.html",
-				new ConditionsCellRendererEditor(), false);
+		listPanel.addColumn(new ColumnDescriptor("Tercera", "conditions.html",
+				new ConditionsCellRendererEditor()));
 		// Create a column of documentation
-		listPanel.addColumn("Cuarta", "documentation.html",
-				new DocumentationCellRendererEditor(), false);
+		listPanel.addColumn(new ColumnDescriptor("Cuarta", "documentation.html",
+				new ButtonCellRendererEditor<TestElement>("button", new TableButtonActionListener<TestElement>() {
+
+					@Override
+					public void processClick(TestElement element) {
+						System.out.println("click " + element);
+					}
+					
+				})));
 
 		//this initialize the panel, it's necessary
 		listPanel.createElements();
@@ -80,7 +97,7 @@ public class TestListPanel {
 
 		// Created a JSplitPanel with the ListPanel and a EAdPanel
 		JSplitPane tableWithSplit = new JSplitPane(JSplitPane.VERTICAL_SPLIT,
-				listPanel, new EAdPanel());
+				listPanel, new JPanel());
 		tableWithSplit.setOneTouchExpandable(true);
 		tableWithSplit.setDividerLocation(140);
 		tableWithSplit.setContinuousLayout(true);

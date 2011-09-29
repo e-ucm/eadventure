@@ -47,6 +47,7 @@ import es.eucm.eadventure.common.model.extra.EAdMap;
 import es.eucm.eadventure.common.model.extra.impl.EAdMapImpl;
 import es.eucm.eadventure.common.model.variables.EAdVarDef;
 import es.eucm.eadventure.common.model.variables.impl.EAdVarDefImpl;
+import es.eucm.eadventure.common.params.EAdString;
 import es.eucm.eadventure.common.params.geom.EAdPosition;
 import es.eucm.eadventure.common.params.geom.EAdRectangle;
 import es.eucm.eadventure.common.resources.annotation.Asset;
@@ -95,6 +96,9 @@ public class EAdBasicSceneElement extends AbstractEAdElementWithBehavior
 
 	public static final EAdVarDef<Integer> VAR_TIME_DISPLAYED = new EAdVarDefImpl<Integer>(
 			"timeDisplayed", Integer.class, 0);
+
+	public static final EAdVarDef<EAdString> VAR_NAME = new EAdVarDefImpl<EAdString>(
+			"name", EAdString.class, null);
 
 	@Bundled
 	@Asset({ Drawable.class })

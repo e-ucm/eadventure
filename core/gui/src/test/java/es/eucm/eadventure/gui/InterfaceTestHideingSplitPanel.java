@@ -54,10 +54,10 @@ public class InterfaceTestHideingSplitPanel extends EAdFrame {
 	public InterfaceTestHideingSplitPanel() {
         setSize( 400,400 );
 
-        JPanel left1 = new EAdPanel();
+        JPanel left1 = new JPanel();
         left1.add(new EAdButton("left1"));
         
-        JPanel right = new EAdPanel();
+        JPanel right = new JPanel();
         right.add(new EAdButton("right"));
         
         EAdHideingSplitPane pane = new EAdHideingSplitPane(left1, right);

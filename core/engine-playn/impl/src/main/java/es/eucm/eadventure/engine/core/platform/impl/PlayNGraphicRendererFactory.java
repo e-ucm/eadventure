@@ -42,6 +42,7 @@ import playn.core.SurfaceLayer;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
+import es.eucm.eadventure.common.interfaces.ReflectionProvider;
 import es.eucm.eadventure.common.interfaces.MapProvider;
 import es.eucm.eadventure.engine.core.impl.PlayNGraphicRendererFactoryImpl;
 import es.eucm.eadventure.engine.core.platform.GraphicRenderer;
@@ -50,8 +51,11 @@ import es.eucm.eadventure.engine.core.platform.GraphicRenderer;
 public class PlayNGraphicRendererFactory extends PlayNGraphicRendererFactoryImpl<SurfaceLayer> {
 	
 	@Inject
-	public PlayNGraphicRendererFactory(MapProvider<Class<?>, GraphicRenderer<?, ?>> mapProvider) {
-		super(mapProvider);
+	public PlayNGraphicRendererFactory(ReflectionProvider interfaceProvider) {
+		super(null, interfaceProvider);
 	}
 
+	public void setMapProvider(MapProvider<Class<?>, GraphicRenderer<?, ?>> mapProvider) {
+		this.map = mapProvider.getMap();
+	}
 }

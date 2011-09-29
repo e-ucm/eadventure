@@ -36,7 +36,6 @@
  */
 package es.eucm.eadventure.engine.core.platform.impl.gameobjectrenderers;
 
-import java.awt.AlphaComposite;
 import java.util.logging.Logger;
 
 import playn.core.Canvas;

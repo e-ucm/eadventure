@@ -49,30 +49,36 @@ import es.eucm.eadventure.engine.core.platform.AssetHandler;
 import es.eucm.eadventure.engine.core.platform.GUI;
 import es.eucm.eadventure.engine.core.platform.PlatformConfiguration;
 
-public class SceneElementEventGO extends AbstractEventGO<EAdSceneElementEvent>{
-	
+public class SceneElementEventGO extends AbstractEventGO<EAdSceneElementEvent> {
+
 	private boolean firstCheck = true;
-	
+
+	private boolean hasAlways;
+
 	@Inject
 	public SceneElementEventGO(AssetHandler assetHandler,
 			StringHandler stringHandler, GameObjectFactory gameObjectFactory,
 			GUI gui, GameState gameState, ValueMap valueMap,
 			PlatformConfiguration platformConfiguration) {
-		super(assetHandler, stringHandler, gameObjectFactory, gui, gameState, valueMap,
-				platformConfiguration);
+		super(assetHandler, stringHandler, gameObjectFactory, gui, gameState,
+				valueMap, platformConfiguration);
 	}
 
-	public void initialize( ){
+	public void initialize() {
 		firstCheck = true;
+		hasAlways = element.getEffects(SceneElementEvent.ALWAYS) != null;
 	}
-	
+
 	@Override
 	public void update(GameState state) {
 		super.update(state);
-		if ( firstCheck ){
+		if (firstCheck) {
 			firstCheck = false;
 			runEffects(element.getEffects(SceneElementEvent.ADDED_TO_SCENE));
 		}
+
+		if (hasAlways)
+			runEffects(element.getEffects(SceneElementEvent.ALWAYS));
 	}
 
 }

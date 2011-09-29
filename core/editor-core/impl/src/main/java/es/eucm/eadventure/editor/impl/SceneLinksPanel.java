@@ -55,11 +55,11 @@ import javax.imageio.ImageIO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import es.eucm.eadventure.common.model.EAdList;
 import es.eucm.eadventure.common.model.elements.EAdScene;
 import es.eucm.eadventure.common.model.elements.EAdSceneElement;
 import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
-import es.eucm.eadventure.common.resources.assets.drawable.impl.ImageImpl;
+import es.eucm.eadventure.common.model.extra.EAdList;
+import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.ImageImpl;
 import es.eucm.eadventure.gui.eadcanvaspanel.EAdCanvasPanel;
 import es.eucm.eadventure.gui.eadcanvaspanel.listeners.DragListener;
 import es.eucm.eadventure.gui.eadcanvaspanel.scrollcontainers.EAdFixScrollCanvasPanel;
@@ -128,7 +128,8 @@ public class SceneLinksPanel extends EAdFixScrollCanvasPanel {
 			try {
 				EAdSceneElement element = scene.getBackground();
 				//TODO Loading images to be fixed with some specific image object
-				image = ImageIO.read(getResourceAsStream(((ImageImpl)element.getResources().getAsset(element.getInitialBundle(),EAdBasicSceneElement.appearance)).getURI()));
+				ImageImpl imageImpl = (ImageImpl)element.getResources().getAsset(element.getInitialBundle(),EAdBasicSceneElement.appearance);
+				image = ImageIO.read(getResourceAsStream(imageImpl.getURI().getPath()));
 				
 				// To test functionality, loads an image on demand 
 				//image = ImageIO.read(getResourceAsStream("@drawable/loading.png"));

@@ -74,7 +74,6 @@ import javax.swing.JPanel;
 import javax.swing.WindowConstants;
 
 import es.eucm.eadventure.gui.EAdFrame;
-import es.eucm.eadventure.gui.EAdPanel;
 import es.eucm.eadventure.gui.EAdSplitPane;
 import es.eucm.eadventure.gui.extra.EAdBorderLayout;
 
@@ -86,7 +85,7 @@ public class InterfaceTestSliptPane extends EAdFrame {
         this.setSize( new Dimension(800,400) );
 
        JPanel left = new JPanel();
-       EAdPanel right = new EAdPanel();
+       JPanel right = new JPanel();
        
        EAdSplitPane pane = new EAdSplitPane(EAdSplitPane.HORIZONTAL_SPLIT, left, right);
        pane.setOneTouchExpandable(true);

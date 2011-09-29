@@ -70,6 +70,7 @@ package es.eucm.eadventure.gui.extra;
 
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Insets;
 import java.util.HashMap;
 
 import javax.swing.JComboBox;
@@ -80,8 +81,6 @@ import javax.swing.JPanel;
 import javax.swing.plaf.basic.BasicComboBoxRenderer;
 
 import es.eucm.eadventure.gui.EAdGUILookAndFeel;
-import es.eucm.eadventure.gui.EAdPanel;
-
 
 public class EAdComboBoxRenderer extends BasicComboBoxRenderer {
 
@@ -107,41 +106,53 @@ public class EAdComboBoxRenderer extends BasicComboBoxRenderer {
         }
         
         if (index == -1) {
-            EAdPanel temp;
-            temp = new EAdPanel();
+            JComponent content = getContent(value);
+            content.setBorder(new EAdBorder());
 
             if (isSelected)
-            	((EAdBorder) temp.getBorder()).setColor(EAdGUILookAndFeel.getFocusColor());
+            	((EAdBorder) content.getBorder()).setColor(EAdGUILookAndFeel.getFocusColor());
 
-            JComponent content = getContent(value);
             if (!comboBox.isEnabled()) {
-            	((EAdBorder) temp.getBorder()).setInitialDept(EAdBorder.BORDER - 2);
             	content.setForeground(Color.LIGHT_GRAY);
             }
 
-            temp.add( content );
-            return temp;
+            return content;
         }
 
         if (isSelected) {
-        		panel.setBackground(EAdGUILookAndFeel.getFocusColor());
-        		panel.setForeground(EAdGUILookAndFeel.getFocusColor());
+        	panel.setBackground(EAdGUILookAndFeel.getFocusColor());
+        	panel.setForeground(EAdGUILookAndFeel.getFocusColor());
         }
         else {
-        		panel.setBackground(list.getBackground());
-        		panel.setForeground(list.getForeground());
+        	panel.setBackground(list.getBackground());
+        	panel.setForeground(list.getForeground());
         }
 
         return panel;
     }
 
     protected JComponent getContent( Object value ) {
-    	if (value == null )
-    		return new JLabel( "" );
-        if ( value instanceof String ) 
-            return new JLabel( (String) value );
+    	JLabel label = new JLabel() {
+			private static final long serialVersionUID = 1L;
+
+			@Override
+    		public Insets getInsets() {
+    			return new Insets(6,6,6,6);
+    		}
+			
+			@Override
+    		public Insets getInsets(Insets insets) {
+    			return new Insets(6,6,6,6);
+    		}
+    	};
+
+    	if (value == null || (value instanceof String && ((String) value).equals("")) )
+        	label.setText("");
+      	else if ( value instanceof String ) 
+        	label.setText( (String) value );
         else
-            return new JLabel( value.toString( ) );
+        	label.setText( value.toString( ) );
+      	return label;
     }
    
 }

@@ -65,14 +65,14 @@ public class EAdButtonUI extends BasicButtonUI {
 
 		EAdBorder border = new EAdBorder(c);
 
-		button.setBackground(EAdGUILookAndFeel.getBackgroundColor());
 		button.setForeground(EAdGUILookAndFeel.getForegroundColor());
+		button.setBackground(button.isEnabled() ? EAdGUILookAndFeel.getBackgroundColor() : EAdGUILookAndFeel.getDisabledColor());
 
-		button.setContentAreaFilled( false );
+		button.setContentAreaFilled( true );
 		button.setFocusPainted( false );
 		
 		button.setBorder( border );
-		EAdButtonListener eAdButtonListener = new EAdButtonListener( border, button );
+		EAdBorderListener eAdButtonListener = new EAdBorderListener( border, button );
 		button.addFocusListener(eAdButtonListener);
 		button.addMouseListener(eAdButtonListener);
 		button.addActionListener(eAdButtonListener);
@@ -80,10 +80,7 @@ public class EAdButtonUI extends BasicButtonUI {
 	}
 
 	public void paint(Graphics g, JComponent c)  {
-        ((Graphics2D) g).setRenderingHint( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );
-        ((Graphics2D) g).setRenderingHint( RenderingHints.KEY_DITHERING, RenderingHints.VALUE_DITHER_ENABLE );
-        ((Graphics2D) g).setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
-
+       ((Graphics2D) g).setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
 		super.paint(g, c);
 	}
 }

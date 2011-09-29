@@ -115,7 +115,6 @@ public abstract class AbstractAssetHandler implements AssetHandler {
 	public <T extends AssetDescriptor> RuntimeAsset<T> getRuntimeAsset(
 			T descriptor) {
 		if (descriptor == null) {
-			logger.log(Level.WARNING, "Null descriptor");
 			return null;
 		}
 		try {

@@ -2,7 +2,6 @@ package es.eucm.eadventure.common.model.impl;
 
 import com.gwtent.reflection.client.Reflectable;
 
-import es.eucm.eadventure.common.interfaces.CopyNotSupportedException;
 import es.eucm.eadventure.common.model.EAdElement;
 
 @Reflectable
@@ -31,13 +30,7 @@ public abstract class EAdElementImpl implements EAdElement {
 	 */
 	@Override
 	public EAdElement copy() {
-		try {
-			//TODO removed clone for GWT, should find other solution?
-			//return (AbstractEAdElement) super.clone();
-			return null;
-		} catch (Exception e) {
-			throw new CopyNotSupportedException(e);
-		}
+		return null;
 	}
 
 	/**

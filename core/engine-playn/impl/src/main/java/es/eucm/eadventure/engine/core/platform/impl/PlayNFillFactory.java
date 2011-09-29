@@ -2,7 +2,6 @@ package es.eucm.eadventure.engine.core.platform.impl;
 
 import playn.core.Canvas;
 import playn.core.Path;
-import playn.core.SurfaceLayer;
 
 import com.google.inject.Singleton;
 

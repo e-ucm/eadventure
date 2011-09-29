@@ -4,8 +4,8 @@ import es.eucm.eadventure.common.interfaces.Element;
 import es.eucm.eadventure.common.model.actions.EAdAction;
 import es.eucm.eadventure.common.model.actions.impl.EAdBasicAction;
 import es.eucm.eadventure.common.model.effects.impl.EAdActorActionsEffect;
-import es.eucm.eadventure.common.model.effects.impl.EAdChangeAppearance;
 import es.eucm.eadventure.common.model.effects.impl.EAdActorActionsEffect.Change;
+import es.eucm.eadventure.common.model.effects.impl.EAdChangeAppearance;
 import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
 import es.eucm.eadventure.common.model.guievents.impl.EAdMouseEventImpl;
 import es.eucm.eadventure.common.resources.assets.AssetDescriptor;
@@ -50,6 +50,8 @@ public class DesktopAction extends EAdBasicSceneElement {
 				EAdMouseEventImpl.MOUSE_EXITED,
 				new EAdChangeAppearance("action_mouseExit", this, this
 						.getInitialBundle()));
+		
+		
 	}
 
 }

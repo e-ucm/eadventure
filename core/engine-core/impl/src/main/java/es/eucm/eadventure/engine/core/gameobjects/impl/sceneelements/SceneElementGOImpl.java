@@ -178,7 +178,8 @@ public abstract class SceneElementGOImpl<T extends EAdSceneElement> extends
 
 		valueMap.setValue(element, EAdBasicSceneElement.VAR_TIME_DISPLAYED,
 				timeDisplayed + GameLoop.SKIP_MILLIS_TICK);
-		this.getAsset().update(state);
+		if ( getAsset() != null ) 
+			getAsset().update(state);
 		updateVars();
 	}
 
@@ -247,7 +248,7 @@ public abstract class SceneElementGOImpl<T extends EAdSceneElement> extends
 	public DrawableAsset<?> getAsset() {
 		DrawableAsset<?> r = (DrawableAsset<?>) assetHandler
 				.getRuntimeAsset(getCurrentAssetDescriptor());
-		if (!r.isLoaded())
+		if (r != null && !r.isLoaded())
 			r.loadAsset();
 		return r;
 	}

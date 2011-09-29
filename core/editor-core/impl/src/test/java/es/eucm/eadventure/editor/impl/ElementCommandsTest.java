@@ -47,8 +47,8 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 import es.eucm.eadventure.common.model.EAdElement;
-import es.eucm.eadventure.common.model.EAdList;
-import es.eucm.eadventure.common.model.impl.EAdListImpl;
+import es.eucm.eadventure.common.model.extra.EAdList;
+import es.eucm.eadventure.common.model.extra.impl.EAdListImpl;
 import es.eucm.eadventure.editor.control.commands.impl.AddElementCommand;
 import es.eucm.eadventure.editor.control.commands.impl.MoveElementCommand;
 import es.eucm.eadventure.editor.control.commands.impl.RemoveElementCommand;
@@ -76,10 +76,12 @@ public class ElementCommandsTest extends TestCase {
 	/**
 	 * The parent element to create EAdElement instances
 	 */
+	@Mock
 	private EAdElement pelement;
 	/**
 	 * The element that will be modified
 	 */
+	@Mock
 	private EAdElement element;
 	/**
 	 * The Command to add elements to a list
@@ -93,7 +95,7 @@ public class ElementCommandsTest extends TestCase {
 	 * The Command to move elements in a list
 	 */
 	private MoveElementCommand<EAdElement> moveComm, mockMove;
-	
+		
 	/**
 	 * Method that initiates both the mock objects and the regular objects of the class, works similar to a constructor.   
 	 */
@@ -102,8 +104,7 @@ public class ElementCommandsTest extends TestCase {
  
     	MockitoAnnotations.initMocks(this);
     	
-    	element = new EAdEffectImpl(pelement,"");
-    	elemList = new EAdListImpl<EAdElement>(pelement);
+    	elemList = new EAdListImpl<EAdElement>(EAdElement.class);
     	elemList.add(pelement);
     	
     	addComm = new AddElementCommand<EAdElement>(elemList, element);

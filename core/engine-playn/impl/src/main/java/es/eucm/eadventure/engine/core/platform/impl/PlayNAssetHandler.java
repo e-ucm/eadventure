@@ -3,10 +3,12 @@ package es.eucm.eadventure.engine.core.platform.impl;
 import java.util.Map;
 
 import com.google.inject.Inject;
+import com.google.inject.Singleton;
 
 import es.eucm.eadventure.common.resources.assets.AssetDescriptor;
 import es.eucm.eadventure.engine.core.platform.RuntimeAsset;
 
+@Singleton
 public class PlayNAssetHandler extends AbstractAssetHandler {
 
 	@Inject

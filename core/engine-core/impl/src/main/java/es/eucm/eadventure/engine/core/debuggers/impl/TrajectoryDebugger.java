@@ -13,7 +13,7 @@ import es.eucm.eadventure.common.model.elements.impl.EAdSceneImpl;
 import es.eucm.eadventure.common.model.trajectories.TrajectoryDefinition;
 import es.eucm.eadventure.common.model.trajectories.impl.NodeTrajectoryDefinition;
 import es.eucm.eadventure.common.model.trajectories.impl.NodeTrajectoryDefinition.Node;
-import es.eucm.eadventure.common.model.trajectories.impl.NodeTrajectoryDefinition.Side;
+import es.eucm.eadventure.common.model.trajectories.impl.Side;
 import es.eucm.eadventure.common.params.fills.impl.EAdBorderedColor;
 import es.eucm.eadventure.common.params.fills.impl.EAdColor;
 import es.eucm.eadventure.common.params.geom.EAdPosition;
@@ -110,7 +110,7 @@ public class TrajectoryDebugger implements EAdDebugger {
 		}
 
 		for (Node n : trajectory.getNodes()) {
-			CircleShape circle = new CircleShape(n.getX(), n.getY(), 20);
+			CircleShape circle = new CircleShape(n.getX(), n.getY(), 20, 20);
 			EAdColor color = trajectory.getInitial() == n ? EAdColor.RED
 					: EAdColor.BLUE;
 

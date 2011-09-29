@@ -10,7 +10,8 @@ import es.eucm.eadventure.common.model.EAdElement;
 public interface EAdField<T> extends EAdElement {
 
 	/**
-	 * Returns the element holding the field
+	 * Returns the element holding the field. If the element is {@code null}
+	 * should be considered as a system variable
 	 * 
 	 * @return
 	 */

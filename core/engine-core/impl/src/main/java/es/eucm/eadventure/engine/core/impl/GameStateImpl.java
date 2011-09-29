@@ -131,6 +131,11 @@ public class GameStateImpl implements GameState {
 	 */
 	@Override
 	public void setScene(SceneGO<? extends EAdScene> newScene) {
+		// When a scene changes, all current effects are erased
+		for ( EffectGO<?> go: effects ){
+			go.finish();
+		}
+		effects.clear();
 		// Clean cache
 		gameObjectFactory.clean();
 		if (this.scene != null && this.scene.getElement() != null) {

@@ -68,17 +68,13 @@
 */
 package es.eucm.eadventure.gui.extra;
 
-import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Insets;
 import java.awt.Rectangle;
 import java.awt.RenderingHints;
-import java.awt.Shape;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
-import java.awt.geom.Area;
-import java.awt.geom.Rectangle2D;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
@@ -105,18 +101,23 @@ public class EAdTabbedPaneTopUI extends BasicTabbedPaneUI implements FocusListen
     public void installUI(JComponent c) {
         super.installUI( c );
         tabPane.addFocusListener(this);
-        this.tabAreaInsets = new Insets(6, 16, 0, 16);
-        
-        this.contentBorderInsets = new Insets(0, 12, 6, 6);
-        this.selectedTabPadInsets = new Insets(6, 6, 0, 6);
+        this.tabAreaInsets = new Insets(8, 6, 0, 1);
+        this.contentBorderInsets = new Insets(4, 4, 4, 4);
+
+        this.selectedTabPadInsets = new Insets(6, 10, 0, 2);
+        this.tabInsets = new Insets(3, 10, 0, 3);
     }
     
     @Override
     protected void paintTabBorder(Graphics g, int tabPlacement, int tabIndex, int x, int y, int w, int h, boolean isSelected) {
+        g.setColor(tabPane.hasFocus() ? EAdGUILookAndFeel.getFocusColor() : EAdGUILookAndFeel.getForegroundColor());
+        g.drawRect(rects[tabIndex].x + 6, rects[tabIndex].y, rects[tabIndex].width, rects[tabIndex].height + 12);
     }
     
     @Override
     protected void paintTabBackground(Graphics g, int tabPlacement, int tabIndex, int x, int y, int w, int h, boolean isSelected ) {
+        g.setColor( EAdGUILookAndFeel.getBackgroundColor() );
+        g.fillRect(rects[tabIndex].x + 6, rects[tabIndex].y, rects[tabIndex].width, rects[tabIndex].height + 12);
     }
 
     @Override
@@ -125,59 +126,11 @@ public class EAdTabbedPaneTopUI extends BasicTabbedPaneUI implements FocusListen
         ((Graphics2D) g).setRenderingHint( RenderingHints.KEY_DITHERING, RenderingHints.VALUE_DITHER_ENABLE );
         ((Graphics2D) g).setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
         
-        if (tabIndex == tabPane.getSelectedIndex( )) {
-        	paintSelectedTab(g, tabPlacement, rects, tabIndex, iconRect, textRect);
-        } else {
-        	paintUnSelectedTab(g, tabPlacement, rects, tabIndex, iconRect, textRect);
-        }
-        if (rects[tabIndex].x < leftTab)
-        	leftTab = rects[tabIndex].x;
-        if (rects[tabIndex].x + rects[tabIndex].width > rightTab) {
-        	rightTab = rects[tabIndex].x + rects[tabIndex].width;
-        	if (tabIndex == tabPane.getSelectedIndex( ))
-        		rightTab = rightTab + EAdBorder.BORDER;
-        }
-    }
-    
-    private void paintSelectedTab(Graphics g, int tabPlacement, Rectangle[] rects, int tabIndex, Rectangle iconRect, Rectangle textRect) {
-        g.setColor( EAdGUILookAndFeel.getBackgroundColor() );
-        g.fillRect(rects[tabIndex].x + EAdBorder.BORDER, rects[tabIndex].y, rects[tabIndex].width - EAdBorder.BORDER, rects[tabIndex].height);
-
-        Color color = EAdGUILookAndFeel.getForegroundColor();
-        if (this.tabPane.hasFocus())
-        	color = EAdGUILookAndFeel.getFocusColor();
-        Color newColor = new Color(color.getRed( ), color.getGreen( ), color.getBlue( ), 60);
-        g.setColor(newColor);
-        g.fillRoundRect(rects[tabIndex].x, rects[tabIndex].y + EAdBorder.BORDER, rects[tabIndex].width, rects[tabIndex].height + 12, 6, 6);
-
-        g.setColor(EAdGUILookAndFeel.getBackgroundColor());
-        g.fillRoundRect(rects[tabIndex].x + EAdBorder.BORDER, rects[tabIndex].y, rects[tabIndex].width, rects[tabIndex].height + 12, 6, 6);
-        g.setColor(color);
-        g.drawRoundRect(rects[tabIndex].x + EAdBorder.BORDER, rects[tabIndex].y, rects[tabIndex].width, rects[tabIndex].height + 12, 6, 6);
-        g.drawLine(rects[tabIndex].x,  rects[tabIndex].y + rects[tabIndex].height - 1,rects[tabIndex].x +  EAdBorder.BORDER , rects[tabIndex].y + rects[tabIndex].height - 1);
-
-        g.translate( 0, -1 );
         super.paintTab( g, tabPlacement, rects, tabIndex, iconRect, textRect );
-        g.translate( 0, 1 );
+
+        leftTab = rects[tabPane.getSelectedIndex()].x;
+        rightTab = rects[tabPane.getSelectedIndex()].x + rects[tabPane.getSelectedIndex()].width;
     }
-
-    
-    private void paintUnSelectedTab(Graphics g, int tabPlacement, Rectangle[] rects, int tabIndex, Rectangle iconRect, Rectangle textRect) {
-        g.setColor( EAdGUILookAndFeel.getBackgroundColor() );
-        g.fillRect(rects[tabIndex].x, rects[tabIndex].y, rects[tabIndex].width, rects[tabIndex].height);
-
-        g.setColor( EAdGUILookAndFeel.getForegroundColor() );
-        g.drawRect(rects[tabIndex].x + 1, rects[tabIndex].y, rects[tabIndex].width - 2, rects[tabIndex].height - 1);
-        if (tabPane.hasFocus()) {
-        	g.setColor(EAdGUILookAndFeel.getFocusColor());
-        	g.drawLine(rects[tabIndex].x,  rects[tabIndex].y + rects[tabIndex].height - 1,rects[tabIndex].x +  rects[tabIndex].width - 1 , rects[tabIndex].y + rects[tabIndex].height - 1);
-        }
-        	
-        g.translate( 0, 1 );
-        super.paintTab( g, tabPlacement, rects, tabIndex, iconRect, textRect );
-        g.translate( 0, -1 );
-    }
-
     
     @Override
     public void paintFocusIndicator(Graphics g, int tabPlacement, Rectangle[] rects, int tabIndex, Rectangle iconRect, Rectangle textRect, boolean isSelected)  {
@@ -185,43 +138,27 @@ public class EAdTabbedPaneTopUI extends BasicTabbedPaneUI implements FocusListen
 
     @Override
     public void paintContentBorderBottomEdge(Graphics g, int tabPlacement, int selectedIndex, int x, int y, int w, int h) {
-    	Shape c = g.getClip();
-    	
-    	Area a = new Area(c);
-    	a.subtract(new Area(new Rectangle2D.Float(leftTab, 0, rightTab - leftTab, h - EAdBorder.BORDER - 2)));
-    	g.setClip(a);
-    	
-        Color color = EAdGUILookAndFeel.getForegroundColor();
-        if (this.tabPane.hasFocus())
-        	color = EAdGUILookAndFeel.getFocusColor();
-        Color newColor = new Color(color.getRed( ), color.getGreen( ), color.getBlue( ), 60);
-        g.setColor(newColor);
-        g.fillRoundRect(x, y + EAdBorder.BORDER, w - EAdBorder.BORDER - 1, h - EAdBorder.BORDER, 6, 6);
-
-        g.setColor(EAdGUILookAndFeel.getBackgroundColor());
-        g.fillRoundRect(x + EAdBorder.BORDER, y, w - EAdBorder.BORDER - 1, h - EAdBorder.BORDER, 6, 6);
-        g.setColor(color);
-        g.drawRoundRect(x + EAdBorder.BORDER, y -1 , w - EAdBorder.BORDER - 1, h - EAdBorder.BORDER, 6, 6);
-        
-        g.setClip(c);
-        
-    	leftTab =  Integer.MAX_VALUE;
-    	
-    	rightTab = 0;
-
+        g.setColor(tabPane.hasFocus() ? EAdGUILookAndFeel.getFocusColor() : EAdGUILookAndFeel.getForegroundColor());
+        g.drawLine(x, y - 1 + h, x + w - 1, y - 1 + h);
     }
 
     @Override
     public void paintContentBorderTopEdge(Graphics g, int tabPlacement, int selectedIndex, int x, int y, int w, int h) {
-
+        g.setColor(tabPane.hasFocus() ? EAdGUILookAndFeel.getFocusColor() : EAdGUILookAndFeel.getForegroundColor());
+        g.drawLine(x, y - 1, leftTab + 6, y - 1);
+        g.drawLine(rightTab + 6, y - 1, x + w - 1, y - 1);
     }
 
     @Override
     public void paintContentBorderLeftEdge(Graphics g, int tabPlacement, int selectedIndex, int x, int y, int w, int h) {
+        g.setColor(tabPane.hasFocus() ? EAdGUILookAndFeel.getFocusColor() : EAdGUILookAndFeel.getForegroundColor());
+        g.drawLine(x, y - 1, x, y - 1 + h);
     }
 
     @Override
     public void paintContentBorderRightEdge(Graphics g, int tabPlacement, int selectedIndex, int x, int y, int w, int h) {
+        g.setColor(tabPane.hasFocus() ? EAdGUILookAndFeel.getFocusColor() : EAdGUILookAndFeel.getForegroundColor());
+        g.drawLine(x + w - 1, y - 1, x + w - 1, y - 1 + h);
     }
 
     public void focusGained( FocusEvent e ) {

@@ -37,17 +37,13 @@
 
 package es.eucm.eadventure.engine.core.impl;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import com.google.inject.name.Named;
 
 import es.eucm.eadventure.common.interfaces.AbstractFactory;
-import es.eucm.eadventure.common.interfaces.EAdRuntimeException;
-import es.eucm.eadventure.common.interfaces.ReflectionProvider;
 import es.eucm.eadventure.common.interfaces.MapProvider;
+import es.eucm.eadventure.common.interfaces.ReflectionProvider;
 import es.eucm.eadventure.common.params.geom.EAdPosition;
 import es.eucm.eadventure.engine.core.gameobjects.GameObject;
 import es.eucm.eadventure.engine.core.platform.AssetRenderer;
@@ -57,56 +53,67 @@ import es.eucm.eadventure.engine.core.platform.GraphicRendererFactory;
 import es.eucm.eadventure.engine.core.platform.RuntimeAsset;
 
 @Singleton
-public class JavaGraphicRendererFactoryImpl<S> extends AbstractFactory<GraphicRenderer<?, ?>> implements GraphicRendererFactory<S> {
-
-	private static final Logger logger = Logger.getLogger("GraphicRendererFactoryImpl");
+public class JavaGraphicRendererFactoryImpl<S> extends
+		AbstractFactory<GraphicRenderer<?, ?>> implements
+		GraphicRendererFactory<S> {
 
 	@Inject
-	public JavaGraphicRendererFactoryImpl(@Named("GraphicRenderer") MapProvider<Class<?>, GraphicRenderer<?, ?>> mapProvider,
+	public JavaGraphicRendererFactoryImpl(
+			@Named("GraphicRenderer") MapProvider<Class<?>, GraphicRenderer<?, ?>> mapProvider,
 			ReflectionProvider interfacesProvider) {
 		super(mapProvider, interfacesProvider);
 	}
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public <T extends RuntimeAsset<?>> void render(S graphicContext, T asset, EAdPosition position, float scale, int offsetX, int offsetY) {
+	public <T extends RuntimeAsset<?>> void render(S graphicContext, T asset,
+			EAdPosition position, float scale, int offsetX, int offsetY) {
 		if (graphicContext != null && asset != null) {
-			AssetRenderer<S, T> assetRenderer = (AssetRenderer<S, T>) get(asset.getClass());
-			assetRenderer.render(graphicContext, asset, position, scale, offsetX, offsetY);
+			AssetRenderer<S, T> assetRenderer = (AssetRenderer<S, T>) get(asset
+					.getClass());
+			assetRenderer.render(graphicContext, asset, position, scale,
+					offsetX, offsetY);
 		}
 	}
 
 	@SuppressWarnings("unchecked")
 	@Override
 	public <T extends RuntimeAsset<?>> boolean contains(int x, int y, T asset) {
-		AssetRenderer<S, T> assetRenderer = (AssetRenderer<S, T>) get(asset.getClass());
-		return assetRenderer.contains(x, y, asset);
-	}
-
-	@SuppressWarnings("unchecked")
-	@Override
-	public <T extends GameObject<?>> void render(S graphicContext, T object, float interpolation, int offsetX, int offsetY) {
-		try {
-			GameObjectRenderer<S, T> gameObjectRenderer = (GameObjectRenderer<S, T>) get(object.getClass());
-			gameObjectRenderer.render(graphicContext, object, interpolation, offsetX, offsetY);
-		} catch (Exception e) {
-			logger.log(Level.SEVERE, e.getMessage(), e);
-			throw new EAdRuntimeException(e.getMessage());
+		if (asset != null) {
+			AssetRenderer<S, T> assetRenderer = (AssetRenderer<S, T>) get(asset
+					.getClass());
+			if (assetRenderer != null)
+				return assetRenderer.contains(x, y, asset);
 		}
+		return false;
 	}
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public <T extends GameObject<?>> void render(S graphicContext, T object, EAdPosition position, float scale, int offsetX, int offsetY) {
-		GameObjectRenderer<S, T> gameObjectRenderer = (GameObjectRenderer<S, T>) get(object.getClass());
-		gameObjectRenderer.render(graphicContext, object, position, scale, offsetX, offsetY);
+	public <T extends GameObject<?>> void render(S graphicContext, T object,
+			float interpolation, int offsetX, int offsetY) {
+		GameObjectRenderer<S, T> gameObjectRenderer = (GameObjectRenderer<S, T>) get(object
+				.getClass());
+		gameObjectRenderer.render(graphicContext, object, interpolation,
+				offsetX, offsetY);
 	}
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public <T extends GameObject<?>> boolean contains(T gameObject, int virtualX,
-			int virtualY) {
-		GameObjectRenderer<S, T> gameObjectRenderer = (GameObjectRenderer<S, T>) get(gameObject.getClass());
+	public <T extends GameObject<?>> void render(S graphicContext, T object,
+			EAdPosition position, float scale, int offsetX, int offsetY) {
+		GameObjectRenderer<S, T> gameObjectRenderer = (GameObjectRenderer<S, T>) get(object
+				.getClass());
+		gameObjectRenderer.render(graphicContext, object, position, scale,
+				offsetX, offsetY);
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public <T extends GameObject<?>> boolean contains(T gameObject,
+			int virtualX, int virtualY) {
+		GameObjectRenderer<S, T> gameObjectRenderer = (GameObjectRenderer<S, T>) get(gameObject
+				.getClass());
 		return gameObjectRenderer.contains(gameObject, virtualX, virtualY);
 	}
 

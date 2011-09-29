@@ -1,10 +1,8 @@
 package es.eucm.eadventure.engine.core.debuggers.impl;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import com.google.inject.Inject;
-import com.google.inject.Injector;
 import com.google.inject.Singleton;
 
 import es.eucm.eadventure.engine.core.debuggers.EAdDebugger;

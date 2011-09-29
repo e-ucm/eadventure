@@ -41,12 +41,9 @@ import com.google.gwt.inject.client.AbstractGinModule;
 import com.google.inject.Singleton;
 import com.google.inject.TypeLiteral;
 
-import es.eucm.eadventure.common.interfaces.MapProvider;
 import es.eucm.eadventure.common.resources.assets.multimedia.Video;
-import es.eucm.eadventure.engine.core.platform.GraphicRenderer;
 import es.eucm.eadventure.engine.core.platform.GraphicRendererFactory;
 import es.eucm.eadventure.engine.core.platform.SpecialAssetRenderer;
-import es.eucm.eadventure.engine.core.platform.impl.PlayNGraphicRendererFactory;
 import es.eucm.eadventure.engine.core.platform.impl.specialassetrenderers.PlayNVideoRenderer;
 
 @Singleton
@@ -54,10 +51,10 @@ public class PlayNAssetRendererModule extends AbstractGinModule {
 	
 	@Override
 	protected void configure() {
-		bind(new TypeLiteral<GraphicRendererFactory<?>> () {}).to(PlayNGraphicRendererFactory.class);
-		bind(new TypeLiteral<MapProvider<Class<?>, GraphicRenderer<?, ?>>>() {}).to(PlayNAssetRendererMapProvider.class);
-		bind(new TypeLiteral<SpecialAssetRenderer<Video, ?>>() {}).to(PlayNVideoRenderer.class);
+		bind(new TypeLiteral<GraphicRendererFactory<?>> () {}).toProvider(GraphicRendererFactoryProvider.class);
+		bind(new TypeLiteral<SpecialAssetRenderer<Video, ?>>() {}).to(PlayNVideoRenderer.class).in(Singleton.class);
 	}
+
 
 
 	

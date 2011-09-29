@@ -38,7 +38,7 @@
 package es.eucm.eadventure.editor.control.commands.impl;
 
 import es.eucm.eadventure.common.model.EAdElement;
-import es.eucm.eadventure.common.model.EAdList;
+import es.eucm.eadventure.common.model.extra.EAdList;
 import es.eucm.eadventure.editor.control.Command;
 
 public class DuplicateElementCommand<P extends EAdElement> extends Command {
@@ -72,6 +72,7 @@ public class DuplicateElementCommand<P extends EAdElement> extends Command {
 	}
 
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public boolean performCommand() {
 		
@@ -105,6 +106,7 @@ public class DuplicateElementCommand<P extends EAdElement> extends Command {
 		return true;
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public boolean redoCommand() {
 

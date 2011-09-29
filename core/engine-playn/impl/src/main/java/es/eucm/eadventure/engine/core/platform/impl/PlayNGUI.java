@@ -37,23 +37,11 @@
 
 package es.eucm.eadventure.engine.core.platform.impl;
 
-import java.awt.AWTException;
-import java.awt.Component;
-import java.awt.Graphics2D;
-import java.awt.GraphicsDevice;
-import java.awt.GraphicsEnvironment;
-import java.awt.MouseInfo;
-import java.awt.RenderingHints;
-import java.awt.Robot;
-import java.awt.Toolkit;
-import java.awt.image.BufferStrategy;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.swing.JFrame;
 
 import playn.core.Canvas;
-import playn.core.SurfaceLayer;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -66,15 +54,12 @@ import es.eucm.eadventure.engine.core.ValueMap;
 import es.eucm.eadventure.engine.core.gameobjects.GameObjectFactory;
 import es.eucm.eadventure.engine.core.gameobjects.GameObjectManager;
 import es.eucm.eadventure.engine.core.gameobjects.huds.BasicHUD;
-import es.eucm.eadventure.engine.core.guiactions.KeyAction;
 import es.eucm.eadventure.engine.core.platform.GUI;
 import es.eucm.eadventure.engine.core.platform.GraphicRendererFactory;
 import es.eucm.eadventure.engine.core.platform.PlatformConfiguration;
 import es.eucm.eadventure.engine.core.platform.RuntimeAsset;
 import es.eucm.eadventure.engine.core.platform.assets.impl.PlayNEngineImage;
 import es.eucm.eadventure.engine.core.platform.impl.extra.PlayNInputListener;
-import es.eucm.eadventure.utils.swing.SwingExceptionHandler;
-import es.eucm.eadventure.utils.swing.SwingUtilities;
 
 /**
  * <p>
@@ -113,6 +98,7 @@ public class PlayNGUI extends AbstractGUI<Canvas> implements GUI {
 				mouseState, keyboardState, valueMap, gameState,
 				gameObjectFactory);
 		this.gameObjects.addHUD(basicDesktopHUD);
+		basicDesktopHUD.setGUI(this);
 	}
 
 	/*

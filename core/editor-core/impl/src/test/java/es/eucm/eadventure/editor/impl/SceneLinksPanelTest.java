@@ -41,21 +41,16 @@ import java.awt.BorderLayout;
 
 import javax.swing.JFrame;
 
-import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import es.eucm.eadventure.common.model.EAdElement;
-import es.eucm.eadventure.common.model.EAdList;
-import es.eucm.eadventure.common.model.impl.EAdListImpl;
-import es.eucm.eadventure.common.resources.assets.drawable.impl.ImageImpl;
+import es.eucm.eadventure.common.model.elements.EAdScene;
+import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
+import es.eucm.eadventure.common.model.elements.impl.EAdSceneImpl;
+import es.eucm.eadventure.common.model.extra.EAdList;
+import es.eucm.eadventure.common.model.extra.impl.EAdListImpl;
+import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.ImageImpl;
 
 public class SceneLinksPanelTest {
-	
-	/**
-	 * The mock object element to be used as the parent EAdElement
-	 */
-	@Mock
-	private EAdElement mockElement;
 	
 	/**
 	 * Constructor that initiates both the mock objects and the regular objects of the class
@@ -64,10 +59,10 @@ public class SceneLinksPanelTest {
  
     	MockitoAnnotations.initMocks(this);
 
-		EAdList<EAdScreen> list = new EAdListImpl<EAdScreen>(mockElement);
+		EAdList<EAdScene> list = new EAdListImpl<EAdScene>(EAdScene.class);
 
-		EAdSpace space = new EAdSpace(mockElement, "Scene1");
-		space.getResources().addAsset(space.getInitialBundle(), EAdSpace.appearance, new ImageImpl("@drawable/loading.png"));
+		EAdScene space = new EAdSceneImpl("Scene1");
+		space.getBackground().getResources().addAsset(space.getInitialBundle(), EAdBasicSceneElement.appearance, new ImageImpl("@drawable/loading.png"));
 
 		//Change the number of elements in the list to see how the scale works
 		list.add(space);
@@ -89,9 +84,8 @@ public class SceneLinksPanelTest {
     	
     }
     
-    public static void main(String args[]){
-    	
-    	SceneLinksPanelTest scen = new SceneLinksPanelTest();
+    public static void main(String args[]){    	
+    	new SceneLinksPanelTest();
     }
 	
 }

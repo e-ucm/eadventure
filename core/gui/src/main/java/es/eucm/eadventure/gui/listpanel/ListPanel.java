@@ -40,17 +40,11 @@ package es.eucm.eadventure.gui.listpanel;
 import java.awt.BorderLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.imageio.ImageIO;
-import javax.swing.BorderFactory;
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JPanel;
@@ -64,8 +58,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import es.eucm.eadventure.gui.EAdScrollPane;
-import es.eucm.eadventure.gui.R;
-import es.eucm.eadventure.gui.listpanel.columntypes.CellRenderEditor;
+import es.eucm.eadventure.gui.listpanel.extra.EAdTable;
+import es.eucm.eadventure.gui.listpanel.extra.ListButton;
 
 /**
  * Main class of ListPanel
@@ -75,9 +69,6 @@ import es.eucm.eadventure.gui.listpanel.columntypes.CellRenderEditor;
  * 
  * After calling the constructor, we add the columns and finally call the method
  * createElements() to build the panel.
- * 
- * @author Sergio Bellón
- * 
  */
 public class ListPanel extends JPanel {
 
@@ -91,17 +82,9 @@ public class ListPanel extends JPanel {
 	private EAdTable table;
 
 	// Buttons
-	private JButton newButton;
+	private JButton newButton, deleteButton, duplicateButton, moveUpButton, moveDownButton;
 
-	private JButton deleteButton;
-
-	private JButton duplicateButton;
-
-	private JButton moveUpButton;
-
-	private JButton moveDownButton;
-
-	private List<Column> columnsList;
+	private List<ColumnDescriptor> columnsList;
 
 	private ListPanelListener listPanelListener;
 
@@ -113,45 +96,18 @@ public class ListPanel extends JPanel {
 	 *            update the represented elements.
 	 */
 	public ListPanel(ListPanelListener listPanelListener) {
-
 		this.listPanelListener = listPanelListener;
-		columnsList = new ArrayList<Column>();
-	}
-
-	/**
-	 * This method adds a column to the table, must match the element's
-	 * attributes. If we want editable cells call to
-	 * {@link ListPanel#addColumn(String, String, CellRenderEditor, boolean)}
-	 * 
-	 * @param name
-	 *            Name column header.
-	 * @param help
-	 *            Help file, can be empty.
-	 * @param typeColumn
-	 *            Type of the column to create, their are defined in
-	 *            gui->listpanel->columntypes
-	 */
-	public void addColumn(String name, String help, CellRenderEditor typeColumn) {
-		columnsList.add(new Column(name, help, typeColumn, false));
+		columnsList = new ArrayList<ColumnDescriptor>();
 	}
 
 	/**
 	 * This method adds a column to the table, must match the element's
 	 * attributes.
 	 * 
-	 * @param name
-	 *            Name column header.
-	 * @param help
-	 *            Help file, can be empty.
-	 * @param typeColumn
-	 *            Type of the column to create, their are defined in
-	 *            gui->listpanel->columntypes
-	 * @param editable
-	 *            If the cell is editable or not.
+	 * @param columnDescriptor {@link ColumnDescriptor}
 	 */
-	public void addColumn(String name, String help,
-			CellRenderEditor typeColumn, boolean editable) {
-		columnsList.add(new Column(name, help, typeColumn, editable));
+	public void addColumn(ColumnDescriptor columnDescriptor) {
+		columnsList.add(columnDescriptor);
 	}
 
 	/**
@@ -196,85 +152,55 @@ public class ListPanel extends JPanel {
 
 		JPanel buttonsPanel = new JPanel();
 
-		try {
+		newButton = new ListButton(ListButton.Type.ADD);
 
-			InputStream is = ClassLoader
-					.getSystemResourceAsStream(R.Drawable.add_png);
-			newButton = new JButton(new ImageIcon(ImageIO.read(is)));
-			newButton.setContentAreaFilled(false);
-			newButton.setMargin(new Insets(0, 0, 0, 0));
-			newButton.setBorder(BorderFactory.createEmptyBorder());
-			// newButton.setToolTipText("AddBarrier");
-			newButton.addActionListener(new ActionListener() {
+		newButton.addActionListener(new ActionListener() {
 
-				public void actionPerformed(ActionEvent arg0) {
+			public void actionPerformed(ActionEvent arg0) {
 
-					addElement();
-				}
-			});
+				addElement();
+			}
+		});
 
-			is = ClassLoader.getSystemResourceAsStream(R.Drawable.delete_png);
-			deleteButton = new JButton(new ImageIcon(ImageIO.read(is)));
-			deleteButton.setContentAreaFilled(false);
-			deleteButton.setMargin(new Insets(0, 0, 0, 0));
-			deleteButton.setBorder(BorderFactory.createEmptyBorder());
-			// deleteButton.setToolTipText("DeleteBarrier");
-			deleteButton.setEnabled(false);
-			deleteButton.addActionListener(new ActionListener() {
+		deleteButton = new ListButton(ListButton.Type.DELETE);
+		deleteButton.setEnabled(false);
+		deleteButton.addActionListener(new ActionListener() {
 
-				public void actionPerformed(ActionEvent e) {
+			public void actionPerformed(ActionEvent e) {
 
-					deleteElement();
-				}
-			});
-			is = ClassLoader
-					.getSystemResourceAsStream(R.Drawable.duplicate_png);
-			duplicateButton = new JButton(new ImageIcon(ImageIO.read(is)));
-			duplicateButton.setContentAreaFilled(false);
-			duplicateButton.setMargin(new Insets(0, 0, 0, 0));
-			duplicateButton.setBorder(BorderFactory.createEmptyBorder());
-			// duplicateButton.setToolTipText("DuplicateBarrier");
-			duplicateButton.setEnabled(false);
-			duplicateButton.addActionListener(new ActionListener() {
+				deleteElement();
+			}
+		});
 
-				public void actionPerformed(ActionEvent e) {
+		duplicateButton = new ListButton(ListButton.Type.DUPLICATE);
+		duplicateButton.setEnabled(false);
+		duplicateButton.addActionListener(new ActionListener() {
 
-					duplicateElement();
-				}
-			});
-			is = ClassLoader.getSystemResourceAsStream(R.Drawable.move_up_png);
-			moveUpButton = new JButton(new ImageIcon(ImageIO.read(is)));
-			moveUpButton.setContentAreaFilled(false);
-			moveUpButton.setMargin(new Insets(0, 0, 0, 0));
-			moveUpButton.setBorder(BorderFactory.createEmptyBorder());
-			// moveUpButton.setToolTipText("MoveUp");
-			moveUpButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
 
-				public void actionPerformed(ActionEvent e) {
+				duplicateElement();
+			}
+		});
 
-					moveUp();
-				}
-			});
-			moveUpButton.setEnabled(false);
-			is = ClassLoader
-					.getSystemResourceAsStream(R.Drawable.move_down_png);
-			moveDownButton = new JButton(new ImageIcon(ImageIO.read(is)));
-			moveDownButton.setContentAreaFilled(false);
-			moveDownButton.setMargin(new Insets(0, 0, 0, 0));
-			moveDownButton.setBorder(BorderFactory.createEmptyBorder());
-			// moveDownButton.setToolTipText("MoveDown");
-			moveDownButton.addActionListener(new ActionListener() {
+		moveUpButton = new ListButton(ListButton.Type.MOVE_UP);
+		moveUpButton.setEnabled(false);
+		moveUpButton.addActionListener(new ActionListener() {
 
-				public void actionPerformed(ActionEvent e) {
+			public void actionPerformed(ActionEvent e) {
 
-					moveDown();
-				}
-			});
-			moveDownButton.setEnabled(false);
+				moveUp();
+			}
+		});
 
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		moveDownButton = new ListButton(ListButton.Type.MOVE_DOWN);
+		moveDownButton.setEnabled(false);
+		moveDownButton.addActionListener(new ActionListener() {
+
+			public void actionPerformed(ActionEvent e) {
+
+				moveDown();
+			}
+		});
 
 		buttonsPanel.setLayout(new GridBagLayout());
 		GridBagConstraints c = new GridBagConstraints();
@@ -387,59 +313,6 @@ public class ListPanel extends JPanel {
 			listPanelListener.selectionChanged();
 		}
 		return true;
-	}
-
-	/**
-	 * This class represents a column in the table. It need the name of the
-	 * column, and optionally can take a help file, a column type and if it's
-	 * editable;
-	 * 
-	 * @author Sergio Bellón
-	 * 
-	 */
-	public class Column {
-		private String name;
-		private String help;
-		private CellRenderEditor typeColumn;
-		private Boolean editable;
-
-		/**
-		 * Constructor.
-		 * 
-		 * @param name
-		 *            Name of the column, will be shown at the header.
-		 * @param help
-		 *            Help file, can be empty.
-		 * @param typeColumn
-		 *            Type of the column to create, their are defined in
-		 *            gui->listpanel->columntypes
-		 * @param editable
-		 *            If the cell is editable or not.
-		 */
-		private Column(String name, String help, CellRenderEditor typeColumn,
-				boolean editable) {
-			this.name = name;
-			this.help = help;
-			this.typeColumn = typeColumn;
-			this.editable = editable;
-		}
-
-		public String getName() {
-			return name;
-		}
-
-		public String getHelp() {
-			return help;
-		}
-
-		public CellRenderEditor getTypeColumn() {
-			return typeColumn;
-		}
-
-		public boolean isEditable() {
-			return editable;
-		}
-
 	}
 
 	/**

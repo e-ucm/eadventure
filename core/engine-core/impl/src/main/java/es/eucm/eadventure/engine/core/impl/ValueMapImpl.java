@@ -56,6 +56,8 @@ import es.eucm.eadventure.engine.core.operator.OperatorFactory;
 @Singleton
 public class ValueMapImpl implements ValueMap {
 
+	protected Map<EAdVarDef<?>, Object> systemVars;
+
 	protected Map<EAdElement, Map<EAdVarDef<?>, Object>> map;
 
 	private OperatorFactory operatorFactory;
@@ -67,6 +69,7 @@ public class ValueMapImpl implements ValueMap {
 	@Inject
 	public ValueMapImpl(ReflectionProvider reflectionProvider) {
 		map = new HashMap<EAdElement, Map<EAdVarDef<?>, Object>>();
+		systemVars = new HashMap<EAdVarDef<?>, Object>();
 		logger.info("New instance");
 		this.reflectionProvider = reflectionProvider;
 	}
@@ -78,14 +81,14 @@ public class ValueMapImpl implements ValueMap {
 
 	@Override
 	public <S> void setValue(EAdElement element, EAdVarDef<S> varDef, S value) {
-		Map<EAdVarDef<?>, Object> valMap = map.get(element);
-		if (valMap == null) {
-			valMap = new HashMap<EAdVarDef<?>, Object>();
-			map.put(element, valMap);
-			logger.info("New value map String " + varDef.getType());
-		}
-		
-		valMap.put(varDef, value);
+			Map<EAdVarDef<?>, Object> valMap = element == null ? systemVars : map.get(element);
+			if (valMap == null) {
+				valMap = new HashMap<EAdVarDef<?>, Object>();
+				map.put(element, valMap);
+				logger.info("New value map String " + varDef.getType());
+			}
+
+			valMap.put(varDef, value);
 	}
 
 	@Override
@@ -105,7 +108,8 @@ public class ValueMapImpl implements ValueMap {
 	@SuppressWarnings("unchecked")
 	@Override
 	public <S> S getValue(EAdElement element, EAdVarDef<S> varDef) {
-		Map<EAdVarDef<?>, Object> valMap = map.get(element);
+		Map<EAdVarDef<?>, Object> valMap = element == null ? systemVars : map
+				.get(element);
 		if (valMap == null) {
 			// If the variable has not been set, returns the initial value
 			return varDef.getInitialValue();
@@ -113,8 +117,10 @@ public class ValueMapImpl implements ValueMap {
 		Object value = valMap.get(varDef);
 		// If the variable has not been set, returns the initial value
 		return value == null
-				|| !reflectionProvider.isAssignableFrom(varDef.getType(), value.getClass()) ? varDef
-				.getInitialValue() : (S) value;
+				|| !reflectionProvider.isAssignableFrom(varDef.getType(),
+						value.getClass()) ? varDef.getInitialValue()
+				: (S) value;
+
 	}
 
 	@Override
@@ -132,7 +138,8 @@ public class ValueMapImpl implements ValueMap {
 
 	@Override
 	public void setValue(EAdVarDef<?> varDef, Object value, EAdElement element) {
-		if (reflectionProvider.isAssignableFrom(varDef.getType(), value.getClass())) {
+		if (reflectionProvider.isAssignableFrom(varDef.getType(),
+				value.getClass())) {
 			Map<EAdVarDef<?>, Object> valMap = map.get(element);
 			if (valMap == null) {
 				valMap = new HashMap<EAdVarDef<?>, Object>();
