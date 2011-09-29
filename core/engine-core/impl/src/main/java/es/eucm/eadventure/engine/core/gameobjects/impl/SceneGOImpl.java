@@ -78,31 +78,7 @@ public class SceneGOImpl extends SceneElementGOImpl<EAdScene> implements
 			gui.addElement(gameObjectFactory.get(e), transformation);
 		}
 		// TODO sort elements?
-		// for (SceneElementGO<?> sceneElementGO : getSortedElements()) {
-		// gui.addElement(sceneElementGO, transformation);
-		// }
-	}
 
-	private List<SceneElementGO<?>> getSortedElements() {
-		List<SceneElementGO<?>> list = new ArrayList<SceneElementGO<?>>();
-		for (EAdSceneElement sceneElement : element.getElements()) {
-			SceneElementGO<?> sceneElementGO = (SceneElementGO<?>) gameObjectFactory
-					.get(sceneElement);
-
-			if (sceneElement instanceof EAdActorReference) {
-				// TODO could there be a better way than explicitly comparing?
-				int i = 0;
-				while (list.size() > i
-						&& list.get(i) instanceof EAdActorReference
-						&& list.get(i).getCenterY() < sceneElementGO
-								.getCenterY())
-					i++;
-				list.add(i, sceneElementGO);
-
-				list.add(sceneElementGO);
-			}
-		}
-		return list;
 	}
 
 	@Override

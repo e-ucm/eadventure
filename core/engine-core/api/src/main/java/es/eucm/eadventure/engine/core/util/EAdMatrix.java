@@ -1,5 +1,7 @@
 package es.eucm.eadventure.engine.core.util;
 
+
+
 public interface EAdMatrix {
 	
 	float[] getFlatMatrix();
@@ -25,5 +27,9 @@ public interface EAdMatrix {
 	float getOffsetY();
 	
 	void setIdentity();
+
+	float[] postMultiplyPoint(float x, float y);
+	
+	float[] preMultiplyPoint( float x, float y);
 
 }

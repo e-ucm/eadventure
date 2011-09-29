@@ -43,6 +43,7 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 import es.eucm.eadventure.engine.core.gameobjects.SceneElementGO;
+import es.eucm.eadventure.engine.core.platform.DrawableAsset;
 import es.eucm.eadventure.engine.core.platform.GraphicRendererFactory;
 import es.eucm.eadventure.engine.core.util.EAdTransformation;
 
@@ -78,10 +79,9 @@ public class BasicSceneElementRenderer extends
 	 * es.eucm.eadventure.common.model.params.EAdPosition, float)
 	 */
 	@Override
-	public void render(Graphics2D g, SceneElementGO<?> basicSceneElement,
+	public void render(Graphics2D g, SceneElementGO<?> e,
 			EAdTransformation transformation) {
-		factory.render(prepareGraphics(g, transformation),
-				basicSceneElement.getRenderAsset());
+		factory.render(prepareGraphics(g, transformation), e.getRenderAsset());
 	}
 
 	/*
@@ -92,36 +92,20 @@ public class BasicSceneElementRenderer extends
 	 * .eucm.eadventure.engine.core.gameobjects.GameObject, int, int)
 	 */
 	@Override
-	public boolean contains(SceneElementGO<?> basicSceneElement, int virtualX,
-			int virtualY, EAdTransformation transformation) {
-		// TODO contains renderer
-		// int centerX = basicSceneElement.getCenterX();
-		// int centerY = basicSceneElement.getCenterY();
-		// float rotation = -basicSceneElement.getRotation();
-		//
-		// virtualX = virtualX - centerX;
-		// virtualY = virtualY - centerY;
-		// int newVirtualX = (int) (virtualX * Math.cos(rotation) - virtualY
-		// * Math.sin(rotation))
-		// + centerX;
-		// int newVirtualY = (int) (virtualX * Math.sin(rotation) + virtualY
-		// * Math.cos(rotation))
-		// + centerY;
-		//
-		// int x = (int) ((newVirtualX -
-		// basicSceneElement.getPosition().getJavaX(
-		// basicSceneElement.getWidth() * basicSceneElement.getScale())) /
-		// basicSceneElement
-		// .getScale());
-		// int y = (int) ((newVirtualY -
-		// basicSceneElement.getPosition().getJavaY(
-		// basicSceneElement.getHeight() * basicSceneElement.getScale())) /
-		// basicSceneElement
-		// .getScale());
+	public boolean contains(SceneElementGO<?> e, int virtualX, int virtualY,
+			EAdTransformation transformation) {
+		if (transformation.isVisible()) {
+			float[] r = transformation.getMatrix().postMultiplyPoint(virtualX,
+					virtualY);
+			int x = (int) r[0];
+			int y = (int) r[1];
+			logger.info("Pos: ( " + x + ", " + y + " )");
 
-		// return x > 0 && y > 0
-		// && factory.contains(x, y, basicSceneElement.getRenderAsset());
-
+			DrawableAsset<?> renderAsset = e.getRenderAsset();
+			if (x > 0 && y > 0 && x < renderAsset.getWidth()
+					&& y < renderAsset.getHeight())
+				return factory.contains(x, y, renderAsset);
+		}
 		return false;
 	}
 

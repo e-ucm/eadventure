@@ -214,7 +214,7 @@ public abstract class AbstractGUI<T> implements GUI {
 				GameObject<?> tempGameObject = gameObjects.getGameObjects()
 						.get(i);
 				if (tempGameObject instanceof SceneElementGOImpl
-						&& tempGameObject.getTransformation().isVisible())
+						&& !tempGameObject.getTransformation().isVisible())
 					continue;
 				EAdTransformation t = gameObjects.getTransformations().get(i);
 

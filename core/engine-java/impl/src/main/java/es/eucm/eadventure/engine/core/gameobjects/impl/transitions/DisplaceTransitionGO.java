@@ -81,10 +81,10 @@ public class DisplaceTransitionGO extends EmptyTransitionGO implements
 	@Override
 	public void doLayout(EAdTransformation transformation) {
 		// int x = 800 * 100 / cont;
-		gui.addElement(gameObjectFactory.get(screenBlock), null);
-		gui.addElement(gameObjectFactory.get(loadingText), null);
+		gui.addElement(gameObjectFactory.get(screenBlock), transformation);
+		gui.addElement(gameObjectFactory.get(loadingText), transformation);
 		if (loaded) {
-			gui.addElement(nextSceneGO, null);
+			gui.addElement(nextSceneGO, transformation);
 		}
 	}
 

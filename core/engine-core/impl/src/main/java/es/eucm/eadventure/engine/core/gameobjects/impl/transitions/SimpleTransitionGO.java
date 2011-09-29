@@ -144,10 +144,10 @@ public class SimpleTransitionGO extends SceneGOImpl implements TransitionGO {
 
 	@Override
 	public void doLayout(EAdTransformation transformation) {
-		gui.addElement(gameObjectFactory.get(screenBlock), null);
-		gui.addElement(gameObjectFactory.get(loadingText), null);
+		gui.addElement(gameObjectFactory.get(screenBlock), transformation);
+		gui.addElement(gameObjectFactory.get(loadingText), transformation);
 		if (loaded) {
-			gui.addElement(nextSceneGO, null);
+			gui.addElement(nextSceneGO, transformation);
 		}
 	}
 

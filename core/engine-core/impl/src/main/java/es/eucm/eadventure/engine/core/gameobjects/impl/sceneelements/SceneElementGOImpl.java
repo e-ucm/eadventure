@@ -169,9 +169,10 @@ public abstract class SceneElementGOImpl<T extends EAdSceneElement> extends
 		transformation.getMatrix().postTranslate( width / 2,
 				height / 2);
 		transformation.getMatrix().postRotate(rotation);
+		transformation.getMatrix().postScale(scale, scale);
 		transformation.getMatrix().postTranslate( - width / 2,
 				- height / 2);
-		transformation.getMatrix().postScale(scale, scale);
+		
 	}
 
 	@Override

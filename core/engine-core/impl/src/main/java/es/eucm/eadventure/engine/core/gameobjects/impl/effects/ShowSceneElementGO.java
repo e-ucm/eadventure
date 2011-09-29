@@ -69,7 +69,6 @@ public class ShowSceneElementGO extends AbstractEffectGO<EAdShowSceneElement> {
 	@Override
 	public void doLayout(EAdTransformation t) {
 		gui.addElement(sceneElement, t);
-		sceneElement.doLayout(t);
 	}
 
 	@Override

@@ -42,7 +42,7 @@ public class EAdMatrixImpl implements EAdMatrix {
 		t[7] = y;
 		postMultiply(t);
 	}
-	
+
 	@Override
 	public void preTranslate(float x, float y) {
 		float t[] = getIdentity();
@@ -55,13 +55,13 @@ public class EAdMatrixImpl implements EAdMatrix {
 	public void postRotate(float angle) {
 		postMultiply(getRotationMatrix(angle));
 	}
-	
+
 	@Override
 	public void preRotate(float angle) {
 		preMultiply(getRotationMatrix(angle));
 	}
-	
-	private float[] getRotationMatrix( float angle ){
+
+	private float[] getRotationMatrix(float angle) {
 		float r[] = getIdentity();
 		float cos = (float) Math.cos(angle);
 		float sin = (float) Math.sin(angle);
@@ -79,7 +79,7 @@ public class EAdMatrixImpl implements EAdMatrix {
 		s[4] = scaleY;
 		postMultiply(s);
 	}
-	
+
 	@Override
 	public void preScale(float scaleX, float scaleY) {
 		float s[] = getIdentity();
@@ -129,6 +129,20 @@ public class EAdMatrixImpl implements EAdMatrix {
 
 	public void setIdentity() {
 		m = getIdentity();
+	}
+
+	@Override
+	public float[] postMultiplyPoint(float x, float y) {
+		float px = m[0] * x + m[3] * y + m[6];
+		float py = m[1] * x + m[4] * y + m[7];
+		return new float[] { px, py };
+	}
+
+	@Override
+	public float[] preMultiplyPoint(float x, float y) {
+		float px = m[0] * x + m[1] * y + m[2];
+		float py = m[3] * x + m[4] * y + m[5];
+		return new float[] { px, py };
 	}
 
 }

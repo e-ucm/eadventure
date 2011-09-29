@@ -59,8 +59,7 @@ public class MouseStateTest extends MouseStateImpl {
 	private Queue<MouseAction> mouseEvents;
 
 	@Inject
-	public MouseStateTest(PlatformConfiguration platformConfiguration) {
-		super(platformConfiguration);
+	public MouseStateTest() {
 		mouseEvents = new LinkedList<MouseAction>();
 	}
 

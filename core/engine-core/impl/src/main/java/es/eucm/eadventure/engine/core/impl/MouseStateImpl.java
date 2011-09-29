@@ -46,8 +46,6 @@ import com.google.inject.Singleton;
 import es.eucm.eadventure.engine.core.MouseState;
 import es.eucm.eadventure.engine.core.gameobjects.GameObject;
 import es.eucm.eadventure.engine.core.guiactions.MouseAction;
-import es.eucm.eadventure.engine.core.platform.GUI;
-import es.eucm.eadventure.engine.core.platform.PlatformConfiguration;
 
 @Singleton
 public class MouseStateImpl implements MouseState {
@@ -80,12 +78,9 @@ public class MouseStateImpl implements MouseState {
 	
 	private boolean moved;
 	
-	private PlatformConfiguration platformConfiguration;
-	
 	@Inject
-	public MouseStateImpl(PlatformConfiguration platformConfiguration) {
+	public MouseStateImpl() {
 		mouseEvents = new ConcurrentLinkedQueue<MouseAction>();
-		this.platformConfiguration = platformConfiguration;
 	}
 	
 	public int getVirtualMouseX() {
@@ -99,8 +94,8 @@ public class MouseStateImpl implements MouseState {
 	public void setMousePosition(int mouseX, int mouseY) {
 		this.rawX = mouseX;
 		this.rawY = mouseY;
-		this.mouseX = (int) ((float) mouseX / platformConfiguration.getHeight() * GUI.VIRTUAL_HEIGHT);
-		this.mouseY = (int) ((float) mouseY / platformConfiguration.getHeight() * GUI.VIRTUAL_HEIGHT);
+		this.mouseX = mouseX;
+		this.mouseY = mouseY;
 		this.moved = true;
 	}
 
