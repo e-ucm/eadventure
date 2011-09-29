@@ -44,7 +44,6 @@ import android.graphics.Canvas;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
-import es.eucm.eadventure.common.params.geom.EAdPosition;
 import es.eucm.eadventure.engine.core.gameobjects.TransitionGO;
 import es.eucm.eadventure.engine.core.platform.GameObjectRenderer;
 import es.eucm.eadventure.engine.core.platform.GraphicRendererFactory;
@@ -71,18 +70,12 @@ public class TransitionGORenderer  implements GameObjectRenderer<Canvas, Transit
 		this.factory = (GraphicRendererFactory<Canvas>) factory;
 		logger.info("New instance");
 	}
-
-	@Override
-	public void render(Canvas graphicContext, TransitionGO object,
-			float interpolation, int offsetX, int offsetY) {
-		//Do nothing?
-	}
 	
 	@Override
 	public void render(Canvas graphicContext, TransitionGO object,
-			EAdPosition position, float scale, int offsetX, int offsetY) {
+			EAdTransformation t) {
 		if (object.getBackground() != null)
-			factory.render(graphicContext, object.getBackground(), null);
+			factory.render(graphicContext, object.getBackground());
 	}
 	
 	@Override

@@ -44,7 +44,6 @@ import android.graphics.Canvas;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
-import es.eucm.eadventure.common.params.geom.EAdPosition;
 import es.eucm.eadventure.engine.core.gameobjects.huds.impl.ActionsHUDImpl;
 import es.eucm.eadventure.engine.core.platform.GameObjectRenderer;
 import es.eucm.eadventure.engine.core.util.EAdTransformation;
@@ -68,16 +67,8 @@ public class ActionsHudGORenderer implements
 
 	@Override
 	public void render(Canvas graphicContext, ActionsHUDImpl object,
-			float interpolation, int offsetX, int offsetY) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void render(Canvas graphicContext, ActionsHUDImpl object,
-			EAdPosition position, float scale, int offsetX, int offsetY) {
-		// TODO Auto-generated method stub
-
+			EAdTransformation transformation) {
+		
 	}
 
 }

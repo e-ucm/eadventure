@@ -44,42 +44,36 @@ import android.graphics.Canvas;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
-import es.eucm.eadventure.common.params.geom.EAdPosition;
 import es.eucm.eadventure.engine.core.gameobjects.EffectGO;
 import es.eucm.eadventure.engine.core.platform.GameObjectRenderer;
 import es.eucm.eadventure.engine.core.util.EAdTransformation;
 
 /**
  * A default effects game object renderer. This renderer should be used for
- * those effects who have something to do in the method {@link EffectGO#processAction(es.eucm.eadventure.engine.core.guiactions.GUIAction)}
+ * those effects who have something to do in the method
+ * {@link EffectGO#processAction(es.eucm.eadventure.engine.core.guiactions.GUIAction)}
  */
 @Singleton
 public class EffectsGORenderer implements
 		GameObjectRenderer<Canvas, EffectGO<?>> {
 
-	private static final Logger logger = Logger
-	.getLogger("EffectsGORenderer");
+	private static final Logger logger = Logger.getLogger("EffectsGORenderer");
 
 	@Inject
 	public EffectsGORenderer() {
 		logger.info("New instance");
 	}
-	
-	@Override
-	public void render(Canvas graphicContext, EffectGO<?> object,
-			float interpolation, int offsetX, int offsetY) {
-
-	}
 
 	@Override
-	public void render(Canvas graphicContext, EffectGO<?> object,
-			EAdPosition position, float scale, int offsetX, int offsetY) {
-
-	}
-
-	@Override
-	public boolean contains(EffectGO<?> object, int virtualX, int virtualY, EAdTransformation transformation) {
+	public boolean contains(EffectGO<?> object, int virtualX, int virtualY,
+			EAdTransformation transformation) {
 		return true;
+	}
+
+	@Override
+	public void render(Canvas graphicContext, EffectGO<?> object,
+			EAdTransformation transformation) {
+
 	}
 
 }

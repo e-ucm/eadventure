@@ -37,8 +37,6 @@
 
 package es.eucm.eadventure.engine.assets;
 
-import java.io.File;
-
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.Typeface;

@@ -34,6 +34,21 @@ public class EAdMatrixImpl implements EAdMatrix {
 	public float[] getFlatMatrix() {
 		return m;
 	}
+	
+	@Override
+	public float[] getTransposedMatrix(){
+		float tm[] = new float[9];
+		tm[0] = m[0];
+		tm[1] = m[3];
+		tm[2] = m[6];
+		tm[3] = m[1];
+		tm[4] = m[4];
+		tm[5] = m[7];
+		tm[6] = m[2];
+		tm[7] = m[5];
+		tm[8] = m[8];
+		return tm;
+	}
 
 	@Override
 	public void postTranslate(float x, float y) {

@@ -44,7 +44,6 @@ import android.graphics.Canvas;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
-import es.eucm.eadventure.common.params.geom.EAdPosition;
 import es.eucm.eadventure.engine.core.gameobjects.huds.impl.MenuHUDImpl;
 import es.eucm.eadventure.engine.core.platform.GameObjectRenderer;
 import es.eucm.eadventure.engine.core.util.EAdTransformation;
@@ -60,22 +59,16 @@ public class MenuHUDGORenderer implements
 	public MenuHUDGORenderer() {
 		logger.info("New instance");
 	}
-	
-	@Override
-	public void render(Canvas graphicContext, MenuHUDImpl object,
-			float interpolation, int offsetX, int offsetY) {
-		//DO NOTHING
-	}
-
-	@Override
-	public void render(Canvas graphicContext, MenuHUDImpl object,
-			EAdPosition position, float scale, int offsetX, int offsetY) {
-		//DO NOTHING
-	}
 
 	@Override
 	public boolean contains(MenuHUDImpl object, int virtualX, int virtualY, EAdTransformation transformation) {
 		return true;
+	}
+
+	@Override
+	public void render(Canvas graphicContext, MenuHUDImpl object,
+			EAdTransformation transformation) {
+		
 	}
 
 }

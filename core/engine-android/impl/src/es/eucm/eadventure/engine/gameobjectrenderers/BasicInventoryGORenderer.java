@@ -44,7 +44,6 @@ import android.graphics.Canvas;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
-import es.eucm.eadventure.common.params.geom.EAdPosition;
 import es.eucm.eadventure.engine.core.gameobjects.impl.inventory.BasicInventoryGO;
 import es.eucm.eadventure.engine.core.platform.GameObjectRenderer;
 import es.eucm.eadventure.engine.core.util.EAdTransformation;
@@ -62,20 +61,14 @@ public class BasicInventoryGORenderer implements
 	}
 	
 	@Override
-	public void render(Canvas graphicContext, BasicInventoryGO object,
-			float interpolation, int offsetX, int offsetY) {
-		//DO NOTHING
-	}
-
-	@Override
-	public void render(Canvas graphicContext, BasicInventoryGO object,
-			EAdPosition position, float scale, int offsetX, int offsetY) {
-		//DO NOTHING
-	}
-
-	@Override
 	public boolean contains(BasicInventoryGO object, int virtualX, int virtualY, EAdTransformation transformation) {
 		return false;
+	}
+
+	@Override
+	public void render(Canvas graphicContext, BasicInventoryGO object,
+			EAdTransformation transformation) {
+		
 	}
 
 }

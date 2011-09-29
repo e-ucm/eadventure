@@ -44,7 +44,6 @@ import android.graphics.Canvas;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
-import es.eucm.eadventure.common.params.geom.EAdPosition;
 import es.eucm.eadventure.engine.core.gameobjects.huds.impl.EffectHUDImpl;
 import es.eucm.eadventure.engine.core.platform.GameObjectRenderer;
 import es.eucm.eadventure.engine.core.util.EAdTransformation;
@@ -62,16 +61,14 @@ public class EffectHudGORenderer implements
 	}
 
 	@Override
-	public void render(Canvas g, EffectHUDImpl object, float interpolation, int offsetX, int offsetY) {
-	}
-
-	@Override
-	public void render(Canvas graphicContext, EffectHUDImpl object, EAdPosition position, float scale, int offsetX, int offsetY) {
-	}
-
-	@Override
 	public boolean contains(EffectHUDImpl object, int virutalX, int virtualY, EAdTransformation transformation) {
 		return true;
+	}
+
+	@Override
+	public void render(Canvas graphicContext, EffectHUDImpl object,
+			EAdTransformation transformation) {
+		
 	}
 
 }

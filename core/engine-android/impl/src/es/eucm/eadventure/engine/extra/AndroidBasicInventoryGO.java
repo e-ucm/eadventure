@@ -151,7 +151,7 @@ public class AndroidBasicInventoryGO extends BasicInventoryGO {
 		inventoryContent.getResources().addAsset(
 				inventoryContent.getInitialBundle(),
 				EAdBasicSceneElement.appearance, rect2);
-		inventory.getComponents().add(inventoryContent);
+		inventory.getElements().add(inventoryContent);
 
 		createArrow("Right", "+", 800, Corner.TOP_RIGHT);
 		createArrow("Left", "-", 0, Corner.TOP_LEFT);
@@ -202,7 +202,7 @@ public class AndroidBasicInventoryGO extends BasicInventoryGO {
 		arrow.addBehavior(EAdMouseEventImpl.MOUSE_EXITED,
 				new EAdChangeAppearance("id", arrow, arrow.getInitialBundle()));
 
-		inventory.getComponents().add(arrow);
+		inventory.getElements().add(arrow);
 
 		EAdField<Integer> xField = new EAdFieldImpl<Integer>(inventoryContent,
 				EAdBasicSceneElement.VAR_X);
@@ -334,7 +334,7 @@ public class AndroidBasicInventoryGO extends BasicInventoryGO {
 				((ActorReferenceGOImpl) gameObjectFactory.get(ref))
 						.setInventoryReference(true);
 				includedActors.put(actor, ref);
-				inventoryContent.getComponents().add(ref);
+				inventoryContent.getElements().add(ref);
 				SceneElementGO<?> go = (SceneElementGO<?>) gameObjectFactory
 						.get(ref);
 				int maxSide = Math.max(go.getRenderAsset().getHeight(), go
@@ -350,7 +350,7 @@ public class AndroidBasicInventoryGO extends BasicInventoryGO {
 	 */
 	private void removeOldActors(List<EAdActor> removedActors) {
 		for (EAdActor actor : removedActors) {
-			inventoryContent.getComponents().remove(includedActors.get(actor));
+			inventoryContent.getElements().remove(includedActors.get(actor));
 			includedActors.remove(actor);
 			// TODO free resources?
 		}

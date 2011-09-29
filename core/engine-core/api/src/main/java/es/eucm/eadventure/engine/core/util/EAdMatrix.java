@@ -6,6 +6,8 @@ public interface EAdMatrix {
 	
 	float[] getFlatMatrix();
 	
+	float[] getTransposedMatrix();
+	
 	void postTranslate( float x, float y );
 	
 	void preTranslate( float x, float y );
