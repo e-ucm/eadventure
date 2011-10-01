@@ -118,8 +118,6 @@ public abstract class AbstractGUI<T> implements GUI {
 
 	protected GameObjectFactory gameObjectFactory;
 
-	private EAdTransformation initialTransformation = new EAdTransformationImpl();
-
 	@SuppressWarnings({ "unchecked" })
 	public AbstractGUI(PlatformConfiguration platformConfiguration,
 			GraphicRendererFactory<?> assetRendererFactory,
@@ -164,11 +162,11 @@ public abstract class AbstractGUI<T> implements GUI {
 	 * @see es.eucm.eadventure.engine.core.platform.GUI#prepareGUI()
 	 */
 	@Override
-	public void prepareGUI() {
+	public void prepareGUI(EAdTransformation t) {
 		if (gameObjects.getHUD() != null) {
-			gameObjects.add(gameObjects.getHUD(), initialTransformation);
+			gameObjects.add(gameObjects.getHUD(), t);
 			gameObjects.getHUD().update(gameState);
-			gameObjects.getHUD().doLayout(initialTransformation);
+			gameObjects.getHUD().doLayout(t);
 		}
 
 		gameObjects.swap();
@@ -204,7 +202,7 @@ public abstract class AbstractGUI<T> implements GUI {
 	 * Process movements to the mouse pointer
 	 */
 	private void processMouseMovement() {
-		if (mouseState.pullMovedStatus()) {
+//		if (mouseState.pullMovedStatus()) {
 			GameObject<?> gameObject = mouseState.getGameObjectUnderMouse();
 			mouseState.setElementGameObject(null, 0, 0);
 
@@ -246,7 +244,7 @@ public abstract class AbstractGUI<T> implements GUI {
 									.getVirtualMouseX(), mouseState
 									.getVirtualMouseY()));
 				}
-		}
+//		}
 	}
 
 	/**

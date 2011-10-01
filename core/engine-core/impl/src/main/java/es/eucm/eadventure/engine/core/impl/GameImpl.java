@@ -147,7 +147,7 @@ public class GameImpl implements Game {
 				gui.addElement(go, initialTransformation);
 			}
 		}
-		gui.prepareGUI();
+		gui.prepareGUI(initialTransformation);
 	}
 
 	/**

@@ -137,7 +137,7 @@ public class EffectHUDImpl implements EffectHUD {
 				//TODO this creates a problem, should do some other way
 				//gui.addElement(this);
 			}		
-			e.doLayout(null);
+			e.doLayout(transformation);
 			block = e.isBlocking();
 			i++;
 		}

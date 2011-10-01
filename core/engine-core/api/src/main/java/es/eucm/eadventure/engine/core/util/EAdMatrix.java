@@ -8,6 +8,8 @@ public interface EAdMatrix {
 	
 	float[] getTransposedMatrix();
 	
+	float[] getInversedMatrix();
+	
 	void postTranslate( float x, float y );
 	
 	void preTranslate( float x, float y );
@@ -33,5 +35,9 @@ public interface EAdMatrix {
 	float[] postMultiplyPoint(float x, float y);
 	
 	float[] preMultiplyPoint( float x, float y);
+	
+	float[] preMultiplyPointInverse( float x, float y );
+	
+	float[] postMultiplyPointInverse( float x, float y );
 
 }

@@ -84,8 +84,10 @@ public interface GUI {
 	 * Do layout of the game elements, swap the game object manager to prepare
 	 * for drawing and process the dragging element if needed.
 	 * </p>
+	 * @param t the initial transformation
+	 * 
 	 */
-	void prepareGUI();
+	void prepareGUI(EAdTransformation t);
 
 	/**
 	 * <p>

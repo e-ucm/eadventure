@@ -19,10 +19,15 @@ public class EAdMatrixImpl implements EAdMatrix {
 	 */
 	private float[] m;
 
+	private float[] i;
+
+	private boolean recalculateInverse;
+
 	/**
 	 * Constructs a matrix 3x3 with the identity
 	 */
 	public EAdMatrixImpl() {
+		recalculateInverse = true;
 		m = getIdentity();
 	}
 
@@ -34,9 +39,9 @@ public class EAdMatrixImpl implements EAdMatrix {
 	public float[] getFlatMatrix() {
 		return m;
 	}
-	
+
 	@Override
-	public float[] getTransposedMatrix(){
+	public float[] getTransposedMatrix() {
 		float tm[] = new float[9];
 		tm[0] = m[0];
 		tm[1] = m[3];
@@ -89,6 +94,7 @@ public class EAdMatrixImpl implements EAdMatrix {
 
 	@Override
 	public void postScale(float scaleX, float scaleY) {
+		recalculateInverse = true;
 		float s[] = getIdentity();
 		s[0] = scaleX;
 		s[4] = scaleY;
@@ -105,12 +111,14 @@ public class EAdMatrixImpl implements EAdMatrix {
 
 	@Override
 	public void preMultiply(float m1[]) {
+		recalculateInverse = true;
 		this.m = multiply(m1, this.m);
 
 	}
 
 	@Override
 	public void postMultiply(float m1[]) {
+		recalculateInverse = true;
 		this.m = multiply(this.m, m1);
 
 	}
@@ -143,11 +151,11 @@ public class EAdMatrixImpl implements EAdMatrix {
 	}
 
 	public void setIdentity() {
+		recalculateInverse = true;
 		m = getIdentity();
 	}
 
-	@Override
-	public float[] postMultiplyPoint(float x, float y) {
+	private float[] postMultiplyPoint(float m[], float x, float y) {
 		float px = m[0] * x + m[3] * y + m[6];
 		float py = m[1] * x + m[4] * y + m[7];
 		return new float[] { px, py };
@@ -155,9 +163,52 @@ public class EAdMatrixImpl implements EAdMatrix {
 
 	@Override
 	public float[] preMultiplyPoint(float x, float y) {
+		return preMultiplyPoint(m, x, y);
+	}
+
+	private float[] preMultiplyPoint(float m[], float x, float y) {
 		float px = m[0] * x + m[1] * y + m[2];
 		float py = m[3] * x + m[4] * y + m[5];
 		return new float[] { px, py };
+	}
+
+	public float[] preMultiplyPointInverse(float x, float y) {
+		if (recalculateInverse) {
+			getInversedMatrix();
+		}
+		return preMultiplyPoint(i, x, y);
+	}
+
+	@Override
+	public float[] postMultiplyPoint(float x, float y) {
+		return postMultiplyPoint(m, x, y);
+	}
+
+	public float[] postMultiplyPointInverse(float x, float y) {
+		if (recalculateInverse) {
+			getInversedMatrix();
+		}
+		return postMultiplyPoint(i, x, y);
+	}
+
+	public float[] getInversedMatrix() {
+		if (recalculateInverse) {
+			i = new float[9];
+			i[2] = 0;
+			i[5] = 0;
+			i[8] = 1;
+			float det = m[0] * m[4] - m[3] * m[1];
+			i[0] = m[4] / det;
+			i[1] = - m[1] / det;
+			i[3] = - m[3] / det;
+			i[4] = m[0] / det;
+
+			i[6] = (-i[0] * m[6] - i[3] * m[7]);
+			i[7] = (-i[1] * m[6] - i[4] * m[7]);
+
+			recalculateInverse = false;
+		}
+		return i;
 	}
 
 }

@@ -42,6 +42,7 @@ import es.eucm.eadventure.common.elmentfactories.assets.ShapeFactory;
 import es.eucm.eadventure.common.model.effects.impl.EAdVarInterpolationEffect;
 import es.eucm.eadventure.common.model.effects.impl.EAdVarInterpolationEffect.InterpolationType;
 import es.eucm.eadventure.common.model.effects.impl.EAdVarInterpolationEffect.LoopType;
+import es.eucm.eadventure.common.model.elements.EAdSceneElement;
 import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
 import es.eucm.eadventure.common.model.events.EAdSceneElementEvent;
 import es.eucm.eadventure.common.model.events.EAdSceneElementEvent.SceneElementEvent;
@@ -66,7 +67,10 @@ public class ShapeScene extends EmptyScene {
 		// Rectangle	
 		AssetDescriptor rectangleAsset1 = shapeFactory.getElement(ShapeFactory.ShapeType.RECTANGULAR_SHAPE, size, size, EAdBorderedColor.WHITE_ON_BLACK);
 		AssetDescriptor rectangleAsset2 = shapeFactory.getElement(ShapeFactory.ShapeType.RECTANGULAR_SHAPE, size, size, EAdBorderedColor.BLACK_ON_WHITE);
-		getElements().add(EAdElementsFactory.getInstance().getSceneElementFactory().createSceneElement(rectangleAsset1, rectangleAsset2, x, margin));
+		EAdSceneElement e = EAdElementsFactory.getInstance().getSceneElementFactory().createSceneElement(rectangleAsset1, rectangleAsset2, x, margin);
+		e.setVarInitialValue(EAdBasicSceneElement.VAR_SCALE, 0.5f);
+		e.setVarInitialValue(EAdBasicSceneElement.VAR_ROTATION, 0.5f);
+		getElements().add(e);
 		x+= margin + size;
 		
 		// Circle
