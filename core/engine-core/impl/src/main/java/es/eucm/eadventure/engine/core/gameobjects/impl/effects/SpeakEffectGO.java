@@ -167,9 +167,9 @@ public class SpeakEffectGO extends AbstractEffectGO<EAdSpeakEffect> {
 		return finished;
 	}
 
-	public void update(GameState state) {
-		super.update(state);
-		ballon.update(state);
+	public void update() {
+		super.update();
+		ballon.update();
 		finished = finished || caption.getTimesRead() > 0;
 	}
 

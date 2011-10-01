@@ -118,7 +118,7 @@ public class VarInterpolationGO extends
 	}
 
 	@SuppressWarnings("unchecked")
-	public void update(GameState gameSate) {
+	public void update() {
 		if (delay <= 0) {
 			currentTime += GameLoop.SKIP_MILLIS_TICK;
 			if (currentTime > element.getInterpolationTime()) {

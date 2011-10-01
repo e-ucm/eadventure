@@ -70,7 +70,7 @@ public class EffectsGORenderer implements
 	}
 
 	@Override
-	public boolean contains(EffectGO<?> object, int virtualX, int virtualY, EAdTransformation transformation) {
+	public boolean contains(EffectGO<?> object, int virtualX, int virtualY) {
 		return true;
 	}
 

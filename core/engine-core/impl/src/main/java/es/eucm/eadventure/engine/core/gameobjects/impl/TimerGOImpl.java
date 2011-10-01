@@ -101,8 +101,8 @@ public class TimerGOImpl extends GameObjectImpl<EAdTimer> implements TimerGO {
 	}
 
 	@Override
-	public void update(GameState gameState) {
-		super.update(gameState);
+	public void update() {
+		super.update();
 		if (valueMap.getValue(element, EAdTimerImpl.VAR_ENDED)) {
 			logger.log(Level.INFO, "ENDED");
 			valueMap.setValue(element, EAdTimerImpl.VAR_ENDED, Boolean.FALSE);

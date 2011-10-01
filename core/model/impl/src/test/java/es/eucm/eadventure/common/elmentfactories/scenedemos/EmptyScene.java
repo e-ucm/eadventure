@@ -72,5 +72,9 @@ public class EmptyScene extends EAdSceneImpl implements SceneDemo {
 	public String getDemoName() {
 		return "Empty Scene";
 	}
+	
+	public String toString(){
+		return getDemoName() + " - " + getDescription();
+	}
 
 }

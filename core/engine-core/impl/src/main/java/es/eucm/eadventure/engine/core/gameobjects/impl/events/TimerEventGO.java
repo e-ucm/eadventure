@@ -63,8 +63,8 @@ public class TimerEventGO extends AbstractEventGO<EAdTimerEvent> {
 	}
 	
 	@Override
-	public void update(GameState state) {
-		super.update(state);
+	public void update() {
+		super.update();
 		TimerGO timer = (TimerGO) gameObjectFactory.get(element.getTimer());
 		if (valueMap.getValue(timer.getElement(), EAdTimerImpl.VAR_ENDED)) {
 			if (!triggered) {

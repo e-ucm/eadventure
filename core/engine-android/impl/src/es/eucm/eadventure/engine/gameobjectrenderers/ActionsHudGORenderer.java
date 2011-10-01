@@ -61,7 +61,7 @@ public class ActionsHudGORenderer implements
 	}
 
 	@Override
-	public boolean contains(ActionsHUDImpl object, int virutalX, int virtualY, EAdTransformation transformation) {
+	public boolean contains(ActionsHUDImpl object, int virutalX, int virtualY) {
 		return true;
 	}
 

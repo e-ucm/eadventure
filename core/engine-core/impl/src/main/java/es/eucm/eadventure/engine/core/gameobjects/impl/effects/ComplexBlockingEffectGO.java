@@ -86,10 +86,10 @@ public class ComplexBlockingEffectGO extends
 	}
 
 	@Override
-	public void update(GameState gameState) {
-		super.update(gameState);
+	public void update() {
+		super.update();
 		for (EAdSceneElement e : element.getComponents()) {
-			gameObjectFactory.get(e).update(gameState);
+			gameObjectFactory.get(e).update();
 		}
 	}
 

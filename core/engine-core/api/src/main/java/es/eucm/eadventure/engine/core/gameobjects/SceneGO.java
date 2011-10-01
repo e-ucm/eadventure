@@ -38,7 +38,6 @@
 package es.eucm.eadventure.engine.core.gameobjects;
 
 import es.eucm.eadventure.common.model.elements.EAdScene;
-import es.eucm.eadventure.engine.core.GameState;
 
 public interface SceneGO<T extends EAdScene> extends GameObject<T> {
 
@@ -47,6 +46,6 @@ public interface SceneGO<T extends EAdScene> extends GameObject<T> {
 	 */
 	boolean acceptsVisualEffects();
 
-	void update(GameState gameState);
+	void update();
 	
 }

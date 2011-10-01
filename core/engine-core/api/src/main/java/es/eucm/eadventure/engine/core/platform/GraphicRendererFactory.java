@@ -94,11 +94,9 @@ public interface GraphicRendererFactory<S> {
 	 *            the x coordinate of the mouse
 	 * @param virtualY
 	 *            the y coordinate of the mouse
-	 * @param transformation
-	 *            the transformation accumulated by the game object
 	 * @return it the game object contains the given coordinates
 	 */
 	<T extends GameObject<?>> boolean contains(T gameObject, int virtualX,
-			int virtualY, EAdTransformation transformation);
+			int virtualY);
 
 }

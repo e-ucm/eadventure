@@ -98,11 +98,10 @@ public class JavaGraphicRendererFactoryImpl<S> extends
 	@SuppressWarnings("unchecked")
 	@Override
 	public <T extends GameObject<?>> boolean contains(T gameObject,
-			int virtualX, int virtualY, EAdTransformation transformation) {
+			int virtualX, int virtualY) {
 		GameObjectRenderer<S, T> gameObjectRenderer = (GameObjectRenderer<S, T>) get(gameObject
 				.getClass());
-		return gameObjectRenderer.contains(gameObject, virtualX, virtualY,
-				transformation);
+		return gameObjectRenderer.contains(gameObject, virtualX, virtualY);
 	}
 
 }

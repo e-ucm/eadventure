@@ -57,11 +57,14 @@ import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.ListCellRenderer;
 import javax.swing.ListSelectionModel;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 
 import es.eucm.eadventure.common.elmentfactories.EAdElementsFactory;
+import es.eucm.eadventure.common.elmentfactories.scenedemos.SceneDemo;
 import es.eucm.eadventure.common.elmentfactories.scenedemos.SceneDemos;
 import es.eucm.eadventure.common.impl.reader.EAdAdventureModelReader;
 import es.eucm.eadventure.common.impl.reader.subparsers.AdventureHandler;
@@ -78,6 +81,7 @@ import es.eucm.eadventure.engine.core.platform.impl.extra.DesktopAssetHandlerMod
 import es.eucm.eadventure.engine.core.platform.impl.extra.DesktopAssetRendererModule;
 import es.eucm.eadventure.engine.core.platform.impl.extra.DesktopModule;
 import es.eucm.eadventure.engine.core.test.launcher.BaseTestLauncher;
+import es.eucm.eadventure.gui.EAdGUILookAndFeel;
 
 /**
  * Base class for desktop's launchers
@@ -85,7 +89,7 @@ import es.eucm.eadventure.engine.core.test.launcher.BaseTestLauncher;
  */
 public class DesktopDemos extends BaseTestLauncher {
 
-	public DesktopDemos(Injector injector, Class<? extends EAdScene> scene) {
+	public DesktopDemos(Injector injector, EAdScene scene) {
 		super(injector, scene);
 		System.setProperty("com.apple.mrj.application.apple.menu.about.name",
 				"eAdventure");
@@ -97,6 +101,11 @@ public class DesktopDemos extends BaseTestLauncher {
 	}
 
 	public static void main(String args[]) {
+		try {
+			UIManager.setLookAndFeel(EAdGUILookAndFeel.getInstance());
+		} catch (UnsupportedLookAndFeelException e) {
+			e.printStackTrace();
+		}
 		JFrame frame = new SceneDemosFrame();
 		frame.setVisible(true);
 	}
@@ -112,8 +121,8 @@ public class DesktopDemos extends BaseTestLauncher {
 		@Override
 		public Component getListCellRendererComponent(JList arg0, Object value,
 				int arg2, boolean isSelected, boolean arg4) {
-			Class<?> clazz = (Class<?>) value;
-			this.setText(clazz.getSimpleName());
+			SceneDemo scene = (SceneDemo) value;
+			setText(scene.getDemoName() + " - " + scene.getDescription());
 			if (isSelected) {
 				this.setBackground(Color.BLACK);
 				this.setForeground(Color.WHITE);
@@ -137,9 +146,8 @@ public class DesktopDemos extends BaseTestLauncher {
 					new DesktopAssetRendererModule(null), new DesktopModule(),
 					new BasicGameModule());
 
-			Object classes[] = SceneDemos.getInstance().getSceneDemos()
-					.toArray();
-			
+			Object scenes[] = SceneDemos.getInstance().getScenes().toArray();
+
 			EAdMainDebugger.addDebugger(TrajectoryDebugger.class);
 
 			setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -151,7 +159,7 @@ public class DesktopDemos extends BaseTestLauncher {
 			final JCheckBox checkBox = new JCheckBox("Write and read from XML");
 			container.add(checkBox, BorderLayout.NORTH);
 
-			final JList list = new JList(classes);
+			final JList list = new JList(scenes);
 			list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 			list.setCellRenderer(new ClassListCellRenderer());
 			list.setSelectedIndex(0);
@@ -161,7 +169,6 @@ public class DesktopDemos extends BaseTestLauncher {
 			JButton button = new JButton("Start");
 			button.addActionListener(new ActionListener() {
 
-				@SuppressWarnings("unchecked")
 				@Override
 				public void actionPerformed(ActionEvent arg0) {
 					SceneDemosFrame.this.setVisible(false);
@@ -169,8 +176,7 @@ public class DesktopDemos extends BaseTestLauncher {
 						public void run() {
 							Object o = list.getSelectedValue();
 							if (checkBox.isSelected()) {
-								EAdScene scene = injector
-										.getInstance((Class<? extends EAdScene>) o);
+								EAdScene scene = (EAdScene) o;
 								EAdAdventureModel model = new EAdAdventureModelImpl();
 								EAdChapterImpl chapter = new EAdChapterImpl(
 										"chapter1");
@@ -178,7 +184,8 @@ public class DesktopDemos extends BaseTestLauncher {
 								chapter.setInitialScene(scene);
 								model.getChapters().add(chapter);
 
-								File f = new File("src/test/resources/sceneDemo.xml");
+								File f = new File(
+										"src/test/resources/sceneDemo.xml");
 								// Write to XML
 								try {
 									FileOutputStream os = new FileOutputStream(
@@ -203,8 +210,8 @@ public class DesktopDemos extends BaseTestLauncher {
 								}
 
 							} else {
-								new DesktopDemos(injector,
-										(Class<? extends EAdScene>) o).start();
+								new DesktopDemos(injector, (EAdScene) o)
+										.start();
 							}
 						}
 					}.start();

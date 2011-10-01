@@ -116,8 +116,7 @@ public class ActionsHudGORenderer implements
 	 * .eucm.eadventure.engine.core.gameobjects.GameObject, int, int)
 	 */
 	@Override
-	public boolean contains(ActionsHUDImpl object, int virutalX, int virtualY,
-			EAdTransformation transformation) {
+	public boolean contains(ActionsHUDImpl object, int virutalX, int virtualY) {
 		return true;
 	}
 

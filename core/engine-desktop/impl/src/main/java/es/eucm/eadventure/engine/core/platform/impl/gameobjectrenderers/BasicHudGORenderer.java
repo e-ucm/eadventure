@@ -50,7 +50,6 @@ import es.eucm.eadventure.common.params.EAdString;
 import es.eucm.eadventure.common.params.fills.impl.EAdBorderedColor;
 import es.eucm.eadventure.common.params.geom.EAdPosition;
 import es.eucm.eadventure.common.params.geom.impl.EAdPositionImpl;
-import es.eucm.eadventure.common.resources.assets.drawable.basics.Caption;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.CaptionImpl;
 import es.eucm.eadventure.engine.core.MouseState;
 import es.eucm.eadventure.engine.core.ValueMap;
@@ -58,10 +57,10 @@ import es.eucm.eadventure.engine.core.gameobjects.ActorReferenceGO;
 import es.eucm.eadventure.engine.core.gameobjects.GameObject;
 import es.eucm.eadventure.engine.core.gameobjects.GameObjectFactory;
 import es.eucm.eadventure.engine.core.gameobjects.huds.impl.BasicHUDImpl;
-import es.eucm.eadventure.engine.core.platform.AssetHandler;
+import es.eucm.eadventure.engine.core.gameobjects.impl.sceneelements.SceneElementGOImpl;
+import es.eucm.eadventure.engine.core.platform.GUI;
 import es.eucm.eadventure.engine.core.platform.GameObjectRenderer;
 import es.eucm.eadventure.engine.core.platform.GraphicRendererFactory;
-import es.eucm.eadventure.engine.core.platform.assets.impl.RuntimeCaption;
 import es.eucm.eadventure.engine.core.util.EAdTransformation;
 
 @Singleton
@@ -74,22 +73,31 @@ public class BasicHudGORenderer implements
 
 	private static final Logger logger = Logger.getLogger("BasicHudGORenderer");
 
-	private AssetHandler assetHandler;
-
-	private Caption caption;
+	private CaptionImpl caption;
 
 	private ValueMap valueMap;
+	
+	private EAdBasicSceneElement textElement;
+
+	private GameObjectFactory gameObjectFactory;
+	
+	private GUI gui;
 
 	@SuppressWarnings({ "unchecked" })
 	@Inject
 	public BasicHudGORenderer(GraphicRendererFactory<?> graphicRendererFactory,
 			MouseState mouseState, GameObjectFactory gameObjectFactory,
-			ValueMap valueMap, AssetHandler assetHandler) {
+			ValueMap valueMap, GUI gui) {
 		this.mouseState = mouseState;
 		this.graphicRendererFactory = (GraphicRendererFactory<Graphics2D>) graphicRendererFactory;
 		this.valueMap = valueMap;
-		this.assetHandler = assetHandler;
+		this.gameObjectFactory = gameObjectFactory;
+		this.gui = gui;
 		logger.info("New intance");
+		caption = new CaptionImpl();
+		caption.setTextColor(EAdBorderedColor.BLACK_ON_WHITE);
+		caption.setFont(EAdFontImpl.REGULAR);
+		textElement = new EAdBasicSceneElement("text", caption);
 	}
 
 	@Override
@@ -116,23 +124,19 @@ public class BasicHudGORenderer implements
 			EAdPosition p = EAdPositionImpl.volatileEAdPosition(
 					mouseState.getVirtualMouseX(),
 					mouseState.getVirtualMouseY(), 0.5f, 2.0f);
-			Graphics2D g2 = (Graphics2D) g.create();
-			RuntimeCaption c = (RuntimeCaption) assetHandler
-					.getRuntimeAsset(caption);
-			g2.translate(p.getJavaX(c.getWidth()), p.getJavaY(c.getHeight()));
-			graphicRendererFactory.render(g2, c);
+			textElement.setPosition(p);
+			SceneElementGOImpl<?> go = (SceneElementGOImpl<?>) gameObjectFactory.get(textElement);
+			go.update();
+			graphicRendererFactory.render(g, go, gui.addTransformation(t, go.getTransformation()));
 		}
 	}
 
 	private void renewCaption(EAdString text) {
-		caption = new CaptionImpl();
-		((CaptionImpl) caption).setTextColor(EAdBorderedColor.BLACK_ON_WHITE);
-		((CaptionImpl) caption).setFont(EAdFontImpl.REGULAR);
-		((CaptionImpl) caption).setText(text);
+		caption.setText(text);
 	}
 
 	@Override
-	public boolean contains(BasicHUDImpl object, int virutalX, int virtualY, EAdTransformation transformation) {
+	public boolean contains(BasicHUDImpl object, int virutalX, int virtualY) {
 		return false;
 	}
 

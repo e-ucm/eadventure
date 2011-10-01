@@ -36,10 +36,10 @@
 <entry key="Chapter0.ConversationId.1.X">283</entry>
 <entry key="Chapter0.Questions.1.X">351</entry>
 <entry key="Chapter0.ConversationId.0.Y">66</entry>
-<entry key="Chapter0.ConversationId.0.X">279</entry>
 <entry key="Chapter0.Questions.0.Y">150</entry>
-<entry key="Chapter0.Questions.0.X">351</entry>
+<entry key="Chapter0.ConversationId.0.X">279</entry>
 <entry key="SOUND">1</entry>
+<entry key="Chapter0.Questions.0.X">351</entry>
 <entry key="MVPLAYER">2</entry>
 <entry key="autosave">yes</entry>
 <entry key="DEACTIVATE">1</entry>
@@ -47,7 +47,7 @@
 <entry key="Chapter0.SceneId2.X">14</entry>
 <entry key="Chapter0.SceneId1.Y">3</entry>
 <entry key="Chapter0.SceneId1.X">700</entry>
-<entry key="Chapter0.SceneId2.Visible">true</entry>
 <entry key="Chapter0.ConversationId.6.Y">185</entry>
+<entry key="Chapter0.SceneId2.Visible">true</entry>
 <entry key="Chapter0.ConversationId.6.X">481</entry>
 </properties>

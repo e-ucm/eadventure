@@ -61,7 +61,7 @@ public class PhysicsEffectGO extends AbstractEffectGO<EAdPhysicsEffect> {
 		world.setWarmStarting(true);
 		valueMap.setValue(null, VAR_PH_WORLD, world);
 
-		timeStep = 1.0f / (float) GameLoop.SKIP_MILLIS_TICK;
+		timeStep = 1.0f / (float) GameLoop.TICKS_PER_SECOND;
 
 		for (EAdSceneElement e : element.getElements()) {
 			createBody(world, e, valueMap);
@@ -79,16 +79,17 @@ public class PhysicsEffectGO extends AbstractEffectGO<EAdPhysicsEffect> {
 			EAdSceneElement e2 = element.getJoints().get(i + 1);
 			Body b1 = valueMap.getValue(e1, VAR_PH_BODY);
 			Body b2 = valueMap.getValue(e2, VAR_PH_BODY);
-			jd.initialize(b2, b1, new Vec2(b1.getPosition().x, b1.getPosition().y));
+			jd.initialize(b2, b1, new Vec2(b1.getPosition().x,
+					b1.getPosition().y));
 			world.createJoint(jd);
 		}
 
 	}
 
 	@Override
-	public void update(GameState gameState) {
-		super.update(gameState);
-		for (int i = 0; i < GameLoop.SKIP_MILLIS_TICK / 2; i++)
+	public void update() {
+		super.update();
+		for (int i = 0; i < 6; i++)
 			world.step(timeStep, 8, 3);
 
 		EAdScene scene = gameState.getScene().getElement();

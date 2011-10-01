@@ -55,7 +55,7 @@ public class SceneGORenderer implements GameObjectRenderer<Graphics2D, SceneGO<?
 	}
 
 	@Override
-	public boolean contains(SceneGO<?> object, int virtualX, int virtualY, EAdTransformation transformation) {
+	public boolean contains(SceneGO<?> object, int virtualX, int virtualY) {
 		return false;
 	}
 

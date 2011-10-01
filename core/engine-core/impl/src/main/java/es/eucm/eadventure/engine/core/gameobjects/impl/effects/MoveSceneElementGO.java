@@ -241,12 +241,12 @@ public class MoveSceneElementGO extends AbstractEffectGO<EAdMoveSceneElement> {
 		return finished;
 	}
 
-	public void update(GameState gameState) {
+	public void update() {
 		if (!finished) {
 			finished = true;
 			for (EffectGO<?> effect : effectGOs) {
 				finished = finished && effect.isFinished();
-				effect.update(gameState);
+				effect.update();
 			}
 		}
 	}

@@ -92,19 +92,11 @@ public class BasicSceneElementRenderer extends
 	 * .eucm.eadventure.engine.core.gameobjects.GameObject, int, int)
 	 */
 	@Override
-	public boolean contains(SceneElementGO<?> e, int virtualX, int virtualY,
-			EAdTransformation transformation) {
-		if (transformation.isVisible()) {
-			float[] r = transformation.getMatrix().postMultiplyPointInverse(virtualX,
-					virtualY);
-			int x = (int) r[0];
-			int y = (int) r[1];
-
+	public boolean contains(SceneElementGO<?> e, int x, int y) {
 			DrawableAsset<?> renderAsset = e.getRenderAsset();
 			if (x > 0 && y > 0 && x < renderAsset.getWidth()
 					&& y < renderAsset.getHeight())
 				return factory.contains(x, y, renderAsset);
-		}
 		return false;
 	}
 

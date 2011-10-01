@@ -72,15 +72,14 @@ public interface GameObjectRenderer<S, T extends GameObject<?>> extends
 	 * 
 	 * @param object
 	 *            The {@link GameObject}
-	 * @param virtualX
-	 *            The virtual coordinate along the x axis
-	 * @param virtualY
-	 *            The virtual coordinate along the y axis
-	 * @param transformation
-	 *            the transformation accumulated by the given element
+	 * @param x
+	 *            The virtual coordinate along the x axis, already modified with
+	 *            the object transformation
+	 * @param y
+	 *            The virtual coordinate along the y axis, already modified with
+	 *            the object transformation
 	 * @return True if the point is contained and not transparent
 	 */
-	boolean contains(T object, int virtualX, int virtualY,
-			EAdTransformation transformation);
+	boolean contains(T object, int x, int y);
 
 }

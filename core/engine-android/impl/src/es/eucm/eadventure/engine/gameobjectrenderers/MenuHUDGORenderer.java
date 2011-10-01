@@ -61,7 +61,7 @@ public class MenuHUDGORenderer implements
 	}
 
 	@Override
-	public boolean contains(MenuHUDImpl object, int virtualX, int virtualY, EAdTransformation transformation) {
+	public boolean contains(MenuHUDImpl object, int virtualX, int virtualY) {
 		return true;
 	}
 

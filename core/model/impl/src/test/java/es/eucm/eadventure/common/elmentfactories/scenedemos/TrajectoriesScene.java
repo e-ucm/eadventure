@@ -145,5 +145,14 @@ public class TrajectoriesScene extends EmptyScene {
 				new EAdKeyEventImpl(KeyActionType.KEY_PRESSED, '3'),
 				effect);
 	}
+	
+	@Override
+	public String getDescription() {
+		return "Scene te test some trajectories";
+	}
+
+	public String getDemoName() {
+		return "Trajectories scene";
+	}
 
 }

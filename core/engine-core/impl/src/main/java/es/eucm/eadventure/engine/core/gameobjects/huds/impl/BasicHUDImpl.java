@@ -163,9 +163,8 @@ public class BasicHUDImpl implements BasicHUD {
 	}
 
 	@Override
-	public void update(GameState state) {
-		gameObjectFactory.get(game.getAdventureModel().getInventory()).update(
-				state);
+	public void update() {
+		gameObjectFactory.get(game.getAdventureModel().getInventory()).update();
 	}
 
 	@Override

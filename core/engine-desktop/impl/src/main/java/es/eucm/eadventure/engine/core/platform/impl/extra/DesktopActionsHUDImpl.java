@@ -53,7 +53,6 @@ import es.eucm.eadventure.common.model.variables.impl.operations.BooleanOperatio
 import es.eucm.eadventure.common.params.EAdString;
 import es.eucm.eadventure.common.params.geom.impl.EAdPositionImpl;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.CaptionImpl;
-import es.eucm.eadventure.engine.core.GameState;
 import es.eucm.eadventure.engine.core.gameobjects.GameObject;
 import es.eucm.eadventure.engine.core.gameobjects.GameObjectFactory;
 import es.eucm.eadventure.engine.core.gameobjects.GameObjectManager;
@@ -147,10 +146,10 @@ public class DesktopActionsHUDImpl extends ActionsHUDImpl {
 	}
 
 	@Override
-	public void update(GameState state) {
-		super.update(state);
+	public void update() {
+		super.update();
 		for (GameObject<?> go : actionGOs) {
-			go.update(state);
+			go.update();
 		}
 	}
 

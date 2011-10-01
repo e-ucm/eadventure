@@ -55,7 +55,7 @@ public class TestGraphicRenderer implements GraphicRendererFactory<Void> {
 
 	@Override
 	public <T extends GameObject<?>> boolean contains(T gameObject,
-			int virtualX, int virtualY, EAdTransformation transformation) {
+			int virtualX, int virtualY) {
 		if (gameObject instanceof Positioned) {
 			Positioned p = (Positioned) gameObject;
 			int x = p.getPosition().getX();

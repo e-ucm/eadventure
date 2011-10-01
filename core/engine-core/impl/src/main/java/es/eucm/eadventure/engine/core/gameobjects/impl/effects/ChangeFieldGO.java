@@ -67,7 +67,7 @@ public class ChangeFieldGO extends AbstractEffectGO<EAdChangeFieldValueEffect> {
 
 
 	@Override
-	public void update(GameState gameState) {
+	public void update() {
 		for ( EAdField<?> v: element.getFields() ){
 			operatorFactory.operate(v, element.getOperation());
 		}

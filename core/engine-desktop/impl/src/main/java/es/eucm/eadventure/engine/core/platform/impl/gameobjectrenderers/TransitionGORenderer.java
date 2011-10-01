@@ -48,7 +48,7 @@ import es.eucm.eadventure.engine.core.platform.GraphicRendererFactory;
 import es.eucm.eadventure.engine.core.util.EAdTransformation;
 
 @Singleton
-public class TransitionGORenderer  extends GameObjectRendererImpl<TransitionGO> {
+public class TransitionGORenderer extends GameObjectRendererImpl<TransitionGO> {
 
 	/**
 	 * The {@link GraphicRendererFactor} used to display the elements in the
@@ -68,19 +68,20 @@ public class TransitionGORenderer  extends GameObjectRendererImpl<TransitionGO> 
 		this.factory = (GraphicRendererFactory<Graphics2D>) factory;
 		logger.info("New instance");
 	}
-	
+
 	@Override
 	public void render(Graphics2D graphicContext, TransitionGO object,
 			EAdTransformation transformation) {
-		
-		if (object.getBackground() != null){
-			factory.render(prepareGraphics(graphicContext, transformation), object.getBackground());
+
+		if (object.getBackground() != null) {
+			factory.render(prepareGraphics(graphicContext, transformation),
+					object.getBackground());
 		}
 	}
-	
+
 	@Override
-	public boolean contains(TransitionGO object, int virtualX, int virtualY, EAdTransformation transformation) {
+	public boolean contains(TransitionGO object, int virtualX, int virtualY) {
 		return false;
 	}
-	
+
 }

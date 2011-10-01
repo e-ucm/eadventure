@@ -67,7 +67,7 @@ public class WaitEffectGO extends AbstractEffectGO<EAdWaitEffect>{
 		time = element.getTime();
 	}
 	
-	public void update( GameState gameState ){
+	public void update( ){
 		time -= GameLoop.SKIP_MILLIS_TICK;
 	}
 

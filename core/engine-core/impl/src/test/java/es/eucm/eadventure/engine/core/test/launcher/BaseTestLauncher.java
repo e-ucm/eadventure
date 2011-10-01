@@ -65,9 +65,9 @@ public abstract class BaseTestLauncher {
 		loadingScreen = injector.getInstance(LoadingScreen.class);
 	}
 
-	public BaseTestLauncher(Injector injector, Class<? extends EAdScene> scene) {
+	public BaseTestLauncher(Injector injector, EAdScene scene) {
 		this( injector );
-		loadingScreen.setInitialScreen(injector.getInstance(scene));
+		loadingScreen.setInitialScreen(scene);
 		StringHandler stringHandler = injector.getInstance(StringHandler.class);
 		stringHandler.addStrings(EAdElementsFactory.getInstance().getStringFactory().getStrings());
 	}

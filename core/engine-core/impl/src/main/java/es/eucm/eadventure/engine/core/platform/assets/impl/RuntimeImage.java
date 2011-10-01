@@ -41,7 +41,6 @@ import com.google.inject.Inject;
 
 import es.eucm.eadventure.common.resources.assets.drawable.Drawable;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.Image;
-import es.eucm.eadventure.engine.core.GameState;
 import es.eucm.eadventure.engine.core.platform.AssetHandler;
 import es.eucm.eadventure.engine.core.platform.DrawableAsset;
 
@@ -62,7 +61,7 @@ public abstract class RuntimeImage extends AbstractRuntimeAsset<Image> implement
 	}
 
 	@Override
-	public void update(GameState state) {
+	public void update() {
 
 	}
 	

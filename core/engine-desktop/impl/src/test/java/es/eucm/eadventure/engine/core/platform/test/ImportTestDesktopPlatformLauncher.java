@@ -50,9 +50,9 @@ import es.eucm.eadventure.common.impl.importer.EAdventure1XImporter;
 import es.eucm.eadventure.common.impl.importer.ImporterConfigurationModule;
 import es.eucm.eadventure.common.model.elements.EAdAdventureModel;
 import es.eucm.eadventure.common.model.elements.EAdScene;
-import es.eucm.eadventure.common.resources.StringHandler;
 import es.eucm.eadventure.common.params.EAdString;
 import es.eucm.eadventure.common.params.EAdURIImpl;
+import es.eucm.eadventure.common.resources.StringHandler;
 import es.eucm.eadventure.engine.core.Game;
 import es.eucm.eadventure.engine.core.debuggers.impl.EAdMainDebugger;
 import es.eucm.eadventure.engine.core.debuggers.impl.TrajectoryDebugger;
@@ -100,6 +100,11 @@ public class ImportTestDesktopPlatformLauncher {
 
 	public static void main(String[] args) {
 		EAdMainDebugger.addDebugger(TrajectoryDebugger.class);
+//		try {
+//			UIManager.setLookAndFeel(EAdGUILookAndFeel.getInstance());
+//		} catch (UnsupportedLookAndFeelException e) {
+//			e.printStackTrace();
+//		}
 
 		// Default directory
 		File directory = new File("src/test/resources/EAdventure1Project/");

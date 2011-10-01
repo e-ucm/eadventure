@@ -66,7 +66,7 @@ public class BasicInventoryGORenderer implements
 	}
 
 	@Override
-	public boolean contains(BasicInventoryGO object, int virtualX, int virtualY, EAdTransformation transformation) {
+	public boolean contains(BasicInventoryGO object, int virtualX, int virtualY) {
 		return false;
 	}
 

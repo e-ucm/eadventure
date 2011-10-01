@@ -146,7 +146,7 @@ public class EmptyTransitionGO extends SceneGOImpl implements TransitionGO {
 	}
 
 	@Override
-	public void update(GameState gameState) {
+	public void update() {
 		if (!loading) {
 			loading = true;
 			new Thread(new Loader()).start();
@@ -199,7 +199,7 @@ public class EmptyTransitionGO extends SceneGOImpl implements TransitionGO {
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
-			nextSceneGO.update(gameState);
+			nextSceneGO.update();
 			loaded = true;
 		}
 

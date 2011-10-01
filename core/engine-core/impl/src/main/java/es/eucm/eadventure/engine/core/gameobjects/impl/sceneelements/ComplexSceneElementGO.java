@@ -113,10 +113,10 @@ public class ComplexSceneElementGO extends
 	}
 
 	@Override
-	public void update(GameState state) {
-		super.update(state);
+	public void update() {
+		super.update();
 		for (EAdSceneElement sceneElement : element.getElements()) {
-			gameObjectFactory.get(sceneElement).update(state);
+			gameObjectFactory.get(sceneElement).update();
 		}
 	}
 

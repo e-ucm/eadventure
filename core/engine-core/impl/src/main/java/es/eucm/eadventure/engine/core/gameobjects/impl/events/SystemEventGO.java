@@ -63,8 +63,8 @@ public class SystemEventGO extends AbstractEventGO<EAdSystemEvent> {
 	}
 
 	@Override
-	public void update(GameState state) {
-		super.update(state);
+	public void update() {
+		super.update();
 		//TODO probably not enough to just check for assets loaded
 		if (assetHandler.isLoaded() && !triggered) {
 			runEffects(element.getEffects(Event.GAME_LOADED));

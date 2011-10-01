@@ -49,27 +49,9 @@ public class SceneDemos {
 
 	private static SceneDemos instance;
 
-	private List<Class<? extends SceneDemo>> sceneDemosClass;
 	private List<SceneDemo> sceneDemos;
 
 	private SceneDemos() {
-		sceneDemosClass = new ArrayList<Class<? extends SceneDemo>>();
-		sceneDemosClass.add(EmptyScene.class);
-		sceneDemosClass.add(BasicScene.class);
-		sceneDemosClass.add(ShapeScene.class);
-		sceneDemosClass.add(TextsScene.class);
-		sceneDemosClass.add(CharacterScene.class);
-		sceneDemosClass.add(SpeakAndMoveScene.class);
-		sceneDemosClass.add(ComplexElementScene.class);
-		sceneDemosClass.add(SoundScene.class);
-		sceneDemosClass.add(DrawablesScene.class);
-		sceneDemosClass.add(MoleGame.class);
-		sceneDemosClass.add(ShowQuestionScene.class);
-		sceneDemosClass.add(TrajectoriesScene.class);
-		sceneDemosClass.add(PhysicsScene.class);
-		sceneDemosClass.add(PhysicsScene2.class);
-		sceneDemosClass.add(DragDropScene.class);
-
 		sceneDemos = new ArrayList<SceneDemo>();
 		sceneDemos.add(new EmptyScene());
 		sceneDemos.add(new BasicScene());
@@ -86,10 +68,8 @@ public class SceneDemos {
 		sceneDemos.add(new PhysicsScene());
 		sceneDemos.add(new PhysicsScene2());
 		sceneDemos.add(new DragDropScene());
-	}
-
-	public List<Class<? extends SceneDemo>> getSceneDemos() {
-		return sceneDemosClass;
+		sceneDemos.add(new PositionScene());
+		
 	}
 
 	public static SceneDemos getInstance() {

@@ -40,7 +40,6 @@ package es.eucm.eadventure.engine.core.gameobjects;
 import java.util.List;
 
 import es.eucm.eadventure.common.interfaces.features.Positioned;
-import es.eucm.eadventure.engine.core.GameState;
 import es.eucm.eadventure.engine.core.MouseState;
 import es.eucm.eadventure.engine.core.guiactions.GUIAction;
 import es.eucm.eadventure.engine.core.platform.RuntimeAsset;
@@ -89,11 +88,8 @@ public interface GameObject<T> extends Positioned {
 
 	/**
 	 * Updates game object. Usually used for animation
-	 * 
-	 * @param state
-	 *            Current game state
 	 */
-	void update(GameState state);
+	void update();
 
 	/**
 	 * Returns the represented element by this game object

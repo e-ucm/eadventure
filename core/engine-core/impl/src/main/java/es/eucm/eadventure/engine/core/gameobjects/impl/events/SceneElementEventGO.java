@@ -70,8 +70,8 @@ public class SceneElementEventGO extends AbstractEventGO<EAdSceneElementEvent> {
 	}
 
 	@Override
-	public void update(GameState state) {
-		super.update(state);
+	public void update() {
+		super.update();
 		if (firstCheck) {
 			firstCheck = false;
 			runEffects(element.getEffects(SceneElementEvent.ADDED_TO_SCENE));

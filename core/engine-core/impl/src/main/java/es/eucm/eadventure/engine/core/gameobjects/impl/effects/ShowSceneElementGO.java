@@ -89,9 +89,9 @@ public class ShowSceneElementGO extends AbstractEffectGO<EAdShowSceneElement> {
 		return time <= 0;
 	}
 
-	public void update(GameState state) {
-		super.update(state);
-		sceneElement.update(state);
+	public void update() {
+		super.update();
+		sceneElement.update();
 		time -= GameLoop.SKIP_MILLIS_TICK;
 
 	}

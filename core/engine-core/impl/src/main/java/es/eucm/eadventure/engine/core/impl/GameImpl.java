@@ -137,10 +137,10 @@ public class GameImpl implements Game {
 		if (!gameState.isPaused()) {
 			updateTimers();
 
-			gameState.getScene().update(gameState);
+			gameState.getScene().update();
 			gui.addElement(gameState.getScene(), initialTransformation);
 
-			basicHud.update(gameState);
+			basicHud.update();
 			gui.addElement(basicHud, initialTransformation);
 
 			for (GameObject<?> go : debugger.getGameObjects()) {
@@ -156,14 +156,15 @@ public class GameImpl implements Game {
 	 */
 	private void updateSystemVars() {
 		// Mouse
-		valueMap.setValue(null, SystemVars.MOUSE_X, mouseState.getVirtualMouseX());
-		valueMap.setValue(null, SystemVars.MOUSE_Y, mouseState.getVirtualMouseY());
+		float mouse[] = initialTransformation.getMatrix().postMultiplyPointInverse(mouseState.getVirtualMouseX(), mouseState.getVirtualMouseY());
+		valueMap.setValue(null, SystemVars.MOUSE_X, (int) mouse[0]);
+		valueMap.setValue(null, SystemVars.MOUSE_Y, (int) mouse[1]);
 
 	}
 
 	private void updateTimers() {
 		for (EAdTimer timer : gameState.getCurrentChapter().getTimers())
-			gameObjectFactory.get(timer).update(gameState);
+			gameObjectFactory.get(timer).update();
 	}
 
 	private void processEffects() {
@@ -191,7 +192,7 @@ public class GameImpl implements Game {
 			if (effectGO.isInitilized()) {
 				// The order must be: update, then check if it's finished.
 				// Some effects take only one update to finish
-				effectGO.update(gameState);
+				effectGO.update();
 
 				if (effectGO.isStopped() || effectGO.isFinished()) {
 					effectGO.finish();

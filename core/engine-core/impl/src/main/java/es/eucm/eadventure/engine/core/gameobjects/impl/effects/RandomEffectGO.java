@@ -79,7 +79,7 @@ public class RandomEffectGO extends AbstractEffectGO<EAdRandomEffect> {
 		return true;
 	}
 	
-	public void update( GameState gameState ){
+	public void update( ){
 		EAdMap<EAdEffect, Float> effects = this.element.getEffects();
 		float total = 0;
 		for ( Float f: effects.values() ){

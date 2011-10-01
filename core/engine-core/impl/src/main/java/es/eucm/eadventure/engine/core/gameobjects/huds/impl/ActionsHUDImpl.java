@@ -45,7 +45,6 @@ import com.google.inject.Singleton;
 
 import es.eucm.eadventure.common.model.actions.EAdAction;
 import es.eucm.eadventure.common.params.geom.EAdPosition;
-import es.eucm.eadventure.engine.core.GameState;
 import es.eucm.eadventure.engine.core.MouseState;
 import es.eucm.eadventure.engine.core.gameobjects.GameObject;
 import es.eucm.eadventure.engine.core.gameobjects.GameObjectManager;
@@ -210,7 +209,7 @@ public class ActionsHUDImpl implements ActionsHUD {
 	}
 
 	@Override
-	public void update(GameState state) {
+	public void update() {
 		
 	}
 

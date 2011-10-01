@@ -45,7 +45,6 @@ import com.google.inject.Singleton;
 
 import es.eucm.eadventure.common.params.geom.EAdPosition;
 import es.eucm.eadventure.common.params.geom.impl.EAdPositionImpl;
-import es.eucm.eadventure.engine.core.GameState;
 import es.eucm.eadventure.engine.core.MouseState;
 import es.eucm.eadventure.engine.core.gameobjects.EffectGO;
 import es.eucm.eadventure.engine.core.gameobjects.GameObject;
@@ -151,7 +150,7 @@ public class EffectHUDImpl implements EffectHUD {
 	 * eadventure.engine.core.GameState)
 	 */
 	@Override
-	public void update(GameState state) {
+	public void update() {
 
 	}
 

@@ -110,8 +110,8 @@ public class AndroidMenuHUDImpl extends MenuHUDImpl {
 	 * eadventure.engine.core.GameState)
 	 */
 	@Override
-	public void update(GameState state) {
-		gameObjectFactory.get(button).update(state);
+	public void update() {
+		gameObjectFactory.get(button).update();
 	}
 
 	/* (non-Javadoc)

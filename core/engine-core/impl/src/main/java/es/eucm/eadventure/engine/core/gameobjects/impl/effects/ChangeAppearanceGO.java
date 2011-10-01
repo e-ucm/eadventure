@@ -68,8 +68,8 @@ public class ChangeAppearanceGO extends AbstractEffectGO<EAdChangeAppearance> {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public void update(GameState state) {
-		super.update(state);
+	public void update() {
+		super.update();
 		((AbstractGameObject<EAdGeneralElement>) gameObjectFactory.get(element.getElement())).setCurrentBundle(element.getBundleId());
 	}
 

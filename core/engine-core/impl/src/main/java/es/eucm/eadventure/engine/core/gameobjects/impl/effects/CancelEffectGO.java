@@ -71,7 +71,7 @@ public class CancelEffectGO extends AbstractEffectGO<EAdCancelEffect> {
 		return true;
 	}
 
-	public void update(GameState gameState) {
+	public void update() {
 		if (element.cancelAll()) {
 			for (EffectGO<?> e : gameState.getEffects()) {
 				e.stop();

@@ -165,7 +165,7 @@ public abstract class AbstractGUI<T> implements GUI {
 	public void prepareGUI(EAdTransformation t) {
 		if (gameObjects.getHUD() != null) {
 			gameObjects.add(gameObjects.getHUD(), t);
-			gameObjects.getHUD().update(gameState);
+			gameObjects.getHUD().update();
 			gameObjects.getHUD().doLayout(t);
 		}
 
@@ -215,10 +215,11 @@ public abstract class AbstractGUI<T> implements GUI {
 						&& !tempGameObject.getTransformation().isVisible())
 					continue;
 				EAdTransformation t = gameObjects.getTransformations().get(i);
-
+				float[] mouse = t.getMatrix().postMultiplyPointInverse( mouseState.getVirtualMouseX(), mouseState.getVirtualMouseY() );
+				
 				if (graphicRendererFactory.contains(tempGameObject,
-						mouseState.getVirtualMouseX(),
-						mouseState.getVirtualMouseY(), t)) {
+						(int) mouse[0],
+						(int) mouse[1])) {
 					mouseState.setElementGameObject(tempGameObject, (int) t
 							.getMatrix().getOffsetX(), (int) t.getMatrix()
 							.getOffsetY());
@@ -261,8 +262,9 @@ public abstract class AbstractGUI<T> implements GUI {
 			for (int i = gameObjects.getGameObjects().size() - 1; i >= 0; i--) {
 				GameObject<?> gameObject = gameObjects.getGameObjects().get(i);
 				EAdTransformation t = gameObjects.getTransformations().get(i);
+				float[] mouse = t.getMatrix().postMultiplyPointInverse( action.getVirtualX(), action.getVirtualY() );
 				if (graphicRendererFactory.contains(gameObject,
-						action.getVirtualX(), action.getVirtualY(), t)) {
+						(int) mouse[0], (int) mouse[1])) {
 					logger.info("Action "
 							+ action
 							+ " passed to "
@@ -362,7 +364,7 @@ public abstract class AbstractGUI<T> implements GUI {
 
 	}
 
-	private EAdTransformation addTransformation(EAdTransformation t1,
+	public EAdTransformation addTransformation(EAdTransformation t1,
 			EAdTransformation t2) {
 		EAdMatrixImpl m = new EAdMatrixImpl();
 		m.postMultiply(t1.getMatrix().getFlatMatrix());

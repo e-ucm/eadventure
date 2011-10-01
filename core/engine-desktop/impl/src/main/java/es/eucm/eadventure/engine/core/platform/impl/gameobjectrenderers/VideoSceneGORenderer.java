@@ -55,7 +55,7 @@ public class VideoSceneGORenderer implements GameObjectRenderer<Graphics2D, Vide
 	}
 
 	@Override
-	public boolean contains(VideoSceneGO object, int virtualX, int virtualY, EAdTransformation transformation) {
+	public boolean contains(VideoSceneGO object, int virtualX, int virtualY) {
 		return true;
 	}
 

@@ -83,10 +83,10 @@ public class ComposedSceneGOImpl extends AbstractGameObject<EAdComposedScene>
 	}
 
 	@Override
-	public void update(GameState state) {
-		super.update(state);
+	public void update() {
+		super.update();
 		updateScene();
-		gameObjectFactory.get(currentScene).update(state);
+		gameObjectFactory.get(currentScene).update();
 	}
 
 	@Override

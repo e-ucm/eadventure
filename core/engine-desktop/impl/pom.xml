@@ -32,6 +32,11 @@
     	<artifactId>utils</artifactId>
     	<version>${project.version}</version>
     </dependency>
+        <dependency>
+    	<groupId>es.eucm.eadventure</groupId>
+    	<artifactId>gui</artifactId>
+    	<version>${project.version}</version>
+    </dependency>
     
     <dependency>
     	<groupId>javax.media</groupId>

@@ -78,22 +78,22 @@ public class ModifyActorStateGO extends AbstractEffectGO<EAdModifyActorState> {
 	 * (es.eucm.eadventure.engine.core.GameState)
 	 */
 	@Override
-	public void update(GameState state) {
-		super.update(state);
+	public void update() {
+		super.update();
 		switch (element.getModification()) {
 		case PLACE_IN_INVENTORY:
-			state.getRemovedActors().remove(element.getActor());
-			if (!state.getInventoryActors().contains(element.getActor()))
-				state.getInventoryActors().add(element.getActor());
+			gameState.getRemovedActors().remove(element.getActor());
+			if (!gameState.getInventoryActors().contains(element.getActor()))
+				gameState.getInventoryActors().add(element.getActor());
 			break;
 		case PLACE_IN_SCENE:
-			state.getRemovedActors().remove(element.getActor());
-			state.getInventoryActors().remove(element.getActor());
+			gameState.getRemovedActors().remove(element.getActor());
+			gameState.getInventoryActors().remove(element.getActor());
 			break;
 		case REMOVE_SCENE_AND_INVENTORY:
-			if (!state.getRemovedActors().contains(element.getActor()))
-				state.getRemovedActors().add(element.getActor());
-			state.getInventoryActors().remove(element.getActor());
+			if (!gameState.getRemovedActors().contains(element.getActor()))
+				gameState.getRemovedActors().add(element.getActor());
+			gameState.getInventoryActors().remove(element.getActor());
 			break;
 		}
 	}

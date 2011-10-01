@@ -132,10 +132,10 @@ public class ActorReferenceGOImpl extends SceneElementGOImpl<EAdActorReference>
 	}
 
 	@Override
-	public void update(GameState state) {
+	public void update() {
 		if (!isRemoved()) {
-			super.update(state);
-			actor.update(state);
+			super.update();
+			actor.update();
 		}
 	}
 	

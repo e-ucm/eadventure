@@ -45,7 +45,6 @@ import es.eucm.eadventure.common.model.extra.EAdList;
 import es.eucm.eadventure.common.resources.assets.drawable.Drawable;
 import es.eucm.eadventure.common.resources.assets.drawable.compounds.ComposedDrawable;
 import es.eucm.eadventure.common.resources.assets.drawable.compounds.DisplacedDrawable;
-import es.eucm.eadventure.engine.core.GameState;
 import es.eucm.eadventure.engine.core.platform.AssetHandler;
 import es.eucm.eadventure.engine.core.platform.DrawableAsset;
 
@@ -72,9 +71,9 @@ public class RuntimeComposedDrawable extends AbstractRuntimeAsset<ComposedDrawab
 	}
 
 	@Override
-	public void update(GameState state) {
+	public void update() {
 		for (Drawable asset : descriptor.getDrawables())
-			assetHandler.getRuntimeAsset(asset).update(state);
+			assetHandler.getRuntimeAsset(asset).update();
 	}
 	
 	public EAdList<DisplacedDrawable> getAssetList() {

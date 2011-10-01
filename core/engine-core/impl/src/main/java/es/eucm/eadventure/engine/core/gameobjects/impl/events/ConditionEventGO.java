@@ -69,8 +69,8 @@ public class ConditionEventGO extends AbstractEventGO<EAdConditionEventImpl> {
 	}
 
 	@Override
-	public void update(GameState state) {
-		super.update(state);
+	public void update() {
+		super.update();
 		if (evaluator.evaluate(element.getCondition())) {
 			if (!triggered) {
 				runEffects(element.getEffects(EAdConditionEvent.ConditionedEvent.CONDITIONS_MET));

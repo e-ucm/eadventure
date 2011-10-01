@@ -24,7 +24,7 @@ public class DemoSelectionActivity extends ListActivity {
 			        int position, long id) {
 			    	
 			    	Intent i = new Intent( DemoSelectionActivity.this, EAdventureEngineActivity.class );
-			    	i.putExtra("demo", SceneDemos.getInstance().getSceneDemos().get(position));
+			    	i.putExtra("demo", SceneDemos.getInstance().getScenes().get(position).getClass());
 			    	DemoSelectionActivity.this.startActivity(i);
 
 			    }

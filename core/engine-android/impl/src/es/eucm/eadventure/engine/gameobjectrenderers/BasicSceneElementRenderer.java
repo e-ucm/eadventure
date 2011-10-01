@@ -45,6 +45,7 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 import es.eucm.eadventure.engine.core.gameobjects.SceneElementGO;
+import es.eucm.eadventure.engine.core.platform.DrawableAsset;
 import es.eucm.eadventure.engine.core.platform.GameObjectRenderer;
 import es.eucm.eadventure.engine.core.platform.GraphicRendererFactory;
 import es.eucm.eadventure.engine.core.util.EAdTransformation;
@@ -84,19 +85,20 @@ public class BasicSceneElementRenderer implements
 	public void render(Canvas g, SceneElementGO<?> basicSceneElement,
 			EAdTransformation t) {
 		g.save();
-		Canvas g2 = prepareGraphics( g, basicSceneElement, t );
+		Canvas g2 = prepareGraphics(g, basicSceneElement, t);
 		factory.render(g2, basicSceneElement.getRenderAsset());
 		g2.restore();
 	}
-	
-	private Canvas prepareGraphics( Canvas g, SceneElementGO<?> basicSceneElement, EAdTransformation t ){
+
+	private Canvas prepareGraphics(Canvas g,
+			SceneElementGO<?> basicSceneElement, EAdTransformation t) {
 		float m[] = t.getMatrix().getTransposedMatrix();
 		Matrix matrix = new Matrix();
 		matrix.setValues(m);
 		g.setMatrix(matrix);
-		
+
 		// TODO use alpha
-		
+
 		return g;
 	}
 
@@ -108,29 +110,10 @@ public class BasicSceneElementRenderer implements
 	 * .eucm.eadventure.engine.core.gameobjects.GameObject, int, int)
 	 */
 	@Override
-	public boolean contains(SceneElementGO<?> basicSceneElement, int virtualX,
-			int virtualY, EAdTransformation transformation) {
-		
-//		int centerX = basicSceneElement.getCenterX();
-//		int centerY = basicSceneElement.getCenterY();
-//		float rotation = -basicSceneElement.getRotation();
-//		
-//		virtualX = virtualX - centerX;
-//		virtualY = virtualY - centerY;
-//		int newVirtualX = (int) (virtualX * Math.cos(rotation) - virtualY * Math.sin(rotation)) + centerX;
-//		int newVirtualY = (int) (virtualX * Math.sin(rotation) + virtualY * Math.cos(rotation)) + centerY;
-//	
-//		int x = (int) ((newVirtualX - basicSceneElement.getPosition().getJavaX(
-//				basicSceneElement.getWidth() * basicSceneElement.getScale())) / basicSceneElement
-//				.getScale());
-//		int y = (int) ((newVirtualY - basicSceneElement.getPosition().getJavaY(
-//				basicSceneElement.getHeight() * basicSceneElement.getScale())) / basicSceneElement
-//				.getScale());
-//		
-//		return x > 0 && y > 0
-//				&& factory.contains(x, y, basicSceneElement.getRenderAsset());
-		//TODO contains
-		return false;
+	public boolean contains(SceneElementGO<?> element, int x, int y) {
+		DrawableAsset<?> d = element.getRenderAsset();
+		return x >= 0 && y >= 0 && x < d.getWidth() && y < d.getHeight()
+				&& factory.contains(x, y, element.getRenderAsset());
 	}
 
 }

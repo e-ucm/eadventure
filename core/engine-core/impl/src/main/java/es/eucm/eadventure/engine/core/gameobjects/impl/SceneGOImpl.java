@@ -37,19 +37,16 @@
 
 package es.eucm.eadventure.engine.core.gameobjects.impl;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import com.google.inject.Inject;
 
-import es.eucm.eadventure.common.model.elements.EAdActorReference;
 import es.eucm.eadventure.common.model.elements.EAdScene;
 import es.eucm.eadventure.common.model.elements.EAdSceneElement;
 import es.eucm.eadventure.common.resources.StringHandler;
 import es.eucm.eadventure.engine.core.GameState;
 import es.eucm.eadventure.engine.core.ValueMap;
 import es.eucm.eadventure.engine.core.gameobjects.GameObjectFactory;
-import es.eucm.eadventure.engine.core.gameobjects.SceneElementGO;
 import es.eucm.eadventure.engine.core.gameobjects.SceneGO;
 import es.eucm.eadventure.engine.core.gameobjects.impl.sceneelements.SceneElementGOImpl;
 import es.eucm.eadventure.engine.core.guiactions.GUIAction;
@@ -82,11 +79,11 @@ public class SceneGOImpl extends SceneElementGOImpl<EAdScene> implements
 	}
 
 	@Override
-	public void update(GameState state) {
-		super.update(state);
-		gameObjectFactory.get(element.getBackground()).update(state);
+	public void update() {
+		super.update();
+		gameObjectFactory.get(element.getBackground()).update();
 		for (EAdSceneElement sceneElement : element.getElements())
-			gameObjectFactory.get(sceneElement).update(state);
+			gameObjectFactory.get(sceneElement).update();
 	}
 
 	@Override

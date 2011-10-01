@@ -121,8 +121,7 @@ public class BasicHudGORenderer implements GameObjectRenderer<Canvas, BasicHUD> 
 	}
 
 	@Override
-	public boolean contains(BasicHUD object, int virutalX, int virtualY,
-			EAdTransformation transformation) {
+	public boolean contains(BasicHUD object, int virutalX, int virtualY) {
 		return false;
 	}
 

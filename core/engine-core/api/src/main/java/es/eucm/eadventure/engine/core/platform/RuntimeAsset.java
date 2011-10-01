@@ -38,7 +38,6 @@
 package es.eucm.eadventure.engine.core.platform;
 
 import es.eucm.eadventure.common.resources.assets.AssetDescriptor;
-import es.eucm.eadventure.engine.core.GameState;
 
 /**
  * A platform-independent description of an asset in the runtime environment
@@ -83,12 +82,9 @@ public interface RuntimeAsset<T extends AssetDescriptor> {
 	T getAssetDescriptor();
 
 	/**
-	 * Update the {@link GameState}
-	 * 
-	 * @param state
-	 *            the game state
+	 * Updates the asset
 	 */
-	void update(GameState state);
+	void update();
 
 	/**
 	 * Sets the current state for the asset. Some assets depends on a state

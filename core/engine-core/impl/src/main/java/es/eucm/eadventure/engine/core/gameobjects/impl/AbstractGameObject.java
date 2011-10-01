@@ -85,11 +85,11 @@ public abstract class AbstractGameObject<T extends EAdGeneralElement> extends
 	}
 
 	@Override
-	public void update(GameState state) {
-		super.update(state);
+	public void update() {
+		super.update();
 		if (eventGOList != null)
 			for (AbstractEventGO<?> eventGO : eventGOList)
-				eventGO.update(state);
+				eventGO.update();
 	}
 
 	public EAdBundleId getCurrentBundle() {

@@ -81,7 +81,7 @@ public class HighlightEffectGO extends
 		return false;
 	}
 
-	public void update(GameState gameSate) {
+	public void update() {
 		if (time > 0) {
 			if (!started) {
 				valueMap.setValue(element, EAdBasicSceneElement.VAR_SCALE,

@@ -49,7 +49,7 @@ import es.eucm.eadventure.engine.core.util.EAdTransformation;
 public class VideoSceneGORenderer implements GameObjectRenderer<Canvas, VideoSceneGO> {
 
 	@Override
-	public boolean contains(VideoSceneGO object, int virtualX, int virtualY, EAdTransformation transformation) {
+	public boolean contains(VideoSceneGO object, int virtualX, int virtualY) {
 		return true;
 	}
 

@@ -169,7 +169,7 @@ public class SimpleTransitionGO extends SceneGOImpl implements TransitionGO {
 	}
 
 	@Override
-	public void update(GameState gameState) {
+	public void update() {
 		if (!loading) {
 			loading = true;
 			nextSceneGO = (SceneGO<?>) gameObjectFactory.get(nextEAdScene);
@@ -192,7 +192,7 @@ public class SimpleTransitionGO extends SceneGOImpl implements TransitionGO {
 					asset.loadAsset();
 			}
 
-			nextSceneGO.update(gameState);
+			nextSceneGO.update();
 			loaded = true;
 		}
 

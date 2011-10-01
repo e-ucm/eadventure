@@ -79,7 +79,7 @@ public class TransitionGORenderer  implements GameObjectRenderer<Canvas, Transit
 	}
 	
 	@Override
-	public boolean contains(TransitionGO object, int virtualX, int virtualY, EAdTransformation transformation) {
+	public boolean contains(TransitionGO object, int virtualX, int virtualY) {
 		return false;
 	}
 	

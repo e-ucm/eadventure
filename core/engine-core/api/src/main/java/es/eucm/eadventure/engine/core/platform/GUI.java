@@ -84,7 +84,9 @@ public interface GUI {
 	 * Do layout of the game elements, swap the game object manager to prepare
 	 * for drawing and process the dragging element if needed.
 	 * </p>
-	 * @param t the initial transformation
+	 * 
+	 * @param t
+	 *            the initial transformation
 	 * 
 	 */
 	void prepareGUI(EAdTransformation t);
@@ -149,4 +151,16 @@ public interface GUI {
 	 *            cursor in the stack is set
 	 */
 	void changeCursor(Image image);
+
+	/**
+	 * Adds to transformation t1 transformation t2
+	 * 
+	 * @param t1
+	 *            transformation 1
+	 * @param t2
+	 *            transformation 1
+	 * @return the result of adding t2 to t1
+	 */
+	EAdTransformation addTransformation(EAdTransformation t1,
+			EAdTransformation t2);
 }

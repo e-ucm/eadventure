@@ -48,7 +48,6 @@ import es.eucm.eadventure.common.resources.StringHandler;
 import es.eucm.eadventure.common.resources.assets.drawable.Drawable;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.Caption;
 import es.eucm.eadventure.engine.core.GameLoop;
-import es.eucm.eadventure.engine.core.GameState;
 import es.eucm.eadventure.engine.core.impl.VariableMap;
 import es.eucm.eadventure.engine.core.platform.DrawableAsset;
 import es.eucm.eadventure.engine.core.platform.PlatformConfiguration;
@@ -175,7 +174,7 @@ public class RuntimeCaption extends AbstractRuntimeAsset<Caption> implements
 	 * eadventure.engine.core.GameState)
 	 */
 	@Override
-	public void update(GameState state) {
+	public void update() {
 		if (!isLoaded())
 			loadAsset();
 

@@ -45,7 +45,6 @@ import es.eucm.eadventure.common.params.geom.EAdPosition;
 import es.eucm.eadventure.common.resources.assets.AssetDescriptor;
 import es.eucm.eadventure.common.resources.assets.drawable.Drawable;
 import es.eucm.eadventure.common.resources.assets.drawable.compounds.DisplacedDrawable;
-import es.eucm.eadventure.engine.core.GameState;
 import es.eucm.eadventure.engine.core.platform.AssetHandler;
 import es.eucm.eadventure.engine.core.platform.DrawableAsset;
 
@@ -83,8 +82,8 @@ public class RuntimeDisplacedDrawable extends AbstractRuntimeAsset<DisplacedDraw
 	}
 
 	@Override
-	public void update(GameState state) {
-		assetHandler.getRuntimeAsset(descriptor.getDrawable()).update(state);
+	public void update() {
+		assetHandler.getRuntimeAsset(descriptor.getDrawable()).update();
 	}
 
 	@Override

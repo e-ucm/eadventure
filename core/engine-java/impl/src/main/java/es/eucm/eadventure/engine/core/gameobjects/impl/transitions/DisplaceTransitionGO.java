@@ -89,7 +89,7 @@ public class DisplaceTransitionGO extends EmptyTransitionGO implements
 	}
 
 	@Override
-	public void update(GameState gameState) {
+	public void update() {
 		if (!loading) {
 			loading = true;
 			new Thread(new Loader()).start();

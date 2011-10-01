@@ -164,15 +164,17 @@ public abstract class SceneElementGOImpl<T extends EAdSceneElement> extends
 		transformation.setAlpha(alpha);
 		transformation.setVisible(visible);
 		transformation.getMatrix().setIdentity();
-		transformation.getMatrix().postTranslate(position.getJavaX(width),
-				position.getJavaY(height));
-		transformation.getMatrix().postTranslate( width / 2,
-				height / 2);
+		int x = position.getJavaX(width);
+		int y = position.getJavaY(height);
+		transformation.getMatrix().postTranslate(x, y);
+		int deltaX = position.getX() - x;
+		int deltaY = position.getY() - y;
+
+		transformation.getMatrix().postTranslate(deltaX, deltaY);
 		transformation.getMatrix().postRotate(rotation);
 		transformation.getMatrix().postScale(scale, scale);
-		transformation.getMatrix().postTranslate( - width / 2,
-				- height / 2);
-		
+		transformation.getMatrix().postTranslate(-deltaX, -deltaY);
+
 	}
 
 	@Override
@@ -190,13 +192,13 @@ public abstract class SceneElementGOImpl<T extends EAdSceneElement> extends
 	 * Should update the state of all sub-elements and resources
 	 */
 	@Override
-	public void update(GameState state) {
-		super.update(state);
+	public void update() {
+		super.update();
 
 		valueMap.setValue(element, EAdBasicSceneElement.VAR_TIME_DISPLAYED,
 				timeDisplayed + GameLoop.SKIP_MILLIS_TICK);
 		if (getAsset() != null)
-			getAsset().update(state);
+			getAsset().update();
 		updateVars();
 	}
 
@@ -377,8 +379,8 @@ public abstract class SceneElementGOImpl<T extends EAdSceneElement> extends
 	public int getCenterY() {
 		return (int) ((position.getJavaY(height) + height / 2) * scale);
 	}
-	
-	public EAdPosition getPosition(){
+
+	public EAdPosition getPosition() {
 		return position;
 	}
 

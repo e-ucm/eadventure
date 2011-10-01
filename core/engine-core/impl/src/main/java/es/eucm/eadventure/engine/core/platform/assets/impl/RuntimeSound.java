@@ -3,7 +3,6 @@ package es.eucm.eadventure.engine.core.platform.assets.impl;
 import com.google.inject.Inject;
 
 import es.eucm.eadventure.common.resources.assets.multimedia.Sound;
-import es.eucm.eadventure.engine.core.GameState;
 import es.eucm.eadventure.engine.core.platform.AssetHandler;
 
 public abstract class RuntimeSound extends AbstractRuntimeAsset<Sound> {
@@ -16,7 +15,7 @@ public abstract class RuntimeSound extends AbstractRuntimeAsset<Sound> {
 	}
 
 	@Override
-	public void update(GameState state) {
+	public void update() {
 
 	}
 

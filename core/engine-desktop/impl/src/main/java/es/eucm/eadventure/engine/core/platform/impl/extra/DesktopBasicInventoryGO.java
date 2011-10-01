@@ -319,12 +319,12 @@ public class DesktopBasicInventoryGO extends BasicInventoryGO {
 	}
 
 	@Override
-	public void update(GameState gameState) {
-		super.update(gameState);
-		gameObjectFactory.get(bottomSensor).update(gameState);
-		gameObjectFactory.get(topSensor).update(gameState);
-		gameObjectFactory.get(inventory).update(gameState);
-		gameObjectFactory.get(centerSensor).update(gameState);
+	public void update() {
+		super.update();
+		gameObjectFactory.get(bottomSensor).update();
+		gameObjectFactory.get(topSensor).update();
+		gameObjectFactory.get(inventory).update();
+		gameObjectFactory.get(centerSensor).update();
 
 		List<EAdActor> removedActors = new ArrayList<EAdActor>();
 		addNewActors();

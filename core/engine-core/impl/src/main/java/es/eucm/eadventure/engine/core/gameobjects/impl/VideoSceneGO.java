@@ -93,8 +93,8 @@ public class VideoSceneGO extends AbstractGameObject<EAdVideoScene> implements
 	}
 
 	@Override
-	public void update(GameState state) {
-		super.update(state);
+	public void update() {
+		super.update();
 		if (specialAssetRenderer.isFinished()) {
 			for (EAdEffect e : element.getFinalEffects()) {
 				gameState.addEffect(e);

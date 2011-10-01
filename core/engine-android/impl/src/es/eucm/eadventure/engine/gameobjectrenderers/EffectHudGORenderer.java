@@ -61,7 +61,7 @@ public class EffectHudGORenderer implements
 	}
 
 	@Override
-	public boolean contains(EffectHUDImpl object, int virutalX, int virtualY, EAdTransformation transformation) {
+	public boolean contains(EffectHUDImpl object, int virutalX, int virtualY) {
 		return true;
 	}
 

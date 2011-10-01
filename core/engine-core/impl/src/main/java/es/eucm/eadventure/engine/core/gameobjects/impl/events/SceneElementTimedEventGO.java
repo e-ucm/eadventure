@@ -73,8 +73,8 @@ public class SceneElementTimedEventGO extends
 	}
 
 	@Override
-	public void update(GameState state) {
-		super.update(state);
+	public void update() {
+		super.update();
 		if (repeats != 0) {
 			if (elapsedTime == 0) {
 				this.runEffects(element

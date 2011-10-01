@@ -114,13 +114,13 @@ public class ActorGOImpl extends SceneElementGOImpl<EAdActor> implements
 	}
 	
 	@Override
-	public void update(GameState state) {
-		super.update(state);
-		if (lastScene != state.getScene()
-				&& state.getScene() != null
-				&& state.getScene().getElement() != null
-				&& state.getScene().getElement().getElements() != null) {
-			for (EAdSceneElement se : state.getScene().getElement().getElements()) {
+	public void update() {
+		super.update();
+		if (lastScene != gameState.getScene()
+				&& gameState.getScene() != null
+				&& gameState.getScene().getElement() != null
+				&& gameState.getScene().getElement().getElements() != null) {
+			for (EAdSceneElement se : gameState.getScene().getElement().getElements()) {
 				if (se != null 
 						&& se instanceof EAdActorReference
 						&& ((EAdActorReference) se).getReferencedActor() == element
@@ -139,7 +139,7 @@ public class ActorGOImpl extends SceneElementGOImpl<EAdActor> implements
 //						valueMap.setValue(element, EAdBasicSceneElement.VAR_STATE, valueMap.getValue(currentReference, EAdBasicSceneElement.VAR_STATE));
 				}
 			}
-			lastScene = state.getScene().getElement();
+			lastScene = gameState.getScene().getElement();
 		}
 		
 		if (currentReference != null) {

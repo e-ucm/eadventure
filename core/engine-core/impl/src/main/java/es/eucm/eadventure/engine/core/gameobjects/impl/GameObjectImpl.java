@@ -95,7 +95,7 @@ public abstract class GameObjectImpl<T extends EAdElement> implements
 	}
 
 	@Override
-	public void update(GameState state) {
+	public void update() {
 
 	}
 
