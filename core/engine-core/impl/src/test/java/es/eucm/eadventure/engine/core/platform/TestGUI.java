@@ -89,4 +89,9 @@ public class TestGUI extends AbstractGUI<Void>{
 		return null;
 	}
 
+	@Override
+	public void finish() {
+		
+	}
+
 }

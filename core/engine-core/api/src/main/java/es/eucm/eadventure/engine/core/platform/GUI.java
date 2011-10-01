@@ -163,4 +163,9 @@ public interface GUI {
 	 */
 	EAdTransformation addTransformation(EAdTransformation t1,
 			EAdTransformation t2);
+
+	/**
+	 * Finalize the GUI
+	 */
+	void finish();
 }

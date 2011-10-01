@@ -54,6 +54,7 @@ import es.eucm.eadventure.common.model.elements.EAdScene;
 import es.eucm.eadventure.common.model.elements.EAdSceneElement;
 import es.eucm.eadventure.common.model.elements.impl.EAdSceneImpl;
 import es.eucm.eadventure.common.model.variables.EAdVarDef;
+import es.eucm.eadventure.common.model.variables.impl.SystemVars;
 import es.eucm.eadventure.engine.core.GameState;
 import es.eucm.eadventure.engine.core.ValueMap;
 import es.eucm.eadventure.engine.core.gameobjects.EffectGO;
@@ -79,8 +80,6 @@ public class GameStateImpl implements GameState {
 	private List<EAdActor> inventoryActors;
 
 	private EAdChapter currentChapter;
-
-	private EAdSceneElement activeElement;
 
 	/**
 	 * Queue for effects added
@@ -269,12 +268,12 @@ public class GameStateImpl implements GameState {
 
 	@Override
 	public EAdSceneElement getActiveElement() {
-		return activeElement;
+		return valueMap.getValue(null, SystemVars.ACTIVE_ELEMENT);
 	}
 
 	@Override
 	public void setActiveElement(EAdSceneElement activeElement) {
-		this.activeElement = activeElement;
+		valueMap.setValue(SystemVars.ACTIVE_ELEMENT, activeElement);
 	}
 
 }

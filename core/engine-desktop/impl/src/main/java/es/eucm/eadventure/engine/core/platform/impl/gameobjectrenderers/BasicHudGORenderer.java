@@ -76,11 +76,11 @@ public class BasicHudGORenderer implements
 	private CaptionImpl caption;
 
 	private ValueMap valueMap;
-	
+
 	private EAdBasicSceneElement textElement;
 
 	private GameObjectFactory gameObjectFactory;
-	
+
 	private GUI gui;
 
 	@SuppressWarnings({ "unchecked" })
@@ -97,6 +97,7 @@ public class BasicHudGORenderer implements
 		caption = new CaptionImpl();
 		caption.setTextColor(EAdBorderedColor.BLACK_ON_WHITE);
 		caption.setFont(EAdFontImpl.REGULAR);
+		caption.setText(new EAdString(""));
 		textElement = new EAdBasicSceneElement("text", caption);
 	}
 
@@ -116,18 +117,19 @@ public class BasicHudGORenderer implements
 			}
 		}
 
-		if (name != null
-				&& (caption == null || !caption.getText().equals(name)))
+		if (name != null && !caption.getText().equals(name))
 			renewCaption(name);
 
-		if (name != null && caption != null) {
+		if (name != null) {
 			EAdPosition p = EAdPositionImpl.volatileEAdPosition(
 					mouseState.getVirtualMouseX(),
-					mouseState.getVirtualMouseY(), 0.5f, 2.0f);
+					mouseState.getVirtualMouseY());
 			textElement.setPosition(p);
-			SceneElementGOImpl<?> go = (SceneElementGOImpl<?>) gameObjectFactory.get(textElement);
+			SceneElementGOImpl<?> go = (SceneElementGOImpl<?>) gameObjectFactory
+					.get(textElement);
 			go.update();
-			graphicRendererFactory.render(g, go, gui.addTransformation(t, go.getTransformation()));
+			graphicRendererFactory.render(g, go,
+					gui.addTransformation(t, go.getTransformation()));
 		}
 	}
 

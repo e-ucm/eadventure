@@ -41,6 +41,7 @@ import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
 import es.eucm.eadventure.common.model.elements.impl.EAdSceneImpl;
 import es.eucm.eadventure.common.params.EAdFill;
 import es.eucm.eadventure.common.params.fills.impl.EAdColor;
+import es.eucm.eadventure.common.params.fills.impl.EAdLinearGradient;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.shapes.RectangleShape;
 
 /**
@@ -54,7 +55,7 @@ public class EmptyScene extends EAdSceneImpl implements SceneDemo {
 	public EmptyScene() {
 		super("EmptyScene");
 		rectangle = new RectangleShape(800, 600);
-		rectangle.setFill(new EAdColor(0, 0, 0));
+		rectangle.setFill(new EAdLinearGradient(new EAdColor(240, 240, 240), EAdColor.WHITE));
 		getBackground().getResources().addAsset(
 				getBackground().getInitialBundle(),
 				EAdBasicSceneElement.appearance, rectangle);

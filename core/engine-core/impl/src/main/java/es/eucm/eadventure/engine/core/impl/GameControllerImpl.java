@@ -92,8 +92,7 @@ public class GameControllerImpl implements GameController {
 	 */
 	@Override
 	public void stop() {
-		
-		
+		gui.finish();
 	}
 
 	/* (non-Javadoc)

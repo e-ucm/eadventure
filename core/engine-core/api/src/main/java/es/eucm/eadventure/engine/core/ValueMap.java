@@ -115,4 +115,13 @@ public interface ValueMap {
 	 */
 	void remove(EAdElement element);
 
+	/**
+	 * Sets the value for a system variable
+	 * 
+	 * @param varDef
+	 *            system variable definition
+	 * @param value
+	 */
+	<T> void setValue(EAdVarDef<T> varDef, T value);
+
 }

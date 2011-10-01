@@ -153,4 +153,9 @@ public class ValueMapImpl implements ValueMap {
 
 	}
 
+	@Override
+	public <T> void setValue(EAdVarDef<T> varDef, T value) {
+		systemVars.put(varDef, value);
+	}
+
 }

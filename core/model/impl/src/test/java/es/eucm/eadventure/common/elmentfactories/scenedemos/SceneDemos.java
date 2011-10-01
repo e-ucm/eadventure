@@ -54,7 +54,6 @@ public class SceneDemos {
 	private SceneDemos() {
 		sceneDemos = new ArrayList<SceneDemo>();
 		sceneDemos.add(new EmptyScene());
-		sceneDemos.add(new BasicScene());
 		sceneDemos.add(new ShapeScene());
 		sceneDemos.add(new TextsScene());
 		sceneDemos.add(new CharacterScene());

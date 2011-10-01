@@ -125,4 +125,10 @@ public class AndroidGUI extends AbstractGUI<Canvas> {
 
 	}
 
+	@Override
+	public void finish() {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

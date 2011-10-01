@@ -141,11 +141,6 @@ public class DesktopDemos extends BaseTestLauncher {
 
 		public SceneDemosFrame() {
 			super("Scenes demo");
-			final Injector injector = Guice.createInjector(
-					new DesktopAssetHandlerModule(),
-					new DesktopAssetRendererModule(null), new DesktopModule(),
-					new BasicGameModule());
-
 			Object scenes[] = SceneDemos.getInstance().getScenes().toArray();
 
 			EAdMainDebugger.addDebugger(TrajectoryDebugger.class);
@@ -171,7 +166,6 @@ public class DesktopDemos extends BaseTestLauncher {
 
 				@Override
 				public void actionPerformed(ActionEvent arg0) {
-					SceneDemosFrame.this.setVisible(false);
 					new Thread() {
 						public void run() {
 							Object o = list.getSelectedValue();
@@ -198,8 +192,9 @@ public class DesktopDemos extends BaseTestLauncher {
 											new AdventureHandler()).read(is);
 									is.close();
 
-									new DesktopDemos(injector, model,
-											EAdElementsFactory.getInstance()
+									new DesktopDemos(createNewInjector(),
+											model, EAdElementsFactory
+													.getInstance()
 													.getStringFactory()
 													.getStrings()).start();
 
@@ -210,8 +205,8 @@ public class DesktopDemos extends BaseTestLauncher {
 								}
 
 							} else {
-								new DesktopDemos(injector, (EAdScene) o)
-										.start();
+								new DesktopDemos(createNewInjector(),
+										(EAdScene) o).start();
 							}
 						}
 					}.start();
@@ -227,6 +222,12 @@ public class DesktopDemos extends BaseTestLauncher {
 			setContentPane(container);
 
 		}
+	}
+
+	private static Injector createNewInjector() {
+		return Guice.createInjector(new DesktopAssetHandlerModule(),
+				new DesktopAssetRendererModule(null), new DesktopModule(),
+				new BasicGameModule());
 	}
 
 }

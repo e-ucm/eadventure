@@ -308,6 +308,7 @@ public class DesktopGUI extends AbstractGUI<Graphics2D> implements GUI {
 							.getInstance());
 
 					frame = new JFrame();
+					frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 					frame.setSize(platformConfiguration.getWidth(),
 							platformConfiguration.getHeight());
 					frame.setUndecorated(true);
@@ -429,6 +430,14 @@ public class DesktopGUI extends AbstractGUI<Graphics2D> implements GUI {
 			cursorsStack.add(canvas.getCursor());
 			canvas.setCursor(c);
 		}
+	}
+
+	@Override
+	public void finish() {
+		if (frame != null){
+			frame.setVisible(false);
+		}
+
 	}
 
 }
