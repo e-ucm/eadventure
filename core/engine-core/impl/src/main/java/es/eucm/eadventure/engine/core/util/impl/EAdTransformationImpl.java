@@ -47,5 +47,15 @@ public class EAdTransformationImpl implements EAdTransformation {
 	public void setVisible( boolean visible ){
 		this.visible = visible;
 	}
+	
+	public Object clone(){
+		EAdTransformationImpl t = new EAdTransformationImpl();
+		t.alpha = alpha;
+		t.visible = visible;
+		t.matrix = new EAdMatrixImpl(matrix.getFlatMatrix());
+		return t;
+		
+	}
+	
 
 }

@@ -40,6 +40,7 @@ package es.eucm.eadventure.engine.core.guiactions.impl;
 import es.eucm.eadventure.common.model.guievents.EAdGUIEvent;
 import es.eucm.eadventure.common.model.guievents.EAdMouseEvent;
 import es.eucm.eadventure.common.model.guievents.EAdMouseEvent.MouseActionType;
+import es.eucm.eadventure.common.model.guievents.EAdMouseEvent.MouseButton;
 import es.eucm.eadventure.common.model.guievents.impl.EAdMouseEventImpl;
 import es.eucm.eadventure.engine.core.guiactions.MouseAction;
 
@@ -64,9 +65,9 @@ public class MouseActionImpl implements MouseAction {
 		this.virtualX = virtualX;
 		this.virtualY = virtualY;
 	}
-
-	public MouseActionImpl(MouseActionType type, int virtualX, int virtualY) {
-		this(EAdMouseEventImpl.getMouseEvent(type), virtualX, virtualY);
+	
+	public MouseActionImpl(MouseActionType type, MouseButton button, int virtualX, int virtualY ){
+		this( new EAdMouseEventImpl( type, button), virtualX, virtualY);
 	}
 
 	/**

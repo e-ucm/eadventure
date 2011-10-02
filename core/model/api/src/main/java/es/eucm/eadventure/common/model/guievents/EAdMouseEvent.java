@@ -48,8 +48,30 @@ public interface EAdMouseEvent extends EAdGUIEvent {
 	 * 
 	 */
 	public enum MouseActionType {
-		RIGHT_CLICK, LEFT_CLICK, DOUBLE_CLICK, DRAG, ENTERED, EXITED, MOVED, DROP, PRESSED, RELEASED
+		PRESSED, RELEASED, CLICK, DOUBLE_CLICK, ENTERED, EXITED, MOVED, START_DRAG, DRAG, DROP;
 	}
+
+	public enum MouseButton {
+		/**
+		 * Primary button (normally left button)
+		 */
+		BUTTON_1,
+
+		/**
+		 * Secondary button (normally right button)
+		 */
+		BUTTON_2,
+
+		/**
+		 * Third button
+		 */
+		BUTTON_3,
+
+		/**
+		 * No button
+		 */
+		NO_BUTTON;
+	};
 
 	/**
 	 * Returns mouse event type
@@ -57,5 +79,12 @@ public interface EAdMouseEvent extends EAdGUIEvent {
 	 * @return mouse event type
 	 */
 	MouseActionType getType();
+
+	/**
+	 * Returns the button for the event
+	 * 
+	 * @return the button for the event
+	 */
+	MouseButton getButton();
 
 }

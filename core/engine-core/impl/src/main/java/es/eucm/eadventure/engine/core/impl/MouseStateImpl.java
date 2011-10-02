@@ -64,39 +64,26 @@ public class MouseStateImpl implements MouseState {
 
 	private GameObject<?> draggingGameObject;
 	
-	private int mouseDifX = 0;
+	private int dragInitX = OUT_VAL;
 	
-	private int mouseDifY = 0;
-	
-	private int rawX = OUT_VAL;
-	
-	private int rawY = OUT_VAL;
-	
-	private int underMouseOffsetX = 0;
-	
-	private int underMouseOffsetY = 0;
-	
-	private boolean moved;
+	private int dragInitY = OUT_VAL;
 	
 	@Inject
 	public MouseStateImpl() {
 		mouseEvents = new ConcurrentLinkedQueue<MouseAction>();
 	}
 	
-	public int getVirtualMouseX() {
+	public int getMouseX() {
 		return mouseX;
 	}
 
-	public int getVirtualMouseY() {
+	public int getMouseY() {
 		return mouseY;
 	}
 
 	public void setMousePosition(int mouseX, int mouseY) {
-		this.rawX = mouseX;
-		this.rawY = mouseY;
 		this.mouseX = mouseX;
 		this.mouseY = mouseY;
-		this.moved = true;
 	}
 
 	public boolean isMousePressed() {
@@ -115,10 +102,8 @@ public class MouseStateImpl implements MouseState {
 		return gameObjectUnderMouse;
 	}
 
-	public void setElementGameObject(GameObject<?> gameObjectUnderMouse, int offsetX, int offsetY) {
+	public void setElementGameObject(GameObject<?> gameObjectUnderMouse) {
 		this.gameObjectUnderMouse = gameObjectUnderMouse;
-		this.underMouseOffsetX = offsetX;
-		this.underMouseOffsetY = offsetY;
 	}
 
 	public GameObject<?> getDraggingGameObject() {
@@ -128,44 +113,26 @@ public class MouseStateImpl implements MouseState {
 	@Override
 	public void setDraggingGameObject(GameObject<?> draggingGameObject) {
 		this.draggingGameObject = draggingGameObject;
-		if (draggingGameObject != null && draggingGameObject.getPosition() != null) {
-			this.mouseDifX = mouseX - draggingGameObject.getPosition().getX() - underMouseOffsetX;
-			this.mouseDifY = mouseY - draggingGameObject.getPosition().getY() - underMouseOffsetY;
+		if (draggingGameObject != null) {
+			this.dragInitX = mouseX;
+			this.dragInitY = mouseY;
 		}
 	}
 
 	@Override
-	public int getMouseDifX() {
-		return mouseDifX;
+	public int getDragDifX() {
+		return mouseX - dragInitX;
 	}
 	
 	@Override
-	public int getMouseDifY() {
-		return mouseDifY;
+	public int getDragDifY() {
+		return mouseY - dragInitY;
 	}
 	
 	public boolean isInside() {
 		if (mouseX == OUT_VAL && mouseY == OUT_VAL)
 			return false;
 		return true;
-	}
-	
-	public boolean pullMovedStatus() {
-		if (moved) {
- 			moved = false;
- 			return true;
-		}
-		return false;
-	}
-
-	@Override
-	public int getRawX() {
-		return rawX;
-	}
-
-	@Override
-	public int getRawY() {
-		return rawY;
 	}
 	
 }

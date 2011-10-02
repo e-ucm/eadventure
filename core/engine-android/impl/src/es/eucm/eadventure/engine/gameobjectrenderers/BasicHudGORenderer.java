@@ -128,24 +128,24 @@ public class BasicHudGORenderer implements GameObjectRenderer<Canvas, BasicHUD> 
 	@Override
 	public void render(Canvas graphicContext, BasicHUD object,
 			EAdTransformation t) {
-		if (mouseState.getVirtualMouseX() != -1
-				&& mouseState.getVirtualMouseY() != -1) {
+		if (mouseState.getMouseX() != -1
+				&& mouseState.getMouseY() != -1) {
 			Canvas c = new Canvas(magGlass);
 			c.clipPath(clip);
 
 			c.drawBitmap(
 					((AndroidCanvas) graphicContext).getBitmap(),
 					new Rect(
-							mouseState.getRawX()
+							mouseState.getMouseX()
 									- (int) (this.platformConfiguration
 											.getScaleW() * 20), mouseState
-									.getRawY()
+									.getMouseY()
 									- (int) (this.platformConfiguration
 											.getScale() * 20), mouseState
-									.getRawX()
+									.getMouseX()
 									+ (int) (this.platformConfiguration
 											.getScaleW() * 20), mouseState
-									.getRawY()
+									.getMouseY()
 									+ (int) (this.platformConfiguration
 											.getScale() * 20)), rect, null);
 
@@ -155,9 +155,9 @@ public class BasicHudGORenderer implements GameObjectRenderer<Canvas, BasicHUD> 
 					(float) (this.platformConfiguration.getScale() * 100), 3,
 					borderPaint);
 
-			int x = mouseState.getRawX()
+			int x = mouseState.getMouseX()
 					- (int) (this.platformConfiguration.getScaleW() * 100);
-			int y = mouseState.getRawY()
+			int y = mouseState.getMouseY()
 					- (int) (this.platformConfiguration.getScale() * 100);
 
 			/*

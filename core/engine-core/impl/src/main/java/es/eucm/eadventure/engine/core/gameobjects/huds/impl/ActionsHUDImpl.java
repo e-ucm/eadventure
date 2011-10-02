@@ -116,8 +116,7 @@ public class ActionsHUDImpl implements ActionsHUD {
 			MouseAction temp = (MouseAction) action;
 
 			switch (temp.getType()) {
-			case RIGHT_CLICK:
-			case LEFT_CLICK:
+			case CLICK:
 				logger.info("Remove actions HUD");
 				gameObjectManager.removeHUD(this);
 				temp.consume();

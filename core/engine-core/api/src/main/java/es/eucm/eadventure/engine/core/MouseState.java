@@ -55,28 +55,12 @@ public interface MouseState {
 	static final int OUT_VAL = -1;
 
 	/**
-	 * Virtual position of the mouse of the mouse along the x axis, in the
-	 * virtual window of 600 pixel height;
-	 * 
-	 * @return The virtual position of the mouse along the x axis
-	 */
-	int getVirtualMouseX();
-
-	/**
-	 * Virtual position of the mouse of the mouse along the y axis, in the
-	 * virtual window of 600 pixel height;
-	 * 
-	 * @return The virtual position of the mouse along the y axis
-	 */
-	int getVirtualMouseY();
-
-	/**
 	 * The actual mouse position along the x axis within the window. If the
 	 * mouse is outside, it will return {@link OUT_VAL}
 	 * 
 	 * @return the mouse position along the x axis within the window
 	 */
-	int getRawX();
+	int getMouseX();
 
 	/**
 	 * The actual mouse position along the y axis within the window. If the
@@ -84,7 +68,7 @@ public interface MouseState {
 	 * 
 	 * @return the mouse position along the y axis within the window
 	 */
-	int getRawY();
+	int getMouseY();
 
 	/**
 	 * Set the position of the mouse pointer
@@ -92,7 +76,7 @@ public interface MouseState {
 	 * @param mouseX
 	 *            The position along the x axis
 	 * @param mouseY
-	 *            The positoin along the y axis
+	 *            The position along the y axis
 	 */
 	void setMousePosition(int mouseX, int mouseY);
 
@@ -136,7 +120,7 @@ public interface MouseState {
 	 * @param elementUnderMouse
 	 *            the game object under the mouse pointer
 	 */
-	void setElementGameObject(GameObject<?> elementUnderMouse, int offsetX, int offsetY);
+	void setElementGameObject(GameObject<?> elementUnderMouse);
 
 	/**
 	 * Returns the game object that is being dragged, null if no object is being
@@ -165,21 +149,12 @@ public interface MouseState {
 	boolean isInside();
 
 	/**
-	 * Returns true if the mouse was moved after the last time events where
-	 * processed
-	 * 
-	 * @return true if the mouse was moved after the last time events where
-	 *         processed
-	 */
-	boolean pullMovedStatus();
-
-	/**
 	 * Returns the amount of pixels the dragging element was dragged along the x
 	 * axis
 	 * 
 	 * @return how much the dragging element was dragged along the x axis
 	 */
-	int getMouseDifX();
+	int getDragDifX();
 
 	/**
 	 * Returns the amount of pixels the dragging element was dragged along the y
@@ -187,6 +162,6 @@ public interface MouseState {
 	 * 
 	 * @return how much the dragging element was dragged along the y axis
 	 */
-	int getMouseDifY();
+	int getDragDifY();
 
 }

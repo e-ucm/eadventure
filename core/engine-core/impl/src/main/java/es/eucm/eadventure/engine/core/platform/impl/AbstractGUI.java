@@ -40,6 +40,7 @@ package es.eucm.eadventure.engine.core.platform.impl;
 import java.util.logging.Logger;
 
 import es.eucm.eadventure.common.model.guievents.EAdMouseEvent.MouseActionType;
+import es.eucm.eadventure.common.model.guievents.EAdMouseEvent.MouseButton;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.Image;
 import es.eucm.eadventure.engine.core.GameState;
 import es.eucm.eadventure.engine.core.KeyboardState;
@@ -202,9 +203,10 @@ public abstract class AbstractGUI<T> implements GUI {
 	 * Process movements to the mouse pointer
 	 */
 	private void processMouseMovement() {
-//		if (mouseState.pullMovedStatus()) {
+		
+		if (mouseState.isInside()) {
 			GameObject<?> gameObject = mouseState.getGameObjectUnderMouse();
-			mouseState.setElementGameObject(null, 0, 0);
+			mouseState.setElementGameObject(null);
 
 			for (int i = gameObjects.getGameObjects().size() - 1; i >= 0
 					&& i < gameObjects.getGameObjects().size()
@@ -215,19 +217,19 @@ public abstract class AbstractGUI<T> implements GUI {
 						&& !tempGameObject.getTransformation().isVisible())
 					continue;
 				EAdTransformation t = gameObjects.getTransformations().get(i);
-				float[] mouse = t.getMatrix().postMultiplyPointInverse( mouseState.getVirtualMouseX(), mouseState.getVirtualMouseY() );
-				
+				float[] mouse = t.getMatrix().postMultiplyPointInverse(
+						mouseState.getMouseX(), mouseState.getMouseY());
+
 				if (graphicRendererFactory.contains(tempGameObject,
-						(int) mouse[0],
-						(int) mouse[1])) {
-					mouseState.setElementGameObject(tempGameObject, (int) t
-							.getMatrix().getOffsetX(), (int) t.getMatrix()
-							.getOffsetY());
+						(int) mouse[0], (int) mouse[1])) {
+					mouseState.setElementGameObject(tempGameObject);
 					if (tempGameObject != gameObject) {
-						tempGameObject.processAction(new MouseActionImpl(
-								MouseActionType.ENTERED, mouseState
-										.getVirtualMouseX(), mouseState
-										.getVirtualMouseY()));
+						tempGameObject
+								.processAction(new MouseActionImpl(
+										MouseActionType.ENTERED,
+										MouseButton.NO_BUTTON, mouseState
+												.getMouseX(), mouseState
+												.getMouseY()));
 
 					}
 				}
@@ -236,16 +238,20 @@ public abstract class AbstractGUI<T> implements GUI {
 			if (gameObject != null)
 				if (mouseState.getGameObjectUnderMouse() != gameObject) {
 					gameObject.processAction(new MouseActionImpl(
-							MouseActionType.EXITED, mouseState
-									.getVirtualMouseX(), mouseState
-									.getVirtualMouseY()));
+							MouseActionType.EXITED, MouseButton.NO_BUTTON,
+							mouseState.getMouseX(), mouseState.getMouseY()));
 				} else {
 					gameObject.processAction(new MouseActionImpl(
-							MouseActionType.MOVED, mouseState
-									.getVirtualMouseX(), mouseState
-									.getVirtualMouseY()));
+							MouseActionType.MOVED, MouseButton.NO_BUTTON,
+							mouseState.getMouseX(), mouseState.getMouseY()));
 				}
-//		}
+		} else if ( mouseState.getGameObjectUnderMouse() != null ){
+			GameObject<?> go = mouseState.getGameObjectUnderMouse();
+			go.processAction(new MouseActionImpl(
+					MouseActionType.EXITED, MouseButton.NO_BUTTON,
+					mouseState.getMouseX(), mouseState.getMouseY()));
+			mouseState.setElementGameObject(null);
+		}
 	}
 
 	/**
@@ -262,9 +268,10 @@ public abstract class AbstractGUI<T> implements GUI {
 			for (int i = gameObjects.getGameObjects().size() - 1; i >= 0; i--) {
 				GameObject<?> gameObject = gameObjects.getGameObjects().get(i);
 				EAdTransformation t = gameObjects.getTransformations().get(i);
-				float[] mouse = t.getMatrix().postMultiplyPointInverse( action.getVirtualX(), action.getVirtualY() );
-				if (graphicRendererFactory.contains(gameObject,
-						(int) mouse[0], (int) mouse[1])) {
+				float[] mouse = t.getMatrix().postMultiplyPointInverse(
+						action.getVirtualX(), action.getVirtualY());
+				if (graphicRendererFactory.contains(gameObject, (int) mouse[0],
+						(int) mouse[1])) {
 					logger.info("Action "
 							+ action
 							+ " passed to "

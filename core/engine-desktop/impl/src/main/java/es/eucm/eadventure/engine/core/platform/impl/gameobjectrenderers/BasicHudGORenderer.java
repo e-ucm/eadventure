@@ -122,8 +122,8 @@ public class BasicHudGORenderer implements
 
 		if (name != null) {
 			EAdPosition p = EAdPositionImpl.volatileEAdPosition(
-					mouseState.getVirtualMouseX(),
-					mouseState.getVirtualMouseY());
+					mouseState.getMouseX(),
+					mouseState.getMouseY());
 			textElement.setPosition(p);
 			SceneElementGOImpl<?> go = (SceneElementGOImpl<?>) gameObjectFactory
 					.get(textElement);

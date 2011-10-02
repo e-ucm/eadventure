@@ -42,6 +42,7 @@ import java.util.logging.Logger;
 import com.google.inject.Singleton;
 
 import es.eucm.eadventure.common.model.guievents.EAdMouseEvent.MouseActionType;
+import es.eucm.eadventure.common.model.guievents.EAdMouseEvent.MouseButton;
 import es.eucm.eadventure.engine.core.MouseState;
 import es.eucm.eadventure.engine.core.guiactions.MouseAction;
 import es.eucm.eadventure.engine.core.guiactions.impl.MouseActionImpl;
@@ -84,9 +85,9 @@ public class EAdventureSurfaceView extends SurfaceView implements SurfaceHolder.
   				logger.info("Right click " + mouseState.getGameObjectUnderMouse());
 	  			MouseAction action;
 	  			if (System.currentTimeMillis() - downTime > 1500)
-	  				action = new MouseActionImpl(MouseActionType.RIGHT_CLICK, mouseState.getVirtualMouseX(), mouseState.getVirtualMouseY());
+	  				action = new MouseActionImpl(MouseActionType.CLICK, MouseButton.BUTTON_2, mouseState.getMouseX(), mouseState.getMouseY());
 	  			else 
-	  				action = new MouseActionImpl(MouseActionType.LEFT_CLICK, mouseState.getVirtualMouseX(), mouseState.getVirtualMouseY());
+	  				action = new MouseActionImpl(MouseActionType.CLICK, MouseButton.BUTTON_1, mouseState.getMouseX(), mouseState.getMouseY());
 	  			mouseState.getMouseEvents().add(action);
 				mouseState.setMousePosition(-1, -1);
   			}

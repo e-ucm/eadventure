@@ -156,7 +156,7 @@ public class GameImpl implements Game {
 	 */
 	private void updateSystemVars() {
 		// Mouse
-		float mouse[] = initialTransformation.getMatrix().postMultiplyPointInverse(mouseState.getVirtualMouseX(), mouseState.getVirtualMouseY());
+		float mouse[] = initialTransformation.getMatrix().postMultiplyPointInverse(mouseState.getMouseX(), mouseState.getMouseY());
 		valueMap.setValue(null, SystemVars.MOUSE_X, (int) mouse[0]);
 		valueMap.setValue(null, SystemVars.MOUSE_Y, (int) mouse[1]);
 
