@@ -64,7 +64,7 @@ public class EAdComposedScene extends EAdSceneImpl implements EAdScene {
 	}
 
 	@Override
-	public boolean isReturnable() {
+	public Boolean isReturnable() {
 		return false;
 	}
 
@@ -73,7 +73,7 @@ public class EAdComposedScene extends EAdSceneImpl implements EAdScene {
 	}
 
 	@Override
-	public boolean acceptsVisualEffects() {
+	public Boolean acceptsVisualEffects() {
 		return false;
 	}
 

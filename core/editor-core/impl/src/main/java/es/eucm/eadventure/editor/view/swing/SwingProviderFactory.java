@@ -7,6 +7,8 @@ import javax.swing.JComponent;
 
 import es.eucm.eadventure.editor.view.ComponentProvider;
 import es.eucm.eadventure.editor.view.generics.InterfaceElement;
+import es.eucm.eadventure.editor.view.generics.impl.BooleanOption;
+import es.eucm.eadventure.editor.view.generics.impl.EAdStringOption;
 import es.eucm.eadventure.editor.view.generics.impl.PanelImpl;
 import es.eucm.eadventure.editor.view.generics.impl.TextOption;
 import es.eucm.eadventure.editor.view.impl.AbstractProviderFactory;
@@ -17,6 +19,8 @@ public class SwingProviderFactory extends AbstractProviderFactory<JComponent> {
 	public SwingProviderFactory() {
 		super();
 		this.addToMap(TextOption.class, (Class<? extends ComponentProvider<? extends InterfaceElement, JComponent>>) TextComponentProvider.class);
+		this.addToMap(EAdStringOption.class, (Class<? extends ComponentProvider<? extends InterfaceElement, JComponent>>) EAdStringComponentProvider.class);
+		this.addToMap(BooleanOption.class, (Class<? extends ComponentProvider<? extends InterfaceElement, JComponent>>) BooleanComponentProvider.class);
 		this.addToMap(PanelImpl.class, (Class<? extends ComponentProvider<? extends InterfaceElement, JComponent>>) PanelComponentProvider.class);
 	}
 	
