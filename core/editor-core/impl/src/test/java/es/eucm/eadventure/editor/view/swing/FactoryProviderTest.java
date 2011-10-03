@@ -7,9 +7,11 @@ import javax.swing.WindowConstants;
 
 import static org.mockito.Mockito.*;
 
+import es.eucm.eadventure.editor.control.FieldValueReader;
 import es.eucm.eadventure.editor.view.ComponentProvider;
 import es.eucm.eadventure.editor.view.generics.FieldDescriptor;
 import es.eucm.eadventure.editor.view.generics.Panel;
+import es.eucm.eadventure.editor.view.generics.impl.FieldDescriptorImpl;
 import es.eucm.eadventure.editor.view.generics.impl.PanelImpl;
 import es.eucm.eadventure.editor.view.generics.impl.TextOption;
 import es.eucm.eadventure.gui.EAdFrame;
@@ -29,10 +31,9 @@ public class FactoryProviderTest extends EAdFrame {
         
         setLayout(new FlowLayout());
         
-        
-        @SuppressWarnings("unchecked")
-		FieldDescriptor<String> fieldDescriptor = (FieldDescriptor<String>) mock(FieldDescriptor.class);
-        when(fieldDescriptor.readValue()).thenReturn("value");
+        FieldDescriptor<String> fieldDescriptor = new FieldDescriptorImpl<String>(null, "name");
+        FieldValueReader fieldValueReader = mock(FieldValueReader.class);
+        when(fieldValueReader.readValue(fieldDescriptor)).thenReturn("value");
         
         TextOption option = new TextOption("name", "toolTip", fieldDescriptor);
         TextOption option2 = new TextOption("name2", "toolTip", fieldDescriptor);

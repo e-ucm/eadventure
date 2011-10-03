@@ -8,9 +8,9 @@ import javax.swing.JButton;
 import es.eucm.eadventure.editor.view.ComponentProvider;
 import es.eucm.eadventure.editor.view.generics.impl.ElementOption;
 
-public class ElementComponentProvider implements ComponentProvider<ElementOption, JButton> {
+public class ElementComponentProvider implements ComponentProvider<ElementOption<?>, JButton> {
 
-	private ElementOption element;
+	private ElementOption<?> element;
 	
 	private JButton button;
 	
@@ -19,7 +19,7 @@ public class ElementComponentProvider implements ComponentProvider<ElementOption
 	}
 	
 	@Override
-	public void setElement(ElementOption element2) {
+	public void setElement(ElementOption<?> element2) {
 		this.element = element2;
 		button = new JButton(element.getTitle());
 		button.setToolTipText(element.getToolTipText());

@@ -2,6 +2,7 @@ package es.eucm.eadventure.editor.view.swing;
 
 import javax.swing.JCheckBox;
 
+import es.eucm.eadventure.editor.control.FieldValueReader;
 import es.eucm.eadventure.editor.view.ComponentProvider;
 import es.eucm.eadventure.editor.view.generics.impl.BooleanOption;
 
@@ -11,8 +12,10 @@ public class BooleanComponentProvider implements ComponentProvider<BooleanOption
 	
 	private JCheckBox checkBox;
 	
-	public BooleanComponentProvider() {
-		
+	private FieldValueReader fieldValueReader;
+	
+	public BooleanComponentProvider(FieldValueReader fieldValueReader) {
+		this.fieldValueReader = fieldValueReader;
 	}
 	
 	@Override
@@ -20,7 +23,7 @@ public class BooleanComponentProvider implements ComponentProvider<BooleanOption
 		this.element = element2;
 		checkBox = new JCheckBox(element.getTitle());
 		checkBox.setToolTipText(element.getToolTipText());
-		checkBox.setSelected(element.getFieldDescriptor().readValue());
+		checkBox.setSelected(fieldValueReader.readValue(element.getFieldDescriptor()));
 	}
 
 	@Override
