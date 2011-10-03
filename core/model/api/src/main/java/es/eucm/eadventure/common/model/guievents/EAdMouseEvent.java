@@ -58,12 +58,12 @@ public interface EAdMouseEvent extends EAdGUIEvent {
 		BUTTON_1,
 
 		/**
-		 * Secondary button (normally right button)
+		 * Secondary button (normally center button)
 		 */
 		BUTTON_2,
 
 		/**
-		 * Third button
+		 * Third button (normally right button)
 		 */
 		BUTTON_3,
 

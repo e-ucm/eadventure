@@ -39,8 +39,9 @@ package es.eucm.eadventure.engine.core.platform.impl;
 
 import java.util.logging.Logger;
 
-import es.eucm.eadventure.common.model.guievents.EAdMouseEvent.MouseActionType;
-import es.eucm.eadventure.common.model.guievents.EAdMouseEvent.MouseButton;
+import es.eucm.eadventure.common.model.EAdElement;
+import es.eucm.eadventure.common.model.guievents.EAdDragEvent.DragAction;
+import es.eucm.eadventure.common.model.guievents.impl.EAdMouseEventImpl;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.Image;
 import es.eucm.eadventure.engine.core.GameState;
 import es.eucm.eadventure.engine.core.KeyboardState;
@@ -49,9 +50,9 @@ import es.eucm.eadventure.engine.core.ValueMap;
 import es.eucm.eadventure.engine.core.gameobjects.GameObject;
 import es.eucm.eadventure.engine.core.gameobjects.GameObjectFactory;
 import es.eucm.eadventure.engine.core.gameobjects.GameObjectManager;
-import es.eucm.eadventure.engine.core.gameobjects.impl.sceneelements.SceneElementGOImpl;
 import es.eucm.eadventure.engine.core.guiactions.KeyAction;
 import es.eucm.eadventure.engine.core.guiactions.MouseAction;
+import es.eucm.eadventure.engine.core.guiactions.impl.DragActionImpl;
 import es.eucm.eadventure.engine.core.guiactions.impl.MouseActionImpl;
 import es.eucm.eadventure.engine.core.platform.GUI;
 import es.eucm.eadventure.engine.core.platform.GraphicRendererFactory;
@@ -119,6 +120,8 @@ public abstract class AbstractGUI<T> implements GUI {
 
 	protected GameObjectFactory gameObjectFactory;
 
+	private boolean checkDrag;
+
 	@SuppressWarnings({ "unchecked" })
 	public AbstractGUI(PlatformConfiguration platformConfiguration,
 			GraphicRendererFactory<?> assetRendererFactory,
@@ -133,6 +136,7 @@ public abstract class AbstractGUI<T> implements GUI {
 		this.valueMap = valueMap;
 		this.gameState = gameState;
 		this.gameObjectFactory = gameObjectFactory;
+		checkDrag = true;
 	}
 
 	/*
@@ -194,6 +198,8 @@ public abstract class AbstractGUI<T> implements GUI {
 
 		processMouseMovement();
 
+		processDrag();
+
 		processMouseActions();
 
 		processKeyActions();
@@ -203,55 +209,105 @@ public abstract class AbstractGUI<T> implements GUI {
 	 * Process movements to the mouse pointer
 	 */
 	private void processMouseMovement() {
+		GameObject<?> oldGO = mouseState.getGameObjectUnderMouse();
+		GameObject<?> currentGO = getGOUnderMouse();
+		if (oldGO != currentGO) {
+			GameObject<?> draggedGO = mouseState.getDraggingGameObject();
+			int x = mouseState.getMouseX();
+			int y = mouseState.getMouseY();
+
+			if (oldGO != null) {
+				MouseActionImpl exitAction = new MouseActionImpl(
+						EAdMouseEventImpl.MOUSE_EXITED, x, y);
+				oldGO.processAction(exitAction);
 		
-		if (mouseState.isInside()) {
-			GameObject<?> gameObject = mouseState.getGameObjectUnderMouse();
-			mouseState.setElementGameObject(null);
-
-			for (int i = gameObjects.getGameObjects().size() - 1; i >= 0
-					&& i < gameObjects.getGameObjects().size()
-					&& mouseState.getGameObjectUnderMouse() == null; i--) {
-				GameObject<?> tempGameObject = gameObjects.getGameObjects()
-						.get(i);
-				if (tempGameObject instanceof SceneElementGOImpl
-						&& !tempGameObject.getTransformation().isVisible())
-					continue;
-				EAdTransformation t = gameObjects.getTransformations().get(i);
-				float[] mouse = t.getMatrix().postMultiplyPointInverse(
-						mouseState.getMouseX(), mouseState.getMouseY());
-
-				if (graphicRendererFactory.contains(tempGameObject,
-						(int) mouse[0], (int) mouse[1])) {
-					mouseState.setElementGameObject(tempGameObject);
-					if (tempGameObject != gameObject) {
-						tempGameObject
-								.processAction(new MouseActionImpl(
-										MouseActionType.ENTERED,
-										MouseButton.NO_BUTTON, mouseState
-												.getMouseX(), mouseState
-												.getMouseY()));
-
-					}
+				if ( draggedGO != null ){
+					DragActionImpl action = new DragActionImpl(
+							(EAdElement) draggedGO.getElement(),
+							DragAction.EXITED, x, y);
+					oldGO.processAction(action);
 				}
 			}
 
-			if (gameObject != null)
-				if (mouseState.getGameObjectUnderMouse() != gameObject) {
-					gameObject.processAction(new MouseActionImpl(
-							MouseActionType.EXITED, MouseButton.NO_BUTTON,
-							mouseState.getMouseX(), mouseState.getMouseY()));
-				} else {
-					gameObject.processAction(new MouseActionImpl(
-							MouseActionType.MOVED, MouseButton.NO_BUTTON,
-							mouseState.getMouseX(), mouseState.getMouseY()));
+			if (currentGO != null) {
+				MouseActionImpl enterAction = new MouseActionImpl(
+						EAdMouseEventImpl.MOUSE_ENTERED, x, y);
+				currentGO.processAction(enterAction);
+				if ( draggedGO != null ){
+					DragActionImpl action = new DragActionImpl(
+							(EAdElement) draggedGO.getElement(),
+							DragAction.ENTERED, x, y);
+					currentGO.processAction(action);
 				}
-		} else if ( mouseState.getGameObjectUnderMouse() != null ){
-			GameObject<?> go = mouseState.getGameObjectUnderMouse();
-			go.processAction(new MouseActionImpl(
-					MouseActionType.EXITED, MouseButton.NO_BUTTON,
-					mouseState.getMouseX(), mouseState.getMouseY()));
-			mouseState.setElementGameObject(null);
+			}
+			mouseState.setGameObjectUnderMouse(currentGO);
 		}
+	}
+
+	private void processDrag() {
+		GameObject<?> currentDraggedGO = mouseState.getDraggingGameObject();
+		int x = mouseState.getMouseX();
+		int y = mouseState.getMouseY();
+		if (currentDraggedGO != null) {
+			if (!mouseState.isMousePressed()) {
+				GameObject<?> goMouse = mouseState.getGameObjectUnderMouse();
+				if (goMouse != null) {
+					// Exit too
+					DragActionImpl action = new DragActionImpl(
+							(EAdElement) currentDraggedGO.getElement(),
+							DragAction.EXITED, x, y);
+					goMouse.processAction(action);
+					// Drop
+					DragActionImpl action2 = new DragActionImpl(
+							(EAdElement) currentDraggedGO.getElement(),
+							DragAction.DROP, x, y);
+					goMouse.processAction(action2);
+				}
+				MouseActionImpl drop = new MouseActionImpl(
+						EAdMouseEventImpl.MOUSE_DROP, x, y);
+				currentDraggedGO.processAction(drop);
+				mouseState.setDraggingGameObject(null);
+				checkDrag = true;
+			}
+		} else {
+			if (checkDrag && mouseState.isMousePressed()) {
+				checkDrag = false;
+				GameObject<?> go = mouseState.getGameObjectUnderMouse();
+				if (go != null) {
+					GameObject<?> draggedGO = go
+							.getDraggableElement(mouseState);
+					if (draggedGO != null) {
+						mouseState.setDraggingGameObject(draggedGO);
+						draggedGO.processAction(new MouseActionImpl(
+								EAdMouseEventImpl.MOUSE_START_DRAG, x, y));
+					}
+				}
+
+			} else if (!mouseState.isMousePressed()) {
+				checkDrag = true;
+			}
+		}
+
+	}
+
+	private GameObject<?> getGOUnderMouse() {
+		if (mouseState.isInside()) {
+			for (int i = gameObjects.getGameObjects().size() - 1; i >= 0; i--) {
+				GameObject<?> tempGameObject = gameObjects.getGameObjects()
+						.get(i);
+				if (tempGameObject != mouseState.getDraggingGameObject()) {
+					EAdTransformation t = gameObjects.getTransformations().get(
+							i);
+					float[] mouse = t.getMatrix().postMultiplyPointInverse(
+							mouseState.getMouseX(), mouseState.getMouseY());
+					if (graphicRendererFactory.contains(tempGameObject,
+							(int) mouse[0], (int) mouse[1])) {
+						return tempGameObject;
+					}
+				}
+			}
+		}
+		return null;
 	}
 
 	/**

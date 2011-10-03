@@ -188,7 +188,7 @@ public class PhysicsScene extends EmptyScene {
 				bullet, new EAdPositionImpl(Corner.CENTER, 140, 470),
 				applyForce);
 
-		getBackground().addBehavior(EAdMouseEventImpl.MOUSE_RIGHT_PRESSED,
+		getBackground().addBehavior(EAdMouseEventImpl.MOUSE_LEFT_PRESSED,
 				addEffect);
 
 	}

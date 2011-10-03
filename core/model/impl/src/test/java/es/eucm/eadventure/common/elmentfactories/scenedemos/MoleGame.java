@@ -64,7 +64,7 @@ public class MoleGame extends EmptyScene {
 						new EAdFieldImpl<Boolean>(mole, EAdBasicSceneElement.VAR_VISIBLE),
 						BooleanOperation.FALSE_OP);
 		
-		mole.addBehavior(EAdMouseEventImpl.MOUSE_RIGHT_PRESSED, effect);
+		mole.addBehavior(EAdMouseEventImpl.MOUSE_LEFT_PRESSED, effect);
 		
 		return mole;
 

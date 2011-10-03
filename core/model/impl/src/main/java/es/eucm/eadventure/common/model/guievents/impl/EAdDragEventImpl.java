@@ -40,31 +40,37 @@ package es.eucm.eadventure.common.model.guievents.impl;
 import es.eucm.eadventure.common.interfaces.Element;
 import es.eucm.eadventure.common.interfaces.Param;
 import es.eucm.eadventure.common.model.EAdElement;
-import es.eucm.eadventure.common.model.guievents.EAdGUIEvent;
+import es.eucm.eadventure.common.model.guievents.EAdDragEvent;
 import es.eucm.eadventure.common.model.impl.EAdElementImpl;
 
-@Element(detailed = EAdDropEvent.class, runtime = EAdDropEvent.class)
-public class EAdDropEvent extends EAdElementImpl implements EAdGUIEvent {
+@Element(detailed = EAdDragEventImpl.class, runtime = EAdDragEventImpl.class)
+public class EAdDragEventImpl extends EAdElementImpl implements EAdDragEvent {
 
 	@Param("carryElement")
 	private EAdElement carryElement;
-	
-	public EAdDropEvent(){
-		
+
+	@Param("action")
+	private DragAction action;
+
+	public EAdDragEventImpl() {
+
 	}
 
-	public EAdDropEvent(EAdElement object) {
-		super( "dropEvent_" + object.getId());
+	public EAdDragEventImpl(EAdElement object, DragAction action) {
+		super("dropEvent_" + object + "_" + action);
 		this.carryElement = object;
+		this.action = action;
 	}
 
 	@Override
 	public boolean equals(Object o) {
-		if (o instanceof EAdDropEvent) {
-			EAdDropEvent e = (EAdDropEvent) o;
-			if (e.carryElement == carryElement)
-				return true;
-			return e.carryElement.equals(carryElement);
+		if (o instanceof EAdDragEventImpl) {
+			EAdDragEventImpl e = (EAdDragEventImpl) o;
+			if (action == e.getDragAction()) {
+				if (e.carryElement == carryElement)
+					return true;
+				return e.carryElement.equals(carryElement);
+			}
 		}
 		return false;
 	}
@@ -76,7 +82,7 @@ public class EAdDropEvent extends EAdElementImpl implements EAdGUIEvent {
 
 	@Override
 	public EAdElement copy() {
-		return new EAdDropEvent(carryElement);
+		return new EAdDragEventImpl(carryElement, action);
 
 	}
 
@@ -84,13 +90,24 @@ public class EAdDropEvent extends EAdElementImpl implements EAdGUIEvent {
 	public EAdElement copy(boolean deepCopy) {
 		if (deepCopy) {
 			EAdElement element = carryElement.copy(true);
-			return new EAdDropEvent(element);
+			return new EAdDragEventImpl(element, action);
 		} else
 			return copy();
 	}
-	
-	public int hashCode(){
-		return carryElement.hashCode();
+
+	public int hashCode() {
+		return (carryElement == null ? 0 : carryElement.hashCode())
+				+ action.hashCode();
+	}
+
+	@Override
+	public EAdElement getElement() {
+		return carryElement;
+	}
+
+	@Override
+	public DragAction getDragAction() {
+		return action;
 	}
 
 }

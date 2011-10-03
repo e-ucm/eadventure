@@ -120,7 +120,7 @@ public interface MouseState {
 	 * @param elementUnderMouse
 	 *            the game object under the mouse pointer
 	 */
-	void setElementGameObject(GameObject<?> elementUnderMouse);
+	void setGameObjectUnderMouse(GameObject<?> elementUnderMouse);
 
 	/**
 	 * Returns the game object that is being dragged, null if no object is being

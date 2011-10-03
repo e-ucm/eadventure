@@ -4,7 +4,6 @@ import es.eucm.eadventure.common.elmentfactories.EAdElementsFactory;
 import es.eucm.eadventure.common.model.effects.impl.EAdVarInterpolationEffect;
 import es.eucm.eadventure.common.model.effects.impl.EAdVarInterpolationEffect.InterpolationType;
 import es.eucm.eadventure.common.model.effects.impl.EAdVarInterpolationEffect.LoopType;
-import es.eucm.eadventure.common.model.elements.EAdSceneElement;
 import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
 import es.eucm.eadventure.common.model.elements.impl.EAdComposedElementImpl;
 import es.eucm.eadventure.common.model.events.EAdSceneElementEvent;
@@ -15,6 +14,7 @@ import es.eucm.eadventure.common.model.variables.impl.EAdFieldImpl;
 import es.eucm.eadventure.common.params.fills.impl.EAdBorderedColor;
 import es.eucm.eadventure.common.params.fills.impl.EAdColor;
 import es.eucm.eadventure.common.params.geom.impl.EAdPositionImpl;
+import es.eucm.eadventure.common.params.geom.impl.EAdPositionImpl.Corner;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.shapes.RectangleShape;
 
 public class ComplexElementScene extends EmptyScene {
@@ -26,13 +26,15 @@ public class ComplexElementScene extends EmptyScene {
 		complex.getResources().addAsset(complex.getInitialBundle(),
 				EAdBasicSceneElement.appearance, rectangle);
 		complex.setBounds(400, 400);
-		complex.setPosition(new EAdPositionImpl(100, 100));
+		complex.setPosition(new EAdPositionImpl(Corner.CENTER, 400, 300));
 
-		EAdSceneElement e = EAdElementsFactory
+		EAdBasicSceneElement e = EAdElementsFactory
 				.getInstance()
 				.getSceneElementFactory()
 				.createSceneElement(new RectangleShape(30, 30, EAdColor.RED),
 						new RectangleShape(50, 50, EAdColor.BLUE), 40, 40);
+		
+		e.setPosition(new EAdPositionImpl(Corner.CENTER, 50, 50));
 
 		complex.getElements().add(e);
 

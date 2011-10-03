@@ -44,7 +44,6 @@ import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.util.logging.Logger;
 
-import es.eucm.eadventure.common.model.EAdElement;
 import es.eucm.eadventure.common.model.guievents.EAdKeyEvent.KeyActionType;
 import es.eucm.eadventure.common.model.guievents.EAdKeyEvent.KeyCode;
 import es.eucm.eadventure.common.model.guievents.EAdMouseEvent;
@@ -53,11 +52,8 @@ import es.eucm.eadventure.common.model.guievents.EAdMouseEvent.MouseButton;
 import es.eucm.eadventure.common.model.guievents.impl.EAdMouseEventImpl;
 import es.eucm.eadventure.engine.core.KeyboardState;
 import es.eucm.eadventure.engine.core.MouseState;
-import es.eucm.eadventure.engine.core.gameobjects.GameObject;
-import es.eucm.eadventure.engine.core.guiactions.DropAction;
 import es.eucm.eadventure.engine.core.guiactions.KeyAction;
 import es.eucm.eadventure.engine.core.guiactions.MouseAction;
-import es.eucm.eadventure.engine.core.guiactions.impl.DropActionImpl;
 import es.eucm.eadventure.engine.core.guiactions.impl.KeyActionImpl;
 import es.eucm.eadventure.engine.core.guiactions.impl.MouseActionImpl;
 
@@ -114,7 +110,6 @@ public class DesktopInputListener implements MouseListener,
 						mouseState.getMouseX(), mouseState.getMouseY()));
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
 	public void mouseReleased(MouseEvent e) {
 		mouseState.setMousePressed(false);
@@ -122,20 +117,6 @@ public class DesktopInputListener implements MouseListener,
 		mouseState.getMouseEvents().add(
 				getMouseAction(e, MouseActionType.RELEASED,
 						mouseState.getMouseX(), mouseState.getMouseY()));
-
-		if (mouseState.getDraggingGameObject() != null) {
-			GameObject<? extends EAdElement> draggedGO = (GameObject<? extends EAdElement>) mouseState
-					.getDraggingGameObject();
-
-			draggedGO.processAction(getMouseAction(e, MouseActionType.DROP,
-					mouseState.getMouseX(), mouseState.getMouseY()));
-			DropAction action = new DropActionImpl(mouseState.getMouseX(),
-					mouseState.getMouseY(),
-					(GameObject<? extends EAdElement>) mouseState
-							.getDraggingGameObject());
-			mouseState.setDraggingGameObject(null);
-			mouseState.getMouseEvents().add(action);
-		}
 	}
 
 	@Override
@@ -151,13 +132,7 @@ public class DesktopInputListener implements MouseListener,
 	@Override
 	public void mouseDragged(MouseEvent e) {
 		mouseState.setMousePosition(e.getX(), e.getY());
-		if (mouseState.getDraggingGameObject() == null
-				&& mouseState.getGameObjectUnderMouse() != null) {
-			mouseState.setDraggingGameObject(mouseState
-					.getGameObjectUnderMouse().getDraggableElement(mouseState));
-			mouseState.getMouseEvents().add(getMouseAction(e, MouseActionType.DRAG,
-					mouseState.getMouseX(), mouseState.getMouseY()));
-		}
+		mouseState.setMousePressed(true);
 	}
 
 	@Override
@@ -175,19 +150,12 @@ public class DesktopInputListener implements MouseListener,
 	public void keyPressed(KeyEvent e) {
 		keyboardState.getKeyActions().add(
 				getKeyboardAction(KeyActionType.KEY_PRESSED, e));
-
-		// TODO should be done by the GUI or the BasicHUDGO?
-		/*
-		 * if (e.getKeyCode() == KeyEvent.VK_UP) { Robot r; try { r = new
-		 * Robot(); r.mouseMove(20, 20); } catch (AWTException e1) { catch block
-		 * e1.printStackTrace(); } }
-		 */
-
 	}
 
 	@Override
 	public void keyReleased(KeyEvent e) {
-
+		keyboardState.getKeyActions().add(
+				getKeyboardAction(KeyActionType.KEY_RELEASED, e));
 	}
 
 	/**

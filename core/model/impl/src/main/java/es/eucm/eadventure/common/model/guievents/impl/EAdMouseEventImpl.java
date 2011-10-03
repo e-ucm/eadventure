@@ -47,23 +47,27 @@ import es.eucm.eadventure.common.model.impl.EAdElementImpl;
 public class EAdMouseEventImpl extends EAdElementImpl implements EAdMouseEvent {
 
 	public static final EAdMouseEvent MOUSE_RIGHT_CLICK = new EAdMouseEventImpl(
-			MouseActionType.CLICK, MouseButton.BUTTON_1);
+			MouseActionType.CLICK, MouseButton.BUTTON_3);
 	public static final EAdMouseEvent MOUSE_LEFT_CLICK = new EAdMouseEventImpl(
-			MouseActionType.CLICK, MouseButton.BUTTON_2);
+			MouseActionType.CLICK, MouseButton.BUTTON_1);
 	public static final EAdMouseEvent MOUSE_RIGHT_DOUBLE_CLICK = new EAdMouseEventImpl(
-			MouseActionType.DOUBLE_CLICK, MouseButton.BUTTON_1);
+			MouseActionType.DOUBLE_CLICK, MouseButton.BUTTON_3);
 	public static final EAdMouseEvent MOUSE_ENTERED = new EAdMouseEventImpl(
 			MouseActionType.ENTERED, MouseButton.NO_BUTTON);
 	public static final EAdMouseEvent MOUSE_EXITED = new EAdMouseEventImpl(
 			MouseActionType.EXITED, MouseButton.NO_BUTTON);
 	public static final EAdMouseEvent MOUSE_DRAG = new EAdMouseEventImpl(
-			MouseActionType.DRAG, MouseButton.BUTTON_1);
+			MouseActionType.DRAG, MouseButton.NO_BUTTON);
+	public static final EAdMouseEvent MOUSE_START_DRAG = new EAdMouseEventImpl(
+			MouseActionType.START_DRAG, MouseButton.NO_BUTTON);
 	public static final EAdMouseEvent MOUSE_MOVED = new EAdMouseEventImpl(
 			MouseActionType.MOVED, MouseButton.NO_BUTTON);
-	public static final EAdMouseEvent MOUSE_RIGHT_PRESSED = new EAdMouseEventImpl(
+	public static final EAdMouseEvent MOUSE_LEFT_PRESSED = new EAdMouseEventImpl(
 			MouseActionType.PRESSED, MouseButton.BUTTON_1);
-	public static final EAdMouseEvent MOUSE_RIGHT_RELEASED = new EAdMouseEventImpl(
+	public static final EAdMouseEvent MOUSE_LEFT_RELEASED = new EAdMouseEventImpl(
 			MouseActionType.RELEASED, MouseButton.BUTTON_1);
+	public static final EAdMouseEvent MOUSE_DROP = new EAdMouseEventImpl(
+			MouseActionType.DROP, MouseButton.NO_BUTTON);
 
 	@Param("type")
 	private MouseActionType type;
@@ -85,14 +89,18 @@ public class EAdMouseEventImpl extends EAdElementImpl implements EAdMouseEvent {
 	 */
 	public static EAdMouseEvent getMouseEvent(MouseActionType type,
 			MouseButton button) {
+		//TODO improve
 		switch (type) {
 		case DOUBLE_CLICK:
-			return MOUSE_RIGHT_DOUBLE_CLICK;
+			if (button == MouseButton.BUTTON_3)
+				return MOUSE_RIGHT_DOUBLE_CLICK;
+			break;
 		case CLICK:
-			if (button == MouseButton.BUTTON_2)
+			if (button == MouseButton.BUTTON_3)
 				return MOUSE_RIGHT_CLICK;
 			else if (button == MouseButton.BUTTON_1)
 				return MOUSE_LEFT_CLICK;
+			break;
 		case ENTERED:
 			return MOUSE_ENTERED;
 		case EXITED:
@@ -100,14 +108,17 @@ public class EAdMouseEventImpl extends EAdElementImpl implements EAdMouseEvent {
 		case DRAG:
 			if (button == MouseButton.BUTTON_1)
 				return MOUSE_DRAG;
+			break;
 		case MOVED:
 			return MOUSE_MOVED;
 		case PRESSED:
 			if (button == MouseButton.BUTTON_1)
-				return MOUSE_RIGHT_PRESSED;
+				return MOUSE_LEFT_PRESSED;
+			break;
 		case RELEASED:
 			if (button == MouseButton.BUTTON_1)
-				return MOUSE_RIGHT_RELEASED;
+				return MOUSE_LEFT_RELEASED;
+			break;
 		}
 		return new EAdMouseEventImpl(type, button);
 	}
@@ -143,7 +154,7 @@ public class EAdMouseEventImpl extends EAdElementImpl implements EAdMouseEvent {
 	}
 
 	public String toString() {
-		return type.toString();
+		return type.toString() + ";" + button.toString();
 	}
 
 	@Override
@@ -157,7 +168,7 @@ public class EAdMouseEventImpl extends EAdElementImpl implements EAdMouseEvent {
 	}
 
 	public int hashCode() {
-		return type.hashCode();
+		return type.hashCode() + button.hashCode();
 	}
 
 }

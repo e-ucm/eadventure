@@ -102,7 +102,7 @@ public class MouseStateImpl implements MouseState {
 		return gameObjectUnderMouse;
 	}
 
-	public void setElementGameObject(GameObject<?> gameObjectUnderMouse) {
+	public void setGameObjectUnderMouse(GameObject<?> gameObjectUnderMouse) {
 		this.gameObjectUnderMouse = gameObjectUnderMouse;
 	}
 
