@@ -40,6 +40,7 @@ package es.eucm.eadventure.engine.core.platform.test.launcher;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -51,6 +52,7 @@ import java.util.Map;
 
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
@@ -77,6 +79,7 @@ import es.eucm.eadventure.common.params.EAdString;
 import es.eucm.eadventure.engine.core.debuggers.impl.EAdMainDebugger;
 import es.eucm.eadventure.engine.core.debuggers.impl.TrajectoryDebugger;
 import es.eucm.eadventure.engine.core.impl.modules.BasicGameModule;
+import es.eucm.eadventure.engine.core.platform.PlatformConfiguration;
 import es.eucm.eadventure.engine.core.platform.impl.extra.DesktopAssetHandlerModule;
 import es.eucm.eadventure.engine.core.platform.impl.extra.DesktopAssetRendererModule;
 import es.eucm.eadventure.engine.core.platform.impl.extra.DesktopModule;
@@ -88,6 +91,9 @@ import es.eucm.eadventure.gui.EAdGUILookAndFeel;
  * 
  */
 public class DesktopDemos extends BaseTestLauncher {
+
+	private static final Dimension DIMENSIONS[] = new Dimension[] {
+			new Dimension(800, 600), new Dimension(400, 300) };
 
 	public DesktopDemos(Injector injector, EAdScene scene) {
 		super(injector, scene);
@@ -135,6 +141,25 @@ public class DesktopDemos extends BaseTestLauncher {
 
 	}
 
+	public static class DimensionsCellRenderer extends JLabel implements
+			ListCellRenderer {
+
+		private static final long serialVersionUID = 1L;
+
+		public DimensionsCellRenderer() {
+			setOpaque(true);
+		}
+
+		@Override
+		public Component getListCellRendererComponent(JList arg0, Object value,
+				int arg2, boolean isSelected, boolean arg4) {
+			Dimension d = (Dimension) value;
+			setText((int) d.getWidth() + "x" + (int) d.getHeight());
+			return this;
+		}
+
+	}
+
 	public static class SceneDemosFrame extends JFrame {
 
 		private static final long serialVersionUID = 3665422751105063444L;
@@ -149,15 +174,23 @@ public class DesktopDemos extends BaseTestLauncher {
 
 			JPanel container = new JPanel();
 
+			JPanel p = new JPanel();
 			container.setLayout(new BorderLayout());
 
 			final JCheckBox checkBox = new JCheckBox("Write and read from XML");
-			container.add(checkBox, BorderLayout.NORTH);
+			p.add(checkBox);
+			container.add(p, BorderLayout.NORTH);
 
 			final JList list = new JList(scenes);
 			list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 			list.setCellRenderer(new ClassListCellRenderer());
 			list.setSelectedIndex(0);
+
+			final JComboBox comboBox = new JComboBox(DIMENSIONS);
+			comboBox.setRenderer(new DimensionsCellRenderer());
+			comboBox.setSelectedIndex(0);
+
+			p.add(comboBox);
 
 			container.add(list, BorderLayout.CENTER);
 
@@ -168,6 +201,8 @@ public class DesktopDemos extends BaseTestLauncher {
 				public void actionPerformed(ActionEvent arg0) {
 					new Thread() {
 						public void run() {
+							Dimension d = (Dimension) comboBox
+									.getSelectedItem();
 							Object o = list.getSelectedValue();
 							if (checkBox.isSelected()) {
 								EAdScene scene = (EAdScene) o;
@@ -192,9 +227,10 @@ public class DesktopDemos extends BaseTestLauncher {
 											new AdventureHandler()).read(is);
 									is.close();
 
-									new DesktopDemos(createNewInjector(),
-											model, EAdElementsFactory
-													.getInstance()
+									new DesktopDemos(createNewInjector(
+											(int) d.getWidth(),
+											(int) d.getHeight()), model,
+											EAdElementsFactory.getInstance()
 													.getStringFactory()
 													.getStrings()).start();
 
@@ -205,7 +241,9 @@ public class DesktopDemos extends BaseTestLauncher {
 								}
 
 							} else {
-								new DesktopDemos(createNewInjector(),
+								new DesktopDemos(
+										createNewInjector((int) d.getWidth(),
+												(int) d.getHeight()),
 										(EAdScene) o).start();
 							}
 						}
@@ -217,17 +255,20 @@ public class DesktopDemos extends BaseTestLauncher {
 
 			container.add(button, BorderLayout.SOUTH);
 
-			setSize(400, 400);
-			setLocationRelativeTo(null);
 			setContentPane(container);
+			pack();
 
 		}
 	}
 
-	private static Injector createNewInjector() {
-		return Guice.createInjector(new DesktopAssetHandlerModule(),
+	private static Injector createNewInjector(int width, int height) {
+		Injector i = Guice.createInjector(new DesktopAssetHandlerModule(),
 				new DesktopAssetRendererModule(null), new DesktopModule(),
 				new BasicGameModule());
+		PlatformConfiguration conf = i.getInstance(PlatformConfiguration.class);
+		conf.setWidth(width);
+		conf.setHeight(height);
+		return i;
 	}
 
 }
