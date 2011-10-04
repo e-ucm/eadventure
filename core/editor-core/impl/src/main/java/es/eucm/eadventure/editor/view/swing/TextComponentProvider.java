@@ -18,15 +18,12 @@ public class TextComponentProvider implements ComponentProvider<TextOption, EAdT
 	}
 	
 	@Override
-	public void setElement(TextOption element2) {
+	public EAdTextField getComponent(TextOption element2) {
 		this.element = element2;
 		textField = new EAdTextField(element.getTitle(), 20);
 		textField.setToolTipText(element.getToolTipText());
 		textField.setText(fieldValueReader.readValue(element.getFieldDescriptor()));
-	}
 
-	@Override
-	public EAdTextField getComponent() {
 		return textField;
 	}
 

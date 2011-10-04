@@ -19,15 +19,11 @@ public class BooleanComponentProvider implements ComponentProvider<BooleanOption
 	}
 	
 	@Override
-	public void setElement(BooleanOption element2) {
+	public JCheckBox getComponent(BooleanOption element2) {
 		this.element = element2;
 		checkBox = new JCheckBox(element.getTitle());
 		checkBox.setToolTipText(element.getToolTipText());
 		checkBox.setSelected(fieldValueReader.readValue(element.getFieldDescriptor()));
-	}
-
-	@Override
-	public JCheckBox getComponent() {
 		return checkBox;
 	}
 

@@ -30,8 +30,7 @@ public class TextComponentProviderTest extends EAdFrame {
         setLayout(new FlowLayout());
         TextOption option = new TextOption("name", "toolTip", fieldDescriptor);
         TextComponentProvider textComponentProvider = new TextComponentProvider(fieldValueReader);
-        textComponentProvider.setElement(option);
-        add(textComponentProvider.getComponent());
+        add(textComponentProvider.getComponent(option));
         
         setVisible( true );
         setDefaultCloseOperation( WindowConstants.EXIT_ON_CLOSE );

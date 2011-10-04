@@ -19,7 +19,7 @@ public class ElementComponentProvider implements ComponentProvider<ElementOption
 	}
 	
 	@Override
-	public void setElement(ElementOption<?> element2) {
+	public JButton getComponent(ElementOption<?> element2) {
 		this.element = element2;
 		button = new JButton(element.getTitle());
 		button.setToolTipText(element.getToolTipText());
@@ -31,10 +31,7 @@ public class ElementComponentProvider implements ComponentProvider<ElementOption
 			}
 			
 		});
-	}
 
-	@Override
-	public JButton getComponent() {
 		return button;
 	}
 

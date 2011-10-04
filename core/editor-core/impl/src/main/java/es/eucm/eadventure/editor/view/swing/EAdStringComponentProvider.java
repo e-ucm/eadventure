@@ -15,16 +15,13 @@ public class EAdStringComponentProvider implements ComponentProvider<EAdStringOp
 	}
 	
 	@Override
-	public void setElement(EAdStringOption element2) {
+	public EAdTextField getComponent(EAdStringOption element2) {
 		this.element = element2;
 		textField = new EAdTextField(element.getTitle(), 20);
 		textField.setToolTipText(element.getToolTipText());
 		//TODO String handler in the editor?
 		//textField.setText(element.getFieldDescriptor().readValue());
-	}
 
-	@Override
-	public EAdTextField getComponent() {
 		return textField;
 	}
 
