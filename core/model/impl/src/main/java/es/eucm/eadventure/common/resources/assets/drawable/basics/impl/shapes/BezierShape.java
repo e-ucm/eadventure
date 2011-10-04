@@ -64,6 +64,11 @@ public class BezierShape implements Shape, Cloneable {
 		segmentsLength = new EAdListImpl<Integer>(Integer.class);
 		fill = EAdBorderedColor.TRANSPARENT;
 	}
+	
+	public BezierShape( EAdFill fill ){
+		this();
+		this.fill = fill;
+	}
 
 	public BezierShape(EAdPositionImpl startPoint) {
 		this();

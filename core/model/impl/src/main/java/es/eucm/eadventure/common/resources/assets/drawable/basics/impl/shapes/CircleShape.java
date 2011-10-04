@@ -1,9 +1,12 @@
 package es.eucm.eadventure.common.resources.assets.drawable.basics.impl.shapes;
 
+import es.eucm.eadventure.common.params.EAdFill;
+import es.eucm.eadventure.common.params.fills.impl.EAdBorderedColor;
+
 public class CircleShape extends BezierShape {
 
-	public CircleShape(int cx, int cy, int radius, int segments) {
-
+	public CircleShape(int cx, int cy, int radius, int segments, EAdFill fill) {
+		super( fill );
 		float angle = (float) (2 * Math.PI / segments);
 		float accAngle = angle;
 
@@ -18,6 +21,10 @@ public class CircleShape extends BezierShape {
 		}
 
 		close();
+	}
+	
+	public CircleShape(int cx, int cy, int radius, int segments){
+		this( cx, cy, radius, segments, EAdBorderedColor.WHITE_ON_BLACK);
 	}
 
 }

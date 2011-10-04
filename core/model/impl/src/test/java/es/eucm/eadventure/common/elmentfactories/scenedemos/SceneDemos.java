@@ -68,6 +68,7 @@ public class SceneDemos {
 		sceneDemos.add(new PhysicsScene2());
 		sceneDemos.add(new DragDropScene());
 		sceneDemos.add(new PositionScene());
+		sceneDemos.add(new DepthZScene());
 		
 	}
 

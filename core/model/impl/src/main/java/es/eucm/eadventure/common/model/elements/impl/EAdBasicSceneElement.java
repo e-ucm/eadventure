@@ -81,6 +81,9 @@ public class EAdBasicSceneElement extends AbstractEAdElementWithBehavior
 
 	public static final EAdVarDef<Integer> VAR_Y = new EAdVarDefImpl<Integer>(
 			"y", Integer.class, 0);
+	
+	public static final EAdVarDef<Integer> VAR_Z = new EAdVarDefImpl<Integer>(
+			"z", Integer.class, 0);
 
 	public static final EAdVarDef<Float> VAR_DISP_X = new EAdVarDefImpl<Float>(
 			"disp_x", Float.class, 0.0f);

@@ -37,12 +37,16 @@
 
 package es.eucm.eadventure.engine.core.gameobjects.impl;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import com.google.inject.Inject;
 
 import es.eucm.eadventure.common.model.elements.EAdScene;
 import es.eucm.eadventure.common.model.elements.EAdSceneElement;
+import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
 import es.eucm.eadventure.common.resources.StringHandler;
 import es.eucm.eadventure.engine.core.GameState;
 import es.eucm.eadventure.engine.core.ValueMap;
@@ -58,6 +62,10 @@ import es.eucm.eadventure.engine.core.util.EAdTransformation;
 
 public class SceneGOImpl extends SceneElementGOImpl<EAdScene> implements
 		SceneGO<EAdScene> {
+	
+	private final ElementComparator comparator = new ElementComparator();
+	
+	private ArrayList<EAdSceneElement> orderedElements;
 
 	@Inject
 	public SceneGOImpl(AssetHandler assetHandler, StringHandler stringHandler,
@@ -65,17 +73,39 @@ public class SceneGOImpl extends SceneElementGOImpl<EAdScene> implements
 			ValueMap valueMap, PlatformConfiguration platformConfiguration) {
 		super(assetHandler, stringHandler, gameObjectFactory, gui, gameState, valueMap,
 				platformConfiguration);
+		orderedElements = new ArrayList<EAdSceneElement>();
 	}
 
 	public void doLayout(EAdTransformation transformation) {
 		super.doLayout(transformation);
 		gui.addElement(gameObjectFactory.get(element.getBackground()),
 				transformation);
-		for ( EAdSceneElement e: element.getElements() ){
+		sortElements();
+		for ( EAdSceneElement e: orderedElements ){
 			gui.addElement(gameObjectFactory.get(e), transformation);
 		}
-		// TODO sort elements?
 
+	}
+
+	private void sortElements() {
+		orderedElements.clear();
+		for ( EAdSceneElement e: element.getElements() ){
+			orderedElements.add(e);
+		}
+		Collections.sort(orderedElements, comparator);
+	}
+	
+	private class ElementComparator implements Comparator<EAdSceneElement> {
+
+		@Override
+		public int compare(EAdSceneElement o1, EAdSceneElement o2) {
+			int z1 = valueMap.getValue(o1, EAdBasicSceneElement.VAR_Z);
+			int z2 = valueMap.getValue(o2, EAdBasicSceneElement.VAR_Z);
+			return z1 - z2;
+		}
+
+		
+		
 	}
 
 	@Override
