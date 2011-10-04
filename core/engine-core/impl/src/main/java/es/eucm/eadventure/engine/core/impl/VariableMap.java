@@ -37,19 +37,16 @@
 
 package es.eucm.eadventure.engine.core.impl;
 
-import java.util.Map;
-import java.util.logging.Logger;
-
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 import es.eucm.eadventure.common.interfaces.ReflectionProvider;
+import es.eucm.eadventure.common.model.extra.EAdList;
+import es.eucm.eadventure.common.model.variables.EAdField;
 import es.eucm.eadventure.engine.core.ValueMap;
 
 @Singleton
 public class VariableMap extends ValueMapImpl implements ValueMap {
-
-	private Logger logger = Logger.getLogger("VariableMap");
 	
 	@Inject
 	public VariableMap(ReflectionProvider reflectionProvider) {
@@ -78,12 +75,12 @@ public class VariableMap extends ValueMapImpl implements ValueMap {
 	 *            the text to be processed by the value map
 	 * @return the processed text
 	 */
-	public String processTextVars(String text) {
-		text = processConditionalExpressions(text);
-		return processVars(text);
+	public String processTextVars(String text, EAdList<EAdField<?>> fields) {
+		text = processConditionalExpressions(text, fields);
+		return processVars(text, fields);
 	}
 
-	private String processVars(String text) {
+	private String processVars(String text, EAdList<EAdField<?>> fields) {
 		char[] separators = new char[] { ' ', ',', '.', '?', '!', '-', ')' };
 		int i = 0;
 		int space = 0;
@@ -105,7 +102,7 @@ public class VariableMap extends ValueMapImpl implements ValueMap {
 				space = space == -1 ? text.length() : space;
 				String varName = text.substring(i + 1, space);
 
-				Object o = this.getValue(varName);
+				Object o = this.getValue(varName, fields);
 				if (o != null) {
 					text = text.substring(0, i) + o.toString()
 							+ text.substring(space);
@@ -119,32 +116,16 @@ public class VariableMap extends ValueMapImpl implements ValueMap {
 		return text;
 	}
 
-	private Object getValue(String varName) {
-		Object o = check(varName, Boolean.class);
-		if (o != null)
-			return o;
-		o = check(varName, Integer.class);
-		if (o != null)
-			return o;
-		o = check(varName, Float.class);
-		if (o != null)
-			return o;
-		o = check(varName, String.class);
-		if (o != null)
-			return o;
-		logger.info("No variable with name :" + varName);
-		return null;
-	}
-	
-	private Object check(String varName, Class<?> type) {
-		Map<?, ?> varMap = map.get(type);
-		if (varMap != null) {
-			return varMap.get(varName);
+	private Object getValue(String varName, EAdList<EAdField<?>> fields) {
+		int pos = Integer.parseInt(varName);
+		if ( pos >= 0 && pos < fields.size()){
+			return getValue(fields.get(pos));
 		}
+
 		return null;
 	}
 	
-	private String processConditionalExpressions(String text) {
+	private String processConditionalExpressions(String text, EAdList<EAdField<?>> fields) {
 		String newText = "";
 		if (text != null) {
 			String[] parts = text.split("\\(");
@@ -156,7 +137,7 @@ public class VariableMap extends ValueMapImpl implements ValueMap {
 				if (part.length() > 0 && part.charAt(0) == '#') {
 					String[] parts2 = part.split("\\)");
 
-					parts2[0] = evaluateExpression(parts2[0]);
+					parts2[0] = evaluateExpression(parts2[0], fields);
 
 					parts[i] = parts2[0];
 					for (int j = 1; j < parts2.length; j++) {
@@ -179,7 +160,7 @@ public class VariableMap extends ValueMapImpl implements ValueMap {
 	 * @param expression
 	 * @return
 	 */
-	public String evaluateExpression(String expression) {
+	public String evaluateExpression(String expression, EAdList<EAdField<?>> fields) {
 
 		if (expression.contains("?") && expression.contains(":")) {
 			String[] values = expression.substring(1).split("\\?|\\:");
@@ -187,7 +168,7 @@ public class VariableMap extends ValueMapImpl implements ValueMap {
 			if (values.length != 3)
 				return "(" + expression + ")";
 
-			Object o = getValue(values[0]);
+			Object o = getValue(values[0], fields);
 			
 			if (o != null && o instanceof Boolean) {
 				Boolean b = (Boolean) o;

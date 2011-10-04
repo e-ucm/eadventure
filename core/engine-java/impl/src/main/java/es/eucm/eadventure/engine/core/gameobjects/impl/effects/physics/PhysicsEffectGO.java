@@ -89,6 +89,7 @@ public class PhysicsEffectGO extends AbstractEffectGO<EAdPhysicsEffect> {
 	@Override
 	public void update() {
 		super.update();
+		// FIXME this must depend on FPS
 		for (int i = 0; i < 6; i++)
 			world.step(timeStep, 8, 3);
 

@@ -141,7 +141,7 @@ public class RuntimeCaption extends AbstractRuntimeAsset<Caption> implements
 	public boolean loadAsset() {
 		font = fontCache.get(descriptor.getFont());
 		text = valueMap.processTextVars(stringsReader.getString(descriptor
-				.getText()));
+				.getText()), descriptor.getFields());
 		lines = new ArrayList<String>();
 		wrapText();
 		return true;
@@ -184,7 +184,7 @@ public class RuntimeCaption extends AbstractRuntimeAsset<Caption> implements
 		}
 
 		text = valueMap.processTextVars(stringsReader.getString(descriptor
-				.getText()));
+				.getText()), descriptor.getFields());
 
 		// If text has changed
 		if (!currentText.equals(text))

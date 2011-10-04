@@ -38,6 +38,9 @@
 package es.eucm.eadventure.common.resources.assets.drawable.basics.impl;
 
 import es.eucm.eadventure.common.interfaces.Param;
+import es.eucm.eadventure.common.model.extra.EAdList;
+import es.eucm.eadventure.common.model.extra.impl.EAdListImpl;
+import es.eucm.eadventure.common.model.variables.EAdField;
 import es.eucm.eadventure.common.params.EAdFill;
 import es.eucm.eadventure.common.params.EAdFont;
 import es.eucm.eadventure.common.params.EAdFontImpl;
@@ -83,6 +86,9 @@ public class CaptionImpl implements Caption {
 	@Param("padding")
 	private int padding;
 
+	@Param("fields")
+	private EAdList<EAdField<?>> fields;
+
 	public CaptionImpl() {
 		this(null);
 	}
@@ -99,6 +105,7 @@ public class CaptionImpl implements Caption {
 		minWidth = 0;
 		minHeight = 0;
 		padding = DEFAULT_PADDING;
+		fields = new EAdListImpl<EAdField<?>>(EAdField.class);
 	}
 
 	@Override
@@ -224,6 +231,11 @@ public class CaptionImpl implements Caption {
 
 	public void setPadding(int padding) {
 		this.padding = padding;
+	}
+
+	@Override
+	public EAdList<EAdField<?>> getFields() {
+		return fields;
 	}
 
 }

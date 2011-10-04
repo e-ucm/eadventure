@@ -33,6 +33,7 @@ import es.eucm.eadventure.common.params.fills.impl.EAdColor;
 import es.eucm.eadventure.common.params.fills.impl.EAdLinearGradient;
 import es.eucm.eadventure.common.params.geom.impl.EAdPositionImpl;
 import es.eucm.eadventure.common.params.geom.impl.EAdPositionImpl.Corner;
+import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.CaptionImpl;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.ImageImpl;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.shapes.BezierShape;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.shapes.CircleShape;
@@ -190,6 +191,14 @@ public class PhysicsScene extends EmptyScene {
 
 		getBackground().addBehavior(EAdMouseEventImpl.MOUSE_LEFT_PRESSED,
 				addEffect);
+		
+		// Add text
+		CaptionImpl c = EAdElementsFactory.getInstance().getCaptionFactory().createCaption("radians: #0 ");
+		c.getFields().add(rotationField);
+		c.setBubbleColor(EAdColor.TRANSPARENT);
+		EAdBasicSceneElement e = new EAdBasicSceneElement("e", c);
+		e.setPosition(120, 375);
+		getElements().add(e);
 
 	}
 
