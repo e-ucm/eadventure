@@ -49,6 +49,10 @@ public abstract class VarCondition extends AbstractEAdCondition implements
 
 	@Param("operator")
 	private Operator operator;
+	
+	public VarCondition(String id ){
+		super( id );
+	}
 
 	public VarCondition(Operator operator) {
 		this.operator = operator;

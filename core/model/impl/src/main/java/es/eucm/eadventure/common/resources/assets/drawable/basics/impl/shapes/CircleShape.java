@@ -4,6 +4,10 @@ import es.eucm.eadventure.common.params.EAdFill;
 import es.eucm.eadventure.common.params.fills.impl.EAdBorderedColor;
 
 public class CircleShape extends BezierShape {
+	
+	public CircleShape(){
+		
+	}
 
 	public CircleShape(int cx, int cy, int radius, int segments, EAdFill fill) {
 		super( fill );

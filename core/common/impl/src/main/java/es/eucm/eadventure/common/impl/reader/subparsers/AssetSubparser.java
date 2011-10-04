@@ -71,18 +71,23 @@ public class AssetSubparser extends Subparser<AssetDescriptor> {
 	 *            The attributes of the bundle
 	 */
 	public AssetSubparser(Object parent, Object assetId, Attributes attributes) {
-		super( parent, attributes, AssetDescriptor.class );
+		super(parent, attributes, AssetDescriptor.class);
 		if (assetId instanceof AssetId) {
-			((AssetId) assetId).setAssetId(attributes.getValue(DOMWriter.ID_AT));
+			((AssetId) assetId)
+					.setAssetId(attributes.getValue(DOMWriter.ID_AT));
 		}
 		if (clazz != null) {
 			String uniqueId = attributes.getValue(DOMWriter.UNIQUE_ID_AT);
+			Class<?> c = null;
 			try {
-				Class<?> c = ClassLoader.getSystemClassLoader().loadClass(
-						clazz);
+				c = ClassLoader.getSystemClassLoader().loadClass(clazz);
 				Constructor<?> con = c.getConstructor();
 				element = (AssetDescriptor) con.newInstance(new Object[] {});
 				ObjectFactory.addAsset(uniqueId, element);
+			} catch (NoSuchMethodException e1) {
+				logger.info("You must define a constructor without parameters for the class "
+						+ c + " in order to make work XML read and write");
+
 			} catch (Exception e) {
 				logger.log(Level.SEVERE, e.getMessage(), e);
 			}

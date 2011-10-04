@@ -75,6 +75,10 @@ public abstract class ListedCondition extends EAdGeneralElementImpl implements E
 	@Param("operator")
 	private Operator operator;
 	
+	public ListedCondition( String id ){
+		this( id, null );
+	}
+	
 	public ListedCondition( String id, Operator operator ){
 		this( id, operator, (EAdCondition) null );
 	}

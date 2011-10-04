@@ -69,5 +69,14 @@ public class MoleGame extends EmptyScene {
 		return mole;
 
 	}
+	
+	@Override
+	public String getDescription() {
+		return "Mole game";
+	}
+
+	public String getDemoName() {
+		return "Mole game";
+	}
 
 }

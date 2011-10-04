@@ -41,8 +41,8 @@ import java.util.List;
 
 import es.eucm.eadventure.common.model.elements.EAdSceneElement;
 import es.eucm.eadventure.common.model.extra.EAdList;
+import es.eucm.eadventure.common.model.trajectories.impl.Node;
 import es.eucm.eadventure.common.model.trajectories.impl.NodeTrajectoryDefinition;
-import es.eucm.eadventure.common.model.trajectories.impl.NodeTrajectoryDefinition.Node;
 import es.eucm.eadventure.common.model.trajectories.impl.Side;
 import es.eucm.eadventure.common.params.geom.EAdPosition;
 import es.eucm.eadventure.common.params.geom.EAdRectangle;

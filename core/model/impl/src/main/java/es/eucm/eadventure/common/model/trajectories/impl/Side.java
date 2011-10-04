@@ -1,18 +1,27 @@
 package es.eucm.eadventure.common.model.trajectories.impl;
 
 import es.eucm.eadventure.common.interfaces.Element;
+import es.eucm.eadventure.common.interfaces.Param;
 import es.eucm.eadventure.common.model.EAdElement;
 
 @Element(detailed = Side.class, runtime = Side.class)
 public class Side implements EAdElement {
 
+	@Param("idStart")
 	private String idStart;
 
+	@Param("idEnd")
 	private String idEnd;
 
+	@Param("length")
 	private float length = 1;
 
+	@Param("realLength")
 	private float realLength = 1;
+	
+	public Side(){
+		
+	}
 
 	public Side(String idStart, String idEnd) {
 

@@ -19,11 +19,16 @@ public class EAdAddActorReferenceEffect extends AbstractEAdEffect {
 
 	@Param("position")
 	private EAdPosition position;
-	
+
 	@Param("initialEffect")
 	private EAdSceneElementEffect effect;
 
-	public EAdAddActorReferenceEffect(EAdActor actor, EAdPosition p, EAdSceneElementEffect effect) {
+	public EAdAddActorReferenceEffect() {
+
+	}
+
+	public EAdAddActorReferenceEffect(EAdActor actor, EAdPosition p,
+			EAdSceneElementEffect effect) {
 		this.actor = actor;
 		this.position = p;
 		this.effect = effect;
@@ -36,8 +41,8 @@ public class EAdAddActorReferenceEffect extends AbstractEAdEffect {
 	public EAdPosition getPosition() {
 		return position;
 	}
-	
-	public EAdSceneElementEffect getInitialEffect(){
+
+	public EAdSceneElementEffect getInitialEffect() {
 		return effect;
 	}
 

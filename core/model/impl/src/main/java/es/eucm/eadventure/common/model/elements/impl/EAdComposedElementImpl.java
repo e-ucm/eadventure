@@ -37,6 +37,7 @@
 
 package es.eucm.eadventure.common.model.elements.impl;
 
+import es.eucm.eadventure.common.interfaces.Element;
 import es.eucm.eadventure.common.interfaces.Param;
 import es.eucm.eadventure.common.model.elements.EAdComposedElement;
 import es.eucm.eadventure.common.model.elements.EAdSceneElement;
@@ -52,6 +53,7 @@ import es.eucm.eadventure.common.model.variables.impl.EAdVarDefImpl;
  * 
  * 
  */
+@Element(detailed = EAdComposedElementImpl.class, runtime = EAdComposedElementImpl.class)
 public class EAdComposedElementImpl extends EAdBasicSceneElement implements
 		EAdComposedElement {
 

@@ -24,6 +24,10 @@ public class BallonShape extends BezierShape {
 		}
 		
 	}
+	
+	public BallonShape(){
+		
+	}
 
 	public BallonShape(int left, int top, int right, int bottom,
 			BalloonType ballonType) {

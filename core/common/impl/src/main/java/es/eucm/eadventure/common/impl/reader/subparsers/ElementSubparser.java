@@ -55,7 +55,7 @@ public class ElementSubparser extends Subparser<EAdElement> {
 	public ElementSubparser(Object o, Attributes attributes) {
 		super(o, attributes, EAdElement.class);
 		// If element is new
-		if ( attributes.getIndex(DOMWriter.ID_AT) != -1) {
+		if (attributes.getIndex(DOMWriter.ID_AT) != -1) {
 			String id = attributes.getValue(DOMWriter.ID_AT);
 			String uniqueId = attributes.getValue(DOMWriter.UNIQUE_ID_AT);
 
@@ -63,10 +63,8 @@ public class ElementSubparser extends Subparser<EAdElement> {
 			try {
 				c = ClassLoader.getSystemClassLoader().loadClass(clazz);
 				Constructor<?> con = c.getConstructor(String.class);
-				element = (EAdElement) con
-						.newInstance(new Object[] { id });
+				element = (EAdElement) con.newInstance(new Object[] { id });
 
-				
 			} catch (ClassNotFoundException e) {
 				e.printStackTrace();
 			} catch (SecurityException e) {
@@ -76,16 +74,19 @@ public class ElementSubparser extends Subparser<EAdElement> {
 				try {
 					con = c.getConstructor();
 					this.element = (EAdElement) con.newInstance();
+
+				} catch (NoSuchMethodException e1) {
+					logger.info("You must define a constructor without parameters or a constructor only with the id for the class "
+							+ c + " in order to make work XML read and write");
 				} catch (Exception e1) {
 					e1.printStackTrace();
 				}
 			} catch (Exception e) {
 
 			}
-			if ( element != null )
+			if (element != null)
 				ObjectFactory.addElement(uniqueId, element);
 		}
 
 	}
-
 }

@@ -93,4 +93,9 @@ public class EAdBundleId implements Comparable<EAdBundleId>{
 		return bundleId;
 	}
 	
+	@Override
+	public int hashCode(){
+		return bundleId.hashCode();
+	}
+	
 }

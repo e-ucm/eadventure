@@ -54,6 +54,10 @@ public class VarValCondition extends VarCondition {
 
 	@Param("value")
 	private Float val;
+	
+	public VarValCondition(String id){
+		super( id );
+	}
 
 	/**
 	 * Constructs a condition comparing a variables with a value

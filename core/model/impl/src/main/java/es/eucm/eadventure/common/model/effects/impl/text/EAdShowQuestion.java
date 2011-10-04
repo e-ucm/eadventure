@@ -69,7 +69,7 @@ import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.CaptionIm
  * </p>
  * 
  */
-@Element(runtime = EAdComplexBlockingEffect.class, detailed = EAdShowQuestion.class)
+@Element(runtime = EAdShowQuestion.class, detailed = EAdShowQuestion.class)
 public class EAdShowQuestion extends EAdComplexBlockingEffect {
 
 	/**

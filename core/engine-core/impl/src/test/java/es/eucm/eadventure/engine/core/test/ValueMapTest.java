@@ -37,15 +37,12 @@
 
 package es.eucm.eadventure.engine.core.test;
 
-import static org.junit.Assert.assertEquals;
-
 import org.junit.Before;
 import org.junit.Test;
 
 import com.google.inject.Inject;
 
 import es.eucm.eadventure.engine.core.ValueMap;
-import es.eucm.eadventure.engine.core.impl.VariableMap;
 
 public class ValueMapTest {
 

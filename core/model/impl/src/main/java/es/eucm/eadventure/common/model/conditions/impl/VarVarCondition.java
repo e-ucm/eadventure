@@ -53,6 +53,10 @@ public class VarVarCondition extends VarCondition {
 
 	@Param("var2")
 	private EAdField<? extends Number> var2;
+	
+	public VarVarCondition( String id ){
+		super( id );
+	}
 
 	/**
 	 * Constructs a condition comparing two number variables

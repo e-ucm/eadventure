@@ -9,8 +9,8 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 import es.eucm.eadventure.common.model.elements.EAdSceneElement;
+import es.eucm.eadventure.common.model.trajectories.impl.Node;
 import es.eucm.eadventure.common.model.trajectories.impl.NodeTrajectoryDefinition;
-import es.eucm.eadventure.common.model.trajectories.impl.NodeTrajectoryDefinition.Node;
 import es.eucm.eadventure.common.model.trajectories.impl.Side;
 import es.eucm.eadventure.common.model.variables.EAdField;
 import es.eucm.eadventure.common.model.variables.impl.EAdFieldImpl;
