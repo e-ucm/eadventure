@@ -156,7 +156,10 @@ public class EAdBorder extends AbstractBorder {
         
         g2.setStroke(new BasicStroke(width));
         
-        g2.drawRect(x - 1 + width, y  - 1 + width, w - width, h - width );
+        if (c instanceof JPopupMenu)
+        	g2.drawRect(x - 1 + width, y - 1 + width, w - width, h - width );
+        else
+        	g2.drawRect(x - 1 + width, y + width, w - width, h - width - 2 );
         
         g2.dispose();
    }
@@ -165,7 +168,7 @@ public class EAdBorder extends AbstractBorder {
     public Insets getBorderInsets(Component c) {
         if (c instanceof JPopupMenu)
             return new Insets(1, 1, 1, 1);
-        return new Insets(6, 6, 6, 6);
+        return new Insets(7, 6, 7, 6);
     }
 
     @Override

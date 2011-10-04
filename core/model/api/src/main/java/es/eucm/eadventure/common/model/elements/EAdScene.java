@@ -54,12 +54,12 @@ public interface EAdScene extends EAdGeneralElement, Variabled,
 	 * @return true if the game can return to this scene after a cutscene or
 	 *         similiar
 	 */
-	boolean isReturnable();
+	Boolean isReturnable();
 
 	/**
 	 * 
 	 * @return true if accepts visual effects
 	 */
-	boolean acceptsVisualEffects();
+	Boolean acceptsVisualEffects();
 
 }

@@ -1,6 +1,8 @@
 package es.eucm.eadventure.editor.view.swing;
 
-import java.awt.FlowLayout;
+import java.awt.GridLayout;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.swing.JComponent;
 import javax.swing.JPanel;
@@ -13,6 +15,8 @@ import es.eucm.eadventure.gui.EAdBorderedPanel;
 
 public class PanelComponentProvider implements ComponentProvider<Panel, JPanel> {
 
+	private static final Logger logger = Logger.getLogger("PanelComponentProvider");
+	
 	private Panel element;
 	
 	private JPanel panel;
@@ -24,22 +28,24 @@ public class PanelComponentProvider implements ComponentProvider<Panel, JPanel> 
 	}
 	
 	@Override
-	public void setElement(Panel element2) {
+	public JPanel getComponent(Panel element2) {
 		this.element = element2;
 		if (element.getTitle() != null)
 			panel = new EAdBorderedPanel(element.getTitle());
 		else
 			panel = new JPanel();
-		panel.setLayout(new FlowLayout());
+		//panel.setLayout(new FlowLayout());
+		panel.setLayout(new GridLayout(0,1));
 		for (InterfaceElement newElement : element.getElements()) {
 			ComponentProvider<InterfaceElement, JComponent> cp = providerFactory.getProvider(newElement);
-			cp.setElement(newElement);
-			panel.add(cp.getComponent());
+			if (cp == null)
+				logger.log(Level.SEVERE, "No provider for " + newElement.getClass());
+			JComponent component = cp.getComponent(newElement);
+			if (component == null)
+				logger.log(Level.SEVERE, "No component for " + newElement.getClass() + " with provider " + cp.getClass());
+			panel.add(component);
 		}
-	}
 
-	@Override
-	public JPanel getComponent() {
 		return panel;
 	}
 
