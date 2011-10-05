@@ -1,9 +1,8 @@
 package es.eucm.eadventure.common.impl.importer.subimporters.books;
 
 import java.awt.Font;
-import java.awt.Graphics2D;
+import java.awt.Point;
 import java.awt.font.FontRenderContext;
-import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -48,6 +47,8 @@ import es.eucm.eadventure.common.params.EAdFont;
 import es.eucm.eadventure.common.params.EAdFont.Style;
 import es.eucm.eadventure.common.params.EAdFontImpl;
 import es.eucm.eadventure.common.params.fills.impl.EAdColor;
+import es.eucm.eadventure.common.params.geom.impl.EAdPositionImpl;
+import es.eucm.eadventure.common.params.geom.impl.EAdPositionImpl.Corner;
 import es.eucm.eadventure.common.resources.EAdBundleId;
 import es.eucm.eadventure.common.resources.StringHandler;
 import es.eucm.eadventure.common.resources.assets.AssetDescriptor;
@@ -162,7 +163,8 @@ public class BookImporter implements EAdElementImporter<Book, EAdScene> {
 						column++;
 						dispY = TEXT_Y;
 					}
-					CircleShape bullet = new CircleShape(0, 0, BULLET_WIDTH / 3, 20);
+					CircleShape bullet = new CircleShape(0, 0,
+							BULLET_WIDTH / 3, 20);
 					bullet.setFill(EAdColor.BLACK);
 					image.addDrawable(bullet, getDispX() + BULLET_WIDTH / 2,
 							dispY + LINE_HEIGHT / 2);
@@ -212,16 +214,33 @@ public class BookImporter implements EAdElementImporter<Book, EAdScene> {
 				Book.RESOURCE_TYPE_ARROW_LEFT_NORMAL,
 				Book.RESOURCE_TYPE_ARROW_LEFT_OVER, "[0] + " + BOOK_WIDTH,
 				leftCondition);
-		leftArrow.setPosition(oldObject.getPreviousPagePoint().x,
-				oldObject.getPreviousPagePoint().y);
+		Point p = oldObject.getPreviousPagePoint();
+		int x = 10;
+		int y = 10;
+		if (p != null) {
+			x = p.x;
+			y = p.y;
+		}
+		leftArrow.setPosition(x, y);
 
 		EAdCondition rightCondition = EmptyCondition.TRUE_EMPTY_CONDITION;
 		EAdBasicSceneElement rightArrow = getArrow(oldObject, content,
 				Book.RESOURCE_TYPE_ARROW_RIGHT_NORMAL,
 				Book.RESOURCE_TYPE_ARROW_RIGHT_OVER, "[0] - " + BOOK_WIDTH,
 				rightCondition);
-		rightArrow.setPosition(oldObject.getNextPagePoint().x,
-				oldObject.getNextPagePoint().y);
+		
+		
+		p = oldObject.getNextPagePoint();
+		x = 790;
+		y = 10;
+		Corner c = Corner.TOP_RIGHT;
+		if (p != null) {
+			x = p.x;
+			y = p.y;
+			c = Corner.TOP_LEFT;
+		}
+		
+		rightArrow.setPosition(new EAdPositionImpl( c, x, y));
 
 		EAdCondition endCondition = new VarValCondition(xVar,
 				-(((column / 2) - 1) * BOOK_WIDTH + BOOK_WIDTH / 2),
@@ -380,10 +399,14 @@ public class BookImporter implements EAdElementImporter<Book, EAdScene> {
 
 	}
 
-	private static final String normalLeft = "assets/special/DefaultLeftNormalArrow.png";
-	private static final String overLeft = "assets/special/DefaultLeftOverArrow.png";
-
-	private String normalRight, overRight;
+	private static final Image normalLeft = new ImageImpl(
+			"@drawable/default_left_arrow.png");
+	private static final Image overLeft = new ImageImpl(
+			"@drawable/default_left_over_arrow.png");
+	private static final Image normalRight = new ImageImpl(
+			"@drawable/default_right_arrow.png");
+	private static final Image overRight = new ImageImpl(
+			"@drawable/default_right_over_arrow.png");
 
 	private AssetDescriptor getArrowAsset(Book book, String resource) {
 		String path = book.getResources().get(0).getAssetPath(resource);
@@ -391,69 +414,17 @@ public class BookImporter implements EAdElementImporter<Book, EAdScene> {
 			return resourceImporter.getAssetDescritptor(path, ImageImpl.class);
 		} else {
 			if (resource.equals(Book.RESOURCE_TYPE_ARROW_LEFT_NORMAL)) {
-				return resourceImporter.getAssetDescritptor(normalLeft,
-						ImageImpl.class);
+				return normalLeft;
 			} else if (resource.equals(Book.RESOURCE_TYPE_ARROW_LEFT_OVER)) {
-				return resourceImporter.getAssetDescritptor(overLeft,
-						ImageImpl.class);
+				return overLeft;
 			} else if (resource.equals(Book.RESOURCE_TYPE_ARROW_RIGHT_NORMAL)) {
-				if (normalRight == null) {
-					loadNormalRight();
-				}
-				return new ImageImpl(normalRight);
+				return normalRight;
 			} else if (resource.equals(Book.RESOURCE_TYPE_ARROW_RIGHT_OVER)) {
-				if (overRight == null) {
-					loadOverRight();
-				}
-				return new ImageImpl(overRight);
+				return overRight;
 			}
 		}
 		return null;
 
 	}
 
-	private void loadOverRight() {
-		ImageImpl i = (ImageImpl) resourceImporter.getAssetDescritptor(
-				overLeft, ImageImpl.class);
-		try {
-			BufferedImage im = ImageIO.read(new File(resourceImporter
-					.getNewProjecFolder(), i.getURI().toString().substring(1)));
-			overRight = "drawable/assets_special_DefaultOverRightArrow.png";
-			BufferedImage out = new BufferedImage(im.getWidth(),
-					im.getHeight(), BufferedImage.TYPE_4BYTE_ABGR);
-			Graphics2D g = (Graphics2D) out.getGraphics();
-
-			g.drawImage(im, AffineTransform.getRotateInstance(Math.PI,
-					im.getWidth() / 2, im.getHeight() / 2), null);
-			ImageIO.write(out, "png",
-					new File(resourceImporter.getNewProjecFolder(), overRight));
-			overRight = "@" + overRight;
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-
-	}
-
-	private void loadNormalRight() {
-		ImageImpl i = (ImageImpl) resourceImporter.getAssetDescritptor(
-				normalLeft, ImageImpl.class);
-		try {
-			BufferedImage im = ImageIO.read(new File(resourceImporter
-					.getNewProjecFolder(), i.getURI().toString().substring(1)));
-			normalRight = "drawable/assets_special_DefaultNormalRightArrow.png";
-			BufferedImage out = new BufferedImage(im.getWidth(),
-					im.getHeight(), BufferedImage.TYPE_4BYTE_ABGR);
-			Graphics2D g = (Graphics2D) out.getGraphics();
-			g.drawImage(im, AffineTransform.getRotateInstance(Math.PI,
-					im.getWidth() / 2, im.getHeight() / 2), null);
-			ImageIO.write(
-					out,
-					"png",
-					new File(resourceImporter.getNewProjecFolder(), normalRight));
-			normalRight = "@" + normalRight;
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-
-	}
 }

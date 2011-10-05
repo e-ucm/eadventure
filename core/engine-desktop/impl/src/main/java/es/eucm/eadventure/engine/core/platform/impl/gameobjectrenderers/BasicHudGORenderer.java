@@ -105,32 +105,32 @@ public class BasicHudGORenderer implements
 	public void render(Graphics2D g, BasicHUDImpl object, EAdTransformation t) {
 
 		// TODO probably should check if it wants its name to be painted
-		GameObject<?> underMouse = mouseState.getGameObjectUnderMouse();
-		EAdString name = null;
-		if (underMouse != null) {
-			if (underMouse instanceof ActorReferenceGO
-					&& ((ActorReferenceGO) underMouse).getName() != null) {
-				name = ((ActorReferenceGO) underMouse).getName();
-			} else if (underMouse.getElement() instanceof EAdElement) {
-				name = valueMap.getValue((EAdElement) underMouse.getElement(),
-						EAdBasicSceneElement.VAR_NAME);
-			}
-		}
-
-		if (name != null && !caption.getText().equals(name))
-			renewCaption(name);
-
-		if (name != null) {
-			EAdPosition p = EAdPositionImpl.volatileEAdPosition(
-					mouseState.getMouseX(),
-					mouseState.getMouseY());
-			textElement.setPosition(p);
-			SceneElementGOImpl<?> go = (SceneElementGOImpl<?>) gameObjectFactory
-					.get(textElement);
-			go.update();
-			graphicRendererFactory.render(g, go,
-					gui.addTransformation(t, go.getTransformation()));
-		}
+//		GameObject<?> underMouse = mouseState.getGameObjectUnderMouse();
+//		EAdString name = null;
+//		if (underMouse != null) {
+//			if (underMouse instanceof ActorReferenceGO
+//					&& ((ActorReferenceGO) underMouse).getName() != null) {
+//				name = ((ActorReferenceGO) underMouse).getName();
+//			} else if (underMouse.getElement() instanceof EAdElement) {
+//				name = valueMap.getValue((EAdElement) underMouse.getElement(),
+//						EAdBasicSceneElement.VAR_NAME);
+//			}
+//		}
+//
+//		if (name != null && !caption.getText().equals(name))
+//			renewCaption(name);
+//
+//		if (name != null) {
+//			EAdPosition p = EAdPositionImpl.volatileEAdPosition(
+//					mouseState.getMouseX(),
+//					mouseState.getMouseY());
+//			textElement.setPosition(p);
+//			SceneElementGOImpl<?> go = (SceneElementGOImpl<?>) gameObjectFactory
+//					.get(textElement);
+//			go.update();
+//			graphicRendererFactory.render(g, go,
+//					gui.addTransformation(t, go.getTransformation()));
+//		}
 	}
 
 	private void renewCaption(EAdString text) {

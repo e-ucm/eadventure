@@ -41,6 +41,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.util.ArrayList;
+import java.util.logging.Logger;
 
 import com.google.inject.Inject;
 
@@ -65,17 +66,19 @@ public class EAdventure1XImporter {
 	private ResourceImporter resourceImporter;
 
 	private InputStreamCreator inputStreamCreator;
-	
+
 	private StringHandler stringsHandler;
-	
+
 	private StringFileHandler stringFileHandler;
+
+	private static final Logger logger = Logger.getLogger("EAdventureImporter");
 
 	@Inject
 	public EAdventure1XImporter(
 			EAdElementImporter<AdventureData, EAdAdventureModel> adventureImp,
 			ResourceImporter resourceImporter,
-			InputStreamCreator inputStreamCreator,
-			StringHandler stringsWriter, StringFileHandler stringFileHandler) {
+			InputStreamCreator inputStreamCreator, StringHandler stringsWriter,
+			StringFileHandler stringFileHandler) {
 		this.adventureImporter = adventureImp;
 		this.resourceImporter = resourceImporter;
 		this.inputStreamCreator = inputStreamCreator;
@@ -92,27 +95,32 @@ public class EAdventure1XImporter {
 	 */
 	public EAdAdventureModel importGame(String destiny) {
 		AdventureData adventureData = loadGame();
+		
+		if ( adventureData == null ){
+			return null;
+		}
 
 		resourceImporter.setPath(destiny);
 
 		EAdAdventureModel model = adventureImporter.init(adventureData);
 		model = adventureImporter.convert(adventureData, model);
-		
-// TODO write to the new model xml
-//		EAdAdventureModelWriter writer = new EAdAdventureModelWriter();
-//
-//		try {
-//			OutputStream os = new FileOutputStream(
-//					new File(destiny, "data.xml"));
-//			writer.write(model, os);
-//		} catch (FileNotFoundException e) {
-//			e.printStackTrace();
-//		}
-		
-		File f = new File( destiny, "strings.xml");
-		
+
+		// TODO write to the new model xml
+		// EAdAdventureModelWriter writer = new EAdAdventureModelWriter();
+		//
+		// try {
+		// OutputStream os = new FileOutputStream(
+		// new File(destiny, "data.xml"));
+		// writer.write(model, os);
+		// } catch (FileNotFoundException e) {
+		// e.printStackTrace();
+		// }
+
+		File f = new File(destiny, "strings.xml");
+
 		try {
-			stringFileHandler.write(new FileOutputStream(f), stringsHandler.getStrings());
+			stringFileHandler.write(new FileOutputStream(f),
+					stringsHandler.getStrings());
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
@@ -126,7 +134,17 @@ public class EAdventure1XImporter {
 	 */
 	public AdventureData loadGame() {
 		ArrayList<Incidence> incidences = new ArrayList<Incidence>();
-		return Loader.loadAdventureData(inputStreamCreator, incidences, true);
+		AdventureData data = Loader.loadAdventureData(inputStreamCreator,
+				incidences, true);
+		if ( data == null ){
+			logger.info("Invalid <e-Adventure> game");
+		}
+		
+		logger.info("There was the following incidences during the file reading:");
+		for ( Incidence i: incidences ){
+			logger.info(i.getMessage());
+		}
+		return data;
 	}
 
 }
