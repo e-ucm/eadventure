@@ -7,7 +7,9 @@ import javax.swing.WindowConstants;
 
 import static org.mockito.Mockito.*;
 
+import es.eucm.eadventure.common.resources.StringHandler;
 import es.eucm.eadventure.editor.control.FieldValueReader;
+import es.eucm.eadventure.editor.impl.EditorStringHandler;
 import es.eucm.eadventure.editor.view.ComponentProvider;
 import es.eucm.eadventure.editor.view.generics.FieldDescriptor;
 import es.eucm.eadventure.editor.view.generics.Panel;
@@ -36,13 +38,14 @@ public class FactoryProviderTest extends EAdFrame {
         when(fieldValueReader.readValue(fieldDescriptor)).thenReturn("value");
         
         TextOption option = new TextOption("name", "toolTip", fieldDescriptor);
-        TextOption option2 = new TextOption("name2", "toolTip", fieldDescriptor);
+        TextOption option2 = new TextOption("name2", "toolTip", fieldDescriptor, TextOption.ExpectedLength.LONG);
         Panel panel = new PanelImpl("title");
         panel.getElements().add(option);
         panel.getElements().add(option2);
 
-        
-        SwingProviderFactory swingProviderFactory = new SwingProviderFactory(fieldValueReader);
+        StringHandler stringHandler = new EditorStringHandler();
+
+        SwingProviderFactory swingProviderFactory = new SwingProviderFactory(fieldValueReader, stringHandler);
         ComponentProvider<Panel, JComponent> componentProvider = swingProviderFactory.getProvider(panel);
         add(componentProvider.getComponent(panel));
         

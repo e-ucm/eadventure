@@ -77,7 +77,13 @@ public class EAdTextField extends JTextField {
     	initialize();
     }
     
-    private void setTitle(String title) {
+    public EAdTextField(String title2) {
+       	super();
+    	setTitle(title2);
+    	initialize();
+ 	}
+
+	private void setTitle(String title) {
     	this.title = title;
     	if (title != null) {
     		FontMetrics metrics = getFontMetrics(getFont());

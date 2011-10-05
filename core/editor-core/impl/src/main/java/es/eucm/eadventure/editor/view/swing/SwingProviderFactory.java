@@ -2,6 +2,7 @@ package es.eucm.eadventure.editor.view.swing;
 
 import javax.swing.JComponent;
 
+import es.eucm.eadventure.common.resources.StringHandler;
 import es.eucm.eadventure.editor.control.FieldValueReader;
 import es.eucm.eadventure.editor.view.ComponentProvider;
 import es.eucm.eadventure.editor.view.generics.impl.BooleanOption;
@@ -14,11 +15,11 @@ import es.eucm.eadventure.editor.view.impl.AbstractProviderFactory;
 public class SwingProviderFactory extends AbstractProviderFactory<JComponent> {
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
-	public SwingProviderFactory(FieldValueReader fieldValueReader) {
+	public SwingProviderFactory(FieldValueReader fieldValueReader, StringHandler stringHandler) {
 		super();
 
 		this.addToMap(TextOption.class, (ComponentProvider) new TextComponentProvider(fieldValueReader));
-		this.addToMap(EAdStringOption.class, (ComponentProvider) new EAdStringComponentProvider());
+		this.addToMap(EAdStringOption.class, (ComponentProvider) new EAdStringComponentProvider(stringHandler, fieldValueReader));
 		this.addToMap(BooleanOption.class, (ComponentProvider) new BooleanComponentProvider(fieldValueReader));
 		this.addToMap(PanelImpl.class, (ComponentProvider) new PanelComponentProvider(this));
 		this.addToMap(ElementOption.class, (ComponentProvider) new ElementComponentProvider());

@@ -95,6 +95,8 @@ public class EAdSceneImpl extends EAdComposedElementImpl implements EAdScene {
 		background = new EAdBasicSceneElement(id + "_background");
 		returnable = true;
 		acceptsVisualEffects = true;
+		name = EAdString.newEAdString("sceneName");
+		documentation = EAdString.newEAdString("sceneDocumentation");
 		vars = new EAdMapImpl<EAdVarDef<?>, Object>(EAdVarDef.class,
 				Object.class);
 	}

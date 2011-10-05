@@ -24,7 +24,7 @@ public class EAdSceneController extends AbstractElementController<EAdScene> {
 			break;
 		case EXPERT:
 		default:
-			panel.getElements().add(new EAdStringOption("name", "this is the name", new FieldDescriptorImpl<EAdString>(element, "name")));
+			panel.getElements().add(new EAdStringOption("name", "this is the name", new FieldDescriptorImpl<EAdString>(element, "name"), EAdStringOption.ExpectedLength.SHORT));
 			panel.getElements().add(new EAdStringOption("documentation", "this is the documentation", new FieldDescriptorImpl<EAdString>(element, "documentation")));
 			panel.getElements().add(new ElementOption<EAdSceneElement>("background", "this is the scene background", new FieldDescriptorImpl<EAdSceneElement>(element, "background")));
 			break;
