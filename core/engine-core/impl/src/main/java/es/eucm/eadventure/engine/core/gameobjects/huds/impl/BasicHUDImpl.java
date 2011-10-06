@@ -52,6 +52,7 @@ import es.eucm.eadventure.common.params.EAdString;
 import es.eucm.eadventure.common.params.geom.EAdPosition;
 import es.eucm.eadventure.common.params.geom.impl.EAdPositionImpl;
 import es.eucm.eadventure.common.params.geom.impl.EAdPositionImpl.Corner;
+import es.eucm.eadventure.common.resources.StringHandler;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.CaptionImpl;
 import es.eucm.eadventure.engine.core.Game;
 import es.eucm.eadventure.engine.core.GameState;
@@ -105,10 +106,12 @@ public class BasicHUDImpl implements BasicHUD {
 
 	private ValueMap valueMap;
 
+	private StringHandler stringHandler;
+	
 	@Inject
 	public BasicHUDImpl(MenuHUD menuHUD, GameObjectFactory gameObjectFactory,
 			GameState gameState, GameObjectManager gameObjectManager,
-			MouseState mouseState, ValueMap valueMap) {
+			MouseState mouseState, ValueMap valueMap, StringHandler stringHandler) {
 		logger.info("New instance");
 		this.menuHUD = menuHUD;
 		this.gameObjectFactory = gameObjectFactory;
@@ -116,7 +119,9 @@ public class BasicHUDImpl implements BasicHUD {
 		this.gameObjectManager = gameObjectManager;
 		this.mouseState = mouseState;
 		this.valueMap = valueMap;
-		c = new CaptionImpl(new EAdString(""));
+		this.stringHandler = stringHandler;
+		c = new CaptionImpl();
+		stringHandler.setString(c.getText(), "");
 		contextual = new EAdBasicSceneElement("contextual", c);
 		contextual.setPosition(new EAdPositionImpl(Corner.CENTER, 0, 0));
 	}
@@ -198,9 +203,7 @@ public class BasicHUDImpl implements BasicHUD {
 			EAdString name = valueMap.getValue((EAdElement) go.getElement(),
 					EAdBasicSceneElement.VAR_NAME);
 			if (name != null) {
-				if (name != c.getText()) {
-					c.setText(name);
-				}
+				stringHandler.setString(c.getText(), stringHandler.getString(name));
 
 				valueMap.setValue(contextual, EAdBasicSceneElement.VAR_X,
 						valueMap.getValue(null, SystemVars.MOUSE_X));
