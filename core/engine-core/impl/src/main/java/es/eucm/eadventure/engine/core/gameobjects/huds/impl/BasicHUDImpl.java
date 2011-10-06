@@ -205,7 +205,7 @@ public class BasicHUDImpl implements BasicHUD {
 				valueMap.setValue(contextual, EAdBasicSceneElement.VAR_X,
 						valueMap.getValue(null, SystemVars.MOUSE_X));
 				valueMap.setValue(contextual, EAdBasicSceneElement.VAR_Y,
-						valueMap.getValue(null, SystemVars.MOUSE_Y));
+						valueMap.getValue(null, SystemVars.MOUSE_Y) - 50);
 
 				contextualOn = true;
 			} else {
