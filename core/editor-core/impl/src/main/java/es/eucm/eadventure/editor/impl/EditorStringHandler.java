@@ -9,6 +9,10 @@ import com.google.inject.Singleton;
 import es.eucm.eadventure.common.params.EAdString;
 import es.eucm.eadventure.common.resources.StringHandler;
 
+/**
+ * TODO EditorStringHandler should have support for translation and other i18n tasks
+ * 
+ */
 @Singleton
 public class EditorStringHandler implements StringHandler {
 
@@ -21,7 +25,7 @@ public class EditorStringHandler implements StringHandler {
 	@Override
 	public String getString(EAdString string) {
 		String value = strings.get(string);
-		return value == null ? string.toString() : value;
+		return value == null ? "" : value;
 	}
 
 	@Override
