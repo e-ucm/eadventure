@@ -682,7 +682,7 @@
 			<dependency>
 				<groupId>com.google.inject</groupId>
 				<artifactId>guice</artifactId>
-				<version>3.0-rc2</version>
+				<version>3.0</version>
 				<classifier>no_aop</classifier>
 				<scope>compile</scope>
 			</dependency>

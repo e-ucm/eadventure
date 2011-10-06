@@ -24,3 +24,5 @@ syntax: regexp
 ^core/engine-playn/impl/war/WEB-INF/lib$
 syntax: regexp
 ^core/engine-android/impl/libs/android-support-v4\.jar$
+syntax: regexp
+^core/engine-android/impl/gen$

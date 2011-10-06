@@ -6,6 +6,9 @@ import java.util.logging.Logger;
 
 import com.google.inject.Inject;
 
+import es.eucm.eadventure.engine.core.platform.GUI;
+import es.eucm.eadventure.engine.core.platform.impl.PlayNGUI;
+
 import playn.core.Canvas;
 import playn.core.CanvasLayer;
 import playn.core.Graphics;
@@ -23,11 +26,14 @@ public class EAdEngine implements playn.core.Game, Keyboard.Listener {
 	
 	private Game game;
 	
+	private GUI gui;
+	
 	private static final Logger logger = Logger.getLogger("EAdEngine");
 
 	@Inject
-	public EAdEngine(Game game) {
+	public EAdEngine(Game game, GUI gui) {
 		this.game = game;
+		this.gui = gui;
 	}
 	
 	@Override
@@ -41,13 +47,15 @@ public class EAdEngine implements playn.core.Game, Keyboard.Listener {
 		graphics().rootLayer().add(gameLayer);
 		 */
 		
-		  CanvasLayer layer = graphics().createCanvasLayer(graphics().width(), graphics().height());
-		  graphics().rootLayer().add(layer);
+		CanvasLayer layer = graphics().createCanvasLayer(graphics().width(), graphics().height());
+		graphics().rootLayer().add(layer);
 
-		  gameLayer = layer.canvas();
-		  gameLayer.setStrokeWidth(2);
-		  gameLayer.setStrokeColor(0xffff0000);
-		  gameLayer.strokeRect(1, 1, 46, 46);
+		gameLayer = layer.canvas();
+		gameLayer.setStrokeWidth(2);
+		gameLayer.setStrokeColor(0xffff0000);
+		gameLayer.strokeRect(1, 1, 46, 46);
+		
+		((PlayNGUI) gui).initializeCanvas(gameLayer);
 		
 		keyboard().setListener(this);
 		pointer().setListener(new Pointer.Listener() {
@@ -85,10 +93,6 @@ public class EAdEngine implements playn.core.Game, Keyboard.Listener {
 	public void update(float delta) {
 		PlayN.log().debug("EAdEngine: update");
 		game.update();
-		
-		game.render(0.0f);
-
-
 	}
 
 	private void touchMove(float x, float y) {
@@ -107,11 +111,7 @@ public class EAdEngine implements playn.core.Game, Keyboard.Listener {
 
 	@Override
 	public int updateRate() {
-		return 15;
-	}
-
-	public Canvas getCanvas() {
-		return gameLayer;
+		return 1;
 	}
 	
 	public Image getImage(String absolutePath) {
