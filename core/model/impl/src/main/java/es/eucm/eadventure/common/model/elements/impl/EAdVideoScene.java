@@ -44,7 +44,6 @@ import es.eucm.eadventure.common.model.effects.EAdEffect;
 import es.eucm.eadventure.common.model.effects.impl.EAdChangeScene;
 import es.eucm.eadventure.common.model.effects.impl.variables.EAdChangeFieldValueEffect;
 import es.eucm.eadventure.common.model.elements.EAdScene;
-import es.eucm.eadventure.common.model.elements.EAdSceneElement;
 import es.eucm.eadventure.common.model.extra.EAdList;
 import es.eucm.eadventure.common.model.extra.impl.EAdListImpl;
 import es.eucm.eadventure.common.model.transitions.EAdTransition;
@@ -76,11 +75,6 @@ public class EAdVideoScene extends EAdSceneImpl implements EAdScene {
 	public EAdVideoScene(String id) {
 		super(id);
 		finalEffects = new EAdListImpl<EAdEffect>(EAdEffect.class);
-	}
-
-	@Override
-	public EAdList<EAdSceneElement> getElements() {
-		return null;
 	}
 
 	public EAdList<EAdEffect> getFinalEffects() {
