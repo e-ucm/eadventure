@@ -44,12 +44,19 @@ import java.util.logging.Logger;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
+import es.eucm.eadventure.common.model.EAdElement;
+import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
 import es.eucm.eadventure.common.model.guievents.EAdKeyEvent.KeyCode;
+import es.eucm.eadventure.common.model.variables.impl.SystemVars;
+import es.eucm.eadventure.common.params.EAdString;
 import es.eucm.eadventure.common.params.geom.EAdPosition;
 import es.eucm.eadventure.common.params.geom.impl.EAdPositionImpl;
+import es.eucm.eadventure.common.params.geom.impl.EAdPositionImpl.Corner;
+import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.CaptionImpl;
 import es.eucm.eadventure.engine.core.Game;
 import es.eucm.eadventure.engine.core.GameState;
 import es.eucm.eadventure.engine.core.MouseState;
+import es.eucm.eadventure.engine.core.ValueMap;
 import es.eucm.eadventure.engine.core.gameobjects.GameObject;
 import es.eucm.eadventure.engine.core.gameobjects.GameObjectFactory;
 import es.eucm.eadventure.engine.core.gameobjects.GameObjectManager;
@@ -90,16 +97,28 @@ public class BasicHUDImpl implements BasicHUD {
 
 	private MouseState mouseState;
 
+	private EAdBasicSceneElement contextual;
+
+	private CaptionImpl c = new CaptionImpl();
+
+	private boolean contextualOn = false;
+
+	private ValueMap valueMap;
+
 	@Inject
 	public BasicHUDImpl(MenuHUD menuHUD, GameObjectFactory gameObjectFactory,
 			GameState gameState, GameObjectManager gameObjectManager,
-			MouseState mouseState) {
+			MouseState mouseState, ValueMap valueMap) {
 		logger.info("New instance");
 		this.menuHUD = menuHUD;
 		this.gameObjectFactory = gameObjectFactory;
 		this.gameState = gameState;
 		this.gameObjectManager = gameObjectManager;
 		this.mouseState = mouseState;
+		this.valueMap = valueMap;
+		c = new CaptionImpl(new EAdString(""));
+		contextual = new EAdBasicSceneElement("contextual", c);
+		contextual.setPosition(new EAdPositionImpl(Corner.CENTER, 0, 0));
 	}
 
 	@Override
@@ -156,18 +175,47 @@ public class BasicHUDImpl implements BasicHUD {
 			gui.addElement(gameObjectFactory.get(game.getAdventureModel()
 					.getInventory()), transformation);
 
+		if (contextualOn)
+			gui.addElement(gameObjectFactory.get(contextual), transformation);
+
 		if (mouseState.getDraggingGameObject() != null && mouseState.isInside()) {
 			GameObject<?> draggedGO = mouseState.getDraggingGameObject();
 			EAdTransformation t = (EAdTransformation) transformation.clone();
-			t.getMatrix().preTranslate(
-					mouseState.getDragDifX(),
+			t.getMatrix().preTranslate(mouseState.getDragDifX(),
 					mouseState.getDragDifY());
 			gui.addElement(draggedGO, t);
 		}
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public void update() {
+
+		GameObject<? extends EAdElement> go = (GameObject<? extends EAdElement>) mouseState
+				.getGameObjectUnderMouse();
+
+		if (go != null) {
+			EAdString name = valueMap.getValue((EAdElement) go.getElement(),
+					EAdBasicSceneElement.VAR_NAME);
+			if (name != null) {
+				if (name != c.getText()) {
+					c.setText(name);
+				}
+
+				valueMap.setValue(contextual, EAdBasicSceneElement.VAR_X,
+						valueMap.getValue(null, SystemVars.MOUSE_X));
+				valueMap.setValue(contextual, EAdBasicSceneElement.VAR_Y,
+						valueMap.getValue(null, SystemVars.MOUSE_Y) - 50);
+
+				contextualOn = true;
+			} else {
+				contextualOn = false;
+
+			}
+		} else {
+			contextualOn = false;
+		}
+		gameObjectFactory.get(contextual).update();
 		gameObjectFactory.get(game.getAdventureModel().getInventory()).update();
 	}
 

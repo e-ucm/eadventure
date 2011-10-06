@@ -50,7 +50,8 @@ public class ShapedElementImporter {
 
 	public static Shape importShape(Rectangle oldObject, EAdBasicSceneElement newElement) {
 		Shape shape = null;
-		if (oldObject.isRectangular()) {
+		if (oldObject.isRectangular() || oldObject.getPoints().size() == 0) {
+			oldObject.setRectangular(true);
 			shape = new RectangleShape(oldObject.getWidth(), oldObject.getHeight());
 			newElement.setPosition(new EAdPositionImpl(EAdPositionImpl.Corner.TOP_LEFT,
 					oldObject.getX(), oldObject.getY()));

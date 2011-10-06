@@ -107,6 +107,11 @@ public class ResourceImporterImpl implements ResourceImporter {
 	 */
 	private Map<String, String> urisCorrespondences;
 
+	/**
+	 * A map matching old uris with the new assets
+	 */
+	private Map<String, AssetDescriptor> assets;
+
 	private static final Logger logger = Logger
 			.getLogger("ResourceImporterImpl");
 
@@ -121,6 +126,7 @@ public class ResourceImporterImpl implements ResourceImporter {
 		this.conditionsImporter = conditionsImporter;
 		this.animationImporter = animationImporter;
 		urisCorrespondences = new HashMap<String, String>();
+		assets = new HashMap<String, AssetDescriptor>();
 
 	}
 
@@ -270,25 +276,34 @@ public class ResourceImporterImpl implements ResourceImporter {
 		if (assetPath == null)
 			return null;
 
+		if (assets.containsKey(assetPath)) {
+			return assets.get(assetPath);
+		}
+
 		AssetDescriptor asset = null;
 
 		// Special case
 		if (assetPath.startsWith("assets/special/EmptyAnimation")) {
 			if (!(assetPath.endsWith(".eaa") || assetPath.endsWith("_01.png")))
-				if (inputStreamCreator.buildInputStream(assetPath + ".eaa") != null)
+				if (fileExists(assetPath + ".eaa"))
 					assetPath += ".eaa";
-				else {
+				else if (fileExists(assetPath + "_01.png")) {
 					assetPath += "_01.png";
+				} else if (fileExists(assetPath + "_01.jpg")) {
+					assetPath += "_01.jpg";
+				} else {
+					logger.info("There was a problem with EmptyAnimation");
 				}
 		}
-		if (assetPath.startsWith("assets/animation") || assetPath.startsWith("assets/special/EmptyAnimation")) {
+		if (assetPath.startsWith("assets/animation")
+				|| assetPath.startsWith("assets/special/EmptyAnimation")) {
 			if (assetPath.endsWith(".eaa")) {
 				Animation a = Loader.loadAnimation(inputStreamCreator,
 						assetPath, imageLoader);
 				asset = animationImporter.init(a);
 				asset = animationImporter.convert(a, asset);
 			} else {
-				asset = importPNGAnimation(assetPath);
+				asset = importImagesAnimation(assetPath);
 			}
 		} else {
 			String newAssetPath = getURI(assetPath);
@@ -312,25 +327,33 @@ public class ResourceImporterImpl implements ResourceImporter {
 			}
 		}
 
+		if (asset != null)
+			assets.put(assetPath, asset);
 		return asset;
 
 	}
 
 	/**
-	 * Imports an animation in the form _01.png, _02.png, etc.
+	 * Imports an animation in the form _01.png, _02.png, or _01.jpg, _02.jpg,
+	 * etc.
 	 * 
 	 * @param assetPath
 	 *            the root asset path
 	 * @return the asset
 	 */
-	private AssetDescriptor importPNGAnimation(String assetPath) {
+	private AssetDescriptor importImagesAnimation(String assetPath) {
+		String fileExtension = ".png";
+		if (!fileExists(assetPath + "_01" + fileExtension)) {
+			fileExtension = ".jpg";
+		}
 		FramesAnimation frames = new FramesAnimation();
 		int frame = 1;
 		int frameTime = 500;
-		String newPath = getURI(assetPath + "_0" + frame++ + ".png");
-		while (newPath != null) {
+		String oldPath = assetPath + "_0" + frame++ + fileExtension;
+		while (fileExists(oldPath)) {
+			String newPath = getURI(oldPath);
 			frames.addFrame(new Frame(newPath, frameTime));
-			newPath = getURI(assetPath + "_0" + frame++ + ".png");
+			oldPath = assetPath + "_0" + frame++ + fileExtension;
 		}
 		return frames;
 	}
@@ -338,6 +361,21 @@ public class ResourceImporterImpl implements ResourceImporter {
 	@Override
 	public String getNewProjecFolder() {
 		return newAdventurePath;
+	}
+
+	public boolean fileExists(String oldURI) {
+		boolean exists = false;
+		InputStream is = inputStreamCreator.buildInputStream(oldURI);
+		if (is != null) {
+			exists = true;
+			try {
+				is.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		return exists;
+
 	}
 
 }

@@ -79,7 +79,7 @@ public class ComposedSceneGOImpl extends AbstractGameObject<EAdComposedScene>
 	public void doLayout(EAdTransformation transformation) {
 		if (currentScene == null)
 			updateScene();
-		gameObjectFactory.get(currentScene).doLayout(null);
+		gameObjectFactory.get(currentScene).doLayout(transformation);
 	}
 
 	@Override

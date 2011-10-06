@@ -37,9 +37,13 @@
 
 package es.eucm.eadventure.engine.core.platform.test;
 
+import java.awt.BorderLayout;
 import java.io.File;
 
+import javax.swing.JDialog;
 import javax.swing.JFileChooser;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileFilter;
 
 import com.google.inject.Guice;
@@ -59,6 +63,7 @@ import es.eucm.eadventure.engine.core.debuggers.impl.TrajectoryDebugger;
 import es.eucm.eadventure.engine.core.impl.LoadingScreen;
 import es.eucm.eadventure.engine.core.impl.modules.BasicGameModule;
 import es.eucm.eadventure.engine.core.platform.AssetHandler;
+import es.eucm.eadventure.engine.core.platform.PlatformConfiguration;
 import es.eucm.eadventure.engine.core.platform.PlatformControl;
 import es.eucm.eadventure.engine.core.platform.PlatformLauncher;
 import es.eucm.eadventure.engine.core.platform.impl.DesktopAssetHandler;
@@ -100,11 +105,11 @@ public class ImportTestDesktopPlatformLauncher {
 
 	public static void main(String[] args) {
 		EAdMainDebugger.addDebugger(TrajectoryDebugger.class);
-//		try {
-//			UIManager.setLookAndFeel(EAdGUILookAndFeel.getInstance());
-//		} catch (UnsupportedLookAndFeelException e) {
-//			e.printStackTrace();
-//		}
+		// try {
+		// UIManager.setLookAndFeel(EAdGUILookAndFeel.getInstance());
+		// } catch (UnsupportedLookAndFeelException e) {
+		// e.printStackTrace();
+		// }
 
 		// Default directory
 		File directory = new File("src/test/resources/EAdventure1Project/");
@@ -115,7 +120,9 @@ public class ImportTestDesktopPlatformLauncher {
 
 			@Override
 			public boolean accept(File f) {
-				return f.isDirectory() || f.getName().endsWith(".eap") || f.getName().endsWith(".ead");
+				return f.isDirectory() || f.getName().endsWith(".eap")
+						|| f.getName().endsWith(".ead")
+						|| f.getName().endsWith(".zip");
 			}
 
 			@Override
@@ -140,37 +147,62 @@ public class ImportTestDesktopPlatformLauncher {
 							new DesktopAssetHandlerModule(),
 							new DesktopAssetRendererModule(null),
 							new DesktopModule(), new BasicGameModule());
+			PlatformConfiguration conf = injector.getInstance(PlatformConfiguration.class);
+			conf.setWidth(800);
+			conf.setHeight(600);
 			EAdventure1XImporter importer = injector
 					.getInstance(EAdventure1XImporter.class);
 
-			projectName = projectName.substring(0, projectName.length() - 4); 
+			projectName = projectName.substring(0, projectName.length() - 4);
+			JDialog dialog = new JDialog();
+			dialog.setTitle("eAdventure");
+			dialog.setModal(false);
+			dialog.setSize(50, 50);
+			dialog.setResizable(false);
+			dialog.setLocationRelativeTo(null);
+			JLabel label = new JLabel();
+			label.setText("Importing...");
+			dialog.getContentPane().setLayout(new BorderLayout());
+			dialog.getContentPane().add(label, BorderLayout.CENTER);
+			dialog.setVisible(true);
 			EAdAdventureModel model = importer.importGame(folder + "/"
-					+  projectName + "Imported");
+					+ projectName + "Imported");
+			dialog.setVisible(false);
 
-			screen = model.getChapters().get(0).getInitialScene();
-			EAdString loadingString = EAdString.newEAdString("Loading");
-			loadingString.parse("Loading");
-			injector.getInstance(StringHandler.class).setString(
-					loadingString, "loading");
-			LoadingScreen loadingScreen = injector
-					.getInstance(LoadingScreen.class);
-			loadingScreen.setInitialScreen(screen);
+			if (model != null) {
 
-			Game game = injector.getInstance(Game.class);
-			game.setGame(model, model.getChapters().get(0));
+				screen = model.getChapters().get(0).getInitialScene();
+				injector.getInstance(StringHandler.class).setString(
+						new EAdString("Loading"), "loading");
+				LoadingScreen loadingScreen = injector
+						.getInstance(LoadingScreen.class);
+				loadingScreen.setInitialScreen(screen);
 
-			System.setProperty(
-					"com.apple.mrj.application.apple.menu.about.name",
-					"eAdventure");
+				Game game = injector.getInstance(Game.class);
+				game.setGame(model, model.getChapters().get(0));
 
-			PlatformLauncher launcher = injector
-					.getInstance(PlatformLauncher.class);
-			// TODO extract file from args or use default?
-			File file = new File(folder, projectName + "Imported");
-			// File file = new File("/ProyectoJuegoFINAL.ead");
-			((DesktopPlatformLauncher) launcher).launch(new EAdURIImpl(file
-					.toString()));
-		}
+				System.setProperty(
+						"com.apple.mrj.application.apple.menu.about.name",
+						"eAdventure");
+
+				PlatformLauncher launcher = injector
+						.getInstance(PlatformLauncher.class);
+
+				// TODO extract file from args or use default?
+				File file = new File(folder, projectName + "Imported");
+				// File file = new File("/ProyectoJuegoFINAL.ead");
+				((DesktopPlatformLauncher) launcher).launch(new EAdURIImpl(file
+						.toString()));
+			}
+			else {
+				JOptionPane
+						.showMessageDialog(
+								null,
+								"Error importing the game. Check the console for more information.",
+								"Import error",
+								JOptionPane.ERROR_MESSAGE);
+			}
+		} 
 
 	}
 }

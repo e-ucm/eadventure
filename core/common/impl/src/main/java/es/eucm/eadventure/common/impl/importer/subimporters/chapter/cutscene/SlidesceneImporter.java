@@ -40,15 +40,11 @@ package es.eucm.eadventure.common.impl.importer.subimporters.chapter.cutscene;
 import com.google.inject.Inject;
 
 import es.eucm.eadventure.common.EAdElementImporter;
-import es.eucm.eadventure.common.GenericImporter;
-import es.eucm.eadventure.common.data.animation.Animation;
-import es.eucm.eadventure.common.data.animation.ImageLoaderFactory;
 import es.eucm.eadventure.common.data.chapter.conditions.Conditions;
 import es.eucm.eadventure.common.data.chapter.resources.Resources;
 import es.eucm.eadventure.common.data.chapter.scenes.Slidescene;
 import es.eucm.eadventure.common.impl.importer.interfaces.EAdElementFactory;
-import es.eucm.eadventure.common.loader.InputStreamCreator;
-import es.eucm.eadventure.common.loader.Loader;
+import es.eucm.eadventure.common.impl.importer.interfaces.ResourceImporter;
 import es.eucm.eadventure.common.model.elements.EAdChapter;
 import es.eucm.eadventure.common.model.elements.EAdCondition;
 import es.eucm.eadventure.common.model.elements.EAdScene;
@@ -65,26 +61,19 @@ import es.eucm.eadventure.common.resources.assets.multimedia.impl.SoundImpl;
  * Scenes importer
  * 
  */
-public class SlidesceneImporter implements EAdElementImporter<Slidescene, EAdCutscene> {
+public class SlidesceneImporter implements
+		EAdElementImporter<Slidescene, EAdCutscene> {
 
 	private EAdElementFactory factory;
 
-	private ImageLoaderFactory imageLoader;
-
-	private InputStreamCreator inputStreamCreator;
-	
-	private GenericImporter<Animation, FramesAnimation> animationImporter;
+	private ResourceImporter resourceImporter;
 
 	@Inject
-	public SlidesceneImporter(EAdElementImporter<Conditions, EAdCondition> conditionsImporter,
-			EAdElementFactory factory,
-			ImageLoaderFactory imageLoader,
-			InputStreamCreator inputStreamCreator,
-			GenericImporter<Animation, FramesAnimation> animationImporter) {
+	public SlidesceneImporter(
+			EAdElementImporter<Conditions, EAdCondition> conditionsImporter,
+			EAdElementFactory factory, ResourceImporter resourceImporter) {
 		this.factory = factory;
-		this.imageLoader = imageLoader;
-		this.inputStreamCreator = inputStreamCreator;
-		this.animationImporter = animationImporter;
+		this.resourceImporter = resourceImporter;
 	}
 
 	@Override
@@ -100,40 +89,45 @@ public class SlidesceneImporter implements EAdElementImporter<Slidescene, EAdCut
 		importDocumentation(cutscene, oldSlideScene);
 		importResources(cutscene, oldSlideScene, chapter);
 
-		
 		if (oldSlideScene.getNext() == Slidescene.NEWSCENE) {
-			EAdScene scene = (EAdScene) factory.getElementById(oldSlideScene.getTargetId());
+			EAdScene scene = (EAdScene) factory.getElementById(oldSlideScene
+					.getTargetId());
 			cutscene.setNextScene(scene);
 		}
-		//TODO convert the end-game next scene value
+		// TODO convert the end-game next scene value
 
 		cutscene.setUpForEngine(chapter);
 
 		return cutscene;
 	}
 
-	private void importResources(EAdCutscene cutscene, Slidescene oldSlidesceneScene,
-			EAdChapter chapter) {
+	private void importResources(EAdCutscene cutscene,
+			Slidescene oldSlidesceneScene, EAdChapter chapter) {
 		Resources res = oldSlidesceneScene.getResources().get(0);
 		String assetPath = res.getAssetPath(Slidescene.RESOURCE_TYPE_SLIDES);
-		Animation a = Loader.loadAnimation(inputStreamCreator, assetPath, imageLoader);
-		FramesAnimation asset = animationImporter.init(a);
-		asset = animationImporter.convert(a, asset);
+
+		FramesAnimation asset = (FramesAnimation) resourceImporter
+				.getAssetDescritptor(assetPath, FramesAnimation.class);
 		for (int i = 0; i < asset.getFrameCount(); i++) {
 			Frame f = asset.getFrame(i);
 			EAdSlide slide = new EAdSlide("slide_" + i);
 			slide.setTime(f.getTime());
-			slide.getBackground().getResources().addAsset(slide.getBackground().getInitialBundle(), EAdBasicSceneElement.appearance, new ImageImpl(f.getURI()));
+			slide.getBackground()
+					.getResources()
+					.addAsset(slide.getBackground().getInitialBundle(),
+							EAdBasicSceneElement.appearance,
+							new ImageImpl(f.getURI()));
 			cutscene.addSlide(slide);
 		}
-		
+
 		for (Resources r : oldSlidesceneScene.getResources()) {
 			// Music is imported to chapter level. So, the chapter will
 			// remain with the last sound track appeared in the scenes
 			String musicPath = r.getAssetPath(Slidescene.RESOURCE_TYPE_MUSIC);
 
 			if (musicPath != null) {
-				Sound sound = new SoundImpl(musicPath);
+				Sound sound = (Sound) resourceImporter.getAssetDescritptor(
+						musicPath, SoundImpl.class);
 				chapter.getResources().addAsset(chapter.getInitialBundle(),
 						EAdChapter.music, sound);
 			}
@@ -142,14 +136,14 @@ public class SlidesceneImporter implements EAdElementImporter<Slidescene, EAdCut
 	}
 
 	private void importDocumentation(EAdCutscene space, Slidescene oldScene) {
-		/* FIXME
-		space.setName(new EAdString(stringHandler.getUniqueId()));
-		stringHandler.addString(space.getName(), oldScene.getName());
-
-		space.setDocumentation(new EAdString(stringHandler.getUniqueId()));
-		stringHandler.addString(space.getDocumentation(),
-				oldScene.getDocumentation());
-		*/
+		/*
+		 * FIXME space.setName(new EAdString(stringHandler.getUniqueId()));
+		 * stringHandler.addString(space.getName(), oldScene.getName());
+		 * 
+		 * space.setDocumentation(new EAdString(stringHandler.getUniqueId()));
+		 * stringHandler.addString(space.getDocumentation(),
+		 * oldScene.getDocumentation());
+		 */
 	}
 
 }
