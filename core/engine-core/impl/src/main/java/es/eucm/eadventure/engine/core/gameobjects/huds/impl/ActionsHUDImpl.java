@@ -138,14 +138,11 @@ public class ActionsHUDImpl implements ActionsHUD {
 	@Override
 	public void setElement(SceneElementGO<?> ref) {
 		sceneElement = ref;
-		float width = ref.getWidth();
-		float height = ref.getHeight();
-		radius = (int) Math.sqrt(Math.pow(width, 2) + Math.pow(height, 2)) / 2;
+		int x = ref.getCenterX();
+		int y = ref.getCenterY();
+		radius = (int) (( ref.getWidth() > ref.getHeight() ? ref.getWidth() : ref.getHeight() ) * ref.getScale()) / 2;
 		radius = Math.min(250, radius);
-		int[] offset = this.gui.getGameElementGUIOffset(ref);
-		setElementProperties(offset[0] + ref.getPosition().getJavaX(width)
-				+ (int) (width / 2), offset[1] + ref.getPosition().getJavaY(height)
-				+ (int) (height / 2), radius);
+		setElementProperties(x, y, radius);
 		actions = ref.getValidActions();
 	}
 

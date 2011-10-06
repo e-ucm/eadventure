@@ -48,7 +48,9 @@ import es.eucm.eadventure.common.model.EAdElement;
 import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
 import es.eucm.eadventure.common.model.guievents.EAdKeyEvent.KeyCode;
 import es.eucm.eadventure.common.model.variables.impl.SystemVars;
+import es.eucm.eadventure.common.params.EAdFontImpl;
 import es.eucm.eadventure.common.params.EAdString;
+import es.eucm.eadventure.common.params.fills.impl.EAdColor;
 import es.eucm.eadventure.common.params.geom.EAdPosition;
 import es.eucm.eadventure.common.params.geom.impl.EAdPositionImpl;
 import es.eucm.eadventure.common.params.geom.impl.EAdPositionImpl.Corner;
@@ -61,6 +63,7 @@ import es.eucm.eadventure.engine.core.ValueMap;
 import es.eucm.eadventure.engine.core.gameobjects.GameObject;
 import es.eucm.eadventure.engine.core.gameobjects.GameObjectFactory;
 import es.eucm.eadventure.engine.core.gameobjects.GameObjectManager;
+import es.eucm.eadventure.engine.core.gameobjects.SceneElementGO;
 import es.eucm.eadventure.engine.core.gameobjects.huds.BasicHUD;
 import es.eucm.eadventure.engine.core.gameobjects.huds.MenuHUD;
 import es.eucm.eadventure.engine.core.guiactions.GUIAction;
@@ -107,11 +110,12 @@ public class BasicHUDImpl implements BasicHUD {
 	private ValueMap valueMap;
 
 	private StringHandler stringHandler;
-	
+
 	@Inject
 	public BasicHUDImpl(MenuHUD menuHUD, GameObjectFactory gameObjectFactory,
 			GameState gameState, GameObjectManager gameObjectManager,
-			MouseState mouseState, ValueMap valueMap, StringHandler stringHandler) {
+			MouseState mouseState, ValueMap valueMap,
+			StringHandler stringHandler) {
 		logger.info("New instance");
 		this.menuHUD = menuHUD;
 		this.gameObjectFactory = gameObjectFactory;
@@ -121,6 +125,10 @@ public class BasicHUDImpl implements BasicHUD {
 		this.valueMap = valueMap;
 		this.stringHandler = stringHandler;
 		c = new CaptionImpl();
+		c.setFont(new EAdFontImpl(12.0f));
+		c.setBubbleColor(new EAdColor(255, 255, 125));
+		c.setPadding(10);
+		c.setTextColor(EAdColor.BLACK);
 		stringHandler.setString(c.getText(), "");
 		contextual = new EAdBasicSceneElement("contextual", c);
 		contextual.setPosition(new EAdPositionImpl(Corner.CENTER, 0, 0));
@@ -195,20 +203,36 @@ public class BasicHUDImpl implements BasicHUD {
 	@SuppressWarnings("unchecked")
 	@Override
 	public void update() {
-
+		contextualOn = false;
 		GameObject<? extends EAdElement> go = (GameObject<? extends EAdElement>) mouseState
 				.getGameObjectUnderMouse();
 
-		if (go != null && go.getElement() instanceof EAdElement ) {
+		if (go != null && go.getElement() instanceof EAdElement) {
 			EAdString name = valueMap.getValue((EAdElement) go.getElement(),
 					EAdBasicSceneElement.VAR_NAME);
 			if (name != null) {
-				stringHandler.setString(c.getText(), stringHandler.getString(name));
+				stringHandler.setString(c.getText(),
+						stringHandler.getString(name));
+
+				SceneElementGO<?> cgo = ((SceneElementGO<?>) gameObjectFactory
+						.get(contextual));
+
+				cgo.getRenderAsset().update();
+
+				int mouseX = valueMap.getValue(null, SystemVars.MOUSE_X);
+				int mouseY = valueMap.getValue(null, SystemVars.MOUSE_Y);
+				int width = (int) (cgo.getWidth() * cgo.getScale());
+				int height = (int) (cgo.getHeight() * cgo.getScale());
+
+				mouseX = mouseX - width / 2 < 0 ? width / 2 : mouseX;
+				mouseY = mouseY - height / 2 < 0 ? height / 2 + height : mouseY
+						- height / 2 - 10;
 
 				valueMap.setValue(contextual, EAdBasicSceneElement.VAR_X,
-						valueMap.getValue(null, SystemVars.MOUSE_X));
+						mouseX);
 				valueMap.setValue(contextual, EAdBasicSceneElement.VAR_Y,
-						valueMap.getValue(null, SystemVars.MOUSE_Y) - 50);
+						mouseY);
+				gameObjectFactory.get(contextual).update();
 
 				contextualOn = true;
 			} else {
@@ -218,7 +242,7 @@ public class BasicHUDImpl implements BasicHUD {
 		} else {
 			contextualOn = false;
 		}
-		gameObjectFactory.get(contextual).update();
+
 		gameObjectFactory.get(game.getAdventureModel().getInventory()).update();
 	}
 

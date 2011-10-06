@@ -50,6 +50,7 @@ import es.eucm.eadventure.engine.core.gameobjects.EffectGO;
 import es.eucm.eadventure.engine.core.gameobjects.GameObject;
 import es.eucm.eadventure.engine.core.gameobjects.huds.EffectHUD;
 import es.eucm.eadventure.engine.core.guiactions.GUIAction;
+import es.eucm.eadventure.engine.core.platform.GUI;
 import es.eucm.eadventure.engine.core.platform.RuntimeAsset;
 import es.eucm.eadventure.engine.core.util.EAdTransformation;
 import es.eucm.eadventure.engine.core.util.impl.EAdTransformationImpl;
@@ -73,10 +74,13 @@ public class EffectHUDImpl implements EffectHUD {
 	 * List of current {@link EffectGO}
 	 */
 	private List<EffectGO<?>> effects;
+	
+	private GUI gui;
 
 	@Inject
-	public EffectHUDImpl() {
+	public EffectHUDImpl(GUI gui) {
 		logger.info("New instance");
+		this.gui = gui;
 	}
 
 	/*
@@ -135,7 +139,7 @@ public class EffectHUDImpl implements EffectHUD {
 				
 				//TODO this creates a problem, should do some other way
 				//gui.addElement(this);
-			}		
+			}
 			e.doLayout(transformation);
 			block = e.isBlocking();
 			i++;
