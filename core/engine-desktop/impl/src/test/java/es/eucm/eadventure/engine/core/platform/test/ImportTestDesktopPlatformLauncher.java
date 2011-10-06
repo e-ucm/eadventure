@@ -148,8 +148,10 @@ public class ImportTestDesktopPlatformLauncher {
 					+  projectName + "Imported");
 
 			screen = model.getChapters().get(0).getInitialScene();
+			EAdString loadingString = EAdString.newEAdString("Loading");
+			loadingString.parse("Loading");
 			injector.getInstance(StringHandler.class).setString(
-					new EAdString("Loading"), "loading");
+					loadingString, "loading");
 			LoadingScreen loadingScreen = injector
 					.getInstance(LoadingScreen.class);
 			loadingScreen.setInitialScreen(screen);

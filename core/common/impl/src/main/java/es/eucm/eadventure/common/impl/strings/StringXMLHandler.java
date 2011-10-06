@@ -43,7 +43,9 @@ public class StringXMLHandler extends DefaultHandler {
 			throws SAXException {
 		if ( qName.equals("string")){
 			String value = text.toString();
-			strings.put(new EAdString(key), value);
+			EAdString string = EAdString.newEAdString(key);
+			string.parse("key");
+			strings.put(string, value);
 		}
 	}
 

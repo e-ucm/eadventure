@@ -59,7 +59,7 @@ public class EAdBasicAction extends EAdGeneralElementImpl implements EAdAction {
 	public static final String appearance = "appearance";
 
 	@Param("name")
-	private EAdString name;
+	private final EAdString name;
 
 	@Param("effects")
 	private EAdList<EAdEffect> effects;
@@ -74,16 +74,13 @@ public class EAdBasicAction extends EAdGeneralElementImpl implements EAdAction {
 		super(id);
 		effects = new EAdListImpl<EAdEffect>(EAdEffect.class);
 		highlightBundle = new EAdBundleId(id + "_highlightBundle");
+		name = EAdString.newEAdString("actionName");
 		getResources().addBundle(highlightBundle);
 	}
 
 	@Override
 	public EAdList<EAdEffect> getEffects() {
 		return effects;
-	}
-
-	public void setName(EAdString name) {
-		this.name = name;
 	}
 
 	public EAdString getName() {

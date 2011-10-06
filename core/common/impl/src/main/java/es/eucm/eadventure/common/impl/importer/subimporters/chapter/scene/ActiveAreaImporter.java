@@ -107,12 +107,10 @@ public class ActiveAreaImporter implements
 		newActiveAreaReference.addBehavior(EAdMouseEventImpl.MOUSE_RIGHT_CLICK,
 				showActions);
 
-		newActiveArea.setName(stringHandler.addString(oldObject.getName()));
-		newActiveArea.setDescription(stringHandler.addString(oldObject
-				.getDescription()));
-
-		newActiveArea.setDetailedDescription(stringHandler.addString(oldObject
-				.getDetailedDescription()));
+		stringHandler.setString(newActiveArea.getName(), oldObject.getName());
+		stringHandler.setString(newActiveArea.getDescription(), oldObject.getDescription());
+		stringHandler.setString(newActiveArea.getDetailedDescription(), oldObject.getDetailedDescription());
+		stringHandler.setString(newActiveArea.getDocumentation(), oldObject.getDocumentation());
 		
 		if (oldObject.getInfluenceArea() != null) {
 			newActiveArea.setInfluenceArea(new EAdRectangleImpl(oldObject.getInfluenceArea().getX(),

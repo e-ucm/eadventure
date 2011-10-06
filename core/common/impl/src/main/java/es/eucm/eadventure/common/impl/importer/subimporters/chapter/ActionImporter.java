@@ -131,7 +131,7 @@ public class ActionImporter implements EAdElementImporter<Action, EAdAction> {
 			actionName = getActionName(oldObject.getType());
 		}
 
-		action.setName(stringHandler.addString(actionName));
+		stringHandler.setString(action.getName(), actionName);
 
 		for (Effect e : oldObject.getEffects().getEffects()) {
 			EAdEffect effect = effectsImporterFactory.getEffect(e);

@@ -80,8 +80,8 @@ public class AdventureImporter implements EAdElementImporter<AdventureData, EAdA
 		factory.setOldDataModel(oldData);
 		EAdAdventureModelImpl model = (EAdAdventureModelImpl) object;
 		model.setPlayerMode( getPlayerMode( oldData ) );
-		model.setTitle(stringsWriter.addString(oldData.getTitle( )));
-		model.setDescription(stringsWriter.addString(oldData.getDescription()));
+		stringsWriter.setString(model.getTitle(), oldData.getTitle());
+		stringsWriter.setString(model.getDescription(), oldData.getDescription());
 
 		for ( Chapter oldChapter : oldData.getChapters( ) ) {
 			EAdChapter newChapter = chapterImporter.init( oldChapter );

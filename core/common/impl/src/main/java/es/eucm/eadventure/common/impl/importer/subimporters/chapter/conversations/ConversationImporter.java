@@ -106,8 +106,8 @@ public class ConversationImporter implements
 				EAdShowQuestion currentNodeEffect = (EAdShowQuestion) nodes
 						.get(node);
 				for (int i = 0; i < node.getChildCount(); i++) {
-					EAdString string = stringHandler.addString(node
-							.getLineText(i));
+					EAdString string = EAdString.newEAdString("line");
+					stringHandler.setString(string, node.getLineText(i));
 					currentNodeEffect.addAnswer(string,
 							nodes.get(node.getChild(i)));
 				}

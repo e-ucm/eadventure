@@ -40,28 +40,27 @@ package es.eucm.eadventure.common.model.actions.test;
 import es.eucm.eadventure.common.model.actions.EAdAction;
 import es.eucm.eadventure.common.model.actions.impl.EAdBasicAction;
 import es.eucm.eadventure.common.model.effects.impl.timedevents.EAdShowSceneElement;
-import es.eucm.eadventure.common.params.EAdString;
 import es.eucm.eadventure.common.params.fills.impl.EAdBorderedColor;
 import es.eucm.eadventure.common.params.fills.impl.EAdColor;
+import es.eucm.eadventure.common.resources.StringHandler;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.CaptionImpl;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.ImageImpl;
 
 public class BasicActionFactoryTest {
 
-	public static EAdAction getGrabAction() {
+	public static EAdAction getGrabAction(StringHandler sh) {
 		EAdBasicAction action = new EAdBasicAction("action");
 		action.getResources().addAsset(action.getInitialBundle(), EAdBasicAction.appearance,
 				new ImageImpl("@drawable/grab.png"));
 		
-		EAdString hand = new EAdString("handAction");
-		action.setName(hand);
+		sh.setString(action.getName(), "Grab!");
 		
 		//TODO Should be created in another place
 		EAdShowSceneElement actionEffect = new EAdShowSceneElement("effectAction");
 
 		CaptionImpl caption = new CaptionImpl();
 		caption.setBubbleColor(null);
-		caption.setText(hand);
+		sh.setString(caption.getText(), "Effect!");
 		caption.setTextColor(new EAdBorderedColor(new EAdColor(120, 20, 20),
 				new EAdColor(34, 50, 60)));
 

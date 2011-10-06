@@ -248,12 +248,15 @@ public class GameStateImpl implements GameState {
 			for (EAdEffect e : effectsQueue) {
 				@SuppressWarnings("rawtypes")
 				EffectGO effectGO = (EffectGO) gameObjectFactory.get(e);
-				effectGO.setGUIAction(actionsQueue.get(i++));
-				if (!effects.contains(effectGO)) {
-					effectGO.setElement(e);
-					effects.add(effectGO);
-				}
-				logger.info("Added " + effectGO);
+				if (effectGO != null) {
+					effectGO.setGUIAction(actionsQueue.get(i++));
+					if (!effects.contains(effectGO)) {
+						effectGO.setElement(e);
+						effects.add(effectGO);
+					}
+					logger.info("Added " + effectGO);
+				} else
+					logger.severe("Null EffectGO for " + e);
 			}
 			effectsQueue.clear();
 			actionsQueue.clear();

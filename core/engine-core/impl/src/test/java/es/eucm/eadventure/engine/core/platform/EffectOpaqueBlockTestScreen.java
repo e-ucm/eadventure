@@ -46,7 +46,6 @@ import es.eucm.eadventure.common.model.elements.impl.EAdBasicActor;
 import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
 import es.eucm.eadventure.common.model.elements.impl.EAdSceneImpl;
 import es.eucm.eadventure.common.model.guievents.impl.EAdMouseEventImpl;
-import es.eucm.eadventure.common.params.EAdString;
 import es.eucm.eadventure.common.params.geom.impl.EAdPositionImpl;
 import es.eucm.eadventure.common.resources.StringHandler;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.ImageImpl;
@@ -77,9 +76,7 @@ public class EffectOpaqueBlockTestScreen extends EAdSceneImpl implements EAdScen
 		buttonActor = new EAdBasicActor("StartGame");
 		buttonActor.getResources().addAsset(buttonActor.getInitialBundle(),
 				EAdBasicActor.appearance, new ImageImpl("@drawable/start.png"));
-		EAdString name = new EAdString("stringName");
-		buttonActor.setName(name);
-		stringHandler.setString(name, "Start game");
+		stringHandler.setString(buttonActor.getName(), "Start game");
 		
 //		EAdBehavior b = new StandardBehavior(buttonActor, "b");
 		
@@ -94,9 +91,6 @@ public class EffectOpaqueBlockTestScreen extends EAdSceneImpl implements EAdScen
 		buttonActor2 = new EAdBasicSceneElement("StartGame");
 		buttonActor2.getResources().addAsset(buttonActor2.getInitialBundle(),
 				EAdBasicActor.appearance, new ImageImpl("@drawable/start.png"));
-		EAdString name = new EAdString("stringName");
-		//buttonActor2.setName(name);
-		stringHandler.setString(name, "Start game");
 		
 		EAdWaitEffect waitEffect = new EAdWaitEffect( "wait", GameLoop.SKIP_MILLIS_TICK + 1);
 		buttonActor2.addBehavior(EAdMouseEventImpl.MOUSE_LEFT_CLICK, waitEffect );

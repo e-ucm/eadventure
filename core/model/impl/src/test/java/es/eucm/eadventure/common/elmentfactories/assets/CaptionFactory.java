@@ -56,8 +56,8 @@ public class CaptionFactory {
 	public CaptionImpl createCaption(String text, EAdFill textFill,
 			EAdFill bubbleFill, EAdFont font) {
 		CaptionImpl caption = new CaptionImpl();
-		caption.setText(EAdElementsFactory.getInstance().getStringFactory()
-				.getString(text));
+		EAdElementsFactory.getInstance().getStringFactory().setString(caption.getText(), text);
+
 		caption.setTextColor(textFill);
 		caption.setBubbleColor(bubbleFill);
 		caption.setFont(font);

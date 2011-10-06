@@ -63,10 +63,10 @@ public class EAdSceneImpl extends EAdComposedElementImpl implements EAdScene {
 			"trajectory_generator", TrajectoryDefinition.class, null);
 
 	@Param("name")
-	private EAdString name;
+	private final EAdString name;
 
 	@Param("documentation")
-	private EAdString documentation;
+	private final EAdString documentation;
 
 	@Param("background")
 	protected EAdBasicSceneElement background;
@@ -107,28 +107,11 @@ public class EAdSceneImpl extends EAdComposedElementImpl implements EAdScene {
 	public EAdString getName() {
 		return name;
 	}
-
-	/**
-	 * @param name
-	 *            the name to set
-	 */
-	public void setName(EAdString name) {
-		this.name = name;
-	}
-
 	/**
 	 * @return the documentation
 	 */
 	public EAdString getDocumentation() {
 		return documentation;
-	}
-
-	/**
-	 * @param documentation
-	 *            the documentation to set
-	 */
-	public void setDocumentation(EAdString documentation) {
-		this.documentation = documentation;
 	}
 
 	public EAdBasicSceneElement getBackground() {

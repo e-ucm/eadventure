@@ -67,7 +67,8 @@ public class LineImporterToCaption implements
 	@Override
 	public Caption convert(ConversationLine line, Object object) {
 		// Set caption attributes
-		EAdString string = stringHandler.addString(line.getText());
+		EAdString string = EAdString.newEAdString("line");
+		stringHandler.setString(string, line.getText());
 		CaptionImpl caption = new CaptionImpl(string);
 
 		NPC character = null;

@@ -59,20 +59,24 @@ public class EAdBasicActor extends EAdBasicSceneElement implements EAdActor {
 	public static final String appearance = "appearance";
 
 	@Param("name")
-	private EAdString name;
+	private final EAdString name;
 
 	@Param("description")
-	private EAdString description;
+	private final EAdString description;
 
 	@Param("detailedDescription")
-	private EAdString detailedDescription;
+	private final EAdString detailedDescription;
 
 	@Param("documentation")
-	private EAdString documentation;
+	private final EAdString documentation;
 	
 	public EAdBasicActor(String id) {
 		super(id);
 		this.actions = new EAdListImpl<EAdAction>(EAdAction.class);
+		this.name = EAdString.newEAdString("actorName");
+		this.description = EAdString.newEAdString("actorDescription");
+		this.detailedDescription = EAdString.newEAdString("actorDetailedDescription");
+		this.documentation = EAdString.newEAdString("actorDocumentation");
 	}
 
 	public EAdList<EAdAction> getActions() {
@@ -87,26 +91,10 @@ public class EAdBasicActor extends EAdBasicSceneElement implements EAdActor {
 	}
 
 	/**
-	 * @param description
-	 *            the description to set
-	 */
-	public void setDescription(EAdString description) {
-		this.description = description;
-	}
-
-	/**
 	 * @return the detailedDescription
 	 */
 	public EAdString getDetailedDescription() {
 		return detailedDescription;
-	}
-
-	/**
-	 * @param detailedDescription
-	 *            the detailedDescription to set
-	 */
-	public void setDetailedDescription(EAdString detailedDescription) {
-		this.detailedDescription = detailedDescription;
 	}
 
 	/**
@@ -115,28 +103,11 @@ public class EAdBasicActor extends EAdBasicSceneElement implements EAdActor {
 	public EAdString getDocumentation() {
 		return documentation;
 	}
-
-	/**
-	 * @param documentation
-	 *            the documentation to set
-	 */
-	public void setDocumentation(EAdString documentation) {
-		this.documentation = documentation;
-	}
-
 	/**
 	 * @return the name
 	 */
 	public EAdString getName() {
 		return name;
-	}
-
-	/**
-	 * @param name
-	 *            the name to set
-	 */
-	public void setName(EAdString name) {
-		this.name = name;
 	}
 
 

@@ -50,6 +50,7 @@ import es.eucm.eadventure.common.params.EAdString;
 import es.eucm.eadventure.common.params.fills.impl.EAdBorderedColor;
 import es.eucm.eadventure.common.params.geom.EAdPosition;
 import es.eucm.eadventure.common.params.geom.impl.EAdPositionImpl;
+import es.eucm.eadventure.common.resources.StringHandler;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.CaptionImpl;
 import es.eucm.eadventure.engine.core.MouseState;
 import es.eucm.eadventure.engine.core.ValueMap;
@@ -82,12 +83,14 @@ public class BasicHudGORenderer implements
 	private GameObjectFactory gameObjectFactory;
 
 	private GUI gui;
+	
+	private StringHandler stringHandler;
 
 	@SuppressWarnings({ "unchecked" })
 	@Inject
 	public BasicHudGORenderer(GraphicRendererFactory<?> graphicRendererFactory,
 			MouseState mouseState, GameObjectFactory gameObjectFactory,
-			ValueMap valueMap, GUI gui) {
+			ValueMap valueMap, GUI gui, StringHandler stringHandler) {
 		this.mouseState = mouseState;
 		this.graphicRendererFactory = (GraphicRendererFactory<Graphics2D>) graphicRendererFactory;
 		this.valueMap = valueMap;
@@ -97,7 +100,8 @@ public class BasicHudGORenderer implements
 		caption = new CaptionImpl();
 		caption.setTextColor(EAdBorderedColor.BLACK_ON_WHITE);
 		caption.setFont(EAdFontImpl.REGULAR);
-		caption.setText(new EAdString(""));
+
+		this.stringHandler = stringHandler;
 		textElement = new EAdBasicSceneElement("text", caption);
 	}
 
@@ -134,7 +138,7 @@ public class BasicHudGORenderer implements
 	}
 
 	private void renewCaption(EAdString text) {
-		caption.setText(text);
+		stringHandler.setString(caption.getText(), stringHandler.getString(text));
 	}
 
 	@Override

@@ -97,8 +97,8 @@ public class SimpleTransitionGO extends SceneGOImpl implements TransitionGO {
 		super(assetHandler, stringHandler, gameObjectFactory, gui, gameState, valueMap,
 				platformConfiguration);
 
-		// TODO localize
-		EAdString string = new EAdString("Loading");
+		EAdString string = EAdString.newEAdString("Loading");
+		string.parse("Loading");
 		caption = new CaptionImpl(string);
 		loadingText = new EAdBasicSceneElement("loadingText");
 		loadingText.getResources().addAsset(loadingText.getInitialBundle(),

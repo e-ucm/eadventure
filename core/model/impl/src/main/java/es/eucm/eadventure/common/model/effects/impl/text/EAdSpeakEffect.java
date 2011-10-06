@@ -40,7 +40,7 @@ public class EAdSpeakEffect extends AbstractEAdEffect {
 	private EAdField<String> stateVar;
 
 	@Param("string")
-	private EAdString string;
+	private final EAdString string;
 
 	@Param("textColor")
 	private EAdBorderedColor textColor;
@@ -70,15 +70,7 @@ public class EAdSpeakEffect extends AbstractEAdEffect {
 		bubbleColor = EAdBorderedColor.BLACK_ON_WHITE;
 		font = EAdFontImpl.REGULAR;
 		ballonType = BalloonType.RECTANGLE;
-	}
-
-	/**
-	 * Sets the text for this effect
-	 * 
-	 * @param string
-	 */
-	public void setText(EAdString string) {
-		this.string = string;
+		string = EAdString.newEAdString("string");
 	}
 
 	/**

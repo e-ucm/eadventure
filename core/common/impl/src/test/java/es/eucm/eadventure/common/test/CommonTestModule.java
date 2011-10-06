@@ -39,11 +39,6 @@ public class CommonTestModule extends AbstractModule{
 		}
 
 		@Override
-		public EAdString addString(String string) {
-			return new EAdString("string");
-		}
-
-		@Override
 		public Map<EAdString, String> getStrings() {
 			return new HashMap<EAdString, String>();
 		}

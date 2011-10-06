@@ -107,9 +107,8 @@ public class EffectFactory {
 	 */
 	public EAdShowQuestion getShowQuestion(String question, int nAnswers) {
 		EAdShowQuestion effect = new EAdShowQuestion();
-		EAdString string = EAdElementsFactory.getInstance().getStringFactory()
-				.getString(question);
-		effect.setQuestion(string);
+		EAdElementsFactory.getInstance().getStringFactory().setString(effect.getQuestion(), question);
+		
 		for (int i = 0; i < nAnswers; i++) {
 			int ordinal = i % StringType.values().length;
 			EAdString answerString = EAdElementsFactory.getInstance()
@@ -137,10 +136,8 @@ public class EffectFactory {
 			EAdSceneElement sceneElement) {
 		EAdSpeakEffect effect = new EAdSpeakEffect("speakEffect"
 				+ ID_GENERATOR++);
-		EAdString string = EAdElementsFactory.getInstance().getStringFactory()
-				.getString(text);
+		EAdElementsFactory.getInstance().getStringFactory().setString(effect.getString(), text);
 
-		effect.setText(string);
 		effect.setPosition(new EAdFieldImpl<Integer>(sceneElement,
 				EAdBasicSceneElement.VAR_X), new EAdFieldImpl<Integer>(
 				sceneElement, EAdBasicSceneElement.VAR_Y),

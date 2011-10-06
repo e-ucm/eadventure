@@ -303,9 +303,8 @@ public class SceneImporter implements EAdElementImporter<Scene, EAdSceneImpl> {
 	}
 
 	private void importDocumentation(EAdSceneImpl scene, Scene oldScene) {
-		scene.setName(stringHandler.addString(oldScene.getName()));
-		scene.setDocumentation(stringHandler.addString(oldScene
-				.getDocumentation()));
+		stringHandler.setString(scene.getName(), oldScene.getName());
+		stringHandler.setString(scene.getDocumentation(), oldScene.getDocumentation());
 	}
 
 }

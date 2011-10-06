@@ -29,13 +29,7 @@ public class TestStringsReader implements StringHandler {
 		// TODO Auto-generated method stub
 		
 	}
-
-	@Override
-	public EAdString addString(String string) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
+	
 	@Override
 	public Map<EAdString, String> getStrings() {
 		// TODO Auto-generated method stub

@@ -49,16 +49,6 @@ public interface StringHandler {
 	void addStrings(Map<EAdString, String> strings);
 
 	/**
-	 * Adds a new string value to the string handler and returns a new
-	 * {@link EAdString} associated with it
-	 * 
-	 * @param string
-	 *            the string
-	 * @return a new {@link EAdString}
-	 */
-	EAdString addString(String string);
-
-	/**
 	 * Returns the current dictionary
 	 * 
 	 * @return

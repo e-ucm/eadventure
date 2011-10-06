@@ -79,24 +79,25 @@ public class EAdShowQuestion extends EAdComplexBlockingEffect {
 	private EAdMap<EAdString, EAdEffect> answers;
 
 	@Param("question")
-	private EAdString question;
+	private final EAdString question;
 
 	public EAdShowQuestion(String id) {
 		super(id);
 		answers = new EAdMapImpl<EAdString, EAdEffect>(EAdString.class,
 				EAdEffect.class);
+		question = EAdString.newEAdString("question");
 	}
 
 	public EAdShowQuestion() {
 		this("showQuestionEffect");
 	}
 
-	public void setQuestion(EAdString string) {
-		this.question = string;
-	}
-
 	public void addAnswer(EAdString string, EAdEffect effect) {
 		answers.put(string, effect);
+	}
+	
+	public EAdString getQuestion() {
+		return question;
 	}
 
 	public void setUpNewInstance() {
@@ -113,8 +114,7 @@ public class EAdShowQuestion extends EAdComplexBlockingEffect {
 		int i = 0;
 		for (Entry<EAdString, EAdEffect> a : answers.entrySet()) {
 			EAdBasicSceneElement se = new EAdBasicSceneElement("answer" + i);
-			CaptionImpl c = new CaptionImpl();
-			c.setText(a.getKey());
+			CaptionImpl c = new CaptionImpl(a.getKey());
 			c.setTextColor(EAdColor.RED);
 			c.setBubbleColor(new EAdLinearGradient(EAdColor.WHITE,
 					EAdColor.LIGHT_GRAY, true));
@@ -146,8 +146,8 @@ public class EAdShowQuestion extends EAdComplexBlockingEffect {
 	}
 
 	public void setUpQuestion() {
-		CaptionImpl c = new CaptionImpl();
-		c.setText(question);
+		CaptionImpl c = new CaptionImpl(question);
+		
 		c.setTextColor(EAdColor.BLUE);
 		c.setBubbleColor(new EAdLinearGradient(EAdColor.WHITE,
 				EAdColor.LIGHT_GRAY, true));

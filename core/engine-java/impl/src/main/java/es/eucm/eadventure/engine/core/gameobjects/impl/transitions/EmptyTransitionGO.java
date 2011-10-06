@@ -44,7 +44,6 @@ import com.google.inject.Inject;
 
 import es.eucm.eadventure.common.model.elements.EAdScene;
 import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
-import es.eucm.eadventure.common.params.EAdString;
 import es.eucm.eadventure.common.params.fills.impl.EAdBorderedColor;
 import es.eucm.eadventure.common.params.fills.impl.EAdColor;
 import es.eucm.eadventure.common.params.geom.impl.EAdPositionImpl;
@@ -95,9 +94,8 @@ public class EmptyTransitionGO extends SceneGOImpl implements TransitionGO {
 		super(assetHandler, stringHandler, gameObjectFactory, gui, gameState, valueMap,
 				platformConfiguration);
 
-		// TODO localize
-		EAdString string = new EAdString("Loading");
-		caption = new CaptionImpl(string);
+		caption = new CaptionImpl();
+		caption.getText().parse("Loading");
 		loadingText = new EAdBasicSceneElement("loadingText");
 		loadingText.getResources().addAsset(loadingText.getInitialBundle(),
 				EAdBasicSceneElement.appearance, caption);

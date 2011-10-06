@@ -52,8 +52,6 @@ import es.eucm.eadventure.common.params.EAdString;
 @Singleton
 public class StringFactory {
 
-	private static int ID_GENERATOR = 0;
-
 	public enum StringType {
 		VERY_LONG_STRING, LONG_STRING, MEDIUM_STRING, SHORT_STRING;
 
@@ -92,7 +90,7 @@ public class StringFactory {
 		if (strings == null) {
 			strings = new ArrayList<EAdString>();
 			for (StringType type : StringType.values()) {
-				EAdString string = new EAdString(type.toString());
+				EAdString string = EAdString.newEAdString(type.toString());
 				strings.add(string);
 			}
 		}
@@ -123,16 +121,13 @@ public class StringFactory {
 		return strings.get(stringType.ordinal());
 	}
 
-	/**
-	 * Creates an EAdString for the given string
-	 * 
-	 * @param string
-	 * @return
-	 */
 	public EAdString getString(String string) {
-		EAdString eadString = new EAdString("string" + ID_GENERATOR
-				+ (int) (Math.random() * 100));
-		userStrings.put(eadString, string);
-		return eadString;
+		EAdString eAdString = EAdString.newEAdString(string);
+		setString(eAdString, string);
+		return eAdString;
+	}
+	
+	public void setString(EAdString string, String value) {
+		userStrings.put(string, value);
 	}
 }

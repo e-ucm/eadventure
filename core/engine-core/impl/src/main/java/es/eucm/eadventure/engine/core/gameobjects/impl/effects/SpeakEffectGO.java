@@ -129,8 +129,7 @@ public class SpeakEffectGO extends AbstractEffectGO<EAdSpeakEffect> {
 		}
 
 		rectangle.setFill(element.getBubbleColor());
-		CaptionImpl text = new CaptionImpl();
-		text.setText(element.getString());
+		CaptionImpl text = new CaptionImpl(element.getString());
 		text.setTextColor(element.getTextColor());
 		text.setMaximumWidth(right - left - MARGIN * 2);
 		text.setMaximumHeight(bottom - top - MARGIN * 2);

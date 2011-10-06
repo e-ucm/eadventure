@@ -76,10 +76,10 @@ public class EAdChapterImpl extends EAdGeneralElementImpl implements EAdChapter 
 	private EAdList<EAdTimer> timers;
 	
 	@Param("title")
-	private EAdString title;
+	private final EAdString title;
 	
 	@Param("description")
-	private EAdString description;
+	private final EAdString description;
 	
 	@Param("initialScreen")
 	private EAdScene initialScreen;
@@ -100,6 +100,8 @@ public class EAdChapterImpl extends EAdGeneralElementImpl implements EAdChapter 
 		scenes = new EAdListImpl<EAdScene>(EAdScene.class);
 		actors = new EAdListImpl<EAdActor>(EAdActor.class);
 		timers = new EAdListImpl<EAdTimer>(EAdTimer.class);
+		title = EAdString.newEAdString("chapterTitle");
+		description = EAdString.newEAdString("chapterDescription");
 		vars = new EAdMapImpl<EAdVarDef<?>, Object>(EAdVarDef.class,
 				Object.class);
 
@@ -171,25 +173,6 @@ public class EAdChapterImpl extends EAdGeneralElementImpl implements EAdChapter 
 	@Override
 	public EAdString getDescription() {
 		return description;
-	}
-	
-	
-	/**
-	 * Set the adventure title
-	 * 
-	 * @param title
-	 */
-	public void setTitle(EAdString title) {
-		this.title = title;
-	}
-	
-	/**
-	 * Set the adventure description
-	 * 
-	 * @param description
-	 */
-	public void setDescription(EAdString description) {
-		this.description = description;
 	}
 
 	/* (non-Javadoc)

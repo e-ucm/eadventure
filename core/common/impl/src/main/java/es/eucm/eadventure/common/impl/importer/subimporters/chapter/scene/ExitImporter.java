@@ -184,7 +184,8 @@ public class ExitImporter implements EAdElementImporter<Exit, EAdSceneElement> {
 		// Add name
 		ExitLook exitLook = oldObject.getDefaultExitLook();
 
-		EAdString name = stringHandler.addString(exitLook.getExitText());
+		EAdString name = EAdString.newEAdString("exitLookName");
+		stringHandler.setString(name, exitLook.getExitText());
 		newExit.setVarInitialValue(EAdBasicSceneElement.VAR_NAME, name);
 
 		// Change cursor

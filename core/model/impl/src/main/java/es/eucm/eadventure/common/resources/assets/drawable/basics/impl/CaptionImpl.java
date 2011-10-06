@@ -57,7 +57,7 @@ public class CaptionImpl implements Caption {
 	private static final int DEFAULT_PADDING = 30;
 
 	@Param("label")
-	private EAdString label;
+	private final EAdString label;
 
 	@Param("font")
 	private EAdFont font;
@@ -90,7 +90,7 @@ public class CaptionImpl implements Caption {
 	private EAdList<EAdField<?>> fields;
 
 	public CaptionImpl() {
-		this(null);
+		this(EAdString.newEAdString("label"));
 	}
 
 	public CaptionImpl(EAdString label) {
@@ -111,15 +111,6 @@ public class CaptionImpl implements Caption {
 	@Override
 	public EAdString getText() {
 		return label;
-	}
-
-	/**
-	 * Sets the {@link EAdString} for the caption
-	 * 
-	 * @param label
-	 */
-	public void setText(EAdString label) {
-		this.label = label;
 	}
 
 	@Override

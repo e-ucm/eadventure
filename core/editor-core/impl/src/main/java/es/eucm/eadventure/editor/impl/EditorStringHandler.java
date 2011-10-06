@@ -12,8 +12,6 @@ import es.eucm.eadventure.common.resources.StringHandler;
 @Singleton
 public class EditorStringHandler implements StringHandler {
 
-	private int idGenerator = 0;
-
 	private Map<EAdString, String> strings;
 
 	public EditorStringHandler() {
@@ -29,19 +27,6 @@ public class EditorStringHandler implements StringHandler {
 	@Override
 	public void setString(EAdString eAdString, String string) {
 		strings.put(eAdString, string);
-	}
-
-	@Override
-	public EAdString addString(String string) {
-		EAdString eAdString = null;
-		do {
-			eAdString = new EAdString("string_" + idGenerator + "_"
-					+ Math.round(Math.random() * 100));
-			idGenerator++;
-		} while (strings.containsKey(eAdString));
-
-		strings.put(eAdString, string);
-		return eAdString;
 	}
 
 	@Override

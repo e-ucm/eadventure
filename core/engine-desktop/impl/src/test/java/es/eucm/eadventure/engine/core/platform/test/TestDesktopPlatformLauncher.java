@@ -76,43 +76,36 @@ public class TestDesktopPlatformLauncher  {
 		
 		//TODO set language
 		StringHandler sh = injector.getInstance(StringHandler.class);
-
-		sh.setString(new EAdString("question"), "¿Qué pregunta te podría hacer?");
-		sh.setString(new EAdString("answer1"), "Que como estoy, a lo mejor");
-		sh.setString(new EAdString("answer2"), "No sé, lo que veas.");
-		sh.setString(new EAdString("answer3"), "A lo mejor algo relacionado con el mundo e las preguntas.");
+/*
 		sh.setString(new EAdString("stringName"), "Start game");
-		sh.setString(new EAdString("panielName"), "Paniel");
-		sh.setString(new EAdString("panielDescription"), "Es Paniel. Parece ser que le gusta hacer el moonwalker todo el rato. #f");
-		sh.setString(new EAdString("handAction"), "¡Chócala!");
 		sh.setString(new EAdString("orientedName"), "Oriented");
 		sh.setString(new EAdString("stringId"), "Esto es un string no ya largo, sino larguíiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiisimo sólo para probar si todo ese código que hay por ahí para e incluso le pongo variables como mi nombre que es #nombre e incluso un número que es #n cortar las líneas funciona más o menos bien, que estaría bien, vamos, que tampoco...");
 
 		sh.setString(new EAdString("default"), "default");
-
+*/
 		LoadingScreen loadingScreen = injector.getInstance(LoadingScreen.class);
 		
 		EAdScene scene = BasicSceneFactoryTest.getBasicScene();
 		
-		EAdActorReference actorReference = ActorReferenceFactoryTest.getActorReference(BasicActorFactoryTest.getActor());
+		EAdActorReference actorReference = ActorReferenceFactoryTest.getActorReference(BasicActorFactoryTest.getActor(sh));
 		scene.getElements().add(actorReference);
 
-		EAdActorReference actorReference2 = ActorReferenceFactoryTest.getActorReference(BasicActorFactoryTest.getActor());
+		EAdActorReference actorReference2 = ActorReferenceFactoryTest.getActorReference(BasicActorFactoryTest.getActor(sh));
 		scene.getElements().add(actorReference2);
 
-		EAdActorReference actorReference3 = ActorReferenceFactoryTest.getActorReference(BasicActorFactoryTest.getActor());
+		EAdActorReference actorReference3 = ActorReferenceFactoryTest.getActorReference(BasicActorFactoryTest.getActor(sh));
 		scene.getElements().add(actorReference3);
 
-		EAdActorReference actorReference4 = ActorReferenceFactoryTest.getActorReference(BasicActorFactoryTest.getActor());
+		EAdActorReference actorReference4 = ActorReferenceFactoryTest.getActorReference(BasicActorFactoryTest.getActor(sh));
 		scene.getElements().add(actorReference4);
 
-		EAdActorReference actorReference5 = ActorReferenceFactoryTest.getActorReference(BasicActorFactoryTest.getActor());
+		EAdActorReference actorReference5 = ActorReferenceFactoryTest.getActorReference(BasicActorFactoryTest.getActor(sh));
 		scene.getElements().add(actorReference5);
 
-		EAdActorReference actorReference6 = ActorReferenceFactoryTest.getActorReference(BasicActorFactoryTest.getActor());
+		EAdActorReference actorReference6 = ActorReferenceFactoryTest.getActorReference(BasicActorFactoryTest.getActor(sh));
 		scene.getElements().add(actorReference6);
 
-		EAdActorReference actorReference7 = ActorReferenceFactoryTest.getActorReference(BasicActorFactoryTest.getActor());
+		EAdActorReference actorReference7 = ActorReferenceFactoryTest.getActorReference(BasicActorFactoryTest.getActor(sh));
 		scene.getElements().add(actorReference7);
 
 		EAdButton button = new EAdButton("button");

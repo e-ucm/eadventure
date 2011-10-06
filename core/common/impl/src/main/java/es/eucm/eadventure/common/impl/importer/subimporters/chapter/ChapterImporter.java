@@ -85,9 +85,8 @@ public class ChapterImporter implements EAdElementImporter<Chapter, EAdChapter> 
 		EAdChapterImpl newChapter = (EAdChapterImpl) object;
 		elementFactory.setCurrentChapterModel(newChapter, oldChapter);
 
-		newChapter.setTitle(stringHandler.addString(oldChapter.getTitle()));
-		newChapter.setDescription(stringHandler.addString(oldChapter
-				.getDescription()));
+		stringHandler.setString(newChapter.getTitle(), oldChapter.getTitle());
+		stringHandler.setString(newChapter.getDescription(), oldChapter.getDescription());
 
 		registerOldElements(oldChapter.getAtrezzo());
 		registerOldElements(oldChapter.getItems());

@@ -55,7 +55,6 @@ import es.eucm.eadventure.common.model.effects.impl.timedevents.EAdShowSceneElem
 import es.eucm.eadventure.common.model.elements.EAdActor;
 import es.eucm.eadventure.common.model.elements.EAdCondition;
 import es.eucm.eadventure.common.model.elements.impl.EAdBasicActor;
-import es.eucm.eadventure.common.params.EAdString;
 import es.eucm.eadventure.common.resources.StringHandler;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.Caption;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.CaptionImpl;
@@ -100,15 +99,10 @@ public abstract class ActorImporter<P extends Element> implements
 		EAdBasicActor actor = (EAdBasicActor) object;
 		elementFactory.getCurrentChapterModel().getActors().add(actor);
 
-		actor.setName(stringHandler.addString(oldObject.getName()));
-
-		actor.setDescription(stringHandler.addString(oldObject.getDescription()));
-
-		actor.setDetailedDescription(stringHandler.addString(oldObject
-				.getDetailedDescription()));
-
-		actor.setDocumentation(stringHandler.addString(oldObject
-				.getDocumentation()));
+		stringHandler.setString(actor.getName(), oldObject.getName());
+		stringHandler.setString(actor.getDescription(), oldObject.getDescription());
+		stringHandler.setString(actor.getDetailedDescription(), oldObject.getDetailedDescription());
+		stringHandler.setString(actor.getDocumentation(), oldObject.getDocumentation());
 
 		initResourcesCorrespondencies();
 
@@ -156,13 +150,11 @@ public abstract class ActorImporter<P extends Element> implements
 		if (addExamine) {
 			EAdBasicAction examineAction = new EAdBasicAction(actor.getId()
 					+ "_action_examinate");
-			EAdString description = stringHandler.addString(oldObject
-					.getDescription());
 
 			EAdShowSceneElement effect = new EAdShowSceneElement(
 					examineAction.getId() + "_showText");
 
-			Caption caption = new CaptionImpl(description);
+			Caption caption = new CaptionImpl(actor.getDescription());
 			effect.setCaption(caption, 300, 300);
 
 			examineAction.getEffects().add(effect);

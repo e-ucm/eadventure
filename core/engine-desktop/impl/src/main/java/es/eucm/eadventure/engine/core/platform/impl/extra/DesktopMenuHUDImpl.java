@@ -47,6 +47,7 @@ import es.eucm.eadventure.common.model.effects.impl.EAdQuitGame;
 import es.eucm.eadventure.common.model.elements.EAdSceneElement;
 import es.eucm.eadventure.common.model.elements.impl.extra.EAdButton;
 import es.eucm.eadventure.common.model.guievents.impl.EAdMouseEventImpl;
+import es.eucm.eadventure.common.params.EAdString;
 import es.eucm.eadventure.common.params.geom.impl.EAdPositionImpl;
 import es.eucm.eadventure.common.resources.StringHandler;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.CaptionImpl;
@@ -84,7 +85,10 @@ public class DesktopMenuHUDImpl extends MenuHUDImpl {
 		this.gameObjectFactory = gameObjectFactory;
 
 		button = new EAdButton("menuButton");
-		((EAdButton) button).setText(new CaptionImpl(stringHandler.addString("Exit")));
+		EAdString string = EAdString.newEAdString("Exit");
+		//TODO Should use an internationalized string?
+		stringHandler.setString(string, "Exit");
+		((EAdButton) button).setText(new CaptionImpl(string));
 		((EAdButton) button).setUpNewInstance();
 		((EAdButton) button).getBehavior().addBehavior(EAdMouseEventImpl.MOUSE_LEFT_CLICK,
 				new EAdQuitGame("menuButton_quitGame"));

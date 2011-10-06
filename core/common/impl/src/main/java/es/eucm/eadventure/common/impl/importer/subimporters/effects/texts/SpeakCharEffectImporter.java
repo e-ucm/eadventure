@@ -50,7 +50,6 @@ import es.eucm.eadventure.common.model.elements.EAdSceneElement;
 import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
 import es.eucm.eadventure.common.model.variables.EAdField;
 import es.eucm.eadventure.common.model.variables.impl.EAdFieldImpl;
-import es.eucm.eadventure.common.params.EAdString;
 import es.eucm.eadventure.common.params.fills.impl.EAdBorderedColor;
 import es.eucm.eadventure.common.params.fills.impl.EAdColor;
 import es.eucm.eadventure.common.resources.StringHandler;
@@ -98,8 +97,7 @@ public class SpeakCharEffectImporter extends
 			line = line.substring(YELL.length());
 		}
 
-		EAdString text = stringHandler.addString(line);
-		effect.setText(text);
+		stringHandler.setString(effect.getString(), line);
 		effect.setBalloonType(type);
 
 		EAdColor center = new EAdColor("0x"

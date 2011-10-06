@@ -64,10 +64,10 @@ public class EAdAdventureModelImpl implements EAdAdventureModel {
 	private PlayerMode playerMode;
 
 	@Param("description")
-	private EAdString description;
+	private final EAdString description;
 	
 	@Param("title")
-	private EAdString title;
+	private final EAdString title;
 
 	@Param("inventory")
 	private EAdInventory inventory;
@@ -86,6 +86,8 @@ public class EAdAdventureModelImpl implements EAdAdventureModel {
 		inventory = new EAdBasicInventory();
 		vars = new EAdMapImpl<EAdVarDef<?>, Object>(EAdVarDef.class,
 				Object.class);
+		description = EAdString.newEAdString("adventureDescription");
+		title = EAdString.newEAdString("adventureTitle");
 	}
 	
 	public EAdList<EAdChapter> getChapters() {
@@ -135,25 +137,11 @@ public class EAdAdventureModelImpl implements EAdAdventureModel {
 	}
 
 	/**
-	 * @param description the description to set
-	 */
-	public void setDescription(EAdString description) {
-		this.description = description;
-	}
-
-	/**
 	 * @return the title
 	 */
 	@Override
 	public EAdString getTitle() {
 		return title;
-	}
-
-	/**
-	 * @param title the title to set
-	 */
-	public void setTitle(EAdString title) {
-		this.title = title;
 	}
 
 	@Override

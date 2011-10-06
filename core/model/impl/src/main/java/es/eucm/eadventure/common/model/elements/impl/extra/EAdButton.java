@@ -63,7 +63,7 @@ public class EAdButton extends EAdBasicSceneElement {
 	
 	public EAdButton(String id) {
 		super(id);
-		text = new CaptionImpl(new EAdString("default"));
+		text = new CaptionImpl(EAdString.newEAdString("default"));
 	}
 	
 	public void setText(Caption caption) {

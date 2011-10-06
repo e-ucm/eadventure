@@ -47,6 +47,7 @@ import es.eucm.eadventure.common.model.variables.impl.operations.LiteralExpressi
 import es.eucm.eadventure.common.params.EAdFont;
 import es.eucm.eadventure.common.params.EAdFont.Style;
 import es.eucm.eadventure.common.params.EAdFontImpl;
+import es.eucm.eadventure.common.params.EAdString;
 import es.eucm.eadventure.common.params.fills.impl.EAdColor;
 import es.eucm.eadventure.common.resources.EAdBundleId;
 import es.eucm.eadventure.common.resources.StringHandler;
@@ -275,7 +276,9 @@ public class BookImporter implements EAdElementImporter<Book, EAdScene> {
 			int xOffset, int lineHeight, int textWidth) {
 		List<String> lines = getLines(text, font, textWidth);
 		for (String l : lines) {
-			CaptionImpl caption = new CaptionImpl(stringHandler.addString(l));
+			EAdString string = EAdString.newEAdString("line");
+			stringHandler.setString(string, l);
+			CaptionImpl caption = new CaptionImpl(string);
 			caption.setFont(eadFont);
 			caption.setPadding(0);
 			if (dispY + lineHeight > PAGE_TEXT_HEIGHT) {
