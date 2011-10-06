@@ -43,48 +43,45 @@ import playn.core.Canvas;
 
 import com.google.inject.Singleton;
 
-import es.eucm.eadventure.common.params.geom.EAdPosition;
 import es.eucm.eadventure.engine.core.platform.AssetRenderer;
 import es.eucm.eadventure.engine.core.platform.assets.impl.PlayNEngineImage;
 
 @Singleton
-public class PlayNImageAssetRenderer implements AssetRenderer<Canvas, PlayNEngineImage> {
+public class PlayNImageAssetRenderer implements
+		AssetRenderer<Canvas, PlayNEngineImage> {
 
 	/**
 	 * Logger
 	 */
-	private static final Logger logger = Logger.getLogger("PlayNImageAssetRenderer");
+	private static final Logger logger = Logger
+			.getLogger("PlayNImageAssetRenderer");
 
 	public PlayNImageAssetRenderer() {
 		logger.info("New instance");
 	}
-	
+
 	@Override
-	public void render(Canvas graphicContext, PlayNEngineImage asset, EAdPosition position, float scale, int offsetX, int offsetY) {
+	public void render(Canvas graphicContext, PlayNEngineImage asset) {
 		if (asset != null) {
 			if (!asset.isLoaded())
 				asset.loadAsset();
-			if (asset.isLoaded()) {
-				int x = position.getJavaX(asset.getWidth() * scale) + offsetX;
-				int y = position.getJavaY(asset.getHeight() * scale) + offsetY;
-				if (scale == 1.0f) {
-					graphicContext.drawImage(asset.getImage(), x, y);
-				} else {
-					graphicContext.drawImage(asset.getImage(), x, y, (int) (asset.getWidth() * scale), (int) (asset.getHeight() * scale));
-				}
-			}
+
+			graphicContext.drawImage(asset.getImage(), 0, 0, asset.getWidth(),
+					asset.getHeight());
+
 		}
+
 	}
 
 	@Override
 	public boolean contains(int x, int y, PlayNEngineImage asset) {
-		if (asset != null && x < asset.getWidth() && y < asset.getHeight()){
-            //int alpha = asset.getImage().getRGB( x, y ) >>> 24;
-        	//return alpha > 128;
-			//FIXME No elimination of transparent areas
+		if (asset != null && x < asset.getWidth() && y < asset.getHeight()) {
+			// int alpha = asset.getImage().getRGB( x, y ) >>> 24;
+			// return alpha > 128;
+			// FIXME No elimination of transparent areas
 			return true;
 		}
 		return false;
-	}		
+	}
 
 }

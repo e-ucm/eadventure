@@ -47,6 +47,7 @@ import com.google.inject.Singleton;
 import es.eucm.eadventure.common.params.geom.EAdPosition;
 import es.eucm.eadventure.engine.core.gameobjects.EffectGO;
 import es.eucm.eadventure.engine.core.platform.GameObjectRenderer;
+import es.eucm.eadventure.engine.core.util.EAdTransformation;
 
 /**
  * A default effects game object renderer. This renderer should be used for
@@ -64,21 +65,20 @@ public class EffectsGORenderer implements
 		logger.info("New instance");
 	}
 	
-	@Override
-	public void render(Canvas graphicContext, EffectGO<?> object,
-			float interpolation, int offsetX, int offsetY) {
 
-	}
-
-	@Override
-	public void render(Canvas graphicContext, EffectGO<?> object,
-			EAdPosition position, float scale, int offsetX, int offsetY) {
-
-	}
 
 	@Override
 	public boolean contains(EffectGO<?> object, int virtualX, int virtualY) {
 		return true;
+	}
+
+
+
+	@Override
+	public void render(Canvas graphicContext, EffectGO<?> object,
+			EAdTransformation transformation) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

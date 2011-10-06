@@ -47,8 +47,6 @@ import com.google.inject.Singleton;
 import es.eucm.eadventure.common.params.EAdFontImpl;
 import es.eucm.eadventure.common.params.EAdString;
 import es.eucm.eadventure.common.params.fills.impl.EAdBorderedColor;
-import es.eucm.eadventure.common.params.geom.EAdPosition;
-import es.eucm.eadventure.common.params.geom.impl.EAdPositionImpl;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.CaptionImpl;
 import es.eucm.eadventure.engine.core.MouseState;
 import es.eucm.eadventure.engine.core.gameobjects.ActorReferenceGO;
@@ -58,6 +56,7 @@ import es.eucm.eadventure.engine.core.gameobjects.huds.impl.BasicHUDImpl;
 import es.eucm.eadventure.engine.core.platform.AssetHandler;
 import es.eucm.eadventure.engine.core.platform.GameObjectRenderer;
 import es.eucm.eadventure.engine.core.platform.GraphicRendererFactory;
+import es.eucm.eadventure.engine.core.util.EAdTransformation;
 
 @Singleton
 public class BasicHudGORenderer implements
@@ -86,15 +85,15 @@ public class BasicHudGORenderer implements
 	}
 
 	@Override
-	public void render(Canvas g, BasicHUDImpl object, float interpolation, int offsetX, int offsetY) {
+	public void render(Canvas g, BasicHUDImpl object, EAdTransformation t) {
 
 		if (mouseState.getDraggingGameObject() != null && mouseState.isInside()) {
 			GameObject<?> actor = mouseState.getDraggingGameObject();
-			graphicRendererFactory.render(g, actor, EAdPositionImpl
-					.volatileEAdPosition(
-							mouseState.getVirtualMouseX() - mouseState.getMouseDifX(),
-							mouseState.getVirtualMouseY() - mouseState.getMouseDifY(),
-							actor.getPosition().getDispX(), actor.getPosition().getY()), 1.0f, 0, 0);
+//			graphicRendererFactory.render(g, actor, EAdPositionImpl
+//					.volatileEAdPosition(
+//							mouseState.getMouseX() - mouseState.getDragDifX(),
+//							mouseState.getMouseY() - mouseState.getDragDifY(),
+//							actor.getPosition().getDispX(), actor.getPosition().getY()), 1.0f, 0, 0);
 		}
 
 		//TODO probably should check if it wants its name to be painted
@@ -105,9 +104,9 @@ public class BasicHudGORenderer implements
 			EAdString name = ((ActorReferenceGO) underMouse).getName();
 			if (caption == null || !caption.getText().equals(name))
 				renewCaption(name);
-			graphicRendererFactory.render(g, assetHandler.getRuntimeAsset(caption), EAdPositionImpl.volatileEAdPosition(
-					mouseState.getVirtualMouseX(),
-					mouseState.getVirtualMouseY()), 1.0f, 0, 0);
+//			graphicRendererFactory.render(g, assetHandler.getRuntimeAsset(caption), EAdPositionImpl.volatileEAdPosition(
+//					mouseState.getVirtualMouseX(),
+//					mouseState.getVirtualMouseY()), 1.0f, 0, 0);
 		}
 	}
 	
@@ -115,12 +114,7 @@ public class BasicHudGORenderer implements
 		caption = new CaptionImpl();
 		((CaptionImpl) caption).setTextColor(EAdBorderedColor.BLACK_ON_WHITE);
 		((CaptionImpl) caption).setFont(EAdFontImpl.REGULAR);
-		caption.setText(text);
-	}
-
-	@Override
-	public void render(Canvas graphicContext, BasicHUDImpl object,
-			EAdPosition position, float scale, int offsetX, int offsetY) {
+//		caption.setText(text);
 	}
 
 	@Override

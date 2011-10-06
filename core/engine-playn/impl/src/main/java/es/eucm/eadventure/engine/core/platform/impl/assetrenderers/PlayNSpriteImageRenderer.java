@@ -43,7 +43,6 @@ import playn.core.Canvas;
 
 import com.google.inject.Singleton;
 
-import es.eucm.eadventure.common.params.geom.EAdPosition;
 import es.eucm.eadventure.engine.core.platform.AssetRenderer;
 import es.eucm.eadventure.engine.core.platform.assets.impl.PlayNEngineSpriteImage;
 
@@ -60,20 +59,17 @@ public class PlayNSpriteImageRenderer implements AssetRenderer<Canvas, PlayNEngi
 	}
 	
 	@Override
-	public void render(Canvas graphicContext, PlayNEngineSpriteImage asset, EAdPosition position, float scale, int offsetX, int offsetY) {
+	public void render(Canvas graphicContext, PlayNEngineSpriteImage asset) {
 		if (asset != null) {
 			if (!asset.isLoaded())
 				asset.loadAsset();
-			
-			int x = position.getJavaX(asset.getWidth() * scale) + offsetX;
-			int y = position.getJavaY(asset.getHeight() * scale) + offsetY;
 			
 			int width = asset.getWidth();
 			int height = asset.getHeight();
 			int oldX = (asset.getSprite() % asset.getRows()) * asset.getWidth();
 			int oldY = (asset.getSprite() / asset.getCols()) * asset.getHeight();
 			
-			graphicContext.drawImage(asset.getImage(), x, y, x + (int) (width * scale), y + (int) (height * scale),
+			graphicContext.drawImage(asset.getImage(), 0, 0, width, height,
 					oldX, oldY, oldX + width, oldY + height);
 		}
 	}

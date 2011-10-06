@@ -44,7 +44,6 @@ import playn.core.Canvas;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
-import es.eucm.eadventure.common.params.geom.EAdPosition;
 import es.eucm.eadventure.engine.core.platform.AssetHandler;
 import es.eucm.eadventure.engine.core.platform.AssetRenderer;
 import es.eucm.eadventure.engine.core.platform.GraphicRendererFactory;
@@ -71,8 +70,9 @@ public class PlayNDisplacedDrawableRenderer implements AssetRenderer<Canvas, Run
 	}
 	
 	@Override
-	public void render(Canvas graphicContext, RuntimeDisplacedDrawable asset, EAdPosition position, float scale, int offsetX, int offsetY) {
-		rendererFactory.render(graphicContext, assetHandler.getRuntimeAsset(asset.getDrawableAsset()), position, scale, offsetX + asset.getDisplacement().getX(), offsetY + asset.getDisplacement().getY());
+	public void render(Canvas graphicContext, RuntimeDisplacedDrawable asset) {
+		graphicContext.translate(asset.getDisplacement().getX(), asset.getDisplacement().getY());
+		rendererFactory.render(graphicContext, assetHandler.getRuntimeAsset(asset.getDrawableAsset()));
 	}
 
 	@Override

@@ -47,6 +47,7 @@ import es.eucm.eadventure.common.model.actions.EAdAction;
 import es.eucm.eadventure.common.model.effects.EAdEffect;
 import es.eucm.eadventure.common.model.elements.EAdActorReference;
 import es.eucm.eadventure.common.model.elements.impl.EAdBasicActor;
+import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
 import es.eucm.eadventure.common.model.extra.EAdList;
 import es.eucm.eadventure.common.params.EAdString;
 import es.eucm.eadventure.common.resources.EAdBundleId;
@@ -109,6 +110,7 @@ public class ActorReferenceGOImpl extends SceneElementGOImpl<EAdActorReference>
 		this.actor = (ActorGO) gameObjectFactory.get(actorReference
 				.getReferencedActor());
 		super.setElement(actorReference);
+		valueMap.setValue(actorReference, EAdBasicSceneElement.VAR_NAME, actor.getName());
 		// To update width and height
 		getRenderAsset();
 	}

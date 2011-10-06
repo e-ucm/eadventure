@@ -43,7 +43,6 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 import es.eucm.eadventure.common.params.EAdFill;
-import es.eucm.eadventure.common.params.geom.EAdPosition;
 import es.eucm.eadventure.engine.core.platform.AssetRenderer;
 import es.eucm.eadventure.engine.core.platform.assets.impl.PlayNEngineCaption;
 
@@ -59,21 +58,14 @@ public class PlayNCaptionRenderer implements
 	}
 
 	@Override
-	public void render(Canvas g, PlayNEngineCaption asset,
-			EAdPosition position, float scale, int offsetX, int offsetY) {
+	public void render(Canvas g, PlayNEngineCaption asset) {
 		// TODO use offsets
 
 		if (!asset.isLoaded())
 			asset.loadAsset();
+		int width = asset.getWidth();
+		int height = asset.getHeight();
 
-		g.scale(scale, scale);
-
-		int xLeft = position.getJavaX(asset.getWidth() * scale);
-		int yTop = position.getJavaY(asset.getHeight() * scale);
-		int width = (int) (asset.getWidth() * scale);
-		int height = (int) (asset.getHeight() * scale);
-
-		g.translate(offsetX + xLeft, offsetY + yTop);
 
 		if (asset.getCaption().hasBubble()
 				& asset.getCaption().getBubbleFill() != null)
@@ -89,9 +81,7 @@ public class PlayNCaptionRenderer implements
 
 		g.translate(-asset.getCaption().getPadding(), -asset.getCaption()
 				.getPadding());
-		g.translate(-(offsetX + xLeft), -(offsetY + yTop));
 
-		g.scale(1/scale, 1/scale);
 	}
 
 	@Override

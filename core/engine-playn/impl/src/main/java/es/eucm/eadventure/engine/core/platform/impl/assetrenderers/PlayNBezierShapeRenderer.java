@@ -43,7 +43,6 @@ import playn.core.Path;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
-import es.eucm.eadventure.common.params.geom.EAdPosition;
 import es.eucm.eadventure.engine.core.platform.AssetRenderer;
 import es.eucm.eadventure.engine.core.platform.FillFactory;
 import es.eucm.eadventure.engine.core.platform.assets.impl.PlayNBezierShape;
@@ -60,27 +59,21 @@ public class PlayNBezierShapeRenderer implements
 	}
 
 	@Override
-	public void render(Canvas graphicContext, PlayNBezierShape asset,
-			EAdPosition position, float scale, int offsetX, int offsetY) {
+	public void render(Canvas graphicContext, PlayNBezierShape asset) {
 
 		if (!asset.isLoaded())
 			asset.loadAsset();
 
-		int x = position.getJavaX(asset.getWidth() * scale) + offsetX;
-		int y = position.getJavaY(asset.getHeight() * scale) + offsetY;
 
 //		Color temp = graphicContext.getColor();
-		
-		graphicContext.translate(x, y);
-		graphicContext.scale(scale, scale);
+	
 
 //		Stroke s = graphicContext.getStroke();
 		fillFactory.fill(asset.getAssetDescriptor().getFill(), graphicContext, asset.getShape());
 //		graphicContext.setStroke(s);
 
 //		graphicContext.setColor(temp);
-		graphicContext.scale(1/scale, 1/scale);
-		graphicContext.translate(-x, -y);
+
 
 	}
 

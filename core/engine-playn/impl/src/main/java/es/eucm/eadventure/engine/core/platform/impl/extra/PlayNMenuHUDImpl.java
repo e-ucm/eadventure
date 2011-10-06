@@ -55,6 +55,7 @@ import es.eucm.eadventure.engine.core.gameobjects.GameObjectFactory;
 import es.eucm.eadventure.engine.core.gameobjects.GameObjectManager;
 import es.eucm.eadventure.engine.core.gameobjects.huds.impl.MenuHUDImpl;
 import es.eucm.eadventure.engine.core.platform.RuntimeAsset;
+import es.eucm.eadventure.engine.core.util.EAdTransformation;
 
 @Singleton
 public class PlayNMenuHUDImpl extends MenuHUDImpl {
@@ -96,8 +97,8 @@ public class PlayNMenuHUDImpl extends MenuHUDImpl {
 	 * @see es.eucm.eadventure.engine.core.gameobjects.GameObject#doLayout()
 	 */
 	@Override
-	public void doLayout(int offsetX, int offsetY) {
-		gui.addElement(gameObjectFactory.get(button), offsetX, offsetY);
+	public void doLayout(EAdTransformation t) {
+		gui.addElement(gameObjectFactory.get(button), t);
 	}
 
 	/*
@@ -108,8 +109,8 @@ public class PlayNMenuHUDImpl extends MenuHUDImpl {
 	 * eadventure.engine.core.GameState)
 	 */
 	@Override
-	public void update(GameState state) {
-		gameObjectFactory.get(button).update(state);
+	public void update() {
+		gameObjectFactory.get(button).update();
 	}
 
 	/* (non-Javadoc)

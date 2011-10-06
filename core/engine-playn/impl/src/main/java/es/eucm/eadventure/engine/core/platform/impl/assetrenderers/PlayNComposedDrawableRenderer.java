@@ -44,7 +44,6 @@ import playn.core.Canvas;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
-import es.eucm.eadventure.common.params.geom.EAdPosition;
 import es.eucm.eadventure.common.resources.assets.drawable.Drawable;
 import es.eucm.eadventure.engine.core.platform.AssetHandler;
 import es.eucm.eadventure.engine.core.platform.AssetRenderer;
@@ -72,9 +71,9 @@ public class PlayNComposedDrawableRenderer implements AssetRenderer<Canvas, Runt
 	}
 	
 	@Override
-	public void render(Canvas graphicContext, RuntimeComposedDrawable asset, EAdPosition position, float scale, int offsetX, int offsetY) {
+	public void render(Canvas graphicContext, RuntimeComposedDrawable asset) {
 		for (Drawable drawable : asset.getAssetList())
-			rendererFactory.render(graphicContext, assetHandler.getRuntimeAsset(drawable), position, scale, offsetX, offsetY);
+			rendererFactory.render(graphicContext, assetHandler.getRuntimeAsset(drawable));
 	}
 
 	@Override

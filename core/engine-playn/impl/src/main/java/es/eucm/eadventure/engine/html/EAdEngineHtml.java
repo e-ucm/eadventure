@@ -1,14 +1,12 @@
 package es.eucm.eadventure.engine.html;
 
+import playn.core.PlayN;
+
 import com.google.gwt.core.client.GWT;
 
 import es.eucm.eadventure.engine.core.EAdEngine;
 import es.eucm.eadventure.engine.core.Game;
 import es.eucm.eadventure.engine.core.platform.impl.PlayNGinInjector;
-import playn.core.PlayN;
-import playn.html.HtmlAssetManager;
-import playn.html.HtmlGame;
-import playn.html.HtmlPlatform;
 
 public class EAdEngineHtml extends HtmlGame {
 

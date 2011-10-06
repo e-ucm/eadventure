@@ -52,6 +52,7 @@ import es.eucm.eadventure.engine.core.gameobjects.GameObjectManager;
 import es.eucm.eadventure.engine.core.gameobjects.SceneElementGO;
 import es.eucm.eadventure.engine.core.gameobjects.huds.impl.ActionsHUDImpl;
 import es.eucm.eadventure.engine.core.platform.GUI;
+import es.eucm.eadventure.engine.core.util.EAdTransformation;
 
 @Singleton
 public class PlayNActionsHUDImpl extends ActionsHUDImpl {
@@ -139,10 +140,10 @@ public class PlayNActionsHUDImpl extends ActionsHUDImpl {
 	}
 
 	@Override
-	public void doLayout(int offsetX, int offsetY) {
+	public void doLayout(EAdTransformation t) {
 		// TODO ...
 		for (GameObject<?> action : actionGOs)
-			gui.addElement(action, offsetX, offsetY);
+			gui.addElement(action, t);
 	}
 
 }

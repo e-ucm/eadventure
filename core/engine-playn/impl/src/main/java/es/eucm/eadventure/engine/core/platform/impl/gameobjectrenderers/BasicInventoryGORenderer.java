@@ -44,9 +44,9 @@ import playn.core.Canvas;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
-import es.eucm.eadventure.common.params.geom.EAdPosition;
 import es.eucm.eadventure.engine.core.gameobjects.impl.inventory.BasicInventoryGO;
 import es.eucm.eadventure.engine.core.platform.GameObjectRenderer;
+import es.eucm.eadventure.engine.core.util.EAdTransformation;
 
 @Singleton
 public class BasicInventoryGORenderer implements
@@ -59,22 +59,19 @@ public class BasicInventoryGORenderer implements
 	public BasicInventoryGORenderer() {
 		logger.info("New instance");
 	}
-	
-	@Override
-	public void render(Canvas graphicContext, BasicInventoryGO object,
-			float interpolation, int offsetX, int offsetY) {
-		//DO NOTHING
-	}
 
-	@Override
-	public void render(Canvas graphicContext, BasicInventoryGO object,
-			EAdPosition position, float scale, int offsetX, int offsetY) {
-		//DO NOTHING
-	}
 
 	@Override
 	public boolean contains(BasicInventoryGO object, int virtualX, int virtualY) {
 		return false;
+	}
+
+
+	@Override
+	public void render(Canvas graphicContext, BasicInventoryGO object,
+			EAdTransformation transformation) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

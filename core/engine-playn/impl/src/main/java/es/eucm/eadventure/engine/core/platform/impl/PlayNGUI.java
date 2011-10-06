@@ -258,4 +258,10 @@ public class PlayNGUI extends AbstractGUI<Canvas> implements GUI {
 		*/
 	}
 
+	@Override
+	public void finish() {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

@@ -199,7 +199,7 @@ public class BasicHUDImpl implements BasicHUD {
 		GameObject<? extends EAdElement> go = (GameObject<? extends EAdElement>) mouseState
 				.getGameObjectUnderMouse();
 
-		if (go != null) {
+		if (go != null && go.getElement() instanceof EAdElement ) {
 			EAdString name = valueMap.getValue((EAdElement) go.getElement(),
 					EAdBasicSceneElement.VAR_NAME);
 			if (name != null) {

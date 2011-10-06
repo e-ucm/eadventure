@@ -46,15 +46,15 @@ import com.google.inject.name.Named;
 
 import es.eucm.eadventure.common.interfaces.AbstractFactory;
 import es.eucm.eadventure.common.interfaces.EAdRuntimeException;
-import es.eucm.eadventure.common.interfaces.ReflectionProvider;
 import es.eucm.eadventure.common.interfaces.MapProvider;
-import es.eucm.eadventure.common.params.geom.EAdPosition;
+import es.eucm.eadventure.common.interfaces.ReflectionProvider;
 import es.eucm.eadventure.engine.core.gameobjects.GameObject;
 import es.eucm.eadventure.engine.core.platform.AssetRenderer;
 import es.eucm.eadventure.engine.core.platform.GameObjectRenderer;
 import es.eucm.eadventure.engine.core.platform.GraphicRenderer;
 import es.eucm.eadventure.engine.core.platform.GraphicRendererFactory;
 import es.eucm.eadventure.engine.core.platform.RuntimeAsset;
+import es.eucm.eadventure.engine.core.util.EAdTransformation;
 
 @Singleton
 public abstract class PlayNGraphicRendererFactoryImpl<S> extends AbstractFactory<GraphicRenderer<?, ?>> implements GraphicRendererFactory<S> {
@@ -69,10 +69,10 @@ public abstract class PlayNGraphicRendererFactoryImpl<S> extends AbstractFactory
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public <T extends RuntimeAsset<?>> void render(S graphicContext, T asset, EAdPosition position, float scale, int offsetX, int offsetY) {
+	public <T extends RuntimeAsset<?>> void render(S graphicContext, T asset) {
 		if (graphicContext != null && asset != null) {
 			AssetRenderer<S, T> assetRenderer = (AssetRenderer<S, T>) get(asset.getClass());
-			assetRenderer.render(graphicContext, asset, position, scale, offsetX, offsetY);
+			assetRenderer.render(graphicContext, asset);
 		}
 	}
 
@@ -85,22 +85,16 @@ public abstract class PlayNGraphicRendererFactoryImpl<S> extends AbstractFactory
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public <T extends GameObject<?>> void render(S graphicContext, T object, float interpolation, int offsetX, int offsetY) {
+	public <T extends GameObject<?>> void render(S graphicContext, T object, EAdTransformation t) {
 		try {
 			GameObjectRenderer<S, T> gameObjectRenderer = (GameObjectRenderer<S, T>) get(object.getClass());
-			gameObjectRenderer.render(graphicContext, object, interpolation, offsetX, offsetY);
+			gameObjectRenderer.render(graphicContext, object, t);
 		} catch (Exception e) {
 			logger.log(Level.SEVERE, e.getMessage(), e);
 			throw new EAdRuntimeException(e.getMessage());
 		}
 	}
 
-	@SuppressWarnings("unchecked")
-	@Override
-	public <T extends GameObject<?>> void render(S graphicContext, T object, EAdPosition position, float scale, int offsetX, int offsetY) {
-		GameObjectRenderer<S, T> gameObjectRenderer = (GameObjectRenderer<S, T>) get(object.getClass());
-		gameObjectRenderer.render(graphicContext, object, position, scale, offsetX, offsetY);
-	}
 
 	@SuppressWarnings("unchecked")
 	@Override

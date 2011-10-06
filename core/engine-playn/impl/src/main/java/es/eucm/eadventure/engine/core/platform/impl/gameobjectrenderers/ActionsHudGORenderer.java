@@ -44,10 +44,10 @@ import playn.core.Canvas;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
-import es.eucm.eadventure.common.params.geom.EAdPosition;
 import es.eucm.eadventure.engine.core.gameobjects.huds.impl.ActionsHUDImpl;
 import es.eucm.eadventure.engine.core.platform.GameObjectRenderer;
 import es.eucm.eadventure.engine.core.platform.PlatformConfiguration;
+import es.eucm.eadventure.engine.core.util.EAdTransformation;
 
 @Singleton
 public class ActionsHudGORenderer implements
@@ -70,52 +70,7 @@ public class ActionsHudGORenderer implements
 		logger.info("New intance");
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * es.eucm.eadventure.engine.core.platform.GameObjectRenderer#render(java
-	 * .lang.Object, es.eucm.eadventure.engine.core.gameobjects.GameObject,
-	 * float)
-	 */
-	@Override
-	public void render(Canvas g, ActionsHUDImpl actionsHUD,
-			float interpolation, int offsetX, int offsetY) {
-		/* FIXME PlayN implementation
-		Color color = g.getColor();
-		Composite c = g.getComposite();
-		g.setComposite(AlphaComposite
-				.getInstance(AlphaComposite.SRC_OVER, 0.8f));
 
-		g.setColor(Color.BLACK);
-		Area a = new Area(new Rectangle(platformConfiguration.getWidth(),
-				platformConfiguration.getHeight()));
-		a.transform(AffineTransform.getScaleInstance(
-				1.0f / platformConfiguration.getScale(),
-				1.0f / platformConfiguration.getScale()));
-		a.subtract(new Area(new Ellipse2D.Float(actionsHUD.getX()
-				- actionsHUD.getRadius(), actionsHUD.getY()
-				- actionsHUD.getRadius(), actionsHUD.getRadius() * 2,
-				actionsHUD.getRadius() * 2)));
-
-		g.fill(a);
-		g.setComposite(c);
-		g.setColor(color);
-		*/
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * es.eucm.eadventure.engine.core.platform.GameObjectRenderer#render(java
-	 * .lang.Object, es.eucm.eadventure.engine.core.gameobjects.GameObject,
-	 * es.eucm.eadventure.common.model.params.EAdPosition, float)
-	 */
-	@Override
-	public void render(Canvas graphicContext, ActionsHUDImpl object,
-			EAdPosition position, float scale, int offsetX, int offsetY) {
-	}
 
 	/*
 	 * (non-Javadoc)
@@ -127,6 +82,15 @@ public class ActionsHudGORenderer implements
 	@Override
 	public boolean contains(ActionsHUDImpl object, int virutalX, int virtualY) {
 		return true;
+	}
+
+
+
+	@Override
+	public void render(Canvas graphicContext, ActionsHUDImpl object,
+			EAdTransformation transformation) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }
