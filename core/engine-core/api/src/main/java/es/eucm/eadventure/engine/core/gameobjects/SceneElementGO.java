@@ -99,4 +99,10 @@ public interface SceneElementGO<T extends EAdSceneElement> extends
 	 */
 	int getCenterY();
 
+	/**
+	 * Returns the current scale of the element
+	 * @return
+	 */
+	float getScale();
+
 }

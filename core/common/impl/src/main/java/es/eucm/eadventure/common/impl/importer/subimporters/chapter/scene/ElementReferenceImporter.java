@@ -108,10 +108,10 @@ public class ElementReferenceImporter implements
 				.getTargetId());
 		newRef.setReferencedActor(actor);
 		if (oldObject.getInfluenceArea() != null) {
-			newRef.setInfluenceArea(new EAdRectangleImpl(oldObject.getInfluenceArea().getX(),
-					oldObject.getInfluenceArea().getY(),
-					oldObject.getInfluenceArea().getWidth(),
-					oldObject.getInfluenceArea().getHeight()));
+			newRef.setInfluenceArea(new EAdRectangleImpl(oldObject
+					.getInfluenceArea().getX(), oldObject.getInfluenceArea()
+					.getY(), oldObject.getInfluenceArea().getWidth(), oldObject
+					.getInfluenceArea().getHeight()));
 		}
 
 		EAdCondition condition = conditionsImporter.init(oldObject
@@ -140,11 +140,9 @@ public class ElementReferenceImporter implements
 		elementFactory.getCurrentChapterModel().getEvents()
 				.add(startVisibilityEvent);
 
-		if (actor.getActions().size() != 0) {
-			EAdActorActionsEffect showActions = new EAdActorActionsEffect(
-					actor.getId() + "_showActions", newRef);
-			newRef.addBehavior(EAdMouseEventImpl.MOUSE_RIGHT_CLICK, showActions);
-		}
+		EAdActorActionsEffect showActions = new EAdActorActionsEffect(
+				actor.getId() + "_showActions", newRef);
+		newRef.addBehavior(EAdMouseEventImpl.MOUSE_RIGHT_CLICK, showActions);
 
 		if (oldObject.getInfluenceArea() != null) {
 			int x = oldObject.getInfluenceArea().getX();

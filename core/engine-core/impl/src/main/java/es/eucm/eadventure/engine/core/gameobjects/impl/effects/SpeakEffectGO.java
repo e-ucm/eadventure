@@ -24,6 +24,7 @@ import es.eucm.eadventure.engine.core.platform.AssetHandler;
 import es.eucm.eadventure.engine.core.platform.GUI;
 import es.eucm.eadventure.engine.core.platform.PlatformConfiguration;
 import es.eucm.eadventure.engine.core.platform.assets.impl.RuntimeCaption;
+import es.eucm.eadventure.engine.core.util.EAdTransformation;
 
 public class SpeakEffectGO extends AbstractEffectGO<EAdSpeakEffect> {
 
@@ -157,8 +158,8 @@ public class SpeakEffectGO extends AbstractEffectGO<EAdSpeakEffect> {
 		return true;
 	}
 
-	public void doLayout(int offsetX, int offsetY) {
-		gui.addElement(ballon, null);
+	public void doLayout(EAdTransformation t) {
+		gui.addElement(ballon, t);
 	}
 
 	@Override

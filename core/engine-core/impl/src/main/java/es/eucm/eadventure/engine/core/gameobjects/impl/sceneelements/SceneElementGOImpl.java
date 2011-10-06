@@ -372,12 +372,14 @@ public abstract class SceneElementGOImpl<T extends EAdSceneElement> extends
 
 	@Override
 	public int getCenterX() {
-		return (int) ((position.getJavaX(width) + width / 2) * scale);
+		float[] f = transformation.getMatrix().postMultiplyPoint(width / 2, height / 2);
+		return (int) f[0];
 	}
 
 	@Override
 	public int getCenterY() {
-		return (int) ((position.getJavaY(height) + height / 2) * scale);
+		float[] f = transformation.getMatrix().postMultiplyPoint(width / 2, height / 2);
+		return (int) f[1];
 	}
 
 	public EAdPosition getPosition() {
@@ -387,6 +389,10 @@ public abstract class SceneElementGOImpl<T extends EAdSceneElement> extends
 	@Override
 	public List<EAdAction> getValidActions() {
 		return null;
+	}
+	
+	public float getScale(){
+		return scale;
 	}
 
 }
