@@ -37,12 +37,14 @@
 
 package es.eucm.eadventure.common.model.elements;
 
+import es.eucm.eadventure.common.interfaces.features.Documented;
+import es.eucm.eadventure.common.interfaces.features.Named;
 import es.eucm.eadventure.common.interfaces.features.Variabled;
 
 /**
  * Scenes in the eAdventure model. Scenes are the fundamental elements of games.
  */
-public interface EAdScene extends EAdGeneralElement, Variabled,
+public interface EAdScene extends EAdGeneralElement, Variabled, Named, Documented,
 		EAdComposedElement {
 
 	/**
@@ -54,12 +56,12 @@ public interface EAdScene extends EAdGeneralElement, Variabled,
 	 * @return true if the game can return to this scene after a cutscene or
 	 *         similiar
 	 */
-	boolean isReturnable();
+	Boolean isReturnable();
 
 	/**
 	 * 
 	 * @return true if accepts visual effects
 	 */
-	boolean acceptsVisualEffects();
-
+	Boolean acceptsVisualEffects();
+	
 }

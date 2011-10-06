@@ -4,18 +4,15 @@ import java.beans.IntrospectionException;
 import java.beans.Introspector;
 import java.beans.PropertyDescriptor;
 
-import es.eucm.eadventure.editor.view.generics.impl.AbstractFieldDescriptor;
+import es.eucm.eadventure.editor.control.FieldValueReader;
+import es.eucm.eadventure.editor.view.generics.FieldDescriptor;
 
-public class SwingFieldDescriptor<S> extends AbstractFieldDescriptor<S> {
+public class SwingFieldValueReader implements FieldValueReader {
 
 	/**
 	 * Descriptor for the corresponding property
 	 */
 	protected PropertyDescriptor pd;
-
-	public SwingFieldDescriptor(Class<?> element, String fieldName) {
-		super(element, fieldName);
-	}
 
 	/**
 	 * reads the value of the model object that is being configured
@@ -24,12 +21,13 @@ public class SwingFieldDescriptor<S> extends AbstractFieldDescriptor<S> {
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
-	public S readValue() {
+	public <S> S readValue(FieldDescriptor<S> fieldDescriptor) {
 		try {
-			if (pd == null) pd = getPropertyDescriptor(element.getClass(), fieldName);
-			return (S) pd.getReadMethod().invoke(element);				
+			if (pd == null) pd = getPropertyDescriptor(fieldDescriptor.getElement().getClass(), fieldDescriptor.getFieldName());
+			S value = (S) pd.getReadMethod().invoke(fieldDescriptor.getElement());				
+			return value;
 		} catch (Exception e) {
-			throw new RuntimeException("Error reading field " + fieldName, e);
+			throw new RuntimeException("Error reading field " + fieldDescriptor.getFieldName(), e);
 		}
 	}
 	

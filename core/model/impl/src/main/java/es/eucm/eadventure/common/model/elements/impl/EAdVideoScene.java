@@ -88,7 +88,7 @@ public class EAdVideoScene extends EAdSceneImpl implements EAdScene {
 	}
 
 	@Override
-	public boolean isReturnable() {
+	public Boolean isReturnable() {
 		return false;
 	}
 

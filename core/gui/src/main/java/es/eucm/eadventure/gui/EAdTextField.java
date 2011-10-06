@@ -77,7 +77,13 @@ public class EAdTextField extends JTextField {
     	initialize();
     }
     
-    private void setTitle(String title) {
+    public EAdTextField(String title2) {
+       	super();
+    	setTitle(title2);
+    	initialize();
+ 	}
+
+	private void setTitle(String title) {
     	this.title = title;
     	if (title != null) {
     		FontMetrics metrics = getFontMetrics(getFont());
@@ -121,7 +127,7 @@ public class EAdTextField extends JTextField {
     public void paintBorder(Graphics g) {
     	Color temp = g.getColor();
         g.setColor( borderColor );
-        g.drawRect( 0, 0, this.getWidth( ) - 1, this.getHeight( ) - 1 );
+        g.drawRect( 0, 1, this.getWidth( ) - 1, this.getHeight( ) - 3 );
         g.setColor(temp);
     }
     
@@ -141,7 +147,7 @@ public class EAdTextField extends JTextField {
         if (title != null) {
 	    	Color temp = g.getColor();
 	        g.setColor( borderColor );
-	        	g.drawLine(titleLength, 0, titleLength, this.getHeight());
+	        g.drawLine(titleLength, 1, titleLength, this.getHeight() - 2);
 	        g.setColor(temp);
 	        g.drawString(title, 6, (getHeight( ) - g.getFontMetrics( ).getHeight( ) ) / 2 + g.getFontMetrics( ).getAscent());
         }
@@ -170,7 +176,7 @@ public class EAdTextField extends JTextField {
     
     @Override
     public Insets getInsets() {
-    	return new Insets(5, 5 + titleLength, 5, 5);
+    	return new Insets(6, 5 + titleLength, 6, 5);
     }
 
 }

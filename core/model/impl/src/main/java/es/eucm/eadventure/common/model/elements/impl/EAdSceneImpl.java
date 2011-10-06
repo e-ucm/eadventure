@@ -72,7 +72,7 @@ public class EAdSceneImpl extends EAdComposedElementImpl implements EAdScene {
 	protected EAdBasicSceneElement background;
 
 	@Param("acceptsVisualEffects")
-	protected boolean acceptsVisualEffects;
+	protected Boolean acceptsVisualEffects;
 
 	@Param("vars")
 	private EAdMap<EAdVarDef<?>, Object> vars;
@@ -82,7 +82,7 @@ public class EAdSceneImpl extends EAdComposedElementImpl implements EAdScene {
 	 * cutscene or similiar
 	 */
 	@Param("returnable")
-	protected boolean returnable;
+	protected Boolean returnable;
 
 	/**
 	 * Default constructor.
@@ -95,6 +95,8 @@ public class EAdSceneImpl extends EAdComposedElementImpl implements EAdScene {
 		background = new EAdBasicSceneElement(id + "_background");
 		returnable = true;
 		acceptsVisualEffects = true;
+		name = EAdString.newEAdString("sceneName");
+		documentation = EAdString.newEAdString("sceneDocumentation");
 		vars = new EAdMapImpl<EAdVarDef<?>, Object>(EAdVarDef.class,
 				Object.class);
 	}
@@ -138,11 +140,11 @@ public class EAdSceneImpl extends EAdComposedElementImpl implements EAdScene {
 	}
 
 	@Override
-	public boolean isReturnable() {
+	public Boolean isReturnable() {
 		return returnable;
 	}
 
-	public void setReturnable(boolean returnable) {
+	public void setReturnable(Boolean returnable) {
 		this.returnable = returnable;
 	}
 
@@ -152,7 +154,7 @@ public class EAdSceneImpl extends EAdComposedElementImpl implements EAdScene {
 	}
 
 	@Override
-	public boolean acceptsVisualEffects() {
+	public Boolean acceptsVisualEffects() {
 		return acceptsVisualEffects;
 	}
 

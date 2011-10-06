@@ -1,20 +1,20 @@
 package es.eucm.eadventure.editor.view.generics.impl;
 
+import es.eucm.eadventure.common.params.EAdString;
 import es.eucm.eadventure.editor.view.generics.FieldDescriptor;
 
-public class TextOption extends AbstractOption<String> {
+public class EAdStringOption extends AbstractOption<EAdString> {
 
 	public static enum ExpectedLength {SHORT, NORMAL, LONG }
 	
 	private ExpectedLength expectedLength;
 	
-	public TextOption(String title, String toolTipText, FieldDescriptor<String> fieldDescriptor, ExpectedLength expectedLength) {
+	public EAdStringOption(String title, String toolTipText, FieldDescriptor<EAdString> fieldDescriptor, ExpectedLength expectedLength) {
 		super(title, toolTipText, fieldDescriptor);
 		this.expectedLength = expectedLength;
 	}
-	
-	public TextOption(String title, String toolTipText,
-			FieldDescriptor<String> fieldDescriptor) {
+
+	public EAdStringOption(String title, String toolTipText, FieldDescriptor<EAdString> fieldDescriptor) {
 		this(title, toolTipText, fieldDescriptor, ExpectedLength.NORMAL);
 	}
 
