@@ -50,9 +50,9 @@ import es.eucm.eadventure.common.resources.assets.drawable.basics.Caption;
 import es.eucm.eadventure.engine.core.GameLoop;
 import es.eucm.eadventure.engine.core.impl.VariableMap;
 import es.eucm.eadventure.engine.core.platform.DrawableAsset;
+import es.eucm.eadventure.engine.core.platform.FontCache;
 import es.eucm.eadventure.engine.core.platform.PlatformConfiguration;
 import es.eucm.eadventure.engine.core.platform.RuntimeFont;
-import es.eucm.eadventure.engine.core.platform.impl.FontCacheImpl;
 
 public class RuntimeCaption extends AbstractRuntimeAsset<Caption> implements
 		DrawableAsset<Caption> {
@@ -81,7 +81,7 @@ public class RuntimeCaption extends AbstractRuntimeAsset<Caption> implements
 
 	protected int lineHeight;
 
-	protected FontCacheImpl fontCache;
+	protected FontCache fontCache;
 
 	private int linesInPart;
 
@@ -122,10 +122,10 @@ public class RuntimeCaption extends AbstractRuntimeAsset<Caption> implements
 	private PlatformConfiguration platformConfiguration;
 
 	@Inject
-	public RuntimeCaption(FontCacheImpl fontCache, VariableMap valueMap,
+	public RuntimeCaption(FontCache fontCache2, VariableMap valueMap,
 			StringHandler stringsReader,
 			PlatformConfiguration platformConfiguration) {
-		this.fontCache = fontCache;
+		this.fontCache = fontCache2;
 		this.valueMap = valueMap;
 		this.stringsReader = stringsReader;
 		this.platformConfiguration = platformConfiguration;

@@ -7,6 +7,12 @@ import playn.html.HtmlPlatform;
 
 import com.google.gwt.core.client.GWT;
 
+import es.eucm.eadventure.common.elmentfactories.scenedemos.SceneDemos;
+import es.eucm.eadventure.common.model.elements.EAdAdventureModel;
+import es.eucm.eadventure.common.model.elements.EAdScene;
+import es.eucm.eadventure.common.model.elements.impl.extra.EAdCutscene;
+import es.eucm.eadventure.common.model.impl.EAdAdventureModelImpl;
+import es.eucm.eadventure.common.model.impl.EAdChapterImpl;
 import es.eucm.eadventure.engine.core.EAdEngine;
 import es.eucm.eadventure.engine.core.Game;
 import es.eucm.eadventure.engine.core.platform.GUI;
@@ -24,9 +30,20 @@ public class EAdEngineHtml extends HtmlGame {
 	    injector.getPlatformLauncher();
 	    Game game = injector.getGame();
 	    game.loadGame();
+	    
+	    EAdAdventureModel model = new EAdAdventureModelImpl();
+		EAdChapterImpl chapter = new EAdChapterImpl("chapter1");
+
+		model.getChapters().add(chapter);
+		game.setGame(model, chapter);
+
+		EAdScene s = new EAdCutscene("scene");
+		chapter.getScenes().add(s);
+		chapter.setInitialScene(chapter.getScenes().get(0));
+	    
 	    GUI gui = injector.getGUI();
 
-	    PlayN.run(new EAdEngine(game, gui));
+	    PlayN.run(new EAdEngine(game, gui, injector.getAssetHandler()));
 	}
 
 }

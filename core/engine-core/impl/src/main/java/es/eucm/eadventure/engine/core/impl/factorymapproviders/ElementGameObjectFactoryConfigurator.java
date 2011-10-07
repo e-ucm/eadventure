@@ -65,6 +65,7 @@ import es.eucm.eadventure.engine.core.gameobjects.impl.VideoSceneGO;
 import es.eucm.eadventure.engine.core.gameobjects.impl.inventory.BasicInventoryGO;
 import es.eucm.eadventure.engine.core.gameobjects.impl.sceneelements.BasicSceneElementGO;
 import es.eucm.eadventure.engine.core.gameobjects.impl.sceneelements.ComplexSceneElementGO;
+import es.eucm.eadventure.engine.core.impl.LoadingScreen;
 
 public class ElementGameObjectFactoryConfigurator {
 
@@ -86,5 +87,6 @@ public class ElementGameObjectFactoryConfigurator {
 		factoryMap.put(EAdVideoScene.class, VideoSceneGO.class);
 
 		factoryMap.put(EAdBasicInventory.class, BasicInventoryGO.class);
+		factoryMap.put(LoadingScreen.class, SceneGOImpl.class);
 	}
 }

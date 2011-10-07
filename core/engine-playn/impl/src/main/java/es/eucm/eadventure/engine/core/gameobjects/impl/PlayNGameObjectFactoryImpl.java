@@ -40,6 +40,7 @@ import es.eucm.eadventure.engine.core.gameobjects.impl.events.SceneElementEventG
 import es.eucm.eadventure.engine.core.gameobjects.impl.events.SceneElementTimedEventGO;
 import es.eucm.eadventure.engine.core.gameobjects.impl.events.SystemEventGO;
 import es.eucm.eadventure.engine.core.gameobjects.impl.events.TimerEventGO;
+import es.eucm.eadventure.engine.core.gameobjects.impl.inventory.BasicInventoryGO;
 import es.eucm.eadventure.engine.core.gameobjects.impl.sceneelements.BasicSceneElementGO;
 import es.eucm.eadventure.engine.core.gameobjects.impl.sceneelements.ComplexSceneElementGO;
 import es.eucm.eadventure.engine.core.gameobjects.impl.transitions.SimpleTransitionGO;
@@ -58,6 +59,7 @@ public class PlayNGameObjectFactoryImpl extends GameObjectFactoryImpl {
 			Class<? extends GameObject<?>>> map,
 			PlayNGinInjector ginjector) {
 		super(map);
+		this.ginjector = ginjector;
 	}
 
 	@Override
@@ -126,11 +128,13 @@ public class PlayNGameObjectFactoryImpl extends GameObjectFactoryImpl {
 		if (clazz == ComplexSceneElementGO.class)
 			return ginjector.getComplexSceneElementGO();
 		
-		if (clazz == SceneGO.class)
+		if (clazz == SceneGO.class || clazz == SceneGOImpl.class)
 			return ginjector.getSceneGO();
 		if (clazz == TimerGO.class)
 			return ginjector.getTimerGO();
 		
+		if (clazz == BasicInventoryGO.class)
+			return ginjector.getBasicInventoryGO();
 		return null;
 	}
 
