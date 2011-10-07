@@ -41,6 +41,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map.Entry;
 import java.util.Stack;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.google.inject.Inject;
@@ -104,6 +105,7 @@ public class GameStateImpl implements GameState {
 	public GameStateImpl(@Named("LoadingScreen") EAdScene loadingScreen,
 			GameObjectFactory gameObjectFactory, ValueMap valueMap,
 			EvaluatorFactory evaluatorFactory) {
+		logger.log(Level.INFO, "New instance");
 		effects = new ArrayList<EffectGO<?>>();
 		// effectsQueue = Collections.synchronizedList(new
 		// ArrayList<EAdEffect>());
@@ -120,6 +122,7 @@ public class GameStateImpl implements GameState {
 
 	public SceneGO<?> getScene() {
 		if (scene == null) {
+			logger.log(Level.FINE, "null scene, Loading screen: " + (loadingScreen != null));
 			this.scene = (SceneGO<?>) gameObjectFactory.get(loadingScreen);
 			previousSceneStack.push(loadingScreen);
 		}

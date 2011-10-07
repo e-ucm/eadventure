@@ -42,6 +42,7 @@ import java.util.logging.Logger;
 import javax.swing.JFrame;
 
 import playn.core.Canvas;
+import playn.core.PlayN;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -97,6 +98,7 @@ public class PlayNGUI extends AbstractGUI<Canvas> implements GUI {
 		super(platformConfiguration, assetRendererFactory, gameObjectManager,
 				mouseState, keyboardState, valueMap, gameState,
 				gameObjectFactory);
+		logger.info("New instance");
 		this.gameObjects.addHUD(basicDesktopHUD);
 		basicDesktopHUD.setGUI(this);
 	}
@@ -155,6 +157,8 @@ public class PlayNGUI extends AbstractGUI<Canvas> implements GUI {
 	 */
 	@Override
 	public void commit(final float interpolation) {
+		PlayN.log().debug("PlayNGUI: commit");
+
 		processInput();
 
 		if (currentComponent != null)

@@ -146,9 +146,10 @@ public class GameImpl implements Game {
 			basicHud.update();
 			gui.addElement(basicHud, initialTransformation);
 
-			for (GameObject<?> go : debugger.getGameObjects()) {
-				gui.addElement(go, initialTransformation);
-			}
+			if (debugger != null && debugger.getGameObjects() != null)
+				for (GameObject<?> go : debugger.getGameObjects()) {
+					gui.addElement(go, initialTransformation);
+				}
 		}
 		gui.prepareGUI(initialTransformation);
 	}
@@ -252,7 +253,8 @@ public class GameImpl implements Game {
 		// reader.read(assetHandler.getResourceAsStream("@adventure.xml"));
 
 		// TODO should probably be more careful loading chapter
-		gameState.setCurrentChapter(adventure.getChapters().get(0));
+		if (gameState.getCurrentChapter() == null)
+			gameState.setCurrentChapter(adventure.getChapters().get(0));
 	}
 
 	@Override

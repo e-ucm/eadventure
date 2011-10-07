@@ -238,8 +238,9 @@ public class BasicHUDImpl implements BasicHUD {
 		} else {
 			contextualOn = false;
 		}
-
-		gameObjectFactory.get(game.getAdventureModel().getInventory()).update();
+		
+		if (game.getAdventureModel().getInventory() != null)
+			gameObjectFactory.get(game.getAdventureModel().getInventory()).update();
 	}
 
 	@Override

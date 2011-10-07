@@ -57,6 +57,7 @@ public class GameObjectFactoryModule extends AbstractGinModule {
 	@Override
 	protected void configure() {
 		bind(SceneGO.class).to(SceneGOImpl.class);
+		bind(SceneGOImpl.class);
 		bind(ActorReferenceGO.class).to(ActorReferenceGOImpl.class);
 		bind(ActorGO.class).to(ActorGOImpl.class);
 		bind(TimerGO.class).to(TimerGOImpl.class);
