@@ -82,6 +82,19 @@ public class EAdBasicSceneElement extends AbstractEAdElementWithBehavior
 	public static final EAdVarDef<Integer> VAR_Y = new EAdVarDefImpl<Integer>(
 			"y", Integer.class, 0);
 	
+	public static final EAdVarDef<Integer> VAR_LEFT = new EAdVarDefImpl<Integer>(
+			"left", Integer.class, 0);
+
+	public static final EAdVarDef<Integer> VAR_TOP = new EAdVarDefImpl<Integer>(
+			"top", Integer.class, 0);
+
+	public static final EAdVarDef<Integer> VAR_RIGHT = new EAdVarDefImpl<Integer>(
+			"right", Integer.class, 0);
+
+	public static final EAdVarDef<Integer> VAR_BOTTOM = new EAdVarDefImpl<Integer>(
+			"bottom", Integer.class, 0);
+	
+	
 	public static final EAdVarDef<Integer> VAR_Z = new EAdVarDefImpl<Integer>(
 			"z", Integer.class, 0);
 

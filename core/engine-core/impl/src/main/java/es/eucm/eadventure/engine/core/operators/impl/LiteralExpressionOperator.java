@@ -40,22 +40,22 @@ package es.eucm.eadventure.engine.core.operators.impl;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
-import es.eucm.eadventure.common.model.variables.impl.operations.LiteralExpressionOperation;
+import es.eucm.eadventure.common.model.variables.impl.operations.MathOperation;
 import es.eucm.eadventure.engine.core.ValueMap;
 import es.eucm.eadventure.engine.core.operator.Operator;
 import es.eucm.eadventure.engine.core.operators.impl.util.MathEvaluator;
 
 /**
- * Calculates results for {@link LiteralExpressionOperation}. The result
+ * Calculates results for {@link MathOperation}. The result
  * returned by
- * {@link LiteralExpressionOperation#operate(ValueMap, LiteralExpressionOperation)}
+ * {@link MathOperation#operate(ValueMap, MathOperation)}
  * is always a Float object
  * 
  * 
  */
 @Singleton
 public class LiteralExpressionOperator implements
-		Operator<LiteralExpressionOperation> {
+		Operator<MathOperation> {
 
 	/**
 	 * Math evaluator
@@ -71,7 +71,7 @@ public class LiteralExpressionOperator implements
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public <S> S operate(Class<S> clazz, LiteralExpressionOperation operation) {
+	public <S> S operate(Class<S> clazz, MathOperation operation) {
 		evaluator.setExpression(operation.getExpression(), valueMap,
 				operation.getVarList());
 

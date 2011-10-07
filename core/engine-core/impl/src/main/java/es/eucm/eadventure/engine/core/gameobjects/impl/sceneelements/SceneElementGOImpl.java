@@ -135,10 +135,14 @@ public abstract class SceneElementGOImpl<T extends EAdSceneElement> extends
 
 		position = new EAdPositionImpl(0, 0);
 		updateVars();
+		setVars();
 		// To load dimensions
 		getRenderAsset();
 	}
 
+	/**
+	 * Read vars values
+	 */
 	protected void updateVars() {
 		visible = valueMap.getValue(element, EAdBasicSceneElement.VAR_VISIBLE);
 		rotation = valueMap
@@ -158,6 +162,21 @@ public abstract class SceneElementGOImpl<T extends EAdSceneElement> extends
 				EAdBasicSceneElement.VAR_DISP_Y));
 
 		updateTransformation();
+	}
+
+	/**
+	 * Sets some variables
+	 */
+	protected void setVars() {
+		int scaleW = (int) (width * scale);
+		int scaleH = (int) (height * scale);
+		int x = position.getJavaX(scaleW);
+		int y = position.getJavaY(scaleH);
+		valueMap.setValue(element, EAdBasicSceneElement.VAR_LEFT, x);
+		valueMap.setValue(element, EAdBasicSceneElement.VAR_RIGHT, x + scaleW);
+		valueMap.setValue(element, EAdBasicSceneElement.VAR_TOP, y);
+		valueMap.setValue(element, EAdBasicSceneElement.VAR_BOTTOM, y + scaleH);
+
 	}
 
 	protected void updateTransformation() {
@@ -200,6 +219,7 @@ public abstract class SceneElementGOImpl<T extends EAdSceneElement> extends
 		if (getAsset() != null)
 			getAsset().update();
 		updateVars();
+		setVars();
 	}
 
 	@Override
@@ -372,13 +392,15 @@ public abstract class SceneElementGOImpl<T extends EAdSceneElement> extends
 
 	@Override
 	public int getCenterX() {
-		float[] f = transformation.getMatrix().postMultiplyPoint(width / 2, height / 2);
+		float[] f = transformation.getMatrix().postMultiplyPoint(width / 2,
+				height / 2);
 		return (int) f[0];
 	}
 
 	@Override
 	public int getCenterY() {
-		float[] f = transformation.getMatrix().postMultiplyPoint(width / 2, height / 2);
+		float[] f = transformation.getMatrix().postMultiplyPoint(width / 2,
+				height / 2);
 		return (int) f[1];
 	}
 
@@ -390,8 +412,8 @@ public abstract class SceneElementGOImpl<T extends EAdSceneElement> extends
 	public List<EAdAction> getValidActions() {
 		return null;
 	}
-	
-	public float getScale(){
+
+	public float getScale() {
 		return scale;
 	}
 

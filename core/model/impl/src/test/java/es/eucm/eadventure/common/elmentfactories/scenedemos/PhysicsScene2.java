@@ -12,7 +12,7 @@ import es.eucm.eadventure.common.model.events.EAdConditionEvent.ConditionedEvent
 import es.eucm.eadventure.common.model.events.impl.EAdConditionEventImpl;
 import es.eucm.eadventure.common.model.guievents.impl.EAdMouseEventImpl;
 import es.eucm.eadventure.common.model.variables.impl.EAdFieldImpl;
-import es.eucm.eadventure.common.model.variables.impl.operations.LiteralExpressionOperation;
+import es.eucm.eadventure.common.model.variables.impl.operations.MathOperation;
 import es.eucm.eadventure.common.params.fills.impl.EAdColor;
 import es.eucm.eadventure.common.params.fills.impl.EAdLinearGradient;
 import es.eucm.eadventure.common.params.geom.impl.EAdPositionImpl;
@@ -59,8 +59,8 @@ public class PhysicsScene2 extends PhysicsScene {
 		b.setVarInitialValue(EAdPhysicsEffect.VAR_PH_TYPE, PhType.DYNAMIC);
 		getBackground().addBehavior(
 				EAdMouseEventImpl.MOUSE_LEFT_CLICK,
-				new PhApplyImpluse(b, new LiteralExpressionOperation(
-						"xImpulse", "0"), new LiteralExpressionOperation(
+				new PhApplyImpluse(b, new MathOperation(
+						"xImpulse", "0"), new MathOperation(
 						"yImpulse", "-100")));
 		b.setVarInitialValue(EAdPhysicsEffect.VAR_PH_RESTITUTION, 0.3f);
 		b.setVarInitialValue(EAdPhysicsEffect.VAR_PH_SHAPE, PhShape.CIRCULAR);
@@ -77,9 +77,9 @@ public class PhysicsScene2 extends PhysicsScene {
 						PhType.DYNAMIC);
 				getBackground().addBehavior(
 						EAdMouseEventImpl.MOUSE_LEFT_CLICK,
-						new PhApplyImpluse(e, new LiteralExpressionOperation(
+						new PhApplyImpluse(e, new MathOperation(
 								"xImpulse", "0"),
-								new LiteralExpressionOperation("yImpulse",
+								new MathOperation("yImpulse",
 										"-100")));
 				e.setVarInitialValue(EAdPhysicsEffect.VAR_PH_RESTITUTION, 0.3f);
 				e.setVarInitialValue(EAdPhysicsEffect.VAR_PH_SHAPE,

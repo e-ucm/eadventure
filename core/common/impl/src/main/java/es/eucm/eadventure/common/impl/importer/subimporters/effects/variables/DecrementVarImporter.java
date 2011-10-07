@@ -48,7 +48,7 @@ import es.eucm.eadventure.common.impl.importer.subimporters.effects.EffectImport
 import es.eucm.eadventure.common.model.effects.impl.variables.EAdChangeFieldValueEffect;
 import es.eucm.eadventure.common.model.elements.EAdCondition;
 import es.eucm.eadventure.common.model.variables.EAdField;
-import es.eucm.eadventure.common.model.variables.impl.operations.LiteralExpressionOperation;
+import es.eucm.eadventure.common.model.variables.impl.operations.MathOperation;
 
 public class DecrementVarImporter extends
 		EffectImporter<DecrementVarEffect, EAdChangeFieldValueEffect> {
@@ -69,7 +69,7 @@ public class DecrementVarImporter extends
 		EAdField<?> var = factory.getVarByOldId(oldObject.getTargetId(),
 				Condition.VAR_CONDITION);
 
-		LiteralExpressionOperation op = new LiteralExpressionOperation(
+		MathOperation op = new MathOperation(
 				"literalExpression", "[0] - "
 						+ oldObject.getDecrement(), var);
 		EAdChangeFieldValueEffect effect = new EAdChangeFieldValueEffect(

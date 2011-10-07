@@ -9,7 +9,7 @@ import es.eucm.eadventure.common.model.guievents.impl.EAdMouseEventImpl;
 import es.eucm.eadventure.common.model.variables.EAdField;
 import es.eucm.eadventure.common.model.variables.impl.EAdFieldImpl;
 import es.eucm.eadventure.common.model.variables.impl.operations.ValueOperation;
-import es.eucm.eadventure.common.model.variables.impl.operations.LiteralExpressionOperation;
+import es.eucm.eadventure.common.model.variables.impl.operations.MathOperation;
 import es.eucm.eadventure.common.params.fills.impl.EAdBorderedColor;
 import es.eucm.eadventure.common.params.fills.impl.EAdColor;
 import es.eucm.eadventure.common.params.fills.impl.EAdLinearGradient;
@@ -74,12 +74,12 @@ public class DragDropScene extends EmptyScene {
 
 		EAdChangeFieldValueEffect changeX = new EAdChangeFieldValueEffect("x",
 				new EAdFieldImpl<Integer>(e1, EAdBasicSceneElement.VAR_X),
-				new LiteralExpressionOperation("[0]", new EAdFieldImpl<Integer>(e2,
+				new MathOperation("[0]", new EAdFieldImpl<Integer>(e2,
 						EAdBasicSceneElement.VAR_X)));
 		
 		EAdChangeFieldValueEffect changeY = new EAdChangeFieldValueEffect("x",
 				new EAdFieldImpl<Integer>(e1, EAdBasicSceneElement.VAR_Y),
-				new LiteralExpressionOperation("[0]", new EAdFieldImpl<Integer>(e2,
+				new MathOperation("[0]", new EAdFieldImpl<Integer>(e2,
 						EAdBasicSceneElement.VAR_Y)));
 
 		e2.addBehavior(new EAdDragEventImpl(e1, DragAction.DROP), changeX);

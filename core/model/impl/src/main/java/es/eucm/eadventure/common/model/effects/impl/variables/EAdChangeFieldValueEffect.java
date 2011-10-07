@@ -132,5 +132,9 @@ public class EAdChangeFieldValueEffect extends AbstractEAdEffect {
 	public EAdOperation getOperation() {
 		return operation;
 	}
+	
+	public String toString(){
+		return fields +  " : " + operation;
+	}
 
 }

@@ -40,7 +40,7 @@ package es.eucm.eadventure.common.model.effects.impl;
 import es.eucm.eadventure.common.interfaces.Element;
 import es.eucm.eadventure.common.interfaces.Param;
 import es.eucm.eadventure.common.model.variables.EAdField;
-import es.eucm.eadventure.common.model.variables.impl.operations.LiteralExpressionOperation;
+import es.eucm.eadventure.common.model.variables.impl.operations.MathOperation;
 
 /**
  * Effect that performs an interpolation between two values in an {@link EAdVar}
@@ -88,10 +88,10 @@ public class EAdVarInterpolationEffect extends AbstractEAdEffect {
 	private EAdField<?> var;
 
 	@Param("initialValue")
-	private LiteralExpressionOperation initialValue;
+	private MathOperation initialValue;
 
 	@Param("endValue")
-	private LiteralExpressionOperation endValue;
+	private MathOperation endValue;
 
 	@Param("time")
 	private int interpolationTime;
@@ -110,9 +110,9 @@ public class EAdVarInterpolationEffect extends AbstractEAdEffect {
 	}
 
 	public EAdVarInterpolationEffect(String id, EAdField<?> var,
-			LiteralExpressionOperation endValue, int time) {
+			MathOperation endValue, int time) {
 		super(id);
-		LiteralExpressionOperation startValue = new LiteralExpressionOperation(
+		MathOperation startValue = new MathOperation(
 				"id", "[0]", var);
 		setInterpolation(var, startValue, endValue, time, LoopType.NO_LOOP,
 				InterpolationType.LINEAR);
@@ -122,9 +122,9 @@ public class EAdVarInterpolationEffect extends AbstractEAdEffect {
 			float end, int time, LoopType loop,
 			InterpolationType interpolationType) {
 		super(id);
-		LiteralExpressionOperation startValue = new LiteralExpressionOperation(
+		MathOperation startValue = new MathOperation(
 				"id", "" + start);
-		LiteralExpressionOperation endValue = new LiteralExpressionOperation(
+		MathOperation endValue = new MathOperation(
 				"id", "" + end);
 		setInterpolation(var2, startValue, endValue, time, loop,
 				interpolationType);
@@ -133,25 +133,25 @@ public class EAdVarInterpolationEffect extends AbstractEAdEffect {
 	public EAdVarInterpolationEffect(String id, EAdField<?> var2, float start,
 			float end, int time, LoopType loop) {
 		super(id);
-		LiteralExpressionOperation startValue = new LiteralExpressionOperation(
+		MathOperation startValue = new MathOperation(
 				"id", "" + start);
-		LiteralExpressionOperation endValue = new LiteralExpressionOperation(
+		MathOperation endValue = new MathOperation(
 				"id", "" + end);
 		setInterpolation(var2, startValue, endValue, time, loop,
 				InterpolationType.LINEAR);
 	}
 
 	public EAdVarInterpolationEffect(String id, EAdField<?> var,
-			LiteralExpressionOperation startValue,
-			LiteralExpressionOperation endValue, int time, LoopType noLoop) {
+			MathOperation startValue,
+			MathOperation endValue, int time, LoopType noLoop) {
 		super(id);
 		setInterpolation(var, startValue, endValue, time, LoopType.NO_LOOP,
 				InterpolationType.LINEAR);
 	}
 
 	public void setInterpolation(EAdField<?> var,
-			LiteralExpressionOperation initialValue,
-			LiteralExpressionOperation endValue, int time, LoopType loop,
+			MathOperation initialValue,
+			MathOperation endValue, int time, LoopType loop,
 			InterpolationType interpolationType) {
 		this.var = var;
 		this.initialValue = initialValue;
@@ -164,8 +164,8 @@ public class EAdVarInterpolationEffect extends AbstractEAdEffect {
 	public void setInterpolation(EAdField<?> var, float initialValue,
 			float endValue, int time, LoopType loop,
 			InterpolationType interpolationType) {
-		setInterpolation(var, new LiteralExpressionOperation("startValue", ""
-				+ initialValue), new LiteralExpressionOperation("endValue", ""
+		setInterpolation(var, new MathOperation("startValue", ""
+				+ initialValue), new MathOperation("endValue", ""
 				+ endValue), time, loop, interpolationType);
 	}
 
@@ -173,11 +173,11 @@ public class EAdVarInterpolationEffect extends AbstractEAdEffect {
 		return var;
 	}
 
-	public LiteralExpressionOperation getInitialValue() {
+	public MathOperation getInitialValue() {
 		return initialValue;
 	}
 
-	public LiteralExpressionOperation getEndValue() {
+	public MathOperation getEndValue() {
 		return endValue;
 	}
 

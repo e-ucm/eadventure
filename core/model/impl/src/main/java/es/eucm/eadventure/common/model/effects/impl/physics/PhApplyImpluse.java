@@ -5,16 +5,16 @@ import es.eucm.eadventure.common.interfaces.Param;
 import es.eucm.eadventure.common.model.effects.EAdSceneElementEffect;
 import es.eucm.eadventure.common.model.effects.impl.AbstractEAdEffect;
 import es.eucm.eadventure.common.model.elements.EAdSceneElement;
-import es.eucm.eadventure.common.model.variables.impl.operations.LiteralExpressionOperation;
+import es.eucm.eadventure.common.model.variables.impl.operations.MathOperation;
 
 @Element(detailed = PhApplyImpluse.class, runtime = PhApplyImpluse.class)
 public class PhApplyImpluse extends AbstractEAdEffect implements EAdSceneElementEffect {
 	
 	@Param("xForce")
-	private LiteralExpressionOperation xForce;
+	private MathOperation xForce;
 	
 	@Param("yForce")
-	private LiteralExpressionOperation yForce;
+	private MathOperation yForce;
 
 	@Param("element")
 	private EAdSceneElement element;
@@ -23,22 +23,22 @@ public class PhApplyImpluse extends AbstractEAdEffect implements EAdSceneElement
 		this( null, null, null );
 	}
 
-	public PhApplyImpluse(EAdSceneElement element, LiteralExpressionOperation xForce, LiteralExpressionOperation yForce) {
+	public PhApplyImpluse(EAdSceneElement element, MathOperation xForce, MathOperation yForce) {
 		this.element = element;
 		this.xForce = xForce;
 		this.yForce = yForce;
 		this.setQueueable(false);
 	}
 
-	public LiteralExpressionOperation getXForce() {
+	public MathOperation getXForce() {
 		return xForce;
 	}
 	
-	public LiteralExpressionOperation getYForce() {
+	public MathOperation getYForce() {
 		return yForce;
 	}
 	
-	public void setForce( LiteralExpressionOperation xForce, LiteralExpressionOperation yForce ){
+	public void setForce( MathOperation xForce, MathOperation yForce ){
 		this.xForce = xForce;
 		this.yForce = yForce;
 	}

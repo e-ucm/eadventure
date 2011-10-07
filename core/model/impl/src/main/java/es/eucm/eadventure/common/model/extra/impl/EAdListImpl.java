@@ -158,5 +158,15 @@ public class EAdListImpl<P> implements EAdList<P> {
 	public void clear() {
 		elements.clear();
 	}
+	
+	public String toString(){
+		String s = "[";
+		for ( P e: this ){
+			s += e + ", ";
+		}
+		s = s.substring(0, s.length() - 2 );
+		s += "]";
+		return s;
+	}
 
 }

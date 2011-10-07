@@ -61,7 +61,7 @@ import es.eucm.eadventure.common.model.transitions.EAdTransition;
 import es.eucm.eadventure.common.model.variables.EAdField;
 import es.eucm.eadventure.common.model.variables.impl.EAdFieldImpl;
 import es.eucm.eadventure.common.model.variables.impl.operations.BooleanOperation;
-import es.eucm.eadventure.common.model.variables.impl.operations.LiteralExpressionOperation;
+import es.eucm.eadventure.common.model.variables.impl.operations.MathOperation;
 
 /**
  *
@@ -94,7 +94,7 @@ public class EAdCutscene extends EAdComposedScene {
 			EAdSlide slide = slides.get(i);
 
 			EAdChangeFieldValueEffect e = new EAdChangeFieldValueEffect("id",
-					currentScene, new LiteralExpressionOperation("id",
+					currentScene, new MathOperation("id",
 							"[0] + 1", currentScene));
 			slide.getBackground().getBehavior()
 					.addBehavior(EAdMouseEventImpl.MOUSE_LEFT_CLICK, e);

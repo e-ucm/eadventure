@@ -57,6 +57,7 @@ import es.eucm.eadventure.common.model.variables.EAdVarDef;
 import es.eucm.eadventure.common.model.variables.impl.SystemVars;
 import es.eucm.eadventure.engine.core.GameState;
 import es.eucm.eadventure.engine.core.ValueMap;
+import es.eucm.eadventure.engine.core.evaluators.EvaluatorFactory;
 import es.eucm.eadventure.engine.core.gameobjects.EffectGO;
 import es.eucm.eadventure.engine.core.gameobjects.GameObjectFactory;
 import es.eucm.eadventure.engine.core.gameobjects.SceneGO;
@@ -96,10 +97,13 @@ public class GameStateImpl implements GameState {
 	private boolean paused;
 
 	private EAdScene loadingScreen;
-	
+
+	private EvaluatorFactory evaluatorFactory;
+
 	@Inject
 	public GameStateImpl(@Named("LoadingScreen") EAdScene loadingScreen,
-			GameObjectFactory gameObjectFactory, ValueMap valueMap) {
+			GameObjectFactory gameObjectFactory, ValueMap valueMap,
+			EvaluatorFactory evaluatorFactory) {
 		effects = new ArrayList<EffectGO<?>>();
 		// effectsQueue = Collections.synchronizedList(new
 		// ArrayList<EAdEffect>());
@@ -109,6 +113,7 @@ public class GameStateImpl implements GameState {
 		this.valueMap = valueMap;
 		this.gameObjectFactory = gameObjectFactory;
 		this.previousSceneStack = new Stack<EAdScene>();
+		this.evaluatorFactory = evaluatorFactory;
 		removedActors = new ArrayList<EAdActor>();
 		inventoryActors = new ArrayList<EAdActor>();
 	}
@@ -131,7 +136,7 @@ public class GameStateImpl implements GameState {
 	@Override
 	public void setScene(SceneGO<? extends EAdScene> newScene) {
 		// When a scene changes, all current effects are erased
-		for ( EffectGO<?> go: effects ){
+		for (EffectGO<?> go : effects) {
 			go.finish();
 		}
 		effects.clear();
@@ -196,7 +201,7 @@ public class GameStateImpl implements GameState {
 	@Override
 	// TODO consider leaving effect initilization for later
 	public void addEffect(int pos, EAdEffect e, GUIAction action) {
-		if (e != null)
+		if (e != null && evaluatorFactory.evaluate(e.getCondition()))
 			synchronized (effectsQueue) {
 				pos = pos == -1 ? effectsQueue.size() : pos;
 				effectsQueue.add(pos, e);

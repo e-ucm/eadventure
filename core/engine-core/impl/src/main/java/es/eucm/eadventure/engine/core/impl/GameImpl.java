@@ -98,11 +98,11 @@ public class GameImpl implements Game {
 	private GameObjectManager gameObjectManager;
 
 	private EAdDebugger debugger;
-	
+
 	private ValueMap valueMap;
-	
+
 	private MouseState mouseState;
-	
+
 	private EAdTransformation initialTransformation = new EAdTransformationImpl();
 
 	@Inject
@@ -110,7 +110,8 @@ public class GameImpl implements Game {
 			GameState gameState, EffectHUD effectHUD,
 			AssetHandler assetHandler, GameObjectFactory gameObjectFactory,
 			GameObjectManager gameObjectManager, EAdDebugger debugger,
-			BasicHUD basicHUD, ValueMap valueMap, MouseState mouseState, PlatformConfiguration platformConfiguration ) {
+			BasicHUD basicHUD, ValueMap valueMap, MouseState mouseState,
+			PlatformConfiguration platformConfiguration) {
 		this.gui = gui;
 		this.evaluatorFactory = evaluatorFactory;
 		this.gameState = gameState;
@@ -127,7 +128,9 @@ public class GameImpl implements Game {
 		this.basicHud.setGame(this);
 		this.valueMap = valueMap;
 		this.mouseState = mouseState;
-		initialTransformation.getMatrix().postScale((float) platformConfiguration.getScale(), (float) platformConfiguration.getScale());
+		initialTransformation.getMatrix().postScale(
+				(float) platformConfiguration.getScale(),
+				(float) platformConfiguration.getScale());
 	}
 
 	@Override
@@ -156,7 +159,9 @@ public class GameImpl implements Game {
 	 */
 	private void updateSystemVars() {
 		// Mouse
-		float mouse[] = initialTransformation.getMatrix().postMultiplyPointInverse(mouseState.getMouseX(), mouseState.getMouseY());
+		float mouse[] = initialTransformation.getMatrix()
+				.postMultiplyPointInverse(mouseState.getMouseX(),
+						mouseState.getMouseY());
 		valueMap.setValue(null, SystemVars.MOUSE_X, (int) mouse[0]);
 		valueMap.setValue(null, SystemVars.MOUSE_Y, (int) mouse[1]);
 
@@ -180,27 +185,20 @@ public class GameImpl implements Game {
 				continue;
 
 			if (!effectGO.isInitilized()) {
-				if (evaluatorFactory.evaluate(effectGO.getEffect()
-						.getCondition())) {
-					effectGO.initilize();
-					effectGO.run();
-				} else {
-					finishedEffects.add(effectGO);
-				}
+				effectGO.initilize();
 			}
 
-			if (effectGO.isInitilized()) {
-				// The order must be: update, then check if it's finished.
-				// Some effects take only one update to finish
-				effectGO.update();
+			// The order must be: update, then check if it's finished.
+			// Some effects take only one update to finish
+			effectGO.update();
 
-				if (effectGO.isStopped() || effectGO.isFinished()) {
-					effectGO.finish();
-					finishedEffects.add(effectGO);
-				} else if (effectGO.isBlocking())
-					// If effect is blocking, get out of the loop
-					block = true;
-			}
+			if (effectGO.isStopped() || effectGO.isFinished()) {
+				effectGO.finish();
+				finishedEffects.add(effectGO);
+			} else if (effectGO.isBlocking())
+				// If effect is blocking, get out of the loop
+				block = true;
+
 		}
 
 		// Delete finished effects

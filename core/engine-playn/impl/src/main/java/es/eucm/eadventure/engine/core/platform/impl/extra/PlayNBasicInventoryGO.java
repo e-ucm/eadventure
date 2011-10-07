@@ -63,7 +63,7 @@ import es.eucm.eadventure.common.model.elements.impl.EAdComposedElementImpl;
 import es.eucm.eadventure.common.model.guievents.impl.EAdMouseEventImpl;
 import es.eucm.eadventure.common.model.variables.impl.EAdFieldImpl;
 import es.eucm.eadventure.common.model.variables.impl.operations.BooleanOperation;
-import es.eucm.eadventure.common.model.variables.impl.operations.LiteralExpressionOperation;
+import es.eucm.eadventure.common.model.variables.impl.operations.MathOperation;
 import es.eucm.eadventure.common.params.fills.impl.EAdBorderedColor;
 import es.eucm.eadventure.common.params.geom.impl.EAdPositionImpl;
 import es.eucm.eadventure.common.params.geom.impl.EAdPositionImpl.Corner;
@@ -209,7 +209,7 @@ public class PlayNBasicInventoryGO extends BasicInventoryGO {
 				inventoryContent, EAdBasicSceneElement.VAR_X);
 		arrow.addBehavior(EAdMouseEventImpl.MOUSE_LEFT_CLICK,
 				new EAdVarInterpolationEffect("id", xField,
-						new LiteralExpressionOperation("id", "[0]" + sign
+						new MathOperation("id", "[0]" + sign
 								+ INVENTORY_HEIGHT, xField), 200));
 		return arrow;
 	}

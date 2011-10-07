@@ -52,8 +52,8 @@ import es.eucm.eadventure.common.model.variables.impl.EAdOperationImpl;
  * asin, atan, sqrt, sqr, log, min, max, ceil, floor, abs, neg, rndr
  * </p>
  */
-@Element(runtime = LiteralExpressionOperation.class, detailed = LiteralExpressionOperation.class)
-public class LiteralExpressionOperation extends EAdOperationImpl {
+@Element(runtime = MathOperation.class, detailed = MathOperation.class)
+public class MathOperation extends EAdOperationImpl {
 
 	/**
 	 * Expression to be evaluated
@@ -67,7 +67,7 @@ public class LiteralExpressionOperation extends EAdOperationImpl {
 	 * @param parent
 	 * @param id
 	 */
-	public LiteralExpressionOperation(String id) {
+	public MathOperation(String id) {
 		this(id, "");
 	}
 
@@ -81,7 +81,7 @@ public class LiteralExpressionOperation extends EAdOperationImpl {
 	 * @param floatVar2
 	 * @param fields
 	 */
-	public LiteralExpressionOperation(String id, String expression,
+	public MathOperation(String id, String expression,
 			EAdField<?>... fields) {
 		super(id);
 		this.expression = expression;
@@ -92,7 +92,7 @@ public class LiteralExpressionOperation extends EAdOperationImpl {
 		}
 	}
 
-	public LiteralExpressionOperation(String expression, EAdField<?>... floatVar) {
+	public MathOperation(String expression, EAdField<?>... floatVar) {
 		this("literalExpression", expression, floatVar);
 	}
 
@@ -123,10 +123,20 @@ public class LiteralExpressionOperation extends EAdOperationImpl {
 	 *            the increment
 	 * @return the operation
 	 */
-	public static LiteralExpressionOperation getIncrementExpression(
+	public static MathOperation getIncrementExpression(
 			EAdField<?> var, Integer increment) {
-		return new LiteralExpressionOperation("increment",
+		return new MathOperation("increment",
 				"[0] + " + increment, var);
+	}
+	
+	public String toString(){
+		String s = expression;
+		int i = 0;
+		for ( EAdField<?> f: varList){
+			s = s.replace("[" + i + "]", f + "" );
+			i++;
+		}
+		return s;
 	}
 
 }

@@ -104,5 +104,9 @@ public class BooleanOperation extends EAdOperationImpl {
 		}
 		return false;
 	}
+	
+	public String toString(){
+		return condition + "";
+	}
 
 }

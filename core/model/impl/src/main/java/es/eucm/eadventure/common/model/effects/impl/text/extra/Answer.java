@@ -49,7 +49,7 @@ import es.eucm.eadventure.common.model.effects.impl.variables.EAdChangeFieldValu
 import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
 import es.eucm.eadventure.common.model.guievents.impl.EAdMouseEventImpl;
 import es.eucm.eadventure.common.model.variables.EAdField;
-import es.eucm.eadventure.common.model.variables.impl.operations.LiteralExpressionOperation;
+import es.eucm.eadventure.common.model.variables.impl.operations.MathOperation;
 
 /**
  * <p>
@@ -87,7 +87,7 @@ public class Answer extends EAdBasicSceneElement {
 		EAdChangeFieldValueEffect selectEffect = new EAdChangeFieldValueEffect(
 				"setSelected");
 		selectEffect.addField(selectedAnswer);
-		selectEffect.setOperation(new LiteralExpressionOperation("exp", ""
+		selectEffect.setOperation(new MathOperation("exp", ""
 				+ index));
 		behavior.addBehavior(EAdMouseEventImpl.MOUSE_ENTERED, selectEffect);
 
@@ -95,7 +95,7 @@ public class Answer extends EAdBasicSceneElement {
 				"setUnselected");
 		unselectEffect.addField(selectedAnswer);
 		unselectEffect
-				.setOperation(new LiteralExpressionOperation("exp", "-1"));
+				.setOperation(new MathOperation("exp", "-1"));
 		behavior.addBehavior(EAdMouseEventImpl.MOUSE_EXITED, unselectEffect);
 
 		EAdTriggerMacro triggerMacro = new EAdTriggerMacro(id + "_triggerMacro");

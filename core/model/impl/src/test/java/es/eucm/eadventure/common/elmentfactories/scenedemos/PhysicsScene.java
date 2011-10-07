@@ -26,7 +26,7 @@ import es.eucm.eadventure.common.model.guievents.impl.EAdMouseEventImpl;
 import es.eucm.eadventure.common.model.variables.EAdField;
 import es.eucm.eadventure.common.model.variables.impl.EAdFieldImpl;
 import es.eucm.eadventure.common.model.variables.impl.SystemVars;
-import es.eucm.eadventure.common.model.variables.impl.operations.LiteralExpressionOperation;
+import es.eucm.eadventure.common.model.variables.impl.operations.MathOperation;
 import es.eucm.eadventure.common.params.fills.impl.EAdColor;
 import es.eucm.eadventure.common.params.fills.impl.EAdLinearGradient;
 import es.eucm.eadventure.common.params.geom.impl.EAdPositionImpl;
@@ -149,7 +149,7 @@ public class PhysicsScene extends EmptyScene {
 				EAdBasicSceneElement.VAR_Y);
 
 		String expression = "- acos( ( [2] - [0] ) / sqrt( sqr( [2] - [0] ) + sqr( [3] - [1] ) ) )";
-		LiteralExpressionOperation op = new LiteralExpressionOperation(
+		MathOperation op = new MathOperation(
 				expression, canyonX, canyonY, mouseX, mouseY);
 		followMouse.setOperation(op);
 		followMouse.addField(rotationField);
@@ -180,8 +180,8 @@ public class PhysicsScene extends EmptyScene {
 				EAdBasicSceneElement.appearance, circle);
 
 		PhApplyImpluse applyForce = new PhApplyImpluse();
-		applyForce.setForce(new LiteralExpressionOperation("[0] - [1]", mouseX,
-				canyonX), new LiteralExpressionOperation("[0] - [1]", mouseY,
+		applyForce.setForce(new MathOperation("[0] - [1]", mouseX,
+				canyonX), new MathOperation("[0] - [1]", mouseY,
 				canyonY));
 		EAdAddActorReferenceEffect addEffect = new EAdAddActorReferenceEffect(
 				bullet, new EAdPositionImpl(Corner.CENTER, 140, 470),

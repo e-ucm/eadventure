@@ -50,7 +50,7 @@ import es.eucm.eadventure.common.interfaces.ReflectionProvider;
 import es.eucm.eadventure.common.model.variables.EAdField;
 import es.eucm.eadventure.common.model.variables.impl.operations.ValueOperation;
 import es.eucm.eadventure.common.model.variables.impl.operations.BooleanOperation;
-import es.eucm.eadventure.common.model.variables.impl.operations.LiteralExpressionOperation;
+import es.eucm.eadventure.common.model.variables.impl.operations.MathOperation;
 import es.eucm.eadventure.engine.core.ValueMap;
 import es.eucm.eadventure.engine.core.evaluators.EvaluatorFactory;
 import es.eucm.eadventure.engine.core.operator.Operator;
@@ -85,7 +85,7 @@ public class OperatorFactoryMapProvider extends AbstractMapProvider<Class<?>, Op
 	}
 	
 	public Map<Class<?>, Operator<?>> getMap(ValueMap valueMap) {
-		factoryMap.put(LiteralExpressionOperation.class, new LiteralExpressionOperator(valueMap));
+		factoryMap.put(MathOperation.class, new LiteralExpressionOperator(valueMap));
 		factoryMap.put(BooleanOperation.class, new BooleanOperator(evaluatorFactory));
 		factoryMap.put(ValueOperation.class, new ValueOperator(reflectionProvider));
 		factoryMap.put(EAdField.class, new FieldOperator(valueMap));

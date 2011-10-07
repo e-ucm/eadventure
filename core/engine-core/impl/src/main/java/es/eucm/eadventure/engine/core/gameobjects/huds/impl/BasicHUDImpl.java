@@ -54,6 +54,7 @@ import es.eucm.eadventure.common.params.fills.impl.EAdColor;
 import es.eucm.eadventure.common.params.geom.EAdPosition;
 import es.eucm.eadventure.common.params.geom.impl.EAdPositionImpl;
 import es.eucm.eadventure.common.params.geom.impl.EAdPositionImpl.Corner;
+import es.eucm.eadventure.common.predef.model.events.StayInBoundsEvent;
 import es.eucm.eadventure.common.resources.StringHandler;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.CaptionImpl;
 import es.eucm.eadventure.engine.core.Game;
@@ -132,6 +133,7 @@ public class BasicHUDImpl implements BasicHUD {
 		stringHandler.setString(c.getText(), "");
 		contextual = new EAdBasicSceneElement("contextual", c);
 		contextual.setPosition(new EAdPositionImpl(Corner.CENTER, 0, 0));
+		contextual.getEvents().add(new StayInBoundsEvent(contextual));
 	}
 
 	@Override
@@ -220,13 +222,7 @@ public class BasicHUDImpl implements BasicHUD {
 				cgo.getRenderAsset().update();
 
 				int mouseX = valueMap.getValue(null, SystemVars.MOUSE_X);
-				int mouseY = valueMap.getValue(null, SystemVars.MOUSE_Y);
-				int width = (int) (cgo.getWidth() * cgo.getScale());
-				int height = (int) (cgo.getHeight() * cgo.getScale());
-
-				mouseX = mouseX - width / 2 < 0 ? width / 2 : mouseX;
-				mouseY = mouseY - height / 2 < 0 ? height / 2 + height : mouseY
-						- height / 2 - 10;
+				int mouseY = valueMap.getValue(null, SystemVars.MOUSE_Y) - 40;
 
 				valueMap.setValue(contextual, EAdBasicSceneElement.VAR_X,
 						mouseX);

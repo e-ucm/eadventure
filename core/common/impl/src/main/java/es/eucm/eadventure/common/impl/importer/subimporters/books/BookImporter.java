@@ -41,7 +41,7 @@ import es.eucm.eadventure.common.model.guievents.impl.EAdMouseEventImpl;
 import es.eucm.eadventure.common.model.variables.EAdField;
 import es.eucm.eadventure.common.model.variables.impl.EAdFieldImpl;
 import es.eucm.eadventure.common.model.variables.impl.operations.BooleanOperation;
-import es.eucm.eadventure.common.model.variables.impl.operations.LiteralExpressionOperation;
+import es.eucm.eadventure.common.model.variables.impl.operations.MathOperation;
 import es.eucm.eadventure.common.model.variables.impl.operations.ValueOperation;
 import es.eucm.eadventure.common.params.EAdFont;
 import es.eucm.eadventure.common.params.EAdFont.Style;
@@ -271,8 +271,8 @@ public class BookImporter implements EAdElementImporter<Book, EAdScene> {
 		EAdVarInterpolationEffect move = new EAdVarInterpolationEffect(
 				"changePage");
 		move.setInterpolation(xVar,
-				new LiteralExpressionOperation("[0]", xVar),
-				new LiteralExpressionOperation(expression, xVar), 500,
+				new MathOperation("[0]", xVar),
+				new MathOperation(expression, xVar), 500,
 				LoopType.NO_LOOP, InterpolationType.BOUNCE_END);
 
 		EAdConditionEvent event = new EAdConditionEventImpl("event");

@@ -12,7 +12,7 @@ import es.eucm.eadventure.common.model.events.impl.EAdSceneElementEventImpl;
 import es.eucm.eadventure.common.model.events.impl.EAdSceneElementTimedEventImpl;
 import es.eucm.eadventure.common.model.variables.EAdField;
 import es.eucm.eadventure.common.model.variables.impl.EAdFieldImpl;
-import es.eucm.eadventure.common.model.variables.impl.operations.LiteralExpressionOperation;
+import es.eucm.eadventure.common.model.variables.impl.operations.MathOperation;
 import es.eucm.eadventure.common.params.fills.impl.EAdBorderedColor;
 import es.eucm.eadventure.common.params.fills.impl.EAdColor;
 import es.eucm.eadventure.common.params.geom.impl.EAdPositionImpl;
@@ -43,10 +43,10 @@ public class DepthZScene extends EmptyScene {
 		e2.setVarInitialValue(EAdBasicSceneElement.VAR_SCALE, 1.2f);
 		
 		EAdField<Integer> zField = new EAdFieldImpl<Integer>(e2, EAdBasicSceneElement.VAR_Z);
-		EAdChangeFieldValueEffect changeZ = new EAdChangeFieldValueEffect("changeZ", zField, new LiteralExpressionOperation("- [0]", zField ));
+		EAdChangeFieldValueEffect changeZ = new EAdChangeFieldValueEffect("changeZ", zField, new MathOperation("- [0]", zField ));
 		
 		EAdField<Float> scaleField = new EAdFieldImpl<Float>(e2, EAdBasicSceneElement.VAR_SCALE);
-		EAdChangeFieldValueEffect changeScale = new EAdChangeFieldValueEffect("changeSacle", scaleField, new LiteralExpressionOperation("1 / [0]", scaleField ));
+		EAdChangeFieldValueEffect changeScale = new EAdChangeFieldValueEffect("changeSacle", scaleField, new MathOperation("1 / [0]", scaleField ));
 		timedEvent.addEffect(SceneElementTimedEventType.START_TIME, changeScale);
 		timedEvent.addEffect(SceneElementTimedEventType.START_TIME, changeZ);
 		e2.getEvents().add(timedEvent);

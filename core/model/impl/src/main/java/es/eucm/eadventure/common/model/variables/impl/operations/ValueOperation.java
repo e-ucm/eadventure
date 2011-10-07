@@ -81,5 +81,9 @@ public class ValueOperation extends EAdOperationImpl {
 	public Object getValue() {
 		return value;
 	}
+	
+	public String toString(){
+		return value + "";
+	}
 
 }

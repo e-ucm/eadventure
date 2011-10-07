@@ -46,7 +46,7 @@ import es.eucm.eadventure.common.model.elements.EAdActorReference;
 import es.eucm.eadventure.common.model.elements.EAdSceneElement;
 import es.eucm.eadventure.common.model.variables.EAdVarDef;
 import es.eucm.eadventure.common.model.variables.impl.EAdVarDefImpl;
-import es.eucm.eadventure.common.model.variables.impl.operations.LiteralExpressionOperation;
+import es.eucm.eadventure.common.model.variables.impl.operations.MathOperation;
 
 /**
  * 
@@ -93,10 +93,10 @@ public class EAdMoveSceneElement extends AbstractEAdEffect implements
 	 * Target coordinates
 	 */
 	@Param("xTarget")
-	private LiteralExpressionOperation xTarget;
+	private MathOperation xTarget;
 
 	@Param("yTarget")
-	private LiteralExpressionOperation yTarget;
+	private MathOperation yTarget;
 
 	/**
 	 * Movement speed
@@ -119,25 +119,25 @@ public class EAdMoveSceneElement extends AbstractEAdEffect implements
 	}
 
 	public EAdMoveSceneElement(String id, EAdSceneElement element) {
-		this(id, element, new LiteralExpressionOperation("id", "0"),
-				new LiteralExpressionOperation("id", "0"));
+		this(id, element, new MathOperation("id", "0"),
+				new MathOperation("id", "0"));
 	}
 
 	public EAdMoveSceneElement(String id, EAdSceneElement element,
-			LiteralExpressionOperation xTarget,
-			LiteralExpressionOperation yTarget) {
+			MathOperation xTarget,
+			MathOperation yTarget) {
 		this(id, element, xTarget, yTarget, MovementSpeed.NORMAL);
 	}
 
 	public EAdMoveSceneElement(String id, EAdSceneElement element, int xTarget,
 			int yTarget, MovementSpeed speed) {
-		this(id, element, new LiteralExpressionOperation("id", "" + xTarget),
-				new LiteralExpressionOperation("id", "" + yTarget), speed);
+		this(id, element, new MathOperation("id", "" + xTarget),
+				new MathOperation("id", "" + yTarget), speed);
 	}
 
 	public EAdMoveSceneElement(String id, EAdSceneElement element,
-			LiteralExpressionOperation xTarget,
-			LiteralExpressionOperation yTarget, MovementSpeed speed) {
+			MathOperation xTarget,
+			MathOperation yTarget, MovementSpeed speed) {
 		super(id);
 		this.element = element;
 		this.xTarget = xTarget;
@@ -164,8 +164,8 @@ public class EAdMoveSceneElement extends AbstractEAdEffect implements
 	 * @param y
 	 *            the expression to calculate the y value
 	 */
-	public void setTargetCoordiantes(LiteralExpressionOperation x,
-			LiteralExpressionOperation y) {
+	public void setTargetCoordiantes(MathOperation x,
+			MathOperation y) {
 		xTarget = x;
 		yTarget = y;
 	}
@@ -184,7 +184,7 @@ public class EAdMoveSceneElement extends AbstractEAdEffect implements
 	 * 
 	 * @return x coordinate target
 	 */
-	public LiteralExpressionOperation getXTarget() {
+	public MathOperation getXTarget() {
 		return xTarget;
 	}
 
@@ -192,7 +192,7 @@ public class EAdMoveSceneElement extends AbstractEAdEffect implements
 	 * 
 	 * @return y coordinate target
 	 */
-	public LiteralExpressionOperation getYTarget() {
+	public MathOperation getYTarget() {
 		return yTarget;
 	}
 
@@ -213,8 +213,8 @@ public class EAdMoveSceneElement extends AbstractEAdEffect implements
 	}
 
 	public void setTargetCoordiantes(int i, int j) {
-		setTargetCoordiantes(new LiteralExpressionOperation("id", "" + i),
-				new LiteralExpressionOperation("id", "" + j));
+		setTargetCoordiantes(new MathOperation("id", "" + i),
+				new MathOperation("id", "" + j));
 	}
 
 	public float getSpeedFactor() {
