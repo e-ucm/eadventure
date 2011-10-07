@@ -248,9 +248,10 @@ public class PlayNGUI extends AbstractGUI<Canvas> implements GUI {
 	/**
 	 * Initialize the {@code Canvas} element where the actual game is drawn
 	 */
-	private void initializeCanvas() {
+	public void initializeCanvas(Canvas canvas) {
 		PlayNInputListener listener = new PlayNInputListener(mouseState,
 				keyboardState);
+		this.canvas = canvas;
 		/*
 		canvas.addMouseListener(listener);
 		canvas.addMouseMotionListener(listener);
