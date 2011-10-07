@@ -7,7 +7,7 @@ import es.eucm.eadventure.common.model.EAdElement;
  * 
  * 
  */
-public interface EAdField<T> extends EAdElement {
+public interface EAdField<T> extends EAdElement, EAdOperation {
 
 	/**
 	 * Returns the element holding the field. If the element is {@code null}

@@ -8,7 +8,7 @@ import es.eucm.eadventure.common.model.guievents.impl.EAdDragEventImpl;
 import es.eucm.eadventure.common.model.guievents.impl.EAdMouseEventImpl;
 import es.eucm.eadventure.common.model.variables.EAdField;
 import es.eucm.eadventure.common.model.variables.impl.EAdFieldImpl;
-import es.eucm.eadventure.common.model.variables.impl.operations.AssignOperation;
+import es.eucm.eadventure.common.model.variables.impl.operations.ValueOperation;
 import es.eucm.eadventure.common.model.variables.impl.operations.LiteralExpressionOperation;
 import es.eucm.eadventure.common.params.fills.impl.EAdBorderedColor;
 import es.eucm.eadventure.common.params.fills.impl.EAdColor;
@@ -34,10 +34,10 @@ public class DragDropScene extends EmptyScene {
 		EAdField<Float> rotation = new EAdFieldImpl<Float>(e1,
 				EAdBasicSceneElement.VAR_ROTATION);
 		EAdChangeFieldValueEffect changeRotation1 = new EAdChangeFieldValueEffect(
-				"change", rotation, new AssignOperation(
+				"change", rotation, new ValueOperation(
 						(float) (Math.PI / 8.0f)));
 		EAdChangeFieldValueEffect changeRotation2 = new EAdChangeFieldValueEffect(
-				"change", rotation, new AssignOperation(0.0f));
+				"change", rotation, new ValueOperation(0.0f));
 		e1.addBehavior(EAdMouseEventImpl.MOUSE_START_DRAG, changeRotation1);
 		e1.addBehavior(EAdMouseEventImpl.MOUSE_DROP, changeRotation2);
 
@@ -64,9 +64,9 @@ public class DragDropScene extends EmptyScene {
 		EAdField<Float> scale = new EAdFieldImpl<Float>(e2,
 				EAdBasicSceneElement.VAR_SCALE);
 		EAdChangeFieldValueEffect changeScale1 = new EAdChangeFieldValueEffect(
-				"changeScale", scale, new AssignOperation(1.2f));
+				"changeScale", scale, new ValueOperation(1.2f));
 		EAdChangeFieldValueEffect changeScale2 = new EAdChangeFieldValueEffect(
-				"changeScale", scale, new AssignOperation(1.0f));
+				"changeScale", scale, new ValueOperation(1.0f));
 		e2.addBehavior(new EAdDragEventImpl(e1, DragAction.ENTERED),
 				changeScale1);
 		e2.addBehavior(new EAdDragEventImpl(e1, DragAction.EXITED),

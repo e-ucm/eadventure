@@ -1,6 +1,6 @@
 package es.eucm.eadventure.common.elmentfactories.scenedemos;
 
-import es.eucm.eadventure.common.model.conditions.impl.FlagCondition;
+import es.eucm.eadventure.common.model.conditions.impl.OperationCondition;
 import es.eucm.eadventure.common.model.effects.impl.physics.EAdPhysicsEffect;
 import es.eucm.eadventure.common.model.effects.impl.physics.EAdPhysicsEffect.PhShape;
 import es.eucm.eadventure.common.model.effects.impl.physics.EAdPhysicsEffect.PhType;
@@ -87,7 +87,7 @@ public class PhysicsScene2 extends PhysicsScene {
 			}
 
 		EAdConditionEvent event = new EAdConditionEventImpl();
-		FlagCondition condition = new FlagCondition(new EAdFieldImpl<Boolean>(
+		OperationCondition condition = new OperationCondition(new EAdFieldImpl<Boolean>(
 				this, EAdSceneImpl.VAR_SCENE_LOADED));
 		event.setCondition(condition);
 		event.addEffect(ConditionedEvent.CONDITIONS_MET, effect);

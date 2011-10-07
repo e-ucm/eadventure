@@ -4,7 +4,7 @@ import es.eucm.eadventure.common.elmentfactories.EAdElementsFactory;
 import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
 import es.eucm.eadventure.common.model.guievents.impl.EAdMouseEventImpl;
 import es.eucm.eadventure.common.model.variables.impl.EAdFieldImpl;
-import es.eucm.eadventure.common.model.variables.impl.operations.AssignOperation;
+import es.eucm.eadventure.common.model.variables.impl.operations.ValueOperation;
 import es.eucm.eadventure.common.params.fills.impl.EAdBorderedColor;
 import es.eucm.eadventure.common.params.fills.impl.EAdColor;
 import es.eucm.eadventure.common.params.fills.impl.EAdLinearGradient;
@@ -119,7 +119,7 @@ public class DrawablesScene extends EmptyScene {
 						.getEffectFactory()
 						.getChangeVarValueEffect(
 								new EAdFieldImpl<String>( sceneElement, EAdBasicSceneElement.VAR_STATE),
-								new AssignOperation("assign",
+								new ValueOperation("assign",
 										CommonStates.EAD_STATE_DEFAULT
 												.toString())));
 		sceneElement.addBehavior(
@@ -129,7 +129,7 @@ public class DrawablesScene extends EmptyScene {
 						.getEffectFactory()
 						.getChangeVarValueEffect(
 								new EAdFieldImpl<String>( sceneElement, EAdBasicSceneElement.VAR_STATE),
-								new AssignOperation("assign",
+								new ValueOperation("assign",
 										CommonStates.EAD_STATE_TALKING
 												.toString())));
 		getElements().add(sceneElement);

@@ -14,7 +14,7 @@ import es.eucm.eadventure.common.model.guievents.impl.EAdMouseEventImpl;
 import es.eucm.eadventure.common.model.trajectories.TrajectoryDefinition;
 import es.eucm.eadventure.common.model.trajectories.impl.NodeTrajectoryDefinition;
 import es.eucm.eadventure.common.model.variables.impl.EAdFieldImpl;
-import es.eucm.eadventure.common.model.variables.impl.operations.AssignOperation;
+import es.eucm.eadventure.common.model.variables.impl.operations.ValueOperation;
 import es.eucm.eadventure.common.params.fills.impl.EAdColor;
 import es.eucm.eadventure.common.params.fills.impl.EAdLinearGradient;
 import es.eucm.eadventure.common.params.geom.impl.EAdPositionImpl;
@@ -68,7 +68,7 @@ public class TrajectoriesScene extends EmptyScene {
 				"changeTrajectory");
 		effect.addField(new EAdFieldImpl<TrajectoryDefinition>(this,
 				EAdSceneImpl.VAR_TRAJECTORY_DEFINITION));
-		effect.setOperation(new AssignOperation(trajectory));
+		effect.setOperation(new ValueOperation(trajectory));
 
 		getBackground().addBehavior(
 				new EAdKeyEventImpl(KeyActionType.KEY_PRESSED, '1'),
@@ -119,7 +119,7 @@ public class TrajectoriesScene extends EmptyScene {
 				"changeTrajectory");
 		effect.addField(new EAdFieldImpl<TrajectoryDefinition>(this,
 				EAdSceneImpl.VAR_TRAJECTORY_DEFINITION));
-		effect.setOperation(new AssignOperation(trajectory));
+		effect.setOperation(new ValueOperation(trajectory));
 
 		getBackground().addBehavior(
 				new EAdKeyEventImpl(KeyActionType.KEY_PRESSED, '2'),
@@ -139,7 +139,7 @@ public class TrajectoriesScene extends EmptyScene {
 				"changeTrajectory");
 		effect.addField(new EAdFieldImpl<TrajectoryDefinition>(this,
 				EAdSceneImpl.VAR_TRAJECTORY_DEFINITION));
-		effect.setOperation(new AssignOperation(trajectory));
+		effect.setOperation(new ValueOperation(trajectory));
 
 		getBackground().addBehavior(
 				new EAdKeyEventImpl(KeyActionType.KEY_PRESSED, '3'),

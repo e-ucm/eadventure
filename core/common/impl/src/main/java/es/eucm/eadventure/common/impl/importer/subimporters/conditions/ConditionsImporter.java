@@ -42,24 +42,26 @@ import com.google.inject.Inject;
 import es.eucm.eadventure.common.EAdElementImporter;
 import es.eucm.eadventure.common.data.chapter.conditions.Condition;
 import es.eucm.eadventure.common.data.chapter.conditions.Conditions;
+import es.eucm.eadventure.common.data.chapter.conditions.FlagCondition;
 import es.eucm.eadventure.common.data.chapter.conditions.GlobalStateCondition;
+import es.eucm.eadventure.common.data.chapter.conditions.VarCondition;
 import es.eucm.eadventure.common.impl.importer.interfaces.EAdElementFactory;
 import es.eucm.eadventure.common.model.conditions.impl.ANDCondition;
-import es.eucm.eadventure.common.model.conditions.impl.FlagCondition;
 import es.eucm.eadventure.common.model.conditions.impl.ORCondition;
-import es.eucm.eadventure.common.model.conditions.impl.VarCondition;
+import es.eucm.eadventure.common.model.conditions.impl.OperationCondition;
 import es.eucm.eadventure.common.model.elements.EAdCondition;
 
-public class ConditionsImporter implements EAdElementImporter<Conditions, EAdCondition> {
+public class ConditionsImporter implements
+		EAdElementImporter<Conditions, EAdCondition> {
 
-	private EAdElementImporter<es.eucm.eadventure.common.data.chapter.conditions.FlagCondition, FlagCondition> flagConditionImporter;
-	private EAdElementImporter<es.eucm.eadventure.common.data.chapter.conditions.VarCondition, VarCondition> varConditionImporter;
+	private EAdElementImporter<FlagCondition, OperationCondition> flagConditionImporter;
+	private EAdElementImporter<VarCondition, OperationCondition> varConditionImporter;
 	private EAdElementFactory factory;
 
 	@Inject
 	public ConditionsImporter(
-			EAdElementImporter<es.eucm.eadventure.common.data.chapter.conditions.FlagCondition, FlagCondition> flagConditionImporter,
-			EAdElementImporter<es.eucm.eadventure.common.data.chapter.conditions.VarCondition, VarCondition> varConditionImporter,
+			EAdElementImporter<FlagCondition, OperationCondition> flagConditionImporter,
+			EAdElementImporter<VarCondition, OperationCondition> varConditionImporter,
 			EAdElementFactory factory) {
 		this.factory = factory;
 		this.flagConditionImporter = flagConditionImporter;
@@ -70,10 +72,11 @@ public class ConditionsImporter implements EAdElementImporter<Conditions, EAdCon
 	public EAdCondition init(Conditions oldObject) {
 		return new ANDCondition();
 	}
-	
+
 	@Override
 	public EAdCondition convert(Conditions oldObject, Object object) {
-		ANDCondition newCondition = (ANDCondition) object;;
+		ANDCondition newCondition = (ANDCondition) object;
+		;
 		for (Condition c : oldObject.getSimpleConditions()) {
 			EAdCondition newC = getSimpleCondition(c);
 			if (newC != null) {
@@ -101,15 +104,22 @@ public class ConditionsImporter implements EAdElementImporter<Conditions, EAdCon
 
 	private EAdCondition getSimpleCondition(Condition c) {
 		if (c.getType() == Condition.FLAG_CONDITION) {
-			EAdCondition condition = flagConditionImporter.init((es.eucm.eadventure.common.data.chapter.conditions.FlagCondition) c);
-			return flagConditionImporter.convert((es.eucm.eadventure.common.data.chapter.conditions.FlagCondition) c, condition);
+			EAdCondition condition = flagConditionImporter
+					.init((es.eucm.eadventure.common.data.chapter.conditions.FlagCondition) c);
+			return flagConditionImporter
+					.convert(
+							(es.eucm.eadventure.common.data.chapter.conditions.FlagCondition) c,
+							condition);
 		} else if (c.getType() == Condition.VAR_CONDITION) {
 			EAdCondition condition = varConditionImporter
-			.init((es.eucm.eadventure.common.data.chapter.conditions.VarCondition) c);
+					.init((es.eucm.eadventure.common.data.chapter.conditions.VarCondition) c);
 			return varConditionImporter
-					.convert((es.eucm.eadventure.common.data.chapter.conditions.VarCondition) c, condition);
+					.convert(
+							(es.eucm.eadventure.common.data.chapter.conditions.VarCondition) c,
+							condition);
 		} else if (c.getType() == Condition.GLOBAL_STATE_CONDITION) {
-			return factory.getGlobalStateCondition(((GlobalStateCondition) c).getId());
+			return factory.getGlobalStateCondition(((GlobalStateCondition) c)
+					.getId());
 		}
 		return null;
 	}

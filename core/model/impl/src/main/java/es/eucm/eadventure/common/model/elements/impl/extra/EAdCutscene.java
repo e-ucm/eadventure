@@ -40,7 +40,8 @@ package es.eucm.eadventure.common.model.elements.impl.extra;
 import es.eucm.eadventure.common.interfaces.Element;
 import es.eucm.eadventure.common.interfaces.Param;
 import es.eucm.eadventure.common.model.conditions.impl.EmptyCondition;
-import es.eucm.eadventure.common.model.conditions.impl.FlagCondition;
+import es.eucm.eadventure.common.model.conditions.impl.OperationCondition;
+import es.eucm.eadventure.common.model.conditions.impl.OperationCondition.Comparator;
 import es.eucm.eadventure.common.model.effects.impl.EAdChangeScene;
 import es.eucm.eadventure.common.model.effects.impl.variables.EAdChangeFieldValueEffect;
 import es.eucm.eadventure.common.model.elements.EAdChapter;
@@ -110,7 +111,7 @@ public class EAdCutscene extends EAdComposedScene {
 				chapter.getTimers().add(timer);
 
 				EAdEvent event = new EAdConditionEventImpl("id",
-						new FlagCondition(sceneLoaded));
+						new OperationCondition(sceneLoaded, Boolean.TRUE, Comparator.EQUAL));
 				event.addEffect(ConditionedEvent.CONDITIONS_MET,
 						new EAdChangeFieldValueEffect("id",
 								new EAdFieldImpl<Boolean>(timer,

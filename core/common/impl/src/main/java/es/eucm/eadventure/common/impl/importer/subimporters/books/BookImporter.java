@@ -18,8 +18,8 @@ import es.eucm.eadventure.common.data.chapter.book.Book;
 import es.eucm.eadventure.common.data.chapter.book.BookParagraph;
 import es.eucm.eadventure.common.impl.importer.interfaces.ResourceImporter;
 import es.eucm.eadventure.common.model.conditions.impl.EmptyCondition;
-import es.eucm.eadventure.common.model.conditions.impl.VarCondition.Operator;
-import es.eucm.eadventure.common.model.conditions.impl.VarValCondition;
+import es.eucm.eadventure.common.model.conditions.impl.OperationCondition;
+import es.eucm.eadventure.common.model.conditions.impl.OperationCondition.Comparator;
 import es.eucm.eadventure.common.model.effects.impl.EAdChangeAppearance;
 import es.eucm.eadventure.common.model.effects.impl.EAdChangeScene;
 import es.eucm.eadventure.common.model.effects.impl.EAdVarInterpolationEffect;
@@ -40,9 +40,9 @@ import es.eucm.eadventure.common.model.events.impl.EAdSceneElementEventImpl;
 import es.eucm.eadventure.common.model.guievents.impl.EAdMouseEventImpl;
 import es.eucm.eadventure.common.model.variables.EAdField;
 import es.eucm.eadventure.common.model.variables.impl.EAdFieldImpl;
-import es.eucm.eadventure.common.model.variables.impl.operations.AssignOperation;
 import es.eucm.eadventure.common.model.variables.impl.operations.BooleanOperation;
 import es.eucm.eadventure.common.model.variables.impl.operations.LiteralExpressionOperation;
+import es.eucm.eadventure.common.model.variables.impl.operations.ValueOperation;
 import es.eucm.eadventure.common.params.EAdFont;
 import es.eucm.eadventure.common.params.EAdFont.Style;
 import es.eucm.eadventure.common.params.EAdFontImpl;
@@ -205,11 +205,11 @@ public class BookImporter implements EAdElementImporter<Book, EAdScene> {
 		EAdSceneElementEvent event = new EAdSceneElementEventImpl("restartBook");
 		event.addEffect(SceneElementEvent.ADDED_TO_SCENE,
 				new EAdChangeFieldValueEffect("restarBook", xVar,
-						new AssignOperation("assign", 0)));
+						new ValueOperation("assign", 0)));
 		content.getEvents().add(event);
 
-		EAdCondition leftCondition = new VarValCondition("leftCondition", xVar,
-				0, Operator.LESS);
+		EAdCondition leftCondition = new OperationCondition(xVar, 0,
+				Comparator.LESS);
 		EAdBasicSceneElement leftArrow = getArrow(oldObject, content,
 				Book.RESOURCE_TYPE_ARROW_LEFT_NORMAL,
 				Book.RESOURCE_TYPE_ARROW_LEFT_OVER, "[0] + " + BOOK_WIDTH,
@@ -228,8 +228,7 @@ public class BookImporter implements EAdElementImporter<Book, EAdScene> {
 				Book.RESOURCE_TYPE_ARROW_RIGHT_NORMAL,
 				Book.RESOURCE_TYPE_ARROW_RIGHT_OVER, "[0] - " + BOOK_WIDTH,
 				rightCondition);
-		
-		
+
 		p = oldObject.getNextPagePoint();
 		x = 790;
 		y = 10;
@@ -239,12 +238,12 @@ public class BookImporter implements EAdElementImporter<Book, EAdScene> {
 			y = p.y;
 			c = Corner.TOP_LEFT;
 		}
-		
-		rightArrow.setPosition(new EAdPositionImpl( c, x, y));
 
-		EAdCondition endCondition = new VarValCondition(xVar,
+		rightArrow.setPosition(new EAdPositionImpl(c, x, y));
+
+		EAdCondition endCondition = new OperationCondition(xVar,
 				-(((column / 2) - 1) * BOOK_WIDTH + BOOK_WIDTH / 2),
-				Operator.LESS);
+				Comparator.LESS);
 
 		EAdChangeScene changeScene = new EAdChangeScene("endBook");
 		changeScene.setCondition(endCondition);
@@ -429,4 +428,3 @@ public class BookImporter implements EAdElementImporter<Book, EAdScene> {
 	}
 
 }
-

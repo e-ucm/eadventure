@@ -2,10 +2,8 @@ package es.eucm.eadventure.common.elmentfactories.scenedemos;
 
 import es.eucm.eadventure.common.elmentfactories.EAdElementsFactory;
 import es.eucm.eadventure.common.model.conditions.impl.ANDCondition;
-import es.eucm.eadventure.common.model.conditions.impl.FlagCondition;
-import es.eucm.eadventure.common.model.conditions.impl.VarCondition.Operator;
-import es.eucm.eadventure.common.model.conditions.impl.VarValCondition;
-import es.eucm.eadventure.common.model.conditions.impl.VarVarCondition;
+import es.eucm.eadventure.common.model.conditions.impl.OperationCondition;
+import es.eucm.eadventure.common.model.conditions.impl.OperationCondition.Comparator;
 import es.eucm.eadventure.common.model.effects.impl.EAdAddActorReferenceEffect;
 import es.eucm.eadventure.common.model.effects.impl.EAdVarInterpolationEffect;
 import es.eucm.eadventure.common.model.effects.impl.EAdVarInterpolationEffect.InterpolationType;
@@ -75,7 +73,7 @@ public class PhysicsScene extends EmptyScene {
 		e2.setVarInitialValue(EAdPhysicsEffect.VAR_PH_TYPE, PhType.DYNAMIC);
 
 		EAdConditionEvent event = new EAdConditionEventImpl();
-		FlagCondition condition = new FlagCondition(new EAdFieldImpl<Boolean>(
+		OperationCondition condition = new OperationCondition(new EAdFieldImpl<Boolean>(
 				this, EAdSceneImpl.VAR_SCENE_LOADED));
 		event.setCondition(condition);
 		event.addEffect(ConditionedEvent.CONDITIONS_MET, effect);
@@ -155,14 +153,14 @@ public class PhysicsScene extends EmptyScene {
 				expression, canyonX, canyonY, mouseX, mouseY);
 		followMouse.setOperation(op);
 		followMouse.addField(rotationField);
-		VarValCondition c1 = new VarValCondition(mouseX, 0,
-				Operator.GREATER_EQUAL);
-		VarVarCondition c2 = new VarVarCondition(mouseY,
+		OperationCondition c1 = new OperationCondition(mouseX, 0,
+				Comparator.GREATER_EQUAL);
+		OperationCondition c2 = new OperationCondition(mouseY,
 				new EAdFieldImpl<Integer>(canyon, EAdBasicSceneElement.VAR_Y),
-				Operator.LESS_EQUAL);
-		VarVarCondition c3 = new VarVarCondition(mouseX,
+				Comparator.LESS_EQUAL);
+		OperationCondition c3 = new OperationCondition(mouseX,
 				new EAdFieldImpl<Integer>(canyon, EAdBasicSceneElement.VAR_X),
-				Operator.GREATER_EQUAL);
+				Comparator.GREATER_EQUAL);
 		followMouse.setCondition(new ANDCondition(c1, c2, c3));
 
 		EAdSceneElementEvent event = new EAdSceneElementEventImpl();

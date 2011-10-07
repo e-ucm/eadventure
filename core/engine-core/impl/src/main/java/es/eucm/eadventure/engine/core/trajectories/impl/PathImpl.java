@@ -47,7 +47,7 @@ import es.eucm.eadventure.common.model.trajectories.impl.NodeTrajectoryDefinitio
 import es.eucm.eadventure.common.model.trajectories.impl.Side;
 import es.eucm.eadventure.common.model.variables.EAdField;
 import es.eucm.eadventure.common.model.variables.impl.EAdFieldImpl;
-import es.eucm.eadventure.common.model.variables.impl.operations.AssignOperation;
+import es.eucm.eadventure.common.model.variables.impl.operations.ValueOperation;
 import es.eucm.eadventure.engine.core.trajectories.Path;
 import es.eucm.eadventure.engine.core.trajectories.PathSide;
 
@@ -182,7 +182,7 @@ public class PathImpl implements Comparable<PathImpl>, Path {
 	@Override
 	public EAdEffect getChangeSideEffect(PathSide p, TrajectoryDefinition trajectory) {
 		EAdField<Side> currentSide = new EAdFieldImpl<Side>(trajectory, NodeTrajectoryDefinition.VAR_CURRENT_SIDE);
-		return new EAdChangeFieldValueEffect("changeSide", currentSide, new AssignOperation(((PathSideImpl) p).getSide()));
+		return new EAdChangeFieldValueEffect("changeSide", currentSide, new ValueOperation(((PathSideImpl) p).getSide()));
 	}
 	
 }

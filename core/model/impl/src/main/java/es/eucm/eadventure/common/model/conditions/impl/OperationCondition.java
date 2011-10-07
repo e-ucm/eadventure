@@ -39,69 +39,103 @@ package es.eucm.eadventure.common.model.conditions.impl;
 
 import es.eucm.eadventure.common.interfaces.Element;
 import es.eucm.eadventure.common.interfaces.Param;
+import es.eucm.eadventure.common.model.elements.EAdCondition;
 import es.eucm.eadventure.common.model.variables.EAdField;
+import es.eucm.eadventure.common.model.variables.EAdOperation;
+import es.eucm.eadventure.common.model.variables.impl.operations.ValueOperation;
 
 /**
  * Condition comparing the values of two variables
  * 
  */
-@Element(runtime = VarVarCondition.class, detailed = VarVarCondition.class)
-public class VarVarCondition extends VarCondition {
+@Element(runtime = OperationCondition.class, detailed = OperationCondition.class)
+public class OperationCondition extends AbstractEAdCondition implements
+		EAdCondition {
 
-	@Param("var1")
-	private EAdField<? extends Number> var1;
+	public static final ValueOperation TRUE = new ValueOperation(Boolean.TRUE);
+	public static final ValueOperation FALSE = new ValueOperation(Boolean.FALSE);
 
-	@Param("var2")
-	private EAdField<? extends Number> var2;
-	
-	public VarVarCondition( String id ){
-		super( id );
+	public enum Comparator {
+		GREATER, GREATER_EQUAL, EQUAL, LESS_EQUAL, LESS, DIFFERENT
+	}
+
+	@Param("op1")
+	private EAdOperation op1;
+
+	@Param("op2")
+	private EAdOperation op2;
+
+	@Param("operator")
+	private Comparator operator;
+
+	public OperationCondition(EAdOperation op1, EAdOperation op2,
+			Comparator operator) {
+		super("operationCondition");
+		this.op1 = op1;
+		this.op2 = op2;
+		this.operator = operator;
 	}
 
 	/**
-	 * Constructs a condition comparing two number variables
-	 * 
-	 * @param var1
-	 *            variable 1
-	 * @param var2
-	 *            variable 2
-	 * @param op
-	 *            operator used to compare
+	 * @return the value
 	 */
-	public VarVarCondition(EAdField<? extends Number> var1, EAdField<? extends Number> var2, Operator op) {
-		super(op);
-		this.var1 = var1;
-		this.var2 = var2;
+	public Comparator getOperator() {
+		return operator;
+	}
+
+	/**
+	 * @param operator
+	 *            the value to set
+	 */
+	public void setOperator(Comparator operator) {
+		this.operator = operator;
+	}
+
+	public OperationCondition(String id) {
+		super(id);
+	}
+
+	public OperationCondition(EAdOperation operation, int value,
+			Comparator operator) {
+		this(operation, new ValueOperation(value), operator);
+	}
+
+	public OperationCondition(EAdOperation op, Object object, Comparator operator) {
+		this(op, new ValueOperation(object), operator);
+	}
+
+	public OperationCondition(EAdField<Boolean> field) {
+		this(field, new ValueOperation(Boolean.TRUE), Comparator.EQUAL);
 	}
 
 	/**
 	 * @return the var1
 	 */
-	public EAdField<? extends Number> getVar1() {
-		return var1;
+	public EAdOperation getOp1() {
+		return op1;
 	}
 
 	/**
 	 * @param var1
 	 *            the var1 to set
 	 */
-	public void setVar1(EAdField<? extends Number> var1) {
-		this.var1 = var1;
+	public void setOp1(EAdOperation op1) {
+		this.op1 = op1;
 	}
 
 	/**
 	 * @return the var2
 	 */
-	public EAdField<? extends Number> getVar2() {
-		return var2;
+	public EAdOperation getOp2() {
+		return op2;
 	}
 
 	/**
-	 * @param var2
+	 * @param op2
 	 *            the var2 to set
 	 */
-	public void setVar2(EAdField<? extends Number> var2) {
-		this.var2 = var2;
+	public void setOp2(EAdOperation op2) {
+		this.op2 = op2;
 	}
 
 }

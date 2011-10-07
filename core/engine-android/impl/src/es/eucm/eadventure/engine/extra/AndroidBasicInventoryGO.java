@@ -45,8 +45,8 @@ import java.util.Map;
 import com.google.inject.Inject;
 
 import es.eucm.eadventure.common.model.conditions.impl.EmptyCondition;
-import es.eucm.eadventure.common.model.conditions.impl.VarCondition.Operator;
-import es.eucm.eadventure.common.model.conditions.impl.VarValCondition;
+import es.eucm.eadventure.common.model.conditions.impl.OperationCondition;
+import es.eucm.eadventure.common.model.conditions.impl.OperationCondition.Comparator;
 import es.eucm.eadventure.common.model.effects.EAdEffect;
 import es.eucm.eadventure.common.model.effects.impl.EAdActorActionsEffect;
 import es.eucm.eadventure.common.model.effects.impl.EAdChangeAppearance;
@@ -232,20 +232,20 @@ public class AndroidBasicInventoryGO extends BasicInventoryGO {
 
 		EAdEffect e2 = new EAdMoveSceneElement("hideInventoryBottom",
 				inventory, 0, 700, MovementSpeed.NORMAL);
-		e2.setCondition(new VarValCondition(yField, 350, Operator.GREATER));
+		e2.setCondition(new OperationCondition(yField, 350, Comparator.GREATER));
 		centerSensor.addBehavior(EAdMouseEventImpl.MOUSE_MOVED, e2);
 		e2 = new EAdChangeFieldValueEffect("id", visibleField,
 				BooleanOperation.FALSE_OP);
-		e2.setCondition(new VarValCondition(yField, 350, Operator.GREATER));
+		e2.setCondition(new OperationCondition(yField, 350, Comparator.GREATER));
 		centerSensor.addBehavior(EAdMouseEventImpl.MOUSE_MOVED, e2);
 
 		e2 = new EAdMoveSceneElement("hideInventoryTop", inventory, 0, 0,
 				MovementSpeed.NORMAL);
-		e2.setCondition(new VarValCondition(yField, 350, Operator.LESS));
+		e2.setCondition(new OperationCondition(yField, 350, Comparator.LESS));
 		centerSensor.addBehavior(EAdMouseEventImpl.MOUSE_MOVED, e2);
 		e2 = new EAdChangeFieldValueEffect("id", visibleField,
 				BooleanOperation.FALSE_OP);
-		e2.setCondition(new VarValCondition(yField, 350, Operator.LESS));
+		e2.setCondition(new OperationCondition(yField, 350, Comparator.LESS));
 		centerSensor.addBehavior(EAdMouseEventImpl.MOUSE_MOVED, e2);
 	}
 

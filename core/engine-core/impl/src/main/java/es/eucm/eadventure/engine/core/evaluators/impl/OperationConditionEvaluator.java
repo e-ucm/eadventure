@@ -37,65 +37,72 @@
 
 package es.eucm.eadventure.engine.core.evaluators.impl;
 
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
-import es.eucm.eadventure.common.model.conditions.impl.VarCondition;
-import es.eucm.eadventure.common.model.conditions.impl.VarValCondition;
-import es.eucm.eadventure.common.model.conditions.impl.VarVarCondition;
-import es.eucm.eadventure.engine.core.ValueMap;
+import es.eucm.eadventure.common.model.conditions.impl.OperationCondition;
 import es.eucm.eadventure.engine.core.evaluators.Evaluator;
+import es.eucm.eadventure.engine.core.operator.OperatorFactory;
 
 @Singleton
-public class VarConditionEvaluator implements Evaluator<VarCondition> {
+public class OperationConditionEvaluator implements
+		Evaluator<OperationCondition> {
 
 	private static final Logger logger = Logger
 			.getLogger("VarConditionEvaluator");
 
-	private ValueMap valueMap;
+	private OperatorFactory operatorFactory;
 
 	@Inject
-	public VarConditionEvaluator(ValueMap valueMap) {
-		this.valueMap = valueMap;
+	public OperationConditionEvaluator(OperatorFactory operatorFactory) {
+		this.operatorFactory = operatorFactory;
 	}
 
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Override
-	public boolean evaluate(VarCondition condition) {
-		Number value1 = null;
-		Number value2 = null;
-		if (condition instanceof VarVarCondition) {
-			value1 = (Number) valueMap.getValue(((VarVarCondition) condition)
-					.getVar1());
-			value2 = (Number) valueMap.getValue(((VarVarCondition) condition)
-					.getVar2());
-		} else if (condition instanceof VarValCondition) {
-			value1 = (Number) valueMap.getValue(((VarValCondition) condition)
-					.getVar());
+	public boolean evaluate(OperationCondition condition) {
+		Object value1 = operatorFactory.operate(Object.class,
+				condition.getOp1());
+		Object value2 = operatorFactory.operate(Object.class,
+				condition.getOp2());
 
-			value2 = (((VarValCondition) condition).getVal());
+		if (value1 instanceof Comparable) {
+			int result = ((Comparable) value1).compareTo(value2);
+			switch (condition.getOperator()) {
+			case EQUAL:
+				return result == 0;
+			case GREATER:
+				return result > 0;
+			case GREATER_EQUAL:
+				return result >= 0;
+			case LESS_EQUAL:
+				return result <= 0;
+			case LESS:
+				return result < 0;
+			case DIFFERENT:
+				return result != 0;
+			default:
+				return false;
+			}
+		} else {
+			boolean equals = value1.equals(value2);
+			switch (condition.getOperator()) {
+			case EQUAL:
+			case GREATER_EQUAL:
+			case LESS_EQUAL:
+				return equals;
+			case DIFFERENT:
+				return !equals;
+			default:
+				logger.info("Attempeted to compare " + value1 + " & " + value2
+						+ " with an invalid operator. false was returned.");
+			}
 		}
-		if (value1 == null || value2 == null)
-			return false;
-		switch (condition.getOperator()) {
-		case EQUAL:
-			return value1.floatValue() == value2.floatValue();
-		case DIFFERENT:
-			return value1.floatValue() != value2.floatValue();
-		case GREATER:
-			return value1.floatValue() > value2.floatValue();
-		case GREATER_EQUAL:
-			return value1.floatValue() >= value2.floatValue();
-		case LESS:
-			return value1.floatValue() < value2.floatValue();
-		case LESS_EQUAL:
-			return value1.floatValue() <= value2.floatValue();
-		default:
-			logger.log(Level.SEVERE, "Invalid value for var-var condition");
-			return false;
-		}
+
+		return false;
+
 	}
 
 }

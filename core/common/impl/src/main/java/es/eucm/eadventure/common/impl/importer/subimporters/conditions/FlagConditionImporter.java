@@ -41,14 +41,14 @@ import com.google.inject.Inject;
 
 import es.eucm.eadventure.common.EAdElementImporter;
 import es.eucm.eadventure.common.data.chapter.conditions.Condition;
+import es.eucm.eadventure.common.data.chapter.conditions.FlagCondition;
 import es.eucm.eadventure.common.impl.importer.interfaces.EAdElementFactory;
-import es.eucm.eadventure.common.model.conditions.impl.FlagCondition;
-import es.eucm.eadventure.common.model.conditions.impl.FlagCondition.Value;
+import es.eucm.eadventure.common.model.conditions.impl.OperationCondition;
 import es.eucm.eadventure.common.model.variables.EAdField;
 
 public class FlagConditionImporter
 		implements
-		EAdElementImporter<es.eucm.eadventure.common.data.chapter.conditions.FlagCondition, FlagCondition> {
+		EAdElementImporter<FlagCondition, OperationCondition> {
 
 	private EAdElementFactory factory;
 
@@ -58,21 +58,20 @@ public class FlagConditionImporter
 	}
 
 	@SuppressWarnings("unchecked")
-	public FlagCondition init(es.eucm.eadventure.common.data.chapter.conditions.FlagCondition oldObject) {
+	public OperationCondition init(es.eucm.eadventure.common.data.chapter.conditions.FlagCondition oldObject) {
 		EAdField<Boolean> var = (EAdField<Boolean>) factory.getVarByOldId(oldObject.getId(),
 				Condition.FLAG_CONDITION);
-		FlagCondition f = new FlagCondition(var);
+		OperationCondition f = new OperationCondition(var);
 		if (oldObject.isActiveState())
-			f.setValue(Value.ACTIVE);
+			f.setOp2(OperationCondition.TRUE);
 		else
-			f.setValue(Value.INACTIVE);
+			f.setOp2(OperationCondition.FALSE);
 		return f;
 	}
 	
 	@Override
-	public FlagCondition convert(
-			es.eucm.eadventure.common.data.chapter.conditions.FlagCondition oldObject, Object object) {
-		return (FlagCondition) object;
+	public OperationCondition convert(FlagCondition oldObject, Object object) {
+		return (OperationCondition) object;
 	}
 
 }

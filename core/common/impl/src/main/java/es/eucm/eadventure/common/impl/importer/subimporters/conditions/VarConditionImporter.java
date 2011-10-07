@@ -41,13 +41,14 @@ import com.google.inject.Inject;
 
 import es.eucm.eadventure.common.EAdElementImporter;
 import es.eucm.eadventure.common.data.chapter.conditions.Condition;
+import es.eucm.eadventure.common.data.chapter.conditions.VarCondition;
 import es.eucm.eadventure.common.impl.importer.interfaces.EAdElementFactory;
-import es.eucm.eadventure.common.model.conditions.impl.VarCondition;
-import es.eucm.eadventure.common.model.conditions.impl.VarCondition.Operator;
-import es.eucm.eadventure.common.model.conditions.impl.VarValCondition;
+import es.eucm.eadventure.common.model.conditions.impl.OperationCondition;
+import es.eucm.eadventure.common.model.conditions.impl.OperationCondition.Comparator;
 import es.eucm.eadventure.common.model.variables.EAdField;
 
-public class VarConditionImporter implements EAdElementImporter<es.eucm.eadventure.common.data.chapter.conditions.VarCondition, VarCondition>{
+public class VarConditionImporter implements
+		EAdElementImporter<VarCondition, OperationCondition> {
 
 	private EAdElementFactory factory;
 
@@ -55,39 +56,38 @@ public class VarConditionImporter implements EAdElementImporter<es.eucm.eadventu
 	public VarConditionImporter(EAdElementFactory factory) {
 		this.factory = factory;
 	}
-	
+
 	@SuppressWarnings("unchecked")
 	@Override
-	public VarCondition init(
-			es.eucm.eadventure.common.data.chapter.conditions.VarCondition oldObject) {
-		Operator op = getOperator( oldObject.getState() );
-		EAdField<Integer> var = (EAdField<Integer>) factory.getVarByOldId(oldObject.getId(), Condition.VAR_CONDITION);
-		
-		VarValCondition condition = new VarValCondition(var, oldObject.getValue(), op );
+	public OperationCondition init(VarCondition oldObject) {
+		Comparator op = getOperator(oldObject.getState());
+		EAdField<Integer> var = (EAdField<Integer>) factory.getVarByOldId(
+				oldObject.getId(), Condition.VAR_CONDITION);
+
+		OperationCondition condition = new OperationCondition(var,
+				oldObject.getValue(), op);
 		return condition;
 	}
-	
 
 	@Override
-	public VarCondition convert(
-			es.eucm.eadventure.common.data.chapter.conditions.VarCondition oldObject, Object object) {
-		return (VarValCondition) object;
+	public OperationCondition convert(VarCondition oldObject, Object object) {
+		return (OperationCondition) object;
 	}
 
-	private VarValCondition.Operator getOperator( int op ){
-		switch( op ){
-		case es.eucm.eadventure.common.data.chapter.conditions.VarCondition.VAR_EQUALS:
-			return Operator.EQUAL;
-		case es.eucm.eadventure.common.data.chapter.conditions.VarCondition.VAR_GREATER_EQUALS_THAN:
-			return Operator.GREATER_EQUAL;
-		case es.eucm.eadventure.common.data.chapter.conditions.VarCondition.VAR_GREATER_THAN:
-			return Operator.GREATER;
-		case es.eucm.eadventure.common.data.chapter.conditions.VarCondition.VAR_LESS_EQUALS_THAN:
-			return Operator.LESS_EQUAL;
-		case es.eucm.eadventure.common.data.chapter.conditions.VarCondition.VAR_LESS_THAN:
-			return Operator.LESS;
+	private OperationCondition.Comparator getOperator(int op) {
+		switch (op) {
+		case VarCondition.VAR_EQUALS:
+			return Comparator.EQUAL;
+		case VarCondition.VAR_GREATER_EQUALS_THAN:
+			return Comparator.GREATER_EQUAL;
+		case VarCondition.VAR_GREATER_THAN:
+			return Comparator.GREATER;
+		case VarCondition.VAR_LESS_EQUALS_THAN:
+			return Comparator.LESS_EQUAL;
+		case VarCondition.VAR_LESS_THAN:
+			return Comparator.LESS;
 		}
-		return Operator.EQUAL;
+		return Comparator.EQUAL;
 	}
 
 }

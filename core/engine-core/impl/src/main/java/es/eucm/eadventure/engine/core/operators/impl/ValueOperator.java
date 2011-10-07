@@ -35,51 +35,31 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package es.eucm.eadventure.common.model.variables.impl.operations;
+package es.eucm.eadventure.engine.core.operators.impl;
 
-import es.eucm.eadventure.common.interfaces.Element;
-import es.eucm.eadventure.common.interfaces.Param;
-import es.eucm.eadventure.common.model.variables.impl.EAdOperationImpl;
+import com.google.inject.Inject;
 
-/**
- * 
- * An assign operation. Assigns a given value to the variable
- * 
- */
-@Element(runtime = AssignOperation.class, detailed = AssignOperation.class)
-public class AssignOperation extends EAdOperationImpl {
+import es.eucm.eadventure.common.interfaces.ReflectionProvider;
+import es.eucm.eadventure.common.model.variables.impl.operations.ValueOperation;
+import es.eucm.eadventure.engine.core.operator.Operator;
 
-	@Param("value")
-	private Object value;
+public class ValueOperator implements Operator<ValueOperation> {
 
-	public AssignOperation(String id) {
-		super(id);
+	private ReflectionProvider reflectionProvider;
+	
+	@Inject
+	public ValueOperator(ReflectionProvider reflectionProvider) {
+		this.reflectionProvider = reflectionProvider;
 	}
+	
+	@SuppressWarnings("unchecked")
+	@Override
+	public <S> S operate(Class<S> clazz, ValueOperation operation) {
+		if (reflectionProvider.isAssignableFrom(clazz, operation.getValue().getClass())) {
+			return (S) operation.getValue();
+		}
+		return null;
 
-	/**
-	 * Creates an assign operation
-	 * 
-	 * @param id
-	 *            the id
-	 * @param value
-	 *            the value to be assigned
-	 */
-	public AssignOperation(String id, Object value) {
-		super(id);
-		this.value = value;
-	}
-
-	public AssignOperation(Object o) {
-		this("assignOperation", o);
-	}
-
-	/**
-	 * Returns the value to be assigned
-	 * 
-	 * @return
-	 */
-	public Object getValue() {
-		return value;
 	}
 
 }

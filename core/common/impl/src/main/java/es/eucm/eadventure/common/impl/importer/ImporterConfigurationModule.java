@@ -54,6 +54,7 @@ import es.eucm.eadventure.common.data.chapter.Timer;
 import es.eucm.eadventure.common.data.chapter.Trajectory;
 import es.eucm.eadventure.common.data.chapter.book.Book;
 import es.eucm.eadventure.common.data.chapter.conditions.Conditions;
+import es.eucm.eadventure.common.data.chapter.conditions.FlagCondition;
 import es.eucm.eadventure.common.data.chapter.conversation.Conversation;
 import es.eucm.eadventure.common.data.chapter.conversation.GraphConversation;
 import es.eucm.eadventure.common.data.chapter.conversation.line.ConversationLine;
@@ -104,8 +105,7 @@ import es.eucm.eadventure.common.impl.importer.subimporters.effects.EffectsImpor
 import es.eucm.eadventure.common.impl.importer.subimporters.macros.MacroImporter;
 import es.eucm.eadventure.common.loader.InputStreamCreator;
 import es.eucm.eadventure.common.model.actions.EAdAction;
-import es.eucm.eadventure.common.model.conditions.impl.FlagCondition;
-import es.eucm.eadventure.common.model.conditions.impl.VarCondition;
+import es.eucm.eadventure.common.model.conditions.impl.OperationCondition;
 import es.eucm.eadventure.common.model.effects.EAdEffect;
 import es.eucm.eadventure.common.model.effects.EAdMacro;
 import es.eucm.eadventure.common.model.effects.impl.EAdTriggerMacro;
@@ -227,14 +227,14 @@ public class ImporterConfigurationModule extends AbstractModule {
 		EAdElementFactoryImpl.importerMap.put(Exit.class, ExitImporter.class);
 
 		bind(
-				new TypeLiteral<EAdElementImporter<es.eucm.eadventure.common.data.chapter.conditions.FlagCondition, FlagCondition>>() {
+				new TypeLiteral<EAdElementImporter<FlagCondition, OperationCondition>>() {
 				}).to(FlagConditionImporter.class);
 		EAdElementFactoryImpl.importerMap
 				.put(es.eucm.eadventure.common.data.chapter.conditions.FlagCondition.class,
 						FlagConditionImporter.class);
 
 		bind(
-				new TypeLiteral<EAdElementImporter<es.eucm.eadventure.common.data.chapter.conditions.VarCondition, VarCondition>>() {
+				new TypeLiteral<EAdElementImporter<es.eucm.eadventure.common.data.chapter.conditions.VarCondition, OperationCondition>>() {
 				}).to(VarConditionImporter.class);
 		EAdElementFactoryImpl.importerMap
 				.put(es.eucm.eadventure.common.data.chapter.conditions.VarCondition.class,

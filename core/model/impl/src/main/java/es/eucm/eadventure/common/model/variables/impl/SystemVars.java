@@ -11,6 +11,12 @@ public class SystemVars {
 	public static final EAdVarDef<Integer> MOUSE_Y = new EAdVarDefImpl<Integer>(
 			"mouse_y", Integer.class, 0);
 
+	public static final EAdVarDef<Integer> GUI_WIDTH = new EAdVarDefImpl<Integer>(
+			"gui_width", Integer.class, 800);
+
+	public static final EAdVarDef<Integer> GUI_HEIGHT = new EAdVarDefImpl<Integer>(
+			"gui_height", Integer.class, 600);
+
 	/**
 	 * Variable containing the active element in the game
 	 */

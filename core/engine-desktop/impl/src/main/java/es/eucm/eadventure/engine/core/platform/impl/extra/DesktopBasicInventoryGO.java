@@ -37,7 +37,6 @@
 
 package es.eucm.eadventure.engine.core.platform.impl.extra;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -45,8 +44,8 @@ import java.util.Map;
 import com.google.inject.Inject;
 
 import es.eucm.eadventure.common.model.conditions.impl.EmptyCondition;
-import es.eucm.eadventure.common.model.conditions.impl.VarCondition.Operator;
-import es.eucm.eadventure.common.model.conditions.impl.VarValCondition;
+import es.eucm.eadventure.common.model.conditions.impl.OperationCondition;
+import es.eucm.eadventure.common.model.conditions.impl.OperationCondition.Comparator;
 import es.eucm.eadventure.common.model.effects.EAdMacro;
 import es.eucm.eadventure.common.model.effects.impl.EAdActorActionsEffect;
 import es.eucm.eadventure.common.model.effects.impl.EAdChangeAppearance;
@@ -246,8 +245,8 @@ public class DesktopBasicInventoryGO extends BasicInventoryGO {
 						BooleanOperation.FALSE_OP));
 
 		EAdTriggerMacro triggerMacro = new EAdTriggerMacro(macro);
-		triggerMacro.setCondition(new VarValCondition(yField, 350,
-				Operator.GREATER));
+		triggerMacro.setCondition(new OperationCondition(yField, 350,
+				Comparator.GREATER));
 		centerSensor.addBehavior(EAdMouseEventImpl.MOUSE_MOVED, triggerMacro);
 
 		// Hide inventory top
@@ -262,8 +261,8 @@ public class DesktopBasicInventoryGO extends BasicInventoryGO {
 						BooleanOperation.FALSE_OP));
 
 		triggerMacro = new EAdTriggerMacro(macro);
-		triggerMacro.setCondition(new VarValCondition(yField, 350,
-				Operator.LESS));
+		triggerMacro.setCondition(new OperationCondition(yField, 350,
+				Comparator.LESS));
 		centerSensor.addBehavior(EAdMouseEventImpl.MOUSE_MOVED, triggerMacro);
 	}
 
