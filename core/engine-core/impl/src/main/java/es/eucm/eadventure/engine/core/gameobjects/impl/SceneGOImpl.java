@@ -50,6 +50,7 @@ import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
 import es.eucm.eadventure.common.resources.StringHandler;
 import es.eucm.eadventure.engine.core.GameState;
 import es.eucm.eadventure.engine.core.ValueMap;
+import es.eucm.eadventure.engine.core.gameobjects.GameObject;
 import es.eucm.eadventure.engine.core.gameobjects.GameObjectFactory;
 import es.eucm.eadventure.engine.core.gameobjects.SceneGO;
 import es.eucm.eadventure.engine.core.gameobjects.impl.sceneelements.SceneElementGOImpl;
@@ -126,12 +127,16 @@ public class SceneGOImpl extends SceneElementGOImpl<EAdScene> implements
 	@Override
 	public List<RuntimeAsset<?>> getAssets(List<RuntimeAsset<?>> assetList,
 			boolean allAssets) {
-		assetList = gameObjectFactory.get(element.getBackground()).getAssets(
-				assetList, allAssets);
-		for (EAdSceneElement sceneElement : element.getElements())
-			assetList = gameObjectFactory.get(sceneElement).getAssets(
-					assetList, allAssets);
-		return assetList;
+		if (element != null) {
+			EAdSceneElement background = element.getBackground();
+			GameObject<?> gameObject = gameObjectFactory.get(background);
+			assetList = gameObject.getAssets(assetList, allAssets);
+			for (EAdSceneElement sceneElement : element.getElements())
+				assetList = gameObjectFactory.get(sceneElement).getAssets(
+						assetList, allAssets);
+			return assetList;
+		}
+		return null;
 	}
 
 	@Override

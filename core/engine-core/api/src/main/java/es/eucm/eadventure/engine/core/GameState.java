@@ -151,4 +151,6 @@ public interface GameState {
 	boolean isPaused();
 
 	void setPaused(boolean paused);
+
+	void setInitialScene(EAdScene initialScene);
 }

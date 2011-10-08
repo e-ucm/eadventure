@@ -37,6 +37,9 @@
 
 package es.eucm.eadventure.engine.core.impl;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
@@ -52,17 +55,20 @@ import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.ImageImpl
 
 public class LoadingScreen extends EAdSceneImpl implements EAdScene {
 
+	private Logger logger = Logger.getLogger("LoadingScreen");
+	
 	@Param("effect")
 	private EAdChangeScene effect;
 	
 	@Inject
 	public LoadingScreen() {
 		super( "LoadingScreen");
+		logger.log(Level.INFO, "New instance");
 		
 		getBackground().getResources().addAsset(getBackground().getInitialBundle(), EAdBasicSceneElement.appearance,
 				new ImageImpl("@drawable/loading.png"));
 		EAdEvent event = new EAdSystemEventImpl("startEvent");
-		effect = new EAdChangeScene("changeScreen");
+		effect = new EAdChangeScene("LoadingChangeScreen");
 		event.addEffect(Event.GAME_LOADED, effect);
 		this.getEvents().add(event);
 	}

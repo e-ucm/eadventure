@@ -10,9 +10,13 @@ import com.google.gwt.core.client.GWT;
 import es.eucm.eadventure.common.elmentfactories.scenedemos.SceneDemos;
 import es.eucm.eadventure.common.model.elements.EAdAdventureModel;
 import es.eucm.eadventure.common.model.elements.EAdScene;
+import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
+import es.eucm.eadventure.common.model.elements.impl.EAdSceneImpl;
 import es.eucm.eadventure.common.model.elements.impl.extra.EAdCutscene;
 import es.eucm.eadventure.common.model.impl.EAdAdventureModelImpl;
 import es.eucm.eadventure.common.model.impl.EAdChapterImpl;
+import es.eucm.eadventure.common.resources.assets.drawable.basics.Image;
+import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.ImageImpl;
 import es.eucm.eadventure.engine.core.EAdEngine;
 import es.eucm.eadventure.engine.core.Game;
 import es.eucm.eadventure.engine.core.platform.GUI;
@@ -25,7 +29,7 @@ public class EAdEngineHtml extends HtmlGame {
 	@Override
 	public void start() {
 	    HtmlAssetManager assets = HtmlPlatform.register().assetManager();
-	    assets.setPathPrefix("eAd/");
+	    assets.setPathPrefix("eadengine/");
 
 	    injector.getPlatformLauncher();
 	    Game game = injector.getGame();
@@ -35,12 +39,19 @@ public class EAdEngineHtml extends HtmlGame {
 		EAdChapterImpl chapter = new EAdChapterImpl("chapter1");
 
 		model.getChapters().add(chapter);
+		EAdScene s = new EAdSceneImpl("scene");
+		Image i = new ImageImpl("@drawable/background1.png");
+		s.getBackground().getResources().addAsset(s.getBackground().getInitialBundle(),
+				EAdBasicSceneElement.appearance, i);
+/*
+		getBackground().getResources().addAsset(getBackground().getInitialBundle(), EAdBasicSceneElement.appearance,
+				new ImageImpl("@drawable/loading.png"));
+*/
+		chapter.getScenes().add(s);
+		chapter.setInitialScene(s);
+	    
 		game.setGame(model, chapter);
 
-		EAdScene s = new EAdCutscene("scene");
-		chapter.getScenes().add(s);
-		chapter.setInitialScene(chapter.getScenes().get(0));
-	    
 	    GUI gui = injector.getGUI();
 
 	    PlayN.run(new EAdEngine(game, gui, injector.getAssetHandler()));

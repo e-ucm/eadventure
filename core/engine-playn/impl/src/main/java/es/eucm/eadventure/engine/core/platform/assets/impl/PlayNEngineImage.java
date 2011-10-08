@@ -103,8 +103,13 @@ public class PlayNEngineImage extends RuntimeImage {
 		if (image == null && assetHandler != null) {
 			try {
 				image = eAdEngine.getImage(assetHandler.getAbsolutePath(descriptor.getURI().getPath()));
-				logger.log(Level.INFO, "Image loaded: " + descriptor.getURI());
-				return true;
+				if (image != null) {
+					logger.log(Level.INFO, "Image loaded: " + descriptor.getURI());
+					return true;
+				} else {
+					logger.log(Level.SEVERE, "Image NOT loaded: " + descriptor.getURI());
+					return true;
+				}
 			} catch (Exception e) {
 				logger.log(Level.SEVERE, 
 						"Could not load image! " + descriptor.getURI(), e);

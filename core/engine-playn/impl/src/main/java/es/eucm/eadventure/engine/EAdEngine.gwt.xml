@@ -5,6 +5,7 @@
   <inherits name='java.util.lib'/>
   <inherits name='com.gwtent.GwtEnt'/>
   <inherits name='com.google.gwt.logging.Logging'/>
+  <inherits name='es.eucm.eadventure.Resources'/>
   
 
   <!--
@@ -25,7 +26,7 @@
   <source path='core'/>
   <source path='html'/>
 
-  <public path="resources" />
-
+<!--   <public path="../../../../../resources" />
+ -->
   <entry-point class='es.eucm.eadventure.engine.html.EAdEngineHtml'/>
 </module>

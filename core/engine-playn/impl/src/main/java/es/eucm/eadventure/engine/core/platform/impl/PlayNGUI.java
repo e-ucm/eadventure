@@ -157,8 +157,6 @@ public class PlayNGUI extends AbstractGUI<Canvas> implements GUI {
 	 */
 	@Override
 	public void commit(final float interpolation) {
-		PlayN.log().debug("PlayNGUI: commit");
-
 		processInput();
 
 		if (currentComponent != null)

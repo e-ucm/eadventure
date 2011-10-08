@@ -287,4 +287,9 @@ public class GameStateImpl implements GameState {
 		valueMap.setValue(SystemVars.ACTIVE_ELEMENT, activeElement);
 	}
 
+	@Override
+	public void setInitialScene(EAdScene initialScene) {
+		((LoadingScreen) loadingScreen).setInitialScreen(initialScene);
+	}
+
 }

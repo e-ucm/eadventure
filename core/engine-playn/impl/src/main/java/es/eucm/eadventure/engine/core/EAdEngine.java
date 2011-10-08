@@ -8,6 +8,7 @@ import com.google.inject.Inject;
 
 import es.eucm.eadventure.engine.core.platform.AssetHandler;
 import es.eucm.eadventure.engine.core.platform.GUI;
+import es.eucm.eadventure.engine.core.platform.impl.AbstractAssetHandler;
 import es.eucm.eadventure.engine.core.platform.impl.PlayNAssetHandler;
 import es.eucm.eadventure.engine.core.platform.impl.PlayNGUI;
 
@@ -29,12 +30,15 @@ public class EAdEngine implements playn.core.Game, Keyboard.Listener {
 	
 	private GUI gui;
 	
+	private AssetHandler assetHandler;
+	
 	private static final Logger logger = Logger.getLogger("EAdEngine");
 
 	@Inject
 	public EAdEngine(Game game, GUI gui, AssetHandler assetHandler) {
 		this.game = game;
 		this.gui = gui;
+		this.assetHandler = assetHandler;
 		((PlayNAssetHandler) assetHandler).setEngine(this);
 	}
 	
@@ -99,8 +103,9 @@ public class EAdEngine implements playn.core.Game, Keyboard.Listener {
 	
 	@Override
 	public void update(float delta) {
-		if (updateCont % 60 == 0)
+		if (updateCont % 60 == 0) {
 			PlayN.log().debug("EAdEngine: update " + (updateCont - completeUpdate));
+		}
 		updateCont++;
 		game.update();
 		completeUpdate++;
@@ -117,7 +122,6 @@ public class EAdEngine implements playn.core.Game, Keyboard.Listener {
 
 	@Override
 	public void paint(float alpha) {
-		PlayN.log().debug("EAdEngine: paint");
 		game.render(alpha);
 	}
 

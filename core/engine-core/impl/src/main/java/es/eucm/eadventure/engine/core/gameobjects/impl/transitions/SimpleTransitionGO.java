@@ -180,9 +180,11 @@ public class SimpleTransitionGO extends SceneGOImpl implements TransitionGO {
 			List<RuntimeAsset<?>> oldAssetList = new ArrayList<RuntimeAsset<?>>();
 			oldAssetList = previousSceneGO.getAssets(oldAssetList, true);
 			// unload unnecessary assets
-			for (RuntimeAsset<?> asset : oldAssetList) {
-				if (asset != null && !newAssetList.contains(asset)) {
-					asset.freeMemory();
+			if (oldAssetList != null) {
+				for (RuntimeAsset<?> asset : oldAssetList) {
+					if (asset != null && newAssetList != null && !newAssetList.contains(asset)) {
+						asset.freeMemory();
+					}
 				}
 			}
 			System.gc();

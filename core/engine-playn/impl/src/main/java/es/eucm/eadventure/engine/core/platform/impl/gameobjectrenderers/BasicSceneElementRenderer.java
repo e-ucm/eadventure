@@ -82,19 +82,15 @@ public class BasicSceneElementRenderer implements
 	@Override
 	public void render(Canvas g, SceneElementGO<?> basicSceneElement,
 			EAdTransformation t) {
-		Canvas g2 = prepareGraphics( g, basicSceneElement );
-//		factory.render(g2, basicSceneElement.getRenderAsset(), basicSceneElement.getPosition(), basicSceneElement.getScale(), offsetX, offsetY);
+		Canvas g2 = prepareGraphics( g, basicSceneElement, t );
+		factory.render(g2, basicSceneElement.getRenderAsset());
 	}
 	
-	protected Canvas prepareGraphics( Canvas g, SceneElementGO<?> basicSceneElement ){
-		/* FIXME for PlayN
-		Graphics2D g2 = (Graphics2D) g.create();
-		double centerX = basicSceneElement.getPosition().getJavaX(basicSceneElement.getWidth()) + basicSceneElement.getWidth() / 2;
-		double centerY = basicSceneElement.getPosition().getJavaY(basicSceneElement.getHeight()) + basicSceneElement.getHeight() / 2;
-		g2.rotate(basicSceneElement.getRotation(), centerX, centerY);
-		g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, basicSceneElement.getAlpha()));
-		return g2;
-		*/
+	protected Canvas prepareGraphics( Canvas g, SceneElementGO<?> basicSceneElement, EAdTransformation t ){
+		float[] m = t.getMatrix().getFlatMatrix();
+		g.setTransform(m[0], m[1], m[3], m[4], t.getMatrix().getOffsetX(), t.getMatrix().getOffsetY());
+		//TODO
+		//	g.setCompositeOperation(composite)
 		return g;
 	}
 

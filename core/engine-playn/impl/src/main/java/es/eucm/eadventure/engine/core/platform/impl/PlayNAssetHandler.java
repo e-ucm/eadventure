@@ -44,6 +44,8 @@ public class PlayNAssetHandler extends AbstractAssetHandler {
 	@Override
 	public void initilize() {
 		// TODO Auto-generated method stub
+		
+		setLoaded(true);
 
 	}
 
@@ -55,7 +57,7 @@ public class PlayNAssetHandler extends AbstractAssetHandler {
 
 	@Override
 	public String getAbsolutePath(String uri) {
-		return "peaglow.png";
+		return uri.replaceAll("@", "");
 	}
 
 	@Override

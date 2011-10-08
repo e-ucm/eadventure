@@ -261,6 +261,7 @@ public class GameImpl implements Game {
 	public void setGame(EAdAdventureModel model, EAdChapter eAdChapter) {
 		this.adventure = model;
 		gameState.setCurrentChapter(eAdChapter);
+		gameState.setInitialScene(eAdChapter.getInitialScene());
 	}
 
 }
