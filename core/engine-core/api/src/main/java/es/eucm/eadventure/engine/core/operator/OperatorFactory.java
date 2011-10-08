@@ -37,6 +37,7 @@
 
 package es.eucm.eadventure.engine.core.operator;
 
+import es.eucm.eadventure.common.interfaces.Factory;
 import es.eucm.eadventure.common.model.variables.EAdField;
 import es.eucm.eadventure.common.model.variables.EAdOperation;
 import es.eucm.eadventure.engine.core.ValueMap;
@@ -44,7 +45,7 @@ import es.eucm.eadventure.engine.core.ValueMap;
 /**
  * A factory with all {@link Operator} for all {@link EAdOperation}.
  */
-public interface OperatorFactory {
+public interface OperatorFactory extends Factory<Operator<?>> {
 
 	/**
 	 * <p>

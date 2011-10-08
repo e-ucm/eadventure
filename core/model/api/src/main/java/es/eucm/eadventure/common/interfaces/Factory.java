@@ -58,4 +58,6 @@ public interface Factory<T> {
 	 */
 	T get(Class<?> object);
 
+	void setMap(MapProvider<Class<?>, T> mapProvider);
+
 }

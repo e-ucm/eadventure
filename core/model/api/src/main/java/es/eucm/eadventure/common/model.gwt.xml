@@ -20,5 +20,6 @@
   <source path='resources' />
   <source path='params' />
   <source path='impl'/>
+  <source path='predef'/>
 
 </module>

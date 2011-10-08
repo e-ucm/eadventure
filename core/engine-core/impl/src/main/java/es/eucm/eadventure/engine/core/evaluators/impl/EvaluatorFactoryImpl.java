@@ -62,10 +62,6 @@ public class EvaluatorFactoryImpl extends AbstractFactory<Evaluator<?>> implemen
 		super(mapProvider, interfacesProvider);
 	}
 	
-	public void setMap(MapProvider<Class<?>, Evaluator<?>> mapProvider) {
-		this.map = mapProvider.getMap();
-	}
-
 	@SuppressWarnings("unchecked")
 	@Override
 	public <T extends EAdCondition> boolean evaluate(T condition) {

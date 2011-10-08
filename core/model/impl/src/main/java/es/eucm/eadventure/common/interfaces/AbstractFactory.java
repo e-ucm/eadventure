@@ -68,6 +68,11 @@ public abstract class AbstractFactory<T> implements Factory<T> {
 	}
 	
 	@Override
+	public void setMap(MapProvider<Class<?>, T> mapProvider) {
+		this.map = mapProvider.getMap();
+	}
+
+	@Override
 	public T get(Class<?> object) {
 		T element = map.get(object);
 		if (element == null) {

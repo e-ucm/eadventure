@@ -45,8 +45,6 @@ import java.util.Map;
 import com.google.inject.Inject;
 
 import es.eucm.eadventure.common.model.conditions.impl.EmptyCondition;
-import es.eucm.eadventure.common.model.conditions.impl.VarCondition.Operator;
-import es.eucm.eadventure.common.model.conditions.impl.VarValCondition;
 import es.eucm.eadventure.common.model.effects.EAdMacro;
 import es.eucm.eadventure.common.model.effects.impl.EAdActorActionsEffect;
 import es.eucm.eadventure.common.model.effects.impl.EAdChangeAppearance;
@@ -241,7 +239,7 @@ public class PlayNBasicInventoryGO extends BasicInventoryGO {
 		macro.getEffects().add(
 				new EAdChangeFieldValueEffect("id", visibleField,
 						BooleanOperation.FALSE_OP));
-
+/*FIXME not working in PlayN
 		EAdTriggerMacro triggerMacro = new EAdTriggerMacro(macro);
 		triggerMacro.setCondition(new VarValCondition(yField, 350,
 				Operator.GREATER));
@@ -261,7 +259,7 @@ public class PlayNBasicInventoryGO extends BasicInventoryGO {
 		triggerMacro = new EAdTriggerMacro(macro);
 		triggerMacro.setCondition(new VarValCondition(yField, 350,
 				Operator.LESS));
-		centerSensor.addBehavior(EAdMouseEventImpl.MOUSE_MOVED, triggerMacro);
+		centerSensor.addBehavior(EAdMouseEventImpl.MOUSE_MOVED, triggerMacro); */
 	}
 
 	/**

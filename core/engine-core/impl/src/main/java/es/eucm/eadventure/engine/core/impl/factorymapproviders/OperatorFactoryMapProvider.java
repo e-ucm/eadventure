@@ -77,11 +77,11 @@ public class OperatorFactoryMapProvider extends AbstractMapProvider<Class<?>, Op
 		this.evaluatorFactory = evaluatorFactory;
 		this.reflectionProvider = reflectionProvider;
 	}
-	
+
 	@Override
 	public Map<Class<?>, Operator<?>> getMap() {
-		logger.log(Level.SEVERE, "Must call getMap(ValueMap), not getMap()");
-		throw new EAdRuntimeException("Must call getMap(ValueMap), not getMap()");
+		logger.log(Level.SEVERE, "Must call getMap(ValueMap, EvaluatorFactory), not getMap()");
+		throw new EAdRuntimeException("Must call getMap(ValueMap, EvaluatorFactory), not getMap()");
 	}
 	
 	public Map<Class<?>, Operator<?>> getMap(ValueMap valueMap) {
