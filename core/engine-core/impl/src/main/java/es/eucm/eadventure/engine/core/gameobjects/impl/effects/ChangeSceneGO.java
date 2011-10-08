@@ -66,7 +66,8 @@ public class ChangeSceneGO extends AbstractEffectGO<EAdChangeScene> {
 
 		
 	@Override
-	public void update() {
+	public void initilize() {
+		super.initilize();
 		TransitionGO transition = transitionFactory.getTransition(element.getTransition());
 		if (element.getNextScene() != null)
 			transition.setNext(element.getNextScene());
@@ -75,7 +76,6 @@ public class ChangeSceneGO extends AbstractEffectGO<EAdChangeScene> {
 		transition.setPrevious(gameState.getScene());
 		
 		gameState.setScene(transition);
-		//valueMap.clean();
 	}
 
 	@Override

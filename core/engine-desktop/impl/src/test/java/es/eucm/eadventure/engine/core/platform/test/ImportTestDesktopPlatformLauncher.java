@@ -60,7 +60,6 @@ import es.eucm.eadventure.common.resources.StringHandler;
 import es.eucm.eadventure.engine.core.Game;
 import es.eucm.eadventure.engine.core.debuggers.impl.EAdMainDebugger;
 import es.eucm.eadventure.engine.core.debuggers.impl.TrajectoryDebugger;
-import es.eucm.eadventure.engine.core.impl.LoadingScreen;
 import es.eucm.eadventure.engine.core.impl.modules.BasicGameModule;
 import es.eucm.eadventure.engine.core.platform.AssetHandler;
 import es.eucm.eadventure.engine.core.platform.PlatformConfiguration;
@@ -174,9 +173,9 @@ public class ImportTestDesktopPlatformLauncher {
 				screen = model.getChapters().get(0).getInitialScene();
 				injector.getInstance(StringHandler.class).setString(
 						new EAdString("Loading"), "loading");
-				LoadingScreen loadingScreen = injector
-						.getInstance(LoadingScreen.class);
-				loadingScreen.setInitialScreen(screen);
+//				LoadingScreen loadingScreen = injector
+//						.getInstance(LoadingScreen.class);
+//				loadingScreen.setInitialScreen(screen);
 
 				Game game = injector.getInstance(Game.class);
 				game.setGame(model, model.getChapters().get(0));
