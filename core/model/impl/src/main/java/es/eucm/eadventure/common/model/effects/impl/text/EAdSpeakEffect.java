@@ -71,6 +71,7 @@ public class EAdSpeakEffect extends AbstractEAdEffect {
 		font = EAdFontImpl.REGULAR;
 		ballonType = BalloonType.RECTANGLE;
 		string = EAdString.newEAdString("string");
+		setQueueable(true);
 	}
 
 	/**
