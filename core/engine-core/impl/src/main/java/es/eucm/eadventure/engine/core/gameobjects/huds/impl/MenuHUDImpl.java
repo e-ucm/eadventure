@@ -167,5 +167,10 @@ public abstract class MenuHUDImpl implements MenuHUD {
 	public EAdTransformation getTransformation() {
 		return EAdTransformationImpl.INITIAL_TRANSFORMATION;
 	}
+	
+	@Override
+	public boolean isEnable() {
+		return true;
+	}
 
 }

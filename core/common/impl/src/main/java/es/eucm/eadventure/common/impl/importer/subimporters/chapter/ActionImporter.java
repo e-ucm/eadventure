@@ -82,7 +82,7 @@ public class ActionImporter implements EAdElementImporter<Action, EAdAction> {
 	 */
 	private ResourceImporter resourceImporter;
 
-	public static final String DRAWABLE_PATH = "@drawable/";
+	public static final String DRAWABLE_PATH = "@" + ResourceImporter.DRAWABLE;
 
 	@Inject
 	public ActionImporter(StringHandler stringHandler,
@@ -209,22 +209,30 @@ public class ActionImporter implements EAdElementImporter<Action, EAdAction> {
 		String image = null;
 		switch (actionType) {
 		case Action.DRAG_TO:
+			image = "drag-normal.png";
+			break;
 		case Action.GIVE_TO:
+			image = "giveto-normal.png";
+			break;
 		case Action.GRAB:
+			image = "grab-normal.png";
+			break;
 		case Action.USE:
+			image = "use-normal.png";
+			break;
 		case Action.USE_WITH:
-			image = "olddefaults/btnHand.png";
+			image = "usewith-normal.png";
 			break;
 		case Action.EXAMINE:
-			image = "olddefaults/btnEye.png";
+			image = "examine-normal.png";
 			break;
 		case Action.TALK_TO:
-			image = "olddefaults/btnMouth.png";
+			image = "talk-normal.png";
 			break;
 		default:
-			image = "olddefaults/btnError.png";
+			image = "use-normal.png";
 		}
-		image = DRAWABLE_PATH + image;
+		image = DRAWABLE_PATH + "/" + image;
 
 		return image;
 	}
@@ -261,22 +269,30 @@ public class ActionImporter implements EAdElementImporter<Action, EAdAction> {
 		String image = null;
 		switch (actionType) {
 		case Action.DRAG_TO:
+			image = "drag-pressed.png";
+			break;
 		case Action.GIVE_TO:
+			image = "giveto-pressed.png";
+			break;
 		case Action.GRAB:
+			image = "grab-pressed.png";
+			break;
 		case Action.USE:
+			image = "use-pressed.png";
+			break;
 		case Action.USE_WITH:
-			image = "olddefaults/btnHandHighlighted.png";
+			image = "usewith-pressed.png";
 			break;
 		case Action.EXAMINE:
-			image = "olddefaults/btnEyeHighlighted.png";
+			image = "examine-pressed.png";
 			break;
 		case Action.TALK_TO:
-			image = "olddefaults/btnMouthHighlighted.png";
+			image = "talk-pressed.png";
 			break;
 		default:
-			image = "olddefaults/btnError.png";
+			image = "use-pressed.png";
 		}
-		image = DRAWABLE_PATH + image;
+		image = DRAWABLE_PATH + "/" + image;
 
 		return image;
 

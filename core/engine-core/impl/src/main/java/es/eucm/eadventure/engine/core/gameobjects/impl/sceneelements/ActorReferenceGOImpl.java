@@ -110,7 +110,8 @@ public class ActorReferenceGOImpl extends SceneElementGOImpl<EAdActorReference>
 		this.actor = (ActorGO) gameObjectFactory.get(actorReference
 				.getReferencedActor());
 		super.setElement(actorReference);
-		valueMap.setValue(actorReference, EAdBasicSceneElement.VAR_NAME, actor.getName());
+		valueMap.setValue(actorReference, EAdBasicSceneElement.VAR_NAME,
+				actor.getName());
 		// To update width and height
 		getRenderAsset();
 	}
@@ -140,15 +141,15 @@ public class ActorReferenceGOImpl extends SceneElementGOImpl<EAdActorReference>
 			actor.update();
 		}
 	}
-	
-	public AssetDescriptor getCurrentAssetDescriptor(){
+
+	public AssetDescriptor getCurrentAssetDescriptor() {
 		AssetDescriptor a = actor
 				.getElement()
 				.getResources()
 				.getAsset(((ActorGOImpl) actor).getCurrentBundle(),
 						EAdBasicActor.appearance);
-		
-		return getCurrentAssetDescriptor( a );
+
+		return getCurrentAssetDescriptor(a);
 	}
 
 	@Override

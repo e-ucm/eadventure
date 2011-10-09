@@ -113,4 +113,8 @@ public abstract class GameObjectImpl<T extends EAdElement> implements
 			boolean allAssets) {
 		return assetList;
 	}
+	
+	public boolean isEnable(){
+		return false;
+	}
 }

@@ -220,8 +220,8 @@ public abstract class AbstractGUI<T> implements GUI {
 				MouseActionImpl exitAction = new MouseActionImpl(
 						EAdMouseEventImpl.MOUSE_EXITED, x, y);
 				oldGO.processAction(exitAction);
-		
-				if ( draggedGO != null ){
+
+				if (draggedGO != null) {
 					DragActionImpl action = new DragActionImpl(
 							(EAdElement) draggedGO.getElement(),
 							DragAction.EXITED, x, y);
@@ -233,7 +233,7 @@ public abstract class AbstractGUI<T> implements GUI {
 				MouseActionImpl enterAction = new MouseActionImpl(
 						EAdMouseEventImpl.MOUSE_ENTERED, x, y);
 				currentGO.processAction(enterAction);
-				if ( draggedGO != null ){
+				if (draggedGO != null) {
 					DragActionImpl action = new DragActionImpl(
 							(EAdElement) draggedGO.getElement(),
 							DragAction.ENTERED, x, y);
@@ -298,10 +298,8 @@ public abstract class AbstractGUI<T> implements GUI {
 				if (tempGameObject != mouseState.getDraggingGameObject()) {
 					EAdTransformation t = gameObjects.getTransformations().get(
 							i);
-					float[] mouse = t.getMatrix().postMultiplyPointInverse(
-							mouseState.getMouseX(), mouseState.getMouseY());
-					if (graphicRendererFactory.contains(tempGameObject,
-							(int) mouse[0], (int) mouse[1])) {
+					if (contains(tempGameObject, mouseState.getMouseX(),
+							mouseState.getMouseY(), t)) {
 						return tempGameObject;
 					}
 				}
@@ -320,24 +318,28 @@ public abstract class AbstractGUI<T> implements GUI {
 						.size() > MAX_EVENTS_IN_QUEUE)) {
 			j++;
 			MouseAction action = mouseState.getMouseEvents().poll();
-
 			for (int i = gameObjects.getGameObjects().size() - 1; i >= 0; i--) {
 				GameObject<?> gameObject = gameObjects.getGameObjects().get(i);
 				EAdTransformation t = gameObjects.getTransformations().get(i);
-				float[] mouse = t.getMatrix().postMultiplyPointInverse(
-						action.getVirtualX(), action.getVirtualY());
-				if (graphicRendererFactory.contains(gameObject, (int) mouse[0],
-						(int) mouse[1])) {
-					logger.info("Action "
-							+ action
-							+ " passed to "
-							+ (gameObject.getElement() != null ? gameObject
-									.getElement().toString() : ""));
+				if (contains(gameObject, action.getVirtualX(),
+						action.getVirtualY(), t)) {
+					logger.info("Action " + action + " passed to "
+							+ (gameObject.getElement() + ""));
 					gameObject.processAction(action);
 				}
 				if (action.isConsumed())
 					break;
 			}
+		}
+	}
+
+	private boolean contains(GameObject<?> go, int x, int y, EAdTransformation t) {
+		if (go.isEnable()) {
+			float[] mouse = t.getMatrix().postMultiplyPointInverse(x, y);
+			return graphicRendererFactory.contains(go, (int) mouse[0],
+					(int) mouse[1]);
+		} else {
+			return false;
 		}
 	}
 

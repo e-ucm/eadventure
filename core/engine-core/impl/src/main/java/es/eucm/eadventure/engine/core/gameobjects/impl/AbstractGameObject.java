@@ -108,5 +108,9 @@ public abstract class AbstractGameObject<T extends EAdGeneralElement> extends
 	public String toString() {
 		return element + " GO";
 	}
+	
+	public boolean isEnable(){
+		return true;
+	}
 
 }

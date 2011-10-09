@@ -52,7 +52,6 @@ import es.eucm.eadventure.common.model.elements.test.BasicSceneFactoryTest;
 import es.eucm.eadventure.common.model.elements.test.VideoSceneFactoryTest;
 import es.eucm.eadventure.common.model.guievents.impl.EAdMouseEventImpl;
 import es.eucm.eadventure.common.model.transitions.EAdTransition;
-import es.eucm.eadventure.common.params.EAdString;
 import es.eucm.eadventure.common.params.EAdURI;
 import es.eucm.eadventure.common.params.geom.impl.EAdPositionImpl;
 import es.eucm.eadventure.common.resources.StringHandler;

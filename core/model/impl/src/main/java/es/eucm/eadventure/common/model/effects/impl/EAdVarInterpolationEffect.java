@@ -153,6 +153,7 @@ public class EAdVarInterpolationEffect extends AbstractEAdEffect {
 			MathOperation initialValue,
 			MathOperation endValue, int time, LoopType loop,
 			InterpolationType interpolationType) {
+		this.setQueueable(true);
 		this.var = var;
 		this.initialValue = initialValue;
 		this.endValue = endValue;

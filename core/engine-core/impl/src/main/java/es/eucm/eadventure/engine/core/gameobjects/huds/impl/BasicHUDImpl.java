@@ -47,7 +47,7 @@ import com.google.inject.Singleton;
 import es.eucm.eadventure.common.model.EAdElement;
 import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
 import es.eucm.eadventure.common.model.guievents.EAdKeyEvent.KeyCode;
-import es.eucm.eadventure.common.model.variables.impl.SystemVars;
+import es.eucm.eadventure.common.model.variables.impl.SystemFields;
 import es.eucm.eadventure.common.params.EAdFontImpl;
 import es.eucm.eadventure.common.params.EAdString;
 import es.eucm.eadventure.common.params.fills.impl.EAdColor;
@@ -221,8 +221,8 @@ public class BasicHUDImpl implements BasicHUD {
 
 				cgo.getRenderAsset().update();
 
-				int mouseX = valueMap.getValue(null, SystemVars.MOUSE_X);
-				int mouseY = valueMap.getValue(null, SystemVars.MOUSE_Y) - 40;
+				int mouseX = valueMap.getValue(SystemFields.MOUSE_X);
+				int mouseY = valueMap.getValue(SystemFields.MOUSE_Y) - 40;
 
 				valueMap.setValue(contextual, EAdBasicSceneElement.VAR_X,
 						mouseX);
@@ -267,6 +267,11 @@ public class BasicHUDImpl implements BasicHUD {
 	@Override
 	public EAdTransformation getTransformation() {
 		return EAdTransformationImpl.INITIAL_TRANSFORMATION;
+	}
+	
+	@Override
+	public boolean isEnable() {
+		return true;
 	}
 
 }

@@ -60,7 +60,7 @@ public class EAdFieldImpl<T> implements EAdField<T> {
 	}
 	
 	public String toString(){
-		return this.element.getId() + "." + varDef.getName(); 
+		return element + "." + varDef.getName(); 
 	}
 
 }

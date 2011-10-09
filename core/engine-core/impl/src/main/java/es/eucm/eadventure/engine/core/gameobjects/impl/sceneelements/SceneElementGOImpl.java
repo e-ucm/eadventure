@@ -96,6 +96,8 @@ public abstract class SceneElementGOImpl<T extends EAdSceneElement> extends
 
 	protected boolean visible;
 
+	protected boolean enable;
+
 	@Inject
 	public SceneElementGOImpl(AssetHandler assetHandler,
 			StringHandler stringHandler, GameObjectFactory gameObjectFactory,
@@ -144,6 +146,7 @@ public abstract class SceneElementGOImpl<T extends EAdSceneElement> extends
 	 * Read vars values
 	 */
 	protected void updateVars() {
+		enable = valueMap.getValue(element, EAdBasicSceneElement.VAR_ENABLE);
 		visible = valueMap.getValue(element, EAdBasicSceneElement.VAR_VISIBLE);
 		rotation = valueMap
 				.getValue(element, EAdBasicSceneElement.VAR_ROTATION);
@@ -415,6 +418,10 @@ public abstract class SceneElementGOImpl<T extends EAdSceneElement> extends
 
 	public float getScale() {
 		return scale;
+	}
+	
+	public boolean isEnable(){
+		return enable;
 	}
 
 }

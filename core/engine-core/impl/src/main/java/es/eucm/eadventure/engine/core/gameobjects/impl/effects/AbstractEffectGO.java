@@ -126,5 +126,9 @@ public abstract class AbstractEffectGO<P extends EAdEffect> extends
 	public void setGUIAction(GUIAction action) {
 		this.action = action;
 	}
+	
+	public String toString(){
+		return "GO " + element;
+	}
 
 }
