@@ -35,47 +35,43 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package es.eucm.eadventure.engine.core.platform;
+package es.eucm.eadventure.common.elementfactories.assets;
 
-import com.google.inject.Inject;
-
+import es.eucm.eadventure.common.elementfactories.EAdElementsFactory;
+import es.eucm.eadventure.common.params.EAdFill;
 import es.eucm.eadventure.common.params.EAdFont;
 import es.eucm.eadventure.common.params.EAdFontImpl;
-import es.eucm.eadventure.common.params.geom.impl.EAdRectangleImpl;
-import es.eucm.eadventure.engine.core.platform.impl.FontCacheImpl;
+import es.eucm.eadventure.common.params.EAdURIImpl;
+import es.eucm.eadventure.common.params.fills.impl.EAdBorderedColor;
+import es.eucm.eadventure.common.params.fills.impl.EAdColor;
+import es.eucm.eadventure.common.params.fills.impl.EAdLinearGradient;
+import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.CaptionImpl;
 
-public class TestFontCache extends FontCacheImpl {
+public class CaptionFactory {
+	
+	private EAdFill fill = new EAdLinearGradient(EAdColor.WHITE, EAdColor.LIGHT_GRAY);
+	
+	private EAdFont droidFont = new EAdFontImpl( new EAdURIImpl( "@binary/DroidSans-Bold.ttf"), 20);
 
-	@Inject
-	public TestFontCache() {
-		super(); 
+	public CaptionImpl createCaption(String text, EAdFill textFill,
+			EAdFill bubbleFill, EAdFont font) {
+		CaptionImpl caption = new CaptionImpl();
+		EAdElementsFactory.getInstance().getStringFactory().setString(caption.getText(), text);
+
+		caption.setTextColor(textFill);
+		caption.setBubbleColor(bubbleFill);
+		caption.setFont(font);
+		return caption;
+
 	}
 
-	@Override
-	public void addEAdFont(EAdFont font) {
-		this.fontCache.put(font, new RuntimeFont(){
+	public CaptionImpl createCaption(String text, EAdFill textFill,
+			EAdFill bubbleFill) {
+		return createCaption(text, textFill, bubbleFill, droidFont );
+	}
 
-			@Override
-			public EAdFontImpl getEAdFont() {
-				return null;
-			}
-
-			@Override
-			public int stringWidth(String string) {
-				return string.length();
-			}
-
-			@Override
-			public int lineHeight() {
-				return 1;
-			}
-
-			@Override
-			public EAdRectangleImpl stringBounds(String string) {
-				return new EAdRectangleImpl( 0, -1, string.length(), 1 );
-			}
-			
-		});
+	public CaptionImpl createCaption(String text) {
+		return createCaption(text, EAdBorderedColor.WHITE_ON_BLACK, fill );
 	}
 
 }

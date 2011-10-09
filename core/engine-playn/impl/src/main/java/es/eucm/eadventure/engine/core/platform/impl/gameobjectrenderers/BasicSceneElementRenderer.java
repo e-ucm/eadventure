@@ -88,7 +88,7 @@ public class BasicSceneElementRenderer implements
 	
 	protected Canvas prepareGraphics( Canvas g, SceneElementGO<?> basicSceneElement, EAdTransformation t ){
 		float[] m = t.getMatrix().getFlatMatrix();
-		g.setTransform(m[0], m[1], m[3], m[4], t.getMatrix().getOffsetX(), t.getMatrix().getOffsetY());
+		g.setTransform(m[0], m[1], m[3], m[4], m[6], m[7]);
 		//TODO
 		//	g.setCompositeOperation(composite)
 		return g;

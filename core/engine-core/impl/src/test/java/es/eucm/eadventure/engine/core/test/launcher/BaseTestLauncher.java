@@ -41,7 +41,7 @@ import java.util.Map;
 
 import com.google.inject.Injector;
 
-import es.eucm.eadventure.common.elmentfactories.EAdElementsFactory;
+import es.eucm.eadventure.common.elementfactories.EAdElementsFactory;
 import es.eucm.eadventure.common.model.elements.EAdAdventureModel;
 import es.eucm.eadventure.common.model.elements.EAdScene;
 import es.eucm.eadventure.common.model.impl.EAdAdventureModelImpl;

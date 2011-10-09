@@ -35,47 +35,59 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package es.eucm.eadventure.engine.core.platform;
+package es.eucm.eadventure.common.elementfactories.scenedemos;
 
-import com.google.inject.Inject;
+import java.util.ArrayList;
+import java.util.List;
 
-import es.eucm.eadventure.common.params.EAdFont;
-import es.eucm.eadventure.common.params.EAdFontImpl;
-import es.eucm.eadventure.common.params.geom.impl.EAdRectangleImpl;
-import es.eucm.eadventure.engine.core.platform.impl.FontCacheImpl;
+/**
+ * A class holding all scenes that can be tested
+ * 
+ */
 
-public class TestFontCache extends FontCacheImpl {
+public class SceneDemos {
 
-	@Inject
-	public TestFontCache() {
-		super(); 
+	private static SceneDemos instance;
+
+	private List<SceneDemo> sceneDemos;
+
+	private SceneDemos() {
+		sceneDemos = new ArrayList<SceneDemo>();
+		sceneDemos.add(new EmptyScene());
+		sceneDemos.add(new ShapeScene());
+		sceneDemos.add(new TextsScene());
+		sceneDemos.add(new CharacterScene());
+		sceneDemos.add(new SpeakAndMoveScene());
+		sceneDemos.add(new ComplexElementScene());
+		sceneDemos.add(new SoundScene());
+		sceneDemos.add(new DrawablesScene());
+		sceneDemos.add(new MoleGame());
+		sceneDemos.add(new ShowQuestionScene());
+		sceneDemos.add(new TrajectoriesScene());
+		sceneDemos.add(new PhysicsScene());
+		sceneDemos.add(new PhysicsScene2());
+		sceneDemos.add(new DragDropScene());
+		sceneDemos.add(new PositionScene());
+		sceneDemos.add(new DepthZScene());
+		
 	}
 
-	@Override
-	public void addEAdFont(EAdFont font) {
-		this.fontCache.put(font, new RuntimeFont(){
+	public static SceneDemos getInstance() {
+		if (instance == null)
+			instance = new SceneDemos();
+		return instance;
+	}
 
-			@Override
-			public EAdFontImpl getEAdFont() {
-				return null;
-			}
+	public List<String> getSceneDemosDescriptions() {
+		List<String> strings = new ArrayList<String>();
+		for (SceneDemo scene : sceneDemos) {
+			strings.add(scene.getDemoName() + " - " + scene.getDescription());
+		}
+		return strings;
+	}
 
-			@Override
-			public int stringWidth(String string) {
-				return string.length();
-			}
-
-			@Override
-			public int lineHeight() {
-				return 1;
-			}
-
-			@Override
-			public EAdRectangleImpl stringBounds(String string) {
-				return new EAdRectangleImpl( 0, -1, string.length(), 1 );
-			}
-			
-		});
+	public List<SceneDemo> getScenes() {
+		return sceneDemos;
 	}
 
 }

@@ -39,14 +39,13 @@ package es.eucm.eadventure.engine.core.platform.assets.impl;
 
 import es.eucm.eadventure.common.params.EAdFont;
 import es.eucm.eadventure.common.params.geom.impl.EAdRectangleImpl;
-import es.eucm.eadventure.engine.core.platform.AssetHandler;
 import es.eucm.eadventure.engine.core.platform.RuntimeFont;
 
 public class PlayNEngineFont implements RuntimeFont {
 
 	private EAdFont eadFont;
 
-	public PlayNEngineFont(EAdFont font, AssetHandler assetHandler) {
+	public PlayNEngineFont(EAdFont font) {
 		this.eadFont = font;
 	}
 

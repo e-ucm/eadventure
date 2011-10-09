@@ -53,7 +53,7 @@ import com.google.inject.AbstractModule;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 
-import es.eucm.eadventure.common.elmentfactories.scenedemos.SceneDemos;
+import es.eucm.eadventure.common.elementfactories.scenedemos.SceneDemos;
 import es.eucm.eadventure.common.impl.reader.EAdAdventureModelReader;
 import es.eucm.eadventure.common.impl.reader.subparsers.AdventureHandler;
 import es.eucm.eadventure.common.impl.writer.EAdAdventureModelWriter;

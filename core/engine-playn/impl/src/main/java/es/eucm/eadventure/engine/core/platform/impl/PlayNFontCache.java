@@ -43,7 +43,6 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 import es.eucm.eadventure.common.params.EAdFont;
-import es.eucm.eadventure.engine.core.platform.AssetHandler;
 import es.eucm.eadventure.engine.core.platform.assets.impl.PlayNEngineFont;
 
 @Singleton
@@ -53,15 +52,15 @@ public class PlayNFontCache extends FontCacheImpl {
 	.getLogger("PlayNFontCache");
 
 	@Inject
-	public PlayNFontCache(AssetHandler assetHandler) {
-		super( assetHandler );
+	public PlayNFontCache() {
+		super(  );
 		logger.info("New instance");
 	}
 	
 	@Override
 	public void addEAdFont(EAdFont font) {
 		if (!fontCache.containsKey(font)) {
-			fontCache.put(font, new PlayNEngineFont(font, assetHandler));
+			fontCache.put(font, new PlayNEngineFont(font));
 		}
 	}
 

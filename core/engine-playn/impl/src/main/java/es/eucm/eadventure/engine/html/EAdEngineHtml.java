@@ -7,7 +7,9 @@ import playn.html.HtmlPlatform;
 
 import com.google.gwt.core.client.GWT;
 
-import es.eucm.eadventure.common.elmentfactories.scenedemos.SceneDemos;
+import es.eucm.eadventure.common.elementfactories.scenedemos.CharacterScene;
+import es.eucm.eadventure.common.elementfactories.scenedemos.ComplexElementScene;
+import es.eucm.eadventure.common.elementfactories.scenedemos.SceneDemos;
 import es.eucm.eadventure.common.model.elements.EAdAdventureModel;
 import es.eucm.eadventure.common.model.elements.EAdScene;
 import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
@@ -43,12 +45,16 @@ public class EAdEngineHtml extends HtmlGame {
 		Image i = new ImageImpl("@drawable/background1.png");
 		s.getBackground().getResources().addAsset(s.getBackground().getInitialBundle(),
 				EAdBasicSceneElement.appearance, i);
+		
+		EAdScene s2 = new CharacterScene();
+		
+//		EAdScene s2 = new ComplexElementScene();
 /*
 		getBackground().getResources().addAsset(getBackground().getInitialBundle(), EAdBasicSceneElement.appearance,
 				new ImageImpl("@drawable/loading.png"));
 */
-		chapter.getScenes().add(s);
-		chapter.setInitialScene(s);
+		chapter.getScenes().add(s2);
+		chapter.setInitialScene(s2);
 	    
 		game.setGame(model, chapter);
 

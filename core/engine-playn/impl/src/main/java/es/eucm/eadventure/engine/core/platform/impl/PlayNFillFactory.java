@@ -2,6 +2,7 @@ package es.eucm.eadventure.engine.core.platform.impl;
 
 import playn.core.Canvas;
 import playn.core.Path;
+import playn.core.Gradient;
 
 import com.google.inject.Singleton;
 
@@ -10,6 +11,7 @@ import es.eucm.eadventure.common.params.fills.impl.EAdBorderedColor;
 import es.eucm.eadventure.common.params.fills.impl.EAdColor;
 import es.eucm.eadventure.common.params.fills.impl.EAdLinearGradient;
 import es.eucm.eadventure.engine.core.platform.FillFactory;
+import es.eucm.eadventure.engine.core.platform.assets.impl.PlayNEngineColor;
 
 @Singleton
 public class PlayNFillFactory implements FillFactory<Canvas, Path> {
@@ -17,32 +19,43 @@ public class PlayNFillFactory implements FillFactory<Canvas, Path> {
 	@Override
 	public void fill(EAdFill fill, Canvas graphicContext, Path shape) {
 		// FIXME this should be done in a more modular way
-		/* FIXME removed for GWT
+
 		if (fill instanceof EAdColor) {
 			if (((EAdColor) fill).getAlpha() > 0) {
 				prepareGraphics((EAdColor) fill, graphicContext);
-				graphicContext.fill(shape);
+				graphicContext.fillPath(shape);
 			}
 
 		} else if (fill instanceof EAdBorderedColor) {
 			EAdBorderedColor color = (EAdBorderedColor) fill;
 			if (color.getCenterColor().getAlpha() > 0) {
 				prepareGraphics(color.getCenterColor(), graphicContext);
-				graphicContext.fill(shape);
+				graphicContext.fillPath(shape);
 			}
 
 			if (color.getBorderColor().getAlpha() > 0) {
-				prepareGraphics(color.getBorderColor(), graphicContext);
-				graphicContext.setStroke(new BasicStroke(color.getWidth()));
-				graphicContext.draw(shape);
+				graphicContext.setStrokeColor(new PlayNEngineColor(color.getBorderColor()).getColor());
+				graphicContext.setStrokeWidth(color.getWidth());
+				graphicContext.strokePath(shape);
 			}
 		} else if (fill instanceof EAdLinearGradient) {
-			GradientPaint p = this.getGradientPaint((EAdLinearGradient) fill,
-					shape.getBounds().width, shape.getBounds().height);
-			graphicContext.setPaint(p);
-			graphicContext.fill(shape);
+			//FIXME GWT fix
+			//GradientPaint p = this.getGradientPaint((EAdLinearGradient) fill,
+			//		shape.getBounds().width, shape.getBounds().height);
+			//graphicContext.setPaint(p);
+			
+			//Gradient g = createLinearGradient();
+			//graphicContext.setFillGradient(g);
+			int color = new PlayNEngineColor(((EAdLinearGradient) fill).getColor1()).getColor();
+			graphicContext.setFillColor(color);
+			color = new PlayNEngineColor(((EAdLinearGradient) fill).getColor2()).getColor();
+			graphicContext.fillPath(shape);
+			graphicContext.setStrokeColor(color);
+			graphicContext.strokePath(shape);
+
 		}
-		*/
+		
+		
 	}
 
 	@Override
@@ -76,6 +89,7 @@ public class PlayNFillFactory implements FillFactory<Canvas, Path> {
 	}
 
 	private void prepareGraphics(EAdColor color, Canvas g2) {
+		g2.setFillColor(new PlayNEngineColor(color).getColor());
 		/* FIXME removed for GWT
 		if (color.getAlpha() > 0 && color.getAlpha() <= 255)
 			g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER,

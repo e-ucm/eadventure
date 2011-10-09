@@ -35,47 +35,47 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package es.eucm.eadventure.engine.core.platform;
+package es.eucm.eadventure.common.elementfactories.scenedemos;
 
-import com.google.inject.Inject;
+import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
+import es.eucm.eadventure.common.model.elements.impl.EAdSceneImpl;
+import es.eucm.eadventure.common.params.EAdFill;
+import es.eucm.eadventure.common.params.fills.impl.EAdColor;
+import es.eucm.eadventure.common.params.fills.impl.EAdLinearGradient;
+import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.shapes.RectangleShape;
 
-import es.eucm.eadventure.common.params.EAdFont;
-import es.eucm.eadventure.common.params.EAdFontImpl;
-import es.eucm.eadventure.common.params.geom.impl.EAdRectangleImpl;
-import es.eucm.eadventure.engine.core.platform.impl.FontCacheImpl;
+/**
+ * An empty scene
+ * 
+ */
+public class EmptyScene extends EAdSceneImpl implements SceneDemo {
 
-public class TestFontCache extends FontCacheImpl {
+	private RectangleShape rectangle;
 
-	@Inject
-	public TestFontCache() {
-		super(); 
+	public EmptyScene() {
+		super("EmptyScene");
+		rectangle = new RectangleShape(800, 600);
+		rectangle.setFill(new EAdLinearGradient(new EAdColor(240, 240, 240), EAdColor.WHITE));
+		getBackground().getResources().addAsset(
+				getBackground().getInitialBundle(),
+				EAdBasicSceneElement.appearance, rectangle);
+	}
+	
+	public void setBackgroundFill( EAdFill fill ){
+		rectangle.setFill(fill);
 	}
 
 	@Override
-	public void addEAdFont(EAdFont font) {
-		this.fontCache.put(font, new RuntimeFont(){
+	public String getDescription() {
+		return "An empty scene";
+	}
 
-			@Override
-			public EAdFontImpl getEAdFont() {
-				return null;
-			}
-
-			@Override
-			public int stringWidth(String string) {
-				return string.length();
-			}
-
-			@Override
-			public int lineHeight() {
-				return 1;
-			}
-
-			@Override
-			public EAdRectangleImpl stringBounds(String string) {
-				return new EAdRectangleImpl( 0, -1, string.length(), 1 );
-			}
-			
-		});
+	public String getDemoName() {
+		return "Empty Scene";
+	}
+	
+	public String toString(){
+		return getDemoName() + " - " + getDescription();
 	}
 
 }

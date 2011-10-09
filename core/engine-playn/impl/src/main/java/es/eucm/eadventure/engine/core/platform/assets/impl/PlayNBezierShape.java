@@ -88,6 +88,7 @@ public class PlayNBezierShape extends RuntimeBezierShape {
 		if ( descriptor.isClosed() )
 			path.close();
 
+		this.loaded = true;
 		return true;
 	}
 	

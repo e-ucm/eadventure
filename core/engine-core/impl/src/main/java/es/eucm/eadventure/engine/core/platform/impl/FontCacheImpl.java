@@ -47,7 +47,6 @@ import com.google.inject.Inject;
 import es.eucm.eadventure.common.params.EAdFont;
 import es.eucm.eadventure.common.params.EAdFontImpl;
 import es.eucm.eadventure.common.params.geom.EAdRectangle;
-import es.eucm.eadventure.engine.core.platform.AssetHandler;
 import es.eucm.eadventure.engine.core.platform.FontCache;
 import es.eucm.eadventure.engine.core.platform.RuntimeFont;
 
@@ -57,13 +56,10 @@ public abstract class FontCacheImpl implements FontCache {
 
 	protected Map<EAdFont, RuntimeFont> fontCache;
 	
-	protected AssetHandler assetHandler;
-
 	@Inject
-	public FontCacheImpl(AssetHandler assetHandler) {
+	public FontCacheImpl() {
 		logger.log(Level.INFO, "New instance");
 		fontCache = new HashMap<EAdFont, RuntimeFont>();
-		this.assetHandler = assetHandler;
 	}
 
 	/**

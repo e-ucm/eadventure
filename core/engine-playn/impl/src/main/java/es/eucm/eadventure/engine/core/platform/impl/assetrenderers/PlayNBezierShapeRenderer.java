@@ -69,12 +69,13 @@ public class PlayNBezierShapeRenderer implements
 	
 
 //		Stroke s = graphicContext.getStroke();
+		graphicContext.save();
 		fillFactory.fill(asset.getAssetDescriptor().getFill(), graphicContext, asset.getShape());
+		graphicContext.restore();
 //		graphicContext.setStroke(s);
 
 //		graphicContext.setColor(temp);
-
-
+		
 	}
 
 	@Override

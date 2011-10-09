@@ -21,5 +21,8 @@
   <source path='params' />
   <source path='impl'/>
   <source path='predef'/>
+  
+  <!-- TESTS -->
+  <source path='elementfactories'/>
 
 </module>

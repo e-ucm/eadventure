@@ -52,10 +52,13 @@ public class DesktopFontCache extends FontCacheImpl {
 	private static final Logger logger = Logger
 	.getLogger("DesktopFontCache");
 
+	private AssetHandler assetHandler;
+	
 	@Inject
 	public DesktopFontCache(AssetHandler assetHandler) {
-		super( assetHandler );
+		super(  );
 		logger.info("New instance");
+		this.assetHandler = assetHandler;
 	}
 	
 	@Override

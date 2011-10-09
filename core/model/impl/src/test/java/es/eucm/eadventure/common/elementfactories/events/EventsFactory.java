@@ -35,47 +35,20 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package es.eucm.eadventure.engine.core.platform;
+package es.eucm.eadventure.common.elementfactories.events;
 
-import com.google.inject.Inject;
+import es.eucm.eadventure.common.model.effects.EAdEffect;
+import es.eucm.eadventure.common.model.events.EAdSceneElementEvent;
+import es.eucm.eadventure.common.model.events.impl.EAdSceneElementEventImpl;
 
-import es.eucm.eadventure.common.params.EAdFont;
-import es.eucm.eadventure.common.params.EAdFontImpl;
-import es.eucm.eadventure.common.params.geom.impl.EAdRectangleImpl;
-import es.eucm.eadventure.engine.core.platform.impl.FontCacheImpl;
-
-public class TestFontCache extends FontCacheImpl {
-
-	@Inject
-	public TestFontCache() {
-		super(); 
-	}
-
-	@Override
-	public void addEAdFont(EAdFont font) {
-		this.fontCache.put(font, new RuntimeFont(){
-
-			@Override
-			public EAdFontImpl getEAdFont() {
-				return null;
-			}
-
-			@Override
-			public int stringWidth(String string) {
-				return string.length();
-			}
-
-			@Override
-			public int lineHeight() {
-				return 1;
-			}
-
-			@Override
-			public EAdRectangleImpl stringBounds(String string) {
-				return new EAdRectangleImpl( 0, -1, string.length(), 1 );
-			}
-			
-		});
+public class EventsFactory {
+	
+	private static int ID_GENERATOR = 0;
+	
+	public EAdSceneElementEvent getEvent( EAdSceneElementEvent.SceneElementEvent type, EAdEffect effect ){
+		EAdSceneElementEvent event = new EAdSceneElementEventImpl( "scenElementEvent" + ID_GENERATOR++ );
+		event.addEffect(type, effect);
+		return event;
 	}
 
 }

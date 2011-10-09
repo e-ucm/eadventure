@@ -10,6 +10,7 @@ import com.google.inject.Singleton;
 import es.eucm.eadventure.common.resources.StringHandler;
 import es.eucm.eadventure.common.resources.assets.AssetDescriptor;
 import es.eucm.eadventure.engine.core.EAdEngine;
+import es.eucm.eadventure.engine.core.ValueMap;
 import es.eucm.eadventure.engine.core.impl.VariableMap;
 import es.eucm.eadventure.engine.core.platform.FontCache;
 import es.eucm.eadventure.engine.core.platform.PlatformConfiguration;
@@ -33,8 +34,16 @@ public class PlayNAssetHandler extends AbstractAssetHandler {
 	
 	@Inject
 	public PlayNAssetHandler(
-			Map<Class<? extends AssetDescriptor>, Class<? extends RuntimeAsset<?>>> classMap) {
+			Map<Class<? extends AssetDescriptor>, Class<? extends RuntimeAsset<?>>> classMap,
+			FontCache fontCache,
+			VariableMap valueMap,
+			StringHandler stringHandler,
+			PlatformConfiguration platformConfiguration) {
 		super(classMap);
+		this.fontCache = fontCache;
+		this.valueMap = valueMap;
+		this.stringHandler = stringHandler;
+		this.platformConfiguration = platformConfiguration;
 	}
 	
 	public void setEngine(EAdEngine engine) {

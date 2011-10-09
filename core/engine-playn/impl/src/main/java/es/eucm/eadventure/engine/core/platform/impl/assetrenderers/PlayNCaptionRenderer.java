@@ -102,6 +102,7 @@ public class PlayNCaptionRenderer implements
 
 //		g.setFont(deFont.getFont());
 		g.translate(0, yOffset);
+		g.drawText(string, 0, 0);
 
 //		fillFactory.fill(text.getAssetDescriptor().getTextFill(), g, string);
 
