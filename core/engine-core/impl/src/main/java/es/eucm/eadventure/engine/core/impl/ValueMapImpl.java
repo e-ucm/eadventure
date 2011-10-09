@@ -157,5 +157,9 @@ public class ValueMapImpl implements ValueMap {
 	public <T> void setValue(EAdVarDef<T> varDef, T value) {
 		systemVars.put(varDef, value);
 	}
+	
+	public Map<EAdVarDef<?>, Object> getElementVars(EAdElement element){
+		return element == null ? systemVars : map.get(element);
+	}
 
 }

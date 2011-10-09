@@ -124,4 +124,11 @@ public interface GameObject<T> extends Positioned {
 	 */
 	EAdTransformation getTransformation();
 
+	/**
+	 * Returns if this game object is enable for user interactions
+	 * 
+	 * @return if this game object is enable for user interactions
+	 */
+	boolean isEnable();
+
 }

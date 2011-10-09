@@ -75,6 +75,9 @@ public class EAdBasicSceneElement extends AbstractEAdElementWithBehavior
 
 	public static final EAdVarDef<Boolean> VAR_VISIBLE = new EAdVarDefImpl<Boolean>(
 			"visible", Boolean.class, Boolean.TRUE);
+	
+	public static final EAdVarDef<Boolean> VAR_ENABLE = new EAdVarDefImpl<Boolean>(
+			"enable", Boolean.class, Boolean.TRUE);
 
 	public static final EAdVarDef<Integer> VAR_X = new EAdVarDefImpl<Integer>(
 			"x", Integer.class, 0);
@@ -195,7 +198,7 @@ public class EAdBasicSceneElement extends AbstractEAdElementWithBehavior
 	}
 
 	public String toString() {
-		return id + " - Scene element";
+		return id + "";
 	}
 
 	@Override

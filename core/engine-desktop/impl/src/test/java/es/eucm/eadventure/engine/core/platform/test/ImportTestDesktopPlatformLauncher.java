@@ -53,12 +53,12 @@ import com.google.inject.Injector;
 import es.eucm.eadventure.common.impl.importer.EAdventure1XImporter;
 import es.eucm.eadventure.common.impl.importer.ImporterConfigurationModule;
 import es.eucm.eadventure.common.model.elements.EAdAdventureModel;
-import es.eucm.eadventure.common.model.elements.EAdScene;
 import es.eucm.eadventure.common.params.EAdString;
 import es.eucm.eadventure.common.params.EAdURIImpl;
 import es.eucm.eadventure.common.resources.StringHandler;
 import es.eucm.eadventure.engine.core.Game;
 import es.eucm.eadventure.engine.core.debuggers.impl.EAdMainDebugger;
+import es.eucm.eadventure.engine.core.debuggers.impl.FieldsDebugger;
 import es.eucm.eadventure.engine.core.debuggers.impl.TrajectoryDebugger;
 import es.eucm.eadventure.engine.core.impl.modules.BasicGameModule;
 import es.eucm.eadventure.engine.core.platform.AssetHandler;
@@ -84,8 +84,6 @@ public class ImportTestDesktopPlatformLauncher {
 
 	private AssetHandler assetHandler;
 
-	private static EAdScene screen;
-
 	@Inject
 	public ImportTestDesktopPlatformLauncher(PlatformControl platformControl,
 			AssetHandler assetHandler) {
@@ -104,6 +102,7 @@ public class ImportTestDesktopPlatformLauncher {
 
 	public static void main(String[] args) {
 		EAdMainDebugger.addDebugger(TrajectoryDebugger.class);
+		EAdMainDebugger.addDebugger(FieldsDebugger.class);
 		// try {
 		// UIManager.setLookAndFeel(EAdGUILookAndFeel.getInstance());
 		// } catch (UnsupportedLookAndFeelException e) {
@@ -170,12 +169,8 @@ public class ImportTestDesktopPlatformLauncher {
 
 			if (model != null) {
 
-				screen = model.getChapters().get(0).getInitialScene();
 				injector.getInstance(StringHandler.class).setString(
 						new EAdString("Loading"), "loading");
-//				LoadingScreen loadingScreen = injector
-//						.getInstance(LoadingScreen.class);
-//				loadingScreen.setInitialScreen(screen);
 
 				Game game = injector.getInstance(Game.class);
 				game.setGame(model, model.getChapters().get(0));

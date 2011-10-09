@@ -219,4 +219,9 @@ public class ActionsHUDImpl implements ActionsHUD {
 		return EAdTransformationImpl.INITIAL_TRANSFORMATION;
 	}
 
+	@Override
+	public boolean isEnable() {
+		return true;
+	}
+
 }

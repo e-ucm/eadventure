@@ -8,7 +8,7 @@ import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
 import es.eucm.eadventure.common.model.events.impl.EAdSceneElementEventImpl;
 import es.eucm.eadventure.common.model.variables.EAdField;
 import es.eucm.eadventure.common.model.variables.impl.EAdFieldImpl;
-import es.eucm.eadventure.common.model.variables.impl.SystemVars;
+import es.eucm.eadventure.common.model.variables.impl.SystemFields;
 import es.eucm.eadventure.common.model.variables.impl.operations.MathOperation;
 
 /**
@@ -23,10 +23,8 @@ public class StayInBoundsEvent extends EAdSceneElementEventImpl {
 	 *            the element to stay in bounds
 	 */
 	public StayInBoundsEvent(EAdSceneElement e) {
-		EAdField<Integer> maxX = new EAdFieldImpl<Integer>(null,
-				SystemVars.GUI_WIDTH);
-		EAdField<Integer> maxY = new EAdFieldImpl<Integer>(null,
-				SystemVars.GUI_HEIGHT);
+		EAdField<Integer> maxX = SystemFields.GUI_WIDTH;
+		EAdField<Integer> maxY = SystemFields.GUI_HEIGHT;
 
 		EAdField<Integer> x = new EAdFieldImpl<Integer>(e,
 				EAdBasicSceneElement.VAR_X);

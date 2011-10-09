@@ -37,6 +37,8 @@
 
 package es.eucm.eadventure.engine.core;
 
+import java.util.Map;
+
 import es.eucm.eadventure.common.model.EAdElement;
 import es.eucm.eadventure.common.model.variables.EAdField;
 import es.eucm.eadventure.common.model.variables.EAdOperation;
@@ -123,5 +125,15 @@ public interface ValueMap {
 	 * @param value
 	 */
 	<T> void setValue(EAdVarDef<T> varDef, T value);
+
+	/**
+	 * Returns the variables associated to an element, whose values are
+	 * different from the defaults
+	 * 
+	 * @param element
+	 *            the element
+	 * @return a map with the variables
+	 */
+	Map<EAdVarDef<?>, Object> getElementVars(EAdElement element);
 
 }

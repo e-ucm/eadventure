@@ -50,7 +50,7 @@ import es.eucm.eadventure.common.model.elements.EAdChapter;
 import es.eucm.eadventure.common.model.elements.EAdTimer;
 import es.eucm.eadventure.common.model.impl.EAdAdventureModelImpl;
 import es.eucm.eadventure.common.model.impl.EAdChapterImpl;
-import es.eucm.eadventure.common.model.variables.impl.SystemVars;
+import es.eucm.eadventure.common.model.variables.impl.SystemFields;
 import es.eucm.eadventure.engine.core.Game;
 import es.eucm.eadventure.engine.core.GameState;
 import es.eucm.eadventure.engine.core.MouseState;
@@ -156,15 +156,15 @@ public class GameImpl implements Game {
 
 	/**
 	 * Updates the system variables. Any time a system variable is added to
-	 * {@link SystemVars}, its update must be added in here
+	 * {@link SystemFields}, its update must be added in here
 	 */
 	private void updateSystemVars() {
 		// Mouse
 		float mouse[] = initialTransformation.getMatrix()
 				.postMultiplyPointInverse(mouseState.getMouseX(),
 						mouseState.getMouseY());
-		valueMap.setValue(null, SystemVars.MOUSE_X, (int) mouse[0]);
-		valueMap.setValue(null, SystemVars.MOUSE_Y, (int) mouse[1]);
+		valueMap.setValue(SystemFields.MOUSE_X, (int) mouse[0]);
+		valueMap.setValue(SystemFields.MOUSE_Y, (int) mouse[1]);
 
 	}
 

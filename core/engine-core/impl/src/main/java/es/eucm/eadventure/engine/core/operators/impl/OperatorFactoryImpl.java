@@ -80,8 +80,10 @@ public class OperatorFactoryImpl extends AbstractFactory<Operator<?>> implements
 	public <T extends EAdOperation, S> S operate(EAdField<S> fieldResult,
 			T operation) {
 		S result = operate(fieldResult.getVarDefinition().getType(), operation);
-		if (result != null)
+		if (result != null){
+			log.info( operation + ": " + fieldResult + " := " + result );
 			valueMap.setValue(fieldResult, result);
+		}
 		return result;
 
 	}

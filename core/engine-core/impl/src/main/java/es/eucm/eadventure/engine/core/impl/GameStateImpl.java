@@ -55,7 +55,7 @@ import es.eucm.eadventure.common.model.elements.EAdScene;
 import es.eucm.eadventure.common.model.elements.EAdSceneElement;
 import es.eucm.eadventure.common.model.elements.impl.EAdSceneImpl;
 import es.eucm.eadventure.common.model.variables.EAdVarDef;
-import es.eucm.eadventure.common.model.variables.impl.SystemVars;
+import es.eucm.eadventure.common.model.variables.impl.SystemFields;
 import es.eucm.eadventure.engine.core.GameState;
 import es.eucm.eadventure.engine.core.ValueMap;
 import es.eucm.eadventure.engine.core.evaluators.EvaluatorFactory;
@@ -122,7 +122,8 @@ public class GameStateImpl implements GameState {
 
 	public SceneGO<?> getScene() {
 		if (scene == null) {
-			logger.log(Level.FINE, "null scene, Loading screen: " + (loadingScreen != null));
+			logger.log(Level.FINE, "null scene, Loading screen: "
+					+ (loadingScreen != null));
 			this.scene = (SceneGO<?>) gameObjectFactory.get(loadingScreen);
 			previousSceneStack.push(loadingScreen);
 		}
@@ -204,12 +205,21 @@ public class GameStateImpl implements GameState {
 	@Override
 	// TODO consider leaving effect initilization for later
 	public void addEffect(int pos, EAdEffect e, GUIAction action) {
-		if (e != null && evaluatorFactory.evaluate(e.getCondition()))
-			synchronized (effectsQueue) {
-				pos = pos == -1 ? effectsQueue.size() : pos;
-				effectsQueue.add(pos, e);
-				actionsQueue.add(action);
+		if (e != null && evaluatorFactory.evaluate(e.getCondition())) {
+			if (e.isQueueable())
+				synchronized (effectsQueue) {
+					pos = pos == -1 ? effectsQueue.size() : pos;
+					effectsQueue.add(pos, e);
+					actionsQueue.add(action);
+				}
+			else {
+				EffectGO<?> effectGO = (EffectGO<?>) gameObjectFactory.get(e);
+				effectGO.setGUIAction(action);
+				effectGO.initilize();
+				effectGO.update();
+				effectGO.finish();
 			}
+		}
 
 	}
 
@@ -279,12 +289,12 @@ public class GameStateImpl implements GameState {
 
 	@Override
 	public EAdSceneElement getActiveElement() {
-		return valueMap.getValue(null, SystemVars.ACTIVE_ELEMENT);
+		return valueMap.getValue(null, SystemFields.ACTIVE_ELEMENT);
 	}
 
 	@Override
 	public void setActiveElement(EAdSceneElement activeElement) {
-		valueMap.setValue(SystemVars.ACTIVE_ELEMENT, activeElement);
+		valueMap.setValue(SystemFields.ACTIVE_ELEMENT, activeElement);
 	}
 
 	@Override

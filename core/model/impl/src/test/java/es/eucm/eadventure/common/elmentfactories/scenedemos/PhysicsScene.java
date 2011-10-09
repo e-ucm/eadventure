@@ -25,7 +25,7 @@ import es.eucm.eadventure.common.model.events.impl.EAdSceneElementEventImpl;
 import es.eucm.eadventure.common.model.guievents.impl.EAdMouseEventImpl;
 import es.eucm.eadventure.common.model.variables.EAdField;
 import es.eucm.eadventure.common.model.variables.impl.EAdFieldImpl;
-import es.eucm.eadventure.common.model.variables.impl.SystemVars;
+import es.eucm.eadventure.common.model.variables.impl.SystemFields;
 import es.eucm.eadventure.common.model.variables.impl.operations.MathOperation;
 import es.eucm.eadventure.common.params.fills.impl.EAdColor;
 import es.eucm.eadventure.common.params.fills.impl.EAdLinearGradient;
@@ -49,11 +49,11 @@ public class PhysicsScene extends EmptyScene {
 		// Add sky
 
 		addSky();
-		
+
 		EAdBasicSceneElement e = EAdElementsFactory.getInstance()
 				.getSceneElementFactory()
 				.createSceneElement("GO Physics!", 400, 200);
-		
+
 		e.setPosition(new EAdPositionImpl(Corner.CENTER, 400, 200));
 
 		getElements().add(e);
@@ -73,13 +73,14 @@ public class PhysicsScene extends EmptyScene {
 		e2.setVarInitialValue(EAdPhysicsEffect.VAR_PH_TYPE, PhType.DYNAMIC);
 
 		EAdConditionEvent event = new EAdConditionEventImpl();
-		OperationCondition condition = new OperationCondition(new EAdFieldImpl<Boolean>(
-				this, EAdSceneImpl.VAR_SCENE_LOADED));
+		OperationCondition condition = new OperationCondition(
+				new EAdFieldImpl<Boolean>(this, EAdSceneImpl.VAR_SCENE_LOADED));
 		event.setCondition(condition);
 		event.addEffect(ConditionedEvent.CONDITIONS_MET, effect);
 
-//		getEvents().add(event);
-		getBackground().addBehavior(EAdMouseEventImpl.MOUSE_RIGHT_CLICK, effect);
+		// getEvents().add(event);
+		getBackground()
+				.addBehavior(EAdMouseEventImpl.MOUSE_RIGHT_CLICK, effect);
 
 		addCanyon(effect);
 		addWalls(effect);
@@ -138,10 +139,8 @@ public class PhysicsScene extends EmptyScene {
 		EAdChangeFieldValueEffect followMouse = new EAdChangeFieldValueEffect(
 				"followMouse");
 
-		EAdField<Integer> mouseX = new EAdFieldImpl<Integer>(null,
-				SystemVars.MOUSE_X);
-		EAdField<Integer> mouseY = new EAdFieldImpl<Integer>(null,
-				SystemVars.MOUSE_Y);
+		EAdField<Integer> mouseX = SystemFields.MOUSE_X;
+		EAdField<Integer> mouseY = SystemFields.MOUSE_Y;
 		EAdField<Integer> canyonX = new EAdFieldImpl<Integer>(canyon,
 				EAdBasicSceneElement.VAR_X);
 
@@ -149,8 +148,8 @@ public class PhysicsScene extends EmptyScene {
 				EAdBasicSceneElement.VAR_Y);
 
 		String expression = "- acos( ( [2] - [0] ) / sqrt( sqr( [2] - [0] ) + sqr( [3] - [1] ) ) )";
-		MathOperation op = new MathOperation(
-				expression, canyonX, canyonY, mouseX, mouseY);
+		MathOperation op = new MathOperation(expression, canyonX, canyonY,
+				mouseX, mouseY);
 		followMouse.setOperation(op);
 		followMouse.addField(rotationField);
 		OperationCondition c1 = new OperationCondition(mouseX, 0,
@@ -180,18 +179,18 @@ public class PhysicsScene extends EmptyScene {
 				EAdBasicSceneElement.appearance, circle);
 
 		PhApplyImpluse applyForce = new PhApplyImpluse();
-		applyForce.setForce(new MathOperation("[0] - [1]", mouseX,
-				canyonX), new MathOperation("[0] - [1]", mouseY,
-				canyonY));
+		applyForce.setForce(new MathOperation("[0] - [1]", mouseX, canyonX),
+				new MathOperation("[0] - [1]", mouseY, canyonY));
 		EAdAddActorReferenceEffect addEffect = new EAdAddActorReferenceEffect(
 				bullet, new EAdPositionImpl(Corner.CENTER, 140, 470),
 				applyForce);
 
 		getBackground().addBehavior(EAdMouseEventImpl.MOUSE_LEFT_PRESSED,
 				addEffect);
-		
+
 		// Add text
-		CaptionImpl c = EAdElementsFactory.getInstance().getCaptionFactory().createCaption("radians: #0 ");
+		CaptionImpl c = EAdElementsFactory.getInstance().getCaptionFactory()
+				.createCaption("radians: #0 ");
 		c.getFields().add(rotationField);
 		c.setBubbleColor(EAdColor.TRANSPARENT);
 		EAdBasicSceneElement e = new EAdBasicSceneElement("e", c);
@@ -222,12 +221,10 @@ public class PhysicsScene extends EmptyScene {
 	}
 
 	private void addSky() {
-		getBackground()
-				.getResources()
-				.addAsset(this.getBackground().getInitialBundle(),
-						EAdBasicSceneElement.appearance,
-						new ImageImpl("@drawable/sky.png"));
-
+		getBackground().getResources().addAsset(
+				this.getBackground().getInitialBundle(),
+				EAdBasicSceneElement.appearance,
+				new ImageImpl("@drawable/sky.png"));
 
 		EAdSceneElementEvent event = new EAdSceneElementEventImpl();
 
@@ -238,9 +235,9 @@ public class PhysicsScene extends EmptyScene {
 
 		event.addEffect(EAdSceneElementEvent.SceneElementEvent.ADDED_TO_SCENE,
 				effect);
-		
+
 		this.getBackground().getEvents().add(event);
-		
+
 	}
 
 }
