@@ -61,14 +61,14 @@ public class OperatorFactoryImpl extends AbstractFactory<Operator<?>> implements
 	private ValueMap valueMap;
 	
 	@Inject
-	public OperatorFactoryImpl(OperatorFactoryMapProvider map,
+	public OperatorFactoryImpl(OperatorFactoryMapProvider mapProvider,
 			ValueMap valueMap,
 			ReflectionProvider interfacesProvider) {
 		super(null, interfacesProvider);
 		this.valueMap = valueMap;
 		this.valueMap.setOperatorFactory(this);
-		if (map != null)
-			this.map = map.getMap(valueMap);
+		if (mapProvider != null)
+			this.map = mapProvider.getMap(valueMap);
 	}
 
 	@Override
