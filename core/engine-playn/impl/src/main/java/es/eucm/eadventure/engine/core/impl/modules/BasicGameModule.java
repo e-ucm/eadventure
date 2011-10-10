@@ -42,10 +42,10 @@ public class BasicGameModule extends AbstractGinModule {
 		install(new GameObjectFactoryModule());
 
 		bind(new TypeLiteral<MapProvider<Class<?>, Evaluator<?>>>() {}).to(EvaluatorFactoryMapProvider.class);
-		bind(EvaluatorFactory.class).toProvider(EvaluatorFactoryProvider.class);
+		bind(EvaluatorFactory.class).toProvider(EvaluatorFactoryProvider.class).in(Singleton.class);
 
 		bind(new TypeLiteral<MapProvider<Class<?>, Operator<?>>>() {}).to(OperatorFactoryMapProvider.class);
-		bind(OperatorFactory.class).toProvider(OperatorFactoryProvider.class);
+		bind(OperatorFactory.class).toProvider(OperatorFactoryProvider.class).in(Singleton.class);
 		install(new TrajectoryFactoryModule());
 		
 		bind(ValueMap.class).to(VariableMap.class).in(Singleton.class);

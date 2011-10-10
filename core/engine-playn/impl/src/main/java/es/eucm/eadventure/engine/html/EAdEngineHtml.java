@@ -46,9 +46,9 @@ public class EAdEngineHtml extends HtmlGame {
 		s.getBackground().getResources().addAsset(s.getBackground().getInitialBundle(),
 				EAdBasicSceneElement.appearance, i);
 		
-		EAdScene s2 = new CharacterScene();
+//		EAdScene s2 = new CharacterScene();
 		
-//		EAdScene s2 = new ComplexElementScene();
+		EAdScene s2 = new ComplexElementScene();
 /*
 		getBackground().getResources().addAsset(getBackground().getInitialBundle(), EAdBasicSceneElement.appearance,
 				new ImageImpl("@drawable/loading.png"));
