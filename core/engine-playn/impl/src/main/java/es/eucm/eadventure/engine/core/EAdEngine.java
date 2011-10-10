@@ -127,7 +127,7 @@ public class EAdEngine implements playn.core.Game, Keyboard.Listener {
 
 	@Override
 	public int updateRate() {
-		return 15;
+		return 67;
 	}
 	
 	public Image getImage(String absolutePath) {
