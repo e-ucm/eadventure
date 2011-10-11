@@ -19,6 +19,7 @@ import playn.core.Image;
 import playn.core.Keyboard;
 import playn.core.Keyboard.Event;
 import playn.core.PlayN;
+import playn.core.Pointer;
 
 public class EAdEngine implements playn.core.Game, Keyboard.Listener {
 
@@ -63,8 +64,6 @@ public class EAdEngine implements playn.core.Game, Keyboard.Listener {
 
 		((PlayNGUI) gui).initializeCanvas(gameLayer);
 
-		/*
-
 		keyboard().setListener(this);
 		pointer().setListener(new Pointer.Listener() {
 			@Override
@@ -82,7 +81,6 @@ public class EAdEngine implements playn.core.Game, Keyboard.Listener {
 				touchMove(event.x(), event.y());
 			}
 		});
-*/
 	}
 
 	@Override
