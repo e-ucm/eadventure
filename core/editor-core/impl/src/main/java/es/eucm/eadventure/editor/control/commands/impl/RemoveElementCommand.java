@@ -37,56 +37,62 @@
 
 package es.eucm.eadventure.editor.control.commands.impl;
 
-import es.eucm.eadventure.common.model.EAdElement;
 import es.eucm.eadventure.common.model.extra.EAdList;
 import es.eucm.eadventure.editor.control.Command;
 
 /**
- * Class that represents the generic command that removes an element from an EAdElementList.
+ * Class that represents the generic command that removes an element from an
+ * {@link EAdList}.
  */
-public class RemoveElementCommand<P extends EAdElement> extends Command{
-	
+public class RemoveElementCommand<P> extends Command {
+
 	/**
 	 * The list from which the specified elements will be removed.
 	 */
 	private EAdList<P> elementList;
+
 	/**
 	 * The element to be removed from the list.
 	 */
 	private P anElement;
+	
 	/**
 	 * The index of the element to be removed from the list.
 	 */
 	private int index;
 
 	/**
-     * Constructor for the RemoveElementCommand class.
-     * 
-     * @param list
-     *            The EAdElementList in which the command is to be applied 
-     * @param e
-     *            The P element to be removed from a list by the command
-     *
-     */
+	 * Constructor for the RemoveElementCommand class.
+	 * 
+	 * @param list
+	 *            The EAdElementList in which the command is to be applied
+	 * @param e
+	 *            The P element to be removed from a list by the command
+	 * 
+	 */
 	public RemoveElementCommand(EAdList<P> list, P e) {
 		this.elementList = list;
 		this.anElement = e;
 	}
-	
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see es.eucm.eadventure.editor.control.Command#performCommand()
 	 */
 	@Override
 	public boolean performCommand() {
-		if (elementList.contains(anElement)){
+		if (elementList.contains(anElement)) {
 			index = elementList.indexOf(anElement);
 			elementList.remove(anElement);
 			return true;
 		}
-        return false;
+		return false;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see es.eucm.eadventure.editor.control.Command#canUndo()
 	 */
 	@Override
@@ -94,7 +100,9 @@ public class RemoveElementCommand<P extends EAdElement> extends Command{
 		return true;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see es.eucm.eadventure.editor.control.Command#undoCommand()
 	 */
 	@Override
@@ -103,7 +111,9 @@ public class RemoveElementCommand<P extends EAdElement> extends Command{
 		return true;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see es.eucm.eadventure.editor.control.Command#canRedo()
 	 */
 	@Override
@@ -111,31 +121,37 @@ public class RemoveElementCommand<P extends EAdElement> extends Command{
 		return true;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see es.eucm.eadventure.editor.control.Command#redoCommand()
 	 */
 	@Override
 	public boolean redoCommand() {
-		if (elementList.contains(anElement)){
+		if (elementList.contains(anElement)) {
 			index = elementList.indexOf(anElement);
 			elementList.remove(anElement);
 			return true;
 		}
-        return false;
+		return false;
 	}
 
-	/* (non-Javadoc)
-	 * @see es.eucm.eadventure.editor.control.Command#combine(es.eucm.eadventure.editor.control.Command)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * es.eucm.eadventure.editor.control.Command#combine(es.eucm.eadventure.
+	 * editor.control.Command)
 	 */
 	@Override
 	public boolean combine(Command other) {
 		return false;
 	}
-	
+
 	/**
 	 * Returns the index of the element to be removed from the list
 	 */
-	public int getIndex(){
+	public int getIndex() {
 		return index;
 	}
 

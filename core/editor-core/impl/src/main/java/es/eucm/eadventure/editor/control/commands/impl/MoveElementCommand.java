@@ -37,64 +37,71 @@
 
 package es.eucm.eadventure.editor.control.commands.impl;
 
-import es.eucm.eadventure.common.model.EAdElement;
 import es.eucm.eadventure.common.model.extra.EAdList;
 import es.eucm.eadventure.editor.control.Command;
 
 /**
- * Class that represents the generic command that moves an element in an EAdElementList.
+ * Class that represents the generic command that moves an element in an
+ * {@link EAdList}.
  */
-public class MoveElementCommand<P extends EAdElement> extends Command { 
-	
+public class MoveElementCommand<P> extends Command {
+
 	/**
 	 * The list in which the specified elements will be moved.
 	 */
 	private EAdList<P> elementList;
+
 	/**
 	 * The element to be moved in the list.
 	 */
 	private P anElement;
+
 	/**
 	 * The index in the list where the element is to be moved
 	 */
-	private int newIndex; 
+	private int newIndex;
+
 	/**
 	 * The index in the list that the element had before being moved
 	 */
 	private int oldIndex;
 
 	/**
-     * Constructor for the MoveElementCommand class.
-     * 
-     * @param list
-     *            The EAdElementList in which the command is to be applied 
-     * @param e
-     *            The P element to be moved in a list by the command
-     * @param index
-     *            The index in the list where the element is to be moved
-     *
-     */
+	 * Constructor for the MoveElementCommand class.
+	 * 
+	 * @param list
+	 *            The EAdElementList in which the command is to be applied
+	 * @param e
+	 *            The P element to be moved in a list by the command
+	 * @param index
+	 *            The index in the list where the element is to be moved
+	 * 
+	 */
 	public MoveElementCommand(EAdList<P> list, P e, int ind) {
 		this.elementList = list;
 		this.anElement = e;
 		this.newIndex = ind;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see es.eucm.eadventure.editor.control.Command#performCommand()
 	 */
 	@Override
 	public boolean performCommand() {
-		if (elementList.contains(anElement)){
+		if (elementList.contains(anElement)) {
 			oldIndex = elementList.indexOf(anElement);
 			elementList.remove(anElement);
 			elementList.add(anElement, newIndex);
 			return true;
 		}
-        return false;
+		return false;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see es.eucm.eadventure.editor.control.Command#canUndo()
 	 */
 	@Override
@@ -102,19 +109,23 @@ public class MoveElementCommand<P extends EAdElement> extends Command {
 		return true;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see es.eucm.eadventure.editor.control.Command#undoCommand()
 	 */
 	@Override
 	public boolean undoCommand() {
-		
+
 		elementList.remove(anElement);
 		elementList.add(anElement, oldIndex);
 		return true;
-		
+
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see es.eucm.eadventure.editor.control.Command#canRedo()
 	 */
 	@Override
@@ -123,49 +134,56 @@ public class MoveElementCommand<P extends EAdElement> extends Command {
 		return true;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see es.eucm.eadventure.editor.control.Command#redoCommand()
 	 */
 	@Override
 	public boolean redoCommand() {
-		if (elementList.contains(anElement)){
+		if (elementList.contains(anElement)) {
 			oldIndex = elementList.indexOf(anElement);
 			elementList.remove(anElement);
 			elementList.add(anElement, newIndex);
 			return true;
 		}
-        return false;
-	
+		return false;
+
 	}
 
-	/* (non-Javadoc)
-	 * @see es.eucm.eadventure.editor.control.Command#combine(es.eucm.eadventure.editor.control.Command)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * es.eucm.eadventure.editor.control.Command#combine(es.eucm.eadventure.
+	 * editor.control.Command)
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
 	public boolean combine(Command other) {
-		if(other instanceof MoveElementCommand) {
+		if (other instanceof MoveElementCommand) {
 			MoveElementCommand<P> cnt = (MoveElementCommand<P>) other;
-            if(cnt.elementList.equals(this.elementList) && cnt.anElement.equals(this.anElement)) {
-                this.newIndex = cnt.newIndex;
-                this.timeStamp = cnt.timeStamp;
-                return true;
-            }
-        }
-        return false;
+			if (cnt.elementList.equals(this.elementList)
+					&& cnt.anElement.equals(this.anElement)) {
+				this.newIndex = cnt.newIndex;
+				this.timeStamp = cnt.timeStamp;
+				return true;
+			}
+		}
+		return false;
 	}
-	
+
 	/**
 	 * Returns the index in the list where the element is to be moved
 	 */
-	public int getNewIndex(){
+	public int getNewIndex() {
 		return newIndex;
 	}
-	
+
 	/**
 	 * Returns the index in the list that the element had before being moved
 	 */
-	public int getOldIndex(){
+	public int getOldIndex() {
 		return oldIndex;
 	}
 

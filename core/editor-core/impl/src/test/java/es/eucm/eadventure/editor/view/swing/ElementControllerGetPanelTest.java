@@ -8,11 +8,12 @@ import javax.swing.WindowConstants;
 import static org.mockito.Mockito.*;
 
 import es.eucm.eadventure.common.model.elements.EAdScene;
+import es.eucm.eadventure.common.model.elements.EAdSceneElement;
+import es.eucm.eadventure.common.model.extra.impl.EAdListImpl;
 import es.eucm.eadventure.common.params.EAdString;
 import es.eucm.eadventure.common.resources.StringHandler;
 import es.eucm.eadventure.editor.control.CommandManager;
 import es.eucm.eadventure.editor.control.ElementController;
-import es.eucm.eadventure.editor.control.FieldValueReader;
 import es.eucm.eadventure.editor.control.elements.impl.EAdSceneController;
 import es.eucm.eadventure.editor.impl.EditorStringHandler;
 import es.eucm.eadventure.editor.view.ComponentProvider;
@@ -32,11 +33,10 @@ public class ElementControllerGetPanelTest extends EAdFrame {
         
         setLayout(new FlowLayout());
         
-        FieldValueReader fieldValueReader = new SwingFieldValueReader();
-        
         EAdScene scene = mock(EAdScene.class);
         when(scene.getName()).thenReturn(EAdString.newEAdString("testName"));
         when(scene.getDocumentation()).thenReturn(EAdString.newEAdString("testDocumentation"));
+        when(scene.getElements()).thenReturn(new EAdListImpl<EAdSceneElement>(EAdSceneElement.class));
         
         CommandManager commandManager = mock(CommandManager.class);
         
@@ -46,7 +46,7 @@ public class ElementControllerGetPanelTest extends EAdFrame {
         
         StringHandler stringHandler = new EditorStringHandler();
 
-        SwingProviderFactory swingProviderFactory = new SwingProviderFactory(fieldValueReader, stringHandler, commandManager);
+        SwingProviderFactory swingProviderFactory = new SwingProviderFactory(stringHandler, commandManager);
         ComponentProvider<Panel, JComponent> componentProvider = swingProviderFactory.getProvider(panel);
         add(componentProvider.getComponent(panel));
         

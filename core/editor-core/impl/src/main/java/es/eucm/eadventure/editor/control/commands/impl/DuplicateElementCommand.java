@@ -37,90 +37,116 @@
 
 package es.eucm.eadventure.editor.control.commands.impl;
 
-import es.eucm.eadventure.common.model.EAdElement;
+import es.eucm.eadventure.common.interfaces.Copyable;
 import es.eucm.eadventure.common.model.extra.EAdList;
 import es.eucm.eadventure.editor.control.Command;
 
-public class DuplicateElementCommand<P extends EAdElement> extends Command {
-	
+/**
+ * Duplicate (if it extends {@link Copyable}) an element in a list.
+ * 
+ * @param <P>
+ *            The type of the element
+ */
+public class DuplicateElementCommand<P> extends Command {
+
 	/**
 	 * The list in which the duplicated elements will be placed.
 	 */
 	private EAdList<P> elementList;
+
 	/**
 	 * The element to be duplicated
 	 */
 	private P anElement;
-	
+
 	/**
 	 * The duplicated element.
 	 */
 	private P duplicatedElement;
-	
+
 	/**
-     * Constructor for the AddElementCommand class.
-     * 
-     * @param list
-     *            The EAdElementList in which the command is to be applied 
-     * @param e
-     *            The P element to be added to a list by the command
-     *
-     */
+	 * Constructor for the AddElementCommand class.
+	 * 
+	 * @param list
+	 *            The EAdElementList in which the command is to be applied
+	 * @param e
+	 *            The P element to be added to a list by the command
+	 * 
+	 */
 	public DuplicateElementCommand(EAdList<P> list, P e) {
 		this.elementList = list;
-		this.anElement = e;		
+		this.anElement = e;
 	}
 
-
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see es.eucm.eadventure.editor.control.Command#performCommand()
+	 */
 	@SuppressWarnings("unchecked")
 	@Override
 	public boolean performCommand() {
-		
-		if (elementList.contains(anElement)){
-			duplicatedElement = (P) anElement.copy();
+		if (elementList.contains(anElement) && anElement instanceof Copyable) {
+			duplicatedElement = ((Copyable<P>) anElement).copy();
 			elementList.add(duplicatedElement);
 			return true;
-			}
+		}
 		return false;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see es.eucm.eadventure.editor.control.Command#canUndo()
+	 */
 	@Override
 	public boolean canUndo() {
-		// TODO Auto-generated method stub
 		return true;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see es.eucm.eadventure.editor.control.Command#undoCommand()
+	 */
 	@Override
 	public boolean undoCommand() {
-		// TODO Auto-generated method stub
-		if (elementList.contains(duplicatedElement)){
+		if (elementList.contains(duplicatedElement)) {
 			elementList.remove(duplicatedElement);
 			return true;
 		}
 		return false;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see es.eucm.eadventure.editor.control.Command#canRedo()
+	 */
 	@Override
 	public boolean canRedo() {
-		// TODO Auto-generated method stub
 		return true;
 	}
 
-	@SuppressWarnings("unchecked")
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see es.eucm.eadventure.editor.control.Command#redoCommand()
+	 */
 	@Override
 	public boolean redoCommand() {
-
-		if (elementList.contains(anElement)){
-			duplicatedElement = (P) anElement.copy();
-			elementList.add(duplicatedElement);
-			return true;
-			}
-		return false;
+		return performCommand();
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * es.eucm.eadventure.editor.control.Command#combine(es.eucm.eadventure.
+	 * editor.control.Command)
+	 */
 	@Override
 	public boolean combine(Command other) {
-		// TODO Auto-generated method stub
 		return false;
 	}
 

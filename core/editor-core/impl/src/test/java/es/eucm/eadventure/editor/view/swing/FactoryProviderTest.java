@@ -48,7 +48,7 @@ public class FactoryProviderTest extends EAdFrame {
 
         StringHandler stringHandler = new EditorStringHandler();
 
-        SwingProviderFactory swingProviderFactory = new SwingProviderFactory(fieldValueReader, stringHandler, commandManager);
+        SwingProviderFactory swingProviderFactory = new SwingProviderFactory(stringHandler, commandManager);
         ComponentProvider<Panel, JComponent> componentProvider = swingProviderFactory.getProvider(panel);
         add(componentProvider.getComponent(panel));
         

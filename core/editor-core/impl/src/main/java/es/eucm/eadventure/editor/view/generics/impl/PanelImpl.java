@@ -27,4 +27,9 @@ public class PanelImpl implements Panel {
 		return title;
 	}
 
+	@Override
+	public void addElement(InterfaceElement element) {
+		elements.add(element);
+	}
+
 }

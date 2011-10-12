@@ -19,5 +19,10 @@ public interface Panel extends InterfaceElement {
 	 * @return The title of the panel (can be null)
 	 */
 	String getTitle();
+	
+	/**
+	 * @param element The element to be added to the panel
+	 */
+	void addElement(InterfaceElement element);
 
 }

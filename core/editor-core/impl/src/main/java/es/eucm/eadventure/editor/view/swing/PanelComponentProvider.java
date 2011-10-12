@@ -1,6 +1,5 @@
 package es.eucm.eadventure.editor.view.swing;
 
-import java.awt.GridLayout;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -34,8 +33,8 @@ public class PanelComponentProvider implements ComponentProvider<Panel, JPanel> 
 			panel = new EAdBorderedPanel(element.getTitle());
 		else
 			panel = new JPanel();
-		//panel.setLayout(new FlowLayout());
-		panel.setLayout(new GridLayout(0,1));
+		panel.setLayout(new java.awt.FlowLayout());
+		//panel.setLayout(new java.awt.GridLayout(0,1));
 		for (InterfaceElement newElement : element.getElements()) {
 			ComponentProvider<InterfaceElement, JComponent> cp = providerFactory.getProvider(newElement);
 			if (cp == null)

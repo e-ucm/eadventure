@@ -37,48 +37,53 @@
 
 package es.eucm.eadventure.editor.control.commands.impl;
 
-import es.eucm.eadventure.common.model.EAdElement;
 import es.eucm.eadventure.common.model.extra.EAdList;
 import es.eucm.eadventure.editor.control.Command;
 
 /**
- * Class that represents the generic command that adds an element to an EAdElementList.
+ * Class that represents the generic command that adds an element to an
+ * {@link EAdList}.
  */
-public class AddElementCommand<P extends EAdElement> extends Command {
-	
+public class AddElementCommand<P> extends Command {
+
 	/**
 	 * The list in which the added elements will be placed.
 	 */
 	private EAdList<P> elementList;
+
 	/**
 	 * The element to be added to the list.
 	 */
 	private P anElement;
-	
+
 	/**
-     * Constructor for the AddElementCommand class.
-     * 
-     * @param list
-     *            The EAdElementList in which the command is to be applied 
-     * @param e
-     *            The P element to be added to a list by the command
-     *
-     */
+	 * Constructor for the AddElementCommand class.
+	 * 
+	 * @param list
+	 *            The EAdElementList in which the command is to be applied
+	 * @param e
+	 *            The P element to be added to a list by the command
+	 * 
+	 */
 	public AddElementCommand(EAdList<P> list, P e) {
 		this.elementList = list;
-		this.anElement = e;		
+		this.anElement = e;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see es.eucm.eadventure.editor.control.Command#performCommand()
 	 */
 	@Override
 	public boolean performCommand() {
 		elementList.add(anElement);
-        return true;
+		return true;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see es.eucm.eadventure.editor.control.Command#canUndo()
 	 */
 	@Override
@@ -86,7 +91,9 @@ public class AddElementCommand<P extends EAdElement> extends Command {
 		return true;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see es.eucm.eadventure.editor.control.Command#undoCommand()
 	 */
 	@Override
@@ -94,8 +101,10 @@ public class AddElementCommand<P extends EAdElement> extends Command {
 		elementList.remove(anElement);
 		return true;
 	}
-	
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see es.eucm.eadventure.editor.control.Command#canRedo()
 	 */
 	@Override
@@ -103,17 +112,23 @@ public class AddElementCommand<P extends EAdElement> extends Command {
 		return true;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see es.eucm.eadventure.editor.control.Command#redoCommand()
 	 */
 	@Override
 	public boolean redoCommand() {
 		elementList.add(anElement);
-        return true;
+		return true;
 	}
 
-	/* (non-Javadoc)
-	 * @see es.eucm.eadventure.editor.control.Command#combine(es.eucm.eadventure.editor.control.Command)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * es.eucm.eadventure.editor.control.Command#combine(es.eucm.eadventure.
+	 * editor.control.Command)
 	 */
 	@Override
 	public boolean combine(Command other) {

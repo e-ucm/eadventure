@@ -24,7 +24,7 @@ public class AbstractOption<S> implements Option<S> {
 	/**
 	 * Descriptor of the field represented by this option
 	 */
-	private FieldDescriptor<S> fieldDescriptor;
+	protected FieldDescriptor<S> fieldDescriptor;
 
 	/**
 	 * @param label
