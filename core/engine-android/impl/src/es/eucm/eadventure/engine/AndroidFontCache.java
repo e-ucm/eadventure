@@ -52,10 +52,13 @@ public class AndroidFontCache extends FontCacheImpl {
 
 	private static final Logger logger = Logger
 	.getLogger("DesktopFontCache");
+	
+	private AssetHandler assetHandler;
 
 	@Inject
 	public AndroidFontCache(AssetHandler assetHandler) {
-		super( assetHandler );
+		super();
+		this.assetHandler = assetHandler;
 		logger.info("New instance");
 	}
 	

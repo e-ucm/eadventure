@@ -40,7 +40,7 @@ import android.widget.Toast;
 import android.widget.ViewFlipper;
 import com.markupartist.android.widget.ActionBar;
 import com.markupartist.android.widget.ActionBar.IntentAction;
-import es.eucm.eadventure.common.elmentfactories.scenedemos.SceneDemos;
+import es.eucm.eadventure.common.elementfactories.scenedemos.SceneDemos;
 import es.eucm.eadventure.engine.EAdventureEngineActivity;
 import es.eucm.eadventure.engine.R;
 import es.eucm.eadventure.engine.home.local.DeletingGame;
