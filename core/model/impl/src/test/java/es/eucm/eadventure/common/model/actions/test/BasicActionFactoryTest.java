@@ -40,7 +40,7 @@ package es.eucm.eadventure.common.model.actions.test;
 import es.eucm.eadventure.common.model.actions.EAdAction;
 import es.eucm.eadventure.common.model.actions.impl.EAdBasicAction;
 import es.eucm.eadventure.common.model.effects.impl.timedevents.EAdShowSceneElement;
-import es.eucm.eadventure.common.params.fills.impl.EAdBorderedColor;
+import es.eucm.eadventure.common.params.fills.impl.EAdPaintImpl;
 import es.eucm.eadventure.common.params.fills.impl.EAdColor;
 import es.eucm.eadventure.common.resources.StringHandler;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.CaptionImpl;
@@ -59,9 +59,9 @@ public class BasicActionFactoryTest {
 		EAdShowSceneElement actionEffect = new EAdShowSceneElement("effectAction");
 
 		CaptionImpl caption = new CaptionImpl();
-		caption.setBubbleColor(null);
+		caption.setBubblePaint(null);
 		sh.setString(caption.getText(), "Effect!");
-		caption.setTextColor(new EAdBorderedColor(new EAdColor(120, 20, 20),
+		caption.setTextPaint(new EAdPaintImpl(new EAdColor(120, 20, 20),
 				new EAdColor(34, 50, 60)));
 
 		actionEffect.setCaption(caption, 40, 100);

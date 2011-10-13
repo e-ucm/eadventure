@@ -45,7 +45,7 @@ import es.eucm.eadventure.common.data.chapter.elements.NPC;
 import es.eucm.eadventure.common.data.chapter.elements.Player;
 import es.eucm.eadventure.common.impl.importer.interfaces.EAdElementFactory;
 import es.eucm.eadventure.common.params.EAdString;
-import es.eucm.eadventure.common.params.fills.impl.EAdBorderedColor;
+import es.eucm.eadventure.common.params.fills.impl.EAdPaintImpl;
 import es.eucm.eadventure.common.params.fills.impl.EAdColor;
 import es.eucm.eadventure.common.resources.StringHandler;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.Caption;
@@ -85,15 +85,15 @@ public class LineImporterToCaption implements
 			String textBorderColor = getColor(character.getTextBorderColor());
 
 			if (bg != null) {
-				EAdBorderedColor bubble = new EAdBorderedColor(
+				EAdPaintImpl bubble = new EAdPaintImpl(
 						new EAdColor(bg), new EAdColor(borderBg));
-				caption.setBubbleColor(bubble);
+				caption.setBubblePaint(bubble);
 			}
 
-			EAdBorderedColor text = new EAdBorderedColor(
+			EAdPaintImpl text = new EAdPaintImpl(
 					new EAdColor(textColor), new EAdColor(textBorderColor));
 
-			caption.setTextColor(text);
+			caption.setTextPaint(text);
 		}
 		return caption;
 	}

@@ -94,7 +94,7 @@ public class PhysicsScene extends EmptyScene {
 
 	protected void addWalls(EAdPhysicsEffect effect) {
 		RectangleShape groundS = new RectangleShape(750, 50);
-		groundS.setFill(new EAdLinearGradient(EAdColor.BROWN,
+		groundS.setPaint(new EAdLinearGradient(EAdColor.BROWN,
 				EAdColor.DARK_BROWN, 750, 50));
 		EAdBasicSceneElement ground = new EAdBasicSceneElement("ground",
 				groundS);
@@ -173,7 +173,7 @@ public class PhysicsScene extends EmptyScene {
 
 		EAdActor bullet = new EAdBasicActor("bullet");
 		BezierShape circle = new CircleShape(10, 10, 10, 25);
-		circle.setFill(new EAdLinearGradient(EAdColor.LIGHT_GRAY,
+		circle.setPaint(new EAdLinearGradient(EAdColor.LIGHT_GRAY,
 				EAdColor.DARK_GRAY, 20, 20));
 		bullet.getResources().addAsset(bullet.getInitialBundle(),
 				EAdBasicSceneElement.appearance, circle);
@@ -192,7 +192,7 @@ public class PhysicsScene extends EmptyScene {
 		CaptionImpl c = EAdElementsFactory.getInstance().getCaptionFactory()
 				.createCaption("radians: #0 ");
 		c.getFields().add(rotationField);
-		c.setBubbleColor(EAdColor.TRANSPARENT);
+		c.setBubblePaint(EAdColor.TRANSPARENT);
 		EAdBasicSceneElement e = new EAdBasicSceneElement("e", c);
 		e.setPosition(120, 375);
 		getElements().add(e);

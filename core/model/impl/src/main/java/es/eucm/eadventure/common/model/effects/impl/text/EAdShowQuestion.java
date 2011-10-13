@@ -114,8 +114,8 @@ public class EAdShowQuestion extends EAdComplexBlockingEffect {
 		for (Entry<EAdString, EAdEffect> a : answers.entrySet()) {
 			EAdBasicSceneElement se = new EAdBasicSceneElement("answer" + i);
 			CaptionImpl c = new CaptionImpl(a.getKey());
-			c.setTextColor(EAdColor.RED);
-			c.setBubbleColor(EAdColor.WHITE);
+			c.setTextPaint(EAdColor.RED);
+			c.setBubblePaint(EAdColor.WHITE);
 			se.getResources().addAsset(se.getInitialBundle(),
 					EAdBasicSceneElement.appearance, c);
 			int initialX = -200 * i - 820;
@@ -146,8 +146,8 @@ public class EAdShowQuestion extends EAdComplexBlockingEffect {
 	public void setUpQuestion() {
 		CaptionImpl c = new CaptionImpl(question);
 		
-		c.setTextColor(EAdColor.BLUE);
-		c.setBubbleColor(EAdColor.WHITE);
+		c.setTextPaint(EAdColor.BLUE);
+		c.setBubblePaint(EAdColor.WHITE);
 
 		EAdBasicSceneElement q = new EAdBasicSceneElement("question");
 		q.getResources().addAsset(q.getInitialBundle(),

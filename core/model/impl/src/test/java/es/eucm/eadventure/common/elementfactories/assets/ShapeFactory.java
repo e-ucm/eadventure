@@ -37,7 +37,7 @@
 
 package es.eucm.eadventure.common.elementfactories.assets;
 
-import es.eucm.eadventure.common.params.fills.impl.EAdBorderedColor;
+import es.eucm.eadventure.common.params.fills.impl.EAdPaintImpl;
 import es.eucm.eadventure.common.params.geom.impl.EAdPositionImpl;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.Shape;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.shapes.BezierShape;
@@ -50,7 +50,7 @@ public class ShapeFactory {
 	}
 
 	public Shape getElement(Enum<?> type, int width, int height,
-			EAdBorderedColor color) {
+			EAdPaintImpl color) {
 		Shape s = null;
 		if (type instanceof ShapeType) {
 			switch ((ShapeType) type) {
@@ -75,7 +75,7 @@ public class ShapeFactory {
 		} else {
 			s = new RectangleShape(width, height);
 		}
-		((BezierShape) s).setFill(color);
+		((BezierShape) s).setPaint(color);
 		return s;
 	}
 

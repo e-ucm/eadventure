@@ -55,14 +55,14 @@ public class EmptyScene extends EAdSceneImpl implements SceneDemo {
 	public EmptyScene() {
 		super("EmptyScene");
 		rectangle = new RectangleShape(800, 600);
-		rectangle.setFill(new EAdLinearGradient(new EAdColor(240, 240, 240), EAdColor.WHITE, 800, 600));
+		rectangle.setPaint(new EAdLinearGradient(new EAdColor(240, 240, 240), EAdColor.WHITE, 800, 600));
 		getBackground().getResources().addAsset(
 				getBackground().getInitialBundle(),
 				EAdBasicSceneElement.appearance, rectangle);
 	}
 	
 	public void setBackgroundFill( EAdFill fill ){
-		rectangle.setFill(fill);
+		rectangle.setPaint(fill);
 	}
 
 	@Override

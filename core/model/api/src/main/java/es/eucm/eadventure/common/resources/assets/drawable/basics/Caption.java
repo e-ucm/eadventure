@@ -41,7 +41,7 @@ import es.eucm.eadventure.common.model.extra.EAdList;
 import es.eucm.eadventure.common.model.variables.EAdField;
 import es.eucm.eadventure.common.params.EAdFont;
 import es.eucm.eadventure.common.params.EAdString;
-import es.eucm.eadventure.common.params.paint.EAdFill;
+import es.eucm.eadventure.common.params.paint.EAdPaint;
 
 /**
  * General interface for texts to be shown during the game
@@ -81,7 +81,7 @@ public interface Caption extends BasicDrawable {
 	 * 
 	 * @return
 	 */
-	public EAdFill getTextFill();
+	public EAdPaint getTextPaint();
 
 	/**
 	 * Returns whether this caption has a bubble
@@ -102,7 +102,7 @@ public interface Caption extends BasicDrawable {
 	 * 
 	 * @return
 	 */
-	public EAdFill getBubbleFill();
+	public EAdPaint getBubblePaint();
 
 	/**
 	 * Returns the maximum width for this text, and integer greater than zero,

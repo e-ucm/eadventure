@@ -13,7 +13,7 @@ import es.eucm.eadventure.common.model.events.impl.EAdSceneElementTimedEventImpl
 import es.eucm.eadventure.common.model.variables.EAdField;
 import es.eucm.eadventure.common.model.variables.impl.EAdFieldImpl;
 import es.eucm.eadventure.common.model.variables.impl.operations.MathOperation;
-import es.eucm.eadventure.common.params.fills.impl.EAdBorderedColor;
+import es.eucm.eadventure.common.params.fills.impl.EAdPaintImpl;
 import es.eucm.eadventure.common.params.fills.impl.EAdColor;
 import es.eucm.eadventure.common.params.geom.impl.EAdPositionImpl;
 import es.eucm.eadventure.common.params.geom.impl.EAdPositionImpl.Corner;
@@ -26,11 +26,11 @@ public class DepthZScene extends EmptyScene {
 		
 		int totalTime = 2000;
 		
-		EAdBasicSceneElement e1 = new EAdBasicSceneElement("e1", new RectangleShape( 50, 500, new EAdBorderedColor( EAdColor.RED, EAdColor.BLACK ) ));
+		EAdBasicSceneElement e1 = new EAdBasicSceneElement("e1", new RectangleShape( 50, 500, new EAdPaintImpl( EAdColor.RED, EAdColor.BLACK ) ));
 		e1.setPosition(new EAdPositionImpl( Corner.CENTER, 400, 300 ));
 		getElements().add(e1);
 		
-		EAdBasicSceneElement e2 = new EAdBasicSceneElement("e2", new CircleShape( 20, 20, 20, 20, new EAdBorderedColor( EAdColor.GREEN, EAdColor.BLACK ) ));
+		EAdBasicSceneElement e2 = new EAdBasicSceneElement("e2", new CircleShape( 20, 20, 20, 20, new EAdPaintImpl( EAdColor.GREEN, EAdColor.BLACK ) ));
 		e2.setPosition(new EAdPositionImpl( Corner.CENTER, 10, 300 ));
 		getElements().add(e2);
 		

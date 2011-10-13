@@ -81,6 +81,7 @@ public class DesktopCanvas extends AbstractCanvas<Graphics2D> {
 
 	@Override
 	public void drawText(String str, int x, int y) {
+		y += (g.getFontMetrics().getAscent() - g.getFontMetrics().getDescent() );
 		// Border
 		if (paint.getBorder() != null && paint.getBorderWidth() > 0) {
 			int w = paint.getBorderWidth();

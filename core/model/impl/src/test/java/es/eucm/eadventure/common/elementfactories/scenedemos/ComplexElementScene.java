@@ -14,7 +14,7 @@ import es.eucm.eadventure.common.model.guievents.impl.EAdMouseEventImpl;
 import es.eucm.eadventure.common.model.variables.EAdField;
 import es.eucm.eadventure.common.model.variables.impl.EAdFieldImpl;
 import es.eucm.eadventure.common.model.variables.impl.operations.ValueOperation;
-import es.eucm.eadventure.common.params.fills.impl.EAdBorderedColor;
+import es.eucm.eadventure.common.params.fills.impl.EAdPaintImpl;
 import es.eucm.eadventure.common.params.fills.impl.EAdColor;
 import es.eucm.eadventure.common.params.fills.impl.EAdLinearGradient;
 import es.eucm.eadventure.common.params.geom.impl.EAdPositionImpl;
@@ -27,8 +27,8 @@ public class ComplexElementScene extends EmptyScene {
 		EAdLinearGradient d = new EAdLinearGradient( EAdColor.BLACK, EAdColor.RED, 400, 400 );
 		EAdComposedElementImpl complex = new EAdComposedElementImpl("complex");
 		RectangleShape rectangle = new RectangleShape(400, 400);
-		rectangle.setFill(EAdBorderedColor.BLACK_ON_WHITE);
-		rectangle.setFill(d);
+		rectangle.setPaint(EAdPaintImpl.BLACK_ON_WHITE);
+		rectangle.setPaint(d);
 		complex.getResources().addAsset(complex.getInitialBundle(),
 				EAdBasicSceneElement.appearance, rectangle);
 		complex.setBounds(400, 400);

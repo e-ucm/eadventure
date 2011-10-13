@@ -105,7 +105,7 @@ public class ExitImporter implements EAdElementImporter<Exit, EAdSceneElement> {
 		EAdBasicSceneElement newExit = (EAdBasicSceneElement) object;
 
 		Shape shape = ShapedElementImporter.importShape(oldObject, newExit);
-		shape.setFill(EAdColor.TRANSPARENT);
+		shape.setPaint(EAdColor.TRANSPARENT);
 
 		newExit.getResources().addAsset(newExit.getInitialBundle(),
 				EAdBasicSceneElement.appearance, shape);

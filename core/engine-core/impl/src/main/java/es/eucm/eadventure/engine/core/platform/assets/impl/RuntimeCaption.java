@@ -430,11 +430,11 @@ public class RuntimeCaption extends AbstractRuntimeAsset<Caption> implements
 		// Draw bubble
 		if (getAssetDescriptor().hasBubble()) {
 			RectangleShape shape = new RectangleShape(getWidth(), getHeight());
-			shape.setFill(getAssetDescriptor().getBubbleFill());
+			shape.setPaint(getAssetDescriptor().getBubblePaint());
 			((DrawableAsset<?>) assetHandler.getRuntimeAsset(shape)).render(c);
 		}
 
-		c.setPaint(descriptor.getTextFill());
+		c.setPaint(descriptor.getTextPaint());
 		int xOffset = getAssetDescriptor().getPadding();
 		int yOffset = xOffset;
 		// Draw lines

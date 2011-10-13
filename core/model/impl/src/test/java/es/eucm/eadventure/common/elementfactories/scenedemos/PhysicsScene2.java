@@ -49,7 +49,7 @@ public class PhysicsScene2 extends PhysicsScene {
 		effect.addSceneElement(e3);
 
 		BezierShape circle = new CircleShape(20, 20, 20, 60);
-		circle.setFill(new EAdLinearGradient(EAdColor.GREEN,
+		circle.setPaint(new EAdLinearGradient(EAdColor.GREEN,
 				new EAdColor(0, 100, 0), 40, 40));
 
 		EAdBasicSceneElement b = new EAdBasicSceneElement("ball", circle);

@@ -114,7 +114,7 @@ public abstract class RuntimeBezierShape extends AbstractRuntimeAsset<BezierShap
 	}
 	
 	public void render(EAdCanvas<?> c){
-		c.setPaint(descriptor.getFill());
+		c.setPaint(descriptor.getPaint());
 		c.drawShape(this);
 	}
 	

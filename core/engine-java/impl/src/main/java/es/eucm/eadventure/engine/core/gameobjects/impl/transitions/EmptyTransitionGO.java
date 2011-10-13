@@ -44,7 +44,7 @@ import com.google.inject.Inject;
 
 import es.eucm.eadventure.common.model.elements.EAdScene;
 import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
-import es.eucm.eadventure.common.params.fills.impl.EAdBorderedColor;
+import es.eucm.eadventure.common.params.fills.impl.EAdPaintImpl;
 import es.eucm.eadventure.common.params.fills.impl.EAdColor;
 import es.eucm.eadventure.common.params.geom.impl.EAdPositionImpl;
 import es.eucm.eadventure.common.resources.StringHandler;
@@ -105,7 +105,7 @@ public class EmptyTransitionGO extends SceneGOImpl implements TransitionGO {
 		RectangleShape rs = new RectangleShape(
 				platformConfiguration.getVirtualWidth(),
 				platformConfiguration.getVirtualHeight());
-		rs.setFill(new EAdBorderedColor(new EAdColor(100, 100, 100, 30),
+		rs.setPaint(new EAdPaintImpl(new EAdColor(100, 100, 100, 30),
 				EAdColor.BLACK));
 
 		screenBlock = new EAdBasicSceneElement("screenBlock");

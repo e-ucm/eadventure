@@ -63,7 +63,7 @@ import es.eucm.eadventure.common.model.variables.EAdField;
 import es.eucm.eadventure.common.model.variables.impl.EAdFieldImpl;
 import es.eucm.eadventure.common.model.variables.impl.operations.BooleanOperation;
 import es.eucm.eadventure.common.model.variables.impl.operations.MathOperation;
-import es.eucm.eadventure.common.params.fills.impl.EAdBorderedColor;
+import es.eucm.eadventure.common.params.fills.impl.EAdPaintImpl;
 import es.eucm.eadventure.common.params.geom.impl.EAdPositionImpl;
 import es.eucm.eadventure.common.params.geom.impl.EAdPositionImpl.Corner;
 import es.eucm.eadventure.common.resources.EAdBundleId;
@@ -139,7 +139,7 @@ public class AndroidBasicInventoryGO extends BasicInventoryGO {
 		inventory.setDraggabe(EmptyCondition.FALSE_EMPTY_CONDITION);
 		inventory.setPosition(new EAdPositionImpl(Corner.BOTTOM_LEFT, 0, 700));
 		RectangleShape rect2 = new RectangleShape(800, INVENTORY_HEIGHT,
-				EAdBorderedColor.BLACK_ON_WHITE);
+				EAdPaintImpl.BLACK_ON_WHITE);
 		inventory.getResources().addAsset(inventory.getInitialBundle(),
 				EAdBasicSceneElement.appearance, rect2);
 
@@ -148,7 +148,7 @@ public class AndroidBasicInventoryGO extends BasicInventoryGO {
 		inventoryContent.setPosition(new EAdPositionImpl(Corner.TOP_LEFT,
 				INVENTORY_HEIGHT / 2 + 10, 0));
 		rect2 = new RectangleShape(800, INVENTORY_HEIGHT,
-				EAdBorderedColor.TRANSPARENT);
+				EAdPaintImpl.TRANSPARENT);
 		inventoryContent.getResources().addAsset(
 				inventoryContent.getInitialBundle(),
 				EAdBasicSceneElement.appearance, rect2);
@@ -158,7 +158,7 @@ public class AndroidBasicInventoryGO extends BasicInventoryGO {
 		createArrow("Left", "-", 0, Corner.TOP_LEFT);
 
 		RectangleShape rect = new RectangleShape(800, SENSE_HEIGHT + 2,
-				EAdBorderedColor.TRANSPARENT);
+				EAdPaintImpl.TRANSPARENT);
 
 		createCenterPart();
 
@@ -223,7 +223,7 @@ public class AndroidBasicInventoryGO extends BasicInventoryGO {
 		centerSensor.setDraggabe(EmptyCondition.FALSE_EMPTY_CONDITION);
 		centerSensor.getResources().addAsset(centerSensor.getInitialBundle(),
 				EAdBasicSceneElement.appearance,
-				new RectangleShape(800, 600, EAdBorderedColor.TRANSPARENT));
+				new RectangleShape(800, 600, EAdPaintImpl.TRANSPARENT));
 		centerSensor.setPosition(new EAdPositionImpl(Corner.TOP_LEFT, 0, 0));
 
 		EAdField<Integer> yField = new EAdFieldImpl<Integer>(inventory,

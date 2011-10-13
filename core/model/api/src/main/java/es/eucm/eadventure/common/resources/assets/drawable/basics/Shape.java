@@ -37,7 +37,7 @@
 
 package es.eucm.eadventure.common.resources.assets.drawable.basics;
 
-import es.eucm.eadventure.common.params.paint.EAdFill;
+import es.eucm.eadventure.common.params.paint.EAdPaint;
 
 public interface Shape extends BasicDrawable {
 
@@ -53,14 +53,14 @@ public interface Shape extends BasicDrawable {
 	 * 
 	 * @return The color of the shape
 	 */
-	EAdFill getFill();
+	EAdPaint getPaint();
 
 	/**
-	 * Sets the color for the shape
+	 * Sets the paint for the shape
 	 * 
-	 * @param color
-	 *            the color
+	 * @param paint
+	 *            the paint
 	 */
-	void setFill(EAdFill color);
+	void setPaint(EAdPaint paint);
 
 }

@@ -6,7 +6,7 @@ import es.eucm.eadventure.common.model.effects.impl.AbstractEAdEffect;
 import es.eucm.eadventure.common.model.variables.EAdField;
 import es.eucm.eadventure.common.params.EAdFontImpl;
 import es.eucm.eadventure.common.params.EAdString;
-import es.eucm.eadventure.common.params.fills.impl.EAdBorderedColor;
+import es.eucm.eadventure.common.params.fills.impl.EAdPaintImpl;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.shapes.BallonShape.BalloonType;
 
 /**
@@ -43,10 +43,10 @@ public class EAdSpeakEffect extends AbstractEAdEffect {
 	private final EAdString string;
 
 	@Param("textColor")
-	private EAdBorderedColor textColor;
+	private EAdPaintImpl textColor;
 	
 	@Param("bubbleColor")
-	private EAdBorderedColor bubbleColor;
+	private EAdPaintImpl bubbleColor;
 
 	@Param("font")
 	private EAdFontImpl font;
@@ -59,15 +59,15 @@ public class EAdSpeakEffect extends AbstractEAdEffect {
 
 	/**
 	 * Creates an speak effect, with no text and no position, with text color of
-	 * {@link EAdBorderedColor#WHITE_ON_BLACK} and bubble color of
-	 * {@link EAdBorderedColor#BLACK_ON_WHITE}
+	 * {@link EAdPaintImpl#WHITE_ON_BLACK} and bubble color of
+	 * {@link EAdPaintImpl#BLACK_ON_WHITE}
 	 * 
 	 * @param id
 	 */
 	public EAdSpeakEffect(String id) {
 		super(id);
-		textColor = EAdBorderedColor.WHITE_ON_BLACK;
-		bubbleColor = EAdBorderedColor.BLACK_ON_WHITE;
+		textColor = EAdPaintImpl.WHITE_ON_BLACK;
+		bubbleColor = EAdPaintImpl.BLACK_ON_WHITE;
 		font = EAdFontImpl.REGULAR;
 		ballonType = BalloonType.RECTANGLE;
 		string = EAdString.newEAdString("string");
@@ -101,8 +101,8 @@ public class EAdSpeakEffect extends AbstractEAdEffect {
 	 * @param bubbleColor
 	 *            bubble color
 	 */
-	public void setColor(EAdBorderedColor textColor,
-			EAdBorderedColor bubbleColor) {
+	public void setColor(EAdPaintImpl textColor,
+			EAdPaintImpl bubbleColor) {
 		this.textColor = textColor;
 		this.bubbleColor = bubbleColor;
 	}
@@ -137,11 +137,11 @@ public class EAdSpeakEffect extends AbstractEAdEffect {
 		return string;
 	}
 
-	public EAdBorderedColor getTextColor() {
+	public EAdPaintImpl getTextColor() {
 		return textColor;
 	}
 
-	public EAdBorderedColor getBubbleColor() {
+	public EAdPaintImpl getBubbleColor() {
 		return bubbleColor;
 	}
 

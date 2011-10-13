@@ -50,7 +50,7 @@ import es.eucm.eadventure.common.model.elements.EAdSceneElement;
 import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
 import es.eucm.eadventure.common.model.variables.EAdField;
 import es.eucm.eadventure.common.model.variables.impl.EAdFieldImpl;
-import es.eucm.eadventure.common.params.fills.impl.EAdBorderedColor;
+import es.eucm.eadventure.common.params.fills.impl.EAdPaintImpl;
 import es.eucm.eadventure.common.params.fills.impl.EAdColor;
 import es.eucm.eadventure.common.resources.StringHandler;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.shapes.BallonShape.BalloonType;
@@ -110,8 +110,8 @@ public class SpeakCharEffectImporter extends
 		EAdColor bubbleBorder = new EAdColor("0x"
 				+ npc.getBubbleBorderColor().substring(1) + "ff");
 
-		effect.setColor(new EAdBorderedColor(center, border),
-				new EAdBorderedColor(bubbleCenter, bubbleBorder));
+		effect.setColor(new EAdPaintImpl(center, border),
+				new EAdPaintImpl(bubbleCenter, bubbleBorder));
 
 		// FIXME Wrong, element holds an actor, and we need the reference
 		EAdSceneElement element = (EAdSceneElement) factory.getElementById(npc

@@ -72,13 +72,13 @@ public class FieldsDebugger implements EAdDebugger {
 				ComposedDrawable d = new ComposedDrawableImpl();
 				RectangleShape shape = new RectangleShape(300, 20 * (fields
 						.keySet().size() + 2));
-				shape.setFill(color);
+				shape.setPaint(color);
 				d.addDrawable(shape);
 				CaptionImpl c = new CaptionImpl();
 				stringHandler.setString(c.getText(), element + "");
 				c.setFont(font);
-				c.setTextColor(EAdColor.RED);
-				c.setBubbleColor(EAdColor.WHITE);
+				c.setTextPaint(EAdColor.RED);
+				c.setBubblePaint(EAdColor.WHITE);
 				c.setPadding(2);
 				d.addDrawable(c, 0, 0);
 				int yOffset = 20;
@@ -87,8 +87,8 @@ public class FieldsDebugger implements EAdDebugger {
 					stringHandler.setString(c.getText(), var.getName() + "=#0");
 					c.getFields().add(new EAdFieldImpl(element, var));
 					c.setFont(font);
-					c.setTextColor(EAdColor.WHITE);
-					c.setBubbleColor(EAdColor.BLACK);
+					c.setTextPaint(EAdColor.WHITE);
+					c.setBubblePaint(EAdColor.BLACK);
 					c.setPadding(2);
 					d.addDrawable(c, 0, yOffset);
 					yOffset += 20;

@@ -14,7 +14,7 @@ import es.eucm.eadventure.common.model.trajectories.TrajectoryDefinition;
 import es.eucm.eadventure.common.model.trajectories.impl.Node;
 import es.eucm.eadventure.common.model.trajectories.impl.NodeTrajectoryDefinition;
 import es.eucm.eadventure.common.model.trajectories.impl.Side;
-import es.eucm.eadventure.common.params.fills.impl.EAdBorderedColor;
+import es.eucm.eadventure.common.params.fills.impl.EAdPaintImpl;
 import es.eucm.eadventure.common.params.fills.impl.EAdColor;
 import es.eucm.eadventure.common.params.geom.EAdPosition;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.shapes.BezierShape;
@@ -68,7 +68,7 @@ public class TrajectoryDebugger implements EAdDebugger {
 			int i = 0;
 			for (EAdSceneElement e : currentTrajectory.getBarriers()) {
 				barriers.get(i)
-						.setFill(
+						.setPaint(
 								valueMap.getValue(e,
 										NodeTrajectoryDefinition.VAR_BARRIER_ON) ? EAdColor.YELLOW
 										: EAdColor.TRANSPARENT);
@@ -104,7 +104,7 @@ public class TrajectoryDebugger implements EAdDebugger {
 			int y2 = trajectory.getNodeForId(s.getIDEnd()).getY();
 
 			LineShape line = new LineShape(x1, y1, x2, y2, 4);
-			line.setFill(EAdColor.WHITE);
+			line.setPaint(EAdColor.WHITE);
 			map.addDrawable(line);
 
 		}
@@ -114,7 +114,7 @@ public class TrajectoryDebugger implements EAdDebugger {
 			EAdColor color = trajectory.getInitial() == n ? EAdColor.RED
 					: EAdColor.BLUE;
 
-			circle.setFill(new EAdBorderedColor(color, EAdColor.BLACK, 2));
+			circle.setPaint(new EAdPaintImpl(color, EAdColor.BLACK, 2));
 			map.addDrawable(circle);
 		}
 
@@ -127,7 +127,7 @@ public class TrajectoryDebugger implements EAdDebugger {
 			BezierShape s = (BezierShape) e.getAsset(e.getInitialBundle(),
 					EAdBasicSceneElement.appearance);
 			BezierShape barrier = (BezierShape) s.clone();
-			barrier.setFill(EAdColor.YELLOW);
+			barrier.setPaint(EAdColor.YELLOW);
 			barriers.add(barrier);
 			EAdPosition p = gameObjectFactory.get(e).getPosition();
 			map.addDrawable(barrier, p.getX(), p.getY());

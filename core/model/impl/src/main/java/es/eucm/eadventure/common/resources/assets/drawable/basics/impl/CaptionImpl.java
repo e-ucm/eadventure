@@ -44,9 +44,9 @@ import es.eucm.eadventure.common.model.variables.EAdField;
 import es.eucm.eadventure.common.params.EAdFont;
 import es.eucm.eadventure.common.params.EAdFontImpl;
 import es.eucm.eadventure.common.params.EAdString;
-import es.eucm.eadventure.common.params.fills.impl.EAdBorderedColor;
 import es.eucm.eadventure.common.params.fills.impl.EAdColor;
-import es.eucm.eadventure.common.params.paint.EAdFill;
+import es.eucm.eadventure.common.params.fills.impl.EAdPaintImpl;
+import es.eucm.eadventure.common.params.paint.EAdPaint;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.Caption;
 
 public class CaptionImpl implements Caption {
@@ -63,13 +63,13 @@ public class CaptionImpl implements Caption {
 	private EAdFont font;
 
 	@Param("textColor")
-	private EAdFill textColor;
+	private EAdPaint textPaint;
 
 	@Param("hasBubble")
 	private boolean hasBubble;
 
 	@Param("bubbleColor")
-	private EAdFill bubbleColor;
+	private EAdPaint bubblePaint;
 
 	@Param("maxWidth")
 	private int maxWidth;
@@ -95,11 +95,11 @@ public class CaptionImpl implements Caption {
 
 	public CaptionImpl(EAdString label) {
 		this.label = label;
-		textColor = new EAdBorderedColor(EAdColor.BLACK, EAdColor.WHITE);
-		bubbleColor = new EAdBorderedColor(EAdColor.WHITE, EAdColor.BLACK);
+		textPaint = new EAdPaintImpl(EAdColor.BLACK, EAdColor.WHITE);
+		bubblePaint = new EAdPaintImpl(EAdColor.WHITE, EAdColor.BLACK);
 		this.font = EAdFontImpl.BIG;
 		this.hasBubble = false;
-		this.bubbleColor = null;
+		this.bubblePaint = null;
 		maxHeight = SCREEN_SIZE;
 		maxWidth = SCREEN_SIZE;
 		minWidth = 0;
@@ -123,12 +123,12 @@ public class CaptionImpl implements Caption {
 	}
 
 	@Override
-	public EAdFill getTextFill() {
-		return textColor;
+	public EAdPaint getTextPaint() {
+		return textPaint;
 	}
 
-	public void setTextColor(EAdFill textColor) {
-		this.textColor = textColor;
+	public void setTextPaint(EAdPaint textColor) {
+		this.textPaint = textColor;
 	}
 
 	@Override
@@ -137,12 +137,12 @@ public class CaptionImpl implements Caption {
 	}
 
 	@Override
-	public EAdFill getBubbleFill() {
-		return bubbleColor;
+	public EAdPaint getBubblePaint() {
+		return bubblePaint;
 	}
 
-	public void setBubbleColor(EAdFill bubbleColor) {
-		this.bubbleColor = bubbleColor;
+	public void setBubblePaint(EAdPaint bubbleColor) {
+		this.bubblePaint = bubbleColor;
 		setHasBubble(bubbleColor != null);
 	}
 

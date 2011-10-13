@@ -42,60 +42,57 @@ import es.eucm.eadventure.common.params.paint.EAdFill;
 
 /**
  * <p>
- * This class represents a set of two colors, one representing the center and
- * one representing the border.
+ * This class represents a paint, with a fill and a border
  * </p>
  */
-//FIXME To delete
-public class EAdBorderedColor extends EAdParamImpl implements EAdFill {
+public class EAdPaintImpl extends EAdParamImpl implements EAdFill {
 
 	public static final String SEPARATOR = ":";
 
 	/**
 	 * Basic black border and white center EAdBordered color
 	 */
-	public static final EAdBorderedColor BLACK_ON_WHITE = new EAdBorderedColor(
+	public static final EAdPaintImpl BLACK_ON_WHITE = new EAdPaintImpl(
 			EAdColor.WHITE, EAdColor.BLACK);
 
 	/**
 	 * Basic white border and black center EAdBordered color
 	 */
-	public static final EAdBorderedColor WHITE_ON_BLACK = new EAdBorderedColor(
+	public static final EAdPaintImpl WHITE_ON_BLACK = new EAdPaintImpl(
 			EAdColor.BLACK, EAdColor.WHITE);
 
 	/**
 	 * Transparent color
 	 */
-	public static final EAdBorderedColor TRANSPARENT = new EAdBorderedColor(
+	public static final EAdPaintImpl TRANSPARENT = new EAdPaintImpl(
 			EAdColor.TRANSPARENT, EAdColor.TRANSPARENT);
 
 	/**
 	 * The color of the center
 	 */
-	private EAdColor centerColor;
+	private EAdFill fill;
 
 	/**
 	 * The color of the border
 	 */
-	private EAdColor borderColor;
+	private EAdFill border;
 
 	/**
 	 * Border width
 	 */
 	private int width = 1;
 
-	public EAdBorderedColor(String string) {
+	public EAdPaintImpl(String string) {
 		parse(string);
 	}
 
-	public EAdBorderedColor(EAdColor centerColor, EAdColor borderColor) {
-		this(centerColor, borderColor, 1);
+	public EAdPaintImpl(EAdFill fill, EAdFill border) {
+		this(fill, border, 1);
 	}
 
-	public EAdBorderedColor(EAdColor centerColor, EAdColor borderColor,
-			int width) {
-		this.centerColor = centerColor;
-		this.borderColor = borderColor;
+	public EAdPaintImpl(EAdFill center, EAdFill border, int width) {
+		this.fill = center;
+		this.border = border;
 		this.width = width;
 	}
 
@@ -105,41 +102,23 @@ public class EAdBorderedColor extends EAdParamImpl implements EAdFill {
 	}
 
 	/**
-	 * Returns the color of the border
-	 * 
-	 * @return the color of the border
-	 */
-	public EAdColor getBorderColor() {
-		return borderColor;
-	}
-
-	/**
-	 * Returns the color of the center
-	 * 
-	 * @return the color of the center
-	 */
-	public EAdColor getCenterColor() {
-		return centerColor;
-	}
-
-	/**
 	 * Set the color of the border
 	 * 
 	 * @param color
 	 *            the color of the border
 	 */
 	public void setBorderColor(EAdColor color) {
-		this.borderColor = color;
+		this.border = color;
 	}
 
 	/**
 	 * Set the color of the center
 	 * 
-	 * @param color
+	 * @param fill
 	 *            the color of the center
 	 */
-	public void setCenterColor(EAdColor color) {
-		this.centerColor = color;
+	public void setFill(EAdFill fill) {
+		this.fill = fill;
 	}
 
 	public int getWidth() {
@@ -148,14 +127,14 @@ public class EAdBorderedColor extends EAdParamImpl implements EAdFill {
 
 	@Override
 	public String toStringData() {
-		return centerColor.toStringData() + SEPARATOR
-				+ borderColor.toStringData() + SEPARATOR + width;
+		return fill.toStringData() + SEPARATOR
+				+ border.toStringData() + SEPARATOR + width;
 	}
 
 	@Override
 	public void parse(String data) {
 		String temp[] = data.split(SEPARATOR);
-		setCenterColor(new EAdColor(temp[0]));
+		setFill(new EAdColor(temp[0]));
 		setBorderColor(new EAdColor(temp[1]));
 		width = Integer.parseInt(temp[2]);
 
@@ -163,12 +142,12 @@ public class EAdBorderedColor extends EAdParamImpl implements EAdFill {
 
 	@Override
 	public EAdFill getBorder() {
-		return borderColor;
+		return border;
 	}
 
 	@Override
 	public EAdFill getFill() {
-		return centerColor;
+		return fill;
 	}
 
 	@Override

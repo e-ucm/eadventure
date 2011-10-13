@@ -128,9 +128,9 @@ public class BasicHUDImpl implements BasicHUD {
 		this.stringHandler = stringHandler;
 		c = new CaptionImpl();
 		c.setFont(new EAdFontImpl(12.0f));
-		c.setBubbleColor(new EAdColor(255, 255, 125));
+		c.setBubblePaint(new EAdColor(255, 255, 125));
 		c.setPadding(10);
-		c.setTextColor(EAdColor.BLACK);
+		c.setTextPaint(EAdColor.BLACK);
 		stringHandler.setString(c.getText(), "");
 		contextual = new EAdBasicSceneElement("contextual", c);
 		contextual.setPosition(new EAdPositionImpl(Corner.CENTER, 0, 0));

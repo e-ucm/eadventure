@@ -1,6 +1,6 @@
 package es.eucm.eadventure.common.resources.assets.drawable.basics.impl.shapes;
 
-import es.eucm.eadventure.common.params.fills.impl.EAdBorderedColor;
+import es.eucm.eadventure.common.params.fills.impl.EAdPaintImpl;
 import es.eucm.eadventure.common.params.paint.EAdFill;
 
 public class CircleShape extends BezierShape {
@@ -28,7 +28,7 @@ public class CircleShape extends BezierShape {
 	}
 	
 	public CircleShape(int cx, int cy, int radius, int segments){
-		this( cx, cy, radius, segments, EAdBorderedColor.WHITE_ON_BLACK);
+		this( cx, cy, radius, segments, EAdPaintImpl.WHITE_ON_BLACK);
 	}
 
 }

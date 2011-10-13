@@ -41,7 +41,7 @@ import es.eucm.eadventure.common.elementfactories.EAdElementsFactory;
 import es.eucm.eadventure.common.params.EAdFont;
 import es.eucm.eadventure.common.params.EAdFontImpl;
 import es.eucm.eadventure.common.params.EAdURIImpl;
-import es.eucm.eadventure.common.params.fills.impl.EAdBorderedColor;
+import es.eucm.eadventure.common.params.fills.impl.EAdPaintImpl;
 import es.eucm.eadventure.common.params.fills.impl.EAdColor;
 import es.eucm.eadventure.common.params.fills.impl.EAdLinearGradient;
 import es.eucm.eadventure.common.params.paint.EAdFill;
@@ -58,8 +58,8 @@ public class CaptionFactory {
 		CaptionImpl caption = new CaptionImpl();
 		EAdElementsFactory.getInstance().getStringFactory().setString(caption.getText(), text);
 
-		caption.setTextColor(textFill);
-		caption.setBubbleColor(bubbleFill);
+		caption.setTextPaint(textFill);
+		caption.setBubblePaint(bubbleFill);
 		caption.setFont(font);
 		return caption;
 
@@ -71,7 +71,7 @@ public class CaptionFactory {
 	}
 
 	public CaptionImpl createCaption(String text) {
-		return createCaption(text, EAdBorderedColor.WHITE_ON_BLACK, fill );
+		return createCaption(text, EAdPaintImpl.WHITE_ON_BLACK, fill );
 	}
 
 }

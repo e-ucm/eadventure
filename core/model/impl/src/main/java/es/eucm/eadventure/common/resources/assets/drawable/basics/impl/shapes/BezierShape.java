@@ -40,15 +40,16 @@ package es.eucm.eadventure.common.resources.assets.drawable.basics.impl.shapes;
 import es.eucm.eadventure.common.interfaces.Param;
 import es.eucm.eadventure.common.model.extra.EAdList;
 import es.eucm.eadventure.common.model.extra.impl.EAdListImpl;
-import es.eucm.eadventure.common.params.fills.impl.EAdBorderedColor;
+import es.eucm.eadventure.common.params.fills.impl.EAdPaintImpl;
 import es.eucm.eadventure.common.params.geom.impl.EAdPositionImpl;
 import es.eucm.eadventure.common.params.paint.EAdFill;
+import es.eucm.eadventure.common.params.paint.EAdPaint;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.Shape;
 
 public class BezierShape implements Shape, Cloneable {
 
 	@Param("fill")
-	private EAdFill fill;
+	private EAdPaint paint;
 
 	@Param("closed")
 	private boolean closed;
@@ -62,12 +63,12 @@ public class BezierShape implements Shape, Cloneable {
 	public BezierShape() {
 		points = new EAdListImpl<EAdPositionImpl>(EAdPositionImpl.class);
 		segmentsLength = new EAdListImpl<Integer>(Integer.class);
-		fill = EAdBorderedColor.TRANSPARENT;
+		paint = EAdPaintImpl.TRANSPARENT;
 	}
 	
-	public BezierShape( EAdFill fill ){
+	public BezierShape( EAdFill paint ){
 		this();
-		this.fill = fill;
+		this.paint = paint;
 	}
 
 	public BezierShape(EAdPositionImpl startPoint) {
@@ -99,12 +100,12 @@ public class BezierShape implements Shape, Cloneable {
 	}
 
 	@Override
-	public EAdFill getFill() {
-		return fill;
+	public EAdPaint getPaint() {
+		return paint;
 	}
 
-	public void setFill(EAdFill fill) {
-		this.fill = fill;
+	public void setPaint(EAdPaint paint) {
+		this.paint = paint;
 	}
 
 	public void lineTo(EAdPositionImpl p) {
@@ -160,7 +161,7 @@ public class BezierShape implements Shape, Cloneable {
 			s.points.add(new EAdPositionImpl( p.getX(), p.getY()));
 		}
 		
-		s.fill = fill;
+		s.paint = paint;
 		
 		return s;
 	}

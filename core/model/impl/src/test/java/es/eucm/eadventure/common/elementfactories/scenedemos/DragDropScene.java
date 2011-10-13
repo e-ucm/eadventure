@@ -10,7 +10,7 @@ import es.eucm.eadventure.common.model.variables.EAdField;
 import es.eucm.eadventure.common.model.variables.impl.EAdFieldImpl;
 import es.eucm.eadventure.common.model.variables.impl.operations.ValueOperation;
 import es.eucm.eadventure.common.model.variables.impl.operations.MathOperation;
-import es.eucm.eadventure.common.params.fills.impl.EAdBorderedColor;
+import es.eucm.eadventure.common.params.fills.impl.EAdPaintImpl;
 import es.eucm.eadventure.common.params.fills.impl.EAdColor;
 import es.eucm.eadventure.common.params.fills.impl.EAdLinearGradient;
 import es.eucm.eadventure.common.params.geom.impl.EAdPositionImpl;
@@ -26,7 +26,7 @@ public class DragDropScene extends EmptyScene {
 				new EAdColor(245, 255, 245), 800, 600));
 		BezierShape shape = new BallonShape(0, 0, 100, 100,
 				BalloonType.ROUNDED_RECTANGLE);
-		shape.setFill(new EAdLinearGradient(EAdColor.RED, new EAdColor(200, 0,
+		shape.setPaint(new EAdLinearGradient(EAdColor.RED, new EAdColor(200, 0,
 				0), 100, 100));
 		EAdBasicSceneElement e1 = new EAdBasicSceneElement("e1", shape);
 		e1.setDraggabe(EmptyCondition.TRUE_EMPTY_CONDITION);
@@ -43,7 +43,7 @@ public class DragDropScene extends EmptyScene {
 
 		BezierShape shape2 = new BallonShape(0, 0, 110, 110,
 				BalloonType.ROUNDED_RECTANGLE);
-		shape2.setFill(EAdBorderedColor.BLACK_ON_WHITE);
+		shape2.setPaint(EAdPaintImpl.BLACK_ON_WHITE);
 		EAdBasicSceneElement e2 = new EAdBasicSceneElement("e2", shape2);
 		e2.setPosition(new EAdPositionImpl(Corner.CENTER, 100, 300));
 
