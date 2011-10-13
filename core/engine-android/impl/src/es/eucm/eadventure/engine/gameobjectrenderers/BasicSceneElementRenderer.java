@@ -84,22 +84,19 @@ public class BasicSceneElementRenderer implements
 	@Override
 	public void render(Canvas g, SceneElementGO<?> basicSceneElement,
 			EAdTransformation t) {
+		
 		g.save();
-		Canvas g2 = prepareGraphics(g, basicSceneElement, t);
-		factory.render(g2, basicSceneElement.getRenderAsset());
-		g2.restore();
-	}
-
-	private Canvas prepareGraphics(Canvas g,
-			SceneElementGO<?> basicSceneElement, EAdTransformation t) {
+		
 		float m[] = t.getMatrix().getTransposedMatrix();
-		Matrix matrix = new Matrix();
+		
+		Matrix matrix = g.getMatrix();
 		matrix.setValues(m);
+		
+		matrix.postConcat(g.getMatrix());		
 		g.setMatrix(matrix);
-
-		// TODO use alpha
-
-		return g;
+		
+		factory.render(g, basicSceneElement.getRenderAsset());
+		g.restore();
 	}
 
 	/*

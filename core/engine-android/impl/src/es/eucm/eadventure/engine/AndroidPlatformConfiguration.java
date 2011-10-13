@@ -47,10 +47,14 @@ public class AndroidPlatformConfiguration extends AbstractPlatformConfiguration 
 
 	@Override
 	public double getScale() {
-		return (double) getHeight() / GUI.VIRTUAL_HEIGHT;
+		return 1;
 	}
 	
 	public double getScaleW() {
 		return (double) getWidth() / GUI.VIRTUAL_WIDTH;
+	}	
+	
+	public double getScaleH() {
+		return (double) getHeight() / GUI.VIRTUAL_HEIGHT;
 	}	
 }

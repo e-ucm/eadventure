@@ -94,7 +94,7 @@ public class AndroidGUI extends AbstractGUI<Canvas> {
 		
 		processInput();
 		
-		synchronized (EAdventureRenderingThread.canvasLock) {
+		synchronized (EAdventureRenderingThread.mSurfaceHolder) {
 			// canvas.drawColor(Color.WHITE);
 			render(canvas, interpolation);
 		}
@@ -108,20 +108,23 @@ public class AndroidGUI extends AbstractGUI<Canvas> {
 	}
 
 	public void setCanvas(AndroidCanvas aCanvas) {
-		this.canvas = aCanvas;
 
-		Matrix matrix = canvas.getMatrix();
-
+		Matrix matrix = aCanvas.getMatrix();
+		
 		if (platformConfiguration.isFullscreen())
-			matrix.preScale(
+			matrix.postScale(
 					(float) ((AndroidPlatformConfiguration) platformConfiguration)
-							.getScaleW(), (float) platformConfiguration
-							.getScale());
+							.getScaleW(), (float) ((AndroidPlatformConfiguration) platformConfiguration)
+							.getScaleH());
 		else
-			matrix.preScale((float) platformConfiguration.getScale(),
-					(float) platformConfiguration.getScale());
+			matrix.postScale(
+					(float) ((AndroidPlatformConfiguration) platformConfiguration)
+							.getScaleH(), (float) ((AndroidPlatformConfiguration) platformConfiguration)
+							.getScaleH());
 
-		canvas.setMatrix(matrix);
+		aCanvas.setMatrix(matrix);
+		
+		this.canvas = aCanvas;
 
 	}
 

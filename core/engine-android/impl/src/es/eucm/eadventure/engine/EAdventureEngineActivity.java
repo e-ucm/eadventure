@@ -140,8 +140,7 @@ public class EAdventureEngineActivity extends Activity {
 		super.onDestroy();
 		gameController.stop();
 
-		Runtime r = Runtime.getRuntime();
-		r.gc();
+		System.gc();
 	}
 
 }
