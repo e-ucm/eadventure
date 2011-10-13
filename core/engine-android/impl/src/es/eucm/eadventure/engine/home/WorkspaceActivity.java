@@ -1091,7 +1091,7 @@ public class WorkspaceActivity extends FragmentActivity {
 		public void onListItemClick(ListView l, View v, int position, long id) {
 
     		Intent i = new Intent(this.getActivity(), EAdventureEngineActivity.class);
-	    	i.putExtra("demo", SceneDemos.getInstance().getSceneDemos().get(position));
+	    	i.putExtra("demo", SceneDemos.getInstance().getScenes().get(position).getClass());
 	    	this.getActivity().startActivity(i);
     	}
     	

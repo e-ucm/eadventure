@@ -77,6 +77,7 @@ public class EAdventureSurfaceView extends SurfaceView implements SurfaceHolder.
     	
   		@Override
 		public boolean onTouch(View v, MotionEvent event) {
+  			
   			mouseState.setMousePosition((int) event.getRawX(), (int) event.getRawY());
   			if (event.getAction() == MotionEvent.ACTION_DOWN) {
   				downTime = System.currentTimeMillis();
@@ -120,7 +121,7 @@ public class EAdventureSurfaceView extends SurfaceView implements SurfaceHolder.
 			MouseState mouseState) {
         setOnTouchListener(new OnTouchListener(mouseState));
 		mThread = new EAdventureRenderingThread(holder, gui, platformConfiguration);
-		logger.info("Tread created");
+		logger.info("Thread created");
 		mThread.start();
 	}
 	

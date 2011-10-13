@@ -43,8 +43,10 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.Paint.Align;
 import android.graphics.Path;
 import android.graphics.Rect;
+import android.graphics.Typeface;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -67,6 +69,8 @@ public class BasicHudGORenderer implements GameObjectRenderer<Canvas, BasicHUD> 
 	private Bitmap magGlass;
 
 	private Paint borderPaint;
+	
+	private Paint textP;
 
 	private Rect rect;
 
@@ -80,32 +84,31 @@ public class BasicHudGORenderer implements GameObjectRenderer<Canvas, BasicHUD> 
 		this.mouseState = mouseState;
 		this.platformConfiguration = (AndroidPlatformConfiguration) platformConfiguration;
 
-		borderPaint = new Paint();
+		borderPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
 		borderPaint.setColor(Color.WHITE);
 		borderPaint.setStyle(Paint.Style.STROKE);
-		borderPaint
-				.setStrokeWidth((int) (this.platformConfiguration.getScale() * 8));
+		borderPaint.setStrokeWidth(8);
 
 		clip = new Path();
-		if (this.platformConfiguration.isFullscreen()) {
+		//if (this.platformConfiguration.isFullscreen()) {
+		magGlass = Bitmap.createBitmap(200,200,Bitmap.Config.ARGB_4444);
+		
+		clip.addCircle(100,100,100,Path.Direction.CCW);
+			
+		rect = new Rect(0, 0, 200, 200);
+		
+		textP = new Paint(Paint.ANTI_ALIAS_FLAG);
+		textP.setColor(0xFFFFFFFF);
+		textP.setShadowLayer(4f, 0, 0, Color.BLACK);
+		textP.setTextSize(20);
+		textP.setTypeface(Typeface.SANS_SERIF);
+		textP.setTextAlign(Align.CENTER);
+
+		/*} else {
 			magGlass = Bitmap.createBitmap(
-					(int) (this.platformConfiguration.getScaleW() * 200),
-					(int) (this.platformConfiguration.getScale() * 200),
-					Bitmap.Config.ARGB_8888);
-			clip.addCircle(
-					(float) (this.platformConfiguration.getScaleW() * 100),
-					(float) (this.platformConfiguration.getScale() * 100),
-					(float) (this.platformConfiguration.getScaleW()
-							* this.platformConfiguration.getScale() * 100),
-					Path.Direction.CCW);
-			rect = new Rect(0, 0,
-					(int) (this.platformConfiguration.getScaleW() * 200),
-					(int) (this.platformConfiguration.getScale() * 200));
-		} else {
-			magGlass = Bitmap.createBitmap(
 					(int) (this.platformConfiguration.getScale() * 200),
 					(int) (this.platformConfiguration.getScale() * 200),
-					Bitmap.Config.ARGB_8888);
+					Bitmap.Config.ARGB_4444);
 			clip.addCircle(
 					(float) (this.platformConfiguration.getScale() * 100),
 					(float) (this.platformConfiguration.getScale() * 100),
@@ -115,7 +118,7 @@ public class BasicHudGORenderer implements GameObjectRenderer<Canvas, BasicHUD> 
 			rect = new Rect(0, 0,
 					(int) (this.platformConfiguration.getScale() * 200),
 					(int) (this.platformConfiguration.getScale() * 200));
-		}
+		}*/
 
 		logger.info("New instance");
 	}
@@ -130,35 +133,19 @@ public class BasicHudGORenderer implements GameObjectRenderer<Canvas, BasicHUD> 
 			EAdTransformation t) {
 		if (mouseState.getMouseX() != -1
 				&& mouseState.getMouseY() != -1) {
+			
 			Canvas c = new Canvas(magGlass);
-			c.clipPath(clip);
-
-			c.drawBitmap(
-					((AndroidCanvas) graphicContext).getBitmap(),
-					new Rect(
-							mouseState.getMouseX()
-									- (int) (this.platformConfiguration
-											.getScaleW() * 20), mouseState
-									.getMouseY()
-									- (int) (this.platformConfiguration
-											.getScale() * 20), mouseState
-									.getMouseX()
-									+ (int) (this.platformConfiguration
-											.getScaleW() * 20), mouseState
-									.getMouseY()
-									+ (int) (this.platformConfiguration
-											.getScale() * 20)), rect, null);
+			c.clipPath(clip);			
+			
+			c.drawBitmap(((AndroidCanvas) graphicContext).getBitmap(), new Rect(mouseState.getMouseX() - 50, 
+					mouseState.getMouseY() - 50, mouseState.getMouseX() + 50, 
+					mouseState.getMouseY() + 50), rect, null);
 
 			c.drawPath(clip, borderPaint);
-			c.drawCircle(
-					(float) (this.platformConfiguration.getScaleW() * 100),
-					(float) (this.platformConfiguration.getScale() * 100), 3,
-					borderPaint);
+			c.drawCircle(100, 100, 3, borderPaint);
 
-			int x = mouseState.getMouseX()
-					- (int) (this.platformConfiguration.getScaleW() * 100);
-			int y = mouseState.getMouseY()
-					- (int) (this.platformConfiguration.getScale() * 100);
+			int x = mouseState.getMouseX() - 100;
+			int y = mouseState.getMouseY() - 100;
 
 			/*
 			 * if (x - TextRenderer.paint.getFontMetricsInt().ascent - (int)
@@ -166,28 +153,30 @@ public class BasicHudGORenderer implements GameObjectRenderer<Canvas, BasicHUD> 
 			 * TextRenderer.paint.getFontMetricsInt().ascent + (int)
 			 * (150*platformConfiguration.getScaleW());
 			 */
-			if (x + (int) (100 * this.platformConfiguration.getScaleW()) >= this.platformConfiguration
-					.getWidth())
-				x = this.platformConfiguration.getWidth()
-						- (int) (100 * this.platformConfiguration.getScaleW());
+			if (x + 200 >= this.platformConfiguration.getVirtualWidth())
+				x = this.platformConfiguration.getVirtualWidth() - 200;
+			else if (x <= 0)
+				x = 0;
+			if (y + 200 >= this.platformConfiguration.getVirtualHeight())
+				y = this.platformConfiguration.getVirtualHeight() - 200;
+			else if (y <= 0)
+				y = 0;
 			/*
 			 * if (y - TextRenderer.paint.getFontMetricsInt().ascent - (int)
 			 * (150*platformConfiguration.getScale()) <= 0) y =
 			 * TextRenderer.paint.getFontMetricsInt().ascent + (int)
 			 * (150*platformConfiguration.getScale());
 			 */
-			if (y + (int) (100 * this.platformConfiguration.getScale()) >= this.platformConfiguration
-					.getHeight())
-				y = this.platformConfiguration.getHeight()
-						- (int) (100 * this.platformConfiguration.getScale());
 
 			graphicContext.save();
+			
 			graphicContext.setMatrix(null);
-
+			
 			graphicContext.drawBitmap(magGlass, x, y, null);
+			graphicContext.drawText("PRUEBAS", mouseState.getMouseX() - 110, mouseState.getMouseY() - 160, textP);
 
 			graphicContext.restore();
-
+		
 			/*
 			 * TODO draw element name if (mouseState.getGameObjectUnderMouse()
 			 * != null && mouseState.getGameObjectUnderMouse() instanceof Named)

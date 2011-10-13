@@ -49,15 +49,13 @@ import es.eucm.eadventure.engine.core.platform.PlatformConfiguration;
 
 public class EAdventureRenderingThread extends Thread {
 
-	public static final Object canvasLock = new Object();
-
 	private boolean mDone;
 	private boolean mPaused;
 	private boolean mHasFocus;
 	private boolean mHasSurface;
 	private boolean mContextLost;
 
-	private SurfaceHolder mSurfaceHolder;
+	public static SurfaceHolder mSurfaceHolder;
 
 	private AndroidGUI gui;
 
@@ -66,13 +64,15 @@ public class EAdventureRenderingThread extends Thread {
 	private static AndroidCanvas aCanvas;
 
 	private static final Logger logger = Logger.getLogger("EAdventureRenderingThread");
+	
+    public static boolean paint = false;
 
 	public EAdventureRenderingThread(SurfaceHolder holder, GUI aGUI, PlatformConfiguration platformConfiguration) {
 		super();
 		mDone = false;
 		mSurfaceHolder = holder;
 		this.platformConfiguration = (AndroidPlatformConfiguration) platformConfiguration;
-		gui = (AndroidGUI) aGUI;        	
+		gui = (AndroidGUI) aGUI; 
 	}
 
 	@Override
@@ -81,6 +81,7 @@ public class EAdventureRenderingThread extends Thread {
 		final Bitmap bitmap = Bitmap.createBitmap(platformConfiguration.getWidth(), platformConfiguration.getHeight(), Bitmap.Config.RGB_565);
 		aCanvas = new AndroidCanvas(bitmap);
 		gui.setCanvas(aCanvas);
+
 		/*
 		 * This is our main activity thread's loop, we go until
 		 * asked to quit.
@@ -102,32 +103,17 @@ public class EAdventureRenderingThread extends Thread {
 
 			}
 
-			if (mHasSurface && !AndroidGameLoopImpl.canvasLockPost){
+			if (mHasSurface){
+				
+				paint = true;
 
 				Canvas c = null;
 				// Get ready to draw.            
 				try {
-					c = mSurfaceHolder.lockCanvas();
-					/*
-	    			aCanvas.drawColor(Color.WHITE);
-					Matrix matrix = new Matrix();		
-
-					if (platformConfiguration.isFullscreen())
-						matrix.preScale((float) platformConfiguration.getScaleW(),
-							(float) platformConfiguration.getScale());
-					else matrix.preScale((float) platformConfiguration.getScale(),
-							(float) platformConfiguration.getScale()); 
-
-					aCanvas.setMatrix(matrix);
-
-	    			gui.commit(0.0f);*/
-
-					synchronized (mSurfaceHolder){
-						synchronized (EAdventureRenderingThread.canvasLock){
-							c.drawBitmap(aCanvas.getBitmap(), 0, 0, null);
-						}
-					}
-
+					c = mSurfaceHolder.lockCanvas();					
+					synchronized (EAdventureRenderingThread.mSurfaceHolder){
+						c.drawBitmap(aCanvas.getBitmap(), 0, 0, null);					
+					}	
 				}
 				finally {
 					if (c != null) {
@@ -197,6 +183,5 @@ public class EAdventureRenderingThread extends Thread {
 			Thread.currentThread().interrupt();
 		}
 	}
-
 
 }

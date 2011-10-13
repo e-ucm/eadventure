@@ -72,7 +72,7 @@ public class AndroidAssetHandler extends AbstractAssetHandler {
 		super(classMap);
 		logger.info("New instance");
 		sdCardLocation = Environment.getExternalStorageDirectory()
-				.getAbsolutePath();
+				.toString();
 		this.injector = injector;
 	}
 

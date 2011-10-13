@@ -40,8 +40,6 @@ package es.eucm.eadventure.engine.assetrenderers;
 import java.util.logging.Logger;
 
 import android.graphics.Canvas;
-import android.graphics.Matrix;
-
 import com.google.inject.Singleton;
 
 import es.eucm.eadventure.engine.assets.AndroidEngineImage;
@@ -55,7 +53,7 @@ public class AndroidImageAssetRenderer implements AssetRenderer<Canvas, AndroidE
 	@Override
 	public void render(Canvas graphicContext, AndroidEngineImage asset) {
 		if (asset != null && asset.getImage() != null) {				
-			graphicContext.drawBitmap(asset.getImage(), new Matrix(), null);
+			graphicContext.drawBitmap(asset.getImage(), 0, 0, null);
 		} else {
 			if (asset == null)
 				logger.info("Null asset..." );

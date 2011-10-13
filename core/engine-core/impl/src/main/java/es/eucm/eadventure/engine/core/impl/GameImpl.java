@@ -141,7 +141,8 @@ public class GameImpl implements Game {
 			gui.addElement(gameState.getScene(), initialTransformation);
 
 			basicHud.update();
-			gui.addElement(basicHud, initialTransformation);
+			//TODO Revise
+			//gui.addElement(basicHud, initialTransformation);
 
 			for (GameObject<?> go : debugger.getGameObjects()) {
 				gui.addElement(go, initialTransformation);
