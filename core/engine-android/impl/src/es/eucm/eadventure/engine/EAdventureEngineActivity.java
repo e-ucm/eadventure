@@ -61,7 +61,6 @@ import es.eucm.eadventure.engine.core.platform.AssetHandler;
 import es.eucm.eadventure.engine.core.platform.GUI;
 import es.eucm.eadventure.engine.core.platform.PlatformConfiguration;
 import es.eucm.eadventure.engine.extra.AndroidAssetHandlerModule;
-import es.eucm.eadventure.engine.extra.AndroidAssetRendererModule;
 import es.eucm.eadventure.engine.extra.AndroidModule;
 import es.eucm.eadventure.engine.extra.EAdventureSurfaceView;
 
@@ -84,8 +83,7 @@ public class EAdventureEngineActivity extends Activity {
 		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
 				WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
-		injector = Guice.createInjector(new AndroidAssetHandlerModule(),
-				new AndroidAssetRendererModule(null), new AndroidModule(),
+		injector = Guice.createInjector(new AndroidAssetHandlerModule(), new AndroidModule(),
 				new BasicGameModule());
 
 		dm = new DisplayMetrics();

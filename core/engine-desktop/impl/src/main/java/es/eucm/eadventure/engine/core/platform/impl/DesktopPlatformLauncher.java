@@ -53,7 +53,6 @@ import es.eucm.eadventure.engine.core.platform.AssetHandler;
 import es.eucm.eadventure.engine.core.platform.PlatformControl;
 import es.eucm.eadventure.engine.core.platform.PlatformLauncher;
 import es.eucm.eadventure.engine.core.platform.impl.extra.DesktopAssetHandlerModule;
-import es.eucm.eadventure.engine.core.platform.impl.extra.DesktopAssetRendererModule;
 import es.eucm.eadventure.engine.core.platform.impl.extra.DesktopBasicInventoryGO;
 import es.eucm.eadventure.engine.core.platform.impl.extra.DesktopModule;
 
@@ -97,7 +96,7 @@ public class DesktopPlatformLauncher implements PlatformLauncher {
 		System.setProperty("com.apple.mrj.application.apple.menu.about.name", "eAdventure");
 
 		
-		Injector injector = Guice.createInjector(new DesktopAssetHandlerModule(), new DesktopAssetRendererModule(null), new DesktopModule(), new BasicGameModule());
+		Injector injector = Guice.createInjector(new DesktopAssetHandlerModule(), new DesktopModule(), new BasicGameModule());
 
 		PlatformLauncher launcher = injector.getInstance(PlatformLauncher.class);
 		

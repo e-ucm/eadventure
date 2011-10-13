@@ -54,11 +54,10 @@ public class TestGUI extends AbstractGUI<Void>{
 
 	@Inject
 	public TestGUI(PlatformConfiguration platformConfiguration,
-			GraphicRendererFactory<?> assetRendererFactory,
 			GameObjectManager gameObjectManager, MouseState mouseState,
 			KeyboardState keyboardState, ValueMap valueMap,
 			GameState gameState, GameObjectFactory gameObjectFactory) {
-		super(platformConfiguration, assetRendererFactory, gameObjectManager,
+		super(platformConfiguration, gameObjectManager,
 				mouseState, keyboardState, valueMap, gameState, gameObjectFactory, null);
 	}
 

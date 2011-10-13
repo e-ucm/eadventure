@@ -51,7 +51,6 @@ import es.eucm.eadventure.engine.core.ValueMap;
 import es.eucm.eadventure.engine.core.gameobjects.GameObjectFactory;
 import es.eucm.eadventure.engine.core.gameobjects.GameObjectManager;
 import es.eucm.eadventure.engine.core.gameobjects.huds.BasicHUD;
-import es.eucm.eadventure.engine.core.platform.GraphicRendererFactory;
 import es.eucm.eadventure.engine.core.platform.PlatformConfiguration;
 import es.eucm.eadventure.engine.core.platform.RuntimeAsset;
 import es.eucm.eadventure.engine.core.platform.impl.AbstractGUI;
@@ -65,14 +64,13 @@ public class AndroidGUI extends AbstractGUI<Canvas> {
 
 	@Inject
 	public AndroidGUI(PlatformConfiguration platformConfiguration,
-			GraphicRendererFactory<?> assetRendererFactory,
 			GameObjectManager gameObjectManager, MouseState mouseState,
 			BasicHUD androidBasicHUD, KeyboardState keyboardState,
 			ValueMap valueMap, GameState gameState,
-			GameObjectFactory gameObjectFactory, es.eucm.eadventure.engine.AndroidCanvas canvas) {
-		super(platformConfiguration, assetRendererFactory, gameObjectManager,
-				mouseState, keyboardState, valueMap, gameState,
-				gameObjectFactory, canvas);
+			GameObjectFactory gameObjectFactory,
+			es.eucm.eadventure.engine.AndroidCanvas canvas) {
+		super(platformConfiguration, gameObjectManager, mouseState,
+				keyboardState, valueMap, gameState, gameObjectFactory, canvas);
 		gameObjects.addHUD(androidBasicHUD);
 		androidBasicHUD.setGUI(this);
 	}
@@ -91,14 +89,14 @@ public class AndroidGUI extends AbstractGUI<Canvas> {
 
 	@Override
 	public void commit(float interpolation) {
-		
+
 		processInput();
-		
+
 		synchronized (EAdventureRenderingThread.mSurfaceHolder) {
 			// canvas.drawColor(Color.WHITE);
-			render(canvas, interpolation);
+			render(interpolation);
 		}
-		
+
 	}
 
 	@Override
@@ -110,20 +108,22 @@ public class AndroidGUI extends AbstractGUI<Canvas> {
 	public void setCanvas(AndroidCanvas aCanvas) {
 
 		Matrix matrix = aCanvas.getMatrix();
-		
+
 		if (platformConfiguration.isFullscreen())
 			matrix.postScale(
 					(float) ((AndroidPlatformConfiguration) platformConfiguration)
-							.getScaleW(), (float) ((AndroidPlatformConfiguration) platformConfiguration)
+							.getScaleW(),
+					(float) ((AndroidPlatformConfiguration) platformConfiguration)
 							.getScaleH());
 		else
 			matrix.postScale(
 					(float) ((AndroidPlatformConfiguration) platformConfiguration)
-							.getScaleH(), (float) ((AndroidPlatformConfiguration) platformConfiguration)
+							.getScaleH(),
+					(float) ((AndroidPlatformConfiguration) platformConfiguration)
 							.getScaleH());
 
 		aCanvas.setMatrix(matrix);
-		
+
 		this.canvas = aCanvas;
 		eAdCanvas.setGraphicContext(aCanvas);
 
@@ -132,7 +132,7 @@ public class AndroidGUI extends AbstractGUI<Canvas> {
 	@Override
 	public void finish() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 }

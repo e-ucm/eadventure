@@ -70,7 +70,6 @@ import es.eucm.eadventure.engine.core.gameobjects.huds.BasicHUD;
 import es.eucm.eadventure.engine.core.guiactions.KeyAction;
 import es.eucm.eadventure.engine.core.platform.AssetHandler;
 import es.eucm.eadventure.engine.core.platform.GUI;
-import es.eucm.eadventure.engine.core.platform.GraphicRendererFactory;
 import es.eucm.eadventure.engine.core.platform.PlatformConfiguration;
 import es.eucm.eadventure.engine.core.platform.RuntimeAsset;
 import es.eucm.eadventure.engine.core.platform.assets.impl.DesktopEngineImage;
@@ -126,12 +125,11 @@ public class DesktopGUI extends AbstractGUI<Graphics2D> implements GUI {
 
 	@Inject
 	public DesktopGUI(PlatformConfiguration platformConfiguration,
-			GraphicRendererFactory<?> assetRendererFactory,
 			GameObjectManager gameObjectManager, MouseState mouseState,
 			KeyboardState keyboardState, BasicHUD basicDesktopHUD,
 			ValueMap valueMap, GameState gameState,
 			GameObjectFactory gameObjectFactory, AssetHandler assetHandler, DesktopCanvas canvas) {
-		super(platformConfiguration, assetRendererFactory, gameObjectManager,
+		super(platformConfiguration, gameObjectManager,
 				mouseState, keyboardState, valueMap, gameState,
 				gameObjectFactory, canvas);
 		this.gameObjects.addHUD(basicDesktopHUD);
@@ -222,7 +220,7 @@ public class DesktopGUI extends AbstractGUI<Graphics2D> implements GUI {
 
 				g.setFont(g.getFont().deriveFont(20.0f));
 
-				render(g, interpolation);
+				render(interpolation);
 
 				g.dispose();
 			}
@@ -261,7 +259,7 @@ public class DesktopGUI extends AbstractGUI<Graphics2D> implements GUI {
 		// platformConfiguration.getScale());
 		eAdCanvas.setGraphicContext(g);
 
-		render(g, 0.0f);
+		render(0.0f);
 
 		g.dispose();
 

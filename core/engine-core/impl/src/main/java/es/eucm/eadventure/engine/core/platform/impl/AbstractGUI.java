@@ -58,7 +58,6 @@ import es.eucm.eadventure.engine.core.guiactions.impl.DragActionImpl;
 import es.eucm.eadventure.engine.core.guiactions.impl.MouseActionImpl;
 import es.eucm.eadventure.engine.core.platform.EAdCanvas;
 import es.eucm.eadventure.engine.core.platform.GUI;
-import es.eucm.eadventure.engine.core.platform.GraphicRendererFactory;
 import es.eucm.eadventure.engine.core.platform.PlatformConfiguration;
 import es.eucm.eadventure.engine.core.util.EAdTransformation;
 import es.eucm.eadventure.engine.core.util.impl.EAdMatrixImpl;
@@ -97,12 +96,6 @@ public abstract class AbstractGUI<T> implements GUI {
 	protected PlatformConfiguration platformConfiguration;
 
 	/**
-	 * Factory for the graphic render elements, parameterized with the graphic
-	 * context
-	 */
-	protected GraphicRendererFactory<T> graphicRendererFactory;
-
-	/**
 	 * Game object manager
 	 */
 	protected GameObjectManager gameObjects;
@@ -127,15 +120,13 @@ public abstract class AbstractGUI<T> implements GUI {
 
 	private boolean checkDrag;
 
-	@SuppressWarnings({ "unchecked" })
+	
 	public AbstractGUI(PlatformConfiguration platformConfiguration,
-			GraphicRendererFactory<?> assetRendererFactory,
 			GameObjectManager gameObjectManager, MouseState mouseState,
 			KeyboardState keyboardState, ValueMap valueMap,
 			GameState gameState, GameObjectFactory gameObjectFactory,
 			EAdCanvas<T> canvas) {
 		this.platformConfiguration = platformConfiguration;
-		this.graphicRendererFactory = (GraphicRendererFactory<T>) assetRendererFactory;
 		this.gameObjects = gameObjectManager;
 		this.mouseState = mouseState;
 		this.keyboardState = keyboardState;
@@ -383,18 +374,14 @@ public abstract class AbstractGUI<T> implements GUI {
 
 	/**
 	 * Render the game objects into the graphic context
-	 * 
-	 * @param g
-	 *            The graphic context
 	 * @param interpolation
 	 *            The current interpolation between ideal game frames
 	 */
-	protected void render(T g, float interpolation) {
+	protected void render(float interpolation) {
+		// TODO use interpolation
 		synchronized (GameObjectManager.lock) {
 			for (int i = 0; i < gameObjects.getGameObjects().size(); i++) {
 				EAdTransformation t = gameObjects.getTransformations().get(i);
-				// graphicRendererFactory.render(g, gameObjects.getGameObjects()
-				// .get(i), t);
 				eAdCanvas.setTransformation(t);
 				((Renderable) gameObjects.getGameObjects().get(i))
 						.render(eAdCanvas);

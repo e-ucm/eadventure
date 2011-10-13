@@ -84,7 +84,7 @@ public class TestModule extends AbstractModule {
 	}
 
 	protected void configureAssetRenderer() {
-		bind(new TypeLiteral<GraphicRendererFactory<?>> () {}).to(TestGraphicRenderer.class);
+		
 	}
 
 

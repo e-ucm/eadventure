@@ -79,7 +79,6 @@ import es.eucm.eadventure.engine.core.debuggers.impl.TrajectoryDebugger;
 import es.eucm.eadventure.engine.core.impl.modules.BasicGameModule;
 import es.eucm.eadventure.engine.core.platform.PlatformConfiguration;
 import es.eucm.eadventure.engine.core.platform.impl.extra.DesktopAssetHandlerModule;
-import es.eucm.eadventure.engine.core.platform.impl.extra.DesktopAssetRendererModule;
 import es.eucm.eadventure.engine.core.platform.impl.extra.DesktopModule;
 import es.eucm.eadventure.engine.core.test.launcher.BaseTestLauncher;
 
@@ -260,7 +259,7 @@ public class DesktopDemos extends BaseTestLauncher {
 
 	private static Injector createNewInjector(int width, int height) {
 		Injector i = Guice.createInjector(new DesktopAssetHandlerModule(),
-				new DesktopAssetRendererModule(null), new DesktopModule(),
+				new DesktopModule(),
 				new BasicGameModule());
 		PlatformConfiguration conf = i.getInstance(PlatformConfiguration.class);
 		conf.setWidth(width);

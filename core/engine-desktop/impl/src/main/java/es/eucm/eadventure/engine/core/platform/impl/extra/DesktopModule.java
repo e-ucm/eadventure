@@ -37,9 +37,6 @@
 
 package es.eucm.eadventure.engine.core.platform.impl.extra;
 
-import java.awt.Graphics2D;
-import java.awt.Shape;
-
 import com.google.inject.AbstractModule;
 import com.google.inject.Provides;
 import com.google.inject.TypeLiteral;
@@ -64,13 +61,11 @@ import es.eucm.eadventure.engine.core.impl.GameLoopImpl;
 import es.eucm.eadventure.engine.core.impl.GameProfilerImpl;
 import es.eucm.eadventure.engine.core.impl.KeyboardStateImpl;
 import es.eucm.eadventure.engine.core.impl.MouseStateImpl;
-import es.eucm.eadventure.engine.core.platform.FillFactory;
 import es.eucm.eadventure.engine.core.platform.GUI;
 import es.eucm.eadventure.engine.core.platform.PlatformConfiguration;
 import es.eucm.eadventure.engine.core.platform.PlatformControl;
 import es.eucm.eadventure.engine.core.platform.PlatformLauncher;
 import es.eucm.eadventure.engine.core.platform.TransitionFactory;
-import es.eucm.eadventure.engine.core.platform.impl.DesktopFillFactory;
 import es.eucm.eadventure.engine.core.platform.impl.DesktopFontCache;
 import es.eucm.eadventure.engine.core.platform.impl.DesktopGUI;
 import es.eucm.eadventure.engine.core.platform.impl.DesktopPlatformConfiguration;
@@ -100,8 +95,6 @@ public class DesktopModule extends AbstractModule {
 		bind(ActionsHUD.class).to(DesktopActionsHUDImpl.class);
 		bind(MenuHUD.class).to(DesktopMenuHUDImpl.class);
 		bind(FontHandlerImpl.class).to(DesktopFontCache.class);
-		bind(new TypeLiteral<FillFactory<Graphics2D, Shape>>() {
-		}).to(DesktopFillFactory.class);
 		bind(TransitionFactory.class).to(DesktopTransitionFactory.class);
 		bind(BasicInventoryGO.class).to(DesktopBasicInventoryGO.class);
 	}

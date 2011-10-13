@@ -68,7 +68,6 @@ import es.eucm.eadventure.engine.core.platform.PlatformLauncher;
 import es.eucm.eadventure.engine.core.platform.impl.DesktopAssetHandler;
 import es.eucm.eadventure.engine.core.platform.impl.DesktopPlatformLauncher;
 import es.eucm.eadventure.engine.core.platform.impl.extra.DesktopAssetHandlerModule;
-import es.eucm.eadventure.engine.core.platform.impl.extra.DesktopAssetRendererModule;
 import es.eucm.eadventure.engine.core.platform.impl.extra.DesktopModule;
 
 /**
@@ -143,7 +142,6 @@ public class ImportTestDesktopPlatformLauncher {
 					.createInjector(new ImporterConfigurationModule(folder
 							+ "/" + projectName),
 							new DesktopAssetHandlerModule(),
-							new DesktopAssetRendererModule(null),
 							new DesktopModule(), new BasicGameModule());
 			PlatformConfiguration conf = injector.getInstance(PlatformConfiguration.class);
 			conf.setWidth(800);

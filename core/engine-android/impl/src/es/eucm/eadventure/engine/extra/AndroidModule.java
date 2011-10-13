@@ -37,16 +37,11 @@
 
 package es.eucm.eadventure.engine.extra;
 
-import android.graphics.Canvas;
-import android.graphics.Path;
-
 import com.google.inject.AbstractModule;
 import com.google.inject.Provides;
-import com.google.inject.TypeLiteral;
 import com.google.inject.name.Named;
 
 import es.eucm.eadventure.common.model.impl.inventory.EAdBasicInventory;
-import es.eucm.eadventure.engine.AndroidFillFactory;
 import es.eucm.eadventure.engine.AndroidFontCache;
 import es.eucm.eadventure.engine.AndroidGUI;
 import es.eucm.eadventure.engine.AndroidPlatformConfiguration;
@@ -64,7 +59,6 @@ import es.eucm.eadventure.engine.core.impl.GameProfilerImpl;
 import es.eucm.eadventure.engine.core.impl.KeyboardStateImpl;
 import es.eucm.eadventure.engine.core.impl.MouseStateImpl;
 import es.eucm.eadventure.engine.core.impl.factorymapproviders.GameObjectFactoryMapProvider;
-import es.eucm.eadventure.engine.core.platform.FillFactory;
 import es.eucm.eadventure.engine.core.platform.GUI;
 import es.eucm.eadventure.engine.core.platform.PlatformConfiguration;
 import es.eucm.eadventure.engine.core.platform.TransitionFactory;
@@ -94,8 +88,6 @@ public class AndroidModule extends AbstractModule {
 		bind(FontHandlerImpl.class).to(AndroidFontCache.class);
 		bind(MenuHUD.class).to(AndroidMenuHUDImpl.class);
 		bind(TransitionFactory.class).to(AndroidTransitionFactory.class);
-		bind(new TypeLiteral<FillFactory<Canvas, Path>>() {
-		}).to(AndroidFillFactory.class);
 	}
 	
 	@Provides

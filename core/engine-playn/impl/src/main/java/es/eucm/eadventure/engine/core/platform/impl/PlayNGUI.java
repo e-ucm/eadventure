@@ -56,7 +56,6 @@ import es.eucm.eadventure.engine.core.gameobjects.GameObjectFactory;
 import es.eucm.eadventure.engine.core.gameobjects.GameObjectManager;
 import es.eucm.eadventure.engine.core.gameobjects.huds.BasicHUD;
 import es.eucm.eadventure.engine.core.platform.GUI;
-import es.eucm.eadventure.engine.core.platform.GraphicRendererFactory;
 import es.eucm.eadventure.engine.core.platform.PlatformConfiguration;
 import es.eucm.eadventure.engine.core.platform.PlayNCanvas;
 import es.eucm.eadventure.engine.core.platform.RuntimeAsset;
@@ -91,14 +90,12 @@ public class PlayNGUI extends AbstractGUI<Canvas> implements GUI {
 
 	@Inject
 	public PlayNGUI(PlatformConfiguration platformConfiguration,
-			GraphicRendererFactory<?> assetRendererFactory,
 			GameObjectManager gameObjectManager, MouseState mouseState,
 			KeyboardState keyboardState, BasicHUD basicDesktopHUD,
 			ValueMap valueMap, GameState gameState,
 			GameObjectFactory gameObjectFactory, PlayNCanvas canvas) {
-		super(platformConfiguration, assetRendererFactory, gameObjectManager,
-				mouseState, keyboardState, valueMap, gameState,
-				gameObjectFactory, canvas);
+		super(platformConfiguration, gameObjectManager, mouseState,
+				keyboardState, valueMap, gameState, gameObjectFactory, canvas);
 		logger.info("New instance");
 		this.gameObjects.addHUD(basicDesktopHUD);
 		basicDesktopHUD.setGUI(this);
@@ -146,7 +143,7 @@ public class PlayNGUI extends AbstractGUI<Canvas> implements GUI {
 		if (currentComponent != null)
 			return;
 
-		render(canvas, interpolation);
+		render(interpolation);
 
 		/*
 		 * 
@@ -231,7 +228,6 @@ public class PlayNGUI extends AbstractGUI<Canvas> implements GUI {
 		PlayNInputListener listener = new PlayNInputListener(mouseState,
 				keyboardState);
 		this.canvas = canvas;
-		eAdCanvas.setGraphicContext(canvas);
 		/*
 		 * canvas.addMouseListener(listener);
 		 * canvas.addMouseMotionListener(listener);

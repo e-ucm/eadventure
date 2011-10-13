@@ -43,6 +43,7 @@ import java.util.Map;
 import com.google.inject.AbstractModule;
 import com.google.inject.Provides;
 import com.google.inject.Singleton;
+import com.google.inject.TypeLiteral;
 
 import es.eucm.eadventure.common.StringFileHandler;
 import es.eucm.eadventure.common.impl.strings.DefaultStringFileHandler;
@@ -62,10 +63,12 @@ import es.eucm.eadventure.common.resources.assets.drawable.compounds.DisplacedDr
 import es.eucm.eadventure.common.resources.assets.drawable.compounds.impl.ComposedDrawableImpl;
 import es.eucm.eadventure.common.resources.assets.drawable.compounds.impl.DisplacedDrawableImpl;
 import es.eucm.eadventure.common.resources.assets.multimedia.Sound;
+import es.eucm.eadventure.common.resources.assets.multimedia.Video;
 import es.eucm.eadventure.common.resources.assets.multimedia.impl.SoundImpl;
 import es.eucm.eadventure.engine.core.impl.DefaultStringHandler;
 import es.eucm.eadventure.engine.core.platform.AssetHandler;
 import es.eucm.eadventure.engine.core.platform.RuntimeAsset;
+import es.eucm.eadventure.engine.core.platform.SpecialAssetRenderer;
 import es.eucm.eadventure.engine.core.platform.assets.impl.DesktopBezierShape;
 import es.eucm.eadventure.engine.core.platform.assets.impl.DesktopEngineCaption;
 import es.eucm.eadventure.engine.core.platform.assets.impl.DesktopEngineImage;
@@ -75,6 +78,7 @@ import es.eucm.eadventure.engine.core.platform.assets.impl.RuntimeDisplacedDrawa
 import es.eucm.eadventure.engine.core.platform.assets.impl.RuntimeSpriteImage;
 import es.eucm.eadventure.engine.core.platform.assets.impl.sound.DesktopSound;
 import es.eucm.eadventure.engine.core.platform.impl.DesktopAssetHandler;
+import es.eucm.eadventure.engine.core.platform.impl.specialassetrenderers.VLCDesktopVideoRenderer;
 
 public class DesktopAssetHandlerModule extends AbstractModule {
 
@@ -83,6 +87,8 @@ public class DesktopAssetHandlerModule extends AbstractModule {
 		bind(StringFileHandler.class).to(DefaultStringFileHandler.class);
 		bind(StringHandler.class).to(DefaultStringHandler.class);
 		bind(AssetHandler.class).to(DesktopAssetHandler.class);
+		bind(new TypeLiteral<SpecialAssetRenderer<Video, ?>>() {
+		}).to(VLCDesktopVideoRenderer.class);
 	}
 
 	@Provides

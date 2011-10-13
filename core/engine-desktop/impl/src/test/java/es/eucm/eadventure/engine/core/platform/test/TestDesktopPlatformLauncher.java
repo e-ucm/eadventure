@@ -60,7 +60,6 @@ import es.eucm.eadventure.engine.core.impl.modules.BasicGameModule;
 import es.eucm.eadventure.engine.core.platform.PlatformLauncher;
 import es.eucm.eadventure.engine.core.platform.impl.DesktopPlatformLauncher;
 import es.eucm.eadventure.engine.core.platform.impl.extra.DesktopAssetHandlerModule;
-import es.eucm.eadventure.engine.core.platform.impl.extra.DesktopAssetRendererModule;
 import es.eucm.eadventure.engine.core.platform.impl.extra.DesktopModule;
 
 @Singleton
@@ -69,7 +68,7 @@ public class TestDesktopPlatformLauncher  {
 	public static void main(String[] args) {
 		System.setProperty("com.apple.mrj.application.apple.menu.about.name", "eAdventure");
 
-		Injector injector = Guice.createInjector(new DesktopAssetHandlerModule(), new DesktopAssetRendererModule(null), new DesktopModule(), new BasicGameModule());
+		Injector injector = Guice.createInjector(new DesktopAssetHandlerModule(), new DesktopModule(), new BasicGameModule());
 
 		PlatformLauncher launcher = injector.getInstance(PlatformLauncher.class);
 		
