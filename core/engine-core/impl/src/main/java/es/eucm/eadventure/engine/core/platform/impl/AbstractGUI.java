@@ -51,6 +51,7 @@ import es.eucm.eadventure.engine.core.ValueMap;
 import es.eucm.eadventure.engine.core.gameobjects.GameObject;
 import es.eucm.eadventure.engine.core.gameobjects.GameObjectFactory;
 import es.eucm.eadventure.engine.core.gameobjects.GameObjectManager;
+import es.eucm.eadventure.engine.core.gameobjects.impl.DrawableGameObject;
 import es.eucm.eadventure.engine.core.guiactions.KeyAction;
 import es.eucm.eadventure.engine.core.guiactions.MouseAction;
 import es.eucm.eadventure.engine.core.guiactions.impl.DragActionImpl;
@@ -121,7 +122,7 @@ public abstract class AbstractGUI<T> implements GUI {
 	protected GameState gameState;
 
 	protected GameObjectFactory gameObjectFactory;
-	
+
 	protected EAdCanvas<T> eAdCanvas;
 
 	private boolean checkDrag;
@@ -131,7 +132,8 @@ public abstract class AbstractGUI<T> implements GUI {
 			GraphicRendererFactory<?> assetRendererFactory,
 			GameObjectManager gameObjectManager, MouseState mouseState,
 			KeyboardState keyboardState, ValueMap valueMap,
-			GameState gameState, GameObjectFactory gameObjectFactory, EAdCanvas<T> canvas) {
+			GameState gameState, GameObjectFactory gameObjectFactory,
+			EAdCanvas<T> canvas) {
 		this.platformConfiguration = platformConfiguration;
 		this.graphicRendererFactory = (GraphicRendererFactory<T>) assetRendererFactory;
 		this.gameObjects = gameObjectManager;
@@ -341,11 +343,11 @@ public abstract class AbstractGUI<T> implements GUI {
 	private boolean contains(GameObject<?> go, int x, int y, EAdTransformation t) {
 		if (go.isEnable()) {
 			float[] mouse = t.getMatrix().postMultiplyPointInverse(x, y);
-			return graphicRendererFactory.contains(go, (int) mouse[0],
-					(int) mouse[1]);
-		} else {
-			return false;
+			if (go instanceof DrawableGameObject<?>) {
+				return ((DrawableGameObject<?>) go).contains((int) mouse[0], (int) mouse[1]);
+			}
 		}
+		return false;
 	}
 
 	/**
@@ -391,10 +393,11 @@ public abstract class AbstractGUI<T> implements GUI {
 		synchronized (GameObjectManager.lock) {
 			for (int i = 0; i < gameObjects.getGameObjects().size(); i++) {
 				EAdTransformation t = gameObjects.getTransformations().get(i);
-//				graphicRendererFactory.render(g, gameObjects.getGameObjects()
-//						.get(i), t);
+				// graphicRendererFactory.render(g, gameObjects.getGameObjects()
+				// .get(i), t);
 				eAdCanvas.setTransformation(t);
-				((Renderable) gameObjects.getGameObjects().get(i)).render( eAdCanvas );
+				((Renderable) gameObjects.getGameObjects().get(i))
+						.render(eAdCanvas);
 			}
 		}
 	}

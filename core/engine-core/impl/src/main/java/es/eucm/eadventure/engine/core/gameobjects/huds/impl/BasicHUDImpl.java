@@ -87,7 +87,7 @@ public class BasicHUDImpl implements BasicHUD {
 	/**
 	 * The logger
 	 */
-	private static final Logger logger = Logger.getLogger("BasicHUDImpl");
+	protected static final Logger logger = Logger.getLogger("BasicHUDImpl");
 
 	private GUI gui;
 
@@ -101,7 +101,7 @@ public class BasicHUDImpl implements BasicHUD {
 
 	private GameObjectManager gameObjectManager;
 
-	private MouseState mouseState;
+	protected MouseState mouseState;
 
 	private EAdBasicSceneElement contextual;
 

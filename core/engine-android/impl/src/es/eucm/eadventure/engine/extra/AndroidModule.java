@@ -59,7 +59,6 @@ import es.eucm.eadventure.engine.core.gameobjects.GameObjectManager;
 import es.eucm.eadventure.engine.core.gameobjects.huds.ActionsHUD;
 import es.eucm.eadventure.engine.core.gameobjects.huds.BasicHUD;
 import es.eucm.eadventure.engine.core.gameobjects.huds.MenuHUD;
-import es.eucm.eadventure.engine.core.gameobjects.huds.impl.BasicHUDImpl;
 import es.eucm.eadventure.engine.core.gameobjects.impl.GameObjectManagerImpl;
 import es.eucm.eadventure.engine.core.impl.GameProfilerImpl;
 import es.eucm.eadventure.engine.core.impl.KeyboardStateImpl;
@@ -70,6 +69,7 @@ import es.eucm.eadventure.engine.core.platform.GUI;
 import es.eucm.eadventure.engine.core.platform.PlatformConfiguration;
 import es.eucm.eadventure.engine.core.platform.TransitionFactory;
 import es.eucm.eadventure.engine.core.platform.impl.FontHandlerImpl;
+import es.eucm.eadventure.engine.gameobjects.AndroidBasicHUD;
 
 public class AndroidModule extends AbstractModule {
 
@@ -90,7 +90,7 @@ public class AndroidModule extends AbstractModule {
 		bind(KeyboardState.class).to(KeyboardStateImpl.class);
 		bind(GameObjectManager.class).to(GameObjectManagerImpl.class);
 		bind(ActionsHUD.class).to(AndroidActionsHUDImpl.class);
-		bind(BasicHUD.class).to(BasicHUDImpl.class);
+		bind(BasicHUD.class).to(AndroidBasicHUD.class);
 		bind(FontHandlerImpl.class).to(AndroidFontCache.class);
 		bind(MenuHUD.class).to(AndroidMenuHUDImpl.class);
 		bind(TransitionFactory.class).to(AndroidTransitionFactory.class);

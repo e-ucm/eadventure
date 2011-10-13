@@ -56,6 +56,8 @@ public class AndroidEngineImage extends RuntimeImage {
 
 	public Bitmap image;
 	
+	private boolean loaded;
+	
 	// FIXME find a better solution
 	private static Bitmap defaultImage;
 	
@@ -94,9 +96,21 @@ public class AndroidEngineImage extends RuntimeImage {
 	
 	@Override
 	public boolean loadAsset() {
+		loaded = true;
+		File f = new File(assetHandler.getAbsolutePath(descriptor.getURI().getPath()));
 		
-		image = decodeFile(assetHandler.getAbsolutePath(descriptor.getURI().getPath()));
-
+		BitmapFactory.Options options = new BitmapFactory.Options();
+		options.inPurgeable = true;
+		options.inInputShareable = true;
+		options.inTempStorage = new byte [16 * 1024];
+		options.inPreferredConfig = Bitmap.Config.RGB_565;
+		
+		try {
+			image = BitmapFactory.decodeStream(new FileInputStream(f), null, options);
+		} catch (FileNotFoundException e) {
+			logger.info("Image not found: " + descriptor.getURI());
+		}
+		
 		logger.info("New instance, loaded = " + (image != null));
 		return image != null;
 	}

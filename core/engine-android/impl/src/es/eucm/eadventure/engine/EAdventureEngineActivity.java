@@ -42,15 +42,20 @@ import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.view.Window;
 import android.view.WindowManager;
+
 import com.google.inject.Guice;
 import com.google.inject.Injector;
+
 import es.eucm.eadventure.common.elementfactories.EAdElementsFactory;
+import es.eucm.eadventure.common.model.elements.EAdAdventureModel;
 import es.eucm.eadventure.common.model.elements.EAdScene;
 import es.eucm.eadventure.common.model.elements.impl.EAdSceneImpl;
+import es.eucm.eadventure.common.model.impl.EAdAdventureModelImpl;
+import es.eucm.eadventure.common.model.impl.EAdChapterImpl;
 import es.eucm.eadventure.common.resources.StringHandler;
+import es.eucm.eadventure.engine.core.Game;
 import es.eucm.eadventure.engine.core.GameController;
 import es.eucm.eadventure.engine.core.MouseState;
-import es.eucm.eadventure.engine.core.impl.LoadingScreen;
 import es.eucm.eadventure.engine.core.impl.modules.BasicGameModule;
 import es.eucm.eadventure.engine.core.platform.AssetHandler;
 import es.eucm.eadventure.engine.core.platform.GUI;
@@ -98,7 +103,6 @@ public class EAdventureEngineActivity extends Activity {
 		aah.setResources(getResources());
 		aah.setContext(this);
 
-		LoadingScreen loadingScreen = injector.getInstance(LoadingScreen.class);
 
 		@SuppressWarnings("unchecked")
 		Class<? extends EAdScene> demoClass = (Class<? extends EAdScene>) getIntent()
@@ -109,8 +113,14 @@ public class EAdventureEngineActivity extends Activity {
 		StringHandler sh = injector.getInstance(StringHandler.class);
 		sh.addStrings(EAdElementsFactory.getInstance().getStringFactory()
 				.getStrings());
-
-		loadingScreen.setInitialScreen(sceneImpl);
+		
+		EAdAdventureModel model = new EAdAdventureModelImpl();
+		EAdChapterImpl c1 = new EAdChapterImpl( "chapter1" );
+		c1.getScenes().add(sceneImpl);
+		c1.setInitialScene(sceneImpl);
+		model.getChapters().add(c1);
+		Game g = injector.getInstance(Game.class);
+		g.setGame(model, c1);
 
 		surfaceView = new EAdventureSurfaceView(this);
 		setContentView(surfaceView);

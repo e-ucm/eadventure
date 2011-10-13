@@ -287,35 +287,35 @@ public class AndroidBasicInventoryGO extends BasicInventoryGO {
 
 	@Override
 	public void doLayout(EAdTransformation t) {
-		gui.addElement(gameObjectFactory.get(centerSensor), t);
-		gui.addElement(gameObjectFactory.get(inventory), t);
-		gui.addElement(gameObjectFactory.get(bottomSensor), t);
-		gui.addElement(gameObjectFactory.get(topSensor), t);
+//		gui.addElement(gameObjectFactory.get(centerSensor), t);
+//		gui.addElement(gameObjectFactory.get(inventory), t);
+//		gui.addElement(gameObjectFactory.get(bottomSensor), t);
+//		gui.addElement(gameObjectFactory.get(topSensor), t);
 	}
 
 	@Override
 	public void update() {
-		super.update();
-		gameObjectFactory.get(bottomSensor).update();
-		gameObjectFactory.get(topSensor).update();
-		gameObjectFactory.get(inventory).update();
-
-		List<EAdActor> removedActors = new ArrayList<EAdActor>();
-		addNewActors();
-		int cont = 0;
-		for (EAdActor actor : includedActors.keySet()) {
-			if (!gameState.getInventoryActors().contains(actor))
-				removedActors.add(actor);
-			else {
-				EAdActorReferenceImpl ref = includedActors.get(actor);
-				valueMap.setValue(ref, EAdBasicSceneElement.VAR_X, cont
-						* (10 + INVENTORY_HEIGHT) + INVENTORY_HEIGHT / 2);
-
-				// TODO position actor
-				cont++;
-			}
-		}
-		removeOldActors(removedActors);
+//		super.update();
+//		gameObjectFactory.get(bottomSensor).update();
+//		gameObjectFactory.get(topSensor).update();
+//		gameObjectFactory.get(inventory).update();
+//
+//		List<EAdActor> removedActors = new ArrayList<EAdActor>();
+//		addNewActors();
+//		int cont = 0;
+//		for (EAdActor actor : includedActors.keySet()) {
+//			if (!gameState.getInventoryActors().contains(actor))
+//				removedActors.add(actor);
+//			else {
+//				EAdActorReferenceImpl ref = includedActors.get(actor);
+//				valueMap.setValue(ref, EAdBasicSceneElement.VAR_X, cont
+//						* (10 + INVENTORY_HEIGHT) + INVENTORY_HEIGHT / 2);
+//
+//				// TODO position actor
+//				cont++;
+//			}
+//		}
+//		removeOldActors(removedActors);
 	}
 
 	/**
