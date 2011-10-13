@@ -43,6 +43,7 @@ import es.eucm.eadventure.common.resources.assets.drawable.Drawable;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.Image;
 import es.eucm.eadventure.engine.core.platform.AssetHandler;
 import es.eucm.eadventure.engine.core.platform.DrawableAsset;
+import es.eucm.eadventure.engine.core.platform.EAdCanvas;
 
 /**
  * Represents a runtime engine image, associated with an {@link AssetDescritpor}
@@ -69,6 +70,15 @@ public abstract class RuntimeImage extends AbstractRuntimeAsset<Image> implement
 	@Override
 	public <S extends Drawable> DrawableAsset<S> getDrawable() {
 		return (DrawableAsset<S>) this;
+	}
+	
+	public void render( EAdCanvas<?> c ){
+		c.drawImage(this);
+	}
+	
+	public boolean contains( int x, int y ){
+		// TODO process image alpha
+		return x > 0 && y > 0 && x < getWidth() && y < getHeight();
 	}
 
 }

@@ -47,10 +47,13 @@ import es.eucm.eadventure.common.params.geom.impl.EAdRectangleImpl;
 import es.eucm.eadventure.common.resources.StringHandler;
 import es.eucm.eadventure.common.resources.assets.drawable.Drawable;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.Caption;
+import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.shapes.RectangleShape;
 import es.eucm.eadventure.engine.core.GameLoop;
 import es.eucm.eadventure.engine.core.impl.VariableMap;
+import es.eucm.eadventure.engine.core.platform.AssetHandler;
 import es.eucm.eadventure.engine.core.platform.DrawableAsset;
-import es.eucm.eadventure.engine.core.platform.FontCache;
+import es.eucm.eadventure.engine.core.platform.EAdCanvas;
+import es.eucm.eadventure.engine.core.platform.FontHandler;
 import es.eucm.eadventure.engine.core.platform.PlatformConfiguration;
 import es.eucm.eadventure.engine.core.platform.RuntimeFont;
 
@@ -58,6 +61,8 @@ public class RuntimeCaption extends AbstractRuntimeAsset<Caption> implements
 		DrawableAsset<Caption> {
 
 	private Logger logger = Logger.getLogger("RuntimeCaption");
+
+	private AssetHandler assetHandler;
 
 	/**
 	 * Average time used to read one word, in milliseconds
@@ -81,7 +86,7 @@ public class RuntimeCaption extends AbstractRuntimeAsset<Caption> implements
 
 	protected int lineHeight;
 
-	protected FontCache fontCache;
+	protected FontHandler fontCache;
 
 	private int linesInPart;
 
@@ -122,13 +127,15 @@ public class RuntimeCaption extends AbstractRuntimeAsset<Caption> implements
 	private PlatformConfiguration platformConfiguration;
 
 	@Inject
-	public RuntimeCaption(FontCache fontCache2, VariableMap valueMap,
+	public RuntimeCaption(FontHandler fontCache2, VariableMap valueMap,
 			StringHandler stringsReader,
-			PlatformConfiguration platformConfiguration) {
+			PlatformConfiguration platformConfiguration,
+			AssetHandler assetHandler) {
 		this.fontCache = fontCache2;
 		this.valueMap = valueMap;
 		this.stringsReader = stringsReader;
 		this.platformConfiguration = platformConfiguration;
+		this.assetHandler = assetHandler;
 		logger.info("New instance");
 	}
 
@@ -140,8 +147,9 @@ public class RuntimeCaption extends AbstractRuntimeAsset<Caption> implements
 	@Override
 	public boolean loadAsset() {
 		font = fontCache.get(descriptor.getFont());
-		text = valueMap.processTextVars(stringsReader.getString(descriptor
-				.getText()), descriptor.getFields());
+		text = valueMap.processTextVars(
+				stringsReader.getString(descriptor.getText()),
+				descriptor.getFields());
 		lines = new ArrayList<String>();
 		wrapText();
 		return true;
@@ -183,8 +191,9 @@ public class RuntimeCaption extends AbstractRuntimeAsset<Caption> implements
 			goForward(1);
 		}
 
-		text = valueMap.processTextVars(stringsReader.getString(descriptor
-				.getText()), descriptor.getFields());
+		text = valueMap.processTextVars(
+				stringsReader.getString(descriptor.getText()),
+				descriptor.getFields());
 
 		// If text has changed
 		if (!currentText.equals(text))
@@ -407,6 +416,37 @@ public class RuntimeCaption extends AbstractRuntimeAsset<Caption> implements
 
 	public EAdRectangleImpl getBounds() {
 		return bounds;
+	}
+
+	public int getLineHeight() {
+		return this.font.lineHeight();
+	}
+
+	public RuntimeFont getFont() {
+		return font;
+	}
+
+	public void render(EAdCanvas<?> c) {
+		// Draw bubble
+		if (getAssetDescriptor().hasBubble()) {
+			RectangleShape shape = new RectangleShape(getWidth(), getHeight());
+			shape.setFill(getAssetDescriptor().getBubbleFill());
+			((DrawableAsset<?>) assetHandler.getRuntimeAsset(shape)).render(c);
+		}
+
+		c.setPaint(descriptor.getTextFill());
+		int xOffset = getAssetDescriptor().getPadding();
+		int yOffset = xOffset;
+		// Draw lines
+		for (String s : getText()) {
+			c.drawText(s, xOffset, yOffset);
+			yOffset += getLineHeight();
+		}
+	}
+
+	@Override
+	public boolean contains(int x, int y) {
+		return x > 0 && y > 0 && x < getWidth() && y < getHeight();
 	}
 
 }

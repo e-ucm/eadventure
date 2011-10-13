@@ -130,10 +130,10 @@ public class DesktopGUI extends AbstractGUI<Graphics2D> implements GUI {
 			GameObjectManager gameObjectManager, MouseState mouseState,
 			KeyboardState keyboardState, BasicHUD basicDesktopHUD,
 			ValueMap valueMap, GameState gameState,
-			GameObjectFactory gameObjectFactory, AssetHandler assetHandler) {
+			GameObjectFactory gameObjectFactory, AssetHandler assetHandler, DesktopCanvas canvas) {
 		super(platformConfiguration, assetRendererFactory, gameObjectManager,
 				mouseState, keyboardState, valueMap, gameState,
-				gameObjectFactory);
+				gameObjectFactory, canvas);
 		this.gameObjects.addHUD(basicDesktopHUD);
 		basicDesktopHUD.setGUI(this);
 		try {
@@ -207,6 +207,7 @@ public class DesktopGUI extends AbstractGUI<Graphics2D> implements GUI {
 			public void run() {
 				BufferStrategy bs = canvas.getBufferStrategy();
 				Graphics2D g = (Graphics2D) bs.getDrawGraphics();
+				eAdCanvas.setGraphicContext(g);
 				g.setClip(0, 0, platformConfiguration.getWidth(),
 						platformConfiguration.getHeight());
 
@@ -258,6 +259,7 @@ public class DesktopGUI extends AbstractGUI<Graphics2D> implements GUI {
 
 		// g.scale(platformConfiguration.getScale(),
 		// platformConfiguration.getScale());
+		eAdCanvas.setGraphicContext(g);
 
 		render(g, 0.0f);
 

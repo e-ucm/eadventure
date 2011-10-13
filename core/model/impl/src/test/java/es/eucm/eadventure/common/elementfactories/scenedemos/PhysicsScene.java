@@ -44,7 +44,7 @@ public class PhysicsScene extends EmptyScene {
 	}
 
 	protected void init() {
-		setBackgroundFill(new EAdLinearGradient(EAdColor.CYAN, EAdColor.BLUE));
+		setBackgroundFill(new EAdLinearGradient(EAdColor.CYAN, EAdColor.BLUE, 800, 600));
 
 		// Add sky
 
@@ -95,7 +95,7 @@ public class PhysicsScene extends EmptyScene {
 	protected void addWalls(EAdPhysicsEffect effect) {
 		RectangleShape groundS = new RectangleShape(750, 50);
 		groundS.setFill(new EAdLinearGradient(EAdColor.BROWN,
-				EAdColor.DARK_BROWN));
+				EAdColor.DARK_BROWN, 750, 50));
 		EAdBasicSceneElement ground = new EAdBasicSceneElement("ground",
 				groundS);
 		ground.setPosition(new EAdPositionImpl(Corner.CENTER, 400, 545));
@@ -174,7 +174,7 @@ public class PhysicsScene extends EmptyScene {
 		EAdActor bullet = new EAdBasicActor("bullet");
 		BezierShape circle = new CircleShape(10, 10, 10, 25);
 		circle.setFill(new EAdLinearGradient(EAdColor.LIGHT_GRAY,
-				EAdColor.DARK_GRAY));
+				EAdColor.DARK_GRAY, 20, 20));
 		bullet.getResources().addAsset(bullet.getInitialBundle(),
 				EAdBasicSceneElement.appearance, circle);
 
@@ -203,12 +203,12 @@ public class PhysicsScene extends EmptyScene {
 
 		EAdBasicSceneElement holder = new EAdBasicSceneElement("holder",
 				new RectangleShape(100, 10, new EAdLinearGradient(
-						EAdColor.DARK_BROWN, EAdColor.LIGHT_BROWN)));
+						EAdColor.DARK_BROWN, EAdColor.LIGHT_BROWN, 100, 10)));
 		holder.setPosition(new EAdPositionImpl(Corner.CENTER, 400, 50));
 
 		EAdBasicSceneElement rope = new EAdBasicSceneElement("rope",
 				new RectangleShape(150, 10, new EAdLinearGradient(
-						EAdColor.YELLOW, EAdColor.LIGHT_BROWN)));
+						EAdColor.YELLOW, EAdColor.LIGHT_BROWN, 150, 10)));
 
 		rope.setPosition(new EAdPositionImpl(Corner.CENTER, 450, 50));
 		rope.setVarInitialValue(EAdPhysicsEffect.VAR_PH_TYPE, PhType.DYNAMIC);

@@ -37,12 +37,13 @@
 
 package es.eucm.eadventure.engine.core.gameobjects.huds;
 
+import es.eucm.eadventure.engine.core.Renderable;
 import es.eucm.eadventure.engine.core.gameobjects.GameObject;
 
 /**
  * Classes that implement this interface represent a HUD element of the
  * eAdventure game.
  */
-public interface HudGO<T> extends GameObject<T> {
+public interface HudGO<T> extends GameObject<T>, Renderable {
 
 }

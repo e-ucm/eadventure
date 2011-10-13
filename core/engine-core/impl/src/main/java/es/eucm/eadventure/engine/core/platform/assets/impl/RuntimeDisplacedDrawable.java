@@ -47,8 +47,11 @@ import es.eucm.eadventure.common.resources.assets.drawable.Drawable;
 import es.eucm.eadventure.common.resources.assets.drawable.compounds.DisplacedDrawable;
 import es.eucm.eadventure.engine.core.platform.AssetHandler;
 import es.eucm.eadventure.engine.core.platform.DrawableAsset;
+import es.eucm.eadventure.engine.core.platform.EAdCanvas;
 
-public class RuntimeDisplacedDrawable extends AbstractRuntimeAsset<DisplacedDrawable> implements DrawableAsset<DisplacedDrawable>{
+public class RuntimeDisplacedDrawable extends
+		AbstractRuntimeAsset<DisplacedDrawable> implements
+		DrawableAsset<DisplacedDrawable> {
 
 	/**
 	 * Logger
@@ -59,16 +62,17 @@ public class RuntimeDisplacedDrawable extends AbstractRuntimeAsset<DisplacedDraw
 	 * The asset handler
 	 */
 	protected AssetHandler assetHandler;
-	
-	@Inject 
-	public RuntimeDisplacedDrawable(AssetHandler assetHandler ){
+
+	@Inject
+	public RuntimeDisplacedDrawable(AssetHandler assetHandler) {
 		this.assetHandler = assetHandler;
 		logger.info("New instance");
 	}
 
 	@Override
 	public boolean loadAsset() {
-		return assetHandler.getRuntimeAsset(descriptor.getDrawable()).loadAsset();
+		return assetHandler.getRuntimeAsset(descriptor.getDrawable())
+				.loadAsset();
 	}
 
 	@Override
@@ -78,7 +82,8 @@ public class RuntimeDisplacedDrawable extends AbstractRuntimeAsset<DisplacedDraw
 
 	@Override
 	public boolean isLoaded() {
-		return assetHandler.getRuntimeAsset(descriptor.getDrawable()).isLoaded();
+		return assetHandler.getRuntimeAsset(descriptor.getDrawable())
+				.isLoaded();
 	}
 
 	@Override
@@ -88,12 +93,14 @@ public class RuntimeDisplacedDrawable extends AbstractRuntimeAsset<DisplacedDraw
 
 	@Override
 	public int getWidth() {
-		return ((DrawableAsset<?>) assetHandler.getRuntimeAsset(descriptor.getDrawable())).getWidth();
+		return ((DrawableAsset<?>) assetHandler.getRuntimeAsset(descriptor
+				.getDrawable())).getWidth();
 	}
 
 	@Override
 	public int getHeight() {
-		return ((DrawableAsset<?>) assetHandler.getRuntimeAsset(descriptor.getDrawable())).getHeight();
+		return ((DrawableAsset<?>) assetHandler.getRuntimeAsset(descriptor
+				.getDrawable())).getHeight();
 	}
 
 	@SuppressWarnings("unchecked")
@@ -108,6 +115,25 @@ public class RuntimeDisplacedDrawable extends AbstractRuntimeAsset<DisplacedDraw
 
 	public EAdPosition getDisplacement() {
 		return descriptor.getDisplacement();
+	}
+
+	@Override
+	public void render(EAdCanvas<?> canvas) {
+		canvas.save();
+		canvas.translate(descriptor.getDisplacement().getX(), descriptor
+				.getDisplacement().getY());
+		((DrawableAsset<?>) assetHandler.getRuntimeAsset(descriptor
+				.getDrawable())).render(canvas);
+		canvas.restore();
+
+	}
+
+	@Override
+	public boolean contains(int x, int y) {
+		return ((DrawableAsset<?>) assetHandler.getRuntimeAsset(descriptor
+				.getDrawable())).contains(x
+				- descriptor.getDisplacement().getX(), y
+				- descriptor.getDisplacement().getY());
 	}
 
 }

@@ -59,8 +59,6 @@ import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.ListCellRenderer;
 import javax.swing.ListSelectionModel;
-import javax.swing.UIManager;
-import javax.swing.UnsupportedLookAndFeelException;
 
 import com.google.inject.Guice;
 import com.google.inject.Injector;
@@ -84,7 +82,6 @@ import es.eucm.eadventure.engine.core.platform.impl.extra.DesktopAssetHandlerMod
 import es.eucm.eadventure.engine.core.platform.impl.extra.DesktopAssetRendererModule;
 import es.eucm.eadventure.engine.core.platform.impl.extra.DesktopModule;
 import es.eucm.eadventure.engine.core.test.launcher.BaseTestLauncher;
-import es.eucm.eadventure.gui.EAdGUILookAndFeel;
 
 /**
  * Base class for desktop's launchers
@@ -107,11 +104,11 @@ public class DesktopDemos extends BaseTestLauncher {
 	}
 
 	public static void main(String args[]) {
-		try {
-			UIManager.setLookAndFeel(EAdGUILookAndFeel.getInstance());
-		} catch (UnsupportedLookAndFeelException e) {
-			e.printStackTrace();
-		}
+//		try {
+//			UIManager.setLookAndFeel(EAdGUILookAndFeel.getInstance());
+//		} catch (UnsupportedLookAndFeelException e) {
+//			e.printStackTrace();
+//		}
 		JFrame frame = new SceneDemosFrame();
 		frame.setVisible(true);
 	}

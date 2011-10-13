@@ -30,8 +30,8 @@ import es.eucm.eadventure.engine.core.impl.factorymapproviders.EvaluatorFactoryM
 import es.eucm.eadventure.engine.core.impl.factorymapproviders.OperatorFactoryMapProvider;
 import es.eucm.eadventure.engine.core.operator.Operator;
 import es.eucm.eadventure.engine.core.operator.OperatorFactory;
-import es.eucm.eadventure.engine.core.platform.FontCache;
-import es.eucm.eadventure.engine.core.platform.impl.FontCacheImpl;
+import es.eucm.eadventure.engine.core.platform.FontHandler;
+import es.eucm.eadventure.engine.core.platform.impl.FontHandlerImpl;
 import es.eucm.eadventure.engine.core.platform.impl.extra.EvaluatorFactoryProvider;
 import es.eucm.eadventure.engine.core.platform.impl.extra.OperatorFactoryProvider;
 
@@ -53,7 +53,7 @@ public class BasicGameModule extends AbstractGinModule {
 		bind(GameController.class).to(GameControllerImpl.class).in(Singleton.class);
 		bind(Game.class).to(GameImpl.class).in(Singleton.class);
 		bind(EffectHUD.class).to(EffectHUDImpl.class).in(Singleton.class);
-		bind(FontCache.class).to(FontCacheImpl.class).in(Singleton.class);
+		bind(FontHandler.class).to(FontHandlerImpl.class).in(Singleton.class);
 		bind(EAdDebugger.class).to(EAdMainDebugger.class).in(Singleton.class);
 
 		bind(EAdAdventureModel.class).to(EAdAdventureModelImpl.class);

@@ -12,6 +12,7 @@ core/engine-desktop/impl/hs_err_pid1828.log
 core/engine-desktop/impl/hs_err_pid2504.log
 core/engine-android/impl/gen/es/eucm/eadventure/engine/R.java
 core/engine-android/impl/gen/*
+core/engine-playn/impl/gwt-unitCache/gwt-unitCache*
 syntax: regexp
 ^core/engine-android/impl/bin$
 syntax: regexp

@@ -49,6 +49,7 @@ public abstract class AbstractRuntimeAsset<T extends AssetDescriptor> implements
 	@Override
 	public void setDescriptor(T descriptor) {
 		this.descriptor = descriptor;
+		loadAsset();
 	}
 	
 	@Override

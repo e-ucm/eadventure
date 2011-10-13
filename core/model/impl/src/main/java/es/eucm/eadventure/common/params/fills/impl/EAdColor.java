@@ -37,8 +37,8 @@
 
 package es.eucm.eadventure.common.params.fills.impl;
 
-import es.eucm.eadventure.common.params.EAdFill;
 import es.eucm.eadventure.common.params.EAdParamImpl;
+import es.eucm.eadventure.common.params.paint.EAdFill;
 
 /**
  * <p>
@@ -315,6 +315,21 @@ public class EAdColor extends EAdParamImpl implements EAdFill {
 			setBlue(Integer.parseInt(data.substring(6, 8), 16));
 			setAlpha(Integer.parseInt(data.substring(8, 10), 16));
 		}
+	}
+
+	@Override
+	public EAdFill getBorder() {
+		return null;
+	}
+
+	@Override
+	public EAdFill getFill() {
+		return this;
+	}
+
+	@Override
+	public int getBorderWidth() {
+		return 0;
 	}
 
 }

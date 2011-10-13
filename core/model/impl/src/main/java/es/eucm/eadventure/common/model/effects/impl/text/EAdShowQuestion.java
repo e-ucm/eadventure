@@ -60,7 +60,6 @@ import es.eucm.eadventure.common.model.variables.impl.EAdFieldImpl;
 import es.eucm.eadventure.common.model.variables.impl.operations.BooleanOperation;
 import es.eucm.eadventure.common.params.EAdString;
 import es.eucm.eadventure.common.params.fills.impl.EAdColor;
-import es.eucm.eadventure.common.params.fills.impl.EAdLinearGradient;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.CaptionImpl;
 
 /**
@@ -116,8 +115,7 @@ public class EAdShowQuestion extends EAdComplexBlockingEffect {
 			EAdBasicSceneElement se = new EAdBasicSceneElement("answer" + i);
 			CaptionImpl c = new CaptionImpl(a.getKey());
 			c.setTextColor(EAdColor.RED);
-			c.setBubbleColor(new EAdLinearGradient(EAdColor.WHITE,
-					EAdColor.LIGHT_GRAY, true));
+			c.setBubbleColor(EAdColor.WHITE);
 			se.getResources().addAsset(se.getInitialBundle(),
 					EAdBasicSceneElement.appearance, c);
 			int initialX = -200 * i - 820;
@@ -149,8 +147,7 @@ public class EAdShowQuestion extends EAdComplexBlockingEffect {
 		CaptionImpl c = new CaptionImpl(question);
 		
 		c.setTextColor(EAdColor.BLUE);
-		c.setBubbleColor(new EAdLinearGradient(EAdColor.WHITE,
-				EAdColor.LIGHT_GRAY, true));
+		c.setBubbleColor(EAdColor.WHITE);
 
 		EAdBasicSceneElement q = new EAdBasicSceneElement("question");
 		q.getResources().addAsset(q.getInitialBundle(),

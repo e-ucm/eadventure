@@ -10,19 +10,23 @@ import com.google.inject.Singleton;
 import es.eucm.eadventure.common.resources.StringHandler;
 import es.eucm.eadventure.common.resources.assets.AssetDescriptor;
 import es.eucm.eadventure.engine.core.EAdEngine;
-import es.eucm.eadventure.engine.core.ValueMap;
 import es.eucm.eadventure.engine.core.impl.VariableMap;
-import es.eucm.eadventure.engine.core.platform.FontCache;
+import es.eucm.eadventure.engine.core.platform.AssetHandler;
+import es.eucm.eadventure.engine.core.platform.FontHandler;
 import es.eucm.eadventure.engine.core.platform.PlatformConfiguration;
 import es.eucm.eadventure.engine.core.platform.RuntimeAsset;
-import es.eucm.eadventure.engine.core.platform.assets.impl.*;
+import es.eucm.eadventure.engine.core.platform.assets.impl.PlayNBezierShape;
+import es.eucm.eadventure.engine.core.platform.assets.impl.PlayNEngineCaption;
+import es.eucm.eadventure.engine.core.platform.assets.impl.PlayNEngineImage;
+import es.eucm.eadventure.engine.core.platform.assets.impl.PlayNEngineSpriteImage;
+import es.eucm.eadventure.engine.core.platform.assets.impl.PlayNSound;
 
 @Singleton
 public class PlayNAssetHandler extends AbstractAssetHandler {
 
 	private EAdEngine engine;
 	
-	private FontCache fontCache;
+	private FontHandler fontCache;
 
 	private VariableMap valueMap;
 
@@ -30,20 +34,23 @@ public class PlayNAssetHandler extends AbstractAssetHandler {
 
 	private PlatformConfiguration platformConfiguration;
 	
+	private AssetHandler assetHandler;
+	
 	private Logger logger = Logger.getLogger("PlayNAssetHandler");
 	
 	@Inject
 	public PlayNAssetHandler(
 			Map<Class<? extends AssetDescriptor>, Class<? extends RuntimeAsset<?>>> classMap,
-			FontCache fontCache,
+			FontHandler fontCache,
 			VariableMap valueMap,
 			StringHandler stringHandler,
-			PlatformConfiguration platformConfiguration) {
+			PlatformConfiguration platformConfiguration, AssetHandler assetHandler ) {
 		super(classMap);
 		this.fontCache = fontCache;
 		this.valueMap = valueMap;
 		this.stringHandler = stringHandler;
 		this.platformConfiguration = platformConfiguration;
+		this.assetHandler = assetHandler;
 	}
 	
 	public void setEngine(EAdEngine engine) {
@@ -76,7 +83,7 @@ public class PlayNAssetHandler extends AbstractAssetHandler {
 		if (clazz == PlayNBezierShape.class)
 			return new PlayNBezierShape(engine);
 		if (clazz == PlayNEngineCaption.class)
-			return new PlayNEngineCaption(fontCache, valueMap, stringHandler, platformConfiguration);
+			return new PlayNEngineCaption(fontCache, valueMap, stringHandler, platformConfiguration, assetHandler);
 		if (clazz == PlayNEngineSpriteImage.class)
 			return new PlayNEngineSpriteImage(this);
 		if (clazz == PlayNEngineSpriteImage.class)

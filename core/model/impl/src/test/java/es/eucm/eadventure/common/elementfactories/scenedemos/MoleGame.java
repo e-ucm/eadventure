@@ -22,7 +22,7 @@ public class MoleGame extends EmptyScene {
 
 	public MoleGame() {
 		setBackgroundFill(new EAdLinearGradient(EAdColor.RED, EAdColor.BROWN,
-				true));
+				800, 600, true));
 		mole = new FramesAnimation();
 		mole.addFrame(new Frame("@drawable/mole1.png", 5000));
 		mole.addFrame(new Frame("@drawable/mole2.png", 500));

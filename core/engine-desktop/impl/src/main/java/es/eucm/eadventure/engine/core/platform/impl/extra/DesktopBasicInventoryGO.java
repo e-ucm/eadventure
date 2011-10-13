@@ -77,6 +77,7 @@ import es.eucm.eadventure.engine.core.gameobjects.SceneElementGO;
 import es.eucm.eadventure.engine.core.gameobjects.impl.inventory.BasicInventoryGO;
 import es.eucm.eadventure.engine.core.gameobjects.impl.sceneelements.ActorReferenceGOImpl;
 import es.eucm.eadventure.engine.core.platform.AssetHandler;
+import es.eucm.eadventure.engine.core.platform.EAdCanvas;
 import es.eucm.eadventure.engine.core.platform.GUI;
 import es.eucm.eadventure.engine.core.platform.PlatformConfiguration;
 import es.eucm.eadventure.engine.core.util.EAdTransformation;
@@ -380,6 +381,18 @@ public class DesktopBasicInventoryGO extends BasicInventoryGO {
 			includedActors.remove(actor);
 			// TODO free resources?
 		}
+	}
+
+	@Override
+	public boolean contains(int x, int y) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public void render(EAdCanvas<?> c) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

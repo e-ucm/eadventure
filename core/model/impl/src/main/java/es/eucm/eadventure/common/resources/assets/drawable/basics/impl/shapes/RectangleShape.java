@@ -37,8 +37,8 @@
 
 package es.eucm.eadventure.common.resources.assets.drawable.basics.impl.shapes;
 
-import es.eucm.eadventure.common.params.EAdFill;
 import es.eucm.eadventure.common.params.fills.impl.EAdBorderedColor;
+import es.eucm.eadventure.common.params.paint.EAdFill;
 
 
 /**

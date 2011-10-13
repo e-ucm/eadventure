@@ -44,7 +44,7 @@ import es.eucm.eadventure.common.resources.StringHandler;
 import es.eucm.eadventure.engine.core.GameState;
 import es.eucm.eadventure.engine.core.ValueMap;
 import es.eucm.eadventure.engine.core.gameobjects.GameObjectFactory;
-import es.eucm.eadventure.engine.core.gameobjects.impl.AbstractGameObject;
+import es.eucm.eadventure.engine.core.gameobjects.impl.DrawableGameObject;
 import es.eucm.eadventure.engine.core.platform.AssetHandler;
 import es.eucm.eadventure.engine.core.platform.GUI;
 import es.eucm.eadventure.engine.core.platform.PlatformConfiguration;
@@ -57,7 +57,7 @@ import es.eucm.eadventure.engine.core.platform.PlatformConfiguration;
  * The basic inventory represents the inventory as in eAdventure 1.0
  * </p>
  */
-public abstract class BasicInventoryGO extends AbstractGameObject<EAdInventory> {
+public abstract class BasicInventoryGO extends DrawableGameObject<EAdInventory> {
 
 	@Inject
 	public BasicInventoryGO(AssetHandler assetHandler,

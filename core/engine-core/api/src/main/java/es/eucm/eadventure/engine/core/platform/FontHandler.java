@@ -35,58 +35,35 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package es.eucm.eadventure.engine.core.platform.impl;
-
-import java.util.HashMap;
-import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
-import com.google.inject.Inject;
+package es.eucm.eadventure.engine.core.platform;
 
 import es.eucm.eadventure.common.params.EAdFont;
-import es.eucm.eadventure.common.params.EAdFontImpl;
 import es.eucm.eadventure.common.params.geom.EAdRectangle;
-import es.eucm.eadventure.engine.core.platform.FontCache;
-import es.eucm.eadventure.engine.core.platform.RuntimeFont;
 
-public abstract class FontCacheImpl implements FontCache {
-
-	protected Logger logger = Logger.getLogger("FontCacheImpl");
-
-	protected Map<EAdFont, RuntimeFont> fontCache;
-	
-	@Inject
-	public FontCacheImpl() {
-		logger.log(Level.INFO, "New instance");
-		fontCache = new HashMap<EAdFont, RuntimeFont>();
-	}
+/**
+ * Interface for a cache of the system dependent {@link RuntimeFont}s
+ * 
+ */
+public interface FontHandler {
 
 	/**
 	 * Puts a runtime font in the cache
 	 * 
 	 * @param font
-	 *            {@link EAdFontImpl}
+	 *            {@link EAdFont}
 	 * @param rFont
-	 *            {@link RuntimeFont} associated to the given {@link EAdFontImpl}
+	 *            {@link RuntimeFont} associated to the given {@link EAdFont}
 	 */
-	public void put(EAdFont font, RuntimeFont rFont) {
-		fontCache.put(font, rFont);
-	}
+	public void put(EAdFont font, RuntimeFont rFont);
 
 	/**
-	 * Returns {@link RuntimeFont} associated to the given {@link EAdFontImpl}
+	 * Returns {@link RuntimeFont} associated to the given {@link EAdFont}
 	 * 
 	 * @param font
-	 *            the {@link EAdFontImpl}
-	 * @return {@link RuntimeFont} associated to the given {@link EAdFontImpl}
+	 *            the {@link EAdFont}
+	 * @return {@link RuntimeFont} associated to the given {@link EAdFont}
 	 */
-	public RuntimeFont get(EAdFont font) {
-		if ( !fontCache.containsKey(font) ){
-			this.addEAdFont(font);
-		}
-		return fontCache.get(font);
-	}
+	public RuntimeFont get(EAdFont font);
 
 	/**
 	 * Returns the string width with the given font in the current context, -1
@@ -99,12 +76,7 @@ public abstract class FontCacheImpl implements FontCache {
 	 * @return the string width with the given font in the current context, -1
 	 *         if font is not present in the cache
 	 */
-	public int stringWidth(String string, EAdFont font) {
-		if (fontCache.containsKey(font))
-			return fontCache.get(font).stringWidth(string);
-		else
-			return -1;
-	}
+	public int stringWidth(String string, EAdFont font);
 
 	/**
 	 * Returns one line's height with the given font, -1 if font is not present
@@ -115,15 +87,10 @@ public abstract class FontCacheImpl implements FontCache {
 	 * @return one line's height with the given font, -1 if font is not present
 	 *         in the cache
 	 */
-	public int lineHeight(EAdFont font) {
-		if (fontCache.containsKey(font))
-			return fontCache.get(font).lineHeight();
-		else
-			return -1;
-	}
+	public int lineHeight(EAdFont font);
 
 	/**
-	 * Returns the string bounds with the given {@link EAdFontImpl}, <b>null</b> if
+	 * Returns the string bounds with the given {@link EAdFont}, <b>null</b> if
 	 * font is not present in the cache
 	 * 
 	 * @param string
@@ -131,20 +98,15 @@ public abstract class FontCacheImpl implements FontCache {
 	 * @return the string bounds, <b>null</b> if font is not present in the
 	 *         cache
 	 */
-	public EAdRectangle stringBounds(String string, EAdFont font) {
-		if (fontCache.containsKey(font))
-			return fontCache.get(font).stringBounds(string);
-		else
-			return null;
-	}
+	public EAdRectangle stringBounds(String string, EAdFont font);
 
 	/**
 	 * Adds a new {@link RuntimeFont} to cache based on the given
-	 * {@link EAdFontImpl}
+	 * {@link EAdFont}
 	 * 
 	 * @param font
-	 *            given {@link EAdFontImpl}
+	 *            given {@link EAdFont}
 	 */
-	public abstract void addEAdFont(EAdFont font);
+	public void addEAdFont(EAdFont font);
 
 }

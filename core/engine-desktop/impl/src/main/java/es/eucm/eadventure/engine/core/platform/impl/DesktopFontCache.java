@@ -47,7 +47,7 @@ import es.eucm.eadventure.engine.core.platform.AssetHandler;
 import es.eucm.eadventure.engine.core.platform.assets.impl.DesktopEngineFont;
 
 @Singleton
-public class DesktopFontCache extends FontCacheImpl {
+public class DesktopFontCache extends FontHandlerImpl {
 
 	private static final Logger logger = Logger
 	.getLogger("DesktopFontCache");
@@ -56,7 +56,7 @@ public class DesktopFontCache extends FontCacheImpl {
 	
 	@Inject
 	public DesktopFontCache(AssetHandler assetHandler) {
-		super(  );
+		super(assetHandler  );
 		logger.info("New instance");
 		this.assetHandler = assetHandler;
 	}

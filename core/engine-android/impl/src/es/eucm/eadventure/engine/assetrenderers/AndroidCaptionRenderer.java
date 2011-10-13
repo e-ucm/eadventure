@@ -42,7 +42,7 @@ import android.graphics.Path;
 
 import com.google.inject.Inject;
 
-import es.eucm.eadventure.common.params.EAdFill;
+import es.eucm.eadventure.common.params.paint.EAdFill;
 import es.eucm.eadventure.engine.assets.AndroidEngineCaption;
 import es.eucm.eadventure.engine.core.platform.AssetRenderer;
 import es.eucm.eadventure.engine.core.platform.FillFactory;

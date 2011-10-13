@@ -96,4 +96,9 @@ public class PlayNBezierShape extends RuntimeBezierShape {
 		return path;
 	}
 
+	@Override
+	public boolean contains(int x, int y) {
+		return x > 0 && y > 0 && x < getWidth() && y < getHeight();
+	}
+
 }

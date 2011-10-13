@@ -77,7 +77,7 @@ import es.eucm.eadventure.engine.core.platform.impl.DesktopPlatformConfiguration
 import es.eucm.eadventure.engine.core.platform.impl.DesktopPlatformControl;
 import es.eucm.eadventure.engine.core.platform.impl.DesktopPlatformLauncher;
 import es.eucm.eadventure.engine.core.platform.impl.DesktopTransitionFactory;
-import es.eucm.eadventure.engine.core.platform.impl.FontCacheImpl;
+import es.eucm.eadventure.engine.core.platform.impl.FontHandlerImpl;
 
 public class DesktopModule extends AbstractModule {
 
@@ -99,7 +99,7 @@ public class DesktopModule extends AbstractModule {
 		bind(BasicHUD.class).to(BasicHUDImpl.class);
 		bind(ActionsHUD.class).to(DesktopActionsHUDImpl.class);
 		bind(MenuHUD.class).to(DesktopMenuHUDImpl.class);
-		bind(FontCacheImpl.class).to(DesktopFontCache.class);
+		bind(FontHandlerImpl.class).to(DesktopFontCache.class);
 		bind(new TypeLiteral<FillFactory<Graphics2D, Shape>>() {
 		}).to(DesktopFillFactory.class);
 		bind(TransitionFactory.class).to(DesktopTransitionFactory.class);

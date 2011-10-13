@@ -47,6 +47,7 @@ import es.eucm.eadventure.common.model.elements.EAdScene;
 import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
 import es.eucm.eadventure.common.model.elements.impl.EAdSceneImpl;
 import es.eucm.eadventure.common.model.trajectories.TrajectoryDefinition;
+import es.eucm.eadventure.common.model.variables.impl.SystemFields;
 import es.eucm.eadventure.common.params.geom.impl.EAdPositionImpl;
 import es.eucm.eadventure.common.resources.StringHandler;
 import es.eucm.eadventure.engine.core.GameState;
@@ -80,10 +81,10 @@ public class MoveActiveElementGO extends AbstractEffectGO<EAdMoveActiveElement> 
 		super.initilize();
 		Object object = gameState.getScene().getElement();
 		if (object instanceof EAdScene && action instanceof MouseAction) {
-			int x = element.getTargetX() == EAdMoveActiveElement.MOUSE_COORDINATE ? ((MouseAction) action)
-					.getVirtualX() : element.getTargetX();
-			int y = element.getTargetY() == EAdMoveActiveElement.MOUSE_COORDINATE ? ((MouseAction) action)
-					.getVirtualY() : element.getTargetY();
+			int x = element.getTargetX() == EAdMoveActiveElement.MOUSE_COORDINATE ? valueMap
+					.getValue(SystemFields.MOUSE_X) : element.getTargetX();
+			int y = element.getTargetY() == EAdMoveActiveElement.MOUSE_COORDINATE ? valueMap
+					.getValue(SystemFields.MOUSE_Y) : element.getTargetY();
 			EAdScene scene = (EAdScene) object;
 			TrajectoryDefinition trajectoryDefinition = valueMap.getValue(
 					scene, EAdSceneImpl.VAR_TRAJECTORY_DEFINITION);
@@ -95,21 +96,26 @@ public class MoveActiveElementGO extends AbstractEffectGO<EAdMoveActiveElement> 
 						EAdBasicSceneElement.VAR_Y));
 				Path trajectory = trajectoryFactory.getTrajectory(
 						trajectoryDefinition, pos, x, y);
-					for (int i = 0; i < trajectory.getSides().size(); i++) {
-						PathSide p = trajectory.getSides().get(i);
-						EAdMoveSceneElement effect = new EAdMoveSceneElement(
-								"trajectory", gameState.getActiveElement(),
-								p.getEndPosition(i == trajectory.getSides().size() - 1).getX(), p.getEndPosition(i == trajectory.getSides().size() - 1).getY(), MovementSpeed.NORMAL);
-						effect.setSpeedFactor(p.getSpeedFactor());
-						effect.setBlocking(true);
-						effect.setQueueable(true);
-						gameState.addEffect(effect);
-						
-						EAdEffect e = trajectory.getChangeSideEffect(p, trajectoryDefinition);
-						if (e != null) {
-							e.setQueueable(true);
-							gameState.addEffect(e);
-						}
+				for (int i = 0; i < trajectory.getSides().size(); i++) {
+					PathSide p = trajectory.getSides().get(i);
+					EAdMoveSceneElement effect = new EAdMoveSceneElement(
+							"trajectory", gameState.getActiveElement(),
+							p.getEndPosition(
+									i == trajectory.getSides().size() - 1)
+									.getX(), p.getEndPosition(
+									i == trajectory.getSides().size() - 1)
+									.getY(), MovementSpeed.NORMAL);
+					effect.setSpeedFactor(p.getSpeedFactor());
+					effect.setBlocking(true);
+					effect.setQueueable(true);
+					gameState.addEffect(effect);
+
+					EAdEffect e = trajectory.getChangeSideEffect(p,
+							trajectoryDefinition);
+					if (e != null) {
+						e.setQueueable(true);
+						gameState.addEffect(e);
+					}
 				}
 			}
 		}

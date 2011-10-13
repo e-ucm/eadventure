@@ -63,7 +63,7 @@ public class DrawablesScene extends EmptyScene {
 
 		RectangleShape rectangleG = new RectangleShape(rWidth, rHeight);
 		rectangleG.setFill(new EAdLinearGradient(EAdColor.BLUE,
-				EAdColor.MAGENTA, false));
+				EAdColor.MAGENTA, rWidth, rHeight, false));
 
 		RectangleShape rectangleShadowG = new RectangleShape(rWidth, rHeight);
 		rectangleShadowG.setFill(new EAdColor(100, 100, 100, 100));
