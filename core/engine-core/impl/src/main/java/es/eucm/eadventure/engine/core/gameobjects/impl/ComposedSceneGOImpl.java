@@ -50,12 +50,13 @@ import es.eucm.eadventure.engine.core.ValueMap;
 import es.eucm.eadventure.engine.core.gameobjects.GameObjectFactory;
 import es.eucm.eadventure.engine.core.gameobjects.SceneGO;
 import es.eucm.eadventure.engine.core.platform.AssetHandler;
+import es.eucm.eadventure.engine.core.platform.EAdCanvas;
 import es.eucm.eadventure.engine.core.platform.GUI;
 import es.eucm.eadventure.engine.core.platform.PlatformConfiguration;
 import es.eucm.eadventure.engine.core.platform.RuntimeAsset;
 import es.eucm.eadventure.engine.core.util.EAdTransformation;
 
-public class ComposedSceneGOImpl extends AbstractGameObject<EAdComposedScene>
+public class ComposedSceneGOImpl extends DrawableGameObject<EAdComposedScene>
 		implements SceneGO<EAdComposedScene> {
 
 	private static final Logger logger = Logger.getLogger("ScreenGOImpl");
@@ -117,6 +118,16 @@ public class ComposedSceneGOImpl extends AbstractGameObject<EAdComposedScene>
 		int currentSceneIndex = valueMap.getValue(element,
 				EAdComposedScene.VAR_CURRENT_SCENE);
 		currentScene = element.getScenes().get(currentSceneIndex);
+	}
+
+	@Override
+	public boolean contains(int x, int y) {
+		return false;
+	}
+
+	@Override
+	public void render(EAdCanvas<?> c) {
+		
 	}
 
 }

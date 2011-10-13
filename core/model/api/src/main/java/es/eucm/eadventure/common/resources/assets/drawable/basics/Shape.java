@@ -37,7 +37,7 @@
 
 package es.eucm.eadventure.common.resources.assets.drawable.basics;
 
-import es.eucm.eadventure.common.params.EAdFill;
+import es.eucm.eadventure.common.params.paint.EAdFill;
 
 public interface Shape extends BasicDrawable {
 

@@ -46,22 +46,24 @@ import es.eucm.eadventure.common.model.variables.impl.EAdVarDefImpl;
 import es.eucm.eadventure.common.resources.EAdBundleId;
 import es.eucm.eadventure.common.resources.StringHandler;
 import es.eucm.eadventure.engine.core.GameState;
+import es.eucm.eadventure.engine.core.Renderable;
 import es.eucm.eadventure.engine.core.ValueMap;
 import es.eucm.eadventure.engine.core.gameobjects.GameObjectFactory;
 import es.eucm.eadventure.engine.core.gameobjects.impl.events.AbstractEventGO;
 import es.eucm.eadventure.engine.core.platform.AssetHandler;
+import es.eucm.eadventure.engine.core.platform.EAdCanvas;
 import es.eucm.eadventure.engine.core.platform.GUI;
 import es.eucm.eadventure.engine.core.platform.PlatformConfiguration;
 
-public abstract class AbstractGameObject<T extends EAdGeneralElement> extends
-		GameObjectImpl<T> {
+public abstract class DrawableGameObject<T extends EAdGeneralElement> extends
+		GameObjectImpl<T> implements Renderable {
 
 	public static final EAdVarDef<EAdBundleId> VAR_BUNDLE_ID = new EAdVarDefImpl<EAdBundleId>(
 			"bundle_id", EAdBundleId.class, null);
 
 	private ArrayList<AbstractEventGO<?>> eventGOList;
 
-	public AbstractGameObject(AssetHandler assetHandler,
+	public DrawableGameObject(AssetHandler assetHandler,
 			StringHandler stringsReader, GameObjectFactory gameObjectFactory,
 			GUI gui, GameState gameState, ValueMap valueMap,
 			PlatformConfiguration platformConfiguration) {
@@ -112,5 +114,9 @@ public abstract class AbstractGameObject<T extends EAdGeneralElement> extends
 	public boolean isEnable(){
 		return true;
 	}
+	
+	public abstract boolean contains(int x, int y);
+	
+	public abstract void render( EAdCanvas<?> c );
 
 }

@@ -42,27 +42,19 @@ import com.google.inject.Inject;
 import es.eucm.eadventure.common.resources.StringHandler;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.CaptionImpl;
 import es.eucm.eadventure.engine.core.impl.VariableMap;
+import es.eucm.eadventure.engine.core.platform.AssetHandler;
 import es.eucm.eadventure.engine.core.platform.PlatformConfiguration;
-import es.eucm.eadventure.engine.core.platform.RuntimeFont;
-import es.eucm.eadventure.engine.core.platform.impl.FontCacheImpl;
+import es.eucm.eadventure.engine.core.platform.impl.FontHandlerImpl;
 
 public class DesktopEngineCaption extends RuntimeCaption {
 
 	@Inject
-	public DesktopEngineCaption(FontCacheImpl fontCache, VariableMap valueMap,
-			StringHandler stringHandler, PlatformConfiguration platformConfiguration) {
-		super(fontCache, valueMap, stringHandler, platformConfiguration );
+	public DesktopEngineCaption(FontHandlerImpl fontCache, VariableMap valueMap,
+			StringHandler stringHandler, PlatformConfiguration platformConfiguration, AssetHandler assetHandler ) {
+		super(fontCache, valueMap, stringHandler, platformConfiguration, assetHandler );
 	}
 
 	public void setHasBuble(boolean b) {
 		((CaptionImpl) this.descriptor).setHasBubble(b);
-	}
-
-	public int getLineHeight() {
-		return this.font.lineHeight();
-	}
-
-	public RuntimeFont getFont() {
-		return font;
 	}
 }

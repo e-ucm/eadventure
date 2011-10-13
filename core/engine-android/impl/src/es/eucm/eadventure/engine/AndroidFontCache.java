@@ -45,10 +45,10 @@ import com.google.inject.Singleton;
 import es.eucm.eadventure.common.params.EAdFont;
 import es.eucm.eadventure.engine.assets.AndroidEngineFont;
 import es.eucm.eadventure.engine.core.platform.AssetHandler;
-import es.eucm.eadventure.engine.core.platform.impl.FontCacheImpl;
+import es.eucm.eadventure.engine.core.platform.impl.FontHandlerImpl;
 
 @Singleton
-public class AndroidFontCache extends FontCacheImpl {
+public class AndroidFontCache extends FontHandlerImpl {
 
 	private static final Logger logger = Logger
 	.getLogger("DesktopFontCache");

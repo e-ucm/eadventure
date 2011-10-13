@@ -24,7 +24,7 @@ import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.shapes.Re
 public class PhysicsScene2 extends PhysicsScene {
 
 	public PhysicsScene2() {
-		setBackgroundFill(new EAdLinearGradient(EAdColor.YELLOW, EAdColor.ORANGE));
+		setBackgroundFill(new EAdLinearGradient(EAdColor.YELLOW, EAdColor.ORANGE, 800, 600));
 	}
 
 	protected void init() {
@@ -50,7 +50,7 @@ public class PhysicsScene2 extends PhysicsScene {
 
 		BezierShape circle = new CircleShape(20, 20, 20, 60);
 		circle.setFill(new EAdLinearGradient(EAdColor.GREEN,
-				new EAdColor(0, 100, 0)));
+				new EAdColor(0, 100, 0), 40, 40));
 
 		EAdBasicSceneElement b = new EAdBasicSceneElement("ball", circle);
 		b.setPosition(new EAdPositionImpl(Corner.CENTER, 500, 0));

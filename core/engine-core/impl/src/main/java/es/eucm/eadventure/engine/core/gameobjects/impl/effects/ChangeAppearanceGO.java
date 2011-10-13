@@ -45,7 +45,7 @@ import es.eucm.eadventure.common.resources.StringHandler;
 import es.eucm.eadventure.engine.core.GameState;
 import es.eucm.eadventure.engine.core.ValueMap;
 import es.eucm.eadventure.engine.core.gameobjects.GameObjectFactory;
-import es.eucm.eadventure.engine.core.gameobjects.impl.AbstractGameObject;
+import es.eucm.eadventure.engine.core.gameobjects.impl.DrawableGameObject;
 import es.eucm.eadventure.engine.core.platform.AssetHandler;
 import es.eucm.eadventure.engine.core.platform.GUI;
 import es.eucm.eadventure.engine.core.platform.PlatformConfiguration;
@@ -70,7 +70,7 @@ public class ChangeAppearanceGO extends AbstractEffectGO<EAdChangeAppearance> {
 	@Override
 	public void update() {
 		super.update();
-		((AbstractGameObject<EAdGeneralElement>) gameObjectFactory.get(element.getElement())).setCurrentBundle(element.getBundleId());
+		((DrawableGameObject<EAdGeneralElement>) gameObjectFactory.get(element.getElement())).setCurrentBundle(element.getBundleId());
 	}
 
 	@Override

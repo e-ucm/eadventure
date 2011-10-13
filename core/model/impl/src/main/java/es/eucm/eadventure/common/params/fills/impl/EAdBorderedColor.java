@@ -37,8 +37,8 @@
 
 package es.eucm.eadventure.common.params.fills.impl;
 
-import es.eucm.eadventure.common.params.EAdFill;
 import es.eucm.eadventure.common.params.EAdParamImpl;
+import es.eucm.eadventure.common.params.paint.EAdFill;
 
 /**
  * <p>
@@ -46,6 +46,7 @@ import es.eucm.eadventure.common.params.EAdParamImpl;
  * one representing the border.
  * </p>
  */
+//FIXME To delete
 public class EAdBorderedColor extends EAdParamImpl implements EAdFill {
 
 	public static final String SEPARATOR = ":";
@@ -158,6 +159,21 @@ public class EAdBorderedColor extends EAdParamImpl implements EAdFill {
 		setBorderColor(new EAdColor(temp[1]));
 		width = Integer.parseInt(temp[2]);
 
+	}
+
+	@Override
+	public EAdFill getBorder() {
+		return borderColor;
+	}
+
+	@Override
+	public EAdFill getFill() {
+		return centerColor;
+	}
+
+	@Override
+	public int getBorderWidth() {
+		return width;
 	}
 
 }

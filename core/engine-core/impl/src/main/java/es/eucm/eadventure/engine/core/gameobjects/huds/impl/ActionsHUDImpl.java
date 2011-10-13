@@ -52,6 +52,7 @@ import es.eucm.eadventure.engine.core.gameobjects.SceneElementGO;
 import es.eucm.eadventure.engine.core.gameobjects.huds.ActionsHUD;
 import es.eucm.eadventure.engine.core.guiactions.GUIAction;
 import es.eucm.eadventure.engine.core.guiactions.MouseAction;
+import es.eucm.eadventure.engine.core.platform.EAdCanvas;
 import es.eucm.eadventure.engine.core.platform.GUI;
 import es.eucm.eadventure.engine.core.platform.RuntimeAsset;
 import es.eucm.eadventure.engine.core.util.EAdTransformation;
@@ -222,6 +223,12 @@ public class ActionsHUDImpl implements ActionsHUD {
 	@Override
 	public boolean isEnable() {
 		return true;
+	}
+
+	@Override
+	public void render(EAdCanvas<?> c) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

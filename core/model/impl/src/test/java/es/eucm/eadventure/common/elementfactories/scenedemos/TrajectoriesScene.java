@@ -24,7 +24,7 @@ public class TrajectoriesScene extends EmptyScene {
 
 	public TrajectoriesScene() {
 		setBackgroundFill(new EAdLinearGradient(EAdColor.DARK_GRAY,
-				EAdColor.LIGHT_GRAY, true));
+				EAdColor.LIGHT_GRAY, 800, 600, true));
 		
 		EAdBasicSceneElement element = new EAdBasicSceneElement("player",
 				CharacterScene.getStateDrawable());

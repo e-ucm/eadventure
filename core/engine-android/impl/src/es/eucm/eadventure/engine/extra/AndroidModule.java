@@ -69,7 +69,7 @@ import es.eucm.eadventure.engine.core.platform.FillFactory;
 import es.eucm.eadventure.engine.core.platform.GUI;
 import es.eucm.eadventure.engine.core.platform.PlatformConfiguration;
 import es.eucm.eadventure.engine.core.platform.TransitionFactory;
-import es.eucm.eadventure.engine.core.platform.impl.FontCacheImpl;
+import es.eucm.eadventure.engine.core.platform.impl.FontHandlerImpl;
 
 public class AndroidModule extends AbstractModule {
 
@@ -91,7 +91,7 @@ public class AndroidModule extends AbstractModule {
 		bind(GameObjectManager.class).to(GameObjectManagerImpl.class);
 		bind(ActionsHUD.class).to(AndroidActionsHUDImpl.class);
 		bind(BasicHUD.class).to(BasicHUDImpl.class);
-		bind(FontCacheImpl.class).to(AndroidFontCache.class);
+		bind(FontHandlerImpl.class).to(AndroidFontCache.class);
 		bind(MenuHUD.class).to(AndroidMenuHUDImpl.class);
 		bind(TransitionFactory.class).to(AndroidTransitionFactory.class);
 		bind(new TypeLiteral<FillFactory<Canvas, Path>>() {

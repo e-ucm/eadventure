@@ -56,12 +56,17 @@ public class AndroidEngineImage extends RuntimeImage {
 
 	public Bitmap image;
 	
+	// FIXME find a better solution
+	private static Bitmap defaultImage;
+	
 	private static final Logger logger = Logger.getLogger("AndroidEngineImage");
 	
 	@Inject
 	public AndroidEngineImage(AssetHandler assetHandler) {
 		 super(assetHandler);
-		
+		if ( defaultImage == null ){
+			defaultImage = decodeFile(assetHandler.getAbsolutePath("@drawable/nocursor.png"));
+		}
 	}		
 	
 	public AndroidEngineImage(Bitmap image) {
@@ -70,7 +75,7 @@ public class AndroidEngineImage extends RuntimeImage {
 	}
 
 	public Bitmap getImage() {
-		return image;
+		return image == null ? defaultImage : image;
 	}
 
 	@Override

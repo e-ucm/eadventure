@@ -6,10 +6,10 @@ import playn.core.Gradient;
 
 import com.google.inject.Singleton;
 
-import es.eucm.eadventure.common.params.EAdFill;
 import es.eucm.eadventure.common.params.fills.impl.EAdBorderedColor;
 import es.eucm.eadventure.common.params.fills.impl.EAdColor;
 import es.eucm.eadventure.common.params.fills.impl.EAdLinearGradient;
+import es.eucm.eadventure.common.params.paint.EAdFill;
 import es.eucm.eadventure.engine.core.platform.FillFactory;
 import es.eucm.eadventure.engine.core.platform.assets.impl.PlayNEngineColor;
 

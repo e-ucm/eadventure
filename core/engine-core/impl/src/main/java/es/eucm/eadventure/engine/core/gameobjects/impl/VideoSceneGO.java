@@ -50,12 +50,13 @@ import es.eucm.eadventure.engine.core.ValueMap;
 import es.eucm.eadventure.engine.core.gameobjects.GameObjectFactory;
 import es.eucm.eadventure.engine.core.gameobjects.SceneGO;
 import es.eucm.eadventure.engine.core.platform.AssetHandler;
+import es.eucm.eadventure.engine.core.platform.EAdCanvas;
 import es.eucm.eadventure.engine.core.platform.GUI;
 import es.eucm.eadventure.engine.core.platform.PlatformConfiguration;
 import es.eucm.eadventure.engine.core.platform.SpecialAssetRenderer;
 import es.eucm.eadventure.engine.core.util.EAdTransformation;
 
-public class VideoSceneGO extends AbstractGameObject<EAdVideoScene> implements
+public class VideoSceneGO extends DrawableGameObject<EAdVideoScene> implements
 		SceneGO<EAdVideoScene> {
 
 	private static final Logger logger = Logger.getLogger("VideoScreenGOImpl");
@@ -102,6 +103,16 @@ public class VideoSceneGO extends AbstractGameObject<EAdVideoScene> implements
 		} else {
 			specialAssetRenderer.start();
 		}
+	}
+
+	@Override
+	public boolean contains(int x, int y) {
+		return false;
+	}
+
+	@Override
+	public void render(EAdCanvas<?> c) {
+		
 	}
 
 }

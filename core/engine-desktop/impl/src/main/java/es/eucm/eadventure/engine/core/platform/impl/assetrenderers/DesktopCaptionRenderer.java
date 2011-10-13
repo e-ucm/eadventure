@@ -46,7 +46,7 @@ import java.awt.geom.AffineTransform;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
-import es.eucm.eadventure.common.params.EAdFill;
+import es.eucm.eadventure.common.params.paint.EAdFill;
 import es.eucm.eadventure.engine.core.platform.AssetRenderer;
 import es.eucm.eadventure.engine.core.platform.FillFactory;
 import es.eucm.eadventure.engine.core.platform.assets.impl.DesktopEngineCaption;

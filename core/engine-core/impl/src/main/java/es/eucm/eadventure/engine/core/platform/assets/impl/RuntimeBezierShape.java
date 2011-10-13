@@ -41,6 +41,7 @@ import es.eucm.eadventure.common.params.geom.impl.EAdPositionImpl;
 import es.eucm.eadventure.common.resources.assets.drawable.Drawable;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.shapes.BezierShape;
 import es.eucm.eadventure.engine.core.platform.DrawableAsset;
+import es.eucm.eadventure.engine.core.platform.EAdCanvas;
 
 public abstract class RuntimeBezierShape extends AbstractRuntimeAsset<BezierShape> implements DrawableAsset<BezierShape>{
 	
@@ -106,11 +107,15 @@ public abstract class RuntimeBezierShape extends AbstractRuntimeAsset<BezierShap
 		
 	}
 
-
 	@SuppressWarnings("unchecked")
 	@Override
 	public <S extends Drawable> DrawableAsset<S> getDrawable() {
 		return (DrawableAsset<S>) this;
+	}
+	
+	public void render(EAdCanvas<?> c){
+		c.setPaint(descriptor.getFill());
+		c.drawShape(this);
 	}
 	
 

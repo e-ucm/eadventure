@@ -85,4 +85,9 @@ public class DesktopBezierShape extends RuntimeBezierShape {
 		return path;
 	}
 
+	@Override
+	public boolean contains(int x, int y) {
+		return path.contains(x, y);
+	}
+
 }

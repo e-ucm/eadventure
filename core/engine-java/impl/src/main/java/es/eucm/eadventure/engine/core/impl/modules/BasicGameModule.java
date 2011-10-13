@@ -59,8 +59,8 @@ import es.eucm.eadventure.engine.core.impl.GameImpl;
 import es.eucm.eadventure.engine.core.impl.GameStateImpl;
 import es.eucm.eadventure.engine.core.impl.LoadingScreen;
 import es.eucm.eadventure.engine.core.impl.VariableMap;
-import es.eucm.eadventure.engine.core.platform.FontCache;
-import es.eucm.eadventure.engine.core.platform.impl.FontCacheImpl;
+import es.eucm.eadventure.engine.core.platform.FontHandler;
+import es.eucm.eadventure.engine.core.platform.impl.FontHandlerImpl;
 import es.eucm.eadventure.engine.core.platform.impl.JavaReflectionProvider;
 
 public class BasicGameModule extends AbstractModule {
@@ -77,7 +77,7 @@ public class BasicGameModule extends AbstractModule {
 		bind(GameController.class).to(GameControllerImpl.class);
 		bind(Game.class).to(GameImpl.class);
 		bind(EffectHUD.class).to(EffectHUDImpl.class);
-		bind(FontCache.class).to(FontCacheImpl.class);
+		bind(FontHandler.class).to(FontHandlerImpl.class);
 		bind(EAdDebugger.class).to(EAdMainDebugger.class);
 		
 		bind(ReflectionProvider.class).to(JavaReflectionProvider.class);

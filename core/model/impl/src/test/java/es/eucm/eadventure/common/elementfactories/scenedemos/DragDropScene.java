@@ -23,19 +23,19 @@ public class DragDropScene extends EmptyScene {
 
 	public DragDropScene() {
 		setBackgroundFill(new EAdLinearGradient(EAdColor.LIGHT_GRAY,
-				new EAdColor(245, 255, 245)));
+				new EAdColor(245, 255, 245), 800, 600));
 		BezierShape shape = new BallonShape(0, 0, 100, 100,
 				BalloonType.ROUNDED_RECTANGLE);
 		shape.setFill(new EAdLinearGradient(EAdColor.RED, new EAdColor(200, 0,
-				0)));
+				0), 100, 100));
 		EAdBasicSceneElement e1 = new EAdBasicSceneElement("e1", shape);
 		e1.setDraggabe(EmptyCondition.TRUE_EMPTY_CONDITION);
 		e1.setPosition(new EAdPositionImpl(Corner.CENTER, 100, 100));
 		EAdField<Float> rotation = new EAdFieldImpl<Float>(e1,
 				EAdBasicSceneElement.VAR_ROTATION);
 		EAdChangeFieldValueEffect changeRotation1 = new EAdChangeFieldValueEffect(
-				"change", rotation, new ValueOperation(
-						(float) (Math.PI / 8.0f)));
+				"change", rotation,
+				new ValueOperation((float) (Math.PI / 8.0f)));
 		EAdChangeFieldValueEffect changeRotation2 = new EAdChangeFieldValueEffect(
 				"change", rotation, new ValueOperation(0.0f));
 		e1.addBehavior(EAdMouseEventImpl.MOUSE_START_DRAG, changeRotation1);
@@ -46,21 +46,20 @@ public class DragDropScene extends EmptyScene {
 		shape2.setFill(EAdBorderedColor.BLACK_ON_WHITE);
 		EAdBasicSceneElement e2 = new EAdBasicSceneElement("e2", shape2);
 		e2.setPosition(new EAdPositionImpl(Corner.CENTER, 100, 300));
-		
+
 		EAdBasicSceneElement e3 = new EAdBasicSceneElement("e3", shape2);
 		e3.setPosition(new EAdPositionImpl(Corner.CENTER, 300, 300));
 
-		addBehaviors( e2, e1 );
-		addBehaviors( e3, e1 );
-
+		addBehaviors(e2, e1);
+		addBehaviors(e3, e1);
 
 		getElements().add(e2);
 		getElements().add(e3);
 		getElements().add(e1);
 
 	}
-	
-	private void addBehaviors( EAdBasicSceneElement e2, EAdBasicSceneElement e1 ){
+
+	private void addBehaviors(EAdBasicSceneElement e2, EAdBasicSceneElement e1) {
 		EAdField<Float> scale = new EAdFieldImpl<Float>(e2,
 				EAdBasicSceneElement.VAR_SCALE);
 		EAdChangeFieldValueEffect changeScale1 = new EAdChangeFieldValueEffect(
@@ -76,7 +75,7 @@ public class DragDropScene extends EmptyScene {
 				new EAdFieldImpl<Integer>(e1, EAdBasicSceneElement.VAR_X),
 				new MathOperation("[0]", new EAdFieldImpl<Integer>(e2,
 						EAdBasicSceneElement.VAR_X)));
-		
+
 		EAdChangeFieldValueEffect changeY = new EAdChangeFieldValueEffect("x",
 				new EAdFieldImpl<Integer>(e1, EAdBasicSceneElement.VAR_Y),
 				new MathOperation("[0]", new EAdFieldImpl<Integer>(e2,

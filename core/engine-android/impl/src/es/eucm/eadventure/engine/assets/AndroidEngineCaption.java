@@ -42,17 +42,18 @@ import com.google.inject.Inject;
 import es.eucm.eadventure.common.resources.StringHandler;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.CaptionImpl;
 import es.eucm.eadventure.engine.core.impl.VariableMap;
+import es.eucm.eadventure.engine.core.platform.AssetHandler;
 import es.eucm.eadventure.engine.core.platform.PlatformConfiguration;
 import es.eucm.eadventure.engine.core.platform.RuntimeFont;
 import es.eucm.eadventure.engine.core.platform.assets.impl.RuntimeCaption;
-import es.eucm.eadventure.engine.core.platform.impl.FontCacheImpl;
+import es.eucm.eadventure.engine.core.platform.impl.FontHandlerImpl;
 
 public class AndroidEngineCaption extends RuntimeCaption {
 
 	@Inject
-	public AndroidEngineCaption(FontCacheImpl fontCache, VariableMap valueMap,
-			StringHandler stringHandler, PlatformConfiguration platformConfiguration) {
-		super(fontCache, valueMap, stringHandler, platformConfiguration );
+	public AndroidEngineCaption(FontHandlerImpl fontCache, VariableMap valueMap,
+			StringHandler stringHandler, PlatformConfiguration platformConfiguration, AssetHandler handler) {
+		super(fontCache, valueMap, stringHandler, platformConfiguration, handler );
 	}
 
 	public void setHasBuble(boolean b) {

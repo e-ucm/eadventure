@@ -104,7 +104,7 @@ public interface AssetHandler {
 	 * @see AssetDescriptor
 	 */
 	<T extends AssetDescriptor> RuntimeAsset<T> getRuntimeAsset(T descriptor);
-	
+
 	/**
 	 * Returns true if the adventure assets have been correctly loaded
 	 * 
@@ -112,6 +112,13 @@ public interface AssetHandler {
 	 */
 	boolean isLoaded();
 
+	/**
+	 * Returns the absolute path of an uri in a given system
+	 * 
+	 * @param uri
+	 *            the uri
+	 * @return the absolute path
+	 */
 	String getAbsolutePath(String uri);
 
 }

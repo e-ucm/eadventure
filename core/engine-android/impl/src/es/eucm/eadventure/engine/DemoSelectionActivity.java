@@ -8,7 +8,7 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import es.eucm.eadventure.common.elmentfactories.scenedemos.SceneDemos;
+import es.eucm.eadventure.common.elementfactories.scenedemos.SceneDemos;
 
 public class DemoSelectionActivity extends ListActivity {
 	

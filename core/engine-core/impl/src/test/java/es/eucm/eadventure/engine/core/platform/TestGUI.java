@@ -59,7 +59,7 @@ public class TestGUI extends AbstractGUI<Void>{
 			KeyboardState keyboardState, ValueMap valueMap,
 			GameState gameState, GameObjectFactory gameObjectFactory) {
 		super(platformConfiguration, assetRendererFactory, gameObjectManager,
-				mouseState, keyboardState, valueMap, gameState, gameObjectFactory);
+				mouseState, keyboardState, valueMap, gameState, gameObjectFactory, null);
 	}
 
 	@Override

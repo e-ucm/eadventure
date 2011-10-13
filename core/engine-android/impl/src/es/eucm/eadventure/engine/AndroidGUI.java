@@ -69,10 +69,10 @@ public class AndroidGUI extends AbstractGUI<Canvas> {
 			GameObjectManager gameObjectManager, MouseState mouseState,
 			BasicHUD androidBasicHUD, KeyboardState keyboardState,
 			ValueMap valueMap, GameState gameState,
-			GameObjectFactory gameObjectFactory) {
+			GameObjectFactory gameObjectFactory, es.eucm.eadventure.engine.AndroidCanvas canvas) {
 		super(platformConfiguration, assetRendererFactory, gameObjectManager,
 				mouseState, keyboardState, valueMap, gameState,
-				gameObjectFactory);
+				gameObjectFactory, canvas);
 		gameObjects.addHUD(androidBasicHUD);
 		androidBasicHUD.setGUI(this);
 	}
@@ -109,6 +109,7 @@ public class AndroidGUI extends AbstractGUI<Canvas> {
 
 	public void setCanvas(AndroidCanvas aCanvas) {
 		this.canvas = aCanvas;
+		eAdCanvas.setGraphicContext(aCanvas);
 
 		Matrix matrix = canvas.getMatrix();
 

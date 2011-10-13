@@ -50,6 +50,7 @@ import es.eucm.eadventure.engine.core.gameobjects.EffectGO;
 import es.eucm.eadventure.engine.core.gameobjects.GameObject;
 import es.eucm.eadventure.engine.core.gameobjects.huds.EffectHUD;
 import es.eucm.eadventure.engine.core.guiactions.GUIAction;
+import es.eucm.eadventure.engine.core.platform.EAdCanvas;
 import es.eucm.eadventure.engine.core.platform.RuntimeAsset;
 import es.eucm.eadventure.engine.core.util.EAdTransformation;
 import es.eucm.eadventure.engine.core.util.impl.EAdTransformationImpl;
@@ -193,6 +194,12 @@ public class EffectHUDImpl implements EffectHUD {
 	@Override
 	public boolean isEnable() {
 		return true;
+	}
+
+	@Override
+	public void render(EAdCanvas<?> c) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

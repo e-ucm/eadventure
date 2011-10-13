@@ -35,35 +35,61 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package es.eucm.eadventure.engine.core.platform;
+package es.eucm.eadventure.engine.core.platform.impl;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+import com.google.inject.Inject;
 
 import es.eucm.eadventure.common.params.EAdFont;
+import es.eucm.eadventure.common.params.EAdFontImpl;
 import es.eucm.eadventure.common.params.geom.EAdRectangle;
+import es.eucm.eadventure.engine.core.platform.AssetHandler;
+import es.eucm.eadventure.engine.core.platform.FontHandler;
+import es.eucm.eadventure.engine.core.platform.RuntimeFont;
 
-/**
- * Interface for a cache of the system dependent {@link RuntimeFont}s
- * 
- */
-public interface FontCache {
+public abstract class FontHandlerImpl implements FontHandler {
+
+	protected Logger logger = Logger.getLogger("FontCacheImpl");
+
+	protected Map<EAdFont, RuntimeFont> fontCache;
+	
+	protected AssetHandler assetHandler;
+	
+	@Inject
+	public FontHandlerImpl(AssetHandler assetHandler) {
+		logger.log(Level.INFO, "New instance");
+		fontCache = new HashMap<EAdFont, RuntimeFont>();
+	}
 
 	/**
 	 * Puts a runtime font in the cache
 	 * 
 	 * @param font
-	 *            {@link EAdFont}
+	 *            {@link EAdFontImpl}
 	 * @param rFont
-	 *            {@link RuntimeFont} associated to the given {@link EAdFont}
+	 *            {@link RuntimeFont} associated to the given {@link EAdFontImpl}
 	 */
-	public void put(EAdFont font, RuntimeFont rFont);
+	public void put(EAdFont font, RuntimeFont rFont) {
+		fontCache.put(font, rFont);
+	}
 
 	/**
-	 * Returns {@link RuntimeFont} associated to the given {@link EAdFont}
+	 * Returns {@link RuntimeFont} associated to the given {@link EAdFontImpl}
 	 * 
 	 * @param font
-	 *            the {@link EAdFont}
-	 * @return {@link RuntimeFont} associated to the given {@link EAdFont}
+	 *            the {@link EAdFontImpl}
+	 * @return {@link RuntimeFont} associated to the given {@link EAdFontImpl}
 	 */
-	public RuntimeFont get(EAdFont font);
+	public RuntimeFont get(EAdFont font) {
+		if ( !fontCache.containsKey(font) ){
+			this.addEAdFont(font);
+		}
+		return fontCache.get(font);
+	}
 
 	/**
 	 * Returns the string width with the given font in the current context, -1
@@ -76,7 +102,12 @@ public interface FontCache {
 	 * @return the string width with the given font in the current context, -1
 	 *         if font is not present in the cache
 	 */
-	public int stringWidth(String string, EAdFont font);
+	public int stringWidth(String string, EAdFont font) {
+		if (fontCache.containsKey(font))
+			return fontCache.get(font).stringWidth(string);
+		else
+			return -1;
+	}
 
 	/**
 	 * Returns one line's height with the given font, -1 if font is not present
@@ -87,10 +118,15 @@ public interface FontCache {
 	 * @return one line's height with the given font, -1 if font is not present
 	 *         in the cache
 	 */
-	public int lineHeight(EAdFont font);
+	public int lineHeight(EAdFont font) {
+		if (fontCache.containsKey(font))
+			return fontCache.get(font).lineHeight();
+		else
+			return -1;
+	}
 
 	/**
-	 * Returns the string bounds with the given {@link EAdFont}, <b>null</b> if
+	 * Returns the string bounds with the given {@link EAdFontImpl}, <b>null</b> if
 	 * font is not present in the cache
 	 * 
 	 * @param string
@@ -98,15 +134,20 @@ public interface FontCache {
 	 * @return the string bounds, <b>null</b> if font is not present in the
 	 *         cache
 	 */
-	public EAdRectangle stringBounds(String string, EAdFont font);
+	public EAdRectangle stringBounds(String string, EAdFont font) {
+		if (fontCache.containsKey(font))
+			return fontCache.get(font).stringBounds(string);
+		else
+			return null;
+	}
 
 	/**
 	 * Adds a new {@link RuntimeFont} to cache based on the given
-	 * {@link EAdFont}
+	 * {@link EAdFontImpl}
 	 * 
 	 * @param font
-	 *            given {@link EAdFont}
+	 *            given {@link EAdFontImpl}
 	 */
-	public void addEAdFont(EAdFont font);
+	public abstract void addEAdFont(EAdFont font);
 
 }

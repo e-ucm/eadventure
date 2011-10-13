@@ -1,6 +1,6 @@
 package es.eucm.eadventure.engine.core.platform;
 
-import es.eucm.eadventure.common.params.EAdFill;
+import es.eucm.eadventure.common.params.paint.EAdFill;
 
 public interface FillFactory<GraphicContext, Shape> {
 

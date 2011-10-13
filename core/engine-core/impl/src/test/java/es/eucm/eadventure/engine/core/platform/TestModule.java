@@ -53,7 +53,7 @@ import es.eucm.eadventure.engine.core.gameobjects.huds.BasicHUD;
 import es.eucm.eadventure.engine.core.gameobjects.huds.impl.BasicHUDImpl;
 import es.eucm.eadventure.engine.core.gameobjects.impl.GameObjectManagerImpl;
 import es.eucm.eadventure.engine.core.impl.KeyboardStateImpl;
-import es.eucm.eadventure.engine.core.platform.impl.FontCacheImpl;
+import es.eucm.eadventure.engine.core.platform.impl.FontHandlerImpl;
 
 public class TestModule extends AbstractModule {
 	
@@ -70,7 +70,7 @@ public class TestModule extends AbstractModule {
 		bind(KeyboardState.class).to(KeyboardStateImpl.class);
 		bind(GameObjectManager.class).to(GameObjectManagerImpl.class);
 		bind(BasicHUD.class).to(BasicHUDImpl.class);
-		bind(FontCacheImpl.class).to(TestFontCache.class);
+		bind(FontHandlerImpl.class).to(TestFontCache.class);
 	}
 	
 	private void configureAssetHandler() {

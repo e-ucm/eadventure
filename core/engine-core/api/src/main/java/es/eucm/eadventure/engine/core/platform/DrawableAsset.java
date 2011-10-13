@@ -40,9 +40,12 @@ package es.eucm.eadventure.engine.core.platform;
 import es.eucm.eadventure.common.resources.assets.drawable.Drawable;
 
 /**
- * <p>Represents a {@link RuntimeAsset} that can be directly drawn into the screen</p>
+ * <p>
+ * Represents a {@link RuntimeAsset} that can be directly drawn into the screen
+ * </p>
  * 
- * @param <T> The class of the {@link Drawable} object
+ * @param <T>
+ *            The class of the {@link Drawable} object
  */
 public interface DrawableAsset<T extends Drawable> extends RuntimeAsset<T> {
 
@@ -65,6 +68,19 @@ public interface DrawableAsset<T extends Drawable> extends RuntimeAsset<T> {
 	 * the object itself. Others, like in animations, will be some other
 	 * {@link DrawableAsset}
 	 */
-	<S extends Drawable>DrawableAsset<S> getDrawable();
+	<S extends Drawable> DrawableAsset<S> getDrawable();
+	
+	void render( EAdCanvas<?> canvas );
+
+	/**
+	 * Returns if this asset contains the given coordinates
+	 * 
+	 * @param x
+	 *            x coordinate
+	 * @param y
+	 *            y coordinate
+	 * @return
+	 */
+	boolean contains(int x, int y);
 
 }

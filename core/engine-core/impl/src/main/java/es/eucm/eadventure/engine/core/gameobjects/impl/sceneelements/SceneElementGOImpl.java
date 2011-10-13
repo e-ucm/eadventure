@@ -63,16 +63,17 @@ import es.eucm.eadventure.engine.core.ValueMap;
 import es.eucm.eadventure.engine.core.gameobjects.GameObject;
 import es.eucm.eadventure.engine.core.gameobjects.GameObjectFactory;
 import es.eucm.eadventure.engine.core.gameobjects.SceneElementGO;
-import es.eucm.eadventure.engine.core.gameobjects.impl.AbstractGameObject;
+import es.eucm.eadventure.engine.core.gameobjects.impl.DrawableGameObject;
 import es.eucm.eadventure.engine.core.guiactions.GUIAction;
 import es.eucm.eadventure.engine.core.platform.AssetHandler;
 import es.eucm.eadventure.engine.core.platform.DrawableAsset;
+import es.eucm.eadventure.engine.core.platform.EAdCanvas;
 import es.eucm.eadventure.engine.core.platform.GUI;
 import es.eucm.eadventure.engine.core.platform.PlatformConfiguration;
 import es.eucm.eadventure.engine.core.platform.RuntimeAsset;
 
 public abstract class SceneElementGOImpl<T extends EAdSceneElement> extends
-		AbstractGameObject<T> implements SceneElementGO<T> {
+		DrawableGameObject<T> implements SceneElementGO<T> {
 
 	private static final Logger logger = Logger.getLogger("SceneElementGOImpl");
 
@@ -419,9 +420,22 @@ public abstract class SceneElementGOImpl<T extends EAdSceneElement> extends
 	public float getScale() {
 		return scale;
 	}
-	
-	public boolean isEnable(){
+
+	public boolean isEnable() {
 		return enable;
+	}
+
+	@Override
+	public boolean contains(int x, int y) {
+		if (this.getRenderAsset() != null)
+			return this.getRenderAsset().contains(x, y);
+		return false;
+	}
+
+	@Override
+	public void render(EAdCanvas<?> c) {
+		if (this.getRenderAsset() != null)
+			getRenderAsset().render(c);
 	}
 
 }

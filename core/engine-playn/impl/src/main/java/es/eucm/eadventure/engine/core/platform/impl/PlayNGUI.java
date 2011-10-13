@@ -37,12 +37,12 @@
 
 package es.eucm.eadventure.engine.core.platform.impl;
 
+import java.awt.Graphics2D;
 import java.util.logging.Logger;
 
 import javax.swing.JFrame;
 
 import playn.core.Canvas;
-import playn.core.PlayN;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -58,6 +58,7 @@ import es.eucm.eadventure.engine.core.gameobjects.huds.BasicHUD;
 import es.eucm.eadventure.engine.core.platform.GUI;
 import es.eucm.eadventure.engine.core.platform.GraphicRendererFactory;
 import es.eucm.eadventure.engine.core.platform.PlatformConfiguration;
+import es.eucm.eadventure.engine.core.platform.PlayNCanvas;
 import es.eucm.eadventure.engine.core.platform.RuntimeAsset;
 import es.eucm.eadventure.engine.core.platform.assets.impl.PlayNEngineImage;
 import es.eucm.eadventure.engine.core.platform.impl.extra.PlayNInputListener;
@@ -94,10 +95,10 @@ public class PlayNGUI extends AbstractGUI<Canvas> implements GUI {
 			GameObjectManager gameObjectManager, MouseState mouseState,
 			KeyboardState keyboardState, BasicHUD basicDesktopHUD,
 			ValueMap valueMap, GameState gameState,
-			GameObjectFactory gameObjectFactory) {
+			GameObjectFactory gameObjectFactory, PlayNCanvas canvas) {
 		super(platformConfiguration, assetRendererFactory, gameObjectManager,
 				mouseState, keyboardState, valueMap, gameState,
-				gameObjectFactory);
+				gameObjectFactory, canvas);
 		logger.info("New instance");
 		this.gameObjects.addHUD(basicDesktopHUD);
 		basicDesktopHUD.setGUI(this);
@@ -114,40 +115,23 @@ public class PlayNGUI extends AbstractGUI<Canvas> implements GUI {
 	public void showSpecialResource(final Object resource, int x, int y,
 			boolean fullscreen) {
 		/*
-		if (this.currentComponent == resource)
-			return;
-		if (this.currentComponent != null) {
-			SwingUtilities.doInEDTNow(new Runnable() {
-				@Override
-				public void run() {
-					frame.remove((Component) currentComponent);
-				}
-			});
-			currentComponent = null;
-		}
-		if (this.currentComponent == null) {
-			if (resource == null) {
-				SwingUtilities.doInEDTNow(new Runnable() {
-					@Override
-					public void run() {
-						frame.add(canvas);
-					}
-				});
-			} else {
-				SwingUtilities.doInEDTNow(new Runnable() {
-					@Override
-					public void run() {
-						frame.remove(canvas);
-						((Component) resource).setBounds(0, 0,
-								frame.getWidth(), frame.getHeight());
-						frame.add((Component) resource);
-						frame.validate();
-					}
-				});
-				currentComponent = resource;
-			}
-		}
-		*/
+		 * if (this.currentComponent == resource) return; if
+		 * (this.currentComponent != null) { SwingUtilities.doInEDTNow(new
+		 * Runnable() {
+		 * 
+		 * @Override public void run() { frame.remove((Component)
+		 * currentComponent); } }); currentComponent = null; } if
+		 * (this.currentComponent == null) { if (resource == null) {
+		 * SwingUtilities.doInEDTNow(new Runnable() {
+		 * 
+		 * @Override public void run() { frame.add(canvas); } }); } else {
+		 * SwingUtilities.doInEDTNow(new Runnable() {
+		 * 
+		 * @Override public void run() { frame.remove(canvas); ((Component)
+		 * resource).setBounds(0, 0, frame.getWidth(), frame.getHeight());
+		 * frame.add((Component) resource); frame.validate(); } });
+		 * currentComponent = resource; } }
+		 */
 	}
 
 	/*
@@ -161,49 +145,42 @@ public class PlayNGUI extends AbstractGUI<Canvas> implements GUI {
 
 		if (currentComponent != null)
 			return;
-		
+
 		render(canvas, interpolation);
 
 		/*
-		
-		SwingUtilities.doInEDTNow(new Runnable() {
-			@Override
-			public void run() {
-				BufferStrategy bs = canvas.getBufferStrategy();
-				Graphics2D g = (Graphics2D) bs.getDrawGraphics();
-				g.setClip(0, 0, platformConfiguration.getWidth(),
-						platformConfiguration.getHeight());
-
-				if (!g.getRenderingHints().containsValue(
-						RenderingHints.VALUE_ANTIALIAS_ON))
-					g.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
-							RenderingHints.VALUE_ANTIALIAS_ON);
-				if (!g.getRenderingHints().containsValue(
-						RenderingHints.VALUE_TEXT_ANTIALIAS_ON))
-					g.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING,
-							RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
-
-				g.setFont(g.getFont().deriveFont(20.0f));
-
-				g.scale(platformConfiguration.getScale(),
-						platformConfiguration.getScale());
-
-				render(g, interpolation);
-
-				g.dispose();
-			}
-		});
-
-		SwingUtilities.doInEDT(new Runnable() {
-			@Override
-			public void run() {
-				BufferStrategy bs = canvas.getBufferStrategy();
-				bs.show();
-				Toolkit.getDefaultToolkit().sync();
-			}
-		});
-		
-		*/
+		 * 
+		 * SwingUtilities.doInEDTNow(new Runnable() {
+		 * 
+		 * @Override public void run() { BufferStrategy bs =
+		 * canvas.getBufferStrategy(); Graphics2D g = (Graphics2D)
+		 * bs.getDrawGraphics(); g.setClip(0, 0,
+		 * platformConfiguration.getWidth(), platformConfiguration.getHeight());
+		 * 
+		 * if (!g.getRenderingHints().containsValue(
+		 * RenderingHints.VALUE_ANTIALIAS_ON))
+		 * g.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
+		 * RenderingHints.VALUE_ANTIALIAS_ON); if
+		 * (!g.getRenderingHints().containsValue(
+		 * RenderingHints.VALUE_TEXT_ANTIALIAS_ON))
+		 * g.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING,
+		 * RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
+		 * 
+		 * g.setFont(g.getFont().deriveFont(20.0f));
+		 * 
+		 * g.scale(platformConfiguration.getScale(),
+		 * platformConfiguration.getScale());
+		 * 
+		 * render(g, interpolation);
+		 * 
+		 * g.dispose(); } });
+		 * 
+		 * SwingUtilities.doInEDT(new Runnable() {
+		 * 
+		 * @Override public void run() { BufferStrategy bs =
+		 * canvas.getBufferStrategy(); bs.show();
+		 * Toolkit.getDefaultToolkit().sync(); } });
+		 */
 	}
 
 	/*
@@ -217,25 +194,25 @@ public class PlayNGUI extends AbstractGUI<Canvas> implements GUI {
 				/ platformConfiguration.getHeight();
 		int height = GUI.VIRTUAL_HEIGHT;
 		PlayNEngineImage image = new PlayNEngineImage(width, height);
-/*
-		Graphics2D g = (Graphics2D) image.getImage().getGraphics();
-		g.setClip(0, 0, width, height);
-
-		setRenderingHints(g);
-
-		g.setFont(g.getFont().deriveFont(20.0f));
-
-		// g.scale(platformConfiguration.getScale(),
-		// platformConfiguration.getScale());
-
-		render(g, 0.0f);
-
-		g.dispose();
-*/
+		/*
+		 * Graphics2D g = (Graphics2D) image.getImage().getGraphics();
+		 * g.setClip(0, 0, width, height);
+		 * 
+		 * setRenderingHints(g);
+		 * 
+		 * g.setFont(g.getFont().deriveFont(20.0f));
+		 * 
+		 * // g.scale(platformConfiguration.getScale(), //
+		 * platformConfiguration.getScale());
+		 * 
+		 * render(g, 0.0f);
+		 * 
+		 * g.dispose();
+		 */
 
 		return image;
 	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -243,7 +220,7 @@ public class PlayNGUI extends AbstractGUI<Canvas> implements GUI {
 	 */
 	@Override
 	public void initilize() {
-		//TODO initialize Canvas
+		// TODO initialize Canvas
 		logger.info("PlayN GUI initilized");
 	}
 
@@ -254,17 +231,18 @@ public class PlayNGUI extends AbstractGUI<Canvas> implements GUI {
 		PlayNInputListener listener = new PlayNInputListener(mouseState,
 				keyboardState);
 		this.canvas = canvas;
+		eAdCanvas.setGraphicContext(canvas);
 		/*
-		canvas.addMouseListener(listener);
-		canvas.addMouseMotionListener(listener);
-		canvas.addKeyListener(listener);
-		*/
+		 * canvas.addMouseListener(listener);
+		 * canvas.addMouseMotionListener(listener);
+		 * canvas.addKeyListener(listener);
+		 */
 	}
 
 	@Override
 	public void finish() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 }

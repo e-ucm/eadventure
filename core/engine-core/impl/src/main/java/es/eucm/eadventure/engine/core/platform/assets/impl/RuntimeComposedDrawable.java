@@ -37,6 +37,8 @@
 
 package es.eucm.eadventure.engine.core.platform.assets.impl;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Logger;
 
 import com.google.inject.Inject;
@@ -47,13 +49,17 @@ import es.eucm.eadventure.common.resources.assets.drawable.compounds.ComposedDra
 import es.eucm.eadventure.common.resources.assets.drawable.compounds.DisplacedDrawable;
 import es.eucm.eadventure.engine.core.platform.AssetHandler;
 import es.eucm.eadventure.engine.core.platform.DrawableAsset;
+import es.eucm.eadventure.engine.core.platform.EAdCanvas;
 
 /**
- * Represents a runtime engine composed drawable, associated with an {@link AssetDescritpor}
+ * Represents a runtime engine composed drawable, associated with an
+ * {@link AssetDescritpor}
  * 
  */
-public class RuntimeComposedDrawable extends AbstractRuntimeAsset<ComposedDrawable> implements DrawableAsset<ComposedDrawable> {
-	
+public class RuntimeComposedDrawable extends
+		AbstractRuntimeAsset<ComposedDrawable> implements
+		DrawableAsset<ComposedDrawable> {
+
 	/**
 	 * Logger
 	 */
@@ -63,40 +69,53 @@ public class RuntimeComposedDrawable extends AbstractRuntimeAsset<ComposedDrawab
 	 * The asset handler
 	 */
 	protected AssetHandler assetHandler;
-	
-	@Inject 
-	public RuntimeComposedDrawable(AssetHandler assetHandler ){
+
+	protected ArrayList<RuntimeDisplacedDrawable> drawables;
+
+	@Inject
+	public RuntimeComposedDrawable(AssetHandler assetHandler) {
 		this.assetHandler = assetHandler;
+		this.drawables = new ArrayList<RuntimeDisplacedDrawable>();
 		logger.info("New instance");
+	}
+
+	public void setDescriptor(ComposedDrawable e) {
+		super.setDescriptor(e);
+		for (DisplacedDrawable d : e.getDrawables()) {
+			drawables.add((RuntimeDisplacedDrawable) assetHandler
+					.getRuntimeAsset(d));
+		}
 	}
 
 	@Override
 	public void update() {
-		for (Drawable asset : descriptor.getDrawables())
-			assetHandler.getRuntimeAsset(asset).update();
+		for (RuntimeDisplacedDrawable d : getAssets())
+			d.update();
 	}
-	
-	public EAdList<DisplacedDrawable> getAssetList() {
-		return descriptor.getDrawables();
+
+	public List<RuntimeDisplacedDrawable> getAssets() {
+		return drawables;
 	}
-	
+
 	@SuppressWarnings("unchecked")
 	@Override
 	public <S extends Drawable> DrawableAsset<S> getDrawable() {
 		return (DrawableAsset<S>) this;
 	}
-	
+
 	public int getWidth() {
 		int width = 0;
 		for (Drawable asset : descriptor.getDrawables())
-			width = Math.max(((DrawableAsset<?>) assetHandler.getRuntimeAsset(asset)).getWidth(), width);
+			width = Math.max(((DrawableAsset<?>) assetHandler
+					.getRuntimeAsset(asset)).getWidth(), width);
 		return width;
 	}
 
 	public int getHeight() {
 		int height = 0;
 		for (Drawable asset : descriptor.getDrawables())
-			height = Math.max(((DrawableAsset<?>) assetHandler.getRuntimeAsset(asset)).getHeight(), height);
+			height = Math.max(((DrawableAsset<?>) assetHandler
+					.getRuntimeAsset(asset)).getHeight(), height);
 		return height;
 	}
 
@@ -119,6 +138,26 @@ public class RuntimeComposedDrawable extends AbstractRuntimeAsset<ComposedDrawab
 		for (Drawable asset : descriptor.getDrawables())
 			loaded = loaded & assetHandler.getRuntimeAsset(asset).isLoaded();
 		return loaded;
+	}
+
+	public void render(EAdCanvas<?> c) {
+		for (RuntimeDisplacedDrawable d : getAssets()) {
+			d.render(c);
+		}
+	}
+
+	@Override
+	public boolean contains(int x, int y) {
+		for (RuntimeDisplacedDrawable d : getAssets()) {
+			if (d.contains(x, y)) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	public EAdList<DisplacedDrawable> getAssetList() {
+		return descriptor.getDrawables();
 	}
 
 }
