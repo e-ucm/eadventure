@@ -228,6 +228,7 @@ public class PlayNGUI extends AbstractGUI<Canvas> implements GUI {
 		PlayNInputListener listener = new PlayNInputListener(mouseState,
 				keyboardState);
 		this.canvas = canvas;
+		eAdCanvas.setGraphicContext(canvas);
 		/*
 		 * canvas.addMouseListener(listener);
 		 * canvas.addMouseMotionListener(listener);

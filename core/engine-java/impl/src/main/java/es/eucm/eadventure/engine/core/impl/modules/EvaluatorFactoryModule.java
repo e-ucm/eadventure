@@ -38,20 +38,15 @@
 package es.eucm.eadventure.engine.core.impl.modules;
 
 import com.google.inject.AbstractModule;
-import com.google.inject.TypeLiteral;
 
-import es.eucm.eadventure.common.interfaces.MapProvider;
-import es.eucm.eadventure.engine.core.evaluators.Evaluator;
 import es.eucm.eadventure.engine.core.evaluators.EvaluatorFactory;
 import es.eucm.eadventure.engine.core.evaluators.impl.EvaluatorFactoryImpl;
-import es.eucm.eadventure.engine.core.impl.factorymapproviders.EvaluatorFactoryMapProvider;
 
 public class EvaluatorFactoryModule extends AbstractModule {
 	
 	@Override
 	protected void configure() {
 		bind(EvaluatorFactory.class).to(EvaluatorFactoryImpl.class);
-		bind(new TypeLiteral<MapProvider<Class<?>, Evaluator<?>>>() {}).to(EvaluatorFactoryMapProvider.class);
 	}
 
 }

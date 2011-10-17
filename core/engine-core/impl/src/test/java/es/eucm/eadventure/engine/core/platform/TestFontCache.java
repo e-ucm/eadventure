@@ -44,10 +44,6 @@ import es.eucm.eadventure.engine.core.platform.impl.FontHandlerImpl;
 
 public class TestFontCache extends FontHandlerImpl {
 
-	public TestFontCache(AssetHandler assetHandler) {
-		super(assetHandler);
-	}
-
 	@Override
 	public void addEAdFont(EAdFont font) {
 		this.fontCache.put(font, new RuntimeFont(){

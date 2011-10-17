@@ -44,10 +44,12 @@ import com.google.inject.Singleton;
 
 import es.eucm.eadventure.common.interfaces.AbstractFactory;
 import es.eucm.eadventure.common.interfaces.ReflectionProvider;
-import es.eucm.eadventure.common.interfaces.MapProvider;
 import es.eucm.eadventure.common.model.elements.EAdCondition;
+import es.eucm.eadventure.engine.core.ValueMap;
 import es.eucm.eadventure.engine.core.evaluators.Evaluator;
 import es.eucm.eadventure.engine.core.evaluators.EvaluatorFactory;
+import es.eucm.eadventure.engine.core.impl.factorymapproviders.EvaluatorFactoryMapProvider;
+import es.eucm.eadventure.engine.core.operator.OperatorFactory;
 
 @Singleton
 public class EvaluatorFactoryImpl extends AbstractFactory<Evaluator<?>> implements EvaluatorFactory {
@@ -57,9 +59,12 @@ public class EvaluatorFactoryImpl extends AbstractFactory<Evaluator<?>> implemen
 	
 
 	@Inject
-	public EvaluatorFactoryImpl(MapProvider<Class<?>, Evaluator<?>> mapProvider,
-			ReflectionProvider interfacesProvider) {
-		super(mapProvider, interfacesProvider);
+	public EvaluatorFactoryImpl(ReflectionProvider interfacesProvider) {
+		super(null, interfacesProvider);
+	}
+	
+	public void install( ValueMap valueMap, OperatorFactory operatorFactory ){
+		setMap(new EvaluatorFactoryMapProvider( valueMap, this, operatorFactory ));
 	}
 	
 	@SuppressWarnings("unchecked")

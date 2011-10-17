@@ -127,11 +127,11 @@ public class RuntimeCaption extends AbstractRuntimeAsset<Caption> implements
 	private PlatformConfiguration platformConfiguration;
 
 	@Inject
-	public RuntimeCaption(FontHandler fontCache2, VariableMap valueMap,
+	public RuntimeCaption(FontHandler fontCache, VariableMap valueMap,
 			StringHandler stringsReader,
 			PlatformConfiguration platformConfiguration,
 			AssetHandler assetHandler) {
-		this.fontCache = fontCache2;
+		this.fontCache = fontCache;
 		this.valueMap = valueMap;
 		this.stringsReader = stringsReader;
 		this.platformConfiguration = platformConfiguration;

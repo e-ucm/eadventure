@@ -109,4 +109,6 @@ public interface FontHandler {
 	 */
 	public void addEAdFont(EAdFont font);
 
+	public void setAssetHandler(AssetHandler abstractAssetHandler);
+
 }

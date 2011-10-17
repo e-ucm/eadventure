@@ -43,11 +43,11 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 import es.eucm.eadventure.common.interfaces.AbstractFactory;
-import es.eucm.eadventure.common.interfaces.MapProvider;
 import es.eucm.eadventure.common.interfaces.ReflectionProvider;
 import es.eucm.eadventure.common.model.variables.EAdField;
 import es.eucm.eadventure.common.model.variables.EAdOperation;
 import es.eucm.eadventure.engine.core.ValueMap;
+import es.eucm.eadventure.engine.core.evaluators.EvaluatorFactory;
 import es.eucm.eadventure.engine.core.impl.factorymapproviders.OperatorFactoryMapProvider;
 import es.eucm.eadventure.engine.core.operator.Operator;
 import es.eucm.eadventure.engine.core.operator.OperatorFactory;
@@ -59,29 +59,23 @@ public class OperatorFactoryImpl extends AbstractFactory<Operator<?>> implements
 	private Logger log = Logger.getLogger("Operator Factory");
 
 	private ValueMap valueMap;
-	
+
 	@Inject
-	public OperatorFactoryImpl(OperatorFactoryMapProvider mapProvider,
-			ValueMap valueMap,
-			ReflectionProvider interfacesProvider) {
+	public OperatorFactoryImpl(ReflectionProvider interfacesProvider) {
 		super(null, interfacesProvider);
-		this.valueMap = valueMap;
-		this.valueMap.setOperatorFactory(this);
-		if (mapProvider != null)
-			this.map = mapProvider.getMap(valueMap);
 	}
 
-	@Override
-	public void setMap(MapProvider<Class<?>, Operator<?>> mapProvider) {
-		this.map = ((OperatorFactoryMapProvider) mapProvider).getMap(valueMap);
+	public void install( ValueMap valueMap, EvaluatorFactory evaluatorFactory ){
+		this.valueMap = valueMap;
+		setMap(new OperatorFactoryMapProvider( evaluatorFactory, valueMap, interfacesProvider ));
 	}
 
 	@Override
 	public <T extends EAdOperation, S> S operate(EAdField<S> fieldResult,
 			T operation) {
 		S result = operate(fieldResult.getVarDefinition().getType(), operation);
-		if (result != null){
-			log.info( operation + ": " + fieldResult + " := " + result );
+		if (result != null) {
+			log.info(operation + ": " + fieldResult + " := " + result);
 			valueMap.setValue(fieldResult, result);
 		}
 		return result;

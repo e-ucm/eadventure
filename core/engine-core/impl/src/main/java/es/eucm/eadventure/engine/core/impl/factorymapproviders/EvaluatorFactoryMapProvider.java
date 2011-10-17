@@ -40,9 +40,6 @@ package es.eucm.eadventure.engine.core.impl.factorymapproviders;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.google.inject.Inject;
-import com.google.inject.Singleton;
-
 import es.eucm.eadventure.common.model.conditions.impl.ANDCondition;
 import es.eucm.eadventure.common.model.conditions.impl.EmptyCondition;
 import es.eucm.eadventure.common.model.conditions.impl.NOTCondition;
@@ -57,12 +54,10 @@ import es.eucm.eadventure.engine.core.evaluators.impl.NOTConditionEvaluator;
 import es.eucm.eadventure.engine.core.evaluators.impl.OperationConditionEvaluator;
 import es.eucm.eadventure.engine.core.operator.OperatorFactory;
 
-@Singleton
 public class EvaluatorFactoryMapProvider extends AbstractMapProvider<Class<?>, Evaluator<?>> {
 
 	private static Map<Class<?>, Evaluator<?>> tempMap = new HashMap<Class<?>, Evaluator<?>>();
 	
-	@Inject
 	public EvaluatorFactoryMapProvider(ValueMap valueMap,
 			EvaluatorFactory evaluatorFactory, OperatorFactory operatorFactory) {
 		super();

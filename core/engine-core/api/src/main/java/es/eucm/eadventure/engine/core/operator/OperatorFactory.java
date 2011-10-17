@@ -41,6 +41,7 @@ import es.eucm.eadventure.common.interfaces.Factory;
 import es.eucm.eadventure.common.model.variables.EAdField;
 import es.eucm.eadventure.common.model.variables.EAdOperation;
 import es.eucm.eadventure.engine.core.ValueMap;
+import es.eucm.eadventure.engine.core.evaluators.EvaluatorFactory;
 
 /**
  * A factory with all {@link Operator} for all {@link EAdOperation}.
@@ -66,5 +67,7 @@ public interface OperatorFactory extends Factory<Operator<?>> {
 	<T extends EAdOperation, S> S operate(EAdField<S> eAdVar, T eAdOperation);
 
 	<T extends EAdOperation, S> S operate(Class<S> eAdVar, T eAdOperation);
+	
+	void install( ValueMap valueMap, EvaluatorFactory evaluatorFactory );
 
 }

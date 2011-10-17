@@ -59,6 +59,7 @@ import com.google.inject.Injector;
 import com.google.inject.Singleton;
 
 import es.eucm.eadventure.common.resources.assets.AssetDescriptor;
+import es.eucm.eadventure.engine.core.platform.FontHandler;
 import es.eucm.eadventure.engine.core.platform.RuntimeAsset;
 
 /**
@@ -94,8 +95,8 @@ public class DesktopAssetHandler extends JavaAbstractAssetHandler {
 	@Inject
 	public DesktopAssetHandler(
 			Injector injector,
-			Map<Class<? extends AssetDescriptor>, Class<? extends RuntimeAsset<?>>> classMap) {
-		super(injector, classMap);
+			Map<Class<? extends AssetDescriptor>, Class<? extends RuntimeAsset<?>>> classMap, FontHandler fontHandler) {
+		super(injector, classMap, fontHandler);
 		fileMap = new HashMap<String, File>();
 		logger.info("New instance");
 	}

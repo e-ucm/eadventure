@@ -49,6 +49,7 @@ import es.eucm.eadventure.common.interfaces.features.Resourced;
 import es.eucm.eadventure.common.resources.EAdBundleId;
 import es.eucm.eadventure.common.resources.assets.AssetDescriptor;
 import es.eucm.eadventure.engine.core.platform.AssetHandler;
+import es.eucm.eadventure.engine.core.platform.FontHandler;
 import es.eucm.eadventure.engine.core.platform.RuntimeAsset;
 
 /**
@@ -84,6 +85,8 @@ public abstract class AbstractAssetHandler implements AssetHandler {
 	private Map<Class<? extends AssetDescriptor>, Class<? extends RuntimeAsset<?>>> classMap;
 
 	private boolean loaded = false;
+	
+	protected FontHandler fontHandler;
 
 	/**
 	 * Default constructor, values are supplied by injection
@@ -98,9 +101,11 @@ public abstract class AbstractAssetHandler implements AssetHandler {
 	 */
 	@Inject
 	public AbstractAssetHandler(
-			Map<Class<? extends AssetDescriptor>, Class<? extends RuntimeAsset<?>>> classMap) {
+			Map<Class<? extends AssetDescriptor>, Class<? extends RuntimeAsset<?>>> classMap, FontHandler fontHandler ) {
 		this.classMap = classMap;
 		cache = new HashMap<AssetDescriptor, RuntimeAsset<?>>();
+		this.fontHandler = fontHandler;
+		fontHandler.setAssetHandler( this );
 	}
 
 	/*

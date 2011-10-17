@@ -43,6 +43,7 @@ import com.google.inject.name.Named;
 import es.eucm.eadventure.engine.core.Game;
 import es.eucm.eadventure.engine.core.GameController;
 import es.eucm.eadventure.engine.core.GameLoop;
+import es.eucm.eadventure.engine.core.ValueMap;
 import es.eucm.eadventure.engine.core.platform.GUI;
 
 public class GameControllerImpl implements GameController {
@@ -69,14 +70,16 @@ public class GameControllerImpl implements GameController {
 
 	@Inject
 	public GameControllerImpl(Game game, GameLoop gameLoop, GUI gui,
-			@Named("threaded") Boolean threaded) {
+			@Named("threaded") Boolean threaded, ValueMap valueMap) {
 		this.game = game;
 		this.gameLoop = gameLoop;
 		this.gui = gui;
 		this.threaded = threaded;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see es.eucm.eadventure.engine.core.GameController#start()
 	 */
 	@Override
@@ -87,7 +90,9 @@ public class GameControllerImpl implements GameController {
 		gameLoop.runLoop(threaded);
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see es.eucm.eadventure.engine.core.GameController#stop()
 	 */
 	@Override
@@ -95,7 +100,9 @@ public class GameControllerImpl implements GameController {
 		gui.finish();
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see es.eucm.eadventure.engine.core.GameController#pause()
 	 */
 	@Override
@@ -103,7 +110,9 @@ public class GameControllerImpl implements GameController {
 		gameLoop.pause();
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see es.eucm.eadventure.engine.core.GameController#resume()
 	 */
 	@Override

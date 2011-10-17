@@ -42,8 +42,6 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import com.google.inject.Inject;
-
 import es.eucm.eadventure.common.params.EAdFont;
 import es.eucm.eadventure.common.params.EAdFontImpl;
 import es.eucm.eadventure.common.params.geom.EAdRectangle;
@@ -59,10 +57,13 @@ public abstract class FontHandlerImpl implements FontHandler {
 	
 	protected AssetHandler assetHandler;
 	
-	@Inject
-	public FontHandlerImpl(AssetHandler assetHandler) {
+	public FontHandlerImpl( ) {
 		logger.log(Level.INFO, "New instance");
 		fontCache = new HashMap<EAdFont, RuntimeFont>();
+	}
+	
+	public void setAssetHandler( AssetHandler assetHandler ){
+		this.assetHandler = assetHandler;
 	}
 
 	/**

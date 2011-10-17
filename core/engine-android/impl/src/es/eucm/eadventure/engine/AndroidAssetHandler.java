@@ -49,6 +49,7 @@ import com.google.inject.Injector;
 import com.google.inject.Singleton;
 
 import es.eucm.eadventure.common.resources.assets.AssetDescriptor;
+import es.eucm.eadventure.engine.core.platform.FontHandler;
 import es.eucm.eadventure.engine.core.platform.RuntimeAsset;
 import es.eucm.eadventure.engine.core.platform.impl.AbstractAssetHandler;
 
@@ -68,8 +69,8 @@ public class AndroidAssetHandler extends AbstractAssetHandler {
 
 	@Inject
 	public AndroidAssetHandler(Injector injector,
-			Map<Class<? extends AssetDescriptor>, Class<? extends RuntimeAsset<?>>> classMap) {
-		super(classMap);
+			Map<Class<? extends AssetDescriptor>, Class<? extends RuntimeAsset<?>>> classMap, FontHandler fontHandler ) {
+		super(classMap, fontHandler );
 		logger.info("New instance");
 		sdCardLocation = Environment.getExternalStorageDirectory()
 				.toString();

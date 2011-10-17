@@ -7,6 +7,7 @@ import java.util.Map;
 import com.google.inject.Injector;
 
 import es.eucm.eadventure.common.resources.assets.AssetDescriptor;
+import es.eucm.eadventure.engine.core.platform.FontHandler;
 import es.eucm.eadventure.engine.core.platform.RuntimeAsset;
 
 public abstract class JavaAbstractAssetHandler extends AbstractAssetHandler {
@@ -20,8 +21,8 @@ public abstract class JavaAbstractAssetHandler extends AbstractAssetHandler {
 	
 	public JavaAbstractAssetHandler(
 			Injector injector,
-			Map<Class<? extends AssetDescriptor>, Class<? extends RuntimeAsset<?>>> classMap) {
-		super(classMap);
+			Map<Class<? extends AssetDescriptor>, Class<? extends RuntimeAsset<?>>> classMap, FontHandler fontHandler ) {
+		super(classMap, fontHandler);
 		this.injector = injector;
 	}
 

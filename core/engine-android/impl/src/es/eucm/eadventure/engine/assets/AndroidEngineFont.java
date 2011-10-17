@@ -43,7 +43,6 @@ import android.graphics.Typeface;
 import es.eucm.eadventure.common.params.EAdFont;
 import es.eucm.eadventure.common.params.EAdFont.Style;
 import es.eucm.eadventure.common.params.geom.impl.EAdRectangleImpl;
-import es.eucm.eadventure.engine.core.platform.AssetHandler;
 import es.eucm.eadventure.engine.core.platform.RuntimeFont;
 
 public class AndroidEngineFont implements RuntimeFont {
@@ -54,13 +53,8 @@ public class AndroidEngineFont implements RuntimeFont {
 	
 	private Paint textPaint;
 
-	public AndroidEngineFont(EAdFont font, AssetHandler assetHandler) {
+	public AndroidEngineFont(EAdFont font) {
 		this.eadFont = font;
-		/*if (eadFont.isTTF()) {
-				this.font = Typeface.createFromFile(
-						new File(assetHandler
-								.getAbsolutePath(eadFont.getURI().getPath())));
-		} else*/
 			this.font = Typeface.create(font.getName(), getStyle(font.getStyle()));
 		textPaint = new Paint();
 	}

@@ -37,32 +37,19 @@
 
 package es.eucm.eadventure.engine;
 
-import java.util.logging.Logger;
-
-import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 import es.eucm.eadventure.common.params.EAdFont;
 import es.eucm.eadventure.engine.assets.AndroidEngineFont;
-import es.eucm.eadventure.engine.core.platform.AssetHandler;
 import es.eucm.eadventure.engine.core.platform.impl.FontHandlerImpl;
 
 @Singleton
 public class AndroidFontCache extends FontHandlerImpl {
-
-	private static final Logger logger = Logger
-	.getLogger("DesktopFontCache");
-
-	@Inject
-	public AndroidFontCache(AssetHandler assetHandler) {
-		super( assetHandler );
-		logger.info("New instance");
-	}
 	
 	@Override
 	public void addEAdFont(EAdFont font) {
 		if (!fontCache.containsKey(font)) {
-			fontCache.put(font, new AndroidEngineFont(font, assetHandler));
+			fontCache.put(font, new AndroidEngineFont(font));
 		}
 	}
 

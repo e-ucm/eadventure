@@ -51,6 +51,7 @@ import es.eucm.eadventure.common.model.variables.EAdOperation;
 import es.eucm.eadventure.common.model.variables.EAdVarDef;
 import es.eucm.eadventure.common.model.variables.impl.EAdFieldImpl;
 import es.eucm.eadventure.engine.core.ValueMap;
+import es.eucm.eadventure.engine.core.evaluators.EvaluatorFactory;
 import es.eucm.eadventure.engine.core.operator.OperatorFactory;
 
 @Singleton
@@ -67,11 +68,15 @@ public class ValueMapImpl implements ValueMap {
 	private ReflectionProvider reflectionProvider;
 
 	@Inject
-	public ValueMapImpl(ReflectionProvider reflectionProvider) {
+	public ValueMapImpl(ReflectionProvider reflectionProvider,
+			OperatorFactory operatorFactory, EvaluatorFactory evaluatorFactory) {
 		map = new HashMap<EAdElement, Map<EAdVarDef<?>, Object>>();
 		systemVars = new HashMap<EAdVarDef<?>, Object>();
 		logger.info("New instance");
 		this.reflectionProvider = reflectionProvider;
+		setOperatorFactory(operatorFactory);
+		operatorFactory.install(this, evaluatorFactory);
+		evaluatorFactory.install(this, operatorFactory);
 	}
 
 	@Override

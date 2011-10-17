@@ -39,52 +39,40 @@ package es.eucm.eadventure.engine.core.impl.factorymapproviders;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
-import com.google.inject.Inject;
-import com.google.inject.Singleton;
-
-import es.eucm.eadventure.common.interfaces.EAdRuntimeException;
 import es.eucm.eadventure.common.interfaces.ReflectionProvider;
 import es.eucm.eadventure.common.model.variables.EAdField;
-import es.eucm.eadventure.common.model.variables.impl.operations.ValueOperation;
 import es.eucm.eadventure.common.model.variables.impl.operations.BooleanOperation;
 import es.eucm.eadventure.common.model.variables.impl.operations.MathOperation;
+import es.eucm.eadventure.common.model.variables.impl.operations.ValueOperation;
 import es.eucm.eadventure.engine.core.ValueMap;
 import es.eucm.eadventure.engine.core.evaluators.EvaluatorFactory;
 import es.eucm.eadventure.engine.core.operator.Operator;
-import es.eucm.eadventure.engine.core.operators.impl.ValueOperator;
 import es.eucm.eadventure.engine.core.operators.impl.BooleanOperator;
 import es.eucm.eadventure.engine.core.operators.impl.FieldOperator;
 import es.eucm.eadventure.engine.core.operators.impl.LiteralExpressionOperator;
+import es.eucm.eadventure.engine.core.operators.impl.ValueOperator;
 
-@Singleton
 public class OperatorFactoryMapProvider extends AbstractMapProvider<Class<?>, Operator<?>> {
 
 	private static Map<Class<?>, Operator<?>> tempMap = new HashMap<Class<?>, Operator<?>>();
-
-	private static final Logger logger = Logger.getLogger("OperatorFactoryMapProvider");
 	
 	private EvaluatorFactory evaluatorFactory;
 	
 	private ReflectionProvider reflectionProvider;
 	
-	@Inject
-	public OperatorFactoryMapProvider(EvaluatorFactory evaluatorFactory,
+	private ValueMap valueMap;
+	
+	public OperatorFactoryMapProvider(EvaluatorFactory evaluatorFactory, ValueMap valueMap,
 			ReflectionProvider reflectionProvider) {
 		super();
+		this.valueMap = valueMap;
 		this.evaluatorFactory = evaluatorFactory;
 		this.reflectionProvider = reflectionProvider;
 	}
-
+	
 	@Override
 	public Map<Class<?>, Operator<?>> getMap() {
-		logger.log(Level.SEVERE, "Must call getMap(ValueMap, EvaluatorFactory), not getMap()");
-		throw new EAdRuntimeException("Must call getMap(ValueMap, EvaluatorFactory), not getMap()");
-	}
-	
-	public Map<Class<?>, Operator<?>> getMap(ValueMap valueMap) {
 		factoryMap.put(MathOperation.class, new LiteralExpressionOperator(valueMap));
 		factoryMap.put(BooleanOperation.class, new BooleanOperator(evaluatorFactory));
 		factoryMap.put(ValueOperation.class, new ValueOperator(reflectionProvider));

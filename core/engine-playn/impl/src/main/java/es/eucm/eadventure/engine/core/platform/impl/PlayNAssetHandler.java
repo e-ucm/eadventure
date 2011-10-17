@@ -11,7 +11,6 @@ import es.eucm.eadventure.common.resources.StringHandler;
 import es.eucm.eadventure.common.resources.assets.AssetDescriptor;
 import es.eucm.eadventure.engine.core.EAdEngine;
 import es.eucm.eadventure.engine.core.impl.VariableMap;
-import es.eucm.eadventure.engine.core.platform.AssetHandler;
 import es.eucm.eadventure.engine.core.platform.FontHandler;
 import es.eucm.eadventure.engine.core.platform.PlatformConfiguration;
 import es.eucm.eadventure.engine.core.platform.RuntimeAsset;
@@ -26,15 +25,13 @@ public class PlayNAssetHandler extends AbstractAssetHandler {
 
 	private EAdEngine engine;
 	
-	private FontHandler fontCache;
+	private FontHandler fontHandler;
 
 	private VariableMap valueMap;
 
 	private StringHandler stringHandler;
 
 	private PlatformConfiguration platformConfiguration;
-	
-	private AssetHandler assetHandler;
 	
 	private Logger logger = Logger.getLogger("PlayNAssetHandler");
 	
@@ -44,13 +41,12 @@ public class PlayNAssetHandler extends AbstractAssetHandler {
 			FontHandler fontCache,
 			VariableMap valueMap,
 			StringHandler stringHandler,
-			PlatformConfiguration platformConfiguration, AssetHandler assetHandler ) {
-		super(classMap);
-		this.fontCache = fontCache;
+			PlatformConfiguration platformConfiguration ) {
+		super(classMap, fontCache );
+		this.fontHandler = fontCache;
 		this.valueMap = valueMap;
 		this.stringHandler = stringHandler;
 		this.platformConfiguration = platformConfiguration;
-		this.assetHandler = assetHandler;
 	}
 	
 	public void setEngine(EAdEngine engine) {
@@ -83,7 +79,7 @@ public class PlayNAssetHandler extends AbstractAssetHandler {
 		if (clazz == PlayNBezierShape.class)
 			return new PlayNBezierShape(engine);
 		if (clazz == PlayNEngineCaption.class)
-			return new PlayNEngineCaption(fontCache, valueMap, stringHandler, platformConfiguration, assetHandler);
+			return new PlayNEngineCaption(fontHandler, valueMap, stringHandler, platformConfiguration, this);
 		if (clazz == PlayNEngineSpriteImage.class)
 			return new PlayNEngineSpriteImage(this);
 		if (clazz == PlayNEngineSpriteImage.class)

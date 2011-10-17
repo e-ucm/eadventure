@@ -40,9 +40,12 @@ package es.eucm.eadventure.engine.core.impl;
 import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
+import com.google.inject.Singleton;
+
 import es.eucm.eadventure.engine.core.KeyboardState;
 import es.eucm.eadventure.engine.core.guiactions.KeyAction;
 
+@Singleton
 public class KeyboardStateImpl implements KeyboardState {
 
 	private Queue<KeyAction> keyActions;

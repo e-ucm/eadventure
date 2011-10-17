@@ -39,6 +39,8 @@ package es.eucm.eadventure.engine.core.evaluators;
 
 import es.eucm.eadventure.common.interfaces.Factory;
 import es.eucm.eadventure.common.model.elements.EAdCondition;
+import es.eucm.eadventure.engine.core.ValueMap;
+import es.eucm.eadventure.engine.core.operator.OperatorFactory;
 
 /**
  * Factory to provide the evaluator and evaluate the different {@link EAdCondition} elements.
@@ -57,5 +59,7 @@ public interface EvaluatorFactory extends Factory<Evaluator<?>> {
 	 *         of values
 	 */
 	public <T extends EAdCondition> boolean evaluate( T condition);
+	
+	void install( ValueMap valueMap, OperatorFactory operatorFactory );
 
 }
