@@ -17,8 +17,8 @@
     <module>impl</module>
   </modules>
   <properties>
-    <gwtversion>2.3.0</gwtversion>
-    <gwt.version>2.3.0</gwt.version>
+    <gwtversion>2.4.0</gwtversion>
+    <gwt.version>2.4.0</gwt.version>
     <playnversion>1.0-SNAPSHOT</playnversion>
   </properties>
 </project>

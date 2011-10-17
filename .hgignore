@@ -27,3 +27,6 @@ syntax: regexp
 ^core/engine-android/impl/libs/android-support-v4\.jar$
 syntax: regexp
 ^core/engine-android/impl/gen$
+
+syntax: regexp
+^core/engine-playn/impl/\.gwt$
