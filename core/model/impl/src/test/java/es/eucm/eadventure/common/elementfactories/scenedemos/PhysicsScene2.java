@@ -100,7 +100,7 @@ public class PhysicsScene2 extends PhysicsScene {
 	}
 
 	@Override
-	public String getDescription() {
+	public String getSceneDescription() {
 		return "A scene showing the use of jbox2d";
 	}
 

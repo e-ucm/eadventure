@@ -9,7 +9,7 @@ import es.eucm.eadventure.common.model.extra.EAdList;
  * 
  * 
  */
-public interface EAdComposedElement extends EAdSceneElement {
+public interface EAdComplexElement extends EAdSceneElement {
 	
 	/**
 	 * @return the {@link EAdElement}s that make up the scene

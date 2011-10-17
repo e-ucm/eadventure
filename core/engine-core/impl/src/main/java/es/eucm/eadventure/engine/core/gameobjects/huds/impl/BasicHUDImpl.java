@@ -57,7 +57,6 @@ import es.eucm.eadventure.common.params.geom.impl.EAdPositionImpl.Corner;
 import es.eucm.eadventure.common.predef.model.events.StayInBoundsEvent;
 import es.eucm.eadventure.common.resources.StringHandler;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.CaptionImpl;
-import es.eucm.eadventure.engine.core.Game;
 import es.eucm.eadventure.engine.core.GameState;
 import es.eucm.eadventure.engine.core.MouseState;
 import es.eucm.eadventure.engine.core.ValueMap;
@@ -92,8 +91,6 @@ public class BasicHUDImpl implements BasicHUD {
 	private GUI gui;
 
 	private MenuHUD menuHUD;
-
-	private Game game;
 
 	private GameObjectFactory gameObjectFactory;
 
@@ -135,11 +132,6 @@ public class BasicHUDImpl implements BasicHUD {
 		contextual = new EAdBasicSceneElement("contextual", c);
 		contextual.setPosition(new EAdPositionImpl(Corner.CENTER, 0, 0));
 		contextual.getEvents().add(new StayInBoundsEvent(contextual));
-	}
-
-	@Override
-	public void setGame(Game game) {
-		this.game = game;
 	}
 
 	@Override
@@ -187,9 +179,6 @@ public class BasicHUDImpl implements BasicHUD {
 
 	@Override
 	public void doLayout(EAdTransformation transformation) {
-		if (game.getAdventureModel().getInventory() != null)
-			gui.addElement(gameObjectFactory.get(game.getAdventureModel()
-					.getInventory()), transformation);
 
 		if (contextualOn)
 			gui.addElement(gameObjectFactory.get(contextual), transformation);
@@ -240,8 +229,6 @@ public class BasicHUDImpl implements BasicHUD {
 			contextualOn = false;
 		}
 		
-		if (game.getAdventureModel().getInventory() != null)
-			gameObjectFactory.get(game.getAdventureModel().getInventory()).update();
 	}
 
 	@Override
@@ -277,8 +264,13 @@ public class BasicHUDImpl implements BasicHUD {
 
 	@Override
 	public void render(EAdCanvas<?> c) {
-		// TODO Auto-generated method stub
 		
+		
+	}
+
+	@Override
+	public boolean contains(int x, int y) {
+		return false;
 	}
 
 }

@@ -44,8 +44,6 @@ import es.eucm.eadventure.common.interfaces.MapProvider;
 import es.eucm.eadventure.common.model.EAdElement;
 import es.eucm.eadventure.common.model.effects.impl.physics.EAdPhysicsEffect;
 import es.eucm.eadventure.common.model.effects.impl.physics.PhApplyImpluse;
-import es.eucm.eadventure.engine.core.gameobjects.ActorGO;
-import es.eucm.eadventure.engine.core.gameobjects.ActorReferenceGO;
 import es.eucm.eadventure.engine.core.gameobjects.GameObject;
 import es.eucm.eadventure.engine.core.gameobjects.GameObjectFactory;
 import es.eucm.eadventure.engine.core.gameobjects.SceneGO;
@@ -55,8 +53,6 @@ import es.eucm.eadventure.engine.core.gameobjects.impl.SceneGOImpl;
 import es.eucm.eadventure.engine.core.gameobjects.impl.TimerGOImpl;
 import es.eucm.eadventure.engine.core.gameobjects.impl.effects.physics.PhApplyForceGO;
 import es.eucm.eadventure.engine.core.gameobjects.impl.effects.physics.PhysicsEffectGO;
-import es.eucm.eadventure.engine.core.gameobjects.impl.sceneelements.ActorGOImpl;
-import es.eucm.eadventure.engine.core.gameobjects.impl.sceneelements.ActorReferenceGOImpl;
 import es.eucm.eadventure.engine.core.impl.factorymapproviders.EffectGameObjectFactoryConfigurator;
 import es.eucm.eadventure.engine.core.impl.factorymapproviders.ElementGameObjectFactoryConfigurator;
 import es.eucm.eadventure.engine.core.impl.factorymapproviders.EventGameObjectFactoryConfigurator;
@@ -67,8 +63,6 @@ public class GameObjectFactoryModule extends AbstractModule {
 	@Override
 	protected void configure() {
 		bind(SceneGO.class).to(SceneGOImpl.class);
-		bind(ActorReferenceGO.class).to(ActorReferenceGOImpl.class);
-		bind(ActorGO.class).to(ActorGOImpl.class);
 		bind(TimerGO.class).to(TimerGOImpl.class);
 		
 		bind(ElementGameObjectFactoryConfigurator.class);

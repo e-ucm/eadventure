@@ -6,6 +6,6 @@ public interface SceneDemo extends EAdScene {
 	
 	String getDemoName();
 	
-	String getDescription();
+	String getSceneDescription();
 
 }

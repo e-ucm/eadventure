@@ -37,15 +37,10 @@
 
 package es.eucm.eadventure.common.model.elements;
 
-import es.eucm.eadventure.common.interfaces.features.Documented;
-import es.eucm.eadventure.common.interfaces.features.Named;
-import es.eucm.eadventure.common.interfaces.features.Variabled;
-
 /**
  * Scenes in the eAdventure model. Scenes are the fundamental elements of games.
  */
-public interface EAdScene extends EAdGeneralElement, Variabled, Named, Documented,
-		EAdComposedElement {
+public interface EAdScene extends EAdComplexElement {
 
 	/**
 	 * @return the background element of the scene
@@ -63,5 +58,5 @@ public interface EAdScene extends EAdGeneralElement, Variabled, Named, Documente
 	 * @return true if accepts visual effects
 	 */
 	Boolean acceptsVisualEffects();
-	
+
 }

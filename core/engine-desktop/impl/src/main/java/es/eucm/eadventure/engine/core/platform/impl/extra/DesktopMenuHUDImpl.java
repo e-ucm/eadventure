@@ -56,7 +56,6 @@ import es.eucm.eadventure.engine.core.gameobjects.GameObjectFactory;
 import es.eucm.eadventure.engine.core.gameobjects.GameObjectManager;
 import es.eucm.eadventure.engine.core.gameobjects.huds.MenuHUD;
 import es.eucm.eadventure.engine.core.gameobjects.huds.impl.MenuHUDImpl;
-import es.eucm.eadventure.engine.core.platform.EAdCanvas;
 import es.eucm.eadventure.engine.core.platform.RuntimeAsset;
 import es.eucm.eadventure.engine.core.util.EAdTransformation;
 
@@ -126,12 +125,6 @@ public class DesktopMenuHUDImpl extends MenuHUDImpl {
 	public List<RuntimeAsset<?>> getAssets(List<RuntimeAsset<?>> assetList,
 			boolean allAssets) {
 		return assetList;
-	}
-
-	@Override
-	public void render(EAdCanvas<?> c) {
-		// TODO Auto-generated method stub
-		
 	}
 
 }

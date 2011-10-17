@@ -51,12 +51,12 @@ import es.eucm.eadventure.common.model.effects.impl.EAdChangeAppearance;
 import es.eucm.eadventure.common.model.effects.impl.variables.EAdChangeFieldValueEffect;
 import es.eucm.eadventure.common.model.elements.EAdCondition;
 import es.eucm.eadventure.common.model.elements.EAdSceneElement;
-import es.eucm.eadventure.common.model.elements.impl.EAdActorReferenceImpl;
-import es.eucm.eadventure.common.model.elements.impl.EAdBasicActor;
 import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
+import es.eucm.eadventure.common.model.elements.impl.EAdSceneElementDefImpl;
 import es.eucm.eadventure.common.model.events.EAdConditionEvent;
 import es.eucm.eadventure.common.model.events.impl.EAdConditionEventImpl;
 import es.eucm.eadventure.common.model.guievents.impl.EAdMouseEventImpl;
+import es.eucm.eadventure.common.model.trajectories.impl.NodeTrajectoryDefinition;
 import es.eucm.eadventure.common.model.variables.EAdField;
 import es.eucm.eadventure.common.model.variables.impl.EAdFieldImpl;
 import es.eucm.eadventure.common.model.variables.impl.operations.BooleanOperation;
@@ -86,8 +86,9 @@ public class ActiveAreaImporter implements
 
 	@Override
 	public EAdSceneElement init(ActiveArea oldObject) {
-		EAdBasicActor newActiveArea = new EAdBasicActor(oldObject.getId());
-		EAdActorReferenceImpl newActiveAreaReference = new EAdActorReferenceImpl(
+		EAdSceneElementDefImpl newActiveArea = new EAdSceneElementDefImpl(
+				oldObject.getId());
+		EAdSceneElement newActiveAreaReference = new EAdBasicSceneElement(
 				newActiveArea);
 		return newActiveAreaReference;
 	}
@@ -95,10 +96,10 @@ public class ActiveAreaImporter implements
 	@Override
 	public EAdSceneElement convert(ActiveArea oldObject, Object object) {
 		// Reference to the active area
-		EAdActorReferenceImpl newActiveAreaReference = (EAdActorReferenceImpl) object;
+		EAdBasicSceneElement newActiveAreaReference = (EAdBasicSceneElement) object;
 
-		EAdBasicActor newActiveArea = (EAdBasicActor) newActiveAreaReference
-				.getReferencedActor();
+		EAdSceneElementDefImpl newActiveArea = (EAdSceneElementDefImpl) newActiveAreaReference
+				.getDefinition();
 
 		ActorImporter.addActions(oldObject, newActiveArea, actionImporter,
 				stringHandler);
@@ -108,17 +109,21 @@ public class ActiveAreaImporter implements
 				showActions);
 
 		stringHandler.setString(newActiveArea.getName(), oldObject.getName());
-		stringHandler.setString(newActiveArea.getDescription(), oldObject.getDescription());
-		stringHandler.setString(newActiveArea.getDetailedDescription(), oldObject.getDetailedDescription());
-		stringHandler.setString(newActiveArea.getDocumentation(), oldObject.getDocumentation());
-		
-		if (oldObject.getInfluenceArea() != null) {
-			newActiveArea.setInfluenceArea(new EAdRectangleImpl(oldObject.getInfluenceArea().getX(),
-					oldObject.getInfluenceArea().getY(),
-					oldObject.getInfluenceArea().getWidth(),
-					oldObject.getInfluenceArea().getHeight()));
-		}
+		stringHandler.setString(newActiveArea.getDescription(),
+				oldObject.getDescription());
+		stringHandler.setString(newActiveArea.getDetailedDescription(),
+				oldObject.getDetailedDescription());
+		stringHandler.setString(newActiveArea.getDocumentation(),
+				oldObject.getDocumentation());
 
+		if (oldObject.getInfluenceArea() != null) {
+			newActiveAreaReference.setVarInitialValue(
+					NodeTrajectoryDefinition.VAR_INFLUENCE_AREA,
+					new EAdRectangleImpl(oldObject.getInfluenceArea().getX(),
+							oldObject.getInfluenceArea().getY(), oldObject
+									.getInfluenceArea().getWidth(), oldObject
+									.getInfluenceArea().getHeight()));
+		}
 
 		Shape shape = ShapedElementImporter.importShape(oldObject,
 				newActiveAreaReference);

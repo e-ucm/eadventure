@@ -124,7 +124,7 @@ public class DesktopDemos extends BaseTestLauncher {
 		public Component getListCellRendererComponent(JList arg0, Object value,
 				int arg2, boolean isSelected, boolean arg4) {
 			SceneDemo scene = (SceneDemo) value;
-			setText(scene.getDemoName() + " - " + scene.getDescription());
+			setText(scene.getDemoName() + " - " + scene.getSceneDescription());
 			if (isSelected) {
 				this.setBackground(Color.BLACK);
 				this.setForeground(Color.WHITE);

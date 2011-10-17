@@ -81,7 +81,7 @@ public class SceneDemos {
 	public List<String> getSceneDemosDescriptions() {
 		List<String> strings = new ArrayList<String>();
 		for (SceneDemo scene : sceneDemos) {
-			strings.add(scene.getDemoName() + " - " + scene.getDescription());
+			strings.add(scene.getDemoName() + " - " + scene.getSceneDescription());
 		}
 		return strings;
 	}

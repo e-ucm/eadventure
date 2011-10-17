@@ -39,10 +39,10 @@ package es.eucm.eadventure.common.model.effects.impl;
 
 import es.eucm.eadventure.common.interfaces.Element;
 import es.eucm.eadventure.common.interfaces.Param;
-import es.eucm.eadventure.common.model.elements.EAdActor;
+import es.eucm.eadventure.common.model.elements.EAdSceneElementDef;
 
 /**
- * <p>This effects modifies the state of an {@link EAdActor}</p>
+ * <p>This effects modifies the state of an {@link EAdSceneElementDef}</p>
  * <p>The state can change to the values specified by the 
  * modification value:
  * {@link Modification}
@@ -53,9 +53,9 @@ public class EAdModifyActorState extends AbstractEAdEffect {
 
 	/**
 	 * <p>The modification to the state:
-	 * <li>PLACE_IN_INVENTORY: move the {@link EAdActor} to the inventory (remove from scene)</li>
-	 * <li>PLACE_IN_SCENE; move the {@link EAdActor} to the scene (remove from inventory)</li>
-	 * <li>REMOVE_SCENE_AND_INVENTORY: remove the {@link EAdActor} from scene and inventory</li>
+	 * <li>PLACE_IN_INVENTORY: move the {@link EAdSceneElementDef} to the inventory (remove from scene)</li>
+	 * <li>PLACE_IN_SCENE; move the {@link EAdSceneElementDef} to the scene (remove from inventory)</li>
+	 * <li>REMOVE_SCENE_AND_INVENTORY: remove the {@link EAdSceneElementDef} from scene and inventory</li>
 	 * </p>
 	 *
 	 */
@@ -67,7 +67,7 @@ public class EAdModifyActorState extends AbstractEAdEffect {
 	private Modification modification;
 	
 	@Param("actor")
-	private EAdActor actor;
+	private EAdSceneElementDef actor;
 	
 	/**
 	 * Constructor. Actor will be null, default modification will be {@link Modification.PLACE_IN_INVENTORY}
@@ -82,10 +82,10 @@ public class EAdModifyActorState extends AbstractEAdEffect {
 	 * Constructor
 	 * 
 	 * @param id The id of the effect
-	 * @param actor The {@link EAdActor} to be modified
+	 * @param actor The {@link EAdSceneElementDef} to be modified
 	 * @param modification The {@link Modification} to the actor state
 	 */
-	public EAdModifyActorState(String id, EAdActor actor, Modification modification) {
+	public EAdModifyActorState(String id, EAdSceneElementDef actor, Modification modification) {
 		super(id);
 		this.modification = modification;
 		this.actor = actor;
@@ -106,16 +106,16 @@ public class EAdModifyActorState extends AbstractEAdEffect {
 	}
 	
 	/**
-	 * @param actor Set the {@link EAdActor} to be modified
+	 * @param actor Set the {@link EAdSceneElementDef} to be modified
 	 */
-	public void setActor(EAdActor actor) {
+	public void setActor(EAdSceneElementDef actor) {
 		this.actor = actor;
 	}
 	
 	/**
-	 * @return Get the {@link EAdActor} to be modified
+	 * @return Get the {@link EAdSceneElementDef} to be modified
 	 */
-	public EAdActor getActor() {
+	public EAdSceneElementDef getActor() {
 		return actor;
 	}
 	

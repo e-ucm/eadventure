@@ -3,7 +3,7 @@ package es.eucm.eadventure.common.model.effects.impl;
 import es.eucm.eadventure.common.interfaces.Element;
 import es.eucm.eadventure.common.interfaces.Param;
 import es.eucm.eadventure.common.model.effects.EAdSceneElementEffect;
-import es.eucm.eadventure.common.model.elements.EAdActor;
+import es.eucm.eadventure.common.model.elements.EAdSceneElementDef;
 import es.eucm.eadventure.common.params.geom.EAdPosition;
 
 /**
@@ -15,7 +15,7 @@ import es.eucm.eadventure.common.params.geom.EAdPosition;
 public class EAdAddActorReferenceEffect extends AbstractEAdEffect {
 
 	@Param("actor")
-	private EAdActor actor;
+	private EAdSceneElementDef actor;
 
 	@Param("position")
 	private EAdPosition position;
@@ -27,14 +27,14 @@ public class EAdAddActorReferenceEffect extends AbstractEAdEffect {
 
 	}
 
-	public EAdAddActorReferenceEffect(EAdActor actor, EAdPosition p,
+	public EAdAddActorReferenceEffect(EAdSceneElementDef actor, EAdPosition p,
 			EAdSceneElementEffect effect) {
 		this.actor = actor;
 		this.position = p;
 		this.effect = effect;
 	}
 
-	public EAdActor getActor() {
+	public EAdSceneElementDef getActor() {
 		return actor;
 	}
 

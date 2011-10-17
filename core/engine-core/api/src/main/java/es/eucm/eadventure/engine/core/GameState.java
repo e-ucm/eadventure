@@ -40,7 +40,7 @@ package es.eucm.eadventure.engine.core;
 import java.util.List;
 
 import es.eucm.eadventure.common.model.effects.EAdEffect;
-import es.eucm.eadventure.common.model.elements.EAdActor;
+import es.eucm.eadventure.common.model.elements.EAdSceneElementDef;
 import es.eucm.eadventure.common.model.elements.EAdChapter;
 import es.eucm.eadventure.common.model.elements.EAdScene;
 import es.eucm.eadventure.common.model.elements.EAdSceneElement;
@@ -140,9 +140,9 @@ public interface GameState {
 
 	EAdScene getPreviousScene();
 
-	List<EAdActor> getRemovedActors();
+	List<EAdSceneElementDef> getRemovedActors();
 
-	List<EAdActor> getInventoryActors();
+	List<EAdSceneElementDef> getInventoryActors();
 
 	EAdChapter getCurrentChapter();
 

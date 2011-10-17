@@ -60,6 +60,7 @@ import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
 import es.eucm.eadventure.common.model.events.EAdConditionEvent;
 import es.eucm.eadventure.common.model.events.impl.EAdConditionEventImpl;
 import es.eucm.eadventure.common.model.guievents.impl.EAdMouseEventImpl;
+import es.eucm.eadventure.common.model.trajectories.impl.NodeTrajectoryDefinition;
 import es.eucm.eadventure.common.model.transitions.EAdTransition;
 import es.eucm.eadventure.common.model.variables.EAdField;
 import es.eucm.eadventure.common.model.variables.impl.EAdFieldImpl;
@@ -117,10 +118,12 @@ public class ExitImporter implements EAdElementImporter<Exit, EAdSceneElement> {
 				condition);
 
 		if (oldObject.getInfluenceArea() != null) {
-			newExit.setInfluenceArea(new EAdRectangleImpl(oldObject
-					.getInfluenceArea().getX(), oldObject.getInfluenceArea()
-					.getY(), oldObject.getInfluenceArea().getWidth(), oldObject
-					.getInfluenceArea().getHeight()));
+			newExit.setVarInitialValue(
+					NodeTrajectoryDefinition.VAR_INFLUENCE_AREA,
+					new EAdRectangleImpl(oldObject.getInfluenceArea().getX(),
+							oldObject.getInfluenceArea().getY(), oldObject
+									.getInfluenceArea().getWidth(), oldObject
+									.getInfluenceArea().getHeight()));
 		}
 
 		for (Effect e : oldObject.getEffects().getEffects()) {

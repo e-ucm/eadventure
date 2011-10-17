@@ -10,8 +10,6 @@ import com.gwtent.reflection.client.ClassHelper;
 import es.eucm.eadventure.common.interfaces.Element;
 import es.eucm.eadventure.common.interfaces.MapProvider;
 import es.eucm.eadventure.common.model.EAdElement;
-import es.eucm.eadventure.engine.core.gameobjects.ActorGO;
-import es.eucm.eadventure.engine.core.gameobjects.ActorReferenceGO;
 import es.eucm.eadventure.engine.core.gameobjects.GameObject;
 import es.eucm.eadventure.engine.core.gameobjects.SceneGO;
 import es.eucm.eadventure.engine.core.gameobjects.TimerGO;
@@ -40,7 +38,6 @@ import es.eucm.eadventure.engine.core.gameobjects.impl.events.SceneElementEventG
 import es.eucm.eadventure.engine.core.gameobjects.impl.events.SceneElementTimedEventGO;
 import es.eucm.eadventure.engine.core.gameobjects.impl.events.SystemEventGO;
 import es.eucm.eadventure.engine.core.gameobjects.impl.events.TimerEventGO;
-import es.eucm.eadventure.engine.core.gameobjects.impl.inventory.BasicInventoryGO;
 import es.eucm.eadventure.engine.core.gameobjects.impl.sceneelements.BasicSceneElementGO;
 import es.eucm.eadventure.engine.core.gameobjects.impl.sceneelements.ComplexSceneElementGO;
 import es.eucm.eadventure.engine.core.gameobjects.impl.transitions.SimpleTransitionGO;
@@ -117,12 +114,8 @@ public class PlayNGameObjectFactoryImpl extends GameObjectFactoryImpl {
 		if (clazz == SystemEventGO.class)
 			return ginjector.getSystemEventGO();
 		if (clazz == TimerEventGO.class)
-			return ginjector.getTimerEventGO();
-		
-		if (clazz == ActorGO.class)
-			return ginjector.getActorGO();
-		if (clazz == ActorReferenceGO.class)
-			return ginjector.getActorReferenceGO();
+			return ginjector.getTimerEventGO();	
+
 		if (clazz == BasicSceneElementGO.class)
 			return ginjector.getBasicSceneElementGO();
 		if (clazz == ComplexSceneElementGO.class)
@@ -132,9 +125,6 @@ public class PlayNGameObjectFactoryImpl extends GameObjectFactoryImpl {
 			return ginjector.getSceneGO();
 		if (clazz == TimerGO.class)
 			return ginjector.getTimerGO();
-		
-		if (clazz == BasicInventoryGO.class)
-			return ginjector.getBasicInventoryGO();
 		return null;
 	}
 

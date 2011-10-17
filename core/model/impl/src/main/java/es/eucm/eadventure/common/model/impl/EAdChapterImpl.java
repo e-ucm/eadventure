@@ -40,7 +40,7 @@ package es.eucm.eadventure.common.model.impl;
 import es.eucm.eadventure.common.interfaces.CopyNotSupportedException;
 import es.eucm.eadventure.common.interfaces.Element;
 import es.eucm.eadventure.common.interfaces.Param;
-import es.eucm.eadventure.common.model.elements.EAdActor;
+import es.eucm.eadventure.common.model.elements.EAdSceneElementDef;
 import es.eucm.eadventure.common.model.elements.EAdChapter;
 import es.eucm.eadventure.common.model.elements.EAdScene;
 import es.eucm.eadventure.common.model.elements.EAdTimer;
@@ -67,7 +67,7 @@ public class EAdChapterImpl extends EAdGeneralElementImpl implements EAdChapter 
 	 * Actors of the game
 	 */
 	@Param("actors")
-	private EAdList<EAdActor> actors;
+	private EAdList<EAdSceneElementDef> actors;
 	
 	/**
 	 * Timers of the game
@@ -98,7 +98,7 @@ public class EAdChapterImpl extends EAdGeneralElementImpl implements EAdChapter 
 	public EAdChapterImpl(String id) {
 		super(id);
 		scenes = new EAdListImpl<EAdScene>(EAdScene.class);
-		actors = new EAdListImpl<EAdActor>(EAdActor.class);
+		actors = new EAdListImpl<EAdSceneElementDef>(EAdSceneElementDef.class);
 		timers = new EAdListImpl<EAdTimer>(EAdTimer.class);
 		title = EAdString.newEAdString("chapterTitle");
 		description = EAdString.newEAdString("chapterDescription");
@@ -119,7 +119,7 @@ public class EAdChapterImpl extends EAdGeneralElementImpl implements EAdChapter 
 	 * @see es.eucm.eadventure.common.model.EAdChapterModel#getActors()
 	 */
 	@Override
-	public EAdList<EAdActor> getActors() {
+	public EAdList<EAdSceneElementDef> getActors() {
 		return actors;
 	}
 		

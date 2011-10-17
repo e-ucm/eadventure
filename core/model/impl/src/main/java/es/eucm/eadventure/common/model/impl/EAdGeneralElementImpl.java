@@ -37,11 +37,9 @@
 
 package es.eucm.eadventure.common.model.impl;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
 import es.eucm.eadventure.common.interfaces.Param;
-import es.eucm.eadventure.common.model.elements.EAdGeneralElement;
+import es.eucm.eadventure.common.interfaces.features.Evented;
+import es.eucm.eadventure.common.interfaces.features.Resourced;
 import es.eucm.eadventure.common.model.events.EAdEvent;
 import es.eucm.eadventure.common.model.extra.EAdList;
 import es.eucm.eadventure.common.model.extra.impl.EAdListImpl;
@@ -51,10 +49,11 @@ import es.eucm.eadventure.common.resources.assets.AssetDescriptor;
 import es.eucm.eadventure.common.resources.impl.EAdResourcesImpl;
 
 /**
- * Abstract {@link es.eucm.eadventure.common.model.EAdElement} implementation.
- * 
+ * Abstract {@link es.eucm.eadventure.common.model.EAdElement} implementation,
+ * with resources and events
  */
-public abstract class EAdGeneralElementImpl extends EAdElementImpl implements EAdGeneralElement {
+public abstract class EAdGeneralElementImpl extends EAdElementImpl implements
+		Resourced, Evented {
 
 	/**
 	 * Resources of the eAdElement
@@ -68,8 +67,6 @@ public abstract class EAdGeneralElementImpl extends EAdElementImpl implements EA
 	@Param("events")
 	protected EAdList<EAdEvent> events;
 
-	private static final Logger logger = Logger.getLogger("AbstractEAdElement");
-
 	/**
 	 * Constructs a {@link EAdGeneralElementImpl} with the specified parent
 	 * element.
@@ -82,8 +79,7 @@ public abstract class EAdGeneralElementImpl extends EAdElementImpl implements EA
 	public EAdGeneralElementImpl(String id) {
 		super(id);
 		resources = new EAdResourcesImpl(getClass());
-		if (!(this instanceof EAdList))
-			events = new EAdListImpl<EAdEvent>(EAdEvent.class);
+		events = new EAdListImpl<EAdEvent>(EAdEvent.class);
 	}
 
 	/*
@@ -104,9 +100,6 @@ public abstract class EAdGeneralElementImpl extends EAdElementImpl implements EA
 	 */
 	@Override
 	public AssetDescriptor getAsset(String id) {
-		if (resources == null) {
-			logger.log(Level.WARNING, "Element has no assets");
-		}
 		return resources.getAsset(id);
 	}
 
@@ -119,10 +112,6 @@ public abstract class EAdGeneralElementImpl extends EAdElementImpl implements EA
 	 */
 	@Override
 	public AssetDescriptor getAsset(EAdBundleId bundleId, String id) {
-		if (resources == null) {
-			logger.log(Level.WARNING, "Element has no assets");
-			return null;
-		}
 		return resources.getAsset(bundleId, id);
 	}
 
@@ -135,20 +124,9 @@ public abstract class EAdGeneralElementImpl extends EAdElementImpl implements EA
 	public EAdBundleId getInitialBundle() {
 		return resources.getInitialBundle();
 	}
-	
-	protected void setInitialBundle(EAdBundleId temp) {
+
+	public void setInitialBundle(EAdBundleId temp) {
 		resources.setInitialBundle(temp);
-	}
-
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see es.eucm.eadventure.common.model.EAdElement#getId()
-	 */
-	@Override
-	public String getId() {
-		return id;
 	}
 
 	/*

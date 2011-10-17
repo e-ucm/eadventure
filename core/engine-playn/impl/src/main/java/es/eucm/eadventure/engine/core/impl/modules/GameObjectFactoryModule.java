@@ -42,11 +42,13 @@ import com.google.inject.TypeLiteral;
 
 import es.eucm.eadventure.common.interfaces.MapProvider;
 import es.eucm.eadventure.common.model.EAdElement;
-
-import es.eucm.eadventure.engine.core.gameobjects.*;
-import es.eucm.eadventure.engine.core.gameobjects.impl.*;
-import es.eucm.eadventure.engine.core.gameobjects.impl.sceneelements.ActorGOImpl;
-import es.eucm.eadventure.engine.core.gameobjects.impl.sceneelements.ActorReferenceGOImpl;
+import es.eucm.eadventure.engine.core.gameobjects.GameObject;
+import es.eucm.eadventure.engine.core.gameobjects.GameObjectFactory;
+import es.eucm.eadventure.engine.core.gameobjects.SceneGO;
+import es.eucm.eadventure.engine.core.gameobjects.TimerGO;
+import es.eucm.eadventure.engine.core.gameobjects.impl.PlayNGameObjectFactoryImpl;
+import es.eucm.eadventure.engine.core.gameobjects.impl.SceneGOImpl;
+import es.eucm.eadventure.engine.core.gameobjects.impl.TimerGOImpl;
 import es.eucm.eadventure.engine.core.impl.factorymapproviders.EffectGameObjectFactoryConfigurator;
 import es.eucm.eadventure.engine.core.impl.factorymapproviders.ElementGameObjectFactoryConfigurator;
 import es.eucm.eadventure.engine.core.impl.factorymapproviders.EventGameObjectFactoryConfigurator;
@@ -58,8 +60,6 @@ public class GameObjectFactoryModule extends AbstractGinModule {
 	protected void configure() {
 		bind(SceneGO.class).to(SceneGOImpl.class);
 		bind(SceneGOImpl.class);
-		bind(ActorReferenceGO.class).to(ActorReferenceGOImpl.class);
-		bind(ActorGO.class).to(ActorGOImpl.class);
 		bind(TimerGO.class).to(TimerGOImpl.class);
 		
 		bind(ElementGameObjectFactoryConfigurator.class);

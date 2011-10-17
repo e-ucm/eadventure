@@ -147,7 +147,7 @@ public class TrajectoriesScene extends EmptyScene {
 	}
 	
 	@Override
-	public String getDescription() {
+	public String getSceneDescription() {
 		return "Scene te test some trajectories";
 	}
 

@@ -68,11 +68,6 @@ public interface EAdAdventureModel extends EAdElement, Variabled {
 	 * @return the chapters in the adventure
 	 */
 	EAdList<EAdChapter> getChapters();
-
-	/**
-	 * @return the inventory used in this adventure
-	 */
-	EAdInventory getInventory();
 	
 	/**
 	 * @return the description of the adventure

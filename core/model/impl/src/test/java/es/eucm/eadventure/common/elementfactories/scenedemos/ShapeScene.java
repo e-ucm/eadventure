@@ -116,7 +116,7 @@ public class ShapeScene extends EmptyScene {
 	}
 	
 	@Override
-	public String getDescription() {
+	public String getSceneDescription() {
 		return "A scene with some shapes";
 	}
 	

@@ -38,16 +38,16 @@
 package es.eucm.eadventure.common.model.elements.test;
 
 import es.eucm.eadventure.common.model.actions.test.BasicActionFactoryTest;
-import es.eucm.eadventure.common.model.elements.EAdActor;
-import es.eucm.eadventure.common.model.elements.impl.EAdBasicActor;
+import es.eucm.eadventure.common.model.elements.EAdSceneElementDef;
+import es.eucm.eadventure.common.model.elements.impl.EAdSceneElementDefImpl;
 import es.eucm.eadventure.common.resources.StringHandler;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.animation.Frame;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.animation.FramesAnimation;
 
 public class BasicActorFactoryTest {
 
-	public static EAdActor getActor(StringHandler sh) {
-		EAdBasicActor basicActor = new EAdBasicActor("Actor_id");
+	public static EAdSceneElementDef getActor(StringHandler sh) {
+		EAdSceneElementDefImpl basicActor = new EAdSceneElementDefImpl("Actor_id");
 
 		FramesAnimation animation = new FramesAnimation();
 		for (int i = 1; i <= 8; i++)
@@ -55,16 +55,15 @@ public class BasicActorFactoryTest {
 					+ i + ".png"));
 
 		basicActor.getResources().addAsset(basicActor.getInitialBundle(),
-				EAdBasicActor.appearance, animation);
+				EAdSceneElementDefImpl.appearance, animation);
 		
 		sh.setString(basicActor.getName(), "Paniel");
-		sh.setString(basicActor.getDescription(), "Es Paniel. Parece ser que le gusta hacer el moonwalker todo el rato. #f");
 
-		basicActor.getActions().add(BasicActionFactoryTest.getGrabAction(sh));
+		basicActor.getValidActions().add(BasicActionFactoryTest.getGrabAction(sh));
 
-		basicActor.getActions().add(BasicActionFactoryTest.getGrabAction(sh));
+		basicActor.getValidActions().add(BasicActionFactoryTest.getGrabAction(sh));
 
-		basicActor.getActions().add(BasicActionFactoryTest.getGrabAction(sh));
+		basicActor.getValidActions().add(BasicActionFactoryTest.getGrabAction(sh));
 
 		
 		return basicActor;

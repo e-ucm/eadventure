@@ -31,7 +31,7 @@ public class ShowQuestionScene extends EmptyScene {
 	}
 
 	@Override
-	public String getDescription() {
+	public String getSceneDescription() {
 		return "A scene to test show question effect";
 	}
 

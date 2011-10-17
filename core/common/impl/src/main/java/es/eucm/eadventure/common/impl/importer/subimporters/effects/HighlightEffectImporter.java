@@ -7,7 +7,7 @@ import es.eucm.eadventure.common.data.chapter.conditions.Conditions;
 import es.eucm.eadventure.common.data.chapter.effects.HighlightItemEffect;
 import es.eucm.eadventure.common.impl.importer.interfaces.EAdElementFactory;
 import es.eucm.eadventure.common.model.effects.impl.timedevents.EAdHighlightSceneElement;
-import es.eucm.eadventure.common.model.elements.EAdActor;
+import es.eucm.eadventure.common.model.elements.EAdSceneElementDef;
 import es.eucm.eadventure.common.model.elements.EAdCondition;
 
 public class HighlightEffectImporter extends
@@ -33,8 +33,8 @@ public class HighlightEffectImporter extends
 	public EAdHighlightSceneElement convert(HighlightItemEffect oldObject,
 			Object newElement) {
 		EAdHighlightSceneElement effect = super.convert(oldObject, newElement);
-
-		effect.setSceneElement((EAdActor) factory.getElementById(oldObject.getTargetId()));
+// TODO highlight actor
+//		effect.setSceneElement((EAdSceneElementDef) factory.getElementById(oldObject.getTargetId()));
 
 		return effect;
 	}

@@ -37,11 +37,10 @@
 
 package es.eucm.eadventure.engine.core.gameobjects;
 
-import java.util.List;
-
 import es.eucm.eadventure.common.interfaces.features.Oriented;
 import es.eucm.eadventure.common.model.actions.EAdAction;
 import es.eucm.eadventure.common.model.elements.EAdSceneElement;
+import es.eucm.eadventure.common.model.extra.EAdList;
 import es.eucm.eadventure.common.params.geom.EAdPosition;
 import es.eucm.eadventure.common.resources.assets.AssetDescriptor;
 import es.eucm.eadventure.engine.core.Renderable;
@@ -84,7 +83,7 @@ public interface SceneElementGO<T extends EAdSceneElement> extends
 
 	int getHeight();
 
-	List<EAdAction> getValidActions();
+	EAdList<EAdAction> getValidActions();
 
 	/**
 	 * Returns the x coordinate of scene element center, using the scale

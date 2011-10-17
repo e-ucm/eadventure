@@ -42,12 +42,10 @@ import es.eucm.eadventure.common.interfaces.Element;
 import es.eucm.eadventure.common.interfaces.Param;
 import es.eucm.eadventure.common.model.elements.EAdAdventureModel;
 import es.eucm.eadventure.common.model.elements.EAdChapter;
-import es.eucm.eadventure.common.model.elements.EAdInventory;
 import es.eucm.eadventure.common.model.extra.EAdList;
 import es.eucm.eadventure.common.model.extra.EAdMap;
 import es.eucm.eadventure.common.model.extra.impl.EAdListImpl;
 import es.eucm.eadventure.common.model.extra.impl.EAdMapImpl;
-import es.eucm.eadventure.common.model.impl.inventory.EAdBasicInventory;
 import es.eucm.eadventure.common.model.variables.EAdVarDef;
 import es.eucm.eadventure.common.params.EAdString;
 
@@ -68,9 +66,6 @@ public class EAdAdventureModelImpl implements EAdAdventureModel {
 	
 	@Param("title")
 	private final EAdString title;
-
-	@Param("inventory")
-	private EAdInventory inventory;
 	
 	@Param("chapter")
 	private EAdList<EAdChapter> chapters;
@@ -83,7 +78,6 @@ public class EAdAdventureModelImpl implements EAdAdventureModel {
 	 */
 	public EAdAdventureModelImpl() {
 		chapters = new EAdListImpl<EAdChapter>(EAdChapter.class);
-		inventory = new EAdBasicInventory();
 		vars = new EAdMapImpl<EAdVarDef<?>, Object>(EAdVarDef.class,
 				Object.class);
 		description = EAdString.newEAdString("adventureDescription");
@@ -142,15 +136,6 @@ public class EAdAdventureModelImpl implements EAdAdventureModel {
 	@Override
 	public EAdString getTitle() {
 		return title;
-	}
-
-	@Override
-	public EAdInventory getInventory() {
-		return inventory;
-	}
-	
-	public void setInventory(EAdInventory inventory) {
-		this.inventory = inventory;
 	}
 
 	@Override

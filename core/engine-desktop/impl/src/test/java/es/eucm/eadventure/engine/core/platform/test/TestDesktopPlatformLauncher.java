@@ -41,24 +41,10 @@ import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.google.inject.Singleton;
 
-import es.eucm.eadventure.common.model.effects.impl.EAdChangeScene;
-import es.eucm.eadventure.common.model.effects.impl.EAdModifyActorState;
-import es.eucm.eadventure.common.model.elements.EAdActorReference;
-import es.eucm.eadventure.common.model.elements.EAdScene;
-import es.eucm.eadventure.common.model.elements.impl.extra.EAdButton;
-import es.eucm.eadventure.common.model.elements.test.ActorReferenceFactoryTest;
-import es.eucm.eadventure.common.model.elements.test.BasicActorFactoryTest;
-import es.eucm.eadventure.common.model.elements.test.BasicSceneFactoryTest;
-import es.eucm.eadventure.common.model.elements.test.VideoSceneFactoryTest;
-import es.eucm.eadventure.common.model.guievents.impl.EAdMouseEventImpl;
-import es.eucm.eadventure.common.model.transitions.EAdTransition;
-import es.eucm.eadventure.common.params.EAdURI;
-import es.eucm.eadventure.common.params.geom.impl.EAdPositionImpl;
 import es.eucm.eadventure.common.resources.StringHandler;
 import es.eucm.eadventure.engine.core.impl.LoadingScreen;
 import es.eucm.eadventure.engine.core.impl.modules.BasicGameModule;
 import es.eucm.eadventure.engine.core.platform.PlatformLauncher;
-import es.eucm.eadventure.engine.core.platform.impl.DesktopPlatformLauncher;
 import es.eucm.eadventure.engine.core.platform.impl.extra.DesktopAssetHandlerModule;
 import es.eucm.eadventure.engine.core.platform.impl.extra.DesktopModule;
 
@@ -83,95 +69,95 @@ public class TestDesktopPlatformLauncher  {
 */
 		LoadingScreen loadingScreen = injector.getInstance(LoadingScreen.class);
 		
-		EAdScene scene = BasicSceneFactoryTest.getBasicScene();
-		
-		EAdActorReference actorReference = ActorReferenceFactoryTest.getActorReference(BasicActorFactoryTest.getActor(sh));
-		scene.getElements().add(actorReference);
-
-		EAdActorReference actorReference2 = ActorReferenceFactoryTest.getActorReference(BasicActorFactoryTest.getActor(sh));
-		scene.getElements().add(actorReference2);
-
-		EAdActorReference actorReference3 = ActorReferenceFactoryTest.getActorReference(BasicActorFactoryTest.getActor(sh));
-		scene.getElements().add(actorReference3);
-
-		EAdActorReference actorReference4 = ActorReferenceFactoryTest.getActorReference(BasicActorFactoryTest.getActor(sh));
-		scene.getElements().add(actorReference4);
-
-		EAdActorReference actorReference5 = ActorReferenceFactoryTest.getActorReference(BasicActorFactoryTest.getActor(sh));
-		scene.getElements().add(actorReference5);
-
-		EAdActorReference actorReference6 = ActorReferenceFactoryTest.getActorReference(BasicActorFactoryTest.getActor(sh));
-		scene.getElements().add(actorReference6);
-
-		EAdActorReference actorReference7 = ActorReferenceFactoryTest.getActorReference(BasicActorFactoryTest.getActor(sh));
-		scene.getElements().add(actorReference7);
-
-		EAdButton button = new EAdButton("button");
-		button.setUpNewInstance();
-		button.addBehavior(EAdMouseEventImpl.MOUSE_LEFT_CLICK, new EAdChangeScene("id", VideoSceneFactoryTest.getVideoScene(), EAdTransition.BASIC));
-		button.setPosition(new EAdPositionImpl(200, 200));
-		scene.getElements().add(button);
-		
-		EAdButton button2 = new EAdButton("button");
-		button2.setUpNewInstance();
-		button2.addBehavior(EAdMouseEventImpl.MOUSE_LEFT_CLICK, new EAdModifyActorState("id", actorReference.getReferencedActor(), EAdModifyActorState.Modification.PLACE_IN_INVENTORY));
-		button2.setPosition(new EAdPositionImpl(200, 300));
-		scene.getElements().add(button2);
-
-		button2 = new EAdButton("button");
-		button2.setUpNewInstance();
-		button2.addBehavior(EAdMouseEventImpl.MOUSE_LEFT_CLICK, new EAdModifyActorState("id", actorReference2.getReferencedActor(), EAdModifyActorState.Modification.PLACE_IN_INVENTORY));
-		button2.setPosition(new EAdPositionImpl(220, 320));
-		scene.getElements().add(button2);
-
-		button2 = new EAdButton("button");
-		button2.setUpNewInstance();
-		button2.addBehavior(EAdMouseEventImpl.MOUSE_LEFT_CLICK, new EAdModifyActorState("id", actorReference3.getReferencedActor(), EAdModifyActorState.Modification.PLACE_IN_INVENTORY));
-		button2.setPosition(new EAdPositionImpl(240, 340));
-		scene.getElements().add(button2);
-
-		button2 = new EAdButton("button");
-		button2.setUpNewInstance();
-		button2.addBehavior(EAdMouseEventImpl.MOUSE_LEFT_CLICK, new EAdModifyActorState("id", actorReference4.getReferencedActor(), EAdModifyActorState.Modification.PLACE_IN_INVENTORY));
-		button2.setPosition(new EAdPositionImpl(260, 360));
-		scene.getElements().add(button2);
-
-		button2 = new EAdButton("button");
-		button2.setUpNewInstance();
-		button2.addBehavior(EAdMouseEventImpl.MOUSE_LEFT_CLICK, new EAdModifyActorState("id", actorReference5.getReferencedActor(), EAdModifyActorState.Modification.PLACE_IN_INVENTORY));
-		button2.setPosition(new EAdPositionImpl(280, 380));
-		scene.getElements().add(button2);
-
-		button2 = new EAdButton("button");
-		button2.setUpNewInstance();
-		button2.addBehavior(EAdMouseEventImpl.MOUSE_LEFT_CLICK, new EAdModifyActorState("id", actorReference6.getReferencedActor(), EAdModifyActorState.Modification.PLACE_IN_INVENTORY));
-		button2.setPosition(new EAdPositionImpl(300, 400));
-		scene.getElements().add(button2);
-
-		button2 = new EAdButton("button");
-		button2.setUpNewInstance();
-		button2.addBehavior(EAdMouseEventImpl.MOUSE_LEFT_CLICK, new EAdModifyActorState("id", actorReference7.getReferencedActor(), EAdModifyActorState.Modification.PLACE_IN_INVENTORY));
-		button2.setPosition(new EAdPositionImpl(320, 420));
-		scene.getElements().add(button2);
-
-		
-		EAdButton button3 = new EAdButton("button");
-		button3.setUpNewInstance();
-		button3.addBehavior(EAdMouseEventImpl.MOUSE_LEFT_CLICK, new EAdModifyActorState("id", actorReference.getReferencedActor(), EAdModifyActorState.Modification.PLACE_IN_SCENE));
-		button3.setPosition(new EAdPositionImpl(200, 400));
-		scene.getElements().add(button3);
-
-		
-		loadingScreen.setInitialScreen(scene);
-		
-		//for (EAdTimer timer : scene.timers)
-		//	game.getAdventureModel().getChapters().get(0).getTimers().add(timer);
-
-		
-		//TODO extract file from args or use default?
-		EAdURI file = null;
-		//File file = new File("/ProyectoJuegoFINAL.ead");
-		((DesktopPlatformLauncher) launcher).launch(file);
+//		EAdScene scene = BasicSceneFactoryTest.getBasicScene();
+//		
+//		EAdActorReference actorReference = ActorReferenceFactoryTest.getActorReference(BasicActorFactoryTest.getActor(sh));
+//		scene.getElements().add(actorReference);
+//
+//		EAdActorReference actorReference2 = ActorReferenceFactoryTest.getActorReference(BasicActorFactoryTest.getActor(sh));
+//		scene.getElements().add(actorReference2);
+//
+//		EAdActorReference actorReference3 = ActorReferenceFactoryTest.getActorReference(BasicActorFactoryTest.getActor(sh));
+//		scene.getElements().add(actorReference3);
+//
+//		EAdActorReference actorReference4 = ActorReferenceFactoryTest.getActorReference(BasicActorFactoryTest.getActor(sh));
+//		scene.getElements().add(actorReference4);
+//
+//		EAdActorReference actorReference5 = ActorReferenceFactoryTest.getActorReference(BasicActorFactoryTest.getActor(sh));
+//		scene.getElements().add(actorReference5);
+//
+//		EAdActorReference actorReference6 = ActorReferenceFactoryTest.getActorReference(BasicActorFactoryTest.getActor(sh));
+//		scene.getElements().add(actorReference6);
+//
+//		EAdActorReference actorReference7 = ActorReferenceFactoryTest.getActorReference(BasicActorFactoryTest.getActor(sh));
+//		scene.getElements().add(actorReference7);
+//
+//		EAdButton button = new EAdButton("button");
+//		button.setUpNewInstance();
+//		button.addBehavior(EAdMouseEventImpl.MOUSE_LEFT_CLICK, new EAdChangeScene("id", VideoSceneFactoryTest.getVideoScene(), EAdTransition.BASIC));
+//		button.setPosition(new EAdPositionImpl(200, 200));
+//		scene.getElements().add(button);
+//		
+//		EAdButton button2 = new EAdButton("button");
+//		button2.setUpNewInstance();
+//		button2.addBehavior(EAdMouseEventImpl.MOUSE_LEFT_CLICK, new EAdModifyActorState("id", actorReference.getReferencedActor(), EAdModifyActorState.Modification.PLACE_IN_INVENTORY));
+//		button2.setPosition(new EAdPositionImpl(200, 300));
+//		scene.getElements().add(button2);
+//
+//		button2 = new EAdButton("button");
+//		button2.setUpNewInstance();
+//		button2.addBehavior(EAdMouseEventImpl.MOUSE_LEFT_CLICK, new EAdModifyActorState("id", actorReference2.getReferencedActor(), EAdModifyActorState.Modification.PLACE_IN_INVENTORY));
+//		button2.setPosition(new EAdPositionImpl(220, 320));
+//		scene.getElements().add(button2);
+//
+//		button2 = new EAdButton("button");
+//		button2.setUpNewInstance();
+//		button2.addBehavior(EAdMouseEventImpl.MOUSE_LEFT_CLICK, new EAdModifyActorState("id", actorReference3.getReferencedActor(), EAdModifyActorState.Modification.PLACE_IN_INVENTORY));
+//		button2.setPosition(new EAdPositionImpl(240, 340));
+//		scene.getElements().add(button2);
+//
+//		button2 = new EAdButton("button");
+//		button2.setUpNewInstance();
+//		button2.addBehavior(EAdMouseEventImpl.MOUSE_LEFT_CLICK, new EAdModifyActorState("id", actorReference4.getReferencedActor(), EAdModifyActorState.Modification.PLACE_IN_INVENTORY));
+//		button2.setPosition(new EAdPositionImpl(260, 360));
+//		scene.getElements().add(button2);
+//
+//		button2 = new EAdButton("button");
+//		button2.setUpNewInstance();
+//		button2.addBehavior(EAdMouseEventImpl.MOUSE_LEFT_CLICK, new EAdModifyActorState("id", actorReference5.getReferencedActor(), EAdModifyActorState.Modification.PLACE_IN_INVENTORY));
+//		button2.setPosition(new EAdPositionImpl(280, 380));
+//		scene.getElements().add(button2);
+//
+//		button2 = new EAdButton("button");
+//		button2.setUpNewInstance();
+//		button2.addBehavior(EAdMouseEventImpl.MOUSE_LEFT_CLICK, new EAdModifyActorState("id", actorReference6.getReferencedActor(), EAdModifyActorState.Modification.PLACE_IN_INVENTORY));
+//		button2.setPosition(new EAdPositionImpl(300, 400));
+//		scene.getElements().add(button2);
+//
+//		button2 = new EAdButton("button");
+//		button2.setUpNewInstance();
+//		button2.addBehavior(EAdMouseEventImpl.MOUSE_LEFT_CLICK, new EAdModifyActorState("id", actorReference7.getReferencedActor(), EAdModifyActorState.Modification.PLACE_IN_INVENTORY));
+//		button2.setPosition(new EAdPositionImpl(320, 420));
+//		scene.getElements().add(button2);
+//
+//		
+//		EAdButton button3 = new EAdButton("button");
+//		button3.setUpNewInstance();
+//		button3.addBehavior(EAdMouseEventImpl.MOUSE_LEFT_CLICK, new EAdModifyActorState("id", actorReference.getReferencedActor(), EAdModifyActorState.Modification.PLACE_IN_SCENE));
+//		button3.setPosition(new EAdPositionImpl(200, 400));
+//		scene.getElements().add(button3);
+//
+//		
+//		loadingScreen.setInitialScreen(scene);
+//		
+//		//for (EAdTimer timer : scene.timers)
+//		//	game.getAdventureModel().getChapters().get(0).getTimers().add(timer);
+//
+//		
+//		//TODO extract file from args or use default?
+//		EAdURI file = null;
+//		//File file = new File("/ProyectoJuegoFINAL.ead");
+//		((DesktopPlatformLauncher) launcher).launch(file);
 	}
 
 }

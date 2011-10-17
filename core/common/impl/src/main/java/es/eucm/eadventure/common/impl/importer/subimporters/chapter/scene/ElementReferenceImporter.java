@@ -46,16 +46,16 @@ import es.eucm.eadventure.common.impl.importer.interfaces.EAdElementFactory;
 import es.eucm.eadventure.common.interfaces.features.Oriented.Orientation;
 import es.eucm.eadventure.common.model.effects.impl.EAdActorActionsEffect;
 import es.eucm.eadventure.common.model.effects.impl.variables.EAdChangeFieldValueEffect;
-import es.eucm.eadventure.common.model.elements.EAdActorReference;
 import es.eucm.eadventure.common.model.elements.EAdCondition;
-import es.eucm.eadventure.common.model.elements.impl.EAdActorReferenceImpl;
-import es.eucm.eadventure.common.model.elements.impl.EAdBasicActor;
+import es.eucm.eadventure.common.model.elements.EAdSceneElement;
 import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
+import es.eucm.eadventure.common.model.elements.impl.EAdSceneElementDefImpl;
 import es.eucm.eadventure.common.model.events.EAdConditionEvent;
 import es.eucm.eadventure.common.model.events.EAdSystemEvent;
 import es.eucm.eadventure.common.model.events.impl.EAdConditionEventImpl;
 import es.eucm.eadventure.common.model.events.impl.EAdSystemEventImpl;
 import es.eucm.eadventure.common.model.guievents.impl.EAdMouseEventImpl;
+import es.eucm.eadventure.common.model.trajectories.impl.NodeTrajectoryDefinition;
 import es.eucm.eadventure.common.model.variables.impl.EAdFieldImpl;
 import es.eucm.eadventure.common.model.variables.impl.operations.BooleanOperation;
 import es.eucm.eadventure.common.params.geom.impl.EAdPositionImpl;
@@ -66,7 +66,7 @@ import es.eucm.eadventure.common.params.geom.impl.EAdRectangleImpl;
  * 
  */
 public class ElementReferenceImporter implements
-		EAdElementImporter<ElementReference, EAdActorReference> {
+		EAdElementImporter<ElementReference, EAdSceneElement> {
 
 	private EAdElementFactory factory;
 
@@ -88,30 +88,33 @@ public class ElementReferenceImporter implements
 	 */
 	private static int ID_GENERATOR = 0;
 
-	public EAdActorReference init(ElementReference oldObject) {
-		EAdActorReferenceImpl newRef = new EAdActorReferenceImpl(
+	public EAdSceneElement init(ElementReference oldObject) {
+		EAdBasicSceneElement newRef = new EAdBasicSceneElement(
 				oldObject.getTargetId() + "_reference_" + ID_GENERATOR++);
 		return newRef;
 	}
 
 	@Override
-	public EAdActorReference convert(ElementReference oldObject, Object object) {
+	public EAdSceneElement convert(ElementReference oldObject, Object object) {
 
-		EAdActorReferenceImpl newRef = (EAdActorReferenceImpl) object;
+		EAdSceneElementDefImpl actor = (EAdSceneElementDefImpl) factory
+				.getElementById(oldObject.getTargetId());
+		EAdBasicSceneElement newRef = (EAdBasicSceneElement) object;
 
 		newRef.setPosition(new EAdPositionImpl(
 				EAdPositionImpl.Corner.BOTTOM_CENTER, oldObject.getX(),
 				oldObject.getY()));
 		newRef.setScale(oldObject.getScale());
 		newRef.setInitialOrientation(Orientation.S);
-		EAdBasicActor actor = (EAdBasicActor) factory.getElementById(oldObject
-				.getTargetId());
-		newRef.setReferencedActor(actor);
+
+		newRef.setDefinition(actor);
 		if (oldObject.getInfluenceArea() != null) {
-			newRef.setInfluenceArea(new EAdRectangleImpl(oldObject
-					.getInfluenceArea().getX(), oldObject.getInfluenceArea()
-					.getY(), oldObject.getInfluenceArea().getWidth(), oldObject
-					.getInfluenceArea().getHeight()));
+			newRef.setVarInitialValue(
+					NodeTrajectoryDefinition.VAR_INFLUENCE_AREA,
+					new EAdRectangleImpl(oldObject.getInfluenceArea().getX(),
+							oldObject.getInfluenceArea().getY(), oldObject
+									.getInfluenceArea().getWidth(), oldObject
+									.getInfluenceArea().getHeight()));
 		}
 
 		EAdCondition condition = conditionsImporter.init(oldObject
@@ -137,8 +140,9 @@ public class ElementReferenceImporter implements
 				"startVisibilityEvent");
 		startVisibilityEvent.addEffect(EAdSystemEvent.Event.GAME_LOADED,
 				visibilityEffect);
-		elementFactory.getCurrentChapterModel().getEvents()
-				.add(startVisibilityEvent);
+		// TODO what is this for?
+//		elementFactory.getCurrentChapterModel().getEvents()
+//				.add(startVisibilityEvent);
 
 		EAdActorActionsEffect showActions = new EAdActorActionsEffect(
 				actor.getId() + "_showActions", newRef);
@@ -150,7 +154,8 @@ public class ElementReferenceImporter implements
 			int width = oldObject.getInfluenceArea().getWidth();
 			int height = oldObject.getInfluenceArea().getHeight();
 			EAdRectangleImpl r = new EAdRectangleImpl(x, y, width, height);
-			newRef.setInfluenceArea(r);
+			newRef.setVarInitialValue(
+					NodeTrajectoryDefinition.VAR_INFLUENCE_AREA, r);
 		}
 
 		return newRef;

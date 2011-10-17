@@ -52,6 +52,7 @@ import es.eucm.eadventure.engine.core.gameobjects.GameObjectManager;
 import es.eucm.eadventure.engine.core.gameobjects.huds.MenuHUD;
 import es.eucm.eadventure.engine.core.guiactions.GUIAction;
 import es.eucm.eadventure.engine.core.guiactions.KeyAction;
+import es.eucm.eadventure.engine.core.platform.EAdCanvas;
 import es.eucm.eadventure.engine.core.platform.GUI;
 import es.eucm.eadventure.engine.core.util.EAdTransformation;
 import es.eucm.eadventure.engine.core.util.impl.EAdTransformationImpl;
@@ -171,6 +172,16 @@ public abstract class MenuHUDImpl implements MenuHUD {
 	@Override
 	public boolean isEnable() {
 		return true;
+	}
+	
+	@Override
+	public void render(EAdCanvas<?> c) {
+		
+	}
+
+	@Override
+	public boolean contains(int x, int y) {
+		return false;
 	}
 
 }

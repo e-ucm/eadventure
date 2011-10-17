@@ -5,5 +5,7 @@ import es.eucm.eadventure.engine.core.platform.EAdCanvas;
 public interface Renderable {
 	
 	void render( EAdCanvas<?> c );
+	
+	boolean contains( int x, int y );
 
 }

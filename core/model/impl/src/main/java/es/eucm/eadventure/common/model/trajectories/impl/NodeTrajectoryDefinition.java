@@ -9,6 +9,7 @@ import es.eucm.eadventure.common.model.impl.EAdElementImpl;
 import es.eucm.eadventure.common.model.trajectories.TrajectoryDefinition;
 import es.eucm.eadventure.common.model.variables.EAdVarDef;
 import es.eucm.eadventure.common.model.variables.impl.EAdVarDefImpl;
+import es.eucm.eadventure.common.params.geom.EAdRectangle;
 
 /**
  * 
@@ -24,6 +25,9 @@ public class NodeTrajectoryDefinition extends EAdElementImpl implements
 	 */
 	public static final EAdVarDef<Boolean> VAR_BARRIER_ON = new EAdVarDefImpl<Boolean>(
 			"barrierOn", Boolean.class, Boolean.FALSE);
+
+	public static final EAdVarDef<EAdRectangle> VAR_INFLUENCE_AREA = new EAdVarDefImpl<EAdRectangle>(
+			"influence_area", EAdRectangle.class, null);
 
 	/**
 	 * Variable for the current side

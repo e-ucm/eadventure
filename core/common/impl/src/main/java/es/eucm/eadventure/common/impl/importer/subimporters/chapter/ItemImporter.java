@@ -47,7 +47,7 @@ import es.eucm.eadventure.common.data.chapter.elements.Item;
 import es.eucm.eadventure.common.impl.importer.interfaces.EAdElementFactory;
 import es.eucm.eadventure.common.impl.importer.interfaces.ResourceImporter;
 import es.eucm.eadventure.common.model.actions.EAdAction;
-import es.eucm.eadventure.common.model.elements.impl.EAdBasicActor;
+import es.eucm.eadventure.common.model.elements.impl.EAdSceneElementDefImpl;
 import es.eucm.eadventure.common.resources.StringHandler;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.ImageImpl;
 
@@ -65,7 +65,7 @@ public class ItemImporter extends ActorImporter<Item> {
 	public void initResourcesCorrespondencies() {
 
 		properties = new HashMap<String, String>();
-		properties.put(Item.RESOURCE_TYPE_IMAGE, EAdBasicActor.appearance);
+		properties.put(Item.RESOURCE_TYPE_IMAGE, EAdSceneElementDefImpl.appearance);
 
 		objectClasses = new HashMap<String, Object>();
 		objectClasses.put(Item.RESOURCE_TYPE_IMAGE, ImageImpl.class);

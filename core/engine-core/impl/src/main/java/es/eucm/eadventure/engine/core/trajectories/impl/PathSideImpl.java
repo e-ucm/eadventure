@@ -48,6 +48,7 @@ import es.eucm.eadventure.common.params.geom.EAdPosition;
 import es.eucm.eadventure.common.params.geom.EAdRectangle;
 import es.eucm.eadventure.common.params.geom.impl.EAdPositionImpl;
 import es.eucm.eadventure.common.params.geom.impl.EAdRectangleImpl;
+import es.eucm.eadventure.engine.core.ValueMap;
 import es.eucm.eadventure.engine.core.gameobjects.GameObjectFactory;
 import es.eucm.eadventure.engine.core.gameobjects.SceneElementGO;
 import es.eucm.eadventure.engine.core.trajectories.PathSide;
@@ -67,11 +68,14 @@ public class PathSideImpl implements PathSide {
     private GameObjectFactory gameObjectFactory;
     
     private List<PathSideImpl> followingSides;
+    
+    private ValueMap valueMap;
 
-    public PathSideImpl( Side side, NodeTrajectoryDefinition trajectory, boolean inverted,  GameObjectFactory gameObjectFactory ) {
+    public PathSideImpl( Side side, NodeTrajectoryDefinition trajectory, boolean inverted,  GameObjectFactory gameObjectFactory, ValueMap valueMap ) {
     	this.gameObjectFactory = gameObjectFactory;
         this.side = side;
         this.followingSides = new ArrayList<PathSideImpl>();
+        this.valueMap = valueMap;
         length = side.getLength( );
         if( !inverted ) {
             startNode = trajectory.getNodeForId( side.getIDStart( ) );
@@ -211,10 +215,8 @@ public class PathSideImpl implements PathSide {
         if( destinationElement == null )
             return false;
         else {
-            EAdRectangle area;
-            if( ((EAdSceneElement) destinationElement.getElement()).getInfluenceArea() != null )
-                area = ((EAdSceneElement) destinationElement.getElement()).getInfluenceArea();
-            else
+        	EAdRectangle area = valueMap.getValue(destinationElement.getElement(), NodeTrajectoryDefinition.VAR_INFLUENCE_AREA);
+            if ( area == null )
                 area = new EAdRectangleImpl( -20, -20, destinationElement.getWidth( ) + 40, destinationElement.getHeight( ) + 40 );
 
             int x1 = (int) ( destinationElement.getPosition().getJavaX(destinationElement.getWidth()) ) + area.getX( );

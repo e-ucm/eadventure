@@ -63,7 +63,7 @@ import es.eucm.eadventure.common.model.effects.impl.EAdMacroImpl;
 import es.eucm.eadventure.common.model.effects.impl.EAdModifyActorState;
 import es.eucm.eadventure.common.model.effects.impl.EAdModifyActorState.Modification;
 import es.eucm.eadventure.common.model.effects.impl.EAdTriggerMacro;
-import es.eucm.eadventure.common.model.elements.EAdActor;
+import es.eucm.eadventure.common.model.elements.EAdSceneElementDef;
 import es.eucm.eadventure.common.model.elements.EAdCondition;
 import es.eucm.eadventure.common.resources.EAdBundleId;
 import es.eucm.eadventure.common.resources.StringHandler;
@@ -105,7 +105,7 @@ public class ActionImporter implements EAdElementImporter<Action, EAdAction> {
 		return null;
 	}
 
-	public EAdAction convert(Action oldObject, Object object, EAdActor actor) {
+	public EAdAction convert(Action oldObject, Object object, EAdSceneElementDef actor) {
 		EAdBasicAction action = (EAdBasicAction) object;
 
 		EAdCondition condition = conditionsImporter.init(oldObject
@@ -238,7 +238,7 @@ public class ActionImporter implements EAdElementImporter<Action, EAdAction> {
 	}
 
 	public static List<EAdEffect> getEffects(int actionType,
-			List<AbstractEffect> originalList, EAdActor actor) {
+			List<AbstractEffect> originalList, EAdSceneElementDef actor) {
 		List<EAdEffect> list = new ArrayList<EAdEffect>();
 		for (AbstractEffect e : originalList)
 			if (e instanceof CancelActionEffect)

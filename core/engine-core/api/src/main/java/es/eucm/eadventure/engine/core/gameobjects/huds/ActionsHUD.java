@@ -37,11 +37,10 @@
 
 package es.eucm.eadventure.engine.core.gameobjects.huds;
 
-import java.util.List;
-
 import es.eucm.eadventure.common.model.actions.EAdAction;
-import es.eucm.eadventure.engine.core.gameobjects.SceneElementGO;
+import es.eucm.eadventure.common.model.extra.EAdList;
 import es.eucm.eadventure.engine.core.gameobjects.GameObject;
+import es.eucm.eadventure.engine.core.gameobjects.SceneElementGO;
 
 /**
  * <p>
@@ -53,6 +52,6 @@ public interface ActionsHUD extends HudGO<SceneElementGO<?>> {
 	/**
 	 * @return the list of action to be shown
 	 */
-	List<EAdAction> getActions();
+	EAdList<EAdAction> getActions();
 
 }

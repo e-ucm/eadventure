@@ -97,10 +97,6 @@ public class EAdBasicAction extends EAdGeneralElementImpl implements EAdAction {
 		return highlightBundle;
 	}
 
-	public void setInitialBundle(EAdBundleId temp) {
-		super.setInitialBundle(temp);
-	}
-
 	@Override
 	public EAdCondition getCondition() {
 		return condition;

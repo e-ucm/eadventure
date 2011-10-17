@@ -176,7 +176,7 @@ public class DrawablesScene extends EmptyScene {
 	}
 
 	@Override
-	public String getDescription() {
+	public String getSceneDescription() {
 		return "A scene showing some drawables of eAdventure";
 	}
 

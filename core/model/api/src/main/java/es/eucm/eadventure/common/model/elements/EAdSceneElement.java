@@ -38,63 +38,22 @@
 package es.eucm.eadventure.common.model.elements;
 
 import es.eucm.eadventure.common.interfaces.features.Variabled;
-import es.eucm.eadventure.common.model.effects.EAdEffect;
-import es.eucm.eadventure.common.model.extra.EAdList;
-import es.eucm.eadventure.common.model.guievents.EAdGUIEvent;
-import es.eucm.eadventure.common.params.geom.EAdRectangle;
 
-public interface EAdSceneElement extends EAdGeneralElement, Variabled {
+public interface EAdSceneElement extends EAdSceneElementDef, Variabled {
 
 	/**
-	 * Returns the effects list associated with the given GUI event,
-	 * {@code null} if there is no effects associated. This method shouldn't be
-	 * used to add new effects to the actor. Returned list could be {@code null}
+	 * Returns the definition for this scene element
 	 * 
-	 * @param event
-	 *            the GUI event
-	 * @return the effects list associated with the given event
+	 * @return the definition for this scene element
 	 */
-	EAdList<EAdEffect> getEffects(EAdGUIEvent event);
+	EAdSceneElementDef getDefinition();
 
 	/**
-	 * Returns true if this scene element must be cloned whenever is added to
-	 * the game. This means that all its variables will be set with its initial
-	 * values, instead of storing their last values
+	 * Returns true if whenever this element is added to a scene, its variables
+	 * must be reset to their initial values
 	 * 
-	 * @return if this element must be cloned whenever is added to the game
+	 * @return
 	 */
 	boolean isClone();
-
-	public EAdRectangle getInfluenceArea();
-	
-	EAdCondition getDraggabe();
-	
-	/**
-	 * An enumerate with common states for scene elements
-	 * 
-	 * 
-	 */
-	public enum CommonStates {
-		/**
-		 * Default state
-		 */
-		EAD_STATE_DEFAULT,
-
-		/**
-		 * Talking state
-		 */
-		EAD_STATE_TALKING,
-
-		/**
-		 * Walking state
-		 */
-		EAD_STATE_WALKING,
-
-		/**
-		 * Using state
-		 */
-		EAD_STATE_USING;
-
-	}
 
 }

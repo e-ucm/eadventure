@@ -39,7 +39,7 @@ package es.eucm.eadventure.common.model.elements.impl;
 
 import es.eucm.eadventure.common.interfaces.Element;
 import es.eucm.eadventure.common.interfaces.Param;
-import es.eucm.eadventure.common.model.elements.EAdComposedElement;
+import es.eucm.eadventure.common.model.elements.EAdComplexElement;
 import es.eucm.eadventure.common.model.elements.EAdSceneElement;
 import es.eucm.eadventure.common.model.extra.EAdList;
 import es.eucm.eadventure.common.model.extra.impl.EAdListImpl;
@@ -53,9 +53,9 @@ import es.eucm.eadventure.common.model.variables.impl.EAdVarDefImpl;
  * 
  * 
  */
-@Element(detailed = EAdComposedElementImpl.class, runtime = EAdComposedElementImpl.class)
-public class EAdComposedElementImpl extends EAdBasicSceneElement implements
-		EAdComposedElement {
+@Element(detailed = EAdComplexElementImpl.class, runtime = EAdComplexElementImpl.class)
+public class EAdComplexElementImpl extends EAdBasicSceneElement implements
+		EAdComplexElement {
 
 	/**
 	 * A variable defining if this container must update its width to the
@@ -80,7 +80,7 @@ public class EAdComposedElementImpl extends EAdBasicSceneElement implements
 	 * @param id
 	 *            the id for the element
 	 */
-	public EAdComposedElementImpl(String id) {
+	public EAdComplexElementImpl(String id) {
 		super(id);
 		components = new EAdListImpl<EAdSceneElement>(EAdSceneElement.class);
 	}
