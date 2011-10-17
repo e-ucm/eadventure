@@ -3,6 +3,8 @@ package es.eucm.eadventure.editor.view.swing;
 import java.awt.FlowLayout;
 
 import javax.swing.JComponent;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.WindowConstants;
 
 import static org.mockito.Mockito.*;
@@ -19,12 +21,18 @@ import es.eucm.eadventure.editor.impl.EditorStringHandler;
 import es.eucm.eadventure.editor.view.ComponentProvider;
 import es.eucm.eadventure.editor.view.generics.Panel;
 import es.eucm.eadventure.gui.EAdFrame;
+import es.eucm.eadventure.gui.EAdGUILookAndFeel;
 
 public class ElementControllerGetPanelTest extends EAdFrame {
 
 	private static final long serialVersionUID = 1L;
 
 	public static void main(String[] args) {
+		try {
+			UIManager.setLookAndFeel(EAdGUILookAndFeel.getInstance());
+		} catch (UnsupportedLookAndFeelException e) {
+			e.printStackTrace();
+		}
 		new ElementControllerGetPanelTest();
 	}
 	

@@ -13,8 +13,10 @@ import es.eucm.eadventure.editor.view.generics.impl.EAdListOption;
 import es.eucm.eadventure.editor.view.generics.impl.EAdStringOption;
 import es.eucm.eadventure.editor.view.generics.impl.ElementOption;
 import es.eucm.eadventure.editor.view.generics.impl.PanelImpl;
+import es.eucm.eadventure.editor.view.generics.impl.SceneInterfaceElement;
 import es.eucm.eadventure.editor.view.generics.impl.TextOption;
 import es.eucm.eadventure.editor.view.impl.AbstractProviderFactory;
+import es.eucm.eadventure.editor.view.swing.scene.SceneEditionComponentProvider;
 
 /**
  * Java Swing {@link ProviderFactory}
@@ -42,6 +44,8 @@ public class SwingProviderFactory extends AbstractProviderFactory<JComponent> {
 		this.addToMap(
 				EAdListOption.class,
 				(ComponentProvider) new EAdListComponentProvider(commandManager));
+		this.addToMap(SceneInterfaceElement.class, 
+				(ComponentProvider) new SceneEditionComponentProvider(commandManager));
 	}
 
 }

@@ -35,60 +35,24 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package es.eucm.eadventure.gui.eadcanvaspanel.scrollcontainers;
+package es.eucm.eadventure.editor.control.elements.impl;
 
-import java.awt.Rectangle;
-
-import javax.swing.JPanel;
-
-import es.eucm.eadventure.gui.EAdScrollPane;
-import es.eucm.eadventure.gui.eadcanvaspanel.EAdCanvasPanel;
-import es.eucm.eadventure.gui.extra.EAdBorder;
+import es.eucm.eadventure.utils.i18n.I18N;
 
 /**
- * Scroll panel which contains an {@link EAdCanvasPanel} with a fixed size
- * 
+ * Constants for the i18n messages.
  */
-public class EAdFixScrollCanvasPanel extends EAdScrollPane implements
-		ScrollCanvasPanel {
+public class Messages {
 
-	private static final long serialVersionUID = -3996487539451876713L;
+	public static String name;
 
-	private EAdCanvasPanel canvas;
+	public static String description;
+	
+	public static String documentation;
+	
+	public static String background;
 
-	/**
-	 * Constructor with a customized {@link EAdCanvasPanel}
-	 * 
-	 * @param canvas
-	 */
-	public EAdFixScrollCanvasPanel(EAdCanvasPanel canvas) {
-		super(new JPanel());
-		this.canvas = canvas;
-		this.setBorder(new EAdBorder());
-		canvas.setAutosize(false);
-		JPanel dragPanelContainer = (JPanel) getViewport().getView();
-		dragPanelContainer.setLayout(null);
-		dragPanelContainer.add(canvas);
-		addComponentListener(canvas);
-		dragPanelContainer.addComponentListener(canvas);
+	static {
+		I18N.initializeMessages(Messages.class.getName(), Messages.class);
 	}
-
-	/**
-	 * Constructor with the default {@link EAdCanvasPanel}
-	 */
-	public EAdFixScrollCanvasPanel() {
-		this(new EAdCanvasPanel());
-	}
-
-	@Override
-	public void updateBounds(Rectangle r) {
-		this.getViewport().scrollRectToVisible(r);
-
-	}
-
-	@Override
-	public EAdCanvasPanel getCanvas() {
-		return canvas;
-	}
-
 }

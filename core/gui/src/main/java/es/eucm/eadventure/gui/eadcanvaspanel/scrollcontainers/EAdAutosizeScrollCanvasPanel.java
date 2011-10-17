@@ -43,6 +43,7 @@ import javax.swing.JViewport;
 
 import es.eucm.eadventure.gui.EAdScrollPane;
 import es.eucm.eadventure.gui.eadcanvaspanel.EAdCanvasPanel;
+import es.eucm.eadventure.gui.extra.EAdBorder;
 
 /**
  * Scroll pane which contains an {@link EAdCanvasPanel} with autoresize
@@ -63,6 +64,7 @@ public class EAdAutosizeScrollCanvasPanel extends EAdScrollPane implements
 	public EAdAutosizeScrollCanvasPanel(EAdCanvasPanel canvas) {
 		super(canvas);
 		this.canvas = canvas;
+		this.setBorder(new EAdBorder());
 		canvas.setScrollCanvasPanel(this);
 	}
 	

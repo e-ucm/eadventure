@@ -24,11 +24,6 @@ public class EAdStringComponentProvider implements
 		ComponentProvider<EAdStringOption, EAdTextField> {
 
 	/**
-	 * The {@link EAdStringOption} option element
-	 */
-	private EAdStringOption element;
-
-	/**
 	 * The current {@link StringHandler} that maps {@link EAdString}s with their
 	 * actual values
 	 */
@@ -69,8 +64,7 @@ public class EAdStringComponentProvider implements
 	 * .eadventure.editor.view.generics.InterfaceElement)
 	 */
 	@Override
-	public EAdTextField getComponent(EAdStringOption element2) {
-		this.element = element2;
+	public EAdTextField getComponent(EAdStringOption element) {
 		EAdTextField textField;
 		switch (element.getExpectedLength()) {
 		case LONG:

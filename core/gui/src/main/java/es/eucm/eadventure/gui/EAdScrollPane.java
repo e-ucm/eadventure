@@ -84,12 +84,14 @@ public class EAdScrollPane extends JScrollPane {
         super(pane, verticalScrollbarPolicy, horizontalScrollbarPolicy);
         this.setBackground(EAdGUILookAndFeel.getBackgroundColor());
         this.getViewport().setBackground(EAdGUILookAndFeel.getBackgroundColor());
+        this.setBorder(null);
     }
     
     public EAdScrollPane(Component pane) {
     	super(pane);
         this.setBackground(EAdGUILookAndFeel.getBackgroundColor());
         this.getViewport().setBackground(EAdGUILookAndFeel.getBackgroundColor());
+        this.setBorder(null);
 	}
 
 	@Override
