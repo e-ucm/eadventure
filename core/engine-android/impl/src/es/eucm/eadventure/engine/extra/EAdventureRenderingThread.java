@@ -61,7 +61,7 @@ public class EAdventureRenderingThread extends Thread {
 
 	private AndroidPlatformConfiguration platformConfiguration;
 
-	private static AndroidCanvas aCanvas;
+	private static BitmapCanvas aCanvas;
 
 	private static final Logger logger = Logger.getLogger("EAdventureRenderingThread");
 	
@@ -79,7 +79,7 @@ public class EAdventureRenderingThread extends Thread {
 	public void run() {
 
 		final Bitmap bitmap = Bitmap.createBitmap(platformConfiguration.getWidth(), platformConfiguration.getHeight(), Bitmap.Config.RGB_565);
-		aCanvas = new AndroidCanvas(bitmap);
+		aCanvas = new BitmapCanvas(bitmap);
 		gui.setCanvas(aCanvas);
 
 		/*

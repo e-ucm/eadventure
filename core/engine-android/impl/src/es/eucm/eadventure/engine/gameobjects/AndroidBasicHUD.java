@@ -12,18 +12,22 @@ import android.graphics.Typeface;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
+import es.eucm.eadventure.common.model.EAdElement;
+import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
+import es.eucm.eadventure.common.params.EAdString;
 import es.eucm.eadventure.common.resources.StringHandler;
 import es.eucm.eadventure.engine.AndroidPlatformConfiguration;
 import es.eucm.eadventure.engine.core.GameState;
 import es.eucm.eadventure.engine.core.MouseState;
 import es.eucm.eadventure.engine.core.ValueMap;
+import es.eucm.eadventure.engine.core.gameobjects.GameObject;
 import es.eucm.eadventure.engine.core.gameobjects.GameObjectFactory;
 import es.eucm.eadventure.engine.core.gameobjects.GameObjectManager;
 import es.eucm.eadventure.engine.core.gameobjects.huds.MenuHUD;
 import es.eucm.eadventure.engine.core.gameobjects.huds.impl.BasicHUDImpl;
 import es.eucm.eadventure.engine.core.platform.EAdCanvas;
 import es.eucm.eadventure.engine.core.platform.PlatformConfiguration;
-import es.eucm.eadventure.engine.extra.AndroidCanvas;
+import es.eucm.eadventure.engine.extra.BitmapCanvas;
 
 @Singleton
 public class AndroidBasicHUD extends BasicHUDImpl {
@@ -31,7 +35,7 @@ public class AndroidBasicHUD extends BasicHUDImpl {
 	private Paint borderPaint;
 	private Path clip;
 	private Rect rect;
-	private Paint textP;
+	private Paint textPaint;
 	private Bitmap magGlass;
 	private AndroidPlatformConfiguration platformConfiguration;
 
@@ -43,102 +47,83 @@ public class AndroidBasicHUD extends BasicHUDImpl {
 		super(menuHUD, gameObjectFactory, gameState, gameObjectManager, mouseState,
 				valueMap, stringHandler);
 		this.platformConfiguration = (AndroidPlatformConfiguration) platformConfiguration;
-		
+
 		borderPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
 		borderPaint.setColor(Color.WHITE);
 		borderPaint.setStyle(Paint.Style.STROKE);
 		borderPaint.setStrokeWidth(8);
 
 		clip = new Path();
-		//if (this.platformConfiguration.isFullscreen()) {
-		magGlass = Bitmap.createBitmap(200,200,Bitmap.Config.ARGB_4444);
-		
-		clip.addCircle(100,100,100,Path.Direction.CCW);
-			
-		rect = new Rect(0, 0, 200, 200);
-		
-		textP = new Paint(Paint.ANTI_ALIAS_FLAG);
-		textP.setColor(0xFFFFFFFF);
-		textP.setShadowLayer(4f, 0, 0, Color.BLACK);
-		textP.setTextSize(20);
-		textP.setTypeface(Typeface.SANS_SERIF);
-		textP.setTextAlign(Align.CENTER);
+		magGlass = Bitmap.createBitmap(200, 200, Bitmap.Config.ARGB_4444);
 
-		/*} else {
-			magGlass = Bitmap.createBitmap(
-					(int) (this.platformConfiguration.getScale() * 200),
-					(int) (this.platformConfiguration.getScale() * 200),
-					Bitmap.Config.ARGB_4444);
-			clip.addCircle(
-					(float) (this.platformConfiguration.getScale() * 100),
-					(float) (this.platformConfiguration.getScale() * 100),
-					(float) (this.platformConfiguration.getScale()
-							* this.platformConfiguration.getScale() * 100),
-					Path.Direction.CCW);
-			rect = new Rect(0, 0,
-					(int) (this.platformConfiguration.getScale() * 200),
-					(int) (this.platformConfiguration.getScale() * 200));
-		}*/
+		clip.addCircle(100,100,100,Path.Direction.CCW);
+
+		rect = new Rect(0, 0, 200, 200);
+
+		textPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+		textPaint.setColor(0xFFFFFFFF);
+		textPaint.setShadowLayer(4f, 0, 0, Color.BLACK);
+		textPaint.setTextSize(25);
+		textPaint.setTypeface(Typeface.SANS_SERIF);
+		textPaint.setTextAlign(Align.CENTER);
 
 		logger.info("New instance");
 	}
-	
+
+	@SuppressWarnings("unchecked")
 	public void render( EAdCanvas<?> canvas ){
-		Canvas graphicContext = (Canvas) canvas.getNativeGraphicContext();
+
+		BitmapCanvas graphicContext = (BitmapCanvas) canvas.getNativeGraphicContext();
 		if (mouseState.getMouseX() != -1
 				&& mouseState.getMouseY() != -1) {
-			
+
 			Canvas c = new Canvas(magGlass);
 			c.clipPath(clip);			
-			
-			c.drawBitmap(((AndroidCanvas) graphicContext).getBitmap(), new Rect(mouseState.getMouseX() - 50, 
-					mouseState.getMouseY() - 50, mouseState.getMouseX() + 50, 
-					mouseState.getMouseY() + 50), rect, null);
+
+			c.drawBitmap(((BitmapCanvas) graphicContext).getBitmap(), new Rect(mouseState.getMouseX() - 50, 
+					mouseState.getMouseY() - 100, mouseState.getMouseX() + 50, 
+					mouseState.getMouseY()), rect, null);
 
 			c.drawPath(clip, borderPaint);
 			c.drawCircle(100, 100, 3, borderPaint);
 
-			int x = mouseState.getMouseX() - 100;
-			int y = mouseState.getMouseY() - 100;
+			int magX, magY, textX, textY;
+			magX = mouseState.getMouseX() - 100;
+			magY = mouseState.getMouseY() - 150;
 
-			/*
-			 * if (x - TextRenderer.paint.getFontMetricsInt().ascent - (int)
-			 * (150*platformConfiguration.getScaleW()) <= 0) x =
-			 * TextRenderer.paint.getFontMetricsInt().ascent + (int)
-			 * (150*platformConfiguration.getScaleW());
-			 */
-			if (x + 200 >= this.platformConfiguration.getVirtualWidth())
-				x = this.platformConfiguration.getVirtualWidth() - 200;
-			else if (x <= 0)
-				x = 0;
-			if (y + 200 >= this.platformConfiguration.getVirtualHeight())
-				y = this.platformConfiguration.getVirtualHeight() - 200;
-			else if (y <= 0)
-				y = 0;
-			/*
-			 * if (y - TextRenderer.paint.getFontMetricsInt().ascent - (int)
-			 * (150*platformConfiguration.getScale()) <= 0) y =
-			 * TextRenderer.paint.getFontMetricsInt().ascent + (int)
-			 * (150*platformConfiguration.getScale());
-			 */
+			if (magX + 100 >= this.platformConfiguration.getVirtualWidth()){
+				magX = this.platformConfiguration.getVirtualWidth() - 100;
+			}
+			else if (magX <= -100){
+				magX = -100;
+			}
+			if (magY + 100 >= this.platformConfiguration.getVirtualHeight()){
+				magY = this.platformConfiguration.getVirtualHeight() - 100;
+			}
+			else if (magY <= -100){
+				magY = -100;
+			}
 
-			graphicContext.save();
-			
-			graphicContext.setMatrix(null);
-			
-			graphicContext.drawBitmap(magGlass, x, y, null);
-			graphicContext.drawText("PRUEBAS", mouseState.getMouseX() - 110, mouseState.getMouseY() - 160, textP);
+			textX = magX;
+			textY = magY - 10;
+
+			graphicContext.save();			
+			graphicContext.setMatrix(null);			
+			graphicContext.drawBitmap(magGlass, magX, magY, null);
+
+			GameObject<? extends EAdElement> go = (GameObject<? extends EAdElement>) mouseState
+			.getGameObjectUnderMouse();
+
+			if (go != null && go.getElement() instanceof EAdElement) {
+				EAdString name = valueMap.getValue((EAdElement) go.getElement(),
+						EAdBasicSceneElement.VAR_NAME);
+				graphicContext.drawText("Nombre GO", textX, textY, textPaint);
+				if (name != null) {
+					graphicContext.drawText(name.toString(), textX, textY, textPaint);
+				}
+			}
 
 			graphicContext.restore();
-		
-			/*
-			 * TODO draw element name if (mouseState.getGameObjectUnderMouse()
-			 * != null && mouseState.getGameObjectUnderMouse() instanceof Named)
-			 * graphicRendererFactory.render(g, new TextGOImpl(((Named)
-			 * mouseState.getGameObjectUnderMouse()).getName(), x +
-			 * (int)(this.platformConfiguration.getScaleW()*100), y -
-			 * (int)(this.platformConfiguration.getScale()), null, null), 0.0f);
-			 */
 
 		}
 	}

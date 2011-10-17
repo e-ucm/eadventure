@@ -91,8 +91,20 @@ public class EAdventureEngineActivity extends Activity {
 
 		AndroidPlatformConfiguration config = (AndroidPlatformConfiguration) injector
 				.getInstance(PlatformConfiguration.class);
-		config.setWidth(dm.widthPixels);
-		config.setHeight(dm.heightPixels);
+		
+		int height, width;
+		height = dm.heightPixels;
+		width = dm.widthPixels;
+		
+		//In case wrong display metrics like Samsung GT 10.1
+		if (height > width){
+			config.setWidth(height);
+			config.setHeight(width);
+		}
+		else {
+			config.setWidth(width);
+			config.setHeight(height);
+		}
 		config.setFullscreen(true);
 
 		// TODO fix this

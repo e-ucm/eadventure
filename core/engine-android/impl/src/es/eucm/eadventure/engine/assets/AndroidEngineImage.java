@@ -56,8 +56,6 @@ public class AndroidEngineImage extends RuntimeImage {
 
 	public Bitmap image;
 	
-	private boolean loaded;
-	
 	// FIXME find a better solution
 	private static Bitmap defaultImage;
 	
@@ -96,21 +94,9 @@ public class AndroidEngineImage extends RuntimeImage {
 	
 	@Override
 	public boolean loadAsset() {
-		loaded = true;
-		File f = new File(assetHandler.getAbsolutePath(descriptor.getURI().getPath()));
 		
-		BitmapFactory.Options options = new BitmapFactory.Options();
-		options.inPurgeable = true;
-		options.inInputShareable = true;
-		options.inTempStorage = new byte [16 * 1024];
-		options.inPreferredConfig = Bitmap.Config.RGB_565;
-		
-		try {
-			image = BitmapFactory.decodeStream(new FileInputStream(f), null, options);
-		} catch (FileNotFoundException e) {
-			logger.info("Image not found: " + descriptor.getURI());
-		}
-		
+		image = decodeFile(assetHandler.getAbsolutePath(descriptor.getURI().getPath()));
+	
 		logger.info("New instance, loaded = " + (image != null));
 		return image != null;
 	}
@@ -135,35 +121,16 @@ public class AndroidEngineImage extends RuntimeImage {
 	private Bitmap decodeFile(String path){
 		
 		File f = new File(path);
-		final int IMAGE_MAX_SIZE = 800;
 	    Bitmap b = null;
 	    try {
-	        //Decode image size
 	        BitmapFactory.Options o = new BitmapFactory.Options();
-	        o.inJustDecodeBounds = true;
-
-	        FileInputStream fis = new FileInputStream(f);
-	        BitmapFactory.decodeStream(fis, null, o);
-	        try {
-				fis.close();
-			} catch (IOException e) {				
-				logger.info("Couldn't close file input stream");
-			}
-
-	        int scale = 1;
-	        if (o.outHeight > IMAGE_MAX_SIZE || o.outWidth > IMAGE_MAX_SIZE) {
-	            scale = (int) Math.pow(2, (int) Math.round(Math.log(IMAGE_MAX_SIZE / (double) Math.max(o.outHeight, o.outWidth)) / Math.log(0.5)));
-	        }
-
-	        //Decode with inSampleSize
-	        BitmapFactory.Options o2 = new BitmapFactory.Options();
-	        o2.inInputShareable = true;
-	        o2.inPurgeable = true;
-    		o2.inPreferredConfig = Bitmap.Config.RGB_565;
-	        o2.inSampleSize = scale;
+	        o.inInputShareable = true;
+	        o.inPurgeable = true;
+	        o.inTempStorage = new byte [16 * 1024];
+    		o.inPreferredConfig = Bitmap.Config.RGB_565;
 	        
-	        fis = new FileInputStream(f);
-	        b = BitmapFactory.decodeStream(fis, null, o2);
+    		FileInputStream fis = new FileInputStream(f);
+	        b = BitmapFactory.decodeStream(fis, null, o);
 	        try {
 				fis.close();
 			} catch (IOException e) {

@@ -54,13 +54,11 @@ import es.eucm.eadventure.engine.core.gameobjects.huds.BasicHUD;
 import es.eucm.eadventure.engine.core.platform.PlatformConfiguration;
 import es.eucm.eadventure.engine.core.platform.RuntimeAsset;
 import es.eucm.eadventure.engine.core.platform.impl.AbstractGUI;
-import es.eucm.eadventure.engine.extra.AndroidCanvas;
+import es.eucm.eadventure.engine.extra.BitmapCanvas;
 import es.eucm.eadventure.engine.extra.EAdventureRenderingThread;
 
 @Singleton
 public class AndroidGUI extends AbstractGUI<Canvas> {
-
-	private AndroidCanvas canvas;
 
 	@Inject
 	public AndroidGUI(PlatformConfiguration platformConfiguration,
@@ -96,7 +94,6 @@ public class AndroidGUI extends AbstractGUI<Canvas> {
 			// canvas.drawColor(Color.WHITE);
 			render(interpolation);
 		}
-
 	}
 
 	@Override
@@ -105,26 +102,26 @@ public class AndroidGUI extends AbstractGUI<Canvas> {
 		// TODO Process request, possible object could be an intent?
 	}
 
-	public void setCanvas(AndroidCanvas aCanvas) {
+	public void setCanvas(BitmapCanvas aCanvas) {
 
 		Matrix matrix = aCanvas.getMatrix();
 
 		if (platformConfiguration.isFullscreen())
-			matrix.postScale(
+			matrix.preScale(
 					(float) ((AndroidPlatformConfiguration) platformConfiguration)
 							.getScaleW(),
 					(float) ((AndroidPlatformConfiguration) platformConfiguration)
 							.getScaleH());
 		else
-			matrix.postScale(
+			matrix.preScale(
 					(float) ((AndroidPlatformConfiguration) platformConfiguration)
 							.getScaleH(),
 					(float) ((AndroidPlatformConfiguration) platformConfiguration)
 							.getScaleH());
 
 		aCanvas.setMatrix(matrix);
+		aCanvas.save();
 
-		this.canvas = aCanvas;
 		eAdCanvas.setGraphicContext(aCanvas);
 
 	}

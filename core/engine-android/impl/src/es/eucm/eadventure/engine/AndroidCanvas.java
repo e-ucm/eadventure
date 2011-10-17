@@ -40,9 +40,15 @@ public class AndroidCanvas extends AbstractCanvas<Canvas> {
 
 	@Override
 	public void setTransformation(EAdTransformation t) {
+		
+		g.restore();
+		
 		float m[] = t.getMatrix().getTransposedMatrix();
 		Matrix matrix = new Matrix();
 		matrix.setValues(m);
+		matrix.postConcat(g.getMatrix());
+		
+		g.save();		
 		g.setMatrix(matrix);
 
 		// TODO alpha
