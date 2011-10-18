@@ -14,7 +14,7 @@ public class EAdSceneController extends AbstractElementController<EAdScene> {
 
 	@Override
 	public Panel getPanel(View view) {
-		Panel panel = new PanelImpl(null);
+		Panel panel = new PanelImpl(null, Panel.LayoutPolicy.VERTICAL);
 
 		switch (view) {
 		case ADVANCED:
