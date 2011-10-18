@@ -59,5 +59,10 @@ public class ANDCondition extends ListedCondition {
 	public EmptyCondition getNullOperator() {
 		return new EmptyCondition(EmptyCondition.Value.TRUE);
 	}
+	
+	@Override
+	public String toString() {
+		return super.toString();
+	}
 
 }

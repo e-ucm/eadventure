@@ -88,5 +88,10 @@ public class EmptyCondition extends AbstractEAdCondition implements
 		}
 		return false;
 	}
+	
+	@Override
+	public String toString() {
+		return value.toString();
+	}
 
 }

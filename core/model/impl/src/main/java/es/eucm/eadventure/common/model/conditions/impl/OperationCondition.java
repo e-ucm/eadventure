@@ -138,6 +138,7 @@ public class OperationCondition extends AbstractEAdCondition implements
 		this.op2 = op2;
 	}
 	
+	@Override
 	public String toString(){
 		return op1 + " " + operator + " than " + op2;
 	}

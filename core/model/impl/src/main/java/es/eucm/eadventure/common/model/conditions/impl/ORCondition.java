@@ -56,4 +56,9 @@ public class ORCondition extends ListedCondition {
 		return new EmptyCondition(EmptyCondition.Value.FALSE);
 	}
 	
+	@Override
+	public String toString() {
+		return super.toString();
+	}
+
 }

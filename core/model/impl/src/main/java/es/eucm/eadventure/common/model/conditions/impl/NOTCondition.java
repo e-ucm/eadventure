@@ -76,4 +76,9 @@ public class NOTCondition extends EAdGeneralElementImpl implements EAdCondition 
 		this.condition = condition;
 	}
 	
+	@Override
+	public String toString() {
+		return "NOT " + condition.toString();
+	}
+
 }

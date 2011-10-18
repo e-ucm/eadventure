@@ -124,4 +124,15 @@ public abstract class ListedCondition extends EAdGeneralElementImpl implements E
 	}
 	
 	public abstract EmptyCondition getNullOperator();
+	
+	@Override
+	public String toString() {
+		String value = "(";
+		value += conditions.get(0);
+		for (int i = 1; i < conditions.size(); i++) {
+			value += " " + operator.toString() + " " + conditions.get(i).toString();
+		}
+		return value + ")";
+	}
+
 }
