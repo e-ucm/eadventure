@@ -102,10 +102,20 @@ public class ComplexSceneElementGO extends
 	@Override
 	public boolean processAction(GUIAction action) {
 		EAdList<EAdEffect> list = element.getEffects(action.getGUIEvent());
+		boolean processed = addEffects( list, action );
+		if ( element.getDefinition() != element ){
+			list = element.getDefinition().getEffects(action.getGUIEvent());
+			processed |= addEffects( list, action );
+		}
+		return processed;
+
+	}
+	
+	private boolean addEffects( EAdList<EAdEffect> list, GUIAction action ){
 		if (list != null && list.size() > 0) {
 			action.consume();
-			for (EAdEffect e : element.getEffects(action.getGUIEvent())) {
-				gameState.addEffect(e);
+			for (EAdEffect e : list) {
+				gameState.addEffect(e, action);
 			}
 			return true;
 		}

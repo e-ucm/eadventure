@@ -126,11 +126,11 @@ public abstract class SceneElementGOImpl<T extends EAdSceneElement> extends
 	@Override
 	public void setElement(T element) {
 		super.setElement(element);
-		
-		if ( element.isClone() ){
+
+		if (element.isClone()) {
 			valueMap.remove(element);
 		}
-		
+
 		for (Entry<EAdVarDef<?>, Object> entry : element.getVars().entrySet()) {
 			// FIXME this has to change, to disappear
 			valueMap.setValue(entry.getKey(), entry.getValue(), element);
@@ -254,8 +254,8 @@ public abstract class SceneElementGOImpl<T extends EAdSceneElement> extends
 
 	@Override
 	public AssetDescriptor getCurrentAssetDescriptor() {
-		AssetDescriptor a = element.getResources().getAsset(getCurrentBundle(),
-				EAdBasicSceneElement.appearance);
+		AssetDescriptor a = element.getDefinition().getResources()
+				.getAsset(getCurrentBundle(), EAdBasicSceneElement.appearance);
 
 		return getCurrentAssetDescriptor(a);
 	}
