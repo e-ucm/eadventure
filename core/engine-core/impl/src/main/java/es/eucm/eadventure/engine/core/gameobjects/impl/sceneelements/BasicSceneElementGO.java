@@ -75,7 +75,7 @@ public class BasicSceneElementGO extends SceneElementGOImpl<EAdBasicSceneElement
 	 * @see es.eucm.eadventure.engine.core.gameobjects.impl.SceneElementGOImpl#getDraggableElement(es.eucm.eadventure.engine.core.MouseState)
 	 */
 	public GameObject<?> getDraggableElement(MouseState mouseState) {
-		if (evaluatorFactory.evaluate(element.getDraggabe()))
+		if (evaluatorFactory.evaluate(element.getDraggableCondition()))
 			return this;
 		return null;
 	}

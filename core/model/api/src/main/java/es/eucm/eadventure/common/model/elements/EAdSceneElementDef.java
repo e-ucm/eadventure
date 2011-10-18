@@ -45,6 +45,7 @@ import es.eucm.eadventure.common.interfaces.features.Evented;
 import es.eucm.eadventure.common.interfaces.features.Named;
 import es.eucm.eadventure.common.interfaces.features.Resourced;
 import es.eucm.eadventure.common.model.EAdElement;
+import es.eucm.eadventure.common.params.EAdString;
 
 /**
  * Scene element definition in the eAdventure model. Definition for scene elements, placed in
@@ -52,5 +53,9 @@ import es.eucm.eadventure.common.model.EAdElement;
  */
 public interface EAdSceneElementDef extends EAdElement, Resourced, WithBehavior,
 		Documented, Named, Evented, WithActions, Draggable {
+
+	EAdString getDescription();
+	
+	EAdString getDetailedDescription();
 
 }

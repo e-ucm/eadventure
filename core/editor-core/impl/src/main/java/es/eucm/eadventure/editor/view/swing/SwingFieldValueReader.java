@@ -10,11 +10,6 @@ import es.eucm.eadventure.editor.view.generics.FieldDescriptor;
 public class SwingFieldValueReader implements FieldValueReader {
 
 	/**
-	 * Descriptor for the corresponding property
-	 */
-	protected PropertyDescriptor pd;
-
-	/**
 	 * reads the value of the model object that is being configured
 	 *  
 	 * @return
@@ -23,7 +18,7 @@ public class SwingFieldValueReader implements FieldValueReader {
 	@Override
 	public <S> S readValue(FieldDescriptor<S> fieldDescriptor) {
 		try {
-			if (pd == null) pd = getPropertyDescriptor(fieldDescriptor.getElement().getClass(), fieldDescriptor.getFieldName());
+			PropertyDescriptor pd = getPropertyDescriptor(fieldDescriptor.getElement().getClass(), fieldDescriptor.getFieldName());
 			S value = (S) pd.getReadMethod().invoke(fieldDescriptor.getElement());				
 			return value;
 		} catch (Exception e) {

@@ -76,7 +76,7 @@ public class EAdSceneElementDefImpl extends AbstractEAdElementWithBehavior
 	@Param("documentation")
 	private final EAdString documentation;
 
-	@Param("draggable")
+	@Param("draggableCondition")
 	private EAdCondition draggableCondition;
 
 	public EAdSceneElementDefImpl(String id) {
@@ -102,7 +102,7 @@ public class EAdSceneElementDefImpl extends AbstractEAdElementWithBehavior
 	}
 
 	@Override
-	public EAdCondition getDraggabe() {
+	public EAdCondition getDraggableCondition() {
 		return draggableCondition;
 	}
 

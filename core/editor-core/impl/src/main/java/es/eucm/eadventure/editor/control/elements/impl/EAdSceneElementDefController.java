@@ -1,8 +1,10 @@
 package es.eucm.eadventure.editor.control.elements.impl;
 
+import es.eucm.eadventure.common.model.elements.EAdCondition;
 import es.eucm.eadventure.common.model.elements.EAdSceneElementDef;
 import es.eucm.eadventure.common.params.EAdString;
 import es.eucm.eadventure.editor.view.generics.Panel;
+import es.eucm.eadventure.editor.view.generics.impl.EAdConditionOption;
 import es.eucm.eadventure.editor.view.generics.impl.EAdStringOption;
 import es.eucm.eadventure.editor.view.generics.impl.FieldDescriptorImpl;
 import es.eucm.eadventure.editor.view.generics.impl.PanelImpl;
@@ -45,6 +47,13 @@ public class EAdSceneElementDefController extends AbstractElementController<EAdS
 							"this is the documentation",
 							new FieldDescriptorImpl<EAdString>(element,
 									"documentation")));
+			
+			panel.addElement(
+					new EAdConditionOption("draggable condition",
+							"edit draggable condition",
+							new FieldDescriptorImpl<EAdCondition>(element,
+									"draggableCondition"),
+							EAdConditionOption.View.DETAILED));
 			
 		
 			break;

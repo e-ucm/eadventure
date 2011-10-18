@@ -9,6 +9,7 @@ import es.eucm.eadventure.editor.control.CommandManager;
 import es.eucm.eadventure.editor.control.FieldValueReader;
 import es.eucm.eadventure.editor.view.ComponentProvider;
 import es.eucm.eadventure.editor.view.generics.impl.BooleanOption;
+import es.eucm.eadventure.editor.view.generics.impl.EAdConditionOption;
 import es.eucm.eadventure.editor.view.generics.impl.EAdListOption;
 import es.eucm.eadventure.editor.view.generics.impl.EAdStringOption;
 import es.eucm.eadventure.editor.view.generics.impl.ElementOption;
@@ -25,7 +26,8 @@ public class SwingProviderFactory extends AbstractProviderFactory<JComponent> {
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Inject
-	public SwingProviderFactory(StringHandler stringHandler, CommandManager commandManager) {
+	public SwingProviderFactory(StringHandler stringHandler,
+			CommandManager commandManager) {
 		super();
 		FieldValueReader fieldValueReader = new SwingFieldValueReader();
 
@@ -44,8 +46,12 @@ public class SwingProviderFactory extends AbstractProviderFactory<JComponent> {
 		this.addToMap(
 				EAdListOption.class,
 				(ComponentProvider) new EAdListComponentProvider(commandManager));
-		this.addToMap(SceneInterfaceElement.class, 
-				(ComponentProvider) new SceneEditionComponentProvider(commandManager));
+		this.addToMap(EAdConditionOption.class,
+				(ComponentProvider) new EAdConditionComponentProvider(
+						fieldValueReader));
+		this.addToMap(SceneInterfaceElement.class,
+				(ComponentProvider) new SceneEditionComponentProvider(
+						commandManager));
 	}
 
 }
