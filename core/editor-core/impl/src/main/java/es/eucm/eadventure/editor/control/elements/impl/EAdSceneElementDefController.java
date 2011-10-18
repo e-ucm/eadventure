@@ -1,16 +1,13 @@
 package es.eucm.eadventure.editor.control.elements.impl;
 
-import es.eucm.eadventure.common.model.elements.EAdScene;
-import es.eucm.eadventure.common.model.elements.EAdSceneElement;
+import es.eucm.eadventure.common.model.elements.EAdSceneElementDef;
 import es.eucm.eadventure.common.params.EAdString;
 import es.eucm.eadventure.editor.view.generics.Panel;
 import es.eucm.eadventure.editor.view.generics.impl.EAdStringOption;
-import es.eucm.eadventure.editor.view.generics.impl.ElementOption;
 import es.eucm.eadventure.editor.view.generics.impl.FieldDescriptorImpl;
 import es.eucm.eadventure.editor.view.generics.impl.PanelImpl;
-import es.eucm.eadventure.editor.view.generics.impl.SceneInterfaceElement;
 
-public class EAdSceneController extends AbstractElementController<EAdScene> {
+public class EAdSceneElementDefController extends AbstractElementController<EAdSceneElementDef> {
 
 	@Override
 	public Panel getPanel(View view) {
@@ -30,22 +27,26 @@ public class EAdSceneController extends AbstractElementController<EAdScene> {
 							"this is the name",
 							new FieldDescriptorImpl<EAdString>(element, "name"),
 							EAdStringOption.ExpectedLength.SHORT));
-			
+
+			panel.addElement(
+					new EAdStringOption("description",
+							"this is the description",
+							new FieldDescriptorImpl<EAdString>(element,
+									"description")));
+
+			panel.addElement(
+					new EAdStringOption("detailed description",
+							"this is the detailed description",
+							new FieldDescriptorImpl<EAdString>(element,
+									"detailedDescription")));
+
 			panel.addElement(
 					new EAdStringOption(Messages.documentation,
 							"this is the documentation",
 							new FieldDescriptorImpl<EAdString>(element,
-									"documentation"),
-							EAdStringOption.ExpectedLength.LONG));
+									"documentation")));
 			
-			panel.addElement(
-					new ElementOption<EAdSceneElement>(Messages.background,
-							"this is the scene background",
-							new FieldDescriptorImpl<EAdSceneElement>(element,
-									"background")));
 		
-			panel.addElement(
-					new SceneInterfaceElement(element));
 			break;
 		}
 

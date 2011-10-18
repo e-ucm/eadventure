@@ -1,7 +1,9 @@
 package es.eucm.eadventure.editor.view.swing;
 
+import javax.swing.JComponent;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
+import javax.swing.text.JTextComponent;
 
 import es.eucm.eadventure.common.params.EAdString;
 import es.eucm.eadventure.common.resources.StringHandler;
@@ -10,6 +12,7 @@ import es.eucm.eadventure.editor.control.FieldValueReader;
 import es.eucm.eadventure.editor.control.commands.impl.ChangeEAdStringValueCommand;
 import es.eucm.eadventure.editor.view.ComponentProvider;
 import es.eucm.eadventure.editor.view.generics.impl.EAdStringOption;
+import es.eucm.eadventure.gui.EAdTextArea;
 import es.eucm.eadventure.gui.EAdTextField;
 
 /**
@@ -21,7 +24,7 @@ import es.eucm.eadventure.gui.EAdTextField;
  * 
  */
 public class EAdStringComponentProvider implements
-		ComponentProvider<EAdStringOption, EAdTextField> {
+		ComponentProvider<EAdStringOption, JComponent> {
 
 	/**
 	 * The current {@link StringHandler} that maps {@link EAdString}s with their
@@ -64,18 +67,22 @@ public class EAdStringComponentProvider implements
 	 * .eadventure.editor.view.generics.InterfaceElement)
 	 */
 	@Override
-	public EAdTextField getComponent(EAdStringOption element) {
-		EAdTextField textField;
+	public JComponent getComponent(EAdStringOption element) {
+		JComponent component = null;
+		JTextComponent textField;
 		switch (element.getExpectedLength()) {
 		case LONG:
-			textField = new EAdTextField(element.getTitle(), 60);
+			component = new EAdTextArea(element.getTitle());
+			textField = ((EAdTextArea) component).getTextArea();
 			break;
 		case SHORT:
 			textField = new EAdTextField(element.getTitle(), 20);
+			component = textField;
 			break;
 		case NORMAL:
 		default:
 			textField = new EAdTextField(element.getTitle());
+			component = textField;
 		}
 		textField.setToolTipText(element.getToolTipText());
 
@@ -86,7 +93,7 @@ public class EAdStringComponentProvider implements
 				new TextFieldDocumentListener(fieldValueReader
 						.readValue(element.getFieldDescriptor()), textField));
 
-		return textField;
+		return component;
 	}
 
 	/**
@@ -101,17 +108,17 @@ public class EAdStringComponentProvider implements
 		private EAdString key;
 
 		/**
-		 * The actual {@link EAdTextField}, used to get the current value
+		 * The actual JTextComponent, used to get the current value
 		 */
-		private EAdTextField textField;
+		private JTextComponent textField;
 
 		/**
 		 * @param key
 		 *            The {@link EAdString}
 		 * @param textField
-		 *            The {@link EAdTextField}
+		 *            The JTextComponent
 		 */
-		public TextFieldDocumentListener(EAdString key, EAdTextField textField) {
+		public TextFieldDocumentListener(EAdString key, JTextComponent textField) {
 			this.key = key;
 			this.textField = textField;
 		}
