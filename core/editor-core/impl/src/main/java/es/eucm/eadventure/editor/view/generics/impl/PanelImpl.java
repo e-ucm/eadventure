@@ -12,9 +12,12 @@ public class PanelImpl implements Panel {
 	
 	private String title;
 	
-	public PanelImpl(String title) {
+	private LayoutPolicy layoutPolicy;
+	
+	public PanelImpl(String title, LayoutPolicy layoutPolicy) {
 		elements = new ArrayList<InterfaceElement>();
 		this.title = title;
+		this.layoutPolicy = layoutPolicy;
 	}
 
 	@Override
@@ -30,6 +33,11 @@ public class PanelImpl implements Panel {
 	@Override
 	public void addElement(InterfaceElement element) {
 		elements.add(element);
+	}
+
+	@Override
+	public LayoutPolicy getLayoutPolicy() {
+		return layoutPolicy;
 	}
 
 }

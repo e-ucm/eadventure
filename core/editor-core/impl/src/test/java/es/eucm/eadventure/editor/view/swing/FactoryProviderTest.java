@@ -42,7 +42,7 @@ public class FactoryProviderTest extends EAdFrame {
         
         TextOption option = new TextOption("name", "toolTip", fieldDescriptor);
         TextOption option2 = new TextOption("name2", "toolTip", fieldDescriptor, TextOption.ExpectedLength.LONG);
-        Panel panel = new PanelImpl("title");
+        Panel panel = new PanelImpl("title", Panel.LayoutPolicy.VERTICAL);
         panel.getElements().add(option);
         panel.getElements().add(option2);
 
