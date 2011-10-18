@@ -69,6 +69,7 @@ public class SceneDemos {
 		sceneDemos.add(new DragDropScene());
 		sceneDemos.add(new PositionScene());
 		sceneDemos.add(new DepthZScene());
+		sceneDemos.add(new SharingEffectsScene());
 		
 	}
 

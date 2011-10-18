@@ -16,6 +16,12 @@ public interface EAdField<T> extends EAdElement, EAdOperation {
 	 * @return
 	 */
 	EAdElement getElement();
+	
+	/**
+	 * Returns a field pointing to the element of this field, if exists
+	 * @return
+	 */
+	EAdField<EAdElement> getElementField();
 
 	/**
 	 * Returns the variable definition for the field
