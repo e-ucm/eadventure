@@ -52,7 +52,6 @@ import es.eucm.eadventure.engine.core.gameobjects.impl.GameObjectImpl;
 import es.eucm.eadventure.engine.core.guiactions.GUIAction;
 import es.eucm.eadventure.engine.core.platform.AssetHandler;
 import es.eucm.eadventure.engine.core.platform.GUI;
-import es.eucm.eadventure.engine.core.platform.PlatformConfiguration;
 
 public abstract class AbstractEffectGO<P extends EAdEffect> extends
 		GameObjectImpl<P> implements EffectGO<P> {
@@ -66,10 +65,8 @@ public abstract class AbstractEffectGO<P extends EAdEffect> extends
 	@Inject
 	public AbstractEffectGO(AssetHandler assetHandler,
 			StringHandler stringsReader, GameObjectFactory gameObjectFactory,
-			GUI gui, GameState gameState, ValueMap valueMap,
-			PlatformConfiguration platformConfiguration) {
-		super(assetHandler, stringsReader, gameObjectFactory, gui, gameState,
-				valueMap, platformConfiguration);
+			GUI gui, GameState gameState, ValueMap valueMap) {
+		super(assetHandler, stringsReader, gameObjectFactory, gui, gameState, valueMap);
 	}
 
 	@Override

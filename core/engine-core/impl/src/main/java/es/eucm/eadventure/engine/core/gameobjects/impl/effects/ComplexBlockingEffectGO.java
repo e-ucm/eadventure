@@ -50,7 +50,6 @@ import es.eucm.eadventure.engine.core.gameobjects.GameObjectFactory;
 import es.eucm.eadventure.engine.core.gameobjects.SceneElementGO;
 import es.eucm.eadventure.engine.core.platform.AssetHandler;
 import es.eucm.eadventure.engine.core.platform.GUI;
-import es.eucm.eadventure.engine.core.platform.PlatformConfiguration;
 import es.eucm.eadventure.engine.core.util.EAdTransformation;
 
 public class ComplexBlockingEffectGO extends
@@ -59,10 +58,9 @@ public class ComplexBlockingEffectGO extends
 	@Inject
 	public ComplexBlockingEffectGO(AssetHandler assetHandler,
 			StringHandler stringHandler, GameObjectFactory gameObjectFactory,
-			GUI gui, GameState gameState, ValueMap valueMap,
-			PlatformConfiguration platformConfiguration) {
+			GUI gui, GameState gameState, ValueMap valueMap) {
 		super(assetHandler, stringHandler, gameObjectFactory, gui, gameState,
-				valueMap, platformConfiguration);
+				valueMap);
 	}
 
 	@Override

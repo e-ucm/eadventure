@@ -47,17 +47,14 @@ import es.eucm.eadventure.engine.core.ValueMap;
 import es.eucm.eadventure.engine.core.gameobjects.GameObjectFactory;
 import es.eucm.eadventure.engine.core.platform.AssetHandler;
 import es.eucm.eadventure.engine.core.platform.GUI;
-import es.eucm.eadventure.engine.core.platform.PlatformConfiguration;
 
 public class TriggerMacroEffectGO extends AbstractEffectGO<EAdTriggerMacro> {
 
 	@Inject
 	public TriggerMacroEffectGO(AssetHandler assetHandler,
 			StringHandler stringHandler, GameObjectFactory gameObjectFactory,
-			GUI gui, GameState gameState, ValueMap valueMap,
-			PlatformConfiguration platformConfiguration) {
-		super(assetHandler, stringHandler, gameObjectFactory, gui, gameState, valueMap,
-				platformConfiguration);
+			GUI gui, GameState gameState, ValueMap valueMap) {
+		super(assetHandler, stringHandler, gameObjectFactory, gui, gameState, valueMap);
 	}
 
 	@Override

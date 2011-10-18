@@ -52,7 +52,6 @@ import es.eucm.eadventure.engine.core.gameobjects.SceneGO;
 import es.eucm.eadventure.engine.core.platform.AssetHandler;
 import es.eucm.eadventure.engine.core.platform.EAdCanvas;
 import es.eucm.eadventure.engine.core.platform.GUI;
-import es.eucm.eadventure.engine.core.platform.PlatformConfiguration;
 import es.eucm.eadventure.engine.core.platform.RuntimeAsset;
 import es.eucm.eadventure.engine.core.util.EAdTransformation;
 
@@ -66,10 +65,9 @@ public class ComposedSceneGOImpl extends DrawableGameObject<EAdComposedScene>
 	@Inject
 	public ComposedSceneGOImpl(AssetHandler assetHandler,
 			StringHandler stringsReader, GameObjectFactory gameObjectFactory,
-			GUI gui, GameState gameState, ValueMap valueMap,
-			PlatformConfiguration platformConfiguration) {
+			GUI gui, GameState gameState, ValueMap valueMap) {
 		super(assetHandler, stringsReader, gameObjectFactory, gui, gameState,
-				valueMap, platformConfiguration);
+				valueMap);
 		logger.info("New instance");
 	}
 

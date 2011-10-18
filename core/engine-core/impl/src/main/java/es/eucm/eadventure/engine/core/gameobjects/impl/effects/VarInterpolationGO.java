@@ -51,7 +51,6 @@ import es.eucm.eadventure.engine.core.gameobjects.GameObjectFactory;
 import es.eucm.eadventure.engine.core.operator.OperatorFactory;
 import es.eucm.eadventure.engine.core.platform.AssetHandler;
 import es.eucm.eadventure.engine.core.platform.GUI;
-import es.eucm.eadventure.engine.core.platform.PlatformConfiguration;
 
 public class VarInterpolationGO extends
 		AbstractEffectGO<EAdVarInterpolationEffect> {
@@ -80,10 +79,9 @@ public class VarInterpolationGO extends
 	public VarInterpolationGO(AssetHandler assetHandler,
 			StringHandler stringHandler, GameObjectFactory gameObjectFactory,
 			GUI gui, GameState gameState, ValueMap valueMap,
-			PlatformConfiguration platformConfiguration,
 			OperatorFactory operatorFactory) {
 		super(assetHandler, stringHandler, gameObjectFactory, gui, gameState,
-				valueMap, platformConfiguration);
+				valueMap);
 		this.operatorFactory = operatorFactory;
 	}
 

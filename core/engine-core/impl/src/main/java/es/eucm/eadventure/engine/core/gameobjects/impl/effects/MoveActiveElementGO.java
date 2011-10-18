@@ -56,7 +56,6 @@ import es.eucm.eadventure.engine.core.gameobjects.GameObjectFactory;
 import es.eucm.eadventure.engine.core.guiactions.MouseAction;
 import es.eucm.eadventure.engine.core.platform.AssetHandler;
 import es.eucm.eadventure.engine.core.platform.GUI;
-import es.eucm.eadventure.engine.core.platform.PlatformConfiguration;
 import es.eucm.eadventure.engine.core.trajectories.Path;
 import es.eucm.eadventure.engine.core.trajectories.PathSide;
 import es.eucm.eadventure.engine.core.trajectories.TrajectoryFactory;
@@ -69,10 +68,9 @@ public class MoveActiveElementGO extends AbstractEffectGO<EAdMoveActiveElement> 
 	public MoveActiveElementGO(AssetHandler assetHandler,
 			StringHandler stringHandler, GameObjectFactory gameObjectFactory,
 			GUI gui, GameState gameState, ValueMap valueMap,
-			PlatformConfiguration platformConfiguration,
 			TrajectoryFactory trajectoryFactory) {
 		super(assetHandler, stringHandler, gameObjectFactory, gui, gameState,
-				valueMap, platformConfiguration);
+				valueMap);
 		this.trajectoryFactory = trajectoryFactory;
 	}
 

@@ -15,7 +15,6 @@ import es.eucm.eadventure.engine.core.gameobjects.GameObjectFactory;
 import es.eucm.eadventure.engine.core.guiactions.GUIAction;
 import es.eucm.eadventure.engine.core.platform.AssetHandler;
 import es.eucm.eadventure.engine.core.platform.GUI;
-import es.eucm.eadventure.engine.core.platform.PlatformConfiguration;
 import es.eucm.eadventure.engine.core.platform.RuntimeAsset;
 import es.eucm.eadventure.engine.core.util.EAdTransformation;
 import es.eucm.eadventure.engine.core.util.impl.EAdTransformationImpl;
@@ -40,8 +39,6 @@ public abstract class GameObjectImpl<T extends EAdElement> implements
 
 	protected ValueMap valueMap;
 
-	protected PlatformConfiguration platformConfiguration;
-
 	protected T element;
 
 	protected EAdTransformationImpl transformation;
@@ -49,15 +46,13 @@ public abstract class GameObjectImpl<T extends EAdElement> implements
 	@Inject
 	public GameObjectImpl(AssetHandler assetHandler,
 			StringHandler stringReader, GameObjectFactory gameObjectFactory,
-			GUI gui, GameState gameState, ValueMap valueMap,
-			PlatformConfiguration platformConfiguration) {
+			GUI gui, GameState gameState, ValueMap valueMap) {
 		this.assetHandler = assetHandler;
 		this.stringsReader = stringReader;
 		this.gameObjectFactory = gameObjectFactory;
 		this.gui = gui;
 		this.gameState = gameState;
 		this.valueMap = valueMap;
-		this.platformConfiguration = platformConfiguration;
 	}
 
 	@Override

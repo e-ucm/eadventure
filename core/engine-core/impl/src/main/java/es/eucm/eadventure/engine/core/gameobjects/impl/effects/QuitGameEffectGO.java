@@ -47,7 +47,6 @@ import es.eucm.eadventure.engine.core.gameobjects.GameObject;
 import es.eucm.eadventure.engine.core.gameobjects.GameObjectFactory;
 import es.eucm.eadventure.engine.core.platform.AssetHandler;
 import es.eucm.eadventure.engine.core.platform.GUI;
-import es.eucm.eadventure.engine.core.platform.PlatformConfiguration;
 import es.eucm.eadventure.engine.core.platform.PlatformControl;
 
 /**
@@ -65,9 +64,8 @@ public class QuitGameEffectGO extends AbstractEffectGO<EAdQuitGame> {
 	public QuitGameEffectGO(AssetHandler assetHandler,
 			StringHandler stringHandler, GameObjectFactory gameObjectFactory,
 			GUI gui, GameState gameState, ValueMap valueMap,
-			PlatformConfiguration platformConfiguration, PlatformControl platformControl) {
-		super(assetHandler, stringHandler, gameObjectFactory, gui, gameState, valueMap,
-				platformConfiguration);
+			PlatformControl platformControl) {
+		super(assetHandler, stringHandler, gameObjectFactory, gui, gameState, valueMap);
 		this.platformControl = platformControl;
 	}
 

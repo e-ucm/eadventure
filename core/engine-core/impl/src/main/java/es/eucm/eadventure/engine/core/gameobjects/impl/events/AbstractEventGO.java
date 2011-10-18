@@ -50,7 +50,6 @@ import es.eucm.eadventure.engine.core.gameobjects.GameObjectFactory;
 import es.eucm.eadventure.engine.core.gameobjects.impl.GameObjectImpl;
 import es.eucm.eadventure.engine.core.platform.AssetHandler;
 import es.eucm.eadventure.engine.core.platform.GUI;
-import es.eucm.eadventure.engine.core.platform.PlatformConfiguration;
 
 public abstract class AbstractEventGO<T extends EAdEvent> extends GameObjectImpl<T> implements
 		GameObject<T> {
@@ -58,10 +57,8 @@ public abstract class AbstractEventGO<T extends EAdEvent> extends GameObjectImpl
 	@Inject
 	public AbstractEventGO(AssetHandler assetHandler,
 			StringHandler stringHandler, GameObjectFactory gameObjectFactory,
-			GUI gui, GameState gameState, ValueMap valueMap,
-			PlatformConfiguration platformConfiguration) {
-		super(assetHandler, stringHandler, gameObjectFactory, gui, gameState, valueMap,
-				platformConfiguration);
+			GUI gui, GameState gameState, ValueMap valueMap) {
+		super(assetHandler, stringHandler, gameObjectFactory, gui, gameState, valueMap);
 	}
 
 	/**

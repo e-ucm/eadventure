@@ -50,7 +50,6 @@ import es.eucm.eadventure.engine.core.gameobjects.SceneElementGO;
 import es.eucm.eadventure.engine.core.gameobjects.huds.ActionsHUD;
 import es.eucm.eadventure.engine.core.platform.AssetHandler;
 import es.eucm.eadventure.engine.core.platform.GUI;
-import es.eucm.eadventure.engine.core.platform.PlatformConfiguration;
 
 public class ActorActionsEffectGO extends
 		AbstractEffectGO<EAdActorActionsEffect> {
@@ -66,10 +65,9 @@ public class ActorActionsEffectGO extends
 	public ActorActionsEffectGO(AssetHandler assetHandler,
 			StringHandler stringHandler, GameObjectFactory gameObjectFactory,
 			GUI gui, GameState gameState, ValueMap valueMap,
-			PlatformConfiguration platformConfiguration,
 			GameObjectManager gameObjectManager, ActionsHUD actionsHUD) {
 		super(assetHandler, stringHandler, gameObjectFactory, gui, gameState,
-				valueMap, platformConfiguration);
+				valueMap);
 		this.actionsHUD = actionsHUD;
 		this.gameObjectManager = gameObjectManager;
 	}

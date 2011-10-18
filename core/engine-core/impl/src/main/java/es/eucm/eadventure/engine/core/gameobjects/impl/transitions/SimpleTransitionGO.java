@@ -92,10 +92,8 @@ public class SimpleTransitionGO extends SceneGOImpl implements TransitionGO {
 	@Inject
 	public SimpleTransitionGO(AssetHandler assetHandler,
 			StringHandler stringHandler, GameObjectFactory gameObjectFactory,
-			GUI gui, GameState gameState, ValueMap valueMap,
-			PlatformConfiguration platformConfiguration) {
-		super(assetHandler, stringHandler, gameObjectFactory, gui, gameState, valueMap,
-				platformConfiguration);
+			GUI gui, GameState gameState, ValueMap valueMap, PlatformConfiguration platformConfiguration) {
+		super(assetHandler, stringHandler, gameObjectFactory, gui, gameState, valueMap);
 
 		EAdString string = EAdString.newEAdString("Loading");
 		string.parse("Loading");

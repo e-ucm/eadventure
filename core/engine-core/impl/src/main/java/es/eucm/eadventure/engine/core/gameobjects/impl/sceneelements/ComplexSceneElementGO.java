@@ -59,7 +59,6 @@ import es.eucm.eadventure.engine.core.gameobjects.SceneElementGO;
 import es.eucm.eadventure.engine.core.guiactions.GUIAction;
 import es.eucm.eadventure.engine.core.platform.AssetHandler;
 import es.eucm.eadventure.engine.core.platform.GUI;
-import es.eucm.eadventure.engine.core.platform.PlatformConfiguration;
 import es.eucm.eadventure.engine.core.platform.RuntimeAsset;
 import es.eucm.eadventure.engine.core.util.EAdTransformation;
 
@@ -75,10 +74,9 @@ public class ComplexSceneElementGO extends
 	public ComplexSceneElementGO(AssetHandler assetHandler,
 			StringHandler stringHandler, GameObjectFactory gameObjectFactory,
 			GUI gui, GameState gameState, ValueMap valueMap,
-			PlatformConfiguration platformConfiguration,
 			EvaluatorFactory evaluatorFactory) {
 		super(assetHandler, stringHandler, gameObjectFactory, gui, gameState,
-				valueMap, platformConfiguration);
+				valueMap);
 		logger.info("New instance");
 		this.evaluatorFactory = evaluatorFactory;
 	}

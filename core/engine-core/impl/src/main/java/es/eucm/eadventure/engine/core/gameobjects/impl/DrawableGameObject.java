@@ -52,7 +52,6 @@ import es.eucm.eadventure.engine.core.gameobjects.GameObjectFactory;
 import es.eucm.eadventure.engine.core.gameobjects.impl.events.AbstractEventGO;
 import es.eucm.eadventure.engine.core.platform.AssetHandler;
 import es.eucm.eadventure.engine.core.platform.GUI;
-import es.eucm.eadventure.engine.core.platform.PlatformConfiguration;
 
 public abstract class DrawableGameObject<T extends EAdSceneElement> extends
 		GameObjectImpl<T> implements Renderable {
@@ -64,10 +63,9 @@ public abstract class DrawableGameObject<T extends EAdSceneElement> extends
 
 	public DrawableGameObject(AssetHandler assetHandler,
 			StringHandler stringsReader, GameObjectFactory gameObjectFactory,
-			GUI gui, GameState gameState, ValueMap valueMap,
-			PlatformConfiguration platformConfiguration) {
+			GUI gui, GameState gameState, ValueMap valueMap) {
 		super(assetHandler, stringsReader, gameObjectFactory, gui, gameState,
-				valueMap, platformConfiguration);
+				valueMap);
 	}
 
 	@Override

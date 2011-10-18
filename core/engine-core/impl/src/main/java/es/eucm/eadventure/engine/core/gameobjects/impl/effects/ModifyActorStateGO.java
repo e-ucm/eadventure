@@ -46,7 +46,6 @@ import es.eucm.eadventure.engine.core.ValueMap;
 import es.eucm.eadventure.engine.core.gameobjects.GameObjectFactory;
 import es.eucm.eadventure.engine.core.platform.AssetHandler;
 import es.eucm.eadventure.engine.core.platform.GUI;
-import es.eucm.eadventure.engine.core.platform.PlatformConfiguration;
 
 /**
  * <p>
@@ -64,10 +63,8 @@ public class ModifyActorStateGO extends AbstractEffectGO<EAdModifyActorState> {
 	@Inject
 	public ModifyActorStateGO(AssetHandler assetHandler,
 			StringHandler stringHandler, GameObjectFactory gameObjectFactory,
-			GUI gui, GameState gameState, ValueMap valueMap,
-			PlatformConfiguration platformConfiguration) {
-		super(assetHandler, stringHandler, gameObjectFactory, gui, gameState, valueMap,
-				platformConfiguration);
+			GUI gui, GameState gameState, ValueMap valueMap) {
+		super(assetHandler, stringHandler, gameObjectFactory, gui, gameState, valueMap);
 	}
 
 	/*

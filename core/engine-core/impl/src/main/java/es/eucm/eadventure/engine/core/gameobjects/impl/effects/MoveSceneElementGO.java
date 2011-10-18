@@ -61,7 +61,6 @@ import es.eucm.eadventure.engine.core.gameobjects.SceneElementGO;
 import es.eucm.eadventure.engine.core.operator.OperatorFactory;
 import es.eucm.eadventure.engine.core.platform.AssetHandler;
 import es.eucm.eadventure.engine.core.platform.GUI;
-import es.eucm.eadventure.engine.core.platform.PlatformConfiguration;
 
 /**
  * Game object for {@link EAdMoveSceneElement} effect
@@ -91,10 +90,9 @@ public class MoveSceneElementGO extends AbstractEffectGO<EAdMoveSceneElement> {
 	public MoveSceneElementGO(AssetHandler assetHandler,
 			StringHandler stringHandler, GameObjectFactory gameObjectFactory,
 			GUI gui, GameState gameState, ValueMap valueMap,
-			PlatformConfiguration platformConfiguration,
 			OperatorFactory operatorFactory) {
 		super(assetHandler, stringHandler, gameObjectFactory, gui, gameState,
-				valueMap, platformConfiguration);
+				valueMap);
 		this.operatorFactory = operatorFactory;
 		effectGOs = new ArrayList<EffectGO<?>>();
 	}

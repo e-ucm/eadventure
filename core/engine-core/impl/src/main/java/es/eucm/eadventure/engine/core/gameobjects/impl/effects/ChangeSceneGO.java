@@ -47,7 +47,6 @@ import es.eucm.eadventure.engine.core.gameobjects.GameObjectFactory;
 import es.eucm.eadventure.engine.core.gameobjects.TransitionGO;
 import es.eucm.eadventure.engine.core.platform.AssetHandler;
 import es.eucm.eadventure.engine.core.platform.GUI;
-import es.eucm.eadventure.engine.core.platform.PlatformConfiguration;
 import es.eucm.eadventure.engine.core.platform.TransitionFactory;
 
 public class ChangeSceneGO extends AbstractEffectGO<EAdChangeScene> {
@@ -57,10 +56,8 @@ public class ChangeSceneGO extends AbstractEffectGO<EAdChangeScene> {
 	@Inject
 	public ChangeSceneGO(AssetHandler assetHandler,
 			StringHandler stringHandler, GameObjectFactory gameObjectFactory,
-			GUI gui, GameState gameState, ValueMap valueMap,
-			PlatformConfiguration platformConfiguration, TransitionFactory transitionFactory) {
-		super(assetHandler, stringHandler, gameObjectFactory, gui, gameState, valueMap,
-				platformConfiguration);
+			GUI gui, GameState gameState, ValueMap valueMap,TransitionFactory transitionFactory) {
+		super(assetHandler, stringHandler, gameObjectFactory, gui, gameState, valueMap);
 		this.transitionFactory = transitionFactory;
 	}
 

@@ -48,7 +48,6 @@ import es.eucm.eadventure.engine.core.gameobjects.GameObjectFactory;
 import es.eucm.eadventure.engine.core.gameobjects.TimerGO;
 import es.eucm.eadventure.engine.core.platform.AssetHandler;
 import es.eucm.eadventure.engine.core.platform.GUI;
-import es.eucm.eadventure.engine.core.platform.PlatformConfiguration;
 
 public class TimerEventGO extends AbstractEventGO<EAdTimerEvent> {
 
@@ -57,9 +56,8 @@ public class TimerEventGO extends AbstractEventGO<EAdTimerEvent> {
 	@Inject
 	public TimerEventGO(AssetHandler assetHandler, StringHandler stringHandler,
 			GameObjectFactory gameObjectFactory, GUI gui, GameState gameState,
-			ValueMap valueMap, PlatformConfiguration platformConfiguration) {
-		super(assetHandler, stringHandler, gameObjectFactory, gui, gameState, valueMap,
-				platformConfiguration);
+			ValueMap valueMap) {
+		super(assetHandler, stringHandler, gameObjectFactory, gui, gameState, valueMap);
 	}
 	
 	@Override

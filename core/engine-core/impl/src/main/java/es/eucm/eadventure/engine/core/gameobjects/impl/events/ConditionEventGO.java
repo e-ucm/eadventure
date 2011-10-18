@@ -48,7 +48,6 @@ import es.eucm.eadventure.engine.core.evaluators.EvaluatorFactory;
 import es.eucm.eadventure.engine.core.gameobjects.GameObjectFactory;
 import es.eucm.eadventure.engine.core.platform.AssetHandler;
 import es.eucm.eadventure.engine.core.platform.GUI;
-import es.eucm.eadventure.engine.core.platform.PlatformConfiguration;
 
 public class ConditionEventGO extends AbstractEventGO<EAdConditionEventImpl> {
 
@@ -61,10 +60,8 @@ public class ConditionEventGO extends AbstractEventGO<EAdConditionEventImpl> {
 	@Inject
 	public ConditionEventGO(AssetHandler assetHandler,
 			StringHandler stringHandler, GameObjectFactory gameObjectFactory,
-			GUI gui, GameState gameState, ValueMap valueMap,
-			PlatformConfiguration platformConfiguration, EvaluatorFactory evaluator) {
-		super(assetHandler, stringHandler, gameObjectFactory, gui, gameState, valueMap,
-				platformConfiguration);
+			GUI gui, GameState gameState, ValueMap valueMap, EvaluatorFactory evaluator) {
+		super(assetHandler, stringHandler, gameObjectFactory, gui, gameState, valueMap);
 		this.evaluator = evaluator;
 	}
 

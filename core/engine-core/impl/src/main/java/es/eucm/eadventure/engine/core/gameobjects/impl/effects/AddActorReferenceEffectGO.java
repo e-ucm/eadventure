@@ -15,7 +15,6 @@ import es.eucm.eadventure.engine.core.ValueMap;
 import es.eucm.eadventure.engine.core.gameobjects.GameObjectFactory;
 import es.eucm.eadventure.engine.core.platform.AssetHandler;
 import es.eucm.eadventure.engine.core.platform.GUI;
-import es.eucm.eadventure.engine.core.platform.PlatformConfiguration;
 
 public class AddActorReferenceEffectGO extends
 		AbstractEffectGO<EAdAddActorReferenceEffect> {
@@ -23,10 +22,9 @@ public class AddActorReferenceEffectGO extends
 	@Inject
 	public AddActorReferenceEffectGO(AssetHandler assetHandler,
 			StringHandler stringsReader, GameObjectFactory gameObjectFactory,
-			GUI gui, GameState gameState, ValueMap valueMap,
-			PlatformConfiguration platformConfiguration) {
+			GUI gui, GameState gameState, ValueMap valueMap) {
 		super(assetHandler, stringsReader, gameObjectFactory, gui, gameState,
-				valueMap, platformConfiguration);
+				valueMap);
 	}
 
 	@Override

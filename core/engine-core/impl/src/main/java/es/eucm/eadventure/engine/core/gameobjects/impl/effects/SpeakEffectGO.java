@@ -44,13 +44,15 @@ public class SpeakEffectGO extends AbstractEffectGO<EAdSpeakEffect> {
 
 	private EAdBasicSceneElement textSE;
 
+	private PlatformConfiguration platformConfiguration;
+	
 	@Inject
 	public SpeakEffectGO(AssetHandler assetHandler,
 			StringHandler stringHandler, GameObjectFactory gameObjectFactory,
-			GUI gui, GameState gameState, ValueMap valueMap,
-			PlatformConfiguration platformConfiguration) {
+			GUI gui, GameState gameState, ValueMap valueMap, PlatformConfiguration platformConfiguration) {
 		super(assetHandler, stringHandler, gameObjectFactory, gui, gameState,
-				valueMap, platformConfiguration);
+				valueMap);
+		this.platformConfiguration = platformConfiguration;
 	}
 
 	@Override
@@ -84,6 +86,7 @@ public class SpeakEffectGO extends AbstractEffectGO<EAdSpeakEffect> {
 	}
 
 	private EAdSceneElement getSceneElement() {
+		//TODO Check if necessary to use platform configuration
 		int width = platformConfiguration.getVirtualWidth();
 		int height = platformConfiguration.getVirtualHeight();
 		int horizontalMargin = width / MARGIN_PROPORTION;

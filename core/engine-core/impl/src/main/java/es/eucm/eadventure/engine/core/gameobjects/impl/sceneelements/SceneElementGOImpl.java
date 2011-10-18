@@ -70,7 +70,6 @@ import es.eucm.eadventure.engine.core.platform.AssetHandler;
 import es.eucm.eadventure.engine.core.platform.DrawableAsset;
 import es.eucm.eadventure.engine.core.platform.EAdCanvas;
 import es.eucm.eadventure.engine.core.platform.GUI;
-import es.eucm.eadventure.engine.core.platform.PlatformConfiguration;
 import es.eucm.eadventure.engine.core.platform.RuntimeAsset;
 
 public abstract class SceneElementGOImpl<T extends EAdSceneElement> extends
@@ -103,10 +102,9 @@ public abstract class SceneElementGOImpl<T extends EAdSceneElement> extends
 	@Inject
 	public SceneElementGOImpl(AssetHandler assetHandler,
 			StringHandler stringHandler, GameObjectFactory gameObjectFactory,
-			GUI gui, GameState gameState, ValueMap valueMap,
-			PlatformConfiguration platformConfiguration) {
+			GUI gui, GameState gameState, ValueMap valueMap) {
 		super(assetHandler, stringHandler, gameObjectFactory, gui, gameState,
-				valueMap, platformConfiguration);
+				valueMap);
 		logger.info("New instance");
 	}
 

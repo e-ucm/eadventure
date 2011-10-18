@@ -52,7 +52,6 @@ import es.eucm.eadventure.engine.core.gameobjects.SceneGO;
 import es.eucm.eadventure.engine.core.platform.AssetHandler;
 import es.eucm.eadventure.engine.core.platform.EAdCanvas;
 import es.eucm.eadventure.engine.core.platform.GUI;
-import es.eucm.eadventure.engine.core.platform.PlatformConfiguration;
 import es.eucm.eadventure.engine.core.platform.SpecialAssetRenderer;
 import es.eucm.eadventure.engine.core.util.EAdTransformation;
 
@@ -68,10 +67,10 @@ public class VideoSceneGO extends DrawableGameObject<EAdVideoScene> implements
 	@Inject
 	public VideoSceneGO(AssetHandler assetHandler, StringHandler stringsReader,
 			GameObjectFactory gameObjectFactory, GUI gui, GameState gameState,
-			ValueMap valueMap, PlatformConfiguration platformConfiguration,
+			ValueMap valueMap,
 			SpecialAssetRenderer<Video, ?> specialAssetRenderer) {
 		super(assetHandler, stringsReader, gameObjectFactory, gui, gameState,
-				valueMap, platformConfiguration);
+				valueMap);
 		logger.info("New instance");
 		this.specialAssetRenderer = specialAssetRenderer;
 		this.component = null;

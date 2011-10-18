@@ -57,7 +57,6 @@ import es.eucm.eadventure.engine.core.gameobjects.impl.sceneelements.SceneElemen
 import es.eucm.eadventure.engine.core.guiactions.GUIAction;
 import es.eucm.eadventure.engine.core.platform.AssetHandler;
 import es.eucm.eadventure.engine.core.platform.GUI;
-import es.eucm.eadventure.engine.core.platform.PlatformConfiguration;
 import es.eucm.eadventure.engine.core.platform.RuntimeAsset;
 import es.eucm.eadventure.engine.core.util.EAdTransformation;
 
@@ -71,9 +70,8 @@ public class SceneGOImpl extends SceneElementGOImpl<EAdScene> implements
 	@Inject
 	public SceneGOImpl(AssetHandler assetHandler, StringHandler stringHandler,
 			GameObjectFactory gameObjectFactory, GUI gui, GameState gameState,
-			ValueMap valueMap, PlatformConfiguration platformConfiguration) {
-		super(assetHandler, stringHandler, gameObjectFactory, gui, gameState, valueMap,
-				platformConfiguration);
+			ValueMap valueMap) {
+		super(assetHandler, stringHandler, gameObjectFactory, gui, gameState, valueMap);
 		orderedElements = new ArrayList<EAdSceneElement>();
 	}
 
