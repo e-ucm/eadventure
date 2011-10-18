@@ -4,6 +4,7 @@ import com.google.gwt.inject.client.GinModules;
 import com.google.gwt.inject.client.Ginjector;
 
 import es.eucm.eadventure.engine.core.Game;
+import es.eucm.eadventure.engine.core.MouseState;
 import es.eucm.eadventure.engine.core.gameobjects.TimerGO;
 import es.eucm.eadventure.engine.core.gameobjects.impl.SceneGOImpl;
 import es.eucm.eadventure.engine.core.gameobjects.impl.effects.ActiveElementEffectGO;
@@ -89,5 +90,7 @@ public interface PlayNGinInjector extends Ginjector {
 	public PlayNEngineImage getPlayNEngineImage();
 
 	public AssetHandler getAssetHandler();
+
+	public MouseState getMouseState();
 	
 }

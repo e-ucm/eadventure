@@ -6,6 +6,8 @@ import playn.html.HtmlGame;
 import playn.html.HtmlPlatform;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.dom.client.CanvasElement;
+import com.google.gwt.dom.client.Document;
 
 import es.eucm.eadventure.common.elementfactories.scenedemos.ShapeScene;
 import es.eucm.eadventure.common.model.elements.EAdAdventureModel;
@@ -57,7 +59,7 @@ public class EAdEngineHtml extends HtmlGame {
 
 	    GUI gui = injector.getGUI();
 
-	    PlayN.run(new EAdEngine(game, gui, injector.getAssetHandler()));
+	    PlayN.run(new EAdEngine(game, gui, injector.getAssetHandler(), injector.getMouseState()));
 	}
 
 }
