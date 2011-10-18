@@ -46,12 +46,12 @@ import es.eucm.eadventure.common.data.chapter.elements.NPC;
 import es.eucm.eadventure.common.impl.importer.interfaces.EAdElementFactory;
 import es.eucm.eadventure.common.model.effects.impl.text.EAdSpeakEffect;
 import es.eucm.eadventure.common.model.elements.EAdCondition;
-import es.eucm.eadventure.common.model.elements.EAdSceneElement;
+import es.eucm.eadventure.common.model.elements.EAdSceneElementDef;
 import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
 import es.eucm.eadventure.common.model.variables.EAdField;
 import es.eucm.eadventure.common.model.variables.impl.EAdFieldImpl;
-import es.eucm.eadventure.common.params.fills.impl.EAdPaintImpl;
 import es.eucm.eadventure.common.params.fills.impl.EAdColor;
+import es.eucm.eadventure.common.params.fills.impl.EAdPaintImpl;
 import es.eucm.eadventure.common.resources.StringHandler;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.shapes.BallonShape.BalloonType;
 
@@ -109,7 +109,7 @@ public class SpeakPlayerEffectImporter extends
 				new EAdPaintImpl(bubbleCenter, bubbleBorder));
 
 		// FIXME Wrong, element holds an actor, and we need the reference
-		EAdSceneElement element = (EAdSceneElement) factory
+		EAdSceneElementDef element = (EAdSceneElementDef) factory
 				.getElementById(npc.getId());
 
 		EAdField<Integer> x = new EAdFieldImpl<Integer>(element,
