@@ -86,24 +86,25 @@ public class ValueMapImpl implements ValueMap {
 
 	@Override
 	public <S> void setValue(EAdElement element, EAdVarDef<S> varDef, S value) {
-			Map<EAdVarDef<?>, Object> valMap = element == null ? systemVars : map.get(element);
-			if (valMap == null) {
-				valMap = new HashMap<EAdVarDef<?>, Object>();
-				map.put(element, valMap);
-				logger.info("New value map String " + varDef.getType());
-			}
+		Map<EAdVarDef<?>, Object> valMap = element == null ? systemVars : map
+				.get(element);
+		if (valMap == null) {
+			valMap = new HashMap<EAdVarDef<?>, Object>();
+			map.put(element, valMap);
+			logger.info("New value map String " + varDef.getType());
+		}
 
-			valMap.put(varDef, value);
+		valMap.put(varDef, value);
 	}
 
 	@Override
 	public <S> void setValue(EAdField<S> field, S value) {
-		setValue(field.getElement(), field.getVarDefinition(), value);
+		setValue(getElement(field), field.getVarDefinition(), value);
 	}
 
 	@Override
 	public <S> S getValue(EAdField<S> var) {
-		return getValue(var.getElement(), var.getVarDefinition());
+		return getValue(getElement(var), var.getVarDefinition());
 	}
 
 	public <S> void setValue(EAdField<S> var, EAdOperation operation) {
@@ -162,9 +163,14 @@ public class ValueMapImpl implements ValueMap {
 	public <T> void setValue(EAdVarDef<T> varDef, T value) {
 		systemVars.put(varDef, value);
 	}
-	
-	public Map<EAdVarDef<?>, Object> getElementVars(EAdElement element){
+
+	public Map<EAdVarDef<?>, Object> getElementVars(EAdElement element) {
 		return element == null ? systemVars : map.get(element);
+	}
+
+	private EAdElement getElement(EAdField<?> field) {
+		return field.getElement() != null ? field.getElement() : getValue(field
+				.getElementField());
 	}
 
 }
