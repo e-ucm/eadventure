@@ -154,6 +154,10 @@ public class EAdRectangleImpl extends EAdParamImpl implements EAdRectangle {
 		this.y = position.getY();
 
 	}
+	
+	public String toString(){
+		return toStringData();
+	}
 
 	@Override
 	public String toStringData() {
