@@ -125,7 +125,6 @@ public class GameImpl implements Game {
 		this.gameObjectManager = gameObjectManager;
 		this.debugger = debugger;
 		this.basicHud = basicHUD;
-		this.basicHud.setGame(this);
 		this.valueMap = valueMap;
 		this.mouseState = mouseState;
 		initialTransformation.getMatrix().postScale(

@@ -40,12 +40,9 @@ package es.eucm.eadventure.common.model.elements.impl;
 import es.eucm.eadventure.common.interfaces.Element;
 import es.eucm.eadventure.common.interfaces.Param;
 import es.eucm.eadventure.common.model.elements.EAdScene;
-import es.eucm.eadventure.common.model.extra.EAdMap;
-import es.eucm.eadventure.common.model.extra.impl.EAdMapImpl;
 import es.eucm.eadventure.common.model.trajectories.TrajectoryDefinition;
 import es.eucm.eadventure.common.model.variables.EAdVarDef;
 import es.eucm.eadventure.common.model.variables.impl.EAdVarDefImpl;
-import es.eucm.eadventure.common.params.EAdString;
 
 /**
  * <p>
@@ -54,7 +51,7 @@ import es.eucm.eadventure.common.params.EAdString;
  * 
  */
 @Element(runtime = EAdSceneImpl.class, detailed = EAdSceneImpl.class)
-public class EAdSceneImpl extends EAdComposedElementImpl implements EAdScene {
+public class EAdSceneImpl extends EAdComplexElementImpl implements EAdScene {
 
 	public static final EAdVarDef<Boolean> VAR_SCENE_LOADED = new EAdVarDefImpl<Boolean>(
 			"scene_loaded", Boolean.class, Boolean.FALSE);
@@ -62,20 +59,11 @@ public class EAdSceneImpl extends EAdComposedElementImpl implements EAdScene {
 	public static final EAdVarDef<TrajectoryDefinition> VAR_TRAJECTORY_DEFINITION = new EAdVarDefImpl<TrajectoryDefinition>(
 			"trajectory_generator", TrajectoryDefinition.class, null);
 
-	@Param("name")
-	private final EAdString name;
-
-	@Param("documentation")
-	private final EAdString documentation;
-
 	@Param("background")
 	protected EAdBasicSceneElement background;
 
 	@Param("acceptsVisualEffects")
 	protected Boolean acceptsVisualEffects;
-
-	@Param("vars")
-	private EAdMap<EAdVarDef<?>, Object> vars;
 
 	/**
 	 * This property indicates if the game can return to this scene after a
@@ -95,23 +83,6 @@ public class EAdSceneImpl extends EAdComposedElementImpl implements EAdScene {
 		background = new EAdBasicSceneElement(id + "_background");
 		returnable = true;
 		acceptsVisualEffects = true;
-		name = EAdString.newEAdString("sceneName");
-		documentation = EAdString.newEAdString("sceneDocumentation");
-		vars = new EAdMapImpl<EAdVarDef<?>, Object>(EAdVarDef.class,
-				Object.class);
-	}
-
-	/**
-	 * @return the name
-	 */
-	public EAdString getName() {
-		return name;
-	}
-	/**
-	 * @return the documentation
-	 */
-	public EAdString getDocumentation() {
-		return documentation;
 	}
 
 	public EAdBasicSceneElement getBackground() {
@@ -139,17 +110,6 @@ public class EAdSceneImpl extends EAdComposedElementImpl implements EAdScene {
 	@Override
 	public Boolean acceptsVisualEffects() {
 		return acceptsVisualEffects;
-	}
-
-	@Override
-	public EAdMap<EAdVarDef<?>, Object> getVars() {
-		return vars;
-	}
-
-	@Override
-	public <T> void setVarInitialValue(EAdVarDef<T> var, T value) {
-		vars.put(var, value);
-
 	}
 
 }

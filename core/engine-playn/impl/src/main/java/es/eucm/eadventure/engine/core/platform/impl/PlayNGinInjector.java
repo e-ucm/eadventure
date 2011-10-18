@@ -4,8 +4,6 @@ import com.google.gwt.inject.client.GinModules;
 import com.google.gwt.inject.client.Ginjector;
 
 import es.eucm.eadventure.engine.core.Game;
-import es.eucm.eadventure.engine.core.gameobjects.ActorGO;
-import es.eucm.eadventure.engine.core.gameobjects.ActorReferenceGO;
 import es.eucm.eadventure.engine.core.gameobjects.TimerGO;
 import es.eucm.eadventure.engine.core.gameobjects.impl.SceneGOImpl;
 import es.eucm.eadventure.engine.core.gameobjects.impl.effects.ActiveElementEffectGO;
@@ -33,7 +31,6 @@ import es.eucm.eadventure.engine.core.gameobjects.impl.events.SceneElementEventG
 import es.eucm.eadventure.engine.core.gameobjects.impl.events.SceneElementTimedEventGO;
 import es.eucm.eadventure.engine.core.gameobjects.impl.events.SystemEventGO;
 import es.eucm.eadventure.engine.core.gameobjects.impl.events.TimerEventGO;
-import es.eucm.eadventure.engine.core.gameobjects.impl.inventory.BasicInventoryGO;
 import es.eucm.eadventure.engine.core.gameobjects.impl.sceneelements.BasicSceneElementGO;
 import es.eucm.eadventure.engine.core.gameobjects.impl.sceneelements.ComplexSceneElementGO;
 import es.eucm.eadventure.engine.core.gameobjects.impl.transitions.SimpleTransitionGO;
@@ -81,8 +78,6 @@ public interface PlayNGinInjector extends Ginjector {
 	public SystemEventGO getSystemEventGO();
 	public TimerEventGO getTimerEventGO();
 	
-	public ActorGO getActorGO();
-	public ActorReferenceGO getActorReferenceGO();
 	public BasicSceneElementGO getBasicSceneElementGO();
 	public ComplexSceneElementGO getComplexSceneElementGO();
 	
@@ -94,7 +89,5 @@ public interface PlayNGinInjector extends Ginjector {
 	public PlayNEngineImage getPlayNEngineImage();
 
 	public AssetHandler getAssetHandler();
-
-	public BasicInventoryGO getBasicInventoryGO();
 	
 }

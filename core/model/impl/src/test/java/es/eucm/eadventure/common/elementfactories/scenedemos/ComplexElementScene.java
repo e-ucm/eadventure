@@ -6,7 +6,7 @@ import es.eucm.eadventure.common.model.effects.impl.EAdVarInterpolationEffect.In
 import es.eucm.eadventure.common.model.effects.impl.EAdVarInterpolationEffect.LoopType;
 import es.eucm.eadventure.common.model.effects.impl.variables.EAdChangeFieldValueEffect;
 import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
-import es.eucm.eadventure.common.model.elements.impl.EAdComposedElementImpl;
+import es.eucm.eadventure.common.model.elements.impl.EAdComplexElementImpl;
 import es.eucm.eadventure.common.model.events.EAdSceneElementEvent;
 import es.eucm.eadventure.common.model.events.EAdSceneElementEvent.SceneElementEvent;
 import es.eucm.eadventure.common.model.events.impl.EAdSceneElementEventImpl;
@@ -25,7 +25,7 @@ public class ComplexElementScene extends EmptyScene {
 
 	public ComplexElementScene() {
 		EAdLinearGradient d = new EAdLinearGradient( EAdColor.BLACK, EAdColor.RED, 400, 400 );
-		EAdComposedElementImpl complex = new EAdComposedElementImpl("complex");
+		EAdComplexElementImpl complex = new EAdComplexElementImpl("complex");
 		RectangleShape rectangle = new RectangleShape(400, 400);
 		rectangle.setPaint(EAdPaintImpl.BLACK_ON_WHITE);
 		rectangle.setPaint(d);
@@ -91,7 +91,7 @@ public class ComplexElementScene extends EmptyScene {
 	}
 
 	@Override
-	public String getDescription() {
+	public String getSceneDescription() {
 		return "A scene to show complex elements";
 	}
 

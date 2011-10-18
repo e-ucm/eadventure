@@ -37,9 +37,7 @@
 
 package es.eucm.eadventure.engine.core.platform.impl.extra;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import com.google.inject.Inject;
 
@@ -55,10 +53,9 @@ import es.eucm.eadventure.common.model.effects.impl.EAdVarInterpolationEffect;
 import es.eucm.eadventure.common.model.effects.impl.sceneelements.EAdMoveSceneElement;
 import es.eucm.eadventure.common.model.effects.impl.sceneelements.EAdMoveSceneElement.MovementSpeed;
 import es.eucm.eadventure.common.model.effects.impl.variables.EAdChangeFieldValueEffect;
-import es.eucm.eadventure.common.model.elements.EAdActor;
-import es.eucm.eadventure.common.model.elements.impl.EAdActorReferenceImpl;
+import es.eucm.eadventure.common.model.elements.EAdSceneElementDef;
 import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
-import es.eucm.eadventure.common.model.elements.impl.EAdComposedElementImpl;
+import es.eucm.eadventure.common.model.elements.impl.EAdComplexElementImpl;
 import es.eucm.eadventure.common.model.guievents.impl.EAdMouseEventImpl;
 import es.eucm.eadventure.common.model.variables.impl.EAdFieldImpl;
 import es.eucm.eadventure.common.model.variables.impl.operations.BooleanOperation;
@@ -74,8 +71,6 @@ import es.eucm.eadventure.engine.core.GameState;
 import es.eucm.eadventure.engine.core.ValueMap;
 import es.eucm.eadventure.engine.core.gameobjects.GameObjectFactory;
 import es.eucm.eadventure.engine.core.gameobjects.SceneElementGO;
-import es.eucm.eadventure.engine.core.gameobjects.impl.inventory.BasicInventoryGO;
-import es.eucm.eadventure.engine.core.gameobjects.impl.sceneelements.ActorReferenceGOImpl;
 import es.eucm.eadventure.engine.core.platform.AssetHandler;
 import es.eucm.eadventure.engine.core.platform.EAdCanvas;
 import es.eucm.eadventure.engine.core.platform.GUI;
@@ -85,7 +80,7 @@ import es.eucm.eadventure.engine.core.util.EAdTransformation;
 /**
  * Desktop implementation of the {@link BasicInventoryGO}
  */
-public class DesktopBasicInventoryGO extends BasicInventoryGO {
+public class DesktopBasicInventoryGO {
 
 	/**
 	 * The height of the top and bottom sensors
@@ -115,58 +110,58 @@ public class DesktopBasicInventoryGO extends BasicInventoryGO {
 	/**
 	 * the actual inventory
 	 */
-	private EAdComposedElementImpl inventory;
+	private EAdComplexElementImpl inventory;
 
 	/**
 	 * the object that contains the elements in the inventory
 	 */
-	private EAdComposedElementImpl inventoryContent;
+	private EAdComplexElementImpl inventoryContent;
 
 	/**
 	 * the map of actors and actor references in the inventory
 	 */
-	private Map<EAdActor, EAdActorReferenceImpl> includedActors;
+//	private Map<EAdSceneElementDef, EAd> includedActors;
 
 	@Inject
 	public DesktopBasicInventoryGO(AssetHandler assetHandler,
 			StringHandler stringHandler, GameObjectFactory gameObjectFactory,
 			GUI gui, GameState gameState, ValueMap valueMap,
 			PlatformConfiguration platformConfiguration) {
-		super(assetHandler, stringHandler, gameObjectFactory, gui, gameState,
-				valueMap, platformConfiguration);
+//		super(assetHandler, stringHandler, gameObjectFactory, gui, gameState,
+//				valueMap, platformConfiguration);
 
-		inventory = new EAdComposedElementImpl("inventory");
-		inventory.setDraggabe(EmptyCondition.FALSE_EMPTY_CONDITION);
-		inventory.setPosition(new EAdPositionImpl(Corner.BOTTOM_LEFT, 0, 700));
-		RectangleShape rect2 = new RectangleShape(800, INVENTORY_HEIGHT,
-				EAdPaintImpl.BLACK_ON_WHITE);
-		inventory.getResources().addAsset(inventory.getInitialBundle(),
-				EAdBasicSceneElement.appearance, rect2);
-
-		inventoryContent = new EAdComposedElementImpl("inventoryContent");
-		inventoryContent.setDraggabe(EmptyCondition.FALSE_EMPTY_CONDITION);
-		inventoryContent.setPosition(new EAdPositionImpl(Corner.TOP_LEFT,
-				INVENTORY_HEIGHT / 2 + 10, 0));
-		rect2 = new RectangleShape(800, INVENTORY_HEIGHT,
-				EAdPaintImpl.TRANSPARENT);
-		inventoryContent.getResources().addAsset(
-				inventoryContent.getInitialBundle(),
-				EAdBasicSceneElement.appearance, rect2);
-		inventory.getElements().add(inventoryContent);
-
-		createArrow("Right", "+", 800, Corner.TOP_RIGHT);
-		createArrow("Left", "-", 0, Corner.TOP_LEFT);
-
-		RectangleShape rect = new RectangleShape(800, SENSE_HEIGHT + 2,
-				EAdPaintImpl.TRANSPARENT);
-
-		createCenterPart();
-
-		bottomSensor = createSensorPart(rect, 601, 600, 700);
-
-		topSensor = createSensorPart(rect, -1, 100, 0);
-
-		includedActors = new HashMap<EAdActor, EAdActorReferenceImpl>();
+//		inventory = new EAdComplexElementImpl("inventory");
+//		inventory.setDraggabe(EmptyCondition.FALSE_EMPTY_CONDITION);
+//		inventory.setPosition(new EAdPositionImpl(Corner.BOTTOM_LEFT, 0, 700));
+//		RectangleShape rect2 = new RectangleShape(800, INVENTORY_HEIGHT,
+//				EAdPaintImpl.BLACK_ON_WHITE);
+//		inventory.getResources().addAsset(inventory.getInitialBundle(),
+//				EAdBasicSceneElement.appearance, rect2);
+//
+//		inventoryContent = new EAdComplexElementImpl("inventoryContent");
+//		inventoryContent.setDraggabe(EmptyCondition.FALSE_EMPTY_CONDITION);
+//		inventoryContent.setPosition(new EAdPositionImpl(Corner.TOP_LEFT,
+//				INVENTORY_HEIGHT / 2 + 10, 0));
+//		rect2 = new RectangleShape(800, INVENTORY_HEIGHT,
+//				EAdPaintImpl.TRANSPARENT);
+//		inventoryContent.getResources().addAsset(
+//				inventoryContent.getInitialBundle(),
+//				EAdBasicSceneElement.appearance, rect2);
+//		inventory.getElements().add(inventoryContent);
+//
+//		createArrow("Right", "+", 800, Corner.TOP_RIGHT);
+//		createArrow("Left", "-", 0, Corner.TOP_LEFT);
+//
+//		RectangleShape rect = new RectangleShape(800, SENSE_HEIGHT + 2,
+//				EAdPaintImpl.TRANSPARENT);
+//
+//		createCenterPart();
+//
+//		bottomSensor = createSensorPart(rect, 601, 600, 700);
+//
+//		topSensor = createSensorPart(rect, -1, 100, 0);
+//
+//		includedActors = new HashMap<EAdSceneElementDef, EAdActorReferenceImpl>();
 	}
 
 	/**
@@ -186,7 +181,7 @@ public class DesktopBasicInventoryGO extends BasicInventoryGO {
 	private EAdBasicSceneElement createArrow(String dirname, String sign,
 			int pos, Corner corner) {
 		EAdBasicSceneElement arrow = new EAdBasicSceneElement("arrow" + dirname);
-		arrow.setDraggabe(EmptyCondition.FALSE_EMPTY_CONDITION);
+		arrow.setDraggable(EmptyCondition.FALSE_EMPTY_CONDITION);
 		arrow.setPosition(new EAdPositionImpl(corner, pos, 0));
 		ImageImpl image = new ImageImpl("@drawable/arrow" + dirname + ".png");
 		arrow.getResources().addAsset(arrow.getInitialBundle(),
@@ -219,7 +214,7 @@ public class DesktopBasicInventoryGO extends BasicInventoryGO {
 	 */
 	private void createCenterPart() {
 		centerSensor = new EAdBasicSceneElement("centerPart");
-		centerSensor.setDraggabe(EmptyCondition.FALSE_EMPTY_CONDITION);
+		centerSensor.setDraggable(EmptyCondition.FALSE_EMPTY_CONDITION);
 		centerSensor.getResources().addAsset(centerSensor.getInitialBundle(),
 				EAdBasicSceneElement.appearance,
 				new RectangleShape(800, 600, EAdPaintImpl.TRANSPARENT));
@@ -283,7 +278,7 @@ public class DesktopBasicInventoryGO extends BasicInventoryGO {
 	private EAdBasicSceneElement createSensorPart(RectangleShape rect,
 			int sensorPos, int inventoryPos, int hidePos) {
 		EAdBasicSceneElement part = new EAdBasicSceneElement("inventorySensor");
-		part.setDraggabe(EmptyCondition.FALSE_EMPTY_CONDITION);
+		part.setDraggable(EmptyCondition.FALSE_EMPTY_CONDITION);
 		part.getResources().addAsset(part.getInitialBundle(),
 				EAdBasicSceneElement.appearance, rect);
 		part.setPosition(new EAdPositionImpl(Corner.BOTTOM_LEFT, 0, sensorPos));
@@ -308,19 +303,19 @@ public class DesktopBasicInventoryGO extends BasicInventoryGO {
 		return part;
 	}
 
-	@Override
-	public void doLayout(EAdTransformation t) {
+//	@Override
+//	public void doLayout(EAdTransformation t) {
 //		if (gameState.getScene().acceptsVisualEffects()) {
 //			gui.addElement(gameObjectFactory.get(centerSensor), t);
 //			gui.addElement(gameObjectFactory.get(inventory), t);
 //			gui.addElement(gameObjectFactory.get(bottomSensor), t);
 //			gui.addElement(gameObjectFactory.get(topSensor), t);
 //		}
-	}
+//	}
 
-	@Override
-	public void update() {
-		super.update();
+//	@Override
+//	public void update() {
+//		super.update();
 //		gameObjectFactory.get(bottomSensor).update();
 //		gameObjectFactory.get(topSensor).update();
 //		gameObjectFactory.get(inventory).update();
@@ -342,57 +337,57 @@ public class DesktopBasicInventoryGO extends BasicInventoryGO {
 //			}
 //		}
 //		removeOldActors(removedActors);
-	}
+//	}
 
 	/**
 	 * Add new actors (recently added ones) to the inventory
 	 */
 	private void addNewActors() {
-		for (EAdActor actor : gameState.getInventoryActors()) {
-			if (!includedActors.keySet().contains(actor)) {
-				EAdActorReferenceImpl ref = new EAdActorReferenceImpl(actor);
-				EAdActorActionsEffect showActions = new EAdActorActionsEffect(
-						ref.getId() + "_showActions", ref);
-				ref.getBehavior().addBehavior(
-						EAdMouseEventImpl.MOUSE_RIGHT_CLICK, showActions);
-				ref.setPosition(new EAdPositionImpl(
-						EAdPositionImpl.Corner.CENTER,
-						INVENTORY_HEIGHT / 2 + 10, INVENTORY_HEIGHT / 2));
-				((ActorReferenceGOImpl) gameObjectFactory.get(ref))
-						.setInventoryReference(true);
-				includedActors.put(actor, ref);
-				inventoryContent.getElements().add(ref);
-				SceneElementGO<?> go = (SceneElementGO<?>) gameObjectFactory
-						.get(ref);
-				int maxSide = Math.max(go.getRenderAsset().getHeight(), go
-						.getRenderAsset().getWidth());
-				float scale = (float) INVENTORY_HEIGHT / maxSide;
-				go.setScale(scale);
-			}
-		}
+//		for (EAdSceneElementDef actor : gameState.getInventoryActors()) {
+//			if (!includedActors.keySet().contains(actor)) {
+//				EAdActorReferenceImpl ref = new EAdActorReferenceImpl(actor);
+//				EAdActorActionsEffect showActions = new EAdActorActionsEffect(
+//						ref.getId() + "_showActions", ref);
+//				ref.getBehavior().addBehavior(
+//						EAdMouseEventImpl.MOUSE_RIGHT_CLICK, showActions);
+//				ref.setPosition(new EAdPositionImpl(
+//						EAdPositionImpl.Corner.CENTER,
+//						INVENTORY_HEIGHT / 2 + 10, INVENTORY_HEIGHT / 2));
+//				((ActorReferenceGOImpl) gameObjectFactory.get(ref))
+//						.setInventoryReference(true);
+//				includedActors.put(actor, ref);
+//				inventoryContent.getElements().add(ref);
+//				SceneElementGO<?> go = (SceneElementGO<?>) gameObjectFactory
+//						.get(ref);
+//				int maxSide = Math.max(go.getRenderAsset().getHeight(), go
+//						.getRenderAsset().getWidth());
+//				float scale = (float) INVENTORY_HEIGHT / maxSide;
+//				go.setScale(scale);
+//			}
+//		}
 	}
 
-	/**
-	 * Remove now unused actors from the inventory
-	 */
-	private void removeOldActors(List<EAdActor> removedActors) {
-		for (EAdActor actor : removedActors) {
-			inventoryContent.getElements().remove(includedActors.get(actor));
-			includedActors.remove(actor);
-			// TODO free resources?
-		}
-	}
-
-	@Override
-	public boolean contains(int x, int y) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public void render(EAdCanvas<?> c) {
-		// TODO Auto-generated method stub
-		
-	}
+//	/**
+//	 * Remove now unused actors from the inventory
+//	 */
+//	private void removeOldActors(List<EAdSceneElementDef> removedActors) {
+//		for (EAdSceneElementDef actor : removedActors) {
+//			inventoryContent.getElements().remove(includedActors.get(actor));
+//			includedActors.remove(actor);
+//			// TODO free resources?
+//		}
+//	}
+//
+//	@Override
+//	public boolean contains(int x, int y) {
+//		// TODO Auto-generated method stub
+//		return false;
+//	}
+//
+//	@Override
+//	public void render(EAdCanvas<?> c) {
+//		// TODO Auto-generated method stub
+//		
+//	}
 
 }

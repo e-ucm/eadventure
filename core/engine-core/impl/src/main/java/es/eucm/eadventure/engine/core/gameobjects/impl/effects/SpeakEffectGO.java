@@ -4,9 +4,9 @@ import com.google.inject.Inject;
 
 import es.eucm.eadventure.common.model.effects.impl.text.EAdSpeakEffect;
 import es.eucm.eadventure.common.model.elements.EAdSceneElement;
-import es.eucm.eadventure.common.model.elements.EAdSceneElement.CommonStates;
 import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
-import es.eucm.eadventure.common.model.elements.impl.EAdComposedElementImpl;
+import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement.CommonStates;
+import es.eucm.eadventure.common.model.elements.impl.EAdComplexElementImpl;
 import es.eucm.eadventure.common.model.guievents.EAdMouseEvent.MouseActionType;
 import es.eucm.eadventure.common.params.geom.EAdPosition;
 import es.eucm.eadventure.common.params.geom.impl.EAdPositionImpl;
@@ -141,7 +141,7 @@ public class SpeakEffectGO extends AbstractEffectGO<EAdSpeakEffect> {
 				EAdBasicSceneElement.appearance, text);
 		textSE.setPosition(new EAdPositionImpl(left + MARGIN, top));
 
-		EAdComposedElementImpl complex = new EAdComposedElementImpl("complex");
+		EAdComplexElementImpl complex = new EAdComplexElementImpl("complex");
 		complex.getResources().addAsset(complex.getInitialBundle(),
 				EAdBasicSceneElement.appearance, rectangle);
 		complex.getElements().add(textSE);

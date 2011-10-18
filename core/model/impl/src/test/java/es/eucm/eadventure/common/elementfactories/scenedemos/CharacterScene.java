@@ -252,7 +252,7 @@ public class CharacterScene extends EmptyScene {
 	}
 	
 	@Override
-	public String getDescription() {
+	public String getSceneDescription() {
 		return "A scene with a character";
 	}
 	

@@ -47,6 +47,7 @@ import com.google.inject.Inject;
 import es.eucm.eadventure.common.model.actions.EAdAction;
 import es.eucm.eadventure.common.model.elements.EAdSceneElement;
 import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
+import es.eucm.eadventure.common.model.extra.EAdList;
 import es.eucm.eadventure.common.model.variables.EAdVarDef;
 import es.eucm.eadventure.common.params.geom.EAdPosition;
 import es.eucm.eadventure.common.params.geom.impl.EAdPositionImpl;
@@ -125,8 +126,7 @@ public abstract class SceneElementGOImpl<T extends EAdSceneElement> extends
 	@Override
 	public void setElement(T element) {
 		super.setElement(element);
-		// If element is a clone, all fields associated to it in the value map
-		// must be removed
+
 		if (element.isClone()) {
 			valueMap.remove(element);
 		}
@@ -254,8 +254,8 @@ public abstract class SceneElementGOImpl<T extends EAdSceneElement> extends
 
 	@Override
 	public AssetDescriptor getCurrentAssetDescriptor() {
-		AssetDescriptor a = element.getResources().getAsset(getCurrentBundle(),
-				EAdBasicSceneElement.appearance);
+		AssetDescriptor a = element.getDefinition().getResources()
+				.getAsset(getCurrentBundle(), EAdBasicSceneElement.appearance);
 
 		return getCurrentAssetDescriptor(a);
 	}
@@ -413,7 +413,7 @@ public abstract class SceneElementGOImpl<T extends EAdSceneElement> extends
 	}
 
 	@Override
-	public List<EAdAction> getValidActions() {
+	public EAdList<EAdAction> getValidActions() {
 		return null;
 	}
 

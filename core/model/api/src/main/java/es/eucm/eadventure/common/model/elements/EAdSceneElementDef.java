@@ -37,7 +37,20 @@
 
 package es.eucm.eadventure.common.model.elements;
 
+import es.eucm.eadventure.common.interfaces.WithActions;
+import es.eucm.eadventure.common.interfaces.WithBehavior;
+import es.eucm.eadventure.common.interfaces.features.Documented;
+import es.eucm.eadventure.common.interfaces.features.Draggable;
+import es.eucm.eadventure.common.interfaces.features.Evented;
+import es.eucm.eadventure.common.interfaces.features.Named;
+import es.eucm.eadventure.common.interfaces.features.Resourced;
+import es.eucm.eadventure.common.model.EAdElement;
 
-public interface EAdInventory extends EAdGeneralElement {
+/**
+ * Scene element definition in the eAdventure model. Definition for scene elements, placed in
+ * eAdventure scene.
+ */
+public interface EAdSceneElementDef extends EAdElement, Resourced, WithBehavior,
+		Documented, Named, Evented, WithActions, Draggable {
 
 }

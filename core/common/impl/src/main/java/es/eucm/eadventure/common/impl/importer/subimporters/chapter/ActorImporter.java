@@ -52,16 +52,16 @@ import es.eucm.eadventure.common.model.actions.impl.EAdBasicAction;
 import es.eucm.eadventure.common.model.conditions.impl.ANDCondition;
 import es.eucm.eadventure.common.model.conditions.impl.NOTCondition;
 import es.eucm.eadventure.common.model.effects.impl.timedevents.EAdShowSceneElement;
-import es.eucm.eadventure.common.model.elements.EAdActor;
+import es.eucm.eadventure.common.model.elements.EAdSceneElementDef;
 import es.eucm.eadventure.common.model.elements.EAdCondition;
-import es.eucm.eadventure.common.model.elements.impl.EAdBasicActor;
+import es.eucm.eadventure.common.model.elements.impl.EAdSceneElementDefImpl;
 import es.eucm.eadventure.common.resources.StringHandler;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.Caption;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.CaptionImpl;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.ImageImpl;
 
 public abstract class ActorImporter<P extends Element> implements
-		EAdElementImporter<P, EAdActor> {
+		EAdElementImporter<P, EAdSceneElementDef> {
 
 	protected StringHandler stringHandler;
 
@@ -89,14 +89,14 @@ public abstract class ActorImporter<P extends Element> implements
 	}
 
 	@Override
-	public EAdActor init(P oldObject) {
+	public EAdSceneElementDef init(P oldObject) {
 		this.element = oldObject;
-		return new EAdBasicActor(oldObject.getId());
+		return new EAdSceneElementDefImpl(oldObject.getId());
 	}
 
 	@Override
-	public EAdActor convert(P oldObject, Object object) {
-		EAdBasicActor actor = (EAdBasicActor) object;
+	public EAdSceneElementDef convert(P oldObject, Object object) {
+		EAdSceneElementDefImpl actor = (EAdSceneElementDefImpl) object;
 		elementFactory.getCurrentChapterModel().getActors().add(actor);
 
 		stringHandler.setString(actor.getName(), oldObject.getName());
@@ -115,7 +115,7 @@ public abstract class ActorImporter<P extends Element> implements
 	}
 
 	public static <P extends Element> void addActions(P oldObject,
-			EAdBasicActor actor,
+			EAdSceneElementDefImpl actor,
 			EAdElementImporter<Action, EAdAction> actionImporter,
 			StringHandler stringHandler) {
 		// Add examine action if it's not defined in oldObject actions
@@ -130,7 +130,7 @@ public abstract class ActorImporter<P extends Element> implements
 			EAdAction action = actionImporter.init(a);
 			action = ((ActionImporter) actionImporter)
 					.convert(a, action, actor);
-			actor.getActions().add(action);
+			actor.getValidActions().add(action);
 
 			String name = stringHandler.getString(action.getName());
 			if (previousConditions.containsKey(name)) {
@@ -170,7 +170,7 @@ public abstract class ActorImporter<P extends Element> implements
 					new ImageImpl(ActionImporter
 							.getHighlightDrawablePath(Action.EXAMINE)));
 
-			actor.getActions().add(examineAction);
+			actor.getValidActions().add(examineAction);
 
 		}
 

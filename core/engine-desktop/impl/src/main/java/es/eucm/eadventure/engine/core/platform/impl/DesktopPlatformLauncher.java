@@ -44,16 +44,13 @@ import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.google.inject.Singleton;
 
-import es.eucm.eadventure.common.model.impl.inventory.EAdBasicInventory;
 import es.eucm.eadventure.common.params.EAdURI;
 import es.eucm.eadventure.common.params.EAdURIImpl;
-import es.eucm.eadventure.engine.core.impl.factorymapproviders.GameObjectFactoryMapProvider;
 import es.eucm.eadventure.engine.core.impl.modules.BasicGameModule;
 import es.eucm.eadventure.engine.core.platform.AssetHandler;
 import es.eucm.eadventure.engine.core.platform.PlatformControl;
 import es.eucm.eadventure.engine.core.platform.PlatformLauncher;
 import es.eucm.eadventure.engine.core.platform.impl.extra.DesktopAssetHandlerModule;
-import es.eucm.eadventure.engine.core.platform.impl.extra.DesktopBasicInventoryGO;
 import es.eucm.eadventure.engine.core.platform.impl.extra.DesktopModule;
 
 /**
@@ -79,8 +76,6 @@ public class DesktopPlatformLauncher implements PlatformLauncher {
 			AssetHandler assetHandler) {
 		this.platformControl = platformControl;
 		this.assetHandler = assetHandler;
-		
-		GameObjectFactoryMapProvider.add(EAdBasicInventory.class, DesktopBasicInventoryGO.class);
 	}
 
 	@Override

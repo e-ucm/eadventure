@@ -46,7 +46,7 @@ import es.eucm.eadventure.common.impl.importer.interfaces.EAdElementFactory;
 import es.eucm.eadventure.common.model.effects.EAdEffect;
 import es.eucm.eadventure.common.model.effects.impl.EAdModifyActorState;
 import es.eucm.eadventure.common.model.effects.impl.EAdModifyActorState.Modification;
-import es.eucm.eadventure.common.model.elements.EAdActor;
+import es.eucm.eadventure.common.model.elements.EAdSceneElementDef;
 import es.eucm.eadventure.common.model.elements.EAdCondition;
 
 public class ConsumeObjectEffectImporter extends EffectImporter<ConsumeObjectEffect, EAdEffect>{
@@ -75,7 +75,7 @@ public class ConsumeObjectEffectImporter extends EffectImporter<ConsumeObjectEff
 		importConditions(oldObject, effect);
 
 		effect.setModification(Modification.REMOVE_SCENE_AND_INVENTORY);
-		effect.setActor((EAdActor) factory.getElementById(oldObject.getTargetId()));
+		effect.setActor((EAdSceneElementDef) factory.getElementById(oldObject.getTargetId()));
 
 		return effect;
 	}

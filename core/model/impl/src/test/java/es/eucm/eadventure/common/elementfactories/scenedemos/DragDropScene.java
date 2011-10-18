@@ -29,7 +29,7 @@ public class DragDropScene extends EmptyScene {
 		shape.setPaint(new EAdLinearGradient(EAdColor.RED, new EAdColor(200, 0,
 				0), 100, 100));
 		EAdBasicSceneElement e1 = new EAdBasicSceneElement("e1", shape);
-		e1.setDraggabe(EmptyCondition.TRUE_EMPTY_CONDITION);
+		e1.setDraggable(EmptyCondition.TRUE_EMPTY_CONDITION);
 		e1.setPosition(new EAdPositionImpl(Corner.CENTER, 100, 100));
 		EAdField<Float> rotation = new EAdFieldImpl<Float>(e1,
 				EAdBasicSceneElement.VAR_ROTATION);
@@ -86,7 +86,7 @@ public class DragDropScene extends EmptyScene {
 	}
 
 	@Override
-	public String getDescription() {
+	public String getSceneDescription() {
 		return "A scene showing drag and drop";
 	}
 

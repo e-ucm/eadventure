@@ -69,7 +69,7 @@ public class TextsScene extends EmptyScene {
 	}
 	
 	@Override
-	public String getDescription() {
+	public String getSceneDescription() {
 		return "A scene for test texts";
 	}
 	

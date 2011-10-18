@@ -21,7 +21,7 @@ public class PositionScene extends EmptyScene {
 	}
 
 	@Override
-	public String getDescription() {
+	public String getSceneDescription() {
 		return "A scene to tests coners in EAdPositionImpl";
 	}
 

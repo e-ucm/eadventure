@@ -17,7 +17,7 @@ public class SoundScene extends EmptyScene {
 	
 	
 	@Override
-	public String getDescription() {
+	public String getSceneDescription() {
 		return "A scene where a sound is played";
 	}
 	

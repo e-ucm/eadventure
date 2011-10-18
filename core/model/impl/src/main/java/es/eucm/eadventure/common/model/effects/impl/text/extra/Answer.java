@@ -82,7 +82,7 @@ public class Answer extends EAdBasicSceneElement {
 
 	public void setUpNewInstance(EAdField<Integer> selectedAnswer,
 			EAdEffect endEffect, int index) {
-		behavior = new EAdBehaviorImpl(id + "_answer" + index + "Behavior");
+		behavior = new EAdBehaviorImpl(id + "answer" + index + "Behavior");
 
 		EAdChangeFieldValueEffect selectEffect = new EAdChangeFieldValueEffect(
 				"setSelected");

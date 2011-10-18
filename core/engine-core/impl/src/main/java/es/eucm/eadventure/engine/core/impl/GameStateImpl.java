@@ -49,7 +49,7 @@ import com.google.inject.Singleton;
 import com.google.inject.name.Named;
 
 import es.eucm.eadventure.common.model.effects.EAdEffect;
-import es.eucm.eadventure.common.model.elements.EAdActor;
+import es.eucm.eadventure.common.model.elements.EAdSceneElementDef;
 import es.eucm.eadventure.common.model.elements.EAdChapter;
 import es.eucm.eadventure.common.model.elements.EAdScene;
 import es.eucm.eadventure.common.model.elements.EAdSceneElement;
@@ -77,9 +77,9 @@ public class GameStateImpl implements GameState {
 
 	private Stack<EAdScene> previousSceneStack;
 
-	private List<EAdActor> removedActors;
+	private List<EAdSceneElementDef> removedActors;
 
-	private List<EAdActor> inventoryActors;
+	private List<EAdSceneElementDef> inventoryActors;
 
 	private EAdChapter currentChapter;
 
@@ -116,8 +116,8 @@ public class GameStateImpl implements GameState {
 		this.gameObjectFactory = gameObjectFactory;
 		this.previousSceneStack = new Stack<EAdScene>();
 		this.evaluatorFactory = evaluatorFactory;
-		removedActors = new ArrayList<EAdActor>();
-		inventoryActors = new ArrayList<EAdActor>();
+		removedActors = new ArrayList<EAdSceneElementDef>();
+		inventoryActors = new ArrayList<EAdSceneElementDef>();
 	}
 
 	public SceneGO<?> getScene() {
@@ -229,12 +229,12 @@ public class GameStateImpl implements GameState {
 	}
 
 	@Override
-	public List<EAdActor> getRemovedActors() {
+	public List<EAdSceneElementDef> getRemovedActors() {
 		return removedActors;
 	}
 
 	@Override
-	public List<EAdActor> getInventoryActors() {
+	public List<EAdSceneElementDef> getInventoryActors() {
 		return inventoryActors;
 	}
 

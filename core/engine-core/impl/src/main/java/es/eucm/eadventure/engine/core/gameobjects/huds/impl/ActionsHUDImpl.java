@@ -44,6 +44,7 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 import es.eucm.eadventure.common.model.actions.EAdAction;
+import es.eucm.eadventure.common.model.extra.EAdList;
 import es.eucm.eadventure.common.params.geom.EAdPosition;
 import es.eucm.eadventure.engine.core.MouseState;
 import es.eucm.eadventure.engine.core.gameobjects.GameObject;
@@ -81,7 +82,7 @@ public class ActionsHUDImpl implements ActionsHUD {
 	/**
 	 * List of the {@link EAdAction}s
 	 */
-	protected List<EAdAction> actions;
+	protected EAdList<EAdAction> actions;
 
 	/**
 	 * The position in the x coordinates
@@ -160,7 +161,7 @@ public class ActionsHUDImpl implements ActionsHUD {
 	}
 
 	@Override
-	public List<EAdAction> getActions() {
+	public EAdList<EAdAction> getActions() {
 		return actions;
 	}
 
@@ -227,8 +228,12 @@ public class ActionsHUDImpl implements ActionsHUD {
 
 	@Override
 	public void render(EAdCanvas<?> c) {
-		// TODO Auto-generated method stub
 		
+	}
+
+	@Override
+	public boolean contains(int x, int y) {
+		return false;
 	}
 
 }

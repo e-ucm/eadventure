@@ -45,7 +45,12 @@ import es.eucm.eadventure.common.model.extra.EAdList;
 import es.eucm.eadventure.common.model.guievents.EAdGUIEvent;
 import es.eucm.eadventure.common.model.impl.EAdGeneralElementImpl;
 
-public abstract class AbstractEAdElementWithBehavior extends EAdGeneralElementImpl {
+/**
+ * An abstract element with behavior, resources and events
+ * 
+ */
+public abstract class AbstractEAdElementWithBehavior extends
+		EAdGeneralElementImpl {
 
 	@Param("behavior")
 	protected EAdBehavior behavior;
@@ -54,7 +59,7 @@ public abstract class AbstractEAdElementWithBehavior extends EAdGeneralElementIm
 		super(id);
 		this.behavior = new EAdBehaviorImpl(id + "behaviors");
 	}
-	
+
 	public EAdList<EAdEffect> getEffects(EAdGUIEvent event) {
 		return behavior.getEffects(event);
 	}
@@ -71,9 +76,14 @@ public abstract class AbstractEAdElementWithBehavior extends EAdGeneralElementIm
 		behavior.addBehavior(event, effect);
 	}
 
-
-	public void addBehavior(EAdGUIEvent event,
-			EAdList<EAdEffect> effects) {
+	/**
+	 * Adds the given effects to the list of the events that will be executed
+	 * when the given event is processed by this element
+	 * 
+	 * @param event the GUI event
+	 * @param effects the list of effects
+	 */
+	public void addBehavior(EAdGUIEvent event, EAdList<EAdEffect> effects) {
 		behavior.addBehavior(event, effects);
 	}
 

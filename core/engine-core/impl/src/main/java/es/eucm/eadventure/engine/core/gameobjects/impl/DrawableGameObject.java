@@ -39,7 +39,7 @@ package es.eucm.eadventure.engine.core.gameobjects.impl;
 
 import java.util.ArrayList;
 
-import es.eucm.eadventure.common.model.elements.EAdGeneralElement;
+import es.eucm.eadventure.common.model.elements.EAdSceneElement;
 import es.eucm.eadventure.common.model.events.EAdEvent;
 import es.eucm.eadventure.common.model.variables.EAdVarDef;
 import es.eucm.eadventure.common.model.variables.impl.EAdVarDefImpl;
@@ -51,11 +51,10 @@ import es.eucm.eadventure.engine.core.ValueMap;
 import es.eucm.eadventure.engine.core.gameobjects.GameObjectFactory;
 import es.eucm.eadventure.engine.core.gameobjects.impl.events.AbstractEventGO;
 import es.eucm.eadventure.engine.core.platform.AssetHandler;
-import es.eucm.eadventure.engine.core.platform.EAdCanvas;
 import es.eucm.eadventure.engine.core.platform.GUI;
 import es.eucm.eadventure.engine.core.platform.PlatformConfiguration;
 
-public abstract class DrawableGameObject<T extends EAdGeneralElement> extends
+public abstract class DrawableGameObject<T extends EAdSceneElement> extends
 		GameObjectImpl<T> implements Renderable {
 
 	public static final EAdVarDef<EAdBundleId> VAR_BUNDLE_ID = new EAdVarDefImpl<EAdBundleId>(
@@ -114,9 +113,5 @@ public abstract class DrawableGameObject<T extends EAdGeneralElement> extends
 	public boolean isEnable(){
 		return true;
 	}
-	
-	public abstract boolean contains(int x, int y);
-	
-	public abstract void render( EAdCanvas<?> c );
 
 }

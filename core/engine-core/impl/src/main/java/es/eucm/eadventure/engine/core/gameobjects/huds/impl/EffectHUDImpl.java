@@ -198,8 +198,12 @@ public class EffectHUDImpl implements EffectHUD {
 
 	@Override
 	public void render(EAdCanvas<?> c) {
-		// TODO Auto-generated method stub
 		
+	}
+
+	@Override
+	public boolean contains(int x, int y) {
+		return false;
 	}
 
 }

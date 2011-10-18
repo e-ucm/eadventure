@@ -40,22 +40,20 @@ package es.eucm.eadventure.common.model.elements.impl;
 import es.eucm.eadventure.common.interfaces.Element;
 import es.eucm.eadventure.common.interfaces.Param;
 import es.eucm.eadventure.common.interfaces.features.Oriented.Orientation;
-import es.eucm.eadventure.common.model.conditions.impl.EmptyCondition;
-import es.eucm.eadventure.common.model.elements.EAdCondition;
 import es.eucm.eadventure.common.model.elements.EAdSceneElement;
+import es.eucm.eadventure.common.model.elements.EAdSceneElementDef;
 import es.eucm.eadventure.common.model.extra.EAdMap;
 import es.eucm.eadventure.common.model.extra.impl.EAdMapImpl;
 import es.eucm.eadventure.common.model.variables.EAdVarDef;
 import es.eucm.eadventure.common.model.variables.impl.EAdVarDefImpl;
 import es.eucm.eadventure.common.params.EAdString;
 import es.eucm.eadventure.common.params.geom.EAdPosition;
-import es.eucm.eadventure.common.params.geom.EAdRectangle;
 import es.eucm.eadventure.common.resources.annotation.Asset;
 import es.eucm.eadventure.common.resources.annotation.Bundled;
 import es.eucm.eadventure.common.resources.assets.drawable.Drawable;
 
 @Element(detailed = EAdBasicSceneElement.class, runtime = EAdBasicSceneElement.class)
-public class EAdBasicSceneElement extends AbstractEAdElementWithBehavior
+public class EAdBasicSceneElement extends EAdSceneElementDefImpl
 		implements EAdSceneElement {
 
 	public static final EAdVarDef<Orientation> VAR_ORIENTATION = new EAdVarDefImpl<Orientation>(
@@ -97,7 +95,6 @@ public class EAdBasicSceneElement extends AbstractEAdElementWithBehavior
 	public static final EAdVarDef<Integer> VAR_BOTTOM = new EAdVarDefImpl<Integer>(
 			"bottom", Integer.class, 0);
 	
-	
 	public static final EAdVarDef<Integer> VAR_Z = new EAdVarDefImpl<Integer>(
 			"z", Integer.class, 0);
 
@@ -126,21 +123,23 @@ public class EAdBasicSceneElement extends AbstractEAdElementWithBehavior
 	@Param("vars")
 	private EAdMap<EAdVarDef<?>, Object> vars;
 
-	@Param("draggable")
-	private EAdCondition draggable;
-
-	@Param("clone")
+	@Param("definitino")
+	private EAdSceneElementDef definition;
+	
 	private boolean clone;
-
-	@Param("influenceArea")
-	private EAdRectangle influenceArea;
 
 	public EAdBasicSceneElement(String id) {
 		super(id);
-		clone = false;
-		draggable = EmptyCondition.FALSE_EMPTY_CONDITION;
 		vars = new EAdMapImpl<EAdVarDef<?>, Object>(EAdVarDef.class,
 				Object.class);
+	}
+	
+	public boolean isClone(){
+		return clone;
+	}
+	
+	public void setClone(boolean b) {
+		this.clone = b;
 	}
 
 	/**
@@ -155,6 +154,11 @@ public class EAdBasicSceneElement extends AbstractEAdElementWithBehavior
 		this(id);
 		getResources().addAsset(getInitialBundle(),
 				EAdBasicSceneElement.appearance, appearance);
+	}
+
+	public EAdBasicSceneElement(EAdSceneElementDef actor) {
+		this( actor.getId() + "_ref" );
+		this.definition = actor;
 	}
 
 	public <T> void setVarInitialValue(EAdVarDef<T> var, T value) {
@@ -186,45 +190,6 @@ public class EAdBasicSceneElement extends AbstractEAdElementWithBehavior
 	 */
 	public void setInitialOrientation(Orientation orientation) {
 		vars.put(VAR_ORIENTATION, orientation);
-
-	}
-
-	public EAdCondition getDraggabe() {
-		return draggable;
-	}
-
-	public void setDraggabe(EAdCondition draggable) {
-		this.draggable = draggable;
-	}
-
-	public String toString() {
-		return id + "";
-	}
-
-	@Override
-	public EAdRectangle getInfluenceArea() {
-		return influenceArea;
-	}
-
-	public void setInfluenceArea(EAdRectangle influenceArea) {
-		this.influenceArea = influenceArea;
-	}
-
-	@Override
-	public boolean isClone() {
-		return clone;
-	}
-
-	/**
-	 * Sets whether if this scene element must be cloned whenever is added to
-	 * the game. This means that all its variables will be set with its initial
-	 * values, instead of storing their last values
-	 * 
-	 * @param clone
-	 *            if this elements produces clones when its added to the game
-	 */
-	public void setClone(boolean clone) {
-		this.clone = clone;
 	}
 
 	@Override
@@ -235,6 +200,44 @@ public class EAdBasicSceneElement extends AbstractEAdElementWithBehavior
 	public void setPosition(int x, int y) {
 		vars.put(VAR_X, x);
 		vars.put(VAR_Y, y);
+	}
+
+	@Override
+	public EAdSceneElementDef getDefinition() {
+		return definition == null ? this : definition;
+	}
+	
+	/**
+	 * An enumerate with common states for scene elements
+	 * 
+	 * 
+	 */
+	public enum CommonStates {
+		/**
+		 * Default state
+		 */
+		EAD_STATE_DEFAULT,
+
+		/**
+		 * Talking state
+		 */
+		EAD_STATE_TALKING,
+
+		/**
+		 * Walking state
+		 */
+		EAD_STATE_WALKING,
+
+		/**
+		 * Using state
+		 */
+		EAD_STATE_USING;
+
+	}
+
+	public void setDefinition(EAdSceneElementDefImpl def) {
+		this.definition = def;
+		
 	}
 
 }

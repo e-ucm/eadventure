@@ -25,24 +25,16 @@ public abstract class EAdElementImpl implements EAdElement {
 		return id;
 	}
 	
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public EAdElement copy() {
+		// To implement in inherit classes
 		return null;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public EAdElement copy(boolean deepCopy) {
-		EAdElement copy = copy();
-		if (deepCopy) {
-			//TODO
-		}
-		return copy;
+		// To implement in inherit classes
+		return null;
 	}
 
 }

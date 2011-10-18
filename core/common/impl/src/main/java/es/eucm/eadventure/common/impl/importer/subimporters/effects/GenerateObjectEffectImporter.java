@@ -46,7 +46,7 @@ import es.eucm.eadventure.common.impl.importer.interfaces.EAdElementFactory;
 import es.eucm.eadventure.common.model.effects.EAdEffect;
 import es.eucm.eadventure.common.model.effects.impl.EAdModifyActorState;
 import es.eucm.eadventure.common.model.effects.impl.EAdModifyActorState.Modification;
-import es.eucm.eadventure.common.model.elements.EAdActor;
+import es.eucm.eadventure.common.model.elements.EAdSceneElementDef;
 import es.eucm.eadventure.common.model.elements.EAdCondition;
 
 public class GenerateObjectEffectImporter extends EffectImporter<GenerateObjectEffect, EAdEffect>{
@@ -75,7 +75,7 @@ public class GenerateObjectEffectImporter extends EffectImporter<GenerateObjectE
 		importConditions(oldObject, effect);
 
 		effect.setModification(Modification.PLACE_IN_INVENTORY);
-		effect.setActor((EAdActor) factory.getElementById(oldObject.getTargetId()));
+		effect.setActor((EAdSceneElementDef) factory.getElementById(oldObject.getTargetId()));
 
 		return effect;
 	}

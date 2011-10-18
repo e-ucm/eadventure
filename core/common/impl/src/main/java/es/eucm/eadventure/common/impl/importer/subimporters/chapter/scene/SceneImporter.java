@@ -57,12 +57,10 @@ import es.eucm.eadventure.common.impl.importer.interfaces.EAdElementFactory;
 import es.eucm.eadventure.common.impl.importer.interfaces.ResourceImporter;
 import es.eucm.eadventure.common.model.effects.impl.EAdMoveActiveElement;
 import es.eucm.eadventure.common.model.effects.impl.sceneelements.EAdMakeActiveElementEffect;
-import es.eucm.eadventure.common.model.elements.EAdActor;
-import es.eucm.eadventure.common.model.elements.EAdActorReference;
 import es.eucm.eadventure.common.model.elements.EAdChapter;
 import es.eucm.eadventure.common.model.elements.EAdCondition;
 import es.eucm.eadventure.common.model.elements.EAdSceneElement;
-import es.eucm.eadventure.common.model.elements.impl.EAdActorReferenceImpl;
+import es.eucm.eadventure.common.model.elements.EAdSceneElementDef;
 import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
 import es.eucm.eadventure.common.model.elements.impl.EAdSceneImpl;
 import es.eucm.eadventure.common.model.events.EAdSceneElementEvent;
@@ -92,7 +90,7 @@ public class SceneImporter implements EAdElementImporter<Scene, EAdSceneImpl> {
 	/**
 	 * References importer
 	 */
-	private EAdElementImporter<ElementReference, EAdActorReference> referencesImporter;
+	private EAdElementImporter<ElementReference, EAdSceneElement> referencesImporter;
 
 	/**
 	 * Resources importer
@@ -126,7 +124,7 @@ public class SceneImporter implements EAdElementImporter<Scene, EAdSceneImpl> {
 			StringHandler stringHandler,
 			EAdElementImporter<Conditions, EAdCondition> conditionsImporter,
 			ResourceImporter resourceImporter,
-			EAdElementImporter<ElementReference, EAdActorReference> referencesImporter,
+			EAdElementImporter<ElementReference, EAdSceneElement> referencesImporter,
 			EAdElementImporter<ActiveArea, EAdSceneElement> activeAreasImporter,
 			EAdElementFactory factory,
 			EAdElementImporter<Exit, EAdSceneElement> exitsImporter,
@@ -174,16 +172,14 @@ public class SceneImporter implements EAdElementImporter<Scene, EAdSceneImpl> {
 
 	}
 
-	private EAdActorReferenceImpl addPlayer(EAdSceneImpl scene, Scene oldScene,
+	private EAdBasicSceneElement addPlayer(EAdSceneImpl scene, Scene oldScene,
 			EAdChapter chapter) {
 		if (factory.isFirstPerson()) {
 			return null;
 		} else {
-			EAdActor player = (EAdActor) factory.getElement(Player.IDENTIFIER,
+			EAdSceneElementDef player = (EAdSceneElementDef) factory.getElement(Player.IDENTIFIER,
 					factory.getCurrentOldChapterModel().getPlayer());
-			EAdActorReferenceImpl playerReference = new EAdActorReferenceImpl(
-					player.getId() + "_reference");
-			playerReference.setReferencedActor(player);
+			EAdBasicSceneElement playerReference = new EAdBasicSceneElement( player );
 			EAdPositionImpl p = new EAdPositionImpl(
 					EAdPositionImpl.Corner.BOTTOM_CENTER,
 					oldScene.getPositionX(), oldScene.getPositionY());
@@ -264,7 +260,7 @@ public class SceneImporter implements EAdElementImporter<Scene, EAdSceneImpl> {
 	private void importReferences(EAdSceneImpl scene,
 			List<ElementReference> references, EAdChapter chapter) {
 		for (ElementReference oldRef : references) {
-			EAdActorReference newRef = referencesImporter.init(oldRef);
+			EAdSceneElement newRef = referencesImporter.init(oldRef);
 			newRef = referencesImporter.convert(oldRef, newRef);
 			scene.getElements().add(newRef);
 		}

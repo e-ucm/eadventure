@@ -102,7 +102,8 @@ public class TimerImporter implements EAdElementImporter<Timer, EAdTimer> {
 						EmptyCondition.TRUE_EMPTY_CONDITION));
 		startEvent.addEffect(EAdConditionEvent.ConditionedEvent.CONDITIONS_MET,
 				startEffect);
-		newTimer.getEvents().add(startEvent);
+		// TODO timer with events? indeed, has timers sense anymore?
+//		newTimer.getEvents().add(startEvent);
 
 		EAdMacroImpl endedMacro = new EAdMacroImpl("timerEndMacro");
 		EAdTriggerMacro triggerEndedMacro = new EAdTriggerMacro("triggerMacro_"
@@ -133,7 +134,7 @@ public class TimerImporter implements EAdElementImporter<Timer, EAdTimer> {
 		stopTimerEvent.addEffect(EAdTimerEvent.TimerEvent.TIMER_STOPPED,
 				triggerStoppedMacro);
 
-		newTimer.getEvents().add(stopTimerEvent);
+//		newTimer.getEvents().add(stopTimerEvent);
 
 		return newTimer;
 	}

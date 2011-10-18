@@ -37,55 +37,13 @@
 
 package es.eucm.eadventure.engine.extra;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import com.google.inject.Inject;
-
-import es.eucm.eadventure.common.model.conditions.impl.EmptyCondition;
-import es.eucm.eadventure.common.model.conditions.impl.OperationCondition;
-import es.eucm.eadventure.common.model.conditions.impl.OperationCondition.Comparator;
-import es.eucm.eadventure.common.model.effects.EAdEffect;
-import es.eucm.eadventure.common.model.effects.impl.EAdActorActionsEffect;
-import es.eucm.eadventure.common.model.effects.impl.EAdChangeAppearance;
-import es.eucm.eadventure.common.model.effects.impl.EAdVarInterpolationEffect;
-import es.eucm.eadventure.common.model.effects.impl.sceneelements.EAdMoveSceneElement;
-import es.eucm.eadventure.common.model.effects.impl.sceneelements.EAdMoveSceneElement.MovementSpeed;
-import es.eucm.eadventure.common.model.effects.impl.variables.EAdChangeFieldValueEffect;
-import es.eucm.eadventure.common.model.elements.EAdActor;
-import es.eucm.eadventure.common.model.elements.impl.EAdActorReferenceImpl;
 import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
-import es.eucm.eadventure.common.model.elements.impl.EAdComposedElementImpl;
-import es.eucm.eadventure.common.model.guievents.impl.EAdMouseEventImpl;
-import es.eucm.eadventure.common.model.variables.EAdField;
-import es.eucm.eadventure.common.model.variables.impl.EAdFieldImpl;
-import es.eucm.eadventure.common.model.variables.impl.operations.BooleanOperation;
-import es.eucm.eadventure.common.model.variables.impl.operations.MathOperation;
-import es.eucm.eadventure.common.params.fills.impl.EAdPaintImpl;
-import es.eucm.eadventure.common.params.geom.impl.EAdPositionImpl;
-import es.eucm.eadventure.common.params.geom.impl.EAdPositionImpl.Corner;
-import es.eucm.eadventure.common.resources.EAdBundleId;
-import es.eucm.eadventure.common.resources.StringHandler;
-import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.ImageImpl;
-import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.shapes.RectangleShape;
-import es.eucm.eadventure.engine.core.GameState;
-import es.eucm.eadventure.engine.core.ValueMap;
-import es.eucm.eadventure.engine.core.gameobjects.GameObjectFactory;
-import es.eucm.eadventure.engine.core.gameobjects.SceneElementGO;
-import es.eucm.eadventure.engine.core.gameobjects.impl.inventory.BasicInventoryGO;
-import es.eucm.eadventure.engine.core.gameobjects.impl.sceneelements.ActorReferenceGOImpl;
-import es.eucm.eadventure.engine.core.platform.AssetHandler;
-import es.eucm.eadventure.engine.core.platform.EAdCanvas;
-import es.eucm.eadventure.engine.core.platform.GUI;
-import es.eucm.eadventure.engine.core.platform.PlatformConfiguration;
-import es.eucm.eadventure.engine.core.util.EAdTransformation;
+import es.eucm.eadventure.common.model.elements.impl.EAdComplexElementImpl;
 
 /**
  * Desktop implementation of the {@link BasicInventoryGO}
  */
-public class AndroidBasicInventoryGO extends BasicInventoryGO {
+public class AndroidBasicInventoryGO {
 
 	/**
 	 * The height of the top and bottom sensors
@@ -115,258 +73,258 @@ public class AndroidBasicInventoryGO extends BasicInventoryGO {
 	/**
 	 * the actual inventory
 	 */
-	private EAdComposedElementImpl inventory;
+	private EAdComplexElementImpl inventory;
 
 	/**
 	 * the object that contains the elements in the inventory
 	 */
-	private EAdComposedElementImpl inventoryContent;
+	private EAdComplexElementImpl inventoryContent;
 
 	/**
 	 * the map of actors and actor references in the inventory
 	 */
-	private Map<EAdActor, EAdActorReferenceImpl> includedActors;
-
-	@Inject
-	public AndroidBasicInventoryGO(AssetHandler assetHandler,
-			StringHandler stringHandler, GameObjectFactory gameObjectFactory,
-			GUI gui, GameState gameState, ValueMap valueMap,
-			PlatformConfiguration platformConfiguration) {
-		super(assetHandler, stringHandler, gameObjectFactory, gui, gameState,
-				valueMap, platformConfiguration);
-
-		inventory = new EAdComposedElementImpl("inventory");
-		inventory.setDraggabe(EmptyCondition.FALSE_EMPTY_CONDITION);
-		inventory.setPosition(new EAdPositionImpl(Corner.BOTTOM_LEFT, 0, 700));
-		RectangleShape rect2 = new RectangleShape(800, INVENTORY_HEIGHT,
-				EAdPaintImpl.BLACK_ON_WHITE);
-		inventory.getResources().addAsset(inventory.getInitialBundle(),
-				EAdBasicSceneElement.appearance, rect2);
-
-		inventoryContent = new EAdComposedElementImpl("inventoryContent");
-		inventoryContent.setDraggabe(EmptyCondition.FALSE_EMPTY_CONDITION);
-		inventoryContent.setPosition(new EAdPositionImpl(Corner.TOP_LEFT,
-				INVENTORY_HEIGHT / 2 + 10, 0));
-		rect2 = new RectangleShape(800, INVENTORY_HEIGHT,
-				EAdPaintImpl.TRANSPARENT);
-		inventoryContent.getResources().addAsset(
-				inventoryContent.getInitialBundle(),
-				EAdBasicSceneElement.appearance, rect2);
-		inventory.getElements().add(inventoryContent);
-
-		createArrow("Right", "+", 800, Corner.TOP_RIGHT);
-		createArrow("Left", "-", 0, Corner.TOP_LEFT);
-
-		RectangleShape rect = new RectangleShape(800, SENSE_HEIGHT + 2,
-				EAdPaintImpl.TRANSPARENT);
-
-		createCenterPart();
-
-		bottomSensor = createSensorPart(rect, 601, 600, 700);
-
-		topSensor = createSensorPart(rect, -1, 100, 0);
-
-		includedActors = new HashMap<EAdActor, EAdActorReferenceImpl>();
-	}
-
-	/**
-	 * Create an inventory arrow
-	 * 
-	 * @param dirname
-	 *            the name of the direction (to get the resoucers, i.e. "Left"
-	 *            or "Right")
-	 * @param sign
-	 *            The sign of the increment/decrement
-	 * @param pos
-	 *            The position of the arrow
-	 * @param corner
-	 *            The center of the arrow image
-	 * @return the arrow
-	 */
-	private EAdBasicSceneElement createArrow(String dirname, String sign,
-			int pos, Corner corner) {
-		EAdBasicSceneElement arrow = new EAdBasicSceneElement("arrow" + dirname);
-		arrow.setDraggabe(EmptyCondition.FALSE_EMPTY_CONDITION);
-		arrow.setPosition(new EAdPositionImpl(corner, pos, 0));
-		ImageImpl image = new ImageImpl("@drawable/arrow" + dirname + ".png");
-		arrow.getResources().addAsset(arrow.getInitialBundle(),
-				EAdBasicSceneElement.appearance, image);
-
-		ImageImpl image2 = new ImageImpl("@drawable/arrowHighlight" + dirname
-				+ ".png");
-		EAdBundleId highlightBundle = new EAdBundleId("highlight");
-		arrow.getResources().addAsset(highlightBundle,
-				EAdBasicSceneElement.appearance, image2);
-
-		arrow.addBehavior(EAdMouseEventImpl.MOUSE_ENTERED,
-				new EAdChangeAppearance("id", arrow, highlightBundle));
-		arrow.addBehavior(EAdMouseEventImpl.MOUSE_EXITED,
-				new EAdChangeAppearance("id", arrow, arrow.getInitialBundle()));
-
-		inventory.getElements().add(arrow);
-
-		EAdField<Integer> xField = new EAdFieldImpl<Integer>(inventoryContent,
-				EAdBasicSceneElement.VAR_X);
-
-		arrow.addBehavior(EAdMouseEventImpl.MOUSE_LEFT_CLICK,
-				new EAdVarInterpolationEffect("id", xField,
-						new MathOperation("id", "[0]" + sign
-								+ INVENTORY_HEIGHT, xField), 200));
-		return arrow;
-	}
-
-	/**
-	 * Create the center sensor part
-	 */
-	private void createCenterPart() {
-		centerSensor = new EAdBasicSceneElement("centerPart");
-		centerSensor.setDraggabe(EmptyCondition.FALSE_EMPTY_CONDITION);
-		centerSensor.getResources().addAsset(centerSensor.getInitialBundle(),
-				EAdBasicSceneElement.appearance,
-				new RectangleShape(800, 600, EAdPaintImpl.TRANSPARENT));
-		centerSensor.setPosition(new EAdPositionImpl(Corner.TOP_LEFT, 0, 0));
-
-		EAdField<Integer> yField = new EAdFieldImpl<Integer>(inventory,
-				EAdBasicSceneElement.VAR_Y);
-		EAdField<Boolean> visibleField = new EAdFieldImpl<Boolean>(
-				centerSensor, EAdBasicSceneElement.VAR_VISIBLE);
-
-		EAdEffect e2 = new EAdMoveSceneElement("hideInventoryBottom",
-				inventory, 0, 700, MovementSpeed.NORMAL);
-		e2.setCondition(new OperationCondition(yField, 350, Comparator.GREATER));
-		centerSensor.addBehavior(EAdMouseEventImpl.MOUSE_MOVED, e2);
-		e2 = new EAdChangeFieldValueEffect("id", visibleField,
-				BooleanOperation.FALSE_OP);
-		e2.setCondition(new OperationCondition(yField, 350, Comparator.GREATER));
-		centerSensor.addBehavior(EAdMouseEventImpl.MOUSE_MOVED, e2);
-
-		e2 = new EAdMoveSceneElement("hideInventoryTop", inventory, 0, 0,
-				MovementSpeed.NORMAL);
-		e2.setCondition(new OperationCondition(yField, 350, Comparator.LESS));
-		centerSensor.addBehavior(EAdMouseEventImpl.MOUSE_MOVED, e2);
-		e2 = new EAdChangeFieldValueEffect("id", visibleField,
-				BooleanOperation.FALSE_OP);
-		e2.setCondition(new OperationCondition(yField, 350, Comparator.LESS));
-		centerSensor.addBehavior(EAdMouseEventImpl.MOUSE_MOVED, e2);
-	}
-
-	/**
-	 * Create sensor part
-	 * 
-	 * @param rect
-	 *            The rectangle resource
-	 * @param sensorPos
-	 *            The position of the sensor part
-	 * @param inventoryPos
-	 *            The position of the inventory
-	 * @param hidePos
-	 *            The position of the inventory when hidden
-	 * @return The sensor part
-	 */
-	private EAdBasicSceneElement createSensorPart(RectangleShape rect,
-			int sensorPos, int inventoryPos, int hidePos) {
-		EAdBasicSceneElement part = new EAdBasicSceneElement("inventorySensor");
-		part.setDraggabe(EmptyCondition.FALSE_EMPTY_CONDITION);
-		part.getResources().addAsset(part.getInitialBundle(),
-				EAdBasicSceneElement.appearance, rect);
-		part.setPosition(new EAdPositionImpl(Corner.BOTTOM_LEFT, 0, sensorPos));
-
-		EAdEffect e = new EAdMoveSceneElement("moveInventory", inventory, 0,
-				hidePos, MovementSpeed.INSTANT);
-		part.addBehavior(EAdMouseEventImpl.MOUSE_ENTERED, e);
-		e = new EAdMoveSceneElement("showInventory", inventory, 0,
-				inventoryPos, MovementSpeed.FAST);
-		part.addBehavior(EAdMouseEventImpl.MOUSE_ENTERED, e);
-		e = new EAdChangeFieldValueEffect("showCentralSensor",
-				new EAdFieldImpl<Boolean>(centerSensor,
-						EAdBasicSceneElement.VAR_VISIBLE),
-				BooleanOperation.TRUE_OP);
-		part.addBehavior(EAdMouseEventImpl.MOUSE_ENTERED, e);
-		return part;
-	}
-
-	@Override
-	public void doLayout(EAdTransformation t) {
-//		gui.addElement(gameObjectFactory.get(centerSensor), t);
-//		gui.addElement(gameObjectFactory.get(inventory), t);
-//		gui.addElement(gameObjectFactory.get(bottomSensor), t);
-//		gui.addElement(gameObjectFactory.get(topSensor), t);
-	}
-
-	@Override
-	public void update() {
-//		super.update();
-//		gameObjectFactory.get(bottomSensor).update();
-//		gameObjectFactory.get(topSensor).update();
-//		gameObjectFactory.get(inventory).update();
+//	private Map<EAdSceneElementDef, EAdActorReferenceImpl> includedActors;
 //
-//		List<EAdActor> removedActors = new ArrayList<EAdActor>();
-//		addNewActors();
-//		int cont = 0;
-//		for (EAdActor actor : includedActors.keySet()) {
-//			if (!gameState.getInventoryActors().contains(actor))
-//				removedActors.add(actor);
-//			else {
-//				EAdActorReferenceImpl ref = includedActors.get(actor);
-//				valueMap.setValue(ref, EAdBasicSceneElement.VAR_X, cont
-//						* (10 + INVENTORY_HEIGHT) + INVENTORY_HEIGHT / 2);
+//	@Inject
+//	public AndroidBasicInventoryGO(AssetHandler assetHandler,
+//			StringHandler stringHandler, GameObjectFactory gameObjectFactory,
+//			GUI gui, GameState gameState, ValueMap valueMap,
+//			PlatformConfiguration platformConfiguration) {
+//		super(assetHandler, stringHandler, gameObjectFactory, gui, gameState,
+//				valueMap, platformConfiguration);
 //
-//				// TODO position actor
-//				cont++;
+//		inventory = new EAdComplexElementImpl("inventory");
+//		inventory.setDraggabe(EmptyCondition.FALSE_EMPTY_CONDITION);
+//		inventory.setPosition(new EAdPositionImpl(Corner.BOTTOM_LEFT, 0, 700));
+//		RectangleShape rect2 = new RectangleShape(800, INVENTORY_HEIGHT,
+//				EAdPaintImpl.BLACK_ON_WHITE);
+//		inventory.getResources().addAsset(inventory.getInitialBundle(),
+//				EAdBasicSceneElement.appearance, rect2);
+//
+//		inventoryContent = new EAdComplexElementImpl("inventoryContent");
+//		inventoryContent.setDraggabe(EmptyCondition.FALSE_EMPTY_CONDITION);
+//		inventoryContent.setPosition(new EAdPositionImpl(Corner.TOP_LEFT,
+//				INVENTORY_HEIGHT / 2 + 10, 0));
+//		rect2 = new RectangleShape(800, INVENTORY_HEIGHT,
+//				EAdPaintImpl.TRANSPARENT);
+//		inventoryContent.getResources().addAsset(
+//				inventoryContent.getInitialBundle(),
+//				EAdBasicSceneElement.appearance, rect2);
+//		inventory.getElements().add(inventoryContent);
+//
+//		createArrow("Right", "+", 800, Corner.TOP_RIGHT);
+//		createArrow("Left", "-", 0, Corner.TOP_LEFT);
+//
+//		RectangleShape rect = new RectangleShape(800, SENSE_HEIGHT + 2,
+//				EAdPaintImpl.TRANSPARENT);
+//
+//		createCenterPart();
+//
+//		bottomSensor = createSensorPart(rect, 601, 600, 700);
+//
+//		topSensor = createSensorPart(rect, -1, 100, 0);
+//
+//		includedActors = new HashMap<EAdSceneElementDef, EAdActorReferenceImpl>();
+//	}
+//
+//	/**
+//	 * Create an inventory arrow
+//	 * 
+//	 * @param dirname
+//	 *            the name of the direction (to get the resoucers, i.e. "Left"
+//	 *            or "Right")
+//	 * @param sign
+//	 *            The sign of the increment/decrement
+//	 * @param pos
+//	 *            The position of the arrow
+//	 * @param corner
+//	 *            The center of the arrow image
+//	 * @return the arrow
+//	 */
+//	private EAdBasicSceneElement createArrow(String dirname, String sign,
+//			int pos, Corner corner) {
+//		EAdBasicSceneElement arrow = new EAdBasicSceneElement("arrow" + dirname);
+//		arrow.setDraggabe(EmptyCondition.FALSE_EMPTY_CONDITION);
+//		arrow.setPosition(new EAdPositionImpl(corner, pos, 0));
+//		ImageImpl image = new ImageImpl("@drawable/arrow" + dirname + ".png");
+//		arrow.getResources().addAsset(arrow.getInitialBundle(),
+//				EAdBasicSceneElement.appearance, image);
+//
+//		ImageImpl image2 = new ImageImpl("@drawable/arrowHighlight" + dirname
+//				+ ".png");
+//		EAdBundleId highlightBundle = new EAdBundleId("highlight");
+//		arrow.getResources().addAsset(highlightBundle,
+//				EAdBasicSceneElement.appearance, image2);
+//
+//		arrow.addBehavior(EAdMouseEventImpl.MOUSE_ENTERED,
+//				new EAdChangeAppearance("id", arrow, highlightBundle));
+//		arrow.addBehavior(EAdMouseEventImpl.MOUSE_EXITED,
+//				new EAdChangeAppearance("id", arrow, arrow.getInitialBundle()));
+//
+//		inventory.getElements().add(arrow);
+//
+//		EAdField<Integer> xField = new EAdFieldImpl<Integer>(inventoryContent,
+//				EAdBasicSceneElement.VAR_X);
+//
+//		arrow.addBehavior(EAdMouseEventImpl.MOUSE_LEFT_CLICK,
+//				new EAdVarInterpolationEffect("id", xField,
+//						new MathOperation("id", "[0]" + sign
+//								+ INVENTORY_HEIGHT, xField), 200));
+//		return arrow;
+//	}
+//
+//	/**
+//	 * Create the center sensor part
+//	 */
+//	private void createCenterPart() {
+//		centerSensor = new EAdBasicSceneElement("centerPart");
+//		centerSensor.setDraggabe(EmptyCondition.FALSE_EMPTY_CONDITION);
+//		centerSensor.getResources().addAsset(centerSensor.getInitialBundle(),
+//				EAdBasicSceneElement.appearance,
+//				new RectangleShape(800, 600, EAdPaintImpl.TRANSPARENT));
+//		centerSensor.setPosition(new EAdPositionImpl(Corner.TOP_LEFT, 0, 0));
+//
+//		EAdField<Integer> yField = new EAdFieldImpl<Integer>(inventory,
+//				EAdBasicSceneElement.VAR_Y);
+//		EAdField<Boolean> visibleField = new EAdFieldImpl<Boolean>(
+//				centerSensor, EAdBasicSceneElement.VAR_VISIBLE);
+//
+//		EAdEffect e2 = new EAdMoveSceneElement("hideInventoryBottom",
+//				inventory, 0, 700, MovementSpeed.NORMAL);
+//		e2.setCondition(new OperationCondition(yField, 350, Comparator.GREATER));
+//		centerSensor.addBehavior(EAdMouseEventImpl.MOUSE_MOVED, e2);
+//		e2 = new EAdChangeFieldValueEffect("id", visibleField,
+//				BooleanOperation.FALSE_OP);
+//		e2.setCondition(new OperationCondition(yField, 350, Comparator.GREATER));
+//		centerSensor.addBehavior(EAdMouseEventImpl.MOUSE_MOVED, e2);
+//
+//		e2 = new EAdMoveSceneElement("hideInventoryTop", inventory, 0, 0,
+//				MovementSpeed.NORMAL);
+//		e2.setCondition(new OperationCondition(yField, 350, Comparator.LESS));
+//		centerSensor.addBehavior(EAdMouseEventImpl.MOUSE_MOVED, e2);
+//		e2 = new EAdChangeFieldValueEffect("id", visibleField,
+//				BooleanOperation.FALSE_OP);
+//		e2.setCondition(new OperationCondition(yField, 350, Comparator.LESS));
+//		centerSensor.addBehavior(EAdMouseEventImpl.MOUSE_MOVED, e2);
+//	}
+//
+//	/**
+//	 * Create sensor part
+//	 * 
+//	 * @param rect
+//	 *            The rectangle resource
+//	 * @param sensorPos
+//	 *            The position of the sensor part
+//	 * @param inventoryPos
+//	 *            The position of the inventory
+//	 * @param hidePos
+//	 *            The position of the inventory when hidden
+//	 * @return The sensor part
+//	 */
+//	private EAdBasicSceneElement createSensorPart(RectangleShape rect,
+//			int sensorPos, int inventoryPos, int hidePos) {
+//		EAdBasicSceneElement part = new EAdBasicSceneElement("inventorySensor");
+//		part.setDraggabe(EmptyCondition.FALSE_EMPTY_CONDITION);
+//		part.getResources().addAsset(part.getInitialBundle(),
+//				EAdBasicSceneElement.appearance, rect);
+//		part.setPosition(new EAdPositionImpl(Corner.BOTTOM_LEFT, 0, sensorPos));
+//
+//		EAdEffect e = new EAdMoveSceneElement("moveInventory", inventory, 0,
+//				hidePos, MovementSpeed.INSTANT);
+//		part.addBehavior(EAdMouseEventImpl.MOUSE_ENTERED, e);
+//		e = new EAdMoveSceneElement("showInventory", inventory, 0,
+//				inventoryPos, MovementSpeed.FAST);
+//		part.addBehavior(EAdMouseEventImpl.MOUSE_ENTERED, e);
+//		e = new EAdChangeFieldValueEffect("showCentralSensor",
+//				new EAdFieldImpl<Boolean>(centerSensor,
+//						EAdBasicSceneElement.VAR_VISIBLE),
+//				BooleanOperation.TRUE_OP);
+//		part.addBehavior(EAdMouseEventImpl.MOUSE_ENTERED, e);
+//		return part;
+//	}
+//
+//	@Override
+//	public void doLayout(EAdTransformation t) {
+////		gui.addElement(gameObjectFactory.get(centerSensor), t);
+////		gui.addElement(gameObjectFactory.get(inventory), t);
+////		gui.addElement(gameObjectFactory.get(bottomSensor), t);
+////		gui.addElement(gameObjectFactory.get(topSensor), t);
+//	}
+//
+//	@Override
+//	public void update() {
+////		super.update();
+////		gameObjectFactory.get(bottomSensor).update();
+////		gameObjectFactory.get(topSensor).update();
+////		gameObjectFactory.get(inventory).update();
+////
+////		List<EAdActor> removedActors = new ArrayList<EAdActor>();
+////		addNewActors();
+////		int cont = 0;
+////		for (EAdActor actor : includedActors.keySet()) {
+////			if (!gameState.getInventoryActors().contains(actor))
+////				removedActors.add(actor);
+////			else {
+////				EAdActorReferenceImpl ref = includedActors.get(actor);
+////				valueMap.setValue(ref, EAdBasicSceneElement.VAR_X, cont
+////						* (10 + INVENTORY_HEIGHT) + INVENTORY_HEIGHT / 2);
+////
+////				// TODO position actor
+////				cont++;
+////			}
+////		}
+////		removeOldActors(removedActors);
+//	}
+//
+//	/**
+//	 * Add new actors (recently added ones) to the inventory
+//	 */
+//	private void addNewActors() {
+//		for (EAdSceneElementDef actor : gameState.getInventoryActors()) {
+//			if (!includedActors.keySet().contains(actor)) {
+//				EAdActorReferenceImpl ref = new EAdActorReferenceImpl(actor);
+//				EAdActorActionsEffect showActions = new EAdActorActionsEffect(
+//						ref.getId() + "_showActions", ref);
+//				ref.getBehavior().addBehavior(
+//						EAdMouseEventImpl.MOUSE_RIGHT_CLICK, showActions);
+//				ref.setPosition(new EAdPositionImpl(
+//						EAdPositionImpl.Corner.CENTER,
+//						INVENTORY_HEIGHT / 2 + 10, INVENTORY_HEIGHT / 2));
+//				((ActorReferenceGOImpl) gameObjectFactory.get(ref))
+//						.setInventoryReference(true);
+//				includedActors.put(actor, ref);
+//				inventoryContent.getElements().add(ref);
+//				SceneElementGO<?> go = (SceneElementGO<?>) gameObjectFactory
+//						.get(ref);
+//				int maxSide = Math.max(go.getRenderAsset().getHeight(), go
+//						.getRenderAsset().getWidth());
+//				float scale = (float) INVENTORY_HEIGHT / maxSide;
+//				go.setScale(scale);
 //			}
 //		}
-//		removeOldActors(removedActors);
-	}
-
-	/**
-	 * Add new actors (recently added ones) to the inventory
-	 */
-	private void addNewActors() {
-		for (EAdActor actor : gameState.getInventoryActors()) {
-			if (!includedActors.keySet().contains(actor)) {
-				EAdActorReferenceImpl ref = new EAdActorReferenceImpl(actor);
-				EAdActorActionsEffect showActions = new EAdActorActionsEffect(
-						ref.getId() + "_showActions", ref);
-				ref.getBehavior().addBehavior(
-						EAdMouseEventImpl.MOUSE_RIGHT_CLICK, showActions);
-				ref.setPosition(new EAdPositionImpl(
-						EAdPositionImpl.Corner.CENTER,
-						INVENTORY_HEIGHT / 2 + 10, INVENTORY_HEIGHT / 2));
-				((ActorReferenceGOImpl) gameObjectFactory.get(ref))
-						.setInventoryReference(true);
-				includedActors.put(actor, ref);
-				inventoryContent.getElements().add(ref);
-				SceneElementGO<?> go = (SceneElementGO<?>) gameObjectFactory
-						.get(ref);
-				int maxSide = Math.max(go.getRenderAsset().getHeight(), go
-						.getRenderAsset().getWidth());
-				float scale = (float) INVENTORY_HEIGHT / maxSide;
-				go.setScale(scale);
-			}
-		}
-	}
-
-	/**
-	 * Remove now unused actors from the inventory
-	 */
-	private void removeOldActors(List<EAdActor> removedActors) {
-		for (EAdActor actor : removedActors) {
-			inventoryContent.getElements().remove(includedActors.get(actor));
-			includedActors.remove(actor);
-			// TODO free resources?
-		}
-	}
-
-	@Override
-	public boolean contains(int x, int y) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public void render(EAdCanvas<?> c) {
-		// TODO Auto-generated method stub
-		
-	}
+//	}
+//
+//	/**
+//	 * Remove now unused actors from the inventory
+//	 */
+//	private void removeOldActors(List<EAdSceneElementDef> removedActors) {
+//		for (EAdSceneElementDef actor : removedActors) {
+//			inventoryContent.getElements().remove(includedActors.get(actor));
+//			includedActors.remove(actor);
+//			// TODO free resources?
+//		}
+//	}
+//
+//	@Override
+//	public boolean contains(int x, int y) {
+//		// TODO Auto-generated method stub
+//		return false;
+//	}
+//
+//	@Override
+//	public void render(EAdCanvas<?> c) {
+//		// TODO Auto-generated method stub
+//		
+//	}
 
 }

@@ -12,8 +12,8 @@ import es.eucm.eadventure.common.model.effects.impl.physics.EAdPhysicsEffect;
 import es.eucm.eadventure.common.model.effects.impl.physics.EAdPhysicsEffect.PhType;
 import es.eucm.eadventure.common.model.effects.impl.physics.PhApplyImpluse;
 import es.eucm.eadventure.common.model.effects.impl.variables.EAdChangeFieldValueEffect;
-import es.eucm.eadventure.common.model.elements.EAdActor;
-import es.eucm.eadventure.common.model.elements.impl.EAdBasicActor;
+import es.eucm.eadventure.common.model.elements.EAdSceneElementDef;
+import es.eucm.eadventure.common.model.elements.impl.EAdSceneElementDefImpl;
 import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
 import es.eucm.eadventure.common.model.elements.impl.EAdSceneImpl;
 import es.eucm.eadventure.common.model.events.EAdConditionEvent;
@@ -88,7 +88,7 @@ public class PhysicsScene extends EmptyScene {
 	}
 
 	@Override
-	public String getDescription() {
+	public String getSceneDescription() {
 		return "A scene showing the use of jbox2d";
 	}
 
@@ -171,7 +171,7 @@ public class PhysicsScene extends EmptyScene {
 
 		// Bullet generation
 
-		EAdActor bullet = new EAdBasicActor("bullet");
+		EAdSceneElementDef bullet = new EAdSceneElementDefImpl("bullet");
 		BezierShape circle = new CircleShape(10, 10, 10, 25);
 		circle.setPaint(new EAdLinearGradient(EAdColor.LIGHT_GRAY,
 				EAdColor.DARK_GRAY, 20, 20));

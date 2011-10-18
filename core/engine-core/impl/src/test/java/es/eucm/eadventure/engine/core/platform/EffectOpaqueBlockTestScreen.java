@@ -41,9 +41,8 @@ import com.google.inject.Inject;
 
 import es.eucm.eadventure.common.model.effects.impl.timedevents.EAdWaitEffect;
 import es.eucm.eadventure.common.model.elements.EAdScene;
-import es.eucm.eadventure.common.model.elements.impl.EAdActorReferenceImpl;
-import es.eucm.eadventure.common.model.elements.impl.EAdBasicActor;
 import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
+import es.eucm.eadventure.common.model.elements.impl.EAdSceneElementDefImpl;
 import es.eucm.eadventure.common.model.elements.impl.EAdSceneImpl;
 import es.eucm.eadventure.common.model.guievents.impl.EAdMouseEventImpl;
 import es.eucm.eadventure.common.params.geom.impl.EAdPositionImpl;
@@ -53,10 +52,10 @@ import es.eucm.eadventure.engine.core.GameLoop;
 
 public class EffectOpaqueBlockTestScreen extends EAdSceneImpl implements EAdScene {
 
-	private EAdBasicActor buttonActor;
+	private EAdSceneElementDefImpl buttonActor;
 	private StringHandler stringHandler;
-	private EAdActorReferenceImpl buttonReference;
-	private EAdActorReferenceImpl buttonReference2;
+	private EAdBasicSceneElement buttonReference;
+	private EAdBasicSceneElement buttonReference2;
 	private EAdBasicSceneElement buttonActor2;
 
 	@Inject
@@ -73,16 +72,16 @@ public class EffectOpaqueBlockTestScreen extends EAdSceneImpl implements EAdScen
 	}
 	
 	private void initButtonActor() {
-		buttonActor = new EAdBasicActor("StartGame");
+		buttonActor = new EAdSceneElementDefImpl("StartGame");
 		buttonActor.getResources().addAsset(buttonActor.getInitialBundle(),
-				EAdBasicActor.appearance, new ImageImpl("@drawable/start.png"));
+				EAdSceneElementDefImpl.appearance, new ImageImpl("@drawable/start.png"));
 		stringHandler.setString(buttonActor.getName(), "Start game");
 		
 //		EAdBehavior b = new StandardBehavior(buttonActor, "b");
 		
 //		buttonActor.setBehavior(b);
 		
-		buttonReference = new EAdActorReferenceImpl( "id4", buttonActor);
+		buttonReference = new EAdBasicSceneElement( buttonActor);
 		buttonReference.setPosition(new EAdPositionImpl(
 				EAdPositionImpl.Corner.BOTTOM_CENTER, 200, 200));
 	}
@@ -90,7 +89,7 @@ public class EffectOpaqueBlockTestScreen extends EAdSceneImpl implements EAdScen
 	private void initButtonActor2() {
 		buttonActor2 = new EAdBasicSceneElement("StartGame");
 		buttonActor2.getResources().addAsset(buttonActor2.getInitialBundle(),
-				EAdBasicActor.appearance, new ImageImpl("@drawable/start.png"));
+				EAdSceneElementDefImpl.appearance, new ImageImpl("@drawable/start.png"));
 		
 		EAdWaitEffect waitEffect = new EAdWaitEffect( "wait", GameLoop.SKIP_MILLIS_TICK + 1);
 		buttonActor2.addBehavior(EAdMouseEventImpl.MOUSE_LEFT_CLICK, waitEffect );

@@ -3,9 +3,9 @@ package es.eucm.eadventure.engine.core.gameobjects.impl.effects;
 import com.google.inject.Inject;
 
 import es.eucm.eadventure.common.model.effects.impl.EAdAddActorReferenceEffect;
-import es.eucm.eadventure.common.model.elements.EAdActor;
 import es.eucm.eadventure.common.model.elements.EAdScene;
-import es.eucm.eadventure.common.model.elements.impl.EAdActorReferenceImpl;
+import es.eucm.eadventure.common.model.elements.EAdSceneElementDef;
+import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
 import es.eucm.eadventure.common.model.events.EAdSceneElementEvent;
 import es.eucm.eadventure.common.model.events.EAdSceneElementEvent.SceneElementEvent;
 import es.eucm.eadventure.common.model.events.impl.EAdSceneElementEventImpl;
@@ -34,8 +34,8 @@ public class AddActorReferenceEffectGO extends
 		super.initilize();
 		EAdScene scene = gameState.getScene().getElement();
 		if (scene != null) {
-			EAdActor actor = element.getActor();
-			EAdActorReferenceImpl ref = new EAdActorReferenceImpl(actor);
+			EAdSceneElementDef actor = element.getActor();
+			EAdBasicSceneElement ref = new EAdBasicSceneElement(actor);
 			ref.setPosition(element.getPosition());
 			EAdSceneElementEvent event = new EAdSceneElementEventImpl();
 			event.addEffect(SceneElementEvent.ADDED_TO_SCENE,

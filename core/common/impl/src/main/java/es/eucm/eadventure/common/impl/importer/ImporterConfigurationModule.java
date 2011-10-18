@@ -110,13 +110,12 @@ import es.eucm.eadventure.common.model.effects.EAdEffect;
 import es.eucm.eadventure.common.model.effects.EAdMacro;
 import es.eucm.eadventure.common.model.effects.impl.EAdTriggerMacro;
 import es.eucm.eadventure.common.model.effects.impl.timedevents.EAdShowSceneElement;
-import es.eucm.eadventure.common.model.elements.EAdActor;
-import es.eucm.eadventure.common.model.elements.EAdActorReference;
 import es.eucm.eadventure.common.model.elements.EAdAdventureModel;
 import es.eucm.eadventure.common.model.elements.EAdChapter;
 import es.eucm.eadventure.common.model.elements.EAdCondition;
 import es.eucm.eadventure.common.model.elements.EAdScene;
 import es.eucm.eadventure.common.model.elements.EAdSceneElement;
+import es.eucm.eadventure.common.model.elements.EAdSceneElementDef;
 import es.eucm.eadventure.common.model.elements.EAdTimer;
 import es.eucm.eadventure.common.model.elements.impl.EAdSceneImpl;
 import es.eucm.eadventure.common.model.elements.impl.EAdVideoScene;
@@ -177,21 +176,21 @@ public class ImporterConfigurationModule extends AbstractModule {
 				VideosceneImporter.class);
 
 		bind(
-				new TypeLiteral<EAdElementImporter<ElementReference, EAdActorReference>>() {
+				new TypeLiteral<EAdElementImporter<ElementReference, EAdSceneElement>>() {
 				}).to(ElementReferenceImporter.class);
 		EAdElementFactoryImpl.importerMap.put(ElementReference.class,
 				ElementReferenceImporter.class);
 
-		bind(new TypeLiteral<EAdElementImporter<Atrezzo, EAdActor>>() {
+		bind(new TypeLiteral<EAdElementImporter<Atrezzo, EAdSceneElementDef>>() {
 		}).to(AtrezzoImporter.class);
 		EAdElementFactoryImpl.importerMap.put(Atrezzo.class,
 				AtrezzoImporter.class);
 
-		bind(new TypeLiteral<EAdElementImporter<Item, EAdActor>>() {
+		bind(new TypeLiteral<EAdElementImporter<Item, EAdSceneElementDef>>() {
 		}).to(ItemImporter.class);
 		EAdElementFactoryImpl.importerMap.put(Item.class, ItemImporter.class);
 
-		bind(new TypeLiteral<EAdElementImporter<NPC, EAdActor>>() {
+		bind(new TypeLiteral<EAdElementImporter<NPC, EAdSceneElementDef>>() {
 		}).to(NPCImporter.class);
 		EAdElementFactoryImpl.importerMap.put(NPC.class, NPCImporter.class);
 		EAdElementFactoryImpl.importerMap.put(Player.class, NPCImporter.class);

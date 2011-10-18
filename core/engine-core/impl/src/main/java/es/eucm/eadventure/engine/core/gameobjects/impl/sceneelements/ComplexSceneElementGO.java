@@ -43,10 +43,10 @@ import java.util.logging.Logger;
 import com.google.inject.Inject;
 
 import es.eucm.eadventure.common.model.effects.EAdEffect;
-import es.eucm.eadventure.common.model.elements.EAdComposedElement;
+import es.eucm.eadventure.common.model.elements.EAdComplexElement;
 import es.eucm.eadventure.common.model.elements.EAdSceneElement;
 import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
-import es.eucm.eadventure.common.model.elements.impl.EAdComposedElementImpl;
+import es.eucm.eadventure.common.model.elements.impl.EAdComplexElementImpl;
 import es.eucm.eadventure.common.model.extra.EAdList;
 import es.eucm.eadventure.common.resources.StringHandler;
 import es.eucm.eadventure.engine.core.GameState;
@@ -64,7 +64,7 @@ import es.eucm.eadventure.engine.core.platform.RuntimeAsset;
 import es.eucm.eadventure.engine.core.util.EAdTransformation;
 
 public class ComplexSceneElementGO extends
-		SceneElementGOImpl<EAdComposedElement> {
+		SceneElementGOImpl<EAdComplexElement> {
 
 	private static final Logger logger = Logger
 			.getLogger("EAdComplexSceneElement");
@@ -90,7 +90,7 @@ public class ComplexSceneElementGO extends
 		return null;
 	}
 
-	public void setElement(EAdComposedElement element) {
+	public void setElement(EAdComplexElement element) {
 		super.setElement(element);
 		for (EAdSceneElement sceneElement : element.getElements()) {
 			SceneElementGO<?> go = (SceneElementGO<?>) gameObjectFactory
@@ -102,10 +102,20 @@ public class ComplexSceneElementGO extends
 	@Override
 	public boolean processAction(GUIAction action) {
 		EAdList<EAdEffect> list = element.getEffects(action.getGUIEvent());
+		boolean processed = addEffects( list, action );
+		if ( element.getDefinition() != element ){
+			list = element.getDefinition().getEffects(action.getGUIEvent());
+			processed |= addEffects( list, action );
+		}
+		return processed;
+
+	}
+	
+	private boolean addEffects( EAdList<EAdEffect> list, GUIAction action ){
 		if (list != null && list.size() > 0) {
 			action.consume();
-			for (EAdEffect e : element.getEffects(action.getGUIEvent())) {
-				gameState.addEffect(e);
+			for (EAdEffect e : list) {
+				gameState.addEffect(e, action);
 			}
 			return true;
 		}
@@ -125,9 +135,9 @@ public class ComplexSceneElementGO extends
 		setWidth(valueMap.getValue(element, EAdBasicSceneElement.VAR_WIDTH));
 		setHeight(valueMap.getValue(element, EAdBasicSceneElement.VAR_HEIGHT));
 		boolean updateWidth = valueMap.getValue(element,
-				EAdComposedElementImpl.VAR_AUTO_SIZE_HORIZONTAL);
+				EAdComplexElementImpl.VAR_AUTO_SIZE_HORIZONTAL);
 		boolean updateHeight = valueMap.getValue(element,
-				EAdComposedElementImpl.VAR_AUTO_SIZE_VERTICAL);
+				EAdComplexElementImpl.VAR_AUTO_SIZE_VERTICAL);
 
 		if (updateWidth || updateHeight) {
 			updateDimensions(updateWidth, updateHeight);
