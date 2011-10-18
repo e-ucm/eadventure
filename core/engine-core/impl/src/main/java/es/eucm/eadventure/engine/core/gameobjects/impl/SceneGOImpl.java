@@ -49,7 +49,6 @@ import es.eucm.eadventure.common.model.elements.EAdSceneElement;
 import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
 import es.eucm.eadventure.common.resources.StringHandler;
 import es.eucm.eadventure.engine.core.GameState;
-import es.eucm.eadventure.engine.core.ValueMap;
 import es.eucm.eadventure.engine.core.gameobjects.GameObject;
 import es.eucm.eadventure.engine.core.gameobjects.GameObjectFactory;
 import es.eucm.eadventure.engine.core.gameobjects.SceneGO;
@@ -69,9 +68,8 @@ public class SceneGOImpl extends SceneElementGOImpl<EAdScene> implements
 
 	@Inject
 	public SceneGOImpl(AssetHandler assetHandler, StringHandler stringHandler,
-			GameObjectFactory gameObjectFactory, GUI gui, GameState gameState,
-			ValueMap valueMap) {
-		super(assetHandler, stringHandler, gameObjectFactory, gui, gameState, valueMap);
+			GameObjectFactory gameObjectFactory, GUI gui, GameState gameState) {
+		super(assetHandler, stringHandler, gameObjectFactory, gui, gameState);
 		orderedElements = new ArrayList<EAdSceneElement>();
 	}
 
@@ -98,8 +96,8 @@ public class SceneGOImpl extends SceneElementGOImpl<EAdScene> implements
 
 		@Override
 		public int compare(EAdSceneElement o1, EAdSceneElement o2) {
-			int z1 = valueMap.getValue(o1, EAdBasicSceneElement.VAR_Z);
-			int z2 = valueMap.getValue(o2, EAdBasicSceneElement.VAR_Z);
+			int z1 = gameState.getValueMap().getValue(o1, EAdBasicSceneElement.VAR_Z);
+			int z2 = gameState.getValueMap().getValue(o2, EAdBasicSceneElement.VAR_Z);
 			return z1 - z2;
 		}
 

@@ -43,7 +43,6 @@ import es.eucm.eadventure.common.model.effects.impl.timedevents.EAdShowSceneElem
 import es.eucm.eadventure.common.resources.StringHandler;
 import es.eucm.eadventure.engine.core.GameLoop;
 import es.eucm.eadventure.engine.core.GameState;
-import es.eucm.eadventure.engine.core.ValueMap;
 import es.eucm.eadventure.engine.core.gameobjects.GameObjectFactory;
 import es.eucm.eadventure.engine.core.gameobjects.SceneElementGO;
 import es.eucm.eadventure.engine.core.platform.AssetHandler;
@@ -59,9 +58,8 @@ public class ShowSceneElementGO extends AbstractEffectGO<EAdShowSceneElement> {
 	@Inject
 	public ShowSceneElementGO(AssetHandler assetHandler,
 			StringHandler stringHandler, GameObjectFactory gameObjectFactory,
-			GUI gui, GameState gameState, ValueMap valueMap) {
-		super(assetHandler, stringHandler, gameObjectFactory, gui, gameState,
-				valueMap);
+			GUI gui, GameState gameState) {
+		super(assetHandler, stringHandler, gameObjectFactory, gui, gameState);
 	}
 
 	@Override

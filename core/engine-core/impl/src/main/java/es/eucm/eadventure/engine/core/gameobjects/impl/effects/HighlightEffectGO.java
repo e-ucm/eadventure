@@ -44,7 +44,6 @@ import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
 import es.eucm.eadventure.common.resources.StringHandler;
 import es.eucm.eadventure.engine.core.GameLoop;
 import es.eucm.eadventure.engine.core.GameState;
-import es.eucm.eadventure.engine.core.ValueMap;
 import es.eucm.eadventure.engine.core.gameobjects.GameObjectFactory;
 import es.eucm.eadventure.engine.core.platform.AssetHandler;
 import es.eucm.eadventure.engine.core.platform.GUI;
@@ -61,15 +60,14 @@ public class HighlightEffectGO extends
 	@Inject
 	public HighlightEffectGO(AssetHandler assetHandler,
 			StringHandler stringHandler, GameObjectFactory gameObjectFactory,
-			GUI gui, GameState gameState, ValueMap valueMap) {
-		super(assetHandler, stringHandler, gameObjectFactory, gui, gameState,
-				valueMap);
+			GUI gui, GameState gameState) {
+		super(assetHandler, stringHandler, gameObjectFactory, gui, gameState);
 	}
 
 	@Override
 	public void initilize() {
 		super.initilize();
-		oldScale = valueMap.getValue(element, EAdBasicSceneElement.VAR_SCALE);
+		oldScale = gameState.getValueMap().getValue(element, EAdBasicSceneElement.VAR_SCALE);
 		time = element.getTime();
 		started = false;
 	}
@@ -82,13 +80,13 @@ public class HighlightEffectGO extends
 	public void update() {
 		if (time > 0) {
 			if (!started) {
-				valueMap.setValue(element, EAdBasicSceneElement.VAR_SCALE,
+				gameState.getValueMap().setValue(element, EAdBasicSceneElement.VAR_SCALE,
 						oldScale * 2);
 				started = true;
 			}
 			time -= GameLoop.SKIP_MILLIS_TICK;
 			if (time <= 0) {
-				valueMap.setValue(element, EAdBasicSceneElement.VAR_SCALE,
+				gameState.getValueMap().setValue(element, EAdBasicSceneElement.VAR_SCALE,
 						oldScale);
 			}
 		}

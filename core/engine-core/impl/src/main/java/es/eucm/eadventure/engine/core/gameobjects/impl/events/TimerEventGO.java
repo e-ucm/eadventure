@@ -43,7 +43,6 @@ import es.eucm.eadventure.common.model.elements.impl.EAdTimerImpl;
 import es.eucm.eadventure.common.model.events.EAdTimerEvent;
 import es.eucm.eadventure.common.resources.StringHandler;
 import es.eucm.eadventure.engine.core.GameState;
-import es.eucm.eadventure.engine.core.ValueMap;
 import es.eucm.eadventure.engine.core.gameobjects.GameObjectFactory;
 import es.eucm.eadventure.engine.core.gameobjects.TimerGO;
 import es.eucm.eadventure.engine.core.platform.AssetHandler;
@@ -55,16 +54,15 @@ public class TimerEventGO extends AbstractEventGO<EAdTimerEvent> {
 
 	@Inject
 	public TimerEventGO(AssetHandler assetHandler, StringHandler stringHandler,
-			GameObjectFactory gameObjectFactory, GUI gui, GameState gameState,
-			ValueMap valueMap) {
-		super(assetHandler, stringHandler, gameObjectFactory, gui, gameState, valueMap);
+			GameObjectFactory gameObjectFactory, GUI gui, GameState gameState) {
+		super(assetHandler, stringHandler, gameObjectFactory, gui, gameState);
 	}
 	
 	@Override
 	public void update() {
 		super.update();
 		TimerGO timer = (TimerGO) gameObjectFactory.get(element.getTimer());
-		if (valueMap.getValue(timer.getElement(), EAdTimerImpl.VAR_ENDED)) {
+		if (gameState.getValueMap().getValue(timer.getElement(), EAdTimerImpl.VAR_ENDED)) {
 			if (!triggered) {
 				//TODO this should only run if it does not restart
 				runEffects(element.getEffects(EAdTimerEvent.TimerEvent.TIMER_STOPPED));

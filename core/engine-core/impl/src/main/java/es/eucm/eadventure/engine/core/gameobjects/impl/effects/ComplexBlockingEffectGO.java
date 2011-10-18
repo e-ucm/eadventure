@@ -45,7 +45,6 @@ import es.eucm.eadventure.common.model.effects.impl.EAdComplexBlockingEffect;
 import es.eucm.eadventure.common.model.elements.EAdSceneElement;
 import es.eucm.eadventure.common.resources.StringHandler;
 import es.eucm.eadventure.engine.core.GameState;
-import es.eucm.eadventure.engine.core.ValueMap;
 import es.eucm.eadventure.engine.core.gameobjects.GameObjectFactory;
 import es.eucm.eadventure.engine.core.gameobjects.SceneElementGO;
 import es.eucm.eadventure.engine.core.platform.AssetHandler;
@@ -58,9 +57,8 @@ public class ComplexBlockingEffectGO extends
 	@Inject
 	public ComplexBlockingEffectGO(AssetHandler assetHandler,
 			StringHandler stringHandler, GameObjectFactory gameObjectFactory,
-			GUI gui, GameState gameState, ValueMap valueMap) {
-		super(assetHandler, stringHandler, gameObjectFactory, gui, gameState,
-				valueMap);
+			GUI gui, GameState gameState) {
+		super(assetHandler, stringHandler, gameObjectFactory, gui, gameState);
 	}
 
 	@Override
@@ -79,7 +77,7 @@ public class ComplexBlockingEffectGO extends
 
 	@Override
 	public boolean isFinished() {
-		return valueMap.getValue(element,
+		return gameState.getValueMap().getValue(element,
 				EAdComplexBlockingEffect.VAR_EFFECT_FINISHED);
 	}
 
@@ -97,7 +95,7 @@ public class ComplexBlockingEffectGO extends
 			gameState.addEffect(e, action);
 		}
 		for (EAdElement e : element.getComponents()) {
-			valueMap.remove(e);
+			gameState.getValueMap().remove(e);
 			gameObjectFactory.remove(e);
 		}
 

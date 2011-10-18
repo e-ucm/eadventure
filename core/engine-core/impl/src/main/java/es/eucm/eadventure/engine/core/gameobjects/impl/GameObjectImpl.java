@@ -9,7 +9,6 @@ import es.eucm.eadventure.common.params.geom.EAdPosition;
 import es.eucm.eadventure.common.resources.StringHandler;
 import es.eucm.eadventure.engine.core.GameState;
 import es.eucm.eadventure.engine.core.MouseState;
-import es.eucm.eadventure.engine.core.ValueMap;
 import es.eucm.eadventure.engine.core.gameobjects.GameObject;
 import es.eucm.eadventure.engine.core.gameobjects.GameObjectFactory;
 import es.eucm.eadventure.engine.core.guiactions.GUIAction;
@@ -37,8 +36,6 @@ public abstract class GameObjectImpl<T extends EAdElement> implements
 
 	protected GameState gameState;
 
-	protected ValueMap valueMap;
-
 	protected T element;
 
 	protected EAdTransformationImpl transformation;
@@ -46,13 +43,12 @@ public abstract class GameObjectImpl<T extends EAdElement> implements
 	@Inject
 	public GameObjectImpl(AssetHandler assetHandler,
 			StringHandler stringReader, GameObjectFactory gameObjectFactory,
-			GUI gui, GameState gameState, ValueMap valueMap) {
+			GUI gui, GameState gameState) {
 		this.assetHandler = assetHandler;
 		this.stringsReader = stringReader;
 		this.gameObjectFactory = gameObjectFactory;
 		this.gui = gui;
 		this.gameState = gameState;
-		this.valueMap = valueMap;
 	}
 
 	@Override

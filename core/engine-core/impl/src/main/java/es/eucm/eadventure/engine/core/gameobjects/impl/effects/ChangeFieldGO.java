@@ -43,7 +43,6 @@ import es.eucm.eadventure.common.model.effects.impl.variables.EAdChangeFieldValu
 import es.eucm.eadventure.common.model.variables.EAdField;
 import es.eucm.eadventure.common.resources.StringHandler;
 import es.eucm.eadventure.engine.core.GameState;
-import es.eucm.eadventure.engine.core.ValueMap;
 import es.eucm.eadventure.engine.core.gameobjects.GameObjectFactory;
 import es.eucm.eadventure.engine.core.operator.OperatorFactory;
 import es.eucm.eadventure.engine.core.platform.AssetHandler;
@@ -56,8 +55,8 @@ public class ChangeFieldGO extends AbstractEffectGO<EAdChangeFieldValueEffect> {
 	@Inject
 	public ChangeFieldGO(AssetHandler assetHandler,
 			StringHandler stringHandler, GameObjectFactory gameObjectFactory,
-			GUI gui, GameState gameState, ValueMap valueMap, OperatorFactory operatorFactory) {
-		super(assetHandler, stringHandler, gameObjectFactory, gui, gameState, valueMap);
+			GUI gui, GameState gameState, OperatorFactory operatorFactory) {
+		super(assetHandler, stringHandler, gameObjectFactory, gui, gameState);
 		this.operatorFactory = operatorFactory;
 	}
 

@@ -50,7 +50,6 @@ import es.eucm.eadventure.common.resources.StringHandler;
 import es.eucm.eadventure.engine.core.GameLoop;
 import es.eucm.eadventure.engine.core.GameState;
 import es.eucm.eadventure.engine.core.MouseState;
-import es.eucm.eadventure.engine.core.ValueMap;
 import es.eucm.eadventure.engine.core.gameobjects.GameObject;
 import es.eucm.eadventure.engine.core.gameobjects.GameObjectFactory;
 import es.eucm.eadventure.engine.core.gameobjects.TimerGO;
@@ -68,9 +67,8 @@ public class TimerGOImpl extends GameObjectImpl<EAdTimer> implements TimerGO {
 
 	@Inject
 	public TimerGOImpl(AssetHandler assetHandler, StringHandler stringsReader,
-			GameObjectFactory gameObjectFactory, GUI gui, GameState gameState,
-			ValueMap valueMap) {
-		super(assetHandler, stringsReader, gameObjectFactory, gui, gameState, valueMap);
+			GameObjectFactory gameObjectFactory, GUI gui, GameState gameState) {
+		super(assetHandler, stringsReader, gameObjectFactory, gui, gameState);
 	}
 
 	@Override
@@ -101,21 +99,21 @@ public class TimerGOImpl extends GameObjectImpl<EAdTimer> implements TimerGO {
 	@Override
 	public void update() {
 		super.update();
-		if (valueMap.getValue(element, EAdTimerImpl.VAR_ENDED)) {
+		if (gameState.getValueMap().getValue(element, EAdTimerImpl.VAR_ENDED)) {
 			logger.log(Level.INFO, "ENDED");
-			valueMap.setValue(element, EAdTimerImpl.VAR_ENDED, Boolean.FALSE);
+			gameState.getValueMap().setValue(element, EAdTimerImpl.VAR_ENDED, Boolean.FALSE);
 			//TODO trigger finished effects
 		}
-		if (valueMap.getValue(element, EAdTimerImpl.VAR_STARTED)) {
+		if (gameState.getValueMap().getValue(element, EAdTimerImpl.VAR_STARTED)) {
 			if (passedTime == 0)
 				logger.log(Level.INFO, "STARTED");
 			
 			passedTime += GameLoop.SKIP_MILLIS_TICK;
 			if (passedTime > element.getTime()) {
-				valueMap.setValue(element, EAdTimerImpl.VAR_ENDED, Boolean.TRUE);
+				gameState.getValueMap().setValue(element, EAdTimerImpl.VAR_ENDED, Boolean.TRUE);
 
 				//TODO should not do this if restart
-				valueMap.setValue(element, EAdTimerImpl.VAR_STARTED, Boolean.FALSE);
+				gameState.getValueMap().setValue(element, EAdTimerImpl.VAR_STARTED, Boolean.FALSE);
 				passedTime = 0;
 			}
 		}

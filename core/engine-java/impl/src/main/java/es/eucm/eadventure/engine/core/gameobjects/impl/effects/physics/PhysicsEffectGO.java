@@ -29,7 +29,6 @@ import es.eucm.eadventure.engine.core.gameobjects.GameObjectFactory;
 import es.eucm.eadventure.engine.core.gameobjects.impl.effects.AbstractEffectGO;
 import es.eucm.eadventure.engine.core.platform.AssetHandler;
 import es.eucm.eadventure.engine.core.platform.GUI;
-import es.eucm.eadventure.engine.core.platform.PlatformConfiguration;
 
 public class PhysicsEffectGO extends AbstractEffectGO<EAdPhysicsEffect> {
 
@@ -46,10 +45,8 @@ public class PhysicsEffectGO extends AbstractEffectGO<EAdPhysicsEffect> {
 	@Inject
 	public PhysicsEffectGO(AssetHandler assetHandler,
 			StringHandler stringsReader, GameObjectFactory gameObjectFactory,
-			GUI gui, GameState gameState, ValueMap valueMap,
-			PlatformConfiguration platformConfiguration) {
-		super(assetHandler, stringsReader, gameObjectFactory, gui, gameState,
-				valueMap, platformConfiguration);
+			GUI gui, GameState gameState) {
+		super(assetHandler, stringsReader, gameObjectFactory, gui, gameState);
 	}
 
 	@Override
@@ -59,6 +56,7 @@ public class PhysicsEffectGO extends AbstractEffectGO<EAdPhysicsEffect> {
 		world = new World(new Vec2(0.0f, 10.0f), false);
 		world.setContinuousPhysics(true);
 		world.setWarmStarting(true);
+		ValueMap valueMap = gameState.getValueMap();
 		valueMap.setValue(null, VAR_PH_WORLD, world);
 
 		timeStep = 1.0f / (float) GameLoop.TICKS_PER_SECOND;
@@ -96,6 +94,7 @@ public class PhysicsEffectGO extends AbstractEffectGO<EAdPhysicsEffect> {
 		EAdScene scene = gameState.getScene().getElement();
 
 		for (EAdSceneElement e : scene.getElements()) {
+			ValueMap valueMap = gameState.getValueMap();
 			Body b = valueMap.getValue(e, VAR_PH_BODY);
 			if (b != null) {
 

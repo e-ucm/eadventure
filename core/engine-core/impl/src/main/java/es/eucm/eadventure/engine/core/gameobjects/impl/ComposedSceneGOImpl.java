@@ -46,7 +46,6 @@ import es.eucm.eadventure.common.model.elements.EAdScene;
 import es.eucm.eadventure.common.model.elements.impl.EAdComposedScene;
 import es.eucm.eadventure.common.resources.StringHandler;
 import es.eucm.eadventure.engine.core.GameState;
-import es.eucm.eadventure.engine.core.ValueMap;
 import es.eucm.eadventure.engine.core.gameobjects.GameObjectFactory;
 import es.eucm.eadventure.engine.core.gameobjects.SceneGO;
 import es.eucm.eadventure.engine.core.platform.AssetHandler;
@@ -65,9 +64,8 @@ public class ComposedSceneGOImpl extends DrawableGameObject<EAdComposedScene>
 	@Inject
 	public ComposedSceneGOImpl(AssetHandler assetHandler,
 			StringHandler stringsReader, GameObjectFactory gameObjectFactory,
-			GUI gui, GameState gameState, ValueMap valueMap) {
-		super(assetHandler, stringsReader, gameObjectFactory, gui, gameState,
-				valueMap);
+			GUI gui, GameState gameState) {
+		super(assetHandler, stringsReader, gameObjectFactory, gui, gameState);
 		logger.info("New instance");
 	}
 
@@ -113,7 +111,7 @@ public class ComposedSceneGOImpl extends DrawableGameObject<EAdComposedScene>
 	}
 
 	private void updateScene() {
-		int currentSceneIndex = valueMap.getValue(element,
+		int currentSceneIndex = gameState.getValueMap().getValue(element,
 				EAdComposedScene.VAR_CURRENT_SCENE);
 		currentScene = element.getScenes().get(currentSceneIndex);
 	}

@@ -73,10 +73,9 @@ public class ComplexSceneElementGO extends
 	@Inject
 	public ComplexSceneElementGO(AssetHandler assetHandler,
 			StringHandler stringHandler, GameObjectFactory gameObjectFactory,
-			GUI gui, GameState gameState, ValueMap valueMap,
+			GUI gui, GameState gameState,
 			EvaluatorFactory evaluatorFactory) {
-		super(assetHandler, stringHandler, gameObjectFactory, gui, gameState,
-				valueMap);
+		super(assetHandler, stringHandler, gameObjectFactory, gui, gameState);
 		logger.info("New instance");
 		this.evaluatorFactory = evaluatorFactory;
 	}
@@ -130,6 +129,7 @@ public class ComplexSceneElementGO extends
 
 	protected void updateVars() {
 		super.updateVars();
+		ValueMap valueMap = gameState.getValueMap();
 		setWidth(valueMap.getValue(element, EAdBasicSceneElement.VAR_WIDTH));
 		setHeight(valueMap.getValue(element, EAdBasicSceneElement.VAR_HEIGHT));
 		boolean updateWidth = valueMap.getValue(element,

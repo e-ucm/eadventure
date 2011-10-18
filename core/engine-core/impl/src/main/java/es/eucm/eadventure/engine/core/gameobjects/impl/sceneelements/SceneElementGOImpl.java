@@ -102,9 +102,8 @@ public abstract class SceneElementGOImpl<T extends EAdSceneElement> extends
 	@Inject
 	public SceneElementGOImpl(AssetHandler assetHandler,
 			StringHandler stringHandler, GameObjectFactory gameObjectFactory,
-			GUI gui, GameState gameState, ValueMap valueMap) {
-		super(assetHandler, stringHandler, gameObjectFactory, gui, gameState,
-				valueMap);
+			GUI gui, GameState gameState) {
+		super(assetHandler, stringHandler, gameObjectFactory, gui, gameState);
 		logger.info("New instance");
 	}
 
@@ -126,12 +125,12 @@ public abstract class SceneElementGOImpl<T extends EAdSceneElement> extends
 		super.setElement(element);
 
 		if (element.isClone()) {
-			valueMap.remove(element);
+			gameState.getValueMap().remove(element);
 		}
 
 		for (Entry<EAdVarDef<?>, Object> entry : element.getVars().entrySet()) {
 			// FIXME this has to change, to disappear
-			valueMap.setValue(entry.getKey(), entry.getValue(), element);
+			gameState.getValueMap().setValue(entry.getKey(), entry.getValue(), element);
 		}
 
 		position = new EAdPositionImpl(0, 0);
@@ -145,6 +144,7 @@ public abstract class SceneElementGOImpl<T extends EAdSceneElement> extends
 	 * Read vars values
 	 */
 	protected void updateVars() {
+		ValueMap valueMap = gameState.getValueMap();
 		enable = valueMap.getValue(element, EAdBasicSceneElement.VAR_ENABLE);
 		visible = valueMap.getValue(element, EAdBasicSceneElement.VAR_VISIBLE);
 		rotation = valueMap
@@ -174,10 +174,10 @@ public abstract class SceneElementGOImpl<T extends EAdSceneElement> extends
 		int scaleH = (int) (height * scale);
 		int x = position.getJavaX(scaleW);
 		int y = position.getJavaY(scaleH);
-		valueMap.setValue(element, EAdBasicSceneElement.VAR_LEFT, x);
-		valueMap.setValue(element, EAdBasicSceneElement.VAR_RIGHT, x + scaleW);
-		valueMap.setValue(element, EAdBasicSceneElement.VAR_TOP, y);
-		valueMap.setValue(element, EAdBasicSceneElement.VAR_BOTTOM, y + scaleH);
+		gameState.getValueMap().setValue(element, EAdBasicSceneElement.VAR_LEFT, x);
+		gameState.getValueMap().setValue(element, EAdBasicSceneElement.VAR_RIGHT, x + scaleW);
+		gameState.getValueMap().setValue(element, EAdBasicSceneElement.VAR_TOP, y);
+		gameState.getValueMap().setValue(element, EAdBasicSceneElement.VAR_BOTTOM, y + scaleH);
 
 	}
 
@@ -216,7 +216,7 @@ public abstract class SceneElementGOImpl<T extends EAdSceneElement> extends
 	public void update() {
 		super.update();
 
-		valueMap.setValue(element, EAdBasicSceneElement.VAR_TIME_DISPLAYED,
+		gameState.getValueMap().setValue(element, EAdBasicSceneElement.VAR_TIME_DISPLAYED,
 				timeDisplayed + GameLoop.SKIP_MILLIS_TICK);
 		if (getAsset() != null)
 			getAsset().update();
@@ -231,6 +231,7 @@ public abstract class SceneElementGOImpl<T extends EAdSceneElement> extends
 
 	@Override
 	public void setPosition(EAdPosition position) {
+		ValueMap valueMap = gameState.getValueMap();
 		valueMap.setValue(element, EAdBasicSceneElement.VAR_X, position.getX());
 		valueMap.setValue(element, EAdBasicSceneElement.VAR_Y, position.getY());
 		valueMap.setValue(element, EAdBasicSceneElement.VAR_DISP_X,
@@ -241,7 +242,7 @@ public abstract class SceneElementGOImpl<T extends EAdSceneElement> extends
 
 	@Override
 	public void setOrientation(Orientation orientation) {
-		valueMap.setValue(element, EAdBasicSceneElement.VAR_ORIENTATION,
+		gameState.getValueMap().setValue(element, EAdBasicSceneElement.VAR_ORIENTATION,
 				orientation);
 	}
 
@@ -379,17 +380,17 @@ public abstract class SceneElementGOImpl<T extends EAdSceneElement> extends
 
 	@Override
 	public void setScale(float scale) {
-		valueMap.setValue(element, EAdBasicSceneElement.VAR_SCALE, scale);
+		gameState.getValueMap().setValue(element, EAdBasicSceneElement.VAR_SCALE, scale);
 	}
 
 	public void setWidth(int width) {
 		this.width = width;
-		valueMap.setValue(element, EAdBasicSceneElement.VAR_WIDTH, width);
+		gameState.getValueMap().setValue(element, EAdBasicSceneElement.VAR_WIDTH, width);
 	}
 
 	public void setHeight(int height) {
 		this.height = height;
-		valueMap.setValue(element, EAdBasicSceneElement.VAR_HEIGHT, height);
+		gameState.getValueMap().setValue(element, EAdBasicSceneElement.VAR_HEIGHT, height);
 	}
 
 	@Override

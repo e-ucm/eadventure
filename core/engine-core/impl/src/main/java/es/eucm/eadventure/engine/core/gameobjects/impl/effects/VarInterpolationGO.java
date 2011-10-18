@@ -46,7 +46,6 @@ import es.eucm.eadventure.common.model.variables.EAdField;
 import es.eucm.eadventure.common.resources.StringHandler;
 import es.eucm.eadventure.engine.core.GameLoop;
 import es.eucm.eadventure.engine.core.GameState;
-import es.eucm.eadventure.engine.core.ValueMap;
 import es.eucm.eadventure.engine.core.gameobjects.GameObjectFactory;
 import es.eucm.eadventure.engine.core.operator.OperatorFactory;
 import es.eucm.eadventure.engine.core.platform.AssetHandler;
@@ -78,10 +77,9 @@ public class VarInterpolationGO extends
 	@Inject
 	public VarInterpolationGO(AssetHandler assetHandler,
 			StringHandler stringHandler, GameObjectFactory gameObjectFactory,
-			GUI gui, GameState gameState, ValueMap valueMap,
+			GUI gui, GameState gameState,
 			OperatorFactory operatorFactory) {
-		super(assetHandler, stringHandler, gameObjectFactory, gui, gameState,
-				valueMap);
+		super(assetHandler, stringHandler, gameObjectFactory, gui, gameState);
 		this.operatorFactory = operatorFactory;
 	}
 
@@ -136,11 +134,11 @@ public class VarInterpolationGO extends
 					currentTime = element.getInterpolationTime();
 					finished = true;
 					if (integer)
-						valueMap.setValue(
+						gameState.getValueMap().setValue(
 								(EAdField<Integer>) element.getField(),
 								Math.round(endValue));
 					else
-						valueMap.setValue((EAdField<Float>) element.getField(),
+						gameState.getValueMap().setValue((EAdField<Float>) element.getField(),
 								(Float) endValue);
 
 					logger.info(element.getField().toString() + " set to "
@@ -150,10 +148,10 @@ public class VarInterpolationGO extends
 
 				// TODO this should be done "automatically"
 				if (integer)
-					valueMap.setValue((EAdField<Integer>) element.getField(),
+					gameState.getValueMap().setValue((EAdField<Integer>) element.getField(),
 							(Integer) interpolation());
 				else
-					valueMap.setValue((EAdField<Float>) element.getField(),
+					gameState.getValueMap().setValue((EAdField<Float>) element.getField(),
 							(Float) interpolation());
 			}
 		} else {

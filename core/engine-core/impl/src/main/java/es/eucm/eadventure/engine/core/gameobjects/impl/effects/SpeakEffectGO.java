@@ -49,9 +49,8 @@ public class SpeakEffectGO extends AbstractEffectGO<EAdSpeakEffect> {
 	@Inject
 	public SpeakEffectGO(AssetHandler assetHandler,
 			StringHandler stringHandler, GameObjectFactory gameObjectFactory,
-			GUI gui, GameState gameState, ValueMap valueMap, PlatformConfiguration platformConfiguration) {
-		super(assetHandler, stringHandler, gameObjectFactory, gui, gameState,
-				valueMap);
+			GUI gui, GameState gameState, PlatformConfiguration platformConfiguration) {
+		super(assetHandler, stringHandler, gameObjectFactory, gui, gameState);
 		this.platformConfiguration = platformConfiguration;
 	}
 
@@ -78,8 +77,8 @@ public class SpeakEffectGO extends AbstractEffectGO<EAdSpeakEffect> {
 		ballon = (SceneElementGO<?>) gameObjectFactory.get(getSceneElement());
 
 		if (element.getStateVar() != null) {
-			previousState = valueMap.getValue(element.getStateVar());
-			valueMap.setValue(element.getStateVar(),
+			previousState = gameState.getValueMap().getValue(element.getStateVar());
+			gameState.getValueMap().setValue(element.getStateVar(),
 					CommonStates.EAD_STATE_TALKING.toString());
 		}
 
@@ -99,6 +98,7 @@ public class SpeakEffectGO extends AbstractEffectGO<EAdSpeakEffect> {
 		BezierShape rectangle = null;
 
 		if (element.getX() != null && element.getY() != null) {
+			ValueMap valueMap = gameState.getValueMap();
 			int x = valueMap.getValue(element.getX());
 			int y = valueMap.getValue(element.getY());
 			float dispX = element.getDispX() == null ? 0 : valueMap
@@ -180,7 +180,7 @@ public class SpeakEffectGO extends AbstractEffectGO<EAdSpeakEffect> {
 	public void finish() {
 		super.finish();
 		if (element.getStateVar() != null) {
-			valueMap.setValue(element.getStateVar(), previousState);
+			gameState.getValueMap().setValue(element.getStateVar(), previousState);
 		}
 	}
 

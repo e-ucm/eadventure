@@ -18,7 +18,6 @@ import es.eucm.eadventure.engine.core.gameobjects.impl.effects.AbstractEffectGO;
 import es.eucm.eadventure.engine.core.operator.OperatorFactory;
 import es.eucm.eadventure.engine.core.platform.AssetHandler;
 import es.eucm.eadventure.engine.core.platform.GUI;
-import es.eucm.eadventure.engine.core.platform.PlatformConfiguration;
 
 public class PhApplyForceGO extends AbstractEffectGO<PhApplyImpluse> {
 
@@ -27,11 +26,9 @@ public class PhApplyForceGO extends AbstractEffectGO<PhApplyImpluse> {
 	@Inject
 	public PhApplyForceGO(AssetHandler assetHandler,
 			StringHandler stringsReader, GameObjectFactory gameObjectFactory,
-			GUI gui, GameState gameState, ValueMap valueMap,
-			PlatformConfiguration platformConfiguration,
+			GUI gui, GameState gameState,
 			OperatorFactory operatorFactory) {
-		super(assetHandler, stringsReader, gameObjectFactory, gui, gameState,
-				valueMap, platformConfiguration);
+		super(assetHandler, stringsReader, gameObjectFactory, gui, gameState);
 		this.operatorFactory = operatorFactory;
 	}
 
@@ -40,6 +37,7 @@ public class PhApplyForceGO extends AbstractEffectGO<PhApplyImpluse> {
 		super.initilize();
 		float x = operatorFactory.operate(Float.class, element.getXForce());
 		float y = operatorFactory.operate(Float.class, element.getYForce());
+		ValueMap valueMap = gameState.getValueMap();
 		Body b = valueMap.getValue(element.getSceneElement(),
 				PhysicsEffectGO.VAR_PH_BODY);
 		if (b != null) {

@@ -47,7 +47,6 @@ import es.eucm.eadventure.common.model.extra.EAdList;
 import es.eucm.eadventure.common.resources.StringHandler;
 import es.eucm.eadventure.engine.core.GameState;
 import es.eucm.eadventure.engine.core.MouseState;
-import es.eucm.eadventure.engine.core.ValueMap;
 import es.eucm.eadventure.engine.core.evaluators.EvaluatorFactory;
 import es.eucm.eadventure.engine.core.gameobjects.GameObject;
 import es.eucm.eadventure.engine.core.gameobjects.GameObjectFactory;
@@ -65,9 +64,9 @@ public class BasicSceneElementGO extends SceneElementGOImpl<EAdBasicSceneElement
 	@Inject
 	public BasicSceneElementGO(AssetHandler assetHandler,
 			StringHandler stringHandler, GameObjectFactory gameObjectFactory,
-			GUI gui, GameState gameState, ValueMap valueMap,
+			GUI gui, GameState gameState,
 			EvaluatorFactory evaluatorFactory) {
-		super(assetHandler, stringHandler, gameObjectFactory, gui, gameState, valueMap);
+		super(assetHandler, stringHandler, gameObjectFactory, gui, gameState);
 		logger.info("New instance");
 		this.evaluatorFactory = evaluatorFactory;
 	}

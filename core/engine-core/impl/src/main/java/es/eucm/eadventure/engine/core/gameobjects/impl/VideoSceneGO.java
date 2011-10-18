@@ -46,7 +46,6 @@ import es.eucm.eadventure.common.model.elements.impl.EAdVideoScene;
 import es.eucm.eadventure.common.resources.StringHandler;
 import es.eucm.eadventure.common.resources.assets.multimedia.Video;
 import es.eucm.eadventure.engine.core.GameState;
-import es.eucm.eadventure.engine.core.ValueMap;
 import es.eucm.eadventure.engine.core.gameobjects.GameObjectFactory;
 import es.eucm.eadventure.engine.core.gameobjects.SceneGO;
 import es.eucm.eadventure.engine.core.platform.AssetHandler;
@@ -67,10 +66,8 @@ public class VideoSceneGO extends DrawableGameObject<EAdVideoScene> implements
 	@Inject
 	public VideoSceneGO(AssetHandler assetHandler, StringHandler stringsReader,
 			GameObjectFactory gameObjectFactory, GUI gui, GameState gameState,
-			ValueMap valueMap,
 			SpecialAssetRenderer<Video, ?> specialAssetRenderer) {
-		super(assetHandler, stringsReader, gameObjectFactory, gui, gameState,
-				valueMap);
+		super(assetHandler, stringsReader, gameObjectFactory, gui, gameState);
 		logger.info("New instance");
 		this.specialAssetRenderer = specialAssetRenderer;
 		this.component = null;

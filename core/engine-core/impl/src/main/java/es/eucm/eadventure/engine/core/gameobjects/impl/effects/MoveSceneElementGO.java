@@ -89,10 +89,9 @@ public class MoveSceneElementGO extends AbstractEffectGO<EAdMoveSceneElement> {
 	@Inject
 	public MoveSceneElementGO(AssetHandler assetHandler,
 			StringHandler stringHandler, GameObjectFactory gameObjectFactory,
-			GUI gui, GameState gameState, ValueMap valueMap,
+			GUI gui, GameState gameState,
 			OperatorFactory operatorFactory) {
-		super(assetHandler, stringHandler, gameObjectFactory, gui, gameState,
-				valueMap);
+		super(assetHandler, stringHandler, gameObjectFactory, gui, gameState);
 		this.operatorFactory = operatorFactory;
 		effectGOs = new ArrayList<EffectGO<?>>();
 	}
@@ -102,6 +101,7 @@ public class MoveSceneElementGO extends AbstractEffectGO<EAdMoveSceneElement> {
 	public void initilize() {
 		super.initilize();
 
+		ValueMap valueMap = gameState.getValueMap();
 		oldState = valueMap.getValue(element.getSceneElement(),
 				EAdBasicSceneElement.VAR_STATE);
 
@@ -224,7 +224,7 @@ public class MoveSceneElementGO extends AbstractEffectGO<EAdMoveSceneElement> {
 			}
 		}
 
-		valueMap.setValue(sceneElement, EAdBasicSceneElement.VAR_ORIENTATION,
+		gameState.getValueMap().setValue(sceneElement, EAdBasicSceneElement.VAR_ORIENTATION,
 				tempDirection);
 
 	}
@@ -255,7 +255,7 @@ public class MoveSceneElementGO extends AbstractEffectGO<EAdMoveSceneElement> {
 			gameObjectFactory.remove(effect.getElement());
 			effect.finish();
 		}
-		valueMap.setValue(element.getSceneElement(),
+		gameState.getValueMap().setValue(element.getSceneElement(),
 				EAdBasicSceneElement.VAR_STATE, oldState);
 	}
 

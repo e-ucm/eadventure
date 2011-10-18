@@ -47,7 +47,6 @@ import es.eucm.eadventure.common.resources.EAdBundleId;
 import es.eucm.eadventure.common.resources.StringHandler;
 import es.eucm.eadventure.engine.core.GameState;
 import es.eucm.eadventure.engine.core.Renderable;
-import es.eucm.eadventure.engine.core.ValueMap;
 import es.eucm.eadventure.engine.core.gameobjects.GameObjectFactory;
 import es.eucm.eadventure.engine.core.gameobjects.impl.events.AbstractEventGO;
 import es.eucm.eadventure.engine.core.platform.AssetHandler;
@@ -63,15 +62,14 @@ public abstract class DrawableGameObject<T extends EAdSceneElement> extends
 
 	public DrawableGameObject(AssetHandler assetHandler,
 			StringHandler stringsReader, GameObjectFactory gameObjectFactory,
-			GUI gui, GameState gameState, ValueMap valueMap) {
-		super(assetHandler, stringsReader, gameObjectFactory, gui, gameState,
-				valueMap);
+			GUI gui, GameState gameState) {
+		super(assetHandler, stringsReader, gameObjectFactory, gui, gameState);
 	}
 
 	@Override
 	public void setElement(T element) {
 		super.setElement(element);
-		valueMap.setValue(element, VAR_BUNDLE_ID, element.getInitialBundle());
+		gameState.getValueMap().setValue(element, VAR_BUNDLE_ID, element.getInitialBundle());
 		eventGOList = new ArrayList<AbstractEventGO<?>>();
 		if (element.getEvents() != null) {
 			for (EAdEvent event : element.getEvents()) {
@@ -92,16 +90,16 @@ public abstract class DrawableGameObject<T extends EAdSceneElement> extends
 	}
 
 	public EAdBundleId getCurrentBundle() {
-		EAdBundleId current = valueMap.getValue(element, VAR_BUNDLE_ID);
+		EAdBundleId current = gameState.getValueMap().getValue(element, VAR_BUNDLE_ID);
 		if (current == null) {
 			current = element.getInitialBundle();
-			valueMap.setValue(element, VAR_BUNDLE_ID, current);
+			gameState.getValueMap().setValue(element, VAR_BUNDLE_ID, current);
 		}
 		return current;
 	}
 
 	public void setCurrentBundle(EAdBundleId bundle) {
-		valueMap.setValue(element, VAR_BUNDLE_ID, bundle);
+		gameState.getValueMap().setValue(element, VAR_BUNDLE_ID, bundle);
 	}
 
 	public String toString() {

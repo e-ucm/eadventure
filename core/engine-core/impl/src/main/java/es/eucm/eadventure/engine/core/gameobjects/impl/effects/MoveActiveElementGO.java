@@ -67,16 +67,16 @@ public class MoveActiveElementGO extends AbstractEffectGO<EAdMoveActiveElement> 
 	@Inject
 	public MoveActiveElementGO(AssetHandler assetHandler,
 			StringHandler stringHandler, GameObjectFactory gameObjectFactory,
-			GUI gui, GameState gameState, ValueMap valueMap,
+			GUI gui, GameState gameState,
 			TrajectoryFactory trajectoryFactory) {
-		super(assetHandler, stringHandler, gameObjectFactory, gui, gameState,
-				valueMap);
+		super(assetHandler, stringHandler, gameObjectFactory, gui, gameState);
 		this.trajectoryFactory = trajectoryFactory;
 	}
 
 	@Override
 	public void initilize() {
 		super.initilize();
+		ValueMap valueMap = gameState.getValueMap();
 		Object object = gameState.getScene().getElement();
 		if (object instanceof EAdScene && action instanceof MouseAction) {
 			int x = element.getTargetX() == EAdMoveActiveElement.MOUSE_COORDINATE ? valueMap
