@@ -10,9 +10,13 @@ import com.gwtent.reflection.client.ClassHelper;
 import es.eucm.eadventure.common.interfaces.Element;
 import es.eucm.eadventure.common.interfaces.MapProvider;
 import es.eucm.eadventure.common.model.EAdElement;
+import es.eucm.eadventure.common.model.effects.impl.physics.EAdPhysicsEffect;
+import es.eucm.eadventure.common.model.effects.impl.physics.PhApplyImpluse;
 import es.eucm.eadventure.engine.core.gameobjects.GameObject;
 import es.eucm.eadventure.engine.core.gameobjects.SceneGO;
 import es.eucm.eadventure.engine.core.gameobjects.TimerGO;
+import es.eucm.eadventure.engine.core.gameobjects.effect.physics.PhApplyForceGO;
+import es.eucm.eadventure.engine.core.gameobjects.effect.physics.PhysicsEffectGO;
 import es.eucm.eadventure.engine.core.gameobjects.impl.effects.ActiveElementEffectGO;
 import es.eucm.eadventure.engine.core.gameobjects.impl.effects.ActorActionsEffectGO;
 import es.eucm.eadventure.engine.core.gameobjects.impl.effects.CancelEffectGO;
@@ -21,6 +25,7 @@ import es.eucm.eadventure.engine.core.gameobjects.impl.effects.ChangeFieldGO;
 import es.eucm.eadventure.engine.core.gameobjects.impl.effects.ChangeSceneGO;
 import es.eucm.eadventure.engine.core.gameobjects.impl.effects.ComplexBlockingEffectGO;
 import es.eucm.eadventure.engine.core.gameobjects.impl.effects.HighlightEffectGO;
+import es.eucm.eadventure.engine.core.gameobjects.impl.effects.InterpolationGO;
 import es.eucm.eadventure.engine.core.gameobjects.impl.effects.ModifyActorStateGO;
 import es.eucm.eadventure.engine.core.gameobjects.impl.effects.MoveActiveElementGO;
 import es.eucm.eadventure.engine.core.gameobjects.impl.effects.MoveSceneElementGO;
@@ -30,7 +35,6 @@ import es.eucm.eadventure.engine.core.gameobjects.impl.effects.RandomEffectGO;
 import es.eucm.eadventure.engine.core.gameobjects.impl.effects.ShowSceneElementGO;
 import es.eucm.eadventure.engine.core.gameobjects.impl.effects.SpeakEffectGO;
 import es.eucm.eadventure.engine.core.gameobjects.impl.effects.TriggerMacroEffectGO;
-import es.eucm.eadventure.engine.core.gameobjects.impl.effects.InterpolationGO;
 import es.eucm.eadventure.engine.core.gameobjects.impl.effects.WaitEffectGO;
 import es.eucm.eadventure.engine.core.gameobjects.impl.events.ConditionEventGO;
 import es.eucm.eadventure.engine.core.gameobjects.impl.events.SceneElementEventGO;
@@ -56,6 +60,10 @@ public class PlayNGameObjectFactoryImpl extends GameObjectFactoryImpl {
 			PlayNGinInjector ginjector) {
 		super(map);
 		this.ginjector = ginjector;
+		// this is horrible
+		// Effects
+		classMap.put(EAdPhysicsEffect.class, PhysicsEffectGO.class);
+		classMap.put(PhApplyImpluse.class, PhApplyForceGO.class);
 	}
 
 	@Override
@@ -101,6 +109,10 @@ public class PlayNGameObjectFactoryImpl extends GameObjectFactoryImpl {
 			return ginjector.getVarInterpolationGO();
 		if (clazz == WaitEffectGO.class)
 			return ginjector.getWaitEffectGO();
+		if (clazz == PhysicsEffectGO.class)
+			return ginjector.getPhysicsEffectGO();
+		if (clazz == PhApplyForceGO.class)
+			return ginjector.getPhApplyForceGO();
 		
 		if (clazz == ConditionEventGO.class)
 			return ginjector.getConditionEventGO();

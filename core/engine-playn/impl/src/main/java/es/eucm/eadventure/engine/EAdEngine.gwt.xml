@@ -6,6 +6,7 @@
   <inherits name='com.gwtent.GwtEnt'/>
   <inherits name='com.google.gwt.logging.Logging'/>
   <inherits name='es.eucm.eadventure.Resources'/>
+  <inherits name='org.jbox2d.GwtBox2D'/>
   
 
   <!--

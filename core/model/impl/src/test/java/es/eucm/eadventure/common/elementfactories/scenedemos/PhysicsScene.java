@@ -81,7 +81,7 @@ public class PhysicsScene extends EmptyScene {
 
 		// getEvents().add(event);
 		getBackground()
-				.addBehavior(EAdMouseEventImpl.MOUSE_RIGHT_CLICK, effect);
+				.addBehavior(EAdMouseEventImpl.MOUSE_ENTERED, effect);
 
 		addCanyon(effect);
 		addWalls(effect);

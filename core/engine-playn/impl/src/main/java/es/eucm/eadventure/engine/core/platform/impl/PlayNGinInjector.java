@@ -6,6 +6,8 @@ import com.google.gwt.inject.client.Ginjector;
 import es.eucm.eadventure.engine.core.Game;
 import es.eucm.eadventure.engine.core.MouseState;
 import es.eucm.eadventure.engine.core.gameobjects.TimerGO;
+import es.eucm.eadventure.engine.core.gameobjects.effect.physics.PhApplyForceGO;
+import es.eucm.eadventure.engine.core.gameobjects.effect.physics.PhysicsEffectGO;
 import es.eucm.eadventure.engine.core.gameobjects.impl.SceneGOImpl;
 import es.eucm.eadventure.engine.core.gameobjects.impl.effects.ActiveElementEffectGO;
 import es.eucm.eadventure.engine.core.gameobjects.impl.effects.ActorActionsEffectGO;
@@ -15,6 +17,7 @@ import es.eucm.eadventure.engine.core.gameobjects.impl.effects.ChangeFieldGO;
 import es.eucm.eadventure.engine.core.gameobjects.impl.effects.ChangeSceneGO;
 import es.eucm.eadventure.engine.core.gameobjects.impl.effects.ComplexBlockingEffectGO;
 import es.eucm.eadventure.engine.core.gameobjects.impl.effects.HighlightEffectGO;
+import es.eucm.eadventure.engine.core.gameobjects.impl.effects.InterpolationGO;
 import es.eucm.eadventure.engine.core.gameobjects.impl.effects.ModifyActorStateGO;
 import es.eucm.eadventure.engine.core.gameobjects.impl.effects.MoveActiveElementGO;
 import es.eucm.eadventure.engine.core.gameobjects.impl.effects.MoveSceneElementGO;
@@ -24,7 +27,6 @@ import es.eucm.eadventure.engine.core.gameobjects.impl.effects.RandomEffectGO;
 import es.eucm.eadventure.engine.core.gameobjects.impl.effects.ShowSceneElementGO;
 import es.eucm.eadventure.engine.core.gameobjects.impl.effects.SpeakEffectGO;
 import es.eucm.eadventure.engine.core.gameobjects.impl.effects.TriggerMacroEffectGO;
-import es.eucm.eadventure.engine.core.gameobjects.impl.effects.InterpolationGO;
 import es.eucm.eadventure.engine.core.gameobjects.impl.effects.WaitEffectGO;
 import es.eucm.eadventure.engine.core.gameobjects.impl.events.ConditionEventGO;
 import es.eucm.eadventure.engine.core.gameobjects.impl.events.SceneElementEventGO;
@@ -90,5 +92,9 @@ public interface PlayNGinInjector extends Ginjector {
 	public AssetHandler getAssetHandler();
 
 	public MouseState getMouseState();
+
+	public PhysicsEffectGO getPhysicsEffectGO();
+
+	public PhApplyForceGO getPhApplyForceGO();
 	
 }

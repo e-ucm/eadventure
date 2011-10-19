@@ -94,7 +94,7 @@ public class PhysicsScene2 extends PhysicsScene {
 
 		//getEvents().add(event);
 		
-		getBackground().addBehavior(EAdMouseEventImpl.MOUSE_RIGHT_CLICK, effect);
+		getBackground().addBehavior(EAdMouseEventImpl.MOUSE_ENTERED, effect);
 
 		addWalls(effect);
 	}

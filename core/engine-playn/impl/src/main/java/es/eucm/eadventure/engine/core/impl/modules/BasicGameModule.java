@@ -33,6 +33,7 @@ public class BasicGameModule extends AbstractGinModule {
 
 	@Override
 	protected void configure() {
+		
 		install(new GameObjectFactoryModule());
 		bind(EvaluatorFactory.class).to(EvaluatorFactoryImpl.class).in(Singleton.class);
 		bind(OperatorFactory.class).to(OperatorFactoryImpl.class).in(Singleton.class);

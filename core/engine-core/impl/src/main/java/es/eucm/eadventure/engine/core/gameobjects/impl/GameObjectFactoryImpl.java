@@ -71,7 +71,7 @@ public abstract class GameObjectFactoryImpl implements GameObjectFactory {
 	 * A class map of the {@link EAdElement} in the eAdventure model and the
 	 * {@link GameObject} classes in the engine runtime
 	 */
-	private Map<Class<? extends EAdElement>, Class<? extends GameObject<?>>> classMap;
+	protected Map<Class<? extends EAdElement>, Class<? extends GameObject<?>>> classMap;
 
 	@Inject
 	public GameObjectFactoryImpl(
