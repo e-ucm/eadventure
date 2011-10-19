@@ -106,8 +106,10 @@ public interface GameState {
 	 *            the new effect
 	 * @param action
 	 *            the action that launched the effect
+	 * @param parent
+	 *            scene element who launched the effect
 	 */
-	void addEffect(EAdEffect e, GUIAction action);
+	void addEffect(EAdEffect e, GUIAction action, EAdSceneElement parent);
 
 	/**
 	 * Adds a new effect in a specific position in the queue
@@ -117,26 +119,32 @@ public interface GameState {
 	 * @param e
 	 *            the new effect to be added to the queue
 	 * @param action
+	 *            the action that launched this effect
+	 * @param parent
+	 *            the element that that launched this effect
 	 */
-	void addEffect(int pos, EAdEffect e, GUIAction action);
+	void addEffect(int pos, EAdEffect e, GUIAction action,
+			EAdSceneElement parent);
 
 	/**
 	 * Adds the effects waiting in the queue (after being added with
 	 * {@link GameState#addEffect(EAdEffect)} ) the effects lists
 	 */
 	void updateEffectsQueue();
-	
+
 	/**
 	 * Returns the active element of the game
+	 * 
 	 * @return
 	 */
 	EAdSceneElement getActiveElement();
-	
+
 	/**
 	 * Sets the active element of the game
+	 * 
 	 * @param activeElement
 	 */
-	void setActiveElement( EAdSceneElement activeElement );
+	void setActiveElement(EAdSceneElement activeElement);
 
 	EAdScene getPreviousScene();
 

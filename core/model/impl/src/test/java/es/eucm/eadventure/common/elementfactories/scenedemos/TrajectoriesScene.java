@@ -1,7 +1,6 @@
 package es.eucm.eadventure.common.elementfactories.scenedemos;
 
 import es.eucm.eadventure.common.model.effects.impl.EAdMoveActiveElement;
-import es.eucm.eadventure.common.model.effects.impl.sceneelements.EAdMakeActiveElementEffect;
 import es.eucm.eadventure.common.model.effects.impl.variables.EAdChangeFieldValueEffect;
 import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
 import es.eucm.eadventure.common.model.elements.impl.EAdSceneImpl;
@@ -19,24 +18,23 @@ import es.eucm.eadventure.common.params.fills.impl.EAdColor;
 import es.eucm.eadventure.common.params.fills.impl.EAdLinearGradient;
 import es.eucm.eadventure.common.params.geom.impl.EAdPositionImpl;
 import es.eucm.eadventure.common.params.geom.impl.EAdPositionImpl.Corner;
+import es.eucm.eadventure.common.predef.model.effects.EAdMakeActiveElementEffect;
 
 public class TrajectoriesScene extends EmptyScene {
 
 	public TrajectoriesScene() {
 		setBackgroundFill(new EAdLinearGradient(EAdColor.DARK_GRAY,
 				EAdColor.LIGHT_GRAY, 800, 600, true));
-		
+
 		EAdBasicSceneElement element = new EAdBasicSceneElement("player",
 				CharacterScene.getStateDrawable());
 
 		element.setScale(3.0f);
 
-		element.setPosition(new EAdPositionImpl(Corner.BOTTOM_CENTER, 400,
-				300));
+		element.setPosition(new EAdPositionImpl(Corner.BOTTOM_CENTER, 400, 300));
 
 		EAdMakeActiveElementEffect effect = new EAdMakeActiveElementEffect(
-				"makeActive");
-		effect.setSceneElement(element);
+				element);
 
 		EAdSceneElementEvent event = new EAdSceneElementEventImpl();
 		event.addEffect(SceneElementEvent.ADDED_TO_SCENE, effect);
@@ -47,7 +45,7 @@ public class TrajectoriesScene extends EmptyScene {
 
 		getBackground().addBehavior(EAdMouseEventImpl.MOUSE_LEFT_CLICK,
 				new EAdMoveActiveElement("moveCharacter"));
-		
+
 		createTrajectory1();
 		createTrajectory2();
 		createTrajectory3();
@@ -71,13 +69,12 @@ public class TrajectoriesScene extends EmptyScene {
 		effect.setOperation(new ValueOperation(trajectory));
 
 		getBackground().addBehavior(
-				new EAdKeyEventImpl(KeyActionType.KEY_PRESSED, '1'),
-				effect);
-		
+				new EAdKeyEventImpl(KeyActionType.KEY_PRESSED, '1'), effect);
+
 		setTrajectoryDefinition(trajectory);
 	}
-	
-	private void createTrajectory2(){
+
+	private void createTrajectory2() {
 		NodeTrajectoryDefinition trajectory = new NodeTrajectoryDefinition();
 		int margin = 60;
 		for (int i = 0; i < 4; i++)
@@ -114,7 +111,7 @@ public class TrajectoriesScene extends EmptyScene {
 			}
 
 		trajectory.setInitial("0");
-		
+
 		EAdChangeFieldValueEffect effect = new EAdChangeFieldValueEffect(
 				"changeTrajectory");
 		effect.addField(new EAdFieldImpl<TrajectoryDefinition>(this,
@@ -122,10 +119,9 @@ public class TrajectoriesScene extends EmptyScene {
 		effect.setOperation(new ValueOperation(trajectory));
 
 		getBackground().addBehavior(
-				new EAdKeyEventImpl(KeyActionType.KEY_PRESSED, '2'),
-				effect);
+				new EAdKeyEventImpl(KeyActionType.KEY_PRESSED, '2'), effect);
 	}
-	
+
 	private void createTrajectory3() {
 		NodeTrajectoryDefinition trajectory = new NodeTrajectoryDefinition();
 		trajectory.addNode("0", 50, 200, 3.0f);
@@ -142,10 +138,9 @@ public class TrajectoriesScene extends EmptyScene {
 		effect.setOperation(new ValueOperation(trajectory));
 
 		getBackground().addBehavior(
-				new EAdKeyEventImpl(KeyActionType.KEY_PRESSED, '3'),
-				effect);
+				new EAdKeyEventImpl(KeyActionType.KEY_PRESSED, '3'), effect);
 	}
-	
+
 	@Override
 	public String getSceneDescription() {
 		return "Scene te test some trajectories";

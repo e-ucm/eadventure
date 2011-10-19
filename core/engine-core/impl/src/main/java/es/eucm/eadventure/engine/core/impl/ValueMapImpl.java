@@ -169,6 +169,9 @@ public class ValueMapImpl implements ValueMap {
 	}
 
 	private EAdElement getElement(EAdField<?> field) {
+		if (field.getElement() == null && field.getElementField() == null)
+			// System variable
+			return null;
 		return field.getElement() != null ? field.getElement() : getValue(field
 				.getElementField());
 	}

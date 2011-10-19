@@ -35,41 +35,26 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package es.eucm.eadventure.engine.core.gameobjects.impl.effects;
+package es.eucm.eadventure.common.predef.model.effects;
 
-import com.google.inject.Inject;
+import es.eucm.eadventure.common.interfaces.Element;
+import es.eucm.eadventure.common.interfaces.Param;
+import es.eucm.eadventure.common.model.effects.impl.variables.EAdChangeFieldValueEffect;
+import es.eucm.eadventure.common.model.elements.EAdSceneElement;
+import es.eucm.eadventure.common.model.variables.impl.SystemFields;
+import es.eucm.eadventure.common.model.variables.impl.operations.ValueOperation;
 
-import es.eucm.eadventure.common.model.effects.impl.sceneelements.EAdMakeActiveElementEffect;
-import es.eucm.eadventure.common.resources.StringHandler;
-import es.eucm.eadventure.engine.core.GameState;
-import es.eucm.eadventure.engine.core.gameobjects.GameObjectFactory;
-import es.eucm.eadventure.engine.core.platform.AssetHandler;
-import es.eucm.eadventure.engine.core.platform.GUI;
+/**
+ * Makes an element the active element in the game.
+ */
+@Element(runtime = EAdChangeFieldValueEffect.class, detailed = EAdMakeActiveElementEffect.class)
+public class EAdMakeActiveElementEffect extends EAdChangeFieldValueEffect {
 
-public class MakeActiveElementEffectGO extends
-		AbstractEffectGO<EAdMakeActiveElementEffect> {
+	@Param("sceneElement")
+	protected EAdSceneElement sceneElement;
 
-	@Inject
-	public MakeActiveElementEffectGO(AssetHandler assetHandler,
-			StringHandler stringHandler, GameObjectFactory gameObjectFactory,
-			GUI gui, GameState gameState) {
-		super(assetHandler, stringHandler, gameObjectFactory, gui, gameState);
+	public EAdMakeActiveElementEffect(EAdSceneElement element) {
+		super("makeActiveElement_" + element, SystemFields.ACTIVE_ELEMENT,
+				new ValueOperation(element));
 	}
-	
-	@Override
-	public void initilize() {
-		super.initilize();
-		gameState.setActiveElement(element.getSceneElement());
-	}
-
-	@Override
-	public boolean isVisualEffect() { 
-		return false;
-	}
-
-	@Override
-	public boolean isFinished() {
-		return true;
-	}
-
 }

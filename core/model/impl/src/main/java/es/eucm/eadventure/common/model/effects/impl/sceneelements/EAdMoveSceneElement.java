@@ -40,8 +40,6 @@ package es.eucm.eadventure.common.model.effects.impl.sceneelements;
 import es.eucm.eadventure.common.interfaces.Element;
 import es.eucm.eadventure.common.interfaces.Param;
 import es.eucm.eadventure.common.model.effects.EAdEffect;
-import es.eucm.eadventure.common.model.effects.EAdSceneElementEffect;
-import es.eucm.eadventure.common.model.effects.impl.AbstractEAdEffect;
 import es.eucm.eadventure.common.model.elements.EAdSceneElement;
 import es.eucm.eadventure.common.model.variables.EAdVarDef;
 import es.eucm.eadventure.common.model.variables.impl.EAdVarDefImpl;
@@ -54,8 +52,7 @@ import es.eucm.eadventure.common.model.variables.impl.operations.MathOperation;
  * 
  */
 @Element(runtime = EAdMoveSceneElement.class, detailed = EAdMoveSceneElement.class)
-public class EAdMoveSceneElement extends AbstractEAdEffect implements
-		EAdSceneElementEffect {
+public class EAdMoveSceneElement extends AbstractSceneElementEffect {
 
 	public static final EAdVarDef<Boolean> VAR_ANIMATION_ENDED = new EAdVarDefImpl<Boolean>(
 			"animation_ended", Boolean.class, Boolean.FALSE);

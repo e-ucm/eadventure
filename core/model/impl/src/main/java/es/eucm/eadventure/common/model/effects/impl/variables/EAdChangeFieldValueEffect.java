@@ -44,6 +44,7 @@ import es.eucm.eadventure.common.model.extra.EAdList;
 import es.eucm.eadventure.common.model.extra.impl.EAdListImpl;
 import es.eucm.eadventure.common.model.variables.EAdField;
 import es.eucm.eadventure.common.model.variables.EAdOperation;
+import es.eucm.eadventure.common.model.variables.EAdVarDef;
 
 /**
  * Effect for changing a field value
@@ -57,6 +58,9 @@ public class EAdChangeFieldValueEffect extends AbstractEAdEffect {
 	 */
 	@Param("fields")
 	private EAdList<EAdField<?>> fields;
+
+	@Param("var")
+	private EAdVarDef<?> varDef;
 
 	/**
 	 * Operation to be done. The result of this operation should be assigned to
@@ -132,9 +136,23 @@ public class EAdChangeFieldValueEffect extends AbstractEAdEffect {
 	public EAdOperation getOperation() {
 		return operation;
 	}
-	
-	public String toString(){
-		return fields +  " : " + operation;
+
+	/**
+	 * Sets the variable to change in the parent of the effect
+	 * 
+	 * @param varDef
+	 *            the variable definition
+	 */
+	public void setParentVar(EAdVarDef<?> varDef) {
+		this.varDef = varDef;
+	}
+
+	public EAdVarDef<?> getParentVar() {
+		return varDef;
+	}
+
+	public String toString() {
+		return fields + " : " + operation;
 	}
 
 }
