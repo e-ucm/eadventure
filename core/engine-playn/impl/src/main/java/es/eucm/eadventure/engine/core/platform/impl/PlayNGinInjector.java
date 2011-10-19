@@ -24,7 +24,7 @@ import es.eucm.eadventure.engine.core.gameobjects.impl.effects.RandomEffectGO;
 import es.eucm.eadventure.engine.core.gameobjects.impl.effects.ShowSceneElementGO;
 import es.eucm.eadventure.engine.core.gameobjects.impl.effects.SpeakEffectGO;
 import es.eucm.eadventure.engine.core.gameobjects.impl.effects.TriggerMacroEffectGO;
-import es.eucm.eadventure.engine.core.gameobjects.impl.effects.VarInterpolationGO;
+import es.eucm.eadventure.engine.core.gameobjects.impl.effects.InterpolationGO;
 import es.eucm.eadventure.engine.core.gameobjects.impl.effects.WaitEffectGO;
 import es.eucm.eadventure.engine.core.gameobjects.impl.events.ConditionEventGO;
 import es.eucm.eadventure.engine.core.gameobjects.impl.events.SceneElementEventGO;
@@ -68,7 +68,7 @@ public interface PlayNGinInjector extends Ginjector {
 	public ShowSceneElementGO getShowSceneElementGO();
 	public SpeakEffectGO getSpeakEffectGO();
 	public TriggerMacroEffectGO getTriggerMacroEffectGO();
-	public VarInterpolationGO getVarInterpolationGO();
+	public InterpolationGO getVarInterpolationGO();
 	public WaitEffectGO getWaitEffectGO();
 	
 	public ConditionEventGO getConditionEventGO();

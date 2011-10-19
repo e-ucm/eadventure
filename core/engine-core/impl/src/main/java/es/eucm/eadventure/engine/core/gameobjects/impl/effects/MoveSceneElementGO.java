@@ -45,8 +45,8 @@ import com.google.inject.Inject;
 
 import es.eucm.eadventure.common.interfaces.features.Oriented.Orientation;
 import es.eucm.eadventure.common.model.effects.EAdEffect;
-import es.eucm.eadventure.common.model.effects.impl.EAdVarInterpolationEffect;
-import es.eucm.eadventure.common.model.effects.impl.EAdVarInterpolationEffect.LoopType;
+import es.eucm.eadventure.common.model.effects.impl.EAdInterpolationEffect;
+import es.eucm.eadventure.common.model.effects.impl.EAdInterpolationEffect.LoopType;
 import es.eucm.eadventure.common.model.effects.impl.sceneelements.EAdMoveSceneElement;
 import es.eucm.eadventure.common.model.elements.EAdSceneElement;
 import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
@@ -89,8 +89,7 @@ public class MoveSceneElementGO extends AbstractEffectGO<EAdMoveSceneElement> {
 	@Inject
 	public MoveSceneElementGO(AssetHandler assetHandler,
 			StringHandler stringHandler, GameObjectFactory gameObjectFactory,
-			GUI gui, GameState gameState,
-			OperatorFactory operatorFactory) {
+			GUI gui, GameState gameState, OperatorFactory operatorFactory) {
 		super(assetHandler, stringHandler, gameObjectFactory, gui, gameState);
 		this.operatorFactory = operatorFactory;
 		effectGOs = new ArrayList<EffectGO<?>>();
@@ -137,10 +136,10 @@ public class MoveSceneElementGO extends AbstractEffectGO<EAdMoveSceneElement> {
 					* effect.getSpeedFactor());
 
 			if (targetX != x) {
-				EAdEffect interpolation = new EAdVarInterpolationEffect(
-						"interpolationX", new EAdFieldImpl<Integer>(
-								a.getElement(), EAdBasicSceneElement.VAR_X), x,
-						targetX, timeToFinish, LoopType.NO_LOOP);
+				EAdEffect interpolation = new EAdInterpolationEffect(
+						new EAdFieldImpl<Integer>(a.getElement(),
+								EAdBasicSceneElement.VAR_X), x, targetX,
+						timeToFinish, LoopType.NO_LOOP);
 				EffectGO<EAdEffect> effectGO = (EffectGO<EAdEffect>) gameObjectFactory
 						.get(interpolation);
 
@@ -151,10 +150,10 @@ public class MoveSceneElementGO extends AbstractEffectGO<EAdMoveSceneElement> {
 			}
 
 			if (targetY != y) {
-				EAdEffect interpolation = new EAdVarInterpolationEffect(
-						"interpolationY", new EAdFieldImpl<Integer>(
-								a.getElement(), EAdBasicSceneElement.VAR_Y), y,
-						targetY, timeToFinish, LoopType.NO_LOOP);
+				EAdEffect interpolation = new EAdInterpolationEffect(
+						new EAdFieldImpl<Integer>(a.getElement(),
+								EAdBasicSceneElement.VAR_Y), y, targetY,
+						timeToFinish, LoopType.NO_LOOP);
 				EffectGO<EAdEffect> effectGO = (EffectGO<EAdEffect>) gameObjectFactory
 						.get(interpolation);
 
@@ -176,8 +175,8 @@ public class MoveSceneElementGO extends AbstractEffectGO<EAdMoveSceneElement> {
 
 	}
 
-	private void updateDirection(EAdSceneElement sceneElement, float x, float targetX,
-			float y, float targetY) {
+	private void updateDirection(EAdSceneElement sceneElement, float x,
+			float targetX, float y, float targetY) {
 		Orientation tempDirection = Orientation.E;
 
 		// FIXME Este isometric debe venir de alguna parte
@@ -224,8 +223,8 @@ public class MoveSceneElementGO extends AbstractEffectGO<EAdMoveSceneElement> {
 			}
 		}
 
-		gameState.getValueMap().setValue(sceneElement, EAdBasicSceneElement.VAR_ORIENTATION,
-				tempDirection);
+		gameState.getValueMap().setValue(sceneElement,
+				EAdBasicSceneElement.VAR_ORIENTATION, tempDirection);
 
 	}
 

@@ -51,18 +51,27 @@ import es.eucm.eadventure.engine.core.operator.OperatorFactory;
  */
 public interface ValueMap {
 
+	/**
+	 * Sets the operator factory used for this value amp
+	 * 
+	 * @param operatorFactory
+	 *            the operator factory
+	 */
 	void setOperatorFactory(OperatorFactory operatorFactory);
 
+	// Sets
+
 	/**
-	 * @param var
+	 * Sets the field to given value
+	 * 
+	 * @param field
+	 *            the field
 	 * @param value
+	 *            the value to the field
 	 */
-	<S> void setValue(EAdField<S> var, S value);
+	void setValue(EAdField<?> field, Object value);
 
-	<S> void setValue(EAdElement element, EAdVarDef<S> varDef, S value);
-
-	// FIXME this has to change, to dissappear
-	void setValue(EAdVarDef<?> varDef, Object value, EAdElement element);
+	void setValue(EAdElement element, EAdVarDef<?> varDef, Object value);
 
 	/**
 	 * Sets the variable to the result value of the operation
@@ -70,7 +79,7 @@ public interface ValueMap {
 	 * @param var
 	 * @param operation
 	 */
-	<S> void setValue(EAdField<S> var, EAdOperation operation);
+	void setValue(EAdField<?> var, EAdOperation operation);
 
 	/**
 	 * Sets the variable value for the given element
@@ -84,8 +93,9 @@ public interface ValueMap {
 	 * @param operation
 	 *            the operation whose result will be assigned to the variable
 	 */
-	<S> void setValue(EAdElement element, EAdVarDef<S> var,
-			EAdOperation operation);
+	void setValue(EAdElement element, EAdVarDef<?> var, EAdOperation operation);
+	
+	// Gets
 
 	/**
 	 * Returns the value of the field
@@ -108,24 +118,7 @@ public interface ValueMap {
 	 * @return the variable's value
 	 */
 	<S> S getValue(EAdElement element, EAdVarDef<S> varDef);
-
-	/**
-	 * Removes all fields associated to the given element
-	 * 
-	 * @param element
-	 *            the element
-	 */
-	void remove(EAdElement element);
-
-	/**
-	 * Sets the value for a system variable
-	 * 
-	 * @param varDef
-	 *            system variable definition
-	 * @param value
-	 */
-	<T> void setValue(EAdVarDef<T> varDef, T value);
-
+	
 	/**
 	 * Returns the variables associated to an element, whose values are
 	 * different from the defaults
@@ -135,5 +128,13 @@ public interface ValueMap {
 	 * @return a map with the variables
 	 */
 	Map<EAdVarDef<?>, Object> getElementVars(EAdElement element);
+
+	/**
+	 * Removes all fields associated to the given element
+	 * 
+	 * @param element
+	 *            the element
+	 */
+	void remove(EAdElement element);
 
 }

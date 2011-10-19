@@ -41,8 +41,7 @@ import java.util.logging.Logger;
 
 import com.google.inject.Inject;
 
-import es.eucm.eadventure.common.model.effects.impl.EAdVarInterpolationEffect;
-import es.eucm.eadventure.common.model.variables.EAdField;
+import es.eucm.eadventure.common.model.effects.impl.EAdInterpolationEffect;
 import es.eucm.eadventure.common.resources.StringHandler;
 import es.eucm.eadventure.engine.core.GameLoop;
 import es.eucm.eadventure.engine.core.GameState;
@@ -51,8 +50,7 @@ import es.eucm.eadventure.engine.core.operator.OperatorFactory;
 import es.eucm.eadventure.engine.core.platform.AssetHandler;
 import es.eucm.eadventure.engine.core.platform.GUI;
 
-public class VarInterpolationGO extends
-		AbstractEffectGO<EAdVarInterpolationEffect> {
+public class InterpolationGO extends AbstractEffectGO<EAdInterpolationEffect> {
 
 	private static Logger logger = Logger.getLogger("VarInterpolationGO");
 
@@ -74,11 +72,12 @@ public class VarInterpolationGO extends
 
 	private boolean reverse;
 
+	private int loops;
+
 	@Inject
-	public VarInterpolationGO(AssetHandler assetHandler,
+	public InterpolationGO(AssetHandler assetHandler,
 			StringHandler stringHandler, GameObjectFactory gameObjectFactory,
-			GUI gui, GameState gameState,
-			OperatorFactory operatorFactory) {
+			GUI gui, GameState gameState, OperatorFactory operatorFactory) {
 		super(assetHandler, stringHandler, gameObjectFactory, gui, gameState);
 		this.operatorFactory = operatorFactory;
 	}
@@ -87,20 +86,23 @@ public class VarInterpolationGO extends
 	public void initilize() {
 		super.initilize();
 		currentTime = 0;
+		loops = 0;
 		reverse = false;
-		integer = element.getField().getVarDefinition().getType()
-				.equals(Integer.class);
+		integer = element.getVarDef().getType().equals(Integer.class);
 		startValue = ((Number) operatorFactory.operate(Float.class,
 				element.getInitialValue())).floatValue();
 		endValue = ((Number) operatorFactory.operate(Float.class,
 				element.getEndValue())).floatValue();
 		interpolationLength = endValue - startValue;
 		finished = false;
-		logger.info(element.getField() + " is going to be inerpolated from "
-				+ startValue + " to " + endValue);
+		logger.info(element.getElement() + "." + element.getVarDef()
+				+ " is going to be inerpolated from " + startValue + " to "
+				+ endValue);
 		delay = element.getDelay();
 
-		operatorFactory.operate(element.getField(), element.getInitialValue());
+		operatorFactory.operate(
+				element.getElement() == null ? parent : element.getElement(),
+				element.getVarDef(), element.getInitialValue());
 	}
 
 	@Override
@@ -113,11 +115,11 @@ public class VarInterpolationGO extends
 		return finished;
 	}
 
-	@SuppressWarnings("unchecked")
 	public void update() {
 		if (delay <= 0) {
 			currentTime += GameLoop.SKIP_MILLIS_TICK;
 			if (currentTime > element.getInterpolationTime()) {
+				loops++;
 				switch (element.getLoopType()) {
 				case RESTART:
 					while (currentTime > element.getInterpolationTime()) {
@@ -134,25 +136,23 @@ public class VarInterpolationGO extends
 					currentTime = element.getInterpolationTime();
 					finished = true;
 					if (integer)
-						gameState.getValueMap().setValue(
-								(EAdField<Integer>) element.getField(),
-								Math.round(endValue));
+						gameState.getValueMap().setValue(element.getElement(),
+								element.getVarDef(), Math.round(endValue));
 					else
-						gameState.getValueMap().setValue((EAdField<Float>) element.getField(),
-								(Float) endValue);
-
-					logger.info(element.getField().toString() + " set to "
-							+ endValue);
+						gameState.getValueMap().setValue(element.getElement(),
+								element.getVarDef(), (Float) endValue);
 				}
+				finished |= (element.getLoops() > 0 && loops >= element
+						.getLoops());
 			} else {
 
 				// TODO this should be done "automatically"
 				if (integer)
-					gameState.getValueMap().setValue((EAdField<Integer>) element.getField(),
-							(Integer) interpolation());
+					gameState.getValueMap().setValue(element.getElement(),
+							element.getVarDef(), (Integer) interpolation());
 				else
-					gameState.getValueMap().setValue((EAdField<Float>) element.getField(),
-							(Float) interpolation());
+					gameState.getValueMap().setValue(element.getElement(),
+							element.getVarDef(), (Float) interpolation());
 			}
 		} else {
 			delay -= GameLoop.SKIP_MILLIS_TICK;

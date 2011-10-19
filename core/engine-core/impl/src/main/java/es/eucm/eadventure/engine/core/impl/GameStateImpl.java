@@ -164,7 +164,7 @@ public class GameStateImpl implements GameState {
 					EAdSceneImpl.VAR_SCENE_LOADED, Boolean.TRUE);
 			for (Entry<EAdVarDef<?>, Object> e : scene.getElement().getVars()
 					.entrySet()) {
-				valueMap.setValue(e.getKey(), e.getValue(), scene.getElement());
+				valueMap.setValue(scene.getElement(), e.getKey(), e.getValue());
 			}
 		}
 

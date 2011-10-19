@@ -2,6 +2,9 @@ package es.eucm.eadventure.common.elementfactories.scenedemos;
 
 import es.eucm.eadventure.common.model.effects.impl.variables.EAdChangeFieldValueEffect;
 import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
+import es.eucm.eadventure.common.model.events.EAdSceneElementEvent;
+import es.eucm.eadventure.common.model.events.EAdSceneElementEvent.SceneElementEvent;
+import es.eucm.eadventure.common.model.events.impl.EAdSceneElementEventImpl;
 import es.eucm.eadventure.common.model.guievents.impl.EAdMouseEventImpl;
 import es.eucm.eadventure.common.model.variables.EAdField;
 import es.eucm.eadventure.common.model.variables.impl.EAdFieldImpl;
@@ -30,6 +33,11 @@ public class SharingEffectsScene extends EmptyScene {
 		EAdChangeFieldValueEffect changeAlpha2 = new EAdChangeFieldValueEffect("changeScale");
 		changeAlpha2.setParentVar(EAdBasicSceneElement.VAR_ALPHA);
 		changeAlpha2.setOperation(new ValueOperation(new Float(1.0f)));
+		
+		EAdSceneElementEvent event = new EAdSceneElementEventImpl("load");
+//		EAdVarInterpolationEffect rotate = new EAdVarInterpolationEffect( "rotate", )
+		
+		event.addEffect(SceneElementEvent.ADDED_TO_SCENE, effect);
 		
 		b.setPosition(20, 20);
 		this.getElements().add(b);

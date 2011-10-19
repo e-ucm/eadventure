@@ -54,7 +54,7 @@ import es.eucm.eadventure.engine.core.operators.impl.util.MathEvaluator;
  * 
  */
 @Singleton
-public class LiteralExpressionOperator implements
+public class MathOperator implements
 		Operator<MathOperation> {
 
 	/**
@@ -65,7 +65,7 @@ public class LiteralExpressionOperator implements
 	private ValueMap valueMap;
 
 	@Inject
-	public LiteralExpressionOperator(ValueMap valueMap) {
+	public MathOperator(ValueMap valueMap) {
 		this.valueMap = valueMap;
 	}
 

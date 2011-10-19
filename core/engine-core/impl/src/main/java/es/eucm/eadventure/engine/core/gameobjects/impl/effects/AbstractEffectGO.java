@@ -78,7 +78,7 @@ public abstract class AbstractEffectGO<P extends EAdEffect> extends
 	public void initilize() {
 		initialized = true;
 		for ( Entry<EAdVarDef<?>, Object> e: element.getVars().entrySet()){
-			gameState.getValueMap().setValue(e.getKey(), e.getValue(), element);
+			gameState.getValueMap().setValue(element, e.getKey(), e.getValue());
 		}
 	}
 

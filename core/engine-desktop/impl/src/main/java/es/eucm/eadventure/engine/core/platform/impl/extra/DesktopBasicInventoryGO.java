@@ -49,7 +49,7 @@ import es.eucm.eadventure.common.model.effects.impl.EAdActorActionsEffect;
 import es.eucm.eadventure.common.model.effects.impl.EAdChangeAppearance;
 import es.eucm.eadventure.common.model.effects.impl.EAdMacroImpl;
 import es.eucm.eadventure.common.model.effects.impl.EAdTriggerMacro;
-import es.eucm.eadventure.common.model.effects.impl.EAdVarInterpolationEffect;
+import es.eucm.eadventure.common.model.effects.impl.EAdInterpolationEffect;
 import es.eucm.eadventure.common.model.effects.impl.sceneelements.EAdMoveSceneElement;
 import es.eucm.eadventure.common.model.effects.impl.sceneelements.EAdMoveSceneElement.MovementSpeed;
 import es.eucm.eadventure.common.model.effects.impl.variables.EAdChangeFieldValueEffect;
@@ -202,10 +202,10 @@ public class DesktopBasicInventoryGO {
 
 		EAdFieldImpl<Integer> xField = new EAdFieldImpl<Integer>(
 				inventoryContent, EAdBasicSceneElement.VAR_X);
-		arrow.addBehavior(EAdMouseEventImpl.MOUSE_LEFT_CLICK,
-				new EAdVarInterpolationEffect("id", xField,
-						new MathOperation("id", "[0]" + sign
-								+ INVENTORY_HEIGHT, xField), 200));
+//		arrow.addBehavior(EAdMouseEventImpl.MOUSE_LEFT_CLICK,
+//				new EAdInterpolationEffect("id", xField,
+//						new MathOperation("id", "[0]" + sign
+//								+ INVENTORY_HEIGHT, xField), 200));
 		return arrow;
 	}
 

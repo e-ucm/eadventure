@@ -75,6 +75,7 @@ public abstract class DrawableGameObject<T extends EAdSceneElement> extends
 			for (EAdEvent event : element.getEvents()) {
 				AbstractEventGO<?> eventGO = (AbstractEventGO<?>) gameObjectFactory
 						.get(event);
+				eventGO.setParent( element );
 				eventGO.initialize();
 				eventGOList.add(eventGO);
 			}
