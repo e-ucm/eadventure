@@ -67,8 +67,8 @@ public class MathOperation extends EAdOperationImpl {
 	 * @param parent
 	 * @param id
 	 */
-	public MathOperation(String id) {
-		this(id, "");
+	public MathOperation(String expression) {
+		this(expression, expression);
 	}
 
 	/**

@@ -42,6 +42,7 @@ import java.util.Map.Entry;
 import com.google.inject.Inject;
 
 import es.eucm.eadventure.common.model.effects.EAdEffect;
+import es.eucm.eadventure.common.model.elements.EAdSceneElement;
 import es.eucm.eadventure.common.model.variables.EAdVarDef;
 import es.eucm.eadventure.common.resources.StringHandler;
 import es.eucm.eadventure.engine.core.GameState;
@@ -61,6 +62,11 @@ public abstract class AbstractEffectGO<P extends EAdEffect> extends
 
 	protected GUIAction action;
 	
+	/**
+	 * Element that launched the effect
+	 */
+	protected EAdSceneElement parent;
+	
 	@Inject
 	public AbstractEffectGO(AssetHandler assetHandler,
 			StringHandler stringsReader, GameObjectFactory gameObjectFactory,
@@ -72,7 +78,7 @@ public abstract class AbstractEffectGO<P extends EAdEffect> extends
 	public void initilize() {
 		initialized = true;
 		for ( Entry<EAdVarDef<?>, Object> e: element.getVars().entrySet()){
-			gameState.getValueMap().setValue(e.getKey(), e.getValue(), element);
+			gameState.getValueMap().setValue(element, e.getKey(), e.getValue());
 		}
 	}
 
@@ -121,6 +127,10 @@ public abstract class AbstractEffectGO<P extends EAdEffect> extends
 
 	public void setGUIAction(GUIAction action) {
 		this.action = action;
+	}
+	
+	public void setParent( EAdSceneElement parent ){
+		this.parent = parent;
 	}
 	
 	public String toString(){

@@ -2,7 +2,6 @@ package es.eucm.eadventure.common.model.variables.impl;
 
 import es.eucm.eadventure.common.model.elements.EAdSceneElement;
 import es.eucm.eadventure.common.model.variables.EAdField;
-import es.eucm.eadventure.common.model.variables.EAdVarDef;
 
 public class SystemFields {
 
@@ -21,7 +20,8 @@ public class SystemFields {
 	/**
 	 * Variable containing the active element in the game
 	 */
-	public static final EAdVarDef<EAdSceneElement> ACTIVE_ELEMENT = new EAdVarDefImpl<EAdSceneElement>(
-			"active_element", EAdSceneElement.class, null);
+	public static final EAdField<EAdSceneElement> ACTIVE_ELEMENT = new EAdFieldImpl<EAdSceneElement>(
+			null, new EAdVarDefImpl<EAdSceneElement>("active_element",
+					EAdSceneElement.class, null));
 
 }

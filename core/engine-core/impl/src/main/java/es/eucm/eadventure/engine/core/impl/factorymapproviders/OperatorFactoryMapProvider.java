@@ -50,7 +50,7 @@ import es.eucm.eadventure.engine.core.evaluators.EvaluatorFactory;
 import es.eucm.eadventure.engine.core.operator.Operator;
 import es.eucm.eadventure.engine.core.operators.impl.BooleanOperator;
 import es.eucm.eadventure.engine.core.operators.impl.FieldOperator;
-import es.eucm.eadventure.engine.core.operators.impl.LiteralExpressionOperator;
+import es.eucm.eadventure.engine.core.operators.impl.MathOperator;
 import es.eucm.eadventure.engine.core.operators.impl.ValueOperator;
 
 public class OperatorFactoryMapProvider extends AbstractMapProvider<Class<?>, Operator<?>> {
@@ -73,7 +73,7 @@ public class OperatorFactoryMapProvider extends AbstractMapProvider<Class<?>, Op
 	
 	@Override
 	public Map<Class<?>, Operator<?>> getMap() {
-		factoryMap.put(MathOperation.class, new LiteralExpressionOperator(valueMap));
+		factoryMap.put(MathOperation.class, new MathOperator(valueMap));
 		factoryMap.put(BooleanOperation.class, new BooleanOperator(evaluatorFactory));
 		factoryMap.put(ValueOperation.class, new ValueOperator(reflectionProvider));
 		factoryMap.put(EAdField.class, new FieldOperator(valueMap));

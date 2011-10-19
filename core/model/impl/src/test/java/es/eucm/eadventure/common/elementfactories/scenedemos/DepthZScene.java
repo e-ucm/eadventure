@@ -1,8 +1,8 @@
 package es.eucm.eadventure.common.elementfactories.scenedemos;
 
-import es.eucm.eadventure.common.model.effects.impl.EAdVarInterpolationEffect;
-import es.eucm.eadventure.common.model.effects.impl.EAdVarInterpolationEffect.InterpolationType;
-import es.eucm.eadventure.common.model.effects.impl.EAdVarInterpolationEffect.LoopType;
+import es.eucm.eadventure.common.model.effects.impl.EAdInterpolationEffect;
+import es.eucm.eadventure.common.model.effects.impl.EAdInterpolationEffect.InterpolationType;
+import es.eucm.eadventure.common.model.effects.impl.EAdInterpolationEffect.LoopType;
 import es.eucm.eadventure.common.model.effects.impl.variables.EAdChangeFieldValueEffect;
 import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
 import es.eucm.eadventure.common.model.events.EAdSceneElementEvent;
@@ -35,7 +35,7 @@ public class DepthZScene extends EmptyScene {
 		getElements().add(e2);
 		
 		EAdField<Integer> xField = new EAdFieldImpl<Integer>(e2, EAdBasicSceneElement.VAR_X);
-		EAdVarInterpolationEffect effect = new EAdVarInterpolationEffect("xInt", xField, 50, 750, totalTime, LoopType.REVERSE, InterpolationType.LINEAR);
+		EAdInterpolationEffect effect = new EAdInterpolationEffect(xField, 50, 750, totalTime, LoopType.REVERSE, InterpolationType.LINEAR);
 		
 		EAdSceneElementTimedEventImpl timedEvent = new EAdSceneElementTimedEventImpl("timed");
 		timedEvent.setTime(totalTime);

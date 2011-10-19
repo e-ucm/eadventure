@@ -62,8 +62,12 @@ public class ChangeFieldGO extends AbstractEffectGO<EAdChangeFieldValueEffect> {
 
 	@Override
 	public void initilize() {
-		for ( EAdField<?> v: element.getFields() ){
+		for (EAdField<?> v : element.getFields()) {
 			operatorFactory.operate(v, element.getOperation());
+		}
+		if (element.getParentVar() != null && parent != null) {
+			operatorFactory.operate(parent, element.getParentVar(),
+					element.getOperation());
 		}
 	}
 

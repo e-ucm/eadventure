@@ -42,10 +42,9 @@ import es.eucm.eadventure.common.elementfactories.StringFactory.StringType;
 import es.eucm.eadventure.common.model.EAdElement;
 import es.eucm.eadventure.common.model.effects.impl.EAdChangeAppearance;
 import es.eucm.eadventure.common.model.effects.impl.EAdPlaySoundEffect;
-import es.eucm.eadventure.common.model.effects.impl.EAdVarInterpolationEffect;
-import es.eucm.eadventure.common.model.effects.impl.EAdVarInterpolationEffect.InterpolationType;
-import es.eucm.eadventure.common.model.effects.impl.EAdVarInterpolationEffect.LoopType;
-import es.eucm.eadventure.common.model.effects.impl.sceneelements.EAdMakeActiveElementEffect;
+import es.eucm.eadventure.common.model.effects.impl.EAdInterpolationEffect;
+import es.eucm.eadventure.common.model.effects.impl.EAdInterpolationEffect.InterpolationType;
+import es.eucm.eadventure.common.model.effects.impl.EAdInterpolationEffect.LoopType;
 import es.eucm.eadventure.common.model.effects.impl.text.EAdShowQuestion;
 import es.eucm.eadventure.common.model.effects.impl.text.EAdSpeakEffect;
 import es.eucm.eadventure.common.model.effects.impl.timedevents.EAdShowSceneElement;
@@ -57,6 +56,7 @@ import es.eucm.eadventure.common.model.variables.EAdField;
 import es.eucm.eadventure.common.model.variables.EAdOperation;
 import es.eucm.eadventure.common.model.variables.impl.EAdFieldImpl;
 import es.eucm.eadventure.common.params.EAdString;
+import es.eucm.eadventure.common.predef.model.effects.EAdMakeActiveElementEffect;
 import es.eucm.eadventure.common.resources.EAdBundleId;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.Caption;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.CaptionImpl;
@@ -73,11 +73,10 @@ public class EffectFactory {
 		return effect;
 	}
 
-	public EAdVarInterpolationEffect getInterpolationEffect(EAdField<?> var,
+	public EAdInterpolationEffect getInterpolationEffect(EAdField<?> var,
 			float startValue, float endValue, int time, LoopType loop,
 			InterpolationType interpolationType) {
-		EAdVarInterpolationEffect interpolation = new EAdVarInterpolationEffect(
-				"interpolationEffect" + ID_GENERATOR++, var, startValue,
+		EAdInterpolationEffect interpolation = new EAdInterpolationEffect(var, startValue,
 				endValue, time, loop, interpolationType);
 		return interpolation;
 	}
@@ -153,9 +152,7 @@ public class EffectFactory {
 
 	public EAdMakeActiveElementEffect getMakeActiveElement(
 			EAdSceneElement element) {
-		EAdMakeActiveElementEffect effect = new EAdMakeActiveElementEffect(
-				"makeActive");
-		effect.setSceneElement(element);
+		EAdMakeActiveElementEffect effect = new EAdMakeActiveElementEffect(element);
 		return effect;
 	}
 

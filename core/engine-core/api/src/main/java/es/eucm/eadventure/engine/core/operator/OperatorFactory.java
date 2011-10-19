@@ -38,8 +38,10 @@
 package es.eucm.eadventure.engine.core.operator;
 
 import es.eucm.eadventure.common.interfaces.Factory;
+import es.eucm.eadventure.common.model.EAdElement;
 import es.eucm.eadventure.common.model.variables.EAdField;
 import es.eucm.eadventure.common.model.variables.EAdOperation;
+import es.eucm.eadventure.common.model.variables.EAdVarDef;
 import es.eucm.eadventure.engine.core.ValueMap;
 import es.eucm.eadventure.engine.core.evaluators.EvaluatorFactory;
 
@@ -68,6 +70,10 @@ public interface OperatorFactory extends Factory<Operator<?>> {
 
 	<T extends EAdOperation, S> S operate(Class<S> eAdVar, T eAdOperation);
 	
-	void install( ValueMap valueMap, EvaluatorFactory evaluatorFactory );
+	<T extends EAdOperation, S> S operate(EAdElement element, EAdVarDef<S> varDef, T operation);
+
+	void install(ValueMap valueMap, EvaluatorFactory evaluatorFactory);
+
+	
 
 }

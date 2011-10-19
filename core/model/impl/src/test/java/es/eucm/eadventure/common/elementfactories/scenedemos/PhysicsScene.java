@@ -5,9 +5,9 @@ import es.eucm.eadventure.common.model.conditions.impl.ANDCondition;
 import es.eucm.eadventure.common.model.conditions.impl.OperationCondition;
 import es.eucm.eadventure.common.model.conditions.impl.OperationCondition.Comparator;
 import es.eucm.eadventure.common.model.effects.impl.EAdAddActorReferenceEffect;
-import es.eucm.eadventure.common.model.effects.impl.EAdVarInterpolationEffect;
-import es.eucm.eadventure.common.model.effects.impl.EAdVarInterpolationEffect.InterpolationType;
-import es.eucm.eadventure.common.model.effects.impl.EAdVarInterpolationEffect.LoopType;
+import es.eucm.eadventure.common.model.effects.impl.EAdInterpolationEffect;
+import es.eucm.eadventure.common.model.effects.impl.EAdInterpolationEffect.InterpolationType;
+import es.eucm.eadventure.common.model.effects.impl.EAdInterpolationEffect.LoopType;
 import es.eucm.eadventure.common.model.effects.impl.physics.EAdPhysicsEffect;
 import es.eucm.eadventure.common.model.effects.impl.physics.EAdPhysicsEffect.PhType;
 import es.eucm.eadventure.common.model.effects.impl.physics.PhApplyImpluse;
@@ -44,7 +44,8 @@ public class PhysicsScene extends EmptyScene {
 	}
 
 	protected void init() {
-		setBackgroundFill(new EAdLinearGradient(EAdColor.CYAN, EAdColor.BLUE, 800, 600));
+		setBackgroundFill(new EAdLinearGradient(EAdColor.CYAN, EAdColor.BLUE,
+				800, 600));
 
 		// Add sky
 
@@ -80,7 +81,7 @@ public class PhysicsScene extends EmptyScene {
 
 		// getEvents().add(event);
 		getBackground()
-				.addBehavior(EAdMouseEventImpl.MOUSE_RIGHT_CLICK, effect);
+				.addBehavior(EAdMouseEventImpl.MOUSE_ENTERED, effect);
 
 		addCanyon(effect);
 		addWalls(effect);
@@ -228,10 +229,10 @@ public class PhysicsScene extends EmptyScene {
 
 		EAdSceneElementEvent event = new EAdSceneElementEventImpl();
 
-		EAdVarInterpolationEffect effect = new EAdVarInterpolationEffect("sky");
-		effect.setInterpolation(new EAdFieldImpl<Integer>(getBackground(),
-				EAdBasicSceneElement.VAR_X), 0, -800, 100000, LoopType.REVERSE,
-				InterpolationType.LINEAR);
+		EAdInterpolationEffect effect = new EAdInterpolationEffect(
+				new EAdFieldImpl<Integer>(getBackground(),
+						EAdBasicSceneElement.VAR_X), 0, -800, 100000,
+				LoopType.REVERSE, InterpolationType.LINEAR);
 
 		event.addEffect(EAdSceneElementEvent.SceneElementEvent.ADDED_TO_SCENE,
 				effect);

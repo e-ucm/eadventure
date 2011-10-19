@@ -59,7 +59,7 @@ public class EAdEngine implements playn.core.Game, Keyboard.Listener {
 
 	@Override
 	public void init() {
-		graphics().setSize(600, 480);
+		graphics().setSize(800, 600);
 		PlayN.log().debug("EAdEngine: init");
 
 		/*

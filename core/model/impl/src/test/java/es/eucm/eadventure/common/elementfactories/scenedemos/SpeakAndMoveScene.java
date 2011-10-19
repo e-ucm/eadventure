@@ -2,7 +2,6 @@ package es.eucm.eadventure.common.elementfactories.scenedemos;
 
 import es.eucm.eadventure.common.elementfactories.EAdElementsFactory;
 import es.eucm.eadventure.common.model.effects.impl.EAdMoveActiveElement;
-import es.eucm.eadventure.common.model.effects.impl.sceneelements.EAdMakeActiveElementEffect;
 import es.eucm.eadventure.common.model.effects.impl.text.EAdSpeakEffect;
 import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
 import es.eucm.eadventure.common.model.events.EAdSceneElementEvent;
@@ -13,6 +12,7 @@ import es.eucm.eadventure.common.model.trajectories.impl.SimpleTrajectoryDefinit
 import es.eucm.eadventure.common.params.fills.impl.EAdColor;
 import es.eucm.eadventure.common.params.geom.impl.EAdPositionImpl;
 import es.eucm.eadventure.common.params.geom.impl.EAdPositionImpl.Corner;
+import es.eucm.eadventure.common.predef.model.effects.EAdMakeActiveElementEffect;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.shapes.BallonShape.BalloonType;
 
 public class SpeakAndMoveScene extends EmptyScene {
@@ -59,9 +59,7 @@ public class SpeakAndMoveScene extends EmptyScene {
 
 		this.getElements().add(character);
 
-		EAdMakeActiveElementEffect makeActive = new EAdMakeActiveElementEffect(
-				"makeActiveCharacter");
-		makeActive.setSceneElement(character);
+		EAdMakeActiveElementEffect makeActive = new EAdMakeActiveElementEffect(character);
 
 		EAdSceneElementEvent event = new EAdSceneElementEventImpl(
 				"makeAcitveCharacter");

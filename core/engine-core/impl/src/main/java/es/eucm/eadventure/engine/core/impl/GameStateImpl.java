@@ -92,6 +92,11 @@ public class GameStateImpl implements GameState {
 	 * Queue for the actions linked to effects
 	 */
 	private List<GUIAction> actionsQueue;
+	
+	/**
+	 * Queue for the scene elements linked to effects
+	 */
+	private List<EAdSceneElement> sceneElementsQueue;
 
 	private static Logger logger = Logger.getLogger("GameState");
 
@@ -111,6 +116,7 @@ public class GameStateImpl implements GameState {
 		// ArrayList<EAdEffect>());
 		effectsQueue = new ArrayList<EAdEffect>();
 		actionsQueue = new ArrayList<GUIAction>();
+		sceneElementsQueue = new ArrayList<EAdSceneElement>();
 		this.loadingScreen = loadingScreen;
 		this.valueMap = valueMap;
 		this.gameObjectFactory = gameObjectFactory;
@@ -158,7 +164,7 @@ public class GameStateImpl implements GameState {
 					EAdSceneImpl.VAR_SCENE_LOADED, Boolean.TRUE);
 			for (Entry<EAdVarDef<?>, Object> e : scene.getElement().getVars()
 					.entrySet()) {
-				valueMap.setValue(e.getKey(), e.getValue(), scene.getElement());
+				valueMap.setValue(scene.getElement(), e.getKey(), e.getValue());
 			}
 		}
 
@@ -192,8 +198,8 @@ public class GameStateImpl implements GameState {
 	 * .common.model.effects.EAdEffect)
 	 */
 	@Override
-	public void addEffect(EAdEffect e, GUIAction action) {
-		addEffect(-1, e, action);
+	public void addEffect(EAdEffect e, GUIAction action, EAdSceneElement parent) {
+		addEffect(-1, e, action, parent);
 	}
 
 	/*
@@ -204,17 +210,19 @@ public class GameStateImpl implements GameState {
 	 */
 	@Override
 	// TODO consider leaving effect initilization for later
-	public void addEffect(int pos, EAdEffect e, GUIAction action) {
+	public void addEffect(int pos, EAdEffect e, GUIAction action, EAdSceneElement parent) {
 		if (e != null && evaluatorFactory.evaluate(e.getCondition())) {
 			if (e.isQueueable())
 				synchronized (effectsQueue) {
 					pos = pos == -1 ? effectsQueue.size() : pos;
 					effectsQueue.add(pos, e);
 					actionsQueue.add(action);
+					sceneElementsQueue.add(parent);
 				}
 			else {
 				EffectGO<?> effectGO = (EffectGO<?>) gameObjectFactory.get(e);
 				effectGO.setGUIAction(action);
+				effectGO.setParent(parent);
 				effectGO.initilize();
 				effectGO.update();
 				effectGO.finish();
@@ -267,7 +275,8 @@ public class GameStateImpl implements GameState {
 				@SuppressWarnings("rawtypes")
 				EffectGO effectGO = (EffectGO) gameObjectFactory.get(e);
 				if (effectGO != null) {
-					effectGO.setGUIAction(actionsQueue.get(i++));
+					effectGO.setParent(sceneElementsQueue.get(i));
+					effectGO.setGUIAction(actionsQueue.get(i));
 					if (!effects.contains(effectGO)) {
 						effectGO.setElement(e);
 						effects.add(effectGO);
@@ -275,21 +284,23 @@ public class GameStateImpl implements GameState {
 					logger.info("Added " + effectGO);
 				} else
 					logger.severe("Null EffectGO for " + e);
+				i++;
 			}
 			effectsQueue.clear();
 			actionsQueue.clear();
+			sceneElementsQueue.clear();
 		}
 
 	}
 
 	@Override
 	public void addEffect(EAdEffect e) {
-		this.addEffect(e, null);
+		this.addEffect(e, null, null);
 	}
 
 	@Override
 	public EAdSceneElement getActiveElement() {
-		return valueMap.getValue(null, SystemFields.ACTIVE_ELEMENT);
+		return valueMap.getValue(SystemFields.ACTIVE_ELEMENT);
 	}
 
 	@Override

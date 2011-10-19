@@ -41,12 +41,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.google.inject.Inject;
-import com.google.inject.Singleton;
 
 import es.eucm.eadventure.common.model.EAdElement;
 import es.eucm.eadventure.engine.core.gameobjects.GameObject;
 
-@Singleton
 public class GameObjectFactoryMapProvider
 		extends
 		AbstractMapProvider<Class<? extends EAdElement>, Class<? extends GameObject<?>>> {
@@ -67,6 +65,7 @@ public class GameObjectFactoryMapProvider
 		factoryMap.putAll(tempMap);
 	}
 
+	// This won't work in GWT
 	public static void add(Class<? extends EAdElement> element,
 			Class<? extends GameObject<?>> gameobject) {
 		tempMap.put(element, gameobject);

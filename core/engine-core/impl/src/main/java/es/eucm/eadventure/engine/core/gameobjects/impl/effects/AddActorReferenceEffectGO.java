@@ -3,6 +3,7 @@ package es.eucm.eadventure.engine.core.gameobjects.impl.effects;
 import com.google.inject.Inject;
 
 import es.eucm.eadventure.common.model.effects.impl.EAdAddActorReferenceEffect;
+import es.eucm.eadventure.common.model.effects.impl.sceneelements.AbstractSceneElementEffect;
 import es.eucm.eadventure.common.model.elements.EAdScene;
 import es.eucm.eadventure.common.model.elements.EAdSceneElementDef;
 import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
@@ -36,7 +37,7 @@ public class AddActorReferenceEffectGO extends
 			EAdSceneElementEvent event = new EAdSceneElementEventImpl();
 			event.addEffect(SceneElementEvent.ADDED_TO_SCENE,
 					element.getInitialEffect());
-			element.getInitialEffect().setSceneElement(ref);
+			((AbstractSceneElementEffect) element.getInitialEffect()).setSceneElement(ref);
 			ref.getEvents().add(event);
 			scene.getElements().add(ref, 0);
 		}

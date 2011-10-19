@@ -35,30 +35,26 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package es.eucm.eadventure.common.model.effects.impl.sceneelements;
+package es.eucm.eadventure.common.predef.model.effects;
 
 import es.eucm.eadventure.common.interfaces.Element;
 import es.eucm.eadventure.common.interfaces.Param;
-import es.eucm.eadventure.common.model.effects.EAdSceneElementEffect;
-import es.eucm.eadventure.common.model.effects.impl.AbstractEAdEffect;
+import es.eucm.eadventure.common.model.effects.impl.variables.EAdChangeFieldValueEffect;
 import es.eucm.eadventure.common.model.elements.EAdSceneElement;
+import es.eucm.eadventure.common.model.variables.impl.SystemFields;
+import es.eucm.eadventure.common.model.variables.impl.operations.ValueOperation;
 
-@Element(runtime = EAdMakeActiveElementEffect.class, detailed = EAdMakeActiveElementEffect.class)
-public class EAdMakeActiveElementEffect extends AbstractEAdEffect implements EAdSceneElementEffect {
-	
+/**
+ * Makes an element the active element in the game.
+ */
+@Element(runtime = EAdChangeFieldValueEffect.class, detailed = EAdMakeActiveElementEffect.class)
+public class EAdMakeActiveElementEffect extends EAdChangeFieldValueEffect {
+
 	@Param("sceneElement")
 	protected EAdSceneElement sceneElement;
-	
-	public EAdMakeActiveElementEffect(String id) {
-		super(id);
-	}
-	
-	public void setSceneElement( EAdSceneElement sceneElement ){
-		this.sceneElement = sceneElement;
-	}
-	
-	public EAdSceneElement getSceneElement( ){
-		return sceneElement;
-	}
 
+	public EAdMakeActiveElementEffect(EAdSceneElement element) {
+		super("makeActiveElement_" + element, SystemFields.ACTIVE_ELEMENT,
+				new ValueOperation(element));
+	}
 }

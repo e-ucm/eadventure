@@ -129,8 +129,7 @@ public abstract class SceneElementGOImpl<T extends EAdSceneElement> extends
 		}
 
 		for (Entry<EAdVarDef<?>, Object> entry : element.getVars().entrySet()) {
-			// FIXME this has to change, to disappear
-			gameState.getValueMap().setValue(entry.getKey(), entry.getValue(), element);
+			gameState.getValueMap().setValue(element, entry.getKey(), entry.getValue());
 		}
 
 		position = new EAdPositionImpl(0, 0);

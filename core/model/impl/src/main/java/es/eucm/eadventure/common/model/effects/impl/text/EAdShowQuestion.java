@@ -43,9 +43,9 @@ import es.eucm.eadventure.common.interfaces.Element;
 import es.eucm.eadventure.common.interfaces.Param;
 import es.eucm.eadventure.common.model.effects.EAdEffect;
 import es.eucm.eadventure.common.model.effects.impl.EAdComplexBlockingEffect;
-import es.eucm.eadventure.common.model.effects.impl.EAdVarInterpolationEffect;
-import es.eucm.eadventure.common.model.effects.impl.EAdVarInterpolationEffect.InterpolationType;
-import es.eucm.eadventure.common.model.effects.impl.EAdVarInterpolationEffect.LoopType;
+import es.eucm.eadventure.common.model.effects.impl.EAdInterpolationEffect;
+import es.eucm.eadventure.common.model.effects.impl.EAdInterpolationEffect.InterpolationType;
+import es.eucm.eadventure.common.model.effects.impl.EAdInterpolationEffect.LoopType;
 import es.eucm.eadventure.common.model.effects.impl.text.extra.Answer;
 import es.eucm.eadventure.common.model.effects.impl.variables.EAdChangeFieldValueEffect;
 import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
@@ -94,7 +94,7 @@ public class EAdShowQuestion extends EAdComplexBlockingEffect {
 	public void addAnswer(EAdString string, EAdEffect effect) {
 		answers.put(string, effect);
 	}
-	
+
 	public EAdString getQuestion() {
 		return question;
 	}
@@ -121,13 +121,12 @@ public class EAdShowQuestion extends EAdComplexBlockingEffect {
 			int initialX = -200 * i - 820;
 			se.setPosition(initialX, (i + 1) * 120);
 
-			EAdVarInterpolationEffect effect = new EAdVarInterpolationEffect(
-					"interpolationAnswer");
-			effect.setInterpolation(new EAdFieldImpl<Integer>(se,
+			EAdInterpolationEffect effect = new EAdInterpolationEffect(
+					new EAdFieldImpl<Integer>(se,
 					EAdBasicSceneElement.VAR_X), initialX, 10, 500,
 					LoopType.NO_LOOP, InterpolationType.LINEAR);
-			
-			effect.setDelay(200*i);
+
+			effect.setDelay(200 * i);
 
 			EAdSceneElementEvent event = new EAdSceneElementEventImpl("event");
 			event.addEffect(SceneElementEvent.ADDED_TO_SCENE, effect);
@@ -145,7 +144,7 @@ public class EAdShowQuestion extends EAdComplexBlockingEffect {
 
 	public void setUpQuestion() {
 		CaptionImpl c = new CaptionImpl(question);
-		
+
 		c.setTextPaint(EAdColor.BLUE);
 		c.setBubblePaint(EAdColor.WHITE);
 
@@ -155,11 +154,9 @@ public class EAdShowQuestion extends EAdComplexBlockingEffect {
 		q.setPosition(10, 10);
 		q.setVarInitialValue(EAdBasicSceneElement.VAR_ALPHA, 0.0f);
 
-		EAdVarInterpolationEffect effect = new EAdVarInterpolationEffect(
-				"quesionInterpolation");
-		effect.setInterpolation(new EAdFieldImpl<Float>(q,
-				EAdBasicSceneElement.VAR_ALPHA), 0.0f, 1.0f, 500,
-				LoopType.NO_LOOP, InterpolationType.LINEAR);
+		EAdInterpolationEffect effect = new EAdInterpolationEffect(
+				new EAdFieldImpl<Float>(q, EAdBasicSceneElement.VAR_ALPHA),
+				0.0f, 1.0f, 500, LoopType.NO_LOOP, InterpolationType.LINEAR);
 
 		EAdSceneElementEvent event = new EAdSceneElementEventImpl(
 				"questionEvent");

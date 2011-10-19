@@ -40,6 +40,7 @@ package es.eucm.eadventure.engine.core.gameobjects.impl.events;
 import com.google.inject.Inject;
 
 import es.eucm.eadventure.common.model.effects.EAdEffect;
+import es.eucm.eadventure.common.model.elements.EAdSceneElement;
 import es.eucm.eadventure.common.model.events.EAdEvent;
 import es.eucm.eadventure.common.model.extra.EAdList;
 import es.eucm.eadventure.common.resources.StringHandler;
@@ -50,9 +51,11 @@ import es.eucm.eadventure.engine.core.gameobjects.impl.GameObjectImpl;
 import es.eucm.eadventure.engine.core.platform.AssetHandler;
 import es.eucm.eadventure.engine.core.platform.GUI;
 
-public abstract class AbstractEventGO<T extends EAdEvent> extends GameObjectImpl<T> implements
-		GameObject<T> {
-	
+public abstract class AbstractEventGO<T extends EAdEvent> extends
+		GameObjectImpl<T> implements GameObject<T> {
+
+	protected EAdSceneElement parent;
+
 	@Inject
 	public AbstractEventGO(AssetHandler assetHandler,
 			StringHandler stringHandler, GameObjectFactory gameObjectFactory,
@@ -63,14 +66,24 @@ public abstract class AbstractEventGO<T extends EAdEvent> extends GameObjectImpl
 	/**
 	 * Initializes the event
 	 */
-	public void initialize( ){
-		
+	public void initialize() {
+
+	}
+
+	/**
+	 * Sets the element holding this event
+	 * 
+	 * @param parent
+	 *            the scene element holding this event
+	 */
+	public void setParent(EAdSceneElement parent) {
+		this.parent = parent;
 	}
 
 	protected void runEffects(EAdList<EAdEffect> effects) {
 		if (effects != null) {
 			for (EAdEffect effect : effects)
-				gameState.addEffect(effect);
+				gameState.addEffect(effect, null, parent);
 		}
 
 	}

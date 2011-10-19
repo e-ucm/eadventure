@@ -22,9 +22,9 @@ import es.eucm.eadventure.common.model.conditions.impl.OperationCondition;
 import es.eucm.eadventure.common.model.conditions.impl.OperationCondition.Comparator;
 import es.eucm.eadventure.common.model.effects.impl.EAdChangeAppearance;
 import es.eucm.eadventure.common.model.effects.impl.EAdChangeScene;
-import es.eucm.eadventure.common.model.effects.impl.EAdVarInterpolationEffect;
-import es.eucm.eadventure.common.model.effects.impl.EAdVarInterpolationEffect.InterpolationType;
-import es.eucm.eadventure.common.model.effects.impl.EAdVarInterpolationEffect.LoopType;
+import es.eucm.eadventure.common.model.effects.impl.EAdInterpolationEffect;
+import es.eucm.eadventure.common.model.effects.impl.EAdInterpolationEffect.InterpolationType;
+import es.eucm.eadventure.common.model.effects.impl.EAdInterpolationEffect.LoopType;
 import es.eucm.eadventure.common.model.effects.impl.variables.EAdChangeFieldValueEffect;
 import es.eucm.eadventure.common.model.elements.EAdCondition;
 import es.eucm.eadventure.common.model.elements.EAdScene;
@@ -268,12 +268,10 @@ public class BookImporter implements EAdElementImporter<Book, EAdScene> {
 
 		EAdField<Boolean> visibleVar = new EAdFieldImpl<Boolean>(arrow,
 				EAdBasicSceneElement.VAR_VISIBLE);
-		EAdVarInterpolationEffect move = new EAdVarInterpolationEffect(
-				"changePage");
-		move.setInterpolation(xVar,
-				new MathOperation("[0]", xVar),
-				new MathOperation(expression, xVar), 500,
-				LoopType.NO_LOOP, InterpolationType.BOUNCE_END);
+		EAdInterpolationEffect move = new EAdInterpolationEffect(xVar,
+				new MathOperation("[0]", xVar), new MathOperation(expression,
+						xVar), 500, LoopType.NO_LOOP,
+				InterpolationType.BOUNCE_END);
 
 		EAdConditionEvent event = new EAdConditionEventImpl("event");
 		event.setCondition(condition);

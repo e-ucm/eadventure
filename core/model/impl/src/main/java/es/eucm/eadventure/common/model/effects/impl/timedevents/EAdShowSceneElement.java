@@ -41,8 +41,8 @@ import es.eucm.eadventure.common.interfaces.Element;
 import es.eucm.eadventure.common.interfaces.Param;
 import es.eucm.eadventure.common.model.effects.EAdEffect;
 import es.eucm.eadventure.common.model.effects.impl.AbstractEAdEffect;
-import es.eucm.eadventure.common.model.effects.impl.EAdVarInterpolationEffect;
-import es.eucm.eadventure.common.model.effects.impl.EAdVarInterpolationEffect.LoopType;
+import es.eucm.eadventure.common.model.effects.impl.EAdInterpolationEffect;
+import es.eucm.eadventure.common.model.effects.impl.EAdInterpolationEffect.LoopType;
 import es.eucm.eadventure.common.model.elements.EAdSceneElement;
 import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
 import es.eucm.eadventure.common.model.events.EAdSceneElementEvent;
@@ -88,8 +88,8 @@ public class EAdShowSceneElement extends AbstractEAdEffect {
 		switch (animation) {
 		case FADE_IN:
 			text.setVarInitialValue(EAdBasicSceneElement.VAR_ALPHA, 0.0f);
-			EAdVarInterpolationEffect effect = new EAdVarInterpolationEffect(
-					"textFadeIn", new EAdFieldImpl<Float>(text,
+			EAdInterpolationEffect effect = new EAdInterpolationEffect(
+					new EAdFieldImpl<Float>(text,
 							EAdBasicSceneElement.VAR_ALPHA), 0.0f, 1.0f, 500,
 					LoopType.NO_LOOP);
 

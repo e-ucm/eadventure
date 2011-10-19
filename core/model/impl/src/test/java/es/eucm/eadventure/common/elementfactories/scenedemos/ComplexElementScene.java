@@ -1,9 +1,9 @@
 package es.eucm.eadventure.common.elementfactories.scenedemos;
 
 import es.eucm.eadventure.common.elementfactories.EAdElementsFactory;
-import es.eucm.eadventure.common.model.effects.impl.EAdVarInterpolationEffect;
-import es.eucm.eadventure.common.model.effects.impl.EAdVarInterpolationEffect.InterpolationType;
-import es.eucm.eadventure.common.model.effects.impl.EAdVarInterpolationEffect.LoopType;
+import es.eucm.eadventure.common.model.effects.impl.EAdInterpolationEffect;
+import es.eucm.eadventure.common.model.effects.impl.EAdInterpolationEffect.InterpolationType;
+import es.eucm.eadventure.common.model.effects.impl.EAdInterpolationEffect.LoopType;
 import es.eucm.eadventure.common.model.effects.impl.variables.EAdChangeFieldValueEffect;
 import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
 import es.eucm.eadventure.common.model.elements.impl.EAdComplexElementImpl;
@@ -24,7 +24,8 @@ import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.shapes.Re
 public class ComplexElementScene extends EmptyScene {
 
 	public ComplexElementScene() {
-		EAdLinearGradient d = new EAdLinearGradient( EAdColor.BLACK, EAdColor.RED, 400, 400 );
+		EAdLinearGradient d = new EAdLinearGradient(EAdColor.BLACK,
+				EAdColor.RED, 400, 400);
 		EAdComplexElementImpl complex = new EAdComplexElementImpl("complex");
 		RectangleShape rectangle = new RectangleShape(400, 400);
 		rectangle.setPaint(EAdPaintImpl.BLACK_ON_WHITE);
@@ -39,9 +40,10 @@ public class ComplexElementScene extends EmptyScene {
 				.getSceneElementFactory()
 				.createSceneElement(new RectangleShape(400, 400, d),
 						new RectangleShape(400, 400, d), 40, 40);
-		
+
 		e.setScale(0.1f);
-		e.setVarInitialValue(EAdBasicSceneElement.VAR_ROTATION, (float) Math.PI / 6);
+		e.setVarInitialValue(EAdBasicSceneElement.VAR_ROTATION,
+				(float) Math.PI / 6);
 		e.setPosition(new EAdPositionImpl(Corner.CENTER, -50, 50));
 
 		complex.getElements().add(e);
@@ -51,40 +53,36 @@ public class ComplexElementScene extends EmptyScene {
 		EAdField<Float> rotation = new EAdFieldImpl<Float>(complex,
 				EAdBasicSceneElement.VAR_ROTATION);
 
-		EAdVarInterpolationEffect effect = new EAdVarInterpolationEffect(
-				"effect");
-		effect.setInterpolation(rotation, 0, 2 * (float) Math.PI, 10000,
-				LoopType.RESTART, InterpolationType.LINEAR);
+		EAdInterpolationEffect effect = new EAdInterpolationEffect(rotation, 0,
+				2 * (float) Math.PI, 10000, LoopType.RESTART,
+				InterpolationType.LINEAR);
 
 		EAdSceneElementEvent event = new EAdSceneElementEventImpl();
 		event.addEffect(SceneElementEvent.ADDED_TO_SCENE, effect);
 
-//		complex.getEvents().add(event);
-		
-		
+		// complex.getEvents().add(event);
 
 		EAdField<Float> rotation2 = new EAdFieldImpl<Float>(e,
 				EAdBasicSceneElement.VAR_ROTATION);
-		
-		e.addBehavior(EAdMouseEventImpl.MOUSE_RIGHT_CLICK, new EAdChangeFieldValueEffect( "t", rotation, new ValueOperation((float) 0.1f )));
 
-		EAdVarInterpolationEffect effect2 = new EAdVarInterpolationEffect(
-				"effect");
-		effect2.setInterpolation(rotation2, 0, 2 * (float) Math.PI, 1000,
-				LoopType.RESTART, InterpolationType.LINEAR);
+		e.addBehavior(EAdMouseEventImpl.MOUSE_RIGHT_CLICK,
+				new EAdChangeFieldValueEffect("t", rotation,
+						new ValueOperation((float) 0.1f)));
+
+		EAdInterpolationEffect effect2 = new EAdInterpolationEffect(rotation2,
+				0, 2 * (float) Math.PI, 1000, LoopType.RESTART,
+				InterpolationType.LINEAR);
 
 		EAdSceneElementEvent event2 = new EAdSceneElementEventImpl();
 		event2.addEffect(SceneElementEvent.ADDED_TO_SCENE, effect2);
 
-//		e.getEvents().add(event2);
+		// e.getEvents().add(event2);
 
 		EAdField<Float> scale = new EAdFieldImpl<Float>(complex,
 				EAdBasicSceneElement.VAR_SCALE);
 
-		EAdVarInterpolationEffect effect3 = new EAdVarInterpolationEffect(
-				"effect");
-		effect3.setInterpolation(scale, 0.5f, 2.0f, 5000, LoopType.REVERSE,
-				InterpolationType.LINEAR);
+		EAdInterpolationEffect effect3 = new EAdInterpolationEffect(scale,
+				0.5f, 2.0f, 5000, LoopType.REVERSE, InterpolationType.LINEAR);
 
 		event2.addEffect(SceneElementEvent.ADDED_TO_SCENE, effect3);
 

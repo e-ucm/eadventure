@@ -39,6 +39,7 @@ package es.eucm.eadventure.engine.core.gameobjects.impl.effects;
 
 import com.google.inject.Inject;
 
+import es.eucm.eadventure.common.model.effects.impl.sceneelements.AbstractSceneElementEffect;
 import es.eucm.eadventure.common.model.effects.impl.sceneelements.EAdActiveElementEffect;
 import es.eucm.eadventure.common.resources.StringHandler;
 import es.eucm.eadventure.engine.core.GameState;
@@ -59,7 +60,7 @@ public class ActiveElementEffectGO extends AbstractEffectGO<EAdActiveElementEffe
 	public void initilize() {
 		super.initilize();
 		if ( gameState.getActiveElement() != null ){
-			element.getSceneElementEffect().setSceneElement(gameState.getActiveElement());
+			((AbstractSceneElementEffect) element.getSceneElementEffect()).setSceneElement(gameState.getActiveElement());
 			gameState.addEffect(element.getSceneElementEffect());
 		}
 	}

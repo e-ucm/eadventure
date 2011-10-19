@@ -38,24 +38,32 @@
 package es.eucm.eadventure.common.model.effects;
 
 import es.eucm.eadventure.common.model.elements.EAdSceneElement;
+import es.eucm.eadventure.common.model.variables.EAdField;
 
 /**
  * 
- * Implemented by those {@link EAdEffect} that need an {@link EAdSceneElement}
+ * Implemented by those {@link EAdEffect} that need an {@link EAdSceneElement}.
+ * If both methods {@link EAdSceneElementEffect#getSceneElement()} and
+ * {@link EAdSceneElementEffect#getSceneElementField()} returns {@code null},
+ * the effect is applied to the scene element launching the effect, if exists
  * 
  */
 public interface EAdSceneElementEffect extends EAdEffect {
-	
+
 	/**
 	 * Returns the scene element associated to this effect
+	 * 
 	 * @return
 	 */
 	EAdSceneElement getSceneElement();
-	
+
 	/**
-	 * Sets the scene element
-	 * @param sceneElement the scene element
+	 * Returns a field holding the element. Usually, if this method returns an
+	 * object, {@link EAdSceneElementEffect#getSceneElement()} should return
+	 * {@code null}
+	 * 
+	 * @return
 	 */
-	void setSceneElement( EAdSceneElement sceneElement );
+	EAdField<EAdSceneElement> getSceneElementField();
 
 }

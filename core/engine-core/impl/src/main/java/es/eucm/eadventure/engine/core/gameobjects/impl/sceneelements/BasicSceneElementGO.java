@@ -99,7 +99,7 @@ public class BasicSceneElementGO extends SceneElementGOImpl<EAdBasicSceneElement
 		if (list != null && list.size() > 0) {
 			action.consume();
 			for (EAdEffect e : list) {
-				gameState.addEffect(e, action);
+				gameState.addEffect(e, action, getElement());
 			}
 			return true;
 		}

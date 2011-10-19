@@ -92,7 +92,7 @@ public class ComplexBlockingEffectGO extends
 	public void finish() {
 		super.finish();
 		for (EAdEffect e : element.getFinalEffects()) {
-			gameState.addEffect(e, action);
+			gameState.addEffect(e, action, parent);
 		}
 		for (EAdElement e : element.getComponents()) {
 			gameState.getValueMap().remove(e);

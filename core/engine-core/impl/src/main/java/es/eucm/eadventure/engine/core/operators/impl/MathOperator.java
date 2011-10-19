@@ -35,41 +35,50 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package es.eucm.eadventure.engine.core.gameobjects.impl.effects;
+package es.eucm.eadventure.engine.core.operators.impl;
 
 import com.google.inject.Inject;
+import com.google.inject.Singleton;
 
-import es.eucm.eadventure.common.model.effects.impl.sceneelements.EAdMakeActiveElementEffect;
-import es.eucm.eadventure.common.resources.StringHandler;
-import es.eucm.eadventure.engine.core.GameState;
-import es.eucm.eadventure.engine.core.gameobjects.GameObjectFactory;
-import es.eucm.eadventure.engine.core.platform.AssetHandler;
-import es.eucm.eadventure.engine.core.platform.GUI;
+import es.eucm.eadventure.common.model.variables.impl.operations.MathOperation;
+import es.eucm.eadventure.engine.core.ValueMap;
+import es.eucm.eadventure.engine.core.operator.Operator;
+import es.eucm.eadventure.engine.core.operators.impl.util.MathEvaluator;
 
-public class MakeActiveElementEffectGO extends
-		AbstractEffectGO<EAdMakeActiveElementEffect> {
+/**
+ * Calculates results for {@link MathOperation}. The result
+ * returned by
+ * {@link MathOperation#operate(ValueMap, MathOperation)}
+ * is always a Float object
+ * 
+ * 
+ */
+@Singleton
+public class MathOperator implements
+		Operator<MathOperation> {
+
+	/**
+	 * Math evaluator
+	 */
+	private static final MathEvaluator evaluator = new MathEvaluator();
+
+	private ValueMap valueMap;
 
 	@Inject
-	public MakeActiveElementEffectGO(AssetHandler assetHandler,
-			StringHandler stringHandler, GameObjectFactory gameObjectFactory,
-			GUI gui, GameState gameState) {
-		super(assetHandler, stringHandler, gameObjectFactory, gui, gameState);
-	}
-	
-	@Override
-	public void initilize() {
-		super.initilize();
-		gameState.setActiveElement(element.getSceneElement());
+	public MathOperator(ValueMap valueMap) {
+		this.valueMap = valueMap;
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
-	public boolean isVisualEffect() { 
-		return false;
-	}
+	public <S> S operate(Class<S> clazz, MathOperation operation) {
+		evaluator.setExpression(operation.getExpression(), valueMap,
+				operation.getVarList());
 
-	@Override
-	public boolean isFinished() {
-		return true;
+		if (clazz.equals(Integer.class))
+			return (S) new Integer(evaluator.getValue().intValue());
+		else
+			return (S) evaluator.getValue();
 	}
 
 }

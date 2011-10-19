@@ -53,8 +53,7 @@ import es.eucm.eadventure.common.model.effects.impl.EAdPlaySoundEffect;
 import es.eucm.eadventure.common.model.effects.impl.EAdQuitGame;
 import es.eucm.eadventure.common.model.effects.impl.EAdRandomEffect;
 import es.eucm.eadventure.common.model.effects.impl.EAdTriggerMacro;
-import es.eucm.eadventure.common.model.effects.impl.EAdVarInterpolationEffect;
-import es.eucm.eadventure.common.model.effects.impl.sceneelements.EAdMakeActiveElementEffect;
+import es.eucm.eadventure.common.model.effects.impl.EAdInterpolationEffect;
 import es.eucm.eadventure.common.model.effects.impl.sceneelements.EAdMoveSceneElement;
 import es.eucm.eadventure.common.model.effects.impl.text.EAdSpeakEffect;
 import es.eucm.eadventure.common.model.effects.impl.timedevents.EAdHighlightSceneElement;
@@ -71,7 +70,6 @@ import es.eucm.eadventure.engine.core.gameobjects.impl.effects.ChangeFieldGO;
 import es.eucm.eadventure.engine.core.gameobjects.impl.effects.ChangeSceneGO;
 import es.eucm.eadventure.engine.core.gameobjects.impl.effects.ComplexBlockingEffectGO;
 import es.eucm.eadventure.engine.core.gameobjects.impl.effects.HighlightEffectGO;
-import es.eucm.eadventure.engine.core.gameobjects.impl.effects.MakeActiveElementEffectGO;
 import es.eucm.eadventure.engine.core.gameobjects.impl.effects.ModifyActorStateGO;
 import es.eucm.eadventure.engine.core.gameobjects.impl.effects.MoveActiveElementGO;
 import es.eucm.eadventure.engine.core.gameobjects.impl.effects.MoveSceneElementGO;
@@ -81,7 +79,7 @@ import es.eucm.eadventure.engine.core.gameobjects.impl.effects.RandomEffectGO;
 import es.eucm.eadventure.engine.core.gameobjects.impl.effects.ShowSceneElementGO;
 import es.eucm.eadventure.engine.core.gameobjects.impl.effects.SpeakEffectGO;
 import es.eucm.eadventure.engine.core.gameobjects.impl.effects.TriggerMacroEffectGO;
-import es.eucm.eadventure.engine.core.gameobjects.impl.effects.VarInterpolationGO;
+import es.eucm.eadventure.engine.core.gameobjects.impl.effects.InterpolationGO;
 import es.eucm.eadventure.engine.core.gameobjects.impl.effects.WaitEffectGO;
 
 public class EffectGameObjectFactoryConfigurator {
@@ -104,8 +102,7 @@ public class EffectGameObjectFactoryConfigurator {
 		factoryMap.put(EAdTriggerMacro.class, TriggerMacroEffectGO.class);
 		factoryMap.put(EAdModifyActorState.class, ModifyActorStateGO.class);
 		factoryMap.put(EAdRandomEffect.class, RandomEffectGO.class);
-		factoryMap.put(EAdVarInterpolationEffect.class, VarInterpolationGO.class);
-		factoryMap.put(EAdMakeActiveElementEffect.class, MakeActiveElementEffectGO.class);
+		factoryMap.put(EAdInterpolationEffect.class, InterpolationGO.class);
 		factoryMap.put(EAdMoveActiveElement.class, MoveActiveElementGO.class);
 		factoryMap.put(EAdSpeakEffect.class, SpeakEffectGO.class);
 		factoryMap.put(EAdPlaySoundEffect.class, PlaySoundEffectGO.class);

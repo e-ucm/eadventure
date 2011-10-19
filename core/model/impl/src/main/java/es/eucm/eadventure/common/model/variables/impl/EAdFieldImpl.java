@@ -15,12 +15,25 @@ public class EAdFieldImpl<T> implements EAdField<T> {
 	@Param("variable")
 	private EAdVarDef<T> varDef;
 
+	@Param("elementField")
+	private EAdField<EAdElement> elementField;
+
 	public EAdFieldImpl() {
 
 	}
 
+	@SuppressWarnings("unchecked")
 	public EAdFieldImpl(EAdElement element, EAdVarDef<T> varDef) {
-		this.element = element;
+		if (element instanceof EAdField) {
+			this.elementField = (EAdField<EAdElement>) element;
+		} else
+			this.element = element;
+		this.varDef = varDef;
+	}
+
+	public EAdFieldImpl(EAdFieldImpl<EAdElement> elementField,
+			EAdVarDef<T> varDef) {
+		this.elementField = elementField;
 		this.varDef = varDef;
 	}
 
@@ -36,19 +49,29 @@ public class EAdFieldImpl<T> implements EAdField<T> {
 
 	@Override
 	public String getId() {
-		return ( element != null ? element.getId() : "" ) + "_" + varDef.getId() + "_field";
+		return (element != null ? element.getId() : "") + "_" + varDef.getId()
+				+ "_field";
 	}
 
 	@Override
 	public EAdElement copy() {
-		// TODO Auto-generated method stub
-		return null;
+		return copy(false);
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public EAdElement copy(boolean deepCopy) {
-		// TODO Auto-generated method stub
-		return null;
+		EAdFieldImpl<T> f = new EAdFieldImpl<T>();
+		if (deepCopy) {
+			f.element = element.copy();
+			f.elementField = (EAdFieldImpl<EAdElement>) elementField.copy();
+			f.varDef = (EAdVarDef<T>) varDef.copy();
+		} else {
+			f.element = element;
+			f.elementField = elementField;
+			f.varDef = varDef;
+		}
+		return f;
 	}
 
 	public boolean equals(Object o) {
@@ -58,9 +81,14 @@ public class EAdFieldImpl<T> implements EAdField<T> {
 		}
 		return false;
 	}
-	
-	public String toString(){
-		return element + "." + varDef.getName(); 
+
+	public String toString() {
+		return element + "." + varDef.getName();
+	}
+
+	@Override
+	public EAdField<EAdElement> getElementField() {
+		return elementField;
 	}
 
 }
