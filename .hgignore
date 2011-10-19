@@ -8,6 +8,7 @@ syntax: glob
 */target/*
 */ProjectImported/*
 */EAdventure1Project/*
+*/impl/.gwt/*
 core/engine-desktop/impl/hs_err_pid1828.log
 core/engine-desktop/impl/hs_err_pid2504.log
 core/engine-android/impl/gen/es/eucm/eadventure/engine/R.java
@@ -27,6 +28,3 @@ syntax: regexp
 ^core/engine-android/impl/libs/android-support-v4\.jar$
 syntax: regexp
 ^core/engine-android/impl/gen$
-
-syntax: regexp
-^core/engine-playn/impl/\.gwt$

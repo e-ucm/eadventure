@@ -76,7 +76,7 @@ public class EAdStringComponentProvider implements
 			textField = ((EAdTextArea) component).getTextArea();
 			break;
 		case SHORT:
-			textField = new EAdTextField(element.getTitle(), 20);
+			textField = new EAdTextField(element.getTitle());
 			component = textField;
 			break;
 		case NORMAL:

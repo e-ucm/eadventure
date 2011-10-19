@@ -1,5 +1,7 @@
 package es.eucm.eadventure.editor.view.swing;
 
+import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -32,9 +34,11 @@ public class PanelComponentProvider implements ComponentProvider<Panel, JPanel> 
 			mainPanel = new EAdBorderedPanel(element.getTitle());
 		else
 			mainPanel = new JPanel();
+
 		JPanel panel = new JPanel();
 		EAdScrollPane scrollPane = new EAdScrollPane(panel, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-		mainPanel.add(scrollPane);
+		mainPanel.setLayout(new BorderLayout());
+		mainPanel.add(scrollPane, BorderLayout.CENTER);
 		
 		java.awt.GridBagConstraints c = null;
 		
@@ -42,8 +46,9 @@ public class PanelComponentProvider implements ComponentProvider<Panel, JPanel> 
 				element.getLayoutPolicy() == Panel.LayoutPolicy.VERTICAL) {
 			panel.setLayout(new java.awt.GridBagLayout());
 			c = new java.awt.GridBagConstraints();
-			c.fill = java.awt.GridBagConstraints.HORIZONTAL;
+			c.fill = java.awt.GridBagConstraints.BOTH;
 			c.gridx = 0;
+			c.weightx = 1.0;
 			c.gridy = 0;
 			c.weighty = 1.0;
 		} else if (element.getLayoutPolicy() == Panel.LayoutPolicy.FLOW)
@@ -67,7 +72,7 @@ public class PanelComponentProvider implements ComponentProvider<Panel, JPanel> 
 			} 
 		}
 		
-		mainPanel.doLayout();
+		//mainPanel.doLayout();
 
 		return mainPanel;
 	}

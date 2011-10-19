@@ -1,5 +1,6 @@
 package es.eucm.eadventure.editor.view.swing;
 
+import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 
 import javax.swing.JComponent;
@@ -38,9 +39,9 @@ public class ElementControllerGetPanelTest2 extends EAdFrame {
 	}
 	
     public ElementControllerGetPanelTest2() {
-        setSize( 600,400 );
+        this.setSize( 600,400 );
         
-        setLayout(new FlowLayout());
+        //this.setLayout(new BorderLayout());
         
         EAdSceneElementDef sceneElementDef = mock(EAdSceneElementDef.class);
         when(sceneElementDef.getName()).thenReturn(EAdString.newEAdString("testName"));
@@ -63,11 +64,10 @@ public class ElementControllerGetPanelTest2 extends EAdFrame {
 
         SwingProviderFactory swingProviderFactory = new SwingProviderFactory(stringHandler, commandManager);
         ComponentProvider<Panel, JComponent> componentProvider = swingProviderFactory.getProvider(panel);
-        add(componentProvider.getComponent(panel));
+        this.add(componentProvider.getComponent(panel), BorderLayout.CENTER);
         
-        setVisible( true );
-        setDefaultCloseOperation( WindowConstants.EXIT_ON_CLOSE );
-        //pack();
+        this.setVisible( true );
+        this.setDefaultCloseOperation( WindowConstants.EXIT_ON_CLOSE );
     }
 	
 }
