@@ -122,7 +122,7 @@ public class RuntimeCaption extends AbstractRuntimeAsset<Caption> implements
 
 	private VariableMap valueMap;
 
-	private StringHandler stringsReader;
+	private StringHandler stringHandler;
 
 	private PlatformConfiguration platformConfiguration;
 
@@ -133,7 +133,7 @@ public class RuntimeCaption extends AbstractRuntimeAsset<Caption> implements
 			AssetHandler assetHandler) {
 		this.fontCache = fontCache;
 		this.valueMap = valueMap;
-		this.stringsReader = stringsReader;
+		this.stringHandler = stringsReader;
 		this.platformConfiguration = platformConfiguration;
 		this.assetHandler = assetHandler;
 		logger.info("New instance");
@@ -148,7 +148,7 @@ public class RuntimeCaption extends AbstractRuntimeAsset<Caption> implements
 	public boolean loadAsset() {
 		font = fontCache.get(descriptor.getFont());
 		text = valueMap.processTextVars(
-				stringsReader.getString(descriptor.getText()),
+				stringHandler.getString(descriptor.getText()),
 				descriptor.getFields());
 		lines = new ArrayList<String>();
 		wrapText();
@@ -192,7 +192,7 @@ public class RuntimeCaption extends AbstractRuntimeAsset<Caption> implements
 		}
 
 		text = valueMap.processTextVars(
-				stringsReader.getString(descriptor.getText()),
+				stringHandler.getString(descriptor.getText()),
 				descriptor.getFields());
 
 		// If text has changed

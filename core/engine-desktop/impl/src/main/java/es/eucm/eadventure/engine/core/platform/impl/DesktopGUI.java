@@ -63,7 +63,6 @@ import es.eucm.eadventure.common.resources.assets.drawable.basics.Image;
 import es.eucm.eadventure.engine.core.GameState;
 import es.eucm.eadventure.engine.core.KeyboardState;
 import es.eucm.eadventure.engine.core.MouseState;
-import es.eucm.eadventure.engine.core.ValueMap;
 import es.eucm.eadventure.engine.core.gameobjects.GameObjectFactory;
 import es.eucm.eadventure.engine.core.gameobjects.GameObjectManager;
 import es.eucm.eadventure.engine.core.gameobjects.huds.BasicHUD;
@@ -127,10 +126,10 @@ public class DesktopGUI extends AbstractGUI<Graphics2D> implements GUI {
 	public DesktopGUI(PlatformConfiguration platformConfiguration,
 			GameObjectManager gameObjectManager, MouseState mouseState,
 			KeyboardState keyboardState, BasicHUD basicDesktopHUD,
-			ValueMap valueMap, GameState gameState,
+			GameState gameState,
 			GameObjectFactory gameObjectFactory, AssetHandler assetHandler, DesktopCanvas canvas) {
 		super(platformConfiguration, gameObjectManager,
-				mouseState, keyboardState, valueMap, gameState,
+				mouseState, keyboardState, gameState,
 				gameObjectFactory, canvas);
 		this.gameObjects.addHUD(basicDesktopHUD);
 		basicDesktopHUD.setGUI(this);

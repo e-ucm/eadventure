@@ -92,10 +92,10 @@ public class PlayNGUI extends AbstractGUI<Canvas> implements GUI {
 	public PlayNGUI(PlatformConfiguration platformConfiguration,
 			GameObjectManager gameObjectManager, MouseState mouseState,
 			KeyboardState keyboardState, BasicHUD basicDesktopHUD,
-			ValueMap valueMap, GameState gameState,
+			GameState gameState,
 			GameObjectFactory gameObjectFactory, PlayNCanvas canvas) {
 		super(platformConfiguration, gameObjectManager, mouseState,
-				keyboardState, valueMap, gameState, gameObjectFactory, canvas);
+				keyboardState, gameState, gameObjectFactory, canvas);
 		logger.info("New instance");
 		this.gameObjects.addHUD(basicDesktopHUD);
 		basicDesktopHUD.setGUI(this);

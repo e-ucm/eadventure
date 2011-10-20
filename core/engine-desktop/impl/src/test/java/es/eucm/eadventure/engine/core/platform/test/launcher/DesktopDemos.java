@@ -100,14 +100,10 @@ public class DesktopDemos extends BaseTestLauncher {
 	public DesktopDemos(Injector injector, EAdAdventureModel model,
 			Map<EAdString, String> strings) {
 		super(injector, model, strings);
+		System.setProperty("com.apple.mrj.application.apple.menu.about.name", "eAdventure");
 	}
 
 	public static void main(String args[]) {
-//		try {
-//			UIManager.setLookAndFeel(EAdGUILookAndFeel.getInstance());
-//		} catch (UnsupportedLookAndFeelException e) {
-//			e.printStackTrace();
-//		}
 		JFrame frame = new SceneDemosFrame();
 		frame.setVisible(true);
 	}

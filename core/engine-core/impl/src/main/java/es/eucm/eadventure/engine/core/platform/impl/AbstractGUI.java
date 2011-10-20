@@ -47,7 +47,6 @@ import es.eucm.eadventure.engine.core.GameState;
 import es.eucm.eadventure.engine.core.KeyboardState;
 import es.eucm.eadventure.engine.core.MouseState;
 import es.eucm.eadventure.engine.core.Renderable;
-import es.eucm.eadventure.engine.core.ValueMap;
 import es.eucm.eadventure.engine.core.gameobjects.GameObject;
 import es.eucm.eadventure.engine.core.gameobjects.GameObjectFactory;
 import es.eucm.eadventure.engine.core.gameobjects.GameObjectManager;
@@ -110,8 +109,6 @@ public abstract class AbstractGUI<T> implements GUI {
 	 */
 	protected KeyboardState keyboardState;
 
-	protected ValueMap valueMap;
-
 	protected GameState gameState;
 
 	protected GameObjectFactory gameObjectFactory;
@@ -123,14 +120,13 @@ public abstract class AbstractGUI<T> implements GUI {
 	
 	public AbstractGUI(PlatformConfiguration platformConfiguration,
 			GameObjectManager gameObjectManager, MouseState mouseState,
-			KeyboardState keyboardState, ValueMap valueMap,
+			KeyboardState keyboardState,
 			GameState gameState, GameObjectFactory gameObjectFactory,
 			EAdCanvas<T> canvas) {
 		this.platformConfiguration = platformConfiguration;
 		this.gameObjects = gameObjectManager;
 		this.mouseState = mouseState;
 		this.keyboardState = keyboardState;
-		this.valueMap = valueMap;
 		this.gameState = gameState;
 		this.gameObjectFactory = gameObjectFactory;
 		this.eAdCanvas = canvas;

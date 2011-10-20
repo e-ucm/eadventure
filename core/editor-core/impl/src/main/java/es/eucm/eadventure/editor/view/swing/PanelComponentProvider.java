@@ -2,12 +2,14 @@ package es.eucm.eadventure.editor.view.swing;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.Rectangle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.swing.JComponent;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.Scrollable;
 
 import es.eucm.eadventure.editor.view.ComponentProvider;
 import es.eucm.eadventure.editor.view.ProviderFactory;
@@ -35,8 +37,9 @@ public class PanelComponentProvider implements ComponentProvider<Panel, JPanel> 
 		else
 			mainPanel = new JPanel();
 
-		JPanel panel = new JPanel();
+		JPanel panel = new ScrollablePanel();
 		EAdScrollPane scrollPane = new EAdScrollPane(panel, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+		
 		mainPanel.setLayout(new BorderLayout());
 		mainPanel.add(scrollPane, BorderLayout.CENTER);
 		
@@ -64,6 +67,7 @@ public class PanelComponentProvider implements ComponentProvider<Panel, JPanel> 
 			if (component == null)
 				logger.log(Level.SEVERE, "No component for " + newElement.getClass() + " with provider " + cp.getClass());
 			if (element.getLayoutPolicy() == Panel.LayoutPolicy.VERTICAL) {
+				c.weighty = component.getMinimumSize().getHeight();
 				panel.add(component, c);
 				c.gridy++;
 			} else if (element.getLayoutPolicy() == Panel.LayoutPolicy.HORIZONTAL) {
@@ -75,6 +79,48 @@ public class PanelComponentProvider implements ComponentProvider<Panel, JPanel> 
 		//mainPanel.doLayout();
 
 		return mainPanel;
+	}
+	
+	private class ScrollablePanel extends JPanel implements Scrollable {
+
+		private static final long serialVersionUID = -8779328786327371343L;
+
+		public Dimension getPreferredSize() {
+			Dimension preferred = super.getPreferredSize();
+			Dimension container = super.getParent().getParent().getSize();
+			return new Dimension((int) Math.max(preferred.getWidth(), container.getWidth()),
+					(int) Math.max(preferred.getHeight(), container.getHeight()));
+		}
+		
+		@Override
+		public Dimension getPreferredScrollableViewportSize() {
+			return super.getPreferredSize();
+		}
+
+		@Override
+		public int getScrollableBlockIncrement(Rectangle visibleRect,
+				int orientation, int direction) {
+			//TODO check
+			return 10;
+		}
+
+		@Override
+		public boolean getScrollableTracksViewportHeight() {
+			return false;
+		}
+
+		@Override
+		public boolean getScrollableTracksViewportWidth() {
+			return true;
+		}
+
+		@Override
+		public int getScrollableUnitIncrement(Rectangle visibleRect,
+				int orientation, int direction) {
+			//TODO check
+			return 1;
+		}
+		
 	}
 
 }

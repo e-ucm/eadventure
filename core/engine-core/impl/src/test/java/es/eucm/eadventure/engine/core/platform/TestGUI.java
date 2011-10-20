@@ -43,7 +43,6 @@ import es.eucm.eadventure.common.resources.assets.drawable.basics.Image;
 import es.eucm.eadventure.engine.core.GameState;
 import es.eucm.eadventure.engine.core.KeyboardState;
 import es.eucm.eadventure.engine.core.MouseState;
-import es.eucm.eadventure.engine.core.ValueMap;
 import es.eucm.eadventure.engine.core.gameobjects.GameObject;
 import es.eucm.eadventure.engine.core.gameobjects.GameObjectFactory;
 import es.eucm.eadventure.engine.core.gameobjects.GameObjectManager;
@@ -55,10 +54,10 @@ public class TestGUI extends AbstractGUI<Void>{
 	@Inject
 	public TestGUI(PlatformConfiguration platformConfiguration,
 			GameObjectManager gameObjectManager, MouseState mouseState,
-			KeyboardState keyboardState, ValueMap valueMap,
+			KeyboardState keyboardState,
 			GameState gameState, GameObjectFactory gameObjectFactory) {
 		super(platformConfiguration, gameObjectManager,
-				mouseState, keyboardState, valueMap, gameState, gameObjectFactory, null);
+				mouseState, keyboardState, gameState, gameObjectFactory, null);
 	}
 
 	@Override
