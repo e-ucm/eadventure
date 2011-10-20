@@ -1,4 +1,4 @@
-package es.eucm.eadventure.editor.view.swing;
+package es.eucm.eadventure.editor.view.swing.componentproviders;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;

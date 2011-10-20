@@ -1,4 +1,4 @@
-package es.eucm.eadventure.editor.view.swing;
+package es.eucm.eadventure.editor.view.swing.componentproviders;
 
 import es.eucm.eadventure.editor.control.CommandManager;
 import es.eucm.eadventure.editor.control.commands.impl.AddElementCommand;

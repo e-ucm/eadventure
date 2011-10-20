@@ -17,6 +17,13 @@ import es.eucm.eadventure.editor.view.generics.impl.PanelImpl;
 import es.eucm.eadventure.editor.view.generics.impl.SceneInterfaceElement;
 import es.eucm.eadventure.editor.view.generics.impl.TextOption;
 import es.eucm.eadventure.editor.view.impl.AbstractProviderFactory;
+import es.eucm.eadventure.editor.view.swing.componentproviders.BooleanComponentProvider;
+import es.eucm.eadventure.editor.view.swing.componentproviders.EAdConditionComponentProvider;
+import es.eucm.eadventure.editor.view.swing.componentproviders.EAdListComponentProvider;
+import es.eucm.eadventure.editor.view.swing.componentproviders.EAdStringComponentProvider;
+import es.eucm.eadventure.editor.view.swing.componentproviders.ElementComponentProvider;
+import es.eucm.eadventure.editor.view.swing.componentproviders.PanelComponentProvider;
+import es.eucm.eadventure.editor.view.swing.componentproviders.TextComponentProvider;
 import es.eucm.eadventure.editor.view.swing.scene.SceneEditionComponentProvider;
 
 /**

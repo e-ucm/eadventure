@@ -1,4 +1,4 @@
-package es.eucm.eadventure.editor.view.swing;
+package es.eucm.eadventure.editor.view.swing.componentproviders;
 
 import es.eucm.eadventure.editor.control.FieldValueReader;
 import es.eucm.eadventure.editor.view.ComponentProvider;
