@@ -1,6 +1,7 @@
 package es.eucm.eadventure.common.model.weev.world.impl;
 
 import es.eucm.eadventure.common.interfaces.Element;
+import es.eucm.eadventure.common.interfaces.Param;
 import es.eucm.eadventure.common.model.extra.EAdList;
 import es.eucm.eadventure.common.model.extra.impl.EAdListImpl;
 import es.eucm.eadventure.common.model.weev.impl.AbstractWEEVElement;
@@ -21,6 +22,7 @@ public class WorldImpl extends AbstractWEEVElement implements World {
 	
 	private EAdList<ActorPlacement> actorPlacements;
 	
+	@Param(value = "initialSpace")
 	private Space initialSpace;
 	
 	public WorldImpl() {

@@ -1,6 +1,7 @@
 package es.eucm.eadventure.common.model.weev.world.impl;
 
 import es.eucm.eadventure.common.interfaces.Element;
+import es.eucm.eadventure.common.interfaces.Param;
 import es.eucm.eadventure.common.model.weev.impl.AbstractTransition;
 import es.eucm.eadventure.common.model.weev.world.Space;
 import es.eucm.eadventure.common.model.weev.world.SpaceLink;
@@ -12,6 +13,7 @@ import es.eucm.eadventure.common.params.EAdString;
 @Element(detailed = SpaceLinkImpl.class, runtime = SpaceLinkImpl.class)
 public class SpaceLinkImpl extends AbstractTransition<Space> implements SpaceLink {
 
+	@Param(value = "name")
 	private EAdString name;
 	
 	public SpaceLinkImpl() {

@@ -13,6 +13,6 @@ public interface StoryList<E> extends StoryElement, Retractable {
 	/**
 	 * @return the list of elements
 	 */
-	EAdList<Hint> getHints();
+	EAdList<E> getElements();
 
 }

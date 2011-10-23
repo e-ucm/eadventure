@@ -44,11 +44,11 @@ public interface Retractable {
 	 * @param retracted
 	 *            the new state of the retraction (TRUE if retracted)
 	 */
-	public void setRetracted(boolean retracted);
+	public void setRetracted(Boolean retracted);
 
 	/**
 	 * @return the state of the retraction (TRUE if retracted)
 	 */
-	public boolean isRetracted();
+	public Boolean isRetracted();
 
 }
