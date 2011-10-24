@@ -106,7 +106,7 @@ public class BasicHUDImpl implements BasicHUD {
 
 	private boolean contextualOn = false;
 
-	private ValueMap valueMap;
+	protected ValueMap valueMap;
 
 	private StringHandler stringHandler;
 
