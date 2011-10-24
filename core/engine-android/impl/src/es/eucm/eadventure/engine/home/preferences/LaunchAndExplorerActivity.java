@@ -27,7 +27,7 @@ import es.eucm.eadventure.engine.home.utils.directory.Paths;
  * @author Roberto Tornero
  */
 public class LaunchAndExplorerActivity extends PreferenceActivity {
-
+	
 	/**
 	 * The tag of this Activity
 	 */

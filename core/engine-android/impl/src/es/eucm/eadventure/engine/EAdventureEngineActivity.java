@@ -38,6 +38,7 @@
 package es.eucm.eadventure.engine;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.view.Window;
@@ -53,6 +54,8 @@ import es.eucm.eadventure.common.model.elements.impl.EAdSceneImpl;
 import es.eucm.eadventure.common.model.impl.EAdAdventureModelImpl;
 import es.eucm.eadventure.common.model.impl.EAdChapterImpl;
 import es.eucm.eadventure.common.resources.StringHandler;
+import es.eucm.eadventure.engine.assets.specialassetrenderers.AndroidVideoRenderer;
+import es.eucm.eadventure.engine.assets.specialassetrenderers.RockPlayerAndroidVideoRenderer;
 import es.eucm.eadventure.engine.core.Game;
 import es.eucm.eadventure.engine.core.GameController;
 import es.eucm.eadventure.engine.core.MouseState;
@@ -65,6 +68,10 @@ import es.eucm.eadventure.engine.extra.AndroidModule;
 import es.eucm.eadventure.engine.extra.EAdventureSurfaceView;
 
 public class EAdventureEngineActivity extends Activity {
+	
+	static final int ANDROID_PLAYER_RESULT = 0;
+	
+	static final int ROCKPLAYER_RESULT = 1;	
 
 	private GameController gameController;
 
@@ -112,7 +119,6 @@ public class EAdventureEngineActivity extends Activity {
 				.getInstance(AssetHandler.class);
 		aah.setResources(getResources());
 		aah.setContext(this);
-
 
 		@SuppressWarnings("unchecked")
 		Class<? extends EAdScene> demoClass = (Class<? extends EAdScene>) getIntent()
@@ -162,5 +168,18 @@ public class EAdventureEngineActivity extends Activity {
 
 		System.gc();
 	}
+	
+	@Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		 
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == ANDROID_PLAYER_RESULT) {
+        	AndroidVideoRenderer.finished = true;
+        }
+        else if (resultCode == ROCKPLAYER_RESULT){
+        	RockPlayerAndroidVideoRenderer.finished = true;
+        }
+ 
+    }
 
 }

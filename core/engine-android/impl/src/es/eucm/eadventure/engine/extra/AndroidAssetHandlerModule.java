@@ -43,6 +43,7 @@ import java.util.Map;
 import com.google.inject.AbstractModule;
 import com.google.inject.Provides;
 import com.google.inject.Singleton;
+import com.google.inject.TypeLiteral;
 
 import es.eucm.eadventure.common.resources.StringHandler;
 import es.eucm.eadventure.common.resources.assets.AssetDescriptor;
@@ -59,15 +60,18 @@ import es.eucm.eadventure.common.resources.assets.drawable.compounds.DisplacedDr
 import es.eucm.eadventure.common.resources.assets.drawable.compounds.impl.ComposedDrawableImpl;
 import es.eucm.eadventure.common.resources.assets.drawable.compounds.impl.DisplacedDrawableImpl;
 import es.eucm.eadventure.common.resources.assets.multimedia.Sound;
+import es.eucm.eadventure.common.resources.assets.multimedia.Video;
 import es.eucm.eadventure.common.resources.assets.multimedia.impl.SoundImpl;
 import es.eucm.eadventure.engine.AndroidAssetHandler;
 import es.eucm.eadventure.engine.assets.AndroidBezierShape;
 import es.eucm.eadventure.engine.assets.AndroidEngineCaption;
 import es.eucm.eadventure.engine.assets.AndroidEngineImage;
 import es.eucm.eadventure.engine.assets.AndroidSound;
+import es.eucm.eadventure.engine.assets.specialassetrenderers.AndroidVideoRenderer;
 import es.eucm.eadventure.engine.core.impl.DefaultStringHandler;
 import es.eucm.eadventure.engine.core.platform.AssetHandler;
 import es.eucm.eadventure.engine.core.platform.RuntimeAsset;
+import es.eucm.eadventure.engine.core.platform.SpecialAssetRenderer;
 import es.eucm.eadventure.engine.core.platform.assets.impl.RuntimeComposedDrawable;
 import es.eucm.eadventure.engine.core.platform.assets.impl.RuntimeDisplacedDrawable;
 import es.eucm.eadventure.engine.core.platform.assets.impl.RuntimeSpriteImage;
@@ -78,13 +82,13 @@ public class AndroidAssetHandlerModule extends AbstractModule {
 	protected void configure() {
 		bind(StringHandler.class).to(DefaultStringHandler.class);
 		bind(AssetHandler.class).to(AndroidAssetHandler.class);
+		bind(new TypeLiteral<SpecialAssetRenderer<Video, ?>>(){}).to(AndroidVideoRenderer.class);
 	}
 	
 	@Provides
 	@Singleton
 	Map<Class<? extends AssetDescriptor>, Class<? extends RuntimeAsset<?>>> provideMap() {
 		Map<Class<? extends AssetDescriptor>, Class<? extends RuntimeAsset<?>>> map = new HashMap<Class<? extends AssetDescriptor>, Class<? extends RuntimeAsset<?>>>( );
-
 		map.put(ImageImpl.class, AndroidEngineImage.class);
 		map.put(Image.class, AndroidEngineImage.class);
 		map.put(Frame.class, AndroidEngineImage.class);

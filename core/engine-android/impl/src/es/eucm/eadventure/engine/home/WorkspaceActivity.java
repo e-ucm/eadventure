@@ -20,6 +20,8 @@ import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -86,10 +88,6 @@ public class WorkspaceActivity extends FragmentActivity {
      * Id of the games demonstration fragment
      */
 	public static final int DEMOS = 3;
-	/**
-	 * Id of the current visible fragment in order to show the right context menu
-	 */
-	public static int tag = -1;
 	/**
 	 * The static instance of the saved games fragment 
 	 */
@@ -209,9 +207,9 @@ public class WorkspaceActivity extends FragmentActivity {
 	 */
 	@Override
 	public void onDestroy(){
-		
-		System.gc();
+	
 		super.onDestroy();
+		System.gc();
 	}
 	
 	/**
@@ -413,7 +411,7 @@ public class WorkspaceActivity extends FragmentActivity {
         @Override
     	public void onCreateContextMenu(ContextMenu menu, View v,
     			ContextMenuInfo menuInfo) {
-        	tag = GAMES;
+
     		menu.setHeaderTitle("Options");
     		menu.setHeaderIcon(R.drawable.dialog_icon);
     		menu.add(0, 0, 0, "Play Game");
@@ -425,8 +423,6 @@ public class WorkspaceActivity extends FragmentActivity {
          */
     	@Override
     	public boolean onContextItemSelected(MenuItem item) {
-    		
-    		if (tag != GAMES) return super.onContextItemSelected(item);
     		
     		AdapterContextMenuInfo information = (AdapterContextMenuInfo) item
     				.getMenuInfo();    		
@@ -641,8 +637,7 @@ public class WorkspaceActivity extends FragmentActivity {
     	@Override
     	public void onCreateContextMenu(ContextMenu menu, View v,
     			ContextMenuInfo menuInfo) {
-    		
-    		tag = LOAD_GAMES;    		
+    		   		
     		menu.setHeaderTitle("Options");
     		menu.setHeaderIcon(R.drawable.dialog_icon);
     		menu.add(0, 0, 0, "Load");
@@ -655,7 +650,6 @@ public class WorkspaceActivity extends FragmentActivity {
     	@Override
     	public boolean onContextItemSelected(MenuItem item) {
     		
-    		if (tag != LOAD_GAMES) return super.onContextItemSelected(item);
     		
     		int position = item.getItemId();
 
@@ -1007,18 +1001,18 @@ public class WorkspaceActivity extends FragmentActivity {
     	/**
     	 * The options menu 
     	 */
-    	/*public boolean onCreateOptionsMenu(Menu menu) {
+    	public boolean onCreateOptionsMenu(Menu menu) {
 
     		MenuInflater inflater = this.getActivity().getMenuInflater();
-    		inflater.inflate(R.menu.title_icon, menu);
+    		inflater.inflate(R.layout.menu, menu);
 
     		return true;
-    	}*/
+    	}
 
     	/**
     	 * An option to update the database information
     	 */
-    	/*@Override
+    	@Override
     	public boolean onOptionsItemSelected(MenuItem item) {
 
     		db.clear();
@@ -1027,8 +1021,7 @@ public class WorkspaceActivity extends FragmentActivity {
     		rs.updateDatabase(this.getActivity(), RAHandler, db);
     		
     		return true;
-
-    	}*/
+    	}
     	
     	/**
     	 * Returns the ViewFlipper instance

@@ -18,6 +18,10 @@
                 <category android:name="android.intent.category.BROWSABLE" />
                 <data android:scheme="file" android:host="*" android:mimeType="*/*" android:pathPattern=".*\\.ead" />
             </intent-filter>
+            <intent-filter>
+				<action android:name="android.intent.action.MAIN" />			
+				<category android:name="android.intent.category.LAUNCHER" />			
+			</intent-filter>  
 		</activity>
         
         <activity android:name="EAdventureEngineActivity"
@@ -28,10 +32,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".DemoSelectionActivity">
-        	<intent-filter>
-				<action android:name="android.intent.action.MAIN" />			
-				<category android:name="android.intent.category.LAUNCHER" />			
-			</intent-filter>       	
+        	               	
 		</activity>
         <activity android:name=".home.WorkspaceActivity"
 			android:screenOrientation="portrait"></activity>
@@ -40,8 +41,11 @@
 		<activity android:name=".home.preferences.PreferencesActivity"
 			android:screenOrientation="portrait"></activity>
         <activity android:screenOrientation="portrait"
-			android:name=".home.preferences.LaunchAndExplorerActivity"
-			android:launchMode="singleTask"></activity>
+			android:name=".home.preferences.LaunchAndExplorerActivity"></activity>
+		<activity android:screenOrientation="landscape"
+			android:name=".assets.specialassetrenderers.AndroidVideoActivity"></activity>
+		<activity android:screenOrientation="landscape"
+			android:name=".assets.specialassetrenderers.AndroidVideoRendererTest"></activity>
 
     </application>
 </manifest>
