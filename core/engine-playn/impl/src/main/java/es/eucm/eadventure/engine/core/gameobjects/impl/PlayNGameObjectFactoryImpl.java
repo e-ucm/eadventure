@@ -20,7 +20,6 @@ import es.eucm.eadventure.engine.core.gameobjects.effect.physics.PhysicsEffectGO
 import es.eucm.eadventure.engine.core.gameobjects.impl.effects.ActiveElementEffectGO;
 import es.eucm.eadventure.engine.core.gameobjects.impl.effects.ActorActionsEffectGO;
 import es.eucm.eadventure.engine.core.gameobjects.impl.effects.CancelEffectGO;
-import es.eucm.eadventure.engine.core.gameobjects.impl.effects.ChangeAppearanceGO;
 import es.eucm.eadventure.engine.core.gameobjects.impl.effects.ChangeFieldGO;
 import es.eucm.eadventure.engine.core.gameobjects.impl.effects.ChangeSceneGO;
 import es.eucm.eadventure.engine.core.gameobjects.impl.effects.ComplexBlockingEffectGO;
@@ -77,8 +76,6 @@ public class PlayNGameObjectFactoryImpl extends GameObjectFactoryImpl {
 			return ginjector.getActorActionEffectGO();
 		if (clazz == CancelEffectGO.class)
 			return ginjector.getCancelEffectGO();
-		if (clazz == ChangeAppearanceGO.class)
-			return ginjector.getChangeAppearanceGO();
 		if (clazz == ChangeSceneGO.class)
 			return ginjector.getChangeSceneGO();
 		if (clazz == ChangeFieldGO.class)

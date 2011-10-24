@@ -182,12 +182,8 @@ public class GameImpl implements Game {
 			EffectGO<?> effectGO = gameState.getEffects().get(i);
 			i++;
 
-			if (block && effectGO.isQueueable())
+			if (block)
 				continue;
-
-			if (!effectGO.isInitilized()) {
-				effectGO.initilize();
-			}
 
 			// The order must be: update, then check if it's finished.
 			// Some effects take only one update to finish

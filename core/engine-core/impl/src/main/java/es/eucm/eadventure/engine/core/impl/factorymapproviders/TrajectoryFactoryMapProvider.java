@@ -3,9 +3,6 @@ package es.eucm.eadventure.engine.core.impl.factorymapproviders;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.google.inject.Inject;
-import com.google.inject.Singleton;
-
 import es.eucm.eadventure.common.model.trajectories.impl.NodeTrajectoryDefinition;
 import es.eucm.eadventure.common.model.trajectories.impl.SimpleTrajectoryDefinition;
 import es.eucm.eadventure.engine.core.ValueMap;
@@ -15,19 +12,29 @@ import es.eucm.eadventure.engine.core.trajectories.TrajectoryGenerator;
 import es.eucm.eadventure.engine.core.trajectories.impl.NodeTrajectoryGenerator;
 import es.eucm.eadventure.engine.core.trajectories.impl.SimpleTrajectoryGenerator;
 
-@Singleton
 public class TrajectoryFactoryMapProvider extends AbstractMapProvider<Class<?>, TrajectoryGenerator<?>> {
 
 	private static Map<Class<?>, TrajectoryGenerator<?>> tempMap = new HashMap<Class<?>, TrajectoryGenerator<?>>();
+	
+	private ValueMap valueMap;
+	
+	private GameObjectFactory gameObjectFactory;
 
-	@Inject
 	public TrajectoryFactoryMapProvider(TrajectoryFactory trajectoryFactory,
 			GameObjectFactory gameObjectFactory,
 			ValueMap valueMap) {
 		super();
+		this.valueMap = valueMap;
+		this.gameObjectFactory = gameObjectFactory;
+
+	}
+	
+	public Map<Class<?>, TrajectoryGenerator<?>> getMap(){
 		factoryMap.put(SimpleTrajectoryDefinition.class, new SimpleTrajectoryGenerator());
 		factoryMap.put(NodeTrajectoryDefinition.class, new NodeTrajectoryGenerator(gameObjectFactory, valueMap));
 		factoryMap.putAll(tempMap);
+		factoryMap.putAll(tempMap);
+		return super.getMap();
 	}
 	
 	public static void add(Class<?> trjaectoryDefinition, TrajectoryGenerator<?> trajectoryGenerator) {

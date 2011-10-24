@@ -12,7 +12,6 @@ import es.eucm.eadventure.common.resources.assets.AssetDescriptor;
 import es.eucm.eadventure.engine.core.EAdEngine;
 import es.eucm.eadventure.engine.core.impl.VariableMap;
 import es.eucm.eadventure.engine.core.platform.FontHandler;
-import es.eucm.eadventure.engine.core.platform.PlatformConfiguration;
 import es.eucm.eadventure.engine.core.platform.RuntimeAsset;
 import es.eucm.eadventure.engine.core.platform.assets.impl.PlayNBezierShape;
 import es.eucm.eadventure.engine.core.platform.assets.impl.PlayNEngineCaption;
@@ -24,31 +23,26 @@ import es.eucm.eadventure.engine.core.platform.assets.impl.PlayNSound;
 public class PlayNAssetHandler extends AbstractAssetHandler {
 
 	private EAdEngine engine;
-	
+
 	private FontHandler fontHandler;
 
 	private VariableMap valueMap;
 
 	private StringHandler stringHandler;
 
-	private PlatformConfiguration platformConfiguration;
-	
 	private Logger logger = Logger.getLogger("PlayNAssetHandler");
-	
+
 	@Inject
 	public PlayNAssetHandler(
 			Map<Class<? extends AssetDescriptor>, Class<? extends RuntimeAsset<?>>> classMap,
-			FontHandler fontCache,
-			VariableMap valueMap,
-			StringHandler stringHandler,
-			PlatformConfiguration platformConfiguration ) {
-		super(classMap, fontCache );
+			FontHandler fontCache, VariableMap valueMap,
+			StringHandler stringHandler) {
+		super(classMap, fontCache);
 		this.fontHandler = fontCache;
 		this.valueMap = valueMap;
 		this.stringHandler = stringHandler;
-		this.platformConfiguration = platformConfiguration;
 	}
-	
+
 	public void setEngine(EAdEngine engine) {
 		this.engine = engine;
 	}
@@ -56,7 +50,7 @@ public class PlayNAssetHandler extends AbstractAssetHandler {
 	@Override
 	public void initilize() {
 		// TODO Auto-generated method stub
-		
+
 		setLoaded(true);
 
 	}
@@ -79,14 +73,15 @@ public class PlayNAssetHandler extends AbstractAssetHandler {
 		if (clazz == PlayNBezierShape.class)
 			return new PlayNBezierShape(engine);
 		if (clazz == PlayNEngineCaption.class)
-			return new PlayNEngineCaption(fontHandler, valueMap, stringHandler, platformConfiguration, this);
+			return new PlayNEngineCaption(fontHandler, valueMap, stringHandler,
+					this);
 		if (clazz == PlayNEngineSpriteImage.class)
 			return new PlayNEngineSpriteImage(this);
 		if (clazz == PlayNEngineSpriteImage.class)
 			return new PlayNEngineSpriteImage(this);
 		if (clazz == PlayNSound.class)
 			return new PlayNSound(this);
-		
+
 		logger.log(Level.SEVERE, "No instance for runtime asset: " + clazz);
 		return null;
 	}

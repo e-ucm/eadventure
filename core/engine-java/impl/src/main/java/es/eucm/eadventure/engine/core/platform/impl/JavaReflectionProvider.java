@@ -17,4 +17,9 @@ public class JavaReflectionProvider implements ReflectionProvider {
 		return class1.isAssignableFrom(class2);
 	}
 
+	@Override
+	public Class<?> getSuperclass(Class<?> c) {
+		return c.getSuperclass();
+	}
+
 }

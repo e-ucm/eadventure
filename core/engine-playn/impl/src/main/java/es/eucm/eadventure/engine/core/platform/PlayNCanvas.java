@@ -6,6 +6,8 @@ import playn.core.Font;
 import playn.core.Gradient;
 import playn.core.Path;
 import playn.core.PlayN;
+import playn.core.TextFormat;
+import playn.core.TextFormat.Effect;
 
 import com.google.inject.Inject;
 
@@ -22,7 +24,7 @@ import es.eucm.eadventure.engine.core.platform.impl.AbstractCanvas;
 import es.eucm.eadventure.engine.core.util.EAdTransformation;
 
 public class PlayNCanvas extends AbstractCanvas<Canvas> {
-	
+
 	private Font f;
 
 	@Inject
@@ -72,35 +74,49 @@ public class PlayNCanvas extends AbstractCanvas<Canvas> {
 			c = gradient.getColor2();
 			int cint2 = Color.argb(c.getAlpha(), c.getRed(), c.getGreen(),
 					c.getBlue());
-			Gradient gr = PlayN.graphics().createLinearGradient(gradient.getX0(),
-					gradient.getY0(), gradient.getX1(), gradient.getY1(),
-					new int[] { cint1, cint2 }, new float[] { 0, 1 });
+			Gradient gr = PlayN.graphics().createLinearGradient(
+					gradient.getX0(), gradient.getY0(), gradient.getX1(),
+					gradient.getY1(), new int[] { cint1, cint2 },
+					new float[] { 0, 1 });
 			g.setFillGradient(gr);
 		}
 	}
-	
+
 	private void updatePaintBorder(EAdFill border) {
 		EAdColor c = EAdColor.BLACK;
-		if ( border instanceof EAdColor ){
+		if (border instanceof EAdColor) {
 			c = (EAdColor) border;
-		}
-		else if ( border instanceof EAdLinearGradient ){
+		} else if (border instanceof EAdLinearGradient) {
 			c = ((EAdLinearGradient) border).getColor1();
 		}
-		g.setStrokeColor(Color.argb(c.getAlpha(), c.getRed(), c.getGreen(), c.getBlue()));
+		g.setStrokeColor(Color.argb(c.getAlpha(), c.getRed(), c.getGreen(),
+				c.getBlue()));
 	}
 
 	@Override
 	public void drawText(String text, int x, int y) {
-		g.drawText(text, x, y);
+		TextFormat format = new TextFormat(f, 10000.0f,
+				TextFormat.Alignment.LEFT, getColor(paint.getFill()),
+				Effect.outline(getColor(paint.getBorder())));
+		g.drawText(PlayN.graphics().layoutText(text, format), x, y);
 	}
 
 	@Override
 	public void setFont(EAdFont font) {
-		
-//		f = PlayN.graphics().createFont(font.getName(), font., size)
-//		g.
+		f = PlayN.graphics().createFont(font.getName(), getStyle(font),
+				font.getSize());
 
+	}
+
+	private playn.core.Font.Style getStyle(EAdFont font) {
+		switch (font.getStyle()) {
+		case BOLD:
+			return playn.core.Font.Style.BOLD;
+		case ITALIC:
+			return playn.core.Font.Style.ITALIC;
+		default:
+			return playn.core.Font.Style.PLAIN;
+		}
 	}
 
 	@Override
@@ -129,6 +145,16 @@ public class PlayNCanvas extends AbstractCanvas<Canvas> {
 	@Override
 	public void translate(int x, int y) {
 		g.translate(x, y);
+	}
+
+	private int getColor(EAdFill fill) {
+		EAdColor c = EAdColor.RED;
+		if (fill instanceof EAdColor) {
+			c = (EAdColor) fill;
+		} else if (fill instanceof EAdLinearGradient) {
+			c = ((EAdLinearGradient) fill).getColor1();
+		}
+		return Color.argb(c.getAlpha(), c.getRed(), c.getGreen(), c.getBlue());
 	}
 
 }

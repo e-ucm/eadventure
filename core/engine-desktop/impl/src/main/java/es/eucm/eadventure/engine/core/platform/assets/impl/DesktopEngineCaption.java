@@ -43,15 +43,14 @@ import es.eucm.eadventure.common.resources.StringHandler;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.CaptionImpl;
 import es.eucm.eadventure.engine.core.impl.VariableMap;
 import es.eucm.eadventure.engine.core.platform.AssetHandler;
-import es.eucm.eadventure.engine.core.platform.PlatformConfiguration;
 import es.eucm.eadventure.engine.core.platform.impl.FontHandlerImpl;
 
 public class DesktopEngineCaption extends RuntimeCaption {
 
 	@Inject
 	public DesktopEngineCaption(FontHandlerImpl fontCache, VariableMap valueMap,
-			StringHandler stringHandler, PlatformConfiguration platformConfiguration, AssetHandler assetHandler ) {
-		super(fontCache, valueMap, stringHandler, platformConfiguration, assetHandler );
+			StringHandler stringHandler, AssetHandler assetHandler ) {
+		super(fontCache, valueMap, stringHandler, assetHandler );
 	}
 
 	public void setHasBuble(boolean b) {

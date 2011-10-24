@@ -4,10 +4,12 @@ import com.google.inject.Inject;
 
 import es.eucm.eadventure.common.interfaces.AbstractFactory;
 import es.eucm.eadventure.common.interfaces.ReflectionProvider;
-import es.eucm.eadventure.common.interfaces.MapProvider;
 import es.eucm.eadventure.common.model.trajectories.TrajectoryDefinition;
 import es.eucm.eadventure.common.params.geom.EAdPosition;
+import es.eucm.eadventure.engine.core.ValueMap;
+import es.eucm.eadventure.engine.core.gameobjects.GameObjectFactory;
 import es.eucm.eadventure.engine.core.gameobjects.SceneElementGO;
+import es.eucm.eadventure.engine.core.impl.factorymapproviders.TrajectoryFactoryMapProvider;
 import es.eucm.eadventure.engine.core.trajectories.Path;
 import es.eucm.eadventure.engine.core.trajectories.TrajectoryFactory;
 import es.eucm.eadventure.engine.core.trajectories.TrajectoryGenerator;
@@ -16,15 +18,16 @@ public class TrajectoryFactoryImpl extends
 		AbstractFactory<TrajectoryGenerator<?>> implements TrajectoryFactory {
 
 	@Inject
-	public TrajectoryFactoryImpl(
-			MapProvider<Class<?>, TrajectoryGenerator<?>> mapProvider,
-			ReflectionProvider interfacesProvider) {
-		super(mapProvider, interfacesProvider);
+	public TrajectoryFactoryImpl(GameObjectFactory gameObjectFactory,
+			ValueMap valueMap, ReflectionProvider interfacesProvider) {
+		super(null, interfacesProvider);
+		setMap(new TrajectoryFactoryMapProvider(this, gameObjectFactory,
+				valueMap));
 	}
 
 	@Override
-	public Path getTrajectory(
-			TrajectoryDefinition trajectoryDefinition, EAdPosition currentPosition, int x, int y) {
+	public Path getTrajectory(TrajectoryDefinition trajectoryDefinition,
+			EAdPosition currentPosition, int x, int y) {
 
 		@SuppressWarnings("unchecked")
 		TrajectoryGenerator<TrajectoryDefinition> generator = (TrajectoryGenerator<TrajectoryDefinition>) this
@@ -35,9 +38,9 @@ public class TrajectoryFactoryImpl extends
 	}
 
 	@Override
-	public Path getTrajectory(
-			TrajectoryDefinition trajectoryDefinition,
-			EAdPosition currentPosition, int x, int y, SceneElementGO<?> sceneElement) {
+	public Path getTrajectory(TrajectoryDefinition trajectoryDefinition,
+			EAdPosition currentPosition, int x, int y,
+			SceneElementGO<?> sceneElement) {
 
 		@SuppressWarnings("unchecked")
 		TrajectoryGenerator<TrajectoryDefinition> generator = (TrajectoryGenerator<TrajectoryDefinition>) this

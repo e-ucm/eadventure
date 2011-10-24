@@ -47,6 +47,7 @@ import com.google.inject.Singleton;
 
 import es.eucm.eadventure.common.interfaces.MapProvider;
 import es.eucm.eadventure.common.model.EAdElement;
+import es.eucm.eadventure.common.model.effects.EAdEffect;
 import es.eucm.eadventure.engine.core.gameobjects.GameObject;
 import es.eucm.eadventure.engine.core.gameobjects.GameObjectFactory;
 
@@ -91,38 +92,62 @@ public abstract class GameObjectFactoryImpl implements GameObjectFactory {
 	@SuppressWarnings("unchecked")
 	@Override
 	public <T extends EAdElement> GameObject<?> get(T element) {
-		GameObject<T> temp = (GameObject<T>) objectMap.get(element);
+		// TODO Revise: effects have to have their only game object, because
+		// effects can be shared between elements
+		if (element instanceof EAdEffect) {
+			GameObject<T> temp = (GameObject<T>) objectMap.get(element);
+			Class<? extends GameObject<?>> tempClass = classMap.get(element
+					.getClass());
+			if (tempClass == null) {
+				Class<?> runtimeClass = getRuntimeClass(element);
+				tempClass = classMap.get(runtimeClass);
+			}
+			if (tempClass == null) {
+				logger.log(Level.SEVERE, "No game element mapped for class "
+						+ element.getClass());
+			} else {
+				temp = (GameObject<T>) getInstance(tempClass);
+				temp.setElement(element);
 
-		if (temp != null)
+			}
 			return temp;
-
-		Class<? extends GameObject<?>> tempClass = classMap.get(element.getClass());
-		if (tempClass == null) {
-			Class<?> runtimeClass = getRuntimeClass(element);
-			tempClass = classMap.get(runtimeClass);
-		}
-		if (tempClass == null) {
-			logger.log(Level.SEVERE, "No game element mapped for class " + element.getClass());
 		} else {
-			temp = (GameObject<T>) getInstance(tempClass);
-			temp.setElement(element);
+			GameObject<T> temp = (GameObject<T>) objectMap.get(element);
 
-			objectMap.put(element, temp);
+			if (temp != null)
+				return temp;
+
+			Class<? extends GameObject<?>> tempClass = classMap.get(element
+					.getClass());
+			if (tempClass == null) {
+				Class<?> runtimeClass = getRuntimeClass(element);
+				tempClass = classMap.get(runtimeClass);
+			}
+			if (tempClass == null) {
+				logger.log(Level.SEVERE, "No game element mapped for class "
+						+ element.getClass());
+			} else {
+				temp = (GameObject<T>) getInstance(tempClass);
+				temp.setElement(element);
+
+				objectMap.put(element, temp);
+			}
+			return temp;
 		}
-		return temp;
 	}
-	
+
 	@Override
-	public void remove(EAdElement element){
+	public void remove(EAdElement element) {
 		objectMap.remove(element);
 	}
-	
+
 	@Override
-	public void clean(){
+	public void clean() {
 		objectMap.clear();
 	}
-	
-	public abstract GameObject<?> getInstance(Class<? extends GameObject<?>> clazz);
-	
+
+	public abstract GameObject<?> getInstance(
+			Class<? extends GameObject<?>> clazz);
+
 	public abstract <T extends EAdElement> Class<?> getRuntimeClass(T element);
 }

@@ -43,6 +43,8 @@ import es.eucm.eadventure.common.interfaces.features.Resourced;
 import es.eucm.eadventure.common.model.events.EAdEvent;
 import es.eucm.eadventure.common.model.extra.EAdList;
 import es.eucm.eadventure.common.model.extra.impl.EAdListImpl;
+import es.eucm.eadventure.common.model.variables.EAdVarDef;
+import es.eucm.eadventure.common.model.variables.impl.EAdVarDefImpl;
 import es.eucm.eadventure.common.resources.EAdBundleId;
 import es.eucm.eadventure.common.resources.EAdResources;
 import es.eucm.eadventure.common.resources.assets.AssetDescriptor;
@@ -54,6 +56,9 @@ import es.eucm.eadventure.common.resources.impl.EAdResourcesImpl;
  */
 public abstract class EAdGeneralElementImpl extends EAdElementImpl implements
 		Resourced, Evented {
+	
+	public static final EAdVarDef<EAdBundleId> VAR_BUNDLE_ID = new EAdVarDefImpl<EAdBundleId>(
+			"bundle_id", EAdBundleId.class, null);
 
 	/**
 	 * Resources of the eAdElement

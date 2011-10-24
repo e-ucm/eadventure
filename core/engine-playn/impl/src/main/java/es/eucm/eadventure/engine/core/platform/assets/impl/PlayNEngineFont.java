@@ -37,43 +37,83 @@
 
 package es.eucm.eadventure.engine.core.platform.assets.impl;
 
+import com.google.gwt.dom.client.Document;
+import com.google.gwt.dom.client.Element;
+import com.google.gwt.dom.client.Style;
+import com.google.gwt.dom.client.Style.Unit;
+
 import es.eucm.eadventure.common.params.EAdFont;
 import es.eucm.eadventure.common.params.geom.impl.EAdRectangleImpl;
 import es.eucm.eadventure.engine.core.platform.RuntimeFont;
 
 public class PlayNEngineFont implements RuntimeFont {
 
-	private EAdFont eadFont;
+	private EAdFont font;
+
+	private Element element;
+	
+	private static final String HEIGHT_TEXT = "ABCDEFGHIJKLMNÑOPQRSTUVWXYZabcefghijklmnñopqrstuvwxyz1234567890!?";
+	
+	private int lineHeight;
 
 	public PlayNEngineFont(EAdFont font) {
-		this.eadFont = font;
-	}
+		this.font = font;
+		Document doc = Document.get();
 
-	public int getFont() {
-		return 0;
+		Element rootElement = doc.getBody();
+
+		element = doc.createDivElement();
+		element.getStyle().setVisibility(Style.Visibility.HIDDEN);
+		element.getStyle().setPosition(Style.Position.ABSOLUTE);
+		element.getStyle().setTop(-800, Unit.PX);
+		element.getStyle().setOverflow(Style.Overflow.VISIBLE);
+		rootElement.appendChild(element);
+		
+		element.getStyle().setFontSize(font.getSize(), Unit.PX);
+		element.getStyle().setFontWeight(Style.FontWeight.NORMAL);
+		element.getStyle().setFontStyle(Style.FontStyle.NORMAL);
+		element.setInnerText(HEIGHT_TEXT);
+	      switch (getStyle(font)) {
+	      case BOLD:
+	    	  element.getStyle().setFontWeight(Style.FontWeight.BOLD);
+	        break;
+	      case ITALIC:
+	    	  element.getStyle().setFontStyle(Style.FontStyle.ITALIC);
+	        break;
+	      }
+	      lineHeight = element.getOffsetHeight();
 	}
 
 	@Override
 	public EAdFont getEAdFont() {
-		return eadFont;
+		return font;
 	}
 
 	@Override
 	public int stringWidth(String string) {
-		//FIXME
-		return string.length() * 10;
+	      element.setInnerText(string);
+	      return element.getOffsetWidth();
 	}
 
 	@Override
 	public int lineHeight() {
-		//FIXME
-		return 15;
+		return lineHeight;
 	}
 
 	@Override
 	public EAdRectangleImpl stringBounds(String string) {
-		//FIXME
 		return new EAdRectangleImpl(0, 0, stringWidth(string), lineHeight());
+	}
+
+	private playn.core.Font.Style getStyle(EAdFont font) {
+		switch (font.getStyle()) {
+		case BOLD:
+			return playn.core.Font.Style.BOLD;
+		case ITALIC:
+			return playn.core.Font.Style.ITALIC;
+		default:
+			return playn.core.Font.Style.PLAIN;
+		}
 	}
 
 }

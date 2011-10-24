@@ -64,11 +64,11 @@ import es.eucm.eadventure.common.loader.InputStreamCreator;
 import es.eucm.eadventure.common.loader.Loader;
 import es.eucm.eadventure.common.model.conditions.impl.ANDCondition;
 import es.eucm.eadventure.common.model.conditions.impl.NOTCondition;
-import es.eucm.eadventure.common.model.effects.impl.EAdChangeAppearance;
 import es.eucm.eadventure.common.model.elements.EAdCondition;
 import es.eucm.eadventure.common.model.events.EAdConditionEvent;
 import es.eucm.eadventure.common.model.events.impl.EAdConditionEventImpl;
 import es.eucm.eadventure.common.model.impl.EAdGeneralElementImpl;
+import es.eucm.eadventure.common.predef.model.effects.EAdChangeAppearance;
 import es.eucm.eadventure.common.resources.EAdBundleId;
 import es.eucm.eadventure.common.resources.assets.AssetDescriptor;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.animation.Frame;
@@ -257,9 +257,8 @@ public class ResourceImporterImpl implements ResourceImporter {
 			conditionEvent.setCondition(condition);
 
 			EAdChangeAppearance changeAppereance = new EAdChangeAppearance(
-					conditionEvent.getId() + "change_appearence");
-			changeAppereance.setElement(element);
-			changeAppereance.setBundleId(bundleId);
+					conditionEvent.getId() + "change_appearence", null,
+					bundleId);
 			conditionEvent.addEffect(
 					EAdConditionEvent.ConditionedEvent.CONDITIONS_MET,
 					changeAppereance);

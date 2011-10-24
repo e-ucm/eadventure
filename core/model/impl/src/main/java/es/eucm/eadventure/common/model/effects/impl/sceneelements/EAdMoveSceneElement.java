@@ -41,6 +41,7 @@ import es.eucm.eadventure.common.interfaces.Element;
 import es.eucm.eadventure.common.interfaces.Param;
 import es.eucm.eadventure.common.model.effects.EAdEffect;
 import es.eucm.eadventure.common.model.elements.EAdSceneElement;
+import es.eucm.eadventure.common.model.variables.EAdOperation;
 import es.eucm.eadventure.common.model.variables.EAdVarDef;
 import es.eucm.eadventure.common.model.variables.impl.EAdVarDefImpl;
 import es.eucm.eadventure.common.model.variables.impl.operations.MathOperation;
@@ -89,10 +90,10 @@ public class EAdMoveSceneElement extends AbstractSceneElementEffect {
 	 * Target coordinates
 	 */
 	@Param("xTarget")
-	private MathOperation xTarget;
+	private EAdOperation xTarget;
 
 	@Param("yTarget")
-	private MathOperation yTarget;
+	private EAdOperation yTarget;
 
 	/**
 	 * Movement speed
@@ -115,13 +116,12 @@ public class EAdMoveSceneElement extends AbstractSceneElementEffect {
 	}
 
 	public EAdMoveSceneElement(String id, EAdSceneElement element) {
-		this(id, element, new MathOperation("id", "0"),
-				new MathOperation("id", "0"));
+		this(id, element, new MathOperation("id", "0"), new MathOperation("id",
+				"0"));
 	}
 
 	public EAdMoveSceneElement(String id, EAdSceneElement element,
-			MathOperation xTarget,
-			MathOperation yTarget) {
+			MathOperation xTarget, MathOperation yTarget) {
 		this(id, element, xTarget, yTarget, MovementSpeed.NORMAL);
 	}
 
@@ -132,8 +132,7 @@ public class EAdMoveSceneElement extends AbstractSceneElementEffect {
 	}
 
 	public EAdMoveSceneElement(String id, EAdSceneElement element,
-			MathOperation xTarget,
-			MathOperation yTarget, MovementSpeed speed) {
+			MathOperation xTarget, MathOperation yTarget, MovementSpeed speed) {
 		super(id);
 		this.element = element;
 		this.xTarget = xTarget;
@@ -160,8 +159,7 @@ public class EAdMoveSceneElement extends AbstractSceneElementEffect {
 	 * @param y
 	 *            the expression to calculate the y value
 	 */
-	public void setTargetCoordiantes(MathOperation x,
-			MathOperation y) {
+	public void setTargetCoordiantes(EAdOperation x, EAdOperation y) {
 		xTarget = x;
 		yTarget = y;
 	}
@@ -180,7 +178,7 @@ public class EAdMoveSceneElement extends AbstractSceneElementEffect {
 	 * 
 	 * @return x coordinate target
 	 */
-	public MathOperation getXTarget() {
+	public EAdOperation getXTarget() {
 		return xTarget;
 	}
 
@@ -188,7 +186,7 @@ public class EAdMoveSceneElement extends AbstractSceneElementEffect {
 	 * 
 	 * @return y coordinate target
 	 */
-	public MathOperation getYTarget() {
+	public EAdOperation getYTarget() {
 		return yTarget;
 	}
 
@@ -214,11 +212,11 @@ public class EAdMoveSceneElement extends AbstractSceneElementEffect {
 	}
 
 	public float getSpeedFactor() {
-		if (speed == MovementSpeed.CUSTOM) 
+		if (speed == MovementSpeed.CUSTOM)
 			return speedFactor;
 		return speed.getSpeedFactor();
 	}
-	
+
 	public void setSpeedFactor(float speedFactor) {
 		this.speed = MovementSpeed.CUSTOM;
 		this.speedFactor = speedFactor;

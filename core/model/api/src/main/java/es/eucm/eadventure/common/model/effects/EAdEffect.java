@@ -41,6 +41,7 @@ import es.eucm.eadventure.common.interfaces.features.Conditioned;
 import es.eucm.eadventure.common.interfaces.features.Evented;
 import es.eucm.eadventure.common.interfaces.features.Variabled;
 import es.eucm.eadventure.common.model.EAdElement;
+import es.eucm.eadventure.common.model.extra.EAdList;
 
 /**
  * <p>An effect in the eAdventure model represents any set of
@@ -75,5 +76,11 @@ public interface EAdEffect extends EAdElement, Conditioned, Evented, Variabled {
 	void setBlocking( boolean blocking );
 	
 	void setOpaque( boolean opaque );
+	
+	/**
+	 * Returns the effects to be launched when this effect ends
+	 * @return
+	 */
+	EAdList<EAdEffect> getFinalEffects();
 
 }

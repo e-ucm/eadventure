@@ -46,27 +46,29 @@ import es.eucm.eadventure.common.interfaces.Factory;
 import es.eucm.eadventure.common.interfaces.MapProvider;
 
 /**
- * Abstract factory that gets an element of a certain class. This factory uses a map that is
- * intended to be injected though guice.
- * When no element is found of the class given as a parameter, an element of one of its interfaces
- * is searched as well.
+ * Abstract factory that gets an element of a certain class. This factory uses a
+ * map that is intended to be injected though guice. When no element is found of
+ * the class given as a parameter, an element of one of its interfaces is
+ * searched as well.
  * 
- * @param <T> The return type of the factory.
+ * @param <T>
+ *            The return type of the factory.
  */
 public abstract class AbstractFactory<T> implements Factory<T> {
 
 	protected Map<Class<?>, T> map;
 
-	protected ReflectionProvider interfacesProvider;
-	
+	protected ReflectionProvider reflectionProvider;
+
 	private static final Logger logger = Logger.getLogger("AbstractFactory");
-	
-	public AbstractFactory(MapProvider<Class<?>, T> mapProvider, ReflectionProvider interfacesProvider) {
+
+	public AbstractFactory(MapProvider<Class<?>, T> mapProvider,
+			ReflectionProvider interfacesProvider) {
 		if (mapProvider != null)
 			this.map = mapProvider.getMap();
-		this.interfacesProvider = interfacesProvider;
+		this.reflectionProvider = interfacesProvider;
 	}
-	
+
 	@Override
 	public void setMap(MapProvider<Class<?>, T> mapProvider) {
 		this.map = mapProvider.getMap();
@@ -76,17 +78,30 @@ public abstract class AbstractFactory<T> implements Factory<T> {
 	public T get(Class<?> object) {
 		T element = map.get(object);
 		if (element == null) {
-			logger.log(Level.INFO, "No element in factory for object " + object + " " + this.getClass());
-			Class<?>[] interfaces = interfacesProvider.getInterfaces(object);
-			for (Class<?> i : interfaces) {
-				element = map.get(i);
-				if (element != null) {
-					logger.info("Using super class in factory for object of class " + object.getClass() + " using " + i);
-					map.put(object, element);
-					return element;
+			logger.log(Level.INFO, "No element in factory for object " + object
+					+ " " + this.getClass());
+			Class<?> c = reflectionProvider.getSuperclass(object);
+			while (element == null && c != null) {
+				element = map.get(c);
+				c = reflectionProvider.getSuperclass(c);
+			}
+
+			if (element == null) {
+				Class<?>[] interfaces = reflectionProvider
+						.getInterfaces(object);
+				for (Class<?> i : interfaces) {
+					element = map.get(i);
+					if (element != null) {
+						logger.info("Using super class in factory for object of class "
+								+ object.getClass() + " using " + i);
+						map.put(object, element);
+						return element;
+					}
 				}
 			}
-			throw new EAdRuntimeException("No element in factory for object (or for any of its interfaces) " + object);
+			throw new EAdRuntimeException(
+					"No element in factory for object (or for any of its interfaces) "
+							+ object);
 		}
 		return element;
 	}
