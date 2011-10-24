@@ -59,7 +59,7 @@ public class EAdModifyActorState extends AbstractEAdEffect {
 	 * </p>
 	 *
 	 */
-	public enum Modification {
+	public static enum Modification {
 		PLACE_IN_INVENTORY, PLACE_IN_SCENE, REMOVE_SCENE_AND_INVENTORY
 	}
 	
