@@ -43,33 +43,36 @@ public interface Area extends Positioned, Retractable {
 	/**
 	 * @return the width of the area
 	 */
-	public int getWidth();
+	public Integer getWidth();
 
 	/**
 	 * @return the height of the area
 	 */
-	public int getHeight();
+	public Integer getHeight();
 
 	/**
 	 * @param width
 	 *            the new width of the area
 	 */
-	public void setWidth(int width);
+	public void setWidth(Integer width);
 
 	/**
 	 * @param height
 	 *            the new height of the area
 	 */
-	public void setHeight(int height);
+	public void setHeight(Integer height);
 
+	
+	//FIXME the getMin methods might not need to be here
+	
 	/**
 	 * @return the minimum width of the area
 	 */
-	public int getMinWidth();
+	public Integer getMinWidth();
 
 	/**
 	 * @return the minimum height of the area
 	 */
-	public int getMinHeight();
+	public Integer getMinHeight();
 
 }
