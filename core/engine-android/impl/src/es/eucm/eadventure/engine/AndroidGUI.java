@@ -68,7 +68,7 @@ public class AndroidGUI extends AbstractGUI<Canvas> {
 			GameObjectFactory gameObjectFactory,
 			AndroidCanvas canvas) {
 		super(platformConfiguration, gameObjectManager, mouseState,
-				keyboardState, valueMap, gameState, gameObjectFactory, canvas);
+				keyboardState, gameState, gameObjectFactory, canvas);
 		gameObjects.addHUD(androidBasicHUD);
 		androidBasicHUD.setGUI(this);
 	}
