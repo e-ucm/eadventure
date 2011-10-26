@@ -57,7 +57,6 @@ import es.eucm.eadventure.engine.core.impl.KeyboardStateImpl;
 import es.eucm.eadventure.engine.core.impl.MouseStateImpl;
 import es.eucm.eadventure.engine.core.platform.GUI;
 import es.eucm.eadventure.engine.core.platform.PlatformConfiguration;
-import es.eucm.eadventure.engine.core.platform.PlatformControl;
 import es.eucm.eadventure.engine.core.platform.PlatformLauncher;
 import es.eucm.eadventure.engine.core.platform.TransitionFactory;
 import es.eucm.eadventure.engine.core.platform.impl.FontHandlerImpl;
@@ -66,7 +65,6 @@ import es.eucm.eadventure.engine.core.platform.impl.PlayNGUI;
 import es.eucm.eadventure.engine.core.platform.impl.PlayNGameLoop;
 import es.eucm.eadventure.engine.core.platform.impl.PlayNGameProfiler;
 import es.eucm.eadventure.engine.core.platform.impl.PlayNPlatformConfiguration;
-import es.eucm.eadventure.engine.core.platform.impl.PlayNPlatformControl;
 import es.eucm.eadventure.engine.core.platform.impl.PlayNPlatformLauncher;
 import es.eucm.eadventure.engine.core.platform.impl.PlayNReflectionProvider;
 import es.eucm.eadventure.engine.core.platform.impl.PlayNTransitionFactory;
@@ -82,7 +80,6 @@ public class PlayNModule extends AbstractGinModule {
 		bind(GUI.class).to(PlayNGUI.class).in(Singleton.class);
 		bind(PlatformConfiguration.class)
 				.to(PlayNPlatformConfiguration.class).in(Singleton.class);
-		bind(PlatformControl.class).to(PlayNPlatformControl.class).in(Singleton.class);
 		bind(PlatformLauncher.class).to(PlayNPlatformLauncher.class).in(Singleton.class);
 		bind(MouseState.class).to(MouseStateImpl.class).in(Singleton.class);
 		bind(KeyboardState.class).to(KeyboardStateImpl.class).in(Singleton.class);

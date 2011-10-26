@@ -46,9 +46,9 @@ import com.google.inject.Singleton;
 
 import es.eucm.eadventure.common.params.EAdURI;
 import es.eucm.eadventure.common.params.EAdURIImpl;
+import es.eucm.eadventure.engine.core.GameController;
 import es.eucm.eadventure.engine.core.impl.modules.BasicGameModule;
 import es.eucm.eadventure.engine.core.platform.AssetHandler;
-import es.eucm.eadventure.engine.core.platform.PlatformControl;
 import es.eucm.eadventure.engine.core.platform.PlatformLauncher;
 import es.eucm.eadventure.engine.core.platform.impl.extra.DesktopAssetHandlerModule;
 import es.eucm.eadventure.engine.core.platform.impl.extra.DesktopModule;
@@ -61,10 +61,7 @@ import es.eucm.eadventure.engine.core.platform.impl.extra.DesktopModule;
 @Singleton
 public class DesktopPlatformLauncher implements PlatformLauncher {
 
-	/**
-	 * The platform control implementation {@link PlatformContorl}
-	 */
-	private PlatformControl platformControl;
+	private GameController gameController;
 	
 	/**
 	 * Engine asset handler {@link AssetHandler}
@@ -72,9 +69,9 @@ public class DesktopPlatformLauncher implements PlatformLauncher {
 	private AssetHandler assetHandler;
 	
 	@Inject
-	public DesktopPlatformLauncher(PlatformControl platformControl,
+	public DesktopPlatformLauncher(GameController gameController,
 			AssetHandler assetHandler) {
-		this.platformControl = platformControl;
+		this.gameController = gameController;
 		this.assetHandler = assetHandler;
 	}
 
@@ -84,7 +81,7 @@ public class DesktopPlatformLauncher implements PlatformLauncher {
 			File resourceFile = new File( uri.getPath() );
 			((DesktopAssetHandler) assetHandler).setResourceLocation(resourceFile);
 		}
-		platformControl.start();
+		gameController.start();
 	}
 	
 	public static void main(String[] args) {
