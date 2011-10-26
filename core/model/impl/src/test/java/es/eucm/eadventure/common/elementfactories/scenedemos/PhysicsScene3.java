@@ -13,9 +13,8 @@ import es.eucm.eadventure.common.model.effects.impl.physics.EAdPhysicsEffect.PhT
 import es.eucm.eadventure.common.model.effects.impl.physics.PhApplyImpluse;
 import es.eucm.eadventure.common.model.effects.impl.variables.EAdChangeFieldValueEffect;
 import es.eucm.eadventure.common.model.elements.EAdSceneElementDef;
-import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
-import es.eucm.eadventure.common.model.elements.impl.EAdComplexElementImpl;
 import es.eucm.eadventure.common.model.elements.impl.EAdSceneElementDefImpl;
+import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
 import es.eucm.eadventure.common.model.elements.impl.EAdSceneImpl;
 import es.eucm.eadventure.common.model.events.EAdConditionEvent;
 import es.eucm.eadventure.common.model.events.EAdConditionEvent.ConditionedEvent;
@@ -37,11 +36,10 @@ import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.ImageImpl
 import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.shapes.BezierShape;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.shapes.CircleShape;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.shapes.RectangleShape;
-import es.eucm.eadventure.common.resources.assets.drawable.compounds.impl.ComposedDrawableImpl;
 
-public class PhysicsScene extends EmptyScene {
+public class PhysicsScene3 extends EmptyScene {
 
-	public PhysicsScene() {
+	public PhysicsScene3() {
 		init();
 	}
 
@@ -53,7 +51,15 @@ public class PhysicsScene extends EmptyScene {
 
 		addSky();
 
+		EAdBasicSceneElement e2 = new EAdBasicSceneElement("e2",
+				new RectangleShape(10, 100, EAdColor.BROWN));
+		getElements().add(e2);
+		e2.setPosition(new EAdPositionImpl(Corner.CENTER, 500, 300));
+
 		EAdPhysicsEffect effect = new EAdPhysicsEffect();
+		effect.addSceneElement(e2);
+		
+		e2.setVarInitialValue(EAdPhysicsEffect.VAR_PH_TYPE, PhType.DYNAMIC);
 
 		EAdConditionEvent event = new EAdConditionEventImpl();
 		OperationCondition condition = new OperationCondition(
@@ -66,9 +72,8 @@ public class PhysicsScene extends EmptyScene {
 				.addBehavior(EAdMouseEventImpl.MOUSE_ENTERED, effect);
 
 		addCanyon(effect);
-//		addWalls(effect);
-//		addPendulum(effect);
-		addSea();
+		addWalls(effect);
+		addPendulum(effect);
 	}
 
 	@Override
@@ -108,26 +113,14 @@ public class PhysicsScene extends EmptyScene {
 	}
 
 	private void addCanyon(EAdPhysicsEffect effect) {
-		
-		int height = 100;
 
 		EAdBasicSceneElement canyon = new EAdBasicSceneElement("canyon",
 				new ImageImpl("@drawable/canyon.png"));
 		EAdBasicSceneElement canyonSupport = new EAdBasicSceneElement(
 				"canyonSupport", new ImageImpl("@drawable/canyonbottom.png"));
 
-		canyon.setPosition(new EAdPositionImpl(Corner.CENTER, 130, height));
-		canyonSupport.setPosition(new EAdPositionImpl(100, height));
-		
-		ComposedDrawableImpl composed = new ComposedDrawableImpl();
-		composed.addDrawable(new RectangleShape(80, 600, new EAdLinearGradient(EAdColor.BROWN, EAdColor.LIGHT_BROWN, 80, 0)));
-		composed.addDrawable(new ImageImpl("@drawable/grass.png"), 0, -15);
-		
-		EAdBasicSceneElement grass = new EAdBasicSceneElement("grass", composed);
-		grass.setPosition(90, height + 60);
-		effect.getElements().add(grass);
-		
-		this.getElements().add(grass);
+		canyon.setPosition(new EAdPositionImpl(Corner.CENTER, 130, 475));
+		canyonSupport.setPosition(new EAdPositionImpl(100, 475));
 
 		EAdField<Float> rotationField = new EAdFieldImpl<Float>(canyon,
 				EAdBasicSceneElement.VAR_ROTATION);
@@ -175,10 +168,10 @@ public class PhysicsScene extends EmptyScene {
 				EAdBasicSceneElement.appearance, circle);
 
 		PhApplyImpluse applyForce = new PhApplyImpluse();
-		applyForce.setForce(new MathOperation("([0] - [1]) * 500", mouseX, canyonX),
-				new MathOperation("([0] - [1]) * 500", mouseY, canyonY));
+		applyForce.setForce(new MathOperation("[0] - [1]", mouseX, canyonX),
+				new MathOperation("[0] - [1]", mouseY, canyonY));
 		EAdAddActorReferenceEffect addEffect = new EAdAddActorReferenceEffect(
-				bullet, new EAdPositionImpl(Corner.CENTER, 140, height - 5),
+				bullet, new EAdPositionImpl(Corner.CENTER, 140, 470),
 				applyForce);
 
 		getBackground().addBehavior(EAdMouseEventImpl.MOUSE_LEFT_PRESSED,
@@ -234,32 +227,6 @@ public class PhysicsScene extends EmptyScene {
 
 		this.getBackground().getEvents().add(event);
 
-	}
-	
-	private void addSea(){
-		EAdBasicSceneElement wave1 = new EAdBasicSceneElement("wave1", new ImageImpl("@drawable/wave1.png"));
-		EAdBasicSceneElement wave2 = new EAdBasicSceneElement("wave2", new ImageImpl("@drawable/wave2.png"));
-		EAdComplexElementImpl waves = new EAdComplexElementImpl("waves");
-		waves.getElements().add(wave1);
-		addGoal(waves);
-		waves.getElements().add(wave2);
-		waves.setPosition(EAdPositionImpl.Corner.BOTTOM_LEFT, -50, 600);
-		
-		this.getElements().add(waves);
-		
-	}
-	
-	private void addGoal(EAdComplexElementImpl waves){
-		BezierShape shape = new BezierShape();
-		shape.moveTo(0, 0);
-		shape.lineTo(40, 0);
-		shape.lineTo(35, 40);
-		shape.lineTo(5, 40);
-		shape.close();
-		shape.setPaint(EAdColor.RED);
-		EAdBasicSceneElement goal = new EAdBasicSceneElement("goal", shape);
-		goal.setPosition(540, 0);
-		waves.getElements().add(goal);
 	}
 
 }

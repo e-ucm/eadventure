@@ -41,6 +41,7 @@ import java.util.logging.Logger;
 
 import com.google.inject.Inject;
 
+import es.eucm.eadventure.common.model.EAdElement;
 import es.eucm.eadventure.common.model.effects.impl.EAdInterpolationEffect;
 import es.eucm.eadventure.common.resources.StringHandler;
 import es.eucm.eadventure.engine.core.GameLoop;
@@ -74,6 +75,8 @@ public class InterpolationGO extends AbstractEffectGO<EAdInterpolationEffect> {
 
 	private int loops;
 
+	private EAdElement owner;
+
 	@Inject
 	public InterpolationGO(AssetHandler assetHandler,
 			StringHandler stringHandler, GameObjectFactory gameObjectFactory,
@@ -93,6 +96,11 @@ public class InterpolationGO extends AbstractEffectGO<EAdInterpolationEffect> {
 				element.getInitialValue())).floatValue();
 		endValue = ((Number) operatorFactory.operate(Float.class,
 				element.getEndValue())).floatValue();
+
+		float offset = ((Number) gameState.getValueMap().getValue(
+				element.getElement(), element.getVarDef())).floatValue();
+		startValue += offset;
+		endValue += offset;
 		interpolationLength = endValue - startValue;
 		finished = false;
 		logger.info(element.getElement() + "." + element.getVarDef()
@@ -100,9 +108,8 @@ public class InterpolationGO extends AbstractEffectGO<EAdInterpolationEffect> {
 				+ endValue);
 		delay = element.getDelay();
 
-		operatorFactory.operate(
-				element.getElement() == null ? parent : element.getElement(),
-				element.getVarDef(), element.getInitialValue());
+		owner = element.getElement() == null ? parent : gameState.getValueMap().getFinalElement(element.getElement());
+
 	}
 
 	@Override
@@ -148,10 +155,10 @@ public class InterpolationGO extends AbstractEffectGO<EAdInterpolationEffect> {
 
 				// TODO this should be done "automatically"
 				if (integer)
-					gameState.getValueMap().setValue(element.getElement(),
+					gameState.getValueMap().setValue(owner,
 							element.getVarDef(), (Integer) interpolation());
 				else
-					gameState.getValueMap().setValue(element.getElement(),
+					gameState.getValueMap().setValue(owner,
 							element.getVarDef(), (Float) interpolation());
 			}
 		} else {

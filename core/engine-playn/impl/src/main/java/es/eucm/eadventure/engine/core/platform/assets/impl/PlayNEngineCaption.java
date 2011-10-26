@@ -44,18 +44,14 @@ import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.CaptionIm
 import es.eucm.eadventure.engine.core.impl.VariableMap;
 import es.eucm.eadventure.engine.core.platform.AssetHandler;
 import es.eucm.eadventure.engine.core.platform.FontHandler;
-import es.eucm.eadventure.engine.core.platform.PlatformConfiguration;
 import es.eucm.eadventure.engine.core.platform.RuntimeFont;
 
 public class PlayNEngineCaption extends RuntimeCaption {
 
 	@Inject
 	public PlayNEngineCaption(FontHandler fontCache, VariableMap valueMap,
-			StringHandler stringHandler,
-			PlatformConfiguration platformConfiguration,
-			AssetHandler assetHandler) {
-		super(fontCache, valueMap, stringHandler, platformConfiguration,
-				assetHandler);
+			StringHandler stringHandler, AssetHandler assetHandler) {
+		super(fontCache, valueMap, stringHandler, assetHandler);
 	}
 
 	public void setHasBuble(boolean b) {

@@ -43,6 +43,7 @@ import java.util.logging.Logger;
 
 import com.google.inject.Inject;
 
+import es.eucm.eadventure.common.model.variables.impl.SystemFields;
 import es.eucm.eadventure.common.params.geom.impl.EAdRectangleImpl;
 import es.eucm.eadventure.common.resources.StringHandler;
 import es.eucm.eadventure.common.resources.assets.drawable.Drawable;
@@ -54,7 +55,6 @@ import es.eucm.eadventure.engine.core.platform.AssetHandler;
 import es.eucm.eadventure.engine.core.platform.DrawableAsset;
 import es.eucm.eadventure.engine.core.platform.EAdCanvas;
 import es.eucm.eadventure.engine.core.platform.FontHandler;
-import es.eucm.eadventure.engine.core.platform.PlatformConfiguration;
 import es.eucm.eadventure.engine.core.platform.RuntimeFont;
 
 public class RuntimeCaption extends AbstractRuntimeAsset<Caption> implements
@@ -114,6 +114,8 @@ public class RuntimeCaption extends AbstractRuntimeAsset<Caption> implements
 	 * infinite
 	 */
 	private int loops;
+	
+	private int heightOffset;
 
 	/**
 	 * Current text wrapped
@@ -122,19 +124,14 @@ public class RuntimeCaption extends AbstractRuntimeAsset<Caption> implements
 
 	private VariableMap valueMap;
 
-	private StringHandler stringHandler;
-
-	private PlatformConfiguration platformConfiguration;
+	private StringHandler stringsReader;
 
 	@Inject
 	public RuntimeCaption(FontHandler fontCache, VariableMap valueMap,
-			StringHandler stringsReader,
-			PlatformConfiguration platformConfiguration,
-			AssetHandler assetHandler) {
+			StringHandler stringsReader, AssetHandler assetHandler) {
 		this.fontCache = fontCache;
 		this.valueMap = valueMap;
-		this.stringHandler = stringsReader;
-		this.platformConfiguration = platformConfiguration;
+		this.stringsReader = stringsReader;
 		this.assetHandler = assetHandler;
 		logger.info("New instance");
 	}
@@ -148,7 +145,7 @@ public class RuntimeCaption extends AbstractRuntimeAsset<Caption> implements
 	public boolean loadAsset() {
 		font = fontCache.get(descriptor.getFont());
 		text = valueMap.processTextVars(
-				stringHandler.getString(descriptor.getText()),
+				stringsReader.getString(descriptor.getText()),
 				descriptor.getFields());
 		lines = new ArrayList<String>();
 		wrapText();
@@ -192,7 +189,7 @@ public class RuntimeCaption extends AbstractRuntimeAsset<Caption> implements
 		}
 
 		text = valueMap.processTextVars(
-				stringHandler.getString(descriptor.getText()),
+				stringsReader.getString(descriptor.getText()),
 				descriptor.getFields());
 
 		// If text has changed
@@ -227,12 +224,12 @@ public class RuntimeCaption extends AbstractRuntimeAsset<Caption> implements
 		bounds = new EAdRectangleImpl(0, 0, 0, 0);
 		lineHeight = font.lineHeight();
 
-		int maximumWidth = (int) (descriptor.getMaximumWidth() == Caption.SCREEN_SIZE ? (platformConfiguration
-				.getWidth() - descriptor.getPadding() * 2)
-				/ platformConfiguration.getScale() : descriptor
-				.getMaximumWidth());
-		int maximumHeight = (int) (descriptor.getMaximumHeight() < 0 ? platformConfiguration
-				.getHeight() : descriptor.getMaximumHeight());
+		int maximumWidth = (int) (descriptor.getMaximumWidth() == Caption.SCREEN_SIZE ? (valueMap
+				.getValue(SystemFields.GUI_WIDTH) - descriptor.getPadding() * 2)
+				: descriptor.getMaximumWidth());
+		int maximumHeight = (int) (descriptor.getMaximumHeight() < 0 ? valueMap
+				.getValue(SystemFields.GUI_HEIGHT) : descriptor
+				.getMaximumHeight());
 
 		// If width for drawing the text is infinite, we have only one line
 		if (maximumWidth == Caption.INFINITE_SIZE) {
@@ -286,7 +283,9 @@ public class RuntimeCaption extends AbstractRuntimeAsset<Caption> implements
 		totalParts = (int) Math
 				.ceil((float) lines.size() / (float) linesInPart);
 
-		bounds.height = linesInPart * lineHeight;
+		
+		heightOffset = ( maximumHeight - ( linesInPart * lineHeight ) ) / 2; 
+		bounds.height = maximumHeight;
 
 		if (descriptor.hasBubble()) {
 			bounds.width += descriptor.getPadding() * 2;
@@ -306,7 +305,8 @@ public class RuntimeCaption extends AbstractRuntimeAsset<Caption> implements
 		while (!finished) {
 			currentLine = "";
 
-			while (i < word.length() && f.stringWidth(currentLine) < lineWidth) {
+			while (i < word.length()
+					&& f.stringWidth(currentLine + word.charAt(i)) < lineWidth) {
 				currentLine += word.charAt(i++);
 			}
 
@@ -435,8 +435,9 @@ public class RuntimeCaption extends AbstractRuntimeAsset<Caption> implements
 		}
 
 		c.setPaint(descriptor.getTextPaint());
+		c.setFont(descriptor.getFont());
 		int xOffset = getAssetDescriptor().getPadding();
-		int yOffset = xOffset;
+		int yOffset = xOffset + heightOffset;
 		// Draw lines
 		for (String s : getText()) {
 			c.drawText(s, xOffset, yOffset);

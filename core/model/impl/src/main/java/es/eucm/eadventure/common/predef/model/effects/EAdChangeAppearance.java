@@ -35,57 +35,22 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package es.eucm.eadventure.common.model.effects.impl;
+package es.eucm.eadventure.common.predef.model.effects;
 
 import es.eucm.eadventure.common.interfaces.Element;
-import es.eucm.eadventure.common.interfaces.Param;
 import es.eucm.eadventure.common.model.EAdElement;
-import es.eucm.eadventure.common.model.effects.EAdEffect;
+import es.eucm.eadventure.common.model.effects.impl.variables.EAdChangeFieldValueEffect;
+import es.eucm.eadventure.common.model.impl.EAdGeneralElementImpl;
+import es.eucm.eadventure.common.model.variables.impl.operations.ValueOperation;
 import es.eucm.eadventure.common.resources.EAdBundleId;
 
-@Element(runtime = EAdChangeAppearance.class, detailed = EAdChangeAppearance.class)
-public class EAdChangeAppearance extends AbstractEAdEffect implements EAdEffect {
-
-	@Param("element")
-	private EAdElement element;
-	
-	@Param("bundleId")
-	private EAdBundleId bundleId;
-	
-	public EAdChangeAppearance(String id) {
-		super(id);
-	}
+@Element(runtime = EAdChangeFieldValueEffect.class, detailed = EAdChangeAppearance.class)
+public class EAdChangeAppearance extends EAdChangeFieldValueEffect {
 	
 	public EAdChangeAppearance(String id, EAdElement element, EAdBundleId bundleId) {
 		super(id);
-		this.element = element;
-		this.bundleId = bundleId;
-	}
-	
-	public void setElement(EAdElement element) {
-		this.element = element;
-	}
-	
-	public EAdElement getElement() {
-		return element;
-	}
-	
-	public void setBundleId(EAdBundleId bundleId) {
-		this.bundleId = bundleId;
-	}
-	
-	public EAdBundleId getBundleId() {
-		return bundleId;
-	}
-
-	@Override
-	public boolean isBlocking() {
-		return false;
-	}
-
-	@Override
-	public boolean isOpaque() {
-		return false;
+		this.setParentVar(EAdGeneralElementImpl.VAR_BUNDLE_ID);
+		this.setOperation(new ValueOperation(bundleId));
 	}
 
 }

@@ -43,13 +43,18 @@ import java.util.Map;
 import es.eucm.eadventure.common.interfaces.ReflectionProvider;
 import es.eucm.eadventure.common.model.variables.EAdField;
 import es.eucm.eadventure.common.model.variables.impl.operations.BooleanOperation;
+import es.eucm.eadventure.common.model.variables.impl.operations.ConditionedOperation;
+import es.eucm.eadventure.common.model.variables.impl.operations.ListOperation;
 import es.eucm.eadventure.common.model.variables.impl.operations.MathOperation;
 import es.eucm.eadventure.common.model.variables.impl.operations.ValueOperation;
 import es.eucm.eadventure.engine.core.ValueMap;
 import es.eucm.eadventure.engine.core.evaluators.EvaluatorFactory;
 import es.eucm.eadventure.engine.core.operator.Operator;
+import es.eucm.eadventure.engine.core.operator.OperatorFactory;
 import es.eucm.eadventure.engine.core.operators.impl.BooleanOperator;
+import es.eucm.eadventure.engine.core.operators.impl.ConditionedOperator;
 import es.eucm.eadventure.engine.core.operators.impl.FieldOperator;
+import es.eucm.eadventure.engine.core.operators.impl.ListOperator;
 import es.eucm.eadventure.engine.core.operators.impl.MathOperator;
 import es.eucm.eadventure.engine.core.operators.impl.ValueOperator;
 
@@ -63,12 +68,15 @@ public class OperatorFactoryMapProvider extends AbstractMapProvider<Class<?>, Op
 	
 	private ValueMap valueMap;
 	
-	public OperatorFactoryMapProvider(EvaluatorFactory evaluatorFactory, ValueMap valueMap,
+	private OperatorFactory operatorFactory;
+	
+	public OperatorFactoryMapProvider(OperatorFactory operatorFactory, EvaluatorFactory evaluatorFactory, ValueMap valueMap,
 			ReflectionProvider reflectionProvider) {
 		super();
 		this.valueMap = valueMap;
 		this.evaluatorFactory = evaluatorFactory;
 		this.reflectionProvider = reflectionProvider;
+		this.operatorFactory = operatorFactory;
 	}
 	
 	@Override
@@ -77,6 +85,8 @@ public class OperatorFactoryMapProvider extends AbstractMapProvider<Class<?>, Op
 		factoryMap.put(BooleanOperation.class, new BooleanOperator(evaluatorFactory));
 		factoryMap.put(ValueOperation.class, new ValueOperator(reflectionProvider));
 		factoryMap.put(EAdField.class, new FieldOperator(valueMap));
+		factoryMap.put(ListOperation.class, new ListOperator(valueMap));
+		factoryMap.put(ConditionedOperation.class, new ConditionedOperator(evaluatorFactory, operatorFactory));
 		factoryMap.putAll(tempMap);
 		return super.getMap();
 	}

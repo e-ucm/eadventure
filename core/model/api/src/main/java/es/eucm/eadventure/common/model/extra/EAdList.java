@@ -108,7 +108,7 @@ public interface EAdList<P> extends
 	 *             if the index is out of range
 	 *             {@code index < 0 || index >= size()}.
 	 */
-	public void remove(int index);
+	public P remove(int index);
 
 	/**
 	 * Returns the number of elements in this list.

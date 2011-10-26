@@ -20,7 +20,6 @@ import es.eucm.eadventure.common.impl.importer.interfaces.ResourceImporter;
 import es.eucm.eadventure.common.model.conditions.impl.EmptyCondition;
 import es.eucm.eadventure.common.model.conditions.impl.OperationCondition;
 import es.eucm.eadventure.common.model.conditions.impl.OperationCondition.Comparator;
-import es.eucm.eadventure.common.model.effects.impl.EAdChangeAppearance;
 import es.eucm.eadventure.common.model.effects.impl.EAdChangeScene;
 import es.eucm.eadventure.common.model.effects.impl.EAdInterpolationEffect;
 import es.eucm.eadventure.common.model.effects.impl.EAdInterpolationEffect.InterpolationType;
@@ -49,6 +48,7 @@ import es.eucm.eadventure.common.params.EAdFontImpl;
 import es.eucm.eadventure.common.params.fills.impl.EAdColor;
 import es.eucm.eadventure.common.params.geom.impl.EAdPositionImpl;
 import es.eucm.eadventure.common.params.geom.impl.EAdPositionImpl.Corner;
+import es.eucm.eadventure.common.predef.model.effects.EAdChangeAppearance;
 import es.eucm.eadventure.common.resources.EAdBundleId;
 import es.eucm.eadventure.common.resources.StringHandler;
 import es.eucm.eadventure.common.resources.assets.AssetDescriptor;
@@ -385,14 +385,12 @@ public class BookImporter implements EAdElementImporter<Book, EAdScene> {
 		arrow.getResources().addAsset(bundle, EAdBasicSceneElement.appearance,
 				overAsset);
 
-		EAdChangeAppearance change1 = new EAdChangeAppearance("changeArrowOver");
-		change1.setBundleId(bundle);
-		change1.setElement(arrow);
+		EAdChangeAppearance change1 = new EAdChangeAppearance(
+				"changeArrowOver", arrow, bundle);
 		arrow.addBehavior(EAdMouseEventImpl.MOUSE_ENTERED, change1);
 
-		EAdChangeAppearance change2 = new EAdChangeAppearance("changeArrowOver");
-		change2.setBundleId(arrow.getInitialBundle());
-		change2.setElement(arrow);
+		EAdChangeAppearance change2 = new EAdChangeAppearance(
+				"changeArrowOver", arrow, arrow.getInitialBundle());
 		arrow.addBehavior(EAdMouseEventImpl.MOUSE_EXITED, change2);
 
 	}

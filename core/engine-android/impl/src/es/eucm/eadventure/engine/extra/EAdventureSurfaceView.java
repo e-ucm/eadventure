@@ -81,9 +81,11 @@ public class EAdventureSurfaceView extends SurfaceView implements SurfaceHolder.
   			mouseState.setMousePosition((int) event.getRawX(), (int) event.getRawY());
   			if (event.getAction() == MotionEvent.ACTION_DOWN) {
   				downTime = System.currentTimeMillis();
+  				mouseState.setMousePressed(true);
   			}
   			if (event.getAction() == MotionEvent.ACTION_UP) {
   				logger.info("Right click " + mouseState.getGameObjectUnderMouse());
+  				mouseState.setMousePressed(false);
 	  			MouseAction action;
 	  			if (System.currentTimeMillis() - downTime > 1500)
 	  				action = new MouseActionImpl(MouseActionType.CLICK, MouseButton.BUTTON_2, mouseState.getMouseX(), mouseState.getMouseY());

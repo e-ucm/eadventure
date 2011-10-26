@@ -1,14 +1,25 @@
 package es.eucm.eadventure.common.elementfactories.scenedemos;
 
 import es.eucm.eadventure.common.elementfactories.EAdElementsFactory;
+import es.eucm.eadventure.common.model.conditions.impl.OperationCondition;
+import es.eucm.eadventure.common.model.conditions.impl.OperationCondition.Comparator;
 import es.eucm.eadventure.common.model.effects.impl.EAdMoveActiveElement;
+import es.eucm.eadventure.common.model.effects.impl.sceneelements.EAdMoveSceneElement;
 import es.eucm.eadventure.common.model.effects.impl.text.EAdSpeakEffect;
+import es.eucm.eadventure.common.model.elements.EAdCondition;
 import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
 import es.eucm.eadventure.common.model.events.EAdSceneElementEvent;
 import es.eucm.eadventure.common.model.events.EAdSceneElementEvent.SceneElementEvent;
 import es.eucm.eadventure.common.model.events.impl.EAdSceneElementEventImpl;
 import es.eucm.eadventure.common.model.guievents.impl.EAdMouseEventImpl;
 import es.eucm.eadventure.common.model.trajectories.impl.SimpleTrajectoryDefinition;
+import es.eucm.eadventure.common.model.variables.EAdField;
+import es.eucm.eadventure.common.model.variables.EAdOperation;
+import es.eucm.eadventure.common.model.variables.impl.EAdFieldImpl;
+import es.eucm.eadventure.common.model.variables.impl.SystemFields;
+import es.eucm.eadventure.common.model.variables.impl.operations.ConditionedOperation;
+import es.eucm.eadventure.common.model.variables.impl.operations.MathOperation;
+import es.eucm.eadventure.common.params.EAdFontImpl;
 import es.eucm.eadventure.common.params.fills.impl.EAdColor;
 import es.eucm.eadventure.common.params.geom.impl.EAdPositionImpl;
 import es.eucm.eadventure.common.params.geom.impl.EAdPositionImpl.Corner;
@@ -25,59 +36,65 @@ public class SpeakAndMoveScene extends EmptyScene {
 				.createSceneElement(CharacterScene.getStateDrawable(), 100, 300);
 
 		character.setScale(3.0f);
-		character.setPosition(new EAdPositionImpl(Corner.BOTTOM_CENTER, 400, 300));
+		character.setPosition(new EAdPositionImpl(Corner.BOTTOM_CENTER, 400,
+				400));
 
-		EAdSpeakEffect effect = EAdElementsFactory
+		EAdField<Integer> topField = new EAdFieldImpl<Integer>(character,
+				EAdBasicSceneElement.VAR_TOP);
+		EAdField<Integer> bottomField = new EAdFieldImpl<Integer>(character,
+				EAdBasicSceneElement.VAR_BOTTOM);
+		EAdField<Integer> leftField = new EAdFieldImpl<Integer>(character,
+				EAdBasicSceneElement.VAR_LEFT);
+		EAdField<Integer> rightField = new EAdFieldImpl<Integer>(character,
+				EAdBasicSceneElement.VAR_RIGHT);
+
+		EAdCondition c = new OperationCondition(new MathOperation("[0] / 2",
+				SystemFields.GUI_HEIGHT), new MathOperation("[0] ", topField),
+				Comparator.GREATER);
+
+		ConditionedOperation opY = new ConditionedOperation(c, topField,
+				bottomField);
+		EAdOperation opX = new MathOperation("([0] + [1] ) / 2", rightField,
+				leftField);
+
+		EAdSpeakEffect effect = new EAdSpeakEffect("speak");
+		effect.setPosition(opX, opY);
+		EAdElementsFactory
 				.getInstance()
-				.getEffectFactory()
-				.getSpeakEffect("Hey! Don't touch me, sir! Somebody said, it could be here. I can't count the reasons I should stay. I'm tired of wait and see... There's another way. Give me some love, somebody said, it could be here, but... I should stay. I'm tired of wait and see... There's another way. Give me some love, somebody said, it could be here, but... I should stay. I'm tired of wait and see... There's another way. Give me some love, somebody said, it could be here, but...",
-						character);
-		
-		effect.setBalloonType(BalloonType.ROUNDED_RECTANGLE);
+				.getStringFactory()
+				.setString(
+						effect.getString(),
+						"Hello, my friend. I have a loooooooooooooooooooooooooooooot of things to say. Will I be able to tell all in one only bubble? Yeah, I didn't think so. So let's move on to the next topic, shall we?Hello, my friend. I have a loooooooooooooooooooooooooooooot of things to say. Will I be able to tell all in one only bubble? Yeah, I didn't think so. So let's move on to the next topic, shall we?Hello, my friend. I have a loooooooooooooooooooooooooooooot of things to say. Will I be able to tell all in one only bubble? Yeah, I didn't think so. So let's move on to the next topic, shall we?Hello, my friend. I have a loooooooooooooooooooooooooooooot of things to say. Will I be able to tell all in one only bubble? Yeah, I didn't think so. So let's move on to the next topic, shall we?Hello, my friend. I have a loooooooooooooooooooooooooooooot of things to say. Will I be able to tell all in one only bubble? Yeah, I didn't think so. So let's move on to the next topic, shall we? Hello, my friend. I have a loooooooooooooooooooooooooooooot of things to say. Will I be able to tell all in one only bubble? Yeah, I didn't think so. So let's move on to the next topic, shall we?");
+		effect.setBalloonType(BalloonType.RECTANGLE);
+		effect.setFont(new EAdFontImpl(18));
 
 		character.addBehavior(EAdMouseEventImpl.MOUSE_LEFT_CLICK, effect);
-		
-		effect = EAdElementsFactory
-				.getInstance()
-				.getEffectFactory()
-				.getSpeakEffect("WHAT!",
-						character);
-		
-		effect.setBalloonType(BalloonType.ELECTRIC);
-
-		character.addBehavior(EAdMouseEventImpl.MOUSE_DRAG, effect);
-		
-		effect = EAdElementsFactory
-				.getInstance()
-				.getEffectFactory()
-				.getSpeakEffect("...Shhh. Silence...",
-						character);
-		
-		effect.setBalloonType(BalloonType.CLOUD);
-
-		character.addBehavior(EAdMouseEventImpl.MOUSE_RIGHT_CLICK, effect);
 
 		this.getElements().add(character);
 
-		EAdMakeActiveElementEffect makeActive = new EAdMakeActiveElementEffect(character);
+		EAdMakeActiveElementEffect makeActive = new EAdMakeActiveElementEffect(
+				character);
 
 		EAdSceneElementEvent event = new EAdSceneElementEventImpl(
 				"makeAcitveCharacter");
 		event.addEffect(SceneElementEvent.ADDED_TO_SCENE, makeActive);
 		character.getEvents().add(event);
 
-		setTrajectoryDefinition(new SimpleTrajectoryDefinition(false));
+//		setTrajectoryDefinition(new SimpleTrajectoryDefinition(false));
+
+		EAdMoveSceneElement move = new EAdMoveSceneElement("moveCharacter");
+		move.setTargetCoordiantes(SystemFields.MOUSE_X, SystemFields.MOUSE_Y);
 
 		getBackground().addBehavior(EAdMouseEventImpl.MOUSE_RIGHT_CLICK,
 				new EAdMoveActiveElement("moveCharacter"));
 	}
-	
+
 	@Override
 	public String getSceneDescription() {
 		return "A scene with a character moving and talking";
 	}
-	
-	public String getDemoName(){
+
+	public String getDemoName() {
 		return "Speak and Move Scene";
 	}
 

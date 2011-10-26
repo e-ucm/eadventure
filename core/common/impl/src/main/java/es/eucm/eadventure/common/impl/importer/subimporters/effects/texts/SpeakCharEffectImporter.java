@@ -134,9 +134,9 @@ public class SpeakCharEffectImporter extends
 		EAdField<Float> scale = new EAdFieldImpl<Float>(element,
 				EAdBasicSceneElement.VAR_SCALE);
 
-		effect.setPosition(x, y, dispX, dispY);
-		effect.setStateVar(state);
-		effect.setDimensions(width, height, scale);
+//		effect.setPosition(x, y, dispX, dispY);
+//		effect.setStateVar(state);
+//		effect.setDimensions(width, height, scale);
 
 		return effect;
 	}

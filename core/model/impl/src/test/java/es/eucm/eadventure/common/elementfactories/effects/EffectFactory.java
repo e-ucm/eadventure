@@ -40,22 +40,20 @@ package es.eucm.eadventure.common.elementfactories.effects;
 import es.eucm.eadventure.common.elementfactories.EAdElementsFactory;
 import es.eucm.eadventure.common.elementfactories.StringFactory.StringType;
 import es.eucm.eadventure.common.model.EAdElement;
-import es.eucm.eadventure.common.model.effects.impl.EAdChangeAppearance;
-import es.eucm.eadventure.common.model.effects.impl.EAdPlaySoundEffect;
 import es.eucm.eadventure.common.model.effects.impl.EAdInterpolationEffect;
 import es.eucm.eadventure.common.model.effects.impl.EAdInterpolationEffect.InterpolationType;
 import es.eucm.eadventure.common.model.effects.impl.EAdInterpolationEffect.LoopType;
+import es.eucm.eadventure.common.model.effects.impl.EAdPlaySoundEffect;
 import es.eucm.eadventure.common.model.effects.impl.text.EAdShowQuestion;
 import es.eucm.eadventure.common.model.effects.impl.text.EAdSpeakEffect;
 import es.eucm.eadventure.common.model.effects.impl.timedevents.EAdShowSceneElement;
 import es.eucm.eadventure.common.model.effects.impl.timedevents.EAdShowSceneElement.ShowTextAnimation;
 import es.eucm.eadventure.common.model.effects.impl.variables.EAdChangeFieldValueEffect;
 import es.eucm.eadventure.common.model.elements.EAdSceneElement;
-import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
 import es.eucm.eadventure.common.model.variables.EAdField;
 import es.eucm.eadventure.common.model.variables.EAdOperation;
-import es.eucm.eadventure.common.model.variables.impl.EAdFieldImpl;
 import es.eucm.eadventure.common.params.EAdString;
+import es.eucm.eadventure.common.predef.model.effects.EAdChangeAppearance;
 import es.eucm.eadventure.common.predef.model.effects.EAdMakeActiveElementEffect;
 import es.eucm.eadventure.common.resources.EAdBundleId;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.Caption;
@@ -129,25 +127,6 @@ public class EffectFactory {
 				"changeVarValue" + ID_GENERATOR++, var, operation);
 		return effect;
 
-	}
-
-	public EAdSpeakEffect getSpeakEffect(String text,
-			EAdSceneElement sceneElement) {
-		EAdSpeakEffect effect = new EAdSpeakEffect("speakEffect"
-				+ ID_GENERATOR++);
-		EAdElementsFactory.getInstance().getStringFactory().setString(effect.getString(), text);
-
-		effect.setPosition(new EAdFieldImpl<Integer>(sceneElement,
-				EAdBasicSceneElement.VAR_X), new EAdFieldImpl<Integer>(
-				sceneElement, EAdBasicSceneElement.VAR_Y),
-				new EAdFieldImpl<Float>(sceneElement,
-						EAdBasicSceneElement.VAR_DISP_X),
-				new EAdFieldImpl<Float>(sceneElement,
-						EAdBasicSceneElement.VAR_DISP_Y));
-		effect.setStateVar(new EAdFieldImpl<String>(sceneElement,
-				EAdBasicSceneElement.VAR_STATE));
-
-		return effect;
 	}
 
 	public EAdMakeActiveElementEffect getMakeActiveElement(

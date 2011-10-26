@@ -138,7 +138,7 @@ public class MoveSceneElementGO extends AbstractEffectGO<EAdMoveSceneElement> {
 			if (targetX != x) {
 				EAdEffect interpolation = new EAdInterpolationEffect(
 						new EAdFieldImpl<Integer>(a.getElement(),
-								EAdBasicSceneElement.VAR_X), x, targetX,
+								EAdBasicSceneElement.VAR_X), 0, targetX - x,
 						timeToFinish, LoopType.NO_LOOP);
 				EffectGO<EAdEffect> effectGO = (EffectGO<EAdEffect>) gameObjectFactory
 						.get(interpolation);
@@ -152,7 +152,7 @@ public class MoveSceneElementGO extends AbstractEffectGO<EAdMoveSceneElement> {
 			if (targetY != y) {
 				EAdEffect interpolation = new EAdInterpolationEffect(
 						new EAdFieldImpl<Integer>(a.getElement(),
-								EAdBasicSceneElement.VAR_Y), y, targetY,
+								EAdBasicSceneElement.VAR_Y), 0, targetY - y,
 						timeToFinish, LoopType.NO_LOOP);
 				EffectGO<EAdEffect> effectGO = (EffectGO<EAdEffect>) gameObjectFactory
 						.get(interpolation);

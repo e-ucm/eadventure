@@ -28,6 +28,8 @@ import es.eucm.eadventure.engine.core.operator.OperatorFactory;
 import es.eucm.eadventure.engine.core.operators.impl.OperatorFactoryImpl;
 import es.eucm.eadventure.engine.core.platform.FontHandler;
 import es.eucm.eadventure.engine.core.platform.impl.FontHandlerImpl;
+import es.eucm.eadventure.engine.core.trajectories.TrajectoryFactory;
+import es.eucm.eadventure.engine.core.trajectories.impl.TrajectoryFactoryImpl;
 
 public class BasicGameModule extends AbstractGinModule {
 
@@ -37,7 +39,7 @@ public class BasicGameModule extends AbstractGinModule {
 		install(new GameObjectFactoryModule());
 		bind(EvaluatorFactory.class).to(EvaluatorFactoryImpl.class).in(Singleton.class);
 		bind(OperatorFactory.class).to(OperatorFactoryImpl.class).in(Singleton.class);
-		install(new TrajectoryFactoryModule());
+		bind(TrajectoryFactory.class).to(TrajectoryFactoryImpl.class).in(Singleton.class);
 		
 		bind(ValueMap.class).to(VariableMap.class).in(Singleton.class);
 		bind(GameState.class).to(GameStateImpl.class).in(Singleton.class);

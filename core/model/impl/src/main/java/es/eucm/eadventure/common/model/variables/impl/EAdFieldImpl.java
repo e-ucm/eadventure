@@ -1,11 +1,14 @@
 package es.eucm.eadventure.common.model.variables.impl;
 
+import com.gwtent.reflection.client.Reflectable;
+
 import es.eucm.eadventure.common.interfaces.Element;
 import es.eucm.eadventure.common.interfaces.Param;
 import es.eucm.eadventure.common.model.EAdElement;
 import es.eucm.eadventure.common.model.variables.EAdField;
 import es.eucm.eadventure.common.model.variables.EAdVarDef;
 
+@Reflectable
 @Element(detailed = EAdFieldImpl.class, runtime = EAdFieldImpl.class)
 public class EAdFieldImpl<T> implements EAdField<T> {
 
@@ -15,25 +18,12 @@ public class EAdFieldImpl<T> implements EAdField<T> {
 	@Param("variable")
 	private EAdVarDef<T> varDef;
 
-	@Param("elementField")
-	private EAdField<EAdElement> elementField;
-
 	public EAdFieldImpl() {
 
 	}
 
-	@SuppressWarnings("unchecked")
 	public EAdFieldImpl(EAdElement element, EAdVarDef<T> varDef) {
-		if (element instanceof EAdField) {
-			this.elementField = (EAdField<EAdElement>) element;
-		} else
-			this.element = element;
-		this.varDef = varDef;
-	}
-
-	public EAdFieldImpl(EAdFieldImpl<EAdElement> elementField,
-			EAdVarDef<T> varDef) {
-		this.elementField = elementField;
+		this.element = element;
 		this.varDef = varDef;
 	}
 
@@ -64,11 +54,9 @@ public class EAdFieldImpl<T> implements EAdField<T> {
 		EAdFieldImpl<T> f = new EAdFieldImpl<T>();
 		if (deepCopy) {
 			f.element = element.copy();
-			f.elementField = (EAdFieldImpl<EAdElement>) elementField.copy();
 			f.varDef = (EAdVarDef<T>) varDef.copy();
 		} else {
 			f.element = element;
-			f.elementField = elementField;
 			f.varDef = varDef;
 		}
 		return f;
@@ -84,11 +72,6 @@ public class EAdFieldImpl<T> implements EAdField<T> {
 
 	public String toString() {
 		return element + "." + varDef.getName();
-	}
-
-	@Override
-	public EAdField<EAdElement> getElementField() {
-		return elementField;
 	}
 
 }

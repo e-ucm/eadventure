@@ -89,7 +89,7 @@ public class ValueMapImpl implements ValueMap {
 				value.getClass())) {
 
 			Map<EAdVarDef<?>, Object> valMap = element == null ? systemVars
-					: map.get(getElement(element));
+					: map.get(getFinalElement(element));
 			if (valMap == null) {
 				valMap = new HashMap<EAdVarDef<?>, Object>();
 				map.put(element, valMap);
@@ -105,11 +105,12 @@ public class ValueMapImpl implements ValueMap {
 
 	@Override
 	public void setValue(EAdField<?> field, Object value) {
-		setValue(getElement(field), field.getVarDefinition(), value);
+		setValue(field.getElement(), field.getVarDefinition(), value);
 	}
 
 	public void setValue(EAdField<?> var, EAdOperation operation) {
-		operatorFactory.operate(var, operation);
+		operatorFactory.operate(var.getElement(), var.getVarDefinition(),
+				operation);
 	}
 
 	@Override
@@ -121,14 +122,14 @@ public class ValueMapImpl implements ValueMap {
 
 	@Override
 	public <S> S getValue(EAdField<S> var) {
-		return getValue(getElement(var), var.getVarDefinition());
+		return getValue(var.getElement(), var.getVarDefinition());
 	}
 
 	@SuppressWarnings("unchecked")
 	@Override
 	public <S> S getValue(EAdElement element, EAdVarDef<S> varDef) {
 		Map<EAdVarDef<?>, Object> valMap = element == null ? systemVars : map
-				.get(getElement(element));
+				.get(getFinalElement(element));
 		if (valMap == null) {
 			// If the variable has not been set, returns the initial value
 			return varDef.getInitialValue();
@@ -144,21 +145,21 @@ public class ValueMapImpl implements ValueMap {
 
 	@Override
 	public void remove(EAdElement element) {
-		map.remove(getElement(element));
+		map.remove(getFinalElement(element));
 	}
 
 	public Map<EAdVarDef<?>, Object> getElementVars(EAdElement element) {
-		return element == null ? systemVars : map.get(getElement(element));
+		return element == null ? systemVars : map.get(getFinalElement(element));
 	}
 
-	private EAdElement getElement(EAdElement element) {
-		if (element instanceof EAdField<?>) {
+	public EAdElement getFinalElement(EAdElement element) {
+		if (element != null
+				&& element instanceof EAdField<?>
+				&& reflectionProvider.isAssignableFrom(EAdElement.class,
+						((EAdField<?>) element).getVarDefinition().getType())) {
 			EAdField<?> field = (EAdField<?>) element;
-			if (field.getElement() == null && field.getElementField() == null)
-				// System variable
-				return null;
-			return field.getElement() != null ? field.getElement()
-					: getValue(field.getElementField());
+			return (EAdElement) getValue(field.getElement(),
+					field.getVarDefinition());
 		} else
 			return element;
 	}

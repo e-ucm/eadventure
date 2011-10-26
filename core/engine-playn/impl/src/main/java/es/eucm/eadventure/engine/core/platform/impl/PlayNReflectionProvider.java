@@ -34,4 +34,9 @@ public class PlayNReflectionProvider implements ReflectionProvider {
 		return false;
 	}
 
+	@Override
+	public Class<?> getSuperclass(Class<?> c) {
+		return ClassHelper.AsClass(c).getSuperclass();
+	}
+
 }

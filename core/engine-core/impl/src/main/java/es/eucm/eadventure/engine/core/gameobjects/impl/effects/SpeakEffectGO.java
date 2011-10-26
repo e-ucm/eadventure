@@ -5,24 +5,23 @@ import com.google.inject.Inject;
 import es.eucm.eadventure.common.model.effects.impl.text.EAdSpeakEffect;
 import es.eucm.eadventure.common.model.elements.EAdSceneElement;
 import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
-import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement.CommonStates;
 import es.eucm.eadventure.common.model.elements.impl.EAdComplexElementImpl;
 import es.eucm.eadventure.common.model.guievents.EAdMouseEvent.MouseActionType;
-import es.eucm.eadventure.common.params.geom.EAdPosition;
+import es.eucm.eadventure.common.model.variables.impl.SystemFields;
+import es.eucm.eadventure.common.params.fills.impl.EAdColor;
 import es.eucm.eadventure.common.params.geom.impl.EAdPositionImpl;
 import es.eucm.eadventure.common.resources.StringHandler;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.CaptionImpl;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.shapes.BallonShape;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.shapes.BezierShape;
 import es.eucm.eadventure.engine.core.GameState;
-import es.eucm.eadventure.engine.core.ValueMap;
 import es.eucm.eadventure.engine.core.gameobjects.GameObjectFactory;
 import es.eucm.eadventure.engine.core.gameobjects.SceneElementGO;
 import es.eucm.eadventure.engine.core.guiactions.GUIAction;
 import es.eucm.eadventure.engine.core.guiactions.MouseAction;
+import es.eucm.eadventure.engine.core.operator.OperatorFactory;
 import es.eucm.eadventure.engine.core.platform.AssetHandler;
 import es.eucm.eadventure.engine.core.platform.GUI;
-import es.eucm.eadventure.engine.core.platform.PlatformConfiguration;
 import es.eucm.eadventure.engine.core.platform.assets.impl.RuntimeCaption;
 import es.eucm.eadventure.engine.core.util.EAdTransformation;
 
@@ -40,18 +39,16 @@ public class SpeakEffectGO extends AbstractEffectGO<EAdSpeakEffect> {
 
 	private boolean finished;
 
-	private String previousState;
-
 	private EAdBasicSceneElement textSE;
-
-	private PlatformConfiguration platformConfiguration;
+	
+	private OperatorFactory operatorFactory;
 	
 	@Inject
 	public SpeakEffectGO(AssetHandler assetHandler,
 			StringHandler stringHandler, GameObjectFactory gameObjectFactory,
-			GUI gui, GameState gameState, PlatformConfiguration platformConfiguration) {
+			GUI gui, GameState gameState, OperatorFactory operatorFactory) {
 		super(assetHandler, stringHandler, gameObjectFactory, gui, gameState);
-		this.platformConfiguration = platformConfiguration;
+		this.operatorFactory = operatorFactory;
 	}
 
 	@Override
@@ -75,19 +72,12 @@ public class SpeakEffectGO extends AbstractEffectGO<EAdSpeakEffect> {
 		super.initilize();
 		finished = false;
 		ballon = (SceneElementGO<?>) gameObjectFactory.get(getSceneElement());
-
-		if (element.getStateVar() != null) {
-			previousState = gameState.getValueMap().getValue(element.getStateVar());
-			gameState.getValueMap().setValue(element.getStateVar(),
-					CommonStates.EAD_STATE_TALKING.toString());
-		}
-
 	}
 
 	private EAdSceneElement getSceneElement() {
 		//TODO Check if necessary to use platform configuration
-		int width = platformConfiguration.getVirtualWidth();
-		int height = platformConfiguration.getVirtualHeight();
+		int width = gameState.getValueMap().getValue(SystemFields.GUI_WIDTH);
+		int height = gameState.getValueMap().getValue(SystemFields.GUI_HEIGHT);
 		int horizontalMargin = width / MARGIN_PROPORTION;
 		int verticalMargin = height / MARGIN_PROPORTION;
 		int left = horizontalMargin;
@@ -98,30 +88,8 @@ public class SpeakEffectGO extends AbstractEffectGO<EAdSpeakEffect> {
 		BezierShape rectangle = null;
 
 		if (element.getX() != null && element.getY() != null) {
-			ValueMap valueMap = gameState.getValueMap();
-			int x = valueMap.getValue(element.getX());
-			int y = valueMap.getValue(element.getY());
-			float dispX = element.getDispX() == null ? 0 : valueMap
-					.getValue(element.getDispX());
-			float dispY = element.getDispY() == null ? 0 : valueMap
-					.getValue(element.getDispY());
-			EAdPosition pos = new EAdPositionImpl(x, y, dispX, dispY);
-			float scale = element.getScale() == null ? 1 : valueMap
-					.getValue(element.getScale());
-			int elementWidth = (int) ((element.getWidth() == null ? 0
-					: valueMap.getValue(element.getWidth())) * scale);
-			int elementHeight = (int) ((element.getHeight() == null ? 0
-					: valueMap.getValue(element.getHeight())) * scale);
-			int xOrigin = pos.getJavaX(elementWidth) + elementWidth / 2;
-			int yOrigin = pos.getJavaY(elementHeight);
-
-			if (yOrigin + elementHeight / 2 < height / 2) {
-				int offsetY = height - (bottom - top) - horizontalMargin * 2;
-				top += offsetY;
-				bottom += offsetY;
-				yOrigin += elementHeight;
-			}
-
+			Integer xOrigin = operatorFactory.operate(Integer.class, element.getX());
+			Integer yOrigin = operatorFactory.operate(Integer.class, element.getY());
 			rectangle = new BallonShape(left, top, right, bottom,
 					element.getBallonType(), xOrigin, yOrigin);
 		} else {
@@ -134,6 +102,8 @@ public class SpeakEffectGO extends AbstractEffectGO<EAdSpeakEffect> {
 
 		rectangle.setPaint(element.getBubbleColor());
 		CaptionImpl text = new CaptionImpl(element.getString());
+		text.setPadding(MARGIN);
+		text.setBubblePaint(EAdColor.RED);
 		text.setTextPaint(element.getTextColor());
 		text.setMaximumWidth(right - left - MARGIN * 2);
 		text.setMaximumHeight(bottom - top - MARGIN * 2);
@@ -142,7 +112,7 @@ public class SpeakEffectGO extends AbstractEffectGO<EAdSpeakEffect> {
 		textSE = new EAdBasicSceneElement("text");
 		textSE.getResources().addAsset(textSE.getInitialBundle(),
 				EAdBasicSceneElement.appearance, text);
-		textSE.setPosition(new EAdPositionImpl(left + MARGIN, top));
+		textSE.setPosition(new EAdPositionImpl(left, top));
 
 		EAdComplexElementImpl complex = new EAdComplexElementImpl("complex");
 		complex.getResources().addAsset(complex.getInitialBundle(),
@@ -174,14 +144,6 @@ public class SpeakEffectGO extends AbstractEffectGO<EAdSpeakEffect> {
 		super.update();
 		ballon.update();
 		finished = finished || caption.getTimesRead() > 0;
-	}
-
-	@Override
-	public void finish() {
-		super.finish();
-		if (element.getStateVar() != null) {
-			gameState.getValueMap().setValue(element.getStateVar(), previousState);
-		}
 	}
 
 }

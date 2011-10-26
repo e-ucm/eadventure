@@ -3,6 +3,7 @@ package es.eucm.eadventure.engine.core.platform.impl;
 import com.google.gwt.inject.client.GinModules;
 import com.google.gwt.inject.client.Ginjector;
 
+import es.eucm.eadventure.common.resources.StringHandler;
 import es.eucm.eadventure.engine.core.Game;
 import es.eucm.eadventure.engine.core.MouseState;
 import es.eucm.eadventure.engine.core.gameobjects.TimerGO;
@@ -12,7 +13,6 @@ import es.eucm.eadventure.engine.core.gameobjects.impl.SceneGOImpl;
 import es.eucm.eadventure.engine.core.gameobjects.impl.effects.ActiveElementEffectGO;
 import es.eucm.eadventure.engine.core.gameobjects.impl.effects.ActorActionsEffectGO;
 import es.eucm.eadventure.engine.core.gameobjects.impl.effects.CancelEffectGO;
-import es.eucm.eadventure.engine.core.gameobjects.impl.effects.ChangeAppearanceGO;
 import es.eucm.eadventure.engine.core.gameobjects.impl.effects.ChangeFieldGO;
 import es.eucm.eadventure.engine.core.gameobjects.impl.effects.ChangeSceneGO;
 import es.eucm.eadventure.engine.core.gameobjects.impl.effects.ComplexBlockingEffectGO;
@@ -56,7 +56,6 @@ public interface PlayNGinInjector extends Ginjector {
 	public ActiveElementEffectGO getActiveElementEffectGO();
 	public ActorActionsEffectGO getActorActionEffectGO();
 	public CancelEffectGO getCancelEffectGO();
-	public ChangeAppearanceGO getChangeAppearanceGO();
 	public ChangeSceneGO getChangeSceneGO();
 	public ChangeFieldGO getChangeFieldGO();
 	public ComplexBlockingEffectGO getComplexBlockingEffectGO();
@@ -90,6 +89,8 @@ public interface PlayNGinInjector extends Ginjector {
 	public PlayNEngineImage getPlayNEngineImage();
 
 	public AssetHandler getAssetHandler();
+	
+	public StringHandler getStringHandler();
 
 	public MouseState getMouseState();
 

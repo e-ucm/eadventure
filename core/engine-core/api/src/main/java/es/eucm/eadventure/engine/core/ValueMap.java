@@ -137,4 +137,6 @@ public interface ValueMap {
 	 */
 	void remove(EAdElement element);
 
+	EAdElement getFinalElement(EAdElement element);
+
 }

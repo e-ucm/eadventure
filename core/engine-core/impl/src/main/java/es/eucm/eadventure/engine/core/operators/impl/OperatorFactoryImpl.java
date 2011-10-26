@@ -69,8 +69,8 @@ public class OperatorFactoryImpl extends AbstractFactory<Operator<?>> implements
 
 	public void install(ValueMap valueMap, EvaluatorFactory evaluatorFactory) {
 		this.valueMap = valueMap;
-		setMap(new OperatorFactoryMapProvider(evaluatorFactory, valueMap,
-				interfacesProvider));
+		setMap(new OperatorFactoryMapProvider(this, evaluatorFactory, valueMap,
+				reflectionProvider));
 	}
 
 	@Override

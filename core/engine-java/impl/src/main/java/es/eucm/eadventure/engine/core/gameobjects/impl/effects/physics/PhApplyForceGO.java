@@ -26,8 +26,7 @@ public class PhApplyForceGO extends AbstractEffectGO<PhApplyImpluse> {
 	@Inject
 	public PhApplyForceGO(AssetHandler assetHandler,
 			StringHandler stringsReader, GameObjectFactory gameObjectFactory,
-			GUI gui, GameState gameState,
-			OperatorFactory operatorFactory) {
+			GUI gui, GameState gameState, OperatorFactory operatorFactory) {
 		super(assetHandler, stringsReader, gameObjectFactory, gui, gameState);
 		this.operatorFactory = operatorFactory;
 	}
@@ -49,13 +48,18 @@ public class PhApplyForceGO extends AbstractEffectGO<PhApplyImpluse> {
 						EAdPhysicsEffect.VAR_PH_SHAPE, PhShape.CIRCULAR);
 				valueMap.setValue(element.getSceneElement(),
 						EAdPhysicsEffect.VAR_PH_RESTITUTION, 0.3f);
+				valueMap.setValue(element.getSceneElement(),
+						EAdPhysicsEffect.VAR_PH_FRICTION, 0.1f);
+				valueMap.setValue(element.getSceneElement(),
+						EAdPhysicsEffect.VAR_PH_DENSITY, 1.0f);
 				PhysicsEffectGO.createBody(w, element.getSceneElement(),
 						valueMap);
 				b = valueMap.getValue(element.getSceneElement(),
 						PhysicsEffectGO.VAR_PH_BODY);
 				if (b != null) {
 					b.setType(BodyType.DYNAMIC);
-					b.applyLinearImpulse(new Vec2(x, y), b.getWorldCenter());
+//					b.setLinearVelocity();
+					b.applyForce(new Vec2(600, 100), b.getWorldCenter());
 				}
 			}
 		}

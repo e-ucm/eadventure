@@ -104,9 +104,7 @@ public class StringFactory {
 					StringType.values()[i++].getString());
 		}
 
-		for (EAdString string : userStrings.keySet()) {
-			shstrings.put(string, userStrings.get(string));
-		}
+		shstrings.putAll(userStrings);
 		return shstrings;
 	}
 

@@ -107,8 +107,8 @@ public class EAdListImpl<P> implements EAdList<P> {
 		return elements.remove(e);
 	}
 
-	public void remove(int index) {
-		this.elements.remove(index);
+	public P remove(int index) {
+		return elements.remove(index);
 	}
 
 	public int size() {

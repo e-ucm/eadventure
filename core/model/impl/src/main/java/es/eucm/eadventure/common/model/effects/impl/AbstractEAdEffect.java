@@ -82,6 +82,9 @@ public abstract class AbstractEAdEffect extends AbstractEAdConditionedElement
 	@Param("initialVars")
 	private EAdMap<EAdVarDef<?>, Object> initialVars;
 
+	@Param("nextEffects")
+	private EAdList<EAdEffect> nextEffects;
+
 	/**
 	 * Creates an non-blocking and non-opaque effect with next effects list
 	 * empty
@@ -99,6 +102,7 @@ public abstract class AbstractEAdEffect extends AbstractEAdConditionedElement
 		events = new EAdListImpl<EAdEvent>(EAdEvent.class);
 		initialVars = new EAdMapImpl<EAdVarDef<?>, Object>(EAdVarDef.class,
 				Object.class);
+		nextEffects = new EAdListImpl<EAdEffect>(EAdEffect.class);
 	}
 
 	public AbstractEAdEffect() {
@@ -166,6 +170,10 @@ public abstract class AbstractEAdEffect extends AbstractEAdConditionedElement
 
 	public <T> void setVarInitialValue(EAdVarDef<T> var, T value) {
 		initialVars.put(var, value);
+	}
+
+	public EAdList<EAdEffect> getFinalEffects() {
+		return nextEffects;
 	}
 
 }

@@ -123,6 +123,9 @@ public abstract class AbstractEffectGO<P extends EAdEffect> extends
 		stopped = true;
 		gameState.getValueMap().remove(element);
 		gameObjectFactory.remove(element);
+		for ( EAdEffect e: element.getFinalEffects() ){
+			gameState.addEffect(e, action, parent);
+		}
 	}
 
 	public void setGUIAction(GUIAction action) {
