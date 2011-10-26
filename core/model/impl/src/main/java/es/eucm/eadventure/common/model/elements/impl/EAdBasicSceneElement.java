@@ -48,13 +48,15 @@ import es.eucm.eadventure.common.model.variables.EAdVarDef;
 import es.eucm.eadventure.common.model.variables.impl.EAdVarDefImpl;
 import es.eucm.eadventure.common.params.EAdString;
 import es.eucm.eadventure.common.params.geom.EAdPosition;
+import es.eucm.eadventure.common.params.geom.impl.EAdPositionImpl;
+import es.eucm.eadventure.common.params.geom.impl.EAdPositionImpl.Corner;
 import es.eucm.eadventure.common.resources.annotation.Asset;
 import es.eucm.eadventure.common.resources.annotation.Bundled;
 import es.eucm.eadventure.common.resources.assets.drawable.Drawable;
 
 @Element(detailed = EAdBasicSceneElement.class, runtime = EAdBasicSceneElement.class)
-public class EAdBasicSceneElement extends EAdSceneElementDefImpl
-		implements EAdSceneElement {
+public class EAdBasicSceneElement extends EAdSceneElementDefImpl implements
+		EAdSceneElement {
 
 	public static final EAdVarDef<Orientation> VAR_ORIENTATION = new EAdVarDefImpl<Orientation>(
 			"orientation", Orientation.class, Orientation.S);
@@ -73,7 +75,7 @@ public class EAdBasicSceneElement extends EAdSceneElementDefImpl
 
 	public static final EAdVarDef<Boolean> VAR_VISIBLE = new EAdVarDefImpl<Boolean>(
 			"visible", Boolean.class, Boolean.TRUE);
-	
+
 	public static final EAdVarDef<Boolean> VAR_ENABLE = new EAdVarDefImpl<Boolean>(
 			"enable", Boolean.class, Boolean.TRUE);
 
@@ -82,7 +84,7 @@ public class EAdBasicSceneElement extends EAdSceneElementDefImpl
 
 	public static final EAdVarDef<Integer> VAR_Y = new EAdVarDefImpl<Integer>(
 			"y", Integer.class, 0);
-	
+
 	public static final EAdVarDef<Integer> VAR_LEFT = new EAdVarDefImpl<Integer>(
 			"left", Integer.class, 0);
 
@@ -94,7 +96,7 @@ public class EAdBasicSceneElement extends EAdSceneElementDefImpl
 
 	public static final EAdVarDef<Integer> VAR_BOTTOM = new EAdVarDefImpl<Integer>(
 			"bottom", Integer.class, 0);
-	
+
 	public static final EAdVarDef<Integer> VAR_Z = new EAdVarDefImpl<Integer>(
 			"z", Integer.class, 0);
 
@@ -125,7 +127,7 @@ public class EAdBasicSceneElement extends EAdSceneElementDefImpl
 
 	@Param("definitino")
 	private EAdSceneElementDef definition;
-	
+
 	private boolean clone;
 
 	public EAdBasicSceneElement(String id) {
@@ -133,11 +135,11 @@ public class EAdBasicSceneElement extends EAdSceneElementDefImpl
 		vars = new EAdMapImpl<EAdVarDef<?>, Object>(EAdVarDef.class,
 				Object.class);
 	}
-	
-	public boolean isClone(){
+
+	public boolean isClone() {
 		return clone;
 	}
-	
+
 	public void setClone(boolean b) {
 		this.clone = b;
 	}
@@ -157,7 +159,7 @@ public class EAdBasicSceneElement extends EAdSceneElementDefImpl
 	}
 
 	public EAdBasicSceneElement(EAdSceneElementDef actor) {
-		this( actor.getId() + "_ref" );
+		this(actor.getId() + "_ref");
 		this.definition = actor;
 	}
 
@@ -202,11 +204,15 @@ public class EAdBasicSceneElement extends EAdSceneElementDefImpl
 		vars.put(VAR_Y, y);
 	}
 
+	public void setPosition(Corner corner, int x, int y) {
+		setPosition(EAdPositionImpl.volatileEAdPosition(corner, x, y));
+	}
+
 	@Override
 	public EAdSceneElementDef getDefinition() {
 		return definition == null ? this : definition;
 	}
-	
+
 	/**
 	 * An enumerate with common states for scene elements
 	 * 
@@ -237,7 +243,7 @@ public class EAdBasicSceneElement extends EAdSceneElementDefImpl
 
 	public void setDefinition(EAdSceneElementDefImpl def) {
 		this.definition = def;
-		
+
 	}
 
 }

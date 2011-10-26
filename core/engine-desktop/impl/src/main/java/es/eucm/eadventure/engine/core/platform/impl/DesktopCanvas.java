@@ -81,7 +81,7 @@ public class DesktopCanvas extends AbstractCanvas<Graphics2D> {
 
 	@Override
 	public void drawText(String str, int x, int y) {
-		y += (g.getFontMetrics().getAscent() - g.getFontMetrics().getDescent() );
+		y += (g.getFontMetrics().getAscent() - g.getFontMetrics().getDescent());
 		// Border
 		if (paint.getBorder() != null && paint.getBorderWidth() > 0) {
 			int w = paint.getBorderWidth();
@@ -113,6 +113,15 @@ public class DesktopCanvas extends AbstractCanvas<Graphics2D> {
 	}
 
 	private Paint getPaint(EAdFill fill) {
+		// FIXME without this, elements sharing gradient has weird effect (like
+		// if they shared the same gradient)
+		if (fill instanceof EAdLinearGradient) {
+			EAdLinearGradient gradient = (EAdLinearGradient) fill;
+			Color c1 = (Color) getPaint(gradient.getColor1());
+			Color c2 = (Color) getPaint(gradient.getColor2());
+			return new GradientPaint(gradient.getX0(), gradient.getY0(), c1,
+					gradient.getX1(), gradient.getY1(), c2);
+		}
 		Paint p = fillCache.get(fill);
 		if (p == null) {
 			if (fill instanceof EAdColor) {
