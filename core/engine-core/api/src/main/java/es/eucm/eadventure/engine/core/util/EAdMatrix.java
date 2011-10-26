@@ -1,30 +1,36 @@
 package es.eucm.eadventure.engine.core.util;
 
-
-
+/**
+ * Generic Java matrix definition, used for transformations
+ */
 public interface EAdMatrix {
 	
+	/**
+	 * [0 3 6]
+	 * [1 4 7]
+	 * [2 5 8]
+	 * 
+	 * @return the matrix itself
+	 */
 	float[] getFlatMatrix();
 	
+	/**
+	 * @return a transposed version of the values in the matrix
+	 */
 	float[] getTransposedMatrix();
 	
+	/**
+	 * @return the inverse matrix
+	 */
 	float[] getInversedMatrix();
 	
-	void postTranslate( float x, float y );
+	void translate( float x, float y, boolean post );
 	
-	void preTranslate( float x, float y );
+	void rotate( float angle, boolean post );
 	
-	void postRotate( float angle );
+	void scale( float scaleX, float scaleY, boolean post );
 	
-	void preRotate( float angle );
-	
-	void postScale( float scaleX, float scaleY );
-	
-	void preScale( float scaleX, float scaleY );
-	
-	void preMultiply( float m[] );
-	
-	void postMultiply( float m[] );
+	void multiply( float m[], boolean post );
 	
 	float getOffsetX();
 	
@@ -32,12 +38,8 @@ public interface EAdMatrix {
 	
 	void setIdentity();
 
-	float[] postMultiplyPoint(float x, float y);
+	float[] multiplyPoint(float x, float y, boolean post);
 	
-	float[] preMultiplyPoint( float x, float y);
-	
-	float[] preMultiplyPointInverse( float x, float y );
-	
-	float[] postMultiplyPointInverse( float x, float y );
+	float[] multiplyPointInverse( float x, float y, boolean post);
 
 }

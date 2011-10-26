@@ -146,19 +146,49 @@ public interface GameState {
 	 */
 	void setActiveElement(EAdSceneElement activeElement);
 
+	/**
+	 * @return the {@link EAdScene} previously visible in the game
+	 */
 	EAdScene getPreviousScene();
 
+	/**
+	 * @return the list of {@EAdSceneElementDef}s that were
+	 *         removed from the game
+	 */
 	List<EAdSceneElementDef> getRemovedActors();
 
+	/**
+	 * @return the list of {@EAdSceneElementDef}s that were
+	 *         placed in the inventory
+	 */
 	List<EAdSceneElementDef> getInventoryActors();
 
+	/**
+	 * @return the currently active {@link EAdChapter} of the game
+	 */
 	EAdChapter getCurrentChapter();
 
+	/**
+	 * @param currentChapter
+	 *            the new active {@link EAdChapter} in the game
+	 */
 	void setCurrentChapter(EAdChapter currentChapter);
 
+	/**
+	 * @return true if the game loop is paused
+	 */
 	boolean isPaused();
 
+	/**
+	 * Change the paused status of the game loop
+	 * 
+	 * @param paused
+	 */
 	void setPaused(boolean paused);
 
+	/**
+	 * @param initialScene
+	 *            The initial scene in the game
+	 */
 	void setInitialScene(EAdScene initialScene);
 }

@@ -186,8 +186,8 @@ public class BasicHUDImpl implements BasicHUD {
 		if (mouseState.getDraggingGameObject() != null && mouseState.isInside()) {
 			GameObject<?> draggedGO = mouseState.getDraggingGameObject();
 			EAdTransformation t = (EAdTransformation) transformation.clone();
-			t.getMatrix().preTranslate(mouseState.getDragDifX(),
-					mouseState.getDragDifY());
+			t.getMatrix().translate(mouseState.getDragDifX(),
+					mouseState.getDragDifY(), false);
 			gui.addElement(draggedGO, t);
 		}
 	}

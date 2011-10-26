@@ -127,9 +127,9 @@ public class GameImpl implements Game {
 		this.basicHud = basicHUD;
 		this.valueMap = valueMap;
 		this.mouseState = mouseState;
-		initialTransformation.getMatrix().postScale(
+		initialTransformation.getMatrix().scale(
 				(float) platformConfiguration.getScale(),
-				(float) platformConfiguration.getScale());
+				(float) platformConfiguration.getScale(), true);
 	}
 
 	@Override
@@ -161,8 +161,8 @@ public class GameImpl implements Game {
 	private void updateSystemVars() {
 		// Mouse
 		float mouse[] = initialTransformation.getMatrix()
-				.postMultiplyPointInverse(mouseState.getMouseX(),
-						mouseState.getMouseY());
+				.multiplyPointInverse(mouseState.getMouseX(),
+						mouseState.getMouseY(), true);
 		valueMap.setValue(SystemFields.MOUSE_X, (int) mouse[0]);
 		valueMap.setValue(SystemFields.MOUSE_Y, (int) mouse[1]);
 

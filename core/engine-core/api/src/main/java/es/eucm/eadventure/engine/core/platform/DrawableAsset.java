@@ -69,8 +69,15 @@ public interface DrawableAsset<T extends Drawable> extends RuntimeAsset<T> {
 	 * {@link DrawableAsset}
 	 */
 	<S extends Drawable> DrawableAsset<S> getDrawable();
-	
-	void render( EAdCanvas<?> canvas );
+
+	/**
+	 * Render the asset at (0, 0) position (transformations are applied in the
+	 * canvas)
+	 * 
+	 * @param canvas
+	 *            The canvas where to render the asset
+	 */
+	void render(EAdCanvas<?> canvas);
 
 	/**
 	 * Returns if this asset contains the given coordinates

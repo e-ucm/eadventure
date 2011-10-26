@@ -46,7 +46,5 @@ public interface SceneGO<T extends EAdScene> extends GameObject<T>, Renderable {
 	 * @return true if this screen can display effects
 	 */
 	boolean acceptsVisualEffects();
-
-	void update();
 	
 }
