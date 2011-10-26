@@ -94,7 +94,7 @@ public class BasicHUDImpl implements BasicHUD {
 
 	private GameObjectFactory gameObjectFactory;
 
-	private GameState gameState;
+	protected GameState gameState;
 
 	private GameObjectManager gameObjectManager;
 
