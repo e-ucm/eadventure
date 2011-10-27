@@ -54,7 +54,7 @@ public interface Caption extends BasicDrawable {
 	 * Constant that can be used to define infinite maximum width/height for the
 	 * caption
 	 */
-	public static final int INFINITE_SIZE = -1;
+	public static final int AUTO_SIZE = -1;
 
 	/**
 	 * Constant that can be used to define infinite maximum/minimum width/height
@@ -105,40 +105,22 @@ public interface Caption extends BasicDrawable {
 	public EAdPaint getBubblePaint();
 
 	/**
-	 * Returns the maximum width for this text, and integer greater than zero,
-	 * or the constants {@link Caption#INFINITE_SIZE} or
+	 * Returns the preferred width for this text, and integer greater than zero,
+	 * or the constants {@link Caption#AUTO_SIZE} or
 	 * {@link Caption#SCREEN_SIZE}
 	 * 
 	 * @return
 	 */
-	int getMaximumWidth();
+	int getPreferredWidth();
 
 	/**
-	 * Returns the maximum height for this text, and integer greater than zero,
-	 * or the constants {@link Caption#INFINITE_SIZE} or
+	 * Returns the preferred height for this text, and integer greater than zero,
+	 * or the constants {@link Caption#AUTO_SIZE} or
 	 * {@link Caption#SCREEN_SIZE}
 	 * 
 	 * @return
 	 */
-	int getMaximumHeight();
-
-	/**
-	 * Returns the minimum width for this text, and integer greater than zero,
-	 * or the constants {@link Caption#INFINITE_SIZE} or
-	 * {@link Caption#SCREEN_SIZE}
-	 * 
-	 * @return
-	 */
-	int getMinimumWidth();
-
-	/**
-	 * Returns the minimum height for this text, and integer greater than zero,
-	 * or the constants {@link Caption#INFINITE_SIZE} or
-	 * {@link Caption#SCREEN_SIZE}
-	 * 
-	 * @return
-	 */
-	int getMinimumHeight();
+	int getPreferredHeight();
 
 	/**
 	 * Returns a list of fields to be shown within this caption. "#0" in the

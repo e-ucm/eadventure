@@ -8,7 +8,7 @@ import playn.html.HtmlPlatform;
 import com.google.gwt.core.client.GWT;
 
 import es.eucm.eadventure.common.elementfactories.EAdElementsFactory;
-import es.eucm.eadventure.common.elementfactories.scenedemos.SpeakAndMoveScene;
+import es.eucm.eadventure.common.elementfactories.scenedemos.CharacterScene;
 import es.eucm.eadventure.common.model.elements.EAdAdventureModel;
 import es.eucm.eadventure.common.model.elements.EAdScene;
 import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
@@ -49,11 +49,11 @@ public class EAdEngineHtml extends HtmlGame {
 				.addAsset(s.getBackground().getInitialBundle(),
 						EAdBasicSceneElement.appearance, i);
 
-		// EAdScene s2 = new CharacterScene();
+		 EAdScene s2 = new CharacterScene();
 
 		// EAdScene s2 = new ShapeScene();
 
-		EAdScene s2 = new SpeakAndMoveScene();
+//		EAdScene s2 = new SpeakAndMoveScene();
 		/*
 		 * getBackground().getResources().addAsset(getBackground().getInitialBundle
 		 * (), EAdBasicSceneElement.appearance, new

@@ -71,17 +71,11 @@ public class CaptionImpl implements Caption {
 	@Param("bubbleColor")
 	private EAdPaint bubblePaint;
 
-	@Param("maxWidth")
-	private int maxWidth;
+	@Param("preferredWidth")
+	private int preferredWidth;
 
-	@Param("maxHeight")
-	private int maxHeight;
-
-	@Param("minWidth")
-	private int minWidth;
-
-	@Param("minHeight")
-	private int minHeight;
+	@Param("preferredHeight")
+	private int preferredHeight;
 
 	@Param("padding")
 	private int padding;
@@ -100,10 +94,8 @@ public class CaptionImpl implements Caption {
 		this.font = EAdFontImpl.BIG;
 		this.hasBubble = false;
 		this.bubblePaint = null;
-		maxHeight = SCREEN_SIZE;
-		maxWidth = SCREEN_SIZE;
-		minWidth = 0;
-		minHeight = 0;
+		preferredHeight = AUTO_SIZE;
+		preferredWidth = AUTO_SIZE;
 		padding = DEFAULT_PADDING;
 		fields = new EAdListImpl<EAdField<?>>(EAdField.class);
 	}
@@ -147,68 +139,36 @@ public class CaptionImpl implements Caption {
 	}
 
 	@Override
-	public int getMaximumWidth() {
-		return maxWidth;
+	public int getPreferredWidth() {
+		return preferredWidth;
 	}
 
 	@Override
-	public int getMaximumHeight() {
-		return maxHeight;
-	}
-
-	@Override
-	public int getMinimumWidth() {
-		return minWidth;
-	}
-
-	@Override
-	public int getMinimumHeight() {
-		return minHeight;
+	public int getPreferredHeight() {
+		return preferredHeight;
 	}
 
 	/**
-	 * Sets maximum width for this text. Could be a positive number or
-	 * {@link Caption#INFINITE_SIZE} or {@link Caption#SCREEN_SIZE}
+	 * Sets preferred width for this text. Could be a positive number or
+	 * {@link Caption#AUTO_SIZE} or {@link Caption#SCREEN_SIZE}
 	 * 
 	 * @param maxWidth
 	 *            the width
 	 * 
 	 */
-	public void setMaximumWidth(int maxWidth) {
-		this.maxWidth = maxWidth;
+	public void setPreferredWidth(int maxWidth) {
+		this.preferredWidth = maxWidth;
 	}
 
 	/**
-	 * Sets maximum height for this text. Could be a positive number or
-	 * {@link Caption#INFINITE_SIZE} or {@link Caption#SCREEN_SIZE}
+	 * Sets preferred height for this text. Could be a positive number or
+	 * {@link Caption#AUTO_SIZE} or {@link Caption#SCREEN_SIZE}
 	 * 
 	 * @param maxHeight
 	 *            the height
 	 */
-	public void setMaximumHeight(int maxHeight) {
-		this.maxHeight = maxHeight;
-	}
-
-	/**
-	 * Sets minimum width for this text. This width mostly affects to the bubble
-	 * size
-	 * 
-	 * @param minWidth
-	 *            minimum width for the text
-	 */
-	public void setMinimumWidth(int minWidth) {
-		this.minWidth = minWidth;
-	}
-
-	/**
-	 * Sets minimum width for this text. This width mostly affects to the bubble
-	 * size
-	 * 
-	 * @param minWidth
-	 *            minimum width for the text
-	 */
-	public void setMinimumHeight(int minHeight) {
-		this.minHeight = minHeight;
+	public void setPreferredHeight(int maxHeight) {
+		this.preferredHeight = maxHeight;
 	}
 
 	public void setHasBubble(boolean b) {

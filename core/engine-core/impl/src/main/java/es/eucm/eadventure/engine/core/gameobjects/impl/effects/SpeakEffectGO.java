@@ -105,8 +105,8 @@ public class SpeakEffectGO extends AbstractEffectGO<EAdSpeakEffect> {
 		text.setPadding(MARGIN);
 		text.setBubblePaint(EAdColor.RED);
 		text.setTextPaint(element.getTextColor());
-		text.setMaximumWidth(right - left - MARGIN * 2);
-		text.setMaximumHeight(bottom - top - MARGIN * 2);
+		text.setPreferredWidth(right - left - MARGIN * 2);
+		text.setPreferredHeight(bottom - top - MARGIN * 2);
 		text.setFont(element.getFont());
 
 		textSE = new EAdBasicSceneElement("text");

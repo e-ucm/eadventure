@@ -84,7 +84,7 @@ public class EffectFactory {
 		EAdShowSceneElement effect = new EAdShowSceneElement();
 		CaptionImpl c = EAdElementsFactory.getInstance().getCaptionFactory()
 				.createCaption(text);
-		c.setMaximumHeight(maximumHeight);
+		c.setPreferredHeight(maximumHeight);
 		effect.setCaption(c, x, y, animation);
 		return effect;
 	}

@@ -49,7 +49,7 @@ import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.CaptionIm
 
 public class CaptionFactory {
 	
-	private EAdFill fill = new EAdLinearGradient(EAdColor.WHITE, EAdColor.LIGHT_GRAY, 20, 20, true);
+	private EAdFill fill = new EAdLinearGradient(EAdColor.GRAY, EAdColor.LIGHT_GRAY, 20, 20, true);
 	
 	private EAdFont droidFont = new EAdFontImpl( new EAdURIImpl( "@binary/DroidSans-Bold.ttf"), 20);
 
@@ -61,6 +61,7 @@ public class CaptionFactory {
 		caption.setTextPaint(textFill);
 		caption.setBubblePaint(bubbleFill);
 		caption.setFont(font);
+		caption.setPadding(20);
 		return caption;
 
 	}

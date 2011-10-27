@@ -114,7 +114,7 @@ public class RuntimeCaption extends AbstractRuntimeAsset<Caption> implements
 	 * infinite
 	 */
 	private int loops;
-	
+
 	private int heightOffset;
 
 	/**
@@ -224,68 +224,79 @@ public class RuntimeCaption extends AbstractRuntimeAsset<Caption> implements
 		bounds = new EAdRectangleImpl(0, 0, 0, 0);
 		lineHeight = font.lineHeight();
 
-		int maximumWidth = (int) (descriptor.getMaximumWidth() == Caption.SCREEN_SIZE ? (valueMap
-				.getValue(SystemFields.GUI_WIDTH) - descriptor.getPadding() * 2)
-				: descriptor.getMaximumWidth());
-		int maximumHeight = (int) (descriptor.getMaximumHeight() < 0 ? valueMap
-				.getValue(SystemFields.GUI_HEIGHT) : descriptor
-				.getMaximumHeight());
+		int preferredWidth = 0;
 
-		// If width for drawing the text is infinite, we have only one line
-		if (maximumWidth == Caption.INFINITE_SIZE) {
-			lines.add(text);
-			totalParts = 1;
-			int lineWidth = font.stringWidth(text);
-			bounds.width = lineWidth > descriptor.getMinimumWidth() ? lineWidth
-					: descriptor.getMinimumWidth();
-		} else {
-			bounds.width = descriptor.getMinimumWidth() > 0 ? descriptor
-					.getMinimumWidth() : 0;
-			String[] words = text.split(" ");
+		switch (descriptor.getPreferredWidth()) {
+		case Caption.AUTO_SIZE:
+			preferredWidth = Integer.MAX_VALUE;
+			break;
+		case Caption.SCREEN_SIZE:
+			preferredWidth = valueMap.getValue(SystemFields.GUI_WIDTH);
+			break;
+		default:
+			preferredWidth = descriptor.getPreferredWidth();
+		}
+		preferredWidth -= descriptor.getPadding() * 2;
 
-			// Current line
-			String line = "";
-			int contWord = 0;
+		bounds.width = 0;
+		String[] words = text.split(" ");
 
-			int currentLineWidth = 0;
+		// Current line
+		String line = "";
+		int contWord = 0;
 
-			while (contWord < words.length) {
+		int currentLineWidth = 0;
 
-				int nextWordWidth = font.stringWidth(words[contWord] + " ");
+		while (contWord < words.length) {
 
-				if (currentLineWidth + nextWordWidth <= maximumWidth) {
-					currentLineWidth += nextWordWidth;
-					line += words[contWord++] + " ";
-				} else if (line != "") {
-					lines.add(line);
-					bounds.width = currentLineWidth > bounds.width ? currentLineWidth
-							: bounds.width;
-					currentLineWidth = 0;
-					line = "";
-				} else {
-					line = splitLongWord(font, lines, words[contWord++],
-							maximumWidth);
-					currentLineWidth = font.stringWidth(line);
-				}
-			}
+			int nextWordWidth = font.stringWidth(words[contWord] + " ");
 
-			if (line != "") {
+			if (currentLineWidth + nextWordWidth <= preferredWidth) {
+				currentLineWidth += nextWordWidth;
+				line += words[contWord++] + " ";
+			} else if (line != "") {
 				lines.add(line);
-				currentLineWidth = font.stringWidth(line);
 				bounds.width = currentLineWidth > bounds.width ? currentLineWidth
 						: bounds.width;
+				currentLineWidth = 0;
+				line = "";
+			} else {
+				line = splitLongWord(font, lines, words[contWord++],
+						preferredWidth);
+				currentLineWidth = font.stringWidth(line);
 			}
-
 		}
 
-		linesInPart = maximumHeight / lineHeight;
+		if (line != "") {
+			lines.add(line);
+			currentLineWidth = font.stringWidth(line);
+			bounds.width = currentLineWidth > bounds.width ? currentLineWidth
+					: bounds.width;
+		}
+
+		int preferredHeight = 0;
+		switch (descriptor.getPreferredHeight()) {
+		case Caption.SCREEN_SIZE:
+			preferredHeight = valueMap.getValue(SystemFields.GUI_HEIGHT);
+			break;
+		case Caption.AUTO_SIZE:
+			preferredHeight = Integer.MAX_VALUE;
+			break;
+		default:
+			preferredHeight = descriptor.getPreferredHeight();
+		}
+//		preferredHeight -= descriptor.getPadding() * 2;
+
+		linesInPart = preferredHeight / lineHeight;
 		linesInPart = linesInPart < lines.size() ? linesInPart : lines.size();
 		totalParts = (int) Math
 				.ceil((float) lines.size() / (float) linesInPart);
-
+		bounds.height = descriptor.getPreferredHeight() == Caption.AUTO_SIZE ? linesInPart * lineHeight
+				: preferredHeight;
 		
-		heightOffset = ( maximumHeight - ( linesInPart * lineHeight ) ) / 2; 
-		bounds.height = maximumHeight;
+		heightOffset = descriptor.getPreferredHeight() != Caption.AUTO_SIZE ? (preferredHeight - (linesInPart * lineHeight)) / 2
+				: 0;
+		
 
 		if (descriptor.hasBubble()) {
 			bounds.width += descriptor.getPadding() * 2;
