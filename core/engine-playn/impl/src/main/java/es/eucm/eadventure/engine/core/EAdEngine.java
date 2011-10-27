@@ -28,6 +28,7 @@ import es.eucm.eadventure.common.model.guievents.impl.EAdMouseEventImpl;
 import es.eucm.eadventure.engine.core.guiactions.impl.MouseActionImpl;
 import es.eucm.eadventure.engine.core.platform.AssetHandler;
 import es.eucm.eadventure.engine.core.platform.GUI;
+import es.eucm.eadventure.engine.core.platform.PlatformConfiguration;
 import es.eucm.eadventure.engine.core.platform.impl.PlayNAssetHandler;
 import es.eucm.eadventure.engine.core.platform.impl.PlayNGUI;
 
@@ -44,22 +45,25 @@ public class EAdEngine implements playn.core.Game, Keyboard.Listener {
 	private AssetHandler assetHandler;
 
 	private MouseState mouseState;
+	
+	private PlatformConfiguration platformConfiguration;
 
 	private static final Logger logger = Logger.getLogger("EAdEngine");
 
 	@Inject
 	public EAdEngine(Game game, GUI gui, AssetHandler assetHandler,
-			MouseState mouseState) {
+			MouseState mouseState, PlatformConfiguration platformConfiguration) {
 		this.game = game;
 		this.gui = gui;
 		this.assetHandler = assetHandler;
 		this.mouseState = mouseState;
+		this.platformConfiguration = platformConfiguration;
 		((PlayNAssetHandler) assetHandler).setEngine(this);
 	}
 
 	@Override
 	public void init() {
-		graphics().setSize(800, 600);
+		graphics().setSize(platformConfiguration.getWidth(), platformConfiguration.getHeight());
 		PlayN.log().debug("EAdEngine: init");
 
 		/*
@@ -76,7 +80,7 @@ public class EAdEngine implements playn.core.Game, Keyboard.Listener {
 		gameLayer.setStrokeColor(0xffff0000);
 		gameLayer.strokeRect(1, 1, 46, 46);
 
-		((PlayNGUI) gui).initializeCanvas(gameLayer);
+		((PlayNGUI) gui).initializeCanvas(gameLayer, layer);
 
 		keyboard().setListener(this);
 		pointer().setListener(new Pointer.Listener() {
@@ -199,5 +203,6 @@ public class EAdEngine implements playn.core.Game, Keyboard.Listener {
 	public Graphics getGraphics() {
 		return graphics();
 	}
+	
 
 }

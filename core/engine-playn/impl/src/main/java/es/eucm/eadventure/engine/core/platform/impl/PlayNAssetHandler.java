@@ -63,7 +63,7 @@ public class PlayNAssetHandler extends AbstractAssetHandler {
 
 	@Override
 	public String getAbsolutePath(String uri) {
-		return uri.replaceAll("@", "");
+		return uri.replaceAll("@", "eadengine/");
 	}
 
 	@Override

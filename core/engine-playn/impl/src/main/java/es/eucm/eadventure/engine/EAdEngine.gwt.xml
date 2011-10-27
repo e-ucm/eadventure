@@ -8,7 +8,7 @@
   <inherits name='es.eucm.eadventure.Resources'/>
   <inherits name='org.jbox2d.GwtBox2D'/>
   
-
+<inherits name='fr.hd3d.html5.video.HTML5Video'/>
   <!--
     Optionally, enable gwt-log's advanced logging features:
     

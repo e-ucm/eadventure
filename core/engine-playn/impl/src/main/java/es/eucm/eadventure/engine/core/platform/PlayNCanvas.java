@@ -41,7 +41,6 @@ public class PlayNCanvas extends AbstractCanvas<Canvas> {
 	@Override
 	public void drawImage(DrawableAsset<? extends Image> image) {
 		g.drawImage(((PlayNEngineImage) image).getImage(), 0, 0);
-
 	}
 
 	@Override

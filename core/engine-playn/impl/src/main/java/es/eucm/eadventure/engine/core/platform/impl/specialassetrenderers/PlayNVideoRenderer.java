@@ -37,46 +37,79 @@
 
 package es.eucm.eadventure.engine.core.platform.impl.specialassetrenderers;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Logger;
 
+import com.google.gwt.user.client.ui.Widget;
 import com.google.inject.Inject;
 
 import es.eucm.eadventure.common.resources.assets.multimedia.Video;
 import es.eucm.eadventure.engine.core.platform.AssetHandler;
+import es.eucm.eadventure.engine.core.platform.PlatformConfiguration;
 import es.eucm.eadventure.engine.core.platform.SpecialAssetRenderer;
+import fr.hd3d.html5.video.client.VideoSource;
+import fr.hd3d.html5.video.client.VideoWidget;
 
-//FIXME
-public class PlayNVideoRenderer implements SpecialAssetRenderer<Video, Void> {
+/**
+ * Video {@link SpecialAssetRenderer} for PlayN (GWT) implementation.
+ * <p>
+ * This renderer uses a html5 video gwt widget
+ * (http://code.google.com/p/gwt-html5-video) which replaces the panel with the
+ * game in the html layout.
+ * 
+ */
+public class PlayNVideoRenderer implements SpecialAssetRenderer<Video, Widget> {
 
 	private static Logger logger = Logger.getLogger("PlayNVideoRenderer");
-	
-	private static boolean loaded = false;
-	
-	private boolean finished = false;
-	
-	private boolean started = false;
-	
+
 	private AssetHandler assetHandler;
-		
+
+	private PlatformConfiguration platformConfiguration;
+
+	private VideoWidget videoWidget;
+
 	@Inject
-	public PlayNVideoRenderer(AssetHandler assetHandler) {
+	public PlayNVideoRenderer(AssetHandler assetHandler,
+			PlatformConfiguration platformConfiguration) {
+		logger.info("New instance");
 		this.assetHandler = assetHandler;
+		this.platformConfiguration = platformConfiguration;
 	}
-	
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * es.eucm.eadventure.engine.core.platform.SpecialAssetRenderer#getComponent
+	 * (java.lang.Object)
+	 * 
+	 * DOCUMENTATION:
+	 * http://code.google.com/p/gwt-html5-video/wiki/GettingStarted
+	 */
 	@Override
-	public Void getComponent(Video asset) {
-		finished = true;
-		//FIXME
-		return null;
+	public Widget getComponent(Video asset) {
+		String path = assetHandler.getAbsolutePath(asset.getURI().getPath());
+		// TODO Last parameter should be a capture of the vide
+		videoWidget = new VideoWidget(true, true, "");
+		List<VideoSource> sources = new ArrayList<VideoSource>();
+		logger.info("New video widget: " + path);
+		sources.add(new VideoSource(path));
+		videoWidget.setSources(sources);
+		videoWidget.setPixelSize(platformConfiguration.getWidth(),
+				platformConfiguration.getHeight());
+		return videoWidget;
 	}
 
 	@Override
 	public boolean isFinished() {
-		return finished;
+		if (videoWidget == null)
+			return false;
+		return videoWidget.isEnded();
 	}
 
 	@Override
 	public boolean start() {
-        return true;
+		return true;
 	}
 }

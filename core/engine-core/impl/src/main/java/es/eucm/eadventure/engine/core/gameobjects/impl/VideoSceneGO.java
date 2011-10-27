@@ -93,6 +93,7 @@ public class VideoSceneGO extends DrawableGameObject<EAdVideoScene> implements
 	public void update() {
 		super.update();
 		if (specialAssetRenderer.isFinished()) {
+			gui.showSpecialResource(null, 0, 0, true);
 			for (EAdEffect e : element.getFinalEffects()) {
 				gameState.addEffect(e);
 			}

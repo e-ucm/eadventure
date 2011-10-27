@@ -131,6 +131,8 @@ public class PlayNGameObjectFactoryImpl extends GameObjectFactoryImpl {
 			return ginjector.getSceneGO();
 		if (clazz == TimerGO.class)
 			return ginjector.getTimerGO();
+		if (clazz == VideoSceneGO.class)
+			return ginjector.getVideoSceneGO();
 		return null;
 	}
 

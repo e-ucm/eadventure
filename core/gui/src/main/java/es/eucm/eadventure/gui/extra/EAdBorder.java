@@ -151,15 +151,22 @@ public class EAdBorder extends AbstractBorder {
         Graphics2D g2 = (Graphics2D) g.create();
         
         Color color = new Color(borderColor.getRed(), borderColor.getGreen(), borderColor.getBlue(), borderColor.getAlpha() + (20 * depth));
-        
         g2.setColor(color);
         
         g2.setStroke(new BasicStroke(width));
         
         if (c instanceof JPopupMenu)
         	g2.drawRect(x - 1 + width, y - 1 + width, w - width, h - width );
-        else
+        else {
         	g2.drawRect(x - 1 + width, y + width, w - width, h - width - 2 );
+        	
+        	//TODO diffused border
+        	/*
+            color = new Color(borderColor.getRed(), borderColor.getGreen(), borderColor.getBlue(), (borderColor.getAlpha() + (20 * depth))  / 4);
+            g2.setColor(color);
+        	g2.drawRect(x + width, y + width + 1, w - width - 2, h - width - 4 );
+        	*/
+        }
         
         g2.dispose();
    }

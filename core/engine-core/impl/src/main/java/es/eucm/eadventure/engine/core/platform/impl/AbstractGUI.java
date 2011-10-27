@@ -418,10 +418,7 @@ public abstract class AbstractGUI<T> implements GUI {
 		}
 	}
 
-	public void changeCursor(Image image) {
-
-	}
-
+	@Override
 	public EAdTransformation addTransformation(EAdTransformation t1,
 			EAdTransformation t2) {
 		EAdMatrixImpl m = new EAdMatrixImpl();
