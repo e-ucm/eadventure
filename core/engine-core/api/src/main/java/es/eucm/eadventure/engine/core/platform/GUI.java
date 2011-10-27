@@ -165,7 +165,7 @@ public interface GUI {
 			EAdTransformation t2);
 
 	/**
-	 * Finalize the GUI
+	 * Finalize the GUI, used when the game is stopped and finished.
 	 */
 	void finish();
 }

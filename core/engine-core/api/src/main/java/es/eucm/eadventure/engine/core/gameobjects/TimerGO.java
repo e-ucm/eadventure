@@ -41,6 +41,4 @@ import es.eucm.eadventure.common.model.elements.EAdTimer;
 
 public interface TimerGO extends GameObject<EAdTimer> {
 
-	void update();
-
 }

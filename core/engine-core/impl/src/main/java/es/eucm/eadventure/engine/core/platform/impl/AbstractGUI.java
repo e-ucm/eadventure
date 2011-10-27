@@ -329,7 +329,7 @@ public abstract class AbstractGUI<T> implements GUI {
 
 	private boolean contains(GameObject<?> go, int x, int y, EAdTransformation t) {
 		if (go.isEnable()) {
-			float[] mouse = t.getMatrix().postMultiplyPointInverse(x, y);
+			float[] mouse = t.getMatrix().multiplyPointInverse(x, y, true);
 			if (go instanceof DrawableGameObject<?>) {
 				return ((DrawableGameObject<?>) go).contains((int) mouse[0], (int) mouse[1]);
 			}
@@ -418,15 +418,12 @@ public abstract class AbstractGUI<T> implements GUI {
 		}
 	}
 
-	public void changeCursor(Image image) {
-
-	}
-
+	@Override
 	public EAdTransformation addTransformation(EAdTransformation t1,
 			EAdTransformation t2) {
 		EAdMatrixImpl m = new EAdMatrixImpl();
-		m.postMultiply(t1.getMatrix().getFlatMatrix());
-		m.postMultiply(t2.getMatrix().getFlatMatrix());
+		m.multiply(t1.getMatrix().getFlatMatrix(), true);
+		m.multiply(t2.getMatrix().getFlatMatrix(), true);
 		float alpha = t1.getAlpha() * t2.getAlpha();
 		boolean visible = t1.isVisible() && t2.isVisible();
 		EAdTransformationImpl t = new EAdTransformationImpl(m, visible, alpha);

@@ -37,13 +37,18 @@
 
 package es.eucm.eadventure.engine.core.platform.impl;
 
+import static playn.core.PlayN.graphics;
+
 import java.awt.Graphics2D;
 import java.util.logging.Logger;
 
 import javax.swing.JFrame;
 
 import playn.core.Canvas;
+import playn.core.CanvasLayer;
 
+import com.google.gwt.user.client.ui.RootPanel;
+import com.google.gwt.user.client.ui.Widget;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
@@ -51,7 +56,6 @@ import es.eucm.eadventure.common.resources.assets.drawable.basics.Image;
 import es.eucm.eadventure.engine.core.GameState;
 import es.eucm.eadventure.engine.core.KeyboardState;
 import es.eucm.eadventure.engine.core.MouseState;
-import es.eucm.eadventure.engine.core.ValueMap;
 import es.eucm.eadventure.engine.core.gameobjects.GameObjectFactory;
 import es.eucm.eadventure.engine.core.gameobjects.GameObjectManager;
 import es.eucm.eadventure.engine.core.gameobjects.huds.BasicHUD;
@@ -59,7 +63,6 @@ import es.eucm.eadventure.engine.core.platform.GUI;
 import es.eucm.eadventure.engine.core.platform.PlatformConfiguration;
 import es.eucm.eadventure.engine.core.platform.PlayNCanvas;
 import es.eucm.eadventure.engine.core.platform.RuntimeAsset;
-import es.eucm.eadventure.engine.core.platform.assets.impl.PlayNEngineImage;
 import es.eucm.eadventure.engine.core.platform.impl.extra.PlayNInputListener;
 
 /**
@@ -80,11 +83,8 @@ public class PlayNGUI extends AbstractGUI<Canvas> implements GUI {
 	 * The {@code Canvas} object where the actual game is drawn
 	 */
 	private Canvas canvas;
-
-	/**
-	 * Represent how many pixels the mouse moves when the arrow keys are pressed
-	 */
-	private int MOUSE_MOVE = 20;
+	
+	private CanvasLayer canvasLayer;
 
 	private Object currentComponent;
 
@@ -111,24 +111,22 @@ public class PlayNGUI extends AbstractGUI<Canvas> implements GUI {
 	@Override
 	public void showSpecialResource(final Object resource, int x, int y,
 			boolean fullscreen) {
-		/*
-		 * if (this.currentComponent == resource) return; if
-		 * (this.currentComponent != null) { SwingUtilities.doInEDTNow(new
-		 * Runnable() {
-		 * 
-		 * @Override public void run() { frame.remove((Component)
-		 * currentComponent); } }); currentComponent = null; } if
-		 * (this.currentComponent == null) { if (resource == null) {
-		 * SwingUtilities.doInEDTNow(new Runnable() {
-		 * 
-		 * @Override public void run() { frame.add(canvas); } }); } else {
-		 * SwingUtilities.doInEDTNow(new Runnable() {
-		 * 
-		 * @Override public void run() { frame.remove(canvas); ((Component)
-		 * resource).setBounds(0, 0, frame.getWidth(), frame.getHeight());
-		 * frame.add((Component) resource); frame.validate(); } });
-		 * currentComponent = resource; } }
-		 */
+		if (resource != null) {
+			if (currentComponent != resource)  {
+				Widget widget = (Widget) resource;
+				RootPanel.get().add(widget, 0, 0);
+				//graphics().rootLayer().remove(canvasLayer);
+				graphics().rootLayer().setVisible(false);
+				currentComponent = resource;
+			}
+		} else {
+			if (currentComponent != null)  {
+				//graphics().rootLayer().add(canvasLayer);
+				RootPanel.get().remove((Widget) currentComponent);
+				graphics().rootLayer().setVisible(true);
+			}
+			currentComponent = null;
+		}
 	}
 
 	/*
@@ -144,40 +142,6 @@ public class PlayNGUI extends AbstractGUI<Canvas> implements GUI {
 			return;
 
 		render(interpolation);
-
-		/*
-		 * 
-		 * SwingUtilities.doInEDTNow(new Runnable() {
-		 * 
-		 * @Override public void run() { BufferStrategy bs =
-		 * canvas.getBufferStrategy(); Graphics2D g = (Graphics2D)
-		 * bs.getDrawGraphics(); g.setClip(0, 0,
-		 * platformConfiguration.getWidth(), platformConfiguration.getHeight());
-		 * 
-		 * if (!g.getRenderingHints().containsValue(
-		 * RenderingHints.VALUE_ANTIALIAS_ON))
-		 * g.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
-		 * RenderingHints.VALUE_ANTIALIAS_ON); if
-		 * (!g.getRenderingHints().containsValue(
-		 * RenderingHints.VALUE_TEXT_ANTIALIAS_ON))
-		 * g.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING,
-		 * RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
-		 * 
-		 * g.setFont(g.getFont().deriveFont(20.0f));
-		 * 
-		 * g.scale(platformConfiguration.getScale(),
-		 * platformConfiguration.getScale());
-		 * 
-		 * render(g, interpolation);
-		 * 
-		 * g.dispose(); } });
-		 * 
-		 * SwingUtilities.doInEDT(new Runnable() {
-		 * 
-		 * @Override public void run() { BufferStrategy bs =
-		 * canvas.getBufferStrategy(); bs.show();
-		 * Toolkit.getDefaultToolkit().sync(); } });
-		 */
 	}
 
 	/*
@@ -187,27 +151,8 @@ public class PlayNGUI extends AbstractGUI<Canvas> implements GUI {
 	 */
 	@Override
 	public RuntimeAsset<Image> commitToImage() {
-		int width = platformConfiguration.getWidth() * GUI.VIRTUAL_HEIGHT
-				/ platformConfiguration.getHeight();
-		int height = GUI.VIRTUAL_HEIGHT;
-		PlayNEngineImage image = new PlayNEngineImage(width, height);
-		/*
-		 * Graphics2D g = (Graphics2D) image.getImage().getGraphics();
-		 * g.setClip(0, 0, width, height);
-		 * 
-		 * setRenderingHints(g);
-		 * 
-		 * g.setFont(g.getFont().deriveFont(20.0f));
-		 * 
-		 * // g.scale(platformConfiguration.getScale(), //
-		 * platformConfiguration.getScale());
-		 * 
-		 * render(g, 0.0f);
-		 * 
-		 * g.dispose();
-		 */
-
-		return image;
+		//NOT SUPPORTED
+		return null;
 	}
 
 	/*
@@ -223,17 +168,22 @@ public class PlayNGUI extends AbstractGUI<Canvas> implements GUI {
 
 	/**
 	 * Initialize the {@code Canvas} element where the actual game is drawn
+	 * @param layer 
 	 */
-	public void initializeCanvas(Canvas canvas) {
+	public void initializeCanvas(Canvas canvas, CanvasLayer layer) {
 		PlayNInputListener listener = new PlayNInputListener(mouseState,
 				keyboardState);
-		this.canvas = canvas;
 		eAdCanvas.setGraphicContext(canvas);
+		this.canvasLayer = layer;
 		/*
 		 * canvas.addMouseListener(listener);
 		 * canvas.addMouseMotionListener(listener);
 		 * canvas.addKeyListener(listener);
 		 */
+	}
+
+	public void changeCursor(Image image) {
+		//NOT COMPATIBLE?
 	}
 
 	@Override

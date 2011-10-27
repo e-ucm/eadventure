@@ -41,12 +41,12 @@ import com.google.inject.Inject;
 
 import es.eucm.eadventure.common.model.effects.impl.EAdQuitGame;
 import es.eucm.eadventure.common.resources.StringHandler;
+import es.eucm.eadventure.engine.core.GameController;
 import es.eucm.eadventure.engine.core.GameState;
 import es.eucm.eadventure.engine.core.gameobjects.GameObject;
 import es.eucm.eadventure.engine.core.gameobjects.GameObjectFactory;
 import es.eucm.eadventure.engine.core.platform.AssetHandler;
 import es.eucm.eadventure.engine.core.platform.GUI;
-import es.eucm.eadventure.engine.core.platform.PlatformControl;
 
 /**
  * <p>
@@ -57,22 +57,22 @@ import es.eucm.eadventure.engine.core.platform.PlatformControl;
 public class QuitGameEffectGO extends AbstractEffectGO<EAdQuitGame> {
 
 
-	private PlatformControl platformControl;
+	private GameController gameController;
 	
 	@Inject
 	public QuitGameEffectGO(AssetHandler assetHandler,
 			StringHandler stringHandler, GameObjectFactory gameObjectFactory,
 			GUI gui, GameState gameState,
-			PlatformControl platformControl) {
+			GameController gameController) {
 		super(assetHandler, stringHandler, gameObjectFactory, gui, gameState);
-		this.platformControl = platformControl;
+		this.gameController = gameController;
 	}
 
 	@Override
 	public void initilize() {
 		super.initilize();
 		// TODO should probably take to the screen with the evaluation report
-		platformControl.stop();
+		gameController.stop();
 	}
 
 	@Override

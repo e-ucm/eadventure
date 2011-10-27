@@ -62,13 +62,11 @@ import es.eucm.eadventure.engine.core.impl.KeyboardStateImpl;
 import es.eucm.eadventure.engine.core.impl.MouseStateImpl;
 import es.eucm.eadventure.engine.core.platform.GUI;
 import es.eucm.eadventure.engine.core.platform.PlatformConfiguration;
-import es.eucm.eadventure.engine.core.platform.PlatformControl;
 import es.eucm.eadventure.engine.core.platform.PlatformLauncher;
 import es.eucm.eadventure.engine.core.platform.TransitionFactory;
 import es.eucm.eadventure.engine.core.platform.impl.DesktopFontCache;
 import es.eucm.eadventure.engine.core.platform.impl.DesktopGUI;
 import es.eucm.eadventure.engine.core.platform.impl.DesktopPlatformConfiguration;
-import es.eucm.eadventure.engine.core.platform.impl.DesktopPlatformControl;
 import es.eucm.eadventure.engine.core.platform.impl.DesktopPlatformLauncher;
 import es.eucm.eadventure.engine.core.platform.impl.DesktopTransitionFactory;
 import es.eucm.eadventure.engine.core.platform.impl.FontHandlerImpl;
@@ -85,7 +83,6 @@ public class DesktopModule extends AbstractModule {
 		bind(GUI.class).to(DesktopGUI.class);
 		bind(PlatformConfiguration.class)
 				.to(DesktopPlatformConfiguration.class);
-		bind(PlatformControl.class).to(DesktopPlatformControl.class);
 		bind(PlatformLauncher.class).to(DesktopPlatformLauncher.class);
 		bind(MouseState.class).to(MouseStateImpl.class);
 		bind(KeyboardState.class).to(KeyboardStateImpl.class);

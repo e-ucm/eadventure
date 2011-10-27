@@ -10,6 +10,7 @@ import es.eucm.eadventure.engine.core.gameobjects.TimerGO;
 import es.eucm.eadventure.engine.core.gameobjects.effect.physics.PhApplyForceGO;
 import es.eucm.eadventure.engine.core.gameobjects.effect.physics.PhysicsEffectGO;
 import es.eucm.eadventure.engine.core.gameobjects.impl.SceneGOImpl;
+import es.eucm.eadventure.engine.core.gameobjects.impl.VideoSceneGO;
 import es.eucm.eadventure.engine.core.gameobjects.impl.effects.ActiveElementEffectGO;
 import es.eucm.eadventure.engine.core.gameobjects.impl.effects.ActorActionsEffectGO;
 import es.eucm.eadventure.engine.core.gameobjects.impl.effects.CancelEffectGO;
@@ -39,6 +40,7 @@ import es.eucm.eadventure.engine.core.gameobjects.impl.transitions.SimpleTransit
 import es.eucm.eadventure.engine.core.impl.modules.BasicGameModule;
 import es.eucm.eadventure.engine.core.platform.AssetHandler;
 import es.eucm.eadventure.engine.core.platform.GUI;
+import es.eucm.eadventure.engine.core.platform.PlatformConfiguration;
 import es.eucm.eadventure.engine.core.platform.PlatformLauncher;
 import es.eucm.eadventure.engine.core.platform.assets.impl.PlayNEngineImage;
 import es.eucm.eadventure.engine.core.platform.impl.extra.PlayNAssetHandlerModule;
@@ -83,6 +85,7 @@ public interface PlayNGinInjector extends Ginjector {
 	
 	public SceneGOImpl getSceneGO();
 	public TimerGO getTimerGO();
+	public VideoSceneGO getVideoSceneGO();
 
 	public GUI getGUI();
 
@@ -97,5 +100,7 @@ public interface PlayNGinInjector extends Ginjector {
 	public PhysicsEffectGO getPhysicsEffectGO();
 
 	public PhApplyForceGO getPhApplyForceGO();
+
+	public PlatformConfiguration getPlatformConfiguration();
 	
 }

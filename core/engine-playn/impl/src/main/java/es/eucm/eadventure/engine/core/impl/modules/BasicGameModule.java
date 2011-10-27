@@ -3,12 +3,14 @@ package es.eucm.eadventure.engine.core.impl.modules;
 import com.google.gwt.inject.client.AbstractGinModule;
 import com.google.inject.Provides;
 import com.google.inject.Singleton;
+import com.google.inject.TypeLiteral;
 import com.google.inject.name.Named;
 import com.google.inject.name.Names;
 
 import es.eucm.eadventure.common.model.elements.EAdAdventureModel;
 import es.eucm.eadventure.common.model.elements.EAdScene;
 import es.eucm.eadventure.common.model.impl.EAdAdventureModelImpl;
+import es.eucm.eadventure.common.resources.assets.multimedia.Video;
 import es.eucm.eadventure.engine.core.Game;
 import es.eucm.eadventure.engine.core.GameController;
 import es.eucm.eadventure.engine.core.GameState;
@@ -27,7 +29,9 @@ import es.eucm.eadventure.engine.core.impl.VariableMap;
 import es.eucm.eadventure.engine.core.operator.OperatorFactory;
 import es.eucm.eadventure.engine.core.operators.impl.OperatorFactoryImpl;
 import es.eucm.eadventure.engine.core.platform.FontHandler;
+import es.eucm.eadventure.engine.core.platform.SpecialAssetRenderer;
 import es.eucm.eadventure.engine.core.platform.impl.FontHandlerImpl;
+import es.eucm.eadventure.engine.core.platform.impl.specialassetrenderers.PlayNVideoRenderer;
 import es.eucm.eadventure.engine.core.trajectories.TrajectoryFactory;
 import es.eucm.eadventure.engine.core.trajectories.impl.TrajectoryFactoryImpl;
 
@@ -52,6 +56,10 @@ public class BasicGameModule extends AbstractGinModule {
 		bind(EAdAdventureModel.class).to(EAdAdventureModelImpl.class);
 		bind(EAdScene.class).annotatedWith(Names.named("LoadingScreen")).to(
 				LoadingScreen.class).in(Singleton.class);
+		
+		bind(new TypeLiteral<SpecialAssetRenderer<Video, ?>>() {
+		}).to(PlayNVideoRenderer.class);
+
 
 	}
 	

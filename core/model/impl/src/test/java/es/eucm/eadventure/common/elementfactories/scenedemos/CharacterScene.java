@@ -40,11 +40,14 @@ package es.eucm.eadventure.common.elementfactories.scenedemos;
 import es.eucm.eadventure.common.elementfactories.EAdElementsFactory;
 import es.eucm.eadventure.common.interfaces.features.Oriented.Orientation;
 import es.eucm.eadventure.common.model.effects.EAdEffect;
+import es.eucm.eadventure.common.model.effects.impl.EAdChangeScene;
 import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
+import es.eucm.eadventure.common.model.elements.impl.EAdVideoScene;
 import es.eucm.eadventure.common.model.events.EAdSceneElementEvent;
 import es.eucm.eadventure.common.model.events.EAdSceneElementEvent.SceneElementEvent;
 import es.eucm.eadventure.common.model.events.impl.EAdSceneElementEventImpl;
 import es.eucm.eadventure.common.model.guievents.impl.EAdKeyEventImpl;
+import es.eucm.eadventure.common.model.guievents.impl.EAdMouseEventImpl;
 import es.eucm.eadventure.common.model.variables.impl.EAdFieldImpl;
 import es.eucm.eadventure.common.model.variables.impl.operations.ValueOperation;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.ImageImpl;
@@ -53,6 +56,8 @@ import es.eucm.eadventure.common.resources.assets.drawable.compounds.OrientedDra
 import es.eucm.eadventure.common.resources.assets.drawable.compounds.StateDrawable;
 import es.eucm.eadventure.common.resources.assets.drawable.compounds.impl.OrientedDrawableImpl;
 import es.eucm.eadventure.common.resources.assets.drawable.compounds.impl.StateDrawableImpl;
+import es.eucm.eadventure.common.resources.assets.multimedia.Video;
+import es.eucm.eadventure.common.resources.assets.multimedia.impl.VideoImpl;
 
 public class CharacterScene extends EmptyScene {
 
@@ -88,8 +93,7 @@ public class CharacterScene extends EmptyScene {
 		EAdBasicSceneElement element = EAdElementsFactory.getInstance()
 				.getSceneElementFactory()
 				.createSceneElement(getStateDrawable(), 100, 300);
-		
-		
+				
 		EAdSceneElementEvent event = new EAdSceneElementEventImpl( "makeActive");
 		
 		event.addEffect(SceneElementEvent.ADDED_TO_SCENE, EAdElementsFactory.getInstance().getEffectFactory().getMakeActiveElement( element ));

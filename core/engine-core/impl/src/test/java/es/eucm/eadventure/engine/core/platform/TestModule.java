@@ -64,7 +64,6 @@ public class TestModule extends AbstractModule {
 		bind(Boolean.class).annotatedWith(Names.named("threaded")).toInstance(Boolean.FALSE);
 		bind(GUI.class).to(TestGUI.class);
 		bind(PlatformConfiguration.class).to(TestPlatformConfiguration.class);
-		bind(PlatformControl.class).to(TestPlatformControl.class);
 		bind(PlatformLauncher.class).to(TestPlatformLauncher.class);
 		bind(MouseState.class).to(MouseStateTest.class);
 		bind(KeyboardState.class).to(KeyboardStateImpl.class);

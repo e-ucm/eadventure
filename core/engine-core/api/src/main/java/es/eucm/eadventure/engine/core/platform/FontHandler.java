@@ -109,6 +109,9 @@ public interface FontHandler {
 	 */
 	public void addEAdFont(EAdFont font);
 
+	/**
+	 * @param abstractAssetHandler the asset handler for the platform
+	 */
 	public void setAssetHandler(AssetHandler abstractAssetHandler);
 
 }

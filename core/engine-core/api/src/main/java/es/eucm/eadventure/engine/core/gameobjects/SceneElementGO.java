@@ -48,8 +48,6 @@ import es.eucm.eadventure.engine.core.platform.DrawableAsset;
 
 /**
  * 
- * @author Eugenio Marchiori
- * 
  */
 public interface SceneElementGO<T extends EAdSceneElement> extends
 		GameObject<T>, Oriented, Renderable {

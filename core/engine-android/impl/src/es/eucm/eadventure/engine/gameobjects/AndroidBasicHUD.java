@@ -115,7 +115,7 @@ public class AndroidBasicHUD extends BasicHUDImpl {
 			.getGameObjectUnderMouse();
 
 			if (go != null && go.getElement() instanceof EAdElement) {
-				EAdString name = valueMap.getValue((EAdElement) go.getElement(),
+				EAdString name = gameState.getValueMap().getValue((EAdElement) go.getElement(),
 						EAdBasicSceneElement.VAR_NAME);
 				graphicContext.drawText("Nombre GO", textX, textY, textPaint);
 				if (name != null) {

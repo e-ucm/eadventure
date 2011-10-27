@@ -57,13 +57,13 @@ import es.eucm.eadventure.common.params.EAdString;
 import es.eucm.eadventure.common.params.EAdURIImpl;
 import es.eucm.eadventure.common.resources.StringHandler;
 import es.eucm.eadventure.engine.core.Game;
+import es.eucm.eadventure.engine.core.GameController;
 import es.eucm.eadventure.engine.core.debuggers.impl.EAdMainDebugger;
 import es.eucm.eadventure.engine.core.debuggers.impl.FieldsDebugger;
 import es.eucm.eadventure.engine.core.debuggers.impl.TrajectoryDebugger;
 import es.eucm.eadventure.engine.core.impl.modules.BasicGameModule;
 import es.eucm.eadventure.engine.core.platform.AssetHandler;
 import es.eucm.eadventure.engine.core.platform.PlatformConfiguration;
-import es.eucm.eadventure.engine.core.platform.PlatformControl;
 import es.eucm.eadventure.engine.core.platform.PlatformLauncher;
 import es.eucm.eadventure.engine.core.platform.impl.DesktopAssetHandler;
 import es.eucm.eadventure.engine.core.platform.impl.DesktopPlatformLauncher;
@@ -76,17 +76,14 @@ import es.eucm.eadventure.engine.core.platform.impl.extra.DesktopModule;
  */
 public class ImportTestDesktopPlatformLauncher {
 
-	/**
-	 * The platform control implementation
-	 */
-	private PlatformControl platformControl;
+	private GameController gameController;
 
 	private AssetHandler assetHandler;
 
 	@Inject
-	public ImportTestDesktopPlatformLauncher(PlatformControl platformControl,
+	public ImportTestDesktopPlatformLauncher(GameController gameController,
 			AssetHandler assetHandler) {
-		this.platformControl = platformControl;
+		this.gameController = gameController;
 		this.assetHandler = assetHandler;
 	}
 
@@ -96,7 +93,7 @@ public class ImportTestDesktopPlatformLauncher {
 
 	public void launch(File file) {
 		((DesktopAssetHandler) assetHandler).setResourceLocation(file);
-		platformControl.start();
+		gameController.start();
 	}
 
 	public static void main(String[] args) {

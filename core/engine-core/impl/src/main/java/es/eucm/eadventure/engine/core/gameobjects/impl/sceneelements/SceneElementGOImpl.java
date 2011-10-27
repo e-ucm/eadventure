@@ -186,14 +186,14 @@ public abstract class SceneElementGOImpl<T extends EAdSceneElement> extends
 		transformation.getMatrix().setIdentity();
 		int x = position.getJavaX(width);
 		int y = position.getJavaY(height);
-		transformation.getMatrix().postTranslate(x, y);
+		transformation.getMatrix().translate(x, y, true);
 		int deltaX = position.getX() - x;
 		int deltaY = position.getY() - y;
 
-		transformation.getMatrix().postTranslate(deltaX, deltaY);
-		transformation.getMatrix().postRotate(rotation);
-		transformation.getMatrix().postScale(scale, scale);
-		transformation.getMatrix().postTranslate(-deltaX, -deltaY);
+		transformation.getMatrix().translate(deltaX, deltaY, true);
+		transformation.getMatrix().rotate(rotation, true);
+		transformation.getMatrix().scale(scale, scale, true);
+		transformation.getMatrix().translate(-deltaX, -deltaY, true);
 
 	}
 
@@ -394,15 +394,15 @@ public abstract class SceneElementGOImpl<T extends EAdSceneElement> extends
 
 	@Override
 	public int getCenterX() {
-		float[] f = transformation.getMatrix().postMultiplyPoint(width / 2,
-				height / 2);
+		float[] f = transformation.getMatrix().multiplyPoint(width / 2,
+				height / 2, true);
 		return (int) f[0];
 	}
 
 	@Override
 	public int getCenterY() {
-		float[] f = transformation.getMatrix().postMultiplyPoint(width / 2,
-				height / 2);
+		float[] f = transformation.getMatrix().multiplyPoint(width / 2,
+				height / 2, true);
 		return (int) f[1];
 	}
 
