@@ -91,7 +91,7 @@ public class PlayNVideoRenderer implements SpecialAssetRenderer<Video, Widget> {
 	public Widget getComponent(Video asset) {
 		String path = assetHandler.getAbsolutePath(asset.getURI().getPath());
 		// TODO Last parameter should be a capture of the vide
-		videoWidget = new VideoWidget(true, true, "");
+		videoWidget = new VideoWidget(true, false, "");
 		List<VideoSource> sources = new ArrayList<VideoSource>();
 		logger.info("New video widget: " + path);
 		sources.add(new VideoSource(path));

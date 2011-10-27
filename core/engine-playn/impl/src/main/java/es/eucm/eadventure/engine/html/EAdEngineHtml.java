@@ -9,22 +9,16 @@ import com.google.gwt.core.client.GWT;
 
 import es.eucm.eadventure.common.elementfactories.EAdElementsFactory;
 import es.eucm.eadventure.common.elementfactories.scenedemos.CharacterScene;
-import es.eucm.eadventure.common.elementfactories.scenedemos.ShapeScene;
-import es.eucm.eadventure.common.elementfactories.scenedemos.SpeakAndMoveScene;
-import es.eucm.eadventure.common.model.effects.impl.EAdChangeScene;
+import es.eucm.eadventure.common.elementfactories.scenedemos.WebMVideoScene;
 import es.eucm.eadventure.common.model.elements.EAdAdventureModel;
 import es.eucm.eadventure.common.model.elements.EAdScene;
 import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
 import es.eucm.eadventure.common.model.elements.impl.EAdSceneImpl;
-import es.eucm.eadventure.common.model.elements.impl.EAdVideoScene;
-import es.eucm.eadventure.common.model.guievents.impl.EAdMouseEventImpl;
 import es.eucm.eadventure.common.model.impl.EAdAdventureModelImpl;
 import es.eucm.eadventure.common.model.impl.EAdChapterImpl;
 import es.eucm.eadventure.common.resources.StringHandler;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.Image;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.ImageImpl;
-import es.eucm.eadventure.common.resources.assets.multimedia.Video;
-import es.eucm.eadventure.common.resources.assets.multimedia.impl.VideoImpl;
 import es.eucm.eadventure.engine.core.EAdEngine;
 import es.eucm.eadventure.engine.core.Game;
 import es.eucm.eadventure.engine.core.platform.GUI;
@@ -55,19 +49,11 @@ public class EAdEngineHtml extends HtmlGame {
 				.getResources()
 				.addAsset(s.getBackground().getInitialBundle(),
 						EAdBasicSceneElement.appearance, i);
-/*
 
-		EAdVideoScene videoScene = new EAdVideoScene("videoScene");
-		Video video = new VideoImpl("@binary/bbb_trailer_400p.ogv");
-		videoScene.getResources().addAsset(videoScene.getResources().getInitialBundle(), "video", video);
-		videoScene.setUpForEngine();
+		//EAdScene s2 = new CharacterScene();
+
+		EAdScene s2 = new WebMVideoScene();
 		
-		EAdChangeScene changeScene = new EAdChangeScene("changeScene");
-		changeScene.setNextScene(videoScene);
-		element.addBehavior(EAdMouseEventImpl.MOUSE_LEFT_CLICK, changeScene);
-*/
-		EAdScene s2 = new CharacterScene();
-
 		//EAdScene s2 = new ShapeScene();
 
 		// EAdScene s2 = new SpeakAndMoveScene();
