@@ -39,6 +39,8 @@ public abstract class GameObjectImpl<T extends EAdElement> implements
 	protected T element;
 
 	protected EAdTransformationImpl transformation;
+	
+	protected boolean enable;
 
 	@Inject
 	public GameObjectImpl(AssetHandler assetHandler,
@@ -49,6 +51,7 @@ public abstract class GameObjectImpl<T extends EAdElement> implements
 		this.gameObjectFactory = gameObjectFactory;
 		this.gui = gui;
 		this.gameState = gameState;
+		this.enable = false;
 	}
 
 	@Override
@@ -106,6 +109,6 @@ public abstract class GameObjectImpl<T extends EAdElement> implements
 	}
 	
 	public boolean isEnable(){
-		return false;
+		return enable;
 	}
 }

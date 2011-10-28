@@ -102,8 +102,10 @@ public class PlayNCanvas extends AbstractCanvas<Canvas> {
 
 	@Override
 	public void setFont(EAdFont font) {
+		// FIXME the 1.1f must have some reason, maybe because use pt instaed of
+		// px
 		f = PlayN.graphics().createFont(font.getName(), getStyle(font),
-				font.getSize());
+				font.getSize() / 1.1f);
 
 	}
 

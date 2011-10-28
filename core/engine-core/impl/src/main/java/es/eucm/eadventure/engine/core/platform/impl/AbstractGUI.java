@@ -42,7 +42,6 @@ import java.util.logging.Logger;
 import es.eucm.eadventure.common.model.EAdElement;
 import es.eucm.eadventure.common.model.guievents.EAdDragEvent.DragAction;
 import es.eucm.eadventure.common.model.guievents.impl.EAdMouseEventImpl;
-import es.eucm.eadventure.common.resources.assets.drawable.basics.Image;
 import es.eucm.eadventure.engine.core.GameState;
 import es.eucm.eadventure.engine.core.KeyboardState;
 import es.eucm.eadventure.engine.core.MouseState;
@@ -50,7 +49,6 @@ import es.eucm.eadventure.engine.core.Renderable;
 import es.eucm.eadventure.engine.core.gameobjects.GameObject;
 import es.eucm.eadventure.engine.core.gameobjects.GameObjectFactory;
 import es.eucm.eadventure.engine.core.gameobjects.GameObjectManager;
-import es.eucm.eadventure.engine.core.gameobjects.impl.DrawableGameObject;
 import es.eucm.eadventure.engine.core.guiactions.KeyAction;
 import es.eucm.eadventure.engine.core.guiactions.MouseAction;
 import es.eucm.eadventure.engine.core.guiactions.impl.DragActionImpl;
@@ -330,8 +328,8 @@ public abstract class AbstractGUI<T> implements GUI {
 	private boolean contains(GameObject<?> go, int x, int y, EAdTransformation t) {
 		if (go.isEnable()) {
 			float[] mouse = t.getMatrix().multiplyPointInverse(x, y, true);
-			if (go instanceof DrawableGameObject<?>) {
-				return ((DrawableGameObject<?>) go).contains((int) mouse[0], (int) mouse[1]);
+			if (go instanceof Renderable ) {
+				return ((Renderable) go).contains((int) mouse[0], (int) mouse[1]);
 			}
 		}
 		return false;

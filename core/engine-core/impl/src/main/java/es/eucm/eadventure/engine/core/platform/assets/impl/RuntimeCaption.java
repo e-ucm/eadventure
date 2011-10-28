@@ -285,7 +285,7 @@ public class RuntimeCaption extends AbstractRuntimeAsset<Caption> implements
 		default:
 			preferredHeight = descriptor.getPreferredHeight();
 		}
-//		preferredHeight -= descriptor.getPadding() * 2;
+		preferredHeight -= descriptor.getPadding() * 2;
 
 		linesInPart = preferredHeight / lineHeight;
 		linesInPart = linesInPart < lines.size() ? linesInPart : lines.size();

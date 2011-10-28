@@ -50,38 +50,25 @@ public class PlayNEngineFont implements RuntimeFont {
 
 	private EAdFont font;
 
-	private Element element;
-	
+	private static Element element;
+
 	private static final String HEIGHT_TEXT = "ABCDEFGHIJKLMNÑOPQRSTUVWXYZabcefghijklmnñopqrstuvwxyz1234567890!?";
-	
-	private int lineHeight;
 
 	public PlayNEngineFont(EAdFont font) {
 		this.font = font;
 		Document doc = Document.get();
 
-		Element rootElement = doc.getBody();
+		if (element == null) {
+			Element rootElement = doc.getBody();
 
-		element = doc.createDivElement();
-		element.getStyle().setVisibility(Style.Visibility.HIDDEN);
-		element.getStyle().setPosition(Style.Position.ABSOLUTE);
-		element.getStyle().setTop(-800, Unit.PX);
-		element.getStyle().setOverflow(Style.Overflow.VISIBLE);
-		rootElement.appendChild(element);
-		
-		element.getStyle().setFontSize(font.getSize(), Unit.PX);
-		element.getStyle().setFontWeight(Style.FontWeight.NORMAL);
-		element.getStyle().setFontStyle(Style.FontStyle.NORMAL);
-		element.setInnerText(HEIGHT_TEXT);
-	      switch (getStyle(font)) {
-	      case BOLD:
-	    	  element.getStyle().setFontWeight(Style.FontWeight.BOLD);
-	        break;
-	      case ITALIC:
-	    	  element.getStyle().setFontStyle(Style.FontStyle.ITALIC);
-	        break;
-	      }
-	      lineHeight = element.getOffsetHeight();
+			element = doc.createDivElement();
+			element.getStyle().setVisibility(Style.Visibility.HIDDEN);
+			element.getStyle().setPosition(Style.Position.ABSOLUTE);
+			element.getStyle().setTop(-800, Unit.PX);
+			element.getStyle().setOverflow(Style.Overflow.VISIBLE);
+			rootElement.appendChild(element);
+		}
+
 	}
 
 	@Override
@@ -91,18 +78,35 @@ public class PlayNEngineFont implements RuntimeFont {
 
 	@Override
 	public int stringWidth(String string) {
-	      element.setInnerText(string);
-	      return element.getOffsetWidth();
+		prepareElement();
+		element.setInnerText(string); 
+		return element.getOffsetWidth();
 	}
 
 	@Override
 	public int lineHeight() {
-		return lineHeight;
+		prepareElement();
+		return element.getOffsetHeight();
 	}
 
 	@Override
 	public EAdRectangleImpl stringBounds(String string) {
 		return new EAdRectangleImpl(0, 0, stringWidth(string), lineHeight());
+	}
+	
+	private void prepareElement(){
+		element.getStyle().setFontSize(font.getSize(), Unit.PX);
+		element.getStyle().setFontWeight(Style.FontWeight.NORMAL);
+		element.getStyle().setFontStyle(Style.FontStyle.NORMAL);
+		element.setInnerText(HEIGHT_TEXT);
+		switch (getStyle(font)) {
+		case BOLD:
+			element.getStyle().setFontWeight(Style.FontWeight.BOLD);
+			break;
+		case ITALIC:
+			element.getStyle().setFontStyle(Style.FontStyle.ITALIC);
+			break;
+		}
 	}
 
 	private playn.core.Font.Style getStyle(EAdFont font) {

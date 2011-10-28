@@ -55,19 +55,32 @@ public class PlayNPlatformConfiguration extends AbstractPlatformConfiguration {
 	/**
 	 * Default window width for desktop games
 	 */
-	public static final int DEFAULT_WIDTH = 480;
+	public static final int DEFAULT_WIDTH = 800;
 
 	/**
 	 * Default window height for desktop games
 	 */
-	public static final int DEFAULT_HEIGHT = 360; 
-	
-	public PlayNPlatformConfiguration( ){
-		setHeight( DEFAULT_HEIGHT );
-		setWidth( DEFAULT_WIDTH );
-		fullscreen = false;	
+	public static final int DEFAULT_HEIGHT = 600;
+
+	public PlayNPlatformConfiguration() {
+//		setHeight(DEFAULT_HEIGHT);
+//		setWidth(DEFAULT_WIDTH);
+		int availHeight = (int) ( Integer.parseInt(getAvailHeight()) * 0.8f );
+		float proportion = (float) DEFAULT_WIDTH / (float) DEFAULT_HEIGHT;
+		setHeight( availHeight );
+		setWidth( (int) ( availHeight * proportion ));
+		fullscreen = false;
 	}
 
+	public static native String getAvailHeight() /*-{
+		var screenHeight = screen.availHeight + "";
+		return screenHeight;
+	}-*/;
+
+	public static native String getAvailWidth() /*-{
+		var screenWidth = screen.availWidth + "";
+		return screenWidth;
+	}-*/;
 
 	/*
 	 * (non-Javadoc)

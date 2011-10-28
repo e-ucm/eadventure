@@ -12,7 +12,6 @@ import es.eucm.eadventure.common.model.events.EAdSceneElementEvent;
 import es.eucm.eadventure.common.model.events.EAdSceneElementEvent.SceneElementEvent;
 import es.eucm.eadventure.common.model.events.impl.EAdSceneElementEventImpl;
 import es.eucm.eadventure.common.model.guievents.impl.EAdMouseEventImpl;
-import es.eucm.eadventure.common.model.trajectories.impl.SimpleTrajectoryDefinition;
 import es.eucm.eadventure.common.model.variables.EAdField;
 import es.eucm.eadventure.common.model.variables.EAdOperation;
 import es.eucm.eadventure.common.model.variables.impl.EAdFieldImpl;
@@ -68,7 +67,7 @@ public class SpeakAndMoveScene extends EmptyScene {
 		effect.setBalloonType(BalloonType.RECTANGLE);
 		effect.setFont(new EAdFontImpl(18));
 
-		character.addBehavior(EAdMouseEventImpl.MOUSE_LEFT_CLICK, effect);
+		character.addBehavior(EAdMouseEventImpl.MOUSE_LEFT_PRESSED, effect);
 
 		this.getElements().add(character);
 
