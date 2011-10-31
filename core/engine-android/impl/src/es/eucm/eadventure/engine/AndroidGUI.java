@@ -132,4 +132,10 @@ public class AndroidGUI extends AbstractGUI<Canvas> {
 
 	}
 
+	@Override
+	public void changeCursor(Image image) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

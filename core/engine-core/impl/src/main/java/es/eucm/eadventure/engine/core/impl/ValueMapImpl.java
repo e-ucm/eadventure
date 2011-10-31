@@ -85,7 +85,7 @@ public class ValueMapImpl implements ValueMap {
 
 	@Override
 	public void setValue(EAdElement element, EAdVarDef<?> varDef, Object value) {
-		if (reflectionProvider.isAssignableFrom(varDef.getType(),
+		if (value == null || reflectionProvider.isAssignableFrom(varDef.getType(),
 				value.getClass())) {
 
 			Map<EAdVarDef<?>, Object> valMap = element == null ? systemVars

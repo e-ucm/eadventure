@@ -83,6 +83,9 @@ public class CaptionImpl implements Caption {
 	@Param("fields")
 	private EAdList<EAdField<?>> fields;
 
+	@Param("alignment")
+	private Alignment alignment;
+
 	public CaptionImpl() {
 		this(EAdString.newEAdString("label"));
 	}
@@ -97,6 +100,7 @@ public class CaptionImpl implements Caption {
 		preferredHeight = AUTO_SIZE;
 		preferredWidth = AUTO_SIZE;
 		padding = DEFAULT_PADDING;
+		alignment = Alignment.CENTER;
 		fields = new EAdListImpl<EAdField<?>>(EAdField.class);
 	}
 
@@ -187,6 +191,15 @@ public class CaptionImpl implements Caption {
 	@Override
 	public EAdList<EAdField<?>> getFields() {
 		return fields;
+	}
+
+	public void setAlignment(Alignment alignment) {
+		this.alignment = alignment;
+	}
+
+	@Override
+	public Alignment getAlignment() {
+		return alignment;
 	}
 
 }

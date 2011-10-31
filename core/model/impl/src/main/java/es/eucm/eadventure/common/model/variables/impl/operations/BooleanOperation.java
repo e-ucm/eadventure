@@ -70,8 +70,11 @@ public class BooleanOperation extends EAdOperationImpl {
 	private EAdCondition condition;
 
 	public BooleanOperation(String id) {
-		super(id);
-		condition = EmptyCondition.TRUE_EMPTY_CONDITION;
+		this(id, EmptyCondition.TRUE_EMPTY_CONDITION);
+	}
+	
+	public BooleanOperation( EAdCondition c ){
+		this("booleanOperation", c);
 	}
 
 	public BooleanOperation(String id, EAdCondition condition) {

@@ -83,7 +83,7 @@ public class EAdInterpolationEffect extends AbstractEAdEffect {
 		/**
 		 * Bounces in the end
 		 */
-		BOUNCE_END;
+		BOUNCE_END, ACCELERATE, DESACCELERATE;
 
 	}
 

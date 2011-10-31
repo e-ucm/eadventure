@@ -75,6 +75,7 @@ import es.eucm.eadventure.common.model.impl.EAdAdventureModelImpl;
 import es.eucm.eadventure.common.model.impl.EAdChapterImpl;
 import es.eucm.eadventure.common.params.EAdString;
 import es.eucm.eadventure.engine.core.debuggers.impl.EAdMainDebugger;
+import es.eucm.eadventure.engine.core.debuggers.impl.FieldsDebugger;
 import es.eucm.eadventure.engine.core.debuggers.impl.TrajectoryDebugger;
 import es.eucm.eadventure.engine.core.impl.modules.BasicGameModule;
 import es.eucm.eadventure.engine.core.platform.PlatformConfiguration;
@@ -160,7 +161,7 @@ public class DesktopDemos extends BaseTestLauncher {
 			super("Scenes demo");
 			Object scenes[] = SceneDemos.getInstance().getScenes().toArray();
 
-			EAdMainDebugger.addDebugger(TrajectoryDebugger.class);
+			
 
 			setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
@@ -181,8 +182,16 @@ public class DesktopDemos extends BaseTestLauncher {
 			final JComboBox comboBox = new JComboBox(DIMENSIONS);
 			comboBox.setRenderer(new DimensionsCellRenderer());
 			comboBox.setSelectedIndex(0);
+			
+			final JCheckBox trajectoryDebugger = new JCheckBox("Trajectory Debugger");
+			trajectoryDebugger.setSelected(false);
+			
+			final JCheckBox fieldsDebugger = new JCheckBox("Fields Debugger");
+			fieldsDebugger.setSelected(false);
 
 			p.add(comboBox);
+			p.add(trajectoryDebugger);
+			p.add(fieldsDebugger);
 
 			container.add(list, BorderLayout.CENTER);
 
@@ -196,6 +205,13 @@ public class DesktopDemos extends BaseTestLauncher {
 							Dimension d = (Dimension) comboBox
 									.getSelectedItem();
 							Object o = list.getSelectedValue();
+							if ( trajectoryDebugger.isSelected() ){
+								EAdMainDebugger.addDebugger(TrajectoryDebugger.class);
+							}
+							if ( fieldsDebugger.isSelected() ){
+								EAdMainDebugger.addDebugger(FieldsDebugger.class);
+							}
+							
 							if (checkBox.isSelected()) {
 								EAdScene scene = (EAdScene) o;
 								EAdAdventureModel model = new EAdAdventureModelImpl();

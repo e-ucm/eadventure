@@ -36,5 +36,9 @@ public abstract class EAdElementImpl implements EAdElement {
 		// To implement in inherit classes
 		return null;
 	}
+	
+	public String toString(){
+		return id;
+	}
 
 }

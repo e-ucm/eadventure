@@ -143,8 +143,8 @@ public class GameImpl implements Game {
 			gui.addElement(gameState.getScene(), initialTransformation);
 
 			basicHud.update();
-			//TODO Revise
-			//gui.addElement(basicHud, initialTransformation);
+			// TODO Revise
+			// gui.addElement(basicHud, initialTransformation);
 
 			if (debugger != null && debugger.getGameObjects() != null)
 				for (GameObject<?> go : debugger.getGameObjects()) {
@@ -160,9 +160,8 @@ public class GameImpl implements Game {
 	 */
 	private void updateSystemVars() {
 		// Mouse
-		float mouse[] = initialTransformation.getMatrix()
-				.multiplyPointInverse(mouseState.getMouseX(),
-						mouseState.getMouseY(), true);
+		float mouse[] = initialTransformation.getMatrix().multiplyPointInverse(
+				mouseState.getMouseX(), mouseState.getMouseY(), true);
 		valueMap.setValue(SystemFields.MOUSE_X, (int) mouse[0]);
 		valueMap.setValue(SystemFields.MOUSE_Y, (int) mouse[1]);
 
@@ -185,16 +184,17 @@ public class GameImpl implements Game {
 			if (block)
 				continue;
 
-			// The order must be: update, then check if it's finished.
-			// Some effects take only one update to finish
-			effectGO.update();
-
 			if (effectGO.isStopped() || effectGO.isFinished()) {
-				effectGO.finish();
 				finishedEffects.add(effectGO);
-			} else if (effectGO.isBlocking())
-				// If effect is blocking, get out of the loop
-				block = true;
+				if ( effectGO.isFinished() )
+					effectGO.finish();
+			} else {
+				if (effectGO.isBlocking())
+					// If effect is blocking, get out of the loop
+					block = true;
+				
+				effectGO.update();
+			}
 
 		}
 

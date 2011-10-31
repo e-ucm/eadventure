@@ -43,6 +43,7 @@ import com.google.inject.Singleton;
 
 import es.eucm.eadventure.common.model.guievents.EAdMouseEvent.MouseActionType;
 import es.eucm.eadventure.common.model.guievents.EAdMouseEvent.MouseButton;
+import es.eucm.eadventure.common.model.guievents.impl.EAdMouseEventImpl;
 import es.eucm.eadventure.engine.core.MouseState;
 import es.eucm.eadventure.engine.core.guiactions.MouseAction;
 import es.eucm.eadventure.engine.core.guiactions.impl.MouseActionImpl;
@@ -81,6 +82,7 @@ public class EAdventureSurfaceView extends SurfaceView implements SurfaceHolder.
   			mouseState.setMousePosition((int) event.getRawX(), (int) event.getRawY());
   			if (event.getAction() == MotionEvent.ACTION_DOWN) {
   				downTime = System.currentTimeMillis();
+  				mouseState.getMouseEvents().add(new MouseActionImpl(EAdMouseEventImpl.MOUSE_LEFT_PRESSED, mouseState.getMouseX(), mouseState.getMouseY()));
   				mouseState.setMousePressed(true);
   			}
   			if (event.getAction() == MotionEvent.ACTION_UP) {

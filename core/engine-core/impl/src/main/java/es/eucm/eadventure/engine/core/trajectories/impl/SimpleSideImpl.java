@@ -6,14 +6,20 @@ import es.eucm.eadventure.engine.core.trajectories.PathSide;
 public class SimpleSideImpl implements PathSide {
 
 	private EAdPosition endPosition;
-	
+
+	private int length;
+
 	public SimpleSideImpl(EAdPosition startPosition, EAdPosition endPosition) {
 		this.endPosition = endPosition;
+		int vx = endPosition.getX() - startPosition.getX();
+		int vy = endPosition.getY() - startPosition.getY();
+		length = (int) Math.round(Math.sqrt(vx * vx + vy * vy));
+
 	}
 
 	@Override
 	public float getLenght() {
-		return 0;
+		return length;
 	}
 
 	@Override

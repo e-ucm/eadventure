@@ -50,6 +50,7 @@ import es.eucm.eadventure.engine.core.gameobjects.GameObjectFactory;
 import es.eucm.eadventure.engine.core.operator.OperatorFactory;
 import es.eucm.eadventure.engine.core.platform.AssetHandler;
 import es.eucm.eadventure.engine.core.platform.GUI;
+import es.eucm.eadventure.engine.core.util.impl.EAdInterpolator;
 
 public class InterpolationGO extends AbstractEffectGO<EAdInterpolationEffect> {
 
@@ -76,6 +77,8 @@ public class InterpolationGO extends AbstractEffectGO<EAdInterpolationEffect> {
 	private int loops;
 
 	private EAdElement owner;
+
+	private EAdInterpolator interpolator;
 
 	@Inject
 	public InterpolationGO(AssetHandler assetHandler,
@@ -108,7 +111,22 @@ public class InterpolationGO extends AbstractEffectGO<EAdInterpolationEffect> {
 				+ endValue);
 		delay = element.getDelay();
 
-		owner = element.getElement() == null ? parent : gameState.getValueMap().getFinalElement(element.getElement());
+		owner = element.getElement() == null ? parent : gameState.getValueMap()
+				.getFinalElement(element.getElement());
+
+		switch (element.getInterpolationType()) {
+		case BOUNCE_END:
+			interpolator = EAdInterpolator.BOUNCE_END;
+			break;
+		case ACCELERATE:
+			interpolator = EAdInterpolator.ACCELERATE;
+			break;
+		case DESACCELERATE:
+			interpolator = EAdInterpolator.DESACCELERATE;
+		default:
+			interpolator = EAdInterpolator.LINEAR;
+			break;
+		}
 
 	}
 
@@ -167,52 +185,15 @@ public class InterpolationGO extends AbstractEffectGO<EAdInterpolationEffect> {
 	}
 
 	public Object interpolation() {
-		float f = 0;
-
-		switch (element.getInterpolationType()) {
-		case BOUNCE_END:
-			f = bounceEndInterpolation();
-			break;
-		default:
-			f = linearInterpolation();
-		}
+		int time = reverse ? element.getDelay() - currentTime : currentTime;
+		float f = interpolator.interpolate(time,
+				element.getInterpolationTime(), interpolationLength);
 
 		if (integer)
 			return new Integer(Math.round(f));
 		else
 			return new Float(f);
 
-	}
-
-	private float bounceEndInterpolation() {
-		float linearLength = interpolationLength * 1.1f;
-		float bounceLength = linearLength - interpolationLength;
-		float bounceValue = startValue + linearLength;
-		float linearTime = element.getInterpolationTime() * 0.98f;
-		float bounceTime = element.getInterpolationTime() - linearTime;
-
-		if (currentTime <= linearTime) {
-			return startValue + ((float) currentTime / linearTime)
-					* linearLength;
-		} else {
-			float timeToFinish = 1.0f
-					- (element.getInterpolationTime() - currentTime)
-					/ bounceTime;
-			return bounceValue - bounceLength * timeToFinish;
-		}
-
-	}
-
-	public float linearInterpolation() {
-		float f = (float) currentTime / element.getInterpolationTime()
-				* interpolationLength;
-
-		if (reverse) {
-			f = endValue - f;
-		} else
-			f += startValue;
-
-		return f;
 	}
 
 }

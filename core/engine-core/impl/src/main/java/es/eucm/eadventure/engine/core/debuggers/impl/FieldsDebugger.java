@@ -73,7 +73,7 @@ public class FieldsDebugger implements EAdDebugger {
 				RectangleShape shape = new RectangleShape(300, 20 * (fields
 						.keySet().size() + 2));
 				shape.setPaint(color);
-				d.addDrawable(shape);
+				d.addDrawable(shape, -10, -10);
 				CaptionImpl c = new CaptionImpl();
 				stringHandler.setString(c.getText(), element + "");
 				c.setFont(font);

@@ -14,12 +14,14 @@ import es.eucm.eadventure.common.model.trajectories.TrajectoryDefinition;
 import es.eucm.eadventure.common.model.trajectories.impl.Node;
 import es.eucm.eadventure.common.model.trajectories.impl.NodeTrajectoryDefinition;
 import es.eucm.eadventure.common.model.trajectories.impl.Side;
-import es.eucm.eadventure.common.params.fills.impl.EAdPaintImpl;
+import es.eucm.eadventure.common.model.trajectories.impl.SimpleTrajectoryDefinition;
 import es.eucm.eadventure.common.params.fills.impl.EAdColor;
+import es.eucm.eadventure.common.params.fills.impl.EAdPaintImpl;
 import es.eucm.eadventure.common.params.geom.EAdPosition;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.shapes.BezierShape;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.shapes.CircleShape;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.shapes.LineShape;
+import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.shapes.RectangleShape;
 import es.eucm.eadventure.common.resources.assets.drawable.compounds.ComposedDrawable;
 import es.eucm.eadventure.common.resources.assets.drawable.compounds.impl.ComposedDrawableImpl;
 import es.eucm.eadventure.engine.core.GameState;
@@ -39,7 +41,7 @@ public class TrajectoryDebugger implements EAdDebugger {
 
 	private EAdScene currentScene;
 
-	private NodeTrajectoryDefinition currentTrajectory;
+	private TrajectoryDefinition currentTrajectory;
 
 	private List<GameObject<?>> gameObjects;
 
@@ -64,9 +66,10 @@ public class TrajectoryDebugger implements EAdDebugger {
 			createTrajectory();
 		}
 
-		if (currentTrajectory != null) {
+		if (currentTrajectory instanceof NodeTrajectoryDefinition ) {
 			int i = 0;
-			for (EAdSceneElement e : currentTrajectory.getBarriers()) {
+			for (EAdSceneElement e : ((NodeTrajectoryDefinition) currentTrajectory)
+					.getBarriers()) {
 				barriers.get(i)
 						.setPaint(
 								valueMap.getValue(e,
@@ -84,18 +87,26 @@ public class TrajectoryDebugger implements EAdDebugger {
 		currentScene = gameState.getScene().getElement();
 
 		if (currentScene != null) {
-			TrajectoryDefinition trajectory = valueMap.getValue(currentScene,
+			currentTrajectory = valueMap.getValue(currentScene,
 					EAdSceneImpl.VAR_TRAJECTORY_DEFINITION);
 
-			if (trajectory instanceof NodeTrajectoryDefinition) {
-				createNodes((NodeTrajectoryDefinition) trajectory);
+			if (currentTrajectory instanceof NodeTrajectoryDefinition) {
+				createNodes((NodeTrajectoryDefinition) currentTrajectory);
+			} else if (currentTrajectory instanceof SimpleTrajectoryDefinition) {
+				SimpleTrajectoryDefinition def = (SimpleTrajectoryDefinition) currentTrajectory;
+				EAdBasicSceneElement area = new EAdBasicSceneElement(
+						"walking_area", new RectangleShape(def.right()
+								- def.left(), def.bottom() - def.top(),
+								new EAdColor(0, 200, 0, 100)));
+				area.setPosition(def.left(), def.top());
+				gameObjects.add(gameObjectFactory.get(area));
 			}
 		}
 
 	}
 
 	private void createNodes(NodeTrajectoryDefinition trajectory) {
-		currentTrajectory = trajectory;
+
 		ComposedDrawable map = new ComposedDrawableImpl();
 		for (Side s : trajectory.getSides()) {
 			int x1 = trajectory.getNodeForId(s.getIDStart()).getX();

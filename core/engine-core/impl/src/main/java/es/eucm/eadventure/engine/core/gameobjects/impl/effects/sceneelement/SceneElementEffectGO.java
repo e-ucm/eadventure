@@ -23,14 +23,7 @@ public abstract class SceneElementEffectGO<T extends EAdSceneElementEffect>
 	@Override
 	public void setElement(T element) {
 		super.setElement(element);
-		if (element.getSceneElement() != null) {
-			sceneElement = element.getSceneElement();
-		} else if (element.getSceneElementField() != null) {
-			sceneElement = gameState.getValueMap().getValue(
-					element.getSceneElementField());
-		} else {
-			sceneElement = parent;
-		}
+		sceneElement = (EAdSceneElement) gameState.getValueMap()
+				.getFinalElement(element.getSceneElement());
 	}
-
 }

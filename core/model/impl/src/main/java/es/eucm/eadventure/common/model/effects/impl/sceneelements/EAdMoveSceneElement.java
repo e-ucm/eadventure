@@ -42,9 +42,8 @@ import es.eucm.eadventure.common.interfaces.Param;
 import es.eucm.eadventure.common.model.effects.EAdEffect;
 import es.eucm.eadventure.common.model.elements.EAdSceneElement;
 import es.eucm.eadventure.common.model.variables.EAdOperation;
-import es.eucm.eadventure.common.model.variables.EAdVarDef;
-import es.eucm.eadventure.common.model.variables.impl.EAdVarDefImpl;
 import es.eucm.eadventure.common.model.variables.impl.operations.MathOperation;
+import es.eucm.eadventure.common.model.variables.impl.operations.ValueOperation;
 
 /**
  * 
@@ -54,9 +53,6 @@ import es.eucm.eadventure.common.model.variables.impl.operations.MathOperation;
  */
 @Element(runtime = EAdMoveSceneElement.class, detailed = EAdMoveSceneElement.class)
 public class EAdMoveSceneElement extends AbstractSceneElementEffect {
-
-	public static final EAdVarDef<Boolean> VAR_ANIMATION_ENDED = new EAdVarDefImpl<Boolean>(
-			"animation_ended", Boolean.class, Boolean.FALSE);
 
 	/**
 	 * 
@@ -81,12 +77,6 @@ public class EAdMoveSceneElement extends AbstractSceneElementEffect {
 	};
 
 	/**
-	 * Actor reference
-	 */
-	@Param("element")
-	private EAdSceneElement element;
-
-	/**
 	 * Target coordinates
 	 */
 	@Param("xTarget")
@@ -103,6 +93,9 @@ public class EAdMoveSceneElement extends AbstractSceneElementEffect {
 
 	@Param("speedFactor")
 	private float speedFactor;
+	
+	@Param("boolean")
+	private boolean useTrajectory;
 
 	/**
 	 * Constructs an move actor reference effect, with target set to
@@ -134,21 +127,13 @@ public class EAdMoveSceneElement extends AbstractSceneElementEffect {
 	public EAdMoveSceneElement(String id, EAdSceneElement element,
 			MathOperation xTarget, MathOperation yTarget, MovementSpeed speed) {
 		super(id);
-		this.element = element;
+		setSceneElement(element);
+		setQueueable(true);
 		this.xTarget = xTarget;
 		this.yTarget = yTarget;
 		this.speed = speed;
 		this.speedFactor = 1.0f;
-	}
-
-	/**
-	 * Sets scene element for this effect
-	 * 
-	 * @param sceneElement
-	 *            scene element reference to be moved
-	 */
-	public void setSceneElement(EAdSceneElement sceneElement) {
-		this.element = sceneElement;
+		this.useTrajectory = true;
 	}
 
 	/**
@@ -192,23 +177,19 @@ public class EAdMoveSceneElement extends AbstractSceneElementEffect {
 
 	/**
 	 * 
-	 * @return Actor reference associated to this effect
-	 */
-	public EAdSceneElement getSceneElement() {
-		return element;
-	}
-
-	/**
-	 * 
 	 * @return the movement speed
 	 */
 	public MovementSpeed getSpeed() {
 		return speed;
 	}
+	
+	public void setUseTrajectory( boolean useTrajectory ){
+		this.useTrajectory = useTrajectory;
+	}
 
-	public void setTargetCoordiantes(int i, int j) {
-		setTargetCoordiantes(new MathOperation("id", "" + i),
-				new MathOperation("id", "" + j));
+	public void setTargetCoordiantes(int x, int y) {
+		setTargetCoordiantes(new ValueOperation(new Integer(x)),
+				new ValueOperation(new Integer(y)));
 	}
 
 	public float getSpeedFactor() {
@@ -220,6 +201,10 @@ public class EAdMoveSceneElement extends AbstractSceneElementEffect {
 	public void setSpeedFactor(float speedFactor) {
 		this.speed = MovementSpeed.CUSTOM;
 		this.speedFactor = speedFactor;
+	}
+	
+	public boolean useTrajectory(){
+		return useTrajectory;
 	}
 
 }

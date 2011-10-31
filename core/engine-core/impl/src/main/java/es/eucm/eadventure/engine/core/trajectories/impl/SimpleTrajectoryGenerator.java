@@ -15,14 +15,14 @@ public class SimpleTrajectoryGenerator implements
 
 	@Override
 	public Path getTrajectory(
-			SimpleTrajectoryDefinition trajectoryDefinition,
+			SimpleTrajectoryDefinition def,
 			EAdPosition currentPosition, int x, int y) {
 
 		List<EAdPosition> list = new ArrayList<EAdPosition>();
-		if (trajectoryDefinition.isOnlyHoriztonal()) {
-			list.add(new EAdPositionImpl(x, currentPosition.getY()));
+		if (def.isOnlyHoriztonal()) {
+			list.add(new EAdPositionImpl(getX(def, x), currentPosition.getY()));
 		} else {
-			list.add(new EAdPositionImpl(x, y));
+			list.add(new EAdPositionImpl(getX(def, x), getY(def, y)));
 		}
 
 		return new SimplePathImpl(list, currentPosition);
@@ -48,6 +48,22 @@ public class SimpleTrajectoryGenerator implements
 			EAdPosition currentPosition, SceneElementGO<?> sceneElement) {
 		//TODO check barriers?
 		return false;
+	}
+	
+	private int getX( SimpleTrajectoryDefinition def, int x ){
+		if ( x > def.right() )
+			return def.right();
+		if ( x < def.left() )
+			return def.left();
+		return x;
+	}
+	
+	private int getY( SimpleTrajectoryDefinition def, int y ){
+		if ( y > def.bottom() )
+			return def.bottom();
+		if ( y < def.top() )
+			return def.top();
+		return y;
 	}
 
 }

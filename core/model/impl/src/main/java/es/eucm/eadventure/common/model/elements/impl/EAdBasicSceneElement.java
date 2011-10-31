@@ -96,6 +96,12 @@ public class EAdBasicSceneElement extends EAdSceneElementDefImpl implements
 
 	public static final EAdVarDef<Integer> VAR_BOTTOM = new EAdVarDefImpl<Integer>(
 			"bottom", Integer.class, 0);
+	
+	public static final EAdVarDef<Integer> VAR_CENTER_X = new EAdVarDefImpl<Integer>(
+			"center_x", Integer.class, 0);
+	
+	public static final EAdVarDef<Integer> VAR_CENTER_Y = new EAdVarDefImpl<Integer>(
+			"center_y", Integer.class, 0);
 
 	public static final EAdVarDef<Integer> VAR_Z = new EAdVarDefImpl<Integer>(
 			"z", Integer.class, 0);

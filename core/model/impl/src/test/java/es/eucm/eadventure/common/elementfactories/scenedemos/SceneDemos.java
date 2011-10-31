@@ -40,6 +40,9 @@ package es.eucm.eadventure.common.elementfactories.scenedemos;
 import java.util.ArrayList;
 import java.util.List;
 
+import es.eucm.eadventure.common.elementfactories.scenedemos.normalguy.NgMainScreen;
+import es.eucm.eadventure.common.elementfactories.scenedemos.normalguy.NgRoom1;
+
 /**
  * A class holding all scenes that can be tested
  * 
@@ -70,6 +73,9 @@ public class SceneDemos {
 		sceneDemos.add(new PositionScene());
 		sceneDemos.add(new DepthZScene());
 		sceneDemos.add(new SharingEffectsScene());
+		sceneDemos.add(new VideoScene());
+		sceneDemos.add(new NgMainScreen());
+		sceneDemos.add(new NgRoom1());
 		
 	}
 

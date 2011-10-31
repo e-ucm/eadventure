@@ -137,6 +137,7 @@ public class GameStateImpl implements GameState {
 		for (EffectGO<?> go : effects) {
 			go.finish();
 		}
+		// Clear effects
 		effects.clear();
 		// Clean cache
 		gameObjectFactory.clean();

@@ -45,6 +45,7 @@ import es.eucm.eadventure.common.model.effects.EAdEffect;
 import es.eucm.eadventure.common.model.elements.EAdSceneElement;
 import es.eucm.eadventure.common.model.variables.EAdVarDef;
 import es.eucm.eadventure.common.resources.StringHandler;
+import es.eucm.eadventure.engine.core.GameLoop;
 import es.eucm.eadventure.engine.core.GameState;
 import es.eucm.eadventure.engine.core.gameobjects.EffectGO;
 import es.eucm.eadventure.engine.core.gameobjects.GameObjectFactory;
@@ -59,6 +60,8 @@ public abstract class AbstractEffectGO<P extends EAdEffect> extends
 	private boolean stopped = false;
 
 	private boolean initialized = false;
+	
+	protected int currentTime = 0;
 
 	protected GUIAction action;
 	
@@ -80,6 +83,10 @@ public abstract class AbstractEffectGO<P extends EAdEffect> extends
 		for ( Entry<EAdVarDef<?>, Object> e: element.getVars().entrySet()){
 			gameState.getValueMap().setValue(element, e.getKey(), e.getValue());
 		}
+	}
+	
+	public void update(){
+		currentTime += GameLoop.SKIP_MILLIS_TICK;
 	}
 
 	public P getEffect() {

@@ -77,6 +77,8 @@ public class RuntimeCaption extends AbstractRuntimeAsset<Caption> implements
 	protected String text;
 
 	protected List<String> lines;
+	
+	protected List<Integer> widths;
 
 	protected RuntimeFont font;
 
@@ -148,6 +150,7 @@ public class RuntimeCaption extends AbstractRuntimeAsset<Caption> implements
 				stringsReader.getString(descriptor.getText()),
 				descriptor.getFields());
 		lines = new ArrayList<String>();
+		widths = new ArrayList<Integer>();
 		wrapText();
 		return true;
 	}
@@ -219,7 +222,8 @@ public class RuntimeCaption extends AbstractRuntimeAsset<Caption> implements
 
 	private void wrapText() {
 		this.currentText = text;
-		lines = new ArrayList<String>();
+		lines.clear();
+		widths.clear();
 		totalParts = 0;
 		bounds = new EAdRectangleImpl(0, 0, 0, 0);
 		lineHeight = font.lineHeight();
@@ -256,6 +260,8 @@ public class RuntimeCaption extends AbstractRuntimeAsset<Caption> implements
 				line += words[contWord++] + " ";
 			} else if (line != "") {
 				lines.add(line);
+				currentLineWidth = font.stringWidth(line);
+				widths.add(currentLineWidth);
 				bounds.width = currentLineWidth > bounds.width ? currentLineWidth
 						: bounds.width;
 				currentLineWidth = 0;
@@ -270,6 +276,7 @@ public class RuntimeCaption extends AbstractRuntimeAsset<Caption> implements
 		if (line != "") {
 			lines.add(line);
 			currentLineWidth = font.stringWidth(line);
+			widths.add(currentLineWidth);
 			bounds.width = currentLineWidth > bounds.width ? currentLineWidth
 					: bounds.width;
 		}
@@ -291,12 +298,12 @@ public class RuntimeCaption extends AbstractRuntimeAsset<Caption> implements
 		linesInPart = linesInPart < lines.size() ? linesInPart : lines.size();
 		totalParts = (int) Math
 				.ceil((float) lines.size() / (float) linesInPart);
-		bounds.height = descriptor.getPreferredHeight() == Caption.AUTO_SIZE ? linesInPart * lineHeight
+		bounds.height = descriptor.getPreferredHeight() == Caption.AUTO_SIZE ? linesInPart
+				* lineHeight
 				: preferredHeight;
-		
+
 		heightOffset = descriptor.getPreferredHeight() != Caption.AUTO_SIZE ? (preferredHeight - (linesInPart * lineHeight)) / 2
 				: 0;
-		
 
 		if (descriptor.hasBubble()) {
 			bounds.width += descriptor.getPadding() * 2;
@@ -326,6 +333,7 @@ public class RuntimeCaption extends AbstractRuntimeAsset<Caption> implements
 			} else {
 				lines.add(currentLine);
 				int currentLineWidth = f.stringWidth(currentLine);
+				widths.add(currentLineWidth);
 				bounds.width = currentLineWidth > bounds.width ? currentLineWidth
 						: bounds.width;
 			}
@@ -447,12 +455,31 @@ public class RuntimeCaption extends AbstractRuntimeAsset<Caption> implements
 
 		c.setPaint(descriptor.getTextPaint());
 		c.setFont(descriptor.getFont());
-		int xOffset = getAssetDescriptor().getPadding();
-		int yOffset = xOffset + heightOffset;
+		int xOffset = 0;
+		int yOffset = getAssetDescriptor().getPadding();
+		if (currentPart == totalParts - 1 && lines.size() % linesInPart != 0 ) {
+			yOffset += (bounds.height  - getAssetDescriptor().getPadding() * 2 - ((lines.size() % linesInPart) * lineHeight)) / 2;
+		}
+		else {
+			yOffset += heightOffset;
+		}
+		
+		int i = currentPart * linesInPart;
 		// Draw lines
 		for (String s : getText()) {
-			c.drawText(s, xOffset, yOffset);
+			switch ( descriptor.getAlignment() ){
+			case CENTER:
+				xOffset = ( bounds.width - descriptor.getPadding() * 2 - widths.get(i) ) / 2;
+				break;
+			case RIGHT:
+				xOffset = ( bounds.width - descriptor.getPadding() * 2 - widths.get(i) );
+				break;
+			default:
+				xOffset = 0;
+			}
+			c.drawText(s, xOffset + descriptor.getPadding(), yOffset);
 			yOffset += getLineHeight();
+			i++;
 		}
 	}
 

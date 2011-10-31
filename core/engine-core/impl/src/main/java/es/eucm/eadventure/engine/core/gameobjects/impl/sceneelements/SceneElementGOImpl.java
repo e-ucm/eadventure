@@ -177,6 +177,8 @@ public abstract class SceneElementGOImpl<T extends EAdSceneElement> extends
 		gameState.getValueMap().setValue(element, EAdBasicSceneElement.VAR_RIGHT, x + scaleW);
 		gameState.getValueMap().setValue(element, EAdBasicSceneElement.VAR_TOP, y);
 		gameState.getValueMap().setValue(element, EAdBasicSceneElement.VAR_BOTTOM, y + scaleH);
+		gameState.getValueMap().setValue(element, EAdBasicSceneElement.VAR_CENTER_X, x + scaleW / 2);
+		gameState.getValueMap().setValue(element, EAdBasicSceneElement.VAR_CENTER_Y, y + scaleH / 2);
 
 	}
 

@@ -46,6 +46,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.google.inject.Inject;
+import com.sun.jna.NativeLibrary;
 
 import es.eucm.eadventure.common.resources.assets.multimedia.Video;
 import es.eucm.eadventure.engine.core.platform.AssetHandler;
@@ -178,6 +179,7 @@ public class VLCDesktopVideoRenderer implements SpecialAssetRenderer<Video, Comp
 				logger.log(Level.INFO, "VLC installed");
 			String pathLibvlc = temp + "/Contents/MacOS/lib/";
 			String pathPlugins = temp + "/Contents/MacOS/plugins/";
+			NativeLibrary.addSearchPath("libvlc", pathLibvlc);
 			System.setProperty("jna.library.path", pathLibvlc);
 			System.setProperty("VLC_PLUGIN_PATH", pathPlugins);
 			vlcOptions = "--vout=macosx";

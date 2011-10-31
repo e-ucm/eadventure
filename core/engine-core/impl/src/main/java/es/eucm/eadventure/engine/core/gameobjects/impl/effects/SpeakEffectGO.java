@@ -10,9 +10,11 @@ import es.eucm.eadventure.common.model.guievents.EAdMouseEvent.MouseActionType;
 import es.eucm.eadventure.common.model.variables.impl.SystemFields;
 import es.eucm.eadventure.common.params.geom.impl.EAdPositionImpl;
 import es.eucm.eadventure.common.resources.StringHandler;
+import es.eucm.eadventure.common.resources.assets.drawable.basics.Caption.Alignment;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.CaptionImpl;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.shapes.BallonShape;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.shapes.BezierShape;
+import es.eucm.eadventure.engine.core.GameLoop;
 import es.eucm.eadventure.engine.core.GameState;
 import es.eucm.eadventure.engine.core.Renderable;
 import es.eucm.eadventure.engine.core.gameobjects.GameObjectFactory;
@@ -41,9 +43,13 @@ public class SpeakEffectGO extends AbstractEffectGO<EAdSpeakEffect> implements
 
 	private boolean finished;
 
+	private boolean gone;
+
 	private EAdBasicSceneElement textSE;
 
 	private OperatorFactory operatorFactory;
+
+	private float alpha;
 
 	@Inject
 	public SpeakEffectGO(AssetHandler assetHandler,
@@ -78,6 +84,8 @@ public class SpeakEffectGO extends AbstractEffectGO<EAdSpeakEffect> implements
 		super.initilize();
 		finished = false;
 		ballon = (SceneElementGO<?>) gameObjectFactory.get(getSceneElement());
+		alpha = 0.0f;
+		gone = false;
 	}
 
 	private EAdSceneElement getSceneElement() {
@@ -111,6 +119,7 @@ public class SpeakEffectGO extends AbstractEffectGO<EAdSpeakEffect> implements
 		rectangle.setPaint(element.getBubbleColor());
 		CaptionImpl text = new CaptionImpl(element.getString());
 		text.setPadding(MARGIN);
+		text.setAlignment(Alignment.CENTER);
 		text.setTextPaint(element.getTextColor());
 		text.setPreferredWidth(right - left);
 		text.setPreferredHeight(bottom - top);
@@ -144,13 +153,31 @@ public class SpeakEffectGO extends AbstractEffectGO<EAdSpeakEffect> implements
 
 	@Override
 	public boolean isFinished() {
-		return finished;
+		return finished && gone;
 	}
 
 	public void update() {
 		super.update();
-		ballon.update();
-		finished = finished || caption.getTimesRead() > 0;
+
+		if (finished) {
+			alpha -= 0.003f * GameLoop.SKIP_MILLIS_TICK;
+			if (alpha <= 0.0f) {
+				alpha = 0.0f;
+				gone = true;
+			}
+		} else {
+			if (alpha >= 1.0f) {
+				ballon.update();
+				finished = finished || caption.getTimesRead() > 0;
+			} else {
+				alpha += 0.003f * GameLoop.SKIP_MILLIS_TICK;
+				if (alpha > 1.0f) {
+					alpha = 1.0f;
+				}
+			}
+		}
+
+		transformation.setAlpha(alpha);
 	}
 
 	@Override

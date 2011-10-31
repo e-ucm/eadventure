@@ -51,6 +51,14 @@ import es.eucm.eadventure.common.params.paint.EAdPaint;
 public interface Caption extends BasicDrawable {
 
 	/**
+	 * Text alignment
+	 * 
+	 */
+	public enum Alignment {
+		LEFT, CENTER, RIGHT
+	};
+
+	/**
 	 * Constant that can be used to define infinite maximum width/height for the
 	 * caption
 	 */
@@ -106,16 +114,15 @@ public interface Caption extends BasicDrawable {
 
 	/**
 	 * Returns the preferred width for this text, and integer greater than zero,
-	 * or the constants {@link Caption#AUTO_SIZE} or
-	 * {@link Caption#SCREEN_SIZE}
+	 * or the constants {@link Caption#AUTO_SIZE} or {@link Caption#SCREEN_SIZE}
 	 * 
 	 * @return
 	 */
 	int getPreferredWidth();
 
 	/**
-	 * Returns the preferred height for this text, and integer greater than zero,
-	 * or the constants {@link Caption#AUTO_SIZE} or
+	 * Returns the preferred height for this text, and integer greater than
+	 * zero, or the constants {@link Caption#AUTO_SIZE} or
 	 * {@link Caption#SCREEN_SIZE}
 	 * 
 	 * @return
@@ -130,5 +137,12 @@ public interface Caption extends BasicDrawable {
 	 * @return a list of fields
 	 */
 	EAdList<EAdField<?>> getFields();
+
+	/**
+	 * Returns the alignment for the text
+	 * 
+	 * @return the alignment for the text
+	 */
+	Alignment getAlignment();
 
 }

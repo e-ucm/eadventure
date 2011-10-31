@@ -37,8 +37,8 @@
 
 package es.eucm.eadventure.common.model.effects;
 
+import es.eucm.eadventure.common.model.EAdElement;
 import es.eucm.eadventure.common.model.elements.EAdSceneElement;
-import es.eucm.eadventure.common.model.variables.EAdField;
 
 /**
  * 
@@ -55,15 +55,6 @@ public interface EAdSceneElementEffect extends EAdEffect {
 	 * 
 	 * @return
 	 */
-	EAdSceneElement getSceneElement();
-
-	/**
-	 * Returns a field holding the element. Usually, if this method returns an
-	 * object, {@link EAdSceneElementEffect#getSceneElement()} should return
-	 * {@code null}
-	 * 
-	 * @return
-	 */
-	EAdField<EAdSceneElement> getSceneElementField();
+	EAdElement getSceneElement();
 
 }

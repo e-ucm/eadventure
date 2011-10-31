@@ -51,7 +51,7 @@ public class EAdSpeakEffect extends AbstractEAdEffect {
 		textColor = EAdPaintImpl.WHITE_ON_BLACK;
 		bubbleColor = EAdPaintImpl.BLACK_ON_WHITE;
 		font = EAdFontImpl.REGULAR;
-		ballonType = BalloonType.RECTANGLE;
+		ballonType = BalloonType.ROUNDED_RECTANGLE;
 		string = EAdString.newEAdString("string");
 		setQueueable(true);
 	}
