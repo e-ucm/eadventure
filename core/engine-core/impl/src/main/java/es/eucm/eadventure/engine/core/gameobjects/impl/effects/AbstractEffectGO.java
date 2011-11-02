@@ -47,15 +47,17 @@ import es.eucm.eadventure.common.model.variables.EAdVarDef;
 import es.eucm.eadventure.common.resources.StringHandler;
 import es.eucm.eadventure.engine.core.GameLoop;
 import es.eucm.eadventure.engine.core.GameState;
+import es.eucm.eadventure.engine.core.Renderable;
 import es.eucm.eadventure.engine.core.gameobjects.EffectGO;
 import es.eucm.eadventure.engine.core.gameobjects.GameObjectFactory;
 import es.eucm.eadventure.engine.core.gameobjects.impl.GameObjectImpl;
 import es.eucm.eadventure.engine.core.guiactions.GUIAction;
 import es.eucm.eadventure.engine.core.platform.AssetHandler;
+import es.eucm.eadventure.engine.core.platform.EAdCanvas;
 import es.eucm.eadventure.engine.core.platform.GUI;
 
 public abstract class AbstractEffectGO<P extends EAdEffect> extends
-		GameObjectImpl<P> implements EffectGO<P> {
+		GameObjectImpl<P> implements EffectGO<P>, Renderable {
 
 	private boolean stopped = false;
 
@@ -145,6 +147,16 @@ public abstract class AbstractEffectGO<P extends EAdEffect> extends
 	
 	public String toString(){
 		return "GO " + element;
+	}
+	
+	@Override
+	public void render(EAdCanvas<?> c) {
+
+	}
+
+	@Override
+	public boolean contains(int x, int y) {
+		return false;
 	}
 
 }

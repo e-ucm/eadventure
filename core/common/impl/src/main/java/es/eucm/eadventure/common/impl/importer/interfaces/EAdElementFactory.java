@@ -43,6 +43,7 @@ import es.eucm.eadventure.common.model.EAdElement;
 import es.eucm.eadventure.common.model.elements.EAdChapter;
 import es.eucm.eadventure.common.model.elements.EAdCondition;
 import es.eucm.eadventure.common.model.variables.EAdField;
+import es.eucm.eadventure.common.resources.assets.drawable.basics.Image;
 
 public interface EAdElementFactory {
 
@@ -121,6 +122,10 @@ public interface EAdElementFactory {
 	void registerOldElement(String id, Object oldElement);
 
 	<S> EAdElement getElement(String id, S oldElement);
+
+	AdventureData getOldDataModel();
+	
+	Image getDefaultCursor();
 
 
 }

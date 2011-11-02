@@ -3,11 +3,16 @@ package es.eucm.eadventure.common.elementfactories.scenedemos.normalguy;
 import es.eucm.eadventure.common.elementfactories.EAdElementsFactory;
 import es.eucm.eadventure.common.elementfactories.StringFactory;
 import es.eucm.eadventure.common.elementfactories.scenedemos.EmptyScene;
+import es.eucm.eadventure.common.model.conditions.impl.ANDCondition;
 import es.eucm.eadventure.common.model.conditions.impl.FlagCondition;
 import es.eucm.eadventure.common.model.conditions.impl.NOTCondition;
+import es.eucm.eadventure.common.model.conditions.impl.OperationCondition;
+import es.eucm.eadventure.common.model.conditions.impl.OperationCondition.Comparator;
+import es.eucm.eadventure.common.model.effects.EAdEffect;
 import es.eucm.eadventure.common.model.effects.impl.sceneelements.EAdMoveSceneElement;
 import es.eucm.eadventure.common.model.effects.impl.text.EAdSpeakEffect;
 import es.eucm.eadventure.common.model.effects.impl.variables.EAdChangeFieldValueEffect;
+import es.eucm.eadventure.common.model.elements.EAdCondition;
 import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
 import es.eucm.eadventure.common.model.events.EAdSceneElementEvent;
 import es.eucm.eadventure.common.model.events.EAdSceneElementEvent.SceneElementEvent;
@@ -20,6 +25,8 @@ import es.eucm.eadventure.common.model.variables.impl.EAdFieldImpl;
 import es.eucm.eadventure.common.model.variables.impl.EAdVarDefImpl;
 import es.eucm.eadventure.common.model.variables.impl.SystemFields;
 import es.eucm.eadventure.common.model.variables.impl.operations.BooleanOperation;
+import es.eucm.eadventure.common.model.variables.impl.operations.MathOperation;
+import es.eucm.eadventure.common.model.variables.impl.operations.ValueOperation;
 import es.eucm.eadventure.common.params.geom.impl.EAdPositionImpl.Corner;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.ImageImpl;
 
@@ -29,9 +36,17 @@ public class NgRoom1 extends EmptyScene {
 	private EAdBasicSceneElement darkness;
 	private FlagCondition isDark;
 	private NOTCondition isNotDark;
+	private EAdFieldImpl<Boolean> darknessVisible;
+	private EAdBasicSceneElement table;
+	private EAdBasicSceneElement lamp;
+	private EAdBasicSceneElement carpet;
+	private EAdBasicSceneElement door;
+	private EAdBasicSceneElement portrait;
+	private EAdBasicSceneElement key;
 
 	public NgRoom1() {
 		NgCommon.init();
+		initConditions();
 		setBackground(new EAdBasicSceneElement("background", new ImageImpl(
 				"@drawable/ng_room1_bg.png")));
 
@@ -50,22 +65,65 @@ public class NgRoom1 extends EmptyScene {
 		move.setUseTrajectory(true);
 
 		getBackground().addBehavior(EAdMouseEventImpl.MOUSE_LEFT_PRESSED, move);
+		createElements();
+		initConditions();
+		addElementsInOrder();
 
-		addDarkness(ng);
-		addDoor();
-		addKey();
-		addPortrait();
-		addCarpet();
-		getElements().add(ng);
-		addTable();
+		setDarkness(ng);
+		setLamp();
+		setPortrait();
+		setDoor();
+		setKey();
 		this.getElements().add(darkness);
 	}
 
-	private void addDarkness(EAdBasicSceneElement ng) {
+	private void initConditions() {
+		darknessVisible = new EAdFieldImpl<Boolean>(darkness,
+				EAdBasicSceneElement.VAR_VISIBLE);
+
+		isDark = new FlagCondition(darknessVisible);
+		isNotDark = new NOTCondition(isDark);
+	}
+
+	private void createElements() {
 		darkness = new EAdBasicSceneElement("darkness", new ImageImpl(
 				"@drawable/ng_lights_off.png"));
 		darkness.setPosition(Corner.CENTER, 0, 0);
+		table = new EAdBasicSceneElement("table", new ImageImpl(
+				"@drawable/ng_table.png"));
+		table.setPosition(Corner.CENTER, 576, 550);
+		lamp = new EAdBasicSceneElement("lamp", new ImageImpl(
+				"@drawable/ng_lamp.png"));
+		lamp.setPosition(Corner.CENTER, 617, 470);
 
+		carpet = new EAdBasicSceneElement("table", new ImageImpl(
+				"@drawable/ng_carpet.png"));
+		carpet.setPosition(Corner.CENTER, 350, 470);
+		door = new EAdBasicSceneElement("table", new ImageImpl(
+				"@drawable/ng_door.png"));
+		door.setPosition(Corner.CENTER, 662, 235);
+		portrait = new EAdBasicSceneElement("portrait", new ImageImpl(
+				"@drawable/ng_portrait.png"));
+		portrait.setPosition(Corner.CENTER, 430, 230);
+
+		key = new EAdBasicSceneElement("table", new ImageImpl(
+				"@drawable/ng_key.png"));
+		key.setPosition(Corner.CENTER, 430, 230);
+
+	}
+
+	private void addElementsInOrder() {
+		getElements().add(door);
+		getElements().add(key);
+		getElements().add(portrait);
+		getElements().add(carpet);
+		getElements().add(ng);
+		getElements().add(table);
+		getElements().add(lamp);
+		getElements().add(darkness);
+	}
+
+	private void setDarkness(EAdBasicSceneElement ng) {
 		EAdSceneElementEvent event = new EAdSceneElementEventImpl();
 		EAdChangeFieldValueEffect changeX = new EAdChangeFieldValueEffect(
 				"changeX", new EAdFieldImpl<Integer>(darkness,
@@ -79,27 +137,9 @@ public class NgRoom1 extends EmptyScene {
 		event.addEffect(SceneElementEvent.ALWAYS, changeY);
 
 		darkness.getEvents().add(event);
-
 	}
 
-	private void addTable() {
-		EAdBasicSceneElement table = new EAdBasicSceneElement("table",
-				new ImageImpl("@drawable/ng_table.png"));
-		table.setPosition(Corner.CENTER, 576, 550);
-
-		getElements().add(table);
-
-		EAdBasicSceneElement lamp = new EAdBasicSceneElement("lamp",
-				new ImageImpl("@drawable/ng_lamp.png"));
-		lamp.setPosition(Corner.CENTER, 617, 470);
-
-		getElements().add(lamp);
-
-		EAdField<Boolean> darknessVisible = new EAdFieldImpl<Boolean>(darkness,
-				EAdBasicSceneElement.VAR_VISIBLE);
-
-		isDark = new FlagCondition(darknessVisible);
-		isNotDark = new NOTCondition(isDark);
+	private void setLamp() {
 		EAdChangeFieldValueEffect switchLights = new EAdChangeFieldValueEffect(
 				"switch", darknessVisible, new BooleanOperation(isNotDark));
 		EAdMoveSceneElement move = moveNg(617, 510);
@@ -107,31 +147,13 @@ public class NgRoom1 extends EmptyScene {
 		lamp.addBehavior(EAdMouseEventImpl.MOUSE_LEFT_PRESSED, move);
 	}
 
-	private void addCarpet() {
-		EAdBasicSceneElement carpet = new EAdBasicSceneElement("table",
-				new ImageImpl("@drawable/ng_carpet.png"));
-		carpet.setPosition(Corner.CENTER, 350, 470);
-
-		getElements().add(carpet);
-	}
-
-	private void addDoor() {
-		EAdBasicSceneElement door = new EAdBasicSceneElement("table",
-				new ImageImpl("@drawable/ng_door.png"));
-		door.setPosition(Corner.CENTER, 662, 235);
-
-		getElements().add(door);
+	private void setDoor() {
 
 	}
 
-	private void addPortrait() {
-		EAdBasicSceneElement portrait = new EAdBasicSceneElement("table",
-				new ImageImpl("@drawable/ng_portrait.png"));
-		portrait.setPosition(Corner.CENTER, 430, 230);
+	private void setPortrait() {
 
 		addText(portrait);
-
-		getElements().add(portrait);
 	}
 
 	private void addText(EAdBasicSceneElement portrait) {
@@ -139,24 +161,46 @@ public class NgRoom1 extends EmptyScene {
 				"timesClicked", Integer.class, 0);
 		EAdField<Integer> timesField = new EAdFieldImpl<Integer>(portrait,
 				timesClicked);
+
+		EAdChangeFieldValueEffect addTimes = new EAdChangeFieldValueEffect(
+				timesField, new MathOperation("[0] + 1 ", timesField));
+
+		
+//		ORCondition orConditon = new ORCondition( getTextCondition(0), getTextCondition())
+		EAdCondition moveCondition = new ANDCondition(isNotDark, null);
 		EAdMoveSceneElement move = moveNg(430, 260);
-		move.setCondition(isNotDark);
+		move.setCondition(moveCondition);
 
 		portrait.addBehavior(EAdMouseEventImpl.MOUSE_LEFT_CLICK, move);
 
-		StringFactory sf = EAdElementsFactory.getInstance().getStringFactory();
-		EAdSpeakEffect effect = new EAdSpeakEffect("effect1");
-
-		sf.setString(effect.getString(), "Hmm. That's me.");
+		move.getFinalEffects().add(NgCommon.getLookNorthEffect());
+		move.getFinalEffects().add(getSpeakEffect(0));
+		move.getFinalEffects().add(addTimes);
 
 	}
 
-	private void addKey() {
-		EAdBasicSceneElement key = new EAdBasicSceneElement("table",
-				new ImageImpl("@drawable/ng_key.png"));
-		key.setPosition(Corner.CENTER, 430, 230);
+	private void setKey() {
 
-		getElements().add(key);
+	}
+	
+	private EAdCondition getTextCondition( EAdField<Integer> timesField, int value ){
+		OperationCondition op = new OperationCondition(timesField,
+				new ValueOperation(value), Comparator.EQUAL);
+		return op;
+	}
+
+	private String strings[] = new String[] {
+			"Hmm. That's me. It's kind of weird. This is not my house. It's a nice photo, anyway.",
+			"Yeah, I know. My photo. We talked about it just a moment ago.",
+			"Yeah...", "You know, I'm not coming back...",
+			"OK. You know what, YOU KNOW WHAT?",
+			"There you go. Are you happy now?" };
+
+	private EAdEffect getSpeakEffect(int i) {
+		StringFactory sf = EAdElementsFactory.getInstance().getStringFactory();
+		EAdSpeakEffect speak = new EAdSpeakEffect("effect1");
+		sf.setString(speak.getString(), strings[i]);
+		return speak;
 	}
 
 	private EAdMoveSceneElement moveNg(int x, int y) {

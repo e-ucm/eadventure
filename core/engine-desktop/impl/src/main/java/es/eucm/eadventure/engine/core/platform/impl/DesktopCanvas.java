@@ -170,4 +170,15 @@ public class DesktopCanvas extends AbstractCanvas<Graphics2D> {
 		g.translate(x, y);
 	}
 
+	@Override
+	public void scale(float scaleX, float scaleY) {
+		g.scale(scaleX, scaleY);
+		
+	}
+
+	@Override
+	public void rotate(float angle) {
+		g.rotate(angle);	
+	}
+
 }

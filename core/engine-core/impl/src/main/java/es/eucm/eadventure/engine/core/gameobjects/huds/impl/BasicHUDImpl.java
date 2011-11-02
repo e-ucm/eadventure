@@ -56,6 +56,7 @@ import es.eucm.eadventure.common.params.geom.impl.EAdPositionImpl;
 import es.eucm.eadventure.common.params.geom.impl.EAdPositionImpl.Corner;
 import es.eucm.eadventure.common.predef.model.events.StayInBoundsEvent;
 import es.eucm.eadventure.common.resources.StringHandler;
+import es.eucm.eadventure.common.resources.assets.drawable.basics.Image;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.CaptionImpl;
 import es.eucm.eadventure.engine.core.GameState;
 import es.eucm.eadventure.engine.core.MouseState;
@@ -68,6 +69,8 @@ import es.eucm.eadventure.engine.core.gameobjects.huds.BasicHUD;
 import es.eucm.eadventure.engine.core.gameobjects.huds.MenuHUD;
 import es.eucm.eadventure.engine.core.guiactions.GUIAction;
 import es.eucm.eadventure.engine.core.guiactions.KeyAction;
+import es.eucm.eadventure.engine.core.platform.AssetHandler;
+import es.eucm.eadventure.engine.core.platform.DrawableAsset;
 import es.eucm.eadventure.engine.core.platform.EAdCanvas;
 import es.eucm.eadventure.engine.core.platform.GUI;
 import es.eucm.eadventure.engine.core.platform.RuntimeAsset;
@@ -87,6 +90,8 @@ public class BasicHUDImpl implements BasicHUD {
 	 * The logger
 	 */
 	protected static final Logger logger = Logger.getLogger("BasicHUDImpl");
+	
+	private static final int CURSOR_SIZE = 32; 
 
 	private GUI gui;
 
@@ -95,6 +100,8 @@ public class BasicHUDImpl implements BasicHUD {
 	private GameObjectFactory gameObjectFactory;
 
 	protected GameState gameState;
+	
+	private AssetHandler assetHandler;
 
 	private GameObjectManager gameObjectManager;
 
@@ -109,12 +116,22 @@ public class BasicHUDImpl implements BasicHUD {
 	protected ValueMap valueMap;
 
 	private StringHandler stringHandler;
+	
+	private Image mousePointerDrawable;
+
+	private Integer mouseX;
+
+	private Integer mouseY;
+
+	private DrawableAsset<? extends Image> rAsset;
+
+	private float scale;
 
 	@Inject
 	public BasicHUDImpl(MenuHUD menuHUD, GameObjectFactory gameObjectFactory,
 			GameState gameState, GameObjectManager gameObjectManager,
 			MouseState mouseState, ValueMap valueMap,
-			StringHandler stringHandler) {
+			StringHandler stringHandler, AssetHandler assetHandler) {
 		logger.info("New instance");
 		this.menuHUD = menuHUD;
 		this.gameObjectFactory = gameObjectFactory;
@@ -123,6 +140,7 @@ public class BasicHUDImpl implements BasicHUD {
 		this.mouseState = mouseState;
 		this.valueMap = valueMap;
 		this.stringHandler = stringHandler;
+		this.assetHandler = assetHandler;
 		c = new CaptionImpl();
 		c.setFont(new EAdFontImpl(12.0f));
 		c.setBubblePaint(new EAdColor(255, 255, 125));
@@ -195,6 +213,9 @@ public class BasicHUDImpl implements BasicHUD {
 	@SuppressWarnings("unchecked")
 	@Override
 	public void update() {
+		checkMousePointer();
+		mouseX = valueMap.getValue(SystemFields.MOUSE_X);
+		mouseY = valueMap.getValue(SystemFields.MOUSE_Y);
 		contextualOn = false;
 		GameObject<? extends EAdElement> go = (GameObject<? extends EAdElement>) mouseState
 				.getGameObjectUnderMouse();
@@ -211,13 +232,12 @@ public class BasicHUDImpl implements BasicHUD {
 
 				cgo.getRenderAsset().update();
 
-				int mouseX = valueMap.getValue(SystemFields.MOUSE_X);
-				int mouseY = valueMap.getValue(SystemFields.MOUSE_Y) - 40;
+
 
 				valueMap.setValue(contextual, EAdBasicSceneElement.VAR_X,
 						mouseX);
 				valueMap.setValue(contextual, EAdBasicSceneElement.VAR_Y,
-						mouseY);
+						mouseY - 40);
 				gameObjectFactory.get(contextual).update();
 
 				contextualOn = true;
@@ -229,6 +249,18 @@ public class BasicHUDImpl implements BasicHUD {
 			contextualOn = false;
 		}
 		
+	}
+
+	private void checkMousePointer() {
+		Image newCursor = gameState.getValueMap().getValue(SystemFields.MOUSE_CURSOR);
+		if ( mousePointerDrawable != newCursor){
+			mousePointerDrawable = newCursor;
+			if ( mousePointerDrawable != null ){
+				rAsset = (DrawableAsset<? extends Image>) assetHandler.getRuntimeAsset(mousePointerDrawable);
+				scale = 1.0f / ( rAsset.getWidth() > rAsset.getHeight() ? rAsset.getWidth() / CURSOR_SIZE : rAsset.getHeight() / CURSOR_SIZE );
+			}
+			
+		}
 	}
 
 	@Override
@@ -264,8 +296,15 @@ public class BasicHUDImpl implements BasicHUD {
 
 	@Override
 	public void render(EAdCanvas<?> c) {
-		
-		
+		mouseX = valueMap.getValue(SystemFields.MOUSE_X);
+		mouseY = valueMap.getValue(SystemFields.MOUSE_Y);
+		if ( rAsset != null && mouseX >= 0 && mouseY >= 0 ){
+			c.save();
+			c.translate(mouseX, mouseY);
+			c.scale( scale, scale );
+			c.drawImage(rAsset);
+			c.restore();
+		}
 	}
 
 	@Override

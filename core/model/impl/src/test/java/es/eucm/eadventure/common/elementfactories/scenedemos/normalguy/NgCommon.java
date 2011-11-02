@@ -1,10 +1,13 @@
 package es.eucm.eadventure.common.elementfactories.scenedemos.normalguy;
 
 import es.eucm.eadventure.common.interfaces.features.Oriented.Orientation;
+import es.eucm.eadventure.common.model.effects.EAdEffect;
+import es.eucm.eadventure.common.model.effects.impl.variables.EAdChangeFieldValueEffect;
 import es.eucm.eadventure.common.model.elements.EAdSceneElementDef;
 import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
 import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement.CommonStates;
 import es.eucm.eadventure.common.model.elements.impl.EAdSceneElementDefImpl;
+import es.eucm.eadventure.common.model.variables.impl.operations.ValueOperation;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.ImageImpl;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.animation.Frame;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.animation.FramesAnimation;
@@ -16,12 +19,21 @@ public class NgCommon {
 	private static boolean init = false;
 
 	private static EAdSceneElementDef mainCharacter;
+	
+	private static EAdChangeFieldValueEffect lookNorth;
 
 	public static void init() {
 		if (!init) {
 			init = true;
 			createMainCharacter();
+			createEffects();
 		}
+	}
+
+	private static void createEffects() {
+		 lookNorth = new EAdChangeFieldValueEffect("lookNorth");
+		 lookNorth.setParentVar(EAdBasicSceneElement.VAR_ORIENTATION);
+		 lookNorth.setOperation(new ValueOperation( Orientation.N ));		
 	}
 
 	private static void createMainCharacter() {
@@ -100,6 +112,10 @@ public class NgCommon {
 
 	public static EAdSceneElementDef getMainCharacter() {
 		return mainCharacter;
+	}
+	
+	public static EAdEffect getLookNorthEffect(){
+		return lookNorth;
 	}
 
 }

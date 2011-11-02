@@ -43,14 +43,22 @@ import com.google.inject.Inject;
 
 import es.eucm.eadventure.common.EAdElementImporter;
 import es.eucm.eadventure.common.data.HasId;
+import es.eucm.eadventure.common.data.adventure.AdventureData;
 import es.eucm.eadventure.common.data.chapter.Chapter;
 import es.eucm.eadventure.common.data.chapter.Timer;
 import es.eucm.eadventure.common.impl.importer.interfaces.EAdElementFactory;
+import es.eucm.eadventure.common.impl.importer.interfaces.ResourceImporter;
 import es.eucm.eadventure.common.model.elements.EAdChapter;
 import es.eucm.eadventure.common.model.elements.EAdScene;
 import es.eucm.eadventure.common.model.elements.EAdTimer;
+import es.eucm.eadventure.common.model.events.EAdSceneElementEvent;
+import es.eucm.eadventure.common.model.events.EAdSceneElementEvent.SceneElementEvent;
+import es.eucm.eadventure.common.model.events.impl.EAdSceneElementEventImpl;
 import es.eucm.eadventure.common.model.impl.EAdChapterImpl;
+import es.eucm.eadventure.common.predef.model.effects.EAdChangeCursorEffect;
 import es.eucm.eadventure.common.resources.StringHandler;
+import es.eucm.eadventure.common.resources.assets.drawable.basics.Image;
+import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.ImageImpl;
 
 /**
  * Chapter importer
@@ -67,11 +75,14 @@ public class ChapterImporter implements EAdElementImporter<Chapter, EAdChapter> 
 
 	private EAdElementFactory elementFactory;
 
+	private ResourceImporter resourceImporter;
+
 	@Inject
 	public ChapterImporter(StringHandler stringHandler,
-			EAdElementFactory elementFactory) {
+			EAdElementFactory elementFactory, ResourceImporter resourceImporter) {
 		this.stringHandler = stringHandler;
 		this.elementFactory = elementFactory;
+		this.resourceImporter = resourceImporter;
 	}
 
 	@Override
@@ -86,7 +97,8 @@ public class ChapterImporter implements EAdElementImporter<Chapter, EAdChapter> 
 		elementFactory.setCurrentChapterModel(newChapter, oldChapter);
 
 		stringHandler.setString(newChapter.getTitle(), oldChapter.getTitle());
-		stringHandler.setString(newChapter.getDescription(), oldChapter.getDescription());
+		stringHandler.setString(newChapter.getDescription(),
+				oldChapter.getDescription());
 
 		registerOldElements(oldChapter.getAtrezzo());
 		registerOldElements(oldChapter.getItems());
@@ -105,6 +117,10 @@ public class ChapterImporter implements EAdElementImporter<Chapter, EAdChapter> 
 		importElements(oldChapter.getCharacters());
 		importElements(oldChapter.getCutscenes());
 		importElements(oldChapter.getScenes());
+
+		// Set cursor (yes, here)
+		setAdventureCursor(oldChapter);
+
 		importElements(oldChapter.getBooks());
 		importElements(oldChapter.getGlobalStates());
 		importElements(oldChapter.getMacros());
@@ -130,6 +146,19 @@ public class ChapterImporter implements EAdElementImporter<Chapter, EAdChapter> 
 				.getElementById(oldChapter.getInitialGeneralScene().getId()));
 
 		return newChapter;
+	}
+
+	private void setAdventureCursor(Chapter oldChapter) {
+
+		EAdChangeCursorEffect changeCursor = new EAdChangeCursorEffect(
+				elementFactory.getDefaultCursor());
+		EAdScene scene = (EAdScene) elementFactory.getElementById(oldChapter
+				.getInitialGeneralScene().getId());
+
+		EAdSceneElementEvent event = new EAdSceneElementEventImpl();
+		event.addEffect(SceneElementEvent.ADDED_TO_SCENE, changeCursor);
+		scene.getEvents().add(event);
+
 	}
 
 	private void registerOldElements(List<? extends HasId> list) {

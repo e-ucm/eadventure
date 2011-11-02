@@ -146,4 +146,14 @@ public class AndroidCanvas extends AbstractCanvas<Canvas> {
 		g.translate(x, y);
 	}
 
+	@Override
+	public void scale(float scaleX, float scaleY) {
+		g.scale(scaleX, scaleY);
+	}
+
+	@Override
+	public void rotate(float angle) {
+		g.rotate((float) Math.toDegrees(angle));
+	}
+
 }

@@ -144,15 +144,6 @@ public interface GUI {
 	int[] getGameElementGUIOffset(GameObject<?> gameObject);
 
 	/**
-	 * Changes the mouse cursor (only works in some platforms)
-	 * 
-	 * @param image
-	 *            the cursor's image. If the image is {@code null}, the previous
-	 *            cursor in the stack is set
-	 */
-	void changeCursor(Image image);
-
-	/**
 	 * Adds to transformation t1 transformation t2
 	 * 
 	 * @param t1

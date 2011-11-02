@@ -45,94 +45,101 @@ import es.eucm.eadventure.common.model.extra.EAdList;
 import es.eucm.eadventure.common.model.extra.impl.EAdListImpl;
 import es.eucm.eadventure.common.model.impl.EAdGeneralElementImpl;
 
-public abstract class ListedCondition extends EAdGeneralElementImpl implements EAdCondition {
+public abstract class ListedCondition extends EAdGeneralElementImpl implements
+		EAdCondition {
 
 	/**
 	 * Operator for conditions
 	 * 
-	 *
+	 * 
 	 */
 	public enum Operator {
 		/**
 		 * AND operator
 		 */
-		AND, 
-		
+		AND,
+
 		/**
 		 * OR operator
 		 */
-		OR, 
-		
+		OR,
+
 		/**
 		 * OTHER operator
 		 */
 		OTHER
 	}
-	
+
 	@Param("conditions")
 	private EAdList<EAdCondition> conditions;
-	
+
 	@Param("operator")
 	private Operator operator;
-	
-	public ListedCondition( String id ){
-		this( id, null );
+
+	public ListedCondition(String id) {
+		this(id, null);
 	}
-	
-	public ListedCondition( String id, Operator operator ){
-		this( id, operator, (EAdCondition) null );
+
+	public ListedCondition(String id, Operator operator) {
+		this(id, operator, (EAdCondition) null);
 	}
-	
-	public ListedCondition(String id, Operator operator, EAdCondition... condition) {
+
+	public ListedCondition(String id, Operator operator,
+			EAdCondition... condition) {
 		super(id);
 		conditions = new EAdListImpl<EAdCondition>(EAdCondition.class);
 		for (int i = 0; i < condition.length; i++)
-			if ( condition[i] != null )
+			if (condition[i] != null)
 				conditions.add(condition[i]);
 		this.operator = operator;
 	}
-		
+
 	public ListedCondition(Operator operator, EAdCondition... condition) {
 		this("conditionId", operator, condition);
 	}
-	
+
 	public Operator getOperator() {
 		return operator;
 	}
-	
+
 	public void addCondition(EAdCondition condition) {
 		conditions.add(condition);
 	}
-	
-	public void replaceCondition(EAdCondition oldCondition, EAdCondition newCondition) {
+
+	public void replaceCondition(EAdCondition oldCondition,
+			EAdCondition newCondition) {
 		if (conditions.remove(oldCondition))
 			conditions.add(newCondition);
 	}
-	
+
 	public boolean removeCondition(EAdCondition condition) {
 		if (conditions.size() == 1)
 			return false;
-		else return (conditions.remove(condition));
+		else
+			return (conditions.remove(condition));
 	}
-	
+
 	public Iterator<EAdCondition> getConditions() {
 		return conditions.iterator();
 	}
-	
+
 	public EAdList<EAdCondition> getConds() {
 		return conditions;
 	}
-	
+
 	public abstract EmptyCondition getNullOperator();
-	
+
 	@Override
 	public String toString() {
 		String value = "(";
-		value += conditions.get(0);
-		for (int i = 1; i < conditions.size(); i++) {
-			value += " " + operator.toString() + " " + conditions.get(i).toString();
+		if (conditions.size() > 0) {
+			value += conditions.get(0);
+			for (int i = 1; i < conditions.size(); i++) {
+				value += " " + operator + " " + conditions.get(i);
+			}
+			return value + ")";
 		}
-		return value + ")";
+		return "Empty list";
 	}
 
 }

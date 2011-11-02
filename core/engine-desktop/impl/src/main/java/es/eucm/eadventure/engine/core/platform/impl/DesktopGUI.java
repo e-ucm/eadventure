@@ -50,7 +50,7 @@ import java.awt.RenderingHints;
 import java.awt.Robot;
 import java.awt.Toolkit;
 import java.awt.image.BufferStrategy;
-import java.util.Stack;
+import java.awt.image.MemoryImageSource;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -67,7 +67,6 @@ import es.eucm.eadventure.engine.core.gameobjects.GameObjectFactory;
 import es.eucm.eadventure.engine.core.gameobjects.GameObjectManager;
 import es.eucm.eadventure.engine.core.gameobjects.huds.BasicHUD;
 import es.eucm.eadventure.engine.core.guiactions.KeyAction;
-import es.eucm.eadventure.engine.core.platform.AssetHandler;
 import es.eucm.eadventure.engine.core.platform.GUI;
 import es.eucm.eadventure.engine.core.platform.PlatformConfiguration;
 import es.eucm.eadventure.engine.core.platform.RuntimeAsset;
@@ -110,35 +109,22 @@ public class DesktopGUI extends AbstractGUI<Graphics2D> implements GUI {
 	 */
 	private int MOUSE_MOVE = 20;
 
-	/**
-	 * A stack to store cursors
-	 */
-	private Stack<Cursor> cursorsStack;
-
-	/**
-	 * Asset handler
-	 */
-	private AssetHandler assetHandler;
-
 	private Object currentComponent;
 
 	@Inject
 	public DesktopGUI(PlatformConfiguration platformConfiguration,
 			GameObjectManager gameObjectManager, MouseState mouseState,
 			KeyboardState keyboardState, BasicHUD basicDesktopHUD,
-			GameState gameState,
-			GameObjectFactory gameObjectFactory, AssetHandler assetHandler, DesktopCanvas canvas) {
-		super(platformConfiguration, gameObjectManager,
-				mouseState, keyboardState, gameState,
-				gameObjectFactory, canvas);
+			GameState gameState, GameObjectFactory gameObjectFactory,
+			DesktopCanvas canvas) {
+		super(platformConfiguration, gameObjectManager, mouseState,
+				keyboardState, gameState, gameObjectFactory, canvas);
 		this.gameObjects.addHUD(basicDesktopHUD);
 		basicDesktopHUD.setGUI(this);
 		try {
 			this.robot = new Robot();
 		} catch (AWTException e) {
 		}
-		cursorsStack = new Stack<Cursor>();
-		this.assetHandler = assetHandler;
 	}
 
 	/*
@@ -353,6 +339,13 @@ public class DesktopGUI extends AbstractGUI<Graphics2D> implements GUI {
 		canvas.setEnabled(true);
 		canvas.setVisible(true);
 		canvas.setFocusable(true);
+		// Create transparent cursor
+		int[] pixels = new int[16 * 16];
+		java.awt.Image image = (java.awt.Image) Toolkit.getDefaultToolkit()
+				.createImage(new MemoryImageSource(16, 16, pixels, 0, 16));
+		Cursor transparentCursor = Toolkit.getDefaultToolkit()
+				.createCustomCursor(image, new Point(0, 0), "invisibleCursor");
+		canvas.setCursor(transparentCursor);
 
 		canvas.createBufferStrategy(2);
 		BufferStrategy bs = canvas.getBufferStrategy();
@@ -415,25 +408,8 @@ public class DesktopGUI extends AbstractGUI<Graphics2D> implements GUI {
 	}
 
 	@Override
-	public void changeCursor(Image image) {
-		if (image == null && !cursorsStack.isEmpty()) {
-			Cursor c = cursorsStack.pop();
-			canvas.setCursor(c);
-		} else if (image != null) {
-			DesktopEngineImage asset = (DesktopEngineImage) assetHandler
-					.getRuntimeAsset(image);
-			asset.loadAsset();
-			Cursor c = Toolkit.getDefaultToolkit().createCustomCursor(
-					asset.getImage(), new Point(0, 0),
-					image.getURI().toString());
-			cursorsStack.add(canvas.getCursor());
-			canvas.setCursor(c);
-		}
-	}
-
-	@Override
 	public void finish() {
-		if (frame != null){
+		if (frame != null) {
 			frame.setVisible(false);
 		}
 

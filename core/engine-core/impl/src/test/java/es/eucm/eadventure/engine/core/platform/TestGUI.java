@@ -92,10 +92,6 @@ public class TestGUI extends AbstractGUI<Void>{
 		
 	}
 
-	@Override
-	public void changeCursor(Image image) {
-		// TODO Auto-generated method stub
-		
-	}
+
 
 }

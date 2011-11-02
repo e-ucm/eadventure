@@ -8,7 +8,7 @@ public class VideoScene extends EAdVideoScene implements SceneDemo {
 
 	public VideoScene() {
 		super("videoScene");
-		Video video = new VideoImpl("@binary/bbb_trailer_400p.ogv");
+		Video video = new VideoImpl("@binary/bbb_trailer_360p.webm");
 		getResources().addAsset(EAdVideoScene.video, video);
 		setUpForEngine();
 	}

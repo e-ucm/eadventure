@@ -69,10 +69,6 @@ public class ComposedSceneGOImpl extends DrawableGameObject<EAdComposedScene>
 		logger.info("New instance");
 	}
 
-	public void setElement(EAdComposedScene scene) {
-		super.setElement(scene);
-	}
-
 	public void doLayout(EAdTransformation transformation) {
 		if (currentScene == null)
 			updateScene();
@@ -113,7 +109,8 @@ public class ComposedSceneGOImpl extends DrawableGameObject<EAdComposedScene>
 	private void updateScene() {
 		int currentSceneIndex = gameState.getValueMap().getValue(element,
 				EAdComposedScene.VAR_CURRENT_SCENE);
-		currentScene = element.getScenes().get(currentSceneIndex);
+		if (currentSceneIndex < element.getScenes().size())
+			currentScene = element.getScenes().get(currentSceneIndex);
 	}
 
 	@Override
@@ -123,7 +120,7 @@ public class ComposedSceneGOImpl extends DrawableGameObject<EAdComposedScene>
 
 	@Override
 	public void render(EAdCanvas<?> c) {
-		
+
 	}
 
 }

@@ -55,6 +55,9 @@ public class ValueOperator implements Operator<ValueOperation> {
 	@SuppressWarnings("unchecked")
 	@Override
 	public <S> S operate(Class<S> clazz, ValueOperation operation) {
+		if ( operation.getValue() == null )
+			return null;
+		
 		if (reflectionProvider.isAssignableFrom(clazz, operation.getValue().getClass())) {
 			return (S) operation.getValue();
 		}

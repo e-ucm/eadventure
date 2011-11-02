@@ -50,7 +50,6 @@ import es.eucm.eadventure.common.impl.importer.interfaces.ResourceImporter;
 import es.eucm.eadventure.common.model.conditions.impl.EmptyCondition;
 import es.eucm.eadventure.common.model.conditions.impl.NOTCondition;
 import es.eucm.eadventure.common.model.effects.EAdEffect;
-import es.eucm.eadventure.common.model.effects.impl.EAdChangeCursorEffect;
 import es.eucm.eadventure.common.model.effects.impl.EAdChangeScene;
 import es.eucm.eadventure.common.model.effects.impl.variables.EAdChangeFieldValueEffect;
 import es.eucm.eadventure.common.model.elements.EAdCondition;
@@ -68,6 +67,7 @@ import es.eucm.eadventure.common.model.variables.impl.operations.BooleanOperatio
 import es.eucm.eadventure.common.params.EAdString;
 import es.eucm.eadventure.common.params.fills.impl.EAdColor;
 import es.eucm.eadventure.common.params.geom.impl.EAdRectangleImpl;
+import es.eucm.eadventure.common.predef.model.effects.EAdChangeCursorEffect;
 import es.eucm.eadventure.common.resources.StringHandler;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.Image;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.Shape;
@@ -200,7 +200,7 @@ public class ExitImporter implements EAdElementImporter<Exit, EAdSceneElement> {
 			cursor = (Image) resourceImporter.getAssetDescritptor(
 					exitLook.getCursorPath(), ImageImpl.class);
 		EAdChangeCursorEffect changeCursor = new EAdChangeCursorEffect(cursor);
-		EAdChangeCursorEffect changeCursorBack = new EAdChangeCursorEffect(null);
+		EAdChangeCursorEffect changeCursorBack = new EAdChangeCursorEffect(factory.getDefaultCursor());
 
 		newExit.addBehavior(EAdMouseEventImpl.MOUSE_ENTERED, changeCursor);
 		newExit.addBehavior(EAdMouseEventImpl.MOUSE_EXITED, changeCursorBack);

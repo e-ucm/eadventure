@@ -158,4 +158,14 @@ public class PlayNCanvas extends AbstractCanvas<Canvas> {
 		return Color.argb(c.getAlpha(), c.getRed(), c.getGreen(), c.getBlue());
 	}
 
+	@Override
+	public void scale(float scaleX, float scaleY) {
+		g.scale(scaleX, scaleY);
+	}
+
+	@Override
+	public void rotate(float angle) {
+		g.rotate(angle);	
+	}
+
 }

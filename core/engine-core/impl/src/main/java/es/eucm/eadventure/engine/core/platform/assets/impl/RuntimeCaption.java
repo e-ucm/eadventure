@@ -77,7 +77,7 @@ public class RuntimeCaption extends AbstractRuntimeAsset<Caption> implements
 	protected String text;
 
 	protected List<String> lines;
-	
+
 	protected List<Integer> widths;
 
 	protected RuntimeFont font;
@@ -302,13 +302,14 @@ public class RuntimeCaption extends AbstractRuntimeAsset<Caption> implements
 				* lineHeight
 				: preferredHeight;
 
+		bounds.width = descriptor.getPreferredWidth() == Caption.AUTO_SIZE ? bounds.width
+				: preferredWidth;
+
 		heightOffset = descriptor.getPreferredHeight() != Caption.AUTO_SIZE ? (preferredHeight - (linesInPart * lineHeight)) / 2
 				: 0;
 
-		if (descriptor.hasBubble()) {
-			bounds.width += descriptor.getPadding() * 2;
-			bounds.height += descriptor.getPadding() * 2;
-		}
+		bounds.width += descriptor.getPadding() * 2;
+		bounds.height += descriptor.getPadding() * 2;
 
 		reset();
 	}
@@ -457,27 +458,28 @@ public class RuntimeCaption extends AbstractRuntimeAsset<Caption> implements
 		c.setFont(descriptor.getFont());
 		int xOffset = 0;
 		int yOffset = getAssetDescriptor().getPadding();
-		if (currentPart == totalParts - 1 && lines.size() % linesInPart != 0 ) {
-			yOffset += (bounds.height  - getAssetDescriptor().getPadding() * 2 - ((lines.size() % linesInPart) * lineHeight)) / 2;
-		}
-		else {
+		if (currentPart == totalParts - 1 && lines.size() % linesInPart != 0) {
+			yOffset += (bounds.height - getAssetDescriptor().getPadding() * 2 - ((lines
+					.size() % linesInPart) * lineHeight)) / 2;
+		} else {
 			yOffset += heightOffset;
 		}
-		
+
 		int i = currentPart * linesInPart;
 		// Draw lines
 		for (String s : getText()) {
-			switch ( descriptor.getAlignment() ){
+			switch (descriptor.getAlignment()) {
 			case CENTER:
-				xOffset = ( bounds.width - descriptor.getPadding() * 2 - widths.get(i) ) / 2;
+				xOffset = (bounds.width - widths.get(i)) / 2;
 				break;
 			case RIGHT:
-				xOffset = ( bounds.width - descriptor.getPadding() * 2 - widths.get(i) );
+				xOffset = (bounds.width - widths.get(i))
+						- descriptor.getPadding();
 				break;
 			default:
-				xOffset = 0;
+				xOffset = descriptor.getPadding();
 			}
-			c.drawText(s, xOffset + descriptor.getPadding(), yOffset);
+			c.drawText(s, xOffset, yOffset);
 			yOffset += getLineHeight();
 			i++;
 		}

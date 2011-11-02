@@ -98,6 +98,11 @@ public class EAdChangeFieldValueEffect extends AbstractEAdEffect {
 		this.operation = operation;
 	}
 
+	public EAdChangeFieldValueEffect(EAdField<Integer> timesField,
+			EAdOperation operation) {
+		this("changeField", timesField, operation);
+	}
+
 	/**
 	 * Adds a field to be updated with the operation result
 	 * 

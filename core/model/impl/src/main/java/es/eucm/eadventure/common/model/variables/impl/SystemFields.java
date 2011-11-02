@@ -2,6 +2,8 @@ package es.eucm.eadventure.common.model.variables.impl;
 
 import es.eucm.eadventure.common.model.elements.EAdSceneElement;
 import es.eucm.eadventure.common.model.variables.EAdField;
+import es.eucm.eadventure.common.resources.assets.drawable.basics.Image;
+import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.ImageImpl;
 
 public class SystemFields {
 
@@ -23,5 +25,12 @@ public class SystemFields {
 	public static final EAdField<EAdSceneElement> ACTIVE_ELEMENT = new EAdFieldImpl<EAdSceneElement>(
 			null, new EAdVarDefImpl<EAdSceneElement>("active_element",
 					EAdSceneElement.class, null));
+
+	public static final Image DEFAULT_MOUSE = new ImageImpl(
+			"@drawable/action.png");
+
+	public static final EAdField<Image> MOUSE_CURSOR = new EAdFieldImpl<Image>(
+			null, new EAdVarDefImpl<Image>("mouse_cursor", Image.class,
+					DEFAULT_MOUSE));
 
 }

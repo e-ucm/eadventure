@@ -414,7 +414,7 @@ public abstract class SceneElementGOImpl<T extends EAdSceneElement> extends
 
 	@Override
 	public EAdList<EAdAction> getValidActions() {
-		return null;
+		return element.getValidActions();
 	}
 
 	public float getScale() {
