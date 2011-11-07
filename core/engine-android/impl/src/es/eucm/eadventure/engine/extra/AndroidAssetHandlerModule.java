@@ -82,6 +82,8 @@ public class AndroidAssetHandlerModule extends AbstractModule {
 	protected void configure() {
 		bind(StringHandler.class).to(DefaultStringHandler.class);
 		bind(AssetHandler.class).to(AndroidAssetHandler.class);
+		
+		//Bind to AndroidVideoRenderer (uses API mediaplayer) or RockPlayerAndroidVideoRenderer
 		bind(new TypeLiteral<SpecialAssetRenderer<Video, ?>>(){}).to(AndroidVideoRenderer.class);
 	}
 	
