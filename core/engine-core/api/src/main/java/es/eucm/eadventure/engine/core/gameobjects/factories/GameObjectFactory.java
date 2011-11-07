@@ -35,40 +35,35 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package es.eucm.eadventure.engine.core.impl.modules;
+package es.eucm.eadventure.engine.core.gameobjects.factories;
 
-import com.google.gwt.inject.client.AbstractGinModule;
-import com.google.inject.TypeLiteral;
-
-import es.eucm.eadventure.common.interfaces.MapProvider;
 import es.eucm.eadventure.common.model.EAdElement;
 import es.eucm.eadventure.engine.core.gameobjects.GameObject;
-import es.eucm.eadventure.engine.core.gameobjects.GameObjectFactory;
-import es.eucm.eadventure.engine.core.gameobjects.SceneGO;
-import es.eucm.eadventure.engine.core.gameobjects.TimerGO;
-import es.eucm.eadventure.engine.core.gameobjects.impl.PlayNGameObjectFactoryImpl;
-import es.eucm.eadventure.engine.core.gameobjects.impl.SceneGOImpl;
-import es.eucm.eadventure.engine.core.gameobjects.impl.TimerGOImpl;
-import es.eucm.eadventure.engine.core.impl.factorymapproviders.EffectGameObjectFactoryConfigurator;
-import es.eucm.eadventure.engine.core.impl.factorymapproviders.ElementGameObjectFactoryConfigurator;
-import es.eucm.eadventure.engine.core.impl.factorymapproviders.EventGameObjectFactoryConfigurator;
-import es.eucm.eadventure.engine.core.impl.factorymapproviders.GameObjectFactoryMapProvider;
 
-public class GameObjectFactoryModule extends AbstractGinModule {
+/**
+ * <p>
+ * Interface for a game object factory.
+ * </p>
+ * <p>
+ * This interface has the methods to provide a game object based on an element
+ * in the eAdventure model and a method to provide an instance of a game object
+ * of a given class.
+ * </p>
+ */
+public interface GameObjectFactory<S extends EAdElement, T extends GameObject<? extends S>> {
+
+	/**
+	 * Returns a {@link GameObject} in the engine's runtime model for a
+	 * {@link EAdElement} in the eAdventure game model
+	 * 
+	 * @param <T>
+	 *            The type of the {@link EAdElement}
+	 * @param element
+	 *            The element
+	 * @return The game object of that element
+	 */
+	T get(S element);
 	
-	@Override
-	protected void configure() {
-		bind(SceneGO.class).to(SceneGOImpl.class);
-		bind(SceneGOImpl.class);
-		bind(TimerGO.class).to(TimerGOImpl.class);
-		
-		bind(ElementGameObjectFactoryConfigurator.class);
-		bind(EffectGameObjectFactoryConfigurator.class);
-		bind(EventGameObjectFactoryConfigurator.class);
-		
-		bind(new TypeLiteral<MapProvider<Class<? extends EAdElement>, Class<? extends GameObject<?>>>>() {}).to(GameObjectFactoryMapProvider.class);
-		bind(GameObjectFactory.class).to(PlayNGameObjectFactoryImpl.class);
-	}
-
+	void put( Class<? extends S> clazz1, Class<? extends T> clazz2 );
 
 }

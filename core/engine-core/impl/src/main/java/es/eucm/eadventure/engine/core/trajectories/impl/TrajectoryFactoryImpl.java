@@ -7,8 +7,8 @@ import es.eucm.eadventure.common.interfaces.ReflectionProvider;
 import es.eucm.eadventure.common.model.trajectories.TrajectoryDefinition;
 import es.eucm.eadventure.common.params.geom.EAdPosition;
 import es.eucm.eadventure.engine.core.ValueMap;
-import es.eucm.eadventure.engine.core.gameobjects.GameObjectFactory;
 import es.eucm.eadventure.engine.core.gameobjects.SceneElementGO;
+import es.eucm.eadventure.engine.core.gameobjects.factories.SceneElementGOFactory;
 import es.eucm.eadventure.engine.core.impl.factorymapproviders.TrajectoryFactoryMapProvider;
 import es.eucm.eadventure.engine.core.trajectories.Path;
 import es.eucm.eadventure.engine.core.trajectories.TrajectoryFactory;
@@ -18,7 +18,7 @@ public class TrajectoryFactoryImpl extends
 		AbstractFactory<TrajectoryGenerator<?>> implements TrajectoryFactory {
 
 	@Inject
-	public TrajectoryFactoryImpl(GameObjectFactory gameObjectFactory,
+	public TrajectoryFactoryImpl(SceneElementGOFactory gameObjectFactory,
 			ValueMap valueMap, ReflectionProvider interfacesProvider) {
 		super(null, interfacesProvider);
 		setMap(new TrajectoryFactoryMapProvider(this, gameObjectFactory,

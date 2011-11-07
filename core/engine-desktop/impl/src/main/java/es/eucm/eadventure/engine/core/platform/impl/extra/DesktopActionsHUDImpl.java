@@ -53,10 +53,11 @@ import es.eucm.eadventure.common.model.variables.impl.operations.BooleanOperatio
 import es.eucm.eadventure.common.params.EAdString;
 import es.eucm.eadventure.common.params.geom.impl.EAdPositionImpl;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.CaptionImpl;
+import es.eucm.eadventure.engine.core.gameobjects.DrawableGO;
 import es.eucm.eadventure.engine.core.gameobjects.GameObject;
-import es.eucm.eadventure.engine.core.gameobjects.GameObjectFactory;
 import es.eucm.eadventure.engine.core.gameobjects.GameObjectManager;
 import es.eucm.eadventure.engine.core.gameobjects.SceneElementGO;
+import es.eucm.eadventure.engine.core.gameobjects.factories.SceneElementGOFactory;
 import es.eucm.eadventure.engine.core.gameobjects.huds.impl.ActionsHUDImpl;
 import es.eucm.eadventure.engine.core.platform.GUI;
 import es.eucm.eadventure.engine.core.util.EAdTransformation;
@@ -73,18 +74,18 @@ public class DesktopActionsHUDImpl extends ActionsHUDImpl {
 	/**
 	 * List of action game objects
 	 */
-	private List<GameObject<?>> actionGOs;
+	private List<DrawableGO<?>> actionGOs;
 
 	/**
 	 * Game object factory
 	 */
-	private GameObjectFactory gameObjectFactory;
+	private SceneElementGOFactory gameObjectFactory;
 
 	@Inject
-	public DesktopActionsHUDImpl(GUI gui, GameObjectFactory gameObjectFactory,
+	public DesktopActionsHUDImpl(GUI gui, SceneElementGOFactory gameObjectFactory,
 			GameObjectManager gameObjectManager) {
 		super(gui, gameObjectManager);
-		actionGOs = new ArrayList<GameObject<?>>();
+		actionGOs = new ArrayList<DrawableGO<?>>();
 		this.gameObjectFactory = gameObjectFactory;
 		logger.info("New instance");
 	}
@@ -191,7 +192,7 @@ public class DesktopActionsHUDImpl extends ActionsHUDImpl {
 
 	@Override
 	public void doLayout(EAdTransformation t) {
-		for (GameObject<?> action : actionGOs)
+		for (DrawableGO<?> action : actionGOs)
 				gui.addElement(action, t);
 	}
 

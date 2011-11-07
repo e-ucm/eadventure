@@ -51,12 +51,17 @@ public class AndroidEngineFont implements RuntimeFont {
 
 	private Typeface font;
 	
+	private int size;
+
 	private Paint textPaint;
 
 	public AndroidEngineFont(EAdFont font) {
 		this.eadFont = font;
-			this.font = Typeface.create(font.getName(), getStyle(font.getStyle()));
+		this.font = Typeface.create(font.getName(), getStyle(font.getStyle()));
 		textPaint = new Paint();
+		textPaint.setTypeface(this.font);
+		size = 30;
+		textPaint.setTextSize(size);
 	}
 
 	private int getStyle(Style style) {
@@ -83,22 +88,30 @@ public class AndroidEngineFont implements RuntimeFont {
 	@Override
 	public int stringWidth(String string) {
 		Rect bounds = new Rect();
-		textPaint.getTextBounds(string,0,string.length(),bounds);
-		return bounds.width();
+		textPaint.getTextBounds(string, 0, string.length(), bounds);
+		return (int) ( bounds.width() * 0.4f );
 	}
 
 	@Override
 	public int lineHeight() {
 		Rect bounds = new Rect();
-		textPaint.getTextBounds("b",0,"b".length(),bounds);
+		textPaint.getTextBounds("ABCDEFGHIJKLMNLÑOPQRSTUVWXYZ", 0, "ABCDEFGHIJKLMNLÑOPQRSTUVWXYZ".length(), bounds);
 		return bounds.height();
 	}
 
 	@Override
 	public EAdRectangleImpl stringBounds(String string) {
 		Rect bounds = new Rect();
-		textPaint.getTextBounds(string,0,string.length(),bounds);
+		textPaint.getTextBounds(string, 0, string.length(), bounds);
 		return new EAdRectangleImpl(0, 0, bounds.width(), bounds.height());
+	}
+	
+	public Typeface getTextPaint(){
+		return font;
+	}
+	
+	public int size(){
+		return size;
 	}
 
 }

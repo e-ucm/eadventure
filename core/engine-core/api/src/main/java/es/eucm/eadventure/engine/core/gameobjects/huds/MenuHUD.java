@@ -45,7 +45,7 @@ import es.eucm.eadventure.engine.core.platform.GUI;
  * The {@link GameObject} of the where the actions are shown
  * </p>
  */
-public interface MenuHUD extends HudGO<Void> {
+public interface MenuHUD extends HudGO {
 
 	void setGUI(GUI gui);
 

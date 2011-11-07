@@ -38,33 +38,35 @@
 
 package es.eucm.eadventure.engine.core.gameobjects.huds.impl;
 
-import java.util.List;
 import java.util.logging.Logger;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 import es.eucm.eadventure.common.model.EAdElement;
+import es.eucm.eadventure.common.model.elements.EAdSceneElement;
 import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
+import es.eucm.eadventure.common.model.guievents.EAdKeyEvent.KeyActionType;
 import es.eucm.eadventure.common.model.guievents.EAdKeyEvent.KeyCode;
 import es.eucm.eadventure.common.model.variables.impl.SystemFields;
 import es.eucm.eadventure.common.params.EAdFontImpl;
 import es.eucm.eadventure.common.params.EAdString;
 import es.eucm.eadventure.common.params.fills.impl.EAdColor;
-import es.eucm.eadventure.common.params.geom.EAdPosition;
 import es.eucm.eadventure.common.params.geom.impl.EAdPositionImpl;
 import es.eucm.eadventure.common.params.geom.impl.EAdPositionImpl.Corner;
+import es.eucm.eadventure.common.predef.model.events.ChaseTheMouseEvent;
 import es.eucm.eadventure.common.predef.model.events.StayInBoundsEvent;
 import es.eucm.eadventure.common.resources.StringHandler;
+import es.eucm.eadventure.common.resources.assets.drawable.Drawable;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.Image;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.CaptionImpl;
 import es.eucm.eadventure.engine.core.GameState;
 import es.eucm.eadventure.engine.core.MouseState;
 import es.eucm.eadventure.engine.core.ValueMap;
-import es.eucm.eadventure.engine.core.gameobjects.GameObject;
-import es.eucm.eadventure.engine.core.gameobjects.GameObjectFactory;
+import es.eucm.eadventure.engine.core.gameobjects.DrawableGO;
 import es.eucm.eadventure.engine.core.gameobjects.GameObjectManager;
 import es.eucm.eadventure.engine.core.gameobjects.SceneElementGO;
+import es.eucm.eadventure.engine.core.gameobjects.factories.SceneElementGOFactory;
 import es.eucm.eadventure.engine.core.gameobjects.huds.BasicHUD;
 import es.eucm.eadventure.engine.core.gameobjects.huds.MenuHUD;
 import es.eucm.eadventure.engine.core.guiactions.GUIAction;
@@ -73,37 +75,32 @@ import es.eucm.eadventure.engine.core.platform.AssetHandler;
 import es.eucm.eadventure.engine.core.platform.DrawableAsset;
 import es.eucm.eadventure.engine.core.platform.EAdCanvas;
 import es.eucm.eadventure.engine.core.platform.GUI;
-import es.eucm.eadventure.engine.core.platform.RuntimeAsset;
 import es.eucm.eadventure.engine.core.util.EAdTransformation;
 import es.eucm.eadventure.engine.core.util.impl.EAdTransformationImpl;
 
 /**
  * <p>
- * {@link BasicHUD} default implementation
+ * The basic HUD contains the contextual information about elements (i.e. a sign
+ * with the element name), and the mouse pointer. Mouse pointer can be disabled
+ * through the system field {@link SystemFields#SHOW_MOUSE}
  * </p>
  * 
  */
 @Singleton
-public class BasicHUDImpl implements BasicHUD {
+public class BasicHUDImpl extends AbstractHUD implements BasicHUD {
 
 	/**
 	 * The logger
 	 */
 	protected static final Logger logger = Logger.getLogger("BasicHUDImpl");
-	
-	private static final int CURSOR_SIZE = 32; 
 
-	private GUI gui;
+	private static final int CURSOR_SIZE = 32;
 
 	private MenuHUD menuHUD;
 
-	private GameObjectFactory gameObjectFactory;
+	private SceneElementGOFactory sceneElementFactory;
 
 	protected GameState gameState;
-	
-	private AssetHandler assetHandler;
-
-	private GameObjectManager gameObjectManager;
 
 	protected MouseState mouseState;
 
@@ -111,36 +108,92 @@ public class BasicHUDImpl implements BasicHUD {
 
 	private CaptionImpl c = new CaptionImpl();
 
-	private boolean contextualOn = false;
-
-	protected ValueMap valueMap;
-
 	private StringHandler stringHandler;
-	
-	private Image mousePointerDrawable;
 
-	private Integer mouseX;
+	private EAdBasicSceneElement mouse;
 
-	private Integer mouseY;
+	private Drawable cursor;
 
-	private DrawableAsset<? extends Image> rAsset;
+	private AssetHandler assetHandler;
 
-	private float scale;
+	private GameObjectManager gameObjectManager;
 
 	@Inject
-	public BasicHUDImpl(MenuHUD menuHUD, GameObjectFactory gameObjectFactory,
-			GameState gameState, GameObjectManager gameObjectManager,
-			MouseState mouseState, ValueMap valueMap,
-			StringHandler stringHandler, AssetHandler assetHandler) {
+	public BasicHUDImpl(MenuHUD menuHUD,
+			SceneElementGOFactory gameObjectFactory, GameState gameState,
+			MouseState mouseState, StringHandler stringHandler, GUI gui,
+			AssetHandler assetHandler) {
+		super(gui);
 		logger.info("New instance");
 		this.menuHUD = menuHUD;
-		this.gameObjectFactory = gameObjectFactory;
+		this.sceneElementFactory = gameObjectFactory;
 		this.gameState = gameState;
-		this.gameObjectManager = gameObjectManager;
 		this.mouseState = mouseState;
-		this.valueMap = valueMap;
 		this.stringHandler = stringHandler;
 		this.assetHandler = assetHandler;
+
+		initContextual();
+		initMouse();
+	}
+
+	public void setGameObjectManager(GameObjectManager gameObjectManager) {
+		this.gameObjectManager = gameObjectManager;
+	}
+
+	@Override
+	public boolean processAction(GUIAction action) {
+		if (gameObjectManager.getHUDs().size() == 0) {
+			if (action instanceof KeyAction) {
+				KeyAction keyAction = (KeyAction) action;
+				if (keyAction.getKeyCode() == KeyCode.ESC
+						&& keyAction.getType() == KeyActionType.KEY_PRESSED) {
+					gameObjectManager.addHUD(menuHUD);
+					gameState.setPaused(true);
+					action.consume();
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+
+	@Override
+	public void doLayout(EAdTransformation transformation) {
+		super.doLayout(transformation);
+		if (mouseState.getDraggingGameObject() != null && mouseState.isInside()) {
+			DrawableGO<?> draggedGO = mouseState.getDraggingGameObject();
+			EAdTransformation t = (EAdTransformation) transformation.clone();
+			t.getMatrix().translate(mouseState.getDragDifX(),
+					mouseState.getDragDifY(), false);
+			gui.addElement(draggedGO, t);
+		}
+	}
+
+	@Override
+	public void update() {
+		updateContextual();
+		updateMouse();
+		super.update();
+	}
+
+	@Override
+	public EAdTransformation getTransformation() {
+		return EAdTransformationImpl.INITIAL_TRANSFORMATION;
+	}
+
+	@Override
+	public void render(EAdCanvas<?> c) {
+
+	}
+
+	@Override
+	public boolean contains(int x, int y) {
+		return false;
+	}
+
+	// Contextual
+
+	private void initContextual() {
 		c = new CaptionImpl();
 		c.setFont(new EAdFontImpl(12.0f));
 		c.setBubblePaint(new EAdColor(255, 255, 125));
@@ -149,167 +202,88 @@ public class BasicHUDImpl implements BasicHUD {
 		stringHandler.setString(c.getText(), "");
 		contextual = new EAdBasicSceneElement("contextual", c);
 		contextual.setPosition(new EAdPositionImpl(Corner.CENTER, 0, 0));
+		contextual.setVarInitialValue(EAdBasicSceneElement.VAR_VISIBLE,
+				Boolean.FALSE);
 		contextual.getEvents().add(new StayInBoundsEvent(contextual));
+		contextual.getEvents().add(new ChaseTheMouseEvent());
+		addElement(sceneElementFactory.get(contextual));
 	}
 
-	@Override
-	public void setGUI(GUI gui) {
-		this.gui = gui;
-		this.menuHUD.setGUI(gui);
-	}
+	private void updateContextual() {
+		DrawableGO<?> go = mouseState.getGameObjectUnderMouse();
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * es.eucm.eadventure.engine.core.gameobjects.GameObject#processAction(es
-	 * .eucm.eadventure.engine.core.guiactions.GUIAction)
-	 */
-	@Override
-	public boolean processAction(GUIAction action) {
-		if (action instanceof KeyAction
-				&& ((KeyAction) action).getKeyCode() == KeyCode.ESC) {
-			gameObjectManager.addHUD(menuHUD);
-			gameState.setPaused(true);
-			action.consume();
-			return true;
-		}
-
-		return false;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * es.eucm.eadventure.engine.core.gameobjects.GameObject#setElement(java
-	 * .lang.Object)
-	 */
-	@Override
-	public void setElement(Void element) {
-
-	}
-
-	@Override
-	public GameObject<?> getDraggableElement(MouseState mouseState) {
-		return null;
-	}
-
-	@Override
-	public void doLayout(EAdTransformation transformation) {
-
-		if (contextualOn)
-			gui.addElement(gameObjectFactory.get(contextual), transformation);
-
-		if (mouseState.getDraggingGameObject() != null && mouseState.isInside()) {
-			GameObject<?> draggedGO = mouseState.getDraggingGameObject();
-			EAdTransformation t = (EAdTransformation) transformation.clone();
-			t.getMatrix().translate(mouseState.getDragDifX(),
-					mouseState.getDragDifY(), false);
-			gui.addElement(draggedGO, t);
-		}
-	}
-
-	@SuppressWarnings("unchecked")
-	@Override
-	public void update() {
-		checkMousePointer();
-		mouseX = valueMap.getValue(SystemFields.MOUSE_X);
-		mouseY = valueMap.getValue(SystemFields.MOUSE_Y);
-		contextualOn = false;
-		GameObject<? extends EAdElement> go = (GameObject<? extends EAdElement>) mouseState
-				.getGameObjectUnderMouse();
-
-		if (go != null && go.getElement() instanceof EAdElement) {
+		ValueMap valueMap = gameState.getValueMap();
+		if (go != null && go instanceof EAdSceneElement) {
 			EAdString name = valueMap.getValue((EAdElement) go.getElement(),
 					EAdBasicSceneElement.VAR_NAME);
-			if (name != null) {
+			if (name != null && !name.equals("")) {
 				stringHandler.setString(c.getText(),
 						stringHandler.getString(name));
 
-				SceneElementGO<?> cgo = ((SceneElementGO<?>) gameObjectFactory
-						.get(contextual));
+				SceneElementGO<?> cgo = sceneElementFactory.get(contextual);
 
 				cgo.getRenderAsset().update();
 
-
-
 				valueMap.setValue(contextual, EAdBasicSceneElement.VAR_X,
-						mouseX);
+						mouseState.getMouseX());
 				valueMap.setValue(contextual, EAdBasicSceneElement.VAR_Y,
-						mouseY - 40);
-				gameObjectFactory.get(contextual).update();
+						mouseState.getMouseY() - 40);
+				sceneElementFactory.get(contextual).update();
 
-				contextualOn = true;
+				gameState.getValueMap().setValue(contextual,
+						EAdBasicSceneElement.VAR_VISIBLE, true);
 			} else {
-				contextualOn = false;
+				gameState.getValueMap().setValue(contextual,
+						EAdBasicSceneElement.VAR_VISIBLE, false);
 
 			}
 		} else {
-			contextualOn = false;
+			gameState.getValueMap().setValue(contextual,
+					EAdBasicSceneElement.VAR_VISIBLE, false);
 		}
-		
 	}
 
-	private void checkMousePointer() {
-		Image newCursor = gameState.getValueMap().getValue(SystemFields.MOUSE_CURSOR);
-		if ( mousePointerDrawable != newCursor){
-			mousePointerDrawable = newCursor;
-			if ( mousePointerDrawable != null ){
-				rAsset = (DrawableAsset<? extends Image>) assetHandler.getRuntimeAsset(mousePointerDrawable);
-				scale = 1.0f / ( rAsset.getWidth() > rAsset.getHeight() ? rAsset.getWidth() / CURSOR_SIZE : rAsset.getHeight() / CURSOR_SIZE );
+	// Mouse
+	private void initMouse() {
+		mouse = new EAdBasicSceneElement("mouse", cursor);
+		checkMouseImage();
+		addElement(sceneElementFactory.get(mouse));
+	}
+
+	@SuppressWarnings("unchecked")
+	private void checkMouseImage() {
+		Image newCursor = gameState.getValueMap().getValue(
+				SystemFields.MOUSE_CURSOR);
+		if (cursor != newCursor) {
+			cursor = newCursor;
+			if (cursor != null) {
+
+				DrawableAsset<? extends Image> rAsset = (DrawableAsset<? extends Image>) assetHandler
+						.getRuntimeAsset(cursor);
+				float scale = 1.0f / (rAsset.getWidth() > rAsset.getHeight() ? rAsset
+						.getWidth() / CURSOR_SIZE
+						: rAsset.getHeight() / CURSOR_SIZE);
+				mouse.getResources().addAsset(mouse.getInitialBundle(),
+						EAdBasicSceneElement.appearance, cursor);
+				gameState.getValueMap().setValue(mouse,
+						EAdBasicSceneElement.VAR_SCALE, scale);
 			}
-			
+
 		}
 	}
 
-	@Override
-	public EAdPositionImpl getPosition() {
-		return null;
-	}
+	private void updateMouse() {
+		checkMouseImage();
+		int x = gameState.getValueMap().getValue(SystemFields.MOUSE_X);
+		int y = gameState.getValueMap().getValue(SystemFields.MOUSE_Y);
+		boolean showMouse = gameState.getValueMap().getValue(
+				SystemFields.SHOW_MOUSE);
 
-	@Override
-	public Void getElement() {
-		return null;
-	}
-
-	@Override
-	public List<RuntimeAsset<?>> getAssets(List<RuntimeAsset<?>> assetList,
-			boolean allAssets) {
-		return assetList;
-	}
-
-	@Override
-	public void setPosition(EAdPosition p) {
-
-	}
-
-	@Override
-	public EAdTransformation getTransformation() {
-		return EAdTransformationImpl.INITIAL_TRANSFORMATION;
-	}
-	
-	@Override
-	public boolean isEnable() {
-		return true;
-	}
-
-	@Override
-	public void render(EAdCanvas<?> c) {
-		mouseX = valueMap.getValue(SystemFields.MOUSE_X);
-		mouseY = valueMap.getValue(SystemFields.MOUSE_Y);
-		if ( rAsset != null && mouseX >= 0 && mouseY >= 0 ){
-			c.save();
-			c.translate(mouseX, mouseY);
-			c.scale( scale, scale );
-			c.drawImage(rAsset);
-			c.restore();
-		}
-	}
-
-	@Override
-	public boolean contains(int x, int y) {
-		return false;
+		gameState.getValueMap().setValue(mouse,
+				EAdBasicSceneElement.VAR_VISIBLE,
+				!(x < 0 || y < 0) && showMouse);
+		gameState.getValueMap().setValue(mouse, EAdBasicSceneElement.VAR_X, x);
+		gameState.getValueMap().setValue(mouse, EAdBasicSceneElement.VAR_Y, y);
 	}
 
 }

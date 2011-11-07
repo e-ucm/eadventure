@@ -49,9 +49,10 @@ import es.eucm.eadventure.common.model.elements.EAdSceneElement;
 import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
 import es.eucm.eadventure.common.resources.StringHandler;
 import es.eucm.eadventure.engine.core.GameState;
-import es.eucm.eadventure.engine.core.gameobjects.GameObject;
-import es.eucm.eadventure.engine.core.gameobjects.GameObjectFactory;
+import es.eucm.eadventure.engine.core.gameobjects.SceneElementGO;
 import es.eucm.eadventure.engine.core.gameobjects.SceneGO;
+import es.eucm.eadventure.engine.core.gameobjects.factories.EventGOFactory;
+import es.eucm.eadventure.engine.core.gameobjects.factories.SceneElementGOFactory;
 import es.eucm.eadventure.engine.core.gameobjects.impl.sceneelements.SceneElementGOImpl;
 import es.eucm.eadventure.engine.core.guiactions.GUIAction;
 import es.eucm.eadventure.engine.core.platform.AssetHandler;
@@ -68,18 +69,18 @@ public class SceneGOImpl extends SceneElementGOImpl<EAdScene> implements
 
 	@Inject
 	public SceneGOImpl(AssetHandler assetHandler, StringHandler stringHandler,
-			GameObjectFactory gameObjectFactory, GUI gui, GameState gameState) {
-		super(assetHandler, stringHandler, gameObjectFactory, gui, gameState);
+			SceneElementGOFactory gameObjectFactory, GUI gui, GameState gameState, EventGOFactory eventFactory) {
+		super(assetHandler, stringHandler, gameObjectFactory, gui, gameState, eventFactory);
 		orderedElements = new ArrayList<EAdSceneElement>();
 	}
 
 	public void doLayout(EAdTransformation transformation) {
 		super.doLayout(transformation);
-		gui.addElement(gameObjectFactory.get(element.getBackground()),
+		gui.addElement(sceneElementFactory.get(element.getBackground()),
 				transformation);
 		sortElements();
 		for ( EAdSceneElement e: orderedElements ){
-			gui.addElement(gameObjectFactory.get(e), transformation);
+			gui.addElement(sceneElementFactory.get(e), transformation);
 		}
 
 	}
@@ -108,9 +109,9 @@ public class SceneGOImpl extends SceneElementGOImpl<EAdScene> implements
 	@Override
 	public void update() {
 		super.update();
-		gameObjectFactory.get(element.getBackground()).update();
+		sceneElementFactory.get(element.getBackground()).update();
 		for (EAdSceneElement sceneElement : element.getElements())
-			gameObjectFactory.get(sceneElement).update();
+			sceneElementFactory.get(sceneElement).update();
 	}
 
 	@Override
@@ -125,10 +126,10 @@ public class SceneGOImpl extends SceneElementGOImpl<EAdScene> implements
 			boolean allAssets) {
 		if (element != null) {
 			EAdSceneElement background = element.getBackground();
-			GameObject<?> gameObject = gameObjectFactory.get(background);
+			SceneElementGO<?> gameObject = sceneElementFactory.get(background);
 			assetList = gameObject.getAssets(assetList, allAssets);
 			for (EAdSceneElement sceneElement : element.getElements())
-				assetList = gameObjectFactory.get(sceneElement).getAssets(
+				assetList = sceneElementFactory.get(sceneElement).getAssets(
 						assetList, allAssets);
 			return assetList;
 		}

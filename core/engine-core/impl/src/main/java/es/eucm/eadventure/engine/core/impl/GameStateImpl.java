@@ -49,19 +49,22 @@ import com.google.inject.Singleton;
 import com.google.inject.name.Named;
 
 import es.eucm.eadventure.common.model.effects.EAdEffect;
-import es.eucm.eadventure.common.model.elements.EAdSceneElementDef;
 import es.eucm.eadventure.common.model.elements.EAdChapter;
 import es.eucm.eadventure.common.model.elements.EAdScene;
 import es.eucm.eadventure.common.model.elements.EAdSceneElement;
+import es.eucm.eadventure.common.model.elements.EAdSceneElementDef;
 import es.eucm.eadventure.common.model.elements.impl.EAdSceneImpl;
 import es.eucm.eadventure.common.model.variables.EAdVarDef;
 import es.eucm.eadventure.common.model.variables.impl.SystemFields;
 import es.eucm.eadventure.engine.core.GameState;
+import es.eucm.eadventure.engine.core.PluginHandler;
 import es.eucm.eadventure.engine.core.ValueMap;
 import es.eucm.eadventure.engine.core.evaluators.EvaluatorFactory;
 import es.eucm.eadventure.engine.core.gameobjects.EffectGO;
-import es.eucm.eadventure.engine.core.gameobjects.GameObjectFactory;
 import es.eucm.eadventure.engine.core.gameobjects.SceneGO;
+import es.eucm.eadventure.engine.core.gameobjects.factories.EffectGOFactory;
+import es.eucm.eadventure.engine.core.gameobjects.factories.EventGOFactory;
+import es.eucm.eadventure.engine.core.gameobjects.factories.SceneElementGOFactory;
 import es.eucm.eadventure.engine.core.guiactions.GUIAction;
 
 @Singleton
@@ -73,7 +76,9 @@ public class GameStateImpl implements GameState {
 
 	private ValueMap valueMap;
 
-	private GameObjectFactory gameObjectFactory;
+	private SceneElementGOFactory sceneElementFactory;
+
+	private EffectGOFactory effectFactory;
 
 	private Stack<EAdScene> previousSceneStack;
 
@@ -95,30 +100,39 @@ public class GameStateImpl implements GameState {
 	private EAdScene loadingScreen;
 
 	private EvaluatorFactory evaluatorFactory;
+	
+	private EventGOFactory eventGOFactory;
+	
+	private PluginHandler pluginHandler;
 
 	@Inject
 	public GameStateImpl(@Named("LoadingScreen") EAdScene loadingScreen,
-			GameObjectFactory gameObjectFactory, ValueMap valueMap,
-			EvaluatorFactory evaluatorFactory) {
+			SceneElementGOFactory gameObjectFactory,
+			EffectGOFactory effectFactory, ValueMap valueMap,
+			EvaluatorFactory evaluatorFactory, EventGOFactory eventGOFactory,
+			PluginHandler pluginHandler) {
 		logger.log(Level.INFO, "New instance");
 		effects = new ArrayList<EffectGO<?>>();
-		// effectsQueue = Collections.synchronizedList(new
-		// ArrayList<EAdEffect>());
 		effectsQueue = new ArrayList<EffectGO<?>>();
 		this.loadingScreen = loadingScreen;
 		this.valueMap = valueMap;
-		this.gameObjectFactory = gameObjectFactory;
+		this.sceneElementFactory = gameObjectFactory;
 		this.previousSceneStack = new Stack<EAdScene>();
 		this.evaluatorFactory = evaluatorFactory;
+		this.effectFactory = effectFactory;
+		this.pluginHandler = pluginHandler;
+		this.eventGOFactory = eventGOFactory;
 		removedActors = new ArrayList<EAdSceneElementDef>();
 		inventoryActors = new ArrayList<EAdSceneElementDef>();
+		// TODO improve
+		installPlugins();
 	}
 
 	public SceneGO<?> getScene() {
 		if (scene == null) {
 			logger.log(Level.FINE, "null scene, Loading screen: "
 					+ (loadingScreen != null));
-			this.scene = (SceneGO<?>) gameObjectFactory.get(loadingScreen);
+			this.scene = (SceneGO<?>) sceneElementFactory.get(loadingScreen);
 			previousSceneStack.push(loadingScreen);
 		}
 		return scene;
@@ -133,14 +147,8 @@ public class GameStateImpl implements GameState {
 	 */
 	@Override
 	public void setScene(SceneGO<? extends EAdScene> newScene) {
-		// When a scene changes, all current effects are erased
-		for (EffectGO<?> go : effects) {
-			go.finish();
-		}
-		// Clear effects
-		effects.clear();
 		// Clean cache
-		gameObjectFactory.clean();
+		sceneElementFactory.clean();
 		if (this.scene != null && this.scene.getElement() != null) {
 			valueMap.setValue(scene.getElement(),
 					EAdSceneImpl.VAR_SCENE_LOADED, Boolean.FALSE);
@@ -198,11 +206,11 @@ public class GameStateImpl implements GameState {
 	 * es.eucm.eadventure.common.model.effects.EAdEffect)
 	 */
 	@Override
-	// TODO consider leaving effect initilization for later
+	// TODO consider leaving effect initialization for later
 	public void addEffect(int pos, EAdEffect e, GUIAction action,
 			EAdSceneElement parent) {
 		if (e != null && evaluatorFactory.evaluate(e.getCondition())) {
-			EffectGO<?> effectGO = (EffectGO<?>) gameObjectFactory.get(e);
+			EffectGO<?> effectGO = effectFactory.get(e);
 			effectGO.setGUIAction(action);
 			effectGO.setParent(parent);
 			effectGO.initilize();
@@ -284,6 +292,12 @@ public class GameStateImpl implements GameState {
 	@Override
 	public void setInitialScene(EAdScene initialScene) {
 		((LoadingScreen) loadingScreen).setInitialScreen(initialScene);
+	}
+
+	private void installPlugins() {
+		pluginHandler.install(effectFactory);
+		pluginHandler.install(eventGOFactory);
+		pluginHandler.install(sceneElementFactory);
 	}
 
 }

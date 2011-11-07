@@ -27,15 +27,15 @@ import es.eucm.eadventure.common.resources.assets.drawable.compounds.impl.Compos
 import es.eucm.eadventure.engine.core.GameState;
 import es.eucm.eadventure.engine.core.ValueMap;
 import es.eucm.eadventure.engine.core.debuggers.EAdDebugger;
-import es.eucm.eadventure.engine.core.gameobjects.GameObject;
-import es.eucm.eadventure.engine.core.gameobjects.GameObjectFactory;
+import es.eucm.eadventure.engine.core.gameobjects.DrawableGO;
+import es.eucm.eadventure.engine.core.gameobjects.factories.SceneElementGOFactory;
 
 @Singleton
 public class TrajectoryDebugger implements EAdDebugger {
 
 	private GameState gameState;
 
-	private GameObjectFactory gameObjectFactory;
+	private SceneElementGOFactory sceneElementFactory;
 
 	private ValueMap valueMap;
 
@@ -43,23 +43,23 @@ public class TrajectoryDebugger implements EAdDebugger {
 
 	private TrajectoryDefinition currentTrajectory;
 
-	private List<GameObject<?>> gameObjects;
+	private List<DrawableGO<?>> gameObjects;
 
 	private List<BezierShape> barriers;
 
 	@Inject
 	public TrajectoryDebugger(GameState gameState,
-			GameObjectFactory gameObjectFactory, ValueMap valueMap) {
+			SceneElementGOFactory gameObjectFactory, ValueMap valueMap) {
 		this.gameState = gameState;
-		this.gameObjectFactory = gameObjectFactory;
+		this.sceneElementFactory = gameObjectFactory;
 		this.valueMap = valueMap;
-		gameObjects = new ArrayList<GameObject<?>>();
+		gameObjects = new ArrayList<DrawableGO<?>>();
 		barriers = new ArrayList<BezierShape>();
 
 	}
 
 	@Override
-	public List<GameObject<?>> getGameObjects() {
+	public List<DrawableGO<?>> getGameObjects() {
 		if (currentScene != gameState.getScene().getElement()
 				|| valueMap.getValue(currentScene,
 						EAdSceneImpl.VAR_TRAJECTORY_DEFINITION) != currentTrajectory) {
@@ -99,7 +99,7 @@ public class TrajectoryDebugger implements EAdDebugger {
 								- def.left(), def.bottom() - def.top(),
 								new EAdColor(0, 200, 0, 100)));
 				area.setPosition(def.left(), def.top());
-				gameObjects.add(gameObjectFactory.get(area));
+				gameObjects.add(sceneElementFactory.get(area));
 			}
 		}
 
@@ -140,11 +140,11 @@ public class TrajectoryDebugger implements EAdDebugger {
 			BezierShape barrier = (BezierShape) s.clone();
 			barrier.setPaint(EAdColor.YELLOW);
 			barriers.add(barrier);
-			EAdPosition p = gameObjectFactory.get(e).getPosition();
+			EAdPosition p =((DrawableGO<?>) sceneElementFactory.get(e)).getPosition();
 			map.addDrawable(barrier, p.getX(), p.getY());
 		}
 
-		gameObjects.add(gameObjectFactory.get(mapElement));
+		gameObjects.add(sceneElementFactory.get(mapElement));
 
 	}
 

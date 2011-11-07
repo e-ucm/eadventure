@@ -78,6 +78,12 @@ public class EAdSceneElementDefImpl extends AbstractEAdElementWithBehavior
 
 	@Param("draggableCondition")
 	private EAdCondition draggableCondition;
+	
+	/**
+	 * Events associated with this element
+	 */
+	@Param("events")
+	protected EAdList<EAdEvent> events;
 
 	public EAdSceneElementDefImpl(String id) {
 		super(id);
@@ -90,6 +96,7 @@ public class EAdSceneElementDefImpl extends AbstractEAdElementWithBehavior
 		this.detailedDescription = EAdString
 				.newEAdString("actorDetailedDescription");
 		this.documentation = EAdString.newEAdString("actorDocumentation");
+		events = new EAdListImpl<EAdEvent>(EAdEvent.class);
 
 	}
 
@@ -155,6 +162,16 @@ public class EAdSceneElementDefImpl extends AbstractEAdElementWithBehavior
 			def.draggableCondition = draggableCondition;
 		}
 		return def;
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see es.eucm.eadventure.common.model.EAdElement#getEvents()
+	 */
+	@Override
+	public EAdList<EAdEvent> getEvents() {
+		return events;
 	}
 
 }

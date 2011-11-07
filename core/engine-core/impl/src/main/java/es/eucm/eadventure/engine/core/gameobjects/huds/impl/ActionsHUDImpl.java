@@ -37,7 +37,6 @@
 
 package es.eucm.eadventure.engine.core.gameobjects.huds.impl;
 
-import java.util.List;
 import java.util.logging.Logger;
 
 import com.google.inject.Inject;
@@ -45,9 +44,6 @@ import com.google.inject.Singleton;
 
 import es.eucm.eadventure.common.model.actions.EAdAction;
 import es.eucm.eadventure.common.model.extra.EAdList;
-import es.eucm.eadventure.common.params.geom.EAdPosition;
-import es.eucm.eadventure.engine.core.MouseState;
-import es.eucm.eadventure.engine.core.gameobjects.GameObject;
 import es.eucm.eadventure.engine.core.gameobjects.GameObjectManager;
 import es.eucm.eadventure.engine.core.gameobjects.SceneElementGO;
 import es.eucm.eadventure.engine.core.gameobjects.huds.ActionsHUD;
@@ -55,9 +51,6 @@ import es.eucm.eadventure.engine.core.guiactions.GUIAction;
 import es.eucm.eadventure.engine.core.guiactions.MouseAction;
 import es.eucm.eadventure.engine.core.platform.EAdCanvas;
 import es.eucm.eadventure.engine.core.platform.GUI;
-import es.eucm.eadventure.engine.core.platform.RuntimeAsset;
-import es.eucm.eadventure.engine.core.util.EAdTransformation;
-import es.eucm.eadventure.engine.core.util.impl.EAdTransformationImpl;
 
 /**
  * <p>
@@ -66,18 +59,13 @@ import es.eucm.eadventure.engine.core.util.impl.EAdTransformationImpl;
  * 
  */
 @Singleton
-public class ActionsHUDImpl implements ActionsHUD {
+public class ActionsHUDImpl extends AbstractHUD implements ActionsHUD {
 
 	/**
 	 * The logger
 	 */
 	private static final Logger logger = Logger
 			.getLogger("ActionsHUDImpl");
-
-	/**
-	 * The games {@link GUI}
-	 */
-	protected GUI gui;
 
 	/**
 	 * List of the {@link EAdAction}s
@@ -105,7 +93,7 @@ public class ActionsHUDImpl implements ActionsHUD {
 	
 	@Inject
 	public ActionsHUDImpl(GUI gui, GameObjectManager gameObjectManager) {
-		this.gui = gui;
+		super( gui );
 		this.gameObjectManager = gameObjectManager;
 	}
 
@@ -137,7 +125,7 @@ public class ActionsHUDImpl implements ActionsHUD {
 	 * es.eucm.eadventure.engine.core.gameobjects.GameObject#setElement(java
 	 * .lang.Object)
 	 */
-	@Override
+	
 	public void setElement(SceneElementGO<?> ref) {
 		sceneElement = ref;
 		int x = ref.getCenterX();
@@ -146,18 +134,6 @@ public class ActionsHUDImpl implements ActionsHUD {
 		radius = Math.min(250, radius);
 		setElementProperties(x, y, radius);
 		actions = ref.getValidActions();
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * es.eucm.eadventure.engine.core.gameobjects.GameObject#getDraggableElement
-	 * (es.eucm.eadventure.engine.core.MouseState)
-	 */
-	@Override
-	public GameObject<?> getDraggableElement(MouseState mouseState) {
-		return null;
 	}
 
 	@Override
@@ -182,48 +158,6 @@ public class ActionsHUDImpl implements ActionsHUD {
 		this.y = y;
 		this.radius = radius;
 		logger.info("properties: " + x + " " + y + " " + radius);
-	}
-
-	@Override
-	public SceneElementGO<?> getElement() {
-		return sceneElement;
-	}
-	
-	@Override
-	public List<RuntimeAsset<?>> getAssets(List<RuntimeAsset<?>> assetList,
-			boolean allAssets) {
-		//TODO
-		return assetList;
-	}
-
-	@Override
-	public void setPosition(EAdPosition p) {
-		
-	}
-
-	@Override
-	public void doLayout(EAdTransformation transformation) {
-		
-	}
-
-	@Override
-	public void update() {
-		
-	}
-
-	@Override
-	public EAdPosition getPosition() {
-		return null;
-	}
-	
-	@Override
-	public EAdTransformation getTransformation() {
-		return EAdTransformationImpl.INITIAL_TRANSFORMATION;
-	}
-
-	@Override
-	public boolean isEnable() {
-		return true;
 	}
 
 	@Override

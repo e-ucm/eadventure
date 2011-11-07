@@ -1,29 +1,22 @@
 package es.eucm.eadventure.common.elementfactories.scenedemos;
 
 import es.eucm.eadventure.common.elementfactories.EAdElementsFactory;
-import es.eucm.eadventure.common.model.conditions.impl.OperationCondition;
-import es.eucm.eadventure.common.model.conditions.impl.OperationCondition.Comparator;
 import es.eucm.eadventure.common.model.effects.impl.EAdMoveActiveElement;
 import es.eucm.eadventure.common.model.effects.impl.sceneelements.EAdMoveSceneElement;
 import es.eucm.eadventure.common.model.effects.impl.text.EAdSpeakEffect;
-import es.eucm.eadventure.common.model.elements.EAdCondition;
 import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
 import es.eucm.eadventure.common.model.events.EAdSceneElementEvent;
 import es.eucm.eadventure.common.model.events.EAdSceneElementEvent.SceneElementEvent;
 import es.eucm.eadventure.common.model.events.impl.EAdSceneElementEventImpl;
 import es.eucm.eadventure.common.model.guievents.impl.EAdMouseEventImpl;
 import es.eucm.eadventure.common.model.trajectories.impl.SimpleTrajectoryDefinition;
-import es.eucm.eadventure.common.model.variables.EAdField;
-import es.eucm.eadventure.common.model.variables.EAdOperation;
-import es.eucm.eadventure.common.model.variables.impl.EAdFieldImpl;
 import es.eucm.eadventure.common.model.variables.impl.SystemFields;
-import es.eucm.eadventure.common.model.variables.impl.operations.ConditionedOperation;
-import es.eucm.eadventure.common.model.variables.impl.operations.MathOperation;
 import es.eucm.eadventure.common.params.EAdFontImpl;
 import es.eucm.eadventure.common.params.fills.impl.EAdColor;
 import es.eucm.eadventure.common.params.geom.impl.EAdPositionImpl;
 import es.eucm.eadventure.common.params.geom.impl.EAdPositionImpl.Corner;
 import es.eucm.eadventure.common.predef.model.effects.EAdMakeActiveElementEffect;
+import es.eucm.eadventure.common.predef.model.effects.EAdSpeakSceneElement;
 
 public class SpeakAndMoveScene extends EmptyScene {
 
@@ -38,26 +31,9 @@ public class SpeakAndMoveScene extends EmptyScene {
 		character.setPosition(new EAdPositionImpl(Corner.BOTTOM_CENTER, 400,
 				400));
 
-		EAdField<Integer> topField = new EAdFieldImpl<Integer>(character,
-				EAdBasicSceneElement.VAR_TOP);
-		EAdField<Integer> bottomField = new EAdFieldImpl<Integer>(character,
-				EAdBasicSceneElement.VAR_BOTTOM);
-		EAdField<Integer> leftField = new EAdFieldImpl<Integer>(character,
-				EAdBasicSceneElement.VAR_LEFT);
-		EAdField<Integer> rightField = new EAdFieldImpl<Integer>(character,
-				EAdBasicSceneElement.VAR_RIGHT);
 
-		EAdCondition c = new OperationCondition(new MathOperation("[0] / 2",
-				SystemFields.GUI_HEIGHT), new MathOperation("[0] ", topField),
-				Comparator.GREATER);
 
-		ConditionedOperation opY = new ConditionedOperation(c, topField,
-				bottomField);
-		EAdOperation opX = new MathOperation("([0] + [1] ) / 2", rightField,
-				leftField);
-
-		EAdSpeakEffect effect = new EAdSpeakEffect("speak");
-		effect.setPosition(opX, opY);
+		EAdSpeakEffect effect = new EAdSpeakSceneElement(character);
 		EAdElementsFactory
 				.getInstance()
 				.getStringFactory()
@@ -81,7 +57,7 @@ public class SpeakAndMoveScene extends EmptyScene {
 
 		
 		SimpleTrajectoryDefinition d = new SimpleTrajectoryDefinition(false);
-		d.setLimits(0, 300, 800, 600);
+		d.setLimits(0, 0, 800, 600);
 		setTrajectoryDefinition(d);
 
 		EAdMoveSceneElement move = new EAdMoveSceneElement("moveCharacter");

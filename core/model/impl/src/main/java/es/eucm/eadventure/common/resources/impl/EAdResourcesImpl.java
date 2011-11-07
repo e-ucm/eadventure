@@ -70,7 +70,7 @@ public class EAdResourcesImpl extends EAdAssetBundleImpl implements EAdResources
 		EAdAssetBundle bundle = new EAdAssetBundleImpl( );
 
 		
-		/* TODO Should probably only be implemented for a "strict" resource implementation
+		/* Should probably only be implemented for a "strict" resource implementation
 		for ( java.lang.reflect.Field a : c.getFields( ) ) {
 			Asset asset = a.getAnnotation( Asset.class );
 			Bundled bundled = a.getAnnotation( Bundled.class );

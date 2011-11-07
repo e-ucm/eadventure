@@ -39,40 +39,33 @@ package es.eucm.eadventure.engine.core.gameobjects.impl.events;
 
 import com.google.inject.Inject;
 
-import es.eucm.eadventure.common.model.elements.impl.EAdTimerImpl;
 import es.eucm.eadventure.common.model.events.EAdTimerEvent;
-import es.eucm.eadventure.common.resources.StringHandler;
 import es.eucm.eadventure.engine.core.GameState;
-import es.eucm.eadventure.engine.core.gameobjects.GameObjectFactory;
-import es.eucm.eadventure.engine.core.gameobjects.TimerGO;
-import es.eucm.eadventure.engine.core.platform.AssetHandler;
-import es.eucm.eadventure.engine.core.platform.GUI;
 
 public class TimerEventGO extends AbstractEventGO<EAdTimerEvent> {
 
-	private boolean triggered;
+//	private boolean triggered;
 
 	@Inject
-	public TimerEventGO(AssetHandler assetHandler, StringHandler stringHandler,
-			GameObjectFactory gameObjectFactory, GUI gui, GameState gameState) {
-		super(assetHandler, stringHandler, gameObjectFactory, gui, gameState);
+	public TimerEventGO(GameState gameState) {
+		super(gameState);
 	}
 	
 	@Override
 	public void update() {
-		super.update();
-		TimerGO timer = (TimerGO) gameObjectFactory.get(element.getTimer());
-		if (gameState.getValueMap().getValue(timer.getElement(), EAdTimerImpl.VAR_ENDED)) {
-			if (!triggered) {
-				//TODO this should only run if it does not restart
-				runEffects(element.getEffects(EAdTimerEvent.TimerEvent.TIMER_STOPPED));
-				runEffects(element.getEffects(EAdTimerEvent.TimerEvent.TIMER_ENDED));
-			}
-			triggered = true;
-		} else if (triggered == true){
-			triggered = false;
-			runEffects(element.getEffects(EAdTimerEvent.TimerEvent.TIMER_RESTARTED));
-		}
+		// TODO removes timers, change theme for SceneElementTimedEvents...
+//		TimerGO timer = null;
+//		if (gameState.getValueMap().getValue(timer.getElement(), EAdTimerImpl.VAR_ENDED)) {
+//			if (!triggered) {
+//				//TODO this should only run if it does not restart
+//				runEffects(element.getEffects(EAdTimerEvent.TimerEvent.TIMER_STOPPED));
+//				runEffects(element.getEffects(EAdTimerEvent.TimerEvent.TIMER_ENDED));
+//			}
+//			triggered = true;
+//		} else if (triggered == true){
+//			triggered = false;
+//			runEffects(element.getEffects(EAdTimerEvent.TimerEvent.TIMER_RESTARTED));
+//		}
 
 	
 	}

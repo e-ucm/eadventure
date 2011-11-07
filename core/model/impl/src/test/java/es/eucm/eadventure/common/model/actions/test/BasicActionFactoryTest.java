@@ -55,7 +55,6 @@ public class BasicActionFactoryTest {
 		
 		sh.setString(action.getName(), "Grab!");
 		
-		//TODO Should be created in another place
 		EAdShowSceneElement actionEffect = new EAdShowSceneElement("effectAction");
 
 		CaptionImpl caption = new CaptionImpl();

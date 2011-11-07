@@ -55,5 +55,9 @@ public abstract class AbstractMapProvider<S, T> implements MapProvider<S, T> {
 		return factoryMap;
 	}
 	
+	public void put(S key, T value){
+		factoryMap.put(key, value);
+	}
+	
 	
 }

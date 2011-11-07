@@ -55,6 +55,7 @@ import es.eucm.eadventure.engine.core.gameobjects.huds.ActionsHUD;
 import es.eucm.eadventure.engine.core.gameobjects.huds.BasicHUD;
 import es.eucm.eadventure.engine.core.gameobjects.huds.MenuHUD;
 import es.eucm.eadventure.engine.core.gameobjects.huds.impl.BasicHUDImpl;
+import es.eucm.eadventure.engine.core.gameobjects.huds.impl.MenuHUDImpl;
 import es.eucm.eadventure.engine.core.gameobjects.impl.GameObjectManagerImpl;
 import es.eucm.eadventure.engine.core.impl.GameLoopImpl;
 import es.eucm.eadventure.engine.core.impl.GameProfilerImpl;
@@ -89,7 +90,7 @@ public class DesktopModule extends AbstractModule {
 		bind(GameObjectManager.class).to(GameObjectManagerImpl.class);
 		bind(BasicHUD.class).to(BasicHUDImpl.class);
 		bind(ActionsHUD.class).to(DesktopActionsHUDImpl.class);
-		bind(MenuHUD.class).to(DesktopMenuHUDImpl.class);
+		bind(MenuHUD.class).to(MenuHUDImpl.class);
 		bind(FontHandlerImpl.class).to(DesktopFontCache.class);
 		bind(TransitionFactory.class).to(DesktopTransitionFactory.class);
 	}

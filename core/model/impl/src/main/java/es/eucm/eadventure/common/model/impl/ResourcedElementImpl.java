@@ -38,11 +38,7 @@
 package es.eucm.eadventure.common.model.impl;
 
 import es.eucm.eadventure.common.interfaces.Param;
-import es.eucm.eadventure.common.interfaces.features.Evented;
 import es.eucm.eadventure.common.interfaces.features.Resourced;
-import es.eucm.eadventure.common.model.events.EAdEvent;
-import es.eucm.eadventure.common.model.extra.EAdList;
-import es.eucm.eadventure.common.model.extra.impl.EAdListImpl;
 import es.eucm.eadventure.common.model.variables.EAdVarDef;
 import es.eucm.eadventure.common.model.variables.impl.EAdVarDefImpl;
 import es.eucm.eadventure.common.resources.EAdBundleId;
@@ -54,8 +50,8 @@ import es.eucm.eadventure.common.resources.impl.EAdResourcesImpl;
  * Abstract {@link es.eucm.eadventure.common.model.EAdElement} implementation,
  * with resources and events
  */
-public abstract class EAdGeneralElementImpl extends EAdElementImpl implements
-		Resourced, Evented {
+public abstract class ResourcedElementImpl extends EAdElementImpl implements
+		Resourced {
 	
 	public static final EAdVarDef<EAdBundleId> VAR_BUNDLE_ID = new EAdVarDefImpl<EAdBundleId>(
 			"bundle_id", EAdBundleId.class, null);
@@ -67,13 +63,7 @@ public abstract class EAdGeneralElementImpl extends EAdElementImpl implements
 	private EAdResources resources;
 
 	/**
-	 * Events associated with this element
-	 */
-	@Param("events")
-	protected EAdList<EAdEvent> events;
-
-	/**
-	 * Constructs a {@link EAdGeneralElementImpl} with the specified parent
+	 * Constructs a {@link ResourcedElementImpl} with the specified parent
 	 * element.
 	 * 
 	 * @param id
@@ -81,10 +71,9 @@ public abstract class EAdGeneralElementImpl extends EAdElementImpl implements
 	 * @throws NullPointerException
 	 *             if {@code parent} is {@code null}.
 	 */
-	public EAdGeneralElementImpl(String id) {
+	public ResourcedElementImpl(String id) {
 		super(id);
 		resources = new EAdResourcesImpl(getClass());
-		events = new EAdListImpl<EAdEvent>(EAdEvent.class);
 	}
 
 	/*
@@ -132,16 +121,6 @@ public abstract class EAdGeneralElementImpl extends EAdElementImpl implements
 
 	public void setInitialBundle(EAdBundleId temp) {
 		resources.setInitialBundle(temp);
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see es.eucm.eadventure.common.model.EAdElement#getEvents()
-	 */
-	@Override
-	public EAdList<EAdEvent> getEvents() {
-		return events;
 	}
 
 }

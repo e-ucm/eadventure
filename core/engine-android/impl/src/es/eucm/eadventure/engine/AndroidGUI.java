@@ -48,9 +48,8 @@ import es.eucm.eadventure.engine.core.GameState;
 import es.eucm.eadventure.engine.core.KeyboardState;
 import es.eucm.eadventure.engine.core.MouseState;
 import es.eucm.eadventure.engine.core.ValueMap;
-import es.eucm.eadventure.engine.core.gameobjects.GameObjectFactory;
 import es.eucm.eadventure.engine.core.gameobjects.GameObjectManager;
-import es.eucm.eadventure.engine.core.gameobjects.huds.BasicHUD;
+import es.eucm.eadventure.engine.core.gameobjects.factories.SceneElementGOFactory;
 import es.eucm.eadventure.engine.core.platform.PlatformConfiguration;
 import es.eucm.eadventure.engine.core.platform.RuntimeAsset;
 import es.eucm.eadventure.engine.core.platform.impl.AbstractGUI;
@@ -63,14 +62,12 @@ public class AndroidGUI extends AbstractGUI<Canvas> {
 	@Inject
 	public AndroidGUI(PlatformConfiguration platformConfiguration,
 			GameObjectManager gameObjectManager, MouseState mouseState,
-			BasicHUD androidBasicHUD, KeyboardState keyboardState,
+			KeyboardState keyboardState,
 			ValueMap valueMap, GameState gameState,
-			GameObjectFactory gameObjectFactory,
+			SceneElementGOFactory gameObjectFactory,
 			AndroidCanvas canvas) {
 		super(platformConfiguration, gameObjectManager, mouseState,
 				keyboardState, gameState, gameObjectFactory, canvas);
-		gameObjects.addHUD(androidBasicHUD);
-		androidBasicHUD.setGUI(this);
 	}
 
 	@Override

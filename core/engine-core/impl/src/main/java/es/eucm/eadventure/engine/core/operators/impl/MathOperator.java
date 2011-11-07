@@ -46,21 +46,19 @@ import es.eucm.eadventure.engine.core.operator.Operator;
 import es.eucm.eadventure.engine.core.operators.impl.util.MathEvaluator;
 
 /**
- * Calculates results for {@link MathOperation}. The result
- * returned by
- * {@link MathOperation#operate(ValueMap, MathOperation)}
- * is always a Float object
+ * Calculates results for {@link MathOperation}. The result returned by
+ * {@link MathOperation#operate(ValueMap, MathOperation)} is always a Float
+ * object
  * 
  * 
  */
 @Singleton
-public class MathOperator implements
-		Operator<MathOperation> {
+public class MathOperator implements Operator<MathOperation> {
 
 	/**
 	 * Math evaluator
 	 */
-	private static final MathEvaluator evaluator = new MathEvaluator();
+	private MathEvaluator evaluator = new MathEvaluator();
 
 	private ValueMap valueMap;
 
@@ -72,13 +70,16 @@ public class MathOperator implements
 	@SuppressWarnings("unchecked")
 	@Override
 	public <S> S operate(Class<S> clazz, MathOperation operation) {
-		evaluator.setExpression(operation.getExpression(), valueMap,
-				operation.getVarList());
+		synchronized (evaluator) {
+			evaluator.setExpression(operation.getExpression(), valueMap,
+					operation.getVarList());
 
-		if (clazz.equals(Integer.class))
-			return (S) new Integer(evaluator.getValue().intValue());
-		else
-			return (S) evaluator.getValue();
+			if (clazz.equals(Integer.class)) {
+				Float f = evaluator.getValue();
+				return (S) new Integer(f.intValue());
+			} else
+				return (S) evaluator.getValue();
+		}
 	}
 
 }

@@ -40,24 +40,27 @@ package es.eucm.eadventure.engine.core.gameobjects;
 import java.util.List;
 
 import es.eucm.eadventure.engine.core.gameobjects.huds.HudGO;
+import es.eucm.eadventure.engine.core.platform.GUI;
 import es.eucm.eadventure.engine.core.util.EAdTransformation;
 
 public interface GameObjectManager  {
 
 	static Boolean lock = Boolean.TRUE;
 
-	void add(GameObject<?> element, EAdTransformation transformation);
+	void add(DrawableGO<?> element, EAdTransformation transformation);
 	
-	List<GameObject<?>> getGameObjects();
+	List<DrawableGO<?>> getGameObjects();
 
-	void addHUD(HudGO<?> hud);
+	void addHUD(HudGO hud);
 	
-	HudGO<?> getHUD();
+	void addHUDs(GUI gui, EAdTransformation t);
 	
-	void removeHUD(HudGO<?> hud);
+	void removeHUD(HudGO hud);
 	
 	void swap();
 
 	List<EAdTransformation> getTransformations();
+
+	List<HudGO> getHUDs();
 
 }

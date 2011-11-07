@@ -39,12 +39,11 @@ package es.eucm.eadventure.engine.core.gameobjects.impl.effects;
 
 import com.google.inject.Inject;
 
-import es.eucm.eadventure.common.model.effects.EAdEffect;
 import es.eucm.eadventure.common.model.effects.impl.EAdCancelEffect;
 import es.eucm.eadventure.common.resources.StringHandler;
 import es.eucm.eadventure.engine.core.GameState;
 import es.eucm.eadventure.engine.core.gameobjects.EffectGO;
-import es.eucm.eadventure.engine.core.gameobjects.GameObjectFactory;
+import es.eucm.eadventure.engine.core.gameobjects.factories.SceneElementGOFactory;
 import es.eucm.eadventure.engine.core.platform.AssetHandler;
 import es.eucm.eadventure.engine.core.platform.GUI;
 
@@ -52,9 +51,10 @@ public class CancelEffectGO extends AbstractEffectGO<EAdCancelEffect> {
 
 	@Inject
 	public CancelEffectGO(AssetHandler assetHandler,
-			StringHandler stringHandler, GameObjectFactory gameObjectFactory,
-			GUI gui, GameState gameState) {
-		super(assetHandler, stringHandler, gameObjectFactory, gui, gameState);
+			StringHandler stringsReader,
+			SceneElementGOFactory gameObjectFactory, GUI gui,
+			GameState gameState) {
+		super(assetHandler, stringsReader, gameObjectFactory, gui, gameState);
 	}
 
 	@Override
@@ -73,9 +73,10 @@ public class CancelEffectGO extends AbstractEffectGO<EAdCancelEffect> {
 				e.stop();
 			}
 		} else {
-			for (EAdEffect e : element.getEffects()) {
-				((EffectGO<?>) gameObjectFactory.get(e)).stop();
-			}
+			// TOOD how to cancel one concrete effect?
+//			for (EAdEffect e : element.getEffects()) {
+//				((EffectGO<?>) gameObjectFactory.get(e)).stop();
+//			}
 		}
 	}
 

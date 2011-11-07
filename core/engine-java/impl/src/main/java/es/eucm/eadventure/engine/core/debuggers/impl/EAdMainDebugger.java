@@ -8,7 +8,7 @@ import com.google.inject.Injector;
 import com.google.inject.Singleton;
 
 import es.eucm.eadventure.engine.core.debuggers.EAdDebugger;
-import es.eucm.eadventure.engine.core.gameobjects.GameObject;
+import es.eucm.eadventure.engine.core.gameobjects.DrawableGO;
 
 @Singleton
 public class EAdMainDebugger implements EAdDebugger {
@@ -21,7 +21,7 @@ public class EAdMainDebugger implements EAdDebugger {
 
 	private List<EAdDebugger> debuggers;
 
-	private List<GameObject<?>> gameObjects;
+	private List<DrawableGO<?>> gameObjects;
 
 	@Inject
 	public EAdMainDebugger(Injector injector) {
@@ -30,11 +30,11 @@ public class EAdMainDebugger implements EAdDebugger {
 			debuggers.add(injector.getInstance(c));
 		}
 
-		gameObjects = new ArrayList<GameObject<?>>();
+		gameObjects = new ArrayList<DrawableGO<?>>();
 	}
 
 	@Override
-	public List<GameObject<?>> getGameObjects() {
+	public List<DrawableGO<?>> getGameObjects() {
 		gameObjects.clear();
 		for (EAdDebugger d : debuggers) {
 			gameObjects.addAll(d.getGameObjects());

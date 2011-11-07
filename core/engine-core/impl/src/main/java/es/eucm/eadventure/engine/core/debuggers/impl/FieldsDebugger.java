@@ -21,8 +21,9 @@ import es.eucm.eadventure.common.resources.assets.drawable.compounds.impl.Compos
 import es.eucm.eadventure.engine.core.MouseState;
 import es.eucm.eadventure.engine.core.ValueMap;
 import es.eucm.eadventure.engine.core.debuggers.EAdDebugger;
+import es.eucm.eadventure.engine.core.gameobjects.DrawableGO;
 import es.eucm.eadventure.engine.core.gameobjects.GameObject;
-import es.eucm.eadventure.engine.core.gameobjects.GameObjectFactory;
+import es.eucm.eadventure.engine.core.gameobjects.factories.SceneElementGOFactory;
 
 public class FieldsDebugger implements EAdDebugger {
 
@@ -30,7 +31,7 @@ public class FieldsDebugger implements EAdDebugger {
 
 	private MouseState mouseState;
 
-	private List<GameObject<?>> gos;
+	private List<DrawableGO<?>> gos;
 
 	private ValueMap valueMap;
 
@@ -38,7 +39,7 @@ public class FieldsDebugger implements EAdDebugger {
 
 	private StringHandler stringHandler;
 
-	private GameObjectFactory gameObjectFactory;
+	private SceneElementGOFactory gameObjectFactory;
 
 	private EAdFont font = new EAdFontImpl(12);
 
@@ -46,19 +47,19 @@ public class FieldsDebugger implements EAdDebugger {
 
 	@Inject
 	public FieldsDebugger(MouseState mouseState, ValueMap valueMap,
-			StringHandler stringHandler, GameObjectFactory gameObjectFactory) {
+			StringHandler stringHandler, SceneElementGOFactory gameObjectFactory) {
 		this.mouseState = mouseState;
 		this.valueMap = valueMap;
 		this.stringHandler = stringHandler;
 		this.gameObjectFactory = gameObjectFactory;
-		gos = new ArrayList<GameObject<?>>();
+		gos = new ArrayList<DrawableGO<?>>();
 		vars = new EAdBasicSceneElement("vars");
 		vars.setVarInitialValue(EAdBasicSceneElement.VAR_ENABLE, false);
 	}
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@Override
-	public List<GameObject<?>> getGameObjects() {
+	public List<DrawableGO<?>> getGameObjects() {
 		if (mouseState.getGameObjectUnderMouse() != null
 				&& mouseState.getGameObjectUnderMouse().getElement() != element
 				&& mouseState.getGameObjectUnderMouse().getElement() instanceof EAdElement) {

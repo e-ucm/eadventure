@@ -41,7 +41,7 @@ import es.eucm.eadventure.common.model.effects.EAdEffect;
 import es.eucm.eadventure.common.model.elements.EAdSceneElement;
 import es.eucm.eadventure.engine.core.guiactions.GUIAction;
 
-public interface EffectGO<P extends EAdEffect> extends GameObject<P> {
+public interface EffectGO<P extends EAdEffect> extends DrawableGO<P> {
 
 	void initilize();
 

@@ -42,50 +42,56 @@ import java.util.logging.Logger;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
+import es.eucm.eadventure.common.model.effects.impl.EAdQuitGame;
+import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
+import es.eucm.eadventure.common.model.guievents.EAdKeyEvent.KeyActionType;
 import es.eucm.eadventure.common.model.guievents.EAdKeyEvent.KeyCode;
-import es.eucm.eadventure.common.params.geom.EAdPosition;
+import es.eucm.eadventure.common.model.guievents.impl.EAdMouseEventImpl;
+import es.eucm.eadventure.common.params.EAdFontImpl;
+import es.eucm.eadventure.common.params.fills.impl.EAdColor;
+import es.eucm.eadventure.common.params.fills.impl.EAdLinearGradient;
+import es.eucm.eadventure.common.params.fills.impl.EAdPaintImpl;
 import es.eucm.eadventure.common.params.geom.impl.EAdPositionImpl;
+import es.eucm.eadventure.common.resources.StringHandler;
+import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.CaptionImpl;
 import es.eucm.eadventure.engine.core.GameState;
-import es.eucm.eadventure.engine.core.MouseState;
-import es.eucm.eadventure.engine.core.gameobjects.GameObject;
 import es.eucm.eadventure.engine.core.gameobjects.GameObjectManager;
+import es.eucm.eadventure.engine.core.gameobjects.factories.SceneElementGOFactory;
 import es.eucm.eadventure.engine.core.gameobjects.huds.MenuHUD;
 import es.eucm.eadventure.engine.core.guiactions.GUIAction;
 import es.eucm.eadventure.engine.core.guiactions.KeyAction;
-import es.eucm.eadventure.engine.core.platform.EAdCanvas;
 import es.eucm.eadventure.engine.core.platform.GUI;
-import es.eucm.eadventure.engine.core.util.EAdTransformation;
-import es.eucm.eadventure.engine.core.util.impl.EAdTransformationImpl;
 
 /**
- * <p>Abstract implementation of the Menu HUD</p>
- *
+ * <p>
+ * Abstract implementation of the Menu HUD
+ * </p>
+ * 
  */
 @Singleton
-public abstract class MenuHUDImpl implements MenuHUD {
+public class MenuHUDImpl extends AbstractHUD implements MenuHUD {
 
 	/**
 	 * The logger
 	 */
 	private static Logger logger = Logger.getLogger("MenuHUDImpl");
-	
-	/**
-	 * The game's {@link GUI}
-	 */
-	protected GUI gui;
-		
+
 	/**
 	 * The current {@link GameState}
 	 */
 	private GameState gameState;
-	
+
 	private GameObjectManager gameObjectManager;
-	
+
 	@Inject
-	public MenuHUDImpl(GameState gameState, GameObjectManager gameObjectManager) {
+	public MenuHUDImpl(GUI gui, GameState gameState,
+			GameObjectManager gameObjectManager, StringHandler stringHandler,
+			SceneElementGOFactory sceneElementFactory) {
+		super(gui);
 		logger.info("New instance");
 		this.gameState = gameState;
 		this.gameObjectManager = gameObjectManager;
+		addExitButton(stringHandler, sceneElementFactory);
 	}
 
 	@Override
@@ -102,12 +108,15 @@ public abstract class MenuHUDImpl implements MenuHUD {
 	 */
 	@Override
 	public boolean processAction(GUIAction action) {
-		if (action instanceof KeyAction
-				&& ((KeyAction) action).getKeyCode() == KeyCode.ESC) {
-			gameObjectManager.removeHUD(this);
-			gameState.setPaused(false);
-			action.consume();
-			return true;
+		if (action instanceof KeyAction) {
+			KeyAction keyAction = (KeyAction) action;
+			if (keyAction.getKeyCode() == KeyCode.ESC
+					&& keyAction.getType() == KeyActionType.KEY_PRESSED) {
+				gameObjectManager.removeHUD(this);
+				gameState.setPaused(false);
+				action.consume();
+				return true;
+			}
 		}
 
 		// Returns true to block interaction with lower HUDs and GOs
@@ -115,73 +124,24 @@ public abstract class MenuHUDImpl implements MenuHUD {
 		return true;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * es.eucm.eadventure.engine.core.gameobjects.GameObject#setElement(java
-	 * .lang.Object)
-	 */
-	@Override
-	public void setElement(Void element) {
-		// DO NOTHING
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * es.eucm.eadventure.engine.core.gameobjects.GameObject#getDraggableElement
-	 * (es.eucm.eadventure.engine.core.MouseState)
-	 */
-	@Override
-	public GameObject<?> getDraggableElement(MouseState mouseState) {
-		return null;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see es.eucm.eadventure.engine.core.gameobjects.GameObject#getPosition()
-	 */
-	@Override
-	public EAdPositionImpl getPosition() {
-		return null;
-	}
-	
-	@Override
-	public void setPosition( EAdPosition position ){
-		
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see es.eucm.eadventure.engine.core.gameobjects.GameObject#getElement()
-	 */
-	@Override
-	public Void getElement() {
-		return null;
-	}
-	
-	@Override
-	public EAdTransformation getTransformation() {
-		return EAdTransformationImpl.INITIAL_TRANSFORMATION;
-	}
-	
-	@Override
-	public boolean isEnable() {
+	public boolean contains(int x, int y) {
 		return true;
 	}
-	
-	@Override
-	public void render(EAdCanvas<?> c) {
-		
-	}
 
-	@Override
-	public boolean contains(int x, int y) {
-		return false;
+	private void addExitButton(StringHandler stringHandler,
+			SceneElementGOFactory sceneElementFactory) {
+		CaptionImpl c = new CaptionImpl();
+		stringHandler.setString(c.getText(), "Exit");
+		EAdBasicSceneElement button = new EAdBasicSceneElement("exit_button", c);
+		c.setBubblePaint(new EAdPaintImpl(new EAdLinearGradient(
+				EAdColor.ORANGE, new EAdColor(255, 200, 0), 0, 40), EAdColor.BLACK, 2));
+		c.setPadding(10);
+		c.setFont(new EAdFontImpl(18));
+		button.getBehavior().addBehavior(EAdMouseEventImpl.MOUSE_LEFT_CLICK,
+				new EAdQuitGame("menuButton_quitGame"));
+		button.setPosition(new EAdPositionImpl(EAdPositionImpl.Corner.CENTER,
+				400, 300));
+		addElement(sceneElementFactory.get(button));
 	}
 
 }

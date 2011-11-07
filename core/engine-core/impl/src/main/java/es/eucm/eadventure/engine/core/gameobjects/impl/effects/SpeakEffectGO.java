@@ -17,8 +17,8 @@ import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.shapes.Be
 import es.eucm.eadventure.engine.core.GameLoop;
 import es.eucm.eadventure.engine.core.GameState;
 import es.eucm.eadventure.engine.core.Renderable;
-import es.eucm.eadventure.engine.core.gameobjects.GameObjectFactory;
 import es.eucm.eadventure.engine.core.gameobjects.SceneElementGO;
+import es.eucm.eadventure.engine.core.gameobjects.factories.SceneElementGOFactory;
 import es.eucm.eadventure.engine.core.guiactions.GUIAction;
 import es.eucm.eadventure.engine.core.guiactions.MouseAction;
 import es.eucm.eadventure.engine.core.operator.OperatorFactory;
@@ -53,11 +53,11 @@ public class SpeakEffectGO extends AbstractEffectGO<EAdSpeakEffect> implements
 
 	@Inject
 	public SpeakEffectGO(AssetHandler assetHandler,
-			StringHandler stringHandler, GameObjectFactory gameObjectFactory,
-			GUI gui, GameState gameState, OperatorFactory operatorFactory) {
+			StringHandler stringHandler,
+			SceneElementGOFactory gameObjectFactory, GUI gui,
+			GameState gameState, OperatorFactory operatorFactory) {
 		super(assetHandler, stringHandler, gameObjectFactory, gui, gameState);
 		this.operatorFactory = operatorFactory;
-		this.enable = true;
 	}
 
 	@Override
@@ -83,13 +83,12 @@ public class SpeakEffectGO extends AbstractEffectGO<EAdSpeakEffect> implements
 	public void initilize() {
 		super.initilize();
 		finished = false;
-		ballon = (SceneElementGO<?>) gameObjectFactory.get(getSceneElement());
+		ballon = sceneElementFactory.get(getSceneElement());
 		alpha = 0.0f;
 		gone = false;
 	}
 
 	private EAdSceneElement getSceneElement() {
-		// TODO Check if necessary to use platform configuration
 		int width = gameState.getValueMap().getValue(SystemFields.GUI_WIDTH);
 		int height = gameState.getValueMap().getValue(SystemFields.GUI_HEIGHT);
 		int horizontalMargin = width / MARGIN_PROPORTION;
@@ -106,6 +105,16 @@ public class SpeakEffectGO extends AbstractEffectGO<EAdSpeakEffect> implements
 					element.getX());
 			Integer yOrigin = operatorFactory.operate(Integer.class,
 					element.getY());
+			
+			if ( yOrigin < height / 2 ){
+				bottom = height - verticalMargin;
+				top = bottom - height / HEIGHT_PROPORTION;
+				yOrigin = top - MARGIN * 2;
+			}
+			else {
+				yOrigin = bottom + MARGIN * 2;
+			}
+			
 			rectangle = new BallonShape(left, top, right, bottom,
 					element.getBallonType(), xOrigin, yOrigin);
 		} else {
@@ -135,8 +144,8 @@ public class SpeakEffectGO extends AbstractEffectGO<EAdSpeakEffect> implements
 				EAdBasicSceneElement.appearance, rectangle);
 		complex.getElements().add(textSE);
 
-		caption = (RuntimeCaption) ((SceneElementGO<?>) gameObjectFactory
-				.get(textSE)).getRenderAsset();
+		caption = (RuntimeCaption) (sceneElementFactory.get(textSE))
+				.getRenderAsset();
 		caption.reset();
 
 		return complex;

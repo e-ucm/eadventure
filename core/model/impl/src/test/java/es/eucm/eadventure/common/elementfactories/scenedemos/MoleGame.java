@@ -21,7 +21,6 @@ import es.eucm.eadventure.common.model.variables.impl.operations.ListOperation;
 import es.eucm.eadventure.common.model.variables.impl.operations.MathOperation;
 import es.eucm.eadventure.common.params.fills.impl.EAdColor;
 import es.eucm.eadventure.common.resources.assets.drawable.Drawable;
-import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.CaptionImpl;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.ImageImpl;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.animation.Frame;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.animation.FramesAnimation;
@@ -43,9 +42,6 @@ public class MoleGame extends EmptyScene {
 	private EAdField<EAdList> listField;
 
 	private EAdField<EAdSceneElement> moleField;
-
-	private EAdField<Integer> touch = new EAdFieldImpl<Integer>(this,
-			new EAdVarDefImpl<Integer>("touch", Integer.class, 0));
 
 	public MoleGame() {
 		setBackgroundFill(EAdColor.DARK_BROWN);
@@ -80,7 +76,6 @@ public class MoleGame extends EmptyScene {
 		listVar = new EAdVarDefImpl<EAdList>("moleListVar", EAdList.class, list);
 		listField = new EAdFieldImpl<EAdList>(this, listVar);
 		initLoop();
-		addText();
 
 	}
 
@@ -145,11 +140,6 @@ public class MoleGame extends EmptyScene {
 		event.setTime(1100);
 		this.getBackground().getEvents().add(event);
 
-	}
-	
-	private void addText(){
-		CaptionImpl c = new CaptionImpl();
-		
 	}
 
 	@Override

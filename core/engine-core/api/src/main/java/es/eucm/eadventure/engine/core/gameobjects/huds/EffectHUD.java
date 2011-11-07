@@ -41,11 +41,14 @@ import java.util.List;
 
 import es.eucm.eadventure.engine.core.gameobjects.EffectGO;
 
+
 /**
  * Interface for Effect HUDs
  * 
  * 
  */
-public interface EffectHUD extends HudGO<List<EffectGO<?>>> {
+public interface EffectHUD extends HudGO {
 
+	void setEffects(List<EffectGO<?>> effects);
+	
 }

@@ -185,8 +185,10 @@ public class BallonShape extends BezierShape {
 			shape.lineTo(xOrigin, y);
 			shape.lineTo(xOrigin, yOrigin);
 			int diff = x2 - xOrigin;
+			diff = Math.abs(diff) > 40 ? 40 * (int) Math.signum(x2 - xOrigin) : diff;
+			
 
-			shape.lineTo(xOrigin + diff / 10, y);
+			shape.lineTo(xOrigin + diff, y);
 			shape.lineTo(x2, y);
 		}
 
@@ -208,7 +210,7 @@ public class BallonShape extends BezierShape {
 			shape.lineTo(xOrigin, yOrigin);
 			int diff = y2 - yOrigin;
 
-			shape.lineTo(x, yOrigin + diff / 10);
+			shape.lineTo(x, yOrigin + diff );
 			shape.lineTo(x, y2);
 
 		}
@@ -380,7 +382,6 @@ public class BallonShape extends BezierShape {
 
 		protected void addOrigin(BezierShape shape, int x1, int y1, int x2,
 				int y2, int xOrigin, int yOrigin) {
-			// TODO improve
 			shape.cubeTo(xOrigin, yOrigin, x2, y2);
 		}
 	}
@@ -399,7 +400,6 @@ public class BallonShape extends BezierShape {
 		@Override
 		protected void addOrigin(BezierShape shape, int x1, int y1, int x2,
 				int y2, int xOrigin, int yOrigin) {
-			// TODO improve
 			shape.lineTo(xOrigin, yOrigin);
 			shape.lineTo(x2, y2);
 		}

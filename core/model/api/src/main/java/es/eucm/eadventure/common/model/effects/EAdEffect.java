@@ -38,8 +38,6 @@
 package es.eucm.eadventure.common.model.effects;
 
 import es.eucm.eadventure.common.interfaces.features.Conditioned;
-import es.eucm.eadventure.common.interfaces.features.Evented;
-import es.eucm.eadventure.common.interfaces.features.Variabled;
 import es.eucm.eadventure.common.model.EAdElement;
 import es.eucm.eadventure.common.model.extra.EAdList;
 
@@ -50,7 +48,7 @@ import es.eucm.eadventure.common.model.extra.EAdList;
  * an animation).</p>
  * 
  */
-public interface EAdEffect extends EAdElement, Conditioned, Evented, Variabled {
+public interface EAdEffect extends EAdElement, Conditioned {
 
 	/**
 	 * If returns {@code true} means no subsequent effects will be triggered

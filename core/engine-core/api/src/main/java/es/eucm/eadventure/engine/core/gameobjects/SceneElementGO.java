@@ -43,14 +43,13 @@ import es.eucm.eadventure.common.model.elements.EAdSceneElement;
 import es.eucm.eadventure.common.model.extra.EAdList;
 import es.eucm.eadventure.common.params.geom.EAdPosition;
 import es.eucm.eadventure.common.resources.assets.AssetDescriptor;
-import es.eucm.eadventure.engine.core.Renderable;
 import es.eucm.eadventure.engine.core.platform.DrawableAsset;
 
 /**
  * 
  */
 public interface SceneElementGO<T extends EAdSceneElement> extends
-		GameObject<T>, Oriented, Renderable {
+		DrawableGO<T>, Oriented {
 
 	void setPosition(EAdPosition position);
 

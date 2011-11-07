@@ -11,6 +11,7 @@ import android.graphics.Paint;
 import android.graphics.Paint.Style;
 import android.graphics.Path;
 import android.graphics.Shader;
+import android.graphics.Typeface;
 
 import com.google.inject.Inject;
 
@@ -22,6 +23,7 @@ import es.eucm.eadventure.common.params.paint.EAdFill;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.Image;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.Shape;
 import es.eucm.eadventure.engine.assets.AndroidBezierShape;
+import es.eucm.eadventure.engine.assets.AndroidEngineFont;
 import es.eucm.eadventure.engine.assets.AndroidEngineImage;
 import es.eucm.eadventure.engine.core.platform.DrawableAsset;
 import es.eucm.eadventure.engine.core.platform.FontHandler;
@@ -31,6 +33,10 @@ import es.eucm.eadventure.engine.core.util.EAdTransformation;
 public class AndroidCanvas extends AbstractCanvas<Canvas> {
 
 	private Map<EAdFill, Paint> fillCache;
+	
+	private Typeface font;
+	
+	private int size;
 
 	@Inject
 	public AndroidCanvas(FontHandler fontHandler) {
@@ -83,6 +89,8 @@ public class AndroidCanvas extends AbstractCanvas<Canvas> {
 		if (paint.getFill() != null) {
 			Paint p = getPaint(paint.getFill());
 			p.setStyle(Style.FILL);
+			p.setTypeface(font);
+			p.setTextSize(size);
 			g.drawText(str, x, y, p);
 		}
 		// Border
@@ -90,13 +98,17 @@ public class AndroidCanvas extends AbstractCanvas<Canvas> {
 			Paint p = getPaint(paint.getBorder());
 			p.setStyle(Style.STROKE);
 			p.setStrokeWidth(paint.getBorderWidth());
+			p.setTypeface(font);
+			p.setTextSize(size);
 			g.drawText(str, x, y, p);
 		}
 	}
 
 	@Override
 	public void setFont(EAdFont font) {
-		// TODO fonts in android
+		AndroidEngineFont f = (AndroidEngineFont) fontHandler.get(font);
+		this.font = f.getFont();
+		size = f.size();
 	}
 
 	@Override

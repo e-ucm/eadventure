@@ -37,27 +37,30 @@
 
 package es.eucm.eadventure.engine.core.gameobjects.impl.effects;
 
-import java.util.Map.Entry;
+import java.util.List;
 
 import com.google.inject.Inject;
 
 import es.eucm.eadventure.common.model.effects.EAdEffect;
 import es.eucm.eadventure.common.model.elements.EAdSceneElement;
-import es.eucm.eadventure.common.model.variables.EAdVarDef;
+import es.eucm.eadventure.common.params.geom.EAdPosition;
 import es.eucm.eadventure.common.resources.StringHandler;
 import es.eucm.eadventure.engine.core.GameLoop;
 import es.eucm.eadventure.engine.core.GameState;
-import es.eucm.eadventure.engine.core.Renderable;
+import es.eucm.eadventure.engine.core.MouseState;
+import es.eucm.eadventure.engine.core.gameobjects.DrawableGO;
 import es.eucm.eadventure.engine.core.gameobjects.EffectGO;
-import es.eucm.eadventure.engine.core.gameobjects.GameObjectFactory;
-import es.eucm.eadventure.engine.core.gameobjects.impl.GameObjectImpl;
+import es.eucm.eadventure.engine.core.gameobjects.factories.SceneElementGOFactory;
+import es.eucm.eadventure.engine.core.gameobjects.impl.DrawableGameObjectImpl;
 import es.eucm.eadventure.engine.core.guiactions.GUIAction;
 import es.eucm.eadventure.engine.core.platform.AssetHandler;
 import es.eucm.eadventure.engine.core.platform.EAdCanvas;
 import es.eucm.eadventure.engine.core.platform.GUI;
+import es.eucm.eadventure.engine.core.platform.RuntimeAsset;
+import es.eucm.eadventure.engine.core.util.EAdTransformation;
 
 public abstract class AbstractEffectGO<P extends EAdEffect> extends
-		GameObjectImpl<P> implements EffectGO<P>, Renderable {
+		DrawableGameObjectImpl<P> implements EffectGO<P> {
 
 	private boolean stopped = false;
 
@@ -74,7 +77,7 @@ public abstract class AbstractEffectGO<P extends EAdEffect> extends
 	
 	@Inject
 	public AbstractEffectGO(AssetHandler assetHandler,
-			StringHandler stringsReader, GameObjectFactory gameObjectFactory,
+			StringHandler stringsReader, SceneElementGOFactory gameObjectFactory,
 			GUI gui, GameState gameState) {
 		super(assetHandler, stringsReader, gameObjectFactory, gui, gameState);
 	}
@@ -82,9 +85,7 @@ public abstract class AbstractEffectGO<P extends EAdEffect> extends
 	@Override
 	public void initilize() {
 		initialized = true;
-		for ( Entry<EAdVarDef<?>, Object> e: element.getVars().entrySet()){
-			gameState.getValueMap().setValue(element, e.getKey(), e.getValue());
-		}
+		stopped = false;
 	}
 	
 	public void update(){
@@ -130,8 +131,6 @@ public abstract class AbstractEffectGO<P extends EAdEffect> extends
 	public void finish() {
 		initialized = false;
 		stopped = true;
-		gameState.getValueMap().remove(element);
-		gameObjectFactory.remove(element);
 		for ( EAdEffect e: element.getFinalEffects() ){
 			gameState.addEffect(e, action, parent);
 		}
@@ -145,10 +144,6 @@ public abstract class AbstractEffectGO<P extends EAdEffect> extends
 		this.parent = parent;
 	}
 	
-	public String toString(){
-		return "GO " + element;
-	}
-	
 	@Override
 	public void render(EAdCanvas<?> c) {
 
@@ -157,6 +152,41 @@ public abstract class AbstractEffectGO<P extends EAdEffect> extends
 	@Override
 	public boolean contains(int x, int y) {
 		return false;
+	}
+	
+	public EAdPosition getPosition(){
+		return null;
+	}
+	
+	@Override
+	public boolean processAction(GUIAction action) {
+		return false;
+	}
+
+	@Override
+	public DrawableGO<?> getDraggableElement(MouseState mouseState) {
+		return null;
+	}
+
+	@Override
+	public void doLayout(EAdTransformation transformation) {
+		
+	}
+
+	@Override
+	public boolean isEnable() {
+		return element.isOpaque();
+	}
+
+	@Override
+	public List<RuntimeAsset<?>> getAssets(List<RuntimeAsset<?>> assetList,
+			boolean allAssets) {
+		return assetList;
+	}
+
+	@Override
+	public void setPosition(EAdPosition p) {
+		
 	}
 
 }

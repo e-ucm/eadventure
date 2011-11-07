@@ -39,14 +39,13 @@ package es.eucm.eadventure.engine.core.gameobjects.impl.effects;
 
 import com.google.inject.Inject;
 
-import es.eucm.eadventure.common.model.EAdElement;
 import es.eucm.eadventure.common.model.effects.EAdEffect;
 import es.eucm.eadventure.common.model.effects.impl.EAdComplexBlockingEffect;
 import es.eucm.eadventure.common.model.elements.EAdSceneElement;
 import es.eucm.eadventure.common.resources.StringHandler;
 import es.eucm.eadventure.engine.core.GameState;
-import es.eucm.eadventure.engine.core.gameobjects.GameObjectFactory;
 import es.eucm.eadventure.engine.core.gameobjects.SceneElementGO;
+import es.eucm.eadventure.engine.core.gameobjects.factories.SceneElementGOFactory;
 import es.eucm.eadventure.engine.core.platform.AssetHandler;
 import es.eucm.eadventure.engine.core.platform.GUI;
 import es.eucm.eadventure.engine.core.util.EAdTransformation;
@@ -56,7 +55,7 @@ public class ComplexBlockingEffectGO extends
 
 	@Inject
 	public ComplexBlockingEffectGO(AssetHandler assetHandler,
-			StringHandler stringHandler, GameObjectFactory gameObjectFactory,
+			StringHandler stringHandler, SceneElementGOFactory gameObjectFactory,
 			GUI gui, GameState gameState) {
 		super(assetHandler, stringHandler, gameObjectFactory, gui, gameState);
 	}
@@ -64,7 +63,7 @@ public class ComplexBlockingEffectGO extends
 	@Override
 	public void doLayout(EAdTransformation t) {
 		for (EAdSceneElement e : element.getComponents()) {
-			SceneElementGO<?> go = (SceneElementGO<?>) gameObjectFactory.get(e);
+			SceneElementGO<?> go = sceneElementFactory.get(e);
 			gui.addElement(go, t);
 		}
 
@@ -85,7 +84,7 @@ public class ComplexBlockingEffectGO extends
 	public void update() {
 		super.update();
 		for (EAdSceneElement e : element.getComponents()) {
-			gameObjectFactory.get(e).update();
+			sceneElementFactory.get(e).update();
 		}
 	}
 
@@ -94,9 +93,9 @@ public class ComplexBlockingEffectGO extends
 		for (EAdEffect e : element.getFinalEffects()) {
 			gameState.addEffect(e, action, parent);
 		}
-		for (EAdElement e : element.getComponents()) {
+		for (EAdSceneElement e : element.getComponents()) {
 			gameState.getValueMap().remove(e);
-			gameObjectFactory.remove(e);
+			sceneElementFactory.remove(e);
 		}
 
 	}

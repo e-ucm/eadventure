@@ -44,7 +44,7 @@ import es.eucm.eadventure.common.model.effects.EAdEffect;
 import es.eucm.eadventure.common.model.elements.EAdCondition;
 import es.eucm.eadventure.common.model.extra.EAdList;
 import es.eucm.eadventure.common.model.extra.impl.EAdListImpl;
-import es.eucm.eadventure.common.model.impl.EAdGeneralElementImpl;
+import es.eucm.eadventure.common.model.impl.ResourcedElementImpl;
 import es.eucm.eadventure.common.params.EAdString;
 import es.eucm.eadventure.common.resources.EAdBundleId;
 import es.eucm.eadventure.common.resources.annotation.Asset;
@@ -52,7 +52,7 @@ import es.eucm.eadventure.common.resources.annotation.Bundled;
 import es.eucm.eadventure.common.resources.assets.drawable.Drawable;
 
 @Element(runtime = EAdBasicAction.class, detailed = EAdBasicAction.class)
-public class EAdBasicAction extends EAdGeneralElementImpl implements EAdAction {
+public class EAdBasicAction extends ResourcedElementImpl implements EAdAction {
 
 	@Bundled
 	@Asset({ Drawable.class })

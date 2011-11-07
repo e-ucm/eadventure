@@ -42,7 +42,6 @@ import java.util.Map;
 
 import es.eucm.eadventure.common.model.conditions.impl.ANDCondition;
 import es.eucm.eadventure.common.model.conditions.impl.EmptyCondition;
-import es.eucm.eadventure.common.model.conditions.impl.FlagCondition;
 import es.eucm.eadventure.common.model.conditions.impl.NOTCondition;
 import es.eucm.eadventure.common.model.conditions.impl.ORCondition;
 import es.eucm.eadventure.common.model.conditions.impl.OperationCondition;
@@ -50,7 +49,6 @@ import es.eucm.eadventure.engine.core.ValueMap;
 import es.eucm.eadventure.engine.core.evaluators.Evaluator;
 import es.eucm.eadventure.engine.core.evaluators.EvaluatorFactory;
 import es.eucm.eadventure.engine.core.evaluators.impl.EmptyConditionEvaluator;
-import es.eucm.eadventure.engine.core.evaluators.impl.FlagConditionEvaluator;
 import es.eucm.eadventure.engine.core.evaluators.impl.ListedConditionEvaluator;
 import es.eucm.eadventure.engine.core.evaluators.impl.NOTConditionEvaluator;
 import es.eucm.eadventure.engine.core.evaluators.impl.OperationConditionEvaluator;
@@ -68,7 +66,6 @@ public class EvaluatorFactoryMapProvider extends AbstractMapProvider<Class<?>, E
 		factoryMap.put(ANDCondition.class, new ListedConditionEvaluator(evaluatorFactory));
 		factoryMap.put(ORCondition.class, new ListedConditionEvaluator(evaluatorFactory));
 		factoryMap.put(NOTCondition.class, new NOTConditionEvaluator(evaluatorFactory));
-		factoryMap.put(FlagCondition.class, new FlagConditionEvaluator(valueMap));
 		factoryMap.putAll(tempMap);
 	}
 	

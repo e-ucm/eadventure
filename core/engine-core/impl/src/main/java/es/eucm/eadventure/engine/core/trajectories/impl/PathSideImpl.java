@@ -49,8 +49,8 @@ import es.eucm.eadventure.common.params.geom.EAdRectangle;
 import es.eucm.eadventure.common.params.geom.impl.EAdPositionImpl;
 import es.eucm.eadventure.common.params.geom.impl.EAdRectangleImpl;
 import es.eucm.eadventure.engine.core.ValueMap;
-import es.eucm.eadventure.engine.core.gameobjects.GameObjectFactory;
 import es.eucm.eadventure.engine.core.gameobjects.SceneElementGO;
+import es.eucm.eadventure.engine.core.gameobjects.factories.SceneElementGOFactory;
 import es.eucm.eadventure.engine.core.trajectories.PathSide;
 
 public class PathSideImpl implements PathSide {
@@ -65,13 +65,13 @@ public class PathSideImpl implements PathSide {
 
     private Node endNode;
     
-    private GameObjectFactory gameObjectFactory;
+    private SceneElementGOFactory gameObjectFactory;
     
     private List<PathSideImpl> followingSides;
     
     private ValueMap valueMap;
 
-    public PathSideImpl( Side side, NodeTrajectoryDefinition trajectory, boolean inverted,  GameObjectFactory gameObjectFactory, ValueMap valueMap ) {
+    public PathSideImpl( Side side, NodeTrajectoryDefinition trajectory, boolean inverted,  SceneElementGOFactory gameObjectFactory, ValueMap valueMap ) {
     	this.gameObjectFactory = gameObjectFactory;
         this.side = side;
         this.followingSides = new ArrayList<PathSideImpl>();

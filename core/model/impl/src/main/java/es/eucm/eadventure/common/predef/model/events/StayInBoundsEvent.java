@@ -23,6 +23,7 @@ public class StayInBoundsEvent extends EAdSceneElementEventImpl {
 	 *            the element to stay in bounds
 	 */
 	public StayInBoundsEvent(EAdSceneElement e) {
+		super("stayInBoundsEvent");
 		EAdField<Integer> maxX = SystemFields.GUI_WIDTH;
 		EAdField<Integer> maxY = SystemFields.GUI_HEIGHT;
 

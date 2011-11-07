@@ -41,42 +41,36 @@ import com.google.inject.Inject;
 
 import es.eucm.eadventure.common.model.events.EAdConditionEvent;
 import es.eucm.eadventure.common.model.events.impl.EAdConditionEventImpl;
-import es.eucm.eadventure.common.resources.StringHandler;
 import es.eucm.eadventure.engine.core.GameState;
 import es.eucm.eadventure.engine.core.evaluators.EvaluatorFactory;
-import es.eucm.eadventure.engine.core.gameobjects.GameObjectFactory;
-import es.eucm.eadventure.engine.core.platform.AssetHandler;
-import es.eucm.eadventure.engine.core.platform.GUI;
 
 public class ConditionEventGO extends AbstractEventGO<EAdConditionEventImpl> {
 
 	private EvaluatorFactory evaluator;
-	
+
 	private boolean triggered = false;
-	
+
 	private boolean firstCheck = true;
 
 	@Inject
-	public ConditionEventGO(AssetHandler assetHandler,
-			StringHandler stringHandler, GameObjectFactory gameObjectFactory,
-			GUI gui, GameState gameState, EvaluatorFactory evaluator) {
-		super(assetHandler, stringHandler, gameObjectFactory, gui, gameState);
-		this.evaluator = evaluator;
+	public ConditionEventGO(GameState gameState) {
+		super(gameState);
 	}
 
 	@Override
 	public void update() {
-		super.update();
 		if (evaluator.evaluate(element.getCondition())) {
 			if (!triggered) {
-				runEffects(element.getEffects(EAdConditionEvent.ConditionedEvent.CONDITIONS_MET));
+				runEffects(element
+						.getEffects(EAdConditionEvent.ConditionedEvent.CONDITIONS_MET));
 			}
 			triggered = true;
-		} else if (triggered || firstCheck ){
+		} else if (triggered || firstCheck) {
 			triggered = false;
-			runEffects(element.getEffects(EAdConditionEvent.ConditionedEvent.CONDITIONS_UNMET));
+			runEffects(element
+					.getEffects(EAdConditionEvent.ConditionedEvent.CONDITIONS_UNMET));
 		}
 		firstCheck = false;
 	}
-	
+
 }

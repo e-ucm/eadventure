@@ -58,24 +58,24 @@ public class SceneDemos {
 		sceneDemos = new ArrayList<SceneDemo>();
 		sceneDemos.add(new EmptyScene());
 		sceneDemos.add(new ShapeScene());
-		sceneDemos.add(new TextsScene());
+//		sceneDemos.add(new TextsScene());
 		sceneDemos.add(new CharacterScene());
 		sceneDemos.add(new SpeakAndMoveScene());
 		sceneDemos.add(new ComplexElementScene());
-		sceneDemos.add(new SoundScene());
+//		sceneDemos.add(new SoundScene());
 		sceneDemos.add(new DrawablesScene());
-		sceneDemos.add(new MoleGame());
-		sceneDemos.add(new ShowQuestionScene());
-		sceneDemos.add(new TrajectoriesScene());
-		sceneDemos.add(new PhysicsScene());
+//		sceneDemos.add(new MoleGame());
+//		sceneDemos.add(new ShowQuestionScene());
+//		sceneDemos.add(new TrajectoriesScene());
+//		sceneDemos.add(new PhysicsScene());
 		sceneDemos.add(new PhysicsScene2());
 		sceneDemos.add(new DragDropScene());
 		sceneDemos.add(new PositionScene());
 		sceneDemos.add(new DepthZScene());
 		sceneDemos.add(new SharingEffectsScene());
-		sceneDemos.add(new VideoScene());
+//		sceneDemos.add(new VideoScene());
 		sceneDemos.add(new NgMainScreen());
-		sceneDemos.add(new NgRoom1());
+//		sceneDemos.add(new NgRoom1());
 		
 	}
 

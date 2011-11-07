@@ -272,8 +272,6 @@ public class SceneImporter implements EAdElementImporter<Scene, EAdSceneImpl> {
 	private void importResources(EAdSceneImpl scene, Scene oldScene,
 			EAdChapter chapter) {
 
-		// FIXME Scene.RESOURCE_TYPE_FOREGROUND, Scene.RESOURCE_TYPE_HARDMAP
-		// are ignored
 
 		Map<String, String> resourcesStrings = new HashMap<String, String>();
 		resourcesStrings.put(Scene.RESOURCE_TYPE_BACKGROUND,
@@ -286,7 +284,13 @@ public class SceneImporter implements EAdElementImporter<Scene, EAdSceneImpl> {
 				oldScene.getResources(), resourcesStrings, resourcesClasses);
 
 		for (Resources r : oldScene.getResources()) {
-
+			String foregroundPath = r.getAssetPath(Scene.RESOURCE_TYPE_FOREGROUND);
+			if ( foregroundPath != null ){
+				ImageImpl image = (ImageImpl) resourceImporter.getAssetDescritptor(foregroundPath, ImageImpl.class);
+				EAdBasicSceneElement foreground = new EAdBasicSceneElement( "foreground", image );
+				foreground.setVarInitialValue(EAdBasicSceneElement.VAR_Z, -100);
+				scene.getElements().add(foreground);
+			}
 			// Music is imported to chapter level. So, the chapter will
 			// remain with the last sound track appeared in the scenes
 			String musicPath = r.getAssetPath(Scene.RESOURCE_TYPE_MUSIC);

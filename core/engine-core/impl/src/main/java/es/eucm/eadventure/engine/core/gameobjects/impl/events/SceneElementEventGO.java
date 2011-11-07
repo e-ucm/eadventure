@@ -41,24 +41,19 @@ import com.google.inject.Inject;
 
 import es.eucm.eadventure.common.model.events.EAdSceneElementEvent;
 import es.eucm.eadventure.common.model.events.EAdSceneElementEvent.SceneElementEvent;
-import es.eucm.eadventure.common.resources.StringHandler;
 import es.eucm.eadventure.engine.core.GameState;
-import es.eucm.eadventure.engine.core.gameobjects.GameObjectFactory;
-import es.eucm.eadventure.engine.core.platform.AssetHandler;
-import es.eucm.eadventure.engine.core.platform.GUI;
 
 public class SceneElementEventGO extends AbstractEventGO<EAdSceneElementEvent> {
 
 	private boolean firstCheck = true;
 
 	private boolean hasAlways;
-
+	
 	@Inject
-	public SceneElementEventGO(AssetHandler assetHandler,
-			StringHandler stringHandler, GameObjectFactory gameObjectFactory,
-			GUI gui, GameState gameState) {
-		super(assetHandler, stringHandler, gameObjectFactory, gui, gameState);
+	public SceneElementEventGO(GameState gameState) {
+		super(gameState);
 	}
+
 
 	public void initialize() {
 		firstCheck = true;
@@ -67,7 +62,6 @@ public class SceneElementEventGO extends AbstractEventGO<EAdSceneElementEvent> {
 
 	@Override
 	public void update() {
-		super.update();
 		if (firstCheck) {
 			firstCheck = false;
 			runEffects(element.getEffects(SceneElementEvent.ADDED_TO_SCENE));

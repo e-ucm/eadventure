@@ -39,7 +39,7 @@ package es.eucm.eadventure.engine.core;
 
 import java.util.Queue;
 
-import es.eucm.eadventure.engine.core.gameobjects.GameObject;
+import es.eucm.eadventure.engine.core.gameobjects.DrawableGO;
 import es.eucm.eadventure.engine.core.guiactions.MouseAction;
 
 /**
@@ -112,7 +112,7 @@ public interface MouseState {
 	 * 
 	 * @return the game object currently under the mouse
 	 */
-	GameObject<?> getGameObjectUnderMouse();
+	DrawableGO<?> getGameObjectUnderMouse();
 
 	/**
 	 * Set the game object that is directly under the mouse pointer
@@ -120,7 +120,7 @@ public interface MouseState {
 	 * @param elementUnderMouse
 	 *            the game object under the mouse pointer
 	 */
-	void setGameObjectUnderMouse(GameObject<?> elementUnderMouse);
+	void setGameObjectUnderMouse(DrawableGO<?> elementUnderMouse);
 
 	/**
 	 * Returns the game object that is being dragged, null if no object is being
@@ -129,7 +129,7 @@ public interface MouseState {
 	 * @return the game object that is being dragged, null if no object is being
 	 *         dragged
 	 */
-	GameObject<?> getDraggingGameObject();
+	DrawableGO<?> getDraggingGameObject();
 
 	/**
 	 * Set the game object that is being dragged, null to clear the object
@@ -139,7 +139,7 @@ public interface MouseState {
 	 * @param offsetX
 	 * @param offsetY
 	 */
-	void setDraggingGameObject(GameObject<?> draggingElement);
+	void setDraggingGameObject(DrawableGO<?> draggingElement);
 
 	/**
 	 * Returns true if the mouse is inside the game window

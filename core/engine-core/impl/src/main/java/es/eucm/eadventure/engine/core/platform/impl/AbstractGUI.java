@@ -46,9 +46,10 @@ import es.eucm.eadventure.engine.core.GameState;
 import es.eucm.eadventure.engine.core.KeyboardState;
 import es.eucm.eadventure.engine.core.MouseState;
 import es.eucm.eadventure.engine.core.Renderable;
+import es.eucm.eadventure.engine.core.gameobjects.DrawableGO;
 import es.eucm.eadventure.engine.core.gameobjects.GameObject;
-import es.eucm.eadventure.engine.core.gameobjects.GameObjectFactory;
 import es.eucm.eadventure.engine.core.gameobjects.GameObjectManager;
+import es.eucm.eadventure.engine.core.gameobjects.factories.SceneElementGOFactory;
 import es.eucm.eadventure.engine.core.guiactions.KeyAction;
 import es.eucm.eadventure.engine.core.guiactions.MouseAction;
 import es.eucm.eadventure.engine.core.guiactions.impl.DragActionImpl;
@@ -109,18 +110,16 @@ public abstract class AbstractGUI<T> implements GUI {
 
 	protected GameState gameState;
 
-	protected GameObjectFactory gameObjectFactory;
+	protected SceneElementGOFactory gameObjectFactory;
 
 	protected EAdCanvas<T> eAdCanvas;
 
 	private boolean checkDrag;
 
-	
 	public AbstractGUI(PlatformConfiguration platformConfiguration,
 			GameObjectManager gameObjectManager, MouseState mouseState,
-			KeyboardState keyboardState,
-			GameState gameState, GameObjectFactory gameObjectFactory,
-			EAdCanvas<T> canvas) {
+			KeyboardState keyboardState, GameState gameState,
+			SceneElementGOFactory gameObjectFactory, EAdCanvas<T> canvas) {
 		this.platformConfiguration = platformConfiguration;
 		this.gameObjects = gameObjectManager;
 		this.mouseState = mouseState;
@@ -141,7 +140,7 @@ public abstract class AbstractGUI<T> implements GUI {
 	 * The element should not be offset as it is being dragged in the scene
 	 */
 	@Override
-	public void addElement(GameObject<?> element,
+	public void addElement(DrawableGO<?> element,
 			EAdTransformation transformation) {
 		EAdTransformation t = element.getTransformation();
 		if (t != null) {
@@ -160,11 +159,7 @@ public abstract class AbstractGUI<T> implements GUI {
 	 */
 	@Override
 	public void prepareGUI(EAdTransformation t) {
-		if (gameObjects.getHUD() != null) {
-			gameObjects.add(gameObjects.getHUD(), t);
-			gameObjects.getHUD().update();
-			gameObjects.getHUD().doLayout(t);
-		}
+		gameObjects.addHUDs(this, t);
 
 		gameObjects.swap();
 
@@ -201,8 +196,8 @@ public abstract class AbstractGUI<T> implements GUI {
 	 * Process movements to the mouse pointer
 	 */
 	private void processMouseMovement() {
-		GameObject<?> oldGO = mouseState.getGameObjectUnderMouse();
-		GameObject<?> currentGO = getGOUnderMouse();
+		DrawableGO<?> oldGO = mouseState.getGameObjectUnderMouse();
+		DrawableGO<?> currentGO = getGOUnderMouse();
 		if (oldGO != currentGO) {
 			GameObject<?> draggedGO = mouseState.getDraggingGameObject();
 			int x = mouseState.getMouseX();
@@ -237,12 +232,12 @@ public abstract class AbstractGUI<T> implements GUI {
 	}
 
 	private void processDrag() {
-		GameObject<?> currentDraggedGO = mouseState.getDraggingGameObject();
+		DrawableGO<?> currentDraggedGO = mouseState.getDraggingGameObject();
 		int x = mouseState.getMouseX();
 		int y = mouseState.getMouseY();
 		if (currentDraggedGO != null) {
 			if (!mouseState.isMousePressed()) {
-				GameObject<?> goMouse = mouseState.getGameObjectUnderMouse();
+				DrawableGO<?> goMouse = mouseState.getGameObjectUnderMouse();
 				if (goMouse != null) {
 					// Exit too
 					DragActionImpl action = new DragActionImpl(
@@ -264,9 +259,9 @@ public abstract class AbstractGUI<T> implements GUI {
 		} else {
 			if (checkDrag && mouseState.isMousePressed()) {
 				checkDrag = false;
-				GameObject<?> go = mouseState.getGameObjectUnderMouse();
+				DrawableGO<?> go = mouseState.getGameObjectUnderMouse();
 				if (go != null) {
-					GameObject<?> draggedGO = go
+					DrawableGO<?> draggedGO = go
 							.getDraggableElement(mouseState);
 					if (draggedGO != null) {
 						mouseState.setDraggingGameObject(draggedGO);
@@ -282,10 +277,10 @@ public abstract class AbstractGUI<T> implements GUI {
 
 	}
 
-	private GameObject<?> getGOUnderMouse() {
+	private DrawableGO<?> getGOUnderMouse() {
 		if (mouseState.isInside()) {
 			for (int i = gameObjects.getGameObjects().size() - 1; i >= 0; i--) {
-				GameObject<?> tempGameObject = gameObjects.getGameObjects()
+				DrawableGO<?> tempGameObject = gameObjects.getGameObjects()
 						.get(i);
 				if (tempGameObject != mouseState.getDraggingGameObject()) {
 					EAdTransformation t = gameObjects.getTransformations().get(
@@ -311,7 +306,7 @@ public abstract class AbstractGUI<T> implements GUI {
 			j++;
 			MouseAction action = mouseState.getMouseEvents().poll();
 			for (int i = gameObjects.getGameObjects().size() - 1; i >= 0; i--) {
-				GameObject<?> gameObject = gameObjects.getGameObjects().get(i);
+				DrawableGO<?> gameObject = gameObjects.getGameObjects().get(i);
 				EAdTransformation t = gameObjects.getTransformations().get(i);
 				if (contains(gameObject, action.getVirtualX(),
 						action.getVirtualY(), t)) {
@@ -325,12 +320,11 @@ public abstract class AbstractGUI<T> implements GUI {
 		}
 	}
 
-	private boolean contains(GameObject<?> go, int x, int y, EAdTransformation t) {
+	private boolean contains(DrawableGO<?> go, int x, int y, EAdTransformation t) {
 		if (go.isEnable()) {
 			float[] mouse = t.getMatrix().multiplyPointInverse(x, y, true);
-			if (go instanceof Renderable ) {
-				return ((Renderable) go).contains((int) mouse[0], (int) mouse[1]);
-			}
+			return ((Renderable) go).contains((int) mouse[0], (int) mouse[1]);
+
 		}
 		return false;
 	}
@@ -356,18 +350,20 @@ public abstract class AbstractGUI<T> implements GUI {
 	 */
 	protected void processKeyAction(KeyAction action) {
 		if (gameState.getActiveElement() != null)
-			gameObjectFactory.get(gameState.getActiveElement()).processAction(
-					action);
+			((DrawableGO<?>) gameObjectFactory
+					.get(gameState.getActiveElement())).processAction(action);
 		for (int i = gameObjects.getGameObjects().size() - 1; action != null
 				&& i >= 0 && !action.isConsumed(); i--) {
 			logger.info("Action " + action + " passed to "
 					+ gameObjects.getGameObjects().get(i));
-			gameObjects.getGameObjects().get(i).processAction(action);
+			((DrawableGO<?>) gameObjects.getGameObjects().get(i))
+					.processAction(action);
 		}
 	}
 
 	/**
 	 * Render the game objects into the graphic context
+	 * 
 	 * @param interpolation
 	 *            The current interpolation between ideal game frames
 	 */

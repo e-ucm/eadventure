@@ -25,7 +25,7 @@ import es.eucm.eadventure.common.resources.StringHandler;
 import es.eucm.eadventure.engine.core.GameLoop;
 import es.eucm.eadventure.engine.core.GameState;
 import es.eucm.eadventure.engine.core.ValueMap;
-import es.eucm.eadventure.engine.core.gameobjects.GameObjectFactory;
+import es.eucm.eadventure.engine.core.gameobjects.factories.SceneElementGOFactory;
 import es.eucm.eadventure.engine.core.gameobjects.impl.effects.AbstractEffectGO;
 import es.eucm.eadventure.engine.core.platform.AssetHandler;
 import es.eucm.eadventure.engine.core.platform.GUI;
@@ -44,7 +44,7 @@ public class PhysicsEffectGO extends AbstractEffectGO<EAdPhysicsEffect> {
 
 	@Inject
 	public PhysicsEffectGO(AssetHandler assetHandler,
-			StringHandler stringsReader, GameObjectFactory gameObjectFactory,
+			StringHandler stringsReader, SceneElementGOFactory gameObjectFactory,
 			GUI gui, GameState gameState) {
 		super(assetHandler, stringsReader, gameObjectFactory, gui, gameState);
 	}

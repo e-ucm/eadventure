@@ -43,9 +43,9 @@ import es.eucm.eadventure.common.interfaces.Param;
 import es.eucm.eadventure.common.model.elements.EAdCondition;
 import es.eucm.eadventure.common.model.extra.EAdList;
 import es.eucm.eadventure.common.model.extra.impl.EAdListImpl;
-import es.eucm.eadventure.common.model.impl.EAdGeneralElementImpl;
+import es.eucm.eadventure.common.model.impl.ResourcedElementImpl;
 
-public abstract class ListedCondition extends EAdGeneralElementImpl implements
+public abstract class ListedCondition extends ResourcedElementImpl implements
 		EAdCondition {
 
 	/**

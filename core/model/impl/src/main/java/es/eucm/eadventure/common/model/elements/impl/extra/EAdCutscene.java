@@ -100,7 +100,6 @@ public class EAdCutscene extends EAdComposedScene {
 					.addBehavior(EAdMouseEventImpl.MOUSE_LEFT_CLICK, e);
 
 			if (slide.getTime() == -1) {
-				// TODO should be configuratble
 				EAdChangeScene e2 = new EAdChangeScene("id", this,
 						EAdTransition.DISPLACE);
 				slide.getBackground().getBehavior()
@@ -125,7 +124,6 @@ public class EAdCutscene extends EAdComposedScene {
 				events.add(event2);
 			}
 		}
-		// TODO should be configuratble
 		EAdChangeScene e3 = new EAdChangeScene("id", nextScene,
 				EAdTransition.DISPLACE);
 		slides.get(slides.size() - 1).getBackground().getBehavior()

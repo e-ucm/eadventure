@@ -41,11 +41,8 @@ import es.eucm.eadventure.common.interfaces.Param;
 import es.eucm.eadventure.common.model.effects.EAdEffect;
 import es.eucm.eadventure.common.model.events.EAdEvent;
 import es.eucm.eadventure.common.model.extra.EAdList;
-import es.eucm.eadventure.common.model.extra.EAdMap;
 import es.eucm.eadventure.common.model.extra.impl.EAdListImpl;
-import es.eucm.eadventure.common.model.extra.impl.EAdMapImpl;
-import es.eucm.eadventure.common.model.impl.AbstractEAdConditionedElement;
-import es.eucm.eadventure.common.model.variables.EAdVarDef;
+import es.eucm.eadventure.common.model.impl.ConditionedElement;
 
 /**
  * <p>
@@ -54,7 +51,7 @@ import es.eucm.eadventure.common.model.variables.EAdVarDef;
  * 
  * 
  */
-public abstract class AbstractEAdEffect extends AbstractEAdConditionedElement
+public abstract class AbstractEAdEffect extends ConditionedElement
 		implements EAdEffect {
 
 	/**
@@ -79,9 +76,6 @@ public abstract class AbstractEAdEffect extends AbstractEAdConditionedElement
 	@Param("events")
 	private EAdList<EAdEvent> events;
 
-	@Param("initialVars")
-	private EAdMap<EAdVarDef<?>, Object> initialVars;
-
 	@Param("nextEffects")
 	private EAdList<EAdEffect> nextEffects;
 
@@ -100,8 +94,6 @@ public abstract class AbstractEAdEffect extends AbstractEAdConditionedElement
 		opaque = false;
 		queueable = false;
 		events = new EAdListImpl<EAdEvent>(EAdEvent.class);
-		initialVars = new EAdMapImpl<EAdVarDef<?>, Object>(EAdVarDef.class,
-				Object.class);
 		nextEffects = new EAdListImpl<EAdEffect>(EAdEffect.class);
 	}
 
@@ -162,14 +154,6 @@ public abstract class AbstractEAdEffect extends AbstractEAdConditionedElement
 
 	public EAdList<EAdEvent> getEvents() {
 		return events;
-	}
-
-	public EAdMap<EAdVarDef<?>, Object> getVars() {
-		return initialVars;
-	}
-
-	public <T> void setVarInitialValue(EAdVarDef<T> var, T value) {
-		initialVars.put(var, value);
 	}
 
 	public EAdList<EAdEffect> getFinalEffects() {

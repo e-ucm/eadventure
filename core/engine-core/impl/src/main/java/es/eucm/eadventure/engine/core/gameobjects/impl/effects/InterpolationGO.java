@@ -46,7 +46,7 @@ import es.eucm.eadventure.common.model.effects.impl.EAdInterpolationEffect;
 import es.eucm.eadventure.common.resources.StringHandler;
 import es.eucm.eadventure.engine.core.GameLoop;
 import es.eucm.eadventure.engine.core.GameState;
-import es.eucm.eadventure.engine.core.gameobjects.GameObjectFactory;
+import es.eucm.eadventure.engine.core.gameobjects.factories.SceneElementGOFactory;
 import es.eucm.eadventure.engine.core.operator.OperatorFactory;
 import es.eucm.eadventure.engine.core.platform.AssetHandler;
 import es.eucm.eadventure.engine.core.platform.GUI;
@@ -82,7 +82,7 @@ public class InterpolationGO extends AbstractEffectGO<EAdInterpolationEffect> {
 
 	@Inject
 	public InterpolationGO(AssetHandler assetHandler,
-			StringHandler stringHandler, GameObjectFactory gameObjectFactory,
+			StringHandler stringHandler, SceneElementGOFactory gameObjectFactory,
 			GUI gui, GameState gameState, OperatorFactory operatorFactory) {
 		super(assetHandler, stringHandler, gameObjectFactory, gui, gameState);
 		this.operatorFactory = operatorFactory;
@@ -185,7 +185,7 @@ public class InterpolationGO extends AbstractEffectGO<EAdInterpolationEffect> {
 	}
 
 	public Object interpolation() {
-		int time = reverse ? element.getDelay() - currentTime : currentTime;
+		int time = reverse ? element.getInterpolationTime() - currentTime : currentTime;
 		float f = interpolator.interpolate(time,
 				element.getInterpolationTime(), interpolationLength);
 

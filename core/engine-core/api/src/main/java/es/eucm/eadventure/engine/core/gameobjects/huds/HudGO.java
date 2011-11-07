@@ -38,12 +38,14 @@
 package es.eucm.eadventure.engine.core.gameobjects.huds;
 
 import es.eucm.eadventure.engine.core.Renderable;
-import es.eucm.eadventure.engine.core.gameobjects.GameObject;
+import es.eucm.eadventure.engine.core.gameobjects.DrawableGO;
 
 /**
  * Classes that implement this interface represent a HUD element of the
  * eAdventure game.
  */
-public interface HudGO<T> extends GameObject<T>, Renderable {
+public interface HudGO extends DrawableGO<Void>, Renderable {
+	
+	void addElement( DrawableGO<?> drawable );
 
 }

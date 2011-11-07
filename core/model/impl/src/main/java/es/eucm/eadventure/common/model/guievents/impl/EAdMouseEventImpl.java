@@ -89,7 +89,6 @@ public class EAdMouseEventImpl extends EAdElementImpl implements EAdMouseEvent {
 	 */
 	public static EAdMouseEvent getMouseEvent(MouseActionType type,
 			MouseButton button) {
-		//TODO improve
 		switch (type) {
 		case DOUBLE_CLICK:
 			if (button == MouseButton.BUTTON_3)

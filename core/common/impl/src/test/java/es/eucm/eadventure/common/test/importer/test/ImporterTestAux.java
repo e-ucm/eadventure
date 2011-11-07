@@ -43,7 +43,6 @@ public class ImporterTestAux {
 
 	
 	public static AdventureData getAdventureData( ){
-		// TODO more complex
 		AdventureData data = new AdventureData( );
 		data.setTitle( "Test adventure" );
 		data.setDescription( "Test data for unit tests" );

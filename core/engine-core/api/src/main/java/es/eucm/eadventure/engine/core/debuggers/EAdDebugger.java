@@ -2,7 +2,7 @@ package es.eucm.eadventure.engine.core.debuggers;
 
 import java.util.List;
 
-import es.eucm.eadventure.engine.core.gameobjects.GameObject;
+import es.eucm.eadventure.engine.core.gameobjects.DrawableGO;
 
 /**
  * General interface for eAdventure debuggers. The debugger is intended to help
@@ -17,6 +17,6 @@ public interface EAdDebugger {
 	 * 
 	 * @return
 	 */
-	public List<GameObject<?>> getGameObjects();
+	public List<DrawableGO<?>> getGameObjects();
 
 }

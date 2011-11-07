@@ -68,7 +68,6 @@ public class ImporterTest extends TestCase {
 		assertNotNull( data );
 		AdventureData oldData = importer.loadGame(  );
 		assertNotNull( oldData );
-		//TODO test specific parts of the model
 	}
 	
 	@Test

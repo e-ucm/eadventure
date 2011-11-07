@@ -38,7 +38,7 @@
 package es.eucm.eadventure.engine.core.platform;
 
 import es.eucm.eadventure.common.resources.assets.drawable.basics.Image;
-import es.eucm.eadventure.engine.core.gameobjects.GameObject;
+import es.eucm.eadventure.engine.core.gameobjects.DrawableGO;
 import es.eucm.eadventure.engine.core.util.EAdTransformation;
 
 /**
@@ -62,7 +62,7 @@ public interface GUI {
 	 * @param transform
 	 *            the transformation of the parent element
 	 */
-	void addElement(GameObject<?> go, EAdTransformation transform);
+	void addElement(DrawableGO<?> go, EAdTransformation transform);
 
 	/**
 	 * Show a special resource on the screen (e.g. video, HTML, etc.)
@@ -130,18 +130,6 @@ public interface GUI {
 	 * @return the window's height
 	 */
 	int getHeight();
-
-	/**
-	 * <p>
-	 * Return the offset (as an array with the x and y values) of a
-	 * {@link GameObject} in the screen.
-	 * </p>
-	 * 
-	 * @param gameObject
-	 *            The {@link GameObject} for which the offset is needed
-	 * @return An array with the x and y offsets (i.e. [xOffset, yOffset])
-	 */
-	int[] getGameElementGUIOffset(GameObject<?> gameObject);
 
 	/**
 	 * Adds to transformation t1 transformation t2

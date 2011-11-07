@@ -47,11 +47,13 @@ import es.eucm.eadventure.engine.core.gameobjects.SceneElementGO;
  * The {@link GameObject} of the where the actions are shown
  * </p>
  */
-public interface ActionsHUD extends HudGO<SceneElementGO<?>> {
+public interface ActionsHUD extends HudGO {
 
 	/**
 	 * @return the list of action to be shown
 	 */
 	EAdList<EAdAction> getActions();
+
+	void setElement(SceneElementGO<?> sceneElement);
 
 }

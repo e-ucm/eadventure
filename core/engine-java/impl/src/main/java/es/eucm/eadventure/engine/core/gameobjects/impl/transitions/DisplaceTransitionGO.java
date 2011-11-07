@@ -42,8 +42,9 @@ import com.google.inject.Inject;
 import es.eucm.eadventure.common.model.elements.EAdScene;
 import es.eucm.eadventure.common.resources.StringHandler;
 import es.eucm.eadventure.engine.core.GameState;
-import es.eucm.eadventure.engine.core.gameobjects.GameObjectFactory;
 import es.eucm.eadventure.engine.core.gameobjects.TransitionGO;
+import es.eucm.eadventure.engine.core.gameobjects.factories.EventGOFactory;
+import es.eucm.eadventure.engine.core.gameobjects.factories.SceneElementGOFactory;
 import es.eucm.eadventure.engine.core.platform.AssetHandler;
 import es.eucm.eadventure.engine.core.platform.GUI;
 import es.eucm.eadventure.engine.core.platform.PlatformConfiguration;
@@ -56,11 +57,11 @@ public class DisplaceTransitionGO extends EmptyTransitionGO implements
 
 	@Inject
 	public DisplaceTransitionGO(AssetHandler assetHandler,
-			StringHandler stringHandler, GameObjectFactory gameObjectFactory,
+			StringHandler stringHandler, SceneElementGOFactory gameObjectFactory,
 			GUI gui, GameState gameState,
-			PlatformConfiguration platformConfiguration) {
+			PlatformConfiguration platformConfiguration, EventGOFactory eventFactory) {
 		super(assetHandler, stringHandler, gameObjectFactory, gui, gameState,
-				platformConfiguration);
+				platformConfiguration, eventFactory);
 	}
 
 	@Override
@@ -80,8 +81,8 @@ public class DisplaceTransitionGO extends EmptyTransitionGO implements
 	@Override
 	public void doLayout(EAdTransformation transformation) {
 		// int x = 800 * 100 / cont;
-		gui.addElement(gameObjectFactory.get(screenBlock), transformation);
-		gui.addElement(gameObjectFactory.get(loadingText), transformation);
+		gui.addElement(sceneElementFactory.get(screenBlock), transformation);
+		gui.addElement(sceneElementFactory.get(loadingText), transformation);
 		if (loaded) {
 			gui.addElement(nextSceneGO, transformation);
 		}

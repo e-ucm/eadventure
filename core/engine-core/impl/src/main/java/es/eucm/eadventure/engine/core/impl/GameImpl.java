@@ -47,7 +47,7 @@ import com.google.inject.Singleton;
 import es.eucm.eadventure.common.interfaces.features.Conditioned;
 import es.eucm.eadventure.common.model.elements.EAdAdventureModel;
 import es.eucm.eadventure.common.model.elements.EAdChapter;
-import es.eucm.eadventure.common.model.elements.EAdTimer;
+import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
 import es.eucm.eadventure.common.model.impl.EAdAdventureModelImpl;
 import es.eucm.eadventure.common.model.impl.EAdChapterImpl;
 import es.eucm.eadventure.common.model.variables.impl.SystemFields;
@@ -57,11 +57,9 @@ import es.eucm.eadventure.engine.core.MouseState;
 import es.eucm.eadventure.engine.core.ValueMap;
 import es.eucm.eadventure.engine.core.debuggers.EAdDebugger;
 import es.eucm.eadventure.engine.core.evaluators.EvaluatorFactory;
+import es.eucm.eadventure.engine.core.gameobjects.DrawableGO;
 import es.eucm.eadventure.engine.core.gameobjects.EffectGO;
-import es.eucm.eadventure.engine.core.gameobjects.GameObject;
-import es.eucm.eadventure.engine.core.gameobjects.GameObjectFactory;
 import es.eucm.eadventure.engine.core.gameobjects.GameObjectManager;
-import es.eucm.eadventure.engine.core.gameobjects.huds.BasicHUD;
 import es.eucm.eadventure.engine.core.gameobjects.huds.EffectHUD;
 import es.eucm.eadventure.engine.core.platform.AssetHandler;
 import es.eucm.eadventure.engine.core.platform.GUI;
@@ -84,16 +82,12 @@ public class GameImpl implements Game {
 
 	private EffectHUD effectHUD;
 
-	private BasicHUD basicHud;
-
 	private static final Logger logger = Logger.getLogger("GameImpl");
 
 	// Auxiliary variable, to avoid new every time
 	private static ArrayList<EffectGO<?>> finishedEffects = new ArrayList<EffectGO<?>>();
 
 	private boolean effectHUDon;
-
-	private GameObjectFactory gameObjectFactory;
 
 	private GameObjectManager gameObjectManager;
 
@@ -103,14 +97,16 @@ public class GameImpl implements Game {
 
 	private MouseState mouseState;
 
+	private EAdBasicSceneElement mouse;
+
 	private EAdTransformation initialTransformation = new EAdTransformationImpl();
 
 	@Inject
 	public GameImpl(GUI gui, EvaluatorFactory evaluatorFactory,
 			GameState gameState, EffectHUD effectHUD,
-			AssetHandler assetHandler, GameObjectFactory gameObjectFactory,
+			AssetHandler assetHandler,
 			GameObjectManager gameObjectManager, EAdDebugger debugger,
-			BasicHUD basicHUD, ValueMap valueMap, MouseState mouseState,
+			ValueMap valueMap, MouseState mouseState,
 			PlatformConfiguration platformConfiguration) {
 		this.gui = gui;
 		this.evaluatorFactory = evaluatorFactory;
@@ -118,40 +114,38 @@ public class GameImpl implements Game {
 		this.effectHUD = effectHUD;
 		this.assetHandler = assetHandler;
 		this.effectHUDon = false;
-		this.gameObjectFactory = gameObjectFactory;
 		this.adventure = new EAdAdventureModelImpl();
 		this.adventure.getChapters().add(new EAdChapterImpl(""));
-		this.gameObjectFactory = gameObjectFactory;
 		this.gameObjectManager = gameObjectManager;
 		this.debugger = debugger;
-		this.basicHud = basicHUD;
 		this.valueMap = valueMap;
 		this.mouseState = mouseState;
 		initialTransformation.getMatrix().scale(
 				(float) platformConfiguration.getScale(),
 				(float) platformConfiguration.getScale(), true);
+		mouse = new EAdBasicSceneElement("mouse");
+		mouse.getResources().addAsset(mouse.getInitialBundle(),
+				EAdBasicSceneElement.appearance, SystemFields.DEFAULT_MOUSE);
+		mouse.setPosition(200, 200);
 	}
 
 	@Override
 	public void update() {
 		updateSystemVars();
-		processEffects();
 		if (!gameState.isPaused()) {
+			processEffects();
 			updateTimers();
-
 			gameState.getScene().update();
-			gui.addElement(gameState.getScene(), initialTransformation);
-
-			basicHud.update();
-			// TODO Revise
-			// gui.addElement(basicHud, initialTransformation);
-
-			if (debugger != null && debugger.getGameObjects() != null)
-				for (GameObject<?> go : debugger.getGameObjects()) {
-					gui.addElement(go, initialTransformation);
-				}
 		}
+		gui.addElement(gameState.getScene(), initialTransformation);
+
+		if (debugger != null && debugger.getGameObjects() != null)
+			for (DrawableGO<?> go : debugger.getGameObjects()) {
+				gui.addElement(go, initialTransformation);
+			}
+
 		gui.prepareGUI(initialTransformation);
+
 	}
 
 	/**
@@ -168,8 +162,9 @@ public class GameImpl implements Game {
 	}
 
 	private void updateTimers() {
-		for (EAdTimer timer : gameState.getCurrentChapter().getTimers())
-			gameObjectFactory.get(timer).update();
+		// TODO remove timers
+		// for (EAdTimer timer : gameState.getCurrentChapter().getTimers())
+		// gameObjectFactory.get(timer).update();
 	}
 
 	private void processEffects() {
@@ -186,13 +181,13 @@ public class GameImpl implements Game {
 
 			if (effectGO.isStopped() || effectGO.isFinished()) {
 				finishedEffects.add(effectGO);
-				if ( effectGO.isFinished() )
+				if (effectGO.isFinished())
 					effectGO.finish();
 			} else {
 				if (effectGO.isBlocking())
 					// If effect is blocking, get out of the loop
 					block = true;
-				
+
 				effectGO.update();
 			}
 
@@ -216,14 +211,13 @@ public class GameImpl implements Game {
 				gameObjectManager.addHUD(effectHUD);
 				effectHUDon = true;
 			}
+			effectHUD.setEffects(gameState.getEffects());
 		} else {
 			if (effectHUDon) {
 				gameObjectManager.removeHUD(effectHUD);
 				effectHUDon = false;
 			}
 		}
-
-		effectHUD.setElement(gameState.getEffects());
 	}
 
 	@Override

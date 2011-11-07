@@ -1,15 +1,21 @@
 package es.eucm.eadventure.engine.core.platform.impl;
 
 import java.util.Stack;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import com.google.inject.Singleton;
 import com.gwtent.reflection.client.ClassHelper;
 
+import es.eucm.eadventure.common.interfaces.Element;
 import es.eucm.eadventure.common.interfaces.ReflectionProvider;
+import es.eucm.eadventure.common.model.EAdElement;
 
 @Singleton
 public class PlayNReflectionProvider implements ReflectionProvider {
 
+	private static final Logger logger = Logger.getLogger("ReflectionProvider");
+	
 	@Override
 	public Class<?>[] getInterfaces(Class<?> object) {
 		return ClassHelper.AsClass(object).getInterfaces();
@@ -37,6 +43,24 @@ public class PlayNReflectionProvider implements ReflectionProvider {
 	@Override
 	public Class<?> getSuperclass(Class<?> c) {
 		return ClassHelper.AsClass(c).getSuperclass();
+	}
+	
+	@Override
+	public Class<?> getRuntimeClass(EAdElement element) {
+		Class<?> clazz = element.getClass();
+		
+		Element annotation = null;
+		while (annotation == null && clazz != null ) {
+			annotation = ClassHelper.AsClass(clazz).getAnnotation(Element.class);
+			clazz = clazz.getSuperclass();
+		}
+		
+		if ( annotation == null ){
+			logger.log(Level.SEVERE, "No element annotation for class " + element.getClass());
+			return null;
+		}
+		return annotation.runtime();
+		
 	}
 
 }

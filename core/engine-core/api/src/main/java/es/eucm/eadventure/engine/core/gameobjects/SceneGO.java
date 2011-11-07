@@ -38,9 +38,8 @@
 package es.eucm.eadventure.engine.core.gameobjects;
 
 import es.eucm.eadventure.common.model.elements.EAdScene;
-import es.eucm.eadventure.engine.core.Renderable;
 
-public interface SceneGO<T extends EAdScene> extends GameObject<T>, Renderable {
+public interface SceneGO<T extends EAdScene> extends DrawableGO<T> {
 
 	/**
 	 * @return true if this screen can display effects

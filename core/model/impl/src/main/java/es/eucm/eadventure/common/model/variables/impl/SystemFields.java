@@ -33,4 +33,7 @@ public class SystemFields {
 			null, new EAdVarDefImpl<Image>("mouse_cursor", Image.class,
 					DEFAULT_MOUSE));
 
+	public static final EAdField<Boolean> SHOW_MOUSE = new EAdFieldImpl<Boolean>(
+			null, new EAdVarDefImpl<Boolean>("show_mouse", Boolean.class, true));
+
 }

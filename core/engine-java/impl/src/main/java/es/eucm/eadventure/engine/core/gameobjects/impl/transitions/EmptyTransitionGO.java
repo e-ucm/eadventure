@@ -44,8 +44,8 @@ import com.google.inject.Inject;
 
 import es.eucm.eadventure.common.model.elements.EAdScene;
 import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
-import es.eucm.eadventure.common.params.fills.impl.EAdPaintImpl;
 import es.eucm.eadventure.common.params.fills.impl.EAdColor;
+import es.eucm.eadventure.common.params.fills.impl.EAdPaintImpl;
 import es.eucm.eadventure.common.params.geom.impl.EAdPositionImpl;
 import es.eucm.eadventure.common.resources.StringHandler;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.Caption;
@@ -53,9 +53,10 @@ import es.eucm.eadventure.common.resources.assets.drawable.basics.Image;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.CaptionImpl;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.shapes.RectangleShape;
 import es.eucm.eadventure.engine.core.GameState;
-import es.eucm.eadventure.engine.core.gameobjects.GameObjectFactory;
 import es.eucm.eadventure.engine.core.gameobjects.SceneGO;
 import es.eucm.eadventure.engine.core.gameobjects.TransitionGO;
+import es.eucm.eadventure.engine.core.gameobjects.factories.EventGOFactory;
+import es.eucm.eadventure.engine.core.gameobjects.factories.SceneElementGOFactory;
 import es.eucm.eadventure.engine.core.gameobjects.impl.SceneGOImpl;
 import es.eucm.eadventure.engine.core.platform.AssetHandler;
 import es.eucm.eadventure.engine.core.platform.GUI;
@@ -87,10 +88,10 @@ public class EmptyTransitionGO extends SceneGOImpl implements TransitionGO {
 
 	@Inject
 	public EmptyTransitionGO(AssetHandler assetHandler,
-			StringHandler stringHandler, GameObjectFactory gameObjectFactory,
+			StringHandler stringHandler, SceneElementGOFactory gameObjectFactory,
 			GUI gui, GameState gameState,
-			PlatformConfiguration platformConfiguration) {
-		super(assetHandler, stringHandler, gameObjectFactory, gui, gameState);
+			PlatformConfiguration platformConfiguration, EventGOFactory eventFactory ) {
+		super(assetHandler, stringHandler, gameObjectFactory, gui, gameState, eventFactory);
 
 		caption = new CaptionImpl();
 		caption.getText().parse("Loading");
@@ -122,8 +123,8 @@ public class EmptyTransitionGO extends SceneGOImpl implements TransitionGO {
 	 */
 	@Override
 	public void doLayout(EAdTransformation transformation) {
-		gui.addElement(gameObjectFactory.get(screenBlock), transformation);
-		gui.addElement(gameObjectFactory.get(loadingText), transformation);
+		gui.addElement(sceneElementFactory.get(screenBlock), transformation);
+		gui.addElement(sceneElementFactory.get(loadingText), transformation);
 		if (loaded) {
 			gui.addElement(nextSceneGO, transformation);
 		}
@@ -166,7 +167,7 @@ public class EmptyTransitionGO extends SceneGOImpl implements TransitionGO {
 	protected class Loader implements Runnable {
 
 		public void run() {
-			nextSceneGO = (SceneGO<?>) gameObjectFactory.get(nextEAdScene);
+			nextSceneGO = (SceneGO<?>) sceneElementFactory.get(nextEAdScene);
 			try {
 
 				// TODO what if it's not possible to create previous scene

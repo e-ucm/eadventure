@@ -84,9 +84,8 @@ public class EAdListImpl<P> implements EAdList<P> {
 				for(P e: this.elements){
 					if (e instanceof EAdElement)
 						copy.elements.add((P) ((EAdElement) e).copy(true));
-					//TODO possibly need a fix
-					//else
-					//	 copy.elements.add((P) e.clone());
+					else
+						copy.elements.add(e);
 				}
 			}
 			return copy;

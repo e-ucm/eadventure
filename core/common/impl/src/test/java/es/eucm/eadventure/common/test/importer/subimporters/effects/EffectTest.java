@@ -15,7 +15,6 @@ public abstract class EffectTest<OldEffectType extends Effect, NewEffectType ext
 
 	@Override
 	public boolean equals(OldEffectType oldObject, NewEffectType newObject) {
-		// TODO compare conditions
 		return newObject.isBlocking() && newObject.isOpaque()
 				&& newObject.isQueueable();
 	}

@@ -195,7 +195,7 @@ public class PhysicsScene extends EmptyScene {
 
 	}
 
-	private void addPendulum(EAdPhysicsEffect effect) {
+	protected void addPendulum(EAdPhysicsEffect effect) {
 
 		EAdBasicSceneElement holder = new EAdBasicSceneElement("holder",
 				new RectangleShape(100, 10, new EAdLinearGradient(

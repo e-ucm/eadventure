@@ -9,7 +9,6 @@ import com.google.gwt.core.client.GWT;
 
 import es.eucm.eadventure.common.elementfactories.EAdElementsFactory;
 import es.eucm.eadventure.common.elementfactories.scenedemos.CharacterScene;
-import es.eucm.eadventure.common.elementfactories.scenedemos.WebMVideoScene;
 import es.eucm.eadventure.common.model.elements.EAdAdventureModel;
 import es.eucm.eadventure.common.model.elements.EAdScene;
 import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
@@ -50,9 +49,9 @@ public class EAdEngineHtml extends HtmlGame {
 				.addAsset(s.getBackground().getInitialBundle(),
 						EAdBasicSceneElement.appearance, i);
 
-		//EAdScene s2 = new CharacterScene();
+		EAdScene s2 = new CharacterScene();
 
-		EAdScene s2 = new WebMVideoScene();
+//		EAdScene s2 = new WebMVideoScene();
 		
 		//EAdScene s2 = new ShapeScene();
 

@@ -44,7 +44,7 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 import es.eucm.eadventure.engine.core.MouseState;
-import es.eucm.eadventure.engine.core.gameobjects.GameObject;
+import es.eucm.eadventure.engine.core.gameobjects.DrawableGO;
 import es.eucm.eadventure.engine.core.guiactions.MouseAction;
 
 @Singleton
@@ -60,9 +60,9 @@ public class MouseStateImpl implements MouseState {
 
 	private Queue<MouseAction> mouseEvents;
 	
-	private GameObject<?> gameObjectUnderMouse;
+	private DrawableGO<?> gameObjectUnderMouse;
 
-	private GameObject<?> draggingGameObject;
+	private DrawableGO<?> draggingGameObject;
 	
 	private int dragInitX = OUT_VAL;
 	
@@ -98,20 +98,20 @@ public class MouseStateImpl implements MouseState {
 		return mouseEvents;
 	}
 
-	public GameObject<?> getGameObjectUnderMouse() {
+	public DrawableGO<?> getGameObjectUnderMouse() {
 		return gameObjectUnderMouse;
 	}
 
-	public void setGameObjectUnderMouse(GameObject<?> gameObjectUnderMouse) {
+	public void setGameObjectUnderMouse(DrawableGO<?> gameObjectUnderMouse) {
 		this.gameObjectUnderMouse = gameObjectUnderMouse;
 	}
 
-	public GameObject<?> getDraggingGameObject() {
+	public DrawableGO<?> getDraggingGameObject() {
 		return draggingGameObject;
 	}
 
 	@Override
-	public void setDraggingGameObject(GameObject<?> draggingGameObject) {
+	public void setDraggingGameObject(DrawableGO<?> draggingGameObject) {
 		this.draggingGameObject = draggingGameObject;
 		if (draggingGameObject != null) {
 			this.dragInitX = mouseX;

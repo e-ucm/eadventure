@@ -37,7 +37,8 @@
 
 package es.eucm.eadventure.common.model.impl;
 
-import es.eucm.eadventure.common.interfaces.CopyNotSupportedException;
+import java.util.Map.Entry;
+
 import es.eucm.eadventure.common.interfaces.Element;
 import es.eucm.eadventure.common.interfaces.Param;
 import es.eucm.eadventure.common.model.elements.EAdAdventureModel;
@@ -54,7 +55,7 @@ import es.eucm.eadventure.common.params.EAdString;
  */
 @Element(detailed = EAdAdventureModelImpl.class, runtime = EAdAdventureModelImpl.class)
 public class EAdAdventureModelImpl implements EAdAdventureModel {
-	
+
 	/**
 	 * Mode of the player.
 	 */
@@ -63,16 +64,16 @@ public class EAdAdventureModelImpl implements EAdAdventureModel {
 
 	@Param("description")
 	private final EAdString description;
-	
+
 	@Param("title")
 	private final EAdString title;
-	
+
 	@Param("chapter")
 	private EAdList<EAdChapter> chapters;
-	
+
 	@Param("vars")
 	private EAdMap<EAdVarDef<?>, Object> vars;
-	
+
 	/**
 	 * Constructs a {@link EAdAdventureModelImpl}.
 	 */
@@ -83,11 +84,11 @@ public class EAdAdventureModelImpl implements EAdAdventureModel {
 		description = EAdString.newEAdString("adventureDescription");
 		title = EAdString.newEAdString("adventureTitle");
 	}
-	
+
 	public EAdList<EAdChapter> getChapters() {
 		return chapters;
 	}
-	
+
 	public PlayerMode getPlayerMode() {
 		return playerMode;
 	}
@@ -95,29 +96,26 @@ public class EAdAdventureModelImpl implements EAdAdventureModel {
 	public void setPlayerMode(PlayerMode playerMode) {
 		this.playerMode = playerMode;
 	}
-	
-	public EAdAdventureModelImpl copy(){
-		try {
-			//TODO removed clone for GWT, should find other solution?
-			//return (EAdAdventureModelImpl) super.clone();
-			return null;
-		} catch (Exception e) {
-			throw new CopyNotSupportedException(e);
-		}
-	}
-	
-	public EAdAdventureModelImpl copy(boolean deepCopy){
-		try {
-			EAdAdventureModelImpl copy = (EAdAdventureModelImpl) this.copy();
-			if(deepCopy){
 
-			}
-			return copy;
-		} catch (ClassCastException e) {
-			throw new CopyNotSupportedException(e);
-		}
+	public EAdAdventureModelImpl copy() {
+		return copy(false);
 	}
-	
+
+	public EAdAdventureModelImpl copy(boolean deepCopy) {
+		EAdAdventureModelImpl copy = new EAdAdventureModelImpl();
+		if (deepCopy) {
+			for (EAdChapter c : this.getChapters()) {
+				copy.getChapters().add((EAdChapter) c.copy(deepCopy));
+			}
+			copy.setPlayerMode(getPlayerMode());
+
+			for (Entry<EAdVarDef<?>, Object> entry : getVars().entrySet())
+				copy.getVars().put(entry.getKey(), entry.getValue());
+		}
+		return copy;
+
+	}
+
 	public String getId() {
 		return "adventure";
 	}
@@ -148,5 +146,4 @@ public class EAdAdventureModelImpl implements EAdAdventureModel {
 		vars.put(var, value);
 	}
 
-	
 }

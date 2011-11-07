@@ -236,8 +236,18 @@
 >
 <!ELEMENT description (name, brief, detailed)>
 <!ELEMENT name (#PCDATA)>
+<!ATTLIST name 
+	soundPath CDATA #IMPLIED
+> 
 <!ELEMENT brief (#PCDATA)>
+<!ATTLIST brief 
+	soundPath CDATA #IMPLIED
+>
 <!ELEMENT detailed (#PCDATA)>
+<!ATTLIST detailed 
+	soundPath CDATA #IMPLIED
+>
+
 <!ELEMENT actions (examine | grab | use | use-with | give-to | custom | custom-interact | talk-to | drag-to)+>
 <!ELEMENT examine (documentation?, condition?, effect?,not-effect?)>
 <!ATTLIST examine

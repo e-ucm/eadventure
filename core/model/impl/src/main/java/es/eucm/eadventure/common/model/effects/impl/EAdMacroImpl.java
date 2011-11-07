@@ -43,10 +43,10 @@ import es.eucm.eadventure.common.model.effects.EAdEffect;
 import es.eucm.eadventure.common.model.effects.EAdMacro;
 import es.eucm.eadventure.common.model.extra.EAdList;
 import es.eucm.eadventure.common.model.extra.impl.EAdListImpl;
-import es.eucm.eadventure.common.model.impl.EAdGeneralElementImpl;
+import es.eucm.eadventure.common.model.impl.ResourcedElementImpl;
 
 @Element(detailed = EAdMacroImpl.class, runtime = EAdMacroImpl.class)
-public class EAdMacroImpl extends EAdGeneralElementImpl implements EAdMacro {
+public class EAdMacroImpl extends ResourcedElementImpl implements EAdMacro {
 
 	@Param("effects")
 	protected EAdList<EAdEffect> effects;

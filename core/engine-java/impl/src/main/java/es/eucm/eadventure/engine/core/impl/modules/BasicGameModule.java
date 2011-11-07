@@ -49,9 +49,18 @@ import es.eucm.eadventure.common.model.impl.EAdAdventureModelImpl;
 import es.eucm.eadventure.engine.core.Game;
 import es.eucm.eadventure.engine.core.GameController;
 import es.eucm.eadventure.engine.core.GameState;
+import es.eucm.eadventure.engine.core.PluginHandler;
 import es.eucm.eadventure.engine.core.ValueMap;
 import es.eucm.eadventure.engine.core.debuggers.EAdDebugger;
 import es.eucm.eadventure.engine.core.debuggers.impl.EAdMainDebugger;
+import es.eucm.eadventure.engine.core.evaluators.EvaluatorFactory;
+import es.eucm.eadventure.engine.core.evaluators.impl.EvaluatorFactoryImpl;
+import es.eucm.eadventure.engine.core.gameobjects.factories.EffectGOFactory;
+import es.eucm.eadventure.engine.core.gameobjects.factories.EffectGOFactoryImpl;
+import es.eucm.eadventure.engine.core.gameobjects.factories.EventGOFactory;
+import es.eucm.eadventure.engine.core.gameobjects.factories.EventGOFactoryImpl;
+import es.eucm.eadventure.engine.core.gameobjects.factories.SceneElementGOFactory;
+import es.eucm.eadventure.engine.core.gameobjects.factories.SceneElementGOFactoryImpl;
 import es.eucm.eadventure.engine.core.gameobjects.huds.EffectHUD;
 import es.eucm.eadventure.engine.core.gameobjects.huds.impl.EffectHUDImpl;
 import es.eucm.eadventure.engine.core.impl.GameControllerImpl;
@@ -59,19 +68,22 @@ import es.eucm.eadventure.engine.core.impl.GameImpl;
 import es.eucm.eadventure.engine.core.impl.GameStateImpl;
 import es.eucm.eadventure.engine.core.impl.LoadingScreen;
 import es.eucm.eadventure.engine.core.impl.VariableMap;
+import es.eucm.eadventure.engine.core.operator.OperatorFactory;
+import es.eucm.eadventure.engine.core.operators.impl.OperatorFactoryImpl;
+import es.eucm.eadventure.engine.core.platform.EAdInjector;
 import es.eucm.eadventure.engine.core.platform.FontHandler;
 import es.eucm.eadventure.engine.core.platform.impl.FontHandlerImpl;
+import es.eucm.eadventure.engine.core.platform.impl.JavaInjector;
+import es.eucm.eadventure.engine.core.platform.impl.JavaPluginHandler;
 import es.eucm.eadventure.engine.core.platform.impl.JavaReflectionProvider;
+import es.eucm.eadventure.engine.core.trajectories.TrajectoryFactory;
+import es.eucm.eadventure.engine.core.trajectories.impl.TrajectoryFactoryImpl;
 
 public class BasicGameModule extends AbstractModule {
 
 	@Override
 	protected void configure() {
-		install(new GameObjectFactoryModule());
-		install(new EvaluatorFactoryModule());
-		install(new OperatorFactoryModule());
-		install(new TrajectoryFactoryModule());
-		
+		installFactories();
 		bind(ValueMap.class).to(VariableMap.class);
 		bind(GameState.class).to(GameStateImpl.class);
 		bind(GameController.class).to(GameControllerImpl.class);
@@ -79,20 +91,30 @@ public class BasicGameModule extends AbstractModule {
 		bind(EffectHUD.class).to(EffectHUDImpl.class);
 		bind(FontHandler.class).to(FontHandlerImpl.class);
 		bind(EAdDebugger.class).to(EAdMainDebugger.class);
-		
+		bind(PluginHandler.class).to(JavaPluginHandler.class);
+		bind(EAdInjector.class).to(JavaInjector.class);
+
 		bind(ReflectionProvider.class).to(JavaReflectionProvider.class);
 
 		bind(EAdAdventureModel.class).to(EAdAdventureModelImpl.class);
-		bind(EAdScene.class).annotatedWith(Names.named("LoadingScreen")).to(
-				LoadingScreen.class).asEagerSingleton();
+		bind(EAdScene.class).annotatedWith(Names.named("LoadingScreen"))
+				.to(LoadingScreen.class).asEagerSingleton();
 
 	}
-	
+
+	private void installFactories() {
+		bind(EvaluatorFactory.class).to(EvaluatorFactoryImpl.class);
+		bind(OperatorFactory.class).to(OperatorFactoryImpl.class);
+		bind(TrajectoryFactory.class).to(TrajectoryFactoryImpl.class);
+		bind(SceneElementGOFactory.class).to(SceneElementGOFactoryImpl.class);
+		bind(EffectGOFactory.class).to(EffectGOFactoryImpl.class);
+		bind(EventGOFactory.class).to(EventGOFactoryImpl.class);
+	}
+
 	@Provides
 	@Named("classParam")
 	public String provideThreaded() {
 		return "class";
 	}
-
 
 }

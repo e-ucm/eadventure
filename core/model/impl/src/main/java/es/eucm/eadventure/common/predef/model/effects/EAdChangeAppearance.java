@@ -40,7 +40,7 @@ package es.eucm.eadventure.common.predef.model.effects;
 import es.eucm.eadventure.common.interfaces.Element;
 import es.eucm.eadventure.common.model.EAdElement;
 import es.eucm.eadventure.common.model.effects.impl.variables.EAdChangeFieldValueEffect;
-import es.eucm.eadventure.common.model.impl.EAdGeneralElementImpl;
+import es.eucm.eadventure.common.model.impl.ResourcedElementImpl;
 import es.eucm.eadventure.common.model.variables.impl.operations.ValueOperation;
 import es.eucm.eadventure.common.resources.EAdBundleId;
 
@@ -49,7 +49,7 @@ public class EAdChangeAppearance extends EAdChangeFieldValueEffect {
 	
 	public EAdChangeAppearance(String id, EAdElement element, EAdBundleId bundleId) {
 		super(id);
-		this.setParentVar(EAdGeneralElementImpl.VAR_BUNDLE_ID);
+		this.setParentVar(ResourcedElementImpl.VAR_BUNDLE_ID);
 		this.setOperation(new ValueOperation(bundleId));
 	}
 

@@ -37,15 +37,13 @@
 
 package es.eucm.eadventure.engine.core.gameobjects.impl.effects;
 
-import com.google.inject.Inject;
-
 import es.eucm.eadventure.common.model.effects.impl.EAdActorActionsEffect;
 import es.eucm.eadventure.common.model.effects.impl.EAdActorActionsEffect.Change;
 import es.eucm.eadventure.common.resources.StringHandler;
 import es.eucm.eadventure.engine.core.GameState;
-import es.eucm.eadventure.engine.core.gameobjects.GameObjectFactory;
 import es.eucm.eadventure.engine.core.gameobjects.GameObjectManager;
 import es.eucm.eadventure.engine.core.gameobjects.SceneElementGO;
+import es.eucm.eadventure.engine.core.gameobjects.factories.SceneElementGOFactory;
 import es.eucm.eadventure.engine.core.gameobjects.huds.ActionsHUD;
 import es.eucm.eadventure.engine.core.platform.AssetHandler;
 import es.eucm.eadventure.engine.core.platform.GUI;
@@ -60,12 +58,11 @@ public class ActorActionsEffectGO extends
 
 	private GameObjectManager gameObjectManager;
 
-	@Inject
 	public ActorActionsEffectGO(AssetHandler assetHandler,
-			StringHandler stringHandler, GameObjectFactory gameObjectFactory,
-			GUI gui, GameState gameState,
-			GameObjectManager gameObjectManager, ActionsHUD actionsHUD) {
-		super(assetHandler, stringHandler, gameObjectFactory, gui, gameState);
+			StringHandler stringsReader, SceneElementGOFactory gameObjectFactory,
+			GUI gui, GameState gameState, ActionsHUD actionsHUD,
+			GameObjectManager gameObjectManager) {
+		super(assetHandler, stringsReader, gameObjectFactory, gui, gameState);
 		this.actionsHUD = actionsHUD;
 		this.gameObjectManager = gameObjectManager;
 	}
@@ -74,8 +71,8 @@ public class ActorActionsEffectGO extends
 	public void initilize() {
 		super.initilize();
 		if (element.getChange() == Change.SHOW_ACTIONS) {
-			SceneElementGO<?> sceneElement = (SceneElementGO<?>) gameObjectFactory
-					.get(element.getActionElement());
+			SceneElementGO<?> sceneElement = sceneElementFactory.get(element
+					.getActionElement());
 			if (sceneElement.getValidActions() != null) {
 				actionsHUD.setElement(sceneElement);
 				gameObjectManager.addHUD(actionsHUD);

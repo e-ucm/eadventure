@@ -35,40 +35,61 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package es.eucm.eadventure.engine.core.impl.factorymapproviders;
-
-import java.util.HashMap;
-import java.util.Map;
-
-import com.google.inject.Inject;
+package es.eucm.eadventure.engine.core.gameobjects.impl;
 
 import es.eucm.eadventure.common.model.EAdElement;
-import es.eucm.eadventure.engine.core.gameobjects.GameObject;
+import es.eucm.eadventure.common.resources.StringHandler;
+import es.eucm.eadventure.engine.core.GameState;
+import es.eucm.eadventure.engine.core.gameobjects.DrawableGO;
+import es.eucm.eadventure.engine.core.gameobjects.factories.SceneElementGOFactory;
+import es.eucm.eadventure.engine.core.platform.AssetHandler;
+import es.eucm.eadventure.engine.core.platform.GUI;
+import es.eucm.eadventure.engine.core.util.EAdTransformation;
+import es.eucm.eadventure.engine.core.util.impl.EAdTransformationImpl;
 
-public class GameObjectFactoryMapProvider
-		extends
-		AbstractMapProvider<Class<? extends EAdElement>, Class<? extends GameObject<?>>> {
-
-	private static Map<Class<? extends EAdElement>, Class<? extends GameObject<?>>> tempMap = new HashMap<Class<? extends EAdElement>, Class<? extends GameObject<?>>>();
+public abstract class DrawableGameObjectImpl<T extends EAdElement> extends
+		GameObjectImpl<T> implements DrawableGO<T> {
 	
-	@Inject
-	public GameObjectFactoryMapProvider(ElementGameObjectFactoryConfigurator elementGOFC,
-			EffectGameObjectFactoryConfigurator effectGOFC,
-			EventGameObjectFactoryConfigurator eventGOFC) {
-		super();
-		
-		elementGOFC.configure(factoryMap);
-		effectGOFC.configure(factoryMap);
-		eventGOFC.configure(factoryMap);
-		
+	protected SceneElementGOFactory sceneElementFactory;
+	
+	/**
+	 * The game's asset handler
+	 */
+	protected AssetHandler assetHandler;
 
-		factoryMap.putAll(tempMap);
+	/**
+	 * The string handler
+	 */
+	protected StringHandler stringsHandler;
+
+	protected GUI gui;
+	
+	protected EAdTransformationImpl transformation;
+
+	protected boolean enable;
+
+	public DrawableGameObjectImpl(AssetHandler assetHandler,
+			StringHandler stringsHandler, SceneElementGOFactory sceneElementFactory,
+			GUI gui, GameState gameState) {
+		super(gameState);
+		this.assetHandler = assetHandler;
+		this.stringsHandler = stringsHandler;
+		this.sceneElementFactory = sceneElementFactory;
+		this.gui = gui;
 	}
 
-	// This won't work in GWT
-	public static void add(Class<? extends EAdElement> element,
-			Class<? extends GameObject<?>> gameobject) {
-		tempMap.put(element, gameobject);
+	@Override
+	public void setElement(T element) {
+		super.setElement(element);
+		transformation = new EAdTransformationImpl();
+	}
+
+	public boolean isEnable() {
+		return enable;
+	}
+	
+	public EAdTransformation getTransformation() {
+		return transformation;
 	}
 
 }

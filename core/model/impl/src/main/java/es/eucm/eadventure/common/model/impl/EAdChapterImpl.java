@@ -55,7 +55,7 @@ import es.eucm.eadventure.common.params.EAdString;
  * Model of the eAdventure chapter.
  */
 @Element(runtime = EAdChapterImpl.class, detailed = EAdChapterImpl.class)
-public class EAdChapterImpl extends EAdGeneralElementImpl implements EAdChapter {
+public class EAdChapterImpl extends ResourcedElementImpl implements EAdChapter {
 
 	/**
 	 * Scenes of the game

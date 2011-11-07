@@ -37,30 +37,30 @@
 
 package es.eucm.eadventure.engine.core.gameobjects.impl.events;
 
-import com.google.inject.Inject;
-
 import es.eucm.eadventure.common.model.effects.EAdEffect;
 import es.eucm.eadventure.common.model.elements.EAdSceneElement;
 import es.eucm.eadventure.common.model.events.EAdEvent;
 import es.eucm.eadventure.common.model.extra.EAdList;
-import es.eucm.eadventure.common.resources.StringHandler;
 import es.eucm.eadventure.engine.core.GameState;
+import es.eucm.eadventure.engine.core.gameobjects.EventGO;
 import es.eucm.eadventure.engine.core.gameobjects.GameObject;
-import es.eucm.eadventure.engine.core.gameobjects.GameObjectFactory;
 import es.eucm.eadventure.engine.core.gameobjects.impl.GameObjectImpl;
-import es.eucm.eadventure.engine.core.platform.AssetHandler;
-import es.eucm.eadventure.engine.core.platform.GUI;
 
+/**
+ * Basic game object for events
+ * 
+ * @param <T>
+ */
 public abstract class AbstractEventGO<T extends EAdEvent> extends
-		GameObjectImpl<T> implements GameObject<T> {
+		GameObjectImpl<T> implements GameObject<T>, EventGO<T> {
 
+	/**
+	 * Event parent (the element who launched the event)
+	 */
 	protected EAdSceneElement parent;
 
-	@Inject
-	public AbstractEventGO(AssetHandler assetHandler,
-			StringHandler stringHandler, GameObjectFactory gameObjectFactory,
-			GUI gui, GameState gameState) {
-		super(assetHandler, stringHandler, gameObjectFactory, gui, gameState);
+	public AbstractEventGO(GameState gameState) {
+		super(gameState);
 	}
 
 	/**

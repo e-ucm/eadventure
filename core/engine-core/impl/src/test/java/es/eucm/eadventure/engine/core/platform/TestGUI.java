@@ -44,8 +44,8 @@ import es.eucm.eadventure.engine.core.GameState;
 import es.eucm.eadventure.engine.core.KeyboardState;
 import es.eucm.eadventure.engine.core.MouseState;
 import es.eucm.eadventure.engine.core.gameobjects.GameObject;
-import es.eucm.eadventure.engine.core.gameobjects.GameObjectFactory;
 import es.eucm.eadventure.engine.core.gameobjects.GameObjectManager;
+import es.eucm.eadventure.engine.core.gameobjects.factories.SceneElementGOFactory;
 import es.eucm.eadventure.engine.core.platform.impl.AbstractGUI;
 
 public class TestGUI extends AbstractGUI<Void>{
@@ -55,7 +55,7 @@ public class TestGUI extends AbstractGUI<Void>{
 	public TestGUI(PlatformConfiguration platformConfiguration,
 			GameObjectManager gameObjectManager, MouseState mouseState,
 			KeyboardState keyboardState,
-			GameState gameState, GameObjectFactory gameObjectFactory) {
+			GameState gameState, SceneElementGOFactory gameObjectFactory) {
 		super(platformConfiguration, gameObjectManager,
 				mouseState, keyboardState, gameState, gameObjectFactory, null);
 	}

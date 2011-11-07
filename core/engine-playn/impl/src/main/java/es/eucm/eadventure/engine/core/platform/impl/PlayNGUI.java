@@ -56,8 +56,8 @@ import es.eucm.eadventure.common.resources.assets.drawable.basics.Image;
 import es.eucm.eadventure.engine.core.GameState;
 import es.eucm.eadventure.engine.core.KeyboardState;
 import es.eucm.eadventure.engine.core.MouseState;
-import es.eucm.eadventure.engine.core.gameobjects.GameObjectFactory;
 import es.eucm.eadventure.engine.core.gameobjects.GameObjectManager;
+import es.eucm.eadventure.engine.core.gameobjects.factories.SceneElementGOFactory;
 import es.eucm.eadventure.engine.core.gameobjects.huds.BasicHUD;
 import es.eucm.eadventure.engine.core.platform.GUI;
 import es.eucm.eadventure.engine.core.platform.PlatformConfiguration;
@@ -93,12 +93,10 @@ public class PlayNGUI extends AbstractGUI<Canvas> implements GUI {
 			GameObjectManager gameObjectManager, MouseState mouseState,
 			KeyboardState keyboardState, BasicHUD basicDesktopHUD,
 			GameState gameState,
-			GameObjectFactory gameObjectFactory, PlayNCanvas canvas) {
+			SceneElementGOFactory gameObjectFactory, PlayNCanvas canvas) {
 		super(platformConfiguration, gameObjectManager, mouseState,
 				keyboardState, gameState, gameObjectFactory, canvas);
 		logger.info("New instance");
-		this.gameObjects.addHUD(basicDesktopHUD);
-		basicDesktopHUD.setGUI(this);
 	}
 
 	/*

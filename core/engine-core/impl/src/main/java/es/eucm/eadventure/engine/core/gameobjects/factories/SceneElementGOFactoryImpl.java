@@ -35,20 +35,36 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package es.eucm.eadventure.engine.core.impl.modules;
+package es.eucm.eadventure.engine.core.gameobjects.factories;
 
-import com.google.inject.AbstractModule;
-import com.google.inject.Singleton;
+import com.google.inject.Inject;
 
-import es.eucm.eadventure.engine.core.operator.OperatorFactory;
-import es.eucm.eadventure.engine.core.operators.impl.OperatorFactoryImpl;
+import es.eucm.eadventure.common.interfaces.ReflectionProvider;
+import es.eucm.eadventure.common.model.elements.EAdSceneElement;
+import es.eucm.eadventure.engine.core.gameobjects.SceneElementGO;
+import es.eucm.eadventure.engine.core.impl.factorymapproviders.ElementGameObjectFactoryConfigurator;
+import es.eucm.eadventure.engine.core.platform.EAdInjector;
 
-@Singleton
-public class OperatorFactoryModule extends AbstractModule {
+/**
+ * <p>
+ * Default implementation of the {@link GameObjectFactor}.
+ * </p>
+ */
+public class SceneElementGOFactoryImpl
+		extends
+		GOFactoryImpl<EAdSceneElement, SceneElementGO<? extends EAdSceneElement>>
+		implements SceneElementGOFactory {
+
+	@Inject
+	public SceneElementGOFactoryImpl(ReflectionProvider reflectionProvider, EAdInjector injector) {
+		super( true, reflectionProvider, injector );
+		ElementGameObjectFactoryConfigurator provider = new ElementGameObjectFactoryConfigurator();
+		setClassMap(provider.getMap());
+	}
 
 	@Override
-	protected void configure() {
-		bind( OperatorFactory.class).to(OperatorFactoryImpl.class);
+	public void remove(EAdSceneElement element) {
+		super.remove(element);
 	}
 
 }

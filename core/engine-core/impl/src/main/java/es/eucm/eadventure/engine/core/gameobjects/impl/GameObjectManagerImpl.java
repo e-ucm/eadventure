@@ -41,41 +41,49 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
+import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
-import es.eucm.eadventure.engine.core.gameobjects.GameObject;
+import es.eucm.eadventure.engine.core.gameobjects.DrawableGO;
 import es.eucm.eadventure.engine.core.gameobjects.GameObjectManager;
+import es.eucm.eadventure.engine.core.gameobjects.huds.BasicHUD;
 import es.eucm.eadventure.engine.core.gameobjects.huds.HudGO;
+import es.eucm.eadventure.engine.core.platform.GUI;
 import es.eucm.eadventure.engine.core.util.EAdTransformation;
 
 @Singleton
 public class GameObjectManagerImpl implements GameObjectManager {
 
-	private ArrayList<GameObject<?>>[] gameObjects;
-	
+	private ArrayList<DrawableGO<?>>[] gameObjects;
+
 	private ArrayList<EAdTransformation>[] transformations;
 
-	private ArrayList<HudGO<?>> huds;
+	private ArrayList<HudGO> huds;
 
 	private int pointer;
 
 	private int bufferPointer;
+	
+	private BasicHUD basicHud;
 
 	private static final Logger logger = Logger
 			.getLogger("GameObjectManagerImpl");
 
 	@SuppressWarnings("unchecked")
-	public GameObjectManagerImpl() {
+	@Inject
+	public GameObjectManagerImpl(BasicHUD basicHUD) {
 		this.gameObjects = new ArrayList[2];
-		this.gameObjects[0] = new ArrayList<GameObject<?>>();
-		this.gameObjects[1] = new ArrayList<GameObject<?>>();
+		this.gameObjects[0] = new ArrayList<DrawableGO<?>>();
+		this.gameObjects[1] = new ArrayList<DrawableGO<?>>();
 		this.transformations = new ArrayList[2];
 		this.transformations[0] = new ArrayList<EAdTransformation>();
 		this.transformations[1] = new ArrayList<EAdTransformation>();
 		this.pointer = 0;
 		this.bufferPointer = 1;
-		this.huds = new ArrayList<HudGO<?>>();
+		this.huds = new ArrayList<HudGO>();
 		logger.info("New instance");
+		this.basicHud = basicHUD;
+		basicHUD.setGameObjectManager( this );
 	}
 
 	/*
@@ -86,7 +94,7 @@ public class GameObjectManagerImpl implements GameObjectManager {
 	 * .eadventure.engine.core.gameobjects.GameObject)
 	 */
 	@Override
-	public void add(GameObject<?> element, EAdTransformation transformation) {
+	public void add(DrawableGO<?> element, EAdTransformation transformation) {
 		synchronized (GameObjectManager.lock) {
 			this.gameObjects[bufferPointer].add(element);
 			this.transformations[bufferPointer].add(transformation);
@@ -101,10 +109,10 @@ public class GameObjectManagerImpl implements GameObjectManager {
 	 * ()
 	 */
 	@Override
-	public List<GameObject<?>> getGameObjects() {
+	public List<DrawableGO<?>> getGameObjects() {
 		return this.gameObjects[pointer];
 	}
-	
+
 	@Override
 	public List<EAdTransformation> getTransformations() {
 		return this.transformations[pointer];
@@ -118,7 +126,7 @@ public class GameObjectManagerImpl implements GameObjectManager {
 	 * .eucm.eadventure.engine.core.gameobjects.huds.HudGO)
 	 */
 	@Override
-	public void addHUD(HudGO<?> hud) {
+	public void addHUD(HudGO hud) {
 		if (!huds.contains(hud))
 			huds.add(hud);
 		logger.info("Added HUD. size: " + huds.size() + "; huds: " + huds);
@@ -131,10 +139,15 @@ public class GameObjectManagerImpl implements GameObjectManager {
 	 * es.eucm.eadventure.engine.core.gameobjects.GameObjectManager#getHUD()
 	 */
 	@Override
-	public HudGO<?> getHUD() {
-		if (huds.isEmpty())
-			return null;
-		return huds.get(huds.size() - 1);
+	public void addHUDs(GUI gui, EAdTransformation t) {
+		if (!huds.isEmpty()) {
+			for (HudGO hud : huds) {
+				hud.update();
+				gui.addElement(hud, t);
+			}
+		}
+		basicHud.update();
+		gui.addElement(basicHud, t);
 	}
 
 	/*
@@ -144,7 +157,7 @@ public class GameObjectManagerImpl implements GameObjectManager {
 	 * es.eucm.eadventure.engine.core.gameobjects.GameObjectManager#removeHUD()
 	 */
 	@Override
-	public void removeHUD(HudGO<?> hud) {
+	public void removeHUD(HudGO hud) {
 		huds.remove(hud);
 		logger.info("Removed HUD. size: " + huds.size() + "; huds: " + huds);
 	}
@@ -158,10 +171,14 @@ public class GameObjectManagerImpl implements GameObjectManager {
 	public void swap() {
 		synchronized (lock) {
 			pointer = bufferPointer;
-			bufferPointer = (bufferPointer + 1) % 2 ;
+			bufferPointer = (bufferPointer + 1) % 2;
 			gameObjects[bufferPointer].clear();
 			transformations[bufferPointer].clear();
 		}
+	}
+	
+	public List<HudGO> getHUDs(){
+		return huds;
 	}
 
 }

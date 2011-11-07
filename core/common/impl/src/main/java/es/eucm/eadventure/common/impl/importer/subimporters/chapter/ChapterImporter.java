@@ -43,11 +43,9 @@ import com.google.inject.Inject;
 
 import es.eucm.eadventure.common.EAdElementImporter;
 import es.eucm.eadventure.common.data.HasId;
-import es.eucm.eadventure.common.data.adventure.AdventureData;
 import es.eucm.eadventure.common.data.chapter.Chapter;
 import es.eucm.eadventure.common.data.chapter.Timer;
 import es.eucm.eadventure.common.impl.importer.interfaces.EAdElementFactory;
-import es.eucm.eadventure.common.impl.importer.interfaces.ResourceImporter;
 import es.eucm.eadventure.common.model.elements.EAdChapter;
 import es.eucm.eadventure.common.model.elements.EAdScene;
 import es.eucm.eadventure.common.model.elements.EAdTimer;
@@ -57,8 +55,6 @@ import es.eucm.eadventure.common.model.events.impl.EAdSceneElementEventImpl;
 import es.eucm.eadventure.common.model.impl.EAdChapterImpl;
 import es.eucm.eadventure.common.predef.model.effects.EAdChangeCursorEffect;
 import es.eucm.eadventure.common.resources.StringHandler;
-import es.eucm.eadventure.common.resources.assets.drawable.basics.Image;
-import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.ImageImpl;
 
 /**
  * Chapter importer
@@ -75,14 +71,11 @@ public class ChapterImporter implements EAdElementImporter<Chapter, EAdChapter> 
 
 	private EAdElementFactory elementFactory;
 
-	private ResourceImporter resourceImporter;
-
 	@Inject
 	public ChapterImporter(StringHandler stringHandler,
-			EAdElementFactory elementFactory, ResourceImporter resourceImporter) {
+			EAdElementFactory elementFactory) {
 		this.stringHandler = stringHandler;
 		this.elementFactory = elementFactory;
-		this.resourceImporter = resourceImporter;
 	}
 
 	@Override

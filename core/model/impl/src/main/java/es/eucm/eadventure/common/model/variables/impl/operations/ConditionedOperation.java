@@ -23,6 +23,7 @@ public class ConditionedOperation extends EAdOperationImpl {
 		super("conditionedOperation");
 		this.opTrue = opTrue;
 		this.opFalse = opFalse;
+		this.condition = c;
 	}
 
 

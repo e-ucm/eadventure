@@ -70,7 +70,7 @@ public class EAdAssetBundleImpl implements EAdAssetBundle {
 	}
 
 	public AssetDescriptor getAsset( String id ) {
-	//TODO This code striclty checks for the validty of the asset, but should be used only on the editor
+// This code striclty checks for the validty of the asset, but should be used only on the editor
 //		for ( EAdAssetDescriptor d : descriptors ) {
 //			if ( d.getAssetId( ).equals( id ) ) {
 				AssetDescriptor assetPath = assets.get( id );
@@ -85,7 +85,7 @@ public class EAdAssetBundleImpl implements EAdAssetBundle {
 	}
 
 	public boolean addAsset( String id, AssetDescriptor asset ) {
-/*		TODO This code striclty checks for the validty of the asset, but should be used only on the editor
+/*		This code striclty checks for the validty of the asset, but should be used only on the editor
 		EAdAssetDescriptor descriptor = getDescriptor( id );
 		if ( descriptor == null )
 			return false;

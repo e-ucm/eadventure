@@ -48,54 +48,64 @@ import es.eucm.eadventure.common.resources.StringHandler;
 import es.eucm.eadventure.engine.core.GameState;
 import es.eucm.eadventure.engine.core.MouseState;
 import es.eucm.eadventure.engine.core.evaluators.EvaluatorFactory;
-import es.eucm.eadventure.engine.core.gameobjects.GameObject;
-import es.eucm.eadventure.engine.core.gameobjects.GameObjectFactory;
+import es.eucm.eadventure.engine.core.gameobjects.DrawableGO;
+import es.eucm.eadventure.engine.core.gameobjects.factories.EventGOFactory;
+import es.eucm.eadventure.engine.core.gameobjects.factories.SceneElementGOFactory;
 import es.eucm.eadventure.engine.core.guiactions.GUIAction;
 import es.eucm.eadventure.engine.core.platform.AssetHandler;
 import es.eucm.eadventure.engine.core.platform.GUI;
 
-public class BasicSceneElementGO extends SceneElementGOImpl<EAdBasicSceneElement> {
+public class BasicSceneElementGO extends
+		SceneElementGOImpl<EAdBasicSceneElement> {
 
 	private static final Logger logger = Logger
-	.getLogger("BasicSceneElementGOImpl");
+			.getLogger("BasicSceneElementGOImpl");
 
 	private EvaluatorFactory evaluatorFactory;
-	
+
 	@Inject
 	public BasicSceneElementGO(AssetHandler assetHandler,
-			StringHandler stringHandler, GameObjectFactory gameObjectFactory,
-			GUI gui, GameState gameState,
-			EvaluatorFactory evaluatorFactory) {
-		super(assetHandler, stringHandler, gameObjectFactory, gui, gameState);
+			StringHandler stringHandler,
+			SceneElementGOFactory gameObjectFactory, GUI gui,
+			GameState gameState, EvaluatorFactory evaluatorFactory,
+			EventGOFactory eventFactory) {
+		super(assetHandler, stringHandler, gameObjectFactory, gui, gameState,
+				eventFactory);
 		logger.info("New instance");
 		this.evaluatorFactory = evaluatorFactory;
 	}
-	
-	/* (non-Javadoc)
-	 * @see es.eucm.eadventure.engine.core.gameobjects.impl.SceneElementGOImpl#getDraggableElement(es.eucm.eadventure.engine.core.MouseState)
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see es.eucm.eadventure.engine.core.gameobjects.impl.SceneElementGOImpl#
+	 * getDraggableElement(es.eucm.eadventure.engine.core.MouseState)
 	 */
-	public GameObject<?> getDraggableElement(MouseState mouseState) {
+	public DrawableGO<?> getDraggableElement(MouseState mouseState) {
 		if (evaluatorFactory.evaluate(element.getDraggableCondition()))
 			return this;
 		return null;
 	}
 
-	/* (non-Javadoc)
-	 * @see es.eucm.eadventure.engine.core.gameobjects.impl.SceneElementGOImpl#processAction(es.eucm.eadventure.engine.core.guiactions.GUIAction)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see es.eucm.eadventure.engine.core.gameobjects.impl.SceneElementGOImpl#
+	 * processAction(es.eucm.eadventure.engine.core.guiactions.GUIAction)
 	 */
 	@Override
 	public boolean processAction(GUIAction action) {
 		EAdList<EAdEffect> list = element.getEffects(action.getGUIEvent());
-		boolean processed = addEffects( list, action );
-		if ( element.getDefinition() != element ){
+		boolean processed = addEffects(list, action);
+		if (element.getDefinition() != element) {
 			list = element.getDefinition().getEffects(action.getGUIEvent());
-			processed |= addEffects( list, action );
+			processed |= addEffects(list, action);
 		}
 		return processed;
 
 	}
-	
-	private boolean addEffects( EAdList<EAdEffect> list, GUIAction action ){
+
+	private boolean addEffects(EAdList<EAdEffect> list, GUIAction action) {
 		if (list != null && list.size() > 0) {
 			action.consume();
 			for (EAdEffect e : list) {

@@ -43,7 +43,7 @@ import es.eucm.eadventure.common.model.effects.impl.sceneelements.AbstractSceneE
 import es.eucm.eadventure.common.model.effects.impl.sceneelements.EAdActiveElementEffect;
 import es.eucm.eadventure.common.resources.StringHandler;
 import es.eucm.eadventure.engine.core.GameState;
-import es.eucm.eadventure.engine.core.gameobjects.GameObjectFactory;
+import es.eucm.eadventure.engine.core.gameobjects.factories.SceneElementGOFactory;
 import es.eucm.eadventure.engine.core.platform.AssetHandler;
 import es.eucm.eadventure.engine.core.platform.GUI;
 
@@ -51,9 +51,10 @@ public class ActiveElementEffectGO extends AbstractEffectGO<EAdActiveElementEffe
 
 	@Inject
 	public ActiveElementEffectGO(AssetHandler assetHandler,
-			StringHandler stringHandler, GameObjectFactory gameObjectFactory,
-			GUI gui, GameState gameState) {
-		super(assetHandler, stringHandler, gameObjectFactory, gui, gameState);
+			StringHandler stringsReader,
+			SceneElementGOFactory gameObjectFactory, GUI gui,
+			GameState gameState) {
+		super(assetHandler, stringsReader, gameObjectFactory, gui, gameState);
 	}
 
 	@Override
@@ -64,8 +65,6 @@ public class ActiveElementEffectGO extends AbstractEffectGO<EAdActiveElementEffe
 			gameState.addEffect(element.getSceneElementEffect());
 		}
 	}
-
-	
 	
 	@Override
 	public boolean isVisualEffect() {

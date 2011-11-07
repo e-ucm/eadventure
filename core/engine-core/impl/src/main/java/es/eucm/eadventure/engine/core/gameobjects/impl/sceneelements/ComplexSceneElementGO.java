@@ -53,9 +53,10 @@ import es.eucm.eadventure.engine.core.GameState;
 import es.eucm.eadventure.engine.core.MouseState;
 import es.eucm.eadventure.engine.core.ValueMap;
 import es.eucm.eadventure.engine.core.evaluators.EvaluatorFactory;
-import es.eucm.eadventure.engine.core.gameobjects.GameObject;
-import es.eucm.eadventure.engine.core.gameobjects.GameObjectFactory;
+import es.eucm.eadventure.engine.core.gameobjects.DrawableGO;
 import es.eucm.eadventure.engine.core.gameobjects.SceneElementGO;
+import es.eucm.eadventure.engine.core.gameobjects.factories.EventGOFactory;
+import es.eucm.eadventure.engine.core.gameobjects.factories.SceneElementGOFactory;
 import es.eucm.eadventure.engine.core.guiactions.GUIAction;
 import es.eucm.eadventure.engine.core.platform.AssetHandler;
 import es.eucm.eadventure.engine.core.platform.GUI;
@@ -72,15 +73,17 @@ public class ComplexSceneElementGO extends
 
 	@Inject
 	public ComplexSceneElementGO(AssetHandler assetHandler,
-			StringHandler stringHandler, GameObjectFactory gameObjectFactory,
-			GUI gui, GameState gameState,
-			EvaluatorFactory evaluatorFactory) {
-		super(assetHandler, stringHandler, gameObjectFactory, gui, gameState);
+			StringHandler stringHandler,
+			SceneElementGOFactory gameObjectFactory, GUI gui,
+			GameState gameState, EvaluatorFactory evaluatorFactory,
+			EventGOFactory eventFactory) {
+		super(assetHandler, stringHandler, gameObjectFactory, gui, gameState,
+				eventFactory);
 		logger.info("New instance");
 		this.evaluatorFactory = evaluatorFactory;
 	}
 
-	public GameObject<?> getDraggableElement(MouseState mouseState) {
+	public DrawableGO<?> getDraggableElement(MouseState mouseState) {
 		if (evaluatorFactory.evaluate(((EAdBasicSceneElement) element)
 				.getDraggableCondition()))
 			return this;
@@ -90,8 +93,7 @@ public class ComplexSceneElementGO extends
 	public void setElement(EAdComplexElement element) {
 		super.setElement(element);
 		for (EAdSceneElement sceneElement : element.getElements()) {
-			SceneElementGO<?> go = (SceneElementGO<?>) gameObjectFactory
-					.get(sceneElement);
+			SceneElementGO<?> go = sceneElementFactory.get(sceneElement);
 			go.getRenderAsset();
 		}
 	}
@@ -99,16 +101,16 @@ public class ComplexSceneElementGO extends
 	@Override
 	public boolean processAction(GUIAction action) {
 		EAdList<EAdEffect> list = element.getEffects(action.getGUIEvent());
-		boolean processed = addEffects( list, action );
-		if ( element.getDefinition() != element ){
+		boolean processed = addEffects(list, action);
+		if (element.getDefinition() != element) {
 			list = element.getDefinition().getEffects(action.getGUIEvent());
-			processed |= addEffects( list, action );
+			processed |= addEffects(list, action);
 		}
 		return processed;
 
 	}
-	
-	private boolean addEffects( EAdList<EAdEffect> list, GUIAction action ){
+
+	private boolean addEffects(EAdList<EAdEffect> list, GUIAction action) {
 		if (list != null && list.size() > 0) {
 			action.consume();
 			for (EAdEffect e : list) {
@@ -123,7 +125,7 @@ public class ComplexSceneElementGO extends
 	public void update() {
 		super.update();
 		for (EAdSceneElement sceneElement : element.getElements()) {
-			gameObjectFactory.get(sceneElement).update();
+			sceneElementFactory.get(sceneElement).update();
 		}
 	}
 
@@ -148,8 +150,7 @@ public class ComplexSceneElementGO extends
 		int maxX = Integer.MIN_VALUE;
 		int maxY = maxX;
 		for (EAdSceneElement sceneElement : element.getElements()) {
-			SceneElementGO<?> go = (SceneElementGO<?>) gameObjectFactory
-					.get(sceneElement);
+			SceneElementGO<?> go = sceneElementFactory.get(sceneElement);
 			int xLeft = go.getPosition().getJavaX(go.getWidth());
 			int xRight = xLeft + go.getWidth();
 			int yTop = go.getPosition().getJavaY(go.getHeight());
@@ -172,8 +173,7 @@ public class ComplexSceneElementGO extends
 	@Override
 	public void doLayout(EAdTransformation transformation) {
 		for (EAdSceneElement sceneElement : element.getElements()) {
-			SceneElementGO<?> go = (SceneElementGO<?>) gameObjectFactory
-					.get(sceneElement);
+			SceneElementGO<?> go = sceneElementFactory.get(sceneElement);
 			gui.addElement(go, transformation);
 
 		}
@@ -187,7 +187,7 @@ public class ComplexSceneElementGO extends
 		}
 
 		for (EAdSceneElement sceneElement : element.getElements())
-			assetList = gameObjectFactory.get(sceneElement).getAssets(
+			assetList = sceneElementFactory.get(sceneElement).getAssets(
 					assetList, allAssets);
 		return assetList;
 	}

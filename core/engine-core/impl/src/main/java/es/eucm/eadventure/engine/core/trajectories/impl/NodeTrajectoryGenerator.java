@@ -18,8 +18,8 @@ import es.eucm.eadventure.common.params.geom.EAdPosition;
 import es.eucm.eadventure.common.params.geom.EAdRectangle;
 import es.eucm.eadventure.common.params.geom.impl.EAdRectangleImpl;
 import es.eucm.eadventure.engine.core.ValueMap;
-import es.eucm.eadventure.engine.core.gameobjects.GameObjectFactory;
 import es.eucm.eadventure.engine.core.gameobjects.SceneElementGO;
+import es.eucm.eadventure.engine.core.gameobjects.factories.SceneElementGOFactory;
 import es.eucm.eadventure.engine.core.trajectories.Path;
 import es.eucm.eadventure.engine.core.trajectories.PathSide;
 import es.eucm.eadventure.engine.core.trajectories.TrajectoryGenerator;
@@ -30,12 +30,12 @@ public class NodeTrajectoryGenerator implements
 
 	private Map<NodeTrajectoryDefinition, List<PathSideImpl>> sides;
 
-	private GameObjectFactory gameObjectFactory;
+	private SceneElementGOFactory gameObjectFactory;
 
 	private ValueMap valueMap;
 
 	@Inject
-	public NodeTrajectoryGenerator(GameObjectFactory gameObjectFactory,
+	public NodeTrajectoryGenerator(SceneElementGOFactory gameObjectFactory,
 			ValueMap valueMap) {
 		sides = new HashMap<NodeTrajectoryDefinition, List<PathSideImpl>>();
 		this.gameObjectFactory = gameObjectFactory;

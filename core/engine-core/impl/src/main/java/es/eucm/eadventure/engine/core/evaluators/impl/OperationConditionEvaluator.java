@@ -67,8 +67,16 @@ public class OperationConditionEvaluator implements
 				condition.getOp1());
 		Object value2 = operatorFactory.operate(Object.class,
 				condition.getOp2());
+		
+		if ( value1 instanceof Number ){
+			value1 = ((Number) value1).floatValue();
+		}
+		
+		if ( value2 instanceof Number ){
+			value2 = ((Number) value2).floatValue();
+		}
 
-		if (value1 instanceof Comparable) {
+		if (value1.getClass() == value2.getClass() && value1 instanceof Comparable) {
 			int result = ((Comparable) value1).compareTo(value2);
 			switch (condition.getOperator()) {
 			case EQUAL:

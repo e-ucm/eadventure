@@ -46,15 +46,18 @@ import es.eucm.eadventure.common.model.elements.impl.EAdVideoScene;
 import es.eucm.eadventure.common.resources.StringHandler;
 import es.eucm.eadventure.common.resources.assets.multimedia.Video;
 import es.eucm.eadventure.engine.core.GameState;
-import es.eucm.eadventure.engine.core.gameobjects.GameObjectFactory;
 import es.eucm.eadventure.engine.core.gameobjects.SceneGO;
+import es.eucm.eadventure.engine.core.gameobjects.factories.EventGOFactory;
+import es.eucm.eadventure.engine.core.gameobjects.factories.SceneElementGOFactory;
+import es.eucm.eadventure.engine.core.gameobjects.impl.sceneelements.SceneElementGOImpl;
+import es.eucm.eadventure.engine.core.guiactions.GUIAction;
 import es.eucm.eadventure.engine.core.platform.AssetHandler;
 import es.eucm.eadventure.engine.core.platform.EAdCanvas;
 import es.eucm.eadventure.engine.core.platform.GUI;
 import es.eucm.eadventure.engine.core.platform.SpecialAssetRenderer;
 import es.eucm.eadventure.engine.core.util.EAdTransformation;
 
-public class VideoSceneGO extends DrawableGameObject<EAdVideoScene> implements
+public class VideoSceneGO extends SceneElementGOImpl<EAdVideoScene> implements
 		SceneGO<EAdVideoScene> {
 
 	private static final Logger logger = Logger.getLogger("VideoScreenGOImpl");
@@ -65,14 +68,17 @@ public class VideoSceneGO extends DrawableGameObject<EAdVideoScene> implements
 
 	@Inject
 	public VideoSceneGO(AssetHandler assetHandler, StringHandler stringsReader,
-			GameObjectFactory gameObjectFactory, GUI gui, GameState gameState,
-			SpecialAssetRenderer<Video, ?> specialAssetRenderer) {
-		super(assetHandler, stringsReader, gameObjectFactory, gui, gameState);
+			SceneElementGOFactory gameObjectFactory, GUI gui,
+			GameState gameState,
+			SpecialAssetRenderer<Video, ?> specialAssetRenderer,
+			EventGOFactory eventFactory) {
+		super(assetHandler, stringsReader, gameObjectFactory, gui, gameState,
+				eventFactory);
 		logger.info("New instance");
 		this.specialAssetRenderer = specialAssetRenderer;
 		this.component = null;
 	}
-	
+
 	public void doLayout(EAdTransformation transformation) {
 		if (component == null)
 			component = specialAssetRenderer.getComponent((Video) element
@@ -109,7 +115,13 @@ public class VideoSceneGO extends DrawableGameObject<EAdVideoScene> implements
 
 	@Override
 	public void render(EAdCanvas<?> c) {
-		
+
+	}
+
+	@Override
+	public boolean processAction(GUIAction action) {
+		// TODO Auto-generated method stub
+		return false;
 	}
 
 }

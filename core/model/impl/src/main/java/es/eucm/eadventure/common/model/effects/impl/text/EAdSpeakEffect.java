@@ -6,7 +6,9 @@ import es.eucm.eadventure.common.model.effects.impl.AbstractEAdEffect;
 import es.eucm.eadventure.common.model.variables.EAdOperation;
 import es.eucm.eadventure.common.params.EAdFontImpl;
 import es.eucm.eadventure.common.params.EAdString;
+import es.eucm.eadventure.common.params.fills.impl.EAdColor;
 import es.eucm.eadventure.common.params.fills.impl.EAdPaintImpl;
+import es.eucm.eadventure.common.params.paint.EAdPaint;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.shapes.BallonShape.BalloonType;
 
 /**
@@ -28,10 +30,10 @@ public class EAdSpeakEffect extends AbstractEAdEffect {
 	private final EAdString string;
 
 	@Param("textColor")
-	private EAdPaintImpl textColor;
+	private EAdPaint textColor;
 
 	@Param("bubbleColor")
-	private EAdPaintImpl bubbleColor;
+	private EAdPaint bubbleColor;
 
 	@Param("font")
 	private EAdFontImpl font;
@@ -48,12 +50,13 @@ public class EAdSpeakEffect extends AbstractEAdEffect {
 	 */
 	public EAdSpeakEffect(String id) {
 		super(id);
-		textColor = EAdPaintImpl.WHITE_ON_BLACK;
+		textColor = EAdColor.BLACK;
 		bubbleColor = EAdPaintImpl.BLACK_ON_WHITE;
 		font = EAdFontImpl.REGULAR;
 		ballonType = BalloonType.ROUNDED_RECTANGLE;
 		string = EAdString.newEAdString("string");
 		setQueueable(true);
+		setOpaque(true);
 	}
 
 	/**
@@ -99,11 +102,11 @@ public class EAdSpeakEffect extends AbstractEAdEffect {
 		return string;
 	}
 
-	public EAdPaintImpl getTextColor() {
+	public EAdPaint getTextColor() {
 		return textColor;
 	}
 
-	public EAdPaintImpl getBubbleColor() {
+	public EAdPaint getBubbleColor() {
 		return bubbleColor;
 	}
 

@@ -4,7 +4,6 @@ import es.eucm.eadventure.common.elementfactories.EAdElementsFactory;
 import es.eucm.eadventure.common.elementfactories.StringFactory;
 import es.eucm.eadventure.common.elementfactories.scenedemos.EmptyScene;
 import es.eucm.eadventure.common.model.conditions.impl.ANDCondition;
-import es.eucm.eadventure.common.model.conditions.impl.FlagCondition;
 import es.eucm.eadventure.common.model.conditions.impl.NOTCondition;
 import es.eucm.eadventure.common.model.conditions.impl.OperationCondition;
 import es.eucm.eadventure.common.model.conditions.impl.OperationCondition.Comparator;
@@ -34,7 +33,7 @@ public class NgRoom1 extends EmptyScene {
 
 	private EAdBasicSceneElement ng;
 	private EAdBasicSceneElement darkness;
-	private FlagCondition isDark;
+	private OperationCondition isDark;
 	private NOTCondition isNotDark;
 	private EAdFieldImpl<Boolean> darknessVisible;
 	private EAdBasicSceneElement table;
@@ -81,7 +80,7 @@ public class NgRoom1 extends EmptyScene {
 		darknessVisible = new EAdFieldImpl<Boolean>(darkness,
 				EAdBasicSceneElement.VAR_VISIBLE);
 
-		isDark = new FlagCondition(darknessVisible);
+		isDark = new OperationCondition(darknessVisible);
 		isNotDark = new NOTCondition(isDark);
 	}
 
@@ -183,7 +182,7 @@ public class NgRoom1 extends EmptyScene {
 
 	}
 	
-	private EAdCondition getTextCondition( EAdField<Integer> timesField, int value ){
+	protected EAdCondition getTextCondition( EAdField<Integer> timesField, int value ){
 		OperationCondition op = new OperationCondition(timesField,
 				new ValueOperation(value), Comparator.EQUAL);
 		return op;

@@ -72,15 +72,11 @@ public class ElementReferenceImporter implements
 
 	private EAdElementImporter<Conditions, EAdCondition> conditionsImporter;
 
-	private EAdElementFactory elementFactory;
-
 	@Inject
 	public ElementReferenceImporter(EAdElementFactory factory,
-			EAdElementImporter<Conditions, EAdCondition> conditionsImporter,
-			EAdElementFactory elementFactory) {
+			EAdElementImporter<Conditions, EAdCondition> conditionsImporter) {
 		this.factory = factory;
 		this.conditionsImporter = conditionsImporter;
-		this.elementFactory = elementFactory;
 	}
 
 	/**
@@ -141,8 +137,8 @@ public class ElementReferenceImporter implements
 		startVisibilityEvent.addEffect(EAdSystemEvent.Event.GAME_LOADED,
 				visibilityEffect);
 		// TODO what is this for?
-//		elementFactory.getCurrentChapterModel().getEvents()
-//				.add(startVisibilityEvent);
+		// elementFactory.getCurrentChapterModel().getEvents()
+		// .add(startVisibilityEvent);
 
 		EAdActorActionsEffect showActions = new EAdActorActionsEffect(
 				actor.getId() + "_showActions", newRef);

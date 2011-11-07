@@ -60,6 +60,7 @@ import es.eucm.eadventure.common.data.animation.ImageLoaderFactory;
 import es.eucm.eadventure.common.data.chapter.conditions.Conditions;
 import es.eucm.eadventure.common.data.chapter.resources.Resources;
 import es.eucm.eadventure.common.impl.importer.interfaces.ResourceImporter;
+import es.eucm.eadventure.common.interfaces.features.Evented;
 import es.eucm.eadventure.common.loader.InputStreamCreator;
 import es.eucm.eadventure.common.loader.Loader;
 import es.eucm.eadventure.common.model.conditions.impl.ANDCondition;
@@ -67,7 +68,7 @@ import es.eucm.eadventure.common.model.conditions.impl.NOTCondition;
 import es.eucm.eadventure.common.model.elements.EAdCondition;
 import es.eucm.eadventure.common.model.events.EAdConditionEvent;
 import es.eucm.eadventure.common.model.events.impl.EAdConditionEventImpl;
-import es.eucm.eadventure.common.model.impl.EAdGeneralElementImpl;
+import es.eucm.eadventure.common.model.impl.ResourcedElementImpl;
 import es.eucm.eadventure.common.predef.model.effects.EAdChangeAppearance;
 import es.eucm.eadventure.common.resources.EAdBundleId;
 import es.eucm.eadventure.common.resources.assets.AssetDescriptor;
@@ -201,7 +202,7 @@ public class ResourceImporterImpl implements ResourceImporter {
 
 	}
 
-	public void importResources(EAdGeneralElementImpl element,
+	public void importResources(ResourcedElementImpl element,
 			List<Resources> resources, Map<String, String> resourcesStrings,
 			Map<String, Object> resourcesObjectClasses) {
 		int i = 0;
@@ -239,31 +240,35 @@ public class ResourceImporterImpl implements ResourceImporter {
 
 			}
 
-			EAdConditionEvent conditionEvent = new EAdConditionEventImpl(
-					bundleId.getBundleId() + "_condition_" + i);
+			if (element instanceof Evented) {
 
-			EAdCondition condition = conditionsImporter.init(r.getConditions());
-			condition = conditionsImporter
-					.convert(r.getConditions(), condition);
+				EAdConditionEvent conditionEvent = new EAdConditionEventImpl(
+						bundleId.getBundleId() + "_condition_" + i);
 
-			if (previousCondition == null) {
-				previousCondition = new NOTCondition(condition);
-			} else {
-				EAdCondition temp = condition;
-				condition = new ANDCondition(condition, previousCondition);
-				previousCondition = new ANDCondition(previousCondition,
-						new NOTCondition(temp));
+				EAdCondition condition = conditionsImporter.init(r
+						.getConditions());
+				condition = conditionsImporter.convert(r.getConditions(),
+						condition);
+
+				if (previousCondition == null) {
+					previousCondition = new NOTCondition(condition);
+				} else {
+					EAdCondition temp = condition;
+					condition = new ANDCondition(condition, previousCondition);
+					previousCondition = new ANDCondition(previousCondition,
+							new NOTCondition(temp));
+				}
+				conditionEvent.setCondition(condition);
+
+				EAdChangeAppearance changeAppereance = new EAdChangeAppearance(
+						conditionEvent.getId() + "change_appearence", null,
+						bundleId);
+				conditionEvent.addEffect(
+						EAdConditionEvent.ConditionedEvent.CONDITIONS_MET,
+						changeAppereance);
+
+				((Evented) element).getEvents().add(conditionEvent);
 			}
-			conditionEvent.setCondition(condition);
-
-			EAdChangeAppearance changeAppereance = new EAdChangeAppearance(
-					conditionEvent.getId() + "change_appearence", null,
-					bundleId);
-			conditionEvent.addEffect(
-					EAdConditionEvent.ConditionedEvent.CONDITIONS_MET,
-					changeAppereance);
-
-			element.getEvents().add(conditionEvent);
 
 			i++;
 		}

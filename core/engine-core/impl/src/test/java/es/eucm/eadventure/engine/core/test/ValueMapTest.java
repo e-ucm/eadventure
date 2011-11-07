@@ -47,7 +47,7 @@ import es.eucm.eadventure.engine.core.ValueMap;
 public class ValueMapTest {
 
 	@Inject
-	private ValueMap v;
+	protected ValueMap v;
 
 	@Before
 	public void setUp() throws Exception {
@@ -85,18 +85,18 @@ public class ValueMapTest {
 				"(#zero? wrong choice:right choice) OK.",
 				"(#height? good :bad)" };
 
-		String[] resultStrings = new String[] {
-				"A var at the end " + "John",
-				"This text has some vars to be replace. First, the name, wich is: "
-						+ "John" + ", and second,",
-				"What was the surname? (Sometimes I have bad memory!) Was it "
-						+ "Doe" + "?",
-				"Some age too, like " + "35"
-						+ " (or something? I don't know well: too bad)",
-				"In twitter, sometimes they used hashtags like #hashtag? "
-						+ "John" + " loves twitter",
-				"Some condition too, like  that was true  and  that was false ",
-				"right choice OK.", " good " };
+//		String[] resultStrings = new String[] {
+//				"A var at the end " + "John",
+//				"This text has some vars to be replace. First, the name, wich is: "
+//						+ "John" + ", and second,",
+//				"What was the surname? (Sometimes I have bad memory!) Was it "
+//						+ "Doe" + "?",
+//				"Some age too, like " + "35"
+//						+ " (or something? I don't know well: too bad)",
+//				"In twitter, sometimes they used hashtags like #hashtag? "
+//						+ "John" + " loves twitter",
+//				"Some condition too, like  that was true  and  that was false ",
+//				"right choice OK.", " good " };
 
 		for (int i = 0; i < textsToProcess.length; i++) {
 //			String textToProcess = textsToProcess[i];

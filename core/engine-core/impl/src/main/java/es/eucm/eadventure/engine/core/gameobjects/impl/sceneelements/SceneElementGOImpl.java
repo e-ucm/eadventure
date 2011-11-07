@@ -47,7 +47,9 @@ import com.google.inject.Inject;
 import es.eucm.eadventure.common.model.actions.EAdAction;
 import es.eucm.eadventure.common.model.elements.EAdSceneElement;
 import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
+import es.eucm.eadventure.common.model.events.EAdEvent;
 import es.eucm.eadventure.common.model.extra.EAdList;
+import es.eucm.eadventure.common.model.impl.ResourcedElementImpl;
 import es.eucm.eadventure.common.model.variables.EAdVarDef;
 import es.eucm.eadventure.common.params.geom.EAdPosition;
 import es.eucm.eadventure.common.params.geom.impl.EAdPositionImpl;
@@ -61,21 +63,26 @@ import es.eucm.eadventure.engine.core.GameLoop;
 import es.eucm.eadventure.engine.core.GameState;
 import es.eucm.eadventure.engine.core.MouseState;
 import es.eucm.eadventure.engine.core.ValueMap;
-import es.eucm.eadventure.engine.core.gameobjects.GameObject;
-import es.eucm.eadventure.engine.core.gameobjects.GameObjectFactory;
+import es.eucm.eadventure.engine.core.gameobjects.DrawableGO;
+import es.eucm.eadventure.engine.core.gameobjects.EventGO;
 import es.eucm.eadventure.engine.core.gameobjects.SceneElementGO;
-import es.eucm.eadventure.engine.core.gameobjects.impl.DrawableGameObject;
+import es.eucm.eadventure.engine.core.gameobjects.factories.EventGOFactory;
+import es.eucm.eadventure.engine.core.gameobjects.factories.SceneElementGOFactory;
+import es.eucm.eadventure.engine.core.gameobjects.impl.DrawableGameObjectImpl;
 import es.eucm.eadventure.engine.core.guiactions.GUIAction;
 import es.eucm.eadventure.engine.core.platform.AssetHandler;
 import es.eucm.eadventure.engine.core.platform.DrawableAsset;
 import es.eucm.eadventure.engine.core.platform.EAdCanvas;
 import es.eucm.eadventure.engine.core.platform.GUI;
 import es.eucm.eadventure.engine.core.platform.RuntimeAsset;
+import es.eucm.eadventure.engine.core.util.EAdTransformation;
 
 public abstract class SceneElementGOImpl<T extends EAdSceneElement> extends
-		DrawableGameObject<T> implements SceneElementGO<T> {
+		DrawableGameObjectImpl<T> implements SceneElementGO<T> {
 
 	private static final Logger logger = Logger.getLogger("SceneElementGOImpl");
+
+	private EventGOFactory eventFactory;
 
 	protected EAdPositionImpl position;
 
@@ -99,12 +106,17 @@ public abstract class SceneElementGOImpl<T extends EAdSceneElement> extends
 
 	protected boolean enable;
 
+	private ArrayList<EventGO<?>> eventGOList;
+
 	@Inject
 	public SceneElementGOImpl(AssetHandler assetHandler,
-			StringHandler stringHandler, GameObjectFactory gameObjectFactory,
-			GUI gui, GameState gameState) {
+			StringHandler stringHandler,
+			SceneElementGOFactory gameObjectFactory, GUI gui,
+			GameState gameState, EventGOFactory eventFactory) {
 		super(assetHandler, stringHandler, gameObjectFactory, gui, gameState);
 		logger.info("New instance");
+		eventGOList = new ArrayList<EventGO<?>>();
+		this.eventFactory = eventFactory;
 	}
 
 	@Override
@@ -123,13 +135,25 @@ public abstract class SceneElementGOImpl<T extends EAdSceneElement> extends
 	@Override
 	public void setElement(T element) {
 		super.setElement(element);
+		gameState.getValueMap().setValue(element,
+				ResourcedElementImpl.VAR_BUNDLE_ID, element.getInitialBundle());
 
 		if (element.isClone()) {
 			gameState.getValueMap().remove(element);
 		}
 
 		for (Entry<EAdVarDef<?>, Object> entry : element.getVars().entrySet()) {
-			gameState.getValueMap().setValue(element, entry.getKey(), entry.getValue());
+			gameState.getValueMap().setValue(element, entry.getKey(),
+					entry.getValue());
+		}
+
+		if (element.getEvents() != null) {
+			for (EAdEvent event : element.getEvents()) {
+				EventGO<?> eventGO = eventFactory.get(event);
+				eventGO.setParent(element);
+				eventGO.initialize();
+				eventGOList.add(eventGO);
+			}
 		}
 
 		position = new EAdPositionImpl(0, 0);
@@ -173,12 +197,18 @@ public abstract class SceneElementGOImpl<T extends EAdSceneElement> extends
 		int scaleH = (int) (height * scale);
 		int x = position.getJavaX(scaleW);
 		int y = position.getJavaY(scaleH);
-		gameState.getValueMap().setValue(element, EAdBasicSceneElement.VAR_LEFT, x);
-		gameState.getValueMap().setValue(element, EAdBasicSceneElement.VAR_RIGHT, x + scaleW);
-		gameState.getValueMap().setValue(element, EAdBasicSceneElement.VAR_TOP, y);
-		gameState.getValueMap().setValue(element, EAdBasicSceneElement.VAR_BOTTOM, y + scaleH);
-		gameState.getValueMap().setValue(element, EAdBasicSceneElement.VAR_CENTER_X, x + scaleW / 2);
-		gameState.getValueMap().setValue(element, EAdBasicSceneElement.VAR_CENTER_Y, y + scaleH / 2);
+		gameState.getValueMap().setValue(element,
+				EAdBasicSceneElement.VAR_LEFT, x);
+		gameState.getValueMap().setValue(element,
+				EAdBasicSceneElement.VAR_RIGHT, x + scaleW);
+		gameState.getValueMap().setValue(element, EAdBasicSceneElement.VAR_TOP,
+				y);
+		gameState.getValueMap().setValue(element,
+				EAdBasicSceneElement.VAR_BOTTOM, y + scaleH);
+		gameState.getValueMap().setValue(element,
+				EAdBasicSceneElement.VAR_CENTER_X, x + scaleW / 2);
+		gameState.getValueMap().setValue(element,
+				EAdBasicSceneElement.VAR_CENTER_Y, y + scaleH / 2);
 
 	}
 
@@ -200,7 +230,7 @@ public abstract class SceneElementGOImpl<T extends EAdSceneElement> extends
 	}
 
 	@Override
-	public GameObject<?> getDraggableElement(MouseState mouseState) {
+	public DrawableGO<?> getDraggableElement(MouseState mouseState) {
 		return null;
 	}
 
@@ -215,9 +245,12 @@ public abstract class SceneElementGOImpl<T extends EAdSceneElement> extends
 	 */
 	@Override
 	public void update() {
-		super.update();
+		if (eventGOList != null)
+			for (EventGO<?> eventGO : eventGOList)
+				eventGO.update();
 
-		gameState.getValueMap().setValue(element, EAdBasicSceneElement.VAR_TIME_DISPLAYED,
+		gameState.getValueMap().setValue(element,
+				EAdBasicSceneElement.VAR_TIME_DISPLAYED,
 				timeDisplayed + GameLoop.SKIP_MILLIS_TICK);
 		if (getAsset() != null)
 			getAsset().update();
@@ -243,8 +276,8 @@ public abstract class SceneElementGOImpl<T extends EAdSceneElement> extends
 
 	@Override
 	public void setOrientation(Orientation orientation) {
-		gameState.getValueMap().setValue(element, EAdBasicSceneElement.VAR_ORIENTATION,
-				orientation);
+		gameState.getValueMap().setValue(element,
+				EAdBasicSceneElement.VAR_ORIENTATION, orientation);
 	}
 
 	@Override
@@ -381,17 +414,20 @@ public abstract class SceneElementGOImpl<T extends EAdSceneElement> extends
 
 	@Override
 	public void setScale(float scale) {
-		gameState.getValueMap().setValue(element, EAdBasicSceneElement.VAR_SCALE, scale);
+		gameState.getValueMap().setValue(element,
+				EAdBasicSceneElement.VAR_SCALE, scale);
 	}
 
 	public void setWidth(int width) {
 		this.width = width;
-		gameState.getValueMap().setValue(element, EAdBasicSceneElement.VAR_WIDTH, width);
+		gameState.getValueMap().setValue(element,
+				EAdBasicSceneElement.VAR_WIDTH, width);
 	}
 
 	public void setHeight(int height) {
 		this.height = height;
-		gameState.getValueMap().setValue(element, EAdBasicSceneElement.VAR_HEIGHT, height);
+		gameState.getValueMap().setValue(element,
+				EAdBasicSceneElement.VAR_HEIGHT, height);
 	}
 
 	@Override
@@ -414,7 +450,7 @@ public abstract class SceneElementGOImpl<T extends EAdSceneElement> extends
 
 	@Override
 	public EAdList<EAdAction> getValidActions() {
-		return element.getValidActions();
+		return element.getDefinition().getValidActions();
 	}
 
 	public float getScale() {
@@ -436,6 +472,27 @@ public abstract class SceneElementGOImpl<T extends EAdSceneElement> extends
 	public void render(EAdCanvas<?> c) {
 		if (this.getRenderAsset() != null)
 			getRenderAsset().render(c);
+	}
+
+	@Override
+	public void doLayout(EAdTransformation transformation) {
+
+	}
+
+	public EAdBundleId getCurrentBundle() {
+		EAdBundleId current = gameState.getValueMap().getValue(element,
+				ResourcedElementImpl.VAR_BUNDLE_ID);
+		if (current == null) {
+			current = element.getInitialBundle();
+			gameState.getValueMap().setValue(element,
+					ResourcedElementImpl.VAR_BUNDLE_ID, current);
+		}
+		return current;
+	}
+
+	public void setCurrentBundle(EAdBundleId bundle) {
+		gameState.getValueMap().setValue(element,
+				ResourcedElementImpl.VAR_BUNDLE_ID, bundle);
 	}
 
 }

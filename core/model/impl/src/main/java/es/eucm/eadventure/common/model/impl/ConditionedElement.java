@@ -45,13 +45,13 @@ import es.eucm.eadventure.common.model.elements.EAdCondition;
  * Abstract implementation of the EAdConditionElement based on the abstract
  * implementation of the EAdElement
  */
-public abstract class AbstractEAdConditionedElement extends EAdElementImpl implements
+public abstract class ConditionedElement extends EAdElementImpl implements
 		Conditioned {
 
 	@Param("condition")
 	private EAdCondition condition;
 	
-	public AbstractEAdConditionedElement(String id) {
+	public ConditionedElement(String id) {
 		super(id);
 	}
 	

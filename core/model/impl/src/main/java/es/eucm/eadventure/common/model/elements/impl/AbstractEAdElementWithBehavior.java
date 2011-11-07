@@ -43,14 +43,14 @@ import es.eucm.eadventure.common.model.behaviors.impl.EAdBehaviorImpl;
 import es.eucm.eadventure.common.model.effects.EAdEffect;
 import es.eucm.eadventure.common.model.extra.EAdList;
 import es.eucm.eadventure.common.model.guievents.EAdGUIEvent;
-import es.eucm.eadventure.common.model.impl.EAdGeneralElementImpl;
+import es.eucm.eadventure.common.model.impl.ResourcedElementImpl;
 
 /**
  * An abstract element with behavior, resources and events
  * 
  */
 public abstract class AbstractEAdElementWithBehavior extends
-		EAdGeneralElementImpl {
+		ResourcedElementImpl {
 
 	@Param("behavior")
 	protected EAdBehavior behavior;

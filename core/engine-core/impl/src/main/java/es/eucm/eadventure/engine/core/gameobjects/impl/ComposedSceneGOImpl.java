@@ -46,15 +46,17 @@ import es.eucm.eadventure.common.model.elements.EAdScene;
 import es.eucm.eadventure.common.model.elements.impl.EAdComposedScene;
 import es.eucm.eadventure.common.resources.StringHandler;
 import es.eucm.eadventure.engine.core.GameState;
-import es.eucm.eadventure.engine.core.gameobjects.GameObjectFactory;
 import es.eucm.eadventure.engine.core.gameobjects.SceneGO;
+import es.eucm.eadventure.engine.core.gameobjects.factories.EventGOFactory;
+import es.eucm.eadventure.engine.core.gameobjects.factories.SceneElementGOFactory;
+import es.eucm.eadventure.engine.core.gameobjects.impl.sceneelements.SceneElementGOImpl;
+import es.eucm.eadventure.engine.core.guiactions.GUIAction;
 import es.eucm.eadventure.engine.core.platform.AssetHandler;
-import es.eucm.eadventure.engine.core.platform.EAdCanvas;
 import es.eucm.eadventure.engine.core.platform.GUI;
 import es.eucm.eadventure.engine.core.platform.RuntimeAsset;
 import es.eucm.eadventure.engine.core.util.EAdTransformation;
 
-public class ComposedSceneGOImpl extends DrawableGameObject<EAdComposedScene>
+public class ComposedSceneGOImpl extends SceneElementGOImpl<EAdComposedScene>
 		implements SceneGO<EAdComposedScene> {
 
 	private static final Logger logger = Logger.getLogger("ScreenGOImpl");
@@ -63,30 +65,31 @@ public class ComposedSceneGOImpl extends DrawableGameObject<EAdComposedScene>
 
 	@Inject
 	public ComposedSceneGOImpl(AssetHandler assetHandler,
-			StringHandler stringsReader, GameObjectFactory gameObjectFactory,
-			GUI gui, GameState gameState) {
-		super(assetHandler, stringsReader, gameObjectFactory, gui, gameState);
+			StringHandler stringsReader,
+			SceneElementGOFactory gameObjectFactory, GUI gui,
+			GameState gameState, EventGOFactory eventFactory) {
+		super(assetHandler, stringsReader, gameObjectFactory, gui, gameState,
+				eventFactory);
 		logger.info("New instance");
 	}
 
 	public void doLayout(EAdTransformation transformation) {
 		if (currentScene == null)
 			updateScene();
-		gameObjectFactory.get(currentScene).doLayout(transformation);
+		sceneElementFactory.get(currentScene).doLayout(transformation);
 	}
 
 	@Override
 	public void update() {
-		super.update();
 		updateScene();
-		gameObjectFactory.get(currentScene).update();
+		sceneElementFactory.get(currentScene).update();
 	}
 
 	@Override
 	public boolean acceptsVisualEffects() {
 		if (currentScene == null)
 			updateScene();
-		return ((SceneGO<?>) gameObjectFactory.get(currentScene))
+		return ((SceneGO<?>) sceneElementFactory.get(currentScene))
 				.acceptsVisualEffects();
 	}
 
@@ -96,11 +99,11 @@ public class ComposedSceneGOImpl extends DrawableGameObject<EAdComposedScene>
 		if (currentScene == null)
 			updateScene();
 		if (!allAssets) {
-			assetList = gameObjectFactory.get(currentScene).getAssets(
+			assetList = sceneElementFactory.get(currentScene).getAssets(
 					assetList, allAssets);
 		} else {
 			for (EAdScene scene : element.getScenes())
-				assetList = gameObjectFactory.get(scene).getAssets(assetList,
+				assetList = sceneElementFactory.get(scene).getAssets(assetList,
 						allAssets);
 		}
 		return assetList;
@@ -114,13 +117,8 @@ public class ComposedSceneGOImpl extends DrawableGameObject<EAdComposedScene>
 	}
 
 	@Override
-	public boolean contains(int x, int y) {
+	public boolean processAction(GUIAction action) {
 		return false;
-	}
-
-	@Override
-	public void render(EAdCanvas<?> c) {
-
 	}
 
 }

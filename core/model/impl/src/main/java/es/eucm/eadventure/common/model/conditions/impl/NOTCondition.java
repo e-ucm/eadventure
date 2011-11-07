@@ -40,10 +40,10 @@ package es.eucm.eadventure.common.model.conditions.impl;
 import es.eucm.eadventure.common.interfaces.Element;
 import es.eucm.eadventure.common.interfaces.Param;
 import es.eucm.eadventure.common.model.elements.EAdCondition;
-import es.eucm.eadventure.common.model.impl.EAdGeneralElementImpl;
+import es.eucm.eadventure.common.model.impl.ResourcedElementImpl;
 
 @Element(runtime = NOTCondition.class, detailed = NOTCondition.class)
-public class NOTCondition extends EAdGeneralElementImpl implements EAdCondition {
+public class NOTCondition extends ResourcedElementImpl implements EAdCondition {
 
 	@Param("condition")
 	private EAdCondition condition;

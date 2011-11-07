@@ -43,45 +43,39 @@ import java.util.logging.Logger;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
-import es.eucm.eadventure.common.params.geom.EAdPosition;
-import es.eucm.eadventure.common.params.geom.impl.EAdPositionImpl;
-import es.eucm.eadventure.engine.core.MouseState;
 import es.eucm.eadventure.engine.core.gameobjects.EffectGO;
-import es.eucm.eadventure.engine.core.gameobjects.GameObject;
 import es.eucm.eadventure.engine.core.gameobjects.huds.EffectHUD;
 import es.eucm.eadventure.engine.core.guiactions.GUIAction;
-import es.eucm.eadventure.engine.core.platform.EAdCanvas;
 import es.eucm.eadventure.engine.core.platform.GUI;
-import es.eucm.eadventure.engine.core.platform.RuntimeAsset;
 import es.eucm.eadventure.engine.core.util.EAdTransformation;
-import es.eucm.eadventure.engine.core.util.impl.EAdTransformationImpl;
 
 /**
  * <p>
  * Default implementation of {@link EffectHUD}
  * </p>
- *
+ * 
  */
 @Singleton
-public class EffectHUDImpl implements EffectHUD {
+public class EffectHUDImpl extends AbstractHUD implements EffectHUD {
 
 	/**
 	 * The logger
 	 */
-	private static final Logger logger = Logger
-			.getLogger("EffectHUDImpl");
+	private static final Logger logger = Logger.getLogger("EffectHUDImpl");
 
 	/**
 	 * List of current {@link EffectGO}
 	 */
 	private List<EffectGO<?>> effects;
-	
-	private GUI gui;
 
 	@Inject
 	public EffectHUDImpl(GUI gui) {
+		super(gui);
 		logger.info("New instance");
-		this.gui = gui;
+	}
+
+	public void setEffects(List<EffectGO<?>> effects) {
+		this.effects = effects;
 	}
 
 	/*
@@ -103,30 +97,6 @@ public class EffectHUDImpl implements EffectHUD {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * es.eucm.eadventure.engine.core.gameobjects.GameObject#setElement(java
-	 * .lang.Object)
-	 */
-	@Override
-	public void setElement(List<EffectGO<?>> effects) {
-		this.effects = effects;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * es.eucm.eadventure.engine.core.gameobjects.GameObject#getDraggableElement
-	 * (es.eucm.eadventure.engine.core.MouseState)
-	 */
-	@Override
-	public GameObject<?> getDraggableElement(MouseState mouseState) {
-		return null;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
 	 * @see es.eucm.eadventure.engine.core.gameobjects.GameObject#doLayout()
 	 */
 	@Override
@@ -137,77 +107,14 @@ public class EffectHUDImpl implements EffectHUD {
 			EffectGO<?> e = effects.get(i);
 			if (e.isOpaque()) {
 				// Adding this layer, we avoid events going deeper
-				
-				//TODO this creates a problem, should do some other way
-				//gui.addElement(this);
+
+				// TODO this creates a problem, should do some other way
+				// gui.addElement(this);
 			}
 			gui.addElement(e, transformation);
 			block = e.isBlocking();
 			i++;
 		}
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * es.eucm.eadventure.engine.core.gameobjects.GameObject#update(es.eucm.
-	 * eadventure.engine.core.GameState)
-	 */
-	@Override
-	public void update() {
-
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see es.eucm.eadventure.engine.core.gameobjects.GameObject#getPosition()
-	 */
-	@Override
-	public EAdPositionImpl getPosition() {
-		return null;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see es.eucm.eadventure.engine.core.gameobjects.GameObject#getElement()
-	 */
-	@Override
-	public List<EffectGO<?>> getElement() {
-		return effects;
-	}
-	
-	@Override
-	public List<RuntimeAsset<?>> getAssets(List<RuntimeAsset<?>> assetList,
-			boolean allAssets) {
-		return assetList;
-	}
-
-	@Override
-	public void setPosition(EAdPosition p) {
-		
-	}
-	
-	@Override
-	public EAdTransformation getTransformation() {
-		return EAdTransformationImpl.INITIAL_TRANSFORMATION;
-	}
-	
-	@Override
-	public boolean isEnable() {
-		return true;
-	}
-
-	@Override
-	public void render(EAdCanvas<?> c) {
-		
-	}
-
-	@Override
-	public boolean contains(int x, int y) {
-		return false;
 	}
 
 }
