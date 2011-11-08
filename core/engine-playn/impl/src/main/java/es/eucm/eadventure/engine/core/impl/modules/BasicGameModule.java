@@ -60,7 +60,7 @@ public class BasicGameModule extends AbstractGinModule {
 		bind(FontHandler.class).to(FontHandlerImpl.class).in(Singleton.class);
 		bind(EAdDebugger.class).to(EAdMainDebugger.class).in(Singleton.class);
 		bind(PluginHandler.class).to(PlayNPluginHandler.class).in(Singleton.class);
-		bind(EAdInjector.class).to(PlayNInjector.class);
+		bind(EAdInjector.class).to(PlayNInjector.class).in(Singleton.class);
 
 		bind(EAdAdventureModel.class).to(EAdAdventureModelImpl.class);
 		bind(EAdScene.class).annotatedWith(Names.named("LoadingScreen")).to(

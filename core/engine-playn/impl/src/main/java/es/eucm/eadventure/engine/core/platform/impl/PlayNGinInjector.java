@@ -84,7 +84,6 @@ public interface PlayNGinInjector extends Ginjector {
 	public ComplexSceneElementGO getComplexSceneElementGO();
 	
 	public SceneGOImpl getSceneGO();
-	public TimerGO getTimerGO();
 	public VideoSceneGO getVideoSceneGO();
 
 	public GUI getGUI();
@@ -102,5 +101,7 @@ public interface PlayNGinInjector extends Ginjector {
 	public PhApplyForceGO getPhApplyForceGO();
 
 	public PlatformConfiguration getPlatformConfiguration();
+	
+	public PlayNInjector getPlayNInjector();
 	
 }

@@ -23,6 +23,9 @@ public class PlayNReflectionProvider implements ReflectionProvider {
 	
 	@Override
 	public boolean isAssignableFrom(Class<?> class1, Class<?> class2) {
+		if ( class1 == Object.class )
+			return true;
+		
 		Stack<Class<?>> stack = new Stack<Class<?>>();
 		stack.push(class2);
 		while (!stack.isEmpty()) {
@@ -34,7 +37,7 @@ public class PlayNReflectionProvider implements ReflectionProvider {
 				stack.push(temp2);
 			for (Class<?> newClass : ClassHelper.AsClass(temp).getInterfaces())
 				stack.push(newClass);
-			if (stack.peek() == Object.class)
+			if (!stack.isEmpty() && stack.peek() == Object.class)
 				stack.pop();
 			}
 		return false;

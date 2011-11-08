@@ -44,8 +44,9 @@ public class PhysicsEffectGO extends AbstractEffectGO<EAdPhysicsEffect> {
 
 	@Inject
 	public PhysicsEffectGO(AssetHandler assetHandler,
-			StringHandler stringsReader, SceneElementGOFactory gameObjectFactory,
-			GUI gui, GameState gameState) {
+			StringHandler stringsReader,
+			SceneElementGOFactory gameObjectFactory, GUI gui,
+			GameState gameState) {
 		super(assetHandler, stringsReader, gameObjectFactory, gui, gameState);
 	}
 
@@ -93,18 +94,22 @@ public class PhysicsEffectGO extends AbstractEffectGO<EAdPhysicsEffect> {
 
 		EAdScene scene = gameState.getScene().getElement();
 
-		for (EAdSceneElement e : scene.getElements()) {
-			ValueMap valueMap = gameState.getValueMap();
-			Body b = valueMap.getValue(e, VAR_PH_BODY);
-			if (b != null) {
+		if (scene != null) {
+			for (EAdSceneElement e : scene.getElements()) {
+				ValueMap valueMap = gameState.getValueMap();
+				Body b = valueMap.getValue(e, VAR_PH_BODY);
+				if (b != null) {
 
-				valueMap.setValue(e, EAdBasicSceneElement.VAR_X,
-						(int) b.getWorldCenter().x);
-				valueMap.setValue(e, EAdBasicSceneElement.VAR_Y,
-						(int) b.getWorldCenter().y);
-				valueMap.setValue(e, EAdBasicSceneElement.VAR_ROTATION,
-						b.getAngle());
+					valueMap.setValue(e, EAdBasicSceneElement.VAR_X,
+							(int) b.getWorldCenter().x);
+					valueMap.setValue(e, EAdBasicSceneElement.VAR_Y,
+							(int) b.getWorldCenter().y);
+					valueMap.setValue(e, EAdBasicSceneElement.VAR_ROTATION,
+							b.getAngle());
+				}
 			}
+		} else {
+			stop();
 		}
 	}
 

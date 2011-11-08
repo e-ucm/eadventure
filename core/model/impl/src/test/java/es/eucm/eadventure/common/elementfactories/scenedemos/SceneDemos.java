@@ -41,7 +41,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import es.eucm.eadventure.common.elementfactories.scenedemos.normalguy.NgMainScreen;
-import es.eucm.eadventure.common.elementfactories.scenedemos.normalguy.NgRoom1;
 
 /**
  * A class holding all scenes that can be tested
@@ -56,6 +55,7 @@ public class SceneDemos {
 
 	private SceneDemos() {
 		sceneDemos = new ArrayList<SceneDemo>();
+		sceneDemos.add(new InitScene());
 		sceneDemos.add(new EmptyScene());
 		sceneDemos.add(new ShapeScene());
 //		sceneDemos.add(new TextsScene());
@@ -76,6 +76,7 @@ public class SceneDemos {
 //		sceneDemos.add(new VideoScene());
 		sceneDemos.add(new NgMainScreen());
 //		sceneDemos.add(new NgRoom1());
+		
 		
 	}
 

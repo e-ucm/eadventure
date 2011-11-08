@@ -1,8 +1,8 @@
 package es.eucm.eadventure.engine.core.platform.impl;
 
-import es.eucm.eadventure.engine.core.gameobjects.GameObject;
+import com.google.inject.Inject;
+
 import es.eucm.eadventure.engine.core.gameobjects.SceneGO;
-import es.eucm.eadventure.engine.core.gameobjects.TimerGO;
 import es.eucm.eadventure.engine.core.gameobjects.effect.physics.PhApplyForceGO;
 import es.eucm.eadventure.engine.core.gameobjects.effect.physics.PhysicsEffectGO;
 import es.eucm.eadventure.engine.core.gameobjects.impl.SceneGOImpl;
@@ -39,14 +39,19 @@ public class PlayNInjector implements EAdInjector {
 
 	private PlayNGinInjector ginjector;
 
-	public PlayNInjector(PlayNGinInjector ginjector) {
+	@Inject
+	public PlayNInjector(PlayNGinInjector injector) {
+		this.ginjector = injector;
+	}
+
+	public void setInjector(PlayNGinInjector ginjector) {
 		this.ginjector = ginjector;
 	}
 
 	@SuppressWarnings("unchecked")
 	@Override
 	public <T> T getInstance(Class<T> clazz) {
-		GameObject<?> go = null;
+		Object go = null;
 		if (clazz == SimpleTransitionGO.class)
 			go = ginjector.getSimpleTransitionGO();
 		else if (clazz == ActiveElementEffectGO.class)
@@ -105,8 +110,6 @@ public class PlayNInjector implements EAdInjector {
 			go = ginjector.getComplexSceneElementGO();
 		else if (clazz == SceneGO.class || clazz == SceneGOImpl.class)
 			go = ginjector.getSceneGO();
-		else if (clazz == TimerGO.class)
-			go = ginjector.getTimerGO();
 		else if (clazz == VideoSceneGO.class)
 			go = ginjector.getVideoSceneGO();
 		return (T) go;

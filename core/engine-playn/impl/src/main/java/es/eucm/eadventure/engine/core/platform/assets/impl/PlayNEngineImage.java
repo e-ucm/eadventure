@@ -66,7 +66,6 @@ public class PlayNEngineImage extends RuntimeImage {
 	public PlayNEngineImage(AssetHandler assetHandler, EAdEngine eAdEngine) {
 		super(assetHandler);
 		this.eAdEngine = eAdEngine;
-		logger.info("New instance");
 	}
 
 	/**

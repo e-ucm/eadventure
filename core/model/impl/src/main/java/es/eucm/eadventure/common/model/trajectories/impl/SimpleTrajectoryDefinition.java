@@ -37,6 +37,8 @@
 
 package es.eucm.eadventure.common.model.trajectories.impl;
 
+import com.gwtent.reflection.client.Reflectable;
+
 import es.eucm.eadventure.common.interfaces.Element;
 import es.eucm.eadventure.common.interfaces.Param;
 import es.eucm.eadventure.common.model.impl.EAdElementImpl;
@@ -47,6 +49,7 @@ import es.eucm.eadventure.common.model.trajectories.TrajectoryDefinition;
  * straight line.
  * 
  */
+@Reflectable
 @Element(runtime = SimpleTrajectoryDefinition.class, detailed = SimpleTrajectoryDefinition.class)
 public class SimpleTrajectoryDefinition extends EAdElementImpl implements TrajectoryDefinition {
 

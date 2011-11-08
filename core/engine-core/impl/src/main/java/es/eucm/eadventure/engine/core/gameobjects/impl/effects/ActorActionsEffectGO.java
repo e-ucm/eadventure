@@ -37,6 +37,8 @@
 
 package es.eucm.eadventure.engine.core.gameobjects.impl.effects;
 
+import com.google.inject.Inject;
+
 import es.eucm.eadventure.common.model.effects.impl.EAdActorActionsEffect;
 import es.eucm.eadventure.common.model.effects.impl.EAdActorActionsEffect.Change;
 import es.eucm.eadventure.common.resources.StringHandler;
@@ -58,6 +60,7 @@ public class ActorActionsEffectGO extends
 
 	private GameObjectManager gameObjectManager;
 
+	@Inject
 	public ActorActionsEffectGO(AssetHandler assetHandler,
 			StringHandler stringsReader, SceneElementGOFactory gameObjectFactory,
 			GUI gui, GameState gameState, ActionsHUD actionsHUD,

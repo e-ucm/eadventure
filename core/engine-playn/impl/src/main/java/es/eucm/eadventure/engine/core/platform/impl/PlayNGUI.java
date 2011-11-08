@@ -83,7 +83,7 @@ public class PlayNGUI extends AbstractGUI<Canvas> implements GUI {
 	 * The {@code Canvas} object where the actual game is drawn
 	 */
 	private Canvas canvas;
-	
+
 	private CanvasLayer canvasLayer;
 
 	private Object currentComponent;
@@ -91,8 +91,7 @@ public class PlayNGUI extends AbstractGUI<Canvas> implements GUI {
 	@Inject
 	public PlayNGUI(PlatformConfiguration platformConfiguration,
 			GameObjectManager gameObjectManager, MouseState mouseState,
-			KeyboardState keyboardState, BasicHUD basicDesktopHUD,
-			GameState gameState,
+			KeyboardState keyboardState, GameState gameState,
 			SceneElementGOFactory gameObjectFactory, PlayNCanvas canvas) {
 		super(platformConfiguration, gameObjectManager, mouseState,
 				keyboardState, gameState, gameObjectFactory, canvas);
@@ -110,16 +109,16 @@ public class PlayNGUI extends AbstractGUI<Canvas> implements GUI {
 	public void showSpecialResource(final Object resource, int x, int y,
 			boolean fullscreen) {
 		if (resource != null) {
-			if (currentComponent != resource)  {
+			if (currentComponent != resource) {
 				Widget widget = (Widget) resource;
 				RootPanel.get().add(widget, 0, 0);
-				//graphics().rootLayer().remove(canvasLayer);
+				// graphics().rootLayer().remove(canvasLayer);
 				graphics().rootLayer().setVisible(false);
 				currentComponent = resource;
 			}
 		} else {
-			if (currentComponent != null)  {
-				//graphics().rootLayer().add(canvasLayer);
+			if (currentComponent != null) {
+				// graphics().rootLayer().add(canvasLayer);
 				RootPanel.get().remove((Widget) currentComponent);
 				graphics().rootLayer().setVisible(true);
 			}
@@ -149,7 +148,7 @@ public class PlayNGUI extends AbstractGUI<Canvas> implements GUI {
 	 */
 	@Override
 	public RuntimeAsset<Image> commitToImage() {
-		//NOT SUPPORTED
+		// NOT SUPPORTED
 		return null;
 	}
 
@@ -166,7 +165,8 @@ public class PlayNGUI extends AbstractGUI<Canvas> implements GUI {
 
 	/**
 	 * Initialize the {@code Canvas} element where the actual game is drawn
-	 * @param layer 
+	 * 
+	 * @param layer
 	 */
 	public void initializeCanvas(Canvas canvas, CanvasLayer layer) {
 		PlayNInputListener listener = new PlayNInputListener(mouseState,
@@ -181,7 +181,7 @@ public class PlayNGUI extends AbstractGUI<Canvas> implements GUI {
 	}
 
 	public void changeCursor(Image image) {
-		//NOT COMPATIBLE?
+		// NOT COMPATIBLE?
 	}
 
 	@Override

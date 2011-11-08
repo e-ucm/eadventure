@@ -47,7 +47,6 @@ import com.google.inject.Singleton;
 import es.eucm.eadventure.common.interfaces.features.Conditioned;
 import es.eucm.eadventure.common.model.elements.EAdAdventureModel;
 import es.eucm.eadventure.common.model.elements.EAdChapter;
-import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
 import es.eucm.eadventure.common.model.impl.EAdAdventureModelImpl;
 import es.eucm.eadventure.common.model.impl.EAdChapterImpl;
 import es.eucm.eadventure.common.model.variables.impl.SystemFields;
@@ -60,6 +59,7 @@ import es.eucm.eadventure.engine.core.evaluators.EvaluatorFactory;
 import es.eucm.eadventure.engine.core.gameobjects.DrawableGO;
 import es.eucm.eadventure.engine.core.gameobjects.EffectGO;
 import es.eucm.eadventure.engine.core.gameobjects.GameObjectManager;
+import es.eucm.eadventure.engine.core.gameobjects.huds.BasicHUD;
 import es.eucm.eadventure.engine.core.gameobjects.huds.EffectHUD;
 import es.eucm.eadventure.engine.core.platform.AssetHandler;
 import es.eucm.eadventure.engine.core.platform.GUI;
@@ -97,8 +97,6 @@ public class GameImpl implements Game {
 
 	private MouseState mouseState;
 
-	private EAdBasicSceneElement mouse;
-
 	private EAdTransformation initialTransformation = new EAdTransformationImpl();
 
 	@Inject
@@ -107,7 +105,7 @@ public class GameImpl implements Game {
 			AssetHandler assetHandler,
 			GameObjectManager gameObjectManager, EAdDebugger debugger,
 			ValueMap valueMap, MouseState mouseState,
-			PlatformConfiguration platformConfiguration) {
+			PlatformConfiguration platformConfiguration, BasicHUD basicHud) {
 		this.gui = gui;
 		this.evaluatorFactory = evaluatorFactory;
 		this.gameState = gameState;
@@ -123,10 +121,7 @@ public class GameImpl implements Game {
 		initialTransformation.getMatrix().scale(
 				(float) platformConfiguration.getScale(),
 				(float) platformConfiguration.getScale(), true);
-		mouse = new EAdBasicSceneElement("mouse");
-		mouse.getResources().addAsset(mouse.getInitialBundle(),
-				EAdBasicSceneElement.appearance, SystemFields.DEFAULT_MOUSE);
-		mouse.setPosition(200, 200);
+		gameObjectManager.setBasicHUD(basicHud);
 	}
 
 	@Override

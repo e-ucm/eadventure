@@ -246,7 +246,6 @@ public class BasicHUDImpl extends AbstractHUD implements BasicHUD {
 	// Mouse
 	private void initMouse() {
 		mouse = new EAdBasicSceneElement("mouse", cursor);
-		checkMouseImage();
 		addElement(sceneElementFactory.get(mouse));
 	}
 

@@ -191,5 +191,16 @@ public class ComplexSceneElementGO extends
 					assetList, allAssets);
 		return assetList;
 	}
+	
+	@Override
+	public boolean contains(int x, int y) {
+		for (EAdSceneElement sceneElement : element.getElements()) {
+			SceneElementGO<?> go = sceneElementFactory.get(sceneElement);
+			float[] mouse = go.getTransformation().getMatrix().multiplyPointInverse(x, y, true);
+			if ( go.contains((int) mouse[0], (int) mouse[1]))
+				return true;
+		}
+		return super.contains(x, y);
+	}
 
 }

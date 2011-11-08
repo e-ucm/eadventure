@@ -41,7 +41,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
-import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 import es.eucm.eadventure.engine.core.gameobjects.DrawableGO;
@@ -70,8 +69,7 @@ public class GameObjectManagerImpl implements GameObjectManager {
 			.getLogger("GameObjectManagerImpl");
 
 	@SuppressWarnings("unchecked")
-	@Inject
-	public GameObjectManagerImpl(BasicHUD basicHUD) {
+	public GameObjectManagerImpl() {
 		this.gameObjects = new ArrayList[2];
 		this.gameObjects[0] = new ArrayList<DrawableGO<?>>();
 		this.gameObjects[1] = new ArrayList<DrawableGO<?>>();
@@ -82,6 +80,9 @@ public class GameObjectManagerImpl implements GameObjectManager {
 		this.bufferPointer = 1;
 		this.huds = new ArrayList<HudGO>();
 		logger.info("New instance");
+	}
+	
+	public void setBasicHUD( BasicHUD basicHUD ){
 		this.basicHud = basicHUD;
 		basicHUD.setGameObjectManager( this );
 	}

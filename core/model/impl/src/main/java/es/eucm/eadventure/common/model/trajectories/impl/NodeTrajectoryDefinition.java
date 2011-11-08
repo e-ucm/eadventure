@@ -1,5 +1,7 @@
 package es.eucm.eadventure.common.model.trajectories.impl;
 
+import com.gwtent.reflection.client.Reflectable;
+
 import es.eucm.eadventure.common.interfaces.Element;
 import es.eucm.eadventure.common.interfaces.Param;
 import es.eucm.eadventure.common.model.elements.EAdSceneElement;
@@ -16,6 +18,7 @@ import es.eucm.eadventure.common.params.geom.EAdRectangle;
  * Trajectory based on nodes and sides, originally developed in e-Adventure 1.X
  * 
  */
+@Reflectable
 @Element(detailed = NodeTrajectoryDefinition.class, runtime = NodeTrajectoryDefinition.class)
 public class NodeTrajectoryDefinition extends EAdElementImpl implements
 		TrajectoryDefinition {

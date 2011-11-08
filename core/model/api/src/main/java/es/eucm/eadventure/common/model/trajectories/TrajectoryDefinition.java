@@ -37,12 +37,15 @@
 
 package es.eucm.eadventure.common.model.trajectories;
 
+import com.gwtent.reflection.client.Reflectable;
+
 import es.eucm.eadventure.common.model.EAdElement;
 
 /**
  * General interface for trajectory definitions. 
  * 
  */
+@Reflectable
 public interface TrajectoryDefinition extends EAdElement {
 
 
