@@ -27,7 +27,7 @@ public class SystemFields {
 					EAdSceneElement.class, null));
 
 	public static final Image DEFAULT_MOUSE = new ImageImpl(
-			"@drawable/action.png");
+			"@drawable/default_cursor.png");
 
 	public static final EAdField<Image> MOUSE_CURSOR = new EAdFieldImpl<Image>(
 			null, new EAdVarDefImpl<Image>("mouse_cursor", Image.class,

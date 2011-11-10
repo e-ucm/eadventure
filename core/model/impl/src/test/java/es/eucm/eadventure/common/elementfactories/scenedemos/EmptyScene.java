@@ -67,7 +67,7 @@ public class EmptyScene extends EAdSceneImpl implements SceneDemo {
 
 	@Override
 	public String getSceneDescription() {
-		return "An empty scene";
+		return "An empty scene. Not much to do here.";
 	}
 
 	public String getDemoName() {

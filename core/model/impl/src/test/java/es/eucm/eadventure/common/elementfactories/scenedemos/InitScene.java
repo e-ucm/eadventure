@@ -13,7 +13,12 @@ import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
 import es.eucm.eadventure.common.model.elements.impl.EAdSceneElementDefImpl;
 import es.eucm.eadventure.common.model.guievents.impl.EAdMouseEventImpl;
 import es.eucm.eadventure.common.model.transitions.EAdTransition;
+import es.eucm.eadventure.common.params.EAdFont;
+import es.eucm.eadventure.common.params.EAdFontImpl;
+import es.eucm.eadventure.common.params.fills.impl.EAdColor;
+import es.eucm.eadventure.common.params.fills.impl.EAdPaintImpl;
 import es.eucm.eadventure.common.params.geom.impl.EAdPositionImpl.Corner;
+import es.eucm.eadventure.common.params.paint.EAdFill;
 import es.eucm.eadventure.common.predef.model.sceneelements.EAdButton;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.ImageImpl;
 
@@ -24,6 +29,12 @@ public class InitScene extends EmptyScene {
 	private EAdBasicSceneElement goBack;
 
 	private EAdSceneElementDef infoButton;
+	
+	private EAdFill fill = new EAdColor(255, 255, 255, 200);
+	
+	private EAdFont font = new EAdFontImpl( 18 );
+
+	private EAdPaintImpl speakPaint = new EAdPaintImpl(fill, EAdColor.LIGHT_GRAY, 5);
 
 	public InitScene() {
 		this.setBackground(new EAdBasicSceneElement("background",
@@ -31,7 +42,7 @@ public class InitScene extends EmptyScene {
 		initList();
 		initGOBackButton();
 		initInfoButton();
-		int y = 180;
+		int y = 200;
 		int x = 120;
 		StringFactory sf = EAdElementsFactory.getInstance().getStringFactory();
 		for (SceneDemo s : sceneDemos) {
@@ -45,13 +56,15 @@ public class InitScene extends EmptyScene {
 			EAdBasicSceneElement info = new EAdBasicSceneElement(infoButton);
 			info.setPosition(Corner.BOTTOM_LEFT, 80, 590);
 			EAdSpeakEffect effect = new EAdSpeakEffect("infoSpeak");
+			effect.setColor(EAdColor.GRAY, speakPaint);
+			effect.setFont(font);
 			sf.setString(effect.getString(), s.getSceneDescription());
 			info.addBehavior(EAdMouseEventImpl.MOUSE_LEFT_PRESSED, effect);
-//			info.setScale(0.5f);
+			// info.setScale(0.5f);
 			s.getElements().add(info);
-			y += 40;
-			if (y > 550) {
-				y = 180;
+			y += 45;
+			if (y > 520) {
+				y = 200;
 				x += 210;
 			}
 		}

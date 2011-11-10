@@ -128,7 +128,7 @@ public class SpeakEffectGO extends AbstractEffectGO<EAdSpeakEffect> implements
 		rectangle.setPaint(element.getBubbleColor());
 		CaptionImpl text = new CaptionImpl(element.getString());
 		text.setPadding(MARGIN);
-		text.setAlignment(Alignment.CENTER);
+		text.setAlignment(Alignment.LEFT);
 		text.setTextPaint(element.getTextColor());
 		text.setPreferredWidth(right - left);
 		text.setPreferredHeight(bottom - top);

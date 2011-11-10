@@ -132,7 +132,7 @@ public class BasicHUDImpl extends AbstractHUD implements BasicHUD {
 		this.stringHandler = stringHandler;
 		this.assetHandler = assetHandler;
 
-		initContextual();
+//		initContextual();
 		initMouse();
 	}
 
@@ -159,7 +159,6 @@ public class BasicHUDImpl extends AbstractHUD implements BasicHUD {
 
 	@Override
 	public void doLayout(EAdTransformation transformation) {
-		super.doLayout(transformation);
 		if (mouseState.getDraggingGameObject() != null && mouseState.isInside()) {
 			DrawableGO<?> draggedGO = mouseState.getDraggingGameObject();
 			EAdTransformation t = (EAdTransformation) transformation.clone();
@@ -167,11 +166,12 @@ public class BasicHUDImpl extends AbstractHUD implements BasicHUD {
 					mouseState.getDragDifY(), false);
 			gui.addElement(draggedGO, t);
 		}
+		super.doLayout(transformation);
 	}
 
 	@Override
 	public void update() {
-		updateContextual();
+//		updateContextual();
 		updateMouse();
 		super.update();
 	}

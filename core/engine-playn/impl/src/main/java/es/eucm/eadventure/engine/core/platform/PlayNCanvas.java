@@ -149,7 +149,7 @@ public class PlayNCanvas extends AbstractCanvas<Canvas> {
 	}
 
 	private int getColor(EAdFill fill) {
-		EAdColor c = EAdColor.RED;
+		EAdColor c = EAdColor.TRANSPARENT;
 		if (fill instanceof EAdColor) {
 			c = (EAdColor) fill;
 		} else if (fill instanceof EAdLinearGradient) {

@@ -49,6 +49,7 @@ import es.eucm.eadventure.common.model.events.EAdSceneElementEvent.SceneElementE
 import es.eucm.eadventure.common.model.variables.impl.EAdFieldImpl;
 import es.eucm.eadventure.common.params.fills.impl.EAdPaintImpl;
 import es.eucm.eadventure.common.params.fills.impl.EAdColor;
+import es.eucm.eadventure.common.params.geom.impl.EAdPositionImpl.Corner;
 import es.eucm.eadventure.common.resources.assets.AssetDescriptor;
 
 /**
@@ -67,7 +68,7 @@ public class ShapeScene extends EmptyScene {
 		// Rectangle	
 		AssetDescriptor rectangleAsset1 = shapeFactory.getElement(ShapeFactory.ShapeType.RECTANGULAR_SHAPE, size, size, EAdPaintImpl.WHITE_ON_BLACK);
 		AssetDescriptor rectangleAsset2 = shapeFactory.getElement(ShapeFactory.ShapeType.RECTANGULAR_SHAPE, size, size, EAdPaintImpl.BLACK_ON_WHITE);
-		EAdSceneElement e = EAdElementsFactory.getInstance().getSceneElementFactory().createSceneElement(rectangleAsset1, rectangleAsset2, x, margin);
+		EAdSceneElement e = EAdElementsFactory.getInstance().getSceneElementFactory().createSceneElement(rectangleAsset1, rectangleAsset2, x + 20, margin);
 		e.setVarInitialValue(EAdBasicSceneElement.VAR_SCALE, 0.5f);
 		e.setVarInitialValue(EAdBasicSceneElement.VAR_ROTATION, 0.5f);
 		getElements().add(e);
@@ -107,6 +108,7 @@ public class ShapeScene extends EmptyScene {
 		AssetDescriptor asset21 = shapeFactory.getElement(ShapeFactory.ShapeType.RECTANGULAR_SHAPE, size, size * 3, new EAdPaintImpl( EAdColor.RED, EAdColor.BROWN ));
 		AssetDescriptor asset22 = shapeFactory.getElement(ShapeFactory.ShapeType.RECTANGULAR_SHAPE, size, size * 3, new EAdPaintImpl( EAdColor.LIGHT_BROWN, EAdColor.DARK_BROWN));
 		EAdBasicSceneElement rotatingRectangle = EAdElementsFactory.getInstance().getSceneElementFactory().createSceneElement(asset21, asset22, 330, 200);
+		rotatingRectangle.setPosition(Corner.CENTER, 400, 300);
 		getElements().add(rotatingRectangle);
 		EAdInterpolationEffect interpolation = EAdElementsFactory.getInstance().getEffectFactory().getInterpolationEffect(new EAdFieldImpl<Float>(rotatingRectangle, EAdBasicSceneElement.VAR_ROTATION), 0, (float) (Math.PI * 2.0), 2000, LoopType.RESTART, InterpolationType.LINEAR); 
 		EAdSceneElementEvent event = EAdElementsFactory.getInstance().getEventsFactory().getEvent(SceneElementEvent.ADDED_TO_SCENE, interpolation);
@@ -117,7 +119,7 @@ public class ShapeScene extends EmptyScene {
 	
 	@Override
 	public String getSceneDescription() {
-		return "A scene with some shapes";
+		return "A scene with some eAdventure shapes. Move the mouse over the shapes.";
 	}
 	
 	public String getDemoName(){

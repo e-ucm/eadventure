@@ -62,7 +62,7 @@ public class DepthZScene extends EmptyScene {
 	
 	@Override
 	public String getSceneDescription() {
-		return "A scene showkin z depth";
+		return "A scene showing z depth";
 	}
 
 	public String getDemoName() {

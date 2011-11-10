@@ -25,7 +25,8 @@ public class EAdButton extends EAdComplexElementImpl {
 		caption.setTextPaint(EAdColor.BLACK);
 
 		EAdBasicSceneElement text = new EAdBasicSceneElement("text", caption);
-		text.setPosition(Corner.CENTER, 0, 0);
+		text.setPosition(Corner.CENTER, 100, 15);
+		text.setVarInitialValue(EAdBasicSceneElement.VAR_ENABLE, Boolean.FALSE);
 
 		createButton();
 		getElements().add(text);
@@ -44,19 +45,19 @@ public class EAdButton extends EAdComplexElementImpl {
 		buttonBgOver.setPaint(new EAdPaintImpl(new EAdLinearGradient(
 				lightGray, EAdColor.WHITE, 0, 20), EAdColor.BLACK));
 
-		EAdBasicSceneElement button = new EAdBasicSceneElement("button");
-		button.getResources().addAsset(button.getInitialBundle(),
+		getResources().addAsset(getInitialBundle(),
 				EAdBasicSceneElement.appearance, buttonBgNormal);
 		EAdBundleId over = new EAdBundleId("over");
-		button.getResources().addAsset(over, EAdBasicSceneElement.appearance,
+		getResources().addBundle(over);
+		getResources().addAsset(over, EAdBasicSceneElement.appearance,
 				buttonBgOver);
-		button.setPosition(Corner.CENTER, 0, 0);
-		getElements().add(button);
+		setPosition(Corner.CENTER, 0, 0);
 
+		
 		EAdChangeAppearance changeAppearance = new EAdChangeAppearance(
-				"change", button, button.getInitialBundle());
+				"change", this, getInitialBundle());
 		EAdChangeAppearance changeAppearance2 = new EAdChangeAppearance(
-				"change", button, over);
+				"change", this, over);
 		addBehavior(EAdMouseEventImpl.MOUSE_EXITED, changeAppearance);
 		addBehavior(EAdMouseEventImpl.MOUSE_ENTERED, changeAppearance2);
 	}

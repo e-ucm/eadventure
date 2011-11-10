@@ -1,5 +1,6 @@
 package es.eucm.eadventure.common.elementfactories.scenedemos;
 
+import es.eucm.eadventure.common.elementfactories.scenedemos.normalguy.NgCommon;
 import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
 import es.eucm.eadventure.common.params.geom.impl.EAdPositionImpl;
 import es.eucm.eadventure.common.params.geom.impl.EAdPositionImpl.Corner;
@@ -13,8 +14,9 @@ public class PositionScene extends EmptyScene {
 				EAdBasicSceneElement.appearance,
 				new ImageImpl("@drawable/centerbackground.png"));
 		
-		EAdBasicSceneElement e = new EAdBasicSceneElement( "e", CharacterScene.getStateDrawable());
-		e.setVarInitialValue(EAdBasicSceneElement.VAR_SCALE, 3.0f);
+		NgCommon.init();
+		EAdBasicSceneElement e = new EAdBasicSceneElement( NgCommon.getMainCharacter());
+		e.setScale(0.5f);
 		e.setPosition(new EAdPositionImpl(Corner.BOTTOM_CENTER, 400, 300));
 		
 		this.getElements().add(e);

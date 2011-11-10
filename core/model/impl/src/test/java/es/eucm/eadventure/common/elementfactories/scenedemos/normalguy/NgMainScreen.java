@@ -53,7 +53,7 @@ public class NgMainScreen extends EmptyScene {
 
 	@Override
 	public String getSceneDescription() {
-		return "An game showing the eAdventure 2.0 features";
+		return "A game showing the eAdventure 2.0 features";
 	}
 
 	public String getDemoName() {

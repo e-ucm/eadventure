@@ -18,6 +18,8 @@ import es.eucm.eadventure.engine.core.platform.assets.impl.PlayNEngineCaption;
 import es.eucm.eadventure.engine.core.platform.assets.impl.PlayNEngineImage;
 import es.eucm.eadventure.engine.core.platform.assets.impl.PlayNEngineSpriteImage;
 import es.eucm.eadventure.engine.core.platform.assets.impl.PlayNSound;
+import es.eucm.eadventure.engine.core.platform.assets.impl.RuntimeComposedDrawable;
+import es.eucm.eadventure.engine.core.platform.assets.impl.RuntimeDisplacedDrawable;
 
 @Singleton
 public class PlayNAssetHandler extends AbstractAssetHandler {
@@ -81,6 +83,10 @@ public class PlayNAssetHandler extends AbstractAssetHandler {
 			return new PlayNEngineSpriteImage(this);
 		if (clazz == PlayNSound.class)
 			return new PlayNSound(this);
+		if ( clazz == RuntimeComposedDrawable.class )
+			return new RuntimeComposedDrawable( this );
+		if ( clazz == RuntimeDisplacedDrawable.class )
+			return new RuntimeDisplacedDrawable( this );
 
 		logger.log(Level.SEVERE, "No instance for runtime asset: " + clazz);
 		return null;

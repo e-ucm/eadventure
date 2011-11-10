@@ -41,6 +41,7 @@ public class NgCommon {
 		int blink = 200;
 		int notBlink = 2000;
 		int walkTime = 200;
+		int talkTime = 300;
 
 		mainCharacter = new EAdSceneElementDefImpl("mainCharacter");
 
@@ -108,6 +109,34 @@ public class NgCommon {
 		
 		stateDrawables.addDrawable(CommonStates.EAD_STATE_WALKING + "",
 				oriented);
+		
+		// Talk
+		oriented = new OrientedDrawableImpl();
+		// South
+		frames = new FramesAnimation();
+		frames.addFrame(new Frame("@drawable/man_stand_s_1.png", talkTime));
+		frames.addFrame(new Frame("@drawable/man_talk_s.png", talkTime));
+
+		oriented.setDrawable(Orientation.S, frames);
+		// North
+		oriented.setDrawable(Orientation.N, standNorth);
+		// East
+		frames = new FramesAnimation();
+		frames.addFrame(new Frame("@drawable/man_stand_e_1.png", talkTime));
+		frames.addFrame(new Frame("@drawable/man_talk_e.png", talkTime));
+
+		oriented.setDrawable(Orientation.E, frames);
+		// West
+		frames = new FramesAnimation();
+		frames.addFrame(new Frame("@drawable/man_stand_w_1.png", talkTime));
+		frames.addFrame(new Frame("@drawable/man_talk_w.png", talkTime));
+
+		oriented.setDrawable(Orientation.W, frames);
+		
+		stateDrawables.addDrawable(CommonStates.EAD_STATE_TALKING + "",
+				oriented);
+
+		
 	}
 
 	public static EAdSceneElementDef getMainCharacter() {

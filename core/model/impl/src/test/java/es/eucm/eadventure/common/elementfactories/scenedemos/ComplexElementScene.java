@@ -86,7 +86,7 @@ public class ComplexElementScene extends EmptyScene {
 
 	@Override
 	public String getSceneDescription() {
-		return "A scene to show complex elements";
+		return "A scene a show complex elements with some animaitons.";
 	}
 
 	public String getDemoName() {

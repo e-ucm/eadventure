@@ -4,6 +4,7 @@ import es.eucm.eadventure.common.interfaces.Element;
 import es.eucm.eadventure.common.interfaces.Param;
 import es.eucm.eadventure.common.model.effects.impl.AbstractEAdEffect;
 import es.eucm.eadventure.common.model.variables.EAdOperation;
+import es.eucm.eadventure.common.params.EAdFont;
 import es.eucm.eadventure.common.params.EAdFontImpl;
 import es.eucm.eadventure.common.params.EAdString;
 import es.eucm.eadventure.common.params.fills.impl.EAdColor;
@@ -36,7 +37,7 @@ public class EAdSpeakEffect extends AbstractEAdEffect {
 	private EAdPaint bubbleColor;
 
 	@Param("font")
-	private EAdFontImpl font;
+	private EAdFont font;
 
 	@Param("ballonType")
 	private BalloonType ballonType;
@@ -81,7 +82,7 @@ public class EAdSpeakEffect extends AbstractEAdEffect {
 	 * @param bubbleColor
 	 *            bubble color
 	 */
-	public void setColor(EAdPaintImpl textColor, EAdPaintImpl bubbleColor) {
+	public void setColor(EAdPaint textColor, EAdPaint bubbleColor) {
 		this.textColor = textColor;
 		this.bubbleColor = bubbleColor;
 	}
@@ -94,7 +95,7 @@ public class EAdSpeakEffect extends AbstractEAdEffect {
 		return ballonType;
 	}
 
-	public void setFont(EAdFontImpl font) {
+	public void setFont(EAdFont font) {
 		this.font = font;
 	}
 
@@ -110,7 +111,7 @@ public class EAdSpeakEffect extends AbstractEAdEffect {
 		return bubbleColor;
 	}
 
-	public EAdFontImpl getFont() {
+	public EAdFont getFont() {
 		return font;
 	}
 	
