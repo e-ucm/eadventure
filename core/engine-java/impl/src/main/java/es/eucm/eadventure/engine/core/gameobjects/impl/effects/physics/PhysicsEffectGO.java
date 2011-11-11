@@ -32,6 +32,8 @@ import es.eucm.eadventure.engine.core.platform.GUI;
 
 public class PhysicsEffectGO extends AbstractEffectGO<EAdPhysicsEffect> {
 
+	public static float WORLD_SCALE = 15.0f;
+	
 	private World world;
 
 	private float timeStep;
@@ -54,9 +56,11 @@ public class PhysicsEffectGO extends AbstractEffectGO<EAdPhysicsEffect> {
 	public void initilize() {
 		super.initilize();
 
-		world = new World(new Vec2(0.0f, 10.0f), false);
+		//doStep true = not simulate inactive bodies
+		world = new World(new Vec2(0.0f, 10.0f), true);
 		world.setContinuousPhysics(true);
 		world.setWarmStarting(true);
+		world.setAutoClearForces(true);
 		ValueMap valueMap = gameState.getValueMap();
 		valueMap.setValue(null, VAR_PH_WORLD, world);
 
@@ -89,8 +93,8 @@ public class PhysicsEffectGO extends AbstractEffectGO<EAdPhysicsEffect> {
 	public void update() {
 		super.update();
 		// FIXME this must depend on FPS
-		for (int i = 0; i < 6; i++)
-			world.step(timeStep, 8, 3);
+		//for (int i = 0; i < 3; i++)
+			world.step(timeStep, 24, 8);
 
 		EAdScene scene = gameState.getScene().getElement();
 
@@ -101,9 +105,9 @@ public class PhysicsEffectGO extends AbstractEffectGO<EAdPhysicsEffect> {
 				if (b != null) {
 
 					valueMap.setValue(e, EAdBasicSceneElement.VAR_X,
-							(int) b.getWorldCenter().x);
+							(int) (b.getWorldCenter().x * WORLD_SCALE));
 					valueMap.setValue(e, EAdBasicSceneElement.VAR_Y,
-							(int) b.getWorldCenter().y);
+							(int) (b.getWorldCenter().y * WORLD_SCALE));
 					valueMap.setValue(e, EAdBasicSceneElement.VAR_ROTATION,
 							b.getAngle());
 				}
@@ -125,10 +129,10 @@ public class PhysicsEffectGO extends AbstractEffectGO<EAdPhysicsEffect> {
 
 	public static void createBody(World world, EAdSceneElement e,
 			ValueMap valueMap) {
-		int x = valueMap.getValue(e, EAdBasicSceneElement.VAR_X);
-		int y = valueMap.getValue(e, EAdBasicSceneElement.VAR_Y);
-		int width = valueMap.getValue(e, EAdBasicSceneElement.VAR_WIDTH);
-		int height = valueMap.getValue(e, EAdBasicSceneElement.VAR_HEIGHT);
+		float x = valueMap.getValue(e, EAdBasicSceneElement.VAR_X) / WORLD_SCALE;
+		float y = valueMap.getValue(e, EAdBasicSceneElement.VAR_Y) / WORLD_SCALE;
+		float width = valueMap.getValue(e, EAdBasicSceneElement.VAR_WIDTH) / WORLD_SCALE;
+		float height = valueMap.getValue(e, EAdBasicSceneElement.VAR_HEIGHT) / WORLD_SCALE;
 
 		// TODO what if corner is not center?
 		PhType phType = valueMap.getValue(e, EAdPhysicsEffect.VAR_PH_TYPE);

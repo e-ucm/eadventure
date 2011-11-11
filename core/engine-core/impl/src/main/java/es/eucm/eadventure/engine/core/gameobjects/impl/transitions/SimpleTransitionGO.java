@@ -68,9 +68,9 @@ import es.eucm.eadventure.engine.core.util.EAdTransformation;
 
 public class SimpleTransitionGO extends SceneGOImpl implements TransitionGO {
 
-	private SceneGO<?> previousSceneGO;
+	protected SceneGO<?> previousSceneGO;
 
-	private EAdScene nextEAdScene;
+	protected EAdScene nextEAdScene;
 
 	protected SceneGO<?> nextSceneGO;
 

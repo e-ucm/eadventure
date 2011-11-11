@@ -21,7 +21,7 @@ public class JavaReflectionProvider implements ReflectionProvider {
 
 	@Override
 	public boolean isAssignableFrom(Class<?> class1, Class<?> class2) {
-		return class1.isAssignableFrom(class2);
+		return class1 == class2 || class1.isAssignableFrom(class2);
 	}
 
 	@Override

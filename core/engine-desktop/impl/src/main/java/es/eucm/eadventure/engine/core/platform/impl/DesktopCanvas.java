@@ -52,9 +52,11 @@ public class DesktopCanvas extends AbstractCanvas<Graphics2D> {
 	public void setTransformation(EAdTransformation t) {
 		float m[] = t.getMatrix().getFlatMatrix();
 		g.setTransform(new AffineTransform(m[0], m[1], m[3], m[4], m[6], m[7]));
-		alphaComposite = AlphaComposite.getInstance(AlphaComposite.SRC_OVER,
-				t.getAlpha());
-		g.setComposite(alphaComposite);
+		if (alphaComposite != null && alphaComposite.getAlpha() != t.getAlpha()) { 
+			alphaComposite = AlphaComposite.getInstance(AlphaComposite.SRC_OVER,
+					t.getAlpha());
+			g.setComposite(alphaComposite);
+		}		
 	}
 
 	@Override

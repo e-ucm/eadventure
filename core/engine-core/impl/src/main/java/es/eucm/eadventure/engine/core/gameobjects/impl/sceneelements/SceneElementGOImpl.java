@@ -338,11 +338,6 @@ public abstract class SceneElementGOImpl<T extends EAdSceneElement> extends
 	@Override
 	public List<RuntimeAsset<?>> getAssets(List<RuntimeAsset<?>> assetList,
 			boolean allAssets) {
-
-		if (visible && !allAssets) {
-			return assetList;
-		}
-
 		List<EAdBundleId> bundles = new ArrayList<EAdBundleId>();
 		if (allAssets)
 			bundles.addAll(getElement().getResources().getBundles());

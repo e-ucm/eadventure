@@ -71,7 +71,7 @@ public class PlayNAssetHandler extends AbstractAssetHandler {
 	@Override
 	public RuntimeAsset<?> getInstance(Class<? extends RuntimeAsset<?>> clazz) {
 		if (clazz == PlayNEngineImage.class)
-			return new PlayNEngineImage(this, engine);
+			return new PlayNEngineImage(this);
 		if (clazz == PlayNBezierShape.class)
 			return new PlayNBezierShape(engine);
 		if (clazz == PlayNEngineCaption.class)
