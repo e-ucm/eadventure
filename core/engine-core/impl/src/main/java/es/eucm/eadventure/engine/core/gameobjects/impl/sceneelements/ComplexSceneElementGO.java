@@ -184,10 +184,6 @@ public class ComplexSceneElementGO extends
 	@Override
 	public List<RuntimeAsset<?>> getAssets(List<RuntimeAsset<?>> assetList,
 			boolean allAssets) {
-		if (visible && !allAssets) {
-			return assetList;
-		}
-
 		for (EAdSceneElement sceneElement : element.getElements())
 			assetList = sceneElementFactory.get(sceneElement).getAssets(
 					assetList, allAssets);

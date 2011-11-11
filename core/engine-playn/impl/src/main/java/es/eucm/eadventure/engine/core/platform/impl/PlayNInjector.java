@@ -32,6 +32,7 @@ import es.eucm.eadventure.engine.core.gameobjects.impl.events.SystemEventGO;
 import es.eucm.eadventure.engine.core.gameobjects.impl.events.TimerEventGO;
 import es.eucm.eadventure.engine.core.gameobjects.impl.sceneelements.BasicSceneElementGO;
 import es.eucm.eadventure.engine.core.gameobjects.impl.sceneelements.ComplexSceneElementGO;
+import es.eucm.eadventure.engine.core.gameobjects.impl.transitions.PlayNSimpleTransitionGO;
 import es.eucm.eadventure.engine.core.gameobjects.impl.transitions.SimpleTransitionGO;
 import es.eucm.eadventure.engine.core.platform.EAdInjector;
 

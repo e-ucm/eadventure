@@ -37,6 +37,8 @@
 
 package es.eucm.eadventure.engine.core.platform.assets.impl;
 
+import static playn.core.PlayN.assetManager;
+
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -44,7 +46,6 @@ import playn.core.Image;
 
 import com.google.inject.Inject;
 
-import es.eucm.eadventure.engine.core.EAdEngine;
 import es.eucm.eadventure.engine.core.platform.AssetHandler;
 
 public class PlayNEngineImage extends RuntimeImage {
@@ -54,8 +55,6 @@ public class PlayNEngineImage extends RuntimeImage {
 	 */
 	private Image image;
 	
-	private EAdEngine eAdEngine;
-
 	/**
 	 * The logger
 	 */
@@ -63,9 +62,8 @@ public class PlayNEngineImage extends RuntimeImage {
 			.getLogger("DesktopEngineImage");
 
 	@Inject
-	public PlayNEngineImage(AssetHandler assetHandler, EAdEngine eAdEngine) {
+	public PlayNEngineImage(AssetHandler assetHandler) {
 		super(assetHandler);
-		this.eAdEngine = eAdEngine;
 	}
 
 	/**
@@ -101,7 +99,7 @@ public class PlayNEngineImage extends RuntimeImage {
 		// Some DesktopEngineImage can be created without an assetHandler
 		if (image == null && assetHandler != null) {
 			try {
-				image = eAdEngine.getImage(assetHandler.getAbsolutePath(descriptor.getURI().getPath()));
+				image = assetManager().getImage(assetHandler.getAbsolutePath(descriptor.getURI().getPath()));
 				if (image != null) {
 					logger.log(Level.INFO, "Image loaded: " + descriptor.getURI());
 					return true;
@@ -130,7 +128,7 @@ public class PlayNEngineImage extends RuntimeImage {
 
 	@Override
 	public boolean isLoaded() {
-		return image != null;
+		return (image != null && image.isReady());
 	}
 
 }

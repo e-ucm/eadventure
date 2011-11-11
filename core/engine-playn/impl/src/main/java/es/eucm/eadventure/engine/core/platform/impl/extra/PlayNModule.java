@@ -54,6 +54,8 @@ import es.eucm.eadventure.engine.core.gameobjects.huds.MenuHUD;
 import es.eucm.eadventure.engine.core.gameobjects.huds.impl.BasicHUDImpl;
 import es.eucm.eadventure.engine.core.gameobjects.huds.impl.MenuHUDImpl;
 import es.eucm.eadventure.engine.core.gameobjects.impl.GameObjectManagerImpl;
+import es.eucm.eadventure.engine.core.gameobjects.impl.transitions.PlayNSimpleTransitionGO;
+import es.eucm.eadventure.engine.core.gameobjects.impl.transitions.SimpleTransitionGO;
 import es.eucm.eadventure.engine.core.impl.KeyboardStateImpl;
 import es.eucm.eadventure.engine.core.impl.MouseStateImpl;
 import es.eucm.eadventure.engine.core.platform.GUI;
@@ -90,6 +92,7 @@ public class PlayNModule extends AbstractGinModule {
 		bind(MenuHUD.class).to(MenuHUDImpl.class).in(Singleton.class);
 		bind(FontHandlerImpl.class).to(PlayNFontCache.class).in(Singleton.class);
 		bind(TransitionFactory.class).to(PlayNTransitionFactory.class).in(Singleton.class);
+		bind(SimpleTransitionGO.class).to(PlayNSimpleTransitionGO.class);
 	}
 
 	@Provides

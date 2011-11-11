@@ -196,10 +196,6 @@ public class EAdEngine implements playn.core.Game, Keyboard.Listener {
 		return 67;
 	}
 
-	public Image getImage(String absolutePath) {
-		return assetManager().getImage(absolutePath);
-	}
-
 	public Graphics getGraphics() {
 		return graphics();
 	}
