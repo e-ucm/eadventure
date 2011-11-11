@@ -87,9 +87,7 @@ public class AndroidEngineFont implements RuntimeFont {
 
 	@Override
 	public int stringWidth(String string) {
-		Rect bounds = new Rect();
-		textPaint.getTextBounds(string, 0, string.length(), bounds);
-		return (int) ( bounds.width() * 0.4f );
+		return (int) textPaint.measureText(string);
 	}
 
 	@Override
