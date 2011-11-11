@@ -53,8 +53,9 @@ public class ConditionEventGO extends AbstractEventGO<EAdConditionEventImpl> {
 	private boolean firstCheck = true;
 
 	@Inject
-	public ConditionEventGO(GameState gameState) {
+	public ConditionEventGO(GameState gameState, EvaluatorFactory evaluator) {
 		super(gameState);
+		this.evaluator = evaluator;
 	}
 
 	@Override

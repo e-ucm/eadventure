@@ -92,9 +92,9 @@ public class PhysicsScene2 extends PhysicsScene {
 		event.setCondition(condition);
 		event.addEffect(ConditionedEvent.CONDITIONS_MET, effect);
 
-		//getEvents().add(event);
+		getEvents().add(event);
 		
-		getBackground().addBehavior(EAdMouseEventImpl.MOUSE_ENTERED, effect);
+		//getBackground().addBehavior(EAdMouseEventImpl.MOUSE_ENTERED, effect);
 
 		addWalls(effect);
 	}
