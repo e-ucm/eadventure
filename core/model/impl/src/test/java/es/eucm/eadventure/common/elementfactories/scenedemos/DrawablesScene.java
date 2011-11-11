@@ -32,6 +32,7 @@ public class DrawablesScene extends EmptyScene {
 		CaptionImpl caption = EAdElementsFactory.getInstance()
 				.getCaptionFactory().createCaption("Image");
 		caption.setPadding(0);
+		caption.setTextPaint(EAdColor.BLACK);
 		ComposedDrawable composed = new ComposedDrawableImpl();
 		composed.addDrawable(caption);
 		composed.addDrawable(drawable, 0, 40);
@@ -45,6 +46,7 @@ public class DrawablesScene extends EmptyScene {
 		caption = EAdElementsFactory.getInstance().getCaptionFactory()
 				.createCaption("Composed Drawable");
 		caption.setPadding(0);
+		caption.setTextPaint(EAdColor.BLACK);
 
 		int rWidth = 60;
 		int rHeight = 40;
@@ -120,6 +122,7 @@ public class DrawablesScene extends EmptyScene {
 		caption = EAdElementsFactory.getInstance().getCaptionFactory()
 				.createCaption("State Drawable");
 		caption.setPadding(0);
+		caption.setTextPaint(EAdColor.BLACK);
 
 		getElements().add(
 				EAdElementsFactory.getInstance().getSceneElementFactory()
@@ -162,6 +165,7 @@ public class DrawablesScene extends EmptyScene {
 		caption = EAdElementsFactory.getInstance().getCaptionFactory()
 				.createCaption("Frames animation");
 		caption.setPadding(0);
+		caption.setTextPaint(EAdColor.BLACK);
 
 		getElements().add(
 				EAdElementsFactory.getInstance().getSceneElementFactory()

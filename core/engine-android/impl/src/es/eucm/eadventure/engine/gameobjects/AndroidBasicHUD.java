@@ -75,7 +75,8 @@ public class AndroidBasicHUD extends BasicHUDImpl {
 
 	@SuppressWarnings("unchecked")
 	public void render(EAdCanvas<?> canvas) {
-		if (mouseState.isMousePressed()) {
+		// FIXME magnifier working weird
+		if (false && mouseState.isMousePressed()) {
 
 			BitmapCanvas graphicContext = (BitmapCanvas) canvas
 					.getNativeGraphicContext();
@@ -95,8 +96,8 @@ public class AndroidBasicHUD extends BasicHUDImpl {
 				c.drawCircle(100, 100, 3, borderPaint);
 
 				int magX, magY, textX, textY;
-				magX = mouseState.getMouseX() - 100;
-				magY = mouseState.getMouseY() - 150;
+				magX = mouseState.getMouseX();
+				magY = mouseState.getMouseY();
 
 				if (magX + 100 >= this.platformConfiguration.getVirtualWidth()) {
 					magX = this.platformConfiguration.getVirtualWidth() - 100;

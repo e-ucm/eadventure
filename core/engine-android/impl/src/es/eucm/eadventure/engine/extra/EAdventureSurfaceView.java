@@ -39,6 +39,13 @@ package es.eucm.eadventure.engine.extra;
 
 import java.util.logging.Logger;
 
+import android.content.Context;
+import android.util.AttributeSet;
+import android.view.MotionEvent;
+import android.view.SurfaceHolder;
+import android.view.SurfaceView;
+import android.view.View;
+
 import com.google.inject.Singleton;
 
 import es.eucm.eadventure.common.model.guievents.EAdMouseEvent.MouseActionType;
@@ -49,13 +56,6 @@ import es.eucm.eadventure.engine.core.guiactions.MouseAction;
 import es.eucm.eadventure.engine.core.guiactions.impl.MouseActionImpl;
 import es.eucm.eadventure.engine.core.platform.GUI;
 import es.eucm.eadventure.engine.core.platform.PlatformConfiguration;
-
-import android.content.Context;
-import android.util.AttributeSet;
-import android.view.MotionEvent;
-import android.view.SurfaceHolder;
-import android.view.SurfaceView;
-import android.view.View;
 
 @Singleton
 public class EAdventureSurfaceView extends SurfaceView implements SurfaceHolder.Callback {
@@ -70,16 +70,21 @@ public class EAdventureSurfaceView extends SurfaceView implements SurfaceHolder.
 		
     	private MouseState mouseState;
     	
+    	private PlatformConfiguration platformConfiguration;
+    	
     	private long downTime;
     	
-    	public OnTouchListener(MouseState mouseState) {
+    	public OnTouchListener(MouseState mouseState, PlatformConfiguration platformConfiguration ) {
     		this.mouseState = mouseState;
+    		this.platformConfiguration = platformConfiguration;
     	}
     	
   		@Override
 		public boolean onTouch(View v, MotionEvent event) {
-  			
-  			mouseState.setMousePosition((int) event.getRawX(), (int) event.getRawY());
+  			// FIXME no... GUI, no...
+  			int x = (int) ( event.getRawX() * GUI.VIRTUAL_WIDTH ) /platformConfiguration.getWidth();
+  			int y = (int) ( event.getRawY() * GUI.VIRTUAL_HEIGHT ) /platformConfiguration.getHeight();
+  			mouseState.setMousePosition(x, y);
   			if (event.getAction() == MotionEvent.ACTION_DOWN) {
   				downTime = System.currentTimeMillis();
   				mouseState.getMouseEvents().add(new MouseActionImpl(EAdMouseEventImpl.MOUSE_LEFT_PRESSED, mouseState.getMouseX(), mouseState.getMouseY()));
@@ -122,7 +127,7 @@ public class EAdventureSurfaceView extends SurfaceView implements SurfaceHolder.
 	public void start(GUI gui,
 			PlatformConfiguration platformConfiguration,
 			MouseState mouseState) {
-        setOnTouchListener(new OnTouchListener(mouseState));
+        setOnTouchListener(new OnTouchListener(mouseState, platformConfiguration));
 		mThread = new EAdventureRenderingThread(holder, gui, platformConfiguration);
 		logger.info("Thread created");
 		mThread.start();

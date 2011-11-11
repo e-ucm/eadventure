@@ -60,7 +60,7 @@ public class AndroidEngineFont implements RuntimeFont {
 		this.font = Typeface.create(font.getName(), getStyle(font.getStyle()));
 		textPaint = new Paint();
 		textPaint.setTypeface(this.font);
-		size = 30;
+		size = (int) font.getSize();
 		textPaint.setTextSize(size);
 	}
 
