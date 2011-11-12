@@ -332,4 +332,16 @@ public class EAdColor extends EAdParamImpl implements EAdFill {
 		return 0;
 	}
 
+	@Override
+	public boolean equals(Object object) {
+		if (object == null || !(object instanceof EAdColor))
+			return false;
+		EAdColor paint = (EAdColor) object;
+		if (paint.alpha == alpha &&
+				paint.blue == blue &&
+				paint.green == green &&
+				paint.red == red)
+			return true;
+		return false;
+	}
 }

@@ -37,6 +37,8 @@
 
 package es.eucm.eadventure.common.params.fills.impl;
 
+import java.util.logging.Logger;
+
 import es.eucm.eadventure.common.params.EAdParamImpl;
 import es.eucm.eadventure.common.params.paint.EAdFill;
 
@@ -48,6 +50,8 @@ import es.eucm.eadventure.common.params.paint.EAdFill;
 public class EAdPaintImpl extends EAdParamImpl implements EAdFill {
 
 	public static final String SEPARATOR = ":";
+
+	private static final Logger logger = Logger.getLogger("EAdPaintImpl");
 
 	/**
 	 * Basic black border and white center EAdBordered color
@@ -107,7 +111,7 @@ public class EAdPaintImpl extends EAdParamImpl implements EAdFill {
 	 * @param color
 	 *            the color of the border
 	 */
-	public void setBorderColor(EAdColor color) {
+	public void setBorderColor(EAdFill color) {
 		this.border = color;
 	}
 
@@ -127,17 +131,29 @@ public class EAdPaintImpl extends EAdParamImpl implements EAdFill {
 
 	@Override
 	public String toStringData() {
-		return fill.toStringData() + SEPARATOR
-				+ border.toStringData() + SEPARATOR + width;
+		if (fill == null)
+			logger.warning("Null fill");
+		if (border == null)
+			logger.warning("Null border");
+		return (fill != null ? fill : EAdColor.BLACK).toStringData()
+				+ SEPARATOR
+				+ (border != null ? border : EAdColor.BLACK).toStringData()
+				+ SEPARATOR + width;
 	}
 
 	@Override
 	public void parse(String data) {
 		String temp[] = data.split(SEPARATOR);
-		setFill(new EAdColor(temp[0]));
-		setBorderColor(new EAdColor(temp[1]));
+		//FIXME fill or border color can be gradients...
+		if (temp[0].length() == 10)
+			setFill(new EAdColor(temp[0]));
+		else
+			setFill(new EAdLinearGradient(temp[0]));
+		if (temp[1].length() == 10)
+			setBorderColor(new EAdColor(temp[1]));
+		else
+			setBorderColor(new EAdLinearGradient(temp[1]));
 		width = Integer.parseInt(temp[2]);
-
 	}
 
 	@Override
@@ -153,6 +169,17 @@ public class EAdPaintImpl extends EAdParamImpl implements EAdFill {
 	@Override
 	public int getBorderWidth() {
 		return width;
+	}
+
+	@Override
+	public boolean equals(Object object) {
+		if (object == null || !(object instanceof EAdPaintImpl))
+			return false;
+		EAdPaintImpl paint = (EAdPaintImpl) object;
+		if (paint.border.equals(border) && paint.fill.equals(fill)
+				&& paint.width == width)
+			return true;
+		return false;
 	}
 
 }

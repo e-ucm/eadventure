@@ -126,4 +126,19 @@ public class EAdLinearGradient extends EAdParamImpl implements EAdFill {
 	public boolean isVertical() {
 		return false;
 	}
+	
+	@Override
+	public boolean equals(Object object) {
+		if (object == null || !(object instanceof EAdLinearGradient))
+			return false;
+		EAdLinearGradient gradient = (EAdLinearGradient) object;
+		if (gradient.color1.equals(color1) &&
+				gradient.color2.equals(color2) &&
+				gradient.x0 == x0 &&
+				gradient.x1 == x1 &&
+				gradient.y0 == y0 &&
+				gradient.y1 == y1)
+			return true;
+		return false;
+	}
 }
