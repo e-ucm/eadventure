@@ -1,8 +1,12 @@
 package es.eucm.eadventure.editor.view.swing.componentproviders;
 
 import javax.swing.JCheckBox;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
+import es.eucm.eadventure.editor.control.CommandManager;
 import es.eucm.eadventure.editor.control.FieldValueReader;
+import es.eucm.eadventure.editor.control.commands.impl.ChangeFieldValueCommand;
 import es.eucm.eadventure.editor.view.ComponentProvider;
 import es.eucm.eadventure.editor.view.generics.impl.BooleanOption;
 
@@ -30,15 +34,24 @@ public class BooleanComponentProvider implements
 	 * The system dependent {@link FieldValueReader}
 	 */
 	private FieldValueReader fieldValueReader;
+	
+	/**
+	 * The command manager {@link CommandManager}
+	 */
+	private CommandManager commandManager;
 
 	/**
 	 * Constructor.
 	 * 
 	 * @param fieldValueReader
 	 *            the {@link FieldValueReader}
+	 * @param commandManager
+	 * 			  the {@link CommandManager}
 	 */
-	public BooleanComponentProvider(FieldValueReader fieldValueReader) {
+	public BooleanComponentProvider(FieldValueReader fieldValueReader,
+			CommandManager commandManager) {
 		this.fieldValueReader = fieldValueReader;
+		this.commandManager = commandManager;
 	}
 
 	/*
@@ -55,6 +68,17 @@ public class BooleanComponentProvider implements
 		checkBox.setToolTipText(element.getToolTipText());
 		checkBox.setSelected(fieldValueReader.readValue(element
 				.getFieldDescriptor()));
+		checkBox.addChangeListener(new ChangeListener() {
+
+			@Override
+			public void stateChanged(ChangeEvent arg0) {
+				ChangeFieldValueCommand<Boolean> changeFieldValueCommand;
+				changeFieldValueCommand = new ChangeFieldValueCommand<Boolean>(new Boolean(checkBox.isSelected()), element
+						.getFieldDescriptor());
+				commandManager.performCommand(changeFieldValueCommand);
+			}
+			
+		});
 		return checkBox;
 	}
 

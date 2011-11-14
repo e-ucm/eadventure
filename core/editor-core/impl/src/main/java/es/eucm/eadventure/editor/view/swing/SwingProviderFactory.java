@@ -39,13 +39,13 @@ public class SwingProviderFactory extends AbstractProviderFactory<JComponent> {
 		FieldValueReader fieldValueReader = new SwingFieldValueReader();
 
 		this.addToMap(TextOption.class,
-				(ComponentProvider) new TextComponentProvider(fieldValueReader));
+				(ComponentProvider) new TextComponentProvider(fieldValueReader, commandManager));
 		this.addToMap(EAdStringOption.class,
 				(ComponentProvider) new EAdStringComponentProvider(
 						stringHandler, fieldValueReader, commandManager));
 		this.addToMap(BooleanOption.class,
 				(ComponentProvider) new BooleanComponentProvider(
-						fieldValueReader));
+						fieldValueReader, commandManager));
 		this.addToMap(PanelImpl.class,
 				(ComponentProvider) new PanelComponentProvider(this));
 		this.addToMap(ElementOption.class,

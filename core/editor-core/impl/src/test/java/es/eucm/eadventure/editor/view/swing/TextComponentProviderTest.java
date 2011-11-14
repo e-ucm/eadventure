@@ -6,6 +6,7 @@ import javax.swing.WindowConstants;
 
 import static org.mockito.Mockito.*;
 
+import es.eucm.eadventure.editor.control.CommandManager;
 import es.eucm.eadventure.editor.control.FieldValueReader;
 import es.eucm.eadventure.editor.view.generics.FieldDescriptor;
 import es.eucm.eadventure.editor.view.generics.impl.FieldDescriptorImpl;
@@ -28,9 +29,11 @@ public class TextComponentProviderTest extends EAdFrame {
         FieldValueReader fieldValueReader = mock(FieldValueReader.class);
         when(fieldValueReader.readValue(fieldDescriptor)).thenReturn("value");
 
+        CommandManager commandManager = mock(CommandManager.class);
+        
         setLayout(new FlowLayout());
         TextOption option = new TextOption("name", "toolTip", fieldDescriptor);
-        TextComponentProvider textComponentProvider = new TextComponentProvider(fieldValueReader);
+        TextComponentProvider textComponentProvider = new TextComponentProvider(fieldValueReader, commandManager);
         add(textComponentProvider.getComponent(option));
         
         setVisible( true );
