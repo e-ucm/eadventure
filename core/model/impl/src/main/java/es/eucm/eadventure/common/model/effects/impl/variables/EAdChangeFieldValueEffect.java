@@ -59,7 +59,7 @@ public class EAdChangeFieldValueEffect extends AbstractEAdEffect {
 	@Param("fields")
 	private EAdList<EAdField<?>> fields;
 
-	@Param("var")
+	@Param("varDef")
 	private EAdVarDef<?> varDef;
 
 	/**

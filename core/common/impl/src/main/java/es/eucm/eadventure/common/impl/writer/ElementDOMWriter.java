@@ -53,13 +53,14 @@ public class ElementDOMWriter extends FieldParamWriter<EAdElement> {
 		Element node = doc.createElement(TAG);
 		try {
 			// Check if the element is new
-			if (!elementMap.containsKey(element))
-				elementMap.put(element, "" + elementMap.keySet().size());
+			if (!elementMap.containsKey(element)) {
+				elementMap.put(element, "" + mappedElement.size());
+				mappedElement.add(element);
+			}
 			else {
 				node.setTextContent(elementMap.get(element));
 				return node;
 			}
-			mappedElement.add(element);
 
 			// Set id and unique id
 			node.setAttribute(ID_AT, element.getId());

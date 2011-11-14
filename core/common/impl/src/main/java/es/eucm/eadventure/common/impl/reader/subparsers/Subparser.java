@@ -54,9 +54,13 @@ public abstract class Subparser<T> {
 	protected static final Logger logger = Logger.getLogger("Subparser");
 
 	private static String packageName;
+	
+	private static String loaderType;
 
 	public static void init(String packageN) {
 		packageName = packageN;
+		loaderType = DOMWriter.CLASS_AT;
+		//loaderType = DOMWriter.TYPE_AT;
 	}
 
 	protected String clazz;
@@ -80,7 +84,9 @@ public abstract class Subparser<T> {
 	public Subparser(Object parent, Attributes attributes, Class<T> defaultClass) {
 		this.parent = parent;
 		this.defaultClass = defaultClass;
-		clazz = translateClass(attributes.getValue(DOMWriter.CLASS_AT));
+		clazz = translateClass(attributes.getValue(loaderType));
+		if (clazz == null)
+			clazz = translateClass(attributes.getValue(DOMWriter.CLASS_AT));
 		param = attributes.getValue(DOMWriter.PARAM_AT);
 		if (param != null) {
 			field = getField(parent, param);

@@ -60,6 +60,9 @@ public class ObjectFactory {
 
 	@SuppressWarnings("unchecked")
 	public static Object getObject(String value, Class<?> fieldType) {
+		if (value.equals("17")) {
+			System.out.println("17");
+		}
 		if ( EAdParam.class.isAssignableFrom(fieldType)){
 			if ( paramsMap.containsKey(value)){
 				logger.info(value + " was compressed." );
@@ -98,8 +101,15 @@ public class ObjectFactory {
 		else if (fieldType.isEnum())
 			return Enum.valueOf(fieldType.asSubclass(Enum.class), value);
 		else {
-			logger.info("The field type was not recognised. The string is returned");
-			return value;
+			if (elementsMap.containsKey(value)) {
+				//FIXME This could be a temporary fix
+				EAdElement element = elementsMap.get(value);
+				logger.info("The field type was not recognised. The EAdElement is returned");
+				return element;
+			} else {
+				logger.info("The field type was not recognised. The string is returned");
+				return value;
+			}
 		}
 
 	}
