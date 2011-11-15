@@ -4,6 +4,10 @@ import es.eucm.eadventure.common.model.trajectories.impl.Side;
 import es.eucm.eadventure.common.params.geom.EAdPosition;
 import es.eucm.eadventure.engine.core.trajectories.PathSide;
 
+/**
+ * A side in the representation of the trajectory used to find the best path
+ * using the Dijkstra algorithm
+ */
 public class DijkstraPathSide implements PathSide {
 
 	float length;

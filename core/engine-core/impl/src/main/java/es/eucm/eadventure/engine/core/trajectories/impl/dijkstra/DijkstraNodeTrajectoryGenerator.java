@@ -23,6 +23,11 @@ import es.eucm.eadventure.engine.core.gameobjects.factories.SceneElementGOFactor
 import es.eucm.eadventure.engine.core.trajectories.Path;
 import es.eucm.eadventure.engine.core.trajectories.TrajectoryGenerator;
 
+/**
+ * Dijkstra's algorithm based {@link TrajectoryGenerator} for
+ * {@link NodeTrajectoryDefinition} trajectory types.
+ * 
+ */
 @Singleton
 public class DijkstraNodeTrajectoryGenerator implements
 		TrajectoryGenerator<NodeTrajectoryDefinition> {
@@ -31,8 +36,8 @@ public class DijkstraNodeTrajectoryGenerator implements
 
 	private ValueMap valueMap;
 
-	public DijkstraNodeTrajectoryGenerator(SceneElementGOFactory gameObjectFactory,
-			ValueMap valueMap) {
+	public DijkstraNodeTrajectoryGenerator(
+			SceneElementGOFactory gameObjectFactory, ValueMap valueMap) {
 		this.gameObjectFactory = gameObjectFactory;
 		this.valueMap = valueMap;
 	}
@@ -61,8 +66,12 @@ public class DijkstraNodeTrajectoryGenerator implements
 	}
 
 	/**
-	 * Returns a {@link Path} from the a point to another. If there is a
-	 * destinationElement the destination point is ignored.
+	 * Returns a {@link Path} from the a point to another.
+	 * <p>
+	 * Uses an algorithm based on Dijkstra's
+	 * (http://en.wikipedia.org/wiki/Dijkstra's_algorithm), where all relevant
+	 * points in the representation (including those in each side that are
+	 * closest to the target) are turned into nodes.
 	 * 
 	 * @param fromX
 	 *            The current position along the x-axis
@@ -81,29 +90,29 @@ public class DijkstraNodeTrajectoryGenerator implements
 
 		Map<String, DijkstraNode> nodeMap = new HashMap<String, DijkstraNode>();
 		List<DijkstraNode> nodeList = new ArrayList<DijkstraNode>();
-		
+
 		for (Node node : trajectoryDefinition.getNodes()) {
-			DijkstraNode dNode = new DijkstraNode(new EAdPositionImpl(node.getX(), node.getY()));
+			DijkstraNode dNode = new DijkstraNode(new EAdPositionImpl(
+					node.getX(), node.getY()));
 			dNode.calculateGoalDistance(toX, toY);
-			//TODO needs to get the influence area and check if inside
-			//dNode.calculateGetsTo(sceneElement);
+			// TODO needs to get the influence area and check if inside
+			// dNode.calculateGetsTo(sceneElement);
 			nodeMap.put(node.getId(), dNode);
 			nodeList.add(dNode);
 		}
-		
-		DijkstraNode currentNode = generateSides(trajectoryDefinition, nodeMap, currentPosition,
-				toX, toY, sceneElement);
-		
-		/* Debug logging
-		StringBuffer s = new StringBuffer();
-		for (DijkstraNode node : nodeList) {
-			s.append("node " + node.getPosition() + " " + node.getSides() + "\n");
-			for (DijkstraPathSide side : node.getSides())
-				s.append("- side to " + side.getOtherNode(node).getPosition() + "\n");
-		} 
-		System.out.println(s.toString());
-		*/
-		
+
+		DijkstraNode currentNode = generateSides(trajectoryDefinition, nodeMap,
+				currentPosition, toX, toY, sceneElement);
+
+		/*
+		 * Debug logging StringBuffer s = new StringBuffer(); for (DijkstraNode
+		 * node : nodeList) { s.append("node " + node.getPosition() + " " +
+		 * node.getSides() + "\n"); for (DijkstraPathSide side :
+		 * node.getSides()) s.append("- side to " +
+		 * side.getOtherNode(node).getPosition() + "\n"); }
+		 * System.out.println(s.toString());
+		 */
+
 		Map<DijkstraNode, PathInfo> map = new HashMap<DijkstraNode, PathInfo>();
 		PathInfo pathInfo = new PathInfo();
 		pathInfo.length = 0;
@@ -112,22 +121,23 @@ public class DijkstraNodeTrajectoryGenerator implements
 		visitNodes.add(currentNode);
 		List<DijkstraNode> visitedNodes = new ArrayList<DijkstraNode>();
 		visitedNodes.add(currentNode);
-		
+
 		while (!visitNodes.isEmpty()) {
 			DijkstraNode node = visitNodes.get(0);
 			visitNodes.remove(0);
 
 			if (node.isBreakNode())
 				continue;
-			
+
 			for (DijkstraPathSide side : node.getSides()) {
 				DijkstraNode other = side.getOtherNode(node);
 
 				if (map.get(other) == null)
 					map.put(other, new PathInfo());
-				
+
 				if (map.get(node).length + side.getLength() < map.get(other).length) {
-					map.get(other).length = map.get(node).length + side.getLength();
+					map.get(other).length = map.get(node).length
+							+ side.getLength();
 					map.get(other).path = side;
 					if (!visitedNodes.contains(other)) {
 						visitNodes.add(other);
@@ -136,7 +146,7 @@ public class DijkstraNodeTrajectoryGenerator implements
 				}
 			}
 		}
-		
+
 		DijkstraNode bestNode = currentNode;
 		for (DijkstraNode node : map.keySet()) {
 			if (node.isGetsTo() && !bestNode.isGetsTo())
@@ -146,7 +156,7 @@ public class DijkstraNodeTrajectoryGenerator implements
 			else if (node.getGoalDistance() < bestNode.getGoalDistance())
 				bestNode = node;
 		}
-		
+
 		DijkstraPath path = new DijkstraPath();
 		path.setGetsTo(bestNode.isGetsTo());
 		while (bestNode != currentNode) {
@@ -157,28 +167,43 @@ public class DijkstraNodeTrajectoryGenerator implements
 		}
 		return path;
 	}
-	
+
 	private class PathInfo {
 		public float length = Integer.MAX_VALUE;
 		public DijkstraPathSide path = null;
 	}
-	
-	private DijkstraNode generateSides(NodeTrajectoryDefinition trajectoryDefinition,
+
+	/**
+	 * Generate the sides in the Dijkstra trajectory representation. The sides
+	 * are assigned to the nodes where they start or end.
+	 * 
+	 * @param trajectoryDefinition
+	 * @param nodeMap
+	 * @param currentPosition
+	 * @param toX
+	 * @param toY
+	 * @param sceneElement
+	 * @return
+	 */
+	private DijkstraNode generateSides(
+			NodeTrajectoryDefinition trajectoryDefinition,
 			Map<String, DijkstraNode> nodeMap, EAdPosition currentPosition,
 			int toX, int toY, SceneElementGO<?> sceneElement) {
 		Side currentSide = getCurrentSide(trajectoryDefinition, currentPosition);
 		DijkstraNode currentNode = null;
-		
+
 		for (Side side : trajectoryDefinition.getSides()) {
 			DijkstraNode start = nodeMap.get(side.getIDStart());
 			DijkstraNode end = nodeMap.get(side.getIDEnd());
-			
+
 			List<DijkstraNode> intersections = new ArrayList<DijkstraNode>();
 			intersections.add(start);
 			if (side == currentSide) {
-				if (currentPosition.getX() == start.getPosition().getX() && currentPosition.getY() == start.getPosition().getY())
+				if (currentPosition.getX() == start.getPosition().getX()
+						&& currentPosition.getY() == start.getPosition().getY())
 					currentNode = start;
-				else if (currentPosition.getX() == end.getPosition().getX() && currentPosition.getY() == end.getPosition().getY())
+				else if (currentPosition.getX() == end.getPosition().getX()
+						&& currentPosition.getY() == end.getPosition().getY())
 					currentNode = end;
 				else {
 					currentNode = new DijkstraNode(currentPosition);
@@ -186,25 +211,27 @@ public class DijkstraNodeTrajectoryGenerator implements
 				}
 			}
 			intersections.add(end);
-			
+
 			addClosestPoint(intersections, toX, toY);
-			
+
 			addBarrierIntersections(trajectoryDefinition, intersections);
-			
+
 			if (sceneElement != null)
 				addInfluenceAreaIntersections(sceneElement, intersections);
-			
+
 			for (DijkstraNode newNode : intersections) {
 				newNode.calculateGoalDistance(toX, toY);
-				//TODO needs to get the influence area and check if inside
-				//dNode.calculateGetsTo(sceneElement);
+				// TODO needs to get the influence area and check if inside
+				// dNode.calculateGetsTo(sceneElement);
 			}
-			
+
 			for (int i = 0; i < intersections.size() - 1; i++) {
 				DijkstraNode s = intersections.get(i);
-				DijkstraNode e = intersections.get(i+1);
+				DijkstraNode e = intersections.get(i + 1);
 				double length = getLength(s.getPosition(), e.getPosition());
-				DijkstraPathSide pathSide = new DijkstraPathSide(s, e, side.getLength() * length / side.getRealLength(), length, side);
+				DijkstraPathSide pathSide = new DijkstraPathSide(s, e,
+						side.getLength() * length / side.getRealLength(),
+						length, side);
 				s.addSide(pathSide);
 				e.addSide(pathSide);
 			}
@@ -212,21 +239,36 @@ public class DijkstraNodeTrajectoryGenerator implements
 		return currentNode;
 
 	}
-	
+
 	/**
-	 * @param s a position in the 2D plane
-	 * @param e a position in the 2D plane
+	 * @param s
+	 *            a position in the 2D plane
+	 * @param e
+	 *            a position in the 2D plane
 	 * @return The length of the side from e to s
 	 */
 	public double getLength(EAdPosition s, EAdPosition e) {
-		return Math.sqrt(Math.pow(s.getX() - e.getX(), 2) + Math.pow(s.getY() - e.getY(), 2));
+		return Math.sqrt(Math.pow(s.getX() - e.getX(), 2)
+				+ Math.pow(s.getY() - e.getY(), 2));
 	}
-	
-	
+
+	/**
+	 * Add the closest point (if different to one of the nodes already in the
+	 * intersections list) to the intersections list as a new node
+	 * 
+	 * @param intersections
+	 *            the list of nodes in the path
+	 * @param toX
+	 *            the target x
+	 * @param toY
+	 *            the target y
+	 */
 	private void addClosestPoint(List<DijkstraNode> intersections, int toX,
 			int toY) {
 		for (int i = 0; i < intersections.size() - 1; i++) {
-			EAdPosition pos = getClosestPosition(intersections.get(i).getPosition(), intersections.get(i+1).getPosition(), toX, toY);
+			EAdPosition pos = getClosestPosition(intersections.get(i)
+					.getPosition(), intersections.get(i + 1).getPosition(),
+					toX, toY);
 			if (pos != null) {
 				DijkstraNode newNode = new DijkstraNode(pos);
 				intersections.add(i + 1, newNode);
@@ -236,61 +278,79 @@ public class DijkstraNodeTrajectoryGenerator implements
 	}
 
 	/**
-	 * Inspired by code in http://www.gamedev.net/topic/444154-closest-point-on-a-line/
+	 * Inspired by code in
+	 * http://www.gamedev.net/topic/444154-closest-point-on-a-line/
 	 * 
 	 * @param A
+	 *            one of the nodes in the the segment
 	 * @param B
+	 *            the other node in the segment
 	 * @param P
-	 * @return
+	 *            the point
+	 * @return null if the closest point is one of the nodes, or a position
+	 *         otherwise
 	 */
-	private EAdPosition getClosestPosition(EAdPosition A, EAdPosition B, int toX, int toY)
-	{
+	private EAdPosition getClosestPosition(EAdPosition A, EAdPosition B,
+			int toX, int toY) {
 		float APx = toX - A.getX();
 		float APy = toY - A.getY();
 
 		float ABx = B.getX() - A.getX();
 		float ABy = B.getY() - A.getY();
-		
-	    float ab2 = ABx*ABx + ABy*ABy;
-	    float ap_ab = APx*ABx + APy*ABy;
-	    float t = ap_ab / ab2;
-	    if (ab2 == 0 || t <= 0.01f || t >= 0.99f)
-	    	return null;
-	    float x = A.getX();
-	    x += ABx * t;
-	    float y = A.getY();
-	    y += ABy * t;
-	    return new EAdPositionImpl((int) x, (int) y);
+
+		float ab2 = ABx * ABx + ABy * ABy;
+		float ap_ab = APx * ABx + APy * ABy;
+		float t = ap_ab / ab2;
+		if (ab2 == 0 || t <= 0.01f || t >= 0.99f)
+			return null;
+		float x = A.getX();
+		x += ABx * t;
+		float y = A.getY();
+		y += ABy * t;
+		return new EAdPositionImpl((int) x, (int) y);
 	}
-	
+
 	/**
-	 * Add the intersections to the influence area of the scene element with the current side
+	 * Add the intersections to the influence area of the scene element with the
+	 * current side
 	 * 
-	 * @param sceneElement the scene element with the influence area
-	 * @param intersections the current intersections or nodes of the side
+	 * @param sceneElement
+	 *            the scene element with the influence area
+	 * @param intersections
+	 *            the current intersections or nodes of the side
 	 */
-	private void addInfluenceAreaIntersections(SceneElementGO<?> sceneElement, List<DijkstraNode> intersections) {
-		
+	private void addInfluenceAreaIntersections(SceneElementGO<?> sceneElement,
+			List<DijkstraNode> intersections) {
+
 	}
-	
+
 	/**
-	 * Add the intersections to the barriers to the list of intersections of the current side
+	 * Add the intersections to the barriers to the list of intersections of the
+	 * current side
 	 * 
-	 * @param trajectoryDefinition The trajectory definition, to get the barriers
- 	 * @param intersections The current intersections or nodes of the side
+	 * @param trajectoryDefinition
+	 *            The trajectory definition, to get the barriers
+	 * @param intersections
+	 *            The current intersections or nodes of the side
 	 */
-	private void addBarrierIntersections(NodeTrajectoryDefinition trajectoryDefinition, List<DijkstraNode> intersections) {
+	private void addBarrierIntersections(
+			NodeTrajectoryDefinition trajectoryDefinition,
+			List<DijkstraNode> intersections) {
 		for (EAdSceneElement barrier : trajectoryDefinition.getBarriers()) {
 			SceneElementGO<?> go = gameObjectFactory.get(barrier);
 			EAdField<Boolean> barrierOn = new EAdFieldImpl<Boolean>(barrier,
 					NodeTrajectoryDefinition.VAR_BARRIER_ON);
-			if (valueMap.getValue(barrierOn)){ 
-				RectangleShape rectangle = (RectangleShape) barrier.getAsset(barrier.getInitialBundle(), EAdBasicSceneElement.appearance);
+			if (valueMap.getValue(barrierOn)) {
+				RectangleShape rectangle = (RectangleShape) barrier.getAsset(
+						barrier.getInitialBundle(),
+						EAdBasicSceneElement.appearance);
 				EAdPosition position = go.getPosition();
-				
+
 				int i = 0;
 				while (i < intersections.size() - 1) {
-					List<DijkstraNode> newIntersections = getIntersections(intersections.get(i), intersections.get(i + 1), rectangle, position);
+					List<DijkstraNode> newIntersections = getIntersections(
+							intersections.get(i), intersections.get(i + 1),
+							rectangle, position);
 					for (DijkstraNode newNode : newIntersections)
 						newNode.setBreakNode(true);
 					intersections.addAll(i + 1, newIntersections);
@@ -300,18 +360,19 @@ public class DijkstraNodeTrajectoryGenerator implements
 		}
 
 	}
-	
-	//TODO needs to return the intersections
-	private List<DijkstraNode> getIntersections(DijkstraNode start, DijkstraNode end, RectangleShape rectangle, EAdPosition position) {
+
+	// TODO needs to return the intersections
+	private List<DijkstraNode> getIntersections(DijkstraNode start,
+			DijkstraNode end, RectangleShape rectangle, EAdPosition position) {
 		List<DijkstraNode> intersections = new ArrayList<DijkstraNode>();
-		
+
 		return intersections;
-		
+
 	}
-	
+
 	/**
-	 * Get current side from variables or choose a side from the closest
-	 * node if none is available
+	 * Get current side from variables or choose a side from the closest node if
+	 * none is available
 	 * 
 	 * @param nodeTrajectoryDefinition
 	 * @param currentPosition
@@ -329,8 +390,9 @@ public class DijkstraNodeTrajectoryGenerator implements
 						node.getX() - currentPosition.getX(), 2)
 						+ Math.pow(node.getX() - currentPosition.getX(), 2));
 				if (d < distance) {
-					for (Side side2 : nodeTrajectoryDefinition.getSides()) 
-						if (side2.getIDEnd().equals(node.getId()) || side2.getIDStart().equals(node.getId())) {
+					for (Side side2 : nodeTrajectoryDefinition.getSides())
+						if (side2.getIDEnd().equals(node.getId())
+								|| side2.getIDStart().equals(node.getId())) {
 							side = side2;
 							distance = d;
 						}
