@@ -94,6 +94,16 @@ public class DijkstraNodeTrajectoryGenerator implements
 		DijkstraNode currentNode = generateSides(trajectoryDefinition, nodeMap, currentPosition,
 				toX, toY, sceneElement);
 		
+		/* Debug logging
+		StringBuffer s = new StringBuffer();
+		for (DijkstraNode node : nodeList) {
+			s.append("node " + node.getPosition() + " " + node.getSides() + "\n");
+			for (DijkstraPathSide side : node.getSides())
+				s.append("- side to " + side.getOtherNode(node).getPosition() + "\n");
+		} 
+		System.out.println(s.toString());
+		*/
+		
 		Map<DijkstraNode, PathInfo> map = new HashMap<DijkstraNode, PathInfo>();
 		PathInfo pathInfo = new PathInfo();
 		pathInfo.length = 0;
@@ -239,12 +249,12 @@ public class DijkstraNodeTrajectoryGenerator implements
 		float APy = toY - A.getY();
 
 		float ABx = B.getX() - A.getX();
-		float ABy = B.getY() - B.getY();
+		float ABy = B.getY() - A.getY();
 		
 	    float ab2 = ABx*ABx + ABy*ABy;
 	    float ap_ab = APx*ABx + APy*ABy;
 	    float t = ap_ab / ab2;
-	    if (ab2 == 0 || t < 0.0f || t > 1.0f)
+	    if (ab2 == 0 || t <= 0.01f || t >= 0.99f)
 	    	return null;
 	    float x = A.getX();
 	    x += ABx * t;
