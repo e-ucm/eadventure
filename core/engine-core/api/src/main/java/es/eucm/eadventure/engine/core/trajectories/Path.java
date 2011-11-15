@@ -25,4 +25,6 @@ public interface Path {
 	 */
 	EAdEffect getChangeSideEffect(PathSide p, TrajectoryDefinition trajectory);
 
+	boolean isGetsTo();
+
 }

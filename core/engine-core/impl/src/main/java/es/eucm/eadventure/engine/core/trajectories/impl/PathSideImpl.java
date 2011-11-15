@@ -90,7 +90,7 @@ public class PathSideImpl implements PathSide {
         realLength = (float) Math.sqrt( Math.pow(x,2) + Math.pow(y,2) );
     }
 
-    public float getLenght( ) {
+    public float getLength( ) {
 
         return length;
     }

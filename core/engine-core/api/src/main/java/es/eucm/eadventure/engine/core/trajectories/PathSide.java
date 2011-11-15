@@ -10,7 +10,7 @@ public interface PathSide {
 	/**
 	 * @return the length of the side
 	 */
-	float getLenght();
+	float getLength();
 
 	/**
 	 * @return the speed factor to be used in the side

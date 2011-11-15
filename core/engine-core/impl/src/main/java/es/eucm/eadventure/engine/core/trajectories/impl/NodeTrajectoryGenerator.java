@@ -25,6 +25,7 @@ import es.eucm.eadventure.engine.core.trajectories.PathSide;
 import es.eucm.eadventure.engine.core.trajectories.TrajectoryGenerator;
 
 @Singleton
+@Deprecated
 public class NodeTrajectoryGenerator implements
 		TrajectoryGenerator<NodeTrajectoryDefinition> {
 
@@ -96,7 +97,7 @@ public class NodeTrajectoryGenerator implements
 			float distReal = getDistanceFast(currentPosition.getX(),
 					currentPosition.getY(), currentSide.getEndNode().getX(),
 					currentSide.getEndNode().getY());
-			float dist = currentSide.getLenght() / currentSide.getRealLength()
+			float dist = currentSide.getLength() / currentSide.getRealLength()
 					* distReal;
 			PathImpl newPath = new PathImpl(dist, Float.MAX_VALUE, tempSides);
 			tempPaths.add(newPath);
@@ -239,7 +240,7 @@ public class NodeTrajectoryGenerator implements
 				if (!originalPath.getSides().contains(side)
 						&& !originalPath.getNodes().contains(side.getEndNode())) {
 					PathImpl temp = originalPath.newFunctionalPath(
-							side.getLenght(), 0, side);
+							side.getLength(), 0, side);
 					if (temp != null) {
 						tempPaths.add(temp);
 						continues = true;
@@ -299,7 +300,7 @@ public class NodeTrajectoryGenerator implements
 					currentPosition.getY(), firstPath.getEndNode().getX(),
 					firstPath.getEndNode().getY())
 					/ firstPath.getRealLength()
-					* firstPath.getLenght();
+					* firstPath.getLength();
 			newPath.addSide(length, Float.MAX_VALUE, tempPath.getSides().get(0));
 
 			float posX = currentPosition.getX();
@@ -351,7 +352,7 @@ public class NodeTrajectoryGenerator implements
 
 				if (sideNr < tempPath.getSides().size()) {
 					newPath = newPath.newFunctionalPath(tempPath.getSides()
-							.get(sideNr).getLenght(), Float.MAX_VALUE, tempPath
+							.get(sideNr).getLength(), Float.MAX_VALUE, tempPath
 							.getSides().get(sideNr));
 					posX = ((PathSideImpl) tempPath.getSides().get(sideNr))
 							.getStartNode().getX();

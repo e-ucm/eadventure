@@ -18,7 +18,7 @@ public class SimpleSideImpl implements PathSide {
 	}
 
 	@Override
-	public float getLenght() {
+	public float getLength() {
 		return length;
 	}
 

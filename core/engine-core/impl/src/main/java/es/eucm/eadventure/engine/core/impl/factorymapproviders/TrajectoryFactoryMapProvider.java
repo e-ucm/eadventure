@@ -11,6 +11,7 @@ import es.eucm.eadventure.engine.core.trajectories.TrajectoryFactory;
 import es.eucm.eadventure.engine.core.trajectories.TrajectoryGenerator;
 import es.eucm.eadventure.engine.core.trajectories.impl.NodeTrajectoryGenerator;
 import es.eucm.eadventure.engine.core.trajectories.impl.SimpleTrajectoryGenerator;
+import es.eucm.eadventure.engine.core.trajectories.impl.dijkstra.DijkstraNodeTrajectoryGenerator;
 
 public class TrajectoryFactoryMapProvider extends AbstractMapProvider<Class<?>, TrajectoryGenerator<?>> {
 
@@ -31,7 +32,8 @@ public class TrajectoryFactoryMapProvider extends AbstractMapProvider<Class<?>, 
 	
 	public Map<Class<?>, TrajectoryGenerator<?>> getMap(){
 		factoryMap.put(SimpleTrajectoryDefinition.class, new SimpleTrajectoryGenerator());
-		factoryMap.put(NodeTrajectoryDefinition.class, new NodeTrajectoryGenerator(sceneElementFactory, valueMap));
+//		factoryMap.put(NodeTrajectoryDefinition.class, new NodeTrajectoryGenerator(sceneElementFactory, valueMap));
+		factoryMap.put(NodeTrajectoryDefinition.class, new DijkstraNodeTrajectoryGenerator(sceneElementFactory, valueMap));
 		factoryMap.putAll(tempMap);
 		factoryMap.putAll(tempMap);
 		return super.getMap();

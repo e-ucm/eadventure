@@ -235,6 +235,16 @@ public class EAdPositionImpl extends EAdParamImpl implements EAdPosition {
 	public String toString() {
 		return toStringData();
 	}
+	
+	@Override
+	public boolean equals(Object object) {
+		if (object == null || !(object instanceof EAdPosition))
+			return false;
+		EAdPosition newPos = (EAdPosition) object;
+		if (newPos.getX() == x && newPos.getY() == y && newPos.getDispX() == dispX && newPos.getDispY() == dispY)
+			return true;
+		return false;
+	}
 
 	private static EAdPositionImpl volatileEAdPosition = new EAdPositionImpl(0,
 			0);

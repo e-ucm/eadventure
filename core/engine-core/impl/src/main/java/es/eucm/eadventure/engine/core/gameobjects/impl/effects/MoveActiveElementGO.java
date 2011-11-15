@@ -94,31 +94,42 @@ public class MoveActiveElementGO extends AbstractEffectGO<EAdMoveActiveElement> 
 						EAdBasicSceneElement.VAR_Y));
 				Path trajectory = trajectoryFactory.getTrajectory(
 						trajectoryDefinition, pos, x, y);
-				for (int i = 0; i < trajectory.getSides().size(); i++) {
-					PathSide p = trajectory.getSides().get(i);
-					EAdMoveSceneElement effect = new EAdMoveSceneElement(
-							"trajectory", gameState.getActiveElement(),
-							p.getEndPosition(
-									i == trajectory.getSides().size() - 1)
-									.getX(), p.getEndPosition(
-									i == trajectory.getSides().size() - 1)
-									.getY(), MovementSpeed.NORMAL);
-					effect.setSpeedFactor(p.getSpeedFactor());
-					effect.setBlocking(true);
-					effect.setQueueable(true);
-					gameState.addEffect(effect);
-
-					EAdEffect e = trajectory.getChangeSideEffect(p,
-							trajectoryDefinition);
-					if (e != null) {
-						e.setQueueable(true);
-						gameState.addEffect(e);
+				
+				if (!trajectory.getSides().isEmpty()) {
+					PathSide p = trajectory.getSides().get(0);
+					EAdEffect effect = getSideEffect(p, trajectory, 0, trajectoryDefinition);
+					for (int i = 1; i < trajectory.getSides().size(); i++) {
+						p = trajectory.getSides().get(i);
+						effect.getFinalEffects().add(getSideEffect(p, trajectory, i, trajectoryDefinition));
 					}
+					gameState.addEffect(effect);
 				}
 			}
 		}
 	}
 
+	public EAdEffect getSideEffect(PathSide p, Path trajectory, int i, TrajectoryDefinition trajectoryDefinition) {
+		EAdMoveSceneElement effect = new EAdMoveSceneElement(
+				"trajectory", gameState.getActiveElement(),
+				p.getEndPosition(
+						i == trajectory.getSides().size() - 1)
+						.getX(), p.getEndPosition(
+						i == trajectory.getSides().size() - 1)
+						.getY(), MovementSpeed.NORMAL);
+		effect.setSpeedFactor(p.getSpeedFactor());
+		effect.setBlocking(true);
+		effect.setQueueable(true);
+
+		EAdEffect e = trajectory.getChangeSideEffect(p,
+				trajectoryDefinition);
+		if (e != null) {
+			e.setQueueable(true);
+			effect.getFinalEffects().add(e);
+		}
+		
+		return effect;
+	}
+	
 	@Override
 	public boolean isVisualEffect() {
 		return false;

@@ -32,4 +32,9 @@ public class SimplePathImpl implements Path {
 		return null;
 	}
 
+	@Override
+	public boolean isGetsTo() {
+		return true;
+	}
+
 }

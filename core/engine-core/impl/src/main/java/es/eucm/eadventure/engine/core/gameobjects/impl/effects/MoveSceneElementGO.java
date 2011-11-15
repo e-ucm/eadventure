@@ -170,7 +170,7 @@ public class MoveSceneElementGO extends
 			targetX = p.getX();
 			targetY = p.getY();
 
-			totalTime = (side.getLenght() / PIXELS_PER_SECOND * 1000)
+			totalTime = (side.getLength() / PIXELS_PER_SECOND * 1000)
 					* side.getSpeedFactor();
 
 			updateDirection();

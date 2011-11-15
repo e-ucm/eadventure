@@ -78,7 +78,7 @@ public class OperatorFactoryImpl extends AbstractFactory<Operator<?>> implements
 			T operation) {
 		S result = operate(fieldResult.getVarDefinition().getType(), operation);
 		if (result != null) {
-			log.info(operation + ": " + fieldResult + " := " + result);
+			log.finest(operation + ": " + fieldResult + " := " + result);
 			valueMap.setValue(fieldResult, result);
 		}
 		return result;
