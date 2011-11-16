@@ -40,16 +40,17 @@ package es.eucm.eadventure.engine.core.gameobjects.impl.effects;
 import com.google.inject.Inject;
 
 import es.eucm.eadventure.common.model.effects.EAdEffect;
-import es.eucm.eadventure.common.model.effects.impl.EAdMoveActiveElement;
+import es.eucm.eadventure.common.model.effects.impl.EAdMoveActiveElementToTarget;
 import es.eucm.eadventure.common.model.elements.EAdScene;
 import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
 import es.eucm.eadventure.common.model.elements.impl.EAdSceneImpl;
+import es.eucm.eadventure.common.model.extra.EAdList;
 import es.eucm.eadventure.common.model.trajectories.TrajectoryDefinition;
-import es.eucm.eadventure.common.model.variables.impl.SystemFields;
 import es.eucm.eadventure.common.params.geom.impl.EAdPositionImpl;
 import es.eucm.eadventure.common.resources.StringHandler;
 import es.eucm.eadventure.engine.core.GameState;
 import es.eucm.eadventure.engine.core.ValueMap;
+import es.eucm.eadventure.engine.core.gameobjects.SceneElementGO;
 import es.eucm.eadventure.engine.core.gameobjects.factories.SceneElementGOFactory;
 import es.eucm.eadventure.engine.core.guiactions.MouseAction;
 import es.eucm.eadventure.engine.core.platform.AssetHandler;
@@ -58,10 +59,10 @@ import es.eucm.eadventure.engine.core.trajectories.Path;
 import es.eucm.eadventure.engine.core.trajectories.PathSide;
 import es.eucm.eadventure.engine.core.trajectories.TrajectoryFactory;
 
-public class MoveActiveElementGO extends AbstractMoveActiveElementGO<EAdMoveActiveElement> {
+public class MoveActiveElementToTargetGO extends AbstractMoveActiveElementGO<EAdMoveActiveElementToTarget> {
 
 	@Inject
-	public MoveActiveElementGO(AssetHandler assetHandler,
+	public MoveActiveElementToTargetGO(AssetHandler assetHandler,
 			StringHandler stringHandler, SceneElementGOFactory gameObjectFactory,
 			GUI gui, GameState gameState,
 			TrajectoryFactory trajectoryFactory) {
@@ -74,10 +75,15 @@ public class MoveActiveElementGO extends AbstractMoveActiveElementGO<EAdMoveActi
 		ValueMap valueMap = gameState.getValueMap();
 		Object object = gameState.getScene().getElement();
 		if (object instanceof EAdScene && action instanceof MouseAction) {
-			int x = element.getTargetX() == EAdMoveActiveElement.MOUSE_COORDINATE ? valueMap
+/*			int x = element.getTargetX() == EAdMoveActiveElement.MOUSE_COORDINATE ? valueMap
 					.getValue(SystemFields.MOUSE_X) : element.getTargetX();
 			int y = element.getTargetY() == EAdMoveActiveElement.MOUSE_COORDINATE ? valueMap
-					.getValue(SystemFields.MOUSE_Y) : element.getTargetY();
+					.getValue(SystemFields.MOUSE_Y) : element.getTargetY();*/
+			//TODO x & y should depend on the screen position of the target
+			int x = 100;
+			int y = 100;
+			SceneElementGO<?> targetSceneElement = null;
+			
 			EAdScene scene = (EAdScene) object;
 			TrajectoryDefinition trajectoryDefinition = valueMap.getValue(
 					scene, EAdSceneImpl.VAR_TRAJECTORY_DEFINITION);
@@ -88,7 +94,7 @@ public class MoveActiveElementGO extends AbstractMoveActiveElementGO<EAdMoveActi
 				pos.setY(valueMap.getValue(gameState.getActiveElement(),
 						EAdBasicSceneElement.VAR_Y));
 				Path trajectory = trajectoryFactory.getTrajectory(
-						trajectoryDefinition, pos, x, y);
+						trajectoryDefinition, pos, x, y, targetSceneElement);
 				
 				if (!trajectory.getSides().isEmpty()) {
 					PathSide p = trajectory.getSides().get(0);
@@ -99,10 +105,17 @@ public class MoveActiveElementGO extends AbstractMoveActiveElementGO<EAdMoveActi
 					}
 					gameState.addEffect(effect);
 				}
+				
+				EAdList<EAdEffect> effectList = element.getDoesntGetToEffects();
+				if (trajectory.isGetsTo()) {
+					effectList = element.getGetsToEffects();
+				}
+				for (EAdEffect effect : effectList)
+					gameState.addEffect(effect);
 			}
 		}
 	}
-
+	
 	@Override
 	public boolean isVisualEffect() {
 		return false;

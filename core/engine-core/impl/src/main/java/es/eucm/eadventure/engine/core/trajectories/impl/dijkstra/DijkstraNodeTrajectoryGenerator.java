@@ -7,16 +7,16 @@ import java.util.Map;
 
 import com.google.inject.Singleton;
 
+import es.eucm.eadventure.common.model.EAdElement;
 import es.eucm.eadventure.common.model.elements.EAdSceneElement;
-import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
 import es.eucm.eadventure.common.model.trajectories.impl.Node;
 import es.eucm.eadventure.common.model.trajectories.impl.NodeTrajectoryDefinition;
 import es.eucm.eadventure.common.model.trajectories.impl.Side;
 import es.eucm.eadventure.common.model.variables.EAdField;
 import es.eucm.eadventure.common.model.variables.impl.EAdFieldImpl;
 import es.eucm.eadventure.common.params.geom.EAdPosition;
+import es.eucm.eadventure.common.params.geom.EAdRectangle;
 import es.eucm.eadventure.common.params.geom.impl.EAdPositionImpl;
-import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.shapes.RectangleShape;
 import es.eucm.eadventure.engine.core.ValueMap;
 import es.eucm.eadventure.engine.core.gameobjects.SceneElementGO;
 import es.eucm.eadventure.engine.core.gameobjects.factories.SceneElementGOFactory;
@@ -95,10 +95,9 @@ public class DijkstraNodeTrajectoryGenerator implements
 			DijkstraNode dNode = new DijkstraNode(new EAdPositionImpl(
 					node.getX(), node.getY()));
 			dNode.calculateGoalDistance(toX, toY);
-			// TODO needs to get the influence area and check if inside
-			// dNode.calculateGetsTo(sceneElement);
 			nodeMap.put(node.getId(), dNode);
 			nodeList.add(dNode);
+			dNode.setGetsTo(isGetsTo(dNode.getPosition(), sceneElement));
 		}
 
 		DijkstraNode currentNode = generateSides(trajectoryDefinition, nodeMap,
@@ -221,8 +220,7 @@ public class DijkstraNodeTrajectoryGenerator implements
 
 			for (DijkstraNode newNode : intersections) {
 				newNode.calculateGoalDistance(toX, toY);
-				// TODO needs to get the influence area and check if inside
-				// dNode.calculateGetsTo(sceneElement);
+				newNode.setGetsTo(isGetsTo(newNode.getPosition(), sceneElement));
 			}
 
 			for (int i = 0; i < intersections.size() - 1; i++) {
@@ -321,7 +319,36 @@ public class DijkstraNodeTrajectoryGenerator implements
 	 */
 	private void addInfluenceAreaIntersections(SceneElementGO<?> sceneElement,
 			List<DijkstraNode> intersections) {
+		EAdRectangle rectangle = valueMap.getValue(new EAdFieldImpl<EAdRectangle>((EAdElement) sceneElement.getElement(), NodeTrajectoryDefinition.VAR_INFLUENCE_AREA));
+		//TODO check if the position of the element isn't relevant (i.e. if the position of the rectangle is not relative to the element)
+		EAdPosition position = new EAdPositionImpl(rectangle.getX(), rectangle.getY());
 
+		int i = 0;
+		while (i < intersections.size() - 1) {
+			List<DijkstraNode> newIntersections = getIntersections(
+					intersections.get(i), intersections.get(i + 1),
+					rectangle.getWidth(),
+					rectangle.getHeight(), position);
+			for (DijkstraNode newNode : newIntersections)
+				newNode.setGetsTo(true);
+			intersections.addAll(i + 1, newIntersections);
+			i++;
+		}
+	}
+	
+	private boolean isGetsTo(EAdPosition position, SceneElementGO<?> sceneElement) {
+		if (sceneElement == null)
+			return false;
+		EAdRectangle rectangle = valueMap.getValue(new EAdFieldImpl<EAdRectangle>((EAdElement) sceneElement.getElement(), NodeTrajectoryDefinition.VAR_INFLUENCE_AREA));
+		if (rectangle == null)
+			return false;
+		//TODO check if the position of the element isn't relevant (i.e. if the position of the rectangle is not relative to the element)
+		if (rectangle.getX() < position.getX() &&
+				rectangle.getY() < position.getY() &&
+				rectangle.getX() + rectangle.getWidth() > position.getX() &&
+				rectangle.getY() + rectangle.getHeight() > position.getY())
+			return true;
+		return false;
 	}
 
 	/**
@@ -341,16 +368,14 @@ public class DijkstraNodeTrajectoryGenerator implements
 			EAdField<Boolean> barrierOn = new EAdFieldImpl<Boolean>(barrier,
 					NodeTrajectoryDefinition.VAR_BARRIER_ON);
 			if (valueMap.getValue(barrierOn)) {
-				RectangleShape rectangle = (RectangleShape) barrier.getAsset(
-						barrier.getInitialBundle(),
-						EAdBasicSceneElement.appearance);
 				EAdPosition position = go.getPosition();
 
 				int i = 0;
 				while (i < intersections.size() - 1) {
 					List<DijkstraNode> newIntersections = getIntersections(
 							intersections.get(i), intersections.get(i + 1),
-							rectangle, position);
+							(int) (go.getWidth() * go.getScale()),
+							(int) (go.getHeight() * go.getScale()), position);
 					for (DijkstraNode newNode : newIntersections)
 						newNode.setBreakNode(true);
 					intersections.addAll(i + 1, newIntersections);
@@ -361,13 +386,63 @@ public class DijkstraNodeTrajectoryGenerator implements
 
 	}
 
-	// TODO needs to return the intersections
+	/**
+	 * 
+	 * @param start
+	 * @param end
+	 * @param width
+	 * @param height
+	 * @param position
+	 * @return
+	 */
 	private List<DijkstraNode> getIntersections(DijkstraNode start,
-			DijkstraNode end, RectangleShape rectangle, EAdPosition position) {
+			DijkstraNode end, int width, int height, EAdPosition position) {
 		List<DijkstraNode> intersections = new ArrayList<DijkstraNode>();
 
-		return intersections;
+		int x = position.getJavaX(width);
+		int y = position.getJavaY(height);
+		
+		int startX = start.getPosition().getX();
+		int startY = start.getPosition().getY();
+		int endX = end.getPosition().getX();
+		int endY = end.getPosition().getY();
+		
+		EAdPosition temp = getIntersection(x, y, x + width, y, startX, startY, endX, endY);
+		if (temp != null)
+			intersections.add(new DijkstraNode(temp));
+		temp = getIntersection(x + width, y, x + width, y + height, startX, startY, endX, endY);
+		if (temp != null)
+			intersections.add(new DijkstraNode(temp));
+		temp = getIntersection(x, y + height, x + width, y + height, startX, startY, endX, endY);
+		if (temp != null)
+			intersections.add(new DijkstraNode(temp));
+		temp = getIntersection(x, y, x, y + height, startX, startY, endX, endY);
+		if (temp != null)
+			intersections.add(new DijkstraNode(temp));
 
+		return intersections;
+	}
+	
+	/**
+	 * Using formula from http://paulbourke.net/geometry/lineline2d/
+	 * 
+	 * @return
+	 */
+	private EAdPosition getIntersection(int x1, int y1, int x2, int y2, int x3, int y3, int x4, int y4) {
+		int den = (y4 - y3)*(x2 - x1) - (x4 - x3)*(y2 - y1);
+		if (den == 0) 
+			return null;
+		int x13 = x1 - x3;
+		int y13 = y1 - y3;
+		float numA = (x4 - x3)*y13 - (y4 - y3)*x13;
+		float numB = (x2 - x1)*y13 - (y2 - y1)*x13;
+		float uA = numA / den;
+		float uB = numB / den;
+		if (uA < 0 || uB < 0 || uA > 1 || uB > 1)
+			return null;
+		int x = (int) (x1 + uA*(x2 - x1));
+		int y = (int) (y1 + uA*(y2 - y1));
+		return new EAdPositionImpl(x, y);
 	}
 
 	/**

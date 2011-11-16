@@ -51,6 +51,7 @@ import es.eucm.eadventure.common.data.chapter.conditions.Conditions;
 import es.eucm.eadventure.common.data.chapter.effects.AbstractEffect;
 import es.eucm.eadventure.common.data.chapter.effects.CancelActionEffect;
 import es.eucm.eadventure.common.data.chapter.effects.Effect;
+import es.eucm.eadventure.common.data.chapter.elements.Element;
 import es.eucm.eadventure.common.impl.importer.interfaces.EffectsImporterFactory;
 import es.eucm.eadventure.common.impl.importer.interfaces.ResourceImporter;
 import es.eucm.eadventure.common.model.actions.EAdAction;
@@ -62,6 +63,7 @@ import es.eucm.eadventure.common.model.effects.EAdMacro;
 import es.eucm.eadventure.common.model.effects.impl.EAdMacroImpl;
 import es.eucm.eadventure.common.model.effects.impl.EAdModifyActorState;
 import es.eucm.eadventure.common.model.effects.impl.EAdModifyActorState.Modification;
+import es.eucm.eadventure.common.model.effects.impl.EAdMoveActiveElement;
 import es.eucm.eadventure.common.model.effects.impl.EAdTriggerMacro;
 import es.eucm.eadventure.common.model.elements.EAdSceneElementDef;
 import es.eucm.eadventure.common.model.elements.EAdCondition;
@@ -121,7 +123,17 @@ public class ActionImporter implements EAdElementImporter<Action, EAdAction> {
 		EAdTriggerMacro triggerEffects = new EAdTriggerMacro(
 				"actionEffectTrigger", effects);
 		triggerEffects.setCondition(action.getCondition());
-		action.getEffects().add(triggerEffects);
+		
+		if (oldObject.isNeedsGoTo()) {
+			EAdMoveActiveElement moveActiveElement = new EAdMoveActiveElement("moveToActionTarget");
+			//TODO Target must use variables! Has to change depending on actors position on screen
+			//moveActiveElement.setTargetX();
+			
+			//TODO MoveActiveElement must use variable to define if it reaches the element or not
+			moveActiveElement.getFinalEffects().add(triggerEffects);
+		} else {
+			action.getEffects().add(triggerEffects);
+		}
 
 		String actionName = "Action";
 		if (oldObject instanceof CustomAction) {

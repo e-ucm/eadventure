@@ -15,7 +15,6 @@ import es.eucm.eadventure.common.model.trajectories.impl.Node;
 import es.eucm.eadventure.common.model.trajectories.impl.NodeTrajectoryDefinition;
 import es.eucm.eadventure.common.model.trajectories.impl.Side;
 import es.eucm.eadventure.common.model.trajectories.impl.SimpleTrajectoryDefinition;
-import es.eucm.eadventure.common.model.variables.impl.EAdFieldImpl;
 import es.eucm.eadventure.common.params.fills.impl.EAdColor;
 import es.eucm.eadventure.common.params.fills.impl.EAdPaintImpl;
 import es.eucm.eadventure.common.params.geom.EAdPosition;
@@ -115,7 +114,7 @@ public class TrajectoryDebugger implements EAdDebugger {
 			int y2 = trajectory.getNodeForId(s.getIDEnd()).getY();
 
 			LineShape line = new LineShape(x1, y1, x2, y2, 4);
-			line.setPaint(EAdColor.WHITE);
+			line.setPaint(EAdColor.DARK_BROWN);
 			map.addDrawable(line);
 
 		}

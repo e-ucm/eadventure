@@ -39,64 +39,43 @@ package es.eucm.eadventure.common.model.effects.impl;
 
 import es.eucm.eadventure.common.interfaces.Element;
 import es.eucm.eadventure.common.interfaces.Param;
+import es.eucm.eadventure.common.model.effects.EAdEffect;
+import es.eucm.eadventure.common.model.elements.impl.EAdSceneElementDefImpl;
+import es.eucm.eadventure.common.model.extra.EAdList;
+import es.eucm.eadventure.common.model.extra.impl.EAdListImpl;
 
-@Element(detailed = EAdMoveActiveElement.class, runtime = EAdMoveActiveElement.class)
-public class EAdMoveActiveElement extends AbstractEAdEffect {
+@Element(detailed = EAdMoveActiveElementToTarget.class, runtime = EAdMoveActiveElementToTarget.class)
+public class EAdMoveActiveElementToTarget extends AbstractEAdEffect {
 
-	public static final int MOUSE_COORDINATE = -1;
-
-	@Param("targetX")
-	private int targetX;
-
-	@Param("targetY")
-	private int targetY;
+	@Param("targetElement")
+	private EAdSceneElementDefImpl targetElement;
 	
-	public EAdMoveActiveElement(String id) {
+	@Param("getsToEffects")
+	private EAdList<EAdEffect> getsToEffects;
+	
+	@Param("doesntGetToEffects")
+	private EAdList<EAdEffect> doesntGetToEffects;
+	
+	public EAdMoveActiveElementToTarget(String id) {
 		super(id);
-		targetX = MOUSE_COORDINATE;
-		targetY = MOUSE_COORDINATE;
+		getsToEffects = new EAdListImpl<EAdEffect>(EAdEffect.class);
+		doesntGetToEffects = new EAdListImpl<EAdEffect>(EAdEffect.class);
 	}
 
-	/**
-	 * Return the x coordinate to move the active element. If x is
-	 * {@link EAdMoveActiveElement#MOUSE_COORDINATE}, the target will be the
-	 * mouse position
-	 * 
-	 * @return
-	 */
-	public int getTargetX() {
-		return targetX;
+	public EAdSceneElementDefImpl getTargetElement() {
+		return targetElement;
 	}
 
-	/**
-	 * Sets the x coordinate to move the active element. If x is
-	 * {@link EAdMoveActiveElement#MOUSE_COORDINATE}, the target will be the
-	 * mouse position
-	 * 
-	 * @return
-	 */
-	public void setTargetX(int targetX) {
-		this.targetX = targetX;
+	public void setTargetElement(EAdSceneElementDefImpl targetElement) {
+		this.targetElement = targetElement;
 	}
 
-	/**
-	 * Return the y coordinate to move the active element. If y is
-	 * {@link EAdMoveActiveElement#MOUSE_COORDINATE}, the target will be the
-	 * mouse position
-	 */
-	public int getTargetY() {
-		return targetY;
+	public EAdList<EAdEffect> getGetsToEffects() {
+		return getsToEffects;
 	}
 
-	/**
-	 * Sets the y coordinate to move the active element. If x is
-	 * {@link EAdMoveActiveElement#MOUSE_COORDINATE}, the target will be the
-	 * mouse position
-	 * 
-	 * @return
-	 */
-	public void setTargetY(int targetY) {
-		this.targetY = targetY;
+	public EAdList<EAdEffect> getDoesntGetToEffects() {
+		return doesntGetToEffects;
 	}
 
 }

@@ -37,72 +37,52 @@
 
 package es.eucm.eadventure.engine.core.gameobjects.impl.effects;
 
-import com.google.inject.Inject;
-
 import es.eucm.eadventure.common.model.effects.EAdEffect;
-import es.eucm.eadventure.common.model.effects.impl.EAdMoveActiveElement;
-import es.eucm.eadventure.common.model.elements.EAdScene;
-import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
-import es.eucm.eadventure.common.model.elements.impl.EAdSceneImpl;
+import es.eucm.eadventure.common.model.effects.impl.sceneelements.EAdMoveSceneElement;
+import es.eucm.eadventure.common.model.effects.impl.sceneelements.EAdMoveSceneElement.MovementSpeed;
 import es.eucm.eadventure.common.model.trajectories.TrajectoryDefinition;
-import es.eucm.eadventure.common.model.variables.impl.SystemFields;
-import es.eucm.eadventure.common.params.geom.impl.EAdPositionImpl;
 import es.eucm.eadventure.common.resources.StringHandler;
 import es.eucm.eadventure.engine.core.GameState;
-import es.eucm.eadventure.engine.core.ValueMap;
 import es.eucm.eadventure.engine.core.gameobjects.factories.SceneElementGOFactory;
-import es.eucm.eadventure.engine.core.guiactions.MouseAction;
 import es.eucm.eadventure.engine.core.platform.AssetHandler;
 import es.eucm.eadventure.engine.core.platform.GUI;
 import es.eucm.eadventure.engine.core.trajectories.Path;
 import es.eucm.eadventure.engine.core.trajectories.PathSide;
 import es.eucm.eadventure.engine.core.trajectories.TrajectoryFactory;
 
-public class MoveActiveElementGO extends AbstractMoveActiveElementGO<EAdMoveActiveElement> {
+public class AbstractMoveActiveElementGO<P extends EAdEffect> extends AbstractEffectGO<P> {
 
-	@Inject
-	public MoveActiveElementGO(AssetHandler assetHandler,
+	protected TrajectoryFactory trajectoryFactory;
+
+	protected AbstractMoveActiveElementGO(AssetHandler assetHandler,
 			StringHandler stringHandler, SceneElementGOFactory gameObjectFactory,
 			GUI gui, GameState gameState,
 			TrajectoryFactory trajectoryFactory) {
-		super(assetHandler, stringHandler, gameObjectFactory, gui, gameState, trajectoryFactory);
+		super(assetHandler, stringHandler, gameObjectFactory, gui, gameState);
+		this.trajectoryFactory = trajectoryFactory;
 	}
+	protected EAdEffect getSideEffect(PathSide p, Path trajectory, int i, TrajectoryDefinition trajectoryDefinition) {
+		EAdMoveSceneElement effect = new EAdMoveSceneElement(
+				"trajectory", gameState.getActiveElement(),
+				p.getEndPosition(
+						i == trajectory.getSides().size() - 1)
+						.getX(), p.getEndPosition(
+						i == trajectory.getSides().size() - 1)
+						.getY(), MovementSpeed.NORMAL);
+		effect.setSpeedFactor(p.getSpeedFactor());
+		effect.setBlocking(true);
+		effect.setQueueable(true);
 
-	@Override
-	public void initilize() {
-		super.initilize();
-		ValueMap valueMap = gameState.getValueMap();
-		Object object = gameState.getScene().getElement();
-		if (object instanceof EAdScene && action instanceof MouseAction) {
-			int x = element.getTargetX() == EAdMoveActiveElement.MOUSE_COORDINATE ? valueMap
-					.getValue(SystemFields.MOUSE_X) : element.getTargetX();
-			int y = element.getTargetY() == EAdMoveActiveElement.MOUSE_COORDINATE ? valueMap
-					.getValue(SystemFields.MOUSE_Y) : element.getTargetY();
-			EAdScene scene = (EAdScene) object;
-			TrajectoryDefinition trajectoryDefinition = valueMap.getValue(
-					scene, EAdSceneImpl.VAR_TRAJECTORY_DEFINITION);
-			if (trajectoryDefinition != null) {
-				EAdPositionImpl pos = new EAdPositionImpl(0, 0);
-				pos.setX(valueMap.getValue(gameState.getActiveElement(),
-						EAdBasicSceneElement.VAR_X));
-				pos.setY(valueMap.getValue(gameState.getActiveElement(),
-						EAdBasicSceneElement.VAR_Y));
-				Path trajectory = trajectoryFactory.getTrajectory(
-						trajectoryDefinition, pos, x, y);
-				
-				if (!trajectory.getSides().isEmpty()) {
-					PathSide p = trajectory.getSides().get(0);
-					EAdEffect effect = getSideEffect(p, trajectory, 0, trajectoryDefinition);
-					for (int i = 1; i < trajectory.getSides().size(); i++) {
-						p = trajectory.getSides().get(i);
-						effect.getFinalEffects().add(getSideEffect(p, trajectory, i, trajectoryDefinition));
-					}
-					gameState.addEffect(effect);
-				}
-			}
+		EAdEffect e = trajectory.getChangeSideEffect(p,
+				trajectoryDefinition);
+		if (e != null) {
+			e.setQueueable(true);
+			effect.getFinalEffects().add(e);
 		}
+		
+		return effect;
 	}
-
+	
 	@Override
 	public boolean isVisualEffect() {
 		return false;
