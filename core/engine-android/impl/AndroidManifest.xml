@@ -34,14 +34,10 @@
 				<category android:name="android.intent.category.LAUNCHER" />			
 			</intent-filter>                 	
 		</activity>
-        <activity android:name=".home.WorkspaceActivity"
-			android:screenOrientation="portrait"></activity>
-		<activity android:name=".home.HomeActivity"
-			android:screenOrientation="portrait"></activity>
-		<activity android:name=".home.preferences.PreferencesActivity"
-			android:screenOrientation="portrait"></activity>
-        <activity android:screenOrientation="portrait"
-			android:name=".home.preferences.LaunchAndExplorerActivity"></activity>
+        <activity android:name=".home.WorkspaceActivity"></activity>
+		<activity android:name=".home.HomeActivity"></activity>
+		<activity android:name=".home.preferences.PreferencesActivity"></activity>
+        <activity android:name=".home.preferences.LaunchAndExplorerActivity"></activity>
 		<activity android:screenOrientation="landscape"
 			android:name=".assets.specialassetrenderers.AndroidVideoActivity"></activity>
 		<activity android:screenOrientation="landscape"

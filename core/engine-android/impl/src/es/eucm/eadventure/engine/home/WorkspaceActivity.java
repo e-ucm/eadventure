@@ -888,7 +888,7 @@ public class WorkspaceActivity extends FragmentActivity {
     		progressDialog.setCancelable(false);
 
     		super.setHasOptionsMenu(true);
-
+    		this.setRetainInstance(true);
         }
     	
         /**
