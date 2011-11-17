@@ -3,8 +3,8 @@ package es.eucm.eadventure.engine.core.platform.impl;
 import com.google.inject.Inject;
 
 import es.eucm.eadventure.engine.core.gameobjects.SceneGO;
-import es.eucm.eadventure.engine.core.gameobjects.effect.physics.PhApplyForceGO;
-import es.eucm.eadventure.engine.core.gameobjects.effect.physics.PhysicsEffectGO;
+import es.eucm.eadventure.engine.core.gameobjects.impl.effects.physics.PhApplyForceGO;
+import es.eucm.eadventure.engine.core.gameobjects.impl.effects.physics.PhysicsEffectGO;
 import es.eucm.eadventure.engine.core.gameobjects.impl.SceneGOImpl;
 import es.eucm.eadventure.engine.core.gameobjects.impl.VideoSceneGO;
 import es.eucm.eadventure.engine.core.gameobjects.impl.effects.ActiveElementEffectGO;
