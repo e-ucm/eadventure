@@ -21,9 +21,17 @@ public class DijkstraNode {
 
 	private boolean getsTo;
 
+	private float linePosition;
+	
 	public DijkstraNode(EAdPosition position) {
 		this.position = position;
 		this.sides = new ArrayList<DijkstraPathSide>();
+	}
+
+	public DijkstraNode(EAdPosition position, float linePosition) {
+		this.position = position;
+		this.sides = new ArrayList<DijkstraPathSide>();
+		this.linePosition = linePosition;
 	}
 
 	public void calculateGoalDistance(int toX, int toY) {
@@ -74,4 +82,9 @@ public class DijkstraNode {
 	public void setGetsTo(boolean getsTo) {
 		this.getsTo = getsTo;
 	}
+	
+	public float getLinePosition() {
+		return linePosition;
+	}
+	
 }

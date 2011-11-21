@@ -1,6 +1,8 @@
 package es.eucm.eadventure.engine.core.trajectories.impl.dijkstra;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -157,10 +159,24 @@ public class DijkstraNodeTrajectoryGenerator implements
 		}
 
 		DijkstraPath path = new DijkstraPath();
-		path.setGetsTo(bestNode.isGetsTo());
+		DijkstraNode lastNode = bestNode;
+		path.setGetsTo(lastNode.isGetsTo());
 		while (bestNode != currentNode) {
 			DijkstraPathSide side = map.get(bestNode).path;
-			side.setEndPosition(bestNode.getPosition());
+			if (bestNode == lastNode) {
+				//This code is needed so that the avatar stops just before reaching a barrier or similar
+				// it should not affect anything else.
+				int x1 = bestNode.getPosition().getX();
+				int y1 = bestNode.getPosition().getY();
+				int x21 = side.getOtherNode(bestNode).getPosition().getX() - x1;
+				int y21 = side.getOtherNode(bestNode).getPosition().getY() - y1;
+				if (x21 != 0)
+					x1 += x21 / Math.abs(x21);
+				if (y21 != 0)
+					y1 += y21 / Math.abs(y21);
+				side.setEndPosition(new EAdPositionImpl(x1, y1));
+			} else 
+				side.setEndPosition(bestNode.getPosition());
 			bestNode = side.getOtherNode(bestNode);
 			path.addSide(side);
 		}
@@ -332,8 +348,8 @@ public class DijkstraNodeTrajectoryGenerator implements
 			for (DijkstraNode newNode : newIntersections)
 				newNode.setGetsTo(true);
 			intersections.addAll(i + 1, newIntersections);
-			i++;
-		}
+			i += newIntersections.size() + 1;
+		} 
 	}
 	
 	private boolean isGetsTo(EAdPosition position, SceneElementGO<?> sceneElement) {
@@ -379,7 +395,7 @@ public class DijkstraNodeTrajectoryGenerator implements
 					for (DijkstraNode newNode : newIntersections)
 						newNode.setBreakNode(true);
 					intersections.addAll(i + 1, newIntersections);
-					i++;
+					i += newIntersections.size() + 1;
 				}
 			}
 		}
@@ -397,7 +413,7 @@ public class DijkstraNodeTrajectoryGenerator implements
 	 */
 	private List<DijkstraNode> getIntersections(DijkstraNode start,
 			DijkstraNode end, int width, int height, EAdPosition position) {
-		List<DijkstraNode> intersections = new ArrayList<DijkstraNode>();
+		ArrayList<DijkstraNode> intersections = new ArrayList<DijkstraNode>();
 
 		int x = position.getJavaX(width);
 		int y = position.getJavaY(height);
@@ -407,28 +423,40 @@ public class DijkstraNodeTrajectoryGenerator implements
 		int endX = end.getPosition().getX();
 		int endY = end.getPosition().getY();
 		
-		EAdPosition temp = getIntersection(x, y, x + width, y, startX, startY, endX, endY);
+		DijkstraNode temp = getIntersection(x, y, x + width, y, startX, startY, endX, endY);
 		if (temp != null)
-			intersections.add(new DijkstraNode(temp));
+			intersections.add(temp);
 		temp = getIntersection(x + width, y, x + width, y + height, startX, startY, endX, endY);
 		if (temp != null)
-			intersections.add(new DijkstraNode(temp));
+			intersections.add(temp);
 		temp = getIntersection(x, y + height, x + width, y + height, startX, startY, endX, endY);
 		if (temp != null)
-			intersections.add(new DijkstraNode(temp));
+			intersections.add(temp);
 		temp = getIntersection(x, y, x, y + height, startX, startY, endX, endY);
 		if (temp != null)
-			intersections.add(new DijkstraNode(temp));
+			intersections.add(temp);
+		
+		Collections.sort(intersections, new Comparator<DijkstraNode>() {
 
+			@Override
+			public int compare(DijkstraNode arg0, DijkstraNode arg1) {
+				if (arg0.getLinePosition() < arg1.getLinePosition())
+					return -1;
+				return 1;
+			}
+			
+		});
+		
 		return intersections;
 	}
+	
 	
 	/**
 	 * Using formula from http://paulbourke.net/geometry/lineline2d/
 	 * 
 	 * @return
 	 */
-	private EAdPosition getIntersection(int x1, int y1, int x2, int y2, int x3, int y3, int x4, int y4) {
+	private DijkstraNode getIntersection(int x1, int y1, int x2, int y2, int x3, int y3, int x4, int y4) {
 		int den = (y4 - y3)*(x2 - x1) - (x4 - x3)*(y2 - y1);
 		if (den == 0) 
 			return null;
@@ -442,8 +470,10 @@ public class DijkstraNodeTrajectoryGenerator implements
 			return null;
 		int x = (int) (x1 + uA*(x2 - x1));
 		int y = (int) (y1 + uA*(y2 - y1));
-		return new EAdPositionImpl(x, y);
+		return new DijkstraNode(new EAdPositionImpl(x, y), uA);
 	}
+	
+	
 
 	/**
 	 * Get current side from variables or choose a side from the closest node if
