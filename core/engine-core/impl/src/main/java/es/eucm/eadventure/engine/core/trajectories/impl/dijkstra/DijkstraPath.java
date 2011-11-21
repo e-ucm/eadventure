@@ -20,8 +20,14 @@ import es.eucm.eadventure.engine.core.trajectories.PathSide;
  */
 public class DijkstraPath implements Path {
 
+	/**
+	 * The list of sides in this path
+	 */
 	private List<PathSide> sides;
 
+	/**
+	 * True if the path gets to the influence area of a target element (when available)
+	 */
 	private boolean getsTo;
 
 	public DijkstraPath() {

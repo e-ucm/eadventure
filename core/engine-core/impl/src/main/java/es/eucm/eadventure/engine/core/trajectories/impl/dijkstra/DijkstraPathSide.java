@@ -10,16 +10,34 @@ import es.eucm.eadventure.engine.core.trajectories.PathSide;
  */
 public class DijkstraPathSide implements PathSide {
 
-	float length;
+	/**
+	 * Proportional length of the side according to the model
+	 */
+	private float length;
 	
-	float realLength;
+	/**
+	 * Cartesian length of the side
+	 */
+	private float realLength;
 	
+	/**
+	 * Start node of the side
+	 */
 	private DijkstraNode start;
 	
+	/**
+	 * End node of the side
+	 */
 	private DijkstraNode end;
 	
-	private EAdPosition position;
+	/**
+	 * The end position of the side, dependent on the direction
+	 */
+	private EAdPosition endPosition;
 	
+	/**
+	 * The model side of which this is part
+	 */
 	private Side side;
 	
 	public DijkstraPathSide(DijkstraNode s, DijkstraNode e, double length, double realLength, Side side) {
@@ -40,6 +58,12 @@ public class DijkstraPathSide implements PathSide {
 		return realLength / length;
 	}
 	
+	/**
+	 * Get the node of the side that is not the give one
+	 * 
+	 * @param node One node in the side
+	 * @return The other node in the side
+	 */
 	public DijkstraNode getOtherNode(DijkstraNode node) {
 		if (node == start)
 			return end;
@@ -48,7 +72,7 @@ public class DijkstraPathSide implements PathSide {
 
 	@Override
 	public EAdPosition getEndPosition(boolean last) {
-		return position;
+		return endPosition;
 	}
 
 	public DijkstraNode getEndNode() {
@@ -60,7 +84,7 @@ public class DijkstraPathSide implements PathSide {
 	}
 
 	public void setEndPosition(EAdPosition position) {
-		this.position = position;
+		this.endPosition = position;
 	}
 
 	public Side getSide() {
