@@ -45,19 +45,15 @@ public abstract class NodeVisitor<T> {
 			Node newNode = nl.item(i);
 			Field field = getField(element, newNode.getAttributes().getNamedItem(DOMTags.PARAM_AT).getNodeValue());
 
-			if (newNode.getNodeName().equals(DOMTags.PARAM_AT))
-				parseParam(element, newNode, field);
-			
 			if (newNode.getNodeName().equals("resources"))
 				parseResources(element, newNode, field);
-			
 			//TODO use constant
-			if (newNode.getNodeName().equals("list"))
+			else if (newNode.getNodeName().equals("list"))
 				parseList(element, newNode, field);
-			
-			if (newNode.getNodeName().equals("map"))
+			else if (newNode.getNodeName().equals("map"))
 				parseMap(element, newNode, field);
-
+			else
+				parseParam(element, newNode, field);
 		}
 	}
 	
@@ -82,7 +78,7 @@ public abstract class NodeVisitor<T> {
 					}
 					
 					NodeList nl2 = nl.item(i).getChildNodes();
-					for (int j = 0, cnt2=nl.getLength(); j<cnt2;j++) {
+					for (int j = 0, cnt2=nl2.getLength(); j<cnt2;j++) {
 						AssetDescriptor asset = (AssetDescriptor) VisitorFactory.getVisitor("asset").visit(nl2.item(j));
 						resources.addAsset(id, nl2.item(j).getAttributes().getNamedItem("id").getNodeValue(), asset);
 					}
@@ -103,6 +99,7 @@ public abstract class NodeVisitor<T> {
 
 	private void parseMap(Object element, Node newNode, Field field) {
 		boolean accessible = field.isAccessible();
+		String type;
 		try {
 			field.setAccessible(true);
 			EAdMap<Object, Object> map = (EAdMap<Object, Object>) field.get(element);
@@ -110,7 +107,7 @@ public abstract class NodeVisitor<T> {
 			
 			for(int i=0, cnt=nl.getLength(); i<cnt; i+=2)
 			{
-				String type = nl.item(i).getNodeName();
+				type = nl.item(i).getNodeName();
 				Object key = VisitorFactory.getVisitor(type).visit(nl.item(i));
 				type = nl.item(i+1).getNodeName();
 				Object value = VisitorFactory.getVisitor(type).visit(nl.item(i+1));
@@ -128,6 +125,7 @@ public abstract class NodeVisitor<T> {
 	
 	private void parseList(Object element, Node newNode, Field field) {
 		boolean accessible = field.isAccessible();
+		String type;
 		try {
 			field.setAccessible(true);
 			EAdList<Object> list = (EAdList<Object>) field.get(element);
@@ -135,7 +133,7 @@ public abstract class NodeVisitor<T> {
 			
 			for(int i=0, cnt=nl.getLength(); i<cnt; i++)
 			{
-				String type = nl.item(i).getNodeName();
+				type = nl.item(i).getNodeName();
 				Object object = VisitorFactory.getVisitor(type).visit(nl.item(i));
 				list.add(object);
 			}
@@ -165,7 +163,8 @@ public abstract class NodeVisitor<T> {
 				field.setAccessible(accessible);
 			}
 	}
-	
+
+
 
 	/**
 	 * Gets the {@link Field} object identified by the given id. It gives

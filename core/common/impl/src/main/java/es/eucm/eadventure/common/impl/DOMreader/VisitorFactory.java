@@ -14,6 +14,7 @@ public class VisitorFactory {
 		addVisitor(new ElementNodeVisitor());
 		addVisitor(new ParamNodeVisitor());
 		addVisitor(new AssetNodeVisitor());
+		addVisitor(new ListNodeVisitor());
 	}
 	
 	private void addVisitor(NodeVisitor<?> nodeVisitor) {
@@ -23,6 +24,9 @@ public class VisitorFactory {
 	static public NodeVisitor<?> getVisitor(String key) {
 		if (instance == null)
 			instance = new VisitorFactory();
-		return instance.map.get(key);
+		NodeVisitor<?> visitor = instance.map.get(key);
+		if (visitor == null)
+			throw new RuntimeException("missing visitor " + key);
+		return visitor;
 	}
 }

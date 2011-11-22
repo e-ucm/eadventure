@@ -19,7 +19,8 @@ public class ParamDOMWriter extends DOMWriter<EAdParam> {
 		String value = paramsMap.get(data.toStringData());
 		if (value == null) {
 			value = data.toStringData();
-			paramsMap.put(value, "" + paramsMap.keySet().size());
+			//FIXME
+			//paramsMap.put(value, "" + paramsMap.keySet().size());
 		}
 		node.setAttribute(DOMTags.CLASS_AT, shortClass(data.getClass().getName()));
 		node.setTextContent(value);

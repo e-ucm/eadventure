@@ -17,16 +17,15 @@ public class AssetNodeVisitor extends NodeVisitor<AssetDescriptor> {
 
 	@Override
 	public AssetDescriptor visit(Node node) {
-		String value = node.getNodeValue();
-		if (value != null)
-			return (AssetDescriptor) ObjectFactory.getObject(value, AssetDescriptor.class);
-		
+		AssetDescriptor element =  (AssetDescriptor) ObjectFactory.getObject(node.getTextContent(), AssetDescriptor.class);
+		if (element != null)
+				return element;
+			
 		String uniqueId = node.getAttributes().getNamedItem(DOMTags.UNIQUE_ID_AT).getNodeValue();
 
 		String clazz = node.getAttributes().getNamedItem(DOMTags.CLASS_AT).getNodeValue();
 		clazz = translateClass(clazz);
 		
-		AssetDescriptor element = null;
 		Class<?> c = null;
 		try {
 			c = ClassLoader.getSystemClassLoader().loadClass(clazz);

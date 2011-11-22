@@ -17,17 +17,24 @@ public class ElementNodeVisitor extends NodeVisitor<EAdElement> {
 
 	@Override
 	public EAdElement visit(Node node) {
-		String value = node.getNodeValue();
-		if (value != null)
-			return (EAdElement) ObjectFactory.getObject(value, EAdElement.class);
+		EAdElement element = (EAdElement) ObjectFactory.getObject(node.getTextContent(), EAdElement.class);
+		if (element != null)
+			return element;
 		
-		String uniqueId = node.getAttributes().getNamedItem(DOMTags.UNIQUE_ID_AT).getNodeValue();
-		String id = node.getAttributes().getNamedItem(DOMTags.ID_AT).getNodeValue();
+		Node n = node.getAttributes().getNamedItem(DOMTags.UNIQUE_ID_AT);
+		String uniqueId = n != null ? n.getNodeValue() : null;
+		n = node.getAttributes().getNamedItem(DOMTags.ID_AT);
+		String id = n != null ? n.getNodeValue() : null;
 
-		String clazz = node.getAttributes().getNamedItem(loaderType).getNodeValue();
-		clazz = translateClass(clazz);
+		n = node.getAttributes().getNamedItem(loaderType);
+		String clazz = null;
+		if (n != null) {
+			clazz = node.getAttributes().getNamedItem(loaderType).getNodeValue();
+			clazz = translateClass(clazz);
+		} else {
+			System.out.println("wired null");
+		}
 		
-		EAdElement element = null;
 		Class<?> c = null;
 		try {
 			c = ClassLoader.getSystemClassLoader().loadClass(clazz);
