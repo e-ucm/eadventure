@@ -41,8 +41,8 @@ import java.lang.reflect.Constructor;
 
 import org.xml.sax.Attributes;
 
+import es.eucm.eadventure.common.impl.DOMTags;
 import es.eucm.eadventure.common.impl.reader.subparsers.extra.ObjectFactory;
-import es.eucm.eadventure.common.impl.writer.DOMWriter;
 import es.eucm.eadventure.common.model.EAdElement;
 
 /**
@@ -55,9 +55,9 @@ public class ElementSubparser extends Subparser<EAdElement> {
 	public ElementSubparser(Object o, Attributes attributes) {
 		super(o, attributes, EAdElement.class);
 		// If element is new
-		if (attributes.getIndex(DOMWriter.ID_AT) != -1) {
-			String id = attributes.getValue(DOMWriter.ID_AT);
-			String uniqueId = attributes.getValue(DOMWriter.UNIQUE_ID_AT);
+		if (attributes.getIndex(DOMTags.ID_AT) != -1) {
+			String id = attributes.getValue(DOMTags.ID_AT);
+			String uniqueId = attributes.getValue(DOMTags.UNIQUE_ID_AT);
 
 			Class<?> c = null;
 			try {

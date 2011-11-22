@@ -43,9 +43,9 @@ import java.util.logging.Logger;
 
 import org.xml.sax.Attributes;
 
+import es.eucm.eadventure.common.impl.DOMTags;
 import es.eucm.eadventure.common.impl.reader.subparsers.extra.AssetId;
 import es.eucm.eadventure.common.impl.reader.subparsers.extra.ObjectFactory;
-import es.eucm.eadventure.common.impl.writer.DOMWriter;
 import es.eucm.eadventure.common.resources.assets.AssetDescriptor;
 
 /**
@@ -74,10 +74,10 @@ public class AssetSubparser extends Subparser<AssetDescriptor> {
 		super(parent, attributes, AssetDescriptor.class);
 		if (assetId instanceof AssetId) {
 			((AssetId) assetId)
-					.setAssetId(attributes.getValue(DOMWriter.ID_AT));
+					.setAssetId(attributes.getValue(DOMTags.ID_AT));
 		}
 		if (clazz != null) {
-			String uniqueId = attributes.getValue(DOMWriter.UNIQUE_ID_AT);
+			String uniqueId = attributes.getValue(DOMTags.UNIQUE_ID_AT);
 			Class<?> c = null;
 			try {
 				c = ClassLoader.getSystemClassLoader().loadClass(clazz);

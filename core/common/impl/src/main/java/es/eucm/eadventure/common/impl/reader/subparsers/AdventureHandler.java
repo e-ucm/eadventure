@@ -42,9 +42,9 @@ import java.util.Stack;
 import org.xml.sax.Attributes;
 import org.xml.sax.helpers.DefaultHandler;
 
+import es.eucm.eadventure.common.impl.DOMTags;
 import es.eucm.eadventure.common.impl.reader.subparsers.extra.ObjectFactory;
 import es.eucm.eadventure.common.impl.writer.AssetDOMWriter;
-import es.eucm.eadventure.common.impl.writer.DOMWriter;
 import es.eucm.eadventure.common.impl.writer.DefaultDOMWriter;
 import es.eucm.eadventure.common.impl.writer.ElementDOMWriter;
 import es.eucm.eadventure.common.impl.writer.ListDOMWriter;
@@ -73,8 +73,8 @@ public class AdventureHandler extends DefaultHandler {
 	@Override
 	public void startElement(String uri, String localName, String qName,
 			Attributes attributes) {
-		if (qName.equals(DOMWriter.ROOT_TAG)) {
-			String packageName = attributes.getValue(DOMWriter.PACKAGE_AT);
+		if (qName.equals(DOMTags.ROOT_TAG)) {
+			String packageName = attributes.getValue(DOMTags.PACKAGE_AT);
 			Subparser.init(packageName);
 		} else if (qName.equals(ElementDOMWriter.TAG)) {
 			Object o = null;

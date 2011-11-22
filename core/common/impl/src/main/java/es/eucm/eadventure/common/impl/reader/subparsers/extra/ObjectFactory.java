@@ -60,9 +60,6 @@ public class ObjectFactory {
 
 	@SuppressWarnings("unchecked")
 	public static Object getObject(String value, Class<?> fieldType) {
-		if (value.equals("17")) {
-			System.out.println("17");
-		}
 		if ( EAdParam.class.isAssignableFrom(fieldType)){
 			if ( paramsMap.containsKey(value)){
 				logger.info(value + " was compressed." );
@@ -70,7 +67,7 @@ public class ObjectFactory {
 			}
 			else {
 				EAdParam param = constructParam( value, (Class<? extends EAdParam>) fieldType );
-				paramsMap.put(paramsMap.keySet().size() + "", param);
+				paramsMap.put(""+paramsMap.keySet().size(), param);
 				return param;
 			}
 		} else if ( EAdElement.class.isAssignableFrom(fieldType)){

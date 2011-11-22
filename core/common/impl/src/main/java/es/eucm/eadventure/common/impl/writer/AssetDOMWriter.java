@@ -2,6 +2,7 @@ package es.eucm.eadventure.common.impl.writer;
 
 import org.w3c.dom.Element;
 
+import es.eucm.eadventure.common.impl.DOMTags;
 import es.eucm.eadventure.common.resources.assets.AssetDescriptor;
 
 public class AssetDOMWriter extends FieldParamWriter<AssetDescriptor> {
@@ -20,9 +21,9 @@ public class AssetDOMWriter extends FieldParamWriter<AssetDescriptor> {
 		}
 
 		// Set unique id and class (it has to be in this order)
-		node.setAttribute(UNIQUE_ID_AT, mappedAsset.size() + "");
+		node.setAttribute(DOMTags.UNIQUE_ID_AT, mappedAsset.size() + "");
 		mappedAsset.add(assetDescriptor);
-		node.setAttribute(CLASS_AT, shortClass(assetDescriptor.getClass().getName()));
+		node.setAttribute(DOMTags.CLASS_AT, shortClass(assetDescriptor.getClass().getName()));
 
 		// Process Param fields
 		super.processParams(node, assetDescriptor);

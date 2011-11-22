@@ -109,4 +109,11 @@ public interface EAdResources extends EAdAssetBundle {
 	
 	boolean isEmpty();
 
+	/**
+	 * Remove a bundle from the resources definition
+	 * 
+	 * @param initialBundle
+	 */
+	void removeBundle(EAdBundleId initialBundle);
+
 }

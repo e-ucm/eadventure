@@ -42,8 +42,8 @@ import java.util.logging.Logger;
 
 import org.xml.sax.Attributes;
 
+import es.eucm.eadventure.common.impl.DOMTags;
 import es.eucm.eadventure.common.impl.reader.subparsers.extra.ObjectFactory;
-import es.eucm.eadventure.common.impl.writer.DOMWriter;
 import es.eucm.eadventure.common.interfaces.Param;
 
 /**
@@ -59,8 +59,8 @@ public abstract class Subparser<T> {
 
 	public static void init(String packageN) {
 		packageName = packageN;
-		loaderType = DOMWriter.CLASS_AT;
-		//loaderType = DOMWriter.TYPE_AT;
+		loaderType = DOMTags.CLASS_AT;
+		//loaderType = DOMTags.TYPE_AT;
 	}
 
 	protected String clazz;
@@ -86,8 +86,8 @@ public abstract class Subparser<T> {
 		this.defaultClass = defaultClass;
 		clazz = translateClass(attributes.getValue(loaderType));
 		if (clazz == null)
-			clazz = translateClass(attributes.getValue(DOMWriter.CLASS_AT));
-		param = attributes.getValue(DOMWriter.PARAM_AT);
+			clazz = translateClass(attributes.getValue(DOMTags.CLASS_AT));
+		param = attributes.getValue(DOMTags.PARAM_AT);
 		if (param != null) {
 			field = getField(parent, param);
 			if (field != null) {

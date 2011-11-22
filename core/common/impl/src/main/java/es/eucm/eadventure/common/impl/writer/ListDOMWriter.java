@@ -39,6 +39,7 @@ package es.eucm.eadventure.common.impl.writer;
 
 import org.w3c.dom.Element;
 
+import es.eucm.eadventure.common.impl.DOMTags;
 import es.eucm.eadventure.common.model.extra.EAdList;
 
 public class ListDOMWriter extends DOMWriter<EAdList<?>> {
@@ -48,7 +49,7 @@ public class ListDOMWriter extends DOMWriter<EAdList<?>> {
 	@Override
 	public Element buildNode(EAdList<?> list) {
 		Element node = doc.createElement(TAG);
-		node.setAttribute(CLASS_AT, shortClass(list.getValueClass().getName()));
+		node.setAttribute(DOMTags.CLASS_AT, shortClass(list.getValueClass().getName()));
 
 		for (Object o : list) {
 			if (o != null) {
