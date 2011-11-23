@@ -46,34 +46,32 @@ import java.net.URI;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.parsers.SAXParser;
-import javax.xml.parsers.SAXParserFactory;
 
+import org.w3c.dom.Document;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
 import com.google.inject.Inject;
 
 import es.eucm.eadventure.common.Reader;
-import es.eucm.eadventure.common.impl.reader.subparsers.AdventureHandler;
+import es.eucm.eadventure.common.impl.DOMTags;
+import es.eucm.eadventure.common.impl.reader.extra.ObjectFactory;
+import es.eucm.eadventure.common.impl.reader.visitors.ElementNodeVisitor;
+import es.eucm.eadventure.common.impl.reader.visitors.NodeVisitor;
 import es.eucm.eadventure.common.model.elements.EAdAdventureModel;
 
 /**
  * The reader for the XML representation of the model
  */
-@Deprecated
-public class EAdAdventureModelReader implements Reader<EAdAdventureModel> {
+public class EAdAdventureDOMModelReader implements Reader<EAdAdventureModel> {
 	
 	private static final Logger logger = Logger.getLogger("EAdReader");
-	
-	/**
-	 * The SAX handler to read the model from the XML file.
-	 */
-	private AdventureHandler adventureHandler;
-	
+		
 	@Inject
-	public EAdAdventureModelReader(AdventureHandler adventureHandler) {
-		this.adventureHandler = adventureHandler;
+	public EAdAdventureDOMModelReader() {
 	}
 	
 	@Override
@@ -92,14 +90,13 @@ public class EAdAdventureModelReader implements Reader<EAdAdventureModel> {
 	public EAdAdventureModel read(InputStream inputStream) {
 		EAdAdventureModel data = null;
 		try {
-            SAXParserFactory factory = SAXParserFactory.newInstance( );
-            factory.setValidating( false );
-            SAXParser saxParser = factory.newSAXParser( );
-            
-            saxParser.parse( inputStream, adventureHandler );
-			data = adventureHandler.getAdventureModel();
+			ObjectFactory.initilize();
+			Document doc = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(inputStream);
+			ElementNodeVisitor env = new ElementNodeVisitor();
+			NodeVisitor.init(doc.getFirstChild().getAttributes().getNamedItem(DOMTags.PACKAGE_AT).getNodeValue());
+			data = (EAdAdventureModel) env.visit(doc.getFirstChild().getFirstChild(), null, null);
+
 			return data;
-			
 		} catch( ParserConfigurationException e ) {
 			logger.log(Level.SEVERE, e.getMessage(), e);
         }
@@ -113,6 +110,17 @@ public class EAdAdventureModelReader implements Reader<EAdAdventureModel> {
         	logger.log(Level.SEVERE, e.getMessage(), e);
         }		
         return null;
+	}
+	
+	public void visit(Node node, int level)
+	{
+		NodeList nl = node.getChildNodes();
+		
+		for(int i=0, cnt=nl.getLength(); i<cnt; i++)
+		{
+			System.out.println(level + " ["+nl.item(i).getNodeName() + (nl.item(i).getNodeValue() != null ? nl.item(i).getNodeValue() : "") + "]");
+			visit(nl.item(i), level+1);
+		}
 	}
 
 

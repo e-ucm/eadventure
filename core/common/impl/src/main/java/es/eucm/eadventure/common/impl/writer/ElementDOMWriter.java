@@ -41,6 +41,7 @@ import java.util.logging.Level;
 
 import org.w3c.dom.Element;
 
+import es.eucm.eadventure.common.impl.DOMTags;
 import es.eucm.eadventure.common.interfaces.EAdRuntimeException;
 import es.eucm.eadventure.common.model.EAdElement;
 
@@ -49,7 +50,7 @@ public class ElementDOMWriter extends FieldParamWriter<EAdElement> {
 	public static final String TAG = "element";
 
 	@Override
-	public org.w3c.dom.Element buildNode(EAdElement element) {
+	public Element buildNode(EAdElement element) {
 		Element node = doc.createElement(TAG);
 		try {
 			// Check if the element is new
@@ -63,8 +64,8 @@ public class ElementDOMWriter extends FieldParamWriter<EAdElement> {
 			}
 
 			// Set id and unique id
-			node.setAttribute(ID_AT, element.getId());
-			node.setAttribute(UNIQUE_ID_AT, elementMap.get(element));
+			node.setAttribute(DOMTags.ID_AT, element.getId());
+			node.setAttribute(DOMTags.UNIQUE_ID_AT, elementMap.get(element));
 
 			// Look for Element annotation
 			Class<?> clazz = element.getClass();
@@ -83,9 +84,9 @@ public class ElementDOMWriter extends FieldParamWriter<EAdElement> {
 						+ element.getClass());
 			} else {
 
-				node.setAttribute(TYPE_AT, shortClass(annotation.detailed()
+				node.setAttribute(DOMTags.TYPE_AT, shortClass(annotation.detailed()
 						.getName()));
-				node.setAttribute(CLASS_AT, shortClass(annotation.runtime()
+				node.setAttribute(DOMTags.CLASS_AT, shortClass(annotation.runtime()
 						.getName()));
 			}
 

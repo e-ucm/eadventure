@@ -39,8 +39,8 @@ package es.eucm.eadventure.common.impl.reader.subparsers;
 
 import org.xml.sax.Attributes;
 
+import es.eucm.eadventure.common.impl.DOMTags;
 import es.eucm.eadventure.common.impl.reader.subparsers.extra.AssetId;
-import es.eucm.eadventure.common.impl.writer.DOMWriter;
 import es.eucm.eadventure.common.resources.EAdBundleId;
 import es.eucm.eadventure.common.resources.EAdResources;
 import es.eucm.eadventure.common.resources.assets.AssetDescriptor;
@@ -76,7 +76,7 @@ public class BundleSubparser extends Subparser<EAdBundleId> implements AssetId {
 	 */
 	public BundleSubparser(EAdResources resources, Attributes attributes) {
 		super( resources, attributes, EAdBundleId.class );
-		element = new EAdBundleId(attributes.getValue(DOMWriter.ID_AT));
+		element = new EAdBundleId(attributes.getValue(DOMTags.ID_AT));
 		this.resources = resources;
 		if (element.equals(resources.getInitialBundle())) {
 			element = resources.getInitialBundle();

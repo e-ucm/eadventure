@@ -40,6 +40,7 @@ package es.eucm.eadventure.common.impl.writer;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
+import es.eucm.eadventure.common.impl.DOMTags;
 import es.eucm.eadventure.common.resources.EAdAssetBundle;
 import es.eucm.eadventure.common.resources.EAdBundleId;
 import es.eucm.eadventure.common.resources.EAdResources;
@@ -102,7 +103,7 @@ public class ResourcesDOMWriter extends DOMWriter<EAdResources> {
 	 */
 	private Node processBundle(EAdBundleId id, EAdAssetBundle bundle) {
 		Element bundleNode = doc.createElement(TAG_BUNDLE);
-		bundleNode.setAttribute(ID_AT, id.getBundleId());
+		bundleNode.setAttribute(DOMTags.ID_AT, id.getBundleId());
 
 		for (String assetId : ((EAdAssetBundleImpl) bundle).getIds()) {
 			Node assetNode = processAsset(assetId, bundle.getAsset(assetId));
@@ -124,7 +125,7 @@ public class ResourcesDOMWriter extends DOMWriter<EAdResources> {
 	 */
 	private Node processAsset(String id, AssetDescriptor assetDescriptor) {
 		Element assetNode = super.initNode(assetDescriptor);
-		assetNode.setAttribute(ID_AT, id);
+		assetNode.setAttribute(DOMTags.ID_AT, id);
 		return assetNode;
 	}
 }

@@ -48,6 +48,7 @@ import javax.xml.parsers.ParserConfigurationException;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
+import es.eucm.eadventure.common.impl.DOMTags;
 import es.eucm.eadventure.common.model.EAdElement;
 import es.eucm.eadventure.common.model.extra.EAdList;
 import es.eucm.eadventure.common.model.extra.EAdMap;
@@ -62,22 +63,6 @@ import es.eucm.eadventure.common.resources.assets.AssetDescriptor;
  *            The type of the element writen by this DOMWriter
  */
 public abstract class DOMWriter<T> {
-
-	public static final String PACKAGE = "es.eucm.eadventure.common";
-
-	public static final String CLASS_AT = "class";
-
-	public static final String ID_AT = "id";
-
-	public static final String PARAM_AT = "param";
-
-	public static final String TYPE_AT = "type";
-
-	public static final String UNIQUE_ID_AT = "uniqueId";
-	
-	public static final String ROOT_TAG = "adventure";
-	
-	public static final String PACKAGE_AT = "package";
 
 	protected static final Logger logger = Logger.getLogger("DOMWriter");
 
@@ -154,7 +139,7 @@ public abstract class DOMWriter<T> {
 	}
 
 	public String shortClass(String clazz) {
-		return clazz.startsWith(PACKAGE) ? clazz.substring(PACKAGE.length())
+		return clazz.startsWith(DOMTags.PACKAGE) ? clazz.substring(DOMTags.PACKAGE.length())
 				: clazz;
 	}
 
