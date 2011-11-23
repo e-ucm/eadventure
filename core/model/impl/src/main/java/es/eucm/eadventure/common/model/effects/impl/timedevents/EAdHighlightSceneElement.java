@@ -39,8 +39,7 @@ package es.eucm.eadventure.common.model.effects.impl.timedevents;
 
 import es.eucm.eadventure.common.interfaces.Element;
 import es.eucm.eadventure.common.interfaces.Param;
-import es.eucm.eadventure.common.model.effects.impl.AbstractEAdEffect;
-import es.eucm.eadventure.common.model.elements.EAdSceneElement;
+import es.eucm.eadventure.common.model.effects.impl.sceneelements.AbstractSceneElementEffect;
 
 /**
  * Effect used to highlight an scene element
@@ -48,35 +47,13 @@ import es.eucm.eadventure.common.model.elements.EAdSceneElement;
  * 
  */
 @Element(runtime = EAdHighlightSceneElement.class, detailed = EAdHighlightSceneElement.class)
-public class EAdHighlightSceneElement extends AbstractEAdEffect {
-
-	@Param("element")
-	private EAdSceneElement sceneElement;
+public class EAdHighlightSceneElement extends AbstractSceneElementEffect {
 
 	@Param("time")
 	private int time;
 
 	public EAdHighlightSceneElement(String id) {
 		super(id);
-	}
-
-	/**
-	 * Gets the scene element associated to this effect
-	 * 
-	 * @return the scene element associated to this effect
-	 */
-	public EAdSceneElement getSceneElement() {
-		return sceneElement;
-	}
-
-	/**
-	 * Sets scene element for this effect
-	 * 
-	 * @param sceneElement
-	 *            the scene element
-	 */
-	public void setSceneElement(EAdSceneElement sceneElement) {
-		this.sceneElement = sceneElement;
 	}
 
 	/**

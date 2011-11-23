@@ -6,8 +6,6 @@ import com.google.gwt.inject.client.Ginjector;
 import es.eucm.eadventure.common.resources.StringHandler;
 import es.eucm.eadventure.engine.core.Game;
 import es.eucm.eadventure.engine.core.MouseState;
-import es.eucm.eadventure.engine.core.gameobjects.impl.effects.physics.PhApplyForceGO;
-import es.eucm.eadventure.engine.core.gameobjects.impl.effects.physics.PhysicsEffectGO;
 import es.eucm.eadventure.engine.core.gameobjects.impl.SceneGOImpl;
 import es.eucm.eadventure.engine.core.gameobjects.impl.VideoSceneGO;
 import es.eucm.eadventure.engine.core.gameobjects.impl.effects.ActiveElementEffectGO;
@@ -19,7 +17,6 @@ import es.eucm.eadventure.engine.core.gameobjects.impl.effects.ComplexBlockingEf
 import es.eucm.eadventure.engine.core.gameobjects.impl.effects.HighlightEffectGO;
 import es.eucm.eadventure.engine.core.gameobjects.impl.effects.InterpolationGO;
 import es.eucm.eadventure.engine.core.gameobjects.impl.effects.ModifyActorStateGO;
-import es.eucm.eadventure.engine.core.gameobjects.impl.effects.MoveActiveElementGO;
 import es.eucm.eadventure.engine.core.gameobjects.impl.effects.MoveSceneElementGO;
 import es.eucm.eadventure.engine.core.gameobjects.impl.effects.PlaySoundEffectGO;
 import es.eucm.eadventure.engine.core.gameobjects.impl.effects.QuitGameEffectGO;
@@ -28,6 +25,8 @@ import es.eucm.eadventure.engine.core.gameobjects.impl.effects.ShowSceneElementG
 import es.eucm.eadventure.engine.core.gameobjects.impl.effects.SpeakEffectGO;
 import es.eucm.eadventure.engine.core.gameobjects.impl.effects.TriggerMacroEffectGO;
 import es.eucm.eadventure.engine.core.gameobjects.impl.effects.WaitEffectGO;
+import es.eucm.eadventure.engine.core.gameobjects.impl.effects.physics.PhApplyForceGO;
+import es.eucm.eadventure.engine.core.gameobjects.impl.effects.physics.PhysicsEffectGO;
 import es.eucm.eadventure.engine.core.gameobjects.impl.events.ConditionEventGO;
 import es.eucm.eadventure.engine.core.gameobjects.impl.events.SceneElementEventGO;
 import es.eucm.eadventure.engine.core.gameobjects.impl.events.SceneElementTimedEventGO;
@@ -62,7 +61,6 @@ public interface PlayNGinInjector extends Ginjector {
 	public ComplexBlockingEffectGO getComplexBlockingEffectGO();
 	public HighlightEffectGO getHighlightEffectGO();
 	public ModifyActorStateGO getModifyActorStateGO();
-	public MoveActiveElementGO getMoveActiveElementGO();
 	public MoveSceneElementGO getMoveSceneElementGO();
 	public PlaySoundEffectGO getPlaySoundEffectGO();
 	public QuitGameEffectGO getQuitGameEffectGO();

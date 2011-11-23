@@ -44,14 +44,11 @@ import es.eucm.eadventure.common.data.chapter.conditions.Conditions;
 import es.eucm.eadventure.common.data.chapter.effects.SpeakCharEffect;
 import es.eucm.eadventure.common.data.chapter.elements.NPC;
 import es.eucm.eadventure.common.impl.importer.interfaces.EAdElementFactory;
-import es.eucm.eadventure.common.model.effects.impl.text.EAdSpeakEffect;
 import es.eucm.eadventure.common.model.elements.EAdCondition;
-import es.eucm.eadventure.common.model.elements.EAdSceneElement;
-import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
-import es.eucm.eadventure.common.model.variables.EAdField;
-import es.eucm.eadventure.common.model.variables.impl.EAdFieldImpl;
-import es.eucm.eadventure.common.params.fills.impl.EAdPaintImpl;
+import es.eucm.eadventure.common.model.elements.EAdSceneElementDef;
 import es.eucm.eadventure.common.params.fills.impl.EAdColor;
+import es.eucm.eadventure.common.params.fills.impl.EAdPaintImpl;
+import es.eucm.eadventure.common.predef.model.effects.EAdSpeakSceneElement;
 import es.eucm.eadventure.common.resources.StringHandler;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.shapes.BallonShape.BalloonType;
 
@@ -72,15 +69,15 @@ public class SpeakCharEffectImporter extends
 	}
 
 	@Override
-	public EAdSpeakEffect init(SpeakCharEffect oldObject) {
+	public EAdSpeakSceneElement init(SpeakCharEffect oldObject) {
 		npc = factory.getCurrentOldChapterModel().getCharacter(
 				oldObject.getTargetId());
 		return super.init(oldObject);
 	}
 
 	@Override
-	public EAdSpeakEffect convert(SpeakCharEffect oldObject, Object object) {
-		EAdSpeakEffect effect = super.convert(oldObject, object);
+	public EAdSpeakSceneElement convert(SpeakCharEffect oldObject, Object object) {
+		EAdSpeakSceneElement effect = super.convert(oldObject, object);
 
 		String line = oldObject.getLine();
 
@@ -113,30 +110,9 @@ public class SpeakCharEffectImporter extends
 		effect.setColor(new EAdPaintImpl(center, border),
 				new EAdPaintImpl(bubbleCenter, bubbleBorder));
 
-		// FIXME Wrong, element holds an actor, and we need the reference
-		EAdSceneElement element = (EAdSceneElement) factory.getElementById(npc
+		EAdSceneElementDef element = (EAdSceneElementDef) factory.getElementById(npc
 				.getId());
-
-		EAdField<Integer> x = new EAdFieldImpl<Integer>(element,
-				EAdBasicSceneElement.VAR_X);
-		EAdField<Integer> y = new EAdFieldImpl<Integer>(element,
-				EAdBasicSceneElement.VAR_Y);
-		EAdField<Integer> width = new EAdFieldImpl<Integer>(element,
-				EAdBasicSceneElement.VAR_WIDTH);
-		EAdField<Integer> height = new EAdFieldImpl<Integer>(element,
-				EAdBasicSceneElement.VAR_HEIGHT);
-		EAdField<String> state = new EAdFieldImpl<String>(element,
-				EAdBasicSceneElement.VAR_STATE);
-		EAdField<Float> dispX = new EAdFieldImpl<Float>(element,
-				EAdBasicSceneElement.VAR_DISP_X);
-		EAdField<Float> dispY = new EAdFieldImpl<Float>(element,
-				EAdBasicSceneElement.VAR_DISP_Y);
-		EAdField<Float> scale = new EAdFieldImpl<Float>(element,
-				EAdBasicSceneElement.VAR_SCALE);
-
-//		effect.setPosition(x, y, dispX, dispY);
-//		effect.setStateVar(state);
-//		effect.setDimensions(width, height, scale);
+		effect.setElement(element);
 
 		return effect;
 	}

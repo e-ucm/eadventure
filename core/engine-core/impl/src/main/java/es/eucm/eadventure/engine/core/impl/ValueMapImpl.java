@@ -85,8 +85,9 @@ public class ValueMapImpl implements ValueMap {
 
 	@Override
 	public void setValue(EAdElement element, EAdVarDef<?> varDef, Object value) {
-		if (value == null || reflectionProvider.isAssignableFrom(varDef.getType(),
-				value.getClass())) {
+		if (value == null
+				|| reflectionProvider.isAssignableFrom(varDef.getType(),
+						value.getClass())) {
 
 			Map<EAdVarDef<?>, Object> valMap = element == null ? systemVars
 					: map.get(getFinalElement(element));
@@ -125,11 +126,15 @@ public class ValueMapImpl implements ValueMap {
 		return getValue(var.getElement(), var.getVarDefinition());
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
 	public <S> S getValue(EAdElement element, EAdVarDef<S> varDef) {
+		return getFinalValue(getFinalElement(element), varDef);
+	}
+
+	@SuppressWarnings("unchecked")
+	private <S> S getFinalValue(EAdElement element, EAdVarDef<S> varDef) {
 		Map<EAdVarDef<?>, Object> valMap = element == null ? systemVars : map
-				.get(getFinalElement(element));
+				.get(element);
 		if (valMap == null) {
 			// If the variable has not been set, returns the initial value
 			return varDef.getInitialValue();
@@ -140,7 +145,6 @@ public class ValueMapImpl implements ValueMap {
 				|| !reflectionProvider.isAssignableFrom(varDef.getType(),
 						value.getClass()) ? varDef.getInitialValue()
 				: (S) value;
-
 	}
 
 	@Override

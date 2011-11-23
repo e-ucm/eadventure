@@ -4,7 +4,7 @@ import es.eucm.eadventure.common.interfaces.Param;
 import es.eucm.eadventure.common.model.EAdElement;
 import es.eucm.eadventure.common.model.effects.EAdSceneElementEffect;
 import es.eucm.eadventure.common.model.effects.impl.AbstractEAdEffect;
-import es.eucm.eadventure.common.model.elements.EAdSceneElement;
+import es.eucm.eadventure.common.model.elements.EAdSceneElementDef;
 import es.eucm.eadventure.common.model.variables.EAdField;
 
 public abstract class AbstractSceneElementEffect extends AbstractEAdEffect
@@ -22,11 +22,11 @@ public abstract class AbstractSceneElementEffect extends AbstractEAdEffect
 		return element;
 	}
 
-	public void setSceneElement(EAdSceneElement element) {
+	public void setSceneElement(EAdSceneElementDef element) {
 		this.element = element;
 	}
 
-	public void setSceneElement(EAdField<EAdSceneElement> elementField) {
+	public void setSceneElement(EAdField<EAdSceneElementDef> elementField) {
 		this.element = elementField;
 	}
 

@@ -46,13 +46,14 @@ public class DesktopCanvas extends AbstractCanvas<Graphics2D> {
 		fillCache = new HashMap<EAdFill, Paint>();
 		strokeCache = new HashMap<EAdPaint, Stroke>();
 		graphicStack = new Stack<Graphics2D>();
+		alphaComposite = AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1.0f);
 	}
 
 	@Override
 	public void setTransformation(EAdTransformation t) {
 		float m[] = t.getMatrix().getFlatMatrix();
 		g.setTransform(new AffineTransform(m[0], m[1], m[3], m[4], m[6], m[7]));
-		if (alphaComposite != null && alphaComposite.getAlpha() != t.getAlpha()) { 
+		if (alphaComposite.getAlpha() != t.getAlpha()) { 
 			alphaComposite = AlphaComposite.getInstance(AlphaComposite.SRC_OVER,
 					t.getAlpha());
 			g.setComposite(alphaComposite);
@@ -80,6 +81,24 @@ public class DesktopCanvas extends AbstractCanvas<Graphics2D> {
 			g.draw(s);
 		}
 	}
+	
+	@Override
+	public void fillRect(int x, int y, int width, int height) {
+		// Fill
+		if (paint.getFill() != null) {
+			g.setPaint(getPaint(paint.getFill()));
+			g.fillRect(x, y, width, height);
+		}
+		// Border
+		if (paint.getBorder() != null && paint.getBorderWidth() > 0) {
+			g.setPaint(getPaint(paint.getBorder()));
+			g.setStroke(getStroke(paint));
+			g.drawRect(x, y, width, height);
+		}
+		
+	}
+	
+	
 
 	@Override
 	public void drawText(String str, int x, int y) {

@@ -13,15 +13,18 @@
 					<active flag="FlagId"/>
 				</condition>
 			</exit>
-			<exit destinyX="-2147483648" destinyY="-2147483648" hasInfluenceArea="yes" height="151" idTarget="SceneId2" influenceHeight="140" influenceWidth="140" influenceX="4" influenceY="-7" not-effects="no" rectangular="yes" transitionTime="0" transitionType="0" width="147" x="287" y="365">
+			<exit destinyX="-2147483648" destinyY="-2147483648" hasInfluenceArea="yes" height="151" idTarget="SceneId2" influenceHeight="140" influenceWidth="140" influenceX="14" influenceY="11" not-effects="no" rectangular="yes" transitionTime="0" transitionType="0" width="147" x="345" y="369">
 				<exit-look cursor-path="gui/cursors/ViewResults.png" text="Go to another place"/>
 			</exit>
 		</exits>
 		<objects>
-			<object-ref hasInfluenceArea="no" idTarget="ItemId" layer="2" scale="1.0324324" x="640" y="555"/>
-			<object-ref hasInfluenceArea="yes" idTarget="ItemId1" influenceHeight="186" influenceWidth="186" influenceX="-18" influenceY="-21" layer="1" scale="9.125" x="30" y="430"/>
-			<object-ref hasInfluenceArea="yes" idTarget="ItemId3" influenceHeight="118" influenceWidth="118" influenceX="-16" influenceY="-18" layer="0" scale="4.875" x="261" y="346"/>
+			<object-ref hasInfluenceArea="no" idTarget="ItemId" layer="3" scale="1.0324324" x="640" y="555"/>
+			<object-ref hasInfluenceArea="yes" idTarget="ItemId1" influenceHeight="186" influenceWidth="186" influenceX="-18" influenceY="-21" layer="2" scale="9.125" x="30" y="430"/>
+			<object-ref hasInfluenceArea="yes" idTarget="ItemId3" influenceHeight="118" influenceWidth="118" influenceX="-16" influenceY="-18" layer="1" scale="4.875" x="261" y="346"/>
 		</objects>
+		<characters>
+			<character-ref hasInfluenceArea="yes" idTarget="CharacterId" influenceHeight="137" influenceWidth="138" influenceX="-16" influenceY="-20" layer="0" scale="1.0" x="525" y="229"/>
+		</characters>
 		<active-areas>
 			<active-area hasInfluenceArea="no" height="362" id="IdObject" rectangular="yes" width="116" x="33" y="186">
 				<description>
@@ -49,7 +52,7 @@
 			</barrier>
 		</barriers>
 		<atrezzo>
-			<atrezzo-ref idTarget="AtrezzoId" layer="3" scale="0.6243094" x="92" y="185"/>
+			<atrezzo-ref idTarget="AtrezzoId" layer="4" scale="0.6243094" x="92" y="185"/>
 		</atrezzo>
 		<trajectory>
 			<node id="node9091" scale="3.4" x="221" y="383"/>
@@ -251,7 +254,7 @@
 	<character id="CharacterId">
 		<resources name="No name">
 			<asset type="standup" uri="assets/animation/characteranimation.eaa"/>
-			<asset type="standright" uri="assets/special/EmptyAnimation"/>
+			<asset type="standright" uri="assets/animation/characteranimation.eaa"/>
 			<asset type="walkdown" uri="assets/special/EmptyAnimation"/>
 			<asset type="speakup" uri="assets/special/EmptyAnimation"/>
 			<asset type="walkright" uri="assets/special/EmptyAnimation"/>
@@ -259,11 +262,11 @@
 			<asset type="walkup" uri="assets/special/EmptyAnimation"/>
 			<asset type="speakdown" uri="assets/special/EmptyAnimation"/>
 			<asset type="speakright" uri="assets/special/EmptyAnimation"/>
-			<asset type="standdown" uri="assets/special/EmptyAnimation"/>
+			<asset type="standdown" uri="assets/animation/characteranimation.eaa"/>
 			<asset type="useright" uri="assets/special/EmptyAnimation"/>
 			<asset type="speakleft" uri="assets/special/EmptyAnimation"/>
 			<asset type="useleft" uri="assets/special/EmptyAnimation"/>
-			<asset type="standleft" uri="assets/special/EmptyAnimation"/>
+			<asset type="standleft" uri="assets/animation/characteranimation.eaa"/>
 		</resources>
 		<textcolor bubbleBkgColor="#FFFFFF" bubbleBorderColor="#00000" showsSpeechBubble="no">
 			<frontcolor color="#FFFFFF"/>
@@ -275,6 +278,22 @@
 			<detailed/>
 		</description>
 		<voice name="" synthesizeAlways="no"/>
+		<actions>
+			<talk-to keepDistance="35" needsGoTo="yes" not-effects="no">
+				<effect>
+					<speak-player>Player is speaking</speak-player>
+					<condition/>
+					<speak-char idTarget="CharacterId">Character is speaking</speak-char>
+					<condition/>
+				</effect>
+			</talk-to>
+			<use keepDistance="35" needsGoTo="yes" not-effects="no"/>
+			<use keepDistance="35" needsGoTo="yes" not-effects="no"/>
+			<use keepDistance="35" needsGoTo="yes" not-effects="no"/>
+			<use keepDistance="35" needsGoTo="yes" not-effects="no"/>
+			<use keepDistance="35" needsGoTo="yes" not-effects="no"/>
+			<drag-to idTarget="ItemId" keepDistance="0" needsGoTo="no" not-effects="no"/>
+		</actions>
 	</character>
 	<graph-conversation id="ConversationId">
 		<dialogue-node nodeindex="0">
@@ -338,6 +357,18 @@
 			<end-conversation/>
 		</dialogue-node>
 		<dialogue-node nodeindex="5">
+			<end-conversation/>
+		</dialogue-node>
+	</graph-conversation>
+	<graph-conversation id="ConversationId1">
+		<dialogue-node nodeindex="0">
+			<child nodeindex="1"/>
+		</dialogue-node>
+		<dialogue-node nodeindex="1">
+			<speak-player>Esta línea la dice el jugador principal.</speak-player>
+			<condition/>
+			<speak-char idTarget="CharacterId">Esta línea la dice el NPC.</speak-char>
+			<condition/>
 			<end-conversation/>
 		</dialogue-node>
 	</graph-conversation>

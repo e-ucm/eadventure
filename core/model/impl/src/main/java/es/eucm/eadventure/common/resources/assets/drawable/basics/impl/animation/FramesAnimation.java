@@ -50,7 +50,7 @@ public class FramesAnimation implements Drawable {
 
 	@Param("totalTime")
 	private int totalTime;
-	
+
 	@Param("frames")
 	private EAdList<Frame> frames;
 
@@ -93,15 +93,18 @@ public class FramesAnimation implements Drawable {
 	}
 
 	public Frame getFrameFromTime(long timeDisplayed) {
-		long time = timeDisplayed % totalTime;
-		
-		int i = 0;
-		while (time > getFrame(i).getTime()) {
-			time -= getFrame(i).getTime();
-			i++;
+		if (totalTime > 0) {
+			long time = timeDisplayed % totalTime;
+
+			int i = 0;
+			while (time > getFrame(i).getTime()) {
+				time -= getFrame(i).getTime();
+				i++;
+			}
+
+			return getFrame(i);
 		}
-		
-		return getFrame(i);
-		
+		return null;
+
 	}
 }

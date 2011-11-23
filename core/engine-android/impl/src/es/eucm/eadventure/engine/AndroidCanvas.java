@@ -82,6 +82,23 @@ public class AndroidCanvas extends AbstractCanvas<Canvas> {
 			g.drawPath(s, p);
 		}
 	}
+	
+	@Override
+	public void fillRect(int x, int y, int width, int height) {
+		// Fill
+		if (paint.getFill() != null) {
+			Paint p = getPaint(paint.getFill());
+			p.setStyle(Style.FILL);
+			g.drawRect(x, y, x + width, y + height, p);
+		}
+		// Border
+		if (paint.getBorder() != null && paint.getBorderWidth() > 0) {
+			Paint p = getPaint(paint.getBorder());
+			p.setStyle(Style.STROKE);
+			p.setStrokeWidth(paint.getBorderWidth());
+			g.drawRect(x, y, x + width, y + height, p);
+		}
+	}
 
 	@Override
 	public void drawText(String str, int x, int y) {

@@ -54,6 +54,6 @@ public interface ActionsHUD extends HudGO {
 	 */
 	EAdList<EAdAction> getActions();
 
-	void setElement(SceneElementGO<?> sceneElement);
+	void setElement(SceneElementGO<?> sceneElement, int mouseX, int mouseY);
 
 }

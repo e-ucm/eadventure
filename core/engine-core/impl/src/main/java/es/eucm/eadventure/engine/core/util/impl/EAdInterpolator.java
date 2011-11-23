@@ -16,6 +16,13 @@ public class EAdInterpolator {
 	
 	public static final EAdInterpolator DESACCELERATE = new EAdInterpolator(
 			new float[] { 0.0f, 0.0f, 1.0f });
+	
+	public static final EAdInterpolator BOUNCE_START_END = new EAdInterpolator(
+			new float[] { 0.0f, -3.1667f, 12.5f, -8.3333f });
+	
+	public static final EAdInterpolator DASH = new EAdInterpolator(
+			new float[] { 0.0f, -3.0f, 4.0f });
+	
 	private float[] polynomial;
 
 	public EAdInterpolator(float[] polynomial) {
@@ -24,8 +31,6 @@ public class EAdInterpolator {
 
 	/**
 	 * 
-	 * @param v
-	 *            a value for the interpolation between 0 and 1.
 	 * @return
 	 */
 	public float interpolate(float currentTime, float totalTime, float totalLength ) {

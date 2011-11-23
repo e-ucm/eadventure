@@ -129,4 +129,13 @@ public interface EAdCanvas<S> {
 	 */
 	void rotate(float angle);
 
+	/**
+	 * Fills a rectangle with the current paint
+	 * @param x left coordinate
+	 * @param y top coordiante
+	 * @param width width for the rectangle
+	 * @param height height for the rectangle
+	 */
+	void fillRect(int x, int y, int width, int height);
+
 }

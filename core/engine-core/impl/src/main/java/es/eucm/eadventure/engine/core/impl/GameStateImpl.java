@@ -53,6 +53,7 @@ import es.eucm.eadventure.common.model.elements.EAdChapter;
 import es.eucm.eadventure.common.model.elements.EAdScene;
 import es.eucm.eadventure.common.model.elements.EAdSceneElement;
 import es.eucm.eadventure.common.model.elements.EAdSceneElementDef;
+import es.eucm.eadventure.common.model.elements.impl.EAdSceneElementDefImpl;
 import es.eucm.eadventure.common.model.elements.impl.EAdSceneImpl;
 import es.eucm.eadventure.common.model.variables.EAdVarDef;
 import es.eucm.eadventure.common.model.variables.impl.SystemFields;
@@ -100,9 +101,9 @@ public class GameStateImpl implements GameState {
 	private EAdScene loadingScreen;
 
 	private EvaluatorFactory evaluatorFactory;
-	
+
 	private EventGOFactory eventGOFactory;
-	
+
 	private PluginHandler pluginHandler;
 
 	@Inject
@@ -281,7 +282,9 @@ public class GameStateImpl implements GameState {
 
 	@Override
 	public EAdSceneElement getActiveElement() {
-		return valueMap.getValue(SystemFields.ACTIVE_ELEMENT);
+		return valueMap.getValue(
+				valueMap.getValue(SystemFields.ACTIVE_ELEMENT),
+				EAdSceneElementDefImpl.VAR_SCENE_ELEMENT);
 	}
 
 	@Override

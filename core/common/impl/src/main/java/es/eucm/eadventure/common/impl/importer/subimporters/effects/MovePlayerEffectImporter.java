@@ -5,8 +5,8 @@ import com.google.inject.Inject;
 import es.eucm.eadventure.common.EAdElementImporter;
 import es.eucm.eadventure.common.data.chapter.conditions.Conditions;
 import es.eucm.eadventure.common.data.chapter.effects.MovePlayerEffect;
-import es.eucm.eadventure.common.model.effects.impl.EAdMoveActiveElement;
 import es.eucm.eadventure.common.model.elements.EAdCondition;
+import es.eucm.eadventure.common.predef.model.effects.EAdMoveActiveElement;
 
 public class MovePlayerEffectImporter extends EffectImporter<MovePlayerEffect, EAdMoveActiveElement>{
 
@@ -25,8 +25,7 @@ public class MovePlayerEffectImporter extends EffectImporter<MovePlayerEffect, E
 	public EAdMoveActiveElement convert(MovePlayerEffect oldObject,
 			Object newElement) {
 		EAdMoveActiveElement effect = super.convert(oldObject, newElement);
-		effect.setTargetX(oldObject.getX());
-		effect.setTargetY(oldObject.getY());
+		effect.setTargetCoordiantes(oldObject.getX(), oldObject.getY());
 		return effect;
 	}
 

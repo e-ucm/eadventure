@@ -47,10 +47,12 @@ import com.google.inject.Inject;
 import es.eucm.eadventure.common.model.actions.EAdAction;
 import es.eucm.eadventure.common.model.elements.EAdSceneElement;
 import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
+import es.eucm.eadventure.common.model.elements.impl.EAdSceneElementDefImpl;
 import es.eucm.eadventure.common.model.events.EAdEvent;
 import es.eucm.eadventure.common.model.extra.EAdList;
 import es.eucm.eadventure.common.model.impl.ResourcedElementImpl;
 import es.eucm.eadventure.common.model.variables.EAdVarDef;
+import es.eucm.eadventure.common.params.fills.impl.EAdPaintImpl;
 import es.eucm.eadventure.common.params.geom.EAdPosition;
 import es.eucm.eadventure.common.params.geom.impl.EAdPositionImpl;
 import es.eucm.eadventure.common.resources.EAdBundleId;
@@ -137,6 +139,8 @@ public abstract class SceneElementGOImpl<T extends EAdSceneElement> extends
 		super.setElement(element);
 		gameState.getValueMap().setValue(element,
 				ResourcedElementImpl.VAR_BUNDLE_ID, element.getInitialBundle());
+		gameState.getValueMap().setValue(element.getDefinition(),
+				EAdSceneElementDefImpl.VAR_SCENE_ELEMENT, element);
 
 		if (element.isClone()) {
 			gameState.getValueMap().remove(element);
@@ -467,6 +471,11 @@ public abstract class SceneElementGOImpl<T extends EAdSceneElement> extends
 	public void render(EAdCanvas<?> c) {
 		if (this.getRenderAsset() != null)
 			getRenderAsset().render(c);
+		else {
+			// FIXME Improve, when has no asset
+			c.setPaint(EAdPaintImpl.BLACK_ON_WHITE);
+			c.fillRect( position.getJavaX(width), position.getJavaX(height), width, height );
+		}
 	}
 
 	@Override

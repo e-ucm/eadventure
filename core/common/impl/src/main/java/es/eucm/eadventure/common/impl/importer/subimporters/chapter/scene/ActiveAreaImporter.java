@@ -119,8 +119,8 @@ public class ActiveAreaImporter implements
 		if (oldObject.getInfluenceArea() != null) {
 			newActiveAreaReference.setVarInitialValue(
 					NodeTrajectoryDefinition.VAR_INFLUENCE_AREA,
-					new EAdRectangleImpl(oldObject.getInfluenceArea().getX(),
-							oldObject.getInfluenceArea().getY(), oldObject
+					new EAdRectangleImpl(oldObject.getInfluenceArea().getX() + oldObject.getX(),
+							oldObject.getInfluenceArea().getY() + oldObject.getY(), oldObject
 									.getInfluenceArea().getWidth(), oldObject
 									.getInfluenceArea().getHeight()));
 		}

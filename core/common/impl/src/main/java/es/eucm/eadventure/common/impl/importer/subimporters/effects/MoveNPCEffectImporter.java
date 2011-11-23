@@ -73,10 +73,9 @@ public class MoveNPCEffectImporter extends EffectImporter<MoveNPCEffect, EAdTrig
 		EAdMacroImpl macro = new EAdMacroImpl("macro");
 		effect.setMacro(macro);
 		
-		//TODO change appearance, speed?
-		// TODO move npc
-//		macro.getEffects().add(new EAdMoveSceneElement("move", (EAdSceneElementDef) factory.getElementById(oldObject.getTargetId()), 
-//				oldObject.getX(), oldObject.getY(), MovementSpeed.NORMAL));
+
+		macro.getEffects().add(new EAdMoveSceneElement("move", (EAdSceneElementDef) factory.getElementById(oldObject.getTargetId()), 
+				oldObject.getX(), oldObject.getY(), MovementSpeed.NORMAL));
 
 		return effect;
 	}

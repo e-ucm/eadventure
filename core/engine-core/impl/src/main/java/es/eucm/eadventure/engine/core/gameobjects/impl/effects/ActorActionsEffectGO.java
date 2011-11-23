@@ -47,6 +47,7 @@ import es.eucm.eadventure.engine.core.gameobjects.GameObjectManager;
 import es.eucm.eadventure.engine.core.gameobjects.SceneElementGO;
 import es.eucm.eadventure.engine.core.gameobjects.factories.SceneElementGOFactory;
 import es.eucm.eadventure.engine.core.gameobjects.huds.ActionsHUD;
+import es.eucm.eadventure.engine.core.guiactions.MouseAction;
 import es.eucm.eadventure.engine.core.platform.AssetHandler;
 import es.eucm.eadventure.engine.core.platform.GUI;
 
@@ -77,7 +78,13 @@ public class ActorActionsEffectGO extends
 			SceneElementGO<?> sceneElement = sceneElementFactory.get(element
 					.getActionElement());
 			if (sceneElement.getValidActions() != null) {
-				actionsHUD.setElement(sceneElement);
+				int x = sceneElement.getCenterX();
+				int y = sceneElement.getCenterY();
+				if ( action instanceof MouseAction ){
+					x = ((MouseAction) action).getVirtualX();
+					y = ((MouseAction) action).getVirtualY();
+				}
+				actionsHUD.setElement(sceneElement, x, y);
 				gameObjectManager.addHUD(actionsHUD);
 			}
 		} else {

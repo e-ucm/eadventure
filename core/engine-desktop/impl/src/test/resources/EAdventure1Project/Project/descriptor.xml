@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?><!DOCTYPE game-descriptor SYSTEM "descriptor.dtd">
-<game-descriptor versionNumber="96">
+<game-descriptor versionNumber="106">
 	<title>Adventure title</title>
 	<description/>
 	<configuration defaultClickAction="showDetails" keepShowing="no" perspective="regular">

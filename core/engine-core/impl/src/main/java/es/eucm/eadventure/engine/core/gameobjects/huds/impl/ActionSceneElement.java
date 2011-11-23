@@ -1,22 +1,22 @@
-package es.eucm.eadventure.engine.core.platform.impl.extra;
+package es.eucm.eadventure.engine.core.gameobjects.huds.impl;
 
 import es.eucm.eadventure.common.interfaces.Element;
 import es.eucm.eadventure.common.model.actions.EAdAction;
 import es.eucm.eadventure.common.model.actions.impl.EAdBasicAction;
 import es.eucm.eadventure.common.model.effects.impl.EAdActorActionsEffect;
 import es.eucm.eadventure.common.model.effects.impl.EAdActorActionsEffect.Change;
+import es.eucm.eadventure.common.model.elements.EAdSceneElementDef;
 import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
 import es.eucm.eadventure.common.model.guievents.impl.EAdMouseEventImpl;
 import es.eucm.eadventure.common.predef.model.effects.EAdChangeAppearance;
 import es.eucm.eadventure.common.resources.assets.AssetDescriptor;
 
 @Element(detailed = EAdBasicSceneElement.class, runtime = EAdBasicSceneElement.class)
-public class DesktopAction extends EAdBasicSceneElement {
+public class ActionSceneElement extends EAdBasicSceneElement {
 
-	public DesktopAction(EAdAction eAdAction) {
+	public ActionSceneElement(EAdAction eAdAction) {
 		super("action");
-
-		// TODO null?
+		this.setScale(0.8f);
 		EAdActorActionsEffect e = new EAdActorActionsEffect("", null,
 				Change.HIDE_ACTIONS);
 		this.addBehavior(EAdMouseEventImpl.MOUSE_LEFT_CLICK, e);
@@ -52,6 +52,10 @@ public class DesktopAction extends EAdBasicSceneElement {
 						.getInitialBundle()));
 		
 		
+	}
+	
+	public EAdSceneElementDef getDefinition(){
+		return super.getDefinition();
 	}
 
 }

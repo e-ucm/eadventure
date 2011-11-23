@@ -70,37 +70,41 @@ public class FieldsDebugger implements EAdDebugger {
 				Map<EAdVarDef<?>, Object> fields = valueMap
 						.getElementVars(element);
 
-				ComposedDrawable d = new ComposedDrawableImpl();
-				RectangleShape shape = new RectangleShape(300, 20 * (fields
-						.keySet().size() + 2));
-				shape.setPaint(color);
-				d.addDrawable(shape, -10, -10);
-				CaptionImpl c = new CaptionImpl();
-				stringHandler.setString(c.getText(), element + "");
-				c.setFont(font);
-				c.setTextPaint(EAdColor.RED);
-				c.setBubblePaint(EAdColor.WHITE);
-				c.setPadding(2);
-				d.addDrawable(c, 0, 0);
-				int yOffset = 20;
-				for (EAdVarDef<?> var : fields.keySet()) {
-					c = new CaptionImpl();
-					stringHandler.setString(c.getText(), var.getName() + "=#0");
-					c.getFields().add(new EAdFieldImpl(element, var));
+				if (fields != null) {
+
+					ComposedDrawable d = new ComposedDrawableImpl();
+					RectangleShape shape = new RectangleShape(300, 20 * (fields
+							.keySet().size() + 2));
+					shape.setPaint(color);
+					d.addDrawable(shape, -10, -10);
+					CaptionImpl c = new CaptionImpl();
+					stringHandler.setString(c.getText(), element + "");
 					c.setFont(font);
-					c.setTextPaint(EAdColor.WHITE);
-					c.setBubblePaint(EAdColor.BLACK);
+					c.setTextPaint(EAdColor.RED);
+					c.setBubblePaint(EAdColor.WHITE);
 					c.setPadding(2);
-					d.addDrawable(c, 0, yOffset);
-					yOffset += 20;
+					d.addDrawable(c, 0, 0);
+					int yOffset = 20;
+					for (EAdVarDef<?> var : fields.keySet()) {
+						c = new CaptionImpl();
+						stringHandler.setString(c.getText(), var.getName()
+								+ "=#0");
+						c.getFields().add(new EAdFieldImpl(element, var));
+						c.setFont(font);
+						c.setTextPaint(EAdColor.WHITE);
+						c.setBubblePaint(EAdColor.BLACK);
+						c.setPadding(2);
+						d.addDrawable(c, 0, yOffset);
+						yOffset += 20;
+					}
+
+					vars.setPosition(10, 10);
+					vars.getResources().addAsset(vars.getInitialBundle(),
+							EAdBasicSceneElement.appearance, d);
+
+					gos.add(gameObjectFactory.get(vars));
+
 				}
-
-				vars.setPosition(10, 10);
-				vars.getResources().addAsset(vars.getInitialBundle(),
-						EAdBasicSceneElement.appearance, d);
-
-				gos.add(gameObjectFactory.get(vars));
-
 			}
 
 		}

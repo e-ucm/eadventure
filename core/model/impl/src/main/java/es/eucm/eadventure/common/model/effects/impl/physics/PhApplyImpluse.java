@@ -15,9 +15,6 @@ public class PhApplyImpluse extends AbstractSceneElementEffect {
 	@Param("yForce")
 	private MathOperation yForce;
 
-	@Param("element")
-	private EAdSceneElement element;
-
 	public PhApplyImpluse() {
 		this(null, null, null);
 	}
@@ -42,16 +39,6 @@ public class PhApplyImpluse extends AbstractSceneElementEffect {
 	public void setForce(MathOperation xForce, MathOperation yForce) {
 		this.xForce = xForce;
 		this.yForce = yForce;
-	}
-
-	@Override
-	public EAdSceneElement getSceneElement() {
-		return element;
-	}
-
-	@Override
-	public void setSceneElement(EAdSceneElement sceneElement) {
-		this.element = sceneElement;
 	}
 
 }

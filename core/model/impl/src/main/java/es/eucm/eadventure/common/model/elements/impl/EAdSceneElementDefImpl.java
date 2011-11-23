@@ -44,10 +44,13 @@ import es.eucm.eadventure.common.model.actions.EAdAction;
 import es.eucm.eadventure.common.model.behavior.EAdBehavior;
 import es.eucm.eadventure.common.model.conditions.impl.EmptyCondition;
 import es.eucm.eadventure.common.model.elements.EAdCondition;
+import es.eucm.eadventure.common.model.elements.EAdSceneElement;
 import es.eucm.eadventure.common.model.elements.EAdSceneElementDef;
 import es.eucm.eadventure.common.model.events.EAdEvent;
 import es.eucm.eadventure.common.model.extra.EAdList;
 import es.eucm.eadventure.common.model.extra.impl.EAdListImpl;
+import es.eucm.eadventure.common.model.variables.EAdVarDef;
+import es.eucm.eadventure.common.model.variables.impl.EAdVarDefImpl;
 import es.eucm.eadventure.common.params.EAdString;
 import es.eucm.eadventure.common.resources.annotation.Asset;
 import es.eucm.eadventure.common.resources.annotation.Bundled;
@@ -56,6 +59,9 @@ import es.eucm.eadventure.common.resources.assets.drawable.Drawable;
 @Element(runtime = EAdSceneElementDefImpl.class, detailed = EAdSceneElementDefImpl.class)
 public class EAdSceneElementDefImpl extends AbstractEAdElementWithBehavior
 		implements EAdSceneElementDef {
+
+	public static final EAdVarDef<EAdSceneElement> VAR_SCENE_ELEMENT = new EAdVarDefImpl<EAdSceneElement>(
+			"scene_element", EAdSceneElement.class, null);
 
 	@Param("actions")
 	private EAdList<EAdAction> actions;
@@ -66,7 +72,7 @@ public class EAdSceneElementDefImpl extends AbstractEAdElementWithBehavior
 
 	@Param("name")
 	private final EAdString name;
-	
+
 	@Param("description")
 	private final EAdString description;
 
@@ -78,7 +84,7 @@ public class EAdSceneElementDefImpl extends AbstractEAdElementWithBehavior
 
 	@Param("draggableCondition")
 	private EAdCondition draggableCondition;
-	
+
 	/**
 	 * Events associated with this element
 	 */
@@ -117,7 +123,7 @@ public class EAdSceneElementDefImpl extends AbstractEAdElementWithBehavior
 	public EAdList<EAdAction> getValidActions() {
 		return actions;
 	}
-	
+
 	public EAdString getDescription() {
 		return description;
 	}
@@ -163,7 +169,7 @@ public class EAdSceneElementDefImpl extends AbstractEAdElementWithBehavior
 		}
 		return def;
 	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 * 

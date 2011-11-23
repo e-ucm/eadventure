@@ -1,6 +1,5 @@
 package es.eucm.eadventure.common.elementfactories.scenedemos;
 
-import es.eucm.eadventure.common.model.effects.impl.EAdMoveActiveElement;
 import es.eucm.eadventure.common.model.effects.impl.variables.EAdChangeFieldValueEffect;
 import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
 import es.eucm.eadventure.common.model.elements.impl.EAdSceneImpl;
@@ -19,6 +18,7 @@ import es.eucm.eadventure.common.params.fills.impl.EAdLinearGradient;
 import es.eucm.eadventure.common.params.geom.impl.EAdPositionImpl;
 import es.eucm.eadventure.common.params.geom.impl.EAdPositionImpl.Corner;
 import es.eucm.eadventure.common.predef.model.effects.EAdMakeActiveElementEffect;
+import es.eucm.eadventure.common.predef.model.effects.EAdMoveActiveElement;
 
 public class TrajectoriesScene extends EmptyScene {
 

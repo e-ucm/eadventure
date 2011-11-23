@@ -44,8 +44,10 @@ import com.google.inject.Inject;
 
 import es.eucm.eadventure.common.interfaces.features.Oriented.Orientation;
 import es.eucm.eadventure.common.model.effects.impl.sceneelements.EAdMoveSceneElement;
+import es.eucm.eadventure.common.model.elements.EAdSceneElement;
 import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
 import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement.CommonStates;
+import es.eucm.eadventure.common.model.elements.impl.EAdSceneElementDefImpl;
 import es.eucm.eadventure.common.model.elements.impl.EAdSceneImpl;
 import es.eucm.eadventure.common.model.trajectories.TrajectoryDefinition;
 import es.eucm.eadventure.common.model.variables.EAdVarDef;
@@ -108,10 +110,13 @@ public class MoveSceneElementGO extends
 
 	private int currentSide;
 
+	private static int tal = 0;
+
 	@Inject
 	public MoveSceneElementGO(AssetHandler assetHandler,
-			StringHandler stringHandler, SceneElementGOFactory gameObjectFactory,
-			GUI gui, GameState gameState, OperatorFactory operatorFactory,
+			StringHandler stringHandler,
+			SceneElementGOFactory gameObjectFactory, GUI gui,
+			GameState gameState, OperatorFactory operatorFactory,
 			TrajectoryFactory trajectoryFactory) {
 		super(assetHandler, stringHandler, gameObjectFactory, gui, gameState);
 		this.operatorFactory = operatorFactory;
@@ -133,17 +138,26 @@ public class MoveSceneElementGO extends
 
 		EAdPositionImpl currentPosition = new EAdPositionImpl(x, y);
 
+		EAdSceneElement target = element.getTarget() != null ? valueMap
+				.getValue(element.getTarget(),
+						EAdSceneElementDefImpl.VAR_SCENE_ELEMENT) : null;
+
 		TrajectoryDefinition d = valueMap.getValue(gameState.getScene()
 				.getElement(), EAdSceneImpl.VAR_TRAJECTORY_DEFINITION);
 		if (d != null && element.useTrajectory()) {
-			path = trajectoryFactory.getTrajectory(d, currentPosition, endX,
-					endY);
+			if (target == null)
+				path = trajectoryFactory.getTrajectory(d, currentPosition,
+						endX, endY);
+			else
+				path = trajectoryFactory.getTrajectory(d, currentPosition,
+						endX, endY, sceneElementFactory.get(target));
 		} else {
 			List<EAdPosition> list = new ArrayList<EAdPosition>();
 			list.add(new EAdPositionImpl(endX, endY));
 			path = new SimplePathImpl(list, currentPosition);
 		}
 
+		System.out.println(tal++);
 		currentSide = 0;
 		MoveSceneElementGO go = gameState.getValueMap().getValue(sceneElement,
 				VAR_ELEMENT_MOVING);
@@ -152,6 +166,8 @@ public class MoveSceneElementGO extends
 		}
 		gameState.getValueMap()
 				.setValue(sceneElement, VAR_ELEMENT_MOVING, this);
+		currentTime = 0;
+		totalTime = 0;
 		updateTarget();
 
 	}
@@ -169,6 +185,8 @@ public class MoveSceneElementGO extends
 					.size() - 1);
 			targetX = p.getX();
 			targetY = p.getY();
+
+			currentTime = (int) (currentTime - totalTime);
 
 			totalTime = (side.getLength() / PIXELS_PER_SECOND * 1000)
 					* side.getSpeedFactor();
@@ -189,11 +207,10 @@ public class MoveSceneElementGO extends
 		double angle = Math.acos(xv / module) * Math.signum(-yv);
 
 		Orientation tempDirection = Orientation.W;
-		
-		if ( -0.00001f < angle && angle < 0.00001f ){
+
+		if (-0.00001f < angle && angle < 0.00001f) {
 			tempDirection = initX > targetX ? Orientation.W : Orientation.E;
-		}
-		else if (angle < 3 * Math.PI / 4 && angle >= Math.PI / 4) {
+		} else if (angle < 3 * Math.PI / 4 && angle >= Math.PI / 4) {
 			tempDirection = Orientation.N;
 		} else if (angle < Math.PI / 4 && angle >= -Math.PI / 4) {
 			tempDirection = Orientation.E;
@@ -260,7 +277,9 @@ public class MoveSceneElementGO extends
 	}
 
 	public void finish() {
-		super.finish();
+		if (path.isGetsTo() || element.getTarget() == null)
+			super.finish();
+		
 		gameState.getValueMap().setValue(element.getSceneElement(),
 				EAdBasicSceneElement.VAR_STATE, oldState);
 		gameState.getValueMap()

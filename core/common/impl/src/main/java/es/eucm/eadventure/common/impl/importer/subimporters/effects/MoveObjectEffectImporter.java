@@ -47,8 +47,8 @@ import es.eucm.eadventure.common.model.effects.impl.EAdMacroImpl;
 import es.eucm.eadventure.common.model.effects.impl.EAdTriggerMacro;
 import es.eucm.eadventure.common.model.effects.impl.sceneelements.EAdMoveSceneElement;
 import es.eucm.eadventure.common.model.effects.impl.sceneelements.EAdMoveSceneElement.MovementSpeed;
-import es.eucm.eadventure.common.model.elements.EAdSceneElementDef;
 import es.eucm.eadventure.common.model.elements.EAdCondition;
+import es.eucm.eadventure.common.model.elements.EAdSceneElementDef;
 
 public class MoveObjectEffectImporter extends
 		EffectImporter<MoveObjectEffect, EAdTriggerMacro> {
@@ -76,10 +76,10 @@ public class MoveObjectEffectImporter extends
 		effect.setMacro(macro);
 
 		effect.setQueueable(true);
-		// TODO move object
-		// macro.getEffects().add(new EAdMoveSceneElement("move",
-		// (EAdSceneElementDef) factory.getElementById(oldObject.getTargetId()),
-		// oldObject.getX(), oldObject.getY(), MovementSpeed.NORMAL));
+		macro.getEffects().add(
+				new EAdMoveSceneElement("move", (EAdSceneElementDef) factory
+						.getElementById(oldObject.getTargetId()), oldObject
+						.getX(), oldObject.getY(), MovementSpeed.NORMAL));
 		// TODO speed?
 
 		return effect;

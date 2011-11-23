@@ -42,12 +42,12 @@ import es.eucm.eadventure.common.data.chapter.conditions.Conditions;
 import es.eucm.eadventure.common.data.chapter.effects.AbstractEffect;
 import es.eucm.eadventure.common.impl.importer.interfaces.EAdElementFactory;
 import es.eucm.eadventure.common.impl.importer.subimporters.effects.EffectImporter;
-import es.eucm.eadventure.common.model.effects.impl.text.EAdSpeakEffect;
 import es.eucm.eadventure.common.model.elements.EAdCondition;
+import es.eucm.eadventure.common.predef.model.effects.EAdSpeakSceneElement;
 import es.eucm.eadventure.common.resources.StringHandler;
 
 public abstract class TextEffectImporter<T extends AbstractEffect> extends
-		EffectImporter<T, EAdSpeakEffect> {
+		EffectImporter<T, EAdSpeakSceneElement> {
 
 	protected static int ID_GENERATOR = 0;
 
@@ -64,12 +64,12 @@ public abstract class TextEffectImporter<T extends AbstractEffect> extends
 	}
 
 	@Override
-	public EAdSpeakEffect init(T oldObject) {
-		return new EAdSpeakEffect("showText" + ID_GENERATOR++);
+	public EAdSpeakSceneElement init(T oldObject) {
+		return new EAdSpeakSceneElement("SpeakEffect" + ID_GENERATOR++ );
 	}
 
-	public EAdSpeakEffect convert(T oldObject, Object object) {
-		EAdSpeakEffect showText = super.convert(oldObject, object);
+	public EAdSpeakSceneElement convert(T oldObject, Object object) {
+		EAdSpeakSceneElement showText = super.convert(oldObject, object);
 
 		showText.setBlocking(true);
 		showText.setOpaque(true);

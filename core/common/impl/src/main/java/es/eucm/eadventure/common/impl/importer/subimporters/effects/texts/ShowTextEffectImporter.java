@@ -43,10 +43,10 @@ import es.eucm.eadventure.common.EAdElementImporter;
 import es.eucm.eadventure.common.data.chapter.conditions.Conditions;
 import es.eucm.eadventure.common.data.chapter.effects.ShowTextEffect;
 import es.eucm.eadventure.common.impl.importer.interfaces.EAdElementFactory;
-import es.eucm.eadventure.common.model.effects.impl.text.EAdSpeakEffect;
 import es.eucm.eadventure.common.model.elements.EAdCondition;
-import es.eucm.eadventure.common.params.fills.impl.EAdPaintImpl;
 import es.eucm.eadventure.common.params.fills.impl.EAdColor;
+import es.eucm.eadventure.common.params.fills.impl.EAdPaintImpl;
+import es.eucm.eadventure.common.predef.model.effects.EAdSpeakSceneElement;
 import es.eucm.eadventure.common.resources.StringHandler;
 
 public class ShowTextEffectImporter extends TextEffectImporter<ShowTextEffect> {
@@ -58,8 +58,8 @@ public class ShowTextEffectImporter extends TextEffectImporter<ShowTextEffect> {
 	}
 
 	@Override
-	public EAdSpeakEffect convert(ShowTextEffect oldObject, Object object) {
-		EAdSpeakEffect showText = super.convert(oldObject, object);
+	public EAdSpeakSceneElement convert(ShowTextEffect oldObject, Object object) {
+		EAdSpeakSceneElement showText = super.convert(oldObject, object);
 
 		stringHandler.setString(showText.getString(), oldObject.getText());
 

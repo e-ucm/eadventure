@@ -40,7 +40,7 @@ package es.eucm.eadventure.common.model.effects.impl.sceneelements;
 import es.eucm.eadventure.common.interfaces.Element;
 import es.eucm.eadventure.common.interfaces.Param;
 import es.eucm.eadventure.common.model.effects.EAdEffect;
-import es.eucm.eadventure.common.model.elements.EAdSceneElement;
+import es.eucm.eadventure.common.model.elements.EAdSceneElementDef;
 import es.eucm.eadventure.common.model.variables.EAdOperation;
 import es.eucm.eadventure.common.model.variables.impl.operations.MathOperation;
 import es.eucm.eadventure.common.model.variables.impl.operations.ValueOperation;
@@ -96,6 +96,9 @@ public class EAdMoveSceneElement extends AbstractSceneElementEffect {
 	
 	@Param("boolean")
 	private boolean useTrajectory;
+	
+	@Param("elementTarget")
+	private EAdSceneElementDef sceneElementDef;
 
 	/**
 	 * Constructs an move actor reference effect, with target set to
@@ -108,23 +111,23 @@ public class EAdMoveSceneElement extends AbstractSceneElementEffect {
 		this(id, null);
 	}
 
-	public EAdMoveSceneElement(String id, EAdSceneElement element) {
+	public EAdMoveSceneElement(String id, EAdSceneElementDef element) {
 		this(id, element, new MathOperation("id", "0"), new MathOperation("id",
 				"0"));
 	}
 
-	public EAdMoveSceneElement(String id, EAdSceneElement element,
+	public EAdMoveSceneElement(String id, EAdSceneElementDef element,
 			MathOperation xTarget, MathOperation yTarget) {
 		this(id, element, xTarget, yTarget, MovementSpeed.NORMAL);
 	}
 
-	public EAdMoveSceneElement(String id, EAdSceneElement element, int xTarget,
+	public EAdMoveSceneElement(String id, EAdSceneElementDef element, int xTarget,
 			int yTarget, MovementSpeed speed) {
 		this(id, element, new MathOperation("id", "" + xTarget),
 				new MathOperation("id", "" + yTarget), speed);
 	}
 
-	public EAdMoveSceneElement(String id, EAdSceneElement element,
+	public EAdMoveSceneElement(String id, EAdSceneElementDef element,
 			MathOperation xTarget, MathOperation yTarget, MovementSpeed speed) {
 		super(id);
 		setSceneElement(element);
@@ -205,6 +208,14 @@ public class EAdMoveSceneElement extends AbstractSceneElementEffect {
 	
 	public boolean useTrajectory(){
 		return useTrajectory;
+	}
+	
+	public void setTarget( EAdSceneElementDef sceneElementDef ){
+		this.sceneElementDef = sceneElementDef;
+	}
+	
+	public EAdSceneElementDef getTarget( ){
+		return sceneElementDef;
 	}
 
 }

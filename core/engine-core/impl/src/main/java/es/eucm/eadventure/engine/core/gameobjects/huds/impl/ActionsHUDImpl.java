@@ -37,6 +37,8 @@
 
 package es.eucm.eadventure.engine.core.gameobjects.huds.impl;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Logger;
 
 import com.google.inject.Inject;
@@ -44,13 +46,25 @@ import com.google.inject.Singleton;
 
 import es.eucm.eadventure.common.model.actions.EAdAction;
 import es.eucm.eadventure.common.model.extra.EAdList;
+import es.eucm.eadventure.common.model.guievents.EAdKeyEvent.KeyCode;
+import es.eucm.eadventure.common.model.variables.impl.SystemFields;
+import es.eucm.eadventure.common.params.geom.EAdPosition;
+import es.eucm.eadventure.common.params.geom.impl.EAdPositionImpl;
+import es.eucm.eadventure.common.params.geom.impl.EAdPositionImpl.Corner;
+import es.eucm.eadventure.engine.core.GameLoop;
+import es.eucm.eadventure.engine.core.GameState;
 import es.eucm.eadventure.engine.core.gameobjects.GameObjectManager;
 import es.eucm.eadventure.engine.core.gameobjects.SceneElementGO;
+import es.eucm.eadventure.engine.core.gameobjects.factories.SceneElementGOFactory;
 import es.eucm.eadventure.engine.core.gameobjects.huds.ActionsHUD;
 import es.eucm.eadventure.engine.core.guiactions.GUIAction;
+import es.eucm.eadventure.engine.core.guiactions.KeyAction;
 import es.eucm.eadventure.engine.core.guiactions.MouseAction;
 import es.eucm.eadventure.engine.core.platform.EAdCanvas;
 import es.eucm.eadventure.engine.core.platform.GUI;
+import es.eucm.eadventure.engine.core.util.EAdTransformation;
+import es.eucm.eadventure.engine.core.util.impl.EAdInterpolator;
+import es.eucm.eadventure.engine.core.util.impl.EAdTransformationImpl;
 
 /**
  * <p>
@@ -61,11 +75,20 @@ import es.eucm.eadventure.engine.core.platform.GUI;
 @Singleton
 public class ActionsHUDImpl extends AbstractHUD implements ActionsHUD {
 
+	private static final int ANIMATION_TIME = 1000;
+
+	private int currentTime;
+
+	private EAdTransformationImpl transformation = new EAdTransformationImpl();
+
+	private int width;
+
+	private int height;
+
 	/**
 	 * The logger
 	 */
-	private static final Logger logger = Logger
-			.getLogger("ActionsHUDImpl");
+	private static final Logger logger = Logger.getLogger("ActionsHUDImpl");
 
 	/**
 	 * List of the {@link EAdAction}s
@@ -89,31 +112,61 @@ public class ActionsHUDImpl extends AbstractHUD implements ActionsHUD {
 
 	protected SceneElementGO<?> sceneElement;
 
+	private List<EAdPosition> positions;
+
 	private GameObjectManager gameObjectManager;
-	
+
+	private List<SceneElementGO<?>> actionsGO;
+
+	private SceneElementGOFactory sceneElementFactory;
+
+	private float alpha;
+
+	private GameState gameState;
+
 	@Inject
-	public ActionsHUDImpl(GUI gui, GameObjectManager gameObjectManager) {
-		super( gui );
+	public ActionsHUDImpl(GUI gui, GameObjectManager gameObjectManager,
+			GameState gameState, SceneElementGOFactory sceneElementFactory) {
+		super(gui);
 		this.gameObjectManager = gameObjectManager;
+		actionsGO = new ArrayList<SceneElementGO<?>>();
+		positions = new ArrayList<EAdPosition>();
+		width = gameState.getValueMap().getValue(SystemFields.GUI_WIDTH);
+		height = gameState.getValueMap().getValue(SystemFields.GUI_HEIGHT);
+		this.sceneElementFactory = sceneElementFactory;
+		this.gameState = gameState;
 	}
 
-	/* (non-Javadoc)
-	 * @see es.eucm.eadventure.engine.core.gameobjects.GameObject#processAction(es.eucm.eadventure.engine.core.guiactions.GUIAction)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * es.eucm.eadventure.engine.core.gameobjects.GameObject#processAction(es
+	 * .eucm.eadventure.engine.core.guiactions.GUIAction)
 	 */
 	@Override
 	public boolean processAction(GUIAction action) {
+		boolean remove = false;
 		if (action instanceof MouseAction) {
 			MouseAction temp = (MouseAction) action;
 
 			switch (temp.getType()) {
 			case CLICK:
-				logger.info("Remove actions HUD");
-				gameObjectManager.removeHUD(this);
-				temp.consume();
+				remove = true;
 			default:
 			}
 
+		} else if (action instanceof KeyAction) {
+			KeyAction keyAction = (KeyAction) action;
+			remove = keyAction.getKeyCode() == KeyCode.ESC;
 		}
+
+		if (remove) {
+			logger.info("Remove actions HUD");
+			gameObjectManager.removeHUD(this);
+			action.consume();
+		}
+
 		action.consume();
 		return true;
 	}
@@ -125,15 +178,48 @@ public class ActionsHUDImpl extends AbstractHUD implements ActionsHUD {
 	 * es.eucm.eadventure.engine.core.gameobjects.GameObject#setElement(java
 	 * .lang.Object)
 	 */
-	
-	public void setElement(SceneElementGO<?> ref) {
+
+	public void setElement(SceneElementGO<?> ref, int x, int y) {
+		currentTime = 0;
 		sceneElement = ref;
-		int x = ref.getCenterX();
-		int y = ref.getCenterY();
-		radius = (int) (( ref.getWidth() > ref.getHeight() ? ref.getWidth() : ref.getHeight() ) * ref.getScale()) / 2;
-		radius = Math.min(250, radius);
-		setElementProperties(x, y, radius);
+		radius = 2 * (int) ((ref.getWidth() > ref.getHeight() ? ref.getWidth()
+				: ref.getHeight()) * ref.getScale()) / 2;
+		int maxRadius = width - x < height - y ? width - x : height - y;
+		maxRadius = x < maxRadius ? x : maxRadius;
+		maxRadius = y < maxRadius ? y : maxRadius;
+		this.x = x;
+		this.y = y;
+		radius = Math.min(maxRadius, radius);
 		actions = ref.getValidActions();
+		initActionGOs();
+	}
+
+	protected void initActionGOs() {
+		actionsGO.clear();
+		positions.clear();
+		float accAngle = 0;
+		float angle = (float) (Math.PI / 4.5);
+		for (EAdAction a : actions) {
+			ActionSceneElement action = new ActionSceneElement(a);
+			positions.add(new EAdPositionImpl((int) (Math.sin(accAngle) * radius), (int) (Math.cos(accAngle) * radius )));
+			action.setPosition(Corner.CENTER, x, y); 
+			actionsGO.add(sceneElementFactory.get(action));
+			accAngle += angle;
+		}
+	}
+
+	public void doLayout(EAdTransformation t) {
+		float interpolation1 = EAdInterpolator.BOUNCE_END.interpolate(currentTime, ANIMATION_TIME, 1.0f);
+		float interpolation2 = EAdInterpolator.LINEAR.interpolate(currentTime, ANIMATION_TIME, 1.0f);
+		transformation.setAlpha(alpha);
+		int i = 0;
+		for (SceneElementGO<?> go : actionsGO) {
+			EAdTransformationImpl posT = new EAdTransformationImpl();
+			EAdPosition p = this.positions.get(i);
+			posT.getMatrix().translate(p.getX() * interpolation1, p.getY() * interpolation2, true);
+			gui.addElement(go, gui.addTransformation(gui.addTransformation(t, transformation), posT));
+			i++;
+		}
 	}
 
 	@Override
@@ -141,33 +227,34 @@ public class ActionsHUDImpl extends AbstractHUD implements ActionsHUD {
 		return actions;
 	}
 
-	public int getX() {
-		return x;
-	}
-
-	public int getY() {
-		return y;
-	}
-
 	public int getRadius() {
 		return radius;
 	}
 
-	public void setElementProperties(int x, int y, int radius) {
-		this.x = x;
-		this.y = y;
-		this.radius = radius;
-		logger.info("properties: " + x + " " + y + " " + radius);
-	}
-
 	@Override
 	public void render(EAdCanvas<?> c) {
+
+	}
+
+	public void update() {
+
+		if (currentTime < ANIMATION_TIME) {
+			currentTime += GameLoop.SKIP_MILLIS_TICK;
+			alpha = EAdInterpolator.LINEAR.interpolate(currentTime,
+					ANIMATION_TIME, 1.0f);
+		} else {
+			alpha = 1.0f;
+			
+		}
 		
+		currentTime = currentTime > ANIMATION_TIME ? ANIMATION_TIME : currentTime;
+
+		alpha = alpha > 1.0f ? 1.0f : alpha;
 	}
 
 	@Override
 	public boolean contains(int x, int y) {
-		return false;
+		return true;
 	}
 
 }

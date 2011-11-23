@@ -59,6 +59,22 @@ public class PlayNCanvas extends AbstractCanvas<Canvas> {
 		}
 
 	}
+	
+	@Override
+	public void fillRect(int x, int y, int width, int height) {
+		// Fill
+		if (paint.getFill() != null) {
+			updatePaintFill(paint.getFill());
+			g.fillRect(x, y, width, height);
+		}
+		// Border
+		if (paint.getBorder() != null && paint.getBorderWidth() > 0) {
+			updatePaintBorder(paint.getBorder());
+			g.setStrokeWidth(paint.getBorderWidth());
+			g.fillRect(x, y, width, height);
+		}
+		
+	}
 
 	private void updatePaintFill(EAdFill fill) {
 		if (fill instanceof EAdColor) {

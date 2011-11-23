@@ -59,9 +59,6 @@ public class TriggerMacroEffectGO extends AbstractEffectGO<EAdTriggerMacro> {
 	@Override
 	public void initilize() {
 		super.initilize();
-		/*for (int i = element.getMacro().getEffects().size() - 1; i >= 0; i--) {
-			gameState.addEffect(0, element.getMacro().getEffects().get(i));
-		}*/
 		for ( EAdEffect e: element.getMacro().getEffects()){
 			gameState.addEffect(e, action, parent);
 		}

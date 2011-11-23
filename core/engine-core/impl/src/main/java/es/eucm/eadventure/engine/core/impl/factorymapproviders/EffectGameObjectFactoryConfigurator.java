@@ -45,8 +45,6 @@ import es.eucm.eadventure.common.model.effects.impl.EAdChangeScene;
 import es.eucm.eadventure.common.model.effects.impl.EAdComplexBlockingEffect;
 import es.eucm.eadventure.common.model.effects.impl.EAdInterpolationEffect;
 import es.eucm.eadventure.common.model.effects.impl.EAdModifyActorState;
-import es.eucm.eadventure.common.model.effects.impl.EAdMoveActiveElement;
-import es.eucm.eadventure.common.model.effects.impl.EAdMoveActiveElementToTarget;
 import es.eucm.eadventure.common.model.effects.impl.EAdPlaySoundEffect;
 import es.eucm.eadventure.common.model.effects.impl.EAdQuitGame;
 import es.eucm.eadventure.common.model.effects.impl.EAdRandomEffect;
@@ -67,8 +65,6 @@ import es.eucm.eadventure.engine.core.gameobjects.impl.effects.ComplexBlockingEf
 import es.eucm.eadventure.engine.core.gameobjects.impl.effects.HighlightEffectGO;
 import es.eucm.eadventure.engine.core.gameobjects.impl.effects.InterpolationGO;
 import es.eucm.eadventure.engine.core.gameobjects.impl.effects.ModifyActorStateGO;
-import es.eucm.eadventure.engine.core.gameobjects.impl.effects.MoveActiveElementGO;
-import es.eucm.eadventure.engine.core.gameobjects.impl.effects.MoveActiveElementToTargetGO;
 import es.eucm.eadventure.engine.core.gameobjects.impl.effects.MoveSceneElementGO;
 import es.eucm.eadventure.engine.core.gameobjects.impl.effects.PlaySoundEffectGO;
 import es.eucm.eadventure.engine.core.gameobjects.impl.effects.QuitGameEffectGO;
@@ -98,8 +94,6 @@ public class EffectGameObjectFactoryConfigurator
 		factoryMap.put(EAdModifyActorState.class, ModifyActorStateGO.class);
 		factoryMap.put(EAdRandomEffect.class, RandomEffectGO.class);
 		factoryMap.put(EAdInterpolationEffect.class, InterpolationGO.class);
-		factoryMap.put(EAdMoveActiveElement.class, MoveActiveElementGO.class);
-		factoryMap.put(EAdMoveActiveElementToTarget.class, MoveActiveElementToTargetGO.class);
 		factoryMap.put(EAdSpeakEffect.class, SpeakEffectGO.class);
 		factoryMap.put(EAdPlaySoundEffect.class, PlaySoundEffectGO.class);
 		factoryMap.put(EAdAddActorReferenceEffect.class,

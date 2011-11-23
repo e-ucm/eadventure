@@ -107,8 +107,8 @@ public class ElementReferenceImporter implements
 		if (oldObject.getInfluenceArea() != null) {
 			newRef.setVarInitialValue(
 					NodeTrajectoryDefinition.VAR_INFLUENCE_AREA,
-					new EAdRectangleImpl(oldObject.getInfluenceArea().getX(),
-							oldObject.getInfluenceArea().getY(), oldObject
+					new EAdRectangleImpl(oldObject.getInfluenceArea().getX() + oldObject.getX(),
+							oldObject.getInfluenceArea().getY() + oldObject.getY(), oldObject
 									.getInfluenceArea().getWidth(), oldObject
 									.getInfluenceArea().getHeight()));
 		}
