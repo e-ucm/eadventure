@@ -14,8 +14,10 @@ core/engine-desktop/impl/hs_err_pid2504.log
 core/engine-android/impl/gen/es/eucm/eadventure/engine/R.java
 core/engine-android/impl/gen/*
 core/engine-playn/impl/gwt-unitCache/gwt-unitCache*
+core/engine-desktop/impl/src/test/resources/T1-movimientoImported/drawable/assets_animation_walks-up_08.png
 syntax: regexp
 ^core/engine-android/impl/bin$
+core/engine-desktop/impl/src/test/resources/T1-movimiento*
 syntax: regexp
 ^core/engine-desktop/impl/src/test/resources/FirstPersonEffectsTestImported$
 syntax: regexp
