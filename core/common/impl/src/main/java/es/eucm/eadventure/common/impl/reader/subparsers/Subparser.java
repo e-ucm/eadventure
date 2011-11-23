@@ -43,7 +43,7 @@ import java.util.logging.Logger;
 import org.xml.sax.Attributes;
 
 import es.eucm.eadventure.common.impl.DOMTags;
-import es.eucm.eadventure.common.impl.reader.subparsers.extra.ObjectFactory;
+import es.eucm.eadventure.common.impl.reader.extra.ObjectFactory;
 import es.eucm.eadventure.common.interfaces.Param;
 
 /**

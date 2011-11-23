@@ -66,7 +66,7 @@ import com.google.inject.Injector;
 import es.eucm.eadventure.common.elementfactories.EAdElementsFactory;
 import es.eucm.eadventure.common.elementfactories.scenedemos.SceneDemo;
 import es.eucm.eadventure.common.elementfactories.scenedemos.SceneDemos;
-import es.eucm.eadventure.common.impl.DOMreader.EAdAdventureDOMModelReader;
+import es.eucm.eadventure.common.impl.reader.EAdAdventureDOMModelReader;
 import es.eucm.eadventure.common.impl.reader.EAdAdventureModelReader;
 import es.eucm.eadventure.common.impl.reader.subparsers.AdventureHandler;
 import es.eucm.eadventure.common.impl.writer.EAdAdventureModelWriter;
@@ -233,8 +233,6 @@ public class DesktopDemos extends BaseTestLauncher {
 									os.close();
 									FileInputStream is = new FileInputStream(f);
 									model = new EAdAdventureDOMModelReader().read(is);
-									//model = new EAdAdventureModelReader(
-									//		new AdventureHandler()).read(is);
 									is.close();
 
 									new DesktopDemos(createNewInjector(

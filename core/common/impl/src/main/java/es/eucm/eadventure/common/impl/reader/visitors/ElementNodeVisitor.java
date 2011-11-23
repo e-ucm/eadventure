@@ -1,14 +1,20 @@
-package es.eucm.eadventure.common.impl.DOMreader;
+package es.eucm.eadventure.common.impl.reader.visitors;
 
 import java.lang.reflect.Constructor;
+import java.lang.reflect.Field;
 import java.util.logging.Logger;
 
 import org.w3c.dom.Node;
 
 import es.eucm.eadventure.common.impl.DOMTags;
-import es.eucm.eadventure.common.impl.reader.subparsers.extra.ObjectFactory;
+import es.eucm.eadventure.common.impl.reader.extra.ObjectFactory;
 import es.eucm.eadventure.common.model.EAdElement;
 
+/**
+ * Visitor for the element. The element should be {@code <element id="ID"
+ *  type="ENGINE_TYPE"
+ *  class="EDITOR_TYPE"></element>}.
+ */
 public class ElementNodeVisitor extends NodeVisitor<EAdElement> {
 	
 	public static final String TAG = "element";
@@ -16,10 +22,12 @@ public class ElementNodeVisitor extends NodeVisitor<EAdElement> {
 	protected static final Logger logger = Logger.getLogger("ElementNodeVisitor");
 
 	@Override
-	public EAdElement visit(Node node) {
+	public EAdElement visit(Node node, Field field, Object parent) {
 		EAdElement element = (EAdElement) ObjectFactory.getObject(node.getTextContent(), EAdElement.class);
-		if (element != null)
+		if (element != null) {
+			setValue(field, parent, element);
 			return element;
+		}
 		
 		Node n = node.getAttributes().getNamedItem(DOMTags.UNIQUE_ID_AT);
 		String uniqueId = n != null ? n.getNodeValue() : null;
@@ -60,14 +68,12 @@ public class ElementNodeVisitor extends NodeVisitor<EAdElement> {
 		}
 		if (element != null)
 			ObjectFactory.addElement(uniqueId, element);
+		setValue(field, parent, element);
 
 		readFields(element, node);
 		
 		return element;
 	}
-	
-	
-
 
 	@Override
 	public String getNodeType() {

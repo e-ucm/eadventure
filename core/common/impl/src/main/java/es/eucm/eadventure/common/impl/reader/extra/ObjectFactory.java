@@ -35,7 +35,7 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package es.eucm.eadventure.common.impl.reader.subparsers.extra;
+package es.eucm.eadventure.common.impl.reader.extra;
 
 import java.lang.reflect.Constructor;
 import java.util.HashMap;

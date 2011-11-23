@@ -61,6 +61,7 @@ import es.eucm.eadventure.common.model.elements.EAdAdventureModel;
 /**
  * The reader for the XML representation of the model
  */
+@Deprecated
 public class EAdAdventureModelReader implements Reader<EAdAdventureModel> {
 	
 	private static final Logger logger = Logger.getLogger("EAdReader");

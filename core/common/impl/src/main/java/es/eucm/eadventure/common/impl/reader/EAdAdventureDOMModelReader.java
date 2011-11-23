@@ -35,7 +35,7 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package es.eucm.eadventure.common.impl.DOMreader;
+package es.eucm.eadventure.common.impl.reader;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -58,7 +58,9 @@ import com.google.inject.Inject;
 
 import es.eucm.eadventure.common.Reader;
 import es.eucm.eadventure.common.impl.DOMTags;
-import es.eucm.eadventure.common.impl.reader.subparsers.extra.ObjectFactory;
+import es.eucm.eadventure.common.impl.reader.extra.ObjectFactory;
+import es.eucm.eadventure.common.impl.reader.visitors.ElementNodeVisitor;
+import es.eucm.eadventure.common.impl.reader.visitors.NodeVisitor;
 import es.eucm.eadventure.common.model.elements.EAdAdventureModel;
 
 /**
@@ -92,7 +94,7 @@ public class EAdAdventureDOMModelReader implements Reader<EAdAdventureModel> {
 			Document doc = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(inputStream);
 			ElementNodeVisitor env = new ElementNodeVisitor();
 			NodeVisitor.init(doc.getFirstChild().getAttributes().getNamedItem(DOMTags.PACKAGE_AT).getNodeValue());
-			data = (EAdAdventureModel) env.visit(doc.getFirstChild().getFirstChild());
+			data = (EAdAdventureModel) env.visit(doc.getFirstChild().getFirstChild(), null, null);
 
 			return data;
 		} catch( ParserConfigurationException e ) {

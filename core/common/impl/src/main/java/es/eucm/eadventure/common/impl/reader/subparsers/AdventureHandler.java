@@ -43,7 +43,7 @@ import org.xml.sax.Attributes;
 import org.xml.sax.helpers.DefaultHandler;
 
 import es.eucm.eadventure.common.impl.DOMTags;
-import es.eucm.eadventure.common.impl.reader.subparsers.extra.ObjectFactory;
+import es.eucm.eadventure.common.impl.reader.extra.ObjectFactory;
 import es.eucm.eadventure.common.impl.writer.AssetDOMWriter;
 import es.eucm.eadventure.common.impl.writer.DefaultDOMWriter;
 import es.eucm.eadventure.common.impl.writer.ElementDOMWriter;

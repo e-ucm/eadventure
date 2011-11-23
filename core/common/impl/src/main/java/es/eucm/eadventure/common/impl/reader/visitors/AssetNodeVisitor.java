@@ -1,14 +1,25 @@
-package es.eucm.eadventure.common.impl.DOMreader;
+package es.eucm.eadventure.common.impl.reader.visitors;
 
 import java.lang.reflect.Constructor;
+import java.lang.reflect.Field;
 import java.util.logging.Logger;
 
 import org.w3c.dom.Node;
 
 import es.eucm.eadventure.common.impl.DOMTags;
-import es.eucm.eadventure.common.impl.reader.subparsers.extra.ObjectFactory;
+import es.eucm.eadventure.common.impl.reader.extra.ObjectFactory;
 import es.eucm.eadventure.common.resources.assets.AssetDescriptor;
 
+/**
+ * <p>
+ * Visitor for the asset element of resources.
+ * </p>
+ * <p>
+ * The asset element should be<br>
+ * {@code <asset id="ASSET_ID" class="ASSETDESCRIPTOR_CLASS">ASSET_VALUE</asset>}
+ * <br>
+ * </p>
+ */
 public class AssetNodeVisitor extends NodeVisitor<AssetDescriptor> {
 	
 	public static final String TAG = "element";
@@ -16,10 +27,12 @@ public class AssetNodeVisitor extends NodeVisitor<AssetDescriptor> {
 	protected static final Logger logger = Logger.getLogger("ElementNodeVisitor");
 
 	@Override
-	public AssetDescriptor visit(Node node) {
+	public AssetDescriptor visit(Node node, Field field, Object parent) {
 		AssetDescriptor element =  (AssetDescriptor) ObjectFactory.getObject(node.getTextContent(), AssetDescriptor.class);
-		if (element != null)
-				return element;
+		if (element != null) {
+			setValue(field, parent, element);
+			return element;
+		}
 			
 		String uniqueId = node.getAttributes().getNamedItem(DOMTags.UNIQUE_ID_AT).getNodeValue();
 
@@ -42,7 +55,9 @@ public class AssetNodeVisitor extends NodeVisitor<AssetDescriptor> {
 		}
 		if (element != null)
 			ObjectFactory.addAsset(uniqueId, element);
+		setValue(field, parent, element);
 
+		
 		readFields(element, node);
 		
 		return element;

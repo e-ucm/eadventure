@@ -1,4 +1,4 @@
-package es.eucm.eadventure.common.impl.DOMreader;
+package es.eucm.eadventure.common.impl.reader.visitors;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -15,6 +15,9 @@ public class VisitorFactory {
 		addVisitor(new ParamNodeVisitor());
 		addVisitor(new AssetNodeVisitor());
 		addVisitor(new ListNodeVisitor());
+		addVisitor(new ResourcesNodeVisitor());
+		addVisitor(new ListNodeVisitor());
+		addVisitor(new MapNodeVisitor());
 	}
 	
 	private void addVisitor(NodeVisitor<?> nodeVisitor) {
