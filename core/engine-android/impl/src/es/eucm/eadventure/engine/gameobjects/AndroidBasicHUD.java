@@ -8,7 +8,6 @@ import android.graphics.Paint.Align;
 import android.graphics.Path;
 import android.graphics.Rect;
 import android.graphics.Typeface;
-
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
@@ -52,7 +51,7 @@ public class AndroidBasicHUD extends BasicHUDImpl {
 		this.platformConfiguration = (AndroidPlatformConfiguration) platformConfiguration;
 
 		borderPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
-		borderPaint.setColor(Color.WHITE);
+		borderPaint.setColor(Color.BLACK);
 		borderPaint.setStyle(Paint.Style.STROKE);
 		borderPaint.setStrokeWidth(8);
 
@@ -75,29 +74,31 @@ public class AndroidBasicHUD extends BasicHUDImpl {
 
 	@SuppressWarnings("unchecked")
 	public void render(EAdCanvas<?> canvas) {
-		// FIXME magnifier working weird
-		if (false && mouseState.isMousePressed()) {
+		
+		if (mouseState.isMousePressed()) {
 
 			BitmapCanvas graphicContext = (BitmapCanvas) canvas
 					.getNativeGraphicContext();
 			if (mouseState.getMouseX() != -1 && mouseState.getMouseY() != -1) {
 
+				int notScaledX, notScaledY; 
+				notScaledX = (int) (mouseState.getMouseX()*this.platformConfiguration.getScaleW());
+				notScaledY = (int) (mouseState.getMouseY()*this.platformConfiguration.getScaleH());
+				
 				Canvas c = new Canvas(magGlass);
 				c.clipPath(clip);
 
 				c.drawBitmap(
 						((BitmapCanvas) graphicContext).getBitmap(),
-						new Rect(mouseState.getMouseX() - 50, mouseState
-								.getMouseY() - 100,
-								mouseState.getMouseX() + 50, mouseState
-										.getMouseY()), rect, null);
+						new Rect(notScaledX - 50, notScaledY - 100,
+								notScaledX + 50, notScaledY), rect, null);
 
 				c.drawPath(clip, borderPaint);
 				c.drawCircle(100, 100, 3, borderPaint);
 
 				int magX, magY, textX, textY;
-				magX = mouseState.getMouseX();
-				magY = mouseState.getMouseY();
+				magX = notScaledX - 100;
+				magY = notScaledY - 150;
 
 				if (magX + 100 >= this.platformConfiguration.getVirtualWidth()) {
 					magX = this.platformConfiguration.getVirtualWidth() - 100;
@@ -124,8 +125,8 @@ public class AndroidBasicHUD extends BasicHUDImpl {
 					EAdString name = gameState.getValueMap().getValue(
 							(EAdElement) go.getElement(),
 							EAdBasicSceneElement.VAR_NAME);
-					graphicContext.drawText("Nombre GO", textX, textY,
-							textPaint);
+					//graphicContext.drawText("Nombre GO", textX, textY,
+							//textPaint);
 					if (name != null) {
 						graphicContext.drawText(name.toString(), textX, textY,
 								textPaint);
