@@ -26,12 +26,7 @@ public class SimplePathImpl implements Path {
 	public List<PathSide> getSides() {
 		return sides;
 	}
-
-	@Override
-	public EAdEffect getChangeSideEffect(PathSide p, TrajectoryDefinition trajectory) {
-		return null;
-	}
-
+	
 	@Override
 	public boolean isGetsTo() {
 		return true;

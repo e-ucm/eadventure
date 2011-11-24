@@ -39,17 +39,6 @@ public class DijkstraPath implements Path {
 		return sides;
 	}
 
-	@Override
-	public EAdEffect getChangeSideEffect(PathSide p,
-			TrajectoryDefinition trajectory) {
-		EAdField<Side> currentSide = new EAdFieldImpl<Side>(trajectory,
-				NodeTrajectoryDefinition.VAR_CURRENT_SIDE);
-		EAdEffect effect = new EAdChangeFieldValueEffect(currentSide,
-				new ValueOperation(((DijkstraPathSide) p).getSide()));
-		effect.setId("changeSide");
-		return effect;
-	}
-
 	/**
 	 * Sides are added in reverse order given the needs of the algorithm, which
 	 * goes backwards from the best node reconstructing the path

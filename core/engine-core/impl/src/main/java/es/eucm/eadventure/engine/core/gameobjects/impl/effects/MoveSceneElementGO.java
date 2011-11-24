@@ -43,6 +43,7 @@ import java.util.List;
 import com.google.inject.Inject;
 
 import es.eucm.eadventure.common.interfaces.features.Oriented.Orientation;
+import es.eucm.eadventure.common.model.effects.EAdEffect;
 import es.eucm.eadventure.common.model.effects.impl.sceneelements.EAdMoveSceneElement;
 import es.eucm.eadventure.common.model.elements.EAdSceneElement;
 import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
@@ -50,6 +51,7 @@ import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement.Common
 import es.eucm.eadventure.common.model.elements.impl.EAdSceneElementDefImpl;
 import es.eucm.eadventure.common.model.elements.impl.EAdSceneImpl;
 import es.eucm.eadventure.common.model.trajectories.TrajectoryDefinition;
+import es.eucm.eadventure.common.model.trajectories.impl.NodeTrajectoryDefinition;
 import es.eucm.eadventure.common.model.variables.EAdVarDef;
 import es.eucm.eadventure.common.model.variables.impl.EAdVarDefImpl;
 import es.eucm.eadventure.common.params.geom.EAdPosition;
@@ -66,6 +68,7 @@ import es.eucm.eadventure.engine.core.trajectories.Path;
 import es.eucm.eadventure.engine.core.trajectories.PathSide;
 import es.eucm.eadventure.engine.core.trajectories.TrajectoryFactory;
 import es.eucm.eadventure.engine.core.trajectories.impl.SimplePathImpl;
+import es.eucm.eadventure.engine.core.trajectories.impl.dijkstra.DijkstraPathSide;
 import es.eucm.eadventure.engine.core.util.impl.EAdInterpolator;
 
 /**
@@ -191,6 +194,13 @@ public class MoveSceneElementGO extends
 			totalTime = (side.getLength() / PIXELS_PER_SECOND * 1000)
 					* side.getSpeedFactor();
 
+			//TODO should make more generic...
+			TrajectoryDefinition d = gameState.getValueMap().getValue(gameState.getScene()
+					.getElement(), EAdSceneImpl.VAR_TRAJECTORY_DEFINITION);
+			if (d != null && element.useTrajectory()) {
+				gameState.getValueMap().setValue(d, NodeTrajectoryDefinition.VAR_CURRENT_SIDE, ((DijkstraPathSide) side).getSide());
+			}
+
 			updateDirection();
 			currentSide++;
 			finishedSide = false;
@@ -283,7 +293,7 @@ public class MoveSceneElementGO extends
 		gameState.getValueMap().setValue(element.getSceneElement(),
 				EAdBasicSceneElement.VAR_STATE, oldState);
 		gameState.getValueMap()
-				.setValue(sceneElement, VAR_ELEMENT_MOVING, null);
+				.setValue(sceneElement, VAR_ELEMENT_MOVING, (Object) null);
 	}
 
 	public void stop() {

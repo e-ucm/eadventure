@@ -89,7 +89,7 @@ public class OperatorFactoryImpl extends AbstractFactory<Operator<?>> implements
 	@Override
 	public <T extends EAdOperation, S> S operate(Class<S> clazz, T operation) {
 		if (operation == null) {
-			log.severe("null operation attempted: null was returned");
+			log.severe("null operation attempted: null was returned with class " + clazz);
 			return null;
 		}
 		Operator<T> operator = (Operator<T>) get(operation.getClass());
