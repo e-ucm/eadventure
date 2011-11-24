@@ -41,6 +41,5 @@ import es.eucm.eadventure.common.interfaces.features.Conditioned;
 
 public interface EAdConditionEvent extends EAdEvent, Conditioned {
 
-	public enum ConditionedEvent { CONDITIONS_MET, CONDITIONS_UNMET };
-	
+
 }

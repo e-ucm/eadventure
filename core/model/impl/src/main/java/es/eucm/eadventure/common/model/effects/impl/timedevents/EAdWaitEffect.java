@@ -61,11 +61,9 @@ public class EAdWaitEffect extends AbstractEAdEffect {
 	 * 
 	 * @param parent
 	 *            Element's parent
-	 * @param id
-	 *            Element's id
 	 */
-	public EAdWaitEffect(String id) {
-		this(id, 0);
+	public EAdWaitEffect() {
+		this(0);
 	}
 
 	/**
@@ -73,13 +71,12 @@ public class EAdWaitEffect extends AbstractEAdEffect {
 	 * 
 	 * @param parent
 	 *            Element's parent
-	 * @param id
-	 *            Element's id
 	 * @param time
 	 *            the time for this effect
 	 */
-	public EAdWaitEffect(String id, int time) {
-		super(id);
+	public EAdWaitEffect(int time) {
+		super();
+		setId("waitEffect");
 		this.time = time;
 		this.setBlocking(true);
 		this.setOpaque(true);

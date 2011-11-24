@@ -42,6 +42,11 @@ public class EAdFieldImpl<T> implements EAdField<T> {
 		return (element != null ? element.getId() : "") + "_" + varDef.getId()
 				+ "_field";
 	}
+	
+	@Override
+	public void setId(String id) {
+	}
+
 
 	@Override
 	public EAdElement copy() {

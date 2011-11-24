@@ -18,7 +18,9 @@ public class WaitEffectImporter extends EffectImporter<WaitTimeEffect, EAdWaitEf
 
 	@Override
 	public EAdWaitEffect init(WaitTimeEffect oldObject) {
-		return new EAdWaitEffect("waitEffect" + ID_GENERATOR);
+		EAdWaitEffect waitEffect=  new EAdWaitEffect();
+		waitEffect.setId("waitEffect" + ID_GENERATOR);
+		return waitEffect;
 	}
 
 	@Override

@@ -92,6 +92,6 @@ public interface EAdChapter extends EAdElement, Resourced, Variabled {
 	 * @return The loading screen, to be used in place of the default when
 	 *         possible
 	 */
-	EAdScene getLoadingScreen();
+	EAdScene getLoadingScene();
 
 }

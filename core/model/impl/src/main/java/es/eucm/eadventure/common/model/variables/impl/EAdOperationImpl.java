@@ -52,8 +52,9 @@ public abstract class EAdOperationImpl extends EAdElementImpl implements EAdOper
 	@Param("varList")
 	protected EAdList<EAdField<?>> varList;
 
-	public EAdOperationImpl(String id) {
-		super(id);
+	public EAdOperationImpl() {
+		super();
+		setId("operation");
 		varList = new EAdListImpl<EAdField<?>>(EAdField.class);
 	}
 	

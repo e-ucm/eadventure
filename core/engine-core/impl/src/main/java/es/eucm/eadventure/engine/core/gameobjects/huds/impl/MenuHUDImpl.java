@@ -132,13 +132,14 @@ public class MenuHUDImpl extends AbstractHUD implements MenuHUD {
 			SceneElementGOFactory sceneElementFactory) {
 		CaptionImpl c = new CaptionImpl();
 		stringHandler.setString(c.getText(), "Exit");
-		EAdBasicSceneElement button = new EAdBasicSceneElement("exit_button", c);
+		EAdBasicSceneElement button = new EAdBasicSceneElement( c);
+		button.setId("exit_button");
 		c.setBubblePaint(new EAdPaintImpl(new EAdLinearGradient(
 				EAdColor.ORANGE, new EAdColor(255, 200, 0), 0, 40), EAdColor.BLACK, 2));
 		c.setPadding(10);
 		c.setFont(new EAdFontImpl(18));
 		button.getBehavior().addBehavior(EAdMouseEventImpl.MOUSE_LEFT_CLICK,
-				new EAdQuitGame("menuButton_quitGame"));
+				new EAdQuitGame());
 		button.setPosition(new EAdPositionImpl(EAdPositionImpl.Corner.CENTER,
 				400, 300));
 		addElement(sceneElementFactory.get(button));

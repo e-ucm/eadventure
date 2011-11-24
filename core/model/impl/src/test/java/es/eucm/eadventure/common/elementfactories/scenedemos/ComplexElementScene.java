@@ -2,13 +2,13 @@ package es.eucm.eadventure.common.elementfactories.scenedemos;
 
 import es.eucm.eadventure.common.elementfactories.EAdElementsFactory;
 import es.eucm.eadventure.common.model.effects.impl.EAdInterpolationEffect;
-import es.eucm.eadventure.common.model.effects.impl.EAdInterpolationEffect.InterpolationType;
-import es.eucm.eadventure.common.model.effects.impl.EAdInterpolationEffect.LoopType;
+import es.eucm.eadventure.common.model.effects.impl.enums.InterpolationLoopType;
+import es.eucm.eadventure.common.model.effects.impl.enums.InterpolationType;
 import es.eucm.eadventure.common.model.effects.impl.variables.EAdChangeFieldValueEffect;
 import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
 import es.eucm.eadventure.common.model.elements.impl.EAdComplexElementImpl;
 import es.eucm.eadventure.common.model.events.EAdSceneElementEvent;
-import es.eucm.eadventure.common.model.events.EAdSceneElementEvent.SceneElementEvent;
+import es.eucm.eadventure.common.model.events.enums.SceneElementEventType;
 import es.eucm.eadventure.common.model.events.impl.EAdSceneElementEventImpl;
 import es.eucm.eadventure.common.model.guievents.impl.EAdMouseEventImpl;
 import es.eucm.eadventure.common.model.variables.EAdField;
@@ -23,7 +23,8 @@ import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.shapes.Re
 public class ComplexElementScene extends EmptyScene {
 
 	public ComplexElementScene() {
-		EAdComplexElementImpl complex = new EAdComplexElementImpl("complex");
+		EAdComplexElementImpl complex = new EAdComplexElementImpl();
+		complex.setId("complex");
 		RectangleShape rectangle = new RectangleShape(400, 400);
 		rectangle.setPaint(EAdPaintImpl.BLACK_ON_WHITE);
 		complex.getResources().addAsset(complex.getInitialBundle(),
@@ -50,11 +51,11 @@ public class ComplexElementScene extends EmptyScene {
 				EAdBasicSceneElement.VAR_ROTATION);
 
 		EAdInterpolationEffect effect = new EAdInterpolationEffect(rotation, 0,
-				2 * (float) Math.PI, 10000, LoopType.RESTART,
+				2 * (float) Math.PI, 10000, InterpolationLoopType.RESTART,
 				InterpolationType.LINEAR);
 
 		EAdSceneElementEvent event = new EAdSceneElementEventImpl();
-		event.addEffect(SceneElementEvent.ADDED_TO_SCENE, effect);
+		event.addEffect(SceneElementEventType.ADDED_TO_SCENE, effect);
 
 		complex.getEvents().add(event);
 
@@ -62,15 +63,15 @@ public class ComplexElementScene extends EmptyScene {
 				EAdBasicSceneElement.VAR_ROTATION);
 
 		e.addBehavior(EAdMouseEventImpl.MOUSE_RIGHT_CLICK,
-				new EAdChangeFieldValueEffect("t", rotation,
+				new EAdChangeFieldValueEffect(rotation,
 						new ValueOperation((float) 0.1f)));
 
 		EAdInterpolationEffect effect2 = new EAdInterpolationEffect(rotation2,
-				0, 2 * (float) Math.PI, 1000, LoopType.RESTART,
+				0, 2 * (float) Math.PI, 1000, InterpolationLoopType.RESTART,
 				InterpolationType.LINEAR);
 
 		EAdSceneElementEvent event2 = new EAdSceneElementEventImpl();
-		event2.addEffect(SceneElementEvent.ADDED_TO_SCENE, effect2);
+		event2.addEffect(SceneElementEventType.ADDED_TO_SCENE, effect2);
 
 		e.getEvents().add(event2);
 
@@ -78,9 +79,9 @@ public class ComplexElementScene extends EmptyScene {
 				EAdBasicSceneElement.VAR_SCALE);
 
 		EAdInterpolationEffect effect3 = new EAdInterpolationEffect(scale,
-				0.5f, 2.0f, 5000, LoopType.REVERSE, InterpolationType.LINEAR);
+				0.5f, 2.0f, 5000, InterpolationLoopType.REVERSE, InterpolationType.LINEAR);
 
-		event2.addEffect(SceneElementEvent.ADDED_TO_SCENE, effect3);
+		event2.addEffect(SceneElementEventType.ADDED_TO_SCENE, effect3);
 
 	}
 

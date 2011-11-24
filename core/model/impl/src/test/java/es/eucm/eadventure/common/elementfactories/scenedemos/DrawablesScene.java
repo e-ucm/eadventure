@@ -138,8 +138,7 @@ public class DrawablesScene extends EmptyScene {
 						.getChangeVarValueEffect(
 								new EAdFieldImpl<String>(sceneElement,
 										EAdBasicSceneElement.VAR_STATE),
-								new ValueOperation("assign",
-										CommonStates.EAD_STATE_DEFAULT
+								new ValueOperation(CommonStates.EAD_STATE_DEFAULT
 												.toString())));
 		sceneElement.addBehavior(
 				EAdMouseEventImpl.MOUSE_LEFT_CLICK,
@@ -149,8 +148,7 @@ public class DrawablesScene extends EmptyScene {
 						.getChangeVarValueEffect(
 								new EAdFieldImpl<String>(sceneElement,
 										EAdBasicSceneElement.VAR_STATE),
-								new ValueOperation("assign",
-										CommonStates.EAD_STATE_TALKING
+								new ValueOperation(CommonStates.EAD_STATE_TALKING
 												.toString())));
 		getElements().add(sceneElement);
 

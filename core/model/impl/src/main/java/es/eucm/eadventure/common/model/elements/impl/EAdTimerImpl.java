@@ -60,8 +60,9 @@ public class EAdTimerImpl extends EAdElementImpl implements EAdTimer {
 	@Param("time")
 	private Integer time;
 
-	public EAdTimerImpl(String id) {
-		super(id);
+	public EAdTimerImpl() {
+		super();
+		setId("timer");
 		time = 5000;
 	}
 
@@ -81,7 +82,8 @@ public class EAdTimerImpl extends EAdElementImpl implements EAdTimer {
 
 	@Override
 	public EAdElement copy(boolean deepCopy) {
-		EAdTimerImpl t = new EAdTimerImpl( id );
+		EAdTimerImpl t = new EAdTimerImpl();
+		t.setId(id);
 		t.setTime(time);
 		return t;
 	}

@@ -37,8 +37,8 @@ public class InitScene extends EmptyScene {
 	private EAdPaintImpl speakPaint = new EAdPaintImpl(fill, EAdColor.LIGHT_GRAY, 5);
 
 	public InitScene() {
-		this.setBackground(new EAdBasicSceneElement("background",
-				new ImageImpl("@drawable/techdemo-bg.png")));
+		this.setBackground(new EAdBasicSceneElement(new ImageImpl("@drawable/techdemo-bg.png")));
+		getBackground().setId("background");
 		initList();
 		initGOBackButton();
 		initInfoButton();
@@ -50,12 +50,13 @@ public class InitScene extends EmptyScene {
 			sf.setString(b.getLabel(), s.getDemoName());
 			b.setPosition(x, y);
 			b.addBehavior(EAdMouseEventImpl.MOUSE_LEFT_PRESSED,
-					new EAdChangeScene("changeScene", s, EAdTransition.BASIC));
+					new EAdChangeScene( s, EAdTransition.BASIC));
 			this.getElements().add(b);
 			s.getElements().add(goBack);
 			EAdBasicSceneElement info = new EAdBasicSceneElement(infoButton);
 			info.setPosition(Corner.BOTTOM_LEFT, 80, 590);
-			EAdSpeakEffect effect = new EAdSpeakEffect("infoSpeak");
+			EAdSpeakEffect effect = new EAdSpeakEffect();
+			effect.setId("infoSpeak");
 			effect.setColor(EAdColor.GRAY, speakPaint);
 			effect.setFont(font);
 			sf.setString(effect.getString(), s.getSceneDescription());
@@ -71,18 +72,20 @@ public class InitScene extends EmptyScene {
 	}
 
 	private void initInfoButton() {
-		infoButton = new EAdSceneElementDefImpl("info");
+		infoButton = new EAdSceneElementDefImpl();
+		infoButton.setId("info");
 		infoButton.getResources().addAsset(infoButton.getInitialBundle(),
 				EAdBasicSceneElement.appearance,
 				new ImageImpl("@drawable/infobutton.png"));
 	}
 
 	private void initGOBackButton() {
-		goBack = new EAdBasicSceneElement("goBack", new ImageImpl(
+		goBack = new EAdBasicSceneElement(new ImageImpl(
 				"@drawable/goback.png"));
+		goBack.setId("goBack");
 		goBack.setPosition(Corner.BOTTOM_LEFT, 10, 590);
 		goBack.addBehavior(EAdMouseEventImpl.MOUSE_LEFT_PRESSED,
-				new EAdChangeScene("goBackScene", this, EAdTransition.BASIC));
+				new EAdChangeScene( this, EAdTransition.BASIC));
 		goBack.setScale(0.5f);
 
 	}

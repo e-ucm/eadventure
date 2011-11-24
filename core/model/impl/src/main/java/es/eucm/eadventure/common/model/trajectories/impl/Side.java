@@ -89,4 +89,8 @@ public class Side implements EAdElement {
 	public String getId() {
 		return idStart + "_" + idEnd;
 	}
+	
+	@Override
+	public void setId(String id) {
+	}
 }

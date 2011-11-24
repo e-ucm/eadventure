@@ -75,8 +75,8 @@ public class EAdChangeFieldValueEffect extends AbstractEAdEffect {
 	 * @param id
 	 *            Elements's id
 	 */
-	public EAdChangeFieldValueEffect(String id) {
-		this(id, null, null);
+	public EAdChangeFieldValueEffect() {
+		this(null, null);
 	}
 
 	/**
@@ -89,18 +89,14 @@ public class EAdChangeFieldValueEffect extends AbstractEAdEffect {
 	 * @param operation
 	 *            The operation to be performed to obtain the value of the field
 	 */
-	public EAdChangeFieldValueEffect(String id, EAdField<?> field,
+	public EAdChangeFieldValueEffect( EAdField<?> field,
 			EAdOperation operation) {
-		super(id);
+		super();
+		setId("changeField");
 		this.fields = new EAdListImpl<EAdField<?>>(EAdField.class);
 		if (field != null)
 			fields.add(field);
 		this.operation = operation;
-	}
-
-	public EAdChangeFieldValueEffect(EAdField<Integer> timesField,
-			EAdOperation operation) {
-		this("changeField", timesField, operation);
 	}
 
 	/**
@@ -160,4 +156,14 @@ public class EAdChangeFieldValueEffect extends AbstractEAdEffect {
 		return fields + " : " + operation;
 	}
 
+	public void setFields(EAdList<EAdField<?>> fields) {
+		this.fields = fields;
+	}
+
+	public void setVarDef(EAdVarDef<?> varDef) {
+		this.varDef = varDef;
+	}
+
+	
+	
 }

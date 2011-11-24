@@ -43,10 +43,8 @@ import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.view.Window;
 import android.view.WindowManager;
-
 import com.google.inject.Guice;
 import com.google.inject.Injector;
-
 import es.eucm.eadventure.common.elementfactories.EAdElementsFactory;
 import es.eucm.eadventure.common.model.elements.EAdAdventureModel;
 import es.eucm.eadventure.common.model.elements.EAdScene;

@@ -74,13 +74,15 @@ public class EAdKeyEventImpl extends EAdElementImpl implements EAdKeyEvent {
 	}
 
 	public EAdKeyEventImpl(KeyActionType type, KeyCode keyCode) {
-		super("KeyEvent_" + type + "_" + keyCode);
+		super();
+		setId("KeyEvent_" + type + "_" + keyCode);
 		this.type = type;
 		this.keyCode = keyCode;
 	}
 
 	public EAdKeyEventImpl(KeyActionType type, char c) {
-		super("KeyEvent_" + type + "_" + c);
+		super();
+		setId("KeyEvent_" + type + "_" + c);
 		this.type = type;
 		this.keyCode = KeyCode.LETTER;
 		this.c = c;

@@ -61,7 +61,7 @@ public class SceneLinksPanelTest {
 
 		EAdList<EAdScene> list = new EAdListImpl<EAdScene>(EAdScene.class);
 
-		EAdScene space = new EAdSceneImpl("Scene1");
+		EAdScene space = new EAdSceneImpl();
 		space.getBackground().getResources().addAsset(space.getInitialBundle(), EAdBasicSceneElement.appearance, new ImageImpl("@drawable/loading.png"));
 
 		//Change the number of elements in the list to see how the scale works

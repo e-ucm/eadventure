@@ -13,7 +13,7 @@ public class LineShape extends BezierShape {
 		lineTo(x1 + vx, y1 + vy);
 		lineTo(x2 + vx, y2 + vy);
 		lineTo(x2 - vx, y2 - vy);
-		close();
+		setClosed(true);
 	}
 
 }

@@ -37,11 +37,14 @@
 
 package es.eucm.eadventure.common.model.elements;
 
+import com.gwtent.reflection.client.Reflectable;
+
 import es.eucm.eadventure.common.model.EAdElement;
 
 /**
  * A condition in the eAdventure model
  */
+@Reflectable
 public interface EAdCondition extends EAdElement {
 
 }

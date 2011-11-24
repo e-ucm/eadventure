@@ -61,6 +61,8 @@ public class GOFactoryImpl<S extends EAdElement, T extends GameObject<? extends 
 					+ element.getClass());
 		} else {
 			temp = (GameObject) injector.getInstance(tempClass);
+			if (temp == null)
+				logger.severe("No instace for game object of class " + tempClass);
 			temp.setElement(element);
 			if ( useCache )
 				cache.put(element, (T) temp);

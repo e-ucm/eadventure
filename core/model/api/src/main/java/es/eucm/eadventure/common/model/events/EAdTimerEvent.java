@@ -41,8 +41,6 @@ import es.eucm.eadventure.common.model.elements.EAdTimer;
 
 public interface EAdTimerEvent extends EAdEvent {
 
-	public enum TimerEvent { TIMER_STARTED, TIMER_STOPPED, TIMER_CANCELED, TIMER_RESTARTED, TIMER_ENDED};
-	
 	public EAdTimer getTimer();
 	
 }

@@ -10,8 +10,8 @@ import es.eucm.eadventure.common.model.weev.Actor;
 @Element(detailed = ActorImpl.class, runtime = EAdSceneElementDefImpl.class)
 public class ActorImpl extends EAdSceneElementDefImpl implements Actor {
 
-	public ActorImpl(String id) {
-		super(id);
+	public ActorImpl() {
+		super();
 	}
 
 }

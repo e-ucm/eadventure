@@ -1,13 +1,13 @@
 package es.eucm.eadventure.common.elementfactories.scenedemos;
 
 import es.eucm.eadventure.common.model.effects.impl.EAdInterpolationEffect;
-import es.eucm.eadventure.common.model.effects.impl.EAdInterpolationEffect.InterpolationType;
-import es.eucm.eadventure.common.model.effects.impl.EAdInterpolationEffect.LoopType;
+import es.eucm.eadventure.common.model.effects.impl.enums.InterpolationType;
+import es.eucm.eadventure.common.model.effects.impl.enums.InterpolationLoopType;
 import es.eucm.eadventure.common.model.effects.impl.variables.EAdChangeFieldValueEffect;
 import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
 import es.eucm.eadventure.common.model.events.EAdSceneElementEvent;
-import es.eucm.eadventure.common.model.events.EAdSceneElementEvent.SceneElementEvent;
-import es.eucm.eadventure.common.model.events.EAdSceneElementTimedEvent.SceneElementTimedEventType;
+import es.eucm.eadventure.common.model.events.enums.SceneElementEventType;
+import es.eucm.eadventure.common.model.events.enums.SceneElementTimedEventType;
 import es.eucm.eadventure.common.model.events.impl.EAdSceneElementEventImpl;
 import es.eucm.eadventure.common.model.events.impl.EAdSceneElementTimedEventImpl;
 import es.eucm.eadventure.common.model.variables.EAdField;
@@ -26,34 +26,36 @@ public class DepthZScene extends EmptyScene {
 		
 		int totalTime = 2000;
 		
-		EAdBasicSceneElement e1 = new EAdBasicSceneElement("e1", new RectangleShape( 50, 500, new EAdPaintImpl( EAdColor.RED, EAdColor.BLACK ) ));
+		EAdBasicSceneElement e1 = new EAdBasicSceneElement(new RectangleShape( 50, 500, new EAdPaintImpl( EAdColor.RED, EAdColor.BLACK ) ));
 		e1.setPosition(new EAdPositionImpl( Corner.CENTER, 400, 300 ));
 		getElements().add(e1);
 		
-		EAdBasicSceneElement e2 = new EAdBasicSceneElement("e2", new CircleShape( 20, 20, 20, 20, new EAdPaintImpl( EAdColor.GREEN, EAdColor.BLACK ) ));
+		EAdBasicSceneElement e2 = new EAdBasicSceneElement( new CircleShape( 20, 20, 20, 20, new EAdPaintImpl( EAdColor.GREEN, EAdColor.BLACK ) ));
 		e2.setPosition(new EAdPositionImpl( Corner.CENTER, 10, 300 ));
 		getElements().add(e2);
 		
 		EAdField<Integer> xField = new EAdFieldImpl<Integer>(e2, EAdBasicSceneElement.VAR_X);
-		EAdInterpolationEffect effect = new EAdInterpolationEffect(xField, 50, 750, totalTime, LoopType.REVERSE, InterpolationType.LINEAR);
+		EAdInterpolationEffect effect = new EAdInterpolationEffect(xField, 50, 750, totalTime, InterpolationLoopType.REVERSE, InterpolationType.LINEAR);
 		
-		EAdSceneElementTimedEventImpl timedEvent = new EAdSceneElementTimedEventImpl("timed");
+		EAdSceneElementTimedEventImpl timedEvent = new EAdSceneElementTimedEventImpl();
 		timedEvent.setTime(totalTime);
 		e2.setVarInitialValue(EAdBasicSceneElement.VAR_Z, 1);
 		e2.setVarInitialValue(EAdBasicSceneElement.VAR_SCALE, 1.2f);
 		
 		EAdField<Integer> zField = new EAdFieldImpl<Integer>(e2, EAdBasicSceneElement.VAR_Z);
-		EAdChangeFieldValueEffect changeZ = new EAdChangeFieldValueEffect("changeZ", zField, new MathOperation("- [0]", zField ));
+		EAdChangeFieldValueEffect changeZ = new EAdChangeFieldValueEffect( zField, new MathOperation("- [0]", zField ));
+		changeZ.setId("changeZ");
 		
 		EAdField<Float> scaleField = new EAdFieldImpl<Float>(e2, EAdBasicSceneElement.VAR_SCALE);
-		EAdChangeFieldValueEffect changeScale = new EAdChangeFieldValueEffect("changeSacle", scaleField, new MathOperation("1 / [0]", scaleField ));
+		EAdChangeFieldValueEffect changeScale = new EAdChangeFieldValueEffect( scaleField, new MathOperation("1 / [0]", scaleField ));
+		changeScale.setId("changeSacle");
 		timedEvent.addEffect(SceneElementTimedEventType.START_TIME, changeScale);
 		timedEvent.addEffect(SceneElementTimedEventType.START_TIME, changeZ);
 		e2.getEvents().add(timedEvent);
 		
 		
-		EAdSceneElementEvent event = new EAdSceneElementEventImpl("event");
-		event.addEffect(SceneElementEvent.ADDED_TO_SCENE, effect);
+		EAdSceneElementEvent event = new EAdSceneElementEventImpl();
+		event.addEffect(SceneElementEventType.ADDED_TO_SCENE, effect);
 		
 		e2.getEvents().add(event);
 		

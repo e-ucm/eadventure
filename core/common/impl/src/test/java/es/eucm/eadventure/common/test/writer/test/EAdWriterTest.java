@@ -78,7 +78,8 @@ public class EAdWriterTest extends TestCase {
 		file = new File("src/test/resources/result.xml");
 		file2 = new File("src/test/resources/result2.xml");
 		model = new EAdAdventureModelImpl();
-		EAdChapterImpl chapter = new EAdChapterImpl("chapter1");
+		EAdChapterImpl chapter = new EAdChapterImpl();
+		chapter.setId("chapter1");
 
 		model.getChapters().add(chapter);
 		model.getChapters().add(chapter);

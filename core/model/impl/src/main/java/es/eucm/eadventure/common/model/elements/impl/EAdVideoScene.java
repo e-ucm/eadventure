@@ -72,8 +72,8 @@ public class EAdVideoScene extends EAdSceneImpl implements EAdScene {
 	@Param("finalEffects")
 	private EAdList<EAdEffect> finalEffects;
 
-	public EAdVideoScene(String id) {
-		super(id);
+	public EAdVideoScene() {
+		super();
 		finalEffects = new EAdListImpl<EAdEffect>(EAdEffect.class);
 	}
 
@@ -87,10 +87,10 @@ public class EAdVideoScene extends EAdSceneImpl implements EAdScene {
 	}
 
 	public void setUpForEngine() {
-		finalEffects.add(new EAdChangeFieldValueEffect("finishVide",
-				new EAdFieldImpl<Boolean>( this, VAR_FINISHED ), new BooleanOperation("id",
+		finalEffects.add(new EAdChangeFieldValueEffect(
+				new EAdFieldImpl<Boolean>( this, VAR_FINISHED ), new BooleanOperation(
 						EmptyCondition.TRUE_EMPTY_CONDITION)));
-		EAdChangeScene e3 = new EAdChangeScene("changeScene", nextScene,
+		EAdChangeScene e3 = new EAdChangeScene( nextScene,
 				EAdTransition.DISPLACE);
 		finalEffects.add(e3);
 	}

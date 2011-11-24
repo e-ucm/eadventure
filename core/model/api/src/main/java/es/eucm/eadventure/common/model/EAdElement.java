@@ -52,4 +52,12 @@ public interface EAdElement extends Copyable<EAdElement> {
 	 */
 	String getId();
 
+	/**
+	 * Set an id of the element. Keep in mind that it's not an unique id. It's
+	 * just a name used for debugging purposes
+	 * 
+	 * @return
+	 */
+	void setId(String id);
+
 }

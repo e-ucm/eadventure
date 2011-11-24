@@ -25,7 +25,10 @@ public class TriggerBookEffectImporter extends
 
 	@Override
 	public EAdChangeScene init(TriggerBookEffect oldObject) {
-		return new EAdChangeScene("triggerBook_" + oldObject.getTargetId());
+		EAdChangeScene effect =  new EAdChangeScene();
+		effect.setId("triggerBook_" + oldObject.getTargetId());
+		return effect;
+		
 	}
 
 	@Override

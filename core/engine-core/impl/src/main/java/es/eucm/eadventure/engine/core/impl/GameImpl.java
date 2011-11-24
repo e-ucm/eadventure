@@ -112,8 +112,7 @@ public class GameImpl implements Game {
 		this.effectHUD = effectHUD;
 		this.assetHandler = assetHandler;
 		this.effectHUDon = false;
-		this.adventure = new EAdAdventureModelImpl();
-		this.adventure.getChapters().add(new EAdChapterImpl(""));
+		this.adventure = null;
 		this.gameObjectManager = gameObjectManager;
 		this.debugger = debugger;
 		this.valueMap = valueMap;
@@ -238,8 +237,8 @@ public class GameImpl implements Game {
 		// reader.read(assetHandler.getResourceAsStream("@adventure.xml"));
 
 		// TODO should probably be more careful loading chapter
-		if (gameState.getCurrentChapter() == null)
-			gameState.setCurrentChapter(adventure.getChapters().get(0));
+		//if (gameState.getCurrentChapter() == null)
+		//	gameState.setCurrentChapter(adventure.getChapters().get(0));
 	}
 
 	@Override

@@ -60,8 +60,8 @@ public class SceneElementFactory {
 	 */
 	public EAdBasicSceneElement createSceneElement(AssetDescriptor appearance,
 			int x, int y) {
-		EAdBasicSceneElement sceneElement = new EAdBasicSceneElement(
-				"sceneElement" + ID_GENERATOR++);
+		EAdBasicSceneElement sceneElement = new EAdBasicSceneElement();
+		sceneElement.setId("sceneElement" + ID_GENERATOR++);
 		sceneElement.getResources().addAsset(sceneElement.getInitialBundle(),
 				EAdBasicSceneElement.appearance, appearance);
 		sceneElement.setPosition(new EAdPositionImpl(x, y));

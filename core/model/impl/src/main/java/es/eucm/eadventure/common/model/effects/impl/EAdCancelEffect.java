@@ -61,11 +61,9 @@ public class EAdCancelEffect extends AbstractEAdEffect {
 	 * {@link EAdCancelEffect#addEffect(EAdEffect)}, then this effect will
 	 * cancel all running effects
 	 * 
-	 * @param id
-	 *            Element's id
 	 */
-	public EAdCancelEffect(String id) {
-		super(id);
+	public EAdCancelEffect() {
+		super();
 		effects = new EAdListImpl<EAdEffect>(EAdEffect.class);
 	}
 

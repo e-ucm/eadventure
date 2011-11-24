@@ -40,12 +40,12 @@ package es.eucm.eadventure.common.elementfactories.scenedemos;
 import es.eucm.eadventure.common.elementfactories.EAdElementsFactory;
 import es.eucm.eadventure.common.elementfactories.assets.ShapeFactory;
 import es.eucm.eadventure.common.model.effects.impl.EAdInterpolationEffect;
-import es.eucm.eadventure.common.model.effects.impl.EAdInterpolationEffect.InterpolationType;
-import es.eucm.eadventure.common.model.effects.impl.EAdInterpolationEffect.LoopType;
+import es.eucm.eadventure.common.model.effects.impl.enums.InterpolationType;
+import es.eucm.eadventure.common.model.effects.impl.enums.InterpolationLoopType;
 import es.eucm.eadventure.common.model.elements.EAdSceneElement;
 import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
 import es.eucm.eadventure.common.model.events.EAdSceneElementEvent;
-import es.eucm.eadventure.common.model.events.EAdSceneElementEvent.SceneElementEvent;
+import es.eucm.eadventure.common.model.events.enums.SceneElementEventType;
 import es.eucm.eadventure.common.model.variables.impl.EAdFieldImpl;
 import es.eucm.eadventure.common.params.fills.impl.EAdPaintImpl;
 import es.eucm.eadventure.common.params.fills.impl.EAdColor;
@@ -110,8 +110,8 @@ public class ShapeScene extends EmptyScene {
 		EAdBasicSceneElement rotatingRectangle = EAdElementsFactory.getInstance().getSceneElementFactory().createSceneElement(asset21, asset22, 330, 200);
 		rotatingRectangle.setPosition(Corner.CENTER, 400, 300);
 		getElements().add(rotatingRectangle);
-		EAdInterpolationEffect interpolation = EAdElementsFactory.getInstance().getEffectFactory().getInterpolationEffect(new EAdFieldImpl<Float>(rotatingRectangle, EAdBasicSceneElement.VAR_ROTATION), 0, (float) (Math.PI * 2.0), 2000, LoopType.RESTART, InterpolationType.LINEAR); 
-		EAdSceneElementEvent event = EAdElementsFactory.getInstance().getEventsFactory().getEvent(SceneElementEvent.ADDED_TO_SCENE, interpolation);
+		EAdInterpolationEffect interpolation = EAdElementsFactory.getInstance().getEffectFactory().getInterpolationEffect(new EAdFieldImpl<Float>(rotatingRectangle, EAdBasicSceneElement.VAR_ROTATION), 0, (float) (Math.PI * 2.0), 2000, InterpolationLoopType.RESTART, InterpolationType.LINEAR); 
+		EAdSceneElementEvent event = EAdElementsFactory.getInstance().getEventsFactory().getEvent(SceneElementEventType.ADDED_TO_SCENE, interpolation);
 		rotatingRectangle.getEvents().add(event);
 		getElements().add(rotatingRectangle);
 		

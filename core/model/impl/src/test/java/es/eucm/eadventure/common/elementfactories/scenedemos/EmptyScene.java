@@ -53,7 +53,8 @@ public class EmptyScene extends EAdSceneImpl implements SceneDemo {
 	private RectangleShape rectangle;
 
 	public EmptyScene() {
-		super("EmptyScene");
+		super();
+		setId("EmptyScene");
 		rectangle = new RectangleShape(800, 600);
 		rectangle.setPaint(new EAdLinearGradient(new EAdColor(240, 240, 240), EAdColor.WHITE, 800, 600));
 		getBackground().getResources().addAsset(

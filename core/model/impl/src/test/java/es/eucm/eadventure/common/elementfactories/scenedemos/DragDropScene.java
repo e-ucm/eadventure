@@ -28,26 +28,26 @@ public class DragDropScene extends EmptyScene {
 				BalloonType.ROUNDED_RECTANGLE);
 		shape.setPaint(new EAdLinearGradient(EAdColor.RED, new EAdColor(200, 0,
 				0), 100, 100));
-		EAdBasicSceneElement e1 = new EAdBasicSceneElement("e1", shape);
-		e1.setDraggable(EmptyCondition.TRUE_EMPTY_CONDITION);
+		EAdBasicSceneElement e1 = new EAdBasicSceneElement(shape);
+		e1.setDraggableCondition(EmptyCondition.TRUE_EMPTY_CONDITION);
 		e1.setPosition(new EAdPositionImpl(Corner.CENTER, 100, 100));
 		EAdField<Float> rotation = new EAdFieldImpl<Float>(e1,
 				EAdBasicSceneElement.VAR_ROTATION);
 		EAdChangeFieldValueEffect changeRotation1 = new EAdChangeFieldValueEffect(
-				"change", rotation,
+				rotation,
 				new ValueOperation((float) (Math.PI / 8.0f)));
 		EAdChangeFieldValueEffect changeRotation2 = new EAdChangeFieldValueEffect(
-				"change", rotation, new ValueOperation(0.0f));
+				 rotation, new ValueOperation(0.0f));
 		e1.addBehavior(EAdMouseEventImpl.MOUSE_START_DRAG, changeRotation1);
 		e1.addBehavior(EAdMouseEventImpl.MOUSE_DROP, changeRotation2);
 
 		BezierShape shape2 = new BallonShape(0, 0, 110, 110,
 				BalloonType.ROUNDED_RECTANGLE);
 		shape2.setPaint(EAdPaintImpl.BLACK_ON_WHITE);
-		EAdBasicSceneElement e2 = new EAdBasicSceneElement("e2", shape2);
+		EAdBasicSceneElement e2 = new EAdBasicSceneElement(shape2);
 		e2.setPosition(new EAdPositionImpl(Corner.CENTER, 100, 300));
 
-		EAdBasicSceneElement e3 = new EAdBasicSceneElement("e3", shape2);
+		EAdBasicSceneElement e3 = new EAdBasicSceneElement(shape2);
 		e3.setPosition(new EAdPositionImpl(Corner.CENTER, 300, 300));
 
 		addBehaviors(e2, e1);
@@ -62,24 +62,26 @@ public class DragDropScene extends EmptyScene {
 	private void addBehaviors(EAdBasicSceneElement e2, EAdBasicSceneElement e1) {
 		EAdField<Float> scale = new EAdFieldImpl<Float>(e2,
 				EAdBasicSceneElement.VAR_SCALE);
-		EAdChangeFieldValueEffect changeScale1 = new EAdChangeFieldValueEffect(
-				"changeScale", scale, new ValueOperation(1.2f));
-		EAdChangeFieldValueEffect changeScale2 = new EAdChangeFieldValueEffect(
-				"changeScale", scale, new ValueOperation(1.0f));
+		EAdChangeFieldValueEffect changeScale1 = new EAdChangeFieldValueEffect(scale, new ValueOperation(1.2f));
+		changeScale1.setId("changeScale");
+		EAdChangeFieldValueEffect changeScale2 = new EAdChangeFieldValueEffect( scale, new ValueOperation(1.0f));
+		changeScale2.setId("changeScale");
 		e2.addBehavior(new EAdDragEventImpl(e1, DragAction.ENTERED),
 				changeScale1);
 		e2.addBehavior(new EAdDragEventImpl(e1, DragAction.EXITED),
 				changeScale2);
 
-		EAdChangeFieldValueEffect changeX = new EAdChangeFieldValueEffect("x",
+		EAdChangeFieldValueEffect changeX = new EAdChangeFieldValueEffect(
 				new EAdFieldImpl<Integer>(e1, EAdBasicSceneElement.VAR_X),
 				new MathOperation("[0]", new EAdFieldImpl<Integer>(e2,
 						EAdBasicSceneElement.VAR_X)));
+		changeX.setId("x");
 
-		EAdChangeFieldValueEffect changeY = new EAdChangeFieldValueEffect("x",
+		EAdChangeFieldValueEffect changeY = new EAdChangeFieldValueEffect(
 				new EAdFieldImpl<Integer>(e1, EAdBasicSceneElement.VAR_Y),
 				new MathOperation("[0]", new EAdFieldImpl<Integer>(e2,
 						EAdBasicSceneElement.VAR_Y)));
+		changeY.setId("y");
 
 		e2.addBehavior(new EAdDragEventImpl(e1, DragAction.DROP), changeX);
 		e2.addBehavior(new EAdDragEventImpl(e1, DragAction.DROP), changeY);

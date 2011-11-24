@@ -70,10 +70,10 @@ public class DecrementVarImporter extends
 				Condition.VAR_CONDITION);
 
 		MathOperation op = new MathOperation(
-				"literalExpression", "[0] - "
+				 "[0] - "
 						+ oldObject.getDecrement(), var);
-		EAdChangeFieldValueEffect effect = new EAdChangeFieldValueEffect(
-				"changeVarValueFromIncrement" + ID_GENERATOR++, var, op);
+		EAdChangeFieldValueEffect effect = new EAdChangeFieldValueEffect(var, op);
+		effect.setId("changeVarValueFromIncrement" + ID_GENERATOR++);
 		super.importConditions(oldObject, effect);
 		
 		effect.setQueueable(true);

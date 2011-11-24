@@ -69,9 +69,11 @@ public class DialogueNodeImporter implements
 
 	@Override
 	public EAdTriggerMacro init(DialogueConversationNode oldObject) {
-		EAdMacroImpl macro = new EAdMacroImpl("DialogueNode" + ID_GENERATOR++);
+		EAdMacroImpl macro = new EAdMacroImpl();
+		macro.setId("DialogueNode" + ID_GENERATOR++);
 
-		EAdTriggerMacro triggerMacro = new EAdTriggerMacro("triggerMacro_"
+		EAdTriggerMacro triggerMacro = new EAdTriggerMacro();
+		triggerMacro.setId("triggerMacro_"
 				+ macro.getId());
 		triggerMacro.setMacro(macro);
 		return triggerMacro;

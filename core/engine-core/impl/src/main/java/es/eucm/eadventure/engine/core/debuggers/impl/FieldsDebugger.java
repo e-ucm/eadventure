@@ -53,7 +53,8 @@ public class FieldsDebugger implements EAdDebugger {
 		this.stringHandler = stringHandler;
 		this.gameObjectFactory = gameObjectFactory;
 		gos = new ArrayList<DrawableGO<?>>();
-		vars = new EAdBasicSceneElement("vars");
+		vars = new EAdBasicSceneElement();
+		vars.setId("vars");
 		vars.setVarInitialValue(EAdBasicSceneElement.VAR_ENABLE, false);
 	}
 
@@ -103,8 +104,8 @@ public class FieldsDebugger implements EAdDebugger {
 							EAdBasicSceneElement.appearance, d);
 
 					gos.add(gameObjectFactory.get(vars));
-
 				}
+
 			}
 
 		}

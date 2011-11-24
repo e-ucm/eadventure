@@ -64,8 +64,8 @@ public class RandomEffectImporter extends
 
 	@Override
 	public EAdRandomEffect init(RandomEffect oldObject) {
-		EAdRandomEffect effect = new EAdRandomEffect("randomEffect"
-				+ ID_GENERATOR++);
+		EAdRandomEffect effect = new EAdRandomEffect();
+		effect.setId("randomEffect" + ID_GENERATOR++);
 		effect.setQueueable(true);
 		return effect;
 	}

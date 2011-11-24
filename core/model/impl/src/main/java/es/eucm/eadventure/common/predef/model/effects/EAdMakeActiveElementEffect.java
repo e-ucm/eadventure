@@ -53,12 +53,12 @@ public class EAdMakeActiveElementEffect extends EAdChangeFieldValueEffect {
 	@Param("sceneElement")
 	protected EAdSceneElement sceneElement;
 	
-	public EAdMakeActiveElementEffect(String id) {
-		super(id);
+	public EAdMakeActiveElementEffect() {
+		super();
 	}
 	
 	public EAdMakeActiveElementEffect(EAdSceneElement element) {
-		super("makeActiveElement_" + element, SystemFields.ACTIVE_ELEMENT,
-				new ValueOperation(element));
+		super(SystemFields.ACTIVE_ELEMENT, new ValueOperation(element));
+		setId("makeActiveElement_" + element);
 	}
 }

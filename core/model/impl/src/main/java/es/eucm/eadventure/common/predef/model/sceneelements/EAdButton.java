@@ -19,12 +19,14 @@ public class EAdButton extends EAdComplexElementImpl {
 	private CaptionImpl caption;
 
 	public EAdButton() {
-		super("button");
+		super();
+		setId("button");
 		caption = new CaptionImpl();
 		caption.setFont(new EAdFontImpl(12));
 		caption.setTextPaint(EAdColor.BLACK);
 
-		EAdBasicSceneElement text = new EAdBasicSceneElement("text", caption);
+		EAdBasicSceneElement text = new EAdBasicSceneElement(caption);
+		text.setId("text");
 		text.setPosition(Corner.CENTER, 100, 15);
 		text.setVarInitialValue(EAdBasicSceneElement.VAR_ENABLE, Boolean.FALSE);
 
@@ -55,9 +57,9 @@ public class EAdButton extends EAdComplexElementImpl {
 
 		
 		EAdChangeAppearance changeAppearance = new EAdChangeAppearance(
-				"change", this, getInitialBundle());
+				this, getInitialBundle());
 		EAdChangeAppearance changeAppearance2 = new EAdChangeAppearance(
-				"change", this, over);
+				this, over);
 		addBehavior(EAdMouseEventImpl.MOUSE_EXITED, changeAppearance);
 		addBehavior(EAdMouseEventImpl.MOUSE_ENTERED, changeAppearance2);
 	}

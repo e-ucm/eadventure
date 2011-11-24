@@ -51,8 +51,8 @@ public class EAdMacroImpl extends ResourcedElementImpl implements EAdMacro {
 	@Param("effects")
 	protected EAdList<EAdEffect> effects;
 	
-	public EAdMacroImpl(String id) {
-		super( id);
+	public EAdMacroImpl() {
+		super();
 		this.effects = new EAdListImpl<EAdEffect>(EAdEffect.class);
 	}
 

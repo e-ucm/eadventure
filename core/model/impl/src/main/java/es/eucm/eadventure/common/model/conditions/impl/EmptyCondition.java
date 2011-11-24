@@ -39,36 +39,34 @@ package es.eucm.eadventure.common.model.conditions.impl;
 
 import es.eucm.eadventure.common.interfaces.Element;
 import es.eucm.eadventure.common.interfaces.Param;
+import es.eucm.eadventure.common.model.conditions.impl.enums.EmptyConditionValue;
 
 @Element(runtime = EmptyCondition.class, detailed = EmptyCondition.class)
 public class EmptyCondition extends AbstractEAdCondition {
 
-	public enum Value {
-		TRUE, FALSE
-	}
-
 	public static EmptyCondition TRUE_EMPTY_CONDITION = new EmptyCondition(
-			Value.TRUE);
+			EmptyConditionValue.TRUE);
 
 	public static EmptyCondition FALSE_EMPTY_CONDITION = new EmptyCondition(
-			Value.FALSE);
+			EmptyConditionValue.FALSE);
 
 	@Param("value")
-	private Value value;
+	private EmptyConditionValue value;
 	
-	public EmptyCondition(String id ){
-		super( id );
+	public EmptyCondition(){
+		super( );
+		this.setId("emptyCondition");
 	}
 
-	public EmptyCondition(Value value) {
-		super("emptyCondition");
+	public EmptyCondition(EmptyConditionValue value) {
+		super();
 		this.value = value;
 	}
 
 	/**
 	 * @return the value
 	 */
-	public Value getValue() {
+	public EmptyConditionValue getValue() {
 		return value;
 	}
 
@@ -76,7 +74,7 @@ public class EmptyCondition extends AbstractEAdCondition {
 	 * @param value
 	 *            the value to set
 	 */
-	public void setValue(Value value) {
+	public void setValue(EmptyConditionValue value) {
 		this.value = value;
 	}
 	

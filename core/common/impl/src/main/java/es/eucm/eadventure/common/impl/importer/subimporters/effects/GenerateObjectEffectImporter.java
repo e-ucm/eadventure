@@ -63,7 +63,9 @@ public class GenerateObjectEffectImporter extends EffectImporter<GenerateObjectE
 
 	@Override
 	public EAdEffect init(GenerateObjectEffect oldObject) {
-		return new EAdModifyActorState("consumeObject" + oldObject.getTargetId());
+		EAdEffect effect = new EAdModifyActorState();
+		effect.setId("consumeObject" + oldObject.getTargetId());
+		return effect;
 	}
 
 	@Override

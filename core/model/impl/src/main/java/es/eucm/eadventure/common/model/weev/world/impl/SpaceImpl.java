@@ -17,8 +17,8 @@ public class SpaceImpl extends EAdSceneImpl implements Space {
 	@Param(value = "y")
 	private int y;
 	
-	public SpaceImpl(String id) {
-		super(id);
+	public SpaceImpl() {
+		super();
 	}
 	
 	@Override

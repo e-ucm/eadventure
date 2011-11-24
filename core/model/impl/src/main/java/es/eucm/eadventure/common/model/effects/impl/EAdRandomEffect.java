@@ -57,8 +57,8 @@ public class EAdRandomEffect extends AbstractEAdEffect {
 	@Param("effects")
 	private EAdMap<EAdEffect, Float> effects;
 
-	public EAdRandomEffect(String id) {
-		super(id);
+	public EAdRandomEffect() {
+		super();
 		effects = new EAdMapImpl<EAdEffect, Float>(EAdEffect.class, Float.class);
 	}
 

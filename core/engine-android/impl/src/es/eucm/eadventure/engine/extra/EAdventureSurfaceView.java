@@ -56,6 +56,7 @@ import es.eucm.eadventure.engine.core.guiactions.MouseAction;
 import es.eucm.eadventure.engine.core.guiactions.impl.MouseActionImpl;
 import es.eucm.eadventure.engine.core.platform.GUI;
 import es.eucm.eadventure.engine.core.platform.PlatformConfiguration;
+import es.eucm.eadventure.engine.gameobjects.AndroidBasicHUD;
 
 @Singleton
 public class EAdventureSurfaceView extends SurfaceView implements SurfaceHolder.Callback {

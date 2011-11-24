@@ -62,8 +62,8 @@ public class EAdChangeScene extends AbstractEAdEffect {
 	 * @param id
 	 * 			The id of the effect
 	 */
-	public EAdChangeScene(String id) {
-		this(id, null, EAdTransition.BASIC);
+	public EAdChangeScene() {
+		this(null, EAdTransition.BASIC);
 	}
 
 	/**
@@ -74,8 +74,9 @@ public class EAdChangeScene extends AbstractEAdEffect {
 	 * @param nextScene
 	 * 			The next scene where to go, can be null to go back to previous
 	 */
-	public EAdChangeScene(String id, EAdScene nextScene, EAdTransition transition) {
-		super(id);
+	public EAdChangeScene( EAdScene nextScene, EAdTransition transition) {
+		super();
+		setId("changeScene");
 		this.nextScene = nextScene;
 		this.transition = transition;
 	}

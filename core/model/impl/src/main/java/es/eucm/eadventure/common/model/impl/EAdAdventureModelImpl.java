@@ -63,12 +63,12 @@ public class EAdAdventureModelImpl implements EAdAdventureModel {
 	private PlayerMode playerMode;
 
 	@Param("description")
-	private final EAdString description;
+	public EAdString description;
 
 	@Param("title")
-	private final EAdString title;
+	private EAdString title;
 
-	@Param("chapter")
+	@Param("chapters")
 	private EAdList<EAdChapter> chapters;
 
 	@Param("vars")
@@ -119,6 +119,11 @@ public class EAdAdventureModelImpl implements EAdAdventureModel {
 	public String getId() {
 		return "adventure";
 	}
+	
+	@Override
+	public void setId(String id) {
+	}
+
 
 	/**
 	 * @return the description
@@ -144,6 +149,14 @@ public class EAdAdventureModelImpl implements EAdAdventureModel {
 	@Override
 	public <T> void setVarInitialValue(EAdVarDef<T> var, T value) {
 		vars.put(var, value);
+	}
+	
+	public void setTitle(EAdString title) {
+		this.title = title;
+	}
+
+	public void setDescription(EAdString description) {
+		this.description = description;
 	}
 
 }

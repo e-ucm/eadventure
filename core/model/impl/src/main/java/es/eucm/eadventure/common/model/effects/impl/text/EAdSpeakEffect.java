@@ -50,11 +50,9 @@ public class EAdSpeakEffect extends AbstractEAdEffect {
 	 * Creates an speak effect, with no text and no position, with text color of
 	 * {@link EAdPaintImpl#WHITE_ON_BLACK} and bubble color of
 	 * {@link EAdPaintImpl#BLACK_ON_WHITE}
-	 * 
-	 * @param id
 	 */
-	public EAdSpeakEffect(String id) {
-		super(id);
+	public EAdSpeakEffect() {
+		super();
 		textColor = EAdColor.BLACK;
 		bubbleColor = EAdPaintImpl.BLACK_ON_WHITE;
 		font = EAdFontImpl.REGULAR;

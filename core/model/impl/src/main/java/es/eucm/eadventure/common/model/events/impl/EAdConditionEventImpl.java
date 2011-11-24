@@ -50,16 +50,13 @@ public class EAdConditionEventImpl extends AbstractEAdEvent implements
 	@Param("condition")
 	private EAdCondition condition;
 
-	public EAdConditionEventImpl(String id) {
-		this(id, EmptyCondition.FALSE_EMPTY_CONDITION);
-	}
-
 	public EAdConditionEventImpl() {
-		this("conditionEvent");
+		this( EmptyCondition.FALSE_EMPTY_CONDITION);
+		setId("conditionEvent");
 	}
 
-	public EAdConditionEventImpl(String id, EAdCondition condition) {
-		super(id);
+	public EAdConditionEventImpl(EAdCondition condition) {
+		super();
 		this.condition = condition;
 	}
 

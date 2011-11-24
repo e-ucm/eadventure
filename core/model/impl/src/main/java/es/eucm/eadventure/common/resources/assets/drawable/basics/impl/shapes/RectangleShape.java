@@ -60,7 +60,7 @@ public class RectangleShape extends BezierShape {
 		lineTo( width, 0 );
 		lineTo( width, height );
 		lineTo( 0, height );
-		close( );
+		setClosed(true);
 		setPaint(fill);
 	}
 	

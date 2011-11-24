@@ -42,10 +42,10 @@ import es.eucm.eadventure.common.interfaces.Param;
 import es.eucm.eadventure.common.model.effects.EAdEffect;
 import es.eucm.eadventure.common.model.effects.impl.AbstractEAdEffect;
 import es.eucm.eadventure.common.model.effects.impl.EAdInterpolationEffect;
-import es.eucm.eadventure.common.model.effects.impl.EAdInterpolationEffect.LoopType;
+import es.eucm.eadventure.common.model.effects.impl.enums.InterpolationLoopType;
 import es.eucm.eadventure.common.model.elements.EAdSceneElement;
 import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
-import es.eucm.eadventure.common.model.events.EAdSceneElementEvent;
+import es.eucm.eadventure.common.model.events.enums.SceneElementEventType;
 import es.eucm.eadventure.common.model.events.impl.EAdSceneElementEventImpl;
 import es.eucm.eadventure.common.model.variables.impl.EAdFieldImpl;
 import es.eucm.eadventure.common.params.geom.impl.EAdPositionImpl;
@@ -70,12 +70,9 @@ public class EAdShowSceneElement extends AbstractEAdEffect {
 	@Param("sceneElement")
 	private EAdSceneElement sceneElement;
 
-	public EAdShowSceneElement(String id) {
-		super(id);
-	}
-
 	public EAdShowSceneElement() {
-		this("showTextEffect");
+		super();
+		setId("showTextEffect");
 	}
 
 	public void setSceneElement(EAdSceneElement text) {
@@ -91,12 +88,11 @@ public class EAdShowSceneElement extends AbstractEAdEffect {
 			EAdInterpolationEffect effect = new EAdInterpolationEffect(
 					new EAdFieldImpl<Float>(text,
 							EAdBasicSceneElement.VAR_ALPHA), 0.0f, 1.0f, 500,
-					LoopType.NO_LOOP);
+					InterpolationLoopType.NO_LOOP);
 
-			EAdSceneElementEventImpl event = new EAdSceneElementEventImpl(
-					"event");
+			EAdSceneElementEventImpl event = new EAdSceneElementEventImpl();
 			event.addEffect(
-					EAdSceneElementEvent.SceneElementEvent.ADDED_TO_SCENE,
+					SceneElementEventType.ADDED_TO_SCENE,
 					effect);
 
 			text.getEvents().add(event);
@@ -115,8 +111,8 @@ public class EAdShowSceneElement extends AbstractEAdEffect {
 	 */
 	public void setCaption(Caption caption, int x, int y,
 			ShowTextAnimation animation) {
-		EAdBasicSceneElement text = new EAdBasicSceneElement(this.id
-				+ "_caption");
+		EAdBasicSceneElement text = new EAdBasicSceneElement();
+		text.setId(this.id + "_caption");
 		text.getResources().addAsset(text.getInitialBundle(),
 				EAdBasicSceneElement.appearance, caption);
 		text.setPosition(new EAdPositionImpl(x, y));

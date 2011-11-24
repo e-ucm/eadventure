@@ -97,7 +97,8 @@ public class SimpleTransitionGO extends SceneGOImpl implements TransitionGO {
 		EAdString string = EAdString.newEAdString("Loading");
 		string.parse("Loading");
 		caption = new CaptionImpl(string);
-		loadingText = new EAdBasicSceneElement("loadingText");
+		loadingText = new EAdBasicSceneElement();
+		loadingText.setId("loadingText");
 		loadingText.getResources().addAsset(loadingText.getInitialBundle(),
 				EAdBasicSceneElement.appearance, caption);
 		loadingText.setPosition(EAdPositionImpl.volatileEAdPosition(750, 550,
@@ -109,7 +110,8 @@ public class SimpleTransitionGO extends SceneGOImpl implements TransitionGO {
 		rs.setPaint(new EAdPaintImpl(new EAdColor(100, 100, 100, 30),
 				EAdColor.BLACK));
 
-		screenBlock = new EAdBasicSceneElement("screenBlock");
+		screenBlock = new EAdBasicSceneElement();
+		screenBlock.setId("screenBlock");
 		screenBlock.getResources().addAsset(screenBlock.getInitialBundle(),
 				EAdBasicSceneElement.appearance, rs);
 	}

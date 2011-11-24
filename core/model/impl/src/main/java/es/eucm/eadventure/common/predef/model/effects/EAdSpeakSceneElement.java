@@ -10,12 +10,13 @@ import es.eucm.eadventure.common.model.variables.impl.EAdFieldImpl;
 
 public class EAdSpeakSceneElement extends EAdSpeakEffect {
 	
-	public EAdSpeakSceneElement(String id){
-		super( id );
+	public EAdSpeakSceneElement(){
+		super( );
 	}
 
 	public EAdSpeakSceneElement(EAdElement element) {
-		super("speakSceneElement");
+		super();
+		setId("speakSceneElement");
 		this.setElement(element);
 	}
 	
@@ -26,10 +27,6 @@ public class EAdSpeakSceneElement extends EAdSpeakEffect {
 			setOrigin( new EAdFieldImpl<EAdSceneElement>( element, EAdSceneElementDefImpl.VAR_SCENE_ELEMENT));
 		else
 			setOrigin( element );
-	}
-
-	public EAdSpeakSceneElement(EAdSceneElement sceneElement) {
-		this((EAdElement) sceneElement);
 	}
 
 	private void setOrigin(EAdElement element) {

@@ -2,12 +2,13 @@ package es.eucm.eadventure.common.elementfactories.scenedemos;
 
 import es.eucm.eadventure.common.model.effects.EAdEffect;
 import es.eucm.eadventure.common.model.effects.impl.EAdInterpolationEffect;
-import es.eucm.eadventure.common.model.effects.impl.EAdInterpolationEffect.InterpolationType;
-import es.eucm.eadventure.common.model.effects.impl.EAdInterpolationEffect.LoopType;
+import es.eucm.eadventure.common.model.effects.impl.enums.InterpolationType;
+import es.eucm.eadventure.common.model.effects.impl.enums.InterpolationLoopType;
 import es.eucm.eadventure.common.model.effects.impl.variables.EAdChangeFieldValueEffect;
 import es.eucm.eadventure.common.model.elements.EAdSceneElement;
 import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
 import es.eucm.eadventure.common.model.events.EAdSceneElementTimedEvent;
+import es.eucm.eadventure.common.model.events.enums.SceneElementTimedEventType;
 import es.eucm.eadventure.common.model.events.impl.EAdSceneElementTimedEventImpl;
 import es.eucm.eadventure.common.model.extra.EAdList;
 import es.eucm.eadventure.common.model.extra.impl.EAdListImpl;
@@ -47,7 +48,8 @@ public class MoleGame extends EmptyScene {
 		setBackgroundFill(EAdColor.DARK_BROWN);
 		moleField = new EAdFieldImpl<EAdSceneElement>(this, moleVar);
 
-		dissapearMole = new EAdChangeFieldValueEffect("dissaperMole");
+		dissapearMole = new EAdChangeFieldValueEffect();
+		dissapearMole.setId("dissaperMole");
 		dissapearMole.setParentVar(EAdBasicSceneElement.VAR_VISIBLE);
 		dissapearMole.setOperation(BooleanOperation.FALSE_OP);
 
@@ -80,7 +82,8 @@ public class MoleGame extends EmptyScene {
 	}
 
 	private EAdSceneElement getHole(int x, int y) {
-		EAdBasicSceneElement hole = new EAdBasicSceneElement("hole" + x);
+		EAdBasicSceneElement hole = new EAdBasicSceneElement();
+		hole.setId("hole" + x);
 		hole.getResources().addAsset(hole.getInitialBundle(),
 				EAdBasicSceneElement.appearance, holeImage);
 		hole.setPosition(x, y);
@@ -89,8 +92,8 @@ public class MoleGame extends EmptyScene {
 	}
 
 	private EAdSceneElement getMole(int x, int y) {
-		EAdBasicSceneElement mole = new EAdBasicSceneElement("mole" + x + ""
-				+ y);
+		EAdBasicSceneElement mole = new EAdBasicSceneElement();
+		mole.setId("mole" + x + "" + y);
 		mole.getResources().addAsset(mole.getInitialBundle(),
 				EAdBasicSceneElement.appearance, this.mole);
 		mole.setPosition(x, y + 30);
@@ -118,24 +121,24 @@ public class MoleGame extends EmptyScene {
 	}
 
 	public void initLoop() {
-		EAdSceneElementTimedEventImpl event = new EAdSceneElementTimedEventImpl(
-				"moleUp");
+		EAdSceneElementTimedEventImpl event = new EAdSceneElementTimedEventImpl();
+		event.setId("moleUp");
 
-		EAdChangeFieldValueEffect effect = new EAdChangeFieldValueEffect(
-				"selectMole");
+		EAdChangeFieldValueEffect effect = new EAdChangeFieldValueEffect();
+		effect.setId("selectMole");
 		effect.setOperation(new ListOperation(listField,
 				ListOperation.Operation.RANDOM_ELEMENT));
 		effect.addField(moleField);
 
 		EAdInterpolationEffect interpolation = new EAdInterpolationEffect(
 				moleField, EAdBasicSceneElement.VAR_Y, new MathOperation("0"),
-				new MathOperation("-30"), 500, 0, LoopType.REVERSE, 2,
+				new MathOperation("-30"), 500, 0, InterpolationLoopType.REVERSE, 2,
 				InterpolationType.LINEAR);
 		event.addEffect(
-				EAdSceneElementTimedEvent.SceneElementTimedEventType.END_TIME,
+				SceneElementTimedEventType.END_TIME,
 				effect);
 		event.addEffect(
-				EAdSceneElementTimedEvent.SceneElementTimedEventType.END_TIME,
+				SceneElementTimedEventType.END_TIME,
 				interpolation);
 		event.setTime(1100);
 		this.getBackground().getEvents().add(event);

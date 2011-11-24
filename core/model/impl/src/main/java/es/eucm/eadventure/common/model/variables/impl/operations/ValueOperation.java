@@ -52,8 +52,8 @@ public class ValueOperation extends EAdOperationImpl {
 	@Param("value")
 	private Object value;
 
-	public ValueOperation(String id) {
-		super(id);
+	public ValueOperation() {
+		super();
 	}
 
 	/**
@@ -64,13 +64,10 @@ public class ValueOperation extends EAdOperationImpl {
 	 * @param value
 	 *            the value to be assigned
 	 */
-	public ValueOperation(String id, Object value) {
-		super(id);
+	public ValueOperation( Object value) {
+		super();
+		setId("assign");
 		this.value = value;
-	}
-
-	public ValueOperation(Object o) {
-		this("assignOperation", o);
 	}
 
 	/**
@@ -86,4 +83,7 @@ public class ValueOperation extends EAdOperationImpl {
 		return value + "";
 	}
 
+	public void setValue(Object value) {
+		this.value = value;
+	}
 }

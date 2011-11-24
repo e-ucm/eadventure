@@ -46,7 +46,7 @@ import es.eucm.eadventure.common.impl.importer.interfaces.EAdElementFactory;
 import es.eucm.eadventure.common.model.effects.impl.EAdMacroImpl;
 import es.eucm.eadventure.common.model.effects.impl.EAdTriggerMacro;
 import es.eucm.eadventure.common.model.effects.impl.sceneelements.EAdMoveSceneElement;
-import es.eucm.eadventure.common.model.effects.impl.sceneelements.EAdMoveSceneElement.MovementSpeed;
+import es.eucm.eadventure.common.model.effects.impl.sceneelements.MovementSpeed;
 import es.eucm.eadventure.common.model.elements.EAdCondition;
 import es.eucm.eadventure.common.model.elements.EAdSceneElementDef;
 
@@ -64,17 +64,20 @@ public class MoveNPCEffectImporter extends EffectImporter<MoveNPCEffect, EAdTrig
 
 	@Override
 	public EAdTriggerMacro init(MoveNPCEffect oldObject) {
-		return new EAdTriggerMacro("moveNPC" + oldObject.getTargetId());
+		EAdTriggerMacro effect =  new EAdTriggerMacro();
+		effect.setId("moveNPC" + oldObject.getTargetId());
+		return effect;
 	}
 
 	@Override
 	public EAdTriggerMacro convert(MoveNPCEffect oldObject, Object object) {
 		EAdTriggerMacro effect = super.convert(oldObject, object);	
-		EAdMacroImpl macro = new EAdMacroImpl("macro");
+		EAdMacroImpl macro = new EAdMacroImpl();
+		macro.setId("macro");
 		effect.setMacro(macro);
 		
 
-		macro.getEffects().add(new EAdMoveSceneElement("move", (EAdSceneElementDef) factory.getElementById(oldObject.getTargetId()), 
+		macro.getEffects().add(new EAdMoveSceneElement((EAdSceneElementDef) factory.getElementById(oldObject.getTargetId()), 
 				oldObject.getX(), oldObject.getY(), MovementSpeed.NORMAL));
 
 		return effect;

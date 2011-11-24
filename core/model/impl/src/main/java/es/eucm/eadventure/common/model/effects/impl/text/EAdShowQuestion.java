@@ -44,13 +44,13 @@ import es.eucm.eadventure.common.interfaces.Param;
 import es.eucm.eadventure.common.model.effects.EAdEffect;
 import es.eucm.eadventure.common.model.effects.impl.EAdComplexBlockingEffect;
 import es.eucm.eadventure.common.model.effects.impl.EAdInterpolationEffect;
-import es.eucm.eadventure.common.model.effects.impl.EAdInterpolationEffect.InterpolationType;
-import es.eucm.eadventure.common.model.effects.impl.EAdInterpolationEffect.LoopType;
+import es.eucm.eadventure.common.model.effects.impl.enums.InterpolationLoopType;
+import es.eucm.eadventure.common.model.effects.impl.enums.InterpolationType;
 import es.eucm.eadventure.common.model.effects.impl.text.extra.Answer;
 import es.eucm.eadventure.common.model.effects.impl.variables.EAdChangeFieldValueEffect;
 import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
 import es.eucm.eadventure.common.model.events.EAdSceneElementEvent;
-import es.eucm.eadventure.common.model.events.EAdSceneElementEvent.SceneElementEvent;
+import es.eucm.eadventure.common.model.events.enums.SceneElementEventType;
 import es.eucm.eadventure.common.model.events.impl.EAdSceneElementEventImpl;
 import es.eucm.eadventure.common.model.extra.EAdMap;
 import es.eucm.eadventure.common.model.extra.impl.EAdMapImpl;
@@ -80,16 +80,14 @@ public class EAdShowQuestion extends EAdComplexBlockingEffect {
 	@Param("question")
 	private final EAdString question;
 
-	public EAdShowQuestion(String id) {
-		super(id);
+	public EAdShowQuestion() {
+		super();
+		setId("showQuestionEffect");
 		answers = new EAdMapImpl<EAdString, EAdEffect>(EAdString.class,
 				EAdEffect.class);
 		question = EAdString.newEAdString("question");
 	}
 
-	public EAdShowQuestion() {
-		this("showQuestionEffect");
-	}
 
 	public void addAnswer(EAdString string, EAdEffect effect) {
 		answers.put(string, effect);
@@ -104,15 +102,16 @@ public class EAdShowQuestion extends EAdComplexBlockingEffect {
 
 		EAdField<Boolean> effectFinished = new EAdFieldImpl<Boolean>(this,
 				VAR_EFFECT_FINISHED);
-		EAdChangeFieldValueEffect changeFinished = new EAdChangeFieldValueEffect(
-				"endEffect");
+		EAdChangeFieldValueEffect changeFinished = new EAdChangeFieldValueEffect();
+		changeFinished.setId("endEffect");
 		changeFinished.addField(effectFinished);
 		changeFinished.setOperation(BooleanOperation.TRUE_OP);
 
 		setUpQuestion();
 		int i = 0;
 		for (Entry<EAdString, EAdEffect> a : answers.entrySet()) {
-			EAdBasicSceneElement se = new EAdBasicSceneElement("answer" + i);
+			EAdBasicSceneElement se = new EAdBasicSceneElement();
+			se.setId("answer" + i);
 			CaptionImpl c = new CaptionImpl(a.getKey());
 			c.setTextPaint(EAdColor.RED);
 			c.setBubblePaint(EAdColor.WHITE);
@@ -124,12 +123,12 @@ public class EAdShowQuestion extends EAdComplexBlockingEffect {
 			EAdInterpolationEffect effect = new EAdInterpolationEffect(
 					new EAdFieldImpl<Integer>(se,
 					EAdBasicSceneElement.VAR_X), initialX, 10, 500,
-					LoopType.NO_LOOP, InterpolationType.LINEAR);
+					InterpolationLoopType.NO_LOOP, InterpolationType.LINEAR);
 
 			effect.setDelay(200 * i);
 
-			EAdSceneElementEvent event = new EAdSceneElementEventImpl("event");
-			event.addEffect(SceneElementEvent.ADDED_TO_SCENE, effect);
+			EAdSceneElementEvent event = new EAdSceneElementEventImpl();
+			event.addEffect(SceneElementEventType.ADDED_TO_SCENE, effect);
 
 			se.getEvents().add(event);
 
@@ -148,7 +147,8 @@ public class EAdShowQuestion extends EAdComplexBlockingEffect {
 		c.setTextPaint(EAdColor.BLUE);
 		c.setBubblePaint(EAdColor.WHITE);
 
-		EAdBasicSceneElement q = new EAdBasicSceneElement("question");
+		EAdBasicSceneElement q = new EAdBasicSceneElement();
+		q.setId("question");
 		q.getResources().addAsset(q.getInitialBundle(),
 				EAdBasicSceneElement.appearance, c);
 		q.setPosition(10, 10);
@@ -156,11 +156,11 @@ public class EAdShowQuestion extends EAdComplexBlockingEffect {
 
 		EAdInterpolationEffect effect = new EAdInterpolationEffect(
 				new EAdFieldImpl<Float>(q, EAdBasicSceneElement.VAR_ALPHA),
-				0.0f, 1.0f, 500, LoopType.NO_LOOP, InterpolationType.LINEAR);
+				0.0f, 1.0f, 500, InterpolationLoopType.NO_LOOP, InterpolationType.LINEAR);
 
-		EAdSceneElementEvent event = new EAdSceneElementEventImpl(
-				"questionEvent");
-		event.addEffect(SceneElementEvent.ADDED_TO_SCENE, effect);
+		EAdSceneElementEvent event = new EAdSceneElementEventImpl();
+		event.setId("questionEvent");
+		event.addEffect(SceneElementEventType.ADDED_TO_SCENE, effect);
 
 		q.getEvents().add(event);
 
