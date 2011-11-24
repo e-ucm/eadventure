@@ -56,8 +56,8 @@ public class EAdMoveActiveElementToTarget extends AbstractEAdEffect {
 	@Param("doesntGetToEffects")
 	private EAdList<EAdEffect> doesntGetToEffects;
 	
-	public EAdMoveActiveElementToTarget(String id) {
-		super(id);
+	public EAdMoveActiveElementToTarget() {
+		super();
 		getsToEffects = new EAdListImpl<EAdEffect>(EAdEffect.class);
 		doesntGetToEffects = new EAdListImpl<EAdEffect>(EAdEffect.class);
 	}

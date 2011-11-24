@@ -54,6 +54,8 @@ import es.eucm.eadventure.common.model.elements.EAdTimer;
 import es.eucm.eadventure.common.model.elements.impl.EAdTimerImpl;
 import es.eucm.eadventure.common.model.events.EAdConditionEvent;
 import es.eucm.eadventure.common.model.events.EAdTimerEvent;
+import es.eucm.eadventure.common.model.events.enums.ConditionedEventType;
+import es.eucm.eadventure.common.model.events.enums.TimerEventType;
 import es.eucm.eadventure.common.model.events.impl.EAdConditionEventImpl;
 import es.eucm.eadventure.common.model.events.impl.EAdTimerEventImpl;
 import es.eucm.eadventure.common.model.variables.impl.EAdFieldImpl;
@@ -80,7 +82,9 @@ public class TimerImporter implements EAdElementImporter<Timer, EAdTimer> {
 
 	@Override
 	public EAdTimer init(Timer oldTimer) {
-		return new EAdTimerImpl("timer" + ID++);
+		EAdTimer timer = new EAdTimerImpl();
+		timer.setId("timer" + ID++);
+		return timer;
 	}
 
 	@Override
@@ -94,20 +98,22 @@ public class TimerImporter implements EAdElementImporter<Timer, EAdTimer> {
 		condition = conditionsImporter.convert(oldTimer.getInitCond(),
 				condition);
 
-		EAdConditionEventImpl startEvent = new EAdConditionEventImpl(
-				"timerStart", condition);
+		EAdConditionEventImpl startEvent = new EAdConditionEventImpl( condition);
+		startEvent.setId("timerStart");
 		EAdChangeFieldValueEffect startEffect = new EAdChangeFieldValueEffect(
-				"timerStartEffect", new EAdFieldImpl<Boolean>(newTimer,
-						EAdTimerImpl.VAR_STARTED), new BooleanOperation("",
+				 new EAdFieldImpl<Boolean>(newTimer,
+						EAdTimerImpl.VAR_STARTED), new BooleanOperation(
 						EmptyCondition.TRUE_EMPTY_CONDITION));
-		startEvent.addEffect(EAdConditionEvent.ConditionedEvent.CONDITIONS_MET,
+		startEffect.setId("timerStartEffect");
+		startEvent.addEffect(ConditionedEventType.CONDITIONS_MET,
 				startEffect);
 		// TODO timer with events? indeed, has timers sense anymore?
 //		newTimer.getEvents().add(startEvent);
 
-		EAdMacroImpl endedMacro = new EAdMacroImpl("timerEndMacro");
-		EAdTriggerMacro triggerEndedMacro = new EAdTriggerMacro("triggerMacro_"
-				+ endedMacro.getId());
+		EAdMacroImpl endedMacro = new EAdMacroImpl();
+		endedMacro.setId("timerEndMacro");
+		EAdTriggerMacro triggerEndedMacro = new EAdTriggerMacro();
+		triggerEndedMacro.setId("triggerMacro_" + endedMacro.getId());
 		triggerEndedMacro.setMacro(endedMacro);
 
 		for (Effect e : oldTimer.getEffects().getEffects()) {
@@ -116,9 +122,10 @@ public class TimerImporter implements EAdElementImporter<Timer, EAdTimer> {
 				endedMacro.getEffects().add(effect);
 		}
 
-		EAdMacroImpl stoppedMacro = new EAdMacroImpl("timerStoppedMacro");
-		EAdTriggerMacro triggerStoppedMacro = new EAdTriggerMacro(
-				"triggerMacro_" + stoppedMacro.getId());
+		EAdMacroImpl stoppedMacro = new EAdMacroImpl();
+		stoppedMacro.setId("timerStoppedMacro");
+		EAdTriggerMacro triggerStoppedMacro = new EAdTriggerMacro();
+		triggerStoppedMacro.setId("triggerMacro_" + stoppedMacro.getId());
 		triggerStoppedMacro.setMacro(stoppedMacro);
 
 		for (Effect e : oldTimer.getPostEffects().getEffects()) {
@@ -127,11 +134,10 @@ public class TimerImporter implements EAdElementImporter<Timer, EAdTimer> {
 				stoppedMacro.getEffects().add(effect);
 		}
 
-		EAdTimerEventImpl stopTimerEvent = new EAdTimerEventImpl("timerEvent",
-				newTimer);
-		stopTimerEvent.addEffect(EAdTimerEvent.TimerEvent.TIMER_ENDED,
+		EAdTimerEventImpl stopTimerEvent = new EAdTimerEventImpl( newTimer);
+		stopTimerEvent.addEffect(TimerEventType.TIMER_ENDED,
 				triggerEndedMacro);
-		stopTimerEvent.addEffect(EAdTimerEvent.TimerEvent.TIMER_STOPPED,
+		stopTimerEvent.addEffect(TimerEventType.TIMER_STOPPED,
 				triggerStoppedMacro);
 
 //		newTimer.getEvents().add(stopTimerEvent);

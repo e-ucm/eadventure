@@ -46,6 +46,7 @@ import com.google.inject.Singleton;
 
 import es.eucm.eadventure.common.model.conditions.impl.EmptyCondition;
 import es.eucm.eadventure.common.model.conditions.impl.ListedCondition;
+import es.eucm.eadventure.common.model.conditions.impl.enums.EmptyConditionValue;
 import es.eucm.eadventure.common.model.elements.EAdCondition;
 import es.eucm.eadventure.engine.core.evaluators.Evaluator;
 import es.eucm.eadventure.engine.core.evaluators.EvaluatorFactory;
@@ -65,7 +66,7 @@ public class ListedConditionEvaluator implements Evaluator<ListedCondition> {
 	@Override
 	public boolean evaluate(ListedCondition condition) {
 		boolean temp = false;
-		if (condition.getNullOperator().getValue() == EmptyCondition.Value.TRUE)
+		if (condition.getNullOperator().getValue() == EmptyConditionValue.TRUE)
 			temp = true;
 		
 		Iterator<EAdCondition> conditions = condition.getConditions();

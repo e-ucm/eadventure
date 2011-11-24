@@ -48,17 +48,15 @@ public class NOTCondition extends ResourcedElementImpl implements EAdCondition {
 	@Param("condition")
 	private EAdCondition condition;
 	
-	public NOTCondition(String id) {
-		super(id);
-	}
-	
 	public NOTCondition() {
-		this("notCondition");
+		super();
+		this.setId("notCondition");
 		this.condition = EmptyCondition.FALSE_EMPTY_CONDITION;
 	}
 	
 	public NOTCondition(EAdCondition condition) {
-		this("notCondition");
+		super();
+		this.setId("notCondition");
 		this.condition = condition;
 	}
 

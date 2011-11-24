@@ -65,7 +65,9 @@ public abstract class TextEffectImporter<T extends AbstractEffect> extends
 
 	@Override
 	public EAdSpeakEffect init(T oldObject) {
-		return new EAdSpeakEffect("showText" + ID_GENERATOR++);
+		EAdSpeakEffect speakEffect =  new EAdSpeakEffect();
+		speakEffect.setId("showText" + ID_GENERATOR++);
+		return speakEffect;
 	}
 
 	public EAdSpeakEffect convert(T oldObject, Object object) {

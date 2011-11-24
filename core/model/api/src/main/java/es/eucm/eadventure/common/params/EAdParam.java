@@ -1,11 +1,14 @@
 package es.eucm.eadventure.common.params;
 
+import com.gwtent.reflection.client.Reflectable;
+
 /**
  * An eAdventure parameter is data that it's used by the {@link EAdElement}s. A
  * parameter is able to store itself in a string, and is able to reconstruct it
  * from it
  * 
  */
+@Reflectable
 public interface EAdParam {
 
 	/**

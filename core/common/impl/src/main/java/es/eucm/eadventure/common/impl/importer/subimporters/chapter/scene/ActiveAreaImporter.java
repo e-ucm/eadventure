@@ -52,7 +52,7 @@ import es.eucm.eadventure.common.model.elements.EAdCondition;
 import es.eucm.eadventure.common.model.elements.EAdSceneElement;
 import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
 import es.eucm.eadventure.common.model.elements.impl.EAdSceneElementDefImpl;
-import es.eucm.eadventure.common.model.events.EAdConditionEvent;
+import es.eucm.eadventure.common.model.events.enums.ConditionedEventType;
 import es.eucm.eadventure.common.model.events.impl.EAdConditionEventImpl;
 import es.eucm.eadventure.common.model.guievents.impl.EAdMouseEventImpl;
 import es.eucm.eadventure.common.model.trajectories.impl.NodeTrajectoryDefinition;
@@ -86,8 +86,8 @@ public class ActiveAreaImporter implements
 
 	@Override
 	public EAdSceneElement init(ActiveArea oldObject) {
-		EAdSceneElementDefImpl newActiveArea = new EAdSceneElementDefImpl(
-				oldObject.getId());
+		EAdSceneElementDefImpl newActiveArea = new EAdSceneElementDefImpl();
+		newActiveArea.setId(oldObject.getId());
 		EAdSceneElement newActiveAreaReference = new EAdBasicSceneElement(
 				newActiveArea);
 		return newActiveAreaReference;
@@ -103,8 +103,9 @@ public class ActiveAreaImporter implements
 
 		ActorImporter.addActions(oldObject, newActiveArea, actionImporter,
 				stringHandler);
-		EAdActorActionsEffect showActions = new EAdActorActionsEffect(
-				newActiveArea.getId() + "_showActions", newActiveAreaReference);
+		EAdActorActionsEffect showActions = new EAdActorActionsEffect( newActiveAreaReference);
+		showActions.setId(
+				newActiveArea.getId() + "_showActions");
 		newActiveAreaReference.addBehavior(EAdMouseEventImpl.MOUSE_RIGHT_CLICK,
 				showActions);
 
@@ -137,10 +138,10 @@ public class ActiveAreaImporter implements
 		newActiveArea.getResources().addAsset(id,
 				EAdBasicSceneElement.appearance, shape2);
 		newActiveAreaReference.addBehavior(EAdMouseEventImpl.MOUSE_ENTERED,
-				new EAdChangeAppearance("test", newActiveArea, id));
+				new EAdChangeAppearance(newActiveArea, id));
 		newActiveAreaReference.addBehavior(
 				EAdMouseEventImpl.MOUSE_EXITED,
-				new EAdChangeAppearance("test", newActiveArea, newActiveArea
+				new EAdChangeAppearance(newActiveArea, newActiveArea
 						.getInitialBundle()));
 
 		// Event to show (or not) the active area
@@ -149,29 +150,29 @@ public class ActiveAreaImporter implements
 		condition = conditionsImporter.convert(oldObject.getConditions(),
 				condition);
 
-		EAdConditionEventImpl event = new EAdConditionEventImpl(
-				newActiveAreaReference.getId() + "_VisibleEvent");
+		EAdConditionEventImpl event = new EAdConditionEventImpl();
+		event.setId(newActiveAreaReference.getId() + "_VisibleEvent");
 		event.setCondition(condition);
 
 		EAdField<Boolean> visibleField = new EAdFieldImpl<Boolean>(
 				newActiveAreaReference, EAdBasicSceneElement.VAR_VISIBLE);
 
-		EAdChangeFieldValueEffect visibleVar = new EAdChangeFieldValueEffect(
-				newActiveAreaReference.getId() + "_visibleEffect");
+		EAdChangeFieldValueEffect visibleVar = new EAdChangeFieldValueEffect();
+		visibleVar.setId(newActiveAreaReference.getId() + "_visibleEffect");
 		visibleVar.addField(visibleField);
-		BooleanOperation op = new BooleanOperation("booleanOpTrue");
+		BooleanOperation op = new BooleanOperation();
 		op.setCondition(EmptyCondition.TRUE_EMPTY_CONDITION);
 		visibleVar.setOperation(op);
-		event.addEffect(EAdConditionEvent.ConditionedEvent.CONDITIONS_MET,
+		event.addEffect(ConditionedEventType.CONDITIONS_MET,
 				visibleVar);
 
-		EAdChangeFieldValueEffect notVisibleVar = new EAdChangeFieldValueEffect(
-				newActiveArea.getId() + "_notVisibleEffect");
+		EAdChangeFieldValueEffect notVisibleVar = new EAdChangeFieldValueEffect();
+		notVisibleVar.setId(newActiveArea.getId() + "_notVisibleEffect");
 		notVisibleVar.addField(visibleField);
-		op = new BooleanOperation("booleanOpFalse");
+		op = new BooleanOperation();
 		op.setCondition(EmptyCondition.FALSE_EMPTY_CONDITION);
 		notVisibleVar.setOperation(op);
-		event.addEffect(EAdConditionEvent.ConditionedEvent.CONDITIONS_UNMET,
+		event.addEffect(ConditionedEventType.CONDITIONS_UNMET,
 				notVisibleVar);
 
 		newActiveAreaReference.getEvents().add(event);

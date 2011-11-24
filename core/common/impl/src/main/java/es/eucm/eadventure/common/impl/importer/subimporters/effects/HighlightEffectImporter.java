@@ -7,7 +7,6 @@ import es.eucm.eadventure.common.data.chapter.conditions.Conditions;
 import es.eucm.eadventure.common.data.chapter.effects.HighlightItemEffect;
 import es.eucm.eadventure.common.impl.importer.interfaces.EAdElementFactory;
 import es.eucm.eadventure.common.model.effects.impl.timedevents.EAdHighlightSceneElement;
-import es.eucm.eadventure.common.model.elements.EAdSceneElementDef;
 import es.eucm.eadventure.common.model.elements.EAdCondition;
 
 public class HighlightEffectImporter extends
@@ -25,8 +24,10 @@ public class HighlightEffectImporter extends
 
 	@Override
 	public EAdHighlightSceneElement init(HighlightItemEffect oldObject) {
-		return new EAdHighlightSceneElement("highlightActorReference"
+		EAdHighlightSceneElement highlight = new EAdHighlightSceneElement();
+		highlight.setId("highlightActorReference"
 				+ ID_GENERATOR++);
+		return highlight;
 	}
 
 	@Override

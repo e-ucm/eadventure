@@ -115,8 +115,8 @@ public class DesktopActionsHUDImpl extends ActionsHUDImpl {
 //			RectangleShape c = new RectangleShape( 400, 20 );
 //			c.setFill(EAdColor.RED);
 
-			EAdBasicSceneElement actionName = new EAdBasicSceneElement(
-					"actionName", c);
+			EAdBasicSceneElement actionName = new EAdBasicSceneElement( c);
+			actionName.setId("actionName");
 			actionName.setPosition(new EAdPositionImpl(
 					EAdPositionImpl.Corner.CENTER, this.getX() + x, this.getY() + y));
 			actionName.setScale(scale);
@@ -126,14 +126,14 @@ public class DesktopActionsHUDImpl extends ActionsHUDImpl {
 			EAdFieldImpl<Boolean> visibleField = new EAdFieldImpl<Boolean>(
 					actionName, EAdBasicSceneElement.VAR_VISIBLE);
 
-			EAdChangeFieldValueEffect visibleTrue = new EAdChangeFieldValueEffect(
-					"visibleTrue");
+			EAdChangeFieldValueEffect visibleTrue = new EAdChangeFieldValueEffect();
+			visibleTrue.setId("visibleTrue");
 			visibleTrue.addField(visibleField);
 			visibleTrue.setOperation(BooleanOperation.TRUE_OP);
 			action.addBehavior(EAdMouseEventImpl.MOUSE_ENTERED, visibleTrue);
 
-			EAdChangeFieldValueEffect visibleFalse = new EAdChangeFieldValueEffect(
-					"visibleFalse");
+			EAdChangeFieldValueEffect visibleFalse = new EAdChangeFieldValueEffect();
+			visibleFalse.setId("visibleFalse");
 			visibleFalse.addField(visibleField);
 			visibleFalse.setOperation(BooleanOperation.FALSE_OP);
 			action.addBehavior(EAdMouseEventImpl.MOUSE_EXITED, visibleFalse);

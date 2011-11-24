@@ -67,10 +67,11 @@ public class DeactivateFlagImporter extends EffectImporter<DeactivateEffect, EAd
 	@Override
 	public EAdChangeFieldValueEffect init(DeactivateEffect oldObject) {
 		EAdField<?> var = factory.getVarByOldId(oldObject.getTargetId(), Condition.FLAG_CONDITION);
-		BooleanOperation op = new BooleanOperation( "boolOperation" );
+		BooleanOperation op = new BooleanOperation( );
 		op.setCondition(EmptyCondition.FALSE_EMPTY_CONDITION);
 		
-		EAdChangeFieldValueEffect changeVar = new EAdChangeFieldValueEffect( "changeVarValue" + ID_GENERATOR++, var, op );
+		EAdChangeFieldValueEffect changeVar = new EAdChangeFieldValueEffect( var, op );
+		changeVar.setId( "changeVarValue" + ID_GENERATOR++);
 		super.importConditions(oldObject, changeVar);
 		
 		changeVar.setQueueable(true);

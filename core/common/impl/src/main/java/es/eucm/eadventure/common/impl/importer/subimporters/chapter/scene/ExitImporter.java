@@ -56,7 +56,7 @@ import es.eucm.eadventure.common.model.elements.EAdCondition;
 import es.eucm.eadventure.common.model.elements.EAdScene;
 import es.eucm.eadventure.common.model.elements.EAdSceneElement;
 import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
-import es.eucm.eadventure.common.model.events.EAdConditionEvent;
+import es.eucm.eadventure.common.model.events.enums.ConditionedEventType;
 import es.eucm.eadventure.common.model.events.impl.EAdConditionEventImpl;
 import es.eucm.eadventure.common.model.guievents.impl.EAdMouseEventImpl;
 import es.eucm.eadventure.common.model.trajectories.impl.NodeTrajectoryDefinition;
@@ -96,8 +96,8 @@ public class ExitImporter implements EAdElementImporter<Exit, EAdSceneElement> {
 	}
 
 	public EAdSceneElement init(Exit oldObject) {
-		EAdBasicSceneElement newExit = new EAdBasicSceneElement("exit"
-				+ ID_GENERATOR++);
+		EAdBasicSceneElement newExit = new EAdBasicSceneElement();
+		newExit.setId("exit" + ID_GENERATOR++);
 		return newExit;
 	}
 
@@ -134,8 +134,8 @@ public class ExitImporter implements EAdElementImporter<Exit, EAdSceneElement> {
 
 		EAdScene scene = (EAdScene) factory.getElementById(oldObject
 				.getNextSceneId());
-		EAdChangeScene effect = new EAdChangeScene("change_screen_"
-				+ newExit.getId(), scene, EAdTransition.BASIC);
+		EAdChangeScene effect = new EAdChangeScene( scene, EAdTransition.BASIC);
+		effect.setId("change_screen_" + newExit.getId());
 		effect.setCondition(condition);
 
 		newExit.addBehavior(EAdMouseEventImpl.MOUSE_LEFT_CLICK, effect);
@@ -155,30 +155,30 @@ public class ExitImporter implements EAdElementImporter<Exit, EAdSceneElement> {
 		}
 
 		if (!hasNotEffects) {
-			EAdConditionEventImpl event = new EAdConditionEventImpl(
-					newExit.getId() + "_VisibleEvent");
+			EAdConditionEventImpl event = new EAdConditionEventImpl();
+			event.setId(newExit.getId() + "_VisibleEvent");
 			event.setCondition(condition);
 
 			EAdField<Boolean> visibleField = new EAdFieldImpl<Boolean>(newExit,
 					EAdBasicSceneElement.VAR_VISIBLE);
 
-			EAdChangeFieldValueEffect visibleVar = new EAdChangeFieldValueEffect(
-					newExit.getId() + "_visibleEffect");
+			EAdChangeFieldValueEffect visibleVar = new EAdChangeFieldValueEffect();
+			visibleVar.setId(newExit.getId() + "_visibleEffect");
 			visibleVar.addField(visibleField);
-			BooleanOperation op = new BooleanOperation("booleanOpTrue");
+			BooleanOperation op = new BooleanOperation();
 			op.setCondition(EmptyCondition.TRUE_EMPTY_CONDITION);
 			visibleVar.setOperation(op);
-			event.addEffect(EAdConditionEvent.ConditionedEvent.CONDITIONS_MET,
+			event.addEffect(ConditionedEventType.CONDITIONS_MET,
 					visibleVar);
 
-			EAdChangeFieldValueEffect notVisibleVar = new EAdChangeFieldValueEffect(
-					newExit.getId() + "_notVisibleEffect");
+			EAdChangeFieldValueEffect notVisibleVar = new EAdChangeFieldValueEffect();
+			notVisibleVar.setId(newExit.getId() + "_notVisibleEffect");
 			notVisibleVar.addField(visibleField);
-			op = new BooleanOperation("booleanOpFalse");
+			op = new BooleanOperation();
 			op.setCondition(EmptyCondition.FALSE_EMPTY_CONDITION);
 			notVisibleVar.setOperation(op);
 			event.addEffect(
-					EAdConditionEvent.ConditionedEvent.CONDITIONS_UNMET,
+					ConditionedEventType.CONDITIONS_UNMET,
 					notVisibleVar);
 
 			newExit.getEvents().add(event);

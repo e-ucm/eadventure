@@ -63,7 +63,9 @@ public class ConsumeObjectEffectImporter extends EffectImporter<ConsumeObjectEff
 
 	@Override
 	public EAdEffect init(ConsumeObjectEffect oldObject) {
-		return new EAdModifyActorState("consumeObject" + oldObject.getTargetId());
+		EAdEffect effect = new EAdModifyActorState();
+		effect.setId("consumeObject" + oldObject.getTargetId());
+		return effect;
 	}
 
 	@Override

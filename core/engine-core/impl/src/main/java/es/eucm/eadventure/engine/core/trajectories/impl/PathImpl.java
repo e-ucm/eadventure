@@ -182,7 +182,7 @@ public class PathImpl implements Comparable<PathImpl>, Path {
 	@Override
 	public EAdEffect getChangeSideEffect(PathSide p, TrajectoryDefinition trajectory) {
 		EAdField<Side> currentSide = new EAdFieldImpl<Side>(trajectory, NodeTrajectoryDefinition.VAR_CURRENT_SIDE);
-		return new EAdChangeFieldValueEffect("changeSide", currentSide, new ValueOperation(((PathSideImpl) p).getSide()));
+		return new EAdChangeFieldValueEffect(currentSide, new ValueOperation(((PathSideImpl) p).getSide()));
 	}
 	
 }

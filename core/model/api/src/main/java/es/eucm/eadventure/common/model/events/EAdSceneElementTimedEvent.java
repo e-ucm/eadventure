@@ -44,11 +44,6 @@ package es.eucm.eadventure.common.model.events;
  * 
  */
 public interface EAdSceneElementTimedEvent extends EAdEvent {
-
-	public enum SceneElementTimedEventType {
-		START_TIME, END_TIME;
-	}
-
 	/**
 	 * Returns time between executions
 	 * 

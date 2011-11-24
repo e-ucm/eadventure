@@ -52,12 +52,14 @@ public class EAdTimerEventImpl extends AbstractEAdEvent implements EAdTimerEvent
 	@Param("timer")
 	private EAdTimer timer;
 	
-	public EAdTimerEventImpl(String id) {
-		super(id);
+	public EAdTimerEventImpl() {
+		super();
+		setId("timerEvent");
 	}
 	
-	public EAdTimerEventImpl(String id, EAdTimer timer) {
-		super(id);
+	public EAdTimerEventImpl(EAdTimer timer) {
+		this();
+		setId("timerEvent");
 		this.timer = timer;
 	}
 

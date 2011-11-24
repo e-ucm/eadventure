@@ -37,7 +37,7 @@
 
 package es.eucm.eadventure.engine.core.guiactions;
 
-import es.eucm.eadventure.common.model.guievents.EAdMouseEvent;
+import es.eucm.eadventure.common.model.guievents.enums.MouseActionType;
 
 /**
  * <p>
@@ -48,11 +48,11 @@ public interface MouseAction extends GUIAction {
 
 	/**
 	 * Returns the type of the mouse action
-	 * {@link EAdMouseEvent.MouseActionType}
+	 * {@link MouseActionType}
 	 * 
 	 * @return The type of the mouse action
 	 */
-	public EAdMouseEvent.MouseActionType getType();
+	public MouseActionType getType();
 
 	/**
 	 * Get the x coordinate of the mouse action in the virtual screen

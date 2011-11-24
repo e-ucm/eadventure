@@ -20,8 +20,8 @@ public class EAdVarDefImpl<T> implements EAdVarDef<T> {
 	@Param("initialValue")
 	private T initialValue;
 
-	public EAdVarDefImpl(String id) {
-		this.id = id;
+	public EAdVarDefImpl() {
+		this.id = "varDef";
 	}
 
 	/**
@@ -99,4 +99,21 @@ public class EAdVarDefImpl<T> implements EAdVarDef<T> {
 		return name + ""; 
 	}
 
+	
+	public void setId(String id) {
+		this.id = id;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public void setType(Class<T> type) {
+		this.type = type;
+	}
+
+	public void setInitialValue(T initialValue) {
+		this.initialValue = initialValue;
+	}
+	
 }

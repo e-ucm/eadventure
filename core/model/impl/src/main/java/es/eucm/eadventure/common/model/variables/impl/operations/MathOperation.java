@@ -61,14 +61,9 @@ public class MathOperation extends EAdOperationImpl {
 	@Param("expression")
 	private String expression;
 
-	/**
-	 * Creates an empty literal expression
-	 * 
-	 * @param parent
-	 * @param id
-	 */
-	public MathOperation(String expression) {
-		this(expression, expression);
+	public MathOperation() {
+		super();
+		this.expression = "";
 	}
 
 	/**
@@ -81,9 +76,10 @@ public class MathOperation extends EAdOperationImpl {
 	 * @param floatVar2
 	 * @param fields
 	 */
-	public MathOperation(String id, String expression,
+	public MathOperation(String expression,
 			EAdField<?>... fields) {
-		super(id);
+		super();
+		setId(expression);
 		this.expression = expression;
 		if (fields != null) {
 			for (EAdField<?> f : fields) {
@@ -91,11 +87,6 @@ public class MathOperation extends EAdOperationImpl {
 			}
 		}
 	}
-
-	public MathOperation(String expression, EAdField<?>... floatVar) {
-		this("literalExpression", expression, floatVar);
-	}
-
 	/**
 	 * Sets the literal expression to be evaluated
 	 * 
@@ -125,7 +116,7 @@ public class MathOperation extends EAdOperationImpl {
 	 */
 	public static MathOperation getIncrementExpression(
 			EAdField<?> var, Integer increment) {
-		return new MathOperation("increment",
+		return new MathOperation(
 				"[0] + " + increment, var);
 	}
 	

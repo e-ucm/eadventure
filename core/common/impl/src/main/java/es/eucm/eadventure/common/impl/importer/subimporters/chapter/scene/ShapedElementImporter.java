@@ -68,7 +68,7 @@ public class ShapedElementImporter {
 					((BezierShape) shape).lineTo(p.x - x, p.y - y);
 				i++;
 			}
-			((BezierShape) shape).close();
+			((BezierShape) shape).setClosed(true);
 			newElement.setPosition(new EAdPositionImpl(EAdPositionImpl.Corner.TOP_LEFT, x, y));
 		}
 		return shape;

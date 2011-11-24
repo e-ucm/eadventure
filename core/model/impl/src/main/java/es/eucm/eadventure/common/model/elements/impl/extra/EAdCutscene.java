@@ -41,7 +41,7 @@ import es.eucm.eadventure.common.interfaces.Element;
 import es.eucm.eadventure.common.interfaces.Param;
 import es.eucm.eadventure.common.model.conditions.impl.EmptyCondition;
 import es.eucm.eadventure.common.model.conditions.impl.OperationCondition;
-import es.eucm.eadventure.common.model.conditions.impl.OperationCondition.Comparator;
+import es.eucm.eadventure.common.model.conditions.impl.enums.Comparator;
 import es.eucm.eadventure.common.model.effects.impl.EAdChangeScene;
 import es.eucm.eadventure.common.model.effects.impl.variables.EAdChangeFieldValueEffect;
 import es.eucm.eadventure.common.model.elements.EAdChapter;
@@ -49,9 +49,9 @@ import es.eucm.eadventure.common.model.elements.EAdScene;
 import es.eucm.eadventure.common.model.elements.impl.EAdComposedScene;
 import es.eucm.eadventure.common.model.elements.impl.EAdSceneImpl;
 import es.eucm.eadventure.common.model.elements.impl.EAdTimerImpl;
-import es.eucm.eadventure.common.model.events.EAdConditionEvent.ConditionedEvent;
 import es.eucm.eadventure.common.model.events.EAdEvent;
-import es.eucm.eadventure.common.model.events.EAdTimerEvent.TimerEvent;
+import es.eucm.eadventure.common.model.events.enums.ConditionedEventType;
+import es.eucm.eadventure.common.model.events.enums.TimerEventType;
 import es.eucm.eadventure.common.model.events.impl.EAdConditionEventImpl;
 import es.eucm.eadventure.common.model.events.impl.EAdTimerEventImpl;
 import es.eucm.eadventure.common.model.extra.EAdList;
@@ -75,8 +75,8 @@ public class EAdCutscene extends EAdComposedScene {
 	@Param("nextScene")
 	private EAdScene nextScene;
 
-	public EAdCutscene(String id) {
-		super(id);
+	public EAdCutscene() {
+		super();
 		slides = new EAdListImpl<EAdSlide>(EAdSlide.class);
 	}
 
@@ -93,38 +93,39 @@ public class EAdCutscene extends EAdComposedScene {
 		for (int i = 0; i < slides.size() - 1; i++) {
 			EAdSlide slide = slides.get(i);
 
-			EAdChangeFieldValueEffect e = new EAdChangeFieldValueEffect("id",
-					currentScene, new MathOperation("id",
+			EAdChangeFieldValueEffect e = new EAdChangeFieldValueEffect(
+					currentScene, new MathOperation(
 							"[0] + 1", currentScene));
 			slide.getBackground().getBehavior()
 					.addBehavior(EAdMouseEventImpl.MOUSE_LEFT_CLICK, e);
 
 			if (slide.getTime() == -1) {
-				EAdChangeScene e2 = new EAdChangeScene("id", this,
+				EAdChangeScene e2 = new EAdChangeScene( this,
 						EAdTransition.DISPLACE);
 				slide.getBackground().getBehavior()
 						.addBehavior(EAdMouseEventImpl.MOUSE_LEFT_CLICK, e2);
 			} else {
-				EAdTimerImpl timer = new EAdTimerImpl("timer");
+				EAdTimerImpl timer = new EAdTimerImpl();
+				timer.setId("timer");
 				timer.setTime(slide.getTime());
 				chapter.getTimers().add(timer);
 
-				EAdEvent event = new EAdConditionEventImpl("id",
+				EAdEvent event = new EAdConditionEventImpl(
 						new OperationCondition(sceneLoaded, Boolean.TRUE, Comparator.EQUAL));
-				event.addEffect(ConditionedEvent.CONDITIONS_MET,
-						new EAdChangeFieldValueEffect("id",
+				event.addEffect(ConditionedEventType.CONDITIONS_MET,
+						new EAdChangeFieldValueEffect(
 								new EAdFieldImpl<Boolean>(timer,
 										EAdTimerImpl.VAR_STARTED),
-								new BooleanOperation("id",
+								new BooleanOperation(
 										EmptyCondition.TRUE_EMPTY_CONDITION)));
 				events.add(event);
 
-				EAdEvent event2 = new EAdTimerEventImpl("id", timer);
-				event2.addEffect(TimerEvent.TIMER_ENDED, e);
+				EAdEvent event2 = new EAdTimerEventImpl(timer);
+				event2.addEffect(TimerEventType.TIMER_ENDED, e);
 				events.add(event2);
 			}
 		}
-		EAdChangeScene e3 = new EAdChangeScene("id", nextScene,
+		EAdChangeScene e3 = new EAdChangeScene(nextScene,
 				EAdTransition.DISPLACE);
 		slides.get(slides.size() - 1).getBackground().getBehavior()
 				.addBehavior(EAdMouseEventImpl.MOUSE_LEFT_CLICK, e3);

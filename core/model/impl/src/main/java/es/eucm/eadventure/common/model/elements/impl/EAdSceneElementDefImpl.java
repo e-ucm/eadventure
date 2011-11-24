@@ -65,16 +65,16 @@ public class EAdSceneElementDefImpl extends AbstractEAdElementWithBehavior
 	public static final String appearance = "appearance";
 
 	@Param("name")
-	private final EAdString name;
+	private EAdString name;
 	
 	@Param("description")
-	private final EAdString description;
+	private EAdString description;
 
 	@Param("detailedDescription")
-	private final EAdString detailedDescription;
+	private EAdString detailedDescription;
 
 	@Param("documentation")
-	private final EAdString documentation;
+	private EAdString documentation;
 
 	@Param("draggableCondition")
 	private EAdCondition draggableCondition;
@@ -85,8 +85,8 @@ public class EAdSceneElementDefImpl extends AbstractEAdElementWithBehavior
 	@Param("events")
 	protected EAdList<EAdEvent> events;
 
-	public EAdSceneElementDefImpl(String id) {
-		super(id);
+	public EAdSceneElementDefImpl() {
+		super();
 		this.actions = new EAdListImpl<EAdAction>(EAdAction.class);
 		this.events = new EAdListImpl<EAdEvent>(EAdEvent.class);
 		this.draggableCondition = EmptyCondition.FALSE_EMPTY_CONDITION;
@@ -104,7 +104,7 @@ public class EAdSceneElementDefImpl extends AbstractEAdElementWithBehavior
 	 * Sets the condition that makes the element holding this definition draggable. The default value is {@link EmptyCondition#FALSE_EMPTY_CONDITION)
 	 * @param condition the condition
 	 */
-	public void setDraggable(EAdCondition condition) {
+	public void setDraggableCondition(EAdCondition condition) {
 		this.draggableCondition = condition;
 	}
 
@@ -150,7 +150,8 @@ public class EAdSceneElementDefImpl extends AbstractEAdElementWithBehavior
 
 	@Override
 	public EAdElement copy(boolean deepCopy) {
-		EAdSceneElementDefImpl def = new EAdSceneElementDefImpl(id);
+		EAdSceneElementDefImpl def = new EAdSceneElementDefImpl();
+		def.setId(id);
 		def.events = events;
 		def.actions = actions;
 		if (deepCopy) {
@@ -174,4 +175,23 @@ public class EAdSceneElementDefImpl extends AbstractEAdElementWithBehavior
 		return events;
 	}
 
+	
+	
+	public void setName(EAdString name) {
+		this.name = name;
+	}
+
+	public void setDescription(EAdString description) {
+		this.description = description;
+	}
+
+	public void setDetailedDescription(EAdString detailedDescription) {
+		this.detailedDescription = detailedDescription;
+	}
+
+	public void setDocumentation(EAdString documentation) {
+		this.documentation = documentation;
+	}
+
+	
 }

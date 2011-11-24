@@ -31,7 +31,8 @@ public class NgCommon {
 	}
 
 	private static void createEffects() {
-		 lookNorth = new EAdChangeFieldValueEffect("lookNorth");
+		 lookNorth = new EAdChangeFieldValueEffect();
+		 lookNorth.setId("lookNorth");
 		 lookNorth.setParentVar(EAdBasicSceneElement.VAR_ORIENTATION);
 		 lookNorth.setOperation(new ValueOperation( Orientation.N ));		
 	}
@@ -43,7 +44,8 @@ public class NgCommon {
 		int walkTime = 200;
 		int talkTime = 300;
 
-		mainCharacter = new EAdSceneElementDefImpl("mainCharacter");
+		mainCharacter = new EAdSceneElementDefImpl();
+		mainCharacter.setId("mainCharacter");
 
 		StateDrawableImpl stateDrawables = new StateDrawableImpl();
 		mainCharacter.getResources().addAsset(mainCharacter.getInitialBundle(),

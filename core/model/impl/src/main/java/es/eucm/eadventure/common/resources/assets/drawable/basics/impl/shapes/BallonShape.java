@@ -132,8 +132,7 @@ public class BallonShape extends BezierShape {
 
 			}
 		}
-		close();
-
+		setClosed(true);
 	}
 
 	public static Orientation getOriginLocation(int left, int top, int right,

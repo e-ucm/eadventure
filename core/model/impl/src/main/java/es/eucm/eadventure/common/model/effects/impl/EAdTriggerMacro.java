@@ -51,17 +51,14 @@ public class EAdTriggerMacro extends AbstractEAdEffect implements EAdEffect {
 	@Param("macro")
 	private EAdMacro macro;
 	
-	public EAdTriggerMacro(String id, EAdMacro macro ) {
-		super(id);
+	public EAdTriggerMacro(EAdMacro macro ) {
+		super();
+		setId("triggerMacro_" + (macro != null ? macro.getId() : "unknown"));
 		this.macro = macro;
 	}
 	
-	public EAdTriggerMacro( EAdMacro macro ){
-		this( "triggerMacro_" + macro.getId(), macro );
-	}
-	
-	public EAdTriggerMacro(String id) {
-		this(id, null);
+	public EAdTriggerMacro() {
+		this(null);
 	}
 	
 	/**

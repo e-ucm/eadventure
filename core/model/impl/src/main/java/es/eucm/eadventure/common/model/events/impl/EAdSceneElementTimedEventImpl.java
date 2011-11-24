@@ -57,8 +57,9 @@ public class EAdSceneElementTimedEventImpl extends AbstractEAdEvent implements
 	 * @param id
 	 *            the id for the element
 	 */
-	public EAdSceneElementTimedEventImpl(String id) {
-		super(id);
+	public EAdSceneElementTimedEventImpl() {
+		super();
+		setId("timedEvent");
 		repeats = -1;
 		time = 1000;
 	}

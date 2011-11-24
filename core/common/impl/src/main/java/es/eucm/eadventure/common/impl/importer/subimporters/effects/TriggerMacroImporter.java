@@ -43,6 +43,7 @@ import es.eucm.eadventure.common.EAdElementImporter;
 import es.eucm.eadventure.common.data.chapter.conditions.Conditions;
 import es.eucm.eadventure.common.data.chapter.effects.MacroReferenceEffect;
 import es.eucm.eadventure.common.impl.importer.interfaces.EAdElementFactory;
+import es.eucm.eadventure.common.model.effects.EAdEffect;
 import es.eucm.eadventure.common.model.effects.EAdMacro;
 import es.eucm.eadventure.common.model.effects.impl.EAdTriggerMacro;
 import es.eucm.eadventure.common.model.elements.EAdCondition;
@@ -61,7 +62,9 @@ public class TriggerMacroImporter extends EffectImporter<MacroReferenceEffect, E
 
 	@Override
 	public EAdTriggerMacro init(MacroReferenceEffect oldObject) {
-		return new EAdTriggerMacro("triggerMacro" + oldObject.getTargetId());
+		EAdTriggerMacro effect = new EAdTriggerMacro();
+		effect.setId("triggerMacro" + oldObject.getTargetId());
+		return effect;
 	}
 
 	@Override

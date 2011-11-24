@@ -99,7 +99,7 @@ public class ValueMapImpl implements ValueMap {
 			valMap.put(varDef, value);
 		} else {
 			logger.warning("setValue failed: Impossible to cast "
-					+ varDef.getType() + " to " + value.getClass());
+					+ varDef.getType() + " to " + value.getClass() + " for element " + element.getId() + " of class " + element.getClass());
 		}
 	}
 

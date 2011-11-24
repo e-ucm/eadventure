@@ -136,8 +136,8 @@ public class EAdBasicSceneElement extends EAdSceneElementDefImpl implements
 
 	private boolean clone;
 
-	public EAdBasicSceneElement(String id) {
-		super(id);
+	public EAdBasicSceneElement() {
+		super();
 		vars = new EAdMapImpl<EAdVarDef<?>, Object>(EAdVarDef.class,
 				Object.class);
 	}
@@ -158,14 +158,15 @@ public class EAdBasicSceneElement extends EAdSceneElementDefImpl implements
 	 * @param appearance
 	 *            the initial appearance
 	 */
-	public EAdBasicSceneElement(String id, Drawable appearance) {
-		this(id);
+	public EAdBasicSceneElement(Drawable appearance) {
+		this();
 		getResources().addAsset(getInitialBundle(),
 				EAdBasicSceneElement.appearance, appearance);
 	}
 
 	public EAdBasicSceneElement(EAdSceneElementDef actor) {
-		this(actor.getId() + "_ref");
+		this();
+		setId(actor.getId() + "_ref");
 		this.definition = actor;
 	}
 

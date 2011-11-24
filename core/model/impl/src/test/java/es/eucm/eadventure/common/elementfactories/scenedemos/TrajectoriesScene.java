@@ -5,7 +5,7 @@ import es.eucm.eadventure.common.model.effects.impl.variables.EAdChangeFieldValu
 import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
 import es.eucm.eadventure.common.model.elements.impl.EAdSceneImpl;
 import es.eucm.eadventure.common.model.events.EAdSceneElementEvent;
-import es.eucm.eadventure.common.model.events.EAdSceneElementEvent.SceneElementEvent;
+import es.eucm.eadventure.common.model.events.enums.SceneElementEventType;
 import es.eucm.eadventure.common.model.events.impl.EAdSceneElementEventImpl;
 import es.eucm.eadventure.common.model.guievents.EAdKeyEvent.KeyActionType;
 import es.eucm.eadventure.common.model.guievents.impl.EAdKeyEventImpl;
@@ -26,8 +26,9 @@ public class TrajectoriesScene extends EmptyScene {
 		setBackgroundFill(new EAdLinearGradient(EAdColor.DARK_GRAY,
 				EAdColor.LIGHT_GRAY, 800, 600, true));
 
-		EAdBasicSceneElement element = new EAdBasicSceneElement("player",
+		EAdBasicSceneElement element = new EAdBasicSceneElement(
 				CharacterScene.getStateDrawable());
+		element.setId("player");
 
 		element.setScale(3.0f);
 
@@ -37,14 +38,14 @@ public class TrajectoriesScene extends EmptyScene {
 				element);
 
 		EAdSceneElementEvent event = new EAdSceneElementEventImpl();
-		event.addEffect(SceneElementEvent.ADDED_TO_SCENE, effect);
+		event.addEffect(SceneElementEventType.ADDED_TO_SCENE, effect);
 
 		element.getEvents().add(event);
 
 		getElements().add(element);
 
 		getBackground().addBehavior(EAdMouseEventImpl.MOUSE_LEFT_CLICK,
-				new EAdMoveActiveElement("moveCharacter"));
+				new EAdMoveActiveElement());
 
 		createTrajectory1();
 		createTrajectory2();
@@ -62,8 +63,8 @@ public class TrajectoriesScene extends EmptyScene {
 		trajectory.addNode("1", 750, 300, 1.0f);
 		trajectory.addSide("0", "1", 700);
 
-		EAdChangeFieldValueEffect effect = new EAdChangeFieldValueEffect(
-				"changeTrajectory");
+		EAdChangeFieldValueEffect effect = new EAdChangeFieldValueEffect();
+		effect.setId("changeTrajectory");
 		effect.addField(new EAdFieldImpl<TrajectoryDefinition>(this,
 				EAdSceneImpl.VAR_TRAJECTORY_DEFINITION));
 		effect.setOperation(new ValueOperation(trajectory));
@@ -112,8 +113,8 @@ public class TrajectoriesScene extends EmptyScene {
 
 		trajectory.setInitial("0");
 
-		EAdChangeFieldValueEffect effect = new EAdChangeFieldValueEffect(
-				"changeTrajectory");
+		EAdChangeFieldValueEffect effect = new EAdChangeFieldValueEffect();
+		effect.setId("changeTrajectory");
 		effect.addField(new EAdFieldImpl<TrajectoryDefinition>(this,
 				EAdSceneImpl.VAR_TRAJECTORY_DEFINITION));
 		effect.setOperation(new ValueOperation(trajectory));
@@ -131,8 +132,8 @@ public class TrajectoriesScene extends EmptyScene {
 		trajectory.addSide("1", "2", 700);
 		trajectory.addSide("1", "0", 700);
 
-		EAdChangeFieldValueEffect effect = new EAdChangeFieldValueEffect(
-				"changeTrajectory");
+		EAdChangeFieldValueEffect effect = new EAdChangeFieldValueEffect();
+		effect.setId("changeTrajectory");
 		effect.addField(new EAdFieldImpl<TrajectoryDefinition>(this,
 				EAdSceneImpl.VAR_TRAJECTORY_DEFINITION));
 		effect.setOperation(new ValueOperation(trajectory));

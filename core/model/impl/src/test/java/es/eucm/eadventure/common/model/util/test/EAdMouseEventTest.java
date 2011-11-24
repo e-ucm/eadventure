@@ -42,7 +42,8 @@ import junit.framework.TestCase;
 import org.junit.Test;
 
 import es.eucm.eadventure.common.model.guievents.EAdMouseEvent;
-import es.eucm.eadventure.common.model.guievents.EAdMouseEvent.MouseButton;
+import es.eucm.eadventure.common.model.guievents.enums.MouseActionType;
+import es.eucm.eadventure.common.model.guievents.enums.MouseButton;
 import es.eucm.eadventure.common.model.guievents.impl.EAdMouseEventImpl;
 
 public class EAdMouseEventTest extends TestCase {
@@ -51,9 +52,9 @@ public class EAdMouseEventTest extends TestCase {
 	
 	@Override
 	public void setUp() {
-		event1 = EAdMouseEventImpl.getMouseEvent( EAdMouseEvent.MouseActionType.DOUBLE_CLICK, MouseButton.BUTTON_1 );
-		event2 = EAdMouseEventImpl.getMouseEvent( EAdMouseEvent.MouseActionType.DOUBLE_CLICK, MouseButton.BUTTON_2 );
-		event3 = EAdMouseEventImpl.getMouseEvent( EAdMouseEvent.MouseActionType.DRAG, MouseButton.BUTTON_1 );
+		event1 = EAdMouseEventImpl.getMouseEvent( MouseActionType.DOUBLE_CLICK, MouseButton.BUTTON_1 );
+		event2 = EAdMouseEventImpl.getMouseEvent( MouseActionType.DOUBLE_CLICK, MouseButton.BUTTON_2 );
+		event3 = EAdMouseEventImpl.getMouseEvent( MouseActionType.DRAG, MouseButton.BUTTON_1 );
 	}
 
 	@Test

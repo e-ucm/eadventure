@@ -39,7 +39,7 @@ package es.eucm.eadventure.engine.core.gameobjects.impl.effects;
 
 import es.eucm.eadventure.common.model.effects.EAdEffect;
 import es.eucm.eadventure.common.model.effects.impl.sceneelements.EAdMoveSceneElement;
-import es.eucm.eadventure.common.model.effects.impl.sceneelements.EAdMoveSceneElement.MovementSpeed;
+import es.eucm.eadventure.common.model.effects.impl.sceneelements.MovementSpeed;
 import es.eucm.eadventure.common.model.trajectories.TrajectoryDefinition;
 import es.eucm.eadventure.common.resources.StringHandler;
 import es.eucm.eadventure.engine.core.GameState;
@@ -62,13 +62,13 @@ public class AbstractMoveActiveElementGO<P extends EAdEffect> extends AbstractEf
 		this.trajectoryFactory = trajectoryFactory;
 	}
 	protected EAdEffect getSideEffect(PathSide p, Path trajectory, int i, TrajectoryDefinition trajectoryDefinition) {
-		EAdMoveSceneElement effect = new EAdMoveSceneElement(
-				"trajectory", gameState.getActiveElement(),
+		EAdMoveSceneElement effect = new EAdMoveSceneElement( gameState.getActiveElement(),
 				p.getEndPosition(
 						i == trajectory.getSides().size() - 1)
 						.getX(), p.getEndPosition(
 						i == trajectory.getSides().size() - 1)
 						.getY(), MovementSpeed.NORMAL);
+		effect.setId("trajectory");
 		effect.setSpeedFactor(p.getSpeedFactor());
 		effect.setBlocking(true);
 		effect.setQueueable(true);

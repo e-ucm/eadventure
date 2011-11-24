@@ -95,9 +95,10 @@ public class TrajectoryDebugger implements EAdDebugger {
 			} else if (currentTrajectory instanceof SimpleTrajectoryDefinition) {
 				SimpleTrajectoryDefinition def = (SimpleTrajectoryDefinition) currentTrajectory;
 				EAdBasicSceneElement area = new EAdBasicSceneElement(
-						"walking_area", new RectangleShape(def.right()
+						 new RectangleShape(def.right()
 								- def.left(), def.bottom() - def.top(),
 								new EAdColor(0, 200, 0, 100)));
+				area.setId("walking_area");
 				area.setPosition(def.left(), def.top());
 				gameObjects.add(sceneElementFactory.get(area));
 			}
@@ -128,8 +129,8 @@ public class TrajectoryDebugger implements EAdDebugger {
 			map.addDrawable(circle);
 		}
 
-		EAdBasicSceneElement mapElement = new EAdBasicSceneElement(
-				"trajectoryMap");
+		EAdBasicSceneElement mapElement = new EAdBasicSceneElement();
+		mapElement.setId("trajectoryMap");
 		mapElement.getResources().addAsset(mapElement.getInitialBundle(),
 				EAdBasicSceneElement.appearance, map);
 

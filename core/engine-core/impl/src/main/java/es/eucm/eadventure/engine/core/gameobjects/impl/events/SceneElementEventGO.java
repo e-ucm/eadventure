@@ -40,7 +40,7 @@ package es.eucm.eadventure.engine.core.gameobjects.impl.events;
 import com.google.inject.Inject;
 
 import es.eucm.eadventure.common.model.events.EAdSceneElementEvent;
-import es.eucm.eadventure.common.model.events.EAdSceneElementEvent.SceneElementEvent;
+import es.eucm.eadventure.common.model.events.enums.SceneElementEventType;
 import es.eucm.eadventure.engine.core.GameState;
 
 public class SceneElementEventGO extends AbstractEventGO<EAdSceneElementEvent> {
@@ -57,18 +57,18 @@ public class SceneElementEventGO extends AbstractEventGO<EAdSceneElementEvent> {
 
 	public void initialize() {
 		firstCheck = true;
-		hasAlways = element.getEffects(SceneElementEvent.ALWAYS) != null;
+		hasAlways = element.getEffectsForEvent(SceneElementEventType.ALWAYS) != null;
 	}
 
 	@Override
 	public void update() {
 		if (firstCheck) {
 			firstCheck = false;
-			runEffects(element.getEffects(SceneElementEvent.ADDED_TO_SCENE));
+			runEffects(element.getEffectsForEvent(SceneElementEventType.ADDED_TO_SCENE));
 		}
 
 		if (hasAlways)
-			runEffects(element.getEffects(SceneElementEvent.ALWAYS));
+			runEffects(element.getEffectsForEvent(SceneElementEventType.ALWAYS));
 	}
 
 }

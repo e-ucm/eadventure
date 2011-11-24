@@ -11,7 +11,8 @@ public class EAdSpeakSceneElement extends EAdSpeakEffect {
 	private EAdElement element;
 
 	public EAdSpeakSceneElement(EAdElement element) {
-		super("speakSceneElement");
+		super();
+		setId("speakSceneElement");
 		this.element = element;
 		setOrigin();
 	}

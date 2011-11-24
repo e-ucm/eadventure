@@ -216,8 +216,8 @@ public class DesktopDemos extends BaseTestLauncher {
 							if (checkBox.isSelected()) {
 								EAdScene scene = (EAdScene) o;
 								EAdAdventureModel model = new EAdAdventureModelImpl();
-								EAdChapterImpl chapter = new EAdChapterImpl(
-										"chapter1");
+								EAdChapterImpl chapter = new EAdChapterImpl();
+								chapter.setId("chapter1");
 								chapter.getScenes().add(scene);
 								chapter.setInitialScene(scene);
 								model.getChapters().add(chapter);

@@ -38,13 +38,15 @@
 package es.eucm.eadventure.common.model.conditions.impl;
 
 import es.eucm.eadventure.common.interfaces.Element;
+import es.eucm.eadventure.common.model.conditions.impl.enums.EmptyConditionValue;
 import es.eucm.eadventure.common.model.elements.EAdCondition;
 
 @Element(runtime = ORCondition.class, detailed = ORCondition.class)
 public class ORCondition extends ListedCondition {
 
 	public ORCondition( ){
-		super( "orCondition", Operator.OR );
+		super( Operator.OR );
+		setId("orCondition");
 	}
 	
 	public ORCondition(EAdCondition... condition) {
@@ -53,7 +55,7 @@ public class ORCondition extends ListedCondition {
 
 	@Override
 	public EmptyCondition getNullOperator() {
-		return new EmptyCondition(EmptyCondition.Value.FALSE);
+		return new EmptyCondition(EmptyConditionValue.FALSE);
 	}
 	
 	@Override

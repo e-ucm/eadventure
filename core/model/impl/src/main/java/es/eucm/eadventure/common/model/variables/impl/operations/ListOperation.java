@@ -29,7 +29,8 @@ public class ListOperation extends EAdOperationImpl {
 	private EAdField<EAdList> listField;
 
 	public ListOperation(EAdField<EAdList> listField, Operation operation) {
-		super("listOperation");
+		super();
+		setId("listOperation");
 		this.operation = operation;
 		this.listField = listField;
 	}

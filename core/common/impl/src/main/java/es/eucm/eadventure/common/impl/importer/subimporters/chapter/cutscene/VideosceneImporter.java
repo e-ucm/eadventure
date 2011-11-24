@@ -76,7 +76,9 @@ public class VideosceneImporter implements EAdElementImporter<Videoscene, EAdVid
 
 	@Override
 	public EAdVideoScene init(Videoscene oldSlideScene) {
-		return new EAdVideoScene(oldSlideScene.getId());
+		EAdVideoScene videoScene = new EAdVideoScene();
+		videoScene.setId(oldSlideScene.getId());
+		return videoScene;
 	}
 
 	@Override

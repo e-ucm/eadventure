@@ -62,9 +62,10 @@ public class Answer extends EAdBasicSceneElement {
 	@Param("macro")
 	private EAdMacro macro;
 
-	public Answer(String id) {
-		super(id);
-		macro = new EAdMacroImpl(id + "_macro");
+	public Answer() {
+		super();
+		macro = new EAdMacroImpl();
+		macro.setId(id + "_AnswerMacro");
 	}
 
 	/**
@@ -82,23 +83,24 @@ public class Answer extends EAdBasicSceneElement {
 
 	public void setUpNewInstance(EAdField<Integer> selectedAnswer,
 			EAdEffect endEffect, int index) {
-		behavior = new EAdBehaviorImpl(id + "answer" + index + "Behavior");
+		behavior = new EAdBehaviorImpl();
+		behavior.setId(id + "answer" + index + "Behavior");
 
-		EAdChangeFieldValueEffect selectEffect = new EAdChangeFieldValueEffect(
-				"setSelected");
+		EAdChangeFieldValueEffect selectEffect = new EAdChangeFieldValueEffect();
+		selectEffect.setId("setSelected");
 		selectEffect.addField(selectedAnswer);
-		selectEffect.setOperation(new MathOperation("exp", ""
-				+ index));
+		selectEffect.setOperation(new MathOperation("" + index));
 		behavior.addBehavior(EAdMouseEventImpl.MOUSE_ENTERED, selectEffect);
 
-		EAdChangeFieldValueEffect unselectEffect = new EAdChangeFieldValueEffect(
-				"setUnselected");
+		EAdChangeFieldValueEffect unselectEffect = new EAdChangeFieldValueEffect();
+		unselectEffect.setId("setUnselected");
 		unselectEffect.addField(selectedAnswer);
 		unselectEffect
-				.setOperation(new MathOperation("exp", "-1"));
+				.setOperation(new MathOperation("-1"));
 		behavior.addBehavior(EAdMouseEventImpl.MOUSE_EXITED, unselectEffect);
 
-		EAdTriggerMacro triggerMacro = new EAdTriggerMacro(id + "_triggerMacro");
+		EAdTriggerMacro triggerMacro = new EAdTriggerMacro();
+		triggerMacro.setId(id + "_triggerMacro");
 		triggerMacro.setMacro(macro);
 		behavior.addBehavior(EAdMouseEventImpl.MOUSE_LEFT_CLICK, endEffect);
 		behavior.addBehavior(EAdMouseEventImpl.MOUSE_RIGHT_CLICK, endEffect);

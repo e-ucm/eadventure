@@ -45,7 +45,8 @@ import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.ImageImpl
 public class BasicSceneFactoryTest {
 	
 	public static EAdScene getBasicScene() {
-		EAdSceneImpl sceneImpl = new EAdSceneImpl("scene");
+		EAdSceneImpl sceneImpl = new EAdSceneImpl();
+		sceneImpl.setId("scene");
 		
 		sceneImpl.getBackground().getResources().addAsset(sceneImpl.getBackground().getInitialBundle(), EAdBasicSceneElement.appearance, new ImageImpl("@drawable/background1.png"));
 		

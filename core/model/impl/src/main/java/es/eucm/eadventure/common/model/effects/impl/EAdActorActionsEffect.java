@@ -39,31 +39,30 @@ package es.eucm.eadventure.common.model.effects.impl;
 
 import es.eucm.eadventure.common.interfaces.Element;
 import es.eucm.eadventure.common.interfaces.Param;
+import es.eucm.eadventure.common.model.effects.impl.enums.ChangeActorActions;
 import es.eucm.eadventure.common.model.elements.EAdSceneElement;
 
 @Element(runtime = EAdActorActionsEffect.class, detailed = EAdActorActionsEffect.class)
 public class EAdActorActionsEffect extends AbstractEAdEffect {
 
-	public enum Change { HIDE_ACTIONS, SHOW_ACTIONS }
-
 	@Param("actionElement")
 	private EAdSceneElement actionElement;
 	
 	@Param("change")
-	private Change change;
+	private ChangeActorActions change;
 	
-	public EAdActorActionsEffect(String id){
-		super(id);
+	public EAdActorActionsEffect(){
+		super();
 	}
 	
-	public EAdActorActionsEffect(String id, EAdSceneElement actionElement) {
-		super(id);
+	public EAdActorActionsEffect( EAdSceneElement actionElement) {
+		super();
 		this.actionElement = actionElement;
-		this.change = Change.SHOW_ACTIONS;
+		this.change = ChangeActorActions.SHOW_ACTIONS;
 	}
 
-	public EAdActorActionsEffect(String id, EAdSceneElement actionElement, Change change) {
-		super(id);
+	public EAdActorActionsEffect(EAdSceneElement actionElement, ChangeActorActions change) {
+		super();
 		this.actionElement = actionElement;
 		this.change = change;
 	}
@@ -72,7 +71,7 @@ public class EAdActorActionsEffect extends AbstractEAdEffect {
 		return actionElement;
 	}
 	
-	public Change getChange() {
+	public ChangeActorActions getChange() {
 		return change;
 	}
 

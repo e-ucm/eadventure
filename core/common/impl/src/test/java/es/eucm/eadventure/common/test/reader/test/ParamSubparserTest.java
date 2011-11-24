@@ -86,6 +86,10 @@ public class ParamSubparserTest extends TestCase {
 			return "";
 		}
 		
+		@Override
+		public void setId(String id) {
+		}
+
 		public EAdElement copy() {return null;}
 		public EAdElement copy(boolean deepCopy) {return null;}
 

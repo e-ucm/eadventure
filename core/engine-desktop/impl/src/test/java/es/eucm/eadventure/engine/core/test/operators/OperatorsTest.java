@@ -56,8 +56,7 @@ public abstract class OperatorsTest<T extends EAdOperation> {
 
 	private ArrayList<T> operations = new ArrayList<T>();
 	private ArrayList<Object> results = new ArrayList<Object>();
-	protected EAdBasicSceneElement dummyElement = new EAdBasicSceneElement(
-			"dummyElement");
+	protected EAdBasicSceneElement dummyElement = new EAdBasicSceneElement();
 
 	public OperatorsTest() {
 		operatorFactory = TestUtil.getInjector().getInstance(OperatorFactory.class);

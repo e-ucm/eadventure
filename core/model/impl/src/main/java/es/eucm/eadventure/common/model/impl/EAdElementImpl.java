@@ -16,13 +16,14 @@ public abstract class EAdElementImpl implements EAdElement {
 				+ Math.round(Math.random() * 1000);
 	}
 
-	public EAdElementImpl(String id) {
-		this.id = id;
-	}
-
 	@Override
 	public String getId() {
 		return id;
+	}
+	
+	@Override
+	public void setId(String id) {
+		this.id = id;
 	}
 	
 	@Override

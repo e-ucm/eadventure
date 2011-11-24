@@ -23,8 +23,7 @@ public class CircleShape extends BezierShape {
 				lineTo(x, y);
 			accAngle += angle;
 		}
-
-		close();
+		setClosed(true);
 	}
 	
 	public CircleShape(int cx, int cy, int radius, int segments){

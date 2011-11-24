@@ -76,8 +76,8 @@ public class EAdBehaviorImpl extends EAdElementImpl implements EAdBehavior {
 	 * @param id
 	 *            id for this element
 	 */
-	public EAdBehaviorImpl(String id) {
-		super(id);
+	public EAdBehaviorImpl() {
+		super();
 		behavior = new EAdMapImpl<EAdGUIEvent, EAdList<EAdEffect>>(String.class, EAdList.class);
 	}
 

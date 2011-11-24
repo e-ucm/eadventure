@@ -44,8 +44,10 @@ public class DijkstraPath implements Path {
 			TrajectoryDefinition trajectory) {
 		EAdField<Side> currentSide = new EAdFieldImpl<Side>(trajectory,
 				NodeTrajectoryDefinition.VAR_CURRENT_SIDE);
-		return new EAdChangeFieldValueEffect("changeSide", currentSide,
+		EAdEffect effect = new EAdChangeFieldValueEffect(currentSide,
 				new ValueOperation(((DijkstraPathSide) p).getSide()));
+		effect.setId("changeSide");
+		return effect;
 	}
 
 	/**

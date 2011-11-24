@@ -80,8 +80,8 @@ public class EAdComplexElementImpl extends EAdBasicSceneElement implements
 	 * @param id
 	 *            the id for the element
 	 */
-	public EAdComplexElementImpl(String id) {
-		super(id);
+	public EAdComplexElementImpl() {
+		super();
 		components = new EAdListImpl<EAdSceneElement>(EAdSceneElement.class);
 	}
 

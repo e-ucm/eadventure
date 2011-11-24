@@ -78,9 +78,10 @@ public class EAdSceneImpl extends EAdComplexElementImpl implements EAdScene {
 	 * @param parent
 	 *            The parent element in the model
 	 */
-	public EAdSceneImpl(String id) {
-		super(id);
-		background = new EAdBasicSceneElement(id + "_background");
+	public EAdSceneImpl() {
+		super();
+		background = new EAdBasicSceneElement();
+		background.setId("background");
 		returnable = true;
 		acceptsVisualEffects = true;
 	}

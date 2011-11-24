@@ -8,7 +8,7 @@ import es.eucm.eadventure.common.model.effects.impl.physics.PhApplyImpluse;
 import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
 import es.eucm.eadventure.common.model.elements.impl.EAdSceneImpl;
 import es.eucm.eadventure.common.model.events.EAdConditionEvent;
-import es.eucm.eadventure.common.model.events.EAdConditionEvent.ConditionedEvent;
+import es.eucm.eadventure.common.model.events.enums.ConditionedEventType;
 import es.eucm.eadventure.common.model.events.impl.EAdConditionEventImpl;
 import es.eucm.eadventure.common.model.guievents.impl.EAdMouseEventImpl;
 import es.eucm.eadventure.common.model.variables.impl.EAdFieldImpl;
@@ -31,7 +31,8 @@ public class PhysicsScene2 extends PhysicsScene {
 
 		RectangleShape rShape = new RectangleShape(10, 100, EAdColor.BROWN);
 
-		EAdBasicSceneElement e2 = new EAdBasicSceneElement("e2", rShape);
+		EAdBasicSceneElement e2 = new EAdBasicSceneElement(rShape);
+		e2.setId("e2");
 		getElements().add(e2);
 		e2.setPosition(new EAdPositionImpl(Corner.CENTER, 500, 200));
 		e2.setVarInitialValue(EAdBasicSceneElement.VAR_ROTATION,
@@ -40,7 +41,9 @@ public class PhysicsScene2 extends PhysicsScene {
 		EAdPhysicsEffect effect = new EAdPhysicsEffect();
 		effect.addSceneElement(e2);
 
-		EAdBasicSceneElement e3 = new EAdBasicSceneElement("e3", rShape);
+		
+		EAdBasicSceneElement e3 = new EAdBasicSceneElement( rShape);
+		e3.setId("e3");
 		getElements().add(e3);
 		e3.setPosition(new EAdPositionImpl(Corner.CENTER, 200, 100));
 		e3.setVarInitialValue(EAdBasicSceneElement.VAR_ROTATION,
@@ -52,7 +55,8 @@ public class PhysicsScene2 extends PhysicsScene {
 		circle.setPaint(new EAdLinearGradient(EAdColor.GREEN,
 				new EAdColor(0, 100, 0), 40, 40));
 
-		EAdBasicSceneElement b = new EAdBasicSceneElement("ball", circle);
+		EAdBasicSceneElement b = new EAdBasicSceneElement( circle);
+		b.setId("ball");
 		b.setPosition(new EAdPositionImpl(Corner.CENTER, 500, 0));
 		getElements().add(b, 0);
 		effect.addSceneElement(b);
@@ -60,15 +64,15 @@ public class PhysicsScene2 extends PhysicsScene {
 		getBackground().addBehavior(
 				EAdMouseEventImpl.MOUSE_LEFT_CLICK,
 				new PhApplyImpluse(b, new MathOperation(
-						"xImpulse", "0"), new MathOperation(
-						"yImpulse", "-100")));
+						 "0"), new MathOperation(
+						 "-100")));
 		b.setVarInitialValue(EAdPhysicsEffect.VAR_PH_RESTITUTION, 0.3f);
 		b.setVarInitialValue(EAdPhysicsEffect.VAR_PH_SHAPE, PhShape.CIRCULAR);
 
 		for (int i = 0; i < 5; i++)
 			for (int j = 0; j < 5; j++) {
-				EAdBasicSceneElement e = new EAdBasicSceneElement("ball" + i
-						+ "" + j, circle);
+				EAdBasicSceneElement e = new EAdBasicSceneElement( circle);
+				e.setId("ball" + i + "_" + j);
 				e.setPosition(new EAdPositionImpl(Corner.CENTER, i * 60 + 200,
 						j * 60 + 200));
 				getElements().add(e);
@@ -78,8 +82,8 @@ public class PhysicsScene2 extends PhysicsScene {
 				getBackground().addBehavior(
 						EAdMouseEventImpl.MOUSE_LEFT_CLICK,
 						new PhApplyImpluse(e, new MathOperation(
-								"xImpulse", "0"),
-								new MathOperation("yImpulse",
+								 "0"),
+								new MathOperation(
 										"-100")));
 				e.setVarInitialValue(EAdPhysicsEffect.VAR_PH_RESTITUTION, 0.3f);
 				e.setVarInitialValue(EAdPhysicsEffect.VAR_PH_SHAPE,
@@ -90,7 +94,7 @@ public class PhysicsScene2 extends PhysicsScene {
 		OperationCondition condition = new OperationCondition(new EAdFieldImpl<Boolean>(
 				this, EAdSceneImpl.VAR_SCENE_LOADED));
 		event.setCondition(condition);
-		event.addEffect(ConditionedEvent.CONDITIONS_MET, effect);
+		event.addEffect(ConditionedEventType.CONDITIONS_MET, effect);
 
 		getEvents().add(event);
 		

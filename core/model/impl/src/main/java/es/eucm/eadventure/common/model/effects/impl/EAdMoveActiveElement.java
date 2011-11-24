@@ -51,8 +51,8 @@ public class EAdMoveActiveElement extends AbstractEAdEffect {
 	@Param("targetY")
 	private int targetY;
 	
-	public EAdMoveActiveElement(String id) {
-		super(id);
+	public EAdMoveActiveElement() {
+		super();
 		targetX = MOUSE_COORDINATE;
 		targetY = MOUSE_COORDINATE;
 	}

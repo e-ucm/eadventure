@@ -99,7 +99,9 @@ public class ActionImporter implements EAdElementImporter<Action, EAdAction> {
 
 	@Override
 	public EAdAction init(Action oldObject) {
-		return new EAdBasicAction(oldObject.getTargetId() + "_action");
+		EAdAction basicAction = new EAdBasicAction();
+		basicAction.setId(oldObject.getTargetId() + "_action");
+		return basicAction;
 	}
 
 	@Override
@@ -119,13 +121,15 @@ public class ActionImporter implements EAdElementImporter<Action, EAdAction> {
 		else
 			action.setCondition(EmptyCondition.TRUE_EMPTY_CONDITION);
 
-		EAdMacro effects = new EAdMacroImpl("actionEffects");
-		EAdTriggerMacro triggerEffects = new EAdTriggerMacro(
-				"actionEffectTrigger", effects);
+		EAdMacro effects = new EAdMacroImpl();
+		effects.setId("actionEffects");
+		EAdTriggerMacro triggerEffects = new EAdTriggerMacro( effects);
+		triggerEffects.setId("actionEffectTrigger");
 		triggerEffects.setCondition(action.getCondition());
 		
 		if (oldObject.isNeedsGoTo()) {
-			EAdMoveActiveElement moveActiveElement = new EAdMoveActiveElement("moveToActionTarget");
+			EAdMoveActiveElement moveActiveElement = new EAdMoveActiveElement();
+			moveActiveElement.setId("moveToActionTarget");
 			//TODO Target must use variables! Has to change depending on actors position on screen
 			//moveActiveElement.setTargetX();
 			
@@ -153,9 +157,10 @@ public class ActionImporter implements EAdElementImporter<Action, EAdAction> {
 
 		if (oldObject.getNotEffects() != null
 				&& !oldObject.getNotEffects().isEmpty()) {
-			EAdMacro notEffects = new EAdMacroImpl("actionNotEffects");
-			EAdTriggerMacro triggerNotEffects = new EAdTriggerMacro(
-					"actionNotEffectTrigger", notEffects);
+			EAdMacro notEffects = new EAdMacroImpl();
+			notEffects.setId("actionNotEffects");
+			EAdTriggerMacro triggerNotEffects = new EAdTriggerMacro(notEffects);
+			triggerNotEffects.setId("actionNotEffectTrigger");
 			triggerNotEffects.setCondition(new NOTCondition(action
 					.getCondition()));
 			action.getEffects().add(triggerNotEffects);
@@ -257,8 +262,8 @@ public class ActionImporter implements EAdElementImporter<Action, EAdAction> {
 				return list;
 		switch (actionType) {
 		case Action.GRAB:
-			EAdModifyActorState modifyState = new EAdModifyActorState(
-					"grabEffect", actor, Modification.PLACE_IN_INVENTORY);
+			EAdModifyActorState modifyState = new EAdModifyActorState( actor, Modification.PLACE_IN_INVENTORY);
+			modifyState.setId("grabEffect");
 			list.add(modifyState);
 			break;
 		// TODO Effects for the rest of actions

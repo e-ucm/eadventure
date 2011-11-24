@@ -37,11 +37,14 @@
 
 package es.eucm.eadventure.common.interfaces;
 
+import com.gwtent.reflection.client.Reflectable;
+
 /**
  * Interface for copyable objects.
  *
  */
-public interface Copyable<E> extends Cloneable {
+@Reflectable
+public interface Copyable<E> extends Cloneable{
 
 	/**
 	 * Creates a shallow copy of this object.

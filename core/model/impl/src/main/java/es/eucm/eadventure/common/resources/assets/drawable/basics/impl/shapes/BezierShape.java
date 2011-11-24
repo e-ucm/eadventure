@@ -48,7 +48,7 @@ import es.eucm.eadventure.common.resources.assets.drawable.basics.Shape;
 
 public class BezierShape implements Shape, Cloneable {
 
-	@Param("fill")
+	@Param("paint")
 	private EAdPaint paint;
 
 	@Param("closed")
@@ -130,8 +130,8 @@ public class BezierShape implements Shape, Cloneable {
 		segmentsLength.add(3);
 	}
 
-	public void close() {
-		closed = true;
+	public void setClosed(boolean closed) {
+		this.closed = closed;
 	}
 
 	public boolean isClosed() {

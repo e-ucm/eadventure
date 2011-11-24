@@ -6,7 +6,7 @@ import es.eucm.eadventure.common.model.effects.impl.text.EAdSpeakEffect;
 import es.eucm.eadventure.common.model.elements.EAdSceneElement;
 import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
 import es.eucm.eadventure.common.model.elements.impl.EAdComplexElementImpl;
-import es.eucm.eadventure.common.model.guievents.EAdMouseEvent.MouseActionType;
+import es.eucm.eadventure.common.model.guievents.enums.MouseActionType;
 import es.eucm.eadventure.common.model.variables.impl.SystemFields;
 import es.eucm.eadventure.common.params.geom.impl.EAdPositionImpl;
 import es.eucm.eadventure.common.resources.StringHandler;
@@ -134,12 +134,14 @@ public class SpeakEffectGO extends AbstractEffectGO<EAdSpeakEffect> implements
 		text.setPreferredHeight(bottom - top);
 		text.setFont(element.getFont());
 
-		textSE = new EAdBasicSceneElement("text");
+		textSE = new EAdBasicSceneElement();
+		textSE.setId("text");
 		textSE.getResources().addAsset(textSE.getInitialBundle(),
 				EAdBasicSceneElement.appearance, text);
 		textSE.setPosition(new EAdPositionImpl(left, top));
 
-		EAdComplexElementImpl complex = new EAdComplexElementImpl("complex");
+		EAdComplexElementImpl complex = new EAdComplexElementImpl();
+		complex.setId("complex");
 		complex.getResources().addAsset(complex.getInitialBundle(),
 				EAdBasicSceneElement.appearance, rectangle);
 		complex.getElements().add(textSE);

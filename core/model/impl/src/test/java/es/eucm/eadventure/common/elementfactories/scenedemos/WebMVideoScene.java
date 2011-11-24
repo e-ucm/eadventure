@@ -49,12 +49,14 @@ import es.eucm.eadventure.common.resources.assets.multimedia.impl.VideoImpl;
 public class WebMVideoScene extends EmptyScene {
 
 	public WebMVideoScene() {
-		EAdVideoScene videoScene = new EAdVideoScene("videoScene");
+		EAdVideoScene videoScene = new EAdVideoScene();
+		videoScene.setId("videoScene");
 		Video video = new VideoImpl("@binary/bbb_trailer_400p.ogv");
 		videoScene.getResources().addAsset(EAdVideoScene.video, video);
 		videoScene.setUpForEngine();
 		
-		EAdChangeScene changeScene = new EAdChangeScene("changeScene");
+		EAdChangeScene changeScene = new EAdChangeScene();
+		changeScene.setId("changeScene");
 		changeScene.setNextScene(videoScene);
 
 		EAdBasicSceneElement goRightArrow = EAdElementsFactory

@@ -76,26 +76,23 @@ public abstract class ListedCondition extends ResourcedElementImpl implements
 	@Param("operator")
 	private Operator operator;
 
-	public ListedCondition(String id) {
-		this(id, null);
+	public ListedCondition() {
+		this(null);
 	}
 
-	public ListedCondition(String id, Operator operator) {
-		this(id, operator, (EAdCondition) null);
+	public ListedCondition(Operator operator) {
+		this(operator, (EAdCondition) null);
 	}
 
-	public ListedCondition(String id, Operator operator,
+	public ListedCondition(Operator operator,
 			EAdCondition... condition) {
-		super(id);
+		super();
+		setId("listedCondition");
 		conditions = new EAdListImpl<EAdCondition>(EAdCondition.class);
 		for (int i = 0; i < condition.length; i++)
 			if (condition[i] != null)
 				conditions.add(condition[i]);
 		this.operator = operator;
-	}
-
-	public ListedCondition(Operator operator, EAdCondition... condition) {
-		this("conditionId", operator, condition);
 	}
 
 	public Operator getOperator() {

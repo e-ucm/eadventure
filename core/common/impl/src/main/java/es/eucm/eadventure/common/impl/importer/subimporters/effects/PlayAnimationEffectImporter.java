@@ -29,15 +29,17 @@ public class PlayAnimationEffectImporter extends
 
 	@Override
 	public EAdShowSceneElement init(PlayAnimationEffect oldObject) {
-		return new EAdShowSceneElement("playAnimationEffect" + ID_GENERATOR++);
+		EAdShowSceneElement showScene = new EAdShowSceneElement();
+		showScene.setId("playAnimationEffect" + ID_GENERATOR++);
+		return showScene;
 	}
 
 	@Override
 	public EAdShowSceneElement convert(PlayAnimationEffect oldObject,
 			Object newElement) {
 		EAdShowSceneElement effect = super.convert(oldObject, newElement);
-		EAdBasicSceneElement element = new EAdBasicSceneElement("animation"
-				+ ID_GENERATOR++);
+		EAdBasicSceneElement element = new EAdBasicSceneElement();
+		element.setId("animation" + ID_GENERATOR++);
 		element.setPosition(new EAdPositionImpl(oldObject.getX(), oldObject
 				.getY()));
 

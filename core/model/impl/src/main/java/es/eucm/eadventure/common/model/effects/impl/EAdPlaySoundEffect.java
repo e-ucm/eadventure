@@ -23,13 +23,13 @@ public class EAdPlaySoundEffect extends AbstractEAdEffect {
 	 * @param sound
 	 *            the sound to be played
 	 */
-	public EAdPlaySoundEffect(String id, Sound sound) {
-		super(id);
+	public EAdPlaySoundEffect( Sound sound) {
+		super();
 		this.sound = sound;
 	}
 	
-	public EAdPlaySoundEffect(String id){
-		this( id, null );
+	public EAdPlaySoundEffect(){
+		this( null );
 	}
 	
 	public void setSound( Sound sound ){

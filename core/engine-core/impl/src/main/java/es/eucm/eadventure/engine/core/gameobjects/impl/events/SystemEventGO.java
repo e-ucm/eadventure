@@ -41,6 +41,7 @@ import com.google.inject.Inject;
 
 import es.eucm.eadventure.common.model.events.EAdSystemEvent;
 import es.eucm.eadventure.common.model.events.EAdSystemEvent.Event;
+import es.eucm.eadventure.engine.core.Game;
 import es.eucm.eadventure.engine.core.GameState;
 import es.eucm.eadventure.engine.core.platform.AssetHandler;
 
@@ -50,17 +51,20 @@ public class SystemEventGO extends AbstractEventGO<EAdSystemEvent> {
 
 	private AssetHandler assetHandler;
 
+	private Game game;
+	
 	@Inject
-	public SystemEventGO(AssetHandler assetHandler, GameState gameState) {
+	public SystemEventGO(AssetHandler assetHandler, GameState gameState, Game game) {
 		super(gameState);
 		this.assetHandler = assetHandler;
+		this.game = game;
 	}
 
 	@Override
 	public void update() {
 		// TODO probably not enough to just check for assets loaded
-		if (assetHandler.isLoaded() && !triggered) {
-			runEffects(element.getEffects(Event.GAME_LOADED));
+		if (assetHandler.isLoaded() && game.getAdventureModel() != null && !triggered) {
+			runEffects(element.getEffectsForEvent(Event.GAME_LOADED));
 			triggered = true;
 		}
 	}

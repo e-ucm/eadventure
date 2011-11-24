@@ -41,12 +41,12 @@ import com.google.inject.Inject;
 
 import es.eucm.eadventure.common.model.conditions.impl.EmptyCondition;
 import es.eucm.eadventure.common.model.conditions.impl.OperationCondition;
-import es.eucm.eadventure.common.model.conditions.impl.OperationCondition.Comparator;
+import es.eucm.eadventure.common.model.conditions.impl.enums.Comparator;
 import es.eucm.eadventure.common.model.effects.EAdMacro;
 import es.eucm.eadventure.common.model.effects.impl.EAdMacroImpl;
 import es.eucm.eadventure.common.model.effects.impl.EAdTriggerMacro;
 import es.eucm.eadventure.common.model.effects.impl.sceneelements.EAdMoveSceneElement;
-import es.eucm.eadventure.common.model.effects.impl.sceneelements.EAdMoveSceneElement.MovementSpeed;
+import es.eucm.eadventure.common.model.effects.impl.sceneelements.MovementSpeed;
 import es.eucm.eadventure.common.model.effects.impl.variables.EAdChangeFieldValueEffect;
 import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
 import es.eucm.eadventure.common.model.elements.impl.EAdComplexElementImpl;
@@ -171,8 +171,9 @@ public class DesktopBasicInventoryGO {
 	 */
 	private EAdBasicSceneElement createArrow(String dirname, String sign,
 			int pos, Corner corner) {
-		EAdBasicSceneElement arrow = new EAdBasicSceneElement("arrow" + dirname);
-		arrow.setDraggable(EmptyCondition.FALSE_EMPTY_CONDITION);
+		EAdBasicSceneElement arrow = new EAdBasicSceneElement();
+		arrow.setId("arrow" + dirname);
+		arrow.setDraggableCondition(EmptyCondition.FALSE_EMPTY_CONDITION);
 		arrow.setPosition(new EAdPositionImpl(corner, pos, 0));
 		ImageImpl image = new ImageImpl("@drawable/arrow" + dirname + ".png");
 		arrow.getResources().addAsset(arrow.getInitialBundle(),
@@ -185,9 +186,9 @@ public class DesktopBasicInventoryGO {
 				EAdBasicSceneElement.appearance, image2);
 
 		arrow.addBehavior(EAdMouseEventImpl.MOUSE_ENTERED,
-				new EAdChangeAppearance("id", arrow, highlightBundle));
+				new EAdChangeAppearance( arrow, highlightBundle));
 		arrow.addBehavior(EAdMouseEventImpl.MOUSE_EXITED,
-				new EAdChangeAppearance("id", arrow, arrow.getInitialBundle()));
+				new EAdChangeAppearance( arrow, arrow.getInitialBundle()));
 
 		inventory.getElements().add(arrow);
 
@@ -204,8 +205,9 @@ public class DesktopBasicInventoryGO {
 	 * Create the center sensor part
 	 */
 	private void createCenterPart() {
-		centerSensor = new EAdBasicSceneElement("centerPart");
-		centerSensor.setDraggable(EmptyCondition.FALSE_EMPTY_CONDITION);
+		centerSensor = new EAdBasicSceneElement();
+		centerSensor.setId("centerPart");
+		centerSensor.setDraggableCondition(EmptyCondition.FALSE_EMPTY_CONDITION);
 		centerSensor.getResources().addAsset(centerSensor.getInitialBundle(),
 				EAdBasicSceneElement.appearance,
 				new RectangleShape(800, 600, EAdPaintImpl.TRANSPARENT));
@@ -221,14 +223,15 @@ public class DesktopBasicInventoryGO {
 				Boolean.FALSE);
 
 		// Hide inventory bottom
-		EAdMacro macro = new EAdMacroImpl("hideInventory");
+		EAdMacro macro = new EAdMacroImpl();
+		macro.setId("hideInventory");
 
 		macro.getEffects().add(
-				new EAdMoveSceneElement("hideInventoryBottom", inventory, 0,
+				new EAdMoveSceneElement( inventory, 0,
 						700, MovementSpeed.NORMAL));
 
 		macro.getEffects().add(
-				new EAdChangeFieldValueEffect("id", visibleField,
+				new EAdChangeFieldValueEffect( visibleField,
 						BooleanOperation.FALSE_OP));
 
 		EAdTriggerMacro triggerMacro = new EAdTriggerMacro(macro);
@@ -237,14 +240,15 @@ public class DesktopBasicInventoryGO {
 		centerSensor.addBehavior(EAdMouseEventImpl.MOUSE_MOVED, triggerMacro);
 
 		// Hide inventory top
-		macro = new EAdMacroImpl("hideInventory");
+		macro = new EAdMacroImpl();
+		macro.setId("hideInventory");
 
 		macro.getEffects().add(
-				new EAdMoveSceneElement("hideInventoryTop", inventory, 0, 0,
+				new EAdMoveSceneElement( inventory, 0, 0,
 						MovementSpeed.NORMAL));
 
 		macro.getEffects().add(
-				new EAdChangeFieldValueEffect("id", visibleField,
+				new EAdChangeFieldValueEffect(visibleField,
 						BooleanOperation.FALSE_OP));
 
 		triggerMacro = new EAdTriggerMacro(macro);
@@ -268,29 +272,31 @@ public class DesktopBasicInventoryGO {
 	 */
 	private EAdBasicSceneElement createSensorPart(RectangleShape rect,
 			int sensorPos, int inventoryPos, int hidePos) {
-		EAdBasicSceneElement part = new EAdBasicSceneElement("inventorySensor");
-		part.setDraggable(EmptyCondition.FALSE_EMPTY_CONDITION);
+		EAdBasicSceneElement part = new EAdBasicSceneElement();
+		part.setId("inventorySensor");
+		part.setDraggableCondition(EmptyCondition.FALSE_EMPTY_CONDITION);
 		part.getResources().addAsset(part.getInitialBundle(),
 				EAdBasicSceneElement.appearance, rect);
 		part.setPosition(new EAdPositionImpl(Corner.BOTTOM_LEFT, 0, sensorPos));
 
-		EAdMacroImpl macro = new EAdMacroImpl("showInventoryMacro");
+		EAdMacroImpl macro = new EAdMacroImpl();
+		macro.setId("showInventoryMacro");
 		macro.getEffects().add(
-				new EAdMoveSceneElement("moveInventory", inventory, 0, hidePos,
+				new EAdMoveSceneElement( inventory, 0, hidePos,
 						MovementSpeed.INSTANT));
 
 		macro.getEffects().add(
-				new EAdMoveSceneElement("showInventory", inventory, 0,
+				new EAdMoveSceneElement( inventory, 0,
 						inventoryPos, MovementSpeed.FAST));
 
 		macro.getEffects().add(
-				new EAdChangeFieldValueEffect("showCentralSensor",
+				new EAdChangeFieldValueEffect(
 						new EAdFieldImpl<Boolean>(centerSensor,
 								EAdBasicSceneElement.VAR_VISIBLE),
 						BooleanOperation.TRUE_OP));
 
 		part.addBehavior(EAdMouseEventImpl.MOUSE_ENTERED, new EAdTriggerMacro(
-				"showInventoryMacro", macro));
+				 macro));
 		return part;
 	}
 

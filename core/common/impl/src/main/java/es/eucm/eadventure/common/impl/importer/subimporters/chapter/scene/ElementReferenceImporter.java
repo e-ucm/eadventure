@@ -52,6 +52,7 @@ import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
 import es.eucm.eadventure.common.model.elements.impl.EAdSceneElementDefImpl;
 import es.eucm.eadventure.common.model.events.EAdConditionEvent;
 import es.eucm.eadventure.common.model.events.EAdSystemEvent;
+import es.eucm.eadventure.common.model.events.enums.ConditionedEventType;
 import es.eucm.eadventure.common.model.events.impl.EAdConditionEventImpl;
 import es.eucm.eadventure.common.model.events.impl.EAdSystemEventImpl;
 import es.eucm.eadventure.common.model.guievents.impl.EAdMouseEventImpl;
@@ -85,8 +86,8 @@ public class ElementReferenceImporter implements
 	private static int ID_GENERATOR = 0;
 
 	public EAdSceneElement init(ElementReference oldObject) {
-		EAdBasicSceneElement newRef = new EAdBasicSceneElement(
-				oldObject.getTargetId() + "_reference_" + ID_GENERATOR++);
+		EAdBasicSceneElement newRef = new EAdBasicSceneElement();
+		newRef.setId(oldObject.getTargetId() + "_reference_" + ID_GENERATOR++);
 		return newRef;
 	}
 
@@ -118,30 +119,31 @@ public class ElementReferenceImporter implements
 		condition = conditionsImporter.convert(oldObject.getConditions(),
 				condition);
 
-		EAdConditionEventImpl visibilityEvent = new EAdConditionEventImpl(
-				"visibilityCondition", condition);
+		EAdConditionEventImpl visibilityEvent = new EAdConditionEventImpl(condition);
+		visibilityEvent.setId("visibilityCondition");
 		EAdChangeFieldValueEffect visibilityEffect = new EAdChangeFieldValueEffect(
-				"visibilityConditionEffect", new EAdFieldImpl<Boolean>(newRef,
+				 new EAdFieldImpl<Boolean>(newRef,
 						EAdBasicSceneElement.VAR_VISIBLE),
-				new BooleanOperation("", condition));
+				new BooleanOperation(condition));
+		visibilityEffect.setId("visibilityConditionEffect");
 		visibilityEvent.addEffect(
-				EAdConditionEvent.ConditionedEvent.CONDITIONS_MET,
+				ConditionedEventType.CONDITIONS_MET,
 				visibilityEffect);
 		visibilityEvent.addEffect(
-				EAdConditionEvent.ConditionedEvent.CONDITIONS_UNMET,
+				ConditionedEventType.CONDITIONS_UNMET,
 				visibilityEffect);
 		newRef.getEvents().add(visibilityEvent);
 
-		EAdSystemEventImpl startVisibilityEvent = new EAdSystemEventImpl(
-				"startVisibilityEvent");
+		EAdSystemEventImpl startVisibilityEvent = new EAdSystemEventImpl();
+		startVisibilityEvent.setId("startVisibilityEvent");
 		startVisibilityEvent.addEffect(EAdSystemEvent.Event.GAME_LOADED,
 				visibilityEffect);
 		// TODO what is this for?
 		// elementFactory.getCurrentChapterModel().getEvents()
 		// .add(startVisibilityEvent);
 
-		EAdActorActionsEffect showActions = new EAdActorActionsEffect(
-				actor.getId() + "_showActions", newRef);
+		EAdActorActionsEffect showActions = new EAdActorActionsEffect(newRef);
+		showActions.setId(actor.getId() + "_showActions");
 		newRef.addBehavior(EAdMouseEventImpl.MOUSE_RIGHT_CLICK, showActions);
 
 		if (oldObject.getInfluenceArea() != null) {

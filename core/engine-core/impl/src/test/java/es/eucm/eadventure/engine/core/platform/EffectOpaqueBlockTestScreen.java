@@ -60,7 +60,8 @@ public class EffectOpaqueBlockTestScreen extends EAdSceneImpl implements EAdScen
 
 	@Inject
 	public EffectOpaqueBlockTestScreen(StringHandler stringHandler) {
-			super("LoadingScreen");
+			super();
+			this.setId("LoadingScreen");
 			
 			this.stringHandler = stringHandler;
 			
@@ -72,7 +73,8 @@ public class EffectOpaqueBlockTestScreen extends EAdSceneImpl implements EAdScen
 	}
 	
 	private void initButtonActor() {
-		buttonActor = new EAdSceneElementDefImpl("StartGame");
+		buttonActor = new EAdSceneElementDefImpl();
+		buttonActor.setId("StartGame");
 		buttonActor.getResources().addAsset(buttonActor.getInitialBundle(),
 				EAdSceneElementDefImpl.appearance, new ImageImpl("@drawable/start.png"));
 		stringHandler.setString(buttonActor.getName(), "Start game");
@@ -87,18 +89,19 @@ public class EffectOpaqueBlockTestScreen extends EAdSceneImpl implements EAdScen
 	}
 	
 	private void initButtonActor2() {
-		buttonActor2 = new EAdBasicSceneElement("StartGame");
+		buttonActor2 = new EAdBasicSceneElement();
+		buttonActor2.setId("StartGame");
 		buttonActor2.getResources().addAsset(buttonActor2.getInitialBundle(),
 				EAdSceneElementDefImpl.appearance, new ImageImpl("@drawable/start.png"));
 		
-		EAdWaitEffect waitEffect = new EAdWaitEffect( "wait", GameLoop.SKIP_MILLIS_TICK + 1);
+		EAdWaitEffect waitEffect = new EAdWaitEffect( GameLoop.SKIP_MILLIS_TICK + 1);
 		buttonActor2.addBehavior(EAdMouseEventImpl.MOUSE_LEFT_CLICK, waitEffect );
 		
-		EAdWaitEffect waitEffect2 = new EAdWaitEffect( "wait", GameLoop.SKIP_MILLIS_TICK  + 1);
+		EAdWaitEffect waitEffect2 = new EAdWaitEffect(  GameLoop.SKIP_MILLIS_TICK  + 1);
 		waitEffect2.setOpaque( false );
 		buttonActor2.addBehavior(EAdMouseEventImpl.MOUSE_LEFT_CLICK, waitEffect2 );
 		
-		EAdWaitEffect waitEffect3 = new EAdWaitEffect(  "wait", GameLoop.SKIP_MILLIS_TICK + 1 );
+		EAdWaitEffect waitEffect3 = new EAdWaitEffect( GameLoop.SKIP_MILLIS_TICK + 1 );
 		waitEffect3.setOpaque( false );
 		waitEffect3.setBlocking( false );
 		buttonActor2.addBehavior(EAdMouseEventImpl.MOUSE_LEFT_CLICK, waitEffect3 );

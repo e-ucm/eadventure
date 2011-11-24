@@ -40,6 +40,7 @@ package es.eucm.eadventure.engine.core.gameobjects.impl.events;
 import com.google.inject.Inject;
 
 import es.eucm.eadventure.common.model.events.EAdConditionEvent;
+import es.eucm.eadventure.common.model.events.enums.ConditionedEventType;
 import es.eucm.eadventure.common.model.events.impl.EAdConditionEventImpl;
 import es.eucm.eadventure.engine.core.GameState;
 import es.eucm.eadventure.engine.core.evaluators.EvaluatorFactory;
@@ -63,13 +64,13 @@ public class ConditionEventGO extends AbstractEventGO<EAdConditionEventImpl> {
 		if (evaluator.evaluate(element.getCondition())) {
 			if (!triggered) {
 				runEffects(element
-						.getEffects(EAdConditionEvent.ConditionedEvent.CONDITIONS_MET));
+						.getEffectsForEvent(ConditionedEventType.CONDITIONS_MET));
 			}
 			triggered = true;
 		} else if (triggered || firstCheck) {
 			triggered = false;
 			runEffects(element
-					.getEffects(EAdConditionEvent.ConditionedEvent.CONDITIONS_UNMET));
+					.getEffectsForEvent(ConditionedEventType.CONDITIONS_UNMET));
 		}
 		firstCheck = false;
 	}

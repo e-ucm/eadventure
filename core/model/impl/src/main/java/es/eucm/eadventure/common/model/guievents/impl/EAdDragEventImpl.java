@@ -57,7 +57,8 @@ public class EAdDragEventImpl extends EAdElementImpl implements EAdDragEvent {
 	}
 
 	public EAdDragEventImpl(EAdElement object, DragAction action) {
-		super("dropEvent_" + object + "_" + action);
+		super();
+		setId("dropEvent_" + object + "_" + action);
 		this.carryElement = object;
 		this.action = action;
 	}

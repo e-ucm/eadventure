@@ -56,8 +56,8 @@ public class EAdHighlightSceneElement extends AbstractEAdEffect {
 	@Param("time")
 	private int time;
 
-	public EAdHighlightSceneElement(String id) {
-		super(id);
+	public EAdHighlightSceneElement() {
+		super();
 	}
 
 	/**

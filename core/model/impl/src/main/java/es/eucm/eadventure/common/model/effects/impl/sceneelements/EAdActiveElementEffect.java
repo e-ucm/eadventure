@@ -53,8 +53,8 @@ public class EAdActiveElementEffect extends AbstractEAdEffect {
 	@Param("effect")
 	private EAdSceneElementEffect effect;
 
-	public EAdActiveElementEffect(String id) {
-		super(id);
+	public EAdActiveElementEffect() {
+		super();
 	}
 	
 	public void setSceneElementEffect( EAdSceneElementEffect effect ){

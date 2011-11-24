@@ -63,7 +63,7 @@ import es.eucm.eadventure.common.model.elements.EAdSceneElementDef;
 import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
 import es.eucm.eadventure.common.model.elements.impl.EAdSceneImpl;
 import es.eucm.eadventure.common.model.events.EAdSceneElementEvent;
-import es.eucm.eadventure.common.model.events.EAdSceneElementEvent.SceneElementEvent;
+import es.eucm.eadventure.common.model.events.enums.SceneElementEventType;
 import es.eucm.eadventure.common.model.events.impl.EAdSceneElementEventImpl;
 import es.eucm.eadventure.common.model.guievents.impl.EAdMouseEventImpl;
 import es.eucm.eadventure.common.model.trajectories.impl.NodeTrajectoryDefinition;
@@ -142,7 +142,8 @@ public class SceneImporter implements EAdElementImporter<Scene, EAdSceneImpl> {
 
 	@Override
 	public EAdSceneImpl init(Scene oldScene) {
-		EAdSceneImpl scene = new EAdSceneImpl(oldScene.getId());
+		EAdSceneImpl scene = new EAdSceneImpl();
+		scene.setId(oldScene.getId());
 		return scene;
 	}
 
@@ -193,16 +194,16 @@ public class SceneImporter implements EAdElementImporter<Scene, EAdSceneImpl> {
 			EAdMakeActiveElementEffect effect = new EAdMakeActiveElementEffect(
 					playerReference);
 
-			EAdSceneElementEvent event = new EAdSceneElementEventImpl(
-					"makeAcitveCharacter");
-			event.addEffect(SceneElementEvent.ADDED_TO_SCENE, effect);
+			EAdSceneElementEvent event = new EAdSceneElementEventImpl();
+			event.setId("makeAcitveCharacter");
+			event.addEffect(SceneElementEventType.ADDED_TO_SCENE, effect);
 			playerReference.getEvents().add(event);
 
 			scene.getElements().add(playerReference);
 
 			scene.getBackground().addBehavior(
 					EAdMouseEventImpl.MOUSE_LEFT_CLICK,
-					new EAdMoveActiveElement("moveCharacter"));
+					new EAdMoveActiveElement());
 
 			playerReference.setPosition(new EAdPositionImpl(
 					Corner.BOTTOM_CENTER, oldScene.getPositionX(), oldScene
@@ -287,7 +288,8 @@ public class SceneImporter implements EAdElementImporter<Scene, EAdSceneImpl> {
 			String foregroundPath = r.getAssetPath(Scene.RESOURCE_TYPE_FOREGROUND);
 			if ( foregroundPath != null ){
 				ImageImpl image = (ImageImpl) resourceImporter.getAssetDescritptor(foregroundPath, ImageImpl.class);
-				EAdBasicSceneElement foreground = new EAdBasicSceneElement( "foreground", image );
+				EAdBasicSceneElement foreground = new EAdBasicSceneElement( image );
+				foreground.setId("foreground");
 				foreground.setVarInitialValue(EAdBasicSceneElement.VAR_Z, -100);
 				scene.getElements().add(foreground);
 			}

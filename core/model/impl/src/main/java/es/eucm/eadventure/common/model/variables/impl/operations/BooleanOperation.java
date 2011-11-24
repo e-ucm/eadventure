@@ -55,13 +55,13 @@ public class BooleanOperation extends EAdOperationImpl {
 	 * Set to false boolean operation
 	 */
 	public static BooleanOperation FALSE_OP = new BooleanOperation(
-			"BooleanOperationFalse", EmptyCondition.FALSE_EMPTY_CONDITION);
+			EmptyCondition.FALSE_EMPTY_CONDITION);
 	
 	/**
 	 * Set to true boolean operation
 	 */
 	public static BooleanOperation TRUE_OP = new BooleanOperation(
-			"BooleanOperationTrue", EmptyCondition.TRUE_EMPTY_CONDITION);
+			 EmptyCondition.TRUE_EMPTY_CONDITION);
 
 	/**
 	 * Operation to be done
@@ -69,16 +69,13 @@ public class BooleanOperation extends EAdOperationImpl {
 	@Param("condition")
 	private EAdCondition condition;
 
-	public BooleanOperation(String id) {
-		this(id, EmptyCondition.TRUE_EMPTY_CONDITION);
+	public BooleanOperation() {
+		this( EmptyCondition.TRUE_EMPTY_CONDITION);
 	}
 	
-	public BooleanOperation( EAdCondition c ){
-		this("booleanOperation", c);
-	}
-
-	public BooleanOperation(String id, EAdCondition condition) {
-		super(id);
+	public BooleanOperation( EAdCondition condition) {
+		super();
+		setId("booleanOperation" + condition.toString());
 		this.condition = condition;
 	}
 

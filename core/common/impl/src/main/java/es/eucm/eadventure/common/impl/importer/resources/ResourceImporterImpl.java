@@ -67,6 +67,7 @@ import es.eucm.eadventure.common.model.conditions.impl.ANDCondition;
 import es.eucm.eadventure.common.model.conditions.impl.NOTCondition;
 import es.eucm.eadventure.common.model.elements.EAdCondition;
 import es.eucm.eadventure.common.model.events.EAdConditionEvent;
+import es.eucm.eadventure.common.model.events.enums.ConditionedEventType;
 import es.eucm.eadventure.common.model.events.impl.EAdConditionEventImpl;
 import es.eucm.eadventure.common.model.impl.ResourcedElementImpl;
 import es.eucm.eadventure.common.predef.model.effects.EAdChangeAppearance;
@@ -242,8 +243,8 @@ public class ResourceImporterImpl implements ResourceImporter {
 
 			if (element instanceof Evented) {
 
-				EAdConditionEvent conditionEvent = new EAdConditionEventImpl(
-						bundleId.getBundleId() + "_condition_" + i);
+				EAdConditionEvent conditionEvent = new EAdConditionEventImpl();
+				conditionEvent.setId(bundleId.getBundleId() + "_condition_" + i);
 
 				EAdCondition condition = conditionsImporter.init(r
 						.getConditions());
@@ -261,10 +262,11 @@ public class ResourceImporterImpl implements ResourceImporter {
 				conditionEvent.setCondition(condition);
 
 				EAdChangeAppearance changeAppereance = new EAdChangeAppearance(
-						conditionEvent.getId() + "change_appearence", null,
+						 null,
 						bundleId);
+				changeAppereance.setId(conditionEvent.getId() + "change_appearence");
 				conditionEvent.addEffect(
-						EAdConditionEvent.ConditionedEvent.CONDITIONS_MET,
+						ConditionedEventType.CONDITIONS_MET,
 						changeAppereance);
 
 				((Evented) element).getEvents().add(conditionEvent);

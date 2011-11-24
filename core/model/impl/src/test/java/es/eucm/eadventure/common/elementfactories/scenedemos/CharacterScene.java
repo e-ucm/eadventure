@@ -44,7 +44,7 @@ import es.eucm.eadventure.common.interfaces.features.Oriented.Orientation;
 import es.eucm.eadventure.common.model.effects.EAdEffect;
 import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
 import es.eucm.eadventure.common.model.events.EAdSceneElementEvent;
-import es.eucm.eadventure.common.model.events.EAdSceneElementEvent.SceneElementEvent;
+import es.eucm.eadventure.common.model.events.enums.SceneElementEventType;
 import es.eucm.eadventure.common.model.events.impl.EAdSceneElementEventImpl;
 import es.eucm.eadventure.common.model.guievents.impl.EAdKeyEventImpl;
 import es.eucm.eadventure.common.model.guievents.impl.EAdMouseEventImpl;
@@ -99,9 +99,10 @@ public class CharacterScene extends EmptyScene {
 		element.setPosition(Corner.CENTER, 400, 300);
 		
 
-		EAdSceneElementEvent event = new EAdSceneElementEventImpl("makeActive");
+		EAdSceneElementEvent event = new EAdSceneElementEventImpl();
+		event.setId("makeActive");
 
-		event.addEffect(SceneElementEvent.ADDED_TO_SCENE, EAdElementsFactory
+		event.addEffect(SceneElementEventType.ADDED_TO_SCENE, EAdElementsFactory
 				.getInstance().getEffectFactory().getMakeActiveElement(element));
 
 		element.getEvents().add(event);
@@ -114,7 +115,7 @@ public class CharacterScene extends EmptyScene {
 				.getChangeVarValueEffect(
 						new EAdFieldImpl<Orientation>(element,
 								EAdBasicSceneElement.VAR_ORIENTATION),
-						new ValueOperation("assign", Orientation.N));
+						new ValueOperation( Orientation.N));
 		EAdBasicSceneElement goUpArrow = EAdElementsFactory
 				.getInstance()
 				.getSceneElementFactory()
@@ -130,7 +131,7 @@ public class CharacterScene extends EmptyScene {
 				.getChangeVarValueEffect(
 						new EAdFieldImpl<Orientation>(element,
 								EAdBasicSceneElement.VAR_ORIENTATION),
-						new ValueOperation("assign", Orientation.S));
+						new ValueOperation(Orientation.S));
 		EAdBasicSceneElement goDownArrow = EAdElementsFactory
 				.getInstance()
 				.getSceneElementFactory()
@@ -146,7 +147,7 @@ public class CharacterScene extends EmptyScene {
 				.getChangeVarValueEffect(
 						new EAdFieldImpl<Orientation>(element,
 								EAdBasicSceneElement.VAR_ORIENTATION),
-						new ValueOperation("assign", Orientation.W));
+						new ValueOperation( Orientation.W));
 		EAdBasicSceneElement goLeftArrow = EAdElementsFactory
 				.getInstance()
 				.getSceneElementFactory()
@@ -162,7 +163,7 @@ public class CharacterScene extends EmptyScene {
 				.getChangeVarValueEffect(
 						new EAdFieldImpl<Orientation>(element,
 								EAdBasicSceneElement.VAR_ORIENTATION),
-						new ValueOperation("assign", Orientation.E));
+						new ValueOperation( Orientation.E));
 		EAdBasicSceneElement goRightArrow = EAdElementsFactory
 				.getInstance()
 				.getSceneElementFactory()
@@ -179,7 +180,7 @@ public class CharacterScene extends EmptyScene {
 				.getChangeVarValueEffect(
 						new EAdFieldImpl<String>(element,
 								EAdBasicSceneElement.VAR_STATE),
-						new ValueOperation("assignState",
+						new ValueOperation(
 								CommonStates.EAD_STATE_DEFAULT.toString()));
 //		EAdBasicSceneElement stand = EAdElementsFactory.getInstance()
 //				.getSceneElementFactory()
@@ -197,7 +198,7 @@ public class CharacterScene extends EmptyScene {
 				.getChangeVarValueEffect(
 						new EAdFieldImpl<String>(element,
 								EAdBasicSceneElement.VAR_STATE),
-						new ValueOperation("assignState",
+						new ValueOperation(
 								CommonStates.EAD_STATE_TALKING.toString()));
 		EAdButton talk = new EAdButton( );
 		sf.setString(talk.getLabel(), "Talk");
@@ -211,7 +212,7 @@ public class CharacterScene extends EmptyScene {
 				.getChangeVarValueEffect(
 						new EAdFieldImpl<String>(element,
 								EAdBasicSceneElement.VAR_STATE),
-						new ValueOperation("assignState",
+						new ValueOperation(
 								CommonStates.EAD_STATE_WALKING.toString()));
 		EAdButton walk = new EAdButton( );
 		sf.setString(walk.getLabel(), "Walk");
