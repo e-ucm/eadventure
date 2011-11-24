@@ -137,7 +137,7 @@ public class AndroidEngineImage extends RuntimeImage {
 				logger.info("Couldn't close file input stream");
 			}
 	    } catch (FileNotFoundException e) {
-	    	logger.info("File not found");
+	    	logger.info("File not found: " + f.getName());
 	    }
 	    return b;
 	}
