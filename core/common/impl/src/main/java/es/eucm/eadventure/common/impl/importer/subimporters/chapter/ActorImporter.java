@@ -51,13 +51,12 @@ import es.eucm.eadventure.common.model.actions.EAdAction;
 import es.eucm.eadventure.common.model.actions.impl.EAdBasicAction;
 import es.eucm.eadventure.common.model.conditions.impl.ANDCondition;
 import es.eucm.eadventure.common.model.conditions.impl.NOTCondition;
-import es.eucm.eadventure.common.model.effects.impl.timedevents.EAdShowSceneElement;
-import es.eucm.eadventure.common.model.elements.EAdSceneElementDef;
+import es.eucm.eadventure.common.model.effects.impl.text.EAdSpeakEffect;
 import es.eucm.eadventure.common.model.elements.EAdCondition;
+import es.eucm.eadventure.common.model.elements.EAdSceneElementDef;
 import es.eucm.eadventure.common.model.elements.impl.EAdSceneElementDefImpl;
 import es.eucm.eadventure.common.resources.StringHandler;
-import es.eucm.eadventure.common.resources.assets.drawable.basics.Caption;
-import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.CaptionImpl;
+import es.eucm.eadventure.common.resources.assets.drawable.basics.Caption.Alignment;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.ImageImpl;
 
 public abstract class ActorImporter<P extends Element> implements
@@ -148,32 +147,35 @@ public abstract class ActorImporter<P extends Element> implements
 		}
 
 		if (addExamine) {
-			EAdBasicAction examineAction = new EAdBasicAction(actor.getId()
-					+ "_action_examinate");
-
-			EAdShowSceneElement effect = new EAdShowSceneElement(
-					examineAction.getId() + "_showText");
-
-			Caption caption = new CaptionImpl(actor.getDescription());
-			effect.setCaption(caption, 300, 300);
-
-			examineAction.getEffects().add(effect);
-
-			examineAction.getResources().addAsset(
-					examineAction.getNormalBundle(),
-					EAdBasicAction.appearance,
-					new ImageImpl(ActionImporter
-							.getDrawablePath(Action.EXAMINE)));
-			examineAction.getResources().addAsset(
-					examineAction.getHighlightBundle(),
-					EAdBasicAction.appearance,
-					new ImageImpl(ActionImporter
-							.getHighlightDrawablePath(Action.EXAMINE)));
-
-			actor.getValidActions().add(examineAction);
-
+			addExamine( oldObject, actor, stringHandler );
 		}
 
+	}
+
+	private static <P extends Element> void addExamine(P oldObject, EAdSceneElementDefImpl actor, StringHandler stringHandler ) {
+		
+		EAdBasicAction examineAction = new EAdBasicAction(actor.getId()
+				+ "_action_examinate");
+
+		EAdSpeakEffect effect = new EAdSpeakEffect( "examinate" );
+		stringHandler.setString(effect.getString(), oldObject.getDetailedDescription());
+		effect.setAlignment(Alignment.CENTER);
+
+		examineAction.getEffects().add(effect);
+
+		examineAction.getResources().addAsset(
+				examineAction.getNormalBundle(),
+				EAdBasicAction.appearance,
+				new ImageImpl(ActionImporter
+						.getDrawablePath(Action.EXAMINE)));
+		examineAction.getResources().addAsset(
+				examineAction.getHighlightBundle(),
+				EAdBasicAction.appearance,
+				new ImageImpl(ActionImporter
+						.getHighlightDrawablePath(Action.EXAMINE)));
+
+		actor.getValidActions().add(examineAction);
+		
 	}
 
 	public abstract void initResourcesCorrespondencies();

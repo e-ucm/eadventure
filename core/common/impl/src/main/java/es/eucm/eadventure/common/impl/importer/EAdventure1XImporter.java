@@ -40,6 +40,7 @@ package es.eucm.eadventure.common.impl.importer;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.logging.Logger;
 
@@ -49,6 +50,7 @@ import es.eucm.eadventure.common.EAdElementImporter;
 import es.eucm.eadventure.common.StringFileHandler;
 import es.eucm.eadventure.common.data.adventure.AdventureData;
 import es.eucm.eadventure.common.impl.importer.interfaces.ResourceImporter;
+import es.eucm.eadventure.common.impl.writer.EAdAdventureModelWriter;
 import es.eucm.eadventure.common.loader.InputStreamCreator;
 import es.eucm.eadventure.common.loader.Loader;
 import es.eucm.eadventure.common.loader.incidences.Incidence;
@@ -95,8 +97,8 @@ public class EAdventure1XImporter {
 	 */
 	public EAdAdventureModel importGame(String destiny) {
 		AdventureData adventureData = loadGame();
-		
-		if ( adventureData == null ){
+
+		if (adventureData == null) {
 			return null;
 		}
 
@@ -105,16 +107,15 @@ public class EAdventure1XImporter {
 		EAdAdventureModel model = adventureImporter.init(adventureData);
 		model = adventureImporter.convert(adventureData, model);
 
-		// TODO write to the new model xml
-		// EAdAdventureModelWriter writer = new EAdAdventureModelWriter();
-		//
-		// try {
-		// OutputStream os = new FileOutputStream(
-		// new File(destiny, "data.xml"));
-		// writer.write(model, os);
-		// } catch (FileNotFoundException e) {
-		// e.printStackTrace();
-		// }
+		EAdAdventureModelWriter writer = new EAdAdventureModelWriter();
+
+		try {
+			OutputStream os = new FileOutputStream(
+					new File(destiny, "data.xml"));
+			writer.write(model, os);
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
 
 		File f = new File(destiny, "strings.xml");
 
@@ -136,12 +137,12 @@ public class EAdventure1XImporter {
 		ArrayList<Incidence> incidences = new ArrayList<Incidence>();
 		AdventureData data = Loader.loadAdventureData(inputStreamCreator,
 				incidences, true);
-		if ( data == null ){
+		if (data == null) {
 			logger.info("Invalid <e-Adventure> game");
 		}
-		
+
 		logger.info("There was the following incidences during the file reading:");
-		for ( Incidence i: incidences ){
+		for (Incidence i : incidences) {
 			logger.info(i.getMessage());
 		}
 		return data;

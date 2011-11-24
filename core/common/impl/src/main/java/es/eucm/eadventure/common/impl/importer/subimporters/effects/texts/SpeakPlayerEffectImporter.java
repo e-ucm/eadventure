@@ -44,8 +44,8 @@ import es.eucm.eadventure.common.data.chapter.conditions.Conditions;
 import es.eucm.eadventure.common.data.chapter.effects.SpeakPlayerEffect;
 import es.eucm.eadventure.common.data.chapter.elements.NPC;
 import es.eucm.eadventure.common.impl.importer.interfaces.EAdElementFactory;
+import es.eucm.eadventure.common.model.effects.impl.text.EAdSpeakEffect;
 import es.eucm.eadventure.common.model.elements.EAdCondition;
-import es.eucm.eadventure.common.model.elements.EAdSceneElementDef;
 import es.eucm.eadventure.common.params.fills.impl.EAdColor;
 import es.eucm.eadventure.common.params.fills.impl.EAdPaintImpl;
 import es.eucm.eadventure.common.predef.model.effects.EAdSpeakSceneElement;
@@ -65,15 +65,22 @@ public class SpeakPlayerEffectImporter extends
 	}
 
 	@Override
-	public EAdSpeakSceneElement init(SpeakPlayerEffect oldObject) {
+	public EAdSpeakEffect init(SpeakPlayerEffect oldObject) {
 		npc = factory.getCurrentOldChapterModel().getPlayer();
-		return super.init(oldObject);
+		if ( factory.isFirstPerson() ){
+			return new EAdSpeakEffect("speakPlayer1st");
+		}
+		else{
+			EAdSpeakSceneElement effect = new EAdSpeakSceneElement("speakPlayer3rd" );
+			effect.setElement(factory.getElementById(npc.getId()));
+			return effect;
+		}
 	}
 
 	@Override
-	public EAdSpeakSceneElement convert(SpeakPlayerEffect oldObject,
+	public EAdSpeakEffect convert(SpeakPlayerEffect oldObject,
 			Object object) {
-		EAdSpeakSceneElement effect = super.convert(oldObject, object);
+		EAdSpeakEffect effect = super.convert(oldObject, object);
 
 		String line = oldObject.getLine();
 
@@ -105,10 +112,7 @@ public class SpeakPlayerEffectImporter extends
 
 		effect.setColor(new EAdPaintImpl(center, border), new EAdPaintImpl(
 				bubbleCenter, bubbleBorder));
-
-		EAdSceneElementDef element = (EAdSceneElementDef) factory
-				.getElementById(npc.getId());
-		effect.setElement(element);
+		
 		return effect;
 	}
 

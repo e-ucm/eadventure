@@ -35,7 +35,7 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package es.eucm.eadventure.common.impl.importer.subimporters.chapter.scene;
+package es.eucm.eadventure.common.impl.importer.subimporters.chapter.scene.elements;
 
 import com.google.inject.Inject;
 
@@ -45,38 +45,25 @@ import es.eucm.eadventure.common.data.chapter.conditions.Conditions;
 import es.eucm.eadventure.common.impl.importer.interfaces.EAdElementFactory;
 import es.eucm.eadventure.common.interfaces.features.Oriented.Orientation;
 import es.eucm.eadventure.common.model.effects.impl.EAdActorActionsEffect;
-import es.eucm.eadventure.common.model.effects.impl.variables.EAdChangeFieldValueEffect;
 import es.eucm.eadventure.common.model.elements.EAdCondition;
 import es.eucm.eadventure.common.model.elements.EAdSceneElement;
 import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
 import es.eucm.eadventure.common.model.elements.impl.EAdSceneElementDefImpl;
-import es.eucm.eadventure.common.model.events.EAdConditionEvent;
-import es.eucm.eadventure.common.model.events.EAdSystemEvent;
-import es.eucm.eadventure.common.model.events.impl.EAdConditionEventImpl;
-import es.eucm.eadventure.common.model.events.impl.EAdSystemEventImpl;
 import es.eucm.eadventure.common.model.guievents.impl.EAdMouseEventImpl;
-import es.eucm.eadventure.common.model.trajectories.impl.NodeTrajectoryDefinition;
-import es.eucm.eadventure.common.model.variables.impl.EAdFieldImpl;
-import es.eucm.eadventure.common.model.variables.impl.operations.BooleanOperation;
 import es.eucm.eadventure.common.params.geom.impl.EAdPositionImpl;
-import es.eucm.eadventure.common.params.geom.impl.EAdRectangleImpl;
+import es.eucm.eadventure.common.resources.StringHandler;
 
 /**
  * Elements reference importer
  * 
  */
-public class ElementReferenceImporter implements
-		EAdElementImporter<ElementReference, EAdSceneElement> {
-
-	private EAdElementFactory factory;
-
-	private EAdElementImporter<Conditions, EAdCondition> conditionsImporter;
+public class ElementReferenceImporter extends ElementImporter<ElementReference> {
 
 	@Inject
 	public ElementReferenceImporter(EAdElementFactory factory,
-			EAdElementImporter<Conditions, EAdCondition> conditionsImporter) {
-		this.factory = factory;
-		this.conditionsImporter = conditionsImporter;
+			EAdElementImporter<Conditions, EAdCondition> conditionsImporter,
+			StringHandler stringHandler) {
+		super(factory, conditionsImporter, stringHandler);
 	}
 
 	/**
@@ -102,57 +89,25 @@ public class ElementReferenceImporter implements
 				oldObject.getY()));
 		newRef.setScale(oldObject.getScale());
 		newRef.setInitialOrientation(Orientation.S);
-
 		newRef.setDefinition(actor);
-		if (oldObject.getInfluenceArea() != null) {
-			newRef.setVarInitialValue(
-					NodeTrajectoryDefinition.VAR_INFLUENCE_AREA,
-					new EAdRectangleImpl(oldObject.getInfluenceArea().getX() + oldObject.getX(),
-							oldObject.getInfluenceArea().getY() + oldObject.getY(), oldObject
-									.getInfluenceArea().getWidth(), oldObject
-									.getInfluenceArea().getHeight()));
-		}
 
-		EAdCondition condition = conditionsImporter.init(oldObject
-				.getConditions());
-		condition = conditionsImporter.convert(oldObject.getConditions(),
-				condition);
+		// add influence area
+		// FIXME oldObject.getInfluenceArea() works Ok for the second parameter?
+		super.addInfluenceArea(newRef, oldObject.getInfluenceArea(),
+				oldObject.getInfluenceArea());
 
-		EAdConditionEventImpl visibilityEvent = new EAdConditionEventImpl(
-				"visibilityCondition", condition);
-		EAdChangeFieldValueEffect visibilityEffect = new EAdChangeFieldValueEffect(
-				"visibilityConditionEffect", new EAdFieldImpl<Boolean>(newRef,
-						EAdBasicSceneElement.VAR_VISIBLE),
-				new BooleanOperation("", condition));
-		visibilityEvent.addEffect(
-				EAdConditionEvent.ConditionedEvent.CONDITIONS_MET,
-				visibilityEffect);
-		visibilityEvent.addEffect(
-				EAdConditionEvent.ConditionedEvent.CONDITIONS_UNMET,
-				visibilityEffect);
-		newRef.getEvents().add(visibilityEvent);
-
-		EAdSystemEventImpl startVisibilityEvent = new EAdSystemEventImpl(
-				"startVisibilityEvent");
-		startVisibilityEvent.addEffect(EAdSystemEvent.Event.GAME_LOADED,
-				visibilityEffect);
-		// TODO what is this for?
-		// elementFactory.getCurrentChapterModel().getEvents()
-		// .add(startVisibilityEvent);
-
+		// add actions
 		EAdActorActionsEffect showActions = new EAdActorActionsEffect(
 				actor.getId() + "_showActions", newRef);
 		newRef.addBehavior(EAdMouseEventImpl.MOUSE_RIGHT_CLICK, showActions);
 
-		if (oldObject.getInfluenceArea() != null) {
-			int x = oldObject.getInfluenceArea().getX();
-			int y = oldObject.getInfluenceArea().getY();
-			int width = oldObject.getInfluenceArea().getWidth();
-			int height = oldObject.getInfluenceArea().getHeight();
-			EAdRectangleImpl r = new EAdRectangleImpl(x, y, width, height);
-			newRef.setVarInitialValue(
-					NodeTrajectoryDefinition.VAR_INFLUENCE_AREA, r);
-		}
+		// add description
+		super.addDefaultBehavior(newRef, stringHandler.getString(newRef
+				.getDefinition().getDescription()));
+
+		// add enable
+		super.addEnableEvent(newRef,
+				super.getEnableCondition(oldObject.getConditions()));
 
 		return newRef;
 	}

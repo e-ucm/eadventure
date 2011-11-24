@@ -44,7 +44,6 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 import es.eucm.eadventure.common.model.EAdElement;
-import es.eucm.eadventure.common.model.elements.EAdSceneElement;
 import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
 import es.eucm.eadventure.common.model.guievents.EAdKeyEvent.KeyActionType;
 import es.eucm.eadventure.common.model.guievents.EAdKeyEvent.KeyCode;
@@ -53,7 +52,6 @@ import es.eucm.eadventure.common.params.EAdFontImpl;
 import es.eucm.eadventure.common.params.EAdString;
 import es.eucm.eadventure.common.params.fills.impl.EAdColor;
 import es.eucm.eadventure.common.params.geom.impl.EAdPositionImpl;
-import es.eucm.eadventure.common.params.geom.impl.EAdPositionImpl.Corner;
 import es.eucm.eadventure.common.predef.model.events.ChaseTheMouseEvent;
 import es.eucm.eadventure.common.predef.model.events.StayInBoundsEvent;
 import es.eucm.eadventure.common.resources.StringHandler;
@@ -132,7 +130,7 @@ public class BasicHUDImpl extends AbstractHUD implements BasicHUD {
 		this.stringHandler = stringHandler;
 		this.assetHandler = assetHandler;
 
-//		initContextual();
+		initContextual();
 		initMouse();
 	}
 
@@ -171,7 +169,7 @@ public class BasicHUDImpl extends AbstractHUD implements BasicHUD {
 
 	@Override
 	public void update() {
-//		updateContextual();
+		updateContextual();
 		updateMouse();
 		super.update();
 	}
@@ -201,7 +199,7 @@ public class BasicHUDImpl extends AbstractHUD implements BasicHUD {
 		c.setTextPaint(EAdColor.BLACK);
 		stringHandler.setString(c.getText(), "");
 		contextual = new EAdBasicSceneElement("contextual", c);
-		contextual.setPosition(new EAdPositionImpl(Corner.CENTER, 0, 0));
+		contextual.setPosition(new EAdPositionImpl(0, 0, 0.5f, 1.5f));
 		contextual.setVarInitialValue(EAdBasicSceneElement.VAR_VISIBLE,
 				Boolean.FALSE);
 		contextual.getEvents().add(new StayInBoundsEvent(contextual));
@@ -213,7 +211,7 @@ public class BasicHUDImpl extends AbstractHUD implements BasicHUD {
 		DrawableGO<?> go = mouseState.getGameObjectUnderMouse();
 
 		ValueMap valueMap = gameState.getValueMap();
-		if (go != null && go instanceof EAdSceneElement) {
+		if (go != null ) {
 			EAdString name = valueMap.getValue((EAdElement) go.getElement(),
 					EAdBasicSceneElement.VAR_NAME);
 			if (name != null && !name.equals("")) {
@@ -223,11 +221,6 @@ public class BasicHUDImpl extends AbstractHUD implements BasicHUD {
 				SceneElementGO<?> cgo = sceneElementFactory.get(contextual);
 
 				cgo.getRenderAsset().update();
-
-				valueMap.setValue(contextual, EAdBasicSceneElement.VAR_X,
-						mouseState.getMouseX());
-				valueMap.setValue(contextual, EAdBasicSceneElement.VAR_Y,
-						mouseState.getMouseY() - 40);
 				sceneElementFactory.get(contextual).update();
 
 				gameState.getValueMap().setValue(contextual,

@@ -92,12 +92,12 @@ import es.eucm.eadventure.common.impl.importer.subimporters.chapter.conversation
 import es.eucm.eadventure.common.impl.importer.subimporters.chapter.conversations.LineImporterToShowText;
 import es.eucm.eadventure.common.impl.importer.subimporters.chapter.cutscene.SlidesceneImporter;
 import es.eucm.eadventure.common.impl.importer.subimporters.chapter.cutscene.VideosceneImporter;
-import es.eucm.eadventure.common.impl.importer.subimporters.chapter.scene.ActiveAreaImporter;
 import es.eucm.eadventure.common.impl.importer.subimporters.chapter.scene.BarrierImporter;
-import es.eucm.eadventure.common.impl.importer.subimporters.chapter.scene.ElementReferenceImporter;
-import es.eucm.eadventure.common.impl.importer.subimporters.chapter.scene.ExitImporter;
 import es.eucm.eadventure.common.impl.importer.subimporters.chapter.scene.SceneImporter;
 import es.eucm.eadventure.common.impl.importer.subimporters.chapter.scene.TrajectoryImporter;
+import es.eucm.eadventure.common.impl.importer.subimporters.chapter.scene.elements.ActiveAreaImporter;
+import es.eucm.eadventure.common.impl.importer.subimporters.chapter.scene.elements.ElementReferenceImporter;
+import es.eucm.eadventure.common.impl.importer.subimporters.chapter.scene.elements.ExitImporter;
 import es.eucm.eadventure.common.impl.importer.subimporters.conditions.ConditionsImporter;
 import es.eucm.eadventure.common.impl.importer.subimporters.conditions.FlagConditionImporter;
 import es.eucm.eadventure.common.impl.importer.subimporters.conditions.VarConditionImporter;

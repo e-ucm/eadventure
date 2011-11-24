@@ -10,6 +10,7 @@ import es.eucm.eadventure.common.params.EAdString;
 import es.eucm.eadventure.common.params.fills.impl.EAdColor;
 import es.eucm.eadventure.common.params.fills.impl.EAdPaintImpl;
 import es.eucm.eadventure.common.params.paint.EAdPaint;
+import es.eucm.eadventure.common.resources.assets.drawable.basics.Caption.Alignment;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.shapes.BallonShape.BalloonType;
 
 /**
@@ -41,6 +42,9 @@ public class EAdSpeakEffect extends AbstractEAdEffect {
 
 	@Param("ballonType")
 	private BalloonType ballonType;
+	
+	@Param("alignment")
+	private Alignment alignment;
 
 	/**
 	 * Creates an speak effect, with no text and no position, with text color of
@@ -56,6 +60,7 @@ public class EAdSpeakEffect extends AbstractEAdEffect {
 		font = EAdFontImpl.REGULAR;
 		ballonType = BalloonType.ROUNDED_RECTANGLE;
 		string = EAdString.newEAdString("string");
+		alignment = Alignment.LEFT;
 		setQueueable(true);
 		setOpaque(true);
 	}
@@ -121,6 +126,14 @@ public class EAdSpeakEffect extends AbstractEAdEffect {
 	
 	public EAdOperation getY(){
 		return y;
+	}
+
+	public Alignment getAlignment() {
+		return alignment;
+	}
+
+	public void setAlignment(Alignment alignment) {
+		this.alignment = alignment;
 	}
 
 }

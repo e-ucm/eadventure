@@ -35,7 +35,7 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package es.eucm.eadventure.common.impl.importer.subimporters.chapter.scene;
+package es.eucm.eadventure.common.impl.importer.subimporters.chapter.scene.elements;
 
 import com.google.inject.Inject;
 
@@ -55,25 +55,17 @@ import es.eucm.eadventure.common.model.elements.EAdScene;
 import es.eucm.eadventure.common.model.elements.EAdSceneElement;
 import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
 import es.eucm.eadventure.common.model.guievents.impl.EAdMouseEventImpl;
-import es.eucm.eadventure.common.model.trajectories.impl.NodeTrajectoryDefinition;
 import es.eucm.eadventure.common.model.transitions.EAdTransition;
 import es.eucm.eadventure.common.params.EAdString;
-import es.eucm.eadventure.common.params.fills.impl.EAdColor;
-import es.eucm.eadventure.common.params.geom.impl.EAdRectangleImpl;
 import es.eucm.eadventure.common.predef.model.effects.EAdChangeCursorEffect;
-import es.eucm.eadventure.common.predef.model.effects.EAdMoveActiveElement;
 import es.eucm.eadventure.common.resources.StringHandler;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.Image;
-import es.eucm.eadventure.common.resources.assets.drawable.basics.Shape;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.ImageImpl;
 
-public class ExitImporter implements EAdElementImporter<Exit, EAdSceneElement> {
+public class ExitImporter extends ElementImporter<Exit> {
 
 	private static int ID_GENERATOR = 0;
-	private EAdElementImporter<Conditions, EAdCondition> conditionsImporter;
-	private EAdElementFactory factory;
 	private EffectsImporterFactory effectsImporterFactory;
-	private StringHandler stringHandler;
 	private ResourceImporter resourceImporter;
 
 	@Inject
@@ -82,10 +74,8 @@ public class ExitImporter implements EAdElementImporter<Exit, EAdSceneElement> {
 			EAdElementFactory factory,
 			EffectsImporterFactory effectsImporterFactory,
 			StringHandler stringHandler, ResourceImporter resourceImporter) {
-		this.conditionsImporter = conditionsImporter;
-		this.factory = factory;
+		super(factory, conditionsImporter, stringHandler);
 		this.effectsImporterFactory = effectsImporterFactory;
-		this.stringHandler = stringHandler;
 		this.resourceImporter = resourceImporter;
 	}
 
@@ -102,17 +92,24 @@ public class ExitImporter implements EAdElementImporter<Exit, EAdSceneElement> {
 		// Shape
 		setShape(newExit, oldObject);
 
-		// Event to show (or not) the exit
-		EAdCondition enableCondition = getEnableEvent(oldObject);
+		// Enable condition
+		EAdCondition enableCondition = getEnableCondition(oldObject
+				.getConditions());
+		
+		super.addEnableEvent(newExit, enableCondition);
 
 		// Effects
 		addEfects(newExit, oldObject, enableCondition);
+
+		// Add influence area
+		addInfluenceArea(newExit, oldObject, oldObject.getInfluenceArea());
 
 		// Add get to the exit
 		addGoToExit(newExit, oldObject, enableCondition);
 
 		// Add appearance (name and cursor)
 		addAppearance(newExit, oldObject);
+		
 
 		return newExit;
 	}
@@ -126,32 +123,14 @@ public class ExitImporter implements EAdElementImporter<Exit, EAdSceneElement> {
 		EAdChangeScene changeScene = new EAdChangeScene("change_screen_"
 				+ newExit.getId(), scene, EAdTransition.BASIC);
 		changeScene.setCondition(enableCondition);
-		
+
 		// Post effects
 		for (Effect e : oldObject.getPostEffects().getEffects()) {
 			EAdEffect eadEffect = effectsImporterFactory.getEffect(e);
 			changeScene.getFinalEffects().add(eadEffect);
 		}
 
-		if (factory.isFirstPerson()) {
-			newExit.addBehavior(EAdMouseEventImpl.MOUSE_LEFT_CLICK, changeScene);
-		} else {
-			if (oldObject.getInfluenceArea() != null) {
-				newExit.setVarInitialValue(
-						NodeTrajectoryDefinition.VAR_INFLUENCE_AREA,
-						new EAdRectangleImpl(oldObject.getInfluenceArea()
-								.getX() + oldObject.getX(), oldObject.getInfluenceArea().getY() + oldObject.getY(),
-								oldObject.getInfluenceArea().getWidth(),
-								oldObject.getInfluenceArea().getHeight()));
-			}
-
-			EAdMoveActiveElement move = new EAdMoveActiveElement(
-					"moveToExit");
-			move.setTarget(newExit);
-			move.getFinalEffects().add(changeScene);
-
-			newExit.addBehavior(EAdMouseEventImpl.MOUSE_LEFT_CLICK, move);
-		}
+		addGoToExit(newExit, oldObject, enableCondition, changeScene);
 
 	}
 
@@ -194,24 +173,6 @@ public class ExitImporter implements EAdElementImporter<Exit, EAdSceneElement> {
 			eadEffect.setCondition(new NOTCondition(enableCondition));
 			newExit.addBehavior(EAdMouseEventImpl.MOUSE_LEFT_CLICK, eadEffect);
 		}
-	}
-
-	private void setShape(EAdBasicSceneElement newExit, Exit exit) {
-		Shape shape = ShapedElementImporter.importShape(exit, newExit);
-		shape.setPaint(EAdColor.TRANSPARENT);
-
-		newExit.getResources().addAsset(newExit.getInitialBundle(),
-				EAdBasicSceneElement.appearance, shape);
-	}
-
-	private EAdCondition getEnableEvent(Exit oldObject) {
-		EAdCondition condition = conditionsImporter.init(oldObject
-				.getConditions());
-		condition = conditionsImporter.convert(oldObject.getConditions(),
-				condition);
-
-		return condition;
-
 	}
 
 }

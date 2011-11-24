@@ -51,6 +51,7 @@ import es.eucm.eadventure.common.data.chapter.conditions.Conditions;
 import es.eucm.eadventure.common.data.chapter.effects.AbstractEffect;
 import es.eucm.eadventure.common.data.chapter.effects.CancelActionEffect;
 import es.eucm.eadventure.common.data.chapter.effects.Effect;
+import es.eucm.eadventure.common.impl.importer.interfaces.EAdElementFactory;
 import es.eucm.eadventure.common.impl.importer.interfaces.EffectsImporterFactory;
 import es.eucm.eadventure.common.impl.importer.interfaces.ResourceImporter;
 import es.eucm.eadventure.common.model.actions.EAdAction;
@@ -83,17 +84,20 @@ public class ActionImporter implements EAdElementImporter<Action, EAdAction> {
 	 */
 	private ResourceImporter resourceImporter;
 
+	private EAdElementFactory factory;
+
 	public static final String DRAWABLE_PATH = "@" + ResourceImporter.DRAWABLE;
 
 	@Inject
 	public ActionImporter(StringHandler stringHandler,
 			EffectsImporterFactory effectsImporterFactory,
 			ResourceImporter resourceImporter,
-			EAdElementImporter<Conditions, EAdCondition> conditionsImporter) {
+			EAdElementImporter<Conditions, EAdCondition> conditionsImporter, EAdElementFactory factory) {
 		this.stringHandler = stringHandler;
 		this.effectsImporterFactory = effectsImporterFactory;
 		this.conditionsImporter = conditionsImporter;
 		this.resourceImporter = resourceImporter;
+		this.factory = factory;
 	}
 
 	@Override
@@ -123,7 +127,7 @@ public class ActionImporter implements EAdElementImporter<Action, EAdAction> {
 				"actionEffectTrigger", effects);
 		triggerEffects.setCondition(action.getCondition());
 		
-		if (oldObject.isNeedsGoTo()) {
+		if (!factory.isFirstPerson() && oldObject.isNeedsGoTo()) {
 			EAdMoveActiveElement moveActiveElement = new EAdMoveActiveElement("moveToActionTarget");
 			moveActiveElement.setTarget(actor);
 			moveActiveElement.getFinalEffects().add(triggerEffects);

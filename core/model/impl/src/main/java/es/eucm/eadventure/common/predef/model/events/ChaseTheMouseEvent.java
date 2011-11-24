@@ -15,7 +15,7 @@ public class ChaseTheMouseEvent extends EAdSceneElementEventImpl {
 		chaseX.setOperation(SystemFields.MOUSE_X);
 		EAdChangeFieldValueEffect chaseY = new EAdChangeFieldValueEffect(
 				"chaseX");
-		chaseY.setParentVar(EAdBasicSceneElement.VAR_X);
+		chaseY.setParentVar(EAdBasicSceneElement.VAR_Y);
 		chaseY.setOperation(SystemFields.MOUSE_Y);
 
 		addEffect(SceneElementEvent.ALWAYS, chaseX);

@@ -10,7 +10,6 @@ import es.eucm.eadventure.common.model.guievents.EAdMouseEvent.MouseActionType;
 import es.eucm.eadventure.common.model.variables.impl.SystemFields;
 import es.eucm.eadventure.common.params.geom.impl.EAdPositionImpl;
 import es.eucm.eadventure.common.resources.StringHandler;
-import es.eucm.eadventure.common.resources.assets.drawable.basics.Caption.Alignment;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.CaptionImpl;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.shapes.BallonShape;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.shapes.BezierShape;
@@ -128,7 +127,7 @@ public class SpeakEffectGO extends AbstractEffectGO<EAdSpeakEffect> implements
 		rectangle.setPaint(element.getBubbleColor());
 		CaptionImpl text = new CaptionImpl(element.getString());
 		text.setPadding(MARGIN);
-		text.setAlignment(Alignment.LEFT);
+		text.setAlignment(element.getAlignment());
 		text.setTextPaint(element.getTextColor());
 		text.setPreferredWidth(right - left);
 		text.setPreferredHeight(bottom - top);

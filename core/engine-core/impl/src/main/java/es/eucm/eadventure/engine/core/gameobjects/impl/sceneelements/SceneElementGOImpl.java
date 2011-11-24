@@ -158,6 +158,15 @@ public abstract class SceneElementGOImpl<T extends EAdSceneElement> extends
 				eventGO.initialize();
 				eventGOList.add(eventGO);
 			}
+			
+			if ( element.getDefinition() != element ){
+				for (EAdEvent event : element.getDefinition().getEvents()) {
+					EventGO<?> eventGO = eventFactory.get(event);
+					eventGO.setParent(element);
+					eventGO.initialize();
+					eventGOList.add(eventGO);
+				}
+			}
 		}
 
 		position = new EAdPositionImpl(0, 0);
@@ -249,6 +258,7 @@ public abstract class SceneElementGOImpl<T extends EAdSceneElement> extends
 	 */
 	@Override
 	public void update() {
+		
 		if (eventGOList != null)
 			for (EventGO<?> eventGO : eventGOList)
 				eventGO.update();

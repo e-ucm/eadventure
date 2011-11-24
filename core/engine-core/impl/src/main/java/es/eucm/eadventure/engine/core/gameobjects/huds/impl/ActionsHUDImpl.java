@@ -122,8 +122,6 @@ public class ActionsHUDImpl extends AbstractHUD implements ActionsHUD {
 
 	private float alpha;
 
-	private GameState gameState;
-
 	@Inject
 	public ActionsHUDImpl(GUI gui, GameObjectManager gameObjectManager,
 			GameState gameState, SceneElementGOFactory sceneElementFactory) {
@@ -134,7 +132,6 @@ public class ActionsHUDImpl extends AbstractHUD implements ActionsHUD {
 		width = gameState.getValueMap().getValue(SystemFields.GUI_WIDTH);
 		height = gameState.getValueMap().getValue(SystemFields.GUI_HEIGHT);
 		this.sceneElementFactory = sceneElementFactory;
-		this.gameState = gameState;
 	}
 
 	/*
@@ -182,8 +179,8 @@ public class ActionsHUDImpl extends AbstractHUD implements ActionsHUD {
 	public void setElement(SceneElementGO<?> ref, int x, int y) {
 		currentTime = 0;
 		sceneElement = ref;
-		radius = 2 * (int) ((ref.getWidth() > ref.getHeight() ? ref.getWidth()
-				: ref.getHeight()) * ref.getScale()) / 2;
+		radius = (int) ((ref.getWidth() > ref.getHeight() ? ref.getWidth()
+				: ref.getHeight()) * ref.getScale()) / 3;
 		int maxRadius = width - x < height - y ? width - x : height - y;
 		maxRadius = x < maxRadius ? x : maxRadius;
 		maxRadius = y < maxRadius ? y : maxRadius;
