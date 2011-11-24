@@ -91,7 +91,9 @@ public abstract class ActorImporter<P extends Element> implements
 	@Override
 	public EAdSceneElementDef init(P oldObject) {
 		this.element = oldObject;
-		return new EAdSceneElementDefImpl(oldObject.getId());
+		EAdSceneElementDefImpl sceneElementDef =  new EAdSceneElementDefImpl();
+		sceneElementDef.setId(oldObject.getId());
+		return sceneElementDef;
 	}
 
 	@Override
@@ -148,11 +150,11 @@ public abstract class ActorImporter<P extends Element> implements
 		}
 
 		if (addExamine) {
-			EAdBasicAction examineAction = new EAdBasicAction(actor.getId()
-					+ "_action_examinate");
+			EAdBasicAction examineAction = new EAdBasicAction();
+			examineAction.setId(actor.getId() + "_action_examinate");
 
-			EAdShowSceneElement effect = new EAdShowSceneElement(
-					examineAction.getId() + "_showText");
+			EAdShowSceneElement effect = new EAdShowSceneElement();
+			effect.setId(examineAction.getId() + "_showText");
 
 			Caption caption = new CaptionImpl(actor.getDescription());
 			effect.setCaption(caption, 300, 300);

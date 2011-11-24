@@ -71,8 +71,8 @@ public abstract class ResourcedElementImpl extends EAdElementImpl implements
 	 * @throws NullPointerException
 	 *             if {@code parent} is {@code null}.
 	 */
-	public ResourcedElementImpl(String id) {
-		super(id);
+	public ResourcedElementImpl() {
+		super();
 		resources = new EAdResourcesImpl(getClass());
 	}
 

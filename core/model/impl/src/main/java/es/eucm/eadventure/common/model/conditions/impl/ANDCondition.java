@@ -38,26 +38,24 @@
 package es.eucm.eadventure.common.model.conditions.impl;
 
 import es.eucm.eadventure.common.interfaces.Element;
+import es.eucm.eadventure.common.model.conditions.impl.enums.EmptyConditionValue;
 import es.eucm.eadventure.common.model.elements.EAdCondition;
 
 @Element(runtime = ANDCondition.class, detailed = ANDCondition.class)
 public class ANDCondition extends ListedCondition {
 
-	public ANDCondition( ){
-		super( "andCondition", Operator.AND );
-	}
-	
 	public ANDCondition(EAdCondition... condition) {
 		super(Operator.AND, condition);
 	}
 	
-	public ANDCondition(String id) {
-		super(id, Operator.AND, new EmptyCondition(EmptyCondition.Value.TRUE));
+	public ANDCondition() {
+		super(Operator.AND, new EmptyCondition(EmptyConditionValue.TRUE));
+		setId("andCondition");
 	}
 
 	@Override
 	public EmptyCondition getNullOperator() {
-		return new EmptyCondition(EmptyCondition.Value.TRUE);
+		return new EmptyCondition(EmptyConditionValue.TRUE);
 	}
 	
 	@Override

@@ -64,7 +64,9 @@ public class PlaySoundEffectImporter extends
 
 	@Override
 	public EAdPlaySoundEffect init(PlaySoundEffect oldObject) {
-		return new EAdPlaySoundEffect("playSoundEffect" + ID_GENERATOR++);
+		EAdPlaySoundEffect effect = new EAdPlaySoundEffect();
+		effect.setId("playSoundEffect" + ID_GENERATOR++);
+		return effect;
 	}
 
 	@Override

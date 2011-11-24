@@ -39,6 +39,7 @@ package es.eucm.eadventure.common.model.conditions.impl;
 
 import es.eucm.eadventure.common.interfaces.Element;
 import es.eucm.eadventure.common.interfaces.Param;
+import es.eucm.eadventure.common.model.conditions.impl.enums.Comparator;
 import es.eucm.eadventure.common.model.elements.EAdCondition;
 import es.eucm.eadventure.common.model.variables.EAdField;
 import es.eucm.eadventure.common.model.variables.EAdOperation;
@@ -55,10 +56,6 @@ public class OperationCondition extends AbstractEAdCondition implements
 	public static final ValueOperation TRUE = new ValueOperation(Boolean.TRUE);
 	public static final ValueOperation FALSE = new ValueOperation(Boolean.FALSE);
 
-	public enum Comparator {
-		GREATER, GREATER_EQUAL, EQUAL, LESS_EQUAL, LESS, DIFFERENT
-	}
-
 	@Param("op1")
 	private EAdOperation op1;
 
@@ -70,7 +67,8 @@ public class OperationCondition extends AbstractEAdCondition implements
 
 	public OperationCondition(EAdOperation op1, EAdOperation op2,
 			Comparator operator) {
-		super("operationCondition");
+		super();
+		setId("operationCondition");
 		this.op1 = op1;
 		this.op2 = op2;
 		this.operator = operator;
@@ -91,8 +89,8 @@ public class OperationCondition extends AbstractEAdCondition implements
 		this.operator = operator;
 	}
 
-	public OperationCondition(String id) {
-		super(id);
+	public OperationCondition() {
+		super();
 	}
 
 	public OperationCondition(EAdOperation operation, int value,

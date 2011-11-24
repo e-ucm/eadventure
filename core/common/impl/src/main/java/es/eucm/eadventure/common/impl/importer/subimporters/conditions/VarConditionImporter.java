@@ -44,7 +44,7 @@ import es.eucm.eadventure.common.data.chapter.conditions.Condition;
 import es.eucm.eadventure.common.data.chapter.conditions.VarCondition;
 import es.eucm.eadventure.common.impl.importer.interfaces.EAdElementFactory;
 import es.eucm.eadventure.common.model.conditions.impl.OperationCondition;
-import es.eucm.eadventure.common.model.conditions.impl.OperationCondition.Comparator;
+import es.eucm.eadventure.common.model.conditions.impl.enums.Comparator;
 import es.eucm.eadventure.common.model.variables.EAdField;
 
 public class VarConditionImporter implements
@@ -74,7 +74,7 @@ public class VarConditionImporter implements
 		return (OperationCondition) object;
 	}
 
-	private OperationCondition.Comparator getOperator(int op) {
+	private Comparator getOperator(int op) {
 		switch (op) {
 		case VarCondition.VAR_EQUALS:
 			return Comparator.EQUAL;

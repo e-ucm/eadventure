@@ -47,7 +47,8 @@ import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.animation
 public class BasicActorFactoryTest {
 
 	public static EAdSceneElementDef getActor(StringHandler sh) {
-		EAdSceneElementDefImpl basicActor = new EAdSceneElementDefImpl("Actor_id");
+		EAdSceneElementDefImpl basicActor = new EAdSceneElementDefImpl();
+		basicActor.setId("Actor_id");
 
 		FramesAnimation animation = new FramesAnimation();
 		for (int i = 1; i <= 8; i++)

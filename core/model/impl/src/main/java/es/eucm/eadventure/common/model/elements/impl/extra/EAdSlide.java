@@ -50,8 +50,8 @@ public class EAdSlide extends EAdSceneImpl {
 	@Param("time")
 	private Integer time;
 	
-	public EAdSlide(String id) {
-		super(id);
+	public EAdSlide() {
+		super();
 		returnable = false;
 		time = -1;
 	}

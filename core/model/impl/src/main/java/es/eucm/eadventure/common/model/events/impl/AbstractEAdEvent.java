@@ -58,8 +58,8 @@ public abstract class AbstractEAdEvent extends EAdElementImpl implements EAdEven
 	@Param("effects")
 	private EAdMap<Enum<?>, EAdList<EAdEffect>> effects;
 	
-	public AbstractEAdEvent(String id) {
-		super(id);
+	public AbstractEAdEvent() {
+		super();
 		effects = new EAdMapImpl<Enum<?>, EAdList<EAdEffect>>( Enum.class, EAdList.class);
 	}
 	
@@ -67,7 +67,7 @@ public abstract class AbstractEAdEvent extends EAdElementImpl implements EAdEven
 	 * @see es.eucm.eadventure.common.model.elements.EAdEvent#getEffects()
 	 */
 	@Override
-	public EAdList<EAdEffect> getEffects(Enum<?> event) {
+	public EAdList<EAdEffect> getEffectsForEvent(Enum<?> event) {
 		return effects.get(event);
 	}
 	
@@ -83,5 +83,8 @@ public abstract class AbstractEAdEvent extends EAdElementImpl implements EAdEven
 		}
 		effects.add(effect);
 	}
-
+	
+	public EAdMap<Enum<?>, EAdList<EAdEffect>> getEffects() {
+		return effects;
+	}
 }

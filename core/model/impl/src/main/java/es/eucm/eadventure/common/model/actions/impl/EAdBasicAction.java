@@ -70,8 +70,8 @@ public class EAdBasicAction extends ResourcedElementImpl implements EAdAction {
 	@Param("condition")
 	private EAdCondition condition;
 	
-	public EAdBasicAction(String id) {
-		super(id);
+	public EAdBasicAction() {
+		super();
 		effects = new EAdListImpl<EAdEffect>(EAdEffect.class);
 		highlightBundle = new EAdBundleId(id + "_highlightBundle");
 		name = EAdString.newEAdString("actionName");

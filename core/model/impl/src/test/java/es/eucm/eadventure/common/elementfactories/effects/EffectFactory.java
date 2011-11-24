@@ -41,8 +41,8 @@ import es.eucm.eadventure.common.elementfactories.EAdElementsFactory;
 import es.eucm.eadventure.common.elementfactories.StringFactory.StringType;
 import es.eucm.eadventure.common.model.EAdElement;
 import es.eucm.eadventure.common.model.effects.impl.EAdInterpolationEffect;
-import es.eucm.eadventure.common.model.effects.impl.EAdInterpolationEffect.InterpolationType;
-import es.eucm.eadventure.common.model.effects.impl.EAdInterpolationEffect.LoopType;
+import es.eucm.eadventure.common.model.effects.impl.enums.InterpolationType;
+import es.eucm.eadventure.common.model.effects.impl.enums.InterpolationLoopType;
 import es.eucm.eadventure.common.model.effects.impl.EAdPlaySoundEffect;
 import es.eucm.eadventure.common.model.effects.impl.text.EAdShowQuestion;
 import es.eucm.eadventure.common.model.effects.impl.text.EAdSpeakEffect;
@@ -66,13 +66,14 @@ public class EffectFactory {
 
 	public EAdChangeAppearance getChangeAppearance(EAdElement element,
 			EAdBundleId bundle) {
-		EAdChangeAppearance effect = new EAdChangeAppearance("changeAppearance"
-				+ ID_GENERATOR++, element, bundle);
+		EAdChangeAppearance effect = new EAdChangeAppearance( element, bundle);
+		effect.setId("changeAppearance"
+				+ ID_GENERATOR++);
 		return effect;
 	}
 
 	public EAdInterpolationEffect getInterpolationEffect(EAdField<?> var,
-			float startValue, float endValue, int time, LoopType loop,
+			float startValue, float endValue, int time, InterpolationLoopType loop,
 			InterpolationType interpolationType) {
 		EAdInterpolationEffect interpolation = new EAdInterpolationEffect(var, startValue,
 				endValue, time, loop, interpolationType);
@@ -110,7 +111,7 @@ public class EffectFactory {
 			int ordinal = i % StringType.values().length;
 			EAdString answerString = EAdElementsFactory.getInstance()
 					.getStringFactory().getString(StringType.values()[ordinal]);
-			effect.addAnswer(answerString, new EAdSpeakEffect("tal"));
+			effect.addAnswer(answerString, new EAdSpeakEffect());
 		}
 		effect.setUpNewInstance();
 		return effect;
@@ -123,8 +124,8 @@ public class EffectFactory {
 
 	public EAdChangeFieldValueEffect getChangeVarValueEffect(EAdField<?> var,
 			EAdOperation operation) {
-		EAdChangeFieldValueEffect effect = new EAdChangeFieldValueEffect(
-				"changeVarValue" + ID_GENERATOR++, var, operation);
+		EAdChangeFieldValueEffect effect = new EAdChangeFieldValueEffect( var, operation);
+		effect.setId("changeVarValue" + ID_GENERATOR++);
 		return effect;
 
 	}
@@ -137,7 +138,9 @@ public class EffectFactory {
 
 	public EAdPlaySoundEffect getPlaySound(String string) {
 		SoundImpl sound = new SoundImpl(string);
-		return new EAdPlaySoundEffect("playSound" + ID_GENERATOR++, sound);
+		EAdPlaySoundEffect effect = new EAdPlaySoundEffect( sound);
+		effect.setId("playSound" + ID_GENERATOR++);
+		return effect;
 	}
 
 }

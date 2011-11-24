@@ -40,6 +40,8 @@ package es.eucm.eadventure.common.model.effects.impl;
 import es.eucm.eadventure.common.interfaces.Element;
 import es.eucm.eadventure.common.interfaces.Param;
 import es.eucm.eadventure.common.model.EAdElement;
+import es.eucm.eadventure.common.model.effects.impl.enums.InterpolationLoopType;
+import es.eucm.eadventure.common.model.effects.impl.enums.InterpolationType;
 import es.eucm.eadventure.common.model.variables.EAdField;
 import es.eucm.eadventure.common.model.variables.EAdVarDef;
 import es.eucm.eadventure.common.model.variables.impl.EAdFieldImpl;
@@ -52,40 +54,6 @@ import es.eucm.eadventure.common.model.variables.impl.operations.MathOperation;
  */
 @Element(detailed = EAdInterpolationEffect.class, runtime = EAdInterpolationEffect.class)
 public class EAdInterpolationEffect extends AbstractEAdEffect {
-
-	/**
-	 * Loops types
-	 * 
-	 */
-	public enum LoopType {
-		/**
-		 * No loop
-		 */
-		NO_LOOP,
-
-		/**
-		 * When interpolations ends, goes backwards
-		 */
-		REVERSE,
-
-		/**
-		 * When interpolation ends, it restarts
-		 */
-		RESTART
-	};
-
-	public enum InterpolationType {
-		/**
-		 * Linear interpolation
-		 */
-		LINEAR,
-
-		/**
-		 * Bounces in the end
-		 */
-		BOUNCE_END, ACCELERATE, DESACCELERATE;
-
-	}
 
 	@Param("element")
 	private EAdElement element;
@@ -106,7 +74,7 @@ public class EAdInterpolationEffect extends AbstractEAdEffect {
 	private int delay;
 
 	@Param("loopType")
-	private LoopType loopType;
+	private InterpolationLoopType loopType;
 
 	@Param("loops")
 	private int loops;
@@ -115,10 +83,6 @@ public class EAdInterpolationEffect extends AbstractEAdEffect {
 	private InterpolationType interpolationType;
 
 	/**
-	 * Private constructor
-	 * 
-	 * @param id
-	 *            effect's id
 	 * @param elementField
 	 *            field containing the element holding the variable
 	 * @param element
@@ -141,11 +105,12 @@ public class EAdInterpolationEffect extends AbstractEAdEffect {
 	 * @param interpolationType
 	 *            the interpolation type
 	 */
-	private EAdInterpolationEffect(String id, EAdElement element,
+	public EAdInterpolationEffect(EAdElement element,
 			EAdVarDef<?> varDef, MathOperation initialValue,
 			MathOperation endValue, int interpolationTime, int delay,
-			LoopType loopType, int loops, InterpolationType interpolationType) {
-		super(id);
+			InterpolationLoopType loopType, int loops, InterpolationType interpolationType) {
+		super();
+		setId("interpolation");
 		this.element = element;
 		this.varDef = varDef;
 		this.initialValue = initialValue;
@@ -159,53 +124,45 @@ public class EAdInterpolationEffect extends AbstractEAdEffect {
 	}
 
 	public EAdInterpolationEffect(EAdElement element, EAdVarDef<?> varDef,
-			MathOperation initialValue, MathOperation endValue,
-			int interpolationTime, int delay, LoopType loopType, int loops,
-			InterpolationType interpolationType) {
-		this("interpolation", element, varDef, initialValue, endValue,
-				interpolationTime, delay, loopType, loops, interpolationType);
-	}
-
-	public EAdInterpolationEffect(EAdElement element, EAdVarDef<?> varDef,
 			Number initialValue, Number endValue, int interpolationTime,
-			int delay, LoopType loopType, int loops,
+			int delay, InterpolationLoopType loopType, int loops,
 			InterpolationType interpolationType) {
-		this("interpolation", element, varDef, new MathOperation(initialValue
+		this(element, varDef, new MathOperation(initialValue
 				+ ""), new MathOperation(endValue + ""), interpolationTime,
 				delay, loopType, loops, interpolationType);
 	}
 
 	public EAdInterpolationEffect(EAdElement element, EAdVarDef<?> varDef,
 			Number initialValue, Number endValue, int interpolationTime) {
-		this("interpolation", element, varDef, new MathOperation(initialValue
+		this( element, varDef, new MathOperation(initialValue
 				+ ""), new MathOperation(endValue + ""), interpolationTime, 0,
-				LoopType.NO_LOOP, 1, InterpolationType.LINEAR);
+				InterpolationLoopType.NO_LOOP, 1, InterpolationType.LINEAR);
 	}
 
-	public EAdInterpolationEffect(String id) {
-		super(id);
+	public EAdInterpolationEffect() {
+		super();
 	}
 
 	public EAdInterpolationEffect(EAdField<?> field, float startValue,
-			float endValue, int time, LoopType loopType,
+			float endValue, int time, InterpolationLoopType loopType,
 			InterpolationType interpolationType) {
 		this(field.getElement(), field.getVarDefinition(), startValue,
 				endValue, time, 0, loopType, -1, interpolationType);
 	}
 
 	public EAdInterpolationEffect(EAdFieldImpl<?> field, float start,
-			float endValue, int time, LoopType loopType) {
+			float endValue, int time, InterpolationLoopType loopType) {
 		this(field, start, endValue, time, loopType, InterpolationType.LINEAR);
 	}
 
 	public EAdInterpolationEffect(EAdFieldImpl<?> field, int start,
-			int end, int timeToFinish, LoopType loopType) {
+			int end, int timeToFinish, InterpolationLoopType loopType) {
 		this(field, (float) start, (float) end, timeToFinish, loopType);
 	}
 
 	public EAdInterpolationEffect(EAdField<Integer> field,
 			MathOperation start, MathOperation end, int time,
-			LoopType loopType, InterpolationType interpolation) {
+			InterpolationLoopType loopType, InterpolationType interpolation) {
 		this( field.getElement(), field.getVarDefinition(), start, end, time, 0, loopType, -1, interpolation);
 	}
 
@@ -257,11 +214,11 @@ public class EAdInterpolationEffect extends AbstractEAdEffect {
 		this.delay = delay;
 	}
 
-	public LoopType getLoopType() {
+	public InterpolationLoopType getLoopType() {
 		return loopType;
 	}
 
-	public void setLoopType(LoopType loopType) {
+	public void setLoopType(InterpolationLoopType loopType) {
 		this.loopType = loopType;
 	}
 

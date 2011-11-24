@@ -7,6 +7,8 @@
   <inherits name='com.google.gwt.logging.Logging'/>
   <inherits name='es.eucm.eadventure.Resources'/>
   <inherits name='org.jbox2d.GwtBox2D'/>
+
+<inherits name="com.google.gwt.xml.XML" />
   
   <inherits name='fr.hd3d.html5.video.HTML5Video'/>
   <!--
@@ -25,6 +27,7 @@
    <set-property name="gwt.logging.popupHandler" value="DISABLED" />
 
   <source path='core'/>
+  <source path='reader'/>
   <source path='html'/>
 
 <!--   <public path="../../../../../resources" />

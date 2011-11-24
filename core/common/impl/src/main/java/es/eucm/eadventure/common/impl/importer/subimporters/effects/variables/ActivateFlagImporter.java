@@ -67,10 +67,11 @@ public class ActivateFlagImporter extends EffectImporter<ActivateEffect, EAdChan
 	@Override
 	public EAdChangeFieldValueEffect init(ActivateEffect oldObject) {
 		EAdField<?> var = factory.getVarByOldId(oldObject.getTargetId(), Condition.FLAG_CONDITION);
-		BooleanOperation op = new BooleanOperation( "boolOperation" );
+		BooleanOperation op = new BooleanOperation( );
 		op.setCondition(EmptyCondition.TRUE_EMPTY_CONDITION);
 		
-		EAdChangeFieldValueEffect changeVar = new EAdChangeFieldValueEffect( "changeVarValue" + ID_GENERATOR++, var, op );
+		EAdChangeFieldValueEffect changeVar = new EAdChangeFieldValueEffect( var, op );
+		changeVar.setId("changeVarValue" + ID_GENERATOR++);
 		super.importConditions(oldObject, changeVar);
 
 		changeVar.setQueueable(true);

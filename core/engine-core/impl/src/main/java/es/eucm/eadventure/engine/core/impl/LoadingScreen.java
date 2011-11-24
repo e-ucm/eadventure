@@ -61,13 +61,16 @@ public class LoadingScreen extends EAdSceneImpl implements EAdScene {
 	
 	@Inject
 	public LoadingScreen() {
-		super( "LoadingScreen");
+		super( );
+		setId("LoadingScreen");
 		logger.log(Level.INFO, "New instance");
 		
 		getBackground().getResources().addAsset(getBackground().getInitialBundle(), EAdBasicSceneElement.appearance,
 				new ImageImpl("@drawable/loading.png"));
-		EAdEvent event = new EAdSystemEventImpl("startEvent");
-		effect = new EAdChangeScene("LoadingChangeScreen");
+		EAdEvent event = new EAdSystemEventImpl();
+		event.setId("startEvent");
+		effect = new EAdChangeScene();
+		effect.setId("LoadingChangeScreen");
 		event.addEffect(Event.GAME_LOADED, effect);
 		this.getEvents().add(event);
 	}

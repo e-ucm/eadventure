@@ -12,7 +12,8 @@ import es.eucm.eadventure.common.resources.assets.drawable.basics.Image;
 public class EAdChangeCursorEffect extends EAdChangeFieldValueEffect {
 	
 	public EAdChangeCursorEffect(Image image){
-		super("changeCursorEffect");
+		super();
+		setId("changeCursorEffect");
 		addField(SystemFields.MOUSE_CURSOR);
 		setOperation(new ValueOperation(image));
 	}

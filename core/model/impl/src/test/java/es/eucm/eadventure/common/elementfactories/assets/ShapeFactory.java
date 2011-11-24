@@ -96,7 +96,7 @@ public class ShapeFactory {
 			y += width;
 			circle.lineTo(x, y);
 		}
-		circle.close();
+		circle.setClosed(true);
 		return circle;
 	}
 
@@ -104,7 +104,7 @@ public class ShapeFactory {
 		BezierShape triangle = new BezierShape(width / 2, 0);
 		triangle.lineTo(new EAdPositionImpl(width, height));
 		triangle.lineTo(new EAdPositionImpl(0, height));
-		triangle.close();
+		triangle.setClosed(true);
 		return triangle;
 	}
 
@@ -117,7 +117,7 @@ public class ShapeFactory {
 			shape.lineTo(new EAdPositionImpl(x, y));
 		}
 		
-		shape.close();
+		shape.setClosed(true);
 		return shape;
 	}
 	
@@ -128,7 +128,7 @@ public class ShapeFactory {
 		shape.lineTo(new EAdPositionImpl( width - width / 5, height));
 		shape.lineTo(new EAdPositionImpl( width / 2, height / 2));
 		shape.lineTo(new EAdPositionImpl( width / 5, height));
-		shape.close();
+		shape.setClosed(true);
 		return shape;
 	}
 	
@@ -137,7 +137,7 @@ public class ShapeFactory {
 		shape.lineTo(width, 2 * height / 3 );
 		shape.cubeTo(width, height, width / 2, height );
 		shape.cubeTo(0, height, 0, 2 * height / 3 );
-		shape.close();
+		shape.setClosed(true);
 		return shape;
 	}
 

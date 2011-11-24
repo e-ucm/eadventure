@@ -50,7 +50,7 @@ import es.eucm.eadventure.common.model.elements.EAdChapter;
 import es.eucm.eadventure.common.model.elements.EAdScene;
 import es.eucm.eadventure.common.model.elements.EAdTimer;
 import es.eucm.eadventure.common.model.events.EAdSceneElementEvent;
-import es.eucm.eadventure.common.model.events.EAdSceneElementEvent.SceneElementEvent;
+import es.eucm.eadventure.common.model.events.enums.SceneElementEventType;
 import es.eucm.eadventure.common.model.events.impl.EAdSceneElementEventImpl;
 import es.eucm.eadventure.common.model.impl.EAdChapterImpl;
 import es.eucm.eadventure.common.predef.model.effects.EAdChangeCursorEffect;
@@ -80,7 +80,8 @@ public class ChapterImporter implements EAdElementImporter<Chapter, EAdChapter> 
 
 	@Override
 	public EAdChapter init(Chapter oldChapter) {
-		EAdChapterImpl newChapter = new EAdChapterImpl("chapter" + CHAPTER_ID++);
+		EAdChapterImpl newChapter = new EAdChapterImpl();
+		newChapter.setId("chapter" + CHAPTER_ID++);
 		return newChapter;
 	}
 
@@ -149,7 +150,7 @@ public class ChapterImporter implements EAdElementImporter<Chapter, EAdChapter> 
 				.getInitialGeneralScene().getId());
 
 		EAdSceneElementEvent event = new EAdSceneElementEventImpl();
-		event.addEffect(SceneElementEvent.ADDED_TO_SCENE, changeCursor);
+		event.addEffect(SceneElementEventType.ADDED_TO_SCENE, changeCursor);
 		scene.getEvents().add(event);
 
 	}

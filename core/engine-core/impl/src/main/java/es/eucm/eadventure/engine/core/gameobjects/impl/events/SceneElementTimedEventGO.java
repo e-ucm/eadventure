@@ -40,6 +40,7 @@ package es.eucm.eadventure.engine.core.gameobjects.impl.events;
 import com.google.inject.Inject;
 
 import es.eucm.eadventure.common.model.events.EAdSceneElementTimedEvent;
+import es.eucm.eadventure.common.model.events.enums.SceneElementTimedEventType;
 import es.eucm.eadventure.engine.core.GameLoop;
 import es.eucm.eadventure.engine.core.GameState;
 
@@ -67,12 +68,12 @@ public class SceneElementTimedEventGO extends
 		if (repeats != 0) {
 			if (elapsedTime == 0) {
 				this.runEffects(element
-						.getEffects(EAdSceneElementTimedEvent.SceneElementTimedEventType.START_TIME));
+						.getEffectsForEvent(SceneElementTimedEventType.START_TIME));
 			}
 			elapsedTime += GameLoop.SKIP_MILLIS_TICK;
 			if (elapsedTime > element.getTime()) {
 				this.runEffects(element
-						.getEffects(EAdSceneElementTimedEvent.SceneElementTimedEventType.END_TIME));
+						.getEffectsForEvent(SceneElementTimedEventType.END_TIME));
 				elapsedTime = 0;
 				repeats--;
 			}

@@ -67,7 +67,7 @@ public abstract class BaseTestLauncher {
 	public BaseTestLauncher(Injector injector){
 		launcher = injector.getInstance(PlatformLauncher.class);
 		model = new EAdAdventureModelImpl();
-		c = new EAdChapterImpl("chapter1");
+		c = new EAdChapterImpl();
 		model.getChapters().add(c);
 	}
 

@@ -78,7 +78,9 @@ public class SlidesceneImporter implements
 
 	@Override
 	public EAdCutscene init(Slidescene oldSlideScene) {
-		return new EAdCutscene(oldSlideScene.getId());
+		EAdCutscene cutscene = new EAdCutscene();
+		cutscene.setId(oldSlideScene.getId());
+		return cutscene;
 	}
 
 	@Override
@@ -110,7 +112,8 @@ public class SlidesceneImporter implements
 				.getAssetDescritptor(assetPath, FramesAnimation.class);
 		for (int i = 0; i < asset.getFrameCount(); i++) {
 			Frame f = asset.getFrame(i);
-			EAdSlide slide = new EAdSlide("slide_" + i);
+			EAdSlide slide = new EAdSlide();
+			slide.setId("slide_" + i);
 			slide.setTime(f.getTime());
 			slide.getBackground()
 					.getResources()

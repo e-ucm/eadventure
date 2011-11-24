@@ -40,6 +40,7 @@ package es.eucm.eadventure.common.model.effects.impl.sceneelements;
 import es.eucm.eadventure.common.interfaces.Element;
 import es.eucm.eadventure.common.interfaces.Param;
 import es.eucm.eadventure.common.model.effects.EAdEffect;
+import es.eucm.eadventure.common.model.elements.EAdSceneElement;
 import es.eucm.eadventure.common.model.elements.EAdSceneElementDef;
 import es.eucm.eadventure.common.model.variables.EAdOperation;
 import es.eucm.eadventure.common.model.variables.impl.operations.MathOperation;
@@ -53,28 +54,6 @@ import es.eucm.eadventure.common.model.variables.impl.operations.ValueOperation;
  */
 @Element(runtime = EAdMoveSceneElement.class, detailed = EAdMoveSceneElement.class)
 public class EAdMoveSceneElement extends AbstractSceneElementEffect {
-
-	/**
-	 * 
-	 * Enum with all possibles speeds for the movement effect
-	 * 
-	 */
-	public enum MovementSpeed {
-		SLOW, NORMAL, FAST, INSTANT, CUSTOM;
-
-		public float getSpeedFactor() {
-			switch (this) {
-			case FAST:
-				return 0.5f;
-			case SLOW:
-				return 2.0f;
-			case INSTANT:
-				return 0.0f;
-			default:
-				return 1.0f;
-			}
-		}
-	};
 
 	/**
 	 * Target coordinates
@@ -104,32 +83,29 @@ public class EAdMoveSceneElement extends AbstractSceneElementEffect {
 	 * Constructs an move actor reference effect, with target set to
 	 * {@code ( 0, 0 )} and speed set to {@link MovementSpeed#NORMAL}
 	 * 
-	 * @param id
-	 *            Element's id
 	 */
-	public EAdMoveSceneElement(String id) {
-		this(id, null);
+	public EAdMoveSceneElement() {
+		this(null);
 	}
 
-	public EAdMoveSceneElement(String id, EAdSceneElementDef element) {
-		this(id, element, new MathOperation("id", "0"), new MathOperation("id",
-				"0"));
+	public EAdMoveSceneElement( EAdSceneElementDef element) {
+		this(element, new MathOperation("0"), new MathOperation("0"));
 	}
 
-	public EAdMoveSceneElement(String id, EAdSceneElementDef element,
+	public EAdMoveSceneElement( EAdSceneElementDef element,
 			MathOperation xTarget, MathOperation yTarget) {
-		this(id, element, xTarget, yTarget, MovementSpeed.NORMAL);
+		this( element, xTarget, yTarget, MovementSpeed.NORMAL);
 	}
 
-	public EAdMoveSceneElement(String id, EAdSceneElementDef element, int xTarget,
+	public EAdMoveSceneElement( EAdSceneElementDef element, int xTarget,
 			int yTarget, MovementSpeed speed) {
-		this(id, element, new MathOperation("id", "" + xTarget),
-				new MathOperation("id", "" + yTarget), speed);
+		this( element, new MathOperation( "" + xTarget),
+				new MathOperation( "" + yTarget), speed);
 	}
 
-	public EAdMoveSceneElement(String id, EAdSceneElementDef element,
+	public EAdMoveSceneElement(EAdSceneElementDef element,
 			MathOperation xTarget, MathOperation yTarget, MovementSpeed speed) {
-		super(id);
+		super();
 		setSceneElement(element);
 		setQueueable(true);
 		this.xTarget = xTarget;
@@ -209,7 +185,7 @@ public class EAdMoveSceneElement extends AbstractSceneElementEffect {
 	public boolean useTrajectory(){
 		return useTrajectory;
 	}
-	
+
 	public void setTarget( EAdSceneElementDef sceneElementDef ){
 		this.sceneElementDef = sceneElementDef;
 	}
@@ -217,5 +193,4 @@ public class EAdMoveSceneElement extends AbstractSceneElementEffect {
 	public EAdSceneElementDef getTarget( ){
 		return sceneElementDef;
 	}
-
 }

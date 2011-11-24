@@ -51,8 +51,8 @@ public abstract class ConditionedElement extends EAdElementImpl implements
 	@Param("condition")
 	private EAdCondition condition;
 	
-	public ConditionedElement(String id) {
-		super(id);
+	public ConditionedElement() {
+		super();
 	}
 	
 	@Override

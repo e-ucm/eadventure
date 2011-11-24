@@ -49,13 +49,14 @@ import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.ImageImpl
 public class BasicActionFactoryTest {
 
 	public static EAdAction getGrabAction(StringHandler sh) {
-		EAdBasicAction action = new EAdBasicAction("action");
+		EAdBasicAction action = new EAdBasicAction();
 		action.getResources().addAsset(action.getInitialBundle(), EAdBasicAction.appearance,
 				new ImageImpl("@drawable/grab.png"));
 		
 		sh.setString(action.getName(), "Grab!");
 		
-		EAdShowSceneElement actionEffect = new EAdShowSceneElement("effectAction");
+		EAdShowSceneElement actionEffect = new EAdShowSceneElement();
+		actionEffect.setId("effectAction");
 
 		CaptionImpl caption = new CaptionImpl();
 		caption.setBubblePaint(null);

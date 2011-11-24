@@ -1,6 +1,5 @@
 package es.eucm.eadventure.engine.core;
 
-import static playn.core.PlayN.assetManager;
 import static playn.core.PlayN.graphics;
 import static playn.core.PlayN.keyboard;
 import static playn.core.PlayN.pointer;
@@ -10,7 +9,6 @@ import java.util.logging.Logger;
 import playn.core.Canvas;
 import playn.core.CanvasLayer;
 import playn.core.Graphics;
-import playn.core.Image;
 import playn.core.Keyboard;
 import playn.core.Keyboard.Event;
 import playn.core.PlayN;
@@ -22,8 +20,8 @@ import com.google.gwt.user.client.Event.NativePreviewHandler;
 import com.google.inject.Inject;
 
 import es.eucm.eadventure.common.model.guievents.EAdMouseEvent;
-import es.eucm.eadventure.common.model.guievents.EAdMouseEvent.MouseActionType;
-import es.eucm.eadventure.common.model.guievents.EAdMouseEvent.MouseButton;
+import es.eucm.eadventure.common.model.guievents.enums.MouseActionType;
+import es.eucm.eadventure.common.model.guievents.enums.MouseButton;
 import es.eucm.eadventure.common.model.guievents.impl.EAdMouseEventImpl;
 import es.eucm.eadventure.engine.core.guiactions.impl.MouseActionImpl;
 import es.eucm.eadventure.engine.core.platform.AssetHandler;
@@ -154,6 +152,11 @@ public class EAdEngine implements playn.core.Game, Keyboard.Listener {
 	public void onKeyDown(Event event) {
 		// TODO Auto-generated method stub
 
+	}
+	
+	@Override
+	public void onKeyTyped(Keyboard.TypedEvent event) {
+		//TODO
 	}
 
 	@Override

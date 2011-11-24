@@ -13,8 +13,8 @@ public abstract class AbstractSceneElementEffect extends AbstractEAdEffect
 	@Param("element")
 	private EAdElement element;
 
-	public AbstractSceneElementEffect(String id) {
-		super(id);
+	public AbstractSceneElementEffect() {
+		super();
 	}
 
 	@Override

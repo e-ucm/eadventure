@@ -60,22 +60,19 @@ public class LiteralExpressionTest extends
 				new EAdVarDefImpl<Double>("w", Double.class, 10928408.868979));
 
 		MathOperation[] operations = new MathOperation[] {
-				new MathOperation("1", "3 + 5 + 8"),
+				new MathOperation("3 + 5 + 8"),
 				new MathOperation("[0] + [1] + [2]", x, y, z),
-				new MathOperation("1", "[0] * [1] / [2]", x, y, z),
-				new MathOperation("1",
-						"(5  + [0] ) * [1] * ( [2] - 4 ) ", x, y, z),
+				new MathOperation("[0] * [1] / [2]", x, y, z),
+				new MathOperation("(5  + [0] ) * [1] * ( [2] - 4 ) ", x, y, z),
 				new MathOperation(
-						"1",
 						"cos( 4 + [2] ) - (5  + [0] ) * [1] * sqrt( [2] - 4 ) ",
 						x, y, z),
-				new MathOperation("1", " 7 * somestring "),
-				new MathOperation("1", " somestring + 2"),
-				new MathOperation("1", " [0]^[1]", w, z),
-				new MathOperation("1", " 1 / 0 "),
-				new MathOperation("1", "200 max 300"),
+				new MathOperation( " 7 * somestring "),
+				new MathOperation( " somestring + 2"),
+				new MathOperation( " [0]^[1]", w, z),
+				new MathOperation( " 1 / 0 "),
+				new MathOperation( "200 max 300"),
 				new MathOperation(
-						"1",
 						"[0] + ((400*(1+[1]) - [0]*[1]) max (300*(1+[2]) - [3]*[2]))*[1]",
 						x, x, x, x),
 				new MathOperation("acos( ( [2] - [0] ) / sqrt( sqr( [2] - [0] ) + sqr( [3] - [1] ) ) )", x, y, z, x)

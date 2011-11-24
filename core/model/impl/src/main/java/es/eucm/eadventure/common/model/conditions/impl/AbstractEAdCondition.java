@@ -43,12 +43,9 @@ import es.eucm.eadventure.common.model.impl.EAdElementImpl;
 public abstract class AbstractEAdCondition extends EAdElementImpl implements
 		EAdCondition {
 
-	public AbstractEAdCondition(String id) {
-		super(id);
-	}
-
 	public AbstractEAdCondition() {
-		super("condition");
+		super();
+		setId("condition");
 	}
 
 }

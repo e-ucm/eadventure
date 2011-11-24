@@ -20,7 +20,8 @@ public class ConditionedOperation extends EAdOperationImpl {
 	
 	
 	public ConditionedOperation(EAdCondition c, EAdOperation opTrue, EAdOperation opFalse ) {
-		super("conditionedOperation");
+		super();
+		setId("conditionedOperation");
 		this.opTrue = opTrue;
 		this.opFalse = opFalse;
 		this.condition = c;

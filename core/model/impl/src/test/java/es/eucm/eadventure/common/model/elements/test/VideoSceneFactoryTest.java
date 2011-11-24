@@ -43,7 +43,8 @@ import es.eucm.eadventure.common.resources.assets.multimedia.impl.VideoImpl;
 public class VideoSceneFactoryTest {
 	
 	public static EAdVideoScene getVideoScene() {
-		EAdVideoScene videoScene = new EAdVideoScene("videoscene");
+		EAdVideoScene videoScene = new EAdVideoScene();
+		videoScene.setId("videoscene");
 		videoScene.getResources().addAsset(EAdVideoScene.video, new VideoImpl("@binary/flame.mpg"));
 		videoScene.setUpForEngine();
 		

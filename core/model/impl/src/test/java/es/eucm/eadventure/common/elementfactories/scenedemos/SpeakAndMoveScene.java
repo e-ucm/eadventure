@@ -6,7 +6,7 @@ import es.eucm.eadventure.common.model.effects.impl.sceneelements.EAdMoveSceneEl
 import es.eucm.eadventure.common.model.effects.impl.text.EAdSpeakEffect;
 import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
 import es.eucm.eadventure.common.model.events.EAdSceneElementEvent;
-import es.eucm.eadventure.common.model.events.EAdSceneElementEvent.SceneElementEvent;
+import es.eucm.eadventure.common.model.events.enums.SceneElementEventType;
 import es.eucm.eadventure.common.model.events.impl.EAdSceneElementEventImpl;
 import es.eucm.eadventure.common.model.guievents.impl.EAdMouseEventImpl;
 import es.eucm.eadventure.common.model.trajectories.impl.SimpleTrajectoryDefinition;
@@ -20,17 +20,19 @@ import es.eucm.eadventure.common.predef.model.effects.EAdSpeakSceneElement;
 public class SpeakAndMoveScene extends EmptyScene {
 
 	public SpeakAndMoveScene() {
-		// EAdBasicSceneElement character = EAdElementsFactory
-		// .getInstance()
-		// .getSceneElementFactory()
-		// .createSceneElement(CharacterScene.getStateDrawable(), 100, 300);
-
+//		EAdBasicSceneElement character = EAdElementsFactory
+//				.getInstance()
+//				.getSceneElementFactory()
+//				.createSceneElement(CharacterScene.getStateDrawable(), 100, 300);
+		
 		NgCommon.init();
 		EAdBasicSceneElement character = new EAdBasicSceneElement(
 				NgCommon.getMainCharacter());
 
 		character.setPosition(new EAdPositionImpl(Corner.BOTTOM_CENTER, 400,
 				400));
+
+
 
 		EAdSpeakEffect effect = new EAdSpeakSceneElement(character);
 		EAdElementsFactory
@@ -39,10 +41,10 @@ public class SpeakAndMoveScene extends EmptyScene {
 				.setString(
 						effect.getString(),
 						"Hello, my friend. I have a loooooooooooooooooooooooooooooot of things to say. Will I be able to tell all in one only bubble? Yeah, I didn't think so. So let's move on to the next topic, shall we?Hello, my friend. I have a loooooooooooooooooooooooooooooot of things to say. Will I be able to tell all in one only bubble? Yeah, I didn't think so. So let's move on to the next topic, shall we?Hello, my friend. I have a loooooooooooooooooooooooooooooot of things to say. Will I be able to tell all in one only bubble? Yeah, I didn't think so. So let's move on to the next topic, shall we?Hello, my friend. I have a loooooooooooooooooooooooooooooot of things to say. Will I be able to tell all in one only bubble? Yeah, I didn't think so. So let's move on to the next topic, shall we?Hello, my friend. I have a loooooooooooooooooooooooooooooot of things to say. Will I be able to tell all in one only bubble? Yeah, I didn't think so. So let's move on to the next topic, shall we? Hello, my friend. I have a loooooooooooooooooooooooooooooot of things to say. Will I be able to tell all in one only bubble? Yeah, I didn't think so. So let's move on to the next topic, shall we?");
-		// effect.setBalloonType(BalloonType.RECTANGLE);
-		// effect.setFont(new EAdFontImpl(18));
+//		effect.setBalloonType(BalloonType.RECTANGLE);
+//		effect.setFont(new EAdFontImpl(18));
 
-		// effect.seta
+//		effect.seta
 		character.addBehavior(EAdMouseEventImpl.MOUSE_LEFT_PRESSED, effect);
 
 		this.getElements().add(character);
@@ -50,20 +52,22 @@ public class SpeakAndMoveScene extends EmptyScene {
 		EAdMakeActiveElementEffect makeActive = new EAdMakeActiveElementEffect(
 				character);
 
-		EAdSceneElementEvent event = new EAdSceneElementEventImpl(
-				"makeAcitveCharacter");
-		event.addEffect(SceneElementEvent.ADDED_TO_SCENE, makeActive);
+		EAdSceneElementEvent event = new EAdSceneElementEventImpl();
+		event.setId("makeAcitveCharacter");
+		event.addEffect(SceneElementEventType.ADDED_TO_SCENE, makeActive);
 		character.getEvents().add(event);
 
+		
 		SimpleTrajectoryDefinition d = new SimpleTrajectoryDefinition(false);
 		d.setLimits(0, 0, 800, 600);
 		setTrajectoryDefinition(d);
 
-		EAdMoveSceneElement move = new EAdMoveSceneElement("moveCharacter");
+		EAdMoveSceneElement move = new EAdMoveSceneElement();
+		move.setId("moveCharacter");
 		move.setTargetCoordiantes(SystemFields.MOUSE_X, SystemFields.MOUSE_Y);
 
 		getBackground().addBehavior(EAdMouseEventImpl.MOUSE_LEFT_PRESSED,
-				new EAdMoveActiveElement("moveCharacter"));
+				new EAdMoveActiveElement());
 	}
 
 	@Override

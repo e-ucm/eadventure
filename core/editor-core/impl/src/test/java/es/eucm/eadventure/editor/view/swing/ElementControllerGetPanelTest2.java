@@ -1,7 +1,6 @@
 package es.eucm.eadventure.editor.view.swing;
 
 import java.awt.BorderLayout;
-import java.awt.FlowLayout;
 
 import javax.swing.JComponent;
 import javax.swing.UIManager;
@@ -12,6 +11,7 @@ import static org.mockito.Mockito.*;
 
 import es.eucm.eadventure.common.model.conditions.impl.ANDCondition;
 import es.eucm.eadventure.common.model.conditions.impl.EmptyCondition;
+import es.eucm.eadventure.common.model.conditions.impl.enums.EmptyConditionValue;
 import es.eucm.eadventure.common.model.elements.EAdCondition;
 import es.eucm.eadventure.common.model.elements.EAdSceneElementDef;
 import es.eucm.eadventure.common.params.EAdString;
@@ -49,8 +49,8 @@ public class ElementControllerGetPanelTest2 extends EAdFrame {
         when(sceneElementDef.getDescription()).thenReturn(EAdString.newEAdString("testDescription"));
         when(sceneElementDef.getDetailedDescription()).thenReturn(EAdString.newEAdString("testDetailedDescription"));
         
-        EAdCondition cond1 = new EmptyCondition(EmptyCondition.Value.TRUE);
-        EAdCondition cond2 = new EmptyCondition(EmptyCondition.Value.FALSE);
+        EAdCondition cond1 = new EmptyCondition(EmptyConditionValue.TRUE);
+        EAdCondition cond2 = new EmptyCondition(EmptyConditionValue.FALSE);
         
         when(sceneElementDef.getDraggableCondition()).thenReturn(new ANDCondition(cond1, cond2));
         

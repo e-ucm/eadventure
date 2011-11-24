@@ -76,16 +76,16 @@ public class EAdChapterImpl extends ResourcedElementImpl implements EAdChapter {
 	private EAdList<EAdTimer> timers;
 	
 	@Param("title")
-	private final EAdString title;
+	private EAdString title;
 	
 	@Param("description")
-	private final EAdString description;
+	private EAdString description;
 	
-	@Param("initialScreen")
-	private EAdScene initialScreen;
+	@Param("initialScene")
+	private EAdScene initialScene;
 	
-	@Param("loadingScreen")
-	private EAdScene loadingScreen;
+	@Param("loadingScene")
+	private EAdScene loadingScene;
 	
 	@Param("vars")
 	private EAdMap<EAdVarDef<?>, Object> vars;
@@ -95,8 +95,9 @@ public class EAdChapterImpl extends ResourcedElementImpl implements EAdChapter {
 	 * 
 	 * @param adventureModel The parent adventure model
 	 */
-	public EAdChapterImpl(String id) {
-		super(id);
+	public EAdChapterImpl() {
+		super();
+		setId("chapter");
 		scenes = new EAdListImpl<EAdScene>(EAdScene.class);
 		actors = new EAdListImpl<EAdSceneElementDef>(EAdSceneElementDef.class);
 		timers = new EAdListImpl<EAdTimer>(EAdTimer.class);
@@ -180,7 +181,7 @@ public class EAdChapterImpl extends ResourcedElementImpl implements EAdChapter {
 	 */
 	@Override
 	public EAdScene getInitialScene() {
-		return initialScreen;
+		return initialScene;
 	}
 
 	/**
@@ -189,15 +190,15 @@ public class EAdChapterImpl extends ResourcedElementImpl implements EAdChapter {
 	 * @param screen
 	 */
 	public void setInitialScene(EAdScene screen) {
-		this.initialScreen = screen;
+		this.initialScene = screen;
 	}
 	
 	/* (non-Javadoc)
 	 * @see es.eucm.eadventure.common.model.EAdChapterModel#getLoadingScreen()
 	 */
 	@Override
-	public EAdScene getLoadingScreen() {
-		return loadingScreen;
+	public EAdScene getLoadingScene() {
+		return loadingScene;
 	}
 	
 	/**
@@ -205,8 +206,8 @@ public class EAdChapterImpl extends ResourcedElementImpl implements EAdChapter {
 	 * 
 	 * @param screen
 	 */
-	public void setLoadingScreen(EAdScene screen) {
-		this.loadingScreen = screen;
+	public void setLoadingScene(EAdScene screen) {
+		this.loadingScene = screen;
 	}
 
 	@Override
@@ -218,5 +219,15 @@ public class EAdChapterImpl extends ResourcedElementImpl implements EAdChapter {
 	public <T> void setVarInitialValue(EAdVarDef<T> var, T value) {
 		vars.put(var, value);
 	}
+
+	public void setTitle(EAdString title) {
+		this.title = title;
+	}
+
+	public void setDescription(EAdString description) {
+		this.description = description;
+	}
+	
+	
 
 }

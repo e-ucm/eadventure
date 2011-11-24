@@ -44,15 +44,4 @@ package es.eucm.eadventure.common.model.events;
  */
 public interface EAdSceneElementEvent extends EAdEvent {
 
-	public enum SceneElementEvent {
-		/**
-		 * Triggered when the element is added to the scene
-		 */
-		ADDED_TO_SCENE,
-		
-		/**
-		 * Triggered in every update
-		 */
-		ALWAYS
-	};
 }

@@ -70,9 +70,9 @@ public class SetValueImporter extends
 		EAdField<?> var = factory.getVarByOldId(oldObject.getTargetId(),
 				Condition.VAR_CONDITION);
 		MathOperation op = new MathOperation(
-				"literalExpression", oldObject.getValue() + "", var);
-		EAdChangeFieldValueEffect effect = new EAdChangeFieldValueEffect(
-				"changeVarValueFromSet" + ID_GENERATOR++, var, op);
+				oldObject.getValue() + "", var);
+		EAdChangeFieldValueEffect effect = new EAdChangeFieldValueEffect(var, op);
+		effect.setId("changeVarValueFromSet" + ID_GENERATOR++);
 		super.importConditions(oldObject, effect);
 		effect.setQueueable(true);
 		return effect;

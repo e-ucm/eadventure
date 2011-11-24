@@ -52,8 +52,8 @@ public class EAdComposedScene extends EAdSceneImpl implements EAdScene {
 	@Param("scenes")
 	protected EAdList<EAdScene> scenes;
 
-	public EAdComposedScene(String id) {
-		super(id);
+	public EAdComposedScene() {
+		super();
 		scenes = new EAdListImpl<EAdScene>(EAdScene.class);
 	}
 

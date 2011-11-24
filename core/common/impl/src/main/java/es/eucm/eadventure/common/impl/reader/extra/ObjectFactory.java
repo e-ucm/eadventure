@@ -67,7 +67,7 @@ public class ObjectFactory {
 			}
 			else {
 				EAdParam param = constructParam( value, (Class<? extends EAdParam>) fieldType );
-				paramsMap.put(""+paramsMap.keySet().size(), param);
+				paramsMap.put("param"+paramsMap.keySet().size(), param);
 				return param;
 			}
 		} else if ( EAdElement.class.isAssignableFrom(fieldType)){

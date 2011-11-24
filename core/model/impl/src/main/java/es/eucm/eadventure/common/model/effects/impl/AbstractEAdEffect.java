@@ -88,17 +88,14 @@ public abstract class AbstractEAdEffect extends ConditionedElement
 	 * @param id
 	 *            id for this element
 	 */
-	public AbstractEAdEffect(String id) {
-		super(id);
+	public AbstractEAdEffect() {
+		super();
+		setId("effect");
 		blocking = false;
 		opaque = false;
 		queueable = false;
 		events = new EAdListImpl<EAdEvent>(EAdEvent.class);
 		nextEffects = new EAdListImpl<EAdEffect>(EAdEffect.class);
-	}
-
-	public AbstractEAdEffect() {
-		this("effect");
 	}
 
 	/**

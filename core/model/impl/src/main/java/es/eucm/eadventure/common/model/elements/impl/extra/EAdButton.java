@@ -61,8 +61,9 @@ public class EAdButton extends EAdBasicSceneElement {
 	@Param("text")
 	private Caption text;
 
-	public EAdButton(String id) {
-		super(id);
+	public EAdButton() {
+		super();
+		setId("button");
 		text = new CaptionImpl(EAdString.newEAdString("default"));
 	}
 
@@ -96,17 +97,20 @@ public class EAdButton extends EAdBasicSceneElement {
 		getResources().addAsset(pressedBundle, EAdBasicSceneElement.appearance,
 				cd2);
 
-		behavior = new EAdBehaviorImpl(id + "_behavior");
+		behavior = new EAdBehaviorImpl();
+		behavior.setId(id + "_behavior");
 		// behavior.addBehavior(EAdMouseEventImpl.MOUSE_LEFT_CLICK, new
 		// EAdQuitGame(behavior, "menuButton_quitGame"));
 		setBehavior(behavior);
 
 		EAdChangeAppearance changeAppearance = new EAdChangeAppearance(
-				"menuButton_enter", this, pressedBundle);
+				 this, pressedBundle);
+		changeAppearance.setId("menuButton_enter");
 		behavior.addBehavior(EAdMouseEventImpl.MOUSE_ENTERED, changeAppearance);
 
-		changeAppearance = new EAdChangeAppearance("menuButton_exit", this,
+		changeAppearance = new EAdChangeAppearance( this,
 				this.getInitialBundle());
+		changeAppearance.setId("menuButton_exit");
 		behavior.addBehavior(EAdMouseEventImpl.MOUSE_EXITED, changeAppearance);
 	}
 

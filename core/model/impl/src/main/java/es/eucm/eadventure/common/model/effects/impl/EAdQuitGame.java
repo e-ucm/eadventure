@@ -43,8 +43,9 @@ import es.eucm.eadventure.common.model.effects.EAdEffect;
 @Element(runtime = EAdQuitGame.class, detailed = EAdQuitGame.class)
 public class EAdQuitGame extends AbstractEAdEffect implements EAdEffect {
 
-	public EAdQuitGame(String id) {
-		super(id);
+	public EAdQuitGame() {
+		super();
+		setId("quitGame");
 	}
 
 }

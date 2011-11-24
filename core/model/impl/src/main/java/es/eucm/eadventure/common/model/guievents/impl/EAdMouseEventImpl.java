@@ -41,6 +41,8 @@ import es.eucm.eadventure.common.interfaces.Element;
 import es.eucm.eadventure.common.interfaces.Param;
 import es.eucm.eadventure.common.model.EAdElement;
 import es.eucm.eadventure.common.model.guievents.EAdMouseEvent;
+import es.eucm.eadventure.common.model.guievents.enums.MouseActionType;
+import es.eucm.eadventure.common.model.guievents.enums.MouseButton;
 import es.eucm.eadventure.common.model.impl.EAdElementImpl;
 
 @Element(runtime = EAdMouseEventImpl.class, detailed = EAdMouseEventImpl.class)
@@ -169,5 +171,16 @@ public class EAdMouseEventImpl extends EAdElementImpl implements EAdMouseEvent {
 	public int hashCode() {
 		return type.hashCode() + button.hashCode();
 	}
+
+	public void setType(MouseActionType type) {
+		this.type = type;
+	}
+
+	public void setButton(MouseButton button) {
+		this.button = button;
+	}
+	
+	
+	
 
 }

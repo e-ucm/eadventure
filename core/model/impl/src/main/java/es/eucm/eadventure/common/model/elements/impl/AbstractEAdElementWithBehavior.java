@@ -55,9 +55,10 @@ public abstract class AbstractEAdElementWithBehavior extends
 	@Param("behavior")
 	protected EAdBehavior behavior;
 
-	public AbstractEAdElementWithBehavior(String id) {
-		super(id);
-		this.behavior = new EAdBehaviorImpl(id + "behaviors");
+	public AbstractEAdElementWithBehavior() {
+		super();
+		this.behavior = new EAdBehaviorImpl();
+		behavior.setId(id + "behaviors");
 	}
 
 	public EAdList<EAdEffect> getEffects(EAdGUIEvent event) {

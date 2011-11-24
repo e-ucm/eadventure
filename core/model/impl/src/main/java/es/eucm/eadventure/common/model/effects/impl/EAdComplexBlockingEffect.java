@@ -59,8 +59,8 @@ public class EAdComplexBlockingEffect extends AbstractEAdEffect implements
 	@Param("finalEffects")
 	protected EAdList<EAdEffect> finalEffects;
 
-	public EAdComplexBlockingEffect(String id) {
-		super(id);
+	public EAdComplexBlockingEffect() {
+		super();
 		components = new EAdListImpl<EAdSceneElement>(EAdSceneElement.class);
 		finalEffects = new EAdListImpl<EAdEffect>(EAdEffect.class);
 	}

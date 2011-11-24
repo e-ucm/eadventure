@@ -6,7 +6,7 @@ import es.eucm.eadventure.common.elementfactories.scenedemos.EmptyScene;
 import es.eucm.eadventure.common.model.conditions.impl.ANDCondition;
 import es.eucm.eadventure.common.model.conditions.impl.NOTCondition;
 import es.eucm.eadventure.common.model.conditions.impl.OperationCondition;
-import es.eucm.eadventure.common.model.conditions.impl.OperationCondition.Comparator;
+import es.eucm.eadventure.common.model.conditions.impl.enums.Comparator;
 import es.eucm.eadventure.common.model.effects.EAdEffect;
 import es.eucm.eadventure.common.model.effects.impl.sceneelements.EAdMoveSceneElement;
 import es.eucm.eadventure.common.model.effects.impl.text.EAdSpeakEffect;
@@ -14,7 +14,7 @@ import es.eucm.eadventure.common.model.effects.impl.variables.EAdChangeFieldValu
 import es.eucm.eadventure.common.model.elements.EAdCondition;
 import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
 import es.eucm.eadventure.common.model.events.EAdSceneElementEvent;
-import es.eucm.eadventure.common.model.events.EAdSceneElementEvent.SceneElementEvent;
+import es.eucm.eadventure.common.model.events.enums.SceneElementEventType;
 import es.eucm.eadventure.common.model.events.impl.EAdSceneElementEventImpl;
 import es.eucm.eadventure.common.model.guievents.impl.EAdMouseEventImpl;
 import es.eucm.eadventure.common.model.trajectories.impl.SimpleTrajectoryDefinition;
@@ -46,8 +46,9 @@ public class NgRoom1 extends EmptyScene {
 	public NgRoom1() {
 		NgCommon.init();
 		initConditions();
-		setBackground(new EAdBasicSceneElement("background", new ImageImpl(
+		setBackground(new EAdBasicSceneElement( new ImageImpl(
 				"@drawable/ng_room1_bg.png")));
+		getBackground().setId("background");
 
 		ng = new EAdBasicSceneElement(NgCommon.getMainCharacter());
 
@@ -58,7 +59,8 @@ public class NgRoom1 extends EmptyScene {
 		d.setLimits(150, 380, 800, 600);
 		setTrajectoryDefinition(d);
 
-		EAdMoveSceneElement move = new EAdMoveSceneElement("moveCharacter");
+		EAdMoveSceneElement move = new EAdMoveSceneElement();
+		move.setId("moveCharacter");
 		move.setTargetCoordiantes(SystemFields.MOUSE_X, SystemFields.MOUSE_Y);
 		move.setSceneElement(ng);
 		move.setUseTrajectory(true);
@@ -85,28 +87,35 @@ public class NgRoom1 extends EmptyScene {
 	}
 
 	private void createElements() {
-		darkness = new EAdBasicSceneElement("darkness", new ImageImpl(
+		darkness = new EAdBasicSceneElement( new ImageImpl(
 				"@drawable/ng_lights_off.png"));
+		darkness.setId("darkness");
 		darkness.setPosition(Corner.CENTER, 0, 0);
-		table = new EAdBasicSceneElement("table", new ImageImpl(
+		table = new EAdBasicSceneElement( new ImageImpl(
 				"@drawable/ng_table.png"));
+		table.setId("table");
 		table.setPosition(Corner.CENTER, 576, 550);
-		lamp = new EAdBasicSceneElement("lamp", new ImageImpl(
+		lamp = new EAdBasicSceneElement( new ImageImpl(
 				"@drawable/ng_lamp.png"));
+		lamp.setId("lamp");
 		lamp.setPosition(Corner.CENTER, 617, 470);
 
-		carpet = new EAdBasicSceneElement("table", new ImageImpl(
+		carpet = new EAdBasicSceneElement( new ImageImpl(
 				"@drawable/ng_carpet.png"));
+		carpet.setId("table");
 		carpet.setPosition(Corner.CENTER, 350, 470);
-		door = new EAdBasicSceneElement("table", new ImageImpl(
+		door = new EAdBasicSceneElement(new ImageImpl(
 				"@drawable/ng_door.png"));
+		door.setId("door");
 		door.setPosition(Corner.CENTER, 662, 235);
-		portrait = new EAdBasicSceneElement("portrait", new ImageImpl(
+		portrait = new EAdBasicSceneElement( new ImageImpl(
 				"@drawable/ng_portrait.png"));
+		portrait.setId("portrait");
 		portrait.setPosition(Corner.CENTER, 430, 230);
 
-		key = new EAdBasicSceneElement("table", new ImageImpl(
+		key = new EAdBasicSceneElement( new ImageImpl(
 				"@drawable/ng_key.png"));
+		key.setId("key");
 		key.setPosition(Corner.CENTER, 430, 230);
 
 	}
@@ -124,23 +133,24 @@ public class NgRoom1 extends EmptyScene {
 
 	private void setDarkness(EAdBasicSceneElement ng) {
 		EAdSceneElementEvent event = new EAdSceneElementEventImpl();
-		EAdChangeFieldValueEffect changeX = new EAdChangeFieldValueEffect(
-				"changeX", new EAdFieldImpl<Integer>(darkness,
+		EAdChangeFieldValueEffect changeX = new EAdChangeFieldValueEffect( new EAdFieldImpl<Integer>(darkness,
 						EAdBasicSceneElement.VAR_X), new EAdFieldImpl<Integer>(
 						ng, EAdBasicSceneElement.VAR_CENTER_X));
+		changeX.setId("changeX");
 		EAdChangeFieldValueEffect changeY = new EAdChangeFieldValueEffect(
-				"changeY", new EAdFieldImpl<Integer>(darkness,
+				new EAdFieldImpl<Integer>(darkness,
 						EAdBasicSceneElement.VAR_Y), new EAdFieldImpl<Integer>(
 						ng, EAdBasicSceneElement.VAR_CENTER_Y));
-		event.addEffect(SceneElementEvent.ALWAYS, changeX);
-		event.addEffect(SceneElementEvent.ALWAYS, changeY);
+		changeY.setId("changeY");
+		event.addEffect(SceneElementEventType.ALWAYS, changeX);
+		event.addEffect(SceneElementEventType.ALWAYS, changeY);
 
 		darkness.getEvents().add(event);
 	}
 
 	private void setLamp() {
-		EAdChangeFieldValueEffect switchLights = new EAdChangeFieldValueEffect(
-				"switch", darknessVisible, new BooleanOperation(isNotDark));
+		EAdChangeFieldValueEffect switchLights = new EAdChangeFieldValueEffect(darknessVisible, new BooleanOperation(isNotDark));
+		switchLights.setId("switch");
 		EAdMoveSceneElement move = moveNg(617, 510);
 		move.getFinalEffects().add(switchLights);
 		lamp.addBehavior(EAdMouseEventImpl.MOUSE_LEFT_PRESSED, move);
@@ -197,13 +207,15 @@ public class NgRoom1 extends EmptyScene {
 
 	private EAdEffect getSpeakEffect(int i) {
 		StringFactory sf = EAdElementsFactory.getInstance().getStringFactory();
-		EAdSpeakEffect speak = new EAdSpeakEffect("effect1");
+		EAdSpeakEffect speak = new EAdSpeakEffect();
+		speak.setId("effect1");
 		sf.setString(speak.getString(), strings[i]);
 		return speak;
 	}
 
 	private EAdMoveSceneElement moveNg(int x, int y) {
-		EAdMoveSceneElement move = new EAdMoveSceneElement("move");
+		EAdMoveSceneElement move = new EAdMoveSceneElement();
+		move.setId("move");
 		move.setSceneElement(ng);
 		move.setTargetCoordiantes(x, y);
 		return move;

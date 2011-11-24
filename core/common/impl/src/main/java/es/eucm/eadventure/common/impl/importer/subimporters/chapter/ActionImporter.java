@@ -62,9 +62,9 @@ import es.eucm.eadventure.common.model.effects.EAdMacro;
 import es.eucm.eadventure.common.model.effects.impl.EAdMacroImpl;
 import es.eucm.eadventure.common.model.effects.impl.EAdModifyActorState;
 import es.eucm.eadventure.common.model.effects.impl.EAdModifyActorState.Modification;
-import es.eucm.eadventure.common.model.effects.impl.EAdTriggerMacro;
 import es.eucm.eadventure.common.model.elements.EAdCondition;
 import es.eucm.eadventure.common.model.elements.EAdSceneElementDef;
+import es.eucm.eadventure.common.model.effects.impl.EAdTriggerMacro;
 import es.eucm.eadventure.common.predef.model.effects.EAdMoveActiveElement;
 import es.eucm.eadventure.common.resources.EAdBundleId;
 import es.eucm.eadventure.common.resources.StringHandler;
@@ -98,7 +98,9 @@ public class ActionImporter implements EAdElementImporter<Action, EAdAction> {
 
 	@Override
 	public EAdAction init(Action oldObject) {
-		return new EAdBasicAction(oldObject.getTargetId() + "_action");
+		EAdAction basicAction = new EAdBasicAction();
+		basicAction.setId(oldObject.getTargetId() + "_action");
+		return basicAction;
 	}
 
 	@Override
@@ -118,13 +120,15 @@ public class ActionImporter implements EAdElementImporter<Action, EAdAction> {
 		else
 			action.setCondition(EmptyCondition.TRUE_EMPTY_CONDITION);
 
-		EAdMacro effects = new EAdMacroImpl("actionEffects");
-		EAdTriggerMacro triggerEffects = new EAdTriggerMacro(
-				"actionEffectTrigger", effects);
+		EAdMacro effects = new EAdMacroImpl();
+		effects.setId("actionEffects");
+		EAdTriggerMacro triggerEffects = new EAdTriggerMacro( effects);
+		triggerEffects.setId("actionEffectTrigger");
 		triggerEffects.setCondition(action.getCondition());
 		
 		if (oldObject.isNeedsGoTo()) {
-			EAdMoveActiveElement moveActiveElement = new EAdMoveActiveElement("moveToActionTarget");
+			EAdMoveActiveElement moveActiveElement = new EAdMoveActiveElement();
+			moveActiveElement.setId("moveToActionTarget");
 			moveActiveElement.setTarget(actor);
 			moveActiveElement.getFinalEffects().add(triggerEffects);
 			action.getEffects().add(moveActiveElement);
@@ -150,9 +154,10 @@ public class ActionImporter implements EAdElementImporter<Action, EAdAction> {
 
 		if (oldObject.getNotEffects() != null
 				&& !oldObject.getNotEffects().isEmpty()) {
-			EAdMacro notEffects = new EAdMacroImpl("actionNotEffects");
-			EAdTriggerMacro triggerNotEffects = new EAdTriggerMacro(
-					"actionNotEffectTrigger", notEffects);
+			EAdMacro notEffects = new EAdMacroImpl();
+			notEffects.setId("actionNotEffects");
+			EAdTriggerMacro triggerNotEffects = new EAdTriggerMacro(notEffects);
+			triggerNotEffects.setId("actionNotEffectTrigger");
 			triggerNotEffects.setCondition(new NOTCondition(action
 					.getCondition()));
 			action.getEffects().add(triggerNotEffects);
@@ -254,8 +259,8 @@ public class ActionImporter implements EAdElementImporter<Action, EAdAction> {
 				return list;
 		switch (actionType) {
 		case Action.GRAB:
-			EAdModifyActorState modifyState = new EAdModifyActorState(
-					"grabEffect", actor, Modification.PLACE_IN_INVENTORY);
+			EAdModifyActorState modifyState = new EAdModifyActorState( actor, Modification.PLACE_IN_INVENTORY);
+			modifyState.setId("grabEffect");
 			list.add(modifyState);
 			break;
 		// TODO Effects for the rest of actions

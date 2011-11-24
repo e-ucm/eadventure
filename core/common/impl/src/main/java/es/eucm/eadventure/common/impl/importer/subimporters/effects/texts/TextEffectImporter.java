@@ -42,6 +42,7 @@ import es.eucm.eadventure.common.data.chapter.conditions.Conditions;
 import es.eucm.eadventure.common.data.chapter.effects.AbstractEffect;
 import es.eucm.eadventure.common.impl.importer.interfaces.EAdElementFactory;
 import es.eucm.eadventure.common.impl.importer.subimporters.effects.EffectImporter;
+import es.eucm.eadventure.common.model.effects.impl.text.EAdSpeakEffect;
 import es.eucm.eadventure.common.model.elements.EAdCondition;
 import es.eucm.eadventure.common.predef.model.effects.EAdSpeakSceneElement;
 import es.eucm.eadventure.common.resources.StringHandler;
@@ -65,7 +66,9 @@ public abstract class TextEffectImporter<T extends AbstractEffect> extends
 
 	@Override
 	public EAdSpeakSceneElement init(T oldObject) {
-		return new EAdSpeakSceneElement("SpeakEffect" + ID_GENERATOR++ );
+		EAdSpeakSceneElement speakEffect =  new EAdSpeakSceneElement();
+		speakEffect.setId("showText" + ID_GENERATOR++);
+		return speakEffect;
 	}
 
 	public EAdSpeakSceneElement convert(T oldObject, Object object) {

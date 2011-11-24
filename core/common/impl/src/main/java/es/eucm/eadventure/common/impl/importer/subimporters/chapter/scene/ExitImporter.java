@@ -54,6 +54,8 @@ import es.eucm.eadventure.common.model.elements.EAdCondition;
 import es.eucm.eadventure.common.model.elements.EAdScene;
 import es.eucm.eadventure.common.model.elements.EAdSceneElement;
 import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
+import es.eucm.eadventure.common.model.events.enums.ConditionedEventType;
+import es.eucm.eadventure.common.model.events.impl.EAdConditionEventImpl;
 import es.eucm.eadventure.common.model.guievents.impl.EAdMouseEventImpl;
 import es.eucm.eadventure.common.model.trajectories.impl.NodeTrajectoryDefinition;
 import es.eucm.eadventure.common.model.transitions.EAdTransition;
@@ -90,8 +92,8 @@ public class ExitImporter implements EAdElementImporter<Exit, EAdSceneElement> {
 	}
 
 	public EAdSceneElement init(Exit oldObject) {
-		EAdBasicSceneElement newExit = new EAdBasicSceneElement("exit"
-				+ ID_GENERATOR++);
+		EAdBasicSceneElement newExit = new EAdBasicSceneElement();
+		newExit.setId("exit" + ID_GENERATOR++);
 		return newExit;
 	}
 
@@ -123,8 +125,8 @@ public class ExitImporter implements EAdElementImporter<Exit, EAdSceneElement> {
 		// Change scene effect
 		EAdScene scene = (EAdScene) factory.getElementById(oldObject
 				.getNextSceneId());
-		EAdChangeScene changeScene = new EAdChangeScene("change_screen_"
-				+ newExit.getId(), scene, EAdTransition.BASIC);
+		EAdChangeScene changeScene = new EAdChangeScene( scene, EAdTransition.BASIC);
+		changeScene.setId("change_screen_" + newExit.getId());
 		changeScene.setCondition(enableCondition);
 		
 		// Post effects
@@ -145,8 +147,8 @@ public class ExitImporter implements EAdElementImporter<Exit, EAdSceneElement> {
 								oldObject.getInfluenceArea().getHeight()));
 			}
 
-			EAdMoveActiveElement move = new EAdMoveActiveElement(
-					"moveToExit");
+			EAdMoveActiveElement move = new EAdMoveActiveElement();
+			move.setId("moveToExit");
 			move.setTarget(newExit);
 			move.getFinalEffects().add(changeScene);
 
@@ -156,6 +158,8 @@ public class ExitImporter implements EAdElementImporter<Exit, EAdSceneElement> {
 	}
 
 	private void addAppearance(EAdBasicSceneElement newExit, Exit oldObject) {
+
+
 		// Add name
 		ExitLook exitLook = oldObject.getDefaultExitLook();
 

@@ -52,7 +52,7 @@ public interface EAdEvent extends EAdElement {
 	 * 
 	 * @return The list of effects
 	 */
-	EAdList<EAdEffect> getEffects(Enum<?> event);
+	EAdList<EAdEffect> getEffectsForEvent(Enum<?> event);
 	
 	void addEffect(Enum<?> event, EAdEffect effect);
 

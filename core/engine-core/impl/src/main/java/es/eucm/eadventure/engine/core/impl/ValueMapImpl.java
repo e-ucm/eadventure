@@ -100,7 +100,7 @@ public class ValueMapImpl implements ValueMap {
 			valMap.put(varDef, value);
 		} else {
 			logger.warning("setValue failed: Impossible to cast "
-					+ varDef.getType() + " to " + value.getClass());
+					+ varDef.getType() + " to " + value.getClass() + " for element " + element.getId() + " of class " + element.getClass());
 		}
 	}
 
@@ -130,7 +130,7 @@ public class ValueMapImpl implements ValueMap {
 	public <S> S getValue(EAdElement element, EAdVarDef<S> varDef) {
 		return getFinalValue(getFinalElement(element), varDef);
 	}
-
+	
 	@SuppressWarnings("unchecked")
 	private <S> S getFinalValue(EAdElement element, EAdVarDef<S> varDef) {
 		Map<EAdVarDef<?>, Object> valMap = element == null ? systemVars : map
@@ -145,6 +145,7 @@ public class ValueMapImpl implements ValueMap {
 				|| !reflectionProvider.isAssignableFrom(varDef.getType(),
 						value.getClass()) ? varDef.getInitialValue()
 				: (S) value;
+
 	}
 
 	@Override

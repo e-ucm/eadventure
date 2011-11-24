@@ -47,8 +47,9 @@ import es.eucm.eadventure.common.resources.EAdBundleId;
 @Element(runtime = EAdChangeFieldValueEffect.class, detailed = EAdChangeAppearance.class)
 public class EAdChangeAppearance extends EAdChangeFieldValueEffect {
 	
-	public EAdChangeAppearance(String id, EAdElement element, EAdBundleId bundleId) {
-		super(id);
+	public EAdChangeAppearance(EAdElement element, EAdBundleId bundleId) {
+		super();
+		this.setId("changeApperance");
 		this.setParentVar(ResourcedElementImpl.VAR_BUNDLE_ID);
 		this.setOperation(new ValueOperation(bundleId));
 	}
