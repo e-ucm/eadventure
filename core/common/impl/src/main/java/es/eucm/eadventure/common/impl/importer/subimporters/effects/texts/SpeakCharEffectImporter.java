@@ -72,7 +72,7 @@ public class SpeakCharEffectImporter extends
 	public EAdSpeakEffect init(SpeakCharEffect oldObject) {
 		npc = factory.getCurrentOldChapterModel().getCharacter(
 				oldObject.getTargetId());
-		EAdSpeakSceneElement effect = new EAdSpeakSceneElement("speakPlayer3rd" );
+		EAdSpeakSceneElement effect = new EAdSpeakSceneElement();
 		effect.setElement(factory.getElementById(npc.getId()));
 		return effect;
 	}

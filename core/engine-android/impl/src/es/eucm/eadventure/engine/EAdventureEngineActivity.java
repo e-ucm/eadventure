@@ -129,7 +129,8 @@ public class EAdventureEngineActivity extends Activity {
 				.getStrings());
 		
 		EAdAdventureModel model = new EAdAdventureModelImpl();
-		EAdChapterImpl c1 = new EAdChapterImpl( "chapter1" );
+		EAdChapterImpl c1 = new EAdChapterImpl( );
+		c1.setId("chapter1");
 		c1.getScenes().add(sceneImpl);
 		c1.setInitialScene(sceneImpl);
 		model.getChapters().add(c1);

@@ -154,10 +154,7 @@ public class EAdEngine implements playn.core.Game, Keyboard.Listener {
 
 	}
 	
-	@Override
-	public void onKeyTyped(Keyboard.TypedEvent event) {
-		//TODO
-	}
+
 
 	@Override
 	public void onKeyUp(Event event) {

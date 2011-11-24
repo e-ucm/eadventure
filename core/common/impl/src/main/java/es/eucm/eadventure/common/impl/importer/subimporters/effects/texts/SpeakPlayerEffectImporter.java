@@ -68,10 +68,10 @@ public class SpeakPlayerEffectImporter extends
 	public EAdSpeakEffect init(SpeakPlayerEffect oldObject) {
 		npc = factory.getCurrentOldChapterModel().getPlayer();
 		if ( factory.isFirstPerson() ){
-			return new EAdSpeakEffect("speakPlayer1st");
+			return new EAdSpeakEffect();
 		}
 		else{
-			EAdSpeakSceneElement effect = new EAdSpeakSceneElement("speakPlayer3rd" );
+			EAdSpeakSceneElement effect = new EAdSpeakSceneElement();
 			effect.setElement(factory.getElementById(npc.getId()));
 			return effect;
 		}

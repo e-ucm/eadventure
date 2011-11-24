@@ -90,18 +90,22 @@ public abstract class ActorImporter<P extends Element> implements
 	@Override
 	public EAdSceneElementDef init(P oldObject) {
 		this.element = oldObject;
-		return new EAdSceneElementDefImpl(oldObject.getId());
+		return new EAdSceneElementDefImpl();
 	}
 
 	@Override
 	public EAdSceneElementDef convert(P oldObject, Object object) {
 		EAdSceneElementDefImpl actor = (EAdSceneElementDefImpl) object;
+		actor.setId(oldObject.getId());
 		elementFactory.getCurrentChapterModel().getActors().add(actor);
 
 		stringHandler.setString(actor.getName(), oldObject.getName());
-		stringHandler.setString(actor.getDescription(), oldObject.getDescription());
-		stringHandler.setString(actor.getDetailedDescription(), oldObject.getDetailedDescription());
-		stringHandler.setString(actor.getDocumentation(), oldObject.getDocumentation());
+		stringHandler.setString(actor.getDescription(),
+				oldObject.getDescription());
+		stringHandler.setString(actor.getDetailedDescription(),
+				oldObject.getDetailedDescription());
+		stringHandler.setString(actor.getDocumentation(),
+				oldObject.getDocumentation());
 
 		initResourcesCorrespondencies();
 
@@ -147,27 +151,28 @@ public abstract class ActorImporter<P extends Element> implements
 		}
 
 		if (addExamine) {
-			addExamine( oldObject, actor, stringHandler );
+			addExamine(oldObject, actor, stringHandler);
 		}
 
 	}
 
-	private static <P extends Element> void addExamine(P oldObject, EAdSceneElementDefImpl actor, StringHandler stringHandler ) {
-		
-		EAdBasicAction examineAction = new EAdBasicAction(actor.getId()
-				+ "_action_examinate");
+	private static <P extends Element> void addExamine(P oldObject,
+			EAdSceneElementDefImpl actor, StringHandler stringHandler) {
 
-		EAdSpeakEffect effect = new EAdSpeakEffect( "examinate" );
-		stringHandler.setString(effect.getString(), oldObject.getDetailedDescription());
+		EAdBasicAction examineAction = new EAdBasicAction();
+		examineAction.setId(actor.getId() + "_action_examinate");
+
+		EAdSpeakEffect effect = new EAdSpeakEffect();
+		effect.setId("examinate");
+		stringHandler.setString(effect.getString(),
+				oldObject.getDetailedDescription());
 		effect.setAlignment(Alignment.CENTER);
 
 		examineAction.getEffects().add(effect);
 
-		examineAction.getResources().addAsset(
-				examineAction.getNormalBundle(),
+		examineAction.getResources().addAsset(examineAction.getNormalBundle(),
 				EAdBasicAction.appearance,
-				new ImageImpl(ActionImporter
-						.getDrawablePath(Action.EXAMINE)));
+				new ImageImpl(ActionImporter.getDrawablePath(Action.EXAMINE)));
 		examineAction.getResources().addAsset(
 				examineAction.getHighlightBundle(),
 				EAdBasicAction.appearance,
@@ -175,7 +180,7 @@ public abstract class ActorImporter<P extends Element> implements
 						.getHighlightDrawablePath(Action.EXAMINE)));
 
 		actor.getValidActions().add(examineAction);
-		
+
 	}
 
 	public abstract void initResourcesCorrespondencies();

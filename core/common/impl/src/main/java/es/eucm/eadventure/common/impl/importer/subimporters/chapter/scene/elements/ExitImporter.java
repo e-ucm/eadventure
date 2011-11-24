@@ -80,8 +80,8 @@ public class ExitImporter extends ElementImporter<Exit> {
 	}
 
 	public EAdSceneElement init(Exit oldObject) {
-		EAdBasicSceneElement newExit = new EAdBasicSceneElement("exit"
-				+ ID_GENERATOR++);
+		EAdBasicSceneElement newExit = new EAdBasicSceneElement();
+		newExit.setId("exit" + ID_GENERATOR++);
 		return newExit;
 	}
 
@@ -95,7 +95,7 @@ public class ExitImporter extends ElementImporter<Exit> {
 		// Enable condition
 		EAdCondition enableCondition = getEnableCondition(oldObject
 				.getConditions());
-		
+
 		super.addEnableEvent(newExit, enableCondition);
 
 		// Effects
@@ -109,7 +109,6 @@ public class ExitImporter extends ElementImporter<Exit> {
 
 		// Add appearance (name and cursor)
 		addAppearance(newExit, oldObject);
-		
 
 		return newExit;
 	}
@@ -120,8 +119,9 @@ public class ExitImporter extends ElementImporter<Exit> {
 		// Change scene effect
 		EAdScene scene = (EAdScene) factory.getElementById(oldObject
 				.getNextSceneId());
-		EAdChangeScene changeScene = new EAdChangeScene("change_screen_"
-				+ newExit.getId(), scene, EAdTransition.BASIC);
+		EAdChangeScene changeScene = new EAdChangeScene(scene,
+				EAdTransition.BASIC);
+		changeScene.setId("change_screen_" + newExit.getId());
 		changeScene.setCondition(enableCondition);
 
 		// Post effects

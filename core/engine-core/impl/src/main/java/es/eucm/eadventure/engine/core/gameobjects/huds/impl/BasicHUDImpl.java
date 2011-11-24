@@ -198,7 +198,7 @@ public class BasicHUDImpl extends AbstractHUD implements BasicHUD {
 		c.setPadding(10);
 		c.setTextPaint(EAdColor.BLACK);
 		stringHandler.setString(c.getText(), "");
-		contextual = new EAdBasicSceneElement("contextual", c);
+		contextual = new EAdBasicSceneElement(c);
 		contextual.setPosition(new EAdPositionImpl(0, 0, 0.5f, 1.5f));
 		contextual.setVarInitialValue(EAdBasicSceneElement.VAR_VISIBLE,
 				Boolean.FALSE);
@@ -238,7 +238,8 @@ public class BasicHUDImpl extends AbstractHUD implements BasicHUD {
 
 	// Mouse
 	private void initMouse() {
-		mouse = new EAdBasicSceneElement("mouse", cursor);
+		mouse = new EAdBasicSceneElement(cursor);
+		mouse.setId("mouse");
 		addElement(sceneElementFactory.get(mouse));
 	}
 

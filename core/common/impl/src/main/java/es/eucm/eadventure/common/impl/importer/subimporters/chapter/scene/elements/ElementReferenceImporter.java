@@ -66,14 +66,8 @@ public class ElementReferenceImporter extends ElementImporter<ElementReference> 
 		super(factory, conditionsImporter, stringHandler);
 	}
 
-	/**
-	 * Used to ensure unique identifiers in references
-	 */
-	private static int ID_GENERATOR = 0;
-
 	public EAdSceneElement init(ElementReference oldObject) {
-		EAdBasicSceneElement newRef = new EAdBasicSceneElement(
-				oldObject.getTargetId() + "_reference_" + ID_GENERATOR++);
+		EAdBasicSceneElement newRef = new EAdBasicSceneElement();
 		return newRef;
 	}
 
@@ -97,8 +91,7 @@ public class ElementReferenceImporter extends ElementImporter<ElementReference> 
 				oldObject.getInfluenceArea());
 
 		// add actions
-		EAdActorActionsEffect showActions = new EAdActorActionsEffect(
-				actor.getId() + "_showActions", newRef);
+		EAdActorActionsEffect showActions = new EAdActorActionsEffect(newRef);
 		newRef.addBehavior(EAdMouseEventImpl.MOUSE_RIGHT_CLICK, showActions);
 
 		// add description

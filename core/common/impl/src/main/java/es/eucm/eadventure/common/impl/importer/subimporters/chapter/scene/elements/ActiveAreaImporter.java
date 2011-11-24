@@ -48,18 +48,12 @@ import es.eucm.eadventure.common.impl.importer.subimporters.chapter.ActorImporte
 import es.eucm.eadventure.common.impl.importer.subimporters.chapter.scene.ShapedElementImporter;
 import es.eucm.eadventure.common.model.actions.EAdAction;
 import es.eucm.eadventure.common.model.effects.impl.EAdActorActionsEffect;
-import es.eucm.eadventure.common.model.effects.impl.variables.EAdChangeFieldValueEffect;
 import es.eucm.eadventure.common.model.elements.EAdCondition;
 import es.eucm.eadventure.common.model.elements.EAdSceneElement;
 import es.eucm.eadventure.common.model.elements.EAdSceneElementDef;
 import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
 import es.eucm.eadventure.common.model.elements.impl.EAdSceneElementDefImpl;
-import es.eucm.eadventure.common.model.events.EAdConditionEvent.ConditionedEvent;
-import es.eucm.eadventure.common.model.events.impl.EAdConditionEventImpl;
 import es.eucm.eadventure.common.model.guievents.impl.EAdMouseEventImpl;
-import es.eucm.eadventure.common.model.variables.EAdField;
-import es.eucm.eadventure.common.model.variables.impl.EAdFieldImpl;
-import es.eucm.eadventure.common.model.variables.impl.operations.BooleanOperation;
 import es.eucm.eadventure.common.predef.model.effects.EAdChangeAppearance;
 import es.eucm.eadventure.common.resources.EAdBundleId;
 import es.eucm.eadventure.common.resources.StringHandler;
@@ -80,8 +74,7 @@ public class ActiveAreaImporter extends ElementImporter<ActiveArea> {
 
 	@Override
 	public EAdSceneElement init(ActiveArea oldObject) {
-		EAdSceneElementDefImpl newActiveArea = new EAdSceneElementDefImpl(
-				oldObject.getId());
+		EAdSceneElementDefImpl newActiveArea = new EAdSceneElementDefImpl();
 		EAdSceneElement newActiveAreaReference = new EAdBasicSceneElement(
 				newActiveArea);
 		return newActiveAreaReference;
@@ -130,10 +123,10 @@ public class ActiveAreaImporter extends ElementImporter<ActiveArea> {
 		newActiveArea.getResources().addAsset(id,
 				EAdBasicSceneElement.appearance, shape2);
 		newActiveAreaReference.addBehavior(EAdMouseEventImpl.MOUSE_ENTERED,
-				new EAdChangeAppearance("test", newActiveArea, id));
+				new EAdChangeAppearance(newActiveArea, id));
 		newActiveAreaReference.addBehavior(
 				EAdMouseEventImpl.MOUSE_EXITED,
-				new EAdChangeAppearance("test", newActiveArea, newActiveArea
+				new EAdChangeAppearance(newActiveArea, newActiveArea
 						.getInitialBundle()));
 		
 	}
@@ -143,8 +136,7 @@ public class ActiveAreaImporter extends ElementImporter<ActiveArea> {
 			EAdBasicSceneElement newActiveAreaReference) {
 		ActorImporter.addActions(oldObject, newActiveArea, actionImporter,
 				stringHandler);
-		EAdActorActionsEffect showActions = new EAdActorActionsEffect(
-				newActiveAreaReference.getId() + "_showActions", newActiveAreaReference);
+		EAdActorActionsEffect showActions = new EAdActorActionsEffect( newActiveAreaReference);
 		newActiveAreaReference.addBehavior(EAdMouseEventImpl.MOUSE_RIGHT_CLICK,
 				showActions);
 	}

@@ -5,7 +5,6 @@ import es.eucm.eadventure.common.data.chapter.Exit;
 import es.eucm.eadventure.common.data.chapter.InfluenceArea;
 import es.eucm.eadventure.common.data.chapter.Rectangle;
 import es.eucm.eadventure.common.data.chapter.conditions.Conditions;
-import es.eucm.eadventure.common.data.chapter.elements.ActiveArea;
 import es.eucm.eadventure.common.data.chapter.elements.Element;
 import es.eucm.eadventure.common.impl.importer.interfaces.EAdElementFactory;
 import es.eucm.eadventure.common.impl.importer.subimporters.chapter.scene.ShapedElementImporter;
@@ -16,7 +15,7 @@ import es.eucm.eadventure.common.model.elements.EAdCondition;
 import es.eucm.eadventure.common.model.elements.EAdSceneElement;
 import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
 import es.eucm.eadventure.common.model.elements.impl.EAdSceneElementDefImpl;
-import es.eucm.eadventure.common.model.events.EAdConditionEvent.ConditionedEvent;
+import es.eucm.eadventure.common.model.events.enums.ConditionedEventType;
 import es.eucm.eadventure.common.model.events.impl.EAdConditionEventImpl;
 import es.eucm.eadventure.common.model.guievents.impl.EAdMouseEventImpl;
 import es.eucm.eadventure.common.model.trajectories.impl.NodeTrajectoryDefinition;
@@ -55,7 +54,7 @@ public abstract class ElementImporter<T> implements
 		if (factory.isFirstPerson()) {
 			newExit.addBehavior(EAdMouseEventImpl.MOUSE_LEFT_CLICK, finalEffect);
 		} else {
-			EAdMoveActiveElement move = new EAdMoveActiveElement("moveToExit");
+			EAdMoveActiveElement move = new EAdMoveActiveElement( );
 			move.setTarget(newExit);
 			move.getFinalEffects().add(finalEffect);
 			newExit.addBehavior(EAdMouseEventImpl.MOUSE_LEFT_CLICK, move);
@@ -114,7 +113,7 @@ public abstract class ElementImporter<T> implements
 		sceneElement.setVarInitialValue(EAdBasicSceneElement.VAR_NAME,
 				sceneElement.getDefinition().getName());
 		if (shortDescription != null) {
-			EAdSpeakEffect showDescription = new EAdSpeakEffect("sepakEffect");
+			EAdSpeakEffect showDescription = new EAdSpeakEffect( );
 			showDescription.setAlignment(Alignment.CENTER);
 			showDescription.setColor(EAdPaintImpl.WHITE_ON_BLACK,
 					EAdColor.TRANSPARENT);
@@ -128,20 +127,18 @@ public abstract class ElementImporter<T> implements
 	protected void addEnableEvent(EAdBasicSceneElement newActiveAreaReference,
 			EAdCondition condition ) {
 
-		EAdConditionEventImpl event = new EAdConditionEventImpl(
-				newActiveAreaReference.getId() + "_VisibleEvent");
+		EAdConditionEventImpl event = new EAdConditionEventImpl();
 		event.setCondition(condition);
 
 		EAdField<Boolean> enableField = new EAdFieldImpl<Boolean>(
 				newActiveAreaReference, EAdBasicSceneElement.VAR_VISIBLE);
 
-		EAdChangeFieldValueEffect changeEnable = new EAdChangeFieldValueEffect(
-				newActiveAreaReference.getId() + "_visibleEffect");
+		EAdChangeFieldValueEffect changeEnable = new EAdChangeFieldValueEffect();
 		
 		changeEnable.addField(enableField);
 		changeEnable.setOperation(new BooleanOperation( condition ));
-		event.addEffect(ConditionedEvent.CONDITIONS_MET, changeEnable);
-		event.addEffect(ConditionedEvent.CONDITIONS_UNMET, changeEnable);
+		event.addEffect(ConditionedEventType.CONDITIONS_MET, changeEnable);
+		event.addEffect(ConditionedEventType.CONDITIONS_UNMET, changeEnable);
 		
 		newActiveAreaReference.getEvents().add(event);		
 	}

@@ -38,6 +38,7 @@
 package es.eucm.eadventure.engine.extra;
 
 import java.util.logging.Logger;
+
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.GestureDetector;
@@ -46,9 +47,11 @@ import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
+
 import com.google.inject.Singleton;
-import es.eucm.eadventure.common.model.guievents.EAdMouseEvent.MouseActionType;
-import es.eucm.eadventure.common.model.guievents.EAdMouseEvent.MouseButton;
+
+import es.eucm.eadventure.common.model.guievents.enums.MouseActionType;
+import es.eucm.eadventure.common.model.guievents.enums.MouseButton;
 import es.eucm.eadventure.common.model.guievents.impl.EAdMouseEventImpl;
 import es.eucm.eadventure.engine.AndroidPlatformConfiguration;
 import es.eucm.eadventure.engine.core.MouseState;
@@ -56,7 +59,6 @@ import es.eucm.eadventure.engine.core.guiactions.MouseAction;
 import es.eucm.eadventure.engine.core.guiactions.impl.MouseActionImpl;
 import es.eucm.eadventure.engine.core.platform.GUI;
 import es.eucm.eadventure.engine.core.platform.PlatformConfiguration;
-import es.eucm.eadventure.engine.gameobjects.AndroidBasicHUD;
 
 @Singleton
 public class EAdventureSurfaceView extends SurfaceView implements SurfaceHolder.Callback {
