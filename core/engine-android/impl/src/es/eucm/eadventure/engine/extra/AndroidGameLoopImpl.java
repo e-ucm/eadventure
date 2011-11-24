@@ -67,7 +67,7 @@ public class AndroidGameLoopImpl implements GameLoop {
 	
 	static final int SKIP_MILLIS_TICK = 1000 / TICKS_PER_SECOND;
 
-	static final int MAX_FRAMES_PER_SECOND = 25;
+	static final int MAX_FRAMES_PER_SECOND = 30;
 
 	static final int SKIP_MILLIS_FRAME = 1000 / MAX_FRAMES_PER_SECOND;
 

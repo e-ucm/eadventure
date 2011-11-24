@@ -1,5 +1,6 @@
 package es.eucm.eadventure.engine.gameobjects;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -8,13 +9,14 @@ import android.graphics.Paint.Align;
 import android.graphics.Path;
 import android.graphics.Rect;
 import android.graphics.Typeface;
+import android.os.Vibrator;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-
 import es.eucm.eadventure.common.model.EAdElement;
 import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
 import es.eucm.eadventure.common.params.EAdString;
 import es.eucm.eadventure.common.resources.StringHandler;
+import es.eucm.eadventure.engine.AndroidAssetHandler;
 import es.eucm.eadventure.engine.AndroidPlatformConfiguration;
 import es.eucm.eadventure.engine.core.GameState;
 import es.eucm.eadventure.engine.core.MouseState;
@@ -38,6 +40,8 @@ public class AndroidBasicHUD extends BasicHUDImpl {
 	private Paint textPaint;
 	private Bitmap magGlass;
 	private AndroidPlatformConfiguration platformConfiguration;
+	private Vibrator vibrator;
+	private boolean vibrate;
 
 	@Inject
 	public AndroidBasicHUD(GUI gui, MenuHUD menuHUD,
@@ -49,7 +53,8 @@ public class AndroidBasicHUD extends BasicHUDImpl {
 		super(menuHUD, gameObjectFactory, gameState, mouseState, stringHandler,
 				gui, assetHandler);
 		this.platformConfiguration = (AndroidPlatformConfiguration) platformConfiguration;
-
+		this.vibrator = (Vibrator) ((AndroidAssetHandler) assetHandler).getContext().getSystemService(Context.VIBRATOR_SERVICE);
+		
 		borderPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
 		borderPaint.setColor(Color.BLACK);
 		borderPaint.setStyle(Paint.Style.STROKE);
@@ -68,6 +73,7 @@ public class AndroidBasicHUD extends BasicHUDImpl {
 		textPaint.setTextSize(25);
 		textPaint.setTypeface(Typeface.SANS_SERIF);
 		textPaint.setTextAlign(Align.CENTER);
+		vibrate = true;
 
 		logger.info("New instance");
 	}
@@ -122,21 +128,24 @@ public class AndroidBasicHUD extends BasicHUDImpl {
 						.getGameObjectUnderMouse();
 
 				if (go != null && go.getElement() instanceof EAdElement) {
-					EAdString name = gameState.getValueMap().getValue(
-							(EAdElement) go.getElement(),
+					EAdString name = gameState.getValueMap().getValue((EAdElement) go.getElement(),
 							EAdBasicSceneElement.VAR_NAME);
-					//graphicContext.drawText("Nombre GO", textX, textY,
-							//textPaint);
 					if (name != null) {
-						graphicContext.drawText(name.toString(), textX, textY,
-								textPaint);
+						graphicContext.drawText(name.toString(), textX, textY, textPaint);
+						if (vibrate) activateVibrationFor(50);
 					}
+					else vibrate = true;
 				}
 
 				graphicContext.restore();
-
 			}
 		}
+	}
+	
+	private void activateVibrationFor(int milis){
+
+		vibrator.vibrate(milis);
+		vibrate = false;		
 	}
 
 }
