@@ -43,7 +43,6 @@ import java.util.List;
 import com.google.inject.Inject;
 
 import es.eucm.eadventure.common.interfaces.features.Oriented.Orientation;
-import es.eucm.eadventure.common.model.effects.EAdEffect;
 import es.eucm.eadventure.common.model.effects.impl.sceneelements.EAdMoveSceneElement;
 import es.eucm.eadventure.common.model.elements.EAdSceneElement;
 import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
@@ -112,9 +111,6 @@ public class MoveSceneElementGO extends
 	private Path path;
 
 	private int currentSide;
-
-	private static int tal = 0;
-
 	@Inject
 	public MoveSceneElementGO(AssetHandler assetHandler,
 			StringHandler stringHandler,
@@ -160,7 +156,6 @@ public class MoveSceneElementGO extends
 			path = new SimplePathImpl(list, currentPosition);
 		}
 
-		System.out.println(tal++);
 		currentSide = 0;
 		MoveSceneElementGO go = gameState.getValueMap().getValue(sceneElement,
 				VAR_ELEMENT_MOVING);
@@ -197,7 +192,7 @@ public class MoveSceneElementGO extends
 			//TODO should make more generic...
 			TrajectoryDefinition d = gameState.getValueMap().getValue(gameState.getScene()
 					.getElement(), EAdSceneImpl.VAR_TRAJECTORY_DEFINITION);
-			if (d != null && element.useTrajectory()) {
+			if (d != null && element.useTrajectory() && side instanceof DijkstraPathSide ) {
 				gameState.getValueMap().setValue(d, NodeTrajectoryDefinition.VAR_CURRENT_SIDE, ((DijkstraPathSide) side).getSide());
 			}
 

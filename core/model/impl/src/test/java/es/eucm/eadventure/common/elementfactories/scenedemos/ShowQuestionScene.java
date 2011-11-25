@@ -22,7 +22,7 @@ public class ShowQuestionScene extends EmptyScene {
 		stringFactory.setString(effect.getQuestion(), "A question has been made");
 		
 		effect.addAnswer(stringFactory.getString("Answer 1"), effect);
-		effect.addAnswer(stringFactory.getString("Answer 2"), effect);
+		effect.addAnswer(stringFactory.getString("Answer 2"), null);
 		effect.addAnswer(stringFactory.getString("Answer 3"), null);
 		
 		effect.setUpNewInstance();

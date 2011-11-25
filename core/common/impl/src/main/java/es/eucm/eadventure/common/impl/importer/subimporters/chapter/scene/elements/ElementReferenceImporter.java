@@ -51,6 +51,7 @@ import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
 import es.eucm.eadventure.common.model.elements.impl.EAdSceneElementDefImpl;
 import es.eucm.eadventure.common.model.guievents.impl.EAdMouseEventImpl;
 import es.eucm.eadventure.common.params.geom.impl.EAdPositionImpl;
+import es.eucm.eadventure.common.params.geom.impl.EAdRectangleImpl;
 import es.eucm.eadventure.common.resources.StringHandler;
 
 /**
@@ -86,9 +87,16 @@ public class ElementReferenceImporter extends ElementImporter<ElementReference> 
 		newRef.setDefinition(actor);
 
 		// add influence area
-		// FIXME oldObject.getInfluenceArea() works Ok for the second parameter?
-		super.addInfluenceArea(newRef, oldObject.getInfluenceArea(),
-				oldObject.getInfluenceArea());
+		// To do this right, we should load the image representing the item or
+		// NPC an check their dimensions.
+		// Sounds easy, but it's not, so, width and height are 100. I hope it's
+		// enough
+		int width = 100;
+		int height = 100;
+		EAdRectangleImpl bounds = new EAdRectangleImpl(oldObject.getX(),
+				oldObject.getY(), (int) (width * oldObject.getScale()),
+				(int) (height * oldObject.getScale()));
+		super.addInfluenceArea(newRef, bounds, oldObject.getInfluenceArea());
 
 		// add actions
 		EAdActorActionsEffect showActions = new EAdActorActionsEffect(newRef);

@@ -101,8 +101,6 @@ public class OperatorFactoryImpl extends AbstractFactory<Operator<?>> implements
 			EAdVarDef<S> varDef, T operation) {
 		S result = operate(varDef.getType(), operation);
 		if (result != null) {
-			log.info(operation + ": " + element + "." + varDef + " := "
-					+ result);
 			valueMap.setValue(element, varDef, result);
 		}
 		return result;

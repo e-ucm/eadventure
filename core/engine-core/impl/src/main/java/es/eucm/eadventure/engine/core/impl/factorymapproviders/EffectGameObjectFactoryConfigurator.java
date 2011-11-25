@@ -50,6 +50,7 @@ import es.eucm.eadventure.common.model.effects.impl.EAdQuitGame;
 import es.eucm.eadventure.common.model.effects.impl.EAdRandomEffect;
 import es.eucm.eadventure.common.model.effects.impl.EAdTriggerMacro;
 import es.eucm.eadventure.common.model.effects.impl.sceneelements.EAdMoveSceneElement;
+import es.eucm.eadventure.common.model.effects.impl.text.EAdShowQuestion;
 import es.eucm.eadventure.common.model.effects.impl.text.EAdSpeakEffect;
 import es.eucm.eadventure.common.model.effects.impl.timedevents.EAdHighlightSceneElement;
 import es.eucm.eadventure.common.model.effects.impl.timedevents.EAdShowSceneElement;
@@ -98,6 +99,7 @@ public class EffectGameObjectFactoryConfigurator
 		factoryMap.put(EAdPlaySoundEffect.class, PlaySoundEffectGO.class);
 		factoryMap.put(EAdAddActorReferenceEffect.class,
 				AddActorReferenceEffectGO.class);
+		factoryMap.put(EAdShowQuestion.class, ComplexBlockingEffectGO.class);
 	}
 	
 	

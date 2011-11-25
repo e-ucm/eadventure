@@ -48,7 +48,6 @@ import es.eucm.eadventure.common.data.chapter.conversation.node.ConversationNode
 import es.eucm.eadventure.common.data.chapter.conversation.node.DialogueConversationNode;
 import es.eucm.eadventure.common.impl.importer.interfaces.EffectsImporterFactory;
 import es.eucm.eadventure.common.model.effects.EAdEffect;
-import es.eucm.eadventure.common.model.effects.impl.EAdTriggerMacro;
 import es.eucm.eadventure.common.model.effects.impl.text.EAdShowQuestion;
 import es.eucm.eadventure.common.params.EAdString;
 import es.eucm.eadventure.common.resources.StringHandler;
@@ -60,11 +59,11 @@ public class ConversationImporter implements
 
 	private StringHandler stringHandler;
 
-	private EAdElementImporter<DialogueConversationNode, EAdTriggerMacro> dialogueImporter;
+	private EAdElementImporter<DialogueConversationNode, EAdEffect> dialogueImporter;
 
 	@Inject
 	public ConversationImporter(
-			EAdElementImporter<DialogueConversationNode, EAdTriggerMacro> dialogueImporter,
+			EAdElementImporter<DialogueConversationNode, EAdEffect> dialogueImporter,
 			EffectsImporterFactory effectFactory, StringHandler stringHandler) {
 		nodes = new HashMap<ConversationNode, EAdEffect>();
 		this.dialogueImporter = dialogueImporter;
@@ -87,7 +86,7 @@ public class ConversationImporter implements
 						(DialogueConversationNode) node, effect);
 				if (effect != null)
 					nodes.put(node, effect);
-			} else {
+			} else if (node.getType() == ConversationNode.OPTION) {
 				EAdEffect effect = new EAdShowQuestion();
 				nodes.put(node, effect);
 			}
@@ -96,13 +95,14 @@ public class ConversationImporter implements
 		for (ConversationNode node : oldObject.getAllNodes()) {
 			if (node.getType() == ConversationNode.DIALOGUE) {
 				if (!node.isTerminal()) {
-					EAdTriggerMacro currentNodeEffect = (EAdTriggerMacro) nodes
-							.get(node);
+					EAdEffect currentNodeEffect = nodes.get(node);
 					EAdEffect nextNodeEffect = nodes.get(node.getChild(0));
-					currentNodeEffect.getMacro().getEffects()
-							.add(nextNodeEffect);
+					while (currentNodeEffect.getFinalEffects().size() > 0) {
+						currentNodeEffect = currentNodeEffect.getFinalEffects().get(0);
+					}
+					currentNodeEffect.getFinalEffects().add(nextNodeEffect);
 				}
-			} else {
+			} else if (node.getType() == ConversationNode.OPTION) {
 				EAdShowQuestion currentNodeEffect = (EAdShowQuestion) nodes
 						.get(node);
 				for (int i = 0; i < node.getChildCount(); i++) {
@@ -111,6 +111,7 @@ public class ConversationImporter implements
 					currentNodeEffect.addAnswer(string,
 							nodes.get(node.getChild(i)));
 				}
+				currentNodeEffect.setUpNewInstance();
 			}
 		}
 		EAdEffect initialEffect = nodes.get(oldObject.getRootNode());

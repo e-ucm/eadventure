@@ -52,8 +52,6 @@ import es.eucm.eadventure.common.model.effects.impl.variables.EAdChangeFieldValu
 import es.eucm.eadventure.common.model.elements.EAdCondition;
 import es.eucm.eadventure.common.model.elements.EAdTimer;
 import es.eucm.eadventure.common.model.elements.impl.EAdTimerImpl;
-import es.eucm.eadventure.common.model.events.EAdConditionEvent;
-import es.eucm.eadventure.common.model.events.EAdTimerEvent;
 import es.eucm.eadventure.common.model.events.enums.ConditionedEventType;
 import es.eucm.eadventure.common.model.events.enums.TimerEventType;
 import es.eucm.eadventure.common.model.events.impl.EAdConditionEventImpl;

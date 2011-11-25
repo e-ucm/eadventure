@@ -118,7 +118,7 @@ public class EAdInterpolationEffect extends AbstractEAdEffect {
 		this.interpolationTime = interpolationTime;
 		this.delay = delay;
 		this.loopType = loopType;
-		this.loops = loops;
+		this.loops = loopType == InterpolationLoopType.NO_LOOP ? 1 : loops;
 		this.interpolationType = interpolationType;
 		setQueueable(true);
 	}

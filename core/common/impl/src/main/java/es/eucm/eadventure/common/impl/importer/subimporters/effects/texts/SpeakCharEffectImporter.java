@@ -82,7 +82,14 @@ public class SpeakCharEffectImporter extends
 		EAdSpeakEffect effect = super.convert(oldObject, object);
 
 		String line = oldObject.getLine();
+		stringHandler.setString(effect.getString(), line);
+		setColor( effect, line, npc );
 
+
+		return effect;
+	}
+	
+	public static void setColor( EAdSpeakEffect effect, String line, NPC npc ){
 		BalloonType type = BalloonType.ROUNDED_RECTANGLE;
 		if (line.startsWith(WHISPER)) {
 			// TODO Whisper balloon
@@ -95,8 +102,7 @@ public class SpeakCharEffectImporter extends
 			type = BalloonType.ELECTRIC;
 			line = line.substring(YELL.length());
 		}
-
-		stringHandler.setString(effect.getString(), line);
+		
 		effect.setBalloonType(type);
 
 		EAdColor center = new EAdColor("0x"
@@ -111,8 +117,6 @@ public class SpeakCharEffectImporter extends
 
 		effect.setColor(new EAdPaintImpl(center, border),
 				new EAdPaintImpl(bubbleCenter, bubbleBorder));
-
-		return effect;
 	}
 
 }

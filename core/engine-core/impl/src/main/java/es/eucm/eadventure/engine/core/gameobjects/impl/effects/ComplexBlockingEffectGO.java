@@ -44,20 +44,41 @@ import es.eucm.eadventure.common.model.effects.impl.EAdComplexBlockingEffect;
 import es.eucm.eadventure.common.model.elements.EAdSceneElement;
 import es.eucm.eadventure.common.resources.StringHandler;
 import es.eucm.eadventure.engine.core.GameState;
+import es.eucm.eadventure.engine.core.evaluators.EvaluatorFactory;
 import es.eucm.eadventure.engine.core.gameobjects.SceneElementGO;
 import es.eucm.eadventure.engine.core.gameobjects.factories.SceneElementGOFactory;
+import es.eucm.eadventure.engine.core.guiactions.GUIAction;
 import es.eucm.eadventure.engine.core.platform.AssetHandler;
 import es.eucm.eadventure.engine.core.platform.GUI;
 import es.eucm.eadventure.engine.core.util.EAdTransformation;
 
 public class ComplexBlockingEffectGO extends
 		AbstractEffectGO<EAdComplexBlockingEffect> {
+	
+	private EvaluatorFactory evaluatorFactory;
 
 	@Inject
 	public ComplexBlockingEffectGO(AssetHandler assetHandler,
 			StringHandler stringHandler, SceneElementGOFactory gameObjectFactory,
-			GUI gui, GameState gameState) {
+			GUI gui, GameState gameState, EvaluatorFactory evaluatorFactory ) {
 		super(assetHandler, stringHandler, gameObjectFactory, gui, gameState);
+		this.evaluatorFactory = evaluatorFactory;
+	}
+	
+	public void initilize( ){
+		super.initilize();
+		for ( EAdEffect e: element.getInitEffects() ){
+			gameState.addEffect(e);
+		}
+	}
+	
+	public boolean processAction(GUIAction action) {
+		if ( element.isOpaque() ){
+			action.consume();
+			return true;
+		}
+		return false;
+		
 	}
 
 	@Override
@@ -76,8 +97,7 @@ public class ComplexBlockingEffectGO extends
 
 	@Override
 	public boolean isFinished() {
-		return gameState.getValueMap().getValue(element,
-				EAdComplexBlockingEffect.VAR_EFFECT_FINISHED);
+		return evaluatorFactory.evaluate(element.getEndCondition());
 	}
 
 	@Override
@@ -90,13 +110,14 @@ public class ComplexBlockingEffectGO extends
 
 	public void finish() {
 		super.finish();
-		for (EAdEffect e : element.getFinalEffects()) {
-			gameState.addEffect(e, action, parent);
-		}
 		for (EAdSceneElement e : element.getComponents()) {
 			gameState.getValueMap().remove(e);
 			sceneElementFactory.remove(e);
 		}
 
+	}
+	
+	public boolean contains(int x, int y) {
+		return element.isOpaque();
 	}
 }

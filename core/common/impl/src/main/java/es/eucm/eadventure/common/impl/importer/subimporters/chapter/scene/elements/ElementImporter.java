@@ -54,7 +54,7 @@ public abstract class ElementImporter<T> implements
 		if (factory.isFirstPerson()) {
 			newExit.addBehavior(EAdMouseEventImpl.MOUSE_LEFT_CLICK, finalEffect);
 		} else {
-			EAdMoveActiveElement move = new EAdMoveActiveElement( );
+			EAdMoveActiveElement move = new EAdMoveActiveElement();
 			move.setTarget(newExit);
 			move.getFinalEffects().add(finalEffect);
 			newExit.addBehavior(EAdMouseEventImpl.MOUSE_LEFT_CLICK, move);
@@ -63,22 +63,27 @@ public abstract class ElementImporter<T> implements
 	}
 
 	protected void addInfluenceArea(EAdSceneElement sceneElement,
-			Rectangle oldObject, InfluenceArea influenceArea) {
+			EAdRectangle bounds, InfluenceArea influenceArea) {
 		boolean hasInfluenceArea = influenceArea != null
 				&& influenceArea.getWidth() != 0
 				&& influenceArea.getHeight() != 0;
 
 		EAdRectangle rect = null;
 		if (hasInfluenceArea) {
-			rect = new EAdRectangleImpl(
-					influenceArea.getX() + oldObject.getX(),
-					influenceArea.getY() + oldObject.getY(),
+			rect = new EAdRectangleImpl(influenceArea.getX() + bounds.getX(),
+					influenceArea.getY() + bounds.getY(),
 					influenceArea.getWidth(), influenceArea.getHeight());
 		} else {
-			rect = ShapedElementImporter.getBounds(oldObject);
+			rect = bounds;
 		}
 		sceneElement.setVarInitialValue(
 				NodeTrajectoryDefinition.VAR_INFLUENCE_AREA, rect);
+	}
+
+	protected void addInfluenceArea(EAdSceneElement sceneElement,
+			Rectangle element, InfluenceArea influenceArea) {
+		addInfluenceArea(sceneElement,
+				ShapedElementImporter.getBounds(element), influenceArea);
 	}
 
 	protected void setShape(EAdBasicSceneElement sceneElement, Rectangle exit) {
@@ -113,7 +118,7 @@ public abstract class ElementImporter<T> implements
 		sceneElement.setVarInitialValue(EAdBasicSceneElement.VAR_NAME,
 				sceneElement.getDefinition().getName());
 		if (shortDescription != null) {
-			EAdSpeakEffect showDescription = new EAdSpeakEffect( );
+			EAdSpeakEffect showDescription = new EAdSpeakEffect();
 			showDescription.setAlignment(Alignment.CENTER);
 			showDescription.setColor(EAdPaintImpl.WHITE_ON_BLACK,
 					EAdColor.TRANSPARENT);
@@ -123,9 +128,9 @@ public abstract class ElementImporter<T> implements
 					showDescription);
 		}
 	}
-	
+
 	protected void addEnableEvent(EAdBasicSceneElement newActiveAreaReference,
-			EAdCondition condition ) {
+			EAdCondition condition) {
 
 		EAdConditionEventImpl event = new EAdConditionEventImpl();
 		event.setCondition(condition);
@@ -134,13 +139,13 @@ public abstract class ElementImporter<T> implements
 				newActiveAreaReference, EAdBasicSceneElement.VAR_VISIBLE);
 
 		EAdChangeFieldValueEffect changeEnable = new EAdChangeFieldValueEffect();
-		
+
 		changeEnable.addField(enableField);
-		changeEnable.setOperation(new BooleanOperation( condition ));
+		changeEnable.setOperation(new BooleanOperation(condition));
 		event.addEffect(ConditionedEventType.CONDITIONS_MET, changeEnable);
 		event.addEffect(ConditionedEventType.CONDITIONS_UNMET, changeEnable);
-		
-		newActiveAreaReference.getEvents().add(event);		
+
+		newActiveAreaReference.getEvents().add(event);
 	}
 
 }

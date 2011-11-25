@@ -108,8 +108,7 @@ import es.eucm.eadventure.common.model.actions.EAdAction;
 import es.eucm.eadventure.common.model.conditions.impl.OperationCondition;
 import es.eucm.eadventure.common.model.effects.EAdEffect;
 import es.eucm.eadventure.common.model.effects.EAdMacro;
-import es.eucm.eadventure.common.model.effects.impl.EAdTriggerMacro;
-import es.eucm.eadventure.common.model.effects.impl.timedevents.EAdShowSceneElement;
+import es.eucm.eadventure.common.model.effects.impl.text.EAdSpeakEffect;
 import es.eucm.eadventure.common.model.elements.EAdAdventureModel;
 import es.eucm.eadventure.common.model.elements.EAdChapter;
 import es.eucm.eadventure.common.model.elements.EAdCondition;
@@ -254,7 +253,7 @@ public class ImporterConfigurationModule extends AbstractModule {
 				ConversationImporter.class);
 
 		bind(
-				new TypeLiteral<EAdElementImporter<DialogueConversationNode, EAdTriggerMacro>>() {
+				new TypeLiteral<EAdElementImporter<DialogueConversationNode, EAdEffect>>() {
 				}).to(DialogueNodeImporter.class);
 		EAdElementFactoryImpl.importerMap.put(DialogueConversationNode.class,
 				DialogueNodeImporter.class);
@@ -265,7 +264,7 @@ public class ImporterConfigurationModule extends AbstractModule {
 				LineImporterToCaption.class);
 
 		bind(
-				new TypeLiteral<EAdElementImporter<ConversationLine, EAdShowSceneElement>>() {
+				new TypeLiteral<EAdElementImporter<ConversationLine, EAdSpeakEffect>>() {
 				}).to(LineImporterToShowText.class);
 		EAdElementFactoryImpl.importerMap.put(ConversationLine.class,
 				LineImporterToShowText.class);

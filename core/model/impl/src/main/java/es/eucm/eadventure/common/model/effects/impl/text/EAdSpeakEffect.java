@@ -42,7 +42,7 @@ public class EAdSpeakEffect extends AbstractEAdEffect {
 
 	@Param("ballonType")
 	private BalloonType ballonType;
-	
+
 	@Param("alignment")
 	private Alignment alignment;
 
@@ -52,12 +52,16 @@ public class EAdSpeakEffect extends AbstractEAdEffect {
 	 * {@link EAdPaintImpl#BLACK_ON_WHITE}
 	 */
 	public EAdSpeakEffect() {
+		this(EAdString.newEAdString("string"));
+	}
+
+	public EAdSpeakEffect(EAdString text) {
 		super();
 		textColor = EAdColor.BLACK;
 		bubbleColor = EAdPaintImpl.BLACK_ON_WHITE;
 		font = EAdFontImpl.REGULAR;
 		ballonType = BalloonType.ROUNDED_RECTANGLE;
-		string = EAdString.newEAdString("string");
+		string = text;
 		alignment = Alignment.LEFT;
 		setQueueable(true);
 		setOpaque(true);
@@ -117,12 +121,12 @@ public class EAdSpeakEffect extends AbstractEAdEffect {
 	public EAdFont getFont() {
 		return font;
 	}
-	
-	public EAdOperation getX(){
+
+	public EAdOperation getX() {
 		return x;
 	}
-	
-	public EAdOperation getY(){
+
+	public EAdOperation getY() {
 		return y;
 	}
 

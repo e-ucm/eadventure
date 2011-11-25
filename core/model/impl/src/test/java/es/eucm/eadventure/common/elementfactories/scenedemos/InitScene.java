@@ -101,7 +101,7 @@ public class InitScene extends EmptyScene {
 		// sceneDemos.add(new SoundScene());
 		sceneDemos.add(new DrawablesScene());
 		// sceneDemos.add(new MoleGame());
-		// sceneDemos.add(new ShowQuestionScene());
+		sceneDemos.add(new ShowQuestionScene());
 		// sceneDemos.add(new TrajectoriesScene());
 		// sceneDemos.add(new PhysicsScene());
 		sceneDemos.add(new PhysicsScene2());

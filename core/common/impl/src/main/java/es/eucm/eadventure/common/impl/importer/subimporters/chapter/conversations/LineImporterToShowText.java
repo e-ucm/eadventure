@@ -40,44 +40,67 @@ package es.eucm.eadventure.common.impl.importer.subimporters.chapter.conversatio
 import com.google.inject.Inject;
 
 import es.eucm.eadventure.common.EAdElementImporter;
-import es.eucm.eadventure.common.GenericImporter;
 import es.eucm.eadventure.common.data.chapter.conditions.Conditions;
 import es.eucm.eadventure.common.data.chapter.conversation.line.ConversationLine;
-import es.eucm.eadventure.common.model.effects.impl.timedevents.EAdShowSceneElement;
+import es.eucm.eadventure.common.data.chapter.elements.NPC;
+import es.eucm.eadventure.common.data.chapter.elements.Player;
+import es.eucm.eadventure.common.impl.importer.interfaces.EAdElementFactory;
+import es.eucm.eadventure.common.impl.importer.subimporters.effects.texts.SpeakCharEffectImporter;
+import es.eucm.eadventure.common.model.EAdElement;
+import es.eucm.eadventure.common.model.effects.impl.text.EAdSpeakEffect;
 import es.eucm.eadventure.common.model.elements.EAdCondition;
-import es.eucm.eadventure.common.resources.assets.drawable.basics.Caption;
+import es.eucm.eadventure.common.predef.model.effects.EAdSpeakSceneElement;
+import es.eucm.eadventure.common.resources.StringHandler;
 
-public class LineImporterToShowText implements EAdElementImporter<ConversationLine, EAdShowSceneElement>{
-	
-	@Inject
+public class LineImporterToShowText implements
+		EAdElementImporter<ConversationLine, EAdSpeakEffect> {
+
 	private EAdElementImporter<Conditions, EAdCondition> conditionsImporter;
-	
-	@Inject
-	private GenericImporter<ConversationLine, Caption> captionImporter;
 
-	public EAdShowSceneElement init(ConversationLine line) {
-		return new EAdShowSceneElement();
+	private EAdElementFactory factory;
+
+	private StringHandler stringHandler;
+
+	@Inject
+	public LineImporterToShowText(
+			EAdElementImporter<Conditions, EAdCondition> conditionsImporter,
+			EAdElementFactory factory, StringHandler stringHandler) {
+		this.conditionsImporter = conditionsImporter;
+		this.factory = factory;
+		this.stringHandler = stringHandler;
 	}
-	
+
+	public EAdSpeakEffect init(ConversationLine line) {
+		EAdElement element = factory.getElementById(line.getName());
+		if (line.isPlayerLine() && factory.isFirstPerson()) {
+			return new EAdSpeakEffect();
+		} else
+			return new EAdSpeakSceneElement(element);
+
+	}
+
 	@Override
-	public EAdShowSceneElement convert(ConversationLine line, Object object) {
-		EAdShowSceneElement effect = (EAdShowSceneElement) object;
+	public EAdSpeakEffect convert(ConversationLine line, Object object) {
+		EAdSpeakEffect effect = (EAdSpeakEffect) object;
+
+		NPC npc = line.getName().equals(Player.IDENTIFIER) ? factory
+				.getCurrentOldChapterModel().getPlayer() : factory
+				.getCurrentOldChapterModel().getCharacter(line.getName());
+
+		stringHandler.setString(effect.getString(), line.getText());
+		SpeakCharEffectImporter.setColor(effect, line.getText(), npc);
 
 		// Set conditions
-
 		if (line.getConditions() != null) {
 			EAdCondition condition = conditionsImporter.init(line
 					.getConditions());
-			condition = conditionsImporter.convert(line
-					.getConditions(), condition);
+			condition = conditionsImporter.convert(line.getConditions(),
+					condition);
 			if (condition != null) {
 				effect.setCondition(condition);
 			}
 		}
-		
-		Caption caption = captionImporter.init(line);		
-		caption = captionImporter.convert(line, caption);		
-		effect.setCaption(caption, 300, 300);
+
 		return effect;
 	}
 

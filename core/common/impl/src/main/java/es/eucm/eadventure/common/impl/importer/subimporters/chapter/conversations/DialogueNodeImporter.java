@@ -45,62 +45,56 @@ import es.eucm.eadventure.common.data.chapter.conversation.node.DialogueConversa
 import es.eucm.eadventure.common.data.chapter.effects.Effect;
 import es.eucm.eadventure.common.impl.importer.interfaces.EffectsImporterFactory;
 import es.eucm.eadventure.common.model.effects.EAdEffect;
-import es.eucm.eadventure.common.model.effects.EAdMacro;
-import es.eucm.eadventure.common.model.effects.impl.EAdMacroImpl;
-import es.eucm.eadventure.common.model.effects.impl.EAdTriggerMacro;
-import es.eucm.eadventure.common.model.effects.impl.timedevents.EAdShowSceneElement;
+import es.eucm.eadventure.common.model.effects.impl.text.EAdSpeakEffect;
+import es.eucm.eadventure.common.params.fills.impl.EAdColor;
 
 public class DialogueNodeImporter implements
-		EAdElementImporter<DialogueConversationNode, EAdTriggerMacro> {
+		EAdElementImporter<DialogueConversationNode, EAdEffect> {
 
-	private static int ID_GENERATOR = 0;
-
-	private EAdElementImporter<ConversationLine, EAdShowSceneElement> conversationLineImporter;
+	private EAdElementImporter<ConversationLine, EAdSpeakEffect> conversationLineImporter;
 
 	private EffectsImporterFactory effectsImporter;
 
 	@Inject
 	public DialogueNodeImporter(EffectsImporterFactory effectsImporter,
-			EAdElementImporter<ConversationLine, EAdShowSceneElement> conversationLineImporter) {
+			EAdElementImporter<ConversationLine, EAdSpeakEffect> conversationLineImporter) {
 
 		this.effectsImporter = effectsImporter;
 		this.conversationLineImporter = conversationLineImporter;
 	}
 
 	@Override
-	public EAdTriggerMacro init(DialogueConversationNode oldObject) {
-		EAdMacroImpl macro = new EAdMacroImpl();
-		macro.setId("DialogueNode" + ID_GENERATOR++);
-
-		EAdTriggerMacro triggerMacro = new EAdTriggerMacro();
-		triggerMacro.setId("triggerMacro_"
-				+ macro.getId());
-		triggerMacro.setMacro(macro);
-		return triggerMacro;
+	public EAdEffect init(DialogueConversationNode oldObject) {
+		return null;
 	}
 	
 	@Override
-	public EAdTriggerMacro convert(DialogueConversationNode oldObject, Object object) {
-		EAdTriggerMacro triggerMacro = (EAdTriggerMacro) object;
-		EAdMacro macro = triggerMacro.getMacro();
-		
+	public EAdEffect convert(DialogueConversationNode oldObject, Object object) {
+		EAdSpeakEffect initialEffect = null;
+		EAdSpeakEffect previousEffect = null;
 		for (int i = 0; i < oldObject.getLineCount(); i++) {
-			EAdShowSceneElement effect = conversationLineImporter.init(oldObject
+			EAdSpeakEffect effect = conversationLineImporter.init(oldObject
 					.getLine(i));
 			effect = conversationLineImporter.convert(oldObject
 					.getLine(i), effect);
-			effect.setBlocking(true);
-			effect.setOpaque(true);
-			if (effect != null)
-				macro.getEffects().add(effect);
+			if ( i == 0 ){
+				initialEffect = effect;
+			}
+			else {
+				previousEffect.getFinalEffects().add(effect);
+			}
+			previousEffect = effect;
 		}
 
+		if ( initialEffect == null ){
+			initialEffect = new EAdSpeakEffect( );
+			initialEffect.setColor(EAdColor.TRANSPARENT, EAdColor.TRANSPARENT);
+		}
+		
 		for (Effect e : oldObject.getEffects().getEffects()) {
 			EAdEffect effect = effectsImporter.getEffect(e);
-			if (effect != null)
-				macro.getEffects().add(effect);
+			initialEffect.getFinalEffects().add(effect);
 		}
-
-		return triggerMacro;
+		return initialEffect;
 	}
 }
