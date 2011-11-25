@@ -12,6 +12,10 @@
 	<version>2.0.1-SNAPSHOT</version>
 	<name>e-Adventure Engine Play'N implementation</name>
 
+	<build>
+		<outputDirectory>${project.basedir}/war/WEB-INF/classes</outputDirectory>
+	</build>
+	
 	<properties>
 		<gwt.module>es.eucm.eadventure.engine.EAdEngine</gwt.module>
 		<gwt.name>eadengine</gwt.name>
