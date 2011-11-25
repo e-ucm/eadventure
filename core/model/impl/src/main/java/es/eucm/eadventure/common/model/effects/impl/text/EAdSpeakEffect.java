@@ -10,8 +10,8 @@ import es.eucm.eadventure.common.params.EAdString;
 import es.eucm.eadventure.common.params.fills.impl.EAdColor;
 import es.eucm.eadventure.common.params.fills.impl.EAdPaintImpl;
 import es.eucm.eadventure.common.params.paint.EAdPaint;
-import es.eucm.eadventure.common.resources.assets.drawable.basics.Caption.Alignment;
-import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.shapes.BallonShape.BalloonType;
+import es.eucm.eadventure.common.resources.assets.drawable.basics.enums.Alignment;
+import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.shapes.extra.BalloonType;
 
 /**
  * 
@@ -29,7 +29,7 @@ public class EAdSpeakEffect extends AbstractEAdEffect {
 	private EAdOperation y;
 
 	@Param("string")
-	private final EAdString string;
+	private EAdString string;
 
 	@Param("textColor")
 	private EAdPaint textColor;
@@ -138,4 +138,31 @@ public class EAdSpeakEffect extends AbstractEAdEffect {
 		this.alignment = alignment;
 	}
 
+	public void setX(EAdOperation x) {
+		this.x = x;
+	}
+
+	public void setY(EAdOperation y) {
+		this.y = y;
+	}
+
+	public void setTextColor(EAdPaint textColor) {
+		this.textColor = textColor;
+	}
+
+	public void setBubbleColor(EAdPaint bubbleColor) {
+		this.bubbleColor = bubbleColor;
+	}
+
+	public void setBallonType(BalloonType ballonType) {
+		this.ballonType = ballonType;
+	}
+
+	public void setString(EAdString string) {
+		this.string = string;
+	}
+
+	
+	
+	
 }

@@ -99,17 +99,17 @@ public class PlayNEngineImage extends RuntimeImage {
 		// Some DesktopEngineImage can be created without an assetHandler
 		if (image == null && assetHandler != null) {
 			try {
-				image = assetManager().getImage(assetHandler.getAbsolutePath(descriptor.getURI().getPath()));
+				image = assetManager().getImage(assetHandler.getAbsolutePath(descriptor.getUri().getPath()));
 				if (image != null) {
-					logger.log(Level.INFO, "Image loaded: " + descriptor.getURI());
+					logger.log(Level.INFO, "Image loaded: " + descriptor.getUri());
 					return true;
 				} else {
-					logger.log(Level.SEVERE, "Image NOT loaded: " + descriptor.getURI());
+					logger.log(Level.SEVERE, "Image NOT loaded: " + descriptor.getUri());
 					return true;
 				}
 			} catch (Exception e) {
 				logger.log(Level.SEVERE, 
-						"Could not load image! " + descriptor.getURI(), e);
+						"Could not load image! " + descriptor.getUri(), e);
 				return false;
 			}
 		}
@@ -121,7 +121,7 @@ public class PlayNEngineImage extends RuntimeImage {
 		if (image != null) {
 			//TODO flush image
 			//image.flush();
-			logger.log(Level.INFO, "Image flushed: " + (descriptor != null ? descriptor.getURI() : "no descriptor"));
+			logger.log(Level.INFO, "Image flushed: " + (descriptor != null ? descriptor.getUri() : "no descriptor"));
 		}
 		image = null;
 	}

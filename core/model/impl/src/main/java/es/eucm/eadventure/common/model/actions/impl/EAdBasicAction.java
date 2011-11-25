@@ -59,7 +59,7 @@ public class EAdBasicAction extends ResourcedElementImpl implements EAdAction {
 	public static final String appearance = "appearance";
 
 	@Param("name")
-	private final EAdString name;
+	private EAdString name;
 
 	@Param("effects")
 	private EAdList<EAdEffect> effects;
@@ -108,4 +108,13 @@ public class EAdBasicAction extends ResourcedElementImpl implements EAdAction {
 		
 	}
 
+	public void setName(EAdString name) {
+		this.name = name;
+	}
+
+	public void setHighlightBundle(EAdBundleId highlightBundle) {
+		this.highlightBundle = highlightBundle;
+	}
+
+	
 }

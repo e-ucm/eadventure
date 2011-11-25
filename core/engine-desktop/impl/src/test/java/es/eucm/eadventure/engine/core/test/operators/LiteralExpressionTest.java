@@ -79,10 +79,10 @@ public class LiteralExpressionTest extends
 
 		};
 
-		int xV = x.getVarDefinition().getInitialValue();
-		float yV = y.getVarDefinition().getInitialValue();
-		float zV = z.getVarDefinition().getInitialValue();
-		double wV = w.getVarDefinition().getInitialValue();
+		int xV = x.getVarDef().getInitialValue();
+		float yV = y.getVarDef().getInitialValue();
+		float zV = z.getVarDef().getInitialValue();
+		double wV = w.getVarDef().getInitialValue();
 		Object results[] = new Object[] { 
 				new Integer(3 + 5 + 8),
 				new Float(xV + yV + zV), 

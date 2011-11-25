@@ -133,9 +133,9 @@ public class VLCDesktopVideoRenderer implements SpecialAssetRenderer<Video, Comp
 		
 		mediaPlayer.addMediaPlayerEventListener(new VLCMediaPlayerEventListener(this));
 		
-		path = asset.getURI().getPath();
+		path = asset.getUri().getPath();
 		if (assetHandler != null)
-			path = assetHandler.getAbsolutePath(asset.getURI().getPath());
+			path = assetHandler.getAbsolutePath(asset.getUri().getPath());
 
 		finished = false;
 

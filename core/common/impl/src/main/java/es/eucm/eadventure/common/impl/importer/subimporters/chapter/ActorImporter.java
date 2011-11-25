@@ -56,7 +56,7 @@ import es.eucm.eadventure.common.model.elements.EAdCondition;
 import es.eucm.eadventure.common.model.elements.EAdSceneElementDef;
 import es.eucm.eadventure.common.model.elements.impl.EAdSceneElementDefImpl;
 import es.eucm.eadventure.common.resources.StringHandler;
-import es.eucm.eadventure.common.resources.assets.drawable.basics.Caption.Alignment;
+import es.eucm.eadventure.common.resources.assets.drawable.basics.enums.Alignment;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.ImageImpl;
 
 public abstract class ActorImporter<P extends Element> implements

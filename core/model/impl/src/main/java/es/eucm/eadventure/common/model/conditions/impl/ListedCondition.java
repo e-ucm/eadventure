@@ -40,6 +40,7 @@ package es.eucm.eadventure.common.model.conditions.impl;
 import java.util.Iterator;
 
 import es.eucm.eadventure.common.interfaces.Param;
+import es.eucm.eadventure.common.model.conditions.impl.enums.ConditionOperator;
 import es.eucm.eadventure.common.model.elements.EAdCondition;
 import es.eucm.eadventure.common.model.extra.EAdList;
 import es.eucm.eadventure.common.model.extra.impl.EAdListImpl;
@@ -48,43 +49,21 @@ import es.eucm.eadventure.common.model.impl.ResourcedElementImpl;
 public abstract class ListedCondition extends ResourcedElementImpl implements
 		EAdCondition {
 
-	/**
-	 * Operator for conditions
-	 * 
-	 * 
-	 */
-	public enum Operator {
-		/**
-		 * AND operator
-		 */
-		AND,
-
-		/**
-		 * OR operator
-		 */
-		OR,
-
-		/**
-		 * OTHER operator
-		 */
-		OTHER
-	}
-
 	@Param("conditions")
 	private EAdList<EAdCondition> conditions;
 
 	@Param("operator")
-	private Operator operator;
+	private ConditionOperator operator;
 
 	public ListedCondition() {
 		this(null);
 	}
 
-	public ListedCondition(Operator operator) {
+	public ListedCondition(ConditionOperator operator) {
 		this(operator, (EAdCondition) null);
 	}
 
-	public ListedCondition(Operator operator,
+	public ListedCondition(ConditionOperator operator,
 			EAdCondition... condition) {
 		super();
 		setId("listedCondition");
@@ -95,7 +74,7 @@ public abstract class ListedCondition extends ResourcedElementImpl implements
 		this.operator = operator;
 	}
 
-	public Operator getOperator() {
+	public ConditionOperator getOperator() {
 		return operator;
 	}
 
@@ -116,11 +95,11 @@ public abstract class ListedCondition extends ResourcedElementImpl implements
 			return (conditions.remove(condition));
 	}
 
-	public Iterator<EAdCondition> getConditions() {
+	public Iterator<EAdCondition> getConditionsIterator() {
 		return conditions.iterator();
 	}
 
-	public EAdList<EAdCondition> getConds() {
+	public EAdList<EAdCondition> getConditions() {
 		return conditions;
 	}
 
@@ -138,5 +117,15 @@ public abstract class ListedCondition extends ResourcedElementImpl implements
 		}
 		return "Empty list";
 	}
+
+	public void setConditions(EAdList<EAdCondition> conditions) {
+		this.conditions = conditions;
+	}
+
+	public void setOperator(ConditionOperator operator) {
+		this.operator = operator;
+	}
+	
+	
 
 }

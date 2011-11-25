@@ -119,7 +119,7 @@ public class SlidesceneImporter implements
 					.getResources()
 					.addAsset(slide.getBackground().getInitialBundle(),
 							EAdBasicSceneElement.appearance,
-							new ImageImpl(f.getURI()));
+							new ImageImpl(f.getUri()));
 			cutscene.addSlide(slide);
 		}
 

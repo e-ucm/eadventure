@@ -81,7 +81,7 @@ public class DialogueNodeImporter implements
 				initialEffect = effect;
 			}
 			else {
-				previousEffect.getFinalEffects().add(effect);
+				previousEffect.getNextEffects().add(effect);
 			}
 			previousEffect = effect;
 		}
@@ -93,7 +93,7 @@ public class DialogueNodeImporter implements
 		
 		for (Effect e : oldObject.getEffects().getEffects()) {
 			EAdEffect effect = effectsImporter.getEffect(e);
-			initialEffect.getFinalEffects().add(effect);
+			initialEffect.getNextEffects().add(effect);
 		}
 		return initialEffect;
 	}

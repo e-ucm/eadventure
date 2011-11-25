@@ -92,7 +92,7 @@ public class EAdFontImpl extends EAdParamImpl implements EAdFont {
 	}
 
 	@Override
-	public EAdURI getURI() {
+	public EAdURI getUri() {
 		return uri;
 	}
 

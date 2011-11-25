@@ -89,7 +89,7 @@ public class PlayNVideoRenderer implements SpecialAssetRenderer<Video, Widget> {
 	 */
 	@Override
 	public Widget getComponent(Video asset) {
-		String path = assetHandler.getAbsolutePath(asset.getURI().getPath());
+		String path = assetHandler.getAbsolutePath(asset.getUri().getPath());
 		// TODO Last parameter should be a capture of the vide
 		videoWidget = new VideoWidget(true, false, "");
 		List<VideoSource> sources = new ArrayList<VideoSource>();

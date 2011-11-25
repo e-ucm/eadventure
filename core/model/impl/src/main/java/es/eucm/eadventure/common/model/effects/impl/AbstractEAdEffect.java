@@ -153,7 +153,7 @@ public abstract class AbstractEAdEffect extends ConditionedElement
 		return events;
 	}
 
-	public EAdList<EAdEffect> getFinalEffects() {
+	public EAdList<EAdEffect> getNextEffects() {
 		return nextEffects;
 	}
 

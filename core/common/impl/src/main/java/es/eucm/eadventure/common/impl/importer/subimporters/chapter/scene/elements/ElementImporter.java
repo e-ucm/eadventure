@@ -28,7 +28,7 @@ import es.eucm.eadventure.common.params.geom.EAdRectangle;
 import es.eucm.eadventure.common.params.geom.impl.EAdRectangleImpl;
 import es.eucm.eadventure.common.predef.model.effects.EAdMoveActiveElement;
 import es.eucm.eadventure.common.resources.StringHandler;
-import es.eucm.eadventure.common.resources.assets.drawable.basics.Caption.Alignment;
+import es.eucm.eadventure.common.resources.assets.drawable.basics.enums.Alignment;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.Shape;
 
 public abstract class ElementImporter<T> implements
@@ -56,7 +56,7 @@ public abstract class ElementImporter<T> implements
 		} else {
 			EAdMoveActiveElement move = new EAdMoveActiveElement();
 			move.setTarget(newExit);
-			move.getFinalEffects().add(finalEffect);
+			move.getNextEffects().add(finalEffect);
 			newExit.addBehavior(EAdMouseEventImpl.MOUSE_LEFT_CLICK, move);
 		}
 

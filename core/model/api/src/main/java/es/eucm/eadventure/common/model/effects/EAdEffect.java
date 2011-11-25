@@ -79,6 +79,6 @@ public interface EAdEffect extends EAdElement, Conditioned {
 	 * Returns the effects to be launched when this effect ends
 	 * @return
 	 */
-	EAdList<EAdEffect> getFinalEffects();
+	EAdList<EAdEffect> getNextEffects();
 
 }

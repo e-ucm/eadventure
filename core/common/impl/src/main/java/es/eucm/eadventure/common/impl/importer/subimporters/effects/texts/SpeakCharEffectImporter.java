@@ -50,7 +50,7 @@ import es.eucm.eadventure.common.params.fills.impl.EAdColor;
 import es.eucm.eadventure.common.params.fills.impl.EAdPaintImpl;
 import es.eucm.eadventure.common.predef.model.effects.EAdSpeakSceneElement;
 import es.eucm.eadventure.common.resources.StringHandler;
-import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.shapes.BallonShape.BalloonType;
+import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.shapes.extra.BalloonType;
 
 public class SpeakCharEffectImporter extends
 		TextEffectImporter<SpeakCharEffect> {

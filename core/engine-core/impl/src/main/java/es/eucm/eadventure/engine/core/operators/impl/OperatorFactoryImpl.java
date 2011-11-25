@@ -76,7 +76,7 @@ public class OperatorFactoryImpl extends AbstractFactory<Operator<?>> implements
 	@Override
 	public <T extends EAdOperation, S> S operate(EAdField<S> fieldResult,
 			T operation) {
-		S result = operate(fieldResult.getVarDefinition().getType(), operation);
+		S result = operate(fieldResult.getVarDef().getType(), operation);
 		if (result != null) {
 			log.finest(operation + ": " + fieldResult + " := " + result);
 			valueMap.setValue(fieldResult, result);

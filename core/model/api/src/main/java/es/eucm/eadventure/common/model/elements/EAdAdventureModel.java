@@ -48,11 +48,6 @@ import es.eucm.eadventure.common.params.EAdString;
 public interface EAdAdventureModel extends EAdElement, Variabled {
 
 	/**
-	 * Available player modes
-	 */
-	enum PlayerMode { FIRST_PERSON, THIRD_PERSON };
-
-	/**
 	 * @param playerMode the playerMode to set
 	 */
 	void setPlayerMode(PlayerMode playerMode);

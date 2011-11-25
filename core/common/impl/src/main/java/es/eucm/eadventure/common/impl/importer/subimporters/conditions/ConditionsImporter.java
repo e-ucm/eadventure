@@ -94,7 +94,7 @@ public class ConditionsImporter implements
 					orCondition.addCondition(cond);
 				}
 			}
-			if (orCondition.getConds().size() > 0) {
+			if (orCondition.getConditions().size() > 0) {
 				newCondition.addCondition(orCondition);
 			}
 		}

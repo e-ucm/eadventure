@@ -106,11 +106,11 @@ public class ValueMapImpl implements ValueMap {
 
 	@Override
 	public void setValue(EAdField<?> field, Object value) {
-		setValue(field.getElement(), field.getVarDefinition(), value);
+		setValue(field.getElement(), field.getVarDef(), value);
 	}
 
 	public void setValue(EAdField<?> var, EAdOperation operation) {
-		operatorFactory.operate(var.getElement(), var.getVarDefinition(),
+		operatorFactory.operate(var.getElement(), var.getVarDef(),
 				operation);
 	}
 
@@ -123,7 +123,7 @@ public class ValueMapImpl implements ValueMap {
 
 	@Override
 	public <S> S getValue(EAdField<S> var) {
-		return getValue(var.getElement(), var.getVarDefinition());
+		return getValue(var.getElement(), var.getVarDef());
 	}
 
 	@Override
@@ -161,10 +161,10 @@ public class ValueMapImpl implements ValueMap {
 		if (element != null
 				&& element instanceof EAdField<?>
 				&& reflectionProvider.isAssignableFrom(EAdElement.class,
-						((EAdField<?>) element).getVarDefinition().getType())) {
+						((EAdField<?>) element).getVarDef().getType())) {
 			EAdField<?> field = (EAdField<?>) element;
 			return (EAdElement) getValue(field.getElement(),
-					field.getVarDefinition());
+					field.getVarDef());
 		} else
 			return element;
 	}

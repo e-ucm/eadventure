@@ -34,7 +34,7 @@ public class EAdFieldImpl<T> implements EAdField<T> {
 	}
 
 	@Override
-	public EAdVarDef<T> getVarDefinition() {
+	public EAdVarDef<T> getVarDef() {
 		return varDef;
 	}
 
@@ -71,7 +71,7 @@ public class EAdFieldImpl<T> implements EAdField<T> {
 	public boolean equals(Object o) {
 		if (o instanceof EAdField) {
 			return ((EAdField<?>) o).getElement() == element
-					&& ((EAdField<?>) o).getVarDefinition() == varDef;
+					&& ((EAdField<?>) o).getVarDef() == varDef;
 		}
 		return false;
 	}
@@ -79,5 +79,14 @@ public class EAdFieldImpl<T> implements EAdField<T> {
 	public String toString() {
 		return element + "." + varDef.getName();
 	}
+	
+	public void setVarDef(EAdVarDef<T> varDef) {
+		this.varDef = varDef;
+	}
 
+	public void setElement(EAdElement element) {
+		this.element = element;
+	}
+
+	
 }

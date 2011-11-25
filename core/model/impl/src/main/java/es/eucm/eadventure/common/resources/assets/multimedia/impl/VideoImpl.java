@@ -56,7 +56,7 @@ public class VideoImpl implements Video {
 	}
 
 	@Override
-	public EAdURI getURI() {
+	public EAdURI getUri() {
 		return uri;
 	}
 

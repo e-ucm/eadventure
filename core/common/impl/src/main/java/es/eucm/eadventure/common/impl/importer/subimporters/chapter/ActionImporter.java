@@ -134,7 +134,7 @@ public class ActionImporter implements EAdElementImporter<Action, EAdAction> {
 			EAdMoveActiveElement moveActiveElement = new EAdMoveActiveElement();
 			moveActiveElement.setId("moveToActionTarget");
 			moveActiveElement.setTarget(actor);
-			moveActiveElement.getFinalEffects().add(triggerEffects);
+			moveActiveElement.getNextEffects().add(triggerEffects);
 			action.getEffects().add(moveActiveElement);
 		} else {
 			action.getEffects().add(triggerEffects);

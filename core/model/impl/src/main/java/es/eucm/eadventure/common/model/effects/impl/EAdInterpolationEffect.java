@@ -146,7 +146,7 @@ public class EAdInterpolationEffect extends AbstractEAdEffect {
 	public EAdInterpolationEffect(EAdField<?> field, float startValue,
 			float endValue, int time, InterpolationLoopType loopType,
 			InterpolationType interpolationType) {
-		this(field.getElement(), field.getVarDefinition(), startValue,
+		this(field.getElement(), field.getVarDef(), startValue,
 				endValue, time, 0, loopType, -1, interpolationType);
 	}
 
@@ -163,7 +163,7 @@ public class EAdInterpolationEffect extends AbstractEAdEffect {
 	public EAdInterpolationEffect(EAdField<Integer> field,
 			MathOperation start, MathOperation end, int time,
 			InterpolationLoopType loopType, InterpolationType interpolation) {
-		this( field.getElement(), field.getVarDefinition(), start, end, time, 0, loopType, -1, interpolation);
+		this( field.getElement(), field.getVarDef(), start, end, time, 0, loopType, -1, interpolation);
 	}
 
 	public EAdElement getElement() {

@@ -179,7 +179,7 @@ public class BookImporter implements EAdElementImporter<Book, EAdScene> {
 					try {
 						BufferedImage im = ImageIO.read(new File(
 								resourceImporter.getNewProjecFolder(), i
-										.getURI().toString().substring(1)));
+										.getUri().toString().substring(1)));
 						int height = im.getHeight();
 						if (dispY + height > PAGE_TEXT_HEIGHT) {
 							column++;

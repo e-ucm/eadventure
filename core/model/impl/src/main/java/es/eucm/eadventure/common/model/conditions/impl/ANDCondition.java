@@ -38,6 +38,7 @@
 package es.eucm.eadventure.common.model.conditions.impl;
 
 import es.eucm.eadventure.common.interfaces.Element;
+import es.eucm.eadventure.common.model.conditions.impl.enums.ConditionOperator;
 import es.eucm.eadventure.common.model.conditions.impl.enums.EmptyConditionValue;
 import es.eucm.eadventure.common.model.elements.EAdCondition;
 
@@ -45,11 +46,11 @@ import es.eucm.eadventure.common.model.elements.EAdCondition;
 public class ANDCondition extends ListedCondition {
 
 	public ANDCondition(EAdCondition... condition) {
-		super(Operator.AND, condition);
+		super(ConditionOperator.AND, condition);
 	}
 	
 	public ANDCondition() {
-		super(Operator.AND, new EmptyCondition(EmptyConditionValue.TRUE));
+		super(ConditionOperator.AND, new EmptyCondition(EmptyConditionValue.TRUE));
 		setId("andCondition");
 	}
 

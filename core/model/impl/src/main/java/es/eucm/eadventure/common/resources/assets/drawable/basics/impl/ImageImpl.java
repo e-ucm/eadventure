@@ -60,13 +60,17 @@ public class ImageImpl implements Image {
 	}
 
 	@Override
-	public EAdURI getURI() {
+	public EAdURI getUri() {
 		return uri;
+	}
+	
+	public void setUri(EAdURI uri) {
+		this.uri = uri;
 	}
 	
 	public boolean equals( Object o ){
 		if ( o instanceof Image ){
-			return ((Image) o).getURI().equals(uri);
+			return ((Image) o).getUri().equals(uri);
 		}
 		return false;
 	}

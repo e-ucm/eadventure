@@ -51,18 +51,18 @@ public class SimpleTrajectoryGenerator implements
 	}
 	
 	private int getX( SimpleTrajectoryDefinition def, int x ){
-		if ( x > def.right() )
-			return def.right();
-		if ( x < def.left() )
-			return def.left();
+		if ( x > def.getRight() )
+			return def.getRight();
+		if ( x < def.getLeft() )
+			return def.getLeft();
 		return x;
 	}
 	
 	private int getY( SimpleTrajectoryDefinition def, int y ){
-		if ( y > def.bottom() )
-			return def.bottom();
-		if ( y < def.top() )
-			return def.top();
+		if ( y > def.getBottom() )
+			return def.getBottom();
+		if ( y < def.getTop() )
+			return def.getTop();
 		return y;
 	}
 

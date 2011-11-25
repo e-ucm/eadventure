@@ -152,7 +152,7 @@ public class NgRoom1 extends EmptyScene {
 		EAdChangeFieldValueEffect switchLights = new EAdChangeFieldValueEffect(darknessVisible, new BooleanOperation(isNotDark));
 		switchLights.setId("switch");
 		EAdMoveSceneElement move = moveNg(617, 510);
-		move.getFinalEffects().add(switchLights);
+		move.getNextEffects().add(switchLights);
 		lamp.addBehavior(EAdMouseEventImpl.MOUSE_LEFT_PRESSED, move);
 	}
 
@@ -182,9 +182,9 @@ public class NgRoom1 extends EmptyScene {
 
 		portrait.addBehavior(EAdMouseEventImpl.MOUSE_LEFT_CLICK, move);
 
-		move.getFinalEffects().add(NgCommon.getLookNorthEffect());
-		move.getFinalEffects().add(getSpeakEffect(0));
-		move.getFinalEffects().add(addTimes);
+		move.getNextEffects().add(NgCommon.getLookNorthEffect());
+		move.getNextEffects().add(getSpeakEffect(0));
+		move.getNextEffects().add(addTimes);
 
 	}
 

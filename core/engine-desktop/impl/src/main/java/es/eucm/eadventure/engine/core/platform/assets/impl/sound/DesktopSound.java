@@ -22,7 +22,7 @@ public class DesktopSound extends RuntimeSound {
 
 	@Override
 	public boolean loadAsset() {
-		String path = getAssetDescriptor().getURI().getPath();
+		String path = getAssetDescriptor().getUri().getPath();
 		inputStream = ((DesktopAssetHandler) assetHandler)
 				.getResourceAsStream(path);
 		if (path.endsWith(".mid") || path.endsWith(".midi")) {

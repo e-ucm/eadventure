@@ -95,20 +95,43 @@ public class SimpleTrajectoryDefinition extends EAdElementImpl implements Trajec
 		this.bottom = bottom;
 	}
 	
-	public int top(){
+	public int getTop(){
 		return top;
 	}
 	
-	public int left(){
+	public int getLeft(){
 		return left;
 	}
 	
-	public int right(){
+	public int getRight(){
 		return right;
 	}
 	
-	public int bottom(){
+	public int getBottom(){
 		return bottom;
 	}
+
+	
+	public void setOnlyHorizontal(boolean onlyHorizontal) {
+		this.onlyHorizontal = onlyHorizontal;
+	}
+
+	public void setTop(int top) {
+		this.top = top;
+	}
+
+	public void setBottom(int bottom) {
+		this.bottom = bottom;
+	}
+
+	public void setLeft(int left) {
+		this.left = left;
+	}
+
+	public void setRight(int right) {
+		this.right = right;
+	}
+	
+	
 
 }

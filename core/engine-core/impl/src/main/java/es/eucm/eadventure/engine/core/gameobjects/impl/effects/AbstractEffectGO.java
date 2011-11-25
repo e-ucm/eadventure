@@ -131,7 +131,7 @@ public abstract class AbstractEffectGO<P extends EAdEffect> extends
 	public void finish() {
 		initialized = false;
 		stopped = true;
-		for ( EAdEffect e: element.getFinalEffects() ){
+		for ( EAdEffect e: element.getNextEffects() ){
 			gameState.addEffect(e, action, parent);
 		}
 	}

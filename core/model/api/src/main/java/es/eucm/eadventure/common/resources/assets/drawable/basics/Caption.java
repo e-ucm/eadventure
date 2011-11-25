@@ -42,6 +42,7 @@ import es.eucm.eadventure.common.model.variables.EAdField;
 import es.eucm.eadventure.common.params.EAdFont;
 import es.eucm.eadventure.common.params.EAdString;
 import es.eucm.eadventure.common.params.paint.EAdPaint;
+import es.eucm.eadventure.common.resources.assets.drawable.basics.enums.Alignment;
 
 /**
  * General interface for texts to be shown during the game
@@ -50,13 +51,7 @@ import es.eucm.eadventure.common.params.paint.EAdPaint;
  */
 public interface Caption extends BasicDrawable {
 
-	/**
-	 * Text alignment
-	 * 
-	 */
-	public enum Alignment {
-		LEFT, CENTER, RIGHT
-	};
+
 
 	/**
 	 * Constant that can be used to define infinite maximum width/height for the

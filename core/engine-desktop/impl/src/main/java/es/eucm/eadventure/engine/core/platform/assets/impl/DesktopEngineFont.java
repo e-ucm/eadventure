@@ -67,7 +67,7 @@ public class DesktopEngineFont implements RuntimeFont {
 				this.font = Font.createFont(
 						Font.TRUETYPE_FONT,
 						new FileInputStream(new File(assetHandler
-								.getAbsolutePath(eadFont.getURI().getPath()))));
+								.getAbsolutePath(eadFont.getUri().getPath()))));
 				this.font = this.font.deriveFont(eadFont.getSize());
 				
 			} catch (FontFormatException e) {

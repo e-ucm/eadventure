@@ -13,5 +13,5 @@ public interface HasURI {
 	 * 
 	 * @return
 	 */
-	EAdURI getURI();
+	EAdURI getUri();
 }

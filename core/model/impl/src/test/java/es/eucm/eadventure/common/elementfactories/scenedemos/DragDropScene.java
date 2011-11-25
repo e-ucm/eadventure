@@ -16,7 +16,7 @@ import es.eucm.eadventure.common.params.fills.impl.EAdLinearGradient;
 import es.eucm.eadventure.common.params.geom.impl.EAdPositionImpl;
 import es.eucm.eadventure.common.params.geom.impl.EAdPositionImpl.Corner;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.shapes.BallonShape;
-import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.shapes.BallonShape.BalloonType;
+import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.shapes.extra.BalloonType;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.shapes.BezierShape;
 
 public class DragDropScene extends EmptyScene {

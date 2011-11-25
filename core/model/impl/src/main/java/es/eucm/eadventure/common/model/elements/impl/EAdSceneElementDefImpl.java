@@ -199,5 +199,10 @@ public class EAdSceneElementDefImpl extends AbstractEAdElementWithBehavior
 		this.documentation = documentation;
 	}
 
+	public EAdList<EAdAction> getActions() {
+		return actions;
+	}
+
+	
 	
 }

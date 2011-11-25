@@ -129,13 +129,13 @@ public class SceneLinksPanel extends EAdFixScrollCanvasPanel {
 				EAdSceneElement element = scene.getBackground();
 				//TODO Loading images to be fixed with some specific image object
 				ImageImpl imageImpl = (ImageImpl)element.getResources().getAsset(element.getInitialBundle(),EAdBasicSceneElement.appearance);
-				image = ImageIO.read(getResourceAsStream(imageImpl.getURI().getPath()));
+				image = ImageIO.read(getResourceAsStream(imageImpl.getUri().getPath()));
 				
 				// To test functionality, loads an image on demand 
 				//image = ImageIO.read(getResourceAsStream("@drawable/loading.png"));
 				
 			} catch (IOException e) {
-				logger.error("Could not load image! " + ((ImageImpl)scene.getResources().getAsset(EAdBasicSceneElement.appearance)).getURI(), e);
+				logger.error("Could not load image! " + ((ImageImpl)scene.getResources().getAsset(EAdBasicSceneElement.appearance)).getUri(), e);
 			}	
 
 			image = getScaledInstance(image,(int)(image.getWidth()*drawingScale),(int)(image.getHeight()*drawingScale),RenderingHints.VALUE_INTERPOLATION_BILINEAR,true);

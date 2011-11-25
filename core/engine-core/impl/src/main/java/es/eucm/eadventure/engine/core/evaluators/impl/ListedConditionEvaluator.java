@@ -69,7 +69,7 @@ public class ListedConditionEvaluator implements Evaluator<ListedCondition> {
 		if (condition.getNullOperator().getValue() == EmptyConditionValue.TRUE)
 			temp = true;
 		
-		Iterator<EAdCondition> conditions = condition.getConditions();
+		Iterator<EAdCondition> conditions = condition.getConditionsIterator();
 		while (conditions.hasNext()) {
 			boolean temp2 = evaluatorFactory.evaluate(conditions.next());
 			switch (condition.getOperator()) {

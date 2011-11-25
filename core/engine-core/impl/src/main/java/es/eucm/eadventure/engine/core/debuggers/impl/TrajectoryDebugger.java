@@ -95,11 +95,11 @@ public class TrajectoryDebugger implements EAdDebugger {
 			} else if (currentTrajectory instanceof SimpleTrajectoryDefinition) {
 				SimpleTrajectoryDefinition def = (SimpleTrajectoryDefinition) currentTrajectory;
 				EAdBasicSceneElement area = new EAdBasicSceneElement(
-						 new RectangleShape(def.right()
-								- def.left(), def.bottom() - def.top(),
+						 new RectangleShape(def.getRight()
+								- def.getLeft(), def.getBottom() - def.getTop(),
 								new EAdColor(0, 200, 0, 100)));
 				area.setId("walking_area");
-				area.setPosition(def.left(), def.top());
+				area.setPosition(def.getLeft(), def.getTop());
 				gameObjects.add(sceneElementFactory.get(area));
 			}
 		}

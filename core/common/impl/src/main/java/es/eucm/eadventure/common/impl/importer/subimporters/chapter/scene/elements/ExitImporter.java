@@ -127,7 +127,7 @@ public class ExitImporter extends ElementImporter<Exit> {
 		// Post effects
 		for (Effect e : oldObject.getPostEffects().getEffects()) {
 			EAdEffect eadEffect = effectsImporterFactory.getEffect(e);
-			changeScene.getFinalEffects().add(eadEffect);
+			changeScene.getNextEffects().add(eadEffect);
 		}
 
 		addGoToExit(newExit, oldObject, enableCondition, changeScene);

@@ -107,16 +107,16 @@ public class DesktopEngineImage extends RuntimeImage {
 		if (image == null && assetHandler != null) {
 			try {
 				image = ImageIO.read(((DesktopAssetHandler) assetHandler
-						).getResourceAsStream(descriptor.getURI().getPath()));
-				logger.log(Level.INFO, "Image loaded: " + descriptor.getURI());
+						).getResourceAsStream(descriptor.getUri().getPath()));
+				logger.log(Level.INFO, "Image loaded: " + descriptor.getUri());
 				return true;
 			} catch (IOException e) {
 				logger.log(Level.SEVERE, 
-						"Could not load image! " + descriptor.getURI(), e);
+						"Could not load image! " + descriptor.getUri(), e);
 				return false;
 			} catch (Exception e) {
 				logger.log(Level.SEVERE, 
-						"Could not load image! " + descriptor.getURI(), e);
+						"Could not load image! " + descriptor.getUri(), e);
 				return false;
 			}
 		}
@@ -127,7 +127,7 @@ public class DesktopEngineImage extends RuntimeImage {
 	public void freeMemory() {
 		if (image != null) {
 			image.flush();
-			logger.log(Level.INFO, "Image flushed: " + (descriptor != null ? descriptor.getURI() : "no descriptor"));
+			logger.log(Level.INFO, "Image flushed: " + (descriptor != null ? descriptor.getUri() : "no descriptor"));
 		}
 		image = null;
 	}

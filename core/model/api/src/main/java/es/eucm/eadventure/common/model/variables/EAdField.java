@@ -23,6 +23,6 @@ public interface EAdField<T> extends EAdElement, EAdOperation {
 	 * 
 	 * @return
 	 */
-	EAdVarDef<T> getVarDefinition();
+	EAdVarDef<T> getVarDef();
 
 }

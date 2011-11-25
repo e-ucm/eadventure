@@ -97,10 +97,10 @@ public class ConversationImporter implements
 				if (!node.isTerminal()) {
 					EAdEffect currentNodeEffect = nodes.get(node);
 					EAdEffect nextNodeEffect = nodes.get(node.getChild(0));
-					while (currentNodeEffect.getFinalEffects().size() > 0) {
-						currentNodeEffect = currentNodeEffect.getFinalEffects().get(0);
+					while (currentNodeEffect.getNextEffects().size() > 0) {
+						currentNodeEffect = currentNodeEffect.getNextEffects().get(0);
 					}
-					currentNodeEffect.getFinalEffects().add(nextNodeEffect);
+					currentNodeEffect.getNextEffects().add(nextNodeEffect);
 				}
 			} else if (node.getType() == ConversationNode.OPTION) {
 				EAdShowQuestion currentNodeEffect = (EAdShowQuestion) nodes

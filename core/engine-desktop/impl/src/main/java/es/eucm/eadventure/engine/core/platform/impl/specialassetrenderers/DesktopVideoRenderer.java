@@ -104,9 +104,9 @@ public class DesktopVideoRenderer implements SpecialAssetRenderer<Video, Compone
 		
 		Manager.setHint(Manager.LIGHTWEIGHT_RENDERER, true);
 		try {
-			String path = asset.getURI().getPath();
+			String path = asset.getUri().getPath();
 			if (assetHandler != null)
-				path = assetHandler.getAbsolutePath(asset.getURI().getPath());
+				path = assetHandler.getAbsolutePath(asset.getUri().getPath());
 			MediaLocator mediaLocator = new MediaLocator("file://" + path);
 			mediaPlayer = Manager.createRealizedPlayer(mediaLocator);
 			mediaPlayer.addControllerListener(new ControllerListener() {

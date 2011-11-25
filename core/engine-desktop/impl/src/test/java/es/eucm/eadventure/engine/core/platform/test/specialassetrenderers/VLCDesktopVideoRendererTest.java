@@ -64,11 +64,18 @@ public class VLCDesktopVideoRendererTest extends TestCase {
 	
 	@Test
 	public void testLoadVideo() throws URISyntaxException, IOException  {
-		Enumeration<URL> temp = ClassLoader.getSystemResources("es/eucm/eadventure/resources/binary/flame.mpg");
+		testVideo("es/eucm/eadventure/resources/binary/flame.mpg");
+		testVideo("es/eucm/eadventure/resources/binary/bbb_trailer_360p.webm");
+		testVideo("es/eucm/eadventure/resources/binary/bbb_trailer_400p.ogv");
+
+	}
+	
+	private void testVideo(String fileName) throws URISyntaxException, IOException {
+		Enumeration<URL> temp = ClassLoader.getSystemResources(fileName);
 		File file = new File(temp.nextElement().toURI());
 		assertTrue(file.exists());
 		Video video = new VideoImpl(file.getAbsolutePath());
-		assertTrue(new File(video.getURI().getPath()).exists());
+		assertTrue(new File(video.getUri().getPath()).exists());
 		final VLCDesktopVideoRenderer desktopVideoRenderer = new VLCDesktopVideoRenderer(null);
 		o = desktopVideoRenderer.getComponent(video);
 		assertTrue(o != null);
@@ -99,8 +106,7 @@ public class VLCDesktopVideoRendererTest extends TestCase {
 		assertTrue(desktopVideoRenderer.isFinished());
 		frame.setVisible(false);
 		frame.dispose();
-		frame = null;
-
+		frame = null;		
 	}
 	
 }

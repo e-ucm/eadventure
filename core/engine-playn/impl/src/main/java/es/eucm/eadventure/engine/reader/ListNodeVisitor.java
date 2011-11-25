@@ -1,5 +1,7 @@
 package es.eucm.eadventure.engine.reader;
 
+import java.util.logging.Level;
+
 import com.gwtent.reflection.client.ClassType;
 import com.gwtent.reflection.client.Field;
 import com.gwtent.reflection.client.TypeOracle;
@@ -22,7 +24,12 @@ public class ListNodeVisitor extends NodeVisitor<EAdList<Object>> {
 		if (field == null || parent == null) {
 			list = createNewList(node);
 		} else {
-			list = (EAdList<Object>) field.getFieldValue(parent);
+			try {
+				list = (EAdList<Object>) field.getFieldValue(parent);
+			} catch (ClassCastException e) {
+				logger.log(Level.WARNING, "Fail to cast as list, field: " + field.getName() + " in " + parent);
+				list = createNewList(node);
+			}
 		}
 		
 		String type;
