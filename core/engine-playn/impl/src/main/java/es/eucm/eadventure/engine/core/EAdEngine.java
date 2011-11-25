@@ -11,6 +11,7 @@ import playn.core.CanvasLayer;
 import playn.core.Graphics;
 import playn.core.Keyboard;
 import playn.core.Keyboard.Event;
+import playn.core.Keyboard.TypedEvent;
 import playn.core.PlayN;
 import playn.core.Pointer;
 
@@ -198,6 +199,12 @@ public class EAdEngine implements playn.core.Game, Keyboard.Listener {
 
 	public Graphics getGraphics() {
 		return graphics();
+	}
+
+	@Override
+	public void onKeyTyped(TypedEvent event) {
+		// TODO Auto-generated method stub
+		
 	}
 	
 

@@ -181,6 +181,9 @@ public class InterpolationGO extends AbstractEffectGO<EAdInterpolationEffect> {
 			}
 		} else {
 			delay -= GameLoop.SKIP_MILLIS_TICK;
+			if ( delay < 0 ){
+				currentTime -= delay;
+			}
 		}
 	}
 
@@ -188,6 +191,8 @@ public class InterpolationGO extends AbstractEffectGO<EAdInterpolationEffect> {
 		int time = reverse ? element.getInterpolationTime() - currentTime : currentTime;
 		float f = interpolator.interpolate(time,
 				element.getInterpolationTime(), interpolationLength);
+		
+		f += startValue;
 
 		if (integer)
 			return new Integer(Math.round(f));

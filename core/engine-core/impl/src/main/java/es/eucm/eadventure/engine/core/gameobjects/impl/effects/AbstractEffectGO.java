@@ -151,7 +151,7 @@ public abstract class AbstractEffectGO<P extends EAdEffect> extends
 
 	@Override
 	public boolean contains(int x, int y) {
-		return false;
+		return element.isOpaque();
 	}
 	
 	public EAdPosition getPosition(){
