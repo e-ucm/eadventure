@@ -51,6 +51,7 @@ import es.eucm.eadventure.engine.core.gameobjects.GameObjectManager;
 import es.eucm.eadventure.engine.core.gameobjects.huds.ActionsHUD;
 import es.eucm.eadventure.engine.core.gameobjects.huds.BasicHUD;
 import es.eucm.eadventure.engine.core.gameobjects.huds.MenuHUD;
+import es.eucm.eadventure.engine.core.gameobjects.huds.impl.ActionsHUDImpl;
 import es.eucm.eadventure.engine.core.gameobjects.huds.impl.BasicHUDImpl;
 import es.eucm.eadventure.engine.core.gameobjects.huds.impl.MenuHUDImpl;
 import es.eucm.eadventure.engine.core.gameobjects.impl.GameObjectManagerImpl;
@@ -88,7 +89,7 @@ public class PlayNModule extends AbstractGinModule {
 		bind(KeyboardState.class).to(KeyboardStateImpl.class).in(Singleton.class);
 		bind(GameObjectManager.class).to(GameObjectManagerImpl.class).in(Singleton.class);
 		bind(BasicHUD.class).to(BasicHUDImpl.class).in(Singleton.class);
-		bind(ActionsHUD.class).to(PlayNActionsHUDImpl.class).in(Singleton.class);
+		bind(ActionsHUD.class).to(ActionsHUDImpl.class).in(Singleton.class);
 		bind(MenuHUD.class).to(MenuHUDImpl.class).in(Singleton.class);
 		bind(FontHandlerImpl.class).to(PlayNFontCache.class).in(Singleton.class);
 		bind(TransitionFactory.class).to(PlayNTransitionFactory.class).in(Singleton.class);

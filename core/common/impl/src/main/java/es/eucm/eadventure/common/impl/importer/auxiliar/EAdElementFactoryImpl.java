@@ -148,8 +148,7 @@ public class EAdElementFactoryImpl implements EAdElementFactory {
 	private <S, I> GenericImporter<S, I> findGenericImporter(Class<S> clazz) {
 		Class<? extends GenericImporter<?, ?>> importerClass = importerMap
 				.get(clazz);
-		GenericImporter<?, ?> genericImporter = injector
-				.getInstance(importerClass);
+		GenericImporter<?, ?> genericImporter = injector.getInstance(importerClass);
 		return (GenericImporter<S, I>) genericImporter;
 	}
 
