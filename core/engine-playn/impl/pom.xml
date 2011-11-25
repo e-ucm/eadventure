@@ -14,8 +14,86 @@
 
 	<build>
 		<outputDirectory>${project.basedir}/war/WEB-INF/classes</outputDirectory>
+
+		<pluginManagement>
+			<plugins>
+
+				<plugin>
+					<groupId>org.codehaus.mojo</groupId>
+					<artifactId>gwt-maven-plugin</artifactId>
+					<version>2.4.0</version>
+					<executions>
+						<execution>
+							<goals>
+								<goal>compile</goal>
+								<goal>generateAsync</goal>
+								<goal>test</goal>
+							</goals>
+						</execution>
+					</executions>
+					<configuration>
+						<compileSourcesArtifacts>
+							<artifact>org.codehaus.mojo:domain</artifact>
+						</compileSourcesArtifacts>
+					</configuration>
+				</plugin>
+
+				<!--This plugin's configuration is used to store Eclipse m2e settings 
+					only. It has no influence on the Maven build itself. -->
+				<plugin>
+					<groupId>org.eclipse.m2e</groupId>
+					<artifactId>lifecycle-mapping</artifactId>
+					<version>1.0.0</version>
+					<configuration>
+						<lifecycleMappingMetadata>
+							<pluginExecutions>
+								<pluginExecution>
+									<pluginExecutionFilter>
+										<groupId>org.datanucleus</groupId>
+										<artifactId>maven-datanucleus-plugin</artifactId>
+										<versionRange>[1.1.4,)</versionRange>
+										<goals>
+											<goal>enhance</goal>
+										</goals>
+									</pluginExecutionFilter>
+									<action>
+										<ignore></ignore>
+									</action>
+								</pluginExecution>
+								<pluginExecution>
+									<pluginExecutionFilter>
+										<groupId>net.kindleit</groupId>
+										<artifactId>maven-gae-plugin</artifactId>
+										<versionRange>[0.7.3,)</versionRange>
+										<goals>
+											<goal>unpack</goal>
+										</goals>
+									</pluginExecutionFilter>
+									<action>
+										<execute />
+									</action>
+								</pluginExecution>
+								<pluginExecution>
+									<pluginExecutionFilter>
+										<groupId>org.bsc.maven</groupId>
+										<artifactId>maven-processor-plugin</artifactId>
+										<versionRange>[2.0.5,)</versionRange>
+										<goals>
+											<goal>process</goal>
+										</goals>
+									</pluginExecutionFilter>
+									<action>
+										<execute />
+									</action>
+								</pluginExecution>
+							</pluginExecutions>
+						</lifecycleMappingMetadata>
+					</configuration>
+				</plugin>
+			</plugins>
+		</pluginManagement>
 	</build>
-	
+
 	<properties>
 		<gwt.module>es.eucm.eadventure.engine.EAdEngine</gwt.module>
 		<gwt.name>eadengine</gwt.name>
@@ -32,7 +110,7 @@
 			<artifactId>utils</artifactId>
 			<version>${project.version}</version>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>com.google.gwt</groupId>
 			<artifactId>gwt-user</artifactId>
@@ -43,26 +121,37 @@
 			<groupId>com.google.gwt</groupId>
 			<artifactId>gwt-servlet</artifactId>
 			<version>${gwtversion}</version>
-			<scope>runtime</scope>
-		</dependency>
-
-		<dependency>
-			<groupId>com.google.gwt</groupId>
-			<artifactId>gwt-dev</artifactId>
-			<version>${gwtversion}</version>
-			<scope>runtime</scope>
+			<scope>compile</scope>
 		</dependency>
 
 		<dependency>
 			<groupId>com.googlecode.playn</groupId>
-			<artifactId>core</artifactId>
+			<artifactId>playn-core</artifactId>
 			<version>${playnversion}</version>
 		</dependency>
 
 		<dependency>
 			<groupId>com.googlecode.playn</groupId>
-			<artifactId>html</artifactId>
+			<artifactId>playn-html</artifactId>
 			<version>${playnversion}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.googlecode.playn</groupId>
+			<artifactId>playn-jbox2d</artifactId>
+			<version>${playnversion}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.googlecode.playn</groupId>
+			<artifactId>playn-webgl</artifactId>
+			<version>${playnversion}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.samskivert</groupId>
+			<artifactId>pythagoras</artifactId>
+			<version>1.1</version>
 		</dependency>
 
 		<dependency>
@@ -93,7 +182,7 @@
 			<artifactId>gin</artifactId>
 			<version>1.5.0</version>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>com.gwtent</groupId>
 			<artifactId>GwtEnt</artifactId>
@@ -105,7 +194,7 @@
 			<artifactId>video</artifactId>
 			<version>1.0.0</version>
 		</dependency>
-		
-		
+
+
 	</dependencies>
 </project>
