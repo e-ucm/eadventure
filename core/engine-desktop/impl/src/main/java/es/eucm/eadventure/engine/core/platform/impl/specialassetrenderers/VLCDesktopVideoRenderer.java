@@ -155,36 +155,39 @@ public class VLCDesktopVideoRenderer implements SpecialAssetRenderer<Video, Comp
 				if ( temp == null )
 					temp = WinRegistry.readString(WinRegistry.HKEY_LOCAL_MACHINE,
 							"Software\\Wow6432Node\\VideoLAN\\VLC", "InstallDir");
-				System.out.println(temp);
+				logger.log(Level.INFO, "VLC folder: " + temp);
 			} catch (IllegalArgumentException e) {
 			} catch (IllegalAccessException e) {
 			} catch (InvocationTargetException e) {
 			}
 			
 			if (temp == null) {
+				logger.log(Level.WARNING, "VLC not installed");
 				// not exists, extract
 					
 			}
 			String pathLibvlc = temp;
 			String pathPlugins = temp + "\\plugins";
+			NativeLibrary.addSearchPath("vlc", pathLibvlc);
 			System.setProperty("jna.library.path", pathLibvlc);
 			System.setProperty("VLC_PLUGIN_PATH", pathPlugins);
 			vlcOptions = "--no-video-title-show";
 		} else if (os.contains("mac")) {
 			String temp = "/Applications/VLC.app";
 			if (!new File("/Applications/VLC.app/").exists()) {
+				logger.log(Level.WARNING, "VLC not installed");
 				// not exists, extract
 				//temp = ....;
 			} else
 				logger.log(Level.INFO, "VLC installed");
 			String pathLibvlc = temp + "/Contents/MacOS/lib/";
 			String pathPlugins = temp + "/Contents/MacOS/plugins/";
-			NativeLibrary.addSearchPath("libvlc", pathLibvlc);
+			NativeLibrary.addSearchPath("vlc", pathLibvlc);
 			System.setProperty("jna.library.path", pathLibvlc);
 			System.setProperty("VLC_PLUGIN_PATH", pathPlugins);
 			vlcOptions = "--vout=macosx";
 		} else {
-			logger.log(Level.SEVERE, "OS not supported by VLC video plugin");
+			logger.log(Level.SEVERE, "OS not supported by VLC video plugin: " + os);
 		}
 	}
 

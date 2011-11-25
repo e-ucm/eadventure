@@ -64,7 +64,7 @@ public class VLCDesktopVideoRendererTest extends TestCase {
 	
 	@Test
 	public void testLoadVideo() throws URISyntaxException, IOException  {
-		Enumeration<URL> temp = ClassLoader.getSystemResources("binary/flame.mpg");
+		Enumeration<URL> temp = ClassLoader.getSystemResources("es/eucm/eadventure/resources/binary/flame.mpg");
 		File file = new File(temp.nextElement().toURI());
 		assertTrue(file.exists());
 		Video video = new VideoImpl(file.getAbsolutePath());
