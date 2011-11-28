@@ -39,17 +39,15 @@ package es.eucm.eadventure.common.impl.writer;
 
 import org.w3c.dom.Element;
 
-import es.eucm.eadventure.common.impl.DOMTags;
+import es.eucm.eadventure.common.model.DOMTags;
 import es.eucm.eadventure.common.model.extra.EAdMap;
 
 public class MapDOMWriter extends DOMWriter<EAdMap<?, ?>> {
 
-	public static final String TAG = "map";
-
 	@Override
 	public Element buildNode(EAdMap<?, ?> map, Class<?> listClass) {
 
-		Element node = doc.createElement(TAG);
+		Element node = doc.createElement(DOMTags.MAP_TAG);
 		node.setAttribute(DOMTags.KEY_CLASS_AT, shortClass(map.getKeyClass().getName()));
 		node.setAttribute(DOMTags.VALUE_CLASS_AT, shortClass(map.getValueClass().getName()));
 

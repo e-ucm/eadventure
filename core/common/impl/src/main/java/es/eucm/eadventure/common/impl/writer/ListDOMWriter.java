@@ -39,16 +39,14 @@ package es.eucm.eadventure.common.impl.writer;
 
 import org.w3c.dom.Element;
 
-import es.eucm.eadventure.common.impl.DOMTags;
+import es.eucm.eadventure.common.model.DOMTags;
 import es.eucm.eadventure.common.model.extra.EAdList;
 
 public class ListDOMWriter extends DOMWriter<EAdList<?>> {
 
-	public static final String TAG = "list";
-
 	@Override
 	public Element buildNode(EAdList<?> list, Class<?> listClass) {
-		Element node = doc.createElement(TAG);
+		Element node = doc.createElement(DOMTags.LIST_TAG);
 		node.setAttribute(DOMTags.CLASS_AT, shortClass(list.getValueClass().getName()));
 
 		for (Object o : list) {

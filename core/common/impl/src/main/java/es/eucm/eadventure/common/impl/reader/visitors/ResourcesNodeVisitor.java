@@ -7,6 +7,7 @@ import java.util.logging.Logger;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
+import es.eucm.eadventure.common.model.DOMTags;
 import es.eucm.eadventure.common.resources.EAdBundleId;
 import es.eucm.eadventure.common.resources.EAdResources;
 import es.eucm.eadventure.common.resources.assets.AssetDescriptor;
@@ -40,8 +41,6 @@ import es.eucm.eadventure.common.resources.assets.AssetDescriptor;
  */
 public class ResourcesNodeVisitor extends NodeVisitor<EAdResources> {
 	
-	public static final String TAG = "element";
-
 	protected static final Logger logger = Logger.getLogger("ElementNodeVisitor");
 
 	@Override
@@ -51,14 +50,14 @@ public class ResourcesNodeVisitor extends NodeVisitor<EAdResources> {
 		try {
 			field.setAccessible(true);
 			resources = (EAdResources) field.get(parent);
-			String initialBundleId = node.getAttributes().getNamedItem("initialBundle").getNodeValue();
+			String initialBundleId = node.getAttributes().getNamedItem(DOMTags.INITIAL_BUNDLE_TAG).getNodeValue();
 
 			NodeList nl = node.getChildNodes();
 			
 			for(int i=0, cnt=nl.getLength(); i<cnt; i++)
 			{
-				if (nl.item(i).getNodeName().equals("bundle")) {
-					String bundleId = nl.item(i).getAttributes().getNamedItem("id").getNodeValue();
+				if (nl.item(i).getNodeName().equals(DOMTags.BUNDLE_TAG)) {
+					String bundleId = nl.item(i).getAttributes().getNamedItem(DOMTags.ID_AT).getNodeValue();
 					EAdBundleId id = new EAdBundleId(bundleId);
 					resources.addBundle(id);
 					if (bundleId.equals(initialBundleId)) {
@@ -68,12 +67,12 @@ public class ResourcesNodeVisitor extends NodeVisitor<EAdResources> {
 					
 					NodeList nl2 = nl.item(i).getChildNodes();
 					for (int j = 0, cnt2=nl2.getLength(); j<cnt2;j++) {
-						AssetDescriptor asset = (AssetDescriptor) VisitorFactory.getVisitor("asset").visit(nl2.item(j), null, null, null);
-						resources.addAsset(id, nl2.item(j).getAttributes().getNamedItem("id").getNodeValue(), asset);
+						AssetDescriptor asset = (AssetDescriptor) VisitorFactory.getVisitor(DOMTags.ASSET_AT).visit(nl2.item(j), null, null, null);
+						resources.addAsset(id, nl2.item(j).getAttributes().getNamedItem(DOMTags.ID_AT).getNodeValue(), asset);
 					}
 				} else {
-					AssetDescriptor asset = (AssetDescriptor) VisitorFactory.getVisitor("asset").visit(nl.item(i), null, null, null);
-					resources.addAsset(nl.item(i).getAttributes().getNamedItem("id").getNodeValue(), asset);
+					AssetDescriptor asset = (AssetDescriptor) VisitorFactory.getVisitor(DOMTags.ASSET_AT).visit(nl.item(i), null, null, null);
+					resources.addAsset(nl.item(i).getAttributes().getNamedItem(DOMTags.ID_AT).getNodeValue(), asset);
 				}
 			}
 		

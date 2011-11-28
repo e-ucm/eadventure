@@ -7,10 +7,9 @@ import java.util.logging.Logger;
 
 import org.w3c.dom.Node;
 
-import es.eucm.eadventure.common.impl.DOMTags;
+import es.eucm.eadventure.common.model.DOMTags;
 import es.eucm.eadventure.common.impl.reader.extra.ObjectFactory;
 import es.eucm.eadventure.common.model.EAdElement;
-import es.eucm.eadventure.common.model.effects.impl.variables.EAdChangeFieldValueEffect;
 
 /**
  * Visitor for the element. The element should be {@code <element id="ID"

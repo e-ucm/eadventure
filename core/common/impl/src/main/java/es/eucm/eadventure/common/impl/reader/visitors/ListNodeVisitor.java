@@ -6,7 +6,7 @@ import java.util.logging.Level;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-import es.eucm.eadventure.common.impl.DOMTags;
+import es.eucm.eadventure.common.model.DOMTags;
 import es.eucm.eadventure.common.model.extra.EAdList;
 import es.eucm.eadventure.common.model.extra.impl.EAdListImpl;
 
@@ -67,7 +67,7 @@ public class ListNodeVisitor extends NodeVisitor<EAdList<Object>> {
 	
 	@Override
 	public String getNodeType() {
-		return "list";
+		return DOMTags.LIST_TAG;
 	}
 
 }

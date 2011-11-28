@@ -2,7 +2,7 @@ package es.eucm.eadventure.common.impl.writer;
 
 import org.w3c.dom.Element;
 
-import es.eucm.eadventure.common.impl.DOMTags;
+import es.eucm.eadventure.common.model.DOMTags;
 import es.eucm.eadventure.common.params.EAdParam;
 
 /**

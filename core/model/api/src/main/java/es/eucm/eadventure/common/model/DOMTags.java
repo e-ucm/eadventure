@@ -1,4 +1,4 @@
-package es.eucm.eadventure.common.impl;
+package es.eucm.eadventure.common.model;
 
 public class DOMTags {
 
@@ -24,6 +24,18 @@ public class DOMTags {
 	public static final String KEY_CLASS_AT = "key_class";
 	
 	public static final String VALUE_CLASS_AT = "value_class";
+
+	public static final String ASSET_AT = "asset";
+
+	public static final String LIST_TAG = "list";
+
+	public static final String MAP_TAG = "map";
+
+	public static final String RESOURCES_TAG = "resources";
+
+	public static final String BUNDLE_TAG = "bundle";
+
+	public static final String INITIAL_BUNDLE_TAG = "initialBundle";
 	
 
 }

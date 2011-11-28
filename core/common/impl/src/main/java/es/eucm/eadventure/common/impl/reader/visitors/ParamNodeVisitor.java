@@ -5,7 +5,7 @@ import java.util.logging.Level;
 
 import org.w3c.dom.Node;
 
-import es.eucm.eadventure.common.impl.DOMTags;
+import es.eucm.eadventure.common.model.DOMTags;
 import es.eucm.eadventure.common.impl.reader.extra.ObjectFactory;
 
 public class ParamNodeVisitor extends NodeVisitor<Object> {

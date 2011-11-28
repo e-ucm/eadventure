@@ -8,7 +8,7 @@ import java.util.logging.Logger;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-import es.eucm.eadventure.common.impl.DOMTags;
+import es.eucm.eadventure.common.model.DOMTags;
 import es.eucm.eadventure.common.interfaces.Param;
 
 public abstract class NodeVisitor<T> {
@@ -52,11 +52,7 @@ public abstract class NodeVisitor<T> {
 
 			try {
 				field.setAccessible(true);
-				//FIXME apa–o
-				if (field.getType() == String.class)
-					field.set(parent, object.toString());
-				else
-					field.set(parent, object);
+				field.set(parent, object);
 			} catch (IllegalArgumentException e) {
 				logger.log(Level.SEVERE, e.getMessage(), e);
 			} catch (IllegalAccessException e) {

@@ -57,7 +57,7 @@ import org.xml.sax.SAXException;
 import com.google.inject.Inject;
 
 import es.eucm.eadventure.common.Reader;
-import es.eucm.eadventure.common.impl.DOMTags;
+import es.eucm.eadventure.common.model.DOMTags;
 import es.eucm.eadventure.common.impl.reader.extra.ObjectFactory;
 import es.eucm.eadventure.common.impl.reader.visitors.ElementNodeVisitor;
 import es.eucm.eadventure.common.impl.reader.visitors.NodeVisitor;
