@@ -23,7 +23,7 @@ public class AndroidSound extends RuntimeSound {
 	@Override
 	public boolean loadAsset() {
 		Uri uri = Uri.fromFile(new File(assetHandler
-				.getAbsolutePath(this.descriptor.getURI().getPath())));
+				.getAbsolutePath(this.descriptor.getUri().getPath())));
 		mediaPlayer = MediaPlayer.create(
 				((AndroidAssetHandler) assetHandler).getContext(), uri);
 

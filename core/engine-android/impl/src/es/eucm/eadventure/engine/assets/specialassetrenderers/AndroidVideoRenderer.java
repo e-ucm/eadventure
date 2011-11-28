@@ -29,7 +29,7 @@ public class AndroidVideoRenderer implements SpecialAssetRenderer<Video, Object>
 		
 		if (assetHandler != null) {
 
-			String path = assetHandler.getAbsolutePath(asset.getURI().getPath());
+			String path = assetHandler.getAbsolutePath(asset.getUri().getPath());
 			i = new Intent(assetHandler.getContext(), AndroidVideoActivity.class);
 			i.putExtra("media_path", path);
 			return i;

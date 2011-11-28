@@ -95,7 +95,7 @@ public class AndroidEngineImage extends RuntimeImage {
 	@Override
 	public boolean loadAsset() {
 		
-		image = decodeFile(assetHandler.getAbsolutePath(descriptor.getURI().getPath()));
+		image = decodeFile(assetHandler.getAbsolutePath(descriptor.getUri().getPath()));
 	
 		logger.info("New instance, loaded = " + (image != null));
 		return image != null;
@@ -105,7 +105,7 @@ public class AndroidEngineImage extends RuntimeImage {
 	public void freeMemory() {
 		if (image != null) {
 			image.recycle();
-			logger.log(Level.INFO, "Image recycled: " + (descriptor != null ? descriptor.getURI() : "no descriptor"));
+			logger.log(Level.INFO, "Image recycled: " + (descriptor != null ? descriptor.getUri() : "no descriptor"));
 		}
 		image = null;
 	}
