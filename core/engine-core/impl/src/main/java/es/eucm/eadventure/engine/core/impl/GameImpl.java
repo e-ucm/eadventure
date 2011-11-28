@@ -47,8 +47,6 @@ import com.google.inject.Singleton;
 import es.eucm.eadventure.common.interfaces.features.Conditioned;
 import es.eucm.eadventure.common.model.elements.EAdAdventureModel;
 import es.eucm.eadventure.common.model.elements.EAdChapter;
-import es.eucm.eadventure.common.model.impl.EAdAdventureModelImpl;
-import es.eucm.eadventure.common.model.impl.EAdChapterImpl;
 import es.eucm.eadventure.common.model.variables.impl.SystemFields;
 import es.eucm.eadventure.engine.core.Game;
 import es.eucm.eadventure.engine.core.GameState;

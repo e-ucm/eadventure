@@ -2,12 +2,11 @@ package es.eucm.eadventure.common.elementfactories.scenedemos;
 
 import es.eucm.eadventure.common.model.effects.EAdEffect;
 import es.eucm.eadventure.common.model.effects.impl.EAdInterpolationEffect;
-import es.eucm.eadventure.common.model.effects.impl.enums.InterpolationType;
 import es.eucm.eadventure.common.model.effects.impl.enums.InterpolationLoopType;
+import es.eucm.eadventure.common.model.effects.impl.enums.InterpolationType;
 import es.eucm.eadventure.common.model.effects.impl.variables.EAdChangeFieldValueEffect;
 import es.eucm.eadventure.common.model.elements.EAdSceneElement;
 import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
-import es.eucm.eadventure.common.model.events.EAdSceneElementTimedEvent;
 import es.eucm.eadventure.common.model.events.enums.SceneElementTimedEventType;
 import es.eucm.eadventure.common.model.events.impl.EAdSceneElementTimedEventImpl;
 import es.eucm.eadventure.common.model.extra.EAdList;

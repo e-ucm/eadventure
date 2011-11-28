@@ -67,8 +67,6 @@ import es.eucm.eadventure.common.elementfactories.EAdElementsFactory;
 import es.eucm.eadventure.common.elementfactories.scenedemos.SceneDemo;
 import es.eucm.eadventure.common.elementfactories.scenedemos.SceneDemos;
 import es.eucm.eadventure.common.impl.reader.EAdAdventureDOMModelReader;
-import es.eucm.eadventure.common.impl.reader.EAdAdventureModelReader;
-import es.eucm.eadventure.common.impl.reader.subparsers.AdventureHandler;
 import es.eucm.eadventure.common.impl.writer.EAdAdventureModelWriter;
 import es.eucm.eadventure.common.model.elements.EAdAdventureModel;
 import es.eucm.eadventure.common.model.elements.EAdScene;

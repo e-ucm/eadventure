@@ -28,7 +28,7 @@ public class RockPlayerAndroidVideoRenderer implements SpecialAssetRenderer<Vide
 		
 		if (assetHandler != null){
 			
-			String destAddr = assetHandler.getAbsolutePath(asset.getURI().getPath());
+			String destAddr = assetHandler.getAbsolutePath(asset.getUri().getPath());
 			String pack="com.redirectin.rockplayer.android.unified.lite";
 			Uri uri = Uri.parse(destAddr.toString());
 			i = new Intent("android.intent.action.VIEW");		 

@@ -3,14 +3,6 @@ package es.eucm.eadventure.engine.core.trajectories.impl.dijkstra;
 import java.util.ArrayList;
 import java.util.List;
 
-import es.eucm.eadventure.common.model.effects.EAdEffect;
-import es.eucm.eadventure.common.model.effects.impl.variables.EAdChangeFieldValueEffect;
-import es.eucm.eadventure.common.model.trajectories.TrajectoryDefinition;
-import es.eucm.eadventure.common.model.trajectories.impl.NodeTrajectoryDefinition;
-import es.eucm.eadventure.common.model.trajectories.impl.Side;
-import es.eucm.eadventure.common.model.variables.EAdField;
-import es.eucm.eadventure.common.model.variables.impl.EAdFieldImpl;
-import es.eucm.eadventure.common.model.variables.impl.operations.ValueOperation;
 import es.eucm.eadventure.engine.core.trajectories.Path;
 import es.eucm.eadventure.engine.core.trajectories.PathSide;
 

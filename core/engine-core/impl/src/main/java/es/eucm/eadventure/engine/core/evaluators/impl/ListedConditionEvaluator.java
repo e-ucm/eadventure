@@ -44,7 +44,6 @@ import java.util.logging.Logger;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
-import es.eucm.eadventure.common.model.conditions.impl.EmptyCondition;
 import es.eucm.eadventure.common.model.conditions.impl.ListedCondition;
 import es.eucm.eadventure.common.model.conditions.impl.enums.EmptyConditionValue;
 import es.eucm.eadventure.common.model.elements.EAdCondition;
