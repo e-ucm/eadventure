@@ -27,7 +27,7 @@ public class AssetNodeVisitor extends NodeVisitor<AssetDescriptor> {
 	protected static final Logger logger = Logger.getLogger("ElementNodeVisitor");
 
 	@Override
-	public AssetDescriptor visit(Node node, Field field, Object parent) {
+	public AssetDescriptor visit(Node node, Field field, Object parent, Class<?> listClass) {
 		AssetDescriptor element =  (AssetDescriptor) ObjectFactory.getObject(node.getTextContent(), AssetDescriptor.class);
 		if (element != null) {
 			setValue(field, parent, element);

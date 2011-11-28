@@ -86,7 +86,7 @@ public class EAdAdventureModelWriter implements Writer<EAdAdventureModel> {
 	            doc.appendChild(root);
 
 	            ElementDOMWriter listDOMWriter = new ElementDOMWriter();
-	            Node newNode = listDOMWriter.buildNode(data);
+	            Node newNode = listDOMWriter.buildNode(data, null);
 	            doc.adoptNode(newNode);
 	            root.appendChild( newNode );
 

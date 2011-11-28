@@ -37,28 +37,16 @@
 
 package es.eucm.eadventure.common.model.guievents;
 
+import es.eucm.eadventure.common.model.guievents.enums.KeyActionType;
+import es.eucm.eadventure.common.model.guievents.enums.KeyCode;
+
 /**
  * Represents static data of a key event
  */
 public interface EAdKeyEvent extends EAdGUIEvent {
 
-	/**
-	 * 
-	 * Key action type
-	 * 
-	 */
-	public enum KeyActionType {
-		KEY_PRESSED, KEY_RELEASED, KEY_TYPED
-	}
 
-	/**
-	 * 
-	 * Key code
-	 * 
-	 */
-	public enum KeyCode {
-		LETTER, ARROW_UP, ARROW_DOWN, ARROW_LEFT, ARROW_RIGHT, RETURN, ESC
-	}
+
 
 	/**
 	 * Returns the event type

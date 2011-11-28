@@ -25,7 +25,6 @@ public class EAdFieldImpl<T> implements EAdField<T> {
 	public EAdFieldImpl(EAdElement element, EAdVarDef<T> varDef) {
 		this.element = element;
 		this.varDef = varDef;
-		System.out.println();
 	}
 
 	@Override

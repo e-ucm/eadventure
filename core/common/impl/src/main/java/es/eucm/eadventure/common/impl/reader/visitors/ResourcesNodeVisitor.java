@@ -45,7 +45,7 @@ public class ResourcesNodeVisitor extends NodeVisitor<EAdResources> {
 	protected static final Logger logger = Logger.getLogger("ElementNodeVisitor");
 
 	@Override
-	public EAdResources visit(Node node, Field field, Object parent) {
+	public EAdResources visit(Node node, Field field, Object parent, Class<?> listClass) {
 		boolean accessible = field.isAccessible();
 		EAdResources resources = null;
 		try {
@@ -62,17 +62,17 @@ public class ResourcesNodeVisitor extends NodeVisitor<EAdResources> {
 					EAdBundleId id = new EAdBundleId(bundleId);
 					resources.addBundle(id);
 					if (bundleId.equals(initialBundleId)) {
-						resources.removeBundle(resources.getInitialBundle());
 						resources.setInitialBundle(id);
+						resources.removeBundle(resources.getInitialBundle());
 					}
 					
 					NodeList nl2 = nl.item(i).getChildNodes();
 					for (int j = 0, cnt2=nl2.getLength(); j<cnt2;j++) {
-						AssetDescriptor asset = (AssetDescriptor) VisitorFactory.getVisitor("asset").visit(nl2.item(j), null, null);
+						AssetDescriptor asset = (AssetDescriptor) VisitorFactory.getVisitor("asset").visit(nl2.item(j), null, null, null);
 						resources.addAsset(id, nl2.item(j).getAttributes().getNamedItem("id").getNodeValue(), asset);
 					}
 				} else {
-					AssetDescriptor asset = (AssetDescriptor) VisitorFactory.getVisitor("asset").visit(nl.item(i), null, null);
+					AssetDescriptor asset = (AssetDescriptor) VisitorFactory.getVisitor("asset").visit(nl.item(i), null, null, null);
 					resources.addAsset(nl.item(i).getAttributes().getNamedItem("id").getNodeValue(), asset);
 				}
 			}

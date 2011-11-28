@@ -25,7 +25,7 @@ public abstract class NodeVisitor<T> {
 		//loaderType = DOMTags.TYPE_AT;
 	}
 
-	public abstract T visit(Node node, Field field, Object parent);
+	public abstract T visit(Node node, Field field, Object parent, Class<?> listClass);
 	
 	public abstract String getNodeType();
 	
@@ -41,7 +41,7 @@ public abstract class NodeVisitor<T> {
 			Node newNode = nl.item(i);
 			Field field = getField(element, newNode.getAttributes().getNamedItem(DOMTags.PARAM_AT).getNodeValue());
 
-			if (VisitorFactory.getVisitor(newNode.getNodeName()).visit(newNode, field, element) == null)
+			if (VisitorFactory.getVisitor(newNode.getNodeName()).visit(newNode, field, element, null) == null)
 				logger.severe("Failed visiting node " + newNode.getNodeName() + " for element " + element.getClass());
 		}
 	}
@@ -52,7 +52,11 @@ public abstract class NodeVisitor<T> {
 
 			try {
 				field.setAccessible(true);
-				field.set(parent, object);
+				//FIXME apa–o
+				if (field.getType() == String.class)
+					field.set(parent, object.toString());
+				else
+					field.set(parent, object);
 			} catch (IllegalArgumentException e) {
 				logger.log(Level.SEVERE, e.getMessage(), e);
 			} catch (IllegalAccessException e) {

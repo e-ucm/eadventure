@@ -10,7 +10,7 @@ public class AssetDOMWriter extends FieldParamWriter<AssetDescriptor> {
 	public static final String TAG = "asset";
 
 	@Override
-	public Element buildNode(AssetDescriptor assetDescriptor) {
+	public Element buildNode(AssetDescriptor assetDescriptor, Class<?> listClass) {
 		Element node = doc.createElement(TAG);
 
 		// Check if asset is new

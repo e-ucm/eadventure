@@ -48,9 +48,6 @@ import es.eucm.eadventure.common.resources.assets.drawable.Drawable;
  */
 public class FramesAnimation implements Drawable {
 
-	@Param("totalTime")
-	private int totalTime;
-
 	@Param("frames")
 	private EAdList<Frame> frames;
 
@@ -59,7 +56,6 @@ public class FramesAnimation implements Drawable {
 	 */
 	public FramesAnimation() {
 		frames = new EAdListImpl<Frame>(Frame.class);
-		totalTime = 0;
 	}
 
 	/**
@@ -69,7 +65,13 @@ public class FramesAnimation implements Drawable {
 	 */
 	public void addFrame(Frame frame) {
 		frames.add(frame);
-		totalTime += frame.getTime();
+	}
+	
+	private int getTotalTime() {
+		int totalTime = 0;
+		for (Frame frame : frames)
+			totalTime += frame.getTime();
+		return totalTime;
 	}
 
 	/**
@@ -93,6 +95,7 @@ public class FramesAnimation implements Drawable {
 	}
 
 	public Frame getFrameFromTime(long timeDisplayed) {
+		int totalTime = getTotalTime();
 		if (totalTime > 0) {
 			long time = timeDisplayed % totalTime;
 
@@ -105,6 +108,6 @@ public class FramesAnimation implements Drawable {
 			return getFrame(i);
 		}
 		return null;
-
 	}
+	
 }

@@ -6,7 +6,7 @@ import es.eucm.eadventure.common.model.elements.impl.EAdSceneImpl;
 import es.eucm.eadventure.common.model.events.EAdSceneElementEvent;
 import es.eucm.eadventure.common.model.events.enums.SceneElementEventType;
 import es.eucm.eadventure.common.model.events.impl.EAdSceneElementEventImpl;
-import es.eucm.eadventure.common.model.guievents.EAdKeyEvent.KeyActionType;
+import es.eucm.eadventure.common.model.guievents.enums.KeyActionType;
 import es.eucm.eadventure.common.model.guievents.impl.EAdKeyEventImpl;
 import es.eucm.eadventure.common.model.guievents.impl.EAdMouseEventImpl;
 import es.eucm.eadventure.common.model.trajectories.TrajectoryDefinition;

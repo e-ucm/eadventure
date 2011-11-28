@@ -38,7 +38,7 @@
 package es.eucm.eadventure.engine.core.guiactions.impl;
 
 import es.eucm.eadventure.common.model.EAdElement;
-import es.eucm.eadventure.common.model.guievents.EAdDragEvent.DragAction;
+import es.eucm.eadventure.common.model.guievents.enums.DragAction;
 import es.eucm.eadventure.common.model.guievents.EAdGUIEvent;
 import es.eucm.eadventure.common.model.guievents.enums.MouseActionType;
 import es.eucm.eadventure.common.model.guievents.impl.EAdDragEventImpl;

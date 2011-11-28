@@ -70,7 +70,7 @@ public class ResourcesDOMWriter extends DOMWriter<EAdResources> {
 	 * )
 	 */
 	@Override
-	public Element buildNode(EAdResources resources) {
+	public Element buildNode(EAdResources resources, Class<?> listClass) {
 		Element node = doc.createElement(TAG_RESOURCES);
 		if (resources.getInitialBundle() != null)
 			node.setAttribute(INITIAL_BUNDLE_AT, resources.getInitialBundle()
@@ -124,7 +124,7 @@ public class ResourcesDOMWriter extends DOMWriter<EAdResources> {
 	 * @return the node created with the asset information
 	 */
 	private Node processAsset(String id, AssetDescriptor assetDescriptor) {
-		Element assetNode = super.initNode(assetDescriptor);
+		Element assetNode = super.initNode(assetDescriptor, null);
 		assetNode.setAttribute(DOMTags.ID_AT, id);
 		return assetNode;
 	}

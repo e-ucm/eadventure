@@ -54,22 +54,15 @@ public class ObjectFactory {
 
 	private static final Logger logger = Logger.getLogger("ObjectFactory");
 	
-	private static Map<String, EAdParam> paramsMap = new HashMap<String, EAdParam>();
+	private static Map<String, Object> paramsMap = new HashMap<String, Object>();
 	private static Map<String, AssetDescriptor> assetsMap = new HashMap<String, AssetDescriptor>();
 	private static Map<String, EAdElement> elementsMap = new HashMap<String, EAdElement>();
 
 	@SuppressWarnings("unchecked")
 	public static Object getObject(String value, Class<?> fieldType) {
 		if ( EAdParam.class.isAssignableFrom(fieldType)){
-			if ( paramsMap.containsKey(value)){
-				logger.info(value + " was compressed." );
-				return paramsMap.get(value);
-			}
-			else {
-				EAdParam param = constructParam( value, (Class<? extends EAdParam>) fieldType );
-				paramsMap.put("param"+paramsMap.keySet().size(), param);
-				return param;
-			}
+			EAdParam param = constructParam( value, (Class<? extends EAdParam>) fieldType );
+			return param;
 		} else if ( EAdElement.class.isAssignableFrom(fieldType)){
 			EAdElement element = elementsMap.get(value);
 			return element;
@@ -121,6 +114,9 @@ public class ObjectFactory {
 		elementsMap.put(id, element);
 	}
 	
+	public static Map<String, Object> getParamsMap() {
+		return paramsMap;
+	}
 	public static void addAsset( String id, AssetDescriptor descriptor ){
 		assetsMap.put(id, descriptor);
 	}

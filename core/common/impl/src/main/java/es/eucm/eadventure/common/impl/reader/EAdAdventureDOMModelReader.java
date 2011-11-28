@@ -94,7 +94,7 @@ public class EAdAdventureDOMModelReader implements Reader<EAdAdventureModel> {
 			Document doc = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(inputStream);
 			ElementNodeVisitor env = new ElementNodeVisitor();
 			NodeVisitor.init(doc.getFirstChild().getAttributes().getNamedItem(DOMTags.PACKAGE_AT).getNodeValue());
-			data = (EAdAdventureModel) env.visit(doc.getFirstChild().getFirstChild(), null, null);
+			data = (EAdAdventureModel) env.visit(doc.getFirstChild().getFirstChild(), null, null, null);
 
 			return data;
 		} catch( ParserConfigurationException e ) {

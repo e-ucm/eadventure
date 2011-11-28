@@ -68,8 +68,9 @@ public class ResourcesNodeVisitor extends NodeVisitor<EAdResources> {
 					EAdBundleId id = new EAdBundleId(bundleId);
 					resources.addBundle(id);
 					if (bundleId.equals(initialBundleId)) {
-						resources.removeBundle(resources.getInitialBundle());
+						EAdBundleId old = resources.getInitialBundle();
 						resources.setInitialBundle(id);
+						resources.removeBundle(old);
 					}
 					
 					NodeList nl2 = nl.item(i).getChildNodes();

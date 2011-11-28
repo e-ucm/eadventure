@@ -11,13 +11,28 @@ import es.eucm.eadventure.common.impl.reader.extra.ObjectFactory;
 public class ParamNodeVisitor extends NodeVisitor<Object> {
 
 	@Override
-	public Object visit(Node node, Field field, Object parent) {
+	public Object visit(Node node, Field field, Object parent, Class<?> listClass) {
 		if (node.getTextContent() != null) {
-			String clazz = node.getAttributes().getNamedItem(DOMTags.CLASS_AT).getNodeValue();
-			clazz = translateClass(clazz);
 			try {
-				Class<?> c = ClassLoader.getSystemClassLoader().loadClass(clazz);
-				Object object = ObjectFactory.getObject(node.getTextContent(), c);
+				Class<?> c = listClass;
+				if (c == null || node.getAttributes().getNamedItem(DOMTags.CLASS_AT) != null) {
+					String clazz = node.getAttributes().getNamedItem(DOMTags.CLASS_AT).getNodeValue();
+					clazz = translateClass(clazz);
+					c = ClassLoader.getSystemClassLoader().loadClass(clazz);
+				} 
+				
+				Object object = null;
+
+				String value = node.getTextContent();
+				if ( ObjectFactory.getParamsMap().containsKey(value)){
+					object = ObjectFactory.getParamsMap().get(value);
+					logger.info(value + " of value " + object.toString() + " and type "  + object.getClass() + " was compressed." );
+				}
+				else {
+					object = ObjectFactory.getObject(value, c);
+					ObjectFactory.getParamsMap().put("param"+ObjectFactory.getParamsMap().keySet().size(), object);
+				}
+				 
 
 				setValue(field, parent, object);
 				
@@ -35,7 +50,7 @@ public class ParamNodeVisitor extends NodeVisitor<Object> {
 	
 	@Override
 	public String getNodeType() {
-		return "param";
+		return DOMTags.PARAM_AT;
 	}
 
 }

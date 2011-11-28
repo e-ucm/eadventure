@@ -47,11 +47,9 @@ import es.eucm.eadventure.common.model.EAdElement;
 
 public class ElementDOMWriter extends FieldParamWriter<EAdElement> {
 
-	public static final String TAG = "element";
-
 	@Override
-	public Element buildNode(EAdElement element) {
-		Element node = doc.createElement(TAG);
+	public Element buildNode(EAdElement element, Class<?> listClass) {
+		Element node = doc.createElement(DOMTags.ELEMENT_AT);
 		try {
 			// Check if the element is new
 			if (!elementMap.containsKey(element)) {

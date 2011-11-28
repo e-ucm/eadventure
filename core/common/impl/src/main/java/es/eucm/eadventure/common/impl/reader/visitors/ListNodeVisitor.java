@@ -13,7 +13,7 @@ import es.eucm.eadventure.common.model.extra.impl.EAdListImpl;
 public class ListNodeVisitor extends NodeVisitor<EAdList<Object>> {
 
 	@Override
-	public EAdList<Object> visit(Node node, Field field, Object parent) {
+	public EAdList<Object> visit(Node node, Field field, Object parent, Class<?> listClass) {
 		NodeList nl = node.getChildNodes();
 		
 		EAdList<Object> list = null;
@@ -28,7 +28,7 @@ public class ListNodeVisitor extends NodeVisitor<EAdList<Object>> {
 		for(int i=0, cnt=nl.getLength(); i<cnt; i++)
 		{
 			type = nl.item(i).getNodeName();
-			Object object = VisitorFactory.getVisitor(type).visit(nl.item(i), null, null);
+			Object object = VisitorFactory.getVisitor(type).visit(nl.item(i), null, null, list.getValueClass());
 			list.add(object);
 		}
 		return list;

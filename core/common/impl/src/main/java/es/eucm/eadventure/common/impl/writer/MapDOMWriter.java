@@ -39,6 +39,7 @@ package es.eucm.eadventure.common.impl.writer;
 
 import org.w3c.dom.Element;
 
+import es.eucm.eadventure.common.impl.DOMTags;
 import es.eucm.eadventure.common.model.extra.EAdMap;
 
 public class MapDOMWriter extends DOMWriter<EAdMap<?, ?>> {
@@ -46,17 +47,21 @@ public class MapDOMWriter extends DOMWriter<EAdMap<?, ?>> {
 	public static final String TAG = "map";
 
 	@Override
-	public Element buildNode(EAdMap<?, ?> map) {
+	public Element buildNode(EAdMap<?, ?> map, Class<?> listClass) {
 
 		Element node = doc.createElement(TAG);
+		node.setAttribute(DOMTags.KEY_CLASS_AT, shortClass(map.getKeyClass().getName()));
+		node.setAttribute(DOMTags.VALUE_CLASS_AT, shortClass(map.getValueClass().getName()));
 
+		//TODO map should annotate the class types? If so, change calles to initNode...
+		
 		for (Object o : map.keySet()) {
 			if (o != null && map.get(o) != null) {
-				Element key = super.initNode(o);
+				Element key = super.initNode(o, map.getKeyClass());
 				doc.adoptNode(key);
 				node.appendChild(key);
 
-				Element value = super.initNode(map.get(o));
+				Element value = super.initNode(map.get(o), map.getValueClass());
 				doc.adoptNode(value);
 				node.appendChild(value);
 			}

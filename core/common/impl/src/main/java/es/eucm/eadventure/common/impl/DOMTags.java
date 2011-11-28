@@ -8,7 +8,9 @@ public class DOMTags {
 
 	public static final String ID_AT = "id";
 
-	public static final String PARAM_AT = "param";
+	public static final String ELEMENT_AT = "element";
+	
+	public static final String PARAM_AT = "p";
 
 	public static final String TYPE_AT = "type";
 
@@ -17,5 +19,11 @@ public class DOMTags {
 	public static final String ROOT_TAG = "adventure";
 	
 	public static final String PACKAGE_AT = "package";
+	
+
+	public static final String KEY_CLASS_AT = "key_class";
+	
+	public static final String VALUE_CLASS_AT = "value_class";
+	
 
 }
