@@ -11,6 +11,11 @@ import es.eucm.eadventure.common.params.EAdString;
  * 
  */
 public interface StringHandler {
+	
+	/**
+	 * Strings id starting with this prefix, will return the id without the prefix
+	 */
+	public static String TEXTUAL_STRING_PREFIX = "#txt#";
 
 	/**
 	 * Get the text associated to an {@link EAdString} in the configured

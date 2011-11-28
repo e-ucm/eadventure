@@ -24,7 +24,7 @@ public class InventoryItemImpl implements InventoryItem {
 	}
 	
 	public void add( int count ){
-		count += count;
+		this.count += count;
 	}
 
 }

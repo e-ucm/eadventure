@@ -20,6 +20,10 @@ public class DefaultStringHandler implements StringHandler {
 
 	@Override
 	public String getString(EAdString string) {
+		if (string.toString().startsWith(StringHandler.TEXTUAL_STRING_PREFIX)) {
+			return string.toString().substring(
+					StringHandler.TEXTUAL_STRING_PREFIX.length());
+		}
 		String value = strings.get(string);
 		return value == null ? string.toString() : value;
 	}

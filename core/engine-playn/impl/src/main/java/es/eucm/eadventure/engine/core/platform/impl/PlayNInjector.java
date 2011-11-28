@@ -13,7 +13,7 @@ import es.eucm.eadventure.engine.core.gameobjects.impl.effects.ChangeSceneGO;
 import es.eucm.eadventure.engine.core.gameobjects.impl.effects.ComplexBlockingEffectGO;
 import es.eucm.eadventure.engine.core.gameobjects.impl.effects.HighlightEffectGO;
 import es.eucm.eadventure.engine.core.gameobjects.impl.effects.InterpolationGO;
-import es.eucm.eadventure.engine.core.gameobjects.impl.effects.ModifyActorStateGO;
+import es.eucm.eadventure.engine.core.gameobjects.impl.effects.InventoryEffectGO;
 import es.eucm.eadventure.engine.core.gameobjects.impl.effects.MoveSceneElementGO;
 import es.eucm.eadventure.engine.core.gameobjects.impl.effects.PlaySoundEffectGO;
 import es.eucm.eadventure.engine.core.gameobjects.impl.effects.QuitGameEffectGO;
@@ -67,7 +67,7 @@ public class PlayNInjector implements EAdInjector {
 			go = ginjector.getComplexBlockingEffectGO();
 		else if (clazz == HighlightEffectGO.class)
 			go = ginjector.getHighlightEffectGO();
-		else if (clazz == ModifyActorStateGO.class)
+		else if (clazz == InventoryEffectGO.class)
 			go = ginjector.getModifyActorStateGO();
 		else if (clazz == MoveSceneElementGO.class)
 			go = ginjector.getMoveSceneElementGO();

@@ -60,12 +60,11 @@ import es.eucm.eadventure.common.model.conditions.impl.EmptyCondition;
 import es.eucm.eadventure.common.model.conditions.impl.NOTCondition;
 import es.eucm.eadventure.common.model.effects.EAdEffect;
 import es.eucm.eadventure.common.model.effects.EAdMacro;
+import es.eucm.eadventure.common.model.effects.impl.EAdInventoryEffect;
 import es.eucm.eadventure.common.model.effects.impl.EAdMacroImpl;
-import es.eucm.eadventure.common.model.effects.impl.EAdModifyActorState;
-import es.eucm.eadventure.common.model.effects.impl.EAdModifyActorState.Modification;
+import es.eucm.eadventure.common.model.effects.impl.EAdTriggerMacro;
 import es.eucm.eadventure.common.model.elements.EAdCondition;
 import es.eucm.eadventure.common.model.elements.EAdSceneElementDef;
-import es.eucm.eadventure.common.model.effects.impl.EAdTriggerMacro;
 import es.eucm.eadventure.common.predef.model.effects.EAdMoveActiveElement;
 import es.eucm.eadventure.common.resources.EAdBundleId;
 import es.eucm.eadventure.common.resources.StringHandler;
@@ -263,7 +262,7 @@ public class ActionImporter implements EAdElementImporter<Action, EAdAction> {
 				return list;
 		switch (actionType) {
 		case Action.GRAB:
-			EAdModifyActorState modifyState = new EAdModifyActorState( actor, Modification.PLACE_IN_INVENTORY);
+			EAdInventoryEffect modifyState = new EAdInventoryEffect( actor, EAdInventoryEffect.Action.ADD_TO_INVENTORY);
 			modifyState.setId("grabEffect");
 			list.add(modifyState);
 			break;

@@ -2,6 +2,8 @@ package es.eucm.eadventure.common.elementfactories.scenedemos;
 
 import es.eucm.eadventure.common.elementfactories.EAdElementsFactory;
 import es.eucm.eadventure.common.model.effects.impl.EAdActorActionsEffect;
+import es.eucm.eadventure.common.model.effects.impl.EAdInventoryEffect;
+import es.eucm.eadventure.common.model.effects.impl.EAdInventoryEffect.Action;
 import es.eucm.eadventure.common.model.elements.EAdInventory;
 import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
 import es.eucm.eadventure.common.model.elements.impl.EAdInventoryImpl;
@@ -23,10 +25,19 @@ public class InventoryScene extends EmptyScene {
 		EAdBasicSceneElement item2 = new EAdBasicSceneElement( new RectangleShape( 10, 10, EAdColor.BLUE ));
 		EAdBasicSceneElement item3 = new EAdBasicSceneElement( new RectangleShape( 90, 90, EAdColor.GREEN ));
 		EAdInventory inventory = new EAdInventoryImpl();
-		inventory.getInitialInventory().add(item);
+//		inventory.getInitialInventory().add(item);
 		inventory.getInitialInventory().add(item2);
 		inventory.getInitialInventory().add(item3);
 		EAdElementsFactory.getInstance().setInventory(inventory);
+		
+		
+		EAdBasicSceneElement key = new EAdBasicSceneElement( new ImageImpl("@drawable/ng_key.png") );
+		key.setPosition(200, 200);
+		EAdInventoryEffect effect = new EAdInventoryEffect( item, Action.ADD_TO_INVENTORY );
+		
+		key.addBehavior(EAdMouseEventImpl.MOUSE_LEFT_PRESSED, effect);
+		
+		getElements().add(key);
 	}
 
 }

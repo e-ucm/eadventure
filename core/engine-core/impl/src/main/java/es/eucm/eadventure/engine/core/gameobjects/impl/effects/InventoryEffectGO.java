@@ -39,10 +39,11 @@ package es.eucm.eadventure.engine.core.gameobjects.impl.effects;
 
 import com.google.inject.Inject;
 
-import es.eucm.eadventure.common.model.effects.impl.EAdModifyActorState;
+import es.eucm.eadventure.common.model.effects.impl.EAdInventoryEffect;
 import es.eucm.eadventure.common.resources.StringHandler;
 import es.eucm.eadventure.engine.core.GameState;
 import es.eucm.eadventure.engine.core.gameobjects.factories.SceneElementGOFactory;
+import es.eucm.eadventure.engine.core.inventory.InventoryHandler;
 import es.eucm.eadventure.engine.core.platform.AssetHandler;
 import es.eucm.eadventure.engine.core.platform.GUI;
 
@@ -57,42 +58,34 @@ import es.eucm.eadventure.engine.core.platform.GUI;
  * </p>
  * 
  */
-public class ModifyActorStateGO extends AbstractEffectGO<EAdModifyActorState> {
+public class InventoryEffectGO extends AbstractEffectGO<EAdInventoryEffect> {
+	
+	private InventoryHandler inventoryHandler;
 
 	@Inject
-	public ModifyActorStateGO(AssetHandler assetHandler,
+	public InventoryEffectGO(AssetHandler assetHandler,
 			StringHandler stringHandler, SceneElementGOFactory gameObjectFactory,
-			GUI gui, GameState gameState) {
+			GUI gui, GameState gameState, InventoryHandler inventoryHandler ) {
 		super(assetHandler, stringHandler, gameObjectFactory, gui, gameState);
+		this.inventoryHandler = inventoryHandler;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * es.eucm.eadventure.engine.core.gameobjects.impl.AbstractGameObject#update
-	 * (es.eucm.eadventure.engine.core.GameState)
-	 */
+	
+
 	@Override
-	public void update() {
-		super.update();
-		switch (element.getModification()) {
-		case PLACE_IN_INVENTORY:
-			gameState.getRemovedActors().remove(element.getActor());
-			if (!gameState.getInventoryActors().contains(element.getActor()))
-				gameState.getInventoryActors().add(element.getActor());
+	public void initilize() {
+		super.initilize();
+		switch ( element.getAction() ){
+		case ADD_TO_INVENTORY:
+			inventoryHandler.add(element.getDefinition());
 			break;
-		case PLACE_IN_SCENE:
-			gameState.getRemovedActors().remove(element.getActor());
-			gameState.getInventoryActors().remove(element.getActor());
-			break;
-		case REMOVE_SCENE_AND_INVENTORY:
-			if (!gameState.getRemovedActors().contains(element.getActor()))
-				gameState.getRemovedActors().add(element.getActor());
-			gameState.getInventoryActors().remove(element.getActor());
+		case REMOVE_FROM_INVENTORY:
+			inventoryHandler.remove(element.getDefinition());
 			break;
 		}
 	}
+
+
 
 	/*
 	 * (non-Javadoc)

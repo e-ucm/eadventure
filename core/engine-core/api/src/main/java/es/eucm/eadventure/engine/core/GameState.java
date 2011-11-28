@@ -40,7 +40,6 @@ package es.eucm.eadventure.engine.core;
 import java.util.List;
 
 import es.eucm.eadventure.common.model.effects.EAdEffect;
-import es.eucm.eadventure.common.model.elements.EAdSceneElementDef;
 import es.eucm.eadventure.common.model.elements.EAdChapter;
 import es.eucm.eadventure.common.model.elements.EAdScene;
 import es.eucm.eadventure.common.model.elements.EAdSceneElement;
@@ -150,18 +149,6 @@ public interface GameState {
 	 * @return the {@link EAdScene} previously visible in the game
 	 */
 	EAdScene getPreviousScene();
-
-	/**
-	 * @return the list of {@EAdSceneElementDef}s that were
-	 *         removed from the game
-	 */
-	List<EAdSceneElementDef> getRemovedActors();
-
-	/**
-	 * @return the list of {@EAdSceneElementDef}s that were
-	 *         placed in the inventory
-	 */
-	List<EAdSceneElementDef> getInventoryActors();
 
 	/**
 	 * @return the currently active {@link EAdChapter} of the game

@@ -1,7 +1,7 @@
 package es.eucm.eadventure.common.resources.assets.drawable.basics.impl.shapes;
 
 import es.eucm.eadventure.common.params.fills.impl.EAdPaintImpl;
-import es.eucm.eadventure.common.params.paint.EAdFill;
+import es.eucm.eadventure.common.params.paint.EAdPaint;
 
 public class CircleShape extends BezierShape {
 	
@@ -9,8 +9,8 @@ public class CircleShape extends BezierShape {
 		
 	}
 
-	public CircleShape(int cx, int cy, int radius, int segments, EAdFill fill) {
-		super( fill );
+	public CircleShape(int cx, int cy, int radius, int segments, EAdPaint paint) {
+		super( paint );
 		float angle = (float) (2 * Math.PI / segments);
 		float accAngle = angle;
 

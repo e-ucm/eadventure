@@ -44,8 +44,8 @@ import es.eucm.eadventure.common.data.chapter.conditions.Conditions;
 import es.eucm.eadventure.common.data.chapter.effects.GenerateObjectEffect;
 import es.eucm.eadventure.common.impl.importer.interfaces.EAdElementFactory;
 import es.eucm.eadventure.common.model.effects.EAdEffect;
-import es.eucm.eadventure.common.model.effects.impl.EAdModifyActorState;
-import es.eucm.eadventure.common.model.effects.impl.EAdModifyActorState.Modification;
+import es.eucm.eadventure.common.model.effects.impl.EAdInventoryEffect;
+import es.eucm.eadventure.common.model.effects.impl.EAdInventoryEffect.Action;
 import es.eucm.eadventure.common.model.elements.EAdSceneElementDef;
 import es.eucm.eadventure.common.model.elements.EAdCondition;
 
@@ -63,20 +63,20 @@ public class GenerateObjectEffectImporter extends EffectImporter<GenerateObjectE
 
 	@Override
 	public EAdEffect init(GenerateObjectEffect oldObject) {
-		EAdEffect effect = new EAdModifyActorState();
+		EAdEffect effect = new EAdInventoryEffect();
 		effect.setId("consumeObject" + oldObject.getTargetId());
 		return effect;
 	}
 
 	@Override
 	public EAdEffect convert(GenerateObjectEffect oldObject, Object object) {
-		EAdModifyActorState effect = (EAdModifyActorState) object;
+		EAdInventoryEffect effect = (EAdInventoryEffect) object;
 		
 		effect.setQueueable(true);
 		
 		importConditions(oldObject, effect);
 
-		effect.setModification(Modification.PLACE_IN_INVENTORY);
+		effect.setModification(Action.ADD_TO_INVENTORY);
 		effect.setActor((EAdSceneElementDef) factory.getElementById(oldObject.getTargetId()));
 
 		return effect;

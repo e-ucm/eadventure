@@ -52,7 +52,6 @@ import es.eucm.eadventure.common.model.effects.EAdEffect;
 import es.eucm.eadventure.common.model.elements.EAdChapter;
 import es.eucm.eadventure.common.model.elements.EAdScene;
 import es.eucm.eadventure.common.model.elements.EAdSceneElement;
-import es.eucm.eadventure.common.model.elements.EAdSceneElementDef;
 import es.eucm.eadventure.common.model.elements.impl.EAdSceneElementDefImpl;
 import es.eucm.eadventure.common.model.elements.impl.EAdSceneImpl;
 import es.eucm.eadventure.common.model.variables.EAdVarDef;
@@ -82,10 +81,6 @@ public class GameStateImpl implements GameState {
 	private EffectGOFactory effectFactory;
 
 	private Stack<EAdScene> previousSceneStack;
-
-	private List<EAdSceneElementDef> removedActors;
-
-	private List<EAdSceneElementDef> inventoryActors;
 
 	private EAdChapter currentChapter;
 
@@ -123,8 +118,6 @@ public class GameStateImpl implements GameState {
 		this.effectFactory = effectFactory;
 		this.pluginHandler = pluginHandler;
 		this.eventGOFactory = eventGOFactory;
-		removedActors = new ArrayList<EAdSceneElementDef>();
-		inventoryActors = new ArrayList<EAdSceneElementDef>();
 		// TODO improve
 		installPlugins();
 	}
@@ -231,16 +224,6 @@ public class GameStateImpl implements GameState {
 	@Override
 	public EAdScene getPreviousScene() {
 		return previousSceneStack.pop();
-	}
-
-	@Override
-	public List<EAdSceneElementDef> getRemovedActors() {
-		return removedActors;
-	}
-
-	@Override
-	public List<EAdSceneElementDef> getInventoryActors() {
-		return inventoryActors;
 	}
 
 	@Override

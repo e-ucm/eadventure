@@ -41,6 +41,7 @@ import es.eucm.eadventure.common.interfaces.Element;
 import es.eucm.eadventure.common.interfaces.Param;
 import es.eucm.eadventure.common.model.elements.EAdComplexElement;
 import es.eucm.eadventure.common.model.elements.EAdSceneElement;
+import es.eucm.eadventure.common.model.elements.EAdSceneElementDef;
 import es.eucm.eadventure.common.model.extra.EAdList;
 import es.eucm.eadventure.common.model.extra.impl.EAdListImpl;
 import es.eucm.eadventure.common.model.variables.EAdVarDef;
@@ -83,6 +84,11 @@ public class EAdComplexElementImpl extends EAdBasicSceneElement implements
 	public EAdComplexElementImpl() {
 		super();
 		components = new EAdListImpl<EAdSceneElement>(EAdSceneElement.class);
+	}
+
+	public EAdComplexElementImpl(EAdSceneElementDef definition) {
+		this();
+		this.setDefinition(definition);
 	}
 
 	/**

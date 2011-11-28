@@ -16,7 +16,7 @@ import es.eucm.eadventure.engine.core.gameobjects.impl.effects.ChangeSceneGO;
 import es.eucm.eadventure.engine.core.gameobjects.impl.effects.ComplexBlockingEffectGO;
 import es.eucm.eadventure.engine.core.gameobjects.impl.effects.HighlightEffectGO;
 import es.eucm.eadventure.engine.core.gameobjects.impl.effects.InterpolationGO;
-import es.eucm.eadventure.engine.core.gameobjects.impl.effects.ModifyActorStateGO;
+import es.eucm.eadventure.engine.core.gameobjects.impl.effects.InventoryEffectGO;
 import es.eucm.eadventure.engine.core.gameobjects.impl.effects.MoveSceneElementGO;
 import es.eucm.eadventure.engine.core.gameobjects.impl.effects.PlaySoundEffectGO;
 import es.eucm.eadventure.engine.core.gameobjects.impl.effects.QuitGameEffectGO;
@@ -60,7 +60,7 @@ public interface PlayNGinInjector extends Ginjector {
 	public ChangeFieldGO getChangeFieldGO();
 	public ComplexBlockingEffectGO getComplexBlockingEffectGO();
 	public HighlightEffectGO getHighlightEffectGO();
-	public ModifyActorStateGO getModifyActorStateGO();
+	public InventoryEffectGO getModifyActorStateGO();
 	public MoveSceneElementGO getMoveSceneElementGO();
 	public PlaySoundEffectGO getPlaySoundEffectGO();
 	public QuitGameEffectGO getQuitGameEffectGO();

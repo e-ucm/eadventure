@@ -54,6 +54,7 @@ import es.eucm.eadventure.common.model.variables.impl.EAdVarDefImpl;
 import es.eucm.eadventure.common.params.EAdString;
 import es.eucm.eadventure.common.resources.annotation.Asset;
 import es.eucm.eadventure.common.resources.annotation.Bundled;
+import es.eucm.eadventure.common.resources.assets.AssetDescriptor;
 import es.eucm.eadventure.common.resources.assets.drawable.Drawable;
 
 @Element(runtime = EAdSceneElementDefImpl.class, detailed = EAdSceneElementDefImpl.class)
@@ -104,6 +105,12 @@ public class EAdSceneElementDefImpl extends AbstractEAdElementWithBehavior
 		this.documentation = EAdString.newEAdString("actorDocumentation");
 		events = new EAdListImpl<EAdEvent>(EAdEvent.class);
 
+	}
+
+	public EAdSceneElementDefImpl(AssetDescriptor appearance) {
+		this();
+		getResources().addAsset(this.getInitialBundle(),
+				EAdBasicSceneElement.appearance, appearance);
 	}
 
 /**
@@ -181,8 +188,6 @@ public class EAdSceneElementDefImpl extends AbstractEAdElementWithBehavior
 		return events;
 	}
 
-	
-	
 	public void setName(EAdString name) {
 		this.name = name;
 	}
@@ -203,6 +208,4 @@ public class EAdSceneElementDefImpl extends AbstractEAdElementWithBehavior
 		return actions;
 	}
 
-	
-	
 }

@@ -66,7 +66,7 @@ public class BezierShape implements Shape, Cloneable {
 		paint = EAdPaintImpl.TRANSPARENT;
 	}
 	
-	public BezierShape( EAdFill paint ){
+	public BezierShape( EAdPaint paint ){
 		this();
 		this.paint = paint;
 	}

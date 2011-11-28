@@ -8,9 +8,14 @@ import es.eucm.eadventure.common.model.elements.impl.EAdComplexElementImpl;
 import es.eucm.eadventure.common.model.variables.EAdField;
 import es.eucm.eadventure.common.model.variables.impl.EAdFieldImpl;
 import es.eucm.eadventure.common.model.variables.impl.SystemFields;
+import es.eucm.eadventure.common.params.EAdFont;
+import es.eucm.eadventure.common.params.EAdFontImpl;
+import es.eucm.eadventure.common.params.EAdString;
 import es.eucm.eadventure.common.params.fills.impl.EAdColor;
 import es.eucm.eadventure.common.params.geom.impl.EAdPositionImpl;
 import es.eucm.eadventure.common.params.geom.impl.EAdPositionImpl.Corner;
+import es.eucm.eadventure.common.resources.StringHandler;
+import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.CaptionImpl;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.shapes.RectangleShape;
 import es.eucm.eadventure.engine.core.GameLoop;
 import es.eucm.eadventure.engine.core.GameState;
@@ -146,7 +151,6 @@ public class InventoryHUDImpl extends AbstractHUD implements InventoryHUD {
 				EAdBasicSceneElement element = new EAdBasicSceneElement(
 						i.getElement());
 				element.setPosition(Corner.CENTER, x, INVENTORY_HEIGHT / 2);
-				x += INVENTORY_HEIGHT;
 
 				SceneElementGO<?> go = sceneElementFactory.get(element);
 				float width = go.getWidth();
@@ -154,8 +158,8 @@ public class InventoryHUDImpl extends AbstractHUD implements InventoryHUD {
 				float size = INVENTORY_HEIGHT * 0.8f;
 				float scale = size / width < size / height ? size / width
 						: size / height;
-				
-//				element.setDraggableCondition(EmptyCondition.TRUE_EMPTY_CONDITION);
+
+//				 element.setDraggableCondition(EmptyCondition.TRUE_EMPTY_CONDITION);
 
 				sceneElementFactory.remove(element);
 
@@ -163,8 +167,32 @@ public class InventoryHUDImpl extends AbstractHUD implements InventoryHUD {
 						scale);
 
 				inventory.getElements().add(element);
+
+				if (i.getCount() > 1) {
+					float counterSize = size / 3;
+					EAdBasicSceneElement counter = getCounter(i.getCount(),
+							counterSize);
+					counter.setPosition(Corner.CENTER, x, INVENTORY_HEIGHT / 2);
+
+					inventory.getElements().add(counter);
+				}
+				x += INVENTORY_HEIGHT;
 			}
 			currentUpdate = inventoryHandler.updateNumber();
 		}
+	}
+
+	private EAdFont counterFont = new EAdFontImpl(10);
+
+	private EAdBasicSceneElement getCounter(int count, float counterSize) {
+		CaptionImpl number = new CaptionImpl(new EAdString(
+				StringHandler.TEXTUAL_STRING_PREFIX + count));
+		number.setTextPaint(EAdColor.WHITE);
+		number.setBubblePaint( new EAdColor( 0, 0, 0, 100 ));
+		number.setPadding(3);
+		number.setFont(counterFont);
+		EAdBasicSceneElement numberElement = new EAdBasicSceneElement(number);
+		numberElement.setPosition(Corner.CENTER, 0, 0);
+		return numberElement;
 	}
 }

@@ -41,79 +41,45 @@ import es.eucm.eadventure.common.interfaces.Element;
 import es.eucm.eadventure.common.interfaces.Param;
 import es.eucm.eadventure.common.model.elements.EAdSceneElementDef;
 
-/**
- * <p>This effects modifies the state of an {@link EAdSceneElementDef}</p>
- * <p>The state can change to the values specified by the 
- * modification value:
- * {@link Modification}
- *</p>
- */
-@Element(detailed = EAdModifyActorState.class, runtime = EAdModifyActorState.class)
-public class EAdModifyActorState extends AbstractEAdEffect {
+@Element(detailed = EAdInventoryEffect.class, runtime = EAdInventoryEffect.class)
+public class EAdInventoryEffect extends AbstractEAdEffect {
 
-	/**
-	 * <p>The modification to the state:
-	 * <li>PLACE_IN_INVENTORY: move the {@link EAdSceneElementDef} to the inventory (remove from scene)</li>
-	 * <li>PLACE_IN_SCENE; move the {@link EAdSceneElementDef} to the scene (remove from inventory)</li>
-	 * <li>REMOVE_SCENE_AND_INVENTORY: remove the {@link EAdSceneElementDef} from scene and inventory</li>
-	 * </p>
-	 *
-	 */
-	public static enum Modification {
-		PLACE_IN_INVENTORY, PLACE_IN_SCENE, REMOVE_SCENE_AND_INVENTORY
+	public static enum Action {
+		ADD_TO_INVENTORY, REMOVE_FROM_INVENTORY
 	}
 	
 	@Param("modification")
-	private Modification modification;
+	private Action modification;
 	
 	@Param("actor")
 	private EAdSceneElementDef actor;
 	
-	/**
-	 * Constructor. Actor will be null, default modification will be {@link Modification.PLACE_IN_INVENTORY}
-	 * 
-	 */
-	public EAdModifyActorState() {
-		this(null, Modification.PLACE_IN_INVENTORY);
+
+	public EAdInventoryEffect() {
+		this(null, Action.ADD_TO_INVENTORY);
 	}
 	
-	/**
-	 * Constructor
-	 * 
-	 * @param actor The {@link EAdSceneElementDef} to be modified
-	 * @param modification The {@link Modification} to the actor state
-	 */
-	public EAdModifyActorState( EAdSceneElementDef actor, Modification modification) {
+
+	public EAdInventoryEffect( EAdSceneElementDef actor, Action modification) {
 		super();
 		this.modification = modification;
 		this.actor = actor;
 	}
 	
-	/**
-	 * @param modification The {@link Modification} to be performed to the actor
-	 */
-	public void setModification(Modification modification) {
+	public void setModification(Action modification) {
 		this.modification = modification;
 	}
 	
-	/**
-	 * @return The {@link Modification} to be performed to the actor
-	 */
-	public Modification getModification() {
+	public Action getAction() {
 		return modification;
 	}
 	
-	/**
-	 * @param actor Set the {@link EAdSceneElementDef} to be modified
-	 */
+
 	public void setActor(EAdSceneElementDef actor) {
 		this.actor = actor;
 	}
 	
-	/**
-	 * @return Get the {@link EAdSceneElementDef} to be modified
-	 */
-	public EAdSceneElementDef getActor() {
+	public EAdSceneElementDef getDefinition() {
 		return actor;
 	}
 	

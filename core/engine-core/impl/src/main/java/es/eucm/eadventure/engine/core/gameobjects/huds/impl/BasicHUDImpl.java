@@ -140,18 +140,17 @@ public class BasicHUDImpl extends AbstractHUD implements BasicHUD {
 
 	@Override
 	public boolean processAction(GUIAction action) {
-		if (gameObjectManager.getHUDs().size() == 0) {
-			if (action instanceof KeyAction) {
-				KeyAction keyAction = (KeyAction) action;
-				if (keyAction.getKeyCode() == KeyCode.ESC
-						&& keyAction.getType() == KeyActionType.KEY_PRESSED) {
-					gameObjectManager.addHUD(menuHUD);
-					gameState.setPaused(true);
-					action.consume();
-					return true;
-				}
+		if (action instanceof KeyAction) {
+			KeyAction keyAction = (KeyAction) action;
+			if (keyAction.getKeyCode() == KeyCode.ESC
+					&& keyAction.getType() == KeyActionType.KEY_PRESSED) {
+				gameObjectManager.addHUD(menuHUD);
+				gameState.setPaused(true);
+				action.consume();
+				return true;
 			}
 		}
+
 		return false;
 	}
 
@@ -211,7 +210,7 @@ public class BasicHUDImpl extends AbstractHUD implements BasicHUD {
 		DrawableGO<?> go = mouseState.getGameObjectUnderMouse();
 
 		ValueMap valueMap = gameState.getValueMap();
-		if (go != null ) {
+		if (go != null) {
 			EAdString name = valueMap.getValue((EAdElement) go.getElement(),
 					EAdBasicSceneElement.VAR_NAME);
 			if (name != null && !name.equals("")) {
