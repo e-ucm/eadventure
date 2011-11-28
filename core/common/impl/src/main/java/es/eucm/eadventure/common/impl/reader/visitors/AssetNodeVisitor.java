@@ -1,7 +1,7 @@
 package es.eucm.eadventure.common.impl.reader.visitors;
 
-import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.w3c.dom.Node;
@@ -22,7 +22,7 @@ import es.eucm.eadventure.common.resources.assets.AssetDescriptor;
  */
 public class AssetNodeVisitor extends NodeVisitor<AssetDescriptor> {
 
-	protected static final Logger logger = Logger.getLogger("ElementNodeVisitor");
+	protected static final Logger logger = Logger.getLogger("AssetNodeVisitor");
 
 	@Override
 	public AssetDescriptor visit(Node node, Field field, Object parent, Class<?> listClass) {
@@ -40,22 +40,19 @@ public class AssetNodeVisitor extends NodeVisitor<AssetDescriptor> {
 		Class<?> c = null;
 		try {
 			c = ClassLoader.getSystemClassLoader().loadClass(clazz);
-			Constructor<?> con = c.getConstructor();
-			element = (AssetDescriptor) con.newInstance(new Object[] { });
+			element = (AssetDescriptor) c.newInstance();
 		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
+			logger.log(Level.SEVERE, e.getMessage(), e);
 		} catch (SecurityException e) {
-			e.printStackTrace();
-		} catch (NoSuchMethodException e) {
-			e.printStackTrace();
+			logger.log(Level.SEVERE, e.getMessage(), e);
 		} catch (Exception e) {
-
+			logger.log(Level.SEVERE, e.getMessage(), e);
 		}
+		
 		if (element != null)
 			ObjectFactory.addAsset(uniqueId, element);
 		setValue(field, parent, element);
 
-		
 		readFields(element, node);
 		
 		return element;

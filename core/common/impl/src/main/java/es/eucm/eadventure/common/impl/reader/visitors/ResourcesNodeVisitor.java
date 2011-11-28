@@ -50,6 +50,7 @@ public class ResourcesNodeVisitor extends NodeVisitor<EAdResources> {
 		try {
 			field.setAccessible(true);
 			resources = (EAdResources) field.get(parent);
+			
 			String initialBundleId = node.getAttributes().getNamedItem(DOMTags.INITIAL_BUNDLE_TAG).getNodeValue();
 
 			NodeList nl = node.getChildNodes();

@@ -43,7 +43,7 @@ import es.eucm.eadventure.common.model.variables.impl.operations.BooleanOperatio
 import es.eucm.eadventure.common.model.variables.impl.operations.MathOperation;
 import es.eucm.eadventure.common.model.variables.impl.operations.ValueOperation;
 import es.eucm.eadventure.common.params.EAdFont;
-import es.eucm.eadventure.common.params.EAdFont.Style;
+import es.eucm.eadventure.common.params.FontStyle;
 import es.eucm.eadventure.common.params.EAdFontImpl;
 import es.eucm.eadventure.common.params.fills.impl.EAdColor;
 import es.eucm.eadventure.common.params.geom.impl.EAdPositionImpl;
@@ -106,10 +106,10 @@ public class BookImporter implements EAdElementImporter<Book, EAdScene> {
 
 	private FontRenderContext frc = new FontRenderContext(null, true, true);
 	private Font titleFont = new Font("Arial", Font.PLAIN, 33);
-	private EAdFont titleEAdFont = new EAdFontImpl("Arial", 33, Style.PLAIN);
+	private EAdFont titleEAdFont = new EAdFontImpl("Arial", 33, FontStyle.PLAIN);
 
 	private Font textFont = new Font("Arial", Font.PLAIN, 18);
-	private EAdFont textEAdFont = new EAdFontImpl("Arial", 18, Style.PLAIN);
+	private EAdFont textEAdFont = new EAdFontImpl("Arial", 18, FontStyle.PLAIN);
 
 	private int dispY = 0;
 	private ComposedDrawableImpl image;

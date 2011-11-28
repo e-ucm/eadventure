@@ -48,7 +48,7 @@ import es.eucm.eadventure.common.model.elements.EAdScene;
 import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
 import es.eucm.eadventure.common.model.elements.impl.EAdSceneImpl;
 import es.eucm.eadventure.common.model.events.EAdEvent;
-import es.eucm.eadventure.common.model.events.EAdSystemEvent.Event;
+import es.eucm.eadventure.common.model.events.enums.SystemEventType;
 import es.eucm.eadventure.common.model.events.impl.EAdSystemEventImpl;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.ImageImpl;
 
@@ -71,7 +71,7 @@ public class LoadingScreen extends EAdSceneImpl implements EAdScene {
 		event.setId("startEvent");
 		effect = new EAdChangeScene();
 		effect.setId("LoadingChangeScreen");
-		event.addEffect(Event.GAME_LOADED, effect);
+		event.addEffect(SystemEventType.GAME_LOADED, effect);
 		this.getEvents().add(event);
 	}
 	

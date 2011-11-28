@@ -84,4 +84,10 @@ public class StateDrawableImpl implements StateDrawable {
 		return drawables.get(stateName);
 	}
 
+	public EAdMap<String, Drawable> getDrawables() {
+		return drawables;
+	}
+	
+	
+
 }

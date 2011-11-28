@@ -57,7 +57,7 @@ public class EAdFontImpl extends EAdParamImpl implements EAdFont {
 	/**
 	 * Style of the font
 	 */
-	private Style style;
+	private FontStyle style;
 
 	/**
 	 * URI to the *.ttf file for the name font
@@ -70,7 +70,7 @@ public class EAdFontImpl extends EAdParamImpl implements EAdFont {
 	public static final EAdFontImpl REGULAR = new EAdFontImpl(25.0f);
 
 	public static final EAdFontImpl REGULAR_BOLD = new EAdFontImpl(null, 25.0f,
-			Style.BOLD);
+			FontStyle.BOLD);
 
 	/**
 	 * Big EAdFont
@@ -101,10 +101,10 @@ public class EAdFontImpl extends EAdParamImpl implements EAdFont {
 	}
 
 	public EAdFontImpl(String name, float size) {
-		this(name, size, Style.PLAIN);
+		this(name, size, FontStyle.PLAIN);
 	}
 
-	public EAdFontImpl(String name, float size, Style style) {
+	public EAdFontImpl(String name, float size, FontStyle style) {
 		setName(name);
 		setSize(size);
 		setStyle(style);
@@ -149,7 +149,7 @@ public class EAdFontImpl extends EAdParamImpl implements EAdFont {
 	/**
 	 * @return the style
 	 */
-	public Style getStyle() {
+	public FontStyle getStyle() {
 		return style;
 	}
 
@@ -157,7 +157,7 @@ public class EAdFontImpl extends EAdParamImpl implements EAdFont {
 	 * @param style
 	 *            the style to set
 	 */
-	public void setStyle(Style style) {
+	public void setStyle(FontStyle style) {
 		this.style = style;
 	}
 
@@ -182,7 +182,7 @@ public class EAdFontImpl extends EAdParamImpl implements EAdFont {
 		}
 
 		size = Float.parseFloat(strings[1]);
-		style = Style.valueOf(strings[2]);
+		style = FontStyle.valueOf(strings[2]);
 	}
 
 }

@@ -109,5 +109,11 @@ public class FramesAnimation implements Drawable {
 		}
 		return null;
 	}
+
+	public EAdList<Frame> getFrames() {
+		return frames;
+	}
+	
+	
 	
 }

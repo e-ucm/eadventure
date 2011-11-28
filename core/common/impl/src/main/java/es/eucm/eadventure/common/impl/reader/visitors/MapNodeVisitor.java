@@ -60,6 +60,7 @@ public class MapNodeVisitor extends NodeVisitor<Map<Object, Object>> {
 		return new EAdMapImpl<Object, Object>(keyClass, valueClass);
 	}
 
+	@SuppressWarnings("unchecked")
 	private EAdMap<Object, Object> getMapFromParent(Field field, Object parent) {
 		boolean accessible = field.isAccessible();
 		EAdMap<Object, Object> list = null;

@@ -1,6 +1,5 @@
 package es.eucm.eadventure.common.impl.reader.visitors;
 
-import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -48,14 +47,10 @@ public class ElementNodeVisitor extends NodeVisitor<EAdElement> {
 		Class<?> c = null;
 		
 		if (clazz != null) {
-			Constructor<?> con;
 			try {
 				c = ClassLoader.getSystemClassLoader().loadClass(clazz);
-				con = c.getConstructor();
-				element = (EAdElement) con.newInstance();
+				element = (EAdElement) c.newInstance();
 				element.setId(id);
-			} catch (NoSuchMethodException e1) {
-				logger.info("No constructor for :" + c);
 			} catch (Exception e1) {
 				logger.log(Level.SEVERE, e1.getMessage(), e1);
 			}

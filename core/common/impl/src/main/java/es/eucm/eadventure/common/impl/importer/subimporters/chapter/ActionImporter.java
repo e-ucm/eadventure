@@ -62,7 +62,7 @@ import es.eucm.eadventure.common.model.effects.EAdEffect;
 import es.eucm.eadventure.common.model.effects.EAdMacro;
 import es.eucm.eadventure.common.model.effects.impl.EAdMacroImpl;
 import es.eucm.eadventure.common.model.effects.impl.EAdModifyActorState;
-import es.eucm.eadventure.common.model.effects.impl.EAdModifyActorState.Modification;
+import es.eucm.eadventure.common.model.effects.impl.enums.Modification;
 import es.eucm.eadventure.common.model.elements.EAdCondition;
 import es.eucm.eadventure.common.model.elements.EAdSceneElementDef;
 import es.eucm.eadventure.common.model.effects.impl.EAdTriggerMacro;

@@ -11,13 +11,12 @@ public class VisitorFactory {
 	
 	private VisitorFactory() {
 		map = new HashMap<String, NodeVisitor<?>>();
-		addVisitor(new ElementNodeVisitor());
-		addVisitor(new ParamNodeVisitor());
 		addVisitor(new AssetNodeVisitor());
-		addVisitor(new ListNodeVisitor());
-		addVisitor(new ResourcesNodeVisitor());
+		addVisitor(new ElementNodeVisitor());
 		addVisitor(new ListNodeVisitor());
 		addVisitor(new MapNodeVisitor());
+		addVisitor(new ParamNodeVisitor());
+		addVisitor(new ResourcesNodeVisitor());
 	}
 	
 	private void addVisitor(NodeVisitor<?> nodeVisitor) {

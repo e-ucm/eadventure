@@ -45,7 +45,7 @@ import es.eucm.eadventure.common.data.chapter.effects.GenerateObjectEffect;
 import es.eucm.eadventure.common.impl.importer.interfaces.EAdElementFactory;
 import es.eucm.eadventure.common.model.effects.EAdEffect;
 import es.eucm.eadventure.common.model.effects.impl.EAdModifyActorState;
-import es.eucm.eadventure.common.model.effects.impl.EAdModifyActorState.Modification;
+import es.eucm.eadventure.common.model.effects.impl.enums.Modification;
 import es.eucm.eadventure.common.model.elements.EAdSceneElementDef;
 import es.eucm.eadventure.common.model.elements.EAdCondition;
 

@@ -3,6 +3,7 @@ package es.eucm.eadventure.common.model.weev.story.element.impl.effects;
 import es.eucm.eadventure.common.interfaces.Element;
 import es.eucm.eadventure.common.interfaces.Param;
 import es.eucm.eadventure.common.model.effects.impl.EAdModifyActorState;
+import es.eucm.eadventure.common.model.effects.impl.enums.Modification;
 import es.eucm.eadventure.common.model.weev.Actor;
 import es.eucm.eadventure.common.model.weev.story.element.impl.AbstractEffect;
 
@@ -21,7 +22,7 @@ public class ChangeActorState extends AbstractEffect {
 	 * the {@link Actor}
 	 */
 	@Param(value = "modification")
-	private EAdModifyActorState.Modification modification;
+	private Modification modification;
 
 	/**
 	 * The {@link Actor} where to apply the change
@@ -37,16 +38,16 @@ public class ChangeActorState extends AbstractEffect {
 	 *            applied to the {@link Actor}
 	 */
 	public ChangeActorState(Actor actor,
-			EAdModifyActorState.Modification modification) {
+			Modification modification) {
 		this.actor = actor;
 		this.modification = modification;
 	}
 
-	public EAdModifyActorState.Modification getModification() {
+	public Modification getModification() {
 		return modification;
 	}
 
-	public void setModification(EAdModifyActorState.Modification modification) {
+	public void setModification(Modification modification) {
 		this.modification = modification;
 	}
 

@@ -39,6 +39,7 @@ package es.eucm.eadventure.common.model.effects.impl;
 
 import es.eucm.eadventure.common.interfaces.Element;
 import es.eucm.eadventure.common.interfaces.Param;
+import es.eucm.eadventure.common.model.effects.impl.enums.Modification;
 import es.eucm.eadventure.common.model.elements.EAdSceneElementDef;
 
 /**
@@ -51,17 +52,6 @@ import es.eucm.eadventure.common.model.elements.EAdSceneElementDef;
 @Element(detailed = EAdModifyActorState.class, runtime = EAdModifyActorState.class)
 public class EAdModifyActorState extends AbstractEAdEffect {
 
-	/**
-	 * <p>The modification to the state:
-	 * <li>PLACE_IN_INVENTORY: move the {@link EAdSceneElementDef} to the inventory (remove from scene)</li>
-	 * <li>PLACE_IN_SCENE; move the {@link EAdSceneElementDef} to the scene (remove from inventory)</li>
-	 * <li>REMOVE_SCENE_AND_INVENTORY: remove the {@link EAdSceneElementDef} from scene and inventory</li>
-	 * </p>
-	 *
-	 */
-	public static enum Modification {
-		PLACE_IN_INVENTORY, PLACE_IN_SCENE, REMOVE_SCENE_AND_INVENTORY
-	}
 	
 	@Param("modification")
 	private Modification modification;
