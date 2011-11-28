@@ -24,8 +24,12 @@ public class ElementNodeVisitor extends NodeVisitor<EAdElement> {
 		EAdElement element = null;
 		if (node.getChildNodes().getLength() == 1 && !node.getChildNodes().item(0).hasChildNodes()) {
 			element = (EAdElement) ObjectFactory.getObject(GWTReader.getNodeText(node), EAdElement.class);
-			if (element != null) {
+			if (element != null && !(element instanceof ProxyElement)) {
 				setValue(field, parent, element);
+				return element;
+			} else if (element != null) {
+				((ProxyElement) element).setField(field);
+				((ProxyElement) element).setParent(parent);
 				return element;
 			}
 		}

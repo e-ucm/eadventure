@@ -40,15 +40,20 @@ package es.eucm.eadventure.common.impl.writer;
 import org.w3c.dom.Element;
 
 import es.eucm.eadventure.common.model.DOMTags;
+import es.eucm.eadventure.common.model.EAdElement;
 import es.eucm.eadventure.common.model.extra.EAdList;
 
 public class ListDOMWriter extends DOMWriter<EAdList<?>> {
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public Element buildNode(EAdList<?> list, Class<?> listClass) {
 		Element node = doc.createElement(DOMTags.LIST_TAG);
 		node.setAttribute(DOMTags.CLASS_AT, shortClass(list.getValueClass().getName()));
 
+		if (EAdElement.class.isAssignableFrom(list.getValueClass()))
+			depthManager.addList((EAdList<Object>) list);
+		
 		for (Object o : list) {
 			if (o != null) {
 				Element newNode = super.initNode(o, list.getValueClass());
@@ -56,6 +61,8 @@ public class ListDOMWriter extends DOMWriter<EAdList<?>> {
 				node.appendChild(newNode);
 			}
 		}
+		
+		depthManager.removeList((EAdList<Object>) list);
 
 		return node;
 	}

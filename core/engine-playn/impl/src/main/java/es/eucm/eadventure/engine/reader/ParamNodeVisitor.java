@@ -7,15 +7,6 @@ import java.util.logging.Level;
 import com.google.gwt.xml.client.Node;
 
 import es.eucm.eadventure.common.model.DOMTags;
-import es.eucm.eadventure.common.params.EAdFontImpl;
-import es.eucm.eadventure.common.params.EAdParam;
-import es.eucm.eadventure.common.params.EAdString;
-import es.eucm.eadventure.common.params.EAdURIImpl;
-import es.eucm.eadventure.common.params.fills.impl.EAdColor;
-import es.eucm.eadventure.common.params.fills.impl.EAdLinearGradient;
-import es.eucm.eadventure.common.params.fills.impl.EAdPaintImpl;
-import es.eucm.eadventure.common.params.geom.impl.EAdPositionImpl;
-import es.eucm.eadventure.common.params.geom.impl.EAdRectangleImpl;
 
 public class ParamNodeVisitor extends NodeVisitor<Object> {
 
@@ -28,9 +19,12 @@ public class ParamNodeVisitor extends NodeVisitor<Object> {
 			if (c == null || node.getAttributes().getNamedItem(DOMTags.CLASS_AT) != null) {
 				String clazz = node.getAttributes().getNamedItem(DOMTags.CLASS_AT).getNodeValue();
 				clazz = translateClass(clazz);
+				try {
 				c = ObjectFactory.getClassFromName(clazz);
+				} catch (NullPointerException e) {
+					logger.severe(e.getMessage());
+				}
 			}
-			
 			
 			String value = textContent;
 			if ( ObjectFactory.getParamsMap().containsKey(value)){

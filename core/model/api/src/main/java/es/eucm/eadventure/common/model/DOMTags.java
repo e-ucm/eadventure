@@ -8,13 +8,13 @@ public class DOMTags {
 
 	public static final String ID_AT = "id";
 
-	public static final String ELEMENT_AT = "element";
+	public static final String ELEMENT_AT = "e";
 	
 	public static final String PARAM_AT = "p";
 
 	public static final String TYPE_AT = "type";
 
-	public static final String UNIQUE_ID_AT = "uniqueId";
+	public static final String UNIQUE_ID_AT = "uId";
 	
 	public static final String ROOT_TAG = "adventure";
 	
@@ -25,15 +25,15 @@ public class DOMTags {
 	
 	public static final String VALUE_CLASS_AT = "value_class";
 
-	public static final String ASSET_AT = "asset";
+	public static final String ASSET_AT = "a";
 
-	public static final String LIST_TAG = "list";
+	public static final String LIST_TAG = "l";
 
-	public static final String MAP_TAG = "map";
+	public static final String MAP_TAG = "m";
 
-	public static final String RESOURCES_TAG = "resources";
+	public static final String RESOURCES_TAG = "r";
 
-	public static final String BUNDLE_TAG = "bundle";
+	public static final String BUNDLE_TAG = "b";
 
 	public static final String INITIAL_BUNDLE_TAG = "initialBundle";
 	

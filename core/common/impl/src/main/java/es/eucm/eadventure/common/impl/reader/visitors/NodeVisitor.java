@@ -46,7 +46,7 @@ public abstract class NodeVisitor<T> {
 		}
 	}
 	
-	protected void setValue(Field field, Object parent, Object object) {
+	public static void setValue(Field field, Object parent, Object object) {
 		if (field != null && parent != null) {
 			boolean accessible = field.isAccessible();
 

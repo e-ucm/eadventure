@@ -56,10 +56,12 @@ public class ElementDOMWriter extends FieldParamWriter<EAdElement> {
 				elementMap.put(element, "elem" + mappedElement.size());
 				mappedElement.add(element);
 			}
-			else {
+			
+			if (depthManager.inPreviousList(element) || depthManager.isStored(element)) {
 				node.setTextContent(elementMap.get(element));
 				return node;
-			}
+			} 
+			depthManager.setStored(element);
 
 			// Set id and unique id
 			node.setAttribute(DOMTags.ID_AT, element.getId());

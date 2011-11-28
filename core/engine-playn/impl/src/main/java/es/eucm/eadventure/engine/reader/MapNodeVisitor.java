@@ -29,7 +29,7 @@ public class MapNodeVisitor extends NodeVisitor<Map<Object, Object>> {
 		}
 		
 		String type;
-		for(int i=0, cnt=nl.getLength(); i<cnt; i+=2)
+		for(int i=0, cnt=nl.getLength(); i<cnt - 1; i+=2)
 		{
 			type = nl.item(i).getNodeName();
 			Object key = VisitorFactory.getVisitor(type).visit(nl.item(i), null, null, map.getKeyClass());

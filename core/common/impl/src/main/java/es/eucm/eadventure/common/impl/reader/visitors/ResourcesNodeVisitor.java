@@ -93,7 +93,7 @@ public class ResourcesNodeVisitor extends NodeVisitor<EAdResources> {
 
 	@Override
 	public String getNodeType() {
-		return "resources";
+		return DOMTags.RESOURCES_TAG;
 	}
 
 }

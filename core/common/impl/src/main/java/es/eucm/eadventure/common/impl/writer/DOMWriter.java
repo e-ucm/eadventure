@@ -83,6 +83,8 @@ public abstract class DOMWriter<T> {
 	 */
 	protected static Map<Object, String> paramsMap = new HashMap<Object, String>();
 
+	protected static DepthManager depthManager;
+	
 	/**
 	 * A map to store repeated assets and save some space in XML
 	 */
@@ -93,6 +95,7 @@ public abstract class DOMWriter<T> {
 		mappedElement.clear();
 		paramsMap.clear();
 		mappedAsset.clear();
+		depthManager = new DepthManager();
 
 		try {
 			doc = DocumentBuilderFactory.newInstance().newDocumentBuilder()

@@ -7,6 +7,7 @@ import java.util.logging.Logger;
 import org.w3c.dom.Node;
 
 import es.eucm.eadventure.common.model.DOMTags;
+import es.eucm.eadventure.common.impl.reader.ProxyElement;
 import es.eucm.eadventure.common.impl.reader.extra.ObjectFactory;
 import es.eucm.eadventure.common.model.EAdElement;
 
@@ -24,8 +25,12 @@ public class ElementNodeVisitor extends NodeVisitor<EAdElement> {
 		EAdElement element = null;
 		if (node.getChildNodes().getLength() == 1 && !node.getChildNodes().item(0).hasChildNodes()) {
 			element = (EAdElement) ObjectFactory.getObject(node.getTextContent(), EAdElement.class);
-			if (element != null) {
+			if (element != null && !(element instanceof ProxyElement)) {
 				setValue(field, parent, element);
+				return element;
+			} else if (element != null) {
+				((ProxyElement) element).setField(field);
+				((ProxyElement) element).setParent(parent);
 				return element;
 			}
 		}

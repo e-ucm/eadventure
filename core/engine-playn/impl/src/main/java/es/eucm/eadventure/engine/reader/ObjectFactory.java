@@ -37,7 +37,9 @@
 
 package es.eucm.eadventure.engine.reader;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
 
@@ -67,6 +69,7 @@ public class ObjectFactory {
 	private static Map<String, Object> paramsMap = new HashMap<String, Object>();
 	private static Map<String, AssetDescriptor> assetsMap = new HashMap<String, AssetDescriptor>();
 	private static Map<String, EAdElement> elementsMap = new HashMap<String, EAdElement>();
+	private static List<ProxyElement> proxies = new ArrayList<ProxyElement>();
 
 	private static PlayNReflectionProvider reflectionProvider = new PlayNReflectionProvider();
 
@@ -77,6 +80,9 @@ public class ObjectFactory {
 		} else if (reflectionProvider.isAssignableFrom(EAdElement.class,
 				fieldType)) {
 			EAdElement element = elementsMap.get(value);
+			if (value != null && !value.equals("") && element == null) {
+				return new ProxyElement(value);
+			}
 			return element;
 		} else if (reflectionProvider.isAssignableFrom(AssetDescriptor.class,
 				fieldType)) {
@@ -116,10 +122,19 @@ public class ObjectFactory {
 		paramsMap.clear();
 		elementsMap.clear();
 		assetsMap.clear();
+		proxies.clear();
 	}
 
 	public static void addElement(String id, EAdElement element) {
 		elementsMap.put(id, element);
+		int i = 0;
+		while (i < proxies.size()) {
+			if (proxies.get(i).getValue().equals(id)) {
+				NodeVisitor.setValue(proxies.get(i).getField(), proxies.get(i).getParent(), element);
+				proxies.remove(i);
+			} else
+				i++;
+		}
 	}
 
 	public static void addAsset(String id, AssetDescriptor descriptor) {

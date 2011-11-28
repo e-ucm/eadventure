@@ -134,6 +134,7 @@ public class EAdListImpl<P> implements EAdList<P> {
 		return this.elements.indexOf(element);
 	}
 	
+	/* TODO needed for something?
 	public boolean equals( Object o ){
 		if ( o instanceof EAdList ){
 			EAdList<?> list = (es.eucm.eadventure.common.model.extra.EAdList<?> ) o;
@@ -147,6 +148,7 @@ public class EAdListImpl<P> implements EAdList<P> {
 		}
 		return false;
 	}
+	*/
 
 	@Override
 	public Class<?> getValueClass() {
