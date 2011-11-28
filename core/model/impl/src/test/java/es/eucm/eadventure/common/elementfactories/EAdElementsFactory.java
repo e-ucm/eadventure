@@ -37,12 +37,14 @@
 
 package es.eucm.eadventure.common.elementfactories;
 
+import es.eucm.eadventure.common.elementfactories.actions.ActionsFactory;
 import es.eucm.eadventure.common.elementfactories.assets.CaptionFactory;
 import es.eucm.eadventure.common.elementfactories.assets.DrawableFactory;
 import es.eucm.eadventure.common.elementfactories.assets.ShapeFactory;
 import es.eucm.eadventure.common.elementfactories.effects.EffectFactory;
 import es.eucm.eadventure.common.elementfactories.events.EventsFactory;
 import es.eucm.eadventure.common.elementfactories.sceneelements.SceneElementFactory;
+import es.eucm.eadventure.common.model.elements.EAdInventory;
 
 public class EAdElementsFactory {
 	
@@ -65,6 +67,8 @@ public class EAdElementsFactory {
 	private CaptionFactory captionFactory = new CaptionFactory();
 	
 	private DrawableFactory drawableFactory = new DrawableFactory();
+	
+	private ActionsFactory actionsFactory = new ActionsFactory();
 	
 	public DrawableFactory getDrawableFactory( ){
 		return drawableFactory;
@@ -93,6 +97,21 @@ public class EAdElementsFactory {
 	public ShapeFactory getShapeFactory() {
 		return shapeFactory;
 	}
+	
+	private EAdInventory inventory;
+	
+	public void setInventory( EAdInventory inventory ){
+		this.inventory = inventory;
+	}
+	
+	public EAdInventory getInventory(){
+		return inventory;
+	}
+	
+	public ActionsFactory getActionsFactory(){
+		return actionsFactory;
+	}
+
 	
 	
 

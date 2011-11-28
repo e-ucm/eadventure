@@ -100,7 +100,8 @@ public class DesktopDemos extends BaseTestLauncher {
 	public DesktopDemos(Injector injector, EAdAdventureModel model,
 			Map<EAdString, String> strings) {
 		super(injector, model, strings);
-		System.setProperty("com.apple.mrj.application.apple.menu.about.name", "eAdventure");
+		System.setProperty("com.apple.mrj.application.apple.menu.about.name",
+				"eAdventure");
 	}
 
 	public static void main(String args[]) {
@@ -160,8 +161,6 @@ public class DesktopDemos extends BaseTestLauncher {
 			super("Scenes demo");
 			Object scenes[] = SceneDemos.getInstance().getScenes().toArray();
 
-			
-
 			setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 			JPanel container = new JPanel();
@@ -181,10 +180,11 @@ public class DesktopDemos extends BaseTestLauncher {
 			final JComboBox comboBox = new JComboBox(DIMENSIONS);
 			comboBox.setRenderer(new DimensionsCellRenderer());
 			comboBox.setSelectedIndex(0);
-			
-			final JCheckBox trajectoryDebugger = new JCheckBox("Trajectory Debugger");
+
+			final JCheckBox trajectoryDebugger = new JCheckBox(
+					"Trajectory Debugger");
 			trajectoryDebugger.setSelected(false);
-			
+
 			final JCheckBox fieldsDebugger = new JCheckBox("Fields Debugger");
 			fieldsDebugger.setSelected(false);
 
@@ -204,13 +204,15 @@ public class DesktopDemos extends BaseTestLauncher {
 							Dimension d = (Dimension) comboBox
 									.getSelectedItem();
 							Object o = list.getSelectedValue();
-							if ( trajectoryDebugger.isSelected() ){
-								EAdMainDebugger.addDebugger(TrajectoryDebugger.class);
+							if (trajectoryDebugger.isSelected()) {
+								EAdMainDebugger
+										.addDebugger(TrajectoryDebugger.class);
 							}
-							if ( fieldsDebugger.isSelected() ){
-								EAdMainDebugger.addDebugger(FieldsDebugger.class);
+							if (fieldsDebugger.isSelected()) {
+								EAdMainDebugger
+										.addDebugger(FieldsDebugger.class);
 							}
-							
+
 							if (checkBox.isSelected()) {
 								EAdScene scene = (EAdScene) o;
 								EAdAdventureModel model = new EAdAdventureModelImpl();
@@ -230,7 +232,8 @@ public class DesktopDemos extends BaseTestLauncher {
 											os);
 									os.close();
 									FileInputStream is = new FileInputStream(f);
-									model = new EAdAdventureDOMModelReader().read(is);
+									model = new EAdAdventureDOMModelReader()
+											.read(is);
 									is.close();
 
 									new DesktopDemos(createNewInjector(
@@ -269,8 +272,7 @@ public class DesktopDemos extends BaseTestLauncher {
 
 	private static Injector createNewInjector(int width, int height) {
 		Injector i = Guice.createInjector(new DesktopAssetHandlerModule(),
-				new DesktopModule(),
-				new BasicGameModule());
+				new DesktopModule(), new BasicGameModule());
 		PlatformConfiguration conf = i.getInstance(PlatformConfiguration.class);
 		conf.setWidth(width);
 		conf.setHeight(height);

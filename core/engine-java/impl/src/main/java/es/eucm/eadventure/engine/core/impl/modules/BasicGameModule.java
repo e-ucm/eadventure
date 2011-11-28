@@ -68,6 +68,8 @@ import es.eucm.eadventure.engine.core.impl.GameImpl;
 import es.eucm.eadventure.engine.core.impl.GameStateImpl;
 import es.eucm.eadventure.engine.core.impl.LoadingScreen;
 import es.eucm.eadventure.engine.core.impl.VariableMap;
+import es.eucm.eadventure.engine.core.inventory.InventoryHandler;
+import es.eucm.eadventure.engine.core.inventory.InventoryHandlerImpl;
 import es.eucm.eadventure.engine.core.operator.OperatorFactory;
 import es.eucm.eadventure.engine.core.operators.impl.OperatorFactoryImpl;
 import es.eucm.eadventure.engine.core.platform.EAdInjector;
@@ -93,6 +95,7 @@ public class BasicGameModule extends AbstractModule {
 		bind(EAdDebugger.class).to(EAdMainDebugger.class);
 		bind(PluginHandler.class).to(JavaPluginHandler.class);
 		bind(EAdInjector.class).to(JavaInjector.class);
+		bind(InventoryHandler.class).to(InventoryHandlerImpl.class);
 
 		bind(ReflectionProvider.class).to(JavaReflectionProvider.class);
 

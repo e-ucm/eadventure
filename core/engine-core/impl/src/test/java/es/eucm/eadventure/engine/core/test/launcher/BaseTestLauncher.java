@@ -59,30 +59,35 @@ import es.eucm.eadventure.engine.core.platform.PlatformLauncher;
 public abstract class BaseTestLauncher {
 
 	private PlatformLauncher launcher;
-	
+
 	private EAdAdventureModel model;
 
 	private EAdChapterImpl c;
-	
-	public BaseTestLauncher(Injector injector){
+
+	public BaseTestLauncher(Injector injector) {
 		launcher = injector.getInstance(PlatformLauncher.class);
 		model = new EAdAdventureModelImpl();
+		if (EAdElementsFactory.getInstance().getInventory() != null) {
+			model.setInventory(EAdElementsFactory.getInstance().getInventory());
+		}
 		c = new EAdChapterImpl();
 		model.getChapters().add(c);
 	}
 
 	public BaseTestLauncher(Injector injector, EAdScene scene) {
-		this( injector );
+		this(injector);
 		c.getScenes().add(scene);
 		c.setInitialScene(scene);
 		Game game = injector.getInstance(Game.class);
 		game.setGame(model, model.getChapters().get(0));
 		StringHandler stringHandler = injector.getInstance(StringHandler.class);
-		stringHandler.addStrings(EAdElementsFactory.getInstance().getStringFactory().getStrings());
+		stringHandler.addStrings(EAdElementsFactory.getInstance()
+				.getStringFactory().getStrings());
 	}
-	
-	public BaseTestLauncher(Injector injector, EAdAdventureModel model, Map<EAdString, String> strings){
-		this( injector );
+
+	public BaseTestLauncher(Injector injector, EAdAdventureModel model,
+			Map<EAdString, String> strings) {
+		this(injector);
 		Game game = injector.getInstance(Game.class);
 		game.setGame(model, model.getChapters().get(0));
 		StringHandler stringHandler = injector.getInstance(StringHandler.class);

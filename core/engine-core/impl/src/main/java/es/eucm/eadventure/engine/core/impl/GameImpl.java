@@ -47,6 +47,7 @@ import com.google.inject.Singleton;
 import es.eucm.eadventure.common.interfaces.features.Conditioned;
 import es.eucm.eadventure.common.model.elements.EAdAdventureModel;
 import es.eucm.eadventure.common.model.elements.EAdChapter;
+import es.eucm.eadventure.common.model.elements.EAdSceneElementDef;
 import es.eucm.eadventure.common.model.variables.impl.SystemFields;
 import es.eucm.eadventure.engine.core.Game;
 import es.eucm.eadventure.engine.core.GameState;
@@ -59,6 +60,8 @@ import es.eucm.eadventure.engine.core.gameobjects.EffectGO;
 import es.eucm.eadventure.engine.core.gameobjects.GameObjectManager;
 import es.eucm.eadventure.engine.core.gameobjects.huds.BasicHUD;
 import es.eucm.eadventure.engine.core.gameobjects.huds.EffectHUD;
+import es.eucm.eadventure.engine.core.gameobjects.huds.InventoryHUD;
+import es.eucm.eadventure.engine.core.inventory.InventoryHandler;
 import es.eucm.eadventure.engine.core.platform.AssetHandler;
 import es.eucm.eadventure.engine.core.platform.GUI;
 import es.eucm.eadventure.engine.core.platform.PlatformConfiguration;
@@ -80,6 +83,8 @@ public class GameImpl implements Game {
 
 	private EffectHUD effectHUD;
 
+	private InventoryHUD inventoryHUD;
+
 	private static final Logger logger = Logger.getLogger("GameImpl");
 
 	// Auxiliary variable, to avoid new every time
@@ -95,15 +100,17 @@ public class GameImpl implements Game {
 
 	private MouseState mouseState;
 
+	private InventoryHandler inventoryHandler;
+
 	private EAdTransformation initialTransformation = new EAdTransformationImpl();
 
 	@Inject
 	public GameImpl(GUI gui, EvaluatorFactory evaluatorFactory,
 			GameState gameState, EffectHUD effectHUD,
-			AssetHandler assetHandler,
-			GameObjectManager gameObjectManager, EAdDebugger debugger,
-			ValueMap valueMap, MouseState mouseState,
-			PlatformConfiguration platformConfiguration, BasicHUD basicHud) {
+			AssetHandler assetHandler, GameObjectManager gameObjectManager,
+			EAdDebugger debugger, ValueMap valueMap, MouseState mouseState,
+			PlatformConfiguration platformConfiguration, BasicHUD basicHud,
+			InventoryHUD inventoryHud, InventoryHandler inventoryHandler) {
 		this.gui = gui;
 		this.evaluatorFactory = evaluatorFactory;
 		this.gameState = gameState;
@@ -115,6 +122,8 @@ public class GameImpl implements Game {
 		this.debugger = debugger;
 		this.valueMap = valueMap;
 		this.mouseState = mouseState;
+		this.inventoryHUD = inventoryHud;
+		this.inventoryHandler = inventoryHandler;
 		initialTransformation.getMatrix().scale(
 				(float) platformConfiguration.getScale(),
 				(float) platformConfiguration.getScale(), true);
@@ -235,13 +244,19 @@ public class GameImpl implements Game {
 		// reader.read(assetHandler.getResourceAsStream("@adventure.xml"));
 
 		// TODO should probably be more careful loading chapter
-		//if (gameState.getCurrentChapter() == null)
-		//	gameState.setCurrentChapter(adventure.getChapters().get(0));
+		// if (gameState.getCurrentChapter() == null)
+		// gameState.setCurrentChapter(adventure.getChapters().get(0));
 	}
 
 	@Override
 	public void setGame(EAdAdventureModel model, EAdChapter eAdChapter) {
 		this.adventure = model;
+		if (adventure.getInventory() != null) {
+			for (EAdSceneElementDef def : adventure.getInventory()
+					.getInitialInventory())
+				inventoryHandler.add(def);
+			gameObjectManager.addHUD(inventoryHUD);
+		}
 		gameState.setCurrentChapter(eAdChapter);
 		gameState.setInitialScene(eAdChapter.getInitialScene());
 	}

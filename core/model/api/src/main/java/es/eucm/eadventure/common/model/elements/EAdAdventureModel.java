@@ -48,22 +48,23 @@ import es.eucm.eadventure.common.params.EAdString;
 public interface EAdAdventureModel extends EAdElement, Variabled {
 
 	/**
-	 * @param playerMode the playerMode to set
+	 * @param playerMode
+	 *            the playerMode to set
 	 */
 	void setPlayerMode(PlayerMode playerMode);
-	
+
 	/**
 	 * @return the player mode
 	 */
 	PlayerMode getPlayerMode();
-	
+
 	/**
 	 * Returns the chapters of the adventures.
 	 * 
 	 * @return the chapters in the adventure
 	 */
 	EAdList<EAdChapter> getChapters();
-	
+
 	/**
 	 * @return the description of the adventure
 	 */
@@ -73,5 +74,21 @@ public interface EAdAdventureModel extends EAdElement, Variabled {
 	 * @return the title of the adventure
 	 */
 	EAdString getTitle();
+
+	/**
+	 * Sets the inventory for the adventure
+	 * 
+	 * @param inventory
+	 *            the inventory
+	 */
+	void setInventory(EAdInventory inventory);
+
+	/**
+	 * Returns the adventure inventory. {@code null} if the adventure does not
+	 * require inventory
+	 * 
+	 * @return the inventory
+	 */
+	EAdInventory getInventory();
 
 }
