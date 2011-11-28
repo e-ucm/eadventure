@@ -31,7 +31,7 @@ public class ParamDOMWriter extends DOMWriter<Object> {
 			value = compressedValue;
 		}
 		
-		if (listClass == null || listClass != data.getClass())
+		if ( listClass == null || listClass != data.getClass() )
 			node.setAttribute(DOMTags.CLASS_AT, shortClass(data.getClass().getName()));
 		node.setTextContent(value);
 		return node;

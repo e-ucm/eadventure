@@ -16,6 +16,8 @@ public class ParamNodeVisitor extends NodeVisitor<Object> {
 		Object object = null;
 		if (textContent != null && !textContent.equals("")) {
 			Class<?> c = listClass;
+			if (c == null && field != null)
+				c = field.getType().getClass();
 			if (c == null || node.getAttributes().getNamedItem(DOMTags.CLASS_AT) != null) {
 				String clazz = node.getAttributes().getNamedItem(DOMTags.CLASS_AT).getNodeValue();
 				clazz = translateClass(clazz);

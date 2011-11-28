@@ -26,7 +26,7 @@ public abstract class FieldParamWriter<T> extends DOMWriter<T> {
 						Object o = field.get(data);
 
 						if (!isEmpty(o)) {
-							Element newNode = super.initNode(o, null);
+							Element newNode = super.initNode(o, field.getType());
 							newNode.setAttribute(DOMTags.PARAM_AT, param.value());
 							doc.adoptNode(newNode);
 							node.appendChild(newNode);
