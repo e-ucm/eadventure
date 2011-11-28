@@ -1,6 +1,7 @@
 package es.eucm.eadventure.common.impl.reader.visitors;
 
 import java.lang.reflect.Field;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -17,12 +18,15 @@ public abstract class NodeVisitor<T> {
 
 	private static String packageName;
 	
+	public static Map<String, String> aliasMap = new HashMap<String, String>();
+	
 	protected static String loaderType;
 
 	public static void init(String packageN) {
 		packageName = packageN;
 		loaderType = DOMTags.CLASS_AT;
 		//loaderType = DOMTags.TYPE_AT;
+		aliasMap.clear();
 	}
 
 	public abstract T visit(Node node, Field field, Object parent, Class<?> listClass);
@@ -30,6 +34,8 @@ public abstract class NodeVisitor<T> {
 	public abstract String getNodeType();
 	
 	protected String translateClass(String clazz) {
+		if (aliasMap.containsKey(clazz))
+			clazz = aliasMap.get(clazz);
 		return clazz != null && clazz.startsWith(".") ? packageName + clazz : clazz;
 	}
 	

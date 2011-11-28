@@ -53,7 +53,7 @@ public class ElementDOMWriter extends FieldParamWriter<EAdElement> {
 		try {
 			// Check if the element is new
 			if (!elementMap.containsKey(element)) {
-				elementMap.put(element, "elem" + mappedElement.size());
+				elementMap.put(element, DOMTags.ELEMENT_AT + mappedElement.size());
 				mappedElement.add(element);
 			}
 			

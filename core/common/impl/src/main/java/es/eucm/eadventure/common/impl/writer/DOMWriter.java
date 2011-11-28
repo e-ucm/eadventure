@@ -83,7 +83,7 @@ public abstract class DOMWriter<T> {
 	 */
 	protected static Map<Object, String> paramsMap = new HashMap<Object, String>();
 
-	protected static DepthManager depthManager;
+	public static DepthManager depthManager;
 	
 	/**
 	 * A map to store repeated assets and save some space in XML
@@ -143,8 +143,16 @@ public abstract class DOMWriter<T> {
 	}
 
 	public String shortClass(String clazz) {
-		return clazz.startsWith(DOMTags.PACKAGE) ? clazz.substring(DOMTags.PACKAGE.length())
+		String shortClass = clazz.startsWith(DOMTags.PACKAGE) ? clazz.substring(DOMTags.PACKAGE.length())
 				: clazz;
+		String alias = depthManager.getClassAliases().get(shortClass);
+		if (alias == null) {
+			alias = "" + depthManager.getClassAliases().keySet().size();
+			depthManager.getAliasMap().put(alias, shortClass);
+			depthManager.getClassAliases().put(shortClass, alias);
+		}
+		return alias;
+		
 	}
 
 }

@@ -49,6 +49,7 @@ public class ListNodeVisitor extends NodeVisitor<EAdList<Object>> {
 		return new EAdListImpl<Object>(c);
 	}
 
+	@SuppressWarnings("unchecked")
 	private EAdList<Object> getListFromParent(Field field, Object parent) {
 		boolean accessible = field.isAccessible();
 		EAdList<Object> list = null;

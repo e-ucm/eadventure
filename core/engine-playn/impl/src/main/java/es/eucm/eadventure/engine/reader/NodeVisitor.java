@@ -4,6 +4,8 @@ import com.gwtent.reflection.client.ClassType;
 import com.gwtent.reflection.client.Field;
 import com.gwtent.reflection.client.TypeOracle;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.logging.Logger;
 
 import com.google.gwt.xml.client.Node;
@@ -19,12 +21,15 @@ public abstract class NodeVisitor<T> {
 
 	private static String packageName;
 	
+	public static Map<String, String> aliasMap = new HashMap<String, String>();
+	
 	protected static String loaderType;
 
 	public static void init(String packageN) {
 		packageName = packageN;
 		loaderType = DOMTags.CLASS_AT;
 		//loaderType = DOMTags.TYPE_AT;
+		aliasMap.clear();
 	}
 
 	public abstract T visit(Node node, Field field, Object parent, Class<?> class1);
@@ -32,6 +37,8 @@ public abstract class NodeVisitor<T> {
 	public abstract String getNodeType();
 	
 	protected String translateClass(String clazz) {
+		if (aliasMap.containsKey(clazz))
+			clazz = aliasMap.get(clazz);
 		return clazz != null && clazz.startsWith(".") ? packageName + clazz : clazz;
 	}
 	

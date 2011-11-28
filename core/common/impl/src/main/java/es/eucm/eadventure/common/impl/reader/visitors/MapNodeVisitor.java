@@ -39,7 +39,6 @@ public class MapNodeVisitor extends NodeVisitor<Map<Object, Object>> {
 	}
 	
 	private EAdMap<Object, Object> createNewMap(Node node) {
-		//FIXME map doesn't store its classes...
 		Node n = node.getAttributes().getNamedItem(DOMTags.KEY_CLASS_AT);
 		String clazz = n.getNodeValue();
 		clazz = translateClass(clazz);
@@ -48,6 +47,7 @@ public class MapNodeVisitor extends NodeVisitor<Map<Object, Object>> {
 		String value_clazz = n.getNodeValue();
 		value_clazz = translateClass(clazz);
 
+		
 		Class<?> keyClass = null;
 		Class<?> valueClass = null;
 		try {

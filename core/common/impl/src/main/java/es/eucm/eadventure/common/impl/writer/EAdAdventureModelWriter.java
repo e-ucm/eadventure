@@ -89,6 +89,8 @@ public class EAdAdventureModelWriter implements Writer<EAdAdventureModel> {
 	            Node newNode = listDOMWriter.buildNode(data, null);
 	            doc.adoptNode(newNode);
 	            root.appendChild( newNode );
+	            
+	            root.appendChild(createMapNode(doc));
 
 	            transformer = tf.newTransformer( );
 
@@ -102,6 +104,19 @@ public class EAdAdventureModelWriter implements Writer<EAdAdventureModel> {
 	        	logger.log(Level.SEVERE, "Error writing adventure ", e);
 	            return false;
 	        }
+	}
+	
+	public Node createMapNode(Document doc) {
+		Element node = doc.createElement("keyMap");
+		
+		for (String key : DOMWriter.depthManager.getAliasMap().keySet()) {
+			Element n = doc.createElement("entry");
+			n.setAttribute("key",  key);
+			n.setAttribute("value", DOMWriter.depthManager.getAliasMap().get(key));
+			node.appendChild(n);
+		}
+		
+		return node;
 	}
 
 }

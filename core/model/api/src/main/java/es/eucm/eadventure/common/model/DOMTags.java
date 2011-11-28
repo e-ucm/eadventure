@@ -4,7 +4,7 @@ public class DOMTags {
 
 	public static final String PACKAGE = "es.eucm.eadventure.common";
 
-	public static final String CLASS_AT = "class";
+	public static final String CLASS_AT = "c";
 
 	public static final String ID_AT = "id";
 
@@ -12,7 +12,7 @@ public class DOMTags {
 	
 	public static final String PARAM_AT = "p";
 
-	public static final String TYPE_AT = "type";
+	public static final String TYPE_AT = "t";
 
 	public static final String UNIQUE_ID_AT = "uId";
 	
@@ -21,9 +21,9 @@ public class DOMTags {
 	public static final String PACKAGE_AT = "package";
 	
 
-	public static final String KEY_CLASS_AT = "key_class";
+	public static final String KEY_CLASS_AT = "kC";
 	
-	public static final String VALUE_CLASS_AT = "value_class";
+	public static final String VALUE_CLASS_AT = "vC";
 
 	public static final String ASSET_AT = "a";
 

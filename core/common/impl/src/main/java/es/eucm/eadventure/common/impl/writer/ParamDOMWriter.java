@@ -25,7 +25,7 @@ public class ParamDOMWriter extends DOMWriter<Object> {
 
 		String compressedValue = paramsMap.get(data);
 		if (compressedValue == null) {
-			String key = "param" + paramsMap.keySet().size();
+			String key = DOMTags.PARAM_AT + paramsMap.keySet().size();
 			paramsMap.put(data, key);
 		} else {
 			value = compressedValue;

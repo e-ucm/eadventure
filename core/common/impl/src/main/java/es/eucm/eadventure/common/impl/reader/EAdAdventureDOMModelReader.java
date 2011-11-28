@@ -94,6 +94,7 @@ public class EAdAdventureDOMModelReader implements Reader<EAdAdventureModel> {
 			Document doc = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(inputStream);
 			ElementNodeVisitor env = new ElementNodeVisitor();
 			NodeVisitor.init(doc.getFirstChild().getAttributes().getNamedItem(DOMTags.PACKAGE_AT).getNodeValue());
+			getAliasMap(doc);
 			data = (EAdAdventureModel) env.visit(doc.getFirstChild().getFirstChild(), null, null, null);
 
 			return data;
@@ -112,6 +113,26 @@ public class EAdAdventureDOMModelReader implements Reader<EAdAdventureModel> {
         return null;
 	}
 	
+	private void getAliasMap(Document doc) {
+		NodeList nl = doc.getFirstChild().getChildNodes();
+		
+		for(int i=0, cnt=nl.getLength(); i<cnt; i++)
+		{
+			if (nl.item(i).getNodeName().equals("keyMap")) {
+				NodeList nl2 = nl.item(i).getChildNodes();
+				
+				for(int j=0, cnt2=nl2.getLength(); j<cnt2; j++)
+				{
+					Node n = nl2.item(j);
+					NodeVisitor.aliasMap.put(n.getAttributes().getNamedItem("key").getNodeValue(),
+							n.getAttributes().getNamedItem("value").getNodeValue());
+				}
+				
+			}
+		}
+
+	}
+
 	public void visit(Node node, int level)
 	{
 		NodeList nl = node.getChildNodes();
