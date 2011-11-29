@@ -43,7 +43,7 @@ public class EAdEngine implements playn.core.Game, Keyboard.Listener {
 	private GUI gui;
 
 	private MouseState mouseState;
-	
+
 	private PlatformConfiguration platformConfiguration;
 
 	private static final Logger logger = Logger.getLogger("EAdEngine");
@@ -114,8 +114,7 @@ public class EAdEngine implements playn.core.Game, Keyboard.Listener {
 						EAdMouseEvent e = null;
 						switch (eventType) {
 						case com.google.gwt.user.client.Event.ONCLICK:
-							e = EAdMouseEventImpl.getMouseEvent(
-									MouseActionType.CLICK, b);
+							// Do nothing. Clicks are processed in ONMOUSEUP;
 							break;
 						case com.google.gwt.user.client.Event.ONMOUSEDOWN:
 							mouseState.setMousePressed(true);
@@ -126,6 +125,8 @@ public class EAdEngine implements playn.core.Game, Keyboard.Listener {
 							mouseState.setMousePressed(false);
 							e = EAdMouseEventImpl.getMouseEvent(
 									MouseActionType.RELEASED, b);
+							mouseState.getMouseEvents().add(new MouseActionImpl(EAdMouseEventImpl.getMouseEvent(
+									MouseActionType.CLICK, b), eventX, eventY ));
 							break;
 						default:
 							// not interested in other events
@@ -138,7 +139,6 @@ public class EAdEngine implements playn.core.Game, Keyboard.Listener {
 	}
 
 	private MouseButton getMouseButton(int b) {
-		logger.info("Button pressed: " + b );
 		switch (b) {
 		case NativeEvent.BUTTON_LEFT:
 			return MouseButton.BUTTON_1;
@@ -156,8 +156,6 @@ public class EAdEngine implements playn.core.Game, Keyboard.Listener {
 		// TODO Auto-generated method stub
 
 	}
-	
-
 
 	@Override
 	public void onKeyUp(Event event) {
@@ -206,8 +204,7 @@ public class EAdEngine implements playn.core.Game, Keyboard.Listener {
 	@Override
 	public void onKeyTyped(TypedEvent event) {
 		// TODO Auto-generated method stub
-		
+
 	}
-	
 
 }

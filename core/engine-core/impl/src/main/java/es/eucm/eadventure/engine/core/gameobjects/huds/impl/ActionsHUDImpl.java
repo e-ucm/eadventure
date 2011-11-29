@@ -126,12 +126,14 @@ public class ActionsHUDImpl extends AbstractHUD implements ActionsHUD {
 	public ActionsHUDImpl(GUI gui, GameObjectManager gameObjectManager,
 			GameState gameState, SceneElementGOFactory sceneElementFactory) {
 		super(gui);
+		logger.info("New instance");
 		this.gameObjectManager = gameObjectManager;
 		actionsGO = new ArrayList<SceneElementGO<?>>();
 		positions = new ArrayList<EAdPosition>();
 		width = gameState.getValueMap().getValue(SystemFields.GUI_WIDTH);
 		height = gameState.getValueMap().getValue(SystemFields.GUI_HEIGHT);
 		this.sceneElementFactory = sceneElementFactory;
+		
 	}
 
 	/*
@@ -177,6 +179,7 @@ public class ActionsHUDImpl extends AbstractHUD implements ActionsHUD {
 	 */
 
 	public void setElement(SceneElementGO<?> ref, int x, int y) {
+		logger.info("Set element");
 		currentTime = 0;
 		sceneElement = ref;
 		radius = (int) ((ref.getWidth() > ref.getHeight() ? ref.getWidth()
