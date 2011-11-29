@@ -46,6 +46,7 @@ import es.eucm.eadventure.common.impl.importer.interfaces.EAdElementFactory;
 import es.eucm.eadventure.common.model.elements.EAdAdventureModel;
 import es.eucm.eadventure.common.model.elements.EAdChapter;
 import es.eucm.eadventure.common.model.elements.PlayerMode;
+import es.eucm.eadventure.common.model.elements.impl.EAdInventoryImpl;
 import es.eucm.eadventure.common.model.impl.EAdAdventureModelImpl;
 import es.eucm.eadventure.common.resources.StringHandler;
 
@@ -80,6 +81,7 @@ public class AdventureImporter implements EAdElementImporter<AdventureData, EAdA
 	public EAdAdventureModel convert( AdventureData oldData, Object object ) {
 		factory.setOldDataModel(oldData);
 		EAdAdventureModelImpl model = (EAdAdventureModelImpl) object;
+		model.setInventory(new EAdInventoryImpl());
 		model.setPlayerMode( getPlayerMode( oldData ) );
 		stringsWriter.setString(model.getTitle(), oldData.getTitle());
 		stringsWriter.setString(model.getDescription(), oldData.getDescription());
