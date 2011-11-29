@@ -4,7 +4,7 @@ import java.lang.reflect.Field;
 
 import org.w3c.dom.Element;
 
-import es.eucm.eadventure.common.impl.DOMTags;
+import es.eucm.eadventure.common.model.DOMTags;
 import es.eucm.eadventure.common.interfaces.Param;
 import es.eucm.eadventure.common.model.extra.EAdList;
 import es.eucm.eadventure.common.model.extra.EAdMap;
@@ -26,7 +26,7 @@ public abstract class FieldParamWriter<T> extends DOMWriter<T> {
 						Object o = field.get(data);
 
 						if (!isEmpty(o)) {
-							Element newNode = super.initNode(o);
+							Element newNode = super.initNode(o, null);
 							newNode.setAttribute(DOMTags.PARAM_AT, param.value());
 							doc.adoptNode(newNode);
 							node.appendChild(newNode);

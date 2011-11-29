@@ -41,6 +41,7 @@ import es.eucm.eadventure.common.interfaces.Element;
 import es.eucm.eadventure.common.interfaces.Param;
 import es.eucm.eadventure.common.model.EAdElement;
 import es.eucm.eadventure.common.model.guievents.EAdDragEvent;
+import es.eucm.eadventure.common.model.guievents.enums.DragAction;
 import es.eucm.eadventure.common.model.impl.EAdElementImpl;
 
 @Element(detailed = EAdDragEventImpl.class, runtime = EAdDragEventImpl.class)

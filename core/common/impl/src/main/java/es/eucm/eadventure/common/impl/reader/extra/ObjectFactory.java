@@ -38,10 +38,14 @@
 package es.eucm.eadventure.common.impl.reader.extra;
 
 import java.lang.reflect.Constructor;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
 
+import es.eucm.eadventure.common.impl.reader.ProxyElement;
+import es.eucm.eadventure.common.impl.reader.visitors.NodeVisitor;
 import es.eucm.eadventure.common.model.EAdElement;
 import es.eucm.eadventure.common.params.EAdParam;
 import es.eucm.eadventure.common.resources.EAdBundleId;
@@ -54,24 +58,21 @@ public class ObjectFactory {
 
 	private static final Logger logger = Logger.getLogger("ObjectFactory");
 	
-	private static Map<String, EAdParam> paramsMap = new HashMap<String, EAdParam>();
+	private static Map<String, Object> paramsMap = new HashMap<String, Object>();
 	private static Map<String, AssetDescriptor> assetsMap = new HashMap<String, AssetDescriptor>();
 	private static Map<String, EAdElement> elementsMap = new HashMap<String, EAdElement>();
+	private static List<ProxyElement> proxies = new ArrayList<ProxyElement>();
 
 	@SuppressWarnings("unchecked")
 	public static Object getObject(String value, Class<?> fieldType) {
 		if ( EAdParam.class.isAssignableFrom(fieldType)){
-			if ( paramsMap.containsKey(value)){
-				logger.info(value + " was compressed." );
-				return paramsMap.get(value);
-			}
-			else {
-				EAdParam param = constructParam( value, (Class<? extends EAdParam>) fieldType );
-				paramsMap.put("param"+paramsMap.keySet().size(), param);
-				return param;
-			}
+			EAdParam param = constructParam( value, (Class<? extends EAdParam>) fieldType );
+			return param;
 		} else if ( EAdElement.class.isAssignableFrom(fieldType)){
 			EAdElement element = elementsMap.get(value);
+			if (value != null && !value.equals("") && element == null) {
+				return new ProxyElement(value);
+			}
 			return element;
 		} else if ( AssetDescriptor.class.isAssignableFrom(fieldType)){
 			return assetsMap.get(value);
@@ -115,12 +116,24 @@ public class ObjectFactory {
 		paramsMap.clear();
 		elementsMap.clear();
 		assetsMap.clear();
+		proxies.clear();
 	}
 
 	public static void addElement( String id, EAdElement element){
 		elementsMap.put(id, element);
+		int i = 0;
+		while (i < proxies.size()) {
+			if (proxies.get(i).getValue().equals(id)) {
+				NodeVisitor.setValue(proxies.get(i).getField(), proxies.get(i).getParent(), element);
+				proxies.remove(i);
+			} else
+				i++;
+		}
 	}
 	
+	public static Map<String, Object> getParamsMap() {
+		return paramsMap;
+	}
 	public static void addAsset( String id, AssetDescriptor descriptor ){
 		assetsMap.put(id, descriptor);
 	}

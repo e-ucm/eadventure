@@ -2,26 +2,37 @@ package es.eucm.eadventure.common.impl.writer;
 
 import org.w3c.dom.Element;
 
-import es.eucm.eadventure.common.impl.DOMTags;
+import es.eucm.eadventure.common.model.DOMTags;
 import es.eucm.eadventure.common.params.EAdParam;
 
 /**
  * Writer for {@link EAdParam}
  * 
  */
-public class ParamDOMWriter extends DOMWriter<EAdParam> {
-
-	public static final String TAG = "param";
+public class ParamDOMWriter extends DOMWriter<Object> {
 
 	@Override
-	public Element buildNode(EAdParam data) {
-		Element node = doc.createElement(TAG);
-		String value = paramsMap.get(data.toStringData());
-		if (value == null) {
-			value = data.toStringData();
-			paramsMap.put(value, "param" + paramsMap.keySet().size());
+	public Element buildNode(Object data, Class<?> listClass) {
+		Element node = doc.createElement(DOMTags.PARAM_AT);
+		
+		String value = null;
+		if (data instanceof EAdParam)
+			value = ((EAdParam) data).toStringData();
+		else if (data instanceof Class)
+			value = ((Class<?>) data).getName();
+		else
+			value = data.toString();
+
+		String compressedValue = paramsMap.get(data);
+		if (compressedValue == null) {
+			String key = DOMTags.PARAM_AT + paramsMap.keySet().size();
+			paramsMap.put(data, key);
+		} else {
+			value = compressedValue;
 		}
-		node.setAttribute(DOMTags.CLASS_AT, shortClass(data.getClass().getName()));
+		
+		if ( listClass == null || listClass != data.getClass() )
+			node.setAttribute(DOMTags.CLASS_AT, shortClass(data.getClass().getName()));
 		node.setTextContent(value);
 		return node;
 	}

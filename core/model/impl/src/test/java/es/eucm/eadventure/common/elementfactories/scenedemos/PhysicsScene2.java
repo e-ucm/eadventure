@@ -2,8 +2,8 @@ package es.eucm.eadventure.common.elementfactories.scenedemos;
 
 import es.eucm.eadventure.common.model.conditions.impl.OperationCondition;
 import es.eucm.eadventure.common.model.effects.impl.physics.EAdPhysicsEffect;
-import es.eucm.eadventure.common.model.effects.impl.physics.EAdPhysicsEffect.PhShape;
-import es.eucm.eadventure.common.model.effects.impl.physics.EAdPhysicsEffect.PhType;
+import es.eucm.eadventure.common.model.effects.impl.physics.PhShape;
+import es.eucm.eadventure.common.model.effects.impl.physics.PhType;
 import es.eucm.eadventure.common.model.effects.impl.physics.PhApplyImpluse;
 import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
 import es.eucm.eadventure.common.model.elements.impl.EAdSceneImpl;

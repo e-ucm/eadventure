@@ -47,7 +47,7 @@ import es.eucm.eadventure.common.model.effects.impl.EAdPlaySoundEffect;
 import es.eucm.eadventure.common.model.effects.impl.text.EAdShowQuestion;
 import es.eucm.eadventure.common.model.effects.impl.text.EAdSpeakEffect;
 import es.eucm.eadventure.common.model.effects.impl.timedevents.EAdShowSceneElement;
-import es.eucm.eadventure.common.model.effects.impl.timedevents.EAdShowSceneElement.ShowTextAnimation;
+import es.eucm.eadventure.common.model.effects.impl.timedevents.ShowTextAnimation;
 import es.eucm.eadventure.common.model.effects.impl.variables.EAdChangeFieldValueEffect;
 import es.eucm.eadventure.common.model.elements.EAdSceneElement;
 import es.eucm.eadventure.common.model.variables.EAdField;

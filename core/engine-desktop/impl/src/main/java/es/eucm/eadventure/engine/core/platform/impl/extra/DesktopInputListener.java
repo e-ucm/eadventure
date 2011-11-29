@@ -44,8 +44,8 @@ import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.util.logging.Logger;
 
-import es.eucm.eadventure.common.model.guievents.EAdKeyEvent.KeyActionType;
-import es.eucm.eadventure.common.model.guievents.EAdKeyEvent.KeyCode;
+import es.eucm.eadventure.common.model.guievents.enums.KeyActionType;
+import es.eucm.eadventure.common.model.guievents.enums.KeyCode;
 import es.eucm.eadventure.common.model.guievents.EAdMouseEvent;
 import es.eucm.eadventure.common.model.guievents.enums.MouseActionType;
 import es.eucm.eadventure.common.model.guievents.enums.MouseButton;

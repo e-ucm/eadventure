@@ -1,6 +1,7 @@
 package es.eucm.eadventure.common.impl.reader.visitors;
 
 import java.lang.reflect.Field;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -8,7 +9,7 @@ import java.util.logging.Logger;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-import es.eucm.eadventure.common.impl.DOMTags;
+import es.eucm.eadventure.common.model.DOMTags;
 import es.eucm.eadventure.common.interfaces.Param;
 
 public abstract class NodeVisitor<T> {
@@ -17,19 +18,24 @@ public abstract class NodeVisitor<T> {
 
 	private static String packageName;
 	
+	public static Map<String, String> aliasMap = new HashMap<String, String>();
+	
 	protected static String loaderType;
 
 	public static void init(String packageN) {
 		packageName = packageN;
 		loaderType = DOMTags.CLASS_AT;
 		//loaderType = DOMTags.TYPE_AT;
+		aliasMap.clear();
 	}
 
-	public abstract T visit(Node node, Field field, Object parent);
+	public abstract T visit(Node node, Field field, Object parent, Class<?> listClass);
 	
 	public abstract String getNodeType();
 	
 	protected String translateClass(String clazz) {
+		if (aliasMap.containsKey(clazz))
+			clazz = aliasMap.get(clazz);
 		return clazz != null && clazz.startsWith(".") ? packageName + clazz : clazz;
 	}
 	
@@ -41,12 +47,12 @@ public abstract class NodeVisitor<T> {
 			Node newNode = nl.item(i);
 			Field field = getField(element, newNode.getAttributes().getNamedItem(DOMTags.PARAM_AT).getNodeValue());
 
-			if (VisitorFactory.getVisitor(newNode.getNodeName()).visit(newNode, field, element) == null)
+			if (VisitorFactory.getVisitor(newNode.getNodeName()).visit(newNode, field, element, null) == null)
 				logger.severe("Failed visiting node " + newNode.getNodeName() + " for element " + element.getClass());
 		}
 	}
 	
-	protected void setValue(Field field, Object parent, Object object) {
+	public static void setValue(Field field, Object parent, Object object) {
 		if (field != null && parent != null) {
 			boolean accessible = field.isAccessible();
 

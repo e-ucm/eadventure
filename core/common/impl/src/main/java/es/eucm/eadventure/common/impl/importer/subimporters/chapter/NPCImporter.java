@@ -48,7 +48,7 @@ import es.eucm.eadventure.common.data.chapter.elements.NPC;
 import es.eucm.eadventure.common.data.chapter.resources.Resources;
 import es.eucm.eadventure.common.impl.importer.interfaces.EAdElementFactory;
 import es.eucm.eadventure.common.impl.importer.interfaces.ResourceImporter;
-import es.eucm.eadventure.common.interfaces.features.Oriented.Orientation;
+import es.eucm.eadventure.common.interfaces.features.enums.Orientation;
 import es.eucm.eadventure.common.model.actions.EAdAction;
 import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
 import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement.CommonStates;

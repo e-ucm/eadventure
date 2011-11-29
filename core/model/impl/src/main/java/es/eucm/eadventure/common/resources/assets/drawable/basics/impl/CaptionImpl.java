@@ -58,7 +58,7 @@ public class CaptionImpl implements Caption {
 	private static final int DEFAULT_PADDING = 30;
 
 	@Param("label")
-	private final EAdString label;
+	private EAdString label;
 
 	@Param("font")
 	private EAdFont font;
@@ -203,4 +203,17 @@ public class CaptionImpl implements Caption {
 		return alignment;
 	}
 
+	public EAdString getLabel() {
+		return label;
+	}
+	
+	public void setLabel(EAdString label) {
+		this.label = label;
+	}
+
+	public boolean isHasBubble() {
+		return hasBubble;
+	}
+
+	
 }

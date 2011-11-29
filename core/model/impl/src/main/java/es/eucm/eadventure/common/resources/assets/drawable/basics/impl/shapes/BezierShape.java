@@ -166,5 +166,7 @@ public class BezierShape implements Shape, Cloneable {
 		return s;
 	}
 	
+	
+	
 
 }

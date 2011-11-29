@@ -60,10 +60,6 @@ import es.eucm.eadventure.common.resources.assets.drawable.basics.Caption;
 @Element(runtime = EAdShowSceneElement.class, detailed = EAdShowSceneElement.class)
 public class EAdShowSceneElement extends AbstractEAdEffect {
 
-	public enum ShowTextAnimation {
-		NONE, FADE_IN;
-	}
-
 	@Param("time")
 	private int time;
 

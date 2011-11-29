@@ -4,6 +4,8 @@ import com.gwtent.reflection.client.ClassType;
 import com.gwtent.reflection.client.Field;
 import com.gwtent.reflection.client.TypeOracle;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.logging.Logger;
 
 import com.google.gwt.xml.client.Node;
@@ -11,6 +13,7 @@ import com.google.gwt.xml.client.NodeList;
 
 
 import es.eucm.eadventure.common.interfaces.Param;
+import es.eucm.eadventure.common.model.DOMTags;
 
 public abstract class NodeVisitor<T> {
 	
@@ -18,19 +21,24 @@ public abstract class NodeVisitor<T> {
 
 	private static String packageName;
 	
+	public static Map<String, String> aliasMap = new HashMap<String, String>();
+	
 	protected static String loaderType;
 
 	public static void init(String packageN) {
 		packageName = packageN;
 		loaderType = DOMTags.CLASS_AT;
 		//loaderType = DOMTags.TYPE_AT;
+		aliasMap.clear();
 	}
 
-	public abstract T visit(Node node, Field field, Object parent);
+	public abstract T visit(Node node, Field field, Object parent, Class<?> class1);
 	
 	public abstract String getNodeType();
 	
 	protected String translateClass(String clazz) {
+		if (aliasMap.containsKey(clazz))
+			clazz = aliasMap.get(clazz);
 		return clazz != null && clazz.startsWith(".") ? packageName + clazz : clazz;
 	}
 	
@@ -40,19 +48,16 @@ public abstract class NodeVisitor<T> {
 		for(int i=0, cnt=nl.getLength(); i<cnt; i++)
 		{
 			Node newNode = nl.item(i);
-			if (newNode == null || newNode.getAttributes() == null)
-				logger.severe("Unexpected null");
 
 			Field field = getField(element, newNode.getAttributes().getNamedItem(DOMTags.PARAM_AT).getNodeValue());
 
-			if (VisitorFactory.getVisitor(newNode.getNodeName()).visit(newNode, field, element) == null)
-				logger.severe("Failed visiting node " + newNode.getNodeName() + " for element " + element.getClass());
+			if (VisitorFactory.getVisitor(newNode.getNodeName()).visit(newNode, field, element, null) == null)
+				logger.severe("Failed visiting node " + newNode.getNodeName() + " for element " + element.getClass() + " in field " + field.getName() + " of class " + field.getType());
 		}
 	}
 	
-	protected void setValue(Field field, Object parent, Object object) {
+	public static void setValue(Field field, Object parent, Object object) {
 		if (field != null && parent != null) {
-			//TODO needs to be accessible?
 			try {
 				field.setFieldValue(parent, object);
 			} catch (ClassCastException c) {
@@ -90,17 +95,6 @@ public abstract class NodeVisitor<T> {
 			}
 			classType = classType.getSuperclass();
 		}
-		
-		logger.severe("No field " + paramValue + " in " + clazz);
-/*		
-		while (clazz != null) {
-			for (Field f : clazz.getDeclaredFields()) {
-				Param a = f.getAnnotation(Param.class);
-				if (a != null && a.value().equals(paramValue))
-					return f;
-			}
-			clazz = clazz.getSuperclass();
-		}*/
 		return null;
 	}
 }

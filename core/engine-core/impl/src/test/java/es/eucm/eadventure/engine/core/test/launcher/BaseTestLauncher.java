@@ -93,7 +93,7 @@ public abstract class BaseTestLauncher {
 		StringHandler stringHandler = injector.getInstance(StringHandler.class);
 		stringHandler.setStrings(strings);
 	}
-
+	
 	/**
 	 * Launches the test
 	 */

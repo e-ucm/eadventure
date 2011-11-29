@@ -53,20 +53,19 @@ import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.google.inject.name.Names;
 
-import es.eucm.eadventure.common.impl.reader.EAdAdventureModelReader;
-import es.eucm.eadventure.common.impl.reader.subparsers.AdventureHandler;
+import es.eucm.eadventure.common.impl.reader.EAdAdventureDOMModelReader;
 import es.eucm.eadventure.common.model.elements.EAdAdventureModel;
 import es.eucm.eadventure.common.model.impl.EAdAdventureModelImpl;
 
 public class EAdReaderTest extends TestCase {
 
-	private EAdAdventureModelReader reader;
+	private EAdAdventureDOMModelReader reader;
 	private File f;
 
 	@Override
 	public void setUp( ) {
 		Injector injector = Guice.createInjector( new ConfigurationModule( ) );
-		reader = injector.getInstance( EAdAdventureModelReader.class );
+		reader = injector.getInstance( EAdAdventureDOMModelReader.class );
 
 		f = new File( "src/test/resources/result.xml" );
 	}
@@ -74,7 +73,6 @@ public class EAdReaderTest extends TestCase {
 	public class ConfigurationModule extends AbstractModule {
 		@Override
 		protected void configure( ) {
-			bind( AdventureHandler.class );
 			bind( EAdAdventureModel.class ).to( EAdAdventureModelImpl.class );
 			bind( String.class ).annotatedWith(Names.named("classParam")).toInstance("class");
 		}

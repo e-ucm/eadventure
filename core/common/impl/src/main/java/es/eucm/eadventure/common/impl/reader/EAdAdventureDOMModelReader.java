@@ -57,7 +57,7 @@ import org.xml.sax.SAXException;
 import com.google.inject.Inject;
 
 import es.eucm.eadventure.common.Reader;
-import es.eucm.eadventure.common.impl.DOMTags;
+import es.eucm.eadventure.common.model.DOMTags;
 import es.eucm.eadventure.common.impl.reader.extra.ObjectFactory;
 import es.eucm.eadventure.common.impl.reader.visitors.ElementNodeVisitor;
 import es.eucm.eadventure.common.impl.reader.visitors.NodeVisitor;
@@ -94,7 +94,8 @@ public class EAdAdventureDOMModelReader implements Reader<EAdAdventureModel> {
 			Document doc = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(inputStream);
 			ElementNodeVisitor env = new ElementNodeVisitor();
 			NodeVisitor.init(doc.getFirstChild().getAttributes().getNamedItem(DOMTags.PACKAGE_AT).getNodeValue());
-			data = (EAdAdventureModel) env.visit(doc.getFirstChild().getFirstChild(), null, null);
+			getAliasMap(doc);
+			data = (EAdAdventureModel) env.visit(doc.getFirstChild().getFirstChild(), null, null, null);
 
 			return data;
 		} catch( ParserConfigurationException e ) {
@@ -112,6 +113,26 @@ public class EAdAdventureDOMModelReader implements Reader<EAdAdventureModel> {
         return null;
 	}
 	
+	private void getAliasMap(Document doc) {
+		NodeList nl = doc.getFirstChild().getChildNodes();
+		
+		for(int i=0, cnt=nl.getLength(); i<cnt; i++)
+		{
+			if (nl.item(i).getNodeName().equals("keyMap")) {
+				NodeList nl2 = nl.item(i).getChildNodes();
+				
+				for(int j=0, cnt2=nl2.getLength(); j<cnt2; j++)
+				{
+					Node n = nl2.item(j);
+					NodeVisitor.aliasMap.put(n.getAttributes().getNamedItem("key").getNodeValue(),
+							n.getAttributes().getNamedItem("value").getNodeValue());
+				}
+				
+			}
+		}
+
+	}
+
 	public void visit(Node node, int level)
 	{
 		NodeList nl = node.getChildNodes();

@@ -71,8 +71,8 @@ public class EAdEngineHtml extends HtmlGame {
 
 
 		GWTReader gwtReader = new GWTReader();
-//		gwtReader.readXML("eadengine/binary/sceneDemo.xml", game);
-		gwtReader.readXML("eadengine/binary/data.xml", game);
+		gwtReader.readXML("eadengine/binary/sceneDemo.xml", game);
+//		gwtReader.readXML("eadengine/binary/data.xml", game);
 
 		//game.setGame(model, chapter);
 		

@@ -1,6 +1,6 @@
 package es.eucm.eadventure.common.elementfactories.scenedemos.normalguy;
 
-import es.eucm.eadventure.common.interfaces.features.Oriented.Orientation;
+import es.eucm.eadventure.common.interfaces.features.enums.Orientation;
 import es.eucm.eadventure.common.model.effects.EAdEffect;
 import es.eucm.eadventure.common.model.effects.impl.variables.EAdChangeFieldValueEffect;
 import es.eucm.eadventure.common.model.elements.EAdSceneElementDef;

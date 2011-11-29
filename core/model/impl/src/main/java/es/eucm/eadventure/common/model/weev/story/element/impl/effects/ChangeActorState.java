@@ -3,6 +3,7 @@ package es.eucm.eadventure.common.model.weev.story.element.impl.effects;
 import es.eucm.eadventure.common.interfaces.Element;
 import es.eucm.eadventure.common.interfaces.Param;
 import es.eucm.eadventure.common.model.effects.impl.EAdInventoryEffect;
+import es.eucm.eadventure.common.model.effects.impl.enums.Modification;
 import es.eucm.eadventure.common.model.weev.Actor;
 import es.eucm.eadventure.common.model.weev.story.element.impl.AbstractEffect;
 

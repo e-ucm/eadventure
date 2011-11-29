@@ -9,6 +9,7 @@ import com.gwtent.reflection.client.TypeOracle;
 import com.google.gwt.xml.client.Node;
 import com.google.gwt.xml.client.NodeList;
 
+import es.eucm.eadventure.common.model.DOMTags;
 import es.eucm.eadventure.common.model.extra.EAdList;
 import es.eucm.eadventure.common.model.extra.impl.EAdListImpl;
 
@@ -16,7 +17,7 @@ public class ListNodeVisitor extends NodeVisitor<EAdList<Object>> {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public EAdList<Object> visit(Node node, Field field, Object parent) {
+	public EAdList<Object> visit(Node node, Field field, Object parent, Class<?> listClass) {
 		NodeList nl = node.getChildNodes();
 		
 		EAdList<Object> list = null;
@@ -28,7 +29,6 @@ public class ListNodeVisitor extends NodeVisitor<EAdList<Object>> {
 				list = (EAdList<Object>) field.getFieldValue(parent);
 			} catch (ClassCastException e) {
 				logger.log(Level.WARNING, "Fail to cast as list, field: " + field.getName() + " in " + parent);
-				list = createNewList(node);
 			}
 		}
 		
@@ -36,16 +36,13 @@ public class ListNodeVisitor extends NodeVisitor<EAdList<Object>> {
 		for(int i=0, cnt=nl.getLength(); i<cnt; i++)
 		{
 			type = nl.item(i).getNodeName();
-			Object object = VisitorFactory.getVisitor(type).visit(nl.item(i), null, null);
+			Object object = VisitorFactory.getVisitor(type).visit(nl.item(i), null, null, list.getValueClass());
 			list.add(object);
 		}
 		return list;
 	}
 	
 	private EAdList<Object> createNewList(Node node) {
-		if (node == null || node.getAttributes() == null)
-			logger.severe("Unexpected null");
-
 		Node n = node.getAttributes().getNamedItem(DOMTags.CLASS_AT);
 		String clazz = n.getNodeValue();
 		clazz = translateClass(clazz);
@@ -57,7 +54,7 @@ public class ListNodeVisitor extends NodeVisitor<EAdList<Object>> {
 	
 	@Override
 	public String getNodeType() {
-		return "list";
+		return DOMTags.LIST_TAG;
 	}
 
 }

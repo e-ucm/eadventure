@@ -2,16 +2,14 @@ package es.eucm.eadventure.common.impl.writer;
 
 import org.w3c.dom.Element;
 
-import es.eucm.eadventure.common.impl.DOMTags;
+import es.eucm.eadventure.common.model.DOMTags;
 import es.eucm.eadventure.common.resources.assets.AssetDescriptor;
 
 public class AssetDOMWriter extends FieldParamWriter<AssetDescriptor> {
 
-	public static final String TAG = "asset";
-
 	@Override
-	public Element buildNode(AssetDescriptor assetDescriptor) {
-		Element node = doc.createElement(TAG);
+	public Element buildNode(AssetDescriptor assetDescriptor, Class<?> listClass) {
+		Element node = doc.createElement(DOMTags.ASSET_AT);
 
 		// Check if asset is new
 		int index = mappedAsset.indexOf(assetDescriptor);

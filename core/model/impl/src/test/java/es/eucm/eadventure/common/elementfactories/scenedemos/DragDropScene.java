@@ -3,7 +3,7 @@ package es.eucm.eadventure.common.elementfactories.scenedemos;
 import es.eucm.eadventure.common.model.conditions.impl.EmptyCondition;
 import es.eucm.eadventure.common.model.effects.impl.variables.EAdChangeFieldValueEffect;
 import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
-import es.eucm.eadventure.common.model.guievents.EAdDragEvent.DragAction;
+import es.eucm.eadventure.common.model.guievents.enums.DragAction;
 import es.eucm.eadventure.common.model.guievents.impl.EAdDragEventImpl;
 import es.eucm.eadventure.common.model.guievents.impl.EAdMouseEventImpl;
 import es.eucm.eadventure.common.model.variables.EAdField;

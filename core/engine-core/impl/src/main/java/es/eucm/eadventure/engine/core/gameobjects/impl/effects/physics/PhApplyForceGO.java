@@ -8,7 +8,7 @@ import org.jbox2d.dynamics.World;
 import com.google.inject.Inject;
 
 import es.eucm.eadventure.common.model.effects.impl.physics.EAdPhysicsEffect;
-import es.eucm.eadventure.common.model.effects.impl.physics.EAdPhysicsEffect.PhShape;
+import es.eucm.eadventure.common.model.effects.impl.physics.PhShape;
 import es.eucm.eadventure.common.model.effects.impl.physics.PhApplyImpluse;
 import es.eucm.eadventure.common.model.elements.EAdSceneElementDef;
 import es.eucm.eadventure.common.resources.StringHandler;

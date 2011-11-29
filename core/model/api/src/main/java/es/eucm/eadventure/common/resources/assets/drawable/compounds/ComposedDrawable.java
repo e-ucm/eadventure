@@ -54,7 +54,7 @@ public interface ComposedDrawable extends BasicDrawable {
 	 * 
 	 * @return
 	 */
-	EAdList<DisplacedDrawable> getDrawables();
+	EAdList<DisplacedDrawable> getAssetList();
 
 	/**
 	 * Adds a drawable to this composed drawable with the given offset

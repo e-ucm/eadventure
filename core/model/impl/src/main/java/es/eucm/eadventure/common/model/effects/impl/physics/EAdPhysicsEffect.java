@@ -12,13 +12,8 @@ import es.eucm.eadventure.common.model.variables.impl.EAdVarDefImpl;
 @Element(detailed = EAdPhysicsEffect.class, runtime = EAdPhysicsEffect.class)
 public class EAdPhysicsEffect extends AbstractEAdEffect {
 
-	public enum PhType {
-		STATIC, DYNAMIC
-	};
 
-	public enum PhShape {
-		RECTANGULAR, CIRCULAR
-	};
+
 
 	public static final EAdVarDef<PhType> VAR_PH_TYPE = new EAdVarDefImpl<PhType>(
 			"ph_type", PhType.class, PhType.STATIC);

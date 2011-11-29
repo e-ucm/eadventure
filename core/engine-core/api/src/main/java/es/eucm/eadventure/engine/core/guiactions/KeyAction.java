@@ -37,8 +37,8 @@
 
 package es.eucm.eadventure.engine.core.guiactions;
 
-import es.eucm.eadventure.common.model.guievents.EAdKeyEvent.KeyActionType;
-import es.eucm.eadventure.common.model.guievents.EAdKeyEvent.KeyCode;
+import es.eucm.eadventure.common.model.guievents.enums.KeyActionType;
+import es.eucm.eadventure.common.model.guievents.enums.KeyCode;
 
 /**
  * <p>

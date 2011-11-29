@@ -41,24 +41,26 @@ import es.eucm.eadventure.common.interfaces.Element;
 import es.eucm.eadventure.common.interfaces.Param;
 import es.eucm.eadventure.common.model.EAdElement;
 import es.eucm.eadventure.common.model.guievents.EAdKeyEvent;
+import es.eucm.eadventure.common.model.guievents.enums.KeyActionType;
+import es.eucm.eadventure.common.model.guievents.enums.KeyCode;
 import es.eucm.eadventure.common.model.impl.EAdElementImpl;
 
 @Element(runtime = EAdKeyEventImpl.class, detailed = EAdKeyEventImpl.class)
 public class EAdKeyEventImpl extends EAdElementImpl implements EAdKeyEvent {
 
 	public static final EAdKeyEvent KEY_ARROW_DOWN = new EAdKeyEventImpl(
-			EAdKeyEvent.KeyActionType.KEY_PRESSED,
-			EAdKeyEvent.KeyCode.ARROW_DOWN);
+			KeyActionType.KEY_PRESSED,
+			KeyCode.ARROW_DOWN);
 	public static final EAdKeyEvent KEY_ARROW_LEFT = new EAdKeyEventImpl(
-			EAdKeyEvent.KeyActionType.KEY_PRESSED,
-			EAdKeyEvent.KeyCode.ARROW_LEFT);
+			KeyActionType.KEY_PRESSED,
+			KeyCode.ARROW_LEFT);
 	public static final EAdKeyEvent KEY_ARROW_RIGHT = new EAdKeyEventImpl(
-			EAdKeyEvent.KeyActionType.KEY_PRESSED,
-			EAdKeyEvent.KeyCode.ARROW_RIGHT);
+			KeyActionType.KEY_PRESSED,
+			KeyCode.ARROW_RIGHT);
 	public static final EAdKeyEvent KEY_ARROW_UP = new EAdKeyEventImpl(
-			EAdKeyEvent.KeyActionType.KEY_PRESSED, EAdKeyEvent.KeyCode.ARROW_UP);
+			KeyActionType.KEY_PRESSED, KeyCode.ARROW_UP);
 	public static final EAdKeyEvent KEY_ESC = new EAdKeyEventImpl(
-			EAdKeyEvent.KeyActionType.KEY_PRESSED, EAdKeyEvent.KeyCode.ESC);
+			KeyActionType.KEY_PRESSED, KeyCode.ESC);
 
 	@Param("type")
 	private KeyActionType type;
