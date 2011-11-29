@@ -66,6 +66,8 @@ public abstract class DOMWriter<T> {
 
 	protected static final Logger logger = Logger.getLogger("DOMWriter");
 
+	public static final boolean USE_PARAM_IDS = false;
+
 	/**
 	 * The xml document
 	 */
@@ -147,12 +149,31 @@ public abstract class DOMWriter<T> {
 				: clazz;
 		String alias = depthManager.getClassAliases().get(shortClass);
 		if (alias == null) {
-			alias = "" + depthManager.getClassAliases().keySet().size();
+			alias = "" + convertToCode(depthManager.getClassAliases().keySet().size());
 			depthManager.getAliasMap().put(alias, shortClass);
 			depthManager.getClassAliases().put(shortClass, alias);
 		}
 		return alias;
-		
+	}
+	
+	public static String convertToCode(int val) {
+		String code = "";
+		if (val == 0)
+			return "0";
+		while (val > 0) {
+			int t = val % 62;
+			if (t < 10)
+				code += t;
+			else if (t < 36) {
+				char c = (char) ('a' + t - 10);
+				code += c;
+			} else {
+				char c = (char) ('A' + t - 36);
+				code += c;
+			}
+			val = val / 62;
+		}
+		return code;
 	}
 
 }

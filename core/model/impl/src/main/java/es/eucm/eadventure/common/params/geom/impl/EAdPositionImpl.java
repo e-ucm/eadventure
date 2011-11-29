@@ -309,7 +309,7 @@ public class EAdPositionImpl extends EAdParamImpl implements EAdPosition {
 
 	@Override
 	public String toStringData() {
-		return x + SEPARATOR + y + SEPARATOR + dispX + SEPARATOR + dispY;
+		return x + SEPARATOR + y + SEPARATOR + (dispX != 0 ? dispX : "0") + SEPARATOR + (dispY != 0 ? dispY : "0");
 	}
 
 	@Override

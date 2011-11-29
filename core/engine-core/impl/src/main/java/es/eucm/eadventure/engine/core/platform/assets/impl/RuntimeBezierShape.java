@@ -37,7 +37,7 @@
 
 package es.eucm.eadventure.engine.core.platform.assets.impl;
 
-import es.eucm.eadventure.common.params.geom.impl.EAdPositionImpl;
+import es.eucm.eadventure.common.params.geom.EAdPosition;
 import es.eucm.eadventure.common.resources.assets.drawable.Drawable;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.shapes.BezierShape;
 import es.eucm.eadventure.engine.core.platform.DrawableAsset;
@@ -55,7 +55,7 @@ public abstract class RuntimeBezierShape extends AbstractRuntimeAsset<BezierShap
 	public boolean loadAsset(){
 		int point = 0;
 		
-		EAdPositionImpl p = null;
+		EAdPosition p = null;
 		int xMax = Integer.MIN_VALUE;
 		int xMin = Integer.MAX_VALUE;
 		int yMax = Integer.MIN_VALUE;
