@@ -14,6 +14,7 @@ import playn.core.Keyboard.Event;
 import playn.core.Keyboard.TypedEvent;
 import playn.core.PlayN;
 import playn.core.Pointer;
+import playn.html.HtmlPlatform;
 
 import com.google.gwt.dom.client.NativeEvent;
 import com.google.gwt.user.client.Event.NativePreviewEvent;
@@ -62,6 +63,8 @@ public class EAdEngine implements playn.core.Game, Keyboard.Listener {
 	public void init() {
 		graphics().setSize(platformConfiguration.getWidth(), platformConfiguration.getHeight());
 		PlayN.log().debug("EAdEngine: init");
+		
+		HtmlPlatform.disableRightClickContextMenu();
 
 		/*
 		 * gameLayer = graphics().createSurfaceLayer(graphics().width(),
@@ -135,6 +138,7 @@ public class EAdEngine implements playn.core.Game, Keyboard.Listener {
 	}
 
 	private MouseButton getMouseButton(int b) {
+		logger.info("Button pressed: " + b );
 		switch (b) {
 		case NativeEvent.BUTTON_LEFT:
 			return MouseButton.BUTTON_1;

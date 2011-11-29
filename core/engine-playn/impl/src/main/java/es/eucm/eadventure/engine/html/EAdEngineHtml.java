@@ -4,6 +4,7 @@ import playn.core.PlayN;
 import playn.html.HtmlAssetManager;
 import playn.html.HtmlGame;
 import playn.html.HtmlPlatform;
+import playn.html.HtmlPlatform.Mode;
 
 import com.google.gwt.core.client.GWT;
 
@@ -31,7 +32,7 @@ public class EAdEngineHtml extends HtmlGame {
 	@Override
 	public void start() {
 
-		HtmlAssetManager assets = HtmlPlatform.register().assetManager();
+		HtmlAssetManager assets = HtmlPlatform.register(Mode.WEBGL).assetManager();
 		assets.setPathPrefix("");
 
 		injector.getPlatformLauncher();
