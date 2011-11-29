@@ -39,5 +39,14 @@ public class InventoryScene extends EmptyScene {
 		
 		getElements().add(key);
 	}
+	
+	@Override
+	public String getSceneDescription() {
+		return "A scene with inventory.";
+	}
+
+	public String getDemoName() {
+		return "Inventory Scene";
+	}
 
 }

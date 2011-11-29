@@ -1,5 +1,7 @@
 package es.eucm.eadventure.engine.core.gameobjects.huds.impl;
 
+import java.util.logging.Logger;
+
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
@@ -32,6 +34,8 @@ import es.eucm.eadventure.engine.core.util.EAdTransformation;
 @Singleton
 public class InventoryHUDImpl extends AbstractHUD implements InventoryHUD {
 
+	private static final Logger logger = Logger.getLogger("Inventory");
+	
 	private static final int TIME_TO_SHOW = 300;
 
 	private enum InventoryState {

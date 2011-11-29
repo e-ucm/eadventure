@@ -8,7 +8,7 @@ import playn.html.HtmlPlatform;
 import com.google.gwt.core.client.GWT;
 
 import es.eucm.eadventure.common.elementfactories.EAdElementsFactory;
-import es.eucm.eadventure.common.elementfactories.scenedemos.InitScene;
+import es.eucm.eadventure.common.elementfactories.scenedemos.InventoryScene;
 import es.eucm.eadventure.common.model.elements.EAdAdventureModel;
 import es.eucm.eadventure.common.model.elements.EAdScene;
 import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
@@ -22,7 +22,6 @@ import es.eucm.eadventure.engine.core.EAdEngine;
 import es.eucm.eadventure.engine.core.Game;
 import es.eucm.eadventure.engine.core.platform.GUI;
 import es.eucm.eadventure.engine.core.platform.impl.PlayNGinInjector;
-import es.eucm.eadventure.engine.reader.GWTReader;
 
 public class EAdEngineHtml extends HtmlGame {
 
@@ -37,7 +36,7 @@ public class EAdEngineHtml extends HtmlGame {
 
 		injector.getPlatformLauncher();
 		injector.getPlayNInjector().setInjector(injector);
-		
+
 		Game game = injector.getGame();
 		game.loadGame();
 
@@ -54,11 +53,16 @@ public class EAdEngineHtml extends HtmlGame {
 				.addAsset(s.getBackground().getInitialBundle(),
 						EAdBasicSceneElement.appearance, i);
 
-		EAdScene s2 = new InitScene();
+		// EAdScene s2 = new InitScene();
 
-//		EAdScene s2 = new WebMVideoScene();
-		
-		//EAdScene s2 = new ShapeScene();
+		EAdScene s2 = new InventoryScene();
+
+		if (EAdElementsFactory.getInstance().getInventory() != null)
+			model.setInventory(EAdElementsFactory.getInstance().getInventory());
+
+		// EAdScene s2 = new WebMVideoScene();
+
+		// EAdScene s2 = new ShapeScene();
 
 		// EAdScene s2 = new SpeakAndMoveScene();
 		/*
@@ -69,13 +73,12 @@ public class EAdEngineHtml extends HtmlGame {
 		chapter.getScenes().add(s2);
 		chapter.setInitialScene(s2);
 
+		// GWTReader gwtReader = new GWTReader();
+		// gwtReader.readXML("eadengine/binary/sceneDemo.xml", game);
+		// gwtReader.readXML("eadengine/binary/data.xml", game);
 
-		GWTReader gwtReader = new GWTReader();
-		gwtReader.readXML("eadengine/binary/sceneDemo.xml", game);
-//		gwtReader.readXML("eadengine/binary/data.xml", game);
+		game.setGame(model, chapter);
 
-		//game.setGame(model, chapter);
-		
 		// String handler after creating the scene
 		StringHandler stringHandler = injector.getStringHandler();
 		stringHandler.addStrings(EAdElementsFactory.getInstance()

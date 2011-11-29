@@ -27,12 +27,16 @@ import es.eucm.eadventure.engine.core.gameobjects.factories.EventGOFactoryImpl;
 import es.eucm.eadventure.engine.core.gameobjects.factories.SceneElementGOFactory;
 import es.eucm.eadventure.engine.core.gameobjects.factories.SceneElementGOFactoryImpl;
 import es.eucm.eadventure.engine.core.gameobjects.huds.EffectHUD;
+import es.eucm.eadventure.engine.core.gameobjects.huds.InventoryHUD;
 import es.eucm.eadventure.engine.core.gameobjects.huds.impl.EffectHUDImpl;
+import es.eucm.eadventure.engine.core.gameobjects.huds.impl.InventoryHUDImpl;
 import es.eucm.eadventure.engine.core.impl.GameControllerImpl;
 import es.eucm.eadventure.engine.core.impl.GameImpl;
 import es.eucm.eadventure.engine.core.impl.GameStateImpl;
 import es.eucm.eadventure.engine.core.impl.LoadingScreen;
 import es.eucm.eadventure.engine.core.impl.VariableMap;
+import es.eucm.eadventure.engine.core.inventory.InventoryHandler;
+import es.eucm.eadventure.engine.core.inventory.InventoryHandlerImpl;
 import es.eucm.eadventure.engine.core.operator.OperatorFactory;
 import es.eucm.eadventure.engine.core.operators.impl.OperatorFactoryImpl;
 import es.eucm.eadventure.engine.core.platform.EAdInjector;
@@ -61,6 +65,8 @@ public class BasicGameModule extends AbstractGinModule {
 		bind(EAdDebugger.class).to(EAdMainDebugger.class).in(Singleton.class);
 		bind(PluginHandler.class).to(PlayNPluginHandler.class).in(Singleton.class);
 		bind(EAdInjector.class).to(PlayNInjector.class).in(Singleton.class);
+		bind(InventoryHandler.class).to(InventoryHandlerImpl.class).in(Singleton.class);
+		bind(InventoryHUD.class).to(InventoryHUDImpl.class).in(Singleton.class);
 
 		bind(EAdAdventureModel.class).to(EAdAdventureModelImpl.class);
 		bind(EAdScene.class).annotatedWith(Names.named("LoadingScreen")).to(
