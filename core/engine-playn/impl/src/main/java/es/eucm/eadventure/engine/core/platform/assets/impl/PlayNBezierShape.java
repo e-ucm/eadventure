@@ -40,7 +40,7 @@ package es.eucm.eadventure.engine.core.platform.assets.impl;
 import com.google.inject.Inject;
 
 import playn.core.Path;
-import es.eucm.eadventure.common.params.geom.impl.EAdPositionImpl;
+import es.eucm.eadventure.common.params.geom.EAdPosition;
 import es.eucm.eadventure.engine.core.EAdEngine;
 
 public class PlayNBezierShape extends RuntimeBezierShape {
@@ -59,11 +59,11 @@ public class PlayNBezierShape extends RuntimeBezierShape {
 		super.loadAsset();
 		path = eAdEngine.getGraphics().createPath();
 		
-		EAdPositionImpl p = descriptor.getPoints().get(0);
+		EAdPosition p = descriptor.getPoints().get(0);
 		path.moveTo(p.getX(), p.getY());
 		
 		int pointIndex = 1;
-		EAdPositionImpl p1, p2, p3;
+		EAdPosition p1, p2, p3;
 		for ( Integer i: descriptor.getSegmentsLength() ){
 				switch( i ){
 				case 1:

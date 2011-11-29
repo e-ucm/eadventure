@@ -30,7 +30,8 @@ public class ParamNodeVisitor extends NodeVisitor<Object> {
 				}
 				else {
 					object = ObjectFactory.getObject(value, c);
-					ObjectFactory.getParamsMap().put(DOMTags.PARAM_AT+ObjectFactory.getParamsMap().keySet().size(), object);
+					if (node.getAttributes().getNamedItem(DOMTags.UNIQUE_ID_AT) != null) 
+						ObjectFactory.getParamsMap().put(node.getAttributes().getNamedItem(DOMTags.UNIQUE_ID_AT).getNodeValue(), object);
 				}
 				 
 

@@ -42,6 +42,8 @@ import org.w3c.dom.Element;
 import es.eucm.eadventure.common.model.DOMTags;
 import es.eucm.eadventure.common.model.EAdElement;
 import es.eucm.eadventure.common.model.extra.EAdList;
+import es.eucm.eadventure.common.params.geom.EAdPosition;
+import es.eucm.eadventure.common.params.geom.impl.EAdPositionImpl;
 
 public class ListDOMWriter extends DOMWriter<EAdList<?>> {
 
@@ -54,11 +56,27 @@ public class ListDOMWriter extends DOMWriter<EAdList<?>> {
 		if (EAdElement.class.isAssignableFrom(list.getValueClass()))
 			depthManager.addList((EAdList<Object>) list);
 		
-		for (Object o : list) {
-			if (o != null) {
-				Element newNode = super.initNode(o, list.getValueClass());
-				doc.adoptNode(newNode);
-				node.appendChild(newNode);
+		
+		if (list.getValueClass() == Integer.class ||
+				list.getValueClass() == Float.class ||
+				list.getValueClass() == EAdPosition.class || list.getValueClass() == EAdPositionImpl.class) {
+			String value = null;
+			for (Object o : list) {
+				if (o != null) {
+					if (value == null)
+						value = o.toString();
+					else
+						value += "|" + o.toString();
+				}
+			}
+			node.setTextContent(value);
+		} else {
+			for (Object o : list) {
+				if (o != null) {
+					Element newNode = super.initNode(o, list.getValueClass());
+					doc.adoptNode(newNode);
+					node.appendChild(newNode);
+				}
 			}
 		}
 		

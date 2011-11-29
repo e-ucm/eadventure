@@ -6,9 +6,12 @@ import java.util.logging.Level;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
+import es.eucm.eadventure.common.impl.reader.extra.ObjectFactory;
 import es.eucm.eadventure.common.model.DOMTags;
 import es.eucm.eadventure.common.model.extra.EAdList;
 import es.eucm.eadventure.common.model.extra.impl.EAdListImpl;
+import es.eucm.eadventure.common.params.geom.EAdPosition;
+import es.eucm.eadventure.common.params.geom.impl.EAdPositionImpl;
 
 public class ListNodeVisitor extends NodeVisitor<EAdList<Object>> {
 
@@ -24,12 +27,24 @@ public class ListNodeVisitor extends NodeVisitor<EAdList<Object>> {
 			list = getListFromParent(field, parent);
 		}
 		
-		String type;
-		for(int i=0, cnt=nl.getLength(); i<cnt; i++)
-		{
-			type = nl.item(i).getNodeName();
-			Object object = VisitorFactory.getVisitor(type).visit(nl.item(i), null, null, list.getValueClass());
-			list.add(object);
+		//TODO do for more tyes?
+		if (list.getValueClass() == Integer.class ||
+				list.getValueClass() == Float.class ||
+				list.getValueClass() == EAdPosition.class || list.getValueClass() == EAdPositionImpl.class) {
+			String value = node.getTextContent();
+			if (value != null && !value.equals("")) {
+				String[] values = value.split("\\|");
+				for (int i = 0; i < values.length; i++) 
+					list.add(ObjectFactory.getObject(values[i], list.getValueClass()));
+			}
+		} else {
+			String type;
+			for(int i=0, cnt=nl.getLength(); i<cnt; i++)
+			{
+				type = nl.item(i).getNodeName();
+				Object object = VisitorFactory.getVisitor(type).visit(nl.item(i), null, null, list.getValueClass());
+				list.add(object);
+			}
 		}
 		return list;
 	}

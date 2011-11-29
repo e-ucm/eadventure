@@ -12,6 +12,8 @@ import com.google.gwt.xml.client.NodeList;
 import es.eucm.eadventure.common.model.DOMTags;
 import es.eucm.eadventure.common.model.extra.EAdList;
 import es.eucm.eadventure.common.model.extra.impl.EAdListImpl;
+import es.eucm.eadventure.common.params.geom.EAdPosition;
+import es.eucm.eadventure.common.params.geom.impl.EAdPositionImpl;
 
 public class ListNodeVisitor extends NodeVisitor<EAdList<Object>> {
 
@@ -32,14 +34,27 @@ public class ListNodeVisitor extends NodeVisitor<EAdList<Object>> {
 			}
 		}
 		
-		String type;
-		for(int i=0, cnt=nl.getLength(); i<cnt; i++)
-		{
-			type = nl.item(i).getNodeName();
-			Object object = VisitorFactory.getVisitor(type).visit(nl.item(i), null, null, list.getValueClass());
-			list.add(object);
+		//TODO do for more tyes?
+		if (list.getValueClass() == Integer.class ||
+				list.getValueClass() == Float.class ||
+				list.getValueClass() == EAdPosition.class || list.getValueClass() == EAdPositionImpl.class) {
+			String value = GWTReader.getNodeText(node);
+			if (value != null && !value.equals("")) {
+				String[] values = value.split("\\|");
+				for (int i = 0; i < values.length; i++) 
+					list.add(ObjectFactory.getObject(values[i], list.getValueClass()));
+			}
+		} else {
+			String type;
+			for(int i=0, cnt=nl.getLength(); i<cnt; i++)
+			{
+				type = nl.item(i).getNodeName();
+				Object object = VisitorFactory.getVisitor(type).visit(nl.item(i), null, null, list.getValueClass());
+				list.add(object);
+			}
 		}
 		return list;
+		
 	}
 	
 	private EAdList<Object> createNewList(Node node) {

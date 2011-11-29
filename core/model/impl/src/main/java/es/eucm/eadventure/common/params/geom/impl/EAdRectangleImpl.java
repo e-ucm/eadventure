@@ -174,4 +174,15 @@ public class EAdRectangleImpl extends EAdParamImpl implements EAdRectangle {
 		height = Integer.parseInt(temp[i++]);
 	}
 
+	@Override
+	public boolean equals(Object object) {
+		if (object == null || !(object instanceof EAdRectangle))
+			return false;
+		EAdRectangle newRect = (EAdRectangle) object;
+		if (newRect.getX() == x && newRect.getY() == y && newRect.getWidth() == width && newRect.getHeight() == height)
+			return true;
+		return false;
+	}
+
+	
 }

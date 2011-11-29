@@ -25,8 +25,13 @@ public class ParamDOMWriter extends DOMWriter<Object> {
 
 		String compressedValue = paramsMap.get(data);
 		if (compressedValue == null) {
-			String key = DOMTags.PARAM_AT + paramsMap.keySet().size();
-			paramsMap.put(data, key);
+			if (DOMWriter.USE_PARAM_IDS) {
+				String key = DOMTags.PARAM_AT + DOMWriter.convertToCode(paramsMap.keySet().size());
+				if (key.length() < value.length()) {
+					paramsMap.put(data, key);
+					node.setAttribute(DOMTags.UNIQUE_ID_AT, key);
+				}
+			}
 		} else {
 			value = compressedValue;
 		}
