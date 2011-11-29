@@ -42,7 +42,6 @@ import es.eucm.eadventure.common.model.extra.EAdList;
 import es.eucm.eadventure.common.model.extra.impl.EAdListImpl;
 import es.eucm.eadventure.common.params.fills.impl.EAdPaintImpl;
 import es.eucm.eadventure.common.params.geom.impl.EAdPositionImpl;
-import es.eucm.eadventure.common.params.paint.EAdFill;
 import es.eucm.eadventure.common.params.paint.EAdPaint;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.Shape;
 

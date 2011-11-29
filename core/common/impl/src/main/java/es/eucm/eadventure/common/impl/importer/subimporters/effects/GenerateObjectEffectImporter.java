@@ -45,7 +45,7 @@ import es.eucm.eadventure.common.data.chapter.effects.GenerateObjectEffect;
 import es.eucm.eadventure.common.impl.importer.interfaces.EAdElementFactory;
 import es.eucm.eadventure.common.model.effects.EAdEffect;
 import es.eucm.eadventure.common.model.effects.impl.EAdInventoryEffect;
-import es.eucm.eadventure.common.model.effects.impl.EAdInventoryEffect.Action;
+import es.eucm.eadventure.common.model.effects.impl.enums.InventoryEffectAction;
 import es.eucm.eadventure.common.model.elements.EAdSceneElementDef;
 import es.eucm.eadventure.common.model.elements.EAdCondition;
 
@@ -76,7 +76,7 @@ public class GenerateObjectEffectImporter extends EffectImporter<GenerateObjectE
 		
 		importConditions(oldObject, effect);
 
-		effect.setModification(Action.ADD_TO_INVENTORY);
+		effect.setModification(InventoryEffectAction.ADD_TO_INVENTORY);
 		effect.setActor((EAdSceneElementDef) factory.getElementById(oldObject.getTargetId()));
 
 		return effect;

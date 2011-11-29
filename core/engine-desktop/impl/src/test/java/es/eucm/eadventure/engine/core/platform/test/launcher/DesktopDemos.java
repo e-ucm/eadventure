@@ -74,7 +74,6 @@ import es.eucm.eadventure.common.model.elements.EAdScene;
 import es.eucm.eadventure.common.model.impl.EAdAdventureModelImpl;
 import es.eucm.eadventure.common.model.impl.EAdChapterImpl;
 import es.eucm.eadventure.common.params.EAdString;
-import es.eucm.eadventure.engine.core.Game;
 import es.eucm.eadventure.engine.core.debuggers.impl.EAdMainDebugger;
 import es.eucm.eadventure.engine.core.debuggers.impl.FieldsDebugger;
 import es.eucm.eadventure.engine.core.debuggers.impl.TrajectoryDebugger;

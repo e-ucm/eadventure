@@ -41,7 +41,6 @@ import junit.framework.TestCase;
 
 import org.junit.Test;
 
-import es.eucm.eadventure.common.model.guievents.EAdKeyEvent;
 import es.eucm.eadventure.common.model.guievents.enums.KeyActionType;
 import es.eucm.eadventure.common.model.guievents.enums.KeyCode;
 import es.eucm.eadventure.common.model.guievents.impl.EAdKeyEventImpl;

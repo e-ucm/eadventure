@@ -73,9 +73,9 @@ public class ObjectFactory {
 
 	private static PlayNReflectionProvider reflectionProvider = new PlayNReflectionProvider();
 
+	@SuppressWarnings("unchecked")
 	public static Object getObject(String value, Class<?> fieldType) {
 		if (reflectionProvider.isAssignableFrom(EAdParam.class, fieldType)) {
-			@SuppressWarnings("unchecked")
 			EAdParam param = constructParam(value, (Class<? extends EAdParam>) fieldType);
 			return param;
 		} else if (reflectionProvider.isAssignableFrom(EAdElement.class,
@@ -103,20 +103,13 @@ public class ObjectFactory {
 		else if (fieldType == Class.class)
 			return getClassFromName(value);
 		else if (fieldType.isEnum()) {
+			@SuppressWarnings("rawtypes")
 			Class<? extends Enum> enumClass = (Class<? extends Enum>) fieldType;
 			return Enum.valueOf(enumClass, value);
 		} else {
-			if (elementsMap.containsKey(value)) {
-				// FIXME This could be a temporary fix
-				EAdElement element = elementsMap.get(value);
-				logger.info("The field type was not recognised. The EAdElement is returned");
-				return element;
-			} else {
-				logger.info("The field type " + fieldType + "with value " + value + " was not recognised. The string is returned");
-				return value;
-			}
+			logger.info("The field type " + fieldType + "with value " + value + " was not recognised. The string is returned");
+			return value;
 		}
-
 	}
 
 	public static void initilize() {
