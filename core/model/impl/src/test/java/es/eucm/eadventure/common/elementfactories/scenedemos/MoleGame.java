@@ -18,6 +18,7 @@ import es.eucm.eadventure.common.model.variables.impl.EAdFieldImpl;
 import es.eucm.eadventure.common.model.variables.impl.EAdVarDefImpl;
 import es.eucm.eadventure.common.model.variables.impl.operations.BooleanOperation;
 import es.eucm.eadventure.common.model.variables.impl.operations.ListOperation;
+import es.eucm.eadventure.common.model.variables.impl.operations.ListOperationType;
 import es.eucm.eadventure.common.model.variables.impl.operations.MathOperation;
 import es.eucm.eadventure.common.params.fills.impl.EAdColor;
 import es.eucm.eadventure.common.resources.assets.drawable.Drawable;
@@ -126,7 +127,7 @@ public class MoleGame extends EmptyScene {
 		EAdChangeFieldValueEffect effect = new EAdChangeFieldValueEffect();
 		effect.setId("selectMole");
 		effect.setOperation(new ListOperation(listField,
-				ListOperation.Operation.RANDOM_ELEMENT));
+				ListOperationType.RANDOM_ELEMENT));
 		effect.addField(moleField);
 
 		EAdInterpolationEffect interpolation = new EAdInterpolationEffect(

@@ -37,6 +37,9 @@
 
 package es.eucm.eadventure.common.model.transitions;
 
+import com.gwtent.reflection.client.Reflectable;
+
+@Reflectable
 public enum EAdTransition {
 
 	BASIC, DISPLACE

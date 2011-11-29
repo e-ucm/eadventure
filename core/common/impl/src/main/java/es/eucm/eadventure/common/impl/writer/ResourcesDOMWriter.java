@@ -40,7 +40,7 @@ package es.eucm.eadventure.common.impl.writer;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
-import es.eucm.eadventure.common.impl.DOMTags;
+import es.eucm.eadventure.common.model.DOMTags;
 import es.eucm.eadventure.common.resources.EAdAssetBundle;
 import es.eucm.eadventure.common.resources.EAdBundleId;
 import es.eucm.eadventure.common.resources.EAdResources;
@@ -55,12 +55,6 @@ import es.eucm.eadventure.common.resources.impl.EAdResourcesImpl;
  * 
  */
 public class ResourcesDOMWriter extends DOMWriter<EAdResources> {
-	
-	public static final String TAG_RESOURCES = "resources";
-	
-	public static final String TAG_BUNDLE = "bundle";
-	
-	public static final String INITIAL_BUNDLE_AT = "initialBundle";
 
 	/*
 	 * (non-Javadoc)
@@ -70,10 +64,10 @@ public class ResourcesDOMWriter extends DOMWriter<EAdResources> {
 	 * )
 	 */
 	@Override
-	public Element buildNode(EAdResources resources) {
-		Element node = doc.createElement(TAG_RESOURCES);
+	public Element buildNode(EAdResources resources, Class<?> listClass) {
+		Element node = doc.createElement(DOMTags.RESOURCES_TAG);
 		if (resources.getInitialBundle() != null)
-			node.setAttribute(INITIAL_BUNDLE_AT, resources.getInitialBundle()
+			node.setAttribute(DOMTags.INITIAL_BUNDLE_TAG, resources.getInitialBundle()
 					.getBundleId());
 
 		for (String assetId : ((EAdAssetBundleImpl) resources).getIds()) {
@@ -102,7 +96,7 @@ public class ResourcesDOMWriter extends DOMWriter<EAdResources> {
 	 * @return the node created with the bundle information
 	 */
 	private Node processBundle(EAdBundleId id, EAdAssetBundle bundle) {
-		Element bundleNode = doc.createElement(TAG_BUNDLE);
+		Element bundleNode = doc.createElement(DOMTags.BUNDLE_TAG);
 		bundleNode.setAttribute(DOMTags.ID_AT, id.getBundleId());
 
 		for (String assetId : ((EAdAssetBundleImpl) bundle).getIds()) {
@@ -124,7 +118,7 @@ public class ResourcesDOMWriter extends DOMWriter<EAdResources> {
 	 * @return the node created with the asset information
 	 */
 	private Node processAsset(String id, AssetDescriptor assetDescriptor) {
-		Element assetNode = super.initNode(assetDescriptor);
+		Element assetNode = super.initNode(assetDescriptor, null);
 		assetNode.setAttribute(DOMTags.ID_AT, id);
 		return assetNode;
 	}

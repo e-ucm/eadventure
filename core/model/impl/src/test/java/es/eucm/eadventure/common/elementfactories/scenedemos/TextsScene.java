@@ -40,7 +40,7 @@ package es.eucm.eadventure.common.elementfactories.scenedemos;
 import es.eucm.eadventure.common.elementfactories.EAdElementsFactory;
 import es.eucm.eadventure.common.elementfactories.StringFactory.StringType;
 import es.eucm.eadventure.common.model.effects.EAdEffect;
-import es.eucm.eadventure.common.model.effects.impl.timedevents.EAdShowSceneElement.ShowTextAnimation;
+import es.eucm.eadventure.common.model.effects.impl.timedevents.ShowTextAnimation;
 import es.eucm.eadventure.common.params.EAdFontImpl;
 import es.eucm.eadventure.common.params.EAdURIImpl;
 import es.eucm.eadventure.common.params.fills.impl.EAdPaintImpl;

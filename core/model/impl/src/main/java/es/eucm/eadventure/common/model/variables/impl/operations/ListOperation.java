@@ -10,32 +10,20 @@ import es.eucm.eadventure.common.model.variables.impl.EAdOperationImpl;
 @SuppressWarnings("rawtypes")
 public class ListOperation extends EAdOperationImpl {
 	
-	public enum Operation {
-		/**
-		 * Return the list with a random order
-		 */
-		RANDOM_LIST,
-		
-		/**
-		 * Returns a random element of the list
-		 */
-		RANDOM_ELEMENT;
-	}
-	
 	@Param("operation")
-	private Operation operation;
+	private ListOperationType operation;
 	
 	@Param("listfield")
 	private EAdField<EAdList> listField;
 
-	public ListOperation(EAdField<EAdList> listField, Operation operation) {
+	public ListOperation(EAdField<EAdList> listField, ListOperationType operation) {
 		super();
 		setId("listOperation");
 		this.operation = operation;
 		this.listField = listField;
 	}
 
-	public Operation getOperation() {
+	public ListOperationType getOperation() {
 		return operation;
 	}
 

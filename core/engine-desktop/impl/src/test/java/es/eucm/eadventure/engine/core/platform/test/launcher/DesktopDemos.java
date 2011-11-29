@@ -53,6 +53,7 @@ import java.util.Map;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
@@ -77,7 +78,9 @@ import es.eucm.eadventure.engine.core.debuggers.impl.EAdMainDebugger;
 import es.eucm.eadventure.engine.core.debuggers.impl.FieldsDebugger;
 import es.eucm.eadventure.engine.core.debuggers.impl.TrajectoryDebugger;
 import es.eucm.eadventure.engine.core.impl.modules.BasicGameModule;
+import es.eucm.eadventure.engine.core.platform.AssetHandler;
 import es.eucm.eadventure.engine.core.platform.PlatformConfiguration;
+import es.eucm.eadventure.engine.core.platform.impl.DesktopAssetHandler;
 import es.eucm.eadventure.engine.core.platform.impl.extra.DesktopAssetHandlerModule;
 import es.eucm.eadventure.engine.core.platform.impl.extra.DesktopModule;
 import es.eucm.eadventure.engine.core.test.launcher.BaseTestLauncher;
@@ -89,7 +92,7 @@ import es.eucm.eadventure.engine.core.test.launcher.BaseTestLauncher;
 public class DesktopDemos extends BaseTestLauncher {
 
 	private static final Dimension DIMENSIONS[] = new Dimension[] {
-			new Dimension(800, 600), new Dimension(400, 300) };
+		 new Dimension(800, 600), new Dimension(1200, 900), new Dimension(400, 300) };
 
 	public DesktopDemos(Injector injector, EAdScene scene) {
 		super(injector, scene);
@@ -191,6 +194,56 @@ public class DesktopDemos extends BaseTestLauncher {
 			p.add(comboBox);
 			p.add(trajectoryDebugger);
 			p.add(fieldsDebugger);
+			
+			final JButton openProject = new JButton("Open 2.0 project");
+			openProject.addActionListener(new ActionListener() {
+
+				@Override
+				public void actionPerformed(ActionEvent arg0) {
+					new Thread() {
+						public void run() {
+							
+							JFileChooser fileChooser = new JFileChooser();
+							
+							//TODO filter files
+		
+							fileChooser.showOpenDialog(null);
+							
+							EAdAdventureModel model = null;
+		
+							FileInputStream is;
+							try {
+								is = new FileInputStream(fileChooser.getSelectedFile());
+								model = new EAdAdventureDOMModelReader().read(is);
+								is.close();
+			
+								Dimension d = (Dimension) comboBox
+										.getSelectedItem();
+			
+								Injector injector = createNewInjector(
+										(int) d.getWidth(),
+										(int) d.getHeight());
+								DesktopAssetHandler assetHandler = (DesktopAssetHandler) injector.getInstance(AssetHandler.class);
+								assetHandler.setResourceLocation(fileChooser.getCurrentDirectory());
+
+								new DesktopDemos(injector, model,
+										EAdElementsFactory.getInstance()
+												.getStringFactory()
+												.getStrings()).start();
+		
+							} catch (FileNotFoundException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							} catch (IOException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							}
+						}
+					}.start();
+				}
+				
+			});
+			p.add(openProject);
 
 			container.add(list, BorderLayout.CENTER);
 
@@ -236,9 +289,10 @@ public class DesktopDemos extends BaseTestLauncher {
 											.read(is);
 									is.close();
 
-									new DesktopDemos(createNewInjector(
+									Injector injector = createNewInjector(
 											(int) d.getWidth(),
-											(int) d.getHeight()), model,
+											(int) d.getHeight());
+									new DesktopDemos(injector, model,
 											EAdElementsFactory.getInstance()
 													.getStringFactory()
 													.getStrings()).start();

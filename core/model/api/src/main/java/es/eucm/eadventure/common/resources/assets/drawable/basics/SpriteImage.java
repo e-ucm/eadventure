@@ -49,13 +49,13 @@ public interface SpriteImage extends Image {
 	 * 
 	 * @return
 	 */
-	int getTotalSprites();
+	Integer getTotalSprites();
 
 	/**
 	 * Returns the number of sprite represented by this sprite
 	 * 
 	 * @return
 	 */
-	int getSprite();
+	Integer getSprite();
 
 }

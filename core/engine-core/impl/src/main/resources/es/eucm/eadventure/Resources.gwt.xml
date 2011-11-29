@@ -1,5 +1,6 @@
 <module>
 
    <public path="resources" />
+   <public path="protocolresources" />
    
 </module>

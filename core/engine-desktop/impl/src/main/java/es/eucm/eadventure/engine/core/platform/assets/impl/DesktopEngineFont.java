@@ -46,7 +46,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 
 import es.eucm.eadventure.common.params.EAdFont;
-import es.eucm.eadventure.common.params.EAdFont.Style;
+import es.eucm.eadventure.common.params.FontStyle;
 import es.eucm.eadventure.common.params.geom.impl.EAdRectangleImpl;
 import es.eucm.eadventure.engine.core.platform.AssetHandler;
 import es.eucm.eadventure.engine.core.platform.RuntimeFont;
@@ -82,7 +82,7 @@ public class DesktopEngineFont implements RuntimeFont {
 					(int) font.getSize());
 	}
 
-	private int getStyle(Style style) {
+	private int getStyle(FontStyle style) {
 		switch (style) {
 		case BOLD:
 			return Font.BOLD;

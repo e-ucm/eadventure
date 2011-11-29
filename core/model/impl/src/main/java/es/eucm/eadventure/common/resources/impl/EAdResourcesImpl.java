@@ -171,6 +171,8 @@ public class EAdResourcesImpl extends EAdAssetBundleImpl implements EAdResources
 	public void removeBundle(EAdBundleId bundleId) {
 		if (assetBundles.keySet().size() > 1)
 			assetBundles.remove(bundleId);
+		if (bundleId == initialBundle)
+			setInitialBundle(assetBundles.keySet().toArray(new EAdBundleId[] {})[0]);
 	}
 
 }

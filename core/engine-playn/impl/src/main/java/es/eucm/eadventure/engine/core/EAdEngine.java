@@ -41,8 +41,6 @@ public class EAdEngine implements playn.core.Game, Keyboard.Listener {
 
 	private GUI gui;
 
-	private AssetHandler assetHandler;
-
 	private MouseState mouseState;
 	
 	private PlatformConfiguration platformConfiguration;
@@ -54,10 +52,10 @@ public class EAdEngine implements playn.core.Game, Keyboard.Listener {
 			MouseState mouseState, PlatformConfiguration platformConfiguration) {
 		this.game = game;
 		this.gui = gui;
-		this.assetHandler = assetHandler;
 		this.mouseState = mouseState;
 		this.platformConfiguration = platformConfiguration;
 		((PlayNAssetHandler) assetHandler).setEngine(this);
+		logger.info("New instance");
 	}
 
 	@Override

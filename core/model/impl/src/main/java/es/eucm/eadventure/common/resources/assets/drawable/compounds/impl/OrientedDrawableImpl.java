@@ -38,7 +38,7 @@
 package es.eucm.eadventure.common.resources.assets.drawable.compounds.impl;
 
 import es.eucm.eadventure.common.interfaces.Param;
-import es.eucm.eadventure.common.interfaces.features.Oriented.Orientation;
+import es.eucm.eadventure.common.interfaces.features.enums.Orientation;
 import es.eucm.eadventure.common.model.extra.EAdMap;
 import es.eucm.eadventure.common.model.extra.impl.EAdMapImpl;
 import es.eucm.eadventure.common.resources.assets.drawable.Drawable;
@@ -78,5 +78,11 @@ public class OrientedDrawableImpl implements OrientedDrawable {
 	public Drawable getDrawable(Orientation orientation) {
 		return drawables.get(orientation);
 	}
+
+	public EAdMap<Orientation, Drawable> getDrawables() {
+		return drawables;
+	}
+	
+	
 
 }

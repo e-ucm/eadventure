@@ -139,4 +139,9 @@ public class EAdCutscene extends EAdComposedScene {
 		return nextScene;
 	}
 
+	public EAdList<EAdSlide> getSlides() {
+		return slides;
+	}
+
+	
 }

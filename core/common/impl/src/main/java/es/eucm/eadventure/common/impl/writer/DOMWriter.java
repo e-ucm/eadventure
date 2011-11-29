@@ -48,7 +48,7 @@ import javax.xml.parsers.ParserConfigurationException;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
-import es.eucm.eadventure.common.impl.DOMTags;
+import es.eucm.eadventure.common.model.DOMTags;
 import es.eucm.eadventure.common.model.EAdElement;
 import es.eucm.eadventure.common.model.extra.EAdList;
 import es.eucm.eadventure.common.model.extra.EAdMap;
@@ -81,18 +81,21 @@ public abstract class DOMWriter<T> {
 	/**
 	 * A map to store repeated params and save some space in XML
 	 */
-	protected static Map<String, String> paramsMap = new HashMap<String, String>();
+	protected static Map<Object, String> paramsMap = new HashMap<Object, String>();
 
+	public static DepthManager depthManager;
+	
 	/**
 	 * A map to store repeated assets and save some space in XML
 	 */
 	protected static ArrayList<AssetDescriptor> mappedAsset = new ArrayList<AssetDescriptor>();
-
+	
 	public static void initMaps() {
 		elementMap.clear();
 		mappedElement.clear();
 		paramsMap.clear();
 		mappedAsset.clear();
+		depthManager = new DepthManager();
 
 		try {
 			doc = DocumentBuilderFactory.newInstance().newDocumentBuilder()
@@ -109,14 +112,15 @@ public abstract class DOMWriter<T> {
 	 * 
 	 * @param data
 	 *            The data to be placed in the node
+	 * @param listClass 
 	 * @return The xml node created by the DOMWriter
 	 */
-	public abstract Element buildNode(T data);
+	public abstract Element buildNode(T data, Class<?> listClass);
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-	public Element initNode(Object data) {
+	public Element initNode(Object data, Class<?> listClass) {
 		DOMWriter writer = getDOMWriter(data);
-		return writer.buildNode(data);
+		return writer.buildNode(data, listClass);
 	}
 
 	@SuppressWarnings("rawtypes")
@@ -134,13 +138,21 @@ public abstract class DOMWriter<T> {
 		} else if (o instanceof AssetDescriptor) {
 			return new AssetDOMWriter();
 		} else {
-			return new DefaultDOMWriter();
+			return new ParamDOMWriter();
 		}
 	}
 
 	public String shortClass(String clazz) {
-		return clazz.startsWith(DOMTags.PACKAGE) ? clazz.substring(DOMTags.PACKAGE.length())
+		String shortClass = clazz.startsWith(DOMTags.PACKAGE) ? clazz.substring(DOMTags.PACKAGE.length())
 				: clazz;
+		String alias = depthManager.getClassAliases().get(shortClass);
+		if (alias == null) {
+			alias = "" + depthManager.getClassAliases().keySet().size();
+			depthManager.getAliasMap().put(alias, shortClass);
+			depthManager.getClassAliases().put(shortClass, alias);
+		}
+		return alias;
+		
 	}
 
 }

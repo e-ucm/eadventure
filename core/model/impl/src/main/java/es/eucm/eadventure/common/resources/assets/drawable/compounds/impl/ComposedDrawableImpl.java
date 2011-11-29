@@ -55,7 +55,7 @@ public class ComposedDrawableImpl implements ComposedDrawable {
 	}
 
 	@Override
-	public EAdList<DisplacedDrawable> getDrawables() {
+	public EAdList<DisplacedDrawable> getAssetList() {
 		return assetList;
 	}
 
@@ -69,5 +69,6 @@ public class ComposedDrawableImpl implements ComposedDrawable {
 	public void addDrawable(BasicDrawable drawable) {
 		addDrawable(drawable, 0, 0);
 	}
+	
 
 }

@@ -8,10 +8,6 @@ import es.eucm.eadventure.common.interfaces.HasURI;
  */
 public interface EAdFont extends EAdParam, HasURI {
 
-	public static enum Style {
-		BOLD, PLAIN, ITALIC
-	};
-
 	/**
 	 * Returns the font name
 	 * 
@@ -24,7 +20,7 @@ public interface EAdFont extends EAdParam, HasURI {
 	 * 
 	 * @return
 	 */
-	Style getStyle();
+	FontStyle getStyle();
 
 	/**
 	 * @return the size

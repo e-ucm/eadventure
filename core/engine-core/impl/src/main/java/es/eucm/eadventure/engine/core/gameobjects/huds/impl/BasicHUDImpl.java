@@ -45,8 +45,8 @@ import com.google.inject.Singleton;
 
 import es.eucm.eadventure.common.model.EAdElement;
 import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
-import es.eucm.eadventure.common.model.guievents.EAdKeyEvent.KeyActionType;
-import es.eucm.eadventure.common.model.guievents.EAdKeyEvent.KeyCode;
+import es.eucm.eadventure.common.model.guievents.enums.KeyActionType;
+import es.eucm.eadventure.common.model.guievents.enums.KeyCode;
 import es.eucm.eadventure.common.model.variables.impl.SystemFields;
 import es.eucm.eadventure.common.params.EAdFontImpl;
 import es.eucm.eadventure.common.params.EAdString;

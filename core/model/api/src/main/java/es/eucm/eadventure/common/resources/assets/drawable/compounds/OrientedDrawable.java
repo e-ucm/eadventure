@@ -37,7 +37,7 @@
 
 package es.eucm.eadventure.common.resources.assets.drawable.compounds;
 
-import es.eucm.eadventure.common.interfaces.features.Oriented.Orientation;
+import es.eucm.eadventure.common.interfaces.features.enums.Orientation;
 import es.eucm.eadventure.common.resources.assets.drawable.Drawable;
 
 /**

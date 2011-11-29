@@ -43,8 +43,7 @@ import com.google.inject.TypeLiteral;
 import com.google.inject.name.Named;
 
 import es.eucm.eadventure.common.Reader;
-import es.eucm.eadventure.common.impl.reader.EAdAdventureModelReader;
-import es.eucm.eadventure.common.impl.reader.subparsers.AdventureHandler;
+import es.eucm.eadventure.common.impl.reader.EAdAdventureDOMModelReader;
 import es.eucm.eadventure.common.model.elements.EAdAdventureModel;
 import es.eucm.eadventure.engine.core.GameLoop;
 import es.eucm.eadventure.engine.core.GameProfiler;
@@ -80,8 +79,7 @@ public class DesktopModule extends AbstractModule {
 	@Override
 	protected void configure() {
 		bind(new TypeLiteral<Reader<EAdAdventureModel>>() {
-		}).to(EAdAdventureModelReader.class);
-		bind(AdventureHandler.class);
+		}).to(EAdAdventureDOMModelReader.class);
 		bind(GameLoop.class).to(GameLoopImpl.class);
 		bind(GameProfiler.class).to(GameProfilerImpl.class);
 		bind(GUI.class).to(DesktopGUI.class);

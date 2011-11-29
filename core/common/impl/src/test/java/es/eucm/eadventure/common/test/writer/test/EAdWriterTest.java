@@ -54,8 +54,7 @@ import com.google.inject.Guice;
 import com.google.inject.Injector;
 
 import es.eucm.eadventure.common.elementfactories.scenedemos.SceneDemos;
-import es.eucm.eadventure.common.impl.reader.EAdAdventureModelReader;
-import es.eucm.eadventure.common.impl.reader.subparsers.AdventureHandler;
+import es.eucm.eadventure.common.impl.reader.EAdAdventureDOMModelReader;
 import es.eucm.eadventure.common.impl.writer.EAdAdventureModelWriter;
 import es.eucm.eadventure.common.model.elements.EAdAdventureModel;
 import es.eucm.eadventure.common.model.elements.EAdScene;
@@ -67,13 +66,13 @@ public class EAdWriterTest extends TestCase {
 	private File file;
 	private EAdAdventureModelImpl model;
 	private EAdAdventureModelWriter writer;
-	private EAdAdventureModelReader reader;
+	private EAdAdventureDOMModelReader reader;
 	private File file2;
 
 	@Before
 	public void setUp() {
 		Injector injector = Guice.createInjector(new ConfigurationModule());
-		reader = injector.getInstance(EAdAdventureModelReader.class);
+		reader = injector.getInstance(EAdAdventureDOMModelReader.class);
 
 		file = new File("src/test/resources/result.xml");
 		file2 = new File("src/test/resources/result2.xml");
@@ -97,7 +96,6 @@ public class EAdWriterTest extends TestCase {
 	public class ConfigurationModule extends AbstractModule {
 		@Override
 		protected void configure() {
-			bind(AdventureHandler.class);
 			bind(EAdAdventureModel.class).to(EAdAdventureModelImpl.class);
 		}
 	}

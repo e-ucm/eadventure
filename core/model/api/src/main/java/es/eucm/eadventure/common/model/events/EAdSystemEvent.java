@@ -48,6 +48,5 @@ package es.eucm.eadventure.common.model.events;
  */
 public interface EAdSystemEvent extends EAdEvent {
 	
-	enum Event { GAME_LOADED }
 	
 }

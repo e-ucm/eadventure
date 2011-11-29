@@ -46,7 +46,7 @@ import com.google.inject.Singleton;
 
 import es.eucm.eadventure.common.model.actions.EAdAction;
 import es.eucm.eadventure.common.model.extra.EAdList;
-import es.eucm.eadventure.common.model.guievents.EAdKeyEvent.KeyCode;
+import es.eucm.eadventure.common.model.guievents.enums.KeyCode;
 import es.eucm.eadventure.common.model.variables.impl.SystemFields;
 import es.eucm.eadventure.common.params.geom.EAdPosition;
 import es.eucm.eadventure.common.params.geom.impl.EAdPositionImpl;

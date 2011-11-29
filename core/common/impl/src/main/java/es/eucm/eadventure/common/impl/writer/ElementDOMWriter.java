@@ -41,27 +41,27 @@ import java.util.logging.Level;
 
 import org.w3c.dom.Element;
 
-import es.eucm.eadventure.common.impl.DOMTags;
+import es.eucm.eadventure.common.model.DOMTags;
 import es.eucm.eadventure.common.interfaces.EAdRuntimeException;
 import es.eucm.eadventure.common.model.EAdElement;
 
 public class ElementDOMWriter extends FieldParamWriter<EAdElement> {
 
-	public static final String TAG = "element";
-
 	@Override
-	public Element buildNode(EAdElement element) {
-		Element node = doc.createElement(TAG);
+	public Element buildNode(EAdElement element, Class<?> listClass) {
+		Element node = doc.createElement(DOMTags.ELEMENT_AT);
 		try {
 			// Check if the element is new
 			if (!elementMap.containsKey(element)) {
-				elementMap.put(element, "elem" + mappedElement.size());
+				elementMap.put(element, DOMTags.ELEMENT_AT + mappedElement.size());
 				mappedElement.add(element);
 			}
-			else {
+			
+			if (depthManager.inPreviousList(element) || depthManager.isStored(element)) {
 				node.setTextContent(elementMap.get(element));
 				return node;
-			}
+			} 
+			depthManager.setStored(element);
 
 			// Set id and unique id
 			node.setAttribute(DOMTags.ID_AT, element.getId());

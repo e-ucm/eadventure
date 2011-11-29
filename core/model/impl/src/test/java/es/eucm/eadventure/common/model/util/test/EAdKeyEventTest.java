@@ -41,7 +41,8 @@ import junit.framework.TestCase;
 
 import org.junit.Test;
 
-import es.eucm.eadventure.common.model.guievents.EAdKeyEvent;
+import es.eucm.eadventure.common.model.guievents.enums.KeyActionType;
+import es.eucm.eadventure.common.model.guievents.enums.KeyCode;
 import es.eucm.eadventure.common.model.guievents.impl.EAdKeyEventImpl;
 
 public class EAdKeyEventTest extends TestCase {
@@ -50,11 +51,11 @@ public class EAdKeyEventTest extends TestCase {
 	
 	@Override
 	public void setUp() {
-		event1 = new EAdKeyEventImpl( EAdKeyEvent.KeyActionType.KEY_PRESSED, EAdKeyEvent.KeyCode.ARROW_DOWN );
-		event2 = new EAdKeyEventImpl( EAdKeyEvent.KeyActionType.KEY_PRESSED, EAdKeyEvent.KeyCode.ARROW_DOWN );
-		event3 = new EAdKeyEventImpl( EAdKeyEvent.KeyActionType.KEY_PRESSED, 'a' );
-		event4 = new EAdKeyEventImpl( EAdKeyEvent.KeyActionType.KEY_PRESSED, 'a' );
-		event5 = new EAdKeyEventImpl( EAdKeyEvent.KeyActionType.KEY_PRESSED, 'b' );
+		event1 = new EAdKeyEventImpl( KeyActionType.KEY_PRESSED, KeyCode.ARROW_DOWN );
+		event2 = new EAdKeyEventImpl( KeyActionType.KEY_PRESSED, KeyCode.ARROW_DOWN );
+		event3 = new EAdKeyEventImpl( KeyActionType.KEY_PRESSED, 'a' );
+		event4 = new EAdKeyEventImpl( KeyActionType.KEY_PRESSED, 'a' );
+		event5 = new EAdKeyEventImpl( KeyActionType.KEY_PRESSED, 'b' );
 	}
 
 	@Test

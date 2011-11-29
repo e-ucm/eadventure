@@ -75,4 +75,13 @@ public class EAdActorActionsEffect extends AbstractEAdEffect {
 		return change;
 	}
 
+	public void setActionElement(EAdSceneElement actionElement) {
+		this.actionElement = actionElement;
+	}
+
+	public void setChange(ChangeActorActions change) {
+		this.change = change;
+	}
+
+	
 }

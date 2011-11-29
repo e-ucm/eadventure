@@ -40,7 +40,7 @@ package es.eucm.eadventure.engine.core.gameobjects.impl.events;
 import com.google.inject.Inject;
 
 import es.eucm.eadventure.common.model.events.EAdSystemEvent;
-import es.eucm.eadventure.common.model.events.EAdSystemEvent.Event;
+import es.eucm.eadventure.common.model.events.enums.SystemEventType;
 import es.eucm.eadventure.engine.core.Game;
 import es.eucm.eadventure.engine.core.GameState;
 import es.eucm.eadventure.engine.core.platform.AssetHandler;
@@ -64,7 +64,7 @@ public class SystemEventGO extends AbstractEventGO<EAdSystemEvent> {
 	public void update() {
 		// TODO probably not enough to just check for assets loaded
 		if (assetHandler.isLoaded() && game.getAdventureModel() != null && !triggered) {
-			runEffects(element.getEffectsForEvent(Event.GAME_LOADED));
+			runEffects(element.getEffectsForEvent(SystemEventType.GAME_LOADED));
 			triggered = true;
 		}
 	}

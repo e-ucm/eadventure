@@ -42,7 +42,7 @@ import java.util.List;
 
 import com.google.inject.Inject;
 
-import es.eucm.eadventure.common.interfaces.features.Oriented.Orientation;
+import es.eucm.eadventure.common.interfaces.features.enums.Orientation;
 import es.eucm.eadventure.common.model.effects.impl.sceneelements.EAdMoveSceneElement;
 import es.eucm.eadventure.common.model.elements.EAdSceneElement;
 import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;

@@ -209,4 +209,14 @@ public class EAdShowQuestion extends EAdComplexBlockingEffect {
 		components.add(answerElement);
 	}
 
+	public EAdMap<EAdString, EAdEffect> getAnswers() {
+		return answers;
+	}
+
+	public void setQuestion(EAdString question) {
+		this.question = question;
+	}
+	
+	
+
 }

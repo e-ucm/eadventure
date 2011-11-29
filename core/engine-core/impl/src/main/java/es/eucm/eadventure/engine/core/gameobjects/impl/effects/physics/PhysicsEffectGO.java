@@ -14,8 +14,8 @@ import org.jbox2d.dynamics.joints.RevoluteJointDef;
 import com.google.inject.Inject;
 
 import es.eucm.eadventure.common.model.effects.impl.physics.EAdPhysicsEffect;
-import es.eucm.eadventure.common.model.effects.impl.physics.EAdPhysicsEffect.PhShape;
-import es.eucm.eadventure.common.model.effects.impl.physics.EAdPhysicsEffect.PhType;
+import es.eucm.eadventure.common.model.effects.impl.physics.PhShape;
+import es.eucm.eadventure.common.model.effects.impl.physics.PhType;
 import es.eucm.eadventure.common.model.elements.EAdScene;
 import es.eucm.eadventure.common.model.elements.EAdSceneElement;
 import es.eucm.eadventure.common.model.elements.EAdSceneElementDef;

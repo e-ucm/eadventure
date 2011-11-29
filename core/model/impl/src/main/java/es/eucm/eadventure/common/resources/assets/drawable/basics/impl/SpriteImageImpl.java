@@ -48,10 +48,10 @@ public class SpriteImageImpl extends ImageImpl implements SpriteImage {
 	private static final Logger logger = Logger.getLogger("SpriteImageImpl");
 	
 	@Param("totalSprites")
-	private int totalSprites;
+	private Integer totalSprites;
 
 	@Param("sprite")
-	private int sprite;
+	private Integer sprite;
 
 	public SpriteImageImpl(){
 		
@@ -66,12 +66,12 @@ public class SpriteImageImpl extends ImageImpl implements SpriteImage {
 	}
 
 	@Override
-	public int getTotalSprites() {
+	public Integer getTotalSprites() {
 		return totalSprites;
 	}
 
 	@Override
-	public int getSprite() {
+	public Integer getSprite() {
 		return sprite;
 	}
 	
@@ -79,4 +79,13 @@ public class SpriteImageImpl extends ImageImpl implements SpriteImage {
 		return super.hashCode() + sprite + totalSprites;
 	}
 
+	public void setTotalSprites(Integer totalSprites) {
+		this.totalSprites = totalSprites;
+	}
+
+	public void setSprite(Integer sprite) {
+		this.sprite = sprite;
+	}
+
+	
 }

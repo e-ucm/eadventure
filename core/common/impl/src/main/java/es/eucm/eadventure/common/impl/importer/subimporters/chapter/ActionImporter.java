@@ -63,6 +63,7 @@ import es.eucm.eadventure.common.model.effects.EAdMacro;
 import es.eucm.eadventure.common.model.effects.impl.EAdInventoryEffect;
 import es.eucm.eadventure.common.model.effects.impl.EAdMacroImpl;
 import es.eucm.eadventure.common.model.effects.impl.EAdTriggerMacro;
+import es.eucm.eadventure.common.model.effects.impl.enums.InventoryEffectAction;
 import es.eucm.eadventure.common.model.elements.EAdCondition;
 import es.eucm.eadventure.common.model.elements.EAdSceneElementDef;
 import es.eucm.eadventure.common.predef.model.effects.EAdMoveActiveElement;
@@ -262,7 +263,7 @@ public class ActionImporter implements EAdElementImporter<Action, EAdAction> {
 				return list;
 		switch (actionType) {
 		case Action.GRAB:
-			EAdInventoryEffect modifyState = new EAdInventoryEffect( actor, EAdInventoryEffect.Action.ADD_TO_INVENTORY);
+			EAdInventoryEffect modifyState = new EAdInventoryEffect( actor, InventoryEffectAction.ADD_TO_INVENTORY);
 			modifyState.setId("grabEffect");
 			list.add(modifyState);
 			break;

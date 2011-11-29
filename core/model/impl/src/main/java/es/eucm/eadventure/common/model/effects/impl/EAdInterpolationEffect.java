@@ -238,4 +238,6 @@ public class EAdInterpolationEffect extends AbstractEAdEffect {
 		this.interpolationType = interpolationType;
 	}
 
+	
+	
 }

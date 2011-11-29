@@ -6,14 +6,14 @@ import java.util.logging.Level;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-import es.eucm.eadventure.common.impl.DOMTags;
+import es.eucm.eadventure.common.model.DOMTags;
 import es.eucm.eadventure.common.model.extra.EAdList;
 import es.eucm.eadventure.common.model.extra.impl.EAdListImpl;
 
 public class ListNodeVisitor extends NodeVisitor<EAdList<Object>> {
 
 	@Override
-	public EAdList<Object> visit(Node node, Field field, Object parent) {
+	public EAdList<Object> visit(Node node, Field field, Object parent, Class<?> listClass) {
 		NodeList nl = node.getChildNodes();
 		
 		EAdList<Object> list = null;
@@ -28,7 +28,7 @@ public class ListNodeVisitor extends NodeVisitor<EAdList<Object>> {
 		for(int i=0, cnt=nl.getLength(); i<cnt; i++)
 		{
 			type = nl.item(i).getNodeName();
-			Object object = VisitorFactory.getVisitor(type).visit(nl.item(i), null, null);
+			Object object = VisitorFactory.getVisitor(type).visit(nl.item(i), null, null, list.getValueClass());
 			list.add(object);
 		}
 		return list;
@@ -49,6 +49,7 @@ public class ListNodeVisitor extends NodeVisitor<EAdList<Object>> {
 		return new EAdListImpl<Object>(c);
 	}
 
+	@SuppressWarnings("unchecked")
 	private EAdList<Object> getListFromParent(Field field, Object parent) {
 		boolean accessible = field.isAccessible();
 		EAdList<Object> list = null;
@@ -67,7 +68,7 @@ public class ListNodeVisitor extends NodeVisitor<EAdList<Object>> {
 	
 	@Override
 	public String getNodeType() {
-		return "list";
+		return DOMTags.LIST_TAG;
 	}
 
 }

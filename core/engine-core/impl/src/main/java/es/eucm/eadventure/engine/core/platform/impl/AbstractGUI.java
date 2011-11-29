@@ -40,7 +40,7 @@ package es.eucm.eadventure.engine.core.platform.impl;
 import java.util.logging.Logger;
 
 import es.eucm.eadventure.common.model.EAdElement;
-import es.eucm.eadventure.common.model.guievents.EAdDragEvent.DragAction;
+import es.eucm.eadventure.common.model.guievents.enums.DragAction;
 import es.eucm.eadventure.common.model.guievents.impl.EAdMouseEventImpl;
 import es.eucm.eadventure.engine.core.GameState;
 import es.eucm.eadventure.engine.core.KeyboardState;

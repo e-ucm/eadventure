@@ -37,12 +37,24 @@
 
 package es.eucm.eadventure.engine.reader;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
 
+import com.gwtent.reflection.client.TypeOracle;
+
 import es.eucm.eadventure.common.model.EAdElement;
+import es.eucm.eadventure.common.params.EAdFontImpl;
 import es.eucm.eadventure.common.params.EAdParam;
+import es.eucm.eadventure.common.params.EAdString;
+import es.eucm.eadventure.common.params.EAdURIImpl;
+import es.eucm.eadventure.common.params.fills.impl.EAdColor;
+import es.eucm.eadventure.common.params.fills.impl.EAdLinearGradient;
+import es.eucm.eadventure.common.params.fills.impl.EAdPaintImpl;
+import es.eucm.eadventure.common.params.geom.impl.EAdPositionImpl;
+import es.eucm.eadventure.common.params.geom.impl.EAdRectangleImpl;
 import es.eucm.eadventure.common.resources.EAdBundleId;
 import es.eucm.eadventure.common.resources.assets.AssetDescriptor;
 import es.eucm.eadventure.engine.core.platform.impl.PlayNReflectionProvider;
@@ -54,22 +66,24 @@ public class ObjectFactory {
 
 	private static final Logger logger = Logger.getLogger("ObjectFactory");
 
-	private static Map<String, EAdParam> paramsMap = new HashMap<String, EAdParam>();
+	private static Map<String, Object> paramsMap = new HashMap<String, Object>();
 	private static Map<String, AssetDescriptor> assetsMap = new HashMap<String, AssetDescriptor>();
 	private static Map<String, EAdElement> elementsMap = new HashMap<String, EAdElement>();
+	private static List<ProxyElement> proxies = new ArrayList<ProxyElement>();
 
 	private static PlayNReflectionProvider reflectionProvider = new PlayNReflectionProvider();
 
+	@SuppressWarnings("unchecked")
 	public static Object getObject(String value, Class<?> fieldType) {
 		if (reflectionProvider.isAssignableFrom(EAdParam.class, fieldType)) {
-			if (paramsMap.containsKey(value)) {
-				logger.info(value + " was compressed.");
-				return paramsMap.get(value);
-			}
-			return null;
+			EAdParam param = constructParam(value, (Class<? extends EAdParam>) fieldType);
+			return param;
 		} else if (reflectionProvider.isAssignableFrom(EAdElement.class,
 				fieldType)) {
 			EAdElement element = elementsMap.get(value);
+			if (value != null && !value.equals("") && element == null) {
+				return new ProxyElement(value);
+			}
 			return element;
 		} else if (reflectionProvider.isAssignableFrom(AssetDescriptor.class,
 				fieldType)) {
@@ -87,48 +101,80 @@ public class ObjectFactory {
 		} else if (fieldType == EAdBundleId.class)
 			return new EAdBundleId(value);
 		else if (fieldType == Class.class)
-			/*
-			 * try { return ClassLoader.getSystemClassLoader().loadClass(value);
-			 * } catch (ClassNotFoundException e) { return Object.class; }
-			 */
-			return null;
+			return getClassFromName(value);
 		else if (fieldType.isEnum()) {
-			for (Object c : fieldType.getEnumConstants()) {
-				if (c.toString().equals(value))
-					return c;
-			}
-			return null;
-			// return Enum.valueOf(fieldType.asSubclass(Enum.class), value);
+			@SuppressWarnings("rawtypes")
+			Class<? extends Enum> enumClass = (Class<? extends Enum>) fieldType;
+			return Enum.valueOf(enumClass, value);
 		} else {
-			if (elementsMap.containsKey(value)) {
-				// FIXME This could be a temporary fix
-				EAdElement element = elementsMap.get(value);
-				logger.info("The field type was not recognised. The EAdElement is returned");
-				return element;
-			} else {
-				logger.info("The field type was not recognised. The string is returned");
-				return value;
-			}
+			logger.info("The field type " + fieldType + "with value " + value + " was not recognised. The string is returned");
+			return value;
 		}
-
 	}
 
 	public static void initilize() {
 		paramsMap.clear();
 		elementsMap.clear();
 		assetsMap.clear();
+		proxies.clear();
 	}
 
 	public static void addElement(String id, EAdElement element) {
 		elementsMap.put(id, element);
+		int i = 0;
+		while (i < proxies.size()) {
+			if (proxies.get(i).getValue().equals(id)) {
+				NodeVisitor.setValue(proxies.get(i).getField(), proxies.get(i).getParent(), element);
+				proxies.remove(i);
+			} else
+				i++;
+		}
 	}
 
 	public static void addAsset(String id, AssetDescriptor descriptor) {
 		assetsMap.put(id, descriptor);
 	}
 
-	public static Map<String, EAdParam> getParamsMap() {
+	public static Map<String, Object> getParamsMap() {
 		return paramsMap;
 	}
+	
+	private static EAdParam constructParam( String value, Class<? extends EAdParam> clazz ) {
+		if (clazz.equals(EAdString.class))
+			return new EAdString(value);
+		if (clazz.equals(EAdColor.class))
+			return new EAdColor(value);
+		if (clazz.equals(EAdLinearGradient.class))
+			return new EAdLinearGradient(value);
+		if (clazz.equals(EAdPaintImpl.class))
+			return new EAdPaintImpl(value);
+		if (clazz.equals(EAdFontImpl.class))
+			return new EAdFontImpl(value);
+		if (clazz.equals(EAdPositionImpl.class))
+			return new EAdPositionImpl(value);
+		if (clazz.equals(EAdRectangleImpl.class)) 
+			return new EAdRectangleImpl(value);
+		if (clazz.equals(EAdURIImpl.class)) 
+			return new EAdURIImpl(value);
+		
+		logger.severe("Param class " + clazz + " needs constructor explicitly defined");
+		return null;
+	}
+
+	public static Class<?> getClassFromName(String clazz) {
+		if (clazz.equals("java.lang.Float"))
+			return  Float.class;
+		else if (clazz.equals("java.lang.Integer"))
+			return Integer.class;
+		else if (clazz.equals("java.lang.Boolean"))
+			return Boolean.class;
+		else if (clazz.equals("java.lang.Class"))
+			return Class.class;
+		else if (clazz.equals("java.lang.Character"))
+			return Class.class;
+		else
+			return TypeOracle.Instance.getClassType(clazz).getDeclaringClass();
+	}	
+
 
 }

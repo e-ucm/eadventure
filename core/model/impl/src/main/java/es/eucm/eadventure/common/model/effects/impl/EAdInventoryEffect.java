@@ -39,38 +39,35 @@ package es.eucm.eadventure.common.model.effects.impl;
 
 import es.eucm.eadventure.common.interfaces.Element;
 import es.eucm.eadventure.common.interfaces.Param;
+import es.eucm.eadventure.common.model.effects.impl.enums.InventoryEffectAction;
 import es.eucm.eadventure.common.model.elements.EAdSceneElementDef;
 
 @Element(detailed = EAdInventoryEffect.class, runtime = EAdInventoryEffect.class)
 public class EAdInventoryEffect extends AbstractEAdEffect {
 
-	public static enum Action {
-		ADD_TO_INVENTORY, REMOVE_FROM_INVENTORY
-	}
-	
 	@Param("modification")
-	private Action modification;
+	private InventoryEffectAction modification;
 	
 	@Param("actor")
 	private EAdSceneElementDef actor;
 	
 
 	public EAdInventoryEffect() {
-		this(null, Action.ADD_TO_INVENTORY);
+		this(null, InventoryEffectAction.ADD_TO_INVENTORY);
 	}
 	
 
-	public EAdInventoryEffect( EAdSceneElementDef actor, Action modification) {
+	public EAdInventoryEffect( EAdSceneElementDef actor, InventoryEffectAction modification) {
 		super();
 		this.modification = modification;
 		this.actor = actor;
 	}
 	
-	public void setModification(Action modification) {
+	public void setModification(InventoryEffectAction modification) {
 		this.modification = modification;
 	}
 	
-	public Action getAction() {
+	public InventoryEffectAction getAction() {
 		return modification;
 	}
 	
