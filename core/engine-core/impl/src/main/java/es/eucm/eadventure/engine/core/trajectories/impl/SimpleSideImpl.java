@@ -8,12 +8,15 @@ public class SimpleSideImpl implements PathSide {
 	private EAdPosition endPosition;
 
 	private int length;
+	
+	private float scale;
 
-	public SimpleSideImpl(EAdPosition startPosition, EAdPosition endPosition) {
+	public SimpleSideImpl(EAdPosition startPosition, EAdPosition endPosition, float scale) {
 		this.endPosition = endPosition;
 		int vx = endPosition.getX() - startPosition.getX();
 		int vy = endPosition.getY() - startPosition.getY();
 		length = (int) Math.round(Math.sqrt(vx * vx + vy * vy));
+		this.scale = scale;
 
 	}
 
@@ -30,6 +33,11 @@ public class SimpleSideImpl implements PathSide {
 	@Override
 	public float getSpeedFactor() {
 		return 1;
+	}
+	
+	@Override
+	public float getEndScale() {
+		return scale;
 	}
 
 }

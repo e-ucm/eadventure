@@ -3,9 +3,14 @@ package es.eucm.eadventure.engine.core.trajectories.impl;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.google.inject.Inject;
+
+import es.eucm.eadventure.common.model.EAdElement;
+import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
 import es.eucm.eadventure.common.model.trajectories.impl.SimpleTrajectoryDefinition;
 import es.eucm.eadventure.common.params.geom.EAdPosition;
 import es.eucm.eadventure.common.params.geom.impl.EAdPositionImpl;
+import es.eucm.eadventure.engine.core.ValueMap;
 import es.eucm.eadventure.engine.core.gameobjects.SceneElementGO;
 import es.eucm.eadventure.engine.core.trajectories.Path;
 import es.eucm.eadventure.engine.core.trajectories.TrajectoryGenerator;
@@ -13,11 +18,23 @@ import es.eucm.eadventure.engine.core.trajectories.TrajectoryGenerator;
 public class SimpleTrajectoryGenerator implements
 		TrajectoryGenerator<SimpleTrajectoryDefinition> {
 
+	/**
+	 * The values in the game
+	 */
+	private ValueMap valueMap;
+
+	@Inject
+	public SimpleTrajectoryGenerator(ValueMap valueMap) {
+		this.valueMap = valueMap;
+	}
+	
 	@Override
 	public Path getTrajectory(
 			SimpleTrajectoryDefinition def,
-			EAdPosition currentPosition, int x, int y) {
+			EAdElement movingElement, int x, int y) {
 
+		EAdPosition currentPosition = getCurrentPosition(movingElement);
+		
 		List<EAdPosition> list = new ArrayList<EAdPosition>();
 		if (def.isOnlyHoriztonal()) {
 			list.add(new EAdPositionImpl(getX(def, x), currentPosition.getY()));
@@ -25,13 +42,15 @@ public class SimpleTrajectoryGenerator implements
 			list.add(new EAdPositionImpl(getX(def, x), getY(def, y)));
 		}
 
-		return new SimplePathImpl(list, currentPosition);
+		return new SimplePathImpl(list, currentPosition, valueMap.getValue(movingElement, EAdBasicSceneElement.VAR_SCALE));
 	}
 
 	@Override
 	public Path getTrajectory(
 			SimpleTrajectoryDefinition trajectoryDefinition,
-			EAdPosition currentPosition, int x, int y, SceneElementGO<?> sceneElement) {
+			EAdElement movingElement, int x, int y, SceneElementGO<?> sceneElement) {
+
+		EAdPosition currentPosition = getCurrentPosition(movingElement);
 
 		List<EAdPosition> list = new ArrayList<EAdPosition>();
 		if (trajectoryDefinition.isOnlyHoriztonal()) {
@@ -40,12 +59,12 @@ public class SimpleTrajectoryGenerator implements
 			list.add(new EAdPositionImpl(x, y));
 		}
 
-		return new SimplePathImpl(list,currentPosition);
+		return new SimplePathImpl(list,currentPosition, valueMap.getValue(movingElement, EAdBasicSceneElement.VAR_SCALE));
 	}
 
 	@Override
 	public boolean canGetTo(SimpleTrajectoryDefinition trajectoryDefinition,
-			EAdPosition currentPosition, SceneElementGO<?> sceneElement) {
+			EAdElement movingElement, SceneElementGO<?> sceneElement) {
 		//TODO check barriers?
 		return false;
 	}
@@ -64,6 +83,14 @@ public class SimpleTrajectoryGenerator implements
 		if ( y < def.getTop() )
 			return def.getTop();
 		return y;
+	}
+	
+	private EAdPosition getCurrentPosition(EAdElement element) {
+		int x = valueMap.getValue(element,
+				EAdBasicSceneElement.VAR_X);
+		int y = valueMap.getValue(element,
+				EAdBasicSceneElement.VAR_Y);
+		return new EAdPositionImpl(x, y);
 	}
 
 }

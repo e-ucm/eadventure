@@ -22,6 +22,8 @@ public class DijkstraNode {
 	private boolean getsTo;
 
 	private float linePosition;
+
+	private float scale;
 	
 	public DijkstraNode(EAdPosition position) {
 		this.position = position;
@@ -85,6 +87,14 @@ public class DijkstraNode {
 	
 	public float getLinePosition() {
 		return linePosition;
+	}
+
+	public void setScale(float scale) {
+		this.scale = scale;
+	}
+	
+	public float getScale() {
+		return scale;
 	}
 	
 }

@@ -24,4 +24,6 @@ public interface PathSide {
 	 */
 	EAdPosition getEndPosition(boolean last);
 
+	float getEndScale();
+
 }

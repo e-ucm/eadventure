@@ -1,5 +1,6 @@
 package es.eucm.eadventure.engine.core.trajectories;
 
+import es.eucm.eadventure.common.model.EAdElement;
 import es.eucm.eadventure.common.model.trajectories.TrajectoryDefinition;
 import es.eucm.eadventure.common.params.geom.EAdPosition;
 import es.eucm.eadventure.engine.core.gameobjects.SceneElementGO;
@@ -21,15 +22,15 @@ public interface TrajectoryGenerator<T extends TrajectoryDefinition> {
 	 * @param trajectoryDefinition
 	 *            the trajectory definition for which to calculate the actual
 	 *            trajectory
-	 * @param currentPosition
-	 *            the start position for the trajectory
+	 * @param movingElement
+	 * 			  the element that is to be moved
 	 * @param x
 	 *            target x coordinate
 	 * @param y
 	 *            target y coordinate
 	 * @return the path
 	 */
-	Path getTrajectory(T trajectoryDefinition, EAdPosition currentPosition,
+	Path getTrajectory(T trajectoryDefinition, EAdElement movingElement,
 			int x, int y);
 
 	/**
@@ -40,8 +41,8 @@ public interface TrajectoryGenerator<T extends TrajectoryDefinition> {
 	 * @param trajectoryDefinition
 	 *            the trajectory definition for which to calculate the actual
 	 *            trajectory
-	 * @param currentPosition
-	 *            the start position for the trajectory
+	 * @param movingElement
+	 * 			  the element that is to be moved
 	 * @param x
 	 *            target x coordinate
 	 * @param y
@@ -50,7 +51,7 @@ public interface TrajectoryGenerator<T extends TrajectoryDefinition> {
 	 *            The element towards which to move
 	 * @return a path
 	 */
-	Path getTrajectory(T trajectoryDefinition, EAdPosition currentPosition,
+	Path getTrajectory(T trajectoryDefinition, EAdElement movingElement,
 			int x, int y, SceneElementGO<?> sceneElement);
 
 	/**
@@ -66,7 +67,7 @@ public interface TrajectoryGenerator<T extends TrajectoryDefinition> {
 	 *            the element that needs to be reached
 	 * @return true if the element can be reached, false otherwise
 	 */
-	boolean canGetTo(T trajectoryDefinition, EAdPosition currentPosition,
+	boolean canGetTo(T trajectoryDefinition, EAdElement movingElement,
 			SceneElementGO<?> sceneElement);
 
 }

@@ -11,11 +11,11 @@ public class SimplePathImpl implements Path {
 
 	private List<PathSide> sides;
 	
-	public SimplePathImpl(List<EAdPosition> list, EAdPosition currentPosition) {
+	public SimplePathImpl(List<EAdPosition> list, EAdPosition currentPosition, float scale) {
 		sides = new ArrayList<PathSide>();
 		EAdPosition temp = currentPosition;
 		for (EAdPosition pos : list) {
-			sides.add(new SimpleSideImpl(temp, pos));
+			sides.add(new SimpleSideImpl(temp, pos, scale));
 			temp = pos;
 		}
 	}

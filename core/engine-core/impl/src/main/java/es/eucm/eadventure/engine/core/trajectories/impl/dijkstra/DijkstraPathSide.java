@@ -40,6 +40,8 @@ public class DijkstraPathSide implements PathSide {
 	 */
 	private Side side;
 	
+	private float endScale;
+	
 	public DijkstraPathSide(DijkstraNode s, DijkstraNode e, double length, double realLength, Side side) {
 		this.length = (float) length;
 		this.realLength = (float) realLength;
@@ -89,6 +91,15 @@ public class DijkstraPathSide implements PathSide {
 
 	public Side getSide() {
 		return side;
+	}
+
+	public void setEndScale(float scale) {
+		this.endScale = scale;
+	}
+	
+	@Override
+	public float getEndScale() {
+		return endScale;
 	}
 
 }

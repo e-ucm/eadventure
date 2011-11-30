@@ -101,10 +101,14 @@ public class MoveSceneElementGO extends
 	private Integer initX;
 
 	private Integer initY;
+	
+	private Float initScale;
 
 	private Integer targetX;
 
 	private Integer targetY;
+	
+	private Float targetScale;
 
 	private float totalTime;
 
@@ -127,15 +131,9 @@ public class MoveSceneElementGO extends
 		super.initilize();
 		ValueMap valueMap = gameState.getValueMap();
 
-		int x = valueMap.getValue(element.getSceneElement(),
-				EAdBasicSceneElement.VAR_X);
-		int y = valueMap.getValue(element.getSceneElement(),
-				EAdBasicSceneElement.VAR_Y);
-
 		int endX = operatorFactory.operate(Integer.class, element.getXTarget());
 		int endY = operatorFactory.operate(Integer.class, element.getYTarget());
 
-		EAdPositionImpl currentPosition = new EAdPositionImpl(x, y);
 
 		EAdSceneElement target = element.getTarget() != null ? valueMap
 				.getValue(element.getTarget(),
@@ -145,15 +143,21 @@ public class MoveSceneElementGO extends
 				.getElement(), EAdSceneImpl.VAR_TRAJECTORY_DEFINITION);
 		if (d != null && element.useTrajectory()) {
 			if (target == null)
-				path = trajectoryFactory.getTrajectory(d, currentPosition,
+				path = trajectoryFactory.getTrajectory(d, element.getSceneElement(),
 						endX, endY);
 			else
-				path = trajectoryFactory.getTrajectory(d, currentPosition,
+				path = trajectoryFactory.getTrajectory(d, element.getSceneElement(),
 						endX, endY, sceneElementFactory.get(target));
 		} else {
 			List<EAdPosition> list = new ArrayList<EAdPosition>();
 			list.add(new EAdPositionImpl(endX, endY));
-			path = new SimplePathImpl(list, currentPosition);
+			int x = valueMap.getValue(element.getSceneElement(),
+					EAdBasicSceneElement.VAR_X);
+			int y = valueMap.getValue(element.getSceneElement(),
+					EAdBasicSceneElement.VAR_Y);
+			float scale = valueMap.getValue(element.getSceneElement(), EAdBasicSceneElement.VAR_SCALE);
+			EAdPositionImpl currentPosition = new EAdPositionImpl(x, y);
+			path = new SimplePathImpl(list, currentPosition, scale);
 		}
 
 		currentSide = 0;
@@ -178,11 +182,14 @@ public class MoveSceneElementGO extends
 					EAdBasicSceneElement.VAR_X);
 			initY = gameState.getValueMap().getValue(element.getSceneElement(),
 					EAdBasicSceneElement.VAR_Y);
-
+			initScale = gameState.getValueMap().getValue(element.getSceneElement(),
+					EAdBasicSceneElement.VAR_SCALE);
+			
 			EAdPosition p = side.getEndPosition(currentSide == path.getSides()
 					.size() - 1);
 			targetX = p.getX();
 			targetY = p.getY();
+			targetScale = side.getEndScale();
 
 			currentTime = (int) (currentTime - totalTime);
 
@@ -193,7 +200,7 @@ public class MoveSceneElementGO extends
 			TrajectoryDefinition d = gameState.getValueMap().getValue(gameState.getScene()
 					.getElement(), EAdSceneImpl.VAR_TRAJECTORY_DEFINITION);
 			if (d != null && element.useTrajectory() && side instanceof DijkstraPathSide ) {
-				gameState.getValueMap().setValue(d, NodeTrajectoryDefinition.VAR_CURRENT_SIDE, ((DijkstraPathSide) side).getSide());
+				gameState.getValueMap().setValue(element.getSceneElement(), NodeTrajectoryDefinition.VAR_CURRENT_SIDE, ((DijkstraPathSide) side).getSide());
 			}
 
 			updateDirection();
@@ -271,6 +278,14 @@ public class MoveSceneElementGO extends
 								+ (int) EAdInterpolator.LINEAR
 										.interpolate(currentTime, totalTime,
 												targetY - initY));
+				gameState.getValueMap().setValue(
+						sceneElement,
+						EAdBasicSceneElement.VAR_SCALE,
+						initScale
+								+ (float) EAdInterpolator.LINEAR
+										.interpolate(currentTime, totalTime,
+												targetScale - initScale));
+
 			} else {
 				gameState.getValueMap().setValue(sceneElement,
 						EAdBasicSceneElement.VAR_X, (int) targetX);

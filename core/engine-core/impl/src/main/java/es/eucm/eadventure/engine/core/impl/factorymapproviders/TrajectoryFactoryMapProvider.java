@@ -30,7 +30,7 @@ public class TrajectoryFactoryMapProvider extends AbstractMapProvider<Class<?>, 
 	}
 	
 	public Map<Class<?>, TrajectoryGenerator<?>> getMap(){
-		factoryMap.put(SimpleTrajectoryDefinition.class, new SimpleTrajectoryGenerator());
+		factoryMap.put(SimpleTrajectoryDefinition.class, new SimpleTrajectoryGenerator(valueMap));
 		factoryMap.put(NodeTrajectoryDefinition.class, new DijkstraNodeTrajectoryGenerator(sceneElementFactory, valueMap));
 		factoryMap.putAll(tempMap);
 		factoryMap.putAll(tempMap);
