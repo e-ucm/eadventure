@@ -67,6 +67,8 @@ public abstract class DOMWriter<T> {
 	protected static final Logger logger = Logger.getLogger("DOMWriter");
 
 	public static final boolean USE_PARAM_IDS = false;
+	
+	public static final boolean USE_DEFAULT_VALUES = true;
 
 	/**
 	 * The xml document

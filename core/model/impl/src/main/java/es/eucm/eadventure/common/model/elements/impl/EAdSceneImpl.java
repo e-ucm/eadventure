@@ -62,14 +62,14 @@ public class EAdSceneImpl extends EAdComplexElementImpl implements EAdScene {
 	@Param("background")
 	protected EAdBasicSceneElement background;
 
-	@Param("acceptsVisualEffects")
+	@Param(value="acceptsVisualEffects", defaultValue="true")
 	protected Boolean acceptsVisualEffects;
 
 	/**
 	 * This property indicates if the game can return to this scene after a
 	 * cutscene or similiar
 	 */
-	@Param("returnable")
+	@Param(value="returnable", defaultValue="true")
 	protected Boolean returnable;
 
 	/**

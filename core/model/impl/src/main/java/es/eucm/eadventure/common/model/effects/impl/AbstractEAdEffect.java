@@ -57,20 +57,20 @@ public abstract class AbstractEAdEffect extends ConditionedElement
 	/**
 	 * Indicates that this effect blocks the effect queue until finished
 	 */
-	@Param("blocking")
+	@Param(value="blocking", defaultValue="false")
 	private boolean blocking;
 
 	/**
 	 * Indicates that this effect is opaque and captures the interactions in the
 	 * screen
 	 */
-	@Param("opaque")
+	@Param(value="opaque", defaultValue="false")
 	private boolean opaque;
 
 	/**
 	 * Indicates that this effect is queued and can be blocked
 	 */
-	@Param("queueable")
+	@Param(value="queueable", defaultValue="false")
 	private boolean queueable;
 
 	@Param("events")

@@ -47,7 +47,7 @@ import es.eucm.eadventure.common.resources.assets.drawable.basics.Shape;
 
 public class BezierShape implements Shape, Cloneable {
 
-	@Param("paint")
+	@Param(value="paint", defaultValue="0x00000000:0x00000000:1")
 	private EAdPaint paint;
 
 	@Param("closed")

@@ -27,9 +27,11 @@ public abstract class FieldParamWriter<T> extends DOMWriter<T> {
 
 						if (!isEmpty(o)) {
 							Element newNode = super.initNode(o, null);
-							newNode.setAttribute(DOMTags.PARAM_AT, param.value());
-							doc.adoptNode(newNode);
-							node.appendChild(newNode);
+							if (!DOMWriter.USE_DEFAULT_VALUES || !newNode.getTextContent().equals(param.defaultValue())) {
+								newNode.setAttribute(DOMTags.PARAM_AT, param.value());
+								doc.adoptNode(newNode);
+								node.appendChild(newNode);
+							}
 						}
 
 						field.setAccessible(accessible);

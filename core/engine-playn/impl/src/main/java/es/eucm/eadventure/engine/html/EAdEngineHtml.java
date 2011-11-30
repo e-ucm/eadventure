@@ -23,6 +23,7 @@ import es.eucm.eadventure.engine.core.EAdEngine;
 import es.eucm.eadventure.engine.core.Game;
 import es.eucm.eadventure.engine.core.platform.GUI;
 import es.eucm.eadventure.engine.core.platform.impl.PlayNGinInjector;
+import es.eucm.eadventure.engine.reader.GWTReader;
 
 public class EAdEngineHtml extends HtmlGame {
 
@@ -74,11 +75,11 @@ public class EAdEngineHtml extends HtmlGame {
 		chapter.getScenes().add(s2);
 		chapter.setInitialScene(s2);
 
-		// GWTReader gwtReader = new GWTReader();
+		 GWTReader gwtReader = new GWTReader();
 		// gwtReader.readXML("eadengine/binary/sceneDemo.xml", game);
-		// gwtReader.readXML("eadengine/binary/data.xml", game);
+		 gwtReader.readXML("eadengine/binary/data.xml", game);
 
-		game.setGame(model, chapter);
+		//game.setGame(model, chapter);
 
 		// String handler after creating the scene
 		StringHandler stringHandler = injector.getStringHandler();
