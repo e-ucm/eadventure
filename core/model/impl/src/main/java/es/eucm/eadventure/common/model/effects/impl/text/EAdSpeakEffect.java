@@ -34,10 +34,10 @@ public class EAdSpeakEffect extends AbstractEAdEffect {
 	@Param("textColor")
 	private EAdPaint textColor;
 
-	@Param("bubbleColor")
+	@Param(value="bubbleColor", defaultValue="ROUNDED_RECTANGLE")
 	private EAdPaint bubbleColor;
 
-	@Param("font")
+	@Param(value="font", defaultValue="Arial:25.0:PLAIN")
 	private EAdFont font;
 
 	@Param("ballonType")

@@ -73,8 +73,8 @@ public class EAdBasicAction extends ResourcedElementImpl implements EAdAction {
 	public EAdBasicAction() {
 		super();
 		effects = new EAdListImpl<EAdEffect>(EAdEffect.class);
-		highlightBundle = new EAdBundleId(id + "_highlightBundle");
-		name = EAdString.newEAdString("actionName");
+		highlightBundle = new EAdBundleId(id + "_highlight");
+		name = EAdString.newEAdString("name");
 		getResources().addBundle(highlightBundle);
 	}
 

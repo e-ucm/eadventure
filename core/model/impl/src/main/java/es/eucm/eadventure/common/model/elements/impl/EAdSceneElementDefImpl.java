@@ -98,7 +98,7 @@ public class EAdSceneElementDefImpl extends AbstractEAdElementWithBehavior
 		this.events = new EAdListImpl<EAdEvent>(EAdEvent.class);
 		this.draggableCondition = EmptyCondition.FALSE_EMPTY_CONDITION;
 
-		this.name = EAdString.newEAdString("actorName");
+		this.name = EAdString.newEAdString("name");
 		this.desc = EAdString.newEAdString("desc");
 		this.detailDesc = EAdString
 				.newEAdString("detailDesc");

@@ -52,7 +52,7 @@ public class EAdConditionEventImpl extends AbstractEAdEvent implements
 
 	public EAdConditionEventImpl() {
 		this( EmptyCondition.FALSE_EMPTY_CONDITION);
-		setId("conditionEvent");
+		setId("condEvent");
 	}
 
 	public EAdConditionEventImpl(EAdCondition condition) {
