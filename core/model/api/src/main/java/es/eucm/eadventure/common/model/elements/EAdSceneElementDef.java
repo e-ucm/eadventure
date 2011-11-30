@@ -54,8 +54,8 @@ import es.eucm.eadventure.common.params.EAdString;
 public interface EAdSceneElementDef extends EAdElement, Resourced, WithBehavior,
 		Documented, Named, Evented, WithActions, Draggable {
 
-	EAdString getDescription();
+	EAdString getDesc();
 	
-	EAdString getDetailedDescription();
+	EAdString getDetailDesc();
 
 }

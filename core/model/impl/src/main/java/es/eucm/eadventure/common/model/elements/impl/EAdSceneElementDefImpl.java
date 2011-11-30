@@ -74,14 +74,14 @@ public class EAdSceneElementDefImpl extends AbstractEAdElementWithBehavior
 	@Param("name")
 	private EAdString name;
 
-	@Param("description")
-	private EAdString description;
+	@Param("desc")
+	private EAdString desc;
 
-	@Param("detailedDescription")
-	private EAdString detailedDescription;
+	@Param("detailDesc")
+	private EAdString detailDesc;
 
-	@Param("documentation")
-	private EAdString documentation;
+	@Param("doc")
+	private EAdString doc;
 
 	@Param("draggableCondition")
 	private EAdCondition draggableCondition;
@@ -99,10 +99,10 @@ public class EAdSceneElementDefImpl extends AbstractEAdElementWithBehavior
 		this.draggableCondition = EmptyCondition.FALSE_EMPTY_CONDITION;
 
 		this.name = EAdString.newEAdString("actorName");
-		this.description = EAdString.newEAdString("actorDescription");
-		this.detailedDescription = EAdString
-				.newEAdString("actorDetailedDescription");
-		this.documentation = EAdString.newEAdString("actorDocumentation");
+		this.desc = EAdString.newEAdString("desc");
+		this.detailDesc = EAdString
+				.newEAdString("detailDesc");
+		this.doc = EAdString.newEAdString("doc");
 		events = new EAdListImpl<EAdEvent>(EAdEvent.class);
 
 	}
@@ -131,22 +131,23 @@ public class EAdSceneElementDefImpl extends AbstractEAdElementWithBehavior
 		return actions;
 	}
 
-	public EAdString getDescription() {
-		return description;
+	@Override
+	public EAdString getDesc() {
+		return desc;
 	}
 
 	/**
 	 * @return the detailedDescription
 	 */
-	public EAdString getDetailedDescription() {
-		return detailedDescription;
+	public EAdString getDetailDesc() {
+		return detailDesc;
 	}
 
 	/**
 	 * @return the documentation
 	 */
-	public EAdString getDocumentation() {
-		return documentation;
+	public EAdString getDoc() {
+		return doc;
 	}
 
 	/**
@@ -192,16 +193,16 @@ public class EAdSceneElementDefImpl extends AbstractEAdElementWithBehavior
 		this.name = name;
 	}
 
-	public void setDescription(EAdString description) {
-		this.description = description;
+	public void setDesc(EAdString description) {
+		this.desc = description;
 	}
 
-	public void setDetailedDescription(EAdString detailedDescription) {
-		this.detailedDescription = detailedDescription;
+	public void setDetailDesc(EAdString detailedDescription) {
+		this.detailDesc = detailedDescription;
 	}
 
-	public void setDocumentation(EAdString documentation) {
-		this.documentation = documentation;
+	public void setDoc(EAdString documentation) {
+		this.doc = documentation;
 	}
 
 	public EAdList<EAdAction> getActions() {

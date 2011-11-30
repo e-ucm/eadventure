@@ -7,6 +7,6 @@ public interface Documented {
 	/**
 	 * @return the {@link EAdString} of the documentation
 	 */
-	EAdString getDocumentation();
+	EAdString getDoc();
 
 }

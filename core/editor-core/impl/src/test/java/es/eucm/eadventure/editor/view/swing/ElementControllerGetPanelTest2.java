@@ -45,9 +45,9 @@ public class ElementControllerGetPanelTest2 extends EAdFrame {
         
         EAdSceneElementDef sceneElementDef = mock(EAdSceneElementDef.class);
         when(sceneElementDef.getName()).thenReturn(EAdString.newEAdString("testName"));
-        when(sceneElementDef.getDocumentation()).thenReturn(EAdString.newEAdString("testDocumentation"));
-        when(sceneElementDef.getDescription()).thenReturn(EAdString.newEAdString("testDescription"));
-        when(sceneElementDef.getDetailedDescription()).thenReturn(EAdString.newEAdString("testDetailedDescription"));
+        when(sceneElementDef.getDoc()).thenReturn(EAdString.newEAdString("testDocumentation"));
+        when(sceneElementDef.getDesc()).thenReturn(EAdString.newEAdString("testDescription"));
+        when(sceneElementDef.getDetailDesc()).thenReturn(EAdString.newEAdString("testDetailedDescription"));
         
         EAdCondition cond1 = new EmptyCondition(EmptyConditionValue.TRUE);
         EAdCondition cond2 = new EmptyCondition(EmptyConditionValue.FALSE);

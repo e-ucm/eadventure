@@ -104,7 +104,7 @@ public class ElementReferenceImporter extends ElementImporter<ElementReference> 
 
 		// add description
 		super.addDefaultBehavior(newRef, stringHandler.getString(newRef
-				.getDefinition().getDescription()));
+				.getDefinition().getDesc()));
 
 		// add enable
 		super.addEnableEvent(newRef,

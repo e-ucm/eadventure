@@ -105,11 +105,11 @@ public abstract class ElementImporter<T> implements
 	protected void setDocumentation(EAdSceneElementDefImpl newActiveArea,
 			Element oldObject) {
 		stringHandler.setString(newActiveArea.getName(), oldObject.getName());
-		stringHandler.setString(newActiveArea.getDescription(),
+		stringHandler.setString(newActiveArea.getDesc(),
 				oldObject.getDescription());
-		stringHandler.setString(newActiveArea.getDetailedDescription(),
+		stringHandler.setString(newActiveArea.getDetailDesc(),
 				oldObject.getDetailedDescription());
-		stringHandler.setString(newActiveArea.getDocumentation(),
+		stringHandler.setString(newActiveArea.getDoc(),
 				oldObject.getDocumentation());
 	}
 

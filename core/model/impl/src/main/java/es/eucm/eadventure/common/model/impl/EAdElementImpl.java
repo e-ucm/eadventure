@@ -7,13 +7,10 @@ import es.eucm.eadventure.common.model.EAdElement;
 @Reflectable
 public abstract class EAdElementImpl implements EAdElement {
 
-	private static int ID_GENERATOR = 0;
-	
 	protected String id;
 
 	public EAdElementImpl() {
-		this.id = "EAdElement" + ID_GENERATOR++
-				+ Math.round(Math.random() * 1000);
+		this.id = "elem" + Math.round(Math.random() * 10000);
 	}
 
 	@Override

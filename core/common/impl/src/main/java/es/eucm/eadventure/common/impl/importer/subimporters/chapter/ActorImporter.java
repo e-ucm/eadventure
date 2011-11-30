@@ -100,11 +100,11 @@ public abstract class ActorImporter<P extends Element> implements
 		elementFactory.getCurrentChapterModel().getActors().add(actor);
 
 		stringHandler.setString(actor.getName(), oldObject.getName());
-		stringHandler.setString(actor.getDescription(),
+		stringHandler.setString(actor.getDesc(),
 				oldObject.getDescription());
-		stringHandler.setString(actor.getDetailedDescription(),
+		stringHandler.setString(actor.getDetailDesc(),
 				oldObject.getDetailedDescription());
-		stringHandler.setString(actor.getDocumentation(),
+		stringHandler.setString(actor.getDoc(),
 				oldObject.getDocumentation());
 
 		initResourcesCorrespondencies();

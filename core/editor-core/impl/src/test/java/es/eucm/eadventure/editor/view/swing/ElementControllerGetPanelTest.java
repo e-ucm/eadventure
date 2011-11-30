@@ -43,7 +43,7 @@ public class ElementControllerGetPanelTest extends EAdFrame {
         
         EAdScene scene = mock(EAdScene.class);
         when(scene.getName()).thenReturn(EAdString.newEAdString("testName"));
-        when(scene.getDocumentation()).thenReturn(EAdString.newEAdString("testDocumentation"));
+        when(scene.getDoc()).thenReturn(EAdString.newEAdString("testDocumentation"));
         when(scene.getElements()).thenReturn(new EAdListImpl<EAdSceneElement>(EAdSceneElement.class));
         
         CommandManager commandManager = mock(CommandManager.class);
