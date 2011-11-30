@@ -75,7 +75,7 @@ public class BooleanOperation extends EAdOperationImpl {
 	
 	public BooleanOperation( EAdCondition condition) {
 		super();
-		setId("booleanOperation" + condition.toString());
+		setId("boolOp" + condition.toString());
 		this.condition = condition;
 	}
 

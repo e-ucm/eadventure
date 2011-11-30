@@ -84,9 +84,6 @@ public class EAdChapterImpl extends ResourcedElementImpl implements EAdChapter {
 	@Param("initialScene")
 	private EAdScene initialScene;
 	
-	@Param("loadingScene")
-	private EAdScene loadingScene;
-	
 	@Param("vars")
 	private EAdMap<EAdVarDef<?>, Object> vars;
 	
@@ -101,8 +98,8 @@ public class EAdChapterImpl extends ResourcedElementImpl implements EAdChapter {
 		scenes = new EAdListImpl<EAdScene>(EAdScene.class);
 		actors = new EAdListImpl<EAdSceneElementDef>(EAdSceneElementDef.class);
 		timers = new EAdListImpl<EAdTimer>(EAdTimer.class);
-		title = EAdString.newEAdString("chapterTitle");
-		description = EAdString.newEAdString("chapterDescription");
+		title = EAdString.newEAdString("title");
+		description = EAdString.newEAdString("desc");
 		vars = new EAdMapImpl<EAdVarDef<?>, Object>(EAdVarDef.class,
 				Object.class);
 
@@ -191,23 +188,6 @@ public class EAdChapterImpl extends ResourcedElementImpl implements EAdChapter {
 	 */
 	public void setInitialScene(EAdScene screen) {
 		this.initialScene = screen;
-	}
-	
-	/* (non-Javadoc)
-	 * @see es.eucm.eadventure.common.model.EAdChapterModel#getLoadingScreen()
-	 */
-	@Override
-	public EAdScene getLoadingScene() {
-		return loadingScene;
-	}
-	
-	/**
-	 * Set the loading screen of the game, to be used whenever possible
-	 * 
-	 * @param screen
-	 */
-	public void setLoadingScene(EAdScene screen) {
-		this.loadingScene = screen;
 	}
 
 	@Override

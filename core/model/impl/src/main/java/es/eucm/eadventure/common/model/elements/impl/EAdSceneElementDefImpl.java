@@ -83,8 +83,8 @@ public class EAdSceneElementDefImpl extends AbstractEAdElementWithBehavior
 	@Param("doc")
 	private EAdString doc;
 
-	@Param("draggableCondition")
-	private EAdCondition draggableCondition;
+	@Param("dragCond")
+	private EAdCondition dragCond;
 
 	/**
 	 * Events associated with this element
@@ -96,12 +96,11 @@ public class EAdSceneElementDefImpl extends AbstractEAdElementWithBehavior
 		super();
 		this.actions = new EAdListImpl<EAdAction>(EAdAction.class);
 		this.events = new EAdListImpl<EAdEvent>(EAdEvent.class);
-		this.draggableCondition = EmptyCondition.FALSE_EMPTY_CONDITION;
+		this.dragCond = EmptyCondition.FALSE_EMPTY_CONDITION;
 
 		this.name = EAdString.newEAdString("name");
 		this.desc = EAdString.newEAdString("desc");
-		this.detailDesc = EAdString
-				.newEAdString("detailDesc");
+		this.detailDesc = EAdString.newEAdString("detailDesc");
 		this.doc = EAdString.newEAdString("doc");
 		events = new EAdListImpl<EAdEvent>(EAdEvent.class);
 
@@ -117,13 +116,13 @@ public class EAdSceneElementDefImpl extends AbstractEAdElementWithBehavior
 	 * Sets the condition that makes the element holding this definition draggable. The default value is {@link EmptyCondition#FALSE_EMPTY_CONDITION)
 	 * @param condition the condition
 	 */
-	public void setDraggableCondition(EAdCondition condition) {
-		this.draggableCondition = condition;
+	public void setDragCond(EAdCondition condition) {
+		this.dragCond = condition;
 	}
 
 	@Override
-	public EAdCondition getDraggableCondition() {
-		return draggableCondition;
+	public EAdCondition getDragCond() {
+		return dragCond;
 	}
 
 	@Override
@@ -170,11 +169,10 @@ public class EAdSceneElementDefImpl extends AbstractEAdElementWithBehavior
 		def.actions = actions;
 		if (deepCopy) {
 			def.behavior = (EAdBehavior) behavior.copy(deepCopy);
-			def.draggableCondition = (EAdCondition) draggableCondition
-					.copy(deepCopy);
+			def.dragCond = (EAdCondition) dragCond.copy(deepCopy);
 		} else {
 			def.behavior = behavior;
-			def.draggableCondition = draggableCondition;
+			def.dragCond = dragCond;
 		}
 		return def;
 	}

@@ -85,7 +85,7 @@ public class ComplexSceneElementGO extends
 
 	public DrawableGO<?> getDraggableElement(MouseState mouseState) {
 		if (evaluatorFactory.evaluate(((EAdBasicSceneElement) element)
-				.getDraggableCondition()))
+				.getDragCond()))
 			return this;
 		return null;
 	}

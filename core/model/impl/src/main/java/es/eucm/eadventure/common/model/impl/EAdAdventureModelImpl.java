@@ -86,8 +86,8 @@ public class EAdAdventureModelImpl implements EAdAdventureModel {
 		chapters = new EAdListImpl<EAdChapter>(EAdChapter.class);
 		vars = new EAdMapImpl<EAdVarDef<?>, Object>(EAdVarDef.class,
 				Object.class);
-		description = EAdString.newEAdString("adventureDescription");
-		title = EAdString.newEAdString("adventureTitle");
+		description = EAdString.newEAdString("desc");
+		title = EAdString.newEAdString("title");
 	}
 
 	public EAdList<EAdChapter> getChapters() {

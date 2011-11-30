@@ -8,6 +8,6 @@ public interface Draggable {
 	 * Returns the condition making this element draggable
 	 * @return
 	 */
-	EAdCondition getDraggableCondition();
+	EAdCondition getDragCond();
 
 }

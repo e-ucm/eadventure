@@ -39,15 +39,16 @@ package es.eucm.eadventure.common.model.events.impl;
 
 import es.eucm.eadventure.common.interfaces.Element;
 import es.eucm.eadventure.common.interfaces.Param;
+import es.eucm.eadventure.common.interfaces.features.Documented;
 import es.eucm.eadventure.common.model.elements.EAdTimer;
 import es.eucm.eadventure.common.model.events.EAdTimerEvent;
 import es.eucm.eadventure.common.params.EAdString;
 
 @Element(runtime = EAdTimerEventImpl.class, detailed = EAdTimerEventImpl.class)
-public class EAdTimerEventImpl extends AbstractEAdEvent implements EAdTimerEvent {
+public class EAdTimerEventImpl extends AbstractEAdEvent implements EAdTimerEvent, Documented {
 	
-	@Param("documentation")
-	private EAdString documentation;
+	@Param("doc")
+	private EAdString doc;
 	
 	@Param("timer")
 	private EAdTimer timer;
@@ -66,15 +67,16 @@ public class EAdTimerEventImpl extends AbstractEAdEvent implements EAdTimerEvent
 	/**
 	 * @return the documentation
 	 */
-	public EAdString getDocumentation() {
-		return documentation;
+	@Override
+	public EAdString getDoc() {
+		return doc;
 	}
 
 	/**
 	 * @param documentation the documentation to set
 	 */
-	public void setDocumentation(EAdString documentation) {
-		this.documentation = documentation;
+	public void setDoc(EAdString documentation) {
+		this.doc = documentation;
 	}
 
 	@Override
