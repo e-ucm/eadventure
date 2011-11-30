@@ -147,9 +147,9 @@ public class EAdMouseEventImpl extends EAdElementImpl implements EAdMouseEvent {
 
 	@Override
 	public boolean equals(Object o) {
-		if (o instanceof EAdMouseEvent) {
-			EAdMouseEvent e = (EAdMouseEvent) o;
-			return e.getType() == this.type;
+		if (o instanceof EAdMouseEventImpl) {
+			EAdMouseEventImpl e = (EAdMouseEventImpl) o;
+			return (e.type.equals(type)) && (e.button.equals(button));
 		}
 		return false;
 	}

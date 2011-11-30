@@ -70,7 +70,8 @@ public class ListedConditionEvaluator implements Evaluator<ListedCondition> {
 		
 		Iterator<EAdCondition> conditions = condition.getConditionsIterator();
 		while (conditions.hasNext()) {
-			boolean temp2 = evaluatorFactory.evaluate(conditions.next());
+			EAdCondition cond = conditions.next();
+			boolean temp2 = evaluatorFactory.evaluate(cond);
 			switch (condition.getOperator()) {
 			case AND:
 				temp = temp && temp2;

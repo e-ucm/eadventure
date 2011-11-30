@@ -58,7 +58,8 @@ public class EAdFieldImpl<T> implements EAdField<T> {
 	public EAdElement copy(boolean deepCopy) {
 		EAdFieldImpl<T> f = new EAdFieldImpl<T>();
 		if (deepCopy) {
-			f.element = element.copy();
+			if (element != null)
+				f.element = element.copy();
 			f.varDef = (EAdVarDef<T>) varDef.copy();
 		} else {
 			f.element = element;
@@ -68,15 +69,22 @@ public class EAdFieldImpl<T> implements EAdField<T> {
 	}
 
 	public boolean equals(Object o) {
-		if (o instanceof EAdField) {
-			return ((EAdField<?>) o).getElement() == element
-					&& ((EAdField<?>) o).getVarDef() == varDef;
+		if (o != null && o instanceof EAdField) {
+			EAdField<?> f = ((EAdField<?>) o);
+			boolean elementEquals = (f.getElement() == null && element == null) ||
+					(f.getElement() != null && f.getElement().equals(element));
+			if (elementEquals)
+				return f.getVarDef().equals(varDef);
 		}
 		return false;
 	}
 
+	public int hashCode() {
+		return ("" + (element != null ? element.hashCode() : "") + "_" + varDef.hashCode()).hashCode();
+	}
+	
 	public String toString() {
-		return element + "." + varDef.getName();
+		return (element != null ? element : "NULL") + "." + varDef.getName();
 	}
 	
 	public void setVarDef(EAdVarDef<T> varDef) {

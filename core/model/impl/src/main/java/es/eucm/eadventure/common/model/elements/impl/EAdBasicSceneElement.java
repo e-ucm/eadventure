@@ -150,6 +150,11 @@ public class EAdBasicSceneElement extends EAdSceneElementDefImpl implements
 		this.clone = b;
 	}
 
+	public boolean equals(Object o) {
+		boolean temp = this == o;
+		return temp;
+	}
+	
 	/**
 	 * Creates a basic scene element
 	 * 

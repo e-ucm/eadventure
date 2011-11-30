@@ -78,11 +78,17 @@ public class EmptyCondition extends AbstractEAdCondition {
 		this.value = value;
 	}
 	
+	@Override
 	public boolean equals( Object object ){
 		if ( object instanceof EmptyCondition ){
 			return ((EmptyCondition) object).value.equals(value);
 		}
 		return false;
+	}
+	
+	@Override
+	public int hashCode() {
+		return ("EmptyCondition" + value).hashCode();
 	}
 	
 	@Override

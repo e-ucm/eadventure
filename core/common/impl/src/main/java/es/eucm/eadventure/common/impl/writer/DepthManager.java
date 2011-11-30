@@ -5,13 +5,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import es.eucm.eadventure.common.model.EAdElement;
 import es.eucm.eadventure.common.model.extra.EAdList;
 
 public class DepthManager {
 
 	private List<EAdList<Object>> lists;
 	
-	private List<Object> stored;
+	private List<EAdElement> stored;
 	
 	private Map<String, String> classAliases;
 
@@ -21,7 +22,7 @@ public class DepthManager {
 	
 	public DepthManager() {
 		lists = new ArrayList<EAdList<Object>>();
-		stored = new ArrayList<Object>();
+		stored = new ArrayList<EAdElement>();
 		classAliases = new HashMap<String, String>();
 		aliasMap = new HashMap<String, String>();
 	}
@@ -47,15 +48,19 @@ public class DepthManager {
 		return false;
 	}
 	
-	public boolean isStored(Object o) {
+	public boolean isStored(EAdElement o) {
 		return stored.contains(o);
 	}
 	
-	public void setStored(Object o) {
+	public void setStored(EAdElement o) {
 		stored.add(o);
 	}
 
 	public Map<String, String> getAliasMap() {
 		return aliasMap;
+	}
+
+	public EAdElement getInstanceOfElement(EAdElement element) {
+		return stored.get(stored.indexOf(element));
 	}
 }

@@ -55,6 +55,10 @@ public class ElementDOMWriter extends FieldParamWriter<EAdElement> {
 			if (!elementMap.containsKey(element)) {
 				elementMap.put(element, DOMTags.ELEMENT_AT + DOMWriter.convertToCode(mappedElement.size()));
 				mappedElement.add(element);
+				if (depthManager.isStored(element)) {
+					EAdElement conflicting = depthManager.getInstanceOfElement(element);
+					logger.severe("Type " + element.getClass() + " has differing equals and hashcodes ("+ element.equals(conflicting) + "_" + conflicting.hashCode() + " != " + element.hashCode() + ")");
+				}
 			}
 			
 			if (depthManager.inPreviousList(element) || depthManager.isStored(element)) {

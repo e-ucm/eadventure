@@ -25,6 +25,7 @@ public class ListNodeVisitor extends NodeVisitor<EAdList<Object>> {
 			list = createNewList(node);
 		} else {
 			list = getListFromParent(field, parent);
+			list.clear();
 		}
 		
 		//TODO do for more tyes?
