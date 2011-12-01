@@ -41,6 +41,8 @@ import com.google.inject.Inject;
 
 import es.eucm.eadventure.common.model.effects.impl.EAdActorActionsEffect;
 import es.eucm.eadventure.common.model.effects.impl.enums.ChangeActorActions;
+import es.eucm.eadventure.common.model.elements.EAdSceneElement;
+import es.eucm.eadventure.common.model.elements.impl.EAdSceneElementDefImpl;
 import es.eucm.eadventure.common.resources.StringHandler;
 import es.eucm.eadventure.engine.core.GameState;
 import es.eucm.eadventure.engine.core.gameobjects.GameObjectManager;
@@ -63,8 +65,9 @@ public class ActorActionsEffectGO extends
 
 	@Inject
 	public ActorActionsEffectGO(AssetHandler assetHandler,
-			StringHandler stringsReader, SceneElementGOFactory gameObjectFactory,
-			GUI gui, GameState gameState, ActionsHUD actionsHUD,
+			StringHandler stringsReader,
+			SceneElementGOFactory gameObjectFactory, GUI gui,
+			GameState gameState, ActionsHUD actionsHUD,
 			GameObjectManager gameObjectManager) {
 		super(assetHandler, stringsReader, gameObjectFactory, gui, gameState);
 		this.actionsHUD = actionsHUD;
@@ -75,17 +78,21 @@ public class ActorActionsEffectGO extends
 	public void initilize() {
 		super.initilize();
 		if (element.getChange() == ChangeActorActions.SHOW_ACTIONS) {
-			SceneElementGO<?> sceneElement = sceneElementFactory.get(element
-					.getActionElement());
-			if (sceneElement.getValidActions() != null) {
-				int x = sceneElement.getCenterX();
-				int y = sceneElement.getCenterY();
-				if ( action instanceof MouseAction ){
-					x = ((MouseAction) action).getVirtualX();
-					y = ((MouseAction) action).getVirtualY();
+			EAdSceneElement ref = gameState.getValueMap().getValue(
+					element.getActionElement(),
+					EAdSceneElementDefImpl.VAR_SCENE_ELEMENT);
+			if (ref != null) {
+				SceneElementGO<?> sceneElement = sceneElementFactory.get(ref);
+				if (sceneElement.getValidActions() != null) {
+					int x = sceneElement.getCenterX();
+					int y = sceneElement.getCenterY();
+					if (action instanceof MouseAction) {
+						x = ((MouseAction) action).getVirtualX();
+						y = ((MouseAction) action).getVirtualY();
+					}
+					actionsHUD.setElement(sceneElement, x, y);
+					gameObjectManager.addHUD(actionsHUD);
 				}
-				actionsHUD.setElement(sceneElement, x, y);
-				gameObjectManager.addHUD(actionsHUD);
 			}
 		} else {
 			gameObjectManager.removeHUD(actionsHUD);

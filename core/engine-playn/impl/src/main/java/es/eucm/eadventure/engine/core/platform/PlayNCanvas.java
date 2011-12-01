@@ -1,6 +1,7 @@
 package es.eucm.eadventure.engine.core.platform;
 
 import playn.core.Canvas;
+import playn.core.Canvas.Composite;
 import playn.core.Color;
 import playn.core.Font;
 import playn.core.Gradient;
@@ -31,6 +32,11 @@ public class PlayNCanvas extends AbstractCanvas<Canvas> {
 	public PlayNCanvas(FontHandler fontHandler) {
 		super(fontHandler);
 	}
+	
+	public void setGraphicContext( Canvas g ){
+		super.setGraphicContext(g);
+		g.setCompositeOperation(Composite.SRC_OVER);
+	} 
 
 	@Override
 	public void setTransformation(EAdTransformation t) {

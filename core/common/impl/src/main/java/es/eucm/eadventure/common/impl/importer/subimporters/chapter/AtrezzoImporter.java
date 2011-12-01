@@ -47,6 +47,7 @@ import es.eucm.eadventure.common.data.chapter.elements.Atrezzo;
 import es.eucm.eadventure.common.impl.importer.interfaces.EAdElementFactory;
 import es.eucm.eadventure.common.impl.importer.interfaces.ResourceImporter;
 import es.eucm.eadventure.common.model.actions.EAdAction;
+import es.eucm.eadventure.common.model.elements.EAdSceneElementDef;
 import es.eucm.eadventure.common.model.elements.impl.EAdSceneElementDefImpl;
 import es.eucm.eadventure.common.resources.StringHandler;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.ImageImpl;
@@ -62,7 +63,7 @@ public class AtrezzoImporter extends ActorImporter<Atrezzo>{
 		super(stringHandler, resourceImporter, elementFactory, actionImporter);
 	}
 
-	protected void addActions(Atrezzo oldObject, EAdSceneElementDefImpl actor){
+	protected void addActions(Atrezzo oldObject, EAdSceneElementDef actor){
 		// Atrezzo doesn't need to add any action
 	}
 

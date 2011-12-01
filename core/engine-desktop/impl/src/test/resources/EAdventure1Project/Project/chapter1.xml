@@ -18,7 +18,7 @@
 			</exit>
 		</exits>
 		<objects>
-			<object-ref hasInfluenceArea="no" idTarget="ItemId" layer="3" scale="1.0324324" x="640" y="555"/>
+			<object-ref hasInfluenceArea="yes" idTarget="ItemId" influenceHeight="226" influenceWidth="231" influenceX="-29" influenceY="-21" layer="3" scale="1.0324324" x="719" y="531"/>
 			<object-ref hasInfluenceArea="yes" idTarget="ItemId1" influenceHeight="186" influenceWidth="186" influenceX="-18" influenceY="-21" layer="2" scale="9.125" x="30" y="430"/>
 			<object-ref hasInfluenceArea="yes" idTarget="ItemId3" influenceHeight="118" influenceWidth="118" influenceX="-16" influenceY="-18" layer="1" scale="4.875" x="261" y="346"/>
 		</objects>

@@ -1,10 +1,9 @@
 package es.eucm.eadventure.engine.core.gameobjects.huds.impl;
 
-import java.util.logging.Logger;
-
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
+import es.eucm.eadventure.common.model.conditions.impl.EmptyCondition;
 import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
 import es.eucm.eadventure.common.model.elements.impl.EAdComplexElementImpl;
 import es.eucm.eadventure.common.model.variables.EAdField;
@@ -33,8 +32,6 @@ import es.eucm.eadventure.engine.core.util.EAdTransformation;
 
 @Singleton
 public class InventoryHUDImpl extends AbstractHUD implements InventoryHUD {
-
-	private static final Logger logger = Logger.getLogger("Inventory");
 	
 	private static final int TIME_TO_SHOW = 300;
 
@@ -163,10 +160,11 @@ public class InventoryHUDImpl extends AbstractHUD implements InventoryHUD {
 				float scale = size / width < size / height ? size / width
 						: size / height;
 
-//				 element.setDraggableCondition(EmptyCondition.TRUE_EMPTY_CONDITION);
+				
 
 				sceneElementFactory.remove(element);
 
+				element.setDragCond(EmptyCondition.TRUE_EMPTY_CONDITION);
 				element.setVarInitialValue(EAdBasicSceneElement.VAR_SCALE,
 						scale);
 

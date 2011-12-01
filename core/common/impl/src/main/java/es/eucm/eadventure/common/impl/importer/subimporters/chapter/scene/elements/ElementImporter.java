@@ -102,15 +102,17 @@ public abstract class ElementImporter<T> implements
 
 	}
 
-	protected void setDocumentation(EAdSceneElementDefImpl newActiveArea,
+	protected void setDocumentation(EAdSceneElementDefImpl newElement,
 			Element oldObject) {
-		stringHandler.setString(newActiveArea.getName(), oldObject.getName());
-		stringHandler.setString(newActiveArea.getDesc(),
+		stringHandler.setString(newElement.getName(), oldObject.getName());
+		stringHandler.setString(newElement.getDesc(),
 				oldObject.getDescription());
-		stringHandler.setString(newActiveArea.getDetailDesc(),
+		stringHandler.setString(newElement.getDetailDesc(),
 				oldObject.getDetailedDescription());
-		stringHandler.setString(newActiveArea.getDoc(),
+		stringHandler.setString(newElement.getDoc(),
 				oldObject.getDocumentation());
+		newElement.setId(oldObject.getId() + "_element");
+		
 	}
 
 	protected void addDefaultBehavior(EAdBasicSceneElement sceneElement,

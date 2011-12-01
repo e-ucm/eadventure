@@ -14,6 +14,7 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import es.eucm.eadventure.common.model.EAdElement;
 import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
+import es.eucm.eadventure.common.model.guievents.enums.MouseButton;
 import es.eucm.eadventure.common.params.EAdString;
 import es.eucm.eadventure.common.resources.StringHandler;
 import es.eucm.eadventure.engine.AndroidAssetHandler;
@@ -81,7 +82,7 @@ public class AndroidBasicHUD extends BasicHUDImpl {
 	@SuppressWarnings("unchecked")
 	public void render(EAdCanvas<?> canvas) {
 		
-		if (mouseState.isMousePressed()) {
+		if (mouseState.isMousePressed(MouseButton.BUTTON_1)) {
 
 			BitmapCanvas graphicContext = (BitmapCanvas) canvas
 					.getNativeGraphicContext();

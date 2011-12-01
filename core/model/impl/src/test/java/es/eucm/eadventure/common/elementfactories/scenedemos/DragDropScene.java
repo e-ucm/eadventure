@@ -30,7 +30,7 @@ public class DragDropScene extends EmptyScene {
 				0), 100, 100));
 		EAdBasicSceneElement e1 = new EAdBasicSceneElement(shape);
 		e1.setDragCond(EmptyCondition.TRUE_EMPTY_CONDITION);
-		e1.setPosition(new EAdPositionImpl(Corner.CENTER, 100, 100));
+		e1.setPosition(new EAdPositionImpl(Corner.CENTER, 600, 300));
 		EAdField<Float> rotation = new EAdFieldImpl<Float>(e1,
 				EAdBasicSceneElement.VAR_ROTATION);
 		EAdChangeFieldValueEffect changeRotation1 = new EAdChangeFieldValueEffect(
@@ -66,9 +66,9 @@ public class DragDropScene extends EmptyScene {
 		changeScale1.setId("changeScale");
 		EAdChangeFieldValueEffect changeScale2 = new EAdChangeFieldValueEffect( scale, new ValueOperation(1.0f));
 		changeScale2.setId("changeScale");
-		e2.addBehavior(new EAdDragEventImpl(e1, DragAction.ENTERED),
+		e2.addBehavior(new EAdDragEventImpl(e1.getDefinition(), DragAction.ENTERED),
 				changeScale1);
-		e2.addBehavior(new EAdDragEventImpl(e1, DragAction.EXITED),
+		e2.addBehavior(new EAdDragEventImpl(e1.getDefinition(), DragAction.EXITED),
 				changeScale2);
 
 		EAdChangeFieldValueEffect changeX = new EAdChangeFieldValueEffect(

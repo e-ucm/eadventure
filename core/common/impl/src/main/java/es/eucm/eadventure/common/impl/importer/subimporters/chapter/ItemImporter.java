@@ -63,12 +63,17 @@ public class ItemImporter extends ActorImporter<Item> {
 
 	@Override
 	public void initResourcesCorrespondencies() {
+		
+		String resource = Item.RESOURCE_TYPE_IMAGE;
+		if ( element.getResources().get(0).getAssetPath(Item.RESOURCE_TYPE_IMAGE).contains("EmptyImage.png") ){
+			resource = Item.RESOURCE_TYPE_ICON;
+		}
 
 		properties = new HashMap<String, String>();
-		properties.put(Item.RESOURCE_TYPE_IMAGE, EAdSceneElementDefImpl.appearance);
+		properties.put(resource, EAdSceneElementDefImpl.appearance);
 
 		objectClasses = new HashMap<String, Object>();
-		objectClasses.put(Item.RESOURCE_TYPE_IMAGE, ImageImpl.class);
+		objectClasses.put(resource, ImageImpl.class);
 
 	}
 	

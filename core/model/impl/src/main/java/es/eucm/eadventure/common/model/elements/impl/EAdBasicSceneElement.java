@@ -255,7 +255,6 @@ public class EAdBasicSceneElement extends EAdSceneElementDefImpl implements
 
 	public void setDefinition(EAdSceneElementDef def) {
 		this.definition = def;
-
 	}
 
 }

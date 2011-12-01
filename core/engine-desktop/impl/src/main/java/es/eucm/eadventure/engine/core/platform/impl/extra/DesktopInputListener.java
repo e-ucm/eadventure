@@ -103,7 +103,7 @@ public class DesktopInputListener implements MouseListener,
 
 	@Override
 	public void mousePressed(MouseEvent e) {
-		mouseState.setMousePressed(true);
+		mouseState.setMousePressed(true, getMouseButton(e.getButton()));
 		mouseState.setMousePosition(e.getX(), e.getY());
 		mouseState.getMouseEvents().add(
 				getMouseAction(e, MouseActionType.PRESSED,
@@ -112,7 +112,7 @@ public class DesktopInputListener implements MouseListener,
 
 	@Override
 	public void mouseReleased(MouseEvent e) {
-		mouseState.setMousePressed(false);
+		mouseState.setMousePressed(false, null);
 		mouseState.setMousePosition(e.getX(), e.getY());
 		mouseState.getMouseEvents().add(
 				getMouseAction(e, MouseActionType.RELEASED,
@@ -132,7 +132,7 @@ public class DesktopInputListener implements MouseListener,
 	@Override
 	public void mouseDragged(MouseEvent e) {
 		mouseState.setMousePosition(e.getX(), e.getY());
-		mouseState.setMousePressed(true);
+//		mouseState.setMousePressed(true, getMouseButton(e.getButton()));
 	}
 
 	@Override

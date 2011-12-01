@@ -44,12 +44,10 @@ import es.eucm.eadventure.common.data.chapter.ElementReference;
 import es.eucm.eadventure.common.data.chapter.conditions.Conditions;
 import es.eucm.eadventure.common.impl.importer.interfaces.EAdElementFactory;
 import es.eucm.eadventure.common.interfaces.features.enums.Orientation;
-import es.eucm.eadventure.common.model.effects.impl.EAdActorActionsEffect;
 import es.eucm.eadventure.common.model.elements.EAdCondition;
 import es.eucm.eadventure.common.model.elements.EAdSceneElement;
 import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
 import es.eucm.eadventure.common.model.elements.impl.EAdSceneElementDefImpl;
-import es.eucm.eadventure.common.model.guievents.impl.EAdMouseEventImpl;
 import es.eucm.eadventure.common.params.geom.impl.EAdPositionImpl;
 import es.eucm.eadventure.common.params.geom.impl.EAdRectangleImpl;
 import es.eucm.eadventure.common.resources.StringHandler;
@@ -78,6 +76,7 @@ public class ElementReferenceImporter extends ElementImporter<ElementReference> 
 		EAdSceneElementDefImpl actor = (EAdSceneElementDefImpl) factory
 				.getElementById(oldObject.getTargetId());
 		EAdBasicSceneElement newRef = (EAdBasicSceneElement) object;
+		newRef.setId(oldObject.getTargetId() + "_ref");
 
 		newRef.setPosition(new EAdPositionImpl(
 				EAdPositionImpl.Corner.BOTTOM_CENTER, oldObject.getX(),
@@ -86,29 +85,34 @@ public class ElementReferenceImporter extends ElementImporter<ElementReference> 
 		newRef.setInitialOrientation(Orientation.S);
 		newRef.setDefinition(actor);
 
-		// add influence area
-		// To do this right, we should load the image representing the item or
-		// NPC an check their dimensions.
-		// Sounds easy, but it's not, so, width and height are 100. I hope it's
-		// enough
-		int width = 100;
-		int height = 100;
-		EAdRectangleImpl bounds = new EAdRectangleImpl(oldObject.getX(),
-				oldObject.getY(), (int) (width * oldObject.getScale()),
-				(int) (height * oldObject.getScale()));
-		super.addInfluenceArea(newRef, bounds, oldObject.getInfluenceArea());
+		if (factory.getCurrentOldChapterModel().getAtrezzo(
+				oldObject.getTargetId()) == null) {
 
-		// add actions
-		EAdActorActionsEffect showActions = new EAdActorActionsEffect(newRef);
-		newRef.addBehavior(EAdMouseEventImpl.MOUSE_RIGHT_CLICK, showActions);
+			// add influence area
+			// To do this right, we should load the image representing the item
+			// or
+			// NPC an check their dimensions.
+			// Sounds easy, but it's not, so, width and height are 100. I hope
+			// it's
+			// enough
+			int width = 100;
+			int height = 100;
+			EAdRectangleImpl bounds = new EAdRectangleImpl(oldObject.getX(),
+					oldObject.getY(), (int) (width * oldObject.getScale()),
+					(int) (height * oldObject.getScale()));
+			super.addInfluenceArea(newRef, bounds, oldObject.getInfluenceArea());
 
-		// add description
-		super.addDefaultBehavior(newRef, stringHandler.getString(newRef
+			// add description
+			super.addDefaultBehavior(newRef, stringHandler.getString(newRef
 				.getDefinition().getDesc()));
 
-		// add enable
-		super.addEnableEvent(newRef,
-				super.getEnableCondition(oldObject.getConditions()));
+			// add enable
+			super.addEnableEvent(newRef,
+					super.getEnableCondition(oldObject.getConditions()));
+		} else {
+			newRef.setVarInitialValue(EAdBasicSceneElement.VAR_ENABLE,
+					Boolean.FALSE);
+		}
 
 		return newRef;
 	}
