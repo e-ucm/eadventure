@@ -13,6 +13,8 @@ import es.eucm.eadventure.common.resources.EAdResources;
 public abstract class FieldParamWriter<T> extends DOMWriter<T> {
 
 	public void processParams(Element node, T data) {
+		DOMWriter.depthManager.levelUp();
+
 		Class<?> clazz = data.getClass();
 
 		while (clazz != null) {
@@ -45,6 +47,7 @@ public abstract class FieldParamWriter<T> extends DOMWriter<T> {
 			clazz = clazz.getSuperclass();
 		}
 
+		DOMWriter.depthManager.levelDown();
 	}
 
 	/**

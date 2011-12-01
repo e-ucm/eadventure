@@ -60,15 +60,20 @@ public class ResourcesNodeVisitor extends NodeVisitor<EAdResources> {
 					String bundleId = nl.item(i).getAttributes().getNamedItem(DOMTags.ID_AT).getNodeValue();
 					EAdBundleId id = new EAdBundleId(bundleId);
 					resources.addBundle(id);
-					if (bundleId.equals(initialBundleId)) {
+					if (bundleId.equals(initialBundleId) && !id.equals(resources.getInitialBundle())) {
+						EAdBundleId temp = resources.getInitialBundle();
 						resources.setInitialBundle(id);
-						resources.removeBundle(resources.getInitialBundle());
+						resources.removeBundle(temp);
 					}
 					
 					NodeList nl2 = nl.item(i).getChildNodes();
-					for (int j = 0, cnt2=nl2.getLength(); j<cnt2;j++) {
-						AssetDescriptor asset = (AssetDescriptor) VisitorFactory.getVisitor(DOMTags.ASSET_AT).visit(nl2.item(j), null, null, null);
-						resources.addAsset(id, nl2.item(j).getAttributes().getNamedItem(DOMTags.ID_AT).getNodeValue(), asset);
+					if (nl2 != null) { 
+						for (int j = 0, cnt2=nl2.getLength(); j<cnt2;j++) {
+						
+							AssetDescriptor asset = (AssetDescriptor) VisitorFactory.getVisitor(DOMTags.ASSET_AT).visit(nl2.item(j), null, null, null);
+							resources.addAsset(id, nl2.item(j).getAttributes().getNamedItem(DOMTags.ID_AT).getNodeValue(), asset);
+	
+						}
 					}
 				} else {
 					AssetDescriptor asset = (AssetDescriptor) VisitorFactory.getVisitor(DOMTags.ASSET_AT).visit(nl.item(i), null, null, null);

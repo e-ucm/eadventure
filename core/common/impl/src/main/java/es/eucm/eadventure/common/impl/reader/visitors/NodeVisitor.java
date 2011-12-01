@@ -10,6 +10,7 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import es.eucm.eadventure.common.model.DOMTags;
+import es.eucm.eadventure.common.impl.reader.extra.ObjectFactory;
 import es.eucm.eadventure.common.interfaces.Param;
 
 public abstract class NodeVisitor<T> {
@@ -40,6 +41,8 @@ public abstract class NodeVisitor<T> {
 	}
 	
 	protected void readFields(Object element, Node node) {
+		initilizeDefaultValues(element);
+
 		NodeList nl = node.getChildNodes();
 		
 		for(int i=0, cnt=nl.getLength(); i<cnt; i++)
@@ -49,6 +52,22 @@ public abstract class NodeVisitor<T> {
 
 			if (VisitorFactory.getVisitor(newNode.getNodeName()).visit(newNode, field, element, null) == null)
 				logger.severe("Failed visiting node " + newNode.getNodeName() + " for element " + element.getClass());
+		}
+	}
+	
+	private void initilizeDefaultValues(Object element) {
+		Class<?> clazz = element.getClass();
+		while (clazz != null) {
+			for (Field f : clazz.getDeclaredFields()) {
+				Param a = f.getAnnotation(Param.class);
+				if (a != null && (a.defaultValue() != null && !a.defaultValue().equals(""))) {
+					Class<?> type = f.getType();
+					String value = a.defaultValue();
+					Object object = ObjectFactory.getObject(value, type);
+					setValue(f, element, object);
+				}
+			}
+			clazz = clazz.getSuperclass();
 		}
 	}
 	

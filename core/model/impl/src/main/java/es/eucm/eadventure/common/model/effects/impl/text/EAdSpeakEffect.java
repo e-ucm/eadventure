@@ -34,13 +34,13 @@ public class EAdSpeakEffect extends AbstractEAdEffect {
 	@Param("textColor")
 	private EAdPaint textColor;
 
-	@Param(value="bubbleColor", defaultValue="ROUNDED_RECTANGLE")
+	@Param("bubbleColor")
 	private EAdPaint bubbleColor;
 
 	@Param(value="font", defaultValue="Arial:25.0:PLAIN")
-	private EAdFont font;
+	private EAdFontImpl font;
 
-	@Param("ballonType")
+	@Param(value="ballonType", defaultValue="ROUNDED_RECTANGLE")
 	private BalloonType ballonType;
 
 	@Param("alignment")
@@ -103,7 +103,7 @@ public class EAdSpeakEffect extends AbstractEAdEffect {
 	}
 
 	public void setFont(EAdFont font) {
-		this.font = font;
+		this.font = (EAdFontImpl) font;
 	}
 
 	public EAdString getString() {

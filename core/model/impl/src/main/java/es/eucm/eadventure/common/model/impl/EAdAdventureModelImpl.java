@@ -41,6 +41,7 @@ import java.util.Map.Entry;
 
 import es.eucm.eadventure.common.interfaces.Element;
 import es.eucm.eadventure.common.interfaces.Param;
+import es.eucm.eadventure.common.model.EAdElement;
 import es.eucm.eadventure.common.model.elements.EAdAdventureModel;
 import es.eucm.eadventure.common.model.elements.EAdChapter;
 import es.eucm.eadventure.common.model.elements.EAdInventory;
@@ -78,6 +79,11 @@ public class EAdAdventureModelImpl implements EAdAdventureModel {
 	
 	@Param("inventory")
 	private EAdInventory inventory;
+	
+	
+	
+	@Param("depthControlList")
+	private EAdList<EAdElement> depthControlList;
 
 	/**
 	 * Constructs a {@link EAdAdventureModelImpl}.
@@ -88,6 +94,8 @@ public class EAdAdventureModelImpl implements EAdAdventureModel {
 				Object.class);
 		description = EAdString.newEAdString("desc");
 		title = EAdString.newEAdString("title");
+		
+		depthControlList = new EAdListImpl<EAdElement>(EAdElement.class);
 	}
 
 	public EAdList<EAdChapter> getChapters() {
@@ -172,6 +180,10 @@ public class EAdAdventureModelImpl implements EAdAdventureModel {
 	@Override
 	public EAdInventory getInventory() {
 		return inventory;
+	}
+	
+	public EAdList<EAdElement> getDepthControlList() {
+		return depthControlList;
 	}
 
 }

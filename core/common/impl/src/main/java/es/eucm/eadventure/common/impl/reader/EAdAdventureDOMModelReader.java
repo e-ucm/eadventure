@@ -62,6 +62,7 @@ import es.eucm.eadventure.common.impl.reader.extra.ObjectFactory;
 import es.eucm.eadventure.common.impl.reader.visitors.ElementNodeVisitor;
 import es.eucm.eadventure.common.impl.reader.visitors.NodeVisitor;
 import es.eucm.eadventure.common.model.elements.EAdAdventureModel;
+import es.eucm.eadventure.common.model.impl.EAdAdventureModelImpl;
 
 /**
  * The reader for the XML representation of the model
@@ -88,14 +89,15 @@ public class EAdAdventureDOMModelReader implements Reader<EAdAdventureModel> {
 
 	@Override
 	public EAdAdventureModel read(InputStream inputStream) {
-		EAdAdventureModel data = null;
+		EAdAdventureModelImpl data = null;
 		try {
 			ObjectFactory.initilize();
 			Document doc = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(inputStream);
 			ElementNodeVisitor env = new ElementNodeVisitor();
 			NodeVisitor.init(doc.getFirstChild().getAttributes().getNamedItem(DOMTags.PACKAGE_AT).getNodeValue());
 			getAliasMap(doc);
-			data = (EAdAdventureModel) env.visit(doc.getFirstChild().getFirstChild(), null, null, null);
+			data = (EAdAdventureModelImpl) env.visit(doc.getFirstChild().getFirstChild(), null, null, null);
+			data.getDepthControlList().clear();
 
 			return data;
 		} catch( ParserConfigurationException e ) {

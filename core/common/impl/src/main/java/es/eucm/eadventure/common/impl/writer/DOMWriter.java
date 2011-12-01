@@ -50,8 +50,10 @@ import org.w3c.dom.Element;
 
 import es.eucm.eadventure.common.model.DOMTags;
 import es.eucm.eadventure.common.model.EAdElement;
+import es.eucm.eadventure.common.model.elements.EAdAdventureModel;
 import es.eucm.eadventure.common.model.extra.EAdList;
 import es.eucm.eadventure.common.model.extra.EAdMap;
+import es.eucm.eadventure.common.model.impl.EAdAdventureModelImpl;
 import es.eucm.eadventure.common.params.EAdParam;
 import es.eucm.eadventure.common.resources.EAdResources;
 import es.eucm.eadventure.common.resources.assets.AssetDescriptor;
@@ -94,12 +96,12 @@ public abstract class DOMWriter<T> {
 	 */
 	protected static ArrayList<AssetDescriptor> mappedAsset = new ArrayList<AssetDescriptor>();
 	
-	public static void initMaps() {
+	public static void initMaps(EAdAdventureModel data) {
 		elementMap.clear();
 		mappedElement.clear();
 		paramsMap.clear();
 		mappedAsset.clear();
-		depthManager = new DepthManager();
+		depthManager = new DepthManager(((EAdAdventureModelImpl) data).getDepthControlList());
 
 		try {
 			doc = DocumentBuilderFactory.newInstance().newDocumentBuilder()
@@ -176,6 +178,14 @@ public abstract class DOMWriter<T> {
 			val = val / 62;
 		}
 		return code;
+	}
+
+	public static void clearMaps() {
+		elementMap.clear();
+		mappedElement.clear();
+		paramsMap.clear();
+		mappedAsset.clear();
+		depthManager.clear();
 	}
 
 }

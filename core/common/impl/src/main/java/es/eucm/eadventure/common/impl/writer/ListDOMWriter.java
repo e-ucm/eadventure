@@ -71,13 +71,18 @@ public class ListDOMWriter extends DOMWriter<EAdList<?>> {
 			}
 			node.setTextContent(value);
 		} else {
-			for (Object o : list) {
+			DOMWriter.depthManager.levelUp();
+			
+			for (int i = 0; i < list.size(); i++) {
+				Object o = list.get(i);
 				if (o != null) {
 					Element newNode = super.initNode(o, list.getValueClass());
 					doc.adoptNode(newNode);
 					node.appendChild(newNode);
 				}
 			}
+			
+			DOMWriter.depthManager.levelDown();
 		}
 		
 		depthManager.removeList((EAdList<Object>) list);

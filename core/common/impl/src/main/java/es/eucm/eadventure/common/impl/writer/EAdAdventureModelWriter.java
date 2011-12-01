@@ -78,7 +78,7 @@ public class EAdAdventureModelWriter implements Writer<EAdAdventureModel> {
 	            Transformer transformer = null;
 	            OutputStreamWriter outputStreamWriter = null;
 	            
-	            DOMWriter.initMaps();
+	            DOMWriter.initMaps(data);
 	            
 	            Element root = doc.createElement(DOMTags.ROOT_TAG);
 	            root.setAttribute(DOMTags.PACKAGE_AT, DOMTags.PACKAGE);
@@ -91,13 +91,16 @@ public class EAdAdventureModelWriter implements Writer<EAdAdventureModel> {
 	            root.appendChild( newNode );
 	            
 	            root.appendChild(createMapNode(doc));
+	            
 
 	            transformer = tf.newTransformer( );
 
 	            outputStreamWriter = new OutputStreamWriter( outputStream, "UTF-8" );
 	            transformer.transform( new DOMSource( doc ), new StreamResult( outputStreamWriter ) );
 	            outputStreamWriter.close( );
-	            
+
+	            DOMWriter.clearMaps();
+
 	            return true;
 	        }
 	        catch( Exception e ) {

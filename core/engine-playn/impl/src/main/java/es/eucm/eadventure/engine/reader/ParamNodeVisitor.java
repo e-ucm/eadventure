@@ -16,7 +16,7 @@ public class ParamNodeVisitor extends NodeVisitor<Object> {
 		Object object = null;
 		if (textContent != null && !textContent.equals("")) {
 			Class<?> c = listClass;
-			if (c == null || node.getAttributes().getNamedItem(DOMTags.CLASS_AT) != null) {
+			if (c == null || (node.getAttributes() != null && node.getAttributes().getNamedItem(DOMTags.CLASS_AT) != null)) {
 				String clazz = node.getAttributes().getNamedItem(DOMTags.CLASS_AT).getNodeValue();
 				clazz = translateClass(clazz);
 				try {
@@ -33,11 +33,10 @@ public class ParamNodeVisitor extends NodeVisitor<Object> {
 			}
 			else {
 				object = ObjectFactory.getObject(value, c);
-				if (node.getAttributes().getNamedItem(DOMTags.UNIQUE_ID_AT) != null) 
+				if (node.getAttributes() != null && node.getAttributes().getNamedItem(DOMTags.UNIQUE_ID_AT) != null) 
 					ObjectFactory.getParamsMap().put(node.getAttributes().getNamedItem(DOMTags.UNIQUE_ID_AT).getNodeValue(), object);
 			}
 			 
-
 			setValue(field, parent, object);
 
 			try {

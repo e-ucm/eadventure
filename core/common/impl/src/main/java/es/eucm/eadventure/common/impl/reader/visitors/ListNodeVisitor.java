@@ -6,6 +6,7 @@ import java.util.logging.Level;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
+import es.eucm.eadventure.common.impl.reader.ProxyElement;
 import es.eucm.eadventure.common.impl.reader.extra.ObjectFactory;
 import es.eucm.eadventure.common.model.DOMTags;
 import es.eucm.eadventure.common.model.extra.EAdList;
@@ -44,6 +45,10 @@ public class ListNodeVisitor extends NodeVisitor<EAdList<Object>> {
 			{
 				type = nl.item(i).getNodeName();
 				Object object = VisitorFactory.getVisitor(type).visit(nl.item(i), null, null, list.getValueClass());
+				if (object instanceof ProxyElement) {
+					((ProxyElement) object).setList(list, i);
+				}
+				
 				list.add(object);
 			}
 		}

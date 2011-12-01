@@ -6,6 +6,7 @@ import com.google.gwt.inject.client.Ginjector;
 import es.eucm.eadventure.common.resources.StringHandler;
 import es.eucm.eadventure.engine.core.Game;
 import es.eucm.eadventure.engine.core.MouseState;
+import es.eucm.eadventure.engine.core.gameobjects.impl.ComposedSceneGOImpl;
 import es.eucm.eadventure.engine.core.gameobjects.impl.SceneGOImpl;
 import es.eucm.eadventure.engine.core.gameobjects.impl.VideoSceneGO;
 import es.eucm.eadventure.engine.core.gameobjects.impl.effects.ActiveElementEffectGO;
@@ -100,5 +101,7 @@ public interface PlayNGinInjector extends Ginjector {
 	public PlatformConfiguration getPlatformConfiguration();
 	
 	public PlayNInjector getPlayNInjector();
+
+	public ComposedSceneGOImpl getComposedSceneGO();
 	
 }

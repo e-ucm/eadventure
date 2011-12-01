@@ -3,6 +3,7 @@ package es.eucm.eadventure.engine.core.platform.impl;
 import com.google.inject.Inject;
 
 import es.eucm.eadventure.engine.core.gameobjects.SceneGO;
+import es.eucm.eadventure.engine.core.gameobjects.impl.ComposedSceneGOImpl;
 import es.eucm.eadventure.engine.core.gameobjects.impl.SceneGOImpl;
 import es.eucm.eadventure.engine.core.gameobjects.impl.VideoSceneGO;
 import es.eucm.eadventure.engine.core.gameobjects.impl.effects.ActiveElementEffectGO;
@@ -105,6 +106,8 @@ public class PlayNInjector implements EAdInjector {
 			go = ginjector.getBasicSceneElementGO();
 		else if (clazz == ComplexSceneElementGO.class)
 			go = ginjector.getComplexSceneElementGO();
+		else if (clazz == ComposedSceneGOImpl.class)
+			go = ginjector.getComposedSceneGO();
 		else if (clazz == SceneGO.class || clazz == SceneGOImpl.class)
 			go = ginjector.getSceneGO();
 		else if (clazz == VideoSceneGO.class)

@@ -71,7 +71,9 @@ public class ObjectFactory {
 		} else if ( EAdElement.class.isAssignableFrom(fieldType)){
 			EAdElement element = elementsMap.get(value);
 			if (value != null && !value.equals("") && element == null) {
-				return new ProxyElement(value);
+				ProxyElement proxy = new ProxyElement(value);
+				proxies.add(proxy);
+				return proxy;
 			}
 			return element;
 		} else if ( AssetDescriptor.class.isAssignableFrom(fieldType)){
@@ -124,7 +126,12 @@ public class ObjectFactory {
 		int i = 0;
 		while (i < proxies.size()) {
 			if (proxies.get(i).getValue().equals(id)) {
-				NodeVisitor.setValue(proxies.get(i).getField(), proxies.get(i).getParent(), element);
+				if (proxies.get(i).getField() != null)
+					NodeVisitor.setValue(proxies.get(i).getField(), proxies.get(i).getParent(), element);
+				else if (proxies.get(i).getList() != null) {
+					proxies.get(i).getList().remove(proxies.get(i).getListPos());
+					proxies.get(i).getList().add(element, proxies.get(i).getListPos());
+				}
 				proxies.remove(i);
 			} else
 				i++;

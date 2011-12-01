@@ -68,5 +68,9 @@ public class SoundImpl implements Sound {
 	public EAdURI getUri() {
 		return uri;
 	}
+	
+	public void setUri(EAdURI uri) {
+		this.uri = uri;
+	}
 
 }

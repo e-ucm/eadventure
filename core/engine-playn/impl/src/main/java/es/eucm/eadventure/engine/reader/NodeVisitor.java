@@ -43,16 +43,41 @@ public abstract class NodeVisitor<T> {
 	}
 	
 	protected void readFields(Object element, Node node) {
+		initilizeDefaultValues(element);
+
 		NodeList nl = node.getChildNodes();
 		
 		for(int i=0, cnt=nl.getLength(); i<cnt; i++)
 		{
 			Node newNode = nl.item(i);
 
-			Field field = getField(element, newNode.getAttributes().getNamedItem(DOMTags.PARAM_AT).getNodeValue());
+			Node attNode = newNode.getAttributes().getNamedItem(DOMTags.PARAM_AT);
+			String value = attNode.getNodeValue();
+			Field field = getField(element, value);
 
 			if (VisitorFactory.getVisitor(newNode.getNodeName()).visit(newNode, field, element, null) == null)
 				logger.severe("Failed visiting node " + newNode.getNodeName() + " for element " + element.getClass() + " in field " + field.getName() + " of class " + field.getType());
+		}
+	}
+	
+	private void initilizeDefaultValues(Object element) {
+		Class<?> clazz = element.getClass();
+		ClassType<?> classType = TypeOracle.Instance.getClassType(clazz);
+		
+		while (classType != null) {
+			for (Field f : classType.getFields()) {
+				if (f.getAnnotation(Param.class) != null) {
+					Param p = f.getAnnotation(Param.class);
+					if (p.defaultValue() != null && !p.defaultValue().equals("")) {
+						Object object = f.getFieldValue(element);
+						Class<?> type = object.getClass();
+						String value = p.defaultValue();
+						object = ObjectFactory.getObject(value, type);
+						setValue(f, element, object);
+					}
+				}
+			}
+			classType = classType.getSuperclass();
 		}
 	}
 	

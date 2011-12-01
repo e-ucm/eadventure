@@ -18,13 +18,21 @@ public class DepthManager {
 
 	private Map<String, String> aliasMap;
 	
-	private static final boolean USE_DEPTH_CONTROL = false;
+	private static final boolean USE_DEPTH_CONTROL = true;
 	
-	public DepthManager() {
+	private static final int MAX_LEVEL = 4;
+	
+	EAdList<EAdElement> depthControlList;
+	
+	private int level;
+	
+	public DepthManager(EAdList<EAdElement> eAdList) {
 		lists = new ArrayList<EAdList<Object>>();
 		stored = new ArrayList<EAdElement>();
 		classAliases = new HashMap<String, String>();
 		aliasMap = new HashMap<String, String>();
+		depthControlList = eAdList;
+		depthControlList.clear();
 	}
 	
 	public void addList(EAdList<Object> list) {
@@ -39,11 +47,16 @@ public class DepthManager {
 		return classAliases;
 	}
 	
-	public boolean inPreviousList(Object o) {
+	public boolean inPreviousList(EAdElement o) {
 		if (USE_DEPTH_CONTROL) {
 			for (int i = 0; i < lists.size() - 1; i++)
 				if (lists.get(i).contains(o))
 					return true;
+			
+			if (level > MAX_LEVEL) {
+				depthControlList.add(o);
+				return true;
+			}
 		}
 		return false;
 	}
@@ -62,5 +75,21 @@ public class DepthManager {
 
 	public EAdElement getInstanceOfElement(EAdElement element) {
 		return stored.get(stored.indexOf(element));
+	}
+	
+	public void levelUp() {
+		level++;
+	}
+	
+	public void levelDown() {
+		level--;
+	}
+
+	public void clear() {
+		lists.clear();
+		stored.clear();
+		classAliases.clear();
+		aliasMap.clear();
+		depthControlList.clear();
 	}
 }

@@ -34,14 +34,16 @@ public class PlayNReflectionProvider implements ReflectionProvider {
 			Class<?> temp = stack.pop();
 			if (class1 == temp)
 				return true;
-			try {
-				Class<?> temp2 = ClassHelper.AsClass(temp).getSuperclass();
-				if (temp2 != null)
-					stack.push(temp2);
-				for (Class<?> newClass : ClassHelper.AsClass(temp).getInterfaces())
-					stack.push(newClass);
-			} catch (ReflectionRequiredException e)  {
-				
+			if (temp != null) {
+				try {
+					Class<?> temp2 = ClassHelper.AsClass(temp).getSuperclass();
+					if (temp2 != null)
+						stack.push(temp2);
+					for (Class<?> newClass : ClassHelper.AsClass(temp).getInterfaces())
+						stack.push(newClass);
+				} catch (ReflectionRequiredException e)  {
+					
+				}
 			}
 			
 			if (!stack.isEmpty() && stack.peek() == Object.class)				

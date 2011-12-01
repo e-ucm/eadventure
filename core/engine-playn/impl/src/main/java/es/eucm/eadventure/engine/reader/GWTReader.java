@@ -14,6 +14,7 @@ import com.google.gwt.xml.client.XMLParser;
 
 import es.eucm.eadventure.common.model.DOMTags;
 import es.eucm.eadventure.common.model.elements.EAdAdventureModel;
+import es.eucm.eadventure.common.model.impl.EAdAdventureModelImpl;
 import es.eucm.eadventure.engine.core.Game;
 
 public class GWTReader {
@@ -40,7 +41,8 @@ public class GWTReader {
 					ElementNodeVisitor env = new ElementNodeVisitor();
 					NodeVisitor.init(doc.getFirstChild().getAttributes().getNamedItem(DOMTags.PACKAGE_AT).getNodeValue());
 					getAliasMap(doc);
-					EAdAdventureModel data = (EAdAdventureModel) env.visit(doc.getFirstChild().getFirstChild(), null, null, null);
+					EAdAdventureModelImpl data = (EAdAdventureModelImpl) env.visit(doc.getFirstChild().getFirstChild(), null, null, null);
+					data.getDepthControlList().clear();
 					
 					game.setGame(data, data.getChapters().get(0));
 				}

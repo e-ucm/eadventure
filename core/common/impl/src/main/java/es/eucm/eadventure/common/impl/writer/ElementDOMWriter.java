@@ -66,7 +66,7 @@ public class ElementDOMWriter extends FieldParamWriter<EAdElement> {
 				return node;
 			} 
 			depthManager.setStored(element);
-
+			
 			// Set id and unique id
 			node.setAttribute(DOMTags.ID_AT, element.getId());
 			node.setAttribute(DOMTags.UNIQUE_ID_AT, elementMap.get(element));

@@ -34,11 +34,16 @@ public class ElementNodeVisitor extends NodeVisitor<EAdElement> {
 			}
 		}
 
+		if (node.getAttributes() == null) {
+			logger.severe("Null attributes for element");
+		}
+		
 		Node n = node.getAttributes().getNamedItem(DOMTags.UNIQUE_ID_AT);
 		String uniqueId = n != null ? n.getNodeValue() : null;
 		n = node.getAttributes().getNamedItem(DOMTags.ID_AT);
 		String id = n != null ? n.getNodeValue() : null;
 
+		
 		n = node.getAttributes().getNamedItem(loaderType);
 		String clazz = null;
 		if (n != null) {
@@ -50,6 +55,7 @@ public class ElementNodeVisitor extends NodeVisitor<EAdElement> {
 		
 		if (clazz != null) {
 			ClassType<?> classType = TypeOracle.Instance.getClassType(clazz);
+			logger.finest("Reading element " + uniqueId + " of type " + clazz);
 			if (classType.findConstructor() != null) {
 				element = (EAdElement) classType.findConstructor().newInstance();
 				element.setId(id);

@@ -60,4 +60,8 @@ public class VideoImpl implements Video {
 		return uri;
 	}
 
+	public void setUri(EAdURI uri) {
+		this.uri = uri;
+	}
+
 }

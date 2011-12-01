@@ -29,6 +29,7 @@ public class ListNodeVisitor extends NodeVisitor<EAdList<Object>> {
 		} else {
 			try {
 				list = (EAdList<Object>) field.getFieldValue(parent);
+				list.clear();
 			} catch (ClassCastException e) {
 				logger.log(Level.WARNING, "Fail to cast as list, field: " + field.getName() + " in " + parent);
 			}
@@ -50,6 +51,9 @@ public class ListNodeVisitor extends NodeVisitor<EAdList<Object>> {
 			{
 				type = nl.item(i).getNodeName();
 				Object object = VisitorFactory.getVisitor(type).visit(nl.item(i), null, null, list.getValueClass());
+				if (object instanceof ProxyElement) {
+					((ProxyElement) object).setList(list, i);
+				}
 				list.add(object);
 			}
 		}
