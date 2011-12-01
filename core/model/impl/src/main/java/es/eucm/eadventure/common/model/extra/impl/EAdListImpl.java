@@ -162,10 +162,14 @@ public class EAdListImpl<P> implements EAdList<P> {
 	
 	public String toString(){
 		String s = "[";
+		boolean empty = true;
 		for ( P e: this ){
 			s += e + ", ";
+			empty = false;
 		}
-		s = s.substring(0, s.length() - 2 );
+		if (!empty)
+			s = s.substring(0, s.length() - 2 );
+		
 		s += "]";
 		return s;
 	}
