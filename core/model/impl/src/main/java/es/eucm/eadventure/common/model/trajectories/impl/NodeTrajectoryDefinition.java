@@ -82,9 +82,9 @@ public class NodeTrajectoryDefinition extends EAdElementImpl implements
 			int x = a.getX() - b.getX();
 			int y = a.getY() - b.getY();
 			if (length == -1)
-				side.setLenght((float) Math.sqrt(x * x + y * y));
+				side.setLength((float) Math.sqrt(x * x + y * y));
 			else
-				side.setLenght(length);
+				side.setLength(length);
 			side.setRealLength((float) Math.sqrt(x * x + y * y));
 		}
 
@@ -115,6 +115,10 @@ public class NodeTrajectoryDefinition extends EAdElementImpl implements
 	public Node getInitial() {
 
 		return initial;
+	}
+	
+	public void setInitial(Node initial) {
+		this.initial = initial;
 	}
 
 	public EAdList<Node> getNodes() {
