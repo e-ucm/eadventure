@@ -283,6 +283,8 @@ public class SceneImporter implements EAdElementImporter<Scene, EAdSceneImpl> {
 
 		resourceImporter.importResources(scene.getBackground(),
 				oldScene.getResources(), resourcesStrings, resourcesClasses);
+		
+		scene.getBackground().setId("background");
 
 		for (Resources r : oldScene.getResources()) {
 			String foregroundPath = r.getAssetPath(Scene.RESOURCE_TYPE_FOREGROUND);

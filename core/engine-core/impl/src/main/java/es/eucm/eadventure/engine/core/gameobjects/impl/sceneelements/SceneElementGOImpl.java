@@ -107,8 +107,6 @@ public abstract class SceneElementGOImpl<T extends EAdSceneElement> extends
 
 	protected boolean visible;
 
-	protected boolean enable;
-
 	private ArrayList<EventGO<?>> eventGOList;
 
 	@Inject

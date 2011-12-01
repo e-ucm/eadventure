@@ -37,7 +37,6 @@
 
 package es.eucm.eadventure.common.model.actions;
 
-import es.eucm.eadventure.common.interfaces.features.Conditioned;
 import es.eucm.eadventure.common.interfaces.features.Resourced;
 import es.eucm.eadventure.common.model.EAdElement;
 import es.eucm.eadventure.common.model.effects.EAdEffect;
@@ -51,7 +50,7 @@ import es.eucm.eadventure.common.resources.EAdBundleId;
  * during an eAdventure game.</p>
  *
  */
-public interface EAdAction extends EAdElement, Conditioned, Resourced {
+public interface EAdAction extends EAdElement, Resourced {
 
 	/**
 	 * The list of effects triggered with the action

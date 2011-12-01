@@ -56,7 +56,6 @@ import es.eucm.eadventure.common.impl.importer.interfaces.EffectsImporterFactory
 import es.eucm.eadventure.common.impl.importer.interfaces.ResourceImporter;
 import es.eucm.eadventure.common.model.actions.EAdAction;
 import es.eucm.eadventure.common.model.actions.impl.EAdBasicAction;
-import es.eucm.eadventure.common.model.conditions.impl.EmptyCondition;
 import es.eucm.eadventure.common.model.conditions.impl.NOTCondition;
 import es.eucm.eadventure.common.model.effects.EAdEffect;
 import es.eucm.eadventure.common.model.effects.EAdMacro;
@@ -92,7 +91,8 @@ public class ActionImporter implements EAdElementImporter<Action, EAdAction> {
 	public ActionImporter(StringHandler stringHandler,
 			EffectsImporterFactory effectsImporterFactory,
 			ResourceImporter resourceImporter,
-			EAdElementImporter<Conditions, EAdCondition> conditionsImporter, EAdElementFactory factory) {
+			EAdElementImporter<Conditions, EAdCondition> conditionsImporter,
+			EAdElementFactory factory) {
 		this.stringHandler = stringHandler;
 		this.effectsImporterFactory = effectsImporterFactory;
 		this.conditionsImporter = conditionsImporter;
@@ -112,24 +112,21 @@ public class ActionImporter implements EAdElementImporter<Action, EAdAction> {
 		return null;
 	}
 
-	public EAdAction convert(Action oldObject, Object object, EAdSceneElementDef actor) {
+	public EAdAction convert(Action oldObject, Object object,
+			EAdSceneElementDef actor) {
 		EAdBasicAction action = (EAdBasicAction) object;
 
 		EAdCondition condition = conditionsImporter.init(oldObject
 				.getConditions());
 		condition = conditionsImporter.convert(oldObject.getConditions(),
 				condition);
-		if (condition != null)
-			action.setCondition(condition);
-		else
-			action.setCondition(EmptyCondition.TRUE_EMPTY_CONDITION);
 
 		EAdMacro effects = new EAdMacroImpl();
 		effects.setId("actionEffects");
-		EAdTriggerMacro triggerEffects = new EAdTriggerMacro( effects);
+		EAdTriggerMacro triggerEffects = new EAdTriggerMacro(effects);
 		triggerEffects.setId("actionEffectTrigger");
-		triggerEffects.setCondition(action.getCondition());
-		
+		triggerEffects.setCondition(condition);
+
 		if (!factory.isFirstPerson() && oldObject.isNeedsGoTo()) {
 			EAdMoveActiveElement moveActiveElement = new EAdMoveActiveElement();
 			moveActiveElement.setId("moveToActionTarget");
@@ -162,10 +159,8 @@ public class ActionImporter implements EAdElementImporter<Action, EAdAction> {
 			notEffects.setId("actionNotEffects");
 			EAdTriggerMacro triggerNotEffects = new EAdTriggerMacro(notEffects);
 			triggerNotEffects.setId("actionNotEffectTrigger");
-			triggerNotEffects.setCondition(new NOTCondition(action
-					.getCondition()));
+			triggerNotEffects.setCondition(new NOTCondition(condition));
 			action.getEffects().add(triggerNotEffects);
-			action.setCondition(EmptyCondition.TRUE_EMPTY_CONDITION);
 
 			for (Effect e : oldObject.getEffects().getEffects()) {
 				EAdEffect effect = effectsImporterFactory.getEffect(e);
@@ -214,10 +209,6 @@ public class ActionImporter implements EAdElementImporter<Action, EAdAction> {
 							new ImageImpl(getHighlightDrawablePath(oldObject
 									.getType())));
 
-			List<EAdEffect> list = getEffects(oldObject.getType(), oldObject
-					.getEffects().getEffects(), actor);
-			for (EAdEffect e : list)
-				action.getEffects().add(e);
 		}
 
 		return action;
@@ -256,16 +247,20 @@ public class ActionImporter implements EAdElementImporter<Action, EAdAction> {
 	}
 
 	public static List<EAdEffect> getEffects(int actionType,
-			List<AbstractEffect> originalList, EAdSceneElementDef actor) {
+			List<AbstractEffect> originalList, EAdSceneElementDef actor,
+			boolean isActiveArea) {
 		List<EAdEffect> list = new ArrayList<EAdEffect>();
 		for (AbstractEffect e : originalList)
 			if (e instanceof CancelActionEffect)
 				return list;
 		switch (actionType) {
 		case Action.GRAB:
-			EAdInventoryEffect modifyState = new EAdInventoryEffect( actor, InventoryEffectAction.ADD_TO_INVENTORY);
-			modifyState.setId("grabEffect");
-			list.add(modifyState);
+			if (!isActiveArea) {
+				EAdInventoryEffect modifyState = new EAdInventoryEffect(actor,
+						InventoryEffectAction.ADD_TO_INVENTORY);
+				modifyState.setId("grabEffect");
+				list.add(modifyState);
+			}
 			break;
 		// TODO Effects for the rest of actions
 		case Action.DRAG_TO:
