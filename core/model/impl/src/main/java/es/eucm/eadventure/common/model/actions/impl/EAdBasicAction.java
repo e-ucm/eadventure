@@ -41,7 +41,6 @@ import es.eucm.eadventure.common.interfaces.Element;
 import es.eucm.eadventure.common.interfaces.Param;
 import es.eucm.eadventure.common.model.actions.EAdAction;
 import es.eucm.eadventure.common.model.effects.EAdEffect;
-import es.eucm.eadventure.common.model.elements.EAdCondition;
 import es.eucm.eadventure.common.model.extra.EAdList;
 import es.eucm.eadventure.common.model.extra.impl.EAdListImpl;
 import es.eucm.eadventure.common.model.impl.ResourcedElementImpl;
@@ -66,9 +65,6 @@ public class EAdBasicAction extends ResourcedElementImpl implements EAdAction {
 
 	@Param("highlightBundle")
 	private EAdBundleId highlightBundle;
-
-	@Param("condition")
-	private EAdCondition condition;
 	
 	public EAdBasicAction() {
 		super();
@@ -95,17 +91,6 @@ public class EAdBasicAction extends ResourcedElementImpl implements EAdAction {
 	@Override
 	public EAdBundleId getHighlightBundle() {
 		return highlightBundle;
-	}
-
-	@Override
-	public EAdCondition getCondition() {
-		return condition;
-	}
-
-	@Override
-	public void setCondition(EAdCondition condition) {
-		this.condition = condition;
-		
 	}
 
 	public void setName(EAdString name) {

@@ -41,12 +41,13 @@ import es.eucm.eadventure.common.interfaces.Element;
 import es.eucm.eadventure.common.interfaces.Param;
 import es.eucm.eadventure.common.model.effects.impl.enums.ChangeActorActions;
 import es.eucm.eadventure.common.model.elements.EAdSceneElement;
+import es.eucm.eadventure.common.model.elements.EAdSceneElementDef;
 
 @Element(runtime = EAdActorActionsEffect.class, detailed = EAdActorActionsEffect.class)
 public class EAdActorActionsEffect extends AbstractEAdEffect {
 
 	@Param("actionElement")
-	private EAdSceneElement actionElement;
+	private EAdSceneElementDef actionElement;
 	
 	@Param("change")
 	private ChangeActorActions change;
@@ -55,19 +56,19 @@ public class EAdActorActionsEffect extends AbstractEAdEffect {
 		super();
 	}
 	
-	public EAdActorActionsEffect( EAdSceneElement actionElement) {
+	public EAdActorActionsEffect( EAdSceneElementDef actionElement) {
 		super();
 		this.actionElement = actionElement;
 		this.change = ChangeActorActions.SHOW_ACTIONS;
 	}
 
-	public EAdActorActionsEffect(EAdSceneElement actionElement, ChangeActorActions change) {
+	public EAdActorActionsEffect(EAdSceneElementDef actionElement, ChangeActorActions change) {
 		super();
 		this.actionElement = actionElement;
 		this.change = change;
 	}
 
-	public EAdSceneElement getActionElement() {
+	public EAdSceneElementDef getActionElement() {
 		return actionElement;
 	}
 	

@@ -43,36 +43,53 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
+import es.eucm.eadventure.common.model.elements.EAdSceneElement;
+import es.eucm.eadventure.common.model.elements.EAdSceneElementDef;
+import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
+import es.eucm.eadventure.common.model.elements.impl.EAdSceneElementDefImpl;
+import es.eucm.eadventure.common.model.guievents.enums.MouseButton;
+import es.eucm.eadventure.common.params.geom.impl.EAdPositionImpl;
+import es.eucm.eadventure.common.params.geom.impl.EAdPositionImpl.Corner;
+import es.eucm.eadventure.engine.core.GameState;
 import es.eucm.eadventure.engine.core.MouseState;
 import es.eucm.eadventure.engine.core.gameobjects.DrawableGO;
+import es.eucm.eadventure.engine.core.gameobjects.factories.SceneElementGOFactory;
 import es.eucm.eadventure.engine.core.guiactions.MouseAction;
 
 @Singleton
 public class MouseStateImpl implements MouseState {
 
 	public static final int OUT_VAL = -1;
-	
+
 	private int mouseX = OUT_VAL;
-	
+
 	private int mouseY = OUT_VAL;
 
 	private boolean mousePressed = false;
 
+	private MouseButton buttonPressed = null;
+
 	private Queue<MouseAction> mouseEvents;
-	
+
 	private DrawableGO<?> gameObjectUnderMouse;
 
 	private DrawableGO<?> draggingGameObject;
-	
+
 	private int dragInitX = OUT_VAL;
-	
+
 	private int dragInitY = OUT_VAL;
-	
+
+	private SceneElementGOFactory factory;
+
+	private GameState gameState;
+
 	@Inject
-	public MouseStateImpl() {
+	public MouseStateImpl(SceneElementGOFactory factory, GameState gameState) {
+		this.factory = factory;
 		mouseEvents = new ConcurrentLinkedQueue<MouseAction>();
+		this.gameState = gameState;
 	}
-	
+
 	public int getMouseX() {
 		return mouseX;
 	}
@@ -86,12 +103,13 @@ public class MouseStateImpl implements MouseState {
 		this.mouseY = mouseY;
 	}
 
-	public boolean isMousePressed() {
-		return mousePressed;
+	public boolean isMousePressed(MouseButton button) {
+		return mousePressed && button == this.buttonPressed;
 	}
 
-	public void setMousePressed(boolean mousePressed) {
+	public void setMousePressed(boolean mousePressed, MouseButton button) {
 		this.mousePressed = mousePressed;
+		this.buttonPressed = button;
 	}
 
 	public Queue<MouseAction> getMouseEvents() {
@@ -111,8 +129,21 @@ public class MouseStateImpl implements MouseState {
 	}
 
 	@Override
-	public void setDraggingGameObject(DrawableGO<?> draggingGameObject) {
-		this.draggingGameObject = draggingGameObject;
+	public void setDraggingGameObject(EAdSceneElementDef dragElement) {
+		if (dragElement != null) {
+			EAdSceneElement element = gameState.getValueMap().getValue(
+					dragElement, EAdSceneElementDefImpl.VAR_SCENE_ELEMENT);
+			float dispX = gameState.getValueMap().getValue(dragElement, EAdBasicSceneElement.VAR_DISP_X);
+			float dispY = gameState.getValueMap().getValue(dragElement, EAdBasicSceneElement.VAR_DISP_Y);
+			int x = gameState.getValueMap().getValue(dragElement, EAdBasicSceneElement.VAR_X );
+			int y = gameState.getValueMap().getValue(dragElement, EAdBasicSceneElement.VAR_Y );
+
+			EAdBasicSceneElement element2 = new EAdBasicSceneElement(dragElement);
+			element2.setPosition( new EAdPositionImpl( x, y, 0, 0 ));
+			draggingGameObject = factory.get(element2);
+		} else {
+			draggingGameObject = null;
+		}
 		if (draggingGameObject != null) {
 			this.dragInitX = mouseX;
 			this.dragInitY = mouseY;
@@ -123,16 +154,16 @@ public class MouseStateImpl implements MouseState {
 	public int getDragDifX() {
 		return mouseX - dragInitX;
 	}
-	
+
 	@Override
 	public int getDragDifY() {
 		return mouseY - dragInitY;
 	}
-	
+
 	public boolean isInside() {
 		if (mouseX == OUT_VAL && mouseY == OUT_VAL)
 			return false;
 		return true;
 	}
-	
+
 }

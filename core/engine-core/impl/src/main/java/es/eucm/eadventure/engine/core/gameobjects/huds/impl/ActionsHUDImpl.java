@@ -75,7 +75,7 @@ import es.eucm.eadventure.engine.core.util.impl.EAdTransformationImpl;
 @Singleton
 public class ActionsHUDImpl extends AbstractHUD implements ActionsHUD {
 
-	private static final int ANIMATION_TIME = 1000;
+	private static final int ANIMATION_TIME = 500;
 
 	private int currentTime;
 
@@ -181,8 +181,7 @@ public class ActionsHUDImpl extends AbstractHUD implements ActionsHUD {
 	public void setElement(SceneElementGO<?> ref, int x, int y) {
 		currentTime = 0;
 		sceneElement = ref;
-		radius = (int) ((ref.getWidth() > ref.getHeight() ? ref.getWidth()
-				: ref.getHeight()) * ref.getScale()) / 3;
+		radius = height / 8;
 		int maxRadius = width - x < height - y ? width - x : height - y;
 		maxRadius = x < maxRadius ? x : maxRadius;
 		maxRadius = y < maxRadius ? y : maxRadius;
@@ -196,12 +195,22 @@ public class ActionsHUDImpl extends AbstractHUD implements ActionsHUD {
 
 	protected void initActionGOs() {
 		actionsGO.clear();
-		positions.clear();
-		float accAngle = 0;
-		float angle = (float) (Math.PI / 4.5);
+		positions.clear(); 
+		
+		float signum = -1.0f;
+		if ( x < width - x ){
+			signum = 1.0f;
+		}
+		
+		float accAngle = (float) - Math.PI / 2;
+		if ( y < height - y ){
+			accAngle = -accAngle;
+		}
+				
+		float angle = (float) (Math.PI / 4.5) * signum;
 		for (EAdAction a : actions) {
 			ActionSceneElement action = new ActionSceneElement(a);
-			positions.add(new EAdPositionImpl((int) (Math.sin(accAngle) * radius), (int) (Math.cos(accAngle) * radius )));
+			positions.add(new EAdPositionImpl((int) (Math.cos(accAngle) * radius), (int) (Math.sin(accAngle) * radius )));
 			action.setPosition(Corner.CENTER, x, y); 
 			actionsGO.add(sceneElementFactory.get(action));
 			accAngle += angle;

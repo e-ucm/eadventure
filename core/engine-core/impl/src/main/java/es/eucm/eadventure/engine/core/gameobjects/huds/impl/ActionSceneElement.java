@@ -51,6 +51,8 @@ public class ActionSceneElement extends EAdBasicSceneElement {
 				new EAdChangeAppearance(this, this
 						.getInitialBundle()));
 		
+		setVarInitialValue(EAdBasicSceneElement.VAR_NAME, eAdAction.getName());
+		
 		
 	}
 	

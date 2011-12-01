@@ -3,6 +3,7 @@ package es.eucm.eadventure.engine.core.gameobjects.huds.impl;
 import java.util.ArrayList;
 import java.util.List;
 
+import es.eucm.eadventure.common.model.elements.EAdSceneElementDef;
 import es.eucm.eadventure.common.params.geom.EAdPosition;
 import es.eucm.eadventure.engine.core.MouseState;
 import es.eucm.eadventure.engine.core.gameobjects.DrawableGO;
@@ -70,7 +71,7 @@ public abstract class AbstractHUD implements HudGO {
 	}
 	
 	@Override
-	public DrawableGO<?> getDraggableElement(MouseState mouseState) {
+	public EAdSceneElementDef getDraggableElement(MouseState mouseState) {
 		return null;
 	}
 

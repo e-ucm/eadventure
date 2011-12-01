@@ -201,6 +201,8 @@ public class BasicHUDImpl extends AbstractHUD implements BasicHUD {
 		contextual.setPosition(new EAdPositionImpl(0, 0, 0.5f, 1.5f));
 		contextual.setVarInitialValue(EAdBasicSceneElement.VAR_VISIBLE,
 				Boolean.FALSE);
+		contextual.setVarInitialValue(EAdBasicSceneElement.VAR_ENABLE,
+				Boolean.FALSE);
 		contextual.getEvents().add(new StayInBoundsEvent(contextual));
 		contextual.getEvents().add(new ChaseTheMouseEvent());
 		addElement(sceneElementFactory.get(contextual));
@@ -213,7 +215,7 @@ public class BasicHUDImpl extends AbstractHUD implements BasicHUD {
 		if (go != null) {
 			EAdString name = valueMap.getValue((EAdElement) go.getElement(),
 					EAdBasicSceneElement.VAR_NAME);
-			if (name != null && !name.equals("")) {
+			if (name != null && !stringHandler.getString(name).equals("")) {
 				stringHandler.setString(c.getText(),
 						stringHandler.getString(name));
 
@@ -239,6 +241,7 @@ public class BasicHUDImpl extends AbstractHUD implements BasicHUD {
 	private void initMouse() {
 		mouse = new EAdBasicSceneElement(cursor);
 		mouse.setId("mouse");
+		mouse.setVarInitialValue(EAdBasicSceneElement.VAR_ENABLE, Boolean.FALSE);
 		addElement(sceneElementFactory.get(mouse));
 	}
 

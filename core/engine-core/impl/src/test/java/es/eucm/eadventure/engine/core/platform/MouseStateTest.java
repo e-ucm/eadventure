@@ -37,12 +37,12 @@
 
 package es.eucm.eadventure.engine.core.platform;
 
-import java.util.LinkedList;
 import java.util.Queue;
 
-import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
+import es.eucm.eadventure.engine.core.GameState;
+import es.eucm.eadventure.engine.core.gameobjects.factories.SceneElementGOFactory;
 import es.eucm.eadventure.engine.core.guiactions.MouseAction;
 import es.eucm.eadventure.engine.core.impl.MouseStateImpl;
 
@@ -56,12 +56,19 @@ import es.eucm.eadventure.engine.core.impl.MouseStateImpl;
 @Singleton
 public class MouseStateTest extends MouseStateImpl {
 
+
+
+
+
+	public MouseStateTest(SceneElementGOFactory factory, GameState gameState) {
+		super(factory, gameState);
+	}
+
+
+
 	private Queue<MouseAction> mouseEvents;
 
-	@Inject
-	public MouseStateTest() {
-		mouseEvents = new LinkedList<MouseAction>();
-	}
+
 
 	public Queue<MouseAction> getMouseEvents() {
 		return mouseEvents;

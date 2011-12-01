@@ -136,5 +136,13 @@ public class DesktopEngineImage extends RuntimeImage {
 	public boolean isLoaded() {
 		return image != null;
 	}
+	
+	public boolean contains( int x, int y ){
+		if ( super.contains(x, y)){
+			int alpha = image.getRGB( x, y ) >>> 24;
+			return alpha > 128;
+		}
+		return false;
+	}
 
 }

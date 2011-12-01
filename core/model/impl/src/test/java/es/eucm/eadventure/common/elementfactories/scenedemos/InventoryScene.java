@@ -7,8 +7,6 @@ import es.eucm.eadventure.common.model.effects.impl.enums.InventoryEffectAction;
 import es.eucm.eadventure.common.model.elements.EAdInventory;
 import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
 import es.eucm.eadventure.common.model.elements.impl.EAdInventoryImpl;
-import es.eucm.eadventure.common.model.guievents.enums.MouseActionType;
-import es.eucm.eadventure.common.model.guievents.enums.MouseButton;
 import es.eucm.eadventure.common.model.guievents.impl.EAdMouseEventImpl;
 import es.eucm.eadventure.common.params.fills.impl.EAdColor;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.ImageImpl;

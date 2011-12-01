@@ -47,6 +47,7 @@ import com.google.inject.Inject;
 import es.eucm.eadventure.common.interfaces.features.enums.Orientation;
 import es.eucm.eadventure.common.model.actions.EAdAction;
 import es.eucm.eadventure.common.model.elements.EAdSceneElement;
+import es.eucm.eadventure.common.model.elements.EAdSceneElementDef;
 import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
 import es.eucm.eadventure.common.model.elements.impl.EAdSceneElementDefImpl;
 import es.eucm.eadventure.common.model.events.EAdEvent;
@@ -66,7 +67,6 @@ import es.eucm.eadventure.engine.core.GameLoop;
 import es.eucm.eadventure.engine.core.GameState;
 import es.eucm.eadventure.engine.core.MouseState;
 import es.eucm.eadventure.engine.core.ValueMap;
-import es.eucm.eadventure.engine.core.gameobjects.DrawableGO;
 import es.eucm.eadventure.engine.core.gameobjects.EventGO;
 import es.eucm.eadventure.engine.core.gameobjects.SceneElementGO;
 import es.eucm.eadventure.engine.core.gameobjects.factories.EventGOFactory;
@@ -106,8 +106,6 @@ public abstract class SceneElementGOImpl<T extends EAdSceneElement> extends
 	protected float alpha;
 
 	protected boolean visible;
-
-	protected boolean enable;
 
 	private ArrayList<EventGO<?>> eventGOList;
 
@@ -244,8 +242,8 @@ public abstract class SceneElementGOImpl<T extends EAdSceneElement> extends
 	}
 
 	@Override
-	public DrawableGO<?> getDraggableElement(MouseState mouseState) {
-		return null;
+	public EAdSceneElementDef getDraggableElement(MouseState mouseState) {
+		return element;
 	}
 
 	/*
