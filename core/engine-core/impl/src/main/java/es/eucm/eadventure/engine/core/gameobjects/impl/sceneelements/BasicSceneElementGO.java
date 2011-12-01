@@ -42,13 +42,13 @@ import java.util.logging.Logger;
 import com.google.inject.Inject;
 
 import es.eucm.eadventure.common.model.effects.EAdEffect;
+import es.eucm.eadventure.common.model.elements.EAdSceneElementDef;
 import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
 import es.eucm.eadventure.common.model.extra.EAdList;
 import es.eucm.eadventure.common.resources.StringHandler;
 import es.eucm.eadventure.engine.core.GameState;
 import es.eucm.eadventure.engine.core.MouseState;
 import es.eucm.eadventure.engine.core.evaluators.EvaluatorFactory;
-import es.eucm.eadventure.engine.core.gameobjects.DrawableGO;
 import es.eucm.eadventure.engine.core.gameobjects.factories.EventGOFactory;
 import es.eucm.eadventure.engine.core.gameobjects.factories.SceneElementGOFactory;
 import es.eucm.eadventure.engine.core.guiactions.GUIAction;
@@ -81,9 +81,9 @@ public class BasicSceneElementGO extends
 	 * @see es.eucm.eadventure.engine.core.gameobjects.impl.SceneElementGOImpl#
 	 * getDraggableElement(es.eucm.eadventure.engine.core.MouseState)
 	 */
-	public DrawableGO<?> getDraggableElement(MouseState mouseState) {
+	public EAdSceneElementDef getDraggableElement(MouseState mouseState) {
 		if (evaluatorFactory.evaluate(element.getDragCond())){
-			return this;
+			return element;
 		}
 		return null;
 	}

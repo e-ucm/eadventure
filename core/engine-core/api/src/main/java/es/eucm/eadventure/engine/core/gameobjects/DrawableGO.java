@@ -3,6 +3,7 @@ package es.eucm.eadventure.engine.core.gameobjects;
 import java.util.List;
 
 import es.eucm.eadventure.common.interfaces.features.Positioned;
+import es.eucm.eadventure.common.model.elements.EAdSceneElementDef;
 import es.eucm.eadventure.engine.core.MouseState;
 import es.eucm.eadventure.engine.core.Renderable;
 import es.eucm.eadventure.engine.core.guiactions.GUIAction;
@@ -27,7 +28,7 @@ public interface DrawableGO<T> extends GameObject<T>, Positioned, Renderable {
 	 *            The mouse state
 	 * @return The game object that is draggable
 	 */
-	DrawableGO<?> getDraggableElement(MouseState mouseState);
+	EAdSceneElementDef getDraggableElement(MouseState mouseState);
 	
 	/**
 	 * Layout out the child game objects of this game objects

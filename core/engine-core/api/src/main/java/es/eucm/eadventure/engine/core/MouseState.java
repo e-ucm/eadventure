@@ -39,6 +39,8 @@ package es.eucm.eadventure.engine.core;
 
 import java.util.Queue;
 
+import es.eucm.eadventure.common.model.elements.EAdSceneElementDef;
+import es.eucm.eadventure.common.model.guievents.enums.MouseButton;
 import es.eucm.eadventure.engine.core.gameobjects.DrawableGO;
 import es.eucm.eadventure.engine.core.guiactions.MouseAction;
 
@@ -86,7 +88,7 @@ public interface MouseState {
 	 * 
 	 * @return true if main mouse button is pressed
 	 */
-	boolean isMousePressed();
+	boolean isMousePressed(MouseButton button);
 
 	/**
 	 * Set the value of the main mouse button pressed status. This is used for
@@ -95,7 +97,7 @@ public interface MouseState {
 	 * @param mousePressed
 	 *            the pressed status of the main mouse button
 	 */
-	void setMousePressed(boolean mousePressed);
+	void setMousePressed(boolean mousePressed, MouseButton button );
 
 	/**
 	 * Returns the queue of mouse events or actions, of type {@link MouseAction}
@@ -139,7 +141,7 @@ public interface MouseState {
 	 * @param offsetX
 	 * @param offsetY
 	 */
-	void setDraggingGameObject(DrawableGO<?> draggingElement);
+	void setDraggingGameObject(EAdSceneElementDef dragElement );
 
 	/**
 	 * Returns true if the mouse is inside the game window

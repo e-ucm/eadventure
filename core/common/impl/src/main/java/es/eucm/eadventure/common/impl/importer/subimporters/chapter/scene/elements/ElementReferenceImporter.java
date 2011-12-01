@@ -44,12 +44,10 @@ import es.eucm.eadventure.common.data.chapter.ElementReference;
 import es.eucm.eadventure.common.data.chapter.conditions.Conditions;
 import es.eucm.eadventure.common.impl.importer.interfaces.EAdElementFactory;
 import es.eucm.eadventure.common.interfaces.features.enums.Orientation;
-import es.eucm.eadventure.common.model.effects.impl.EAdActorActionsEffect;
 import es.eucm.eadventure.common.model.elements.EAdCondition;
 import es.eucm.eadventure.common.model.elements.EAdSceneElement;
 import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
 import es.eucm.eadventure.common.model.elements.impl.EAdSceneElementDefImpl;
-import es.eucm.eadventure.common.model.guievents.impl.EAdMouseEventImpl;
 import es.eucm.eadventure.common.params.geom.impl.EAdPositionImpl;
 import es.eucm.eadventure.common.params.geom.impl.EAdRectangleImpl;
 import es.eucm.eadventure.common.resources.StringHandler;
@@ -103,11 +101,6 @@ public class ElementReferenceImporter extends ElementImporter<ElementReference> 
 					oldObject.getY(), (int) (width * oldObject.getScale()),
 					(int) (height * oldObject.getScale()));
 			super.addInfluenceArea(newRef, bounds, oldObject.getInfluenceArea());
-
-			// add actions
-			EAdActorActionsEffect showActions = new EAdActorActionsEffect(
-					newRef);
-			newRef.addBehavior(EAdMouseEventImpl.MOUSE_RIGHT_CLICK, showActions);
 
 			// add description
 			super.addDefaultBehavior(newRef, stringHandler.getString(newRef

@@ -40,7 +40,9 @@ package es.eucm.eadventure.engine.core.platform.impl;
 import java.util.logging.Logger;
 
 import es.eucm.eadventure.common.model.EAdElement;
+import es.eucm.eadventure.common.model.elements.EAdSceneElementDef;
 import es.eucm.eadventure.common.model.guievents.enums.DragAction;
+import es.eucm.eadventure.common.model.guievents.enums.MouseButton;
 import es.eucm.eadventure.common.model.guievents.impl.EAdMouseEventImpl;
 import es.eucm.eadventure.engine.core.GameState;
 import es.eucm.eadventure.engine.core.KeyboardState;
@@ -163,19 +165,20 @@ public abstract class AbstractGUI<T> implements GUI {
 
 		gameObjects.swap();
 
-		if (mouseState.getDraggingGameObject() != null) {
-			if (!gameObjects.getGameObjects().contains(
-					mouseState.getDraggingGameObject())) {
-				mouseState.setDraggingGameObject(null);
-			} else {
-				int pos = gameObjects.getGameObjects().indexOf(
-						mouseState.getDraggingGameObject());
-				if (pos != -1) {
-					gameObjects.getGameObjects().remove(pos);
-					gameObjects.getTransformations().remove(pos);
-				}
-			}
-		}
+//		if (mouseState.getDraggingGameObject() != null) {
+//			if (!gameObjects.getGameObjects().contains(
+//					mouseState.getDraggingGameObject())) {
+//				mouseState.setDraggingGameObject(null);
+//			} else {
+//				int pos = gameObjects.getGameObjects().indexOf(
+//						mouseState.getDraggingGameObject());
+//				
+//				if (pos != -1) {
+//					gameObjects.getGameObjects().remove(pos);
+//					gameObjects.getTransformations().remove(pos);
+//				}
+//			}
+//		}
 	}
 
 	/**
@@ -236,7 +239,7 @@ public abstract class AbstractGUI<T> implements GUI {
 		int x = mouseState.getMouseX();
 		int y = mouseState.getMouseY();
 		if (currentDraggedGO != null) {
-			if (!mouseState.isMousePressed()) {
+			if (!mouseState.isMousePressed(MouseButton.BUTTON_1)) {
 				DrawableGO<?> goMouse = mouseState.getGameObjectUnderMouse();
 				if (goMouse != null) {
 					// Exit too
@@ -257,20 +260,20 @@ public abstract class AbstractGUI<T> implements GUI {
 				checkDrag = true;
 			}
 		} else {
-			if (checkDrag && mouseState.isMousePressed()) {
+			if (checkDrag && mouseState.isMousePressed(MouseButton.BUTTON_1)) {
 				checkDrag = false;
 				DrawableGO<?> go = mouseState.getGameObjectUnderMouse();
 				if (go != null) {
-					DrawableGO<?> draggedGO = go
+					EAdSceneElementDef draggedGO = go
 							.getDraggableElement(mouseState);
 					if (draggedGO != null) {
 						mouseState.setDraggingGameObject(draggedGO);
-						draggedGO.processAction(new MouseActionImpl(
+						mouseState.getDraggingGameObject().processAction(new MouseActionImpl(
 								EAdMouseEventImpl.MOUSE_START_DRAG, x, y));
 					}
 				}
 
-			} else if (!mouseState.isMousePressed()) {
+			} else if (!mouseState.isMousePressed(MouseButton.BUTTON_1)) {
 				checkDrag = true;
 			}
 		}

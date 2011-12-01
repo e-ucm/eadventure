@@ -82,7 +82,7 @@ public class EAdventureSurfaceView extends SurfaceView implements SurfaceHolder.
 		@Override
 		public boolean onDown(MotionEvent e){
 
-			mouseState.setMousePressed(true);
+			mouseState.setMousePressed(true, MouseButton.BUTTON_1);
 			return true;
 		}
 
@@ -130,7 +130,7 @@ public class EAdventureSurfaceView extends SurfaceView implements SurfaceHolder.
 			}
 
 			if(event.getAction() == MotionEvent.ACTION_UP) {
-				mouseState.setMousePressed(false);
+				mouseState.setMousePressed(false, null);
 			}
 
 			return false;	

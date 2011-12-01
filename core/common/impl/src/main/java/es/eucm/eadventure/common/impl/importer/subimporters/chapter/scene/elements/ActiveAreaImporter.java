@@ -137,9 +137,10 @@ public class ActiveAreaImporter extends ElementImporter<ActiveArea> {
 			EAdBasicSceneElement newActiveAreaReference) {
 		ActorImporter.addActions(oldObject, newActiveArea, actionImporter,
 				stringHandler, true);
-		EAdActorActionsEffect showActions = new EAdActorActionsEffect( newActiveAreaReference);
-		newActiveAreaReference.addBehavior(EAdMouseEventImpl.MOUSE_RIGHT_CLICK,
+		EAdActorActionsEffect showActions = new EAdActorActionsEffect( newActiveArea );
+		newActiveArea.addBehavior(EAdMouseEventImpl.MOUSE_RIGHT_CLICK,
 				showActions);
+		
 	}
 
 }

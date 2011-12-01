@@ -138,10 +138,8 @@ public class DesktopEngineImage extends RuntimeImage {
 	}
 	
 	public boolean contains( int x, int y ){
-		logger.info("" + descriptor.getUri());
 		if ( super.contains(x, y)){
 			int alpha = image.getRGB( x, y ) >>> 24;
-			logger.info(descriptor.getUri() + "alpha = " + alpha);
 			return alpha > 128;
 		}
 		return false;

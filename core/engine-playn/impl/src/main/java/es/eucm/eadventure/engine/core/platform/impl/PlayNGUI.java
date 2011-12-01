@@ -62,7 +62,6 @@ import es.eucm.eadventure.engine.core.platform.GUI;
 import es.eucm.eadventure.engine.core.platform.PlatformConfiguration;
 import es.eucm.eadventure.engine.core.platform.PlayNCanvas;
 import es.eucm.eadventure.engine.core.platform.RuntimeAsset;
-import es.eucm.eadventure.engine.core.platform.impl.extra.PlayNInputListener;
 
 /**
  * <p>
@@ -168,8 +167,6 @@ public class PlayNGUI extends AbstractGUI<Canvas> implements GUI {
 	 * @param layer
 	 */
 	public void initializeCanvas(Canvas canvas, CanvasLayer layer) {
-		PlayNInputListener listener = new PlayNInputListener(mouseState,
-				keyboardState);
 		eAdCanvas.setGraphicContext(canvas);
 		this.canvasLayer = layer;
 		/*

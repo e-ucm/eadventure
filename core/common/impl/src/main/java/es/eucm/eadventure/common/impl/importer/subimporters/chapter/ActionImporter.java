@@ -56,6 +56,8 @@ import es.eucm.eadventure.common.impl.importer.interfaces.EffectsImporterFactory
 import es.eucm.eadventure.common.impl.importer.interfaces.ResourceImporter;
 import es.eucm.eadventure.common.model.actions.EAdAction;
 import es.eucm.eadventure.common.model.actions.impl.EAdBasicAction;
+import es.eucm.eadventure.common.model.conditions.impl.ANDCondition;
+import es.eucm.eadventure.common.model.conditions.impl.EmptyCondition;
 import es.eucm.eadventure.common.model.conditions.impl.NOTCondition;
 import es.eucm.eadventure.common.model.effects.EAdEffect;
 import es.eucm.eadventure.common.model.effects.EAdMacro;
@@ -111,15 +113,26 @@ public class ActionImporter implements EAdElementImporter<Action, EAdAction> {
 	public EAdAction convert(Action oldObject, Object object) {
 		return null;
 	}
-
-	public EAdAction convert(Action oldObject, Object object,
-			EAdSceneElementDef actor) {
-		EAdBasicAction action = (EAdBasicAction) object;
-
+	
+	public EAdCondition setCondition( Action oldObject, EAdAction action, EAdCondition previousCondition ){
 		EAdCondition condition = conditionsImporter.init(oldObject
 				.getConditions());
 		condition = conditionsImporter.convert(oldObject.getConditions(),
 				condition);
+	
+		if ( previousCondition == null && condition == null )
+			return EmptyCondition.TRUE_EMPTY_CONDITION;
+		else if ( previousCondition != null && condition != null )
+			return new ANDCondition( condition, new NOTCondition( previousCondition ));
+		else if ( condition == null )
+			return previousCondition;
+		else
+			return condition;
+		
+	}
+
+	public EAdAction convert(Action oldObject, EAdBasicAction action,
+			EAdSceneElementDef actor, EAdCondition condition ) {
 
 		EAdMacro effects = new EAdMacroImpl();
 		effects.setId("actionEffects");
@@ -265,9 +278,8 @@ public class ActionImporter implements EAdElementImporter<Action, EAdAction> {
 		// TODO Effects for the rest of actions
 		case Action.DRAG_TO:
 		case Action.GIVE_TO:
-		case Action.USE:
-
 		case Action.USE_WITH:
+		case Action.USE:
 
 		case Action.EXAMINE:
 

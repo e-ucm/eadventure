@@ -117,12 +117,12 @@ public class EAdEngine implements playn.core.Game, Keyboard.Listener {
 							// Do nothing. Clicks are processed in ONMOUSEUP;
 							break;
 						case com.google.gwt.user.client.Event.ONMOUSEDOWN:
-							mouseState.setMousePressed(true);
+							mouseState.setMousePressed(true, b);
 							e = EAdMouseEventImpl.getMouseEvent(
 									MouseActionType.PRESSED, b);
 							break;
 						case com.google.gwt.user.client.Event.ONMOUSEUP:
-							mouseState.setMousePressed(false);
+							mouseState.setMousePressed(false, null);
 							e = EAdMouseEventImpl.getMouseEvent(
 									MouseActionType.RELEASED, b);
 							mouseState.getMouseEvents().add(new MouseActionImpl(EAdMouseEventImpl.getMouseEvent(

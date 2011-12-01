@@ -107,7 +107,7 @@ public abstract class ElementImporter<T> implements
 		stringHandler.setString(newElement.getName(), oldObject.getName());
 		stringHandler.setString(newElement.getDesc(),
 				oldObject.getDescription());
-		stringHandler.setString(newElement.getDetailedDesc(),
+		stringHandler.setString(newElement.getDetailDesc(),
 				oldObject.getDetailedDescription());
 		stringHandler.setString(newElement.getDoc(),
 				oldObject.getDocumentation());

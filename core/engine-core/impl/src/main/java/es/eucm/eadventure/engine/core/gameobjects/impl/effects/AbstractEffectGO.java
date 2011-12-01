@@ -47,8 +47,6 @@ import es.eucm.eadventure.common.params.geom.EAdPosition;
 import es.eucm.eadventure.common.resources.StringHandler;
 import es.eucm.eadventure.engine.core.GameLoop;
 import es.eucm.eadventure.engine.core.GameState;
-import es.eucm.eadventure.engine.core.MouseState;
-import es.eucm.eadventure.engine.core.gameobjects.DrawableGO;
 import es.eucm.eadventure.engine.core.gameobjects.EffectGO;
 import es.eucm.eadventure.engine.core.gameobjects.factories.SceneElementGOFactory;
 import es.eucm.eadventure.engine.core.gameobjects.impl.DrawableGameObjectImpl;
@@ -161,11 +159,6 @@ public abstract class AbstractEffectGO<P extends EAdEffect> extends
 	@Override
 	public boolean processAction(GUIAction action) {
 		return false;
-	}
-
-	@Override
-	public DrawableGO<?> getDraggableElement(MouseState mouseState) {
-		return null;
 	}
 
 	@Override
