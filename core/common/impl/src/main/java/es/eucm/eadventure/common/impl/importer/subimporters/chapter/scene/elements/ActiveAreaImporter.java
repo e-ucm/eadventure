@@ -84,6 +84,7 @@ public class ActiveAreaImporter extends ElementImporter<ActiveArea> {
 	public EAdSceneElement convert(ActiveArea oldObject, Object object) {
 		// Reference to the active area
 		EAdBasicSceneElement newActiveAreaReference = (EAdBasicSceneElement) object;
+		newActiveAreaReference.setId(oldObject.getId() + "_ActiveArea");
 
 		EAdSceneElementDefImpl newActiveArea = (EAdSceneElementDefImpl) newActiveAreaReference
 				.getDefinition();
@@ -135,7 +136,7 @@ public class ActiveAreaImporter extends ElementImporter<ActiveArea> {
 			EAdSceneElementDefImpl newActiveArea,
 			EAdBasicSceneElement newActiveAreaReference) {
 		ActorImporter.addActions(oldObject, newActiveArea, actionImporter,
-				stringHandler);
+				stringHandler, true);
 		EAdActorActionsEffect showActions = new EAdActorActionsEffect( newActiveAreaReference);
 		newActiveAreaReference.addBehavior(EAdMouseEventImpl.MOUSE_RIGHT_CLICK,
 				showActions);
