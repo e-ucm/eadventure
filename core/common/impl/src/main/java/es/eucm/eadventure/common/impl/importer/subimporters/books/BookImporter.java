@@ -253,9 +253,9 @@ public class BookImporter implements EAdElementImporter<Book, EAdScene> {
 		changeScene.setCondition(endCondition);
 		rightArrow.addBehavior(EAdMouseEventImpl.MOUSE_LEFT_CLICK, changeScene);
 
-		book.getElements().add(content);
-		book.getElements().add(leftArrow);
-		book.getElements().add(rightArrow);
+		book.getComponents().add(content);
+		book.getComponents().add(leftArrow);
+		book.getComponents().add(rightArrow);
 		book.setReturnable(false);
 
 		return book;

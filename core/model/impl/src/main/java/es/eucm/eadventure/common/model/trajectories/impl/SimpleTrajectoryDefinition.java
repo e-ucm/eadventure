@@ -84,7 +84,7 @@ public class SimpleTrajectoryDefinition extends EAdElementImpl implements Trajec
 		top = left = Integer.MIN_VALUE;
 	}
 	
-	public boolean isOnlyHoriztonal( ){
+	public boolean isOnlyHorizontal( ){
 		return onlyHorizontal;
 	}
 	

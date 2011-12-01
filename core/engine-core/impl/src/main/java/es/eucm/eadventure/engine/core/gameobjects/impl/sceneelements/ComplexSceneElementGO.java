@@ -92,7 +92,7 @@ public class ComplexSceneElementGO extends
 
 	public void setElement(EAdComplexElement element) {
 		super.setElement(element);
-		for (EAdSceneElement sceneElement : element.getElements()) {
+		for (EAdSceneElement sceneElement : element.getComponents()) {
 			SceneElementGO<?> go = sceneElementFactory.get(sceneElement);
 			go.getRenderAsset();
 		}
@@ -124,7 +124,7 @@ public class ComplexSceneElementGO extends
 	@Override
 	public void update() {
 		super.update();
-		for (EAdSceneElement sceneElement : element.getElements()) {
+		for (EAdSceneElement sceneElement : element.getComponents()) {
 			sceneElementFactory.get(sceneElement).update();
 		}
 	}
@@ -151,7 +151,7 @@ public class ComplexSceneElementGO extends
 		int minY = minX;
 		int maxX = Integer.MIN_VALUE;
 		int maxY = maxX;
-		for (EAdSceneElement sceneElement : element.getElements()) {
+		for (EAdSceneElement sceneElement : element.getComponents()) {
 			SceneElementGO<?> go = sceneElementFactory.get(sceneElement);
 			int xLeft = go.getPosition().getJavaX(go.getWidth());
 			int xRight = xLeft + go.getWidth();
@@ -174,7 +174,7 @@ public class ComplexSceneElementGO extends
 
 	@Override
 	public void doLayout(EAdTransformation transformation) {
-		for (EAdSceneElement sceneElement : element.getElements()) {
+		for (EAdSceneElement sceneElement : element.getComponents()) {
 			SceneElementGO<?> go = sceneElementFactory.get(sceneElement);
 			gui.addElement(go, transformation);
 
@@ -184,7 +184,7 @@ public class ComplexSceneElementGO extends
 	@Override
 	public List<RuntimeAsset<?>> getAssets(List<RuntimeAsset<?>> assetList,
 			boolean allAssets) {
-		for (EAdSceneElement sceneElement : element.getElements())
+		for (EAdSceneElement sceneElement : element.getComponents())
 			assetList = sceneElementFactory.get(sceneElement).getAssets(
 					assetList, allAssets);
 		return assetList;

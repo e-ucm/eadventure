@@ -41,7 +41,7 @@ public class AddActorReferenceEffectGO extends
 			((AbstractSceneElementEffect) element.getInitialEffect())
 					.setSceneElement(ref);
 			ref.getEvents().add(event);
-			scene.getElements().add(ref, 0);
+			scene.getComponents().add(ref, 0);
 		}
 	}
 

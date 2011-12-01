@@ -131,8 +131,8 @@ public class MoveSceneElementGO extends
 		super.initilize();
 		ValueMap valueMap = gameState.getValueMap();
 
-		int endX = operatorFactory.operate(Integer.class, element.getXTarget());
-		int endY = operatorFactory.operate(Integer.class, element.getYTarget());
+		int endX = operatorFactory.operate(Integer.class, element.getxTarget());
+		int endY = operatorFactory.operate(Integer.class, element.getyTarget());
 
 
 		EAdSceneElement target = element.getTarget() != null ? valueMap
@@ -141,7 +141,7 @@ public class MoveSceneElementGO extends
 
 		TrajectoryDefinition d = valueMap.getValue(gameState.getScene()
 				.getElement(), EAdSceneImpl.VAR_TRAJECTORY_DEFINITION);
-		if (d != null && element.useTrajectory()) {
+		if (d != null && element.isUseTrajectory()) {
 			if (target == null)
 				path = trajectoryFactory.getTrajectory(d, element.getSceneElement(),
 						endX, endY);
@@ -199,7 +199,7 @@ public class MoveSceneElementGO extends
 			//TODO should make more generic...
 			TrajectoryDefinition d = gameState.getValueMap().getValue(gameState.getScene()
 					.getElement(), EAdSceneImpl.VAR_TRAJECTORY_DEFINITION);
-			if (d != null && element.useTrajectory() && side instanceof DijkstraPathSide ) {
+			if (d != null && element.isUseTrajectory() && side instanceof DijkstraPathSide ) {
 				gameState.getValueMap().setValue(element.getSceneElement(), NodeTrajectoryDefinition.VAR_CURRENT_SIDE, ((DijkstraPathSide) side).getSide());
 			}
 

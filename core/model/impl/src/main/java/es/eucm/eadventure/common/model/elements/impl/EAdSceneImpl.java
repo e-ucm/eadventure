@@ -95,7 +95,7 @@ public class EAdSceneImpl extends EAdComplexElementImpl implements EAdScene {
 	}
 
 	@Override
-	public Boolean isReturnable() {
+	public Boolean getReturnable() {
 		return returnable;
 	}
 
@@ -109,8 +109,12 @@ public class EAdSceneImpl extends EAdComplexElementImpl implements EAdScene {
 	}
 
 	@Override
-	public Boolean acceptsVisualEffects() {
+	public Boolean getAcceptsVisualEffects() {
 		return acceptsVisualEffects;
+	}
+	
+	public void setAcceptsVisualEffects(Boolean acceptsVisualEffects) {
+		this.acceptsVisualEffects = acceptsVisualEffects;
 	}
 
 }

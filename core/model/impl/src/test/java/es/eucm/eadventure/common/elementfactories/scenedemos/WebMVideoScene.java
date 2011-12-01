@@ -64,7 +64,7 @@ public class WebMVideoScene extends EmptyScene {
 				.getSceneElementFactory()
 				.createSceneElement(new ImageImpl("@drawable/arrow_right.png"),
 						200, 60, changeScene);
-		this.getElements().add(goRightArrow);
+		this.getComponents().add(goRightArrow);
 		
 		goRightArrow.addBehavior(EAdKeyEventImpl.KEY_ARROW_RIGHT, changeScene);
 

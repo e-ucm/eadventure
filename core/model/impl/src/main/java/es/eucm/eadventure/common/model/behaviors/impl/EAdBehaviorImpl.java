@@ -117,5 +117,9 @@ public class EAdBehaviorImpl extends EAdElementImpl implements EAdBehavior {
 		for (int i = effects.size() - 1; i >= 0; i--)
 			addBehavior(event, effects.get(i));
 	}
+	
+	public EAdMap<EAdGUIEvent, EAdList<EAdEffect>> getBehavior() {
+		return behavior;
+	}
 
 }

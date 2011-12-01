@@ -54,7 +54,7 @@ public class PhysicsScene3 extends EmptyScene {
 		EAdBasicSceneElement e2 = new EAdBasicSceneElement(
 				new RectangleShape(10, 100, EAdColor.BROWN));
 		e2.setId("e2");
-		getElements().add(e2);
+		getComponents().add(e2);
 		e2.setPosition(new EAdPositionImpl(Corner.CENTER, 500, 300));
 
 		EAdPhysicsEffect effect = new EAdPhysicsEffect();
@@ -103,11 +103,11 @@ public class PhysicsScene3 extends EmptyScene {
 				(float) Math.PI / 2.0f);
 
 		effect.addSceneElement(ground);
-		getElements().add(ground);
+		getComponents().add(ground);
 		effect.addSceneElement(wall);
-		getElements().add(wall);
+		getComponents().add(wall);
 		effect.addSceneElement(wall2);
-		getElements().add(wall2);
+		getComponents().add(wall2);
 
 	}
 
@@ -160,8 +160,8 @@ public class PhysicsScene3 extends EmptyScene {
 		event.addEffect(SceneElementEventType.ALWAYS, followMouse);
 		canyon.getEvents().add(event);
 
-		getElements().add(canyon);
-		getElements().add(canyonSupport);
+		getComponents().add(canyon);
+		getComponents().add(canyonSupport);
 
 		// Bullet generation
 
@@ -190,7 +190,7 @@ public class PhysicsScene3 extends EmptyScene {
 		c.setBubblePaint(EAdColor.TRANSPARENT);
 		EAdBasicSceneElement e = new EAdBasicSceneElement( c);
 		e.setPosition(120, 375);
-		getElements().add(e);
+		getComponents().add(e);
 
 	}
 
@@ -210,8 +210,8 @@ public class PhysicsScene3 extends EmptyScene {
 		rope.setPosition(new EAdPositionImpl(Corner.CENTER, 450, 50));
 		rope.setVarInitialValue(EAdPhysicsEffect.VAR_PH_TYPE, PhType.DYNAMIC);
 		rope.setVarInitialValue(EAdPhysicsEffect.VAR_PH_FRICTION, 0.7f);
-		getElements().add(rope);
-		getElements().add(holder);
+		getComponents().add(rope);
+		getComponents().add(holder);
 
 		effect.addJoint(holder, rope);
 

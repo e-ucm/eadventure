@@ -6,8 +6,8 @@ import es.eucm.eadventure.common.model.guievents.enums.DragAction;
 public interface EAdDragEvent extends EAdGUIEvent {
 	
 
-	EAdElement getElement();
+	EAdElement getCarryElement();
 	
-	DragAction getDragAction();
+	DragAction getAction();
 
 }

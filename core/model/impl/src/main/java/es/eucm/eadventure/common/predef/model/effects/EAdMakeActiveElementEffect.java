@@ -61,4 +61,14 @@ public class EAdMakeActiveElementEffect extends EAdChangeFieldValueEffect {
 		super(SystemFields.ACTIVE_ELEMENT, new ValueOperation(element));
 		setId("makeActiveElement_" + element);
 	}
+
+	public EAdSceneElement getSceneElement() {
+		return sceneElement;
+	}
+
+	public void setSceneElement(EAdSceneElement sceneElement) {
+		this.sceneElement = sceneElement;
+	}
+	
+	
 }

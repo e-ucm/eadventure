@@ -51,12 +51,12 @@ public interface EAdScene extends EAdComplexElement {
 	 * @return true if the game can return to this scene after a cutscene or
 	 *         similiar
 	 */
-	Boolean isReturnable();
+	Boolean getReturnable();
 
 	/**
 	 * 
 	 * @return true if accepts visual effects
 	 */
-	Boolean acceptsVisualEffects();
+	Boolean getAcceptsVisualEffects();
 
 }

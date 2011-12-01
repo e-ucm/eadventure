@@ -42,7 +42,7 @@ public class TrajectoriesScene extends EmptyScene {
 
 		element.getEvents().add(event);
 
-		getElements().add(element);
+		getComponents().add(element);
 
 		getBackground().addBehavior(EAdMouseEventImpl.MOUSE_LEFT_CLICK,
 				new EAdMoveActiveElement());

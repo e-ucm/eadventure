@@ -44,7 +44,7 @@ public class SharingEffectsScene extends EmptyScene {
 		event.addEffect(SceneElementEventType.ADDED_TO_SCENE, effect);
 		
 		b.setPosition(20, 20);
-		this.getElements().add(b);
+		this.getComponents().add(b);
 		
 		for ( int i = 0; i < 4; i++)
 			for ( int j = 0; j < 4; j++ ){
@@ -55,7 +55,7 @@ public class SharingEffectsScene extends EmptyScene {
 				e.addBehavior(EAdMouseEventImpl.MOUSE_LEFT_CLICK, ef);
 				e.addBehavior(EAdMouseEventImpl.MOUSE_ENTERED, changeAlpha1);
 				e.addBehavior(EAdMouseEventImpl.MOUSE_EXITED, changeAlpha2);
-				getElements().add(e);
+				getComponents().add(e);
 			}
 				
 	}

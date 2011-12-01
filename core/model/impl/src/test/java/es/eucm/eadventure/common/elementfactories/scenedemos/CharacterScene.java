@@ -107,7 +107,7 @@ public class CharacterScene extends EmptyScene {
 
 		element.getEvents().add(event);
 
-		this.getElements().add(element);
+		this.getComponents().add(element);
 
 		EAdEffect goUpEffect = EAdElementsFactory
 				.getInstance()
@@ -121,7 +121,7 @@ public class CharacterScene extends EmptyScene {
 				.getSceneElementFactory()
 				.createSceneElement(new ImageImpl("@drawable/arrow_up.png"),
 						100, 210, goUpEffect);
-		this.getElements().add(goUpArrow);
+		this.getComponents().add(goUpArrow);
 
 		element.addBehavior(EAdKeyEventImpl.KEY_ARROW_UP, goUpEffect);
 
@@ -137,7 +137,7 @@ public class CharacterScene extends EmptyScene {
 				.getSceneElementFactory()
 				.createSceneElement(new ImageImpl("@drawable/arrow_down.png"),
 						100, 320, goDownEffect);
-		this.getElements().add(goDownArrow);
+		this.getComponents().add(goDownArrow);
 
 		element.addBehavior(EAdKeyEventImpl.KEY_ARROW_DOWN, goDownEffect);
 
@@ -153,7 +153,7 @@ public class CharacterScene extends EmptyScene {
 				.getSceneElementFactory()
 				.createSceneElement(new ImageImpl("@drawable/arrow_left.png"),
 						0, 260, goLeftEffect);
-		this.getElements().add(goLeftArrow);
+		this.getComponents().add(goLeftArrow);
 
 		element.addBehavior(EAdKeyEventImpl.KEY_ARROW_LEFT, goLeftEffect);
 
@@ -169,7 +169,7 @@ public class CharacterScene extends EmptyScene {
 				.getSceneElementFactory()
 				.createSceneElement(new ImageImpl("@drawable/arrow_right.png"),
 						200, 260, goRightEffect);
-		this.getElements().add(goRightArrow);
+		this.getComponents().add(goRightArrow);
 
 		element.addBehavior(EAdKeyEventImpl.KEY_ARROW_RIGHT, goRightEffect);
 
@@ -190,7 +190,7 @@ public class CharacterScene extends EmptyScene {
 		sf.setString(stand.getLabel(), "Stand");
 		stand.addBehavior(EAdMouseEventImpl.MOUSE_LEFT_PRESSED, standEffect);
 		stand.setPosition(Corner.CENTER, 600, 250);
-		getElements().add(stand);
+		getComponents().add(stand);
 
 		EAdEffect talkEffect = EAdElementsFactory
 				.getInstance()
@@ -204,7 +204,7 @@ public class CharacterScene extends EmptyScene {
 		sf.setString(talk.getLabel(), "Talk");
 		talk.addBehavior(EAdMouseEventImpl.MOUSE_LEFT_PRESSED, talkEffect);
 		talk.setPosition(Corner.CENTER, 600, 290);
-		getElements().add(talk);
+		getComponents().add(talk);
 
 		EAdEffect walkEffect = EAdElementsFactory
 				.getInstance()
@@ -218,7 +218,7 @@ public class CharacterScene extends EmptyScene {
 		sf.setString(walk.getLabel(), "Walk");
 		walk.addBehavior(EAdMouseEventImpl.MOUSE_LEFT_PRESSED, walkEffect);
 		walk.setPosition(Corner.CENTER, 600, 330);
-		getElements().add(walk);
+		getComponents().add(walk);
 	}
 
 	private static OrientedDrawable getTalkDrawable() {

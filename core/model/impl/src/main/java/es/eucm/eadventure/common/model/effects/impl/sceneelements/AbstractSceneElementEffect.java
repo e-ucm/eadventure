@@ -30,4 +30,14 @@ public abstract class AbstractSceneElementEffect extends AbstractEAdEffect
 		this.element = elementField;
 	}
 
+	public EAdElement getElement() {
+		return element;
+	}
+
+	public void setElement(EAdElement element) {
+		this.element = element;
+	}
+	
+	
+
 }

@@ -36,7 +36,7 @@ public class SimpleTrajectoryGenerator implements
 		EAdPosition currentPosition = getCurrentPosition(movingElement);
 		
 		List<EAdPosition> list = new ArrayList<EAdPosition>();
-		if (def.isOnlyHoriztonal()) {
+		if (def.isOnlyHorizontal()) {
 			list.add(new EAdPositionImpl(getX(def, x), currentPosition.getY()));
 		} else {
 			list.add(new EAdPositionImpl(getX(def, x), getY(def, y)));
@@ -53,7 +53,7 @@ public class SimpleTrajectoryGenerator implements
 		EAdPosition currentPosition = getCurrentPosition(movingElement);
 
 		List<EAdPosition> list = new ArrayList<EAdPosition>();
-		if (trajectoryDefinition.isOnlyHoriztonal()) {
+		if (trajectoryDefinition.isOnlyHorizontal()) {
 			list.add(new EAdPositionImpl(x, currentPosition.getY()));
 		} else {
 			list.add(new EAdPositionImpl(x, y));

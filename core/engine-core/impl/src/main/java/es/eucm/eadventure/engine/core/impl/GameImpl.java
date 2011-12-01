@@ -253,7 +253,7 @@ public class GameImpl implements Game {
 		this.adventure = model;
 		if (adventure.getInventory() != null) {
 			for (EAdSceneElementDef def : adventure.getInventory()
-					.getInitialInventory())
+					.getInitialItems())
 				inventoryHandler.add(def);
 			gameObjectManager.addHUD(inventoryHUD);
 		}

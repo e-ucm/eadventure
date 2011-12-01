@@ -51,8 +51,8 @@ public class InitScene extends EmptyScene {
 			b.setPosition(x, y);
 			b.addBehavior(EAdMouseEventImpl.MOUSE_LEFT_PRESSED,
 					new EAdChangeScene( s, EAdTransition.BASIC));
-			this.getElements().add(b);
-			s.getElements().add(goBack);
+			this.getComponents().add(b);
+			s.getComponents().add(goBack);
 			EAdBasicSceneElement info = new EAdBasicSceneElement(infoButton);
 			info.setPosition(Corner.BOTTOM_LEFT, 80, 590);
 			EAdSpeakEffect effect = new EAdSpeakEffect();
@@ -62,7 +62,7 @@ public class InitScene extends EmptyScene {
 			sf.setString(effect.getString(), s.getSceneDescription());
 			info.addBehavior(EAdMouseEventImpl.MOUSE_LEFT_PRESSED, effect);
 			// info.setScale(0.5f);
-			s.getElements().add(info);
+			s.getComponents().add(info);
 			y += 45;
 			if (y > 520) {
 				y = 200;

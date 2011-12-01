@@ -68,11 +68,11 @@ public class MoleGame extends EmptyScene {
 			for (int j = 0; j < row; j++) {
 				EAdSceneElement mole = getMole(size * i, size * j);
 				mole.setVarInitialValue(EAdBasicSceneElement.VAR_SCALE, scale);
-				getElements().add(mole);
+				getComponents().add(mole);
 				list.add(mole);
 				EAdSceneElement hole = getHole(size * i, size * j + 25);
 				hole.setVarInitialValue(EAdBasicSceneElement.VAR_SCALE, scale);
-				this.getElements().add(hole);
+				this.getComponents().add(hole);
 
 			}
 		listVar = new EAdVarDefImpl<EAdList>("moleListVar", EAdList.class, list);

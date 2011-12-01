@@ -107,7 +107,7 @@ public class EAdComplexElementImpl extends EAdBasicSceneElement implements
 	}
 
 	@Override
-	public EAdList<EAdSceneElement> getElements() {
+	public EAdList<EAdSceneElement> getComponents() {
 		return components;
 	}
 }

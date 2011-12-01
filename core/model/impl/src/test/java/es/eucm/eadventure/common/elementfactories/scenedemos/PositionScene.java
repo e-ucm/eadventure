@@ -19,7 +19,7 @@ public class PositionScene extends EmptyScene {
 		e.setScale(0.5f);
 		e.setPosition(new EAdPositionImpl(Corner.BOTTOM_CENTER, 400, 300));
 		
-		this.getElements().add(e);
+		this.getComponents().add(e);
 	}
 
 	@Override

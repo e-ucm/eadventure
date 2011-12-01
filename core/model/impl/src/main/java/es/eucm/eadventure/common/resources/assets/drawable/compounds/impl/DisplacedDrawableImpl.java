@@ -73,7 +73,7 @@ public class DisplacedDrawableImpl implements DisplacedDrawable {
 	 * 
 	 * @param position
 	 */
-	public void setDisplacement(EAdPositionImpl position) {
+	public void setDisplacement(EAdPosition position) {
 		displacement = position;
 	}
 

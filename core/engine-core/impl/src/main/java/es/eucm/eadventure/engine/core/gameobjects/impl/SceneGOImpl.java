@@ -87,7 +87,7 @@ public class SceneGOImpl extends SceneElementGOImpl<EAdScene> implements
 
 	private void sortElements() {
 		orderedElements.clear();
-		for ( EAdSceneElement e: element.getElements() ){
+		for ( EAdSceneElement e: element.getComponents() ){
 			orderedElements.add(e);
 		}
 		Collections.sort(orderedElements, comparator);
@@ -110,14 +110,14 @@ public class SceneGOImpl extends SceneElementGOImpl<EAdScene> implements
 	public void update() {
 		super.update();
 		sceneElementFactory.get(element.getBackground()).update();
-		for (EAdSceneElement sceneElement : element.getElements())
+		for (EAdSceneElement sceneElement : element.getComponents())
 			sceneElementFactory.get(sceneElement).update();
 	}
 
 	@Override
 	public boolean acceptsVisualEffects() {
 		if (element != null)
-			return element.acceptsVisualEffects();
+			return element.getAcceptsVisualEffects();
 		return false;
 	}
 
@@ -128,7 +128,7 @@ public class SceneGOImpl extends SceneElementGOImpl<EAdScene> implements
 			EAdSceneElement background = element.getBackground();
 			SceneElementGO<?> gameObject = sceneElementFactory.get(background);
 			assetList = gameObject.getAssets(assetList, allAssets);
-			for (EAdSceneElement sceneElement : element.getElements())
+			for (EAdSceneElement sceneElement : element.getComponents())
 				assetList = sceneElementFactory.get(sceneElement).getAssets(
 						assetList, allAssets);
 			return assetList;

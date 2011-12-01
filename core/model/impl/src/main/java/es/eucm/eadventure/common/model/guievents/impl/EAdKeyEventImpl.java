@@ -69,7 +69,7 @@ public class EAdKeyEventImpl extends EAdElementImpl implements EAdKeyEvent {
 	private KeyCode keyCode;
 
 	@Param("char")
-	private Character c;
+	private Character character;
 	
 	public EAdKeyEventImpl( ){
 		
@@ -87,7 +87,7 @@ public class EAdKeyEventImpl extends EAdElementImpl implements EAdKeyEvent {
 		setId("KeyEvent_" + type + "_" + c);
 		this.type = type;
 		this.keyCode = KeyCode.LETTER;
-		this.c = c;
+		this.character = c;
 
 	}
 
@@ -95,15 +95,23 @@ public class EAdKeyEventImpl extends EAdElementImpl implements EAdKeyEvent {
 	public KeyActionType getType() {
 		return type;
 	}
+	
+	public void setType(KeyActionType type) {
+		this.type = type;
+	}
 
 	@Override
 	public KeyCode getKeyCode() {
 		return keyCode;
 	}
+	
+	public void setKeyCode(KeyCode keyCode) {
+		this.keyCode = keyCode;
+	}
 
 	@Override
-	public char getChar() {
-		return c;
+	public Character getCharacter() {
+		return character;
 	}
 
 	/**
@@ -112,12 +120,12 @@ public class EAdKeyEventImpl extends EAdElementImpl implements EAdKeyEvent {
 	 * @param letter
 	 *            the letter
 	 */
-	public void setChar(char letter) {
-		this.c = letter;
+	public void setCharacter(Character letter) {
+		this.character = letter;
 	}
 
 	public String toString() {
-		return type.toString() + "_" + keyCode.toString() + "_" + c;
+		return type.toString() + "_" + keyCode.toString() + "_" + character;
 	}
 
 	@Override
@@ -125,7 +133,7 @@ public class EAdKeyEventImpl extends EAdElementImpl implements EAdKeyEvent {
 		if (keyCode != null)
 			return new EAdKeyEventImpl(type, keyCode);
 		else
-			return new EAdKeyEventImpl(type, c);
+			return new EAdKeyEventImpl(type, character);
 	}
 
 	@Override
@@ -139,7 +147,7 @@ public class EAdKeyEventImpl extends EAdElementImpl implements EAdKeyEvent {
 			EAdKeyEvent e = (EAdKeyEvent) o;
 			if (this.type == e.getType() && this.keyCode == e.getKeyCode()) {
 				if (keyCode == KeyCode.LETTER) {
-					return this.c == e.getChar();
+					return this.character == e.getCharacter();
 				}
 				return true;
 			}
@@ -149,7 +157,7 @@ public class EAdKeyEventImpl extends EAdElementImpl implements EAdKeyEvent {
 	}
 	
 	public int hashCode(){
-		return (type.toString() + keyCode.toString() + c + "").hashCode();
+		return (type.toString() + keyCode.toString() + character + "").hashCode();
 	}
 
 }

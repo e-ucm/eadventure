@@ -53,9 +53,9 @@ public class DragDropScene extends EmptyScene {
 		addBehaviors(e2, e1);
 		addBehaviors(e3, e1);
 
-		getElements().add(e2);
-		getElements().add(e3);
-		getElements().add(e1);
+		getComponents().add(e2);
+		getComponents().add(e3);
+		getComponents().add(e1);
 
 	}
 

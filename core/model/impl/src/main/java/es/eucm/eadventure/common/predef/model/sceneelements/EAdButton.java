@@ -31,7 +31,7 @@ public class EAdButton extends EAdComplexElementImpl {
 		text.setVarInitialValue(EAdBasicSceneElement.VAR_ENABLE, Boolean.FALSE);
 
 		createButton();
-		getElements().add(text);
+		getComponents().add(text);
 	}
 
 	public EAdString getLabel() {

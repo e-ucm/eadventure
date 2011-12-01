@@ -75,8 +75,8 @@ public class EAdMoveSceneElement extends AbstractSceneElementEffect {
 	@Param("boolean")
 	private boolean useTrajectory;
 	
-	@Param("elementTarget")
-	private EAdSceneElementDef sceneElementDef;
+	@Param("target")
+	private EAdSceneElementDef target;
 
 	/**
 	 * Constructs an move actor reference effect, with target set to
@@ -141,7 +141,7 @@ public class EAdMoveSceneElement extends AbstractSceneElementEffect {
 	 * 
 	 * @return x coordinate target
 	 */
-	public EAdOperation getXTarget() {
+	public EAdOperation getxTarget() {
 		return xTarget;
 	}
 
@@ -149,7 +149,7 @@ public class EAdMoveSceneElement extends AbstractSceneElementEffect {
 	 * 
 	 * @return y coordinate target
 	 */
-	public EAdOperation getYTarget() {
+	public EAdOperation getyTarget() {
 		return yTarget;
 	}
 
@@ -181,15 +181,26 @@ public class EAdMoveSceneElement extends AbstractSceneElementEffect {
 		this.speedFactor = speedFactor;
 	}
 	
-	public boolean useTrajectory(){
+	public boolean isUseTrajectory(){
 		return useTrajectory;
 	}
 
 	public void setTarget( EAdSceneElementDef sceneElementDef ){
-		this.sceneElementDef = sceneElementDef;
+		this.target = sceneElementDef;
 	}
 	
 	public EAdSceneElementDef getTarget( ){
-		return sceneElementDef;
+		return target;
 	}
+
+	public void setxTarget(EAdOperation xTarget) {
+		this.xTarget = xTarget;
+	}
+
+	public void setyTarget(EAdOperation yTarget) {
+		this.yTarget = yTarget;
+	}
+	
+	
+	
 }

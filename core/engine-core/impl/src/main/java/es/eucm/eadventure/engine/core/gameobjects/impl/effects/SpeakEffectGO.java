@@ -143,7 +143,7 @@ public class SpeakEffectGO extends AbstractEffectGO<EAdSpeakEffect> implements
 		complex.setId("complex");
 		complex.getResources().addAsset(complex.getInitialBundle(),
 				EAdBasicSceneElement.appearance, rectangle);
-		complex.getElements().add(textSE);
+		complex.getComponents().add(textSE);
 
 		caption = (RuntimeCaption) (sceneElementFactory.get(textSE))
 				.getRenderAsset();

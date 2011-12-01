@@ -199,7 +199,7 @@ public class SceneImporter implements EAdElementImporter<Scene, EAdSceneImpl> {
 			event.addEffect(SceneElementEventType.ADDED_TO_SCENE, effect);
 			playerReference.getEvents().add(event);
 
-			scene.getElements().add(playerReference);
+			scene.getComponents().add(playerReference);
 
 			scene.getBackground().addBehavior(
 					EAdMouseEventImpl.MOUSE_LEFT_CLICK,
@@ -229,7 +229,7 @@ public class SceneImporter implements EAdElementImporter<Scene, EAdSceneImpl> {
 				barrier = barrierImporter.convert(b, barrier);
 
 				nodeDef.addBarrier(barrier);
-				scene.getElements().add(barrier);
+				scene.getComponents().add(barrier);
 			}
 
 			playerReference.setPosition(new EAdPositionImpl(
@@ -245,7 +245,7 @@ public class SceneImporter implements EAdElementImporter<Scene, EAdSceneImpl> {
 			EAdSceneElement se = activeAreasImporter.init(a);
 			se = activeAreasImporter.convert(a, se);
 			if (se != null)
-				scene.getElements().add(se);
+				scene.getComponents().add(se);
 		}
 
 	}
@@ -255,7 +255,7 @@ public class SceneImporter implements EAdElementImporter<Scene, EAdSceneImpl> {
 			EAdSceneElement se = exitsImporter.init(e);
 			se = exitsImporter.convert(e, se);
 			if (se != null)
-				scene.getElements().add(se);
+				scene.getComponents().add(se);
 		}
 
 	}
@@ -265,7 +265,7 @@ public class SceneImporter implements EAdElementImporter<Scene, EAdSceneImpl> {
 		for (ElementReference oldRef : references) {
 			EAdSceneElement newRef = referencesImporter.init(oldRef);
 			newRef = referencesImporter.convert(oldRef, newRef);
-			scene.getElements().add(newRef);
+			scene.getComponents().add(newRef);
 		}
 
 	}
@@ -291,7 +291,7 @@ public class SceneImporter implements EAdElementImporter<Scene, EAdSceneImpl> {
 				EAdBasicSceneElement foreground = new EAdBasicSceneElement( image );
 				foreground.setId("foreground");
 				foreground.setVarInitialValue(EAdBasicSceneElement.VAR_Z, -100);
-				scene.getElements().add(foreground);
+				scene.getComponents().add(foreground);
 			}
 			// Music is imported to chapter level. So, the chapter will
 			// remain with the last sound track appeared in the scenes

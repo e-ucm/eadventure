@@ -28,11 +28,11 @@ public class DepthZScene extends EmptyScene {
 		
 		EAdBasicSceneElement e1 = new EAdBasicSceneElement(new RectangleShape( 50, 500, new EAdPaintImpl( EAdColor.RED, EAdColor.BLACK ) ));
 		e1.setPosition(new EAdPositionImpl( Corner.CENTER, 400, 300 ));
-		getElements().add(e1);
+		getComponents().add(e1);
 		
 		EAdBasicSceneElement e2 = new EAdBasicSceneElement( new CircleShape( 20, 20, 20, 20, new EAdPaintImpl( EAdColor.GREEN, EAdColor.BLACK ) ));
 		e2.setPosition(new EAdPositionImpl( Corner.CENTER, 10, 300 ));
-		getElements().add(e2);
+		getComponents().add(e2);
 		
 		EAdField<Integer> xField = new EAdFieldImpl<Integer>(e2, EAdBasicSceneElement.VAR_X);
 		EAdInterpolationEffect effect = new EAdInterpolationEffect(xField, 50, 750, totalTime, InterpolationLoopType.REVERSE, InterpolationType.LINEAR);

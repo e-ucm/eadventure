@@ -48,8 +48,8 @@ public class EAdInventoryEffect extends AbstractEAdEffect {
 	@Param("modification")
 	private InventoryEffectAction modification;
 	
-	@Param("actor")
-	private EAdSceneElementDef actor;
+	@Param("sceneElement")
+	private EAdSceneElementDef sceneElement;
 	
 
 	public EAdInventoryEffect() {
@@ -60,24 +60,25 @@ public class EAdInventoryEffect extends AbstractEAdEffect {
 	public EAdInventoryEffect( EAdSceneElementDef actor, InventoryEffectAction modification) {
 		super();
 		this.modification = modification;
-		this.actor = actor;
+		this.sceneElement = actor;
 	}
 	
 	public void setModification(InventoryEffectAction modification) {
 		this.modification = modification;
 	}
 	
-	public InventoryEffectAction getAction() {
+	public InventoryEffectAction getModification() {
 		return modification;
 	}
 	
+	public void setSceneElement(EAdSceneElementDef actor) {
+		this.sceneElement = actor;
+	}
 
-	public void setActor(EAdSceneElementDef actor) {
-		this.actor = actor;
+	public EAdSceneElementDef getSceneElement() {
+		return sceneElement;
 	}
 	
-	public EAdSceneElementDef getDefinition() {
-		return actor;
-	}
+	
 	
 }

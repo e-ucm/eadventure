@@ -146,7 +146,7 @@ public class GameStateImpl implements GameState {
 		if (this.scene != null && this.scene.getElement() != null) {
 			valueMap.setValue(scene.getElement(),
 					EAdSceneImpl.VAR_SCENE_LOADED, Boolean.FALSE);
-			if (scene.getElement().isReturnable())
+			if (scene.getElement().getReturnable())
 				previousSceneStack.push(scene.getElement());
 		}
 		this.scene = newScene;

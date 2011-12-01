@@ -29,12 +29,22 @@ public class PhApplyImpluse extends AbstractSceneElementEffect {
 		this.setSceneElement(element);
 	}
 
-	public MathOperation getXForce() {
+	public MathOperation getxForce() {
 		return xForce;
 	}
 
-	public MathOperation getYForce() {
+	public MathOperation getyForce() {
 		return yForce;
+	}
+	
+	
+
+	public void setxForce(MathOperation xForce) {
+		this.xForce = xForce;
+	}
+
+	public void setyForce(MathOperation yForce) {
+		this.yForce = yForce;
 	}
 
 	public void setForce(MathOperation xForce, MathOperation yForce) {

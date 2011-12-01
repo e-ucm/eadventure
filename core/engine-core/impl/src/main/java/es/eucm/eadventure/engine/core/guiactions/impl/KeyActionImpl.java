@@ -56,7 +56,7 @@ public class KeyActionImpl implements KeyAction {
 
 	public KeyActionImpl(KeyActionType type, char letter) {
 		this(type, KeyCode.LETTER);
-		keyEvent.setChar(letter);
+		keyEvent.setCharacter(letter);
 	}
 
 	@Override
@@ -81,7 +81,7 @@ public class KeyActionImpl implements KeyAction {
 
 	@Override
 	public char getLetter() {
-		return keyEvent.getChar();
+		return keyEvent.getCharacter();
 	}
 
 	@Override

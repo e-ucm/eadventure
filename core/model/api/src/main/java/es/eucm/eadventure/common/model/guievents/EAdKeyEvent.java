@@ -45,9 +45,6 @@ import es.eucm.eadventure.common.model.guievents.enums.KeyCode;
  */
 public interface EAdKeyEvent extends EAdGUIEvent {
 
-
-
-
 	/**
 	 * Returns the event type
 	 * 
@@ -67,6 +64,6 @@ public interface EAdKeyEvent extends EAdGUIEvent {
 	 * 
 	 * @return this key event's char
 	 */
-	char getChar();
+	Character getCharacter();
 
 }

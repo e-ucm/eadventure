@@ -43,9 +43,9 @@ public class ComplexElementScene extends EmptyScene {
 				(float) Math.PI / 6);
 		e.setPosition(new EAdPositionImpl(Corner.CENTER, 50, 50));
 
-		complex.getElements().add(e);
+		complex.getComponents().add(e);
 
-		getElements().add(complex);
+		getComponents().add(complex);
 
 		EAdField<Float> rotation = new EAdFieldImpl<Float>(complex,
 				EAdBasicSceneElement.VAR_ROTATION);

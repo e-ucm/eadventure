@@ -9,7 +9,9 @@ import playn.html.HtmlPlatform.Mode;
 import com.google.gwt.core.client.GWT;
 
 import es.eucm.eadventure.common.elementfactories.EAdElementsFactory;
+import es.eucm.eadventure.common.elementfactories.scenedemos.InitScene;
 import es.eucm.eadventure.common.elementfactories.scenedemos.InventoryScene;
+import es.eucm.eadventure.common.elementfactories.scenedemos.WebMVideoScene;
 import es.eucm.eadventure.common.model.elements.EAdAdventureModel;
 import es.eucm.eadventure.common.model.elements.EAdScene;
 import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
@@ -55,13 +57,15 @@ public class EAdEngineHtml extends HtmlGame {
 				.addAsset(s.getBackground().getInitialBundle(),
 						EAdBasicSceneElement.appearance, i);
 
-		// EAdScene s2 = new InitScene();
+		EAdScene s2 = new InitScene();
 
+		/*
 		EAdScene s2 = new InventoryScene();
 
 		if (EAdElementsFactory.getInstance().getInventory() != null)
 			model.setInventory(EAdElementsFactory.getInstance().getInventory());
-
+		 */
+		
 		// EAdScene s2 = new WebMVideoScene();
 
 		// EAdScene s2 = new ShapeScene();
@@ -75,9 +79,9 @@ public class EAdEngineHtml extends HtmlGame {
 		chapter.getScenes().add(s2);
 		chapter.setInitialScene(s2);
 
-		 GWTReader gwtReader = new GWTReader();
+		GWTReader gwtReader = new GWTReader();
 		// gwtReader.readXML("eadengine/binary/sceneDemo.xml", game);
-		 gwtReader.readXML("eadengine/binary/data.xml", game);
+		gwtReader.readXML("eadengine/binary/data.xml", game);
 
 		//game.setGame(model, chapter);
 

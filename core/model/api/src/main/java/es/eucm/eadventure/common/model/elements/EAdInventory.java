@@ -5,6 +5,6 @@ import es.eucm.eadventure.common.model.extra.EAdList;
 
 public interface EAdInventory extends EAdElement {
 	
-	EAdList<EAdSceneElementDef> getInitialInventory();
+	EAdList<EAdSceneElementDef> getInitialItems();
 
 }

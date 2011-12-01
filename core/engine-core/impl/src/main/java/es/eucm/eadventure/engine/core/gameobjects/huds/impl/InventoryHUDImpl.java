@@ -149,7 +149,7 @@ public class InventoryHUDImpl extends AbstractHUD implements InventoryHUD {
 
 	private void updateItems() {
 		if (currentUpdate != inventoryHandler.updateNumber()) {
-			inventory.getElements().clear();
+			inventory.getComponents().clear();
 			int x = INVENTORY_HEIGHT;
 			for (InventoryItem i : inventoryHandler.getItems()) {
 				EAdBasicSceneElement element = new EAdBasicSceneElement(
@@ -170,7 +170,7 @@ public class InventoryHUDImpl extends AbstractHUD implements InventoryHUD {
 				element.setVarInitialValue(EAdBasicSceneElement.VAR_SCALE,
 						scale);
 
-				inventory.getElements().add(element);
+				inventory.getComponents().add(element);
 
 				if (i.getCount() > 1) {
 					float counterSize = size / 3;
@@ -178,7 +178,7 @@ public class InventoryHUDImpl extends AbstractHUD implements InventoryHUD {
 							counterSize);
 					counter.setPosition(Corner.CENTER, x, INVENTORY_HEIGHT / 2);
 
-					inventory.getElements().add(counter);
+					inventory.getComponents().add(counter);
 				}
 				x += INVENTORY_HEIGHT;
 			}

@@ -51,10 +51,10 @@ public class EAdComplexBlockingEffect extends AbstractEAdEffect implements
 
 	@Param("initEffects")
 	protected EAdList<EAdEffect> initEffects;
-	
+
 	@Param("componentes")
 	protected EAdList<EAdSceneElement> components;
-	
+
 	@Param("endCondition")
 	protected EAdCondition endCondition;
 
@@ -68,12 +68,16 @@ public class EAdComplexBlockingEffect extends AbstractEAdEffect implements
 	public EAdList<EAdSceneElement> getComponents() {
 		return components;
 	}
-	
-	public EAdCondition getEndCondition( ){
+
+	public EAdCondition getEndCondition() {
 		return endCondition;
 	}
-	
-	public EAdList<EAdEffect> getInitEffects(){
+
+	public void setEndCondition(EAdCondition endCondition) {
+		this.endCondition = endCondition;
+	}
+
+	public EAdList<EAdEffect> getInitEffects() {
 		return initEffects;
 	}
 

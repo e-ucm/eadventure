@@ -164,6 +164,9 @@ public class EAdChangeFieldValueEffect extends AbstractEAdEffect {
 		this.varDef = varDef;
 	}
 
+	public EAdVarDef<?> getVarDef() {
+		return varDef;
+	}
 	
 	
 	

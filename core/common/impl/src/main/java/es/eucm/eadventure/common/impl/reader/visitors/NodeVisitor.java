@@ -1,6 +1,11 @@
 package es.eucm.eadventure.common.impl.reader.visitors;
 
+import java.beans.IntrospectionException;
+import java.beans.Introspector;
+import java.beans.PropertyDescriptor;
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Level;
@@ -72,6 +77,7 @@ public abstract class NodeVisitor<T> {
 	}
 	
 	public static void setValue(Field field, Object parent, Object object) {
+		/*
 		if (field != null && parent != null) {
 			boolean accessible = field.isAccessible();
 
@@ -85,7 +91,26 @@ public abstract class NodeVisitor<T> {
 			} finally {
 				field.setAccessible(accessible);
 			}
+		}*/
+		
+		if (field != null && parent != null) {
+			PropertyDescriptor pd = getPropertyDescriptor(parent.getClass(), field.getName());
+			if (pd == null)
+				logger.severe("Missing descriptor for " + field.getName() + " in " + parent.getClass());
+			Method method = pd.getWriteMethod();
+			if (method == null)
+				logger.severe("Missing write method for " + field.getName() + " in " + parent.getClass());
+			try {
+				Object o = method.invoke(parent, object);
+			} catch (IllegalArgumentException e) {
+				e.printStackTrace();
+			} catch (IllegalAccessException e) {
+				e.printStackTrace();
+			} catch (InvocationTargetException e) {
+				e.printStackTrace();
+			}
 		}
+
 	}
 	
 	/**
@@ -112,4 +137,27 @@ public abstract class NodeVisitor<T> {
 		}
 		return null;
 	}
+	
+	/**
+	 * Utility method to find a property descriptor for a single property
+	 * 
+	 * @param c
+	 * @param fieldName
+	 * @return
+	 */
+	private static PropertyDescriptor getPropertyDescriptor(Class<?> c, String fieldName) {
+		try {
+			for (PropertyDescriptor pd : 
+				Introspector.getBeanInfo(c).getPropertyDescriptors()) {
+				if (pd.getName().equals(fieldName)) {
+					return pd;
+				}
+			}
+		} catch (IntrospectionException e) {
+			throw new IllegalArgumentException("Could not find getters or setters for field " 
+					+ fieldName + " in class " + c.getCanonicalName());
+		}
+		return null;
+	}
+
 }

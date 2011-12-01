@@ -35,8 +35,8 @@ public class PhApplyForceGO extends AbstractEffectGO<PhApplyImpluse> {
 	@Override
 	public void initilize() {
 		super.initilize();
-		float x = operatorFactory.operate(Float.class, element.getXForce());
-		float y = operatorFactory.operate(Float.class, element.getYForce());
+		float x = operatorFactory.operate(Float.class, element.getxForce());
+		float y = operatorFactory.operate(Float.class, element.getyForce());
 		ValueMap valueMap = gameState.getValueMap();
 		Body b = valueMap.getValue(element.getSceneElement(),
 				PhysicsEffectGO.VAR_PH_BODY);

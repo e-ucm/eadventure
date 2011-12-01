@@ -30,8 +30,8 @@ public class InventoryScene extends EmptyScene {
 		EAdBasicSceneElement item3 = new EAdBasicSceneElement( new RectangleShape( 90, 90, EAdColor.GREEN ));
 		EAdInventory inventory = new EAdInventoryImpl();
 //		inventory.getInitialInventory().add(item);
-		inventory.getInitialInventory().add(item2);
-		inventory.getInitialInventory().add(item3);
+		inventory.getInitialItems().add(item2);
+		inventory.getInitialItems().add(item3);
 		EAdElementsFactory.getInstance().setInventory(inventory);
 		
 		
@@ -41,7 +41,7 @@ public class InventoryScene extends EmptyScene {
 		
 		key.addBehavior(EAdMouseEventImpl.MOUSE_LEFT_CLICK, effect);
 		
-		getElements().add(key);
+		getComponents().add(key);
 	}
 	
 	@Override

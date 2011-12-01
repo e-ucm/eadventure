@@ -68,7 +68,7 @@ public class EAdDragEventImpl extends EAdElementImpl implements EAdDragEvent {
 	public boolean equals(Object o) {
 		if (o instanceof EAdDragEventImpl) {
 			EAdDragEventImpl e = (EAdDragEventImpl) o;
-			if (action == e.getDragAction()) {
+			if (action == e.getAction()) {
 				if (e.carryElement == carryElement)
 					return true;
 				return e.carryElement.equals(carryElement);
@@ -103,13 +103,23 @@ public class EAdDragEventImpl extends EAdElementImpl implements EAdDragEvent {
 	}
 
 	@Override
-	public EAdElement getElement() {
+	public EAdElement getCarryElement() {
 		return carryElement;
 	}
 
 	@Override
-	public DragAction getDragAction() {
+	public DragAction getAction() {
 		return action;
 	}
+
+	public void setCarryElement(EAdElement carryElement) {
+		this.carryElement = carryElement;
+	}
+
+	public void setAction(DragAction action) {
+		this.action = action;
+	}
+	
+	
 
 }

@@ -14,6 +14,6 @@ public interface EAdComplexElement extends EAdSceneElement {
 	/**
 	 * @return the {@link EAdElement}s that make up the scene
 	 */
-	EAdList<EAdSceneElement> getElements();
+	EAdList<EAdSceneElement> getComponents();
 
 }

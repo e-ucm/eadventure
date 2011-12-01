@@ -179,7 +179,6 @@ public class ActionsHUDImpl extends AbstractHUD implements ActionsHUD {
 	 */
 
 	public void setElement(SceneElementGO<?> ref, int x, int y) {
-		logger.info("Set element");
 		currentTime = 0;
 		sceneElement = ref;
 		radius = (int) ((ref.getWidth() > ref.getHeight() ? ref.getWidth()
@@ -191,6 +190,7 @@ public class ActionsHUDImpl extends AbstractHUD implements ActionsHUD {
 		this.y = y;
 		radius = Math.min(maxRadius, radius);
 		actions = ref.getValidActions();
+		logger.info("Set element, actions: " + actions );
 		initActionGOs();
 	}
 
