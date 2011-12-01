@@ -33,17 +33,29 @@ public class Side implements EAdElement {
 		this.realLength = realLength;
 	}
 
-	public String getIDStart() {
+	
+	
+	public String getIdStart() {
 
 		return idStart;
 	}
 
-	public String getIDEnd() {
+	public String getIdEnd() {
 
 		return idEnd;
 	}
+	
+	
 
-	public void setLenght(float length) {
+	public void setIdStart(String idStart) {
+		this.idStart = idStart;
+	}
+
+	public void setIdEnd(String idEnd) {
+		this.idEnd = idEnd;
+	}
+
+	public void setLength(float length) {
 
 		this.length = length;
 	}
@@ -79,6 +91,7 @@ public class Side implements EAdElement {
 	public float getRealLength() {
 		return realLength;
 	}
+
 
 	@Override
 	public EAdElement copy(boolean deepCopy) {

@@ -234,8 +234,8 @@ public class DijkstraNodeTrajectoryGenerator implements
 		DijkstraNode currentNode = null;
 
 		for (Side side : trajectoryDefinition.getSides()) {
-			DijkstraNode start = nodeMap.get(side.getIDStart());
-			DijkstraNode end = nodeMap.get(side.getIDEnd());
+			DijkstraNode start = nodeMap.get(side.getIdStart());
+			DijkstraNode end = nodeMap.get(side.getIdEnd());
 
 			EAdPosition currentPosition = getCurrentPosition(movingElement);
 			
@@ -544,8 +544,8 @@ public class DijkstraNodeTrajectoryGenerator implements
 						+ Math.pow(node.getY() - valueMap.getValue(movingElement, EAdBasicSceneElement.VAR_Y), 2));
 				if (d < distance) {
 					for (Side side2 : nodeTrajectoryDefinition.getSides())
-						if (side2.getIDEnd().equals(node.getId())
-								|| side2.getIDStart().equals(node.getId())) {
+						if (side2.getIdEnd().equals(node.getId())
+								|| side2.getIdStart().equals(node.getId())) {
 							side = side2;
 							distance = d;
 						}

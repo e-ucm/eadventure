@@ -69,7 +69,11 @@ public class ImageImpl implements Image {
 	}
 	
 	public boolean equals( Object o ){
-		if ( o instanceof Image ){
+		if ( o != null && o instanceof Image ){
+			if (uri == null && ((Image) o).getUri() == null)
+				return false;
+			if (((Image) o).getUri() == null && uri != null)
+				return false;
 			return ((Image) o).getUri().equals(uri);
 		}
 		return false;
