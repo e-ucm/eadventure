@@ -77,22 +77,6 @@ public abstract class NodeVisitor<T> {
 	}
 	
 	public static void setValue(Field field, Object parent, Object object) {
-		/*
-		if (field != null && parent != null) {
-			boolean accessible = field.isAccessible();
-
-			try {
-				field.setAccessible(true);
-				field.set(parent, object);
-			} catch (IllegalArgumentException e) {
-				logger.log(Level.SEVERE, e.getMessage(), e);
-			} catch (IllegalAccessException e) {
-				logger.log(Level.SEVERE, e.getMessage(), e);
-			} finally {
-				field.setAccessible(accessible);
-			}
-		}*/
-		
 		if (field != null && parent != null) {
 			PropertyDescriptor pd = getPropertyDescriptor(parent.getClass(), field.getName());
 			if (pd == null)
