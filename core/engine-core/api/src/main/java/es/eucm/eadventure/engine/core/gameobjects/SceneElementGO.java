@@ -80,7 +80,7 @@ public interface SceneElementGO<T extends EAdSceneElement> extends
 
 	int getHeight();
 
-	EAdList<EAdAction> getValidActions();
+	EAdList<EAdAction> getActions();
 
 	/**
 	 * Returns the x coordinate of scene element center, using the scale

@@ -188,7 +188,7 @@ public class ActionsHUDImpl extends AbstractHUD implements ActionsHUD {
 		this.x = x;
 		this.y = y;
 		radius = Math.min(maxRadius, radius);
-		actions = ref.getValidActions();
+		actions = ref.getActions();
 		logger.info("Set element, actions: " + actions );
 		initActionGOs();
 	}

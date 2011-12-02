@@ -13,5 +13,5 @@ public interface WithActions {
 	 * 
 	 * @return
 	 */
-	EAdList<EAdAction> getValidActions();
+	EAdList<EAdAction> getActions();
 }

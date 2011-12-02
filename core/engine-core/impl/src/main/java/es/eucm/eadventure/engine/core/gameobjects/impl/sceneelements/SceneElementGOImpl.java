@@ -71,6 +71,7 @@ import es.eucm.eadventure.engine.core.gameobjects.EventGO;
 import es.eucm.eadventure.engine.core.gameobjects.SceneElementGO;
 import es.eucm.eadventure.engine.core.gameobjects.factories.EventGOFactory;
 import es.eucm.eadventure.engine.core.gameobjects.factories.SceneElementGOFactory;
+import es.eucm.eadventure.engine.core.gameobjects.huds.impl.ActionSceneElement;
 import es.eucm.eadventure.engine.core.gameobjects.impl.DrawableGameObjectImpl;
 import es.eucm.eadventure.engine.core.guiactions.GUIAction;
 import es.eucm.eadventure.engine.core.platform.AssetHandler;
@@ -362,6 +363,10 @@ public abstract class SceneElementGOImpl<T extends EAdSceneElement> extends
 					EAdBasicSceneElement.appearance);
 			getAssetsRecursively(a, assetList, allAssets);
 		}
+		
+		for (EAdAction a : getActions())
+			sceneElementFactory.get(new ActionSceneElement(a)).getAssets(assetList, true);
+
 		return assetList;
 	}
 
@@ -457,8 +462,8 @@ public abstract class SceneElementGOImpl<T extends EAdSceneElement> extends
 	}
 
 	@Override
-	public EAdList<EAdAction> getValidActions() {
-		return element.getDefinition().getValidActions();
+	public EAdList<EAdAction> getActions() {
+		return element.getDefinition().getActions();
 	}
 
 	public float getScale() {

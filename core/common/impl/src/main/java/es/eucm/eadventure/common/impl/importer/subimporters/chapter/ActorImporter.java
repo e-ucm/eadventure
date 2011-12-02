@@ -139,7 +139,7 @@ public abstract class ActorImporter<P extends Element> implements
 			} else {
 				action = actionImporter.init(a);
 				actions.put(a.getType(), action);
-				actor.getValidActions().add(action);
+				actor.getActions().add(action);
 				List<EAdEffect> list = ActionImporter.getEffects(a.getType(), a.getEffects() 
 						.getEffects(), actor, isActiveArea );
 				for (EAdEffect e : list)
@@ -184,7 +184,7 @@ public abstract class ActorImporter<P extends Element> implements
 				new ImageImpl(ActionImporter
 						.getHighlightDrawablePath(Action.EXAMINE)));
 
-		actor.getValidActions().add(examineAction);
+		actor.getActions().add(examineAction);
 
 	}
 

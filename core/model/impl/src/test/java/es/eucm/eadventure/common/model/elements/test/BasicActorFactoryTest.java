@@ -60,11 +60,11 @@ public class BasicActorFactoryTest {
 		
 		sh.setString(basicActor.getName(), "Paniel");
 
-		basicActor.getValidActions().add(BasicActionFactoryTest.getGrabAction(sh));
+		basicActor.getActions().add(BasicActionFactoryTest.getGrabAction(sh));
 
-		basicActor.getValidActions().add(BasicActionFactoryTest.getGrabAction(sh));
+		basicActor.getActions().add(BasicActionFactoryTest.getGrabAction(sh));
 
-		basicActor.getValidActions().add(BasicActionFactoryTest.getGrabAction(sh));
+		basicActor.getActions().add(BasicActionFactoryTest.getGrabAction(sh));
 
 		
 		return basicActor;
