@@ -93,6 +93,7 @@
 				<module>core/engine-applet</module>
 				<module>core/engine-android</module>
 				<module>core/model</module>
+				<module>etc/test-suite</module>
 			</modules>
 		</profile>
 		<profile>

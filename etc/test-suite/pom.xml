@@ -1,24 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
   <parent>
     <groupId>es.eucm.eadventure</groupId>
     <version>2.0.1-SNAPSHOT</version>
-    <artifactId>engine-android</artifactId>
+    <artifactId>base</artifactId>
+    <relativePath>../../</relativePath>
   </parent>
-  <modelVersion>4.0.0</modelVersion>
   <groupId>es.eucm.eadventure</groupId>
-  <artifactId>engine-android-impl</artifactId>
-  <packaging>jar</packaging>
   <version>2.0.1-SNAPSHOT</version>
-  <name>e-Adventure Engine Android implementation</name>
+  <artifactId>test-suite</artifactId>
+  <packaging>jar</packaging>
+  <name>e-Adventure Test suite</name>
+  <description>e-Adventure appearance, used for the editor and other elements.</description>
   <dependencies>
     <dependency>
     	<groupId>es.eucm.eadventure</groupId>
-    	<artifactId>engine-core-impl</artifactId>
+    	<artifactId>common-model-api</artifactId>
     	<version>${project.version}</version>
     </dependency>
     <dependency>
     	<groupId>es.eucm.eadventure</groupId>
-    	<artifactId>engine-plugins-impl</artifactId>
+    	<artifactId>common-model-impl</artifactId>
     	<version>${project.version}</version>
     </dependency>
     <dependency>
@@ -26,23 +29,5 @@
     	<artifactId>utils</artifactId>
     	<version>${project.version}</version>
     </dependency>
-    
-    <dependency>
-    	<groupId>es.eucm.eadventure</groupId>
-    	<artifactId>test-suite</artifactId>
-    	<version>${project.version}</version>
-    </dependency>
-    
   </dependencies>
-  <build>
-  <plugins>
-          <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-eclipse-plugin</artifactId>
-          <configuration>
-          <skip>true</skip>
-          </configuration>
-        </plugin>
-	</plugins>
-	</build>
 </project>

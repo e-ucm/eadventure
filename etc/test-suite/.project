@@ -1,0 +1,17 @@
+<projectDescription>
+  <name>es.eucm.eadventure.test-suite</name>
+  <comment>e-Adventure appearance, used for the editor and other elements. NO_M2ECLIPSE_SUPPORT: Project files created with the maven-eclipse-plugin are not supported in M2Eclipse.</comment>
+  <projects>
+    <project>es.eucm.eadventure.common-model-api</project>
+    <project>es.eucm.eadventure.common-model-impl</project>
+    <project>es.eucm.eadventure.utils</project>
+  </projects>
+  <buildSpec>
+    <buildCommand>
+      <name>org.eclipse.jdt.core.javabuilder</name>
+    </buildCommand>
+  </buildSpec>
+  <natures>
+    <nature>org.eclipse.jdt.core.javanature</nature>
+  </natures>
+</projectDescription>
