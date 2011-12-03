@@ -48,11 +48,13 @@ import com.google.inject.Inject;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
 
 import es.eucm.eadventure.engine.core.platform.AssetHandler;
+import es.eucm.eadventure.engine.core.platform.EAdCanvas;
 import es.eucm.eadventure.engine.core.platform.assets.impl.RuntimeImage;
 
-public class AndroidEngineImage extends RuntimeImage {
+public class AndroidEngineImage extends RuntimeImage<Canvas> {
 
 	public Bitmap image;
 	
@@ -140,6 +142,11 @@ public class AndroidEngineImage extends RuntimeImage {
 	    	logger.info("File not found: " + f.getName());
 	    }
 	    return b;
+	}
+
+	@Override
+	public void render(EAdCanvas<Canvas> c) {
+		c.getNativeGraphicContext().drawBitmap(getImage(), 0, 0, null);
 	}
 	
 	

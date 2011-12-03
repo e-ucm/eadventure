@@ -61,12 +61,7 @@ public class AndroidCanvas extends AbstractCanvas<Canvas> {
 	}
 
 	@Override
-	public void drawImage(DrawableAsset<? extends Image> image) {
-		g.drawBitmap(((AndroidEngineImage) image).getImage(), 0, 0, null);
-	}
-
-	@Override
-	public void drawShape(DrawableAsset<? extends Shape> shape) {
+	public void drawShape(DrawableAsset<? extends Shape, Canvas> shape) {
 		Path s = ((AndroidBezierShape) shape).getShape();
 		// Fill
 		if (paint.getFill() != null) {

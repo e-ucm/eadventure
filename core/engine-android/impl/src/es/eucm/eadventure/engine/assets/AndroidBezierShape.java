@@ -37,11 +37,12 @@
 
 package es.eucm.eadventure.engine.assets;
 
+import android.graphics.Canvas;
 import android.graphics.Path;
 import es.eucm.eadventure.common.params.geom.impl.EAdPositionImpl;
 import es.eucm.eadventure.engine.core.platform.assets.impl.RuntimeBezierShape;
 
-public class AndroidBezierShape extends RuntimeBezierShape {
+public class AndroidBezierShape extends RuntimeBezierShape<Canvas> {
 	
 	private Path path;
 
