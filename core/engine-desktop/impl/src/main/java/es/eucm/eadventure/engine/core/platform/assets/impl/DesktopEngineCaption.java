@@ -37,6 +37,8 @@
 
 package es.eucm.eadventure.engine.core.platform.assets.impl;
 
+import java.awt.Graphics2D;
+
 import com.google.inject.Inject;
 
 import es.eucm.eadventure.common.resources.StringHandler;
@@ -45,7 +47,7 @@ import es.eucm.eadventure.engine.core.impl.VariableMap;
 import es.eucm.eadventure.engine.core.platform.AssetHandler;
 import es.eucm.eadventure.engine.core.platform.impl.FontHandlerImpl;
 
-public class DesktopEngineCaption extends RuntimeCaption {
+public class DesktopEngineCaption extends RuntimeCaption<Graphics2D> {
 
 	@Inject
 	public DesktopEngineCaption(FontHandlerImpl fontCache, VariableMap valueMap,

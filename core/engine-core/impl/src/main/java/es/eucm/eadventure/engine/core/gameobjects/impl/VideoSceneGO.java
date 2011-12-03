@@ -114,7 +114,7 @@ public class VideoSceneGO extends SceneElementGOImpl<EAdVideoScene> implements
 	}
 
 	@Override
-	public void render(EAdCanvas<?> c) {
+	public void render(EAdCanvas c) {
 
 	}
 

@@ -37,14 +37,16 @@
 
 package es.eucm.eadventure.engine.core.platform.assets.impl;
 
+import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 
 import com.google.inject.Inject;
 
 import es.eucm.eadventure.common.resources.assets.drawable.basics.Image;
 import es.eucm.eadventure.engine.core.platform.AssetHandler;
+import es.eucm.eadventure.engine.core.platform.EAdCanvas;
 
-public class DesktopEngineSpriteImage extends RuntimeSpriteImage {
+public class DesktopEngineSpriteImage extends RuntimeSpriteImage<Graphics2D> {
 
 	@Inject
 	public DesktopEngineSpriteImage(AssetHandler assetHandler) {
@@ -54,15 +56,15 @@ public class DesktopEngineSpriteImage extends RuntimeSpriteImage {
 	public BufferedImage getImage() {
 		return ((DesktopEngineImage) assetHandler.getRuntimeAsset((Image) descriptor)).getImage();
 	}
-
-	public int getSprite() {
-		return descriptor.getSprite();
+	
+	@Override
+	public void render(EAdCanvas<Graphics2D> canvas) {
+		int x = getImageX();
+		int y = getImageY();
+		int spriteWidth = getSpriteWidth();
+		int spriteHeight = getSpriteHeight();
+				
+		canvas.getNativeGraphicContext().drawImage(getImage(), 0, 0, spriteWidth, spriteHeight, x, y, x + spriteWidth, y + spriteHeight, null);
 	}
-
-	public int getTotalSprites() {
-		return descriptor.getTotalSprites();
-	}
-
-
 
 }

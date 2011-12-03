@@ -253,7 +253,7 @@ public class BasicHUDImpl extends AbstractHUD implements BasicHUD {
 			cursor = newCursor;
 			if (cursor != null) {
 
-				DrawableAsset<? extends Image> rAsset = (DrawableAsset<? extends Image>) assetHandler
+				DrawableAsset<? extends Image, ?> rAsset = (DrawableAsset<? extends Image, ?>) assetHandler
 						.getRuntimeAsset(cursor);
 				float scale = 1.0f / (rAsset.getWidth() > rAsset.getHeight() ? rAsset
 						.getWidth() / CURSOR_SIZE

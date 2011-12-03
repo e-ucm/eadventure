@@ -37,13 +37,15 @@
 
 package es.eucm.eadventure.engine.core.platform.assets.impl;
 
+import playn.core.Canvas;
 import playn.core.Image;
 
 import com.google.inject.Inject;
 
 import es.eucm.eadventure.engine.core.platform.AssetHandler;
+import es.eucm.eadventure.engine.core.platform.EAdCanvas;
 
-public class PlayNEngineSpriteImage extends RuntimeSpriteImage {
+public class PlayNEngineSpriteImage extends RuntimeSpriteImage<Canvas> {
 
 	@Inject
 	public PlayNEngineSpriteImage(AssetHandler assetHandler) {
@@ -54,12 +56,15 @@ public class PlayNEngineSpriteImage extends RuntimeSpriteImage {
 		return ((PlayNEngineImage) assetHandler.getRuntimeAsset((es.eucm.eadventure.common.resources.assets.drawable.basics.Image) descriptor)).getImage();
 	}
 
-	public int getSprite() {
-		return descriptor.getSprite();
+	@Override
+	public void render(EAdCanvas<Canvas> c) {
+		int x = getImageX();
+		int y = getImageY();
+		int spriteWidth = getSpriteWidth();
+		int spriteHeight = getSpriteHeight();
+				
+		c.getNativeGraphicContext().drawImage(getImage(), 0, 0, spriteWidth, spriteHeight, x, y, x + spriteWidth, y + spriteHeight);
 	}
 
-	public int getTotalSprites() {
-		return descriptor.getTotalSprites();
-	}
-
+	
 }

@@ -37,11 +37,12 @@
 
 package es.eucm.eadventure.engine.core.platform.assets.impl;
 
+import java.awt.Graphics2D;
 import java.awt.geom.GeneralPath;
 
 import es.eucm.eadventure.common.params.geom.EAdPosition;
 
-public class DesktopBezierShape extends RuntimeBezierShape {
+public class DesktopBezierShape extends RuntimeBezierShape<Graphics2D> {
 	
 	private GeneralPath path;
 

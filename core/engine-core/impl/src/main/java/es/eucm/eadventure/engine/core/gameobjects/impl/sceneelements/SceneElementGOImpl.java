@@ -330,8 +330,8 @@ public abstract class SceneElementGOImpl<T extends EAdSceneElement> extends
 	}
 
 	@Override
-	public DrawableAsset<?> getAsset() {
-		DrawableAsset<?> r = (DrawableAsset<?>) assetHandler
+	public DrawableAsset<?, ?> getAsset() {
+		DrawableAsset<?, ?> r = (DrawableAsset<?, ?>) assetHandler
 				.getRuntimeAsset(getCurrentAssetDescriptor());
 		if (r != null && !r.isLoaded())
 			r.loadAsset();
@@ -339,8 +339,8 @@ public abstract class SceneElementGOImpl<T extends EAdSceneElement> extends
 	}
 
 	@Override
-	public DrawableAsset<?> getRenderAsset() {
-		DrawableAsset<?> r = getAsset();
+	public DrawableAsset<?, ?> getRenderAsset() {
+		DrawableAsset<?, ?> r = getAsset();
 		if (r instanceof DrawableAsset && r.isLoaded()) {
 			setWidth(r.getWidth());
 			setHeight(r.getHeight());
@@ -482,7 +482,7 @@ public abstract class SceneElementGOImpl<T extends EAdSceneElement> extends
 	}
 
 	@Override
-	public void render(EAdCanvas<?> c) {
+	public void render(EAdCanvas c) {
 		if (this.getRenderAsset() != null)
 			getRenderAsset().render(c);
 		else {

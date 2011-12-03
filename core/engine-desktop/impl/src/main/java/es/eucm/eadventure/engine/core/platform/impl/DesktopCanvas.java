@@ -21,13 +21,11 @@ import es.eucm.eadventure.common.params.fills.impl.EAdLinearGradient;
 import es.eucm.eadventure.common.params.geom.EAdRectangle;
 import es.eucm.eadventure.common.params.paint.EAdFill;
 import es.eucm.eadventure.common.params.paint.EAdPaint;
-import es.eucm.eadventure.common.resources.assets.drawable.basics.Image;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.Shape;
 import es.eucm.eadventure.engine.core.platform.DrawableAsset;
 import es.eucm.eadventure.engine.core.platform.FontHandler;
 import es.eucm.eadventure.engine.core.platform.assets.impl.DesktopBezierShape;
 import es.eucm.eadventure.engine.core.platform.assets.impl.DesktopEngineFont;
-import es.eucm.eadventure.engine.core.platform.assets.impl.DesktopEngineImage;
 import es.eucm.eadventure.engine.core.util.EAdTransformation;
 
 public class DesktopCanvas extends AbstractCanvas<Graphics2D> {
@@ -61,12 +59,7 @@ public class DesktopCanvas extends AbstractCanvas<Graphics2D> {
 	}
 
 	@Override
-	public void drawImage(DrawableAsset<? extends Image> image) {
-		g.drawImage(((DesktopEngineImage) image).getImage(), 0, 0, null);
-	}
-
-	@Override
-	public void drawShape(DrawableAsset<? extends Shape> shape) {
+	public void drawShape(DrawableAsset<? extends Shape, Graphics2D> shape) {
 		java.awt.Shape s = ((DesktopBezierShape) shape).getShape();
 
 		// Fill

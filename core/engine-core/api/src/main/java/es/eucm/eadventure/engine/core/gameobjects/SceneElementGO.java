@@ -60,14 +60,14 @@ public interface SceneElementGO<T extends EAdSceneElement> extends
 	 * 
 	 * @return
 	 */
-	DrawableAsset<?> getRenderAsset();
+	DrawableAsset<?, ?> getRenderAsset();
 
 	/**
 	 * Returns the runtime asset representing the scene element
 	 * 
 	 * @return
 	 */
-	DrawableAsset<?> getAsset();
+	DrawableAsset<?, ?> getAsset();
 
 	/**
 	 * Returns the current asset descriptor, used for rendering

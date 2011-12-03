@@ -43,7 +43,7 @@ import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.shapes.Be
 import es.eucm.eadventure.engine.core.platform.DrawableAsset;
 import es.eucm.eadventure.engine.core.platform.EAdCanvas;
 
-public abstract class RuntimeBezierShape extends AbstractRuntimeAsset<BezierShape> implements DrawableAsset<BezierShape>{
+public abstract class RuntimeBezierShape<GraphicContext> extends AbstractRuntimeAsset<BezierShape> implements DrawableAsset<BezierShape, GraphicContext>{
 	
 	protected boolean loaded = false;
 	
@@ -109,11 +109,11 @@ public abstract class RuntimeBezierShape extends AbstractRuntimeAsset<BezierShap
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public <S extends Drawable> DrawableAsset<S> getDrawable() {
-		return (DrawableAsset<S>) this;
+	public <S extends Drawable> DrawableAsset<S, GraphicContext> getDrawable() {
+		return (DrawableAsset<S, GraphicContext>) this;
 	}
 	
-	public void render(EAdCanvas<?> c){
+	public void render(EAdCanvas<GraphicContext> c){
 		c.setPaint(descriptor.getPaint());
 		c.drawShape(this);
 	}

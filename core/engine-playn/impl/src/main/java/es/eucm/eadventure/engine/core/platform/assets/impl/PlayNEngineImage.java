@@ -42,13 +42,15 @@ import static playn.core.PlayN.assetManager;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import playn.core.Canvas;
 import playn.core.Image;
 
 import com.google.inject.Inject;
 
 import es.eucm.eadventure.engine.core.platform.AssetHandler;
+import es.eucm.eadventure.engine.core.platform.EAdCanvas;
 
-public class PlayNEngineImage extends RuntimeImage {
+public class PlayNEngineImage extends RuntimeImage<Canvas> {
 
 	/**
 	 * The buffered image
@@ -131,6 +133,11 @@ public class PlayNEngineImage extends RuntimeImage {
 	@Override
 	public boolean isLoaded() {
 		return (image != null && image.isReady());
+	}
+
+	@Override
+	public void render(EAdCanvas<Canvas> c) {
+		c.getNativeGraphicContext().drawImage(image, 0, 0);
 	}
 
 }
