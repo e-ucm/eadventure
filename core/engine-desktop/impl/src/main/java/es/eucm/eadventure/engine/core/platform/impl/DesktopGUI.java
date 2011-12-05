@@ -47,6 +47,7 @@ import java.awt.GraphicsEnvironment;
 import java.awt.MouseInfo;
 import java.awt.Point;
 import java.awt.RenderingHints;
+import java.awt.RenderingHints.Key;
 import java.awt.Robot;
 import java.awt.Toolkit;
 import java.awt.image.BufferStrategy;
@@ -189,15 +190,8 @@ public class DesktopGUI extends AbstractGUI<Graphics2D> implements GUI {
 				eAdCanvas.setGraphicContext(g);
 				g.setClip(0, 0, platformConfiguration.getWidth(),
 						platformConfiguration.getHeight());
-
-				if (!g.getRenderingHints().containsValue(
-						RenderingHints.VALUE_ANTIALIAS_ON))
-					g.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
-							RenderingHints.VALUE_ANTIALIAS_ON);
-				if (!g.getRenderingHints().containsValue(
-						RenderingHints.VALUE_TEXT_ANTIALIAS_ON))
-					g.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING,
-							RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
+				
+				setRenderingHints(g);
 
 				g.setFont(g.getFont().deriveFont(20.0f));
 
@@ -246,6 +240,11 @@ public class DesktopGUI extends AbstractGUI<Graphics2D> implements GUI {
 
 		return image;
 	}
+	
+	private void setHint(Graphics2D g, Object value, Key key) {
+		if (!g.getRenderingHints().containsValue(value))
+			g.setRenderingHint(key, value);
+	}
 
 	/**
 	 * Set the appropriate rendering hints to get the best graphic results.
@@ -254,22 +253,14 @@ public class DesktopGUI extends AbstractGUI<Graphics2D> implements GUI {
 	 */
 	private void setRenderingHints(Graphics2D g) {
 		// TODO test effects, probably should allow disabling
-		g.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
-				RenderingHints.VALUE_ANTIALIAS_ON);
-		g.setRenderingHint(RenderingHints.KEY_ALPHA_INTERPOLATION,
-				RenderingHints.VALUE_ALPHA_INTERPOLATION_QUALITY);
-		g.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING,
-				RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
-		g.setRenderingHint(RenderingHints.KEY_COLOR_RENDERING,
-				RenderingHints.VALUE_COLOR_RENDER_QUALITY);
-		g.setRenderingHint(RenderingHints.KEY_FRACTIONALMETRICS,
-				RenderingHints.VALUE_FRACTIONALMETRICS_ON);
-		g.setRenderingHint(RenderingHints.KEY_INTERPOLATION,
-				RenderingHints.VALUE_INTERPOLATION_BICUBIC);
-		g.setRenderingHint(RenderingHints.KEY_RENDERING,
-				RenderingHints.VALUE_RENDER_QUALITY);
-		g.setRenderingHint(RenderingHints.KEY_STROKE_CONTROL,
-				RenderingHints.VALUE_STROKE_NORMALIZE);
+		setHint(g, RenderingHints.VALUE_ANTIALIAS_ON, RenderingHints.KEY_ANTIALIASING);
+		setHint(g, RenderingHints.VALUE_ALPHA_INTERPOLATION_QUALITY, RenderingHints.KEY_ALPHA_INTERPOLATION);
+		setHint(g, RenderingHints.VALUE_TEXT_ANTIALIAS_ON, RenderingHints.KEY_TEXT_ANTIALIASING);
+		setHint(g, RenderingHints.VALUE_COLOR_RENDER_QUALITY, RenderingHints.KEY_COLOR_RENDERING);
+		setHint(g, RenderingHints.VALUE_FRACTIONALMETRICS_ON, RenderingHints.KEY_FRACTIONALMETRICS);
+		setHint(g, RenderingHints.VALUE_INTERPOLATION_BICUBIC, RenderingHints.KEY_INTERPOLATION);
+		setHint(g, RenderingHints.VALUE_RENDER_QUALITY, RenderingHints.KEY_RENDERING);
+		setHint(g, RenderingHints.VALUE_STROKE_NORMALIZE, RenderingHints.KEY_STROKE_CONTROL);
 	}
 
 	/*
