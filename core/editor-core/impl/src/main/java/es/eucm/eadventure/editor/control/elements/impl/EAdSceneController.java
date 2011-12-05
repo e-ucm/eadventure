@@ -35,7 +35,7 @@ public class EAdSceneController extends AbstractElementController<EAdScene> {
 					new EAdStringOption(Messages.documentation,
 							"this is the documentation",
 							new FieldDescriptorImpl<EAdString>(element,
-									"documentation"),
+									"doc"),
 							EAdStringOption.ExpectedLength.LONG));
 			
 			panel.addElement(

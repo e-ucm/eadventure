@@ -82,7 +82,7 @@ public class DesktopModule extends AbstractModule {
 		}).to(EAdAdventureDOMModelReader.class);
 		bind(GameLoop.class).to(GameLoopImpl.class);
 		bind(GameProfiler.class).to(GameProfilerImpl.class);
-		bind(GUI.class).to(DesktopGUI.class);
+		configureGUI();
 		bind(PlatformConfiguration.class)
 				.to(DesktopPlatformConfiguration.class);
 		bind(PlatformLauncher.class).to(DesktopPlatformLauncher.class);
@@ -95,6 +95,10 @@ public class DesktopModule extends AbstractModule {
 		bind(MenuHUD.class).to(MenuHUDImpl.class);
 		bind(FontHandlerImpl.class).to(DesktopFontCache.class);
 		bind(TransitionFactory.class).to(DesktopTransitionFactory.class);
+	}
+	
+	protected void configureGUI() {
+		bind(GUI.class).to(DesktopGUI.class);
 	}
 
 	@Provides

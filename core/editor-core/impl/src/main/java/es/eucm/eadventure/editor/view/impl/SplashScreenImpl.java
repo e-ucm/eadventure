@@ -44,12 +44,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.util.logging.Logger;
 
 import javax.imageio.ImageIO;
 import javax.swing.JDialog;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import es.eucm.eadventure.editor.R;
 import es.eucm.eadventure.editor.view.SplashScreen;
@@ -63,7 +61,7 @@ public class SplashScreenImpl implements SplashScreen {
 	/**
 	 * Logger
 	 */
-	private static Logger logger = LoggerFactory.getLogger(SplashScreenImpl.class);
+	private static Logger logger = Logger.getLogger("SplashScreenImpl");
 	
 	/**
 	 * The splash screen dialog
