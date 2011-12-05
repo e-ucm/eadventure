@@ -26,6 +26,13 @@
     	<artifactId>utils</artifactId>
     	<version>${project.version}</version>
     </dependency>
+    
+    <dependency>
+    	<groupId>es.eucm.eadventure</groupId>
+    	<artifactId>test-suite</artifactId>
+    	<version>${project.version}</version>
+    </dependency>
+    
   </dependencies>
   <build>
   <plugins>

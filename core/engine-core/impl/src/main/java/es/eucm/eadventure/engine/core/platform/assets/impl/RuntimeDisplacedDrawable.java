@@ -49,9 +49,9 @@ import es.eucm.eadventure.engine.core.platform.AssetHandler;
 import es.eucm.eadventure.engine.core.platform.DrawableAsset;
 import es.eucm.eadventure.engine.core.platform.EAdCanvas;
 
-public class RuntimeDisplacedDrawable extends
+public class RuntimeDisplacedDrawable<GraphicContext> extends
 		AbstractRuntimeAsset<DisplacedDrawable> implements
-		DrawableAsset<DisplacedDrawable> {
+		DrawableAsset<DisplacedDrawable, GraphicContext> {
 
 	/**
 	 * Logger
@@ -93,20 +93,18 @@ public class RuntimeDisplacedDrawable extends
 
 	@Override
 	public int getWidth() {
-		return ((DrawableAsset<?>) assetHandler.getRuntimeAsset(descriptor
-				.getDrawable())).getWidth();
+		return (assetHandler.getDrawableAsset(descriptor.getDrawable(), null)).getWidth();
 	}
 
 	@Override
 	public int getHeight() {
-		return ((DrawableAsset<?>) assetHandler.getRuntimeAsset(descriptor
-				.getDrawable())).getHeight();
+		return (assetHandler.getDrawableAsset(descriptor.getDrawable(), null)).getHeight();
 	}
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public <S extends Drawable> DrawableAsset<S> getDrawable() {
-		return (DrawableAsset<S>) this;
+	public <S extends Drawable> DrawableAsset<S, GraphicContext> getDrawable() {
+		return (DrawableAsset<S, GraphicContext>) this;
 	}
 
 	public AssetDescriptor getDrawableAsset() {
@@ -118,20 +116,19 @@ public class RuntimeDisplacedDrawable extends
 	}
 
 	@Override
-	public void render(EAdCanvas<?> canvas) {
+	public void render(EAdCanvas<GraphicContext> canvas) {
 		canvas.save();
 		canvas.translate(descriptor.getDisplacement().getX(), descriptor
 				.getDisplacement().getY());
-		((DrawableAsset<?>) assetHandler.getRuntimeAsset(descriptor
-				.getDrawable())).render(canvas);
+		assetHandler.getDrawableAsset(descriptor.getDrawable(), canvas).render(canvas);
 		canvas.restore();
 
 	}
 
 	@Override
 	public boolean contains(int x, int y) {
-		return ((DrawableAsset<?>) assetHandler.getRuntimeAsset(descriptor
-				.getDrawable())).contains(x
+		return assetHandler.getDrawableAsset(descriptor
+				.getDrawable(), null).contains(x
 				- descriptor.getDisplacement().getX(), y
 				- descriptor.getDisplacement().getY());
 	}

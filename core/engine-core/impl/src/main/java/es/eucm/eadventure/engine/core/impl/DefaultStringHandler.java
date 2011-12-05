@@ -3,6 +3,7 @@ package es.eucm.eadventure.engine.core.impl;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.logging.Logger;
 
 import com.google.inject.Singleton;
 
@@ -12,6 +13,8 @@ import es.eucm.eadventure.common.resources.StringHandler;
 @Singleton
 public class DefaultStringHandler implements StringHandler {
 
+	private Logger logger = Logger.getLogger("DefaultStringHandler");
+	
 	private Map<EAdString, String> strings;
 
 	public DefaultStringHandler() {
@@ -30,6 +33,7 @@ public class DefaultStringHandler implements StringHandler {
 
 	@Override
 	public void setString(EAdString eAdString, String string) {
+		logger.finest("Add string " + eAdString.toString() + " " + string);
 		strings.put(eAdString, string);
 	}
 

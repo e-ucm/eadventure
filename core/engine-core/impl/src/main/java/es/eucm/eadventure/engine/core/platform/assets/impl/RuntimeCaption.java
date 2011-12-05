@@ -57,8 +57,8 @@ import es.eucm.eadventure.engine.core.platform.EAdCanvas;
 import es.eucm.eadventure.engine.core.platform.FontHandler;
 import es.eucm.eadventure.engine.core.platform.RuntimeFont;
 
-public class RuntimeCaption extends AbstractRuntimeAsset<Caption> implements
-		DrawableAsset<Caption> {
+public class RuntimeCaption<GraphicContext> extends AbstractRuntimeAsset<Caption> implements
+		DrawableAsset<Caption, GraphicContext> {
 
 	private Logger logger = Logger.getLogger("RuntimeCaption");
 
@@ -216,8 +216,8 @@ public class RuntimeCaption extends AbstractRuntimeAsset<Caption> implements
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public <S extends Drawable> DrawableAsset<S> getDrawable() {
-		return (DrawableAsset<S>) this;
+	public <S extends Drawable> DrawableAsset<S, GraphicContext> getDrawable() {
+		return (DrawableAsset<S, GraphicContext>) this;
 	}
 
 	private void wrapText() {
@@ -446,12 +446,12 @@ public class RuntimeCaption extends AbstractRuntimeAsset<Caption> implements
 		return font;
 	}
 
-	public void render(EAdCanvas<?> c) {
+	public void render(EAdCanvas<GraphicContext> c) {
 		// Draw bubble
 		if (getAssetDescriptor().hasBubble()) {
 			RectangleShape shape = new RectangleShape(getWidth(), getHeight());
 			shape.setPaint(getAssetDescriptor().getBubblePaint());
-			((DrawableAsset<?>) assetHandler.getRuntimeAsset(shape)).render(c);
+			assetHandler.getDrawableAsset(shape, c).render(c);
 		}
 
 		c.setPaint(descriptor.getTextPaint());

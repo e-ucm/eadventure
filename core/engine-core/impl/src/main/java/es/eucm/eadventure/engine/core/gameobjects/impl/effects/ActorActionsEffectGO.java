@@ -43,6 +43,7 @@ import es.eucm.eadventure.common.model.effects.impl.EAdActorActionsEffect;
 import es.eucm.eadventure.common.model.effects.impl.enums.ChangeActorActions;
 import es.eucm.eadventure.common.model.elements.EAdSceneElement;
 import es.eucm.eadventure.common.model.elements.impl.EAdSceneElementDefImpl;
+import es.eucm.eadventure.common.model.variables.impl.SystemFields;
 import es.eucm.eadventure.common.resources.StringHandler;
 import es.eucm.eadventure.engine.core.GameState;
 import es.eucm.eadventure.engine.core.gameobjects.GameObjectManager;
@@ -83,12 +84,14 @@ public class ActorActionsEffectGO extends
 					EAdSceneElementDefImpl.VAR_SCENE_ELEMENT);
 			if (ref != null) {
 				SceneElementGO<?> sceneElement = sceneElementFactory.get(ref);
-				if (sceneElement.getValidActions() != null) {
+				if (sceneElement.getActions() != null) {
 					int x = sceneElement.getCenterX();
 					int y = sceneElement.getCenterY();
 					if (action instanceof MouseAction) {
-						x = ((MouseAction) action).getVirtualX();
-						y = ((MouseAction) action).getVirtualY();
+						x = gameState.getValueMap().getValue(SystemFields.MOUSE_X);
+						y = gameState.getValueMap().getValue(SystemFields.MOUSE_Y);
+						//x = ((MouseAction) action).getVirtualX();
+						//y = ((MouseAction) action).getVirtualY();
 					}
 					actionsHUD.setElement(sceneElement, x, y);
 					gameObjectManager.addHUD(actionsHUD);

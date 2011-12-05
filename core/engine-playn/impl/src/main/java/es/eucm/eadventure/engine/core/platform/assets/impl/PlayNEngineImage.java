@@ -42,13 +42,15 @@ import static playn.core.PlayN.assetManager;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import playn.core.Canvas;
 import playn.core.Image;
 
 import com.google.inject.Inject;
 
 import es.eucm.eadventure.engine.core.platform.AssetHandler;
+import es.eucm.eadventure.engine.core.platform.EAdCanvas;
 
-public class PlayNEngineImage extends RuntimeImage {
+public class PlayNEngineImage extends RuntimeImage<Canvas> {
 
 	/**
 	 * The buffered image
@@ -64,6 +66,7 @@ public class PlayNEngineImage extends RuntimeImage {
 	@Inject
 	public PlayNEngineImage(AssetHandler assetHandler) {
 		super(assetHandler);
+		logger.info("New instance");
 	}
 
 	/**
@@ -98,14 +101,15 @@ public class PlayNEngineImage extends RuntimeImage {
 	public boolean loadAsset() {
 		logger.info("We are going to load " + descriptor.getUri() );
 		// Some DesktopEngineImage can be created without an assetHandler
+		logger.info("Loading image " + descriptor.getUri());
 		if (image == null && assetHandler != null) {
 			logger.info("image == null && assetHandler != null");
 			try {
 				image = assetManager().getImage(assetHandler.getAbsolutePath(descriptor.getUri().getPath()));
 				logger.info("image: " + image);
 				if (image != null) {
-					logger.log(Level.INFO, "Image loaded: " + descriptor.getUri());
-					return true;
+					logger.log(Level.INFO, "Image loaded: " + descriptor.getUri() + " from path " + assetHandler.getAbsolutePath(descriptor.getUri().getPath()));
+					return image.isReady();
 				} else {
 					logger.log(Level.SEVERE, "Image NOT loaded: " + descriptor.getUri());
 					return true;
@@ -116,7 +120,7 @@ public class PlayNEngineImage extends RuntimeImage {
 				return false;
 			}
 		}
-		return assetHandler != null;
+		return assetHandler != null && image.isReady();
 	}
 
 	@Override
@@ -132,6 +136,11 @@ public class PlayNEngineImage extends RuntimeImage {
 	@Override
 	public boolean isLoaded() {
 		return (image != null && image.isReady());
+	}
+
+	@Override
+	public void render(EAdCanvas<Canvas> c) {
+		c.getNativeGraphicContext().drawImage(image, 0, 0);
 	}
 
 }

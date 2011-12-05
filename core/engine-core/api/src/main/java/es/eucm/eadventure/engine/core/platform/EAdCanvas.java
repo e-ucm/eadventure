@@ -3,7 +3,6 @@ package es.eucm.eadventure.engine.core.platform;
 import es.eucm.eadventure.common.params.EAdFont;
 import es.eucm.eadventure.common.params.geom.EAdRectangle;
 import es.eucm.eadventure.common.params.paint.EAdPaint;
-import es.eucm.eadventure.common.resources.assets.drawable.basics.Image;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.Shape;
 import es.eucm.eadventure.engine.core.util.EAdTransformation;
 
@@ -31,20 +30,12 @@ public interface EAdCanvas<S> {
 	void setTransformation(EAdTransformation t);
 
 	/**
-	 * @param image
-	 *            Draw an image in the graphic context (transformations
-	 *            configured through 
-	 *            {@code setTransformation(EAdTransformation t)} are applied)
-	 */
-	void drawImage(DrawableAsset<? extends Image> image);
-
-	/**
 	 * @param shape
 	 *            Draw a shape in the graphic context (transformations
 	 *            configured through
 	 *            {@code setTransformation(EAdTransformation t)} are applied)
 	 */
-	void drawShape(DrawableAsset<? extends Shape> shape);
+	void drawShape(DrawableAsset<? extends Shape, S> shape);
 
 	/**
 	 * Draws the text in 0, 0. Same result can be accomplished calling

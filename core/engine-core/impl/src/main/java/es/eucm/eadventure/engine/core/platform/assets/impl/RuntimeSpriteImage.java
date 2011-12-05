@@ -42,19 +42,17 @@ import java.util.logging.Logger;
 import com.google.inject.Inject;
 
 import es.eucm.eadventure.common.resources.assets.drawable.Drawable;
-import es.eucm.eadventure.common.resources.assets.drawable.basics.Image;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.SpriteImage;
 import es.eucm.eadventure.engine.core.platform.AssetHandler;
 import es.eucm.eadventure.engine.core.platform.DrawableAsset;
-import es.eucm.eadventure.engine.core.platform.EAdCanvas;
 
 /**
  * Represents a runtime engine sprite image, associated with an
  * {@link AssetDescritpor}
  * 
  */
-public abstract class RuntimeSpriteImage extends
-		AbstractRuntimeAsset<SpriteImage> implements DrawableAsset<SpriteImage> {
+public abstract class RuntimeSpriteImage<GraphicContext> extends
+		AbstractRuntimeAsset<SpriteImage> implements DrawableAsset<SpriteImage, GraphicContext> {
 
 	/**
 	 * Logger
@@ -66,9 +64,9 @@ public abstract class RuntimeSpriteImage extends
 	 */
 	protected AssetHandler assetHandler;
 
-	private int rows;
+	protected int rows;
 
-	private int cols;
+	protected int cols;
 
 	@Inject
 	public RuntimeSpriteImage(AssetHandler assetHandler) {
@@ -90,18 +88,16 @@ public abstract class RuntimeSpriteImage extends
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public <S extends Drawable> DrawableAsset<S> getDrawable() {
-		return (DrawableAsset<S>) this;
+	public <S extends Drawable> DrawableAsset<S, GraphicContext> getDrawable() {
+		return (DrawableAsset<S, GraphicContext>) this;
 	}
 
 	public int getWidth() {
-		return ((RuntimeImage) assetHandler.getRuntimeAsset((Image) descriptor))
-				.getWidth() / rows;
+		return assetHandler.getDrawableAsset(descriptor, null).getWidth() / rows;
 	}
 
 	public int getHeight() {
-		return ((RuntimeImage) assetHandler.getRuntimeAsset((Image) descriptor))
-				.getHeight() / cols;
+		return assetHandler.getDrawableAsset(descriptor, null).getHeight() / cols;
 	}
 
 	@Override
@@ -127,15 +123,36 @@ public abstract class RuntimeSpriteImage extends
 	public int getCols() {
 		return cols;
 	}
+	
+	public int getSprite() {
+		return descriptor.getSprite();
+	}
 
-	public void render(EAdCanvas<?> c) {
-		// TODO sprite render
-		c.drawImage(this);
+	public int getTotalSprites() {
+		return descriptor.getTotalSprites();
+	}
+
+	protected int getSpriteWidth() {
+		int totalWidth = getWidth();
+		return totalWidth / cols;
+	}
+	
+	protected int getImageX() {
+		return getSpriteWidth() * (getSprite() % cols);
+	}
+	
+	protected int getSpriteHeight() {
+		int totalHeight = getHeight();
+		return totalHeight / rows;
+	}
+	
+	protected int getImageY() {
+		return getSpriteHeight() * (getSprite() / rows);
 	}
 
 	public boolean contains(int x, int y) {
 		// TODO process image alpha
-		return x > 0 && y > 0 && x < getWidth() && y < getHeight();
+		return x > 0 && y > 0 && x < getSpriteWidth() && y < getSpriteHeight();
 	}
 
 }

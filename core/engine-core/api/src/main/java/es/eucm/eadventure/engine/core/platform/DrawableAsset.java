@@ -47,7 +47,7 @@ import es.eucm.eadventure.common.resources.assets.drawable.Drawable;
  * @param <T>
  *            The class of the {@link Drawable} object
  */
-public interface DrawableAsset<T extends Drawable> extends RuntimeAsset<T> {
+public interface DrawableAsset<T extends Drawable, GraphicContext> extends RuntimeAsset<T> {
 
 	/**
 	 * Returns the width of the asset
@@ -68,16 +68,16 @@ public interface DrawableAsset<T extends Drawable> extends RuntimeAsset<T> {
 	 * the object itself. Others, like in animations, will be some other
 	 * {@link DrawableAsset}
 	 */
-	<S extends Drawable> DrawableAsset<S> getDrawable();
+	<S extends Drawable> DrawableAsset<S, GraphicContext> getDrawable();
 
 	/**
 	 * Render the asset at (0, 0) position (transformations are applied in the
 	 * canvas)
 	 * 
-	 * @param canvas
+	 * @param c
 	 *            The canvas where to render the asset
 	 */
-	void render(EAdCanvas<?> canvas);
+	void render(EAdCanvas<GraphicContext> c);
 
 	/**
 	 * Returns if this asset contains the given coordinates

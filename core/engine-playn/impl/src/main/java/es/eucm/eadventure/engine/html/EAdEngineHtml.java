@@ -11,6 +11,7 @@ import com.google.gwt.core.client.GWT;
 import es.eucm.eadventure.common.elementfactories.EAdElementsFactory;
 import es.eucm.eadventure.common.elementfactories.scenedemos.InitScene;
 import es.eucm.eadventure.common.elementfactories.scenedemos.InventoryScene;
+import es.eucm.eadventure.common.elementfactories.scenedemos.SpeakAndMoveScene;
 import es.eucm.eadventure.common.elementfactories.scenedemos.WebMVideoScene;
 import es.eucm.eadventure.common.model.elements.EAdAdventureModel;
 import es.eucm.eadventure.common.model.elements.EAdScene;
@@ -26,21 +27,36 @@ import es.eucm.eadventure.engine.core.Game;
 import es.eucm.eadventure.engine.core.platform.GUI;
 import es.eucm.eadventure.engine.core.platform.impl.PlayNGinInjector;
 import es.eucm.eadventure.engine.reader.GWTReader;
+import es.eucm.eadventure.engine.reader.GWTStringReader;
 
 public class EAdEngineHtml extends HtmlGame {
 
-	private final static PlayNGinInjector injector = GWT
+	protected final static PlayNGinInjector injector = GWT
 			.create(PlayNGinInjector.class);
 
 	@Override
 	public void start() {
 
 		HtmlAssetManager assets = HtmlPlatform.register(Mode.WEBGL).assetManager();
+		
+		//FIXME This should be added when the cursor starts working correctly...
+		//HtmlPlatform.setCursor(null);
+		
 		assets.setPathPrefix("");
 
 		injector.getPlatformLauncher();
 		injector.getPlayNInjector().setInjector(injector);
 
+		
+		Game game = loadGame();
+
+		GUI gui = injector.getGUI();
+
+		PlayN.run(new EAdEngine(game, gui, injector.getAssetHandler(), injector
+				.getMouseState(), injector.getPlatformConfiguration()));
+	}
+	
+	public Game loadGame() {
 		Game game = injector.getGame();
 		game.loadGame();
 
@@ -70,7 +86,7 @@ public class EAdEngineHtml extends HtmlGame {
 
 		// EAdScene s2 = new ShapeScene();
 
-		// EAdScene s2 = new SpeakAndMoveScene();
+		//EAdScene s2 = new SpeakAndMoveScene();
 		/*
 		 * getBackground().getResources().addAsset(getBackground().getInitialBundle
 		 * (), EAdBasicSceneElement.appearance, new
@@ -79,21 +95,15 @@ public class EAdEngineHtml extends HtmlGame {
 		chapter.getScenes().add(s2);
 		chapter.setInitialScene(s2);
 
-		GWTReader gwtReader = new GWTReader();
-		// gwtReader.readXML("eadengine/binary/sceneDemo.xml", game);
-		gwtReader.readXML("eadengine/binary/data.xml", game);
-
-		//game.setGame(model, chapter);
+		game.setGame(model, chapter);
 
 		// String handler after creating the scene
 		StringHandler stringHandler = injector.getStringHandler();
 		stringHandler.addStrings(EAdElementsFactory.getInstance()
 				.getStringFactory().getStrings());
-
-		GUI gui = injector.getGUI();
-
-		PlayN.run(new EAdEngine(game, gui, injector.getAssetHandler(), injector
-				.getMouseState(), injector.getPlatformConfiguration()));
+		GWTStringReader stringReader = new GWTStringReader();
+		
+		return game;
 	}
 
 }

@@ -126,7 +126,7 @@ public class EAdSceneElementDefImpl extends AbstractEAdElementWithBehavior
 	}
 
 	@Override
-	public EAdList<EAdAction> getValidActions() {
+	public EAdList<EAdAction> getActions() {
 		return actions;
 	}
 
@@ -202,9 +202,4 @@ public class EAdSceneElementDefImpl extends AbstractEAdElementWithBehavior
 	public void setDoc(EAdString documentation) {
 		this.doc = documentation;
 	}
-
-	public EAdList<EAdAction> getActions() {
-		return actions;
-	}
-
 }

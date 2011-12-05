@@ -87,6 +87,7 @@ public class AndroidAssetHandlerModule extends AbstractModule {
 		bind(new TypeLiteral<SpecialAssetRenderer<Video, ?>>(){}).to(AndroidVideoRenderer.class);
 	}
 	
+	@SuppressWarnings("unchecked")
 	@Provides
 	@Singleton
 	Map<Class<? extends AssetDescriptor>, Class<? extends RuntimeAsset<?>>> provideMap() {
@@ -94,15 +95,15 @@ public class AndroidAssetHandlerModule extends AbstractModule {
 		map.put(ImageImpl.class, AndroidEngineImage.class);
 		map.put(Image.class, AndroidEngineImage.class);
 		map.put(Frame.class, AndroidEngineImage.class);
-		map.put(Caption.class, AndroidEngineCaption.class);
-		map.put(CaptionImpl.class, AndroidEngineCaption.class);
-		map.put(ComposedDrawable.class, RuntimeComposedDrawable.class);
-		map.put(ComposedDrawableImpl.class, RuntimeComposedDrawable.class);
+		map.put(Caption.class, (Class<? extends RuntimeAsset<?>>) AndroidEngineCaption.class);
+		map.put(CaptionImpl.class, (Class<? extends RuntimeAsset<?>>) AndroidEngineCaption.class);
+		map.put(ComposedDrawable.class, (Class<? extends RuntimeAsset<?>>) RuntimeComposedDrawable.class);
+		map.put(ComposedDrawableImpl.class, (Class<? extends RuntimeAsset<?>>) RuntimeComposedDrawable.class);
 		map.put(RectangleShape.class, AndroidBezierShape.class);
 		map.put(BezierShape.class, AndroidBezierShape.class);
-		map.put(DisplacedDrawable.class, RuntimeDisplacedDrawable.class);
-		map.put(DisplacedDrawableImpl.class, RuntimeDisplacedDrawable.class);
-		map.put(SpriteImage.class, RuntimeSpriteImage.class);
+		map.put(DisplacedDrawable.class, (Class<? extends RuntimeAsset<?>>) RuntimeDisplacedDrawable.class);
+		map.put(DisplacedDrawableImpl.class, (Class<? extends RuntimeAsset<?>>) RuntimeDisplacedDrawable.class);
+		map.put(SpriteImage.class, (Class<? extends RuntimeAsset<?>>) RuntimeSpriteImage.class);
 		map.put(Sound.class, AndroidSound.class);
 		map.put(SoundImpl.class, AndroidSound.class);
 		//TODO Sprite image

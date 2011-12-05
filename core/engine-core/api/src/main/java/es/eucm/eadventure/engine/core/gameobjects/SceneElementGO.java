@@ -60,14 +60,14 @@ public interface SceneElementGO<T extends EAdSceneElement> extends
 	 * 
 	 * @return
 	 */
-	DrawableAsset<?> getRenderAsset();
+	DrawableAsset<?, ?> getRenderAsset();
 
 	/**
 	 * Returns the runtime asset representing the scene element
 	 * 
 	 * @return
 	 */
-	DrawableAsset<?> getAsset();
+	DrawableAsset<?, ?> getAsset();
 
 	/**
 	 * Returns the current asset descriptor, used for rendering
@@ -80,7 +80,7 @@ public interface SceneElementGO<T extends EAdSceneElement> extends
 
 	int getHeight();
 
-	EAdList<EAdAction> getValidActions();
+	EAdList<EAdAction> getActions();
 
 	/**
 	 * Returns the x coordinate of scene element center, using the scale

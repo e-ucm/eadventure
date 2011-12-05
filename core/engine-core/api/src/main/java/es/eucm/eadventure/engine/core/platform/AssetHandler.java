@@ -40,6 +40,7 @@ package es.eucm.eadventure.engine.core.platform;
 import es.eucm.eadventure.common.interfaces.features.Resourced;
 import es.eucm.eadventure.common.resources.EAdBundleId;
 import es.eucm.eadventure.common.resources.assets.AssetDescriptor;
+import es.eucm.eadventure.common.resources.assets.drawable.Drawable;
 
 /**
  * <p>
@@ -104,6 +105,9 @@ public interface AssetHandler {
 	 * @see AssetDescriptor
 	 */
 	<T extends AssetDescriptor> RuntimeAsset<T> getRuntimeAsset(T descriptor);
+
+
+	<T extends Drawable, GraphicContext> DrawableAsset<T, GraphicContext> getDrawableAsset(T descriptor, EAdCanvas<GraphicContext> clazz);
 
 	/**
 	 * Returns true if the adventure assets have been correctly loaded

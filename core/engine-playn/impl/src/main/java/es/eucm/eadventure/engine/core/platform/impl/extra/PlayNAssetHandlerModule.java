@@ -84,6 +84,7 @@ public class PlayNAssetHandlerModule extends AbstractGinModule {
 		bind(AssetHandler.class).to(PlayNAssetHandler.class).in(Singleton.class);
 	}
 
+	@SuppressWarnings("unchecked")
 	@Provides
 	@Singleton
 	Map<Class<? extends AssetDescriptor>, Class<? extends RuntimeAsset<?>>> provideMap() {
@@ -94,13 +95,13 @@ public class PlayNAssetHandlerModule extends AbstractGinModule {
 		map.put(Frame.class, PlayNEngineImage.class);
 		map.put(Caption.class, PlayNEngineCaption.class);
 		map.put(CaptionImpl.class, PlayNEngineCaption.class);
-		map.put(ComposedDrawable.class, RuntimeComposedDrawable.class);
-		map.put(ComposedDrawableImpl.class, RuntimeComposedDrawable.class);
+		map.put(ComposedDrawable.class, (Class<? extends RuntimeAsset<?>>) RuntimeComposedDrawable.class);
+		map.put(ComposedDrawableImpl.class, (Class<? extends RuntimeAsset<?>>) RuntimeComposedDrawable.class);
 		map.put(RectangleShape.class, PlayNBezierShape.class);
 		map.put(BezierShape.class, PlayNBezierShape.class);
-		map.put(DisplacedDrawable.class, RuntimeDisplacedDrawable.class);
-		map.put(DisplacedDrawableImpl.class, RuntimeDisplacedDrawable.class);
-		map.put(SpriteImage.class, RuntimeSpriteImage.class);
+		map.put(DisplacedDrawable.class, (Class<? extends RuntimeAsset<?>>) RuntimeDisplacedDrawable.class);
+		map.put(DisplacedDrawableImpl.class, (Class<? extends RuntimeAsset<?>>) RuntimeDisplacedDrawable.class);
+		map.put(SpriteImage.class, (Class<? extends RuntimeAsset<?>>) RuntimeSpriteImage.class);
 		map.put(SpriteImageImpl.class, PlayNEngineSpriteImage.class);
 		map.put(Sound.class, PlayNSound.class);
 		map.put(SoundImpl.class, PlayNSound.class);

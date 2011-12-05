@@ -1,8 +1,6 @@
 
 syntax: glob
 *.class
-.project
-.classpath
 *.prefs
 *.settings
 */target/*
@@ -15,18 +13,27 @@ core/engine-android/impl/gen/es/eucm/eadventure/engine/R.java
 core/engine-android/impl/gen/*
 core/engine-playn/impl/gwt-unitCache/gwt-unitCache*
 core/engine-desktop/impl/src/test/resources/T1-movimientoImported/drawable/assets_animation_walks-up_08.png
+
 syntax: regexp
 ^core/engine-android/impl/bin$
 core/engine-desktop/impl/src/test/resources/T1-movimiento*
-syntax: regexp
 ^core/engine-desktop/impl/src/test/resources/FirstPersonEffectsTestImported$
-syntax: regexp
 ^core/engine-playn/impl/war/eadengine$
-syntax: regexp
 ^core/engine-playn/impl/war/WEB-INF/deploy$
-syntax: regexp
 ^core/engine-playn/impl/war/WEB-INF/lib$
-syntax: regexp
 ^core/engine-android/impl/libs/android-support-v4\.jar$
-syntax: regexp
 ^core/engine-android/impl/gen$
+
+syntax: regexp
+^\.classpath$
+^\.project$
+^build-tools/\.classpath$
+^build-tools/\.project$
+^core/(common|model)/(.*)/\.classpath$
+^core/(common|model)/(.*)/\.project$
+^core/(gui|utils)/\.classpath$
+^core/(gui|utils)/\.project$
+^core/editor-(.*)/(.*)/\.classpath$
+^core/editor-(.*)/(.*)/\.project$
+^core/engine-(core|desktop|applet|plugins|java|playn)/(.*)/\.classpath$
+^core/engine-(core|desktop|applet|plugins|java|playn)/(.*)/\.project$

@@ -37,6 +37,8 @@
 
 package es.eucm.eadventure.engine.core.platform.assets.impl;
 
+import playn.core.Canvas;
+
 import com.google.inject.Inject;
 
 import es.eucm.eadventure.common.resources.StringHandler;
@@ -46,7 +48,7 @@ import es.eucm.eadventure.engine.core.platform.AssetHandler;
 import es.eucm.eadventure.engine.core.platform.FontHandler;
 import es.eucm.eadventure.engine.core.platform.RuntimeFont;
 
-public class PlayNEngineCaption extends RuntimeCaption {
+public class PlayNEngineCaption extends RuntimeCaption<Canvas> {
 
 	@Inject
 	public PlayNEngineCaption(FontHandler fontCache, VariableMap valueMap,

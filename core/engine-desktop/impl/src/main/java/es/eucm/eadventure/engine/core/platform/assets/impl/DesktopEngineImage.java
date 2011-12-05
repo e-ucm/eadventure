@@ -37,6 +37,7 @@
 
 package es.eucm.eadventure.engine.core.platform.assets.impl;
 
+import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.logging.Level;
@@ -47,9 +48,10 @@ import javax.imageio.ImageIO;
 import com.google.inject.Inject;
 
 import es.eucm.eadventure.engine.core.platform.AssetHandler;
+import es.eucm.eadventure.engine.core.platform.EAdCanvas;
 import es.eucm.eadventure.engine.core.platform.impl.DesktopAssetHandler;
 
-public class DesktopEngineImage extends RuntimeImage {
+public class DesktopEngineImage extends RuntimeImage<Graphics2D> {
 
 	/**
 	 * The buffered image
@@ -143,6 +145,11 @@ public class DesktopEngineImage extends RuntimeImage {
 			return alpha > 128;
 		}
 		return false;
+	}
+
+	@Override
+	public void render( EAdCanvas<Graphics2D> c ){
+		c.getNativeGraphicContext().drawImage(this.getImage(), 0, 0, null);
 	}
 
 }

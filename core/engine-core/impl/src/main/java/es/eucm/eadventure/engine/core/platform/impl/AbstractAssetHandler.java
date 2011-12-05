@@ -48,7 +48,10 @@ import com.google.inject.Injector;
 import es.eucm.eadventure.common.interfaces.features.Resourced;
 import es.eucm.eadventure.common.resources.EAdBundleId;
 import es.eucm.eadventure.common.resources.assets.AssetDescriptor;
+import es.eucm.eadventure.common.resources.assets.drawable.Drawable;
 import es.eucm.eadventure.engine.core.platform.AssetHandler;
+import es.eucm.eadventure.engine.core.platform.DrawableAsset;
+import es.eucm.eadventure.engine.core.platform.EAdCanvas;
 import es.eucm.eadventure.engine.core.platform.FontHandler;
 import es.eucm.eadventure.engine.core.platform.RuntimeAsset;
 
@@ -142,6 +145,13 @@ public abstract class AbstractAssetHandler implements AssetHandler {
 					e);
 			throw e;
 		}
+	}
+	
+	@SuppressWarnings("unchecked")
+	@Override
+	public <T extends Drawable, GraphicContext> DrawableAsset<T, GraphicContext> getDrawableAsset(
+			T descriptor, EAdCanvas<GraphicContext> c) {
+		return (DrawableAsset<T, GraphicContext>) getRuntimeAsset(descriptor);
 	}
 
 	public abstract RuntimeAsset<?> getInstance(Class<? extends RuntimeAsset<?>> clazz);

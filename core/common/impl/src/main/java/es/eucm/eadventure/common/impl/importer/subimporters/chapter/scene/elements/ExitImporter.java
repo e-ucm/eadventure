@@ -116,6 +116,7 @@ public class ExitImporter extends ElementImporter<Exit> {
 	private void addGoToExit(EAdBasicSceneElement newExit, Exit oldObject,
 			EAdCondition enableCondition) {
 
+		//FIXME this should stop effects util later (set blockig is not enough?)
 		// Change scene effect
 		EAdScene scene = (EAdScene) factory.getElementById(oldObject
 				.getNextSceneId());
@@ -123,6 +124,8 @@ public class ExitImporter extends ElementImporter<Exit> {
 				EAdTransition.BASIC);
 		changeScene.setId("change_screen_" + newExit.getId());
 		changeScene.setCondition(enableCondition);
+		changeScene.setBlocking(true);
+		changeScene.setQueueable(true);
 
 		// Post effects
 		for (Effect e : oldObject.getPostEffects().getEffects()) {

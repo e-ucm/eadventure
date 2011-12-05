@@ -17,10 +17,8 @@ import es.eucm.eadventure.common.params.fills.impl.EAdColor;
 import es.eucm.eadventure.common.params.fills.impl.EAdLinearGradient;
 import es.eucm.eadventure.common.params.geom.EAdRectangle;
 import es.eucm.eadventure.common.params.paint.EAdFill;
-import es.eucm.eadventure.common.resources.assets.drawable.basics.Image;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.Shape;
 import es.eucm.eadventure.engine.core.platform.assets.impl.PlayNBezierShape;
-import es.eucm.eadventure.engine.core.platform.assets.impl.PlayNEngineImage;
 import es.eucm.eadventure.engine.core.platform.impl.AbstractCanvas;
 import es.eucm.eadventure.engine.core.util.EAdTransformation;
 
@@ -45,12 +43,7 @@ public class PlayNCanvas extends AbstractCanvas<Canvas> {
 	}
 
 	@Override
-	public void drawImage(DrawableAsset<? extends Image> image) {
-		g.drawImage(((PlayNEngineImage) image).getImage(), 0, 0);
-	}
-
-	@Override
-	public void drawShape(DrawableAsset<? extends Shape> shape) {
+	public void drawShape(DrawableAsset<? extends Shape, Canvas> shape) {
 		Path s = ((PlayNBezierShape) shape).getShape();
 		// Fill
 		if (paint.getFill() != null) {

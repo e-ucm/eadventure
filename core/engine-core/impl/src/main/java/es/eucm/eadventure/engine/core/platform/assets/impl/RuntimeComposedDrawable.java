@@ -56,9 +56,9 @@ import es.eucm.eadventure.engine.core.platform.EAdCanvas;
  * {@link AssetDescritpor}
  * 
  */
-public class RuntimeComposedDrawable extends
+public class RuntimeComposedDrawable<GraphicContext> extends
 		AbstractRuntimeAsset<ComposedDrawable> implements
-		DrawableAsset<ComposedDrawable> {
+		DrawableAsset<ComposedDrawable, GraphicContext> {
 
 	/**
 	 * Logger
@@ -70,52 +70,51 @@ public class RuntimeComposedDrawable extends
 	 */
 	protected AssetHandler assetHandler;
 
-	protected ArrayList<RuntimeDisplacedDrawable> drawables;
-
+	protected ArrayList<DrawableAsset<?, GraphicContext>> drawables;
+	
 	@Inject
 	public RuntimeComposedDrawable(AssetHandler assetHandler) {
 		this.assetHandler = assetHandler;
-		this.drawables = new ArrayList<RuntimeDisplacedDrawable>();
+		this.drawables = new ArrayList<DrawableAsset<?, GraphicContext>>();
 		logger.info("New instance");
 	}
 
+	@SuppressWarnings("unchecked")
 	public void setDescriptor(ComposedDrawable e) {
 		super.setDescriptor(e);
+		drawables.clear();
 		for (DisplacedDrawable d : e.getAssetList()) {
-			drawables.add((RuntimeDisplacedDrawable) assetHandler
-					.getRuntimeAsset(d));
+			drawables.add((DrawableAsset<?, GraphicContext>) assetHandler.getDrawableAsset(d, null));
 		}
 	}
 
 	@Override
 	public void update() {
-		for (RuntimeDisplacedDrawable d : getAssets())
+		for (DrawableAsset<?, GraphicContext> d : getAssets())
 			d.update();
 	}
 
-	public List<RuntimeDisplacedDrawable> getAssets() {
+	public List<DrawableAsset<?, GraphicContext>> getAssets() {
 		return drawables;
 	}
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public <S extends Drawable> DrawableAsset<S> getDrawable() {
-		return (DrawableAsset<S>) this;
+	public <S extends Drawable> DrawableAsset<S, GraphicContext> getDrawable() {
+		return (DrawableAsset<S, GraphicContext>) this;
 	}
 
 	public int getWidth() {
 		int width = 0;
 		for (Drawable asset : descriptor.getAssetList())
-			width = Math.max(((DrawableAsset<?>) assetHandler
-					.getRuntimeAsset(asset)).getWidth(), width);
+			width = Math.max(assetHandler.getDrawableAsset(asset, null).getWidth(), width);
 		return width;
 	}
 
 	public int getHeight() {
 		int height = 0;
 		for (Drawable asset : descriptor.getAssetList())
-			height = Math.max(((DrawableAsset<?>) assetHandler
-					.getRuntimeAsset(asset)).getHeight(), height);
+			height = Math.max(assetHandler.getDrawableAsset(asset, null).getHeight(), height);
 		return height;
 	}
 
@@ -140,15 +139,15 @@ public class RuntimeComposedDrawable extends
 		return loaded;
 	}
 
-	public void render(EAdCanvas<?> c) {
-		for (RuntimeDisplacedDrawable d : getAssets()) {
+	public void render(EAdCanvas<GraphicContext> c) {
+		for (DrawableAsset<?, GraphicContext> d : getAssets()) {
 			d.render(c);
 		}
 	}
 
 	@Override
 	public boolean contains(int x, int y) {
-		for (RuntimeDisplacedDrawable d : getAssets()) {
+		for (DrawableAsset<?, GraphicContext> d : getAssets()) {
 			if (d.contains(x, y)) {
 				return true;
 			}

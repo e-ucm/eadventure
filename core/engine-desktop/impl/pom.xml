@@ -67,6 +67,13 @@
     </dependency>
      -->
         <!-- tests -->
+        
+            <dependency>
+    	<groupId>es.eucm.eadventure</groupId>
+    	<artifactId>test-suite</artifactId>
+    	<version>${project.version}</version>
+    </dependency>
+        
       <dependency>
         <groupId>junit</groupId>
         <artifactId>junit</artifactId>

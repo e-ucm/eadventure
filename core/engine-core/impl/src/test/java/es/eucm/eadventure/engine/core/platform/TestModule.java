@@ -40,6 +40,8 @@ package es.eucm.eadventure.engine.core.platform;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.mockito.Mock;
+
 import com.google.inject.AbstractModule;
 import com.google.inject.TypeLiteral;
 import com.google.inject.name.Names;
@@ -56,6 +58,9 @@ import es.eucm.eadventure.engine.core.impl.KeyboardStateImpl;
 import es.eucm.eadventure.engine.core.platform.impl.FontHandlerImpl;
 
 public class TestModule extends AbstractModule {
+	
+	@Mock
+	AssetHandler assetHandler;
 	
 	@Override
 	protected void configure() {
@@ -74,7 +79,7 @@ public class TestModule extends AbstractModule {
 	
 	private void configureAssetHandler() {
 		bind(StringHandler.class).to(TestStringsReader.class);
-		bind(AssetHandler.class).to(TestAssetHandler.class);
+		bind(AssetHandler.class).toInstance(assetHandler);
 		
 		Map<Class<? extends AssetDescriptor>, Class<? extends RuntimeAsset<?>>> map = new HashMap<Class<? extends AssetDescriptor>, Class<? extends RuntimeAsset<?>>>( );
 
