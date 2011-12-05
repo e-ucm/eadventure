@@ -251,7 +251,7 @@ public class DesktopGUI extends AbstractGUI<Graphics2D> implements GUI {
 	 * 
 	 * @param g
 	 */
-	private void setRenderingHints(Graphics2D g) {
+	protected void setRenderingHints(Graphics2D g) {
 		// TODO test effects, probably should allow disabling
 		setHint(g, RenderingHints.VALUE_ANTIALIAS_ON, RenderingHints.KEY_ANTIALIASING);
 		setHint(g, RenderingHints.VALUE_ALPHA_INTERPOLATION_QUALITY, RenderingHints.KEY_ALPHA_INTERPOLATION);

@@ -21,6 +21,23 @@
     	<artifactId>common-impl</artifactId>
     	<version>${project.version}</version>
     </dependency>
+    
+    <dependency>
+    	<groupId>es.eucm.eadventure</groupId>
+    	<artifactId>engine-core-api</artifactId>
+    	<version>${project.version}</version>
+    </dependency>
+    <dependency>
+    	<groupId>es.eucm.eadventure</groupId>
+    	<artifactId>engine-core-impl</artifactId>
+    	<version>${project.version}</version>
+    </dependency>
+    <dependency>
+    	<groupId>es.eucm.eadventure</groupId>
+    	<artifactId>engine-desktop-impl</artifactId>
+    	<version>${project.version}</version>
+    </dependency>
+    
     <dependency>
     	<groupId>es.eucm.eadventure</groupId>
     	<artifactId>gui</artifactId>

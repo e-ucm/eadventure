@@ -19,10 +19,10 @@ public class SwingFieldValueReader implements FieldValueReader {
 	public <S> S readValue(FieldDescriptor<S> fieldDescriptor) {
 		try {
 			PropertyDescriptor pd = getPropertyDescriptor(fieldDescriptor.getElement().getClass(), fieldDescriptor.getFieldName());
-			S value = (S) pd.getReadMethod().invoke(fieldDescriptor.getElement());				
+			S value = (S) pd.getReadMethod().invoke(fieldDescriptor.getElement());
 			return value;
 		} catch (Exception e) {
-			throw new RuntimeException("Error reading field " + fieldDescriptor.getFieldName(), e);
+			throw new RuntimeException("Error reading field " + fieldDescriptor.getFieldName() + " in " + fieldDescriptor.getElement().getClass(), e);
 		}
 	}
 	

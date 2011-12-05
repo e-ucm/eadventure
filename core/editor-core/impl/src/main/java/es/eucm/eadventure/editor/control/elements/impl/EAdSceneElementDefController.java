@@ -34,27 +34,27 @@ public class EAdSceneElementDefController extends AbstractElementController<EAdS
 					new EAdStringOption("description",
 							"this is the description",
 							new FieldDescriptorImpl<EAdString>(element,
-									"description")));
+									"desc")));
 
 			panel.addElement(
 					new EAdStringOption("detailed description",
 							"this is the detailed description",
 							new FieldDescriptorImpl<EAdString>(element,
-									"detailedDescription"),
+									"detailedDesc"),
 							EAdStringOption.ExpectedLength.LONG));
 
 			panel.addElement(
 					new EAdStringOption(Messages.documentation,
 							"this is the documentation",
 							new FieldDescriptorImpl<EAdString>(element,
-									"documentation"),
+									"doc"),
 							EAdStringOption.ExpectedLength.LONG));
 			
 			panel.addElement(
 					new EAdConditionOption("draggable condition",
 							"edit draggable condition",
 							new FieldDescriptorImpl<EAdCondition>(element,
-									"draggableCondition"),
+									"dragCond"),
 							EAdConditionOption.View.DETAILED));
 			
 		

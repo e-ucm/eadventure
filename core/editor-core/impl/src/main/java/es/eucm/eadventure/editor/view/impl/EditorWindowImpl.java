@@ -44,14 +44,12 @@ import java.awt.Image;
 import java.awt.Toolkit;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Logger;
 
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 import javax.swing.JMenuBar;
 import javax.swing.JPanel;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -73,8 +71,8 @@ public class EditorWindowImpl implements EditorWindow {
 	/**
 	 * Logger
 	 */
-	private static final Logger logger = LoggerFactory
-			.getLogger(EditorWindowImpl.class);
+	private static final Logger logger = Logger
+			.getLogger("EditorWindowImpl");
 
 	/**
 	 * Main right panel in the editor
@@ -226,7 +224,7 @@ public class EditorWindowImpl implements EditorWindow {
 							.getSystemResourceAsStream(R.Drawable.EditorIcon128x128_png)));
 					editorWindow.setIconImages(icons);
 				} catch (Exception e) {
-					logger.error("Could not load icons correctly");
+					logger.severe("Could not load icons correctly");
 				}
 
 			}
