@@ -63,8 +63,6 @@ public class PreviewPanelComponentProvider implements ComponentProvider<PreviewP
 		c = new EAdChapterImpl();
 		model.getChapters().add(c);
 
-		game = injector.getInstance(Game.class);
-		game.setGame(model, model.getChapters().get(0));
 
 		gui = (DesktopEditorGUI) injector.getInstance(GUI.class);
 		
@@ -72,7 +70,10 @@ public class PreviewPanelComponentProvider implements ComponentProvider<PreviewP
 		
 		c.getScenes().add(scene);
 		c.setInitialScene(scene);
-		
+
+		game = injector.getInstance(Game.class);
+		game.setGame(model, model.getChapters().get(0));
+
 		new Thread(new Runnable() {
 
 			@Override

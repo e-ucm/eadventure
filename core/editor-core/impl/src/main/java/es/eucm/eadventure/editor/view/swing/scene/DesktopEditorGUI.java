@@ -78,8 +78,16 @@ public class DesktopEditorGUI extends DesktopGUI {
 	 */
 	@Override
 	public void commit(final float interpolation) {
-		if (canvas.getBufferStrategy() == null)
+		if (canvas.getBufferStrategy() == null) {
+			try {
+				canvas.createBufferStrategy(2);
+				BufferStrategy bs = canvas.getBufferStrategy();
+				bs.getDrawGraphics().getFontMetrics();
+			} catch (IllegalStateException e) {
+				logger.severe("No support for back buffer");
+			}
 			return;
+		}
 		
 		processInput();
 
@@ -92,17 +100,11 @@ public class DesktopEditorGUI extends DesktopGUI {
 				BufferStrategy bs = canvas.getBufferStrategy();
 				Graphics2D g = (Graphics2D) bs.getDrawGraphics();
 				eAdCanvas.setGraphicContext(g);
-				g.setClip(0, 0, platformConfiguration.getWidth(),
-						platformConfiguration.getHeight());
+				//g.setClip(0, 0, platformConfiguration.getWidth(),
+				//		platformConfiguration.getHeight());
 
-				if (!g.getRenderingHints().containsValue(
-						RenderingHints.VALUE_ANTIALIAS_ON))
-					g.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
-							RenderingHints.VALUE_ANTIALIAS_ON);
-				if (!g.getRenderingHints().containsValue(
-						RenderingHints.VALUE_TEXT_ANTIALIAS_ON))
-					g.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING,
-							RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
+				g.clearRect(0, 0, getWidth(), getHeight());
+				setRenderingHints(g);
 
 				g.setFont(g.getFont().deriveFont(20.0f));
 
@@ -172,14 +174,7 @@ public class DesktopEditorGUI extends DesktopGUI {
 		canvas.setEnabled(true);
 		canvas.setVisible(true);
 		canvas.setFocusable(true);
-		// Create transparent cursor
-		int[] pixels = new int[16 * 16];
-		java.awt.Image image = (java.awt.Image) Toolkit.getDefaultToolkit()
-				.createImage(new MemoryImageSource(16, 16, pixels, 0, 16));
-		Cursor transparentCursor = Toolkit.getDefaultToolkit()
-				.createCustomCursor(image, new Point(0, 0), "invisibleCursor");
-		canvas.setCursor(transparentCursor);
-
+		
 		try {
 			canvas.createBufferStrategy(2);
 			BufferStrategy bs = canvas.getBufferStrategy();
