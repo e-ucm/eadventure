@@ -111,6 +111,8 @@ public class GameImpl implements Game {
 	private EventGOFactory eventFactory;
 	
 	private List<EventGO<?>> events;
+	
+	private PlatformConfiguration platformConfiguration;
 
 	@Inject
 	public GameImpl(GUI gui, EvaluatorFactory evaluatorFactory,
@@ -132,6 +134,7 @@ public class GameImpl implements Game {
 		this.mouseState = mouseState;
 		this.inventoryHUD = inventoryHud;
 		this.inventoryHandler = inventoryHandler;
+		this.platformConfiguration = platformConfiguration;
 		this.eventFactory = eventFactory;
 		events = new ArrayList<EventGO<?>>();
 		initialTransformation.getMatrix().scale(
@@ -148,8 +151,11 @@ public class GameImpl implements Game {
 			updateChapterEvents();
 			gameState.getScene().update();
 		}
-		
-		gameState.getScene().doLayout(initialTransformation);
+		initialTransformation  = new EAdTransformationImpl();
+		initialTransformation.getMatrix().scale(
+				(float) platformConfiguration.getScale(),
+				(float) platformConfiguration.getScale(), true);
+		gui.addElement(gameState.getScene(), initialTransformation);
 
 		if (debugger != null && debugger.getGameObjects() != null)
 			for (DrawableGO<?> go : debugger.getGameObjects()) {

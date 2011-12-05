@@ -147,13 +147,13 @@ public class EmptyTransitionGO extends SceneGOImpl implements TransitionGO {
 			new Thread(new Loader()).start();
 		}
 
-		if (previousSceneImage == null) {
+		if (previousSceneImage == null)
 			previousSceneImage = gui.commitToImage();
-		}
 
 		if (loaded) {
 			gameState.setScene(nextSceneGO);
-			previousSceneImage.freeMemory();
+			if (previousSceneImage != null)
+				previousSceneImage.freeMemory();
 		}
 	}
 
@@ -167,11 +167,12 @@ public class EmptyTransitionGO extends SceneGOImpl implements TransitionGO {
 		public void run() {
 			nextSceneGO = (SceneGO<?>) sceneElementFactory.get(nextEAdScene);
 			try {
-
 				// TODO what if it's not possible to create previous scene
 				// image?
-				while (previousSceneImage == null) {
+				int count = 0;
+				while (previousSceneImage == null && count < 20) {
 					Thread.sleep(50);
+					count++;
 				}
 
 				List<RuntimeAsset<?>> newAssetList = nextSceneGO.getAssets(
