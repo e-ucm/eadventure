@@ -49,7 +49,6 @@ import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
 import es.eucm.eadventure.common.model.elements.impl.EAdSceneElementDefImpl;
 import es.eucm.eadventure.common.model.guievents.enums.MouseButton;
 import es.eucm.eadventure.common.params.geom.impl.EAdPositionImpl;
-import es.eucm.eadventure.common.params.geom.impl.EAdPositionImpl.Corner;
 import es.eucm.eadventure.engine.core.GameState;
 import es.eucm.eadventure.engine.core.MouseState;
 import es.eucm.eadventure.engine.core.gameobjects.DrawableGO;
@@ -74,6 +73,8 @@ public class MouseStateImpl implements MouseState {
 	private DrawableGO<?> gameObjectUnderMouse;
 
 	private DrawableGO<?> draggingGameObject;
+	
+	private EAdSceneElementDef draggingElement;
 
 	private int dragInitX = OUT_VAL;
 
@@ -125,21 +126,31 @@ public class MouseStateImpl implements MouseState {
 	}
 
 	public DrawableGO<?> getDraggingGameObject() {
+		if ( draggingGameObject != null ){
+			draggingGameObject.update();
+		}
 		return draggingGameObject;
 	}
 
 	@Override
 	public void setDraggingGameObject(EAdSceneElementDef dragElement) {
+		this.draggingElement = dragElement;
 		if (dragElement != null) {
-			EAdSceneElement element = gameState.getValueMap().getValue(
-					dragElement, EAdSceneElementDefImpl.VAR_SCENE_ELEMENT);
-			float dispX = gameState.getValueMap().getValue(dragElement, EAdBasicSceneElement.VAR_DISP_X);
-			float dispY = gameState.getValueMap().getValue(dragElement, EAdBasicSceneElement.VAR_DISP_Y);
-			int x = gameState.getValueMap().getValue(dragElement, EAdBasicSceneElement.VAR_X );
-			int y = gameState.getValueMap().getValue(dragElement, EAdBasicSceneElement.VAR_Y );
-
+			int x = mouseX;
+			int y = mouseY;
+			float dispX = 0.5f;
+			float dispY = 0.5f;
+				
+			EAdSceneElement e = gameState.getValueMap().getValue(dragElement, EAdSceneElementDefImpl.VAR_SCENE_ELEMENT);
+			if ( e != null ){
+				x = gameState.getValueMap().getValue(dragElement, EAdBasicSceneElement.VAR_X);
+				y = gameState.getValueMap().getValue(dragElement, EAdBasicSceneElement.VAR_Y);
+				dispX = gameState.getValueMap().getValue(dragElement, EAdBasicSceneElement.VAR_DISP_X);
+				dispY = gameState.getValueMap().getValue(dragElement, EAdBasicSceneElement.VAR_DISP_Y);
+			}
+			
 			EAdBasicSceneElement element2 = new EAdBasicSceneElement(dragElement);
-			element2.setPosition( new EAdPositionImpl( x, y, 0, 0 ));
+			element2.setPosition( new EAdPositionImpl(x, y, dispX, dispY ));
 			draggingGameObject = factory.get(element2);
 		} else {
 			draggingGameObject = null;
@@ -164,6 +175,11 @@ public class MouseStateImpl implements MouseState {
 		if (mouseX == OUT_VAL && mouseY == OUT_VAL)
 			return false;
 		return true;
+	}
+
+	@Override
+	public EAdSceneElementDef getDraggingElement() {
+		return draggingElement;
 	}
 
 }

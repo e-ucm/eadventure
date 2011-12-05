@@ -57,8 +57,8 @@ public class ItemImporter extends ActorImporter<Item> {
 	public ItemImporter(StringHandler stringHandler,
 			ResourceImporter resourceImporter,
 			EAdElementFactory elementFactory,
-			EAdElementImporter<Action, EAdAction> actionImporter) {
-		super(stringHandler, resourceImporter, elementFactory, actionImporter);
+			EAdElementImporter<Action, EAdAction> actionImporter, EAdElementFactory factory) {
+		super(stringHandler, resourceImporter, elementFactory, actionImporter, factory);
 	}
 
 	@Override

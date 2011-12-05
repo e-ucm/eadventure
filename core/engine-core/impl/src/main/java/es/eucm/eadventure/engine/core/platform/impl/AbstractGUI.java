@@ -213,7 +213,7 @@ public abstract class AbstractGUI<T> implements GUI {
 
 				if (draggedGO != null) {
 					DragActionImpl action = new DragActionImpl(
-							(EAdElement) draggedGO.getElement(),
+							mouseState.getDraggingElement(),
 							DragAction.EXITED, x, y);
 					oldGO.processAction(action);
 				}
@@ -225,7 +225,7 @@ public abstract class AbstractGUI<T> implements GUI {
 				currentGO.processAction(enterAction);
 				if (draggedGO != null) {
 					DragActionImpl action = new DragActionImpl(
-							(EAdElement) draggedGO.getElement(),
+							mouseState.getDraggingElement(),
 							DragAction.ENTERED, x, y);
 					currentGO.processAction(action);
 				}
@@ -244,12 +244,12 @@ public abstract class AbstractGUI<T> implements GUI {
 				if (goMouse != null) {
 					// Exit too
 					DragActionImpl action = new DragActionImpl(
-							(EAdElement) currentDraggedGO.getElement(),
+							mouseState.getDraggingElement(),
 							DragAction.EXITED, x, y);
 					goMouse.processAction(action);
 					// Drop
 					DragActionImpl action2 = new DragActionImpl(
-							(EAdElement) currentDraggedGO.getElement(),
+							mouseState.getDraggingElement(),
 							DragAction.DROP, x, y);
 					goMouse.processAction(action2);
 				}

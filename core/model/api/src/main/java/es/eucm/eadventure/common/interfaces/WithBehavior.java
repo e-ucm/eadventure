@@ -20,4 +20,15 @@ public interface WithBehavior {
 	 * @return the effects list associated with the given event
 	 */
 	EAdList<EAdEffect> getEffects(EAdGUIEvent event);
+	
+	void addBehavior(EAdGUIEvent event, EAdEffect effect);
+
+	/**
+	 * Adds the given effects to the list of the events that will be executed
+	 * when the given event is processed by this element
+	 * 
+	 * @param event the GUI event
+	 * @param effects the list of effects
+	 */
+	void addBehavior(EAdGUIEvent event, EAdList<EAdEffect> effects);
 }

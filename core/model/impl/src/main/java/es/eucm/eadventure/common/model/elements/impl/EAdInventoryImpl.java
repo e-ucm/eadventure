@@ -7,16 +7,22 @@ import es.eucm.eadventure.common.model.elements.EAdSceneElementDef;
 import es.eucm.eadventure.common.model.extra.EAdList;
 import es.eucm.eadventure.common.model.extra.impl.EAdListImpl;
 import es.eucm.eadventure.common.model.impl.EAdElementImpl;
+import es.eucm.eadventure.common.model.variables.EAdVarDef;
+import es.eucm.eadventure.common.model.variables.impl.EAdVarDefImpl;
 
-@Element(detailed = EAdInventoryImpl.class, runtime = EAdInventoryImpl.class )
+@Element(detailed = EAdInventoryImpl.class, runtime = EAdInventoryImpl.class)
 public class EAdInventoryImpl extends EAdElementImpl implements EAdInventory {
-	
+
+	public static final EAdVarDef<Boolean> VAR_IN_INVENTORY = new EAdVarDefImpl<Boolean>(
+			"in_inventory", Boolean.class, false);
+
 	@Param("initialItems")
 	private EAdList<EAdSceneElementDef> initialItems;
-	
-	public EAdInventoryImpl( ){
+
+	public EAdInventoryImpl() {
 		this.setId("inventory");
-		initialItems = new EAdListImpl<EAdSceneElementDef>(EAdSceneElementDef.class);
+		initialItems = new EAdListImpl<EAdSceneElementDef>(
+				EAdSceneElementDef.class);
 	}
 
 	@Override

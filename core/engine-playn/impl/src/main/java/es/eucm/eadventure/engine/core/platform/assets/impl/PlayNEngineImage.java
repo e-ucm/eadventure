@@ -59,7 +59,7 @@ public class PlayNEngineImage extends RuntimeImage {
 	 * The logger
 	 */
 	private static final Logger logger = Logger
-			.getLogger("DesktopEngineImage");
+			.getLogger("PlayNEngineImage");
 
 	@Inject
 	public PlayNEngineImage(AssetHandler assetHandler) {
@@ -96,10 +96,13 @@ public class PlayNEngineImage extends RuntimeImage {
 
 	@Override
 	public boolean loadAsset() {
+		logger.info("We are going to load " + descriptor.getUri() );
 		// Some DesktopEngineImage can be created without an assetHandler
 		if (image == null && assetHandler != null) {
+			logger.info("image == null && assetHandler != null");
 			try {
 				image = assetManager().getImage(assetHandler.getAbsolutePath(descriptor.getUri().getPath()));
+				logger.info("image: " + image);
 				if (image != null) {
 					logger.log(Level.INFO, "Image loaded: " + descriptor.getUri());
 					return true;

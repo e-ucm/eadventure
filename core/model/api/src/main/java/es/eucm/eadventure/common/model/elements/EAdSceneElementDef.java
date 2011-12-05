@@ -56,6 +56,6 @@ public interface EAdSceneElementDef extends EAdElement, Resourced, WithBehavior,
 
 	EAdString getDesc();
 	
-	EAdString getDetailDesc();
+	EAdString getDetailDesc();	
 
 }

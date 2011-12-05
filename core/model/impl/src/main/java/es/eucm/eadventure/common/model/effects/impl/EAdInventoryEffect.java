@@ -47,38 +47,48 @@ public class EAdInventoryEffect extends AbstractEAdEffect {
 
 	@Param("modification")
 	private InventoryEffectAction modification;
-	
+
 	@Param("sceneElement")
-	private EAdSceneElementDef sceneElement;
-	
+	private EAdSceneElementDef actor;
+
+	@Param("boolean")
+	private boolean removeFromScene;
 
 	public EAdInventoryEffect() {
 		this(null, InventoryEffectAction.ADD_TO_INVENTORY);
 	}
-	
 
-	public EAdInventoryEffect( EAdSceneElementDef actor, InventoryEffectAction modification) {
+	public EAdInventoryEffect(EAdSceneElementDef actor,
+			InventoryEffectAction modification) {
+		this(actor, modification, true);
+	}
+
+	public EAdInventoryEffect(EAdSceneElementDef actor,
+			InventoryEffectAction modification, boolean removeFromScene) {
 		super();
 		this.modification = modification;
-		this.sceneElement = actor;
+		this.actor = actor;
+		this.removeFromScene = removeFromScene;
 	}
-	
+
 	public void setModification(InventoryEffectAction modification) {
 		this.modification = modification;
 	}
-	
+
 	public InventoryEffectAction getModification() {
 		return modification;
 	}
-	
+
 	public void setSceneElement(EAdSceneElementDef actor) {
-		this.sceneElement = actor;
+		this.actor = actor;
 	}
 
-	public EAdSceneElementDef getSceneElement() {
-		return sceneElement;
+	public EAdSceneElementDef getElement() {
+		return actor;
 	}
-	
-	
-	
+
+	public boolean isRemoveFromScene() {
+		return removeFromScene;
+	}
+
 }

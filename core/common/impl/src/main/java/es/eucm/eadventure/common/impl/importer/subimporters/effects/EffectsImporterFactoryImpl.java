@@ -43,11 +43,15 @@ import com.google.inject.name.Named;
 
 import es.eucm.eadventure.common.EAdElementImporter;
 import es.eucm.eadventure.common.data.chapter.effects.Effect;
+import es.eucm.eadventure.common.data.chapter.effects.Effects;
 import es.eucm.eadventure.common.impl.importer.interfaces.EffectsImporterFactory;
 import es.eucm.eadventure.common.interfaces.AbstractFactory;
-import es.eucm.eadventure.common.interfaces.ReflectionProvider;
 import es.eucm.eadventure.common.interfaces.MapProvider;
+import es.eucm.eadventure.common.interfaces.ReflectionProvider;
 import es.eucm.eadventure.common.model.effects.EAdEffect;
+import es.eucm.eadventure.common.model.effects.EAdMacro;
+import es.eucm.eadventure.common.model.effects.impl.EAdMacroImpl;
+import es.eucm.eadventure.common.model.effects.impl.EAdTriggerMacro;
 
 public class EffectsImporterFactoryImpl extends
 		AbstractFactory<Class<? extends EAdElementImporter<?, ?>>> implements
@@ -58,8 +62,7 @@ public class EffectsImporterFactoryImpl extends
 	@Inject
 	public EffectsImporterFactoryImpl(
 			@Named("effects") MapProvider<Class<?>, Class<? extends EAdElementImporter<?, ?>>> map,
-			ReflectionProvider interfacesProvider,
-			Injector injector) {
+			ReflectionProvider interfacesProvider, Injector injector) {
 		super(map, interfacesProvider);
 		this.injector = injector;
 	}
@@ -68,7 +71,8 @@ public class EffectsImporterFactoryImpl extends
 	public EAdElementImporter<?, ?> getImporter(Class<?> clazz) {
 		Class<? extends EAdElementImporter<?, ?>> importerClass = get(clazz);
 		if (importerClass != null)
-			return (EAdElementImporter<?, ?>) injector.getInstance(importerClass);
+			return (EAdElementImporter<?, ?>) injector
+					.getInstance(importerClass);
 		return null;
 	}
 
@@ -81,6 +85,23 @@ public class EffectsImporterFactoryImpl extends
 			return (EAdEffect) importer.convert(effect, newEffect);
 		} else
 			return null;
+	}
+
+	@Override
+	public EAdTriggerMacro getTriggerEffects(Effects effects) {
+		if ( effects == null || effects.isEmpty() ){
+			return null;
+		}
+		
+		EAdMacro macro = new EAdMacroImpl();
+
+		for (Effect e : effects.getEffects()) {
+			EAdEffect effect = getEffect(e);
+			if (effect != null)
+				macro.getEffects().add(effect);
+		}
+		
+		return new EAdTriggerMacro( macro );
 	}
 
 }

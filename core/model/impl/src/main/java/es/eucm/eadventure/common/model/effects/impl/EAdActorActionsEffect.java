@@ -40,7 +40,6 @@ package es.eucm.eadventure.common.model.effects.impl;
 import es.eucm.eadventure.common.interfaces.Element;
 import es.eucm.eadventure.common.interfaces.Param;
 import es.eucm.eadventure.common.model.effects.impl.enums.ChangeActorActions;
-import es.eucm.eadventure.common.model.elements.EAdSceneElement;
 import es.eucm.eadventure.common.model.elements.EAdSceneElementDef;
 
 @Element(runtime = EAdActorActionsEffect.class, detailed = EAdActorActionsEffect.class)

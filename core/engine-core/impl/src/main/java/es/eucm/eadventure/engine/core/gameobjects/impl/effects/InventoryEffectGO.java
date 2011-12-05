@@ -40,6 +40,9 @@ package es.eucm.eadventure.engine.core.gameobjects.impl.effects;
 import com.google.inject.Inject;
 
 import es.eucm.eadventure.common.model.effects.impl.EAdInventoryEffect;
+import es.eucm.eadventure.common.model.elements.EAdSceneElement;
+import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
+import es.eucm.eadventure.common.model.elements.impl.EAdSceneElementDefImpl;
 import es.eucm.eadventure.common.resources.StringHandler;
 import es.eucm.eadventure.engine.core.GameState;
 import es.eucm.eadventure.engine.core.gameobjects.factories.SceneElementGOFactory;
@@ -59,33 +62,39 @@ import es.eucm.eadventure.engine.core.platform.GUI;
  * 
  */
 public class InventoryEffectGO extends AbstractEffectGO<EAdInventoryEffect> {
-	
+
 	private InventoryHandler inventoryHandler;
 
 	@Inject
 	public InventoryEffectGO(AssetHandler assetHandler,
-			StringHandler stringHandler, SceneElementGOFactory gameObjectFactory,
-			GUI gui, GameState gameState, InventoryHandler inventoryHandler ) {
+			StringHandler stringHandler,
+			SceneElementGOFactory gameObjectFactory, GUI gui,
+			GameState gameState, InventoryHandler inventoryHandler) {
 		super(assetHandler, stringHandler, gameObjectFactory, gui, gameState);
 		this.inventoryHandler = inventoryHandler;
 	}
 
-	
-
 	@Override
 	public void initilize() {
 		super.initilize();
-		switch ( element.getModification() ){
+		switch (element.getModification()) {
 		case ADD_TO_INVENTORY:
-			inventoryHandler.add(element.getSceneElement());
+			inventoryHandler.add(element.getElement());
+			if (element.isRemoveFromScene()) {
+				EAdSceneElement sceneElement = gameState.getValueMap()
+						.getValue(element.getElement(),
+								EAdSceneElementDefImpl.VAR_SCENE_ELEMENT);
+				gameState.getValueMap().setValue(sceneElement,
+						EAdBasicSceneElement.VAR_VISIBLE, false);
+				gameState.getValueMap().setValue(sceneElement,
+						EAdBasicSceneElement.VAR_ENABLE, true);
+			}
 			break;
 		case REMOVE_FROM_INVENTORY:
-			inventoryHandler.remove(element.getSceneElement());
+			inventoryHandler.remove(element.getElement());
 			break;
 		}
 	}
-
-
 
 	/*
 	 * (non-Javadoc)

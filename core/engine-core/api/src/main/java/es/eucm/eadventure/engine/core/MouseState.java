@@ -132,6 +132,8 @@ public interface MouseState {
 	 *         dragged
 	 */
 	DrawableGO<?> getDraggingGameObject();
+	
+	EAdSceneElementDef getDraggingElement();
 
 	/**
 	 * Set the game object that is being dragged, null to clear the object

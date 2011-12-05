@@ -55,9 +55,5 @@ public class ActionSceneElement extends EAdBasicSceneElement {
 		
 		
 	}
-	
-	public EAdSceneElementDef getDefinition(){
-		return super.getDefinition();
-	}
 
 }

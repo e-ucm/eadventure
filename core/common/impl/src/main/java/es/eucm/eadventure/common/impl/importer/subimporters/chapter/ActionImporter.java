@@ -37,7 +37,6 @@
 
 package es.eucm.eadventure.common.impl.importer.subimporters.chapter;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -50,7 +49,6 @@ import es.eucm.eadventure.common.data.chapter.CustomAction;
 import es.eucm.eadventure.common.data.chapter.conditions.Conditions;
 import es.eucm.eadventure.common.data.chapter.effects.AbstractEffect;
 import es.eucm.eadventure.common.data.chapter.effects.CancelActionEffect;
-import es.eucm.eadventure.common.data.chapter.effects.Effect;
 import es.eucm.eadventure.common.impl.importer.interfaces.EAdElementFactory;
 import es.eucm.eadventure.common.impl.importer.interfaces.EffectsImporterFactory;
 import es.eucm.eadventure.common.impl.importer.interfaces.ResourceImporter;
@@ -59,17 +57,26 @@ import es.eucm.eadventure.common.model.actions.impl.EAdBasicAction;
 import es.eucm.eadventure.common.model.conditions.impl.ANDCondition;
 import es.eucm.eadventure.common.model.conditions.impl.EmptyCondition;
 import es.eucm.eadventure.common.model.conditions.impl.NOTCondition;
+import es.eucm.eadventure.common.model.conditions.impl.OperationCondition;
 import es.eucm.eadventure.common.model.effects.EAdEffect;
-import es.eucm.eadventure.common.model.effects.EAdMacro;
 import es.eucm.eadventure.common.model.effects.impl.EAdInventoryEffect;
 import es.eucm.eadventure.common.model.effects.impl.EAdMacroImpl;
 import es.eucm.eadventure.common.model.effects.impl.EAdTriggerMacro;
 import es.eucm.eadventure.common.model.effects.impl.enums.InventoryEffectAction;
+import es.eucm.eadventure.common.model.effects.impl.text.EAdSpeakEffect;
+import es.eucm.eadventure.common.model.effects.impl.variables.EAdChangeFieldValueEffect;
 import es.eucm.eadventure.common.model.elements.EAdCondition;
 import es.eucm.eadventure.common.model.elements.EAdSceneElementDef;
+import es.eucm.eadventure.common.model.elements.impl.EAdInventoryImpl;
+import es.eucm.eadventure.common.model.variables.EAdField;
+import es.eucm.eadventure.common.model.variables.impl.EAdFieldImpl;
+import es.eucm.eadventure.common.model.variables.impl.operations.BooleanOperation;
+import es.eucm.eadventure.common.params.EAdString;
 import es.eucm.eadventure.common.predef.model.effects.EAdMoveActiveElement;
 import es.eucm.eadventure.common.resources.EAdBundleId;
 import es.eucm.eadventure.common.resources.StringHandler;
+import es.eucm.eadventure.common.resources.assets.drawable.basics.Image;
+import es.eucm.eadventure.common.resources.assets.drawable.basics.enums.Alignment;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.ImageImpl;
 
 public class ActionImporter implements EAdElementImporter<Action, EAdAction> {
@@ -113,43 +120,43 @@ public class ActionImporter implements EAdElementImporter<Action, EAdAction> {
 	public EAdAction convert(Action oldObject, Object object) {
 		return null;
 	}
-	
-	public EAdCondition setCondition( Action oldObject, EAdAction action, EAdCondition previousCondition ){
+
+	public EAdCondition setCondition(Action oldObject, EAdAction action,
+			EAdCondition previousCondition) {
 		EAdCondition condition = conditionsImporter.init(oldObject
 				.getConditions());
 		condition = conditionsImporter.convert(oldObject.getConditions(),
 				condition);
-	
-		if ( previousCondition == null && condition == null )
+
+		if (previousCondition == null && condition == null)
 			return EmptyCondition.TRUE_EMPTY_CONDITION;
-		else if ( previousCondition != null && condition != null )
-			return new ANDCondition( condition, new NOTCondition( previousCondition ));
-		else if ( condition == null )
+		else if (previousCondition != null && condition != null)
+			return new ANDCondition(condition, new NOTCondition(
+					previousCondition));
+		else if (condition == null)
 			return previousCondition;
 		else
 			return condition;
-		
+
 	}
 
 	public EAdAction convert(Action oldObject, EAdBasicAction action,
-			EAdSceneElementDef actor, EAdCondition condition ) {
+			EAdSceneElementDef owner, EAdCondition condition,
+			boolean isActiveArea) {
 
-		EAdMacro effects = new EAdMacroImpl();
-		effects.setId("actionEffects");
-		EAdTriggerMacro triggerEffects = new EAdTriggerMacro(effects);
-		triggerEffects.setId("actionEffectTrigger");
-		triggerEffects.setCondition(condition);
+		// Action name
+		setName(oldObject, action);
 
-		if (!factory.isFirstPerson() && oldObject.isNeedsGoTo()) {
-			EAdMoveActiveElement moveActiveElement = new EAdMoveActiveElement();
-			moveActiveElement.setId("moveToActionTarget");
-			moveActiveElement.setTarget(actor);
-			moveActiveElement.getNextEffects().add(triggerEffects);
-			action.getEffects().add(moveActiveElement);
-		} else {
-			action.getEffects().add(triggerEffects);
-		}
+		// Add appearance
+		addAppearance(oldObject, action);
 
+		// Add effects
+		addEffects(oldObject, action, owner, condition, isActiveArea);
+
+		return action;
+	}
+
+	private void setName(Action oldObject, EAdBasicAction action) {
 		String actionName = "Action";
 		if (oldObject instanceof CustomAction) {
 			CustomAction customAction = (CustomAction) oldObject;
@@ -157,34 +164,66 @@ public class ActionImporter implements EAdElementImporter<Action, EAdAction> {
 		} else {
 			actionName = getActionName(oldObject.getType());
 		}
-
 		stringHandler.setString(action.getName(), actionName);
+	}
 
-		for (Effect e : oldObject.getEffects().getEffects()) {
-			EAdEffect effect = effectsImporterFactory.getEffect(e);
-			if (effect != null)
-				effects.getEffects().add(effect);
+	private void addEffects(Action oldObject, EAdBasicAction action,
+			EAdSceneElementDef actor, EAdCondition condition,
+			boolean isActiveArea) {
+		// Add effects
+		EAdTriggerMacro triggerEffects = effectsImporterFactory
+				.getTriggerEffects(oldObject.getEffects());
+
+		// Add default effects for the action
+		EAdEffect defaultEffect = getDefaultEffects(oldObject, actor,
+				isActiveArea, action);
+		if (defaultEffect != null) {
+			if (triggerEffects == null) {
+				triggerEffects = new EAdTriggerMacro(new EAdMacroImpl());
+			}
+			triggerEffects.getMacro().getEffects().add(defaultEffect, 0);
 		}
 
-		if (oldObject.getNotEffects() != null
-				&& !oldObject.getNotEffects().isEmpty()) {
-			EAdMacro notEffects = new EAdMacroImpl();
-			notEffects.setId("actionNotEffects");
-			EAdTriggerMacro triggerNotEffects = new EAdTriggerMacro(notEffects);
-			triggerNotEffects.setId("actionNotEffectTrigger");
-			triggerNotEffects.setCondition(new NOTCondition(condition));
-			action.getEffects().add(triggerNotEffects);
+		// Add conditions and get to
+		if (triggerEffects != null) {
+			triggerEffects.setId("actionEffectTrigger");
+			triggerEffects.setCondition(condition);
 
-			for (Effect e : oldObject.getEffects().getEffects()) {
-				EAdEffect effect = effectsImporterFactory.getEffect(e);
-				if (effect != null)
-					notEffects.getEffects().add(effect);
+			if (!factory.isFirstPerson() && oldObject.isNeedsGoTo()) {
+				EAdMoveActiveElement moveActiveElement = new EAdMoveActiveElement();
+				moveActiveElement.setId("moveToActionTarget");
+				moveActiveElement.setTarget(actor);
+				moveActiveElement.getNextEffects().add(triggerEffects);
+				action.getEffects().add(moveActiveElement);
+			} else {
+				action.getEffects().add(triggerEffects);
 			}
 		}
 
-		// FIXME keep distance?
+		// Add no effects
+		EAdTriggerMacro triggerNotEffects = effectsImporterFactory
+				.getTriggerEffects(oldObject.getNotEffects());
+		if (triggerNotEffects != null) {
+			triggerNotEffects.setId("actionNotEffectTrigger");
+			triggerNotEffects.setCondition(new NOTCondition(condition));
+			action.getEffects().add(triggerNotEffects);
+		}
+	}
 
-		if (oldObject instanceof CustomAction) {
+	private void addAppearance(Action oldObject, EAdBasicAction action) {
+		// If it's a standard action
+		if (oldObject.getType() != Action.CUSTOM
+				&& oldObject.getType() != Action.CUSTOM_INTERACT) {
+			action.getResources().addAsset(action.getNormalBundle(),
+					EAdBasicAction.appearance,
+					new ImageImpl(getDrawablePath(oldObject.getType())));
+			action.getResources()
+					.addAsset(
+							action.getHighlightBundle(),
+							EAdBasicAction.appearance,
+							new ImageImpl(getHighlightDrawablePath(oldObject
+									.getType())));
+		} else {
 			// TODO highlight and pressed are now appearances, but resource
 			// converter does not support it.
 			// old resources are named "buttonOver" and "buttonPressed"
@@ -211,20 +250,7 @@ public class ActionImporter implements EAdElementImporter<Action, EAdAction> {
 			resourceImporter.importResources(action,
 					((CustomAction) oldObject).getResources(),
 					resourcesStrings, resourcesClasses);
-		} else {
-			action.getResources().addAsset(action.getNormalBundle(),
-					EAdBasicAction.appearance,
-					new ImageImpl(getDrawablePath(oldObject.getType())));
-			action.getResources()
-					.addAsset(
-							action.getHighlightBundle(),
-							EAdBasicAction.appearance,
-							new ImageImpl(getHighlightDrawablePath(oldObject
-									.getType())));
-
 		}
-
-		return action;
 	}
 
 	public static String getDrawablePath(int actionType) {
@@ -259,35 +285,92 @@ public class ActionImporter implements EAdElementImporter<Action, EAdAction> {
 		return image;
 	}
 
-	public static List<EAdEffect> getEffects(int actionType,
-			List<AbstractEffect> originalList, EAdSceneElementDef actor,
-			boolean isActiveArea) {
-		List<EAdEffect> list = new ArrayList<EAdEffect>();
-		for (AbstractEffect e : originalList)
+	public EAdEffect getDefaultEffects(Action a, EAdSceneElementDef actor,
+			boolean isActiveArea, EAdAction newAction) {
+		for (AbstractEffect e : a.getEffects().getEffects())
 			if (e instanceof CancelActionEffect)
-				return list;
-		switch (actionType) {
+				return null;
+		switch (a.getType()) {
 		case Action.GRAB:
 			if (!isActiveArea) {
-				EAdInventoryEffect modifyState = new EAdInventoryEffect(actor,
-						InventoryEffectAction.ADD_TO_INVENTORY);
-				modifyState.setId("grabEffect");
-				list.add(modifyState);
+
+				EAdField<Boolean> inInventory = new EAdFieldImpl<Boolean>(
+						actor, EAdInventoryImpl.VAR_IN_INVENTORY);
+
+				EAdInventoryEffect addToInventory = new EAdInventoryEffect(
+						actor, InventoryEffectAction.ADD_TO_INVENTORY);
+				addToInventory.setId("grabEffect");
+
+				OperationCondition c = new OperationCondition(inInventory);
+				addToInventory.setCondition(new NOTCondition(c));
+
+				EAdChangeFieldValueEffect change = new EAdChangeFieldValueEffect();
+				change.addField(inInventory);
+				change.setOperation(BooleanOperation.TRUE_OP);
+
+				addToInventory.getNextEffects().add(change);
+
+				return addToInventory;
 			}
 			break;
-		// TODO Effects for the rest of actions
-		case Action.DRAG_TO:
-		case Action.GIVE_TO:
-		case Action.USE_WITH:
-		case Action.USE:
-
-		case Action.EXAMINE:
-
-		case Action.TALK_TO:
-
-		default:
 		}
-		return list;
+		return null;
+	}
+
+	private static EAdString examineString;
+
+	private static Image examineImage, examineOverImage;
+
+	private static void initExamineAction(StringHandler handler) {
+		examineString = EAdString.newEAdString("examineActionName");
+		handler.setString(examineString, "Examine");
+
+		examineImage = new ImageImpl(getDrawablePath(Action.EXAMINE));
+		examineOverImage = new ImageImpl(
+				getHighlightDrawablePath(Action.EXAMINE));
+	}
+
+	/**
+	 * Add examine if there's no examine action added
+	 * 
+	 * @param actor
+	 *            the new actor
+	 * @param element
+	 *            the old element
+	 */
+	public void addExamine(EAdSceneElementDef actor, List<Action> actionsList ) {
+		boolean add = true;
+		for (Action a : actionsList) {
+			if (a.getType() == Action.EXAMINE) {
+				add = false;
+			}
+		}
+
+		if (add) {
+			if (examineString == null)
+				initExamineAction(stringHandler);
+
+			EAdBasicAction examineAction = new EAdBasicAction(examineString);
+			examineAction.setId(actor.getId() + "_examinate");
+
+			// Effect
+			EAdSpeakEffect effect = new EAdSpeakEffect(actor.getDetailDesc());
+			effect.setId("examinate");
+			effect.setAlignment(Alignment.CENTER);
+
+			stringHandler.setString(examineAction.getName(), "Examine");
+			examineAction.getEffects().add(effect);
+
+			// Appearance
+			examineAction.getResources().addAsset(
+					examineAction.getNormalBundle(), EAdBasicAction.appearance,
+					examineImage);
+			examineAction.getResources().addAsset(
+					examineAction.getHighlightBundle(),
+					EAdBasicAction.appearance, examineOverImage);
+
+			actor.getValidActions().add(examineAction);
+		}
 	}
 
 	public static String getHighlightDrawablePath(int actionType) {
@@ -341,6 +424,57 @@ public class ActionImporter implements EAdElementImporter<Action, EAdAction> {
 			return "Use with";
 		default:
 			return "Action";
+		}
+	}
+
+	public void addAllActions(List<Action> actionsList,
+			EAdSceneElementDef actor, boolean isActiveArea) {
+		
+		// add examine
+		addExamine(actor, actionsList);
+		
+		HashMap<Integer, EAdAction> actions = new HashMap<Integer, EAdAction>();
+		HashMap<String, EAdAction> customActions = new HashMap<String, EAdAction>();
+		HashMap<EAdAction, EAdCondition> previousConditions = new HashMap<EAdAction, EAdCondition>();
+
+		for (Action a : actionsList) {
+			EAdAction action = null;
+
+			// Init action
+			switch (a.getType()) {
+			case Action.CUSTOM:
+				CustomAction customAction = (CustomAction) a;
+				if (customActions.containsKey(customAction.getName())) {
+					action = customActions.get(customAction.getName());
+				} else {
+					action = init(a);
+					actor.getValidActions().add(action);
+					customActions.put(customAction.getName(), action);
+				}
+				break;
+			case Action.EXAMINE:
+			case Action.USE:
+			case Action.GRAB:
+			case Action.TALK_TO:
+				if (actions.containsKey(a.getType())) {
+					action = actions.get(a.getType());
+				} else {
+					action = init(a);
+					actor.getValidActions().add(action);
+					actions.put(a.getType(), action);
+				}
+				break;
+
+			}
+
+			// Set condition
+			EAdCondition c = setCondition(a, action,
+					previousConditions.get(action));
+			previousConditions.put(action, c);
+
+			// Add effects
+			action = convert(a, (EAdBasicAction) action, actor, c, false);
+
 		}
 	}
 

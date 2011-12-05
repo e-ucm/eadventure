@@ -44,7 +44,7 @@ import es.eucm.eadventure.common.data.chapter.Action;
 import es.eucm.eadventure.common.data.chapter.conditions.Conditions;
 import es.eucm.eadventure.common.data.chapter.elements.ActiveArea;
 import es.eucm.eadventure.common.impl.importer.interfaces.EAdElementFactory;
-import es.eucm.eadventure.common.impl.importer.subimporters.chapter.ActorImporter;
+import es.eucm.eadventure.common.impl.importer.subimporters.chapter.ActionImporter;
 import es.eucm.eadventure.common.impl.importer.subimporters.chapter.scene.ShapedElementImporter;
 import es.eucm.eadventure.common.model.actions.EAdAction;
 import es.eucm.eadventure.common.model.effects.impl.EAdActorActionsEffect;
@@ -68,7 +68,7 @@ public class ActiveAreaImporter extends ElementImporter<ActiveArea> {
 			EAdElementImporter<Conditions, EAdCondition> conditionsImporter,
 			EAdElementImporter<Action, EAdAction> actionImporter,
 			StringHandler stringHandler, EAdElementFactory factory) {
-		super( factory, conditionsImporter, stringHandler );
+		super(factory, conditionsImporter, stringHandler);
 		this.actionImporter = actionImporter;
 	}
 
@@ -94,24 +94,27 @@ public class ActiveAreaImporter extends ElementImporter<ActiveArea> {
 
 		// set documentation
 		setDocumentation(newActiveArea, oldObject);
-		
+
 		// set shape
 		setShape(newActiveAreaReference, newActiveArea, oldObject);
-		
+
 		// set influence area
-		addInfluenceArea(newActiveAreaReference, oldObject, oldObject.getInfluenceArea());
+		addInfluenceArea(newActiveAreaReference, oldObject,
+				oldObject.getInfluenceArea());
 
 		// enable event
-		addEnableEvent( newActiveAreaReference, getEnableCondition(oldObject.getConditions()) );
-		
+		addEnableEvent(newActiveAreaReference,
+				getEnableCondition(oldObject.getConditions()));
+
 		// Add description
-		super.addDefaultBehavior(newActiveAreaReference, oldObject.getDescription());
-		
+		super.addDefaultBehavior(newActiveAreaReference,
+				oldObject.getDescription());
+
 		return newActiveAreaReference;
 	}
 
-	private void setShape(EAdBasicSceneElement newActiveAreaReference, EAdSceneElementDef newActiveArea,
-			ActiveArea oldObject) {
+	private void setShape(EAdBasicSceneElement newActiveAreaReference,
+			EAdSceneElementDef newActiveArea, ActiveArea oldObject) {
 		Shape shape = ShapedElementImporter.importShape(oldObject,
 				newActiveAreaReference);
 
@@ -129,18 +132,21 @@ public class ActiveAreaImporter extends ElementImporter<ActiveArea> {
 				EAdMouseEventImpl.MOUSE_EXITED,
 				new EAdChangeAppearance(newActiveArea, newActiveArea
 						.getInitialBundle()));
-		
+
 	}
 
 	private void addActions(ActiveArea oldObject,
 			EAdSceneElementDefImpl newActiveArea,
 			EAdBasicSceneElement newActiveAreaReference) {
-		ActorImporter.addActions(oldObject, newActiveArea, actionImporter,
-				stringHandler, true);
-		EAdActorActionsEffect showActions = new EAdActorActionsEffect( newActiveArea );
+
+		EAdActorActionsEffect showActions = new EAdActorActionsEffect(
+				newActiveArea);
 		newActiveArea.addBehavior(EAdMouseEventImpl.MOUSE_RIGHT_CLICK,
 				showActions);
-		
+
+		((ActionImporter) actionImporter).addAllActions(oldObject.getActions(),
+				newActiveArea, true);
+
 	}
 
 }
