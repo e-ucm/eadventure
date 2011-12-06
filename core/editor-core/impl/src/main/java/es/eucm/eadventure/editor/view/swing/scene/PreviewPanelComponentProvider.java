@@ -1,10 +1,14 @@
 package es.eucm.eadventure.editor.view.swing.scene;
 
+import java.awt.Canvas;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.Rectangle;
 
 import javax.swing.JComponent;
 import javax.swing.JPanel;
+import javax.swing.Scrollable;
 
 import com.google.inject.Guice;
 import com.google.inject.Injector;
@@ -27,6 +31,7 @@ import es.eucm.eadventure.engine.core.platform.PlatformConfiguration;
 import es.eucm.eadventure.engine.core.platform.PlatformLauncher;
 import es.eucm.eadventure.engine.core.platform.impl.extra.DesktopAssetHandlerModule;
 import es.eucm.eadventure.engine.core.platform.impl.extra.DesktopModule;
+import es.eucm.eadventure.gui.EAdScrollPane;
 import es.eucm.eadventure.gui.eadcanvaspanel.EAdCanvasPanel;
 import es.eucm.eadventure.gui.eadcanvaspanel.listeners.DragListener;
 import es.eucm.eadventure.gui.eadcanvaspanel.listeners.ResizeListener;
@@ -48,12 +53,8 @@ public class PreviewPanelComponentProvider implements ComponentProvider<PreviewP
 	
 	public PreviewPanelComponentProvider(CommandManager commandManager) {
 		this.commandManager = commandManager;
-		
 		Injector injector = Guice.createInjector(new DesktopAssetHandlerModule(),
 				new DesktopEditorModule(), new BasicGameModule());
-		PlatformConfiguration conf = injector.getInstance(PlatformConfiguration.class);
-		conf.setWidth(800);
-		conf.setHeight(600);
 
 		launcher = injector.getInstance(PlatformLauncher.class);
 		model = new EAdAdventureModelImpl();
@@ -86,15 +87,18 @@ public class PreviewPanelComponentProvider implements ComponentProvider<PreviewP
 
 	@Override
 	public JComponent getComponent(PreviewPanel element) {
-		JComponent panel = null;
+		JPanel panel = null;
 		do {
 			panel = gui.getPanel();
 			Thread.yield();
 		} while (panel == null);
-		return panel;
+		EAdScrollPane pane = new EAdScrollPane(panel, EAdScrollPane.VERTICAL_SCROLLBAR_ALWAYS, EAdScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+		//pane.setMinimumSize(new Dimension(200, 150));
+		return pane;
 	}
 
-	
+
+
 	
 	
 }

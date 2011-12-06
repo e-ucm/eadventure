@@ -40,7 +40,7 @@ public class EAdSceneElementDefController extends AbstractElementController<EAdS
 					new EAdStringOption("detailed description",
 							"this is the detailed description",
 							new FieldDescriptorImpl<EAdString>(element,
-									"detailedDesc"),
+									"detailDesc"),
 							EAdStringOption.ExpectedLength.LONG));
 
 			panel.addElement(

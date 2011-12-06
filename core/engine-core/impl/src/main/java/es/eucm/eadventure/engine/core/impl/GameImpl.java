@@ -103,6 +103,8 @@ public class GameImpl implements Game {
 	private InventoryHandler inventoryHandler;
 
 	private EAdTransformation initialTransformation = new EAdTransformationImpl();
+	
+	private PlatformConfiguration platformConfiguration;
 
 	@Inject
 	public GameImpl(GUI gui, EvaluatorFactory evaluatorFactory,
@@ -124,6 +126,7 @@ public class GameImpl implements Game {
 		this.mouseState = mouseState;
 		this.inventoryHUD = inventoryHud;
 		this.inventoryHandler = inventoryHandler;
+		this.platformConfiguration = platformConfiguration;
 		initialTransformation.getMatrix().scale(
 				(float) platformConfiguration.getScale(),
 				(float) platformConfiguration.getScale(), true);
@@ -138,6 +141,10 @@ public class GameImpl implements Game {
 			updateTimers();
 			gameState.getScene().update();
 		}
+		initialTransformation  = new EAdTransformationImpl();
+		initialTransformation.getMatrix().scale(
+				(float) platformConfiguration.getScale(),
+				(float) platformConfiguration.getScale(), true);
 		gui.addElement(gameState.getScene(), initialTransformation);
 
 		if (debugger != null && debugger.getGameObjects() != null)

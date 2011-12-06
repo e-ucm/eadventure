@@ -2,6 +2,7 @@ package es.eucm.eadventure.editor.view.impl;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Stack;
 
 import es.eucm.eadventure.editor.view.ComponentProvider;
 import es.eucm.eadventure.editor.view.ProviderFactory;
@@ -40,8 +41,19 @@ public abstract class AbstractProviderFactory<T> implements ProviderFactory<T> {
 	@Override
 	public <S extends InterfaceElement> ComponentProvider<S, T> getProvider(
 			S option) {
-		ComponentProvider<? extends InterfaceElement, T> provider = map
-				.get(option.getClass());
+		Stack<Class<?>> stack = new Stack<Class<?>>();
+		stack.push(option.getClass());
+		ComponentProvider<? extends InterfaceElement, T> provider = null;
+		while (provider == null && !stack.isEmpty()) {
+			Class<?> clazz = stack.pop();
+			provider = map.get(clazz);
+			if (clazz != null) {
+				if (clazz.getInterfaces() != null)
+					for (Class<?> c : clazz.getInterfaces())
+						stack.push(c);
+				stack.push(clazz.getSuperclass());
+			}
+		}
 		return (ComponentProvider<S, T>) provider;
 	}
 

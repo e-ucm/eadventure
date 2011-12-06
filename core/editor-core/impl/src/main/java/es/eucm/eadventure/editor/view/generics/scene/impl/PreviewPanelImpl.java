@@ -10,6 +10,10 @@ public class PreviewPanelImpl implements PreviewPanel {
 
 	private EAdScene scene;
 	
+	public PreviewPanelImpl(EAdScene scene) {
+		this.scene = scene;
+	}
+
 	@Override
 	public EAdScene getScene() {
 		return scene;

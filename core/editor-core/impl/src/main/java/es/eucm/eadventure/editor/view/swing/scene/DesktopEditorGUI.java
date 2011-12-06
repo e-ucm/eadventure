@@ -1,17 +1,25 @@
 package es.eucm.eadventure.editor.view.swing.scene;
 
+import java.awt.BorderLayout;
 import java.awt.Canvas;
 import java.awt.Cursor;
+import java.awt.Dimension;
 import java.awt.Graphics2D;
 import java.awt.Point;
+import java.awt.Rectangle;
 import java.awt.RenderingHints;
 import java.awt.Toolkit;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 import java.awt.image.BufferStrategy;
+import java.awt.image.BufferedImage;
 import java.awt.image.MemoryImageSource;
+import java.awt.image.VolatileImage;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.swing.JPanel;
+import javax.swing.Scrollable;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -41,12 +49,9 @@ public class DesktopEditorGUI extends DesktopGUI {
 	 */
 	protected JPanel panel;
 
-	/**
-	 * The {@code Canvas} object where the actual game is drawn
-	 */
-	protected Canvas canvas;
-
 	protected Object currentComponent;
+	
+	protected VolatileImage backbufferImage;
 
 	@Inject
 	public DesktopEditorGUI(PlatformConfiguration platformConfiguration,
@@ -78,17 +83,6 @@ public class DesktopEditorGUI extends DesktopGUI {
 	 */
 	@Override
 	public void commit(final float interpolation) {
-		if (canvas.getBufferStrategy() == null) {
-			try {
-				canvas.createBufferStrategy(2);
-				BufferStrategy bs = canvas.getBufferStrategy();
-				bs.getDrawGraphics().getFontMetrics();
-			} catch (IllegalStateException e) {
-				logger.severe("No support for back buffer");
-			}
-			return;
-		}
-		
 		processInput();
 
 		if (currentComponent != null)
@@ -97,29 +91,35 @@ public class DesktopEditorGUI extends DesktopGUI {
 		SwingUtilities.doInEDTNow(new Runnable() {
 			@Override
 			public void run() {
-				BufferStrategy bs = canvas.getBufferStrategy();
-				Graphics2D g = (Graphics2D) bs.getDrawGraphics();
-				eAdCanvas.setGraphicContext(g);
-				//g.setClip(0, 0, platformConfiguration.getWidth(),
-				//		platformConfiguration.getHeight());
-
-				g.clearRect(0, 0, getWidth(), getHeight());
-				setRenderingHints(g);
-
-				g.setFont(g.getFont().deriveFont(20.0f));
-
-				render(interpolation);
-
-				g.dispose();
+				backbufferImage = panel.createVolatileImage(panel.getWidth(), panel.getHeight());
+				if (backbufferImage != null) {
+					Graphics2D g = (Graphics2D) backbufferImage.getGraphics();
+					eAdCanvas.setGraphicContext(g);
+	
+					//				g.setClip(0, 0, panel.getWidth(), panel.getHeight());
+					g.setClip(0, 0, platformConfiguration.getWidth(),
+							platformConfiguration.getHeight());
+	
+					g.clearRect(0, 0, getWidth(), getHeight());
+	
+					setRenderingHints(g);
+	
+					g.setFont(g.getFont().deriveFont(20.0f));
+	
+					render(interpolation);
+					
+					g.dispose();
+				}
 			}
 		});
 
 		SwingUtilities.doInEDT(new Runnable() {
 			@Override
 			public void run() {
-				BufferStrategy bs = canvas.getBufferStrategy();
-				bs.show();
-				Toolkit.getDefaultToolkit().sync();
+				if (backbufferImage != null) {
+					panel.getGraphics().drawImage(backbufferImage, 0, 0, null);
+					Toolkit.getDefaultToolkit().sync();
+				}
 			}
 		});
 	}
@@ -145,14 +145,22 @@ public class DesktopEditorGUI extends DesktopGUI {
 			SwingUtilities.doInEDTNow(new Runnable() {
 				@Override
 				public void run() {
-					panel = new JPanel();
+					panel = new ScrollablePanel();
 					panel.setSize(platformConfiguration.getWidth(),
 							platformConfiguration.getHeight());
+					panel.setPreferredSize(new Dimension(platformConfiguration.getWidth(),
+							platformConfiguration.getHeight()));
 					panel.setIgnoreRepaint(true);
+					panel.setLayout(new BorderLayout());
+					panel.setMinimumSize(new Dimension(200, 150));
 
 					panel.setVisible(true);
 					
-					initializeCanvas();
+					DesktopInputListener listener = new DesktopInputListener(mouseState,
+							keyboardState);
+					panel.addMouseListener(listener);
+					panel.addMouseMotionListener(listener);
+					panel.addKeyListener(listener);
 				}
 			});
 		} catch (RuntimeException e) {
@@ -162,33 +170,6 @@ public class DesktopEditorGUI extends DesktopGUI {
 		logger.info("Desktop GUI initilized");
 	}
 
-	/**
-	 * Initialize the {@code Canvas} element where the actual game is drawn
-	 */
-	protected void initializeCanvas() {
-		canvas = new Canvas();
-		canvas.setSize(panel.getSize());
-		canvas.setBounds(0, 0, canvas.getWidth(), canvas.getHeight());
-		panel.add(canvas);
-
-		canvas.setEnabled(true);
-		canvas.setVisible(true);
-		canvas.setFocusable(true);
-		
-		try {
-			canvas.createBufferStrategy(2);
-			BufferStrategy bs = canvas.getBufferStrategy();
-			bs.getDrawGraphics().getFontMetrics();
-		} catch (IllegalStateException e) {
-			logger.severe("No support for back buffer");
-		}
-
-		DesktopInputListener listener = new DesktopInputListener(mouseState,
-				keyboardState);
-		canvas.addMouseListener(listener);
-		canvas.addMouseMotionListener(listener);
-		canvas.addKeyListener(listener);
-	}
 
 	/*
 	 * (non-Javadoc)
@@ -216,5 +197,39 @@ public class DesktopEditorGUI extends DesktopGUI {
 		return panel;
 	}
 	
+	private class ScrollablePanel extends JPanel implements Scrollable {
+
+		private static final long serialVersionUID = -8779328786327371343L;
+		
+		@Override
+		public Dimension getPreferredScrollableViewportSize() {
+			return super.getPreferredSize();
+		}
+
+		@Override
+		public int getScrollableBlockIncrement(Rectangle visibleRect,
+				int orientation, int direction) {
+			//TODO check
+			return 10;
+		}
+
+		@Override
+		public boolean getScrollableTracksViewportHeight() {
+			return false;
+		}
+
+		@Override
+		public boolean getScrollableTracksViewportWidth() {
+			return false;
+		}
+
+		@Override
+		public int getScrollableUnitIncrement(Rectangle visibleRect,
+				int orientation, int direction) {
+			//TODO check
+			return 1;
+		}
+		
+	}
 	
 }
