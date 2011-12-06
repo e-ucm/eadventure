@@ -70,6 +70,10 @@ public class EAdMouseEventImpl extends EAdElementImpl implements EAdMouseEvent {
 			MouseActionType.RELEASED, MouseButton.BUTTON_1);
 	public static final EAdMouseEvent MOUSE_DROP = new EAdMouseEventImpl(
 			MouseActionType.DROP, MouseButton.NO_BUTTON);
+	public static final EAdMouseEvent MOUSE_SWIPE_RIGHT = new EAdMouseEventImpl(
+			MouseActionType.SWIPE_RIGHT, MouseButton.NO_BUTTON);
+	public static final EAdMouseEvent MOUSE_SWIPE_LEFT = new EAdMouseEventImpl(
+			MouseActionType.SWIPE_LEFT, MouseButton.NO_BUTTON);
 
 	@Param("type")
 	private MouseActionType type;
