@@ -38,7 +38,6 @@
 package es.eucm.eadventure.common.predef.model.effects;
 
 import es.eucm.eadventure.common.interfaces.Element;
-import es.eucm.eadventure.common.interfaces.Param;
 import es.eucm.eadventure.common.model.effects.impl.variables.EAdChangeFieldValueEffect;
 import es.eucm.eadventure.common.model.elements.EAdSceneElement;
 import es.eucm.eadventure.common.model.variables.impl.SystemFields;
@@ -49,9 +48,6 @@ import es.eucm.eadventure.common.model.variables.impl.operations.ValueOperation;
  */
 @Element(runtime = EAdChangeFieldValueEffect.class, detailed = EAdMakeActiveElementEffect.class)
 public class EAdMakeActiveElementEffect extends EAdChangeFieldValueEffect {
-
-	@Param("sceneElement")
-	protected EAdSceneElement sceneElement;
 	
 	public EAdMakeActiveElementEffect() {
 		super();
@@ -60,14 +56,6 @@ public class EAdMakeActiveElementEffect extends EAdChangeFieldValueEffect {
 	public EAdMakeActiveElementEffect(EAdSceneElement element) {
 		super(SystemFields.ACTIVE_ELEMENT, new ValueOperation(element));
 		setId("makeActiveElement_" + element);
-	}
-
-	public EAdSceneElement getSceneElement() {
-		return sceneElement;
-	}
-
-	public void setSceneElement(EAdSceneElement sceneElement) {
-		this.sceneElement = sceneElement;
 	}
 	
 	

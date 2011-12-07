@@ -54,7 +54,6 @@ import es.eucm.eadventure.common.resources.EAdBundleId;
 import es.eucm.eadventure.common.resources.StringHandler;
 import es.eucm.eadventure.common.resources.assets.AssetDescriptor;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.Image;
-import es.eucm.eadventure.common.resources.assets.drawable.basics.enums.Alignment;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.CaptionImpl;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.ImageImpl;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.shapes.CircleShape;
@@ -157,9 +156,9 @@ public class BookImporter implements EAdElementImporter<Book, EAdScene> {
 
 		if (oldObject.getType() == Book.TYPE_PAGES) {
 			CaptionImpl captionImpl = new CaptionImpl();
-			captionImpl.setAlignment(Alignment.CENTER);
+			captionImpl.setFont(new EAdFontImpl(18));
 			stringHandler.setString(captionImpl.getLabel(), HTML_NOT_SUPPORTED);
-			image.addDrawable(captionImpl, 800, 600);
+			image.addDrawable(captionImpl, 400, 0);
 		} else
 			for (BookParagraph p : oldObject.getParagraphs()) {
 				if (p.getContent() != null && !p.getContent().equals(""))
@@ -209,7 +208,12 @@ public class BookImporter implements EAdElementImporter<Book, EAdScene> {
 
 		EAdBasicSceneElement content = new EAdBasicSceneElement(image);
 		content.setId(oldObject.getId() + "_content");
-		content.setPosition(0, 0);
+		
+		if ( oldObject.getType() == Book.TYPE_PAGES ){
+			content.setPosition(Corner.CENTER, 400, 300);
+		}	
+		else
+			content.setPosition(0, 0);
 
 		EAdField<Integer> xVar = new EAdFieldImpl<Integer>(content,
 				EAdBasicSceneElement.VAR_X);

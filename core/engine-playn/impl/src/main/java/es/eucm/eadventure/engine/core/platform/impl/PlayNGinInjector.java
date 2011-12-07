@@ -9,7 +9,6 @@ import es.eucm.eadventure.engine.core.MouseState;
 import es.eucm.eadventure.engine.core.gameobjects.impl.ComposedSceneGOImpl;
 import es.eucm.eadventure.engine.core.gameobjects.impl.SceneGOImpl;
 import es.eucm.eadventure.engine.core.gameobjects.impl.VideoSceneGO;
-import es.eucm.eadventure.engine.core.gameobjects.impl.effects.ActiveElementEffectGO;
 import es.eucm.eadventure.engine.core.gameobjects.impl.effects.ActorActionsEffectGO;
 import es.eucm.eadventure.engine.core.gameobjects.impl.effects.CancelEffectGO;
 import es.eucm.eadventure.engine.core.gameobjects.impl.effects.ChangeFieldGO;
@@ -53,7 +52,6 @@ public interface PlayNGinInjector extends Ginjector {
 	
 	public SimpleTransitionGO getSimpleTransitionGO();
 	
-	public ActiveElementEffectGO getActiveElementEffectGO();
 	public ActorActionsEffectGO getActorActionEffectGO();
 	public CancelEffectGO getCancelEffectGO();
 	public ChangeSceneGO getChangeSceneGO();

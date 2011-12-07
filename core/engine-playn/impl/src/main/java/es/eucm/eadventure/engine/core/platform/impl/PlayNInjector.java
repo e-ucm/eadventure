@@ -6,7 +6,6 @@ import es.eucm.eadventure.engine.core.gameobjects.SceneGO;
 import es.eucm.eadventure.engine.core.gameobjects.impl.ComposedSceneGOImpl;
 import es.eucm.eadventure.engine.core.gameobjects.impl.SceneGOImpl;
 import es.eucm.eadventure.engine.core.gameobjects.impl.VideoSceneGO;
-import es.eucm.eadventure.engine.core.gameobjects.impl.effects.ActiveElementEffectGO;
 import es.eucm.eadventure.engine.core.gameobjects.impl.effects.ActorActionsEffectGO;
 import es.eucm.eadventure.engine.core.gameobjects.impl.effects.CancelEffectGO;
 import es.eucm.eadventure.engine.core.gameobjects.impl.effects.ChangeFieldGO;
@@ -53,8 +52,6 @@ public class PlayNInjector implements EAdInjector {
 		Object go = null;
 		if (clazz == SimpleTransitionGO.class)
 			go = ginjector.getSimpleTransitionGO();
-		else if (clazz == ActiveElementEffectGO.class)
-			go = ginjector.getActiveElementEffectGO();
 		else if (clazz == ActorActionsEffectGO.class)
 			go = ginjector.getActorActionEffectGO();
 		else if (clazz == CancelEffectGO.class)

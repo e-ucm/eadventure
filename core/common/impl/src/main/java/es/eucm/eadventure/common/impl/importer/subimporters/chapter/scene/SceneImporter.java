@@ -199,8 +199,16 @@ public class SceneImporter implements EAdElementImporter<Scene, EAdSceneImpl> {
 			event.setId("makeAcitveCharacter");
 			event.addEffect(SceneElementEventType.ADDED_TO_SCENE, effect);
 			playerReference.getEvents().add(event);
-
-			scene.getComponents().add(playerReference);
+				
+			int layer = oldScene.getPlayerLayer();
+			
+			
+			if ( layer == -1 ){
+				scene.getComponents().add( playerReference );
+			}
+			else {
+				scene.getComponents().add(playerReference, layer + 1 );
+			}
 
 			scene.getBackground().addBehavior(
 					EAdMouseEventImpl.MOUSE_LEFT_CLICK,
