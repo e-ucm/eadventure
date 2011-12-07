@@ -40,7 +40,6 @@ package es.eucm.eadventure.engine.extra;
 import com.google.inject.AbstractModule;
 import com.google.inject.Provides;
 import com.google.inject.name.Named;
-
 import es.eucm.eadventure.engine.AndroidFontCache;
 import es.eucm.eadventure.engine.AndroidGUI;
 import es.eucm.eadventure.engine.AndroidPlatformConfiguration;
@@ -52,7 +51,9 @@ import es.eucm.eadventure.engine.core.MouseState;
 import es.eucm.eadventure.engine.core.gameobjects.GameObjectManager;
 import es.eucm.eadventure.engine.core.gameobjects.huds.ActionsHUD;
 import es.eucm.eadventure.engine.core.gameobjects.huds.BasicHUD;
+import es.eucm.eadventure.engine.core.gameobjects.huds.InventoryHUD;
 import es.eucm.eadventure.engine.core.gameobjects.huds.MenuHUD;
+import es.eucm.eadventure.engine.core.gameobjects.huds.impl.InventoryHUDImpl;
 import es.eucm.eadventure.engine.core.gameobjects.huds.impl.MenuHUDImpl;
 import es.eucm.eadventure.engine.core.gameobjects.impl.GameObjectManagerImpl;
 import es.eucm.eadventure.engine.core.impl.GameProfilerImpl;
@@ -72,8 +73,6 @@ public class AndroidModule extends AbstractModule {
 	
 	@Override
 	protected void configure() {
-		//install(new AndroidAssetRendererModule(null));
-		//bind(AssetHandler.class).to(AndroidAssetHandler.class);
 		bind(GameLoop.class).to(AndroidGameLoopImpl.class);
 		bind(GameProfiler.class).to(GameProfilerImpl.class);
 		bind(GUI.class).to(AndroidGUI.class);
@@ -84,6 +83,7 @@ public class AndroidModule extends AbstractModule {
 		bind(GameObjectManager.class).to(GameObjectManagerImpl.class);
 		bind(ActionsHUD.class).to(AndroidActionsHUDImpl.class);
 		bind(BasicHUD.class).to(AndroidBasicHUD.class);
+		bind(InventoryHUD.class).to(InventoryHUDImpl.class);
 		bind(FontHandlerImpl.class).to(AndroidFontCache.class);
 		bind(MenuHUD.class).to(MenuHUDImpl.class);
 		bind(TransitionFactory.class).to(AndroidTransitionFactory.class);

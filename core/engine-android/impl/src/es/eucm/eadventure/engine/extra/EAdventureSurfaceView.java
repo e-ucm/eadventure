@@ -41,12 +41,14 @@ import java.util.logging.Logger;
 
 import android.content.Context;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.GestureDetector;
 import android.view.GestureDetector.SimpleOnGestureListener;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
+import android.widget.Toast;
 
 import com.google.inject.Singleton;
 
@@ -74,6 +76,9 @@ public class EAdventureSurfaceView extends SurfaceView implements SurfaceHolder.
 	private class EAdventureGestureListener extends SimpleOnGestureListener {
 
 		private MouseState mouseState;
+		private static final int SWIPE_MIN_DISTANCE = 120;
+		private static final int SWIPE_VELOCITY = 200;
+
 
 		public EAdventureGestureListener(MouseState mouseState) {
 			this.mouseState = mouseState;
@@ -101,9 +106,29 @@ public class EAdventureSurfaceView extends SurfaceView implements SurfaceHolder.
 		@Override
 		public void onLongPress(MotionEvent e){
 
+			mouseState.getMouseEvents().add(new MouseActionImpl(EAdMouseEventImpl.MOUSE_RIGHT_CLICK, 
+					mouseState.getMouseX(), mouseState.getMouseY()));
 			MouseAction action = new MouseActionImpl(MouseActionType.CLICK, 
 					MouseButton.BUTTON_2, mouseState.getMouseX(), mouseState.getMouseY());
 			mouseState.getMouseEvents().add(action);
+		}
+
+		@Override
+		public boolean onFling (MotionEvent e1, MotionEvent e2, float velocityX, float velocityY){
+
+			if (e1.getX() - e2.getX() > SWIPE_MIN_DISTANCE && Math.abs(velocityX) > SWIPE_VELOCITY) {
+				MouseAction action = new MouseActionImpl(MouseActionType.SWIPE_LEFT, 
+						MouseButton.NO_BUTTON, mouseState.getMouseX(), mouseState.getMouseY());
+				mouseState.getMouseEvents().add(action);
+			}  
+			else if (e2.getX() - e1.getX() > SWIPE_MIN_DISTANCE && Math.abs(velocityX) > SWIPE_VELOCITY) {
+				MouseAction action = new MouseActionImpl(MouseActionType.SWIPE_RIGHT, 
+						MouseButton.NO_BUTTON, mouseState.getMouseX(), mouseState.getMouseY());
+				mouseState.getMouseEvents().add(action);
+			}
+			
+			mouseState.setMousePressed(false);
+			return true;
 		}
 	}
 
