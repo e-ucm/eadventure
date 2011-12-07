@@ -33,6 +33,8 @@ syntax: regexp
 ^core/(common|model)/(.*)/\.project$
 ^core/(gui|utils)/\.classpath$
 ^core/(gui|utils)/\.project$
+^etc/(test-suite)/\.project$
+^etc/(test-suite)/\.classpath$
 ^core/editor-(.*)/(.*)/\.classpath$
 ^core/editor-(.*)/(.*)/\.project$
 ^core/engine-(core|desktop|applet|plugins|java|playn)/(.*)/\.classpath$

@@ -52,8 +52,6 @@ public class ElementControllerGetPanelTest2 extends EAdFrame {
         EAdCondition cond1 = new EmptyCondition(EmptyConditionValue.TRUE);
         EAdCondition cond2 = new EmptyCondition(EmptyConditionValue.FALSE);
         
-        when(sceneElementDef.getDragCond()).thenReturn(new ANDCondition(cond1, cond2));
-        
         CommandManager commandManager = mock(CommandManager.class);
         
         EAdSceneElementDefController sceneController = new EAdSceneElementDefController();
