@@ -127,7 +127,7 @@ public class EAdventureSurfaceView extends SurfaceView implements SurfaceHolder.
 				mouseState.getMouseEvents().add(action);
 			}
 			
-			mouseState.setMousePressed(false);
+			mouseState.setMousePressed(false, null);
 			return true;
 		}
 	}
