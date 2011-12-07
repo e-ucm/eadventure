@@ -9,8 +9,10 @@ import javax.swing.WindowConstants;
 
 import static org.mockito.Mockito.*;
 
+import es.eucm.eadventure.common.elementfactories.scenedemos.EmptyScene;
 import es.eucm.eadventure.common.model.elements.EAdScene;
 import es.eucm.eadventure.common.model.elements.EAdSceneElement;
+import es.eucm.eadventure.common.model.elements.impl.EAdSceneElementDefImpl;
 import es.eucm.eadventure.common.model.extra.impl.EAdListImpl;
 import es.eucm.eadventure.common.params.EAdString;
 import es.eucm.eadventure.common.resources.StringHandler;
@@ -23,7 +25,7 @@ import es.eucm.eadventure.editor.view.generics.Panel;
 import es.eucm.eadventure.gui.EAdFrame;
 import es.eucm.eadventure.gui.EAdGUILookAndFeel;
 
-public class ElementControllerGetPanelTest extends EAdFrame {
+public class SceneElementControllerGetPanelTest extends EAdFrame {
 
 	private static final long serialVersionUID = 1L;
 
@@ -33,18 +35,15 @@ public class ElementControllerGetPanelTest extends EAdFrame {
 		} catch (UnsupportedLookAndFeelException e) {
 			e.printStackTrace();
 		}
-		new ElementControllerGetPanelTest();
+		new SceneElementControllerGetPanelTest();
 	}
 	
-    public ElementControllerGetPanelTest() {
+    public SceneElementControllerGetPanelTest() {
         setSize( 600,400 );
         
         setLayout(new FlowLayout());
         
-        EAdScene scene = mock(EAdScene.class);
-        when(scene.getDefinition().getName()).thenReturn(EAdString.newEAdString("testName"));
-        when(scene.getDefinition().getDoc()).thenReturn(EAdString.newEAdString("testDocumentation"));
-        when(scene.getComponents()).thenReturn(new EAdListImpl<EAdSceneElement>(EAdSceneElement.class));
+        EAdScene scene = new EmptyScene();
         
         CommandManager commandManager = mock(CommandManager.class);
         

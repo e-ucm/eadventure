@@ -8,7 +8,6 @@ import es.eucm.eadventure.editor.view.generics.impl.EAdStringOption;
 import es.eucm.eadventure.editor.view.generics.impl.ElementOption;
 import es.eucm.eadventure.editor.view.generics.impl.FieldDescriptorImpl;
 import es.eucm.eadventure.editor.view.generics.impl.PanelImpl;
-import es.eucm.eadventure.editor.view.generics.impl.SceneInterfaceElement;
 import es.eucm.eadventure.editor.view.generics.scene.impl.PreviewPanelImpl;
 
 public class EAdSceneController extends AbstractElementController<EAdScene> {
@@ -29,13 +28,13 @@ public class EAdSceneController extends AbstractElementController<EAdScene> {
 			panel.addElement(new EAdStringOption(
 							Messages.name,
 							"this is the name",
-							new FieldDescriptorImpl<EAdString>(element, "name"),
+							new FieldDescriptorImpl<EAdString>(element.getDefinition(), "name"),
 							EAdStringOption.ExpectedLength.SHORT));
 			
 			panel.addElement(
 					new EAdStringOption(Messages.documentation,
 							"this is the documentation",
-							new FieldDescriptorImpl<EAdString>(element,
+							new FieldDescriptorImpl<EAdString>(element.getDefinition(),
 									"doc"),
 							EAdStringOption.ExpectedLength.LONG));
 			

@@ -9,10 +9,6 @@ import javax.swing.WindowConstants;
 
 import static org.mockito.Mockito.*;
 
-import es.eucm.eadventure.common.model.conditions.impl.ANDCondition;
-import es.eucm.eadventure.common.model.conditions.impl.EmptyCondition;
-import es.eucm.eadventure.common.model.conditions.impl.enums.EmptyConditionValue;
-import es.eucm.eadventure.common.model.elements.EAdCondition;
 import es.eucm.eadventure.common.model.elements.EAdSceneElementDef;
 import es.eucm.eadventure.common.params.EAdString;
 import es.eucm.eadventure.common.resources.StringHandler;
@@ -48,9 +44,6 @@ public class ElementControllerGetPanelTest2 extends EAdFrame {
         when(sceneElementDef.getDoc()).thenReturn(EAdString.newEAdString("testDocumentation"));
         when(sceneElementDef.getDesc()).thenReturn(EAdString.newEAdString("testDescription"));
         when(sceneElementDef.getDetailDesc()).thenReturn(EAdString.newEAdString("testDetailedDescription"));
-        
-        EAdCondition cond1 = new EmptyCondition(EmptyConditionValue.TRUE);
-        EAdCondition cond2 = new EmptyCondition(EmptyConditionValue.FALSE);
         
         CommandManager commandManager = mock(CommandManager.class);
         
