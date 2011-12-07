@@ -41,14 +41,12 @@ import java.util.logging.Logger;
 
 import android.content.Context;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.GestureDetector;
 import android.view.GestureDetector.SimpleOnGestureListener;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
-import android.widget.Toast;
 
 import com.google.inject.Singleton;
 
@@ -127,7 +125,7 @@ public class EAdventureSurfaceView extends SurfaceView implements SurfaceHolder.
 				mouseState.getMouseEvents().add(action);
 			}
 			
-			mouseState.setMousePressed(false);
+			mouseState.setMousePressed(false, MouseButton.BUTTON_1);
 			return true;
 		}
 	}

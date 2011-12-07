@@ -40,22 +40,21 @@ package es.eucm.eadventure.engine.extra;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
+
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Rect;
 import android.graphics.drawable.GradientDrawable;
-import android.util.Log;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+
 import es.eucm.eadventure.common.model.actions.EAdAction;
-import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
 import es.eucm.eadventure.common.model.extra.EAdList;
 import es.eucm.eadventure.common.params.geom.EAdPosition;
 import es.eucm.eadventure.common.params.geom.impl.EAdPositionImpl;
 import es.eucm.eadventure.common.params.geom.impl.EAdPositionImpl.Corner;
 import es.eucm.eadventure.engine.core.GameLoop;
-import es.eucm.eadventure.engine.core.GameState;
 import es.eucm.eadventure.engine.core.gameobjects.GameObjectManager;
 import es.eucm.eadventure.engine.core.gameobjects.SceneElementGO;
 import es.eucm.eadventure.engine.core.gameobjects.factories.SceneElementGOFactory;
@@ -107,8 +106,6 @@ public class AndroidActionsHUDImpl extends AbstractHUD implements ActionsHUD {
 	private GameObjectManager gameObjectManager;
 
 	protected SceneElementGO<?> sceneElement;
-
-	private GameState gameState;
 	
 	private EAdPosition posInicial, posFinal;
 
@@ -129,9 +126,8 @@ public class AndroidActionsHUDImpl extends AbstractHUD implements ActionsHUD {
 
 	@Inject
 	public AndroidActionsHUDImpl(GUI gui, GameObjectManager gameObjectManager,
-			GameState gameState, SceneElementGOFactory factory ) {
+			SceneElementGOFactory factory ) {
 		super(gui);
-		this.gameState = gameState;
 		actionsGO = new ArrayList<SceneElementGO<?>>();
 		positions = new ArrayList<EAdPosition>();
 		this.sceneElementFactory = factory;
@@ -201,7 +197,7 @@ public class AndroidActionsHUDImpl extends AbstractHUD implements ActionsHUD {
 		sceneElement = ref;
 		this.x = x;
 		this.y = y;
-		actions = ref.getValidActions();	
+		actions = ref.getActions();	
 		SWAP_TIME = 50 * actions.size();
 		initActionGOs();
 
