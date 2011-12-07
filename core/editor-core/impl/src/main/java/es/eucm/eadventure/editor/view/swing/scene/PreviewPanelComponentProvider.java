@@ -14,6 +14,7 @@ import com.google.inject.Injector;
 
 import es.eucm.eadventure.common.elementfactories.EAdElementsFactory;
 import es.eucm.eadventure.common.elementfactories.scenedemos.InitScene;
+import es.eucm.eadventure.common.model.effects.impl.EAdChangeScene;
 import es.eucm.eadventure.common.model.elements.EAdAdventureModel;
 import es.eucm.eadventure.common.model.elements.EAdScene;
 import es.eucm.eadventure.common.model.impl.EAdAdventureModelImpl;
@@ -22,6 +23,7 @@ import es.eucm.eadventure.editor.control.CommandManager;
 import es.eucm.eadventure.editor.view.ComponentProvider;
 import es.eucm.eadventure.editor.view.generics.scene.PreviewPanel;
 import es.eucm.eadventure.engine.core.Game;
+import es.eucm.eadventure.engine.core.GameState;
 import es.eucm.eadventure.engine.core.impl.modules.BasicGameModule;
 import es.eucm.eadventure.engine.core.platform.GUI;
 import es.eucm.eadventure.engine.core.platform.PlatformLauncher;
@@ -39,6 +41,8 @@ public class PreviewPanelComponentProvider implements ComponentProvider<PreviewP
 	private CommandManager commandManager;
 	
 	private Game game;
+	
+	private GameState gameState;
 	
 	private DesktopEditorGUI gui;
 	
@@ -65,7 +69,9 @@ public class PreviewPanelComponentProvider implements ComponentProvider<PreviewP
 
 		game = injector.getInstance(Game.class);
 		game.setGame(model, model.getChapters().get(0));
+		gameState = injector.getInstance(GameState.class);
 
+		
 		new Thread(new Runnable() {
 
 			@Override
@@ -83,6 +89,11 @@ public class PreviewPanelComponentProvider implements ComponentProvider<PreviewP
 			panel = gui.getPanel();
 			Thread.yield();
 		} while (panel == null);
+		
+		EAdChangeScene changeScene = new EAdChangeScene();
+		changeScene.setNextScene(element.getScene());
+		gameState.addEffect(changeScene);
+		
 		EAdScrollPane pane = new EAdScrollPane(panel, EAdScrollPane.VERTICAL_SCROLLBAR_ALWAYS, EAdScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
 		//pane.setMinimumSize(new Dimension(200, 150));
 		

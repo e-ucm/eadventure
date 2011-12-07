@@ -81,7 +81,8 @@ public class DesktopEditorGUI extends DesktopGUI {
 		SwingUtilities.doInEDTNow(new Runnable() {
 			@Override
 			public void run() {
-				backbufferImage = panel.createVolatileImage(panel.getWidth(), panel.getHeight());
+				if (backbufferImage == null)
+					backbufferImage = panel.createVolatileImage(panel.getWidth(), panel.getHeight());
 				if (backbufferImage != null) {
 					Graphics2D g = (Graphics2D) backbufferImage.getGraphics();
 					eAdCanvas.setGraphicContext(g);
@@ -201,6 +202,9 @@ public class DesktopEditorGUI extends DesktopGUI {
 			super.setPreferredSize(d);
 			platformConfiguration.setHeight((int) d.getHeight());
 			platformConfiguration.setWidth((int) d.getWidth());
+			if (backbufferImage != null)
+				backbufferImage.flush();
+			backbufferImage = null;
 		}
 
 		@Override
