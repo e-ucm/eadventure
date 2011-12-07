@@ -1,45 +1,34 @@
 package es.eucm.eadventure.editor.view.swing.scene;
 
 import java.awt.BorderLayout;
-import java.awt.Canvas;
-import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.Graphics;
-import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JPanel;
-import javax.swing.Scrollable;
 
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 
 import es.eucm.eadventure.common.elementfactories.EAdElementsFactory;
-import es.eucm.eadventure.common.elementfactories.scenedemos.EmptyScene;
 import es.eucm.eadventure.common.elementfactories.scenedemos.InitScene;
+import es.eucm.eadventure.common.model.effects.impl.EAdChangeScene;
 import es.eucm.eadventure.common.model.elements.EAdAdventureModel;
 import es.eucm.eadventure.common.model.elements.EAdScene;
 import es.eucm.eadventure.common.model.impl.EAdAdventureModelImpl;
 import es.eucm.eadventure.common.model.impl.EAdChapterImpl;
 import es.eucm.eadventure.editor.control.CommandManager;
 import es.eucm.eadventure.editor.view.ComponentProvider;
-import es.eucm.eadventure.editor.view.generics.impl.SceneInterfaceElement;
 import es.eucm.eadventure.editor.view.generics.scene.PreviewPanel;
 import es.eucm.eadventure.engine.core.Game;
+import es.eucm.eadventure.engine.core.GameState;
 import es.eucm.eadventure.engine.core.impl.modules.BasicGameModule;
 import es.eucm.eadventure.engine.core.platform.GUI;
-import es.eucm.eadventure.engine.core.platform.PlatformConfiguration;
 import es.eucm.eadventure.engine.core.platform.PlatformLauncher;
 import es.eucm.eadventure.engine.core.platform.impl.extra.DesktopAssetHandlerModule;
-import es.eucm.eadventure.engine.core.platform.impl.extra.DesktopModule;
 import es.eucm.eadventure.gui.EAdScrollPane;
-import es.eucm.eadventure.gui.eadcanvaspanel.EAdCanvasPanel;
-import es.eucm.eadventure.gui.eadcanvaspanel.listeners.DragListener;
-import es.eucm.eadventure.gui.eadcanvaspanel.listeners.ResizeListener;
-import es.eucm.eadventure.gui.eadcanvaspanel.scrollcontainers.EAdFixScrollCanvasPanel;
 
 public class PreviewPanelComponentProvider implements ComponentProvider<PreviewPanel, JComponent> {
 
@@ -52,6 +41,8 @@ public class PreviewPanelComponentProvider implements ComponentProvider<PreviewP
 	private CommandManager commandManager;
 	
 	private Game game;
+	
+	private GameState gameState;
 	
 	private DesktopEditorGUI gui;
 	
@@ -78,7 +69,9 @@ public class PreviewPanelComponentProvider implements ComponentProvider<PreviewP
 
 		game = injector.getInstance(Game.class);
 		game.setGame(model, model.getChapters().get(0));
+		gameState = injector.getInstance(GameState.class);
 
+		
 		new Thread(new Runnable() {
 
 			@Override
@@ -96,6 +89,11 @@ public class PreviewPanelComponentProvider implements ComponentProvider<PreviewP
 			panel = gui.getPanel();
 			Thread.yield();
 		} while (panel == null);
+		
+		EAdChangeScene changeScene = new EAdChangeScene();
+		changeScene.setNextScene(element.getScene());
+		gameState.addEffect(changeScene);
+		
 		EAdScrollPane pane = new EAdScrollPane(panel, EAdScrollPane.VERTICAL_SCROLLBAR_ALWAYS, EAdScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
 		//pane.setMinimumSize(new Dimension(200, 150));
 		

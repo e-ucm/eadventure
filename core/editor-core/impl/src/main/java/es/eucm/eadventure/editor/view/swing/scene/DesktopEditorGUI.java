@@ -1,19 +1,10 @@
 package es.eucm.eadventure.editor.view.swing.scene;
 
 import java.awt.BorderLayout;
-import java.awt.Canvas;
-import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.Graphics2D;
-import java.awt.Point;
 import java.awt.Rectangle;
-import java.awt.RenderingHints;
 import java.awt.Toolkit;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
-import java.awt.image.BufferStrategy;
-import java.awt.image.BufferedImage;
-import java.awt.image.MemoryImageSource;
 import java.awt.image.VolatileImage;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -36,7 +27,6 @@ import es.eucm.eadventure.engine.core.platform.RuntimeAsset;
 import es.eucm.eadventure.engine.core.platform.impl.DesktopCanvas;
 import es.eucm.eadventure.engine.core.platform.impl.DesktopGUI;
 import es.eucm.eadventure.engine.core.platform.impl.extra.DesktopInputListener;
-import es.eucm.eadventure.utils.swing.SwingExceptionHandler;
 import es.eucm.eadventure.utils.swing.SwingUtilities;
 
 @Singleton
@@ -91,7 +81,8 @@ public class DesktopEditorGUI extends DesktopGUI {
 		SwingUtilities.doInEDTNow(new Runnable() {
 			@Override
 			public void run() {
-				backbufferImage = panel.createVolatileImage(panel.getWidth(), panel.getHeight());
+				if (backbufferImage == null)
+					backbufferImage = panel.createVolatileImage(panel.getWidth(), panel.getHeight());
 				if (backbufferImage != null) {
 					Graphics2D g = (Graphics2D) backbufferImage.getGraphics();
 					eAdCanvas.setGraphicContext(g);
@@ -211,6 +202,9 @@ public class DesktopEditorGUI extends DesktopGUI {
 			super.setPreferredSize(d);
 			platformConfiguration.setHeight((int) d.getHeight());
 			platformConfiguration.setWidth((int) d.getWidth());
+			if (backbufferImage != null)
+				backbufferImage.flush();
+			backbufferImage = null;
 		}
 
 		@Override
