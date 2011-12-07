@@ -10,12 +10,9 @@ import com.google.gwt.core.client.GWT;
 
 import es.eucm.eadventure.common.elementfactories.EAdElementsFactory;
 import es.eucm.eadventure.common.elementfactories.scenedemos.InitScene;
-import es.eucm.eadventure.common.elementfactories.scenedemos.InventoryScene;
-import es.eucm.eadventure.common.elementfactories.scenedemos.SpeakAndMoveScene;
-import es.eucm.eadventure.common.elementfactories.scenedemos.WebMVideoScene;
 import es.eucm.eadventure.common.model.elements.EAdAdventureModel;
 import es.eucm.eadventure.common.model.elements.EAdScene;
-import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
+import es.eucm.eadventure.common.model.elements.impl.EAdSceneElementDefImpl;
 import es.eucm.eadventure.common.model.elements.impl.EAdSceneImpl;
 import es.eucm.eadventure.common.model.impl.EAdAdventureModelImpl;
 import es.eucm.eadventure.common.model.impl.EAdChapterImpl;
@@ -26,7 +23,6 @@ import es.eucm.eadventure.engine.core.EAdEngine;
 import es.eucm.eadventure.engine.core.Game;
 import es.eucm.eadventure.engine.core.platform.GUI;
 import es.eucm.eadventure.engine.core.platform.impl.PlayNGinInjector;
-import es.eucm.eadventure.engine.reader.GWTReader;
 import es.eucm.eadventure.engine.reader.GWTStringReader;
 
 public class EAdEngineHtml extends HtmlGame {
@@ -68,10 +64,10 @@ public class EAdEngineHtml extends HtmlGame {
 		EAdScene s = new EAdSceneImpl();
 		s.setId("scene");
 		Image i = new ImageImpl("@drawable/background1.png");
-		s.getBackground()
+		s.getBackground().getDefinition()
 				.getResources()
-				.addAsset(s.getBackground().getInitialBundle(),
-						EAdBasicSceneElement.appearance, i);
+				.addAsset(s.getBackground().getDefinition().getInitialBundle(),
+						EAdSceneElementDefImpl.appearance, i);
 
 		EAdScene s2 = new InitScene();
 

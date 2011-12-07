@@ -40,10 +40,11 @@ package es.eucm.eadventure.common.elementfactories.sceneelements;
 import es.eucm.eadventure.common.elementfactories.EAdElementsFactory;
 import es.eucm.eadventure.common.model.effects.EAdEffect;
 import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
+import es.eucm.eadventure.common.model.elements.impl.EAdSceneElementDefImpl;
 import es.eucm.eadventure.common.model.guievents.impl.EAdMouseEventImpl;
 import es.eucm.eadventure.common.params.geom.impl.EAdPositionImpl;
 import es.eucm.eadventure.common.resources.EAdBundleId;
-import es.eucm.eadventure.common.resources.assets.AssetDescriptor;
+import es.eucm.eadventure.common.resources.assets.drawable.Drawable;
 
 public class SceneElementFactory {
 
@@ -58,12 +59,10 @@ public class SceneElementFactory {
 	 * @param y
 	 * @return
 	 */
-	public EAdBasicSceneElement createSceneElement(AssetDescriptor appearance,
-			int x, int y) {
-		EAdBasicSceneElement sceneElement = new EAdBasicSceneElement();
+	public EAdBasicSceneElement createSceneElement(Drawable appearance, int x,
+			int y) {
+		EAdBasicSceneElement sceneElement = new EAdBasicSceneElement(appearance);
 		sceneElement.setId("sceneElement" + ID_GENERATOR++);
-		sceneElement.getResources().addAsset(sceneElement.getInitialBundle(),
-				EAdBasicSceneElement.appearance, appearance);
 		sceneElement.setPosition(new EAdPositionImpl(x, y));
 		return sceneElement;
 	}
@@ -78,24 +77,30 @@ public class SceneElementFactory {
 	 * @param y
 	 * @return
 	 */
-	public EAdBasicSceneElement createSceneElement(AssetDescriptor appearance1,
-			AssetDescriptor appearance2, int x, int y) {
+	public EAdBasicSceneElement createSceneElement(Drawable appearance1,
+			Drawable appearance2, int x, int y) {
 		EAdBasicSceneElement sceneElement = createSceneElement(appearance1, x,
 				y);
 		EAdBundleId bundle = new EAdBundleId("bundle2");
-		sceneElement.getResources().addBundle(bundle);
-		sceneElement.getResources().addAsset(bundle,
-				EAdBasicSceneElement.appearance, appearance2);
+		sceneElement.getDefinition().getResources().addBundle(bundle);
+		sceneElement
+				.getDefinition()
+				.getResources()
+				.addAsset(bundle, EAdSceneElementDefImpl.appearance,
+						appearance2);
 		sceneElement.addBehavior(EAdMouseEventImpl.MOUSE_ENTERED,
 				EAdElementsFactory.getInstance().getEffectFactory()
 						.getChangeAppearance(sceneElement, bundle));
-		sceneElement.addBehavior(
-				EAdMouseEventImpl.MOUSE_EXITED,
-				EAdElementsFactory
-						.getInstance()
-						.getEffectFactory()
-						.getChangeAppearance(sceneElement,
-								sceneElement.getInitialBundle()));
+		sceneElement
+				.addBehavior(
+						EAdMouseEventImpl.MOUSE_EXITED,
+						EAdElementsFactory
+								.getInstance()
+								.getEffectFactory()
+								.getChangeAppearance(
+										sceneElement,
+										sceneElement.getDefinition()
+												.getInitialBundle()));
 		return sceneElement;
 	}
 
@@ -107,7 +112,7 @@ public class SceneElementFactory {
 	 * @param effect
 	 * @return
 	 */
-	public EAdBasicSceneElement createSceneElement(AssetDescriptor appearance,
+	public EAdBasicSceneElement createSceneElement(Drawable appearance,
 			int x, int y, EAdEffect effect) {
 		EAdBasicSceneElement sceneElement = this.createSceneElement(appearance,
 				x, y);

@@ -37,7 +37,7 @@
 
 package es.eucm.eadventure.common.elementfactories.scenedemos;
 
-import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
+import es.eucm.eadventure.common.model.elements.impl.EAdSceneElementDefImpl;
 import es.eucm.eadventure.common.model.elements.impl.EAdSceneImpl;
 import es.eucm.eadventure.common.params.fills.impl.EAdColor;
 import es.eucm.eadventure.common.params.fills.impl.EAdLinearGradient;
@@ -57,9 +57,9 @@ public class EmptyScene extends EAdSceneImpl implements SceneDemo {
 		setId("EmptyScene");
 		rectangle = new RectangleShape(800, 600);
 		rectangle.setPaint(new EAdLinearGradient(new EAdColor(240, 240, 240), EAdColor.WHITE, 800, 600));
-		getBackground().getResources().addAsset(
-				getBackground().getInitialBundle(),
-				EAdBasicSceneElement.appearance, rectangle);
+		getBackground().getDefinition().getResources().addAsset(
+				getBackground().getDefinition().getInitialBundle(),
+				EAdSceneElementDefImpl.appearance, rectangle);
 	}
 	
 	public void setBackgroundFill( EAdFill fill ){

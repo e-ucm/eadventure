@@ -29,7 +29,6 @@ import es.eucm.eadventure.engine.core.gameobjects.impl.events.ConditionEventGO;
 import es.eucm.eadventure.engine.core.gameobjects.impl.events.SceneElementEventGO;
 import es.eucm.eadventure.engine.core.gameobjects.impl.events.SceneElementTimedEventGO;
 import es.eucm.eadventure.engine.core.gameobjects.impl.events.SystemEventGO;
-import es.eucm.eadventure.engine.core.gameobjects.impl.events.TimerEventGO;
 import es.eucm.eadventure.engine.core.gameobjects.impl.sceneelements.BasicSceneElementGO;
 import es.eucm.eadventure.engine.core.gameobjects.impl.sceneelements.ComplexSceneElementGO;
 import es.eucm.eadventure.engine.core.gameobjects.impl.transitions.SimpleTransitionGO;
@@ -100,8 +99,6 @@ public class PlayNInjector implements EAdInjector {
 			go = ginjector.getSceneElementTimedEventGO();
 		else if (clazz == SystemEventGO.class)
 			go = ginjector.getSystemEventGO();
-		else if (clazz == TimerEventGO.class)
-			go = ginjector.getTimerEventGO();
 		else if (clazz == BasicSceneElementGO.class)
 			go = ginjector.getBasicSceneElementGO();
 		else if (clazz == ComplexSceneElementGO.class)

@@ -42,6 +42,7 @@ import es.eucm.eadventure.common.elementfactories.StringFactory;
 import es.eucm.eadventure.common.elementfactories.scenedemos.normalguy.NgCommon;
 import es.eucm.eadventure.common.interfaces.features.enums.Orientation;
 import es.eucm.eadventure.common.model.effects.EAdEffect;
+import es.eucm.eadventure.common.model.elements.enums.CommonStates;
 import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
 import es.eucm.eadventure.common.model.events.EAdSceneElementEvent;
 import es.eucm.eadventure.common.model.events.enums.SceneElementEventType;

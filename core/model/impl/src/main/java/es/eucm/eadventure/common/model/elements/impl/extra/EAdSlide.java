@@ -40,6 +40,7 @@ package es.eucm.eadventure.common.model.elements.impl.extra;
 import es.eucm.eadventure.common.interfaces.Element;
 import es.eucm.eadventure.common.interfaces.Param;
 import es.eucm.eadventure.common.model.elements.impl.EAdSceneImpl;
+import es.eucm.eadventure.common.resources.assets.drawable.Drawable;
 
 /**
  * <p>One of the slides of the cutscene</p>
@@ -49,6 +50,10 @@ public class EAdSlide extends EAdSceneImpl {
 
 	@Param("time")
 	private Integer time;
+	
+	public EAdSlide(Drawable backgroundDrawable){
+		super( backgroundDrawable );
+	}
 	
 	public EAdSlide() {
 		super();

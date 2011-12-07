@@ -10,7 +10,7 @@ public class VideoScene extends EAdVideoScene implements SceneDemo {
 		super();
 		setId("videoScene");
 		Video video = new VideoImpl("@binary/bbb_trailer_360p.webm");
-		getResources().addAsset(EAdVideoScene.video, video);
+		getDefinition().getResources().addAsset(EAdVideoScene.video, video);
 		setUpForEngine();
 	}
 

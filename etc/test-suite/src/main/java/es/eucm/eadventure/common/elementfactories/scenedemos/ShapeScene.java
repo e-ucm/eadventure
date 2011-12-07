@@ -40,17 +40,17 @@ package es.eucm.eadventure.common.elementfactories.scenedemos;
 import es.eucm.eadventure.common.elementfactories.EAdElementsFactory;
 import es.eucm.eadventure.common.elementfactories.assets.ShapeFactory;
 import es.eucm.eadventure.common.model.effects.impl.EAdInterpolationEffect;
-import es.eucm.eadventure.common.model.effects.impl.enums.InterpolationType;
 import es.eucm.eadventure.common.model.effects.impl.enums.InterpolationLoopType;
+import es.eucm.eadventure.common.model.effects.impl.enums.InterpolationType;
 import es.eucm.eadventure.common.model.elements.EAdSceneElement;
 import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
 import es.eucm.eadventure.common.model.events.EAdSceneElementEvent;
 import es.eucm.eadventure.common.model.events.enums.SceneElementEventType;
 import es.eucm.eadventure.common.model.variables.impl.EAdFieldImpl;
-import es.eucm.eadventure.common.params.fills.impl.EAdPaintImpl;
 import es.eucm.eadventure.common.params.fills.impl.EAdColor;
+import es.eucm.eadventure.common.params.fills.impl.EAdPaintImpl;
 import es.eucm.eadventure.common.params.geom.impl.EAdPositionImpl.Corner;
-import es.eucm.eadventure.common.resources.assets.AssetDescriptor;
+import es.eucm.eadventure.common.resources.assets.drawable.Drawable;
 
 /**
  * Scene with shapes. Test containst for different types of shapes
@@ -66,8 +66,8 @@ public class ShapeScene extends EmptyScene {
 		ShapeFactory shapeFactory = EAdElementsFactory.getInstance().getShapeFactory();
 		
 		// Rectangle	
-		AssetDescriptor rectangleAsset1 = shapeFactory.getElement(ShapeFactory.ShapeType.RECTANGULAR_SHAPE, size, size, EAdPaintImpl.WHITE_ON_BLACK);
-		AssetDescriptor rectangleAsset2 = shapeFactory.getElement(ShapeFactory.ShapeType.RECTANGULAR_SHAPE, size, size, EAdPaintImpl.BLACK_ON_WHITE);
+		Drawable rectangleAsset1 = shapeFactory.getElement(ShapeFactory.ShapeType.RECTANGULAR_SHAPE, size, size, EAdPaintImpl.WHITE_ON_BLACK);
+		Drawable rectangleAsset2 = shapeFactory.getElement(ShapeFactory.ShapeType.RECTANGULAR_SHAPE, size, size, EAdPaintImpl.BLACK_ON_WHITE);
 		EAdSceneElement e = EAdElementsFactory.getInstance().getSceneElementFactory().createSceneElement(rectangleAsset1, rectangleAsset2, x + 20, margin);
 		e.setVarInitialValue(EAdBasicSceneElement.VAR_SCALE, 0.5f);
 		e.setVarInitialValue(EAdBasicSceneElement.VAR_ROTATION, 0.5f);
@@ -75,38 +75,38 @@ public class ShapeScene extends EmptyScene {
 		x+= margin + size;
 		
 		// Circle
-		AssetDescriptor asset1 = shapeFactory.getElement(ShapeFactory.ShapeType.CIRCLE_SHAPE, size, size, new EAdPaintImpl( EAdColor.YELLOW, EAdColor.BROWN ));
-		AssetDescriptor asset2 = shapeFactory.getElement(ShapeFactory.ShapeType.CIRCLE_SHAPE, size, size, new EAdPaintImpl( EAdColor.ORANGE, EAdColor.BROWN ));
+		Drawable asset1 = shapeFactory.getElement(ShapeFactory.ShapeType.CIRCLE_SHAPE, size, size, new EAdPaintImpl( EAdColor.YELLOW, EAdColor.BROWN ));
+		Drawable asset2 = shapeFactory.getElement(ShapeFactory.ShapeType.CIRCLE_SHAPE, size, size, new EAdPaintImpl( EAdColor.ORANGE, EAdColor.BROWN ));
 		getComponents().add(EAdElementsFactory.getInstance().getSceneElementFactory().createSceneElement(asset1, asset2, x, margin));
 		x+= margin + size;
 		
 		// Triangle
-		AssetDescriptor asset31 = shapeFactory.getElement(ShapeFactory.ShapeType.TRIANGLE_SHAPE, size, size, new EAdPaintImpl( EAdColor.BLUE, EAdColor.BROWN ));
-		AssetDescriptor asset32 = shapeFactory.getElement(ShapeFactory.ShapeType.TRIANGLE_SHAPE, size, size, new EAdPaintImpl( EAdColor.CYAN, EAdColor.BLACK ));
+		Drawable asset31 = shapeFactory.getElement(ShapeFactory.ShapeType.TRIANGLE_SHAPE, size, size, new EAdPaintImpl( EAdColor.BLUE, EAdColor.BROWN ));
+		Drawable asset32 = shapeFactory.getElement(ShapeFactory.ShapeType.TRIANGLE_SHAPE, size, size, new EAdPaintImpl( EAdColor.CYAN, EAdColor.BLACK ));
 		getComponents().add(EAdElementsFactory.getInstance().getSceneElementFactory().createSceneElement(asset31, asset32, x, margin));
 		x+= margin + size;
 		
 		// Irregular shape 1
-		AssetDescriptor asset51 = shapeFactory.getElement(ShapeFactory.ShapeType.IRREGULAR_SHAPE_1, size, size, new EAdPaintImpl( EAdColor.MAGENTA, EAdColor.YELLOW ));
-		AssetDescriptor asset52 = shapeFactory.getElement(ShapeFactory.ShapeType.IRREGULAR_SHAPE_1, size, size, new EAdPaintImpl( EAdColor.RED, EAdColor.ORANGE ));
+		Drawable asset51 = shapeFactory.getElement(ShapeFactory.ShapeType.IRREGULAR_SHAPE_1, size, size, new EAdPaintImpl( EAdColor.MAGENTA, EAdColor.YELLOW ));
+		Drawable asset52 = shapeFactory.getElement(ShapeFactory.ShapeType.IRREGULAR_SHAPE_1, size, size, new EAdPaintImpl( EAdColor.RED, EAdColor.ORANGE ));
 		getComponents().add(EAdElementsFactory.getInstance().getSceneElementFactory().createSceneElement(asset51, asset52, x, margin));
 		x+= margin + size;
 		
 		// Random shape
-		AssetDescriptor asset41 = shapeFactory.getElement(ShapeFactory.ShapeType.IRREGULAR_RANDOM_SHAPE, size, size, new EAdPaintImpl( EAdColor.GRAY, EAdColor.BROWN ));
-		AssetDescriptor asset42 = shapeFactory.getElement(ShapeFactory.ShapeType.IRREGULAR_RANDOM_SHAPE, size, size, new EAdPaintImpl( EAdColor.DARK_GRAY, EAdColor.BLACK ));
+		Drawable asset41 = shapeFactory.getElement(ShapeFactory.ShapeType.IRREGULAR_RANDOM_SHAPE, size, size, new EAdPaintImpl( EAdColor.GRAY, EAdColor.BROWN ));
+		Drawable asset42 = shapeFactory.getElement(ShapeFactory.ShapeType.IRREGULAR_RANDOM_SHAPE, size, size, new EAdPaintImpl( EAdColor.DARK_GRAY, EAdColor.BLACK ));
 		getComponents().add(EAdElementsFactory.getInstance().getSceneElementFactory().createSceneElement(asset41, asset42, x, margin));
 		x = margin;
 		
 		// Drop shape
-		AssetDescriptor asset61 = shapeFactory.getElement(ShapeFactory.ShapeType.DROP_SHAPE, size, size, new EAdPaintImpl( EAdColor.GRAY, EAdColor.BROWN ));
-		AssetDescriptor asset62 = shapeFactory.getElement(ShapeFactory.ShapeType.DROP_SHAPE, size, size, new EAdPaintImpl( EAdColor.DARK_GRAY, EAdColor.BLACK ));
+		Drawable asset61 = shapeFactory.getElement(ShapeFactory.ShapeType.DROP_SHAPE, size, size, new EAdPaintImpl( EAdColor.GRAY, EAdColor.BROWN ));
+		Drawable asset62 = shapeFactory.getElement(ShapeFactory.ShapeType.DROP_SHAPE, size, size, new EAdPaintImpl( EAdColor.DARK_GRAY, EAdColor.BLACK ));
 		getComponents().add(EAdElementsFactory.getInstance().getSceneElementFactory().createSceneElement(asset61, asset62, x, margin * 2 + size));
 		x+= margin + size;
 		
 		// Rectangle rotating
-		AssetDescriptor asset21 = shapeFactory.getElement(ShapeFactory.ShapeType.RECTANGULAR_SHAPE, size, size * 3, new EAdPaintImpl( EAdColor.RED, EAdColor.BROWN ));
-		AssetDescriptor asset22 = shapeFactory.getElement(ShapeFactory.ShapeType.RECTANGULAR_SHAPE, size, size * 3, new EAdPaintImpl( EAdColor.LIGHT_BROWN, EAdColor.DARK_BROWN));
+		Drawable asset21 = shapeFactory.getElement(ShapeFactory.ShapeType.RECTANGULAR_SHAPE, size, size * 3, new EAdPaintImpl( EAdColor.RED, EAdColor.BROWN ));
+		Drawable asset22 = shapeFactory.getElement(ShapeFactory.ShapeType.RECTANGULAR_SHAPE, size, size * 3, new EAdPaintImpl( EAdColor.LIGHT_BROWN, EAdColor.DARK_BROWN));
 		EAdBasicSceneElement rotatingRectangle = EAdElementsFactory.getInstance().getSceneElementFactory().createSceneElement(asset21, asset22, 330, 200);
 		rotatingRectangle.setPosition(Corner.CENTER, 400, 300);
 		getComponents().add(rotatingRectangle);

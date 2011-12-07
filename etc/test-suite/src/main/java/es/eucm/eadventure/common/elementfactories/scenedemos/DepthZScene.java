@@ -9,7 +9,7 @@ import es.eucm.eadventure.common.model.events.EAdSceneElementEvent;
 import es.eucm.eadventure.common.model.events.enums.SceneElementEventType;
 import es.eucm.eadventure.common.model.events.enums.SceneElementTimedEventType;
 import es.eucm.eadventure.common.model.events.impl.EAdSceneElementEventImpl;
-import es.eucm.eadventure.common.model.events.impl.EAdSceneElementTimedEventImpl;
+import es.eucm.eadventure.common.model.events.impl.EAdTimedEventImpl;
 import es.eucm.eadventure.common.model.variables.EAdField;
 import es.eucm.eadventure.common.model.variables.impl.EAdFieldImpl;
 import es.eucm.eadventure.common.model.variables.impl.operations.MathOperation;
@@ -37,7 +37,7 @@ public class DepthZScene extends EmptyScene {
 		EAdField<Integer> xField = new EAdFieldImpl<Integer>(e2, EAdBasicSceneElement.VAR_X);
 		EAdInterpolationEffect effect = new EAdInterpolationEffect(xField, 50, 750, totalTime, InterpolationLoopType.REVERSE, InterpolationType.LINEAR);
 		
-		EAdSceneElementTimedEventImpl timedEvent = new EAdSceneElementTimedEventImpl();
+		EAdTimedEventImpl timedEvent = new EAdTimedEventImpl();
 		timedEvent.setTime(totalTime);
 		e2.setVarInitialValue(EAdBasicSceneElement.VAR_Z, 1);
 		e2.setVarInitialValue(EAdBasicSceneElement.VAR_SCALE, 1.2f);

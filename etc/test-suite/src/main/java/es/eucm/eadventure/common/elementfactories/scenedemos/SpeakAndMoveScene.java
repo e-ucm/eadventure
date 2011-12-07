@@ -88,9 +88,9 @@ public class SpeakAndMoveScene extends EmptyScene {
 
 		
 		action.getEffects().add(speak);
-		actionsObject.getActions().add(action);
+		actionsObject.getDefinition().getActions().add(action);
 
-		EAdEffect showActions = new EAdActorActionsEffect(actionsObject);
+		EAdEffect showActions = new EAdActorActionsEffect(actionsObject.getDefinition());
 		actionsObject.addBehavior(EAdMouseEventImpl.MOUSE_RIGHT_CLICK,
 				showActions);
 		getComponents().add(actionsObject);

@@ -111,13 +111,16 @@ public abstract class ActorImporter<P extends Element> implements
 
 		// Add actions
 		addActionsEffect(oldObject, actor);
+		
+		// Add drag
+//		oldObject.isReturnsWhenDragged()
 
 		return actor;
 	}
 
 	public abstract void initResourcesCorrespondencies();
 
-	protected void addActionsEffect(P oldObject, EAdSceneElementDef actor) {
+	protected void addActionsEffect(P oldObject, EAdSceneElementDefImpl actor) {
 		// add actions
 		EAdActorActionsEffect showActions = new EAdActorActionsEffect(actor);
 		actor.addBehavior(EAdMouseEventImpl.MOUSE_RIGHT_CLICK, showActions);

@@ -8,9 +8,9 @@ import org.jbox2d.dynamics.World;
 import com.google.inject.Inject;
 
 import es.eucm.eadventure.common.model.effects.impl.physics.EAdPhysicsEffect;
-import es.eucm.eadventure.common.model.effects.impl.physics.PhShape;
 import es.eucm.eadventure.common.model.effects.impl.physics.PhApplyImpluse;
-import es.eucm.eadventure.common.model.elements.EAdSceneElementDef;
+import es.eucm.eadventure.common.model.effects.impl.physics.PhShape;
+import es.eucm.eadventure.common.model.elements.EAdSceneElement;
 import es.eucm.eadventure.common.resources.StringHandler;
 import es.eucm.eadventure.engine.core.GameState;
 import es.eucm.eadventure.engine.core.ValueMap;
@@ -53,7 +53,7 @@ public class PhApplyForceGO extends AbstractEffectGO<PhApplyImpluse> {
 						EAdPhysicsEffect.VAR_PH_FRICTION, 0.1f);
 				valueMap.setValue(element.getSceneElement(),
 						EAdPhysicsEffect.VAR_PH_DENSITY, 1.0f);
-				PhysicsEffectGO.createBody(w, (EAdSceneElementDef) element.getSceneElement(),
+				PhysicsEffectGO.createBody(w, (EAdSceneElement) element.getSceneElement(),
 						valueMap);
 				b = valueMap.getValue(element.getSceneElement(),
 						PhysicsEffectGO.VAR_PH_BODY);

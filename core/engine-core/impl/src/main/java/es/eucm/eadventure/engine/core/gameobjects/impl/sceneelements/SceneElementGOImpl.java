@@ -137,20 +137,19 @@ public abstract class SceneElementGOImpl<T extends EAdSceneElement> extends
 	@Override
 	public void setElement(T element) {
 		super.setElement(element);
+
 		gameState.getValueMap().setValue(element,
-				ResourcedElementImpl.VAR_BUNDLE_ID, element.getInitialBundle());
+				ResourcedElementImpl.VAR_BUNDLE_ID,
+				element.getDefinition().getInitialBundle());
 		gameState.getValueMap().setValue(element.getDefinition(),
 				EAdSceneElementDefImpl.VAR_SCENE_ELEMENT, element);
-
-		if (element.isClone()) {
-			gameState.getValueMap().remove(element);
-		}
 
 		for (Entry<EAdVarDef<?>, Object> entry : element.getVars().entrySet()) {
 			gameState.getValueMap().setValue(element, entry.getKey(),
 					entry.getValue());
 		}
 
+		// Scene element events
 		if (element.getEvents() != null) {
 			for (EAdEvent event : element.getEvents()) {
 				EventGO<?> eventGO = eventFactory.get(event);
@@ -158,15 +157,17 @@ public abstract class SceneElementGOImpl<T extends EAdSceneElement> extends
 				eventGO.initialize();
 				eventGOList.add(eventGO);
 			}
-			
-			if ( element.getDefinition() != element ){
-				for (EAdEvent event : element.getDefinition().getEvents()) {
-					EventGO<?> eventGO = eventFactory.get(event);
-					eventGO.setParent(element);
-					eventGO.initialize();
-					eventGOList.add(eventGO);
-				}
+		}
+
+		// Definition events
+		if (element.getEvents() != null) {
+			for (EAdEvent event : element.getDefinition().getEvents()) {
+				EventGO<?> eventGO = eventFactory.get(event);
+				eventGO.setParent(element);
+				eventGO.initialize();
+				eventGOList.add(eventGO);
 			}
+
 		}
 
 		position = new EAdPositionImpl(0, 0);
@@ -244,7 +245,7 @@ public abstract class SceneElementGOImpl<T extends EAdSceneElement> extends
 
 	@Override
 	public EAdSceneElementDef getDraggableElement(MouseState mouseState) {
-		return element;
+		return null;
 	}
 
 	/*
@@ -258,7 +259,7 @@ public abstract class SceneElementGOImpl<T extends EAdSceneElement> extends
 	 */
 	@Override
 	public void update() {
-		
+
 		if (eventGOList != null)
 			for (EventGO<?> eventGO : eventGOList)
 				eventGO.update();
@@ -266,8 +267,10 @@ public abstract class SceneElementGOImpl<T extends EAdSceneElement> extends
 		gameState.getValueMap().setValue(element,
 				EAdBasicSceneElement.VAR_TIME_DISPLAYED,
 				timeDisplayed + GameLoop.SKIP_MILLIS_TICK);
+
 		if (getAsset() != null)
 			getAsset().update();
+
 		updateVars();
 		setVars();
 	}
@@ -301,8 +304,11 @@ public abstract class SceneElementGOImpl<T extends EAdSceneElement> extends
 
 	@Override
 	public AssetDescriptor getCurrentAssetDescriptor() {
-		AssetDescriptor a = element.getDefinition().getResources()
-				.getAsset(getCurrentBundle(), EAdBasicSceneElement.appearance);
+
+		AssetDescriptor a = element
+				.getDefinition()
+				.getResources()
+				.getAsset(getCurrentBundle(), EAdSceneElementDefImpl.appearance);
 
 		return getCurrentAssetDescriptor(a);
 	}
@@ -354,18 +360,19 @@ public abstract class SceneElementGOImpl<T extends EAdSceneElement> extends
 			boolean allAssets) {
 		List<EAdBundleId> bundles = new ArrayList<EAdBundleId>();
 		if (allAssets)
-			bundles.addAll(getElement().getResources().getBundles());
+			bundles.addAll(getElement().getDefinition().getResources().getBundles());
 		else
 			bundles.add(getCurrentBundle());
 
 		for (EAdBundleId bundle : bundles) {
-			AssetDescriptor a = getElement().getResources().getAsset(bundle,
-					EAdBasicSceneElement.appearance);
+			AssetDescriptor a = getElement().getDefinition().getResources().getAsset(bundle,
+					EAdSceneElementDefImpl.appearance);
 			getAssetsRecursively(a, assetList, allAssets);
 		}
-		
+
 		for (EAdAction a : getActions())
-			sceneElementFactory.get(new ActionSceneElement(a)).getAssets(assetList, true);
+			sceneElementFactory.get(new ActionSceneElement(a)).getAssets(
+					assetList, true);
 
 		return assetList;
 	}
@@ -480,7 +487,7 @@ public abstract class SceneElementGOImpl<T extends EAdSceneElement> extends
 			return this.getRenderAsset().contains(x, y);
 		return false;
 	}
-
+	
 	@Override
 	public void render(EAdCanvas c) {
 		if (this.getRenderAsset() != null)
@@ -488,7 +495,8 @@ public abstract class SceneElementGOImpl<T extends EAdSceneElement> extends
 		else {
 			// FIXME Improve, when has no asset
 			c.setPaint(EAdPaintImpl.BLACK_ON_WHITE);
-			c.fillRect( position.getJavaX(width), position.getJavaX(height), width, height );
+			c.fillRect(position.getJavaX(width), position.getJavaX(height),
+					width, height);
 		}
 	}
 
@@ -501,7 +509,7 @@ public abstract class SceneElementGOImpl<T extends EAdSceneElement> extends
 		EAdBundleId current = gameState.getValueMap().getValue(element,
 				ResourcedElementImpl.VAR_BUNDLE_ID);
 		if (current == null) {
-			current = element.getInitialBundle();
+			current = element.getDefinition().getInitialBundle();
 			gameState.getValueMap().setValue(element,
 					ResourcedElementImpl.VAR_BUNDLE_ID, current);
 		}

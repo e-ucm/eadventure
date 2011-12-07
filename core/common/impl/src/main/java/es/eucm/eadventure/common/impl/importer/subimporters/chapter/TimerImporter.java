@@ -53,9 +53,7 @@ import es.eucm.eadventure.common.model.elements.EAdCondition;
 import es.eucm.eadventure.common.model.elements.EAdTimer;
 import es.eucm.eadventure.common.model.elements.impl.EAdTimerImpl;
 import es.eucm.eadventure.common.model.events.enums.ConditionedEventType;
-import es.eucm.eadventure.common.model.events.enums.TimerEventType;
 import es.eucm.eadventure.common.model.events.impl.EAdConditionEventImpl;
-import es.eucm.eadventure.common.model.events.impl.EAdTimerEventImpl;
 import es.eucm.eadventure.common.model.variables.impl.EAdFieldImpl;
 import es.eucm.eadventure.common.model.variables.impl.operations.BooleanOperation;
 
@@ -131,12 +129,12 @@ public class TimerImporter implements EAdElementImporter<Timer, EAdTimer> {
 			if (effect != null)
 				stoppedMacro.getEffects().add(effect);
 		}
-
-		EAdTimerEventImpl stopTimerEvent = new EAdTimerEventImpl( newTimer);
-		stopTimerEvent.addEffect(TimerEventType.TIMER_ENDED,
-				triggerEndedMacro);
-		stopTimerEvent.addEffect(TimerEventType.TIMER_STOPPED,
-				triggerStoppedMacro);
+//
+//		EAdTimerEventImpl stopTimerEvent = new EAdTimerEventImpl( newTimer);
+//		stopTimerEvent.addEffect(TimerEventType.TIMER_ENDED,
+//				triggerEndedMacro);
+//		stopTimerEvent.addEffect(TimerEventType.TIMER_STOPPED,
+//				triggerStoppedMacro);
 
 //		newTimer.getEvents().add(stopTimerEvent);
 

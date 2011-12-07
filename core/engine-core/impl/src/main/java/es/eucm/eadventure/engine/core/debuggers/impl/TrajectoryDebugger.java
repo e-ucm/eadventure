@@ -8,7 +8,9 @@ import com.google.inject.Singleton;
 
 import es.eucm.eadventure.common.model.elements.EAdScene;
 import es.eucm.eadventure.common.model.elements.EAdSceneElement;
+import es.eucm.eadventure.common.model.elements.EAdSceneElementDef;
 import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
+import es.eucm.eadventure.common.model.elements.impl.EAdSceneElementDefImpl;
 import es.eucm.eadventure.common.model.elements.impl.EAdSceneImpl;
 import es.eucm.eadventure.common.model.trajectories.TrajectoryDefinition;
 import es.eucm.eadventure.common.model.trajectories.impl.Node;
@@ -129,14 +131,13 @@ public class TrajectoryDebugger implements EAdDebugger {
 			map.addDrawable(circle);
 		}
 
-		EAdBasicSceneElement mapElement = new EAdBasicSceneElement();
+		EAdBasicSceneElement mapElement = new EAdBasicSceneElement(map);
 		mapElement.setId("trajectoryMap");
-		mapElement.getResources().addAsset(mapElement.getInitialBundle(),
-				EAdBasicSceneElement.appearance, map);
 
 		for (EAdSceneElement e : trajectory.getBarriers()) {
-			BezierShape s = (BezierShape) e.getAsset(e.getInitialBundle(),
-					EAdBasicSceneElement.appearance);
+			EAdSceneElementDef def = e.getDefinition();
+			BezierShape s = (BezierShape) def.getAsset(def.getInitialBundle(),
+					EAdSceneElementDefImpl.appearance);
 			BezierShape barrier = (BezierShape) s.clone();
 			barrier.setPaint(EAdColor.YELLOW);
 			barriers.add(barrier);

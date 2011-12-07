@@ -8,16 +8,16 @@ import es.eucm.eadventure.common.model.guievents.impl.EAdDragEventImpl;
 import es.eucm.eadventure.common.model.guievents.impl.EAdMouseEventImpl;
 import es.eucm.eadventure.common.model.variables.EAdField;
 import es.eucm.eadventure.common.model.variables.impl.EAdFieldImpl;
-import es.eucm.eadventure.common.model.variables.impl.operations.ValueOperation;
 import es.eucm.eadventure.common.model.variables.impl.operations.MathOperation;
-import es.eucm.eadventure.common.params.fills.impl.EAdPaintImpl;
+import es.eucm.eadventure.common.model.variables.impl.operations.ValueOperation;
 import es.eucm.eadventure.common.params.fills.impl.EAdColor;
 import es.eucm.eadventure.common.params.fills.impl.EAdLinearGradient;
+import es.eucm.eadventure.common.params.fills.impl.EAdPaintImpl;
 import es.eucm.eadventure.common.params.geom.impl.EAdPositionImpl;
 import es.eucm.eadventure.common.params.geom.impl.EAdPositionImpl.Corner;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.shapes.BallonShape;
-import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.shapes.extra.BalloonType;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.shapes.BezierShape;
+import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.shapes.extra.BalloonType;
 
 public class DragDropScene extends EmptyScene {
 
@@ -31,13 +31,13 @@ public class DragDropScene extends EmptyScene {
 		EAdBasicSceneElement e1 = new EAdBasicSceneElement(shape);
 		e1.setDragCond(EmptyCondition.TRUE_EMPTY_CONDITION);
 		e1.setPosition(new EAdPositionImpl(Corner.CENTER, 600, 300));
-		EAdField<Float> rotation = new EAdFieldImpl<Float>(e1,
-				EAdBasicSceneElement.VAR_ROTATION);
+		EAdField<Boolean> visible = new EAdFieldImpl<Boolean>(e1,
+				EAdBasicSceneElement.VAR_VISIBLE);
 		EAdChangeFieldValueEffect changeRotation1 = new EAdChangeFieldValueEffect(
-				rotation,
-				new ValueOperation((float) (Math.PI / 8.0f)));
+				visible,
+				new ValueOperation(Boolean.FALSE));
 		EAdChangeFieldValueEffect changeRotation2 = new EAdChangeFieldValueEffect(
-				 rotation, new ValueOperation(0.0f));
+				 visible, new ValueOperation(Boolean.TRUE));
 		e1.addBehavior(EAdMouseEventImpl.MOUSE_START_DRAG, changeRotation1);
 		e1.addBehavior(EAdMouseEventImpl.MOUSE_DROP, changeRotation2);
 
@@ -83,8 +83,8 @@ public class DragDropScene extends EmptyScene {
 						EAdBasicSceneElement.VAR_Y)));
 		changeY.setId("y");
 
-		e2.addBehavior(new EAdDragEventImpl(e1, DragAction.DROP), changeX);
-		e2.addBehavior(new EAdDragEventImpl(e1, DragAction.DROP), changeY);
+		e2.addBehavior(new EAdDragEventImpl(e1.getDefinition(), DragAction.DROP), changeX);
+		e2.addBehavior(new EAdDragEventImpl(e1.getDefinition(), DragAction.DROP), changeY);
 	}
 
 	@Override

@@ -29,6 +29,7 @@ import es.eucm.eadventure.common.model.elements.EAdCondition;
 import es.eucm.eadventure.common.model.elements.EAdScene;
 import es.eucm.eadventure.common.model.elements.EAdSceneElement;
 import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
+import es.eucm.eadventure.common.model.elements.impl.EAdSceneElementDefImpl;
 import es.eucm.eadventure.common.model.elements.impl.EAdSceneImpl;
 import es.eucm.eadventure.common.model.events.EAdConditionEvent;
 import es.eucm.eadventure.common.model.events.EAdSceneElementEvent;
@@ -43,8 +44,8 @@ import es.eucm.eadventure.common.model.variables.impl.operations.BooleanOperatio
 import es.eucm.eadventure.common.model.variables.impl.operations.MathOperation;
 import es.eucm.eadventure.common.model.variables.impl.operations.ValueOperation;
 import es.eucm.eadventure.common.params.EAdFont;
-import es.eucm.eadventure.common.params.FontStyle;
 import es.eucm.eadventure.common.params.EAdFontImpl;
+import es.eucm.eadventure.common.params.FontStyle;
 import es.eucm.eadventure.common.params.fills.impl.EAdColor;
 import es.eucm.eadventure.common.params.geom.impl.EAdPositionImpl;
 import es.eucm.eadventure.common.params.geom.impl.EAdPositionImpl.Corner;
@@ -141,9 +142,11 @@ public class BookImporter implements EAdElementImporter<Book, EAdScene> {
 						.getAssetPath(Book.RESOURCE_TYPE_BACKGROUND),
 				ImageImpl.class);
 		book.getBackground()
+				.getDefinition()
 				.getResources()
-				.addAsset(book.getBackground().getInitialBundle(),
-						EAdBasicSceneElement.appearance, background);
+				.addAsset(
+						book.getBackground().getDefinition().getInitialBundle(),
+						EAdSceneElementDefImpl.appearance, background);
 
 		dispY = TEXT_Y;
 		column = 0;
@@ -194,12 +197,9 @@ public class BookImporter implements EAdElementImporter<Book, EAdScene> {
 				}
 		}
 
-		EAdBasicSceneElement content = new EAdBasicSceneElement();
+		EAdBasicSceneElement content = new EAdBasicSceneElement(image);
 		content.setId(oldObject.getId() + "_content");
-		content.getResources().addAsset(content.getInitialBundle(),
-				EAdBasicSceneElement.appearance, image);
 		content.setPosition(0, 0);
-		content.setClone(true);
 
 		EAdField<Integer> xVar = new EAdFieldImpl<Integer>(content,
 				EAdBasicSceneElement.VAR_X);
@@ -207,8 +207,7 @@ public class BookImporter implements EAdElementImporter<Book, EAdScene> {
 		EAdSceneElementEvent event = new EAdSceneElementEventImpl();
 		event.setId("restartBook");
 		event.addEffect(SceneElementEventType.ADDED_TO_SCENE,
-				new EAdChangeFieldValueEffect( xVar,
-						new ValueOperation( 0)));
+				new EAdChangeFieldValueEffect(xVar, new ValueOperation(0)));
 		content.getEvents().add(event);
 
 		EAdCondition leftCondition = new OperationCondition(xVar, 0,
@@ -281,10 +280,10 @@ public class BookImporter implements EAdElementImporter<Book, EAdScene> {
 		EAdConditionEvent event = new EAdConditionEventImpl();
 		event.setCondition(condition);
 		event.addEffect(ConditionedEventType.CONDITIONS_MET,
-				new EAdChangeFieldValueEffect( visibleVar,
+				new EAdChangeFieldValueEffect(visibleVar,
 						BooleanOperation.TRUE_OP));
 		event.addEffect(ConditionedEventType.CONDITIONS_UNMET,
-				new EAdChangeFieldValueEffect( visibleVar,
+				new EAdChangeFieldValueEffect(visibleVar,
 						BooleanOperation.FALSE_OP));
 		arrow.getEvents().add(event);
 
@@ -382,21 +381,22 @@ public class BookImporter implements EAdElementImporter<Book, EAdScene> {
 		AssetDescriptor normalAsset = getArrowAsset(book, normal);
 
 		AssetDescriptor overAsset = getArrowAsset(book, over);
-		arrow.getResources().addAsset(arrow.getInitialBundle(),
-				EAdBasicSceneElement.appearance, normalAsset);
+		arrow.getDefinition()
+				.getResources()
+				.addAsset(arrow.getDefinition().getInitialBundle(),
+						EAdSceneElementDefImpl.appearance, normalAsset);
 
 		EAdBundleId bundle = new EAdBundleId("over");
-		arrow.getResources().addBundle(bundle);
-		arrow.getResources().addAsset(bundle, EAdBasicSceneElement.appearance,
-				overAsset);
+		arrow.getDefinition().getResources().addBundle(bundle);
+		arrow.getDefinition().getResources()
+				.addAsset(bundle, EAdSceneElementDefImpl.appearance, overAsset);
 
-		EAdChangeAppearance change1 = new EAdChangeAppearance(
-				arrow, bundle);
+		EAdChangeAppearance change1 = new EAdChangeAppearance(arrow, bundle);
 		change1.setId("changeArrowOver");
 		arrow.addBehavior(EAdMouseEventImpl.MOUSE_ENTERED, change1);
 
-		EAdChangeAppearance change2 = new EAdChangeAppearance(
-				 arrow, arrow.getInitialBundle());
+		EAdChangeAppearance change2 = new EAdChangeAppearance(arrow,
+				arrow.getDefinition().getInitialBundle());
 		change2.setId("changeArrowOver");
 		arrow.addBehavior(EAdMouseEventImpl.MOUSE_EXITED, change2);
 

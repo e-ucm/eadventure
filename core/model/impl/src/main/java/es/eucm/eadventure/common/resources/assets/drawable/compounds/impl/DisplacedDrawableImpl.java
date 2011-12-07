@@ -39,7 +39,6 @@ package es.eucm.eadventure.common.resources.assets.drawable.compounds.impl;
 
 import es.eucm.eadventure.common.interfaces.Param;
 import es.eucm.eadventure.common.params.geom.EAdPosition;
-import es.eucm.eadventure.common.params.geom.impl.EAdPositionImpl;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.BasicDrawable;
 import es.eucm.eadventure.common.resources.assets.drawable.compounds.DisplacedDrawable;
 

@@ -46,7 +46,6 @@ import es.eucm.eadventure.common.model.effects.EAdEffect;
 import es.eucm.eadventure.common.model.elements.EAdComplexElement;
 import es.eucm.eadventure.common.model.elements.EAdSceneElement;
 import es.eucm.eadventure.common.model.elements.EAdSceneElementDef;
-import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
 import es.eucm.eadventure.common.model.extra.EAdList;
 import es.eucm.eadventure.common.resources.StringHandler;
 import es.eucm.eadventure.engine.core.GameState;
@@ -67,8 +66,6 @@ public class ComplexSceneElementGO extends
 	private static final Logger logger = Logger
 			.getLogger("EAdComplexSceneElement");
 
-	private EvaluatorFactory evaluatorFactory;
-	
 	private boolean first = true;
 
 	@Inject
@@ -80,13 +77,9 @@ public class ComplexSceneElementGO extends
 		super(assetHandler, stringHandler, gameObjectFactory, gui, gameState,
 				eventFactory);
 		logger.info("New instance");
-		this.evaluatorFactory = evaluatorFactory;
 	}
 
 	public EAdSceneElementDef getDraggableElement(MouseState mouseState) {
-		if (evaluatorFactory.evaluate(((EAdBasicSceneElement) element)
-				.getDragCond()))
-			return element;
 		return null;
 	}
 
@@ -131,14 +124,15 @@ public class ComplexSceneElementGO extends
 
 	protected void updateVars() {
 		super.updateVars();
-//		ValueMap valueMap = gameState.getValueMap();
-		//TODO we will use it, some day
-//		setWidth(valueMap.getValue(element, EAdBasicSceneElement.VAR_WIDTH));
-//		setHeight(valueMap.getValue(element, EAdBasicSceneElement.VAR_HEIGHT));
-//		boolean updateWidth = valueMap.getValue(element,
-//				EAdComplexElementImpl.VAR_AUTO_SIZE_HORIZONTAL);
-//		boolean updateHeight = valueMap.getValue(element,
-//				EAdComplexElementImpl.VAR_AUTO_SIZE_VERTICAL);
+		// ValueMap valueMap = gameState.getValueMap();
+		// TODO we will use it, some day
+		// setWidth(valueMap.getValue(element, EAdBasicSceneElement.VAR_WIDTH));
+		// setHeight(valueMap.getValue(element,
+		// EAdBasicSceneElement.VAR_HEIGHT));
+		// boolean updateWidth = valueMap.getValue(element,
+		// EAdComplexElementImpl.VAR_AUTO_SIZE_HORIZONTAL);
+		// boolean updateHeight = valueMap.getValue(element,
+		// EAdComplexElementImpl.VAR_AUTO_SIZE_VERTICAL);
 
 		if (first) {
 			updateDimensions(true, true);
@@ -189,16 +183,17 @@ public class ComplexSceneElementGO extends
 					assetList, allAssets);
 		return assetList;
 	}
-	
-//	@Override
-//	public boolean contains(int x, int y) {
-//		for (EAdSceneElement sceneElement : element.getElements()) {
-//			SceneElementGO<?> go = sceneElementFactory.get(sceneElement);
-//			float[] mouse = go.getTransformation().getMatrix().multiplyPointInverse(x, y, true);
-//			if ( go.contains((int) mouse[0], (int) mouse[1]))
-//				return true;
-//		}
-//		return super.contains(x, y);
-//	}
+
+	// @Override
+	// public boolean contains(int x, int y) {
+	// for (EAdSceneElement sceneElement : element.getElements()) {
+	// SceneElementGO<?> go = sceneElementFactory.get(sceneElement);
+	// float[] mouse =
+	// go.getTransformation().getMatrix().multiplyPointInverse(x, y, true);
+	// if ( go.contains((int) mouse[0], (int) mouse[1]))
+	// return true;
+	// }
+	// return super.contains(x, y);
+	// }
 
 }

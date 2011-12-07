@@ -43,13 +43,10 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
-import es.eucm.eadventure.common.model.elements.EAdSceneElement;
 import es.eucm.eadventure.common.model.elements.EAdSceneElementDef;
 import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
-import es.eucm.eadventure.common.model.elements.impl.EAdSceneElementDefImpl;
 import es.eucm.eadventure.common.model.guievents.enums.MouseButton;
 import es.eucm.eadventure.common.params.geom.impl.EAdPositionImpl;
-import es.eucm.eadventure.engine.core.GameState;
 import es.eucm.eadventure.engine.core.MouseState;
 import es.eucm.eadventure.engine.core.gameobjects.DrawableGO;
 import es.eucm.eadventure.engine.core.gameobjects.factories.SceneElementGOFactory;
@@ -82,13 +79,10 @@ public class MouseStateImpl implements MouseState {
 
 	private SceneElementGOFactory factory;
 
-	private GameState gameState;
-
 	@Inject
-	public MouseStateImpl(SceneElementGOFactory factory, GameState gameState) {
+	public MouseStateImpl(SceneElementGOFactory factory) {
 		this.factory = factory;
 		mouseEvents = new ConcurrentLinkedQueue<MouseAction>();
-		this.gameState = gameState;
 	}
 
 	public int getMouseX() {
@@ -140,14 +134,6 @@ public class MouseStateImpl implements MouseState {
 			int y = mouseY;
 			float dispX = 0.5f;
 			float dispY = 0.5f;
-				
-			EAdSceneElement e = gameState.getValueMap().getValue(dragElement, EAdSceneElementDefImpl.VAR_SCENE_ELEMENT);
-			if ( e != null ){
-				x = gameState.getValueMap().getValue(dragElement, EAdBasicSceneElement.VAR_X);
-				y = gameState.getValueMap().getValue(dragElement, EAdBasicSceneElement.VAR_Y);
-				dispX = gameState.getValueMap().getValue(dragElement, EAdBasicSceneElement.VAR_DISP_X);
-				dispY = gameState.getValueMap().getValue(dragElement, EAdBasicSceneElement.VAR_DISP_Y);
-			}
 			
 			EAdBasicSceneElement element2 = new EAdBasicSceneElement(dragElement);
 			element2.setPosition( new EAdPositionImpl(x, y, dispX, dispY ));

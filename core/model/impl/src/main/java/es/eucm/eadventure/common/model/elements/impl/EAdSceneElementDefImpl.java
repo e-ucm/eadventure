@@ -42,13 +42,11 @@ import es.eucm.eadventure.common.interfaces.Param;
 import es.eucm.eadventure.common.model.EAdElement;
 import es.eucm.eadventure.common.model.actions.EAdAction;
 import es.eucm.eadventure.common.model.behavior.EAdBehavior;
-import es.eucm.eadventure.common.model.conditions.impl.EmptyCondition;
-import es.eucm.eadventure.common.model.elements.EAdCondition;
 import es.eucm.eadventure.common.model.elements.EAdSceneElement;
 import es.eucm.eadventure.common.model.elements.EAdSceneElementDef;
-import es.eucm.eadventure.common.model.events.EAdEvent;
 import es.eucm.eadventure.common.model.extra.EAdList;
 import es.eucm.eadventure.common.model.extra.impl.EAdListImpl;
+import es.eucm.eadventure.common.model.impl.ResourcedElementImpl;
 import es.eucm.eadventure.common.model.variables.EAdVarDef;
 import es.eucm.eadventure.common.model.variables.impl.EAdVarDefImpl;
 import es.eucm.eadventure.common.params.EAdString;
@@ -58,8 +56,8 @@ import es.eucm.eadventure.common.resources.assets.AssetDescriptor;
 import es.eucm.eadventure.common.resources.assets.drawable.Drawable;
 
 @Element(runtime = EAdSceneElementDefImpl.class, detailed = EAdSceneElementDefImpl.class)
-public class EAdSceneElementDefImpl extends AbstractEAdElementWithBehavior
-		implements EAdSceneElementDef {
+public class EAdSceneElementDefImpl extends ResourcedElementImpl implements
+		EAdSceneElementDef {
 
 	public static final EAdVarDef<EAdSceneElement> VAR_SCENE_ELEMENT = new EAdVarDefImpl<EAdSceneElement>(
 			"scene_element", EAdSceneElement.class, null);
@@ -83,46 +81,20 @@ public class EAdSceneElementDefImpl extends AbstractEAdElementWithBehavior
 	@Param("doc")
 	private EAdString doc;
 
-	@Param("dragCond")
-	private EAdCondition dragCond;
-
-	/**
-	 * Events associated with this element
-	 */
-	@Param("events")
-	protected EAdList<EAdEvent> events;
-
 	public EAdSceneElementDefImpl() {
 		super();
 		this.actions = new EAdListImpl<EAdAction>(EAdAction.class);
-		this.events = new EAdListImpl<EAdEvent>(EAdEvent.class);
-		this.dragCond = EmptyCondition.FALSE_EMPTY_CONDITION;
-
 		this.name = EAdString.newEAdString("name");
 		this.desc = EAdString.newEAdString("desc");
 		this.detailDesc = EAdString.newEAdString("detailDesc");
 		this.doc = EAdString.newEAdString("doc");
-		events = new EAdListImpl<EAdEvent>(EAdEvent.class);
 
 	}
 
 	public EAdSceneElementDefImpl(AssetDescriptor appearance) {
 		this();
-		getResources().addAsset(this.getInitialBundle(),
-				EAdBasicSceneElement.appearance, appearance);
-	}
-
-/**
-	 * Sets the condition that makes the element holding this definition draggable. The default value is {@link EmptyCondition#FALSE_EMPTY_CONDITION)
-	 * @param condition the condition
-	 */
-	public void setDragCond(EAdCondition condition) {
-		this.dragCond = condition;
-	}
-
-	@Override
-	public EAdCondition getDragCond() {
-		return dragCond;
+		getResources().addAsset(getInitialBundle(),
+				EAdSceneElementDefImpl.appearance, appearance);
 	}
 
 	@Override
@@ -165,26 +137,13 @@ public class EAdSceneElementDefImpl extends AbstractEAdElementWithBehavior
 	public EAdElement copy(boolean deepCopy) {
 		EAdSceneElementDefImpl def = new EAdSceneElementDefImpl();
 		def.setId(id);
-		def.events = events;
 		def.actions = actions;
 		if (deepCopy) {
 			def.behavior = (EAdBehavior) behavior.copy(deepCopy);
-			def.dragCond = (EAdCondition) dragCond.copy(deepCopy);
 		} else {
 			def.behavior = behavior;
-			def.dragCond = dragCond;
 		}
 		return def;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see es.eucm.eadventure.common.model.EAdElement#getEvents()
-	 */
-	@Override
-	public EAdList<EAdEvent> getEvents() {
-		return events;
 	}
 
 	public void setName(EAdString name) {

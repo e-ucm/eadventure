@@ -60,6 +60,7 @@ import es.eucm.eadventure.common.model.elements.EAdCondition;
 import es.eucm.eadventure.common.model.elements.EAdSceneElement;
 import es.eucm.eadventure.common.model.elements.EAdSceneElementDef;
 import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
+import es.eucm.eadventure.common.model.elements.impl.EAdSceneElementDefImpl;
 import es.eucm.eadventure.common.model.elements.impl.EAdSceneImpl;
 import es.eucm.eadventure.common.model.events.EAdSceneElementEvent;
 import es.eucm.eadventure.common.model.events.enums.SceneElementEventType;
@@ -276,12 +277,12 @@ public class SceneImporter implements EAdElementImporter<Scene, EAdSceneImpl> {
 
 		Map<String, String> resourcesStrings = new HashMap<String, String>();
 		resourcesStrings.put(Scene.RESOURCE_TYPE_BACKGROUND,
-				EAdBasicSceneElement.appearance);
+				EAdSceneElementDefImpl.appearance);
 
 		Map<String, Object> resourcesClasses = new HashMap<String, Object>();
 		resourcesClasses.put(Scene.RESOURCE_TYPE_BACKGROUND, ImageImpl.class);
 
-		resourceImporter.importResources(scene.getBackground(),
+		resourceImporter.importResources(scene.getBackground().getDefinition(),
 				oldScene.getResources(), resourcesStrings, resourcesClasses);
 		
 		scene.getBackground().setId("background");
@@ -309,8 +310,8 @@ public class SceneImporter implements EAdElementImporter<Scene, EAdSceneImpl> {
 	}
 
 	private void importDocumentation(EAdSceneImpl scene, Scene oldScene) {
-		stringHandler.setString(scene.getName(), oldScene.getName());
-		stringHandler.setString(scene.getDoc(),
+		stringHandler.setString(scene.getDefinition().getName(), oldScene.getName());
+		stringHandler.setString(scene.getDefinition().getDoc(),
 				oldScene.getDocumentation());
 	}
 

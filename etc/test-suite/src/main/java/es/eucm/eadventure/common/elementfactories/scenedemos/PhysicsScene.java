@@ -9,8 +9,8 @@ import es.eucm.eadventure.common.model.effects.impl.EAdInterpolationEffect;
 import es.eucm.eadventure.common.model.effects.impl.enums.InterpolationLoopType;
 import es.eucm.eadventure.common.model.effects.impl.enums.InterpolationType;
 import es.eucm.eadventure.common.model.effects.impl.physics.EAdPhysicsEffect;
-import es.eucm.eadventure.common.model.effects.impl.physics.PhType;
 import es.eucm.eadventure.common.model.effects.impl.physics.PhApplyImpluse;
+import es.eucm.eadventure.common.model.effects.impl.physics.PhType;
 import es.eucm.eadventure.common.model.effects.impl.variables.EAdChangeFieldValueEffect;
 import es.eucm.eadventure.common.model.elements.EAdSceneElementDef;
 import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
@@ -173,13 +173,11 @@ public class PhysicsScene extends EmptyScene {
 
 		// Bullet generation
 
-		EAdSceneElementDef bullet = new EAdSceneElementDefImpl();
-		bullet.setId("bullet");
 		BezierShape circle = new CircleShape(10, 10, 10, 25);
 		circle.setPaint(new EAdLinearGradient(EAdColor.LIGHT_GRAY,
 				EAdColor.DARK_GRAY, 20, 20));
-		bullet.getResources().addAsset(bullet.getInitialBundle(),
-				EAdBasicSceneElement.appearance, circle);
+		EAdSceneElementDef bullet = new EAdSceneElementDefImpl(circle);
+		bullet.setId("bullet");
 
 		PhApplyImpluse applyForce = new PhApplyImpluse();
 		applyForce.setForce(new MathOperation("([0] - [1]) * 500", mouseX, canyonX),
@@ -225,9 +223,10 @@ public class PhysicsScene extends EmptyScene {
 	}
 
 	private void addSky() {
-		getBackground().getResources().addAsset(
-				this.getBackground().getInitialBundle(),
-				EAdBasicSceneElement.appearance,
+		EAdSceneElementDef backgroundDef = getBackground().getDefinition();
+		backgroundDef.getResources().addAsset(
+				backgroundDef.getInitialBundle(),
+				EAdSceneElementDefImpl.appearance,
 				new ImageImpl("@drawable/sky.png"));
 
 		EAdSceneElementEvent event = new EAdSceneElementEventImpl();

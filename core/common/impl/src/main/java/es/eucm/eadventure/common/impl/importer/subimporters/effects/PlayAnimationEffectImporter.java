@@ -10,7 +10,7 @@ import es.eucm.eadventure.common.model.effects.impl.timedevents.EAdShowSceneElem
 import es.eucm.eadventure.common.model.elements.EAdCondition;
 import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
 import es.eucm.eadventure.common.params.geom.impl.EAdPositionImpl;
-import es.eucm.eadventure.common.resources.assets.AssetDescriptor;
+import es.eucm.eadventure.common.resources.assets.drawable.Drawable;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.ImageImpl;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.animation.FramesAnimation;
 
@@ -38,13 +38,14 @@ public class PlayAnimationEffectImporter extends
 	public EAdShowSceneElement convert(PlayAnimationEffect oldObject,
 			Object newElement) {
 		EAdShowSceneElement effect = super.convert(oldObject, newElement);
-		EAdBasicSceneElement element = new EAdBasicSceneElement();
+
+
+		Drawable asset = (Drawable) resourceImporter.getAssetDescritptor(
+				oldObject.getPath(), ImageImpl.class);
+		EAdBasicSceneElement element = new EAdBasicSceneElement(asset);
 		element.setId("animation" + ID_GENERATOR++);
 		element.setPosition(new EAdPositionImpl(oldObject.getX(), oldObject
 				.getY()));
-
-		AssetDescriptor asset = resourceImporter.getAssetDescritptor(
-				oldObject.getPath(), ImageImpl.class);
 		if (asset instanceof FramesAnimation) {
 			int time = 0;
 			for (int i = 0; i < ((FramesAnimation) asset).getFrameCount(); i++) {
@@ -54,9 +55,6 @@ public class PlayAnimationEffectImporter extends
 		} else {
 			effect.setTime(1000);
 		}
-
-		element.getResources().addAsset(element.getInitialBundle(),
-				EAdBasicSceneElement.appearance, asset);
 
 		effect.setSceneElement(element);
 		return effect;

@@ -8,7 +8,7 @@ import es.eucm.eadventure.common.model.effects.impl.variables.EAdChangeFieldValu
 import es.eucm.eadventure.common.model.elements.EAdSceneElement;
 import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
 import es.eucm.eadventure.common.model.events.enums.SceneElementTimedEventType;
-import es.eucm.eadventure.common.model.events.impl.EAdSceneElementTimedEventImpl;
+import es.eucm.eadventure.common.model.events.impl.EAdTimedEventImpl;
 import es.eucm.eadventure.common.model.extra.EAdList;
 import es.eucm.eadventure.common.model.extra.impl.EAdListImpl;
 import es.eucm.eadventure.common.model.guievents.impl.EAdMouseEventImpl;
@@ -82,20 +82,16 @@ public class MoleGame extends EmptyScene {
 	}
 
 	private EAdSceneElement getHole(int x, int y) {
-		EAdBasicSceneElement hole = new EAdBasicSceneElement();
+		EAdBasicSceneElement hole = new EAdBasicSceneElement(holeImage);
 		hole.setId("hole" + x);
-		hole.getResources().addAsset(hole.getInitialBundle(),
-				EAdBasicSceneElement.appearance, holeImage);
 		hole.setPosition(x, y);
 		hole.addBehavior(EAdMouseEventImpl.MOUSE_LEFT_PRESSED, (EAdEffect) null);
 		return hole;
 	}
 
 	private EAdSceneElement getMole(int x, int y) {
-		EAdBasicSceneElement mole = new EAdBasicSceneElement();
+		EAdBasicSceneElement mole = new EAdBasicSceneElement(this.mole);
 		mole.setId("mole" + x + "" + y);
-		mole.getResources().addAsset(mole.getInitialBundle(),
-				EAdBasicSceneElement.appearance, this.mole);
 		mole.setPosition(x, y + 30);
 
 		// EAdSceneElementEventImpl event = new EAdSceneElementEventImpl();
@@ -121,7 +117,7 @@ public class MoleGame extends EmptyScene {
 	}
 
 	public void initLoop() {
-		EAdSceneElementTimedEventImpl event = new EAdSceneElementTimedEventImpl();
+		EAdTimedEventImpl event = new EAdTimedEventImpl();
 		event.setId("moleUp");
 
 		EAdChangeFieldValueEffect effect = new EAdChangeFieldValueEffect();

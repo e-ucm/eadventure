@@ -45,6 +45,7 @@ import com.google.inject.Singleton;
 
 import es.eucm.eadventure.common.model.EAdElement;
 import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
+import es.eucm.eadventure.common.model.elements.impl.EAdSceneElementDefImpl;
 import es.eucm.eadventure.common.model.guievents.enums.KeyActionType;
 import es.eucm.eadventure.common.model.guievents.enums.KeyCode;
 import es.eucm.eadventure.common.model.variables.impl.SystemFields;
@@ -258,8 +259,8 @@ public class BasicHUDImpl extends AbstractHUD implements BasicHUD {
 				float scale = 1.0f / (rAsset.getWidth() > rAsset.getHeight() ? rAsset
 						.getWidth() / CURSOR_SIZE
 						: rAsset.getHeight() / CURSOR_SIZE);
-				mouse.getResources().addAsset(mouse.getInitialBundle(),
-						EAdBasicSceneElement.appearance, cursor);
+				mouse.getDefinition().getResources().addAsset(mouse.getDefinition().getInitialBundle(),
+						EAdSceneElementDefImpl.appearance, cursor);
 				gameState.getValueMap().setValue(mouse,
 						EAdBasicSceneElement.VAR_SCALE, scale);
 			}

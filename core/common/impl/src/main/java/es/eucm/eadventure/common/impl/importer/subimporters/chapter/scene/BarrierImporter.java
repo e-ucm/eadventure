@@ -10,6 +10,7 @@ import es.eucm.eadventure.common.model.effects.impl.variables.EAdChangeFieldValu
 import es.eucm.eadventure.common.model.elements.EAdCondition;
 import es.eucm.eadventure.common.model.elements.EAdSceneElement;
 import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
+import es.eucm.eadventure.common.model.elements.impl.EAdSceneElementDefImpl;
 import es.eucm.eadventure.common.model.events.EAdConditionEvent;
 import es.eucm.eadventure.common.model.events.enums.ConditionedEventType;
 import es.eucm.eadventure.common.model.events.impl.EAdConditionEventImpl;
@@ -54,19 +55,23 @@ public class BarrierImporter implements
 			event.setCondition(condition);
 			EAdField<Boolean> barrierOn = new EAdFieldImpl<Boolean>(barrier,
 					NodeTrajectoryDefinition.VAR_BARRIER_ON);
-			event.addEffect(
-					ConditionedEventType.CONDITIONS_MET,
-					new EAdChangeFieldValueEffect(barrierOn, BooleanOperation.TRUE_OP));
-			event.addEffect(
-					ConditionedEventType.CONDITIONS_UNMET,
-					new EAdChangeFieldValueEffect( barrierOn,
+			event.addEffect(ConditionedEventType.CONDITIONS_MET,
+					new EAdChangeFieldValueEffect(barrierOn,
+							BooleanOperation.TRUE_OP));
+			event.addEffect(ConditionedEventType.CONDITIONS_UNMET,
+					new EAdChangeFieldValueEffect(barrierOn,
 							BooleanOperation.FALSE_OP));
-			
+
 			barrier.getEvents().add(event);
 		}
+
 		RectangleShape rectangle = new RectangleShape( oldObject.getWidth(), oldObject.getHeight() );
-		barrier.getResources().addAsset(barrier.getInitialBundle(), EAdBasicSceneElement.appearance, rectangle);
-		barrier.setPosition( new EAdPositionImpl( Corner.TOP_LEFT, oldObject.getX(), oldObject.getY()));
+		barrier.getDefinition()
+				.getResources()
+				.addAsset(barrier.getDefinition().getInitialBundle(),
+						EAdSceneElementDefImpl.appearance, rectangle);
+		barrier.setPosition(new EAdPositionImpl(Corner.TOP_LEFT, oldObject
+				.getX(), oldObject.getY()));
 
 		return barrier;
 	}

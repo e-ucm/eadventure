@@ -72,11 +72,8 @@ public class InitScene extends EmptyScene {
 	}
 
 	private void initInfoButton() {
-		infoButton = new EAdSceneElementDefImpl();
+		infoButton = new EAdSceneElementDefImpl(new ImageImpl("@drawable/infobutton.png"));
 		infoButton.setId("info");
-		infoButton.getResources().addAsset(infoButton.getInitialBundle(),
-				EAdBasicSceneElement.appearance,
-				new ImageImpl("@drawable/infobutton.png"));
 	}
 
 	private void initGOBackButton() {

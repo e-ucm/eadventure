@@ -50,8 +50,8 @@ import es.eucm.eadventure.common.impl.importer.interfaces.EAdElementFactory;
 import es.eucm.eadventure.common.impl.importer.interfaces.ResourceImporter;
 import es.eucm.eadventure.common.interfaces.features.enums.Orientation;
 import es.eucm.eadventure.common.model.actions.EAdAction;
-import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
-import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement.CommonStates;
+import es.eucm.eadventure.common.model.elements.enums.CommonStates;
+import es.eucm.eadventure.common.model.elements.impl.EAdSceneElementDefImpl;
 import es.eucm.eadventure.common.resources.StringHandler;
 import es.eucm.eadventure.common.resources.assets.drawable.Drawable;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.ImageImpl;
@@ -76,7 +76,7 @@ public class NPCImporter extends ActorImporter<NPC> {
 
 		properties = new HashMap<String, String>();
 		properties.put(NPC.RESOURCE_TYPE_STAND_DOWN,
-				EAdBasicSceneElement.appearance);
+				EAdSceneElementDefImpl.appearance);
 
 		objectClasses = new HashMap<String, Object>();
 		objectClasses.put(NPC.RESOURCE_TYPE_STAND_DOWN, drawables);

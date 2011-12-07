@@ -46,6 +46,7 @@ import es.eucm.eadventure.common.model.extra.EAdList;
 import es.eucm.eadventure.common.model.extra.impl.EAdListImpl;
 import es.eucm.eadventure.common.model.variables.EAdVarDef;
 import es.eucm.eadventure.common.model.variables.impl.EAdVarDefImpl;
+import es.eucm.eadventure.common.resources.assets.drawable.Drawable;
 
 /**
  * Represents an scene element that is compound with other scene elements. This
@@ -89,6 +90,10 @@ public class EAdComplexElementImpl extends EAdBasicSceneElement implements
 	public EAdComplexElementImpl(EAdSceneElementDef definition) {
 		this();
 		this.setDefinition(definition);
+	}
+
+	public EAdComplexElementImpl(Drawable asset ) {
+		this(new EAdSceneElementDefImpl( asset) );
 	}
 
 	/**

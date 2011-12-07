@@ -39,6 +39,7 @@ package es.eucm.eadventure.common.model.impl;
 
 import es.eucm.eadventure.common.interfaces.Param;
 import es.eucm.eadventure.common.interfaces.features.Resourced;
+import es.eucm.eadventure.common.model.elements.impl.AbstractEAdElementWithBehavior;
 import es.eucm.eadventure.common.model.variables.EAdVarDef;
 import es.eucm.eadventure.common.model.variables.impl.EAdVarDefImpl;
 import es.eucm.eadventure.common.resources.EAdBundleId;
@@ -50,7 +51,7 @@ import es.eucm.eadventure.common.resources.impl.EAdResourcesImpl;
  * Abstract {@link es.eucm.eadventure.common.model.EAdElement} implementation,
  * with resources and events
  */
-public abstract class ResourcedElementImpl extends EAdElementImpl implements
+public abstract class ResourcedElementImpl extends AbstractEAdElementWithBehavior implements
 		Resourced {
 	
 	public static final EAdVarDef<EAdBundleId> VAR_BUNDLE_ID = new EAdVarDefImpl<EAdBundleId>(

@@ -18,7 +18,6 @@ import es.eucm.eadventure.common.model.effects.impl.physics.PhShape;
 import es.eucm.eadventure.common.model.effects.impl.physics.PhType;
 import es.eucm.eadventure.common.model.elements.EAdScene;
 import es.eucm.eadventure.common.model.elements.EAdSceneElement;
-import es.eucm.eadventure.common.model.elements.EAdSceneElementDef;
 import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
 import es.eucm.eadventure.common.model.variables.EAdVarDef;
 import es.eucm.eadventure.common.model.variables.impl.EAdVarDefImpl;
@@ -128,7 +127,7 @@ public class PhysicsEffectGO extends AbstractEffectGO<EAdPhysicsEffect> {
 		return false;
 	}
 
-	public static void createBody(World world, EAdSceneElementDef e,
+	public static void createBody(World world, EAdSceneElement e,
 			ValueMap valueMap) {
 		float x = valueMap.getValue(e, EAdBasicSceneElement.VAR_X) / WORLD_SCALE;
 		float y = valueMap.getValue(e, EAdBasicSceneElement.VAR_Y) / WORLD_SCALE;

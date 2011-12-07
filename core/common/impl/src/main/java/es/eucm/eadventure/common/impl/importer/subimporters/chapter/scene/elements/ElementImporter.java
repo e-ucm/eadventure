@@ -28,8 +28,8 @@ import es.eucm.eadventure.common.params.geom.EAdRectangle;
 import es.eucm.eadventure.common.params.geom.impl.EAdRectangleImpl;
 import es.eucm.eadventure.common.predef.model.effects.EAdMoveActiveElement;
 import es.eucm.eadventure.common.resources.StringHandler;
-import es.eucm.eadventure.common.resources.assets.drawable.basics.enums.Alignment;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.Shape;
+import es.eucm.eadventure.common.resources.assets.drawable.basics.enums.Alignment;
 
 public abstract class ElementImporter<T> implements
 		EAdElementImporter<T, EAdSceneElement> {
@@ -55,7 +55,7 @@ public abstract class ElementImporter<T> implements
 			newExit.addBehavior(EAdMouseEventImpl.MOUSE_LEFT_CLICK, finalEffect);
 		} else {
 			EAdMoveActiveElement move = new EAdMoveActiveElement();
-			move.setTarget(newExit);
+			move.setTarget(newExit.getDefinition());
 			move.getNextEffects().add(finalEffect);
 			newExit.addBehavior(EAdMouseEventImpl.MOUSE_LEFT_CLICK, move);
 		}
@@ -90,8 +90,8 @@ public abstract class ElementImporter<T> implements
 		Shape shape = ShapedElementImporter.importShape(exit, sceneElement);
 		shape.setPaint(EAdColor.TRANSPARENT);
 
-		sceneElement.getResources().addAsset(sceneElement.getInitialBundle(),
-				EAdBasicSceneElement.appearance, shape);
+		sceneElement.getDefinition().getResources().addAsset(sceneElement.getDefinition().getInitialBundle(),
+				EAdSceneElementDefImpl.appearance, shape);
 	}
 
 	protected EAdCondition getEnableCondition(Conditions c) {

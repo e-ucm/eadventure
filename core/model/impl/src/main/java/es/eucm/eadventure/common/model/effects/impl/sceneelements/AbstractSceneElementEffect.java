@@ -22,7 +22,7 @@ public abstract class AbstractSceneElementEffect extends AbstractEAdEffect
 		return element;
 	}
 
-	public void setSceneElement(EAdSceneElementDef element) {
+	public void setSceneElement(EAdElement element) {
 		this.element = element;
 	}
 

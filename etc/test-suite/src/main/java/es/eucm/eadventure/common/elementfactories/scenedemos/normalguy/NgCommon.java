@@ -4,8 +4,8 @@ import es.eucm.eadventure.common.interfaces.features.enums.Orientation;
 import es.eucm.eadventure.common.model.effects.EAdEffect;
 import es.eucm.eadventure.common.model.effects.impl.variables.EAdChangeFieldValueEffect;
 import es.eucm.eadventure.common.model.elements.EAdSceneElementDef;
+import es.eucm.eadventure.common.model.elements.enums.CommonStates;
 import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
-import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement.CommonStates;
 import es.eucm.eadventure.common.model.elements.impl.EAdSceneElementDefImpl;
 import es.eucm.eadventure.common.model.variables.impl.operations.ValueOperation;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.ImageImpl;
@@ -44,12 +44,10 @@ public class NgCommon {
 		int walkTime = 200;
 		int talkTime = 300;
 
-		mainCharacter = new EAdSceneElementDefImpl();
+		StateDrawableImpl stateDrawables = new StateDrawableImpl();
+		mainCharacter = new EAdSceneElementDefImpl(stateDrawables);
 		mainCharacter.setId("mainCharacter");
 
-		StateDrawableImpl stateDrawables = new StateDrawableImpl();
-		mainCharacter.getResources().addAsset(mainCharacter.getInitialBundle(),
-				EAdBasicSceneElement.appearance, stateDrawables);
 		// Stand
 		OrientedDrawableImpl oriented = new OrientedDrawableImpl();
 		// South

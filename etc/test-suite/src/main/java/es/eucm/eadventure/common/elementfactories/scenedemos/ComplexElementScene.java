@@ -23,12 +23,10 @@ import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.shapes.Re
 public class ComplexElementScene extends EmptyScene {
 
 	public ComplexElementScene() {
-		EAdComplexElementImpl complex = new EAdComplexElementImpl();
-		complex.setId("complex");
 		RectangleShape rectangle = new RectangleShape(400, 400);
 		rectangle.setPaint(EAdPaintImpl.BLACK_ON_WHITE);
-		complex.getResources().addAsset(complex.getInitialBundle(),
-				EAdBasicSceneElement.appearance, rectangle);
+		EAdComplexElementImpl complex = new EAdComplexElementImpl(rectangle);
+		complex.setId("complex");
 		complex.setBounds(400, 400);
 		complex.setPosition(new EAdPositionImpl(Corner.CENTER, 400, 300));
 
@@ -78,8 +76,9 @@ public class ComplexElementScene extends EmptyScene {
 		EAdField<Float> scale = new EAdFieldImpl<Float>(complex,
 				EAdBasicSceneElement.VAR_SCALE);
 
+		complex.setScale(0.5f);
 		EAdInterpolationEffect effect3 = new EAdInterpolationEffect(scale,
-				0.5f, 2.0f, 5000, InterpolationLoopType.REVERSE, InterpolationType.LINEAR);
+				0.0f, 1.5f, 5000, InterpolationLoopType.REVERSE, InterpolationType.LINEAR);
 
 		event2.addEffect(SceneElementEventType.ADDED_TO_SCENE, effect3);
 

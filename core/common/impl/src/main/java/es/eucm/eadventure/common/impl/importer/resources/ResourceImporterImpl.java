@@ -61,6 +61,7 @@ import es.eucm.eadventure.common.data.chapter.conditions.Conditions;
 import es.eucm.eadventure.common.data.chapter.resources.Resources;
 import es.eucm.eadventure.common.impl.importer.interfaces.ResourceImporter;
 import es.eucm.eadventure.common.interfaces.features.Evented;
+import es.eucm.eadventure.common.interfaces.features.Resourced;
 import es.eucm.eadventure.common.loader.InputStreamCreator;
 import es.eucm.eadventure.common.loader.Loader;
 import es.eucm.eadventure.common.model.conditions.impl.ANDCondition;
@@ -69,7 +70,6 @@ import es.eucm.eadventure.common.model.elements.EAdCondition;
 import es.eucm.eadventure.common.model.events.EAdConditionEvent;
 import es.eucm.eadventure.common.model.events.enums.ConditionedEventType;
 import es.eucm.eadventure.common.model.events.impl.EAdConditionEventImpl;
-import es.eucm.eadventure.common.model.impl.ResourcedElementImpl;
 import es.eucm.eadventure.common.predef.model.effects.EAdChangeAppearance;
 import es.eucm.eadventure.common.resources.EAdBundleId;
 import es.eucm.eadventure.common.resources.assets.AssetDescriptor;
@@ -203,7 +203,7 @@ public class ResourceImporterImpl implements ResourceImporter {
 
 	}
 
-	public void importResources(ResourcedElementImpl element,
+	public void importResources(Resourced element,
 			List<Resources> resources, Map<String, String> resourcesStrings,
 			Map<String, Object> resourcesObjectClasses) {
 		int i = 0;
@@ -217,7 +217,7 @@ public class ResourceImporterImpl implements ResourceImporter {
 			if (i == 0) {
 				bundleId = element.getInitialBundle();
 			} else {
-				bundleId = new EAdBundleId(element.getId() + "_bundle_" + i);
+				bundleId = new EAdBundleId("bundle_" + i);
 				element.getResources().addBundle(bundleId);
 			}
 

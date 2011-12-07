@@ -82,8 +82,8 @@ public class BasicSceneElementGO extends
 	 * getDraggableElement(es.eucm.eadventure.engine.core.MouseState)
 	 */
 	public EAdSceneElementDef getDraggableElement(MouseState mouseState) {
-		if (evaluatorFactory.evaluate(element.getDragCond())){
-			return element;
+		if (evaluatorFactory.evaluate(element.getDragCond())) {
+			return element.getDefinition();
 		}
 		return null;
 	}
@@ -98,10 +98,10 @@ public class BasicSceneElementGO extends
 	public boolean processAction(GUIAction action) {
 		EAdList<EAdEffect> list = element.getEffects(action.getGUIEvent());
 		boolean processed = addEffects(list, action);
-		if (element.getDefinition() != element) {
-			list = element.getDefinition().getEffects(action.getGUIEvent());
-			processed |= addEffects(list, action);
-		}
+		
+		list = element.getDefinition().getEffects(action.getGUIEvent());
+		processed |= addEffects(list, action);
+		
 		return processed;
 
 	}
@@ -116,6 +116,5 @@ public class BasicSceneElementGO extends
 		}
 		return false;
 	}
-
 
 }

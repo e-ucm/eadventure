@@ -2,6 +2,7 @@ package es.eucm.eadventure.common.predef.model.sceneelements;
 
 import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
 import es.eucm.eadventure.common.model.elements.impl.EAdComplexElementImpl;
+import es.eucm.eadventure.common.model.elements.impl.EAdSceneElementDefImpl;
 import es.eucm.eadventure.common.model.guievents.impl.EAdMouseEventImpl;
 import es.eucm.eadventure.common.params.EAdFontImpl;
 import es.eucm.eadventure.common.params.EAdString;
@@ -44,22 +45,21 @@ public class EAdButton extends EAdComplexElementImpl {
 		buttonBgNormal.setPaint(new EAdPaintImpl(new EAdLinearGradient(
 				EAdColor.WHITE, lightGray, 0, 20), EAdColor.BLACK));
 		RectangleShape buttonBgOver = new RectangleShape(200, 30);
-		buttonBgOver.setPaint(new EAdPaintImpl(new EAdLinearGradient(
-				lightGray, EAdColor.WHITE, 0, 20), EAdColor.BLACK));
+		buttonBgOver.setPaint(new EAdPaintImpl(new EAdLinearGradient(lightGray,
+				EAdColor.WHITE, 0, 20), EAdColor.BLACK));
 
-		getResources().addAsset(getInitialBundle(),
-				EAdBasicSceneElement.appearance, buttonBgNormal);
+		definition.getResources().addAsset(definition.getInitialBundle(),
+				EAdSceneElementDefImpl.appearance, buttonBgNormal);
 		EAdBundleId over = new EAdBundleId("over");
-		getResources().addBundle(over);
-		getResources().addAsset(over, EAdBasicSceneElement.appearance,
-				buttonBgOver);
+		definition.getResources().addBundle(over);
+		definition.getResources().addAsset(over,
+				EAdSceneElementDefImpl.appearance, buttonBgOver);
 		setPosition(Corner.CENTER, 0, 0);
 
-		
-		EAdChangeAppearance changeAppearance = new EAdChangeAppearance(
-				this, getInitialBundle());
-		EAdChangeAppearance changeAppearance2 = new EAdChangeAppearance(
-				this, over);
+		EAdChangeAppearance changeAppearance = new EAdChangeAppearance(this,
+				definition.getInitialBundle());
+		EAdChangeAppearance changeAppearance2 = new EAdChangeAppearance(this,
+				over);
 		addBehavior(EAdMouseEventImpl.MOUSE_EXITED, changeAppearance);
 		addBehavior(EAdMouseEventImpl.MOUSE_ENTERED, changeAppearance2);
 	}

@@ -38,7 +38,7 @@ public class SpeakEffectGO extends AbstractEffectGO<EAdSpeakEffect> implements
 
 	private SceneElementGO<?> ballon;
 
-	private RuntimeCaption caption;
+	private RuntimeCaption<?> caption;
 
 	private boolean finished;
 
@@ -133,19 +133,15 @@ public class SpeakEffectGO extends AbstractEffectGO<EAdSpeakEffect> implements
 		text.setPreferredHeight(bottom - top);
 		text.setFont(element.getFont());
 
-		textSE = new EAdBasicSceneElement();
+		textSE = new EAdBasicSceneElement(text);
 		textSE.setId("text");
-		textSE.getResources().addAsset(textSE.getInitialBundle(),
-				EAdBasicSceneElement.appearance, text);
 		textSE.setPosition(new EAdPositionImpl(left, top));
 
-		EAdComplexElementImpl complex = new EAdComplexElementImpl();
+		EAdComplexElementImpl complex = new EAdComplexElementImpl(rectangle);
 		complex.setId("complex");
-		complex.getResources().addAsset(complex.getInitialBundle(),
-				EAdBasicSceneElement.appearance, rectangle);
 		complex.getComponents().add(textSE);
 
-		caption = (RuntimeCaption) (sceneElementFactory.get(textSE))
+		caption = (RuntimeCaption<?>) (sceneElementFactory.get(textSE))
 				.getRenderAsset();
 		caption.reset();
 

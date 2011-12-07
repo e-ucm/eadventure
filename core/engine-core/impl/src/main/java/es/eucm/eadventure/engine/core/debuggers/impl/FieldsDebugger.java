@@ -8,6 +8,7 @@ import com.google.inject.Inject;
 
 import es.eucm.eadventure.common.model.EAdElement;
 import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
+import es.eucm.eadventure.common.model.elements.impl.EAdSceneElementDefImpl;
 import es.eucm.eadventure.common.model.variables.EAdVarDef;
 import es.eucm.eadventure.common.model.variables.impl.EAdFieldImpl;
 import es.eucm.eadventure.common.params.EAdFont;
@@ -100,8 +101,8 @@ public class FieldsDebugger implements EAdDebugger {
 					}
 
 					vars.setPosition(10, 10);
-					vars.getResources().addAsset(vars.getInitialBundle(),
-							EAdBasicSceneElement.appearance, d);
+					vars.getDefinition().getResources().addAsset(vars.getDefinition().getInitialBundle(),
+							EAdSceneElementDefImpl.appearance, d);
 
 					gos.add(gameObjectFactory.get(vars));
 				}

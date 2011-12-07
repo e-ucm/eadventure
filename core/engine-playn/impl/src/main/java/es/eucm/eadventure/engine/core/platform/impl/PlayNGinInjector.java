@@ -32,7 +32,6 @@ import es.eucm.eadventure.engine.core.gameobjects.impl.events.ConditionEventGO;
 import es.eucm.eadventure.engine.core.gameobjects.impl.events.SceneElementEventGO;
 import es.eucm.eadventure.engine.core.gameobjects.impl.events.SceneElementTimedEventGO;
 import es.eucm.eadventure.engine.core.gameobjects.impl.events.SystemEventGO;
-import es.eucm.eadventure.engine.core.gameobjects.impl.events.TimerEventGO;
 import es.eucm.eadventure.engine.core.gameobjects.impl.sceneelements.BasicSceneElementGO;
 import es.eucm.eadventure.engine.core.gameobjects.impl.sceneelements.ComplexSceneElementGO;
 import es.eucm.eadventure.engine.core.gameobjects.impl.transitions.SimpleTransitionGO;
@@ -76,7 +75,6 @@ public interface PlayNGinInjector extends Ginjector {
 	public SceneElementEventGO getSceneElementEventGO();
 	public SceneElementTimedEventGO getSceneElementTimedEventGO();
 	public SystemEventGO getSystemEventGO();
-	public TimerEventGO getTimerEventGO();
 	
 	public BasicSceneElementGO getBasicSceneElementGO();
 	public ComplexSceneElementGO getComplexSceneElementGO();

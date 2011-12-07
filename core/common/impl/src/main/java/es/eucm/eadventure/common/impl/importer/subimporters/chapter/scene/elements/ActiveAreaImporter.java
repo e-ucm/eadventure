@@ -119,13 +119,13 @@ public class ActiveAreaImporter extends ElementImporter<ActiveArea> {
 				newActiveAreaReference);
 
 		newActiveArea.getResources().addAsset(newActiveArea.getInitialBundle(),
-				EAdBasicSceneElement.appearance, shape);
+				EAdSceneElementDefImpl.appearance, shape);
 
 		Shape shape2 = ShapedElementImporter.importShape(oldObject,
 				newActiveAreaReference);
 		EAdBundleId id = new EAdBundleId("id");
 		newActiveArea.getResources().addAsset(id,
-				EAdBasicSceneElement.appearance, shape2);
+				EAdSceneElementDefImpl.appearance, shape2);
 		newActiveAreaReference.addBehavior(EAdMouseEventImpl.MOUSE_ENTERED,
 				new EAdChangeAppearance(newActiveArea, id));
 		newActiveAreaReference.addBehavior(

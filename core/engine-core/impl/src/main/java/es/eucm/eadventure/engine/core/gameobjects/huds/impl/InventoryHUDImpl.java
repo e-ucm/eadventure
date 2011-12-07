@@ -6,6 +6,7 @@ import com.google.inject.Singleton;
 import es.eucm.eadventure.common.model.conditions.impl.EmptyCondition;
 import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
 import es.eucm.eadventure.common.model.elements.impl.EAdComplexElementImpl;
+import es.eucm.eadventure.common.model.elements.impl.EAdInventoryImpl;
 import es.eucm.eadventure.common.model.variables.EAdField;
 import es.eucm.eadventure.common.model.variables.impl.EAdFieldImpl;
 import es.eucm.eadventure.common.model.variables.impl.SystemFields;
@@ -32,7 +33,7 @@ import es.eucm.eadventure.engine.core.util.EAdTransformation;
 
 @Singleton
 public class InventoryHUDImpl extends AbstractHUD implements InventoryHUD {
-	
+
 	private static final int TIME_TO_SHOW = 300;
 
 	private enum InventoryState {
@@ -91,9 +92,7 @@ public class InventoryHUDImpl extends AbstractHUD implements InventoryHUD {
 		RectangleShape rectangle = new RectangleShape(width, INVENTORY_HEIGHT);
 		rectangle.setPaint(new EAdColor(200, 200, 200, 100));
 
-		inventory = new EAdComplexElementImpl();
-		inventory.getResources().addAsset(inventory.getInitialBundle(),
-				EAdBasicSceneElement.appearance, rectangle);
+		inventory = new EAdComplexElementImpl(rectangle);
 
 		inventoryDispY = 0.0f;
 		inventoryDispYField = new EAdFieldImpl<Float>(inventory,
@@ -109,7 +108,7 @@ public class InventoryHUDImpl extends AbstractHUD implements InventoryHUD {
 		super.doLayout(t);
 	}
 
-	public void updateState() {
+	private void updateState() {
 		if (mouseState.getMouseY() > guiHeight - INVENTORY_HEIGHT
 				&& state == InventoryState.HIDDEN) {
 			state = InventoryState.GOING_UP;
@@ -160,13 +159,13 @@ public class InventoryHUDImpl extends AbstractHUD implements InventoryHUD {
 				float scale = size / width < size / height ? size / width
 						: size / height;
 
-				
-
 				sceneElementFactory.remove(element);
 
 				element.setDragCond(EmptyCondition.TRUE_EMPTY_CONDITION);
 				element.setVarInitialValue(EAdBasicSceneElement.VAR_SCALE,
 						scale);
+				element.setVarInitialValue(EAdInventoryImpl.VAR_IN_INVENTORY,
+						true);
 
 				inventory.getComponents().add(element);
 
@@ -190,7 +189,7 @@ public class InventoryHUDImpl extends AbstractHUD implements InventoryHUD {
 		CaptionImpl number = new CaptionImpl(new EAdString(
 				StringHandler.TEXTUAL_STRING_PREFIX + count));
 		number.setTextPaint(EAdColor.WHITE);
-		number.setBubblePaint( new EAdColor( 0, 0, 0, 100 ));
+		number.setBubblePaint(new EAdColor(0, 0, 0, 100));
 		number.setPadding(3);
 		number.setFont(counterFont);
 		EAdBasicSceneElement numberElement = new EAdBasicSceneElement(number);

@@ -119,10 +119,10 @@ public class ChapterImporter implements EAdElementImporter<Chapter, EAdChapter> 
 		importElements(oldChapter.getGlobalStates());
 		importElements(oldChapter.getMacros());
 
-		for (Timer timer : oldChapter.getTimers()) {
-			newChapter.getTimers().add(
-					(EAdTimer) elementFactory.getElement("timer", timer));
-		}
+//		for (Timer timer : oldChapter.getTimers()) {
+//			newChapter.getTimers().add(
+//					(EAdTimer) elementFactory.getElement("timer", timer));
+//		}
 
 		// Import player
 		/*
