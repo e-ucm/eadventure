@@ -152,7 +152,7 @@
 >
 
 <!ELEMENT active-areas (active-area+)>
-<!ELEMENT active-area (documentation?, condition?, description, actions?, point*)>
+<!ELEMENT active-area (documentation?, condition?, description+, actions?, point*)>
 <!ATTLIST active-area 
 	id ID #IMPLIED
 	rectangular (yes | no) "yes"
@@ -219,13 +219,13 @@
 <!ATTLIST img
 	src CDATA #REQUIRED
 >
-<!ELEMENT atrezzoobject (documentation?, instance*, resources+, description)>
+<!ELEMENT atrezzoobject (documentation?, instance*, resources+, description+)>
 <!ATTLIST atrezzoobject
 	id ID #IMPLIED
 >
 
 
-<!ELEMENT object (documentation?, instance*, resources+, description, actions?)>
+<!ELEMENT object (documentation?, instance*, resources+, description+, actions?)>
 <!ATTLIST object
 	id ID #IMPLIED
 	returnsWhenDragged ( yes | no) "yes"
@@ -234,7 +234,7 @@
 <!ATTLIST instance
 	id ID #REQUIRED
 >
-<!ELEMENT description (name, brief, detailed)>
+<!ELEMENT description (condition?, name, brief, detailed)>
 <!ELEMENT name (#PCDATA)>
 <!ATTLIST name 
 	soundPath CDATA #IMPLIED
@@ -320,8 +320,8 @@
 	synthesizeAlways (yes | no) "no"
 >
 
-<!ELEMENT player (documentation?, resources+, textcolor?, description, voice?)>
-<!ELEMENT character (documentation?, resources+, textcolor?, description, conversations?, voice?, actions?)>
+<!ELEMENT player (documentation?, resources+, textcolor?, description+, voice?)>
+<!ELEMENT character (documentation?, resources+, textcolor?, description+, conversations?, voice?, actions?)>
 <!ATTLIST character
 	id ID #IMPLIED
 >
@@ -370,6 +370,8 @@
 	keepShowing (yes | no) "no"
 	showUserOption (yes | no) "no"
 	preListening (yes | no) "no"
+	x NMTOKEN "10"
+	y NMTOKEN "480"	
 >
 <!ELEMENT child EMPTY>
 <!ATTLIST child

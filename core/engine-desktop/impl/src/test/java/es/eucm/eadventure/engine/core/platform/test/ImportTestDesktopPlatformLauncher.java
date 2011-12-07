@@ -58,6 +58,8 @@ import es.eucm.eadventure.common.params.EAdURIImpl;
 import es.eucm.eadventure.common.resources.StringHandler;
 import es.eucm.eadventure.engine.core.Game;
 import es.eucm.eadventure.engine.core.GameController;
+import es.eucm.eadventure.engine.core.debuggers.impl.EAdMainDebugger;
+import es.eucm.eadventure.engine.core.debuggers.impl.TrajectoryDebugger;
 import es.eucm.eadventure.engine.core.impl.modules.BasicGameModule;
 import es.eucm.eadventure.engine.core.platform.AssetHandler;
 import es.eucm.eadventure.engine.core.platform.PlatformConfiguration;
@@ -94,7 +96,7 @@ public class ImportTestDesktopPlatformLauncher {
 	}
 
 	public static void main(String[] args) {
-//		EAdMainDebugger.addDebugger(TrajectoryDebugger.class);
+		EAdMainDebugger.addDebugger(TrajectoryDebugger.class);
 //		EAdMainDebugger.addDebugger(FieldsDebugger.class);
 		// try {
 		// UIManager.setLookAndFeel(EAdGUILookAndFeel.getInstance());

@@ -48,6 +48,7 @@
 	keepShowing (yes|no) "yes"
 	defaultClickAction (showDetails | showActions) "showDetails"
 	perspective (regular | isometric) "regular"
+	dragBehaviour (considerNonTargets | ignoreNonTargets) "considerNonTargets"
 >
 <!ELEMENT invalid EMPTY>
 <!ELEMENT gui (cursors?, buttons?, arrows?)>

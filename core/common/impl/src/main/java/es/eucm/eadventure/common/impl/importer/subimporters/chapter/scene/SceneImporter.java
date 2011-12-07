@@ -180,9 +180,7 @@ public class SceneImporter implements EAdElementImporter<Scene, EAdSceneImpl> {
 		if (factory.isFirstPerson()) {
 			return null;
 		} else {
-			EAdSceneElementDef player = (EAdSceneElementDef) factory
-					.getElement(Player.IDENTIFIER, factory
-							.getCurrentOldChapterModel().getPlayer());
+			EAdSceneElementDef player = (EAdSceneElementDef) factory.getElementById(Player.IDENTIFIER);
 			EAdBasicSceneElement playerReference = new EAdBasicSceneElement(
 					player);
 			EAdPositionImpl p = new EAdPositionImpl(
@@ -203,7 +201,7 @@ public class SceneImporter implements EAdElementImporter<Scene, EAdSceneImpl> {
 			int layer = oldScene.getPlayerLayer();
 			
 			
-			if ( layer == -1 ){
+			if ( layer < 0 ){
 				scene.getComponents().add( playerReference );
 			}
 			else {
@@ -274,6 +272,7 @@ public class SceneImporter implements EAdElementImporter<Scene, EAdSceneImpl> {
 		for (ElementReference oldRef : references) {
 			EAdSceneElement newRef = referencesImporter.init(oldRef);
 			newRef = referencesImporter.convert(oldRef, newRef);
+			newRef.setVarInitialValue(EAdBasicSceneElement.VAR_Z, oldRef.getLayer());
 			scene.getComponents().add(newRef);
 		}
 

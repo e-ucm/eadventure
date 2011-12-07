@@ -137,7 +137,7 @@ public abstract class SceneElementGOImpl<T extends EAdSceneElement> extends
 	@Override
 	public void setElement(T element) {
 		super.setElement(element);
-
+		
 		gameState.getValueMap().setValue(element,
 				ResourcedElementImpl.VAR_BUNDLE_ID,
 				element.getDefinition().getInitialBundle());
@@ -495,7 +495,7 @@ public abstract class SceneElementGOImpl<T extends EAdSceneElement> extends
 		else {
 			// FIXME Improve, when has no asset
 			c.setPaint(EAdPaintImpl.BLACK_ON_WHITE);
-			c.fillRect(position.getJavaX(width), position.getJavaX(height),
+			c.fillRect(0, 0,
 					width, height);
 		}
 	}

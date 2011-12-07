@@ -37,6 +37,7 @@
 
 package es.eucm.eadventure.common.impl.importer.interfaces;
 
+import java.awt.Dimension;
 import java.util.List;
 import java.util.Map;
 
@@ -93,4 +94,6 @@ public interface ResourceImporter {
 	 * @return
 	 */
 	String getNewProjecFolder();
+	
+	Dimension getDimensions(String targetId);
 }

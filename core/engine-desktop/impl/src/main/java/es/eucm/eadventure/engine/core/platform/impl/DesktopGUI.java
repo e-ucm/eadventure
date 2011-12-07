@@ -254,13 +254,13 @@ public class DesktopGUI extends AbstractGUI<Graphics2D> implements GUI {
 	protected void setRenderingHints(Graphics2D g) {
 		// TODO test effects, probably should allow disabling
 		setHint(g, RenderingHints.VALUE_ANTIALIAS_ON, RenderingHints.KEY_ANTIALIASING);
-		setHint(g, RenderingHints.VALUE_ALPHA_INTERPOLATION_QUALITY, RenderingHints.KEY_ALPHA_INTERPOLATION);
-		setHint(g, RenderingHints.VALUE_TEXT_ANTIALIAS_ON, RenderingHints.KEY_TEXT_ANTIALIASING);
-		setHint(g, RenderingHints.VALUE_COLOR_RENDER_QUALITY, RenderingHints.KEY_COLOR_RENDERING);
-		setHint(g, RenderingHints.VALUE_FRACTIONALMETRICS_ON, RenderingHints.KEY_FRACTIONALMETRICS);
-		setHint(g, RenderingHints.VALUE_INTERPOLATION_BICUBIC, RenderingHints.KEY_INTERPOLATION);
-		setHint(g, RenderingHints.VALUE_RENDER_QUALITY, RenderingHints.KEY_RENDERING);
-		setHint(g, RenderingHints.VALUE_STROKE_NORMALIZE, RenderingHints.KEY_STROKE_CONTROL);
+//		setHint(g, RenderingHints.VALUE_ALPHA_INTERPOLATION_QUALITY, RenderingHints.KEY_ALPHA_INTERPOLATION);
+//		setHint(g, RenderingHints.VALUE_TEXT_ANTIALIAS_ON, RenderingHints.KEY_TEXT_ANTIALIASING);
+//		setHint(g, RenderingHints.VALUE_COLOR_RENDER_QUALITY, RenderingHints.KEY_COLOR_RENDERING);
+//		setHint(g, RenderingHints.VALUE_FRACTIONALMETRICS_ON, RenderingHints.KEY_FRACTIONALMETRICS);
+//		setHint(g, RenderingHints.VALUE_INTERPOLATION_BICUBIC, RenderingHints.KEY_INTERPOLATION);
+//		setHint(g, RenderingHints.VALUE_RENDER_QUALITY, RenderingHints.KEY_RENDERING);
+//		setHint(g, RenderingHints.VALUE_STROKE_NORMALIZE, RenderingHints.KEY_STROKE_CONTROL);
 	}
 
 	/*

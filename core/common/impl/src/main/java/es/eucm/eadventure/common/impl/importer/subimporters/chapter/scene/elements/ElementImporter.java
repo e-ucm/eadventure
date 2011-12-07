@@ -36,6 +36,8 @@ import es.eucm.eadventure.common.resources.assets.drawable.basics.enums.Alignmen
 public abstract class ElementImporter<T> implements
 		EAdElementImporter<T, EAdSceneElement> {
 
+	private static final int INFLUENCE_MARGIN = 15;
+
 	protected EAdElementFactory factory;
 
 	protected EAdElementImporter<Conditions, EAdCondition> conditionsImporter;
@@ -76,7 +78,10 @@ public abstract class ElementImporter<T> implements
 					influenceArea.getY() + bounds.getY(),
 					influenceArea.getWidth(), influenceArea.getHeight());
 		} else {
-			rect = bounds;
+			rect = new EAdRectangleImpl(bounds.getX() - INFLUENCE_MARGIN,
+					bounds.getY() - INFLUENCE_MARGIN, bounds.getWidth()
+							+ INFLUENCE_MARGIN * 2, bounds.getHeight()
+							+ INFLUENCE_MARGIN * 2);
 		}
 		sceneElement.setVarInitialValue(
 				NodeTrajectoryDefinition.VAR_INFLUENCE_AREA, rect);
@@ -113,8 +118,8 @@ public abstract class ElementImporter<T> implements
 		if (oldObject.getDescriptions().size() > 0) {
 			Description desc = oldObject.getDescription(0);
 			stringHandler.setString(newElement.getName(), desc.getName());
-			stringHandler.setString(newElement.getDesc(),
-					desc.getDescription());
+			stringHandler
+					.setString(newElement.getDesc(), desc.getDescription());
 			stringHandler.setString(newElement.getDetailDesc(),
 					desc.getDetailedDescription());
 			stringHandler.setString(newElement.getDoc(),

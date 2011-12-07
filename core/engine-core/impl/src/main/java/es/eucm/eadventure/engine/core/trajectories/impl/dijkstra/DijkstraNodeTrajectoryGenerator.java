@@ -399,9 +399,9 @@ public class DijkstraNodeTrajectoryGenerator implements
 		// TODO check if the position of the element isn't relevant (i.e. if the
 		// position of the rectangle is not relative to the element)
 		if (rectangle.getX() < position.getX()
-				&& rectangle.getY() < position.getY()
-				&& rectangle.getX() + rectangle.getWidth() > position.getX()
-				&& rectangle.getY() + rectangle.getHeight() > position.getY())
+				&& rectangle.getY() <= position.getY()
+				&& rectangle.getX() + rectangle.getWidth() >= position.getX()
+				&& rectangle.getY() + rectangle.getHeight() >= position.getY())
 			return true;
 		return false;
 	}

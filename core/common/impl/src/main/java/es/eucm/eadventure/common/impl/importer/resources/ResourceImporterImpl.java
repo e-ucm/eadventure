@@ -37,6 +37,8 @@
 
 package es.eucm.eadventure.common.impl.importer.resources;
 
+import java.awt.Dimension;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -50,6 +52,8 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import javax.imageio.ImageIO;
+
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
@@ -58,6 +62,7 @@ import es.eucm.eadventure.common.GenericImporter;
 import es.eucm.eadventure.common.data.animation.Animation;
 import es.eucm.eadventure.common.data.animation.ImageLoaderFactory;
 import es.eucm.eadventure.common.data.chapter.conditions.Conditions;
+import es.eucm.eadventure.common.data.chapter.elements.Item;
 import es.eucm.eadventure.common.data.chapter.resources.Resources;
 import es.eucm.eadventure.common.impl.importer.interfaces.ResourceImporter;
 import es.eucm.eadventure.common.interfaces.features.Evented;
@@ -203,8 +208,8 @@ public class ResourceImporterImpl implements ResourceImporter {
 
 	}
 
-	public void importResources(Resourced element,
-			List<Resources> resources, Map<String, String> resourcesStrings,
+	public void importResources(Resourced element, List<Resources> resources,
+			Map<String, String> resourcesStrings,
 			Map<String, Object> resourcesObjectClasses) {
 		int i = 0;
 		EAdCondition previousCondition = null;
@@ -244,7 +249,8 @@ public class ResourceImporterImpl implements ResourceImporter {
 			if (element instanceof Evented) {
 
 				EAdConditionEvent conditionEvent = new EAdConditionEventImpl();
-				conditionEvent.setId(bundleId.getBundleId() + "_condition_" + i);
+				conditionEvent
+						.setId(bundleId.getBundleId() + "_condition_" + i);
 
 				EAdCondition condition = conditionsImporter.init(r
 						.getConditions());
@@ -262,11 +268,10 @@ public class ResourceImporterImpl implements ResourceImporter {
 				conditionEvent.setCondition(condition);
 
 				EAdChangeAppearance changeAppereance = new EAdChangeAppearance(
-						 null,
-						bundleId);
-				changeAppereance.setId(conditionEvent.getId() + "change_appearence");
-				conditionEvent.addEffect(
-						ConditionedEventType.CONDITIONS_MET,
+						null, bundleId);
+				changeAppereance.setId(conditionEvent.getId()
+						+ "change_appearence");
+				conditionEvent.addEffect(ConditionedEventType.CONDITIONS_MET,
 						changeAppereance);
 
 				((Evented) element).getEvents().add(conditionEvent);
@@ -382,6 +387,28 @@ public class ResourceImporterImpl implements ResourceImporter {
 		}
 		return exists;
 
+	}
+
+	public BufferedImage loadImage(String oldUri) {
+		try {
+			return ImageIO.read(inputStreamCreator.buildInputStream(oldUri));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	@Override
+	public Dimension getDimensions(String imageUri) {
+		if (imageUri != null) {
+			BufferedImage image = loadImage(imageUri);
+			if (image != null) {
+				Dimension d = new Dimension(image.getWidth(), image.getHeight());
+				image.flush();
+				return d;
+			}
+		}
+		return new Dimension(100, 100);
 	}
 
 }

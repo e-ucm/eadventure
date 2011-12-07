@@ -11,6 +11,7 @@ import es.eucm.eadventure.common.model.guievents.impl.EAdKeyEventImpl;
 import es.eucm.eadventure.common.model.guievents.impl.EAdMouseEventImpl;
 import es.eucm.eadventure.common.model.trajectories.TrajectoryDefinition;
 import es.eucm.eadventure.common.model.trajectories.impl.NodeTrajectoryDefinition;
+import es.eucm.eadventure.common.model.trajectories.impl.Side;
 import es.eucm.eadventure.common.model.variables.impl.EAdFieldImpl;
 import es.eucm.eadventure.common.model.variables.impl.operations.ValueOperation;
 import es.eucm.eadventure.common.params.fills.impl.EAdColor;
@@ -47,9 +48,13 @@ public class TrajectoriesScene extends EmptyScene {
 		getBackground().addBehavior(EAdMouseEventImpl.MOUSE_LEFT_CLICK,
 				new EAdMoveActiveElement());
 
-		createTrajectory1();
-		createTrajectory2();
-		createTrajectory3();
+		EAdChangeFieldValueEffect changeSide = new EAdChangeFieldValueEffect();
+		changeSide.addField(new EAdFieldImpl<Side>( element, NodeTrajectoryDefinition.VAR_CURRENT_SIDE));
+		changeSide.setOperation(new ValueOperation( null ));
+		
+		createTrajectory1(changeSide);
+		createTrajectory2(changeSide);
+		createTrajectory3(changeSide);
 
 	}
 
@@ -57,7 +62,7 @@ public class TrajectoriesScene extends EmptyScene {
 		return "" + (max * i + j);
 	}
 
-	private void createTrajectory1() {
+	private void createTrajectory1(EAdChangeFieldValueEffect changeSide) {
 		NodeTrajectoryDefinition trajectory = new NodeTrajectoryDefinition();
 		trajectory.addNode("0", 50, 300, 3.0f);
 		trajectory.addNode("1", 750, 300, 1.0f);
@@ -71,11 +76,13 @@ public class TrajectoriesScene extends EmptyScene {
 
 		getBackground().addBehavior(
 				new EAdKeyEventImpl(KeyActionType.KEY_PRESSED, '1'), effect);
+		
+		effect.getNextEffects().add(changeSide);
 
 		setTrajectoryDefinition(trajectory);
 	}
 
-	private void createTrajectory2() {
+	private void createTrajectory2(EAdChangeFieldValueEffect changeSide) {
 		NodeTrajectoryDefinition trajectory = new NodeTrajectoryDefinition();
 		int margin = 60;
 		for (int i = 0; i < 4; i++)
@@ -118,12 +125,14 @@ public class TrajectoriesScene extends EmptyScene {
 		effect.addField(new EAdFieldImpl<TrajectoryDefinition>(this,
 				EAdSceneImpl.VAR_TRAJECTORY_DEFINITION));
 		effect.setOperation(new ValueOperation(trajectory));
+		
+		effect.getNextEffects().add(changeSide);
 
 		getBackground().addBehavior(
 				new EAdKeyEventImpl(KeyActionType.KEY_PRESSED, '2'), effect);
 	}
 
-	private void createTrajectory3() {
+	private void createTrajectory3(EAdChangeFieldValueEffect changeSide) {
 		NodeTrajectoryDefinition trajectory = new NodeTrajectoryDefinition();
 		trajectory.addNode("0", 50, 200, 3.0f);
 		trajectory.addNode("1", 750, 200, 1.0f);
@@ -137,6 +146,7 @@ public class TrajectoriesScene extends EmptyScene {
 		effect.addField(new EAdFieldImpl<TrajectoryDefinition>(this,
 				EAdSceneImpl.VAR_TRAJECTORY_DEFINITION));
 		effect.setOperation(new ValueOperation(trajectory));
+		effect.getNextEffects().add(changeSide);
 
 		getBackground().addBehavior(
 				new EAdKeyEventImpl(KeyActionType.KEY_PRESSED, '3'), effect);

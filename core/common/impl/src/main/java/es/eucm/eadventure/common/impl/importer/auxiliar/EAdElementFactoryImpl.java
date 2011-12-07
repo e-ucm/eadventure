@@ -37,6 +37,7 @@
 
 package es.eucm.eadventure.common.impl.importer.auxiliar;
 
+import java.awt.Dimension;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -52,6 +53,7 @@ import es.eucm.eadventure.common.data.chapter.Chapter;
 import es.eucm.eadventure.common.data.chapter.conditions.Condition;
 import es.eucm.eadventure.common.data.chapter.conditions.Conditions;
 import es.eucm.eadventure.common.data.chapter.conversation.Conversation;
+import es.eucm.eadventure.common.data.chapter.elements.Item;
 import es.eucm.eadventure.common.impl.importer.interfaces.EAdElementFactory;
 import es.eucm.eadventure.common.impl.importer.interfaces.ResourceImporter;
 import es.eucm.eadventure.common.model.EAdElement;
