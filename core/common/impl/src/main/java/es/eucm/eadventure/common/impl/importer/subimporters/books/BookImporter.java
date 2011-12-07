@@ -54,6 +54,7 @@ import es.eucm.eadventure.common.resources.EAdBundleId;
 import es.eucm.eadventure.common.resources.StringHandler;
 import es.eucm.eadventure.common.resources.assets.AssetDescriptor;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.Image;
+import es.eucm.eadventure.common.resources.assets.drawable.basics.enums.Alignment;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.CaptionImpl;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.ImageImpl;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.shapes.CircleShape;
@@ -105,6 +106,8 @@ public class BookImporter implements EAdElementImporter<Book, EAdScene> {
 	 */
 	public static final int TITLE_HEIGHT = 50;
 
+	private static final String HTML_NOT_SUPPORTED = "Sorry. HTML Books are no longer supported by eAdventure.";
+
 	private FontRenderContext frc = new FontRenderContext(null, true, true);
 	private Font titleFont = new Font("Arial", Font.PLAIN, 33);
 	private EAdFont titleEAdFont = new EAdFontImpl("Arial", 33, FontStyle.PLAIN);
@@ -152,50 +155,57 @@ public class BookImporter implements EAdElementImporter<Book, EAdScene> {
 		column = 0;
 		image = new ComposedDrawableImpl();
 
-		for (BookParagraph p : oldObject.getParagraphs()) {
-			if (p.getContent() != null && !p.getContent().equals(""))
-				switch (p.getType()) {
-				case BookParagraph.TITLE:
-					addTextDrawable(p.getContent(), titleFont, titleEAdFont, 0,
-							TITLE_HEIGHT, TEXT_WIDTH);
-					break;
-				case BookParagraph.TEXT:
-					addTextDrawable(p.getContent(), textFont, textEAdFont, 0,
-							LINE_HEIGHT, TEXT_WIDTH);
-					break;
-				case BookParagraph.BULLET:
-					if (dispY + LINE_HEIGHT > PAGE_TEXT_HEIGHT) {
-						column++;
-						dispY = TEXT_Y;
-					}
-					CircleShape bullet = new CircleShape(0, 0,
-							BULLET_WIDTH / 3, 20);
-					bullet.setPaint(EAdColor.BLACK);
-					image.addDrawable(bullet, getDispX() + BULLET_WIDTH / 2,
-							dispY + LINE_HEIGHT / 2);
-					addTextDrawable(p.getContent(), textFont, textEAdFont,
-							BULLET_WIDTH, LINE_HEIGHT, TEXT_WIDTH_BULLET);
-					break;
-				case BookParagraph.IMAGE:
-					Image i = (Image) resourceImporter.getAssetDescritptor(
-							p.getContent(), ImageImpl.class);
-					try {
-						BufferedImage im = ImageIO.read(new File(
-								resourceImporter.getNewProjecFolder(), i
-										.getUri().toString().substring(1)));
-						int height = im.getHeight();
-						if (dispY + height > PAGE_TEXT_HEIGHT) {
+		if (oldObject.getType() == Book.TYPE_PAGES) {
+			CaptionImpl captionImpl = new CaptionImpl();
+			captionImpl.setAlignment(Alignment.CENTER);
+			stringHandler.setString(captionImpl.getLabel(), HTML_NOT_SUPPORTED);
+			image.addDrawable(captionImpl, 800, 600);
+		} else
+			for (BookParagraph p : oldObject.getParagraphs()) {
+				if (p.getContent() != null && !p.getContent().equals(""))
+					switch (p.getType()) {
+					case BookParagraph.TITLE:
+						addTextDrawable(p.getContent(), titleFont,
+								titleEAdFont, 0, TITLE_HEIGHT, TEXT_WIDTH);
+						break;
+					case BookParagraph.TEXT:
+						addTextDrawable(p.getContent(), textFont, textEAdFont,
+								0, LINE_HEIGHT, TEXT_WIDTH);
+						break;
+					case BookParagraph.BULLET:
+						if (dispY + LINE_HEIGHT > PAGE_TEXT_HEIGHT) {
 							column++;
 							dispY = TEXT_Y;
 						}
-						image.addDrawable(i, getDispX(), dispY);
-						dispY += height;
-					} catch (IOException e) {
-						e.printStackTrace();
+						CircleShape bullet = new CircleShape(0, 0,
+								BULLET_WIDTH / 3, 20);
+						bullet.setPaint(EAdColor.BLACK);
+						image.addDrawable(bullet,
+								getDispX() + BULLET_WIDTH / 2, dispY
+										+ LINE_HEIGHT / 2);
+						addTextDrawable(p.getContent(), textFont, textEAdFont,
+								BULLET_WIDTH, LINE_HEIGHT, TEXT_WIDTH_BULLET);
+						break;
+					case BookParagraph.IMAGE:
+						Image i = (Image) resourceImporter.getAssetDescritptor(
+								p.getContent(), ImageImpl.class);
+						try {
+							BufferedImage im = ImageIO.read(new File(
+									resourceImporter.getNewProjecFolder(), i
+											.getUri().toString().substring(1)));
+							int height = im.getHeight();
+							if (dispY + height > PAGE_TEXT_HEIGHT) {
+								column++;
+								dispY = TEXT_Y;
+							}
+							image.addDrawable(i, getDispX(), dispY);
+							dispY += height;
+						} catch (IOException e) {
+							e.printStackTrace();
+						}
+						break;
 					}
-					break;
-				}
-		}
+			}
 
 		EAdBasicSceneElement content = new EAdBasicSceneElement(image);
 		content.setId(oldObject.getId() + "_content");
@@ -395,8 +405,8 @@ public class BookImporter implements EAdElementImporter<Book, EAdScene> {
 		change1.setId("changeArrowOver");
 		arrow.addBehavior(EAdMouseEventImpl.MOUSE_ENTERED, change1);
 
-		EAdChangeAppearance change2 = new EAdChangeAppearance(arrow,
-				arrow.getDefinition().getInitialBundle());
+		EAdChangeAppearance change2 = new EAdChangeAppearance(arrow, arrow
+				.getDefinition().getInitialBundle());
 		change2.setId("changeArrowOver");
 		arrow.addBehavior(EAdMouseEventImpl.MOUSE_EXITED, change2);
 
