@@ -37,8 +37,9 @@
 
 package es.eucm.eadventure.common.impl.importer.auxiliar;
 
-import java.awt.Dimension;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import com.google.inject.Inject;
@@ -53,13 +54,13 @@ import es.eucm.eadventure.common.data.chapter.Chapter;
 import es.eucm.eadventure.common.data.chapter.conditions.Condition;
 import es.eucm.eadventure.common.data.chapter.conditions.Conditions;
 import es.eucm.eadventure.common.data.chapter.conversation.Conversation;
-import es.eucm.eadventure.common.data.chapter.elements.Item;
 import es.eucm.eadventure.common.impl.importer.interfaces.EAdElementFactory;
 import es.eucm.eadventure.common.impl.importer.interfaces.ResourceImporter;
 import es.eucm.eadventure.common.model.EAdElement;
 import es.eucm.eadventure.common.model.effects.EAdEffect;
 import es.eucm.eadventure.common.model.elements.EAdChapter;
 import es.eucm.eadventure.common.model.elements.EAdCondition;
+import es.eucm.eadventure.common.model.elements.EAdSceneElementDef;
 import es.eucm.eadventure.common.model.variables.EAdField;
 import es.eucm.eadventure.common.model.variables.impl.EAdFieldImpl;
 import es.eucm.eadventure.common.model.variables.impl.EAdVarDefImpl;
@@ -73,6 +74,7 @@ public class EAdElementFactoryImpl implements EAdElementFactory {
 	private Map<String, Map<String, EAdElement>> elements;
 	private Map<String, Map<String, EAdField<?>>> chapterVars;
 	private Map<String, Map<String, EAdCondition>> chapterGlobalStates;
+	private List<EAdSceneElementDef> draggableActors;
 
 	private Map<String, Object> oldType;
 
@@ -94,6 +96,7 @@ public class EAdElementFactoryImpl implements EAdElementFactory {
 			EAdElementImporter<Conversation, EAdEffect> conversationImporter,
 			Injector injector) {
 		this.conditionImporter = conditionImporter;
+		draggableActors = new ArrayList<EAdSceneElementDef>();
 		elements = new HashMap<String, Map<String, EAdElement>>();
 		chapterVars = new HashMap<String, Map<String, EAdField<?>>>();
 		chapterGlobalStates = new HashMap<String, Map<String, EAdCondition>>();
@@ -128,7 +131,7 @@ public class EAdElementFactoryImpl implements EAdElementFactory {
 		return newElement;
 	}
 
-	private Map<String, EAdElement> getChapterElements() {
+	public Map<String, EAdElement> getChapterElements() {
 		Map<String, EAdElement> chapterElements = elements.get(currentChapter
 				.getId());
 
@@ -163,6 +166,7 @@ public class EAdElementFactoryImpl implements EAdElementFactory {
 	public void setCurrentChapterModel(EAdChapter chapter, Chapter oldChapter) {
 		this.currentChapter = chapter;
 		this.currentOldChapter = oldChapter;
+		draggableActors.clear();
 
 	}
 
@@ -252,6 +256,19 @@ public class EAdElementFactoryImpl implements EAdElementFactory {
 
 		}
 		return defaultCursor;
+	}
+
+	@Override
+	public void addDraggableActor(EAdSceneElementDef actor) {
+		if ( !draggableActors.contains(actor)){
+			draggableActors.add(actor);
+		}
+		
+	}
+
+	@Override
+	public boolean isDraggableActor(EAdSceneElementDef actor) {
+		return draggableActors.contains(actor);
 	}
 
 }

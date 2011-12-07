@@ -54,8 +54,6 @@ import es.eucm.eadventure.common.model.elements.EAdSceneElementDef;
 import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
 import es.eucm.eadventure.common.model.elements.impl.EAdSceneElementDefImpl;
 import es.eucm.eadventure.common.model.guievents.impl.EAdMouseEventImpl;
-import es.eucm.eadventure.common.predef.model.effects.EAdChangeAppearance;
-import es.eucm.eadventure.common.resources.EAdBundleId;
 import es.eucm.eadventure.common.resources.StringHandler;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.Shape;
 
@@ -96,7 +94,7 @@ public class ActiveAreaImporter extends ElementImporter<ActiveArea> {
 		setDocumentation(newActiveArea, oldObject);
 
 		// set shape
-		setShape(newActiveAreaReference, newActiveArea, oldObject);
+		setShape(newActiveArea, oldObject);
 
 		// set influence area
 		addInfluenceArea(newActiveAreaReference, oldObject,
@@ -113,26 +111,11 @@ public class ActiveAreaImporter extends ElementImporter<ActiveArea> {
 		return newActiveAreaReference;
 	}
 
-	private void setShape(EAdBasicSceneElement newActiveAreaReference,
-			EAdSceneElementDef newActiveArea, ActiveArea oldObject) {
-		Shape shape = ShapedElementImporter.importShape(oldObject,
-				newActiveAreaReference);
+	private void setShape(EAdSceneElementDef newActiveArea, ActiveArea oldObject) {
+		Shape shape = ShapedElementImporter.importShape(oldObject);
 
 		newActiveArea.getResources().addAsset(newActiveArea.getInitialBundle(),
 				EAdSceneElementDefImpl.appearance, shape);
-
-		Shape shape2 = ShapedElementImporter.importShape(oldObject,
-				newActiveAreaReference);
-		EAdBundleId id = new EAdBundleId("id");
-		newActiveArea.getResources().addAsset(id,
-				EAdSceneElementDefImpl.appearance, shape2);
-		newActiveAreaReference.addBehavior(EAdMouseEventImpl.MOUSE_ENTERED,
-				new EAdChangeAppearance(newActiveArea, id));
-		newActiveAreaReference.addBehavior(
-				EAdMouseEventImpl.MOUSE_EXITED,
-				new EAdChangeAppearance(newActiveArea, newActiveArea
-						.getInitialBundle()));
-
 	}
 
 	private void addActions(ActiveArea oldObject,

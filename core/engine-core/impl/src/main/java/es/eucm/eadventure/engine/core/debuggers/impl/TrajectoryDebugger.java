@@ -124,6 +124,7 @@ public class TrajectoryDebugger implements EAdDebugger {
 				shape.setPaint(p);
 				
 				EAdBasicSceneElement area = new EAdBasicSceneElement(shape);
+				area.setVarInitialValue(EAdBasicSceneElement.VAR_ENABLE, false);
 				area.setPosition(rectangle.getX(), rectangle.getY());
 				gameObjects.add(sceneElementFactory.get(area));
 			}

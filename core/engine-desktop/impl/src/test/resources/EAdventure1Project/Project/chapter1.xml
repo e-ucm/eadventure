@@ -15,11 +15,12 @@
 			</exit>
 		</exits>
 		<objects>
-			<object-ref hasInfluenceArea="yes" idTarget="ItemId3" influenceHeight="193" influenceWidth="124" influenceX="-9" influenceY="-17" layer="3" scale="2.175" x="276" y="243"/>
-			<object-ref hasInfluenceArea="yes" idTarget="ItemId1" influenceHeight="128" influenceWidth="259" influenceX="-18" influenceY="-16" layer="0" scale="5.5" x="61" y="385"/>
+			<object-ref hasInfluenceArea="yes" idTarget="Bomb2" influenceHeight="193" influenceWidth="124" influenceX="-9" influenceY="-17" layer="4" scale="2.175" x="276" y="243"/>
+			<object-ref hasInfluenceArea="yes" idTarget="Bomberman" influenceHeight="128" influenceWidth="259" influenceX="-18" influenceY="-16" layer="1" scale="5.5" x="61" y="385"/>
+			<object-ref hasInfluenceArea="yes" idTarget="Peter" influenceHeight="221" influenceWidth="225" influenceX="-13" influenceY="-26" layer="0" scale="1.0" x="612" y="533"/>
 		</objects>
 		<characters>
-			<character-ref hasInfluenceArea="yes" idTarget="CharacterId" influenceHeight="199" influenceWidth="128" influenceX="-13" influenceY="-24" layer="2" scale="1.0" x="508" y="192"/>
+			<character-ref hasInfluenceArea="yes" idTarget="CharacterId" influenceHeight="199" influenceWidth="128" influenceX="-13" influenceY="-24" layer="3" scale="1.0" x="508" y="192"/>
 		</characters>
 		<active-areas>
 			<active-area hasInfluenceArea="yes" height="100" id="IdObject" influenceHeight="189" influenceWidth="139" influenceX="-14" influenceY="-64" rectangular="yes" width="100" x="552" y="401">
@@ -34,7 +35,7 @@
 			<barrier height="97" width="54" x="280" y="367"/>
 		</barriers>
 		<atrezzo>
-			<atrezzo-ref idTarget="AtrezzoId" layer="1" scale="0.6229508" x="118" y="187"/>
+			<atrezzo-ref idTarget="AtrezzoId" layer="2" scale="0.6229508" x="118" y="187"/>
 		</atrezzo>
 		<trajectory>
 			<node id="node9091" scale="3.4" x="221" y="383"/>
@@ -99,7 +100,7 @@
 			<bullet>E-learning is also utilized by public K-12 schools in the United States. Some E-Learning environments take place in a traditional classroom, others allow students to attend classes from home or other locations. There are several states that are utilizing cyber and virtual school platforms for E-learning across the country that continued to increase. Virtual school enables students to log into synchronous learning or asynchronous learning courses anywhere there is an internet connection. Technology kits are usually provided that include computers, printers, and reimbursement for home internet use. Students are to use technology for school use only and must meet weekly work submission requirements. Teachers employed by K-12 online public cyber schools must be certified teachers in the state they are teaching in. Cyber schools allow for students to maintain their own pacing and progress, course selection, and provides the flexibility for students to create their own schedule.[citation needed]</bullet>
 		</text>
 	</book>
-	<object id="ItemId" returnsWhenDragged="yes">
+	<object id="Peter" returnsWhenDragged="yes">
 		<documentation>This a nice blond guy. All natural.</documentation>
 		<resources name="No name">
 			<asset type="icon" uri="assets/special/EmptyIcon.png"/>
@@ -133,7 +134,7 @@
 			</examine>
 		</actions>
 	</object>
-	<object id="ItemId1" returnsWhenDragged="yes">
+	<object id="Bomberman" returnsWhenDragged="yes">
 		<resources name="No name">
 			<asset type="icon" uri="assets/special/EmptyIcon.png"/>
 			<asset type="image" uri="assets/image/bomberman.jpg"/>
@@ -165,9 +166,15 @@
 					<condition/>
 				</effect>
 			</use>
+			<drag-to idTarget="Peter" keepDistance="0" needsGoTo="no" not-effects="no">
+				<effect>
+					<speak-player>Drag &amp; drop working!</speak-player>
+					<condition/>
+				</effect>
+			</drag-to>
 		</actions>
 	</object>
-	<object id="ItemId2" returnsWhenDragged="yes">
+	<object id="Bomb" returnsWhenDragged="yes">
 		<resources name="No name">
 			<asset type="icon" uri="assets/special/EmptyIcon.png"/>
 			<asset type="image" uri="assets/image/bomb.png"/>
@@ -186,7 +193,7 @@
 			</use>
 		</actions>
 	</object>
-	<object id="ItemId3" returnsWhenDragged="yes">
+	<object id="Bomb2" returnsWhenDragged="yes">
 		<resources name="No name">
 			<asset type="icon" uri="assets/special/EmptyIcon.png"/>
 			<asset type="image" uri="assets/image/bomb.png"/>

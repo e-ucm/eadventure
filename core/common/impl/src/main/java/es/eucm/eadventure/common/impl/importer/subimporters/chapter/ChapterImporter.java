@@ -45,6 +45,8 @@ import es.eucm.eadventure.common.EAdElementImporter;
 import es.eucm.eadventure.common.data.HasId;
 import es.eucm.eadventure.common.data.chapter.Chapter;
 import es.eucm.eadventure.common.data.chapter.effects.Macro;
+import es.eucm.eadventure.common.data.chapter.elements.ActiveArea;
+import es.eucm.eadventure.common.data.chapter.scenes.Scene;
 import es.eucm.eadventure.common.impl.importer.interfaces.EAdElementFactory;
 import es.eucm.eadventure.common.model.elements.EAdChapter;
 import es.eucm.eadventure.common.model.elements.EAdScene;
@@ -93,6 +95,7 @@ public class ChapterImporter implements EAdElementImporter<Chapter, EAdChapter> 
 		stringHandler.setString(newChapter.getDescription(),
 				oldChapter.getDescription());
 
+		registerActiveAreas(oldChapter.getScenes());
 		registerOldElements(oldChapter.getAtrezzo());
 		registerOldElements(oldChapter.getItems());
 		registerOldElements(oldChapter.getCharacters());
@@ -105,6 +108,7 @@ public class ChapterImporter implements EAdElementImporter<Chapter, EAdChapter> 
 		elementFactory.registerOldElement(oldChapter.getPlayer().getId(),
 				oldChapter.getPlayer());
 
+		importActiveAreas( oldChapter.getScenes() );
 		importElements(oldChapter.getAtrezzo());
 		importElements(oldChapter.getItems());
 		importElements(oldChapter.getCharacters());
@@ -153,6 +157,14 @@ public class ChapterImporter implements EAdElementImporter<Chapter, EAdChapter> 
 		scene.getEvents().add(event);
 
 	}
+	
+	private void registerActiveAreas(List<Scene> scenes) {
+		for ( Scene s: scenes ){
+			for ( ActiveArea a: s.getActiveAreas() ){
+				elementFactory.registerOldElement(a.getId(), a);
+			}
+		}
+	}
 
 	private void registerOldElements(List<? extends HasId> list) {
 		for (HasId element : list)
@@ -172,6 +184,14 @@ public class ChapterImporter implements EAdElementImporter<Chapter, EAdChapter> 
 	private void importElementsMacro(List<Macro> list) {
 		for (Macro element : list)
 			elementFactory.getElementById(element.getId());
+	}
+	
+	private void importActiveAreas(List<Scene> scenes) {
+		for ( Scene s: scenes ){
+			for ( ActiveArea a: s.getActiveAreas() ){
+				elementFactory.getElementById(a.getId());
+			}
+		}
 	}
 
 }

@@ -36,7 +36,7 @@ import es.eucm.eadventure.common.resources.assets.drawable.basics.enums.Alignmen
 public abstract class ElementImporter<T> implements
 		EAdElementImporter<T, EAdSceneElement> {
 
-	private static final int INFLUENCE_MARGIN = 15;
+	private static final int INFLUENCE_MARGIN = 20;
 
 	protected EAdElementFactory factory;
 
@@ -94,7 +94,8 @@ public abstract class ElementImporter<T> implements
 	}
 
 	protected void setShape(EAdBasicSceneElement sceneElement, Rectangle exit) {
-		Shape shape = ShapedElementImporter.importShape(exit, sceneElement);
+		Shape shape = ShapedElementImporter.importShape(exit);
+		sceneElement.setPosition(exit.getX(), exit.getY());
 		shape.setPaint(EAdColor.TRANSPARENT);
 
 		sceneElement

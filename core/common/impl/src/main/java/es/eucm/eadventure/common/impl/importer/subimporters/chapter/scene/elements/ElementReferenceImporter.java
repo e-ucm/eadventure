@@ -49,6 +49,7 @@ import es.eucm.eadventure.common.data.chapter.elements.NPC;
 import es.eucm.eadventure.common.impl.importer.interfaces.EAdElementFactory;
 import es.eucm.eadventure.common.impl.importer.interfaces.ResourceImporter;
 import es.eucm.eadventure.common.interfaces.features.enums.Orientation;
+import es.eucm.eadventure.common.model.conditions.impl.EmptyCondition;
 import es.eucm.eadventure.common.model.elements.EAdCondition;
 import es.eucm.eadventure.common.model.elements.EAdSceneElement;
 import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
@@ -116,6 +117,11 @@ public class ElementReferenceImporter extends ElementImporter<ElementReference> 
 			// add enable
 			super.addEnableEvent(newRef,
 					super.getEnableCondition(oldObject.getConditions()));
+			
+			// add dragable
+			if ( factory.isDraggableActor( actor ) ){
+				newRef.setDragCond(EmptyCondition.TRUE_EMPTY_CONDITION);
+			}
 		} else {
 			newRef.setVarInitialValue(EAdBasicSceneElement.VAR_ENABLE,
 					Boolean.FALSE);

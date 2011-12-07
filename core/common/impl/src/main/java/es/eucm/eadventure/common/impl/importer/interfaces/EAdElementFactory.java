@@ -37,11 +37,14 @@
 
 package es.eucm.eadventure.common.impl.importer.interfaces;
 
+import java.util.Map;
+
 import es.eucm.eadventure.common.data.adventure.AdventureData;
 import es.eucm.eadventure.common.data.chapter.Chapter;
 import es.eucm.eadventure.common.model.EAdElement;
 import es.eucm.eadventure.common.model.elements.EAdChapter;
 import es.eucm.eadventure.common.model.elements.EAdCondition;
+import es.eucm.eadventure.common.model.elements.EAdSceneElementDef;
 import es.eucm.eadventure.common.model.variables.EAdField;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.Image;
 
@@ -126,6 +129,12 @@ public interface EAdElementFactory {
 	AdventureData getOldDataModel();
 	
 	Image getDefaultCursor();
+	
+	Map<String, EAdElement> getChapterElements();
+
+	void addDraggableActor(EAdSceneElementDef actor);
+
+	boolean isDraggableActor(EAdSceneElementDef actor);
 
 
 }

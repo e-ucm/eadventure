@@ -40,9 +40,7 @@ package es.eucm.eadventure.common.impl.importer.subimporters.chapter.scene;
 import java.awt.Point;
 
 import es.eucm.eadventure.common.data.chapter.Rectangle;
-import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
 import es.eucm.eadventure.common.params.geom.EAdRectangle;
-import es.eucm.eadventure.common.params.geom.impl.EAdPositionImpl;
 import es.eucm.eadventure.common.params.geom.impl.EAdRectangleImpl;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.Shape;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.shapes.BezierShape;
@@ -50,19 +48,18 @@ import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.shapes.Re
 
 public class ShapedElementImporter {
 
-	public static Shape importShape(Rectangle oldObject, EAdBasicSceneElement newElement) {
+	public static Shape importShape(Rectangle oldObject) {
 		Shape shape = null;
+		int x = oldObject.getX();
+		int y = oldObject.getY();
 		if (oldObject.isRectangular() || oldObject.getPoints().size() == 0) {
 			oldObject.setRectangular(true);
 			shape = new RectangleShape(oldObject.getWidth(), oldObject.getHeight());
-			newElement.setPosition(new EAdPositionImpl(EAdPositionImpl.Corner.TOP_LEFT,
-					oldObject.getX(), oldObject.getY()));
 			
 		} else {
 			shape = null;
 			int i = 0;
-			int x = oldObject.getX();
-			int y = oldObject.getY();
+
 			for (Point p : oldObject.getPoints()) {
 				if ( i == 0 )
 					shape = new BezierShape(p.x - x, p.y - y);
@@ -71,7 +68,6 @@ public class ShapedElementImporter {
 				i++;
 			}
 			((BezierShape) shape).setClosed(true);
-			newElement.setPosition(new EAdPositionImpl(EAdPositionImpl.Corner.TOP_LEFT, x, y));
 		}
 		return shape;
 	}
