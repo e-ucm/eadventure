@@ -103,8 +103,7 @@ public class ElementReferenceImporter extends ElementImporter<ElementReference> 
 			super.addInfluenceArea(newRef, bounds, oldObject.getInfluenceArea());
 
 			// add description
-			super.addDefaultBehavior(newRef, stringHandler.getString(newRef
-				.getDefinition().getDesc()));
+			super.addDefaultBehavior(newRef, newRef.getDefinition().getDesc());
 
 			// add enable
 			super.addEnableEvent(newRef,

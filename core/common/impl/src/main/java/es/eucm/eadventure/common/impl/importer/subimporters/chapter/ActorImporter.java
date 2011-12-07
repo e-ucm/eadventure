@@ -43,6 +43,7 @@ import com.google.inject.Inject;
 
 import es.eucm.eadventure.common.EAdElementImporter;
 import es.eucm.eadventure.common.data.chapter.Action;
+import es.eucm.eadventure.common.data.chapter.elements.Description;
 import es.eucm.eadventure.common.data.chapter.elements.Element;
 import es.eucm.eadventure.common.impl.importer.interfaces.EAdElementFactory;
 import es.eucm.eadventure.common.impl.importer.interfaces.ResourceImporter;
@@ -98,11 +99,17 @@ public abstract class ActorImporter<P extends Element> implements
 		elementFactory.getCurrentChapterModel().getActors().add(actor);
 
 		// Add strings
-		stringHandler.setString(actor.getName(), oldObject.getName());
-		stringHandler.setString(actor.getDesc(), oldObject.getDescription());
-		stringHandler.setString(actor.getDetailDesc(),
-				oldObject.getDetailedDescription());
-		stringHandler.setString(actor.getDoc(), oldObject.getDocumentation());
+		// FIXME multiple descriptions not supported
+		if (oldObject.getDescriptions().size() > 0) {
+			Description desc = oldObject.getDescription(0);
+			stringHandler.setString(actor.getName(), desc.getName());
+			stringHandler
+					.setString(actor.getDesc(), desc.getDescription());
+			stringHandler.setString(actor.getDetailDesc(),
+					desc.getDetailedDescription());
+			stringHandler.setString(actor.getDoc(),
+					oldObject.getDocumentation());
+		}
 
 		// Add resources
 		initResourcesCorrespondencies();
@@ -111,9 +118,9 @@ public abstract class ActorImporter<P extends Element> implements
 
 		// Add actions
 		addActionsEffect(oldObject, actor);
-		
+
 		// Add drag
-//		oldObject.isReturnsWhenDragged()
+		// oldObject.isReturnsWhenDragged()
 
 		return actor;
 	}

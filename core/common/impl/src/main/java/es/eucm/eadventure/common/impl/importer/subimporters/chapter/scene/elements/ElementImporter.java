@@ -5,6 +5,7 @@ import es.eucm.eadventure.common.data.chapter.Exit;
 import es.eucm.eadventure.common.data.chapter.InfluenceArea;
 import es.eucm.eadventure.common.data.chapter.Rectangle;
 import es.eucm.eadventure.common.data.chapter.conditions.Conditions;
+import es.eucm.eadventure.common.data.chapter.elements.Description;
 import es.eucm.eadventure.common.data.chapter.elements.Element;
 import es.eucm.eadventure.common.impl.importer.interfaces.EAdElementFactory;
 import es.eucm.eadventure.common.impl.importer.subimporters.chapter.scene.ShapedElementImporter;
@@ -22,6 +23,7 @@ import es.eucm.eadventure.common.model.trajectories.impl.NodeTrajectoryDefinitio
 import es.eucm.eadventure.common.model.variables.EAdField;
 import es.eucm.eadventure.common.model.variables.impl.EAdFieldImpl;
 import es.eucm.eadventure.common.model.variables.impl.operations.BooleanOperation;
+import es.eucm.eadventure.common.params.EAdString;
 import es.eucm.eadventure.common.params.fills.impl.EAdColor;
 import es.eucm.eadventure.common.params.fills.impl.EAdPaintImpl;
 import es.eucm.eadventure.common.params.geom.EAdRectangle;
@@ -90,8 +92,11 @@ public abstract class ElementImporter<T> implements
 		Shape shape = ShapedElementImporter.importShape(exit, sceneElement);
 		shape.setPaint(EAdColor.TRANSPARENT);
 
-		sceneElement.getDefinition().getResources().addAsset(sceneElement.getDefinition().getInitialBundle(),
-				EAdSceneElementDefImpl.appearance, shape);
+		sceneElement
+				.getDefinition()
+				.getResources()
+				.addAsset(sceneElement.getDefinition().getInitialBundle(),
+						EAdSceneElementDefImpl.appearance, shape);
 	}
 
 	protected EAdCondition getEnableCondition(Conditions c) {
@@ -104,28 +109,31 @@ public abstract class ElementImporter<T> implements
 
 	protected void setDocumentation(EAdSceneElementDefImpl newElement,
 			Element oldObject) {
-		stringHandler.setString(newElement.getName(), oldObject.getName());
-		stringHandler.setString(newElement.getDesc(),
-				oldObject.getDescription());
-		stringHandler.setString(newElement.getDetailDesc(),
-				oldObject.getDetailedDescription());
-		stringHandler.setString(newElement.getDoc(),
-				oldObject.getDocumentation());
-		newElement.setId(oldObject.getId() + "_element");
-		
+		// FIXME multiple descriptions not supported
+		if (oldObject.getDescriptions().size() > 0) {
+			Description desc = oldObject.getDescription(0);
+			stringHandler.setString(newElement.getName(), desc.getName());
+			stringHandler.setString(newElement.getDesc(),
+					desc.getDescription());
+			stringHandler.setString(newElement.getDetailDesc(),
+					desc.getDetailedDescription());
+			stringHandler.setString(newElement.getDoc(),
+					oldObject.getDocumentation());
+			newElement.setId(oldObject.getId() + "_element");
+		}
+
 	}
 
 	protected void addDefaultBehavior(EAdBasicSceneElement sceneElement,
-			String shortDescription) {
+			EAdString shortDescription) {
 		sceneElement.setVarInitialValue(EAdBasicSceneElement.VAR_NAME,
 				sceneElement.getDefinition().getName());
 		if (shortDescription != null) {
-			EAdSpeakEffect showDescription = new EAdSpeakEffect();
+			EAdSpeakEffect showDescription = new EAdSpeakEffect(
+					shortDescription);
 			showDescription.setAlignment(Alignment.CENTER);
 			showDescription.setColor(EAdPaintImpl.WHITE_ON_BLACK,
 					EAdColor.TRANSPARENT);
-			stringHandler.setString(showDescription.getString(),
-					shortDescription);
 			sceneElement.addBehavior(EAdMouseEventImpl.MOUSE_LEFT_CLICK,
 					showDescription);
 		}

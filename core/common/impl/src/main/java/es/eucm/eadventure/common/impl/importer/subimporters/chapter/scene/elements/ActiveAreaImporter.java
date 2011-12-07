@@ -108,7 +108,7 @@ public class ActiveAreaImporter extends ElementImporter<ActiveArea> {
 
 		// Add description
 		super.addDefaultBehavior(newActiveAreaReference,
-				oldObject.getDescription());
+				newActiveArea.getDesc());
 
 		return newActiveAreaReference;
 	}
