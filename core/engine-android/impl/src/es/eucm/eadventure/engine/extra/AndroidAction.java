@@ -6,6 +6,7 @@ import es.eucm.eadventure.common.model.actions.impl.EAdBasicAction;
 import es.eucm.eadventure.common.model.effects.impl.EAdActorActionsEffect;
 import es.eucm.eadventure.common.model.effects.impl.enums.ChangeActorActions;
 import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
+import es.eucm.eadventure.common.model.elements.impl.EAdSceneElementDefImpl;
 import es.eucm.eadventure.common.model.guievents.impl.EAdMouseEventImpl;
 import es.eucm.eadventure.common.predef.model.effects.EAdChangeAppearance;
 import es.eucm.eadventure.common.resources.assets.AssetDescriptor;
@@ -28,27 +29,27 @@ public class AndroidAction extends EAdBasicSceneElement {
 
 		AssetDescriptor asset = eAdAction.getAsset(
 				eAdAction.getInitialBundle(), EAdBasicAction.appearance);
-		this.getResources().addAsset(this.getInitialBundle(),
-				EAdBasicSceneElement.appearance, asset);
+		this.getDefinition().getResources().addAsset(this.getDefinition().getInitialBundle(),
+				EAdSceneElementDefImpl.appearance, asset);
 
 		if (eAdAction.getResources().getBundles()
 				.contains(eAdAction.getHighlightBundle())) {
-			this.getResources().addBundle(eAdAction.getHighlightBundle());
-			this.getResources().addAsset(
+			getDefinition().getResources().addBundle(eAdAction.getHighlightBundle());
+			getDefinition().getResources().addAsset(
 					eAdAction.getHighlightBundle(),
-					EAdBasicSceneElement.appearance,
+					EAdSceneElementDefImpl.appearance,
 					eAdAction.getAsset(eAdAction.getHighlightBundle(),
 							EAdBasicAction.appearance));
 			this.addBehavior(EAdMouseEventImpl.MOUSE_ENTERED,
 					new EAdChangeAppearance( this,
 							eAdAction.getHighlightBundle()));
 		} else
-			this.getResources().addAsset(eAdAction.getHighlightBundle(),
-					EAdBasicSceneElement.appearance, asset);
+			getDefinition().getResources().addAsset(eAdAction.getHighlightBundle(),
+					EAdSceneElementDefImpl.appearance, asset);
 
 		this.addBehavior(
 				EAdMouseEventImpl.MOUSE_EXITED,
-				new EAdChangeAppearance( this, this
+				new EAdChangeAppearance( this, getDefinition()
 						.getInitialBundle()));
 		
 		

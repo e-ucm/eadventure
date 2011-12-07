@@ -488,7 +488,7 @@ public class ActionImporter implements EAdElementImporter<Action, EAdAction> {
 				addInteraction(a, actor, c);
 
 			} else
-				action = convert(a, (EAdBasicAction) action, actor, c, false);
+				action = convert(a, (EAdBasicAction) action, actor, c, isActiveArea);
 
 		}
 	}
