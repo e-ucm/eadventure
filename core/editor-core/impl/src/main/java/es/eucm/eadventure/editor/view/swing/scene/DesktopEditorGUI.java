@@ -145,7 +145,7 @@ public class DesktopEditorGUI extends DesktopGUI {
 			SwingUtilities.doInEDTNow(new Runnable() {
 				@Override
 				public void run() {
-					panel = new ScrollablePanel();
+					panel = new GamePanel(platformConfiguration);
 					panel.setSize(platformConfiguration.getWidth(),
 							platformConfiguration.getHeight());
 					panel.setPreferredSize(new Dimension(platformConfiguration.getWidth(),
@@ -197,10 +197,22 @@ public class DesktopEditorGUI extends DesktopGUI {
 		return panel;
 	}
 	
-	private class ScrollablePanel extends JPanel implements Scrollable {
+	private class GamePanel extends JPanel implements Scrollable {
 
 		private static final long serialVersionUID = -8779328786327371343L;
 		
+		private PlatformConfiguration platformConfiguration;
+		
+		public GamePanel(PlatformConfiguration platformConfiguration) {
+			this.platformConfiguration = platformConfiguration;
+		}
+		
+		public void setPreferredSize(Dimension d) {
+			super.setPreferredSize(d);
+			platformConfiguration.setHeight((int) d.getHeight());
+			platformConfiguration.setWidth((int) d.getWidth());
+		}
+
 		@Override
 		public Dimension getPreferredScrollableViewportSize() {
 			return super.getPreferredSize();

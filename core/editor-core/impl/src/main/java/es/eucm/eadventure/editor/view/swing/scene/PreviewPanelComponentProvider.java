@@ -1,11 +1,15 @@
 package es.eucm.eadventure.editor.view.swing.scene;
 
+import java.awt.BorderLayout;
 import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Rectangle;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
+import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JPanel;
 import javax.swing.Scrollable;
@@ -94,9 +98,43 @@ public class PreviewPanelComponentProvider implements ComponentProvider<PreviewP
 		} while (panel == null);
 		EAdScrollPane pane = new EAdScrollPane(panel, EAdScrollPane.VERTICAL_SCROLLBAR_ALWAYS, EAdScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
 		//pane.setMinimumSize(new Dimension(200, 150));
-		return pane;
+		
+		JPanel mainPanel = new JPanel();
+		mainPanel.setLayout(new BorderLayout());
+		mainPanel.add(pane, BorderLayout.CENTER);
+		
+		JButton zoom = new JButton("zoom");
+		mainPanel.add(zoom, BorderLayout.NORTH);
+		zoom.addActionListener(new ZoomAction(panel, + 1));
+		
+		JButton zoom2 = new JButton("zoom");
+		mainPanel.add(zoom2, BorderLayout.SOUTH);
+		zoom2.addActionListener(new ZoomAction(panel, - 1));
+
+		return mainPanel;
 	}
 
+	private static class ZoomAction implements ActionListener {
+		
+		private JPanel panel;
+		
+		private int sign;
+
+		public ZoomAction(JPanel panel2, int sign) {
+			panel = panel2;
+			this.sign = sign;
+		}
+
+		@Override
+		public void actionPerformed(ActionEvent arg0) {
+			double width = panel.getPreferredSize().getWidth();
+			double height = panel.getPreferredSize().getHeight();
+			height = height / width * (width + sign * 100);
+			width = width + sign * 100;
+			panel.setPreferredSize(new Dimension((int) width, (int) height));
+		}
+
+	}
 
 
 	
