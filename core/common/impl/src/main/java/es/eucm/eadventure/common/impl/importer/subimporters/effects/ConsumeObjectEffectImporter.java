@@ -77,7 +77,7 @@ public class ConsumeObjectEffectImporter extends EffectImporter<ConsumeObjectEff
 		importConditions(oldObject, effect);
 
 		effect.setModification(InventoryEffectAction.REMOVE_FROM_INVENTORY);
-		effect.setSceneElement((EAdSceneElementDef) factory.getElementById(oldObject.getTargetId()));
+		effect.setSceneElementDef((EAdSceneElementDef) factory.getElementById(oldObject.getTargetId()));
 
 		return effect;
 	}

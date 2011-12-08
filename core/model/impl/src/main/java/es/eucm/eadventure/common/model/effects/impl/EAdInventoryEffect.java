@@ -49,7 +49,7 @@ public class EAdInventoryEffect extends AbstractEAdEffect {
 	private InventoryEffectAction modification;
 
 	@Param("sceneElement")
-	private EAdSceneElementDef actor;
+	private EAdSceneElementDef sceneElementDef;
 
 	@Param("boolean")
 	private boolean removeFromScene;
@@ -67,7 +67,7 @@ public class EAdInventoryEffect extends AbstractEAdEffect {
 			InventoryEffectAction modification, boolean removeFromScene) {
 		super();
 		this.modification = modification;
-		this.actor = actor;
+		this.sceneElementDef = actor;
 		this.removeFromScene = removeFromScene;
 	}
 
@@ -79,12 +79,12 @@ public class EAdInventoryEffect extends AbstractEAdEffect {
 		return modification;
 	}
 
-	public void setSceneElement(EAdSceneElementDef actor) {
-		this.actor = actor;
+	public void setSceneElementDef(EAdSceneElementDef actor) {
+		this.sceneElementDef = actor;
 	}
 
-	public EAdSceneElementDef getElement() {
-		return actor;
+	public EAdSceneElementDef getSceneElementDef() {
+		return sceneElementDef;
 	}
 
 	public boolean isRemoveFromScene() {

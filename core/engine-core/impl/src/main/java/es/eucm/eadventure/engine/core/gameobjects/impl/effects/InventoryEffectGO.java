@@ -79,10 +79,10 @@ public class InventoryEffectGO extends AbstractEffectGO<EAdInventoryEffect> {
 		super.initilize();
 		switch (element.getModification()) {
 		case ADD_TO_INVENTORY:
-			inventoryHandler.add(element.getElement());
+			inventoryHandler.add(element.getSceneElementDef());
 			if (element.isRemoveFromScene()) {
 				EAdSceneElement sceneElement = gameState.getValueMap()
-						.getValue(element.getElement(),
+						.getValue(element.getSceneElementDef(),
 								EAdSceneElementDefImpl.VAR_SCENE_ELEMENT);
 				gameState.getValueMap().setValue(sceneElement,
 						EAdBasicSceneElement.VAR_VISIBLE, false);
@@ -91,7 +91,7 @@ public class InventoryEffectGO extends AbstractEffectGO<EAdInventoryEffect> {
 			}
 			break;
 		case REMOVE_FROM_INVENTORY:
-			inventoryHandler.remove(element.getElement());
+			inventoryHandler.remove(element.getSceneElementDef());
 			break;
 		}
 	}
