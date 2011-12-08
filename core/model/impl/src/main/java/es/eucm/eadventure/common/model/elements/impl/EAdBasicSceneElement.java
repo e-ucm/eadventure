@@ -131,12 +131,12 @@ public class EAdBasicSceneElement extends AbstractEAdElementWithBehavior
 	@Param("definition")
 	protected EAdSceneElementDef definition;
 
-	@Param("sceneElementDrag")
-	protected EAdCondition dragCondition;
+	@Param("dragCond")
+	protected EAdCondition dragCond;
 
 	public EAdBasicSceneElement() {
 		super();
-		dragCondition = EmptyCondition.FALSE_EMPTY_CONDITION;
+		dragCond = EmptyCondition.FALSE_EMPTY_CONDITION;
 		definition = new EAdSceneElementDefImpl();
 		vars = new EAdMapImpl<EAdVarDef<?>, Object>(EAdVarDef.class,
 				Object.class);
@@ -221,12 +221,12 @@ public class EAdBasicSceneElement extends AbstractEAdElementWithBehavior
 	}
 
 	public void setDragCond(EAdCondition c) {
-		this.dragCondition = c;
+		this.dragCond = c;
 	}
 
 	@Override
 	public EAdCondition getDragCond() {
-		return dragCondition;
+		return dragCond;
 	}
 
 }
