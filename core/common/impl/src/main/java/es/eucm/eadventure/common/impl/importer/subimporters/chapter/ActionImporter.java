@@ -486,7 +486,7 @@ public class ActionImporter implements EAdElementImporter<Action, EAdAction> {
 			case Action.USE_WITH:
 				name = a.getType() + "" + a.getTargetId();
 				if (interactActions.containsKey(name)) {
-					action = actions.get(name);
+					action = interactActions.get(name);
 				} else {
 					action = init(a);
 					interactActions.put(name, action);
