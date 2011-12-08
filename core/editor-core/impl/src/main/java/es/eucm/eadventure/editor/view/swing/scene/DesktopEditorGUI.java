@@ -42,6 +42,8 @@ import java.awt.Dimension;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.Toolkit;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 import java.awt.image.VolatileImage;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -64,6 +66,8 @@ import es.eucm.eadventure.engine.core.platform.RuntimeAsset;
 import es.eucm.eadventure.engine.core.platform.impl.DesktopCanvas;
 import es.eucm.eadventure.engine.core.platform.impl.DesktopGUI;
 import es.eucm.eadventure.engine.core.platform.impl.extra.DesktopInputListener;
+import es.eucm.eadventure.engine.core.util.EAdTransformation;
+import es.eucm.eadventure.engine.core.util.impl.EAdTransformationImpl;
 import es.eucm.eadventure.utils.swing.SwingUtilities;
 
 @Singleton
@@ -118,17 +122,20 @@ public class DesktopEditorGUI extends DesktopGUI {
 		SwingUtilities.doInEDTNow(new Runnable() {
 			@Override
 			public void run() {
-				if (backbufferImage == null)
-					backbufferImage = panel.createVolatileImage(panel.getWidth(), panel.getHeight());
+				if (backbufferImage == null && panel != null && panel.getVisibleRect() != null && panel.getVisibleRect().getWidth() > 0 && panel.getVisibleRect().getHeight() > 0) {
+					logger.info("New backbuffer: " + (int) panel.getVisibleRect().getWidth() + "x" + (int) panel.getVisibleRect().getHeight());
+					backbufferImage = panel.createVolatileImage((int) panel.getVisibleRect().getWidth(), (int) panel.getVisibleRect().getHeight());
+				}
 				if (backbufferImage != null) {
 					Graphics2D g = (Graphics2D) backbufferImage.getGraphics();
 					eAdCanvas.setGraphicContext(g);
 	
 					//				g.setClip(0, 0, panel.getWidth(), panel.getHeight());
-					g.setClip(0, 0, platformConfiguration.getWidth(),
-							platformConfiguration.getHeight());
-	
-					g.clearRect(0, 0, getWidth(), getHeight());
+					//g.setClip(0, 0, platformConfiguration.getWidth(), platformConfiguration.getHeight());
+					//g.clearRect(0, 0, getWidth(), getHeight());
+
+					g.setClip(0, 0, backbufferImage.getWidth(), backbufferImage.getHeight());
+					g.clearRect(0, 0, backbufferImage.getWidth(), backbufferImage.getHeight());
 	
 					setRenderingHints(g);
 	
@@ -145,7 +152,7 @@ public class DesktopEditorGUI extends DesktopGUI {
 			@Override
 			public void run() {
 				if (backbufferImage != null) {
-					panel.getGraphics().drawImage(backbufferImage, 0, 0, null);
+					panel.getGraphics().drawImage(backbufferImage, (int) panel.getVisibleRect().getX(), (int) panel.getVisibleRect().getY(), null);
 					Toolkit.getDefaultToolkit().sync();
 				}
 			}
@@ -189,6 +196,17 @@ public class DesktopEditorGUI extends DesktopGUI {
 					panel.addMouseListener(listener);
 					panel.addMouseMotionListener(listener);
 					panel.addKeyListener(listener);
+					
+					panel.addComponentListener(new ComponentAdapter(){
+
+						@Override
+						public void componentResized(ComponentEvent arg0) {
+							if (backbufferImage != null)
+								backbufferImage.flush();
+							backbufferImage = null;
+						}
+						
+					});
 				}
 			});
 		} catch (RuntimeException e) {
@@ -221,6 +239,17 @@ public class DesktopEditorGUI extends DesktopGUI {
 		}
 	}
 	
+	@Override
+	public EAdTransformation getInitialTransformation() {
+		EAdTransformation t = new EAdTransformationImpl();
+		if (panel != null && panel.getVisibleRect() != null)
+			t.getMatrix().translate(-(float) panel.getVisibleRect().getX(), -(float) panel.getVisibleRect().getY(), true);
+		t.getMatrix().scale(
+				(float) platformConfiguration.getScale(),
+				(float) platformConfiguration.getScale(), true);
+		return t;
+	}
+
 	public JPanel getPanel() {
 		return panel;
 	}

@@ -425,5 +425,14 @@ public abstract class AbstractGUI<T> implements GUI {
 		EAdTransformationImpl t = new EAdTransformationImpl(m, visible, alpha);
 		return t;
 	}
+	
+	@Override
+	public EAdTransformation getInitialTransformation() {
+		EAdTransformation t = new EAdTransformationImpl();
+		t.getMatrix().scale(
+				(float) platformConfiguration.getScale(),
+				(float) platformConfiguration.getScale(), true);
+		return t;
+	}
 
 }

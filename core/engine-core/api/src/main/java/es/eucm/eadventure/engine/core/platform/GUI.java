@@ -147,4 +147,6 @@ public interface GUI {
 	 * Finalize the GUI, used when the game is stopped and finished.
 	 */
 	void finish();
+
+	EAdTransformation getInitialTransformation();
 }

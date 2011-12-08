@@ -106,7 +106,7 @@ public class GameImpl implements Game {
 
 	private InventoryHandler inventoryHandler;
 
-	private EAdTransformation initialTransformation = new EAdTransformationImpl();
+	private EAdTransformation initialTransformation;
 	
 	private EventGOFactory eventFactory;
 	
@@ -137,9 +137,7 @@ public class GameImpl implements Game {
 		this.platformConfiguration = platformConfiguration;
 		this.eventFactory = eventFactory;
 		events = new ArrayList<EventGO<?>>();
-		initialTransformation.getMatrix().scale(
-				(float) platformConfiguration.getScale(),
-				(float) platformConfiguration.getScale(), true);
+		initialTransformation = gui.getInitialTransformation();
 		gameObjectManager.setBasicHUD(basicHud);
 	}
 
@@ -151,10 +149,7 @@ public class GameImpl implements Game {
 			updateChapterEvents();
 			gameState.getScene().update();
 		}
-		initialTransformation  = new EAdTransformationImpl();
-		initialTransformation.getMatrix().scale(
-				(float) platformConfiguration.getScale(),
-				(float) platformConfiguration.getScale(), true);
+		initialTransformation  = gui.getInitialTransformation();
 		gui.addElement(gameState.getScene(), initialTransformation);
 
 		if (debugger != null && debugger.getGameObjects() != null)

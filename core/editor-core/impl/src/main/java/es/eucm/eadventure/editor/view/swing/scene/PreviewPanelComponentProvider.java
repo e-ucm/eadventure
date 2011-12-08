@@ -140,11 +140,11 @@ public class PreviewPanelComponentProvider implements ComponentProvider<PreviewP
 		
 		JButton zoom = new JButton("zoom");
 		mainPanel.add(zoom, BorderLayout.NORTH);
-		zoom.addActionListener(new ZoomAction(panel, + 1));
+		zoom.addActionListener(new ZoomAction(panel, + 1, pane));
 		
 		JButton zoom2 = new JButton("zoom");
 		mainPanel.add(zoom2, BorderLayout.SOUTH);
-		zoom2.addActionListener(new ZoomAction(panel, - 1));
+		zoom2.addActionListener(new ZoomAction(panel, - 1, pane));
 
 		return mainPanel;
 	}
@@ -155,8 +155,11 @@ public class PreviewPanelComponentProvider implements ComponentProvider<PreviewP
 		
 		private int sign;
 
-		public ZoomAction(JPanel panel2, int sign) {
+		private EAdScrollPane pane;
+		
+		public ZoomAction(JPanel panel2, int sign, EAdScrollPane pane) {
 			panel = panel2;
+			this.pane = pane;
 			this.sign = sign;
 		}
 
@@ -167,6 +170,7 @@ public class PreviewPanelComponentProvider implements ComponentProvider<PreviewP
 			height = height / width * (width + sign * 100);
 			width = width + sign * 100;
 			panel.setPreferredSize(new Dimension((int) width, (int) height));
+			pane.getViewport().setView(panel);
 		}
 
 	}
