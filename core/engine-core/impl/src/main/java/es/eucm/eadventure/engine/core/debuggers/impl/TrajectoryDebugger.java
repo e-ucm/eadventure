@@ -166,9 +166,6 @@ public class TrajectoryDebugger implements EAdDebugger {
 				gameObjects.add(sceneElementFactory.get(area));
 			}
 		}
-
-
-
 	}
 
 	private void createNodes(NodeTrajectoryDefinition trajectory) {

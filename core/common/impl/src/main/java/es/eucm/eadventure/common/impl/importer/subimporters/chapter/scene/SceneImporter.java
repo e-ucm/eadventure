@@ -204,10 +204,6 @@ public class SceneImporter implements EAdElementImporter<Scene, EAdSceneImpl> {
 					EAdMouseEventImpl.MOUSE_LEFT_CLICK,
 					new EAdMoveActiveElement());
 
-			playerReference.setPosition(new EAdPositionImpl(
-					Corner.BOTTOM_CENTER, oldScene.getPositionX(), oldScene
-							.getPositionY()));
-
 			return playerReference;
 		}
 

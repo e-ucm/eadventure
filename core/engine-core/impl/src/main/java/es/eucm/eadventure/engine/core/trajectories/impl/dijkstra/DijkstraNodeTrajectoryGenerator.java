@@ -573,6 +573,8 @@ public class DijkstraNodeTrajectoryGenerator implements
 			EAdElement movingElement) {
 		Side side = valueMap.getValue(movingElement,
 				NodeTrajectoryDefinition.VAR_CURRENT_SIDE);
+		if (!nodeTrajectoryDefinition.getSides().contains(side))
+			side = null;
 		if (side == null) {
 			int distance = Integer.MAX_VALUE;
 			for (Node node : nodeTrajectoryDefinition.getNodes()) {

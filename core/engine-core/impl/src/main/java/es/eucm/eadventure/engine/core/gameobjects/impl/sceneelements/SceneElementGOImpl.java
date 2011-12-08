@@ -53,6 +53,7 @@ import es.eucm.eadventure.common.model.elements.impl.EAdSceneElementDefImpl;
 import es.eucm.eadventure.common.model.events.EAdEvent;
 import es.eucm.eadventure.common.model.extra.EAdList;
 import es.eucm.eadventure.common.model.impl.ResourcedElementImpl;
+import es.eucm.eadventure.common.model.trajectories.impl.NodeTrajectoryDefinition;
 import es.eucm.eadventure.common.model.variables.EAdVarDef;
 import es.eucm.eadventure.common.params.fills.impl.EAdPaintImpl;
 import es.eucm.eadventure.common.params.geom.EAdPosition;
@@ -137,6 +138,8 @@ public abstract class SceneElementGOImpl<T extends EAdSceneElement> extends
 	@Override
 	public void setElement(T element) {
 		super.setElement(element);
+		
+		gameState.getValueMap().remove(element);
 		
 		gameState.getValueMap().setValue(element,
 				ResourcedElementImpl.VAR_BUNDLE_ID,
