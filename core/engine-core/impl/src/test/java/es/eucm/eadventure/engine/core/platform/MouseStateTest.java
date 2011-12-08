@@ -61,7 +61,7 @@ public class MouseStateTest extends MouseStateImpl {
 
 
 	public MouseStateTest(SceneElementGOFactory factory, GameState gameState) {
-		super(factory);
+		super(factory, gameState);
 	}
 
 

@@ -42,6 +42,7 @@ import java.util.Queue;
 import es.eucm.eadventure.common.model.elements.EAdSceneElementDef;
 import es.eucm.eadventure.common.model.guievents.enums.MouseButton;
 import es.eucm.eadventure.engine.core.gameobjects.DrawableGO;
+import es.eucm.eadventure.engine.core.gameobjects.SceneElementGO;
 import es.eucm.eadventure.engine.core.guiactions.MouseAction;
 
 /**
@@ -143,7 +144,7 @@ public interface MouseState {
 	 * @param offsetX
 	 * @param offsetY
 	 */
-	void setDraggingGameObject(EAdSceneElementDef dragElement );
+	void setDraggingGameObject(SceneElementGO<?> dragElementGO);
 
 	/**
 	 * Returns true if the mouse is inside the game window

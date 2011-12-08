@@ -110,7 +110,7 @@ public class TimerImporter implements EAdElementImporter<Timer, EAdTimer> {
 		endedMacro.setId("timerEndMacro");
 		EAdTriggerMacro triggerEndedMacro = new EAdTriggerMacro();
 		triggerEndedMacro.setId("triggerMacro_" + endedMacro.getId());
-		triggerEndedMacro.setMacro(endedMacro);
+//		triggerEndedMacro.setMacro(endedMacro);
 
 		for (Effect e : oldTimer.getEffects().getEffects()) {
 			EAdEffect effect = effectsImporter.getEffect(e);
@@ -122,7 +122,7 @@ public class TimerImporter implements EAdElementImporter<Timer, EAdTimer> {
 		stoppedMacro.setId("timerStoppedMacro");
 		EAdTriggerMacro triggerStoppedMacro = new EAdTriggerMacro();
 		triggerStoppedMacro.setId("triggerMacro_" + stoppedMacro.getId());
-		triggerStoppedMacro.setMacro(stoppedMacro);
+//		triggerStoppedMacro.setMacro(stoppedMacro);
 
 		for (Effect e : oldTimer.getPostEffects().getEffects()) {
 			EAdEffect effect = effectsImporter.getEffect(e);

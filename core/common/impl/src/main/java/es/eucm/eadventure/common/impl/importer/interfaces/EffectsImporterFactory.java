@@ -42,7 +42,7 @@ import es.eucm.eadventure.common.data.chapter.effects.Effect;
 import es.eucm.eadventure.common.data.chapter.effects.Effects;
 import es.eucm.eadventure.common.interfaces.Factory;
 import es.eucm.eadventure.common.model.effects.EAdEffect;
-import es.eucm.eadventure.common.model.effects.impl.EAdTriggerMacro;
+import es.eucm.eadventure.common.model.effects.EAdMacro;
 
 /**
  * Factory for effects importers
@@ -56,13 +56,13 @@ public interface EffectsImporterFactory extends
 	EAdEffect getEffect(Effect effect);
 
 	/**
-	 * Returns a trigger effect to execute a macro with all the converted
+	 * Returns a macro with all the converted
 	 * effects passed in the parameter
 	 * 
 	 * @param effect
 	 *            old effects
-	 * @return the trigger macro effects; {@code null} if effect was empty.
+	 * @return the macro; {@code null} if effect was empty.
 	 */
-	EAdTriggerMacro getTriggerEffects(Effects effect);
+	EAdMacro getTriggerEffects(Effects effect);
 
 }

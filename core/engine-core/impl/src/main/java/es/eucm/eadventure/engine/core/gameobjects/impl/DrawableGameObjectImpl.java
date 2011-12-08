@@ -38,11 +38,11 @@
 package es.eucm.eadventure.engine.core.gameobjects.impl;
 
 import es.eucm.eadventure.common.model.EAdElement;
-import es.eucm.eadventure.common.model.elements.EAdSceneElementDef;
 import es.eucm.eadventure.common.resources.StringHandler;
 import es.eucm.eadventure.engine.core.GameState;
 import es.eucm.eadventure.engine.core.MouseState;
 import es.eucm.eadventure.engine.core.gameobjects.DrawableGO;
+import es.eucm.eadventure.engine.core.gameobjects.SceneElementGO;
 import es.eucm.eadventure.engine.core.gameobjects.factories.SceneElementGOFactory;
 import es.eucm.eadventure.engine.core.platform.AssetHandler;
 import es.eucm.eadventure.engine.core.platform.GUI;
@@ -95,7 +95,7 @@ public abstract class DrawableGameObjectImpl<T extends EAdElement> extends
 	}
 	
 	@Override
-	public EAdSceneElementDef getDraggableElement(MouseState mouseState) {
+	public SceneElementGO<?> getDraggableElement(MouseState mouseState) {
 		return null;
 	}
 
