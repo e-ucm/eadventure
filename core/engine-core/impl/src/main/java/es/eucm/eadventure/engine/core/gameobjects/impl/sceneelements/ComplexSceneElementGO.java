@@ -45,11 +45,9 @@ import com.google.inject.Inject;
 import es.eucm.eadventure.common.model.effects.EAdEffect;
 import es.eucm.eadventure.common.model.elements.EAdComplexElement;
 import es.eucm.eadventure.common.model.elements.EAdSceneElement;
-import es.eucm.eadventure.common.model.elements.EAdSceneElementDef;
 import es.eucm.eadventure.common.model.extra.EAdList;
 import es.eucm.eadventure.common.resources.StringHandler;
 import es.eucm.eadventure.engine.core.GameState;
-import es.eucm.eadventure.engine.core.MouseState;
 import es.eucm.eadventure.engine.core.evaluators.EvaluatorFactory;
 import es.eucm.eadventure.engine.core.gameobjects.SceneElementGO;
 import es.eucm.eadventure.engine.core.gameobjects.factories.EventGOFactory;
@@ -77,10 +75,6 @@ public class ComplexSceneElementGO extends
 		super(assetHandler, stringHandler, gameObjectFactory, gui, gameState,
 				eventFactory);
 		logger.info("New instance");
-	}
-
-	public EAdSceneElementDef getDraggableElement(MouseState mouseState) {
-		return null;
 	}
 
 	public void setElement(EAdComplexElement element) {

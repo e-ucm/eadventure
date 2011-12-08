@@ -43,6 +43,7 @@ import es.eucm.eadventure.common.EAdElementImporter;
 import es.eucm.eadventure.common.data.chapter.conditions.Conditions;
 import es.eucm.eadventure.common.data.chapter.effects.TriggerConversationEffect;
 import es.eucm.eadventure.common.impl.importer.interfaces.EAdElementFactory;
+import es.eucm.eadventure.common.model.conditions.impl.EmptyCondition;
 import es.eucm.eadventure.common.model.effects.EAdEffect;
 import es.eucm.eadventure.common.model.effects.EAdMacro;
 import es.eucm.eadventure.common.model.effects.impl.EAdMacroImpl;
@@ -62,9 +63,7 @@ public class TriggerConversationImporter extends EffectImporter<TriggerConversat
 
 	@Override
 	public EAdTriggerMacro init(TriggerConversationEffect oldObject) {
-		EAdMacro macro = new EAdMacroImpl();
-		macro.setId("macroConversation");
-		EAdTriggerMacro triggerMacro = new EAdTriggerMacro( macro );
+		EAdTriggerMacro triggerMacro = new EAdTriggerMacro( );
 		triggerMacro.setQueueable(true);
 		return triggerMacro;
 	}
@@ -72,7 +71,9 @@ public class TriggerConversationImporter extends EffectImporter<TriggerConversat
 	@Override
 	public EAdTriggerMacro convert(TriggerConversationEffect oldObject, Object object) {
 		EAdTriggerMacro triggerMacro = super.convert(oldObject, object);
-		EAdMacro macro = triggerMacro.getMacro();
+		EAdMacro macro = new EAdMacroImpl();
+		macro.setId("macroConversation");
+		triggerMacro.putMacro(macro, EmptyCondition.TRUE_EMPTY_CONDITION);
 		
 		EAdEffect effect = (EAdEffect) factory.getElementById(oldObject.getTargetId());
 		if ( effect != null )

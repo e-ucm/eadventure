@@ -39,7 +39,6 @@ package es.eucm.eadventure.engine.core.platform.impl;
 
 import java.util.logging.Logger;
 
-import es.eucm.eadventure.common.model.elements.EAdSceneElementDef;
 import es.eucm.eadventure.common.model.guievents.enums.DragAction;
 import es.eucm.eadventure.common.model.guievents.enums.MouseButton;
 import es.eucm.eadventure.common.model.guievents.impl.EAdMouseEventImpl;
@@ -50,6 +49,7 @@ import es.eucm.eadventure.engine.core.Renderable;
 import es.eucm.eadventure.engine.core.gameobjects.DrawableGO;
 import es.eucm.eadventure.engine.core.gameobjects.GameObject;
 import es.eucm.eadventure.engine.core.gameobjects.GameObjectManager;
+import es.eucm.eadventure.engine.core.gameobjects.SceneElementGO;
 import es.eucm.eadventure.engine.core.gameobjects.factories.SceneElementGOFactory;
 import es.eucm.eadventure.engine.core.guiactions.KeyAction;
 import es.eucm.eadventure.engine.core.guiactions.MouseAction;
@@ -263,7 +263,7 @@ public abstract class AbstractGUI<T> implements GUI {
 				checkDrag = false;
 				DrawableGO<?> go = mouseState.getGameObjectUnderMouse();
 				if (go != null) {
-					EAdSceneElementDef draggedGO = go
+					SceneElementGO<?> draggedGO = go
 							.getDraggableElement(mouseState);
 					if (draggedGO != null) {
 						mouseState.setDraggingGameObject(draggedGO);

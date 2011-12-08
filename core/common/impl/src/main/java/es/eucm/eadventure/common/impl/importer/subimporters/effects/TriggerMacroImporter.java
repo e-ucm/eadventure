@@ -43,14 +43,16 @@ import es.eucm.eadventure.common.EAdElementImporter;
 import es.eucm.eadventure.common.data.chapter.conditions.Conditions;
 import es.eucm.eadventure.common.data.chapter.effects.MacroReferenceEffect;
 import es.eucm.eadventure.common.impl.importer.interfaces.EAdElementFactory;
+import es.eucm.eadventure.common.model.conditions.impl.EmptyCondition;
 import es.eucm.eadventure.common.model.effects.EAdMacro;
 import es.eucm.eadventure.common.model.effects.impl.EAdTriggerMacro;
 import es.eucm.eadventure.common.model.elements.EAdCondition;
 
-public class TriggerMacroImporter extends EffectImporter<MacroReferenceEffect, EAdTriggerMacro>{
-	
+public class TriggerMacroImporter extends
+		EffectImporter<MacroReferenceEffect, EAdTriggerMacro> {
+
 	private EAdElementFactory factory;
-	
+
 	@Inject
 	public TriggerMacroImporter(
 			EAdElementImporter<Conditions, EAdCondition> conditionImporter,
@@ -69,7 +71,9 @@ public class TriggerMacroImporter extends EffectImporter<MacroReferenceEffect, E
 	@Override
 	public EAdTriggerMacro convert(MacroReferenceEffect oldObject, Object object) {
 		EAdTriggerMacro effect = super.convert(oldObject, object);
-		effect.setMacro((EAdMacro) factory.getElementById(oldObject.getTargetId()));	
+		effect.putMacro(
+				(EAdMacro) factory.getElementById(oldObject.getTargetId()),
+				EmptyCondition.TRUE_EMPTY_CONDITION);
 		return effect;
 	}
 

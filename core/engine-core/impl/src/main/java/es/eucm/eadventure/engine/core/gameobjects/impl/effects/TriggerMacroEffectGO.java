@@ -40,30 +40,48 @@ package es.eucm.eadventure.engine.core.gameobjects.impl.effects;
 import com.google.inject.Inject;
 
 import es.eucm.eadventure.common.model.effects.EAdEffect;
+import es.eucm.eadventure.common.model.effects.EAdMacro;
 import es.eucm.eadventure.common.model.effects.impl.EAdTriggerMacro;
+import es.eucm.eadventure.common.model.elements.EAdCondition;
 import es.eucm.eadventure.common.resources.StringHandler;
 import es.eucm.eadventure.engine.core.GameState;
+import es.eucm.eadventure.engine.core.evaluators.EvaluatorFactory;
 import es.eucm.eadventure.engine.core.gameobjects.factories.SceneElementGOFactory;
 import es.eucm.eadventure.engine.core.platform.AssetHandler;
 import es.eucm.eadventure.engine.core.platform.GUI;
 
 public class TriggerMacroEffectGO extends AbstractEffectGO<EAdTriggerMacro> {
 
+	private EvaluatorFactory evaluator;
+
 	@Inject
 	public TriggerMacroEffectGO(AssetHandler assetHandler,
-			StringHandler stringHandler, SceneElementGOFactory gameObjectFactory,
-			GUI gui, GameState gameState) {
+			StringHandler stringHandler,
+			SceneElementGOFactory gameObjectFactory, GUI gui,
+			GameState gameState, EvaluatorFactory evaluator) {
 		super(assetHandler, stringHandler, gameObjectFactory, gui, gameState);
+		this.evaluator = evaluator;
 	}
 
 	@Override
 	public void initilize() {
 		super.initilize();
-		for ( EAdEffect e: element.getMacro().getEffects()){
-			gameState.addEffect(e, action, parent);
+
+		EAdMacro macro = null;
+
+		for (int i = 0; i < element.getMacros().size() && macro == null; i++) {
+			EAdCondition c = element.getConditions().get(i);
+			if (evaluator.evaluate(c)) {
+				macro = element.getMacros().get(i);
+			}
 		}
+
+		if (macro != null)
+			for (EAdEffect e : macro.getEffects()) {
+				gameState.addEffect(e, action, parent);
+			}
 	}
-	
+
 	@Override
 	public boolean isVisualEffect() {
 		return false;
