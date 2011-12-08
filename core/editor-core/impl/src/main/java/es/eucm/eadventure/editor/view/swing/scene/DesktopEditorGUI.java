@@ -158,7 +158,7 @@ public class DesktopEditorGUI extends DesktopGUI {
 		SwingUtilities.doInEDT(new Runnable() {
 			@Override
 			public void run() {
-				if (backbufferImage != null) {
+				if (backbufferImage != null && panel.getGraphics() != null) {
 					panel.getGraphics().drawImage(backbufferImage, (int) panel.getVisibleRect().getX(), (int) panel.getVisibleRect().getY(), null);
 					Toolkit.getDefaultToolkit().sync();
 				}

@@ -54,6 +54,7 @@ import static org.mockito.Mockito.*;
 
 import es.eucm.eadventure.common.elementfactories.scenedemos.ComplexElementScene;
 import es.eucm.eadventure.common.elementfactories.scenedemos.EmptyScene;
+import es.eucm.eadventure.common.elementfactories.scenedemos.InitScene;
 import es.eucm.eadventure.common.model.elements.EAdScene;
 import es.eucm.eadventure.common.model.elements.EAdSceneElement;
 import es.eucm.eadventure.common.model.elements.EAdSceneElementDef;
@@ -100,7 +101,7 @@ public class ElementControllerGetPanelTest extends JFrame {
         
         setLayout(new BorderLayout());
         
-        scene = new EmptyScene();
+        scene = new InitScene();
         scene2 = new ComplexElementScene();
         
         CommandManager commandManager = mock(CommandManager.class);
