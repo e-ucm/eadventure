@@ -123,18 +123,24 @@ public class DesktopEditorGUI extends DesktopGUI {
 		SwingUtilities.doInEDTNow(new Runnable() {
 			@Override
 			public void run() {
-				if (backbufferImage == null && panel != null && panel.getVisibleRect() != null && panel.getVisibleRect().getWidth() > 0 && panel.getVisibleRect().getHeight() > 0) {
-					logger.info("New backbuffer: " + (int) panel.getVisibleRect().getWidth() + "x" + (int) panel.getVisibleRect().getHeight());
-					backbufferImage = panel.createVolatileImage((int) panel.getVisibleRect().getWidth(), (int) panel.getVisibleRect().getHeight());
+				if (panel != null &&
+						panel.getVisibleRect() != null &&
+						panel.getVisibleRect().getWidth() > 0 &&
+						panel.getVisibleRect().getHeight() > 0) {
+					if (backbufferImage == null) {
+						logger.info("New backbuffer: " + (int) panel.getVisibleRect().getWidth() + "x" + (int) panel.getVisibleRect().getHeight());
+						backbufferImage = panel.createVolatileImage((int) panel.getVisibleRect().getWidth(), (int) panel.getVisibleRect().getHeight());
+					} else if (backbufferImage != null &&
+							panel.getVisibleRect().getWidth() != backbufferImage.getWidth() &&
+							panel.getVisibleRect().getHeight() != backbufferImage.getHeight()) { 
+						logger.info("Resized backbuffer: " + (int) panel.getVisibleRect().getWidth() + "x" + (int) panel.getVisibleRect().getHeight());
+						backbufferImage = panel.createVolatileImage((int) panel.getVisibleRect().getWidth(), (int) panel.getVisibleRect().getHeight());
+					}
 				}
 				if (backbufferImage != null) {
 					Graphics2D g = (Graphics2D) backbufferImage.getGraphics();
 					eAdCanvas.setGraphicContext(g);
 	
-					//				g.setClip(0, 0, panel.getWidth(), panel.getHeight());
-					//g.setClip(0, 0, platformConfiguration.getWidth(), platformConfiguration.getHeight());
-					//g.clearRect(0, 0, getWidth(), getHeight());
-
 					g.setClip(0, 0, backbufferImage.getWidth(), backbufferImage.getHeight());
 					g.clearRect(0, 0, backbufferImage.getWidth(), backbufferImage.getHeight());
 	
@@ -285,7 +291,7 @@ public class DesktopEditorGUI extends DesktopGUI {
 		public int getScrollableBlockIncrement(Rectangle visibleRect,
 				int orientation, int direction) {
 			//TODO check
-			return 10;
+			return 30;
 		}
 
 		@Override
@@ -302,7 +308,7 @@ public class DesktopEditorGUI extends DesktopGUI {
 		public int getScrollableUnitIncrement(Rectangle visibleRect,
 				int orientation, int direction) {
 			//TODO check
-			return 1;
+			return 5;
 		}
 		
 	}
