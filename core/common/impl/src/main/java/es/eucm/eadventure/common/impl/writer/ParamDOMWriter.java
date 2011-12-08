@@ -53,13 +53,17 @@ public class ParamDOMWriter extends DOMWriter<Object> {
 		Element node = doc.createElement(DOMTags.PARAM_AT);
 		
 		String value = null;
-		if (data instanceof EAdParam)
-			value = ((EAdParam) data).toStringData();
-		else if (data instanceof Class)
-			value = ((Class<?>) data).getName();
-		else
-			value = data.toString();
-
+		if (data == null)
+			logger.warning("Null data");
+		else {
+			if (data instanceof EAdParam)
+				value = ((EAdParam) data).toStringData();
+			else if (data instanceof Class)
+				value = ((Class<?>) data).getName();
+			else
+				value = data.toString();
+		}
+		
 		String compressedValue = paramsMap.get(data);
 		if (compressedValue == null) {
 			if (DOMWriter.USE_PARAM_IDS) {

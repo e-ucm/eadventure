@@ -84,6 +84,8 @@ public class DesktopEditorGUI extends DesktopGUI {
 	
 	protected VolatileImage backbufferImage;
 
+	private DesktopInputListener listener;
+	
 	@Inject
 	public DesktopEditorGUI(PlatformConfiguration platformConfiguration,
 			GameObjectManager gameObjectManager, MouseState mouseState,
@@ -92,7 +94,6 @@ public class DesktopEditorGUI extends DesktopGUI {
 		super(platformConfiguration, gameObjectManager, mouseState, keyboardState,
 				gameState, gameObjectFactory, canvas);
 	}
-
 
 	/*
 	 * (non-Javadoc)
@@ -191,7 +192,7 @@ public class DesktopEditorGUI extends DesktopGUI {
 
 					panel.setVisible(true);
 					
-					DesktopInputListener listener = new DesktopInputListener(mouseState,
+					listener = new DesktopInputListener(mouseState,
 							keyboardState);
 					panel.addMouseListener(listener);
 					panel.addMouseMotionListener(listener);
@@ -242,8 +243,10 @@ public class DesktopEditorGUI extends DesktopGUI {
 	@Override
 	public EAdTransformation getInitialTransformation() {
 		EAdTransformation t = new EAdTransformationImpl();
-		if (panel != null && panel.getVisibleRect() != null)
+		if (panel != null && panel.getVisibleRect() != null && listener != null) {
 			t.getMatrix().translate(-(float) panel.getVisibleRect().getX(), -(float) panel.getVisibleRect().getY(), true);
+			listener.setOffset((int) panel.getVisibleRect().getX(), (int) panel.getVisibleRect().getY());
+		}
 		t.getMatrix().scale(
 				(float) platformConfiguration.getScale(),
 				(float) platformConfiguration.getScale(), true);
