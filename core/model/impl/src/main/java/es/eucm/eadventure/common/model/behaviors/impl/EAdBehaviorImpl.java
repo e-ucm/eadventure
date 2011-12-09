@@ -94,10 +94,9 @@ public class EAdBehaviorImpl extends EAdElementImpl implements EAdBehavior {
 		EAdList<EAdEffect> list = behavior.get(event);
 		if (list == null) {
 			list = new EAdListImpl<EAdEffect>(EAdEffect.class);
-			list.add(effect);
 			behavior.put(event, list);
-		} else
-			list.add(effect);
+		} 
+		list.add(effect);
 	}
 
 	/*

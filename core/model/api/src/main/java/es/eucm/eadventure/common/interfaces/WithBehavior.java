@@ -58,6 +58,13 @@ public interface WithBehavior {
 	 */
 	EAdList<EAdEffect> getEffects(EAdGUIEvent event);
 	
+	/**
+	 * Add an effect to the list of effects associated with the {@link EAdGUIEvent}
+	 * 
+	 * @param event
+	 * 			the GUI event
+	 * @param effect the new effect to be added to the list
+	 */
 	void addBehavior(EAdGUIEvent event, EAdEffect effect);
 
 	/**
