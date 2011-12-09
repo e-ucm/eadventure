@@ -52,9 +52,11 @@ import es.eucm.eadventure.common.params.geom.impl.EAdPositionImpl;
 import es.eucm.eadventure.engine.core.GameState;
 import es.eucm.eadventure.engine.core.MouseState;
 import es.eucm.eadventure.engine.core.gameobjects.DrawableGO;
+import es.eucm.eadventure.engine.core.gameobjects.GameObjectManager;
 import es.eucm.eadventure.engine.core.gameobjects.SceneElementGO;
 import es.eucm.eadventure.engine.core.gameobjects.factories.SceneElementGOFactory;
 import es.eucm.eadventure.engine.core.guiactions.MouseAction;
+import es.eucm.eadventure.engine.core.util.EAdTransformation;
 
 @Singleton
 public class MouseStateImpl implements MouseState {
@@ -81,14 +83,24 @@ public class MouseStateImpl implements MouseState {
 
 	private int dragInitY = OUT_VAL;
 
+	private int scaledDragInitX = OUT_VAL;
+
+	private int scaledDragInitY = OUT_VAL;
+
 	private SceneElementGOFactory factory;
 
 	private GameState gameState;
 
+	private SceneElementGO<?> draggedSceneElement;
+
+	private GameObjectManager gameObjectManager;
+
 	@Inject
-	public MouseStateImpl(SceneElementGOFactory factory, GameState gameState) {
+	public MouseStateImpl(SceneElementGOFactory factory, GameState gameState,
+			GameObjectManager gameObjectManager) {
 		this.factory = factory;
 		mouseEvents = new ConcurrentLinkedQueue<MouseAction>();
+		this.gameObjectManager = gameObjectManager;
 		this.gameState = gameState;
 	}
 
@@ -135,14 +147,31 @@ public class MouseStateImpl implements MouseState {
 
 	@Override
 	public void setDraggingGameObject(SceneElementGO<?> dragElementGO) {
+		draggedSceneElement = dragElementGO;
+
 		if (dragElementGO != null) {
+
 			this.draggingElement = dragElementGO.getElement();
-			int x = this.getMouseScaledX();
-			int y = this.getMouseScaledY();
+
+			int index = gameObjectManager.getGameObjects().indexOf(
+					dragElementGO);
+			EAdTransformation t = gameObjectManager.getTransformations().get(
+					index);
+
+			float width = gameState.getValueMap().getValue(draggingElement,
+					EAdBasicSceneElement.VAR_WIDTH);
+			float height = gameState.getValueMap().getValue(draggingElement,
+					EAdBasicSceneElement.VAR_HEIGHT);
 			float dispX = gameState.getValueMap().getValue(draggingElement,
 					EAdBasicSceneElement.VAR_DISP_X);
 			float dispY = gameState.getValueMap().getValue(draggingElement,
 					EAdBasicSceneElement.VAR_DISP_Y);
+			float[] r = t.getMatrix().multiplyPoint(width * dispX,
+					height * dispY, true);
+
+			int initX = (int) r[0];
+			int initY = (int) r[1];
+
 			float scale = gameState.getValueMap().getValue(draggingElement,
 					EAdBasicSceneElement.VAR_SCALE);
 			float rotation = gameState.getValueMap().getValue(draggingElement,
@@ -156,13 +185,25 @@ public class MouseStateImpl implements MouseState {
 			element2.setScale(scale);
 			element2.setVarInitialValue(EAdBasicSceneElement.VAR_ROTATION,
 					rotation);
-			element2.setPosition(new EAdPositionImpl(x, y, dispX, dispY));
+			element2.setPosition(new EAdPositionImpl(initX, initY, dispX, dispY));
 			draggingGameObject = factory.get(element2);
 
 		} else {
-			if (draggingElement != null)
+			if (draggingElement != null) {
 				gameState.getValueMap().setValue(draggingElement,
 						EAdBasicSceneElement.VAR_VISIBLE, true);
+				if (!gameState.getValueMap().getValue(draggingElement,
+						EAdBasicSceneElement.VAR_RETURN_WHEN_DRAGGED)) {
+					int x = gameState.getValueMap().getValue(draggingElement, EAdBasicSceneElement.VAR_X);
+					int y = gameState.getValueMap().getValue(draggingElement, EAdBasicSceneElement.VAR_Y);
+					gameState.getValueMap().setValue(draggingElement,
+							EAdBasicSceneElement.VAR_X,
+							x + (getMouseScaledX() - scaledDragInitX));
+					gameState.getValueMap().setValue(draggingElement,
+							EAdBasicSceneElement.VAR_Y,
+							y + (getMouseScaledY() - scaledDragInitY));
+				}
+			}
 			draggingGameObject = null;
 			draggingElement = null;
 		}
@@ -170,6 +211,8 @@ public class MouseStateImpl implements MouseState {
 		if (draggingGameObject != null) {
 			this.dragInitX = mouseX;
 			this.dragInitY = mouseY;
+			this.scaledDragInitX = this.getMouseScaledX();
+			this.scaledDragInitY = this.getMouseScaledY();
 		}
 	}
 
@@ -202,6 +245,10 @@ public class MouseStateImpl implements MouseState {
 	@Override
 	public int getMouseScaledY() {
 		return gameState.getValueMap().getValue(SystemFields.MOUSE_Y);
+	}
+
+	public SceneElementGO<?> getDraggedSceneElement() {
+		return draggedSceneElement;
 	}
 
 }

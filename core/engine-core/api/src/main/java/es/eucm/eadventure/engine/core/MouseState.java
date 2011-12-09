@@ -64,7 +64,12 @@ public interface MouseState {
 	 * @return the mouse position along the x axis within the window
 	 */
 	int getMouseX();
-	
+
+	/**
+	 * Returns the x coordinate for the mouse, using the platform scale
+	 * 
+	 * @return
+	 */
 	int getMouseScaledX();
 
 	/**
@@ -74,7 +79,12 @@ public interface MouseState {
 	 * @return the mouse position along the y axis within the window
 	 */
 	int getMouseY();
-	
+
+	/**
+	 * Returns the y coordinate for the mouse, using the platform scale
+	 * 
+	 * @return
+	 */
 	int getMouseScaledY();
 
 	/**
@@ -102,7 +112,7 @@ public interface MouseState {
 	 * @param mousePressed
 	 *            the pressed status of the main mouse button
 	 */
-	void setMousePressed(boolean mousePressed, MouseButton button );
+	void setMousePressed(boolean mousePressed, MouseButton button);
 
 	/**
 	 * Returns the queue of mouse events or actions, of type {@link MouseAction}
@@ -130,14 +140,19 @@ public interface MouseState {
 	void setGameObjectUnderMouse(DrawableGO<?> elementUnderMouse);
 
 	/**
-	 * Returns the game object that is being dragged, null if no object is being
-	 * dragged
+	 * Returns the game object created to represent the drag. This is not the
+	 * original game object dragged.
 	 * 
 	 * @return the game object that is being dragged, null if no object is being
 	 *         dragged
 	 */
 	DrawableGO<?> getDraggingGameObject();
-	
+
+	/**
+	 * The definition of the object being dragged
+	 * 
+	 * @return
+	 */
 	EAdSceneElementDef getDraggingElement();
 
 	/**
@@ -172,5 +187,12 @@ public interface MouseState {
 	 * @return how much the dragging element was dragged along the y axis
 	 */
 	int getDragDifY();
+
+	/**
+	 * Returns the original game object dragged
+	 * 
+	 * @return
+	 */
+	SceneElementGO<?> getDraggedSceneElement();
 
 }

@@ -131,7 +131,7 @@ public abstract class ActorImporter<P extends Element> implements
 		// add actions
 		EAdActorActionsEffect showActions = new EAdActorActionsEffect(actor);
 		actor.addBehavior(EAdMouseEventImpl.MOUSE_RIGHT_CLICK, showActions);
-
+		
 		// add other actions
 		actionImporter.addAllActions(oldObject.getActions(), actor, false);
 	}

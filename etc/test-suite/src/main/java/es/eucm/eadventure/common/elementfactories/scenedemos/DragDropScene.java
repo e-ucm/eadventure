@@ -40,12 +40,11 @@ package es.eucm.eadventure.common.elementfactories.scenedemos;
 import es.eucm.eadventure.common.model.conditions.impl.EmptyCondition;
 import es.eucm.eadventure.common.model.effects.impl.variables.EAdChangeFieldValueEffect;
 import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
+import es.eucm.eadventure.common.model.elements.impl.EAdSceneElementDefImpl;
 import es.eucm.eadventure.common.model.guievents.enums.DragAction;
 import es.eucm.eadventure.common.model.guievents.impl.EAdDragEventImpl;
-import es.eucm.eadventure.common.model.guievents.impl.EAdMouseEventImpl;
 import es.eucm.eadventure.common.model.variables.EAdField;
 import es.eucm.eadventure.common.model.variables.impl.EAdFieldImpl;
-import es.eucm.eadventure.common.model.variables.impl.SystemFields;
 import es.eucm.eadventure.common.model.variables.impl.operations.MathOperation;
 import es.eucm.eadventure.common.model.variables.impl.operations.ValueOperation;
 import es.eucm.eadventure.common.params.fills.impl.EAdColor;
@@ -66,18 +65,28 @@ public class DragDropScene extends EmptyScene {
 				BalloonType.ROUNDED_RECTANGLE);
 		shape.setPaint(new EAdLinearGradient(EAdColor.RED, new EAdColor(200, 0,
 				0), 100, 100));
-		EAdBasicSceneElement e1 = new EAdBasicSceneElement(shape);
+		
+		EAdSceneElementDefImpl def = new EAdSceneElementDefImpl( shape );
+		
+		
+		
+		EAdBasicSceneElement e1 = new EAdBasicSceneElement(def);
 		e1.setDragCond(EmptyCondition.TRUE_EMPTY_CONDITION);
 		e1.setPosition(new EAdPositionImpl(Corner.CENTER, 600, 300));
-		EAdField<Boolean> visible = new EAdFieldImpl<Boolean>(e1,
-				EAdBasicSceneElement.VAR_VISIBLE);
-		EAdChangeFieldValueEffect changeRotation1 = new EAdChangeFieldValueEffect(
-				visible,
-				new ValueOperation(Boolean.FALSE));
-		EAdChangeFieldValueEffect changeRotation2 = new EAdChangeFieldValueEffect(
-				 visible, new ValueOperation(Boolean.TRUE));
-		e1.addBehavior(EAdMouseEventImpl.MOUSE_START_DRAG, changeRotation1);
-		e1.addBehavior(EAdMouseEventImpl.MOUSE_DROP, changeRotation2);
+		
+		EAdBasicSceneElement e4 = new EAdBasicSceneElement(def);
+		e4.setDragCond(EmptyCondition.TRUE_EMPTY_CONDITION);
+		e4.setPosition(new EAdPositionImpl(Corner.TOP_LEFT, 20, 20));
+		e4.setScale(0.5f);
+		
+		EAdBasicSceneElement e5 = new EAdBasicSceneElement(def);
+		e5.setDragCond(EmptyCondition.TRUE_EMPTY_CONDITION);
+		e5.setPosition(new EAdPositionImpl(Corner.TOP_RIGHT, 500, 10));
+		e5.setVarInitialValue(EAdBasicSceneElement.VAR_ROTATION, 0.5f);
+		e5.setScale(1.5f);
+		
+		
+//		addComplexElement( );
 
 		BezierShape shape2 = new BallonShape(0, 0, 110, 110,
 				BalloonType.ROUNDED_RECTANGLE);
@@ -94,6 +103,8 @@ public class DragDropScene extends EmptyScene {
 		getComponents().add(e2);
 		getComponents().add(e3);
 		getComponents().add(e1);
+		getComponents().add(e4);
+		getComponents().add(e5);
 
 	}
 
@@ -109,18 +120,9 @@ public class DragDropScene extends EmptyScene {
 		e2.addBehavior(new EAdDragEventImpl(e1.getDefinition(), DragAction.EXITED),
 				changeScale2);
 		
-		
+
 		EAdFieldImpl<Integer> fieldX = new EAdFieldImpl<Integer>(e1, EAdBasicSceneElement.VAR_X);
-		EAdFieldImpl<Integer> fieldY = new EAdFieldImpl<Integer>(e1, EAdBasicSceneElement.VAR_Y); 
-		
-		EAdChangeFieldValueEffect moveX = new EAdChangeFieldValueEffect();
-		moveX.addField(fieldX);
-		moveX.setOperation(SystemFields.MOUSE_X);
-		EAdChangeFieldValueEffect moveY = new EAdChangeFieldValueEffect();
-		moveY.addField(fieldY);
-		moveY.setOperation(SystemFields.MOUSE_Y);
-		e1.getDefinition().addBehavior(EAdMouseEventImpl.MOUSE_DROP, moveX);
-		e1.getDefinition().addBehavior(EAdMouseEventImpl.MOUSE_DROP, moveY);
+		EAdFieldImpl<Integer> fieldY = new EAdFieldImpl<Integer>(e1, EAdBasicSceneElement.VAR_Y);
 
 		EAdChangeFieldValueEffect changeX = new EAdChangeFieldValueEffect(
 				fieldX,
@@ -134,8 +136,8 @@ public class DragDropScene extends EmptyScene {
 						EAdBasicSceneElement.VAR_Y)));
 		changeY.setId("y");
 
-		e2.addBehavior(new EAdDragEventImpl(e1.getDefinition(), DragAction.DROP), changeX);
-		e2.addBehavior(new EAdDragEventImpl(e1.getDefinition(), DragAction.DROP), changeY);
+//		e2.addBehavior(new EAdDragEventImpl(e1.getDefinition(), DragAction.DROP), changeX);
+//		e2.addBehavior(new EAdDragEventImpl(e1.getDefinition(), DragAction.DROP), changeY);
 	}
 
 	@Override

@@ -124,6 +124,10 @@ public class ElementReferenceImporter extends ElementImporter<ElementReference> 
 			// add dragable
 			if (factory.isDraggableActor(actor)) {
 				newRef.setDragCond(EmptyCondition.TRUE_EMPTY_CONDITION);
+				newRef.setVarInitialValue(
+						EAdBasicSceneElement.VAR_RETURN_WHEN_DRAGGED,
+						isReturnWhenDragged(oldObject.getTargetId()));
+
 			}
 		} else {
 			newRef.setVarInitialValue(EAdBasicSceneElement.VAR_ENABLE,
@@ -131,6 +135,17 @@ public class ElementReferenceImporter extends ElementImporter<ElementReference> 
 		}
 
 		return newRef;
+	}
+
+	private boolean isReturnWhenDragged(String targetId) {
+		Item i = factory.getCurrentOldChapterModel().getItem(targetId);
+		NPC npc = factory.getCurrentOldChapterModel().getCharacter(targetId);
+		if (i != null) {
+			return i.isReturnsWhenDragged();
+		} else if (npc != null)
+			return npc.isReturnsWhenDragged();
+
+		return false;
 	}
 
 	private String getImageUri(String targetId) {

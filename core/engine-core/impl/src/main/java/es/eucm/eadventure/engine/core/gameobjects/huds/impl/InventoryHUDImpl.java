@@ -203,6 +203,8 @@ public class InventoryHUDImpl extends AbstractHUD implements InventoryHUD {
 						scale);
 				element.setVarInitialValue(EAdInventoryImpl.VAR_IN_INVENTORY,
 						true);
+				element.setVarInitialValue(
+						EAdBasicSceneElement.VAR_RETURN_WHEN_DRAGGED, true);
 
 				inventory.getComponents().add(element);
 

@@ -234,7 +234,7 @@ public abstract class AbstractGUI<T> implements GUI {
 	}
 
 	private void processDrag() {
-		DrawableGO<?> currentDraggedGO = mouseState.getDraggingGameObject();
+		DrawableGO<?> currentDraggedGO = mouseState.getDraggedSceneElement();
 		int x = mouseState.getMouseScaledX();
 		int y = mouseState.getMouseScaledY();
 		if (currentDraggedGO != null) {

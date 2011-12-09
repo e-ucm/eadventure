@@ -124,6 +124,9 @@ public class EAdBasicSceneElement extends AbstractEAdElementWithBehavior
 
 	public static final EAdVarDef<EAdString> VAR_NAME = new EAdVarDefImpl<EAdString>(
 			"name", EAdString.class, null);
+	
+	public static final EAdVarDef<Boolean> VAR_RETURN_WHEN_DRAGGED = new EAdVarDefImpl<Boolean>(
+			"enable", Boolean.class, Boolean.FALSE);
 
 	@Param("vars")
 	private EAdMap<EAdVarDef<?>, Object> vars;
