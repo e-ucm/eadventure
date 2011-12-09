@@ -12,26 +12,30 @@ import es.eucm.eadventure.common.model.variables.impl.operations.ValueOperation;
 
 public class EditionSceneElement extends EAdComplexElementImpl {
 
-	public EditionSceneElement(EAdSceneElement element) {
+	public EditionSceneElement(EAdSceneElement element, float scale) {
+		
+		EAdSceneElement proxy = null; 
 		if (element instanceof EAdBasicSceneElement) {
-			this.components.add(new BasicSceneElementReplica(element));
+			proxy = new BasicSceneElementReplica(element);
 		} else if (element instanceof EAdComplexElement){
-			this.components.add(new ComplexSceneElementReplica(element));
+			proxy = new ComplexSceneElementReplica(element);
 		}
+		this.components.add(proxy);
+		proxy.setVarInitialValue(EAdBasicSceneElement.VAR_X, (int) (scale * (Integer) proxy.getVars().get(EAdBasicSceneElement.VAR_X)));
+		proxy.setVarInitialValue(EAdBasicSceneElement.VAR_Y, (int) (scale * (Integer) proxy.getVars().get(EAdBasicSceneElement.VAR_Y)));
+		proxy.setVarInitialValue(EAdBasicSceneElement.VAR_SCALE, scale);
 		
 		EAdField<Float> rotation = new EAdFieldImpl<Float>(this,
 				EAdBasicSceneElement.VAR_ROTATION);
 		EAdChangeFieldValueEffect changeRotation = new EAdChangeFieldValueEffect(
 				rotation,
-				new ValueOperation(2.0f));
+				new ValueOperation(0.2f));
 		EAdChangeFieldValueEffect restoreRotation = new EAdChangeFieldValueEffect(
 				 rotation, new ValueOperation(0.0f));
 
-		this.addBehavior(EAdMouseEventImpl.MOUSE_ENTERED, changeRotation);
-		this.addBehavior(EAdMouseEventImpl.MOUSE_EXITED, restoreRotation);
-		
+		proxy.addBehavior(EAdMouseEventImpl.MOUSE_ENTERED, changeRotation);
+		proxy.addBehavior(EAdMouseEventImpl.MOUSE_EXITED, restoreRotation);
 	}
-	
 	
 
 }

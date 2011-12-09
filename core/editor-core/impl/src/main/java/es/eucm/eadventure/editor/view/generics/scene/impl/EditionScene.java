@@ -22,7 +22,7 @@ public class EditionScene extends EmptyScene {
 		this.getComponents().add(element);
 		
 		for (EAdSceneElement sceneElement : scene.getComponents())
-			this.getComponents().add(new EditionSceneElement(sceneElement));
+			this.getComponents().add(new EditionSceneElement(sceneElement, 0.4f));
 	}
 	
 }
