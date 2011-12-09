@@ -3,6 +3,7 @@ package es.eucm.eadventure.editor.view.generics.scene.impl;
 import es.eucm.eadventure.common.model.conditions.impl.EmptyCondition;
 import es.eucm.eadventure.common.model.conditions.impl.OperationCondition;
 import es.eucm.eadventure.common.model.conditions.impl.enums.Comparator;
+import es.eucm.eadventure.common.model.effects.EAdEffect;
 import es.eucm.eadventure.common.model.effects.impl.variables.EAdChangeFieldValueEffect;
 import es.eucm.eadventure.common.model.elements.EAdComplexElement;
 import es.eucm.eadventure.common.model.elements.EAdCondition;
@@ -12,6 +13,7 @@ import es.eucm.eadventure.common.model.elements.impl.EAdComplexElementImpl;
 import es.eucm.eadventure.common.model.elements.impl.EAdSceneElementDefImpl;
 import es.eucm.eadventure.common.model.events.enums.ConditionedEventType;
 import es.eucm.eadventure.common.model.events.impl.EAdConditionEventImpl;
+import es.eucm.eadventure.common.model.extra.EAdList;
 import es.eucm.eadventure.common.model.guievents.impl.EAdMouseEventImpl;
 import es.eucm.eadventure.common.model.variables.EAdField;
 import es.eucm.eadventure.common.model.variables.impl.EAdFieldImpl;
@@ -26,6 +28,8 @@ import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.shapes.Re
 public class EditionSceneElement extends EAdComplexElementImpl {
 
 	private EAdSceneElement proxy = null; 
+	
+	private EAdList<EAdEffect> unselectEffects;
 	
 	public EditionSceneElement(EAdSceneElement element, float scale) {
 		setId(element.getId() + "_edition");
@@ -51,13 +55,15 @@ public class EditionSceneElement extends EAdComplexElementImpl {
 		proxy.addBehavior(EAdMouseEventImpl.MOUSE_EXITED, changeAlphaEffect(proxy, 0.3f, new OperationCondition(SystemFields.ACTIVE_ELEMENT, proxy, Comparator.DIFFERENT)));
 		proxy.addBehavior(EAdMouseEventImpl.MOUSE_LEFT_CLICK, makeActiveElement);
 		proxy.addBehavior(EAdMouseEventImpl.MOUSE_LEFT_CLICK, changeAlphaEffect(proxy, 1.0f, null));
-		
+
+		EAdConditionEventImpl conditionedEvent = new EAdConditionEventImpl(new OperationCondition(SystemFields.ACTIVE_ELEMENT, proxy, Comparator.EQUAL));
+		conditionedEvent.addEffect(ConditionedEventType.CONDITIONS_UNMET, changeAlphaEffect(proxy, 0.3f, null));
+		unselectEffects = conditionedEvent.getEffects().get(ConditionedEventType.CONDITIONS_UNMET);
+		this.getEvents().add(conditionedEvent);
+
 		addResizeSquare();
 		
 		addChangeAppearance();
-		
-		EAdConditionEventImpl conditionedEvent = new EAdConditionEventImpl(new OperationCondition(SystemFields.ACTIVE_ELEMENT, proxy, Comparator.DIFFERENT));
-		conditionedEvent.addEffect(ConditionedEventType.CONDITIONS_MET, changeAlphaEffect(proxy, 0.3f, null));
 		
 	}
 	
@@ -72,14 +78,17 @@ public class EditionSceneElement extends EAdComplexElementImpl {
 		square.setVarInitialValue(EAdBasicSceneElement.VAR_VISIBLE, Boolean.FALSE);
 		this.components.add(square);
 		
+		unselectEffects.add(new EAdChangeFieldValueEffect(
+				new EAdFieldImpl<Boolean>(square, EAdBasicSceneElement.VAR_VISIBLE),
+				new ValueOperation(Boolean.FALSE)));
+		
 		proxy.addBehavior(EAdMouseEventImpl.MOUSE_LEFT_CLICK, new EAdChangeFieldValueEffect(
 				new EAdFieldImpl<Boolean>(square, EAdBasicSceneElement.VAR_VISIBLE),
 				new ValueOperation(Boolean.TRUE)));
 
-		new EAdChangeAppearance(proxy, null);
 		for (EAdBundleId bundleID : proxy.getDefinition().getResources().getBundles()) {
 			if (bundleID != proxy.getDefinition().getResources().getInitialBundle())
-				square.addBehavior(EAdMouseEventImpl.MOUSE_LEFT_CLICK, new EAdChangeAppearance(proxy.getDefinition(), bundleID));
+				square.addBehavior(EAdMouseEventImpl.MOUSE_LEFT_CLICK, new EAdChangeAppearance(proxy, bundleID));
 		}
 
 	}
@@ -91,6 +100,10 @@ public class EditionSceneElement extends EAdComplexElementImpl {
 		squareDef.getResources().addAsset(squareDef.getInitialBundle(), EAdSceneElementDefImpl.appearance, new RectangleShape(10, 10, EAdPaintImpl.BLACK_ON_WHITE));
 		square.setVarInitialValue(EAdBasicSceneElement.VAR_VISIBLE, Boolean.FALSE);
 		this.components.add(square);
+		
+		unselectEffects.add(new EAdChangeFieldValueEffect(
+				new EAdFieldImpl<Boolean>(square, EAdBasicSceneElement.VAR_VISIBLE),
+				new ValueOperation(Boolean.FALSE)));
 		
 		proxy.addBehavior(EAdMouseEventImpl.MOUSE_LEFT_CLICK, new EAdChangeFieldValueEffect(
 				new EAdFieldImpl<Boolean>(square, EAdBasicSceneElement.VAR_VISIBLE),
