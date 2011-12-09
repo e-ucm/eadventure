@@ -2,6 +2,7 @@ package es.eucm.eadventure.editor.view.generics.scene.impl;
 
 import es.eucm.eadventure.common.elementfactories.scenedemos.EmptyScene;
 import es.eucm.eadventure.common.model.elements.EAdScene;
+import es.eucm.eadventure.common.model.elements.EAdSceneElement;
 import es.eucm.eadventure.common.model.elements.EAdSceneElementDef;
 import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
 import es.eucm.eadventure.common.model.elements.impl.EAdSceneElementDefImpl;
@@ -20,6 +21,8 @@ public class EditionScene extends EmptyScene {
 		element.setVarInitialValue(EAdBasicSceneElement.VAR_SCALE, 0.4f);
 		this.getComponents().add(element);
 		
+		for (EAdSceneElement sceneElement : scene.getComponents())
+			this.getComponents().add(new EditionSceneElement(sceneElement));
 	}
 	
 }
