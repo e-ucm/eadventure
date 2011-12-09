@@ -61,6 +61,7 @@ import es.eucm.eadventure.common.model.impl.EAdChapterImpl;
 import es.eucm.eadventure.editor.control.CommandManager;
 import es.eucm.eadventure.editor.view.ComponentProvider;
 import es.eucm.eadventure.editor.view.generics.scene.PreviewPanel;
+import es.eucm.eadventure.editor.view.generics.scene.impl.EditionScene;
 import es.eucm.eadventure.engine.core.Game;
 import es.eucm.eadventure.engine.core.GameState;
 import es.eucm.eadventure.engine.core.impl.modules.BasicGameModule;

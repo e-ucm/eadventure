@@ -1,4 +1,4 @@
-package es.eucm.eadventure.editor.view.swing.scene;
+package es.eucm.eadventure.editor.view.generics.scene.impl;
 
 import es.eucm.eadventure.common.elementfactories.scenedemos.EmptyScene;
 import es.eucm.eadventure.common.model.elements.EAdScene;
@@ -21,5 +21,5 @@ public class EditionScene extends EmptyScene {
 		this.getComponents().add(element);
 		
 	}
-
+	
 }

@@ -35,7 +35,7 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package es.eucm.eadventure.editor.view.generics.impl;
+package es.eucm.eadventure.editor.view.generics.scene.impl;
 
 import es.eucm.eadventure.common.model.elements.EAdScene;
 import es.eucm.eadventure.editor.view.generics.InterfaceElement;
