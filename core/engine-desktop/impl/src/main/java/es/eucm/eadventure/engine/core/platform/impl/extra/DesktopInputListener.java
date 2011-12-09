@@ -76,6 +76,8 @@ public class DesktopInputListener implements MouseListener,
 	 * The state of the keyboard
 	 */
 	private KeyboardState keyboardState;
+	
+	private int offsetX, offsetY;
 
 	/**
 	 * The logger
@@ -87,7 +89,14 @@ public class DesktopInputListener implements MouseListener,
 			KeyboardState keyboardState) {
 		this.mouseState = mouseState;
 		this.keyboardState = keyboardState;
+		offsetX = 0;
+		offsetY = 0;
 		logger.info("New instance");
+	}
+	
+	public void setOffset(int offsetX, int offsetY) {
+		this.offsetX = offsetX;
+		this.offsetY = offsetY;
 	}
 
 	@Override
@@ -104,7 +113,7 @@ public class DesktopInputListener implements MouseListener,
 	@Override
 	public void mousePressed(MouseEvent e) {
 		mouseState.setMousePressed(true, getMouseButton(e.getButton()));
-		mouseState.setMousePosition(e.getX(), e.getY());
+		mouseState.setMousePosition(e.getX() - offsetX, e.getY() - offsetY);
 		mouseState.getMouseEvents().add(
 				getMouseAction(e, MouseActionType.PRESSED,
 						mouseState.getMouseX(), mouseState.getMouseY()));
@@ -113,7 +122,7 @@ public class DesktopInputListener implements MouseListener,
 	@Override
 	public void mouseReleased(MouseEvent e) {
 		mouseState.setMousePressed(false, null);
-		mouseState.setMousePosition(e.getX(), e.getY());
+		mouseState.setMousePosition(e.getX() - offsetX, e.getY() - offsetY);
 		mouseState.getMouseEvents().add(
 				getMouseAction(e, MouseActionType.RELEASED,
 						mouseState.getMouseX(), mouseState.getMouseY()));
@@ -121,7 +130,7 @@ public class DesktopInputListener implements MouseListener,
 
 	@Override
 	public void mouseEntered(MouseEvent e) {
-		mouseState.setMousePosition(e.getX(), e.getY());
+		mouseState.setMousePosition(e.getX() - offsetX, e.getY() - offsetY);
 	}
 
 	@Override
@@ -131,13 +140,13 @@ public class DesktopInputListener implements MouseListener,
 
 	@Override
 	public void mouseDragged(MouseEvent e) {
-		mouseState.setMousePosition(e.getX(), e.getY());
+		mouseState.setMousePosition(e.getX() - offsetX, e.getY() - offsetY);
 //		mouseState.setMousePressed(true, getMouseButton(e.getButton()));
 	}
 
 	@Override
 	public void mouseMoved(MouseEvent e) {
-		mouseState.setMousePosition(e.getX(), e.getY());
+		mouseState.setMousePosition(e.getX() - offsetX, e.getY() - offsetY);
 	}
 
 	@Override

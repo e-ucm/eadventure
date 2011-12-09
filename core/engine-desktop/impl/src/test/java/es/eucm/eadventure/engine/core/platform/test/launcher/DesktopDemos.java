@@ -399,7 +399,6 @@ public class DesktopDemos extends BaseTestLauncher {
 					};
 					fileChooser.setFileFilter(filter);
 
-					fileChooser.showOpenDialog(null);
 					if (fileChooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
 
 						File f = fileChooser.getSelectedFile();

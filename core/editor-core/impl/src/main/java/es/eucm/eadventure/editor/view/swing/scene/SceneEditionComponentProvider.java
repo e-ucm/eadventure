@@ -44,7 +44,7 @@ import javax.swing.JComponent;
 
 import es.eucm.eadventure.editor.control.CommandManager;
 import es.eucm.eadventure.editor.view.ComponentProvider;
-import es.eucm.eadventure.editor.view.generics.impl.SceneInterfaceElement;
+import es.eucm.eadventure.editor.view.generics.scene.impl.SceneInterfaceElement;
 import es.eucm.eadventure.gui.eadcanvaspanel.EAdCanvasPanel;
 import es.eucm.eadventure.gui.eadcanvaspanel.listeners.DragListener;
 import es.eucm.eadventure.gui.eadcanvaspanel.listeners.ResizeListener;

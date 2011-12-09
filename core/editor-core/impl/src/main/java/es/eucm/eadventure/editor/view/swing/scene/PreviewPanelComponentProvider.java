@@ -39,6 +39,7 @@ package es.eucm.eadventure.editor.view.swing.scene;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -50,6 +51,7 @@ import com.google.inject.Guice;
 import com.google.inject.Injector;
 
 import es.eucm.eadventure.common.elementfactories.EAdElementsFactory;
+import es.eucm.eadventure.common.elementfactories.scenedemos.EmptyScene;
 import es.eucm.eadventure.common.elementfactories.scenedemos.InitScene;
 import es.eucm.eadventure.common.model.effects.impl.EAdChangeScene;
 import es.eucm.eadventure.common.model.elements.EAdAdventureModel;
@@ -59,6 +61,7 @@ import es.eucm.eadventure.common.model.impl.EAdChapterImpl;
 import es.eucm.eadventure.editor.control.CommandManager;
 import es.eucm.eadventure.editor.view.ComponentProvider;
 import es.eucm.eadventure.editor.view.generics.scene.PreviewPanel;
+import es.eucm.eadventure.editor.view.generics.scene.impl.EditionScene;
 import es.eucm.eadventure.engine.core.Game;
 import es.eucm.eadventure.engine.core.GameState;
 import es.eucm.eadventure.engine.core.impl.modules.BasicGameModule;
@@ -99,7 +102,7 @@ public class PreviewPanelComponentProvider implements ComponentProvider<PreviewP
 
 		gui = (DesktopEditorGUI) injector.getInstance(GUI.class);
 		
-		EAdScene scene = new InitScene();
+		EAdScene scene = new EmptyScene();
 		
 		c.getScenes().add(scene);
 		c.setInitialScene(scene);
@@ -107,7 +110,6 @@ public class PreviewPanelComponentProvider implements ComponentProvider<PreviewP
 		game = injector.getInstance(Game.class);
 		game.setGame(model, model.getChapters().get(0));
 		gameState = injector.getInstance(GameState.class);
-
 		
 		new Thread(new Runnable() {
 
@@ -128,7 +130,8 @@ public class PreviewPanelComponentProvider implements ComponentProvider<PreviewP
 		} while (panel == null);
 		
 		EAdChangeScene changeScene = new EAdChangeScene();
-		changeScene.setNextScene(element.getScene());
+		//TODO will need to clear scene stack...
+		changeScene.setNextScene(new EditionScene(element.getScene()));
 		gameState.addEffect(changeScene);
 		
 		EAdScrollPane pane = new EAdScrollPane(panel, EAdScrollPane.VERTICAL_SCROLLBAR_ALWAYS, EAdScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
@@ -138,14 +141,17 @@ public class PreviewPanelComponentProvider implements ComponentProvider<PreviewP
 		mainPanel.setLayout(new BorderLayout());
 		mainPanel.add(pane, BorderLayout.CENTER);
 		
-		JButton zoom = new JButton("zoom");
-		mainPanel.add(zoom, BorderLayout.NORTH);
+		JPanel zoomPanel = new JPanel();
+		zoomPanel.setLayout(new GridLayout(1,0));
+		JButton zoom = new JButton("zoom +");
+		zoomPanel.add(zoom);
 		zoom.addActionListener(new ZoomAction(panel, + 1, pane));
 		
-		JButton zoom2 = new JButton("zoom");
-		mainPanel.add(zoom2, BorderLayout.SOUTH);
+		JButton zoom2 = new JButton("zoom -");
+		zoomPanel.add(zoom2);
 		zoom2.addActionListener(new ZoomAction(panel, - 1, pane));
 
+		mainPanel.add(zoomPanel, BorderLayout.NORTH);
 		return mainPanel;
 	}
 
@@ -169,8 +175,11 @@ public class PreviewPanelComponentProvider implements ComponentProvider<PreviewP
 			double height = panel.getPreferredSize().getHeight();
 			height = height / width * (width + sign * 100);
 			width = width + sign * 100;
-			panel.setPreferredSize(new Dimension((int) width, (int) height));
-			pane.getViewport().setView(panel);
+			//TODO check if enough zoom
+			if (width > 100 && width < 2000) {
+				panel.setPreferredSize(new Dimension((int) width, (int) height));
+				pane.getViewport().setView(panel);
+			}
 		}
 
 	}
