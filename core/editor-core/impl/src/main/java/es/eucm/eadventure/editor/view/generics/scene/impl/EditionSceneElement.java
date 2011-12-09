@@ -27,9 +27,9 @@ public class EditionSceneElement extends EAdComplexElementImpl {
 		
 		EAdSceneElement proxy = null; 
 		if (element instanceof EAdBasicSceneElement) {
-			proxy = new BasicSceneElementReplica(element);
+			proxy = new BasicSceneElementProxy(element);
 		} else if (element instanceof EAdComplexElement){
-			proxy = new ComplexSceneElementReplica(element);
+			proxy = new ComplexSceneElementProxy(element);
 		}
 		
 		this.components.add(proxy);

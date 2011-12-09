@@ -1,12 +1,12 @@
 package es.eucm.eadventure.editor.view.generics.scene.impl;
 
 import es.eucm.eadventure.common.model.elements.EAdSceneElement;
-import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
+import es.eucm.eadventure.common.model.elements.impl.EAdComplexElementImpl;
 import es.eucm.eadventure.common.model.variables.EAdVarDef;
 
-public class BasicSceneElementReplica extends EAdBasicSceneElement {
+public class ComplexSceneElementProxy extends EAdComplexElementImpl {
 
-	public BasicSceneElementReplica(EAdSceneElement element) {
+	public ComplexSceneElementProxy(EAdSceneElement element) {
 		for (EAdVarDef<?> var : element.getVars().keySet()) {
 			this.getVars().put(var, element.getVars().get(var));
 		}
