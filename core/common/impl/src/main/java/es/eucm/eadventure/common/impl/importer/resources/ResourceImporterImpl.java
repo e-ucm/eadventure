@@ -62,7 +62,6 @@ import es.eucm.eadventure.common.GenericImporter;
 import es.eucm.eadventure.common.data.animation.Animation;
 import es.eucm.eadventure.common.data.animation.ImageLoaderFactory;
 import es.eucm.eadventure.common.data.chapter.conditions.Conditions;
-import es.eucm.eadventure.common.data.chapter.elements.Item;
 import es.eucm.eadventure.common.data.chapter.resources.Resources;
 import es.eucm.eadventure.common.impl.importer.interfaces.ResourceImporter;
 import es.eucm.eadventure.common.interfaces.features.Evented;
@@ -392,7 +391,7 @@ public class ResourceImporterImpl implements ResourceImporter {
 	public BufferedImage loadImage(String oldUri) {
 		try {
 			return ImageIO.read(inputStreamCreator.buildInputStream(oldUri));
-		} catch (IOException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return null;

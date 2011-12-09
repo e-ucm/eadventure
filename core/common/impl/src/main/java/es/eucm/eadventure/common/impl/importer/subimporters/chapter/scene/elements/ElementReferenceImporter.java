@@ -64,7 +64,7 @@ import es.eucm.eadventure.common.resources.StringHandler;
  * 
  */
 public class ElementReferenceImporter extends ElementImporter<ElementReference> {
-	
+
 	private ResourceImporter resourceImporter;
 
 	@Inject
@@ -98,18 +98,21 @@ public class ElementReferenceImporter extends ElementImporter<ElementReference> 
 		if (factory.getCurrentOldChapterModel().getAtrezzo(
 				oldObject.getTargetId()) == null) {
 
-			// add influence area
-			String imageUri = getImageUri(oldObject.getTargetId());
-			Dimension d = resourceImporter.getDimensions(imageUri);
-			int width = (int) d.getWidth();
-			int height = (int) d.getHeight();
-			EAdPosition p = new EAdPositionImpl(oldObject.getX(),
-					oldObject.getY(), 0.5f, 1.0f);
-			float scale = oldObject.getScale();
-			EAdRectangleImpl bounds = new EAdRectangleImpl(p.getJavaX(width
-					* scale), p.getJavaY(height * scale),
-					(int) (width * scale), (int) (height * scale));
-			super.addInfluenceArea(newRef, bounds, oldObject.getInfluenceArea());
+			if (!factory.isFirstPerson()) {
+				// add influence area
+				String imageUri = getImageUri(oldObject.getTargetId());
+				Dimension d = resourceImporter.getDimensions(imageUri);
+				int width = (int) d.getWidth();
+				int height = (int) d.getHeight();
+				EAdPosition p = new EAdPositionImpl(oldObject.getX(),
+						oldObject.getY(), 0.5f, 1.0f);
+				float scale = oldObject.getScale();
+				EAdRectangleImpl bounds = new EAdRectangleImpl(p.getJavaX(width
+						* scale), p.getJavaY(height * scale),
+						(int) (width * scale), (int) (height * scale));
+				super.addInfluenceArea(newRef, bounds,
+						oldObject.getInfluenceArea());
+			}
 
 			// add description
 			super.addDefaultBehavior(newRef, newRef.getDefinition().getDesc());
@@ -117,9 +120,9 @@ public class ElementReferenceImporter extends ElementImporter<ElementReference> 
 			// add enable
 			super.addEnableEvent(newRef,
 					super.getEnableCondition(oldObject.getConditions()));
-			
+
 			// add dragable
-			if ( factory.isDraggableActor( actor ) ){
+			if (factory.isDraggableActor(actor)) {
 				newRef.setDragCond(EmptyCondition.TRUE_EMPTY_CONDITION);
 			}
 		} else {
@@ -133,11 +136,12 @@ public class ElementReferenceImporter extends ElementImporter<ElementReference> 
 	private String getImageUri(String targetId) {
 		Item i = factory.getCurrentOldChapterModel().getItem(targetId);
 		NPC npc = factory.getCurrentOldChapterModel().getCharacter(targetId);
-		if ( i != null ){
-			return i.getResources().get(0).getAssetPath(Item.RESOURCE_TYPE_IMAGE);
-		}
-		else if ( npc != null ){
-			return npc.getResources().get(0).getAssetPath(NPC.RESOURCE_TYPE_STAND_DOWN);
+		if (i != null) {
+			return i.getResources().get(0)
+					.getAssetPath(Item.RESOURCE_TYPE_IMAGE);
+		} else if (npc != null) {
+			return npc.getResources().get(0)
+					.getAssetPath(NPC.RESOURCE_TYPE_STAND_DOWN);
 		}
 		return null;
 	}
