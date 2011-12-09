@@ -70,7 +70,6 @@ import es.eucm.eadventure.engine.core.platform.AssetHandler;
 import es.eucm.eadventure.engine.core.platform.GUI;
 import es.eucm.eadventure.engine.core.platform.PlatformConfiguration;
 import es.eucm.eadventure.engine.core.util.EAdTransformation;
-import es.eucm.eadventure.engine.core.util.impl.EAdTransformationImpl;
 
 @Singleton
 public class GameImpl implements Game {
@@ -111,8 +110,6 @@ public class GameImpl implements Game {
 	private EventGOFactory eventFactory;
 	
 	private List<EventGO<?>> events;
-	
-	private PlatformConfiguration platformConfiguration;
 
 	@Inject
 	public GameImpl(GUI gui, EvaluatorFactory evaluatorFactory,
@@ -134,7 +131,6 @@ public class GameImpl implements Game {
 		this.mouseState = mouseState;
 		this.inventoryHUD = inventoryHud;
 		this.inventoryHandler = inventoryHandler;
-		this.platformConfiguration = platformConfiguration;
 		this.eventFactory = eventFactory;
 		events = new ArrayList<EventGO<?>>();
 		initialTransformation = gui.getInitialTransformation();

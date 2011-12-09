@@ -202,8 +202,8 @@ public abstract class AbstractGUI<T> implements GUI {
 		DrawableGO<?> currentGO = getGOUnderMouse();
 		if (oldGO != currentGO) {
 			GameObject<?> draggedGO = mouseState.getDraggingGameObject();
-			int x = mouseState.getMouseX();
-			int y = mouseState.getMouseY();
+			int x = mouseState.getMouseScaledX();
+			int y = mouseState.getMouseScaledY();
 
 			if (oldGO != null) {
 				MouseActionImpl exitAction = new MouseActionImpl(
@@ -235,11 +235,14 @@ public abstract class AbstractGUI<T> implements GUI {
 
 	private void processDrag() {
 		DrawableGO<?> currentDraggedGO = mouseState.getDraggingGameObject();
-		int x = mouseState.getMouseX();
-		int y = mouseState.getMouseY();
+		int x = mouseState.getMouseScaledX();
+		int y = mouseState.getMouseScaledY();
 		if (currentDraggedGO != null) {
 			if (!mouseState.isMousePressed(MouseButton.BUTTON_1)) {
 				DrawableGO<?> goMouse = mouseState.getGameObjectUnderMouse();
+				MouseActionImpl drop = new MouseActionImpl(
+						EAdMouseEventImpl.MOUSE_DROP, x, y);
+				currentDraggedGO.processAction(drop);
 				if (goMouse != null) {
 					// Exit too
 					DragActionImpl action = new DragActionImpl(
@@ -252,9 +255,6 @@ public abstract class AbstractGUI<T> implements GUI {
 							DragAction.DROP, x, y);
 					goMouse.processAction(action2);
 				}
-				MouseActionImpl drop = new MouseActionImpl(
-						EAdMouseEventImpl.MOUSE_DROP, x, y);
-				currentDraggedGO.processAction(drop);
 				mouseState.setDraggingGameObject(null);
 				checkDrag = true;
 			}

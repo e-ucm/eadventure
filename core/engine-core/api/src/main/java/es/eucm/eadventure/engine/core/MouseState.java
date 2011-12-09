@@ -64,6 +64,8 @@ public interface MouseState {
 	 * @return the mouse position along the x axis within the window
 	 */
 	int getMouseX();
+	
+	int getMouseScaledX();
 
 	/**
 	 * The actual mouse position along the y axis within the window. If the
@@ -72,6 +74,8 @@ public interface MouseState {
 	 * @return the mouse position along the y axis within the window
 	 */
 	int getMouseY();
+	
+	int getMouseScaledY();
 
 	/**
 	 * Set the position of the mouse pointer

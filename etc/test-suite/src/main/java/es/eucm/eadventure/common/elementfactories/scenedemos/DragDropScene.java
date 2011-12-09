@@ -45,6 +45,7 @@ import es.eucm.eadventure.common.model.guievents.impl.EAdDragEventImpl;
 import es.eucm.eadventure.common.model.guievents.impl.EAdMouseEventImpl;
 import es.eucm.eadventure.common.model.variables.EAdField;
 import es.eucm.eadventure.common.model.variables.impl.EAdFieldImpl;
+import es.eucm.eadventure.common.model.variables.impl.SystemFields;
 import es.eucm.eadventure.common.model.variables.impl.operations.MathOperation;
 import es.eucm.eadventure.common.model.variables.impl.operations.ValueOperation;
 import es.eucm.eadventure.common.params.fills.impl.EAdColor;
@@ -107,15 +108,28 @@ public class DragDropScene extends EmptyScene {
 				changeScale1);
 		e2.addBehavior(new EAdDragEventImpl(e1.getDefinition(), DragAction.EXITED),
 				changeScale2);
+		
+		
+		EAdFieldImpl<Integer> fieldX = new EAdFieldImpl<Integer>(e1, EAdBasicSceneElement.VAR_X);
+		EAdFieldImpl<Integer> fieldY = new EAdFieldImpl<Integer>(e1, EAdBasicSceneElement.VAR_Y); 
+		
+		EAdChangeFieldValueEffect moveX = new EAdChangeFieldValueEffect();
+		moveX.addField(fieldX);
+		moveX.setOperation(SystemFields.MOUSE_X);
+		EAdChangeFieldValueEffect moveY = new EAdChangeFieldValueEffect();
+		moveY.addField(fieldY);
+		moveY.setOperation(SystemFields.MOUSE_Y);
+		e1.getDefinition().addBehavior(EAdMouseEventImpl.MOUSE_DROP, moveX);
+		e1.getDefinition().addBehavior(EAdMouseEventImpl.MOUSE_DROP, moveY);
 
 		EAdChangeFieldValueEffect changeX = new EAdChangeFieldValueEffect(
-				new EAdFieldImpl<Integer>(e1, EAdBasicSceneElement.VAR_X),
+				fieldX,
 				new MathOperation("[0]", new EAdFieldImpl<Integer>(e2,
 						EAdBasicSceneElement.VAR_X)));
 		changeX.setId("x");
 
 		EAdChangeFieldValueEffect changeY = new EAdChangeFieldValueEffect(
-				new EAdFieldImpl<Integer>(e1, EAdBasicSceneElement.VAR_Y),
+				fieldY,
 				new MathOperation("[0]", new EAdFieldImpl<Integer>(e2,
 						EAdBasicSceneElement.VAR_Y)));
 		changeY.setId("y");

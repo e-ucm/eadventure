@@ -47,6 +47,7 @@ import es.eucm.eadventure.common.model.elements.EAdSceneElement;
 import es.eucm.eadventure.common.model.elements.EAdSceneElementDef;
 import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
 import es.eucm.eadventure.common.model.guievents.enums.MouseButton;
+import es.eucm.eadventure.common.model.variables.impl.SystemFields;
 import es.eucm.eadventure.common.params.geom.impl.EAdPositionImpl;
 import es.eucm.eadventure.engine.core.GameState;
 import es.eucm.eadventure.engine.core.MouseState;
@@ -136,8 +137,8 @@ public class MouseStateImpl implements MouseState {
 	public void setDraggingGameObject(SceneElementGO<?> dragElementGO) {
 		if (dragElementGO != null) {
 			this.draggingElement = dragElementGO.getElement();
-			int x = mouseX;
-			int y = mouseY;
+			int x = this.getMouseScaledX();
+			int y = this.getMouseScaledY();
 			float dispX = gameState.getValueMap().getValue(draggingElement,
 					EAdBasicSceneElement.VAR_DISP_X);
 			float dispY = gameState.getValueMap().getValue(draggingElement,
@@ -191,6 +192,16 @@ public class MouseStateImpl implements MouseState {
 	@Override
 	public EAdSceneElementDef getDraggingElement() {
 		return draggingElement.getDefinition();
+	}
+
+	@Override
+	public int getMouseScaledX() {
+		return gameState.getValueMap().getValue(SystemFields.MOUSE_X);
+	}
+
+	@Override
+	public int getMouseScaledY() {
+		return gameState.getValueMap().getValue(SystemFields.MOUSE_Y);
 	}
 
 }

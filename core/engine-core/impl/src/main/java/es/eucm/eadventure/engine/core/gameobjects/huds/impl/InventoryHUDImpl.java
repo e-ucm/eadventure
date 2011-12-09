@@ -146,12 +146,12 @@ public class InventoryHUDImpl extends AbstractHUD implements InventoryHUD {
 	}
 
 	private void updateState() {
-		if (mouseState.getMouseY() > guiHeight - INVENTORY_HEIGHT
+		if (mouseState.getMouseScaledY() > guiHeight - INVENTORY_HEIGHT
 				&& state == InventoryState.HIDDEN) {
 			state = InventoryState.GOING_UP;
 		}
 
-		if (mouseState.getMouseY() < guiHeight - INVENTORY_HEIGHT * 3
+		if (mouseState.getMouseScaledY() < guiHeight - INVENTORY_HEIGHT * 3
 				&& (state == InventoryState.SHOWN || state == InventoryState.GOING_UP)) {
 			state = InventoryState.GOING_DOWN;
 		}
