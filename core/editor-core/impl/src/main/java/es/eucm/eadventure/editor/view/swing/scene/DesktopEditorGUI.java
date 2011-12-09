@@ -128,12 +128,12 @@ public class DesktopEditorGUI extends DesktopGUI {
 						panel.getVisibleRect().getWidth() > 0 &&
 						panel.getVisibleRect().getHeight() > 0) {
 					if (backbufferImage == null) {
-						logger.info("New backbuffer: " + (int) panel.getVisibleRect().getWidth() + "x" + (int) panel.getVisibleRect().getHeight());
+						logger.fine("New backbuffer: " + (int) panel.getVisibleRect().getWidth() + "x" + (int) panel.getVisibleRect().getHeight());
 						backbufferImage = panel.createVolatileImage((int) panel.getVisibleRect().getWidth(), (int) panel.getVisibleRect().getHeight());
 					} else if (backbufferImage != null &&
 							panel.getVisibleRect().getWidth() != backbufferImage.getWidth() &&
 							panel.getVisibleRect().getHeight() != backbufferImage.getHeight()) { 
-						logger.info("Resized backbuffer: " + (int) panel.getVisibleRect().getWidth() + "x" + (int) panel.getVisibleRect().getHeight());
+						logger.fine("Resized backbuffer: " + (int) panel.getVisibleRect().getWidth() + "x" + (int) panel.getVisibleRect().getHeight());
 						backbufferImage = panel.createVolatileImage((int) panel.getVisibleRect().getWidth(), (int) panel.getVisibleRect().getHeight());
 					}
 				}

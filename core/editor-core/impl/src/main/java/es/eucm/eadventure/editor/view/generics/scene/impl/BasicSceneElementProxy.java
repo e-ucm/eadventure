@@ -7,10 +7,11 @@ import es.eucm.eadventure.common.model.variables.EAdVarDef;
 public class BasicSceneElementProxy extends EAdBasicSceneElement {
 
 	public BasicSceneElementProxy(EAdSceneElement element) {
+		setId(element.getId() + "_proxy");
 		for (EAdVarDef<?> var : element.getVars().keySet()) {
 			this.getVars().put(var, element.getVars().get(var));
 		}
-		this.setDefinition(element.getDefinition());
+		this.setDefinition(new SceneElementDefProxy(element.getDefinition()));
 	}
 
 }

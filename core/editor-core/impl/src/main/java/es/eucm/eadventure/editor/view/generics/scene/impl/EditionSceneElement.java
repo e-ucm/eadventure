@@ -18,14 +18,18 @@ import es.eucm.eadventure.common.model.variables.impl.EAdFieldImpl;
 import es.eucm.eadventure.common.model.variables.impl.SystemFields;
 import es.eucm.eadventure.common.model.variables.impl.operations.ValueOperation;
 import es.eucm.eadventure.common.params.fills.impl.EAdPaintImpl;
+import es.eucm.eadventure.common.predef.model.effects.EAdChangeAppearance;
 import es.eucm.eadventure.common.predef.model.effects.EAdMakeActiveElementEffect;
+import es.eucm.eadventure.common.resources.EAdBundleId;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.shapes.RectangleShape;
 
 public class EditionSceneElement extends EAdComplexElementImpl {
 
+	private EAdSceneElement proxy = null; 
+	
 	public EditionSceneElement(EAdSceneElement element, float scale) {
+		setId(element.getId() + "_edition");
 		
-		EAdSceneElement proxy = null; 
 		if (element instanceof EAdBasicSceneElement) {
 			proxy = new BasicSceneElementProxy(element);
 		} else if (element instanceof EAdComplexElement){
@@ -35,7 +39,6 @@ public class EditionSceneElement extends EAdComplexElementImpl {
 		this.components.add(proxy);
 		this.setVarInitialValue(EAdBasicSceneElement.VAR_X, (int) (scale * (Integer) proxy.getVars().get(EAdBasicSceneElement.VAR_X)));
 		this.setVarInitialValue(EAdBasicSceneElement.VAR_Y, (int) (scale * (Integer) proxy.getVars().get(EAdBasicSceneElement.VAR_Y)));
-		
 		proxy.setVarInitialValue(EAdBasicSceneElement.VAR_X, 0);
 		proxy.setVarInitialValue(EAdBasicSceneElement.VAR_Y, 0);
 		this.setVarInitialValue(EAdBasicSceneElement.VAR_SCALE, scale);
@@ -49,6 +52,39 @@ public class EditionSceneElement extends EAdComplexElementImpl {
 		proxy.addBehavior(EAdMouseEventImpl.MOUSE_LEFT_CLICK, makeActiveElement);
 		proxy.addBehavior(EAdMouseEventImpl.MOUSE_LEFT_CLICK, changeAlphaEffect(proxy, 1.0f, null));
 		
+		addResizeSquare();
+		
+		addChangeAppearance();
+		
+		EAdConditionEventImpl conditionedEvent = new EAdConditionEventImpl(new OperationCondition(SystemFields.ACTIVE_ELEMENT, proxy, Comparator.DIFFERENT));
+		conditionedEvent.addEffect(ConditionedEventType.CONDITIONS_MET, changeAlphaEffect(proxy, 0.3f, null));
+		
+	}
+	
+	private void addChangeAppearance() {
+		EAdSceneElementDefImpl squareDef = new EAdSceneElementDefImpl();
+		EAdBasicSceneElement square = new EAdBasicSceneElement(squareDef);
+		square.setDragCond(EmptyCondition.FALSE_EMPTY_CONDITION);
+		square.setVarInitialValue(EAdBasicSceneElement.VAR_X, 12);
+		square.setVarInitialValue(EAdBasicSceneElement.VAR_Y, 12);
+
+		squareDef.getResources().addAsset(squareDef.getInitialBundle(), EAdSceneElementDefImpl.appearance, new RectangleShape(10, 10, EAdPaintImpl.BLACK_ON_WHITE));
+		square.setVarInitialValue(EAdBasicSceneElement.VAR_VISIBLE, Boolean.FALSE);
+		this.components.add(square);
+		
+		proxy.addBehavior(EAdMouseEventImpl.MOUSE_LEFT_CLICK, new EAdChangeFieldValueEffect(
+				new EAdFieldImpl<Boolean>(square, EAdBasicSceneElement.VAR_VISIBLE),
+				new ValueOperation(Boolean.TRUE)));
+
+		new EAdChangeAppearance(proxy, null);
+		for (EAdBundleId bundleID : proxy.getDefinition().getResources().getBundles()) {
+			if (bundleID != proxy.getDefinition().getResources().getInitialBundle())
+				square.addBehavior(EAdMouseEventImpl.MOUSE_LEFT_CLICK, new EAdChangeAppearance(proxy.getDefinition(), bundleID));
+		}
+
+	}
+
+	private void addResizeSquare() {
 		EAdSceneElementDefImpl squareDef = new EAdSceneElementDefImpl();
 		EAdBasicSceneElement square = new EAdBasicSceneElement(squareDef);
 		square.setDragCond(EmptyCondition.TRUE_EMPTY_CONDITION);
@@ -59,12 +95,13 @@ public class EditionSceneElement extends EAdComplexElementImpl {
 		proxy.addBehavior(EAdMouseEventImpl.MOUSE_LEFT_CLICK, new EAdChangeFieldValueEffect(
 				new EAdFieldImpl<Boolean>(square, EAdBasicSceneElement.VAR_VISIBLE),
 				new ValueOperation(Boolean.TRUE)));
+		proxy.addBehavior(EAdMouseEventImpl.MOUSE_LEFT_CLICK, new EAdChangeFieldValueEffect(
+				new EAdFieldImpl<Integer>(square, EAdBasicSceneElement.VAR_X),
+				new ValueOperation(new EAdFieldImpl<Integer>(proxy, EAdBasicSceneElement.VAR_WIDTH))));
 
-		
-		EAdConditionEventImpl conditionedEvent = new EAdConditionEventImpl(new OperationCondition(SystemFields.ACTIVE_ELEMENT, proxy, Comparator.DIFFERENT));
-		conditionedEvent.addEffect(ConditionedEventType.CONDITIONS_MET, changeAlphaEffect(proxy, 0.3f, null));
-		
 	}
+	
+	
 	
 	private EAdChangeFieldValueEffect changeAlphaEffect(EAdSceneElement proxy, float alpha, EAdCondition cond) {
 		EAdField<Float> alphaField = new EAdFieldImpl<Float>(proxy,
