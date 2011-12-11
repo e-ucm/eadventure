@@ -57,7 +57,6 @@ public class EvaluatorFactoryImpl extends AbstractFactory<Evaluator<?>> implemen
 	@SuppressWarnings("unused")
 	private static final Logger logger = Logger.getLogger("EvaluatorFactoryImpl");
 	
-
 	@Inject
 	public EvaluatorFactoryImpl(ReflectionProvider interfacesProvider) {
 		super(null, interfacesProvider);
