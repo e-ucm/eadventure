@@ -53,11 +53,9 @@ import com.google.inject.AbstractModule;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 
-import es.eucm.eadventure.common.elementfactories.scenedemos.SceneDemos;
 import es.eucm.eadventure.common.impl.reader.EAdAdventureDOMModelReader;
 import es.eucm.eadventure.common.impl.writer.EAdAdventureModelWriter;
 import es.eucm.eadventure.common.model.elements.EAdAdventureModel;
-import es.eucm.eadventure.common.model.elements.EAdScene;
 import es.eucm.eadventure.common.model.impl.EAdAdventureModelImpl;
 import es.eucm.eadventure.common.model.impl.EAdChapterImpl;
 
@@ -84,10 +82,6 @@ public class EAdWriterTest extends TestCase {
 		model.getChapters().add(chapter);
 		
 //		chapter.getScenes().add(new SpeakAndMoveScene());
-
-		for (EAdScene s : SceneDemos.getInstance().getScenes()) {
-			chapter.getScenes().add(s);
-		}
 
 		writer = new EAdAdventureModelWriter();
 

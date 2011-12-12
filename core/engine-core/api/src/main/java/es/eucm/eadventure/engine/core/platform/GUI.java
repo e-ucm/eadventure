@@ -47,11 +47,8 @@ import es.eucm.eadventure.engine.core.util.EAdTransformation;
  */
 public interface GUI {
 
-	/**
-	 * The virtual height of eAdventure game representations
-	 */
-	static final int VIRTUAL_HEIGHT = 600;
-	static final int VIRTUAL_WIDTH = 800;
+	int VIRTUAL_WIDTH = 800;
+	int VIRTUAL_HEIGHT = 600;
 
 	/**
 	 * Add an element to the scene. The order of the elements is used during
@@ -149,4 +146,20 @@ public interface GUI {
 	void finish();
 
 	EAdTransformation getInitialTransformation();
+
+	/**
+	 * Sets the width (usually in pixels) for the game container
+	 * 
+	 * @param width
+	 *            the width
+	 */
+	void setWidth(int width);
+
+	/**
+	 * Sets the height (usually in pixels) for the game container
+	 * 
+	 * @param height
+	 *            the height
+	 */
+	void setHeight(int height);
 }

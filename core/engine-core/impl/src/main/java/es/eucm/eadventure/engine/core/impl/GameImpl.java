@@ -83,6 +83,8 @@ public class GameImpl implements Game {
 	private GUI gui;
 
 	private GameState gameState;
+	
+	private PlatformConfiguration platformConfiguration;
 
 	private EffectHUD effectHUD;
 
@@ -132,6 +134,7 @@ public class GameImpl implements Game {
 		this.inventoryHUD = inventoryHud;
 		this.inventoryHandler = inventoryHandler;
 		this.eventFactory = eventFactory;
+		this.platformConfiguration = platformConfiguration;
 		events = new ArrayList<EventGO<?>>();
 		initialTransformation = gui.getInitialTransformation();
 		gameObjectManager.setBasicHUD(basicHud);
@@ -258,6 +261,9 @@ public class GameImpl implements Game {
 
 	@Override
 	public void setGame(EAdAdventureModel model, EAdChapter eAdChapter) {
+		platformConfiguration.setWidth(model.getGameWidth());
+		platformConfiguration.setHeight(model.getGameHeight());
+		
 		this.adventure = model;
 		if (adventure.getInventory() != null) {
 			for (EAdSceneElementDef def : adventure.getInventory()

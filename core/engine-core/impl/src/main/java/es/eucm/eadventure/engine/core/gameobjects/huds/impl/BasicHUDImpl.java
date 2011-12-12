@@ -156,18 +156,6 @@ public class BasicHUDImpl extends AbstractHUD implements BasicHUD {
 	}
 
 	@Override
-	public void doLayout(EAdTransformation transformation) {
-		if (mouseState.getDraggingGameObject() != null && mouseState.isInside()) {
-			DrawableGO<?> draggedGO = mouseState.getDraggingGameObject();
-			EAdTransformation t = (EAdTransformation) transformation.clone();
-			t.getMatrix().translate(mouseState.getDragDifX(),
-					mouseState.getDragDifY(), false);
-			gui.addElement(draggedGO, t);
-		}
-		super.doLayout(transformation);
-	}
-
-	@Override
 	public void update() {
 		updateContextual();
 		updateMouse();

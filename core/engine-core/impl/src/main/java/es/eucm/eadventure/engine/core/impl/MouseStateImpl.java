@@ -48,73 +48,152 @@ import es.eucm.eadventure.common.model.elements.EAdSceneElementDef;
 import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
 import es.eucm.eadventure.common.model.guievents.enums.MouseButton;
 import es.eucm.eadventure.common.model.variables.impl.SystemFields;
-import es.eucm.eadventure.common.params.geom.impl.EAdPositionImpl;
 import es.eucm.eadventure.engine.core.GameState;
 import es.eucm.eadventure.engine.core.MouseState;
 import es.eucm.eadventure.engine.core.gameobjects.DrawableGO;
-import es.eucm.eadventure.engine.core.gameobjects.GameObjectManager;
 import es.eucm.eadventure.engine.core.gameobjects.SceneElementGO;
-import es.eucm.eadventure.engine.core.gameobjects.factories.SceneElementGOFactory;
 import es.eucm.eadventure.engine.core.guiactions.MouseAction;
-import es.eucm.eadventure.engine.core.util.EAdTransformation;
+import es.eucm.eadventure.engine.core.platform.PlatformConfiguration;
 
 @Singleton
 public class MouseStateImpl implements MouseState {
 
+	/**
+	 * Constant representing the mouse out of the window
+	 */
 	public static final int OUT_VAL = -1;
 
-	private int mouseX = OUT_VAL;
-
-	private int mouseY = OUT_VAL;
-
-	private boolean mousePressed = false;
-
-	private MouseButton buttonPressed = null;
-
-	private Queue<MouseAction> mouseEvents;
-
-	private DrawableGO<?> gameObjectUnderMouse;
-
-	private DrawableGO<?> draggingGameObject;
-
-	private EAdSceneElement draggingElement;
-
-	private int dragInitX = OUT_VAL;
-
-	private int dragInitY = OUT_VAL;
-
-	private int scaledDragInitX = OUT_VAL;
-
-	private int scaledDragInitY = OUT_VAL;
-
-	private SceneElementGOFactory factory;
+	/**
+	 * Z used in drag
+	 */
+	public static final int DRAG_Z = Integer.MAX_VALUE;
 
 	private GameState gameState;
 
-	private SceneElementGO<?> draggedSceneElement;
+	// Mouse position
 
-	private GameObjectManager gameObjectManager;
+	/**
+	 * X coordinate of the windows' pixel the mouse is in
+	 */
+	private int mousePixelX = OUT_VAL;
+
+	/**
+	 * Y coordinate of the windows' pixel the mouse is in
+	 */
+	private int mousePixelY = OUT_VAL;
+
+	/**
+	 * X coordinate for the mouse in the game engine coordinates system
+	 */
+	private int mouseVirtualX = OUT_VAL;
+
+	/**
+	 * Y coordinate for the mouse in the game engine coordinates system
+	 */
+	private int mouseVirtualY = OUT_VAL;
+	
+	// Game dimensions
+	/**
+	 * The width for the window (usually in pixels)
+	 */
+	private int windowWidth = 0;
+	
+	/**
+	 * The height for the window (usually in pixels)
+	 */
+	private int windowHeight = 0;
+	
+	/**
+	 * The width for the game
+	 */
+	private int gameWidth = 0;
+	
+	/**
+	 * The height for the game
+	 */
+	private int gameHeight = 0;
+
+	// Mouse pressed
+
+	/**
+	 * Whether the mouse is pressed
+	 */
+	private boolean mousePressed = false;
+
+	/**
+	 * Which button is pressed on the mouse
+	 */
+	private MouseButton buttonPressed = null;
+
+	/**
+	 * Queue with mouse events
+	 */
+	private Queue<MouseAction> mouseEvents;
+
+	/**
+	 * Game object under the mouse
+	 */
+	private DrawableGO<?> gameObjectUnderMouse;
+
+	// Drag & Drop attributes
+
+	/**
+	 * Game object being dragged
+	 */
+	private SceneElementGO<?> draggingGameObject;
+
+	/**
+	 * X virtual coordinate where the drag was started
+	 */
+	private int initDragX;
+
+	/**
+	 * Y virtual coordinate where the drag was started
+	 */
+	private int initDragY;
+
+	private int diffX;
+
+	private int diffY;
+
+	/**
+	 * Z of the scene element being dragged
+	 */
+	private int initZ;
 
 	@Inject
-	public MouseStateImpl(SceneElementGOFactory factory, GameState gameState,
-			GameObjectManager gameObjectManager) {
-		this.factory = factory;
+	public MouseStateImpl(GameState gameState,
+			PlatformConfiguration platformConfiguration) {
 		mouseEvents = new ConcurrentLinkedQueue<MouseAction>();
-		this.gameObjectManager = gameObjectManager;
 		this.gameState = gameState;
+		this.gameWidth = platformConfiguration.getWidth();
+		this.gameHeight = platformConfiguration.getHeight();
 	}
 
 	public int getMouseX() {
-		return mouseX;
+		return mousePixelX;
 	}
 
 	public int getMouseY() {
-		return mouseY;
+		return mousePixelY;
 	}
 
 	public void setMousePosition(int mouseX, int mouseY) {
-		this.mouseX = mouseX;
-		this.mouseY = mouseY;
+		this.mousePixelX = mouseX;
+		this.mousePixelY = mouseY;
+		this.mouseVirtualX = (int) (mouseX / ( (float) windowWidth / (float) gameWidth ));
+		this.mouseVirtualY = (int) (mouseY / ( (float) windowHeight / (float) gameHeight ));
+		updateDrag();
+	}
+
+	private void updateDrag() {
+		if (this.draggingGameObject != null) {
+			EAdSceneElement e = draggingGameObject.getElement();
+			gameState.getValueMap().setValue(e, EAdBasicSceneElement.VAR_X,
+					mouseVirtualX - diffX);
+			gameState.getValueMap().setValue(e, EAdBasicSceneElement.VAR_Y,
+					mouseVirtualY - diffY);
+		}
 	}
 
 	public boolean isMousePressed(MouseButton button) {
@@ -138,103 +217,18 @@ public class MouseStateImpl implements MouseState {
 		this.gameObjectUnderMouse = gameObjectUnderMouse;
 	}
 
-	public DrawableGO<?> getDraggingGameObject() {
-		if (draggingGameObject != null) {
-			draggingGameObject.update();
-		}
-		return draggingGameObject;
-	}
-
-	@Override
-	public void setDraggingGameObject(SceneElementGO<?> dragElementGO) {
-		draggedSceneElement = dragElementGO;
-
-		if (dragElementGO != null) {
-
-			this.draggingElement = dragElementGO.getElement();
-
-			int index = gameObjectManager.getGameObjects().indexOf(
-					dragElementGO);
-			EAdTransformation t = gameObjectManager.getTransformations().get(
-					index);
-
-			float width = gameState.getValueMap().getValue(draggingElement,
-					EAdBasicSceneElement.VAR_WIDTH);
-			float height = gameState.getValueMap().getValue(draggingElement,
-					EAdBasicSceneElement.VAR_HEIGHT);
-			float dispX = gameState.getValueMap().getValue(draggingElement,
-					EAdBasicSceneElement.VAR_DISP_X);
-			float dispY = gameState.getValueMap().getValue(draggingElement,
-					EAdBasicSceneElement.VAR_DISP_Y);
-			float[] r = t.getMatrix().multiplyPoint(width * dispX,
-					height * dispY, true);
-
-			int initX = (int) r[0];
-			int initY = (int) r[1];
-
-			float scale = gameState.getValueMap().getValue(draggingElement,
-					EAdBasicSceneElement.VAR_SCALE);
-			float rotation = gameState.getValueMap().getValue(draggingElement,
-					EAdBasicSceneElement.VAR_ROTATION);
-
-			gameState.getValueMap().setValue(draggingElement,
-					EAdBasicSceneElement.VAR_VISIBLE, false);
-
-			EAdBasicSceneElement element2 = new EAdBasicSceneElement(
-					draggingElement.getDefinition());
-			element2.setScale(scale);
-			element2.setVarInitialValue(EAdBasicSceneElement.VAR_ROTATION,
-					rotation);
-			element2.setPosition(new EAdPositionImpl(initX, initY, dispX, dispY));
-			draggingGameObject = factory.get(element2);
-
-		} else {
-			if (draggingElement != null) {
-				gameState.getValueMap().setValue(draggingElement,
-						EAdBasicSceneElement.VAR_VISIBLE, true);
-				if (!gameState.getValueMap().getValue(draggingElement,
-						EAdBasicSceneElement.VAR_RETURN_WHEN_DRAGGED)) {
-					int x = gameState.getValueMap().getValue(draggingElement, EAdBasicSceneElement.VAR_X);
-					int y = gameState.getValueMap().getValue(draggingElement, EAdBasicSceneElement.VAR_Y);
-					gameState.getValueMap().setValue(draggingElement,
-							EAdBasicSceneElement.VAR_X,
-							x + (getMouseScaledX() - scaledDragInitX));
-					gameState.getValueMap().setValue(draggingElement,
-							EAdBasicSceneElement.VAR_Y,
-							y + (getMouseScaledY() - scaledDragInitY));
-				}
-			}
-			draggingGameObject = null;
-			draggingElement = null;
-		}
-
-		if (draggingGameObject != null) {
-			this.dragInitX = mouseX;
-			this.dragInitY = mouseY;
-			this.scaledDragInitX = this.getMouseScaledX();
-			this.scaledDragInitY = this.getMouseScaledY();
-		}
-	}
-
-	@Override
-	public int getDragDifX() {
-		return mouseX - dragInitX;
-	}
-
-	@Override
-	public int getDragDifY() {
-		return mouseY - dragInitY;
-	}
-
 	public boolean isInside() {
-		if (mouseX == OUT_VAL && mouseY == OUT_VAL)
+		if (mousePixelX == OUT_VAL && mousePixelY == OUT_VAL)
 			return false;
 		return true;
 	}
 
 	@Override
 	public EAdSceneElementDef getDraggingElement() {
-		return draggingElement.getDefinition();
+		if (draggingGameObject != null)
+			return draggingGameObject.getElement().getDefinition();
+		else
+			return null;
 	}
 
 	@Override
@@ -247,8 +241,66 @@ public class MouseStateImpl implements MouseState {
 		return gameState.getValueMap().getValue(SystemFields.MOUSE_Y);
 	}
 
-	public SceneElementGO<?> getDraggedSceneElement() {
-		return draggedSceneElement;
+	public SceneElementGO<?> getDraggingGameObject() {
+		return draggingGameObject;
+	}
+
+	@Override
+	public void setDraggingGameObject(SceneElementGO<?> dragElementGO) {
+
+		if (dragElementGO != null) {
+			draggingGameObject = dragElementGO;
+			EAdSceneElement sceneElement = dragElementGO.getElement();
+
+			initDragX = gameState.getValueMap().getValue(sceneElement,
+					EAdBasicSceneElement.VAR_X);
+			initDragY = gameState.getValueMap().getValue(sceneElement,
+					EAdBasicSceneElement.VAR_Y);
+
+			diffX = mouseVirtualX - initDragX;
+			diffY = mouseVirtualY - initDragY;
+
+			initZ = gameState.getValueMap().getValue(sceneElement,
+					EAdBasicSceneElement.VAR_Z);
+
+			gameState.getValueMap().setValue(sceneElement,
+					EAdBasicSceneElement.VAR_Z, DRAG_Z);
+
+		} else {
+			if (draggingGameObject != null) {
+				EAdSceneElement sceneElement = draggingGameObject.getElement();
+				gameState.getValueMap().setValue(sceneElement,
+						EAdBasicSceneElement.VAR_Z, initZ);
+				if (gameState.getValueMap().getValue(sceneElement,
+						EAdBasicSceneElement.VAR_RETURN_WHEN_DRAGGED)) {
+					gameState.getValueMap().setValue(sceneElement,
+							EAdBasicSceneElement.VAR_X, initDragX);
+					gameState.getValueMap().setValue(sceneElement,
+							EAdBasicSceneElement.VAR_Y, initDragY);
+				}
+			}
+			draggingGameObject = null;
+		}
+	}
+
+	@Override
+	public int getDragDifX() {
+		return getMouseScaledX() - mouseVirtualX;
+	}
+
+	@Override
+	public int getDragDifY() {
+		return getMouseScaledY() - mouseVirtualY;
+	}
+
+	@Override
+	public void setWindowWidth(int width) {
+		this.windowWidth = width;
+	}
+
+	@Override
+	public void setWindowHeight(int height) {
+		this.windowHeight = height;
 	}
 
 }

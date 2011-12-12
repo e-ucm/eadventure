@@ -43,7 +43,6 @@ import es.eucm.eadventure.common.resources.assets.drawable.basics.Image;
 import es.eucm.eadventure.engine.core.GameState;
 import es.eucm.eadventure.engine.core.KeyboardState;
 import es.eucm.eadventure.engine.core.MouseState;
-import es.eucm.eadventure.engine.core.gameobjects.GameObject;
 import es.eucm.eadventure.engine.core.gameobjects.GameObjectManager;
 import es.eucm.eadventure.engine.core.gameobjects.factories.SceneElementGOFactory;
 import es.eucm.eadventure.engine.core.platform.impl.AbstractGUI;
@@ -80,11 +79,6 @@ public class TestGUI extends AbstractGUI<Void>{
 	@Override
 	public void initilize() {
 		
-	}
-
-	@Override
-	public int[] getGameElementGUIOffset(GameObject<?> gameObject) {
-		return null;
 	}
 
 	@Override

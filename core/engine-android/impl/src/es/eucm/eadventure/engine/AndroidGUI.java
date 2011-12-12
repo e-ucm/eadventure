@@ -116,6 +116,8 @@ public class AndroidGUI extends AbstractGUI<Canvas> {
 					(float) ((AndroidPlatformConfiguration) platformConfiguration)
 							.getScaleH());
 
+		setWidth( platformConfiguration.getWidth());
+		setHeight( platformConfiguration.getHeight());
 		aCanvas.setMatrix(matrix);
 		aCanvas.save();
 

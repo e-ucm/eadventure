@@ -49,7 +49,6 @@ import com.google.inject.name.Names;
 import es.eucm.eadventure.common.resources.StringHandler;
 import es.eucm.eadventure.common.resources.assets.AssetDescriptor;
 import es.eucm.eadventure.engine.core.KeyboardState;
-import es.eucm.eadventure.engine.core.MouseState;
 import es.eucm.eadventure.engine.core.gameobjects.GameObjectManager;
 import es.eucm.eadventure.engine.core.gameobjects.huds.BasicHUD;
 import es.eucm.eadventure.engine.core.gameobjects.huds.impl.BasicHUDImpl;
@@ -70,7 +69,6 @@ public class TestModule extends AbstractModule {
 		bind(GUI.class).to(TestGUI.class);
 		bind(PlatformConfiguration.class).to(TestPlatformConfiguration.class);
 		bind(PlatformLauncher.class).to(TestPlatformLauncher.class);
-		bind(MouseState.class).to(MouseStateTest.class);
 		bind(KeyboardState.class).to(KeyboardStateImpl.class);
 		bind(GameObjectManager.class).to(GameObjectManagerImpl.class);
 		bind(BasicHUD.class).to(BasicHUDImpl.class);

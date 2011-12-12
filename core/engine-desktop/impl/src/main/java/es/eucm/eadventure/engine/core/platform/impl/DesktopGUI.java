@@ -218,9 +218,7 @@ public class DesktopGUI extends AbstractGUI<Graphics2D> implements GUI {
 	 */
 	@Override
 	public RuntimeAsset<Image> commitToImage() {
-		int width = platformConfiguration.getWidth() * GUI.VIRTUAL_HEIGHT
-				/ platformConfiguration.getHeight();
-		int height = GUI.VIRTUAL_HEIGHT;
+
 		DesktopEngineImage image = new DesktopEngineImage(width, height);
 
 		Graphics2D g = (Graphics2D) image.getImage().getGraphics();
@@ -283,6 +281,8 @@ public class DesktopGUI extends AbstractGUI<Graphics2D> implements GUI {
 					frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 					frame.setSize(platformConfiguration.getWidth(),
 							platformConfiguration.getHeight());
+					setWidth( platformConfiguration.getWidth());
+					setHeight( platformConfiguration.getHeight());
 					frame.setUndecorated(true);
 					frame.setIgnoreRepaint(true);
 
