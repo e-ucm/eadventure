@@ -91,4 +91,10 @@ public class EAdInventoryEffect extends AbstractEAdEffect {
 		return removeFromScene;
 	}
 
+	public void setRemoveFromScene(boolean removeFromScene) {
+		this.removeFromScene = removeFromScene;
+	}
+
+	
+	
 }
