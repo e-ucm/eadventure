@@ -1,6 +1,8 @@
 package es.eucm.eadventure.editor.view.generics.scene.impl;
 
+import es.eucm.eadventure.common.model.conditions.impl.ANDCondition;
 import es.eucm.eadventure.common.model.conditions.impl.EmptyCondition;
+import es.eucm.eadventure.common.model.conditions.impl.NOTCondition;
 import es.eucm.eadventure.common.model.conditions.impl.OperationCondition;
 import es.eucm.eadventure.common.model.conditions.impl.enums.Comparator;
 import es.eucm.eadventure.common.model.effects.EAdEffect;
@@ -15,8 +17,10 @@ import es.eucm.eadventure.common.model.events.enums.ConditionedEventType;
 import es.eucm.eadventure.common.model.events.impl.EAdConditionEventImpl;
 import es.eucm.eadventure.common.model.extra.EAdList;
 import es.eucm.eadventure.common.model.guievents.impl.EAdMouseEventImpl;
+import es.eucm.eadventure.common.model.impl.ResourcedElementImpl;
 import es.eucm.eadventure.common.model.variables.EAdField;
 import es.eucm.eadventure.common.model.variables.impl.EAdFieldImpl;
+import es.eucm.eadventure.common.model.variables.impl.EAdVarDefImpl;
 import es.eucm.eadventure.common.model.variables.impl.SystemFields;
 import es.eucm.eadventure.common.model.variables.impl.operations.ValueOperation;
 import es.eucm.eadventure.common.params.fills.impl.EAdPaintImpl;
@@ -85,11 +89,34 @@ public class EditionSceneElement extends EAdComplexElementImpl {
 		proxy.addBehavior(EAdMouseEventImpl.MOUSE_LEFT_CLICK, new EAdChangeFieldValueEffect(
 				new EAdFieldImpl<Boolean>(square, EAdBasicSceneElement.VAR_VISIBLE),
 				new ValueOperation(Boolean.TRUE)));
+		
+		EAdFieldImpl<EAdBundleId> appearanceField = new EAdFieldImpl<EAdBundleId>(proxy, ResourcedElementImpl.VAR_BUNDLE_ID);
+		EAdFieldImpl<Boolean> changedAppearance = new EAdFieldImpl<Boolean>(proxy, new EAdVarDefImpl<Boolean>("changed", Boolean.class, Boolean.FALSE));
 
+		EAdBundleId prev = proxy.getDefinition().getResources().getInitialBundle();
 		for (EAdBundleId bundleID : proxy.getDefinition().getResources().getBundles()) {
-			if (bundleID != proxy.getDefinition().getResources().getInitialBundle())
-				square.addBehavior(EAdMouseEventImpl.MOUSE_LEFT_CLICK, new EAdChangeAppearance(proxy, bundleID));
+			if (bundleID != proxy.getDefinition().getResources().getInitialBundle()) {
+				EAdEffect effect = new EAdChangeAppearance(proxy, bundleID);
+				ANDCondition cond = new ANDCondition(new OperationCondition(appearanceField, prev, Comparator.EQUAL), 
+						new NOTCondition(new OperationCondition(changedAppearance)));
+				effect.setCondition(cond);
+				square.addBehavior(EAdMouseEventImpl.MOUSE_LEFT_CLICK, effect);
+				
+				effect = new EAdChangeFieldValueEffect(changedAppearance, new ValueOperation(Boolean.TRUE));
+				effect.setCondition(cond);
+				square.addBehavior(EAdMouseEventImpl.MOUSE_LEFT_CLICK, effect);
+				
+				prev = bundleID;
+			}
 		}
+
+		EAdEffect effect = new EAdChangeAppearance(proxy, proxy.getDefinition().getResources().getInitialBundle());
+		ANDCondition cond = new ANDCondition(new OperationCondition(appearanceField, prev, Comparator.EQUAL), 
+				new NOTCondition(new OperationCondition(changedAppearance)));
+		effect.setCondition(cond);
+		square.addBehavior(EAdMouseEventImpl.MOUSE_RIGHT_CLICK, effect);
+		
+		square.addBehavior(EAdMouseEventImpl.MOUSE_LEFT_CLICK, new EAdChangeFieldValueEffect(changedAppearance, new ValueOperation(Boolean.FALSE)));
 
 	}
 
