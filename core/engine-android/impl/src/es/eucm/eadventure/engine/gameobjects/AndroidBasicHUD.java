@@ -97,15 +97,15 @@ public class AndroidBasicHUD extends BasicHUDImpl {
 
 				c.drawBitmap(
 						((BitmapCanvas) graphicContext).getBitmap(),
-						new Rect(notScaledX - 50, notScaledY - 100,
-								notScaledX + 50, notScaledY), rect, null);
+						new Rect(notScaledX - 50, notScaledY - 50,
+								notScaledX + 50, notScaledY + 50), rect, null);
 
 				c.drawPath(clip, borderPaint);
 				c.drawCircle(100, 100, 3, borderPaint);
 
 				int magX, magY, textX, textY;
 				magX = notScaledX - 100;
-				magY = notScaledY - 150;
+				magY = notScaledY - 100;
 
 				if (magX + 100 >= this.platformConfiguration.getVirtualWidth()) {
 					magX = this.platformConfiguration.getVirtualWidth() - 100;

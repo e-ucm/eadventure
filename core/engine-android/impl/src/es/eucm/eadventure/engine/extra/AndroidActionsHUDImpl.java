@@ -201,11 +201,9 @@ public class AndroidActionsHUDImpl extends AbstractHUD implements ActionsHUD {
 		sceneElement = ref;
 		this.x = x;
 		this.y = y;
-		actions = ref.getValidActions();	
+		actions = ref.getActions();	
 		SWAP_TIME = 50 * actions.size();
 		initActionGOs();
-
-
 	}
 
 	protected void initActionGOs() {
