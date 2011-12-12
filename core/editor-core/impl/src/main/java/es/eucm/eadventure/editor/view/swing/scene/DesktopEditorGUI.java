@@ -277,6 +277,8 @@ public class DesktopEditorGUI extends DesktopGUI {
 			super.setPreferredSize(d);
 			platformConfiguration.setHeight((int) d.getHeight());
 			platformConfiguration.setWidth((int) d.getWidth());
+			DesktopEditorGUI.this.setWidth((int) d.getWidth());
+			DesktopEditorGUI.this.setHeight((int) d.getHeight());
 			if (backbufferImage != null)
 				backbufferImage.flush();
 			backbufferImage = null;

@@ -101,6 +101,8 @@ public class InventoryHUDImpl extends AbstractHUD implements InventoryHUD {
 
 	private long currentUpdate = -1;
 
+	private int delay = 0;
+
 	@Inject
 	public InventoryHUDImpl(GUI gui, GameState gameState,
 			SceneElementGOFactory factory, MouseState mouseState,
@@ -151,38 +153,49 @@ public class InventoryHUDImpl extends AbstractHUD implements InventoryHUD {
 			state = InventoryState.GOING_UP;
 		}
 
-		if (mouseState.getMouseScaledY() < guiHeight - INVENTORY_HEIGHT * 3
+		if (!isItemDragged()
+				&& mouseState.getMouseScaledY() < guiHeight - INVENTORY_HEIGHT
+						* 3
 				&& (state == InventoryState.SHOWN || state == InventoryState.GOING_UP)) {
 			state = InventoryState.GOING_DOWN;
 		}
 	}
 
 	private void updateDisp() {
-		boolean change = false;
-		switch (state) {
-		case GOING_UP:
-			inventoryDispY = Math.min(inventoryDispY + disp, 1.0f);
-			change = true;
-			break;
-		case GOING_DOWN:
-			inventoryDispY = Math.max(inventoryDispY - disp, 0.0f);
-			change = true;
-			break;
-		}
-
-		if (change) {
-			valueMap.setValue(inventoryDispYField, inventoryDispY);
-			if (inventoryDispY >= 1.0f) {
-				state = InventoryState.SHOWN;
-			} else if (inventoryDispY <= 0.0f) {
-				state = InventoryState.HIDDEN;
+		if (delay <= 0) {
+			boolean change = false;
+			switch (state) {
+			case GOING_UP:
+				inventoryDispY = Math.min(inventoryDispY + disp, 1.0f);
+				change = true;
+				break;
+			case GOING_DOWN:
+				inventoryDispY = Math.max(inventoryDispY - disp, 0.0f);
+				change = true;
+				break;
 			}
+
+			if (change) {
+				valueMap.setValue(inventoryDispYField, inventoryDispY);
+				if (inventoryDispY >= 1.0f) {
+					state = InventoryState.SHOWN;
+				} else if (inventoryDispY <= 0.0f) {
+					state = InventoryState.HIDDEN;
+				}
+			}
+		}
+		else {
+			delay -= GameLoop.SKIP_MILLIS_TICK;
 		}
 	}
 
 	private void updateItems() {
 		if (currentUpdate != inventoryHandler.updateNumber()) {
 			inventory.getComponents().clear();
+			delay = 1000;
+			this.inventoryDispY = 1.0f;
+			valueMap.setValue(inventoryDispYField, inventoryDispY);
+			state = InventoryState.GOING_DOWN;
 			int x = INVENTORY_HEIGHT;
 			for (InventoryItem i : inventoryHandler.getItems()) {
 				EAdBasicSceneElement element = new EAdBasicSceneElement(
@@ -234,5 +247,14 @@ public class InventoryHUDImpl extends AbstractHUD implements InventoryHUD {
 		EAdBasicSceneElement numberElement = new EAdBasicSceneElement(number);
 		numberElement.setPosition(Corner.CENTER, 0, 0);
 		return numberElement;
+	}
+
+	public boolean isItemDragged() {
+		SceneElementGO<?> go = mouseState.getDraggingGameObject();
+		if (go != null) {
+			return valueMap.getValue(go.getElement(),
+					EAdInventoryImpl.VAR_IN_INVENTORY);
+		}
+		return false;
 	}
 }

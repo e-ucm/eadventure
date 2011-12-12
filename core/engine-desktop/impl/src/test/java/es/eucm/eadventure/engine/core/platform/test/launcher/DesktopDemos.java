@@ -68,8 +68,8 @@ import com.google.inject.Guice;
 import com.google.inject.Injector;
 
 import es.eucm.eadventure.common.elementfactories.EAdElementsFactory;
-import es.eucm.eadventure.common.elementfactories.scenedemos.SceneDemo;
-import es.eucm.eadventure.common.elementfactories.scenedemos.SceneDemos;
+import es.eucm.eadventure.common.elementfactories.demos.SceneDemo;
+import es.eucm.eadventure.common.elementfactories.demos.TechDemoAdventure;
 import es.eucm.eadventure.common.impl.importer.EAdventure1XImporter;
 import es.eucm.eadventure.common.impl.importer.ImporterConfigurationModule;
 import es.eucm.eadventure.common.impl.reader.EAdAdventureDOMModelReader;
@@ -87,7 +87,6 @@ import es.eucm.eadventure.engine.core.debuggers.impl.FieldsDebugger;
 import es.eucm.eadventure.engine.core.debuggers.impl.TrajectoryDebugger;
 import es.eucm.eadventure.engine.core.impl.modules.BasicGameModule;
 import es.eucm.eadventure.engine.core.platform.AssetHandler;
-import es.eucm.eadventure.engine.core.platform.PlatformConfiguration;
 import es.eucm.eadventure.engine.core.platform.PlatformLauncher;
 import es.eucm.eadventure.engine.core.platform.impl.DesktopAssetHandler;
 import es.eucm.eadventure.engine.core.platform.impl.DesktopPlatformLauncher;
@@ -100,25 +99,20 @@ import es.eucm.eadventure.engine.core.test.launcher.BaseTestLauncher;
  * 
  */
 public class DesktopDemos extends BaseTestLauncher {
-	
+
 	protected static JComboBox comboBox;
 
 	protected static JList list;
 
 	private static final Dimension DIMENSIONS[] = new Dimension[] {
-		 new Dimension(800, 600), new Dimension(1200, 900), new Dimension(400, 300) };
+			new Dimension(800, 600), new Dimension(1200, 900),
+			new Dimension(400, 300) };
 
 	protected static JCheckBox checkBox;
 
 	protected static JCheckBox trajectoryDebugger;
 
 	protected static JCheckBox fieldsDebugger;
-
-	public DesktopDemos(Injector injector, EAdScene scene) {
-		super(injector, scene);
-		System.setProperty("com.apple.mrj.application.apple.menu.about.name",
-				"eAdventure");
-	}
 
 	public DesktopDemos(Injector injector, EAdAdventureModel model,
 			Map<EAdString, String> strings) {
@@ -182,7 +176,8 @@ public class DesktopDemos extends BaseTestLauncher {
 
 		public SceneDemosFrame() {
 			super("Scenes demo");
-			Object scenes[] = SceneDemos.getInstance().getScenes().toArray();
+			TechDemoAdventure model = new TechDemoAdventure();
+			Object scenes[] = model.getScenes().toArray();
 
 			setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
@@ -204,8 +199,7 @@ public class DesktopDemos extends BaseTestLauncher {
 			comboBox.setRenderer(new DimensionsCellRenderer());
 			comboBox.setSelectedIndex(0);
 
-			trajectoryDebugger = new JCheckBox(
-					"Trajectory Debugger");
+			trajectoryDebugger = new JCheckBox("Trajectory Debugger");
 			trajectoryDebugger.setSelected(false);
 
 			fieldsDebugger = new JCheckBox("Fields Debugger");
@@ -214,11 +208,11 @@ public class DesktopDemos extends BaseTestLauncher {
 			p.add(comboBox);
 			p.add(trajectoryDebugger);
 			p.add(fieldsDebugger);
-			
+
 			final JButton openProject = new JButton("Open 2.0 project");
 			openProject.addActionListener(new OpenNewProject());
 			p.add(openProject);
-			
+
 			final JButton importProject = new JButton("Import old project");
 			importProject.addActionListener(new ImportProject());
 			p.add(importProject);
@@ -226,7 +220,7 @@ public class DesktopDemos extends BaseTestLauncher {
 			container.add(list, BorderLayout.CENTER);
 
 			JButton button = new JButton("Start");
-			button.addActionListener(new StartDemo());
+			button.addActionListener(new StartDemo(model));
 
 			container.add(button, BorderLayout.SOUTH);
 
@@ -235,55 +229,59 @@ public class DesktopDemos extends BaseTestLauncher {
 
 		}
 	}
-	
+
 	private static class StartDemo implements ActionListener {
-		
+
+		private TechDemoAdventure model;
+
+		public StartDemo(TechDemoAdventure model) {
+			this.model = model;
+		}
+
 		@Override
 		public void actionPerformed(ActionEvent arg0) {
 			new Thread() {
 				public void run() {
-					Dimension d = (Dimension) comboBox
-							.getSelectedItem();
-					Object o = list.getSelectedValue();
+					Dimension d = (Dimension) comboBox.getSelectedItem();
+					EAdScene scene = (EAdScene) list.getSelectedValue();
+					model.setInitialScene(scene);
+					model.setWidth(d.width);
+					model.setHeight(d.height);
+
 					if (trajectoryDebugger.isSelected()) {
-						EAdMainDebugger
-								.addDebugger(TrajectoryDebugger.class);
+						EAdMainDebugger.addDebugger(TrajectoryDebugger.class);
 					}
 					if (fieldsDebugger.isSelected()) {
-						EAdMainDebugger
-								.addDebugger(FieldsDebugger.class);
+						EAdMainDebugger.addDebugger(FieldsDebugger.class);
 					}
 
 					if (checkBox.isSelected()) {
-						EAdScene scene = (EAdScene) o;
 						EAdAdventureModel model = new EAdAdventureModelImpl();
 						EAdChapterImpl chapter = new EAdChapterImpl();
 						chapter.setId("chapter1");
 						chapter.getScenes().add(scene);
 						chapter.setInitialScene(scene);
 						model.getChapters().add(chapter);
+						((EAdAdventureModelImpl) model).setWidth((int) d
+								.getWidth());
+						((EAdAdventureModelImpl) model).setHeight((int) d
+								.getHeight());
 
-						File f = new File(
-								"src/test/resources/sceneDemo.xml");
+						File f = new File("src/test/resources/sceneDemo.xml");
 						// Write to XML
 						try {
-							FileOutputStream os = new FileOutputStream(
-									f);
-							new EAdAdventureModelWriter().write(model,
-									os);
+							FileOutputStream os = new FileOutputStream(f);
+							new EAdAdventureModelWriter().write(model, os);
 							os.close();
 							FileInputStream is = new FileInputStream(f);
-							model = new EAdAdventureDOMModelReader()
-									.read(is);
+							model = new EAdAdventureDOMModelReader().read(is);
 							is.close();
 
-							Injector injector = createNewInjector(
-									(int) d.getWidth(),
-									(int) d.getHeight());
+							Injector injector = createNewInjector();
 							new DesktopDemos(injector, model,
 									EAdElementsFactory.getInstance()
-											.getStringFactory()
-											.getStrings()).start();
+											.getStringFactory().getStrings())
+									.start();
 
 						} catch (FileNotFoundException e) {
 							e.printStackTrace();
@@ -292,10 +290,10 @@ public class DesktopDemos extends BaseTestLauncher {
 						}
 
 					} else {
-						new DesktopDemos(
-								createNewInjector((int) d.getWidth(),
-										(int) d.getHeight()),
-								(EAdScene) o).start();
+						new DesktopDemos(createNewInjector(), model,
+								EAdElementsFactory.getInstance()
+										.getStringFactory().getStrings())
+								.start();
 					}
 				}
 			}.start();
@@ -309,14 +307,15 @@ public class DesktopDemos extends BaseTestLauncher {
 		public void actionPerformed(ActionEvent arg0) {
 			new Thread() {
 				public void run() {
-					
+
 					JFileChooser fileChooser = new JFileChooser();
-					
+
 					FileFilter filter = new FileFilter() {
 
 						@Override
 						public boolean accept(File f) {
-							return f.isDirectory() || f.getName().endsWith(".xml");
+							return f.isDirectory()
+									|| f.getName().endsWith(".xml");
 						}
 
 						@Override
@@ -328,7 +327,7 @@ public class DesktopDemos extends BaseTestLauncher {
 					fileChooser.setFileFilter(filter);
 
 					fileChooser.showOpenDialog(null);
-					
+
 					EAdAdventureModel model = null;
 
 					FileInputStream is;
@@ -338,28 +337,29 @@ public class DesktopDemos extends BaseTestLauncher {
 									.addDebugger(TrajectoryDebugger.class);
 						}
 						if (fieldsDebugger.isSelected()) {
-							EAdMainDebugger
-									.addDebugger(FieldsDebugger.class);
+							EAdMainDebugger.addDebugger(FieldsDebugger.class);
 						}
 
-						
 						is = new FileInputStream(fileChooser.getSelectedFile());
 						model = new EAdAdventureDOMModelReader().read(is);
 						is.close();
-	
-						Dimension d = (Dimension) comboBox
-								.getSelectedItem();
-	
-						Injector injector = createNewInjector(
-								(int) d.getWidth(),
-								(int) d.getHeight());
-						DesktopAssetHandler assetHandler = (DesktopAssetHandler) injector.getInstance(AssetHandler.class);
-						assetHandler.setResourceLocation(fileChooser.getCurrentDirectory());
 
-						new DesktopDemos(injector, model,
-								EAdElementsFactory.getInstance()
-										.getStringFactory()
-										.getStrings()).start();
+						Dimension d = (Dimension) comboBox.getSelectedItem();
+
+						((EAdAdventureModelImpl) model).setWidth((int) d
+								.getWidth());
+						((EAdAdventureModelImpl) model).setHeight((int) d
+								.getHeight());
+
+						Injector injector = createNewInjector();
+						DesktopAssetHandler assetHandler = (DesktopAssetHandler) injector
+								.getInstance(AssetHandler.class);
+						assetHandler.setResourceLocation(fileChooser
+								.getCurrentDirectory());
+
+						new DesktopDemos(injector, model, EAdElementsFactory
+								.getInstance().getStringFactory().getStrings())
+								.start();
 
 					} catch (FileNotFoundException e) {
 						// TODO Auto-generated catch block
@@ -373,7 +373,6 @@ public class DesktopDemos extends BaseTestLauncher {
 		}
 	}
 
-	
 	private static class ImportProject implements ActionListener {
 
 		@Override
@@ -386,7 +385,8 @@ public class DesktopDemos extends BaseTestLauncher {
 
 						@Override
 						public boolean accept(File f) {
-							return f.isDirectory() || f.getName().endsWith(".eap")
+							return f.isDirectory()
+									|| f.getName().endsWith(".eap")
 									|| f.getName().endsWith(".ead")
 									|| f.getName().endsWith(".zip");
 						}
@@ -407,15 +407,16 @@ public class DesktopDemos extends BaseTestLauncher {
 
 						String projectName = f.getName();
 
-						Injector injector = Guice
-								.createInjector(new ImporterConfigurationModule(folder
-										+ "/" + projectName),
-										new DesktopAssetHandlerModule(),
-										new DesktopModule(), new BasicGameModule());
+						Injector injector = Guice.createInjector(
+								new ImporterConfigurationModule(folder + "/"
+										+ projectName),
+								new DesktopAssetHandlerModule(),
+								new DesktopModule(), new BasicGameModule());
 						EAdventure1XImporter importer = injector
 								.getInstance(EAdventure1XImporter.class);
 
-						projectName = projectName.substring(0, projectName.length() - 4);
+						projectName = projectName.substring(0,
+								projectName.length() - 4);
 						JDialog dialog = new JDialog();
 						dialog.setTitle("eAdventure");
 						dialog.setModal(false);
@@ -427,12 +428,12 @@ public class DesktopDemos extends BaseTestLauncher {
 						dialog.getContentPane().setLayout(new BorderLayout());
 						dialog.getContentPane().add(label, BorderLayout.CENTER);
 						dialog.setVisible(true);
-						EAdAdventureModel model = importer.importGame(folder + "/"
-								+ projectName + "Imported");
+						EAdAdventureModel model = importer.importGame(folder
+								+ "/" + projectName + "Imported");
 						dialog.setVisible(false);
 
 						if (model != null) {
-							
+
 							Dimension d = (Dimension) comboBox
 									.getSelectedItem();
 							if (trajectoryDebugger.isSelected()) {
@@ -443,14 +444,13 @@ public class DesktopDemos extends BaseTestLauncher {
 								EAdMainDebugger
 										.addDebugger(FieldsDebugger.class);
 							}
-							
-							PlatformConfiguration conf = injector.getInstance(PlatformConfiguration.class);
-							conf.setWidth(d.width);
-							conf.setHeight(d.height);
 
+							((EAdAdventureModelImpl) model).setWidth(d.width);
+							((EAdAdventureModelImpl) model).setHeight(d.height);
 
-							injector.getInstance(StringHandler.class).setString(
-									new EAdString("Loading"), "loading");
+							injector.getInstance(StringHandler.class)
+									.setString(new EAdString("Loading"),
+											"loading");
 
 							Game game = injector.getInstance(Game.class);
 							game.setGame(model, model.getChapters().get(0));
@@ -463,12 +463,12 @@ public class DesktopDemos extends BaseTestLauncher {
 									.getInstance(PlatformLauncher.class);
 
 							// TODO extract file from args or use default?
-							File file = new File(folder, projectName + "Imported");
+							File file = new File(folder, projectName
+									+ "Imported");
 							// File file = new File("/ProyectoJuegoFINAL.ead");
-							((DesktopPlatformLauncher) launcher).launch(new EAdURIImpl(file
-									.toString()));
-						}
-						else {
+							((DesktopPlatformLauncher) launcher)
+									.launch(new EAdURIImpl(file.toString()));
+						} else {
 							JOptionPane
 									.showMessageDialog(
 											null,
@@ -476,19 +476,16 @@ public class DesktopDemos extends BaseTestLauncher {
 											"Import error",
 											JOptionPane.ERROR_MESSAGE);
 						}
-					} 
+					}
 				}
 
 			}.start();
 		}
 	}
 
-	private static Injector createNewInjector(int width, int height) {
+	private static Injector createNewInjector() {
 		Injector i = Guice.createInjector(new DesktopAssetHandlerModule(),
 				new DesktopModule(), new BasicGameModule());
-		PlatformConfiguration conf = i.getInstance(PlatformConfiguration.class);
-		conf.setWidth(width);
-		conf.setHeight(height);
 		return i;
 	}
 

@@ -38,6 +38,7 @@
 package es.eucm.eadventure.engine.home;
 
 import java.util.ArrayList;
+
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -77,9 +78,11 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ViewFlipper;
+
 import com.markupartist.android.widget.ActionBar;
 import com.markupartist.android.widget.ActionBar.IntentAction;
-import es.eucm.eadventure.common.elementfactories.scenedemos.SceneDemos;
+
+import es.eucm.eadventure.common.elementfactories.demos.TechDemoAdventure;
 import es.eucm.eadventure.engine.EAdventureEngineActivity;
 import es.eucm.eadventure.engine.R;
 import es.eucm.eadventure.engine.home.local.DeletingGame;
@@ -1110,7 +1113,7 @@ public class WorkspaceActivity extends FragmentActivity {
         public void onActivityCreated(Bundle savedInstanceState) {
             
         	super.onActivityCreated(savedInstanceState);            
-            setListAdapter(new ArrayAdapter<String>( this.getActivity(), R.layout.demo_selection_listitem, SceneDemos.getInstance().getSceneDemosDescriptions() ));
+            setListAdapter(new ArrayAdapter<String>( this.getActivity(), R.layout.demo_selection_listitem, TechDemoAdventure.getInstance().getSceneDemosDescriptions() ));
             
         }
     	
@@ -1121,7 +1124,7 @@ public class WorkspaceActivity extends FragmentActivity {
 		public void onListItemClick(ListView l, View v, int position, long id) {
 
     		Intent i = new Intent(this.getActivity(), EAdventureEngineActivity.class);
-	    	i.putExtra("demo", SceneDemos.getInstance().getScenes().get(position).getClass());
+	    	i.putExtra("demo", TechDemoAdventure.getInstance().getScenes().get(position).getClass());
 	    	this.getActivity().startActivity(i);
     	}
     	

@@ -45,14 +45,14 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import es.eucm.eadventure.common.elementfactories.scenedemos.SceneDemos;
+import es.eucm.eadventure.common.elementfactories.demos.TechDemoAdventure;
 
 public class DemoSelectionActivity extends ListActivity {
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setListAdapter(new ArrayAdapter<String>( this, R.layout.demo_selection_listitem, SceneDemos.getInstance().getSceneDemosDescriptions() ));
+		setListAdapter(new ArrayAdapter<String>( this, R.layout.demo_selection_listitem, TechDemoAdventure.getInstance().getSceneDemosDescriptions() ));
 		
 		ListView lv = this.getListView();
 		
@@ -61,7 +61,7 @@ public class DemoSelectionActivity extends ListActivity {
 			        int position, long id) {
 			    	
 			    	Intent i = new Intent( DemoSelectionActivity.this, EAdventureEngineActivity.class );
-			    	i.putExtra("demo", SceneDemos.getInstance().getScenes().get(position).getClass());
+			    	i.putExtra("demo", TechDemoAdventure.getInstance().getScenes().get(position).getClass());
 			    	DemoSelectionActivity.this.startActivity(i);
 
 			    }

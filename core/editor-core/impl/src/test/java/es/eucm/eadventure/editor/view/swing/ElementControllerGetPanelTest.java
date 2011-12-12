@@ -52,9 +52,9 @@ import javax.swing.WindowConstants;
 
 import static org.mockito.Mockito.*;
 
-import es.eucm.eadventure.common.elementfactories.scenedemos.ComplexElementScene;
-import es.eucm.eadventure.common.elementfactories.scenedemos.EmptyScene;
-import es.eucm.eadventure.common.elementfactories.scenedemos.InitScene;
+import es.eucm.eadventure.common.elementfactories.demos.scenes.ComplexElementScene;
+import es.eucm.eadventure.common.elementfactories.demos.scenes.EmptyScene;
+import es.eucm.eadventure.common.elementfactories.demos.scenes.InitScene;
 import es.eucm.eadventure.common.model.elements.EAdScene;
 import es.eucm.eadventure.common.model.elements.EAdSceneElement;
 import es.eucm.eadventure.common.model.elements.EAdSceneElementDef;

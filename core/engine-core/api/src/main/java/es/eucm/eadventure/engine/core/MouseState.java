@@ -134,10 +134,10 @@ public interface MouseState {
 	/**
 	 * Set the game object that is directly under the mouse pointer
 	 * 
-	 * @param elementUnderMouse
+	 * @param currentGO
 	 *            the game object under the mouse pointer
 	 */
-	void setGameObjectUnderMouse(DrawableGO<?> elementUnderMouse);
+	void setGameObjectUnderMouse(DrawableGO<?> currentGO);
 
 	/**
 	 * Returns the game object created to represent the drag. This is not the
@@ -146,7 +146,7 @@ public interface MouseState {
 	 * @return the game object that is being dragged, null if no object is being
 	 *         dragged
 	 */
-	DrawableGO<?> getDraggingGameObject();
+	SceneElementGO<?> getDraggingGameObject();
 
 	/**
 	 * The definition of the object being dragged
@@ -187,12 +187,16 @@ public interface MouseState {
 	 * @return how much the dragging element was dragged along the y axis
 	 */
 	int getDragDifY();
-
+	
 	/**
-	 * Returns the original game object dragged
-	 * 
-	 * @return
+	 * Sets the window's width
+	 * @param width 
 	 */
-	SceneElementGO<?> getDraggedSceneElement();
+	void setWindowWidth(int width );
+	
+	/**
+	 * Sets the window's width
+	 */
+	void setWindowHeight(int height);
 
 }

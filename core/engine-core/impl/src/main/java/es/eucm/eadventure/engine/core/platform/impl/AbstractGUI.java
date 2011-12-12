@@ -47,7 +47,6 @@ import es.eucm.eadventure.engine.core.KeyboardState;
 import es.eucm.eadventure.engine.core.MouseState;
 import es.eucm.eadventure.engine.core.Renderable;
 import es.eucm.eadventure.engine.core.gameobjects.DrawableGO;
-import es.eucm.eadventure.engine.core.gameobjects.GameObject;
 import es.eucm.eadventure.engine.core.gameobjects.GameObjectManager;
 import es.eucm.eadventure.engine.core.gameobjects.SceneElementGO;
 import es.eucm.eadventure.engine.core.gameobjects.factories.SceneElementGOFactory;
@@ -116,12 +115,18 @@ public abstract class AbstractGUI<T> implements GUI {
 	protected EAdCanvas<T> eAdCanvas;
 
 	private boolean checkDrag;
+	
+	protected int width;
+	
+	protected int height;
 
 	public AbstractGUI(PlatformConfiguration platformConfiguration,
 			GameObjectManager gameObjectManager, MouseState mouseState,
 			KeyboardState keyboardState, GameState gameState,
 			SceneElementGOFactory gameObjectFactory, EAdCanvas<T> canvas) {
 		this.platformConfiguration = platformConfiguration;
+		this.width = platformConfiguration.getWidth();
+		this.height = platformConfiguration.getHeight();
 		this.gameObjects = gameObjectManager;
 		this.mouseState = mouseState;
 		this.keyboardState = keyboardState;
@@ -201,7 +206,7 @@ public abstract class AbstractGUI<T> implements GUI {
 		DrawableGO<?> oldGO = mouseState.getGameObjectUnderMouse();
 		DrawableGO<?> currentGO = getGOUnderMouse();
 		if (oldGO != currentGO) {
-			GameObject<?> draggedGO = mouseState.getDraggingGameObject();
+			SceneElementGO<?> draggedGO = mouseState.getDraggingGameObject();
 			int x = mouseState.getMouseScaledX();
 			int y = mouseState.getMouseScaledY();
 
@@ -234,7 +239,7 @@ public abstract class AbstractGUI<T> implements GUI {
 	}
 
 	private void processDrag() {
-		DrawableGO<?> currentDraggedGO = mouseState.getDraggedSceneElement();
+		DrawableGO<?> currentDraggedGO = mouseState.getDraggingGameObject();
 		int x = mouseState.getMouseScaledX();
 		int y = mouseState.getMouseScaledY();
 		if (currentDraggedGO != null) {
@@ -401,19 +406,6 @@ public abstract class AbstractGUI<T> implements GUI {
 		return platformConfiguration.getHeight();
 	}
 
-	public int[] getGameElementGUIOffset(GameObject<?> gameObject) {
-		synchronized (GameObjectManager.lock) {
-			int pos = gameObjects.getGameObjects().indexOf(gameObject);
-			if (pos == -1)
-				return null;
-			EAdTransformation t = gameObjects.getTransformations().get(pos);
-			int[] offset = new int[2];
-			offset[0] = (int) t.getMatrix().getOffsetX();
-			offset[1] = (int) t.getMatrix().getOffsetY();
-			return offset;
-		}
-	}
-
 	@Override
 	public EAdTransformation addTransformation(EAdTransformation t1,
 			EAdTransformation t2) {
@@ -433,6 +425,16 @@ public abstract class AbstractGUI<T> implements GUI {
 				(float) platformConfiguration.getScale(),
 				(float) platformConfiguration.getScale(), true);
 		return t;
+	}
+	
+	public void setWidth(int width){
+		this.width = width;
+		mouseState.setWindowWidth(width);
+	}
+	
+	public void setHeight(int height){
+		this.height = height;
+		mouseState.setWindowHeight(height);
 	}
 
 }

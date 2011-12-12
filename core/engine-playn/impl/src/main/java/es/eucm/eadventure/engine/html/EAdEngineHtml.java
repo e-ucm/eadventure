@@ -46,7 +46,7 @@ import playn.html.HtmlPlatform.Mode;
 import com.google.gwt.core.client.GWT;
 
 import es.eucm.eadventure.common.elementfactories.EAdElementsFactory;
-import es.eucm.eadventure.common.elementfactories.scenedemos.InitScene;
+import es.eucm.eadventure.common.elementfactories.demos.scenes.InitScene;
 import es.eucm.eadventure.common.model.elements.EAdAdventureModel;
 import es.eucm.eadventure.common.model.elements.EAdScene;
 import es.eucm.eadventure.common.model.elements.impl.EAdSceneElementDefImpl;
