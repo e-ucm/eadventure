@@ -67,13 +67,8 @@ public class InterfaceTest extends EAdFrame {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		try {
-			UIManager.setLookAndFeel(EAdGUILookAndFeel.getInstance());
-		} catch (UnsupportedLookAndFeelException e) {
-			e.printStackTrace();
-		}
-
-	     new InterfaceTest();
+		EAdGUILookAndFeel.getInstance();
+	    new InterfaceTest();
 	}
 	
     public InterfaceTest() {

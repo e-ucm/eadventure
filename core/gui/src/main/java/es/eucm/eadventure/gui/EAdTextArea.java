@@ -95,6 +95,7 @@ public class EAdTextArea extends JPanel {
 				if (k.getKeyChar() == KeyEvent.VK_ENTER) {
 					int pos =  textArea.getCaretPosition();
 					textArea.insert("\n", pos);
+					k.consume();
 				}
 			}
     		
