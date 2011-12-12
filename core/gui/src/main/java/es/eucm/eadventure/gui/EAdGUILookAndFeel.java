@@ -107,28 +107,27 @@ public class EAdGUILookAndFeel extends BasicLookAndFeel {
 
 		try {
 			InputStream is = ClassLoader
-					.getSystemResourceAsStream("DroidSans.ttf");
+					//.getSystemResourceAsStream("DroidSans.ttf");
+					//.getSystemResourceAsStream("KunKhmer.ttf");
+					//.getSystemResourceAsStream("WireWyrm.otf");
+					.getSystemResourceAsStream("roboto/Roboto-Regular.ttf");
 			instance.font = Font.createFont(Font.TRUETYPE_FONT, is);
 			instance.font = instance.font.deriveFont(12.0f);
 
 			is = ClassLoader
-					.getSystemResourceAsStream("DroidSans-Bold.ttf");
+					//.getSystemResourceAsStream("DroidSans-Bold.ttf");
+					.getSystemResourceAsStream("roboto/Roboto-Bold.ttf");
 			instance.boldFont = Font.createFont(Font.TRUETYPE_FONT, is);
 			instance.boldFont = instance.boldFont.deriveFont(12.0f);
-
+			
 			UIManager.put("javax.swing.plaf.FontUIResource",
 					new FontUIResource(instance.font));
-			System.setProperty("awt.useSystemAAFontSettings", "on");
 
+			System.setProperty("awt.useSystemAAFontSettings", "on");
+			
 			UIManager
-					.setLookAndFeel("es.eucm.eadventure.gui.EAdGUILookAndFeel");
+					.setLookAndFeel(instance);
 			instance.setConstants();
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		} catch (InstantiationException e) {
-			e.printStackTrace();
-		} catch (IllegalAccessException e) {
-			e.printStackTrace();
 		} catch (UnsupportedLookAndFeelException e) {
 			e.printStackTrace();
 		} catch (FontFormatException e) {
