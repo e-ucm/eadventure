@@ -83,7 +83,7 @@ public class GameImpl implements Game {
 	private GUI gui;
 
 	private GameState gameState;
-	
+
 	private PlatformConfiguration platformConfiguration;
 
 	private EffectHUD effectHUD;
@@ -108,9 +108,9 @@ public class GameImpl implements Game {
 	private InventoryHandler inventoryHandler;
 
 	private EAdTransformation initialTransformation;
-	
+
 	private EventGOFactory eventFactory;
-	
+
 	private List<EventGO<?>> events;
 
 	@Inject
@@ -119,7 +119,8 @@ public class GameImpl implements Game {
 			AssetHandler assetHandler, GameObjectManager gameObjectManager,
 			EAdDebugger debugger, ValueMap valueMap, MouseState mouseState,
 			PlatformConfiguration platformConfiguration, BasicHUD basicHud,
-			InventoryHUD inventoryHud, InventoryHandler inventoryHandler, EventGOFactory eventFactory ) {
+			InventoryHUD inventoryHud, InventoryHandler inventoryHandler,
+			EventGOFactory eventFactory) {
 		this.gui = gui;
 		this.evaluatorFactory = evaluatorFactory;
 		this.gameState = gameState;
@@ -148,7 +149,7 @@ public class GameImpl implements Game {
 			updateChapterEvents();
 			gameState.getScene().update();
 		}
-		initialTransformation  = gui.getInitialTransformation();
+		initialTransformation = gui.getInitialTransformation();
 		gui.addElement(gameState.getScene(), initialTransformation);
 
 		if (debugger != null && debugger.getGameObjects() != null)
@@ -171,10 +172,20 @@ public class GameImpl implements Game {
 		valueMap.setValue(SystemFields.MOUSE_X, (int) mouse[0]);
 		valueMap.setValue(SystemFields.MOUSE_Y, (int) mouse[1]);
 
+		if (gameState.getScene() != null) {
+			EAdTransformation t = gameState.getScene().getTransformation();
+			if (t != null) {
+				mouse = t.getMatrix().multiplyPointInverse(
+						mouse[0], mouse[1], true);
+			}
+		}
+		valueMap.setValue(SystemFields.MOUSE_SCENE_X, (int) mouse[0]);
+		valueMap.setValue(SystemFields.MOUSE_SCENE_Y, (int) mouse[1]);
+
 	}
 
 	private void updateChapterEvents() {
-		for ( EventGO<?> e: events ){
+		for (EventGO<?> e : events) {
 			e.update();
 		}
 	}
@@ -263,7 +274,7 @@ public class GameImpl implements Game {
 	public void setGame(EAdAdventureModel model, EAdChapter eAdChapter) {
 		platformConfiguration.setWidth(model.getGameWidth());
 		platformConfiguration.setHeight(model.getGameHeight());
-		
+
 		this.adventure = model;
 		if (adventure.getInventory() != null) {
 			for (EAdSceneElementDef def : adventure.getInventory()
@@ -272,15 +283,15 @@ public class GameImpl implements Game {
 			gameObjectManager.addHUD(inventoryHUD);
 		}
 		gameState.setCurrentChapter(eAdChapter);
-		
+
 		events.clear();
-		for (  EAdEvent e: eAdChapter.getEvents() ){
-				EventGO<?> eventGO = eventFactory.get(e);
-				eventGO.setParent(null);
-				eventGO.initialize();
-				events.add(eventGO);
+		for (EAdEvent e : eAdChapter.getEvents()) {
+			EventGO<?> eventGO = eventFactory.get(e);
+			eventGO.setParent(null);
+			eventGO.initialize();
+			events.add(eventGO);
 		}
-		
+
 		gameState.setInitialScene(eAdChapter.getInitialScene());
 	}
 

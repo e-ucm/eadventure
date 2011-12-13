@@ -162,6 +162,10 @@ public class BasicHUDImpl extends AbstractHUD implements BasicHUD {
 		super.update();
 	}
 
+	public void doLayout(EAdTransformation t) {
+		super.doLayout(t);
+	}
+
 	@Override
 	public EAdTransformation getTransformation() {
 		return EAdTransformationImpl.INITIAL_TRANSFORMATION;
@@ -247,8 +251,10 @@ public class BasicHUDImpl extends AbstractHUD implements BasicHUD {
 				float scale = 1.0f / (rAsset.getWidth() > rAsset.getHeight() ? rAsset
 						.getWidth() / CURSOR_SIZE
 						: rAsset.getHeight() / CURSOR_SIZE);
-				mouse.getDefinition().getResources().addAsset(mouse.getDefinition().getInitialBundle(),
-						EAdSceneElementDefImpl.appearance, cursor);
+				mouse.getDefinition()
+						.getResources()
+						.addAsset(mouse.getDefinition().getInitialBundle(),
+								EAdSceneElementDefImpl.appearance, cursor);
 				gameState.getValueMap().setValue(mouse,
 						EAdBasicSceneElement.VAR_SCALE, scale);
 			}
@@ -266,8 +272,12 @@ public class BasicHUDImpl extends AbstractHUD implements BasicHUD {
 		gameState.getValueMap().setValue(mouse,
 				EAdBasicSceneElement.VAR_VISIBLE,
 				!(x < 0 || y < 0) && showMouse);
-		gameState.getValueMap().setValue(mouse, EAdBasicSceneElement.VAR_X, x);
-		gameState.getValueMap().setValue(mouse, EAdBasicSceneElement.VAR_Y, y);
+		if (x >= 0 && y >= 0 ) {
+			gameState.getValueMap().setValue(mouse, EAdBasicSceneElement.VAR_X,
+					x);
+			gameState.getValueMap().setValue(mouse, EAdBasicSceneElement.VAR_Y,
+					y);
+		}
 	}
 
 }

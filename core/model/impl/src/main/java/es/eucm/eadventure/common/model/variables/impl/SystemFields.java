@@ -44,11 +44,29 @@ import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.ImageImpl
 
 public class SystemFields {
 
+	/**
+	 * X coordinate of the mouse in the window coordinate system
+	 */
 	public static final EAdField<Integer> MOUSE_X = new EAdFieldImpl<Integer>(
 			null, new EAdVarDefImpl<Integer>("mouse_x", Integer.class, 0));
 
+	/**
+	 * Y coordinate of the mouse in the window coordinate system
+	 */
 	public static final EAdField<Integer> MOUSE_Y = new EAdFieldImpl<Integer>(
 			null, new EAdVarDefImpl<Integer>("mouse_y", Integer.class, 0));
+	
+	/**
+	 * X coordinate of the mouse in the scene coordinate system
+	 */
+	public static final EAdField<Integer> MOUSE_SCENE_X = new EAdFieldImpl<Integer>(
+			null, new EAdVarDefImpl<Integer>("mouse_scene_x", Integer.class, 0));
+
+	/**
+	 * Y coordinate of the mouse in the scene coordinate system
+	 */
+	public static final EAdField<Integer> MOUSE_SCENE_Y = new EAdFieldImpl<Integer>(
+			null, new EAdVarDefImpl<Integer>("mouse_scene_y", Integer.class, 0));
 
 	public static final EAdField<Integer> GUI_WIDTH = new EAdFieldImpl<Integer>(
 			null, new EAdVarDefImpl<Integer>("gui_width", Integer.class, 800));

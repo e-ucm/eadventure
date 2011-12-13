@@ -45,7 +45,7 @@ public class EAdMoveActiveElement extends EAdMoveSceneElement {
 	public EAdMoveActiveElement() {
 		super();
 		setSceneElement(SystemFields.ACTIVE_ELEMENT);
-		setTargetCoordiantes(SystemFields.MOUSE_X, SystemFields.MOUSE_Y);
+		setTargetCoordiantes(SystemFields.MOUSE_SCENE_X, SystemFields.MOUSE_SCENE_Y);
 	}
 
 }

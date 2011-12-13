@@ -177,6 +177,8 @@ public class DesktopDemos extends BaseTestLauncher {
 		public SceneDemosFrame() {
 			super("Scenes demo");
 			TechDemoAdventure model = new TechDemoAdventure();
+			model.setInventory(EAdElementsFactory.getInstance()
+					.getInventory());
 			Object scenes[] = model.getScenes().toArray();
 
 			setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

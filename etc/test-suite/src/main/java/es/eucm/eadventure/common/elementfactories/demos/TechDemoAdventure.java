@@ -14,6 +14,7 @@ import es.eucm.eadventure.common.elementfactories.demos.scenes.InitScene;
 import es.eucm.eadventure.common.elementfactories.demos.scenes.InventoryScene;
 import es.eucm.eadventure.common.elementfactories.demos.scenes.PhysicsScene2;
 import es.eucm.eadventure.common.elementfactories.demos.scenes.PositionScene;
+import es.eucm.eadventure.common.elementfactories.demos.scenes.ScrollScene;
 import es.eucm.eadventure.common.elementfactories.demos.scenes.ShapeScene;
 import es.eucm.eadventure.common.elementfactories.demos.scenes.SharingEffectsScene;
 import es.eucm.eadventure.common.elementfactories.demos.scenes.ShowQuestionScene;
@@ -55,6 +56,7 @@ public class TechDemoAdventure extends EAdAdventureModelImpl {
 		sceneDemos.add(new DepthZScene());
 		sceneDemos.add(new SharingEffectsScene());
 		sceneDemos.add(new InventoryScene());
+		sceneDemos.add(new ScrollScene());
 //		sceneDemos.add(new VideoScene());
 		sceneDemos.add(new NgMainScreen());
 //		sceneDemos.add(new NgRoom1());

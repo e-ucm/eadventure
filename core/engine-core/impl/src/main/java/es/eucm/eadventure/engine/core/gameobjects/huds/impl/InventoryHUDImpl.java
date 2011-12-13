@@ -66,7 +66,6 @@ import es.eucm.eadventure.engine.core.gameobjects.huds.InventoryHUD;
 import es.eucm.eadventure.engine.core.inventory.InventoryHandler;
 import es.eucm.eadventure.engine.core.inventory.InventoryItem;
 import es.eucm.eadventure.engine.core.platform.GUI;
-import es.eucm.eadventure.engine.core.util.EAdTransformation;
 
 @Singleton
 public class InventoryHUDImpl extends AbstractHUD implements InventoryHUD {
@@ -84,7 +83,7 @@ public class InventoryHUDImpl extends AbstractHUD implements InventoryHUD {
 	private ValueMap valueMap;
 
 	private SceneElementGOFactory sceneElementFactory;
-
+	
 	private MouseState mouseState;
 
 	private int guiHeight;
@@ -102,11 +101,13 @@ public class InventoryHUDImpl extends AbstractHUD implements InventoryHUD {
 	private long currentUpdate = -1;
 
 	private int delay = 0;
+	
+	private int mouseY = 0;
 
 	@Inject
 	public InventoryHUDImpl(GUI gui, GameState gameState,
-			SceneElementGOFactory factory, MouseState mouseState,
-			InventoryHandler inventoryHandler) {
+			SceneElementGOFactory factory,
+			InventoryHandler inventoryHandler, MouseState mouseState) {
 		super(gui);
 		valueMap = gameState.getValueMap();
 		this.sceneElementFactory = factory;
@@ -119,6 +120,7 @@ public class InventoryHUDImpl extends AbstractHUD implements InventoryHUD {
 
 	@Override
 	public void update() {
+		mouseY = valueMap.getValue(SystemFields.MOUSE_Y);
 		updateState();
 		updateDisp();
 		updateItems();
@@ -142,19 +144,14 @@ public class InventoryHUDImpl extends AbstractHUD implements InventoryHUD {
 		addElement(sceneElementFactory.get(inventory));
 	}
 
-	@Override
-	public void doLayout(EAdTransformation t) {
-		super.doLayout(t);
-	}
-
 	private void updateState() {
-		if (mouseState.getMouseScaledY() > guiHeight - INVENTORY_HEIGHT
+		if (mouseY > guiHeight - INVENTORY_HEIGHT
 				&& state == InventoryState.HIDDEN) {
 			state = InventoryState.GOING_UP;
 		}
 
 		if (!isItemDragged()
-				&& mouseState.getMouseScaledY() < guiHeight - INVENTORY_HEIGHT
+				&& mouseY < guiHeight - INVENTORY_HEIGHT
 						* 3
 				&& (state == InventoryState.SHOWN || state == InventoryState.GOING_UP)) {
 			state = InventoryState.GOING_DOWN;

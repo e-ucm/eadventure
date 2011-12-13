@@ -42,7 +42,6 @@ import es.eucm.eadventure.common.elementfactories.demos.normalguy.NgCommon;
 import es.eucm.eadventure.common.model.actions.impl.EAdBasicAction;
 import es.eucm.eadventure.common.model.effects.EAdEffect;
 import es.eucm.eadventure.common.model.effects.impl.EAdActorActionsEffect;
-import es.eucm.eadventure.common.model.effects.impl.sceneelements.EAdMoveSceneElement;
 import es.eucm.eadventure.common.model.effects.impl.text.EAdSpeakEffect;
 import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
 import es.eucm.eadventure.common.model.events.EAdSceneElementEvent;
@@ -50,7 +49,6 @@ import es.eucm.eadventure.common.model.events.enums.SceneElementEventType;
 import es.eucm.eadventure.common.model.events.impl.EAdSceneElementEventImpl;
 import es.eucm.eadventure.common.model.guievents.impl.EAdMouseEventImpl;
 import es.eucm.eadventure.common.model.trajectories.impl.SimpleTrajectoryDefinition;
-import es.eucm.eadventure.common.model.variables.impl.SystemFields;
 import es.eucm.eadventure.common.params.geom.impl.EAdPositionImpl;
 import es.eucm.eadventure.common.params.geom.impl.EAdPositionImpl.Corner;
 import es.eucm.eadventure.common.predef.model.effects.EAdMakeActiveElementEffect;
@@ -99,10 +97,6 @@ public class SpeakAndMoveScene extends EmptyScene {
 		SimpleTrajectoryDefinition d = new SimpleTrajectoryDefinition(false);
 		d.setLimits(0, 0, 800, 600);
 		setTrajectoryDefinition(d);
-
-		EAdMoveSceneElement move = new EAdMoveSceneElement();
-		move.setId("moveCharacter");
-		move.setTargetCoordiantes(SystemFields.MOUSE_X, SystemFields.MOUSE_Y);
 
 		getBackground().addBehavior(EAdMouseEventImpl.MOUSE_LEFT_PRESSED,
 				new EAdMoveActiveElement());

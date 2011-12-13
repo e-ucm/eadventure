@@ -37,6 +37,7 @@
 
 package es.eucm.eadventure.common.impl.importer.subimporters.chapter.scene;
 
+import java.awt.Dimension;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -72,6 +73,7 @@ import es.eucm.eadventure.common.params.geom.impl.EAdPositionImpl;
 import es.eucm.eadventure.common.params.geom.impl.EAdPositionImpl.Corner;
 import es.eucm.eadventure.common.predef.model.effects.EAdMakeActiveElementEffect;
 import es.eucm.eadventure.common.predef.model.effects.EAdMoveActiveElement;
+import es.eucm.eadventure.common.predef.model.events.ScrollWithSceneElement;
 import es.eucm.eadventure.common.resources.StringHandler;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.ImageImpl;
 import es.eucm.eadventure.common.resources.assets.multimedia.Sound;
@@ -186,7 +188,7 @@ public class SceneImporter implements EAdElementImporter<Scene, EAdSceneImpl> {
 			// Make it active element of the scene
 			EAdMakeActiveElementEffect effect = new EAdMakeActiveElementEffect(
 					playerReference);
-
+			
 			EAdSceneElementEvent event = new EAdSceneElementEventImpl();
 			event.setId("makeAcitveCharacter");
 			event.addEffect(SceneElementEventType.ADDED_TO_SCENE, effect);
@@ -203,6 +205,13 @@ public class SceneImporter implements EAdElementImporter<Scene, EAdSceneImpl> {
 			scene.getBackground().addBehavior(
 					EAdMouseEventImpl.MOUSE_LEFT_CLICK,
 					new EAdMoveActiveElement());
+			
+			// Add move camera with character
+			Dimension d = resourceImporter.getDimensions(oldScene.getResources().get(0).getAssetPath(Scene.RESOURCE_TYPE_BACKGROUND));
+			scene.setBounds(d.width, d.height);
+			
+			ScrollWithSceneElement scroll = new ScrollWithSceneElement( scene, playerReference );
+			scene.getEvents().add(scroll);
 
 			return playerReference;
 		}

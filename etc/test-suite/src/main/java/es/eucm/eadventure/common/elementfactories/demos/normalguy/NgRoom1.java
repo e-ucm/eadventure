@@ -98,7 +98,7 @@ public class NgRoom1 extends EmptyScene {
 
 		EAdMoveSceneElement move = new EAdMoveSceneElement();
 		move.setId("moveCharacter");
-		move.setTargetCoordiantes(SystemFields.MOUSE_X, SystemFields.MOUSE_Y);
+		move.setTargetCoordiantes(SystemFields.MOUSE_SCENE_X, SystemFields.MOUSE_SCENE_Y);
 		move.setSceneElement(ng);
 		move.setUseTrajectory(true);
 
