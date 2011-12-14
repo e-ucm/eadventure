@@ -52,7 +52,6 @@ import es.eucm.eadventure.common.model.elements.impl.EAdSceneElementDefImpl;
 import es.eucm.eadventure.common.model.events.EAdEvent;
 import es.eucm.eadventure.common.model.extra.EAdList;
 import es.eucm.eadventure.common.model.impl.ResourcedElementImpl;
-import es.eucm.eadventure.common.model.trajectories.impl.NodeTrajectoryDefinition;
 import es.eucm.eadventure.common.model.variables.EAdVarDef;
 import es.eucm.eadventure.common.params.fills.impl.EAdPaintImpl;
 import es.eucm.eadventure.common.params.geom.EAdPosition;
@@ -60,9 +59,13 @@ import es.eucm.eadventure.common.params.geom.impl.EAdPositionImpl;
 import es.eucm.eadventure.common.resources.EAdBundleId;
 import es.eucm.eadventure.common.resources.StringHandler;
 import es.eucm.eadventure.common.resources.assets.AssetDescriptor;
+import es.eucm.eadventure.common.resources.assets.drawable.Drawable;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.animation.FramesAnimation;
 import es.eucm.eadventure.common.resources.assets.drawable.compounds.OrientedDrawable;
 import es.eucm.eadventure.common.resources.assets.drawable.compounds.StateDrawable;
+import es.eucm.eadventure.common.resources.assets.drawable.filters.FilteredDrawable;
+import es.eucm.eadventure.common.resources.assets.drawable.filters.impl.FilteredDrawableImpl;
+import es.eucm.eadventure.common.util.EAdTransformation;
 import es.eucm.eadventure.engine.core.GameLoop;
 import es.eucm.eadventure.engine.core.GameState;
 import es.eucm.eadventure.engine.core.MouseState;
@@ -76,10 +79,9 @@ import es.eucm.eadventure.engine.core.gameobjects.impl.DrawableGameObjectImpl;
 import es.eucm.eadventure.engine.core.guiactions.GUIAction;
 import es.eucm.eadventure.engine.core.platform.AssetHandler;
 import es.eucm.eadventure.engine.core.platform.DrawableAsset;
-import es.eucm.eadventure.engine.core.platform.EAdCanvas;
 import es.eucm.eadventure.engine.core.platform.GUI;
 import es.eucm.eadventure.engine.core.platform.RuntimeAsset;
-import es.eucm.eadventure.engine.core.util.EAdTransformation;
+import es.eucm.eadventure.engine.core.platform.rendering.EAdCanvas;
 
 public abstract class SceneElementGOImpl<T extends EAdSceneElement> extends
 		DrawableGameObjectImpl<T> implements SceneElementGO<T> {
@@ -137,9 +139,9 @@ public abstract class SceneElementGOImpl<T extends EAdSceneElement> extends
 	@Override
 	public void setElement(T element) {
 		super.setElement(element);
-		
+
 		gameState.getValueMap().remove(element);
-		
+
 		gameState.getValueMap().setValue(element,
 				ResourcedElementImpl.VAR_BUNDLE_ID,
 				element.getDefinition().getInitialBundle());
@@ -319,6 +321,13 @@ public abstract class SceneElementGOImpl<T extends EAdSceneElement> extends
 		if (a == null)
 			return null;
 
+		// FIXME this is horrible
+		if (a instanceof FilteredDrawable) {
+			return new FilteredDrawableImpl(
+					(Drawable) getCurrentAssetDescriptor(((FilteredDrawable) a)
+							.getDrawable()),
+					((FilteredDrawable) a).getFilter());
+		}
 		// Check state
 		if (a instanceof StateDrawable) {
 			StateDrawable stateDrawable = (StateDrawable) a;
@@ -331,7 +340,7 @@ public abstract class SceneElementGOImpl<T extends EAdSceneElement> extends
 		}
 		// Check frame animation
 		else if (a instanceof FramesAnimation) {
-			return ((FramesAnimation) a).getFrameFromTime(timeDisplayed);
+			return ((FramesAnimation) a).getFrameFromTime(timeDisplayed).getDrawable();
 		} else {
 			return a;
 		}
@@ -362,13 +371,14 @@ public abstract class SceneElementGOImpl<T extends EAdSceneElement> extends
 			boolean allAssets) {
 		List<EAdBundleId> bundles = new ArrayList<EAdBundleId>();
 		if (allAssets)
-			bundles.addAll(getElement().getDefinition().getResources().getBundles());
+			bundles.addAll(getElement().getDefinition().getResources()
+					.getBundles());
 		else
 			bundles.add(getCurrentBundle());
 
 		for (EAdBundleId bundle : bundles) {
-			AssetDescriptor a = getElement().getDefinition().getResources().getAsset(bundle,
-					EAdSceneElementDefImpl.appearance);
+			AssetDescriptor a = getElement().getDefinition().getResources()
+					.getAsset(bundle, EAdSceneElementDefImpl.appearance);
 			getAssetsRecursively(a, assetList, allAssets);
 		}
 
@@ -411,12 +421,12 @@ public abstract class SceneElementGOImpl<T extends EAdSceneElement> extends
 		} else if (a instanceof FramesAnimation) {
 			if (!allAssets)
 				getAssetsRecursively(
-						((FramesAnimation) a).getFrameFromTime(timeDisplayed),
+						((FramesAnimation) a).getFrameFromTime(timeDisplayed).getDrawable(),
 						assetList, allAssets);
 			else {
 				for (int i = 0; i < ((FramesAnimation) a).getFrameCount(); i++) {
 					getAssetsRecursively(
-							((FramesAnimation) a).getFrameFromTime(i),
+							((FramesAnimation) a).getFrameFromTime(i).getDrawable(),
 							assetList, allAssets);
 				}
 			}
@@ -489,7 +499,7 @@ public abstract class SceneElementGOImpl<T extends EAdSceneElement> extends
 			return this.getRenderAsset().contains(x, y);
 		return false;
 	}
-	
+
 	@Override
 	public void render(EAdCanvas c) {
 		if (this.getRenderAsset() != null)
@@ -497,8 +507,7 @@ public abstract class SceneElementGOImpl<T extends EAdSceneElement> extends
 		else {
 			// FIXME Improve, when has no asset
 			c.setPaint(EAdPaintImpl.BLACK_ON_WHITE);
-			c.fillRect(0, 0,
-					width, height);
+			c.fillRect(0, 0, width, height);
 		}
 	}
 

@@ -37,8 +37,9 @@
 
 package es.eucm.eadventure.engine.core.util.impl;
 
-import es.eucm.eadventure.engine.core.util.EAdMatrix;
-import es.eucm.eadventure.engine.core.util.EAdTransformation;
+import es.eucm.eadventure.common.util.EAdMatrix;
+import es.eucm.eadventure.common.util.EAdTransformation;
+import es.eucm.eadventure.common.util.impl.EAdMatrixImpl;
 
 public class EAdTransformationImpl implements EAdTransformation {
 

@@ -35,34 +35,50 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package es.eucm.eadventure.engine.core.util;
+package es.eucm.eadventure.common.util.impl;
 
-/**
- * Transformation applicable to the graphic context.
- * <p>
- * Transformation includes a transformation matrix (translation, rotation and
- * scale) as well as values for visibility and alpha.
- */
-public interface EAdTransformation extends Cloneable {
+import es.eucm.eadventure.common.util.impl.EAdInterpolator;
+
+public class EAdInterpolator {
 
 	/**
-	 * @return the transformation matrix
+	 * Interpolator f(x) = x
 	 */
-	EAdMatrix getMatrix();
+	public static final EAdInterpolator LINEAR = new EAdInterpolator(
+			new float[] { 0.0f, 1.0f });
+	
+	public static final EAdInterpolator BOUNCE_END = new EAdInterpolator(
+			new float[] { 0.0f, 3.5f, -2.5f });
+	
+	public static final EAdInterpolator ACCELERATE = new EAdInterpolator(
+			new float[] { 0.0f, 0.0f, 1.0f });
+	
+	public static final EAdInterpolator DESACCELERATE = new EAdInterpolator(
+			new float[] { 0.0f, 0.0f, 1.0f });
+	
+	public static final EAdInterpolator BOUNCE_START_END = new EAdInterpolator(
+			new float[] { 0.0f, -3.1667f, 12.5f, -8.3333f });
+	
+	public static final EAdInterpolator DASH = new EAdInterpolator(
+			new float[] { 0.0f, -3.0f, 4.0f });
+	
+	private float[] polynomial;
+
+	public EAdInterpolator(float[] polynomial) {
+		this.polynomial = polynomial;
+	}
 
 	/**
-	 * @return true if the transformed elements must be visible
+	 * 
+	 * @return
 	 */
-	boolean isVisible();
-
-	/**
-	 * @return the transparency of the transformation (1.0 opaque, 0.0 transparent)
-	 */
-	float getAlpha();
-
-	/**
-	 * @return clone of the transformation
-	 */
-	Object clone();
+	public float interpolate(float currentTime, float totalTime, float totalLength ) {
+		float v = currentTime / totalTime;
+		float r = 0;
+		for (int i = 0; i < polynomial.length; i++) {
+			r += Math.pow(v, i) * polynomial[i];
+		}
+		return r * totalLength;
+	}
 
 }

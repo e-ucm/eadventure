@@ -48,8 +48,8 @@ import javax.imageio.ImageIO;
 import com.google.inject.Inject;
 
 import es.eucm.eadventure.engine.core.platform.AssetHandler;
-import es.eucm.eadventure.engine.core.platform.EAdCanvas;
 import es.eucm.eadventure.engine.core.platform.impl.DesktopAssetHandler;
+import es.eucm.eadventure.engine.core.platform.rendering.EAdCanvas;
 
 public class DesktopEngineImage extends RuntimeImage<Graphics2D> {
 

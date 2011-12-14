@@ -43,12 +43,12 @@ import java.util.logging.Logger;
 
 import com.google.inject.Singleton;
 
+import es.eucm.eadventure.common.util.EAdTransformation;
 import es.eucm.eadventure.engine.core.gameobjects.DrawableGO;
 import es.eucm.eadventure.engine.core.gameobjects.GameObjectManager;
 import es.eucm.eadventure.engine.core.gameobjects.huds.BasicHUD;
 import es.eucm.eadventure.engine.core.gameobjects.huds.HudGO;
 import es.eucm.eadventure.engine.core.platform.GUI;
-import es.eucm.eadventure.engine.core.util.EAdTransformation;
 
 @Singleton
 public class GameObjectManagerImpl implements GameObjectManager {

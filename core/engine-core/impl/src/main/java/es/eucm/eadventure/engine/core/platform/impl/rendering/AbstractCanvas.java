@@ -35,15 +35,18 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package es.eucm.eadventure.engine.core.platform.impl;
+package es.eucm.eadventure.engine.core.platform.impl.rendering;
 
 import java.util.logging.Logger;
 
 import com.google.inject.Inject;
 
 import es.eucm.eadventure.common.params.paint.EAdPaint;
-import es.eucm.eadventure.engine.core.platform.EAdCanvas;
+import es.eucm.eadventure.common.resources.assets.drawable.filters.DrawableFilter;
+import es.eucm.eadventure.engine.core.platform.DrawableAsset;
 import es.eucm.eadventure.engine.core.platform.FontHandler;
+import es.eucm.eadventure.engine.core.platform.rendering.EAdCanvas;
+import es.eucm.eadventure.engine.core.platform.rendering.filters.FilterFactory;
 
 public abstract class AbstractCanvas<T> implements EAdCanvas<T> {
 	
@@ -55,9 +58,12 @@ public abstract class AbstractCanvas<T> implements EAdCanvas<T> {
 	
 	protected FontHandler fontHandler;
 	
+	protected FilterFactory<T> filterFactory;
+	
 	@Inject
-	public AbstractCanvas( FontHandler fontHandler ){
+	public AbstractCanvas( FontHandler fontHandler, FilterFactory<T> filterFactory ){
 		this.fontHandler = fontHandler;
+		this.filterFactory = filterFactory;
 	}
 	
 	public void setGraphicContext( T g ){
@@ -75,6 +81,10 @@ public abstract class AbstractCanvas<T> implements EAdCanvas<T> {
 	@Override
 	public T getNativeGraphicContext() {
 		return g;
+	}
+	
+	public void setFilter(DrawableAsset<?, T> drawable, DrawableFilter filter){
+		filterFactory.applyFilter(drawable, filter, this);
 	}
 
 }

@@ -53,9 +53,9 @@ import es.eucm.eadventure.engine.core.GameLoop;
 import es.eucm.eadventure.engine.core.impl.VariableMap;
 import es.eucm.eadventure.engine.core.platform.AssetHandler;
 import es.eucm.eadventure.engine.core.platform.DrawableAsset;
-import es.eucm.eadventure.engine.core.platform.EAdCanvas;
 import es.eucm.eadventure.engine.core.platform.FontHandler;
 import es.eucm.eadventure.engine.core.platform.RuntimeFont;
+import es.eucm.eadventure.engine.core.platform.rendering.EAdCanvas;
 
 public class RuntimeCaption<GraphicContext> extends AbstractRuntimeAsset<Caption> implements
 		DrawableAsset<Caption, GraphicContext> {

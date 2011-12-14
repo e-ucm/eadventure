@@ -37,6 +37,9 @@
 
 package es.eucm.eadventure.editor.view.swing;
 
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
+
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
@@ -50,15 +53,10 @@ import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.WindowConstants;
 
-import static org.mockito.Mockito.*;
-
 import es.eucm.eadventure.common.elementfactories.demos.scenes.ComplexElementScene;
-import es.eucm.eadventure.common.elementfactories.demos.scenes.EmptyScene;
 import es.eucm.eadventure.common.elementfactories.demos.scenes.InitScene;
 import es.eucm.eadventure.common.model.elements.EAdScene;
-import es.eucm.eadventure.common.model.elements.EAdSceneElement;
 import es.eucm.eadventure.common.model.elements.EAdSceneElementDef;
-import es.eucm.eadventure.common.model.extra.impl.EAdListImpl;
 import es.eucm.eadventure.common.params.EAdString;
 import es.eucm.eadventure.common.resources.StringHandler;
 import es.eucm.eadventure.editor.control.CommandManager;
@@ -69,7 +67,6 @@ import es.eucm.eadventure.editor.impl.EditorStringHandler;
 import es.eucm.eadventure.editor.view.ComponentProvider;
 import es.eucm.eadventure.editor.view.generics.Panel;
 import es.eucm.eadventure.gui.EAdBorderedPanel;
-import es.eucm.eadventure.gui.EAdFrame;
 import es.eucm.eadventure.gui.EAdGUILookAndFeel;
 
 public class ElementControllerGetPanelTest extends JFrame {

@@ -35,13 +35,16 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package es.eucm.eadventure.engine.core.platform;
+package es.eucm.eadventure.engine.core.platform.rendering;
 
 import es.eucm.eadventure.common.params.EAdFont;
 import es.eucm.eadventure.common.params.geom.EAdRectangle;
 import es.eucm.eadventure.common.params.paint.EAdPaint;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.Shape;
-import es.eucm.eadventure.engine.core.util.EAdTransformation;
+import es.eucm.eadventure.common.resources.assets.drawable.filters.DrawableFilter;
+import es.eucm.eadventure.common.util.EAdMatrix;
+import es.eucm.eadventure.common.util.EAdTransformation;
+import es.eucm.eadventure.engine.core.platform.DrawableAsset;
 
 /**
  * <p>
@@ -65,6 +68,12 @@ public interface EAdCanvas<S> {
 	 *            canvas
 	 */
 	void setTransformation(EAdTransformation t);
+	
+	/**
+	 * Sets a transformation matrix for the canvas
+	 * @param m the matrix
+	 */
+	void setMatrix( EAdMatrix m );
 
 	/**
 	 * @param shape
@@ -159,11 +168,24 @@ public interface EAdCanvas<S> {
 
 	/**
 	 * Fills a rectangle with the current paint
-	 * @param x left coordinate
-	 * @param y top coordiante
-	 * @param width width for the rectangle
-	 * @param height height for the rectangle
+	 * 
+	 * @param x
+	 *            left coordinate
+	 * @param y
+	 *            top coordiante
+	 * @param width
+	 *            width for the rectangle
+	 * @param height
+	 *            height for the rectangle
 	 */
 	void fillRect(int x, int y, int width, int height);
+
+	/**
+	 * Sets the filter to be used in the rendering
+	 * 
+	 * @param filter
+	 *            the filter. {@code null} if no filter must be applied
+	 */
+	void setFilter(DrawableAsset<?, S> drawable, DrawableFilter filter);
 
 }

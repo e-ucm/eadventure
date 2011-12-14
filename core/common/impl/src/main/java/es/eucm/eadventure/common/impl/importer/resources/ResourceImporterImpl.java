@@ -365,7 +365,10 @@ public class ResourceImporterImpl implements ResourceImporter {
 			frames.addFrame(new Frame(newPath, frameTime));
 			oldPath = assetPath + "_0" + frame++ + fileExtension;
 		}
-		return frames;
+		if ( frames.getFrameCount() > 0 )
+				return frames;
+		else
+			return null;
 	}
 
 	@Override

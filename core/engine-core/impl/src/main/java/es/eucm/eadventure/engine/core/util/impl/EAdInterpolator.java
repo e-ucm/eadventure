@@ -37,6 +37,7 @@
 
 package es.eucm.eadventure.engine.core.util.impl;
 
+
 public class EAdInterpolator {
 
 	/**

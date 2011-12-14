@@ -38,8 +38,8 @@
 package es.eucm.eadventure.engine.core.platform;
 
 import es.eucm.eadventure.common.resources.assets.drawable.basics.Image;
+import es.eucm.eadventure.common.util.EAdTransformation;
 import es.eucm.eadventure.engine.core.gameobjects.DrawableGO;
-import es.eucm.eadventure.engine.core.util.EAdTransformation;
 
 /**
  * This interface is implemented by the class that implements the high level
