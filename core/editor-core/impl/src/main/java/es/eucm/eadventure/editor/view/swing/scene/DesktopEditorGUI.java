@@ -55,6 +55,8 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 import es.eucm.eadventure.common.resources.assets.drawable.basics.Image;
+import es.eucm.eadventure.common.util.EAdTransformation;
+import es.eucm.eadventure.common.util.impl.EAdTransformationImpl;
 import es.eucm.eadventure.engine.core.GameState;
 import es.eucm.eadventure.engine.core.KeyboardState;
 import es.eucm.eadventure.engine.core.MouseState;
@@ -63,11 +65,9 @@ import es.eucm.eadventure.engine.core.gameobjects.factories.SceneElementGOFactor
 import es.eucm.eadventure.engine.core.guiactions.KeyAction;
 import es.eucm.eadventure.engine.core.platform.PlatformConfiguration;
 import es.eucm.eadventure.engine.core.platform.RuntimeAsset;
-import es.eucm.eadventure.engine.core.platform.impl.DesktopCanvas;
 import es.eucm.eadventure.engine.core.platform.impl.DesktopGUI;
 import es.eucm.eadventure.engine.core.platform.impl.extra.DesktopInputListener;
-import es.eucm.eadventure.engine.core.util.EAdTransformation;
-import es.eucm.eadventure.engine.core.util.impl.EAdTransformationImpl;
+import es.eucm.eadventure.engine.core.platform.impl.rendering.DesktopCanvas;
 import es.eucm.eadventure.utils.swing.SwingUtilities;
 
 @Singleton

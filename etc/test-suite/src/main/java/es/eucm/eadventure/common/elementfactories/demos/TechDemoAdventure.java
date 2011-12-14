@@ -10,6 +10,7 @@ import es.eucm.eadventure.common.elementfactories.demos.scenes.DepthZScene;
 import es.eucm.eadventure.common.elementfactories.demos.scenes.DragDropScene;
 import es.eucm.eadventure.common.elementfactories.demos.scenes.DrawablesScene;
 import es.eucm.eadventure.common.elementfactories.demos.scenes.EmptyScene;
+import es.eucm.eadventure.common.elementfactories.demos.scenes.FiltersDemo;
 import es.eucm.eadventure.common.elementfactories.demos.scenes.InitScene;
 import es.eucm.eadventure.common.elementfactories.demos.scenes.InventoryScene;
 import es.eucm.eadventure.common.elementfactories.demos.scenes.PhysicsScene2;
@@ -57,6 +58,7 @@ public class TechDemoAdventure extends EAdAdventureModelImpl {
 		sceneDemos.add(new SharingEffectsScene());
 		sceneDemos.add(new InventoryScene());
 		sceneDemos.add(new ScrollScene());
+		sceneDemos.add(new FiltersDemo());
 //		sceneDemos.add(new VideoScene());
 		sceneDemos.add(new NgMainScreen());
 //		sceneDemos.add(new NgRoom1());

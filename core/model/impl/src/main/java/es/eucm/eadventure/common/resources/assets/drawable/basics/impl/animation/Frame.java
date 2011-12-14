@@ -38,6 +38,7 @@
 package es.eucm.eadventure.common.resources.assets.drawable.basics.impl.animation;
 
 import es.eucm.eadventure.common.interfaces.Param;
+import es.eucm.eadventure.common.resources.assets.drawable.basics.BasicDrawable;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.ImageImpl;
 
 /**
@@ -45,7 +46,7 @@ import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.ImageImpl
  * Represents a frame within a {@link FramesAnimation}
  * 
  */
-public class Frame extends ImageImpl {
+public class Frame {
 
 	/**
 	 * Default frame time in milliseconds, with a value of 300 ms
@@ -57,6 +58,9 @@ public class Frame extends ImageImpl {
 	 */
 	@Param("time")
 	private int time;
+	
+	@Param("drawable")
+	private BasicDrawable drawable;
 
 	public Frame(){
 		
@@ -70,8 +74,7 @@ public class Frame extends ImageImpl {
 	 *            the uri to the image for the frame
 	 */
 	public Frame(String uri) {
-		super(uri);
-		this.time = DEFAULT_FRAME_TIME;
+		this(uri, DEFAULT_FRAME_TIME);
 	}
 
 	/**
@@ -83,7 +86,11 @@ public class Frame extends ImageImpl {
 	 *            the time for the frame
 	 */
 	public Frame(String uri, int time) {
-		super(uri);
+		this( new ImageImpl(uri), time);
+	}
+	
+	public Frame( BasicDrawable drawable, int time ){
+		this.drawable = drawable;
 		this.time = time;
 	}
 
@@ -104,6 +111,10 @@ public class Frame extends ImageImpl {
 	 */
 	public int getTime() {
 		return time;
+	}
+	
+	public BasicDrawable getDrawable( ){
+		return drawable;
 	}
 	
 	public boolean equals( Object o ){

@@ -208,7 +208,7 @@ public class SceneImporter implements EAdElementImporter<Scene, EAdSceneImpl> {
 			
 			// Add move camera with character
 			Dimension d = resourceImporter.getDimensions(oldScene.getResources().get(0).getAssetPath(Scene.RESOURCE_TYPE_BACKGROUND));
-			scene.setBounds(d.width, d.height);
+			scene.setBounds(d.width, 600);
 			
 			ScrollWithSceneElement scroll = new ScrollWithSceneElement( scene, playerReference );
 			scene.getEvents().add(scroll);

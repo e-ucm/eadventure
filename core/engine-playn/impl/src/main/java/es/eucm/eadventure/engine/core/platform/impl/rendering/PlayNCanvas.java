@@ -35,7 +35,7 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package es.eucm.eadventure.engine.core.platform;
+package es.eucm.eadventure.engine.core.platform.impl.rendering;
 
 import playn.core.Canvas;
 import playn.core.Canvas.Composite;
@@ -49,23 +49,26 @@ import playn.core.TextFormat.Effect;
 
 import com.google.inject.Inject;
 
+import es.eucm.eadventure.common.interfaces.ReflectionProvider;
 import es.eucm.eadventure.common.params.EAdFont;
 import es.eucm.eadventure.common.params.fills.impl.EAdColor;
 import es.eucm.eadventure.common.params.fills.impl.EAdLinearGradient;
 import es.eucm.eadventure.common.params.geom.EAdRectangle;
 import es.eucm.eadventure.common.params.paint.EAdFill;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.Shape;
+import es.eucm.eadventure.common.util.EAdMatrix;
+import es.eucm.eadventure.common.util.EAdTransformation;
+import es.eucm.eadventure.engine.core.platform.DrawableAsset;
+import es.eucm.eadventure.engine.core.platform.FontHandler;
 import es.eucm.eadventure.engine.core.platform.assets.impl.PlayNBezierShape;
-import es.eucm.eadventure.engine.core.platform.impl.AbstractCanvas;
-import es.eucm.eadventure.engine.core.util.EAdTransformation;
 
 public class PlayNCanvas extends AbstractCanvas<Canvas> {
 
 	private Font f;
 
 	@Inject
-	public PlayNCanvas(FontHandler fontHandler) {
-		super(fontHandler);
+	public PlayNCanvas(FontHandler fontHandler, ReflectionProvider reflectionProvider) {
+		super(fontHandler, new PlayNFilterFactory(reflectionProvider));
 	}
 	
 	public void setGraphicContext( Canvas g ){
@@ -75,7 +78,12 @@ public class PlayNCanvas extends AbstractCanvas<Canvas> {
 
 	@Override
 	public void setTransformation(EAdTransformation t) {
-		float[] m = t.getMatrix().getFlatMatrix();
+		setMatrix( t.getMatrix() );
+		// TODO alpha
+	}
+	
+	public void setMatrix( EAdMatrix mat ){
+		float[] m = mat.getFlatMatrix();
 		g.setTransform(m[0], m[1], m[3], m[4], m[6], m[7]);
 	}
 

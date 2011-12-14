@@ -62,6 +62,8 @@ import es.eucm.eadventure.common.resources.assets.drawable.compounds.ComposedDra
 import es.eucm.eadventure.common.resources.assets.drawable.compounds.DisplacedDrawable;
 import es.eucm.eadventure.common.resources.assets.drawable.compounds.impl.ComposedDrawableImpl;
 import es.eucm.eadventure.common.resources.assets.drawable.compounds.impl.DisplacedDrawableImpl;
+import es.eucm.eadventure.common.resources.assets.drawable.filters.FilteredDrawable;
+import es.eucm.eadventure.common.resources.assets.drawable.filters.impl.FilteredDrawableImpl;
 import es.eucm.eadventure.common.resources.assets.multimedia.Sound;
 import es.eucm.eadventure.common.resources.assets.multimedia.Video;
 import es.eucm.eadventure.common.resources.assets.multimedia.impl.SoundImpl;
@@ -75,6 +77,7 @@ import es.eucm.eadventure.engine.core.platform.assets.impl.DesktopEngineImage;
 import es.eucm.eadventure.engine.core.platform.assets.impl.DesktopEngineSpriteImage;
 import es.eucm.eadventure.engine.core.platform.assets.impl.RuntimeComposedDrawable;
 import es.eucm.eadventure.engine.core.platform.assets.impl.RuntimeDisplacedDrawable;
+import es.eucm.eadventure.engine.core.platform.assets.impl.RuntimeFilteredDrawable;
 import es.eucm.eadventure.engine.core.platform.assets.impl.RuntimeSpriteImage;
 import es.eucm.eadventure.engine.core.platform.assets.impl.sound.DesktopSound;
 import es.eucm.eadventure.engine.core.platform.impl.DesktopAssetHandler;
@@ -99,7 +102,6 @@ public class DesktopAssetHandlerModule extends AbstractModule {
 
 		map.put(ImageImpl.class, DesktopEngineImage.class);
 		map.put(Image.class, DesktopEngineImage.class);
-		map.put(Frame.class, DesktopEngineImage.class);
 		map.put(Caption.class, DesktopEngineCaption.class);
 		map.put(CaptionImpl.class, DesktopEngineCaption.class);
 		map.put(ComposedDrawable.class, (Class<? extends RuntimeAsset<?>>) RuntimeComposedDrawable.class);
@@ -112,6 +114,8 @@ public class DesktopAssetHandlerModule extends AbstractModule {
 		map.put(SpriteImageImpl.class, DesktopEngineSpriteImage.class);
 		map.put(Sound.class, DesktopSound.class);
 		map.put(SoundImpl.class, DesktopSound.class);
+		map.put(FilteredDrawable.class, (Class<? extends RuntimeAsset<?>>) RuntimeFilteredDrawable.class);
+		map.put(FilteredDrawableImpl.class, (Class<? extends RuntimeAsset<?>>) RuntimeFilteredDrawable.class);
 
 		return map;
 	}

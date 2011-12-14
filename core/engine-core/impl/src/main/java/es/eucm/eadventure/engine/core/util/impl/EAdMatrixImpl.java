@@ -37,7 +37,7 @@
 
 package es.eucm.eadventure.engine.core.util.impl;
 
-import es.eucm.eadventure.engine.core.util.EAdMatrix;
+import es.eucm.eadventure.common.util.EAdMatrix;
 
 /**
  * Default {@link EAdMatrix} implementation

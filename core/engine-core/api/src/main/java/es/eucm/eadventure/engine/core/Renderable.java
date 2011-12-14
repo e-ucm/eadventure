@@ -37,9 +37,9 @@
 
 package es.eucm.eadventure.engine.core;
 
+import es.eucm.eadventure.common.util.EAdTransformation;
 import es.eucm.eadventure.engine.core.guiactions.GUIAction;
-import es.eucm.eadventure.engine.core.platform.EAdCanvas;
-import es.eucm.eadventure.engine.core.util.EAdTransformation;
+import es.eucm.eadventure.engine.core.platform.rendering.EAdCanvas;
 
 public interface Renderable {
 	

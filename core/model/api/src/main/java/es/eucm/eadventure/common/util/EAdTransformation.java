@@ -35,48 +35,34 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package es.eucm.eadventure.engine.core.util;
+package es.eucm.eadventure.common.util;
 
 /**
- * Generic Java matrix definition, used for transformations
+ * Transformation applicable to the graphic context.
+ * <p>
+ * Transformation includes a transformation matrix (translation, rotation and
+ * scale) as well as values for visibility and alpha.
  */
-public interface EAdMatrix {
-	
-	/**
-	 * [0 3 6]
-	 * [1 4 7]
-	 * [2 5 8]
-	 * 
-	 * @return the matrix itself
-	 */
-	float[] getFlatMatrix();
-	
-	/**
-	 * @return a transposed version of the values in the matrix
-	 */
-	float[] getTransposedMatrix();
-	
-	/**
-	 * @return the inverse matrix
-	 */
-	float[] getInversedMatrix();
-	
-	void translate( float x, float y, boolean post );
-	
-	void rotate( float angle, boolean post );
-	
-	void scale( float scaleX, float scaleY, boolean post );
-	
-	void multiply( float m[], boolean post );
-	
-	float getOffsetX();
-	
-	float getOffsetY();
-	
-	void setIdentity();
+public interface EAdTransformation extends Cloneable {
 
-	float[] multiplyPoint(float x, float y, boolean post);
-	
-	float[] multiplyPointInverse( float x, float y, boolean post);
+	/**
+	 * @return the transformation matrix
+	 */
+	EAdMatrix getMatrix();
+
+	/**
+	 * @return true if the transformed elements must be visible
+	 */
+	boolean isVisible();
+
+	/**
+	 * @return the transparency of the transformation (1.0 opaque, 0.0 transparent)
+	 */
+	float getAlpha();
+
+	/**
+	 * @return clone of the transformation
+	 */
+	Object clone();
 
 }

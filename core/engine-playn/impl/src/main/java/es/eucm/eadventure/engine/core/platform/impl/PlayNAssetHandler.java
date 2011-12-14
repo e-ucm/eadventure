@@ -41,6 +41,8 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import playn.core.Canvas;
+
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
@@ -57,6 +59,7 @@ import es.eucm.eadventure.engine.core.platform.assets.impl.PlayNEngineSpriteImag
 import es.eucm.eadventure.engine.core.platform.assets.impl.PlayNSound;
 import es.eucm.eadventure.engine.core.platform.assets.impl.RuntimeComposedDrawable;
 import es.eucm.eadventure.engine.core.platform.assets.impl.RuntimeDisplacedDrawable;
+import es.eucm.eadventure.engine.core.platform.assets.impl.RuntimeFilteredDrawable;
 
 @Singleton
 public class PlayNAssetHandler extends AbstractAssetHandler {
@@ -121,9 +124,11 @@ public class PlayNAssetHandler extends AbstractAssetHandler {
 		if (clazz == PlayNSound.class)
 			return new PlayNSound(this);
 		if ( clazz == RuntimeComposedDrawable.class )
-			return new RuntimeComposedDrawable( this );
+			return new RuntimeComposedDrawable<Canvas>( this );
 		if ( clazz == RuntimeDisplacedDrawable.class )
-			return new RuntimeDisplacedDrawable( this );
+			return new RuntimeDisplacedDrawable<Canvas>( this );
+		if ( clazz == RuntimeFilteredDrawable.class )
+			return new RuntimeFilteredDrawable<Canvas>( this );
 
 		logger.log(Level.SEVERE, "No instance for runtime asset: " + clazz);
 		return null;

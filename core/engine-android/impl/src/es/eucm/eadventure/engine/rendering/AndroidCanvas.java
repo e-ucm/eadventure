@@ -35,7 +35,7 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package es.eucm.eadventure.engine;
+package es.eucm.eadventure.engine.rendering;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -57,15 +57,15 @@ import es.eucm.eadventure.common.params.fills.impl.EAdColor;
 import es.eucm.eadventure.common.params.fills.impl.EAdLinearGradient;
 import es.eucm.eadventure.common.params.geom.EAdRectangle;
 import es.eucm.eadventure.common.params.paint.EAdFill;
-import es.eucm.eadventure.common.resources.assets.drawable.basics.Image;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.Shape;
+import es.eucm.eadventure.common.util.EAdMatrix;
+import es.eucm.eadventure.common.util.EAdTransformation;
 import es.eucm.eadventure.engine.assets.AndroidBezierShape;
 import es.eucm.eadventure.engine.assets.AndroidEngineFont;
-import es.eucm.eadventure.engine.assets.AndroidEngineImage;
 import es.eucm.eadventure.engine.core.platform.DrawableAsset;
 import es.eucm.eadventure.engine.core.platform.FontHandler;
-import es.eucm.eadventure.engine.core.platform.impl.AbstractCanvas;
-import es.eucm.eadventure.engine.core.util.EAdTransformation;
+import es.eucm.eadventure.engine.core.platform.impl.rendering.AbstractCanvas;
+import es.eucm.eadventure.engine.core.platform.rendering.filters.FilterFactory;
 
 public class AndroidCanvas extends AbstractCanvas<Canvas> {
 
@@ -76,25 +76,35 @@ public class AndroidCanvas extends AbstractCanvas<Canvas> {
 	private int size;
 
 	@Inject
-	public AndroidCanvas(FontHandler fontHandler) {
-		super(fontHandler);
+	public AndroidCanvas(FontHandler fontHandler, FilterFactory<Canvas> filterFactory) {
+		super(fontHandler, filterFactory);
 		fillCache = new HashMap<EAdFill, Paint>();
 	}
 
 	@Override
 	public void setTransformation(EAdTransformation t) {
 		
+		setMatrix( t.getMatrix() );
+		// TODO alpha
+	}
+	
+	public void setMatrix( EAdMatrix mat ){
 		g.restore();
 		
-		float m[] = t.getMatrix().getTransposedMatrix();
+		float m[] = mat.getTransposedMatrix();
 		Matrix matrix = new Matrix();
 		matrix.setValues(m);
 		matrix.postConcat(g.getMatrix());
 		
 		g.save();		
 		g.setMatrix(matrix);
-
-		// TODO alpha
+	}
+	
+	public Matrix getMatrix( EAdMatrix mat ){
+		float m[] = mat.getTransposedMatrix();
+		Matrix matrix = new Matrix();
+		matrix.setValues(m);
+		return matrix;
 	}
 
 	@Override

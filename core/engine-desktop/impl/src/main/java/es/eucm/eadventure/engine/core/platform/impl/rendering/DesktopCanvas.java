@@ -35,7 +35,7 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package es.eucm.eadventure.engine.core.platform.impl;
+package es.eucm.eadventure.engine.core.platform.impl.rendering;
 
 import java.awt.AlphaComposite;
 import java.awt.BasicStroke;
@@ -59,11 +59,13 @@ import es.eucm.eadventure.common.params.geom.EAdRectangle;
 import es.eucm.eadventure.common.params.paint.EAdFill;
 import es.eucm.eadventure.common.params.paint.EAdPaint;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.Shape;
+import es.eucm.eadventure.common.util.EAdMatrix;
+import es.eucm.eadventure.common.util.EAdTransformation;
 import es.eucm.eadventure.engine.core.platform.DrawableAsset;
 import es.eucm.eadventure.engine.core.platform.FontHandler;
 import es.eucm.eadventure.engine.core.platform.assets.impl.DesktopBezierShape;
 import es.eucm.eadventure.engine.core.platform.assets.impl.DesktopEngineFont;
-import es.eucm.eadventure.engine.core.util.EAdTransformation;
+import es.eucm.eadventure.engine.core.platform.rendering.filters.FilterFactory;
 
 public class DesktopCanvas extends AbstractCanvas<Graphics2D> {
 
@@ -76,8 +78,8 @@ public class DesktopCanvas extends AbstractCanvas<Graphics2D> {
 	private AlphaComposite alphaComposite;
 
 	@Inject
-	public DesktopCanvas(FontHandler fontHandler) {
-		super(fontHandler);
+	public DesktopCanvas(FontHandler fontHandler, FilterFactory<Graphics2D> filterFactory) {
+		super(fontHandler, filterFactory);
 		fillCache = new HashMap<EAdFill, Paint>();
 		strokeCache = new HashMap<EAdPaint, Stroke>();
 		graphicStack = new Stack<Graphics2D>();
@@ -86,13 +88,21 @@ public class DesktopCanvas extends AbstractCanvas<Graphics2D> {
 
 	@Override
 	public void setTransformation(EAdTransformation t) {
-		float m[] = t.getMatrix().getFlatMatrix();
-		g.setTransform(new AffineTransform(m[0], m[1], m[3], m[4], m[6], m[7]));
+		setMatrix( t.getMatrix() );
 		if (alphaComposite.getAlpha() != t.getAlpha()) { 
 			alphaComposite = AlphaComposite.getInstance(AlphaComposite.SRC_OVER,
 					t.getAlpha());
 			g.setComposite(alphaComposite);
 		}		
+	}
+	
+	public void setMatrix( EAdMatrix mat ){	
+		g.setTransform(getAffineTransform(mat));
+	}
+	
+	public AffineTransform getAffineTransform( EAdMatrix mat ){
+		float m[] = mat.getFlatMatrix();
+		return new AffineTransform(m[0], m[1], m[3], m[4], m[6], m[7]);
 	}
 
 	@Override

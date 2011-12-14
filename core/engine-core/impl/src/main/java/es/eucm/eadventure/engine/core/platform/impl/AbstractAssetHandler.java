@@ -51,9 +51,9 @@ import es.eucm.eadventure.common.resources.assets.AssetDescriptor;
 import es.eucm.eadventure.common.resources.assets.drawable.Drawable;
 import es.eucm.eadventure.engine.core.platform.AssetHandler;
 import es.eucm.eadventure.engine.core.platform.DrawableAsset;
-import es.eucm.eadventure.engine.core.platform.EAdCanvas;
 import es.eucm.eadventure.engine.core.platform.FontHandler;
 import es.eucm.eadventure.engine.core.platform.RuntimeAsset;
+import es.eucm.eadventure.engine.core.platform.rendering.EAdCanvas;
 
 /**
  * <p>
@@ -75,7 +75,6 @@ public abstract class AbstractAssetHandler implements AssetHandler {
 	private static final Logger logger = Logger
 			.getLogger("AbstractAssetHandler");
 
-
 	/**
 	 * A cache of the runtime assets for each asset descriptor
 	 */
@@ -88,7 +87,7 @@ public abstract class AbstractAssetHandler implements AssetHandler {
 	private Map<Class<? extends AssetDescriptor>, Class<? extends RuntimeAsset<?>>> classMap;
 
 	private boolean loaded = false;
-	
+
 	protected FontHandler fontHandler;
 
 	/**
@@ -104,11 +103,12 @@ public abstract class AbstractAssetHandler implements AssetHandler {
 	 */
 	@Inject
 	public AbstractAssetHandler(
-			Map<Class<? extends AssetDescriptor>, Class<? extends RuntimeAsset<?>>> classMap, FontHandler fontHandler ) {
+			Map<Class<? extends AssetDescriptor>, Class<? extends RuntimeAsset<?>>> classMap,
+			FontHandler fontHandler) {
 		this.classMap = classMap;
 		cache = new HashMap<AssetDescriptor, RuntimeAsset<?>>();
 		this.fontHandler = fontHandler;
-		fontHandler.setAssetHandler( this );
+		fontHandler.setAssetHandler(this);
 	}
 
 	/*
@@ -125,28 +125,24 @@ public abstract class AbstractAssetHandler implements AssetHandler {
 		if (descriptor == null) {
 			return null;
 		}
-		try {
-			RuntimeAsset<T> temp = (RuntimeAsset<T>) cache.get(descriptor);
 
-			if (temp == null) {
-				Class<?> clazz = descriptor.getClass();
-				Class<? extends RuntimeAsset<?>> tempClass = null;
-				while (clazz != null && tempClass == null) {
-					tempClass = classMap.get(clazz);
-					clazz = clazz.getSuperclass();
-				}
-				temp = (RuntimeAsset<T>) getInstance(tempClass);
-				temp.setDescriptor(descriptor);
-				cache.put(descriptor, temp);
+		RuntimeAsset<T> temp = (RuntimeAsset<T>) cache.get(descriptor);
+
+		if (temp == null) {
+			Class<?> clazz = descriptor.getClass();
+			Class<? extends RuntimeAsset<?>> tempClass = null;
+			while (clazz != null && tempClass == null) {
+				tempClass = classMap.get(clazz);
+				clazz = clazz.getSuperclass();
 			}
-			return temp;
-		} catch (NullPointerException e) {
-			logger.log(Level.SEVERE, "Null pointer, descriptor:" + descriptor,
-					e);
-			throw e;
+			temp = (RuntimeAsset<T>) getInstance(tempClass);
+			temp.setDescriptor(descriptor);
+			cache.put(descriptor, temp);
 		}
+		return temp;
+
 	}
-	
+
 	@SuppressWarnings("unchecked")
 	@Override
 	public <T extends Drawable, GraphicContext> DrawableAsset<T, GraphicContext> getDrawableAsset(
@@ -154,7 +150,8 @@ public abstract class AbstractAssetHandler implements AssetHandler {
 		return (DrawableAsset<T, GraphicContext>) getRuntimeAsset(descriptor);
 	}
 
-	public abstract RuntimeAsset<?> getInstance(Class<? extends RuntimeAsset<?>> clazz);
+	public abstract RuntimeAsset<?> getInstance(
+			Class<? extends RuntimeAsset<?>> clazz);
 
 	/*
 	 * (non-Javadoc)
@@ -201,7 +198,6 @@ public abstract class AbstractAssetHandler implements AssetHandler {
 	public RuntimeAsset<?> getRuntimeAsset(Resourced element, String id) {
 		return getRuntimeAsset(element, null, id);
 	}
-
 
 	/*
 	 * (non-Javadoc)

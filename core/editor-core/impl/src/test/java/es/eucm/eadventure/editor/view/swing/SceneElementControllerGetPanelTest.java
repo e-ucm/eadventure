@@ -37,6 +37,8 @@
 
 package es.eucm.eadventure.editor.view.swing;
 
+import static org.mockito.Mockito.mock;
+
 import java.awt.FlowLayout;
 
 import javax.swing.JComponent;
@@ -44,14 +46,8 @@ import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.WindowConstants;
 
-import static org.mockito.Mockito.*;
-
 import es.eucm.eadventure.common.elementfactories.demos.scenes.EmptyScene;
 import es.eucm.eadventure.common.model.elements.EAdScene;
-import es.eucm.eadventure.common.model.elements.EAdSceneElement;
-import es.eucm.eadventure.common.model.elements.impl.EAdSceneElementDefImpl;
-import es.eucm.eadventure.common.model.extra.impl.EAdListImpl;
-import es.eucm.eadventure.common.params.EAdString;
 import es.eucm.eadventure.common.resources.StringHandler;
 import es.eucm.eadventure.editor.control.CommandManager;
 import es.eucm.eadventure.editor.control.ElementController;

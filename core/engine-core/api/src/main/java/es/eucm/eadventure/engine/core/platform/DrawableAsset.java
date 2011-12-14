@@ -38,6 +38,7 @@
 package es.eucm.eadventure.engine.core.platform;
 
 import es.eucm.eadventure.common.resources.assets.drawable.Drawable;
+import es.eucm.eadventure.engine.core.platform.rendering.EAdCanvas;
 
 /**
  * <p>

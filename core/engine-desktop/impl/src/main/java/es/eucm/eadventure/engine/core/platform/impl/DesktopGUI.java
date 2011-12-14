@@ -72,6 +72,7 @@ import es.eucm.eadventure.engine.core.platform.PlatformConfiguration;
 import es.eucm.eadventure.engine.core.platform.RuntimeAsset;
 import es.eucm.eadventure.engine.core.platform.assets.impl.DesktopEngineImage;
 import es.eucm.eadventure.engine.core.platform.impl.extra.DesktopInputListener;
+import es.eucm.eadventure.engine.core.platform.impl.rendering.DesktopCanvas;
 import es.eucm.eadventure.utils.swing.SwingExceptionHandler;
 import es.eucm.eadventure.utils.swing.SwingUtilities;
 

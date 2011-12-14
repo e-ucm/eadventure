@@ -39,7 +39,6 @@ package es.eucm.eadventure.engine.core.trajectories;
 
 import es.eucm.eadventure.common.model.EAdElement;
 import es.eucm.eadventure.common.model.trajectories.TrajectoryDefinition;
-import es.eucm.eadventure.common.params.geom.EAdPosition;
 import es.eucm.eadventure.engine.core.gameobjects.SceneElementGO;
 
 /**
