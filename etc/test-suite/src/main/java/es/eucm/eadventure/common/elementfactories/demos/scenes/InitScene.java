@@ -145,6 +145,8 @@ public class InitScene extends EmptyScene {
 		sceneDemos.add(new DepthZScene());
 		sceneDemos.add(new SharingEffectsScene());
 		sceneDemos.add(new InventoryScene());
+		sceneDemos.add(new ScrollScene());
+		sceneDemos.add(new FiltersDemo());
 		// sceneDemos.add(new VideoScene());
 		sceneDemos.add(new NgMainScreen());
 		// sceneDemos.add(new NgRoom1());
