@@ -37,6 +37,7 @@
 
 package es.eucm.eadventure.engine.core.gameobjects.impl.sceneelements;
 
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.google.inject.Inject;
@@ -110,6 +111,7 @@ public class BasicSceneElementGO extends
 		if (list != null && list.size() > 0) {
 			action.consume();
 			for (EAdEffect e : list) {
+				logger.log(Level.FINE, "GUI Action: " + action + " effect " + e);
 				gameState.addEffect(e, action, getElement());
 			}
 			return true;

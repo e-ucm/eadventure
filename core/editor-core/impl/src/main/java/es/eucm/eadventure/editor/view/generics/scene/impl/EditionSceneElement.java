@@ -6,6 +6,8 @@ import es.eucm.eadventure.common.model.conditions.impl.NOTCondition;
 import es.eucm.eadventure.common.model.conditions.impl.OperationCondition;
 import es.eucm.eadventure.common.model.conditions.impl.enums.Comparator;
 import es.eucm.eadventure.common.model.effects.EAdEffect;
+import es.eucm.eadventure.common.model.effects.impl.EAdMacroImpl;
+import es.eucm.eadventure.common.model.effects.impl.EAdTriggerMacro;
 import es.eucm.eadventure.common.model.effects.impl.variables.EAdChangeFieldValueEffect;
 import es.eucm.eadventure.common.model.elements.EAdComplexElement;
 import es.eucm.eadventure.common.model.elements.EAdCondition;
@@ -96,14 +98,15 @@ public class EditionSceneElement extends EAdComplexElementImpl {
 		EAdBundleId prev = proxy.getDefinition().getResources().getInitialBundle();
 		for (EAdBundleId bundleID : proxy.getDefinition().getResources().getBundles()) {
 			if (bundleID != proxy.getDefinition().getResources().getInitialBundle()) {
-				EAdEffect effect = new EAdChangeAppearance(proxy, bundleID);
+				EAdMacroImpl macro = new EAdMacroImpl();
+				macro.getEffects().add(new EAdChangeAppearance(proxy, bundleID));
+				macro.getEffects().add( new EAdChangeFieldValueEffect(changedAppearance, new ValueOperation(Boolean.TRUE)));
+				
 				ANDCondition cond = new ANDCondition(new OperationCondition(appearanceField, prev, Comparator.EQUAL), 
 						new NOTCondition(new OperationCondition(changedAppearance)));
-				effect.setCondition(cond);
-				square.addBehavior(EAdMouseEventImpl.MOUSE_LEFT_CLICK, effect);
 				
-				effect = new EAdChangeFieldValueEffect(changedAppearance, new ValueOperation(Boolean.TRUE));
-				effect.setCondition(cond);
+				EAdTriggerMacro effect = new EAdTriggerMacro();
+				effect.putMacro(macro, cond);
 				square.addBehavior(EAdMouseEventImpl.MOUSE_LEFT_CLICK, effect);
 				
 				prev = bundleID;
@@ -114,7 +117,7 @@ public class EditionSceneElement extends EAdComplexElementImpl {
 		ANDCondition cond = new ANDCondition(new OperationCondition(appearanceField, prev, Comparator.EQUAL), 
 				new NOTCondition(new OperationCondition(changedAppearance)));
 		effect.setCondition(cond);
-		square.addBehavior(EAdMouseEventImpl.MOUSE_RIGHT_CLICK, effect);
+		square.addBehavior(EAdMouseEventImpl.MOUSE_LEFT_CLICK, effect);
 		
 		square.addBehavior(EAdMouseEventImpl.MOUSE_LEFT_CLICK, new EAdChangeFieldValueEffect(changedAppearance, new ValueOperation(Boolean.FALSE)));
 

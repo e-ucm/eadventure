@@ -105,7 +105,7 @@ public class EAdDragEventImpl extends EAdElementImpl implements EAdDragEvent {
 	}
 
 	@Override
-	public EAdElement getCarryElement() {
+	public EAdSceneElementDef getCarryElement() {
 		return carryElement;
 	}
 

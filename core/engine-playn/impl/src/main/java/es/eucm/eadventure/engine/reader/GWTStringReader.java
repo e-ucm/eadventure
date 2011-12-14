@@ -58,6 +58,8 @@ public class GWTStringReader {
 	public void readXML(String fileName, final StringHandler stringHandler) {
 		RequestBuilder requestBuilder = new RequestBuilder(RequestBuilder.GET,
 				fileName);
+		
+		logger.info("Read strings: " + fileName);
 
 		try {
 			requestBuilder.sendRequest(null, new RequestCallback() {
