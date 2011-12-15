@@ -72,6 +72,7 @@ import es.eucm.eadventure.engine.core.gameobjects.impl.sceneelements.BasicSceneE
 import es.eucm.eadventure.engine.core.gameobjects.impl.sceneelements.ComplexSceneElementGO;
 import es.eucm.eadventure.engine.core.gameobjects.impl.transitions.SimpleTransitionGO;
 import es.eucm.eadventure.engine.core.impl.modules.BasicGameModule;
+import es.eucm.eadventure.engine.core.inventory.InventoryHandler;
 import es.eucm.eadventure.engine.core.platform.AssetHandler;
 import es.eucm.eadventure.engine.core.platform.GUI;
 import es.eucm.eadventure.engine.core.platform.PlatformConfiguration;
@@ -134,6 +135,8 @@ public interface PlayNGinInjector extends Ginjector {
 	public PlatformConfiguration getPlatformConfiguration();
 	
 	public PlayNInjector getPlayNInjector();
+	
+	public InventoryHandler getInventoryHandler();
 
 	public ComposedSceneGOImpl getComposedSceneGO();
 	

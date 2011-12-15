@@ -58,6 +58,7 @@ import es.eucm.eadventure.common.resources.assets.drawable.basics.Image;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.ImageImpl;
 import es.eucm.eadventure.engine.core.EAdEngine;
 import es.eucm.eadventure.engine.core.Game;
+import es.eucm.eadventure.engine.core.inventory.InventoryHandler;
 import es.eucm.eadventure.engine.core.platform.GUI;
 import es.eucm.eadventure.engine.core.platform.impl.PlayNGinInjector;
 import es.eucm.eadventure.engine.reader.GWTStringReader;
@@ -70,7 +71,9 @@ public class EAdEngineHtml extends HtmlGame {
 	@Override
 	public void start() {
 
-		HtmlAssetManager assets = HtmlPlatform.register(Mode.WEBGL).assetManager();
+		HtmlAssetManager assets = HtmlPlatform.register(Mode.AUTODETECT).assetManager();
+		
+		
 		
 		//FIXME This should be added when the cursor starts working correctly...
 //		HtmlPlatform.setCursor(null);
@@ -79,6 +82,8 @@ public class EAdEngineHtml extends HtmlGame {
 
 		injector.getPlatformLauncher();
 		injector.getPlayNInjector().setInjector(injector);
+		
+		InventoryHandler handler = injector.getInventoryHandler();
 
 		
 		Game game = loadGame();
@@ -128,7 +133,7 @@ public class EAdEngineHtml extends HtmlGame {
 		 */
 		chapter.getScenes().add(s2);
 		chapter.setInitialScene(s2);
-//		model.setInventory(EAdElementsFactory.getInstance().getInventory());
+		model.setInventory(EAdElementsFactory.getInstance().getInventory());
 
 		game.setGame(model, chapter);
 

@@ -56,15 +56,15 @@ public abstract class AbstractHUD implements HudGO {
 
 	protected GUI gui;
 
-	private List<DrawableGO<?>> gameObjects;
+	private List<DrawableGO<?>> hudGameObjects;
 
 	public AbstractHUD(GUI gui) {
 		this.gui = gui;
-		gameObjects = new ArrayList<DrawableGO<?>>();
+		hudGameObjects = new ArrayList<DrawableGO<?>>();
 	}
 
 	public void addElement(DrawableGO<?> drawable) {
-		gameObjects.add(drawable);
+		hudGameObjects.add(drawable);
 	}
 
 	public void render(EAdCanvas<?> c) {
@@ -72,13 +72,13 @@ public abstract class AbstractHUD implements HudGO {
 	}
 
 	public void doLayout(EAdTransformation t) {
-		for (DrawableGO<?> go : gameObjects) {
+		for (DrawableGO<?> go : hudGameObjects) {
 			gui.addElement(go, t);
 		}
 	}
 
 	public void update() {
-		for (DrawableGO<?> go : gameObjects) {
+		for (DrawableGO<?> go : hudGameObjects) {
 			go.update();
 		}
 	}

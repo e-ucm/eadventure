@@ -115,16 +115,16 @@ public class InventoryHUDImpl extends AbstractHUD implements InventoryHUD {
 		disp = (float) GameLoop.SKIP_MILLIS_TICK / (float) TIME_TO_SHOW;
 		this.inventoryHandler = inventoryHandler;
 		initInventory();
-		updateItems();
+////		updateItems();
 	}
 
 	@Override
 	public void update() {
-		mouseY = valueMap.getValue(SystemFields.MOUSE_Y);
-		updateState();
-		updateDisp();
-		updateItems();
-		super.update();
+//		mouseY = valueMap.getValue(SystemFields.MOUSE_Y);
+//		updateState();
+//		updateDisp();
+////		updateItems();
+//		super.update();
 	}
 
 	private void initInventory() {
@@ -141,7 +141,8 @@ public class InventoryHUDImpl extends AbstractHUD implements InventoryHUD {
 
 		inventory.setPosition(new EAdPositionImpl(0, guiHeight, 0.0f,
 				inventoryDispY));
-		addElement(sceneElementFactory.get(inventory));
+		SceneElementGO<?> go = sceneElementFactory.get(inventory);
+		addElement(go);
 	}
 
 	private void updateState() {

@@ -50,7 +50,7 @@ public class PlayNEngineFont implements RuntimeFont {
 
 	private EAdFont font;
 
-	private static Element element;
+	private Element element;
 
 	private static final String HEIGHT_TEXT = "ABCDEFGHIJKLMNÑOPQRSTUVWXYZabcefghijklmnñopqrstuvwxyz1234567890!?";
 

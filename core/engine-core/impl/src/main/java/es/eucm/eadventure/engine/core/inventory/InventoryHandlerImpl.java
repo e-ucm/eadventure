@@ -40,6 +40,7 @@ package es.eucm.eadventure.engine.core.inventory;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 import es.eucm.eadventure.common.model.elements.EAdSceneElementDef;
@@ -51,6 +52,7 @@ public class InventoryHandlerImpl implements InventoryHandler {
 	
 	private List<InventoryItem> inventory;
 	
+	@Inject
 	public InventoryHandlerImpl( ){
 		inventory = new ArrayList<InventoryItem>();
 	}
