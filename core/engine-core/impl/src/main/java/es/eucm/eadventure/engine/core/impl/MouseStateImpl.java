@@ -39,6 +39,7 @@ package es.eucm.eadventure.engine.core.impl;
 
 import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
+import java.util.logging.Logger;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -91,23 +92,23 @@ public class MouseStateImpl implements MouseState {
 	 * Y coordinate for the mouse in the game engine coordinates system
 	 */
 	private int mouseVirtualY = OUT_VAL;
-	
+
 	// Game dimensions
 	/**
 	 * The width for the window (usually in pixels)
 	 */
 	private int windowWidth = 0;
-	
+
 	/**
 	 * The height for the window (usually in pixels)
 	 */
 	private int windowHeight = 0;
-	
+
 	/**
 	 * The width for the game
 	 */
 	private int gameWidth = 0;
-	
+
 	/**
 	 * The height for the game
 	 */
@@ -181,8 +182,8 @@ public class MouseStateImpl implements MouseState {
 	public void setMousePosition(int mouseX, int mouseY) {
 		this.mousePixelX = mouseX;
 		this.mousePixelY = mouseY;
-		this.mouseVirtualX = (int) (mouseX / ( (float) windowWidth / (float) gameWidth ));
-		this.mouseVirtualY = (int) (mouseY / ( (float) windowHeight / (float) gameHeight ));
+		this.mouseVirtualX = (int) (mouseX / ((float) windowWidth / (float) gameWidth));
+		this.mouseVirtualY = (int) (mouseY / ((float) windowHeight / (float) gameHeight));
 		updateDrag();
 	}
 

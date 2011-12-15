@@ -244,6 +244,9 @@ public class RuntimeCaption<GraphicContext> extends AbstractRuntimeAsset<Caption
 
 		bounds.width = 0;
 		String[] words = text.split(" ");
+		if ( words.length == 0 ){
+			words = new String[]{ text };
+		}
 
 		// Current line
 		String line = "";

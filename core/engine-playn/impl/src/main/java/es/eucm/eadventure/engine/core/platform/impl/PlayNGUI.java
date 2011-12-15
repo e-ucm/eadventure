@@ -94,6 +94,8 @@ public class PlayNGUI extends AbstractGUI<Canvas> implements GUI {
 		super(platformConfiguration, gameObjectManager, mouseState,
 				keyboardState, gameState, gameObjectFactory, canvas);
 		logger.info("New instance");
+		setWidth(platformConfiguration.getWidth());
+		setHeight(platformConfiguration.getHeight());
 	}
 
 	/*

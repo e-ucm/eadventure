@@ -269,6 +269,7 @@ public class BasicHUDImpl extends AbstractHUD implements BasicHUD {
 		boolean showMouse = gameState.getValueMap().getValue(
 				SystemFields.SHOW_MOUSE);
 
+		
 		gameState.getValueMap().setValue(mouse,
 				EAdBasicSceneElement.VAR_VISIBLE,
 				!(x < 0 || y < 0) && showMouse);

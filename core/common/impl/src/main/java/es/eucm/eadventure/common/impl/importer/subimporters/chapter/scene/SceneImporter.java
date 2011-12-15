@@ -249,6 +249,7 @@ public class SceneImporter implements EAdElementImporter<Scene, EAdSceneImpl> {
 			EAdBasicSceneElement activeArea = (EAdBasicSceneElement) factory.getElementById(a
 					.getId());
 			activeArea.setPosition(new EAdPositionImpl(EAdPositionImpl.Corner.TOP_LEFT, a.getX(), a.getY()));
+			activeArea.setVarInitialValue(EAdBasicSceneElement.VAR_Z, Integer.MAX_VALUE - 2 );
 			if (activeArea != null)
 				scene.getComponents().add(activeArea);
 		}
@@ -258,6 +259,7 @@ public class SceneImporter implements EAdElementImporter<Scene, EAdSceneImpl> {
 	private void importExits(EAdSceneImpl scene, List<Exit> list) {
 		for (Exit e : list) {
 			EAdSceneElement se = exitsImporter.init(e);
+			se.setVarInitialValue(EAdBasicSceneElement.VAR_Z, Integer.MAX_VALUE - 1);
 			se = exitsImporter.convert(e, se);
 			if (se != null)
 				scene.getComponents().add(se);
@@ -301,7 +303,7 @@ public class SceneImporter implements EAdElementImporter<Scene, EAdSceneImpl> {
 				EAdBasicSceneElement foreground = new EAdBasicSceneElement(
 						image);
 				foreground.setId("foreground");
-				foreground.setVarInitialValue(EAdBasicSceneElement.VAR_Z, -100);
+				foreground.setVarInitialValue(EAdBasicSceneElement.VAR_Z, Integer.MAX_VALUE);
 				scene.getComponents().add(foreground);
 			}
 			// Music is imported to chapter level. So, the chapter will

@@ -73,7 +73,7 @@ public class EAdEngineHtml extends HtmlGame {
 		HtmlAssetManager assets = HtmlPlatform.register(Mode.WEBGL).assetManager();
 		
 		//FIXME This should be added when the cursor starts working correctly...
-		//HtmlPlatform.setCursor(null);
+//		HtmlPlatform.setCursor(null);
 		
 		assets.setPathPrefix("");
 
@@ -107,6 +107,7 @@ public class EAdEngineHtml extends HtmlGame {
 						EAdSceneElementDefImpl.appearance, i);
 
 		EAdScene s2 = new InitScene();
+		
 
 		/*
 		EAdScene s2 = new InventoryScene();
@@ -127,6 +128,7 @@ public class EAdEngineHtml extends HtmlGame {
 		 */
 		chapter.getScenes().add(s2);
 		chapter.setInitialScene(s2);
+//		model.setInventory(EAdElementsFactory.getInstance().getInventory());
 
 		game.setGame(model, chapter);
 
