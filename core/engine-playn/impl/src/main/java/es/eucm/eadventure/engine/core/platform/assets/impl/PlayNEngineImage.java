@@ -69,18 +69,6 @@ public class PlayNEngineImage extends RuntimeImage<Canvas> {
 		logger.info("New instance");
 	}
 
-	/**
-	 * Creates an empty {@link DesktopEngineImage} with the given dimensions
-	 * 
-	 * @param width
-	 * @param height
-	 */
-	public PlayNEngineImage(int width, int height) {
-		super(null);
-		//TODO		
-		logger.info("New instance, width:" + width + "; height:" + height);
-	}
-
 	public Image getImage() {
 		return image;
 	}
@@ -99,16 +87,14 @@ public class PlayNEngineImage extends RuntimeImage<Canvas> {
 
 	@Override
 	public boolean loadAsset() {
-		logger.info("We are going to load " + descriptor.getUri() );
 		// Some DesktopEngineImage can be created without an assetHandler
 		logger.info("Loading image " + descriptor.getUri());
 		if (image == null && assetHandler != null) {
-			logger.info("image == null && assetHandler != null");
 			try {
 				image = assetManager().getImage(assetHandler.getAbsolutePath(descriptor.getUri().getPath()));
-				logger.info("image: " + image);
 				if (image != null) {
 					logger.log(Level.INFO, "Image loaded: " + descriptor.getUri() + " from path " + assetHandler.getAbsolutePath(descriptor.getUri().getPath()));
+					logger.info("Width" + image.width());
 					return image.isReady();
 				} else {
 					logger.log(Level.SEVERE, "Image NOT loaded: " + descriptor.getUri());

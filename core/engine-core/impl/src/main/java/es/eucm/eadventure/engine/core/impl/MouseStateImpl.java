@@ -83,16 +83,6 @@ public class MouseStateImpl implements MouseState {
 	 */
 	private int mousePixelY = OUT_VAL;
 
-	/**
-	 * X coordinate for the mouse in the game engine coordinates system
-	 */
-	private int mouseVirtualX = OUT_VAL;
-
-	/**
-	 * Y coordinate for the mouse in the game engine coordinates system
-	 */
-	private int mouseVirtualY = OUT_VAL;
-
 	// Game dimensions
 	/**
 	 * The width for the window (usually in pixels)
@@ -182,14 +172,14 @@ public class MouseStateImpl implements MouseState {
 	public void setMousePosition(int mouseX, int mouseY) {
 		this.mousePixelX = mouseX;
 		this.mousePixelY = mouseY;
-		this.mouseVirtualX = (int) (mouseX / ((float) windowWidth / (float) gameWidth));
-		this.mouseVirtualY = (int) (mouseY / ((float) windowHeight / (float) gameHeight));
 		updateDrag();
 	}
 
 	private void updateDrag() {
 		if (this.draggingGameObject != null) {
 			EAdSceneElement e = draggingGameObject.getElement();
+			int mouseVirtualX = gameState.getValueMap().getValue(SystemFields.MOUSE_X);
+			int mouseVirtualY = gameState.getValueMap().getValue(SystemFields.MOUSE_Y);
 			gameState.getValueMap().setValue(e, EAdBasicSceneElement.VAR_X,
 					mouseVirtualX - diffX);
 			gameState.getValueMap().setValue(e, EAdBasicSceneElement.VAR_Y,
@@ -258,6 +248,8 @@ public class MouseStateImpl implements MouseState {
 			initDragY = gameState.getValueMap().getValue(sceneElement,
 					EAdBasicSceneElement.VAR_Y);
 
+			int mouseVirtualX = gameState.getValueMap().getValue(SystemFields.MOUSE_X);
+			int mouseVirtualY = gameState.getValueMap().getValue(SystemFields.MOUSE_Y);
 			diffX = mouseVirtualX - initDragX;
 			diffY = mouseVirtualY - initDragY;
 
@@ -282,16 +274,6 @@ public class MouseStateImpl implements MouseState {
 			}
 			draggingGameObject = null;
 		}
-	}
-
-	@Override
-	public int getDragDifX() {
-		return getMouseScaledX() - mouseVirtualX;
-	}
-
-	@Override
-	public int getDragDifY() {
-		return getMouseScaledY() - mouseVirtualY;
 	}
 
 	@Override

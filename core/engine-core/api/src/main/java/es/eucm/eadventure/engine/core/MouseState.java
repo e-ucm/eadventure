@@ -171,22 +171,6 @@ public interface MouseState {
 	 * @return true if the mouse is inside the game window
 	 */
 	boolean isInside();
-
-	/**
-	 * Returns the amount of pixels the dragging element was dragged along the x
-	 * axis
-	 * 
-	 * @return how much the dragging element was dragged along the x axis
-	 */
-	int getDragDifX();
-
-	/**
-	 * Returns the amount of pixels the dragging element was dragged along the y
-	 * axis
-	 * 
-	 * @return how much the dragging element was dragged along the y axis
-	 */
-	int getDragDifY();
 	
 	/**
 	 * Sets the window's width

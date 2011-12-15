@@ -99,6 +99,8 @@ public class EAdEngine implements playn.core.Game, Keyboard.Listener {
 	@Override
 	public void init() {
 		graphics().setSize(platformConfiguration.getWidth(), platformConfiguration.getHeight());
+		gui.setWidth(platformConfiguration.getWidth());
+		gui.setHeight(platformConfiguration.getHeight());
 		PlayN.log().debug("EAdEngine: init");
 		
 		HtmlPlatform.disableRightClickContextMenu();

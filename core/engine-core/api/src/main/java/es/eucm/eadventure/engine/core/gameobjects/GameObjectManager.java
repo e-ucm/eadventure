@@ -66,4 +66,6 @@ public interface GameObjectManager  {
 
 	void setBasicHUD(BasicHUD basicHud);
 
+	void updateHUDs();
+
 }

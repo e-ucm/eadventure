@@ -53,8 +53,6 @@ public class EAdEngineHTMLProtocol extends EAdEngineHtml {
 		// gwtReader.readXML("eadengine/binary/sceneDemo.xml", game);
 		gwtReader.readXML("eadengine/binary/data.xml", game);
 
-		//game.setGame(model, chapter);
-
 		// String handler after creating the scene
 		StringHandler stringHandler = injector.getStringHandler();
 		stringHandler.addStrings(EAdElementsFactory.getInstance()

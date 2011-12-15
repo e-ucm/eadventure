@@ -143,11 +143,9 @@ public class GameObjectManagerImpl implements GameObjectManager {
 	public void addHUDs(GUI gui, EAdTransformation t) {
 		if (!huds.isEmpty()) {
 			for (HudGO hud : huds) {
-				hud.update();
 				gui.addElement(hud, t);
 			}
 		}
-		basicHud.update();
 		gui.addElement(basicHud, t);
 	}
 
@@ -180,6 +178,16 @@ public class GameObjectManagerImpl implements GameObjectManager {
 	
 	public List<HudGO> getHUDs(){
 		return huds;
+	}
+
+	@Override
+	public void updateHUDs() {
+		if (!huds.isEmpty()) {
+			for (HudGO hud : huds) {
+				hud.update();
+			}
+		}
+		basicHud.update();
 	}
 
 }

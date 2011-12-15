@@ -130,9 +130,6 @@ public class BasicHUDImpl extends AbstractHUD implements BasicHUD {
 		this.mouseState = mouseState;
 		this.stringHandler = stringHandler;
 		this.assetHandler = assetHandler;
-
-		initContextual();
-		initMouse();
 	}
 
 	public void setGameObjectManager(GameObjectManager gameObjectManager) {
@@ -157,12 +154,19 @@ public class BasicHUDImpl extends AbstractHUD implements BasicHUD {
 
 	@Override
 	public void update() {
-		updateContextual();
-		updateMouse();
+		if (contextual != null)
+			updateContextual();
+		if (mouse != null)
+			updateMouse();
 		super.update();
 	}
 
 	public void doLayout(EAdTransformation t) {
+		if (contextual == null)
+			initContextual();
+		if (mouse == null)
+			initMouse();
+
 		super.doLayout(t);
 	}
 
@@ -248,6 +252,8 @@ public class BasicHUDImpl extends AbstractHUD implements BasicHUD {
 
 				DrawableAsset<? extends Image, ?> rAsset = (DrawableAsset<? extends Image, ?>) assetHandler
 						.getRuntimeAsset(cursor);
+				logger.info("width" + rAsset.getWidth());
+				rAsset.loadAsset();
 				float scale = 1.0f / (rAsset.getWidth() > rAsset.getHeight() ? rAsset
 						.getWidth() / CURSOR_SIZE
 						: rAsset.getHeight() / CURSOR_SIZE);
@@ -269,11 +275,10 @@ public class BasicHUDImpl extends AbstractHUD implements BasicHUD {
 		boolean showMouse = gameState.getValueMap().getValue(
 				SystemFields.SHOW_MOUSE);
 
-		
 		gameState.getValueMap().setValue(mouse,
 				EAdBasicSceneElement.VAR_VISIBLE,
 				!(x < 0 || y < 0) && showMouse);
-		if (x >= 0 && y >= 0 ) {
+		if (x >= 0 && y >= 0) {
 			gameState.getValueMap().setValue(mouse, EAdBasicSceneElement.VAR_X,
 					x);
 			gameState.getValueMap().setValue(mouse, EAdBasicSceneElement.VAR_Y,

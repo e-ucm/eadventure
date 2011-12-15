@@ -165,24 +165,7 @@ public abstract class AbstractGUI<T> implements GUI {
 	 */
 	@Override
 	public void prepareGUI(EAdTransformation t) {
-		gameObjects.addHUDs(this, t);
-
 		gameObjects.swap();
-
-//		if (mouseState.getDraggingGameObject() != null) {
-//			if (!gameObjects.getGameObjects().contains(
-//					mouseState.getDraggingGameObject())) {
-//				mouseState.setDraggingGameObject(null);
-//			} else {
-//				int pos = gameObjects.getGameObjects().indexOf(
-//						mouseState.getDraggingGameObject());
-//				
-//				if (pos != -1) {
-//					gameObjects.getGameObjects().remove(pos);
-//					gameObjects.getTransformations().remove(pos);
-//				}
-//			}
-//		}
 	}
 
 	/**
@@ -422,8 +405,8 @@ public abstract class AbstractGUI<T> implements GUI {
 	public EAdTransformation getInitialTransformation() {
 		EAdTransformation t = new EAdTransformationImpl();
 		t.getMatrix().scale(
-				(float) platformConfiguration.getScale(),
-				(float) platformConfiguration.getScale(), true);
+				(float) width / platformConfiguration.getWidth() ,
+				(float) height / platformConfiguration.getHeight(), true);
 		return t;
 	}
 	

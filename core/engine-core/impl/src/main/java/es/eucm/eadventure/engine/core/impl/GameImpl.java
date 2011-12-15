@@ -148,9 +148,12 @@ public class GameImpl implements Game {
 			processEffects();
 			updateChapterEvents();
 			gameState.getScene().update();
+			gameObjectManager.updateHUDs();
 		}
 		initialTransformation = gui.getInitialTransformation();
 		gui.addElement(gameState.getScene(), initialTransformation);
+		// Add huds
+		gameObjectManager.addHUDs(gui, initialTransformation);
 
 		if (debugger != null && debugger.getGameObjects() != null)
 			for (DrawableGO<?> go : debugger.getGameObjects()) {
