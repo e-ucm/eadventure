@@ -67,7 +67,7 @@ public class EAdPositionImpl extends EAdParamImpl implements EAdPosition {
 	public static final String SEPARATOR = ":";
 
 	public static enum Corner {
-		TOP_LEFT, BOTTOM_LEFT, BOTTOM_CENTER, CENTER, TOP_RIGHT
+		TOP_LEFT, BOTTOM_LEFT, BOTTOM_CENTER, CENTER, TOP_RIGHT, BOTTOM_RIGHT
 	}
 
 	private int x;
@@ -145,6 +145,10 @@ public class EAdPositionImpl extends EAdParamImpl implements EAdPosition {
 			break;
 		case BOTTOM_LEFT:
 			dispX = 0f;
+			dispY = 1f;
+			break;
+		case BOTTOM_RIGHT:
+			dispX = 1f;
 			dispY = 1f;
 			break;
 		case BOTTOM_CENTER:
