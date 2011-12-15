@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import es.eucm.eadventure.common.elementfactories.demos.normalguy.NgMainScreen;
+import es.eucm.eadventure.common.elementfactories.demos.scenes.BVSScene;
 import es.eucm.eadventure.common.elementfactories.demos.scenes.CharacterScene;
 import es.eucm.eadventure.common.elementfactories.demos.scenes.ComplexElementScene;
 import es.eucm.eadventure.common.elementfactories.demos.scenes.DepthZScene;
@@ -62,6 +63,7 @@ public class TechDemoAdventure extends EAdAdventureModelImpl {
 //		sceneDemos.add(new VideoScene());
 		sceneDemos.add(new NgMainScreen());
 //		sceneDemos.add(new NgRoom1());
+		sceneDemos.add(new BVSScene());
 	}
 	
 	
