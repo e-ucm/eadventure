@@ -102,9 +102,11 @@ public class ResourcesDOMWriter extends DOMWriter<EAdResources> {
 		for (String assetId : ((EAdAssetBundleImpl) bundle).getIds()) {
 			if (bundle.getAsset(assetId) == null)
 				logger.warning("Null asset " + assetId + " in bundle " + id.getBundleId());
-			Node assetNode = processAsset(assetId, bundle.getAsset(assetId));
-			doc.adoptNode(assetNode);
-			bundleNode.appendChild(assetNode);
+			else {
+				Node assetNode = processAsset(assetId, bundle.getAsset(assetId));
+				doc.adoptNode(assetNode);
+				bundleNode.appendChild(assetNode);
+			}
 		}
 
 		return bundleNode;
