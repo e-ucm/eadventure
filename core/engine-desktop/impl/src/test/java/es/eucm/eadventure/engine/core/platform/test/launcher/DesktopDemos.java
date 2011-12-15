@@ -247,8 +247,8 @@ public class DesktopDemos extends BaseTestLauncher {
 					Dimension d = (Dimension) comboBox.getSelectedItem();
 					EAdScene scene = (EAdScene) list.getSelectedValue();
 					model.setInitialScene(scene);
-					model.setWidth(d.width);
-					model.setHeight(d.height);
+					model.setGameWidth(d.width);
+					model.setGameHeight(d.height);
 
 					if (trajectoryDebugger.isSelected()) {
 						EAdMainDebugger.addDebugger(TrajectoryDebugger.class);
@@ -264,9 +264,9 @@ public class DesktopDemos extends BaseTestLauncher {
 						chapter.getScenes().add(scene);
 						chapter.setInitialScene(scene);
 						model.getChapters().add(chapter);
-						((EAdAdventureModelImpl) model).setWidth((int) d
+						((EAdAdventureModelImpl) model).setGameWidth((int) d
 								.getWidth());
-						((EAdAdventureModelImpl) model).setHeight((int) d
+						((EAdAdventureModelImpl) model).setGameHeight((int) d
 								.getHeight());
 
 						File f = new File("src/test/resources/sceneDemo.xml");
@@ -348,9 +348,9 @@ public class DesktopDemos extends BaseTestLauncher {
 
 						Dimension d = (Dimension) comboBox.getSelectedItem();
 
-						((EAdAdventureModelImpl) model).setWidth((int) d
+						((EAdAdventureModelImpl) model).setGameWidth((int) d
 								.getWidth());
-						((EAdAdventureModelImpl) model).setHeight((int) d
+						((EAdAdventureModelImpl) model).setGameHeight((int) d
 								.getHeight());
 
 						Injector injector = createNewInjector();
@@ -447,8 +447,8 @@ public class DesktopDemos extends BaseTestLauncher {
 										.addDebugger(FieldsDebugger.class);
 							}
 
-							((EAdAdventureModelImpl) model).setWidth(d.width);
-							((EAdAdventureModelImpl) model).setHeight(d.height);
+							((EAdAdventureModelImpl) model).setGameWidth(d.width);
+							((EAdAdventureModelImpl) model).setGameHeight(d.height);
 
 							injector.getInstance(StringHandler.class)
 									.setString(new EAdString("Loading"),
