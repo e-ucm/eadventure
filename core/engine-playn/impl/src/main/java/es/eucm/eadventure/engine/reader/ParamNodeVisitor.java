@@ -40,12 +40,15 @@ package es.eucm.eadventure.engine.reader;
 import com.gwtent.reflection.client.Field;
 
 import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import com.google.gwt.xml.client.Node;
 
 import es.eucm.eadventure.common.model.DOMTags;
 
 public class ParamNodeVisitor extends NodeVisitor<Object> {
+
+	protected static final Logger logger = Logger.getLogger("ParamNodeVisitor");
 
 	@Override
 	public Object visit(Node node, Field field, Object parent, Class<?> listClass) {

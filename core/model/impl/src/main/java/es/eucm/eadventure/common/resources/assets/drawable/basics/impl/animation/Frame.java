@@ -38,6 +38,7 @@
 package es.eucm.eadventure.common.resources.assets.drawable.basics.impl.animation;
 
 import es.eucm.eadventure.common.interfaces.Param;
+import es.eucm.eadventure.common.resources.assets.AssetDescriptor;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.BasicDrawable;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.ImageImpl;
 
@@ -46,7 +47,7 @@ import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.ImageImpl
  * Represents a frame within a {@link FramesAnimation}
  * 
  */
-public class Frame {
+public class Frame implements AssetDescriptor {
 
 	/**
 	 * Default frame time in milliseconds, with a value of 300 ms
@@ -124,4 +125,9 @@ public class Frame {
 		return false;
 	}
 
+	public void setDrawable(BasicDrawable drawable) {
+		this.drawable = drawable;
+	}
+
+	
 }

@@ -93,7 +93,7 @@ public class EmptyCondition extends AbstractEAdCondition {
 	
 	@Override
 	public String toString() {
-		return value.toString();
+		return (value != null ? value.toString() : id + "NULL");
 	}
 
 }

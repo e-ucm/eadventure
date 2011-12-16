@@ -7,7 +7,7 @@ import es.eucm.eadventure.common.util.EAdMatrix;
 public class MatrixFilter implements DrawableFilter {
 
 	@Param("matrix")
-	private EAdMatrix m;
+	private EAdMatrix matrix;
 
 	@Param("originX")
 	private float originX;
@@ -15,6 +15,9 @@ public class MatrixFilter implements DrawableFilter {
 	@Param("originY")
 	private float originY;
 
+	public MatrixFilter() {
+	}
+	
 	/**
 	 * 
 	 * @param m
@@ -27,7 +30,7 @@ public class MatrixFilter implements DrawableFilter {
 	 *            coordinate, and 1 meaning drawable height as y coordinate
 	 */
 	public MatrixFilter(EAdMatrix m, float originX, float originY) {
-		this.m = m;
+		this.matrix = m;
 		this.originX = originX;
 		this.originY = originY;
 	}
@@ -45,7 +48,21 @@ public class MatrixFilter implements DrawableFilter {
 	}
 
 	public EAdMatrix getMatrix() {
-		return m;
+		return matrix;
 	}
+
+	public void setMatrix(EAdMatrix matrix) {
+		this.matrix = matrix;
+	}
+
+	public void setOriginX(float originX) {
+		this.originX = originX;
+	}
+
+	public void setOriginY(float originY) {
+		this.originY = originY;
+	}
+	
+	
 
 }

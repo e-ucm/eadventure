@@ -228,5 +228,23 @@ public class EAdMatrixImpl implements EAdMatrix {
 			inverse[7] = (-inverse[1] * matrix[6] - inverse[4] * matrix[7]);
 		}
 	}
+	
+	@Override
+	public String toString() {
+		String s = "";
+		for (int i = 0; i < 8; i++)
+			s += matrix[i] + ";";
+		s += matrix[8];
+		return s;
+	}
+	
+	public static EAdMatrixImpl parse(String s) {
+		String[] v = s.split(";");
+		EAdMatrixImpl m = new EAdMatrixImpl();
+		for (int i = 0; i < 9; i++)
+			m.matrix[i] = Float.parseFloat(v[i]);
+		return m;
+	}
+	
 
 }
