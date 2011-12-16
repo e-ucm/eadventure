@@ -41,8 +41,8 @@ import com.google.inject.Inject;
 
 import es.eucm.eadventure.common.model.events.enums.ConditionedEventType;
 import es.eucm.eadventure.common.model.events.impl.EAdConditionEventImpl;
-import es.eucm.eadventure.engine.core.GameState;
 import es.eucm.eadventure.engine.core.evaluators.EvaluatorFactory;
+import es.eucm.eadventure.engine.core.game.GameState;
 
 public class ConditionEventGO extends AbstractEventGO<EAdConditionEventImpl> {
 

@@ -41,8 +41,7 @@ import com.google.gwt.inject.client.GinModules;
 import com.google.gwt.inject.client.Ginjector;
 
 import es.eucm.eadventure.common.resources.StringHandler;
-import es.eucm.eadventure.engine.core.Game;
-import es.eucm.eadventure.engine.core.MouseState;
+import es.eucm.eadventure.engine.core.game.Game;
 import es.eucm.eadventure.engine.core.gameobjects.impl.ComposedSceneGOImpl;
 import es.eucm.eadventure.engine.core.gameobjects.impl.SceneGOImpl;
 import es.eucm.eadventure.engine.core.gameobjects.impl.VideoSceneGO;
@@ -72,10 +71,11 @@ import es.eucm.eadventure.engine.core.gameobjects.impl.sceneelements.BasicSceneE
 import es.eucm.eadventure.engine.core.gameobjects.impl.sceneelements.ComplexSceneElementGO;
 import es.eucm.eadventure.engine.core.gameobjects.impl.transitions.SimpleTransitionGO;
 import es.eucm.eadventure.engine.core.impl.modules.BasicGameModule;
+import es.eucm.eadventure.engine.core.input.MouseState;
 import es.eucm.eadventure.engine.core.inventory.InventoryHandler;
 import es.eucm.eadventure.engine.core.platform.AssetHandler;
 import es.eucm.eadventure.engine.core.platform.GUI;
-import es.eucm.eadventure.engine.core.platform.PlatformConfiguration;
+import es.eucm.eadventure.engine.core.platform.EngineConfiguration;
 import es.eucm.eadventure.engine.core.platform.PlatformLauncher;
 import es.eucm.eadventure.engine.core.platform.assets.impl.PlayNEngineImage;
 import es.eucm.eadventure.engine.core.platform.impl.extra.PlayNAssetHandlerModule;
@@ -132,7 +132,7 @@ public interface PlayNGinInjector extends Ginjector {
 
 	public PhApplyForceGO getPhApplyForceGO();
 
-	public PlatformConfiguration getPlatformConfiguration();
+	public EngineConfiguration getPlatformConfiguration();
 	
 	public PlayNInjector getPlayNInjector();
 	

@@ -43,9 +43,8 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.view.SurfaceHolder;
 import es.eucm.eadventure.engine.AndroidGUI;
-import es.eucm.eadventure.engine.AndroidPlatformConfiguration;
+import es.eucm.eadventure.engine.core.platform.EngineConfiguration;
 import es.eucm.eadventure.engine.core.platform.GUI;
-import es.eucm.eadventure.engine.core.platform.PlatformConfiguration;
 
 public class EAdventureRenderingThread extends Thread {
 
@@ -59,7 +58,7 @@ public class EAdventureRenderingThread extends Thread {
 
 	private AndroidGUI gui;
 
-	private AndroidPlatformConfiguration platformConfiguration;
+	private EngineConfiguration platformConfiguration;
 
 	private static BitmapCanvas aCanvas;
 
@@ -67,11 +66,11 @@ public class EAdventureRenderingThread extends Thread {
 	
     public static boolean paint = false;
 
-	public EAdventureRenderingThread(SurfaceHolder holder, GUI aGUI, PlatformConfiguration platformConfiguration) {
+	public EAdventureRenderingThread(SurfaceHolder holder, GUI aGUI, EngineConfiguration platformConfiguration) {
 		super();
 		mDone = false;
 		mSurfaceHolder = holder;
-		this.platformConfiguration = (AndroidPlatformConfiguration) platformConfiguration;
+		this.platformConfiguration = platformConfiguration;
 		gui = (AndroidGUI) aGUI; 
 	}
 

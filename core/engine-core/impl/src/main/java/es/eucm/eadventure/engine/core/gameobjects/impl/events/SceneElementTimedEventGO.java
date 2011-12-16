@@ -41,8 +41,8 @@ import com.google.inject.Inject;
 
 import es.eucm.eadventure.common.model.events.EAdSceneElementTimedEvent;
 import es.eucm.eadventure.common.model.events.enums.SceneElementTimedEventType;
-import es.eucm.eadventure.engine.core.GameLoop;
-import es.eucm.eadventure.engine.core.GameState;
+import es.eucm.eadventure.engine.core.game.GameLoop;
+import es.eucm.eadventure.engine.core.game.GameState;
 
 public class SceneElementTimedEventGO extends
 		AbstractEventGO<EAdSceneElementTimedEvent> {

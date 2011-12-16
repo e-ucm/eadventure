@@ -63,8 +63,8 @@ public class StayInBoundsEvent extends EAdSceneElementEventImpl {
 	public StayInBoundsEvent(EAdSceneElement e) {
 		super();
 		setId("stayInBoundsEvent");
-		EAdField<Integer> maxX = SystemFields.GUI_WIDTH;
-		EAdField<Integer> maxY = SystemFields.GUI_HEIGHT;
+		EAdField<Integer> maxX = SystemFields.GAME_WIDTH;
+		EAdField<Integer> maxY = SystemFields.GAME_HEIGHT;
 
 		EAdField<Integer> x = new EAdFieldImpl<Integer>(e,
 				EAdBasicSceneElement.VAR_X);

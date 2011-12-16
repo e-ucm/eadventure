@@ -41,9 +41,9 @@ import java.util.logging.Logger;
 
 import com.google.inject.Inject;
 
-import es.eucm.eadventure.engine.core.Game;
-import es.eucm.eadventure.engine.core.GameLoop;
-import es.eucm.eadventure.engine.core.GameProfiler;
+import es.eucm.eadventure.engine.core.game.Game;
+import es.eucm.eadventure.engine.core.game.GameLoop;
+import es.eucm.eadventure.engine.core.game.GameProfiler;
 
 /**
  * Based on:

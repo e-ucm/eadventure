@@ -42,7 +42,7 @@ import com.google.inject.Singleton;
 
 import es.eucm.eadventure.common.interfaces.ReflectionProvider;
 import es.eucm.eadventure.common.model.effects.EAdEffect;
-import es.eucm.eadventure.engine.core.gameobjects.EffectGO;
+import es.eucm.eadventure.engine.core.gameobjects.go.EffectGO;
 import es.eucm.eadventure.engine.core.impl.factorymapproviders.EffectGameObjectFactoryConfigurator;
 import es.eucm.eadventure.engine.core.platform.EAdInjector;
 

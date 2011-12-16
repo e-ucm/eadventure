@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry including="**/*.java" kind="src" path="src/main/java"/>
+	<classpathentry kind="var" path="M2_REPO/javax/inject/javax.inject/1/javax.inject-1.jar"/>
+	<classpathentry kind="var" path="M2_REPO/javax/validation/validation-api/1.0.0.GA/validation-api-1.0.0.GA.jar"/>
+	<classpathentry kind="var" path="M2_REPO/javax/validation/validation-api/1.0.0.GA/validation-api-1.0.0.GA-sources.jar"/>
+	<classpathentry kind="var" path="M2_REPO/aopalliance/aopalliance/1.0/aopalliance-1.0.jar"/>
+	<classpathentry kind="src" path="/es.eucm.eadventure.common-api"/>
+	<classpathentry kind="src" path="/es.eucm.eadventure.common-model-api"/>
+	<classpathentry kind="src" path="/es.eucm.eadventure.common-model-impl"/>
+	<classpathentry kind="src" path="/es.eucm.eadventure.engine-core-api"/>
+	<classpathentry kind="src" path="/es.eucm.eadventure.engine-core-impl"/>
+	<classpathentry kind="var" path="M2_REPO/com/google/gwt/inject/gin/1.5.0/gin-1.5.0.jar"/>
+	<classpathentry kind="var" path="M2_REPO/com/google/inject/guice/3.0-rc2/guice-3.0-rc2.jar"/>
+	<classpathentry kind="var" path="M2_REPO/com/google/inject/guice/3.0/guice-3.0-no_aop.jar"/>
+	<classpathentry kind="var" path="M2_REPO/com/google/inject/extensions/guice-assistedinject/3.0-rc2/guice-assistedinject-3.0-rc2.jar"/>
+	<classpathentry kind="var" path="M2_REPO/com/google/gwt/gwt-servlet/2.4.0/gwt-servlet-2.4.0.jar"/>
+	<classpathentry kind="var" path="M2_REPO/com/google/gwt/gwt-user/2.4.0/gwt-user-2.4.0.jar"/>
+	<classpathentry kind="var" path="M2_REPO/com/gwtent/GwtEnt/2.0RC1/GwtEnt-2.0RC1.jar"/>
+	<classpathentry kind="var" path="M2_REPO/org/jbox2d/jbox2d-library/2.1.2/jbox2d-library-2.1.2.jar"/>
+	<classpathentry kind="var" path="M2_REPO/com/googlecode/playn/playn-webgl/1.0.1/playn-webgl-1.0.1.jar"/>
+	<classpathentry kind="var" path="M2_REPO/com/samskivert/pythagoras/1.1/pythagoras-1.1.jar"/>
+	<classpathentry kind="src" path="/es.eucm.eadventure.test-suite"/>
+	<classpathentry kind="src" path="/es.eucm.eadventure.utils"/>
+	<classpathentry kind="var" path="M2_REPO/fr/hd3d/html5/video/1.0.0/video-1.0.0.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.6"/>
+	<classpathentry kind="lib" path="C:/Users/anserran/EAdventureMercurial/gwt-2d.jar"/>
+	<classpathentry kind="output" path="war/WEB-INF/classes"/>
+</classpath>

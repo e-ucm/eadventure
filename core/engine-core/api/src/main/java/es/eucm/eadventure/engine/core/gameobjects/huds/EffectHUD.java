@@ -39,7 +39,7 @@ package es.eucm.eadventure.engine.core.gameobjects.huds;
 
 import java.util.List;
 
-import es.eucm.eadventure.engine.core.gameobjects.EffectGO;
+import es.eucm.eadventure.engine.core.gameobjects.go.EffectGO;
 
 
 /**

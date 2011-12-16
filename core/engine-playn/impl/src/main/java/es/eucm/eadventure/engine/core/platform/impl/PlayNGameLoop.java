@@ -37,8 +37,8 @@
 
 package es.eucm.eadventure.engine.core.platform.impl;
 
-import es.eucm.eadventure.engine.core.Game;
-import es.eucm.eadventure.engine.core.GameLoop;
+import es.eucm.eadventure.engine.core.game.Game;
+import es.eucm.eadventure.engine.core.game.GameLoop;
 
 public class PlayNGameLoop implements GameLoop {
 

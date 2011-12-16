@@ -86,12 +86,4 @@ public interface RuntimeAsset<T extends AssetDescriptor> {
 	 */
 	void update();
 
-	/**
-	 * Sets the current state for the asset. Some assets depends on a state
-	 * 
-	 * @param state
-	 *            the state name
-	 */
-	void setState(String state);
-
 }

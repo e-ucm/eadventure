@@ -39,7 +39,7 @@ package es.eucm.eadventure.engine.core.impl;
 
 import java.util.logging.Logger;
 
-import es.eucm.eadventure.engine.core.GameProfiler;
+import es.eucm.eadventure.engine.core.game.GameProfiler;
 
 /**
  * 

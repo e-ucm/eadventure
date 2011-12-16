@@ -42,8 +42,8 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 
 import com.google.inject.Singleton;
 
-import es.eucm.eadventure.engine.core.KeyboardState;
 import es.eucm.eadventure.engine.core.guiactions.KeyAction;
+import es.eucm.eadventure.engine.core.input.KeyboardState;
 
 @Singleton
 public class KeyboardStateImpl implements KeyboardState {

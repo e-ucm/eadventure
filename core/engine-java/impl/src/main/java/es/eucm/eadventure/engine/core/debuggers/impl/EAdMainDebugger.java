@@ -45,7 +45,7 @@ import com.google.inject.Injector;
 import com.google.inject.Singleton;
 
 import es.eucm.eadventure.engine.core.debuggers.EAdDebugger;
-import es.eucm.eadventure.engine.core.gameobjects.DrawableGO;
+import es.eucm.eadventure.engine.core.gameobjects.go.DrawableGO;
 
 @Singleton
 public class EAdMainDebugger implements EAdDebugger {

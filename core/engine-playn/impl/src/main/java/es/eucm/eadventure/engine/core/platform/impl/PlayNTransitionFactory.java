@@ -40,7 +40,7 @@ package es.eucm.eadventure.engine.core.platform.impl;
 import com.google.inject.Inject;
 
 import es.eucm.eadventure.common.model.transitions.EAdTransition;
-import es.eucm.eadventure.engine.core.gameobjects.TransitionGO;
+import es.eucm.eadventure.engine.core.gameobjects.go.TransitionGO;
 import es.eucm.eadventure.engine.core.platform.TransitionFactory;
 
 public class PlayNTransitionFactory implements TransitionFactory {

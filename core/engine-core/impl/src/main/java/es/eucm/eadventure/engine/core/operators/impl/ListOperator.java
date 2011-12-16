@@ -42,7 +42,7 @@ import java.util.Random;
 import es.eucm.eadventure.common.model.extra.EAdList;
 import es.eucm.eadventure.common.model.extra.impl.EAdListImpl;
 import es.eucm.eadventure.common.model.variables.impl.operations.ListOperation;
-import es.eucm.eadventure.engine.core.ValueMap;
+import es.eucm.eadventure.engine.core.game.ValueMap;
 import es.eucm.eadventure.engine.core.operator.Operator;
 
 public class ListOperator implements Operator<ListOperation> {

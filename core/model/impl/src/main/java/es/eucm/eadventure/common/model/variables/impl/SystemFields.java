@@ -68,10 +68,10 @@ public class SystemFields {
 	public static final EAdField<Integer> MOUSE_SCENE_Y = new EAdFieldImpl<Integer>(
 			null, new EAdVarDefImpl<Integer>("mouse_scene_y", Integer.class, 0));
 
-	public static final EAdField<Integer> GUI_WIDTH = new EAdFieldImpl<Integer>(
+	public static final EAdField<Integer> GAME_WIDTH = new EAdFieldImpl<Integer>(
 			null, new EAdVarDefImpl<Integer>("gui_width", Integer.class, 800));
 
-	public static final EAdField<Integer> GUI_HEIGHT = new EAdFieldImpl<Integer>(
+	public static final EAdField<Integer> GAME_HEIGHT = new EAdFieldImpl<Integer>(
 			null, new EAdVarDefImpl<Integer>("gui_height", Integer.class, 600));
 
 	/**

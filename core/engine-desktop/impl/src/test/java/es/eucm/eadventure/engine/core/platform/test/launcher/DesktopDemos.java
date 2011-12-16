@@ -81,12 +81,13 @@ import es.eucm.eadventure.common.model.impl.EAdChapterImpl;
 import es.eucm.eadventure.common.params.EAdString;
 import es.eucm.eadventure.common.params.EAdURIImpl;
 import es.eucm.eadventure.common.resources.StringHandler;
-import es.eucm.eadventure.engine.core.Game;
 import es.eucm.eadventure.engine.core.debuggers.impl.EAdMainDebugger;
 import es.eucm.eadventure.engine.core.debuggers.impl.FieldsDebugger;
 import es.eucm.eadventure.engine.core.debuggers.impl.TrajectoryDebugger;
+import es.eucm.eadventure.engine.core.game.Game;
 import es.eucm.eadventure.engine.core.impl.modules.BasicGameModule;
 import es.eucm.eadventure.engine.core.platform.AssetHandler;
+import es.eucm.eadventure.engine.core.platform.EngineConfiguration;
 import es.eucm.eadventure.engine.core.platform.PlatformLauncher;
 import es.eucm.eadventure.engine.core.platform.impl.DesktopAssetHandler;
 import es.eucm.eadventure.engine.core.platform.impl.DesktopPlatformLauncher;
@@ -106,7 +107,7 @@ public class DesktopDemos extends BaseTestLauncher {
 
 	private static final Dimension DIMENSIONS[] = new Dimension[] {
 			new Dimension(800, 600), new Dimension(1200, 900),
-			new Dimension(400, 300) };
+			new Dimension(400, 300), new Dimension(700, 800) };
 
 	protected static JCheckBox checkBox;
 
@@ -247,8 +248,6 @@ public class DesktopDemos extends BaseTestLauncher {
 					Dimension d = (Dimension) comboBox.getSelectedItem();
 					EAdScene scene = (EAdScene) list.getSelectedValue();
 					model.setInitialScene(scene);
-					model.setGameWidth(d.width);
-					model.setGameHeight(d.height);
 
 					if (trajectoryDebugger.isSelected()) {
 						EAdMainDebugger.addDebugger(TrajectoryDebugger.class);
@@ -280,6 +279,8 @@ public class DesktopDemos extends BaseTestLauncher {
 							is.close();
 
 							Injector injector = createNewInjector();
+							EngineConfiguration conf = injector.getInstance(EngineConfiguration.class);
+							conf.setSize(d.width, d.height);
 							new DesktopDemos(injector, model,
 									EAdElementsFactory.getInstance()
 											.getStringFactory().getStrings())
@@ -292,7 +293,10 @@ public class DesktopDemos extends BaseTestLauncher {
 						}
 
 					} else {
-						new DesktopDemos(createNewInjector(), model,
+						Injector injector = createNewInjector();
+						model.setGameHeight(300);
+						injector.getInstance(EngineConfiguration.class).setSize(d.width, d.height);
+						new DesktopDemos(injector, model,
 								EAdElementsFactory.getInstance()
 										.getStringFactory().getStrings())
 								.start();
@@ -348,12 +352,10 @@ public class DesktopDemos extends BaseTestLauncher {
 
 						Dimension d = (Dimension) comboBox.getSelectedItem();
 
-						((EAdAdventureModelImpl) model).setGameWidth((int) d
-								.getWidth());
-						((EAdAdventureModelImpl) model).setGameHeight((int) d
-								.getHeight());
+						
 
 						Injector injector = createNewInjector();
+						injector.getInstance(EngineConfiguration.class).setSize(d.width, d.height);
 						DesktopAssetHandler assetHandler = (DesktopAssetHandler) injector
 								.getInstance(AssetHandler.class);
 						assetHandler.setResourceLocation(fileChooser
@@ -447,12 +449,10 @@ public class DesktopDemos extends BaseTestLauncher {
 										.addDebugger(FieldsDebugger.class);
 							}
 
-							((EAdAdventureModelImpl) model).setGameWidth(d.width);
-							((EAdAdventureModelImpl) model).setGameHeight(d.height);
-
 							injector.getInstance(StringHandler.class)
 									.setString(new EAdString("Loading"),
 											"loading");
+							injector.getInstance(EngineConfiguration.class).setSize(d.width, d.height);
 
 							Game game = injector.getInstance(Game.class);
 							game.setGame(model, model.getChapters().get(0));

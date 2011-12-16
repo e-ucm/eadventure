@@ -42,7 +42,7 @@ import org.junit.Test;
 
 import com.google.inject.Inject;
 
-import es.eucm.eadventure.engine.core.ValueMap;
+import es.eucm.eadventure.engine.core.game.ValueMap;
 
 public class ValueMapTest {
 

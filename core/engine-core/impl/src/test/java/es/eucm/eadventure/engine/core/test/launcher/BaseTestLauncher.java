@@ -44,7 +44,7 @@ import com.google.inject.Injector;
 import es.eucm.eadventure.common.model.elements.EAdAdventureModel;
 import es.eucm.eadventure.common.params.EAdString;
 import es.eucm.eadventure.common.resources.StringHandler;
-import es.eucm.eadventure.engine.core.Game;
+import es.eucm.eadventure.engine.core.game.Game;
 import es.eucm.eadventure.engine.core.platform.PlatformLauncher;
 
 /**

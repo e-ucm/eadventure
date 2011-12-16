@@ -39,7 +39,6 @@ package es.eucm.eadventure.engine.core.impl;
 
 import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
-import java.util.logging.Logger;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -49,12 +48,11 @@ import es.eucm.eadventure.common.model.elements.EAdSceneElementDef;
 import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
 import es.eucm.eadventure.common.model.guievents.enums.MouseButton;
 import es.eucm.eadventure.common.model.variables.impl.SystemFields;
-import es.eucm.eadventure.engine.core.GameState;
-import es.eucm.eadventure.engine.core.MouseState;
-import es.eucm.eadventure.engine.core.gameobjects.DrawableGO;
-import es.eucm.eadventure.engine.core.gameobjects.SceneElementGO;
+import es.eucm.eadventure.engine.core.game.GameState;
+import es.eucm.eadventure.engine.core.gameobjects.go.DrawableGO;
+import es.eucm.eadventure.engine.core.gameobjects.go.SceneElementGO;
 import es.eucm.eadventure.engine.core.guiactions.MouseAction;
-import es.eucm.eadventure.engine.core.platform.PlatformConfiguration;
+import es.eucm.eadventure.engine.core.input.MouseState;
 
 @Singleton
 public class MouseStateImpl implements MouseState {
@@ -82,27 +80,6 @@ public class MouseStateImpl implements MouseState {
 	 * Y coordinate of the windows' pixel the mouse is in
 	 */
 	private int mousePixelY = OUT_VAL;
-
-	// Game dimensions
-	/**
-	 * The width for the window (usually in pixels)
-	 */
-	private int windowWidth = 0;
-
-	/**
-	 * The height for the window (usually in pixels)
-	 */
-	private int windowHeight = 0;
-
-	/**
-	 * The width for the game
-	 */
-	private int gameWidth = 0;
-
-	/**
-	 * The height for the game
-	 */
-	private int gameHeight = 0;
 
 	// Mouse pressed
 
@@ -153,12 +130,9 @@ public class MouseStateImpl implements MouseState {
 	private int initZ;
 
 	@Inject
-	public MouseStateImpl(GameState gameState,
-			PlatformConfiguration platformConfiguration) {
+	public MouseStateImpl(GameState gameState) {
 		mouseEvents = new ConcurrentLinkedQueue<MouseAction>();
 		this.gameState = gameState;
-		this.gameWidth = platformConfiguration.getWidth();
-		this.gameHeight = platformConfiguration.getHeight();
 	}
 
 	public int getMouseX() {
@@ -178,8 +152,8 @@ public class MouseStateImpl implements MouseState {
 	private void updateDrag() {
 		if (this.draggingGameObject != null) {
 			EAdSceneElement e = draggingGameObject.getElement();
-			int mouseVirtualX = gameState.getValueMap().getValue(SystemFields.MOUSE_X);
-			int mouseVirtualY = gameState.getValueMap().getValue(SystemFields.MOUSE_Y);
+			int mouseVirtualX = gameState.getValueMap().getValue(SystemFields.MOUSE_SCENE_X);
+			int mouseVirtualY = gameState.getValueMap().getValue(SystemFields.MOUSE_SCENE_Y);
 			gameState.getValueMap().setValue(e, EAdBasicSceneElement.VAR_X,
 					mouseVirtualX - diffX);
 			gameState.getValueMap().setValue(e, EAdBasicSceneElement.VAR_Y,
@@ -248,8 +222,8 @@ public class MouseStateImpl implements MouseState {
 			initDragY = gameState.getValueMap().getValue(sceneElement,
 					EAdBasicSceneElement.VAR_Y);
 
-			int mouseVirtualX = gameState.getValueMap().getValue(SystemFields.MOUSE_X);
-			int mouseVirtualY = gameState.getValueMap().getValue(SystemFields.MOUSE_Y);
+			int mouseVirtualX = gameState.getValueMap().getValue(SystemFields.MOUSE_SCENE_X);
+			int mouseVirtualY = gameState.getValueMap().getValue(SystemFields.MOUSE_SCENE_Y);
 			diffX = mouseVirtualX - initDragX;
 			diffY = mouseVirtualY - initDragY;
 
@@ -274,16 +248,6 @@ public class MouseStateImpl implements MouseState {
 			}
 			draggingGameObject = null;
 		}
-	}
-
-	@Override
-	public void setWindowWidth(int width) {
-		this.windowWidth = width;
-	}
-
-	@Override
-	public void setWindowHeight(int height) {
-		this.windowHeight = height;
 	}
 
 }

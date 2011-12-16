@@ -37,8 +37,8 @@
 
 package es.eucm.eadventure.engine.core.gameobjects.huds;
 
-import es.eucm.eadventure.engine.core.Renderable;
-import es.eucm.eadventure.engine.core.gameobjects.DrawableGO;
+import es.eucm.eadventure.engine.core.gameobjects.go.DrawableGO;
+import es.eucm.eadventure.engine.core.gameobjects.go.Renderable;
 
 /**
  * Classes that implement this interface represent a HUD element of the

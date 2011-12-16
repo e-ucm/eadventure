@@ -53,12 +53,11 @@ import com.google.inject.Singleton;
 import es.eucm.eadventure.common.model.guievents.enums.MouseActionType;
 import es.eucm.eadventure.common.model.guievents.enums.MouseButton;
 import es.eucm.eadventure.common.model.guievents.impl.EAdMouseEventImpl;
-import es.eucm.eadventure.engine.AndroidPlatformConfiguration;
-import es.eucm.eadventure.engine.core.MouseState;
 import es.eucm.eadventure.engine.core.guiactions.MouseAction;
 import es.eucm.eadventure.engine.core.guiactions.impl.MouseActionImpl;
+import es.eucm.eadventure.engine.core.input.MouseState;
+import es.eucm.eadventure.engine.core.platform.EngineConfiguration;
 import es.eucm.eadventure.engine.core.platform.GUI;
-import es.eucm.eadventure.engine.core.platform.PlatformConfiguration;
 
 @Singleton
 public class EAdventureSurfaceView extends SurfaceView implements SurfaceHolder.Callback {
@@ -66,6 +65,8 @@ public class EAdventureSurfaceView extends SurfaceView implements SurfaceHolder.
 	private SurfaceHolder holder;
 
 	private EAdventureRenderingThread mThread;
+	
+	private EngineConfiguration configuration;
 
 	private static final Logger logger = Logger.getLogger("EAdventureSurfaceView");
 
@@ -134,18 +135,15 @@ public class EAdventureSurfaceView extends SurfaceView implements SurfaceHolder.
 
 		private MouseState mouseState;
 
-		private AndroidPlatformConfiguration platformConfiguration;
-
-		public OnTouchListener(MouseState mouseState, PlatformConfiguration platformConfiguration ) {
+		public OnTouchListener(MouseState mouseState ) {
 			this.mouseState = mouseState;
-			this.platformConfiguration = (AndroidPlatformConfiguration) platformConfiguration;
 		}
 
 		@Override
 		public boolean onTouch(View v, MotionEvent event) {
 
-			int x = (int) ( event.getRawX() / platformConfiguration.getScaleW());
-			int y = (int) ( event.getRawY() / platformConfiguration.getScaleH());
+			int x = (int) event.getRawX();
+			int y = (int) event.getRawY();
 			mouseState.setMousePosition(x, y);
 
 			if (gestureDetector.onTouchEvent(event)) {
@@ -181,10 +179,11 @@ public class EAdventureSurfaceView extends SurfaceView implements SurfaceHolder.
 	}
 
 	public void start(GUI gui,
-			PlatformConfiguration platformConfiguration,
+			EngineConfiguration platformConfiguration,
 			MouseState mouseState) {
+		configuration = platformConfiguration;
 		gestureDetector = new GestureDetector(new EAdventureGestureListener(mouseState));
-		this.setOnTouchListener(new OnTouchListener(mouseState, platformConfiguration));
+		this.setOnTouchListener(new OnTouchListener(mouseState));
 		mThread = new EAdventureRenderingThread(holder, gui, platformConfiguration);
 		logger.info("Thread created");
 		mThread.start();

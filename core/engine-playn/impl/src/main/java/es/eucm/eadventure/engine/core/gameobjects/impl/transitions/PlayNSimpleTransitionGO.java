@@ -45,14 +45,14 @@ import java.util.List;
 import com.google.inject.Inject;
 
 import es.eucm.eadventure.common.resources.StringHandler;
-import es.eucm.eadventure.engine.core.GameState;
-import es.eucm.eadventure.engine.core.gameobjects.DrawableGO;
-import es.eucm.eadventure.engine.core.gameobjects.SceneGO;
+import es.eucm.eadventure.engine.core.game.GameState;
 import es.eucm.eadventure.engine.core.gameobjects.factories.EventGOFactory;
 import es.eucm.eadventure.engine.core.gameobjects.factories.SceneElementGOFactory;
+import es.eucm.eadventure.engine.core.gameobjects.go.DrawableGO;
+import es.eucm.eadventure.engine.core.gameobjects.go.SceneGO;
 import es.eucm.eadventure.engine.core.platform.AssetHandler;
 import es.eucm.eadventure.engine.core.platform.GUI;
-import es.eucm.eadventure.engine.core.platform.PlatformConfiguration;
+import es.eucm.eadventure.engine.core.platform.EngineConfiguration;
 import es.eucm.eadventure.engine.core.platform.RuntimeAsset;
 
 public class PlayNSimpleTransitionGO extends SimpleTransitionGO {
@@ -61,7 +61,7 @@ public class PlayNSimpleTransitionGO extends SimpleTransitionGO {
 	public PlayNSimpleTransitionGO(AssetHandler assetHandler,
 			StringHandler stringHandler,
 			SceneElementGOFactory gameObjectFactory, GUI gui,
-			GameState gameState, PlatformConfiguration platformConfiguration,
+			GameState gameState, EngineConfiguration platformConfiguration,
 			EventGOFactory eventFactory) {
 		super(assetHandler, stringHandler, gameObjectFactory, gui, gameState,
 				platformConfiguration, eventFactory);

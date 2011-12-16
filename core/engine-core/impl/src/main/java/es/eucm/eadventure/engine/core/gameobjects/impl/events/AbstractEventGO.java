@@ -41,9 +41,9 @@ import es.eucm.eadventure.common.model.effects.EAdEffect;
 import es.eucm.eadventure.common.model.elements.EAdSceneElement;
 import es.eucm.eadventure.common.model.events.EAdEvent;
 import es.eucm.eadventure.common.model.extra.EAdList;
-import es.eucm.eadventure.engine.core.GameState;
-import es.eucm.eadventure.engine.core.gameobjects.EventGO;
-import es.eucm.eadventure.engine.core.gameobjects.GameObject;
+import es.eucm.eadventure.engine.core.game.GameState;
+import es.eucm.eadventure.engine.core.gameobjects.go.EventGO;
+import es.eucm.eadventure.engine.core.gameobjects.go.GameObject;
 import es.eucm.eadventure.engine.core.gameobjects.impl.GameObjectImpl;
 
 /**

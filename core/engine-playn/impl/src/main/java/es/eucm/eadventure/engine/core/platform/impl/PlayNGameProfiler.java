@@ -37,7 +37,7 @@
 
 package es.eucm.eadventure.engine.core.platform.impl;
 
-import es.eucm.eadventure.engine.core.GameProfiler;
+import es.eucm.eadventure.engine.core.game.GameProfiler;
 
 public class PlayNGameProfiler implements GameProfiler {
 

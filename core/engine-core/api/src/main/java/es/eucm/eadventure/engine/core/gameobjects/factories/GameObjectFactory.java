@@ -38,7 +38,7 @@
 package es.eucm.eadventure.engine.core.gameobjects.factories;
 
 import es.eucm.eadventure.common.model.EAdElement;
-import es.eucm.eadventure.engine.core.gameobjects.GameObject;
+import es.eucm.eadventure.engine.core.gameobjects.go.GameObject;
 
 /**
  * <p>

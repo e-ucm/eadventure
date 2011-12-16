@@ -40,35 +40,33 @@ package es.eucm.eadventure.engine.core.platform;
 import com.google.inject.Inject;
 
 import es.eucm.eadventure.common.resources.assets.drawable.basics.Image;
-import es.eucm.eadventure.engine.core.GameState;
-import es.eucm.eadventure.engine.core.KeyboardState;
-import es.eucm.eadventure.engine.core.MouseState;
+import es.eucm.eadventure.engine.core.game.GameState;
 import es.eucm.eadventure.engine.core.gameobjects.GameObjectManager;
 import es.eucm.eadventure.engine.core.gameobjects.factories.SceneElementGOFactory;
+import es.eucm.eadventure.engine.core.input.KeyboardState;
+import es.eucm.eadventure.engine.core.input.MouseState;
 import es.eucm.eadventure.engine.core.platform.impl.AbstractGUI;
 
-public class TestGUI extends AbstractGUI<Void>{
-
+public class TestGUI extends AbstractGUI<Void> {
 
 	@Inject
-	public TestGUI(PlatformConfiguration platformConfiguration,
-			GameObjectManager gameObjectManager, MouseState mouseState,
-			KeyboardState keyboardState,
-			GameState gameState, SceneElementGOFactory gameObjectFactory) {
-		super(platformConfiguration, gameObjectManager,
-				mouseState, keyboardState, gameState, gameObjectFactory, null);
+	public TestGUI(GameObjectManager gameObjectManager, MouseState mouseState,
+			KeyboardState keyboardState, GameState gameState,
+			SceneElementGOFactory gameObjectFactory) {
+		super(null, gameObjectManager, mouseState, keyboardState, gameState,
+				gameObjectFactory, null);
 	}
 
 	@Override
 	public void showSpecialResource(Object resource, int x, int y,
 			boolean fullscreen) {
-		
+
 	}
 
 	@Override
 	public void commit(float interpolation) {
 		processInput();
-		
+
 	}
 
 	@Override
@@ -78,14 +76,12 @@ public class TestGUI extends AbstractGUI<Void>{
 
 	@Override
 	public void initilize() {
-		
+
 	}
 
 	@Override
 	public void finish() {
-		
+
 	}
-
-
 
 }

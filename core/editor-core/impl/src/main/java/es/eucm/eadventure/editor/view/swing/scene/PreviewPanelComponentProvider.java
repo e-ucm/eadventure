@@ -61,12 +61,12 @@ import es.eucm.eadventure.editor.control.CommandManager;
 import es.eucm.eadventure.editor.view.ComponentProvider;
 import es.eucm.eadventure.editor.view.generics.scene.PreviewPanel;
 import es.eucm.eadventure.editor.view.generics.scene.impl.EditionScene;
-import es.eucm.eadventure.engine.core.Game;
-import es.eucm.eadventure.engine.core.GameState;
+import es.eucm.eadventure.engine.core.game.Game;
+import es.eucm.eadventure.engine.core.game.GameState;
 import es.eucm.eadventure.engine.core.impl.modules.BasicGameModule;
+import es.eucm.eadventure.engine.core.platform.EngineConfiguration;
 import es.eucm.eadventure.engine.core.platform.GUI;
 import es.eucm.eadventure.engine.core.platform.PlatformLauncher;
-import es.eucm.eadventure.engine.core.platform.impl.AbstractGUI;
 import es.eucm.eadventure.engine.core.platform.impl.extra.DesktopAssetHandlerModule;
 import es.eucm.eadventure.gui.EAdScrollPane;
 
@@ -86,6 +86,8 @@ public class PreviewPanelComponentProvider implements ComponentProvider<PreviewP
 	
 	private DesktopEditorGUI gui;
 	
+	private EngineConfiguration conf;
+	
 	public PreviewPanelComponentProvider(CommandManager commandManager) {
 		this.commandManager = commandManager;
 		Injector injector = Guice.createInjector(new DesktopAssetHandlerModule(),
@@ -101,6 +103,7 @@ public class PreviewPanelComponentProvider implements ComponentProvider<PreviewP
 
 
 		gui = (DesktopEditorGUI) injector.getInstance(GUI.class);
+		conf = injector.getInstance(EngineConfiguration.class);
 		
 		EAdScene scene = new EmptyScene();
 		
@@ -145,11 +148,11 @@ public class PreviewPanelComponentProvider implements ComponentProvider<PreviewP
 		zoomPanel.setLayout(new GridLayout(1,0));
 		JButton zoom = new JButton("zoom +");
 		zoomPanel.add(zoom);
-		zoom.addActionListener(new ZoomAction(panel, + 1, pane, gui));
+		zoom.addActionListener(new ZoomAction(panel, + 1, pane, conf, game));
 		
 		JButton zoom2 = new JButton("zoom -");
 		zoomPanel.add(zoom2);
-		zoom2.addActionListener(new ZoomAction(panel, - 1, pane, gui));
+		zoom2.addActionListener(new ZoomAction(panel, - 1, pane, conf, game));
 
 		mainPanel.add(zoomPanel, BorderLayout.NORTH);
 		return mainPanel;
@@ -161,14 +164,18 @@ public class PreviewPanelComponentProvider implements ComponentProvider<PreviewP
 		
 		private int sign;
 		
-		private GUI gui;
+		private EngineConfiguration conf;
 
 		private EAdScrollPane pane;
 		
-		public ZoomAction(JPanel panel2, int sign, EAdScrollPane pane, AbstractGUI gui ) {
+		private Game game;
+		
+		public ZoomAction(JPanel panel2, int sign, EAdScrollPane pane, EngineConfiguration conf, Game game ) {
 			panel = panel2;
 			this.pane = pane;
 			this.sign = sign;
+			this.conf = conf;
+			this.game = game;
 		}
 
 		@Override
@@ -180,8 +187,8 @@ public class PreviewPanelComponentProvider implements ComponentProvider<PreviewP
 			//TODO check if enough zoom
 			if (width > 100 && width < 2000) {
 				panel.setPreferredSize(new Dimension((int) width, (int) height));
-				gui.setHeight((int) height);
-				gui.setWidth((int) width);
+				conf.setSize((int) width, (int) height);
+				game.updateInitialTransformation();
 				pane.getViewport().setView(panel);
 			}
 		}

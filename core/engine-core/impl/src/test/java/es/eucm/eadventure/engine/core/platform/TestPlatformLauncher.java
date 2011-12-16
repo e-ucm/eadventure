@@ -41,8 +41,8 @@ import com.google.inject.Inject;
 import com.google.inject.Injector;
 
 import es.eucm.eadventure.common.params.EAdURI;
-import es.eucm.eadventure.engine.core.Game;
-import es.eucm.eadventure.engine.core.GameLoop;
+import es.eucm.eadventure.engine.core.game.Game;
+import es.eucm.eadventure.engine.core.game.GameLoop;
 
 public class TestPlatformLauncher implements PlatformLauncher {
 	

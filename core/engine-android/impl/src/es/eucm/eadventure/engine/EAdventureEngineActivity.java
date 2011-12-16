@@ -54,22 +54,22 @@ import es.eucm.eadventure.common.model.impl.EAdChapterImpl;
 import es.eucm.eadventure.common.resources.StringHandler;
 import es.eucm.eadventure.engine.assets.specialassetrenderers.AndroidVideoRenderer;
 import es.eucm.eadventure.engine.assets.specialassetrenderers.RockPlayerAndroidVideoRenderer;
-import es.eucm.eadventure.engine.core.Game;
-import es.eucm.eadventure.engine.core.GameController;
-import es.eucm.eadventure.engine.core.MouseState;
+import es.eucm.eadventure.engine.core.game.Game;
+import es.eucm.eadventure.engine.core.game.GameController;
 import es.eucm.eadventure.engine.core.impl.modules.BasicGameModule;
+import es.eucm.eadventure.engine.core.input.MouseState;
 import es.eucm.eadventure.engine.core.platform.AssetHandler;
 import es.eucm.eadventure.engine.core.platform.GUI;
-import es.eucm.eadventure.engine.core.platform.PlatformConfiguration;
+import es.eucm.eadventure.engine.core.platform.EngineConfiguration;
 import es.eucm.eadventure.engine.extra.AndroidAssetHandlerModule;
 import es.eucm.eadventure.engine.extra.AndroidModule;
 import es.eucm.eadventure.engine.extra.EAdventureSurfaceView;
 
 public class EAdventureEngineActivity extends Activity {
-	
+
 	static final int ANDROID_PLAYER_RESULT = 0;
-	
-	static final int ROCKPLAYER_RESULT = 1;	
+
+	static final int ROCKPLAYER_RESULT = 1;
 
 	private GameController gameController;
 
@@ -88,27 +88,24 @@ public class EAdventureEngineActivity extends Activity {
 		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
 				WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
-		injector = Guice.createInjector(new AndroidAssetHandlerModule(), new AndroidModule(),
-				new BasicGameModule());
+		injector = Guice.createInjector(new AndroidAssetHandlerModule(),
+				new AndroidModule(), new BasicGameModule());
 
 		dm = new DisplayMetrics();
 		getWindowManager().getDefaultDisplay().getMetrics(dm);
 
-		AndroidPlatformConfiguration config = (AndroidPlatformConfiguration) injector
-				.getInstance(PlatformConfiguration.class);
-		
+		EngineConfiguration config = injector
+				.getInstance(EngineConfiguration.class);
+
 		int height, width;
 		height = dm.heightPixels;
 		width = dm.widthPixels;
-		
-		//In case wrong display metrics like Samsung GT 10.1
-		if (height > width){
-			config.setWidth(height);
-			config.setHeight(width);
-		}
-		else {
-			config.setWidth(width);
-			config.setHeight(height);
+
+		// In case wrong display metrics like Samsung GT 10.1
+		if (height > width) {
+			config.setSize(height, width);
+		} else {
+			config.setSize(width, height);
 		}
 		config.setFullscreen(true);
 
@@ -127,9 +124,9 @@ public class EAdventureEngineActivity extends Activity {
 		StringHandler sh = injector.getInstance(StringHandler.class);
 		sh.addStrings(EAdElementsFactory.getInstance().getStringFactory()
 				.getStrings());
-		
+
 		EAdAdventureModel model = new EAdAdventureModelImpl();
-		EAdChapterImpl c1 = new EAdChapterImpl( );
+		EAdChapterImpl c1 = new EAdChapterImpl();
 		c1.setId("chapter1");
 		c1.getScenes().add(sceneImpl);
 		c1.setInitialScene(sceneImpl);
@@ -167,18 +164,17 @@ public class EAdventureEngineActivity extends Activity {
 
 		System.gc();
 	}
-	
+
 	@Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-		 
-        super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == ANDROID_PLAYER_RESULT) {
-        	AndroidVideoRenderer.finished = true;
-        }
-        else if (resultCode == ROCKPLAYER_RESULT){
-        	RockPlayerAndroidVideoRenderer.finished = true;
-        }
- 
-    }
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+		super.onActivityResult(requestCode, resultCode, data);
+		if (resultCode == ANDROID_PLAYER_RESULT) {
+			AndroidVideoRenderer.finished = true;
+		} else if (resultCode == ROCKPLAYER_RESULT) {
+			RockPlayerAndroidVideoRenderer.finished = true;
+		}
+
+	}
 
 }

@@ -46,7 +46,7 @@ import org.junit.Test;
 import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
 import es.eucm.eadventure.common.model.variables.EAdOperation;
 import es.eucm.eadventure.engine.core.TestUtil;
-import es.eucm.eadventure.engine.core.ValueMap;
+import es.eucm.eadventure.engine.core.game.ValueMap;
 import es.eucm.eadventure.engine.core.operator.OperatorFactory;
 
 public abstract class OperatorsTest<T extends EAdOperation> {

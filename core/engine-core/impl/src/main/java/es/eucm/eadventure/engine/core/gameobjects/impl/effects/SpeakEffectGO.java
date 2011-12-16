@@ -51,11 +51,10 @@ import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.CaptionIm
 import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.shapes.BallonShape;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.shapes.BezierShape;
 import es.eucm.eadventure.common.util.EAdTransformation;
-import es.eucm.eadventure.engine.core.GameLoop;
-import es.eucm.eadventure.engine.core.GameState;
-import es.eucm.eadventure.engine.core.Renderable;
-import es.eucm.eadventure.engine.core.gameobjects.SceneElementGO;
+import es.eucm.eadventure.engine.core.game.GameLoop;
+import es.eucm.eadventure.engine.core.game.GameState;
 import es.eucm.eadventure.engine.core.gameobjects.factories.SceneElementGOFactory;
+import es.eucm.eadventure.engine.core.gameobjects.go.SceneElementGO;
 import es.eucm.eadventure.engine.core.guiactions.GUIAction;
 import es.eucm.eadventure.engine.core.guiactions.MouseAction;
 import es.eucm.eadventure.engine.core.operator.OperatorFactory;
@@ -64,8 +63,7 @@ import es.eucm.eadventure.engine.core.platform.GUI;
 import es.eucm.eadventure.engine.core.platform.assets.impl.RuntimeCaption;
 import es.eucm.eadventure.engine.core.platform.rendering.EAdCanvas;
 
-public class SpeakEffectGO extends AbstractEffectGO<EAdSpeakEffect> implements
-		Renderable {
+public class SpeakEffectGO extends AbstractEffectGO<EAdSpeakEffect> {
 
 	private static final int MARGIN_PROPORTION = 35;
 
@@ -125,8 +123,8 @@ public class SpeakEffectGO extends AbstractEffectGO<EAdSpeakEffect> implements
 	}
 
 	private EAdSceneElement getSceneElement() {
-		int width = gameState.getValueMap().getValue(SystemFields.GUI_WIDTH);
-		int height = gameState.getValueMap().getValue(SystemFields.GUI_HEIGHT);
+		int width = gameState.getValueMap().getValue(SystemFields.GAME_WIDTH);
+		int height = gameState.getValueMap().getValue(SystemFields.GAME_HEIGHT);
 		int horizontalMargin = width / MARGIN_PROPORTION;
 		int verticalMargin = height / MARGIN_PROPORTION;
 		int left = horizontalMargin;

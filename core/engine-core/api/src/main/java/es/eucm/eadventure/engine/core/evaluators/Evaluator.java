@@ -38,7 +38,7 @@
 package es.eucm.eadventure.engine.core.evaluators;
 
 import es.eucm.eadventure.common.model.elements.EAdCondition;
-import es.eucm.eadventure.engine.core.ValueMap;
+import es.eucm.eadventure.engine.core.game.ValueMap;
 
 /**
  * <p>

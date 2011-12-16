@@ -50,12 +50,12 @@ import es.eucm.eadventure.common.model.guievents.EAdMouseEvent;
 import es.eucm.eadventure.common.model.guievents.enums.MouseActionType;
 import es.eucm.eadventure.common.model.guievents.enums.MouseButton;
 import es.eucm.eadventure.common.model.guievents.impl.EAdMouseEventImpl;
-import es.eucm.eadventure.engine.core.KeyboardState;
-import es.eucm.eadventure.engine.core.MouseState;
 import es.eucm.eadventure.engine.core.guiactions.KeyAction;
 import es.eucm.eadventure.engine.core.guiactions.MouseAction;
 import es.eucm.eadventure.engine.core.guiactions.impl.KeyActionImpl;
 import es.eucm.eadventure.engine.core.guiactions.impl.MouseActionImpl;
+import es.eucm.eadventure.engine.core.input.KeyboardState;
+import es.eucm.eadventure.engine.core.input.MouseState;
 
 /**
  * <p>

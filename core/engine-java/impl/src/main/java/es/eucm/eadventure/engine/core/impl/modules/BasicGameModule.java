@@ -46,15 +46,14 @@ import es.eucm.eadventure.common.interfaces.ReflectionProvider;
 import es.eucm.eadventure.common.model.elements.EAdAdventureModel;
 import es.eucm.eadventure.common.model.elements.EAdScene;
 import es.eucm.eadventure.common.model.impl.EAdAdventureModelImpl;
-import es.eucm.eadventure.engine.core.Game;
-import es.eucm.eadventure.engine.core.GameController;
-import es.eucm.eadventure.engine.core.GameState;
-import es.eucm.eadventure.engine.core.PluginHandler;
-import es.eucm.eadventure.engine.core.ValueMap;
 import es.eucm.eadventure.engine.core.debuggers.EAdDebugger;
 import es.eucm.eadventure.engine.core.debuggers.impl.EAdMainDebugger;
 import es.eucm.eadventure.engine.core.evaluators.EvaluatorFactory;
 import es.eucm.eadventure.engine.core.evaluators.impl.EvaluatorFactoryImpl;
+import es.eucm.eadventure.engine.core.game.Game;
+import es.eucm.eadventure.engine.core.game.GameController;
+import es.eucm.eadventure.engine.core.game.GameState;
+import es.eucm.eadventure.engine.core.game.ValueMap;
 import es.eucm.eadventure.engine.core.gameobjects.factories.EffectGOFactory;
 import es.eucm.eadventure.engine.core.gameobjects.factories.EffectGOFactoryImpl;
 import es.eucm.eadventure.engine.core.gameobjects.factories.EventGOFactory;
@@ -73,11 +72,14 @@ import es.eucm.eadventure.engine.core.inventory.InventoryHandlerImpl;
 import es.eucm.eadventure.engine.core.operator.OperatorFactory;
 import es.eucm.eadventure.engine.core.operators.impl.OperatorFactoryImpl;
 import es.eucm.eadventure.engine.core.platform.EAdInjector;
+import es.eucm.eadventure.engine.core.platform.EngineConfiguration;
 import es.eucm.eadventure.engine.core.platform.FontHandler;
+import es.eucm.eadventure.engine.core.platform.impl.AbstractEngineConfiguration;
 import es.eucm.eadventure.engine.core.platform.impl.FontHandlerImpl;
 import es.eucm.eadventure.engine.core.platform.impl.JavaInjector;
 import es.eucm.eadventure.engine.core.platform.impl.JavaPluginHandler;
 import es.eucm.eadventure.engine.core.platform.impl.JavaReflectionProvider;
+import es.eucm.eadventure.engine.core.plugins.PluginHandler;
 import es.eucm.eadventure.engine.core.trajectories.TrajectoryFactory;
 import es.eucm.eadventure.engine.core.trajectories.impl.TrajectoryFactoryImpl;
 
@@ -87,6 +89,8 @@ public class BasicGameModule extends AbstractModule {
 	protected void configure() {
 		installFactories();
 		bind(ValueMap.class).to(VariableMap.class);
+		bind(EngineConfiguration.class)
+.to(AbstractEngineConfiguration.class);
 		bind(GameState.class).to(GameStateImpl.class);
 		bind(GameController.class).to(GameControllerImpl.class);
 		bind(Game.class).to(GameImpl.class);

@@ -44,6 +44,7 @@ import com.google.inject.Inject;
 
 import es.eucm.eadventure.common.model.elements.EAdScene;
 import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
+import es.eucm.eadventure.common.model.variables.impl.SystemFields;
 import es.eucm.eadventure.common.params.EAdString;
 import es.eucm.eadventure.common.params.fills.impl.EAdColor;
 import es.eucm.eadventure.common.params.fills.impl.EAdPaintImpl;
@@ -54,16 +55,16 @@ import es.eucm.eadventure.common.resources.assets.drawable.basics.Image;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.CaptionImpl;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.shapes.RectangleShape;
 import es.eucm.eadventure.common.util.EAdTransformation;
-import es.eucm.eadventure.engine.core.GameState;
-import es.eucm.eadventure.engine.core.gameobjects.DrawableGO;
-import es.eucm.eadventure.engine.core.gameobjects.SceneGO;
-import es.eucm.eadventure.engine.core.gameobjects.TransitionGO;
+import es.eucm.eadventure.engine.core.game.GameState;
 import es.eucm.eadventure.engine.core.gameobjects.factories.EventGOFactory;
 import es.eucm.eadventure.engine.core.gameobjects.factories.SceneElementGOFactory;
+import es.eucm.eadventure.engine.core.gameobjects.go.DrawableGO;
+import es.eucm.eadventure.engine.core.gameobjects.go.SceneGO;
+import es.eucm.eadventure.engine.core.gameobjects.go.TransitionGO;
 import es.eucm.eadventure.engine.core.gameobjects.impl.SceneGOImpl;
 import es.eucm.eadventure.engine.core.platform.AssetHandler;
 import es.eucm.eadventure.engine.core.platform.GUI;
-import es.eucm.eadventure.engine.core.platform.PlatformConfiguration;
+import es.eucm.eadventure.engine.core.platform.EngineConfiguration;
 import es.eucm.eadventure.engine.core.platform.RuntimeAsset;
 
 public class SimpleTransitionGO extends SceneGOImpl implements TransitionGO {
@@ -91,7 +92,7 @@ public class SimpleTransitionGO extends SceneGOImpl implements TransitionGO {
 	@Inject
 	public SimpleTransitionGO(AssetHandler assetHandler,
 			StringHandler stringHandler, SceneElementGOFactory gameObjectFactory,
-			GUI gui, GameState gameState, PlatformConfiguration platformConfiguration, EventGOFactory eventFactory) {
+			GUI gui, GameState gameState, EngineConfiguration platformConfiguration, EventGOFactory eventFactory) {
 		super(assetHandler, stringHandler, gameObjectFactory, gui, gameState, eventFactory);
 
 		EAdString string = EAdString.newEAdString("Loading");
@@ -103,8 +104,8 @@ public class SimpleTransitionGO extends SceneGOImpl implements TransitionGO {
 				1.0f, 1.0f));
 
 		RectangleShape rs = new RectangleShape(
-				platformConfiguration.getVirtualWidth(),
-				platformConfiguration.getVirtualHeight());
+				gameState.getValueMap().getValue(SystemFields.GAME_WIDTH),
+				gameState.getValueMap().getValue(SystemFields.GAME_HEIGHT));
 		rs.setPaint(new EAdPaintImpl(new EAdColor(100, 100, 100, 30),
 				EAdColor.BLACK));
 

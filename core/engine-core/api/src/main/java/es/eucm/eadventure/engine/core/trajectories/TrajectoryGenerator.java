@@ -39,7 +39,7 @@ package es.eucm.eadventure.engine.core.trajectories;
 
 import es.eucm.eadventure.common.model.EAdElement;
 import es.eucm.eadventure.common.model.trajectories.TrajectoryDefinition;
-import es.eucm.eadventure.engine.core.gameobjects.SceneElementGO;
+import es.eucm.eadventure.engine.core.gameobjects.go.SceneElementGO;
 
 /**
  * General interface for trajectories generators. Trajectories are build from a

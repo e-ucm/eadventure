@@ -38,19 +38,18 @@
 package es.eucm.eadventure.engine;
 
 import android.graphics.Canvas;
-import android.graphics.Matrix;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 import es.eucm.eadventure.common.resources.assets.drawable.basics.Image;
-import es.eucm.eadventure.engine.core.GameState;
-import es.eucm.eadventure.engine.core.KeyboardState;
-import es.eucm.eadventure.engine.core.MouseState;
-import es.eucm.eadventure.engine.core.ValueMap;
+import es.eucm.eadventure.engine.core.game.GameState;
+import es.eucm.eadventure.engine.core.game.ValueMap;
 import es.eucm.eadventure.engine.core.gameobjects.GameObjectManager;
 import es.eucm.eadventure.engine.core.gameobjects.factories.SceneElementGOFactory;
-import es.eucm.eadventure.engine.core.platform.PlatformConfiguration;
+import es.eucm.eadventure.engine.core.input.KeyboardState;
+import es.eucm.eadventure.engine.core.input.MouseState;
+import es.eucm.eadventure.engine.core.platform.EngineConfiguration;
 import es.eucm.eadventure.engine.core.platform.RuntimeAsset;
 import es.eucm.eadventure.engine.core.platform.impl.AbstractGUI;
 import es.eucm.eadventure.engine.extra.BitmapCanvas;
@@ -61,7 +60,7 @@ import es.eucm.eadventure.engine.rendering.AndroidCanvas;
 public class AndroidGUI extends AbstractGUI<Canvas> {
 
 	@Inject
-	public AndroidGUI(PlatformConfiguration platformConfiguration,
+	public AndroidGUI(EngineConfiguration platformConfiguration,
 			GameObjectManager gameObjectManager, MouseState mouseState,
 			KeyboardState keyboardState,
 			ValueMap valueMap, GameState gameState,
@@ -101,27 +100,7 @@ public class AndroidGUI extends AbstractGUI<Canvas> {
 	}
 
 	public void setCanvas(BitmapCanvas aCanvas) {
-
-		Matrix matrix = aCanvas.getMatrix();
-
-		if (platformConfiguration.isFullscreen())
-			matrix.preScale(
-					(float) ((AndroidPlatformConfiguration) platformConfiguration)
-							.getScaleW(),
-					(float) ((AndroidPlatformConfiguration) platformConfiguration)
-							.getScaleH());
-		else
-			matrix.preScale(
-					(float) ((AndroidPlatformConfiguration) platformConfiguration)
-							.getScaleH(),
-					(float) ((AndroidPlatformConfiguration) platformConfiguration)
-							.getScaleH());
-
-		setWidth( platformConfiguration.getWidth());
-		setHeight( platformConfiguration.getHeight());
-		aCanvas.setMatrix(matrix);
 		aCanvas.save();
-
 		eAdCanvas.setGraphicContext(aCanvas);
 
 	}

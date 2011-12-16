@@ -38,7 +38,7 @@
 package es.eucm.eadventure.engine.core.gameobjects.factories;
 
 import es.eucm.eadventure.common.model.elements.EAdSceneElement;
-import es.eucm.eadventure.engine.core.gameobjects.SceneElementGO;
+import es.eucm.eadventure.engine.core.gameobjects.go.SceneElementGO;
 
 public interface SceneElementGOFactory
 		extends

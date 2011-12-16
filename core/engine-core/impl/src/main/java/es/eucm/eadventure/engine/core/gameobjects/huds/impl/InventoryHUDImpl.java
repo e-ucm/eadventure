@@ -56,13 +56,13 @@ import es.eucm.eadventure.common.params.geom.impl.EAdPositionImpl.Corner;
 import es.eucm.eadventure.common.resources.StringHandler;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.CaptionImpl;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.shapes.RectangleShape;
-import es.eucm.eadventure.engine.core.GameLoop;
-import es.eucm.eadventure.engine.core.GameState;
-import es.eucm.eadventure.engine.core.MouseState;
-import es.eucm.eadventure.engine.core.ValueMap;
-import es.eucm.eadventure.engine.core.gameobjects.SceneElementGO;
+import es.eucm.eadventure.engine.core.game.GameLoop;
+import es.eucm.eadventure.engine.core.game.GameState;
+import es.eucm.eadventure.engine.core.game.ValueMap;
 import es.eucm.eadventure.engine.core.gameobjects.factories.SceneElementGOFactory;
+import es.eucm.eadventure.engine.core.gameobjects.go.SceneElementGO;
 import es.eucm.eadventure.engine.core.gameobjects.huds.InventoryHUD;
+import es.eucm.eadventure.engine.core.input.MouseState;
 import es.eucm.eadventure.engine.core.inventory.InventoryHandler;
 import es.eucm.eadventure.engine.core.inventory.InventoryItem;
 import es.eucm.eadventure.engine.core.platform.GUI;
@@ -128,8 +128,8 @@ public class InventoryHUDImpl extends AbstractHUD implements InventoryHUD {
 	}
 
 	private void initInventory() {
-		int width = valueMap.getValue(SystemFields.GUI_WIDTH);
-		guiHeight = valueMap.getValue(SystemFields.GUI_HEIGHT);
+		int width = valueMap.getValue(SystemFields.GAME_WIDTH);
+		guiHeight = valueMap.getValue(SystemFields.GAME_HEIGHT);
 		RectangleShape rectangle = new RectangleShape(width, INVENTORY_HEIGHT);
 		rectangle.setPaint(new EAdColor(200, 200, 200, 100));
 

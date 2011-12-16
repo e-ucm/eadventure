@@ -37,7 +37,7 @@
 
 package es.eucm.eadventure.engine.core.gameobjects.huds;
 
-import es.eucm.eadventure.engine.core.gameobjects.GameObject;
+import es.eucm.eadventure.engine.core.gameobjects.go.GameObject;
 import es.eucm.eadventure.engine.core.platform.GUI;
 
 /**

@@ -49,7 +49,7 @@ import es.eucm.eadventure.common.resources.StringHandler;
 import es.eucm.eadventure.common.resources.assets.drawable.Drawable;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.Caption;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.shapes.RectangleShape;
-import es.eucm.eadventure.engine.core.GameLoop;
+import es.eucm.eadventure.engine.core.game.GameLoop;
 import es.eucm.eadventure.engine.core.impl.VariableMap;
 import es.eucm.eadventure.engine.core.platform.AssetHandler;
 import es.eucm.eadventure.engine.core.platform.DrawableAsset;
@@ -235,7 +235,7 @@ public class RuntimeCaption<GraphicContext> extends AbstractRuntimeAsset<Caption
 			preferredWidth = Integer.MAX_VALUE;
 			break;
 		case Caption.SCREEN_SIZE:
-			preferredWidth = valueMap.getValue(SystemFields.GUI_WIDTH);
+			preferredWidth = valueMap.getValue(SystemFields.GAME_WIDTH);
 			break;
 		default:
 			preferredWidth = descriptor.getPreferredWidth();
@@ -287,7 +287,7 @@ public class RuntimeCaption<GraphicContext> extends AbstractRuntimeAsset<Caption
 		int preferredHeight = 0;
 		switch (descriptor.getPreferredHeight()) {
 		case Caption.SCREEN_SIZE:
-			preferredHeight = valueMap.getValue(SystemFields.GUI_HEIGHT);
+			preferredHeight = valueMap.getValue(SystemFields.GAME_HEIGHT);
 			break;
 		case Caption.AUTO_SIZE:
 			preferredHeight = Integer.MAX_VALUE;

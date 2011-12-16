@@ -37,16 +37,10 @@
 
 package es.eucm.eadventure.engine.core.platform;
 
-import es.eucm.eadventure.engine.core.platform.impl.AbstractPlatformConfiguration;
+import es.eucm.eadventure.engine.core.platform.impl.AbstractEngineConfiguration;
 
 
-public class TestPlatformConfiguration extends AbstractPlatformConfiguration {
-
-	@Override
-	public double getScale() {
-		return 1;
-	}
-
+public class TestPlatformConfiguration extends AbstractEngineConfiguration {
 
 
 }

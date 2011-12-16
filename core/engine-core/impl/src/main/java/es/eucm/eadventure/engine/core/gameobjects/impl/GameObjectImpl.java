@@ -40,8 +40,8 @@ package es.eucm.eadventure.engine.core.gameobjects.impl;
 import com.google.inject.Inject;
 
 import es.eucm.eadventure.common.model.EAdElement;
-import es.eucm.eadventure.engine.core.GameState;
-import es.eucm.eadventure.engine.core.gameobjects.GameObject;
+import es.eucm.eadventure.engine.core.game.GameState;
+import es.eucm.eadventure.engine.core.gameobjects.go.GameObject;
 
 public abstract class GameObjectImpl<T extends EAdElement> implements
 		GameObject<T> {

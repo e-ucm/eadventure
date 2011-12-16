@@ -46,7 +46,7 @@ import com.google.inject.Singleton;
 
 import es.eucm.eadventure.common.params.EAdURI;
 import es.eucm.eadventure.common.params.EAdURIImpl;
-import es.eucm.eadventure.engine.core.GameController;
+import es.eucm.eadventure.engine.core.game.GameController;
 import es.eucm.eadventure.engine.core.impl.modules.BasicGameModule;
 import es.eucm.eadventure.engine.core.platform.AssetHandler;
 import es.eucm.eadventure.engine.core.platform.PlatformLauncher;

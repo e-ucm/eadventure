@@ -62,10 +62,12 @@ import es.eucm.eadventure.common.model.guievents.EAdMouseEvent;
 import es.eucm.eadventure.common.model.guievents.enums.MouseActionType;
 import es.eucm.eadventure.common.model.guievents.enums.MouseButton;
 import es.eucm.eadventure.common.model.guievents.impl.EAdMouseEventImpl;
+import es.eucm.eadventure.engine.core.game.Game;
 import es.eucm.eadventure.engine.core.guiactions.impl.MouseActionImpl;
+import es.eucm.eadventure.engine.core.input.MouseState;
 import es.eucm.eadventure.engine.core.platform.AssetHandler;
+import es.eucm.eadventure.engine.core.platform.EngineConfiguration;
 import es.eucm.eadventure.engine.core.platform.GUI;
-import es.eucm.eadventure.engine.core.platform.PlatformConfiguration;
 import es.eucm.eadventure.engine.core.platform.impl.PlayNAssetHandler;
 import es.eucm.eadventure.engine.core.platform.impl.PlayNGUI;
 
@@ -81,13 +83,13 @@ public class EAdEngine implements playn.core.Game, Keyboard.Listener {
 
 	private MouseState mouseState;
 
-	private PlatformConfiguration platformConfiguration;
+	private EngineConfiguration platformConfiguration;
 
 	private static final Logger logger = Logger.getLogger("EAdEngine");
 
 	@Inject
 	public EAdEngine(Game game, GUI gui, AssetHandler assetHandler,
-			MouseState mouseState, PlatformConfiguration platformConfiguration) {
+			MouseState mouseState, EngineConfiguration platformConfiguration) {
 		this.game = game;
 		this.gui = gui;
 		this.mouseState = mouseState;
@@ -99,8 +101,6 @@ public class EAdEngine implements playn.core.Game, Keyboard.Listener {
 	@Override
 	public void init() {
 		graphics().setSize(platformConfiguration.getWidth(), platformConfiguration.getHeight());
-		gui.setWidth(platformConfiguration.getWidth());
-		gui.setHeight(platformConfiguration.getHeight());
 		PlayN.log().debug("EAdEngine: init");
 		
 		HtmlPlatform.disableRightClickContextMenu();

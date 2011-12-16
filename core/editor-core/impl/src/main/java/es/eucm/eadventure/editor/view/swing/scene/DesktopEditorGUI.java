@@ -57,13 +57,13 @@ import com.google.inject.Singleton;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.Image;
 import es.eucm.eadventure.common.util.EAdTransformation;
 import es.eucm.eadventure.common.util.impl.EAdTransformationImpl;
-import es.eucm.eadventure.engine.core.GameState;
-import es.eucm.eadventure.engine.core.KeyboardState;
-import es.eucm.eadventure.engine.core.MouseState;
+import es.eucm.eadventure.engine.core.game.GameState;
 import es.eucm.eadventure.engine.core.gameobjects.GameObjectManager;
 import es.eucm.eadventure.engine.core.gameobjects.factories.SceneElementGOFactory;
 import es.eucm.eadventure.engine.core.guiactions.KeyAction;
-import es.eucm.eadventure.engine.core.platform.PlatformConfiguration;
+import es.eucm.eadventure.engine.core.input.KeyboardState;
+import es.eucm.eadventure.engine.core.input.MouseState;
+import es.eucm.eadventure.engine.core.platform.EngineConfiguration;
 import es.eucm.eadventure.engine.core.platform.RuntimeAsset;
 import es.eucm.eadventure.engine.core.platform.impl.DesktopGUI;
 import es.eucm.eadventure.engine.core.platform.impl.extra.DesktopInputListener;
@@ -87,7 +87,7 @@ public class DesktopEditorGUI extends DesktopGUI {
 	private DesktopInputListener listener;
 	
 	@Inject
-	public DesktopEditorGUI(PlatformConfiguration platformConfiguration,
+	public DesktopEditorGUI(EngineConfiguration platformConfiguration,
 			GameObjectManager gameObjectManager, MouseState mouseState,
 			KeyboardState keyboardState, GameState gameState,
 			SceneElementGOFactory gameObjectFactory, DesktopCanvas canvas) {
@@ -246,18 +246,6 @@ public class DesktopEditorGUI extends DesktopGUI {
 		}
 	}
 	
-	@Override
-	public EAdTransformation getInitialTransformation() {
-		EAdTransformation t = new EAdTransformationImpl();
-		if (panel != null && panel.getVisibleRect() != null && listener != null) {
-			t.getMatrix().translate(-(float) panel.getVisibleRect().getX(), -(float) panel.getVisibleRect().getY(), true);
-			listener.setOffset((int) panel.getVisibleRect().getX(), (int) panel.getVisibleRect().getY());
-		}
-		t.getMatrix().scale(
-				(float) platformConfiguration.getScale(),
-				(float) platformConfiguration.getScale(), true);
-		return t;
-	}
 
 	public JPanel getPanel() {
 		return panel;
@@ -267,18 +255,15 @@ public class DesktopEditorGUI extends DesktopGUI {
 
 		private static final long serialVersionUID = -8779328786327371343L;
 		
-		private PlatformConfiguration platformConfiguration;
+		private EngineConfiguration platformConfiguration;
 		
-		public GamePanel(PlatformConfiguration platformConfiguration) {
+		public GamePanel(EngineConfiguration platformConfiguration) {
 			this.platformConfiguration = platformConfiguration;
 		}
 		
 		public void setPreferredSize(Dimension d) {
 			super.setPreferredSize(d);
-			platformConfiguration.setHeight((int) d.getHeight());
-			platformConfiguration.setWidth((int) d.getWidth());
-			DesktopEditorGUI.this.setWidth((int) d.getWidth());
-			DesktopEditorGUI.this.setHeight((int) d.getHeight());
+			platformConfiguration.setSize(d.width, d.height);
 			if (backbufferImage != null)
 				backbufferImage.flush();
 			backbufferImage = null;

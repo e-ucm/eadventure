@@ -46,7 +46,7 @@ import com.google.inject.Inject;
 
 import es.eucm.eadventure.common.resources.assets.multimedia.Video;
 import es.eucm.eadventure.engine.core.platform.AssetHandler;
-import es.eucm.eadventure.engine.core.platform.PlatformConfiguration;
+import es.eucm.eadventure.engine.core.platform.EngineConfiguration;
 import es.eucm.eadventure.engine.core.platform.SpecialAssetRenderer;
 import fr.hd3d.html5.video.client.VideoSource;
 import fr.hd3d.html5.video.client.VideoWidget;
@@ -65,13 +65,13 @@ public class PlayNVideoRenderer implements SpecialAssetRenderer<Video, Widget> {
 
 	private AssetHandler assetHandler;
 
-	private PlatformConfiguration platformConfiguration;
+	private EngineConfiguration platformConfiguration;
 
 	private VideoWidget videoWidget;
 
 	@Inject
 	public PlayNVideoRenderer(AssetHandler assetHandler,
-			PlatformConfiguration platformConfiguration) {
+			EngineConfiguration platformConfiguration) {
 		logger.info("New instance");
 		this.assetHandler = assetHandler;
 		this.platformConfiguration = platformConfiguration;

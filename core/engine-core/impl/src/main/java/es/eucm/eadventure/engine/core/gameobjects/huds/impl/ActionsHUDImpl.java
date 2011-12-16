@@ -54,11 +54,11 @@ import es.eucm.eadventure.common.params.geom.impl.EAdPositionImpl.Corner;
 import es.eucm.eadventure.common.util.EAdTransformation;
 import es.eucm.eadventure.common.util.impl.EAdInterpolator;
 import es.eucm.eadventure.common.util.impl.EAdTransformationImpl;
-import es.eucm.eadventure.engine.core.GameLoop;
-import es.eucm.eadventure.engine.core.GameState;
+import es.eucm.eadventure.engine.core.game.GameLoop;
+import es.eucm.eadventure.engine.core.game.GameState;
 import es.eucm.eadventure.engine.core.gameobjects.GameObjectManager;
-import es.eucm.eadventure.engine.core.gameobjects.SceneElementGO;
 import es.eucm.eadventure.engine.core.gameobjects.factories.SceneElementGOFactory;
+import es.eucm.eadventure.engine.core.gameobjects.go.SceneElementGO;
 import es.eucm.eadventure.engine.core.gameobjects.huds.ActionsHUD;
 import es.eucm.eadventure.engine.core.guiactions.GUIAction;
 import es.eucm.eadventure.engine.core.guiactions.KeyAction;
@@ -130,8 +130,8 @@ public class ActionsHUDImpl extends AbstractHUD implements ActionsHUD {
 		this.gameObjectManager = gameObjectManager;
 		actionsGO = new ArrayList<SceneElementGO<?>>();
 		positions = new ArrayList<EAdPosition>();
-		width = gameState.getValueMap().getValue(SystemFields.GUI_WIDTH);
-		height = gameState.getValueMap().getValue(SystemFields.GUI_HEIGHT);
+		width = gameState.getValueMap().getValue(SystemFields.GAME_WIDTH);
+		height = gameState.getValueMap().getValue(SystemFields.GAME_HEIGHT);
 		this.sceneElementFactory = sceneElementFactory;
 		
 	}

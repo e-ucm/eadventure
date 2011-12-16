@@ -47,25 +47,26 @@ import android.graphics.Path;
 import android.graphics.Rect;
 import android.graphics.Typeface;
 import android.os.Vibrator;
+
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+
 import es.eucm.eadventure.common.model.EAdElement;
 import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
 import es.eucm.eadventure.common.model.guievents.enums.MouseButton;
 import es.eucm.eadventure.common.params.EAdString;
 import es.eucm.eadventure.common.resources.StringHandler;
 import es.eucm.eadventure.engine.AndroidAssetHandler;
-import es.eucm.eadventure.engine.AndroidPlatformConfiguration;
-import es.eucm.eadventure.engine.core.GameState;
-import es.eucm.eadventure.engine.core.MouseState;
-import es.eucm.eadventure.engine.core.gameobjects.GameObject;
+import es.eucm.eadventure.engine.core.game.GameState;
 import es.eucm.eadventure.engine.core.gameobjects.GameObjectManager;
 import es.eucm.eadventure.engine.core.gameobjects.factories.SceneElementGOFactory;
+import es.eucm.eadventure.engine.core.gameobjects.go.GameObject;
 import es.eucm.eadventure.engine.core.gameobjects.huds.MenuHUD;
 import es.eucm.eadventure.engine.core.gameobjects.huds.impl.BasicHUDImpl;
+import es.eucm.eadventure.engine.core.input.MouseState;
 import es.eucm.eadventure.engine.core.platform.AssetHandler;
+import es.eucm.eadventure.engine.core.platform.EngineConfiguration;
 import es.eucm.eadventure.engine.core.platform.GUI;
-import es.eucm.eadventure.engine.core.platform.PlatformConfiguration;
 import es.eucm.eadventure.engine.core.platform.rendering.EAdCanvas;
 import es.eucm.eadventure.engine.extra.BitmapCanvas;
 
@@ -77,7 +78,7 @@ public class AndroidBasicHUD extends BasicHUDImpl {
 	private Rect rect;
 	private Paint textPaint;
 	private Bitmap magGlass;
-	private AndroidPlatformConfiguration platformConfiguration;
+	private EngineConfiguration platformConfiguration;
 	private Vibrator vibrator;
 	private boolean vibrate;
 
@@ -86,11 +87,11 @@ public class AndroidBasicHUD extends BasicHUDImpl {
 			SceneElementGOFactory gameObjectFactory, GameState gameState,
 			GameObjectManager gameObjectManager, MouseState mouseState,
 			StringHandler stringHandler,
-			PlatformConfiguration platformConfiguration,
+			EngineConfiguration platformConfiguration,
 			AssetHandler assetHandler) {
 		super(menuHUD, gameObjectFactory, gameState, mouseState, stringHandler,
 				gui, assetHandler);
-		this.platformConfiguration = (AndroidPlatformConfiguration) platformConfiguration;
+		this.platformConfiguration = platformConfiguration;
 		this.vibrator = (Vibrator) ((AndroidAssetHandler) assetHandler).getContext().getSystemService(Context.VIBRATOR_SERVICE);
 		
 		borderPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
@@ -126,8 +127,8 @@ public class AndroidBasicHUD extends BasicHUDImpl {
 			if (mouseState.getMouseX() != -1 && mouseState.getMouseY() != -1) {
 
 				int notScaledX, notScaledY; 
-				notScaledX = (int) (mouseState.getMouseX()*this.platformConfiguration.getScaleW());
-				notScaledY = (int) (mouseState.getMouseY()*this.platformConfiguration.getScaleH());
+				notScaledX = mouseState.getMouseX();
+				notScaledY = mouseState.getMouseY();
 				
 				Canvas c = new Canvas(magGlass);
 				c.clipPath(clip);
@@ -144,13 +145,13 @@ public class AndroidBasicHUD extends BasicHUDImpl {
 				magX = notScaledX - 100;
 				magY = notScaledY - 150;
 
-				if (magX + 100 >= this.platformConfiguration.getVirtualWidth()) {
-					magX = this.platformConfiguration.getVirtualWidth() - 100;
+				if (magX + 100 >= this.platformConfiguration.getWidth()) {
+					magX = this.platformConfiguration.getWidth() - 100;
 				} else if (magX <= -100) {
 					magX = -100;
 				}
-				if (magY + 100 >= this.platformConfiguration.getVirtualHeight()) {
-					magY = this.platformConfiguration.getVirtualHeight() - 100;
+				if (magY + 100 >= this.platformConfiguration.getHeight()) {
+					magY = this.platformConfiguration.getHeight() - 100;
 				} else if (magY <= -100) {
 					magY = -100;
 				}

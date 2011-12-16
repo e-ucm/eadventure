@@ -33,8 +33,8 @@ public class ScrollWithSceneElement extends EAdSceneElementEventImpl {
 		// [1] = width
 		// [2] = scene-width
 		String expression = " -( ([1] - [2]) min ( 0 max ([0] - ([2] / 2 )) ))";
-		EAdOperation opX = new MathOperation( expression,  xElement, widthScene, SystemFields.GUI_WIDTH  );
-		EAdOperation opY = new MathOperation( expression,  yElement, heightScene, SystemFields.GUI_HEIGHT );
+		EAdOperation opX = new MathOperation( expression,  xElement, widthScene, SystemFields.GAME_WIDTH  );
+		EAdOperation opY = new MathOperation( expression,  yElement, heightScene, SystemFields.GAME_HEIGHT );
 		
 		EAdChangeFieldValueEffect effectX = new EAdChangeFieldValueEffect( );
 		effectX.addField(xScene);

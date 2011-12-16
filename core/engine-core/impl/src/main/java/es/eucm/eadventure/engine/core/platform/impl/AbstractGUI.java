@@ -45,20 +45,20 @@ import es.eucm.eadventure.common.model.guievents.impl.EAdMouseEventImpl;
 import es.eucm.eadventure.common.util.EAdTransformation;
 import es.eucm.eadventure.common.util.impl.EAdMatrixImpl;
 import es.eucm.eadventure.common.util.impl.EAdTransformationImpl;
-import es.eucm.eadventure.engine.core.GameState;
-import es.eucm.eadventure.engine.core.KeyboardState;
-import es.eucm.eadventure.engine.core.MouseState;
-import es.eucm.eadventure.engine.core.Renderable;
-import es.eucm.eadventure.engine.core.gameobjects.DrawableGO;
+import es.eucm.eadventure.engine.core.game.GameState;
 import es.eucm.eadventure.engine.core.gameobjects.GameObjectManager;
-import es.eucm.eadventure.engine.core.gameobjects.SceneElementGO;
 import es.eucm.eadventure.engine.core.gameobjects.factories.SceneElementGOFactory;
+import es.eucm.eadventure.engine.core.gameobjects.go.DrawableGO;
+import es.eucm.eadventure.engine.core.gameobjects.go.Renderable;
+import es.eucm.eadventure.engine.core.gameobjects.go.SceneElementGO;
 import es.eucm.eadventure.engine.core.guiactions.KeyAction;
 import es.eucm.eadventure.engine.core.guiactions.MouseAction;
 import es.eucm.eadventure.engine.core.guiactions.impl.DragActionImpl;
 import es.eucm.eadventure.engine.core.guiactions.impl.MouseActionImpl;
+import es.eucm.eadventure.engine.core.input.KeyboardState;
+import es.eucm.eadventure.engine.core.input.MouseState;
 import es.eucm.eadventure.engine.core.platform.GUI;
-import es.eucm.eadventure.engine.core.platform.PlatformConfiguration;
+import es.eucm.eadventure.engine.core.platform.EngineConfiguration;
 import es.eucm.eadventure.engine.core.platform.rendering.EAdCanvas;
 
 /**
@@ -91,7 +91,7 @@ public abstract class AbstractGUI<T> implements GUI {
 	/**
 	 * Platform configuration parameters
 	 */
-	protected PlatformConfiguration platformConfiguration;
+	protected EngineConfiguration platformConfiguration;
 
 	/**
 	 * Game object manager
@@ -115,18 +115,12 @@ public abstract class AbstractGUI<T> implements GUI {
 	protected EAdCanvas<T> eAdCanvas;
 
 	private boolean checkDrag;
-	
-	protected int width;
-	
-	protected int height;
 
-	public AbstractGUI(PlatformConfiguration platformConfiguration,
+	public AbstractGUI(EngineConfiguration platformConfiguration,
 			GameObjectManager gameObjectManager, MouseState mouseState,
 			KeyboardState keyboardState, GameState gameState,
 			SceneElementGOFactory gameObjectFactory, EAdCanvas<T> canvas) {
 		this.platformConfiguration = platformConfiguration;
-		this.width = platformConfiguration.getWidth();
-		this.height = platformConfiguration.getHeight();
 		this.gameObjects = gameObjectManager;
 		this.mouseState = mouseState;
 		this.keyboardState = keyboardState;
@@ -399,25 +393,6 @@ public abstract class AbstractGUI<T> implements GUI {
 		boolean visible = t1.isVisible() && t2.isVisible();
 		EAdTransformationImpl t = new EAdTransformationImpl(m, visible, alpha);
 		return t;
-	}
-	
-	@Override
-	public EAdTransformation getInitialTransformation() {
-		EAdTransformation t = new EAdTransformationImpl();
-		t.getMatrix().scale(
-				(float) width / platformConfiguration.getWidth() ,
-				(float) height / platformConfiguration.getHeight(), true);
-		return t;
-	}
-	
-	public void setWidth(int width){
-		this.width = width;
-		mouseState.setWindowWidth(width);
-	}
-	
-	public void setHeight(int height){
-		this.height = height;
-		mouseState.setWindowHeight(height);
 	}
 
 }

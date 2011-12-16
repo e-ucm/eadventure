@@ -21,6 +21,9 @@ core/engine-desktop/impl/src/test/resources/T1-movimiento*
 ^core/engine-playn/impl/war/eadengine$
 ^core/engine-playn/impl/war/WEB-INF/deploy$
 ^core/engine-playn/impl/war/WEB-INF/lib$
+^core/engine-html5/impl/war/eadengine$
+^core/engine-html5/impl/war/WEB-INF/deploy$
+^core/engine-html5/impl/war/WEB-INF/lib$
 ^core/engine-android/impl/libs/android-support-v4\.jar$
 ^core/engine-android/impl/gen$
 

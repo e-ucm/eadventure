@@ -41,7 +41,7 @@ import com.google.inject.Inject;
 
 import es.eucm.eadventure.common.model.events.EAdSceneElementEvent;
 import es.eucm.eadventure.common.model.events.enums.SceneElementEventType;
-import es.eucm.eadventure.engine.core.GameState;
+import es.eucm.eadventure.engine.core.game.GameState;
 
 public class SceneElementEventGO extends AbstractEventGO<EAdSceneElementEvent> {
 

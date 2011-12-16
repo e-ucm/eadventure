@@ -38,7 +38,7 @@
 package es.eucm.eadventure.engine.core.platform;
 
 import es.eucm.eadventure.common.model.transitions.EAdTransition;
-import es.eucm.eadventure.engine.core.gameobjects.TransitionGO;
+import es.eucm.eadventure.engine.core.gameobjects.go.TransitionGO;
 
 /**
  * Factory to provide the actual TransitionGO (which are platform dependent),

@@ -48,12 +48,12 @@ import com.google.inject.name.Names;
 
 import es.eucm.eadventure.common.resources.StringHandler;
 import es.eucm.eadventure.common.resources.assets.AssetDescriptor;
-import es.eucm.eadventure.engine.core.KeyboardState;
 import es.eucm.eadventure.engine.core.gameobjects.GameObjectManager;
 import es.eucm.eadventure.engine.core.gameobjects.huds.BasicHUD;
 import es.eucm.eadventure.engine.core.gameobjects.huds.impl.BasicHUDImpl;
 import es.eucm.eadventure.engine.core.gameobjects.impl.GameObjectManagerImpl;
 import es.eucm.eadventure.engine.core.impl.KeyboardStateImpl;
+import es.eucm.eadventure.engine.core.input.KeyboardState;
 import es.eucm.eadventure.engine.core.platform.impl.FontHandlerImpl;
 
 public class TestModule extends AbstractModule {
@@ -67,7 +67,7 @@ public class TestModule extends AbstractModule {
 		configureAssetHandler();
 		bind(Boolean.class).annotatedWith(Names.named("threaded")).toInstance(Boolean.FALSE);
 		bind(GUI.class).to(TestGUI.class);
-		bind(PlatformConfiguration.class).to(TestPlatformConfiguration.class);
+		bind(EngineConfiguration.class).to(TestPlatformConfiguration.class);
 		bind(PlatformLauncher.class).to(TestPlatformLauncher.class);
 		bind(KeyboardState.class).to(KeyboardStateImpl.class);
 		bind(GameObjectManager.class).to(GameObjectManagerImpl.class);

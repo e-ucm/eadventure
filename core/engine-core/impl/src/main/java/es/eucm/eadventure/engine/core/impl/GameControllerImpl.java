@@ -40,10 +40,10 @@ package es.eucm.eadventure.engine.core.impl;
 import com.google.inject.Inject;
 import com.google.inject.name.Named;
 
-import es.eucm.eadventure.engine.core.Game;
-import es.eucm.eadventure.engine.core.GameController;
-import es.eucm.eadventure.engine.core.GameLoop;
-import es.eucm.eadventure.engine.core.ValueMap;
+import es.eucm.eadventure.engine.core.game.Game;
+import es.eucm.eadventure.engine.core.game.GameController;
+import es.eucm.eadventure.engine.core.game.GameLoop;
+import es.eucm.eadventure.engine.core.game.ValueMap;
 import es.eucm.eadventure.engine.core.platform.GUI;
 
 public class GameControllerImpl implements GameController {

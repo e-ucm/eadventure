@@ -48,7 +48,7 @@ import es.eucm.eadventure.common.model.guievents.impl.EAdMouseEventImpl;
 import es.eucm.eadventure.common.params.geom.impl.EAdPositionImpl;
 import es.eucm.eadventure.common.resources.StringHandler;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.ImageImpl;
-import es.eucm.eadventure.engine.core.GameLoop;
+import es.eucm.eadventure.engine.core.game.GameLoop;
 
 public class EffectOpaqueBlockTestScreen extends EAdSceneImpl implements
 		EAdScene {

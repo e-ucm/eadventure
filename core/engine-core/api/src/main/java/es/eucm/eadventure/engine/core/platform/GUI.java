@@ -39,7 +39,7 @@ package es.eucm.eadventure.engine.core.platform;
 
 import es.eucm.eadventure.common.resources.assets.drawable.basics.Image;
 import es.eucm.eadventure.common.util.EAdTransformation;
-import es.eucm.eadventure.engine.core.gameobjects.DrawableGO;
+import es.eucm.eadventure.engine.core.gameobjects.go.DrawableGO;
 
 /**
  * This interface is implemented by the class that implements the high level
@@ -144,22 +144,5 @@ public interface GUI {
 	 * Finalize the GUI, used when the game is stopped and finished.
 	 */
 	void finish();
-
-	EAdTransformation getInitialTransformation();
-
-	/**
-	 * Sets the width (usually in pixels) for the game container
-	 * 
-	 * @param width
-	 *            the width
-	 */
-	void setWidth(int width);
-
-	/**
-	 * Sets the height (usually in pixels) for the game container
-	 * 
-	 * @param height
-	 *            the height
-	 */
-	void setHeight(int height);
+	
 }

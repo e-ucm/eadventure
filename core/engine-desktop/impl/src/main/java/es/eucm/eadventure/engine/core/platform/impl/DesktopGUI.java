@@ -61,14 +61,14 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 import es.eucm.eadventure.common.resources.assets.drawable.basics.Image;
-import es.eucm.eadventure.engine.core.GameState;
-import es.eucm.eadventure.engine.core.KeyboardState;
-import es.eucm.eadventure.engine.core.MouseState;
+import es.eucm.eadventure.engine.core.game.GameState;
 import es.eucm.eadventure.engine.core.gameobjects.GameObjectManager;
 import es.eucm.eadventure.engine.core.gameobjects.factories.SceneElementGOFactory;
 import es.eucm.eadventure.engine.core.guiactions.KeyAction;
+import es.eucm.eadventure.engine.core.input.KeyboardState;
+import es.eucm.eadventure.engine.core.input.MouseState;
+import es.eucm.eadventure.engine.core.platform.EngineConfiguration;
 import es.eucm.eadventure.engine.core.platform.GUI;
-import es.eucm.eadventure.engine.core.platform.PlatformConfiguration;
 import es.eucm.eadventure.engine.core.platform.RuntimeAsset;
 import es.eucm.eadventure.engine.core.platform.assets.impl.DesktopEngineImage;
 import es.eucm.eadventure.engine.core.platform.impl.extra.DesktopInputListener;
@@ -113,12 +113,12 @@ public class DesktopGUI extends AbstractGUI<Graphics2D> implements GUI {
 	private Object currentComponent;
 
 	@Inject
-	public DesktopGUI(PlatformConfiguration platformConfiguration,
-			GameObjectManager gameObjectManager, MouseState mouseState,
-			KeyboardState keyboardState, GameState gameState,
-			SceneElementGOFactory gameObjectFactory, DesktopCanvas canvas) {
-		super(platformConfiguration, gameObjectManager, mouseState,
-				keyboardState, gameState, gameObjectFactory, canvas);
+	public DesktopGUI(EngineConfiguration conf, GameObjectManager gameObjectManager,
+			MouseState mouseState, KeyboardState keyboardState,
+			GameState gameState, SceneElementGOFactory gameObjectFactory,
+			DesktopCanvas canvas) {
+		super(conf, gameObjectManager, mouseState, keyboardState, gameState,
+				gameObjectFactory, canvas);
 		try {
 			this.robot = new Robot();
 		} catch (AWTException e) {
@@ -191,7 +191,7 @@ public class DesktopGUI extends AbstractGUI<Graphics2D> implements GUI {
 				eAdCanvas.setGraphicContext(g);
 				g.setClip(0, 0, platformConfiguration.getWidth(),
 						platformConfiguration.getHeight());
-				
+
 				setRenderingHints(g);
 
 				g.setFont(g.getFont().deriveFont(20.0f));
@@ -220,26 +220,20 @@ public class DesktopGUI extends AbstractGUI<Graphics2D> implements GUI {
 	@Override
 	public RuntimeAsset<Image> commitToImage() {
 
-		DesktopEngineImage image = new DesktopEngineImage(width, height);
+		DesktopEngineImage image = new DesktopEngineImage(
+				platformConfiguration.getWidth(),
+				platformConfiguration.getHeight());
 
 		Graphics2D g = (Graphics2D) image.getImage().getGraphics();
-		g.setClip(0, 0, width, height);
-
+		g.setClip(0, 0, image.getWidth(), image.getHeight());
 		setRenderingHints(g);
-
 		g.setFont(g.getFont().deriveFont(20.0f));
-
-		// g.scale(platformConfiguration.getScale(),
-		// platformConfiguration.getScale());
 		eAdCanvas.setGraphicContext(g);
-
 		render(0.0f);
-
 		g.dispose();
-
 		return image;
 	}
-	
+
 	private void setHint(Graphics2D g, Object value, Key key) {
 		if (!g.getRenderingHints().containsValue(value))
 			g.setRenderingHint(key, value);
@@ -252,14 +246,22 @@ public class DesktopGUI extends AbstractGUI<Graphics2D> implements GUI {
 	 */
 	protected void setRenderingHints(Graphics2D g) {
 		// TODO test effects, probably should allow disabling
-		setHint(g, RenderingHints.VALUE_ANTIALIAS_ON, RenderingHints.KEY_ANTIALIASING);
-//		setHint(g, RenderingHints.VALUE_ALPHA_INTERPOLATION_QUALITY, RenderingHints.KEY_ALPHA_INTERPOLATION);
-//		setHint(g, RenderingHints.VALUE_TEXT_ANTIALIAS_ON, RenderingHints.KEY_TEXT_ANTIALIASING);
-//		setHint(g, RenderingHints.VALUE_COLOR_RENDER_QUALITY, RenderingHints.KEY_COLOR_RENDERING);
-//		setHint(g, RenderingHints.VALUE_FRACTIONALMETRICS_ON, RenderingHints.KEY_FRACTIONALMETRICS);
-//		setHint(g, RenderingHints.VALUE_INTERPOLATION_BICUBIC, RenderingHints.KEY_INTERPOLATION);
-//		setHint(g, RenderingHints.VALUE_RENDER_QUALITY, RenderingHints.KEY_RENDERING);
-//		setHint(g, RenderingHints.VALUE_STROKE_NORMALIZE, RenderingHints.KEY_STROKE_CONTROL);
+		setHint(g, RenderingHints.VALUE_ANTIALIAS_ON,
+				RenderingHints.KEY_ANTIALIASING);
+		// setHint(g, RenderingHints.VALUE_ALPHA_INTERPOLATION_QUALITY,
+		// RenderingHints.KEY_ALPHA_INTERPOLATION);
+		// setHint(g, RenderingHints.VALUE_TEXT_ANTIALIAS_ON,
+		// RenderingHints.KEY_TEXT_ANTIALIASING);
+		// setHint(g, RenderingHints.VALUE_COLOR_RENDER_QUALITY,
+		// RenderingHints.KEY_COLOR_RENDERING);
+		// setHint(g, RenderingHints.VALUE_FRACTIONALMETRICS_ON,
+		// RenderingHints.KEY_FRACTIONALMETRICS);
+		// setHint(g, RenderingHints.VALUE_INTERPOLATION_BICUBIC,
+		// RenderingHints.KEY_INTERPOLATION);
+		// setHint(g, RenderingHints.VALUE_RENDER_QUALITY,
+		// RenderingHints.KEY_RENDERING);
+		// setHint(g, RenderingHints.VALUE_STROKE_NORMALIZE,
+		// RenderingHints.KEY_STROKE_CONTROL);
 	}
 
 	/*
@@ -282,8 +284,6 @@ public class DesktopGUI extends AbstractGUI<Graphics2D> implements GUI {
 					frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 					frame.setSize(platformConfiguration.getWidth(),
 							platformConfiguration.getHeight());
-					setWidth( platformConfiguration.getWidth());
-					setHeight( platformConfiguration.getHeight());
 					frame.setUndecorated(true);
 					frame.setIgnoreRepaint(true);
 
@@ -293,13 +293,11 @@ public class DesktopGUI extends AbstractGUI<Graphics2D> implements GUI {
 								.getLocalGraphicsEnvironment()
 								.getDefaultScreenDevice();
 						gd.setFullScreenWindow(frame);
-						platformConfiguration.setHeight(frame.getHeight());
-						platformConfiguration.setWidth(frame.getWidth());
+						platformConfiguration.setSize(frame.getWidth(),
+								frame.getHeight());
 						logger.info("Frame size: " + frame.getWidth() + " x "
 								+ frame.getHeight());
 					} else {
-						// TODO Centers game, might be necessary to change in
-						// debug mode
 						frame.setLocationRelativeTo(null);
 					}
 
@@ -402,5 +400,7 @@ public class DesktopGUI extends AbstractGUI<Graphics2D> implements GUI {
 		}
 
 	}
+	
+	
 
 }

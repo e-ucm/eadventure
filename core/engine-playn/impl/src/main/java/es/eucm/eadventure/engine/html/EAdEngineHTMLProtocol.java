@@ -39,7 +39,7 @@ package es.eucm.eadventure.engine.html;
 
 import es.eucm.eadventure.common.elementfactories.EAdElementsFactory;
 import es.eucm.eadventure.common.resources.StringHandler;
-import es.eucm.eadventure.engine.core.Game;
+import es.eucm.eadventure.engine.core.game.Game;
 import es.eucm.eadventure.engine.reader.GWTReader;
 import es.eucm.eadventure.engine.reader.GWTStringReader;
 

@@ -43,10 +43,8 @@ import com.google.inject.Singleton;
 import com.google.inject.name.Named;
 
 import es.eucm.eadventure.common.interfaces.ReflectionProvider;
-import es.eucm.eadventure.engine.core.GameLoop;
-import es.eucm.eadventure.engine.core.GameProfiler;
-import es.eucm.eadventure.engine.core.KeyboardState;
-import es.eucm.eadventure.engine.core.MouseState;
+import es.eucm.eadventure.engine.core.game.GameLoop;
+import es.eucm.eadventure.engine.core.game.GameProfiler;
 import es.eucm.eadventure.engine.core.gameobjects.GameObjectManager;
 import es.eucm.eadventure.engine.core.gameobjects.huds.ActionsHUD;
 import es.eucm.eadventure.engine.core.gameobjects.huds.BasicHUD;
@@ -59,16 +57,18 @@ import es.eucm.eadventure.engine.core.gameobjects.impl.transitions.PlayNSimpleTr
 import es.eucm.eadventure.engine.core.gameobjects.impl.transitions.SimpleTransitionGO;
 import es.eucm.eadventure.engine.core.impl.KeyboardStateImpl;
 import es.eucm.eadventure.engine.core.impl.MouseStateImpl;
+import es.eucm.eadventure.engine.core.input.KeyboardState;
+import es.eucm.eadventure.engine.core.input.MouseState;
+import es.eucm.eadventure.engine.core.platform.EngineConfiguration;
 import es.eucm.eadventure.engine.core.platform.GUI;
-import es.eucm.eadventure.engine.core.platform.PlatformConfiguration;
 import es.eucm.eadventure.engine.core.platform.PlatformLauncher;
 import es.eucm.eadventure.engine.core.platform.TransitionFactory;
+import es.eucm.eadventure.engine.core.platform.impl.AbstractEngineConfiguration;
 import es.eucm.eadventure.engine.core.platform.impl.FontHandlerImpl;
 import es.eucm.eadventure.engine.core.platform.impl.PlayNFontCache;
 import es.eucm.eadventure.engine.core.platform.impl.PlayNGUI;
 import es.eucm.eadventure.engine.core.platform.impl.PlayNGameLoop;
 import es.eucm.eadventure.engine.core.platform.impl.PlayNGameProfiler;
-import es.eucm.eadventure.engine.core.platform.impl.PlayNPlatformConfiguration;
 import es.eucm.eadventure.engine.core.platform.impl.PlayNPlatformLauncher;
 import es.eucm.eadventure.engine.core.platform.impl.PlayNReflectionProvider;
 import es.eucm.eadventure.engine.core.platform.impl.PlayNTransitionFactory;
@@ -82,8 +82,8 @@ public class PlayNModule extends AbstractGinModule {
 		bind(ReflectionProvider.class).to(PlayNReflectionProvider.class).in(Singleton.class);
 		bind(GameProfiler.class).to(PlayNGameProfiler.class).in(Singleton.class);
 		bind(GUI.class).to(PlayNGUI.class).in(Singleton.class);
-		bind(PlatformConfiguration.class)
-				.to(PlayNPlatformConfiguration.class).in(Singleton.class);
+		bind(EngineConfiguration.class)
+				.to(AbstractEngineConfiguration.class).in(Singleton.class);
 		bind(PlatformLauncher.class).to(PlayNPlatformLauncher.class).in(Singleton.class);
 		bind(MouseState.class).to(MouseStateImpl.class).in(Singleton.class);
 		bind(KeyboardState.class).to(KeyboardStateImpl.class).in(Singleton.class);
