@@ -12,7 +12,10 @@ public class FilteredDrawableImpl implements FilteredDrawable {
 	
 	@Param("filter")
 	private DrawableFilter filter;
-	
+
+	public FilteredDrawableImpl( ){
+	}
+
 	public FilteredDrawableImpl( Drawable drawable, DrawableFilter filter ){
 		this.drawable = drawable;
 		this.filter = filter;
@@ -28,4 +31,13 @@ public class FilteredDrawableImpl implements FilteredDrawable {
 		return drawable;
 	}
 
+	public void setDrawable(Drawable drawable) {
+		this.drawable = drawable;
+	}
+
+	public void setFilter(DrawableFilter filter) {
+		this.filter = filter;
+	}
+
+	
 }

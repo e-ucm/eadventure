@@ -59,7 +59,10 @@ public class ElementNodeVisitor extends NodeVisitor<EAdElement> {
 	@Override
 	public EAdElement visit(Node node, Field field, Object parent, Class<?> listClass) {
 		EAdElement element = null;
-		if (node.getChildNodes().getLength() == 1 && !node.getChildNodes().item(0).hasChildNodes()) {
+		if (node == null)
+			logger.severe("Null node: " + field.getName() + " parent: " + (parent != null ? parent.getClass().getName() : "NULL"));
+		
+		if (node.getChildNodes() != null && node.getChildNodes().getLength() == 1 && !node.getChildNodes().item(0).hasChildNodes()) {
 			element = (EAdElement) ObjectFactory.getObject(GWTReader.getNodeText(node), EAdElement.class);
 			if (element != null && !(element instanceof ProxyElement)) {
 				setValue(field, parent, element);

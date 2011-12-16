@@ -50,6 +50,8 @@ import es.eucm.eadventure.common.model.EAdElement;
 import es.eucm.eadventure.common.params.EAdParam;
 import es.eucm.eadventure.common.resources.EAdBundleId;
 import es.eucm.eadventure.common.resources.assets.AssetDescriptor;
+import es.eucm.eadventure.common.util.EAdMatrix;
+import es.eucm.eadventure.common.util.impl.EAdMatrixImpl;
 
 /**
  * Includes methods to generate an object of a given type from a string value
@@ -92,6 +94,8 @@ public class ObjectFactory {
 		}
 		else if (fieldType == EAdBundleId.class)
 			return new EAdBundleId(value);
+		else if (fieldType == EAdMatrix.class || fieldType == EAdMatrixImpl.class)
+			return EAdMatrixImpl.parse(value);
 		else if (fieldType == Class.class)
 			try {
 				return ClassLoader.getSystemClassLoader().loadClass(value);
@@ -107,7 +111,7 @@ public class ObjectFactory {
 				logger.info("The field type was not recognised. The EAdElement is returned");
 				return element;
 			} else {
-				logger.info("The field type was not recognised. The string is returned");
+				logger.info("The field type \"" + fieldType + "\"  was not recognised. The string is returned");
 				return value;
 			}
 		}

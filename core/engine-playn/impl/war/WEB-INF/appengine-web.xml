@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <appengine-web-app xmlns="http://appengine.google.com/ns/1.0">
   <application>eadventure2</application>
-  <version>6</version>
+  <version>7</version>
  <precompilation-enabled>false</precompilation-enabled>
   
   <!-- Configure serving/caching of GWT files -->
