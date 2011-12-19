@@ -43,7 +43,7 @@ import java.util.logging.Logger;
 
 import org.w3c.dom.Node;
 
-import es.eucm.eadventure.common.model.DOMTags;
+import es.eucm.eadventure.common.DOMTags;
 import es.eucm.eadventure.common.impl.reader.extra.ObjectFactory;
 import es.eucm.eadventure.common.resources.assets.AssetDescriptor;
 

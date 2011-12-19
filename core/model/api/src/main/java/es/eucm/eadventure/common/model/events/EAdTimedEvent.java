@@ -35,40 +35,28 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package es.eucm.eadventure.common.params;
-
-import es.eucm.eadventure.common.interfaces.HasURI;
+package es.eucm.eadventure.common.model.events;
 
 /**
- * General interfaces for eAdventure text fonts
+ * An event that it's executed at regular intervals by a scene element
+ * 
+ * 
  * 
  */
-public interface EAdFont extends EAdParam, HasURI {
-
+public interface EAdTimedEvent extends EAdEvent {
 	/**
-	 * Returns the font name
-	 * 
-	 * @return the name
-	 */
-	String getName();
-
-	/**
-	 * Returns the font style
+	 * Returns time between executions
 	 * 
 	 * @return
 	 */
-	FontStyle getStyle();
+	long getTime();
 
 	/**
-	 * @return the size
-	 */
-	float getSize();
-
-	/**
-	 * Returns whether the font is a True Type Font
+	 * How many times the event must be executed. Integers smaller than zero
+	 * will be interpreted as infinite
 	 * 
 	 * @return
 	 */
-	boolean isTTF();
+	int getRepeats();
 
 }

@@ -35,13 +35,30 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package es.eucm.eadventure.common.params;
+package es.eucm.eadventure.common;
 
-import com.gwtent.reflection.client.Reflectable;
 
-@Reflectable
-public enum FontStyle {
+/**
+ * Generic factory interface. Factories of this kind are used to get an object
+ * of one class <T> (target) that is dependent on a source class.
+ * 
+ * @param <T>
+ *            The class
+ */
+public interface Factory<T> {
 
-	BOLD, PLAIN, ITALIC
+	/**
+	 * Gets the target element of class <T> associated with the element of
+	 * source class. If no target element is found for elements of the source
+	 * class, the interfaces implemented by the source class will be checked for
+	 * valid target class
+	 * 
+	 * @param object
+	 *            The source class
+	 * @return The target object
+	 */
+	T get(Class<?> object);
 
-};
+	void setMap(MapProvider<Class<?>, T> mapProvider);
+
+}

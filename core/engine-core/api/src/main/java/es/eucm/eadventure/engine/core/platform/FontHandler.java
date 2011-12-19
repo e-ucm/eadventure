@@ -37,8 +37,8 @@
 
 package es.eucm.eadventure.engine.core.platform;
 
-import es.eucm.eadventure.common.params.EAdFont;
 import es.eucm.eadventure.common.params.geom.EAdRectangle;
+import es.eucm.eadventure.common.params.text.EAdFont;
 
 /**
  * Interface for a cache of the system dependent {@link RuntimeFont}s

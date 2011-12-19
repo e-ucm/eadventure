@@ -49,7 +49,7 @@ import es.eucm.eadventure.common.data.chapter.conversation.node.DialogueConversa
 import es.eucm.eadventure.common.impl.importer.interfaces.EffectsImporterFactory;
 import es.eucm.eadventure.common.model.effects.EAdEffect;
 import es.eucm.eadventure.common.model.effects.impl.text.EAdShowQuestion;
-import es.eucm.eadventure.common.params.EAdString;
+import es.eucm.eadventure.common.params.text.EAdString;
 import es.eucm.eadventure.common.resources.StringHandler;
 
 public class ConversationImporter implements

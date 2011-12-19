@@ -42,8 +42,8 @@ import java.util.logging.Logger;
 
 import com.google.inject.Singleton;
 
+import es.eucm.eadventure.common.ReflectionProvider;
 import es.eucm.eadventure.common.interfaces.Element;
-import es.eucm.eadventure.common.interfaces.ReflectionProvider;
 import es.eucm.eadventure.common.model.EAdElement;
 
 @Singleton

@@ -4,7 +4,7 @@ import java.awt.Graphics2D;
 
 import com.google.inject.Inject;
 
-import es.eucm.eadventure.common.interfaces.ReflectionProvider;
+import es.eucm.eadventure.common.ReflectionProvider;
 
 public class DesktopFilterFactory extends AbstractFilterFactory<Graphics2D>{
 

@@ -42,7 +42,7 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.text.JTextComponent;
 
-import es.eucm.eadventure.common.params.EAdString;
+import es.eucm.eadventure.common.params.text.EAdString;
 import es.eucm.eadventure.common.resources.StringHandler;
 import es.eucm.eadventure.editor.control.CommandManager;
 import es.eucm.eadventure.editor.control.FieldValueReader;

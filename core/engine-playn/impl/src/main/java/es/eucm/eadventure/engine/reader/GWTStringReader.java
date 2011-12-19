@@ -48,7 +48,7 @@ import com.google.gwt.xml.client.Document;
 import com.google.gwt.xml.client.NodeList;
 import com.google.gwt.xml.client.XMLParser;
 
-import es.eucm.eadventure.common.params.EAdString;
+import es.eucm.eadventure.common.params.text.EAdString;
 import es.eucm.eadventure.common.resources.StringHandler;
 
 public class GWTStringReader {

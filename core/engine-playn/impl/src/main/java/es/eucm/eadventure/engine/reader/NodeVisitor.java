@@ -49,8 +49,8 @@ import com.google.gwt.xml.client.Node;
 import com.google.gwt.xml.client.NodeList;
 
 
+import es.eucm.eadventure.common.DOMTags;
 import es.eucm.eadventure.common.interfaces.Param;
-import es.eucm.eadventure.common.model.DOMTags;
 
 public abstract class NodeVisitor<T> {
 	

@@ -40,7 +40,7 @@ package es.eucm.eadventure.common.model.elements;
 import es.eucm.eadventure.common.interfaces.features.Variabled;
 import es.eucm.eadventure.common.model.EAdElement;
 import es.eucm.eadventure.common.model.extra.EAdList;
-import es.eucm.eadventure.common.params.EAdString;
+import es.eucm.eadventure.common.params.text.EAdString;
 
 /**
  * Interface for an eAdventure game static model.
@@ -56,17 +56,6 @@ public interface EAdAdventureModel extends EAdElement, Variabled {
 	 * Default height for games
 	 */
 	public static final int DEFAULT_HEIGHT = 600;
-
-	/**
-	 * @param playerMode
-	 *            the playerMode to set
-	 */
-	void setPlayerMode(PlayerMode playerMode);
-
-	/**
-	 * @return the player mode
-	 */
-	PlayerMode getPlayerMode();
 
 	/**
 	 * Returns the chapters of the adventures.

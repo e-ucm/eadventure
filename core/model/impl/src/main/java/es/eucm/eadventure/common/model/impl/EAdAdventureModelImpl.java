@@ -45,25 +45,18 @@ import es.eucm.eadventure.common.model.EAdElement;
 import es.eucm.eadventure.common.model.elements.EAdAdventureModel;
 import es.eucm.eadventure.common.model.elements.EAdChapter;
 import es.eucm.eadventure.common.model.elements.EAdInventory;
-import es.eucm.eadventure.common.model.elements.PlayerMode;
 import es.eucm.eadventure.common.model.extra.EAdList;
 import es.eucm.eadventure.common.model.extra.EAdMap;
 import es.eucm.eadventure.common.model.extra.impl.EAdListImpl;
 import es.eucm.eadventure.common.model.extra.impl.EAdMapImpl;
 import es.eucm.eadventure.common.model.variables.EAdVarDef;
-import es.eucm.eadventure.common.params.EAdString;
+import es.eucm.eadventure.common.params.text.EAdString;
 
 /**
  * The eAdventure game model.
  */
 @Element(detailed = EAdAdventureModelImpl.class, runtime = EAdAdventureModelImpl.class)
 public class EAdAdventureModelImpl implements EAdAdventureModel {
-
-	/**
-	 * Mode of the player.
-	 */
-	@Param("playerMode")
-	private PlayerMode playerMode;
 
 	@Param("description")
 	public EAdString description;
@@ -109,14 +102,6 @@ public class EAdAdventureModelImpl implements EAdAdventureModel {
 		return chapters;
 	}
 
-	public PlayerMode getPlayerMode() {
-		return playerMode;
-	}
-
-	public void setPlayerMode(PlayerMode playerMode) {
-		this.playerMode = playerMode;
-	}
-
 	public EAdAdventureModelImpl copy() {
 		return copy(false);
 	}
@@ -127,7 +112,6 @@ public class EAdAdventureModelImpl implements EAdAdventureModel {
 			for (EAdChapter c : this.getChapters()) {
 				copy.getChapters().add((EAdChapter) c.copy(deepCopy));
 			}
-			copy.setPlayerMode(getPlayerMode());
 
 			for (Entry<EAdVarDef<?>, Object> entry : getVars().entrySet())
 				copy.getVars().put(entry.getKey(), entry.getValue());

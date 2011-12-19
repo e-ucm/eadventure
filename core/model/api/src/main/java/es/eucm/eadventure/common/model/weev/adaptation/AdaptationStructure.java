@@ -39,7 +39,7 @@ package es.eucm.eadventure.common.model.weev.adaptation;
 
 import es.eucm.eadventure.common.model.extra.EAdList;
 import es.eucm.eadventure.common.model.weev.WEEVElement;
-import es.eucm.eadventure.common.params.EAdString;
+import es.eucm.eadventure.common.params.text.EAdString;
 
 public interface AdaptationStructure extends WEEVElement {
 

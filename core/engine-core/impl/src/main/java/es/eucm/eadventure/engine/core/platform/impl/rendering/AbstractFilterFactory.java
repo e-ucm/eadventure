@@ -1,8 +1,8 @@
 package es.eucm.eadventure.engine.core.platform.impl.rendering;
 
-import es.eucm.eadventure.common.interfaces.AbstractFactory;
-import es.eucm.eadventure.common.interfaces.MapProvider;
-import es.eucm.eadventure.common.interfaces.ReflectionProvider;
+import es.eucm.eadventure.common.AbstractFactory;
+import es.eucm.eadventure.common.MapProvider;
+import es.eucm.eadventure.common.ReflectionProvider;
 import es.eucm.eadventure.common.resources.assets.drawable.filters.DrawableFilter;
 import es.eucm.eadventure.engine.core.platform.DrawableAsset;
 import es.eucm.eadventure.engine.core.platform.rendering.EAdCanvas;

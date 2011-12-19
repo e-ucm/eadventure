@@ -78,8 +78,8 @@ import es.eucm.eadventure.common.model.elements.EAdAdventureModel;
 import es.eucm.eadventure.common.model.elements.EAdScene;
 import es.eucm.eadventure.common.model.impl.EAdAdventureModelImpl;
 import es.eucm.eadventure.common.model.impl.EAdChapterImpl;
-import es.eucm.eadventure.common.params.EAdString;
 import es.eucm.eadventure.common.params.EAdURIImpl;
+import es.eucm.eadventure.common.params.text.EAdString;
 import es.eucm.eadventure.common.resources.StringHandler;
 import es.eucm.eadventure.engine.core.debuggers.impl.EAdMainDebugger;
 import es.eucm.eadventure.engine.core.debuggers.impl.FieldsDebugger;
@@ -263,10 +263,6 @@ public class DesktopDemos extends BaseTestLauncher {
 						chapter.getScenes().add(scene);
 						chapter.setInitialScene(scene);
 						model.getChapters().add(chapter);
-						((EAdAdventureModelImpl) model).setGameWidth((int) d
-								.getWidth());
-						((EAdAdventureModelImpl) model).setGameHeight((int) d
-								.getHeight());
 
 						File f = new File("src/test/resources/sceneDemo.xml");
 						// Write to XML
@@ -294,7 +290,6 @@ public class DesktopDemos extends BaseTestLauncher {
 
 					} else {
 						Injector injector = createNewInjector();
-						model.setGameHeight(300);
 						injector.getInstance(EngineConfiguration.class).setSize(d.width, d.height);
 						new DesktopDemos(injector, model,
 								EAdElementsFactory.getInstance()

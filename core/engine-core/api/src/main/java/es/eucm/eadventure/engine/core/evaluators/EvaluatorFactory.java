@@ -37,7 +37,7 @@
 
 package es.eucm.eadventure.engine.core.evaluators;
 
-import es.eucm.eadventure.common.interfaces.Factory;
+import es.eucm.eadventure.common.Factory;
 import es.eucm.eadventure.common.model.elements.EAdCondition;
 import es.eucm.eadventure.engine.core.game.ValueMap;
 import es.eucm.eadventure.engine.core.operator.OperatorFactory;

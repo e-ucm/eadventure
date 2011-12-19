@@ -116,10 +116,10 @@ import es.eucm.eadventure.common.model.elements.EAdCondition;
 import es.eucm.eadventure.common.model.elements.EAdScene;
 import es.eucm.eadventure.common.model.elements.EAdSceneElement;
 import es.eucm.eadventure.common.model.elements.EAdSceneElementDef;
-import es.eucm.eadventure.common.model.elements.EAdTimer;
 import es.eucm.eadventure.common.model.elements.impl.EAdSceneImpl;
 import es.eucm.eadventure.common.model.elements.impl.EAdVideoScene;
 import es.eucm.eadventure.common.model.elements.impl.extra.EAdCutscene;
+import es.eucm.eadventure.common.model.events.EAdEvent;
 import es.eucm.eadventure.common.model.trajectories.impl.NodeTrajectoryDefinition;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.Caption;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.animation.Frame;
@@ -273,7 +273,7 @@ public class ImporterConfigurationModule extends AbstractModule {
 		EAdElementFactoryImpl.importerMap.put(ConversationLine.class,
 				LineImporterToShowText.class);
 
-		bind(new TypeLiteral<EAdElementImporter<Timer, EAdTimer>>() {
+		bind(new TypeLiteral<EAdElementImporter<Timer, EAdEvent>>() {
 		}).to(TimerImporter.class);
 		EAdElementFactoryImpl.importerMap.put(Timer.class, TimerImporter.class);
 

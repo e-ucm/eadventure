@@ -44,7 +44,7 @@ import es.eucm.eadventure.common.model.extra.impl.EAdListImpl;
 import es.eucm.eadventure.common.model.weev.adaptation.AdaptationProfile;
 import es.eucm.eadventure.common.model.weev.adaptation.AdaptationStructure;
 import es.eucm.eadventure.common.model.weev.impl.AbstractWEEVElement;
-import es.eucm.eadventure.common.params.EAdString;
+import es.eucm.eadventure.common.params.text.EAdString;
 
 /**
  * Default {@link AdaptationStructure} implementation

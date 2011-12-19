@@ -43,9 +43,9 @@ import java.util.logging.Level;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
+import es.eucm.eadventure.common.DOMTags;
 import es.eucm.eadventure.common.impl.reader.ProxyElement;
 import es.eucm.eadventure.common.impl.reader.extra.ObjectFactory;
-import es.eucm.eadventure.common.model.DOMTags;
 import es.eucm.eadventure.common.model.extra.EAdList;
 import es.eucm.eadventure.common.model.extra.impl.EAdListImpl;
 import es.eucm.eadventure.common.params.geom.EAdPosition;

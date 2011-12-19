@@ -39,9 +39,9 @@ package es.eucm.eadventure.common.resources.assets.drawable.basics;
 
 import es.eucm.eadventure.common.model.extra.EAdList;
 import es.eucm.eadventure.common.model.variables.EAdField;
-import es.eucm.eadventure.common.params.EAdFont;
-import es.eucm.eadventure.common.params.EAdString;
 import es.eucm.eadventure.common.params.paint.EAdPaint;
+import es.eucm.eadventure.common.params.text.EAdFont;
+import es.eucm.eadventure.common.params.text.EAdString;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.enums.Alignment;
 
 /**

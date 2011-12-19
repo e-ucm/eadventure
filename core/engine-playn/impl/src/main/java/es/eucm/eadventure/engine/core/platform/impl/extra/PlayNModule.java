@@ -42,7 +42,7 @@ import com.google.inject.Provides;
 import com.google.inject.Singleton;
 import com.google.inject.name.Named;
 
-import es.eucm.eadventure.common.interfaces.ReflectionProvider;
+import es.eucm.eadventure.common.ReflectionProvider;
 import es.eucm.eadventure.engine.core.game.GameLoop;
 import es.eucm.eadventure.engine.core.game.GameProfiler;
 import es.eucm.eadventure.engine.core.gameobjects.GameObjectManager;

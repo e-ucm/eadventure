@@ -42,7 +42,7 @@ import java.util.Map;
 
 import com.google.inject.AbstractModule;
 
-import es.eucm.eadventure.common.params.EAdString;
+import es.eucm.eadventure.common.params.text.EAdString;
 import es.eucm.eadventure.common.resources.StringHandler;
 
 public class CommonTestModule extends AbstractModule{

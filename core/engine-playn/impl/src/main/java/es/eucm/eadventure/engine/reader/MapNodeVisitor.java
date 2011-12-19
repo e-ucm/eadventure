@@ -46,7 +46,7 @@ import java.util.Map;
 import com.google.gwt.xml.client.Node;
 import com.google.gwt.xml.client.NodeList;
 
-import es.eucm.eadventure.common.model.DOMTags;
+import es.eucm.eadventure.common.DOMTags;
 import es.eucm.eadventure.common.model.extra.EAdMap;
 import es.eucm.eadventure.common.model.extra.impl.EAdMapImpl;
 

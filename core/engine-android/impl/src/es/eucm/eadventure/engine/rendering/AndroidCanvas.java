@@ -52,11 +52,11 @@ import android.graphics.Typeface;
 
 import com.google.inject.Inject;
 
-import es.eucm.eadventure.common.params.EAdFont;
 import es.eucm.eadventure.common.params.fills.impl.EAdColor;
 import es.eucm.eadventure.common.params.fills.impl.EAdLinearGradient;
 import es.eucm.eadventure.common.params.geom.EAdRectangle;
 import es.eucm.eadventure.common.params.paint.EAdFill;
+import es.eucm.eadventure.common.params.text.EAdFont;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.Shape;
 import es.eucm.eadventure.common.util.EAdMatrix;
 import es.eucm.eadventure.common.util.EAdTransformation;

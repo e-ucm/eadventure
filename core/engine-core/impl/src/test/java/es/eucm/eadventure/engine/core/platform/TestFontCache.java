@@ -37,9 +37,9 @@
 
 package es.eucm.eadventure.engine.core.platform;
 
-import es.eucm.eadventure.common.params.EAdFont;
 import es.eucm.eadventure.common.params.EAdFontImpl;
 import es.eucm.eadventure.common.params.geom.impl.EAdRectangleImpl;
+import es.eucm.eadventure.common.params.text.EAdFont;
 import es.eucm.eadventure.engine.core.platform.impl.FontHandlerImpl;
 
 public class TestFontCache extends FontHandlerImpl {

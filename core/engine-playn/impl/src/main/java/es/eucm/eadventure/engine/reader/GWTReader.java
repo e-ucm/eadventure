@@ -49,7 +49,7 @@ import com.google.gwt.xml.client.Node;
 import com.google.gwt.xml.client.NodeList;
 import com.google.gwt.xml.client.XMLParser;
 
-import es.eucm.eadventure.common.model.DOMTags;
+import es.eucm.eadventure.common.DOMTags;
 import es.eucm.eadventure.common.model.impl.EAdAdventureModelImpl;
 import es.eucm.eadventure.engine.core.game.Game;
 

@@ -39,7 +39,7 @@ package es.eucm.eadventure.engine.core.operators.impl;
 
 import com.google.inject.Inject;
 
-import es.eucm.eadventure.common.interfaces.ReflectionProvider;
+import es.eucm.eadventure.common.ReflectionProvider;
 import es.eucm.eadventure.common.model.variables.impl.operations.ValueOperation;
 import es.eucm.eadventure.engine.core.operator.Operator;
 

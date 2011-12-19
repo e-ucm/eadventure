@@ -35,19 +35,13 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package es.eucm.eadventure.common.interfaces;
+package es.eucm.eadventure.common.params.text;
 
-import es.eucm.eadventure.common.model.EAdElement;
+import com.gwtent.reflection.client.Reflectable;
 
+@Reflectable
+public enum FontStyle {
 
-public interface ReflectionProvider {
+	BOLD, PLAIN, ITALIC
 
-	Class<?>[] getInterfaces(Class<?> object);
-
-	boolean isAssignableFrom(Class<?> class1, Class<?> class2);
-	
-	Class<?> getSuperclass(Class<?> c);
-	
-	Class<?> getRuntimeClass(EAdElement element);
-
-}
+};

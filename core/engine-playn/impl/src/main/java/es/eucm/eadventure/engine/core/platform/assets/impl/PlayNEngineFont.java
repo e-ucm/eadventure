@@ -42,8 +42,8 @@ import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.dom.client.Style.Unit;
 
-import es.eucm.eadventure.common.params.EAdFont;
 import es.eucm.eadventure.common.params.geom.impl.EAdRectangleImpl;
+import es.eucm.eadventure.common.params.text.EAdFont;
 import es.eucm.eadventure.engine.core.platform.RuntimeFont;
 
 public class PlayNEngineFont implements RuntimeFont {

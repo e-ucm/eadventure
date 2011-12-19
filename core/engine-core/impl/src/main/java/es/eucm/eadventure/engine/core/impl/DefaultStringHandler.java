@@ -44,7 +44,7 @@ import java.util.logging.Logger;
 
 import com.google.inject.Singleton;
 
-import es.eucm.eadventure.common.params.EAdString;
+import es.eucm.eadventure.common.params.text.EAdString;
 import es.eucm.eadventure.common.resources.StringHandler;
 
 @Singleton

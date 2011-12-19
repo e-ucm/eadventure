@@ -40,7 +40,7 @@ package es.eucm.eadventure.engine.core.impl;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
-import es.eucm.eadventure.common.interfaces.ReflectionProvider;
+import es.eucm.eadventure.common.ReflectionProvider;
 import es.eucm.eadventure.common.model.extra.EAdList;
 import es.eucm.eadventure.common.model.variables.EAdField;
 import es.eucm.eadventure.engine.core.evaluators.EvaluatorFactory;

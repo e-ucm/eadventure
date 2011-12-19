@@ -39,7 +39,7 @@ package es.eucm.eadventure.engine.core.platform.impl;
 
 import com.google.inject.Singleton;
 
-import es.eucm.eadventure.common.params.EAdFont;
+import es.eucm.eadventure.common.params.text.EAdFont;
 import es.eucm.eadventure.engine.core.platform.assets.impl.DesktopEngineFont;
 
 @Singleton

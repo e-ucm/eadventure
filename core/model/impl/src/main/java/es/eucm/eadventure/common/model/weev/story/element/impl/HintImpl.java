@@ -41,7 +41,7 @@ import es.eucm.eadventure.common.interfaces.Element;
 import es.eucm.eadventure.common.interfaces.Param;
 import es.eucm.eadventure.common.model.weev.impl.AbstractWEEVElement;
 import es.eucm.eadventure.common.model.weev.story.elements.Hint;
-import es.eucm.eadventure.common.params.EAdString;
+import es.eucm.eadventure.common.params.text.EAdString;
 
 /**
  * Default {@link Hint} implementation

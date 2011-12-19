@@ -44,20 +44,22 @@ import es.eucm.eadventure.common.data.chapter.Timer;
 import es.eucm.eadventure.common.data.chapter.conditions.Conditions;
 import es.eucm.eadventure.common.data.chapter.effects.Effect;
 import es.eucm.eadventure.common.impl.importer.interfaces.EffectsImporterFactory;
-import es.eucm.eadventure.common.model.conditions.impl.EmptyCondition;
 import es.eucm.eadventure.common.model.effects.EAdEffect;
 import es.eucm.eadventure.common.model.effects.impl.EAdMacroImpl;
 import es.eucm.eadventure.common.model.effects.impl.EAdTriggerMacro;
-import es.eucm.eadventure.common.model.effects.impl.variables.EAdChangeFieldValueEffect;
 import es.eucm.eadventure.common.model.elements.EAdCondition;
-import es.eucm.eadventure.common.model.elements.EAdTimer;
-import es.eucm.eadventure.common.model.elements.impl.EAdTimerImpl;
-import es.eucm.eadventure.common.model.events.enums.ConditionedEventType;
-import es.eucm.eadventure.common.model.events.impl.EAdConditionEventImpl;
-import es.eucm.eadventure.common.model.variables.impl.EAdFieldImpl;
-import es.eucm.eadventure.common.model.variables.impl.operations.BooleanOperation;
+import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
+import es.eucm.eadventure.common.model.elements.impl.EAdSceneElementDefImpl;
+import es.eucm.eadventure.common.model.events.EAdEvent;
+import es.eucm.eadventure.common.model.events.impl.EAdSceneElementEventImpl;
+import es.eucm.eadventure.common.model.events.impl.EAdTimedEventImpl;
+import es.eucm.eadventure.common.model.variables.EAdVarDef;
+import es.eucm.eadventure.common.model.variables.impl.EAdVarDefImpl;
+import es.eucm.eadventure.common.resources.StringHandler;
+import es.eucm.eadventure.common.resources.assets.drawable.basics.Caption;
+import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.CaptionImpl;
 
-public class TimerImporter implements EAdElementImporter<Timer, EAdTimer> {
+public class TimerImporter implements EAdElementImporter<Timer, EAdEvent> {
 
 	private static int ID = 0;
 
@@ -68,49 +70,66 @@ public class TimerImporter implements EAdElementImporter<Timer, EAdTimer> {
 
 	private EffectsImporterFactory effectsImporter;
 
+	private StringHandler stringHandler;
+
+	private static final EAdVarDef<Long> TIMER_VAR = new EAdVarDefImpl<Long>("time_timer",
+			Long.class, 0L);
+
 	@Inject
 	public TimerImporter(
 			EAdElementImporter<Conditions, EAdCondition> conditionsImporter,
-			EffectsImporterFactory effectsImporter) {
+			EffectsImporterFactory effectsImporter, StringHandler stringHandler) {
 		this.conditionsImporter = conditionsImporter;
 		this.effectsImporter = effectsImporter;
+		this.stringHandler = stringHandler;
 	}
 
 	@Override
-	public EAdTimer init(Timer oldTimer) {
-		EAdTimer timer = new EAdTimerImpl();
-		timer.setId("timer" + ID++);
-		return timer;
+	public EAdEvent init(Timer oldTimer) {
+		return new EAdTimedEventImpl();
 	}
 
 	@Override
-	public EAdTimer convert(Timer oldTimer, Object object) {
-		EAdTimerImpl newTimer = (EAdTimerImpl) object;
+	public EAdEvent convert(Timer oldTimer, Object object) {
+		EAdTimedEventImpl event = (EAdTimedEventImpl) object;
+		event.setTime(oldTimer.getTime());
 
-		newTimer.setTime(oldTimer.getTime().intValue() * 1000);
-
-		EAdCondition condition = conditionsImporter
-				.init(oldTimer.getInitCond());
-		condition = conditionsImporter.convert(oldTimer.getInitCond(),
-				condition);
-
-		EAdConditionEventImpl startEvent = new EAdConditionEventImpl( condition);
-		startEvent.setId("timerStart");
-		EAdChangeFieldValueEffect startEffect = new EAdChangeFieldValueEffect(
-				 new EAdFieldImpl<Boolean>(newTimer,
-						EAdTimerImpl.VAR_STARTED), new BooleanOperation(
-						EmptyCondition.TRUE_EMPTY_CONDITION));
-		startEffect.setId("timerStartEffect");
-		startEvent.addEffect(ConditionedEventType.CONDITIONS_MET,
-				startEffect);
+		EAdSceneElementDefImpl timerDef = new EAdSceneElementDefImpl();
+		EAdBasicSceneElement timer = new EAdBasicSceneElement(timerDef);
+		timer.setVarInitialValue(TIMER_VAR, oldTimer.getTime());
+		if (oldTimer.isShowTime()) {
+			Caption c = new CaptionImpl();
+			String timerName = oldTimer.getDisplayName();
+			timerDef.setInitialAppearance(c);
+		}
+		// EAdTimerImpl newTimer = (EAdTimerImpl) object;
+		//
+		// newTimer.setTime(oldTimer.getTime().intValue() * 1000);
+		//
+		// EAdCondition condition = conditionsImporter
+		// .init(oldTimer.getInitCond());
+		// condition = conditionsImporter.convert(oldTimer.getInitCond(),
+		// condition);
+		//
+		// EAdConditionEventImpl startEvent = new EAdConditionEventImpl(
+		// condition);
+		// startEvent.setId("timerStart");
+		// EAdChangeFieldValueEffect startEffect = new
+		// EAdChangeFieldValueEffect(
+		// new EAdFieldImpl<Boolean>(newTimer,
+		// EAdTimerImpl.VAR_STARTED), new BooleanOperation(
+		// EmptyCondition.TRUE_EMPTY_CONDITION));
+		// startEffect.setId("timerStartEffect");
+		// startEvent.addEffect(ConditionedEventType.CONDITIONS_MET,
+		// startEffect);
 		// TODO timer with events? indeed, has timers sense anymore?
-//		newTimer.getEvents().add(startEvent);
+		// newTimer.getEvents().add(startEvent);
 
 		EAdMacroImpl endedMacro = new EAdMacroImpl();
 		endedMacro.setId("timerEndMacro");
 		EAdTriggerMacro triggerEndedMacro = new EAdTriggerMacro();
 		triggerEndedMacro.setId("triggerMacro_" + endedMacro.getId());
-//		triggerEndedMacro.setMacro(endedMacro);
+		// triggerEndedMacro.setMacro(endedMacro);
 
 		for (Effect e : oldTimer.getEffects().getEffects()) {
 			EAdEffect effect = effectsImporter.getEffect(e);
@@ -122,22 +141,22 @@ public class TimerImporter implements EAdElementImporter<Timer, EAdTimer> {
 		stoppedMacro.setId("timerStoppedMacro");
 		EAdTriggerMacro triggerStoppedMacro = new EAdTriggerMacro();
 		triggerStoppedMacro.setId("triggerMacro_" + stoppedMacro.getId());
-//		triggerStoppedMacro.setMacro(stoppedMacro);
+		// triggerStoppedMacro.setMacro(stoppedMacro);
 
-		for (Effect e : oldTimer.getPostEffects().getEffects()) {
-			EAdEffect effect = effectsImporter.getEffect(e);
-			if (effect != null)
-				stoppedMacro.getEffects().add(effect);
-		}
-//
-//		EAdTimerEventImpl stopTimerEvent = new EAdTimerEventImpl( newTimer);
-//		stopTimerEvent.addEffect(TimerEventType.TIMER_ENDED,
-//				triggerEndedMacro);
-//		stopTimerEvent.addEffect(TimerEventType.TIMER_STOPPED,
-//				triggerStoppedMacro);
+		// for (Effect e : oldTimer.getPostEffects().getEffects()) {
+		// EAdEffect effect = effectsImporter.getEffect(e);
+		// if (effect != null)
+		// stoppedMacro.getEffects().add(effect);
+		// }
+		//
+		// EAdTimerEventImpl stopTimerEvent = new EAdTimerEventImpl( newTimer);
+		// stopTimerEvent.addEffect(TimerEventType.TIMER_ENDED,
+		// triggerEndedMacro);
+		// stopTimerEvent.addEffect(TimerEventType.TIMER_STOPPED,
+		// triggerStoppedMacro);
 
-//		newTimer.getEvents().add(stopTimerEvent);
+		// newTimer.getEvents().add(stopTimerEvent);
 
-		return newTimer;
+		return new EAdSceneElementEventImpl();
 	}
 }

@@ -44,7 +44,7 @@ import es.eucm.eadventure.common.model.effects.impl.variables.EAdChangeFieldValu
 import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
 import es.eucm.eadventure.common.model.events.EAdSceneElementEvent;
 import es.eucm.eadventure.common.model.events.enums.SceneElementEventType;
-import es.eucm.eadventure.common.model.events.enums.SceneElementTimedEventType;
+import es.eucm.eadventure.common.model.events.enums.TimedEventType;
 import es.eucm.eadventure.common.model.events.impl.EAdSceneElementEventImpl;
 import es.eucm.eadventure.common.model.events.impl.EAdTimedEventImpl;
 import es.eucm.eadventure.common.model.variables.EAdField;
@@ -86,8 +86,8 @@ public class DepthZScene extends EmptyScene {
 		EAdField<Float> scaleField = new EAdFieldImpl<Float>(e2, EAdBasicSceneElement.VAR_SCALE);
 		EAdChangeFieldValueEffect changeScale = new EAdChangeFieldValueEffect( scaleField, new MathOperation("1 / [0]", scaleField ));
 		changeScale.setId("changeSacle");
-		timedEvent.addEffect(SceneElementTimedEventType.START_TIME, changeScale);
-		timedEvent.addEffect(SceneElementTimedEventType.START_TIME, changeZ);
+		timedEvent.addEffect(TimedEventType.START_TIME, changeScale);
+		timedEvent.addEffect(TimedEventType.START_TIME, changeZ);
 		e2.getEvents().add(timedEvent);
 		
 		

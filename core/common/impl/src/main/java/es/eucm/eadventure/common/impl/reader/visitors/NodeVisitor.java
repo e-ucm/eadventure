@@ -50,9 +50,9 @@ import java.util.logging.Logger;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
+import es.eucm.eadventure.common.DOMTags;
 import es.eucm.eadventure.common.impl.reader.extra.ObjectFactory;
 import es.eucm.eadventure.common.interfaces.Param;
-import es.eucm.eadventure.common.model.DOMTags;
 
 public abstract class NodeVisitor<T> {
 	
@@ -121,7 +121,7 @@ public abstract class NodeVisitor<T> {
 			if (method == null)
 				logger.severe("Missing write method for " + field.getName() + " in " + parent.getClass());
 			try {
-				Object o = method.invoke(parent, object);
+				method.invoke(parent, object);
 			} catch (IllegalArgumentException e) {
 				e.printStackTrace();
 			} catch (IllegalAccessException e) {

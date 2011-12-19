@@ -38,7 +38,7 @@
 package es.eucm.eadventure.common.model.weev.story.element.impl.nodes;
 
 import es.eucm.eadventure.common.model.weev.story.element.impl.AbstractAreaNode;
-import es.eucm.eadventure.common.params.EAdString;
+import es.eucm.eadventure.common.params.text.EAdString;
 
 /**
  * Representation in the WEEV model of a parallel story line.

@@ -46,6 +46,7 @@ import com.google.inject.TypeLiteral;
 import com.google.inject.name.Names;
 
 import es.eucm.eadventure.common.EAdElementImporter;
+import es.eucm.eadventure.common.MapProvider;
 import es.eucm.eadventure.common.data.chapter.effects.ActivateEffect;
 import es.eucm.eadventure.common.data.chapter.effects.CancelActionEffect;
 import es.eucm.eadventure.common.data.chapter.effects.ConsumeObjectEffect;
@@ -80,7 +81,6 @@ import es.eucm.eadventure.common.impl.importer.subimporters.effects.variables.De
 import es.eucm.eadventure.common.impl.importer.subimporters.effects.variables.DecrementVarImporter;
 import es.eucm.eadventure.common.impl.importer.subimporters.effects.variables.IncrementVarImporter;
 import es.eucm.eadventure.common.impl.importer.subimporters.effects.variables.SetValueImporter;
-import es.eucm.eadventure.common.interfaces.MapProvider;
 
 public class EffectsImporterModule extends AbstractModule implements MapProvider<Class<?>, Class<? extends EAdElementImporter<?, ?>>>{
 

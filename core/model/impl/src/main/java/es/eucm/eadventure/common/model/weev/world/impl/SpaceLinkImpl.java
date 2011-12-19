@@ -42,7 +42,7 @@ import es.eucm.eadventure.common.interfaces.Param;
 import es.eucm.eadventure.common.model.weev.impl.AbstractTransition;
 import es.eucm.eadventure.common.model.weev.world.Space;
 import es.eucm.eadventure.common.model.weev.world.SpaceLink;
-import es.eucm.eadventure.common.params.EAdString;
+import es.eucm.eadventure.common.params.text.EAdString;
 
 /**
  * Default {@link SpaceLink} implementation

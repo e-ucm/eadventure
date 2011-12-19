@@ -53,7 +53,6 @@ import es.eucm.eadventure.common.model.variables.impl.SystemFields;
 import es.eucm.eadventure.common.util.EAdTransformation;
 import es.eucm.eadventure.common.util.impl.EAdTransformationImpl;
 import es.eucm.eadventure.engine.core.debuggers.EAdDebugger;
-import es.eucm.eadventure.engine.core.evaluators.EvaluatorFactory;
 import es.eucm.eadventure.engine.core.game.Game;
 import es.eucm.eadventure.engine.core.game.GameState;
 import es.eucm.eadventure.engine.core.game.ValueMap;
@@ -73,8 +72,6 @@ import es.eucm.eadventure.engine.core.platform.GUI;
 
 @Singleton
 public class GameImpl implements Game {
-
-	private EvaluatorFactory evaluatorFactory;
 
 	private AssetHandler assetHandler;
 
@@ -114,15 +111,13 @@ public class GameImpl implements Game {
 	private EngineConfiguration configuration;
 
 	@Inject
-	public GameImpl(GUI gui, EvaluatorFactory evaluatorFactory,
-			GameState gameState, EffectHUD effectHUD,
+	public GameImpl(GUI gui, GameState gameState, EffectHUD effectHUD,
 			AssetHandler assetHandler, GameObjectManager gameObjectManager,
 			EAdDebugger debugger, ValueMap valueMap, MouseState mouseState,
 			BasicHUD basicHud, InventoryHUD inventoryHud,
 			InventoryHandler inventoryHandler, EventGOFactory eventFactory,
 			EngineConfiguration configuration) {
 		this.gui = gui;
-		this.evaluatorFactory = evaluatorFactory;
 		this.gameState = gameState;
 		this.effectHUD = effectHUD;
 		this.assetHandler = assetHandler;
@@ -147,9 +142,10 @@ public class GameImpl implements Game {
 			processEffects();
 			updateChapterEvents();
 			gameState.getScene().update();
-			gameObjectManager.updateHUDs();
+			
 		}
-
+		
+		gameObjectManager.updateHUDs();
 		gui.addElement(gameState.getScene(), initialTransformation);
 		// Add huds
 		gameObjectManager.addHUDs(gui, initialTransformation);
@@ -274,7 +270,6 @@ public class GameImpl implements Game {
 		gameState.getValueMap().setValue(SystemFields.GAME_HEIGHT,
 				model.getGameHeight());
 
-
 		this.adventure = model;
 		if (adventure.getInventory() != null) {
 			for (EAdSceneElementDef def : adventure.getInventory()
@@ -300,7 +295,8 @@ public class GameImpl implements Game {
 		initialTransformation = new EAdTransformationImpl();
 		initialTransformation.getMatrix().scale(
 				configuration.getWidth() / (float) adventure.getGameWidth(),
-				configuration.getHeight() / (float) adventure.getGameHeight(), true);
+				configuration.getHeight() / (float) adventure.getGameHeight(),
+				true);
 	}
 
 }

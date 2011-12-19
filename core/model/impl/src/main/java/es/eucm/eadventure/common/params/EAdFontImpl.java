@@ -37,6 +37,9 @@
 
 package es.eucm.eadventure.common.params;
 
+import es.eucm.eadventure.common.params.text.EAdFont;
+import es.eucm.eadventure.common.params.text.FontStyle;
+
 
 /**
  * EAdFont represents a text font and its metrics

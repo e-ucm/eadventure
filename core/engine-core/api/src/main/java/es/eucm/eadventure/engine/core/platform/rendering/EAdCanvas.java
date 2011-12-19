@@ -37,9 +37,9 @@
 
 package es.eucm.eadventure.engine.core.platform.rendering;
 
-import es.eucm.eadventure.common.params.EAdFont;
 import es.eucm.eadventure.common.params.geom.EAdRectangle;
 import es.eucm.eadventure.common.params.paint.EAdPaint;
+import es.eucm.eadventure.common.params.text.EAdFont;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.Shape;
 import es.eucm.eadventure.common.resources.assets.drawable.filters.DrawableFilter;
 import es.eucm.eadventure.common.util.EAdMatrix;

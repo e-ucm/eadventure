@@ -39,7 +39,7 @@ package es.eucm.eadventure.engine.core.impl.factorymapproviders;
 
 import es.eucm.eadventure.common.model.events.EAdEvent;
 import es.eucm.eadventure.common.model.events.EAdSceneElementEvent;
-import es.eucm.eadventure.common.model.events.EAdSceneElementTimedEvent;
+import es.eucm.eadventure.common.model.events.EAdTimedEvent;
 import es.eucm.eadventure.common.model.events.impl.EAdConditionEventImpl;
 import es.eucm.eadventure.common.model.events.impl.EAdSceneElementEventImpl;
 import es.eucm.eadventure.common.model.events.impl.EAdSystemEventImpl;
@@ -57,7 +57,7 @@ public class EventGameObjectFactoryConfigurator extends AbstractMapProvider<Clas
 		factoryMap.put(EAdSystemEventImpl.class, SystemEventGO.class);
 		factoryMap.put(EAdSceneElementEvent.class, SceneElementEventGO.class);
 		factoryMap.put(EAdSceneElementEventImpl.class, SceneElementEventGO.class);
-		factoryMap.put(EAdSceneElementTimedEvent.class, SceneElementTimedEventGO.class );
+		factoryMap.put(EAdTimedEvent.class, SceneElementTimedEventGO.class );
 		factoryMap.put(EAdTimedEventImpl.class, SceneElementTimedEventGO.class );	}
 
 }

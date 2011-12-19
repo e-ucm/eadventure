@@ -45,7 +45,6 @@ import es.eucm.eadventure.common.data.chapter.Chapter;
 import es.eucm.eadventure.common.impl.importer.interfaces.EAdElementFactory;
 import es.eucm.eadventure.common.model.elements.EAdAdventureModel;
 import es.eucm.eadventure.common.model.elements.EAdChapter;
-import es.eucm.eadventure.common.model.elements.PlayerMode;
 import es.eucm.eadventure.common.model.elements.impl.EAdInventoryImpl;
 import es.eucm.eadventure.common.model.impl.EAdAdventureModelImpl;
 import es.eucm.eadventure.common.resources.StringHandler;
@@ -82,7 +81,6 @@ public class AdventureImporter implements EAdElementImporter<AdventureData, EAdA
 		factory.setOldDataModel(oldData);
 		EAdAdventureModelImpl model = (EAdAdventureModelImpl) object;
 		model.setInventory(new EAdInventoryImpl());
-		model.setPlayerMode( getPlayerMode( oldData ) );
 		stringsWriter.setString(model.getTitle(), oldData.getTitle());
 		stringsWriter.setString(model.getDescription(), oldData.getDescription());
 
@@ -98,16 +96,6 @@ public class AdventureImporter implements EAdElementImporter<AdventureData, EAdA
 		}
 	
 		return model;
-	}
-
-	private PlayerMode getPlayerMode( AdventureData oldData ) {
-		switch ( oldData.getPlayerMode( ) ) {
-		case AdventureData.MODE_PLAYER_1STPERSON:
-			return PlayerMode.FIRST_PERSON;
-		case AdventureData.MODE_PLAYER_3RDPERSON:
-			return PlayerMode.THIRD_PERSON;
-		}
-		return null;
 	}
 
 }

@@ -44,7 +44,7 @@ import java.util.logging.Level;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-import es.eucm.eadventure.common.model.DOMTags;
+import es.eucm.eadventure.common.DOMTags;
 import es.eucm.eadventure.common.model.extra.EAdMap;
 import es.eucm.eadventure.common.model.extra.impl.EAdMapImpl;
 

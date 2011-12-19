@@ -35,13 +35,26 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package es.eucm.eadventure.common.model.elements;
+package es.eucm.eadventure.common;
 
-import com.gwtent.reflection.client.Reflectable;
+import java.util.Map;
 
-@Reflectable
-public enum PlayerMode {
+/**
+ * <p>
+ * Map provider interface, to provide a map used by factories to find the
+ * correspondence between different classes (e.g. assets and their renderers)
+ * </p>
+ * 
+ * @param <S>
+ *            The class of the keys
+ * @param <T>
+ *            The class of the values
+ */
+public interface MapProvider<S, T> {
 
-	FIRST_PERSON, THIRD_PERSON
-	
+	/**
+	 * @return the map provided by this class
+	 */
+	Map<S, T> getMap();
+
 }

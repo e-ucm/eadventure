@@ -42,7 +42,7 @@ import es.eucm.eadventure.common.interfaces.Param;
 import es.eucm.eadventure.common.model.weev.story.StoryElement;
 import es.eucm.eadventure.common.model.weev.story.elements.Comment;
 import es.eucm.eadventure.common.model.weev.story.impl.AbstractStoryElement;
-import es.eucm.eadventure.common.params.EAdString;
+import es.eucm.eadventure.common.params.text.EAdString;
 
 /**
  * Default {@link Comment} implementation

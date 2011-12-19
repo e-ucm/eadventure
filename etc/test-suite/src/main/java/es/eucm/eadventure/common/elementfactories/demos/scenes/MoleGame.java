@@ -44,7 +44,7 @@ import es.eucm.eadventure.common.model.effects.impl.enums.InterpolationType;
 import es.eucm.eadventure.common.model.effects.impl.variables.EAdChangeFieldValueEffect;
 import es.eucm.eadventure.common.model.elements.EAdSceneElement;
 import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
-import es.eucm.eadventure.common.model.events.enums.SceneElementTimedEventType;
+import es.eucm.eadventure.common.model.events.enums.TimedEventType;
 import es.eucm.eadventure.common.model.events.impl.EAdTimedEventImpl;
 import es.eucm.eadventure.common.model.extra.EAdList;
 import es.eucm.eadventure.common.model.extra.impl.EAdListImpl;
@@ -168,10 +168,10 @@ public class MoleGame extends EmptyScene {
 				new MathOperation("-30"), 500, 0, InterpolationLoopType.REVERSE, 2,
 				InterpolationType.LINEAR);
 		event.addEffect(
-				SceneElementTimedEventType.END_TIME,
+				TimedEventType.END_TIME,
 				effect);
 		event.addEffect(
-				SceneElementTimedEventType.END_TIME,
+				TimedEventType.END_TIME,
 				interpolation);
 		event.setTime(1100);
 		this.getBackground().getEvents().add(event);

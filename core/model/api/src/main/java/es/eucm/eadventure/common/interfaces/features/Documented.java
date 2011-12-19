@@ -37,7 +37,7 @@
 
 package es.eucm.eadventure.common.interfaces.features;
 
-import es.eucm.eadventure.common.params.EAdString;
+import es.eucm.eadventure.common.params.text.EAdString;
 
 public interface Documented {
 

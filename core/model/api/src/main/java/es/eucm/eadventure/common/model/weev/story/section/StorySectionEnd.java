@@ -38,7 +38,7 @@
 package es.eucm.eadventure.common.model.weev.story.section;
 
 import es.eucm.eadventure.common.model.weev.story.elements.Node;
-import es.eucm.eadventure.common.params.EAdString;
+import es.eucm.eadventure.common.params.text.EAdString;
 
 /**
  * A {@link Node} that marks a possible end point for a {@link StorySection}

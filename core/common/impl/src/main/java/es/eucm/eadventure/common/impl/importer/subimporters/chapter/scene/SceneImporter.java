@@ -196,10 +196,10 @@ public class SceneImporter implements EAdElementImporter<Scene, EAdSceneImpl> {
 
 			int layer = oldScene.getPlayerLayer();
 
-			if (layer < 0) {
+			if (layer <= 0) {
 				scene.getComponents().add(playerReference);
 			} else {
-				scene.getComponents().add(playerReference, layer + 1);
+				scene.getComponents().add(playerReference, layer - 1);
 			}
 
 			scene.getBackground().addBehavior(

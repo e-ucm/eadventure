@@ -38,7 +38,7 @@
 package es.eucm.eadventure.common.model.weev.world;
 
 import es.eucm.eadventure.common.model.weev.Transition;
-import es.eucm.eadventure.common.params.EAdString;
+import es.eucm.eadventure.common.params.text.EAdString;
 
 /**
  * A link between two different {@link Space}s, which has a name and orientation

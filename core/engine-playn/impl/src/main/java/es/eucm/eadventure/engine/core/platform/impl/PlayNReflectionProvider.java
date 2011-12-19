@@ -45,8 +45,8 @@ import com.google.inject.Singleton;
 import com.gwtent.reflection.client.ClassHelper;
 import com.gwtent.reflection.client.ReflectionRequiredException;
 
+import es.eucm.eadventure.common.ReflectionProvider;
 import es.eucm.eadventure.common.interfaces.Element;
-import es.eucm.eadventure.common.interfaces.ReflectionProvider;
 import es.eucm.eadventure.common.model.EAdElement;
 
 @Singleton

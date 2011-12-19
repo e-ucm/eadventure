@@ -37,7 +37,7 @@
 
 package es.eucm.eadventure.editor.view.generics.impl;
 
-import es.eucm.eadventure.common.params.EAdString;
+import es.eucm.eadventure.common.params.text.EAdString;
 import es.eucm.eadventure.editor.view.generics.FieldDescriptor;
 
 public class EAdStringOption extends AbstractOption<EAdString> {

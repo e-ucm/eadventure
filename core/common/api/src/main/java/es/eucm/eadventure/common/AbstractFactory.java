@@ -35,15 +35,13 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package es.eucm.eadventure.common.interfaces;
+package es.eucm.eadventure.common;
 
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import es.eucm.eadventure.common.interfaces.EAdRuntimeException;
-import es.eucm.eadventure.common.interfaces.Factory;
-import es.eucm.eadventure.common.interfaces.MapProvider;
 
 /**
  * Abstract factory that gets an element of a certain class. This factory uses a

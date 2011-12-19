@@ -38,7 +38,7 @@
 package es.eucm.eadventure.common.model.weev.story.elements;
 
 import es.eucm.eadventure.common.model.weev.WEEVElement;
-import es.eucm.eadventure.common.params.EAdString;
+import es.eucm.eadventure.common.params.text.EAdString;
 
 /**
  * A hint, to help the player during the game.<p>

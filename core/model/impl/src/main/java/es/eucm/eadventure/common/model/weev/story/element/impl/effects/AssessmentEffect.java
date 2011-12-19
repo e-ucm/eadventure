@@ -40,7 +40,7 @@ package es.eucm.eadventure.common.model.weev.story.element.impl.effects;
 import es.eucm.eadventure.common.interfaces.Element;
 import es.eucm.eadventure.common.interfaces.Param;
 import es.eucm.eadventure.common.model.weev.story.element.impl.AbstractEffect;
-import es.eucm.eadventure.common.params.EAdString;
+import es.eucm.eadventure.common.params.text.EAdString;
 
 /**
  * Assessment of player effect.

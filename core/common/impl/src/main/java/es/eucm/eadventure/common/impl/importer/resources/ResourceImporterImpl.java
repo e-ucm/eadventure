@@ -307,7 +307,7 @@ public class ResourceImporterImpl implements ResourceImporter {
 		}
 		if (assetPath.startsWith("assets/animation")
 				|| assetPath.startsWith("assets/special/EmptyAnimation")) {
-			if (assetPath.endsWith(".eaa")) {
+			if (assetPath.endsWith(".eaa") || fileExists(assetPath + ".eaa")) {
 				Animation a = Loader.loadAnimation(inputStreamCreator,
 						assetPath, imageLoader);
 				asset = animationImporter.init(a);
@@ -352,10 +352,10 @@ public class ResourceImporterImpl implements ResourceImporter {
 	 * @return the asset
 	 */
 	private AssetDescriptor importImagesAnimation(String assetPath) {
-		String fileExtension = ".png";
-		if (!fileExists(assetPath + "_01" + fileExtension)) {
-			fileExtension = ".jpg";
-		}
+		String fileExtension = getFileExtension(assetPath);
+		if ( fileExtension == null )
+			return null;
+		
 		FramesAnimation frames = new FramesAnimation();
 		int frame = 1;
 		int frameTime = 500;
@@ -368,6 +368,20 @@ public class ResourceImporterImpl implements ResourceImporter {
 		if ( frames.getFrameCount() > 0 )
 				return frames;
 		else
+			return null;
+	}
+	
+	private String getFileExtension(String assetPath ){
+		String prefix = "_01";
+		if (fileExists(assetPath + prefix + ".png")){
+			return ".png";
+		}else if (fileExists(assetPath + prefix + ".jpg")){
+			return ".jpg";
+		}else if (fileExists(assetPath + prefix + ".PNG")){
+			return ".PNG";
+		}else if (fileExists(assetPath + prefix + ".JPG")){
+			return ".JPG";
+		} else
 			return null;
 	}
 

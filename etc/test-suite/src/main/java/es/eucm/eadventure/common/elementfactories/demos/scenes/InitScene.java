@@ -51,12 +51,12 @@ import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
 import es.eucm.eadventure.common.model.elements.impl.EAdSceneElementDefImpl;
 import es.eucm.eadventure.common.model.guievents.impl.EAdMouseEventImpl;
 import es.eucm.eadventure.common.model.transitions.EAdTransition;
-import es.eucm.eadventure.common.params.EAdFont;
 import es.eucm.eadventure.common.params.EAdFontImpl;
 import es.eucm.eadventure.common.params.fills.impl.EAdColor;
 import es.eucm.eadventure.common.params.fills.impl.EAdPaintImpl;
 import es.eucm.eadventure.common.params.geom.impl.EAdPositionImpl.Corner;
 import es.eucm.eadventure.common.params.paint.EAdFill;
+import es.eucm.eadventure.common.params.text.EAdFont;
 import es.eucm.eadventure.common.predef.model.sceneelements.EAdButton;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.ImageImpl;
 

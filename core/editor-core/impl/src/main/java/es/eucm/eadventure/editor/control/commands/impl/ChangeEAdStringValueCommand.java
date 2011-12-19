@@ -37,7 +37,7 @@
 
 package es.eucm.eadventure.editor.control.commands.impl;
 
-import es.eucm.eadventure.common.params.EAdString;
+import es.eucm.eadventure.common.params.text.EAdString;
 import es.eucm.eadventure.common.resources.StringHandler;
 import es.eucm.eadventure.editor.control.Command;
 

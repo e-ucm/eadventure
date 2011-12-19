@@ -38,7 +38,7 @@
 package es.eucm.eadventure.common.model.weev.story.element.impl;
 
 import es.eucm.eadventure.common.interfaces.Param;
-import es.eucm.eadventure.common.params.EAdString;
+import es.eucm.eadventure.common.params.text.EAdString;
 
 /**
  * Abstract extension of {@link AbstractNode} with a name {@link EAdString} field

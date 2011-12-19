@@ -44,7 +44,7 @@ import es.eucm.eadventure.common.model.extra.impl.EAdListImpl;
 import es.eucm.eadventure.common.model.weev.story.impl.AbstractStoryElement;
 import es.eucm.eadventure.common.model.weev.story.section.StorySection;
 import es.eucm.eadventure.common.model.weev.story.section.StorySectionStart;
-import es.eucm.eadventure.common.params.EAdString;
+import es.eucm.eadventure.common.params.text.EAdString;
 
 /**
  * Default implementation of {@link StorySection}

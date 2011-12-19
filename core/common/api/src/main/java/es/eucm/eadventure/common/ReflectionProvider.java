@@ -35,59 +35,19 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package es.eucm.eadventure.common.params;
+package es.eucm.eadventure.common;
 
-import java.util.Random;
+import es.eucm.eadventure.common.model.EAdElement;
 
-/**
- * General internationalized string asset interface.
- */
-public class EAdString implements EAdParam {
-	
-	/**
-	 * The id
-	 */
-	private String id;
-	
-	/**
-	 * Construct a new string with the given id
-	 * 
-	 * @param id The id of the EAdString
-	 */
-	public EAdString(String id) {
-		this.id = id;
-	}
-	
-	@Override
-	public String toString() {
-		return id;
-	}
-	
-	@Override
-	public int hashCode() {
-		return id.hashCode();
-	}
-	
-	@Override
-	public boolean equals( Object o ){
-		if ( o instanceof EAdString ){
-			return ((EAdString) o).id.equals(id);
-		}
-		return false;
-	}
 
-	@Override
-	public String toStringData() {
-		return id;
-	}
+public interface ReflectionProvider {
 
-	@Override
-	public void parse(String data) {
-		this.id = data;
-	}
+	Class<?>[] getInterfaces(Class<?> object);
 
-	public static EAdString newEAdString(String string) {
-		return new EAdString(string + (new Random()).nextInt(100000000));
-	}
+	boolean isAssignableFrom(Class<?> class1, Class<?> class2);
 	
+	Class<?> getSuperclass(Class<?> c);
+	
+	Class<?> getRuntimeClass(EAdElement element);
+
 }

@@ -49,11 +49,12 @@ import es.eucm.eadventure.common.model.extra.impl.EAdListImpl;
 import es.eucm.eadventure.common.model.impl.ResourcedElementImpl;
 import es.eucm.eadventure.common.model.variables.EAdVarDef;
 import es.eucm.eadventure.common.model.variables.impl.EAdVarDefImpl;
-import es.eucm.eadventure.common.params.EAdString;
+import es.eucm.eadventure.common.params.text.EAdString;
 import es.eucm.eadventure.common.resources.annotation.Asset;
 import es.eucm.eadventure.common.resources.annotation.Bundled;
 import es.eucm.eadventure.common.resources.assets.AssetDescriptor;
 import es.eucm.eadventure.common.resources.assets.drawable.Drawable;
+import es.eucm.eadventure.common.resources.assets.drawable.basics.Caption;
 
 @Element(runtime = EAdSceneElementDefImpl.class, detailed = EAdSceneElementDefImpl.class)
 public class EAdSceneElementDefImpl extends ResourcedElementImpl implements
@@ -160,5 +161,10 @@ public class EAdSceneElementDefImpl extends ResourcedElementImpl implements
 
 	public void setDoc(EAdString documentation) {
 		this.doc = documentation;
+	}
+
+	public void setInitialAppearance(Drawable d) {
+		this.getResources().addAsset(this.getInitialBundle(),
+				EAdSceneElementDefImpl.appearance, d);
 	}
 }

@@ -44,7 +44,7 @@ import java.util.logging.Logger;
 
 import com.google.gwt.xml.client.Node;
 
-import es.eucm.eadventure.common.model.DOMTags;
+import es.eucm.eadventure.common.DOMTags;
 
 public class ParamNodeVisitor extends NodeVisitor<Object> {
 

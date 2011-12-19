@@ -41,7 +41,7 @@ import java.util.logging.Level;
 
 import org.w3c.dom.Element;
 
-import es.eucm.eadventure.common.model.DOMTags;
+import es.eucm.eadventure.common.DOMTags;
 import es.eucm.eadventure.common.interfaces.EAdRuntimeException;
 import es.eucm.eadventure.common.model.EAdElement;
 

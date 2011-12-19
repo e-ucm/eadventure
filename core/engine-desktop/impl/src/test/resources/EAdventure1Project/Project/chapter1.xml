@@ -367,6 +367,8 @@
 			<end-conversation/>
 		</dialogue-node>
 	</graph-conversation>
+	<timer countDown="yes" displayName="timer" multipleStarts="no" runsInLoop="no" showTime="yes" showWhenStopped="no" time="60" usesEndCondition="no"/>
+	<timer countDown="yes" displayName="timer" multipleStarts="no" runsInLoop="no" showTime="yes" showWhenStopped="no" time="53" usesEndCondition="no"/>
 	<atrezzoobject id="AtrezzoId">
 		<resources name="No name">
 			<asset type="icon" uri="assets/special/EmptyIcon.png"/>

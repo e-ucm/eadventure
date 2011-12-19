@@ -80,7 +80,7 @@ import es.eucm.eadventure.common.model.guievents.impl.EAdDragEventImpl;
 import es.eucm.eadventure.common.model.variables.EAdField;
 import es.eucm.eadventure.common.model.variables.impl.EAdFieldImpl;
 import es.eucm.eadventure.common.model.variables.impl.operations.BooleanOperation;
-import es.eucm.eadventure.common.params.EAdString;
+import es.eucm.eadventure.common.params.text.EAdString;
 import es.eucm.eadventure.common.predef.model.effects.EAdMoveActiveElement;
 import es.eucm.eadventure.common.resources.EAdBundleId;
 import es.eucm.eadventure.common.resources.StringHandler;
@@ -586,8 +586,14 @@ public class ActionImporter implements EAdElementImporter<Action, EAdAction> {
 		}
 		triggerMacro.putMacro(macro, condition);
 
-		EAdSceneElementDefImpl target = (EAdSceneElementDefImpl) factory
-				.getElementById(a.getTargetId());
+		EAdElement e = factory.getElementById(a.getTargetId());
+		EAdSceneElementDef target = null;
+		if ( e instanceof EAdSceneElement ){
+			target = ((EAdSceneElement) e).getDefinition();
+		}
+		else if ( e instanceof EAdSceneElementDef ){
+			target = (EAdSceneElementDef) e;
+		}
 		
 		return target;
 

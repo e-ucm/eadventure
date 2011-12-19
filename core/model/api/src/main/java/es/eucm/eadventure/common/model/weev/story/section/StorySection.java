@@ -39,7 +39,7 @@ package es.eucm.eadventure.common.model.weev.story.section;
 
 import es.eucm.eadventure.common.model.extra.EAdList;
 import es.eucm.eadventure.common.model.weev.story.StoryElement;
-import es.eucm.eadventure.common.params.EAdString;
+import es.eucm.eadventure.common.params.text.EAdString;
 
 /**
  * A section or part of a {@link Story} that can be edited independently from

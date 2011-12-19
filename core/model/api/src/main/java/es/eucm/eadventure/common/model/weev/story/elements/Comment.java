@@ -38,7 +38,7 @@
 package es.eucm.eadventure.common.model.weev.story.elements;
 
 import es.eucm.eadventure.common.model.weev.story.StoryElement;
-import es.eucm.eadventure.common.params.EAdString;
+import es.eucm.eadventure.common.params.text.EAdString;
 
 /**
  * A comment in the {@link Story}, which will be represented in the visual representation

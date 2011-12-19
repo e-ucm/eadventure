@@ -39,14 +39,14 @@ package es.eucm.eadventure.common.model.events.impl;
 
 import es.eucm.eadventure.common.interfaces.Element;
 import es.eucm.eadventure.common.interfaces.Param;
-import es.eucm.eadventure.common.model.events.EAdSceneElementTimedEvent;
+import es.eucm.eadventure.common.model.events.EAdTimedEvent;
 
 @Element(detailed = EAdTimedEventImpl.class, runtime = EAdTimedEventImpl.class)
 public class EAdTimedEventImpl extends AbstractEAdEvent implements
-		EAdSceneElementTimedEvent {
+		EAdTimedEvent {
 
 	@Param("time")
-	private int time;
+	private long time;
 
 	@Param("repeats")
 	private int repeats;
@@ -65,11 +65,11 @@ public class EAdTimedEventImpl extends AbstractEAdEvent implements
 	}
 
 	@Override
-	public int getTime() {
+	public long getTime() {
 		return time;
 	}
 
-	public void setTime(int time) {
+	public void setTime(long time) {
 		this.time = time;
 	}
 

@@ -39,9 +39,9 @@ package es.eucm.eadventure.engine.assets;
 
 import android.graphics.Paint;
 import android.graphics.Typeface;
-import es.eucm.eadventure.common.params.EAdFont;
-import es.eucm.eadventure.common.params.FontStyle;
 import es.eucm.eadventure.common.params.geom.impl.EAdRectangleImpl;
+import es.eucm.eadventure.common.params.text.EAdFont;
+import es.eucm.eadventure.common.params.text.FontStyle;
 import es.eucm.eadventure.engine.core.platform.RuntimeFont;
 
 public class AndroidEngineFont implements RuntimeFont {

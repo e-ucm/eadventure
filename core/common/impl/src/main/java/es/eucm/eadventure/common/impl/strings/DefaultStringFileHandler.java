@@ -62,7 +62,7 @@ import org.xml.sax.SAXException;
 import com.google.inject.Singleton;
 
 import es.eucm.eadventure.common.StringFileHandler;
-import es.eucm.eadventure.common.params.EAdString;
+import es.eucm.eadventure.common.params.text.EAdString;
 
 @Singleton
 public class DefaultStringFileHandler implements StringFileHandler {

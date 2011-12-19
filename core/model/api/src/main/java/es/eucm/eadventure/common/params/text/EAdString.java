@@ -35,26 +35,61 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package es.eucm.eadventure.common.interfaces;
+package es.eucm.eadventure.common.params.text;
 
-import java.util.Map;
+import java.util.Random;
+
+import es.eucm.eadventure.common.params.EAdParam;
 
 /**
- * <p>
- * Map provider interface, to provide a map used by factories to find the
- * correspondence between different classes (e.g. assets and their renderers)
- * </p>
- * 
- * @param <S>
- *            The class of the keys
- * @param <T>
- *            The class of the values
+ * General internationalized string asset interface.
  */
-public interface MapProvider<S, T> {
-
+public class EAdString implements EAdParam {
+	
 	/**
-	 * @return the map provided by this class
+	 * The id
 	 */
-	Map<S, T> getMap();
+	private String id;
+	
+	/**
+	 * Construct a new string with the given id
+	 * 
+	 * @param id The id of the EAdString
+	 */
+	public EAdString(String id) {
+		this.id = id;
+	}
+	
+	@Override
+	public String toString() {
+		return id;
+	}
+	
+	@Override
+	public int hashCode() {
+		return id.hashCode();
+	}
+	
+	@Override
+	public boolean equals( Object o ){
+		if ( o instanceof EAdString ){
+			return ((EAdString) o).id.equals(id);
+		}
+		return false;
+	}
 
+	@Override
+	public String toStringData() {
+		return id;
+	}
+
+	@Override
+	public void parse(String data) {
+		this.id = data;
+	}
+
+	public static EAdString newEAdString(String string) {
+		return new EAdString(string + (new Random()).nextInt(100000000));
+	}
+	
 }

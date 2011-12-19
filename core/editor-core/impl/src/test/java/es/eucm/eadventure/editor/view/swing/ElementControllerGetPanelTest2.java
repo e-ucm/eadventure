@@ -47,7 +47,7 @@ import javax.swing.WindowConstants;
 import static org.mockito.Mockito.*;
 
 import es.eucm.eadventure.common.model.elements.EAdSceneElementDef;
-import es.eucm.eadventure.common.params.EAdString;
+import es.eucm.eadventure.common.params.text.EAdString;
 import es.eucm.eadventure.common.resources.StringHandler;
 import es.eucm.eadventure.editor.control.CommandManager;
 import es.eucm.eadventure.editor.control.ElementController;

@@ -39,26 +39,18 @@ package es.eucm.eadventure.common.model.elements.impl.extra;
 
 import es.eucm.eadventure.common.interfaces.Element;
 import es.eucm.eadventure.common.interfaces.Param;
-import es.eucm.eadventure.common.model.conditions.impl.EmptyCondition;
-import es.eucm.eadventure.common.model.conditions.impl.OperationCondition;
-import es.eucm.eadventure.common.model.conditions.impl.enums.Comparator;
 import es.eucm.eadventure.common.model.effects.impl.EAdChangeScene;
 import es.eucm.eadventure.common.model.effects.impl.variables.EAdChangeFieldValueEffect;
 import es.eucm.eadventure.common.model.elements.EAdChapter;
 import es.eucm.eadventure.common.model.elements.EAdScene;
 import es.eucm.eadventure.common.model.elements.impl.EAdComposedScene;
 import es.eucm.eadventure.common.model.elements.impl.EAdSceneImpl;
-import es.eucm.eadventure.common.model.elements.impl.EAdTimerImpl;
-import es.eucm.eadventure.common.model.events.EAdEvent;
-import es.eucm.eadventure.common.model.events.enums.ConditionedEventType;
-import es.eucm.eadventure.common.model.events.impl.EAdConditionEventImpl;
 import es.eucm.eadventure.common.model.extra.EAdList;
 import es.eucm.eadventure.common.model.extra.impl.EAdListImpl;
 import es.eucm.eadventure.common.model.guievents.impl.EAdMouseEventImpl;
 import es.eucm.eadventure.common.model.transitions.EAdTransition;
 import es.eucm.eadventure.common.model.variables.EAdField;
 import es.eucm.eadventure.common.model.variables.impl.EAdFieldImpl;
-import es.eucm.eadventure.common.model.variables.impl.operations.BooleanOperation;
 import es.eucm.eadventure.common.model.variables.impl.operations.MathOperation;
 
 /**
@@ -103,20 +95,20 @@ public class EAdCutscene extends EAdComposedScene {
 				slide.getBackground().getBehavior()
 						.addBehavior(EAdMouseEventImpl.MOUSE_LEFT_CLICK, e2);
 			} else {
-				EAdTimerImpl timer = new EAdTimerImpl();
-				timer.setId("timer");
-				timer.setTime(slide.getTime());
-//				chapter.getTimers().add(timer);
-
-				EAdEvent event = new EAdConditionEventImpl(
-						new OperationCondition(sceneLoaded, Boolean.TRUE, Comparator.EQUAL));
-				event.addEffect(ConditionedEventType.CONDITIONS_MET,
-						new EAdChangeFieldValueEffect(
-								new EAdFieldImpl<Boolean>(timer,
-										EAdTimerImpl.VAR_STARTED),
-								new BooleanOperation(
-										EmptyCondition.TRUE_EMPTY_CONDITION)));
-				events.add(event);
+//				EAdTimerImpl timer = new EAdTimerImpl();
+//				timer.setId("timer");
+//				timer.setTime(slide.getTime());
+////				chapter.getTimers().add(timer);
+//
+//				EAdEvent event = new EAdConditionEventImpl(
+//						new OperationCondition(sceneLoaded, Boolean.TRUE, Comparator.EQUAL));
+//				event.addEffect(ConditionedEventType.CONDITIONS_MET,
+//						new EAdChangeFieldValueEffect(
+//								new EAdFieldImpl<Boolean>(timer,
+//										EAdTimerImpl.VAR_STARTED),
+//								new BooleanOperation(
+//										EmptyCondition.TRUE_EMPTY_CONDITION)));
+//				events.add(event);
 
 //				EAdEvent event2 = new EAdTimerEventImpl(timer);
 //				event2.addEffect(TimerEventType.TIMER_ENDED, e);

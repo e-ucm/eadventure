@@ -39,7 +39,7 @@ package es.eucm.eadventure.engine.core.platform;
 
 import java.util.Map;
 
-import es.eucm.eadventure.common.params.EAdString;
+import es.eucm.eadventure.common.params.text.EAdString;
 import es.eucm.eadventure.common.resources.StringHandler;
 
 public class TestStringsReader implements StringHandler {

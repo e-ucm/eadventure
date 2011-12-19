@@ -37,7 +37,7 @@
 
 package es.eucm.eadventure.engine.core.operator;
 
-import es.eucm.eadventure.common.interfaces.Factory;
+import es.eucm.eadventure.common.Factory;
 import es.eucm.eadventure.common.model.EAdElement;
 import es.eucm.eadventure.common.model.variables.EAdField;
 import es.eucm.eadventure.common.model.variables.EAdOperation;
