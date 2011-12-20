@@ -40,19 +40,25 @@ package es.eucm.eadventure.engine.extra;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
+
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Rect;
 import android.graphics.drawable.GradientDrawable;
+
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+
 import es.eucm.eadventure.common.model.actions.EAdAction;
 import es.eucm.eadventure.common.model.extra.EAdList;
 import es.eucm.eadventure.common.params.geom.EAdPosition;
 import es.eucm.eadventure.common.params.geom.impl.EAdPositionImpl;
 import es.eucm.eadventure.common.params.geom.impl.EAdPositionImpl.Corner;
+import es.eucm.eadventure.common.util.EAdTransformation;
+import es.eucm.eadventure.common.util.impl.EAdInterpolator;
+import es.eucm.eadventure.common.util.impl.EAdTransformationImpl;
 import es.eucm.eadventure.engine.core.game.GameLoop;
-import es.eucm.eadventure.engine.core.GameState;
+import es.eucm.eadventure.engine.core.game.GameState;
 import es.eucm.eadventure.engine.core.gameobjects.GameObjectManager;
 import es.eucm.eadventure.engine.core.gameobjects.factories.SceneElementGOFactory;
 import es.eucm.eadventure.engine.core.gameobjects.go.SceneElementGO;
@@ -61,11 +67,8 @@ import es.eucm.eadventure.engine.core.gameobjects.huds.impl.AbstractHUD;
 import es.eucm.eadventure.engine.core.gameobjects.huds.impl.ActionSceneElement;
 import es.eucm.eadventure.engine.core.guiactions.GUIAction;
 import es.eucm.eadventure.engine.core.guiactions.MouseAction;
-import es.eucm.eadventure.engine.core.platform.rendering.EAdCanvas;
 import es.eucm.eadventure.engine.core.platform.GUI;
-import es.eucm.eadventure.common.util.EAdTransformation;
-import es.eucm.eadventure.common.util.impl.EAdInterpolator;
-import es.eucm.eadventure.common.util.impl.EAdTransformationImpl;
+import es.eucm.eadventure.engine.core.platform.rendering.EAdCanvas;
 
 
 @Singleton
