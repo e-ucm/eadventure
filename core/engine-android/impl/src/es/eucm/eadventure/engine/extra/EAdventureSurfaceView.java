@@ -47,9 +47,7 @@ import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
-
 import com.google.inject.Singleton;
-
 import es.eucm.eadventure.common.model.guievents.enums.MouseActionType;
 import es.eucm.eadventure.common.model.guievents.enums.MouseButton;
 import es.eucm.eadventure.common.model.guievents.impl.EAdMouseEventImpl;
@@ -126,7 +124,7 @@ public class EAdventureSurfaceView extends SurfaceView implements SurfaceHolder.
 				mouseState.getMouseEvents().add(action);
 			}
 			
-			mouseState.setMousePressed(false, MouseButton.BUTTON_1);
+			mouseState.setMousePressed(false, null);
 			return true;
 		}
 	}
@@ -143,14 +141,15 @@ public class EAdventureSurfaceView extends SurfaceView implements SurfaceHolder.
 		public boolean onTouch(View v, MotionEvent event) {
 
 			int x = (int) event.getRawX();
-			int y = (int) event.getRawY();
+			int y = (int) event.gerRawY() - 50;
+
 			mouseState.setMousePosition(x, y);
 
 			if (gestureDetector.onTouchEvent(event)) {
 				return true;
 			}
 
-			if(event.getAction() == MotionEvent.ACTION_UP) {
+			if (event.getAction() == MotionEvent.ACTION_UP) {
 				mouseState.setMousePressed(false, null);
 			}
 

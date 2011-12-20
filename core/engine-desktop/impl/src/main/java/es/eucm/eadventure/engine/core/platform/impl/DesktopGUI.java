@@ -284,7 +284,7 @@ public class DesktopGUI extends AbstractGUI<Graphics2D> implements GUI {
 					frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 					frame.setSize(platformConfiguration.getWidth(),
 							platformConfiguration.getHeight());
-					frame.setUndecorated(true);
+					frame.setUndecorated(false);
 					frame.setIgnoreRepaint(true);
 
 					if (platformConfiguration.isFullscreen()) {

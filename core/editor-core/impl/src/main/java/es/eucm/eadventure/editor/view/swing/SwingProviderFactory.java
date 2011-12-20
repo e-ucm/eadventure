@@ -53,7 +53,6 @@ import es.eucm.eadventure.editor.view.generics.impl.ElementOption;
 import es.eucm.eadventure.editor.view.generics.impl.PanelImpl;
 import es.eucm.eadventure.editor.view.generics.impl.TextOption;
 import es.eucm.eadventure.editor.view.generics.scene.PreviewPanel;
-import es.eucm.eadventure.editor.view.generics.scene.impl.SceneInterfaceElement;
 import es.eucm.eadventure.editor.view.impl.AbstractProviderFactory;
 import es.eucm.eadventure.editor.view.swing.componentproviders.BooleanComponentProvider;
 import es.eucm.eadventure.editor.view.swing.componentproviders.EAdConditionComponentProvider;
@@ -63,7 +62,6 @@ import es.eucm.eadventure.editor.view.swing.componentproviders.ElementComponentP
 import es.eucm.eadventure.editor.view.swing.componentproviders.PanelComponentProvider;
 import es.eucm.eadventure.editor.view.swing.componentproviders.TextComponentProvider;
 import es.eucm.eadventure.editor.view.swing.scene.PreviewPanelComponentProvider;
-import es.eucm.eadventure.editor.view.swing.scene.SceneEditionComponentProvider;
 
 /**
  * Java Swing {@link ProviderFactory}
@@ -95,9 +93,6 @@ public class SwingProviderFactory extends AbstractProviderFactory<JComponent> {
 		this.addToMap(EAdConditionOption.class,
 				(ComponentProvider) new EAdConditionComponentProvider(
 						fieldValueReader));
-		this.addToMap(SceneInterfaceElement.class,
-				(ComponentProvider) new SceneEditionComponentProvider(
-						commandManager));
 		this.addToMap(PreviewPanel.class,
 				(ComponentProvider) new PreviewPanelComponentProvider(
 						commandManager));
