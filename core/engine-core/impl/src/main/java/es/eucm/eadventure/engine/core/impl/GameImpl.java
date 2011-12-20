@@ -148,8 +148,8 @@ public class GameImpl implements Game {
 			processEffects();
 			updateChapterEvents();
 			gameState.getScene().update();
-			gameObjectManager.updateHUDs();
 		}
+		gameObjectManager.updateHUDs();
 		initialTransformation = gui.getInitialTransformation();
 		gui.addElement(gameState.getScene(), initialTransformation);
 		// Add huds
