@@ -27,7 +27,7 @@ import es.eucm.eadventure.engine.core.gameobjects.factories.SceneElementGOFactor
 import es.eucm.eadventure.engine.core.gameobjects.huds.MenuHUD;
 import es.eucm.eadventure.engine.core.gameobjects.huds.impl.BasicHUDImpl;
 import es.eucm.eadventure.engine.core.platform.AssetHandler;
-import es.eucm.eadventure.engine.core.platform.EAdCanvas;
+import es.eucm.eadventure.engine.core.platform.rendering.EAdCanvas;
 import es.eucm.eadventure.engine.core.platform.GUI;
 import es.eucm.eadventure.engine.core.platform.PlatformConfiguration;
 import es.eucm.eadventure.engine.extra.BitmapCanvas;

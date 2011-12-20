@@ -47,7 +47,6 @@ import android.graphics.drawable.GradientDrawable;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import es.eucm.eadventure.common.model.actions.EAdAction;
-import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
 import es.eucm.eadventure.common.model.extra.EAdList;
 import es.eucm.eadventure.common.params.geom.EAdPosition;
 import es.eucm.eadventure.common.params.geom.impl.EAdPositionImpl;
@@ -62,11 +61,11 @@ import es.eucm.eadventure.engine.core.gameobjects.huds.impl.AbstractHUD;
 import es.eucm.eadventure.engine.core.gameobjects.huds.impl.ActionSceneElement;
 import es.eucm.eadventure.engine.core.guiactions.GUIAction;
 import es.eucm.eadventure.engine.core.guiactions.MouseAction;
-import es.eucm.eadventure.engine.core.platform.EAdCanvas;
+import es.eucm.eadventure.engine.core.platform.rendering.EAdCanvas;
 import es.eucm.eadventure.engine.core.platform.GUI;
-import es.eucm.eadventure.engine.core.util.EAdTransformation;
-import es.eucm.eadventure.engine.core.util.impl.EAdInterpolator;
-import es.eucm.eadventure.engine.core.util.impl.EAdTransformationImpl;
+import es.eucm.eadventure.common.util.EAdTransformation;
+import es.eucm.eadventure.common.util.impl.EAdInterpolator;
+import es.eucm.eadventure.common.util.impl.EAdTransformationImpl;
 
 
 @Singleton
