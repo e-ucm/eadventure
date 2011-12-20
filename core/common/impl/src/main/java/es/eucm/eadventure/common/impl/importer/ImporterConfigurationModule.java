@@ -55,6 +55,7 @@ import es.eucm.eadventure.common.data.chapter.Trajectory;
 import es.eucm.eadventure.common.data.chapter.book.Book;
 import es.eucm.eadventure.common.data.chapter.conditions.Conditions;
 import es.eucm.eadventure.common.data.chapter.conditions.FlagCondition;
+import es.eucm.eadventure.common.data.chapter.conditions.GlobalState;
 import es.eucm.eadventure.common.data.chapter.conversation.Conversation;
 import es.eucm.eadventure.common.data.chapter.conversation.GraphConversation;
 import es.eucm.eadventure.common.data.chapter.conversation.line.ConversationLine;
@@ -197,6 +198,9 @@ public class ImporterConfigurationModule extends AbstractModule {
 		bind(new TypeLiteral<EAdElementImporter<Conditions, EAdCondition>>() {
 		}).to(ConditionsImporter.class);
 		EAdElementFactoryImpl.importerMap.put(Conditions.class,
+				ConditionsImporter.class);
+		
+		EAdElementFactoryImpl.importerMap.put(GlobalState.class,
 				ConditionsImporter.class);
 
 		bind(new TypeLiteral<EAdElementImporter<Macro, EAdMacro>>() {

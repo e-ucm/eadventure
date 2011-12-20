@@ -45,7 +45,7 @@ import com.google.inject.Inject;
 import es.eucm.eadventure.common.interfaces.Param;
 import es.eucm.eadventure.common.model.effects.impl.EAdChangeScene;
 import es.eucm.eadventure.common.model.elements.EAdScene;
-import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
+import es.eucm.eadventure.common.model.elements.impl.EAdSceneElementDefImpl;
 import es.eucm.eadventure.common.model.elements.impl.EAdSceneImpl;
 import es.eucm.eadventure.common.model.events.EAdEvent;
 import es.eucm.eadventure.common.model.events.enums.SystemEventType;
@@ -55,18 +55,22 @@ import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.ImageImpl
 public class LoadingScreen extends EAdSceneImpl implements EAdScene {
 
 	private Logger logger = Logger.getLogger("LoadingScreen");
-	
+
 	@Param("effect")
 	private EAdChangeScene effect;
-	
+
 	@Inject
 	public LoadingScreen() {
-		super( );
+		super();
 		setId("LoadingScreen");
 		logger.log(Level.INFO, "New instance");
-		
-		getBackground().getResources().addAsset(getBackground().getInitialBundle(), EAdBasicSceneElement.appearance,
-				new ImageImpl("@drawable/loading.png"));
+
+		getBackground()
+				.getDefinition()
+				.getResources()
+				.addAsset(getBackground().getDefinition().getInitialBundle(),
+						EAdSceneElementDefImpl.appearance,
+						new ImageImpl("@drawable/loading.png"));
 		EAdEvent event = new EAdSystemEventImpl();
 		event.setId("startEvent");
 		effect = new EAdChangeScene();
@@ -74,10 +78,9 @@ public class LoadingScreen extends EAdSceneImpl implements EAdScene {
 		event.addEffect(SystemEventType.GAME_LOADED, effect);
 		this.getEvents().add(event);
 	}
-	
+
 	public void setInitialScreen(EAdScene screen) {
 		effect.setNextScene(screen);
 	}
-
 
 }

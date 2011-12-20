@@ -88,7 +88,8 @@ public class EAdTextPane extends JTextPane {
     
     public EAdTextPane() {
     	context = new StyleContext();
-        setEditorKit( new FontEditorKit() );        
+        setEditorKit( new FontEditorKit() );
+        
     }
     
     public Style getAttributes(int fontSize, boolean bold, boolean italic) {

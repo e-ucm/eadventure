@@ -43,6 +43,7 @@ import es.eucm.eadventure.common.model.elements.EAdScene;
 import es.eucm.eadventure.common.model.trajectories.TrajectoryDefinition;
 import es.eucm.eadventure.common.model.variables.EAdVarDef;
 import es.eucm.eadventure.common.model.variables.impl.EAdVarDefImpl;
+import es.eucm.eadventure.common.resources.assets.drawable.Drawable;
 
 /**
  * <p>
@@ -62,14 +63,14 @@ public class EAdSceneImpl extends EAdComplexElementImpl implements EAdScene {
 	@Param("background")
 	protected EAdBasicSceneElement background;
 
-	@Param(value="acceptsVisualEffects", defaultValue="true")
+	@Param(value = "acceptsVisualEffects", defaultValue = "true")
 	protected Boolean acceptsVisualEffects;
 
 	/**
 	 * This property indicates if the game can return to this scene after a
 	 * cutscene or similiar
 	 */
-	@Param(value="returnable", defaultValue="true")
+	@Param(value = "returnable", defaultValue = "true")
 	protected Boolean returnable;
 
 	/**
@@ -79,8 +80,12 @@ public class EAdSceneImpl extends EAdComplexElementImpl implements EAdScene {
 	 *            The parent element in the model
 	 */
 	public EAdSceneImpl() {
+		this(null);
+	}
+
+	public EAdSceneImpl(Drawable backgroundDrawable) {
 		super();
-		background = new EAdBasicSceneElement();
+		background = new EAdBasicSceneElement(backgroundDrawable);
 		background.setId("background");
 		returnable = true;
 		acceptsVisualEffects = true;
@@ -112,7 +117,7 @@ public class EAdSceneImpl extends EAdComplexElementImpl implements EAdScene {
 	public Boolean getAcceptsVisualEffects() {
 		return acceptsVisualEffects;
 	}
-	
+
 	public void setAcceptsVisualEffects(Boolean acceptsVisualEffects) {
 		this.acceptsVisualEffects = acceptsVisualEffects;
 	}

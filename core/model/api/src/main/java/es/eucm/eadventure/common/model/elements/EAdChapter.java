@@ -37,6 +37,7 @@
 
 package es.eucm.eadventure.common.model.elements;
 
+import es.eucm.eadventure.common.interfaces.features.Evented;
 import es.eucm.eadventure.common.interfaces.features.Resourced;
 import es.eucm.eadventure.common.interfaces.features.Variabled;
 import es.eucm.eadventure.common.model.EAdElement;
@@ -46,7 +47,7 @@ import es.eucm.eadventure.common.resources.annotation.Asset;
 import es.eucm.eadventure.common.resources.annotation.Bundled;
 import es.eucm.eadventure.common.resources.assets.multimedia.Sound;
 
-public interface EAdChapter extends EAdElement, Resourced, Variabled {
+public interface EAdChapter extends EAdElement, Resourced, Variabled, Evented {
 
 	@Bundled
 	@Asset({ Sound.class })
@@ -65,13 +66,6 @@ public interface EAdChapter extends EAdElement, Resourced, Variabled {
 	 * @return the actors of the chapter.
 	 */
 	EAdList<EAdSceneElementDef> getActors();
-
-	/**
-	 * Returns the timers of the chapter.
-	 * 
-	 * @return the timers of the chapter.
-	 */
-	EAdList<EAdTimer> getTimers();
 
 	/**
 	 * @return The title of the chapter

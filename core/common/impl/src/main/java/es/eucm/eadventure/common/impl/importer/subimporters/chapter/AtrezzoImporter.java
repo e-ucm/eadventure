@@ -59,11 +59,11 @@ public class AtrezzoImporter extends ActorImporter<Atrezzo>{
 	public AtrezzoImporter(StringHandler stringHandler,
 			ResourceImporter resourceImporter,
 			EAdElementFactory elementFactory,
-			EAdElementImporter<Action, EAdAction> actionImporter) {
-		super(stringHandler, resourceImporter, elementFactory, actionImporter);
+			EAdElementImporter<Action, EAdAction> actionImporter, EAdElementFactory factory) {
+		super(stringHandler, resourceImporter, elementFactory, actionImporter, factory);
 	}
 
-	protected void addActions(Atrezzo oldObject, EAdSceneElementDef actor){
+	protected void addActionsEffect(Atrezzo oldObject, EAdSceneElementDef actor){
 		// Atrezzo doesn't need to add any action
 	}
 

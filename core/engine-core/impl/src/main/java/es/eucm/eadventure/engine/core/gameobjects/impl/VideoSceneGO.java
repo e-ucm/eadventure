@@ -45,6 +45,7 @@ import es.eucm.eadventure.common.model.effects.EAdEffect;
 import es.eucm.eadventure.common.model.elements.impl.EAdVideoScene;
 import es.eucm.eadventure.common.resources.StringHandler;
 import es.eucm.eadventure.common.resources.assets.multimedia.Video;
+import es.eucm.eadventure.common.util.EAdTransformation;
 import es.eucm.eadventure.engine.core.GameState;
 import es.eucm.eadventure.engine.core.gameobjects.SceneGO;
 import es.eucm.eadventure.engine.core.gameobjects.factories.EventGOFactory;
@@ -52,10 +53,8 @@ import es.eucm.eadventure.engine.core.gameobjects.factories.SceneElementGOFactor
 import es.eucm.eadventure.engine.core.gameobjects.impl.sceneelements.SceneElementGOImpl;
 import es.eucm.eadventure.engine.core.guiactions.GUIAction;
 import es.eucm.eadventure.engine.core.platform.AssetHandler;
-import es.eucm.eadventure.engine.core.platform.EAdCanvas;
 import es.eucm.eadventure.engine.core.platform.GUI;
 import es.eucm.eadventure.engine.core.platform.SpecialAssetRenderer;
-import es.eucm.eadventure.engine.core.util.EAdTransformation;
 
 public class VideoSceneGO extends SceneElementGOImpl<EAdVideoScene> implements
 		SceneGO<EAdVideoScene> {
@@ -82,7 +81,7 @@ public class VideoSceneGO extends SceneElementGOImpl<EAdVideoScene> implements
 	public void doLayout(EAdTransformation transformation) {
 		if (component == null)
 			component = specialAssetRenderer.getComponent((Video) element
-					.getAsset(EAdVideoScene.video));
+					.getDefinition().getAsset(EAdVideoScene.video));
 		if (specialAssetRenderer.isFinished()) {
 			gui.showSpecialResource(null, 0, 0, true);
 			component = null;
@@ -114,13 +113,7 @@ public class VideoSceneGO extends SceneElementGOImpl<EAdVideoScene> implements
 	}
 
 	@Override
-	public void render(EAdCanvas c) {
-
-	}
-
-	@Override
 	public boolean processAction(GUIAction action) {
-		// TODO Auto-generated method stub
 		return false;
 	}
 

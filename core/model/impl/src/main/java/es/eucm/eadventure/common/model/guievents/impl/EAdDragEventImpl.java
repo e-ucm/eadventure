@@ -40,6 +40,7 @@ package es.eucm.eadventure.common.model.guievents.impl;
 import es.eucm.eadventure.common.interfaces.Element;
 import es.eucm.eadventure.common.interfaces.Param;
 import es.eucm.eadventure.common.model.EAdElement;
+import es.eucm.eadventure.common.model.elements.EAdSceneElementDef;
 import es.eucm.eadventure.common.model.guievents.EAdDragEvent;
 import es.eucm.eadventure.common.model.guievents.enums.DragAction;
 import es.eucm.eadventure.common.model.impl.EAdElementImpl;
@@ -48,7 +49,7 @@ import es.eucm.eadventure.common.model.impl.EAdElementImpl;
 public class EAdDragEventImpl extends EAdElementImpl implements EAdDragEvent {
 
 	@Param("carryElement")
-	private EAdElement carryElement;
+	private EAdSceneElementDef carryElement;
 
 	@Param("action")
 	private DragAction action;
@@ -57,7 +58,7 @@ public class EAdDragEventImpl extends EAdElementImpl implements EAdDragEvent {
 
 	}
 
-	public EAdDragEventImpl(EAdElement object, DragAction action) {
+	public EAdDragEventImpl(EAdSceneElementDef object, DragAction action) {
 		super();
 		setId("dropEvent_" + object + "_" + action);
 		this.carryElement = object;
@@ -91,7 +92,8 @@ public class EAdDragEventImpl extends EAdElementImpl implements EAdDragEvent {
 	@Override
 	public EAdElement copy(boolean deepCopy) {
 		if (deepCopy) {
-			EAdElement element = carryElement.copy(true);
+			EAdSceneElementDef element = (EAdSceneElementDef) carryElement
+					.copy(true);
 			return new EAdDragEventImpl(element, action);
 		} else
 			return copy();
@@ -103,7 +105,7 @@ public class EAdDragEventImpl extends EAdElementImpl implements EAdDragEvent {
 	}
 
 	@Override
-	public EAdElement getCarryElement() {
+	public EAdSceneElementDef getCarryElement() {
 		return carryElement;
 	}
 
@@ -112,14 +114,12 @@ public class EAdDragEventImpl extends EAdElementImpl implements EAdDragEvent {
 		return action;
 	}
 
-	public void setCarryElement(EAdElement carryElement) {
+	public void setCarryElement(EAdSceneElementDef carryElement) {
 		this.carryElement = carryElement;
 	}
 
 	public void setAction(DragAction action) {
 		this.action = action;
 	}
-	
-	
 
 }

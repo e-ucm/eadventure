@@ -37,9 +37,13 @@
 
 package es.eucm.eadventure.common.model.elements;
 
+import es.eucm.eadventure.common.interfaces.WithBehavior;
+import es.eucm.eadventure.common.interfaces.features.Draggable;
+import es.eucm.eadventure.common.interfaces.features.Evented;
 import es.eucm.eadventure.common.interfaces.features.Variabled;
+import es.eucm.eadventure.common.model.EAdElement;
 
-public interface EAdSceneElement extends EAdSceneElementDef, Variabled {
+public interface EAdSceneElement extends EAdElement, WithBehavior, Variabled, Evented, Draggable {
 
 	/**
 	 * Returns the definition for this scene element
@@ -47,13 +51,5 @@ public interface EAdSceneElement extends EAdSceneElementDef, Variabled {
 	 * @return the definition for this scene element
 	 */
 	EAdSceneElementDef getDefinition();
-
-	/**
-	 * Returns true if whenever this element is added to a scene, its variables
-	 * must be reset to their initial values
-	 * 
-	 * @return
-	 */
-	boolean isClone();
 
 }

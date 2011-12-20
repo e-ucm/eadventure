@@ -37,12 +37,11 @@
 
 package es.eucm.eadventure.engine.core.guiactions.impl;
 
-import es.eucm.eadventure.common.model.EAdElement;
-import es.eucm.eadventure.common.model.guievents.enums.DragAction;
+import es.eucm.eadventure.common.model.elements.EAdSceneElementDef;
 import es.eucm.eadventure.common.model.guievents.EAdGUIEvent;
+import es.eucm.eadventure.common.model.guievents.enums.DragAction;
 import es.eucm.eadventure.common.model.guievents.enums.MouseActionType;
 import es.eucm.eadventure.common.model.guievents.impl.EAdDragEventImpl;
-import es.eucm.eadventure.engine.core.gameobjects.GameObject;
 import es.eucm.eadventure.engine.core.guiactions.DropAction;
 
 public class DragActionImpl implements DropAction {
@@ -61,18 +60,12 @@ public class DragActionImpl implements DropAction {
 
 	private EAdDragEventImpl event;
 
-	public DragActionImpl(EAdElement draggingElement, DragAction action,
+	public DragActionImpl(EAdSceneElementDef draggingElement, DragAction action,
 			int virtualX, int virtualY) {
 		this.virtualX = virtualX;
 		this.virtualY = virtualY;
 		this.event = new EAdDragEventImpl(draggingElement, action);
 		consumed = false;
-	}
-
-	public DragActionImpl(GameObject<? extends EAdElement> draggingElement,
-			DragAction action, int virtualX, int virtualY) {
-		this(draggingElement.getElement(), action, virtualX, virtualY);
-
 	}
 
 	@Override

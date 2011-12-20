@@ -1,3 +1,40 @@
+/**
+ * eAdventure (formerly <e-Adventure> and <e-Game>) is a research project of the
+ *    <e-UCM> research group.
+ *
+ *    Copyright 2005-2010 <e-UCM> research group.
+ *
+ *    You can access a list of all the contributors to eAdventure at:
+ *          http://e-adventure.e-ucm.es/contributors
+ *
+ *    <e-UCM> is a research group of the Department of Software Engineering
+ *          and Artificial Intelligence at the Complutense University of Madrid
+ *          (School of Computer Science).
+ *
+ *          C Profesor Jose Garcia Santesmases sn,
+ *          28040 Madrid (Madrid), Spain.
+ *
+ *          For more info please visit:  <http://e-adventure.e-ucm.es> or
+ *          <http://www.e-ucm.es>
+ *
+ * ****************************************************************************
+ *
+ *  This file is part of eAdventure, version 2.0
+ *
+ *      eAdventure is free software: you can redistribute it and/or modify
+ *      it under the terms of the GNU Lesser General Public License as published by
+ *      the Free Software Foundation, either version 3 of the License, or
+ *      (at your option) any later version.
+ *
+ *      eAdventure is distributed in the hope that it will be useful,
+ *      but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *      MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *      GNU Lesser General Public License for more details.
+ *
+ *      You should have received a copy of the GNU Lesser General Public License
+ *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
 package es.eucm.eadventure.engine.core.debuggers.impl;
 
 import java.util.ArrayList;
@@ -8,8 +45,11 @@ import com.google.inject.Singleton;
 
 import es.eucm.eadventure.common.model.elements.EAdScene;
 import es.eucm.eadventure.common.model.elements.EAdSceneElement;
+import es.eucm.eadventure.common.model.elements.EAdSceneElementDef;
 import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
+import es.eucm.eadventure.common.model.elements.impl.EAdSceneElementDefImpl;
 import es.eucm.eadventure.common.model.elements.impl.EAdSceneImpl;
+import es.eucm.eadventure.common.model.extra.EAdList;
 import es.eucm.eadventure.common.model.trajectories.TrajectoryDefinition;
 import es.eucm.eadventure.common.model.trajectories.impl.Node;
 import es.eucm.eadventure.common.model.trajectories.impl.NodeTrajectoryDefinition;
@@ -18,6 +58,8 @@ import es.eucm.eadventure.common.model.trajectories.impl.SimpleTrajectoryDefinit
 import es.eucm.eadventure.common.params.fills.impl.EAdColor;
 import es.eucm.eadventure.common.params.fills.impl.EAdPaintImpl;
 import es.eucm.eadventure.common.params.geom.EAdPosition;
+import es.eucm.eadventure.common.params.geom.EAdRectangle;
+import es.eucm.eadventure.common.params.paint.EAdPaint;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.shapes.BezierShape;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.shapes.CircleShape;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.shapes.LineShape;
@@ -66,7 +108,7 @@ public class TrajectoryDebugger implements EAdDebugger {
 			createTrajectory();
 		}
 
-		if (currentTrajectory instanceof NodeTrajectoryDefinition ) {
+		if (currentTrajectory instanceof NodeTrajectoryDefinition) {
 			int i = 0;
 			for (EAdSceneElement e : ((NodeTrajectoryDefinition) currentTrajectory)
 					.getBarriers()) {
@@ -92,18 +134,38 @@ public class TrajectoryDebugger implements EAdDebugger {
 
 			if (currentTrajectory instanceof NodeTrajectoryDefinition) {
 				createNodes((NodeTrajectoryDefinition) currentTrajectory);
+				addInfluenceAreas(gameState.getScene().getElement()
+						.getComponents());
 			} else if (currentTrajectory instanceof SimpleTrajectoryDefinition) {
 				SimpleTrajectoryDefinition def = (SimpleTrajectoryDefinition) currentTrajectory;
 				EAdBasicSceneElement area = new EAdBasicSceneElement(
-						 new RectangleShape(def.getRight()
-								- def.getLeft(), def.getBottom() - def.getTop(),
-								new EAdColor(0, 200, 0, 100)));
+						new RectangleShape(def.getRight() - def.getLeft(), def
+								.getBottom() - def.getTop(), new EAdColor(0,
+								200, 0, 100)));
 				area.setId("walking_area");
 				area.setPosition(def.getLeft(), def.getTop());
 				gameObjects.add(sceneElementFactory.get(area));
 			}
 		}
 
+	}
+
+	private void addInfluenceAreas(EAdList<EAdSceneElement> sceneElements) {
+		EAdPaint p = new EAdColor(0, 0, 200, 100);
+		for (EAdSceneElement sceneElement : sceneElements) {
+			EAdRectangle rectangle = gameState.getValueMap().getValue(
+					sceneElement, NodeTrajectoryDefinition.VAR_INFLUENCE_AREA);
+			if (rectangle != null) {
+				RectangleShape shape = new RectangleShape(
+						rectangle.getWidth(), rectangle.getHeight());
+				shape.setPaint(p);
+				
+				EAdBasicSceneElement area = new EAdBasicSceneElement(shape);
+				area.setVarInitialValue(EAdBasicSceneElement.VAR_ENABLE, false);
+				area.setPosition(rectangle.getX(), rectangle.getY());
+				gameObjects.add(sceneElementFactory.get(area));
+			}
+		}
 	}
 
 	private void createNodes(NodeTrajectoryDefinition trajectory) {
@@ -129,18 +191,18 @@ public class TrajectoryDebugger implements EAdDebugger {
 			map.addDrawable(circle);
 		}
 
-		EAdBasicSceneElement mapElement = new EAdBasicSceneElement();
+		EAdBasicSceneElement mapElement = new EAdBasicSceneElement(map);
 		mapElement.setId("trajectoryMap");
-		mapElement.getResources().addAsset(mapElement.getInitialBundle(),
-				EAdBasicSceneElement.appearance, map);
 
 		for (EAdSceneElement e : trajectory.getBarriers()) {
-			BezierShape s = (BezierShape) e.getAsset(e.getInitialBundle(),
-					EAdBasicSceneElement.appearance);
+			EAdSceneElementDef def = e.getDefinition();
+			BezierShape s = (BezierShape) def.getAsset(def.getInitialBundle(),
+					EAdSceneElementDefImpl.appearance);
 			BezierShape barrier = (BezierShape) s.clone();
 			barrier.setPaint(EAdColor.YELLOW);
 			barriers.add(barrier);
-			EAdPosition p =((DrawableGO<?>) sceneElementFactory.get(e)).getPosition();
+			EAdPosition p = ((DrawableGO<?>) sceneElementFactory.get(e))
+					.getPosition();
 			map.addDrawable(barrier, p.getX(), p.getY());
 		}
 

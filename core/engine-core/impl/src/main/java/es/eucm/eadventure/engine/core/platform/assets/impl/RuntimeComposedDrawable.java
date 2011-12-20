@@ -49,7 +49,7 @@ import es.eucm.eadventure.common.resources.assets.drawable.compounds.ComposedDra
 import es.eucm.eadventure.common.resources.assets.drawable.compounds.DisplacedDrawable;
 import es.eucm.eadventure.engine.core.platform.AssetHandler;
 import es.eucm.eadventure.engine.core.platform.DrawableAsset;
-import es.eucm.eadventure.engine.core.platform.EAdCanvas;
+import es.eucm.eadventure.engine.core.platform.rendering.EAdCanvas;
 
 /**
  * Represents a runtime engine composed drawable, associated with an

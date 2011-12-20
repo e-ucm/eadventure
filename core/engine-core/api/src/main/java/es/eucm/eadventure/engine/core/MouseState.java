@@ -42,6 +42,7 @@ import java.util.Queue;
 import es.eucm.eadventure.common.model.elements.EAdSceneElementDef;
 import es.eucm.eadventure.common.model.guievents.enums.MouseButton;
 import es.eucm.eadventure.engine.core.gameobjects.DrawableGO;
+import es.eucm.eadventure.engine.core.gameobjects.SceneElementGO;
 import es.eucm.eadventure.engine.core.guiactions.MouseAction;
 
 /**
@@ -65,12 +66,26 @@ public interface MouseState {
 	int getMouseX();
 
 	/**
+	 * Returns the x coordinate for the mouse, using the platform scale
+	 * 
+	 * @return
+	 */
+	int getMouseScaledX();
+
+	/**
 	 * The actual mouse position along the y axis within the window. If the
 	 * mouse is outside, it will return {@link OUT_VAL}
 	 * 
 	 * @return the mouse position along the y axis within the window
 	 */
 	int getMouseY();
+
+	/**
+	 * Returns the y coordinate for the mouse, using the platform scale
+	 * 
+	 * @return
+	 */
+	int getMouseScaledY();
 
 	/**
 	 * Set the position of the mouse pointer
@@ -97,7 +112,7 @@ public interface MouseState {
 	 * @param mousePressed
 	 *            the pressed status of the main mouse button
 	 */
-	void setMousePressed(boolean mousePressed, MouseButton button );
+	void setMousePressed(boolean mousePressed, MouseButton button);
 
 	/**
 	 * Returns the queue of mouse events or actions, of type {@link MouseAction}
@@ -119,19 +134,26 @@ public interface MouseState {
 	/**
 	 * Set the game object that is directly under the mouse pointer
 	 * 
-	 * @param elementUnderMouse
+	 * @param currentGO
 	 *            the game object under the mouse pointer
 	 */
-	void setGameObjectUnderMouse(DrawableGO<?> elementUnderMouse);
+	void setGameObjectUnderMouse(DrawableGO<?> currentGO);
 
 	/**
-	 * Returns the game object that is being dragged, null if no object is being
-	 * dragged
+	 * Returns the game object created to represent the drag. This is not the
+	 * original game object dragged.
 	 * 
 	 * @return the game object that is being dragged, null if no object is being
 	 *         dragged
 	 */
-	DrawableGO<?> getDraggingGameObject();
+	SceneElementGO<?> getDraggingGameObject();
+
+	/**
+	 * The definition of the object being dragged
+	 * 
+	 * @return
+	 */
+	EAdSceneElementDef getDraggingElement();
 
 	/**
 	 * Set the game object that is being dragged, null to clear the object
@@ -141,7 +163,7 @@ public interface MouseState {
 	 * @param offsetX
 	 * @param offsetY
 	 */
-	void setDraggingGameObject(EAdSceneElementDef dragElement );
+	void setDraggingGameObject(SceneElementGO<?> dragElementGO);
 
 	/**
 	 * Returns true if the mouse is inside the game window
@@ -149,21 +171,16 @@ public interface MouseState {
 	 * @return true if the mouse is inside the game window
 	 */
 	boolean isInside();
-
+	
 	/**
-	 * Returns the amount of pixels the dragging element was dragged along the x
-	 * axis
-	 * 
-	 * @return how much the dragging element was dragged along the x axis
+	 * Sets the window's width
+	 * @param width 
 	 */
-	int getDragDifX();
-
+	void setWindowWidth(int width );
+	
 	/**
-	 * Returns the amount of pixels the dragging element was dragged along the y
-	 * axis
-	 * 
-	 * @return how much the dragging element was dragged along the y axis
+	 * Sets the window's width
 	 */
-	int getDragDifY();
+	void setWindowHeight(int height);
 
 }

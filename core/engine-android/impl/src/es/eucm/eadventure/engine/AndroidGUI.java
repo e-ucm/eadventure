@@ -55,6 +55,7 @@ import es.eucm.eadventure.engine.core.platform.RuntimeAsset;
 import es.eucm.eadventure.engine.core.platform.impl.AbstractGUI;
 import es.eucm.eadventure.engine.extra.BitmapCanvas;
 import es.eucm.eadventure.engine.extra.EAdventureRenderingThread;
+import es.eucm.eadventure.engine.rendering.AndroidCanvas;
 
 @Singleton
 public class AndroidGUI extends AbstractGUI<Canvas> {
@@ -116,6 +117,8 @@ public class AndroidGUI extends AbstractGUI<Canvas> {
 					(float) ((AndroidPlatformConfiguration) platformConfiguration)
 							.getScaleH());
 
+		setWidth( platformConfiguration.getWidth());
+		setHeight( platformConfiguration.getHeight());
 		aCanvas.setMatrix(matrix);
 		aCanvas.save();
 

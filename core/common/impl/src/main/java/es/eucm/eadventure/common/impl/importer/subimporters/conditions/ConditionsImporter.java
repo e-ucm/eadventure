@@ -76,7 +76,7 @@ public class ConditionsImporter implements
 	@Override
 	public EAdCondition convert(Conditions oldObject, Object object) {
 		ANDCondition newCondition = (ANDCondition) object;
-		;
+		
 		for (Condition c : oldObject.getSimpleConditions()) {
 			EAdCondition newC = getSimpleCondition(c);
 			if (newC != null) {

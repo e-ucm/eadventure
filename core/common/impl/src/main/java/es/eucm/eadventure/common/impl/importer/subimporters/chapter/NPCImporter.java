@@ -50,15 +50,21 @@ import es.eucm.eadventure.common.impl.importer.interfaces.EAdElementFactory;
 import es.eucm.eadventure.common.impl.importer.interfaces.ResourceImporter;
 import es.eucm.eadventure.common.interfaces.features.enums.Orientation;
 import es.eucm.eadventure.common.model.actions.EAdAction;
-import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
-import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement.CommonStates;
+import es.eucm.eadventure.common.model.elements.enums.CommonStates;
+import es.eucm.eadventure.common.model.elements.impl.EAdSceneElementDefImpl;
 import es.eucm.eadventure.common.resources.StringHandler;
 import es.eucm.eadventure.common.resources.assets.drawable.Drawable;
+import es.eucm.eadventure.common.resources.assets.drawable.basics.BasicDrawable;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.ImageImpl;
+import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.animation.Frame;
+import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.animation.FramesAnimation;
 import es.eucm.eadventure.common.resources.assets.drawable.compounds.OrientedDrawable;
 import es.eucm.eadventure.common.resources.assets.drawable.compounds.StateDrawable;
 import es.eucm.eadventure.common.resources.assets.drawable.compounds.impl.OrientedDrawableImpl;
 import es.eucm.eadventure.common.resources.assets.drawable.compounds.impl.StateDrawableImpl;
+import es.eucm.eadventure.common.resources.assets.drawable.filters.impl.FilteredDrawableImpl;
+import es.eucm.eadventure.common.resources.assets.drawable.filters.impl.MatrixFilter;
+import es.eucm.eadventure.common.util.impl.EAdMatrixImpl;
 
 public class NPCImporter extends ActorImporter<NPC> {
 
@@ -66,8 +72,10 @@ public class NPCImporter extends ActorImporter<NPC> {
 	public NPCImporter(StringHandler stringHandler,
 			ResourceImporter resourceImporter,
 			EAdElementFactory elementFactory,
-			EAdElementImporter<Action, EAdAction> actionImporter) {
-		super(stringHandler, resourceImporter, elementFactory, actionImporter);
+			EAdElementImporter<Action, EAdAction> actionImporter,
+			EAdElementFactory factory) {
+		super(stringHandler, resourceImporter, elementFactory, actionImporter,
+				factory);
 	}
 
 	@Override
@@ -76,7 +84,7 @@ public class NPCImporter extends ActorImporter<NPC> {
 
 		properties = new HashMap<String, String>();
 		properties.put(NPC.RESOURCE_TYPE_STAND_DOWN,
-				EAdBasicSceneElement.appearance);
+				EAdSceneElementDefImpl.appearance);
 
 		objectClasses = new HashMap<String, Object>();
 		objectClasses.put(NPC.RESOURCE_TYPE_STAND_DOWN, drawables);
@@ -122,14 +130,37 @@ public class NPCImporter extends ActorImporter<NPC> {
 			return null;
 
 		OrientedDrawableImpl oriented = new OrientedDrawableImpl();
-		Drawable north = (Drawable) resourceImporter.getAssetDescritptor(r.getAssetPath(up),
-				ImageImpl.class);
-		Drawable south = (Drawable) resourceImporter.getAssetDescritptor(r.getAssetPath(down),
-				ImageImpl.class);
-		Drawable east = (Drawable) resourceImporter.getAssetDescritptor(r.getAssetPath(right),
-				ImageImpl.class);
-		Drawable west = (Drawable) resourceImporter.getAssetDescritptor(r.getAssetPath(left),
-				ImageImpl.class);
+		Drawable north = (Drawable) resourceImporter.getAssetDescritptor(
+				r.getAssetPath(up), ImageImpl.class);
+		Drawable south = (Drawable) resourceImporter.getAssetDescritptor(
+				r.getAssetPath(down), ImageImpl.class);
+		Drawable east = (Drawable) resourceImporter.getAssetDescritptor(
+				r.getAssetPath(right), ImageImpl.class);
+		Drawable west = (Drawable) resourceImporter.getAssetDescritptor(
+				r.getAssetPath(left), ImageImpl.class);
+
+		// Fill north
+		if (north == null) {
+			north = south;
+		}
+
+		// Fill east
+		if (east == null && west != null && west instanceof FramesAnimation) {
+			east = mirrorAnimation( (FramesAnimation) west );
+		}
+
+		if (east == null) {
+			east = south;
+		}
+
+		// Fill west
+		if (west == null && east != null) {
+			west = mirrorAnimation( (FramesAnimation) east );
+		}
+
+		if (west == null) {
+			west = south;
+		}
 
 		oriented.setDrawable(Orientation.N, north);
 		oriented.setDrawable(Orientation.S, south);
@@ -137,5 +168,17 @@ public class NPCImporter extends ActorImporter<NPC> {
 		oriented.setDrawable(Orientation.W, west);
 
 		return oriented;
+	}
+	
+	public FramesAnimation mirrorAnimation( FramesAnimation a ){
+		FramesAnimation mirror = new FramesAnimation();
+
+		for (Frame f : a.getFrames()) {
+			EAdMatrixImpl m = new EAdMatrixImpl();
+			m.scale(-1.0f, 1.0f, true);
+			BasicDrawable d = new FilteredDrawableImpl(f.getDrawable(), new MatrixFilter(m, 1.0f, 0.0f));
+			mirror.addFrame(new Frame(d, f.getTime()));
+		}
+		return mirror;
 	}
 }

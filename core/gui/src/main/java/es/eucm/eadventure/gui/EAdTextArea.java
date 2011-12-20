@@ -95,6 +95,7 @@ public class EAdTextArea extends JPanel {
 				if (k.getKeyChar() == KeyEvent.VK_ENTER) {
 					int pos =  textArea.getCaretPosition();
 					textArea.insert("\n", pos);
+					k.consume();
 				}
 			}
     		
@@ -188,7 +189,7 @@ public class EAdTextArea extends JPanel {
             ((Graphics2D) g).setRenderingHint( RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON );
 
             super.paintComponent(g);
-            if (this.isEditable( ) && getToolTipText( ) != null && (this.getText( ) == null || this.getText( ).equals( "" ))) {
+            if (this.isEditable( ) && getToolTipText( ) != null && this.getDocument().getLength() == 0) {
                 Color temp = g.getColor( );
                 g.setColor( Color.LIGHT_GRAY );
                 g.drawString( getToolTipText(), 6, (getHeight( ) - g.getFontMetrics( ).getHeight( ) ) / 2 + g.getFontMetrics( ).getAscent());

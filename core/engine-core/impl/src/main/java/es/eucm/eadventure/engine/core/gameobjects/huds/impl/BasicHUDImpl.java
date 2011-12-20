@@ -45,6 +45,7 @@ import com.google.inject.Singleton;
 
 import es.eucm.eadventure.common.model.EAdElement;
 import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
+import es.eucm.eadventure.common.model.elements.impl.EAdSceneElementDefImpl;
 import es.eucm.eadventure.common.model.guievents.enums.KeyActionType;
 import es.eucm.eadventure.common.model.guievents.enums.KeyCode;
 import es.eucm.eadventure.common.model.variables.impl.SystemFields;
@@ -58,6 +59,8 @@ import es.eucm.eadventure.common.resources.StringHandler;
 import es.eucm.eadventure.common.resources.assets.drawable.Drawable;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.Image;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.CaptionImpl;
+import es.eucm.eadventure.common.util.EAdTransformation;
+import es.eucm.eadventure.common.util.impl.EAdTransformationImpl;
 import es.eucm.eadventure.engine.core.GameState;
 import es.eucm.eadventure.engine.core.MouseState;
 import es.eucm.eadventure.engine.core.ValueMap;
@@ -71,10 +74,8 @@ import es.eucm.eadventure.engine.core.guiactions.GUIAction;
 import es.eucm.eadventure.engine.core.guiactions.KeyAction;
 import es.eucm.eadventure.engine.core.platform.AssetHandler;
 import es.eucm.eadventure.engine.core.platform.DrawableAsset;
-import es.eucm.eadventure.engine.core.platform.EAdCanvas;
 import es.eucm.eadventure.engine.core.platform.GUI;
-import es.eucm.eadventure.engine.core.util.EAdTransformation;
-import es.eucm.eadventure.engine.core.util.impl.EAdTransformationImpl;
+import es.eucm.eadventure.engine.core.platform.rendering.EAdCanvas;
 
 /**
  * <p>
@@ -129,9 +130,6 @@ public class BasicHUDImpl extends AbstractHUD implements BasicHUD {
 		this.mouseState = mouseState;
 		this.stringHandler = stringHandler;
 		this.assetHandler = assetHandler;
-
-		initContextual();
-		initMouse();
 	}
 
 	public void setGameObjectManager(GameObjectManager gameObjectManager) {
@@ -155,22 +153,21 @@ public class BasicHUDImpl extends AbstractHUD implements BasicHUD {
 	}
 
 	@Override
-	public void doLayout(EAdTransformation transformation) {
-		if (mouseState.getDraggingGameObject() != null && mouseState.isInside()) {
-			DrawableGO<?> draggedGO = mouseState.getDraggingGameObject();
-			EAdTransformation t = (EAdTransformation) transformation.clone();
-			t.getMatrix().translate(mouseState.getDragDifX(),
-					mouseState.getDragDifY(), false);
-			gui.addElement(draggedGO, t);
-		}
-		super.doLayout(transformation);
+	public void update() {
+		if (contextual != null)
+			updateContextual();
+		if (mouse != null)
+			updateMouse();
+		super.update();
 	}
 
-	@Override
-	public void update() {
-		updateContextual();
-		updateMouse();
-		super.update();
+	public void doLayout(EAdTransformation t) {
+		if (contextual == null)
+			initContextual();
+		if (mouse == null)
+			initMouse();
+
+		super.doLayout(t);
 	}
 
 	@Override
@@ -255,11 +252,15 @@ public class BasicHUDImpl extends AbstractHUD implements BasicHUD {
 
 				DrawableAsset<? extends Image, ?> rAsset = (DrawableAsset<? extends Image, ?>) assetHandler
 						.getRuntimeAsset(cursor);
+				logger.info("width" + rAsset.getWidth());
+				rAsset.loadAsset();
 				float scale = 1.0f / (rAsset.getWidth() > rAsset.getHeight() ? rAsset
 						.getWidth() / CURSOR_SIZE
 						: rAsset.getHeight() / CURSOR_SIZE);
-				mouse.getResources().addAsset(mouse.getInitialBundle(),
-						EAdBasicSceneElement.appearance, cursor);
+				mouse.getDefinition()
+						.getResources()
+						.addAsset(mouse.getDefinition().getInitialBundle(),
+								EAdSceneElementDefImpl.appearance, cursor);
 				gameState.getValueMap().setValue(mouse,
 						EAdBasicSceneElement.VAR_SCALE, scale);
 			}
@@ -277,8 +278,12 @@ public class BasicHUDImpl extends AbstractHUD implements BasicHUD {
 		gameState.getValueMap().setValue(mouse,
 				EAdBasicSceneElement.VAR_VISIBLE,
 				!(x < 0 || y < 0) && showMouse);
-		gameState.getValueMap().setValue(mouse, EAdBasicSceneElement.VAR_X, x);
-		gameState.getValueMap().setValue(mouse, EAdBasicSceneElement.VAR_Y, y);
+		if (x >= 0 && y >= 0) {
+			gameState.getValueMap().setValue(mouse, EAdBasicSceneElement.VAR_X,
+					x);
+			gameState.getValueMap().setValue(mouse, EAdBasicSceneElement.VAR_Y,
+					y);
+		}
 	}
 
 }

@@ -57,6 +57,8 @@ import es.eucm.eadventure.common.params.geom.impl.EAdPositionImpl;
 import es.eucm.eadventure.common.params.geom.impl.EAdRectangleImpl;
 import es.eucm.eadventure.common.resources.EAdBundleId;
 import es.eucm.eadventure.common.resources.assets.AssetDescriptor;
+import es.eucm.eadventure.common.util.EAdMatrix;
+import es.eucm.eadventure.common.util.impl.EAdMatrixImpl;
 import es.eucm.eadventure.engine.core.platform.impl.PlayNReflectionProvider;
 
 /**
@@ -102,6 +104,8 @@ public class ObjectFactory {
 			return new Character(value.charAt(0));
 		} else if (fieldType == EAdBundleId.class)
 			return new EAdBundleId(value);
+		else if (fieldType == EAdMatrix.class || fieldType == EAdMatrixImpl.class)
+			return EAdMatrixImpl.parse(value);
 		else if (fieldType == Class.class)
 			return getClassFromName(value);
 		else if (fieldType.isEnum()) {

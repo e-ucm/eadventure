@@ -1,3 +1,40 @@
+/**
+ * eAdventure (formerly <e-Adventure> and <e-Game>) is a research project of the
+ *    <e-UCM> research group.
+ *
+ *    Copyright 2005-2010 <e-UCM> research group.
+ *
+ *    You can access a list of all the contributors to eAdventure at:
+ *          http://e-adventure.e-ucm.es/contributors
+ *
+ *    <e-UCM> is a research group of the Department of Software Engineering
+ *          and Artificial Intelligence at the Complutense University of Madrid
+ *          (School of Computer Science).
+ *
+ *          C Profesor Jose Garcia Santesmases sn,
+ *          28040 Madrid (Madrid), Spain.
+ *
+ *          For more info please visit:  <http://e-adventure.e-ucm.es> or
+ *          <http://www.e-ucm.es>
+ *
+ * ****************************************************************************
+ *
+ *  This file is part of eAdventure, version 2.0
+ *
+ *      eAdventure is free software: you can redistribute it and/or modify
+ *      it under the terms of the GNU Lesser General Public License as published by
+ *      the Free Software Foundation, either version 3 of the License, or
+ *      (at your option) any later version.
+ *
+ *      eAdventure is distributed in the hope that it will be useful,
+ *      but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *      MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *      GNU Lesser General Public License for more details.
+ *
+ *      You should have received a copy of the GNU Lesser General Public License
+ *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
 package es.eucm.eadventure.common.impl.importer.subimporters.books;
 
 import java.awt.Font;
@@ -29,6 +66,7 @@ import es.eucm.eadventure.common.model.elements.EAdCondition;
 import es.eucm.eadventure.common.model.elements.EAdScene;
 import es.eucm.eadventure.common.model.elements.EAdSceneElement;
 import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
+import es.eucm.eadventure.common.model.elements.impl.EAdSceneElementDefImpl;
 import es.eucm.eadventure.common.model.elements.impl.EAdSceneImpl;
 import es.eucm.eadventure.common.model.events.EAdConditionEvent;
 import es.eucm.eadventure.common.model.events.EAdSceneElementEvent;
@@ -43,8 +81,8 @@ import es.eucm.eadventure.common.model.variables.impl.operations.BooleanOperatio
 import es.eucm.eadventure.common.model.variables.impl.operations.MathOperation;
 import es.eucm.eadventure.common.model.variables.impl.operations.ValueOperation;
 import es.eucm.eadventure.common.params.EAdFont;
-import es.eucm.eadventure.common.params.FontStyle;
 import es.eucm.eadventure.common.params.EAdFontImpl;
+import es.eucm.eadventure.common.params.FontStyle;
 import es.eucm.eadventure.common.params.fills.impl.EAdColor;
 import es.eucm.eadventure.common.params.geom.impl.EAdPositionImpl;
 import es.eucm.eadventure.common.params.geom.impl.EAdPositionImpl.Corner;
@@ -104,6 +142,8 @@ public class BookImporter implements EAdElementImporter<Book, EAdScene> {
 	 */
 	public static final int TITLE_HEIGHT = 50;
 
+	private static final String HTML_NOT_SUPPORTED = "Sorry. HTML Books are no longer supported by eAdventure.";
+
 	private FontRenderContext frc = new FontRenderContext(null, true, true);
 	private Font titleFont = new Font("Arial", Font.PLAIN, 33);
 	private EAdFont titleEAdFont = new EAdFontImpl("Arial", 33, FontStyle.PLAIN);
@@ -141,65 +181,76 @@ public class BookImporter implements EAdElementImporter<Book, EAdScene> {
 						.getAssetPath(Book.RESOURCE_TYPE_BACKGROUND),
 				ImageImpl.class);
 		book.getBackground()
+				.getDefinition()
 				.getResources()
-				.addAsset(book.getBackground().getInitialBundle(),
-						EAdBasicSceneElement.appearance, background);
+				.addAsset(
+						book.getBackground().getDefinition().getInitialBundle(),
+						EAdSceneElementDefImpl.appearance, background);
 
 		dispY = TEXT_Y;
 		column = 0;
 		image = new ComposedDrawableImpl();
 
-		for (BookParagraph p : oldObject.getParagraphs()) {
-			if (p.getContent() != null && !p.getContent().equals(""))
-				switch (p.getType()) {
-				case BookParagraph.TITLE:
-					addTextDrawable(p.getContent(), titleFont, titleEAdFont, 0,
-							TITLE_HEIGHT, TEXT_WIDTH);
-					break;
-				case BookParagraph.TEXT:
-					addTextDrawable(p.getContent(), textFont, textEAdFont, 0,
-							LINE_HEIGHT, TEXT_WIDTH);
-					break;
-				case BookParagraph.BULLET:
-					if (dispY + LINE_HEIGHT > PAGE_TEXT_HEIGHT) {
-						column++;
-						dispY = TEXT_Y;
-					}
-					CircleShape bullet = new CircleShape(0, 0,
-							BULLET_WIDTH / 3, 20);
-					bullet.setPaint(EAdColor.BLACK);
-					image.addDrawable(bullet, getDispX() + BULLET_WIDTH / 2,
-							dispY + LINE_HEIGHT / 2);
-					addTextDrawable(p.getContent(), textFont, textEAdFont,
-							BULLET_WIDTH, LINE_HEIGHT, TEXT_WIDTH_BULLET);
-					break;
-				case BookParagraph.IMAGE:
-					Image i = (Image) resourceImporter.getAssetDescritptor(
-							p.getContent(), ImageImpl.class);
-					try {
-						BufferedImage im = ImageIO.read(new File(
-								resourceImporter.getNewProjecFolder(), i
-										.getUri().toString().substring(1)));
-						int height = im.getHeight();
-						if (dispY + height > PAGE_TEXT_HEIGHT) {
+		if (oldObject.getType() == Book.TYPE_PAGES) {
+			CaptionImpl captionImpl = new CaptionImpl();
+			captionImpl.setFont(new EAdFontImpl(18));
+			stringHandler.setString(captionImpl.getLabel(), HTML_NOT_SUPPORTED);
+			image.addDrawable(captionImpl, 400, 0);
+		} else
+			for (BookParagraph p : oldObject.getParagraphs()) {
+				if (p.getContent() != null && !p.getContent().equals(""))
+					switch (p.getType()) {
+					case BookParagraph.TITLE:
+						addTextDrawable(p.getContent(), titleFont,
+								titleEAdFont, 0, TITLE_HEIGHT, TEXT_WIDTH);
+						break;
+					case BookParagraph.TEXT:
+						addTextDrawable(p.getContent(), textFont, textEAdFont,
+								0, LINE_HEIGHT, TEXT_WIDTH);
+						break;
+					case BookParagraph.BULLET:
+						if (dispY + LINE_HEIGHT > PAGE_TEXT_HEIGHT) {
 							column++;
 							dispY = TEXT_Y;
 						}
-						image.addDrawable(i, getDispX(), dispY);
-						dispY += height;
-					} catch (IOException e) {
-						e.printStackTrace();
+						CircleShape bullet = new CircleShape(0, 0,
+								BULLET_WIDTH / 3, 20);
+						bullet.setPaint(EAdColor.BLACK);
+						image.addDrawable(bullet,
+								getDispX() + BULLET_WIDTH / 2, dispY
+										+ LINE_HEIGHT / 2);
+						addTextDrawable(p.getContent(), textFont, textEAdFont,
+								BULLET_WIDTH, LINE_HEIGHT, TEXT_WIDTH_BULLET);
+						break;
+					case BookParagraph.IMAGE:
+						Image i = (Image) resourceImporter.getAssetDescritptor(
+								p.getContent(), ImageImpl.class);
+						try {
+							BufferedImage im = ImageIO.read(new File(
+									resourceImporter.getNewProjecFolder(), i
+											.getUri().toString().substring(1)));
+							int height = im.getHeight();
+							if (dispY + height > PAGE_TEXT_HEIGHT) {
+								column++;
+								dispY = TEXT_Y;
+							}
+							image.addDrawable(i, getDispX(), dispY);
+							dispY += height;
+						} catch (IOException e) {
+							e.printStackTrace();
+						}
+						break;
 					}
-					break;
-				}
-		}
+			}
 
-		EAdBasicSceneElement content = new EAdBasicSceneElement();
+		EAdBasicSceneElement content = new EAdBasicSceneElement(image);
 		content.setId(oldObject.getId() + "_content");
-		content.getResources().addAsset(content.getInitialBundle(),
-				EAdBasicSceneElement.appearance, image);
-		content.setPosition(0, 0);
-		content.setClone(true);
+		
+		if ( oldObject.getType() == Book.TYPE_PAGES ){
+			content.setPosition(Corner.CENTER, 400, 300);
+		}	
+		else
+			content.setPosition(0, 0);
 
 		EAdField<Integer> xVar = new EAdFieldImpl<Integer>(content,
 				EAdBasicSceneElement.VAR_X);
@@ -207,8 +258,7 @@ public class BookImporter implements EAdElementImporter<Book, EAdScene> {
 		EAdSceneElementEvent event = new EAdSceneElementEventImpl();
 		event.setId("restartBook");
 		event.addEffect(SceneElementEventType.ADDED_TO_SCENE,
-				new EAdChangeFieldValueEffect( xVar,
-						new ValueOperation( 0)));
+				new EAdChangeFieldValueEffect(xVar, new ValueOperation(0)));
 		content.getEvents().add(event);
 
 		EAdCondition leftCondition = new OperationCondition(xVar, 0,
@@ -281,10 +331,10 @@ public class BookImporter implements EAdElementImporter<Book, EAdScene> {
 		EAdConditionEvent event = new EAdConditionEventImpl();
 		event.setCondition(condition);
 		event.addEffect(ConditionedEventType.CONDITIONS_MET,
-				new EAdChangeFieldValueEffect( visibleVar,
+				new EAdChangeFieldValueEffect(visibleVar,
 						BooleanOperation.TRUE_OP));
 		event.addEffect(ConditionedEventType.CONDITIONS_UNMET,
-				new EAdChangeFieldValueEffect( visibleVar,
+				new EAdChangeFieldValueEffect(visibleVar,
 						BooleanOperation.FALSE_OP));
 		arrow.getEvents().add(event);
 
@@ -382,21 +432,22 @@ public class BookImporter implements EAdElementImporter<Book, EAdScene> {
 		AssetDescriptor normalAsset = getArrowAsset(book, normal);
 
 		AssetDescriptor overAsset = getArrowAsset(book, over);
-		arrow.getResources().addAsset(arrow.getInitialBundle(),
-				EAdBasicSceneElement.appearance, normalAsset);
+		arrow.getDefinition()
+				.getResources()
+				.addAsset(arrow.getDefinition().getInitialBundle(),
+						EAdSceneElementDefImpl.appearance, normalAsset);
 
 		EAdBundleId bundle = new EAdBundleId("over");
-		arrow.getResources().addBundle(bundle);
-		arrow.getResources().addAsset(bundle, EAdBasicSceneElement.appearance,
-				overAsset);
+		arrow.getDefinition().getResources().addBundle(bundle);
+		arrow.getDefinition().getResources()
+				.addAsset(bundle, EAdSceneElementDefImpl.appearance, overAsset);
 
-		EAdChangeAppearance change1 = new EAdChangeAppearance(
-				arrow, bundle);
+		EAdChangeAppearance change1 = new EAdChangeAppearance(arrow, bundle);
 		change1.setId("changeArrowOver");
 		arrow.addBehavior(EAdMouseEventImpl.MOUSE_ENTERED, change1);
 
-		EAdChangeAppearance change2 = new EAdChangeAppearance(
-				 arrow, arrow.getInitialBundle());
+		EAdChangeAppearance change2 = new EAdChangeAppearance(arrow, arrow
+				.getDefinition().getInitialBundle());
 		change2.setId("changeArrowOver");
 		arrow.addBehavior(EAdMouseEventImpl.MOUSE_EXITED, change2);
 

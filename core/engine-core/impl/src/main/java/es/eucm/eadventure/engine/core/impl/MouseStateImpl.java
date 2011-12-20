@@ -39,6 +39,7 @@ package es.eucm.eadventure.engine.core.impl;
 
 import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
+import java.util.logging.Logger;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -46,61 +47,144 @@ import com.google.inject.Singleton;
 import es.eucm.eadventure.common.model.elements.EAdSceneElement;
 import es.eucm.eadventure.common.model.elements.EAdSceneElementDef;
 import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
-import es.eucm.eadventure.common.model.elements.impl.EAdSceneElementDefImpl;
 import es.eucm.eadventure.common.model.guievents.enums.MouseButton;
-import es.eucm.eadventure.common.params.geom.impl.EAdPositionImpl;
-import es.eucm.eadventure.common.params.geom.impl.EAdPositionImpl.Corner;
+import es.eucm.eadventure.common.model.variables.impl.SystemFields;
 import es.eucm.eadventure.engine.core.GameState;
 import es.eucm.eadventure.engine.core.MouseState;
 import es.eucm.eadventure.engine.core.gameobjects.DrawableGO;
-import es.eucm.eadventure.engine.core.gameobjects.factories.SceneElementGOFactory;
+import es.eucm.eadventure.engine.core.gameobjects.SceneElementGO;
 import es.eucm.eadventure.engine.core.guiactions.MouseAction;
+import es.eucm.eadventure.engine.core.platform.PlatformConfiguration;
 
 @Singleton
 public class MouseStateImpl implements MouseState {
 
+	/**
+	 * Constant representing the mouse out of the window
+	 */
 	public static final int OUT_VAL = -1;
 
-	private int mouseX = OUT_VAL;
-
-	private int mouseY = OUT_VAL;
-
-	private boolean mousePressed = false;
-
-	private MouseButton buttonPressed = null;
-
-	private Queue<MouseAction> mouseEvents;
-
-	private DrawableGO<?> gameObjectUnderMouse;
-
-	private DrawableGO<?> draggingGameObject;
-
-	private int dragInitX = OUT_VAL;
-
-	private int dragInitY = OUT_VAL;
-
-	private SceneElementGOFactory factory;
+	/**
+	 * Z used in drag
+	 */
+	public static final int DRAG_Z = Integer.MAX_VALUE;
 
 	private GameState gameState;
 
+	// Mouse position
+
+	/**
+	 * X coordinate of the windows' pixel the mouse is in
+	 */
+	private int mousePixelX = OUT_VAL;
+
+	/**
+	 * Y coordinate of the windows' pixel the mouse is in
+	 */
+	private int mousePixelY = OUT_VAL;
+
+	// Game dimensions
+	/**
+	 * The width for the window (usually in pixels)
+	 */
+	private int windowWidth = 0;
+
+	/**
+	 * The height for the window (usually in pixels)
+	 */
+	private int windowHeight = 0;
+
+	/**
+	 * The width for the game
+	 */
+	private int gameWidth = 0;
+
+	/**
+	 * The height for the game
+	 */
+	private int gameHeight = 0;
+
+	// Mouse pressed
+
+	/**
+	 * Whether the mouse is pressed
+	 */
+	private boolean mousePressed = false;
+
+	/**
+	 * Which button is pressed on the mouse
+	 */
+	private MouseButton buttonPressed = null;
+
+	/**
+	 * Queue with mouse events
+	 */
+	private Queue<MouseAction> mouseEvents;
+
+	/**
+	 * Game object under the mouse
+	 */
+	private DrawableGO<?> gameObjectUnderMouse;
+
+	// Drag & Drop attributes
+
+	/**
+	 * Game object being dragged
+	 */
+	private SceneElementGO<?> draggingGameObject;
+
+	/**
+	 * X virtual coordinate where the drag was started
+	 */
+	private int initDragX;
+
+	/**
+	 * Y virtual coordinate where the drag was started
+	 */
+	private int initDragY;
+
+	private int diffX;
+
+	private int diffY;
+
+	/**
+	 * Z of the scene element being dragged
+	 */
+	private int initZ;
+
 	@Inject
-	public MouseStateImpl(SceneElementGOFactory factory, GameState gameState) {
-		this.factory = factory;
+	public MouseStateImpl(GameState gameState,
+			PlatformConfiguration platformConfiguration) {
 		mouseEvents = new ConcurrentLinkedQueue<MouseAction>();
 		this.gameState = gameState;
+		this.gameWidth = platformConfiguration.getWidth();
+		this.gameHeight = platformConfiguration.getHeight();
 	}
 
 	public int getMouseX() {
-		return mouseX;
+		return mousePixelX;
 	}
 
 	public int getMouseY() {
-		return mouseY;
+		return mousePixelY;
 	}
 
 	public void setMousePosition(int mouseX, int mouseY) {
-		this.mouseX = mouseX;
-		this.mouseY = mouseY;
+		this.mousePixelX = mouseX;
+		this.mousePixelY = mouseY;
+		updateDrag();
+	}
+
+	private void updateDrag() {
+		if (this.draggingGameObject != null) {
+			EAdSceneElement e = draggingGameObject.getElement();
+			int mouseVirtualX = gameState.getValueMap().getValue(SystemFields.MOUSE_X);
+			int mouseVirtualY = gameState.getValueMap().getValue(SystemFields.MOUSE_Y);
+			gameState.getValueMap().setValue(e, EAdBasicSceneElement.VAR_X,
+					mouseVirtualX - diffX);
+			gameState.getValueMap().setValue(e, EAdBasicSceneElement.VAR_Y,
+					mouseVirtualY - diffY);
+		}
 	}
 
 	public boolean isMousePressed(MouseButton button) {
@@ -124,46 +208,82 @@ public class MouseStateImpl implements MouseState {
 		this.gameObjectUnderMouse = gameObjectUnderMouse;
 	}
 
-	public DrawableGO<?> getDraggingGameObject() {
+	public boolean isInside() {
+		if (mousePixelX == OUT_VAL && mousePixelY == OUT_VAL)
+			return false;
+		return true;
+	}
+
+	@Override
+	public EAdSceneElementDef getDraggingElement() {
+		if (draggingGameObject != null)
+			return draggingGameObject.getElement().getDefinition();
+		else
+			return null;
+	}
+
+	@Override
+	public int getMouseScaledX() {
+		return gameState.getValueMap().getValue(SystemFields.MOUSE_X);
+	}
+
+	@Override
+	public int getMouseScaledY() {
+		return gameState.getValueMap().getValue(SystemFields.MOUSE_Y);
+	}
+
+	public SceneElementGO<?> getDraggingGameObject() {
 		return draggingGameObject;
 	}
 
 	@Override
-	public void setDraggingGameObject(EAdSceneElementDef dragElement) {
-		if (dragElement != null) {
-			EAdSceneElement element = gameState.getValueMap().getValue(
-					dragElement, EAdSceneElementDefImpl.VAR_SCENE_ELEMENT);
-			float dispX = gameState.getValueMap().getValue(dragElement, EAdBasicSceneElement.VAR_DISP_X);
-			float dispY = gameState.getValueMap().getValue(dragElement, EAdBasicSceneElement.VAR_DISP_Y);
-			int x = gameState.getValueMap().getValue(dragElement, EAdBasicSceneElement.VAR_X );
-			int y = gameState.getValueMap().getValue(dragElement, EAdBasicSceneElement.VAR_Y );
+	public void setDraggingGameObject(SceneElementGO<?> dragElementGO) {
 
-			EAdBasicSceneElement element2 = new EAdBasicSceneElement(dragElement);
-			element2.setPosition( new EAdPositionImpl( x, y, 0, 0 ));
-			draggingGameObject = factory.get(element2);
+		if (dragElementGO != null) {
+			draggingGameObject = dragElementGO;
+			EAdSceneElement sceneElement = dragElementGO.getElement();
+
+			initDragX = gameState.getValueMap().getValue(sceneElement,
+					EAdBasicSceneElement.VAR_X);
+			initDragY = gameState.getValueMap().getValue(sceneElement,
+					EAdBasicSceneElement.VAR_Y);
+
+			int mouseVirtualX = gameState.getValueMap().getValue(SystemFields.MOUSE_X);
+			int mouseVirtualY = gameState.getValueMap().getValue(SystemFields.MOUSE_Y);
+			diffX = mouseVirtualX - initDragX;
+			diffY = mouseVirtualY - initDragY;
+
+			initZ = gameState.getValueMap().getValue(sceneElement,
+					EAdBasicSceneElement.VAR_Z);
+
+			gameState.getValueMap().setValue(sceneElement,
+					EAdBasicSceneElement.VAR_Z, DRAG_Z);
+
 		} else {
+			if (draggingGameObject != null) {
+				EAdSceneElement sceneElement = draggingGameObject.getElement();
+				gameState.getValueMap().setValue(sceneElement,
+						EAdBasicSceneElement.VAR_Z, initZ);
+				if (gameState.getValueMap().getValue(sceneElement,
+						EAdBasicSceneElement.VAR_RETURN_WHEN_DRAGGED)) {
+					gameState.getValueMap().setValue(sceneElement,
+							EAdBasicSceneElement.VAR_X, initDragX);
+					gameState.getValueMap().setValue(sceneElement,
+							EAdBasicSceneElement.VAR_Y, initDragY);
+				}
+			}
 			draggingGameObject = null;
 		}
-		if (draggingGameObject != null) {
-			this.dragInitX = mouseX;
-			this.dragInitY = mouseY;
-		}
 	}
 
 	@Override
-	public int getDragDifX() {
-		return mouseX - dragInitX;
+	public void setWindowWidth(int width) {
+		this.windowWidth = width;
 	}
 
 	@Override
-	public int getDragDifY() {
-		return mouseY - dragInitY;
-	}
-
-	public boolean isInside() {
-		if (mouseX == OUT_VAL && mouseY == OUT_VAL)
-			return false;
-		return true;
+	public void setWindowHeight(int height) {
+		this.windowHeight = height;
 	}
 
 }

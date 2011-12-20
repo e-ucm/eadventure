@@ -41,7 +41,7 @@ import es.eucm.eadventure.common.params.geom.EAdPosition;
 import es.eucm.eadventure.common.resources.assets.drawable.Drawable;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.shapes.BezierShape;
 import es.eucm.eadventure.engine.core.platform.DrawableAsset;
-import es.eucm.eadventure.engine.core.platform.EAdCanvas;
+import es.eucm.eadventure.engine.core.platform.rendering.EAdCanvas;
 
 public abstract class RuntimeBezierShape<GraphicContext> extends AbstractRuntimeAsset<BezierShape> implements DrawableAsset<BezierShape, GraphicContext>{
 	

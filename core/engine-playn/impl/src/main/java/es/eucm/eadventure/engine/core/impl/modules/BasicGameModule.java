@@ -1,4 +1,43 @@
+/**
+ * eAdventure (formerly <e-Adventure> and <e-Game>) is a research project of the
+ *    <e-UCM> research group.
+ *
+ *    Copyright 2005-2010 <e-UCM> research group.
+ *
+ *    You can access a list of all the contributors to eAdventure at:
+ *          http://e-adventure.e-ucm.es/contributors
+ *
+ *    <e-UCM> is a research group of the Department of Software Engineering
+ *          and Artificial Intelligence at the Complutense University of Madrid
+ *          (School of Computer Science).
+ *
+ *          C Profesor Jose Garcia Santesmases sn,
+ *          28040 Madrid (Madrid), Spain.
+ *
+ *          For more info please visit:  <http://e-adventure.e-ucm.es> or
+ *          <http://www.e-ucm.es>
+ *
+ * ****************************************************************************
+ *
+ *  This file is part of eAdventure, version 2.0
+ *
+ *      eAdventure is free software: you can redistribute it and/or modify
+ *      it under the terms of the GNU Lesser General Public License as published by
+ *      the Free Software Foundation, either version 3 of the License, or
+ *      (at your option) any later version.
+ *
+ *      eAdventure is distributed in the hope that it will be useful,
+ *      but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *      MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *      GNU Lesser General Public License for more details.
+ *
+ *      You should have received a copy of the GNU Lesser General Public License
+ *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
 package es.eucm.eadventure.engine.core.impl.modules;
+
+import playn.core.Canvas;
 
 import com.google.gwt.inject.client.AbstractGinModule;
 import com.google.inject.Provides;
@@ -45,7 +84,9 @@ import es.eucm.eadventure.engine.core.platform.SpecialAssetRenderer;
 import es.eucm.eadventure.engine.core.platform.impl.FontHandlerImpl;
 import es.eucm.eadventure.engine.core.platform.impl.PlayNInjector;
 import es.eucm.eadventure.engine.core.platform.impl.PlayNPluginHandler;
+import es.eucm.eadventure.engine.core.platform.impl.rendering.PlayNFilterFactory;
 import es.eucm.eadventure.engine.core.platform.impl.specialassetrenderers.PlayNVideoRenderer;
+import es.eucm.eadventure.engine.core.platform.rendering.filters.FilterFactory;
 import es.eucm.eadventure.engine.core.trajectories.TrajectoryFactory;
 import es.eucm.eadventure.engine.core.trajectories.impl.TrajectoryFactoryImpl;
 
@@ -53,40 +94,56 @@ public class BasicGameModule extends AbstractGinModule {
 
 	@Override
 	protected void configure() {
-		
+
 		installFactories();
-		
+
 		bind(ValueMap.class).to(VariableMap.class).in(Singleton.class);
 		bind(GameState.class).to(GameStateImpl.class).in(Singleton.class);
-		bind(GameController.class).to(GameControllerImpl.class).in(Singleton.class);
+		bind(GameController.class).to(GameControllerImpl.class).in(
+				Singleton.class);
 		bind(Game.class).to(GameImpl.class).in(Singleton.class);
 		bind(EffectHUD.class).to(EffectHUDImpl.class).in(Singleton.class);
 		bind(FontHandler.class).to(FontHandlerImpl.class).in(Singleton.class);
 		bind(EAdDebugger.class).to(EAdMainDebugger.class).in(Singleton.class);
-		bind(PluginHandler.class).to(PlayNPluginHandler.class).in(Singleton.class);
+		bind(PluginHandler.class).to(PlayNPluginHandler.class).in(
+				Singleton.class);
 		bind(EAdInjector.class).to(PlayNInjector.class).in(Singleton.class);
-		bind(InventoryHandler.class).to(InventoryHandlerImpl.class).in(Singleton.class);
+		bind(InventoryHandler.class).to(InventoryHandlerImpl.class).in(
+				Singleton.class);
 		bind(InventoryHUD.class).to(InventoryHUDImpl.class).in(Singleton.class);
 
 		bind(EAdAdventureModel.class).to(EAdAdventureModelImpl.class);
-		bind(EAdScene.class).annotatedWith(Names.named("LoadingScreen")).to(
-				LoadingScreen.class).in(Singleton.class);
-		
+		bind(EAdScene.class).annotatedWith(Names.named("LoadingScreen"))
+				.to(LoadingScreen.class).in(Singleton.class);
+
 		bind(new TypeLiteral<SpecialAssetRenderer<Video, ?>>() {
 		}).to(PlayNVideoRenderer.class);
-
+		bind(new TypeLiteral<FilterFactory<Canvas>>() {
+		}).to(PlayNFilterFactory.class);
 
 	}
-	
+
 	private void installFactories() {
-		bind(EvaluatorFactory.class).to(EvaluatorFactoryImpl.class).in(Singleton.class);;
-		bind(OperatorFactory.class).to(OperatorFactoryImpl.class).in(Singleton.class);;
-		bind(TrajectoryFactory.class).to(TrajectoryFactoryImpl.class).in(Singleton.class);;
-		bind(SceneElementGOFactory.class).to(SceneElementGOFactoryImpl.class).in(Singleton.class);;
-		bind(EffectGOFactory.class).to(EffectGOFactoryImpl.class).in(Singleton.class);;
-		bind(EventGOFactory.class).to(EventGOFactoryImpl.class).in(Singleton.class);;
+		bind(EvaluatorFactory.class).to(EvaluatorFactoryImpl.class).in(
+				Singleton.class);
+		;
+		bind(OperatorFactory.class).to(OperatorFactoryImpl.class).in(
+				Singleton.class);
+		;
+		bind(TrajectoryFactory.class).to(TrajectoryFactoryImpl.class).in(
+				Singleton.class);
+		;
+		bind(SceneElementGOFactory.class).to(SceneElementGOFactoryImpl.class)
+				.in(Singleton.class);
+		;
+		bind(EffectGOFactory.class).to(EffectGOFactoryImpl.class).in(
+				Singleton.class);
+		;
+		bind(EventGOFactory.class).to(EventGOFactoryImpl.class).in(
+				Singleton.class);
+		;
 	}
-	
+
 	@Provides
 	@Named("classParam")
 	public String provideThreaded() {

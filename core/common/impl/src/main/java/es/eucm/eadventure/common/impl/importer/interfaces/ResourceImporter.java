@@ -37,11 +37,12 @@
 
 package es.eucm.eadventure.common.impl.importer.interfaces;
 
+import java.awt.Dimension;
 import java.util.List;
 import java.util.Map;
 
 import es.eucm.eadventure.common.data.chapter.resources.Resources;
-import es.eucm.eadventure.common.model.impl.ResourcedElementImpl;
+import es.eucm.eadventure.common.interfaces.features.Resourced;
 import es.eucm.eadventure.common.resources.assets.AssetDescriptor;
 
 public interface ResourceImporter {
@@ -69,7 +70,7 @@ public interface ResourceImporter {
 	 */
 	public void setPath(String newAdventurePath);
 
-	void importResources(ResourcedElementImpl element, List<Resources> resources,
+	void importResources(Resourced element, List<Resources> resources,
 			Map<String, String> resourcesStrings,
 			Map<String, Object> resourcesObjectsClasses);
 
@@ -93,4 +94,6 @@ public interface ResourceImporter {
 	 * @return
 	 */
 	String getNewProjecFolder();
+	
+	Dimension getDimensions(String targetId);
 }

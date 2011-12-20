@@ -44,7 +44,7 @@ import es.eucm.eadventure.common.data.chapter.Action;
 import es.eucm.eadventure.common.data.chapter.conditions.Conditions;
 import es.eucm.eadventure.common.data.chapter.elements.ActiveArea;
 import es.eucm.eadventure.common.impl.importer.interfaces.EAdElementFactory;
-import es.eucm.eadventure.common.impl.importer.subimporters.chapter.ActorImporter;
+import es.eucm.eadventure.common.impl.importer.subimporters.chapter.ActionImporter;
 import es.eucm.eadventure.common.impl.importer.subimporters.chapter.scene.ShapedElementImporter;
 import es.eucm.eadventure.common.model.actions.EAdAction;
 import es.eucm.eadventure.common.model.effects.impl.EAdActorActionsEffect;
@@ -54,8 +54,6 @@ import es.eucm.eadventure.common.model.elements.EAdSceneElementDef;
 import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
 import es.eucm.eadventure.common.model.elements.impl.EAdSceneElementDefImpl;
 import es.eucm.eadventure.common.model.guievents.impl.EAdMouseEventImpl;
-import es.eucm.eadventure.common.predef.model.effects.EAdChangeAppearance;
-import es.eucm.eadventure.common.resources.EAdBundleId;
 import es.eucm.eadventure.common.resources.StringHandler;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.Shape;
 
@@ -68,7 +66,7 @@ public class ActiveAreaImporter extends ElementImporter<ActiveArea> {
 			EAdElementImporter<Conditions, EAdCondition> conditionsImporter,
 			EAdElementImporter<Action, EAdAction> actionImporter,
 			StringHandler stringHandler, EAdElementFactory factory) {
-		super( factory, conditionsImporter, stringHandler );
+		super(factory, conditionsImporter, stringHandler);
 		this.actionImporter = actionImporter;
 	}
 
@@ -94,53 +92,44 @@ public class ActiveAreaImporter extends ElementImporter<ActiveArea> {
 
 		// set documentation
 		setDocumentation(newActiveArea, oldObject);
-		
+
 		// set shape
-		setShape(newActiveAreaReference, newActiveArea, oldObject);
-		
+		setShape(newActiveArea, oldObject);
+
 		// set influence area
-		addInfluenceArea(newActiveAreaReference, oldObject, oldObject.getInfluenceArea());
+		addInfluenceArea(newActiveAreaReference, oldObject,
+				oldObject.getInfluenceArea());
 
 		// enable event
-		addEnableEvent( newActiveAreaReference, getEnableCondition(oldObject.getConditions()) );
-		
+		addEnableEvent(newActiveAreaReference,
+				getEnableCondition(oldObject.getConditions()));
+
 		// Add description
-		super.addDefaultBehavior(newActiveAreaReference, oldObject.getDescription());
-		
+		super.addDefaultBehavior(newActiveAreaReference,
+				newActiveArea.getDesc());
+
 		return newActiveAreaReference;
 	}
 
-	private void setShape(EAdBasicSceneElement newActiveAreaReference, EAdSceneElementDef newActiveArea,
-			ActiveArea oldObject) {
-		Shape shape = ShapedElementImporter.importShape(oldObject,
-				newActiveAreaReference);
+	private void setShape(EAdSceneElementDef newActiveArea, ActiveArea oldObject) {
+		Shape shape = ShapedElementImporter.importShape(oldObject);
 
 		newActiveArea.getResources().addAsset(newActiveArea.getInitialBundle(),
-				EAdBasicSceneElement.appearance, shape);
-
-		Shape shape2 = ShapedElementImporter.importShape(oldObject,
-				newActiveAreaReference);
-		EAdBundleId id = new EAdBundleId("id");
-		newActiveArea.getResources().addAsset(id,
-				EAdBasicSceneElement.appearance, shape2);
-		newActiveAreaReference.addBehavior(EAdMouseEventImpl.MOUSE_ENTERED,
-				new EAdChangeAppearance(newActiveArea, id));
-		newActiveAreaReference.addBehavior(
-				EAdMouseEventImpl.MOUSE_EXITED,
-				new EAdChangeAppearance(newActiveArea, newActiveArea
-						.getInitialBundle()));
-		
+				EAdSceneElementDefImpl.appearance, shape);
 	}
 
 	private void addActions(ActiveArea oldObject,
 			EAdSceneElementDefImpl newActiveArea,
 			EAdBasicSceneElement newActiveAreaReference) {
-		ActorImporter.addActions(oldObject, newActiveArea, actionImporter,
-				stringHandler, true);
-		EAdActorActionsEffect showActions = new EAdActorActionsEffect( newActiveArea );
+
+		EAdActorActionsEffect showActions = new EAdActorActionsEffect(
+				newActiveArea);
 		newActiveArea.addBehavior(EAdMouseEventImpl.MOUSE_RIGHT_CLICK,
 				showActions);
-		
+
+		((ActionImporter) actionImporter).addAllActions(oldObject.getActions(),
+				newActiveArea, true);
+
 	}
 
 }

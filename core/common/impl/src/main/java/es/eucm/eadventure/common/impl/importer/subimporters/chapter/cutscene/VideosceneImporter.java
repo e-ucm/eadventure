@@ -109,7 +109,7 @@ public class VideosceneImporter implements EAdElementImporter<Videoscene, EAdVid
 		resourceImporter.copyFile(assetPath, "binary/" + name);
 		
 		Video video = new VideoImpl("@binary/" + name);
-		cutscene.getResources().addAsset(EAdVideoScene.video, video);
+		cutscene.getDefinition().getResources().addAsset(EAdVideoScene.video, video);
 	}
 
 }

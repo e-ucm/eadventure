@@ -43,6 +43,7 @@ import es.eucm.eadventure.common.EAdElementImporter;
 import es.eucm.eadventure.common.data.chapter.conditions.Conditions;
 import es.eucm.eadventure.common.data.chapter.effects.MoveNPCEffect;
 import es.eucm.eadventure.common.impl.importer.interfaces.EAdElementFactory;
+import es.eucm.eadventure.common.model.conditions.impl.EmptyCondition;
 import es.eucm.eadventure.common.model.effects.impl.EAdMacroImpl;
 import es.eucm.eadventure.common.model.effects.impl.EAdTriggerMacro;
 import es.eucm.eadventure.common.model.effects.impl.sceneelements.EAdMoveSceneElement;
@@ -74,7 +75,7 @@ public class MoveNPCEffectImporter extends EffectImporter<MoveNPCEffect, EAdTrig
 		EAdTriggerMacro effect = super.convert(oldObject, object);	
 		EAdMacroImpl macro = new EAdMacroImpl();
 		macro.setId("macro");
-		effect.setMacro(macro);
+		effect.putMacro(macro, EmptyCondition.TRUE_EMPTY_CONDITION);
 		
 
 		macro.getEffects().add(new EAdMoveSceneElement((EAdSceneElementDef) factory.getElementById(oldObject.getTargetId()), 

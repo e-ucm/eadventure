@@ -60,7 +60,7 @@ public abstract class AbstractFactory<T> implements Factory<T> {
 
 	protected ReflectionProvider reflectionProvider;
 
-	private static final Logger logger = Logger.getLogger("AbstractFactory");
+	protected static final Logger logger = Logger.getLogger("AbstractFactory");
 
 	public AbstractFactory(MapProvider<Class<?>, T> mapProvider,
 			ReflectionProvider interfacesProvider) {

@@ -1,3 +1,40 @@
+/**
+ * eAdventure (formerly <e-Adventure> and <e-Game>) is a research project of the
+ *    <e-UCM> research group.
+ *
+ *    Copyright 2005-2010 <e-UCM> research group.
+ *
+ *    You can access a list of all the contributors to eAdventure at:
+ *          http://e-adventure.e-ucm.es/contributors
+ *
+ *    <e-UCM> is a research group of the Department of Software Engineering
+ *          and Artificial Intelligence at the Complutense University of Madrid
+ *          (School of Computer Science).
+ *
+ *          C Profesor Jose Garcia Santesmases sn,
+ *          28040 Madrid (Madrid), Spain.
+ *
+ *          For more info please visit:  <http://e-adventure.e-ucm.es> or
+ *          <http://www.e-ucm.es>
+ *
+ * ****************************************************************************
+ *
+ *  This file is part of eAdventure, version 2.0
+ *
+ *      eAdventure is free software: you can redistribute it and/or modify
+ *      it under the terms of the GNU Lesser General Public License as published by
+ *      the Free Software Foundation, either version 3 of the License, or
+ *      (at your option) any later version.
+ *
+ *      eAdventure is distributed in the hope that it will be useful,
+ *      but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *      MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *      GNU Lesser General Public License for more details.
+ *
+ *      You should have received a copy of the GNU Lesser General Public License
+ *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
 package es.eucm.eadventure.common.impl.importer.subimporters.chapter.scene.elements;
 
 import es.eucm.eadventure.common.EAdElementImporter;
@@ -5,6 +42,7 @@ import es.eucm.eadventure.common.data.chapter.Exit;
 import es.eucm.eadventure.common.data.chapter.InfluenceArea;
 import es.eucm.eadventure.common.data.chapter.Rectangle;
 import es.eucm.eadventure.common.data.chapter.conditions.Conditions;
+import es.eucm.eadventure.common.data.chapter.elements.Description;
 import es.eucm.eadventure.common.data.chapter.elements.Element;
 import es.eucm.eadventure.common.impl.importer.interfaces.EAdElementFactory;
 import es.eucm.eadventure.common.impl.importer.subimporters.chapter.scene.ShapedElementImporter;
@@ -22,17 +60,20 @@ import es.eucm.eadventure.common.model.trajectories.impl.NodeTrajectoryDefinitio
 import es.eucm.eadventure.common.model.variables.EAdField;
 import es.eucm.eadventure.common.model.variables.impl.EAdFieldImpl;
 import es.eucm.eadventure.common.model.variables.impl.operations.BooleanOperation;
+import es.eucm.eadventure.common.params.EAdString;
 import es.eucm.eadventure.common.params.fills.impl.EAdColor;
 import es.eucm.eadventure.common.params.fills.impl.EAdPaintImpl;
 import es.eucm.eadventure.common.params.geom.EAdRectangle;
 import es.eucm.eadventure.common.params.geom.impl.EAdRectangleImpl;
 import es.eucm.eadventure.common.predef.model.effects.EAdMoveActiveElement;
 import es.eucm.eadventure.common.resources.StringHandler;
-import es.eucm.eadventure.common.resources.assets.drawable.basics.enums.Alignment;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.Shape;
+import es.eucm.eadventure.common.resources.assets.drawable.basics.enums.Alignment;
 
 public abstract class ElementImporter<T> implements
 		EAdElementImporter<T, EAdSceneElement> {
+
+	private static final int INFLUENCE_MARGIN = 20;
 
 	protected EAdElementFactory factory;
 
@@ -55,7 +96,7 @@ public abstract class ElementImporter<T> implements
 			newExit.addBehavior(EAdMouseEventImpl.MOUSE_LEFT_CLICK, finalEffect);
 		} else {
 			EAdMoveActiveElement move = new EAdMoveActiveElement();
-			move.setTarget(newExit);
+			move.setTarget(newExit.getDefinition());
 			move.getNextEffects().add(finalEffect);
 			newExit.addBehavior(EAdMouseEventImpl.MOUSE_LEFT_CLICK, move);
 		}
@@ -74,7 +115,10 @@ public abstract class ElementImporter<T> implements
 					influenceArea.getY() + bounds.getY(),
 					influenceArea.getWidth(), influenceArea.getHeight());
 		} else {
-			rect = bounds;
+			rect = new EAdRectangleImpl(bounds.getX() - INFLUENCE_MARGIN,
+					bounds.getY() - INFLUENCE_MARGIN, bounds.getWidth()
+							+ INFLUENCE_MARGIN * 2, bounds.getHeight()
+							+ INFLUENCE_MARGIN * 2);
 		}
 		sceneElement.setVarInitialValue(
 				NodeTrajectoryDefinition.VAR_INFLUENCE_AREA, rect);
@@ -87,11 +131,15 @@ public abstract class ElementImporter<T> implements
 	}
 
 	protected void setShape(EAdBasicSceneElement sceneElement, Rectangle exit) {
-		Shape shape = ShapedElementImporter.importShape(exit, sceneElement);
+		Shape shape = ShapedElementImporter.importShape(exit);
+		sceneElement.setPosition(exit.getX(), exit.getY());
 		shape.setPaint(EAdColor.TRANSPARENT);
 
-		sceneElement.getResources().addAsset(sceneElement.getInitialBundle(),
-				EAdBasicSceneElement.appearance, shape);
+		sceneElement
+				.getDefinition()
+				.getResources()
+				.addAsset(sceneElement.getDefinition().getInitialBundle(),
+						EAdSceneElementDefImpl.appearance, shape);
 	}
 
 	protected EAdCondition getEnableCondition(Conditions c) {
@@ -104,28 +152,31 @@ public abstract class ElementImporter<T> implements
 
 	protected void setDocumentation(EAdSceneElementDefImpl newElement,
 			Element oldObject) {
-		stringHandler.setString(newElement.getName(), oldObject.getName());
-		stringHandler.setString(newElement.getDesc(),
-				oldObject.getDescription());
-		stringHandler.setString(newElement.getDetailDesc(),
-				oldObject.getDetailedDescription());
-		stringHandler.setString(newElement.getDoc(),
-				oldObject.getDocumentation());
-		newElement.setId(oldObject.getId() + "_element");
-		
+		// FIXME multiple descriptions not supported
+		if (oldObject.getDescriptions().size() > 0) {
+			Description desc = oldObject.getDescription(0);
+			stringHandler.setString(newElement.getName(), desc.getName());
+			stringHandler
+					.setString(newElement.getDesc(), desc.getDescription());
+			stringHandler.setString(newElement.getDetailDesc(),
+					desc.getDetailedDescription());
+			stringHandler.setString(newElement.getDoc(),
+					oldObject.getDocumentation());
+			newElement.setId(oldObject.getId() + "_element");
+		}
+
 	}
 
 	protected void addDefaultBehavior(EAdBasicSceneElement sceneElement,
-			String shortDescription) {
+			EAdString shortDescription) {
 		sceneElement.setVarInitialValue(EAdBasicSceneElement.VAR_NAME,
 				sceneElement.getDefinition().getName());
 		if (shortDescription != null) {
-			EAdSpeakEffect showDescription = new EAdSpeakEffect();
+			EAdSpeakEffect showDescription = new EAdSpeakEffect(
+					shortDescription);
 			showDescription.setAlignment(Alignment.CENTER);
 			showDescription.setColor(EAdPaintImpl.WHITE_ON_BLACK,
 					EAdColor.TRANSPARENT);
-			stringHandler.setString(showDescription.getString(),
-					shortDescription);
 			sceneElement.addBehavior(EAdMouseEventImpl.MOUSE_LEFT_CLICK,
 					showDescription);
 		}

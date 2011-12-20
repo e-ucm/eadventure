@@ -37,6 +37,8 @@
 
 package es.eucm.eadventure.engine.core.platform.impl.extra;
 
+import java.awt.Graphics2D;
+
 import com.google.inject.AbstractModule;
 import com.google.inject.Provides;
 import com.google.inject.TypeLiteral;
@@ -73,6 +75,8 @@ import es.eucm.eadventure.engine.core.platform.impl.DesktopPlatformConfiguration
 import es.eucm.eadventure.engine.core.platform.impl.DesktopPlatformLauncher;
 import es.eucm.eadventure.engine.core.platform.impl.DesktopTransitionFactory;
 import es.eucm.eadventure.engine.core.platform.impl.FontHandlerImpl;
+import es.eucm.eadventure.engine.core.platform.impl.rendering.DesktopFilterFactory;
+import es.eucm.eadventure.engine.core.platform.rendering.filters.FilterFactory;
 
 public class DesktopModule extends AbstractModule {
 
@@ -82,7 +86,7 @@ public class DesktopModule extends AbstractModule {
 		}).to(EAdAdventureDOMModelReader.class);
 		bind(GameLoop.class).to(GameLoopImpl.class);
 		bind(GameProfiler.class).to(GameProfilerImpl.class);
-		bind(GUI.class).to(DesktopGUI.class);
+		configureGUI();
 		bind(PlatformConfiguration.class)
 				.to(DesktopPlatformConfiguration.class);
 		bind(PlatformLauncher.class).to(DesktopPlatformLauncher.class);
@@ -95,6 +99,11 @@ public class DesktopModule extends AbstractModule {
 		bind(MenuHUD.class).to(MenuHUDImpl.class);
 		bind(FontHandlerImpl.class).to(DesktopFontCache.class);
 		bind(TransitionFactory.class).to(DesktopTransitionFactory.class);
+		bind(new TypeLiteral<FilterFactory<Graphics2D>>(){}).to(DesktopFilterFactory.class);
+	}
+	
+	protected void configureGUI() {
+		bind(GUI.class).to(DesktopGUI.class);
 	}
 
 	@Provides

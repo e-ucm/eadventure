@@ -41,6 +41,9 @@ import es.eucm.eadventure.common.interfaces.Element;
 import es.eucm.eadventure.common.interfaces.Param;
 import es.eucm.eadventure.common.model.effects.EAdEffect;
 import es.eucm.eadventure.common.model.effects.EAdMacro;
+import es.eucm.eadventure.common.model.elements.EAdCondition;
+import es.eucm.eadventure.common.model.extra.EAdList;
+import es.eucm.eadventure.common.model.extra.impl.EAdListImpl;
 
 /**
  * Effect to trigger the effects contained in a macro
@@ -48,35 +51,30 @@ import es.eucm.eadventure.common.model.effects.EAdMacro;
 @Element(detailed = EAdTriggerMacro.class, runtime = EAdTriggerMacro.class)
 public class EAdTriggerMacro extends AbstractEAdEffect implements EAdEffect {
 
-	@Param("macro")
-	private EAdMacro macro;
-	
-	public EAdTriggerMacro(EAdMacro macro ) {
-		super();
-		setId("triggerMacro_" + (macro != null ? macro.getId() : "unknown"));
-		this.macro = macro;
-	}
-	
+	@Param("macros")
+	private EAdList<EAdMacro> macros;
+
+	@Param("conditions")
+	private EAdList<EAdCondition> conditions;
+
 	public EAdTriggerMacro() {
-		this(null);
+		super();
+		setId("triggerMacro");
+		macros = new EAdListImpl<EAdMacro>(EAdMacro.class);
+		conditions = new EAdListImpl<EAdCondition>(EAdCondition.class);
 	}
-	
-	/**
-	 * Set the macro for the effect
-	 * 
-	 * @param macro the {@link EAdMacro}
-	 */
-	public void setMacro(EAdMacro macro) {
-		this.macro = macro;
+
+	public void putMacro(EAdMacro macro, EAdCondition condition) {
+		macros.add(macro);
+		conditions.add(condition);
 	}
-	
-	/**
-	 * Returns the macro for the effect
-	 * 
-	 * @return the {@link EAdMacro}
-	 */
-	public EAdMacro getMacro() {
-		return macro;
+
+	public EAdList<EAdMacro> getMacros() {
+		return macros;
+	}
+
+	public EAdList<EAdCondition> getConditions() {
+		return conditions;
 	}
 
 }

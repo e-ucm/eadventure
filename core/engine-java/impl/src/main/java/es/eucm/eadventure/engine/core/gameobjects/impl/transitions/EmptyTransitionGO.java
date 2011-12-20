@@ -52,6 +52,7 @@ import es.eucm.eadventure.common.resources.assets.drawable.basics.Caption;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.Image;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.CaptionImpl;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.shapes.RectangleShape;
+import es.eucm.eadventure.common.util.EAdTransformation;
 import es.eucm.eadventure.engine.core.GameState;
 import es.eucm.eadventure.engine.core.gameobjects.SceneGO;
 import es.eucm.eadventure.engine.core.gameobjects.TransitionGO;
@@ -62,7 +63,6 @@ import es.eucm.eadventure.engine.core.platform.AssetHandler;
 import es.eucm.eadventure.engine.core.platform.GUI;
 import es.eucm.eadventure.engine.core.platform.PlatformConfiguration;
 import es.eucm.eadventure.engine.core.platform.RuntimeAsset;
-import es.eucm.eadventure.engine.core.util.EAdTransformation;
 
 public class EmptyTransitionGO extends SceneGOImpl implements TransitionGO {
 
@@ -95,10 +95,8 @@ public class EmptyTransitionGO extends SceneGOImpl implements TransitionGO {
 
 		caption = new CaptionImpl();
 		caption.getText().parse("Loading");
-		loadingText = new EAdBasicSceneElement();
+		loadingText = new EAdBasicSceneElement(caption);
 		loadingText.setId("loadingText");
-		loadingText.getResources().addAsset(loadingText.getInitialBundle(),
-				EAdBasicSceneElement.appearance, caption);
 		loadingText.setPosition(EAdPositionImpl.volatileEAdPosition(750, 550,
 				1.0f, 1.0f));
 
@@ -108,10 +106,8 @@ public class EmptyTransitionGO extends SceneGOImpl implements TransitionGO {
 		rs.setPaint(new EAdPaintImpl(new EAdColor(100, 100, 100, 30),
 				EAdColor.BLACK));
 
-		screenBlock = new EAdBasicSceneElement();
+		screenBlock = new EAdBasicSceneElement(rs);
 		screenBlock.setId("screenBlock");
-		screenBlock.getResources().addAsset(screenBlock.getInitialBundle(),
-				EAdBasicSceneElement.appearance, rs);
 	}
 
 	/*
@@ -151,13 +147,13 @@ public class EmptyTransitionGO extends SceneGOImpl implements TransitionGO {
 			new Thread(new Loader()).start();
 		}
 
-		if (previousSceneImage == null) {
+		if (previousSceneImage == null)
 			previousSceneImage = gui.commitToImage();
-		}
 
 		if (loaded) {
 			gameState.setScene(nextSceneGO);
-			previousSceneImage.freeMemory();
+			if (previousSceneImage != null)
+				previousSceneImage.freeMemory();
 		}
 	}
 
@@ -171,11 +167,12 @@ public class EmptyTransitionGO extends SceneGOImpl implements TransitionGO {
 		public void run() {
 			nextSceneGO = (SceneGO<?>) sceneElementFactory.get(nextEAdScene);
 			try {
-
 				// TODO what if it's not possible to create previous scene
 				// image?
-				while (previousSceneImage == null) {
+				int count = 0;
+				while (previousSceneImage == null && count < 20) {
 					Thread.sleep(50);
+					count++;
 				}
 
 				List<RuntimeAsset<?>> newAssetList = nextSceneGO.getAssets(

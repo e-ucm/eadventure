@@ -48,7 +48,7 @@ import playn.core.Image;
 import com.google.inject.Inject;
 
 import es.eucm.eadventure.engine.core.platform.AssetHandler;
-import es.eucm.eadventure.engine.core.platform.EAdCanvas;
+import es.eucm.eadventure.engine.core.platform.rendering.EAdCanvas;
 
 public class PlayNEngineImage extends RuntimeImage<Canvas> {
 
@@ -67,18 +67,6 @@ public class PlayNEngineImage extends RuntimeImage<Canvas> {
 	public PlayNEngineImage(AssetHandler assetHandler) {
 		super(assetHandler);
 		logger.info("New instance");
-	}
-
-	/**
-	 * Creates an empty {@link DesktopEngineImage} with the given dimensions
-	 * 
-	 * @param width
-	 * @param height
-	 */
-	public PlayNEngineImage(int width, int height) {
-		super(null);
-		//TODO		
-		logger.info("New instance, width:" + width + "; height:" + height);
 	}
 
 	public Image getImage() {
@@ -106,6 +94,7 @@ public class PlayNEngineImage extends RuntimeImage<Canvas> {
 				image = assetManager().getImage(assetHandler.getAbsolutePath(descriptor.getUri().getPath()));
 				if (image != null) {
 					logger.log(Level.INFO, "Image loaded: " + descriptor.getUri() + " from path " + assetHandler.getAbsolutePath(descriptor.getUri().getPath()));
+					logger.info("Width" + image.width());
 					return image.isReady();
 				} else {
 					logger.log(Level.SEVERE, "Image NOT loaded: " + descriptor.getUri());

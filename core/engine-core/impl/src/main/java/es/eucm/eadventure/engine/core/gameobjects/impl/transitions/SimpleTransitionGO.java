@@ -53,6 +53,7 @@ import es.eucm.eadventure.common.resources.assets.drawable.basics.Caption;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.Image;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.CaptionImpl;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.shapes.RectangleShape;
+import es.eucm.eadventure.common.util.EAdTransformation;
 import es.eucm.eadventure.engine.core.GameState;
 import es.eucm.eadventure.engine.core.gameobjects.DrawableGO;
 import es.eucm.eadventure.engine.core.gameobjects.SceneGO;
@@ -64,7 +65,6 @@ import es.eucm.eadventure.engine.core.platform.AssetHandler;
 import es.eucm.eadventure.engine.core.platform.GUI;
 import es.eucm.eadventure.engine.core.platform.PlatformConfiguration;
 import es.eucm.eadventure.engine.core.platform.RuntimeAsset;
-import es.eucm.eadventure.engine.core.util.EAdTransformation;
 
 public class SimpleTransitionGO extends SceneGOImpl implements TransitionGO {
 
@@ -97,10 +97,8 @@ public class SimpleTransitionGO extends SceneGOImpl implements TransitionGO {
 		EAdString string = EAdString.newEAdString("Loading");
 		string.parse("Loading");
 		caption = new CaptionImpl(string);
-		loadingText = new EAdBasicSceneElement();
+		loadingText = new EAdBasicSceneElement(caption);
 		loadingText.setId("loadingText");
-		loadingText.getResources().addAsset(loadingText.getInitialBundle(),
-				EAdBasicSceneElement.appearance, caption);
 		loadingText.setPosition(EAdPositionImpl.volatileEAdPosition(750, 550,
 				1.0f, 1.0f));
 
@@ -110,10 +108,8 @@ public class SimpleTransitionGO extends SceneGOImpl implements TransitionGO {
 		rs.setPaint(new EAdPaintImpl(new EAdColor(100, 100, 100, 30),
 				EAdColor.BLACK));
 
-		screenBlock = new EAdBasicSceneElement();
+		screenBlock = new EAdBasicSceneElement(rs);
 		screenBlock.setId("screenBlock");
-		screenBlock.getResources().addAsset(screenBlock.getInitialBundle(),
-				EAdBasicSceneElement.appearance, rs);
 	}
 
 	@Override

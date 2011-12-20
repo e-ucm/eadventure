@@ -51,9 +51,7 @@ import es.eucm.eadventure.common.model.elements.impl.EAdSceneImpl;
 import es.eucm.eadventure.common.model.elements.impl.EAdTimerImpl;
 import es.eucm.eadventure.common.model.events.EAdEvent;
 import es.eucm.eadventure.common.model.events.enums.ConditionedEventType;
-import es.eucm.eadventure.common.model.events.enums.TimerEventType;
 import es.eucm.eadventure.common.model.events.impl.EAdConditionEventImpl;
-import es.eucm.eadventure.common.model.events.impl.EAdTimerEventImpl;
 import es.eucm.eadventure.common.model.extra.EAdList;
 import es.eucm.eadventure.common.model.extra.impl.EAdListImpl;
 import es.eucm.eadventure.common.model.guievents.impl.EAdMouseEventImpl;
@@ -108,7 +106,7 @@ public class EAdCutscene extends EAdComposedScene {
 				EAdTimerImpl timer = new EAdTimerImpl();
 				timer.setId("timer");
 				timer.setTime(slide.getTime());
-				chapter.getTimers().add(timer);
+//				chapter.getTimers().add(timer);
 
 				EAdEvent event = new EAdConditionEventImpl(
 						new OperationCondition(sceneLoaded, Boolean.TRUE, Comparator.EQUAL));
@@ -120,9 +118,9 @@ public class EAdCutscene extends EAdComposedScene {
 										EmptyCondition.TRUE_EMPTY_CONDITION)));
 				events.add(event);
 
-				EAdEvent event2 = new EAdTimerEventImpl(timer);
-				event2.addEffect(TimerEventType.TIMER_ENDED, e);
-				events.add(event2);
+//				EAdEvent event2 = new EAdTimerEventImpl(timer);
+//				event2.addEffect(TimerEventType.TIMER_ENDED, e);
+//				events.add(event2);
 			}
 		}
 		EAdChangeScene e3 = new EAdChangeScene(nextScene,

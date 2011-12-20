@@ -48,10 +48,8 @@ import es.eucm.eadventure.common.impl.importer.interfaces.ResourceImporter;
 import es.eucm.eadventure.common.model.elements.EAdChapter;
 import es.eucm.eadventure.common.model.elements.EAdCondition;
 import es.eucm.eadventure.common.model.elements.EAdScene;
-import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
 import es.eucm.eadventure.common.model.elements.impl.extra.EAdCutscene;
 import es.eucm.eadventure.common.model.elements.impl.extra.EAdSlide;
-import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.ImageImpl;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.animation.Frame;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.animation.FramesAnimation;
 import es.eucm.eadventure.common.resources.assets.multimedia.Sound;
@@ -112,14 +110,9 @@ public class SlidesceneImporter implements
 				.getAssetDescritptor(assetPath, FramesAnimation.class);
 		for (int i = 0; i < asset.getFrameCount(); i++) {
 			Frame f = asset.getFrame(i);
-			EAdSlide slide = new EAdSlide();
+			EAdSlide slide = new EAdSlide(f.getDrawable());
 			slide.setId("slide_" + i);
 			slide.setTime(f.getTime());
-			slide.getBackground()
-					.getResources()
-					.addAsset(slide.getBackground().getInitialBundle(),
-							EAdBasicSceneElement.appearance,
-							new ImageImpl(f.getUri()));
 			cutscene.addSlide(slide);
 		}
 

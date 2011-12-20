@@ -37,9 +37,13 @@
 
 package es.eucm.eadventure.engine.extra;
 
+import android.graphics.Canvas;
+
 import com.google.inject.AbstractModule;
 import com.google.inject.Provides;
+import com.google.inject.TypeLiteral;
 import com.google.inject.name.Named;
+
 import es.eucm.eadventure.engine.AndroidFontCache;
 import es.eucm.eadventure.engine.AndroidGUI;
 import es.eucm.eadventure.engine.AndroidPlatformConfiguration;
@@ -63,7 +67,9 @@ import es.eucm.eadventure.engine.core.platform.GUI;
 import es.eucm.eadventure.engine.core.platform.PlatformConfiguration;
 import es.eucm.eadventure.engine.core.platform.TransitionFactory;
 import es.eucm.eadventure.engine.core.platform.impl.FontHandlerImpl;
+import es.eucm.eadventure.engine.core.platform.rendering.filters.FilterFactory;
 import es.eucm.eadventure.engine.gameobjects.AndroidBasicHUD;
+import es.eucm.eadventure.engine.rendering.AndroidFilterFactory;
 
 public class AndroidModule extends AbstractModule {
 
@@ -87,6 +93,7 @@ public class AndroidModule extends AbstractModule {
 		bind(FontHandlerImpl.class).to(AndroidFontCache.class);
 		bind(MenuHUD.class).to(MenuHUDImpl.class);
 		bind(TransitionFactory.class).to(AndroidTransitionFactory.class);
+		bind(new TypeLiteral<FilterFactory<Canvas>>(){}).to(AndroidFilterFactory.class);
 	}
 	
 	@Provides

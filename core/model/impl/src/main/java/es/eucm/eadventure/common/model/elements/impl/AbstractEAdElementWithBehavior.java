@@ -38,26 +38,37 @@
 package es.eucm.eadventure.common.model.elements.impl;
 
 import es.eucm.eadventure.common.interfaces.Param;
+import es.eucm.eadventure.common.interfaces.WithBehavior;
+import es.eucm.eadventure.common.interfaces.features.Evented;
 import es.eucm.eadventure.common.model.behavior.EAdBehavior;
 import es.eucm.eadventure.common.model.behaviors.impl.EAdBehaviorImpl;
 import es.eucm.eadventure.common.model.effects.EAdEffect;
+import es.eucm.eadventure.common.model.events.EAdEvent;
 import es.eucm.eadventure.common.model.extra.EAdList;
+import es.eucm.eadventure.common.model.extra.impl.EAdListImpl;
 import es.eucm.eadventure.common.model.guievents.EAdGUIEvent;
-import es.eucm.eadventure.common.model.impl.ResourcedElementImpl;
+import es.eucm.eadventure.common.model.impl.EAdElementImpl;
 
 /**
  * An abstract element with behavior, resources and events
  * 
  */
 public abstract class AbstractEAdElementWithBehavior extends
-		ResourcedElementImpl {
+		EAdElementImpl implements Evented, WithBehavior {
 
 	@Param("behavior")
 	protected EAdBehavior behavior;
+	
+	/**
+	 * Events associated with this element
+	 */
+	@Param("events")
+	protected EAdList<EAdEvent> events;
 
 	public AbstractEAdElementWithBehavior() {
 		super();
 		this.behavior = new EAdBehaviorImpl();
+		this.events = new EAdListImpl<EAdEvent>(EAdEvent.class);
 		behavior.setId(id + "behaviors");
 	}
 
@@ -105,6 +116,16 @@ public abstract class AbstractEAdElementWithBehavior extends
 	 */
 	public EAdBehavior getBehavior() {
 		return behavior;
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see es.eucm.eadventure.common.model.EAdElement#getEvents()
+	 */
+	@Override
+	public EAdList<EAdEvent> getEvents() {
+		return events;
 	}
 
 }

@@ -135,6 +135,7 @@ public class ValueMapImpl implements ValueMap {
 	private <S> S getFinalValue(EAdElement element, EAdVarDef<S> varDef) {
 		Map<EAdVarDef<?>, Object> valMap = element == null ? systemVars : map
 				.get(element);
+		
 		if (valMap == null) {
 			// If the variable has not been set, returns the initial value
 			return varDef.getInitialValue();

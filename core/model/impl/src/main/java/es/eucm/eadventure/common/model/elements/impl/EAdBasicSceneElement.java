@@ -40,8 +40,11 @@ package es.eucm.eadventure.common.model.elements.impl;
 import es.eucm.eadventure.common.interfaces.Element;
 import es.eucm.eadventure.common.interfaces.Param;
 import es.eucm.eadventure.common.interfaces.features.enums.Orientation;
+import es.eucm.eadventure.common.model.conditions.impl.EmptyCondition;
+import es.eucm.eadventure.common.model.elements.EAdCondition;
 import es.eucm.eadventure.common.model.elements.EAdSceneElement;
 import es.eucm.eadventure.common.model.elements.EAdSceneElementDef;
+import es.eucm.eadventure.common.model.elements.enums.CommonStates;
 import es.eucm.eadventure.common.model.extra.EAdMap;
 import es.eucm.eadventure.common.model.extra.impl.EAdMapImpl;
 import es.eucm.eadventure.common.model.variables.EAdVarDef;
@@ -50,13 +53,11 @@ import es.eucm.eadventure.common.params.EAdString;
 import es.eucm.eadventure.common.params.geom.EAdPosition;
 import es.eucm.eadventure.common.params.geom.impl.EAdPositionImpl;
 import es.eucm.eadventure.common.params.geom.impl.EAdPositionImpl.Corner;
-import es.eucm.eadventure.common.resources.annotation.Asset;
-import es.eucm.eadventure.common.resources.annotation.Bundled;
 import es.eucm.eadventure.common.resources.assets.drawable.Drawable;
 
 @Element(detailed = EAdBasicSceneElement.class, runtime = EAdBasicSceneElement.class)
-public class EAdBasicSceneElement extends EAdSceneElementDefImpl implements
-		EAdSceneElement {
+public class EAdBasicSceneElement extends AbstractEAdElementWithBehavior
+		implements EAdSceneElement {
 
 	public static final EAdVarDef<Orientation> VAR_ORIENTATION = new EAdVarDefImpl<Orientation>(
 			"orientation", Orientation.class, Orientation.S);
@@ -96,10 +97,10 @@ public class EAdBasicSceneElement extends EAdSceneElementDefImpl implements
 
 	public static final EAdVarDef<Integer> VAR_BOTTOM = new EAdVarDefImpl<Integer>(
 			"bottom", Integer.class, 0);
-	
+
 	public static final EAdVarDef<Integer> VAR_CENTER_X = new EAdVarDefImpl<Integer>(
 			"center_x", Integer.class, 0);
-	
+
 	public static final EAdVarDef<Integer> VAR_CENTER_Y = new EAdVarDefImpl<Integer>(
 			"center_y", Integer.class, 0);
 
@@ -123,38 +124,27 @@ public class EAdBasicSceneElement extends EAdSceneElementDefImpl implements
 
 	public static final EAdVarDef<EAdString> VAR_NAME = new EAdVarDefImpl<EAdString>(
 			"name", EAdString.class, null);
-
-	@Bundled
-	@Asset({ Drawable.class })
-	public static final String appearance = "appearance";
+	
+	public static final EAdVarDef<Boolean> VAR_RETURN_WHEN_DRAGGED = new EAdVarDefImpl<Boolean>(
+			"enable", Boolean.class, Boolean.FALSE);
 
 	@Param("vars")
 	private EAdMap<EAdVarDef<?>, Object> vars;
 
-	@Param("definitino")
-	private EAdSceneElementDef definition;
+	@Param("definition")
+	protected EAdSceneElementDef definition;
 
-	private boolean clone;
+	@Param("dragCond")
+	protected EAdCondition dragCond;
 
 	public EAdBasicSceneElement() {
 		super();
+		dragCond = EmptyCondition.FALSE_EMPTY_CONDITION;
+		definition = new EAdSceneElementDefImpl();
 		vars = new EAdMapImpl<EAdVarDef<?>, Object>(EAdVarDef.class,
 				Object.class);
 	}
 
-	public boolean isClone() {
-		return clone;
-	}
-
-	public void setClone(boolean b) {
-		this.clone = b;
-	}
-
-	public boolean equals(Object o) {
-		boolean temp = this == o;
-		return temp;
-	}
-	
 	/**
 	 * Creates a basic scene element
 	 * 
@@ -165,8 +155,7 @@ public class EAdBasicSceneElement extends EAdSceneElementDefImpl implements
 	 */
 	public EAdBasicSceneElement(Drawable appearance) {
 		this();
-		getResources().addAsset(getInitialBundle(),
-				EAdBasicSceneElement.appearance, appearance);
+		this.definition = new EAdSceneElementDefImpl(appearance);
 	}
 
 	public EAdBasicSceneElement(EAdSceneElementDef actor) {
@@ -222,39 +211,25 @@ public class EAdBasicSceneElement extends EAdSceneElementDefImpl implements
 
 	@Override
 	public EAdSceneElementDef getDefinition() {
-		return definition == null ? this : definition;
-	}
-
-	/**
-	 * An enumerate with common states for scene elements
-	 * 
-	 * 
-	 */
-	public enum CommonStates {
-		/**
-		 * Default state
-		 */
-		EAD_STATE_DEFAULT,
-
-		/**
-		 * Talking state
-		 */
-		EAD_STATE_TALKING,
-
-		/**
-		 * Walking state
-		 */
-		EAD_STATE_WALKING,
-
-		/**
-		 * Using state
-		 */
-		EAD_STATE_USING;
-
+		return definition;
 	}
 
 	public void setDefinition(EAdSceneElementDef def) {
 		this.definition = def;
+	}
+
+	public boolean equals(Object o) {
+		boolean temp = this == o;
+		return temp;
+	}
+
+	public void setDragCond(EAdCondition c) {
+		this.dragCond = c;
+	}
+
+	@Override
+	public EAdCondition getDragCond() {
+		return dragCond;
 	}
 
 }

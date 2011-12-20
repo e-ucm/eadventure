@@ -41,11 +41,7 @@ import java.util.Map;
 
 import com.google.inject.Injector;
 
-import es.eucm.eadventure.common.elementfactories.EAdElementsFactory;
 import es.eucm.eadventure.common.model.elements.EAdAdventureModel;
-import es.eucm.eadventure.common.model.elements.EAdScene;
-import es.eucm.eadventure.common.model.impl.EAdAdventureModelImpl;
-import es.eucm.eadventure.common.model.impl.EAdChapterImpl;
 import es.eucm.eadventure.common.params.EAdString;
 import es.eucm.eadventure.common.resources.StringHandler;
 import es.eucm.eadventure.engine.core.Game;
@@ -60,34 +56,9 @@ public abstract class BaseTestLauncher {
 
 	private PlatformLauncher launcher;
 
-	private EAdAdventureModel model;
-
-	private EAdChapterImpl c;
-
-	public BaseTestLauncher(Injector injector) {
-		launcher = injector.getInstance(PlatformLauncher.class);
-		model = new EAdAdventureModelImpl();
-		if (EAdElementsFactory.getInstance().getInventory() != null) {
-			model.setInventory(EAdElementsFactory.getInstance().getInventory());
-		}
-		c = new EAdChapterImpl();
-		model.getChapters().add(c);
-	}
-
-	public BaseTestLauncher(Injector injector, EAdScene scene) {
-		this(injector);
-		c.getScenes().add(scene);
-		c.setInitialScene(scene);
-		Game game = injector.getInstance(Game.class);
-		game.setGame(model, model.getChapters().get(0));
-		StringHandler stringHandler = injector.getInstance(StringHandler.class);
-		stringHandler.addStrings(EAdElementsFactory.getInstance()
-				.getStringFactory().getStrings());
-	}
-
 	public BaseTestLauncher(Injector injector, EAdAdventureModel model,
 			Map<EAdString, String> strings) {
-		this(injector);
+		launcher = injector.getInstance(PlatformLauncher.class);
 		Game game = injector.getInstance(Game.class);
 		game.setGame(model, model.getChapters().get(0));
 		StringHandler stringHandler = injector.getInstance(StringHandler.class);

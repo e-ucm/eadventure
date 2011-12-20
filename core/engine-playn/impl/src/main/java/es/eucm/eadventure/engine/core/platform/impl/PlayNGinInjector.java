@@ -1,3 +1,40 @@
+/**
+ * eAdventure (formerly <e-Adventure> and <e-Game>) is a research project of the
+ *    <e-UCM> research group.
+ *
+ *    Copyright 2005-2010 <e-UCM> research group.
+ *
+ *    You can access a list of all the contributors to eAdventure at:
+ *          http://e-adventure.e-ucm.es/contributors
+ *
+ *    <e-UCM> is a research group of the Department of Software Engineering
+ *          and Artificial Intelligence at the Complutense University of Madrid
+ *          (School of Computer Science).
+ *
+ *          C Profesor Jose Garcia Santesmases sn,
+ *          28040 Madrid (Madrid), Spain.
+ *
+ *          For more info please visit:  <http://e-adventure.e-ucm.es> or
+ *          <http://www.e-ucm.es>
+ *
+ * ****************************************************************************
+ *
+ *  This file is part of eAdventure, version 2.0
+ *
+ *      eAdventure is free software: you can redistribute it and/or modify
+ *      it under the terms of the GNU Lesser General Public License as published by
+ *      the Free Software Foundation, either version 3 of the License, or
+ *      (at your option) any later version.
+ *
+ *      eAdventure is distributed in the hope that it will be useful,
+ *      but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *      MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *      GNU Lesser General Public License for more details.
+ *
+ *      You should have received a copy of the GNU Lesser General Public License
+ *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
 package es.eucm.eadventure.engine.core.platform.impl;
 
 import com.google.gwt.inject.client.GinModules;
@@ -9,7 +46,6 @@ import es.eucm.eadventure.engine.core.MouseState;
 import es.eucm.eadventure.engine.core.gameobjects.impl.ComposedSceneGOImpl;
 import es.eucm.eadventure.engine.core.gameobjects.impl.SceneGOImpl;
 import es.eucm.eadventure.engine.core.gameobjects.impl.VideoSceneGO;
-import es.eucm.eadventure.engine.core.gameobjects.impl.effects.ActiveElementEffectGO;
 import es.eucm.eadventure.engine.core.gameobjects.impl.effects.ActorActionsEffectGO;
 import es.eucm.eadventure.engine.core.gameobjects.impl.effects.CancelEffectGO;
 import es.eucm.eadventure.engine.core.gameobjects.impl.effects.ChangeFieldGO;
@@ -32,11 +68,11 @@ import es.eucm.eadventure.engine.core.gameobjects.impl.events.ConditionEventGO;
 import es.eucm.eadventure.engine.core.gameobjects.impl.events.SceneElementEventGO;
 import es.eucm.eadventure.engine.core.gameobjects.impl.events.SceneElementTimedEventGO;
 import es.eucm.eadventure.engine.core.gameobjects.impl.events.SystemEventGO;
-import es.eucm.eadventure.engine.core.gameobjects.impl.events.TimerEventGO;
 import es.eucm.eadventure.engine.core.gameobjects.impl.sceneelements.BasicSceneElementGO;
 import es.eucm.eadventure.engine.core.gameobjects.impl.sceneelements.ComplexSceneElementGO;
 import es.eucm.eadventure.engine.core.gameobjects.impl.transitions.SimpleTransitionGO;
 import es.eucm.eadventure.engine.core.impl.modules.BasicGameModule;
+import es.eucm.eadventure.engine.core.inventory.InventoryHandler;
 import es.eucm.eadventure.engine.core.platform.AssetHandler;
 import es.eucm.eadventure.engine.core.platform.GUI;
 import es.eucm.eadventure.engine.core.platform.PlatformConfiguration;
@@ -54,7 +90,6 @@ public interface PlayNGinInjector extends Ginjector {
 	
 	public SimpleTransitionGO getSimpleTransitionGO();
 	
-	public ActiveElementEffectGO getActiveElementEffectGO();
 	public ActorActionsEffectGO getActorActionEffectGO();
 	public CancelEffectGO getCancelEffectGO();
 	public ChangeSceneGO getChangeSceneGO();
@@ -76,7 +111,6 @@ public interface PlayNGinInjector extends Ginjector {
 	public SceneElementEventGO getSceneElementEventGO();
 	public SceneElementTimedEventGO getSceneElementTimedEventGO();
 	public SystemEventGO getSystemEventGO();
-	public TimerEventGO getTimerEventGO();
 	
 	public BasicSceneElementGO getBasicSceneElementGO();
 	public ComplexSceneElementGO getComplexSceneElementGO();
@@ -101,6 +135,8 @@ public interface PlayNGinInjector extends Ginjector {
 	public PlatformConfiguration getPlatformConfiguration();
 	
 	public PlayNInjector getPlayNInjector();
+	
+	public InventoryHandler getInventoryHandler();
 
 	public ComposedSceneGOImpl getComposedSceneGO();
 	

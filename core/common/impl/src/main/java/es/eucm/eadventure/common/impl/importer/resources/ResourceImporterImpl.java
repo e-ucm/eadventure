@@ -37,6 +37,8 @@
 
 package es.eucm.eadventure.common.impl.importer.resources;
 
+import java.awt.Dimension;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -50,6 +52,8 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import javax.imageio.ImageIO;
+
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
@@ -61,6 +65,7 @@ import es.eucm.eadventure.common.data.chapter.conditions.Conditions;
 import es.eucm.eadventure.common.data.chapter.resources.Resources;
 import es.eucm.eadventure.common.impl.importer.interfaces.ResourceImporter;
 import es.eucm.eadventure.common.interfaces.features.Evented;
+import es.eucm.eadventure.common.interfaces.features.Resourced;
 import es.eucm.eadventure.common.loader.InputStreamCreator;
 import es.eucm.eadventure.common.loader.Loader;
 import es.eucm.eadventure.common.model.conditions.impl.ANDCondition;
@@ -69,7 +74,6 @@ import es.eucm.eadventure.common.model.elements.EAdCondition;
 import es.eucm.eadventure.common.model.events.EAdConditionEvent;
 import es.eucm.eadventure.common.model.events.enums.ConditionedEventType;
 import es.eucm.eadventure.common.model.events.impl.EAdConditionEventImpl;
-import es.eucm.eadventure.common.model.impl.ResourcedElementImpl;
 import es.eucm.eadventure.common.predef.model.effects.EAdChangeAppearance;
 import es.eucm.eadventure.common.resources.EAdBundleId;
 import es.eucm.eadventure.common.resources.assets.AssetDescriptor;
@@ -203,8 +207,8 @@ public class ResourceImporterImpl implements ResourceImporter {
 
 	}
 
-	public void importResources(ResourcedElementImpl element,
-			List<Resources> resources, Map<String, String> resourcesStrings,
+	public void importResources(Resourced element, List<Resources> resources,
+			Map<String, String> resourcesStrings,
 			Map<String, Object> resourcesObjectClasses) {
 		int i = 0;
 		EAdCondition previousCondition = null;
@@ -217,7 +221,7 @@ public class ResourceImporterImpl implements ResourceImporter {
 			if (i == 0) {
 				bundleId = element.getInitialBundle();
 			} else {
-				bundleId = new EAdBundleId(element.getId() + "_bundle_" + i);
+				bundleId = new EAdBundleId("bundle_" + i);
 				element.getResources().addBundle(bundleId);
 			}
 
@@ -244,7 +248,8 @@ public class ResourceImporterImpl implements ResourceImporter {
 			if (element instanceof Evented) {
 
 				EAdConditionEvent conditionEvent = new EAdConditionEventImpl();
-				conditionEvent.setId(bundleId.getBundleId() + "_condition_" + i);
+				conditionEvent
+						.setId(bundleId.getBundleId() + "_condition_" + i);
 
 				EAdCondition condition = conditionsImporter.init(r
 						.getConditions());
@@ -262,11 +267,10 @@ public class ResourceImporterImpl implements ResourceImporter {
 				conditionEvent.setCondition(condition);
 
 				EAdChangeAppearance changeAppereance = new EAdChangeAppearance(
-						 null,
-						bundleId);
-				changeAppereance.setId(conditionEvent.getId() + "change_appearence");
-				conditionEvent.addEffect(
-						ConditionedEventType.CONDITIONS_MET,
+						null, bundleId);
+				changeAppereance.setId(conditionEvent.getId()
+						+ "change_appearence");
+				conditionEvent.addEffect(ConditionedEventType.CONDITIONS_MET,
 						changeAppereance);
 
 				((Evented) element).getEvents().add(conditionEvent);
@@ -361,7 +365,10 @@ public class ResourceImporterImpl implements ResourceImporter {
 			frames.addFrame(new Frame(newPath, frameTime));
 			oldPath = assetPath + "_0" + frame++ + fileExtension;
 		}
-		return frames;
+		if ( frames.getFrameCount() > 0 )
+				return frames;
+		else
+			return null;
 	}
 
 	@Override
@@ -382,6 +389,28 @@ public class ResourceImporterImpl implements ResourceImporter {
 		}
 		return exists;
 
+	}
+
+	public BufferedImage loadImage(String oldUri) {
+		try {
+			return ImageIO.read(inputStreamCreator.buildInputStream(oldUri));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	@Override
+	public Dimension getDimensions(String imageUri) {
+		if (imageUri != null) {
+			BufferedImage image = loadImage(imageUri);
+			if (image != null) {
+				Dimension d = new Dimension(image.getWidth(), image.getHeight());
+				image.flush();
+				return d;
+			}
+		}
+		return new Dimension(100, 100);
 	}
 
 }

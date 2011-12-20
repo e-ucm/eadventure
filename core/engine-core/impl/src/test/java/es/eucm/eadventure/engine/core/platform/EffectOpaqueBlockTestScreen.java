@@ -50,7 +50,8 @@ import es.eucm.eadventure.common.resources.StringHandler;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.ImageImpl;
 import es.eucm.eadventure.engine.core.GameLoop;
 
-public class EffectOpaqueBlockTestScreen extends EAdSceneImpl implements EAdScene {
+public class EffectOpaqueBlockTestScreen extends EAdSceneImpl implements
+		EAdScene {
 
 	private EAdSceneElementDefImpl buttonActor;
 	private StringHandler stringHandler;
@@ -60,52 +61,63 @@ public class EffectOpaqueBlockTestScreen extends EAdSceneImpl implements EAdScen
 
 	@Inject
 	public EffectOpaqueBlockTestScreen(StringHandler stringHandler) {
-			super();
-			this.setId("LoadingScreen");
-			
-			this.stringHandler = stringHandler;
-			
-			initButtonActor();
-			initButtonActor2();
-			
-			getComponents().add(buttonReference);
-			getComponents().add(buttonReference2);
+		super();
+		this.setId("LoadingScreen");
+
+		this.stringHandler = stringHandler;
+
+		initButtonActor();
+		initButtonActor2();
+
+		getComponents().add(buttonReference);
+		getComponents().add(buttonReference2);
 	}
-	
+
 	private void initButtonActor() {
 		buttonActor = new EAdSceneElementDefImpl();
 		buttonActor.setId("StartGame");
 		buttonActor.getResources().addAsset(buttonActor.getInitialBundle(),
-				EAdSceneElementDefImpl.appearance, new ImageImpl("@drawable/start.png"));
+				EAdSceneElementDefImpl.appearance,
+				new ImageImpl("@drawable/start.png"));
 		stringHandler.setString(buttonActor.getName(), "Start game");
-		
-//		EAdBehavior b = new StandardBehavior(buttonActor, "b");
-		
-//		buttonActor.setBehavior(b);
-		
-		buttonReference = new EAdBasicSceneElement( buttonActor);
+
+		// EAdBehavior b = new StandardBehavior(buttonActor, "b");
+
+		// buttonActor.setBehavior(b);
+
+		buttonReference = new EAdBasicSceneElement(buttonActor);
 		buttonReference.setPosition(new EAdPositionImpl(
 				EAdPositionImpl.Corner.BOTTOM_CENTER, 200, 200));
 	}
-	
+
 	private void initButtonActor2() {
 		buttonActor2 = new EAdBasicSceneElement();
 		buttonActor2.setId("StartGame");
-		buttonActor2.getResources().addAsset(buttonActor2.getInitialBundle(),
-				EAdSceneElementDefImpl.appearance, new ImageImpl("@drawable/start.png"));
-		
-		EAdWaitEffect waitEffect = new EAdWaitEffect( GameLoop.SKIP_MILLIS_TICK + 1);
-		buttonActor2.addBehavior(EAdMouseEventImpl.MOUSE_LEFT_CLICK, waitEffect );
-		
-		EAdWaitEffect waitEffect2 = new EAdWaitEffect(  GameLoop.SKIP_MILLIS_TICK  + 1);
-		waitEffect2.setOpaque( false );
-		buttonActor2.addBehavior(EAdMouseEventImpl.MOUSE_LEFT_CLICK, waitEffect2 );
-		
-		EAdWaitEffect waitEffect3 = new EAdWaitEffect( GameLoop.SKIP_MILLIS_TICK + 1 );
-		waitEffect3.setOpaque( false );
-		waitEffect3.setBlocking( false );
-		buttonActor2.addBehavior(EAdMouseEventImpl.MOUSE_LEFT_CLICK, waitEffect3 );
-		
+		buttonActor2
+				.getDefinition()
+				.getResources()
+				.addAsset(buttonActor2.getDefinition().getInitialBundle(),
+						EAdSceneElementDefImpl.appearance,
+						new ImageImpl("@drawable/start.png"));
+
+		EAdWaitEffect waitEffect = new EAdWaitEffect(
+				GameLoop.SKIP_MILLIS_TICK + 1);
+		buttonActor2
+				.addBehavior(EAdMouseEventImpl.MOUSE_LEFT_CLICK, waitEffect);
+
+		EAdWaitEffect waitEffect2 = new EAdWaitEffect(
+				GameLoop.SKIP_MILLIS_TICK + 1);
+		waitEffect2.setOpaque(false);
+		buttonActor2.addBehavior(EAdMouseEventImpl.MOUSE_LEFT_CLICK,
+				waitEffect2);
+
+		EAdWaitEffect waitEffect3 = new EAdWaitEffect(
+				GameLoop.SKIP_MILLIS_TICK + 1);
+		waitEffect3.setOpaque(false);
+		waitEffect3.setBlocking(false);
+		buttonActor2.addBehavior(EAdMouseEventImpl.MOUSE_LEFT_CLICK,
+				waitEffect3);
+
 		buttonActor2.setPosition(new EAdPositionImpl(
 				EAdPositionImpl.Corner.BOTTOM_CENTER, 10, 10));
 	}

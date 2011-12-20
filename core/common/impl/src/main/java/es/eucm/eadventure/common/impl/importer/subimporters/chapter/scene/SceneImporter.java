@@ -37,6 +37,7 @@
 
 package es.eucm.eadventure.common.impl.importer.subimporters.chapter.scene;
 
+import java.awt.Dimension;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -60,6 +61,7 @@ import es.eucm.eadventure.common.model.elements.EAdCondition;
 import es.eucm.eadventure.common.model.elements.EAdSceneElement;
 import es.eucm.eadventure.common.model.elements.EAdSceneElementDef;
 import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
+import es.eucm.eadventure.common.model.elements.impl.EAdSceneElementDefImpl;
 import es.eucm.eadventure.common.model.elements.impl.EAdSceneImpl;
 import es.eucm.eadventure.common.model.events.EAdSceneElementEvent;
 import es.eucm.eadventure.common.model.events.enums.SceneElementEventType;
@@ -71,6 +73,7 @@ import es.eucm.eadventure.common.params.geom.impl.EAdPositionImpl;
 import es.eucm.eadventure.common.params.geom.impl.EAdPositionImpl.Corner;
 import es.eucm.eadventure.common.predef.model.effects.EAdMakeActiveElementEffect;
 import es.eucm.eadventure.common.predef.model.effects.EAdMoveActiveElement;
+import es.eucm.eadventure.common.predef.model.events.ScrollWithSceneElement;
 import es.eucm.eadventure.common.resources.StringHandler;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.ImageImpl;
 import es.eucm.eadventure.common.resources.assets.multimedia.Sound;
@@ -112,11 +115,6 @@ public class SceneImporter implements EAdElementImporter<Scene, EAdSceneImpl> {
 	 */
 	private EAdElementImporter<Barrier, EAdSceneElement> barrierImporter;
 
-	/**
-	 * Active areas importer
-	 */
-	private EAdElementImporter<ActiveArea, EAdSceneElement> activeAreasImporter;
-
 	private EAdElementFactory factory;
 
 	@Inject
@@ -125,7 +123,6 @@ public class SceneImporter implements EAdElementImporter<Scene, EAdSceneImpl> {
 			EAdElementImporter<Conditions, EAdCondition> conditionsImporter,
 			ResourceImporter resourceImporter,
 			EAdElementImporter<ElementReference, EAdSceneElement> referencesImporter,
-			EAdElementImporter<ActiveArea, EAdSceneElement> activeAreasImporter,
 			EAdElementFactory factory,
 			EAdElementImporter<Exit, EAdSceneElement> exitsImporter,
 			EAdElementImporter<Trajectory, NodeTrajectoryDefinition> trajectoryImporter,
@@ -134,7 +131,6 @@ public class SceneImporter implements EAdElementImporter<Scene, EAdSceneImpl> {
 		this.resourceImporter = resourceImporter;
 		this.exitsImporter = exitsImporter;
 		this.referencesImporter = referencesImporter;
-		this.activeAreasImporter = activeAreasImporter;
 		this.trajectoryImporter = trajectoryImporter;
 		this.barrierImporter = barrierImporter;
 		this.factory = factory;
@@ -180,8 +176,7 @@ public class SceneImporter implements EAdElementImporter<Scene, EAdSceneImpl> {
 			return null;
 		} else {
 			EAdSceneElementDef player = (EAdSceneElementDef) factory
-					.getElement(Player.IDENTIFIER, factory
-							.getCurrentOldChapterModel().getPlayer());
+					.getElementById(Player.IDENTIFIER);
 			EAdBasicSceneElement playerReference = new EAdBasicSceneElement(
 					player);
 			EAdPositionImpl p = new EAdPositionImpl(
@@ -193,21 +188,30 @@ public class SceneImporter implements EAdElementImporter<Scene, EAdSceneImpl> {
 			// Make it active element of the scene
 			EAdMakeActiveElementEffect effect = new EAdMakeActiveElementEffect(
 					playerReference);
-
+			
 			EAdSceneElementEvent event = new EAdSceneElementEventImpl();
 			event.setId("makeAcitveCharacter");
 			event.addEffect(SceneElementEventType.ADDED_TO_SCENE, effect);
 			playerReference.getEvents().add(event);
 
-			scene.getComponents().add(playerReference);
+			int layer = oldScene.getPlayerLayer();
+
+			if (layer < 0) {
+				scene.getComponents().add(playerReference);
+			} else {
+				scene.getComponents().add(playerReference, layer + 1);
+			}
 
 			scene.getBackground().addBehavior(
 					EAdMouseEventImpl.MOUSE_LEFT_CLICK,
 					new EAdMoveActiveElement());
-
-			playerReference.setPosition(new EAdPositionImpl(
-					Corner.BOTTOM_CENTER, oldScene.getPositionX(), oldScene
-							.getPositionY()));
+			
+			// Add move camera with character
+			Dimension d = resourceImporter.getDimensions(oldScene.getResources().get(0).getAssetPath(Scene.RESOURCE_TYPE_BACKGROUND));
+			scene.setBounds(d.width, 600);
+			
+			ScrollWithSceneElement scroll = new ScrollWithSceneElement( scene, playerReference );
+			scene.getEvents().add(scroll);
 
 			return playerReference;
 		}
@@ -242,10 +246,12 @@ public class SceneImporter implements EAdElementImporter<Scene, EAdSceneImpl> {
 
 	private void importAciveAreas(EAdSceneImpl scene, List<ActiveArea> list) {
 		for (ActiveArea a : list) {
-			EAdSceneElement se = activeAreasImporter.init(a);
-			se = activeAreasImporter.convert(a, se);
-			if (se != null)
-				scene.getComponents().add(se);
+			EAdBasicSceneElement activeArea = (EAdBasicSceneElement) factory.getElementById(a
+					.getId());
+			activeArea.setPosition(new EAdPositionImpl(EAdPositionImpl.Corner.TOP_LEFT, a.getX(), a.getY()));
+			activeArea.setVarInitialValue(EAdBasicSceneElement.VAR_Z, Integer.MAX_VALUE - 2 );
+			if (activeArea != null)
+				scene.getComponents().add(activeArea);
 		}
 
 	}
@@ -253,6 +259,7 @@ public class SceneImporter implements EAdElementImporter<Scene, EAdSceneImpl> {
 	private void importExits(EAdSceneImpl scene, List<Exit> list) {
 		for (Exit e : list) {
 			EAdSceneElement se = exitsImporter.init(e);
+			se.setVarInitialValue(EAdBasicSceneElement.VAR_Z, Integer.MAX_VALUE - 1);
 			se = exitsImporter.convert(e, se);
 			if (se != null)
 				scene.getComponents().add(se);
@@ -265,6 +272,8 @@ public class SceneImporter implements EAdElementImporter<Scene, EAdSceneImpl> {
 		for (ElementReference oldRef : references) {
 			EAdSceneElement newRef = referencesImporter.init(oldRef);
 			newRef = referencesImporter.convert(oldRef, newRef);
+			newRef.setVarInitialValue(EAdBasicSceneElement.VAR_Z,
+					oldRef.getLayer());
 			scene.getComponents().add(newRef);
 		}
 
@@ -273,26 +282,28 @@ public class SceneImporter implements EAdElementImporter<Scene, EAdSceneImpl> {
 	private void importResources(EAdSceneImpl scene, Scene oldScene,
 			EAdChapter chapter) {
 
-
 		Map<String, String> resourcesStrings = new HashMap<String, String>();
 		resourcesStrings.put(Scene.RESOURCE_TYPE_BACKGROUND,
-				EAdBasicSceneElement.appearance);
+				EAdSceneElementDefImpl.appearance);
 
 		Map<String, Object> resourcesClasses = new HashMap<String, Object>();
 		resourcesClasses.put(Scene.RESOURCE_TYPE_BACKGROUND, ImageImpl.class);
 
-		resourceImporter.importResources(scene.getBackground(),
+		resourceImporter.importResources(scene.getBackground().getDefinition(),
 				oldScene.getResources(), resourcesStrings, resourcesClasses);
-		
+
 		scene.getBackground().setId("background");
 
 		for (Resources r : oldScene.getResources()) {
-			String foregroundPath = r.getAssetPath(Scene.RESOURCE_TYPE_FOREGROUND);
-			if ( foregroundPath != null ){
-				ImageImpl image = (ImageImpl) resourceImporter.getAssetDescritptor(foregroundPath, ImageImpl.class);
-				EAdBasicSceneElement foreground = new EAdBasicSceneElement( image );
+			String foregroundPath = r
+					.getAssetPath(Scene.RESOURCE_TYPE_FOREGROUND);
+			if (foregroundPath != null) {
+				ImageImpl image = (ImageImpl) resourceImporter
+						.getAssetDescritptor(foregroundPath, ImageImpl.class);
+				EAdBasicSceneElement foreground = new EAdBasicSceneElement(
+						image);
 				foreground.setId("foreground");
-				foreground.setVarInitialValue(EAdBasicSceneElement.VAR_Z, -100);
+				foreground.setVarInitialValue(EAdBasicSceneElement.VAR_Z, Integer.MAX_VALUE);
 				scene.getComponents().add(foreground);
 			}
 			// Music is imported to chapter level. So, the chapter will
@@ -309,8 +320,9 @@ public class SceneImporter implements EAdElementImporter<Scene, EAdSceneImpl> {
 	}
 
 	private void importDocumentation(EAdSceneImpl scene, Scene oldScene) {
-		stringHandler.setString(scene.getName(), oldScene.getName());
-		stringHandler.setString(scene.getDoc(),
+		stringHandler.setString(scene.getDefinition().getName(),
+				oldScene.getName());
+		stringHandler.setString(scene.getDefinition().getDoc(),
 				oldScene.getDocumentation());
 	}
 

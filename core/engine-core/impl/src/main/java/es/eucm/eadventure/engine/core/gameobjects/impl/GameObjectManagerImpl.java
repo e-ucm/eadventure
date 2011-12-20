@@ -43,12 +43,12 @@ import java.util.logging.Logger;
 
 import com.google.inject.Singleton;
 
+import es.eucm.eadventure.common.util.EAdTransformation;
 import es.eucm.eadventure.engine.core.gameobjects.DrawableGO;
 import es.eucm.eadventure.engine.core.gameobjects.GameObjectManager;
 import es.eucm.eadventure.engine.core.gameobjects.huds.BasicHUD;
 import es.eucm.eadventure.engine.core.gameobjects.huds.HudGO;
 import es.eucm.eadventure.engine.core.platform.GUI;
-import es.eucm.eadventure.engine.core.util.EAdTransformation;
 
 @Singleton
 public class GameObjectManagerImpl implements GameObjectManager {
@@ -143,11 +143,9 @@ public class GameObjectManagerImpl implements GameObjectManager {
 	public void addHUDs(GUI gui, EAdTransformation t) {
 		if (!huds.isEmpty()) {
 			for (HudGO hud : huds) {
-				hud.update();
 				gui.addElement(hud, t);
 			}
 		}
-		basicHud.update();
 		gui.addElement(basicHud, t);
 	}
 
@@ -180,6 +178,16 @@ public class GameObjectManagerImpl implements GameObjectManager {
 	
 	public List<HudGO> getHUDs(){
 		return huds;
+	}
+
+	@Override
+	public void updateHUDs() {
+		if (!huds.isEmpty()) {
+			for (HudGO hud : huds) {
+				hud.update();
+			}
+		}
+		basicHud.update();
 	}
 
 }

@@ -47,7 +47,6 @@ import com.google.inject.Inject;
 import es.eucm.eadventure.common.interfaces.features.enums.Orientation;
 import es.eucm.eadventure.common.model.actions.EAdAction;
 import es.eucm.eadventure.common.model.elements.EAdSceneElement;
-import es.eucm.eadventure.common.model.elements.EAdSceneElementDef;
 import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
 import es.eucm.eadventure.common.model.elements.impl.EAdSceneElementDefImpl;
 import es.eucm.eadventure.common.model.events.EAdEvent;
@@ -60,9 +59,13 @@ import es.eucm.eadventure.common.params.geom.impl.EAdPositionImpl;
 import es.eucm.eadventure.common.resources.EAdBundleId;
 import es.eucm.eadventure.common.resources.StringHandler;
 import es.eucm.eadventure.common.resources.assets.AssetDescriptor;
+import es.eucm.eadventure.common.resources.assets.drawable.Drawable;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.animation.FramesAnimation;
 import es.eucm.eadventure.common.resources.assets.drawable.compounds.OrientedDrawable;
 import es.eucm.eadventure.common.resources.assets.drawable.compounds.StateDrawable;
+import es.eucm.eadventure.common.resources.assets.drawable.filters.FilteredDrawable;
+import es.eucm.eadventure.common.resources.assets.drawable.filters.impl.FilteredDrawableImpl;
+import es.eucm.eadventure.common.util.EAdTransformation;
 import es.eucm.eadventure.engine.core.GameLoop;
 import es.eucm.eadventure.engine.core.GameState;
 import es.eucm.eadventure.engine.core.MouseState;
@@ -76,10 +79,9 @@ import es.eucm.eadventure.engine.core.gameobjects.impl.DrawableGameObjectImpl;
 import es.eucm.eadventure.engine.core.guiactions.GUIAction;
 import es.eucm.eadventure.engine.core.platform.AssetHandler;
 import es.eucm.eadventure.engine.core.platform.DrawableAsset;
-import es.eucm.eadventure.engine.core.platform.EAdCanvas;
 import es.eucm.eadventure.engine.core.platform.GUI;
 import es.eucm.eadventure.engine.core.platform.RuntimeAsset;
-import es.eucm.eadventure.engine.core.util.EAdTransformation;
+import es.eucm.eadventure.engine.core.platform.rendering.EAdCanvas;
 
 public abstract class SceneElementGOImpl<T extends EAdSceneElement> extends
 		DrawableGameObjectImpl<T> implements SceneElementGO<T> {
@@ -137,20 +139,21 @@ public abstract class SceneElementGOImpl<T extends EAdSceneElement> extends
 	@Override
 	public void setElement(T element) {
 		super.setElement(element);
+
+		gameState.getValueMap().remove(element);
+
 		gameState.getValueMap().setValue(element,
-				ResourcedElementImpl.VAR_BUNDLE_ID, element.getInitialBundle());
+				ResourcedElementImpl.VAR_BUNDLE_ID,
+				element.getDefinition().getInitialBundle());
 		gameState.getValueMap().setValue(element.getDefinition(),
 				EAdSceneElementDefImpl.VAR_SCENE_ELEMENT, element);
-
-		if (element.isClone()) {
-			gameState.getValueMap().remove(element);
-		}
 
 		for (Entry<EAdVarDef<?>, Object> entry : element.getVars().entrySet()) {
 			gameState.getValueMap().setValue(element, entry.getKey(),
 					entry.getValue());
 		}
 
+		// Scene element events
 		if (element.getEvents() != null) {
 			for (EAdEvent event : element.getEvents()) {
 				EventGO<?> eventGO = eventFactory.get(event);
@@ -158,15 +161,17 @@ public abstract class SceneElementGOImpl<T extends EAdSceneElement> extends
 				eventGO.initialize();
 				eventGOList.add(eventGO);
 			}
-			
-			if ( element.getDefinition() != element ){
-				for (EAdEvent event : element.getDefinition().getEvents()) {
-					EventGO<?> eventGO = eventFactory.get(event);
-					eventGO.setParent(element);
-					eventGO.initialize();
-					eventGOList.add(eventGO);
-				}
+		}
+
+		// Definition events
+		if (element.getEvents() != null) {
+			for (EAdEvent event : element.getDefinition().getEvents()) {
+				EventGO<?> eventGO = eventFactory.get(event);
+				eventGO.setParent(element);
+				eventGO.initialize();
+				eventGOList.add(eventGO);
 			}
+
 		}
 
 		position = new EAdPositionImpl(0, 0);
@@ -243,8 +248,8 @@ public abstract class SceneElementGOImpl<T extends EAdSceneElement> extends
 	}
 
 	@Override
-	public EAdSceneElementDef getDraggableElement(MouseState mouseState) {
-		return element;
+	public SceneElementGO<?> getDraggableElement(MouseState mouseState) {
+		return null;
 	}
 
 	/*
@@ -258,7 +263,7 @@ public abstract class SceneElementGOImpl<T extends EAdSceneElement> extends
 	 */
 	@Override
 	public void update() {
-		
+
 		if (eventGOList != null)
 			for (EventGO<?> eventGO : eventGOList)
 				eventGO.update();
@@ -266,8 +271,10 @@ public abstract class SceneElementGOImpl<T extends EAdSceneElement> extends
 		gameState.getValueMap().setValue(element,
 				EAdBasicSceneElement.VAR_TIME_DISPLAYED,
 				timeDisplayed + GameLoop.SKIP_MILLIS_TICK);
+
 		if (getAsset() != null)
 			getAsset().update();
+
 		updateVars();
 		setVars();
 	}
@@ -301,8 +308,11 @@ public abstract class SceneElementGOImpl<T extends EAdSceneElement> extends
 
 	@Override
 	public AssetDescriptor getCurrentAssetDescriptor() {
-		AssetDescriptor a = element.getDefinition().getResources()
-				.getAsset(getCurrentBundle(), EAdBasicSceneElement.appearance);
+
+		AssetDescriptor a = element
+				.getDefinition()
+				.getResources()
+				.getAsset(getCurrentBundle(), EAdSceneElementDefImpl.appearance);
 
 		return getCurrentAssetDescriptor(a);
 	}
@@ -311,6 +321,13 @@ public abstract class SceneElementGOImpl<T extends EAdSceneElement> extends
 		if (a == null)
 			return null;
 
+		// FIXME this is horrible
+		if (a instanceof FilteredDrawable) {
+			return new FilteredDrawableImpl(
+					(Drawable) getCurrentAssetDescriptor(((FilteredDrawable) a)
+							.getDrawable()),
+					((FilteredDrawable) a).getFilter());
+		}
 		// Check state
 		if (a instanceof StateDrawable) {
 			StateDrawable stateDrawable = (StateDrawable) a;
@@ -323,7 +340,7 @@ public abstract class SceneElementGOImpl<T extends EAdSceneElement> extends
 		}
 		// Check frame animation
 		else if (a instanceof FramesAnimation) {
-			return ((FramesAnimation) a).getFrameFromTime(timeDisplayed);
+			return ((FramesAnimation) a).getFrameFromTime(timeDisplayed).getDrawable();
 		} else {
 			return a;
 		}
@@ -354,18 +371,20 @@ public abstract class SceneElementGOImpl<T extends EAdSceneElement> extends
 			boolean allAssets) {
 		List<EAdBundleId> bundles = new ArrayList<EAdBundleId>();
 		if (allAssets)
-			bundles.addAll(getElement().getResources().getBundles());
+			bundles.addAll(getElement().getDefinition().getResources()
+					.getBundles());
 		else
 			bundles.add(getCurrentBundle());
 
 		for (EAdBundleId bundle : bundles) {
-			AssetDescriptor a = getElement().getResources().getAsset(bundle,
-					EAdBasicSceneElement.appearance);
+			AssetDescriptor a = getElement().getDefinition().getResources()
+					.getAsset(bundle, EAdSceneElementDefImpl.appearance);
 			getAssetsRecursively(a, assetList, allAssets);
 		}
-		
+
 		for (EAdAction a : getActions())
-			sceneElementFactory.get(new ActionSceneElement(a)).getAssets(assetList, true);
+			sceneElementFactory.get(new ActionSceneElement(a)).getAssets(
+					assetList, true);
 
 		return assetList;
 	}
@@ -402,12 +421,12 @@ public abstract class SceneElementGOImpl<T extends EAdSceneElement> extends
 		} else if (a instanceof FramesAnimation) {
 			if (!allAssets)
 				getAssetsRecursively(
-						((FramesAnimation) a).getFrameFromTime(timeDisplayed),
+						((FramesAnimation) a).getFrameFromTime(timeDisplayed).getDrawable(),
 						assetList, allAssets);
 			else {
 				for (int i = 0; i < ((FramesAnimation) a).getFrameCount(); i++) {
 					getAssetsRecursively(
-							((FramesAnimation) a).getFrameFromTime(i),
+							((FramesAnimation) a).getFrameFromTime(i).getDrawable(),
 							assetList, allAssets);
 				}
 			}
@@ -488,7 +507,7 @@ public abstract class SceneElementGOImpl<T extends EAdSceneElement> extends
 		else {
 			// FIXME Improve, when has no asset
 			c.setPaint(EAdPaintImpl.BLACK_ON_WHITE);
-			c.fillRect( position.getJavaX(width), position.getJavaX(height), width, height );
+			c.fillRect(0, 0, width, height);
 		}
 	}
 
@@ -501,7 +520,7 @@ public abstract class SceneElementGOImpl<T extends EAdSceneElement> extends
 		EAdBundleId current = gameState.getValueMap().getValue(element,
 				ResourcedElementImpl.VAR_BUNDLE_ID);
 		if (current == null) {
-			current = element.getInitialBundle();
+			current = element.getDefinition().getInitialBundle();
 			gameState.getValueMap().setValue(element,
 					ResourcedElementImpl.VAR_BUNDLE_ID, current);
 		}

@@ -77,7 +77,7 @@ public class GenerateObjectEffectImporter extends EffectImporter<GenerateObjectE
 		importConditions(oldObject, effect);
 
 		effect.setModification(InventoryEffectAction.ADD_TO_INVENTORY);
-		effect.setSceneElement((EAdSceneElementDef) factory.getElementById(oldObject.getTargetId()));
+		effect.setSceneElementDef((EAdSceneElementDef) factory.getElementById(oldObject.getTargetId()));
 
 		return effect;
 	}

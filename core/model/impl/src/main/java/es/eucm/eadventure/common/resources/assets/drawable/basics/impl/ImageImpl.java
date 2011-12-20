@@ -80,7 +80,7 @@ public class ImageImpl implements Image {
 	}
 	
 	public int hashCode(){
-		return uri.hashCode() * 10;
+		return (uri != null ? uri.hashCode() * 10 : 0);
 	}
 
 }

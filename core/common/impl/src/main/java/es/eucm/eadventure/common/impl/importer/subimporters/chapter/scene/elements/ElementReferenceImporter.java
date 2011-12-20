@@ -37,17 +37,24 @@
 
 package es.eucm.eadventure.common.impl.importer.subimporters.chapter.scene.elements;
 
+import java.awt.Dimension;
+
 import com.google.inject.Inject;
 
 import es.eucm.eadventure.common.EAdElementImporter;
 import es.eucm.eadventure.common.data.chapter.ElementReference;
 import es.eucm.eadventure.common.data.chapter.conditions.Conditions;
+import es.eucm.eadventure.common.data.chapter.elements.Item;
+import es.eucm.eadventure.common.data.chapter.elements.NPC;
 import es.eucm.eadventure.common.impl.importer.interfaces.EAdElementFactory;
+import es.eucm.eadventure.common.impl.importer.interfaces.ResourceImporter;
 import es.eucm.eadventure.common.interfaces.features.enums.Orientation;
+import es.eucm.eadventure.common.model.conditions.impl.EmptyCondition;
 import es.eucm.eadventure.common.model.elements.EAdCondition;
 import es.eucm.eadventure.common.model.elements.EAdSceneElement;
 import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
 import es.eucm.eadventure.common.model.elements.impl.EAdSceneElementDefImpl;
+import es.eucm.eadventure.common.params.geom.EAdPosition;
 import es.eucm.eadventure.common.params.geom.impl.EAdPositionImpl;
 import es.eucm.eadventure.common.params.geom.impl.EAdRectangleImpl;
 import es.eucm.eadventure.common.resources.StringHandler;
@@ -58,11 +65,14 @@ import es.eucm.eadventure.common.resources.StringHandler;
  */
 public class ElementReferenceImporter extends ElementImporter<ElementReference> {
 
+	private ResourceImporter resourceImporter;
+
 	@Inject
 	public ElementReferenceImporter(EAdElementFactory factory,
 			EAdElementImporter<Conditions, EAdCondition> conditionsImporter,
-			StringHandler stringHandler) {
+			StringHandler stringHandler, ResourceImporter resourceImporter) {
 		super(factory, conditionsImporter, stringHandler);
+		this.resourceImporter = resourceImporter;
 	}
 
 	public EAdSceneElement init(ElementReference oldObject) {
@@ -88,32 +98,66 @@ public class ElementReferenceImporter extends ElementImporter<ElementReference> 
 		if (factory.getCurrentOldChapterModel().getAtrezzo(
 				oldObject.getTargetId()) == null) {
 
-			// add influence area
-			// To do this right, we should load the image representing the item
-			// or
-			// NPC an check their dimensions.
-			// Sounds easy, but it's not, so, width and height are 100. I hope
-			// it's
-			// enough
-			int width = 100;
-			int height = 100;
-			EAdRectangleImpl bounds = new EAdRectangleImpl(oldObject.getX(),
-					oldObject.getY(), (int) (width * oldObject.getScale()),
-					(int) (height * oldObject.getScale()));
-			super.addInfluenceArea(newRef, bounds, oldObject.getInfluenceArea());
+			if (!factory.isFirstPerson()) {
+				// add influence area
+				String imageUri = getImageUri(oldObject.getTargetId());
+				Dimension d = resourceImporter.getDimensions(imageUri);
+				int width = (int) d.getWidth();
+				int height = (int) d.getHeight();
+				EAdPosition p = new EAdPositionImpl(oldObject.getX(),
+						oldObject.getY(), 0.5f, 1.0f);
+				float scale = oldObject.getScale();
+				EAdRectangleImpl bounds = new EAdRectangleImpl(p.getJavaX(width
+						* scale), p.getJavaY(height * scale),
+						(int) (width * scale), (int) (height * scale));
+				super.addInfluenceArea(newRef, bounds,
+						oldObject.getInfluenceArea());
+			}
 
 			// add description
-			super.addDefaultBehavior(newRef, stringHandler.getString(newRef
-				.getDefinition().getDesc()));
+			super.addDefaultBehavior(newRef, newRef.getDefinition().getDesc());
 
 			// add enable
 			super.addEnableEvent(newRef,
 					super.getEnableCondition(oldObject.getConditions()));
+
+			// add dragable
+			if (factory.isDraggableActor(actor)) {
+				newRef.setDragCond(EmptyCondition.TRUE_EMPTY_CONDITION);
+				newRef.setVarInitialValue(
+						EAdBasicSceneElement.VAR_RETURN_WHEN_DRAGGED,
+						isReturnWhenDragged(oldObject.getTargetId()));
+
+			}
 		} else {
 			newRef.setVarInitialValue(EAdBasicSceneElement.VAR_ENABLE,
 					Boolean.FALSE);
 		}
 
 		return newRef;
+	}
+
+	private boolean isReturnWhenDragged(String targetId) {
+		Item i = factory.getCurrentOldChapterModel().getItem(targetId);
+		NPC npc = factory.getCurrentOldChapterModel().getCharacter(targetId);
+		if (i != null) {
+			return i.isReturnsWhenDragged();
+		} else if (npc != null)
+			return npc.isReturnsWhenDragged();
+
+		return false;
+	}
+
+	private String getImageUri(String targetId) {
+		Item i = factory.getCurrentOldChapterModel().getItem(targetId);
+		NPC npc = factory.getCurrentOldChapterModel().getCharacter(targetId);
+		if (i != null) {
+			return i.getResources().get(0)
+					.getAssetPath(Item.RESOURCE_TYPE_IMAGE);
+		} else if (npc != null) {
+			return npc.getResources().get(0)
+					.getAssetPath(NPC.RESOURCE_TYPE_STAND_DOWN);
+		}
+		return null;
 	}
 }

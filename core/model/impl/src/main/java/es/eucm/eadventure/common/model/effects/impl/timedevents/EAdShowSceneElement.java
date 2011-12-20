@@ -107,10 +107,8 @@ public class EAdShowSceneElement extends AbstractEAdEffect {
 	 */
 	public void setCaption(Caption caption, int x, int y,
 			ShowTextAnimation animation) {
-		EAdBasicSceneElement text = new EAdBasicSceneElement();
+		EAdBasicSceneElement text = new EAdBasicSceneElement(caption);
 		text.setId(this.id + "_caption");
-		text.getResources().addAsset(text.getInitialBundle(),
-				EAdBasicSceneElement.appearance, caption);
 		text.setPosition(new EAdPositionImpl(x, y));
 		setSceneElement(text, animation);
 	}

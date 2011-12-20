@@ -46,6 +46,16 @@ import es.eucm.eadventure.common.params.EAdString;
  * Interface for an eAdventure game static model.
  */
 public interface EAdAdventureModel extends EAdElement, Variabled {
+	
+	/**
+	 * Default width for games
+	 */
+	public static final int DEFAULT_WIDTH = 800;
+	
+	/**
+	 * Default height for games
+	 */
+	public static final int DEFAULT_HEIGHT = 600;
 
 	/**
 	 * @param playerMode
@@ -90,5 +100,17 @@ public interface EAdAdventureModel extends EAdElement, Variabled {
 	 * @return the inventory
 	 */
 	EAdInventory getInventory();
+	
+	/**
+	 * Returns the width for this game
+	 * @return
+	 */
+	int getGameWidth();
+	
+	/**
+	 * Returns the height for this game
+	 * @return
+	 */
+	int getGameHeight();
 
 }

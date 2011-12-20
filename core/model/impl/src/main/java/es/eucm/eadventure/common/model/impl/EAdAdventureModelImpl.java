@@ -80,6 +80,12 @@ public class EAdAdventureModelImpl implements EAdAdventureModel {
 	@Param("inventory")
 	private EAdInventory inventory;
 	
+	@Param("width")
+	private int gameWidth;
+	
+	@Param("height")
+	private int gameHeight;
+	
 	
 	
 	@Param("depthControlList")
@@ -94,7 +100,8 @@ public class EAdAdventureModelImpl implements EAdAdventureModel {
 				Object.class);
 		description = EAdString.newEAdString("desc");
 		title = EAdString.newEAdString("title");
-		
+		gameWidth = DEFAULT_WIDTH;
+		gameHeight = DEFAULT_HEIGHT;
 		depthControlList = new EAdListImpl<EAdElement>(EAdElement.class);
 	}
 
@@ -184,6 +191,24 @@ public class EAdAdventureModelImpl implements EAdAdventureModel {
 	
 	public EAdList<EAdElement> getDepthControlList() {
 		return depthControlList;
+	}
+
+	@Override
+	public int getGameWidth() {
+		return gameWidth;
+	}
+
+	@Override
+	public int getGameHeight() {
+		return gameHeight;
+	}
+
+	public void setGameWidth(int width) {
+		this.gameWidth = width;
+	}
+
+	public void setGameHeight(int height) {
+		this.gameHeight = height;
 	}
 
 }

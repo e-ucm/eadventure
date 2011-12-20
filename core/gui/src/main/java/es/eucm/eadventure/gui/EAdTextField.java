@@ -46,6 +46,8 @@ import java.awt.Insets;
 import java.awt.RenderingHints;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 import javax.swing.JTextField;
 
@@ -115,6 +117,31 @@ public class EAdTextField extends JTextField {
             setBackground( EAdGUILookAndFeel.getBackgroundColor() );
         else
             setBackground( EAdGUILookAndFeel.getDisabledColor());
+        
+        //FIXME this key adapter is used because the backspace key stops working when changing l&f
+    	this.addKeyListener(new KeyAdapter() {
+
+			@Override
+			public void keyPressed(KeyEvent k) {
+				if (getText().length() > 0) {
+					if (k.getKeyCode() == KeyEvent.VK_BACK_SPACE) {
+						setText(getText().substring(0, getText().length() - 1));
+						k.consume();
+					}
+					else if (k.getKeyCode() == KeyEvent.VK_LEFT) {
+						setCaretPosition(getCaretPosition() - 1);
+						k.consume();
+					}
+					else if (k.getKeyCode() == KeyEvent.VK_RIGHT) {
+						if (getCaretPosition() >= getText().length())
+							setCaretPosition(getCaretPosition() + 1);
+						k.consume();
+					}
+				}
+			}
+
+    	});
+
     }
     
     @Override

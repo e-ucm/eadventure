@@ -1,3 +1,40 @@
+/**
+ * eAdventure (formerly <e-Adventure> and <e-Game>) is a research project of the
+ *    <e-UCM> research group.
+ *
+ *    Copyright 2005-2010 <e-UCM> research group.
+ *
+ *    You can access a list of all the contributors to eAdventure at:
+ *          http://e-adventure.e-ucm.es/contributors
+ *
+ *    <e-UCM> is a research group of the Department of Software Engineering
+ *          and Artificial Intelligence at the Complutense University of Madrid
+ *          (School of Computer Science).
+ *
+ *          C Profesor Jose Garcia Santesmases sn,
+ *          28040 Madrid (Madrid), Spain.
+ *
+ *          For more info please visit:  <http://e-adventure.e-ucm.es> or
+ *          <http://www.e-ucm.es>
+ *
+ * ****************************************************************************
+ *
+ *  This file is part of eAdventure, version 2.0
+ *
+ *      eAdventure is free software: you can redistribute it and/or modify
+ *      it under the terms of the GNU Lesser General Public License as published by
+ *      the Free Software Foundation, either version 3 of the License, or
+ *      (at your option) any later version.
+ *
+ *      eAdventure is distributed in the hope that it will be useful,
+ *      but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *      MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *      GNU Lesser General Public License for more details.
+ *
+ *      You should have received a copy of the GNU Lesser General Public License
+ *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
 package es.eucm.eadventure.engine.core.gameobjects.impl.effects;
 
 import com.google.inject.Inject;
@@ -13,6 +50,7 @@ import es.eucm.eadventure.common.resources.StringHandler;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.CaptionImpl;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.shapes.BallonShape;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.shapes.BezierShape;
+import es.eucm.eadventure.common.util.EAdTransformation;
 import es.eucm.eadventure.engine.core.GameLoop;
 import es.eucm.eadventure.engine.core.GameState;
 import es.eucm.eadventure.engine.core.Renderable;
@@ -22,10 +60,9 @@ import es.eucm.eadventure.engine.core.guiactions.GUIAction;
 import es.eucm.eadventure.engine.core.guiactions.MouseAction;
 import es.eucm.eadventure.engine.core.operator.OperatorFactory;
 import es.eucm.eadventure.engine.core.platform.AssetHandler;
-import es.eucm.eadventure.engine.core.platform.EAdCanvas;
 import es.eucm.eadventure.engine.core.platform.GUI;
 import es.eucm.eadventure.engine.core.platform.assets.impl.RuntimeCaption;
-import es.eucm.eadventure.engine.core.util.EAdTransformation;
+import es.eucm.eadventure.engine.core.platform.rendering.EAdCanvas;
 
 public class SpeakEffectGO extends AbstractEffectGO<EAdSpeakEffect> implements
 		Renderable {
@@ -38,7 +75,7 @@ public class SpeakEffectGO extends AbstractEffectGO<EAdSpeakEffect> implements
 
 	private SceneElementGO<?> ballon;
 
-	private RuntimeCaption caption;
+	private RuntimeCaption<?> caption;
 
 	private boolean finished;
 
@@ -133,19 +170,15 @@ public class SpeakEffectGO extends AbstractEffectGO<EAdSpeakEffect> implements
 		text.setPreferredHeight(bottom - top);
 		text.setFont(element.getFont());
 
-		textSE = new EAdBasicSceneElement();
+		textSE = new EAdBasicSceneElement(text);
 		textSE.setId("text");
-		textSE.getResources().addAsset(textSE.getInitialBundle(),
-				EAdBasicSceneElement.appearance, text);
 		textSE.setPosition(new EAdPositionImpl(left, top));
 
-		EAdComplexElementImpl complex = new EAdComplexElementImpl();
+		EAdComplexElementImpl complex = new EAdComplexElementImpl(rectangle);
 		complex.setId("complex");
-		complex.getResources().addAsset(complex.getInitialBundle(),
-				EAdBasicSceneElement.appearance, rectangle);
 		complex.getComponents().add(textSE);
 
-		caption = (RuntimeCaption) (sceneElementFactory.get(textSE))
+		caption = (RuntimeCaption<?>) (sceneElementFactory.get(textSE))
 				.getRenderAsset();
 		caption.reset();
 

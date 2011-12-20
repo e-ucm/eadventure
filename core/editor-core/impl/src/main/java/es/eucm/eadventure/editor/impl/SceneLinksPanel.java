@@ -57,7 +57,7 @@ import org.slf4j.LoggerFactory;
 
 import es.eucm.eadventure.common.model.elements.EAdScene;
 import es.eucm.eadventure.common.model.elements.EAdSceneElement;
-import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
+import es.eucm.eadventure.common.model.elements.impl.EAdSceneElementDefImpl;
 import es.eucm.eadventure.common.model.extra.EAdList;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.ImageImpl;
 import es.eucm.eadventure.gui.eadcanvaspanel.EAdCanvasPanel;
@@ -65,7 +65,8 @@ import es.eucm.eadventure.gui.eadcanvaspanel.listeners.DragListener;
 import es.eucm.eadventure.gui.eadcanvaspanel.scrollcontainers.EAdFixScrollCanvasPanel;
 
 /**
- * Class that implements the panel that shows a preview of the scenes with their links to each other 
+ * Class that implements the panel that shows a preview of the scenes with their
+ * links to each other
  */
 public class SceneLinksPanel extends EAdFixScrollCanvasPanel {
 
@@ -73,8 +74,9 @@ public class SceneLinksPanel extends EAdFixScrollCanvasPanel {
 	 * 
 	 */
 	private static final long serialVersionUID = 613000378798269881L;
-	
-	private static final Logger logger = LoggerFactory.getLogger("SceneLinksPanelTest");
+
+	private static final Logger logger = LoggerFactory
+			.getLogger("SceneLinksPanelTest");
 	/**
 	 * The thumbnail image that represents the appearance of each scene
 	 */
@@ -96,20 +98,23 @@ public class SceneLinksPanel extends EAdFixScrollCanvasPanel {
 	 */
 	private EAdCanvasPanel dragPanel;
 	/**
-	 * The listener used for dragging the contents of the drag panel 
+	 * The listener used for dragging the contents of the drag panel
 	 */
 	private DragListener listener;
 
 	/**
-	 * Constructor for the SceneLinksPanel class. Creates a new panel with a list of scenes.
+	 * Constructor for the SceneLinksPanel class. Creates a new panel with a
+	 * list of scenes.
 	 * 
-	 * @param scns the list of scenes to show on the panel
+	 * @param scns
+	 *            the list of scenes to show on the panel
 	 * 
 	 */
 	public SceneLinksPanel(EAdList<EAdScene> scns) {
 
 		this.scenes = scns;
-		drawingScale = (double)(0.35f * (1 - Math.log(this.scenes.size())/Math.log(100)));
+		drawingScale = (double) (0.35f * (1 - Math.log(this.scenes.size())
+				/ Math.log(100)));
 		dragPanel = this.getCanvas();
 		listener = new DragListener(dragPanel);
 		paintScenes();
@@ -117,92 +122,113 @@ public class SceneLinksPanel extends EAdFixScrollCanvasPanel {
 	}
 
 	/**
-	 * Method for painting all the thumbnails of the scenes on the panel 
+	 * Method for painting all the thumbnails of the scenes on the panel
 	 */
 	public void paintScenes() {
 
 		this.elements = new ArrayList<SceneElement>();
 
-		for (EAdScene scene: scenes){
+		for (EAdScene scene : scenes) {
 
 			try {
 				EAdSceneElement element = scene.getBackground();
-				//TODO Loading images to be fixed with some specific image object
-				ImageImpl imageImpl = (ImageImpl)element.getResources().getAsset(element.getInitialBundle(),EAdBasicSceneElement.appearance);
-				image = ImageIO.read(getResourceAsStream(imageImpl.getUri().getPath()));
-				
-				// To test functionality, loads an image on demand 
-				//image = ImageIO.read(getResourceAsStream("@drawable/loading.png"));
-				
-			} catch (IOException e) {
-				logger.error("Could not load image! " + ((ImageImpl)scene.getResources().getAsset(EAdBasicSceneElement.appearance)).getUri(), e);
-			}	
+				// TODO Loading images to be fixed with some specific image
+				// object
+				ImageImpl imageImpl = (ImageImpl) element
+						.getDefinition()
+						.getResources()
+						.getAsset(element.getDefinition().getInitialBundle(),
+								EAdSceneElementDefImpl.appearance);
+				image = ImageIO.read(getResourceAsStream(imageImpl.getUri()
+						.getPath()));
 
-			image = getScaledInstance(image,(int)(image.getWidth()*drawingScale),(int)(image.getHeight()*drawingScale),RenderingHints.VALUE_INTERPOLATION_BILINEAR,true);
+				// To test functionality, loads an image on demand
+				// image =
+				// ImageIO.read(getResourceAsStream("@drawable/loading.png"));
+
+			} catch (IOException e) {
+				logger.error(
+						"Could not load image! "
+								+ ((ImageImpl) scene
+										.getDefinition()
+										.getResources()
+										.getAsset(
+												EAdSceneElementDefImpl.appearance))
+										.getUri(), e);
+			}
+
+			image = getScaledInstance(image,
+					(int) (image.getWidth() * drawingScale),
+					(int) (image.getHeight() * drawingScale),
+					RenderingHints.VALUE_INTERPOLATION_BILINEAR, true);
 
 			SceneElement sc = new SceneElement() {
 
 				private static final long serialVersionUID = 1L;
 
-				public void paintComponent(Graphics g) {						              			
+				public void paintComponent(Graphics g) {
 
-					g.drawImage(image, 0, 0, null);	
+					g.drawImage(image, 0, 0, null);
 
-				}      
+				}
 
-			};	
+			};
 
 			sc.setSize(image.getWidth(), image.getHeight());
 			sc.setPosX((new Random()).nextInt(600));
-			sc.setPosY((new Random()).nextInt(400));			
-			sc.setBounds((int)sc.getPosX(),(int)sc.getPosY(), sc.getWidth(), sc.getHeight());
+			sc.setPosY((new Random()).nextInt(400));
+			sc.setBounds((int) sc.getPosX(), (int) sc.getPosY(), sc.getWidth(),
+					sc.getHeight());
 			sc.addKeyListener(listener);
 			sc.addMouseListener(listener);
 			sc.addMouseMotionListener(listener);
 
 			dragPanel.add(sc);
-			elements.add(sc);		
+			elements.add(sc);
 		}
 
 		image.flush();
 	}
 
 	/**
-	 * Method for clearing and repainting all the thumbnails of the scenes on the panel 
+	 * Method for clearing and repainting all the thumbnails of the scenes on
+	 * the panel
 	 */
-	public void repaintScenes(){
+	public void repaintScenes() {
 
 		dragPanel.removeAll();
 		this.paintScenes();
 	}
 
 	/**
-	 * Setter for the list of scenes attribute 
+	 * Setter for the list of scenes attribute
 	 */
-	public void setScenes(EAdList<EAdScene> scns){
+	public void setScenes(EAdList<EAdScene> scns) {
 
 		this.scenes = scns;
-	}		
+	}
 
 	/**
-	 * +++Temporal method for loading resources, future AssetHandler instance expected+++  
+	 * +++Temporal method for loading resources, future AssetHandler instance
+	 * expected+++
 	 */
-	//TODO Expected AssetHandler instance or similar to load assets  
+	// TODO Expected AssetHandler instance or similar to load assets
 	private InputStream getResourceAsStream(String path) {
-		
+
 		String location = path.replaceAll("@", "");
 		return ClassLoader.getSystemResourceAsStream(location);
 
 	}
 
 	/**
-	 * Convenience method that returns a scaled instance of the provided one 
+	 * Convenience method that returns a scaled instance of the provided one
 	 */
-	private BufferedImage getScaledInstance(BufferedImage img, int targetWidth, int targetHeight, Object hint, boolean higherQuality) {
-		
-		int type = (img.getTransparency() == Transparency.OPAQUE) ?
-				BufferedImage.TYPE_INT_RGB : BufferedImage.TYPE_INT_ARGB;
-		BufferedImage ret = (BufferedImage)img;
+	private BufferedImage getScaledInstance(BufferedImage img, int targetWidth,
+			int targetHeight, Object hint, boolean higherQuality) {
+
+		int type = (img.getTransparency() == Transparency.OPAQUE) ? BufferedImage.TYPE_INT_RGB
+				: BufferedImage.TYPE_INT_ARGB;
+		BufferedImage ret = (BufferedImage) img;
 		int w, h;
 		if (higherQuality) {
 			w = img.getWidth();
@@ -253,8 +279,9 @@ public class SceneLinksPanel extends EAdFixScrollCanvasPanel {
 	 * @param lines
 	 *            The list of lines where to add the new one
 	 */
-	//TODO To be used when the scenes are linked one to another 
-	protected void addLine( int x1, int y1, SceneElement temp, Color color, Stroke stroke, List<Line> lines ) {
+	// TODO To be used when the scenes are linked one to another
+	protected void addLine(int x1, int y1, SceneElement temp, Color color,
+			Stroke stroke, List<Line> lines) {
 
 		double w = temp.getWidth() * drawingScale / 2;
 		double h = temp.getHeight() * drawingScale / 2;
@@ -264,34 +291,34 @@ public class SceneLinksPanel extends EAdFixScrollCanvasPanel {
 		int x3 = x2;
 		int y3 = y2;
 
-		if(h == 0 || y2 == y1 || ((y2 - y1) != 0 && Math.abs(w/h) <= Math.abs((x2 - x1) / (y2 - y1)))) {
-			if( x1 <= x2 ) {
-				x3 = (int) ( x2 - w );
-				y3 = (int) ( y2 - ( w / ( x2 - x1 ) ) * ( y2 - y1 ) );
+		if (h == 0
+				|| y2 == y1
+				|| ((y2 - y1) != 0 && Math.abs(w / h) <= Math.abs((x2 - x1)
+						/ (y2 - y1)))) {
+			if (x1 <= x2) {
+				x3 = (int) (x2 - w);
+				y3 = (int) (y2 - (w / (x2 - x1)) * (y2 - y1));
+			} else if (x1 > x2) {
+				x3 = (int) (x2 + w);
+				y3 = (int) (y2 + (w / (x2 - x1)) * (y2 - y1));
 			}
-			else if( x1 > x2 ) {
-				x3 = (int) ( x2 + w );
-				y3 = (int) ( y2 + ( w / ( x2 - x1 ) ) * ( y2 - y1 ) );
-			}
-		}
-		else {
-			if( y1 <= y2 ) {
-				y3 = (int) ( y2 - h );
-				x3 = (int) ( x2 - ( h / ( y2 - y1 ) ) * ( x2 - x1 ) );
-			}
-			else if( y1 > y2 ) {
-				y3 = (int) ( y2 + h );
-				x3 = (int) ( x2 + ( h / ( y2 - y1 ) ) * ( x2 - x1 ) );
+		} else {
+			if (y1 <= y2) {
+				y3 = (int) (y2 - h);
+				x3 = (int) (x2 - (h / (y2 - y1)) * (x2 - x1));
+			} else if (y1 > y2) {
+				y3 = (int) (y2 + h);
+				x3 = (int) (x2 + (h / (y2 - y1)) * (x2 - x1));
 			}
 		}
 
-		lines.add( new Line( x1, y1, x3, y3, color, stroke ) );
+		lines.add(new Line(x1, y1, x3, y3, color, stroke));
 	}
 
 	/**
 	 * Class with all the elements of a line
 	 */
-	//TODO To be used when the scenes are linked one to another 
+	// TODO To be used when the scenes are linked one to another
 	private class Line {
 
 		public int x1;
@@ -306,7 +333,7 @@ public class SceneLinksPanel extends EAdFixScrollCanvasPanel {
 
 		public Stroke stroke;
 
-		public Line( int x1, int y1, int x2, int y2, Color color, Stroke stroke ) {
+		public Line(int x1, int y1, int x2, int y2, Color color, Stroke stroke) {
 
 			this.x1 = x1;
 			this.x2 = x2;

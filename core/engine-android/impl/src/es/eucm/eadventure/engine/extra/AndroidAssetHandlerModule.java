@@ -52,13 +52,14 @@ import es.eucm.eadventure.common.resources.assets.drawable.basics.Image;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.SpriteImage;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.CaptionImpl;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.ImageImpl;
-import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.animation.Frame;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.shapes.BezierShape;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.shapes.RectangleShape;
 import es.eucm.eadventure.common.resources.assets.drawable.compounds.ComposedDrawable;
 import es.eucm.eadventure.common.resources.assets.drawable.compounds.DisplacedDrawable;
 import es.eucm.eadventure.common.resources.assets.drawable.compounds.impl.ComposedDrawableImpl;
 import es.eucm.eadventure.common.resources.assets.drawable.compounds.impl.DisplacedDrawableImpl;
+import es.eucm.eadventure.common.resources.assets.drawable.filters.FilteredDrawable;
+import es.eucm.eadventure.common.resources.assets.drawable.filters.impl.FilteredDrawableImpl;
 import es.eucm.eadventure.common.resources.assets.multimedia.Sound;
 import es.eucm.eadventure.common.resources.assets.multimedia.Video;
 import es.eucm.eadventure.common.resources.assets.multimedia.impl.SoundImpl;
@@ -74,6 +75,7 @@ import es.eucm.eadventure.engine.core.platform.RuntimeAsset;
 import es.eucm.eadventure.engine.core.platform.SpecialAssetRenderer;
 import es.eucm.eadventure.engine.core.platform.assets.impl.RuntimeComposedDrawable;
 import es.eucm.eadventure.engine.core.platform.assets.impl.RuntimeDisplacedDrawable;
+import es.eucm.eadventure.engine.core.platform.assets.impl.RuntimeFilteredDrawable;
 import es.eucm.eadventure.engine.core.platform.assets.impl.RuntimeSpriteImage;
 
 public class AndroidAssetHandlerModule extends AbstractModule {
@@ -94,7 +96,6 @@ public class AndroidAssetHandlerModule extends AbstractModule {
 		Map<Class<? extends AssetDescriptor>, Class<? extends RuntimeAsset<?>>> map = new HashMap<Class<? extends AssetDescriptor>, Class<? extends RuntimeAsset<?>>>( );
 		map.put(ImageImpl.class, AndroidEngineImage.class);
 		map.put(Image.class, AndroidEngineImage.class);
-		map.put(Frame.class, AndroidEngineImage.class);
 		map.put(Caption.class, (Class<? extends RuntimeAsset<?>>) AndroidEngineCaption.class);
 		map.put(CaptionImpl.class, (Class<? extends RuntimeAsset<?>>) AndroidEngineCaption.class);
 		map.put(ComposedDrawable.class, (Class<? extends RuntimeAsset<?>>) RuntimeComposedDrawable.class);
@@ -104,6 +105,8 @@ public class AndroidAssetHandlerModule extends AbstractModule {
 		map.put(DisplacedDrawable.class, (Class<? extends RuntimeAsset<?>>) RuntimeDisplacedDrawable.class);
 		map.put(DisplacedDrawableImpl.class, (Class<? extends RuntimeAsset<?>>) RuntimeDisplacedDrawable.class);
 		map.put(SpriteImage.class, (Class<? extends RuntimeAsset<?>>) RuntimeSpriteImage.class);
+		map.put(FilteredDrawable.class, (Class<? extends RuntimeAsset<?>>) RuntimeFilteredDrawable.class);
+		map.put(FilteredDrawableImpl.class, (Class<? extends RuntimeAsset<?>>) RuntimeFilteredDrawable.class);
 		map.put(Sound.class, AndroidSound.class);
 		map.put(SoundImpl.class, AndroidSound.class);
 		//TODO Sprite image

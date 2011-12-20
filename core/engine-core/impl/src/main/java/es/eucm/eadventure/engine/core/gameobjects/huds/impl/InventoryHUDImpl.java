@@ -1,3 +1,40 @@
+/**
+ * eAdventure (formerly <e-Adventure> and <e-Game>) is a research project of the
+ *    <e-UCM> research group.
+ *
+ *    Copyright 2005-2010 <e-UCM> research group.
+ *
+ *    You can access a list of all the contributors to eAdventure at:
+ *          http://e-adventure.e-ucm.es/contributors
+ *
+ *    <e-UCM> is a research group of the Department of Software Engineering
+ *          and Artificial Intelligence at the Complutense University of Madrid
+ *          (School of Computer Science).
+ *
+ *          C Profesor Jose Garcia Santesmases sn,
+ *          28040 Madrid (Madrid), Spain.
+ *
+ *          For more info please visit:  <http://e-adventure.e-ucm.es> or
+ *          <http://www.e-ucm.es>
+ *
+ * ****************************************************************************
+ *
+ *  This file is part of eAdventure, version 2.0
+ *
+ *      eAdventure is free software: you can redistribute it and/or modify
+ *      it under the terms of the GNU Lesser General Public License as published by
+ *      the Free Software Foundation, either version 3 of the License, or
+ *      (at your option) any later version.
+ *
+ *      eAdventure is distributed in the hope that it will be useful,
+ *      but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *      MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *      GNU Lesser General Public License for more details.
+ *
+ *      You should have received a copy of the GNU Lesser General Public License
+ *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
 package es.eucm.eadventure.engine.core.gameobjects.huds.impl;
 
 import com.google.inject.Inject;
@@ -6,6 +43,7 @@ import com.google.inject.Singleton;
 import es.eucm.eadventure.common.model.conditions.impl.EmptyCondition;
 import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
 import es.eucm.eadventure.common.model.elements.impl.EAdComplexElementImpl;
+import es.eucm.eadventure.common.model.elements.impl.EAdInventoryImpl;
 import es.eucm.eadventure.common.model.variables.EAdField;
 import es.eucm.eadventure.common.model.variables.impl.EAdFieldImpl;
 import es.eucm.eadventure.common.model.variables.impl.SystemFields;
@@ -28,11 +66,10 @@ import es.eucm.eadventure.engine.core.gameobjects.huds.InventoryHUD;
 import es.eucm.eadventure.engine.core.inventory.InventoryHandler;
 import es.eucm.eadventure.engine.core.inventory.InventoryItem;
 import es.eucm.eadventure.engine.core.platform.GUI;
-import es.eucm.eadventure.engine.core.util.EAdTransformation;
 
 @Singleton
 public class InventoryHUDImpl extends AbstractHUD implements InventoryHUD {
-	
+
 	private static final int TIME_TO_SHOW = 300;
 
 	private enum InventoryState {
@@ -46,7 +83,7 @@ public class InventoryHUDImpl extends AbstractHUD implements InventoryHUD {
 	private ValueMap valueMap;
 
 	private SceneElementGOFactory sceneElementFactory;
-
+	
 	private MouseState mouseState;
 
 	private int guiHeight;
@@ -63,10 +100,14 @@ public class InventoryHUDImpl extends AbstractHUD implements InventoryHUD {
 
 	private long currentUpdate = -1;
 
+	private int delay = 0;
+	
+	private int mouseY = 0;
+
 	@Inject
 	public InventoryHUDImpl(GUI gui, GameState gameState,
-			SceneElementGOFactory factory, MouseState mouseState,
-			InventoryHandler inventoryHandler) {
+			SceneElementGOFactory factory,
+			InventoryHandler inventoryHandler, MouseState mouseState) {
 		super(gui);
 		valueMap = gameState.getValueMap();
 		this.sceneElementFactory = factory;
@@ -79,6 +120,7 @@ public class InventoryHUDImpl extends AbstractHUD implements InventoryHUD {
 
 	@Override
 	public void update() {
+		mouseY = valueMap.getValue(SystemFields.MOUSE_Y);
 		updateState();
 		updateDisp();
 		updateItems();
@@ -91,9 +133,7 @@ public class InventoryHUDImpl extends AbstractHUD implements InventoryHUD {
 		RectangleShape rectangle = new RectangleShape(width, INVENTORY_HEIGHT);
 		rectangle.setPaint(new EAdColor(200, 200, 200, 100));
 
-		inventory = new EAdComplexElementImpl();
-		inventory.getResources().addAsset(inventory.getInitialBundle(),
-				EAdBasicSceneElement.appearance, rectangle);
+		inventory = new EAdComplexElementImpl(rectangle);
 
 		inventoryDispY = 0.0f;
 		inventoryDispYField = new EAdFieldImpl<Float>(inventory,
@@ -101,52 +141,59 @@ public class InventoryHUDImpl extends AbstractHUD implements InventoryHUD {
 
 		inventory.setPosition(new EAdPositionImpl(0, guiHeight, 0.0f,
 				inventoryDispY));
-		addElement(sceneElementFactory.get(inventory));
+		SceneElementGO<?> go = sceneElementFactory.get(inventory);
+		addElement(go);
 	}
 
-	@Override
-	public void doLayout(EAdTransformation t) {
-		super.doLayout(t);
-	}
-
-	public void updateState() {
-		if (mouseState.getMouseY() > guiHeight - INVENTORY_HEIGHT
+	private void updateState() {
+		if (mouseY > guiHeight - INVENTORY_HEIGHT
 				&& state == InventoryState.HIDDEN) {
 			state = InventoryState.GOING_UP;
 		}
 
-		if (mouseState.getMouseY() < guiHeight - INVENTORY_HEIGHT * 3
+		if (!isItemDragged()
+				&& mouseY < guiHeight - INVENTORY_HEIGHT
+						* 3
 				&& (state == InventoryState.SHOWN || state == InventoryState.GOING_UP)) {
 			state = InventoryState.GOING_DOWN;
 		}
 	}
 
 	private void updateDisp() {
-		boolean change = false;
-		switch (state) {
-		case GOING_UP:
-			inventoryDispY = Math.min(inventoryDispY + disp, 1.0f);
-			change = true;
-			break;
-		case GOING_DOWN:
-			inventoryDispY = Math.max(inventoryDispY - disp, 0.0f);
-			change = true;
-			break;
-		}
-
-		if (change) {
-			valueMap.setValue(inventoryDispYField, inventoryDispY);
-			if (inventoryDispY >= 1.0f) {
-				state = InventoryState.SHOWN;
-			} else if (inventoryDispY <= 0.0f) {
-				state = InventoryState.HIDDEN;
+		if (delay <= 0) {
+			boolean change = false;
+			switch (state) {
+			case GOING_UP:
+				inventoryDispY = Math.min(inventoryDispY + disp, 1.0f);
+				change = true;
+				break;
+			case GOING_DOWN:
+				inventoryDispY = Math.max(inventoryDispY - disp, 0.0f);
+				change = true;
+				break;
 			}
+
+			if (change) {
+				valueMap.setValue(inventoryDispYField, inventoryDispY);
+				if (inventoryDispY >= 1.0f) {
+					state = InventoryState.SHOWN;
+				} else if (inventoryDispY <= 0.0f) {
+					state = InventoryState.HIDDEN;
+				}
+			}
+		}
+		else {
+			delay -= GameLoop.SKIP_MILLIS_TICK;
 		}
 	}
 
 	private void updateItems() {
 		if (currentUpdate != inventoryHandler.updateNumber()) {
 			inventory.getComponents().clear();
+			delay = 1000;
+			this.inventoryDispY = 1.0f;
+			valueMap.setValue(inventoryDispYField, inventoryDispY);
+			state = InventoryState.GOING_DOWN;
 			int x = INVENTORY_HEIGHT;
 			for (InventoryItem i : inventoryHandler.getItems()) {
 				EAdBasicSceneElement element = new EAdBasicSceneElement(
@@ -160,13 +207,15 @@ public class InventoryHUDImpl extends AbstractHUD implements InventoryHUD {
 				float scale = size / width < size / height ? size / width
 						: size / height;
 
-				
-
 				sceneElementFactory.remove(element);
 
 				element.setDragCond(EmptyCondition.TRUE_EMPTY_CONDITION);
 				element.setVarInitialValue(EAdBasicSceneElement.VAR_SCALE,
 						scale);
+				element.setVarInitialValue(EAdInventoryImpl.VAR_IN_INVENTORY,
+						true);
+				element.setVarInitialValue(
+						EAdBasicSceneElement.VAR_RETURN_WHEN_DRAGGED, true);
 
 				inventory.getComponents().add(element);
 
@@ -190,11 +239,20 @@ public class InventoryHUDImpl extends AbstractHUD implements InventoryHUD {
 		CaptionImpl number = new CaptionImpl(new EAdString(
 				StringHandler.TEXTUAL_STRING_PREFIX + count));
 		number.setTextPaint(EAdColor.WHITE);
-		number.setBubblePaint( new EAdColor( 0, 0, 0, 100 ));
+		number.setBubblePaint(new EAdColor(0, 0, 0, 100));
 		number.setPadding(3);
 		number.setFont(counterFont);
 		EAdBasicSceneElement numberElement = new EAdBasicSceneElement(number);
 		numberElement.setPosition(Corner.CENTER, 0, 0);
 		return numberElement;
+	}
+
+	public boolean isItemDragged() {
+		SceneElementGO<?> go = mouseState.getDraggingGameObject();
+		if (go != null) {
+			return valueMap.getValue(go.getElement(),
+					EAdInventoryImpl.VAR_IN_INVENTORY);
+		}
+		return false;
 	}
 }

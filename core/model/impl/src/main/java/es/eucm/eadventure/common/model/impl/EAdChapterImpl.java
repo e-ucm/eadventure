@@ -40,10 +40,11 @@ package es.eucm.eadventure.common.model.impl;
 import es.eucm.eadventure.common.interfaces.CopyNotSupportedException;
 import es.eucm.eadventure.common.interfaces.Element;
 import es.eucm.eadventure.common.interfaces.Param;
-import es.eucm.eadventure.common.model.elements.EAdSceneElementDef;
+import es.eucm.eadventure.common.interfaces.features.Evented;
 import es.eucm.eadventure.common.model.elements.EAdChapter;
 import es.eucm.eadventure.common.model.elements.EAdScene;
-import es.eucm.eadventure.common.model.elements.EAdTimer;
+import es.eucm.eadventure.common.model.elements.EAdSceneElementDef;
+import es.eucm.eadventure.common.model.events.EAdEvent;
 import es.eucm.eadventure.common.model.extra.EAdList;
 import es.eucm.eadventure.common.model.extra.EAdMap;
 import es.eucm.eadventure.common.model.extra.impl.EAdListImpl;
@@ -55,7 +56,7 @@ import es.eucm.eadventure.common.params.EAdString;
  * Model of the eAdventure chapter.
  */
 @Element(runtime = EAdChapterImpl.class, detailed = EAdChapterImpl.class)
-public class EAdChapterImpl extends ResourcedElementImpl implements EAdChapter {
+public class EAdChapterImpl extends ResourcedElementImpl implements EAdChapter, Evented {
 
 	/**
 	 * Scenes of the game
@@ -73,7 +74,7 @@ public class EAdChapterImpl extends ResourcedElementImpl implements EAdChapter {
 	 * Timers of the game
 	 */
 	@Param("timers")
-	private EAdList<EAdTimer> timers;
+	private EAdList<EAdEvent> events;
 	
 	@Param("title")
 	private EAdString title;
@@ -97,7 +98,7 @@ public class EAdChapterImpl extends ResourcedElementImpl implements EAdChapter {
 		setId("chapter");
 		scenes = new EAdListImpl<EAdScene>(EAdScene.class);
 		actors = new EAdListImpl<EAdSceneElementDef>(EAdSceneElementDef.class);
-		timers = new EAdListImpl<EAdTimer>(EAdTimer.class);
+		events = new EAdListImpl<EAdEvent>(EAdEvent.class);
 		title = EAdString.newEAdString("title");
 		description = EAdString.newEAdString("desc");
 		vars = new EAdMapImpl<EAdVarDef<?>, Object>(EAdVarDef.class,
@@ -125,8 +126,8 @@ public class EAdChapterImpl extends ResourcedElementImpl implements EAdChapter {
 	 * @see es.eucm.eadventure.common.model.EAdChapterModel#getTimers()
 	 */
 	@Override
-	public EAdList<EAdTimer> getTimers() {
-		return timers;
+	public EAdList<EAdEvent> getEvents() {
+		return events;
 	}
 
 	/* (non-Javadoc)

@@ -37,29 +37,22 @@
 
 package es.eucm.eadventure.common.impl.importer.subimporters.chapter;
 
-import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import com.google.inject.Inject;
 
 import es.eucm.eadventure.common.EAdElementImporter;
 import es.eucm.eadventure.common.data.chapter.Action;
+import es.eucm.eadventure.common.data.chapter.elements.Description;
 import es.eucm.eadventure.common.data.chapter.elements.Element;
 import es.eucm.eadventure.common.impl.importer.interfaces.EAdElementFactory;
 import es.eucm.eadventure.common.impl.importer.interfaces.ResourceImporter;
 import es.eucm.eadventure.common.model.actions.EAdAction;
-import es.eucm.eadventure.common.model.actions.impl.EAdBasicAction;
-import es.eucm.eadventure.common.model.effects.EAdEffect;
 import es.eucm.eadventure.common.model.effects.impl.EAdActorActionsEffect;
-import es.eucm.eadventure.common.model.effects.impl.text.EAdSpeakEffect;
-import es.eucm.eadventure.common.model.elements.EAdCondition;
 import es.eucm.eadventure.common.model.elements.EAdSceneElementDef;
 import es.eucm.eadventure.common.model.elements.impl.EAdSceneElementDefImpl;
 import es.eucm.eadventure.common.model.guievents.impl.EAdMouseEventImpl;
 import es.eucm.eadventure.common.resources.StringHandler;
-import es.eucm.eadventure.common.resources.assets.drawable.basics.enums.Alignment;
-import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.ImageImpl;
 
 public abstract class ActorImporter<P extends Element> implements
 		EAdElementImporter<P, EAdSceneElementDef> {
@@ -74,19 +67,23 @@ public abstract class ActorImporter<P extends Element> implements
 
 	protected EAdElementFactory elementFactory;
 
-	protected EAdElementImporter<Action, EAdAction> actionImporter;
+	protected ActionImporter actionImporter;
 
 	protected P element;
+
+	protected EAdElementFactory factory;
 
 	@Inject
 	public ActorImporter(StringHandler stringHandler,
 			ResourceImporter resourceImporter,
 			EAdElementFactory elementFactory,
-			EAdElementImporter<Action, EAdAction> actionImporter) {
+			EAdElementImporter<Action, EAdAction> actionImporter,
+			EAdElementFactory factory) {
 		this.stringHandler = stringHandler;
 		this.resourceImporter = resourceImporter;
 		this.elementFactory = elementFactory;
-		this.actionImporter = actionImporter;
+		this.actionImporter = (ActionImporter) actionImporter;
+		this.factory = factory;
 	}
 
 	@Override
@@ -101,101 +98,42 @@ public abstract class ActorImporter<P extends Element> implements
 		actor.setId(oldObject.getId());
 		elementFactory.getCurrentChapterModel().getActors().add(actor);
 
-		stringHandler.setString(actor.getName(), oldObject.getName());
-		stringHandler.setString(actor.getDesc(),
-				oldObject.getDescription());
-		stringHandler.setString(actor.getDetailDesc(),
-				oldObject.getDetailedDescription());
-		stringHandler.setString(actor.getDoc(),
-				oldObject.getDocumentation());
+		// Add strings
+		// FIXME multiple descriptions not supported
+		if (oldObject.getDescriptions().size() > 0) {
+			Description desc = oldObject.getDescription(0);
+			stringHandler.setString(actor.getName(), desc.getName());
+			stringHandler
+					.setString(actor.getDesc(), desc.getDescription());
+			stringHandler.setString(actor.getDetailDesc(),
+					desc.getDetailedDescription());
+			stringHandler.setString(actor.getDoc(),
+					oldObject.getDocumentation());
+		}
 
+		// Add resources
 		initResourcesCorrespondencies();
-
 		resourceImporter.importResources(actor, oldObject.getResources(),
 				properties, objectClasses);
 
-		addActions(oldObject, actor);
+		// Add actions
+		addActionsEffect(oldObject, actor);
+
+		// Add drag
+		// oldObject.isReturnsWhenDragged()
 
 		return actor;
 	}
 
-	public static <P extends Element> void addActions(P oldObject,
-			EAdSceneElementDef actor,
-			EAdElementImporter<Action, EAdAction> actionImporter,
-			StringHandler stringHandler, boolean isActiveArea ) {
-		// Add examine action if it's not defined in oldObject actions
-		boolean addExamine = true;
-
-		HashMap<Integer, EAdAction> actions = new HashMap<Integer, EAdAction>();
-		HashMap<EAdAction, EAdCondition> previousConditions = new HashMap<EAdAction, EAdCondition>();
-
-		for (Action a : oldObject.getActions()) {
-			if (addExamine && a.getType() == Action.EXAMINE)
-				addExamine = false;
-
-			EAdAction action = null;
-			if (actions.containsKey(a.getType())) {
-				action = actions.get(a.getType());
-			} else {
-				action = actionImporter.init(a);
-				actions.put(a.getType(), action);
-				actor.getActions().add(action);
-				List<EAdEffect> list = ActionImporter.getEffects(a.getType(), a.getEffects() 
-						.getEffects(), actor, isActiveArea );
-				for (EAdEffect e : list)
-					action.getEffects().add(e);
-			}
-
-			EAdCondition c = ((ActionImporter) actionImporter).setCondition(a, action, previousConditions.get(action));
-			previousConditions.put(action, c);
-			action = ((ActionImporter) actionImporter)
-					.convert(a, (EAdBasicAction) action, actor, c);
-			
-		}
-
-		if (addExamine) {
-			addExamine(oldObject, actor, stringHandler);
-		}
-
-	}
-
-	private static <P extends Element> void addExamine(P oldObject,
-			EAdSceneElementDef actor, StringHandler stringHandler) {
-
-		EAdBasicAction examineAction = new EAdBasicAction();
-		examineAction.setId(actor.getId() + "_action_examinate");
-
-		EAdSpeakEffect effect = new EAdSpeakEffect();
-		effect.setId("examinate");
-		stringHandler.setString(effect.getString(),
-				oldObject.getDetailedDescription());
-		effect.setAlignment(Alignment.CENTER);
-		
-		stringHandler.setString(examineAction.getName(), "Examine");
-
-		examineAction.getEffects().add(effect);
-
-		examineAction.getResources().addAsset(examineAction.getNormalBundle(),
-				EAdBasicAction.appearance,
-				new ImageImpl(ActionImporter.getDrawablePath(Action.EXAMINE)));
-		examineAction.getResources().addAsset(
-				examineAction.getHighlightBundle(),
-				EAdBasicAction.appearance,
-				new ImageImpl(ActionImporter
-						.getHighlightDrawablePath(Action.EXAMINE)));
-
-		actor.getActions().add(examineAction);
-
-	}
-
 	public abstract void initResourcesCorrespondencies();
 
-	protected void addActions(P oldObject, EAdSceneElementDefImpl actor) {
-		addActions(oldObject, actor, actionImporter, stringHandler, false);
+	protected void addActionsEffect(P oldObject, EAdSceneElementDefImpl actor) {
 		// add actions
-		EAdActorActionsEffect showActions = new EAdActorActionsEffect(
-				actor);
+		EAdActorActionsEffect showActions = new EAdActorActionsEffect(actor);
 		actor.addBehavior(EAdMouseEventImpl.MOUSE_RIGHT_CLICK, showActions);
+		
+		// add other actions
+		actionImporter.addAllActions(oldObject.getActions(), actor, false);
 	}
 
 }

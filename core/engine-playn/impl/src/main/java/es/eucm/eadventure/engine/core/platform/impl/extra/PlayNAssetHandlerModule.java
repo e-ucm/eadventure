@@ -52,13 +52,14 @@ import es.eucm.eadventure.common.resources.assets.drawable.basics.SpriteImage;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.CaptionImpl;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.ImageImpl;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.SpriteImageImpl;
-import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.animation.Frame;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.shapes.BezierShape;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.shapes.RectangleShape;
 import es.eucm.eadventure.common.resources.assets.drawable.compounds.ComposedDrawable;
 import es.eucm.eadventure.common.resources.assets.drawable.compounds.DisplacedDrawable;
 import es.eucm.eadventure.common.resources.assets.drawable.compounds.impl.ComposedDrawableImpl;
 import es.eucm.eadventure.common.resources.assets.drawable.compounds.impl.DisplacedDrawableImpl;
+import es.eucm.eadventure.common.resources.assets.drawable.filters.FilteredDrawable;
+import es.eucm.eadventure.common.resources.assets.drawable.filters.impl.FilteredDrawableImpl;
 import es.eucm.eadventure.common.resources.assets.multimedia.Sound;
 import es.eucm.eadventure.common.resources.assets.multimedia.impl.SoundImpl;
 import es.eucm.eadventure.engine.core.impl.DefaultStringHandler;
@@ -71,6 +72,7 @@ import es.eucm.eadventure.engine.core.platform.assets.impl.PlayNEngineSpriteImag
 import es.eucm.eadventure.engine.core.platform.assets.impl.PlayNSound;
 import es.eucm.eadventure.engine.core.platform.assets.impl.RuntimeComposedDrawable;
 import es.eucm.eadventure.engine.core.platform.assets.impl.RuntimeDisplacedDrawable;
+import es.eucm.eadventure.engine.core.platform.assets.impl.RuntimeFilteredDrawable;
 import es.eucm.eadventure.engine.core.platform.assets.impl.RuntimeSpriteImage;
 import es.eucm.eadventure.engine.core.platform.impl.PlayNAssetHandler;
 
@@ -92,7 +94,6 @@ public class PlayNAssetHandlerModule extends AbstractGinModule {
 
 		map.put(ImageImpl.class, PlayNEngineImage.class);
 		map.put(Image.class, PlayNEngineImage.class);
-		map.put(Frame.class, PlayNEngineImage.class);
 		map.put(Caption.class, PlayNEngineCaption.class);
 		map.put(CaptionImpl.class, PlayNEngineCaption.class);
 		map.put(ComposedDrawable.class, (Class<? extends RuntimeAsset<?>>) RuntimeComposedDrawable.class);
@@ -102,6 +103,8 @@ public class PlayNAssetHandlerModule extends AbstractGinModule {
 		map.put(DisplacedDrawable.class, (Class<? extends RuntimeAsset<?>>) RuntimeDisplacedDrawable.class);
 		map.put(DisplacedDrawableImpl.class, (Class<? extends RuntimeAsset<?>>) RuntimeDisplacedDrawable.class);
 		map.put(SpriteImage.class, (Class<? extends RuntimeAsset<?>>) RuntimeSpriteImage.class);
+		map.put(FilteredDrawable.class, (Class<? extends RuntimeAsset<?>>) RuntimeFilteredDrawable.class);
+		map.put(FilteredDrawableImpl.class, (Class<? extends RuntimeAsset<?>>) RuntimeFilteredDrawable.class);
 		map.put(SpriteImageImpl.class, PlayNEngineSpriteImage.class);
 		map.put(Sound.class, PlayNSound.class);
 		map.put(SoundImpl.class, PlayNSound.class);

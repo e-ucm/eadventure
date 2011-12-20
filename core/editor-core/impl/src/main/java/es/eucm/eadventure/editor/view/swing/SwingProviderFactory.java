@@ -1,3 +1,40 @@
+/**
+ * eAdventure (formerly <e-Adventure> and <e-Game>) is a research project of the
+ *    <e-UCM> research group.
+ *
+ *    Copyright 2005-2010 <e-UCM> research group.
+ *
+ *    You can access a list of all the contributors to eAdventure at:
+ *          http://e-adventure.e-ucm.es/contributors
+ *
+ *    <e-UCM> is a research group of the Department of Software Engineering
+ *          and Artificial Intelligence at the Complutense University of Madrid
+ *          (School of Computer Science).
+ *
+ *          C Profesor Jose Garcia Santesmases sn,
+ *          28040 Madrid (Madrid), Spain.
+ *
+ *          For more info please visit:  <http://e-adventure.e-ucm.es> or
+ *          <http://www.e-ucm.es>
+ *
+ * ****************************************************************************
+ *
+ *  This file is part of eAdventure, version 2.0
+ *
+ *      eAdventure is free software: you can redistribute it and/or modify
+ *      it under the terms of the GNU Lesser General Public License as published by
+ *      the Free Software Foundation, either version 3 of the License, or
+ *      (at your option) any later version.
+ *
+ *      eAdventure is distributed in the hope that it will be useful,
+ *      but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *      MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *      GNU Lesser General Public License for more details.
+ *
+ *      You should have received a copy of the GNU Lesser General Public License
+ *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
 package es.eucm.eadventure.editor.view.swing;
 
 import javax.swing.JComponent;
@@ -14,8 +51,9 @@ import es.eucm.eadventure.editor.view.generics.impl.EAdListOption;
 import es.eucm.eadventure.editor.view.generics.impl.EAdStringOption;
 import es.eucm.eadventure.editor.view.generics.impl.ElementOption;
 import es.eucm.eadventure.editor.view.generics.impl.PanelImpl;
-import es.eucm.eadventure.editor.view.generics.impl.SceneInterfaceElement;
 import es.eucm.eadventure.editor.view.generics.impl.TextOption;
+import es.eucm.eadventure.editor.view.generics.scene.PreviewPanel;
+import es.eucm.eadventure.editor.view.generics.scene.impl.SceneInterfaceElement;
 import es.eucm.eadventure.editor.view.impl.AbstractProviderFactory;
 import es.eucm.eadventure.editor.view.swing.componentproviders.BooleanComponentProvider;
 import es.eucm.eadventure.editor.view.swing.componentproviders.EAdConditionComponentProvider;
@@ -24,6 +62,7 @@ import es.eucm.eadventure.editor.view.swing.componentproviders.EAdStringComponen
 import es.eucm.eadventure.editor.view.swing.componentproviders.ElementComponentProvider;
 import es.eucm.eadventure.editor.view.swing.componentproviders.PanelComponentProvider;
 import es.eucm.eadventure.editor.view.swing.componentproviders.TextComponentProvider;
+import es.eucm.eadventure.editor.view.swing.scene.PreviewPanelComponentProvider;
 import es.eucm.eadventure.editor.view.swing.scene.SceneEditionComponentProvider;
 
 /**
@@ -59,6 +98,10 @@ public class SwingProviderFactory extends AbstractProviderFactory<JComponent> {
 		this.addToMap(SceneInterfaceElement.class,
 				(ComponentProvider) new SceneEditionComponentProvider(
 						commandManager));
+		this.addToMap(PreviewPanel.class,
+				(ComponentProvider) new PreviewPanelComponentProvider(
+						commandManager));
+
 	}
 
 }
