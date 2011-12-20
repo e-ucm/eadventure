@@ -105,7 +105,7 @@ public class DesktopDemos extends BaseTestLauncher {
 	protected static JList list;
 
 	private static final Dimension DIMENSIONS[] = new Dimension[] {
-			new Dimension(800, 600), new Dimension(1200, 900),
+			new Dimension(800, 600), new Dimension(1200, 900),new Dimension(1024, 768),
 			new Dimension(400, 300) };
 
 	protected static JCheckBox checkBox;
