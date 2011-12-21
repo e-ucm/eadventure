@@ -68,7 +68,7 @@ import es.eucm.eadventure.common.model.elements.EAdSceneElement;
 import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
 import es.eucm.eadventure.common.model.elements.impl.EAdSceneElementDefImpl;
 import es.eucm.eadventure.common.model.elements.impl.EAdSceneImpl;
-import es.eucm.eadventure.common.model.events.EAdConditionEvent;
+import es.eucm.eadventure.common.model.events.EAdConditionedEvent;
 import es.eucm.eadventure.common.model.events.EAdSceneElementEvent;
 import es.eucm.eadventure.common.model.events.enums.ConditionedEventType;
 import es.eucm.eadventure.common.model.events.enums.SceneElementEventType;
@@ -328,7 +328,7 @@ public class BookImporter implements EAdElementImporter<Book, EAdScene> {
 						xVar), 500, InterpolationLoopType.NO_LOOP,
 				InterpolationType.BOUNCE_END);
 
-		EAdConditionEvent event = new EAdConditionEventImpl();
+		EAdConditionedEvent event = new EAdConditionEventImpl();
 		event.setCondition(condition);
 		event.addEffect(ConditionedEventType.CONDITIONS_MET,
 				new EAdChangeFieldValueEffect(visibleVar,

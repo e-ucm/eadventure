@@ -48,7 +48,7 @@ import es.eucm.eadventure.common.model.elements.EAdCondition;
 import es.eucm.eadventure.common.model.elements.EAdSceneElement;
 import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
 import es.eucm.eadventure.common.model.elements.impl.EAdSceneElementDefImpl;
-import es.eucm.eadventure.common.model.events.EAdConditionEvent;
+import es.eucm.eadventure.common.model.events.EAdConditionedEvent;
 import es.eucm.eadventure.common.model.events.enums.ConditionedEventType;
 import es.eucm.eadventure.common.model.events.impl.EAdConditionEventImpl;
 import es.eucm.eadventure.common.model.trajectories.impl.NodeTrajectoryDefinition;
@@ -87,7 +87,7 @@ public class BarrierImporter implements
 					.getConditions());
 			condition = conditionsImporter.convert(oldObject.getConditions(),
 					condition);
-			EAdConditionEvent event = new EAdConditionEventImpl();
+			EAdConditionedEvent event = new EAdConditionEventImpl();
 			event.setId("barrierCondition");
 			event.setCondition(condition);
 			EAdField<Boolean> barrierOn = new EAdFieldImpl<Boolean>(barrier,

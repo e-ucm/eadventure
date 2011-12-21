@@ -41,18 +41,22 @@ import es.eucm.eadventure.common.interfaces.Element;
 import es.eucm.eadventure.common.interfaces.Param;
 import es.eucm.eadventure.common.model.conditions.impl.EmptyCondition;
 import es.eucm.eadventure.common.model.elements.EAdCondition;
-import es.eucm.eadventure.common.model.events.EAdConditionEvent;
+import es.eucm.eadventure.common.model.events.EAdConditionedEvent;
 
 @Element(runtime = EAdConditionEventImpl.class, detailed = EAdConditionEventImpl.class)
 public class EAdConditionEventImpl extends AbstractEAdEvent implements
-		EAdConditionEvent {
+		EAdConditionedEvent {
 
 	@Param("condition")
 	private EAdCondition condition;
+	
+	@Param("boolean")
+	private boolean runNotMetConditions;
 
 	public EAdConditionEventImpl() {
 		this( EmptyCondition.FALSE_EMPTY_CONDITION);
 		setId("condEvent");
+		runNotMetConditions = true;
 	}
 
 	public EAdConditionEventImpl(EAdCondition condition) {
@@ -68,6 +72,14 @@ public class EAdConditionEventImpl extends AbstractEAdEvent implements
 	@Override
 	public void setCondition(EAdCondition condition) {
 		this.condition = condition;
+	}
+	
+	public boolean isRunNotMetConditionsInFirstCheck( ){
+		return runNotMetConditions;
+	}
+	
+	public void setRunNotMetConditionsInFirstCheck(boolean run ){
+		this.runNotMetConditions = run;
 	}
 
 }

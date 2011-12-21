@@ -54,7 +54,7 @@ import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
 import es.eucm.eadventure.common.model.elements.impl.EAdComplexElementImpl;
 import es.eucm.eadventure.common.model.elements.impl.EAdSceneElementDefImpl;
 import es.eucm.eadventure.common.model.elements.impl.EAdSceneImpl;
-import es.eucm.eadventure.common.model.events.EAdConditionEvent;
+import es.eucm.eadventure.common.model.events.EAdConditionedEvent;
 import es.eucm.eadventure.common.model.events.EAdSceneElementEvent;
 import es.eucm.eadventure.common.model.events.enums.ConditionedEventType;
 import es.eucm.eadventure.common.model.events.enums.SceneElementEventType;
@@ -92,7 +92,7 @@ public class PhysicsScene extends EmptyScene {
 
 		EAdPhysicsEffect effect = new EAdPhysicsEffect();
 
-		EAdConditionEvent event = new EAdConditionEventImpl();
+		EAdConditionedEvent event = new EAdConditionEventImpl();
 		OperationCondition condition = new OperationCondition(
 				new EAdFieldImpl<Boolean>(this, EAdSceneImpl.VAR_SCENE_LOADED));
 		event.setCondition(condition);

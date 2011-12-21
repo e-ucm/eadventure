@@ -66,7 +66,7 @@ public class ConditionEventGO extends AbstractEventGO<EAdConditionEventImpl> {
 						.getEffectsForEvent(ConditionedEventType.CONDITIONS_MET));
 			}
 			triggered = true;
-		} else if (triggered || firstCheck) {
+		} else if (triggered || ( firstCheck && element.isRunNotMetConditionsInFirstCheck())) {
 			triggered = false;
 			runEffects(element
 					.getEffectsForEvent(ConditionedEventType.CONDITIONS_UNMET));

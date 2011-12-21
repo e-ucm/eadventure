@@ -71,7 +71,7 @@ import es.eucm.eadventure.common.loader.Loader;
 import es.eucm.eadventure.common.model.conditions.impl.ANDCondition;
 import es.eucm.eadventure.common.model.conditions.impl.NOTCondition;
 import es.eucm.eadventure.common.model.elements.EAdCondition;
-import es.eucm.eadventure.common.model.events.EAdConditionEvent;
+import es.eucm.eadventure.common.model.events.EAdConditionedEvent;
 import es.eucm.eadventure.common.model.events.enums.ConditionedEventType;
 import es.eucm.eadventure.common.model.events.impl.EAdConditionEventImpl;
 import es.eucm.eadventure.common.predef.model.effects.EAdChangeAppearance;
@@ -247,7 +247,7 @@ public class ResourceImporterImpl implements ResourceImporter {
 
 			if (element instanceof Evented) {
 
-				EAdConditionEvent conditionEvent = new EAdConditionEventImpl();
+				EAdConditionedEvent conditionEvent = new EAdConditionEventImpl();
 				conditionEvent
 						.setId(bundleId.getBundleId() + "_condition_" + i);
 
@@ -307,7 +307,7 @@ public class ResourceImporterImpl implements ResourceImporter {
 		}
 		if (assetPath.startsWith("assets/animation")
 				|| assetPath.startsWith("assets/special/EmptyAnimation")) {
-			if (assetPath.endsWith(".eaa") || fileExists(assetPath + ".eaa")) {
+			if ( assetPath.endsWith(".eaa") || ( getFileExtension(assetPath) == null && fileExists(assetPath + ".eaa"))) {
 				Animation a = Loader.loadAnimation(inputStreamCreator,
 						assetPath, imageLoader);
 				asset = animationImporter.init(a);

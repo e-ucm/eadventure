@@ -39,7 +39,7 @@ package es.eucm.eadventure.common.model.events;
 
 import es.eucm.eadventure.common.interfaces.features.Conditioned;
 
-public interface EAdConditionEvent extends EAdEvent, Conditioned {
+public interface EAdConditionedEvent extends EAdEvent, Conditioned {
 
 
 }

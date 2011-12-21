@@ -44,7 +44,7 @@ import es.eucm.eadventure.common.model.effects.impl.physics.PhType;
 import es.eucm.eadventure.common.model.effects.impl.physics.PhApplyImpluse;
 import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
 import es.eucm.eadventure.common.model.elements.impl.EAdSceneImpl;
-import es.eucm.eadventure.common.model.events.EAdConditionEvent;
+import es.eucm.eadventure.common.model.events.EAdConditionedEvent;
 import es.eucm.eadventure.common.model.events.enums.ConditionedEventType;
 import es.eucm.eadventure.common.model.events.impl.EAdConditionEventImpl;
 import es.eucm.eadventure.common.model.guievents.impl.EAdMouseEventImpl;
@@ -127,7 +127,7 @@ public class PhysicsScene2 extends PhysicsScene {
 						PhShape.CIRCULAR);
 			}
 
-		EAdConditionEvent event = new EAdConditionEventImpl();
+		EAdConditionedEvent event = new EAdConditionEventImpl();
 		OperationCondition condition = new OperationCondition(new EAdFieldImpl<Boolean>(
 				this, EAdSceneImpl.VAR_SCENE_LOADED));
 		event.setCondition(condition);
