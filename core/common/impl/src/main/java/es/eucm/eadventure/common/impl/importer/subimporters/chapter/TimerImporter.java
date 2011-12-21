@@ -211,7 +211,7 @@ public class TimerImporter implements EAdElementImporter<Timer, EAdEvent> {
 
 		// FIXME if oldTimer.isCountDown(), use operations in captions
 		stringHandler.setString(text.getLabel(), oldTimer.getDisplayName()
-				+ " #0");
+				+ " [0]");
 		text.getFields().add(currentTimeField);
 		timer.getDefinition()
 				.getResources()

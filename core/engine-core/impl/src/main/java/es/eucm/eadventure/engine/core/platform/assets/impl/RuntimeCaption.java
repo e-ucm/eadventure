@@ -147,9 +147,13 @@ public class RuntimeCaption<GraphicContext> extends
 	@Override
 	public boolean loadAsset() {
 		font = fontCache.get(descriptor.getFont());
+		if ( descriptor.getFields().size() > 0 )
 		text = valueMap.processTextVars(
 				stringsReader.getString(descriptor.getText()),
 				descriptor.getFields());
+		else
+			text = stringsReader.getString(descriptor.getText());
+		
 		lines = new ArrayList<String>();
 		widths = new ArrayList<Integer>();
 		wrapText();

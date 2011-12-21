@@ -60,9 +60,9 @@ public class ValueMapImpl implements ValueMap {
 
 	protected Map<EAdElement, Map<EAdVarDef<?>, Object>> map;
 
-	private OperatorFactory operatorFactory;
+	protected OperatorFactory operatorFactory;
 
-	private static final Logger logger = Logger.getLogger("Value Map");
+	protected static final Logger logger = Logger.getLogger("Value Map");
 
 	private ReflectionProvider reflectionProvider;
 

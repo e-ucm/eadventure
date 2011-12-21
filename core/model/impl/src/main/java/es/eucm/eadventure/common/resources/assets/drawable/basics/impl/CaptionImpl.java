@@ -40,7 +40,7 @@ package es.eucm.eadventure.common.resources.assets.drawable.basics.impl;
 import es.eucm.eadventure.common.interfaces.Param;
 import es.eucm.eadventure.common.model.extra.EAdList;
 import es.eucm.eadventure.common.model.extra.impl.EAdListImpl;
-import es.eucm.eadventure.common.model.variables.EAdField;
+import es.eucm.eadventure.common.model.variables.EAdOperation;
 import es.eucm.eadventure.common.params.EAdFontImpl;
 import es.eucm.eadventure.common.params.fills.impl.EAdColor;
 import es.eucm.eadventure.common.params.fills.impl.EAdPaintImpl;
@@ -82,7 +82,7 @@ public class CaptionImpl implements Caption {
 	private int padding;
 
 	@Param("fields")
-	private EAdList<EAdField<?>> fields;
+	private EAdList<EAdOperation> fields;
 
 	@Param("alignment")
 	private Alignment alignment;
@@ -102,7 +102,7 @@ public class CaptionImpl implements Caption {
 		preferredWidth = AUTO_SIZE;
 		padding = DEFAULT_PADDING;
 		alignment = Alignment.CENTER;
-		fields = new EAdListImpl<EAdField<?>>(EAdField.class);
+		fields = new EAdListImpl<EAdOperation>(EAdOperation.class);
 	}
 
 	@Override
@@ -190,7 +190,7 @@ public class CaptionImpl implements Caption {
 	}
 
 	@Override
-	public EAdList<EAdField<?>> getFields() {
+	public EAdList<EAdOperation> getFields() {
 		return fields;
 	}
 

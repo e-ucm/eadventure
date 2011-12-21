@@ -48,6 +48,7 @@ import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
 import es.eucm.eadventure.common.model.elements.impl.EAdSceneElementDefImpl;
 import es.eucm.eadventure.common.model.variables.EAdVarDef;
 import es.eucm.eadventure.common.model.variables.impl.EAdFieldImpl;
+import es.eucm.eadventure.common.model.variables.impl.SystemFields;
 import es.eucm.eadventure.common.params.EAdFontImpl;
 import es.eucm.eadventure.common.params.fills.impl.EAdColor;
 import es.eucm.eadventure.common.params.text.EAdFont;
@@ -127,8 +128,9 @@ public class FieldsDebugger implements EAdDebugger {
 					for (EAdVarDef<?> var : fields.keySet()) {
 						c = new CaptionImpl();
 						stringHandler.setString(c.getText(), var.getName()
-								+ "=#0");
+								+ "=[0]");
 						c.getFields().add(new EAdFieldImpl(element, var));
+						c.getFields().add(SystemFields.SHOW_MOUSE);
 						c.setFont(font);
 						c.setTextPaint(EAdColor.WHITE);
 						c.setBubblePaint(EAdColor.BLACK);
@@ -138,8 +140,10 @@ public class FieldsDebugger implements EAdDebugger {
 					}
 
 					vars.setPosition(10, 10);
-					vars.getDefinition().getResources().addAsset(vars.getDefinition().getInitialBundle(),
-							EAdSceneElementDefImpl.appearance, d);
+					vars.getDefinition()
+							.getResources()
+							.addAsset(vars.getDefinition().getInitialBundle(),
+									EAdSceneElementDefImpl.appearance, d);
 
 					gos.add(gameObjectFactory.get(vars));
 				}

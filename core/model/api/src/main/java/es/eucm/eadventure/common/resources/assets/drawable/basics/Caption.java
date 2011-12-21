@@ -38,7 +38,7 @@
 package es.eucm.eadventure.common.resources.assets.drawable.basics;
 
 import es.eucm.eadventure.common.model.extra.EAdList;
-import es.eucm.eadventure.common.model.variables.EAdField;
+import es.eucm.eadventure.common.model.variables.EAdOperation;
 import es.eucm.eadventure.common.params.paint.EAdPaint;
 import es.eucm.eadventure.common.params.text.EAdFont;
 import es.eucm.eadventure.common.params.text.EAdString;
@@ -131,7 +131,7 @@ public interface Caption extends BasicDrawable {
 	 * 
 	 * @return a list of fields
 	 */
-	EAdList<EAdField<?>> getFields();
+	EAdList<EAdOperation> getFields();
 
 	/**
 	 * Returns the alignment for the text

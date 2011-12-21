@@ -42,19 +42,28 @@ import com.google.inject.Singleton;
 
 import es.eucm.eadventure.common.ReflectionProvider;
 import es.eucm.eadventure.common.model.extra.EAdList;
-import es.eucm.eadventure.common.model.variables.EAdField;
+import es.eucm.eadventure.common.model.variables.EAdOperation;
 import es.eucm.eadventure.engine.core.evaluators.EvaluatorFactory;
 import es.eucm.eadventure.engine.core.game.ValueMap;
 import es.eucm.eadventure.engine.core.operator.OperatorFactory;
 
 @Singleton
 public class VariableMap extends ValueMapImpl implements ValueMap {
-	
+
+	private static final char BEGIN_VAR_CHAR = '[';
+
+	private static final char END_VAR_CHAR = ']';
+
+	private static final char BEGIN_CONDITION_CHAR = '{';
+
+	private static final char END_CONDITION_CHAR = '}';
+
 	@Inject
-	public VariableMap(ReflectionProvider reflectionProvider, OperatorFactory operatorFactory, EvaluatorFactory evaluatorFactory ) {
+	public VariableMap(ReflectionProvider reflectionProvider,
+			OperatorFactory operatorFactory, EvaluatorFactory evaluatorFactory) {
 		super(reflectionProvider, operatorFactory, evaluatorFactory);
-	}	
-	
+	}
+
 	/**
 	 * <p>
 	 * Substitutes the variables in a text for its values.
@@ -65,51 +74,39 @@ public class VariableMap extends ValueMapImpl implements ValueMap {
 	 * </p>
 	 * 
 	 * <ul>
-	 * <li><b>#var_name:</b> this text is substituted for the value in the map
-	 * associated with the {@link String} "var_name" . If there's no such var,
-	 * it remains the same.</li>
-	 * <li><b>(#boolean_var? text if 'boolean_var' is true : text if
-	 * 'boolean_var' is false )</b> A conditional text, depending of
-	 * "boolean_var" value. This text can be plain text or contains some other
-	 * var values with the first format</p>
+	 * <li><b>[op_index]:</b> The index of the operation whose result will be
+	 * used to substitute the reference {@code 0 <= op_index < fields.size()}
+	 * <li><b>{[condition]? true text : false text } </b> A
+	 * conditional text, depending of the operation whose index is
+	 * {@code condition} value.</p>
 	 * 
 	 * @param text
 	 *            the text to be processed by the value map
 	 * @return the processed text
 	 */
-	public String processTextVars(String text, EAdList<EAdField<?>> fields) {
-		text = processConditionalExpressions(text, fields);
-		return processVars(text, fields);
+	public String processTextVars(String text, EAdList<EAdOperation> operations) {
+		text = processConditionalExpressions(text, operations);
+		return processVars(text, operations);
 	}
 
-	private String processVars(String text, EAdList<EAdField<?>> fields) {
-		char[] separators = new char[] { ' ', ',', '.', '?', '!', '-', ')' };
+	private String processVars(String text, EAdList<EAdOperation> operations) {
 		int i = 0;
-		int space = 0;
 		boolean done = false;
 		while (i < text.length() && !done) {
-			i = text.indexOf('#', i);
+			i = text.indexOf(BEGIN_VAR_CHAR, i);
 			if (i != -1) {
-				space = -1;
-				int j = 0;
-				while (j < separators.length) {
-					int separatorIndex = text.indexOf(separators[j], i + 1);
-					if (separatorIndex != -1) {
-						space = space == -1 || separatorIndex < space ? separatorIndex
-								: space;
+				int separatorIndex = text.indexOf(END_VAR_CHAR, i + 1);
+				if (separatorIndex != -1) {
+					String varName = text.substring(i + 1, separatorIndex);
+					Integer index = new Integer(varName);
+					Object o = operatorFactory.operate(Object.class,
+							operations.get(index));
+					if (o != null) {
+						text = text.substring(0, i) + o.toString()
+								+ text.substring(separatorIndex + 1);
 					}
-					j++;
 				}
-
-				space = space == -1 ? text.length() : space;
-				String varName = text.substring(i + 1, space);
-
-				Object o = this.getValue(varName, fields);
-				if (o != null) {
-					text = text.substring(0, i) + o.toString()
-							+ text.substring(space);
-				}
-				i = space + 1;
+				i = separatorIndex + 1;
 
 			} else {
 				done = true;
@@ -118,39 +115,26 @@ public class VariableMap extends ValueMapImpl implements ValueMap {
 		return text;
 	}
 
-	private Object getValue(String varName, EAdList<EAdField<?>> fields) {
-		int pos = Integer.parseInt(varName);
-		if ( pos >= 0 && pos < fields.size()){
-			return getValue(fields.get(pos));
-		}
-
-		return null;
-	}
-	
-	private String processConditionalExpressions(String text, EAdList<EAdField<?>> fields) {
+	private String processConditionalExpressions(String text,
+			EAdList<EAdOperation> fields) {
 		String newText = "";
 		if (text != null) {
-			String[] parts = text.split("\\(");
-			if (parts.length == 1)
-				return text;
-
-			for (int i = 0; i < parts.length; i++) {
-				String part = parts[i];
-				if (part.length() > 0 && part.charAt(0) == '#') {
-					String[] parts2 = part.split("\\)");
-
-					parts2[0] = evaluateExpression(parts2[0], fields);
-
-					parts[i] = parts2[0];
-					for (int j = 1; j < parts2.length; j++) {
-						parts[i] += parts2[j];
-					}
-
-				} else if (i > 0) {
-					parts[i] = "(" + part;
+			int i = 0;
+			boolean finished = false;
+			while (!finished && i < text.length()) {
+				int beginCondition = text.indexOf(BEGIN_CONDITION_CHAR, i);
+				int endCondition = text.indexOf(END_CONDITION_CHAR, beginCondition);
+				if (beginCondition != -1 && endCondition != -1
+						&& endCondition > beginCondition) {
+					String condition = text.substring(beginCondition + 1,
+							endCondition);
+					String result = evaluateExpression(condition, fields);
+					newText += text.substring(i, beginCondition) + result;
+					i = endCondition + 1;
+				} else {
+					newText += text.substring(i);
+					finished = true;
 				}
-
-				newText += parts[i];
 			}
 		}
 		return newText;
@@ -162,33 +146,49 @@ public class VariableMap extends ValueMapImpl implements ValueMap {
 	 * @param expression
 	 * @return
 	 */
-	public String evaluateExpression(String expression, EAdList<EAdField<?>> fields) {
+	public String evaluateExpression(String expression,
+			EAdList<EAdOperation> operations) {
 
 		if (expression.contains("?") && expression.contains(":")) {
-			String[] values = expression.substring(1).split("\\?|\\:");
+			int questionMark = expression.indexOf('?');
+			int points = expression.indexOf(':');
+			String condition = expression.substring(0, questionMark);
+			String trueValue = expression.substring(questionMark + 1, points );
+			String falseValue = expression.substring(points + 1, expression.length()); 
 
-			if (values.length != 3)
-				return "(" + expression + ")";
+			int beginVar = condition.indexOf(BEGIN_VAR_CHAR);
+			int endVar = condition.indexOf(END_VAR_CHAR);
+			if ( beginVar != -1 && endVar != -1  && endVar > beginVar ){
+				
+			Integer indexCondition = 0;
+			String varName = "";
+				try {
+					varName = expression.substring(beginVar + 1, endVar );
+					indexCondition = new Integer(varName);
+				} catch ( NumberFormatException e ){
+					logger.warning(varName + " is not a valid index in " + expression );
+					return BEGIN_CONDITION_CHAR + expression + END_CONDITION_CHAR;
+				}
 
-			Object o = getValue(values[0], fields);
-			
+			Object o = operatorFactory.operate(Object.class, operations.get(indexCondition));
+
 			if (o != null && o instanceof Boolean) {
 				Boolean b = (Boolean) o;
-				if (b.booleanValue() == true)
-					return values[1];
+				if (b.booleanValue())
+					return trueValue;
 				else
-					return values[2];
+					return falseValue;
 			} else if (o != null && o instanceof Number) {
 				Number n = (Number) o;
 				if (n.floatValue() != 0)
-					return values[1];
+					return trueValue;
 				else
-					return values[2];
+					return falseValue;
 			}
-			return values[2];
+			return falseValue;
+			}
 		}
 
-		return "(" + expression + ")";
+		return BEGIN_CONDITION_CHAR + expression + END_CONDITION_CHAR;
 	}
-	
 }
