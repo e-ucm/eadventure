@@ -367,8 +367,12 @@
 			<end-conversation/>
 		</dialogue-node>
 	</graph-conversation>
-	<timer countDown="yes" displayName="timer" multipleStarts="no" runsInLoop="no" showTime="yes" showWhenStopped="no" time="60" usesEndCondition="no"/>
-	<timer countDown="yes" displayName="timer" multipleStarts="no" runsInLoop="no" showTime="yes" showWhenStopped="no" time="53" usesEndCondition="no"/>
+	<timer countDown="no" displayName="timer" multipleStarts="no" runsInLoop="no" showTime="yes" showWhenStopped="no" time="5" usesEndCondition="no">
+		<effect>
+			<show-text borderColor="-16777216" frontColor="-1" x="400" y="500">The timer expired.</show-text>
+			<condition/>
+		</effect>
+	</timer>
 	<atrezzoobject id="AtrezzoId">
 		<resources name="No name">
 			<asset type="icon" uri="assets/special/EmptyIcon.png"/>

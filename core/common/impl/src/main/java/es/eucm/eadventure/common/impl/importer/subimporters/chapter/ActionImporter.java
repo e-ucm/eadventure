@@ -181,7 +181,7 @@ public class ActionImporter implements EAdElementImporter<Action, EAdAction> {
 			boolean isActiveArea) {
 		// Add effects
 		EAdMacro macro = effectsImporterFactory
-				.getTriggerEffects(oldObject.getEffects());
+				.getMacroEffects(oldObject.getEffects());
 
 		// Add default effects for the action
 		EAdEffect defaultEffect = getDefaultEffects(oldObject, actor,
@@ -202,7 +202,7 @@ public class ActionImporter implements EAdElementImporter<Action, EAdAction> {
 
 		// Add no effects
 		EAdMacro NotEffects = effectsImporterFactory
-				.getTriggerEffects(oldObject.getNotEffects());
+				.getMacroEffects(oldObject.getNotEffects());
 		if (NotEffects != null) {
 			NotEffects.setId("actionNotEffectTrigger");
 			triggerEffect.putMacro(macro, new NOTCondition(condition));
@@ -558,7 +558,7 @@ public class ActionImporter implements EAdElementImporter<Action, EAdAction> {
 		}
 
 		EAdMacro macro = this.effectsImporterFactory
-				.getTriggerEffects(a.getEffects());
+				.getMacroEffects(a.getEffects());
 		if (triggerMacro != null) {
 			triggerMacro.putMacro(macro, c);
 		}
@@ -577,7 +577,7 @@ public class ActionImporter implements EAdElementImporter<Action, EAdAction> {
 	private EAdSceneElementDef addInteraction(EAdTriggerMacro triggerMacro, Action a, EAdSceneElementDefImpl actor,
 			EAdCondition condition) {
 
-		EAdMacro macro = effectsImporterFactory.getTriggerEffects(a
+		EAdMacro macro = effectsImporterFactory.getMacroEffects(a
 				.getEffects());
 		EAdInventoryEffect removeFromInventory = new EAdInventoryEffect(actor,
 				InventoryEffectAction.REMOVE_FROM_INVENTORY);

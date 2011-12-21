@@ -44,12 +44,14 @@ import com.google.inject.Inject;
 import es.eucm.eadventure.common.EAdElementImporter;
 import es.eucm.eadventure.common.data.HasId;
 import es.eucm.eadventure.common.data.chapter.Chapter;
+import es.eucm.eadventure.common.data.chapter.Timer;
 import es.eucm.eadventure.common.data.chapter.effects.Macro;
 import es.eucm.eadventure.common.data.chapter.elements.ActiveArea;
 import es.eucm.eadventure.common.data.chapter.scenes.Scene;
 import es.eucm.eadventure.common.impl.importer.interfaces.EAdElementFactory;
 import es.eucm.eadventure.common.model.elements.EAdChapter;
 import es.eucm.eadventure.common.model.elements.EAdScene;
+import es.eucm.eadventure.common.model.events.EAdEvent;
 import es.eucm.eadventure.common.model.events.EAdSceneElementEvent;
 import es.eucm.eadventure.common.model.events.enums.SceneElementEventType;
 import es.eucm.eadventure.common.model.events.impl.EAdSceneElementEventImpl;
@@ -71,12 +73,15 @@ public class ChapterImporter implements EAdElementImporter<Chapter, EAdChapter> 
 	private StringHandler stringHandler;
 
 	private EAdElementFactory elementFactory;
+	
+	private EAdElementImporter<Timer, EAdEvent> timerImporter;
 
 	@Inject
 	public ChapterImporter(StringHandler stringHandler,
-			EAdElementFactory elementFactory) {
+			EAdElementFactory elementFactory, EAdElementImporter<Timer, EAdEvent> timerImporter) {
 		this.stringHandler = stringHandler;
 		this.elementFactory = elementFactory;
+		this.timerImporter = timerImporter;
 	}
 
 	@Override
@@ -122,10 +127,12 @@ public class ChapterImporter implements EAdElementImporter<Chapter, EAdChapter> 
 		importElements(oldChapter.getGlobalStates());
 		importElementsMacro(oldChapter.getMacros());
 
-//		for (Timer timer : oldChapter.getTimers()) {
-//			newChapter.getTimers().add(
-//					(EAdTimer) elementFactory.getElement("timer", timer));
-//		}
+		// Timers
+		for (Timer timer : oldChapter.getTimers()) {
+			EAdEvent timerEvent = timerImporter.init(timer);
+			timerEvent = timerImporter.convert(timer, timerEvent);
+			newChapter.getEvents().add(timerEvent);
+		}
 
 		// Import player
 		/*

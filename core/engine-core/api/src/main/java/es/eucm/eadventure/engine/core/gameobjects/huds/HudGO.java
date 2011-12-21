@@ -37,6 +37,8 @@
 
 package es.eucm.eadventure.engine.core.gameobjects.huds;
 
+import java.util.List;
+
 import es.eucm.eadventure.engine.core.gameobjects.go.DrawableGO;
 import es.eucm.eadventure.engine.core.gameobjects.go.Renderable;
 
@@ -47,5 +49,7 @@ import es.eucm.eadventure.engine.core.gameobjects.go.Renderable;
 public interface HudGO extends DrawableGO<Void>, Renderable {
 	
 	void addElement( DrawableGO<?> drawable );
+	
+	List<DrawableGO<?>> getContaintedGOs( );
 
 }

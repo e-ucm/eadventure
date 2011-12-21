@@ -63,6 +63,6 @@ public interface EffectsImporterFactory extends
 	 *            old effects
 	 * @return the macro; {@code null} if effect was empty.
 	 */
-	EAdMacro getTriggerEffects(Effects effect);
+	EAdMacro getMacroEffects(Effects effect);
 
 }

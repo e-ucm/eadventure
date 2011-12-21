@@ -54,6 +54,7 @@ import es.eucm.eadventure.common.util.EAdTransformation;
 import es.eucm.eadventure.common.util.impl.EAdTransformationImpl;
 import es.eucm.eadventure.engine.core.debuggers.EAdDebugger;
 import es.eucm.eadventure.engine.core.game.Game;
+import es.eucm.eadventure.engine.core.game.GameLoop;
 import es.eucm.eadventure.engine.core.game.GameState;
 import es.eucm.eadventure.engine.core.game.ValueMap;
 import es.eucm.eadventure.engine.core.gameobjects.GameObjectManager;
@@ -289,6 +290,9 @@ public class GameImpl implements Game {
 
 		gameState.setInitialScene(eAdChapter.getInitialScene());
 		updateInitialTransformation();
+		
+		// FIXME probably move this to other place
+		gameState.getValueMap().setValue(SystemFields.ELAPSED_TIME_PER_UPDATE, GameLoop.SKIP_MILLIS_TICK);
 	}
 
 	public void updateInitialTransformation() {

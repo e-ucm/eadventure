@@ -55,7 +55,7 @@ public class SystemFields {
 	 */
 	public static final EAdField<Integer> MOUSE_Y = new EAdFieldImpl<Integer>(
 			null, new EAdVarDefImpl<Integer>("mouse_y", Integer.class, 0));
-	
+
 	/**
 	 * X coordinate of the mouse in the scene coordinate system
 	 */
@@ -80,7 +80,6 @@ public class SystemFields {
 	public static final EAdField<EAdSceneElement> ACTIVE_ELEMENT = new EAdFieldImpl<EAdSceneElement>(
 			null, new EAdVarDefImpl<EAdSceneElement>("active_element",
 					EAdSceneElement.class, null));
-	
 
 	public static final Image DEFAULT_MOUSE = new ImageImpl(
 			"@drawable/default_cursor.png");
@@ -91,5 +90,9 @@ public class SystemFields {
 
 	public static final EAdField<Boolean> SHOW_MOUSE = new EAdFieldImpl<Boolean>(
 			null, new EAdVarDefImpl<Boolean>("show_mouse", Boolean.class, true));
+
+	public static final EAdField<Integer> ELAPSED_TIME_PER_UPDATE = new EAdFieldImpl<Integer>(
+			null, new EAdVarDefImpl<Integer>("elapsed_time_per_update",
+					Integer.class, 0));
 
 }

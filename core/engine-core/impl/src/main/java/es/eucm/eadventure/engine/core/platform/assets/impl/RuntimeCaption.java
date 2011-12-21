@@ -57,7 +57,8 @@ import es.eucm.eadventure.engine.core.platform.FontHandler;
 import es.eucm.eadventure.engine.core.platform.RuntimeFont;
 import es.eucm.eadventure.engine.core.platform.rendering.EAdCanvas;
 
-public class RuntimeCaption<GraphicContext> extends AbstractRuntimeAsset<Caption> implements
+public class RuntimeCaption<GraphicContext> extends
+		AbstractRuntimeAsset<Caption> implements
 		DrawableAsset<Caption, GraphicContext> {
 
 	private Logger logger = Logger.getLogger("RuntimeCaption");
@@ -190,10 +191,11 @@ public class RuntimeCaption<GraphicContext> extends AbstractRuntimeAsset<Caption
 		if (timeShown <= 0) {
 			goForward(1);
 		}
-
-		text = valueMap.processTextVars(
-				stringsReader.getString(descriptor.getText()),
-				descriptor.getFields());
+		if (descriptor.getFields().size() > 0) {
+			text = valueMap.processTextVars(
+					stringsReader.getString(descriptor.getText()),
+					descriptor.getFields());
+		}
 
 		// If text has changed
 		if (!currentText.equals(text))
@@ -244,8 +246,8 @@ public class RuntimeCaption<GraphicContext> extends AbstractRuntimeAsset<Caption
 
 		bounds.width = 0;
 		String[] words = text.split(" ");
-		if ( words.length == 0 ){
-			words = new String[]{ text };
+		if (words.length == 0) {
+			words = new String[] { text };
 		}
 
 		// Current line

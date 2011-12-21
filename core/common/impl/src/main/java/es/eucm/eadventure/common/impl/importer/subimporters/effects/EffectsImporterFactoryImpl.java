@@ -87,7 +87,7 @@ public class EffectsImporterFactoryImpl extends
 	}
 
 	@Override
-	public EAdMacro getTriggerEffects(Effects effects) {
+	public EAdMacro getMacroEffects(Effects effects) {
 		if ( effects == null || effects.isEmpty() ){
 			return null;
 		}

@@ -54,7 +54,6 @@ import es.eucm.eadventure.common.resources.annotation.Asset;
 import es.eucm.eadventure.common.resources.annotation.Bundled;
 import es.eucm.eadventure.common.resources.assets.AssetDescriptor;
 import es.eucm.eadventure.common.resources.assets.drawable.Drawable;
-import es.eucm.eadventure.common.resources.assets.drawable.basics.Caption;
 
 @Element(runtime = EAdSceneElementDefImpl.class, detailed = EAdSceneElementDefImpl.class)
 public class EAdSceneElementDefImpl extends ResourcedElementImpl implements

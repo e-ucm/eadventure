@@ -62,6 +62,10 @@ public abstract class AbstractHUD implements HudGO {
 		this.gui = gui;
 		hudGameObjects = new ArrayList<DrawableGO<?>>();
 	}
+	
+	public List<DrawableGO<?>> getContaintedGOs( ){
+		return hudGameObjects;
+	}
 
 	public void addElement(DrawableGO<?> drawable) {
 		hudGameObjects.add(drawable);

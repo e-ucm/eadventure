@@ -47,6 +47,7 @@ import es.eucm.eadventure.common.data.chapter.conditions.GlobalStateCondition;
 import es.eucm.eadventure.common.data.chapter.conditions.VarCondition;
 import es.eucm.eadventure.common.impl.importer.interfaces.EAdElementFactory;
 import es.eucm.eadventure.common.model.conditions.impl.ANDCondition;
+import es.eucm.eadventure.common.model.conditions.impl.EmptyCondition;
 import es.eucm.eadventure.common.model.conditions.impl.ORCondition;
 import es.eucm.eadventure.common.model.conditions.impl.OperationCondition;
 import es.eucm.eadventure.common.model.elements.EAdCondition;
@@ -76,6 +77,10 @@ public class ConditionsImporter implements
 	@Override
 	public EAdCondition convert(Conditions oldObject, Object object) {
 		ANDCondition newCondition = (ANDCondition) object;
+		
+		if ( oldObject.getSimpleConditions().size() == 0 && oldObject.getEitherConditionsBlockCount() == 0){
+			return EmptyCondition.TRUE_EMPTY_CONDITION;
+		}
 		
 		for (Condition c : oldObject.getSimpleConditions()) {
 			EAdCondition newC = getSimpleCondition(c);

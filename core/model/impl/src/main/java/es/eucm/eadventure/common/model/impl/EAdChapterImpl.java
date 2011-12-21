@@ -70,12 +70,6 @@ public class EAdChapterImpl extends ResourcedElementImpl implements EAdChapter, 
 	@Param("actors")
 	private EAdList<EAdSceneElementDef> actors;
 	
-	/**
-	 * Timers of the game
-	 */
-	@Param("timers")
-	private EAdList<EAdEvent> events;
-	
 	@Param("title")
 	private EAdString title;
 	
@@ -120,14 +114,6 @@ public class EAdChapterImpl extends ResourcedElementImpl implements EAdChapter, 
 	@Override
 	public EAdList<EAdSceneElementDef> getActors() {
 		return actors;
-	}
-		
-	/* (non-Javadoc)
-	 * @see es.eucm.eadventure.common.model.EAdChapterModel#getTimers()
-	 */
-	@Override
-	public EAdList<EAdEvent> getEvents() {
-		return events;
 	}
 
 	/* (non-Javadoc)

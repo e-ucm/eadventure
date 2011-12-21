@@ -49,6 +49,7 @@ import es.eucm.eadventure.common.model.effects.impl.EAdPlaySoundEffect;
 import es.eucm.eadventure.common.model.effects.impl.EAdQuitGame;
 import es.eucm.eadventure.common.model.effects.impl.EAdRandomEffect;
 import es.eucm.eadventure.common.model.effects.impl.EAdTriggerMacro;
+import es.eucm.eadventure.common.model.effects.impl.hud.ModifyHUDEf;
 import es.eucm.eadventure.common.model.effects.impl.sceneelements.EAdMoveSceneElement;
 import es.eucm.eadventure.common.model.effects.impl.text.EAdShowQuestion;
 import es.eucm.eadventure.common.model.effects.impl.text.EAdSpeakEffect;
@@ -66,6 +67,7 @@ import es.eucm.eadventure.engine.core.gameobjects.impl.effects.ComplexBlockingEf
 import es.eucm.eadventure.engine.core.gameobjects.impl.effects.HighlightEffectGO;
 import es.eucm.eadventure.engine.core.gameobjects.impl.effects.InterpolationGO;
 import es.eucm.eadventure.engine.core.gameobjects.impl.effects.InventoryEffectGO;
+import es.eucm.eadventure.engine.core.gameobjects.impl.effects.ModifyHudGO;
 import es.eucm.eadventure.engine.core.gameobjects.impl.effects.MoveSceneElementGO;
 import es.eucm.eadventure.engine.core.gameobjects.impl.effects.PlaySoundEffectGO;
 import es.eucm.eadventure.engine.core.gameobjects.impl.effects.QuitGameEffectGO;
@@ -100,6 +102,7 @@ public class EffectGameObjectFactoryConfigurator
 		factoryMap.put(EAdAddActorReferenceEffect.class,
 				AddActorReferenceEffectGO.class);
 		factoryMap.put(EAdShowQuestion.class, ComplexBlockingEffectGO.class);
+		factoryMap.put(ModifyHUDEf.class, ModifyHudGO.class);
 	}
 	
 	
