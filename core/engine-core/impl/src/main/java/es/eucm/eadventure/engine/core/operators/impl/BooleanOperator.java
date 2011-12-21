@@ -58,10 +58,7 @@ public class BooleanOperator implements Operator<BooleanOperation> {
 	@Override
 	public <S> S operate(Class<S> clazz, BooleanOperation operation) {
 		Boolean b = evaluatorFactory.evaluate(operation.getCondition());
-		if (clazz.equals(Boolean.class)) {
-			return (S) b;
-		} else
-			return (S) Boolean.FALSE;
+		return (S) b;
 	}
 
 }

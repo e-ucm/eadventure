@@ -47,7 +47,9 @@ import es.eucm.eadventure.common.params.fills.impl.EAdPaintImpl;
 import es.eucm.eadventure.common.params.paint.EAdPaint;
 import es.eucm.eadventure.common.params.text.EAdFont;
 import es.eucm.eadventure.common.params.text.EAdString;
+import es.eucm.eadventure.common.resources.assets.drawable.basics.Caption;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.enums.Alignment;
+import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.CaptionImpl;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.shapes.extra.BalloonType;
 
 /**
@@ -64,24 +66,15 @@ public class EAdSpeakEffect extends AbstractEAdEffect {
 
 	@Param("y")
 	private EAdOperation y;
-
-	@Param("string")
-	private EAdString string;
-
-	@Param("textColor")
-	private EAdPaint textColor;
+	
+	@Param("caption")
+	private CaptionImpl caption;
 
 	@Param("bubbleColor")
 	private EAdPaint bubbleColor;
 
-	@Param(value="font", defaultValue="Arial:25.0:PLAIN")
-	private EAdFontImpl font;
-
 	@Param(value="ballonType", defaultValue="ROUNDED_RECTANGLE")
 	private BalloonType ballonType;
-
-	@Param("alignment")
-	private Alignment alignment;
 
 	/**
 	 * Creates an speak effect, with no text and no position, with text color of
@@ -94,12 +87,12 @@ public class EAdSpeakEffect extends AbstractEAdEffect {
 
 	public EAdSpeakEffect(EAdString text) {
 		super();
-		textColor = EAdColor.BLACK;
+		caption = new CaptionImpl(text);
+		caption.setTextPaint(EAdColor.BLACK);
 		bubbleColor = EAdPaintImpl.BLACK_ON_WHITE;
-		font = EAdFontImpl.REGULAR;
+		caption.setFont(EAdFontImpl.REGULAR);
 		ballonType = BalloonType.ROUNDED_RECTANGLE;
-		string = text;
-		alignment = Alignment.LEFT;
+		caption.setAlignment(Alignment.LEFT);
 		setQueueable(true);
 		setOpaque(true);
 	}
@@ -121,13 +114,13 @@ public class EAdSpeakEffect extends AbstractEAdEffect {
 	/**
 	 * Sets the color of the balloon
 	 * 
-	 * @param textColor
+	 * @param textPaint
 	 *            text color
 	 * @param bubbleColor
 	 *            bubble color
 	 */
-	public void setColor(EAdPaint textColor, EAdPaint bubbleColor) {
-		this.textColor = textColor;
+	public void setColor(EAdPaint textPaint, EAdPaint bubbleColor) {
+		caption.setTextPaint(textPaint);
 		this.bubbleColor = bubbleColor;
 	}
 
@@ -140,23 +133,15 @@ public class EAdSpeakEffect extends AbstractEAdEffect {
 	}
 
 	public void setFont(EAdFont font) {
-		this.font = (EAdFontImpl) font;
+		this.caption.setFont(font);
 	}
-
-	public EAdString getString() {
-		return string;
-	}
-
-	public EAdPaint getTextColor() {
-		return textColor;
+	
+	public Caption getCaption( ){
+		return caption;
 	}
 
 	public EAdPaint getBubbleColor() {
 		return bubbleColor;
-	}
-
-	public EAdFont getFont() {
-		return font;
 	}
 
 	public EAdOperation getX() {
@@ -167,12 +152,8 @@ public class EAdSpeakEffect extends AbstractEAdEffect {
 		return y;
 	}
 
-	public Alignment getAlignment() {
-		return alignment;
-	}
-
 	public void setAlignment(Alignment alignment) {
-		this.alignment = alignment;
+		this.caption.setAlignment(alignment);
 	}
 
 	public void setX(EAdOperation x) {
@@ -183,10 +164,6 @@ public class EAdSpeakEffect extends AbstractEAdEffect {
 		this.y = y;
 	}
 
-	public void setTextColor(EAdPaint textColor) {
-		this.textColor = textColor;
-	}
-
 	public void setBubbleColor(EAdPaint bubbleColor) {
 		this.bubbleColor = bubbleColor;
 	}
@@ -195,11 +172,9 @@ public class EAdSpeakEffect extends AbstractEAdEffect {
 		this.ballonType = ballonType;
 	}
 
-	public void setString(EAdString string) {
-		this.string = string;
+	public EAdString getString() {
+		return caption.getLabel();
 	}
-
-	
 	
 	
 }

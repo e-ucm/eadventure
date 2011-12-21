@@ -46,6 +46,7 @@ import es.eucm.eadventure.common.data.chapter.elements.NPC;
 import es.eucm.eadventure.common.impl.importer.interfaces.EAdElementFactory;
 import es.eucm.eadventure.common.model.effects.impl.text.EAdSpeakEffect;
 import es.eucm.eadventure.common.model.elements.EAdCondition;
+import es.eucm.eadventure.common.model.variables.EAdOperation;
 import es.eucm.eadventure.common.params.fills.impl.EAdColor;
 import es.eucm.eadventure.common.params.fills.impl.EAdPaintImpl;
 import es.eucm.eadventure.common.predef.model.effects.EAdSpeakSceneElement;
@@ -97,7 +98,12 @@ public class SpeakPlayerEffectImporter extends
 			line = line.substring(SpeakCharEffectImporter.YELL.length());
 		}
 
-		stringHandler.setString(effect.getString(), line);
+		
+		for ( EAdOperation op: TextEffectImporter.getOperations(oldObject.getLine(), factory)){
+			effect.getCaption().getFields().add(op);
+		}
+		String finalLine = TextEffectImporter.translateLine(oldObject.getLine());
+		stringHandler.setString(effect.getString(), finalLine);
 		effect.setBalloonType(type);
 
 		EAdColor center = new EAdColor("0x"

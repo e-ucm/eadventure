@@ -46,6 +46,7 @@ import es.eucm.eadventure.common.data.chapter.elements.NPC;
 import es.eucm.eadventure.common.impl.importer.interfaces.EAdElementFactory;
 import es.eucm.eadventure.common.model.effects.impl.text.EAdSpeakEffect;
 import es.eucm.eadventure.common.model.elements.EAdCondition;
+import es.eucm.eadventure.common.model.variables.EAdOperation;
 import es.eucm.eadventure.common.params.fills.impl.EAdColor;
 import es.eucm.eadventure.common.params.fills.impl.EAdPaintImpl;
 import es.eucm.eadventure.common.predef.model.effects.EAdSpeakSceneElement;
@@ -81,9 +82,12 @@ public class SpeakCharEffectImporter extends
 	public EAdSpeakEffect convert(SpeakCharEffect oldObject, Object object) {
 		EAdSpeakEffect effect = super.convert(oldObject, object);
 
-		String line = oldObject.getLine();
+		for ( EAdOperation op: TextEffectImporter.getOperations(oldObject.getLine(), factory)){
+			effect.getCaption().getFields().add(op);
+		}
+		String line = TextEffectImporter.translateLine(oldObject.getLine());
 		stringHandler.setString(effect.getString(), line);
-		setColor( effect, line, npc );
+		setColor( effect, oldObject.getLine(), npc );
 
 
 		return effect;

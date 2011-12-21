@@ -54,9 +54,9 @@ public class VariableMap extends ValueMapImpl implements ValueMap {
 
 	private static final char END_VAR_CHAR = ']';
 
-	private static final char BEGIN_CONDITION_CHAR = '{';
+	private static final char BEGIN_CONDITION_CHAR = '(';
 
-	private static final char END_CONDITION_CHAR = '}';
+	private static final char END_CONDITION_CHAR = ')';
 
 	@Inject
 	public VariableMap(ReflectionProvider reflectionProvider,

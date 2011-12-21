@@ -44,11 +44,16 @@ import es.eucm.eadventure.common.model.elements.EAdSceneElementDef;
 import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
 import es.eucm.eadventure.common.model.elements.impl.EAdSceneElementDefImpl;
 import es.eucm.eadventure.common.model.variables.impl.EAdFieldImpl;
+import es.eucm.eadventure.common.params.text.EAdString;
 
 public class EAdSpeakSceneElement extends EAdSpeakEffect {
 	
 	public EAdSpeakSceneElement(){
 		super( );
+	}
+	
+	public EAdSpeakSceneElement(EAdString string){
+		super( string );
 	}
 
 	public EAdSpeakSceneElement(EAdElement element) {

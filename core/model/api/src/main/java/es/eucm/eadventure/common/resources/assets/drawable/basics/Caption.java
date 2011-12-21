@@ -140,4 +140,10 @@ public interface Caption extends BasicDrawable {
 	 */
 	Alignment getAlignment();
 
+	public void setPadding(int margin);
+
+	public void setPreferredWidth(int i);
+
+	public void setPreferredHeight(int i);
+
 }
