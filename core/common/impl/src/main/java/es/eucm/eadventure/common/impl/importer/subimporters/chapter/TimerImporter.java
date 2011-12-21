@@ -181,6 +181,7 @@ public class TimerImporter implements EAdElementImporter<Timer, EAdEvent> {
 	private EAdSceneElement getSceneElementForTimer(Timer oldTimer,
 			EAdCondition initCondition) {
 		EAdBasicSceneElement timer = new EAdBasicSceneElement();
+		timer.setVarInitialValue(EAdBasicSceneElement.VAR_ENABLE, false);
 		timer.setId("timer" + ID++);
 
 		EAdField<Integer> currentTimeField = new EAdFieldImpl<Integer>(timer,
