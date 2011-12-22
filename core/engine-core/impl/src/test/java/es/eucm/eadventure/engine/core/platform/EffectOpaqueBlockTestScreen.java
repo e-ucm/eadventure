@@ -39,25 +39,25 @@ package es.eucm.eadventure.engine.core.platform;
 
 import com.google.inject.Inject;
 
-import es.eucm.eadventure.common.model.effects.impl.timedevents.EAdWaitEffect;
-import es.eucm.eadventure.common.model.elements.EAdScene;
-import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
-import es.eucm.eadventure.common.model.elements.impl.EAdSceneElementDefImpl;
-import es.eucm.eadventure.common.model.elements.impl.EAdSceneImpl;
-import es.eucm.eadventure.common.model.guievents.impl.EAdMouseEventImpl;
-import es.eucm.eadventure.common.params.geom.impl.EAdPositionImpl;
+import es.eucm.eadventure.common.model.elements.effects.timedevents.WaitEf;
+import es.eucm.eadventure.common.model.elements.guievents.MouseEventImpl;
+import es.eucm.eadventure.common.model.elements.scene.EAdScene;
+import es.eucm.eadventure.common.model.elements.scenes.SceneElementDefImpl;
+import es.eucm.eadventure.common.model.elements.scenes.SceneElementImpl;
+import es.eucm.eadventure.common.model.elements.scenes.SceneImpl;
 import es.eucm.eadventure.common.resources.StringHandler;
-import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.ImageImpl;
+import es.eucm.eadventure.common.resources.assets.drawable.basics.ImageImpl;
+import es.eucm.eadventure.common.util.EAdPositionImpl;
 import es.eucm.eadventure.engine.core.game.GameLoop;
 
-public class EffectOpaqueBlockTestScreen extends EAdSceneImpl implements
+public class EffectOpaqueBlockTestScreen extends SceneImpl implements
 		EAdScene {
 
-	private EAdSceneElementDefImpl buttonActor;
+	private SceneElementDefImpl buttonActor;
 	private StringHandler stringHandler;
-	private EAdBasicSceneElement buttonReference;
-	private EAdBasicSceneElement buttonReference2;
-	private EAdBasicSceneElement buttonActor2;
+	private SceneElementImpl buttonReference;
+	private SceneElementImpl buttonReference2;
+	private SceneElementImpl buttonActor2;
 
 	@Inject
 	public EffectOpaqueBlockTestScreen(StringHandler stringHandler) {
@@ -74,10 +74,10 @@ public class EffectOpaqueBlockTestScreen extends EAdSceneImpl implements
 	}
 
 	private void initButtonActor() {
-		buttonActor = new EAdSceneElementDefImpl();
+		buttonActor = new SceneElementDefImpl();
 		buttonActor.setId("StartGame");
 		buttonActor.getResources().addAsset(buttonActor.getInitialBundle(),
-				EAdSceneElementDefImpl.appearance,
+				SceneElementDefImpl.appearance,
 				new ImageImpl("@drawable/start.png"));
 		stringHandler.setString(buttonActor.getName(), "Start game");
 
@@ -85,37 +85,37 @@ public class EffectOpaqueBlockTestScreen extends EAdSceneImpl implements
 
 		// buttonActor.setBehavior(b);
 
-		buttonReference = new EAdBasicSceneElement(buttonActor);
+		buttonReference = new SceneElementImpl(buttonActor);
 		buttonReference.setPosition(new EAdPositionImpl(
 				EAdPositionImpl.Corner.BOTTOM_CENTER, 200, 200));
 	}
 
 	private void initButtonActor2() {
-		buttonActor2 = new EAdBasicSceneElement();
+		buttonActor2 = new SceneElementImpl();
 		buttonActor2.setId("StartGame");
 		buttonActor2
 				.getDefinition()
 				.getResources()
 				.addAsset(buttonActor2.getDefinition().getInitialBundle(),
-						EAdSceneElementDefImpl.appearance,
+						SceneElementDefImpl.appearance,
 						new ImageImpl("@drawable/start.png"));
 
-		EAdWaitEffect waitEffect = new EAdWaitEffect(
+		WaitEf waitEffect = new WaitEf(
 				GameLoop.SKIP_MILLIS_TICK + 1);
 		buttonActor2
-				.addBehavior(EAdMouseEventImpl.MOUSE_LEFT_CLICK, waitEffect);
+				.addBehavior(MouseEventImpl.MOUSE_LEFT_CLICK, waitEffect);
 
-		EAdWaitEffect waitEffect2 = new EAdWaitEffect(
+		WaitEf waitEffect2 = new WaitEf(
 				GameLoop.SKIP_MILLIS_TICK + 1);
 		waitEffect2.setOpaque(false);
-		buttonActor2.addBehavior(EAdMouseEventImpl.MOUSE_LEFT_CLICK,
+		buttonActor2.addBehavior(MouseEventImpl.MOUSE_LEFT_CLICK,
 				waitEffect2);
 
-		EAdWaitEffect waitEffect3 = new EAdWaitEffect(
+		WaitEf waitEffect3 = new WaitEf(
 				GameLoop.SKIP_MILLIS_TICK + 1);
 		waitEffect3.setOpaque(false);
 		waitEffect3.setBlocking(false);
-		buttonActor2.addBehavior(EAdMouseEventImpl.MOUSE_LEFT_CLICK,
+		buttonActor2.addBehavior(MouseEventImpl.MOUSE_LEFT_CLICK,
 				waitEffect3);
 
 		buttonActor2.setPosition(new EAdPositionImpl(

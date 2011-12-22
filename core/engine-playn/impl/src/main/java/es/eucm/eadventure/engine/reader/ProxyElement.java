@@ -39,8 +39,8 @@ package es.eucm.eadventure.engine.reader;
 
 import com.gwtent.reflection.client.Field;
 
-import es.eucm.eadventure.common.model.extra.EAdList;
-import es.eucm.eadventure.common.model.impl.EAdElementImpl;
+import es.eucm.eadventure.common.model.elements.EAdElementImpl;
+import es.eucm.eadventure.common.model.elements.extra.EAdList;
 
 public class ProxyElement extends EAdElementImpl {
 

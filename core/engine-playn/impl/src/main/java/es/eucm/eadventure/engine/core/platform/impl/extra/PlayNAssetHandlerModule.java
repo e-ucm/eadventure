@@ -47,22 +47,22 @@ import com.google.inject.Singleton;
 import es.eucm.eadventure.common.resources.StringHandler;
 import es.eucm.eadventure.common.resources.assets.AssetDescriptor;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.Caption;
+import es.eucm.eadventure.common.resources.assets.drawable.basics.CaptionImpl;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.Image;
+import es.eucm.eadventure.common.resources.assets.drawable.basics.ImageImpl;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.SpriteImage;
-import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.CaptionImpl;
-import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.ImageImpl;
-import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.SpriteImageImpl;
-import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.shapes.BezierShape;
-import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.shapes.RectangleShape;
+import es.eucm.eadventure.common.resources.assets.drawable.basics.SpriteImageImpl;
+import es.eucm.eadventure.common.resources.assets.drawable.basics.shapes.BezierShape;
+import es.eucm.eadventure.common.resources.assets.drawable.basics.shapes.RectangleShape;
 import es.eucm.eadventure.common.resources.assets.drawable.compounds.ComposedDrawable;
+import es.eucm.eadventure.common.resources.assets.drawable.compounds.ComposedDrawableImpl;
 import es.eucm.eadventure.common.resources.assets.drawable.compounds.DisplacedDrawable;
-import es.eucm.eadventure.common.resources.assets.drawable.compounds.impl.ComposedDrawableImpl;
-import es.eucm.eadventure.common.resources.assets.drawable.compounds.impl.DisplacedDrawableImpl;
+import es.eucm.eadventure.common.resources.assets.drawable.compounds.DisplacedDrawableImpl;
 import es.eucm.eadventure.common.resources.assets.drawable.filters.FilteredDrawable;
-import es.eucm.eadventure.common.resources.assets.drawable.filters.impl.FilteredDrawableImpl;
+import es.eucm.eadventure.common.resources.assets.drawable.filters.FilteredDrawableImpl;
 import es.eucm.eadventure.common.resources.assets.multimedia.Sound;
-import es.eucm.eadventure.common.resources.assets.multimedia.impl.SoundImpl;
-import es.eucm.eadventure.engine.core.impl.DefaultStringHandler;
+import es.eucm.eadventure.common.resources.assets.multimedia.SoundImpl;
+import es.eucm.eadventure.engine.core.impl.StringHandlerImpl;
 import es.eucm.eadventure.engine.core.platform.AssetHandler;
 import es.eucm.eadventure.engine.core.platform.RuntimeAsset;
 import es.eucm.eadventure.engine.core.platform.assets.impl.PlayNBezierShape;
@@ -82,7 +82,7 @@ public class PlayNAssetHandlerModule extends AbstractGinModule {
 	protected void configure() {
 		//TODO Necessary?
 		//bind(StringFileHandler.class).to(DefaultStringFileHandler.class);
-		bind(StringHandler.class).to(DefaultStringHandler.class).in(Singleton.class);
+		bind(StringHandler.class).to(StringHandlerImpl.class).in(Singleton.class);
 		bind(AssetHandler.class).to(PlayNAssetHandler.class).in(Singleton.class);
 	}
 

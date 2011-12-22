@@ -44,10 +44,10 @@ import org.jbox2d.dynamics.World;
 
 import com.google.inject.Inject;
 
-import es.eucm.eadventure.common.model.effects.impl.physics.EAdPhysicsEffect;
-import es.eucm.eadventure.common.model.effects.impl.physics.PhApplyImpluse;
-import es.eucm.eadventure.common.model.effects.impl.physics.PhShape;
-import es.eucm.eadventure.common.model.elements.EAdSceneElement;
+import es.eucm.eadventure.common.model.elements.effects.enums.PhShape;
+import es.eucm.eadventure.common.model.elements.effects.physics.PhApplyImpluseEf;
+import es.eucm.eadventure.common.model.elements.effects.physics.PhysicsEffect;
+import es.eucm.eadventure.common.model.elements.scene.EAdSceneElement;
 import es.eucm.eadventure.common.resources.StringHandler;
 import es.eucm.eadventure.engine.core.game.GameState;
 import es.eucm.eadventure.engine.core.game.ValueMap;
@@ -57,7 +57,7 @@ import es.eucm.eadventure.engine.core.operator.OperatorFactory;
 import es.eucm.eadventure.engine.core.platform.AssetHandler;
 import es.eucm.eadventure.engine.core.platform.GUI;
 
-public class PhApplyForceGO extends AbstractEffectGO<PhApplyImpluse> {
+public class PhApplyForceGO extends AbstractEffectGO<PhApplyImpluseEf> {
 
 	private OperatorFactory operatorFactory;
 
@@ -83,13 +83,13 @@ public class PhApplyForceGO extends AbstractEffectGO<PhApplyImpluse> {
 			World w = valueMap.getValue(null, PhysicsEffectGO.VAR_PH_WORLD);
 			if (w != null) {
 				valueMap.setValue(element.getSceneElement(),
-						EAdPhysicsEffect.VAR_PH_SHAPE, PhShape.CIRCULAR);
+						PhysicsEffect.VAR_PH_SHAPE, PhShape.CIRCULAR);
 				valueMap.setValue(element.getSceneElement(),
-						EAdPhysicsEffect.VAR_PH_RESTITUTION, 0.3f);
+						PhysicsEffect.VAR_PH_RESTITUTION, 0.3f);
 				valueMap.setValue(element.getSceneElement(),
-						EAdPhysicsEffect.VAR_PH_FRICTION, 0.1f);
+						PhysicsEffect.VAR_PH_FRICTION, 0.1f);
 				valueMap.setValue(element.getSceneElement(),
-						EAdPhysicsEffect.VAR_PH_DENSITY, 1.0f);
+						PhysicsEffect.VAR_PH_DENSITY, 1.0f);
 				PhysicsEffectGO.createBody(w, (EAdSceneElement) element.getSceneElement(),
 						valueMap);
 				b = valueMap.getValue(element.getSceneElement(),

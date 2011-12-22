@@ -42,10 +42,10 @@ import com.google.inject.Inject;
 import es.eucm.eadventure.common.EAdElementImporter;
 import es.eucm.eadventure.common.data.chapter.conditions.Conditions;
 import es.eucm.eadventure.common.data.chapter.effects.MovePlayerEffect;
-import es.eucm.eadventure.common.model.effects.impl.EAdMoveActiveElement;
 import es.eucm.eadventure.common.model.elements.EAdCondition;
+import es.eucm.eadventure.common.model.predef.effects.MoveActiveElementEf;
 
-public class MovePlayerEffectImporter extends EffectImporter<MovePlayerEffect, EAdMoveActiveElement>{
+public class MovePlayerEffectImporter extends EffectImporter<MovePlayerEffect, MoveActiveElementEf>{
 
 	@Inject
 	public MovePlayerEffectImporter(
@@ -54,16 +54,16 @@ public class MovePlayerEffectImporter extends EffectImporter<MovePlayerEffect, E
 	}
 
 	@Override
-	public EAdMoveActiveElement init(MovePlayerEffect oldObject) {
-		EAdMoveActiveElement effect =  new EAdMoveActiveElement();
+	public MoveActiveElementEf init(MovePlayerEffect oldObject) {
+		MoveActiveElementEf effect =  new MoveActiveElementEf();
 		effect.setId("movePlayerEffect" + ID_GENERATOR++);
 		return effect;
 	}
 
 	@Override
-	public EAdMoveActiveElement convert(MovePlayerEffect oldObject,
+	public MoveActiveElementEf convert(MovePlayerEffect oldObject,
 			Object newElement) {
-		EAdMoveActiveElement effect = super.convert(oldObject, newElement);
+		MoveActiveElementEf effect = super.convert(oldObject, newElement);
 		effect.setTargetCoordiantes(oldObject.getX(), oldObject.getY());
 		return effect;
 	}

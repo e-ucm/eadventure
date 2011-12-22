@@ -43,12 +43,12 @@ import es.eucm.eadventure.common.EAdElementImporter;
 import es.eucm.eadventure.common.data.chapter.conditions.Conditions;
 import es.eucm.eadventure.common.data.chapter.effects.PlaySoundEffect;
 import es.eucm.eadventure.common.impl.importer.interfaces.ResourceImporter;
-import es.eucm.eadventure.common.model.effects.impl.EAdPlaySoundEffect;
 import es.eucm.eadventure.common.model.elements.EAdCondition;
-import es.eucm.eadventure.common.resources.assets.multimedia.impl.SoundImpl;
+import es.eucm.eadventure.common.model.elements.effects.PlaySoundEf;
+import es.eucm.eadventure.common.resources.assets.multimedia.SoundImpl;
 
 public class PlaySoundEffectImporter extends
-		EffectImporter<PlaySoundEffect, EAdPlaySoundEffect> {
+		EffectImporter<PlaySoundEffect, PlaySoundEf> {
 
 	private static int ID_GENERATOR = 0;
 
@@ -63,15 +63,15 @@ public class PlaySoundEffectImporter extends
 	}
 
 	@Override
-	public EAdPlaySoundEffect init(PlaySoundEffect oldObject) {
-		EAdPlaySoundEffect effect = new EAdPlaySoundEffect();
+	public PlaySoundEf init(PlaySoundEffect oldObject) {
+		PlaySoundEf effect = new PlaySoundEf();
 		effect.setId("playSoundEffect" + ID_GENERATOR++);
 		return effect;
 	}
 
 	@Override
-	public EAdPlaySoundEffect convert(PlaySoundEffect oldObject, Object object) {
-		EAdPlaySoundEffect effect = super.convert(oldObject, object);
+	public PlaySoundEf convert(PlaySoundEffect oldObject, Object object) {
+		PlaySoundEf effect = super.convert(oldObject, object);
 
 		String newURI = resourceImporter.getURI(oldObject.getPath());
 

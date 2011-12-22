@@ -44,16 +44,13 @@ import java.util.logging.Logger;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
-import es.eucm.eadventure.common.model.actions.EAdAction;
-import es.eucm.eadventure.common.model.extra.EAdList;
-import es.eucm.eadventure.common.model.guievents.enums.KeyCode;
-import es.eucm.eadventure.common.model.variables.impl.SystemFields;
-import es.eucm.eadventure.common.params.geom.EAdPosition;
-import es.eucm.eadventure.common.params.geom.impl.EAdPositionImpl;
-import es.eucm.eadventure.common.params.geom.impl.EAdPositionImpl.Corner;
-import es.eucm.eadventure.common.util.EAdTransformation;
-import es.eucm.eadventure.common.util.impl.EAdInterpolator;
-import es.eucm.eadventure.common.util.impl.EAdTransformationImpl;
+import es.eucm.eadventure.common.model.elements.EAdAction;
+import es.eucm.eadventure.common.model.elements.extra.EAdList;
+import es.eucm.eadventure.common.model.elements.guievents.enums.KeyCode;
+import es.eucm.eadventure.common.model.elements.variables.SystemFields;
+import es.eucm.eadventure.common.util.EAdInterpolator;
+import es.eucm.eadventure.common.util.EAdPositionImpl;
+import es.eucm.eadventure.common.util.EAdPositionImpl.Corner;
 import es.eucm.eadventure.engine.core.game.GameLoop;
 import es.eucm.eadventure.engine.core.game.GameState;
 import es.eucm.eadventure.engine.core.gameobjects.GameObjectManager;
@@ -64,7 +61,9 @@ import es.eucm.eadventure.engine.core.guiactions.GUIAction;
 import es.eucm.eadventure.engine.core.guiactions.KeyAction;
 import es.eucm.eadventure.engine.core.guiactions.MouseAction;
 import es.eucm.eadventure.engine.core.platform.GUI;
-import es.eucm.eadventure.engine.core.platform.rendering.EAdCanvas;
+import es.eucm.eadventure.engine.core.platform.rendering.GenericCanvas;
+import es.eucm.eadventure.engine.core.util.EAdTransformation;
+import es.eucm.eadventure.engine.core.util.impl.EAdTransformationImpl;
 
 /**
  * <p>
@@ -112,7 +111,7 @@ public class ActionsHUDImpl extends AbstractHUD implements ActionsHUD {
 
 	protected SceneElementGO<?> sceneElement;
 
-	private List<EAdPosition> positions;
+	private List<EAdPositionImpl> positions;
 
 	private GameObjectManager gameObjectManager;
 
@@ -129,7 +128,7 @@ public class ActionsHUDImpl extends AbstractHUD implements ActionsHUD {
 		logger.info("New instance");
 		this.gameObjectManager = gameObjectManager;
 		actionsGO = new ArrayList<SceneElementGO<?>>();
-		positions = new ArrayList<EAdPosition>();
+		positions = new ArrayList<EAdPositionImpl>();
 		width = gameState.getValueMap().getValue(SystemFields.GAME_WIDTH);
 		height = gameState.getValueMap().getValue(SystemFields.GAME_HEIGHT);
 		this.sceneElementFactory = sceneElementFactory;
@@ -224,7 +223,7 @@ public class ActionsHUDImpl extends AbstractHUD implements ActionsHUD {
 		int i = 0;
 		for (SceneElementGO<?> go : actionsGO) {
 			EAdTransformationImpl posT = new EAdTransformationImpl();
-			EAdPosition p = this.positions.get(i);
+			EAdPositionImpl p = this.positions.get(i);
 			posT.getMatrix().translate(p.getX() * interpolation1, p.getY() * interpolation2, true);
 			gui.addElement(go, gui.addTransformation(gui.addTransformation(t, transformation), posT));
 			i++;
@@ -241,7 +240,7 @@ public class ActionsHUDImpl extends AbstractHUD implements ActionsHUD {
 	}
 
 	@Override
-	public void render(EAdCanvas<?> c) {
+	public void render(GenericCanvas<?> c) {
 
 	}
 

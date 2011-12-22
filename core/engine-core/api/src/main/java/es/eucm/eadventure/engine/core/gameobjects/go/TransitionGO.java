@@ -37,7 +37,7 @@
 
 package es.eucm.eadventure.engine.core.gameobjects.go;
 
-import es.eucm.eadventure.common.model.elements.EAdScene;
+import es.eucm.eadventure.common.model.elements.scene.EAdScene;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.Image;
 import es.eucm.eadventure.engine.core.platform.RuntimeAsset;
 

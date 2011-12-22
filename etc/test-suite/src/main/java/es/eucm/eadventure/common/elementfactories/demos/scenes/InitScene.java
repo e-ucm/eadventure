@@ -44,27 +44,27 @@ import es.eucm.eadventure.common.elementfactories.EAdElementsFactory;
 import es.eucm.eadventure.common.elementfactories.StringFactory;
 import es.eucm.eadventure.common.elementfactories.demos.SceneDemo;
 import es.eucm.eadventure.common.elementfactories.demos.normalguy.NgMainScreen;
-import es.eucm.eadventure.common.model.effects.impl.EAdChangeScene;
-import es.eucm.eadventure.common.model.effects.impl.text.EAdSpeakEffect;
-import es.eucm.eadventure.common.model.elements.EAdSceneElementDef;
-import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
-import es.eucm.eadventure.common.model.elements.impl.EAdSceneElementDefImpl;
-import es.eucm.eadventure.common.model.guievents.impl.EAdMouseEventImpl;
-import es.eucm.eadventure.common.model.transitions.EAdTransition;
+import es.eucm.eadventure.common.model.elements.effects.ChangeSceneEf;
+import es.eucm.eadventure.common.model.elements.effects.text.SpeakEf;
+import es.eucm.eadventure.common.model.elements.guievents.MouseEventImpl;
+import es.eucm.eadventure.common.model.elements.scene.EAdSceneElementDef;
+import es.eucm.eadventure.common.model.elements.scenes.SceneElementDefImpl;
+import es.eucm.eadventure.common.model.elements.scenes.SceneElementImpl;
+import es.eucm.eadventure.common.model.elements.transitions.EAdTransition;
+import es.eucm.eadventure.common.model.predef.sceneelements.Button;
 import es.eucm.eadventure.common.params.EAdFontImpl;
-import es.eucm.eadventure.common.params.fills.impl.EAdColor;
-import es.eucm.eadventure.common.params.fills.impl.EAdPaintImpl;
-import es.eucm.eadventure.common.params.geom.impl.EAdPositionImpl.Corner;
+import es.eucm.eadventure.common.params.fills.EAdColor;
+import es.eucm.eadventure.common.params.fills.EAdPaintImpl;
 import es.eucm.eadventure.common.params.paint.EAdFill;
 import es.eucm.eadventure.common.params.text.EAdFont;
-import es.eucm.eadventure.common.predef.model.sceneelements.EAdButton;
-import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.ImageImpl;
+import es.eucm.eadventure.common.resources.assets.drawable.basics.ImageImpl;
+import es.eucm.eadventure.common.util.EAdPositionImpl.Corner;
 
 public class InitScene extends EmptyScene {
 
 	private List<SceneDemo> sceneDemos;
 
-	private EAdBasicSceneElement goBack;
+	private SceneElementImpl goBack;
 
 	private EAdSceneElementDef infoButton;
 	
@@ -75,7 +75,7 @@ public class InitScene extends EmptyScene {
 	private EAdPaintImpl speakPaint = new EAdPaintImpl(fill, EAdColor.LIGHT_GRAY, 5);
 
 	public InitScene() {
-		this.setBackground(new EAdBasicSceneElement(new ImageImpl("@drawable/techdemo-bg.png")));
+		this.setBackground(new SceneElementImpl(new ImageImpl("@drawable/techdemo-bg.png")));
 		getBackground().setId("background");
 		initList();
 		initGOBackButton();
@@ -84,21 +84,21 @@ public class InitScene extends EmptyScene {
 		int x = 120;
 		StringFactory sf = EAdElementsFactory.getInstance().getStringFactory();
 		for (SceneDemo s : sceneDemos) {
-			EAdButton b = new EAdButton();
+			Button b = new Button();
 			sf.setString(b.getLabel(), s.getDemoName());
 			b.setPosition(x, y);
-			b.addBehavior(EAdMouseEventImpl.MOUSE_LEFT_PRESSED,
-					new EAdChangeScene( s, EAdTransition.BASIC));
+			b.addBehavior(MouseEventImpl.MOUSE_LEFT_PRESSED,
+					new ChangeSceneEf( s, EAdTransition.BASIC));
 			this.getComponents().add(b);
 			s.getComponents().add(goBack);
-			EAdBasicSceneElement info = new EAdBasicSceneElement(infoButton);
+			SceneElementImpl info = new SceneElementImpl(infoButton);
 			info.setPosition(Corner.BOTTOM_LEFT, 80, 590);
-			EAdSpeakEffect effect = new EAdSpeakEffect();
+			SpeakEf effect = new SpeakEf();
 			effect.setId("infoSpeak");
 			effect.setColor(EAdColor.GRAY, speakPaint);
 			effect.setFont(font);
 			sf.setString(effect.getString(), s.getSceneDescription());
-			info.addBehavior(EAdMouseEventImpl.MOUSE_LEFT_PRESSED, effect);
+			info.addBehavior(MouseEventImpl.MOUSE_LEFT_PRESSED, effect);
 			// info.setScale(0.5f);
 			s.getComponents().add(info);
 			y += 45;
@@ -110,17 +110,17 @@ public class InitScene extends EmptyScene {
 	}
 
 	private void initInfoButton() {
-		infoButton = new EAdSceneElementDefImpl(new ImageImpl("@drawable/infobutton.png"));
+		infoButton = new SceneElementDefImpl(new ImageImpl("@drawable/infobutton.png"));
 		infoButton.setId("info");
 	}
 
 	private void initGOBackButton() {
-		goBack = new EAdBasicSceneElement(new ImageImpl(
+		goBack = new SceneElementImpl(new ImageImpl(
 				"@drawable/goback.png"));
 		goBack.setId("goBack");
 		goBack.setPosition(Corner.BOTTOM_LEFT, 10, 590);
-		goBack.addBehavior(EAdMouseEventImpl.MOUSE_LEFT_PRESSED,
-				new EAdChangeScene( this, EAdTransition.BASIC));
+		goBack.addBehavior(MouseEventImpl.MOUSE_LEFT_PRESSED,
+				new ChangeSceneEf( this, EAdTransition.BASIC));
 		goBack.setScale(0.5f);
 
 	}

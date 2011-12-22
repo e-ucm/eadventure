@@ -44,14 +44,14 @@ import es.eucm.eadventure.common.data.chapter.conditions.Conditions;
 import es.eucm.eadventure.common.data.chapter.effects.SpeakCharEffect;
 import es.eucm.eadventure.common.data.chapter.elements.NPC;
 import es.eucm.eadventure.common.impl.importer.interfaces.EAdElementFactory;
-import es.eucm.eadventure.common.model.effects.impl.text.EAdSpeakEffect;
 import es.eucm.eadventure.common.model.elements.EAdCondition;
-import es.eucm.eadventure.common.model.variables.EAdOperation;
-import es.eucm.eadventure.common.params.fills.impl.EAdColor;
-import es.eucm.eadventure.common.params.fills.impl.EAdPaintImpl;
-import es.eucm.eadventure.common.predef.model.effects.EAdSpeakSceneElement;
+import es.eucm.eadventure.common.model.elements.effects.text.SpeakEf;
+import es.eucm.eadventure.common.model.elements.variables.EAdOperation;
+import es.eucm.eadventure.common.model.predef.effects.SpeakSceneElementEf;
+import es.eucm.eadventure.common.params.fills.EAdColor;
+import es.eucm.eadventure.common.params.fills.EAdPaintImpl;
 import es.eucm.eadventure.common.resources.StringHandler;
-import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.shapes.extra.BalloonType;
+import es.eucm.eadventure.common.resources.assets.drawable.basics.shapes.extra.BalloonType;
 
 public class SpeakCharEffectImporter extends
 		TextEffectImporter<SpeakCharEffect> {
@@ -70,17 +70,17 @@ public class SpeakCharEffectImporter extends
 	}
 
 	@Override
-	public EAdSpeakEffect init(SpeakCharEffect oldObject) {
+	public SpeakEf init(SpeakCharEffect oldObject) {
 		npc = factory.getCurrentOldChapterModel().getCharacter(
 				oldObject.getTargetId());
-		EAdSpeakSceneElement effect = new EAdSpeakSceneElement();
+		SpeakSceneElementEf effect = new SpeakSceneElementEf();
 		effect.setElement(factory.getElementById(npc.getId()));
 		return effect;
 	}
 
 	@Override
-	public EAdSpeakEffect convert(SpeakCharEffect oldObject, Object object) {
-		EAdSpeakEffect effect = super.convert(oldObject, object);
+	public SpeakEf convert(SpeakCharEffect oldObject, Object object) {
+		SpeakEf effect = super.convert(oldObject, object);
 
 		for ( EAdOperation op: TextEffectImporter.getOperations(oldObject.getLine(), factory)){
 			effect.getCaption().getFields().add(op);
@@ -93,7 +93,7 @@ public class SpeakCharEffectImporter extends
 		return effect;
 	}
 	
-	public static void setColor( EAdSpeakEffect effect, String line, NPC npc ){
+	public static void setColor( SpeakEf effect, String line, NPC npc ){
 		BalloonType type = BalloonType.ROUNDED_RECTANGLE;
 		if (line.startsWith(WHISPER)) {
 			// TODO Whisper balloon

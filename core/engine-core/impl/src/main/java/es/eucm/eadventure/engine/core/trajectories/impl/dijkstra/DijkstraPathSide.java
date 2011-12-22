@@ -37,8 +37,8 @@
 
 package es.eucm.eadventure.engine.core.trajectories.impl.dijkstra;
 
-import es.eucm.eadventure.common.model.trajectories.impl.Side;
-import es.eucm.eadventure.common.params.geom.EAdPosition;
+import es.eucm.eadventure.common.model.elements.trajectories.Side;
+import es.eucm.eadventure.common.util.EAdPositionImpl;
 import es.eucm.eadventure.engine.core.trajectories.PathSide;
 
 /**
@@ -70,7 +70,7 @@ public class DijkstraPathSide implements PathSide {
 	/**
 	 * The end position of the side, dependent on the direction
 	 */
-	private EAdPosition endPosition;
+	private EAdPositionImpl endPosition;
 	
 	/**
 	 * The model side of which this is part
@@ -110,7 +110,7 @@ public class DijkstraPathSide implements PathSide {
 	}
 
 	@Override
-	public EAdPosition getEndPosition(boolean last) {
+	public EAdPositionImpl getEndPosition(boolean last) {
 		return endPosition;
 	}
 
@@ -122,7 +122,7 @@ public class DijkstraPathSide implements PathSide {
 		return start;
 	}
 
-	public void setEndPosition(EAdPosition position) {
+	public void setEndPosition(EAdPositionImpl position) {
 		this.endPosition = position;
 	}
 

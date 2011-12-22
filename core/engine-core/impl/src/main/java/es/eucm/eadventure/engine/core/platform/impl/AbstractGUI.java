@@ -39,12 +39,10 @@ package es.eucm.eadventure.engine.core.platform.impl;
 
 import java.util.logging.Logger;
 
-import es.eucm.eadventure.common.model.guievents.enums.DragAction;
-import es.eucm.eadventure.common.model.guievents.enums.MouseButton;
-import es.eucm.eadventure.common.model.guievents.impl.EAdMouseEventImpl;
-import es.eucm.eadventure.common.util.EAdTransformation;
-import es.eucm.eadventure.common.util.impl.EAdMatrixImpl;
-import es.eucm.eadventure.common.util.impl.EAdTransformationImpl;
+import es.eucm.eadventure.common.model.elements.guievents.MouseEventImpl;
+import es.eucm.eadventure.common.model.elements.guievents.enums.DragAction;
+import es.eucm.eadventure.common.model.elements.guievents.enums.MouseButton;
+import es.eucm.eadventure.common.util.EAdMatrixImpl;
 import es.eucm.eadventure.engine.core.game.GameState;
 import es.eucm.eadventure.engine.core.gameobjects.GameObjectManager;
 import es.eucm.eadventure.engine.core.gameobjects.factories.SceneElementGOFactory;
@@ -57,9 +55,11 @@ import es.eucm.eadventure.engine.core.guiactions.impl.DragActionImpl;
 import es.eucm.eadventure.engine.core.guiactions.impl.MouseActionImpl;
 import es.eucm.eadventure.engine.core.input.KeyboardState;
 import es.eucm.eadventure.engine.core.input.MouseState;
-import es.eucm.eadventure.engine.core.platform.GUI;
 import es.eucm.eadventure.engine.core.platform.EngineConfiguration;
-import es.eucm.eadventure.engine.core.platform.rendering.EAdCanvas;
+import es.eucm.eadventure.engine.core.platform.GUI;
+import es.eucm.eadventure.engine.core.platform.rendering.GenericCanvas;
+import es.eucm.eadventure.engine.core.util.EAdTransformation;
+import es.eucm.eadventure.engine.core.util.impl.EAdTransformationImpl;
 
 /**
  * <p>
@@ -112,14 +112,14 @@ public abstract class AbstractGUI<T> implements GUI {
 
 	protected SceneElementGOFactory gameObjectFactory;
 
-	protected EAdCanvas<T> eAdCanvas;
+	protected GenericCanvas<T> eAdCanvas;
 
 	private boolean checkDrag;
 
 	public AbstractGUI(EngineConfiguration platformConfiguration,
 			GameObjectManager gameObjectManager, MouseState mouseState,
 			KeyboardState keyboardState, GameState gameState,
-			SceneElementGOFactory gameObjectFactory, EAdCanvas<T> canvas) {
+			SceneElementGOFactory gameObjectFactory, GenericCanvas<T> canvas) {
 		this.platformConfiguration = platformConfiguration;
 		this.gameObjects = gameObjectManager;
 		this.mouseState = mouseState;
@@ -189,7 +189,7 @@ public abstract class AbstractGUI<T> implements GUI {
 
 			if (oldGO != null) {
 				MouseActionImpl exitAction = new MouseActionImpl(
-						EAdMouseEventImpl.MOUSE_EXITED, x, y);
+						MouseEventImpl.MOUSE_EXITED, x, y);
 				oldGO.processAction(exitAction);
 
 				if (draggedGO != null) {
@@ -202,7 +202,7 @@ public abstract class AbstractGUI<T> implements GUI {
 
 			if (currentGO != null) {
 				MouseActionImpl enterAction = new MouseActionImpl(
-						EAdMouseEventImpl.MOUSE_ENTERED, x, y);
+						MouseEventImpl.MOUSE_ENTERED, x, y);
 				currentGO.processAction(enterAction);
 				if (draggedGO != null) {
 					DragActionImpl action = new DragActionImpl(
@@ -223,7 +223,7 @@ public abstract class AbstractGUI<T> implements GUI {
 			if (!mouseState.isMousePressed(MouseButton.BUTTON_1)) {
 				DrawableGO<?> goMouse = mouseState.getGameObjectUnderMouse();
 				MouseActionImpl drop = new MouseActionImpl(
-						EAdMouseEventImpl.MOUSE_DROP, x, y);
+						MouseEventImpl.MOUSE_DROP, x, y);
 				currentDraggedGO.processAction(drop);
 				if (goMouse != null) {
 					// Exit too
@@ -250,7 +250,7 @@ public abstract class AbstractGUI<T> implements GUI {
 					if (draggedGO != null) {
 						mouseState.setDraggingGameObject(draggedGO);
 						mouseState.getDraggingGameObject().processAction(new MouseActionImpl(
-								EAdMouseEventImpl.MOUSE_START_DRAG, x, y));
+								MouseEventImpl.MOUSE_START_DRAG, x, y));
 					}
 				}
 

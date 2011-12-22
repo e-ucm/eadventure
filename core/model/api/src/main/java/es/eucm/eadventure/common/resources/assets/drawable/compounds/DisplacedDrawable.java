@@ -37,8 +37,8 @@
 
 package es.eucm.eadventure.common.resources.assets.drawable.compounds;
 
-import es.eucm.eadventure.common.params.geom.EAdPosition;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.BasicDrawable;
+import es.eucm.eadventure.common.util.EAdPositionImpl;
 
 /**
  * Represents a displaced drawable
@@ -51,7 +51,7 @@ public interface DisplacedDrawable extends BasicDrawable {
 	 * 
 	 * @return The displacement of this drawable asset
 	 */
-	EAdPosition getDisplacement();
+	EAdPositionImpl getDisplacement();
 
 	/**
 	 * The drawable asset

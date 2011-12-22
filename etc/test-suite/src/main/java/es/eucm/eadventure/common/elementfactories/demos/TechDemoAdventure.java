@@ -22,9 +22,9 @@ import es.eucm.eadventure.common.elementfactories.demos.scenes.SharingEffectsSce
 import es.eucm.eadventure.common.elementfactories.demos.scenes.ShowQuestionScene;
 import es.eucm.eadventure.common.elementfactories.demos.scenes.SpeakAndMoveScene;
 import es.eucm.eadventure.common.elementfactories.demos.scenes.TrajectoriesScene;
-import es.eucm.eadventure.common.model.elements.EAdScene;
-import es.eucm.eadventure.common.model.impl.EAdAdventureModelImpl;
-import es.eucm.eadventure.common.model.impl.EAdChapterImpl;
+import es.eucm.eadventure.common.model.elements.EAdAdventureModelImpl;
+import es.eucm.eadventure.common.model.elements.EAdChapterImpl;
+import es.eucm.eadventure.common.model.elements.scene.EAdScene;
 
 public class TechDemoAdventure extends EAdAdventureModelImpl {
 	

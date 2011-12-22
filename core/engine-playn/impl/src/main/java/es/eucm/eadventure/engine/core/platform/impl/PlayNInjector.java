@@ -68,9 +68,9 @@ import es.eucm.eadventure.engine.core.gameobjects.impl.events.SystemEventGO;
 import es.eucm.eadventure.engine.core.gameobjects.impl.sceneelements.BasicSceneElementGO;
 import es.eucm.eadventure.engine.core.gameobjects.impl.sceneelements.ComplexSceneElementGO;
 import es.eucm.eadventure.engine.core.gameobjects.impl.transitions.SimpleTransitionGO;
-import es.eucm.eadventure.engine.core.platform.EAdInjector;
+import es.eucm.eadventure.engine.core.platform.GenericInjector;
 
-public class PlayNInjector implements EAdInjector {
+public class PlayNInjector implements GenericInjector {
 
 	private PlayNGinInjector ginjector;
 

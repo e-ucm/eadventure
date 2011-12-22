@@ -38,18 +38,18 @@
 package es.eucm.eadventure.common.elementfactories.demos.normalguy;
 
 import es.eucm.eadventure.common.interfaces.features.enums.Orientation;
-import es.eucm.eadventure.common.model.effects.EAdEffect;
-import es.eucm.eadventure.common.model.effects.impl.variables.EAdChangeFieldValueEffect;
-import es.eucm.eadventure.common.model.elements.EAdSceneElementDef;
+import es.eucm.eadventure.common.model.elements.EAdEffect;
+import es.eucm.eadventure.common.model.elements.effects.variables.ChangeFieldEf;
 import es.eucm.eadventure.common.model.elements.enums.CommonStates;
-import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
-import es.eucm.eadventure.common.model.elements.impl.EAdSceneElementDefImpl;
-import es.eucm.eadventure.common.model.variables.impl.operations.ValueOperation;
-import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.ImageImpl;
-import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.animation.Frame;
-import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.animation.FramesAnimation;
-import es.eucm.eadventure.common.resources.assets.drawable.compounds.impl.OrientedDrawableImpl;
-import es.eucm.eadventure.common.resources.assets.drawable.compounds.impl.StateDrawableImpl;
+import es.eucm.eadventure.common.model.elements.scene.EAdSceneElementDef;
+import es.eucm.eadventure.common.model.elements.scenes.SceneElementDefImpl;
+import es.eucm.eadventure.common.model.elements.scenes.SceneElementImpl;
+import es.eucm.eadventure.common.model.elements.variables.operations.ValueOp;
+import es.eucm.eadventure.common.resources.assets.drawable.basics.ImageImpl;
+import es.eucm.eadventure.common.resources.assets.drawable.basics.animation.Frame;
+import es.eucm.eadventure.common.resources.assets.drawable.basics.animation.FramesAnimation;
+import es.eucm.eadventure.common.resources.assets.drawable.compounds.OrientedDrawableImpl;
+import es.eucm.eadventure.common.resources.assets.drawable.compounds.StateDrawableImpl;
 
 public class NgCommon {
 
@@ -57,7 +57,7 @@ public class NgCommon {
 
 	private static EAdSceneElementDef mainCharacter;
 	
-	private static EAdChangeFieldValueEffect lookNorth;
+	private static ChangeFieldEf lookNorth;
 
 	public static void init() {
 		if (!init) {
@@ -68,10 +68,10 @@ public class NgCommon {
 	}
 
 	private static void createEffects() {
-		 lookNorth = new EAdChangeFieldValueEffect();
+		 lookNorth = new ChangeFieldEf();
 		 lookNorth.setId("lookNorth");
-		 lookNorth.setParentVar(EAdBasicSceneElement.VAR_ORIENTATION);
-		 lookNorth.setOperation(new ValueOperation( Orientation.N ));		
+		 lookNorth.setParentVar(SceneElementImpl.VAR_ORIENTATION);
+		 lookNorth.setOperation(new ValueOp( Orientation.N ));		
 	}
 
 	private static void createMainCharacter() {
@@ -82,7 +82,7 @@ public class NgCommon {
 		int talkTime = 300;
 
 		StateDrawableImpl stateDrawables = new StateDrawableImpl();
-		mainCharacter = new EAdSceneElementDefImpl(stateDrawables);
+		mainCharacter = new SceneElementDefImpl(stateDrawables);
 		mainCharacter.setId("mainCharacter");
 
 		// Stand

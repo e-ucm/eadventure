@@ -43,8 +43,8 @@ import java.util.ArrayList;
 
 import org.junit.Test;
 
-import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
-import es.eucm.eadventure.common.model.variables.EAdOperation;
+import es.eucm.eadventure.common.model.elements.scenes.SceneElementImpl;
+import es.eucm.eadventure.common.model.elements.variables.EAdOperation;
 import es.eucm.eadventure.engine.core.TestUtil;
 import es.eucm.eadventure.engine.core.game.ValueMap;
 import es.eucm.eadventure.engine.core.operator.OperatorFactory;
@@ -56,7 +56,7 @@ public abstract class OperatorsTest<T extends EAdOperation> {
 
 	private ArrayList<T> operations = new ArrayList<T>();
 	private ArrayList<Object> results = new ArrayList<Object>();
-	protected EAdBasicSceneElement dummyElement = new EAdBasicSceneElement();
+	protected SceneElementImpl dummyElement = new SceneElementImpl();
 
 	public OperatorsTest() {
 		operatorFactory = TestUtil.getInjector().getInstance(OperatorFactory.class);

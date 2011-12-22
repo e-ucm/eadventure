@@ -38,35 +38,35 @@
 package es.eucm.eadventure.common.elementfactories.demos.scenes;
 
 import es.eucm.eadventure.common.elementfactories.EAdElementsFactory;
-import es.eucm.eadventure.common.model.effects.impl.EAdChangeScene;
-import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
-import es.eucm.eadventure.common.model.elements.impl.EAdVideoScene;
-import es.eucm.eadventure.common.model.guievents.impl.EAdKeyEventImpl;
-import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.ImageImpl;
+import es.eucm.eadventure.common.model.elements.VideoScene;
+import es.eucm.eadventure.common.model.elements.effects.ChangeSceneEf;
+import es.eucm.eadventure.common.model.elements.guievents.KeyEventImpl;
+import es.eucm.eadventure.common.model.elements.scenes.SceneElementImpl;
+import es.eucm.eadventure.common.resources.assets.drawable.basics.ImageImpl;
 import es.eucm.eadventure.common.resources.assets.multimedia.Video;
-import es.eucm.eadventure.common.resources.assets.multimedia.impl.VideoImpl;
+import es.eucm.eadventure.common.resources.assets.multimedia.VideoImpl;
 
 public class WebMVideoScene extends EmptyScene {
 
 	public WebMVideoScene() {
-		EAdVideoScene videoScene = new EAdVideoScene();
+		VideoScene videoScene = new VideoScene();
 		videoScene.setId("videoScene");
 		Video video = new VideoImpl("@binary/bbb_trailer_400p.ogv");
-		videoScene.getDefinition().getResources().addAsset(EAdVideoScene.video, video);
+		videoScene.getDefinition().getResources().addAsset(VideoScene.video, video);
 		videoScene.setUpForEngine();
 		
-		EAdChangeScene changeScene = new EAdChangeScene();
+		ChangeSceneEf changeScene = new ChangeSceneEf();
 		changeScene.setId("changeScene");
 		changeScene.setNextScene(videoScene);
 
-		EAdBasicSceneElement goRightArrow = EAdElementsFactory
+		SceneElementImpl goRightArrow = EAdElementsFactory
 				.getInstance()
 				.getSceneElementFactory()
 				.createSceneElement(new ImageImpl("@drawable/arrow_right.png"),
 						200, 60, changeScene);
 		this.getComponents().add(goRightArrow);
 		
-		goRightArrow.addBehavior(EAdKeyEventImpl.KEY_ARROW_RIGHT, changeScene);
+		goRightArrow.addBehavior(KeyEventImpl.KEY_ARROW_RIGHT, changeScene);
 
 	}
 	

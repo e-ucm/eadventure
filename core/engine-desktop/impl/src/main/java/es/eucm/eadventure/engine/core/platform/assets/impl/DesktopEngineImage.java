@@ -49,7 +49,7 @@ import com.google.inject.Inject;
 
 import es.eucm.eadventure.engine.core.platform.AssetHandler;
 import es.eucm.eadventure.engine.core.platform.impl.DesktopAssetHandler;
-import es.eucm.eadventure.engine.core.platform.rendering.EAdCanvas;
+import es.eucm.eadventure.engine.core.platform.rendering.GenericCanvas;
 
 public class DesktopEngineImage extends RuntimeImage<Graphics2D> {
 
@@ -148,7 +148,7 @@ public class DesktopEngineImage extends RuntimeImage<Graphics2D> {
 	}
 
 	@Override
-	public void render( EAdCanvas<Graphics2D> c ){
+	public void render( GenericCanvas<Graphics2D> c ){
 		c.getNativeGraphicContext().drawImage(this.getImage(), 0, 0, null);
 	}
 

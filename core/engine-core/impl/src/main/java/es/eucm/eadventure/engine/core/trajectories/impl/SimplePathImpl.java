@@ -40,7 +40,7 @@ package es.eucm.eadventure.engine.core.trajectories.impl;
 import java.util.ArrayList;
 import java.util.List;
 
-import es.eucm.eadventure.common.params.geom.EAdPosition;
+import es.eucm.eadventure.common.util.EAdPositionImpl;
 import es.eucm.eadventure.engine.core.trajectories.Path;
 import es.eucm.eadventure.engine.core.trajectories.PathSide;
 
@@ -48,10 +48,10 @@ public class SimplePathImpl implements Path {
 
 	private List<PathSide> sides;
 	
-	public SimplePathImpl(List<EAdPosition> list, EAdPosition currentPosition, float scale) {
+	public SimplePathImpl(List<EAdPositionImpl> list, EAdPositionImpl currentPosition, float scale) {
 		sides = new ArrayList<PathSide>();
-		EAdPosition temp = currentPosition;
-		for (EAdPosition pos : list) {
+		EAdPositionImpl temp = currentPosition;
+		for (EAdPositionImpl pos : list) {
 			sides.add(new SimpleSideImpl(temp, pos, scale));
 			temp = pos;
 		}

@@ -44,7 +44,7 @@ import com.google.inject.Inject;
 
 import es.eucm.eadventure.common.resources.assets.drawable.basics.Image;
 import es.eucm.eadventure.engine.core.platform.AssetHandler;
-import es.eucm.eadventure.engine.core.platform.rendering.EAdCanvas;
+import es.eucm.eadventure.engine.core.platform.rendering.GenericCanvas;
 
 public class DesktopEngineSpriteImage extends RuntimeSpriteImage<Graphics2D> {
 
@@ -58,7 +58,7 @@ public class DesktopEngineSpriteImage extends RuntimeSpriteImage<Graphics2D> {
 	}
 	
 	@Override
-	public void render(EAdCanvas<Graphics2D> canvas) {
+	public void render(GenericCanvas<Graphics2D> canvas) {
 		int x = getImageX();
 		int y = getImageY();
 		int spriteWidth = getSpriteWidth();

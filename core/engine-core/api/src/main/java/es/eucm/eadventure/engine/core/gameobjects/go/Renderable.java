@@ -37,15 +37,15 @@
 
 package es.eucm.eadventure.engine.core.gameobjects.go;
 
-import es.eucm.eadventure.common.util.EAdTransformation;
 import es.eucm.eadventure.engine.core.guiactions.GUIAction;
-import es.eucm.eadventure.engine.core.platform.rendering.EAdCanvas;
+import es.eucm.eadventure.engine.core.platform.rendering.GenericCanvas;
+import es.eucm.eadventure.engine.core.util.EAdTransformation;
 
 public interface Renderable {
 	
 	void doLayout( EAdTransformation t );
 	
-	void render( EAdCanvas<?> c );
+	void render( GenericCanvas<?> c );
 	
 	void update();
 	

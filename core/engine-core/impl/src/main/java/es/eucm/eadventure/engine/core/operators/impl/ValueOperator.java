@@ -40,10 +40,10 @@ package es.eucm.eadventure.engine.core.operators.impl;
 import com.google.inject.Inject;
 
 import es.eucm.eadventure.common.ReflectionProvider;
-import es.eucm.eadventure.common.model.variables.impl.operations.ValueOperation;
+import es.eucm.eadventure.common.model.elements.variables.operations.ValueOp;
 import es.eucm.eadventure.engine.core.operator.Operator;
 
-public class ValueOperator implements Operator<ValueOperation> {
+public class ValueOperator implements Operator<ValueOp> {
 
 	private ReflectionProvider reflectionProvider;
 	
@@ -54,7 +54,7 @@ public class ValueOperator implements Operator<ValueOperation> {
 	
 	@SuppressWarnings("unchecked")
 	@Override
-	public <S> S operate(Class<S> clazz, ValueOperation operation) {
+	public <S> S operate(Class<S> clazz, ValueOp operation) {
 		if ( operation.getValue() == null )
 			return null;
 		

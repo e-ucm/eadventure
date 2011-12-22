@@ -37,7 +37,7 @@
 
 package es.eucm.eadventure.editor.control.commands.impl;
 
-import es.eucm.eadventure.common.model.extra.EAdList;
+import es.eucm.eadventure.common.model.elements.extra.EAdList;
 import es.eucm.eadventure.editor.control.Command;
 
 /**

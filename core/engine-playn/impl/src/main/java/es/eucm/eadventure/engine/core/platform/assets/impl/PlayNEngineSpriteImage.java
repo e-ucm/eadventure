@@ -43,7 +43,7 @@ import playn.core.Image;
 import com.google.inject.Inject;
 
 import es.eucm.eadventure.engine.core.platform.AssetHandler;
-import es.eucm.eadventure.engine.core.platform.rendering.EAdCanvas;
+import es.eucm.eadventure.engine.core.platform.rendering.GenericCanvas;
 
 public class PlayNEngineSpriteImage extends RuntimeSpriteImage<Canvas> {
 
@@ -57,7 +57,7 @@ public class PlayNEngineSpriteImage extends RuntimeSpriteImage<Canvas> {
 	}
 
 	@Override
-	public void render(EAdCanvas<Canvas> c) {
+	public void render(GenericCanvas<Canvas> c) {
 		int x = getImageX();
 		int y = getImageY();
 		int spriteWidth = getSpriteWidth();

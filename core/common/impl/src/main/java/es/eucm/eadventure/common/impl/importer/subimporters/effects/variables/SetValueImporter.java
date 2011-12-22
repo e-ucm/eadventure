@@ -45,13 +45,13 @@ import es.eucm.eadventure.common.data.chapter.conditions.Conditions;
 import es.eucm.eadventure.common.data.chapter.effects.SetValueEffect;
 import es.eucm.eadventure.common.impl.importer.interfaces.EAdElementFactory;
 import es.eucm.eadventure.common.impl.importer.subimporters.effects.EffectImporter;
-import es.eucm.eadventure.common.model.effects.impl.variables.EAdChangeFieldValueEffect;
 import es.eucm.eadventure.common.model.elements.EAdCondition;
-import es.eucm.eadventure.common.model.variables.EAdField;
-import es.eucm.eadventure.common.model.variables.impl.operations.MathOperation;
+import es.eucm.eadventure.common.model.elements.effects.variables.ChangeFieldEf;
+import es.eucm.eadventure.common.model.elements.variables.EAdField;
+import es.eucm.eadventure.common.model.elements.variables.operations.MathOp;
 
 public class SetValueImporter extends
-		EffectImporter<SetValueEffect, EAdChangeFieldValueEffect> {
+		EffectImporter<SetValueEffect, ChangeFieldEf> {
 
 	private EAdElementFactory factory;
 
@@ -66,12 +66,12 @@ public class SetValueImporter extends
 	}
 
 	@Override
-	public EAdChangeFieldValueEffect init(SetValueEffect oldObject) {
+	public ChangeFieldEf init(SetValueEffect oldObject) {
 		EAdField<?> var = factory.getVarByOldId(oldObject.getTargetId(),
 				Condition.VAR_CONDITION);
-		MathOperation op = new MathOperation(
+		MathOp op = new MathOp(
 				oldObject.getValue() + "", var);
-		EAdChangeFieldValueEffect effect = new EAdChangeFieldValueEffect(var, op);
+		ChangeFieldEf effect = new ChangeFieldEf(var, op);
 		effect.setId("changeVarValueFromSet" + ID_GENERATOR++);
 		super.importConditions(oldObject, effect);
 		effect.setQueueable(true);
@@ -79,8 +79,8 @@ public class SetValueImporter extends
 	}
 
 	@Override
-	public EAdChangeFieldValueEffect convert(SetValueEffect oldObject, Object object) {
-		return (EAdChangeFieldValueEffect) object;
+	public ChangeFieldEf convert(SetValueEffect oldObject, Object object) {
+		return (ChangeFieldEf) object;
 	}
 
 }

@@ -1,0 +1,120 @@
+/**
+ * eAdventure (formerly <e-Adventure> and <e-Game>) is a research project of the
+ *    <e-UCM> research group.
+ *
+ *    Copyright 2005-2010 <e-UCM> research group.
+ *
+ *    You can access a list of all the contributors to eAdventure at:
+ *          http://e-adventure.e-ucm.es/contributors
+ *
+ *    <e-UCM> is a research group of the Department of Software Engineering
+ *          and Artificial Intelligence at the Complutense University of Madrid
+ *          (School of Computer Science).
+ *
+ *          C Profesor Jose Garcia Santesmases sn,
+ *          28040 Madrid (Madrid), Spain.
+ *
+ *          For more info please visit:  <http://e-adventure.e-ucm.es> or
+ *          <http://www.e-ucm.es>
+ *
+ * ****************************************************************************
+ *
+ *  This file is part of eAdventure, version 2.0
+ *
+ *      eAdventure is free software: you can redistribute it and/or modify
+ *      it under the terms of the GNU Lesser General Public License as published by
+ *      the Free Software Foundation, either version 3 of the License, or
+ *      (at your option) any later version.
+ *
+ *      eAdventure is distributed in the hope that it will be useful,
+ *      but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *      MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *      GNU Lesser General Public License for more details.
+ *
+ *      You should have received a copy of the GNU Lesser General Public License
+ *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
+package es.eucm.eadventure.common.model.predef.events;
+
+import es.eucm.eadventure.common.model.elements.conditions.OperationCond;
+import es.eucm.eadventure.common.model.elements.conditions.enums.Comparator;
+import es.eucm.eadventure.common.model.elements.effects.variables.ChangeFieldEf;
+import es.eucm.eadventure.common.model.elements.events.SceneElementEv;
+import es.eucm.eadventure.common.model.elements.events.enums.SceneElementEventType;
+import es.eucm.eadventure.common.model.elements.scene.EAdSceneElement;
+import es.eucm.eadventure.common.model.elements.scenes.SceneElementImpl;
+import es.eucm.eadventure.common.model.elements.variables.EAdField;
+import es.eucm.eadventure.common.model.elements.variables.FieldImpl;
+import es.eucm.eadventure.common.model.elements.variables.SystemFields;
+import es.eucm.eadventure.common.model.elements.variables.operations.MathOp;
+
+/**
+ * This event keeps an {@link EAdSceneElement} in the window bounds
+ * 
+ */
+public class StayInBoundsEv extends SceneElementEv {
+
+	/**
+	 * 
+	 * @param e
+	 *            the element to stay in bounds
+	 */
+	public StayInBoundsEv(EAdSceneElement e) {
+		super();
+		setId("stayInBoundsEvent");
+		EAdField<Integer> maxX = SystemFields.GAME_WIDTH;
+		EAdField<Integer> maxY = SystemFields.GAME_HEIGHT;
+
+		EAdField<Integer> x = new FieldImpl<Integer>(e,
+				SceneElementImpl.VAR_X);
+
+		EAdField<Integer> y = new FieldImpl<Integer>(e,
+				SceneElementImpl.VAR_Y);
+
+		EAdField<Integer> left = new FieldImpl<Integer>(e,
+				SceneElementImpl.VAR_LEFT);
+		EAdField<Integer> top = new FieldImpl<Integer>(e,
+				SceneElementImpl.VAR_TOP);
+		EAdField<Integer> right = new FieldImpl<Integer>(e,
+				SceneElementImpl.VAR_RIGHT);
+		EAdField<Integer> bottom = new FieldImpl<Integer>(e,
+				SceneElementImpl.VAR_BOTTOM);
+
+		// Correct X Left
+		String expression1 = "[0] - [1]";
+		ChangeFieldEf effect = new ChangeFieldEf(x, new MathOp(expression1, x, left));
+		effect.setId("correctXLeft");
+		OperationCond c = new OperationCond(left, 0, Comparator.LESS);
+		effect.setCondition(c);
+
+		addEffect(SceneElementEventType.ALWAYS, effect);
+
+		// Correct X Right
+		String expression2 = "[0] - ( [1] - [2] )";
+		effect = new ChangeFieldEf( x,
+				new MathOp(expression2, x, right, maxX));
+		effect.setId("correctXRight");
+		c = new OperationCond(maxX, left, Comparator.LESS);
+		effect.setCondition(c);
+		addEffect(SceneElementEventType.ALWAYS, effect);
+
+		// Correct Y top
+		effect = new ChangeFieldEf( y,
+				new MathOp(expression1, y, top));
+		effect.setId("correctYTop");
+		c = new OperationCond(top, 0, Comparator.LESS);
+		effect.setCondition(c);
+		addEffect(SceneElementEventType.ALWAYS, effect);
+
+		// Correct Y bottom
+		effect = new ChangeFieldEf( y,
+				new MathOp(expression2, y, bottom, maxY));
+		effect.setId("correctXRight");
+		c = new OperationCond(maxY, bottom, Comparator.LESS);
+		effect.setCondition(c);
+		addEffect(SceneElementEventType.ALWAYS, effect);
+
+	}
+
+}

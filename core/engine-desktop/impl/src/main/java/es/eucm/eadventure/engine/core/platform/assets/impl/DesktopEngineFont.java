@@ -45,9 +45,9 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 
-import es.eucm.eadventure.common.params.geom.impl.EAdRectangleImpl;
 import es.eucm.eadventure.common.params.text.EAdFont;
 import es.eucm.eadventure.common.params.text.FontStyle;
+import es.eucm.eadventure.common.util.EAdRectangleImpl;
 import es.eucm.eadventure.engine.core.platform.AssetHandler;
 import es.eucm.eadventure.engine.core.platform.RuntimeFont;
 

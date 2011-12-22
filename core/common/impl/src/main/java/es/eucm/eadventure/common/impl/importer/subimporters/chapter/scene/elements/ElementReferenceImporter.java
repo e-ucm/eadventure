@@ -49,15 +49,14 @@ import es.eucm.eadventure.common.data.chapter.elements.NPC;
 import es.eucm.eadventure.common.impl.importer.interfaces.EAdElementFactory;
 import es.eucm.eadventure.common.impl.importer.interfaces.ResourceImporter;
 import es.eucm.eadventure.common.interfaces.features.enums.Orientation;
-import es.eucm.eadventure.common.model.conditions.impl.EmptyCondition;
 import es.eucm.eadventure.common.model.elements.EAdCondition;
-import es.eucm.eadventure.common.model.elements.EAdSceneElement;
-import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
-import es.eucm.eadventure.common.model.elements.impl.EAdSceneElementDefImpl;
-import es.eucm.eadventure.common.params.geom.EAdPosition;
-import es.eucm.eadventure.common.params.geom.impl.EAdPositionImpl;
-import es.eucm.eadventure.common.params.geom.impl.EAdRectangleImpl;
+import es.eucm.eadventure.common.model.elements.conditions.EmptyCond;
+import es.eucm.eadventure.common.model.elements.scene.EAdSceneElement;
+import es.eucm.eadventure.common.model.elements.scenes.SceneElementDefImpl;
+import es.eucm.eadventure.common.model.elements.scenes.SceneElementImpl;
 import es.eucm.eadventure.common.resources.StringHandler;
+import es.eucm.eadventure.common.util.EAdPositionImpl;
+import es.eucm.eadventure.common.util.EAdRectangleImpl;
 
 /**
  * Elements reference importer
@@ -76,16 +75,16 @@ public class ElementReferenceImporter extends ElementImporter<ElementReference> 
 	}
 
 	public EAdSceneElement init(ElementReference oldObject) {
-		EAdBasicSceneElement newRef = new EAdBasicSceneElement();
+		SceneElementImpl newRef = new SceneElementImpl();
 		return newRef;
 	}
 
 	@Override
 	public EAdSceneElement convert(ElementReference oldObject, Object object) {
 
-		EAdSceneElementDefImpl actor = (EAdSceneElementDefImpl) factory
+		SceneElementDefImpl actor = (SceneElementDefImpl) factory
 				.getElementById(oldObject.getTargetId());
-		EAdBasicSceneElement newRef = (EAdBasicSceneElement) object;
+		SceneElementImpl newRef = (SceneElementImpl) object;
 		newRef.setId(oldObject.getTargetId() + "_ref");
 
 		newRef.setPosition(new EAdPositionImpl(
@@ -104,7 +103,7 @@ public class ElementReferenceImporter extends ElementImporter<ElementReference> 
 				Dimension d = resourceImporter.getDimensions(imageUri);
 				int width = (int) d.getWidth();
 				int height = (int) d.getHeight();
-				EAdPosition p = new EAdPositionImpl(oldObject.getX(),
+				EAdPositionImpl p = new EAdPositionImpl(oldObject.getX(),
 						oldObject.getY(), 0.5f, 1.0f);
 				float scale = oldObject.getScale();
 				EAdRectangleImpl bounds = new EAdRectangleImpl(p.getJavaX(width
@@ -123,14 +122,14 @@ public class ElementReferenceImporter extends ElementImporter<ElementReference> 
 
 			// add dragable
 			if (factory.isDraggableActor(actor)) {
-				newRef.setDragCond(EmptyCondition.TRUE_EMPTY_CONDITION);
+				newRef.setDragCond(EmptyCond.TRUE_EMPTY_CONDITION);
 				newRef.setVarInitialValue(
-						EAdBasicSceneElement.VAR_RETURN_WHEN_DRAGGED,
+						SceneElementImpl.VAR_RETURN_WHEN_DRAGGED,
 						isReturnWhenDragged(oldObject.getTargetId()));
 
 			}
 		} else {
-			newRef.setVarInitialValue(EAdBasicSceneElement.VAR_ENABLE,
+			newRef.setVarInitialValue(SceneElementImpl.VAR_ENABLE,
 					Boolean.FALSE);
 		}
 

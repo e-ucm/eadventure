@@ -42,9 +42,9 @@ import java.util.logging.Logger;
 import com.google.inject.Inject;
 
 import es.eucm.eadventure.common.model.EAdElement;
-import es.eucm.eadventure.common.model.effects.impl.EAdInterpolationEffect;
+import es.eucm.eadventure.common.model.elements.effects.InterpolationEf;
 import es.eucm.eadventure.common.resources.StringHandler;
-import es.eucm.eadventure.common.util.impl.EAdInterpolator;
+import es.eucm.eadventure.common.util.EAdInterpolator;
 import es.eucm.eadventure.engine.core.game.GameLoop;
 import es.eucm.eadventure.engine.core.game.GameState;
 import es.eucm.eadventure.engine.core.gameobjects.factories.SceneElementGOFactory;
@@ -52,7 +52,7 @@ import es.eucm.eadventure.engine.core.operator.OperatorFactory;
 import es.eucm.eadventure.engine.core.platform.AssetHandler;
 import es.eucm.eadventure.engine.core.platform.GUI;
 
-public class InterpolationGO extends AbstractEffectGO<EAdInterpolationEffect> {
+public class InterpolationGO extends AbstractEffectGO<InterpolationEf> {
 
 	private static Logger logger = Logger.getLogger("VarInterpolationGO");
 

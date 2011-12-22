@@ -37,7 +37,7 @@
 
 package es.eucm.eadventure.common.elementfactories.demos;
 
-import es.eucm.eadventure.common.model.elements.EAdScene;
+import es.eucm.eadventure.common.model.elements.scene.EAdScene;
 
 public interface SceneDemo extends EAdScene {
 	

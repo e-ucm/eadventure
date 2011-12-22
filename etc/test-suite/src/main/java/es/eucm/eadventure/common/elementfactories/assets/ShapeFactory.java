@@ -37,11 +37,11 @@
 
 package es.eucm.eadventure.common.elementfactories.assets;
 
-import es.eucm.eadventure.common.params.fills.impl.EAdPaintImpl;
-import es.eucm.eadventure.common.params.geom.impl.EAdPositionImpl;
+import es.eucm.eadventure.common.params.fills.EAdPaintImpl;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.Shape;
-import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.shapes.BezierShape;
-import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.shapes.RectangleShape;
+import es.eucm.eadventure.common.resources.assets.drawable.basics.shapes.BezierShape;
+import es.eucm.eadventure.common.resources.assets.drawable.basics.shapes.RectangleShape;
+import es.eucm.eadventure.common.util.EAdPositionImpl;
 
 public class ShapeFactory {
 

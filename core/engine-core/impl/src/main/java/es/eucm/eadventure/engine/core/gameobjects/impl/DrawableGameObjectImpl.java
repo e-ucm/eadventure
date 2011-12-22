@@ -39,8 +39,6 @@ package es.eucm.eadventure.engine.core.gameobjects.impl;
 
 import es.eucm.eadventure.common.model.EAdElement;
 import es.eucm.eadventure.common.resources.StringHandler;
-import es.eucm.eadventure.common.util.EAdTransformation;
-import es.eucm.eadventure.common.util.impl.EAdTransformationImpl;
 import es.eucm.eadventure.engine.core.game.GameState;
 import es.eucm.eadventure.engine.core.gameobjects.factories.SceneElementGOFactory;
 import es.eucm.eadventure.engine.core.gameobjects.go.DrawableGO;
@@ -48,6 +46,8 @@ import es.eucm.eadventure.engine.core.gameobjects.go.SceneElementGO;
 import es.eucm.eadventure.engine.core.input.MouseState;
 import es.eucm.eadventure.engine.core.platform.AssetHandler;
 import es.eucm.eadventure.engine.core.platform.GUI;
+import es.eucm.eadventure.engine.core.util.EAdTransformation;
+import es.eucm.eadventure.engine.core.util.impl.EAdTransformationImpl;
 
 public abstract class DrawableGameObjectImpl<T extends EAdElement> extends
 		GameObjectImpl<T> implements DrawableGO<T> {

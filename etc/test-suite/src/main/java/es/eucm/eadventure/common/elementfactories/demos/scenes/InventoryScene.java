@@ -38,47 +38,47 @@
 package es.eucm.eadventure.common.elementfactories.demos.scenes;
 
 import es.eucm.eadventure.common.elementfactories.EAdElementsFactory;
-import es.eucm.eadventure.common.model.effects.impl.EAdActorActionsEffect;
-import es.eucm.eadventure.common.model.effects.impl.EAdInventoryEffect;
-import es.eucm.eadventure.common.model.effects.impl.enums.InventoryEffectAction;
 import es.eucm.eadventure.common.model.elements.EAdInventory;
-import es.eucm.eadventure.common.model.elements.EAdSceneElementDef;
-import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
-import es.eucm.eadventure.common.model.elements.impl.EAdInventoryImpl;
-import es.eucm.eadventure.common.model.elements.impl.EAdSceneElementDefImpl;
-import es.eucm.eadventure.common.model.guievents.enums.MouseActionType;
-import es.eucm.eadventure.common.model.guievents.enums.MouseButton;
-import es.eucm.eadventure.common.model.guievents.impl.EAdMouseEventImpl;
-import es.eucm.eadventure.common.params.fills.impl.EAdColor;
-import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.ImageImpl;
-import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.shapes.RectangleShape;
+import es.eucm.eadventure.common.model.elements.InventoryImpl;
+import es.eucm.eadventure.common.model.elements.effects.ActorActionsEf;
+import es.eucm.eadventure.common.model.elements.effects.ModifyInventoryEf;
+import es.eucm.eadventure.common.model.elements.effects.enums.InventoryEffectAction;
+import es.eucm.eadventure.common.model.elements.guievents.MouseEventImpl;
+import es.eucm.eadventure.common.model.elements.guievents.enums.MouseActionType;
+import es.eucm.eadventure.common.model.elements.guievents.enums.MouseButton;
+import es.eucm.eadventure.common.model.elements.scene.EAdSceneElementDef;
+import es.eucm.eadventure.common.model.elements.scenes.SceneElementDefImpl;
+import es.eucm.eadventure.common.model.elements.scenes.SceneElementImpl;
+import es.eucm.eadventure.common.params.fills.EAdColor;
+import es.eucm.eadventure.common.resources.assets.drawable.basics.ImageImpl;
+import es.eucm.eadventure.common.resources.assets.drawable.basics.shapes.RectangleShape;
 
 public class InventoryScene extends EmptyScene {
 	
 	public InventoryScene( ){
 		super();
-		EAdSceneElementDefImpl item = new EAdSceneElementDefImpl( new ImageImpl("@drawable/ng_key.png"));
+		SceneElementDefImpl item = new SceneElementDefImpl( new ImageImpl("@drawable/ng_key.png"));
 		
 		item.getActions().add(EAdElementsFactory.getInstance().getActionsFactory().getBasicAction());
 		
-		item.addBehavior(EAdMouseEventImpl.MOUSE_LEFT_CLICK, new EAdActorActionsEffect( item ));
-		item.addBehavior(EAdMouseEventImpl.MOUSE_RIGHT_CLICK, new EAdActorActionsEffect( item ));
-		item.addBehavior(EAdMouseEventImpl.getMouseEvent(MouseActionType.PRESSED, MouseButton.BUTTON_3), new EAdActorActionsEffect( item ));
+		item.addBehavior(MouseEventImpl.MOUSE_LEFT_CLICK, new ActorActionsEf( item ));
+		item.addBehavior(MouseEventImpl.MOUSE_RIGHT_CLICK, new ActorActionsEf( item ));
+		item.addBehavior(MouseEventImpl.getMouseEvent(MouseActionType.PRESSED, MouseButton.BUTTON_3), new ActorActionsEf( item ));
 		
-		EAdSceneElementDef item2 = new EAdSceneElementDefImpl( new RectangleShape( 10, 10, EAdColor.BLUE ));
-		EAdSceneElementDef item3 = new EAdSceneElementDefImpl( new RectangleShape( 90, 90, EAdColor.GREEN ));
-		EAdInventory inventory = new EAdInventoryImpl();
+		EAdSceneElementDef item2 = new SceneElementDefImpl( new RectangleShape( 10, 10, EAdColor.BLUE ));
+		EAdSceneElementDef item3 = new SceneElementDefImpl( new RectangleShape( 90, 90, EAdColor.GREEN ));
+		EAdInventory inventory = new InventoryImpl();
 //		inventory.getInitialItems().add(item);
 		inventory.getInitialItems().add(item2);
 		inventory.getInitialItems().add(item3);
 		EAdElementsFactory.getInstance().setInventory(inventory);
 		
 		
-		EAdBasicSceneElement key = new EAdBasicSceneElement( new ImageImpl("@drawable/ng_key.png") );
+		SceneElementImpl key = new SceneElementImpl( new ImageImpl("@drawable/ng_key.png") );
 		key.setPosition(200, 200);
-		EAdInventoryEffect effect = new EAdInventoryEffect( item, InventoryEffectAction.ADD_TO_INVENTORY );
+		ModifyInventoryEf effect = new ModifyInventoryEf( item, InventoryEffectAction.ADD_TO_INVENTORY );
 		
-		key.addBehavior(EAdMouseEventImpl.MOUSE_LEFT_CLICK, effect);
+		key.addBehavior(MouseEventImpl.MOUSE_LEFT_CLICK, effect);
 		
 		getComponents().add(key);
 	}

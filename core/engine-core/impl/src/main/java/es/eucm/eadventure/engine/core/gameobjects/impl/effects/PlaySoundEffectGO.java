@@ -39,7 +39,7 @@ package es.eucm.eadventure.engine.core.gameobjects.impl.effects;
 
 import com.google.inject.Inject;
 
-import es.eucm.eadventure.common.model.effects.impl.EAdPlaySoundEffect;
+import es.eucm.eadventure.common.model.elements.effects.PlaySoundEf;
 import es.eucm.eadventure.common.resources.StringHandler;
 import es.eucm.eadventure.engine.core.game.GameState;
 import es.eucm.eadventure.engine.core.gameobjects.factories.SceneElementGOFactory;
@@ -47,7 +47,7 @@ import es.eucm.eadventure.engine.core.platform.AssetHandler;
 import es.eucm.eadventure.engine.core.platform.GUI;
 import es.eucm.eadventure.engine.core.platform.assets.impl.RuntimeSound;
 
-public class PlaySoundEffectGO extends AbstractEffectGO<EAdPlaySoundEffect> {
+public class PlaySoundEffectGO extends AbstractEffectGO<PlaySoundEf> {
 
 	@Inject
 	public PlaySoundEffectGO(AssetHandler assetHandler,

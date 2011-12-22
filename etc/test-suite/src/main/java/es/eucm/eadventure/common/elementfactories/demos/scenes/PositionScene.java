@@ -38,22 +38,22 @@
 package es.eucm.eadventure.common.elementfactories.demos.scenes;
 
 import es.eucm.eadventure.common.elementfactories.demos.normalguy.NgCommon;
-import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
-import es.eucm.eadventure.common.model.elements.impl.EAdSceneElementDefImpl;
-import es.eucm.eadventure.common.params.geom.impl.EAdPositionImpl;
-import es.eucm.eadventure.common.params.geom.impl.EAdPositionImpl.Corner;
-import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.ImageImpl;
+import es.eucm.eadventure.common.model.elements.scenes.SceneElementDefImpl;
+import es.eucm.eadventure.common.model.elements.scenes.SceneElementImpl;
+import es.eucm.eadventure.common.resources.assets.drawable.basics.ImageImpl;
+import es.eucm.eadventure.common.util.EAdPositionImpl;
+import es.eucm.eadventure.common.util.EAdPositionImpl.Corner;
 
 public class PositionScene extends EmptyScene {
 
 	public PositionScene() {
 		getBackground().getDefinition().getResources().addAsset(
 				getBackground().getDefinition().getInitialBundle(),
-				EAdSceneElementDefImpl.appearance,
+				SceneElementDefImpl.appearance,
 				new ImageImpl("@drawable/centerbackground.png"));
 		
 		NgCommon.init();
-		EAdBasicSceneElement e = new EAdBasicSceneElement( NgCommon.getMainCharacter());
+		SceneElementImpl e = new SceneElementImpl( NgCommon.getMainCharacter());
 		e.setScale(0.5f);
 		e.setPosition(new EAdPositionImpl(Corner.BOTTOM_CENTER, 400, 300));
 		

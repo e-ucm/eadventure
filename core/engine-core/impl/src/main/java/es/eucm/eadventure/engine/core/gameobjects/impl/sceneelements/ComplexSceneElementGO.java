@@ -42,12 +42,11 @@ import java.util.logging.Logger;
 
 import com.google.inject.Inject;
 
-import es.eucm.eadventure.common.model.effects.EAdEffect;
-import es.eucm.eadventure.common.model.elements.EAdComplexElement;
-import es.eucm.eadventure.common.model.elements.EAdSceneElement;
-import es.eucm.eadventure.common.model.extra.EAdList;
+import es.eucm.eadventure.common.model.elements.EAdEffect;
+import es.eucm.eadventure.common.model.elements.extra.EAdList;
+import es.eucm.eadventure.common.model.elements.scene.EAdComplexSceneElement;
+import es.eucm.eadventure.common.model.elements.scene.EAdSceneElement;
 import es.eucm.eadventure.common.resources.StringHandler;
-import es.eucm.eadventure.common.util.EAdTransformation;
 import es.eucm.eadventure.engine.core.evaluators.EvaluatorFactory;
 import es.eucm.eadventure.engine.core.game.GameState;
 import es.eucm.eadventure.engine.core.gameobjects.factories.EventGOFactory;
@@ -57,9 +56,10 @@ import es.eucm.eadventure.engine.core.guiactions.GUIAction;
 import es.eucm.eadventure.engine.core.platform.AssetHandler;
 import es.eucm.eadventure.engine.core.platform.GUI;
 import es.eucm.eadventure.engine.core.platform.RuntimeAsset;
+import es.eucm.eadventure.engine.core.util.EAdTransformation;
 
 public class ComplexSceneElementGO extends
-		SceneElementGOImpl<EAdComplexElement> {
+		SceneElementGOImpl<EAdComplexSceneElement> {
 
 	private static final Logger logger = Logger
 			.getLogger("EAdComplexSceneElement");
@@ -77,7 +77,7 @@ public class ComplexSceneElementGO extends
 		logger.info("New instance");
 	}
 
-	public void setElement(EAdComplexElement element) {
+	public void setElement(EAdComplexSceneElement element) {
 		super.setElement(element);
 		for (EAdSceneElement sceneElement : element.getComponents()) {
 			SceneElementGO<?> go = sceneElementFactory.get(sceneElement);

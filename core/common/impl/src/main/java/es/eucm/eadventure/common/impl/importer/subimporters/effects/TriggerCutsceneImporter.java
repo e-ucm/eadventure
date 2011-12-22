@@ -43,11 +43,11 @@ import es.eucm.eadventure.common.EAdElementImporter;
 import es.eucm.eadventure.common.data.chapter.conditions.Conditions;
 import es.eucm.eadventure.common.data.chapter.effects.TriggerCutsceneEffect;
 import es.eucm.eadventure.common.impl.importer.interfaces.EAdElementFactory;
-import es.eucm.eadventure.common.model.effects.impl.EAdChangeScene;
 import es.eucm.eadventure.common.model.elements.EAdCondition;
-import es.eucm.eadventure.common.model.elements.EAdScene;
+import es.eucm.eadventure.common.model.elements.effects.ChangeSceneEf;
+import es.eucm.eadventure.common.model.elements.scene.EAdScene;
 
-public class TriggerCutsceneImporter extends EffectImporter<TriggerCutsceneEffect, EAdChangeScene>{
+public class TriggerCutsceneImporter extends EffectImporter<TriggerCutsceneEffect, ChangeSceneEf>{
 	
 	private EAdElementFactory factory;
 	
@@ -59,15 +59,15 @@ public class TriggerCutsceneImporter extends EffectImporter<TriggerCutsceneEffec
 	}
 
 	@Override
-	public EAdChangeScene init(TriggerCutsceneEffect oldObject) {
-		EAdChangeScene effect = new EAdChangeScene();
+	public ChangeSceneEf init(TriggerCutsceneEffect oldObject) {
+		ChangeSceneEf effect = new ChangeSceneEf();
 		effect.setId("triggerCutscene");
 		return effect;
 	}
 
 	@Override
-	public EAdChangeScene convert(TriggerCutsceneEffect oldObject, Object object) {
-		EAdChangeScene changeScene =  super.convert(oldObject, object);
+	public ChangeSceneEf convert(TriggerCutsceneEffect oldObject, Object object) {
+		ChangeSceneEf changeScene =  super.convert(oldObject, object);
 		
 		EAdScene scene = (EAdScene) factory.getElementById(oldObject.getTargetId());
 		changeScene.setNextScene(scene);

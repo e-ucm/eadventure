@@ -40,10 +40,10 @@ package es.eucm.eadventure.engine.core.gameobjects.factories;
 import com.google.inject.Inject;
 
 import es.eucm.eadventure.common.ReflectionProvider;
-import es.eucm.eadventure.common.model.events.EAdEvent;
+import es.eucm.eadventure.common.model.elements.EAdEvent;
 import es.eucm.eadventure.engine.core.gameobjects.go.EventGO;
 import es.eucm.eadventure.engine.core.impl.factorymapproviders.EventGameObjectFactoryConfigurator;
-import es.eucm.eadventure.engine.core.platform.EAdInjector;
+import es.eucm.eadventure.engine.core.platform.GenericInjector;
 
 public class EventGOFactoryImpl extends
 		GOFactoryImpl<EAdEvent, EventGO<? extends EAdEvent>> implements
@@ -51,7 +51,7 @@ public class EventGOFactoryImpl extends
 
 	@Inject
 	public EventGOFactoryImpl(ReflectionProvider reflectionProvider,
-			EAdInjector injector) {
+			GenericInjector injector) {
 		super(false, reflectionProvider, injector);
 		EventGameObjectFactoryConfigurator provider = new EventGameObjectFactoryConfigurator();
 		setClassMap(provider.getMap());

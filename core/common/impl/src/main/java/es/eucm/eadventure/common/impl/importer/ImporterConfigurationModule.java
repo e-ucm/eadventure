@@ -105,25 +105,25 @@ import es.eucm.eadventure.common.impl.importer.subimporters.conditions.VarCondit
 import es.eucm.eadventure.common.impl.importer.subimporters.effects.EffectsImporterModule;
 import es.eucm.eadventure.common.impl.importer.subimporters.macros.MacroImporter;
 import es.eucm.eadventure.common.loader.InputStreamCreator;
-import es.eucm.eadventure.common.model.actions.EAdAction;
-import es.eucm.eadventure.common.model.conditions.impl.OperationCondition;
-import es.eucm.eadventure.common.model.effects.EAdEffect;
-import es.eucm.eadventure.common.model.effects.EAdMacro;
-import es.eucm.eadventure.common.model.effects.impl.text.EAdSpeakEffect;
+import es.eucm.eadventure.common.model.elements.EAdAction;
 import es.eucm.eadventure.common.model.elements.EAdAdventureModel;
 import es.eucm.eadventure.common.model.elements.EAdChapter;
 import es.eucm.eadventure.common.model.elements.EAdCondition;
-import es.eucm.eadventure.common.model.elements.EAdScene;
-import es.eucm.eadventure.common.model.elements.EAdSceneElement;
-import es.eucm.eadventure.common.model.elements.EAdSceneElementDef;
-import es.eucm.eadventure.common.model.elements.impl.EAdSceneImpl;
-import es.eucm.eadventure.common.model.elements.impl.EAdVideoScene;
-import es.eucm.eadventure.common.model.elements.impl.extra.EAdCutscene;
-import es.eucm.eadventure.common.model.events.EAdEvent;
-import es.eucm.eadventure.common.model.trajectories.impl.NodeTrajectoryDefinition;
+import es.eucm.eadventure.common.model.elements.EAdEffect;
+import es.eucm.eadventure.common.model.elements.EAdEvent;
+import es.eucm.eadventure.common.model.elements.VideoScene;
+import es.eucm.eadventure.common.model.elements.conditions.OperationCond;
+import es.eucm.eadventure.common.model.elements.effects.EffectsMacro;
+import es.eucm.eadventure.common.model.elements.effects.text.SpeakEf;
+import es.eucm.eadventure.common.model.elements.extra.EAdCutscene;
+import es.eucm.eadventure.common.model.elements.scene.EAdScene;
+import es.eucm.eadventure.common.model.elements.scene.EAdSceneElement;
+import es.eucm.eadventure.common.model.elements.scene.EAdSceneElementDef;
+import es.eucm.eadventure.common.model.elements.scenes.SceneImpl;
+import es.eucm.eadventure.common.model.elements.trajectories.NodeTrajectoryDefinition;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.Caption;
-import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.animation.Frame;
-import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.animation.FramesAnimation;
+import es.eucm.eadventure.common.resources.assets.drawable.basics.animation.Frame;
+import es.eucm.eadventure.common.resources.assets.drawable.basics.animation.FramesAnimation;
 
 /**
  * Guice module to configure the <e-Adventure> 1.X game importer
@@ -161,7 +161,7 @@ public class ImporterConfigurationModule extends AbstractModule {
 		EAdElementFactoryImpl.importerMap.put(Chapter.class,
 				ChapterImporter.class);
 
-		bind(new TypeLiteral<EAdElementImporter<Scene, EAdSceneImpl>>() {
+		bind(new TypeLiteral<EAdElementImporter<Scene, SceneImpl>>() {
 		}).to(SceneImporter.class);
 		EAdElementFactoryImpl.importerMap.put(Scene.class, SceneImporter.class);
 
@@ -170,7 +170,7 @@ public class ImporterConfigurationModule extends AbstractModule {
 		EAdElementFactoryImpl.importerMap.put(Slidescene.class,
 				SlidesceneImporter.class);
 
-		bind(new TypeLiteral<EAdElementImporter<Videoscene, EAdVideoScene>>() {
+		bind(new TypeLiteral<EAdElementImporter<Videoscene, VideoScene>>() {
 		}).to(VideosceneImporter.class);
 		EAdElementFactoryImpl.importerMap.put(Videoscene.class,
 				VideosceneImporter.class);
@@ -203,7 +203,7 @@ public class ImporterConfigurationModule extends AbstractModule {
 		EAdElementFactoryImpl.importerMap.put(GlobalState.class,
 				ConditionsImporter.class);
 
-		bind(new TypeLiteral<EAdElementImporter<Macro, EAdMacro>>() {
+		bind(new TypeLiteral<EAdElementImporter<Macro, EffectsMacro>>() {
 		}).to(MacroImporter.class);
 		EAdElementFactoryImpl.importerMap.put(Macro.class, MacroImporter.class);
 
@@ -229,14 +229,14 @@ public class ImporterConfigurationModule extends AbstractModule {
 		EAdElementFactoryImpl.importerMap.put(Exit.class, ExitImporter.class);
 
 		bind(
-				new TypeLiteral<EAdElementImporter<FlagCondition, OperationCondition>>() {
+				new TypeLiteral<EAdElementImporter<FlagCondition, OperationCond>>() {
 				}).to(FlagConditionImporter.class);
 		EAdElementFactoryImpl.importerMap
 				.put(es.eucm.eadventure.common.data.chapter.conditions.FlagCondition.class,
 						FlagConditionImporter.class);
 
 		bind(
-				new TypeLiteral<EAdElementImporter<es.eucm.eadventure.common.data.chapter.conditions.VarCondition, OperationCondition>>() {
+				new TypeLiteral<EAdElementImporter<es.eucm.eadventure.common.data.chapter.conditions.VarCondition, OperationCond>>() {
 				}).to(VarConditionImporter.class);
 		EAdElementFactoryImpl.importerMap
 				.put(es.eucm.eadventure.common.data.chapter.conditions.VarCondition.class,
@@ -268,7 +268,7 @@ public class ImporterConfigurationModule extends AbstractModule {
 				LineImporterToCaption.class);
 
 		bind(
-				new TypeLiteral<EAdElementImporter<ConversationLine, EAdSpeakEffect>>() {
+				new TypeLiteral<EAdElementImporter<ConversationLine, SpeakEf>>() {
 				}).to(LineImporterToShowText.class);
 		EAdElementFactoryImpl.importerMap.put(ConversationLine.class,
 				LineImporterToShowText.class);

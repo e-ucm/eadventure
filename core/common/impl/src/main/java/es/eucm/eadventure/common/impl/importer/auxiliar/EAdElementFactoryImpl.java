@@ -57,16 +57,16 @@ import es.eucm.eadventure.common.data.chapter.conversation.Conversation;
 import es.eucm.eadventure.common.impl.importer.interfaces.EAdElementFactory;
 import es.eucm.eadventure.common.impl.importer.interfaces.ResourceImporter;
 import es.eucm.eadventure.common.model.EAdElement;
-import es.eucm.eadventure.common.model.effects.EAdEffect;
 import es.eucm.eadventure.common.model.elements.EAdChapter;
 import es.eucm.eadventure.common.model.elements.EAdCondition;
-import es.eucm.eadventure.common.model.elements.EAdSceneElementDef;
-import es.eucm.eadventure.common.model.variables.EAdField;
-import es.eucm.eadventure.common.model.variables.impl.EAdFieldImpl;
-import es.eucm.eadventure.common.model.variables.impl.EAdVarDefImpl;
-import es.eucm.eadventure.common.model.variables.impl.SystemFields;
+import es.eucm.eadventure.common.model.elements.EAdEffect;
+import es.eucm.eadventure.common.model.elements.scene.EAdSceneElementDef;
+import es.eucm.eadventure.common.model.elements.variables.EAdField;
+import es.eucm.eadventure.common.model.elements.variables.FieldImpl;
+import es.eucm.eadventure.common.model.elements.variables.SystemFields;
+import es.eucm.eadventure.common.model.elements.variables.VarDefImpl;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.Image;
-import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.ImageImpl;
+import es.eucm.eadventure.common.resources.assets.drawable.basics.ImageImpl;
 
 @Singleton
 public class EAdElementFactoryImpl implements EAdElementFactory {
@@ -196,12 +196,12 @@ public class EAdElementFactoryImpl implements EAdElementFactory {
 		EAdField<?> var = vars.get(id);
 		if (var == null) {
 			if (type == Condition.FLAG_CONDITION)
-				var = new EAdFieldImpl<Boolean>(currentChapter,
-						new EAdVarDefImpl<Boolean>(id, Boolean.class,
+				var = new FieldImpl<Boolean>(currentChapter,
+						new VarDefImpl<Boolean>(id, Boolean.class,
 								Boolean.FALSE));
 			else
-				var = new EAdFieldImpl<Integer>(currentChapter,
-						new EAdVarDefImpl<Integer>(id, Integer.class, 0));
+				var = new FieldImpl<Integer>(currentChapter,
+						new VarDefImpl<Integer>(id, Integer.class, 0));
 			vars.put(id, var);
 		}
 		return var;

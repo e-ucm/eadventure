@@ -47,11 +47,11 @@ import es.eucm.eadventure.common.data.chapter.elements.Description;
 import es.eucm.eadventure.common.data.chapter.elements.Element;
 import es.eucm.eadventure.common.impl.importer.interfaces.EAdElementFactory;
 import es.eucm.eadventure.common.impl.importer.interfaces.ResourceImporter;
-import es.eucm.eadventure.common.model.actions.EAdAction;
-import es.eucm.eadventure.common.model.effects.impl.EAdActorActionsEffect;
-import es.eucm.eadventure.common.model.elements.EAdSceneElementDef;
-import es.eucm.eadventure.common.model.elements.impl.EAdSceneElementDefImpl;
-import es.eucm.eadventure.common.model.guievents.impl.EAdMouseEventImpl;
+import es.eucm.eadventure.common.model.elements.EAdAction;
+import es.eucm.eadventure.common.model.elements.effects.ActorActionsEf;
+import es.eucm.eadventure.common.model.elements.guievents.MouseEventImpl;
+import es.eucm.eadventure.common.model.elements.scene.EAdSceneElementDef;
+import es.eucm.eadventure.common.model.elements.scenes.SceneElementDefImpl;
 import es.eucm.eadventure.common.resources.StringHandler;
 
 public abstract class ActorImporter<P extends Element> implements
@@ -89,12 +89,12 @@ public abstract class ActorImporter<P extends Element> implements
 	@Override
 	public EAdSceneElementDef init(P oldObject) {
 		this.element = oldObject;
-		return new EAdSceneElementDefImpl();
+		return new SceneElementDefImpl();
 	}
 
 	@Override
 	public EAdSceneElementDef convert(P oldObject, Object object) {
-		EAdSceneElementDefImpl actor = (EAdSceneElementDefImpl) object;
+		SceneElementDefImpl actor = (SceneElementDefImpl) object;
 		actor.setId(oldObject.getId());
 		elementFactory.getCurrentChapterModel().getActors().add(actor);
 
@@ -127,10 +127,10 @@ public abstract class ActorImporter<P extends Element> implements
 
 	public abstract void initResourcesCorrespondencies();
 
-	protected void addActionsEffect(P oldObject, EAdSceneElementDefImpl actor) {
+	protected void addActionsEffect(P oldObject, SceneElementDefImpl actor) {
 		// add actions
-		EAdActorActionsEffect showActions = new EAdActorActionsEffect(actor);
-		actor.addBehavior(EAdMouseEventImpl.MOUSE_RIGHT_CLICK, showActions);
+		ActorActionsEf showActions = new ActorActionsEf(actor);
+		actor.addBehavior(MouseEventImpl.MOUSE_RIGHT_CLICK, showActions);
 		
 		// add other actions
 		actionImporter.addAllActions(oldObject.getActions(), actor, false);

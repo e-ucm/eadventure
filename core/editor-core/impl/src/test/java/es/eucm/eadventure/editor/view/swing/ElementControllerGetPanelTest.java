@@ -55,8 +55,8 @@ import javax.swing.WindowConstants;
 
 import es.eucm.eadventure.common.elementfactories.demos.scenes.ComplexElementScene;
 import es.eucm.eadventure.common.elementfactories.demos.scenes.InitScene;
-import es.eucm.eadventure.common.model.elements.EAdScene;
-import es.eucm.eadventure.common.model.elements.EAdSceneElementDef;
+import es.eucm.eadventure.common.model.elements.scene.EAdScene;
+import es.eucm.eadventure.common.model.elements.scene.EAdSceneElementDef;
 import es.eucm.eadventure.common.params.text.EAdString;
 import es.eucm.eadventure.common.resources.StringHandler;
 import es.eucm.eadventure.editor.control.CommandManager;

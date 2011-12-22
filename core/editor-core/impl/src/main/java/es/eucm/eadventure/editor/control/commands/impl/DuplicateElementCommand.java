@@ -37,8 +37,7 @@
 
 package es.eucm.eadventure.editor.control.commands.impl;
 
-import es.eucm.eadventure.common.interfaces.Copyable;
-import es.eucm.eadventure.common.model.extra.EAdList;
+import es.eucm.eadventure.common.model.elements.extra.EAdList;
 import es.eucm.eadventure.editor.control.Command;
 
 /**
@@ -86,11 +85,7 @@ public class DuplicateElementCommand<P> extends Command {
 	@SuppressWarnings("unchecked")
 	@Override
 	public boolean performCommand() {
-		if (elementList.contains(anElement) && anElement instanceof Copyable) {
-			duplicatedElement = ((Copyable<P>) anElement).copy();
-			elementList.add(duplicatedElement);
-			return true;
-		}
+		// TODO duplicate
 		return false;
 	}
 

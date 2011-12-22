@@ -40,10 +40,10 @@ package es.eucm.eadventure.engine.core.gameobjects.go;
 import java.util.List;
 
 import es.eucm.eadventure.common.interfaces.features.Positioned;
-import es.eucm.eadventure.common.util.EAdTransformation;
 import es.eucm.eadventure.engine.core.guiactions.GUIAction;
 import es.eucm.eadventure.engine.core.input.MouseState;
 import es.eucm.eadventure.engine.core.platform.RuntimeAsset;
+import es.eucm.eadventure.engine.core.util.EAdTransformation;
 
 public interface DrawableGO<T> extends GameObject<T>, Positioned, Renderable {
 	

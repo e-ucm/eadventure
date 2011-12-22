@@ -37,8 +37,8 @@
 
 package es.eucm.eadventure.engine.core.gameobjects.huds;
 
-import es.eucm.eadventure.common.model.actions.EAdAction;
-import es.eucm.eadventure.common.model.extra.EAdList;
+import es.eucm.eadventure.common.model.elements.EAdAction;
+import es.eucm.eadventure.common.model.elements.extra.EAdList;
 import es.eucm.eadventure.engine.core.gameobjects.go.GameObject;
 import es.eucm.eadventure.engine.core.gameobjects.go.SceneElementGO;
 

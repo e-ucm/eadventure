@@ -39,13 +39,13 @@ package es.eucm.eadventure.common.elementfactories.demos.scenes;
 
 import es.eucm.eadventure.common.elementfactories.EAdElementsFactory;
 import es.eucm.eadventure.common.elementfactories.StringFactory.StringType;
-import es.eucm.eadventure.common.model.effects.EAdEffect;
-import es.eucm.eadventure.common.model.effects.impl.timedevents.ShowTextAnimation;
+import es.eucm.eadventure.common.model.elements.EAdEffect;
+import es.eucm.eadventure.common.model.elements.effects.enums.ShowTextAnimation;
 import es.eucm.eadventure.common.params.EAdFontImpl;
 import es.eucm.eadventure.common.params.EAdURIImpl;
-import es.eucm.eadventure.common.params.fills.impl.EAdPaintImpl;
-import es.eucm.eadventure.common.params.fills.impl.EAdColor;
-import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.CaptionImpl;
+import es.eucm.eadventure.common.params.fills.EAdColor;
+import es.eucm.eadventure.common.params.fills.EAdPaintImpl;
+import es.eucm.eadventure.common.resources.assets.drawable.basics.CaptionImpl;
 
 public class TextsScene extends EmptyScene {
 	

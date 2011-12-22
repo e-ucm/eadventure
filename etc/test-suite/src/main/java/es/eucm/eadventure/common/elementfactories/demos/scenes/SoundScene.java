@@ -38,11 +38,11 @@
 package es.eucm.eadventure.common.elementfactories.demos.scenes;
 
 import es.eucm.eadventure.common.elementfactories.EAdElementsFactory;
-import es.eucm.eadventure.common.model.effects.EAdEffect;
+import es.eucm.eadventure.common.model.elements.EAdEffect;
 import es.eucm.eadventure.common.params.EAdFontImpl;
 import es.eucm.eadventure.common.params.EAdURIImpl;
-import es.eucm.eadventure.common.params.fills.impl.EAdPaintImpl;
-import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.CaptionImpl;
+import es.eucm.eadventure.common.params.fills.EAdPaintImpl;
+import es.eucm.eadventure.common.resources.assets.drawable.basics.CaptionImpl;
 
 public class SoundScene extends EmptyScene {
 	

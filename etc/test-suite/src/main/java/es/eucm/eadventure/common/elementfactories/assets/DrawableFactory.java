@@ -40,13 +40,13 @@ package es.eucm.eadventure.common.elementfactories.assets;
 import es.eucm.eadventure.common.interfaces.features.enums.Orientation;
 import es.eucm.eadventure.common.resources.assets.drawable.Drawable;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.Image;
-import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.ImageImpl;
-import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.animation.Frame;
-import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.animation.FramesAnimation;
+import es.eucm.eadventure.common.resources.assets.drawable.basics.ImageImpl;
+import es.eucm.eadventure.common.resources.assets.drawable.basics.animation.Frame;
+import es.eucm.eadventure.common.resources.assets.drawable.basics.animation.FramesAnimation;
 import es.eucm.eadventure.common.resources.assets.drawable.compounds.OrientedDrawable;
+import es.eucm.eadventure.common.resources.assets.drawable.compounds.OrientedDrawableImpl;
 import es.eucm.eadventure.common.resources.assets.drawable.compounds.StateDrawable;
-import es.eucm.eadventure.common.resources.assets.drawable.compounds.impl.OrientedDrawableImpl;
-import es.eucm.eadventure.common.resources.assets.drawable.compounds.impl.StateDrawableImpl;
+import es.eucm.eadventure.common.resources.assets.drawable.compounds.StateDrawableImpl;
 
 public class DrawableFactory {
 	

@@ -52,7 +52,7 @@ import android.graphics.Canvas;
 
 import es.eucm.eadventure.engine.core.platform.AssetHandler;
 import es.eucm.eadventure.engine.core.platform.assets.impl.RuntimeImage;
-import es.eucm.eadventure.engine.core.platform.rendering.EAdCanvas;
+import es.eucm.eadventure.engine.core.platform.rendering.GenericCanvas;
 
 public class AndroidEngineImage extends RuntimeImage<Canvas> {
 
@@ -145,7 +145,7 @@ public class AndroidEngineImage extends RuntimeImage<Canvas> {
 	}
 
 	@Override
-	public void render(EAdCanvas<Canvas> c) {
+	public void render(GenericCanvas<Canvas> c) {
 		c.getNativeGraphicContext().drawBitmap(getImage(), 0, 0, null);
 	}
 	

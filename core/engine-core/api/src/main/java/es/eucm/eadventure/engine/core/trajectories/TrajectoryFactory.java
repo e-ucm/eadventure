@@ -37,7 +37,7 @@
 
 package es.eucm.eadventure.engine.core.trajectories;
 
-import es.eucm.eadventure.common.model.trajectories.TrajectoryDefinition;
+import es.eucm.eadventure.common.model.elements.trajectories.TrajectoryDefinition;
 
 /**
  * A factory with all {@link TrajectoryGenerator} for all

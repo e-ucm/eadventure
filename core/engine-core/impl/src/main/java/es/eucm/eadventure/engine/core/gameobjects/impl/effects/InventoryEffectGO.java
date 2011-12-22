@@ -39,10 +39,10 @@ package es.eucm.eadventure.engine.core.gameobjects.impl.effects;
 
 import com.google.inject.Inject;
 
-import es.eucm.eadventure.common.model.effects.impl.EAdInventoryEffect;
-import es.eucm.eadventure.common.model.elements.EAdSceneElement;
-import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
-import es.eucm.eadventure.common.model.elements.impl.EAdSceneElementDefImpl;
+import es.eucm.eadventure.common.model.elements.effects.ModifyInventoryEf;
+import es.eucm.eadventure.common.model.elements.scene.EAdSceneElement;
+import es.eucm.eadventure.common.model.elements.scenes.SceneElementDefImpl;
+import es.eucm.eadventure.common.model.elements.scenes.SceneElementImpl;
 import es.eucm.eadventure.common.resources.StringHandler;
 import es.eucm.eadventure.engine.core.game.GameState;
 import es.eucm.eadventure.engine.core.gameobjects.factories.SceneElementGOFactory;
@@ -61,7 +61,7 @@ import es.eucm.eadventure.engine.core.platform.GUI;
  * </p>
  * 
  */
-public class InventoryEffectGO extends AbstractEffectGO<EAdInventoryEffect> {
+public class InventoryEffectGO extends AbstractEffectGO<ModifyInventoryEf> {
 
 	private InventoryHandler inventoryHandler;
 
@@ -83,11 +83,11 @@ public class InventoryEffectGO extends AbstractEffectGO<EAdInventoryEffect> {
 			if (element.isRemoveFromScene()) {
 				EAdSceneElement sceneElement = gameState.getValueMap()
 						.getValue(element.getSceneElementDef(),
-								EAdSceneElementDefImpl.VAR_SCENE_ELEMENT);
+								SceneElementDefImpl.VAR_SCENE_ELEMENT);
 				gameState.getValueMap().setValue(sceneElement,
-						EAdBasicSceneElement.VAR_VISIBLE, false);
+						SceneElementImpl.VAR_VISIBLE, false);
 				gameState.getValueMap().setValue(sceneElement,
-						EAdBasicSceneElement.VAR_ENABLE, true);
+						SceneElementImpl.VAR_ENABLE, true);
 			}
 			break;
 		case REMOVE_FROM_INVENTORY:

@@ -48,7 +48,7 @@ import playn.core.Image;
 import com.google.inject.Inject;
 
 import es.eucm.eadventure.engine.core.platform.AssetHandler;
-import es.eucm.eadventure.engine.core.platform.rendering.EAdCanvas;
+import es.eucm.eadventure.engine.core.platform.rendering.GenericCanvas;
 
 public class PlayNEngineImage extends RuntimeImage<Canvas> {
 
@@ -125,7 +125,7 @@ public class PlayNEngineImage extends RuntimeImage<Canvas> {
 	}
 
 	@Override
-	public void render(EAdCanvas<Canvas> c) {
+	public void render(GenericCanvas<Canvas> c) {
 		c.getNativeGraphicContext().drawImage(image, 0, 0);
 	}
 

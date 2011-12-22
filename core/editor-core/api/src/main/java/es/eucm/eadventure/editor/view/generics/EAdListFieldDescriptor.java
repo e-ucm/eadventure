@@ -37,7 +37,7 @@
 
 package es.eucm.eadventure.editor.view.generics;
 
-import es.eucm.eadventure.common.model.extra.EAdList;
+import es.eucm.eadventure.common.model.elements.extra.EAdList;
 
 public interface EAdListFieldDescriptor<S> extends FieldDescriptor<EAdList<S>> {
 

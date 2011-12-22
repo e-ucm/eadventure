@@ -41,8 +41,8 @@ import es.eucm.eadventure.common.EAdElementImporter;
 import es.eucm.eadventure.common.Factory;
 import es.eucm.eadventure.common.data.chapter.effects.Effect;
 import es.eucm.eadventure.common.data.chapter.effects.Effects;
-import es.eucm.eadventure.common.model.effects.EAdEffect;
-import es.eucm.eadventure.common.model.effects.EAdMacro;
+import es.eucm.eadventure.common.model.elements.EAdEffect;
+import es.eucm.eadventure.common.model.elements.effects.EffectsMacro;
 
 /**
  * Factory for effects importers
@@ -63,6 +63,6 @@ public interface EffectsImporterFactory extends
 	 *            old effects
 	 * @return the macro; {@code null} if effect was empty.
 	 */
-	EAdMacro getMacroEffects(Effects effect);
+	EffectsMacro getMacroEffects(Effects effect);
 
 }

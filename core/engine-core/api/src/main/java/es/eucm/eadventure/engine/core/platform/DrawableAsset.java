@@ -38,7 +38,7 @@
 package es.eucm.eadventure.engine.core.platform;
 
 import es.eucm.eadventure.common.resources.assets.drawable.Drawable;
-import es.eucm.eadventure.engine.core.platform.rendering.EAdCanvas;
+import es.eucm.eadventure.engine.core.platform.rendering.GenericCanvas;
 
 /**
  * <p>
@@ -78,7 +78,7 @@ public interface DrawableAsset<T extends Drawable, GraphicContext> extends Runti
 	 * @param c
 	 *            The canvas where to render the asset
 	 */
-	void render(EAdCanvas<GraphicContext> c);
+	void render(GenericCanvas<GraphicContext> c);
 
 	/**
 	 * Returns if this asset contains the given coordinates

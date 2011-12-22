@@ -43,14 +43,13 @@ import es.eucm.eadventure.common.EAdElementImporter;
 import es.eucm.eadventure.common.data.chapter.conditions.Conditions;
 import es.eucm.eadventure.common.data.chapter.effects.TriggerConversationEffect;
 import es.eucm.eadventure.common.impl.importer.interfaces.EAdElementFactory;
-import es.eucm.eadventure.common.model.conditions.impl.EmptyCondition;
-import es.eucm.eadventure.common.model.effects.EAdEffect;
-import es.eucm.eadventure.common.model.effects.EAdMacro;
-import es.eucm.eadventure.common.model.effects.impl.EAdMacroImpl;
-import es.eucm.eadventure.common.model.effects.impl.EAdTriggerMacro;
 import es.eucm.eadventure.common.model.elements.EAdCondition;
+import es.eucm.eadventure.common.model.elements.EAdEffect;
+import es.eucm.eadventure.common.model.elements.conditions.EmptyCond;
+import es.eucm.eadventure.common.model.elements.effects.EffectsMacro;
+import es.eucm.eadventure.common.model.elements.effects.TriggerMacroEf;
 
-public class TriggerConversationImporter extends EffectImporter<TriggerConversationEffect, EAdTriggerMacro>{
+public class TriggerConversationImporter extends EffectImporter<TriggerConversationEffect, TriggerMacroEf>{
 	
 	private EAdElementFactory factory;
 	
@@ -62,18 +61,18 @@ public class TriggerConversationImporter extends EffectImporter<TriggerConversat
 	}
 
 	@Override
-	public EAdTriggerMacro init(TriggerConversationEffect oldObject) {
-		EAdTriggerMacro triggerMacro = new EAdTriggerMacro( );
+	public TriggerMacroEf init(TriggerConversationEffect oldObject) {
+		TriggerMacroEf triggerMacro = new TriggerMacroEf( );
 		triggerMacro.setQueueable(true);
 		return triggerMacro;
 	}
 	
 	@Override
-	public EAdTriggerMacro convert(TriggerConversationEffect oldObject, Object object) {
-		EAdTriggerMacro triggerMacro = super.convert(oldObject, object);
-		EAdMacro macro = new EAdMacroImpl();
+	public TriggerMacroEf convert(TriggerConversationEffect oldObject, Object object) {
+		TriggerMacroEf triggerMacro = super.convert(oldObject, object);
+		EffectsMacro macro = new EffectsMacro();
 		macro.setId("macroConversation");
-		triggerMacro.putMacro(macro, EmptyCondition.TRUE_EMPTY_CONDITION);
+		triggerMacro.putMacro(macro, EmptyCond.TRUE_EMPTY_CONDITION);
 		
 		EAdEffect effect = (EAdEffect) factory.getElementById(oldObject.getTargetId());
 		if ( effect != null )

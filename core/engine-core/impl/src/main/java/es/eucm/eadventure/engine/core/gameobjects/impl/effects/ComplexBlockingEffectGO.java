@@ -39,11 +39,10 @@ package es.eucm.eadventure.engine.core.gameobjects.impl.effects;
 
 import com.google.inject.Inject;
 
-import es.eucm.eadventure.common.model.effects.EAdEffect;
-import es.eucm.eadventure.common.model.effects.impl.EAdComplexBlockingEffect;
-import es.eucm.eadventure.common.model.elements.EAdSceneElement;
+import es.eucm.eadventure.common.model.elements.EAdEffect;
+import es.eucm.eadventure.common.model.elements.effects.ComplexBlockingEffect;
+import es.eucm.eadventure.common.model.elements.scene.EAdSceneElement;
 import es.eucm.eadventure.common.resources.StringHandler;
-import es.eucm.eadventure.common.util.EAdTransformation;
 import es.eucm.eadventure.engine.core.evaluators.EvaluatorFactory;
 import es.eucm.eadventure.engine.core.game.GameState;
 import es.eucm.eadventure.engine.core.gameobjects.factories.SceneElementGOFactory;
@@ -51,9 +50,10 @@ import es.eucm.eadventure.engine.core.gameobjects.go.SceneElementGO;
 import es.eucm.eadventure.engine.core.guiactions.GUIAction;
 import es.eucm.eadventure.engine.core.platform.AssetHandler;
 import es.eucm.eadventure.engine.core.platform.GUI;
+import es.eucm.eadventure.engine.core.util.EAdTransformation;
 
 public class ComplexBlockingEffectGO extends
-		AbstractEffectGO<EAdComplexBlockingEffect> {
+		AbstractEffectGO<ComplexBlockingEffect> {
 	
 	private EvaluatorFactory evaluatorFactory;
 

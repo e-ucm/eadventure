@@ -37,14 +37,14 @@
 
 package es.eucm.eadventure.engine.core.test.operators;
 
-import es.eucm.eadventure.common.model.variables.impl.operations.BooleanOperation;
+import es.eucm.eadventure.common.model.elements.variables.operations.BooleanOp;
 
-public class BooleanOperationTest extends OperatorsTest<BooleanOperation> {
+public class BooleanOperationTest extends OperatorsTest<BooleanOp> {
 
 	@Override
 	public void generateOperations() {
-		BooleanOperation falseOp = BooleanOperation.FALSE_OP;
-		BooleanOperation trueOp = BooleanOperation.TRUE_OP;
+		BooleanOp falseOp = BooleanOp.FALSE_OP;
+		BooleanOp trueOp = BooleanOp.TRUE_OP;
 
 		super.addOperationTest(falseOp, Boolean.FALSE);
 		super.addOperationTest(trueOp, Boolean.TRUE);

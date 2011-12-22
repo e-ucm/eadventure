@@ -37,25 +37,24 @@
 
 package es.eucm.eadventure.common.elementfactories.demos.scenes;
 
-import es.eucm.eadventure.common.model.effects.impl.EAdInterpolationEffect;
-import es.eucm.eadventure.common.model.effects.impl.enums.InterpolationType;
-import es.eucm.eadventure.common.model.effects.impl.enums.InterpolationLoopType;
-import es.eucm.eadventure.common.model.effects.impl.variables.EAdChangeFieldValueEffect;
-import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
-import es.eucm.eadventure.common.model.events.EAdSceneElementEvent;
-import es.eucm.eadventure.common.model.events.enums.SceneElementEventType;
-import es.eucm.eadventure.common.model.events.enums.TimedEventType;
-import es.eucm.eadventure.common.model.events.impl.EAdSceneElementEventImpl;
-import es.eucm.eadventure.common.model.events.impl.EAdTimedEventImpl;
-import es.eucm.eadventure.common.model.variables.EAdField;
-import es.eucm.eadventure.common.model.variables.impl.EAdFieldImpl;
-import es.eucm.eadventure.common.model.variables.impl.operations.MathOperation;
-import es.eucm.eadventure.common.params.fills.impl.EAdPaintImpl;
-import es.eucm.eadventure.common.params.fills.impl.EAdColor;
-import es.eucm.eadventure.common.params.geom.impl.EAdPositionImpl;
-import es.eucm.eadventure.common.params.geom.impl.EAdPositionImpl.Corner;
-import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.shapes.CircleShape;
-import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.shapes.RectangleShape;
+import es.eucm.eadventure.common.model.elements.effects.InterpolationEf;
+import es.eucm.eadventure.common.model.elements.effects.enums.InterpolationLoopType;
+import es.eucm.eadventure.common.model.elements.effects.enums.InterpolationType;
+import es.eucm.eadventure.common.model.elements.effects.variables.ChangeFieldEf;
+import es.eucm.eadventure.common.model.elements.events.SceneElementEv;
+import es.eucm.eadventure.common.model.elements.events.TimedEv;
+import es.eucm.eadventure.common.model.elements.events.enums.SceneElementEventType;
+import es.eucm.eadventure.common.model.elements.events.enums.TimedEventType;
+import es.eucm.eadventure.common.model.elements.scenes.SceneElementImpl;
+import es.eucm.eadventure.common.model.elements.variables.EAdField;
+import es.eucm.eadventure.common.model.elements.variables.FieldImpl;
+import es.eucm.eadventure.common.model.elements.variables.operations.MathOp;
+import es.eucm.eadventure.common.params.fills.EAdColor;
+import es.eucm.eadventure.common.params.fills.EAdPaintImpl;
+import es.eucm.eadventure.common.resources.assets.drawable.basics.shapes.CircleShape;
+import es.eucm.eadventure.common.resources.assets.drawable.basics.shapes.RectangleShape;
+import es.eucm.eadventure.common.util.EAdPositionImpl;
+import es.eucm.eadventure.common.util.EAdPositionImpl.Corner;
 
 public class DepthZScene extends EmptyScene {
 	
@@ -63,35 +62,35 @@ public class DepthZScene extends EmptyScene {
 		
 		int totalTime = 2000;
 		
-		EAdBasicSceneElement e1 = new EAdBasicSceneElement(new RectangleShape( 50, 500, new EAdPaintImpl( EAdColor.RED, EAdColor.BLACK ) ));
+		SceneElementImpl e1 = new SceneElementImpl(new RectangleShape( 50, 500, new EAdPaintImpl( EAdColor.RED, EAdColor.BLACK ) ));
 		e1.setPosition(new EAdPositionImpl( Corner.CENTER, 400, 300 ));
 		getComponents().add(e1);
 		
-		EAdBasicSceneElement e2 = new EAdBasicSceneElement( new CircleShape( 20, 20, 20, 20, new EAdPaintImpl( EAdColor.GREEN, EAdColor.BLACK ) ));
+		SceneElementImpl e2 = new SceneElementImpl( new CircleShape( 20, 20, 20, 20, new EAdPaintImpl( EAdColor.GREEN, EAdColor.BLACK ) ));
 		e2.setPosition(new EAdPositionImpl( Corner.CENTER, 10, 300 ));
 		getComponents().add(e2);
 		
-		EAdField<Integer> xField = new EAdFieldImpl<Integer>(e2, EAdBasicSceneElement.VAR_X);
-		EAdInterpolationEffect effect = new EAdInterpolationEffect(xField, 50, 750, totalTime, InterpolationLoopType.REVERSE, InterpolationType.LINEAR);
+		EAdField<Integer> xField = new FieldImpl<Integer>(e2, SceneElementImpl.VAR_X);
+		InterpolationEf effect = new InterpolationEf(xField, 50, 750, totalTime, InterpolationLoopType.REVERSE, InterpolationType.LINEAR);
 		
-		EAdTimedEventImpl timedEvent = new EAdTimedEventImpl();
+		TimedEv timedEvent = new TimedEv();
 		timedEvent.setTime(totalTime);
-		e2.setVarInitialValue(EAdBasicSceneElement.VAR_Z, 1);
-		e2.setVarInitialValue(EAdBasicSceneElement.VAR_SCALE, 1.2f);
+		e2.setVarInitialValue(SceneElementImpl.VAR_Z, 1);
+		e2.setVarInitialValue(SceneElementImpl.VAR_SCALE, 1.2f);
 		
-		EAdField<Integer> zField = new EAdFieldImpl<Integer>(e2, EAdBasicSceneElement.VAR_Z);
-		EAdChangeFieldValueEffect changeZ = new EAdChangeFieldValueEffect( zField, new MathOperation("- [0]", zField ));
+		EAdField<Integer> zField = new FieldImpl<Integer>(e2, SceneElementImpl.VAR_Z);
+		ChangeFieldEf changeZ = new ChangeFieldEf( zField, new MathOp("- [0]", zField ));
 		changeZ.setId("changeZ");
 		
-		EAdField<Float> scaleField = new EAdFieldImpl<Float>(e2, EAdBasicSceneElement.VAR_SCALE);
-		EAdChangeFieldValueEffect changeScale = new EAdChangeFieldValueEffect( scaleField, new MathOperation("1 / [0]", scaleField ));
+		EAdField<Float> scaleField = new FieldImpl<Float>(e2, SceneElementImpl.VAR_SCALE);
+		ChangeFieldEf changeScale = new ChangeFieldEf( scaleField, new MathOp("1 / [0]", scaleField ));
 		changeScale.setId("changeSacle");
 		timedEvent.addEffect(TimedEventType.START_TIME, changeScale);
 		timedEvent.addEffect(TimedEventType.START_TIME, changeZ);
 		e2.getEvents().add(timedEvent);
 		
 		
-		EAdSceneElementEvent event = new EAdSceneElementEventImpl();
+		SceneElementEv event = new SceneElementEv();
 		event.addEffect(SceneElementEventType.ADDED_TO_SCENE, effect);
 		
 		e2.getEvents().add(event);

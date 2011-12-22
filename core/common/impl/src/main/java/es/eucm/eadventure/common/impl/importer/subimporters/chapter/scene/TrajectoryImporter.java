@@ -41,7 +41,7 @@ import es.eucm.eadventure.common.EAdElementImporter;
 import es.eucm.eadventure.common.data.chapter.Trajectory;
 import es.eucm.eadventure.common.data.chapter.Trajectory.Node;
 import es.eucm.eadventure.common.data.chapter.Trajectory.Side;
-import es.eucm.eadventure.common.model.trajectories.impl.NodeTrajectoryDefinition;
+import es.eucm.eadventure.common.model.elements.trajectories.NodeTrajectoryDefinition;
 
 public class TrajectoryImporter implements
 		EAdElementImporter<Trajectory, NodeTrajectoryDefinition> {

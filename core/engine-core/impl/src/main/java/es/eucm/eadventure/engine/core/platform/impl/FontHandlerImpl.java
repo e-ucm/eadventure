@@ -43,8 +43,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import es.eucm.eadventure.common.params.EAdFontImpl;
-import es.eucm.eadventure.common.params.geom.EAdRectangle;
 import es.eucm.eadventure.common.params.text.EAdFont;
+import es.eucm.eadventure.common.util.EAdRectangleImpl;
 import es.eucm.eadventure.engine.core.platform.AssetHandler;
 import es.eucm.eadventure.engine.core.platform.FontHandler;
 import es.eucm.eadventure.engine.core.platform.RuntimeFont;
@@ -135,7 +135,7 @@ public abstract class FontHandlerImpl implements FontHandler {
 	 * @return the string bounds, <b>null</b> if font is not present in the
 	 *         cache
 	 */
-	public EAdRectangle stringBounds(String string, EAdFont font) {
+	public EAdRectangleImpl stringBounds(String string, EAdFont font) {
 		if (fontCache.containsKey(font))
 			return fontCache.get(font).stringBounds(string);
 		else

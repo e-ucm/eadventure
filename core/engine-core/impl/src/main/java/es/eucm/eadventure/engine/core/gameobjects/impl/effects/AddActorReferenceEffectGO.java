@@ -39,14 +39,13 @@ package es.eucm.eadventure.engine.core.gameobjects.impl.effects;
 
 import com.google.inject.Inject;
 
-import es.eucm.eadventure.common.model.effects.impl.EAdAddActorReferenceEffect;
-import es.eucm.eadventure.common.model.effects.impl.sceneelements.AbstractSceneElementEffect;
-import es.eucm.eadventure.common.model.elements.EAdScene;
-import es.eucm.eadventure.common.model.elements.EAdSceneElementDef;
-import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
-import es.eucm.eadventure.common.model.events.EAdSceneElementEvent;
-import es.eucm.eadventure.common.model.events.enums.SceneElementEventType;
-import es.eucm.eadventure.common.model.events.impl.EAdSceneElementEventImpl;
+import es.eucm.eadventure.common.model.elements.effects.AddActorReferenceEf;
+import es.eucm.eadventure.common.model.elements.effects.sceneelements.AbstractSceneElementEffect;
+import es.eucm.eadventure.common.model.elements.events.SceneElementEv;
+import es.eucm.eadventure.common.model.elements.events.enums.SceneElementEventType;
+import es.eucm.eadventure.common.model.elements.scene.EAdScene;
+import es.eucm.eadventure.common.model.elements.scene.EAdSceneElementDef;
+import es.eucm.eadventure.common.model.elements.scenes.SceneElementImpl;
 import es.eucm.eadventure.common.resources.StringHandler;
 import es.eucm.eadventure.engine.core.game.GameState;
 import es.eucm.eadventure.engine.core.gameobjects.factories.SceneElementGOFactory;
@@ -54,7 +53,7 @@ import es.eucm.eadventure.engine.core.platform.AssetHandler;
 import es.eucm.eadventure.engine.core.platform.GUI;
 
 public class AddActorReferenceEffectGO extends
-		AbstractEffectGO<EAdAddActorReferenceEffect> {
+		AbstractEffectGO<AddActorReferenceEf> {
 
 	@Inject
 	public AddActorReferenceEffectGO(AssetHandler assetHandler,
@@ -70,9 +69,9 @@ public class AddActorReferenceEffectGO extends
 		EAdScene scene = gameState.getScene().getElement();
 		if (scene != null) {
 			EAdSceneElementDef actor = element.getActor();
-			EAdBasicSceneElement ref = new EAdBasicSceneElement(actor);
+			SceneElementImpl ref = new SceneElementImpl(actor);
 			ref.setPosition(element.getPosition());
-			EAdSceneElementEvent event = new EAdSceneElementEventImpl();
+			SceneElementEv event = new SceneElementEv();
 			event.addEffect(SceneElementEventType.ADDED_TO_SCENE,
 					element.getInitialEffect());
 			((AbstractSceneElementEffect) element.getInitialEffect())

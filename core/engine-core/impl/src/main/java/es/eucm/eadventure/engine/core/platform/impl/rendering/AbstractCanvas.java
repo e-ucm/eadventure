@@ -45,10 +45,10 @@ import es.eucm.eadventure.common.params.paint.EAdPaint;
 import es.eucm.eadventure.common.resources.assets.drawable.filters.DrawableFilter;
 import es.eucm.eadventure.engine.core.platform.DrawableAsset;
 import es.eucm.eadventure.engine.core.platform.FontHandler;
-import es.eucm.eadventure.engine.core.platform.rendering.EAdCanvas;
+import es.eucm.eadventure.engine.core.platform.rendering.GenericCanvas;
 import es.eucm.eadventure.engine.core.platform.rendering.filters.FilterFactory;
 
-public abstract class AbstractCanvas<T> implements EAdCanvas<T> {
+public abstract class AbstractCanvas<T> implements GenericCanvas<T> {
 	
 	protected static final Logger logger = Logger.getLogger("EAdCanvas");
 	

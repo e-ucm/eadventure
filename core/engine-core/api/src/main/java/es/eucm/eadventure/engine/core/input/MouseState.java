@@ -39,8 +39,8 @@ package es.eucm.eadventure.engine.core.input;
 
 import java.util.Queue;
 
-import es.eucm.eadventure.common.model.elements.EAdSceneElementDef;
-import es.eucm.eadventure.common.model.guievents.enums.MouseButton;
+import es.eucm.eadventure.common.model.elements.guievents.enums.MouseButton;
+import es.eucm.eadventure.common.model.elements.scene.EAdSceneElementDef;
 import es.eucm.eadventure.engine.core.gameobjects.go.DrawableGO;
 import es.eucm.eadventure.engine.core.gameobjects.go.SceneElementGO;
 import es.eucm.eadventure.engine.core.guiactions.MouseAction;

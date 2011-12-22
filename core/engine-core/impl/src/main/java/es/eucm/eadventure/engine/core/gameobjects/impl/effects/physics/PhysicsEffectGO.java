@@ -50,14 +50,14 @@ import org.jbox2d.dynamics.joints.RevoluteJointDef;
 
 import com.google.inject.Inject;
 
-import es.eucm.eadventure.common.model.effects.impl.physics.EAdPhysicsEffect;
-import es.eucm.eadventure.common.model.effects.impl.physics.PhShape;
-import es.eucm.eadventure.common.model.effects.impl.physics.PhType;
-import es.eucm.eadventure.common.model.elements.EAdScene;
-import es.eucm.eadventure.common.model.elements.EAdSceneElement;
-import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
-import es.eucm.eadventure.common.model.variables.EAdVarDef;
-import es.eucm.eadventure.common.model.variables.impl.EAdVarDefImpl;
+import es.eucm.eadventure.common.model.elements.effects.enums.PhShape;
+import es.eucm.eadventure.common.model.elements.effects.enums.PhType;
+import es.eucm.eadventure.common.model.elements.effects.physics.PhysicsEffect;
+import es.eucm.eadventure.common.model.elements.scene.EAdScene;
+import es.eucm.eadventure.common.model.elements.scene.EAdSceneElement;
+import es.eucm.eadventure.common.model.elements.scenes.SceneElementImpl;
+import es.eucm.eadventure.common.model.elements.variables.EAdVarDef;
+import es.eucm.eadventure.common.model.elements.variables.VarDefImpl;
 import es.eucm.eadventure.common.resources.StringHandler;
 import es.eucm.eadventure.engine.core.game.GameLoop;
 import es.eucm.eadventure.engine.core.game.GameState;
@@ -67,7 +67,7 @@ import es.eucm.eadventure.engine.core.gameobjects.impl.effects.AbstractEffectGO;
 import es.eucm.eadventure.engine.core.platform.AssetHandler;
 import es.eucm.eadventure.engine.core.platform.GUI;
 
-public class PhysicsEffectGO extends AbstractEffectGO<EAdPhysicsEffect> {
+public class PhysicsEffectGO extends AbstractEffectGO<PhysicsEffect> {
 
 	public static float WORLD_SCALE = 15.0f;
 	
@@ -75,10 +75,10 @@ public class PhysicsEffectGO extends AbstractEffectGO<EAdPhysicsEffect> {
 
 	private float timeStep;
 
-	public static final EAdVarDef<Body> VAR_PH_BODY = new EAdVarDefImpl<Body>(
+	public static final EAdVarDef<Body> VAR_PH_BODY = new VarDefImpl<Body>(
 			"ph_body", Body.class, null);
 
-	public static final EAdVarDef<World> VAR_PH_WORLD = new EAdVarDefImpl<World>(
+	public static final EAdVarDef<World> VAR_PH_WORLD = new VarDefImpl<World>(
 			"ph_world", World.class, null);
 
 	@Inject
@@ -141,11 +141,11 @@ public class PhysicsEffectGO extends AbstractEffectGO<EAdPhysicsEffect> {
 				Body b = valueMap.getValue(e, VAR_PH_BODY);
 				if (b != null) {
 
-					valueMap.setValue(e, EAdBasicSceneElement.VAR_X,
+					valueMap.setValue(e, SceneElementImpl.VAR_X,
 							(int) (b.getWorldCenter().x * WORLD_SCALE));
-					valueMap.setValue(e, EAdBasicSceneElement.VAR_Y,
+					valueMap.setValue(e, SceneElementImpl.VAR_Y,
 							(int) (b.getWorldCenter().y * WORLD_SCALE));
-					valueMap.setValue(e, EAdBasicSceneElement.VAR_ROTATION,
+					valueMap.setValue(e, SceneElementImpl.VAR_ROTATION,
 							b.getAngle());
 				}
 			}
@@ -166,14 +166,14 @@ public class PhysicsEffectGO extends AbstractEffectGO<EAdPhysicsEffect> {
 
 	public static void createBody(World world, EAdSceneElement e,
 			ValueMap valueMap) {
-		float x = valueMap.getValue(e, EAdBasicSceneElement.VAR_X) / WORLD_SCALE;
-		float y = valueMap.getValue(e, EAdBasicSceneElement.VAR_Y) / WORLD_SCALE;
-		float width = valueMap.getValue(e, EAdBasicSceneElement.VAR_WIDTH) / WORLD_SCALE;
-		float height = valueMap.getValue(e, EAdBasicSceneElement.VAR_HEIGHT) / WORLD_SCALE;
+		float x = valueMap.getValue(e, SceneElementImpl.VAR_X) / WORLD_SCALE;
+		float y = valueMap.getValue(e, SceneElementImpl.VAR_Y) / WORLD_SCALE;
+		float width = valueMap.getValue(e, SceneElementImpl.VAR_WIDTH) / WORLD_SCALE;
+		float height = valueMap.getValue(e, SceneElementImpl.VAR_HEIGHT) / WORLD_SCALE;
 
 		// TODO what if corner is not center?
-		PhType phType = valueMap.getValue(e, EAdPhysicsEffect.VAR_PH_TYPE);
-		PhShape phShape = valueMap.getValue(e, EAdPhysicsEffect.VAR_PH_SHAPE);
+		PhType phType = valueMap.getValue(e, PhysicsEffect.VAR_PH_TYPE);
+		PhShape phShape = valueMap.getValue(e, PhysicsEffect.VAR_PH_SHAPE);
 
 		Shape s = null;
 		switch (phShape) {
@@ -199,15 +199,15 @@ public class PhysicsEffectGO extends AbstractEffectGO<EAdPhysicsEffect> {
 		}
 
 		bd.position.set(x, y);
-		bd.angle = valueMap.getValue(e, EAdBasicSceneElement.VAR_ROTATION);
+		bd.angle = valueMap.getValue(e, SceneElementImpl.VAR_ROTATION);
 
 		FixtureDef fixture = new FixtureDef();
 		fixture.shape = s;
-		fixture.density = valueMap.getValue(e, EAdPhysicsEffect.VAR_PH_DENSITY);
+		fixture.density = valueMap.getValue(e, PhysicsEffect.VAR_PH_DENSITY);
 		fixture.friction = valueMap.getValue(e,
-				EAdPhysicsEffect.VAR_PH_FRICTION);
+				PhysicsEffect.VAR_PH_FRICTION);
 		fixture.restitution = valueMap.getValue(e,
-				EAdPhysicsEffect.VAR_PH_RESTITUTION);
+				PhysicsEffect.VAR_PH_RESTITUTION);
 
 		Body body = world.createBody(bd);
 		body.createFixture(fixture);

@@ -40,9 +40,9 @@ package es.eucm.eadventure.engine.core.platform.impl;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
 
-import es.eucm.eadventure.engine.core.platform.EAdInjector;
+import es.eucm.eadventure.engine.core.platform.GenericInjector;
 
-public class JavaInjector implements EAdInjector {
+public class JavaInjector implements GenericInjector {
 	
 	private Injector injector;
 

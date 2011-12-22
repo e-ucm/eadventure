@@ -45,7 +45,7 @@ import com.google.inject.Guice;
 import com.google.inject.Injector;
 
 import es.eucm.eadventure.common.resources.assets.drawable.basics.SpriteImage;
-import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.SpriteImageImpl;
+import es.eucm.eadventure.common.resources.assets.drawable.basics.SpriteImageImpl;
 import es.eucm.eadventure.engine.core.platform.assets.impl.DesktopEngineSpriteImage;
 import es.eucm.eadventure.engine.core.platform.impl.extra.DesktopAssetHandlerModule;
 

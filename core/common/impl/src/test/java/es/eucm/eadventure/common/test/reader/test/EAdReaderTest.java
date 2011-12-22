@@ -55,7 +55,7 @@ import com.google.inject.name.Names;
 
 import es.eucm.eadventure.common.impl.reader.EAdAdventureDOMModelReader;
 import es.eucm.eadventure.common.model.elements.EAdAdventureModel;
-import es.eucm.eadventure.common.model.impl.EAdAdventureModelImpl;
+import es.eucm.eadventure.common.model.elements.EAdAdventureModelImpl;
 
 public class EAdReaderTest extends TestCase {
 

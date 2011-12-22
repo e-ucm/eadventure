@@ -44,14 +44,14 @@ import java.util.logging.Logger;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
-import es.eucm.eadventure.common.model.conditions.impl.ListedCondition;
-import es.eucm.eadventure.common.model.conditions.impl.enums.EmptyConditionValue;
 import es.eucm.eadventure.common.model.elements.EAdCondition;
+import es.eucm.eadventure.common.model.elements.conditions.ListedCond;
+import es.eucm.eadventure.common.model.elements.conditions.enums.EmptyConditionValue;
 import es.eucm.eadventure.engine.core.evaluators.Evaluator;
 import es.eucm.eadventure.engine.core.evaluators.EvaluatorFactory;
 
 @Singleton
-public class ListedConditionEvaluator implements Evaluator<ListedCondition> {
+public class ListedConditionEvaluator implements Evaluator<ListedCond> {
 
 	private static final Logger logger = Logger.getLogger("ListedConditionEvaluator");
 	
@@ -63,7 +63,7 @@ public class ListedConditionEvaluator implements Evaluator<ListedCondition> {
 	}
 	
 	@Override
-	public boolean evaluate(ListedCondition condition) {
+	public boolean evaluate(ListedCond condition) {
 		boolean temp = false;
 		if (condition.getNullOperator().getValue() == EmptyConditionValue.TRUE)
 			temp = true;

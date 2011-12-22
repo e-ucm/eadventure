@@ -50,13 +50,12 @@ import es.eucm.eadventure.common.data.chapter.elements.ActiveArea;
 import es.eucm.eadventure.common.data.chapter.scenes.Scene;
 import es.eucm.eadventure.common.impl.importer.interfaces.EAdElementFactory;
 import es.eucm.eadventure.common.model.elements.EAdChapter;
-import es.eucm.eadventure.common.model.elements.EAdScene;
-import es.eucm.eadventure.common.model.events.EAdEvent;
-import es.eucm.eadventure.common.model.events.EAdSceneElementEvent;
-import es.eucm.eadventure.common.model.events.enums.SceneElementEventType;
-import es.eucm.eadventure.common.model.events.impl.EAdSceneElementEventImpl;
-import es.eucm.eadventure.common.model.impl.EAdChapterImpl;
-import es.eucm.eadventure.common.predef.model.effects.EAdChangeCursorEffect;
+import es.eucm.eadventure.common.model.elements.EAdChapterImpl;
+import es.eucm.eadventure.common.model.elements.EAdEvent;
+import es.eucm.eadventure.common.model.elements.events.SceneElementEv;
+import es.eucm.eadventure.common.model.elements.events.enums.SceneElementEventType;
+import es.eucm.eadventure.common.model.elements.scene.EAdScene;
+import es.eucm.eadventure.common.model.predef.effects.ChangeCursorEf;
 import es.eucm.eadventure.common.resources.StringHandler;
 
 /**
@@ -154,12 +153,12 @@ public class ChapterImporter implements EAdElementImporter<Chapter, EAdChapter> 
 
 	private void setAdventureCursor(Chapter oldChapter) {
 
-		EAdChangeCursorEffect changeCursor = new EAdChangeCursorEffect(
+		ChangeCursorEf changeCursor = new ChangeCursorEf(
 				elementFactory.getDefaultCursor());
 		EAdScene scene = (EAdScene) elementFactory.getElementById(oldChapter
 				.getInitialGeneralScene().getId());
 
-		EAdSceneElementEvent event = new EAdSceneElementEventImpl();
+		SceneElementEv event = new SceneElementEv();
 		event.addEffect(SceneElementEventType.ADDED_TO_SCENE, changeCursor);
 		scene.getEvents().add(event);
 

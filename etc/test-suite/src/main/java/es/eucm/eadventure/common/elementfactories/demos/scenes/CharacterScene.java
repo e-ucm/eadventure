@@ -41,24 +41,23 @@ import es.eucm.eadventure.common.elementfactories.EAdElementsFactory;
 import es.eucm.eadventure.common.elementfactories.StringFactory;
 import es.eucm.eadventure.common.elementfactories.demos.normalguy.NgCommon;
 import es.eucm.eadventure.common.interfaces.features.enums.Orientation;
-import es.eucm.eadventure.common.model.effects.EAdEffect;
+import es.eucm.eadventure.common.model.elements.EAdEffect;
 import es.eucm.eadventure.common.model.elements.enums.CommonStates;
-import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
-import es.eucm.eadventure.common.model.events.EAdSceneElementEvent;
-import es.eucm.eadventure.common.model.events.enums.SceneElementEventType;
-import es.eucm.eadventure.common.model.events.impl.EAdSceneElementEventImpl;
-import es.eucm.eadventure.common.model.guievents.impl.EAdKeyEventImpl;
-import es.eucm.eadventure.common.model.guievents.impl.EAdMouseEventImpl;
-import es.eucm.eadventure.common.model.variables.impl.EAdFieldImpl;
-import es.eucm.eadventure.common.model.variables.impl.operations.ValueOperation;
-import es.eucm.eadventure.common.params.geom.impl.EAdPositionImpl.Corner;
-import es.eucm.eadventure.common.predef.model.sceneelements.EAdButton;
-import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.ImageImpl;
-import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.animation.FramesAnimation;
+import es.eucm.eadventure.common.model.elements.events.SceneElementEv;
+import es.eucm.eadventure.common.model.elements.events.enums.SceneElementEventType;
+import es.eucm.eadventure.common.model.elements.guievents.KeyEventImpl;
+import es.eucm.eadventure.common.model.elements.guievents.MouseEventImpl;
+import es.eucm.eadventure.common.model.elements.scenes.SceneElementImpl;
+import es.eucm.eadventure.common.model.elements.variables.FieldImpl;
+import es.eucm.eadventure.common.model.elements.variables.operations.ValueOp;
+import es.eucm.eadventure.common.model.predef.sceneelements.Button;
+import es.eucm.eadventure.common.resources.assets.drawable.basics.ImageImpl;
+import es.eucm.eadventure.common.resources.assets.drawable.basics.animation.FramesAnimation;
 import es.eucm.eadventure.common.resources.assets.drawable.compounds.OrientedDrawable;
+import es.eucm.eadventure.common.resources.assets.drawable.compounds.OrientedDrawableImpl;
 import es.eucm.eadventure.common.resources.assets.drawable.compounds.StateDrawable;
-import es.eucm.eadventure.common.resources.assets.drawable.compounds.impl.OrientedDrawableImpl;
-import es.eucm.eadventure.common.resources.assets.drawable.compounds.impl.StateDrawableImpl;
+import es.eucm.eadventure.common.resources.assets.drawable.compounds.StateDrawableImpl;
+import es.eucm.eadventure.common.util.EAdPositionImpl.Corner;
 
 public class CharacterScene extends EmptyScene {
 
@@ -96,11 +95,11 @@ public class CharacterScene extends EmptyScene {
 //				.createSceneElement(getStateDrawable(), 100, 300);
 		
 		NgCommon.init();
-		EAdBasicSceneElement element = new EAdBasicSceneElement( NgCommon.getMainCharacter() );
+		SceneElementImpl element = new SceneElementImpl( NgCommon.getMainCharacter() );
 		element.setPosition(Corner.CENTER, 400, 300);
 		
 
-		EAdSceneElementEvent event = new EAdSceneElementEventImpl();
+		SceneElementEv event = new SceneElementEv();
 		event.setId("makeActive");
 
 		event.addEffect(SceneElementEventType.ADDED_TO_SCENE, EAdElementsFactory
@@ -114,82 +113,82 @@ public class CharacterScene extends EmptyScene {
 				.getInstance()
 				.getEffectFactory()
 				.getChangeVarValueEffect(
-						new EAdFieldImpl<Orientation>(element,
-								EAdBasicSceneElement.VAR_ORIENTATION),
-						new ValueOperation( Orientation.N));
-		EAdBasicSceneElement goUpArrow = EAdElementsFactory
+						new FieldImpl<Orientation>(element,
+								SceneElementImpl.VAR_ORIENTATION),
+						new ValueOp( Orientation.N));
+		SceneElementImpl goUpArrow = EAdElementsFactory
 				.getInstance()
 				.getSceneElementFactory()
 				.createSceneElement(new ImageImpl("@drawable/arrow_up.png"),
 						100, 210, goUpEffect);
 		this.getComponents().add(goUpArrow);
 
-		element.addBehavior(EAdKeyEventImpl.KEY_ARROW_UP, goUpEffect);
+		element.addBehavior(KeyEventImpl.KEY_ARROW_UP, goUpEffect);
 
 		EAdEffect goDownEffect = EAdElementsFactory
 				.getInstance()
 				.getEffectFactory()
 				.getChangeVarValueEffect(
-						new EAdFieldImpl<Orientation>(element,
-								EAdBasicSceneElement.VAR_ORIENTATION),
-						new ValueOperation(Orientation.S));
-		EAdBasicSceneElement goDownArrow = EAdElementsFactory
+						new FieldImpl<Orientation>(element,
+								SceneElementImpl.VAR_ORIENTATION),
+						new ValueOp(Orientation.S));
+		SceneElementImpl goDownArrow = EAdElementsFactory
 				.getInstance()
 				.getSceneElementFactory()
 				.createSceneElement(new ImageImpl("@drawable/arrow_down.png"),
 						100, 320, goDownEffect);
 		this.getComponents().add(goDownArrow);
 
-		element.addBehavior(EAdKeyEventImpl.KEY_ARROW_DOWN, goDownEffect);
+		element.addBehavior(KeyEventImpl.KEY_ARROW_DOWN, goDownEffect);
 
 		EAdEffect goLeftEffect = EAdElementsFactory
 				.getInstance()
 				.getEffectFactory()
 				.getChangeVarValueEffect(
-						new EAdFieldImpl<Orientation>(element,
-								EAdBasicSceneElement.VAR_ORIENTATION),
-						new ValueOperation( Orientation.W));
-		EAdBasicSceneElement goLeftArrow = EAdElementsFactory
+						new FieldImpl<Orientation>(element,
+								SceneElementImpl.VAR_ORIENTATION),
+						new ValueOp( Orientation.W));
+		SceneElementImpl goLeftArrow = EAdElementsFactory
 				.getInstance()
 				.getSceneElementFactory()
 				.createSceneElement(new ImageImpl("@drawable/arrow_left.png"),
 						0, 260, goLeftEffect);
 		this.getComponents().add(goLeftArrow);
 
-		element.addBehavior(EAdKeyEventImpl.KEY_ARROW_LEFT, goLeftEffect);
+		element.addBehavior(KeyEventImpl.KEY_ARROW_LEFT, goLeftEffect);
 
 		EAdEffect goRightEffect = EAdElementsFactory
 				.getInstance()
 				.getEffectFactory()
 				.getChangeVarValueEffect(
-						new EAdFieldImpl<Orientation>(element,
-								EAdBasicSceneElement.VAR_ORIENTATION),
-						new ValueOperation( Orientation.E));
-		EAdBasicSceneElement goRightArrow = EAdElementsFactory
+						new FieldImpl<Orientation>(element,
+								SceneElementImpl.VAR_ORIENTATION),
+						new ValueOp( Orientation.E));
+		SceneElementImpl goRightArrow = EAdElementsFactory
 				.getInstance()
 				.getSceneElementFactory()
 				.createSceneElement(new ImageImpl("@drawable/arrow_right.png"),
 						200, 260, goRightEffect);
 		this.getComponents().add(goRightArrow);
 
-		element.addBehavior(EAdKeyEventImpl.KEY_ARROW_RIGHT, goRightEffect);
+		element.addBehavior(KeyEventImpl.KEY_ARROW_RIGHT, goRightEffect);
 
 		// Change state buttons
 		EAdEffect standEffect = EAdElementsFactory
 				.getInstance()
 				.getEffectFactory()
 				.getChangeVarValueEffect(
-						new EAdFieldImpl<String>(element,
-								EAdBasicSceneElement.VAR_STATE),
-						new ValueOperation(
+						new FieldImpl<String>(element,
+								SceneElementImpl.VAR_STATE),
+						new ValueOp(
 								CommonStates.EAD_STATE_DEFAULT.toString()));
 //		EAdBasicSceneElement stand = EAdElementsFactory.getInstance()
 //				.getSceneElementFactory()
 //				.createSceneElement("Stand", 300, 10, standEffect);
 		StringFactory sf = EAdElementsFactory.getInstance().getStringFactory();
-		EAdButton stand = new EAdButton( );
+		Button stand = new Button( );
 		sf.setString(stand.getLabel(), "Stand");
-		stand.addBehavior(EAdMouseEventImpl.MOUSE_LEFT_PRESSED, standEffect);
+		stand.addBehavior(MouseEventImpl.MOUSE_LEFT_PRESSED, standEffect);
 		stand.setPosition(Corner.CENTER, 600, 250);
 		getComponents().add(stand);
 
@@ -197,13 +196,13 @@ public class CharacterScene extends EmptyScene {
 				.getInstance()
 				.getEffectFactory()
 				.getChangeVarValueEffect(
-						new EAdFieldImpl<String>(element,
-								EAdBasicSceneElement.VAR_STATE),
-						new ValueOperation(
+						new FieldImpl<String>(element,
+								SceneElementImpl.VAR_STATE),
+						new ValueOp(
 								CommonStates.EAD_STATE_TALKING.toString()));
-		EAdButton talk = new EAdButton( );
+		Button talk = new Button( );
 		sf.setString(talk.getLabel(), "Talk");
-		talk.addBehavior(EAdMouseEventImpl.MOUSE_LEFT_PRESSED, talkEffect);
+		talk.addBehavior(MouseEventImpl.MOUSE_LEFT_PRESSED, talkEffect);
 		talk.setPosition(Corner.CENTER, 600, 290);
 		getComponents().add(talk);
 
@@ -211,13 +210,13 @@ public class CharacterScene extends EmptyScene {
 				.getInstance()
 				.getEffectFactory()
 				.getChangeVarValueEffect(
-						new EAdFieldImpl<String>(element,
-								EAdBasicSceneElement.VAR_STATE),
-						new ValueOperation(
+						new FieldImpl<String>(element,
+								SceneElementImpl.VAR_STATE),
+						new ValueOp(
 								CommonStates.EAD_STATE_WALKING.toString()));
-		EAdButton walk = new EAdButton( );
+		Button walk = new Button( );
 		sf.setString(walk.getLabel(), "Walk");
-		walk.addBehavior(EAdMouseEventImpl.MOUSE_LEFT_PRESSED, walkEffect);
+		walk.addBehavior(MouseEventImpl.MOUSE_LEFT_PRESSED, walkEffect);
 		walk.setPosition(Corner.CENTER, 600, 330);
 		getComponents().add(walk);
 	}

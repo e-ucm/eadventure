@@ -37,15 +37,15 @@
 
 package es.eucm.eadventure.engine.core.impl.factorymapproviders;
 
-import es.eucm.eadventure.common.model.elements.EAdScene;
-import es.eucm.eadventure.common.model.elements.EAdSceneElement;
-import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
-import es.eucm.eadventure.common.model.elements.impl.EAdComplexElementImpl;
-import es.eucm.eadventure.common.model.elements.impl.EAdComposedScene;
-import es.eucm.eadventure.common.model.elements.impl.EAdSceneImpl;
-import es.eucm.eadventure.common.model.elements.impl.EAdVideoScene;
-import es.eucm.eadventure.common.model.elements.impl.extra.EAdCutscene;
-import es.eucm.eadventure.common.model.elements.impl.extra.EAdSlide;
+import es.eucm.eadventure.common.model.elements.VideoScene;
+import es.eucm.eadventure.common.model.elements.extra.EAdCutscene;
+import es.eucm.eadventure.common.model.elements.extra.EAdSlide;
+import es.eucm.eadventure.common.model.elements.scene.EAdScene;
+import es.eucm.eadventure.common.model.elements.scene.EAdSceneElement;
+import es.eucm.eadventure.common.model.elements.scenes.ComplexSceneElementImpl;
+import es.eucm.eadventure.common.model.elements.scenes.ComposedScene;
+import es.eucm.eadventure.common.model.elements.scenes.SceneElementImpl;
+import es.eucm.eadventure.common.model.elements.scenes.SceneImpl;
 import es.eucm.eadventure.engine.core.gameobjects.go.SceneElementGO;
 import es.eucm.eadventure.engine.core.gameobjects.impl.ComposedSceneGOImpl;
 import es.eucm.eadventure.engine.core.gameobjects.impl.SceneGOImpl;
@@ -60,18 +60,18 @@ public class ElementGameObjectFactoryConfigurator
 
 	public ElementGameObjectFactoryConfigurator() {
 		factoryMap.put(EAdScene.class, SceneGOImpl.class);
-		factoryMap.put(EAdSceneImpl.class, SceneGOImpl.class);
-		factoryMap.put(EAdComposedScene.class, ComposedSceneGOImpl.class);
+		factoryMap.put(SceneImpl.class, SceneGOImpl.class);
+		factoryMap.put(ComposedScene.class, ComposedSceneGOImpl.class);
 		factoryMap.put(EAdCutscene.class, ComposedSceneGOImpl.class);
 		factoryMap.put(EAdSlide.class, SceneGOImpl.class);
-		factoryMap.put(EAdBasicSceneElement.class, BasicSceneElementGO.class);
+		factoryMap.put(SceneElementImpl.class, BasicSceneElementGO.class);
 		factoryMap
-				.put(EAdComplexElementImpl.class, ComplexSceneElementGO.class);
+				.put(ComplexSceneElementImpl.class, ComplexSceneElementGO.class);
 		// FIXME remove timers
 		// factoryMap.put(EAdTimer.class, TimerGO.class);
 		// factoryMap.put(EAdTimerImpl.class, TimerGO.class);
 		
-		factoryMap.put(EAdVideoScene.class, VideoSceneGO.class);
+		factoryMap.put(VideoScene.class, VideoSceneGO.class);
 		factoryMap.put(LoadingScreen.class, SceneGOImpl.class);
 	}
 }

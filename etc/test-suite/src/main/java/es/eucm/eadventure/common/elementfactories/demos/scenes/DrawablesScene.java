@@ -39,23 +39,23 @@ package es.eucm.eadventure.common.elementfactories.demos.scenes;
 
 import es.eucm.eadventure.common.elementfactories.EAdElementsFactory;
 import es.eucm.eadventure.common.model.elements.enums.CommonStates;
-import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
-import es.eucm.eadventure.common.model.guievents.impl.EAdMouseEventImpl;
-import es.eucm.eadventure.common.model.variables.impl.EAdFieldImpl;
-import es.eucm.eadventure.common.model.variables.impl.operations.ValueOperation;
-import es.eucm.eadventure.common.params.fills.impl.EAdColor;
-import es.eucm.eadventure.common.params.fills.impl.EAdLinearGradient;
-import es.eucm.eadventure.common.params.fills.impl.EAdPaintImpl;
+import es.eucm.eadventure.common.model.elements.guievents.MouseEventImpl;
+import es.eucm.eadventure.common.model.elements.scenes.SceneElementImpl;
+import es.eucm.eadventure.common.model.elements.variables.FieldImpl;
+import es.eucm.eadventure.common.model.elements.variables.operations.ValueOp;
+import es.eucm.eadventure.common.params.fills.EAdColor;
+import es.eucm.eadventure.common.params.fills.EAdLinearGradient;
+import es.eucm.eadventure.common.params.fills.EAdPaintImpl;
 import es.eucm.eadventure.common.params.paint.EAdFill;
+import es.eucm.eadventure.common.resources.assets.drawable.basics.CaptionImpl;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.Image;
-import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.CaptionImpl;
-import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.ImageImpl;
-import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.animation.FramesAnimation;
-import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.shapes.RectangleShape;
+import es.eucm.eadventure.common.resources.assets.drawable.basics.ImageImpl;
+import es.eucm.eadventure.common.resources.assets.drawable.basics.animation.FramesAnimation;
+import es.eucm.eadventure.common.resources.assets.drawable.basics.shapes.RectangleShape;
 import es.eucm.eadventure.common.resources.assets.drawable.compounds.ComposedDrawable;
+import es.eucm.eadventure.common.resources.assets.drawable.compounds.ComposedDrawableImpl;
 import es.eucm.eadventure.common.resources.assets.drawable.compounds.StateDrawable;
-import es.eucm.eadventure.common.resources.assets.drawable.compounds.impl.ComposedDrawableImpl;
-import es.eucm.eadventure.common.resources.assets.drawable.compounds.impl.StateDrawableImpl;
+import es.eucm.eadventure.common.resources.assets.drawable.compounds.StateDrawableImpl;
 
 public class DrawablesScene extends EmptyScene {
 
@@ -165,28 +165,28 @@ public class DrawablesScene extends EmptyScene {
 		getComponents().add(
 				EAdElementsFactory.getInstance().getSceneElementFactory()
 						.createSceneElement(caption, x, y));
-		EAdBasicSceneElement sceneElement = EAdElementsFactory.getInstance()
+		SceneElementImpl sceneElement = EAdElementsFactory.getInstance()
 				.getSceneElementFactory()
 				.createSceneElement(stateDrawable, x + 50, y + 40);
 		sceneElement.addBehavior(
-				EAdMouseEventImpl.MOUSE_RIGHT_CLICK,
+				MouseEventImpl.MOUSE_RIGHT_CLICK,
 				EAdElementsFactory
 						.getInstance()
 						.getEffectFactory()
 						.getChangeVarValueEffect(
-								new EAdFieldImpl<String>(sceneElement,
-										EAdBasicSceneElement.VAR_STATE),
-								new ValueOperation(CommonStates.EAD_STATE_DEFAULT
+								new FieldImpl<String>(sceneElement,
+										SceneElementImpl.VAR_STATE),
+								new ValueOp(CommonStates.EAD_STATE_DEFAULT
 												.toString())));
 		sceneElement.addBehavior(
-				EAdMouseEventImpl.MOUSE_LEFT_CLICK,
+				MouseEventImpl.MOUSE_LEFT_CLICK,
 				EAdElementsFactory
 						.getInstance()
 						.getEffectFactory()
 						.getChangeVarValueEffect(
-								new EAdFieldImpl<String>(sceneElement,
-										EAdBasicSceneElement.VAR_STATE),
-								new ValueOperation(CommonStates.EAD_STATE_TALKING
+								new FieldImpl<String>(sceneElement,
+										SceneElementImpl.VAR_STATE),
+								new ValueOp(CommonStates.EAD_STATE_TALKING
 												.toString())));
 		getComponents().add(sceneElement);
 
@@ -207,7 +207,7 @@ public class DrawablesScene extends EmptyScene {
 				EAdElementsFactory.getInstance().getSceneElementFactory()
 						.createSceneElement(caption, margin, 180));
 
-		EAdBasicSceneElement paniel = EAdElementsFactory.getInstance()
+		SceneElementImpl paniel = EAdElementsFactory.getInstance()
 				.getSceneElementFactory()
 				.createSceneElement(animation, margin, 220);
 		paniel.setScale(0.8f);

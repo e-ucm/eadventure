@@ -37,31 +37,31 @@
 
 package es.eucm.eadventure.common.elementfactories.demos.scenes;
 
-import es.eucm.eadventure.common.model.effects.EAdEffect;
-import es.eucm.eadventure.common.model.effects.impl.EAdInterpolationEffect;
-import es.eucm.eadventure.common.model.effects.impl.enums.InterpolationLoopType;
-import es.eucm.eadventure.common.model.effects.impl.enums.InterpolationType;
-import es.eucm.eadventure.common.model.effects.impl.variables.EAdChangeFieldValueEffect;
-import es.eucm.eadventure.common.model.elements.EAdSceneElement;
-import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
-import es.eucm.eadventure.common.model.events.enums.TimedEventType;
-import es.eucm.eadventure.common.model.events.impl.EAdTimedEventImpl;
-import es.eucm.eadventure.common.model.extra.EAdList;
-import es.eucm.eadventure.common.model.extra.impl.EAdListImpl;
-import es.eucm.eadventure.common.model.guievents.impl.EAdMouseEventImpl;
-import es.eucm.eadventure.common.model.variables.EAdField;
-import es.eucm.eadventure.common.model.variables.EAdVarDef;
-import es.eucm.eadventure.common.model.variables.impl.EAdFieldImpl;
-import es.eucm.eadventure.common.model.variables.impl.EAdVarDefImpl;
-import es.eucm.eadventure.common.model.variables.impl.operations.BooleanOperation;
-import es.eucm.eadventure.common.model.variables.impl.operations.ListOperation;
-import es.eucm.eadventure.common.model.variables.impl.operations.ListOperationType;
-import es.eucm.eadventure.common.model.variables.impl.operations.MathOperation;
-import es.eucm.eadventure.common.params.fills.impl.EAdColor;
+import es.eucm.eadventure.common.model.elements.EAdEffect;
+import es.eucm.eadventure.common.model.elements.effects.InterpolationEf;
+import es.eucm.eadventure.common.model.elements.effects.enums.InterpolationLoopType;
+import es.eucm.eadventure.common.model.elements.effects.enums.InterpolationType;
+import es.eucm.eadventure.common.model.elements.effects.variables.ChangeFieldEf;
+import es.eucm.eadventure.common.model.elements.events.TimedEv;
+import es.eucm.eadventure.common.model.elements.events.enums.TimedEventType;
+import es.eucm.eadventure.common.model.elements.extra.EAdList;
+import es.eucm.eadventure.common.model.elements.extra.EAdListImpl;
+import es.eucm.eadventure.common.model.elements.guievents.MouseEventImpl;
+import es.eucm.eadventure.common.model.elements.scene.EAdSceneElement;
+import es.eucm.eadventure.common.model.elements.scenes.SceneElementImpl;
+import es.eucm.eadventure.common.model.elements.variables.EAdField;
+import es.eucm.eadventure.common.model.elements.variables.EAdVarDef;
+import es.eucm.eadventure.common.model.elements.variables.FieldImpl;
+import es.eucm.eadventure.common.model.elements.variables.VarDefImpl;
+import es.eucm.eadventure.common.model.elements.variables.operations.BooleanOp;
+import es.eucm.eadventure.common.model.elements.variables.operations.ListOp;
+import es.eucm.eadventure.common.model.elements.variables.operations.ListOpType;
+import es.eucm.eadventure.common.model.elements.variables.operations.MathOp;
+import es.eucm.eadventure.common.params.fills.EAdColor;
 import es.eucm.eadventure.common.resources.assets.drawable.Drawable;
-import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.ImageImpl;
-import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.animation.Frame;
-import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.animation.FramesAnimation;
+import es.eucm.eadventure.common.resources.assets.drawable.basics.ImageImpl;
+import es.eucm.eadventure.common.resources.assets.drawable.basics.animation.Frame;
+import es.eucm.eadventure.common.resources.assets.drawable.basics.animation.FramesAnimation;
 
 @SuppressWarnings("rawtypes")
 public class MoleGame extends EmptyScene {
@@ -70,9 +70,9 @@ public class MoleGame extends EmptyScene {
 
 	private FramesAnimation mole;
 
-	private EAdChangeFieldValueEffect dissapearMole;
+	private ChangeFieldEf dissapearMole;
 
-	private EAdVarDef<EAdSceneElement> moleVar = new EAdVarDefImpl<EAdSceneElement>(
+	private EAdVarDef<EAdSceneElement> moleVar = new VarDefImpl<EAdSceneElement>(
 			"moleVar", EAdSceneElement.class, null);
 
 	private EAdVarDef<EAdList> listVar;
@@ -83,12 +83,12 @@ public class MoleGame extends EmptyScene {
 
 	public MoleGame() {
 		setBackgroundFill(EAdColor.DARK_BROWN);
-		moleField = new EAdFieldImpl<EAdSceneElement>(this, moleVar);
+		moleField = new FieldImpl<EAdSceneElement>(this, moleVar);
 
-		dissapearMole = new EAdChangeFieldValueEffect();
+		dissapearMole = new ChangeFieldEf();
 		dissapearMole.setId("dissaperMole");
-		dissapearMole.setParentVar(EAdBasicSceneElement.VAR_VISIBLE);
-		dissapearMole.setOperation(BooleanOperation.FALSE_OP);
+		dissapearMole.setParentVar(SceneElementImpl.VAR_VISIBLE);
+		dissapearMole.setOperation(BooleanOp.FALSE_OP);
 
 		mole = new FramesAnimation();
 		mole.addFrame(new Frame("@drawable/mole1.png", 5000));
@@ -104,30 +104,30 @@ public class MoleGame extends EmptyScene {
 		for (int i = 0; i < col; i++)
 			for (int j = 0; j < row; j++) {
 				EAdSceneElement mole = getMole(size * i, size * j);
-				mole.setVarInitialValue(EAdBasicSceneElement.VAR_SCALE, scale);
+				mole.setVarInitialValue(SceneElementImpl.VAR_SCALE, scale);
 				getComponents().add(mole);
 				list.add(mole);
 				EAdSceneElement hole = getHole(size * i, size * j + 25);
-				hole.setVarInitialValue(EAdBasicSceneElement.VAR_SCALE, scale);
+				hole.setVarInitialValue(SceneElementImpl.VAR_SCALE, scale);
 				this.getComponents().add(hole);
 
 			}
-		listVar = new EAdVarDefImpl<EAdList>("moleListVar", EAdList.class, list);
-		listField = new EAdFieldImpl<EAdList>(this, listVar);
+		listVar = new VarDefImpl<EAdList>("moleListVar", EAdList.class, list);
+		listField = new FieldImpl<EAdList>(this, listVar);
 		initLoop();
 
 	}
 
 	private EAdSceneElement getHole(int x, int y) {
-		EAdBasicSceneElement hole = new EAdBasicSceneElement(holeImage);
+		SceneElementImpl hole = new SceneElementImpl(holeImage);
 		hole.setId("hole" + x);
 		hole.setPosition(x, y);
-		hole.addBehavior(EAdMouseEventImpl.MOUSE_LEFT_PRESSED, (EAdEffect) null);
+		hole.addBehavior(MouseEventImpl.MOUSE_LEFT_PRESSED, (EAdEffect) null);
 		return hole;
 	}
 
 	private EAdSceneElement getMole(int x, int y) {
-		EAdBasicSceneElement mole = new EAdBasicSceneElement(this.mole);
+		SceneElementImpl mole = new SceneElementImpl(this.mole);
 		mole.setId("mole" + x + "" + y);
 		mole.setPosition(x, y + 30);
 
@@ -143,10 +143,10 @@ public class MoleGame extends EmptyScene {
 		// event.addEffect(SceneElementEvent.ADDED_TO_SCENE, interpolation);
 
 		int initTime = (int) Math.round(Math.random() * 5500);
-		mole.setVarInitialValue(EAdBasicSceneElement.VAR_TIME_DISPLAYED,
+		mole.setVarInitialValue(SceneElementImpl.VAR_TIME_DISPLAYED,
 				initTime);
 
-		mole.addBehavior(EAdMouseEventImpl.MOUSE_LEFT_PRESSED, dissapearMole);
+		mole.addBehavior(MouseEventImpl.MOUSE_LEFT_PRESSED, dissapearMole);
 		// mole.getEvents().add(event);
 
 		return mole;
@@ -154,18 +154,18 @@ public class MoleGame extends EmptyScene {
 	}
 
 	public void initLoop() {
-		EAdTimedEventImpl event = new EAdTimedEventImpl();
+		TimedEv event = new TimedEv();
 		event.setId("moleUp");
 
-		EAdChangeFieldValueEffect effect = new EAdChangeFieldValueEffect();
+		ChangeFieldEf effect = new ChangeFieldEf();
 		effect.setId("selectMole");
-		effect.setOperation(new ListOperation(listField,
-				ListOperationType.RANDOM_ELEMENT));
+		effect.setOperation(new ListOp(listField,
+				ListOpType.RANDOM_ELEMENT));
 		effect.addField(moleField);
 
-		EAdInterpolationEffect interpolation = new EAdInterpolationEffect(
-				moleField, EAdBasicSceneElement.VAR_Y, new MathOperation("0"),
-				new MathOperation("-30"), 500, 0, InterpolationLoopType.REVERSE, 2,
+		InterpolationEf interpolation = new InterpolationEf(
+				moleField, SceneElementImpl.VAR_Y, new MathOp("0"),
+				new MathOp("-30"), 500, 0, InterpolationLoopType.REVERSE, 2,
 				InterpolationType.LINEAR);
 		event.addEffect(
 				TimedEventType.END_TIME,

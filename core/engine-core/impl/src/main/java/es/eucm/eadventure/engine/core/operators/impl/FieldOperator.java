@@ -39,7 +39,7 @@ package es.eucm.eadventure.engine.core.operators.impl;
 
 import com.google.inject.Inject;
 
-import es.eucm.eadventure.common.model.variables.EAdField;
+import es.eucm.eadventure.common.model.elements.variables.EAdField;
 import es.eucm.eadventure.engine.core.game.ValueMap;
 import es.eucm.eadventure.engine.core.operator.Operator;
 

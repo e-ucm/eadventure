@@ -39,7 +39,7 @@ package es.eucm.eadventure.engine.core.gameobjects.impl.effects;
 
 import com.google.inject.Inject;
 
-import es.eucm.eadventure.common.model.effects.impl.EAdQuitGame;
+import es.eucm.eadventure.common.model.elements.effects.QuitGameEf;
 import es.eucm.eadventure.common.resources.StringHandler;
 import es.eucm.eadventure.engine.core.game.GameController;
 import es.eucm.eadventure.engine.core.game.GameState;
@@ -50,11 +50,11 @@ import es.eucm.eadventure.engine.core.platform.GUI;
 
 /**
  * <p>
- * {@link GameObject} for the {@link EAdQuitGame} effect
+ * {@link GameObject} for the {@link QuitGameEf} effect
  * </p>
  *
  */
-public class QuitGameEffectGO extends AbstractEffectGO<EAdQuitGame> {
+public class QuitGameEffectGO extends AbstractEffectGO<QuitGameEf> {
 
 
 	private GameController gameController;

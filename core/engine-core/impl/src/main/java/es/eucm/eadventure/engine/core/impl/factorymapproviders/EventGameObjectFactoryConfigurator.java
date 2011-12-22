@@ -37,13 +37,11 @@
 
 package es.eucm.eadventure.engine.core.impl.factorymapproviders;
 
-import es.eucm.eadventure.common.model.events.EAdEvent;
-import es.eucm.eadventure.common.model.events.EAdSceneElementEvent;
-import es.eucm.eadventure.common.model.events.EAdTimedEvent;
-import es.eucm.eadventure.common.model.events.impl.EAdConditionEventImpl;
-import es.eucm.eadventure.common.model.events.impl.EAdSceneElementEventImpl;
-import es.eucm.eadventure.common.model.events.impl.EAdSystemEventImpl;
-import es.eucm.eadventure.common.model.events.impl.EAdTimedEventImpl;
+import es.eucm.eadventure.common.model.elements.EAdEvent;
+import es.eucm.eadventure.common.model.elements.events.ConditionedEv;
+import es.eucm.eadventure.common.model.elements.events.SceneElementEv;
+import es.eucm.eadventure.common.model.elements.events.SystemEv;
+import es.eucm.eadventure.common.model.elements.events.TimedEv;
 import es.eucm.eadventure.engine.core.gameobjects.go.EventGO;
 import es.eucm.eadventure.engine.core.gameobjects.impl.events.ConditionEventGO;
 import es.eucm.eadventure.engine.core.gameobjects.impl.events.SceneElementEventGO;
@@ -53,11 +51,9 @@ import es.eucm.eadventure.engine.core.gameobjects.impl.events.SystemEventGO;
 public class EventGameObjectFactoryConfigurator extends AbstractMapProvider<Class<? extends EAdEvent>, Class<? extends EventGO<? extends EAdEvent>>>{
 	
 	public EventGameObjectFactoryConfigurator() {
-		factoryMap.put(EAdConditionEventImpl.class, ConditionEventGO.class);
-		factoryMap.put(EAdSystemEventImpl.class, SystemEventGO.class);
-		factoryMap.put(EAdSceneElementEvent.class, SceneElementEventGO.class);
-		factoryMap.put(EAdSceneElementEventImpl.class, SceneElementEventGO.class);
-		factoryMap.put(EAdTimedEvent.class, SceneElementTimedEventGO.class );
-		factoryMap.put(EAdTimedEventImpl.class, SceneElementTimedEventGO.class );	}
+		factoryMap.put(ConditionedEv.class, ConditionEventGO.class);
+		factoryMap.put(SystemEv.class, SystemEventGO.class);
+		factoryMap.put(SceneElementEv.class, SceneElementEventGO.class);
+		factoryMap.put(TimedEv.class, SceneElementTimedEventGO.class );	}
 
 }

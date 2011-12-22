@@ -41,11 +41,10 @@ import java.util.List;
 
 import com.google.inject.Inject;
 
-import es.eucm.eadventure.common.model.effects.EAdEffect;
-import es.eucm.eadventure.common.model.elements.EAdSceneElement;
-import es.eucm.eadventure.common.params.geom.EAdPosition;
+import es.eucm.eadventure.common.model.elements.EAdEffect;
+import es.eucm.eadventure.common.model.elements.scene.EAdSceneElement;
 import es.eucm.eadventure.common.resources.StringHandler;
-import es.eucm.eadventure.common.util.EAdTransformation;
+import es.eucm.eadventure.common.util.EAdPositionImpl;
 import es.eucm.eadventure.engine.core.game.GameLoop;
 import es.eucm.eadventure.engine.core.game.GameState;
 import es.eucm.eadventure.engine.core.gameobjects.factories.SceneElementGOFactory;
@@ -55,7 +54,8 @@ import es.eucm.eadventure.engine.core.guiactions.GUIAction;
 import es.eucm.eadventure.engine.core.platform.AssetHandler;
 import es.eucm.eadventure.engine.core.platform.GUI;
 import es.eucm.eadventure.engine.core.platform.RuntimeAsset;
-import es.eucm.eadventure.engine.core.platform.rendering.EAdCanvas;
+import es.eucm.eadventure.engine.core.platform.rendering.GenericCanvas;
+import es.eucm.eadventure.engine.core.util.EAdTransformation;
 
 public abstract class AbstractEffectGO<P extends EAdEffect> extends
 		DrawableGameObjectImpl<P> implements EffectGO<P> {
@@ -143,7 +143,7 @@ public abstract class AbstractEffectGO<P extends EAdEffect> extends
 	}
 	
 	@Override
-	public void render(EAdCanvas<?> c) {
+	public void render(GenericCanvas<?> c) {
 
 	}
 
@@ -152,7 +152,7 @@ public abstract class AbstractEffectGO<P extends EAdEffect> extends
 		return element.isOpaque();
 	}
 	
-	public EAdPosition getPosition(){
+	public EAdPositionImpl getPosition(){
 		return null;
 	}
 	
@@ -178,7 +178,7 @@ public abstract class AbstractEffectGO<P extends EAdEffect> extends
 	}
 
 	@Override
-	public void setPosition(EAdPosition p) {
+	public void setPosition(EAdPositionImpl p) {
 		
 	}
 

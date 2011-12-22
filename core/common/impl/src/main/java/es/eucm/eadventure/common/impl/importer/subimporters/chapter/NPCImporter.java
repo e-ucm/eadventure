@@ -49,22 +49,22 @@ import es.eucm.eadventure.common.data.chapter.resources.Resources;
 import es.eucm.eadventure.common.impl.importer.interfaces.EAdElementFactory;
 import es.eucm.eadventure.common.impl.importer.interfaces.ResourceImporter;
 import es.eucm.eadventure.common.interfaces.features.enums.Orientation;
-import es.eucm.eadventure.common.model.actions.EAdAction;
+import es.eucm.eadventure.common.model.elements.EAdAction;
 import es.eucm.eadventure.common.model.elements.enums.CommonStates;
-import es.eucm.eadventure.common.model.elements.impl.EAdSceneElementDefImpl;
+import es.eucm.eadventure.common.model.elements.scenes.SceneElementDefImpl;
 import es.eucm.eadventure.common.resources.StringHandler;
 import es.eucm.eadventure.common.resources.assets.drawable.Drawable;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.BasicDrawable;
-import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.ImageImpl;
-import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.animation.Frame;
-import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.animation.FramesAnimation;
+import es.eucm.eadventure.common.resources.assets.drawable.basics.ImageImpl;
+import es.eucm.eadventure.common.resources.assets.drawable.basics.animation.Frame;
+import es.eucm.eadventure.common.resources.assets.drawable.basics.animation.FramesAnimation;
 import es.eucm.eadventure.common.resources.assets.drawable.compounds.OrientedDrawable;
+import es.eucm.eadventure.common.resources.assets.drawable.compounds.OrientedDrawableImpl;
 import es.eucm.eadventure.common.resources.assets.drawable.compounds.StateDrawable;
-import es.eucm.eadventure.common.resources.assets.drawable.compounds.impl.OrientedDrawableImpl;
-import es.eucm.eadventure.common.resources.assets.drawable.compounds.impl.StateDrawableImpl;
-import es.eucm.eadventure.common.resources.assets.drawable.filters.impl.FilteredDrawableImpl;
-import es.eucm.eadventure.common.resources.assets.drawable.filters.impl.MatrixFilter;
-import es.eucm.eadventure.common.util.impl.EAdMatrixImpl;
+import es.eucm.eadventure.common.resources.assets.drawable.compounds.StateDrawableImpl;
+import es.eucm.eadventure.common.resources.assets.drawable.filters.FilteredDrawableImpl;
+import es.eucm.eadventure.common.resources.assets.drawable.filters.MatrixFilter;
+import es.eucm.eadventure.common.util.EAdMatrixImpl;
 
 public class NPCImporter extends ActorImporter<NPC> {
 
@@ -84,7 +84,7 @@ public class NPCImporter extends ActorImporter<NPC> {
 
 		properties = new HashMap<String, String>();
 		properties.put(NPC.RESOURCE_TYPE_STAND_DOWN,
-				EAdSceneElementDefImpl.appearance);
+				SceneElementDefImpl.appearance);
 
 		objectClasses = new HashMap<String, Object>();
 		objectClasses.put(NPC.RESOURCE_TYPE_STAND_DOWN, drawables);

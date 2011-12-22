@@ -39,18 +39,17 @@ package es.eucm.eadventure.engine.core.gameobjects.impl.effects;
 
 import com.google.inject.Inject;
 
-import es.eucm.eadventure.common.model.effects.impl.text.EAdSpeakEffect;
-import es.eucm.eadventure.common.model.elements.EAdSceneElement;
-import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
-import es.eucm.eadventure.common.model.elements.impl.EAdComplexElementImpl;
-import es.eucm.eadventure.common.model.guievents.enums.MouseActionType;
-import es.eucm.eadventure.common.model.variables.impl.SystemFields;
-import es.eucm.eadventure.common.params.geom.impl.EAdPositionImpl;
+import es.eucm.eadventure.common.model.elements.effects.text.SpeakEf;
+import es.eucm.eadventure.common.model.elements.guievents.enums.MouseActionType;
+import es.eucm.eadventure.common.model.elements.scene.EAdSceneElement;
+import es.eucm.eadventure.common.model.elements.scenes.ComplexSceneElementImpl;
+import es.eucm.eadventure.common.model.elements.scenes.SceneElementImpl;
+import es.eucm.eadventure.common.model.elements.variables.SystemFields;
 import es.eucm.eadventure.common.resources.StringHandler;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.Caption;
-import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.shapes.BallonShape;
-import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.shapes.BezierShape;
-import es.eucm.eadventure.common.util.EAdTransformation;
+import es.eucm.eadventure.common.resources.assets.drawable.basics.shapes.BallonShape;
+import es.eucm.eadventure.common.resources.assets.drawable.basics.shapes.BezierShape;
+import es.eucm.eadventure.common.util.EAdPositionImpl;
 import es.eucm.eadventure.engine.core.game.GameLoop;
 import es.eucm.eadventure.engine.core.game.GameState;
 import es.eucm.eadventure.engine.core.gameobjects.factories.SceneElementGOFactory;
@@ -61,9 +60,10 @@ import es.eucm.eadventure.engine.core.operator.OperatorFactory;
 import es.eucm.eadventure.engine.core.platform.AssetHandler;
 import es.eucm.eadventure.engine.core.platform.GUI;
 import es.eucm.eadventure.engine.core.platform.assets.impl.RuntimeCaption;
-import es.eucm.eadventure.engine.core.platform.rendering.EAdCanvas;
+import es.eucm.eadventure.engine.core.platform.rendering.GenericCanvas;
+import es.eucm.eadventure.engine.core.util.EAdTransformation;
 
-public class SpeakEffectGO extends AbstractEffectGO<EAdSpeakEffect> {
+public class SpeakEffectGO extends AbstractEffectGO<SpeakEf> {
 
 	private static final int MARGIN_PROPORTION = 35;
 
@@ -79,7 +79,7 @@ public class SpeakEffectGO extends AbstractEffectGO<EAdSpeakEffect> {
 
 	private boolean gone;
 
-	private EAdBasicSceneElement textSE;
+	private SceneElementImpl textSE;
 
 	private OperatorFactory operatorFactory;
 
@@ -165,11 +165,11 @@ public class SpeakEffectGO extends AbstractEffectGO<EAdSpeakEffect> {
 		text.setPreferredWidth(right - left);
 		text.setPreferredHeight(bottom - top);
 
-		textSE = new EAdBasicSceneElement(text);
+		textSE = new SceneElementImpl(text);
 		textSE.setId("text");
 		textSE.setPosition(new EAdPositionImpl(left, top));
 
-		EAdComplexElementImpl complex = new EAdComplexElementImpl(rectangle);
+		ComplexSceneElementImpl complex = new ComplexSceneElementImpl(rectangle);
 		complex.setId("complex");
 		complex.getComponents().add(textSE);
 
@@ -219,7 +219,7 @@ public class SpeakEffectGO extends AbstractEffectGO<EAdSpeakEffect> {
 	}
 
 	@Override
-	public void render(EAdCanvas<?> c) {
+	public void render(GenericCanvas<?> c) {
 
 	}
 

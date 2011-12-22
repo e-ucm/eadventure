@@ -47,10 +47,10 @@ import com.google.inject.Guice;
 import com.google.inject.Injector;
 import es.eucm.eadventure.common.elementfactories.EAdElementsFactory;
 import es.eucm.eadventure.common.model.elements.EAdAdventureModel;
-import es.eucm.eadventure.common.model.elements.EAdScene;
-import es.eucm.eadventure.common.model.elements.impl.EAdSceneImpl;
-import es.eucm.eadventure.common.model.impl.EAdAdventureModelImpl;
-import es.eucm.eadventure.common.model.impl.EAdChapterImpl;
+import es.eucm.eadventure.common.model.elements.EAdAdventureModelImpl;
+import es.eucm.eadventure.common.model.elements.EAdChapterImpl;
+import es.eucm.eadventure.common.model.elements.scene.EAdScene;
+import es.eucm.eadventure.common.model.elements.scenes.SceneImpl;
 import es.eucm.eadventure.common.resources.StringHandler;
 import es.eucm.eadventure.engine.assets.specialassetrenderers.AndroidVideoRenderer;
 import es.eucm.eadventure.engine.assets.specialassetrenderers.RockPlayerAndroidVideoRenderer;
@@ -119,7 +119,7 @@ public class EAdventureEngineActivity extends Activity {
 		Class<? extends EAdScene> demoClass = (Class<? extends EAdScene>) getIntent()
 				.getExtras().getSerializable("demo");
 
-		EAdSceneImpl sceneImpl = (EAdSceneImpl) injector.getInstance(demoClass);
+		SceneImpl sceneImpl = (SceneImpl) injector.getInstance(demoClass);
 
 		StringHandler sh = injector.getInstance(StringHandler.class);
 		sh.addStrings(EAdElementsFactory.getInstance().getStringFactory()

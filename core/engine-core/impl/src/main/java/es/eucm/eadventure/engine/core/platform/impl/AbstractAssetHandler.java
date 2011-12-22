@@ -53,7 +53,7 @@ import es.eucm.eadventure.engine.core.platform.AssetHandler;
 import es.eucm.eadventure.engine.core.platform.DrawableAsset;
 import es.eucm.eadventure.engine.core.platform.FontHandler;
 import es.eucm.eadventure.engine.core.platform.RuntimeAsset;
-import es.eucm.eadventure.engine.core.platform.rendering.EAdCanvas;
+import es.eucm.eadventure.engine.core.platform.rendering.GenericCanvas;
 
 /**
  * <p>
@@ -146,7 +146,7 @@ public abstract class AbstractAssetHandler implements AssetHandler {
 	@SuppressWarnings("unchecked")
 	@Override
 	public <T extends Drawable, GraphicContext> DrawableAsset<T, GraphicContext> getDrawableAsset(
-			T descriptor, EAdCanvas<GraphicContext> c) {
+			T descriptor, GenericCanvas<GraphicContext> c) {
 		return (DrawableAsset<T, GraphicContext>) getRuntimeAsset(descriptor);
 	}
 

@@ -39,13 +39,13 @@ package es.eucm.eadventure.engine.core.operators.impl;
 
 import java.util.Random;
 
-import es.eucm.eadventure.common.model.extra.EAdList;
-import es.eucm.eadventure.common.model.extra.impl.EAdListImpl;
-import es.eucm.eadventure.common.model.variables.impl.operations.ListOperation;
+import es.eucm.eadventure.common.model.elements.extra.EAdList;
+import es.eucm.eadventure.common.model.elements.extra.EAdListImpl;
+import es.eucm.eadventure.common.model.elements.variables.operations.ListOp;
 import es.eucm.eadventure.engine.core.game.ValueMap;
 import es.eucm.eadventure.engine.core.operator.Operator;
 
-public class ListOperator implements Operator<ListOperation> {
+public class ListOperator implements Operator<ListOp> {
 
 	private ValueMap valueMap;
 
@@ -61,7 +61,7 @@ public class ListOperator implements Operator<ListOperation> {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public <S> S operate(Class<S> clazz, ListOperation operation) {
+	public <S> S operate(Class<S> clazz, ListOp operation) {
 		EAdList<?> list = valueMap.getValue(operation.getListField());
 
 		switch (operation.getOperation()) {

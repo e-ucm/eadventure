@@ -55,11 +55,11 @@ import javax.imageio.ImageIO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import es.eucm.eadventure.common.model.elements.EAdScene;
-import es.eucm.eadventure.common.model.elements.EAdSceneElement;
-import es.eucm.eadventure.common.model.elements.impl.EAdSceneElementDefImpl;
-import es.eucm.eadventure.common.model.extra.EAdList;
-import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.ImageImpl;
+import es.eucm.eadventure.common.model.elements.extra.EAdList;
+import es.eucm.eadventure.common.model.elements.scene.EAdScene;
+import es.eucm.eadventure.common.model.elements.scene.EAdSceneElement;
+import es.eucm.eadventure.common.model.elements.scenes.SceneElementDefImpl;
+import es.eucm.eadventure.common.resources.assets.drawable.basics.ImageImpl;
 import es.eucm.eadventure.gui.eadcanvaspanel.EAdCanvasPanel;
 import es.eucm.eadventure.gui.eadcanvaspanel.listeners.DragListener;
 import es.eucm.eadventure.gui.eadcanvaspanel.scrollcontainers.EAdFixScrollCanvasPanel;
@@ -138,7 +138,7 @@ public class SceneLinksPanel extends EAdFixScrollCanvasPanel {
 						.getDefinition()
 						.getResources()
 						.getAsset(element.getDefinition().getInitialBundle(),
-								EAdSceneElementDefImpl.appearance);
+								SceneElementDefImpl.appearance);
 				image = ImageIO.read(getResourceAsStream(imageImpl.getUri()
 						.getPath()));
 
@@ -153,7 +153,7 @@ public class SceneLinksPanel extends EAdFixScrollCanvasPanel {
 										.getDefinition()
 										.getResources()
 										.getAsset(
-												EAdSceneElementDefImpl.appearance))
+												SceneElementDefImpl.appearance))
 										.getUri(), e);
 			}
 

@@ -38,57 +38,57 @@
 package es.eucm.eadventure.engine.core.gameobjects.huds.impl;
 
 import es.eucm.eadventure.common.interfaces.Element;
-import es.eucm.eadventure.common.model.actions.EAdAction;
-import es.eucm.eadventure.common.model.actions.impl.EAdBasicAction;
-import es.eucm.eadventure.common.model.effects.impl.EAdActorActionsEffect;
-import es.eucm.eadventure.common.model.effects.impl.enums.ChangeActorActions;
-import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
-import es.eucm.eadventure.common.model.elements.impl.EAdSceneElementDefImpl;
-import es.eucm.eadventure.common.model.guievents.impl.EAdMouseEventImpl;
-import es.eucm.eadventure.common.predef.model.effects.EAdChangeAppearance;
+import es.eucm.eadventure.common.model.elements.EAdAction;
+import es.eucm.eadventure.common.model.elements.actions.ActionImpl;
+import es.eucm.eadventure.common.model.elements.effects.ActorActionsEf;
+import es.eucm.eadventure.common.model.elements.effects.enums.ChangeActorActions;
+import es.eucm.eadventure.common.model.elements.guievents.MouseEventImpl;
+import es.eucm.eadventure.common.model.elements.scenes.SceneElementDefImpl;
+import es.eucm.eadventure.common.model.elements.scenes.SceneElementImpl;
+import es.eucm.eadventure.common.model.predef.effects.ChangeAppearanceEf;
 import es.eucm.eadventure.common.resources.assets.AssetDescriptor;
 
-@Element(detailed = EAdBasicSceneElement.class, runtime = EAdBasicSceneElement.class)
-public class ActionSceneElement extends EAdBasicSceneElement {
+@Element(detailed = SceneElementImpl.class, runtime = SceneElementImpl.class)
+public class ActionSceneElement extends SceneElementImpl {
 
 	public ActionSceneElement(EAdAction eAdAction) {
 		super();
 		this.setScale(0.8f);
-		EAdActorActionsEffect e = new EAdActorActionsEffect( null,
+		ActorActionsEf e = new ActorActionsEf( null,
 				ChangeActorActions.HIDE_ACTIONS);
-		this.addBehavior(EAdMouseEventImpl.MOUSE_LEFT_CLICK, e);
-		this.addBehavior(EAdMouseEventImpl.MOUSE_RIGHT_CLICK, e);
-		this.addBehavior(EAdMouseEventImpl.MOUSE_LEFT_CLICK,
+		this.addBehavior(MouseEventImpl.MOUSE_LEFT_CLICK, e);
+		this.addBehavior(MouseEventImpl.MOUSE_RIGHT_CLICK, e);
+		this.addBehavior(MouseEventImpl.MOUSE_LEFT_CLICK,
 				eAdAction.getEffects());
-		this.addBehavior(EAdMouseEventImpl.MOUSE_RIGHT_CLICK,
+		this.addBehavior(MouseEventImpl.MOUSE_RIGHT_CLICK,
 				eAdAction.getEffects());
 
 		AssetDescriptor asset = eAdAction.getAsset(
-				eAdAction.getInitialBundle(), EAdBasicAction.appearance);
+				eAdAction.getInitialBundle(), ActionImpl.appearance);
 		definition.getResources().addAsset(definition.getInitialBundle(),
-				EAdSceneElementDefImpl.appearance, asset);
+				SceneElementDefImpl.appearance, asset);
 
 		if (eAdAction.getResources().getBundles()
 				.contains(eAdAction.getHighlightBundle())) {
 			definition.getResources().addBundle(eAdAction.getHighlightBundle());
 			definition.getResources().addAsset(
 					eAdAction.getHighlightBundle(),
-					EAdSceneElementDefImpl.appearance,
+					SceneElementDefImpl.appearance,
 					eAdAction.getAsset(eAdAction.getHighlightBundle(),
-							EAdBasicAction.appearance));
-			this.addBehavior(EAdMouseEventImpl.MOUSE_ENTERED,
-					new EAdChangeAppearance( this,
+							ActionImpl.appearance));
+			this.addBehavior(MouseEventImpl.MOUSE_ENTERED,
+					new ChangeAppearanceEf( this,
 							eAdAction.getHighlightBundle()));
 		} else
 			definition.getResources().addAsset(eAdAction.getHighlightBundle(),
-					EAdSceneElementDefImpl.appearance, asset);
+					SceneElementDefImpl.appearance, asset);
 
 		this.addBehavior(
-				EAdMouseEventImpl.MOUSE_EXITED,
-				new EAdChangeAppearance(this, definition
+				MouseEventImpl.MOUSE_EXITED,
+				new ChangeAppearanceEf(this, definition
 						.getInitialBundle()));
 		
-		setVarInitialValue(EAdBasicSceneElement.VAR_NAME, eAdAction.getName());
+		setVarInitialValue(SceneElementImpl.VAR_NAME, eAdAction.getName());
 		
 		
 	}

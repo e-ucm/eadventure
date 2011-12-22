@@ -37,45 +37,45 @@
 
 package es.eucm.eadventure.engine.core.test.operators;
 
-import es.eucm.eadventure.common.model.variables.EAdField;
-import es.eucm.eadventure.common.model.variables.impl.EAdFieldImpl;
-import es.eucm.eadventure.common.model.variables.impl.EAdVarDefImpl;
-import es.eucm.eadventure.common.model.variables.impl.operations.MathOperation;
+import es.eucm.eadventure.common.model.elements.variables.EAdField;
+import es.eucm.eadventure.common.model.elements.variables.FieldImpl;
+import es.eucm.eadventure.common.model.elements.variables.VarDefImpl;
+import es.eucm.eadventure.common.model.elements.variables.operations.MathOp;
 
 public class LiteralExpressionTest extends
-		OperatorsTest<MathOperation> {
+		OperatorsTest<MathOp> {
 
 
 
 	@Override
 	public void generateOperations() {
 		
-		EAdField<Integer> x = new EAdFieldImpl<Integer>(null,
-				new EAdVarDefImpl<Integer>("x", Integer.class, 1));
-		EAdField<Float> y = new EAdFieldImpl<Float>(null,
-				new EAdVarDefImpl<Float>("y", Float.class, 0.5f));
-		EAdField<Float> z = new EAdFieldImpl<Float>(null,
-				new EAdVarDefImpl<Float>("z", Float.class, 4.2f));
-		EAdField<Double> w = new EAdFieldImpl<Double>(null,
-				new EAdVarDefImpl<Double>("w", Double.class, 10928408.868979));
+		EAdField<Integer> x = new FieldImpl<Integer>(null,
+				new VarDefImpl<Integer>("x", Integer.class, 1));
+		EAdField<Float> y = new FieldImpl<Float>(null,
+				new VarDefImpl<Float>("y", Float.class, 0.5f));
+		EAdField<Float> z = new FieldImpl<Float>(null,
+				new VarDefImpl<Float>("z", Float.class, 4.2f));
+		EAdField<Double> w = new FieldImpl<Double>(null,
+				new VarDefImpl<Double>("w", Double.class, 10928408.868979));
 
-		MathOperation[] operations = new MathOperation[] {
-				new MathOperation("3 + 5 + 8"),
-				new MathOperation("[0] + [1] + [2]", x, y, z),
-				new MathOperation("[0] * [1] / [2]", x, y, z),
-				new MathOperation("(5  + [0] ) * [1] * ( [2] - 4 ) ", x, y, z),
-				new MathOperation(
+		MathOp[] operations = new MathOp[] {
+				new MathOp("3 + 5 + 8"),
+				new MathOp("[0] + [1] + [2]", x, y, z),
+				new MathOp("[0] * [1] / [2]", x, y, z),
+				new MathOp("(5  + [0] ) * [1] * ( [2] - 4 ) ", x, y, z),
+				new MathOp(
 						"cos( 4 + [2] ) - (5  + [0] ) * [1] * sqrt( [2] - 4 ) ",
 						x, y, z),
-				new MathOperation( " 7 * somestring "),
-				new MathOperation( " somestring + 2"),
-				new MathOperation( " [0]^[1]", w, z),
-				new MathOperation( " 1 / 0 "),
-				new MathOperation( "200 max 300"),
-				new MathOperation(
+				new MathOp( " 7 * somestring "),
+				new MathOp( " somestring + 2"),
+				new MathOp( " [0]^[1]", w, z),
+				new MathOp( " 1 / 0 "),
+				new MathOp( "200 max 300"),
+				new MathOp(
 						"[0] + ((400*(1+[1]) - [0]*[1]) max (300*(1+[2]) - [3]*[2]))*[1]",
 						x, x, x, x),
-				new MathOperation("acos( ( [2] - [0] ) / sqrt( sqr( [2] - [0] ) + sqr( [3] - [1] ) ) )", x, y, z, x)
+				new MathOp("acos( ( [2] - [0] ) / sqrt( sqr( [2] - [0] ) + sqr( [3] - [1] ) ) )", x, y, z, x)
 
 		};
 

@@ -42,11 +42,11 @@ import org.w3c.dom.Node;
 
 import es.eucm.eadventure.common.DOMTags;
 import es.eucm.eadventure.common.resources.EAdAssetBundle;
+import es.eucm.eadventure.common.resources.EAdAssetBundleImpl;
 import es.eucm.eadventure.common.resources.EAdBundleId;
 import es.eucm.eadventure.common.resources.EAdResources;
+import es.eucm.eadventure.common.resources.EAdResourcesImpl;
 import es.eucm.eadventure.common.resources.assets.AssetDescriptor;
-import es.eucm.eadventure.common.resources.impl.EAdAssetBundleImpl;
-import es.eucm.eadventure.common.resources.impl.EAdResourcesImpl;
 
 /**
  * <p>

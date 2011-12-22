@@ -38,13 +38,13 @@
 package es.eucm.eadventure.common.elementfactories.sceneelements;
 
 import es.eucm.eadventure.common.elementfactories.EAdElementsFactory;
-import es.eucm.eadventure.common.model.effects.EAdEffect;
-import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
-import es.eucm.eadventure.common.model.elements.impl.EAdSceneElementDefImpl;
-import es.eucm.eadventure.common.model.guievents.impl.EAdMouseEventImpl;
-import es.eucm.eadventure.common.params.geom.impl.EAdPositionImpl;
+import es.eucm.eadventure.common.model.elements.EAdEffect;
+import es.eucm.eadventure.common.model.elements.guievents.MouseEventImpl;
+import es.eucm.eadventure.common.model.elements.scenes.SceneElementDefImpl;
+import es.eucm.eadventure.common.model.elements.scenes.SceneElementImpl;
 import es.eucm.eadventure.common.resources.EAdBundleId;
 import es.eucm.eadventure.common.resources.assets.drawable.Drawable;
+import es.eucm.eadventure.common.util.EAdPositionImpl;
 
 public class SceneElementFactory {
 
@@ -59,9 +59,9 @@ public class SceneElementFactory {
 	 * @param y
 	 * @return
 	 */
-	public EAdBasicSceneElement createSceneElement(Drawable appearance, int x,
+	public SceneElementImpl createSceneElement(Drawable appearance, int x,
 			int y) {
-		EAdBasicSceneElement sceneElement = new EAdBasicSceneElement(appearance);
+		SceneElementImpl sceneElement = new SceneElementImpl(appearance);
 		sceneElement.setId("sceneElement" + ID_GENERATOR++);
 		sceneElement.setPosition(new EAdPositionImpl(x, y));
 		return sceneElement;
@@ -77,23 +77,23 @@ public class SceneElementFactory {
 	 * @param y
 	 * @return
 	 */
-	public EAdBasicSceneElement createSceneElement(Drawable appearance1,
+	public SceneElementImpl createSceneElement(Drawable appearance1,
 			Drawable appearance2, int x, int y) {
-		EAdBasicSceneElement sceneElement = createSceneElement(appearance1, x,
+		SceneElementImpl sceneElement = createSceneElement(appearance1, x,
 				y);
 		EAdBundleId bundle = new EAdBundleId("bundle2");
 		sceneElement.getDefinition().getResources().addBundle(bundle);
 		sceneElement
 				.getDefinition()
 				.getResources()
-				.addAsset(bundle, EAdSceneElementDefImpl.appearance,
+				.addAsset(bundle, SceneElementDefImpl.appearance,
 						appearance2);
-		sceneElement.addBehavior(EAdMouseEventImpl.MOUSE_ENTERED,
+		sceneElement.addBehavior(MouseEventImpl.MOUSE_ENTERED,
 				EAdElementsFactory.getInstance().getEffectFactory()
 						.getChangeAppearance(sceneElement, bundle));
 		sceneElement
 				.addBehavior(
-						EAdMouseEventImpl.MOUSE_EXITED,
+						MouseEventImpl.MOUSE_EXITED,
 						EAdElementsFactory
 								.getInstance()
 								.getEffectFactory()
@@ -112,11 +112,11 @@ public class SceneElementFactory {
 	 * @param effect
 	 * @return
 	 */
-	public EAdBasicSceneElement createSceneElement(Drawable appearance,
+	public SceneElementImpl createSceneElement(Drawable appearance,
 			int x, int y, EAdEffect effect) {
-		EAdBasicSceneElement sceneElement = this.createSceneElement(appearance,
+		SceneElementImpl sceneElement = this.createSceneElement(appearance,
 				x, y);
-		sceneElement.addBehavior(EAdMouseEventImpl.MOUSE_LEFT_CLICK, effect);
+		sceneElement.addBehavior(MouseEventImpl.MOUSE_LEFT_CLICK, effect);
 		return sceneElement;
 	}
 
@@ -128,12 +128,12 @@ public class SceneElementFactory {
 	 * @param y
 	 * @return
 	 */
-	public EAdBasicSceneElement createSceneElement(String text, int x, int y) {
+	public SceneElementImpl createSceneElement(String text, int x, int y) {
 		return createSceneElement(EAdElementsFactory.getInstance()
 				.getCaptionFactory().createCaption(text), x, y);
 	}
 
-	public EAdBasicSceneElement createSceneElement(String string, int x, int y,
+	public SceneElementImpl createSceneElement(String string, int x, int y,
 			EAdEffect effect) {
 		return createSceneElement(EAdElementsFactory.getInstance()
 				.getCaptionFactory().createCaption(string), x, y, effect);

@@ -37,18 +37,18 @@
 
 package es.eucm.eadventure.engine.core.trajectories.impl;
 
-import es.eucm.eadventure.common.params.geom.EAdPosition;
+import es.eucm.eadventure.common.util.EAdPositionImpl;
 import es.eucm.eadventure.engine.core.trajectories.PathSide;
 
 public class SimpleSideImpl implements PathSide {
 
-	private EAdPosition endPosition;
+	private EAdPositionImpl endPosition;
 
 	private int length;
 	
 	private float scale;
 
-	public SimpleSideImpl(EAdPosition startPosition, EAdPosition endPosition, float scale) {
+	public SimpleSideImpl(EAdPositionImpl startPosition, EAdPositionImpl endPosition, float scale) {
 		this.endPosition = endPosition;
 		int vx = endPosition.getX() - startPosition.getX();
 		int vy = endPosition.getY() - startPosition.getY();
@@ -63,7 +63,7 @@ public class SimpleSideImpl implements PathSide {
 	}
 
 	@Override
-	public EAdPosition getEndPosition(boolean last) {
+	public EAdPositionImpl getEndPosition(boolean last) {
 		return endPosition;
 	}
 

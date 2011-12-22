@@ -39,7 +39,7 @@ package es.eucm.eadventure.common.test.importer.subimporters.effects;
 
 import es.eucm.eadventure.common.EAdElementImporter;
 import es.eucm.eadventure.common.data.chapter.effects.Effect;
-import es.eucm.eadventure.common.model.effects.EAdEffect;
+import es.eucm.eadventure.common.model.elements.EAdEffect;
 import es.eucm.eadventure.common.test.importer.test.ImporterTestTemplate;
 
 public abstract class EffectTest<OldEffectType extends Effect, NewEffectType extends EAdEffect>

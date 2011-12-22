@@ -40,9 +40,7 @@ package es.eucm.eadventure.engine.core.gameobjects.huds.impl;
 import java.util.ArrayList;
 import java.util.List;
 
-import es.eucm.eadventure.common.params.geom.EAdPosition;
-import es.eucm.eadventure.common.util.EAdTransformation;
-import es.eucm.eadventure.common.util.impl.EAdTransformationImpl;
+import es.eucm.eadventure.common.util.EAdPositionImpl;
 import es.eucm.eadventure.engine.core.gameobjects.go.DrawableGO;
 import es.eucm.eadventure.engine.core.gameobjects.go.SceneElementGO;
 import es.eucm.eadventure.engine.core.gameobjects.huds.HudGO;
@@ -50,7 +48,9 @@ import es.eucm.eadventure.engine.core.guiactions.GUIAction;
 import es.eucm.eadventure.engine.core.input.MouseState;
 import es.eucm.eadventure.engine.core.platform.GUI;
 import es.eucm.eadventure.engine.core.platform.RuntimeAsset;
-import es.eucm.eadventure.engine.core.platform.rendering.EAdCanvas;
+import es.eucm.eadventure.engine.core.platform.rendering.GenericCanvas;
+import es.eucm.eadventure.engine.core.util.EAdTransformation;
+import es.eucm.eadventure.engine.core.util.impl.EAdTransformationImpl;
 
 public abstract class AbstractHUD implements HudGO {
 
@@ -71,7 +71,7 @@ public abstract class AbstractHUD implements HudGO {
 		hudGameObjects.add(drawable);
 	}
 
-	public void render(EAdCanvas<?> c) {
+	public void render(GenericCanvas<?> c) {
 
 	}
 
@@ -128,12 +128,12 @@ public abstract class AbstractHUD implements HudGO {
 	}
 
 	@Override
-	public EAdPosition getPosition() {
+	public EAdPositionImpl getPosition() {
 		return null;
 	}
 
 	@Override
-	public void setPosition(EAdPosition p) {
+	public void setPosition(EAdPositionImpl p) {
 		
 	}
 	

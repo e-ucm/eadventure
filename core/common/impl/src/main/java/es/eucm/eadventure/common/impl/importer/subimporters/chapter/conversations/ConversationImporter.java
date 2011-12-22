@@ -47,8 +47,8 @@ import es.eucm.eadventure.common.data.chapter.conversation.Conversation;
 import es.eucm.eadventure.common.data.chapter.conversation.node.ConversationNode;
 import es.eucm.eadventure.common.data.chapter.conversation.node.DialogueConversationNode;
 import es.eucm.eadventure.common.impl.importer.interfaces.EffectsImporterFactory;
-import es.eucm.eadventure.common.model.effects.EAdEffect;
-import es.eucm.eadventure.common.model.effects.impl.text.EAdShowQuestion;
+import es.eucm.eadventure.common.model.elements.EAdEffect;
+import es.eucm.eadventure.common.model.elements.effects.text.ShowQuestionEf;
 import es.eucm.eadventure.common.params.text.EAdString;
 import es.eucm.eadventure.common.resources.StringHandler;
 
@@ -87,7 +87,7 @@ public class ConversationImporter implements
 				if (effect != null)
 					nodes.put(node, effect);
 			} else if (node.getType() == ConversationNode.OPTION) {
-				EAdEffect effect = new EAdShowQuestion();
+				EAdEffect effect = new ShowQuestionEf();
 				nodes.put(node, effect);
 			}
 		}
@@ -103,7 +103,7 @@ public class ConversationImporter implements
 					currentNodeEffect.getNextEffects().add(nextNodeEffect);
 				}
 			} else if (node.getType() == ConversationNode.OPTION) {
-				EAdShowQuestion currentNodeEffect = (EAdShowQuestion) nodes
+				ShowQuestionEf currentNodeEffect = (ShowQuestionEf) nodes
 						.get(node);
 				for (int i = 0; i < node.getChildCount(); i++) {
 					EAdString string = EAdString.newEAdString("line");

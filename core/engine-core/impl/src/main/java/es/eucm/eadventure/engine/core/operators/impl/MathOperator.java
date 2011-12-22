@@ -40,20 +40,20 @@ package es.eucm.eadventure.engine.core.operators.impl;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
-import es.eucm.eadventure.common.model.variables.impl.operations.MathOperation;
+import es.eucm.eadventure.common.model.elements.variables.operations.MathOp;
 import es.eucm.eadventure.engine.core.game.ValueMap;
 import es.eucm.eadventure.engine.core.operator.Operator;
 import es.eucm.eadventure.engine.core.operators.impl.util.MathEvaluator;
 
 /**
- * Calculates results for {@link MathOperation}. The result returned by
- * {@link MathOperation#operate(ValueMap, MathOperation)} is always a Float
+ * Calculates results for {@link MathOp}. The result returned by
+ * {@link MathOp#operate(ValueMap, MathOp)} is always a Float
  * object
  * 
  * 
  */
 @Singleton
-public class MathOperator implements Operator<MathOperation> {
+public class MathOperator implements Operator<MathOp> {
 
 	/**
 	 * Math evaluator
@@ -69,7 +69,7 @@ public class MathOperator implements Operator<MathOperation> {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public <S> S operate(Class<S> clazz, MathOperation operation) {
+	public <S> S operate(Class<S> clazz, MathOp operation) {
 		synchronized (evaluator) {
 			evaluator.setExpression(operation.getExpression(), valueMap,
 					operation.getVarList());

@@ -37,8 +37,8 @@
 
 package es.eucm.eadventure.engine.core.platform;
 
-import es.eucm.eadventure.common.params.geom.EAdRectangle;
 import es.eucm.eadventure.common.params.text.EAdFont;
+import es.eucm.eadventure.common.util.EAdRectangleImpl;
 
 /**
  * Interface for a cache of the system dependent {@link RuntimeFont}s
@@ -98,7 +98,7 @@ public interface FontHandler {
 	 * @return the string bounds, <b>null</b> if font is not present in the
 	 *         cache
 	 */
-	public EAdRectangle stringBounds(String string, EAdFont font);
+	public EAdRectangleImpl stringBounds(String string, EAdFont font);
 
 	/**
 	 * Adds a new {@link RuntimeFont} to cache based on the given

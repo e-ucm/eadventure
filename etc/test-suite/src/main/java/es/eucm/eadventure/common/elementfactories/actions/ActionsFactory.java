@@ -38,23 +38,23 @@
 package es.eucm.eadventure.common.elementfactories.actions;
 
 import es.eucm.eadventure.common.elementfactories.EAdElementsFactory;
-import es.eucm.eadventure.common.model.actions.EAdAction;
-import es.eucm.eadventure.common.model.actions.impl.EAdBasicAction;
-import es.eucm.eadventure.common.model.effects.impl.text.EAdSpeakEffect;
-import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.ImageImpl;
+import es.eucm.eadventure.common.model.elements.EAdAction;
+import es.eucm.eadventure.common.model.elements.actions.ActionImpl;
+import es.eucm.eadventure.common.model.elements.effects.text.SpeakEf;
+import es.eucm.eadventure.common.resources.assets.drawable.basics.ImageImpl;
 
 public class ActionsFactory {
 	
 	public EAdAction getBasicAction( ){
-		EAdBasicAction action = new EAdBasicAction();
+		ActionImpl action = new ActionImpl();
 		action.getResources().addAsset(action.getInitialBundle(),
-				EAdBasicAction.appearance,
+				ActionImpl.appearance,
 				new ImageImpl("@drawable/examine-normal.png"));
 		action.getResources().addAsset(action.getHighlightBundle(),
-				EAdBasicAction.appearance,
+				ActionImpl.appearance,
 				new ImageImpl("@drawable/examine-pressed.png"));
 
-		EAdSpeakEffect speak = new EAdSpeakEffect();
+		SpeakEf speak = new SpeakEf();
 
 		EAdElementsFactory.getInstance().getStringFactory()
 				.setString(speak.getString(), "The action was triggered!");

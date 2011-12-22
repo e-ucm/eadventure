@@ -43,16 +43,16 @@ import es.eucm.eadventure.common.EAdElementImporter;
 import es.eucm.eadventure.common.data.chapter.conditions.Conditions;
 import es.eucm.eadventure.common.data.chapter.effects.PlayAnimationEffect;
 import es.eucm.eadventure.common.impl.importer.interfaces.ResourceImporter;
-import es.eucm.eadventure.common.model.effects.impl.timedevents.EAdShowSceneElement;
 import es.eucm.eadventure.common.model.elements.EAdCondition;
-import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
-import es.eucm.eadventure.common.params.geom.impl.EAdPositionImpl;
+import es.eucm.eadventure.common.model.elements.effects.timedevents.ShowSceneElementEf;
+import es.eucm.eadventure.common.model.elements.scenes.SceneElementImpl;
 import es.eucm.eadventure.common.resources.assets.drawable.Drawable;
-import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.ImageImpl;
-import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.animation.FramesAnimation;
+import es.eucm.eadventure.common.resources.assets.drawable.basics.ImageImpl;
+import es.eucm.eadventure.common.resources.assets.drawable.basics.animation.FramesAnimation;
+import es.eucm.eadventure.common.util.EAdPositionImpl;
 
 public class PlayAnimationEffectImporter extends
-		EffectImporter<PlayAnimationEffect, EAdShowSceneElement> {
+		EffectImporter<PlayAnimationEffect, ShowSceneElementEf> {
 
 	private ResourceImporter resourceImporter;
 
@@ -65,21 +65,21 @@ public class PlayAnimationEffectImporter extends
 	}
 
 	@Override
-	public EAdShowSceneElement init(PlayAnimationEffect oldObject) {
-		EAdShowSceneElement showScene = new EAdShowSceneElement();
+	public ShowSceneElementEf init(PlayAnimationEffect oldObject) {
+		ShowSceneElementEf showScene = new ShowSceneElementEf();
 		showScene.setId("playAnimationEffect" + ID_GENERATOR++);
 		return showScene;
 	}
 
 	@Override
-	public EAdShowSceneElement convert(PlayAnimationEffect oldObject,
+	public ShowSceneElementEf convert(PlayAnimationEffect oldObject,
 			Object newElement) {
-		EAdShowSceneElement effect = super.convert(oldObject, newElement);
+		ShowSceneElementEf effect = super.convert(oldObject, newElement);
 
 
 		Drawable asset = (Drawable) resourceImporter.getAssetDescritptor(
 				oldObject.getPath(), ImageImpl.class);
-		EAdBasicSceneElement element = new EAdBasicSceneElement(asset);
+		SceneElementImpl element = new SceneElementImpl(asset);
 		element.setId("animation" + ID_GENERATOR++);
 		element.setPosition(new EAdPositionImpl(oldObject.getX(), oldObject
 				.getY()));

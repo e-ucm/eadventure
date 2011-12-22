@@ -44,27 +44,27 @@ import java.util.Map;
 import com.google.inject.Inject;
 
 import es.eucm.eadventure.common.model.EAdElement;
-import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
-import es.eucm.eadventure.common.model.elements.impl.EAdSceneElementDefImpl;
-import es.eucm.eadventure.common.model.variables.EAdVarDef;
-import es.eucm.eadventure.common.model.variables.impl.EAdFieldImpl;
-import es.eucm.eadventure.common.model.variables.impl.SystemFields;
+import es.eucm.eadventure.common.model.elements.scenes.SceneElementDefImpl;
+import es.eucm.eadventure.common.model.elements.scenes.SceneElementImpl;
+import es.eucm.eadventure.common.model.elements.variables.EAdVarDef;
+import es.eucm.eadventure.common.model.elements.variables.FieldImpl;
+import es.eucm.eadventure.common.model.elements.variables.SystemFields;
 import es.eucm.eadventure.common.params.EAdFontImpl;
-import es.eucm.eadventure.common.params.fills.impl.EAdColor;
+import es.eucm.eadventure.common.params.fills.EAdColor;
 import es.eucm.eadventure.common.params.text.EAdFont;
 import es.eucm.eadventure.common.resources.StringHandler;
-import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.CaptionImpl;
-import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.shapes.RectangleShape;
+import es.eucm.eadventure.common.resources.assets.drawable.basics.CaptionImpl;
+import es.eucm.eadventure.common.resources.assets.drawable.basics.shapes.RectangleShape;
 import es.eucm.eadventure.common.resources.assets.drawable.compounds.ComposedDrawable;
-import es.eucm.eadventure.common.resources.assets.drawable.compounds.impl.ComposedDrawableImpl;
-import es.eucm.eadventure.engine.core.debuggers.EAdDebugger;
+import es.eucm.eadventure.common.resources.assets.drawable.compounds.ComposedDrawableImpl;
+import es.eucm.eadventure.engine.core.debuggers.Debugger;
 import es.eucm.eadventure.engine.core.game.ValueMap;
 import es.eucm.eadventure.engine.core.gameobjects.factories.SceneElementGOFactory;
 import es.eucm.eadventure.engine.core.gameobjects.go.DrawableGO;
 import es.eucm.eadventure.engine.core.gameobjects.go.GameObject;
 import es.eucm.eadventure.engine.core.input.MouseState;
 
-public class FieldsDebugger implements EAdDebugger {
+public class FieldsDebugger implements Debugger {
 
 	private EAdElement element;
 
@@ -74,7 +74,7 @@ public class FieldsDebugger implements EAdDebugger {
 
 	private ValueMap valueMap;
 
-	private EAdBasicSceneElement vars;
+	private SceneElementImpl vars;
 
 	private StringHandler stringHandler;
 
@@ -92,9 +92,9 @@ public class FieldsDebugger implements EAdDebugger {
 		this.stringHandler = stringHandler;
 		this.gameObjectFactory = gameObjectFactory;
 		gos = new ArrayList<DrawableGO<?>>();
-		vars = new EAdBasicSceneElement();
+		vars = new SceneElementImpl();
 		vars.setId("vars");
-		vars.setVarInitialValue(EAdBasicSceneElement.VAR_ENABLE, false);
+		vars.setVarInitialValue(SceneElementImpl.VAR_ENABLE, false);
 	}
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
@@ -129,7 +129,7 @@ public class FieldsDebugger implements EAdDebugger {
 						c = new CaptionImpl();
 						stringHandler.setString(c.getText(), var.getName()
 								+ "=[0]");
-						c.getFields().add(new EAdFieldImpl(element, var));
+						c.getFields().add(new FieldImpl(element, var));
 						c.getFields().add(SystemFields.SHOW_MOUSE);
 						c.setFont(font);
 						c.setTextPaint(EAdColor.WHITE);
@@ -143,7 +143,7 @@ public class FieldsDebugger implements EAdDebugger {
 					vars.getDefinition()
 							.getResources()
 							.addAsset(vars.getDefinition().getInitialBundle(),
-									EAdSceneElementDefImpl.appearance, d);
+									SceneElementDefImpl.appearance, d);
 
 					gos.add(gameObjectFactory.get(vars));
 				}

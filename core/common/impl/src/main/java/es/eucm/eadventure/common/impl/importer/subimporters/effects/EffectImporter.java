@@ -40,8 +40,8 @@ package es.eucm.eadventure.common.impl.importer.subimporters.effects;
 import es.eucm.eadventure.common.EAdElementImporter;
 import es.eucm.eadventure.common.data.chapter.conditions.Conditions;
 import es.eucm.eadventure.common.data.chapter.effects.AbstractEffect;
-import es.eucm.eadventure.common.model.effects.EAdEffect;
 import es.eucm.eadventure.common.model.elements.EAdCondition;
+import es.eucm.eadventure.common.model.elements.EAdEffect;
 
 public abstract class EffectImporter<OldEffect extends AbstractEffect, NewEffect extends EAdEffect>
 		implements EAdElementImporter<OldEffect, NewEffect> {

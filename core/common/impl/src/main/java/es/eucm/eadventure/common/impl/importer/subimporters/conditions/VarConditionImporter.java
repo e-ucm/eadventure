@@ -43,12 +43,12 @@ import es.eucm.eadventure.common.EAdElementImporter;
 import es.eucm.eadventure.common.data.chapter.conditions.Condition;
 import es.eucm.eadventure.common.data.chapter.conditions.VarCondition;
 import es.eucm.eadventure.common.impl.importer.interfaces.EAdElementFactory;
-import es.eucm.eadventure.common.model.conditions.impl.OperationCondition;
-import es.eucm.eadventure.common.model.conditions.impl.enums.Comparator;
-import es.eucm.eadventure.common.model.variables.EAdField;
+import es.eucm.eadventure.common.model.elements.conditions.OperationCond;
+import es.eucm.eadventure.common.model.elements.conditions.enums.Comparator;
+import es.eucm.eadventure.common.model.elements.variables.EAdField;
 
 public class VarConditionImporter implements
-		EAdElementImporter<VarCondition, OperationCondition> {
+		EAdElementImporter<VarCondition, OperationCond> {
 
 	private EAdElementFactory factory;
 
@@ -59,19 +59,19 @@ public class VarConditionImporter implements
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public OperationCondition init(VarCondition oldObject) {
+	public OperationCond init(VarCondition oldObject) {
 		Comparator op = getOperator(oldObject.getState());
 		EAdField<Integer> var = (EAdField<Integer>) factory.getVarByOldId(
 				oldObject.getId(), Condition.VAR_CONDITION);
 
-		OperationCondition condition = new OperationCondition(var,
+		OperationCond condition = new OperationCond(var,
 				oldObject.getValue(), op);
 		return condition;
 	}
 
 	@Override
-	public OperationCondition convert(VarCondition oldObject, Object object) {
-		return (OperationCondition) object;
+	public OperationCond convert(VarCondition oldObject, Object object) {
+		return (OperationCond) object;
 	}
 
 	private Comparator getOperator(int op) {

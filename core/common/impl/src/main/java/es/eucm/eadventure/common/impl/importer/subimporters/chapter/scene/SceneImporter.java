@@ -58,32 +58,31 @@ import es.eucm.eadventure.common.impl.importer.interfaces.EAdElementFactory;
 import es.eucm.eadventure.common.impl.importer.interfaces.ResourceImporter;
 import es.eucm.eadventure.common.model.elements.EAdChapter;
 import es.eucm.eadventure.common.model.elements.EAdCondition;
-import es.eucm.eadventure.common.model.elements.EAdSceneElement;
-import es.eucm.eadventure.common.model.elements.EAdSceneElementDef;
-import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
-import es.eucm.eadventure.common.model.elements.impl.EAdSceneElementDefImpl;
-import es.eucm.eadventure.common.model.elements.impl.EAdSceneImpl;
-import es.eucm.eadventure.common.model.events.EAdSceneElementEvent;
-import es.eucm.eadventure.common.model.events.enums.SceneElementEventType;
-import es.eucm.eadventure.common.model.events.impl.EAdSceneElementEventImpl;
-import es.eucm.eadventure.common.model.guievents.impl.EAdMouseEventImpl;
-import es.eucm.eadventure.common.model.trajectories.impl.NodeTrajectoryDefinition;
-import es.eucm.eadventure.common.model.trajectories.impl.SimpleTrajectoryDefinition;
-import es.eucm.eadventure.common.params.geom.impl.EAdPositionImpl;
-import es.eucm.eadventure.common.params.geom.impl.EAdPositionImpl.Corner;
-import es.eucm.eadventure.common.predef.model.effects.EAdMakeActiveElementEffect;
-import es.eucm.eadventure.common.predef.model.effects.EAdMoveActiveElement;
-import es.eucm.eadventure.common.predef.model.events.ScrollWithSceneElement;
+import es.eucm.eadventure.common.model.elements.events.SceneElementEv;
+import es.eucm.eadventure.common.model.elements.events.enums.SceneElementEventType;
+import es.eucm.eadventure.common.model.elements.guievents.MouseEventImpl;
+import es.eucm.eadventure.common.model.elements.scene.EAdSceneElement;
+import es.eucm.eadventure.common.model.elements.scene.EAdSceneElementDef;
+import es.eucm.eadventure.common.model.elements.scenes.SceneElementDefImpl;
+import es.eucm.eadventure.common.model.elements.scenes.SceneElementImpl;
+import es.eucm.eadventure.common.model.elements.scenes.SceneImpl;
+import es.eucm.eadventure.common.model.elements.trajectories.NodeTrajectoryDefinition;
+import es.eucm.eadventure.common.model.elements.trajectories.SimpleTrajectoryDefinition;
+import es.eucm.eadventure.common.model.predef.effects.MakeActiveElementEf;
+import es.eucm.eadventure.common.model.predef.effects.MoveActiveElementEf;
+import es.eucm.eadventure.common.model.predef.events.ScrollWithSceneElementEv;
 import es.eucm.eadventure.common.resources.StringHandler;
-import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.ImageImpl;
+import es.eucm.eadventure.common.resources.assets.drawable.basics.ImageImpl;
 import es.eucm.eadventure.common.resources.assets.multimedia.Sound;
-import es.eucm.eadventure.common.resources.assets.multimedia.impl.SoundImpl;
+import es.eucm.eadventure.common.resources.assets.multimedia.SoundImpl;
+import es.eucm.eadventure.common.util.EAdPositionImpl;
+import es.eucm.eadventure.common.util.EAdPositionImpl.Corner;
 
 /**
  * Scenes importer
  * 
  */
-public class SceneImporter implements EAdElementImporter<Scene, EAdSceneImpl> {
+public class SceneImporter implements EAdElementImporter<Scene, SceneImpl> {
 
 	/**
 	 * String handler
@@ -137,16 +136,16 @@ public class SceneImporter implements EAdElementImporter<Scene, EAdSceneImpl> {
 	}
 
 	@Override
-	public EAdSceneImpl init(Scene oldScene) {
-		EAdSceneImpl scene = new EAdSceneImpl();
+	public SceneImpl init(Scene oldScene) {
+		SceneImpl scene = new SceneImpl();
 		scene.setId(oldScene.getId());
 		return scene;
 	}
 
 	@Override
-	public EAdSceneImpl convert(Scene oldScene, Object object) {
+	public SceneImpl convert(Scene oldScene, Object object) {
 		EAdChapter chapter = factory.getCurrentChapterModel();
-		EAdSceneImpl scene = (EAdSceneImpl) object;
+		SceneImpl scene = (SceneImpl) object;
 		chapter.getScenes().add(scene);
 
 		importDocumentation(scene, oldScene);
@@ -156,28 +155,28 @@ public class SceneImporter implements EAdElementImporter<Scene, EAdSceneImpl> {
 		return scene;
 	}
 
-	private void importSceneElements(EAdSceneImpl scene, Scene oldScene,
+	private void importSceneElements(SceneImpl scene, Scene oldScene,
 			EAdChapter chapter) {
 		importExits(scene, oldScene.getExits());
 		importAciveAreas(scene, oldScene.getActiveAreas());
 		importReferences(scene, oldScene.getItemReferences(), chapter);
 		importReferences(scene, oldScene.getAtrezzoReferences(), chapter);
 		importReferences(scene, oldScene.getCharacterReferences(), chapter);
-		EAdBasicSceneElement playerReference = addPlayer(scene, oldScene,
+		SceneElementImpl playerReference = addPlayer(scene, oldScene,
 				chapter);
 		importTrajectory(scene, oldScene.getTrajectory(),
 				oldScene.getBarriers(), playerReference);
 
 	}
 
-	private EAdBasicSceneElement addPlayer(EAdSceneImpl scene, Scene oldScene,
+	private SceneElementImpl addPlayer(SceneImpl scene, Scene oldScene,
 			EAdChapter chapter) {
 		if (factory.isFirstPerson()) {
 			return null;
 		} else {
 			EAdSceneElementDef player = (EAdSceneElementDef) factory
 					.getElementById(Player.IDENTIFIER);
-			EAdBasicSceneElement playerReference = new EAdBasicSceneElement(
+			SceneElementImpl playerReference = new SceneElementImpl(
 					player);
 			EAdPositionImpl p = new EAdPositionImpl(
 					EAdPositionImpl.Corner.BOTTOM_CENTER,
@@ -186,10 +185,10 @@ public class SceneImporter implements EAdElementImporter<Scene, EAdSceneImpl> {
 			playerReference.setScale(oldScene.getPlayerScale());
 
 			// Make it active element of the scene
-			EAdMakeActiveElementEffect effect = new EAdMakeActiveElementEffect(
+			MakeActiveElementEf effect = new MakeActiveElementEf(
 					playerReference);
 			
-			EAdSceneElementEvent event = new EAdSceneElementEventImpl();
+			SceneElementEv event = new SceneElementEv();
 			event.setId("makeAcitveCharacter");
 			event.addEffect(SceneElementEventType.ADDED_TO_SCENE, effect);
 			playerReference.getEvents().add(event);
@@ -203,14 +202,14 @@ public class SceneImporter implements EAdElementImporter<Scene, EAdSceneImpl> {
 			}
 
 			scene.getBackground().addBehavior(
-					EAdMouseEventImpl.MOUSE_LEFT_CLICK,
-					new EAdMoveActiveElement());
+					MouseEventImpl.MOUSE_LEFT_CLICK,
+					new MoveActiveElementEf());
 			
 			// Add move camera with character
 			Dimension d = resourceImporter.getDimensions(oldScene.getResources().get(0).getAssetPath(Scene.RESOURCE_TYPE_BACKGROUND));
 			scene.setBounds(d.width, 600);
 			
-			ScrollWithSceneElement scroll = new ScrollWithSceneElement( scene, playerReference );
+			ScrollWithSceneElementEv scroll = new ScrollWithSceneElementEv( scene, playerReference );
 			scene.getEvents().add(scroll);
 
 			return playerReference;
@@ -218,8 +217,8 @@ public class SceneImporter implements EAdElementImporter<Scene, EAdSceneImpl> {
 
 	}
 
-	private void importTrajectory(EAdSceneImpl scene, Trajectory trajectory,
-			List<Barrier> barriers, EAdBasicSceneElement playerReference) {
+	private void importTrajectory(SceneImpl scene, Trajectory trajectory,
+			List<Barrier> barriers, SceneElementImpl playerReference) {
 		if (trajectory == null) {
 			scene.setTrajectoryDefinition(new SimpleTrajectoryDefinition(true));
 		} else {
@@ -244,22 +243,22 @@ public class SceneImporter implements EAdElementImporter<Scene, EAdSceneImpl> {
 
 	}
 
-	private void importAciveAreas(EAdSceneImpl scene, List<ActiveArea> list) {
+	private void importAciveAreas(SceneImpl scene, List<ActiveArea> list) {
 		for (ActiveArea a : list) {
-			EAdBasicSceneElement activeArea = (EAdBasicSceneElement) factory.getElementById(a
+			SceneElementImpl activeArea = (SceneElementImpl) factory.getElementById(a
 					.getId());
 			activeArea.setPosition(new EAdPositionImpl(EAdPositionImpl.Corner.TOP_LEFT, a.getX(), a.getY()));
-			activeArea.setVarInitialValue(EAdBasicSceneElement.VAR_Z, Integer.MAX_VALUE - 2 );
+			activeArea.setVarInitialValue(SceneElementImpl.VAR_Z, Integer.MAX_VALUE - 2 );
 			if (activeArea != null)
 				scene.getComponents().add(activeArea);
 		}
 
 	}
 
-	private void importExits(EAdSceneImpl scene, List<Exit> list) {
+	private void importExits(SceneImpl scene, List<Exit> list) {
 		for (Exit e : list) {
 			EAdSceneElement se = exitsImporter.init(e);
-			se.setVarInitialValue(EAdBasicSceneElement.VAR_Z, Integer.MAX_VALUE - 1);
+			se.setVarInitialValue(SceneElementImpl.VAR_Z, Integer.MAX_VALUE - 1);
 			se = exitsImporter.convert(e, se);
 			if (se != null)
 				scene.getComponents().add(se);
@@ -267,24 +266,24 @@ public class SceneImporter implements EAdElementImporter<Scene, EAdSceneImpl> {
 
 	}
 
-	private void importReferences(EAdSceneImpl scene,
+	private void importReferences(SceneImpl scene,
 			List<ElementReference> references, EAdChapter chapter) {
 		for (ElementReference oldRef : references) {
 			EAdSceneElement newRef = referencesImporter.init(oldRef);
 			newRef = referencesImporter.convert(oldRef, newRef);
-			newRef.setVarInitialValue(EAdBasicSceneElement.VAR_Z,
+			newRef.setVarInitialValue(SceneElementImpl.VAR_Z,
 					oldRef.getLayer());
 			scene.getComponents().add(newRef);
 		}
 
 	}
 
-	private void importResources(EAdSceneImpl scene, Scene oldScene,
+	private void importResources(SceneImpl scene, Scene oldScene,
 			EAdChapter chapter) {
 
 		Map<String, String> resourcesStrings = new HashMap<String, String>();
 		resourcesStrings.put(Scene.RESOURCE_TYPE_BACKGROUND,
-				EAdSceneElementDefImpl.appearance);
+				SceneElementDefImpl.appearance);
 
 		Map<String, Object> resourcesClasses = new HashMap<String, Object>();
 		resourcesClasses.put(Scene.RESOURCE_TYPE_BACKGROUND, ImageImpl.class);
@@ -300,10 +299,10 @@ public class SceneImporter implements EAdElementImporter<Scene, EAdSceneImpl> {
 			if (foregroundPath != null) {
 				ImageImpl image = (ImageImpl) resourceImporter
 						.getAssetDescritptor(foregroundPath, ImageImpl.class);
-				EAdBasicSceneElement foreground = new EAdBasicSceneElement(
+				SceneElementImpl foreground = new SceneElementImpl(
 						image);
 				foreground.setId("foreground");
-				foreground.setVarInitialValue(EAdBasicSceneElement.VAR_Z, Integer.MAX_VALUE);
+				foreground.setVarInitialValue(SceneElementImpl.VAR_Z, Integer.MAX_VALUE);
 				scene.getComponents().add(foreground);
 			}
 			// Music is imported to chapter level. So, the chapter will
@@ -319,7 +318,7 @@ public class SceneImporter implements EAdElementImporter<Scene, EAdSceneImpl> {
 
 	}
 
-	private void importDocumentation(EAdSceneImpl scene, Scene oldScene) {
+	private void importDocumentation(SceneImpl scene, Scene oldScene) {
 		stringHandler.setString(scene.getDefinition().getName(),
 				oldScene.getName());
 		stringHandler.setString(scene.getDefinition().getDoc(),

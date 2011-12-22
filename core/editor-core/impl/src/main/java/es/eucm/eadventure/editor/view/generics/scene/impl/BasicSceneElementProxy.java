@@ -1,10 +1,10 @@
 package es.eucm.eadventure.editor.view.generics.scene.impl;
 
-import es.eucm.eadventure.common.model.elements.EAdSceneElement;
-import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
-import es.eucm.eadventure.common.model.variables.EAdVarDef;
+import es.eucm.eadventure.common.model.elements.scene.EAdSceneElement;
+import es.eucm.eadventure.common.model.elements.scenes.SceneElementImpl;
+import es.eucm.eadventure.common.model.elements.variables.EAdVarDef;
 
-public class BasicSceneElementProxy extends EAdBasicSceneElement {
+public class BasicSceneElementProxy extends SceneElementImpl {
 
 	public BasicSceneElementProxy(EAdSceneElement element) {
 		setId(element.getId() + "_proxy");

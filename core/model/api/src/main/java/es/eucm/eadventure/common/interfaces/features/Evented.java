@@ -37,8 +37,8 @@
 
 package es.eucm.eadventure.common.interfaces.features;
 
-import es.eucm.eadventure.common.model.events.EAdEvent;
-import es.eucm.eadventure.common.model.extra.EAdList;
+import es.eucm.eadventure.common.model.elements.EAdEvent;
+import es.eucm.eadventure.common.model.elements.extra.EAdList;
 
 /**
  * General interfaces for elements with events

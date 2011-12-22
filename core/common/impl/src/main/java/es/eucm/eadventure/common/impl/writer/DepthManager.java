@@ -43,7 +43,7 @@ import java.util.List;
 import java.util.Map;
 
 import es.eucm.eadventure.common.model.EAdElement;
-import es.eucm.eadventure.common.model.extra.EAdList;
+import es.eucm.eadventure.common.model.elements.extra.EAdList;
 
 public class DepthManager {
 

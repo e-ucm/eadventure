@@ -43,11 +43,10 @@ import es.eucm.eadventure.common.EAdElementImporter;
 import es.eucm.eadventure.common.data.chapter.effects.AbstractEffect;
 import es.eucm.eadventure.common.data.chapter.effects.Macro;
 import es.eucm.eadventure.common.impl.importer.interfaces.EffectsImporterFactory;
-import es.eucm.eadventure.common.model.effects.EAdEffect;
-import es.eucm.eadventure.common.model.effects.EAdMacro;
-import es.eucm.eadventure.common.model.effects.impl.EAdMacroImpl;
+import es.eucm.eadventure.common.model.elements.EAdEffect;
+import es.eucm.eadventure.common.model.elements.effects.EffectsMacro;
 
-public class MacroImporter implements EAdElementImporter<Macro, EAdMacro>{
+public class MacroImporter implements EAdElementImporter<Macro, EffectsMacro>{
 	
 	private EffectsImporterFactory effectImporter;
 	
@@ -56,15 +55,15 @@ public class MacroImporter implements EAdElementImporter<Macro, EAdMacro>{
 		this.effectImporter = effectImporter;
 	}
 	@Override
-	public EAdMacro init( Macro oldMacro ) {
-		EAdMacro macro = new EAdMacroImpl( );
+	public EffectsMacro init( Macro oldMacro ) {
+		EffectsMacro macro = new EffectsMacro( );
 		macro.setId( oldMacro.getId());
 		return macro;
 	}
 
 	@Override
-	public EAdMacro convert( Macro oldMacro, Object object) {
-		EAdMacroImpl newMacro = (EAdMacroImpl) object;
+	public EffectsMacro convert( Macro oldMacro, Object object) {
+		EffectsMacro newMacro = (EffectsMacro) object;
 		
 		for (AbstractEffect e : oldMacro.getEffects()) {
 			EAdEffect newEffect = (EAdEffect) effectImporter.getEffect(e);

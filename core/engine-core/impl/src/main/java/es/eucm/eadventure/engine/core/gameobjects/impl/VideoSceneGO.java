@@ -41,11 +41,10 @@ import java.util.logging.Logger;
 
 import com.google.inject.Inject;
 
-import es.eucm.eadventure.common.model.effects.EAdEffect;
-import es.eucm.eadventure.common.model.elements.impl.EAdVideoScene;
+import es.eucm.eadventure.common.model.elements.EAdEffect;
+import es.eucm.eadventure.common.model.elements.VideoScene;
 import es.eucm.eadventure.common.resources.StringHandler;
 import es.eucm.eadventure.common.resources.assets.multimedia.Video;
-import es.eucm.eadventure.common.util.EAdTransformation;
 import es.eucm.eadventure.engine.core.game.GameState;
 import es.eucm.eadventure.engine.core.gameobjects.factories.EventGOFactory;
 import es.eucm.eadventure.engine.core.gameobjects.factories.SceneElementGOFactory;
@@ -55,9 +54,10 @@ import es.eucm.eadventure.engine.core.guiactions.GUIAction;
 import es.eucm.eadventure.engine.core.platform.AssetHandler;
 import es.eucm.eadventure.engine.core.platform.GUI;
 import es.eucm.eadventure.engine.core.platform.SpecialAssetRenderer;
+import es.eucm.eadventure.engine.core.util.EAdTransformation;
 
-public class VideoSceneGO extends SceneElementGOImpl<EAdVideoScene> implements
-		SceneGO<EAdVideoScene> {
+public class VideoSceneGO extends SceneElementGOImpl<VideoScene> implements
+		SceneGO<VideoScene> {
 
 	private static final Logger logger = Logger.getLogger("VideoScreenGOImpl");
 
@@ -81,7 +81,7 @@ public class VideoSceneGO extends SceneElementGOImpl<EAdVideoScene> implements
 	public void doLayout(EAdTransformation transformation) {
 		if (component == null)
 			component = specialAssetRenderer.getComponent((Video) element
-					.getDefinition().getAsset(EAdVideoScene.video));
+					.getDefinition().getAsset(VideoScene.video));
 		if (specialAssetRenderer.isFinished()) {
 			gui.showSpecialResource(null, 0, 0, true);
 			component = null;

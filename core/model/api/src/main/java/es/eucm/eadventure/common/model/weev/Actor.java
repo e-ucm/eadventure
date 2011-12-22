@@ -37,7 +37,7 @@
 
 package es.eucm.eadventure.common.model.weev;
 
-import es.eucm.eadventure.common.model.elements.EAdSceneElementDef;
+import es.eucm.eadventure.common.model.elements.scene.EAdSceneElementDef;
 
 /**
  * An actor (i.e. interactive element) in the WEEV model

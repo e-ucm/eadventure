@@ -44,12 +44,12 @@ import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.util.logging.Logger;
 
-import es.eucm.eadventure.common.model.guievents.enums.KeyActionType;
-import es.eucm.eadventure.common.model.guievents.enums.KeyCode;
-import es.eucm.eadventure.common.model.guievents.EAdMouseEvent;
-import es.eucm.eadventure.common.model.guievents.enums.MouseActionType;
-import es.eucm.eadventure.common.model.guievents.enums.MouseButton;
-import es.eucm.eadventure.common.model.guievents.impl.EAdMouseEventImpl;
+import es.eucm.eadventure.common.model.elements.guievents.EAdMouseEvent;
+import es.eucm.eadventure.common.model.elements.guievents.MouseEventImpl;
+import es.eucm.eadventure.common.model.elements.guievents.enums.KeyActionType;
+import es.eucm.eadventure.common.model.elements.guievents.enums.KeyCode;
+import es.eucm.eadventure.common.model.elements.guievents.enums.MouseActionType;
+import es.eucm.eadventure.common.model.elements.guievents.enums.MouseButton;
 import es.eucm.eadventure.engine.core.guiactions.KeyAction;
 import es.eucm.eadventure.engine.core.guiactions.MouseAction;
 import es.eucm.eadventure.engine.core.guiactions.impl.KeyActionImpl;
@@ -214,7 +214,7 @@ public class DesktopInputListener implements MouseListener,
 	public MouseAction getMouseAction(MouseEvent e, MouseActionType action,
 			int virtualX, int virtualY) {
 		MouseButton b = getMouseButton(e.getButton());
-		EAdMouseEvent event = EAdMouseEventImpl.getMouseEvent(action, b);
+		EAdMouseEvent event = MouseEventImpl.getMouseEvent(action, b);
 		return new MouseActionImpl(event, virtualX, virtualY);
 
 	}

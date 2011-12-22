@@ -38,36 +38,36 @@
 package es.eucm.eadventure.common.elementfactories.demos.scenes;
 
 import es.eucm.eadventure.common.elementfactories.demos.SceneDemo;
-import es.eucm.eadventure.common.model.elements.impl.EAdSceneElementDefImpl;
-import es.eucm.eadventure.common.model.elements.impl.EAdSceneImpl;
-import es.eucm.eadventure.common.params.fills.impl.EAdColor;
-import es.eucm.eadventure.common.params.fills.impl.EAdLinearGradient;
+import es.eucm.eadventure.common.model.elements.scenes.SceneElementDefImpl;
+import es.eucm.eadventure.common.model.elements.scenes.SceneImpl;
+import es.eucm.eadventure.common.params.fills.EAdColor;
+import es.eucm.eadventure.common.params.fills.EAdLinearGradient;
 import es.eucm.eadventure.common.params.paint.EAdFill;
 import es.eucm.eadventure.common.params.text.EAdString;
-import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.shapes.RectangleShape;
+import es.eucm.eadventure.common.resources.assets.drawable.basics.shapes.RectangleShape;
 
 /**
  * An empty scene
  * 
  */
-public class EmptyScene extends EAdSceneImpl implements SceneDemo {
+public class EmptyScene extends SceneImpl implements SceneDemo {
 
 	private RectangleShape rectangle;
 
 	public EmptyScene() {
 		super();
 		setId("EmptyScene");
-		((EAdSceneElementDefImpl) this.getDefinition()).setName(EAdString.newEAdString("name"));
-		((EAdSceneElementDefImpl) this.getDefinition()).setDesc(EAdString.newEAdString("desc"));
-		((EAdSceneElementDefImpl) this.getDefinition()).setDetailDesc(EAdString.newEAdString("detailDesc"));
-		((EAdSceneElementDefImpl) this.getDefinition()).setDoc(EAdString.newEAdString("doc"));
+		((SceneElementDefImpl) this.getDefinition()).setName(EAdString.newEAdString("name"));
+		((SceneElementDefImpl) this.getDefinition()).setDesc(EAdString.newEAdString("desc"));
+		((SceneElementDefImpl) this.getDefinition()).setDetailDesc(EAdString.newEAdString("detailDesc"));
+		((SceneElementDefImpl) this.getDefinition()).setDoc(EAdString.newEAdString("doc"));
 		
 		
 		rectangle = new RectangleShape(800, 600);
 		rectangle.setPaint(new EAdLinearGradient(new EAdColor(240, 240, 240), EAdColor.WHITE, 800, 600));
 		getBackground().getDefinition().getResources().addAsset(
 				getBackground().getDefinition().getInitialBundle(),
-				EAdSceneElementDefImpl.appearance, rectangle);
+				SceneElementDefImpl.appearance, rectangle);
 	}
 	
 	public void setBackgroundFill( EAdFill fill ){

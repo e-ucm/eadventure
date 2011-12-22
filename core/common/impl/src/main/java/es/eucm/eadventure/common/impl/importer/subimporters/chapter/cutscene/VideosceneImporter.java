@@ -48,16 +48,16 @@ import es.eucm.eadventure.common.impl.importer.interfaces.EAdElementFactory;
 import es.eucm.eadventure.common.impl.importer.interfaces.ResourceImporter;
 import es.eucm.eadventure.common.model.elements.EAdChapter;
 import es.eucm.eadventure.common.model.elements.EAdCondition;
-import es.eucm.eadventure.common.model.elements.EAdScene;
-import es.eucm.eadventure.common.model.elements.impl.EAdVideoScene;
+import es.eucm.eadventure.common.model.elements.VideoScene;
+import es.eucm.eadventure.common.model.elements.scene.EAdScene;
 import es.eucm.eadventure.common.resources.assets.multimedia.Video;
-import es.eucm.eadventure.common.resources.assets.multimedia.impl.VideoImpl;
+import es.eucm.eadventure.common.resources.assets.multimedia.VideoImpl;
 
 /**
  * Scenes importer
  * 
  */
-public class VideosceneImporter implements EAdElementImporter<Videoscene, EAdVideoScene> {
+public class VideosceneImporter implements EAdElementImporter<Videoscene, VideoScene> {
 
 	/**
 	 * Resources importer
@@ -75,16 +75,16 @@ public class VideosceneImporter implements EAdElementImporter<Videoscene, EAdVid
 	}
 
 	@Override
-	public EAdVideoScene init(Videoscene oldSlideScene) {
-		EAdVideoScene videoScene = new EAdVideoScene();
+	public VideoScene init(Videoscene oldSlideScene) {
+		VideoScene videoScene = new VideoScene();
 		videoScene.setId(oldSlideScene.getId());
 		return videoScene;
 	}
 
 	@Override
-	public EAdVideoScene convert(Videoscene oldSlideScene, Object object) {
+	public VideoScene convert(Videoscene oldSlideScene, Object object) {
 		EAdChapter chapter = factory.getCurrentChapterModel();
-		EAdVideoScene cutscene = (EAdVideoScene) object;
+		VideoScene cutscene = (VideoScene) object;
 
 		//TODO should import resources
 		importResources(cutscene, oldSlideScene, chapter);
@@ -100,7 +100,7 @@ public class VideosceneImporter implements EAdElementImporter<Videoscene, EAdVid
 		return cutscene;
 	}
 
-	private void importResources(EAdVideoScene cutscene, Videoscene oldSlidesceneScene,
+	private void importResources(VideoScene cutscene, Videoscene oldSlidesceneScene,
 			EAdChapter chapter) {
 		Resources res = oldSlidesceneScene.getResources().get(0);
 		String assetPath = res.getAssetPath(Videoscene.RESOURCE_TYPE_VIDEO);
@@ -109,7 +109,7 @@ public class VideosceneImporter implements EAdElementImporter<Videoscene, EAdVid
 		resourceImporter.copyFile(assetPath, "binary/" + name);
 		
 		Video video = new VideoImpl("@binary/" + name);
-		cutscene.getDefinition().getResources().addAsset(EAdVideoScene.video, video);
+		cutscene.getDefinition().getResources().addAsset(VideoScene.video, video);
 	}
 
 }

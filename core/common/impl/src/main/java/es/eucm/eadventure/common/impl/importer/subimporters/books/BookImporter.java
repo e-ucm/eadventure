@@ -54,47 +54,45 @@ import es.eucm.eadventure.common.EAdElementImporter;
 import es.eucm.eadventure.common.data.chapter.book.Book;
 import es.eucm.eadventure.common.data.chapter.book.BookParagraph;
 import es.eucm.eadventure.common.impl.importer.interfaces.ResourceImporter;
-import es.eucm.eadventure.common.model.conditions.impl.EmptyCondition;
-import es.eucm.eadventure.common.model.conditions.impl.OperationCondition;
-import es.eucm.eadventure.common.model.conditions.impl.enums.Comparator;
-import es.eucm.eadventure.common.model.effects.impl.EAdChangeScene;
-import es.eucm.eadventure.common.model.effects.impl.EAdInterpolationEffect;
-import es.eucm.eadventure.common.model.effects.impl.enums.InterpolationLoopType;
-import es.eucm.eadventure.common.model.effects.impl.enums.InterpolationType;
-import es.eucm.eadventure.common.model.effects.impl.variables.EAdChangeFieldValueEffect;
 import es.eucm.eadventure.common.model.elements.EAdCondition;
-import es.eucm.eadventure.common.model.elements.EAdScene;
-import es.eucm.eadventure.common.model.elements.EAdSceneElement;
-import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
-import es.eucm.eadventure.common.model.elements.impl.EAdSceneElementDefImpl;
-import es.eucm.eadventure.common.model.elements.impl.EAdSceneImpl;
-import es.eucm.eadventure.common.model.events.EAdConditionedEvent;
-import es.eucm.eadventure.common.model.events.EAdSceneElementEvent;
-import es.eucm.eadventure.common.model.events.enums.ConditionedEventType;
-import es.eucm.eadventure.common.model.events.enums.SceneElementEventType;
-import es.eucm.eadventure.common.model.events.impl.EAdConditionEventImpl;
-import es.eucm.eadventure.common.model.events.impl.EAdSceneElementEventImpl;
-import es.eucm.eadventure.common.model.guievents.impl.EAdMouseEventImpl;
-import es.eucm.eadventure.common.model.variables.EAdField;
-import es.eucm.eadventure.common.model.variables.impl.EAdFieldImpl;
-import es.eucm.eadventure.common.model.variables.impl.operations.BooleanOperation;
-import es.eucm.eadventure.common.model.variables.impl.operations.MathOperation;
-import es.eucm.eadventure.common.model.variables.impl.operations.ValueOperation;
+import es.eucm.eadventure.common.model.elements.conditions.EmptyCond;
+import es.eucm.eadventure.common.model.elements.conditions.OperationCond;
+import es.eucm.eadventure.common.model.elements.conditions.enums.Comparator;
+import es.eucm.eadventure.common.model.elements.effects.ChangeSceneEf;
+import es.eucm.eadventure.common.model.elements.effects.InterpolationEf;
+import es.eucm.eadventure.common.model.elements.effects.enums.InterpolationLoopType;
+import es.eucm.eadventure.common.model.elements.effects.enums.InterpolationType;
+import es.eucm.eadventure.common.model.elements.effects.variables.ChangeFieldEf;
+import es.eucm.eadventure.common.model.elements.events.ConditionedEv;
+import es.eucm.eadventure.common.model.elements.events.SceneElementEv;
+import es.eucm.eadventure.common.model.elements.events.enums.ConditionedEventType;
+import es.eucm.eadventure.common.model.elements.events.enums.SceneElementEventType;
+import es.eucm.eadventure.common.model.elements.guievents.MouseEventImpl;
+import es.eucm.eadventure.common.model.elements.scene.EAdScene;
+import es.eucm.eadventure.common.model.elements.scene.EAdSceneElement;
+import es.eucm.eadventure.common.model.elements.scenes.SceneElementDefImpl;
+import es.eucm.eadventure.common.model.elements.scenes.SceneElementImpl;
+import es.eucm.eadventure.common.model.elements.scenes.SceneImpl;
+import es.eucm.eadventure.common.model.elements.variables.EAdField;
+import es.eucm.eadventure.common.model.elements.variables.FieldImpl;
+import es.eucm.eadventure.common.model.elements.variables.operations.BooleanOp;
+import es.eucm.eadventure.common.model.elements.variables.operations.MathOp;
+import es.eucm.eadventure.common.model.elements.variables.operations.ValueOp;
+import es.eucm.eadventure.common.model.predef.effects.ChangeAppearanceEf;
 import es.eucm.eadventure.common.params.EAdFontImpl;
-import es.eucm.eadventure.common.params.fills.impl.EAdColor;
-import es.eucm.eadventure.common.params.geom.impl.EAdPositionImpl;
-import es.eucm.eadventure.common.params.geom.impl.EAdPositionImpl.Corner;
+import es.eucm.eadventure.common.params.fills.EAdColor;
 import es.eucm.eadventure.common.params.text.EAdFont;
 import es.eucm.eadventure.common.params.text.FontStyle;
-import es.eucm.eadventure.common.predef.model.effects.EAdChangeAppearance;
 import es.eucm.eadventure.common.resources.EAdBundleId;
 import es.eucm.eadventure.common.resources.StringHandler;
 import es.eucm.eadventure.common.resources.assets.AssetDescriptor;
+import es.eucm.eadventure.common.resources.assets.drawable.basics.CaptionImpl;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.Image;
-import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.CaptionImpl;
-import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.ImageImpl;
-import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.shapes.CircleShape;
-import es.eucm.eadventure.common.resources.assets.drawable.compounds.impl.ComposedDrawableImpl;
+import es.eucm.eadventure.common.resources.assets.drawable.basics.ImageImpl;
+import es.eucm.eadventure.common.resources.assets.drawable.basics.shapes.CircleShape;
+import es.eucm.eadventure.common.resources.assets.drawable.compounds.ComposedDrawableImpl;
+import es.eucm.eadventure.common.util.EAdPositionImpl;
+import es.eucm.eadventure.common.util.EAdPositionImpl.Corner;
 
 public class BookImporter implements EAdElementImporter<Book, EAdScene> {
 
@@ -167,14 +165,14 @@ public class BookImporter implements EAdElementImporter<Book, EAdScene> {
 
 	@Override
 	public EAdScene init(Book oldObject) {
-		EAdScene scene = new EAdSceneImpl();
+		EAdScene scene = new SceneImpl();
 		scene.setId(oldObject.getId());
 		return scene;
 	}
 
 	@Override
 	public EAdScene convert(Book oldObject, Object newElement) {
-		EAdSceneImpl book = (EAdSceneImpl) newElement;
+		SceneImpl book = (SceneImpl) newElement;
 		// Import background
 		AssetDescriptor background = resourceImporter.getAssetDescritptor(
 				oldObject.getResources().get(0)
@@ -185,7 +183,7 @@ public class BookImporter implements EAdElementImporter<Book, EAdScene> {
 				.getResources()
 				.addAsset(
 						book.getBackground().getDefinition().getInitialBundle(),
-						EAdSceneElementDefImpl.appearance, background);
+						SceneElementDefImpl.appearance, background);
 
 		dispY = TEXT_Y;
 		column = 0;
@@ -243,7 +241,7 @@ public class BookImporter implements EAdElementImporter<Book, EAdScene> {
 					}
 			}
 
-		EAdBasicSceneElement content = new EAdBasicSceneElement(image);
+		SceneElementImpl content = new SceneElementImpl(image);
 		content.setId(oldObject.getId() + "_content");
 		
 		if ( oldObject.getType() == Book.TYPE_PAGES ){
@@ -252,18 +250,18 @@ public class BookImporter implements EAdElementImporter<Book, EAdScene> {
 		else
 			content.setPosition(0, 0);
 
-		EAdField<Integer> xVar = new EAdFieldImpl<Integer>(content,
-				EAdBasicSceneElement.VAR_X);
+		EAdField<Integer> xVar = new FieldImpl<Integer>(content,
+				SceneElementImpl.VAR_X);
 
-		EAdSceneElementEvent event = new EAdSceneElementEventImpl();
+		SceneElementEv event = new SceneElementEv();
 		event.setId("restartBook");
 		event.addEffect(SceneElementEventType.ADDED_TO_SCENE,
-				new EAdChangeFieldValueEffect(xVar, new ValueOperation(0)));
+				new ChangeFieldEf(xVar, new ValueOp(0)));
 		content.getEvents().add(event);
 
-		EAdCondition leftCondition = new OperationCondition(xVar, 0,
+		EAdCondition leftCondition = new OperationCond(xVar, 0,
 				Comparator.LESS);
-		EAdBasicSceneElement leftArrow = getArrow(oldObject, content,
+		SceneElementImpl leftArrow = getArrow(oldObject, content,
 				Book.RESOURCE_TYPE_ARROW_LEFT_NORMAL,
 				Book.RESOURCE_TYPE_ARROW_LEFT_OVER, "[0] + " + BOOK_WIDTH,
 				leftCondition);
@@ -276,8 +274,8 @@ public class BookImporter implements EAdElementImporter<Book, EAdScene> {
 		}
 		leftArrow.setPosition(x, y);
 
-		EAdCondition rightCondition = EmptyCondition.TRUE_EMPTY_CONDITION;
-		EAdBasicSceneElement rightArrow = getArrow(oldObject, content,
+		EAdCondition rightCondition = EmptyCond.TRUE_EMPTY_CONDITION;
+		SceneElementImpl rightArrow = getArrow(oldObject, content,
 				Book.RESOURCE_TYPE_ARROW_RIGHT_NORMAL,
 				Book.RESOURCE_TYPE_ARROW_RIGHT_OVER, "[0] - " + BOOK_WIDTH,
 				rightCondition);
@@ -294,14 +292,14 @@ public class BookImporter implements EAdElementImporter<Book, EAdScene> {
 
 		rightArrow.setPosition(new EAdPositionImpl(c, x, y));
 
-		EAdCondition endCondition = new OperationCondition(xVar,
+		EAdCondition endCondition = new OperationCond(xVar,
 				-(((column / 2) - 1) * BOOK_WIDTH + BOOK_WIDTH / 2),
 				Comparator.LESS);
 
-		EAdChangeScene changeScene = new EAdChangeScene();
+		ChangeSceneEf changeScene = new ChangeSceneEf();
 		changeScene.setId("endBook");
 		changeScene.setCondition(endCondition);
-		rightArrow.addBehavior(EAdMouseEventImpl.MOUSE_LEFT_CLICK, changeScene);
+		rightArrow.addBehavior(MouseEventImpl.MOUSE_LEFT_CLICK, changeScene);
 
 		book.getComponents().add(content);
 		book.getComponents().add(leftArrow);
@@ -311,34 +309,34 @@ public class BookImporter implements EAdElementImporter<Book, EAdScene> {
 		return book;
 	}
 
-	private EAdBasicSceneElement getArrow(Book book, EAdSceneElement content,
+	private SceneElementImpl getArrow(Book book, EAdSceneElement content,
 			String resourceNormal, String resourceOver, String expression,
 			EAdCondition condition) {
-		EAdBasicSceneElement arrow = new EAdBasicSceneElement();
+		SceneElementImpl arrow = new SceneElementImpl();
 		arrow.setId("arrow");
 		this.addAppearance(book, arrow, resourceNormal, resourceOver);
 
-		EAdField<Integer> xVar = new EAdFieldImpl<Integer>(content,
-				EAdBasicSceneElement.VAR_X);
+		EAdField<Integer> xVar = new FieldImpl<Integer>(content,
+				SceneElementImpl.VAR_X);
 
-		EAdField<Boolean> visibleVar = new EAdFieldImpl<Boolean>(arrow,
-				EAdBasicSceneElement.VAR_VISIBLE);
-		EAdInterpolationEffect move = new EAdInterpolationEffect(xVar,
-				new MathOperation("[0]", xVar), new MathOperation(expression,
+		EAdField<Boolean> visibleVar = new FieldImpl<Boolean>(arrow,
+				SceneElementImpl.VAR_VISIBLE);
+		InterpolationEf move = new InterpolationEf(xVar,
+				new MathOp("[0]", xVar), new MathOp(expression,
 						xVar), 500, InterpolationLoopType.NO_LOOP,
 				InterpolationType.BOUNCE_END);
 
-		EAdConditionedEvent event = new EAdConditionEventImpl();
+		ConditionedEv event = new ConditionedEv();
 		event.setCondition(condition);
 		event.addEffect(ConditionedEventType.CONDITIONS_MET,
-				new EAdChangeFieldValueEffect(visibleVar,
-						BooleanOperation.TRUE_OP));
+				new ChangeFieldEf(visibleVar,
+						BooleanOp.TRUE_OP));
 		event.addEffect(ConditionedEventType.CONDITIONS_UNMET,
-				new EAdChangeFieldValueEffect(visibleVar,
-						BooleanOperation.FALSE_OP));
+				new ChangeFieldEf(visibleVar,
+						BooleanOp.FALSE_OP));
 		arrow.getEvents().add(event);
 
-		arrow.addBehavior(EAdMouseEventImpl.MOUSE_LEFT_CLICK, move);
+		arrow.addBehavior(MouseEventImpl.MOUSE_LEFT_CLICK, move);
 		return arrow;
 	}
 
@@ -427,7 +425,7 @@ public class BookImporter implements EAdElementImporter<Book, EAdScene> {
 
 	}
 
-	private void addAppearance(Book book, EAdBasicSceneElement arrow,
+	private void addAppearance(Book book, SceneElementImpl arrow,
 			String normal, String over) {
 		AssetDescriptor normalAsset = getArrowAsset(book, normal);
 
@@ -435,21 +433,21 @@ public class BookImporter implements EAdElementImporter<Book, EAdScene> {
 		arrow.getDefinition()
 				.getResources()
 				.addAsset(arrow.getDefinition().getInitialBundle(),
-						EAdSceneElementDefImpl.appearance, normalAsset);
+						SceneElementDefImpl.appearance, normalAsset);
 
 		EAdBundleId bundle = new EAdBundleId("over");
 		arrow.getDefinition().getResources().addBundle(bundle);
 		arrow.getDefinition().getResources()
-				.addAsset(bundle, EAdSceneElementDefImpl.appearance, overAsset);
+				.addAsset(bundle, SceneElementDefImpl.appearance, overAsset);
 
-		EAdChangeAppearance change1 = new EAdChangeAppearance(arrow, bundle);
+		ChangeAppearanceEf change1 = new ChangeAppearanceEf(arrow, bundle);
 		change1.setId("changeArrowOver");
-		arrow.addBehavior(EAdMouseEventImpl.MOUSE_ENTERED, change1);
+		arrow.addBehavior(MouseEventImpl.MOUSE_ENTERED, change1);
 
-		EAdChangeAppearance change2 = new EAdChangeAppearance(arrow, arrow
+		ChangeAppearanceEf change2 = new ChangeAppearanceEf(arrow, arrow
 				.getDefinition().getInitialBundle());
 		change2.setId("changeArrowOver");
-		arrow.addBehavior(EAdMouseEventImpl.MOUSE_EXITED, change2);
+		arrow.addBehavior(MouseEventImpl.MOUSE_EXITED, change2);
 
 	}
 

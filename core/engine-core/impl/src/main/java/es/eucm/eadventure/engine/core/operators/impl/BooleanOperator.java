@@ -40,12 +40,12 @@ package es.eucm.eadventure.engine.core.operators.impl;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
-import es.eucm.eadventure.common.model.variables.impl.operations.BooleanOperation;
+import es.eucm.eadventure.common.model.elements.variables.operations.BooleanOp;
 import es.eucm.eadventure.engine.core.evaluators.EvaluatorFactory;
 import es.eucm.eadventure.engine.core.operator.Operator;
 
 @Singleton
-public class BooleanOperator implements Operator<BooleanOperation> {
+public class BooleanOperator implements Operator<BooleanOp> {
 
 	private EvaluatorFactory evaluatorFactory;
 
@@ -56,7 +56,7 @@ public class BooleanOperator implements Operator<BooleanOperation> {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public <S> S operate(Class<S> clazz, BooleanOperation operation) {
+	public <S> S operate(Class<S> clazz, BooleanOp operation) {
 		Boolean b = evaluatorFactory.evaluate(operation.getCondition());
 		return (S) b;
 	}

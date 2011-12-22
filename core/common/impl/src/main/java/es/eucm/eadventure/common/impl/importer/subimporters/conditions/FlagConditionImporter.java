@@ -43,12 +43,12 @@ import es.eucm.eadventure.common.EAdElementImporter;
 import es.eucm.eadventure.common.data.chapter.conditions.Condition;
 import es.eucm.eadventure.common.data.chapter.conditions.FlagCondition;
 import es.eucm.eadventure.common.impl.importer.interfaces.EAdElementFactory;
-import es.eucm.eadventure.common.model.conditions.impl.OperationCondition;
-import es.eucm.eadventure.common.model.variables.EAdField;
+import es.eucm.eadventure.common.model.elements.conditions.OperationCond;
+import es.eucm.eadventure.common.model.elements.variables.EAdField;
 
 public class FlagConditionImporter
 		implements
-		EAdElementImporter<FlagCondition, OperationCondition> {
+		EAdElementImporter<FlagCondition, OperationCond> {
 
 	private EAdElementFactory factory;
 
@@ -58,20 +58,20 @@ public class FlagConditionImporter
 	}
 
 	@SuppressWarnings("unchecked")
-	public OperationCondition init(es.eucm.eadventure.common.data.chapter.conditions.FlagCondition oldObject) {
+	public OperationCond init(es.eucm.eadventure.common.data.chapter.conditions.FlagCondition oldObject) {
 		EAdField<Boolean> var = (EAdField<Boolean>) factory.getVarByOldId(oldObject.getId(),
 				Condition.FLAG_CONDITION);
-		OperationCondition f = new OperationCondition(var);
+		OperationCond f = new OperationCond(var);
 		if (oldObject.isActiveState())
-			f.setOp2(OperationCondition.TRUE);
+			f.setOp2(OperationCond.TRUE);
 		else
-			f.setOp2(OperationCondition.FALSE);
+			f.setOp2(OperationCond.FALSE);
 		return f;
 	}
 	
 	@Override
-	public OperationCondition convert(FlagCondition oldObject, Object object) {
-		return (OperationCondition) object;
+	public OperationCond convert(FlagCondition oldObject, Object object) {
+		return (OperationCond) object;
 	}
 
 }

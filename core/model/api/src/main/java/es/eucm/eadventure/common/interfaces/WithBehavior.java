@@ -37,9 +37,9 @@
 
 package es.eucm.eadventure.common.interfaces;
 
-import es.eucm.eadventure.common.model.effects.EAdEffect;
-import es.eucm.eadventure.common.model.extra.EAdList;
-import es.eucm.eadventure.common.model.guievents.EAdGUIEvent;
+import es.eucm.eadventure.common.model.elements.EAdEffect;
+import es.eucm.eadventure.common.model.elements.extra.EAdList;
+import es.eucm.eadventure.common.model.elements.guievents.EAdGUIEvent;
 
 /**
  * Implemented by all classes with effects to GUI events.

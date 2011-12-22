@@ -15,8 +15,8 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 import es.eucm.eadventure.common.model.EAdElement;
-import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
-import es.eucm.eadventure.common.model.guievents.enums.MouseButton;
+import es.eucm.eadventure.common.model.elements.guievents.enums.MouseButton;
+import es.eucm.eadventure.common.model.elements.scenes.SceneElementImpl;
 import es.eucm.eadventure.common.params.text.EAdString;
 import es.eucm.eadventure.common.resources.StringHandler;
 import es.eucm.eadventure.engine.AndroidAssetHandler;
@@ -30,7 +30,7 @@ import es.eucm.eadventure.engine.core.input.MouseState;
 import es.eucm.eadventure.engine.core.platform.AssetHandler;
 import es.eucm.eadventure.engine.core.platform.EngineConfiguration;
 import es.eucm.eadventure.engine.core.platform.GUI;
-import es.eucm.eadventure.engine.core.platform.rendering.EAdCanvas;
+import es.eucm.eadventure.engine.core.platform.rendering.GenericCanvas;
 import es.eucm.eadventure.engine.extra.BitmapCanvas;
 
 @Singleton
@@ -81,7 +81,7 @@ public class AndroidBasicHUD extends BasicHUDImpl {
 	}
 
 	@SuppressWarnings("unchecked")
-	public void render(EAdCanvas<?> canvas) {
+	public void render(GenericCanvas<?> canvas) {
 		
 		if (mouseState.isMousePressed(MouseButton.BUTTON_1)) {
 
@@ -131,7 +131,7 @@ public class AndroidBasicHUD extends BasicHUDImpl {
 
 				if (go != null && go.getElement() instanceof EAdElement) {
 					EAdString name = gameState.getValueMap().getValue((EAdElement) go.getElement(),
-							EAdBasicSceneElement.VAR_NAME);
+							SceneElementImpl.VAR_NAME);
 					if (name != null) {
 						graphicContext.drawText(name.toString(), textX, textY, textPaint);
 						if (vibrate) activateVibrationFor(50);

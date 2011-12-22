@@ -43,12 +43,12 @@ import es.eucm.eadventure.common.EAdElementImporter;
 import es.eucm.eadventure.common.data.chapter.conditions.Conditions;
 import es.eucm.eadventure.common.data.chapter.effects.TriggerBookEffect;
 import es.eucm.eadventure.common.impl.importer.interfaces.EAdElementFactory;
-import es.eucm.eadventure.common.model.effects.impl.EAdChangeScene;
 import es.eucm.eadventure.common.model.elements.EAdCondition;
-import es.eucm.eadventure.common.model.elements.EAdScene;
+import es.eucm.eadventure.common.model.elements.effects.ChangeSceneEf;
+import es.eucm.eadventure.common.model.elements.scene.EAdScene;
 
 public class TriggerBookEffectImporter extends
-		EffectImporter<TriggerBookEffect, EAdChangeScene> {
+		EffectImporter<TriggerBookEffect, ChangeSceneEf> {
 
 	private EAdElementFactory factory;
 
@@ -61,16 +61,16 @@ public class TriggerBookEffectImporter extends
 	}
 
 	@Override
-	public EAdChangeScene init(TriggerBookEffect oldObject) {
-		EAdChangeScene effect =  new EAdChangeScene();
+	public ChangeSceneEf init(TriggerBookEffect oldObject) {
+		ChangeSceneEf effect =  new ChangeSceneEf();
 		effect.setId("triggerBook_" + oldObject.getTargetId());
 		return effect;
 		
 	}
 
 	@Override
-	public EAdChangeScene convert(TriggerBookEffect oldObject, Object newElement) {
-		EAdChangeScene effect = super.convert(oldObject, newElement);
+	public ChangeSceneEf convert(TriggerBookEffect oldObject, Object newElement) {
+		ChangeSceneEf effect = super.convert(oldObject, newElement);
 		EAdScene scene = (EAdScene) factory.getElementById(oldObject
 				.getTargetId());
 		effect.setNextScene(scene);

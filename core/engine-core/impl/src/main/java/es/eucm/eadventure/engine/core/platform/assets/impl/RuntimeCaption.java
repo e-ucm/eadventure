@@ -43,19 +43,19 @@ import java.util.logging.Logger;
 
 import com.google.inject.Inject;
 
-import es.eucm.eadventure.common.model.variables.impl.SystemFields;
-import es.eucm.eadventure.common.params.geom.impl.EAdRectangleImpl;
+import es.eucm.eadventure.common.model.elements.variables.SystemFields;
 import es.eucm.eadventure.common.resources.StringHandler;
 import es.eucm.eadventure.common.resources.assets.drawable.Drawable;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.Caption;
-import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.shapes.RectangleShape;
+import es.eucm.eadventure.common.resources.assets.drawable.basics.shapes.RectangleShape;
+import es.eucm.eadventure.common.util.EAdRectangleImpl;
 import es.eucm.eadventure.engine.core.game.GameLoop;
 import es.eucm.eadventure.engine.core.impl.VariableMap;
 import es.eucm.eadventure.engine.core.platform.AssetHandler;
 import es.eucm.eadventure.engine.core.platform.DrawableAsset;
 import es.eucm.eadventure.engine.core.platform.FontHandler;
 import es.eucm.eadventure.engine.core.platform.RuntimeFont;
-import es.eucm.eadventure.engine.core.platform.rendering.EAdCanvas;
+import es.eucm.eadventure.engine.core.platform.rendering.GenericCanvas;
 
 public class RuntimeCaption<GraphicContext> extends
 		AbstractRuntimeAsset<Caption> implements
@@ -460,7 +460,7 @@ public class RuntimeCaption<GraphicContext> extends
 		return font;
 	}
 
-	public void render(EAdCanvas<GraphicContext> c) {
+	public void render(GenericCanvas<GraphicContext> c) {
 		// Draw bubble
 		if (getAssetDescriptor().hasBubble()) {
 			RectangleShape shape = new RectangleShape(getWidth(), getHeight());

@@ -42,10 +42,10 @@ import com.google.inject.Inject;
 import es.eucm.eadventure.common.EAdElementImporter;
 import es.eucm.eadventure.common.data.chapter.conditions.Conditions;
 import es.eucm.eadventure.common.data.chapter.effects.WaitTimeEffect;
-import es.eucm.eadventure.common.model.effects.impl.timedevents.EAdWaitEffect;
 import es.eucm.eadventure.common.model.elements.EAdCondition;
+import es.eucm.eadventure.common.model.elements.effects.timedevents.WaitEf;
 
-public class WaitEffectImporter extends EffectImporter<WaitTimeEffect, EAdWaitEffect>{
+public class WaitEffectImporter extends EffectImporter<WaitTimeEffect, WaitEf>{
 
 	@Inject
 	public WaitEffectImporter(
@@ -54,15 +54,15 @@ public class WaitEffectImporter extends EffectImporter<WaitTimeEffect, EAdWaitEf
 	}
 
 	@Override
-	public EAdWaitEffect init(WaitTimeEffect oldObject) {
-		EAdWaitEffect waitEffect=  new EAdWaitEffect();
+	public WaitEf init(WaitTimeEffect oldObject) {
+		WaitEf waitEffect=  new WaitEf();
 		waitEffect.setId("waitEffect" + ID_GENERATOR);
 		return waitEffect;
 	}
 
 	@Override
-	public EAdWaitEffect convert(WaitTimeEffect oldObject, Object newElement) {
-		EAdWaitEffect effect = super.convert(oldObject, newElement);
+	public WaitEf convert(WaitTimeEffect oldObject, Object newElement) {
+		WaitEf effect = super.convert(oldObject, newElement);
 		effect.setTime(oldObject.getTime() * 1000);
 		return effect;
 	}

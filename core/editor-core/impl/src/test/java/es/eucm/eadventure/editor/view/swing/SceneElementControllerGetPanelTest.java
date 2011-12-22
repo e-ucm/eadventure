@@ -47,7 +47,7 @@ import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.WindowConstants;
 
 import es.eucm.eadventure.common.elementfactories.demos.scenes.EmptyScene;
-import es.eucm.eadventure.common.model.elements.EAdScene;
+import es.eucm.eadventure.common.model.elements.scene.EAdScene;
 import es.eucm.eadventure.common.resources.StringHandler;
 import es.eucm.eadventure.editor.control.CommandManager;
 import es.eucm.eadventure.editor.control.ElementController;

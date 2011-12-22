@@ -40,7 +40,7 @@ package es.eucm.eadventure.common.impl.writer;
 import org.w3c.dom.Element;
 
 import es.eucm.eadventure.common.DOMTags;
-import es.eucm.eadventure.common.model.extra.EAdMap;
+import es.eucm.eadventure.common.model.elements.extra.EAdMap;
 
 public class MapDOMWriter extends DOMWriter<EAdMap<?, ?>> {
 

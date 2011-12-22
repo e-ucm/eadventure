@@ -44,26 +44,26 @@ import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.google.inject.Singleton;
 
-import es.eucm.eadventure.engine.core.debuggers.EAdDebugger;
+import es.eucm.eadventure.engine.core.debuggers.Debugger;
 import es.eucm.eadventure.engine.core.gameobjects.go.DrawableGO;
 
 @Singleton
-public class EAdMainDebugger implements EAdDebugger {
+public class EAdMainDebugger implements Debugger {
 
-	private static List<Class<? extends EAdDebugger>> debuggersClass = new ArrayList<Class<? extends EAdDebugger>>();
+	private static List<Class<? extends Debugger>> debuggersClass = new ArrayList<Class<? extends Debugger>>();
 
-	public static void addDebugger(Class<? extends EAdDebugger> debugger) {
+	public static void addDebugger(Class<? extends Debugger> debugger) {
 		debuggersClass.add(debugger);
 	}
 
-	private List<EAdDebugger> debuggers;
+	private List<Debugger> debuggers;
 
 	private List<DrawableGO<?>> gameObjects;
 
 	@Inject
 	public EAdMainDebugger(Injector injector) {
-		debuggers = new ArrayList<EAdDebugger>();
-		for (Class<? extends EAdDebugger> c : debuggersClass) {
+		debuggers = new ArrayList<Debugger>();
+		for (Class<? extends Debugger> c : debuggersClass) {
 			debuggers.add(injector.getInstance(c));
 		}
 
@@ -73,7 +73,7 @@ public class EAdMainDebugger implements EAdDebugger {
 	@Override
 	public List<DrawableGO<?>> getGameObjects() {
 		gameObjects.clear();
-		for (EAdDebugger d : debuggers) {
+		for (Debugger d : debuggers) {
 			gameObjects.addAll(d.getGameObjects());
 		}
 		return gameObjects;

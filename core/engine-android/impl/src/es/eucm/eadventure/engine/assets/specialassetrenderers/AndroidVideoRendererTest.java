@@ -48,7 +48,7 @@ import android.view.WindowManager;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import es.eucm.eadventure.common.resources.assets.multimedia.Video;
-import es.eucm.eadventure.common.resources.assets.multimedia.impl.VideoImpl;
+import es.eucm.eadventure.common.resources.assets.multimedia.VideoImpl;
 import es.eucm.eadventure.engine.AndroidAssetHandler;
 import es.eucm.eadventure.engine.R;
 import es.eucm.eadventure.engine.core.impl.modules.BasicGameModule;

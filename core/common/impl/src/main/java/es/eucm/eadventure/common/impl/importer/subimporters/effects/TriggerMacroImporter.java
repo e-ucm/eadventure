@@ -43,13 +43,13 @@ import es.eucm.eadventure.common.EAdElementImporter;
 import es.eucm.eadventure.common.data.chapter.conditions.Conditions;
 import es.eucm.eadventure.common.data.chapter.effects.MacroReferenceEffect;
 import es.eucm.eadventure.common.impl.importer.interfaces.EAdElementFactory;
-import es.eucm.eadventure.common.model.conditions.impl.EmptyCondition;
-import es.eucm.eadventure.common.model.effects.EAdMacro;
-import es.eucm.eadventure.common.model.effects.impl.EAdTriggerMacro;
 import es.eucm.eadventure.common.model.elements.EAdCondition;
+import es.eucm.eadventure.common.model.elements.conditions.EmptyCond;
+import es.eucm.eadventure.common.model.elements.effects.EffectsMacro;
+import es.eucm.eadventure.common.model.elements.effects.TriggerMacroEf;
 
 public class TriggerMacroImporter extends
-		EffectImporter<MacroReferenceEffect, EAdTriggerMacro> {
+		EffectImporter<MacroReferenceEffect, TriggerMacroEf> {
 
 	private EAdElementFactory factory;
 
@@ -62,18 +62,18 @@ public class TriggerMacroImporter extends
 	}
 
 	@Override
-	public EAdTriggerMacro init(MacroReferenceEffect oldObject) {
-		EAdTriggerMacro effect = new EAdTriggerMacro();
+	public TriggerMacroEf init(MacroReferenceEffect oldObject) {
+		TriggerMacroEf effect = new TriggerMacroEf();
 		effect.setId("triggerMacro" + oldObject.getTargetId());
 		return effect;
 	}
 
 	@Override
-	public EAdTriggerMacro convert(MacroReferenceEffect oldObject, Object object) {
-		EAdTriggerMacro effect = super.convert(oldObject, object);
+	public TriggerMacroEf convert(MacroReferenceEffect oldObject, Object object) {
+		TriggerMacroEf effect = super.convert(oldObject, object);
 		effect.putMacro(
-				(EAdMacro) factory.getElementById(oldObject.getTargetId()),
-				EmptyCondition.TRUE_EMPTY_CONDITION);
+				(EffectsMacro) factory.getElementById(oldObject.getTargetId()),
+				EmptyCond.TRUE_EMPTY_CONDITION);
 		return effect;
 	}
 

@@ -37,8 +37,8 @@
 
 package es.eucm.eadventure.engine.core.platform;
 
-import es.eucm.eadventure.common.params.geom.EAdRectangle;
 import es.eucm.eadventure.common.params.text.EAdFont;
+import es.eucm.eadventure.common.util.EAdRectangleImpl;
 
 /**
  * Represents a runtime font. Unlike {@link EAdFont}, which only contains static
@@ -83,6 +83,6 @@ public interface RuntimeFont {
 	 *            string to be measured
 	 * @return the string bounds
 	 */
-	EAdRectangle stringBounds(String string);
+	EAdRectangleImpl stringBounds(String string);
 
 }

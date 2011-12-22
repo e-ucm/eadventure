@@ -43,11 +43,11 @@ import es.eucm.eadventure.common.EAdElementImporter;
 import es.eucm.eadventure.common.data.chapter.conditions.Conditions;
 import es.eucm.eadventure.common.data.chapter.effects.ShowTextEffect;
 import es.eucm.eadventure.common.impl.importer.interfaces.EAdElementFactory;
-import es.eucm.eadventure.common.model.effects.impl.text.EAdSpeakEffect;
 import es.eucm.eadventure.common.model.elements.EAdCondition;
-import es.eucm.eadventure.common.model.variables.EAdOperation;
-import es.eucm.eadventure.common.params.fills.impl.EAdColor;
-import es.eucm.eadventure.common.params.fills.impl.EAdPaintImpl;
+import es.eucm.eadventure.common.model.elements.effects.text.SpeakEf;
+import es.eucm.eadventure.common.model.elements.variables.EAdOperation;
+import es.eucm.eadventure.common.params.fills.EAdColor;
+import es.eucm.eadventure.common.params.fills.EAdPaintImpl;
 import es.eucm.eadventure.common.resources.StringHandler;
 
 public class ShowTextEffectImporter extends TextEffectImporter<ShowTextEffect> {
@@ -59,8 +59,8 @@ public class ShowTextEffectImporter extends TextEffectImporter<ShowTextEffect> {
 	}
 
 	@Override
-	public EAdSpeakEffect convert(ShowTextEffect oldObject, Object object) {
-		EAdSpeakEffect showText = super.convert(oldObject, object);
+	public SpeakEf convert(ShowTextEffect oldObject, Object object) {
+		SpeakEf showText = super.convert(oldObject, object);
 		
 		for ( EAdOperation op: TextEffectImporter.getOperations(oldObject.getText(), factory)){
 			showText.getCaption().getFields().add(op);

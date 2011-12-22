@@ -37,7 +37,7 @@
 
 package es.eucm.eadventure.common.resources.assets.drawable.compounds;
 
-import es.eucm.eadventure.common.model.extra.EAdList;
+import es.eucm.eadventure.common.model.elements.extra.EAdList;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.BasicDrawable;
 
 /**

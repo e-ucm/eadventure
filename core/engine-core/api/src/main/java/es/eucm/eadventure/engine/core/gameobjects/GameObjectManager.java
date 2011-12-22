@@ -39,11 +39,11 @@ package es.eucm.eadventure.engine.core.gameobjects;
 
 import java.util.List;
 
-import es.eucm.eadventure.common.util.EAdTransformation;
 import es.eucm.eadventure.engine.core.gameobjects.go.DrawableGO;
 import es.eucm.eadventure.engine.core.gameobjects.huds.BasicHUD;
 import es.eucm.eadventure.engine.core.gameobjects.huds.HudGO;
 import es.eucm.eadventure.engine.core.platform.GUI;
+import es.eucm.eadventure.engine.core.util.EAdTransformation;
 
 public interface GameObjectManager  {
 

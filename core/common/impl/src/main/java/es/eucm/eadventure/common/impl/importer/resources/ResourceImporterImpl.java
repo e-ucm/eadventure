@@ -68,17 +68,16 @@ import es.eucm.eadventure.common.interfaces.features.Evented;
 import es.eucm.eadventure.common.interfaces.features.Resourced;
 import es.eucm.eadventure.common.loader.InputStreamCreator;
 import es.eucm.eadventure.common.loader.Loader;
-import es.eucm.eadventure.common.model.conditions.impl.ANDCondition;
-import es.eucm.eadventure.common.model.conditions.impl.NOTCondition;
 import es.eucm.eadventure.common.model.elements.EAdCondition;
-import es.eucm.eadventure.common.model.events.EAdConditionedEvent;
-import es.eucm.eadventure.common.model.events.enums.ConditionedEventType;
-import es.eucm.eadventure.common.model.events.impl.EAdConditionEventImpl;
-import es.eucm.eadventure.common.predef.model.effects.EAdChangeAppearance;
+import es.eucm.eadventure.common.model.elements.conditions.ANDCond;
+import es.eucm.eadventure.common.model.elements.conditions.NOTCond;
+import es.eucm.eadventure.common.model.elements.events.ConditionedEv;
+import es.eucm.eadventure.common.model.elements.events.enums.ConditionedEventType;
+import es.eucm.eadventure.common.model.predef.effects.ChangeAppearanceEf;
 import es.eucm.eadventure.common.resources.EAdBundleId;
 import es.eucm.eadventure.common.resources.assets.AssetDescriptor;
-import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.animation.Frame;
-import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.animation.FramesAnimation;
+import es.eucm.eadventure.common.resources.assets.drawable.basics.animation.Frame;
+import es.eucm.eadventure.common.resources.assets.drawable.basics.animation.FramesAnimation;
 
 /**
  * Resource Importer
@@ -247,7 +246,7 @@ public class ResourceImporterImpl implements ResourceImporter {
 
 			if (element instanceof Evented) {
 
-				EAdConditionedEvent conditionEvent = new EAdConditionEventImpl();
+				ConditionedEv conditionEvent = new ConditionedEv();
 				conditionEvent
 						.setId(bundleId.getBundleId() + "_condition_" + i);
 
@@ -257,16 +256,16 @@ public class ResourceImporterImpl implements ResourceImporter {
 						condition);
 
 				if (previousCondition == null) {
-					previousCondition = new NOTCondition(condition);
+					previousCondition = new NOTCond(condition);
 				} else {
 					EAdCondition temp = condition;
-					condition = new ANDCondition(condition, previousCondition);
-					previousCondition = new ANDCondition(previousCondition,
-							new NOTCondition(temp));
+					condition = new ANDCond(condition, previousCondition);
+					previousCondition = new ANDCond(previousCondition,
+							new NOTCond(temp));
 				}
 				conditionEvent.setCondition(condition);
 
-				EAdChangeAppearance changeAppereance = new EAdChangeAppearance(
+				ChangeAppearanceEf changeAppereance = new ChangeAppearanceEf(
 						null, bundleId);
 				changeAppereance.setId(conditionEvent.getId()
 						+ "change_appearence");

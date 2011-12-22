@@ -41,7 +41,7 @@ import com.google.inject.Inject;
 
 import playn.core.Canvas;
 import playn.core.Path;
-import es.eucm.eadventure.common.params.geom.impl.EAdPositionImpl;
+import es.eucm.eadventure.common.util.EAdPositionImpl;
 import es.eucm.eadventure.engine.core.EAdEngine;
 
 public class PlayNBezierShape extends RuntimeBezierShape<Canvas> {

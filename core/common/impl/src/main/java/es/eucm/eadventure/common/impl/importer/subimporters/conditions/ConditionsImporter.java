@@ -46,23 +46,23 @@ import es.eucm.eadventure.common.data.chapter.conditions.FlagCondition;
 import es.eucm.eadventure.common.data.chapter.conditions.GlobalStateCondition;
 import es.eucm.eadventure.common.data.chapter.conditions.VarCondition;
 import es.eucm.eadventure.common.impl.importer.interfaces.EAdElementFactory;
-import es.eucm.eadventure.common.model.conditions.impl.ANDCondition;
-import es.eucm.eadventure.common.model.conditions.impl.EmptyCondition;
-import es.eucm.eadventure.common.model.conditions.impl.ORCondition;
-import es.eucm.eadventure.common.model.conditions.impl.OperationCondition;
 import es.eucm.eadventure.common.model.elements.EAdCondition;
+import es.eucm.eadventure.common.model.elements.conditions.ANDCond;
+import es.eucm.eadventure.common.model.elements.conditions.EmptyCond;
+import es.eucm.eadventure.common.model.elements.conditions.ORCond;
+import es.eucm.eadventure.common.model.elements.conditions.OperationCond;
 
 public class ConditionsImporter implements
 		EAdElementImporter<Conditions, EAdCondition> {
 
-	private EAdElementImporter<FlagCondition, OperationCondition> flagConditionImporter;
-	private EAdElementImporter<VarCondition, OperationCondition> varConditionImporter;
+	private EAdElementImporter<FlagCondition, OperationCond> flagConditionImporter;
+	private EAdElementImporter<VarCondition, OperationCond> varConditionImporter;
 	private EAdElementFactory factory;
 
 	@Inject
 	public ConditionsImporter(
-			EAdElementImporter<FlagCondition, OperationCondition> flagConditionImporter,
-			EAdElementImporter<VarCondition, OperationCondition> varConditionImporter,
+			EAdElementImporter<FlagCondition, OperationCond> flagConditionImporter,
+			EAdElementImporter<VarCondition, OperationCond> varConditionImporter,
 			EAdElementFactory factory) {
 		this.factory = factory;
 		this.flagConditionImporter = flagConditionImporter;
@@ -71,15 +71,15 @@ public class ConditionsImporter implements
 
 	@Override
 	public EAdCondition init(Conditions oldObject) {
-		return new ANDCondition();
+		return new ANDCond();
 	}
 
 	@Override
 	public EAdCondition convert(Conditions oldObject, Object object) {
-		ANDCondition newCondition = (ANDCondition) object;
+		ANDCond newCondition = (ANDCond) object;
 		
 		if ( oldObject.getSimpleConditions().size() == 0 && oldObject.getEitherConditionsBlockCount() == 0){
-			return EmptyCondition.TRUE_EMPTY_CONDITION;
+			return EmptyCond.TRUE_EMPTY_CONDITION;
 		}
 		
 		for (Condition c : oldObject.getSimpleConditions()) {
@@ -91,7 +91,7 @@ public class ConditionsImporter implements
 		}
 
 		for (int i = 0; i < oldObject.getEitherConditionsBlockCount(); i++) {
-			ORCondition orCondition = new ORCondition();
+			ORCond orCondition = new ORCond();
 			Conditions conditions = oldObject.getEitherBlock(i);
 			for (Condition c : conditions.getSimpleConditions()) {
 				EAdCondition cond = this.getSimpleCondition(c);

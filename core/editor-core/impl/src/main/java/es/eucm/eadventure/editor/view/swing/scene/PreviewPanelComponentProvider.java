@@ -52,11 +52,11 @@ import com.google.inject.Injector;
 
 import es.eucm.eadventure.common.elementfactories.EAdElementsFactory;
 import es.eucm.eadventure.common.elementfactories.demos.scenes.EmptyScene;
-import es.eucm.eadventure.common.model.effects.impl.EAdChangeScene;
 import es.eucm.eadventure.common.model.elements.EAdAdventureModel;
-import es.eucm.eadventure.common.model.elements.EAdScene;
-import es.eucm.eadventure.common.model.impl.EAdAdventureModelImpl;
-import es.eucm.eadventure.common.model.impl.EAdChapterImpl;
+import es.eucm.eadventure.common.model.elements.EAdAdventureModelImpl;
+import es.eucm.eadventure.common.model.elements.EAdChapterImpl;
+import es.eucm.eadventure.common.model.elements.effects.ChangeSceneEf;
+import es.eucm.eadventure.common.model.elements.scene.EAdScene;
 import es.eucm.eadventure.editor.control.CommandManager;
 import es.eucm.eadventure.editor.view.ComponentProvider;
 import es.eucm.eadventure.editor.view.generics.scene.PreviewPanel;
@@ -132,7 +132,7 @@ public class PreviewPanelComponentProvider implements ComponentProvider<PreviewP
 			Thread.yield();
 		} while (panel == null);
 		
-		EAdChangeScene changeScene = new EAdChangeScene();
+		ChangeSceneEf changeScene = new ChangeSceneEf();
 		//TODO will need to clear scene stack...
 		changeScene.setNextScene(new EditionScene(element.getScene()));
 		gameState.addEffect(changeScene);

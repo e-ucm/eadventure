@@ -39,7 +39,7 @@ package es.eucm.eadventure.engine.core.platform.assets.impl;
 
 import java.awt.Color;
 
-import es.eucm.eadventure.common.params.fills.impl.EAdColor;
+import es.eucm.eadventure.common.params.fills.EAdColor;
 
 public class DesktopEngineColor {
 

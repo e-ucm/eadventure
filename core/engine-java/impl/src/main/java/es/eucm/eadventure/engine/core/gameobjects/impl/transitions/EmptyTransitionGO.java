@@ -42,18 +42,17 @@ import java.util.List;
 
 import com.google.inject.Inject;
 
-import es.eucm.eadventure.common.model.elements.EAdScene;
-import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
-import es.eucm.eadventure.common.model.variables.impl.SystemFields;
-import es.eucm.eadventure.common.params.fills.impl.EAdColor;
-import es.eucm.eadventure.common.params.fills.impl.EAdPaintImpl;
-import es.eucm.eadventure.common.params.geom.impl.EAdPositionImpl;
+import es.eucm.eadventure.common.model.elements.scene.EAdScene;
+import es.eucm.eadventure.common.model.elements.scenes.SceneElementImpl;
+import es.eucm.eadventure.common.model.elements.variables.SystemFields;
+import es.eucm.eadventure.common.params.fills.EAdColor;
+import es.eucm.eadventure.common.params.fills.EAdPaintImpl;
 import es.eucm.eadventure.common.resources.StringHandler;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.Caption;
+import es.eucm.eadventure.common.resources.assets.drawable.basics.CaptionImpl;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.Image;
-import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.CaptionImpl;
-import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.shapes.RectangleShape;
-import es.eucm.eadventure.common.util.EAdTransformation;
+import es.eucm.eadventure.common.resources.assets.drawable.basics.shapes.RectangleShape;
+import es.eucm.eadventure.common.util.EAdPositionImpl;
 import es.eucm.eadventure.engine.core.game.GameState;
 import es.eucm.eadventure.engine.core.gameobjects.factories.EventGOFactory;
 import es.eucm.eadventure.engine.core.gameobjects.factories.SceneElementGOFactory;
@@ -64,6 +63,7 @@ import es.eucm.eadventure.engine.core.platform.AssetHandler;
 import es.eucm.eadventure.engine.core.platform.GUI;
 import es.eucm.eadventure.engine.core.platform.EngineConfiguration;
 import es.eucm.eadventure.engine.core.platform.RuntimeAsset;
+import es.eucm.eadventure.engine.core.util.EAdTransformation;
 
 public class EmptyTransitionGO extends SceneGOImpl implements TransitionGO {
 
@@ -79,9 +79,9 @@ public class EmptyTransitionGO extends SceneGOImpl implements TransitionGO {
 
 	protected RuntimeAsset<Image> previousSceneImage;
 
-	protected EAdBasicSceneElement loadingText;
+	protected SceneElementImpl loadingText;
 
-	protected EAdBasicSceneElement screenBlock;
+	protected SceneElementImpl screenBlock;
 
 	protected boolean loading = false;
 
@@ -96,7 +96,7 @@ public class EmptyTransitionGO extends SceneGOImpl implements TransitionGO {
 
 		caption = new CaptionImpl();
 		caption.getText().parse("Loading");
-		loadingText = new EAdBasicSceneElement(caption);
+		loadingText = new SceneElementImpl(caption);
 		loadingText.setId("loadingText");
 		loadingText.setPosition(EAdPositionImpl.volatileEAdPosition(750, 550,
 				1.0f, 1.0f));
@@ -107,7 +107,7 @@ public class EmptyTransitionGO extends SceneGOImpl implements TransitionGO {
 		rs.setPaint(new EAdPaintImpl(new EAdColor(100, 100, 100, 30),
 				EAdColor.BLACK));
 
-		screenBlock = new EAdBasicSceneElement(rs);
+		screenBlock = new SceneElementImpl(rs);
 		screenBlock.setId("screenBlock");
 	}
 

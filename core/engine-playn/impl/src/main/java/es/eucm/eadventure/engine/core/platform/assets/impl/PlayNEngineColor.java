@@ -38,7 +38,7 @@
 package es.eucm.eadventure.engine.core.platform.assets.impl;
 
 import playn.core.Color;
-import es.eucm.eadventure.common.params.fills.impl.EAdColor;
+import es.eucm.eadventure.common.params.fills.EAdColor;
 
 public class PlayNEngineColor {
 

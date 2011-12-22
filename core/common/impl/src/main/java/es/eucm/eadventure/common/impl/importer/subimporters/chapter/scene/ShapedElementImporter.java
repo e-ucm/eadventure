@@ -40,11 +40,10 @@ package es.eucm.eadventure.common.impl.importer.subimporters.chapter.scene;
 import java.awt.Point;
 
 import es.eucm.eadventure.common.data.chapter.Rectangle;
-import es.eucm.eadventure.common.params.geom.EAdRectangle;
-import es.eucm.eadventure.common.params.geom.impl.EAdRectangleImpl;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.Shape;
-import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.shapes.BezierShape;
-import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.shapes.RectangleShape;
+import es.eucm.eadventure.common.resources.assets.drawable.basics.shapes.BezierShape;
+import es.eucm.eadventure.common.resources.assets.drawable.basics.shapes.RectangleShape;
+import es.eucm.eadventure.common.util.EAdRectangleImpl;
 
 public class ShapedElementImporter {
 
@@ -72,7 +71,7 @@ public class ShapedElementImporter {
 		return shape;
 	}
 	
-	public static EAdRectangle getBounds( Rectangle oldObject ){
+	public static EAdRectangleImpl getBounds( Rectangle oldObject ){
 		if (oldObject.isRectangular() || oldObject.getPoints().size() == 0) {
 			oldObject.setRectangular(true);
 			return new EAdRectangleImpl(oldObject.getX(), oldObject.getY(), oldObject.getWidth(), oldObject.getHeight());

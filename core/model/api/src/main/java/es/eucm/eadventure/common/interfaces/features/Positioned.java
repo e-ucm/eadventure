@@ -37,7 +37,7 @@
 
 package es.eucm.eadventure.common.interfaces.features;
 
-import es.eucm.eadventure.common.params.geom.EAdPosition;
+import es.eucm.eadventure.common.util.EAdPositionImpl;
 
 /**
  * Implemented by classes with a position
@@ -50,7 +50,7 @@ public interface Positioned {
 	 * 
 	 * @return the position of the element
 	 */
-	EAdPosition getPosition();
+	EAdPositionImpl getPosition();
 
 	/**
 	 * Sets the position of the element
@@ -58,6 +58,6 @@ public interface Positioned {
 	 * @param p
 	 *            the position of the element
 	 */
-	void setPosition(EAdPosition p);
+	void setPosition(EAdPositionImpl p);
 
 }

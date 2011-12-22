@@ -47,10 +47,10 @@ import com.google.inject.name.Named;
 import com.google.inject.name.Names;
 
 import es.eucm.eadventure.common.model.elements.EAdAdventureModel;
-import es.eucm.eadventure.common.model.elements.EAdScene;
-import es.eucm.eadventure.common.model.impl.EAdAdventureModelImpl;
+import es.eucm.eadventure.common.model.elements.EAdAdventureModelImpl;
+import es.eucm.eadventure.common.model.elements.scene.EAdScene;
 import es.eucm.eadventure.common.resources.assets.multimedia.Video;
-import es.eucm.eadventure.engine.core.debuggers.EAdDebugger;
+import es.eucm.eadventure.engine.core.debuggers.Debugger;
 import es.eucm.eadventure.engine.core.debuggers.impl.EAdMainDebugger;
 import es.eucm.eadventure.engine.core.evaluators.EvaluatorFactory;
 import es.eucm.eadventure.engine.core.evaluators.impl.EvaluatorFactoryImpl;
@@ -77,7 +77,7 @@ import es.eucm.eadventure.engine.core.inventory.InventoryHandler;
 import es.eucm.eadventure.engine.core.inventory.InventoryHandlerImpl;
 import es.eucm.eadventure.engine.core.operator.OperatorFactory;
 import es.eucm.eadventure.engine.core.operators.impl.OperatorFactoryImpl;
-import es.eucm.eadventure.engine.core.platform.EAdInjector;
+import es.eucm.eadventure.engine.core.platform.GenericInjector;
 import es.eucm.eadventure.engine.core.platform.FontHandler;
 import es.eucm.eadventure.engine.core.platform.SpecialAssetRenderer;
 import es.eucm.eadventure.engine.core.platform.impl.FontHandlerImpl;
@@ -104,10 +104,10 @@ public class BasicGameModule extends AbstractGinModule {
 		bind(Game.class).to(GameImpl.class).in(Singleton.class);
 		bind(EffectHUD.class).to(EffectHUDImpl.class).in(Singleton.class);
 		bind(FontHandler.class).to(FontHandlerImpl.class).in(Singleton.class);
-		bind(EAdDebugger.class).to(EAdMainDebugger.class).in(Singleton.class);
+		bind(Debugger.class).to(EAdMainDebugger.class).in(Singleton.class);
 		bind(PluginHandler.class).to(PlayNPluginHandler.class).in(
 				Singleton.class);
-		bind(EAdInjector.class).to(PlayNInjector.class).in(Singleton.class);
+		bind(GenericInjector.class).to(PlayNInjector.class).in(Singleton.class);
 		bind(InventoryHandler.class).to(InventoryHandlerImpl.class).in(
 				Singleton.class);
 		bind(InventoryHUD.class).to(InventoryHUDImpl.class).in(Singleton.class);

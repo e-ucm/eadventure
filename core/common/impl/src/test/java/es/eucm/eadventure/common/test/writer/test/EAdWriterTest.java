@@ -56,8 +56,8 @@ import com.google.inject.Injector;
 import es.eucm.eadventure.common.impl.reader.EAdAdventureDOMModelReader;
 import es.eucm.eadventure.common.impl.writer.EAdAdventureModelWriter;
 import es.eucm.eadventure.common.model.elements.EAdAdventureModel;
-import es.eucm.eadventure.common.model.impl.EAdAdventureModelImpl;
-import es.eucm.eadventure.common.model.impl.EAdChapterImpl;
+import es.eucm.eadventure.common.model.elements.EAdAdventureModelImpl;
+import es.eucm.eadventure.common.model.elements.EAdChapterImpl;
 
 public class EAdWriterTest extends TestCase {
 

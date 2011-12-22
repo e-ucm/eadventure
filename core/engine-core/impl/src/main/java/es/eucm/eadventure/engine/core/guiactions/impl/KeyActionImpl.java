@@ -37,21 +37,21 @@
 
 package es.eucm.eadventure.engine.core.guiactions.impl;
 
-import es.eucm.eadventure.common.model.guievents.EAdGUIEvent;
-import es.eucm.eadventure.common.model.guievents.enums.KeyActionType;
-import es.eucm.eadventure.common.model.guievents.enums.KeyCode;
-import es.eucm.eadventure.common.model.guievents.impl.EAdKeyEventImpl;
+import es.eucm.eadventure.common.model.elements.guievents.EAdGUIEvent;
+import es.eucm.eadventure.common.model.elements.guievents.KeyEventImpl;
+import es.eucm.eadventure.common.model.elements.guievents.enums.KeyActionType;
+import es.eucm.eadventure.common.model.elements.guievents.enums.KeyCode;
 import es.eucm.eadventure.engine.core.guiactions.KeyAction;
 
 public class KeyActionImpl implements KeyAction {
 
 	private boolean consumed;
 
-	private EAdKeyEventImpl keyEvent;
+	private KeyEventImpl keyEvent;
 
 	public KeyActionImpl(KeyActionType type, KeyCode code) {
 		consumed = false;
-		keyEvent = new EAdKeyEventImpl(type, code);
+		keyEvent = new KeyEventImpl(type, code);
 	}
 
 	public KeyActionImpl(KeyActionType type, char letter) {

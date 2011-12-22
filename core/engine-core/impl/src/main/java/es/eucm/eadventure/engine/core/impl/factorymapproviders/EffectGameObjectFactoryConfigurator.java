@@ -37,26 +37,26 @@
 
 package es.eucm.eadventure.engine.core.impl.factorymapproviders;
 
-import es.eucm.eadventure.common.model.effects.EAdEffect;
-import es.eucm.eadventure.common.model.effects.impl.EAdActorActionsEffect;
-import es.eucm.eadventure.common.model.effects.impl.EAdAddActorReferenceEffect;
-import es.eucm.eadventure.common.model.effects.impl.EAdCancelEffect;
-import es.eucm.eadventure.common.model.effects.impl.EAdChangeScene;
-import es.eucm.eadventure.common.model.effects.impl.EAdComplexBlockingEffect;
-import es.eucm.eadventure.common.model.effects.impl.EAdInterpolationEffect;
-import es.eucm.eadventure.common.model.effects.impl.EAdInventoryEffect;
-import es.eucm.eadventure.common.model.effects.impl.EAdPlaySoundEffect;
-import es.eucm.eadventure.common.model.effects.impl.EAdQuitGame;
-import es.eucm.eadventure.common.model.effects.impl.EAdRandomEffect;
-import es.eucm.eadventure.common.model.effects.impl.EAdTriggerMacro;
-import es.eucm.eadventure.common.model.effects.impl.hud.ModifyHUDEf;
-import es.eucm.eadventure.common.model.effects.impl.sceneelements.EAdMoveSceneElement;
-import es.eucm.eadventure.common.model.effects.impl.text.EAdShowQuestion;
-import es.eucm.eadventure.common.model.effects.impl.text.EAdSpeakEffect;
-import es.eucm.eadventure.common.model.effects.impl.timedevents.EAdHighlightSceneElement;
-import es.eucm.eadventure.common.model.effects.impl.timedevents.EAdShowSceneElement;
-import es.eucm.eadventure.common.model.effects.impl.timedevents.EAdWaitEffect;
-import es.eucm.eadventure.common.model.effects.impl.variables.EAdChangeFieldValueEffect;
+import es.eucm.eadventure.common.model.elements.EAdEffect;
+import es.eucm.eadventure.common.model.elements.effects.ActorActionsEf;
+import es.eucm.eadventure.common.model.elements.effects.AddActorReferenceEf;
+import es.eucm.eadventure.common.model.elements.effects.CancelEffectEf;
+import es.eucm.eadventure.common.model.elements.effects.ChangeSceneEf;
+import es.eucm.eadventure.common.model.elements.effects.ComplexBlockingEffect;
+import es.eucm.eadventure.common.model.elements.effects.InterpolationEf;
+import es.eucm.eadventure.common.model.elements.effects.ModifyInventoryEf;
+import es.eucm.eadventure.common.model.elements.effects.PlaySoundEf;
+import es.eucm.eadventure.common.model.elements.effects.QuitGameEf;
+import es.eucm.eadventure.common.model.elements.effects.RandomEf;
+import es.eucm.eadventure.common.model.elements.effects.TriggerMacroEf;
+import es.eucm.eadventure.common.model.elements.effects.hud.ModifyHUDEf;
+import es.eucm.eadventure.common.model.elements.effects.sceneelements.MoveSceneElementEf;
+import es.eucm.eadventure.common.model.elements.effects.text.ShowQuestionEf;
+import es.eucm.eadventure.common.model.elements.effects.text.SpeakEf;
+import es.eucm.eadventure.common.model.elements.effects.timedevents.HighlightSceneElementEf;
+import es.eucm.eadventure.common.model.elements.effects.timedevents.ShowSceneElementEf;
+import es.eucm.eadventure.common.model.elements.effects.timedevents.WaitEf;
+import es.eucm.eadventure.common.model.elements.effects.variables.ChangeFieldEf;
 import es.eucm.eadventure.engine.core.gameobjects.go.EffectGO;
 import es.eucm.eadventure.engine.core.gameobjects.impl.effects.ActorActionsEffectGO;
 import es.eucm.eadventure.engine.core.gameobjects.impl.effects.AddActorReferenceEffectGO;
@@ -82,26 +82,26 @@ public class EffectGameObjectFactoryConfigurator
 		AbstractMapProvider<Class<? extends EAdEffect>, Class<? extends EffectGO<? extends EAdEffect>>> {
 
 	public EffectGameObjectFactoryConfigurator() {
-		factoryMap.put(EAdShowSceneElement.class, ShowSceneElementGO.class);
-		factoryMap.put(EAdComplexBlockingEffect.class,
+		factoryMap.put(ShowSceneElementEf.class, ShowSceneElementGO.class);
+		factoryMap.put(ComplexBlockingEffect.class,
 				ComplexBlockingEffectGO.class);
-		factoryMap.put(EAdChangeScene.class, ChangeSceneGO.class);
-		factoryMap.put(EAdMoveSceneElement.class, MoveSceneElementGO.class);
-		factoryMap.put(EAdHighlightSceneElement.class, HighlightEffectGO.class);
-		factoryMap.put(EAdWaitEffect.class, WaitEffectGO.class);
-		factoryMap.put(EAdCancelEffect.class, CancelEffectGO.class);
-		factoryMap.put(EAdChangeFieldValueEffect.class, ChangeFieldGO.class);
-		factoryMap.put(EAdActorActionsEffect.class, ActorActionsEffectGO.class);
-		factoryMap.put(EAdQuitGame.class, QuitGameEffectGO.class);
-		factoryMap.put(EAdTriggerMacro.class, TriggerMacroEffectGO.class);
-		factoryMap.put(EAdInventoryEffect.class, InventoryEffectGO.class);
-		factoryMap.put(EAdRandomEffect.class, RandomEffectGO.class);
-		factoryMap.put(EAdInterpolationEffect.class, InterpolationGO.class);
-		factoryMap.put(EAdSpeakEffect.class, SpeakEffectGO.class);
-		factoryMap.put(EAdPlaySoundEffect.class, PlaySoundEffectGO.class);
-		factoryMap.put(EAdAddActorReferenceEffect.class,
+		factoryMap.put(ChangeSceneEf.class, ChangeSceneGO.class);
+		factoryMap.put(MoveSceneElementEf.class, MoveSceneElementGO.class);
+		factoryMap.put(HighlightSceneElementEf.class, HighlightEffectGO.class);
+		factoryMap.put(WaitEf.class, WaitEffectGO.class);
+		factoryMap.put(CancelEffectEf.class, CancelEffectGO.class);
+		factoryMap.put(ChangeFieldEf.class, ChangeFieldGO.class);
+		factoryMap.put(ActorActionsEf.class, ActorActionsEffectGO.class);
+		factoryMap.put(QuitGameEf.class, QuitGameEffectGO.class);
+		factoryMap.put(TriggerMacroEf.class, TriggerMacroEffectGO.class);
+		factoryMap.put(ModifyInventoryEf.class, InventoryEffectGO.class);
+		factoryMap.put(RandomEf.class, RandomEffectGO.class);
+		factoryMap.put(InterpolationEf.class, InterpolationGO.class);
+		factoryMap.put(SpeakEf.class, SpeakEffectGO.class);
+		factoryMap.put(PlaySoundEf.class, PlaySoundEffectGO.class);
+		factoryMap.put(AddActorReferenceEf.class,
 				AddActorReferenceEffectGO.class);
-		factoryMap.put(EAdShowQuestion.class, ComplexBlockingEffectGO.class);
+		factoryMap.put(ShowQuestionEf.class, ComplexBlockingEffectGO.class);
 		factoryMap.put(ModifyHUDEf.class, ModifyHudGO.class);
 	}
 	

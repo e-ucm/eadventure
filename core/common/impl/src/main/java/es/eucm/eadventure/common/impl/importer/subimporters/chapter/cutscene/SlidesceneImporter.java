@@ -47,13 +47,13 @@ import es.eucm.eadventure.common.impl.importer.interfaces.EAdElementFactory;
 import es.eucm.eadventure.common.impl.importer.interfaces.ResourceImporter;
 import es.eucm.eadventure.common.model.elements.EAdChapter;
 import es.eucm.eadventure.common.model.elements.EAdCondition;
-import es.eucm.eadventure.common.model.elements.EAdScene;
-import es.eucm.eadventure.common.model.elements.impl.extra.EAdCutscene;
-import es.eucm.eadventure.common.model.elements.impl.extra.EAdSlide;
-import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.animation.Frame;
-import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.animation.FramesAnimation;
+import es.eucm.eadventure.common.model.elements.extra.EAdCutscene;
+import es.eucm.eadventure.common.model.elements.extra.EAdSlide;
+import es.eucm.eadventure.common.model.elements.scene.EAdScene;
+import es.eucm.eadventure.common.resources.assets.drawable.basics.animation.Frame;
+import es.eucm.eadventure.common.resources.assets.drawable.basics.animation.FramesAnimation;
 import es.eucm.eadventure.common.resources.assets.multimedia.Sound;
-import es.eucm.eadventure.common.resources.assets.multimedia.impl.SoundImpl;
+import es.eucm.eadventure.common.resources.assets.multimedia.SoundImpl;
 
 /**
  * Scenes importer

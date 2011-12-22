@@ -37,8 +37,8 @@
 
 package es.eucm.eadventure.common.interfaces.features;
 
-import es.eucm.eadventure.common.model.extra.EAdMap;
-import es.eucm.eadventure.common.model.variables.EAdVarDef;
+import es.eucm.eadventure.common.model.elements.extra.EAdMap;
+import es.eucm.eadventure.common.model.elements.variables.EAdVarDef;
 
 /**
  * 

@@ -43,20 +43,19 @@ import java.util.List;
 import com.google.inject.Inject;
 
 import es.eucm.eadventure.common.interfaces.features.enums.Orientation;
-import es.eucm.eadventure.common.model.effects.impl.sceneelements.EAdMoveSceneElement;
-import es.eucm.eadventure.common.model.elements.EAdSceneElement;
+import es.eucm.eadventure.common.model.elements.effects.sceneelements.MoveSceneElementEf;
 import es.eucm.eadventure.common.model.elements.enums.CommonStates;
-import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
-import es.eucm.eadventure.common.model.elements.impl.EAdSceneElementDefImpl;
-import es.eucm.eadventure.common.model.elements.impl.EAdSceneImpl;
-import es.eucm.eadventure.common.model.trajectories.TrajectoryDefinition;
-import es.eucm.eadventure.common.model.trajectories.impl.NodeTrajectoryDefinition;
-import es.eucm.eadventure.common.model.variables.EAdVarDef;
-import es.eucm.eadventure.common.model.variables.impl.EAdVarDefImpl;
-import es.eucm.eadventure.common.params.geom.EAdPosition;
-import es.eucm.eadventure.common.params.geom.impl.EAdPositionImpl;
+import es.eucm.eadventure.common.model.elements.scene.EAdSceneElement;
+import es.eucm.eadventure.common.model.elements.scenes.SceneElementDefImpl;
+import es.eucm.eadventure.common.model.elements.scenes.SceneElementImpl;
+import es.eucm.eadventure.common.model.elements.scenes.SceneImpl;
+import es.eucm.eadventure.common.model.elements.trajectories.NodeTrajectoryDefinition;
+import es.eucm.eadventure.common.model.elements.trajectories.TrajectoryDefinition;
+import es.eucm.eadventure.common.model.elements.variables.EAdVarDef;
+import es.eucm.eadventure.common.model.elements.variables.VarDefImpl;
 import es.eucm.eadventure.common.resources.StringHandler;
-import es.eucm.eadventure.common.util.impl.EAdInterpolator;
+import es.eucm.eadventure.common.util.EAdInterpolator;
+import es.eucm.eadventure.common.util.EAdPositionImpl;
 import es.eucm.eadventure.engine.core.game.GameState;
 import es.eucm.eadventure.engine.core.game.ValueMap;
 import es.eucm.eadventure.engine.core.gameobjects.factories.SceneElementGOFactory;
@@ -71,14 +70,14 @@ import es.eucm.eadventure.engine.core.trajectories.impl.SimplePathImpl;
 import es.eucm.eadventure.engine.core.trajectories.impl.dijkstra.DijkstraPathSide;
 
 /**
- * Game object for {@link EAdMoveSceneElement} effect
+ * Game object for {@link MoveSceneElementEf} effect
  * 
  * 
  */
 public class MoveSceneElementGO extends
-		SceneElementEffectGO<EAdMoveSceneElement> {
+		SceneElementEffectGO<MoveSceneElementEf> {
 
-	private static final EAdVarDef<MoveSceneElementGO> VAR_ELEMENT_MOVING = new EAdVarDefImpl<MoveSceneElementGO>(
+	private static final EAdVarDef<MoveSceneElementGO> VAR_ELEMENT_MOVING = new VarDefImpl<MoveSceneElementGO>(
 			"element_moving", MoveSceneElementGO.class, null);
 
 	/**
@@ -137,10 +136,10 @@ public class MoveSceneElementGO extends
 
 		EAdSceneElement target = element.getTarget() != null ? valueMap
 				.getValue(element.getTarget(),
-						EAdSceneElementDefImpl.VAR_SCENE_ELEMENT) : null;
+						SceneElementDefImpl.VAR_SCENE_ELEMENT) : null;
 
 		TrajectoryDefinition d = valueMap.getValue(gameState.getScene()
-				.getElement(), EAdSceneImpl.VAR_TRAJECTORY_DEFINITION);
+				.getElement(), SceneImpl.VAR_TRAJECTORY_DEFINITION);
 		if (d != null && element.isUseTrajectory()) {
 			if (target == null)
 				path = trajectoryFactory.getTrajectory(d, element.getSceneElement(),
@@ -149,13 +148,13 @@ public class MoveSceneElementGO extends
 				path = trajectoryFactory.getTrajectory(d, element.getSceneElement(),
 						endX, endY, sceneElementFactory.get(target));
 		} else {
-			List<EAdPosition> list = new ArrayList<EAdPosition>();
+			List<EAdPositionImpl> list = new ArrayList<EAdPositionImpl>();
 			list.add(new EAdPositionImpl(endX, endY));
 			int x = valueMap.getValue(element.getSceneElement(),
-					EAdBasicSceneElement.VAR_X);
+					SceneElementImpl.VAR_X);
 			int y = valueMap.getValue(element.getSceneElement(),
-					EAdBasicSceneElement.VAR_Y);
-			float scale = valueMap.getValue(element.getSceneElement(), EAdBasicSceneElement.VAR_SCALE);
+					SceneElementImpl.VAR_Y);
+			float scale = valueMap.getValue(element.getSceneElement(), SceneElementImpl.VAR_SCALE);
 			EAdPositionImpl currentPosition = new EAdPositionImpl(x, y);
 			path = new SimplePathImpl(list, currentPosition, scale);
 		}
@@ -179,13 +178,13 @@ public class MoveSceneElementGO extends
 			PathSide side = path.getSides().get(currentSide);
 
 			initX = gameState.getValueMap().getValue(element.getSceneElement(),
-					EAdBasicSceneElement.VAR_X);
+					SceneElementImpl.VAR_X);
 			initY = gameState.getValueMap().getValue(element.getSceneElement(),
-					EAdBasicSceneElement.VAR_Y);
+					SceneElementImpl.VAR_Y);
 			initScale = gameState.getValueMap().getValue(element.getSceneElement(),
-					EAdBasicSceneElement.VAR_SCALE);
+					SceneElementImpl.VAR_SCALE);
 			
-			EAdPosition p = side.getEndPosition(currentSide == path.getSides()
+			EAdPositionImpl p = side.getEndPosition(currentSide == path.getSides()
 					.size() - 1);
 			targetX = p.getX();
 			targetY = p.getY();
@@ -198,7 +197,7 @@ public class MoveSceneElementGO extends
 
 			//TODO should make more generic...
 			TrajectoryDefinition d = gameState.getValueMap().getValue(gameState.getScene()
-					.getElement(), EAdSceneImpl.VAR_TRAJECTORY_DEFINITION);
+					.getElement(), SceneImpl.VAR_TRAJECTORY_DEFINITION);
 			if (d != null && element.isUseTrajectory() && side instanceof DijkstraPathSide ) {
 				gameState.getValueMap().setValue(element.getSceneElement(), NodeTrajectoryDefinition.VAR_CURRENT_SIDE, ((DijkstraPathSide) side).getSide());
 			}
@@ -231,7 +230,7 @@ public class MoveSceneElementGO extends
 		}
 
 		gameState.getValueMap().setValue(sceneElement,
-				EAdBasicSceneElement.VAR_ORIENTATION, tempDirection);
+				SceneElementImpl.VAR_ORIENTATION, tempDirection);
 
 	}
 
@@ -252,10 +251,10 @@ public class MoveSceneElementGO extends
 				firstUpdate = false;
 				oldState = gameState.getValueMap().getValue(
 						element.getSceneElement(),
-						EAdBasicSceneElement.VAR_STATE);
+						SceneElementImpl.VAR_STATE);
 
 				gameState.getValueMap().setValue(element.getSceneElement(),
-						EAdBasicSceneElement.VAR_STATE,
+						SceneElementImpl.VAR_STATE,
 						CommonStates.EAD_STATE_WALKING.toString());
 			}
 
@@ -266,21 +265,21 @@ public class MoveSceneElementGO extends
 			if (currentTime <= totalTime) {
 				gameState.getValueMap().setValue(
 						sceneElement,
-						EAdBasicSceneElement.VAR_X,
+						SceneElementImpl.VAR_X,
 						initX
 								+ (int) EAdInterpolator.LINEAR
 										.interpolate(currentTime, totalTime,
 												targetX - initX));
 				gameState.getValueMap().setValue(
 						sceneElement,
-						EAdBasicSceneElement.VAR_Y,
+						SceneElementImpl.VAR_Y,
 						initY
 								+ (int) EAdInterpolator.LINEAR
 										.interpolate(currentTime, totalTime,
 												targetY - initY));
 				gameState.getValueMap().setValue(
 						sceneElement,
-						EAdBasicSceneElement.VAR_SCALE,
+						SceneElementImpl.VAR_SCALE,
 						initScale
 								+ (float) EAdInterpolator.LINEAR
 										.interpolate(currentTime, totalTime,
@@ -288,9 +287,9 @@ public class MoveSceneElementGO extends
 
 			} else {
 				gameState.getValueMap().setValue(sceneElement,
-						EAdBasicSceneElement.VAR_X, (int) targetX);
+						SceneElementImpl.VAR_X, (int) targetX);
 				gameState.getValueMap().setValue(sceneElement,
-						EAdBasicSceneElement.VAR_Y, (int) targetY);
+						SceneElementImpl.VAR_Y, (int) targetY);
 				finishedSide = true;
 			}
 		}
@@ -301,7 +300,7 @@ public class MoveSceneElementGO extends
 			super.finish();
 		
 		gameState.getValueMap().setValue(element.getSceneElement(),
-				EAdBasicSceneElement.VAR_STATE, oldState);
+				SceneElementImpl.VAR_STATE, oldState);
 		gameState.getValueMap()
 				.setValue(sceneElement, VAR_ELEMENT_MOVING, (Object) null);
 	}
@@ -309,7 +308,7 @@ public class MoveSceneElementGO extends
 	public void stop() {
 		super.stop();
 		gameState.getValueMap().setValue(element.getSceneElement(),
-				EAdBasicSceneElement.VAR_STATE, oldState);
+				SceneElementImpl.VAR_STATE, oldState);
 	}
 
 }

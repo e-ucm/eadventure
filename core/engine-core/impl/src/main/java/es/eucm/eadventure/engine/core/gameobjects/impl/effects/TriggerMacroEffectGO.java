@@ -39,10 +39,10 @@ package es.eucm.eadventure.engine.core.gameobjects.impl.effects;
 
 import com.google.inject.Inject;
 
-import es.eucm.eadventure.common.model.effects.EAdEffect;
-import es.eucm.eadventure.common.model.effects.EAdMacro;
-import es.eucm.eadventure.common.model.effects.impl.EAdTriggerMacro;
 import es.eucm.eadventure.common.model.elements.EAdCondition;
+import es.eucm.eadventure.common.model.elements.EAdEffect;
+import es.eucm.eadventure.common.model.elements.effects.EffectsMacro;
+import es.eucm.eadventure.common.model.elements.effects.TriggerMacroEf;
 import es.eucm.eadventure.common.resources.StringHandler;
 import es.eucm.eadventure.engine.core.evaluators.EvaluatorFactory;
 import es.eucm.eadventure.engine.core.game.GameState;
@@ -50,7 +50,7 @@ import es.eucm.eadventure.engine.core.gameobjects.factories.SceneElementGOFactor
 import es.eucm.eadventure.engine.core.platform.AssetHandler;
 import es.eucm.eadventure.engine.core.platform.GUI;
 
-public class TriggerMacroEffectGO extends AbstractEffectGO<EAdTriggerMacro> {
+public class TriggerMacroEffectGO extends AbstractEffectGO<TriggerMacroEf> {
 
 	private EvaluatorFactory evaluator;
 
@@ -67,7 +67,7 @@ public class TriggerMacroEffectGO extends AbstractEffectGO<EAdTriggerMacro> {
 	public void initilize() {
 		super.initilize();
 
-		EAdMacro macro = null;
+		EffectsMacro macro = null;
 
 		for (int i = 0; i < element.getMacros().size() && macro == null; i++) {
 			EAdCondition c = element.getConditions().get(i);

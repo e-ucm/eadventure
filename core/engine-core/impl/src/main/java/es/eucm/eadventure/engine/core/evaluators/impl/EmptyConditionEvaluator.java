@@ -42,16 +42,16 @@ import java.util.logging.Logger;
 
 import com.google.inject.Singleton;
 
-import es.eucm.eadventure.common.model.conditions.impl.EmptyCondition;
+import es.eucm.eadventure.common.model.elements.conditions.EmptyCond;
 import es.eucm.eadventure.engine.core.evaluators.Evaluator;
 
 @Singleton
-public class EmptyConditionEvaluator implements Evaluator<EmptyCondition> {
+public class EmptyConditionEvaluator implements Evaluator<EmptyCond> {
 	
 	private static final Logger logger = Logger.getLogger("EmptyConditionEvaluator");
 	
 	@Override
-	public boolean evaluate(EmptyCondition condition) {
+	public boolean evaluate(EmptyCond condition) {
 		switch(condition.getValue()) {
 		case TRUE:
 			return true;

@@ -37,24 +37,24 @@
 
 package es.eucm.eadventure.common.elementfactories.demos.scenes;
 
-import es.eucm.eadventure.common.model.conditions.impl.EmptyCondition;
-import es.eucm.eadventure.common.model.effects.impl.variables.EAdChangeFieldValueEffect;
-import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
-import es.eucm.eadventure.common.model.elements.impl.EAdSceneElementDefImpl;
-import es.eucm.eadventure.common.model.guievents.enums.DragAction;
-import es.eucm.eadventure.common.model.guievents.impl.EAdDragEventImpl;
-import es.eucm.eadventure.common.model.variables.EAdField;
-import es.eucm.eadventure.common.model.variables.impl.EAdFieldImpl;
-import es.eucm.eadventure.common.model.variables.impl.operations.MathOperation;
-import es.eucm.eadventure.common.model.variables.impl.operations.ValueOperation;
-import es.eucm.eadventure.common.params.fills.impl.EAdColor;
-import es.eucm.eadventure.common.params.fills.impl.EAdLinearGradient;
-import es.eucm.eadventure.common.params.fills.impl.EAdPaintImpl;
-import es.eucm.eadventure.common.params.geom.impl.EAdPositionImpl;
-import es.eucm.eadventure.common.params.geom.impl.EAdPositionImpl.Corner;
-import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.shapes.BallonShape;
-import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.shapes.BezierShape;
-import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.shapes.extra.BalloonType;
+import es.eucm.eadventure.common.model.elements.conditions.EmptyCond;
+import es.eucm.eadventure.common.model.elements.effects.variables.ChangeFieldEf;
+import es.eucm.eadventure.common.model.elements.guievents.DragEventImpl;
+import es.eucm.eadventure.common.model.elements.guievents.enums.DragAction;
+import es.eucm.eadventure.common.model.elements.scenes.SceneElementDefImpl;
+import es.eucm.eadventure.common.model.elements.scenes.SceneElementImpl;
+import es.eucm.eadventure.common.model.elements.variables.EAdField;
+import es.eucm.eadventure.common.model.elements.variables.FieldImpl;
+import es.eucm.eadventure.common.model.elements.variables.operations.MathOp;
+import es.eucm.eadventure.common.model.elements.variables.operations.ValueOp;
+import es.eucm.eadventure.common.params.fills.EAdColor;
+import es.eucm.eadventure.common.params.fills.EAdLinearGradient;
+import es.eucm.eadventure.common.params.fills.EAdPaintImpl;
+import es.eucm.eadventure.common.resources.assets.drawable.basics.shapes.BallonShape;
+import es.eucm.eadventure.common.resources.assets.drawable.basics.shapes.BezierShape;
+import es.eucm.eadventure.common.resources.assets.drawable.basics.shapes.extra.BalloonType;
+import es.eucm.eadventure.common.util.EAdPositionImpl;
+import es.eucm.eadventure.common.util.EAdPositionImpl.Corner;
 
 public class DragDropScene extends EmptyScene {
 
@@ -66,23 +66,23 @@ public class DragDropScene extends EmptyScene {
 		shape.setPaint(new EAdLinearGradient(EAdColor.RED, new EAdColor(200, 0,
 				0), 100, 100));
 		
-		EAdSceneElementDefImpl def = new EAdSceneElementDefImpl( shape );
+		SceneElementDefImpl def = new SceneElementDefImpl( shape );
 		
 		
 		
-		EAdBasicSceneElement e1 = new EAdBasicSceneElement(def);
-		e1.setDragCond(EmptyCondition.TRUE_EMPTY_CONDITION);
+		SceneElementImpl e1 = new SceneElementImpl(def);
+		e1.setDragCond(EmptyCond.TRUE_EMPTY_CONDITION);
 		e1.setPosition(new EAdPositionImpl(Corner.CENTER, 600, 300));
 		
-		EAdBasicSceneElement e4 = new EAdBasicSceneElement(def);
-		e4.setDragCond(EmptyCondition.TRUE_EMPTY_CONDITION);
+		SceneElementImpl e4 = new SceneElementImpl(def);
+		e4.setDragCond(EmptyCond.TRUE_EMPTY_CONDITION);
 		e4.setPosition(new EAdPositionImpl(Corner.TOP_LEFT, 20, 20));
 		e4.setScale(0.5f);
 		
-		EAdBasicSceneElement e5 = new EAdBasicSceneElement(def);
-		e5.setDragCond(EmptyCondition.TRUE_EMPTY_CONDITION);
+		SceneElementImpl e5 = new SceneElementImpl(def);
+		e5.setDragCond(EmptyCond.TRUE_EMPTY_CONDITION);
 		e5.setPosition(new EAdPositionImpl(Corner.TOP_RIGHT, 500, 10));
-		e5.setVarInitialValue(EAdBasicSceneElement.VAR_ROTATION, 0.5f);
+		e5.setVarInitialValue(SceneElementImpl.VAR_ROTATION, 0.5f);
 		e5.setScale(1.5f);
 		
 		
@@ -91,10 +91,10 @@ public class DragDropScene extends EmptyScene {
 		BezierShape shape2 = new BallonShape(0, 0, 110, 110,
 				BalloonType.ROUNDED_RECTANGLE);
 		shape2.setPaint(EAdPaintImpl.BLACK_ON_WHITE);
-		EAdBasicSceneElement e2 = new EAdBasicSceneElement(shape2);
+		SceneElementImpl e2 = new SceneElementImpl(shape2);
 		e2.setPosition(new EAdPositionImpl(Corner.CENTER, 100, 300));
 
-		EAdBasicSceneElement e3 = new EAdBasicSceneElement(shape2);
+		SceneElementImpl e3 = new SceneElementImpl(shape2);
 		e3.setPosition(new EAdPositionImpl(Corner.CENTER, 300, 300));
 
 		addBehaviors(e2, e1);
@@ -108,32 +108,32 @@ public class DragDropScene extends EmptyScene {
 
 	}
 
-	private void addBehaviors(EAdBasicSceneElement e2, EAdBasicSceneElement e1) {
-		EAdField<Float> scale = new EAdFieldImpl<Float>(e2,
-				EAdBasicSceneElement.VAR_SCALE);
-		EAdChangeFieldValueEffect changeScale1 = new EAdChangeFieldValueEffect(scale, new ValueOperation(1.2f));
+	private void addBehaviors(SceneElementImpl e2, SceneElementImpl e1) {
+		EAdField<Float> scale = new FieldImpl<Float>(e2,
+				SceneElementImpl.VAR_SCALE);
+		ChangeFieldEf changeScale1 = new ChangeFieldEf(scale, new ValueOp(1.2f));
 		changeScale1.setId("changeScale");
-		EAdChangeFieldValueEffect changeScale2 = new EAdChangeFieldValueEffect( scale, new ValueOperation(1.0f));
+		ChangeFieldEf changeScale2 = new ChangeFieldEf( scale, new ValueOp(1.0f));
 		changeScale2.setId("changeScale");
-		e2.addBehavior(new EAdDragEventImpl(e1.getDefinition(), DragAction.ENTERED),
+		e2.addBehavior(new DragEventImpl(e1.getDefinition(), DragAction.ENTERED),
 				changeScale1);
-		e2.addBehavior(new EAdDragEventImpl(e1.getDefinition(), DragAction.EXITED),
+		e2.addBehavior(new DragEventImpl(e1.getDefinition(), DragAction.EXITED),
 				changeScale2);
 		
 
-		EAdFieldImpl<Integer> fieldX = new EAdFieldImpl<Integer>(e1, EAdBasicSceneElement.VAR_X);
-		EAdFieldImpl<Integer> fieldY = new EAdFieldImpl<Integer>(e1, EAdBasicSceneElement.VAR_Y);
+		FieldImpl<Integer> fieldX = new FieldImpl<Integer>(e1, SceneElementImpl.VAR_X);
+		FieldImpl<Integer> fieldY = new FieldImpl<Integer>(e1, SceneElementImpl.VAR_Y);
 
-		EAdChangeFieldValueEffect changeX = new EAdChangeFieldValueEffect(
+		ChangeFieldEf changeX = new ChangeFieldEf(
 				fieldX,
-				new MathOperation("[0]", new EAdFieldImpl<Integer>(e2,
-						EAdBasicSceneElement.VAR_X)));
+				new MathOp("[0]", new FieldImpl<Integer>(e2,
+						SceneElementImpl.VAR_X)));
 		changeX.setId("x");
 
-		EAdChangeFieldValueEffect changeY = new EAdChangeFieldValueEffect(
+		ChangeFieldEf changeY = new ChangeFieldEf(
 				fieldY,
-				new MathOperation("[0]", new EAdFieldImpl<Integer>(e2,
-						EAdBasicSceneElement.VAR_Y)));
+				new MathOp("[0]", new FieldImpl<Integer>(e2,
+						SceneElementImpl.VAR_Y)));
 		changeY.setId("y");
 
 //		e2.addBehavior(new EAdDragEventImpl(e1.getDefinition(), DragAction.DROP), changeX);

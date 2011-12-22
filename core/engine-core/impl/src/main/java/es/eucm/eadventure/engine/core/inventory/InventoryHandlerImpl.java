@@ -43,7 +43,7 @@ import java.util.List;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
-import es.eucm.eadventure.common.model.elements.EAdSceneElementDef;
+import es.eucm.eadventure.common.model.elements.scene.EAdSceneElementDef;
 
 @Singleton
 public class InventoryHandlerImpl implements InventoryHandler {

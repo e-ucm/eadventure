@@ -45,13 +45,13 @@ import es.eucm.eadventure.common.data.chapter.conditions.Conditions;
 import es.eucm.eadventure.common.data.chapter.effects.IncrementVarEffect;
 import es.eucm.eadventure.common.impl.importer.interfaces.EAdElementFactory;
 import es.eucm.eadventure.common.impl.importer.subimporters.effects.EffectImporter;
-import es.eucm.eadventure.common.model.effects.impl.variables.EAdChangeFieldValueEffect;
 import es.eucm.eadventure.common.model.elements.EAdCondition;
-import es.eucm.eadventure.common.model.variables.EAdField;
-import es.eucm.eadventure.common.model.variables.impl.operations.MathOperation;
+import es.eucm.eadventure.common.model.elements.effects.variables.ChangeFieldEf;
+import es.eucm.eadventure.common.model.elements.variables.EAdField;
+import es.eucm.eadventure.common.model.elements.variables.operations.MathOp;
 
 public class IncrementVarImporter extends
-		EffectImporter<IncrementVarEffect, EAdChangeFieldValueEffect> {
+		EffectImporter<IncrementVarEffect, ChangeFieldEf> {
 	private EAdElementFactory factory;
 
 	private static int ID_GENERATOR = 0;
@@ -65,14 +65,14 @@ public class IncrementVarImporter extends
 	}
 
 	@Override
-	public EAdChangeFieldValueEffect init(IncrementVarEffect oldObject) {
+	public ChangeFieldEf init(IncrementVarEffect oldObject) {
 		EAdField<?> var = factory.getVarByOldId(oldObject.getTargetId(),
 				Condition.VAR_CONDITION);
 
-		MathOperation op = new MathOperation(
+		MathOp op = new MathOp(
 				 "[0] + "
 						+ oldObject.getIncrement(), var);
-		EAdChangeFieldValueEffect effect = new EAdChangeFieldValueEffect( var, op);
+		ChangeFieldEf effect = new ChangeFieldEf( var, op);
 		effect.setId("changeVarValueFromIncrement" + ID_GENERATOR++);
 		super.importConditions(oldObject, effect);
 		effect.setQueueable(true);
@@ -80,7 +80,7 @@ public class IncrementVarImporter extends
 	}
 	
 	@Override
-	public EAdChangeFieldValueEffect convert(IncrementVarEffect oldObject, Object object) {
-		return (EAdChangeFieldValueEffect) object;
+	public ChangeFieldEf convert(IncrementVarEffect oldObject, Object object) {
+		return (ChangeFieldEf) object;
 	}
 }

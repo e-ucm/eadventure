@@ -38,54 +38,53 @@
 package es.eucm.eadventure.common.elementfactories.demos.normalguy;
 
 import es.eucm.eadventure.common.elementfactories.demos.scenes.EmptyScene;
-import es.eucm.eadventure.common.model.effects.impl.EAdChangeScene;
-import es.eucm.eadventure.common.model.effects.impl.EAdInterpolationEffect;
-import es.eucm.eadventure.common.model.effects.impl.enums.InterpolationType;
-import es.eucm.eadventure.common.model.effects.impl.enums.InterpolationLoopType;
-import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
-import es.eucm.eadventure.common.model.events.EAdSceneElementEvent;
-import es.eucm.eadventure.common.model.events.enums.SceneElementEventType;
-import es.eucm.eadventure.common.model.events.impl.EAdSceneElementEventImpl;
-import es.eucm.eadventure.common.model.guievents.impl.EAdMouseEventImpl;
-import es.eucm.eadventure.common.params.geom.impl.EAdPositionImpl.Corner;
-import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.ImageImpl;
+import es.eucm.eadventure.common.model.elements.effects.ChangeSceneEf;
+import es.eucm.eadventure.common.model.elements.effects.InterpolationEf;
+import es.eucm.eadventure.common.model.elements.effects.enums.InterpolationLoopType;
+import es.eucm.eadventure.common.model.elements.effects.enums.InterpolationType;
+import es.eucm.eadventure.common.model.elements.events.SceneElementEv;
+import es.eucm.eadventure.common.model.elements.events.enums.SceneElementEventType;
+import es.eucm.eadventure.common.model.elements.guievents.MouseEventImpl;
+import es.eucm.eadventure.common.model.elements.scenes.SceneElementImpl;
+import es.eucm.eadventure.common.resources.assets.drawable.basics.ImageImpl;
+import es.eucm.eadventure.common.util.EAdPositionImpl.Corner;
 
 public class NgMainScreen extends EmptyScene {
 
 	public NgMainScreen() {
-		setBackground(new EAdBasicSceneElement( new ImageImpl(
+		setBackground(new SceneElementImpl( new ImageImpl(
 				"@drawable/ng_mainscreen_bg.png")));
 		getBackground().setId("background");
-		EAdBasicSceneElement spiral = new EAdBasicSceneElement(
+		SceneElementImpl spiral = new SceneElementImpl(
 				new ImageImpl("@drawable/ng_spiral.png"));
 		spiral.setId("spiral");
 		spiral.setPosition(Corner.CENTER, 400, 300);
 		getComponents().add(spiral);
-		EAdBasicSceneElement logo = new EAdBasicSceneElement(
+		SceneElementImpl logo = new SceneElementImpl(
 				new ImageImpl("@drawable/ng_logo.png"));
 		logo.setId("spiral");
 		logo.setPosition(Corner.CENTER, 400, 300);
 		getComponents().add(logo);
-		logo.setVarInitialValue(EAdBasicSceneElement.VAR_SCALE, 0.0f);
+		logo.setVarInitialValue(SceneElementImpl.VAR_SCALE, 0.0f);
 
 		// Animations
-		EAdSceneElementEvent e = new EAdSceneElementEventImpl();
-		EAdInterpolationEffect rotate = new EAdInterpolationEffect(spiral,
-				EAdBasicSceneElement.VAR_ROTATION, 0, 2 * Math.PI, 50000, 0,
+		SceneElementEv e = new SceneElementEv();
+		InterpolationEf rotate = new InterpolationEf(spiral,
+				SceneElementImpl.VAR_ROTATION, 0, 2 * Math.PI, 50000, 0,
 				InterpolationLoopType.RESTART, -1, InterpolationType.DESACCELERATE);
 		e.addEffect(SceneElementEventType.ADDED_TO_SCENE, rotate);
 		spiral.getEvents().add(e);
 		
-		e = new EAdSceneElementEventImpl();
-		EAdInterpolationEffect bounce = new EAdInterpolationEffect(logo,
-				EAdBasicSceneElement.VAR_SCALE, 0.0f, 1.0f, 1000, 1000,
+		e = new SceneElementEv();
+		InterpolationEf bounce = new InterpolationEf(logo,
+				SceneElementImpl.VAR_SCALE, 0.0f, 1.0f, 1000, 1000,
 				InterpolationLoopType.NO_LOOP, 1, InterpolationType.LINEAR);
 		e.addEffect(SceneElementEventType.ADDED_TO_SCENE, bounce);
 		
-		EAdChangeScene changeScene = new EAdChangeScene( );
+		ChangeSceneEf changeScene = new ChangeSceneEf( );
 		changeScene.setId("changeScene");
 		changeScene.setNextScene(new NgRoom1());
-		getBackground().addBehavior(EAdMouseEventImpl.MOUSE_LEFT_PRESSED, changeScene);
+		getBackground().addBehavior(MouseEventImpl.MOUSE_LEFT_PRESSED, changeScene);
 		
 		logo.getEvents().add(e);
 		

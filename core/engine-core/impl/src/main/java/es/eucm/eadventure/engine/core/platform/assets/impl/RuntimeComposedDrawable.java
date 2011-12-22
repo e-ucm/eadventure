@@ -43,13 +43,13 @@ import java.util.logging.Logger;
 
 import com.google.inject.Inject;
 
-import es.eucm.eadventure.common.model.extra.EAdList;
+import es.eucm.eadventure.common.model.elements.extra.EAdList;
 import es.eucm.eadventure.common.resources.assets.drawable.Drawable;
 import es.eucm.eadventure.common.resources.assets.drawable.compounds.ComposedDrawable;
 import es.eucm.eadventure.common.resources.assets.drawable.compounds.DisplacedDrawable;
 import es.eucm.eadventure.engine.core.platform.AssetHandler;
 import es.eucm.eadventure.engine.core.platform.DrawableAsset;
-import es.eucm.eadventure.engine.core.platform.rendering.EAdCanvas;
+import es.eucm.eadventure.engine.core.platform.rendering.GenericCanvas;
 
 /**
  * Represents a runtime engine composed drawable, associated with an
@@ -139,7 +139,7 @@ public class RuntimeComposedDrawable<GraphicContext> extends
 		return loaded;
 	}
 
-	public void render(EAdCanvas<GraphicContext> c) {
+	public void render(GenericCanvas<GraphicContext> c) {
 		for (DrawableAsset<?, GraphicContext> d : getAssets()) {
 			d.render(c);
 		}

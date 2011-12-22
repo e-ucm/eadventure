@@ -47,8 +47,8 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 import es.eucm.eadventure.common.model.EAdElement;
-import es.eucm.eadventure.common.model.extra.EAdList;
-import es.eucm.eadventure.common.model.extra.impl.EAdListImpl;
+import es.eucm.eadventure.common.model.elements.extra.EAdList;
+import es.eucm.eadventure.common.model.elements.extra.EAdListImpl;
 import es.eucm.eadventure.editor.control.commands.impl.AddElementCommand;
 import es.eucm.eadventure.editor.control.commands.impl.MoveElementCommand;
 import es.eucm.eadventure.editor.control.commands.impl.RemoveElementCommand;

@@ -40,7 +40,7 @@ package es.eucm.eadventure.engine.core.trajectories.impl.dijkstra;
 import java.util.ArrayList;
 import java.util.List;
 
-import es.eucm.eadventure.common.params.geom.EAdPosition;
+import es.eucm.eadventure.common.util.EAdPositionImpl;
 
 /**
  * A node in the representation of the trajectory used to find the best path
@@ -48,7 +48,7 @@ import es.eucm.eadventure.common.params.geom.EAdPosition;
  */
 public class DijkstraNode {
 
-	private EAdPosition position;
+	private EAdPositionImpl position;
 
 	private int goalDistance;
 
@@ -62,12 +62,12 @@ public class DijkstraNode {
 
 	private float scale;
 	
-	public DijkstraNode(EAdPosition position) {
+	public DijkstraNode(EAdPositionImpl position) {
 		this.position = position;
 		this.sides = new ArrayList<DijkstraPathSide>();
 	}
 
-	public DijkstraNode(EAdPosition position, float linePosition) {
+	public DijkstraNode(EAdPositionImpl position, float linePosition) {
 		this.position = position;
 		this.sides = new ArrayList<DijkstraPathSide>();
 		this.linePosition = linePosition;
@@ -97,7 +97,7 @@ public class DijkstraNode {
 		return breakNode;
 	}
 
-	public EAdPosition getPosition() {
+	public EAdPositionImpl getPosition() {
 		return position;
 	}
 

@@ -44,11 +44,10 @@ import java.util.List;
 
 import com.google.inject.Inject;
 
-import es.eucm.eadventure.common.model.elements.EAdScene;
-import es.eucm.eadventure.common.model.elements.EAdSceneElement;
-import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
+import es.eucm.eadventure.common.model.elements.scene.EAdScene;
+import es.eucm.eadventure.common.model.elements.scene.EAdSceneElement;
+import es.eucm.eadventure.common.model.elements.scenes.SceneElementImpl;
 import es.eucm.eadventure.common.resources.StringHandler;
-import es.eucm.eadventure.common.util.EAdTransformation;
 import es.eucm.eadventure.engine.core.game.GameState;
 import es.eucm.eadventure.engine.core.gameobjects.factories.EventGOFactory;
 import es.eucm.eadventure.engine.core.gameobjects.factories.SceneElementGOFactory;
@@ -59,6 +58,7 @@ import es.eucm.eadventure.engine.core.guiactions.GUIAction;
 import es.eucm.eadventure.engine.core.platform.AssetHandler;
 import es.eucm.eadventure.engine.core.platform.GUI;
 import es.eucm.eadventure.engine.core.platform.RuntimeAsset;
+import es.eucm.eadventure.engine.core.util.EAdTransformation;
 
 public class SceneGOImpl extends SceneElementGOImpl<EAdScene> implements
 		SceneGO<EAdScene> {
@@ -97,8 +97,8 @@ public class SceneGOImpl extends SceneElementGOImpl<EAdScene> implements
 
 		@Override
 		public int compare(EAdSceneElement o1, EAdSceneElement o2) {
-			int z1 = gameState.getValueMap().getValue(o1, EAdBasicSceneElement.VAR_Z);
-			int z2 = gameState.getValueMap().getValue(o2, EAdBasicSceneElement.VAR_Z);
+			int z1 = gameState.getValueMap().getValue(o1, SceneElementImpl.VAR_Z);
+			int z2 = gameState.getValueMap().getValue(o2, SceneElementImpl.VAR_Z);
 			return z1 - z2;
 		}
 

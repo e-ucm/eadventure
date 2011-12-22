@@ -43,12 +43,12 @@ import javax.swing.JFrame;
 
 import org.mockito.MockitoAnnotations;
 
-import es.eucm.eadventure.common.model.elements.EAdScene;
-import es.eucm.eadventure.common.model.elements.impl.EAdSceneElementDefImpl;
-import es.eucm.eadventure.common.model.elements.impl.EAdSceneImpl;
-import es.eucm.eadventure.common.model.extra.EAdList;
-import es.eucm.eadventure.common.model.extra.impl.EAdListImpl;
-import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.ImageImpl;
+import es.eucm.eadventure.common.model.elements.extra.EAdList;
+import es.eucm.eadventure.common.model.elements.extra.EAdListImpl;
+import es.eucm.eadventure.common.model.elements.scene.EAdScene;
+import es.eucm.eadventure.common.model.elements.scenes.SceneElementDefImpl;
+import es.eucm.eadventure.common.model.elements.scenes.SceneImpl;
+import es.eucm.eadventure.common.resources.assets.drawable.basics.ImageImpl;
 
 public class SceneLinksPanelTest {
 	
@@ -61,8 +61,8 @@ public class SceneLinksPanelTest {
 
 		EAdList<EAdScene> list = new EAdListImpl<EAdScene>(EAdScene.class);
 
-		EAdScene space = new EAdSceneImpl();
-		space.getBackground().getDefinition().getResources().addAsset(space.getDefinition().getInitialBundle(), EAdSceneElementDefImpl.appearance, new ImageImpl("@drawable/loading.png"));
+		EAdScene space = new SceneImpl();
+		space.getBackground().getDefinition().getResources().addAsset(space.getDefinition().getInitialBundle(), SceneElementDefImpl.appearance, new ImageImpl("@drawable/loading.png"));
 
 		//Change the number of elements in the list to see how the scale works
 		list.add(space);

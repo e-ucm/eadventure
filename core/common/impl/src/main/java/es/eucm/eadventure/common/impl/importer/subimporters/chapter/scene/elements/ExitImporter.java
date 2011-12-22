@@ -47,20 +47,20 @@ import es.eucm.eadventure.common.data.chapter.effects.Effect;
 import es.eucm.eadventure.common.impl.importer.interfaces.EAdElementFactory;
 import es.eucm.eadventure.common.impl.importer.interfaces.EffectsImporterFactory;
 import es.eucm.eadventure.common.impl.importer.interfaces.ResourceImporter;
-import es.eucm.eadventure.common.model.conditions.impl.NOTCondition;
-import es.eucm.eadventure.common.model.effects.EAdEffect;
-import es.eucm.eadventure.common.model.effects.impl.EAdChangeScene;
 import es.eucm.eadventure.common.model.elements.EAdCondition;
-import es.eucm.eadventure.common.model.elements.EAdScene;
-import es.eucm.eadventure.common.model.elements.EAdSceneElement;
-import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
-import es.eucm.eadventure.common.model.guievents.impl.EAdMouseEventImpl;
-import es.eucm.eadventure.common.model.transitions.EAdTransition;
+import es.eucm.eadventure.common.model.elements.EAdEffect;
+import es.eucm.eadventure.common.model.elements.conditions.NOTCond;
+import es.eucm.eadventure.common.model.elements.effects.ChangeSceneEf;
+import es.eucm.eadventure.common.model.elements.guievents.MouseEventImpl;
+import es.eucm.eadventure.common.model.elements.scene.EAdScene;
+import es.eucm.eadventure.common.model.elements.scene.EAdSceneElement;
+import es.eucm.eadventure.common.model.elements.scenes.SceneElementImpl;
+import es.eucm.eadventure.common.model.elements.transitions.EAdTransition;
+import es.eucm.eadventure.common.model.predef.effects.ChangeCursorEf;
 import es.eucm.eadventure.common.params.text.EAdString;
-import es.eucm.eadventure.common.predef.model.effects.EAdChangeCursorEffect;
 import es.eucm.eadventure.common.resources.StringHandler;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.Image;
-import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.ImageImpl;
+import es.eucm.eadventure.common.resources.assets.drawable.basics.ImageImpl;
 
 public class ExitImporter extends ElementImporter<Exit> {
 
@@ -80,14 +80,14 @@ public class ExitImporter extends ElementImporter<Exit> {
 	}
 
 	public EAdSceneElement init(Exit oldObject) {
-		EAdBasicSceneElement newExit = new EAdBasicSceneElement();
+		SceneElementImpl newExit = new SceneElementImpl();
 		newExit.setId("exit" + ID_GENERATOR++);
 		return newExit;
 	}
 
 	@Override
 	public EAdSceneElement convert(Exit oldObject, Object object) {
-		EAdBasicSceneElement newExit = (EAdBasicSceneElement) object;
+		SceneElementImpl newExit = (SceneElementImpl) object;
 
 		// Shape
 		setShape(newExit, oldObject);
@@ -113,14 +113,14 @@ public class ExitImporter extends ElementImporter<Exit> {
 		return newExit;
 	}
 
-	private void addGoToExit(EAdBasicSceneElement newExit, Exit oldObject,
+	private void addGoToExit(SceneElementImpl newExit, Exit oldObject,
 			EAdCondition enableCondition) {
 
 		//FIXME this should stop effects util later (set blockig is not enough?)
 		// Change scene effect
 		EAdScene scene = (EAdScene) factory.getElementById(oldObject
 				.getNextSceneId());
-		EAdChangeScene changeScene = new EAdChangeScene(scene,
+		ChangeSceneEf changeScene = new ChangeSceneEf(scene,
 				EAdTransition.BASIC);
 		changeScene.setId("change_screen_" + newExit.getId());
 		changeScene.setCondition(enableCondition);
@@ -137,13 +137,13 @@ public class ExitImporter extends ElementImporter<Exit> {
 
 	}
 
-	private void addAppearance(EAdBasicSceneElement newExit, Exit oldObject) {
+	private void addAppearance(SceneElementImpl newExit, Exit oldObject) {
 		// Add name
 		ExitLook exitLook = oldObject.getDefaultExitLook();
 
 		EAdString name = EAdString.newEAdString("exitLookName");
 		stringHandler.setString(name, exitLook.getExitText());
-		newExit.setVarInitialValue(EAdBasicSceneElement.VAR_NAME, name);
+		newExit.setVarInitialValue(SceneElementImpl.VAR_NAME, name);
 
 		// Change cursor
 		Image cursor = null;
@@ -153,28 +153,28 @@ public class ExitImporter extends ElementImporter<Exit> {
 		else
 			cursor = (Image) resourceImporter.getAssetDescritptor(
 					exitLook.getCursorPath(), ImageImpl.class);
-		EAdChangeCursorEffect changeCursor = new EAdChangeCursorEffect(cursor);
-		EAdChangeCursorEffect changeCursorBack = new EAdChangeCursorEffect(
+		ChangeCursorEf changeCursor = new ChangeCursorEf(cursor);
+		ChangeCursorEf changeCursorBack = new ChangeCursorEf(
 				factory.getDefaultCursor());
 
-		newExit.addBehavior(EAdMouseEventImpl.MOUSE_ENTERED, changeCursor);
-		newExit.addBehavior(EAdMouseEventImpl.MOUSE_EXITED, changeCursorBack);
+		newExit.addBehavior(MouseEventImpl.MOUSE_ENTERED, changeCursor);
+		newExit.addBehavior(MouseEventImpl.MOUSE_EXITED, changeCursorBack);
 	}
 
-	private void addEfects(EAdBasicSceneElement newExit, Exit oldObject,
+	private void addEfects(SceneElementImpl newExit, Exit oldObject,
 			EAdCondition enableCondition) {
 		// Normal effects
 		for (Effect e : oldObject.getEffects().getEffects()) {
 			EAdEffect eadEffect = effectsImporterFactory.getEffect(e);
 			eadEffect.setCondition(enableCondition);
-			newExit.addBehavior(EAdMouseEventImpl.MOUSE_LEFT_CLICK, eadEffect);
+			newExit.addBehavior(MouseEventImpl.MOUSE_LEFT_CLICK, eadEffect);
 		}
 
 		// No effects
 		for (Effect e : oldObject.getNotEffects().getEffects()) {
 			EAdEffect eadEffect = effectsImporterFactory.getEffect(e);
-			eadEffect.setCondition(new NOTCondition(enableCondition));
-			newExit.addBehavior(EAdMouseEventImpl.MOUSE_LEFT_CLICK, eadEffect);
+			eadEffect.setCondition(new NOTCond(enableCondition));
+			newExit.addBehavior(MouseEventImpl.MOUSE_LEFT_CLICK, eadEffect);
 		}
 	}
 

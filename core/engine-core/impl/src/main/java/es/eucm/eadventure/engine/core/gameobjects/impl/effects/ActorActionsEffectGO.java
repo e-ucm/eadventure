@@ -39,11 +39,11 @@ package es.eucm.eadventure.engine.core.gameobjects.impl.effects;
 
 import com.google.inject.Inject;
 
-import es.eucm.eadventure.common.model.effects.impl.EAdActorActionsEffect;
-import es.eucm.eadventure.common.model.effects.impl.enums.ChangeActorActions;
-import es.eucm.eadventure.common.model.elements.EAdSceneElement;
-import es.eucm.eadventure.common.model.elements.impl.EAdSceneElementDefImpl;
-import es.eucm.eadventure.common.model.variables.impl.SystemFields;
+import es.eucm.eadventure.common.model.elements.effects.ActorActionsEf;
+import es.eucm.eadventure.common.model.elements.effects.enums.ChangeActorActions;
+import es.eucm.eadventure.common.model.elements.scene.EAdSceneElement;
+import es.eucm.eadventure.common.model.elements.scenes.SceneElementDefImpl;
+import es.eucm.eadventure.common.model.elements.variables.SystemFields;
 import es.eucm.eadventure.common.resources.StringHandler;
 import es.eucm.eadventure.engine.core.game.GameState;
 import es.eucm.eadventure.engine.core.gameobjects.GameObjectManager;
@@ -55,7 +55,7 @@ import es.eucm.eadventure.engine.core.platform.AssetHandler;
 import es.eucm.eadventure.engine.core.platform.GUI;
 
 public class ActorActionsEffectGO extends
-		AbstractEffectGO<EAdActorActionsEffect> {
+		AbstractEffectGO<ActorActionsEf> {
 
 	/**
 	 * The current {@link ActionsHUD}
@@ -81,7 +81,7 @@ public class ActorActionsEffectGO extends
 		if (element.getChange() == ChangeActorActions.SHOW_ACTIONS) {
 			EAdSceneElement ref = gameState.getValueMap().getValue(
 					element.getActionElement(),
-					EAdSceneElementDefImpl.VAR_SCENE_ELEMENT);
+					SceneElementDefImpl.VAR_SCENE_ELEMENT);
 			if (ref != null) {
 				SceneElementGO<?> sceneElement = sceneElementFactory.get(ref);
 				if (sceneElement.getActions() != null) {

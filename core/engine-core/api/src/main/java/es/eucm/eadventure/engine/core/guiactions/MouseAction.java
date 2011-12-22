@@ -37,7 +37,7 @@
 
 package es.eucm.eadventure.engine.core.guiactions;
 
-import es.eucm.eadventure.common.model.guievents.enums.MouseActionType;
+import es.eucm.eadventure.common.model.elements.guievents.enums.MouseActionType;
 
 /**
  * <p>

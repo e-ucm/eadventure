@@ -39,8 +39,8 @@ package es.eucm.eadventure.common.impl.reader;
 
 import java.lang.reflect.Field;
 
-import es.eucm.eadventure.common.model.extra.EAdList;
-import es.eucm.eadventure.common.model.impl.EAdElementImpl;
+import es.eucm.eadventure.common.model.elements.EAdElementImpl;
+import es.eucm.eadventure.common.model.elements.extra.EAdList;
 
 public class ProxyElement extends EAdElementImpl {
 

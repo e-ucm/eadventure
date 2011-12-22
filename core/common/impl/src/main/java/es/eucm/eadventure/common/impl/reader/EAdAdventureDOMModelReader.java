@@ -62,7 +62,7 @@ import es.eucm.eadventure.common.impl.reader.extra.ObjectFactory;
 import es.eucm.eadventure.common.impl.reader.visitors.ElementNodeVisitor;
 import es.eucm.eadventure.common.impl.reader.visitors.NodeVisitor;
 import es.eucm.eadventure.common.model.elements.EAdAdventureModel;
-import es.eucm.eadventure.common.model.impl.EAdAdventureModelImpl;
+import es.eucm.eadventure.common.model.elements.EAdAdventureModelImpl;
 
 /**
  * The reader for the XML representation of the model

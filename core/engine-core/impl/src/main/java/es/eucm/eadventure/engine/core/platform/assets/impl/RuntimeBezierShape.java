@@ -37,11 +37,11 @@
 
 package es.eucm.eadventure.engine.core.platform.assets.impl;
 
-import es.eucm.eadventure.common.params.geom.EAdPosition;
 import es.eucm.eadventure.common.resources.assets.drawable.Drawable;
-import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.shapes.BezierShape;
+import es.eucm.eadventure.common.resources.assets.drawable.basics.shapes.BezierShape;
+import es.eucm.eadventure.common.util.EAdPositionImpl;
 import es.eucm.eadventure.engine.core.platform.DrawableAsset;
-import es.eucm.eadventure.engine.core.platform.rendering.EAdCanvas;
+import es.eucm.eadventure.engine.core.platform.rendering.GenericCanvas;
 
 public abstract class RuntimeBezierShape<GraphicContext> extends AbstractRuntimeAsset<BezierShape> implements DrawableAsset<BezierShape, GraphicContext>{
 	
@@ -55,7 +55,7 @@ public abstract class RuntimeBezierShape<GraphicContext> extends AbstractRuntime
 	public boolean loadAsset(){
 		int point = 0;
 		
-		EAdPosition p = null;
+		EAdPositionImpl p = null;
 		int xMax = Integer.MIN_VALUE;
 		int xMin = Integer.MAX_VALUE;
 		int yMax = Integer.MIN_VALUE;
@@ -113,7 +113,7 @@ public abstract class RuntimeBezierShape<GraphicContext> extends AbstractRuntime
 		return (DrawableAsset<S, GraphicContext>) this;
 	}
 	
-	public void render(EAdCanvas<GraphicContext> c){
+	public void render(GenericCanvas<GraphicContext> c){
 		c.setPaint(descriptor.getPaint());
 		c.drawShape(this);
 	}

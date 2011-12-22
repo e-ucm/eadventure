@@ -6,7 +6,7 @@ import es.eucm.eadventure.common.resources.assets.drawable.Drawable;
 import es.eucm.eadventure.common.resources.assets.drawable.filters.FilteredDrawable;
 import es.eucm.eadventure.engine.core.platform.AssetHandler;
 import es.eucm.eadventure.engine.core.platform.DrawableAsset;
-import es.eucm.eadventure.engine.core.platform.rendering.EAdCanvas;
+import es.eucm.eadventure.engine.core.platform.rendering.GenericCanvas;
 
 public class RuntimeFilteredDrawable<GraphicContext> extends AbstractRuntimeAsset<FilteredDrawable> implements DrawableAsset<FilteredDrawable, GraphicContext>{
 	
@@ -65,7 +65,7 @@ public class RuntimeFilteredDrawable<GraphicContext> extends AbstractRuntimeAsse
 	}
 
 	@Override
-	public void render(EAdCanvas<GraphicContext> c) {
+	public void render(GenericCanvas<GraphicContext> c) {
 		c.save();
 		c.setFilter(drawable, descriptor.getFilter());
 		drawable.render(c);

@@ -39,9 +39,8 @@ package es.eucm.eadventure.engine.core.gameobjects.impl.transitions;
 
 import com.google.inject.Inject;
 
-import es.eucm.eadventure.common.model.elements.EAdScene;
+import es.eucm.eadventure.common.model.elements.scene.EAdScene;
 import es.eucm.eadventure.common.resources.StringHandler;
-import es.eucm.eadventure.common.util.EAdTransformation;
 import es.eucm.eadventure.engine.core.game.GameState;
 import es.eucm.eadventure.engine.core.gameobjects.factories.EventGOFactory;
 import es.eucm.eadventure.engine.core.gameobjects.factories.SceneElementGOFactory;
@@ -49,6 +48,7 @@ import es.eucm.eadventure.engine.core.gameobjects.go.TransitionGO;
 import es.eucm.eadventure.engine.core.platform.AssetHandler;
 import es.eucm.eadventure.engine.core.platform.GUI;
 import es.eucm.eadventure.engine.core.platform.EngineConfiguration;
+import es.eucm.eadventure.engine.core.util.EAdTransformation;
 
 public class DisplaceTransitionGO extends EmptyTransitionGO implements
 		TransitionGO {

@@ -49,14 +49,11 @@ import android.graphics.drawable.GradientDrawable;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
-import es.eucm.eadventure.common.model.actions.EAdAction;
-import es.eucm.eadventure.common.model.extra.EAdList;
-import es.eucm.eadventure.common.params.geom.EAdPosition;
-import es.eucm.eadventure.common.params.geom.impl.EAdPositionImpl;
-import es.eucm.eadventure.common.params.geom.impl.EAdPositionImpl.Corner;
-import es.eucm.eadventure.common.util.EAdTransformation;
-import es.eucm.eadventure.common.util.impl.EAdInterpolator;
-import es.eucm.eadventure.common.util.impl.EAdTransformationImpl;
+import es.eucm.eadventure.common.model.elements.EAdAction;
+import es.eucm.eadventure.common.model.elements.extra.EAdList;
+import es.eucm.eadventure.common.util.EAdInterpolator;
+import es.eucm.eadventure.common.util.EAdPositionImpl;
+import es.eucm.eadventure.common.util.EAdPositionImpl.Corner;
 import es.eucm.eadventure.engine.core.game.GameLoop;
 import es.eucm.eadventure.engine.core.game.GameState;
 import es.eucm.eadventure.engine.core.gameobjects.GameObjectManager;
@@ -68,7 +65,9 @@ import es.eucm.eadventure.engine.core.gameobjects.huds.impl.ActionSceneElement;
 import es.eucm.eadventure.engine.core.guiactions.GUIAction;
 import es.eucm.eadventure.engine.core.guiactions.MouseAction;
 import es.eucm.eadventure.engine.core.platform.GUI;
-import es.eucm.eadventure.engine.core.platform.rendering.EAdCanvas;
+import es.eucm.eadventure.engine.core.platform.rendering.GenericCanvas;
+import es.eucm.eadventure.engine.core.util.EAdTransformation;
+import es.eucm.eadventure.engine.core.util.impl.EAdTransformationImpl;
 
 
 @Singleton
@@ -86,7 +85,7 @@ public class AndroidActionsHUDImpl extends AbstractHUD implements ActionsHUD {
 	
 	private static int offset = actionWidth/3;
 
-	private List<EAdPosition> positions;
+	private List<EAdPositionImpl> positions;
 
 	private List<SceneElementGO<?>> actionsGO;
 
@@ -110,7 +109,7 @@ public class AndroidActionsHUDImpl extends AbstractHUD implements ActionsHUD {
 
 	protected SceneElementGO<?> sceneElement;
 	
-	private EAdPosition posInicial, posFinal;
+	private EAdPositionImpl posInicial, posFinal;
 
 	/**
 	 * The logger
@@ -135,7 +134,7 @@ public class AndroidActionsHUDImpl extends AbstractHUD implements ActionsHUD {
 		super(gui);
 		this.gameState = gameState;
 		actionsGO = new ArrayList<SceneElementGO<?>>();
-		positions = new ArrayList<EAdPosition>();
+		positions = new ArrayList<EAdPositionImpl>();
 		this.sceneElementFactory = factory;
 		this.gameObjectManager = gameObjectManager;
 
@@ -240,7 +239,7 @@ public class AndroidActionsHUDImpl extends AbstractHUD implements ActionsHUD {
 		for (SceneElementGO<?> go : actionsGO) {
 
 			EAdTransformationImpl posT = new EAdTransformationImpl();
-			EAdPosition p = this.positions.get(i);
+			EAdPositionImpl p = this.positions.get(i);
 			if (state == ActionsState.STOPPED) {
 				posT.getMatrix().translate(p.getX() * interpolation1, p.getY() * interpolation2, true);
 				gui.addElement(go, gui.addTransformation(gui.addTransformation(t, transformation), posT));
@@ -265,7 +264,7 @@ public class AndroidActionsHUDImpl extends AbstractHUD implements ActionsHUD {
 	}
 
 	@Override
-	public void render(EAdCanvas<?> c) {
+	public void render(GenericCanvas<?> c) {
 
 		Canvas canvas = (Canvas) c.getNativeGraphicContext();
 		canvas.drawARGB(150, 100, 100, 100);		

@@ -58,10 +58,10 @@ import com.google.gwt.user.client.Event.NativePreviewEvent;
 import com.google.gwt.user.client.Event.NativePreviewHandler;
 import com.google.inject.Inject;
 
-import es.eucm.eadventure.common.model.guievents.EAdMouseEvent;
-import es.eucm.eadventure.common.model.guievents.enums.MouseActionType;
-import es.eucm.eadventure.common.model.guievents.enums.MouseButton;
-import es.eucm.eadventure.common.model.guievents.impl.EAdMouseEventImpl;
+import es.eucm.eadventure.common.model.elements.guievents.EAdMouseEvent;
+import es.eucm.eadventure.common.model.elements.guievents.MouseEventImpl;
+import es.eucm.eadventure.common.model.elements.guievents.enums.MouseActionType;
+import es.eucm.eadventure.common.model.elements.guievents.enums.MouseButton;
 import es.eucm.eadventure.engine.core.game.Game;
 import es.eucm.eadventure.engine.core.guiactions.impl.MouseActionImpl;
 import es.eucm.eadventure.engine.core.input.MouseState;
@@ -157,14 +157,14 @@ public class EAdEngine implements playn.core.Game, Keyboard.Listener {
 							break;
 						case com.google.gwt.user.client.Event.ONMOUSEDOWN:
 							mouseState.setMousePressed(true, b);
-							e = EAdMouseEventImpl.getMouseEvent(
+							e = MouseEventImpl.getMouseEvent(
 									MouseActionType.PRESSED, b);
 							break;
 						case com.google.gwt.user.client.Event.ONMOUSEUP:
 							mouseState.setMousePressed(false, null);
-							e = EAdMouseEventImpl.getMouseEvent(
+							e = MouseEventImpl.getMouseEvent(
 									MouseActionType.RELEASED, b);
-							mouseState.getMouseEvents().add(new MouseActionImpl(EAdMouseEventImpl.getMouseEvent(
+							mouseState.getMouseEvents().add(new MouseActionImpl(MouseEventImpl.getMouseEvent(
 									MouseActionType.CLICK, b), eventX, eventY ));
 							break;
 						default:

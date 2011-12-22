@@ -42,18 +42,18 @@ import java.util.logging.Logger;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
-import es.eucm.eadventure.common.model.effects.impl.EAdQuitGame;
-import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
-import es.eucm.eadventure.common.model.guievents.enums.KeyActionType;
-import es.eucm.eadventure.common.model.guievents.enums.KeyCode;
-import es.eucm.eadventure.common.model.guievents.impl.EAdMouseEventImpl;
+import es.eucm.eadventure.common.model.elements.effects.QuitGameEf;
+import es.eucm.eadventure.common.model.elements.guievents.MouseEventImpl;
+import es.eucm.eadventure.common.model.elements.guievents.enums.KeyActionType;
+import es.eucm.eadventure.common.model.elements.guievents.enums.KeyCode;
+import es.eucm.eadventure.common.model.elements.scenes.SceneElementImpl;
 import es.eucm.eadventure.common.params.EAdFontImpl;
-import es.eucm.eadventure.common.params.fills.impl.EAdColor;
-import es.eucm.eadventure.common.params.fills.impl.EAdLinearGradient;
-import es.eucm.eadventure.common.params.fills.impl.EAdPaintImpl;
-import es.eucm.eadventure.common.params.geom.impl.EAdPositionImpl;
+import es.eucm.eadventure.common.params.fills.EAdColor;
+import es.eucm.eadventure.common.params.fills.EAdLinearGradient;
+import es.eucm.eadventure.common.params.fills.EAdPaintImpl;
 import es.eucm.eadventure.common.resources.StringHandler;
-import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.CaptionImpl;
+import es.eucm.eadventure.common.resources.assets.drawable.basics.CaptionImpl;
+import es.eucm.eadventure.common.util.EAdPositionImpl;
 import es.eucm.eadventure.engine.core.game.GameState;
 import es.eucm.eadventure.engine.core.gameobjects.GameObjectManager;
 import es.eucm.eadventure.engine.core.gameobjects.factories.SceneElementGOFactory;
@@ -132,14 +132,14 @@ public class MenuHUDImpl extends AbstractHUD implements MenuHUD {
 			SceneElementGOFactory sceneElementFactory) {
 		CaptionImpl c = new CaptionImpl();
 		stringHandler.setString(c.getText(), "Exit");
-		EAdBasicSceneElement button = new EAdBasicSceneElement( c);
+		SceneElementImpl button = new SceneElementImpl( c);
 		button.setId("exit_button");
 		c.setBubblePaint(new EAdPaintImpl(new EAdLinearGradient(
 				EAdColor.ORANGE, new EAdColor(255, 200, 0), 0, 40), EAdColor.BLACK, 2));
 		c.setPadding(10);
 		c.setFont(new EAdFontImpl(18));
-		button.getBehavior().addBehavior(EAdMouseEventImpl.MOUSE_LEFT_CLICK,
-				new EAdQuitGame());
+		button.getBehavior().addBehavior(MouseEventImpl.MOUSE_LEFT_CLICK,
+				new QuitGameEf());
 		button.setPosition(new EAdPositionImpl(EAdPositionImpl.Corner.CENTER,
 				400, 300));
 		addElement(sceneElementFactory.get(button));

@@ -39,17 +39,17 @@ package es.eucm.eadventure.engine.core.gameobjects.impl.effects;
 
 import com.google.inject.Inject;
 
-import es.eucm.eadventure.common.model.effects.impl.timedevents.EAdShowSceneElement;
+import es.eucm.eadventure.common.model.elements.effects.timedevents.ShowSceneElementEf;
 import es.eucm.eadventure.common.resources.StringHandler;
-import es.eucm.eadventure.common.util.EAdTransformation;
 import es.eucm.eadventure.engine.core.game.GameLoop;
 import es.eucm.eadventure.engine.core.game.GameState;
 import es.eucm.eadventure.engine.core.gameobjects.factories.SceneElementGOFactory;
 import es.eucm.eadventure.engine.core.gameobjects.go.SceneElementGO;
 import es.eucm.eadventure.engine.core.platform.AssetHandler;
 import es.eucm.eadventure.engine.core.platform.GUI;
+import es.eucm.eadventure.engine.core.util.EAdTransformation;
 
-public class ShowSceneElementGO extends AbstractEffectGO<EAdShowSceneElement> {
+public class ShowSceneElementGO extends AbstractEffectGO<ShowSceneElementEf> {
 
 	private SceneElementGO<?> sceneElement;
 	

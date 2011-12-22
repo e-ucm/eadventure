@@ -43,12 +43,12 @@ import es.eucm.eadventure.common.EAdElementImporter;
 import es.eucm.eadventure.common.data.chapter.conditions.Conditions;
 import es.eucm.eadventure.common.data.chapter.effects.RandomEffect;
 import es.eucm.eadventure.common.impl.importer.interfaces.EffectsImporterFactory;
-import es.eucm.eadventure.common.model.effects.EAdEffect;
-import es.eucm.eadventure.common.model.effects.impl.EAdRandomEffect;
 import es.eucm.eadventure.common.model.elements.EAdCondition;
+import es.eucm.eadventure.common.model.elements.EAdEffect;
+import es.eucm.eadventure.common.model.elements.effects.RandomEf;
 
 public class RandomEffectImporter extends
-		EffectImporter<RandomEffect, EAdRandomEffect> {
+		EffectImporter<RandomEffect, RandomEf> {
 
 	private EffectsImporterFactory effectsImporterFactory;
 
@@ -63,16 +63,16 @@ public class RandomEffectImporter extends
 	}
 
 	@Override
-	public EAdRandomEffect init(RandomEffect oldObject) {
-		EAdRandomEffect effect = new EAdRandomEffect();
+	public RandomEf init(RandomEffect oldObject) {
+		RandomEf effect = new RandomEf();
 		effect.setId("randomEffect" + ID_GENERATOR++);
 		effect.setQueueable(true);
 		return effect;
 	}
 	
 	@Override
-	public EAdRandomEffect convert(RandomEffect oldObject, Object object) {
-		EAdRandomEffect effect = super.convert(oldObject, object);
+	public RandomEf convert(RandomEffect oldObject, Object object) {
+		RandomEf effect = super.convert(oldObject, object);
 
 		EAdEffect positiveEffect = (EAdEffect) effectsImporterFactory
 				.getEffect(oldObject.getPositiveEffect());

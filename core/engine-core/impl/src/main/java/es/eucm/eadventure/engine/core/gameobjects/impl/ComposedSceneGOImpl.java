@@ -42,10 +42,9 @@ import java.util.logging.Logger;
 
 import com.google.inject.Inject;
 
-import es.eucm.eadventure.common.model.elements.EAdScene;
-import es.eucm.eadventure.common.model.elements.impl.EAdComposedScene;
+import es.eucm.eadventure.common.model.elements.scene.EAdScene;
+import es.eucm.eadventure.common.model.elements.scenes.ComposedScene;
 import es.eucm.eadventure.common.resources.StringHandler;
-import es.eucm.eadventure.common.util.EAdTransformation;
 import es.eucm.eadventure.engine.core.game.GameState;
 import es.eucm.eadventure.engine.core.gameobjects.factories.EventGOFactory;
 import es.eucm.eadventure.engine.core.gameobjects.factories.SceneElementGOFactory;
@@ -55,9 +54,10 @@ import es.eucm.eadventure.engine.core.guiactions.GUIAction;
 import es.eucm.eadventure.engine.core.platform.AssetHandler;
 import es.eucm.eadventure.engine.core.platform.GUI;
 import es.eucm.eadventure.engine.core.platform.RuntimeAsset;
+import es.eucm.eadventure.engine.core.util.EAdTransformation;
 
-public class ComposedSceneGOImpl extends SceneElementGOImpl<EAdComposedScene>
-		implements SceneGO<EAdComposedScene> {
+public class ComposedSceneGOImpl extends SceneElementGOImpl<ComposedScene>
+		implements SceneGO<ComposedScene> {
 
 	private static final Logger logger = Logger.getLogger("ScreenGOImpl");
 
@@ -111,7 +111,7 @@ public class ComposedSceneGOImpl extends SceneElementGOImpl<EAdComposedScene>
 
 	private void updateScene() {
 		int currentSceneIndex = gameState.getValueMap().getValue(element,
-				EAdComposedScene.VAR_CURRENT_SCENE);
+				ComposedScene.VAR_CURRENT_SCENE);
 		if (currentSceneIndex < element.getScenes().size())
 			currentScene = element.getScenes().get(currentSceneIndex);
 	}

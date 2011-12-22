@@ -40,9 +40,9 @@ package es.eucm.eadventure.engine.core.game;
 import java.util.Map;
 
 import es.eucm.eadventure.common.model.EAdElement;
-import es.eucm.eadventure.common.model.variables.EAdField;
-import es.eucm.eadventure.common.model.variables.EAdOperation;
-import es.eucm.eadventure.common.model.variables.EAdVarDef;
+import es.eucm.eadventure.common.model.elements.variables.EAdField;
+import es.eucm.eadventure.common.model.elements.variables.EAdOperation;
+import es.eucm.eadventure.common.model.elements.variables.EAdVarDef;
 import es.eucm.eadventure.engine.core.operator.OperatorFactory;
 
 /**

@@ -40,49 +40,49 @@ package es.eucm.eadventure.common.elementfactories.effects;
 import es.eucm.eadventure.common.elementfactories.EAdElementsFactory;
 import es.eucm.eadventure.common.elementfactories.StringFactory.StringType;
 import es.eucm.eadventure.common.model.EAdElement;
-import es.eucm.eadventure.common.model.effects.impl.EAdInterpolationEffect;
-import es.eucm.eadventure.common.model.effects.impl.enums.InterpolationType;
-import es.eucm.eadventure.common.model.effects.impl.enums.InterpolationLoopType;
-import es.eucm.eadventure.common.model.effects.impl.EAdPlaySoundEffect;
-import es.eucm.eadventure.common.model.effects.impl.text.EAdShowQuestion;
-import es.eucm.eadventure.common.model.effects.impl.text.EAdSpeakEffect;
-import es.eucm.eadventure.common.model.effects.impl.timedevents.EAdShowSceneElement;
-import es.eucm.eadventure.common.model.effects.impl.timedevents.ShowTextAnimation;
-import es.eucm.eadventure.common.model.effects.impl.variables.EAdChangeFieldValueEffect;
-import es.eucm.eadventure.common.model.elements.EAdSceneElement;
-import es.eucm.eadventure.common.model.variables.EAdField;
-import es.eucm.eadventure.common.model.variables.EAdOperation;
+import es.eucm.eadventure.common.model.elements.effects.InterpolationEf;
+import es.eucm.eadventure.common.model.elements.effects.PlaySoundEf;
+import es.eucm.eadventure.common.model.elements.effects.enums.InterpolationLoopType;
+import es.eucm.eadventure.common.model.elements.effects.enums.InterpolationType;
+import es.eucm.eadventure.common.model.elements.effects.enums.ShowTextAnimation;
+import es.eucm.eadventure.common.model.elements.effects.text.ShowQuestionEf;
+import es.eucm.eadventure.common.model.elements.effects.text.SpeakEf;
+import es.eucm.eadventure.common.model.elements.effects.timedevents.ShowSceneElementEf;
+import es.eucm.eadventure.common.model.elements.effects.variables.ChangeFieldEf;
+import es.eucm.eadventure.common.model.elements.scene.EAdSceneElement;
+import es.eucm.eadventure.common.model.elements.variables.EAdField;
+import es.eucm.eadventure.common.model.elements.variables.EAdOperation;
+import es.eucm.eadventure.common.model.predef.effects.ChangeAppearanceEf;
+import es.eucm.eadventure.common.model.predef.effects.MakeActiveElementEf;
 import es.eucm.eadventure.common.params.text.EAdString;
-import es.eucm.eadventure.common.predef.model.effects.EAdChangeAppearance;
-import es.eucm.eadventure.common.predef.model.effects.EAdMakeActiveElementEffect;
 import es.eucm.eadventure.common.resources.EAdBundleId;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.Caption;
-import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.CaptionImpl;
-import es.eucm.eadventure.common.resources.assets.multimedia.impl.SoundImpl;
+import es.eucm.eadventure.common.resources.assets.drawable.basics.CaptionImpl;
+import es.eucm.eadventure.common.resources.assets.multimedia.SoundImpl;
 
 public class EffectFactory {
 
 	private static int ID_GENERATOR = 0;
 
-	public EAdChangeAppearance getChangeAppearance(EAdElement element,
+	public ChangeAppearanceEf getChangeAppearance(EAdElement element,
 			EAdBundleId bundle) {
-		EAdChangeAppearance effect = new EAdChangeAppearance( element, bundle);
+		ChangeAppearanceEf effect = new ChangeAppearanceEf( element, bundle);
 		effect.setId("changeAppearance"
 				+ ID_GENERATOR++);
 		return effect;
 	}
 
-	public EAdInterpolationEffect getInterpolationEffect(EAdField<?> var,
+	public InterpolationEf getInterpolationEffect(EAdField<?> var,
 			float startValue, float endValue, int time, InterpolationLoopType loop,
 			InterpolationType interpolationType) {
-		EAdInterpolationEffect interpolation = new EAdInterpolationEffect(var, startValue,
+		InterpolationEf interpolation = new InterpolationEf(var, startValue,
 				endValue, time, loop, interpolationType);
 		return interpolation;
 	}
 
-	public EAdShowSceneElement getShowText(String text, int x, int y,
+	public ShowSceneElementEf getShowText(String text, int x, int y,
 			ShowTextAnimation animation, int maximumHeight) {
-		EAdShowSceneElement effect = new EAdShowSceneElement();
+		ShowSceneElementEf effect = new ShowSceneElementEf();
 		CaptionImpl c = EAdElementsFactory.getInstance().getCaptionFactory()
 				.createCaption(text);
 		c.setPreferredHeight(maximumHeight);
@@ -90,7 +90,7 @@ public class EffectFactory {
 		return effect;
 	}
 
-	public EAdShowSceneElement getShowText(String text, int x, int y,
+	public ShowSceneElementEf getShowText(String text, int x, int y,
 			ShowTextAnimation animation) {
 		return this.getShowText(text, x, y, animation, Caption.SCREEN_SIZE);
 	}
@@ -103,42 +103,42 @@ public class EffectFactory {
 	 * @param nAnswers
 	 * @return
 	 */
-	public EAdShowQuestion getShowQuestion(String question, int nAnswers) {
-		EAdShowQuestion effect = new EAdShowQuestion();
+	public ShowQuestionEf getShowQuestion(String question, int nAnswers) {
+		ShowQuestionEf effect = new ShowQuestionEf();
 		EAdElementsFactory.getInstance().getStringFactory().setString(effect.getQuestion(), question);
 		
 		for (int i = 0; i < nAnswers; i++) {
 			int ordinal = i % StringType.values().length;
 			EAdString answerString = EAdElementsFactory.getInstance()
 					.getStringFactory().getString(StringType.values()[ordinal]);
-			effect.addAnswer(answerString, new EAdSpeakEffect());
+			effect.addAnswer(answerString, new SpeakEf());
 		}
 		effect.setUpNewInstance();
 		return effect;
 
 	}
 
-	public EAdShowSceneElement getShowText(String text, int x, int y) {
+	public ShowSceneElementEf getShowText(String text, int x, int y) {
 		return this.getShowText(text, x, y, ShowTextAnimation.NONE);
 	}
 
-	public EAdChangeFieldValueEffect getChangeVarValueEffect(EAdField<?> var,
+	public ChangeFieldEf getChangeVarValueEffect(EAdField<?> var,
 			EAdOperation operation) {
-		EAdChangeFieldValueEffect effect = new EAdChangeFieldValueEffect( var, operation);
+		ChangeFieldEf effect = new ChangeFieldEf( var, operation);
 		effect.setId("changeVarValue" + ID_GENERATOR++);
 		return effect;
 
 	}
 
-	public EAdMakeActiveElementEffect getMakeActiveElement(
+	public MakeActiveElementEf getMakeActiveElement(
 			EAdSceneElement element) {
-		EAdMakeActiveElementEffect effect = new EAdMakeActiveElementEffect(element);
+		MakeActiveElementEf effect = new MakeActiveElementEf(element);
 		return effect;
 	}
 
-	public EAdPlaySoundEffect getPlaySound(String string) {
+	public PlaySoundEf getPlaySound(String string) {
 		SoundImpl sound = new SoundImpl(string);
-		EAdPlaySoundEffect effect = new EAdPlaySoundEffect( sound);
+		PlaySoundEf effect = new PlaySoundEf( sound);
 		effect.setId("playSound" + ID_GENERATOR++);
 		return effect;
 	}

@@ -38,9 +38,9 @@
 package es.eucm.eadventure.engine.core.gameobjects.impl.effects.sceneelement;
 
 import es.eucm.eadventure.common.model.EAdElement;
-import es.eucm.eadventure.common.model.effects.EAdSceneElementEffect;
-import es.eucm.eadventure.common.model.elements.EAdSceneElement;
-import es.eucm.eadventure.common.model.elements.impl.EAdSceneElementDefImpl;
+import es.eucm.eadventure.common.model.elements.effects.sceneelements.AbstractSceneElementEffect;
+import es.eucm.eadventure.common.model.elements.scene.EAdSceneElement;
+import es.eucm.eadventure.common.model.elements.scenes.SceneElementDefImpl;
 import es.eucm.eadventure.common.resources.StringHandler;
 import es.eucm.eadventure.engine.core.game.GameState;
 import es.eucm.eadventure.engine.core.gameobjects.factories.SceneElementGOFactory;
@@ -48,7 +48,7 @@ import es.eucm.eadventure.engine.core.gameobjects.impl.effects.AbstractEffectGO;
 import es.eucm.eadventure.engine.core.platform.AssetHandler;
 import es.eucm.eadventure.engine.core.platform.GUI;
 
-public abstract class SceneElementEffectGO<T extends EAdSceneElementEffect>
+public abstract class SceneElementEffectGO<T extends AbstractSceneElementEffect>
 		extends AbstractEffectGO<T> {
 
 	protected EAdSceneElement sceneElement;
@@ -70,7 +70,7 @@ public abstract class SceneElementEffectGO<T extends EAdSceneElementEffect>
 			this.sceneElement = (EAdSceneElement) sceneElement;
 		} else if (sceneElement != null) {
 			this.sceneElement = gameState.getValueMap().getValue(sceneElement,
-					EAdSceneElementDefImpl.VAR_SCENE_ELEMENT);
+					SceneElementDefImpl.VAR_SCENE_ELEMENT);
 		}
 	}
 }

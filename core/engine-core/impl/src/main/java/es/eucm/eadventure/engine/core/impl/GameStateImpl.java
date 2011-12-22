@@ -48,14 +48,14 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import com.google.inject.name.Named;
 
-import es.eucm.eadventure.common.model.effects.EAdEffect;
 import es.eucm.eadventure.common.model.elements.EAdChapter;
-import es.eucm.eadventure.common.model.elements.EAdScene;
-import es.eucm.eadventure.common.model.elements.EAdSceneElement;
-import es.eucm.eadventure.common.model.elements.impl.EAdSceneElementDefImpl;
-import es.eucm.eadventure.common.model.elements.impl.EAdSceneImpl;
-import es.eucm.eadventure.common.model.variables.EAdVarDef;
-import es.eucm.eadventure.common.model.variables.impl.SystemFields;
+import es.eucm.eadventure.common.model.elements.EAdEffect;
+import es.eucm.eadventure.common.model.elements.scene.EAdScene;
+import es.eucm.eadventure.common.model.elements.scene.EAdSceneElement;
+import es.eucm.eadventure.common.model.elements.scenes.SceneElementDefImpl;
+import es.eucm.eadventure.common.model.elements.scenes.SceneImpl;
+import es.eucm.eadventure.common.model.elements.variables.EAdVarDef;
+import es.eucm.eadventure.common.model.elements.variables.SystemFields;
 import es.eucm.eadventure.engine.core.evaluators.EvaluatorFactory;
 import es.eucm.eadventure.engine.core.game.GameState;
 import es.eucm.eadventure.engine.core.game.ValueMap;
@@ -145,14 +145,14 @@ public class GameStateImpl implements GameState {
 		sceneElementFactory.clean();
 		if (this.scene != null && this.scene.getElement() != null) {
 			valueMap.setValue(scene.getElement(),
-					EAdSceneImpl.VAR_SCENE_LOADED, Boolean.FALSE);
+					SceneImpl.VAR_SCENE_LOADED, Boolean.FALSE);
 			if (scene.getElement().getReturnable())
 				previousSceneStack.push(scene.getElement());
 		}
 		this.scene = newScene;
 		if (this.scene != null && this.scene.getElement() != null) {
 			valueMap.setValue(scene.getElement(),
-					EAdSceneImpl.VAR_SCENE_LOADED, Boolean.TRUE);
+					SceneImpl.VAR_SCENE_LOADED, Boolean.TRUE);
 			for (Entry<EAdVarDef<?>, Object> e : scene.getElement().getVars()
 					.entrySet()) {
 				valueMap.setValue(scene.getElement(), e.getKey(), e.getValue());
@@ -267,7 +267,7 @@ public class GameStateImpl implements GameState {
 	public EAdSceneElement getActiveElement() {
 		return valueMap.getValue(
 				valueMap.getValue(SystemFields.ACTIVE_ELEMENT),
-				EAdSceneElementDefImpl.VAR_SCENE_ELEMENT);
+				SceneElementDefImpl.VAR_SCENE_ELEMENT);
 	}
 
 	@Override

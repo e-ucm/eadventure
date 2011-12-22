@@ -42,7 +42,7 @@ import com.google.inject.Inject;
 import es.eucm.eadventure.common.AbstractFactory;
 import es.eucm.eadventure.common.ReflectionProvider;
 import es.eucm.eadventure.common.model.EAdElement;
-import es.eucm.eadventure.common.model.trajectories.TrajectoryDefinition;
+import es.eucm.eadventure.common.model.elements.trajectories.TrajectoryDefinition;
 import es.eucm.eadventure.engine.core.game.ValueMap;
 import es.eucm.eadventure.engine.core.gameobjects.factories.SceneElementGOFactory;
 import es.eucm.eadventure.engine.core.gameobjects.go.SceneElementGO;

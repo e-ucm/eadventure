@@ -41,13 +41,13 @@ import java.util.logging.Logger;
 
 import com.google.inject.Inject;
 
-import es.eucm.eadventure.common.params.geom.EAdPosition;
 import es.eucm.eadventure.common.resources.assets.AssetDescriptor;
 import es.eucm.eadventure.common.resources.assets.drawable.Drawable;
 import es.eucm.eadventure.common.resources.assets.drawable.compounds.DisplacedDrawable;
+import es.eucm.eadventure.common.util.EAdPositionImpl;
 import es.eucm.eadventure.engine.core.platform.AssetHandler;
 import es.eucm.eadventure.engine.core.platform.DrawableAsset;
-import es.eucm.eadventure.engine.core.platform.rendering.EAdCanvas;
+import es.eucm.eadventure.engine.core.platform.rendering.GenericCanvas;
 
 public class RuntimeDisplacedDrawable<GraphicContext> extends
 		AbstractRuntimeAsset<DisplacedDrawable> implements
@@ -111,12 +111,12 @@ public class RuntimeDisplacedDrawable<GraphicContext> extends
 		return descriptor.getDrawable();
 	}
 
-	public EAdPosition getDisplacement() {
+	public EAdPositionImpl getDisplacement() {
 		return descriptor.getDisplacement();
 	}
 
 	@Override
-	public void render(EAdCanvas<GraphicContext> canvas) {
+	public void render(GenericCanvas<GraphicContext> canvas) {
 		canvas.save();
 		canvas.translate(descriptor.getDisplacement().getX(), descriptor
 				.getDisplacement().getY());

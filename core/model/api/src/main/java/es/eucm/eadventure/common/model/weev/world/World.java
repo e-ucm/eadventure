@@ -37,7 +37,7 @@
 
 package es.eucm.eadventure.common.model.weev.world;
 
-import es.eucm.eadventure.common.model.extra.EAdList;
+import es.eucm.eadventure.common.model.elements.extra.EAdList;
 import es.eucm.eadventure.common.model.weev.WEEVElement;
 
 /**

@@ -37,12 +37,12 @@
 
 package es.eucm.eadventure.engine.core.operators.impl;
 
-import es.eucm.eadventure.common.model.variables.impl.operations.ConditionedOperation;
+import es.eucm.eadventure.common.model.elements.variables.operations.ConditionedOp;
 import es.eucm.eadventure.engine.core.evaluators.EvaluatorFactory;
 import es.eucm.eadventure.engine.core.operator.Operator;
 import es.eucm.eadventure.engine.core.operator.OperatorFactory;
 
-public class ConditionedOperator implements Operator<ConditionedOperation> {
+public class ConditionedOperator implements Operator<ConditionedOp> {
 
 	private EvaluatorFactory evaluatorFactory;
 
@@ -55,7 +55,7 @@ public class ConditionedOperator implements Operator<ConditionedOperation> {
 	}
 
 	@Override
-	public <S> S operate(Class<S> clazz, ConditionedOperation operation) {
+	public <S> S operate(Class<S> clazz, ConditionedOp operation) {
 		if (evaluatorFactory.evaluate(operation.getCondition())) {
 			return operatorFactory.operate(clazz, operation.getOpTrue());
 		} else

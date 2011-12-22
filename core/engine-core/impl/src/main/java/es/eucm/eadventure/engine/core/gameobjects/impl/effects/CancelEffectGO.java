@@ -39,7 +39,7 @@ package es.eucm.eadventure.engine.core.gameobjects.impl.effects;
 
 import com.google.inject.Inject;
 
-import es.eucm.eadventure.common.model.effects.impl.EAdCancelEffect;
+import es.eucm.eadventure.common.model.elements.effects.CancelEffectEf;
 import es.eucm.eadventure.common.resources.StringHandler;
 import es.eucm.eadventure.engine.core.game.GameState;
 import es.eucm.eadventure.engine.core.gameobjects.factories.SceneElementGOFactory;
@@ -47,7 +47,7 @@ import es.eucm.eadventure.engine.core.gameobjects.go.EffectGO;
 import es.eucm.eadventure.engine.core.platform.AssetHandler;
 import es.eucm.eadventure.engine.core.platform.GUI;
 
-public class CancelEffectGO extends AbstractEffectGO<EAdCancelEffect> {
+public class CancelEffectGO extends AbstractEffectGO<CancelEffectEf> {
 
 	@Inject
 	public CancelEffectGO(AssetHandler assetHandler,

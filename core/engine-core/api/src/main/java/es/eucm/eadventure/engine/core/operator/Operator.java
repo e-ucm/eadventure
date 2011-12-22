@@ -37,7 +37,7 @@
 
 package es.eucm.eadventure.engine.core.operator;
 
-import es.eucm.eadventure.common.model.variables.EAdOperation;
+import es.eucm.eadventure.common.model.elements.variables.EAdOperation;
 import es.eucm.eadventure.engine.core.game.ValueMap;
 
 /**

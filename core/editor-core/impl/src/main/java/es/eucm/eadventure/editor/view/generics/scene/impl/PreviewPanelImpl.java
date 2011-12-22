@@ -39,7 +39,7 @@ package es.eucm.eadventure.editor.view.generics.scene.impl;
 
 import java.util.List;
 
-import es.eucm.eadventure.common.model.elements.EAdScene;
+import es.eucm.eadventure.common.model.elements.scene.EAdScene;
 import es.eucm.eadventure.editor.view.generics.scene.PreviewElement;
 import es.eucm.eadventure.editor.view.generics.scene.PreviewPanel;
 

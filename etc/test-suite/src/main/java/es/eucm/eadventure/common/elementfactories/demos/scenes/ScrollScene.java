@@ -1,49 +1,48 @@
 package es.eucm.eadventure.common.elementfactories.demos.scenes;
 
 import es.eucm.eadventure.common.elementfactories.demos.normalguy.NgCommon;
-import es.eucm.eadventure.common.model.elements.EAdSceneElementDef;
-import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
-import es.eucm.eadventure.common.model.events.EAdSceneElementEvent;
-import es.eucm.eadventure.common.model.events.enums.SceneElementEventType;
-import es.eucm.eadventure.common.model.events.impl.EAdSceneElementEventImpl;
-import es.eucm.eadventure.common.model.guievents.impl.EAdMouseEventImpl;
-import es.eucm.eadventure.common.model.trajectories.impl.SimpleTrajectoryDefinition;
-import es.eucm.eadventure.common.params.geom.impl.EAdPositionImpl.Corner;
-import es.eucm.eadventure.common.predef.model.effects.EAdMakeActiveElementEffect;
-import es.eucm.eadventure.common.predef.model.effects.EAdMoveActiveElement;
-import es.eucm.eadventure.common.predef.model.events.ScrollWithSceneElement;
-import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.ImageImpl;
+import es.eucm.eadventure.common.model.elements.events.SceneElementEv;
+import es.eucm.eadventure.common.model.elements.events.enums.SceneElementEventType;
+import es.eucm.eadventure.common.model.elements.guievents.MouseEventImpl;
+import es.eucm.eadventure.common.model.elements.scene.EAdSceneElementDef;
+import es.eucm.eadventure.common.model.elements.scenes.SceneElementImpl;
+import es.eucm.eadventure.common.model.elements.trajectories.SimpleTrajectoryDefinition;
+import es.eucm.eadventure.common.model.predef.effects.MakeActiveElementEf;
+import es.eucm.eadventure.common.model.predef.effects.MoveActiveElementEf;
+import es.eucm.eadventure.common.model.predef.events.ScrollWithSceneElementEv;
+import es.eucm.eadventure.common.resources.assets.drawable.basics.ImageImpl;
+import es.eucm.eadventure.common.util.EAdPositionImpl.Corner;
 
 public class ScrollScene extends EmptyScene {
 
 	public ScrollScene() {
 		setBounds(1000, 1213);
-		setBackground(new EAdBasicSceneElement(new ImageImpl(
+		setBackground(new SceneElementImpl(new ImageImpl(
 				"@drawable/scrollbg.png")));
 		
 		NgCommon.init();
 		EAdSceneElementDef d = NgCommon.getMainCharacter();
-		EAdBasicSceneElement character = new EAdBasicSceneElement( d );
+		SceneElementImpl character = new SceneElementImpl( d );
 		character.setPosition(Corner.BOTTOM_CENTER, 1000 / 2, 1213 / 2);
 		
 		this.getComponents().add(character);
 
-		EAdMakeActiveElementEffect makeActive = new EAdMakeActiveElementEffect(
+		MakeActiveElementEf makeActive = new MakeActiveElementEf(
 				character);
 
-		EAdSceneElementEvent event = new EAdSceneElementEventImpl();
+		SceneElementEv event = new SceneElementEv();
 		event.setId("makeAcitveCharacter");
 		event.addEffect(SceneElementEventType.ADDED_TO_SCENE, makeActive);
 		character.getEvents().add(event);
 		
-		this.getEvents().add(new ScrollWithSceneElement(this, character));
+		this.getEvents().add(new ScrollWithSceneElementEv(this, character));
 
 		SimpleTrajectoryDefinition trajectory = new SimpleTrajectoryDefinition(false);
 		trajectory.setLimits(0, 0, 1000, 1213);
 		setTrajectoryDefinition(trajectory);
 
-		getBackground().addBehavior(EAdMouseEventImpl.MOUSE_LEFT_PRESSED,
-				new EAdMoveActiveElement());
+		getBackground().addBehavior(MouseEventImpl.MOUSE_LEFT_PRESSED,
+				new MoveActiveElementEf());
 		
 	}
 

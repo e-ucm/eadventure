@@ -37,12 +37,11 @@
 
 package es.eucm.eadventure.common.model;
 
-import es.eucm.eadventure.common.interfaces.Copyable;
 
 /**
  * Base interface for eAdventure's game model objects.
  */
-public interface EAdElement extends Copyable<EAdElement> {
+public interface EAdElement {
 
 	/**
 	 * Get an id of the element. Keep in mind that it's not an unique id. It's

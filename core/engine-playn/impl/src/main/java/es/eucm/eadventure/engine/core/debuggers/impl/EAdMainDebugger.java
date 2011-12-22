@@ -42,11 +42,11 @@ import java.util.List;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
-import es.eucm.eadventure.engine.core.debuggers.EAdDebugger;
+import es.eucm.eadventure.engine.core.debuggers.Debugger;
 import es.eucm.eadventure.engine.core.gameobjects.go.DrawableGO;
 
 @Singleton
-public class EAdMainDebugger implements EAdDebugger {
+public class EAdMainDebugger implements Debugger {
 
 	@Inject
 	public EAdMainDebugger() {

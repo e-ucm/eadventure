@@ -43,11 +43,11 @@ import static org.junit.Assert.assertTrue;
 import org.junit.Before;
 import org.junit.Test;
 
-import es.eucm.eadventure.common.model.conditions.impl.ANDCondition;
-import es.eucm.eadventure.common.model.conditions.impl.EmptyCondition;
-import es.eucm.eadventure.common.model.conditions.impl.NOTCondition;
-import es.eucm.eadventure.common.model.conditions.impl.ORCondition;
-import es.eucm.eadventure.common.model.conditions.impl.enums.EmptyConditionValue;
+import es.eucm.eadventure.common.model.elements.conditions.ANDCond;
+import es.eucm.eadventure.common.model.elements.conditions.EmptyCond;
+import es.eucm.eadventure.common.model.elements.conditions.NOTCond;
+import es.eucm.eadventure.common.model.elements.conditions.ORCond;
+import es.eucm.eadventure.common.model.elements.conditions.enums.EmptyConditionValue;
 import es.eucm.eadventure.engine.core.evaluators.impl.EvaluatorFactoryImpl;
 import es.eucm.eadventure.engine.core.game.ValueMap;
 import es.eucm.eadventure.engine.core.impl.ValueMapImpl;
@@ -59,9 +59,9 @@ public class EvaluatorTest {
 	
 	protected EvaluatorFactoryImpl evaluator;	
 
-	protected EmptyCondition cTrue = new EmptyCondition(EmptyConditionValue.TRUE);
+	protected EmptyCond cTrue = new EmptyCond(EmptyConditionValue.TRUE);
 	
-	protected EmptyCondition cFalse = new EmptyCondition(EmptyConditionValue.FALSE);
+	protected EmptyCond cFalse = new EmptyCond(EmptyConditionValue.FALSE);
 	
 	@Before
 	public void setUp(){
@@ -74,18 +74,18 @@ public class EvaluatorTest {
 
 	@Test
 	public void test() {
-		assertTrue(evaluator.evaluate(new ANDCondition(cTrue, cTrue)));
-		assertFalse(evaluator.evaluate(new ANDCondition(cTrue, cFalse)));
-		assertFalse(evaluator.evaluate(new ANDCondition(cFalse, cTrue)));
-		assertFalse(evaluator.evaluate(new ANDCondition(cFalse, cFalse)));
+		assertTrue(evaluator.evaluate(new ANDCond(cTrue, cTrue)));
+		assertFalse(evaluator.evaluate(new ANDCond(cTrue, cFalse)));
+		assertFalse(evaluator.evaluate(new ANDCond(cFalse, cTrue)));
+		assertFalse(evaluator.evaluate(new ANDCond(cFalse, cFalse)));
 
-		assertTrue(evaluator.evaluate(new ORCondition(cTrue, cTrue)));
-		assertTrue(evaluator.evaluate(new ORCondition(cTrue, cFalse)));
-		assertTrue(evaluator.evaluate(new ORCondition(cFalse, cTrue)));
-		assertFalse(evaluator.evaluate(new ORCondition(cFalse, cFalse)));
+		assertTrue(evaluator.evaluate(new ORCond(cTrue, cTrue)));
+		assertTrue(evaluator.evaluate(new ORCond(cTrue, cFalse)));
+		assertTrue(evaluator.evaluate(new ORCond(cFalse, cTrue)));
+		assertFalse(evaluator.evaluate(new ORCond(cFalse, cFalse)));
 
-		assertTrue(evaluator.evaluate(new NOTCondition(cFalse)));
-		assertFalse(evaluator.evaluate(new NOTCondition(cTrue)));
+		assertTrue(evaluator.evaluate(new NOTCond(cFalse)));
+		assertFalse(evaluator.evaluate(new NOTCond(cTrue)));
 
 		assertTrue(evaluator.evaluate(cTrue));
 		assertFalse(evaluator.evaluate(cFalse));

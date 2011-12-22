@@ -39,7 +39,7 @@ package es.eucm.eadventure.common.model.elements;
 
 import es.eucm.eadventure.common.interfaces.features.Variabled;
 import es.eucm.eadventure.common.model.EAdElement;
-import es.eucm.eadventure.common.model.extra.EAdList;
+import es.eucm.eadventure.common.model.elements.extra.EAdList;
 import es.eucm.eadventure.common.params.text.EAdString;
 
 /**

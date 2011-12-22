@@ -37,8 +37,8 @@
 
 package es.eucm.eadventure.common.resources.assets.drawable.basics;
 
-import es.eucm.eadventure.common.model.extra.EAdList;
-import es.eucm.eadventure.common.model.variables.EAdOperation;
+import es.eucm.eadventure.common.model.elements.extra.EAdList;
+import es.eucm.eadventure.common.model.elements.variables.EAdOperation;
 import es.eucm.eadventure.common.params.paint.EAdPaint;
 import es.eucm.eadventure.common.params.text.EAdFont;
 import es.eucm.eadventure.common.params.text.EAdString;

@@ -44,23 +44,21 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 import es.eucm.eadventure.common.model.EAdElement;
-import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
-import es.eucm.eadventure.common.model.elements.impl.EAdSceneElementDefImpl;
-import es.eucm.eadventure.common.model.guievents.enums.KeyActionType;
-import es.eucm.eadventure.common.model.guievents.enums.KeyCode;
-import es.eucm.eadventure.common.model.variables.impl.SystemFields;
+import es.eucm.eadventure.common.model.elements.guievents.enums.KeyActionType;
+import es.eucm.eadventure.common.model.elements.guievents.enums.KeyCode;
+import es.eucm.eadventure.common.model.elements.scenes.SceneElementDefImpl;
+import es.eucm.eadventure.common.model.elements.scenes.SceneElementImpl;
+import es.eucm.eadventure.common.model.elements.variables.SystemFields;
+import es.eucm.eadventure.common.model.predef.events.ChaseMouseEv;
+import es.eucm.eadventure.common.model.predef.events.StayInBoundsEv;
 import es.eucm.eadventure.common.params.EAdFontImpl;
-import es.eucm.eadventure.common.params.fills.impl.EAdColor;
-import es.eucm.eadventure.common.params.geom.impl.EAdPositionImpl;
+import es.eucm.eadventure.common.params.fills.EAdColor;
 import es.eucm.eadventure.common.params.text.EAdString;
-import es.eucm.eadventure.common.predef.model.events.ChaseTheMouseEvent;
-import es.eucm.eadventure.common.predef.model.events.StayInBoundsEvent;
 import es.eucm.eadventure.common.resources.StringHandler;
 import es.eucm.eadventure.common.resources.assets.drawable.Drawable;
+import es.eucm.eadventure.common.resources.assets.drawable.basics.CaptionImpl;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.Image;
-import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.CaptionImpl;
-import es.eucm.eadventure.common.util.EAdTransformation;
-import es.eucm.eadventure.common.util.impl.EAdTransformationImpl;
+import es.eucm.eadventure.common.util.EAdPositionImpl;
 import es.eucm.eadventure.engine.core.game.GameState;
 import es.eucm.eadventure.engine.core.game.ValueMap;
 import es.eucm.eadventure.engine.core.gameobjects.GameObjectManager;
@@ -75,7 +73,9 @@ import es.eucm.eadventure.engine.core.input.MouseState;
 import es.eucm.eadventure.engine.core.platform.AssetHandler;
 import es.eucm.eadventure.engine.core.platform.DrawableAsset;
 import es.eucm.eadventure.engine.core.platform.GUI;
-import es.eucm.eadventure.engine.core.platform.rendering.EAdCanvas;
+import es.eucm.eadventure.engine.core.platform.rendering.GenericCanvas;
+import es.eucm.eadventure.engine.core.util.EAdTransformation;
+import es.eucm.eadventure.engine.core.util.impl.EAdTransformationImpl;
 
 /**
  * <p>
@@ -103,13 +103,13 @@ public class BasicHUDImpl extends AbstractHUD implements BasicHUD {
 
 	protected MouseState mouseState;
 
-	private EAdBasicSceneElement contextual;
+	private SceneElementImpl contextual;
 
 	private CaptionImpl c = new CaptionImpl();
 
 	private StringHandler stringHandler;
 
-	private EAdBasicSceneElement mouse;
+	private SceneElementImpl mouse;
 
 	private Drawable cursor;
 
@@ -176,7 +176,7 @@ public class BasicHUDImpl extends AbstractHUD implements BasicHUD {
 	}
 
 	@Override
-	public void render(EAdCanvas<?> c) {
+	public void render(GenericCanvas<?> c) {
 
 	}
 
@@ -194,14 +194,14 @@ public class BasicHUDImpl extends AbstractHUD implements BasicHUD {
 		c.setPadding(10);
 		c.setTextPaint(EAdColor.BLACK);
 		stringHandler.setString(c.getText(), "");
-		contextual = new EAdBasicSceneElement(c);
+		contextual = new SceneElementImpl(c);
 		contextual.setPosition(new EAdPositionImpl(0, 0, 0.5f, 1.5f));
-		contextual.setVarInitialValue(EAdBasicSceneElement.VAR_VISIBLE,
+		contextual.setVarInitialValue(SceneElementImpl.VAR_VISIBLE,
 				Boolean.FALSE);
-		contextual.setVarInitialValue(EAdBasicSceneElement.VAR_ENABLE,
+		contextual.setVarInitialValue(SceneElementImpl.VAR_ENABLE,
 				Boolean.FALSE);
-		contextual.getEvents().add(new StayInBoundsEvent(contextual));
-		contextual.getEvents().add(new ChaseTheMouseEvent());
+		contextual.getEvents().add(new StayInBoundsEv(contextual));
+		contextual.getEvents().add(new ChaseMouseEv());
 		addElement(sceneElementFactory.get(contextual));
 	}
 
@@ -211,7 +211,7 @@ public class BasicHUDImpl extends AbstractHUD implements BasicHUD {
 		ValueMap valueMap = gameState.getValueMap();
 		if (go != null) {
 			EAdString name = valueMap.getValue((EAdElement) go.getElement(),
-					EAdBasicSceneElement.VAR_NAME);
+					SceneElementImpl.VAR_NAME);
 			if (name != null && !stringHandler.getString(name).equals("")) {
 				stringHandler.setString(c.getText(),
 						stringHandler.getString(name));
@@ -222,23 +222,23 @@ public class BasicHUDImpl extends AbstractHUD implements BasicHUD {
 				sceneElementFactory.get(contextual).update();
 
 				gameState.getValueMap().setValue(contextual,
-						EAdBasicSceneElement.VAR_VISIBLE, true);
+						SceneElementImpl.VAR_VISIBLE, true);
 			} else {
 				gameState.getValueMap().setValue(contextual,
-						EAdBasicSceneElement.VAR_VISIBLE, false);
+						SceneElementImpl.VAR_VISIBLE, false);
 
 			}
 		} else {
 			gameState.getValueMap().setValue(contextual,
-					EAdBasicSceneElement.VAR_VISIBLE, false);
+					SceneElementImpl.VAR_VISIBLE, false);
 		}
 	}
 
 	// Mouse
 	private void initMouse() {
-		mouse = new EAdBasicSceneElement(cursor);
+		mouse = new SceneElementImpl(cursor);
 		mouse.setId("mouse");
-		mouse.setVarInitialValue(EAdBasicSceneElement.VAR_ENABLE, Boolean.FALSE);
+		mouse.setVarInitialValue(SceneElementImpl.VAR_ENABLE, Boolean.FALSE);
 		addElement(sceneElementFactory.get(mouse));
 	}
 
@@ -260,9 +260,9 @@ public class BasicHUDImpl extends AbstractHUD implements BasicHUD {
 				mouse.getDefinition()
 						.getResources()
 						.addAsset(mouse.getDefinition().getInitialBundle(),
-								EAdSceneElementDefImpl.appearance, cursor);
+								SceneElementDefImpl.appearance, cursor);
 				gameState.getValueMap().setValue(mouse,
-						EAdBasicSceneElement.VAR_SCALE, scale);
+						SceneElementImpl.VAR_SCALE, scale);
 			}
 
 		}
@@ -276,12 +276,12 @@ public class BasicHUDImpl extends AbstractHUD implements BasicHUD {
 				SystemFields.SHOW_MOUSE);
 
 		gameState.getValueMap().setValue(mouse,
-				EAdBasicSceneElement.VAR_VISIBLE,
+				SceneElementImpl.VAR_VISIBLE,
 				!(x < 0 || y < 0) && showMouse);
 		if (x >= 0 && y >= 0) {
-			gameState.getValueMap().setValue(mouse, EAdBasicSceneElement.VAR_X,
+			gameState.getValueMap().setValue(mouse, SceneElementImpl.VAR_X,
 					x);
-			gameState.getValueMap().setValue(mouse, EAdBasicSceneElement.VAR_Y,
+			gameState.getValueMap().setValue(mouse, SceneElementImpl.VAR_Y,
 					y);
 		}
 	}

@@ -39,14 +39,14 @@ package es.eucm.eadventure.common.elementfactories.demos.scenes;
 
 import es.eucm.eadventure.common.elementfactories.EAdElementsFactory;
 import es.eucm.eadventure.common.elementfactories.StringFactory;
-import es.eucm.eadventure.common.model.effects.impl.text.EAdShowQuestion;
-import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
-import es.eucm.eadventure.common.model.guievents.impl.EAdMouseEventImpl;
+import es.eucm.eadventure.common.model.elements.effects.text.ShowQuestionEf;
+import es.eucm.eadventure.common.model.elements.guievents.MouseEventImpl;
+import es.eucm.eadventure.common.model.elements.scenes.SceneElementImpl;
 
 public class ShowQuestionScene extends EmptyScene {
 
 	public ShowQuestionScene() {
-		EAdBasicSceneElement element = EAdElementsFactory.getInstance()
+		SceneElementImpl element = EAdElementsFactory.getInstance()
 				.getSceneElementFactory()
 				.createSceneElement("Launch show question", 10, 10);
 
@@ -55,7 +55,7 @@ public class ShowQuestionScene extends EmptyScene {
 		StringFactory stringFactory = EAdElementsFactory.getInstance()
 				.getStringFactory();
 
-		EAdShowQuestion effect = new EAdShowQuestion();
+		ShowQuestionEf effect = new ShowQuestionEf();
 		stringFactory.setString(effect.getQuestion(), "A question has been made");
 		
 		effect.addAnswer(stringFactory.getString("Answer 1"), effect);
@@ -64,7 +64,7 @@ public class ShowQuestionScene extends EmptyScene {
 		
 		effect.setUpNewInstance();
 
-		element.addBehavior(EAdMouseEventImpl.MOUSE_LEFT_CLICK, effect);
+		element.addBehavior(MouseEventImpl.MOUSE_LEFT_CLICK, effect);
 	}
 
 	@Override

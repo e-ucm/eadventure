@@ -39,7 +39,7 @@ package es.eucm.eadventure.engine.core.inventory;
 
 import java.util.List;
 
-import es.eucm.eadventure.common.model.elements.EAdSceneElementDef;
+import es.eucm.eadventure.common.model.elements.scene.EAdSceneElementDef;
 
 public interface InventoryHandler {
 	

@@ -37,11 +37,11 @@
 
 package es.eucm.eadventure.engine.core.guiactions.impl;
 
-import es.eucm.eadventure.common.model.elements.EAdSceneElementDef;
-import es.eucm.eadventure.common.model.guievents.EAdGUIEvent;
-import es.eucm.eadventure.common.model.guievents.enums.DragAction;
-import es.eucm.eadventure.common.model.guievents.enums.MouseActionType;
-import es.eucm.eadventure.common.model.guievents.impl.EAdDragEventImpl;
+import es.eucm.eadventure.common.model.elements.guievents.DragEventImpl;
+import es.eucm.eadventure.common.model.elements.guievents.EAdGUIEvent;
+import es.eucm.eadventure.common.model.elements.guievents.enums.DragAction;
+import es.eucm.eadventure.common.model.elements.guievents.enums.MouseActionType;
+import es.eucm.eadventure.common.model.elements.scene.EAdSceneElementDef;
 import es.eucm.eadventure.engine.core.guiactions.DropAction;
 
 public class DragActionImpl implements DropAction {
@@ -58,13 +58,13 @@ public class DragActionImpl implements DropAction {
 
 	private boolean consumed;
 
-	private EAdDragEventImpl event;
+	private DragEventImpl event;
 
 	public DragActionImpl(EAdSceneElementDef draggingElement, DragAction action,
 			int virtualX, int virtualY) {
 		this.virtualX = virtualX;
 		this.virtualY = virtualY;
-		this.event = new EAdDragEventImpl(draggingElement, action);
+		this.event = new DragEventImpl(draggingElement, action);
 		consumed = false;
 	}
 

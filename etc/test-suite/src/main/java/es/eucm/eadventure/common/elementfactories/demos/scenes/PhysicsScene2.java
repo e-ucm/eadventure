@@ -37,26 +37,25 @@
 
 package es.eucm.eadventure.common.elementfactories.demos.scenes;
 
-import es.eucm.eadventure.common.model.conditions.impl.OperationCondition;
-import es.eucm.eadventure.common.model.effects.impl.physics.EAdPhysicsEffect;
-import es.eucm.eadventure.common.model.effects.impl.physics.PhShape;
-import es.eucm.eadventure.common.model.effects.impl.physics.PhType;
-import es.eucm.eadventure.common.model.effects.impl.physics.PhApplyImpluse;
-import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
-import es.eucm.eadventure.common.model.elements.impl.EAdSceneImpl;
-import es.eucm.eadventure.common.model.events.EAdConditionedEvent;
-import es.eucm.eadventure.common.model.events.enums.ConditionedEventType;
-import es.eucm.eadventure.common.model.events.impl.EAdConditionEventImpl;
-import es.eucm.eadventure.common.model.guievents.impl.EAdMouseEventImpl;
-import es.eucm.eadventure.common.model.variables.impl.EAdFieldImpl;
-import es.eucm.eadventure.common.model.variables.impl.operations.MathOperation;
-import es.eucm.eadventure.common.params.fills.impl.EAdColor;
-import es.eucm.eadventure.common.params.fills.impl.EAdLinearGradient;
-import es.eucm.eadventure.common.params.geom.impl.EAdPositionImpl;
-import es.eucm.eadventure.common.params.geom.impl.EAdPositionImpl.Corner;
-import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.shapes.BezierShape;
-import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.shapes.CircleShape;
-import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.shapes.RectangleShape;
+import es.eucm.eadventure.common.model.elements.conditions.OperationCond;
+import es.eucm.eadventure.common.model.elements.effects.enums.PhShape;
+import es.eucm.eadventure.common.model.elements.effects.enums.PhType;
+import es.eucm.eadventure.common.model.elements.effects.physics.PhApplyImpluseEf;
+import es.eucm.eadventure.common.model.elements.effects.physics.PhysicsEffect;
+import es.eucm.eadventure.common.model.elements.events.ConditionedEv;
+import es.eucm.eadventure.common.model.elements.events.enums.ConditionedEventType;
+import es.eucm.eadventure.common.model.elements.guievents.MouseEventImpl;
+import es.eucm.eadventure.common.model.elements.scenes.SceneElementImpl;
+import es.eucm.eadventure.common.model.elements.scenes.SceneImpl;
+import es.eucm.eadventure.common.model.elements.variables.FieldImpl;
+import es.eucm.eadventure.common.model.elements.variables.operations.MathOp;
+import es.eucm.eadventure.common.params.fills.EAdColor;
+import es.eucm.eadventure.common.params.fills.EAdLinearGradient;
+import es.eucm.eadventure.common.resources.assets.drawable.basics.shapes.BezierShape;
+import es.eucm.eadventure.common.resources.assets.drawable.basics.shapes.CircleShape;
+import es.eucm.eadventure.common.resources.assets.drawable.basics.shapes.RectangleShape;
+import es.eucm.eadventure.common.util.EAdPositionImpl;
+import es.eucm.eadventure.common.util.EAdPositionImpl.Corner;
 
 public class PhysicsScene2 extends PhysicsScene {
 
@@ -68,22 +67,22 @@ public class PhysicsScene2 extends PhysicsScene {
 
 		RectangleShape rShape = new RectangleShape(10, 100, EAdColor.BROWN);
 
-		EAdBasicSceneElement e2 = new EAdBasicSceneElement(rShape);
+		SceneElementImpl e2 = new SceneElementImpl(rShape);
 		e2.setId("e2");
 		getComponents().add(e2);
 		e2.setPosition(new EAdPositionImpl(Corner.CENTER, 500, 200));
-		e2.setVarInitialValue(EAdBasicSceneElement.VAR_ROTATION,
+		e2.setVarInitialValue(SceneElementImpl.VAR_ROTATION,
 				(float) Math.PI / 4.0f);
 
-		EAdPhysicsEffect effect = new EAdPhysicsEffect();
+		PhysicsEffect effect = new PhysicsEffect();
 		effect.addSceneElement(e2);
 
 		
-		EAdBasicSceneElement e3 = new EAdBasicSceneElement( rShape);
+		SceneElementImpl e3 = new SceneElementImpl( rShape);
 		e3.setId("e3");
 		getComponents().add(e3);
 		e3.setPosition(new EAdPositionImpl(Corner.CENTER, 200, 100));
-		e3.setVarInitialValue(EAdBasicSceneElement.VAR_ROTATION,
+		e3.setVarInitialValue(SceneElementImpl.VAR_ROTATION,
 				(float) Math.PI / 2.0f);
 
 		effect.addSceneElement(e3);
@@ -92,44 +91,44 @@ public class PhysicsScene2 extends PhysicsScene {
 		circle.setPaint(new EAdLinearGradient(EAdColor.GREEN,
 				new EAdColor(0, 100, 0), 40, 40));
 
-		EAdBasicSceneElement b = new EAdBasicSceneElement( circle);
+		SceneElementImpl b = new SceneElementImpl( circle);
 		b.setId("ball");
 		b.setPosition(new EAdPositionImpl(Corner.CENTER, 500, 0));
 		getComponents().add(b, 0);
 		effect.addSceneElement(b);
-		b.setVarInitialValue(EAdPhysicsEffect.VAR_PH_TYPE, PhType.DYNAMIC);
+		b.setVarInitialValue(PhysicsEffect.VAR_PH_TYPE, PhType.DYNAMIC);
 		getBackground().addBehavior(
-				EAdMouseEventImpl.MOUSE_LEFT_CLICK,
-				new PhApplyImpluse(b, new MathOperation(
-						 "0"), new MathOperation(
+				MouseEventImpl.MOUSE_LEFT_CLICK,
+				new PhApplyImpluseEf(b, new MathOp(
+						 "0"), new MathOp(
 						 "-100")));
-		b.setVarInitialValue(EAdPhysicsEffect.VAR_PH_RESTITUTION, 0.3f);
-		b.setVarInitialValue(EAdPhysicsEffect.VAR_PH_SHAPE, PhShape.CIRCULAR);
+		b.setVarInitialValue(PhysicsEffect.VAR_PH_RESTITUTION, 0.3f);
+		b.setVarInitialValue(PhysicsEffect.VAR_PH_SHAPE, PhShape.CIRCULAR);
 
 		for (int i = 0; i < 5; i++)
 			for (int j = 0; j < 5; j++) {
-				EAdBasicSceneElement e = new EAdBasicSceneElement( circle);
+				SceneElementImpl e = new SceneElementImpl( circle);
 				e.setId("ball" + i + "_" + j);
 				e.setPosition(new EAdPositionImpl(Corner.CENTER, i * 60 + 200,
 						j * 60 + 200));
 				getComponents().add(e);
 				effect.addSceneElement(e);
-				e.setVarInitialValue(EAdPhysicsEffect.VAR_PH_TYPE,
+				e.setVarInitialValue(PhysicsEffect.VAR_PH_TYPE,
 						PhType.DYNAMIC);
 				getBackground().addBehavior(
-						EAdMouseEventImpl.MOUSE_LEFT_CLICK,
-						new PhApplyImpluse(e, new MathOperation(
+						MouseEventImpl.MOUSE_LEFT_CLICK,
+						new PhApplyImpluseEf(e, new MathOp(
 								 "0"),
-								new MathOperation(
+								new MathOp(
 										"-100")));
-				e.setVarInitialValue(EAdPhysicsEffect.VAR_PH_RESTITUTION, 0.3f);
-				e.setVarInitialValue(EAdPhysicsEffect.VAR_PH_SHAPE,
+				e.setVarInitialValue(PhysicsEffect.VAR_PH_RESTITUTION, 0.3f);
+				e.setVarInitialValue(PhysicsEffect.VAR_PH_SHAPE,
 						PhShape.CIRCULAR);
 			}
 
-		EAdConditionedEvent event = new EAdConditionEventImpl();
-		OperationCondition condition = new OperationCondition(new EAdFieldImpl<Boolean>(
-				this, EAdSceneImpl.VAR_SCENE_LOADED));
+		ConditionedEv event = new ConditionedEv();
+		OperationCond condition = new OperationCond(new FieldImpl<Boolean>(
+				this, SceneImpl.VAR_SCENE_LOADED));
 		event.setCondition(condition);
 		event.addEffect(ConditionedEventType.CONDITIONS_MET, effect);
 

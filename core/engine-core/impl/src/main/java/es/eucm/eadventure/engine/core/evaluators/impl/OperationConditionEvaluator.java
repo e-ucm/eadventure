@@ -42,13 +42,13 @@ import java.util.logging.Logger;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
-import es.eucm.eadventure.common.model.conditions.impl.OperationCondition;
+import es.eucm.eadventure.common.model.elements.conditions.OperationCond;
 import es.eucm.eadventure.engine.core.evaluators.Evaluator;
 import es.eucm.eadventure.engine.core.operator.OperatorFactory;
 
 @Singleton
 public class OperationConditionEvaluator implements
-		Evaluator<OperationCondition> {
+		Evaluator<OperationCond> {
 
 	private static final Logger logger = Logger
 			.getLogger("VarConditionEvaluator");
@@ -62,7 +62,7 @@ public class OperationConditionEvaluator implements
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Override
-	public boolean evaluate(OperationCondition condition) {
+	public boolean evaluate(OperationCond condition) {
 		Object value1 = operatorFactory.operate(Object.class,
 				condition.getOp1());
 		Object value2 = operatorFactory.operate(Object.class,

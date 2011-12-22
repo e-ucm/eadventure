@@ -37,7 +37,7 @@
 
 package es.eucm.eadventure.engine.core.gameobjects.go;
 
-import es.eucm.eadventure.common.model.elements.EAdScene;
+import es.eucm.eadventure.common.model.elements.scene.EAdScene;
 
 public interface SceneGO<T extends EAdScene> extends DrawableGO<T> {
 

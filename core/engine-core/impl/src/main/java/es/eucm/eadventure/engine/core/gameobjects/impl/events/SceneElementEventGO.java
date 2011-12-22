@@ -39,11 +39,11 @@ package es.eucm.eadventure.engine.core.gameobjects.impl.events;
 
 import com.google.inject.Inject;
 
-import es.eucm.eadventure.common.model.events.EAdSceneElementEvent;
-import es.eucm.eadventure.common.model.events.enums.SceneElementEventType;
+import es.eucm.eadventure.common.model.elements.events.SceneElementEv;
+import es.eucm.eadventure.common.model.elements.events.enums.SceneElementEventType;
 import es.eucm.eadventure.engine.core.game.GameState;
 
-public class SceneElementEventGO extends AbstractEventGO<EAdSceneElementEvent> {
+public class SceneElementEventGO extends AbstractEventGO<SceneElementEv> {
 
 	private boolean firstCheck = true;
 

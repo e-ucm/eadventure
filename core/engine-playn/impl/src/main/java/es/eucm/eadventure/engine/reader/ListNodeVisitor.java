@@ -39,18 +39,16 @@ package es.eucm.eadventure.engine.reader;
 
 import java.util.logging.Level;
 
+import com.google.gwt.xml.client.Node;
+import com.google.gwt.xml.client.NodeList;
 import com.gwtent.reflection.client.ClassType;
 import com.gwtent.reflection.client.Field;
 import com.gwtent.reflection.client.TypeOracle;
 
-import com.google.gwt.xml.client.Node;
-import com.google.gwt.xml.client.NodeList;
-
 import es.eucm.eadventure.common.DOMTags;
-import es.eucm.eadventure.common.model.extra.EAdList;
-import es.eucm.eadventure.common.model.extra.impl.EAdListImpl;
-import es.eucm.eadventure.common.params.geom.EAdPosition;
-import es.eucm.eadventure.common.params.geom.impl.EAdPositionImpl;
+import es.eucm.eadventure.common.model.elements.extra.EAdList;
+import es.eucm.eadventure.common.model.elements.extra.EAdListImpl;
+import es.eucm.eadventure.common.util.EAdPositionImpl;
 
 public class ListNodeVisitor extends NodeVisitor<EAdList<Object>> {
 
@@ -75,7 +73,7 @@ public class ListNodeVisitor extends NodeVisitor<EAdList<Object>> {
 		//TODO do for more tyes?
 		if (list.getValueClass() == Integer.class ||
 				list.getValueClass() == Float.class ||
-				list.getValueClass() == EAdPosition.class || list.getValueClass() == EAdPositionImpl.class) {
+				list.getValueClass() == EAdPositionImpl.class || list.getValueClass() == EAdPositionImpl.class) {
 			String value = GWTReader.getNodeText(node);
 			if (value != null && !value.equals("")) {
 				String[] values = value.split("\\|");

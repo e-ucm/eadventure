@@ -44,9 +44,9 @@ import com.google.inject.name.Names;
 
 import es.eucm.eadventure.common.ReflectionProvider;
 import es.eucm.eadventure.common.model.elements.EAdAdventureModel;
-import es.eucm.eadventure.common.model.elements.EAdScene;
-import es.eucm.eadventure.common.model.impl.EAdAdventureModelImpl;
-import es.eucm.eadventure.engine.core.debuggers.EAdDebugger;
+import es.eucm.eadventure.common.model.elements.EAdAdventureModelImpl;
+import es.eucm.eadventure.common.model.elements.scene.EAdScene;
+import es.eucm.eadventure.engine.core.debuggers.Debugger;
 import es.eucm.eadventure.engine.core.debuggers.impl.EAdMainDebugger;
 import es.eucm.eadventure.engine.core.evaluators.EvaluatorFactory;
 import es.eucm.eadventure.engine.core.evaluators.impl.EvaluatorFactoryImpl;
@@ -71,7 +71,7 @@ import es.eucm.eadventure.engine.core.inventory.InventoryHandler;
 import es.eucm.eadventure.engine.core.inventory.InventoryHandlerImpl;
 import es.eucm.eadventure.engine.core.operator.OperatorFactory;
 import es.eucm.eadventure.engine.core.operators.impl.OperatorFactoryImpl;
-import es.eucm.eadventure.engine.core.platform.EAdInjector;
+import es.eucm.eadventure.engine.core.platform.GenericInjector;
 import es.eucm.eadventure.engine.core.platform.EngineConfiguration;
 import es.eucm.eadventure.engine.core.platform.FontHandler;
 import es.eucm.eadventure.engine.core.platform.impl.AbstractEngineConfiguration;
@@ -96,9 +96,9 @@ public class BasicGameModule extends AbstractModule {
 		bind(Game.class).to(GameImpl.class);
 		bind(EffectHUD.class).to(EffectHUDImpl.class);
 		bind(FontHandler.class).to(FontHandlerImpl.class);
-		bind(EAdDebugger.class).to(EAdMainDebugger.class);
+		bind(Debugger.class).to(EAdMainDebugger.class);
 		bind(PluginHandler.class).to(JavaPluginHandler.class);
-		bind(EAdInjector.class).to(JavaInjector.class);
+		bind(GenericInjector.class).to(JavaInjector.class);
 		bind(InventoryHandler.class).to(InventoryHandlerImpl.class);
 
 		bind(ReflectionProvider.class).to(JavaReflectionProvider.class);

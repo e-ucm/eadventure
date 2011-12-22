@@ -45,7 +45,7 @@ import java.util.logging.Logger;
 import es.eucm.eadventure.common.ReflectionProvider;
 import es.eucm.eadventure.common.model.EAdElement;
 import es.eucm.eadventure.engine.core.gameobjects.go.GameObject;
-import es.eucm.eadventure.engine.core.platform.EAdInjector;
+import es.eucm.eadventure.engine.core.platform.GenericInjector;
 
 public class GOFactoryImpl<S extends EAdElement, T extends GameObject<? extends S>> implements
 		GameObjectFactory<S, T> {
@@ -55,7 +55,7 @@ public class GOFactoryImpl<S extends EAdElement, T extends GameObject<? extends 
 	
 	private ReflectionProvider reflectionProvider;
 	
-	private EAdInjector injector;
+	private GenericInjector injector;
 
 	private boolean useCache;
 
@@ -64,7 +64,7 @@ public class GOFactoryImpl<S extends EAdElement, T extends GameObject<? extends 
 	private Map<Class<? extends S>, Class<? extends T>> classMap;
 
 	public GOFactoryImpl(boolean useCache,
-			ReflectionProvider reflectionProvider, EAdInjector injector) {
+			ReflectionProvider reflectionProvider, GenericInjector injector) {
 		this.useCache = useCache;
 		if (useCache) {
 			cache = new HashMap<S, T>();

@@ -39,7 +39,7 @@ package es.eucm.eadventure.engine.core.gameobjects.impl.effects;
 
 import com.google.inject.Inject;
 
-import es.eucm.eadventure.common.model.effects.impl.timedevents.EAdWaitEffect;
+import es.eucm.eadventure.common.model.elements.effects.timedevents.WaitEf;
 import es.eucm.eadventure.common.resources.StringHandler;
 import es.eucm.eadventure.engine.core.game.GameLoop;
 import es.eucm.eadventure.engine.core.game.GameState;
@@ -47,7 +47,7 @@ import es.eucm.eadventure.engine.core.gameobjects.factories.SceneElementGOFactor
 import es.eucm.eadventure.engine.core.platform.AssetHandler;
 import es.eucm.eadventure.engine.core.platform.GUI;
 
-public class WaitEffectGO extends AbstractEffectGO<EAdWaitEffect>{
+public class WaitEffectGO extends AbstractEffectGO<WaitEf>{
 	
 	private int time;
 	

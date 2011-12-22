@@ -39,13 +39,13 @@ package es.eucm.eadventure.engine.core.gameobjects.impl.events;
 
 import com.google.inject.Inject;
 
-import es.eucm.eadventure.common.model.events.EAdSystemEvent;
-import es.eucm.eadventure.common.model.events.enums.SystemEventType;
+import es.eucm.eadventure.common.model.elements.events.SystemEv;
+import es.eucm.eadventure.common.model.elements.events.enums.SystemEventType;
 import es.eucm.eadventure.engine.core.game.Game;
 import es.eucm.eadventure.engine.core.game.GameState;
 import es.eucm.eadventure.engine.core.platform.AssetHandler;
 
-public class SystemEventGO extends AbstractEventGO<EAdSystemEvent> {
+public class SystemEventGO extends AbstractEventGO<SystemEv> {
 
 	private boolean triggered = false;
 

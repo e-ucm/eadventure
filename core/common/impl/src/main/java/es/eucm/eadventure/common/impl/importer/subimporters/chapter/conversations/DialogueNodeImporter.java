@@ -44,20 +44,20 @@ import es.eucm.eadventure.common.data.chapter.conversation.line.ConversationLine
 import es.eucm.eadventure.common.data.chapter.conversation.node.DialogueConversationNode;
 import es.eucm.eadventure.common.data.chapter.effects.Effect;
 import es.eucm.eadventure.common.impl.importer.interfaces.EffectsImporterFactory;
-import es.eucm.eadventure.common.model.effects.EAdEffect;
-import es.eucm.eadventure.common.model.effects.impl.text.EAdSpeakEffect;
-import es.eucm.eadventure.common.params.fills.impl.EAdColor;
+import es.eucm.eadventure.common.model.elements.EAdEffect;
+import es.eucm.eadventure.common.model.elements.effects.text.SpeakEf;
+import es.eucm.eadventure.common.params.fills.EAdColor;
 
 public class DialogueNodeImporter implements
 		EAdElementImporter<DialogueConversationNode, EAdEffect> {
 
-	private EAdElementImporter<ConversationLine, EAdSpeakEffect> conversationLineImporter;
+	private EAdElementImporter<ConversationLine, SpeakEf> conversationLineImporter;
 
 	private EffectsImporterFactory effectsImporter;
 
 	@Inject
 	public DialogueNodeImporter(EffectsImporterFactory effectsImporter,
-			EAdElementImporter<ConversationLine, EAdSpeakEffect> conversationLineImporter) {
+			EAdElementImporter<ConversationLine, SpeakEf> conversationLineImporter) {
 
 		this.effectsImporter = effectsImporter;
 		this.conversationLineImporter = conversationLineImporter;
@@ -70,10 +70,10 @@ public class DialogueNodeImporter implements
 	
 	@Override
 	public EAdEffect convert(DialogueConversationNode oldObject, Object object) {
-		EAdSpeakEffect initialEffect = null;
-		EAdSpeakEffect previousEffect = null;
+		SpeakEf initialEffect = null;
+		SpeakEf previousEffect = null;
 		for (int i = 0; i < oldObject.getLineCount(); i++) {
-			EAdSpeakEffect effect = conversationLineImporter.init(oldObject
+			SpeakEf effect = conversationLineImporter.init(oldObject
 					.getLine(i));
 			effect = conversationLineImporter.convert(oldObject
 					.getLine(i), effect);
@@ -87,7 +87,7 @@ public class DialogueNodeImporter implements
 		}
 
 		if ( initialEffect == null ){
-			initialEffect = new EAdSpeakEffect( );
+			initialEffect = new SpeakEf( );
 			initialEffect.setColor(EAdColor.TRANSPARENT, EAdColor.TRANSPARENT);
 		}
 		

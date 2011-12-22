@@ -42,12 +42,12 @@ import java.util.logging.Logger;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
-import es.eucm.eadventure.common.model.conditions.impl.NOTCondition;
+import es.eucm.eadventure.common.model.elements.conditions.NOTCond;
 import es.eucm.eadventure.engine.core.evaluators.Evaluator;
 import es.eucm.eadventure.engine.core.evaluators.EvaluatorFactory;
 
 @Singleton
-public class NOTConditionEvaluator implements Evaluator<NOTCondition> {
+public class NOTConditionEvaluator implements Evaluator<NOTCond> {
 	
 	@SuppressWarnings("unused")
 	private Logger logger = Logger.getLogger("NOTConditionEvaluator");
@@ -60,7 +60,7 @@ public class NOTConditionEvaluator implements Evaluator<NOTCondition> {
 	}
 
 	@Override
-	public boolean evaluate(NOTCondition condition) {
+	public boolean evaluate(NOTCond condition) {
 		Boolean value = evaluatorFactory.evaluate(condition.getCondition());
 		return !value;
 	}

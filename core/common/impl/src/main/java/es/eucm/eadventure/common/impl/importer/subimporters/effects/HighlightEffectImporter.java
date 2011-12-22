@@ -43,12 +43,12 @@ import es.eucm.eadventure.common.EAdElementImporter;
 import es.eucm.eadventure.common.data.chapter.conditions.Conditions;
 import es.eucm.eadventure.common.data.chapter.effects.HighlightItemEffect;
 import es.eucm.eadventure.common.impl.importer.interfaces.EAdElementFactory;
-import es.eucm.eadventure.common.model.effects.impl.timedevents.EAdHighlightSceneElement;
 import es.eucm.eadventure.common.model.elements.EAdCondition;
-import es.eucm.eadventure.common.model.elements.EAdSceneElementDef;
+import es.eucm.eadventure.common.model.elements.effects.timedevents.HighlightSceneElementEf;
+import es.eucm.eadventure.common.model.elements.scene.EAdSceneElementDef;
 
 public class HighlightEffectImporter extends
-		EffectImporter<HighlightItemEffect, EAdHighlightSceneElement> {
+		EffectImporter<HighlightItemEffect, HighlightSceneElementEf> {
 
 	private EAdElementFactory factory;
 
@@ -61,17 +61,17 @@ public class HighlightEffectImporter extends
 	}
 
 	@Override
-	public EAdHighlightSceneElement init(HighlightItemEffect oldObject) {
-		EAdHighlightSceneElement highlight = new EAdHighlightSceneElement();
+	public HighlightSceneElementEf init(HighlightItemEffect oldObject) {
+		HighlightSceneElementEf highlight = new HighlightSceneElementEf();
 		highlight.setId("highlightActorReference"
 				+ ID_GENERATOR++);
 		return highlight;
 	}
 
 	@Override
-	public EAdHighlightSceneElement convert(HighlightItemEffect oldObject,
+	public HighlightSceneElementEf convert(HighlightItemEffect oldObject,
 			Object newElement) {
-		EAdHighlightSceneElement effect = super.convert(oldObject, newElement);
+		HighlightSceneElementEf effect = super.convert(oldObject, newElement);
 		effect.setSceneElement((EAdSceneElementDef) factory.getElementById(oldObject.getTargetId()));
 
 		return effect;

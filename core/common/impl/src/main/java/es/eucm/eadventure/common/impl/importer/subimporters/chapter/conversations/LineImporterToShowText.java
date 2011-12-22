@@ -47,13 +47,13 @@ import es.eucm.eadventure.common.data.chapter.elements.Player;
 import es.eucm.eadventure.common.impl.importer.interfaces.EAdElementFactory;
 import es.eucm.eadventure.common.impl.importer.subimporters.effects.texts.SpeakCharEffectImporter;
 import es.eucm.eadventure.common.model.EAdElement;
-import es.eucm.eadventure.common.model.effects.impl.text.EAdSpeakEffect;
 import es.eucm.eadventure.common.model.elements.EAdCondition;
-import es.eucm.eadventure.common.predef.model.effects.EAdSpeakSceneElement;
+import es.eucm.eadventure.common.model.elements.effects.text.SpeakEf;
+import es.eucm.eadventure.common.model.predef.effects.SpeakSceneElementEf;
 import es.eucm.eadventure.common.resources.StringHandler;
 
 public class LineImporterToShowText implements
-		EAdElementImporter<ConversationLine, EAdSpeakEffect> {
+		EAdElementImporter<ConversationLine, SpeakEf> {
 
 	private EAdElementImporter<Conditions, EAdCondition> conditionsImporter;
 
@@ -70,18 +70,18 @@ public class LineImporterToShowText implements
 		this.stringHandler = stringHandler;
 	}
 
-	public EAdSpeakEffect init(ConversationLine line) {
+	public SpeakEf init(ConversationLine line) {
 		EAdElement element = factory.getElementById(line.getName());
 		if (line.isPlayerLine() && factory.isFirstPerson()) {
-			return new EAdSpeakEffect();
+			return new SpeakEf();
 		} else
-			return new EAdSpeakSceneElement(element);
+			return new SpeakSceneElementEf(element);
 
 	}
 
 	@Override
-	public EAdSpeakEffect convert(ConversationLine line, Object object) {
-		EAdSpeakEffect effect = (EAdSpeakEffect) object;
+	public SpeakEf convert(ConversationLine line, Object object) {
+		SpeakEf effect = (SpeakEf) object;
 
 		NPC npc = line.getName().equals(Player.IDENTIFIER) ? factory
 				.getCurrentOldChapterModel().getPlayer() : factory

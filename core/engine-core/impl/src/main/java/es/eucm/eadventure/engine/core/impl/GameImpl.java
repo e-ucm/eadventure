@@ -47,12 +47,10 @@ import com.google.inject.Singleton;
 
 import es.eucm.eadventure.common.model.elements.EAdAdventureModel;
 import es.eucm.eadventure.common.model.elements.EAdChapter;
-import es.eucm.eadventure.common.model.elements.EAdSceneElementDef;
-import es.eucm.eadventure.common.model.events.EAdEvent;
-import es.eucm.eadventure.common.model.variables.impl.SystemFields;
-import es.eucm.eadventure.common.util.EAdTransformation;
-import es.eucm.eadventure.common.util.impl.EAdTransformationImpl;
-import es.eucm.eadventure.engine.core.debuggers.EAdDebugger;
+import es.eucm.eadventure.common.model.elements.EAdEvent;
+import es.eucm.eadventure.common.model.elements.scene.EAdSceneElementDef;
+import es.eucm.eadventure.common.model.elements.variables.SystemFields;
+import es.eucm.eadventure.engine.core.debuggers.Debugger;
 import es.eucm.eadventure.engine.core.game.Game;
 import es.eucm.eadventure.engine.core.game.GameLoop;
 import es.eucm.eadventure.engine.core.game.GameState;
@@ -70,6 +68,8 @@ import es.eucm.eadventure.engine.core.inventory.InventoryHandler;
 import es.eucm.eadventure.engine.core.platform.AssetHandler;
 import es.eucm.eadventure.engine.core.platform.EngineConfiguration;
 import es.eucm.eadventure.engine.core.platform.GUI;
+import es.eucm.eadventure.engine.core.util.EAdTransformation;
+import es.eucm.eadventure.engine.core.util.impl.EAdTransformationImpl;
 
 @Singleton
 public class GameImpl implements Game {
@@ -95,7 +95,7 @@ public class GameImpl implements Game {
 
 	private GameObjectManager gameObjectManager;
 
-	private EAdDebugger debugger;
+	private Debugger debugger;
 
 	private ValueMap valueMap;
 
@@ -114,7 +114,7 @@ public class GameImpl implements Game {
 	@Inject
 	public GameImpl(GUI gui, GameState gameState, EffectHUD effectHUD,
 			AssetHandler assetHandler, GameObjectManager gameObjectManager,
-			EAdDebugger debugger, ValueMap valueMap, MouseState mouseState,
+			Debugger debugger, ValueMap valueMap, MouseState mouseState,
 			BasicHUD basicHud, InventoryHUD inventoryHud,
 			InventoryHandler inventoryHandler, EventGOFactory eventFactory,
 			EngineConfiguration configuration) {

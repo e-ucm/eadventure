@@ -39,22 +39,21 @@ package es.eucm.eadventure.common.elementfactories.demos.scenes;
 
 import es.eucm.eadventure.common.elementfactories.EAdElementsFactory;
 import es.eucm.eadventure.common.elementfactories.demos.normalguy.NgCommon;
-import es.eucm.eadventure.common.model.actions.impl.EAdBasicAction;
-import es.eucm.eadventure.common.model.effects.EAdEffect;
-import es.eucm.eadventure.common.model.effects.impl.EAdActorActionsEffect;
-import es.eucm.eadventure.common.model.effects.impl.text.EAdSpeakEffect;
-import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
-import es.eucm.eadventure.common.model.events.EAdSceneElementEvent;
-import es.eucm.eadventure.common.model.events.enums.SceneElementEventType;
-import es.eucm.eadventure.common.model.events.impl.EAdSceneElementEventImpl;
-import es.eucm.eadventure.common.model.guievents.impl.EAdMouseEventImpl;
-import es.eucm.eadventure.common.model.trajectories.impl.SimpleTrajectoryDefinition;
-import es.eucm.eadventure.common.params.geom.impl.EAdPositionImpl;
-import es.eucm.eadventure.common.params.geom.impl.EAdPositionImpl.Corner;
-import es.eucm.eadventure.common.predef.model.effects.EAdMakeActiveElementEffect;
-import es.eucm.eadventure.common.predef.model.effects.EAdMoveActiveElement;
-import es.eucm.eadventure.common.predef.model.effects.EAdSpeakSceneElement;
-import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.ImageImpl;
+import es.eucm.eadventure.common.model.elements.EAdEffect;
+import es.eucm.eadventure.common.model.elements.actions.ActionImpl;
+import es.eucm.eadventure.common.model.elements.effects.ActorActionsEf;
+import es.eucm.eadventure.common.model.elements.effects.text.SpeakEf;
+import es.eucm.eadventure.common.model.elements.events.SceneElementEv;
+import es.eucm.eadventure.common.model.elements.events.enums.SceneElementEventType;
+import es.eucm.eadventure.common.model.elements.guievents.MouseEventImpl;
+import es.eucm.eadventure.common.model.elements.scenes.SceneElementImpl;
+import es.eucm.eadventure.common.model.elements.trajectories.SimpleTrajectoryDefinition;
+import es.eucm.eadventure.common.model.predef.effects.MakeActiveElementEf;
+import es.eucm.eadventure.common.model.predef.effects.MoveActiveElementEf;
+import es.eucm.eadventure.common.model.predef.effects.SpeakSceneElementEf;
+import es.eucm.eadventure.common.resources.assets.drawable.basics.ImageImpl;
+import es.eucm.eadventure.common.util.EAdPositionImpl;
+import es.eucm.eadventure.common.util.EAdPositionImpl.Corner;
 
 public class SpeakAndMoveScene extends EmptyScene {
 
@@ -65,13 +64,13 @@ public class SpeakAndMoveScene extends EmptyScene {
 		// .createSceneElement(CharacterScene.getStateDrawable(), 100, 300);
 
 		NgCommon.init();
-		EAdBasicSceneElement character = new EAdBasicSceneElement(
+		SceneElementImpl character = new SceneElementImpl(
 				NgCommon.getMainCharacter());
 
 		character.setPosition(new EAdPositionImpl(Corner.BOTTOM_CENTER, 400,
 				400));
 
-		EAdSpeakEffect effect = new EAdSpeakSceneElement(character);
+		SpeakEf effect = new SpeakSceneElementEf(character);
 		EAdElementsFactory
 				.getInstance()
 				.getStringFactory()
@@ -82,14 +81,14 @@ public class SpeakAndMoveScene extends EmptyScene {
 		// effect.setFont(new EAdFontImpl(18));
 
 		// effect.seta
-		character.addBehavior(EAdMouseEventImpl.MOUSE_LEFT_PRESSED, effect);
+		character.addBehavior(MouseEventImpl.MOUSE_LEFT_PRESSED, effect);
 
 		this.getComponents().add(character);
 
-		EAdMakeActiveElementEffect makeActive = new EAdMakeActiveElementEffect(
+		MakeActiveElementEf makeActive = new MakeActiveElementEf(
 				character);
 
-		EAdSceneElementEvent event = new EAdSceneElementEventImpl();
+		SceneElementEv event = new SceneElementEv();
 		event.setId("makeAcitveCharacter");
 		event.addEffect(SceneElementEventType.ADDED_TO_SCENE, makeActive);
 		character.getEvents().add(event);
@@ -98,21 +97,21 @@ public class SpeakAndMoveScene extends EmptyScene {
 		d.setLimits(0, 0, 800, 600);
 		setTrajectoryDefinition(d);
 
-		getBackground().addBehavior(EAdMouseEventImpl.MOUSE_LEFT_PRESSED,
-				new EAdMoveActiveElement());
+		getBackground().addBehavior(MouseEventImpl.MOUSE_LEFT_PRESSED,
+				new MoveActiveElementEf());
 
-		EAdBasicSceneElement actionsObject = new EAdBasicSceneElement(
+		SceneElementImpl actionsObject = new SceneElementImpl(
 				new ImageImpl("@drawable/infobutton.png"));
 		actionsObject.setPosition(100, 100);
-		EAdBasicAction action = new EAdBasicAction();
+		ActionImpl action = new ActionImpl();
 		action.getResources().addAsset(action.getInitialBundle(),
-				EAdBasicAction.appearance,
+				ActionImpl.appearance,
 				new ImageImpl("@drawable/examine-normal.png"));
 		action.getResources().addAsset(action.getHighlightBundle(),
-				EAdBasicAction.appearance,
+				ActionImpl.appearance,
 				new ImageImpl("@drawable/examine-pressed.png"));
 
-		EAdSpeakEffect speak = new EAdSpeakEffect();
+		SpeakEf speak = new SpeakEf();
 
 		EAdElementsFactory.getInstance().getStringFactory()
 				.setString(speak.getString(), "The action was triggered!");
@@ -121,8 +120,8 @@ public class SpeakAndMoveScene extends EmptyScene {
 		action.getEffects().add(speak);
 		actionsObject.getDefinition().getActions().add(action);
 
-		EAdEffect showActions = new EAdActorActionsEffect(actionsObject.getDefinition());
-		actionsObject.addBehavior(EAdMouseEventImpl.MOUSE_RIGHT_CLICK,
+		EAdEffect showActions = new ActorActionsEf(actionsObject.getDefinition());
+		actionsObject.addBehavior(MouseEventImpl.MOUSE_RIGHT_CLICK,
 				showActions);
 		getComponents().add(actionsObject);
 	}

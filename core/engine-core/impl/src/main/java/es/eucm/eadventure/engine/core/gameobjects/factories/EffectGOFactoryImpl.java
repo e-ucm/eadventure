@@ -41,10 +41,10 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 import es.eucm.eadventure.common.ReflectionProvider;
-import es.eucm.eadventure.common.model.effects.EAdEffect;
+import es.eucm.eadventure.common.model.elements.EAdEffect;
 import es.eucm.eadventure.engine.core.gameobjects.go.EffectGO;
 import es.eucm.eadventure.engine.core.impl.factorymapproviders.EffectGameObjectFactoryConfigurator;
-import es.eucm.eadventure.engine.core.platform.EAdInjector;
+import es.eucm.eadventure.engine.core.platform.GenericInjector;
 
 @Singleton
 public class EffectGOFactoryImpl extends
@@ -53,7 +53,7 @@ public class EffectGOFactoryImpl extends
 
 	@Inject
 	public EffectGOFactoryImpl(ReflectionProvider reflectionProvider,
-			EAdInjector injector) {
+			GenericInjector injector) {
 		super(false, reflectionProvider, injector);
 		EffectGameObjectFactoryConfigurator provider = new EffectGameObjectFactoryConfigurator();
 		setClassMap(provider.getMap());

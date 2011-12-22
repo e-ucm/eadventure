@@ -37,7 +37,7 @@
 
 package es.eucm.eadventure.editor.control.elements.impl;
 
-import es.eucm.eadventure.common.model.elements.EAdSceneElementDef;
+import es.eucm.eadventure.common.model.elements.scene.EAdSceneElementDef;
 import es.eucm.eadventure.common.params.text.EAdString;
 import es.eucm.eadventure.editor.view.generics.Panel;
 import es.eucm.eadventure.editor.view.generics.impl.EAdStringOption;

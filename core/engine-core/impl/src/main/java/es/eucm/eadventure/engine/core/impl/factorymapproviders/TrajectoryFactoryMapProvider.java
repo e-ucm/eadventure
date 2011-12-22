@@ -40,8 +40,8 @@ package es.eucm.eadventure.engine.core.impl.factorymapproviders;
 import java.util.HashMap;
 import java.util.Map;
 
-import es.eucm.eadventure.common.model.trajectories.impl.NodeTrajectoryDefinition;
-import es.eucm.eadventure.common.model.trajectories.impl.SimpleTrajectoryDefinition;
+import es.eucm.eadventure.common.model.elements.trajectories.NodeTrajectoryDefinition;
+import es.eucm.eadventure.common.model.elements.trajectories.SimpleTrajectoryDefinition;
 import es.eucm.eadventure.engine.core.game.ValueMap;
 import es.eucm.eadventure.engine.core.gameobjects.factories.SceneElementGOFactory;
 import es.eucm.eadventure.engine.core.trajectories.TrajectoryFactory;

@@ -46,29 +46,28 @@ import es.eucm.eadventure.common.data.chapter.elements.Description;
 import es.eucm.eadventure.common.data.chapter.elements.Element;
 import es.eucm.eadventure.common.impl.importer.interfaces.EAdElementFactory;
 import es.eucm.eadventure.common.impl.importer.subimporters.chapter.scene.ShapedElementImporter;
-import es.eucm.eadventure.common.model.effects.EAdEffect;
-import es.eucm.eadventure.common.model.effects.impl.text.EAdSpeakEffect;
-import es.eucm.eadventure.common.model.effects.impl.variables.EAdChangeFieldValueEffect;
 import es.eucm.eadventure.common.model.elements.EAdCondition;
-import es.eucm.eadventure.common.model.elements.EAdSceneElement;
-import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
-import es.eucm.eadventure.common.model.elements.impl.EAdSceneElementDefImpl;
-import es.eucm.eadventure.common.model.events.enums.ConditionedEventType;
-import es.eucm.eadventure.common.model.events.impl.EAdConditionEventImpl;
-import es.eucm.eadventure.common.model.guievents.impl.EAdMouseEventImpl;
-import es.eucm.eadventure.common.model.trajectories.impl.NodeTrajectoryDefinition;
-import es.eucm.eadventure.common.model.variables.EAdField;
-import es.eucm.eadventure.common.model.variables.impl.EAdFieldImpl;
-import es.eucm.eadventure.common.model.variables.impl.operations.BooleanOperation;
-import es.eucm.eadventure.common.params.fills.impl.EAdColor;
-import es.eucm.eadventure.common.params.fills.impl.EAdPaintImpl;
-import es.eucm.eadventure.common.params.geom.EAdRectangle;
-import es.eucm.eadventure.common.params.geom.impl.EAdRectangleImpl;
+import es.eucm.eadventure.common.model.elements.EAdEffect;
+import es.eucm.eadventure.common.model.elements.effects.text.SpeakEf;
+import es.eucm.eadventure.common.model.elements.effects.variables.ChangeFieldEf;
+import es.eucm.eadventure.common.model.elements.events.ConditionedEv;
+import es.eucm.eadventure.common.model.elements.events.enums.ConditionedEventType;
+import es.eucm.eadventure.common.model.elements.guievents.MouseEventImpl;
+import es.eucm.eadventure.common.model.elements.scene.EAdSceneElement;
+import es.eucm.eadventure.common.model.elements.scenes.SceneElementDefImpl;
+import es.eucm.eadventure.common.model.elements.scenes.SceneElementImpl;
+import es.eucm.eadventure.common.model.elements.trajectories.NodeTrajectoryDefinition;
+import es.eucm.eadventure.common.model.elements.variables.EAdField;
+import es.eucm.eadventure.common.model.elements.variables.FieldImpl;
+import es.eucm.eadventure.common.model.elements.variables.operations.BooleanOp;
+import es.eucm.eadventure.common.model.predef.effects.MoveActiveElementEf;
+import es.eucm.eadventure.common.params.fills.EAdColor;
+import es.eucm.eadventure.common.params.fills.EAdPaintImpl;
 import es.eucm.eadventure.common.params.text.EAdString;
-import es.eucm.eadventure.common.predef.model.effects.EAdMoveActiveElement;
 import es.eucm.eadventure.common.resources.StringHandler;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.Shape;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.enums.Alignment;
+import es.eucm.eadventure.common.util.EAdRectangleImpl;
 
 public abstract class ElementImporter<T> implements
 		EAdElementImporter<T, EAdSceneElement> {
@@ -89,27 +88,27 @@ public abstract class ElementImporter<T> implements
 		this.stringHandler = stringHandler;
 	}
 
-	protected void addGoToExit(EAdBasicSceneElement newExit, Exit oldObject,
+	protected void addGoToExit(SceneElementImpl newExit, Exit oldObject,
 			EAdCondition enableCondition, EAdEffect finalEffect) {
 
 		if (factory.isFirstPerson()) {
-			newExit.addBehavior(EAdMouseEventImpl.MOUSE_LEFT_CLICK, finalEffect);
+			newExit.addBehavior(MouseEventImpl.MOUSE_LEFT_CLICK, finalEffect);
 		} else {
-			EAdMoveActiveElement move = new EAdMoveActiveElement();
+			MoveActiveElementEf move = new MoveActiveElementEf();
 			move.setTarget(newExit.getDefinition());
 			move.getNextEffects().add(finalEffect);
-			newExit.addBehavior(EAdMouseEventImpl.MOUSE_LEFT_CLICK, move);
+			newExit.addBehavior(MouseEventImpl.MOUSE_LEFT_CLICK, move);
 		}
 
 	}
 
 	protected void addInfluenceArea(EAdSceneElement sceneElement,
-			EAdRectangle bounds, InfluenceArea influenceArea) {
+			EAdRectangleImpl bounds, InfluenceArea influenceArea) {
 		boolean hasInfluenceArea = influenceArea != null
 				&& influenceArea.getWidth() != 0
 				&& influenceArea.getHeight() != 0;
 
-		EAdRectangle rect = null;
+		EAdRectangleImpl rect = null;
 		if (hasInfluenceArea) {
 			rect = new EAdRectangleImpl(influenceArea.getX() + bounds.getX(),
 					influenceArea.getY() + bounds.getY(),
@@ -130,7 +129,7 @@ public abstract class ElementImporter<T> implements
 				ShapedElementImporter.getBounds(element), influenceArea);
 	}
 
-	protected void setShape(EAdBasicSceneElement sceneElement, Rectangle exit) {
+	protected void setShape(SceneElementImpl sceneElement, Rectangle exit) {
 		Shape shape = ShapedElementImporter.importShape(exit);
 		sceneElement.setPosition(exit.getX(), exit.getY());
 		shape.setPaint(EAdColor.TRANSPARENT);
@@ -139,7 +138,7 @@ public abstract class ElementImporter<T> implements
 				.getDefinition()
 				.getResources()
 				.addAsset(sceneElement.getDefinition().getInitialBundle(),
-						EAdSceneElementDefImpl.appearance, shape);
+						SceneElementDefImpl.appearance, shape);
 	}
 
 	protected EAdCondition getEnableCondition(Conditions c) {
@@ -150,7 +149,7 @@ public abstract class ElementImporter<T> implements
 
 	}
 
-	protected void setDocumentation(EAdSceneElementDefImpl newElement,
+	protected void setDocumentation(SceneElementDefImpl newElement,
 			Element oldObject) {
 		// FIXME multiple descriptions not supported
 		if (oldObject.getDescriptions().size() > 0) {
@@ -167,34 +166,34 @@ public abstract class ElementImporter<T> implements
 
 	}
 
-	protected void addDefaultBehavior(EAdBasicSceneElement sceneElement,
+	protected void addDefaultBehavior(SceneElementImpl sceneElement,
 			EAdString shortDescription) {
-		sceneElement.setVarInitialValue(EAdBasicSceneElement.VAR_NAME,
+		sceneElement.setVarInitialValue(SceneElementImpl.VAR_NAME,
 				sceneElement.getDefinition().getName());
 		if (shortDescription != null) {
-			EAdSpeakEffect showDescription = new EAdSpeakEffect(
+			SpeakEf showDescription = new SpeakEf(
 					shortDescription);
 			showDescription.setAlignment(Alignment.CENTER);
 			showDescription.setColor(EAdPaintImpl.WHITE_ON_BLACK,
 					EAdColor.TRANSPARENT);
-			sceneElement.addBehavior(EAdMouseEventImpl.MOUSE_LEFT_CLICK,
+			sceneElement.addBehavior(MouseEventImpl.MOUSE_LEFT_CLICK,
 					showDescription);
 		}
 	}
 
-	protected void addEnableEvent(EAdBasicSceneElement newActiveAreaReference,
+	protected void addEnableEvent(SceneElementImpl newActiveAreaReference,
 			EAdCondition condition) {
 
-		EAdConditionEventImpl event = new EAdConditionEventImpl();
+		ConditionedEv event = new ConditionedEv();
 		event.setCondition(condition);
 
-		EAdField<Boolean> enableField = new EAdFieldImpl<Boolean>(
-				newActiveAreaReference, EAdBasicSceneElement.VAR_VISIBLE);
+		EAdField<Boolean> enableField = new FieldImpl<Boolean>(
+				newActiveAreaReference, SceneElementImpl.VAR_VISIBLE);
 
-		EAdChangeFieldValueEffect changeEnable = new EAdChangeFieldValueEffect();
+		ChangeFieldEf changeEnable = new ChangeFieldEf();
 
 		changeEnable.addField(enableField);
-		changeEnable.setOperation(new BooleanOperation(condition));
+		changeEnable.setOperation(new BooleanOp(condition));
 		event.addEffect(ConditionedEventType.CONDITIONS_MET, changeEnable);
 		event.addEffect(ConditionedEventType.CONDITIONS_UNMET, changeEnable);
 

@@ -55,38 +55,37 @@ import es.eucm.eadventure.common.impl.importer.interfaces.EAdElementFactory;
 import es.eucm.eadventure.common.impl.importer.interfaces.EffectsImporterFactory;
 import es.eucm.eadventure.common.impl.importer.interfaces.ResourceImporter;
 import es.eucm.eadventure.common.model.EAdElement;
-import es.eucm.eadventure.common.model.actions.EAdAction;
-import es.eucm.eadventure.common.model.actions.impl.EAdBasicAction;
-import es.eucm.eadventure.common.model.conditions.impl.ANDCondition;
-import es.eucm.eadventure.common.model.conditions.impl.EmptyCondition;
-import es.eucm.eadventure.common.model.conditions.impl.NOTCondition;
-import es.eucm.eadventure.common.model.conditions.impl.OperationCondition;
-import es.eucm.eadventure.common.model.effects.EAdEffect;
-import es.eucm.eadventure.common.model.effects.EAdMacro;
-import es.eucm.eadventure.common.model.effects.impl.EAdInventoryEffect;
-import es.eucm.eadventure.common.model.effects.impl.EAdMacroImpl;
-import es.eucm.eadventure.common.model.effects.impl.EAdTriggerMacro;
-import es.eucm.eadventure.common.model.effects.impl.enums.InventoryEffectAction;
-import es.eucm.eadventure.common.model.effects.impl.text.EAdSpeakEffect;
-import es.eucm.eadventure.common.model.effects.impl.variables.EAdChangeFieldValueEffect;
+import es.eucm.eadventure.common.model.elements.EAdAction;
 import es.eucm.eadventure.common.model.elements.EAdCondition;
-import es.eucm.eadventure.common.model.elements.EAdSceneElement;
-import es.eucm.eadventure.common.model.elements.EAdSceneElementDef;
-import es.eucm.eadventure.common.model.elements.impl.EAdInventoryImpl;
-import es.eucm.eadventure.common.model.elements.impl.EAdSceneElementDefImpl;
-import es.eucm.eadventure.common.model.guievents.EAdDragEvent;
-import es.eucm.eadventure.common.model.guievents.enums.DragAction;
-import es.eucm.eadventure.common.model.guievents.impl.EAdDragEventImpl;
-import es.eucm.eadventure.common.model.variables.EAdField;
-import es.eucm.eadventure.common.model.variables.impl.EAdFieldImpl;
-import es.eucm.eadventure.common.model.variables.impl.operations.BooleanOperation;
+import es.eucm.eadventure.common.model.elements.EAdEffect;
+import es.eucm.eadventure.common.model.elements.InventoryImpl;
+import es.eucm.eadventure.common.model.elements.actions.ActionImpl;
+import es.eucm.eadventure.common.model.elements.conditions.ANDCond;
+import es.eucm.eadventure.common.model.elements.conditions.EmptyCond;
+import es.eucm.eadventure.common.model.elements.conditions.NOTCond;
+import es.eucm.eadventure.common.model.elements.conditions.OperationCond;
+import es.eucm.eadventure.common.model.elements.effects.EffectsMacro;
+import es.eucm.eadventure.common.model.elements.effects.ModifyInventoryEf;
+import es.eucm.eadventure.common.model.elements.effects.TriggerMacroEf;
+import es.eucm.eadventure.common.model.elements.effects.enums.InventoryEffectAction;
+import es.eucm.eadventure.common.model.elements.effects.text.SpeakEf;
+import es.eucm.eadventure.common.model.elements.effects.variables.ChangeFieldEf;
+import es.eucm.eadventure.common.model.elements.guievents.DragEventImpl;
+import es.eucm.eadventure.common.model.elements.guievents.EAdDragEvent;
+import es.eucm.eadventure.common.model.elements.guievents.enums.DragAction;
+import es.eucm.eadventure.common.model.elements.scene.EAdSceneElement;
+import es.eucm.eadventure.common.model.elements.scene.EAdSceneElementDef;
+import es.eucm.eadventure.common.model.elements.scenes.SceneElementDefImpl;
+import es.eucm.eadventure.common.model.elements.variables.EAdField;
+import es.eucm.eadventure.common.model.elements.variables.FieldImpl;
+import es.eucm.eadventure.common.model.elements.variables.operations.BooleanOp;
+import es.eucm.eadventure.common.model.predef.effects.MoveActiveElementEf;
 import es.eucm.eadventure.common.params.text.EAdString;
-import es.eucm.eadventure.common.predef.model.effects.EAdMoveActiveElement;
 import es.eucm.eadventure.common.resources.EAdBundleId;
 import es.eucm.eadventure.common.resources.StringHandler;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.Image;
+import es.eucm.eadventure.common.resources.assets.drawable.basics.ImageImpl;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.enums.Alignment;
-import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.ImageImpl;
 
 public class ActionImporter implements EAdElementImporter<Action, EAdAction> {
 
@@ -120,7 +119,7 @@ public class ActionImporter implements EAdElementImporter<Action, EAdAction> {
 
 	@Override
 	public EAdAction init(Action oldObject) {
-		EAdAction basicAction = new EAdBasicAction();
+		EAdAction basicAction = new ActionImpl();
 		basicAction.setId(oldObject.getTargetId() + "_action");
 		return basicAction;
 	}
@@ -138,9 +137,9 @@ public class ActionImporter implements EAdElementImporter<Action, EAdAction> {
 				condition);
 
 		if (previousCondition == null && condition == null)
-			return EmptyCondition.TRUE_EMPTY_CONDITION;
+			return EmptyCond.TRUE_EMPTY_CONDITION;
 		else if (previousCondition != null && condition != null)
-			return new ANDCondition(condition, new NOTCondition(
+			return new ANDCond(condition, new NOTCond(
 					previousCondition));
 		else if (condition == null)
 			return previousCondition;
@@ -149,9 +148,9 @@ public class ActionImporter implements EAdElementImporter<Action, EAdAction> {
 
 	}
 
-	public EAdAction convert(Action oldObject, EAdBasicAction action,
+	public EAdAction convert(Action oldObject, ActionImpl action,
 			EAdSceneElementDef owner, EAdCondition condition,
-			boolean isActiveArea, EAdTriggerMacro trigger ) {
+			boolean isActiveArea, TriggerMacroEf trigger ) {
 
 		// Action name
 		setName(oldObject, action);
@@ -165,7 +164,7 @@ public class ActionImporter implements EAdElementImporter<Action, EAdAction> {
 		return action;
 	}
 
-	private void setName(Action oldObject, EAdBasicAction action) {
+	private void setName(Action oldObject, ActionImpl action) {
 		String actionName = "Action";
 		if (oldObject instanceof CustomAction) {
 			CustomAction customAction = (CustomAction) oldObject;
@@ -176,11 +175,11 @@ public class ActionImporter implements EAdElementImporter<Action, EAdAction> {
 		stringHandler.setString(action.getName(), actionName);
 	}
 
-	private void addEffects(EAdTriggerMacro triggerEffect, Action oldObject, EAdBasicAction action,
+	private void addEffects(TriggerMacroEf triggerEffect, Action oldObject, ActionImpl action,
 			EAdSceneElementDef actor, EAdCondition condition,
 			boolean isActiveArea) {
 		// Add effects
-		EAdMacro macro = effectsImporterFactory
+		EffectsMacro macro = effectsImporterFactory
 				.getMacroEffects(oldObject.getEffects());
 
 		// Add default effects for the action
@@ -189,7 +188,7 @@ public class ActionImporter implements EAdElementImporter<Action, EAdAction> {
 		
 		if (defaultEffect != null) {
 			if (macro == null) {
-				macro = new EAdMacroImpl();
+				macro = new EffectsMacro();
 			}
 			macro.getEffects().add(defaultEffect, 0);
 		}
@@ -201,25 +200,25 @@ public class ActionImporter implements EAdElementImporter<Action, EAdAction> {
 		}
 
 		// Add no effects
-		EAdMacro NotEffects = effectsImporterFactory
+		EffectsMacro NotEffects = effectsImporterFactory
 				.getMacroEffects(oldObject.getNotEffects());
 		if (NotEffects != null) {
 			NotEffects.setId("actionNotEffectTrigger");
-			triggerEffect.putMacro(macro, new NOTCondition(condition));
+			triggerEffect.putMacro(macro, new NOTCond(condition));
 		}
 	}
 
-	private void addAppearance(Action oldObject, EAdBasicAction action) {
+	private void addAppearance(Action oldObject, ActionImpl action) {
 		// If it's a standard action
 		if (oldObject.getType() != Action.CUSTOM
 				&& oldObject.getType() != Action.CUSTOM_INTERACT) {
 			action.getResources().addAsset(action.getNormalBundle(),
-					EAdBasicAction.appearance,
+					ActionImpl.appearance,
 					new ImageImpl(getDrawablePath(oldObject.getType())));
 			action.getResources()
 					.addAsset(
 							action.getHighlightBundle(),
-							EAdBasicAction.appearance,
+							ActionImpl.appearance,
 							new ImageImpl(getHighlightDrawablePath(oldObject
 									.getType())));
 		} else {
@@ -233,7 +232,7 @@ public class ActionImporter implements EAdElementImporter<Action, EAdAction> {
 			EAdBundleId temp = action.getInitialBundle();
 			action.setInitialBundle(action.getHighlightBundle());
 
-			resourcesStrings.put("buttonOver", EAdBasicAction.appearance);
+			resourcesStrings.put("buttonOver", ActionImpl.appearance);
 			resourcesClasses.put("buttonOver", ImageImpl.class);
 			resourceImporter.importResources(action,
 					((CustomAction) oldObject).getResources(),
@@ -243,7 +242,7 @@ public class ActionImporter implements EAdElementImporter<Action, EAdAction> {
 
 			resourcesStrings.clear();
 			resourcesClasses.clear();
-			resourcesStrings.put("buttonNormal", EAdBasicAction.appearance);
+			resourcesStrings.put("buttonNormal", ActionImpl.appearance);
 			resourcesClasses.put("buttonNormal", ImageImpl.class);
 
 			resourceImporter.importResources(action,
@@ -293,22 +292,22 @@ public class ActionImporter implements EAdElementImporter<Action, EAdAction> {
 		case Action.GRAB:
 			if (!isActiveArea) {
 
-				EAdField<EAdSceneElement> sceneElement = new EAdFieldImpl<EAdSceneElement>(
-						actor, EAdSceneElementDefImpl.VAR_SCENE_ELEMENT);
+				EAdField<EAdSceneElement> sceneElement = new FieldImpl<EAdSceneElement>(
+						actor, SceneElementDefImpl.VAR_SCENE_ELEMENT);
 
-				EAdField<Boolean> inInventory = new EAdFieldImpl<Boolean>(
-						sceneElement, EAdInventoryImpl.VAR_IN_INVENTORY);
+				EAdField<Boolean> inInventory = new FieldImpl<Boolean>(
+						sceneElement, InventoryImpl.VAR_IN_INVENTORY);
 
-				EAdInventoryEffect addToInventory = new EAdInventoryEffect(
+				ModifyInventoryEf addToInventory = new ModifyInventoryEf(
 						actor, InventoryEffectAction.ADD_TO_INVENTORY);
 				addToInventory.setId("grabEffect");
 
-				OperationCondition c = new OperationCondition(inInventory);
-				addToInventory.setCondition(new NOTCondition(c));
+				OperationCond c = new OperationCond(inInventory);
+				addToInventory.setCondition(new NOTCond(c));
 
-				EAdChangeFieldValueEffect change = new EAdChangeFieldValueEffect();
+				ChangeFieldEf change = new ChangeFieldEf();
 				change.addField(inInventory);
-				change.setOperation(BooleanOperation.TRUE_OP);
+				change.setOperation(BooleanOp.TRUE_OP);
 
 				addToInventory.getNextEffects().add(change);
 
@@ -352,11 +351,11 @@ public class ActionImporter implements EAdElementImporter<Action, EAdAction> {
 			if (examineString == null)
 				initExamineAction(stringHandler);
 
-			EAdBasicAction examineAction = new EAdBasicAction(examineString);
+			ActionImpl examineAction = new ActionImpl(examineString);
 			examineAction.setId(actor.getId() + "_examinate");
 
 			// Effect
-			EAdSpeakEffect effect = new EAdSpeakEffect(actor.getDetailDesc());
+			SpeakEf effect = new SpeakEf(actor.getDetailDesc());
 			effect.setId("examinate");
 			effect.setAlignment(Alignment.CENTER);
 
@@ -365,11 +364,11 @@ public class ActionImporter implements EAdElementImporter<Action, EAdAction> {
 
 			// Appearance
 			examineAction.getResources().addAsset(
-					examineAction.getNormalBundle(), EAdBasicAction.appearance,
+					examineAction.getNormalBundle(), ActionImpl.appearance,
 					examineImage);
 			examineAction.getResources().addAsset(
 					examineAction.getHighlightBundle(),
-					EAdBasicAction.appearance, examineOverImage);
+					ActionImpl.appearance, examineOverImage);
 
 			actor.getActions().add(examineAction);
 		}
@@ -430,7 +429,7 @@ public class ActionImporter implements EAdElementImporter<Action, EAdAction> {
 	}
 
 	public void addAllActions(List<Action> actionsList,
-			EAdSceneElementDefImpl actor, boolean isActiveArea) {
+			SceneElementDefImpl actor, boolean isActiveArea) {
 
 		// add examine
 		addExamine(actor, actionsList);
@@ -439,7 +438,7 @@ public class ActionImporter implements EAdElementImporter<Action, EAdAction> {
 		HashMap<String, EAdAction> customActions = new HashMap<String, EAdAction>();
 		HashMap<String, EAdAction> interactActions = new HashMap<String, EAdAction>();
 		HashMap<EAdAction, EAdCondition> previousConditions = new HashMap<EAdAction, EAdCondition>();
-		HashMap<EAdAction, EAdTriggerMacro> triggers = new HashMap<EAdAction, EAdTriggerMacro>();
+		HashMap<EAdAction, TriggerMacroEf> triggers = new HashMap<EAdAction, TriggerMacroEf>();
 		HashMap<EAdAction, EAdSceneElementDef> targets = new HashMap<EAdAction, EAdSceneElementDef>();
 		HashMap<EAdAction, Boolean> getsTo = new HashMap<EAdAction, Boolean>();
 
@@ -497,9 +496,9 @@ public class ActionImporter implements EAdElementImporter<Action, EAdAction> {
 			
 			getsTo.put(action, a.isNeedsGoTo());
 			
-			EAdTriggerMacro trigger = triggers.get(action);
+			TriggerMacroEf trigger = triggers.get(action);
 			if ( trigger == null ){
-				trigger = new EAdTriggerMacro();
+				trigger = new TriggerMacroEf();
 				triggers.put(action, trigger);
 			}
 
@@ -517,27 +516,27 @@ public class ActionImporter implements EAdElementImporter<Action, EAdAction> {
 				targets.put(action, target);
 
 			} else
-				action = convert(a, (EAdBasicAction) action, actor, c,
+				action = convert(a, (ActionImpl) action, actor, c,
 						isActiveArea, trigger);
 
 		}
 		
-		for ( Entry<EAdAction, EAdTriggerMacro> e: triggers.entrySet()){
+		for ( Entry<EAdAction, TriggerMacroEf> e: triggers.entrySet()){
 			EAdAction a = e.getKey();
-			EAdTriggerMacro trigger = e.getValue();
+			TriggerMacroEf trigger = e.getValue();
 			addMoveTo( getsTo.get(a), trigger, actor, a );
 		}
 		
 		for ( Entry<EAdAction, EAdSceneElementDef> e: targets.entrySet() ){
-			EAdDragEvent dragEvent = new EAdDragEventImpl(actor, DragAction.DROP);
-			EAdTriggerMacro trigger = triggers.get(e.getKey());
+			EAdDragEvent dragEvent = new DragEventImpl(actor, DragAction.DROP);
+			TriggerMacroEf trigger = triggers.get(e.getKey());
 			e.getValue().addBehavior(dragEvent, trigger);
 		}
 	}
 	
-	private void addMoveTo( boolean needsGoTo, EAdTriggerMacro triggerEffect, EAdSceneElementDef actor, EAdAction action ){
+	private void addMoveTo( boolean needsGoTo, TriggerMacroEf triggerEffect, EAdSceneElementDef actor, EAdAction action ){
 		if (!factory.isFirstPerson() && needsGoTo) {
-			EAdMoveActiveElement moveActiveElement = new EAdMoveActiveElement();
+			MoveActiveElementEf moveActiveElement = new MoveActiveElementEf();
 			moveActiveElement.setId("moveToActionTarget");
 			moveActiveElement.setTarget(actor);
 			moveActiveElement.getNextEffects().add(triggerEffect);
@@ -547,7 +546,7 @@ public class ActionImporter implements EAdElementImporter<Action, EAdAction> {
 		}
 	}
 
-	private EAdSceneElementDef addDrag(EAdTriggerMacro triggerMacro, Action a, EAdSceneElementDefImpl actor, EAdCondition c) {
+	private EAdSceneElementDef addDrag(TriggerMacroEf triggerMacro, Action a, SceneElementDefImpl actor, EAdCondition c) {
 		EAdElement element = factory.getElementById(a.getTargetId());
 		EAdSceneElementDef target = null;
 
@@ -557,7 +556,7 @@ public class ActionImporter implements EAdElementImporter<Action, EAdAction> {
 			target = ((EAdSceneElement) element).getDefinition();
 		}
 
-		EAdMacro macro = this.effectsImporterFactory
+		EffectsMacro macro = this.effectsImporterFactory
 				.getMacroEffects(a.getEffects());
 		if (triggerMacro != null) {
 			triggerMacro.putMacro(macro, c);
@@ -574,12 +573,12 @@ public class ActionImporter implements EAdElementImporter<Action, EAdAction> {
 				|| a.getType() == Action.CUSTOM_INTERACT;
 	}
 
-	private EAdSceneElementDef addInteraction(EAdTriggerMacro triggerMacro, Action a, EAdSceneElementDefImpl actor,
+	private EAdSceneElementDef addInteraction(TriggerMacroEf triggerMacro, Action a, SceneElementDefImpl actor,
 			EAdCondition condition) {
 
-		EAdMacro macro = effectsImporterFactory.getMacroEffects(a
+		EffectsMacro macro = effectsImporterFactory.getMacroEffects(a
 				.getEffects());
-		EAdInventoryEffect removeFromInventory = new EAdInventoryEffect(actor,
+		ModifyInventoryEf removeFromInventory = new ModifyInventoryEf(actor,
 				InventoryEffectAction.REMOVE_FROM_INVENTORY);
 		if (a.getType() == Action.GIVE_TO && !hasCancelEffect(a.getEffects())) {
 			macro.getEffects().add(removeFromInventory);

@@ -39,10 +39,10 @@ package es.eucm.eadventure.engine.core.game;
 
 import java.util.List;
 
-import es.eucm.eadventure.common.model.effects.EAdEffect;
 import es.eucm.eadventure.common.model.elements.EAdChapter;
-import es.eucm.eadventure.common.model.elements.EAdScene;
-import es.eucm.eadventure.common.model.elements.EAdSceneElement;
+import es.eucm.eadventure.common.model.elements.EAdEffect;
+import es.eucm.eadventure.common.model.elements.scene.EAdScene;
+import es.eucm.eadventure.common.model.elements.scene.EAdSceneElement;
 import es.eucm.eadventure.engine.core.gameobjects.go.EffectGO;
 import es.eucm.eadventure.engine.core.gameobjects.go.SceneGO;
 import es.eucm.eadventure.engine.core.guiactions.GUIAction;

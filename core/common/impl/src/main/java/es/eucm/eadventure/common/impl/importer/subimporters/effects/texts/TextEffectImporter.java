@@ -46,17 +46,17 @@ import es.eucm.eadventure.common.data.chapter.conditions.Conditions;
 import es.eucm.eadventure.common.data.chapter.effects.AbstractEffect;
 import es.eucm.eadventure.common.impl.importer.interfaces.EAdElementFactory;
 import es.eucm.eadventure.common.impl.importer.subimporters.effects.EffectImporter;
-import es.eucm.eadventure.common.model.conditions.impl.OperationCondition;
-import es.eucm.eadventure.common.model.conditions.impl.enums.Comparator;
-import es.eucm.eadventure.common.model.effects.impl.text.EAdSpeakEffect;
 import es.eucm.eadventure.common.model.elements.EAdCondition;
-import es.eucm.eadventure.common.model.variables.EAdField;
-import es.eucm.eadventure.common.model.variables.EAdOperation;
-import es.eucm.eadventure.common.model.variables.impl.operations.BooleanOperation;
+import es.eucm.eadventure.common.model.elements.conditions.OperationCond;
+import es.eucm.eadventure.common.model.elements.conditions.enums.Comparator;
+import es.eucm.eadventure.common.model.elements.effects.text.SpeakEf;
+import es.eucm.eadventure.common.model.elements.variables.EAdField;
+import es.eucm.eadventure.common.model.elements.variables.EAdOperation;
+import es.eucm.eadventure.common.model.elements.variables.operations.BooleanOp;
 import es.eucm.eadventure.common.resources.StringHandler;
 
 public abstract class TextEffectImporter<T extends AbstractEffect> extends
-		EffectImporter<T, EAdSpeakEffect> {
+		EffectImporter<T, SpeakEf> {
 
 	protected static int ID_GENERATOR = 0;
 
@@ -73,12 +73,12 @@ public abstract class TextEffectImporter<T extends AbstractEffect> extends
 	}
 
 	@Override
-	public EAdSpeakEffect init(T oldObject) {
-		return new EAdSpeakEffect();
+	public SpeakEf init(T oldObject) {
+		return new SpeakEf();
 	}
 
-	public EAdSpeakEffect convert(T oldObject, Object object) {
-		EAdSpeakEffect showText = super.convert(oldObject, object);
+	public SpeakEf convert(T oldObject, Object object) {
+		SpeakEf showText = super.convert(oldObject, object);
 
 		showText.setBlocking(true);
 		showText.setOpaque(true);
@@ -145,7 +145,7 @@ public abstract class TextEffectImporter<T extends AbstractEffect> extends
 				return null;
 			}
 			if (op1 != null && number != null)
-				return new BooleanOperation(new OperationCondition(op1, number,
+				return new BooleanOp(new OperationCond(op1, number,
 						comparator));
 		}
 

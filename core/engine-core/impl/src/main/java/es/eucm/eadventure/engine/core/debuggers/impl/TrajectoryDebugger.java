@@ -43,37 +43,37 @@ import java.util.List;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
-import es.eucm.eadventure.common.model.elements.EAdScene;
-import es.eucm.eadventure.common.model.elements.EAdSceneElement;
-import es.eucm.eadventure.common.model.elements.EAdSceneElementDef;
-import es.eucm.eadventure.common.model.elements.impl.EAdBasicSceneElement;
-import es.eucm.eadventure.common.model.elements.impl.EAdSceneElementDefImpl;
-import es.eucm.eadventure.common.model.elements.impl.EAdSceneImpl;
-import es.eucm.eadventure.common.model.extra.EAdList;
-import es.eucm.eadventure.common.model.trajectories.TrajectoryDefinition;
-import es.eucm.eadventure.common.model.trajectories.impl.Node;
-import es.eucm.eadventure.common.model.trajectories.impl.NodeTrajectoryDefinition;
-import es.eucm.eadventure.common.model.trajectories.impl.Side;
-import es.eucm.eadventure.common.model.trajectories.impl.SimpleTrajectoryDefinition;
-import es.eucm.eadventure.common.params.fills.impl.EAdColor;
-import es.eucm.eadventure.common.params.fills.impl.EAdPaintImpl;
-import es.eucm.eadventure.common.params.geom.EAdPosition;
-import es.eucm.eadventure.common.params.geom.EAdRectangle;
+import es.eucm.eadventure.common.model.elements.extra.EAdList;
+import es.eucm.eadventure.common.model.elements.scene.EAdScene;
+import es.eucm.eadventure.common.model.elements.scene.EAdSceneElement;
+import es.eucm.eadventure.common.model.elements.scene.EAdSceneElementDef;
+import es.eucm.eadventure.common.model.elements.scenes.SceneElementDefImpl;
+import es.eucm.eadventure.common.model.elements.scenes.SceneElementImpl;
+import es.eucm.eadventure.common.model.elements.scenes.SceneImpl;
+import es.eucm.eadventure.common.model.elements.trajectories.Node;
+import es.eucm.eadventure.common.model.elements.trajectories.NodeTrajectoryDefinition;
+import es.eucm.eadventure.common.model.elements.trajectories.Side;
+import es.eucm.eadventure.common.model.elements.trajectories.SimpleTrajectoryDefinition;
+import es.eucm.eadventure.common.model.elements.trajectories.TrajectoryDefinition;
+import es.eucm.eadventure.common.params.fills.EAdColor;
+import es.eucm.eadventure.common.params.fills.EAdPaintImpl;
 import es.eucm.eadventure.common.params.paint.EAdPaint;
-import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.shapes.BezierShape;
-import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.shapes.CircleShape;
-import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.shapes.LineShape;
-import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.shapes.RectangleShape;
+import es.eucm.eadventure.common.resources.assets.drawable.basics.shapes.BezierShape;
+import es.eucm.eadventure.common.resources.assets.drawable.basics.shapes.CircleShape;
+import es.eucm.eadventure.common.resources.assets.drawable.basics.shapes.LineShape;
+import es.eucm.eadventure.common.resources.assets.drawable.basics.shapes.RectangleShape;
 import es.eucm.eadventure.common.resources.assets.drawable.compounds.ComposedDrawable;
-import es.eucm.eadventure.common.resources.assets.drawable.compounds.impl.ComposedDrawableImpl;
-import es.eucm.eadventure.engine.core.debuggers.EAdDebugger;
+import es.eucm.eadventure.common.resources.assets.drawable.compounds.ComposedDrawableImpl;
+import es.eucm.eadventure.common.util.EAdPositionImpl;
+import es.eucm.eadventure.common.util.EAdRectangleImpl;
+import es.eucm.eadventure.engine.core.debuggers.Debugger;
 import es.eucm.eadventure.engine.core.game.GameState;
 import es.eucm.eadventure.engine.core.game.ValueMap;
 import es.eucm.eadventure.engine.core.gameobjects.factories.SceneElementGOFactory;
 import es.eucm.eadventure.engine.core.gameobjects.go.DrawableGO;
 
 @Singleton
-public class TrajectoryDebugger implements EAdDebugger {
+public class TrajectoryDebugger implements Debugger {
 
 	private GameState gameState;
 
@@ -104,7 +104,7 @@ public class TrajectoryDebugger implements EAdDebugger {
 	public List<DrawableGO<?>> getGameObjects() {
 		if (currentScene != gameState.getScene().getElement()
 				|| valueMap.getValue(currentScene,
-						EAdSceneImpl.VAR_TRAJECTORY_DEFINITION) != currentTrajectory) {
+						SceneImpl.VAR_TRAJECTORY_DEFINITION) != currentTrajectory) {
 			createTrajectory();
 		}
 
@@ -130,7 +130,7 @@ public class TrajectoryDebugger implements EAdDebugger {
 
 		if (currentScene != null) {
 			currentTrajectory = valueMap.getValue(currentScene,
-					EAdSceneImpl.VAR_TRAJECTORY_DEFINITION);
+					SceneImpl.VAR_TRAJECTORY_DEFINITION);
 
 			if (currentTrajectory instanceof NodeTrajectoryDefinition) {
 				createNodes((NodeTrajectoryDefinition) currentTrajectory);
@@ -138,7 +138,7 @@ public class TrajectoryDebugger implements EAdDebugger {
 						.getComponents());
 			} else if (currentTrajectory instanceof SimpleTrajectoryDefinition) {
 				SimpleTrajectoryDefinition def = (SimpleTrajectoryDefinition) currentTrajectory;
-				EAdBasicSceneElement area = new EAdBasicSceneElement(
+				SceneElementImpl area = new SceneElementImpl(
 						new RectangleShape(def.getRight() - def.getLeft(), def
 								.getBottom() - def.getTop(), new EAdColor(0,
 								200, 0, 100)));
@@ -153,15 +153,15 @@ public class TrajectoryDebugger implements EAdDebugger {
 	private void addInfluenceAreas(EAdList<EAdSceneElement> sceneElements) {
 		EAdPaint p = new EAdColor(0, 0, 200, 100);
 		for (EAdSceneElement sceneElement : sceneElements) {
-			EAdRectangle rectangle = gameState.getValueMap().getValue(
+			EAdRectangleImpl rectangle = gameState.getValueMap().getValue(
 					sceneElement, NodeTrajectoryDefinition.VAR_INFLUENCE_AREA);
 			if (rectangle != null) {
 				RectangleShape shape = new RectangleShape(
 						rectangle.getWidth(), rectangle.getHeight());
 				shape.setPaint(p);
 				
-				EAdBasicSceneElement area = new EAdBasicSceneElement(shape);
-				area.setVarInitialValue(EAdBasicSceneElement.VAR_ENABLE, false);
+				SceneElementImpl area = new SceneElementImpl(shape);
+				area.setVarInitialValue(SceneElementImpl.VAR_ENABLE, false);
 				area.setPosition(rectangle.getX(), rectangle.getY());
 				gameObjects.add(sceneElementFactory.get(area));
 			}
@@ -191,17 +191,17 @@ public class TrajectoryDebugger implements EAdDebugger {
 			map.addDrawable(circle);
 		}
 
-		EAdBasicSceneElement mapElement = new EAdBasicSceneElement(map);
+		SceneElementImpl mapElement = new SceneElementImpl(map);
 		mapElement.setId("trajectoryMap");
 
 		for (EAdSceneElement e : trajectory.getBarriers()) {
 			EAdSceneElementDef def = e.getDefinition();
 			BezierShape s = (BezierShape) def.getAsset(def.getInitialBundle(),
-					EAdSceneElementDefImpl.appearance);
+					SceneElementDefImpl.appearance);
 			BezierShape barrier = (BezierShape) s.clone();
 			barrier.setPaint(EAdColor.YELLOW);
 			barriers.add(barrier);
-			EAdPosition p = ((DrawableGO<?>) sceneElementFactory.get(e))
+			EAdPositionImpl p = ((DrawableGO<?>) sceneElementFactory.get(e))
 					.getPosition();
 			map.addDrawable(barrier, p.getX(), p.getY());
 		}

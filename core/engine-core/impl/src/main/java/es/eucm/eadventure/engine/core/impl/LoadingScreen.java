@@ -43,21 +43,21 @@ import java.util.logging.Logger;
 import com.google.inject.Inject;
 
 import es.eucm.eadventure.common.interfaces.Param;
-import es.eucm.eadventure.common.model.effects.impl.EAdChangeScene;
-import es.eucm.eadventure.common.model.elements.EAdScene;
-import es.eucm.eadventure.common.model.elements.impl.EAdSceneElementDefImpl;
-import es.eucm.eadventure.common.model.elements.impl.EAdSceneImpl;
-import es.eucm.eadventure.common.model.events.EAdEvent;
-import es.eucm.eadventure.common.model.events.enums.SystemEventType;
-import es.eucm.eadventure.common.model.events.impl.EAdSystemEventImpl;
-import es.eucm.eadventure.common.resources.assets.drawable.basics.impl.ImageImpl;
+import es.eucm.eadventure.common.model.elements.EAdEvent;
+import es.eucm.eadventure.common.model.elements.effects.ChangeSceneEf;
+import es.eucm.eadventure.common.model.elements.events.SystemEv;
+import es.eucm.eadventure.common.model.elements.events.enums.SystemEventType;
+import es.eucm.eadventure.common.model.elements.scene.EAdScene;
+import es.eucm.eadventure.common.model.elements.scenes.SceneElementDefImpl;
+import es.eucm.eadventure.common.model.elements.scenes.SceneImpl;
+import es.eucm.eadventure.common.resources.assets.drawable.basics.ImageImpl;
 
-public class LoadingScreen extends EAdSceneImpl implements EAdScene {
+public class LoadingScreen extends SceneImpl implements EAdScene {
 
 	private Logger logger = Logger.getLogger("LoadingScreen");
 
 	@Param("effect")
-	private EAdChangeScene effect;
+	private ChangeSceneEf effect;
 
 	@Inject
 	public LoadingScreen() {
@@ -69,11 +69,11 @@ public class LoadingScreen extends EAdSceneImpl implements EAdScene {
 				.getDefinition()
 				.getResources()
 				.addAsset(getBackground().getDefinition().getInitialBundle(),
-						EAdSceneElementDefImpl.appearance,
+						SceneElementDefImpl.appearance,
 						new ImageImpl("@drawable/loading.png"));
-		EAdEvent event = new EAdSystemEventImpl();
+		EAdEvent event = new SystemEv();
 		event.setId("startEvent");
-		effect = new EAdChangeScene();
+		effect = new ChangeSceneEf();
 		effect.setId("LoadingChangeScreen");
 		event.addEffect(SystemEventType.GAME_LOADED, effect);
 		this.getEvents().add(event);

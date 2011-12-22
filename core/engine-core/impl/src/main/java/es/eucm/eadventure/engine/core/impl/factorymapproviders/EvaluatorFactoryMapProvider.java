@@ -40,11 +40,11 @@ package es.eucm.eadventure.engine.core.impl.factorymapproviders;
 import java.util.HashMap;
 import java.util.Map;
 
-import es.eucm.eadventure.common.model.conditions.impl.ANDCondition;
-import es.eucm.eadventure.common.model.conditions.impl.EmptyCondition;
-import es.eucm.eadventure.common.model.conditions.impl.NOTCondition;
-import es.eucm.eadventure.common.model.conditions.impl.ORCondition;
-import es.eucm.eadventure.common.model.conditions.impl.OperationCondition;
+import es.eucm.eadventure.common.model.elements.conditions.ANDCond;
+import es.eucm.eadventure.common.model.elements.conditions.EmptyCond;
+import es.eucm.eadventure.common.model.elements.conditions.NOTCond;
+import es.eucm.eadventure.common.model.elements.conditions.ORCond;
+import es.eucm.eadventure.common.model.elements.conditions.OperationCond;
 import es.eucm.eadventure.engine.core.evaluators.Evaluator;
 import es.eucm.eadventure.engine.core.evaluators.EvaluatorFactory;
 import es.eucm.eadventure.engine.core.evaluators.impl.EmptyConditionEvaluator;
@@ -61,11 +61,11 @@ public class EvaluatorFactoryMapProvider extends AbstractMapProvider<Class<?>, E
 	public EvaluatorFactoryMapProvider(ValueMap valueMap,
 			EvaluatorFactory evaluatorFactory, OperatorFactory operatorFactory) {
 		super();
-		factoryMap.put(EmptyCondition.class, new EmptyConditionEvaluator());
-		factoryMap.put(OperationCondition.class, new OperationConditionEvaluator(operatorFactory));
-		factoryMap.put(ANDCondition.class, new ListedConditionEvaluator(evaluatorFactory));
-		factoryMap.put(ORCondition.class, new ListedConditionEvaluator(evaluatorFactory));
-		factoryMap.put(NOTCondition.class, new NOTConditionEvaluator(evaluatorFactory));
+		factoryMap.put(EmptyCond.class, new EmptyConditionEvaluator());
+		factoryMap.put(OperationCond.class, new OperationConditionEvaluator(operatorFactory));
+		factoryMap.put(ANDCond.class, new ListedConditionEvaluator(evaluatorFactory));
+		factoryMap.put(ORCond.class, new ListedConditionEvaluator(evaluatorFactory));
+		factoryMap.put(NOTCond.class, new NOTConditionEvaluator(evaluatorFactory));
 		factoryMap.putAll(tempMap);
 	}
 	

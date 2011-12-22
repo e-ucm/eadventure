@@ -48,9 +48,8 @@ import es.eucm.eadventure.common.ReflectionProvider;
 import es.eucm.eadventure.common.data.chapter.effects.Effect;
 import es.eucm.eadventure.common.data.chapter.effects.Effects;
 import es.eucm.eadventure.common.impl.importer.interfaces.EffectsImporterFactory;
-import es.eucm.eadventure.common.model.effects.EAdEffect;
-import es.eucm.eadventure.common.model.effects.EAdMacro;
-import es.eucm.eadventure.common.model.effects.impl.EAdMacroImpl;
+import es.eucm.eadventure.common.model.elements.EAdEffect;
+import es.eucm.eadventure.common.model.elements.effects.EffectsMacro;
 
 public class EffectsImporterFactoryImpl extends
 		AbstractFactory<Class<? extends EAdElementImporter<?, ?>>> implements
@@ -87,12 +86,12 @@ public class EffectsImporterFactoryImpl extends
 	}
 
 	@Override
-	public EAdMacro getMacroEffects(Effects effects) {
+	public EffectsMacro getMacroEffects(Effects effects) {
 		if ( effects == null || effects.isEmpty() ){
 			return null;
 		}
 		
-		EAdMacro macro = new EAdMacroImpl();
+		EffectsMacro macro = new EffectsMacro();
 
 		for (Effect e : effects.getEffects()) {
 			EAdEffect effect = getEffect(e);

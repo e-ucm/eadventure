@@ -43,15 +43,15 @@ import es.eucm.eadventure.common.EAdElementImporter;
 import es.eucm.eadventure.common.data.chapter.conditions.Conditions;
 import es.eucm.eadventure.common.data.chapter.effects.MoveNPCEffect;
 import es.eucm.eadventure.common.impl.importer.interfaces.EAdElementFactory;
-import es.eucm.eadventure.common.model.conditions.impl.EmptyCondition;
-import es.eucm.eadventure.common.model.effects.impl.EAdMacroImpl;
-import es.eucm.eadventure.common.model.effects.impl.EAdTriggerMacro;
-import es.eucm.eadventure.common.model.effects.impl.sceneelements.EAdMoveSceneElement;
-import es.eucm.eadventure.common.model.effects.impl.sceneelements.MovementSpeed;
 import es.eucm.eadventure.common.model.elements.EAdCondition;
-import es.eucm.eadventure.common.model.elements.EAdSceneElementDef;
+import es.eucm.eadventure.common.model.elements.conditions.EmptyCond;
+import es.eucm.eadventure.common.model.elements.effects.EffectsMacro;
+import es.eucm.eadventure.common.model.elements.effects.TriggerMacroEf;
+import es.eucm.eadventure.common.model.elements.effects.enums.MovementSpeed;
+import es.eucm.eadventure.common.model.elements.effects.sceneelements.MoveSceneElementEf;
+import es.eucm.eadventure.common.model.elements.scene.EAdSceneElementDef;
 
-public class MoveNPCEffectImporter extends EffectImporter<MoveNPCEffect, EAdTriggerMacro>{
+public class MoveNPCEffectImporter extends EffectImporter<MoveNPCEffect, TriggerMacroEf>{
 	
 	private EAdElementFactory factory;
 	
@@ -64,21 +64,21 @@ public class MoveNPCEffectImporter extends EffectImporter<MoveNPCEffect, EAdTrig
 	}
 
 	@Override
-	public EAdTriggerMacro init(MoveNPCEffect oldObject) {
-		EAdTriggerMacro effect =  new EAdTriggerMacro();
+	public TriggerMacroEf init(MoveNPCEffect oldObject) {
+		TriggerMacroEf effect =  new TriggerMacroEf();
 		effect.setId("moveNPC" + oldObject.getTargetId());
 		return effect;
 	}
 
 	@Override
-	public EAdTriggerMacro convert(MoveNPCEffect oldObject, Object object) {
-		EAdTriggerMacro effect = super.convert(oldObject, object);	
-		EAdMacroImpl macro = new EAdMacroImpl();
+	public TriggerMacroEf convert(MoveNPCEffect oldObject, Object object) {
+		TriggerMacroEf effect = super.convert(oldObject, object);	
+		EffectsMacro macro = new EffectsMacro();
 		macro.setId("macro");
-		effect.putMacro(macro, EmptyCondition.TRUE_EMPTY_CONDITION);
+		effect.putMacro(macro, EmptyCond.TRUE_EMPTY_CONDITION);
 		
 
-		macro.getEffects().add(new EAdMoveSceneElement((EAdSceneElementDef) factory.getElementById(oldObject.getTargetId()), 
+		macro.getEffects().add(new MoveSceneElementEf((EAdSceneElementDef) factory.getElementById(oldObject.getTargetId()), 
 				oldObject.getX(), oldObject.getY(), MovementSpeed.NORMAL));
 
 		return effect;

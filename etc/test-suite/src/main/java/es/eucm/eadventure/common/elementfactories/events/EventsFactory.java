@@ -37,17 +37,16 @@
 
 package es.eucm.eadventure.common.elementfactories.events;
 
-import es.eucm.eadventure.common.model.effects.EAdEffect;
-import es.eucm.eadventure.common.model.events.EAdSceneElementEvent;
-import es.eucm.eadventure.common.model.events.enums.SceneElementEventType;
-import es.eucm.eadventure.common.model.events.impl.EAdSceneElementEventImpl;
+import es.eucm.eadventure.common.model.elements.EAdEffect;
+import es.eucm.eadventure.common.model.elements.events.SceneElementEv;
+import es.eucm.eadventure.common.model.elements.events.enums.SceneElementEventType;
 
 public class EventsFactory {
 	
 	private static int ID_GENERATOR = 0;
 	
-	public EAdSceneElementEvent getEvent( SceneElementEventType type, EAdEffect effect ){
-		EAdSceneElementEvent event = new EAdSceneElementEventImpl(  );
+	public SceneElementEv getEvent( SceneElementEventType type, EAdEffect effect ){
+		SceneElementEv event = new SceneElementEv(  );
 		event.setId("scenElementEvent" + ID_GENERATOR++);
 		event.addEffect(type, effect);
 		return event;

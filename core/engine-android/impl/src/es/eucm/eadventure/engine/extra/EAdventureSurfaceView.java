@@ -50,9 +50,9 @@ import android.view.View;
 
 import com.google.inject.Singleton;
 
-import es.eucm.eadventure.common.model.guievents.enums.MouseActionType;
-import es.eucm.eadventure.common.model.guievents.enums.MouseButton;
-import es.eucm.eadventure.common.model.guievents.impl.EAdMouseEventImpl;
+import es.eucm.eadventure.common.model.elements.guievents.MouseEventImpl;
+import es.eucm.eadventure.common.model.elements.guievents.enums.MouseActionType;
+import es.eucm.eadventure.common.model.elements.guievents.enums.MouseButton;
 import es.eucm.eadventure.engine.core.guiactions.MouseAction;
 import es.eucm.eadventure.engine.core.guiactions.impl.MouseActionImpl;
 import es.eucm.eadventure.engine.core.input.MouseState;
@@ -93,7 +93,7 @@ public class EAdventureSurfaceView extends SurfaceView implements SurfaceHolder.
 		@Override
 		public boolean onSingleTapConfirmed(MotionEvent e){
 
-			mouseState.getMouseEvents().add(new MouseActionImpl(EAdMouseEventImpl.MOUSE_LEFT_PRESSED, 
+			mouseState.getMouseEvents().add(new MouseActionImpl(MouseEventImpl.MOUSE_LEFT_PRESSED, 
 					mouseState.getMouseX(), mouseState.getMouseY()));
 			MouseAction action = new MouseActionImpl(MouseActionType.CLICK, 
 					MouseButton.BUTTON_1, mouseState.getMouseX(), mouseState.getMouseY());
@@ -105,7 +105,7 @@ public class EAdventureSurfaceView extends SurfaceView implements SurfaceHolder.
 		@Override
 		public void onLongPress(MotionEvent e){
 
-			mouseState.getMouseEvents().add(new MouseActionImpl(EAdMouseEventImpl.MOUSE_RIGHT_CLICK, 
+			mouseState.getMouseEvents().add(new MouseActionImpl(MouseEventImpl.MOUSE_RIGHT_CLICK, 
 					mouseState.getMouseX(), mouseState.getMouseY()));
 			MouseAction action = new MouseActionImpl(MouseActionType.CLICK, 
 					MouseButton.BUTTON_2, mouseState.getMouseX(), mouseState.getMouseY());

@@ -47,8 +47,8 @@ import com.google.gwt.xml.client.Node;
 import com.google.gwt.xml.client.NodeList;
 
 import es.eucm.eadventure.common.DOMTags;
-import es.eucm.eadventure.common.model.extra.EAdMap;
-import es.eucm.eadventure.common.model.extra.impl.EAdMapImpl;
+import es.eucm.eadventure.common.model.elements.extra.EAdMap;
+import es.eucm.eadventure.common.model.elements.extra.EAdMapImpl;
 
 public class MapNodeVisitor extends NodeVisitor<Map<Object, Object>> {
 

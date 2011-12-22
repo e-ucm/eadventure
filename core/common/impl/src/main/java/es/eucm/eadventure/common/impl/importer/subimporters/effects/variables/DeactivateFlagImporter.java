@@ -45,13 +45,13 @@ import es.eucm.eadventure.common.data.chapter.conditions.Conditions;
 import es.eucm.eadventure.common.data.chapter.effects.DeactivateEffect;
 import es.eucm.eadventure.common.impl.importer.interfaces.EAdElementFactory;
 import es.eucm.eadventure.common.impl.importer.subimporters.effects.EffectImporter;
-import es.eucm.eadventure.common.model.conditions.impl.EmptyCondition;
-import es.eucm.eadventure.common.model.effects.impl.variables.EAdChangeFieldValueEffect;
 import es.eucm.eadventure.common.model.elements.EAdCondition;
-import es.eucm.eadventure.common.model.variables.EAdField;
-import es.eucm.eadventure.common.model.variables.impl.operations.BooleanOperation;
+import es.eucm.eadventure.common.model.elements.conditions.EmptyCond;
+import es.eucm.eadventure.common.model.elements.effects.variables.ChangeFieldEf;
+import es.eucm.eadventure.common.model.elements.variables.EAdField;
+import es.eucm.eadventure.common.model.elements.variables.operations.BooleanOp;
 
-public class DeactivateFlagImporter extends EffectImporter<DeactivateEffect, EAdChangeFieldValueEffect>{
+public class DeactivateFlagImporter extends EffectImporter<DeactivateEffect, ChangeFieldEf>{
 	
 	private EAdElementFactory factory;
 	
@@ -65,12 +65,12 @@ public class DeactivateFlagImporter extends EffectImporter<DeactivateEffect, EAd
 	}
 
 	@Override
-	public EAdChangeFieldValueEffect init(DeactivateEffect oldObject) {
+	public ChangeFieldEf init(DeactivateEffect oldObject) {
 		EAdField<?> var = factory.getVarByOldId(oldObject.getTargetId(), Condition.FLAG_CONDITION);
-		BooleanOperation op = new BooleanOperation( );
-		op.setCondition(EmptyCondition.FALSE_EMPTY_CONDITION);
+		BooleanOp op = new BooleanOp( );
+		op.setCondition(EmptyCond.FALSE_EMPTY_CONDITION);
 		
-		EAdChangeFieldValueEffect changeVar = new EAdChangeFieldValueEffect( var, op );
+		ChangeFieldEf changeVar = new ChangeFieldEf( var, op );
 		changeVar.setId( "changeVarValue" + ID_GENERATOR++);
 		super.importConditions(oldObject, changeVar);
 		
@@ -80,8 +80,8 @@ public class DeactivateFlagImporter extends EffectImporter<DeactivateEffect, EAd
 	}
 	
 	@Override
-	public EAdChangeFieldValueEffect convert(DeactivateEffect oldObject, Object object) {
-		return (EAdChangeFieldValueEffect) object;
+	public ChangeFieldEf convert(DeactivateEffect oldObject, Object object) {
+		return (ChangeFieldEf) object;
 	}
 
 }

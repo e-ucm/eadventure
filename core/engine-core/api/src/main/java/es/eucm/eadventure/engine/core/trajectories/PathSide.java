@@ -37,7 +37,7 @@
 
 package es.eucm.eadventure.engine.core.trajectories;
 
-import es.eucm.eadventure.common.params.geom.EAdPosition;
+import es.eucm.eadventure.common.util.EAdPositionImpl;
 
 /**
  * A single side in a trajectory path
@@ -59,7 +59,7 @@ public interface PathSide {
 	 *            true if is the last side in the path
 	 * @return the position of end of the side
 	 */
-	EAdPosition getEndPosition(boolean last);
+	EAdPositionImpl getEndPosition(boolean last);
 
 	float getEndScale();
 

@@ -53,7 +53,7 @@ import junit.framework.TestCase;
 import org.junit.Test;
 
 import es.eucm.eadventure.common.resources.assets.multimedia.Video;
-import es.eucm.eadventure.common.resources.assets.multimedia.impl.VideoImpl;
+import es.eucm.eadventure.common.resources.assets.multimedia.VideoImpl;
 import es.eucm.eadventure.engine.core.platform.impl.specialassetrenderers.VLCDesktopVideoRenderer;
 
 public class VLCDesktopVideoRendererTest extends TestCase {

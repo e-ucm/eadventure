@@ -39,12 +39,12 @@ package es.eucm.eadventure.engine.core.gameobjects.impl.events;
 
 import com.google.inject.Inject;
 
-import es.eucm.eadventure.common.model.events.enums.ConditionedEventType;
-import es.eucm.eadventure.common.model.events.impl.EAdConditionEventImpl;
+import es.eucm.eadventure.common.model.elements.events.ConditionedEv;
+import es.eucm.eadventure.common.model.elements.events.enums.ConditionedEventType;
 import es.eucm.eadventure.engine.core.evaluators.EvaluatorFactory;
 import es.eucm.eadventure.engine.core.game.GameState;
 
-public class ConditionEventGO extends AbstractEventGO<EAdConditionEventImpl> {
+public class ConditionEventGO extends AbstractEventGO<ConditionedEv> {
 
 	private EvaluatorFactory evaluator;
 
