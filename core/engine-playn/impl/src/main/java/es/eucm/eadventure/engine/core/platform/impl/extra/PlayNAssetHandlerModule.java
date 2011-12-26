@@ -65,15 +65,15 @@ import es.eucm.eadventure.common.resources.assets.multimedia.SoundImpl;
 import es.eucm.eadventure.engine.core.impl.StringHandlerImpl;
 import es.eucm.eadventure.engine.core.platform.AssetHandler;
 import es.eucm.eadventure.engine.core.platform.RuntimeAsset;
+import es.eucm.eadventure.engine.core.platform.assets.RuntimeComposedDrawable;
+import es.eucm.eadventure.engine.core.platform.assets.RuntimeDisplacedDrawable;
+import es.eucm.eadventure.engine.core.platform.assets.RuntimeFilteredDrawable;
+import es.eucm.eadventure.engine.core.platform.assets.RuntimeSpriteImage;
 import es.eucm.eadventure.engine.core.platform.assets.impl.PlayNBezierShape;
 import es.eucm.eadventure.engine.core.platform.assets.impl.PlayNEngineCaption;
 import es.eucm.eadventure.engine.core.platform.assets.impl.PlayNEngineImage;
 import es.eucm.eadventure.engine.core.platform.assets.impl.PlayNEngineSpriteImage;
 import es.eucm.eadventure.engine.core.platform.assets.impl.PlayNSound;
-import es.eucm.eadventure.engine.core.platform.assets.impl.RuntimeComposedDrawable;
-import es.eucm.eadventure.engine.core.platform.assets.impl.RuntimeDisplacedDrawable;
-import es.eucm.eadventure.engine.core.platform.assets.impl.RuntimeFilteredDrawable;
-import es.eucm.eadventure.engine.core.platform.assets.impl.RuntimeSpriteImage;
 import es.eucm.eadventure.engine.core.platform.impl.PlayNAssetHandler;
 
 public class PlayNAssetHandlerModule extends AbstractGinModule {

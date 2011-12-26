@@ -45,17 +45,14 @@ import java.awt.event.MouseMotionListener;
 import java.util.logging.Logger;
 
 import es.eucm.eadventure.common.model.elements.guievents.EAdMouseEvent;
-import es.eucm.eadventure.common.model.elements.guievents.MouseEventImpl;
-import es.eucm.eadventure.common.model.elements.guievents.enums.KeyActionType;
-import es.eucm.eadventure.common.model.elements.guievents.enums.KeyCode;
-import es.eucm.eadventure.common.model.elements.guievents.enums.MouseActionType;
-import es.eucm.eadventure.common.model.elements.guievents.enums.MouseButton;
-import es.eucm.eadventure.engine.core.guiactions.KeyAction;
-import es.eucm.eadventure.engine.core.guiactions.MouseAction;
-import es.eucm.eadventure.engine.core.guiactions.impl.KeyActionImpl;
-import es.eucm.eadventure.engine.core.guiactions.impl.MouseActionImpl;
-import es.eucm.eadventure.engine.core.input.KeyboardState;
-import es.eucm.eadventure.engine.core.input.MouseState;
+import es.eucm.eadventure.common.model.elements.guievents.enums.KeyEventType;
+import es.eucm.eadventure.common.model.elements.guievents.enums.KeyEventCode;
+import es.eucm.eadventure.common.model.elements.guievents.enums.MouseEventType;
+import es.eucm.eadventure.common.model.elements.guievents.enums.MouseButtonType;
+import es.eucm.eadventure.engine.core.input.InputHandler;
+import es.eucm.eadventure.engine.core.input.MouseHandler;
+import es.eucm.eadventure.engine.core.input.actions.KeyActionImpl;
+import es.eucm.eadventure.engine.core.input.actions.MouseActionImpl;
 
 /**
  * <p>
@@ -70,14 +67,7 @@ public class DesktopInputListener implements MouseListener,
 	/**
 	 * The state of the mouse
 	 */
-	private MouseState mouseState;
-
-	/**
-	 * The state of the keyboard
-	 */
-	private KeyboardState keyboardState;
-	
-	private int offsetX, offsetY;
+	private InputHandler mouseState;
 
 	/**
 	 * The logger
@@ -85,90 +75,72 @@ public class DesktopInputListener implements MouseListener,
 	private static final Logger logger = Logger
 			.getLogger("DesktopInputListener");
 
-	public DesktopInputListener(MouseState mouseState,
-			KeyboardState keyboardState) {
-		this.mouseState = mouseState;
-		this.keyboardState = keyboardState;
-		offsetX = 0;
-		offsetY = 0;
+	public DesktopInputListener(InputHandler inputState) {
+		this.mouseState = inputState;
 		logger.info("New instance");
-	}
-	
-	public void setOffset(int offsetX, int offsetY) {
-		this.offsetX = offsetX;
-		this.offsetY = offsetY;
 	}
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
-		MouseActionType action = MouseActionType.CLICK;
+		MouseEventType action = MouseEventType.CLICK;
 		if (e.getClickCount() == 2)
-			action = MouseActionType.DOUBLE_CLICK;
+			action = MouseEventType.DOUBLE_CLICK;
 
-		mouseState.getMouseEvents().add(
-				getMouseAction(e, action, mouseState.getMouseX(),
-						mouseState.getMouseY()));
+		mouseState.addAction(getMouseAction(e, action, e.getX(),
+				e.getY()));
 	}
 
 	@Override
 	public void mousePressed(MouseEvent e) {
-		mouseState.setMousePressed(true, getMouseButton(e.getButton()));
-		mouseState.setMousePosition(e.getX() - offsetX, e.getY() - offsetY);
-		mouseState.getMouseEvents().add(
-				getMouseAction(e, MouseActionType.PRESSED,
-						mouseState.getMouseX(), mouseState.getMouseY()));
+		mouseState.addAction(getMouseAction(e, MouseEventType.PRESSED,
+				e.getX(), e.getY()));
 	}
 
 	@Override
 	public void mouseReleased(MouseEvent e) {
-		mouseState.setMousePressed(false, null);
-		mouseState.setMousePosition(e.getX() - offsetX, e.getY() - offsetY);
-		mouseState.getMouseEvents().add(
-				getMouseAction(e, MouseActionType.RELEASED,
-						mouseState.getMouseX(), mouseState.getMouseY()));
+		mouseState.addAction(getMouseAction(e, MouseEventType.RELEASED,
+				e.getX(), e.getY()));
 	}
 
 	@Override
 	public void mouseEntered(MouseEvent e) {
-		mouseState.setMousePosition(e.getX() - offsetX, e.getY() - offsetY);
+		mouseState.addAction(getMouseAction(e, MouseEventType.MOVED, e.getX(), e.getY()));
 	}
 
 	@Override
 	public void mouseExited(MouseEvent e) {
-		mouseState.setMousePosition(MouseState.OUT_VAL, MouseState.OUT_VAL);
+		mouseState.addAction(getMouseAction(e, MouseEventType.MOVED, MouseHandler.OUT_VAL, MouseHandler.OUT_VAL));
 	}
 
 	@Override
 	public void mouseDragged(MouseEvent e) {
-		mouseState.setMousePosition(e.getX() - offsetX, e.getY() - offsetY);
-//		mouseState.setMousePressed(true, getMouseButton(e.getButton()));
+		mouseState.addAction(getMouseAction(e, MouseEventType.MOVED, e.getX(), e.getY()));
 	}
 
 	@Override
 	public void mouseMoved(MouseEvent e) {
-		mouseState.setMousePosition(e.getX() - offsetX, e.getY() - offsetY);
+		mouseState.addAction(getMouseAction(e, MouseEventType.MOVED, e.getX(), e.getY()));
 	}
 
 	@Override
 	public void keyTyped(KeyEvent e) {
-		keyboardState.getKeyActions().add(
-				getKeyboardAction(KeyActionType.KEY_TYPED, e));
+		mouseState.addAction(getKeyboardAction(KeyEventType.KEY_TYPED, e));
 	}
 
 	@Override
 	public void keyPressed(KeyEvent e) {
-		keyboardState.getKeyActions().add(
-				getKeyboardAction(KeyActionType.KEY_PRESSED, e));
+		mouseState
+				.addAction(getKeyboardAction(KeyEventType.KEY_PRESSED, e));
 	}
 
 	@Override
 	public void keyReleased(KeyEvent e) {
-		keyboardState.getKeyActions().add(
-				getKeyboardAction(KeyActionType.KEY_RELEASED, e));
+		mouseState
+				.addAction(getKeyboardAction(KeyEventType.KEY_RELEASED, e));
 	}
 
 	/**
-	 * Get the GUI {@link KeyAction}, form the Java {@link KeyActionType}
+	 * Get the GUI {@link KeyAction}, form the Java {@link KeyEventType}
 	 * 
 	 * @param actionType
 	 *            The action type
@@ -176,21 +148,21 @@ public class DesktopInputListener implements MouseListener,
 	 *            The key event
 	 * @return The GUI {@link KeyAction}
 	 */
-	public KeyAction getKeyboardAction(KeyActionType actionType,
+	public KeyActionImpl getKeyboardAction(KeyEventType actionType,
 			KeyEvent keyEvent) {
 		switch (keyEvent.getKeyCode()) {
 		case KeyEvent.VK_UP:
-			return new KeyActionImpl(actionType, KeyCode.ARROW_UP);
+			return new KeyActionImpl(actionType, KeyEventCode.ARROW_UP);
 		case KeyEvent.VK_DOWN:
-			return new KeyActionImpl(actionType, KeyCode.ARROW_DOWN);
+			return new KeyActionImpl(actionType, KeyEventCode.ARROW_DOWN);
 		case KeyEvent.VK_LEFT:
-			return new KeyActionImpl(actionType, KeyCode.ARROW_LEFT);
+			return new KeyActionImpl(actionType, KeyEventCode.ARROW_LEFT);
 		case KeyEvent.VK_RIGHT:
-			return new KeyActionImpl(actionType, KeyCode.ARROW_RIGHT);
+			return new KeyActionImpl(actionType, KeyEventCode.ARROW_RIGHT);
 		case KeyEvent.VK_ENTER:
-			return new KeyActionImpl(actionType, KeyCode.RETURN);
+			return new KeyActionImpl(actionType, KeyEventCode.RETURN);
 		case KeyEvent.VK_ESCAPE:
-			return new KeyActionImpl(actionType, KeyCode.ESC);
+			return new KeyActionImpl(actionType, KeyEventCode.ESC);
 		}
 		if (keyEvent.getKeyChar() != 0)
 			return new KeyActionImpl(actionType, keyEvent.getKeyChar());
@@ -211,24 +183,24 @@ public class DesktopInputListener implements MouseListener,
 	 *            The position along the Y axis
 	 * @return The GUI {@link MouseAction}
 	 */
-	public MouseAction getMouseAction(MouseEvent e, MouseActionType action,
+	public MouseActionImpl getMouseAction(MouseEvent e, MouseEventType action,
 			int virtualX, int virtualY) {
-		MouseButton b = getMouseButton(e.getButton());
-		EAdMouseEvent event = MouseEventImpl.getMouseEvent(action, b);
+		MouseButtonType b = getMouseButton(e.getButton());
+		EAdMouseEvent event = EAdMouseEvent.getMouseEvent(action, b);
 		return new MouseActionImpl(event, virtualX, virtualY);
 
 	}
 
-	private MouseButton getMouseButton(int button) {
+	private MouseButtonType getMouseButton(int button) {
 		switch (button) {
 		case MouseEvent.BUTTON1:
-			return MouseButton.BUTTON_1;
+			return MouseButtonType.BUTTON_1;
 		case MouseEvent.BUTTON2:
-			return MouseButton.BUTTON_2;
+			return MouseButtonType.BUTTON_2;
 		case MouseEvent.BUTTON3:
-			return MouseButton.BUTTON_3;
+			return MouseButtonType.BUTTON_3;
 		default:
-			return MouseButton.NO_BUTTON;
+			return MouseButtonType.NO_BUTTON;
 		}
 	}
 

@@ -59,11 +59,12 @@ import es.eucm.eadventure.common.params.paint.EAdPaint;
 import es.eucm.eadventure.common.params.text.EAdFont;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.Shape;
 import es.eucm.eadventure.common.util.EAdMatrix;
-import es.eucm.eadventure.common.util.EAdRectangleImpl;
+import es.eucm.eadventure.common.util.EAdRectangle;
 import es.eucm.eadventure.engine.core.platform.DrawableAsset;
 import es.eucm.eadventure.engine.core.platform.FontHandler;
 import es.eucm.eadventure.engine.core.platform.assets.impl.DesktopBezierShape;
 import es.eucm.eadventure.engine.core.platform.assets.impl.DesktopEngineFont;
+import es.eucm.eadventure.engine.core.platform.rendering.AbstractCanvas;
 import es.eucm.eadventure.engine.core.platform.rendering.filters.FilterFactory;
 import es.eucm.eadventure.engine.core.util.EAdTransformation;
 
@@ -168,7 +169,7 @@ public class DesktopCanvas extends AbstractCanvas<Graphics2D> {
 	}
 
 	@Override
-	public void clip(EAdRectangleImpl rectangle) {
+	public void clip(EAdRectangle rectangle) {
 		g.clipRect(rectangle.getX(), rectangle.getY(), rectangle.getWidth(),
 				rectangle.getHeight());
 	}

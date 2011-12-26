@@ -52,7 +52,7 @@ import es.eucm.eadventure.common.model.elements.effects.text.SpeakEf;
 import es.eucm.eadventure.common.model.elements.effects.variables.ChangeFieldEf;
 import es.eucm.eadventure.common.model.elements.events.ConditionedEv;
 import es.eucm.eadventure.common.model.elements.events.enums.ConditionedEventType;
-import es.eucm.eadventure.common.model.elements.guievents.MouseEventImpl;
+import es.eucm.eadventure.common.model.elements.guievents.EAdMouseEvent;
 import es.eucm.eadventure.common.model.elements.scene.EAdSceneElement;
 import es.eucm.eadventure.common.model.elements.scenes.SceneElementDefImpl;
 import es.eucm.eadventure.common.model.elements.scenes.SceneElementImpl;
@@ -67,7 +67,7 @@ import es.eucm.eadventure.common.params.text.EAdString;
 import es.eucm.eadventure.common.resources.StringHandler;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.Shape;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.enums.Alignment;
-import es.eucm.eadventure.common.util.EAdRectangleImpl;
+import es.eucm.eadventure.common.util.EAdRectangle;
 
 public abstract class ElementImporter<T> implements
 		EAdElementImporter<T, EAdSceneElement> {
@@ -92,29 +92,29 @@ public abstract class ElementImporter<T> implements
 			EAdCondition enableCondition, EAdEffect finalEffect) {
 
 		if (factory.isFirstPerson()) {
-			newExit.addBehavior(MouseEventImpl.MOUSE_LEFT_CLICK, finalEffect);
+			newExit.addBehavior(EAdMouseEvent.MOUSE_LEFT_CLICK, finalEffect);
 		} else {
 			MoveActiveElementEf move = new MoveActiveElementEf();
 			move.setTarget(newExit.getDefinition());
 			move.getNextEffects().add(finalEffect);
-			newExit.addBehavior(MouseEventImpl.MOUSE_LEFT_CLICK, move);
+			newExit.addBehavior(EAdMouseEvent.MOUSE_LEFT_CLICK, move);
 		}
 
 	}
 
 	protected void addInfluenceArea(EAdSceneElement sceneElement,
-			EAdRectangleImpl bounds, InfluenceArea influenceArea) {
+			EAdRectangle bounds, InfluenceArea influenceArea) {
 		boolean hasInfluenceArea = influenceArea != null
 				&& influenceArea.getWidth() != 0
 				&& influenceArea.getHeight() != 0;
 
-		EAdRectangleImpl rect = null;
+		EAdRectangle rect = null;
 		if (hasInfluenceArea) {
-			rect = new EAdRectangleImpl(influenceArea.getX() + bounds.getX(),
+			rect = new EAdRectangle(influenceArea.getX() + bounds.getX(),
 					influenceArea.getY() + bounds.getY(),
 					influenceArea.getWidth(), influenceArea.getHeight());
 		} else {
-			rect = new EAdRectangleImpl(bounds.getX() - INFLUENCE_MARGIN,
+			rect = new EAdRectangle(bounds.getX() - INFLUENCE_MARGIN,
 					bounds.getY() - INFLUENCE_MARGIN, bounds.getWidth()
 							+ INFLUENCE_MARGIN * 2, bounds.getHeight()
 							+ INFLUENCE_MARGIN * 2);
@@ -176,7 +176,7 @@ public abstract class ElementImporter<T> implements
 			showDescription.setAlignment(Alignment.CENTER);
 			showDescription.setColor(EAdPaintImpl.WHITE_ON_BLACK,
 					EAdColor.TRANSPARENT);
-			sceneElement.addBehavior(MouseEventImpl.MOUSE_LEFT_CLICK,
+			sceneElement.addBehavior(EAdMouseEvent.MOUSE_LEFT_CLICK,
 					showDescription);
 		}
 	}

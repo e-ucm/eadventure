@@ -58,9 +58,7 @@ import es.eucm.eadventure.common.resources.assets.drawable.basics.Image;
 import es.eucm.eadventure.engine.core.game.GameState;
 import es.eucm.eadventure.engine.core.gameobjects.GameObjectManager;
 import es.eucm.eadventure.engine.core.gameobjects.factories.SceneElementGOFactory;
-import es.eucm.eadventure.engine.core.guiactions.KeyAction;
-import es.eucm.eadventure.engine.core.input.KeyboardState;
-import es.eucm.eadventure.engine.core.input.MouseState;
+import es.eucm.eadventure.engine.core.input.InputHandler;
 import es.eucm.eadventure.engine.core.platform.EngineConfiguration;
 import es.eucm.eadventure.engine.core.platform.RuntimeAsset;
 import es.eucm.eadventure.engine.core.platform.impl.DesktopGUI;
@@ -72,25 +70,25 @@ import es.eucm.eadventure.utils.swing.SwingUtilities;
 public class DesktopEditorGUI extends DesktopGUI {
 
 	private static final Logger logger = Logger.getLogger("DesktopEditorGUI");
-	
+
 	/**
 	 * The {@code Container} where the game is represented
 	 */
 	protected JPanel panel;
 
 	protected Object currentComponent;
-	
+
 	protected VolatileImage backbufferImage;
 
 	private DesktopInputListener listener;
-	
+
 	@Inject
 	public DesktopEditorGUI(EngineConfiguration platformConfiguration,
-			GameObjectManager gameObjectManager, MouseState mouseState,
-			KeyboardState keyboardState, GameState gameState,
-			SceneElementGOFactory gameObjectFactory, DesktopCanvas canvas) {
-		super(platformConfiguration, gameObjectManager, mouseState, keyboardState,
-				gameState, gameObjectFactory, canvas);
+			GameObjectManager gameObjectManager, InputHandler mouseState,
+			GameState gameState, SceneElementGOFactory gameObjectFactory,
+			DesktopCanvas canvas) {
+		super(platformConfiguration, gameObjectManager, mouseState, gameState,
+				gameObjectFactory, canvas);
 	}
 
 	/*
@@ -121,33 +119,44 @@ public class DesktopEditorGUI extends DesktopGUI {
 		SwingUtilities.doInEDTNow(new Runnable() {
 			@Override
 			public void run() {
-				if (panel != null &&
-						panel.getVisibleRect() != null &&
-						panel.getVisibleRect().getWidth() > 0 &&
-						panel.getVisibleRect().getHeight() > 0) {
+				if (panel != null && panel.getVisibleRect() != null
+						&& panel.getVisibleRect().getWidth() > 0
+						&& panel.getVisibleRect().getHeight() > 0) {
 					if (backbufferImage == null) {
-						logger.fine("New backbuffer: " + (int) panel.getVisibleRect().getWidth() + "x" + (int) panel.getVisibleRect().getHeight());
-						backbufferImage = panel.createVolatileImage((int) panel.getVisibleRect().getWidth(), (int) panel.getVisibleRect().getHeight());
-					} else if (backbufferImage != null &&
-							panel.getVisibleRect().getWidth() != backbufferImage.getWidth() &&
-							panel.getVisibleRect().getHeight() != backbufferImage.getHeight()) { 
-						logger.fine("Resized backbuffer: " + (int) panel.getVisibleRect().getWidth() + "x" + (int) panel.getVisibleRect().getHeight());
-						backbufferImage = panel.createVolatileImage((int) panel.getVisibleRect().getWidth(), (int) panel.getVisibleRect().getHeight());
+						logger.fine("New backbuffer: "
+								+ (int) panel.getVisibleRect().getWidth() + "x"
+								+ (int) panel.getVisibleRect().getHeight());
+						backbufferImage = panel.createVolatileImage((int) panel
+								.getVisibleRect().getWidth(), (int) panel
+								.getVisibleRect().getHeight());
+					} else if (backbufferImage != null
+							&& panel.getVisibleRect().getWidth() != backbufferImage
+									.getWidth()
+							&& panel.getVisibleRect().getHeight() != backbufferImage
+									.getHeight()) {
+						logger.fine("Resized backbuffer: "
+								+ (int) panel.getVisibleRect().getWidth() + "x"
+								+ (int) panel.getVisibleRect().getHeight());
+						backbufferImage = panel.createVolatileImage((int) panel
+								.getVisibleRect().getWidth(), (int) panel
+								.getVisibleRect().getHeight());
 					}
 				}
 				if (backbufferImage != null) {
 					Graphics2D g = (Graphics2D) backbufferImage.getGraphics();
 					eAdCanvas.setGraphicContext(g);
-	
-					g.setClip(0, 0, backbufferImage.getWidth(), backbufferImage.getHeight());
-					g.clearRect(0, 0, backbufferImage.getWidth(), backbufferImage.getHeight());
-	
+
+					g.setClip(0, 0, backbufferImage.getWidth(),
+							backbufferImage.getHeight());
+					g.clearRect(0, 0, backbufferImage.getWidth(),
+							backbufferImage.getHeight());
+
 					setRenderingHints(g);
-	
+
 					g.setFont(g.getFont().deriveFont(20.0f));
-	
+
 					render(interpolation);
-					
+
 					g.dispose();
 				}
 			}
@@ -157,7 +166,9 @@ public class DesktopEditorGUI extends DesktopGUI {
 			@Override
 			public void run() {
 				if (backbufferImage != null && panel.getGraphics() != null) {
-					panel.getGraphics().drawImage(backbufferImage, (int) panel.getVisibleRect().getX(), (int) panel.getVisibleRect().getY(), null);
+					panel.getGraphics().drawImage(backbufferImage,
+							(int) panel.getVisibleRect().getX(),
+							(int) panel.getVisibleRect().getY(), null);
 					Toolkit.getDefaultToolkit().sync();
 				}
 			}
@@ -188,21 +199,20 @@ public class DesktopEditorGUI extends DesktopGUI {
 					panel = new GamePanel(platformConfiguration);
 					panel.setSize(platformConfiguration.getWidth(),
 							platformConfiguration.getHeight());
-					panel.setPreferredSize(new Dimension(platformConfiguration.getWidth(),
-							platformConfiguration.getHeight()));
+					panel.setPreferredSize(new Dimension(platformConfiguration
+							.getWidth(), platformConfiguration.getHeight()));
 					panel.setIgnoreRepaint(true);
 					panel.setLayout(new BorderLayout());
 					panel.setMinimumSize(new Dimension(200, 150));
 
 					panel.setVisible(true);
-					
-					listener = new DesktopInputListener(mouseState,
-							keyboardState);
+
+					listener = new DesktopInputListener(mouseState);
 					panel.addMouseListener(listener);
 					panel.addMouseMotionListener(listener);
 					panel.addKeyListener(listener);
-					
-					panel.addComponentListener(new ComponentAdapter(){
+
+					panel.addComponentListener(new ComponentAdapter() {
 
 						@Override
 						public void componentResized(ComponentEvent arg0) {
@@ -210,7 +220,7 @@ public class DesktopEditorGUI extends DesktopGUI {
 								backbufferImage.flush();
 							backbufferImage = null;
 						}
-						
+
 					});
 				}
 			});
@@ -221,44 +231,27 @@ public class DesktopEditorGUI extends DesktopGUI {
 		logger.info("Desktop GUI initilized");
 	}
 
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * es.eucm.eadventure.engine.core.platform.impl.AbstractGUI#processKeyAction
-	 * (es.eucm.eadventure.engine.core.guiactions.KeyAction)
-	 * 
-	 * In desktop games, arrow keys are used to move the mouse if not consumed
-	 * by a game object
-	 */
-	@Override
-	protected void processKeyAction(KeyAction action) {
-		super.processKeyAction(action);
-	}
-
 	@Override
 	public void finish() {
 		if (panel != null) {
 			panel.setVisible(false);
 		}
 	}
-	
 
 	public JPanel getPanel() {
 		return panel;
 	}
-	
+
 	private class GamePanel extends JPanel implements Scrollable {
 
 		private static final long serialVersionUID = -8779328786327371343L;
-		
+
 		private EngineConfiguration platformConfiguration;
-		
+
 		public GamePanel(EngineConfiguration platformConfiguration) {
 			this.platformConfiguration = platformConfiguration;
 		}
-		
+
 		public void setPreferredSize(Dimension d) {
 			super.setPreferredSize(d);
 			platformConfiguration.setSize(d.width, d.height);
@@ -275,7 +268,7 @@ public class DesktopEditorGUI extends DesktopGUI {
 		@Override
 		public int getScrollableBlockIncrement(Rectangle visibleRect,
 				int orientation, int direction) {
-			//TODO check
+			// TODO check
 			return 30;
 		}
 
@@ -292,10 +285,10 @@ public class DesktopEditorGUI extends DesktopGUI {
 		@Override
 		public int getScrollableUnitIncrement(Rectangle visibleRect,
 				int orientation, int direction) {
-			//TODO check
+			// TODO check
 			return 5;
 		}
-		
+
 	}
-	
+
 }

@@ -46,7 +46,7 @@ import es.eucm.eadventure.common.model.elements.events.TimedEv;
 import es.eucm.eadventure.common.model.elements.events.enums.TimedEventType;
 import es.eucm.eadventure.common.model.elements.extra.EAdList;
 import es.eucm.eadventure.common.model.elements.extra.EAdListImpl;
-import es.eucm.eadventure.common.model.elements.guievents.MouseEventImpl;
+import es.eucm.eadventure.common.model.elements.guievents.EAdMouseEvent;
 import es.eucm.eadventure.common.model.elements.scene.EAdSceneElement;
 import es.eucm.eadventure.common.model.elements.scenes.SceneElementImpl;
 import es.eucm.eadventure.common.model.elements.variables.EAdField;
@@ -122,7 +122,7 @@ public class MoleGame extends EmptyScene {
 		SceneElementImpl hole = new SceneElementImpl(holeImage);
 		hole.setId("hole" + x);
 		hole.setPosition(x, y);
-		hole.addBehavior(MouseEventImpl.MOUSE_LEFT_PRESSED, (EAdEffect) null);
+		hole.addBehavior(EAdMouseEvent.MOUSE_LEFT_PRESSED, (EAdEffect) null);
 		return hole;
 	}
 
@@ -146,7 +146,7 @@ public class MoleGame extends EmptyScene {
 		mole.setVarInitialValue(SceneElementImpl.VAR_TIME_DISPLAYED,
 				initTime);
 
-		mole.addBehavior(MouseEventImpl.MOUSE_LEFT_PRESSED, dissapearMole);
+		mole.addBehavior(EAdMouseEvent.MOUSE_LEFT_PRESSED, dissapearMole);
 		// mole.getEvents().add(event);
 
 		return mole;

@@ -3,7 +3,7 @@ package es.eucm.eadventure.common.elementfactories.demos.scenes;
 import es.eucm.eadventure.common.elementfactories.demos.normalguy.NgCommon;
 import es.eucm.eadventure.common.model.elements.events.SceneElementEv;
 import es.eucm.eadventure.common.model.elements.events.enums.SceneElementEventType;
-import es.eucm.eadventure.common.model.elements.guievents.MouseEventImpl;
+import es.eucm.eadventure.common.model.elements.guievents.EAdMouseEvent;
 import es.eucm.eadventure.common.model.elements.scene.EAdSceneElementDef;
 import es.eucm.eadventure.common.model.elements.scenes.SceneElementImpl;
 import es.eucm.eadventure.common.model.elements.trajectories.SimpleTrajectoryDefinition;
@@ -11,7 +11,7 @@ import es.eucm.eadventure.common.model.predef.effects.MakeActiveElementEf;
 import es.eucm.eadventure.common.model.predef.effects.MoveActiveElementEf;
 import es.eucm.eadventure.common.model.predef.events.ScrollWithSceneElementEv;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.ImageImpl;
-import es.eucm.eadventure.common.util.EAdPositionImpl.Corner;
+import es.eucm.eadventure.common.util.EAdPosition.Corner;
 
 public class ScrollScene extends EmptyScene {
 
@@ -41,7 +41,7 @@ public class ScrollScene extends EmptyScene {
 		trajectory.setLimits(0, 0, 1000, 1213);
 		setTrajectoryDefinition(trajectory);
 
-		getBackground().addBehavior(MouseEventImpl.MOUSE_LEFT_PRESSED,
+		getBackground().addBehavior(EAdMouseEvent.MOUSE_LEFT_PRESSED,
 				new MoveActiveElementEf());
 		
 	}

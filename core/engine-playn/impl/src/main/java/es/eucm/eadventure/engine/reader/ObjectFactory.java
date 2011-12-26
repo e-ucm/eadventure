@@ -57,8 +57,8 @@ import es.eucm.eadventure.common.resources.EAdBundleId;
 import es.eucm.eadventure.common.resources.assets.AssetDescriptor;
 import es.eucm.eadventure.common.util.EAdMatrix;
 import es.eucm.eadventure.common.util.EAdMatrixImpl;
-import es.eucm.eadventure.common.util.EAdPositionImpl;
-import es.eucm.eadventure.common.util.EAdRectangleImpl;
+import es.eucm.eadventure.common.util.EAdPosition;
+import es.eucm.eadventure.common.util.EAdRectangle;
 import es.eucm.eadventure.engine.core.platform.impl.PlayNReflectionProvider;
 
 /**
@@ -161,10 +161,10 @@ public class ObjectFactory {
 			return new EAdPaintImpl(value);
 		if (clazz.equals(EAdFontImpl.class))
 			return new EAdFontImpl(value);
-		if (clazz.equals(EAdPositionImpl.class))
-			return new EAdPositionImpl(value);
-		if (clazz.equals(EAdRectangleImpl.class)) 
-			return new EAdRectangleImpl(value);
+		if (clazz.equals(EAdPosition.class))
+			return new EAdPosition(value);
+		if (clazz.equals(EAdRectangle.class)) 
+			return new EAdRectangle(value);
 		if (clazz.equals(EAdURIImpl.class)) 
 			return new EAdURIImpl(value);
 		

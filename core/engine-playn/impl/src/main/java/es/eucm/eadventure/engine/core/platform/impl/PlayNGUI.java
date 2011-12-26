@@ -56,10 +56,10 @@ import es.eucm.eadventure.common.resources.assets.drawable.basics.Image;
 import es.eucm.eadventure.engine.core.game.GameState;
 import es.eucm.eadventure.engine.core.gameobjects.GameObjectManager;
 import es.eucm.eadventure.engine.core.gameobjects.factories.SceneElementGOFactory;
-import es.eucm.eadventure.engine.core.input.KeyboardState;
-import es.eucm.eadventure.engine.core.input.MouseState;
-import es.eucm.eadventure.engine.core.platform.GUI;
+import es.eucm.eadventure.engine.core.input.InputHandler;
+import es.eucm.eadventure.engine.core.platform.AbstractGUI;
 import es.eucm.eadventure.engine.core.platform.EngineConfiguration;
+import es.eucm.eadventure.engine.core.platform.GUI;
 import es.eucm.eadventure.engine.core.platform.RuntimeAsset;
 import es.eucm.eadventure.engine.core.platform.impl.rendering.PlayNCanvas;
 
@@ -88,11 +88,10 @@ public class PlayNGUI extends AbstractGUI<Canvas> implements GUI {
 
 	@Inject
 	public PlayNGUI(EngineConfiguration platformConfiguration,
-			GameObjectManager gameObjectManager, MouseState mouseState,
-			KeyboardState keyboardState, GameState gameState,
+			GameObjectManager gameObjectManager, InputHandler mouseState, GameState gameState,
 			SceneElementGOFactory gameObjectFactory, PlayNCanvas canvas) {
 		super(platformConfiguration, gameObjectManager, mouseState,
-				keyboardState, gameState, gameObjectFactory, canvas);
+				gameState, gameObjectFactory, canvas);
 		logger.info("New instance");
 	}
 

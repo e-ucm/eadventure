@@ -42,7 +42,7 @@ import es.eucm.eadventure.common.model.elements.EAdAction;
 import es.eucm.eadventure.common.model.elements.actions.ActionImpl;
 import es.eucm.eadventure.common.model.elements.effects.ActorActionsEf;
 import es.eucm.eadventure.common.model.elements.effects.enums.ChangeActorActions;
-import es.eucm.eadventure.common.model.elements.guievents.MouseEventImpl;
+import es.eucm.eadventure.common.model.elements.guievents.EAdMouseEvent;
 import es.eucm.eadventure.common.model.elements.scenes.SceneElementDefImpl;
 import es.eucm.eadventure.common.model.elements.scenes.SceneElementImpl;
 import es.eucm.eadventure.common.model.predef.effects.ChangeAppearanceEf;
@@ -57,11 +57,11 @@ public class AndroidAction extends SceneElementImpl {
 		// TODO null?
 		ActorActionsEf e = new ActorActionsEf( null,
 				ChangeActorActions.HIDE_ACTIONS);
-		this.addBehavior(MouseEventImpl.MOUSE_LEFT_CLICK, e);
-		this.addBehavior(MouseEventImpl.MOUSE_RIGHT_CLICK, e);
-		this.addBehavior(MouseEventImpl.MOUSE_LEFT_CLICK,
+		this.addBehavior(EAdMouseEvent.MOUSE_LEFT_CLICK, e);
+		this.addBehavior(EAdMouseEvent.MOUSE_RIGHT_CLICK, e);
+		this.addBehavior(EAdMouseEvent.MOUSE_LEFT_CLICK,
 				eAdAction.getEffects());
-		this.addBehavior(MouseEventImpl.MOUSE_RIGHT_CLICK,
+		this.addBehavior(EAdMouseEvent.MOUSE_RIGHT_CLICK,
 				eAdAction.getEffects());
 
 		AssetDescriptor asset = eAdAction.getAsset(
@@ -77,7 +77,7 @@ public class AndroidAction extends SceneElementImpl {
 					SceneElementDefImpl.appearance,
 					eAdAction.getAsset(eAdAction.getHighlightBundle(),
 							ActionImpl.appearance));
-			this.addBehavior(MouseEventImpl.MOUSE_ENTERED,
+			this.addBehavior(EAdMouseEvent.MOUSE_ENTERED,
 					new ChangeAppearanceEf( this,
 							eAdAction.getHighlightBundle()));
 		} else
@@ -85,7 +85,7 @@ public class AndroidAction extends SceneElementImpl {
 					SceneElementDefImpl.appearance, asset);
 
 		this.addBehavior(
-				MouseEventImpl.MOUSE_EXITED,
+				EAdMouseEvent.MOUSE_EXITED,
 				new ChangeAppearanceEf( this, getDefinition()
 						.getInitialBundle()));
 		

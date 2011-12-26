@@ -52,13 +52,13 @@ import es.eucm.eadventure.common.resources.assets.drawable.basics.Caption;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.CaptionImpl;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.Image;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.shapes.RectangleShape;
-import es.eucm.eadventure.common.util.EAdPositionImpl;
+import es.eucm.eadventure.common.util.EAdPosition;
 import es.eucm.eadventure.engine.core.game.GameState;
+import es.eucm.eadventure.engine.core.gameobjects.SceneGOImpl;
 import es.eucm.eadventure.engine.core.gameobjects.factories.EventGOFactory;
 import es.eucm.eadventure.engine.core.gameobjects.factories.SceneElementGOFactory;
 import es.eucm.eadventure.engine.core.gameobjects.go.SceneGO;
 import es.eucm.eadventure.engine.core.gameobjects.go.TransitionGO;
-import es.eucm.eadventure.engine.core.gameobjects.impl.SceneGOImpl;
 import es.eucm.eadventure.engine.core.platform.AssetHandler;
 import es.eucm.eadventure.engine.core.platform.GUI;
 import es.eucm.eadventure.engine.core.platform.EngineConfiguration;
@@ -98,7 +98,7 @@ public class EmptyTransitionGO extends SceneGOImpl implements TransitionGO {
 		caption.getText().parse("Loading");
 		loadingText = new SceneElementImpl(caption);
 		loadingText.setId("loadingText");
-		loadingText.setPosition(EAdPositionImpl.volatileEAdPosition(750, 550,
+		loadingText.setPosition(EAdPosition.volatileEAdPosition(750, 550,
 				1.0f, 1.0f));
 
 		RectangleShape rs = new RectangleShape(

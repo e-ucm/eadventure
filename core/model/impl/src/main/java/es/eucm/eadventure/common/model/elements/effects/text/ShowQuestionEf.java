@@ -52,7 +52,7 @@ import es.eucm.eadventure.common.model.elements.events.SceneElementEv;
 import es.eucm.eadventure.common.model.elements.events.enums.SceneElementEventType;
 import es.eucm.eadventure.common.model.elements.extra.EAdMap;
 import es.eucm.eadventure.common.model.elements.extra.EAdMapImpl;
-import es.eucm.eadventure.common.model.elements.guievents.MouseEventImpl;
+import es.eucm.eadventure.common.model.elements.guievents.EAdMouseEvent;
 import es.eucm.eadventure.common.model.elements.scenes.SceneElementImpl;
 import es.eucm.eadventure.common.model.elements.variables.EAdField;
 import es.eucm.eadventure.common.model.elements.variables.FieldImpl;
@@ -186,13 +186,13 @@ public class ShowQuestionEf extends ComplexBlockingEffect {
 		caption.setBubblePaint(EAdColor.WHITE);
 		SceneElementImpl answerElement = new SceneElementImpl(caption);
 		answerElement.setPosition(-800, y);
-		answerElement.addBehavior(MouseEventImpl.MOUSE_LEFT_CLICK,
+		answerElement.addBehavior(EAdMouseEvent.MOUSE_LEFT_CLICK,
 				selectEffect);
-		answerElement.addBehavior(MouseEventImpl.MOUSE_LEFT_CLICK,
+		answerElement.addBehavior(EAdMouseEvent.MOUSE_LEFT_CLICK,
 				entry.getValue());
 
-		answerElement.addBehavior(MouseEventImpl.MOUSE_ENTERED, inEffect);
-		answerElement.addBehavior(MouseEventImpl.MOUSE_EXITED, outEffect);
+		answerElement.addBehavior(EAdMouseEvent.MOUSE_ENTERED, inEffect);
+		answerElement.addBehavior(EAdMouseEvent.MOUSE_EXITED, outEffect);
 		y += fontSize * 2 + padding * 2;
 
 		SceneElementEv event = new SceneElementEv();

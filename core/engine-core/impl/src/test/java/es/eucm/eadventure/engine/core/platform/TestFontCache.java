@@ -39,8 +39,8 @@ package es.eucm.eadventure.engine.core.platform;
 
 import es.eucm.eadventure.common.params.EAdFontImpl;
 import es.eucm.eadventure.common.params.text.EAdFont;
-import es.eucm.eadventure.common.util.EAdRectangleImpl;
-import es.eucm.eadventure.engine.core.platform.impl.FontHandlerImpl;
+import es.eucm.eadventure.common.util.EAdRectangle;
+import es.eucm.eadventure.engine.core.platform.FontHandlerImpl;
 
 public class TestFontCache extends FontHandlerImpl {
 
@@ -64,8 +64,8 @@ public class TestFontCache extends FontHandlerImpl {
 			}
 
 			@Override
-			public EAdRectangleImpl stringBounds(String string) {
-				return new EAdRectangleImpl( 0, -1, string.length(), 1 );
+			public EAdRectangle stringBounds(String string) {
+				return new EAdRectangle( 0, -1, string.length(), 1 );
 			}
 			
 		});

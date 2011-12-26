@@ -40,7 +40,7 @@ package es.eucm.eadventure.common.elementfactories.demos.scenes;
 import es.eucm.eadventure.common.elementfactories.EAdElementsFactory;
 import es.eucm.eadventure.common.model.elements.VideoScene;
 import es.eucm.eadventure.common.model.elements.effects.ChangeSceneEf;
-import es.eucm.eadventure.common.model.elements.guievents.KeyEventImpl;
+import es.eucm.eadventure.common.model.elements.guievents.EAdKeyEvent;
 import es.eucm.eadventure.common.model.elements.scenes.SceneElementImpl;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.ImageImpl;
 import es.eucm.eadventure.common.resources.assets.multimedia.Video;
@@ -66,7 +66,7 @@ public class WebMVideoScene extends EmptyScene {
 						200, 60, changeScene);
 		this.getComponents().add(goRightArrow);
 		
-		goRightArrow.addBehavior(KeyEventImpl.KEY_ARROW_RIGHT, changeScene);
+		goRightArrow.addBehavior(EAdKeyEvent.KEY_ARROW_RIGHT, changeScene);
 
 	}
 	

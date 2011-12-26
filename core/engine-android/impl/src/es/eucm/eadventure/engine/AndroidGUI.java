@@ -47,11 +47,10 @@ import es.eucm.eadventure.engine.core.game.GameState;
 import es.eucm.eadventure.engine.core.game.ValueMap;
 import es.eucm.eadventure.engine.core.gameobjects.GameObjectManager;
 import es.eucm.eadventure.engine.core.gameobjects.factories.SceneElementGOFactory;
-import es.eucm.eadventure.engine.core.input.KeyboardState;
-import es.eucm.eadventure.engine.core.input.MouseState;
+import es.eucm.eadventure.engine.core.input.InputHandler;
+import es.eucm.eadventure.engine.core.platform.AbstractGUI;
 import es.eucm.eadventure.engine.core.platform.EngineConfiguration;
 import es.eucm.eadventure.engine.core.platform.RuntimeAsset;
-import es.eucm.eadventure.engine.core.platform.impl.AbstractGUI;
 import es.eucm.eadventure.engine.extra.BitmapCanvas;
 import es.eucm.eadventure.engine.extra.EAdventureRenderingThread;
 import es.eucm.eadventure.engine.rendering.AndroidCanvas;
@@ -61,13 +60,11 @@ public class AndroidGUI extends AbstractGUI<Canvas> {
 
 	@Inject
 	public AndroidGUI(EngineConfiguration platformConfiguration,
-			GameObjectManager gameObjectManager, MouseState mouseState,
-			KeyboardState keyboardState,
+			GameObjectManager gameObjectManager, InputHandler mouseState,
 			ValueMap valueMap, GameState gameState,
-			SceneElementGOFactory gameObjectFactory,
-			AndroidCanvas canvas) {
-		super(platformConfiguration, gameObjectManager, mouseState,
-				keyboardState, gameState, gameObjectFactory, canvas);
+			SceneElementGOFactory gameObjectFactory, AndroidCanvas canvas) {
+		super(platformConfiguration, gameObjectManager, mouseState, gameState,
+				gameObjectFactory, canvas);
 	}
 
 	@Override

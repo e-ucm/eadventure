@@ -43,6 +43,7 @@ import playn.core.Image;
 import com.google.inject.Inject;
 
 import es.eucm.eadventure.engine.core.platform.AssetHandler;
+import es.eucm.eadventure.engine.core.platform.assets.RuntimeSpriteImage;
 import es.eucm.eadventure.engine.core.platform.rendering.GenericCanvas;
 
 public class PlayNEngineSpriteImage extends RuntimeSpriteImage<Canvas> {

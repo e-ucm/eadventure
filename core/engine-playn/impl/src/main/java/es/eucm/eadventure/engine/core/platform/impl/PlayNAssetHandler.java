@@ -49,17 +49,18 @@ import com.google.inject.Singleton;
 import es.eucm.eadventure.common.resources.StringHandler;
 import es.eucm.eadventure.common.resources.assets.AssetDescriptor;
 import es.eucm.eadventure.engine.core.EAdEngine;
-import es.eucm.eadventure.engine.core.impl.VariableMap;
+import es.eucm.eadventure.engine.core.game.VariableMap;
+import es.eucm.eadventure.engine.core.platform.AbstractAssetHandler;
 import es.eucm.eadventure.engine.core.platform.FontHandler;
 import es.eucm.eadventure.engine.core.platform.RuntimeAsset;
+import es.eucm.eadventure.engine.core.platform.assets.RuntimeComposedDrawable;
+import es.eucm.eadventure.engine.core.platform.assets.RuntimeDisplacedDrawable;
+import es.eucm.eadventure.engine.core.platform.assets.RuntimeFilteredDrawable;
 import es.eucm.eadventure.engine.core.platform.assets.impl.PlayNBezierShape;
 import es.eucm.eadventure.engine.core.platform.assets.impl.PlayNEngineCaption;
 import es.eucm.eadventure.engine.core.platform.assets.impl.PlayNEngineImage;
 import es.eucm.eadventure.engine.core.platform.assets.impl.PlayNEngineSpriteImage;
 import es.eucm.eadventure.engine.core.platform.assets.impl.PlayNSound;
-import es.eucm.eadventure.engine.core.platform.assets.impl.RuntimeComposedDrawable;
-import es.eucm.eadventure.engine.core.platform.assets.impl.RuntimeDisplacedDrawable;
-import es.eucm.eadventure.engine.core.platform.assets.impl.RuntimeFilteredDrawable;
 
 @Singleton
 public class PlayNAssetHandler extends AbstractAssetHandler {

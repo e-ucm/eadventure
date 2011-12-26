@@ -40,7 +40,7 @@ package es.eucm.eadventure.common.elementfactories.demos.scenes;
 import es.eucm.eadventure.common.elementfactories.EAdElementsFactory;
 import es.eucm.eadventure.common.elementfactories.StringFactory;
 import es.eucm.eadventure.common.model.elements.effects.text.ShowQuestionEf;
-import es.eucm.eadventure.common.model.elements.guievents.MouseEventImpl;
+import es.eucm.eadventure.common.model.elements.guievents.EAdMouseEvent;
 import es.eucm.eadventure.common.model.elements.scenes.SceneElementImpl;
 
 public class ShowQuestionScene extends EmptyScene {
@@ -64,7 +64,7 @@ public class ShowQuestionScene extends EmptyScene {
 		
 		effect.setUpNewInstance();
 
-		element.addBehavior(MouseEventImpl.MOUSE_LEFT_CLICK, effect);
+		element.addBehavior(EAdMouseEvent.MOUSE_LEFT_CLICK, effect);
 	}
 
 	@Override

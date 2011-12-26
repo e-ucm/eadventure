@@ -48,7 +48,7 @@ import es.eucm.eadventure.common.model.elements.scene.EAdSceneElement;
 import es.eucm.eadventure.common.model.elements.trajectories.TrajectoryDefinition;
 import es.eucm.eadventure.common.model.elements.variables.EAdVarDef;
 import es.eucm.eadventure.common.model.elements.variables.VarDefImpl;
-import es.eucm.eadventure.common.util.EAdRectangleImpl;
+import es.eucm.eadventure.common.util.EAdRectangle;
 
 /**
  * 
@@ -66,8 +66,8 @@ public class NodeTrajectoryDefinition extends EAdElementImpl implements
 	public static final EAdVarDef<Boolean> VAR_BARRIER_ON = new VarDefImpl<Boolean>(
 			"barrierOn", Boolean.class, Boolean.FALSE);
 
-	public static final EAdVarDef<EAdRectangleImpl> VAR_INFLUENCE_AREA = new VarDefImpl<EAdRectangleImpl>(
-			"influence_area", EAdRectangleImpl.class, null);
+	public static final EAdVarDef<EAdRectangle> VAR_INFLUENCE_AREA = new VarDefImpl<EAdRectangle>(
+			"influence_area", EAdRectangle.class, null);
 
 	/**
 	 * Variable for the current side

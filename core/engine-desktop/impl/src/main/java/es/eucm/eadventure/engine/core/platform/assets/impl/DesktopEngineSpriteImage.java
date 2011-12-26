@@ -44,6 +44,7 @@ import com.google.inject.Inject;
 
 import es.eucm.eadventure.common.resources.assets.drawable.basics.Image;
 import es.eucm.eadventure.engine.core.platform.AssetHandler;
+import es.eucm.eadventure.engine.core.platform.assets.RuntimeSpriteImage;
 import es.eucm.eadventure.engine.core.platform.rendering.GenericCanvas;
 
 public class DesktopEngineSpriteImage extends RuntimeSpriteImage<Graphics2D> {

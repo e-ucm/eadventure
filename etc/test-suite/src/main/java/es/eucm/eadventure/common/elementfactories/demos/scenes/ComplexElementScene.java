@@ -44,7 +44,7 @@ import es.eucm.eadventure.common.model.elements.effects.enums.InterpolationType;
 import es.eucm.eadventure.common.model.elements.effects.variables.ChangeFieldEf;
 import es.eucm.eadventure.common.model.elements.events.SceneElementEv;
 import es.eucm.eadventure.common.model.elements.events.enums.SceneElementEventType;
-import es.eucm.eadventure.common.model.elements.guievents.MouseEventImpl;
+import es.eucm.eadventure.common.model.elements.guievents.EAdMouseEvent;
 import es.eucm.eadventure.common.model.elements.scenes.ComplexSceneElementImpl;
 import es.eucm.eadventure.common.model.elements.scenes.SceneElementImpl;
 import es.eucm.eadventure.common.model.elements.variables.EAdField;
@@ -53,8 +53,8 @@ import es.eucm.eadventure.common.model.elements.variables.operations.ValueOp;
 import es.eucm.eadventure.common.params.fills.EAdColor;
 import es.eucm.eadventure.common.params.fills.EAdPaintImpl;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.shapes.RectangleShape;
-import es.eucm.eadventure.common.util.EAdPositionImpl;
-import es.eucm.eadventure.common.util.EAdPositionImpl.Corner;
+import es.eucm.eadventure.common.util.EAdPosition;
+import es.eucm.eadventure.common.util.EAdPosition.Corner;
 
 public class ComplexElementScene extends EmptyScene {
 
@@ -64,7 +64,7 @@ public class ComplexElementScene extends EmptyScene {
 		ComplexSceneElementImpl complex = new ComplexSceneElementImpl(rectangle);
 		complex.setId("complex");
 		complex.setBounds(400, 400);
-		complex.setPosition(new EAdPositionImpl(Corner.CENTER, 400, 300));
+		complex.setPosition(new EAdPosition(Corner.CENTER, 400, 300));
 
 		SceneElementImpl e = EAdElementsFactory
 				.getInstance()
@@ -75,7 +75,7 @@ public class ComplexElementScene extends EmptyScene {
 		e.setScale(0.1f);
 		e.setVarInitialValue(SceneElementImpl.VAR_ROTATION,
 				(float) Math.PI / 6);
-		e.setPosition(new EAdPositionImpl(Corner.CENTER, 50, 50));
+		e.setPosition(new EAdPosition(Corner.CENTER, 50, 50));
 
 		complex.getComponents().add(e);
 
@@ -96,7 +96,7 @@ public class ComplexElementScene extends EmptyScene {
 		EAdField<Float> rotation2 = new FieldImpl<Float>(e,
 				SceneElementImpl.VAR_ROTATION);
 
-		e.addBehavior(MouseEventImpl.MOUSE_RIGHT_CLICK,
+		e.addBehavior(EAdMouseEvent.MOUSE_RIGHT_CLICK,
 				new ChangeFieldEf(rotation,
 						new ValueOp((float) 0.1f)));
 

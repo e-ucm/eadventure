@@ -67,7 +67,7 @@ import es.eucm.eadventure.common.model.elements.events.ConditionedEv;
 import es.eucm.eadventure.common.model.elements.events.SceneElementEv;
 import es.eucm.eadventure.common.model.elements.events.enums.ConditionedEventType;
 import es.eucm.eadventure.common.model.elements.events.enums.SceneElementEventType;
-import es.eucm.eadventure.common.model.elements.guievents.MouseEventImpl;
+import es.eucm.eadventure.common.model.elements.guievents.EAdMouseEvent;
 import es.eucm.eadventure.common.model.elements.scene.EAdScene;
 import es.eucm.eadventure.common.model.elements.scene.EAdSceneElement;
 import es.eucm.eadventure.common.model.elements.scenes.SceneElementDefImpl;
@@ -91,8 +91,8 @@ import es.eucm.eadventure.common.resources.assets.drawable.basics.Image;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.ImageImpl;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.shapes.CircleShape;
 import es.eucm.eadventure.common.resources.assets.drawable.compounds.ComposedDrawableImpl;
-import es.eucm.eadventure.common.util.EAdPositionImpl;
-import es.eucm.eadventure.common.util.EAdPositionImpl.Corner;
+import es.eucm.eadventure.common.util.EAdPosition;
+import es.eucm.eadventure.common.util.EAdPosition.Corner;
 
 public class BookImporter implements EAdElementImporter<Book, EAdScene> {
 
@@ -290,7 +290,7 @@ public class BookImporter implements EAdElementImporter<Book, EAdScene> {
 			c = Corner.TOP_LEFT;
 		}
 
-		rightArrow.setPosition(new EAdPositionImpl(c, x, y));
+		rightArrow.setPosition(new EAdPosition(c, x, y));
 
 		EAdCondition endCondition = new OperationCond(xVar,
 				-(((column / 2) - 1) * BOOK_WIDTH + BOOK_WIDTH / 2),
@@ -299,7 +299,7 @@ public class BookImporter implements EAdElementImporter<Book, EAdScene> {
 		ChangeSceneEf changeScene = new ChangeSceneEf();
 		changeScene.setId("endBook");
 		changeScene.setCondition(endCondition);
-		rightArrow.addBehavior(MouseEventImpl.MOUSE_LEFT_CLICK, changeScene);
+		rightArrow.addBehavior(EAdMouseEvent.MOUSE_LEFT_CLICK, changeScene);
 
 		book.getComponents().add(content);
 		book.getComponents().add(leftArrow);
@@ -336,7 +336,7 @@ public class BookImporter implements EAdElementImporter<Book, EAdScene> {
 						BooleanOp.FALSE_OP));
 		arrow.getEvents().add(event);
 
-		arrow.addBehavior(MouseEventImpl.MOUSE_LEFT_CLICK, move);
+		arrow.addBehavior(EAdMouseEvent.MOUSE_LEFT_CLICK, move);
 		return arrow;
 	}
 
@@ -442,12 +442,12 @@ public class BookImporter implements EAdElementImporter<Book, EAdScene> {
 
 		ChangeAppearanceEf change1 = new ChangeAppearanceEf(arrow, bundle);
 		change1.setId("changeArrowOver");
-		arrow.addBehavior(MouseEventImpl.MOUSE_ENTERED, change1);
+		arrow.addBehavior(EAdMouseEvent.MOUSE_ENTERED, change1);
 
 		ChangeAppearanceEf change2 = new ChangeAppearanceEf(arrow, arrow
 				.getDefinition().getInitialBundle());
 		change2.setId("changeArrowOver");
-		arrow.addBehavior(MouseEventImpl.MOUSE_EXITED, change2);
+		arrow.addBehavior(EAdMouseEvent.MOUSE_EXITED, change2);
 
 	}
 

@@ -41,8 +41,8 @@ import com.google.inject.Inject;
 
 import es.eucm.eadventure.common.ReflectionProvider;
 import es.eucm.eadventure.common.model.elements.EAdEvent;
+import es.eucm.eadventure.engine.core.factorymapproviders.EventGameObjectFactoryConfigurator;
 import es.eucm.eadventure.engine.core.gameobjects.go.EventGO;
-import es.eucm.eadventure.engine.core.impl.factorymapproviders.EventGameObjectFactoryConfigurator;
 import es.eucm.eadventure.engine.core.platform.GenericInjector;
 
 public class EventGOFactoryImpl extends

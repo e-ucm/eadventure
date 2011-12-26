@@ -44,7 +44,7 @@ import es.eucm.eadventure.common.model.elements.transitions.EAdTransition;
 import es.eucm.eadventure.engine.core.gameobjects.go.TransitionGO;
 import es.eucm.eadventure.engine.core.gameobjects.impl.transitions.DisplaceTransitionGO;
 import es.eucm.eadventure.engine.core.gameobjects.impl.transitions.EmptyTransitionGO;
-import es.eucm.eadventure.engine.core.gameobjects.impl.transitions.SimpleTransitionGO;
+import es.eucm.eadventure.engine.core.gameobjects.transitions.SimpleTransitionGO;
 import es.eucm.eadventure.engine.core.platform.TransitionFactory;
 
 public class DesktopTransitionFactory implements TransitionFactory {

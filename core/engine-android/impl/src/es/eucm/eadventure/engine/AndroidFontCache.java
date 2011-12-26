@@ -41,7 +41,7 @@ import com.google.inject.Singleton;
 
 import es.eucm.eadventure.common.params.text.EAdFont;
 import es.eucm.eadventure.engine.assets.AndroidEngineFont;
-import es.eucm.eadventure.engine.core.platform.impl.FontHandlerImpl;
+import es.eucm.eadventure.engine.core.platform.FontHandlerImpl;
 
 @Singleton
 public class AndroidFontCache extends FontHandlerImpl {

@@ -43,8 +43,7 @@ import es.eucm.eadventure.engine.core.gameobjects.go.DrawableGO;
 
 /**
  * General interface for eAdventure debuggers. The debugger is intended to help
- * the development of games
- * 
+ * during games development
  * 
  */
 public interface Debugger {

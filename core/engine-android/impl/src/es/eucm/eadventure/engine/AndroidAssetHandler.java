@@ -49,9 +49,9 @@ import com.google.inject.Injector;
 import com.google.inject.Singleton;
 
 import es.eucm.eadventure.common.resources.assets.AssetDescriptor;
+import es.eucm.eadventure.engine.core.platform.AbstractAssetHandler;
 import es.eucm.eadventure.engine.core.platform.FontHandler;
 import es.eucm.eadventure.engine.core.platform.RuntimeAsset;
-import es.eucm.eadventure.engine.core.platform.impl.AbstractAssetHandler;
 
 @Singleton
 public class AndroidAssetHandler extends AbstractAssetHandler {

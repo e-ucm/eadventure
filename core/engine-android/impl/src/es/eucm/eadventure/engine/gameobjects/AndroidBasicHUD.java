@@ -15,7 +15,6 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 import es.eucm.eadventure.common.model.EAdElement;
-import es.eucm.eadventure.common.model.elements.guievents.enums.MouseButton;
 import es.eucm.eadventure.common.model.elements.scenes.SceneElementImpl;
 import es.eucm.eadventure.common.params.text.EAdString;
 import es.eucm.eadventure.common.resources.StringHandler;
@@ -24,9 +23,10 @@ import es.eucm.eadventure.engine.core.game.GameState;
 import es.eucm.eadventure.engine.core.gameobjects.GameObjectManager;
 import es.eucm.eadventure.engine.core.gameobjects.factories.SceneElementGOFactory;
 import es.eucm.eadventure.engine.core.gameobjects.go.GameObject;
+import es.eucm.eadventure.engine.core.gameobjects.huds.BasicHUDImpl;
 import es.eucm.eadventure.engine.core.gameobjects.huds.MenuHUD;
-import es.eucm.eadventure.engine.core.gameobjects.huds.impl.BasicHUDImpl;
-import es.eucm.eadventure.engine.core.input.MouseState;
+import es.eucm.eadventure.engine.core.input.InputHandler;
+import es.eucm.eadventure.engine.core.input.states.MouseState;
 import es.eucm.eadventure.engine.core.platform.AssetHandler;
 import es.eucm.eadventure.engine.core.platform.EngineConfiguration;
 import es.eucm.eadventure.engine.core.platform.GUI;
@@ -48,7 +48,7 @@ public class AndroidBasicHUD extends BasicHUDImpl {
 	@Inject
 	public AndroidBasicHUD(GUI gui, MenuHUD menuHUD,
 			SceneElementGOFactory gameObjectFactory, GameState gameState,
-			GameObjectManager gameObjectManager, MouseState mouseState,
+			GameObjectManager gameObjectManager, InputHandler mouseState,
 			StringHandler stringHandler,
 			EngineConfiguration platformConfiguration,
 			AssetHandler assetHandler) {
@@ -83,15 +83,15 @@ public class AndroidBasicHUD extends BasicHUDImpl {
 	@SuppressWarnings("unchecked")
 	public void render(GenericCanvas<?> canvas) {
 		
-		if (mouseState.isMousePressed(MouseButton.BUTTON_1)) {
-
+//		if (mouseState.isMousePressed(MouseButton.BUTTON_1)) {
+		if (mouseState.checkState(MouseState.LEFT_BUTTON_PRESSED)) {
 			BitmapCanvas graphicContext = (BitmapCanvas) canvas
 					.getNativeGraphicContext();
-			if (mouseState.getMouseX() != -1 && mouseState.getMouseY() != -1) {
+			if (mouseState.getPointerX() != -1 && mouseState.getPointerX() != -1) {
 
 				int notScaledX, notScaledY; 
-				notScaledX = mouseState.getMouseX();
-				notScaledY = mouseState.getMouseY();
+				notScaledX = mouseState.getRawPointerX();
+				notScaledY = mouseState.getRawPointerY();
 				
 				Canvas c = new Canvas(magGlass);
 				c.clipPath(clip);
@@ -127,7 +127,7 @@ public class AndroidBasicHUD extends BasicHUDImpl {
 				graphicContext.drawBitmap(magGlass, magX, magY, null);
 
 				GameObject<? extends EAdElement> go = (GameObject<? extends EAdElement>) mouseState
-						.getGameObjectUnderMouse();
+						.getGameObjectUnderPointer();
 
 				if (go != null && go.getElement() instanceof EAdElement) {
 					EAdString name = gameState.getValueMap().getValue((EAdElement) go.getElement(),

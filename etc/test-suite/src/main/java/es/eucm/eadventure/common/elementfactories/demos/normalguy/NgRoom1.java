@@ -51,7 +51,7 @@ import es.eucm.eadventure.common.model.elements.effects.text.SpeakEf;
 import es.eucm.eadventure.common.model.elements.effects.variables.ChangeFieldEf;
 import es.eucm.eadventure.common.model.elements.events.SceneElementEv;
 import es.eucm.eadventure.common.model.elements.events.enums.SceneElementEventType;
-import es.eucm.eadventure.common.model.elements.guievents.MouseEventImpl;
+import es.eucm.eadventure.common.model.elements.guievents.EAdMouseEvent;
 import es.eucm.eadventure.common.model.elements.scenes.SceneElementImpl;
 import es.eucm.eadventure.common.model.elements.trajectories.SimpleTrajectoryDefinition;
 import es.eucm.eadventure.common.model.elements.variables.EAdField;
@@ -63,7 +63,7 @@ import es.eucm.eadventure.common.model.elements.variables.operations.BooleanOp;
 import es.eucm.eadventure.common.model.elements.variables.operations.MathOp;
 import es.eucm.eadventure.common.model.elements.variables.operations.ValueOp;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.ImageImpl;
-import es.eucm.eadventure.common.util.EAdPositionImpl.Corner;
+import es.eucm.eadventure.common.util.EAdPosition.Corner;
 
 public class NgRoom1 extends EmptyScene {
 
@@ -101,7 +101,7 @@ public class NgRoom1 extends EmptyScene {
 		move.setSceneElement(ng);
 		move.setUseTrajectory(true);
 
-		getBackground().addBehavior(MouseEventImpl.MOUSE_LEFT_PRESSED, move);
+		getBackground().addBehavior(EAdMouseEvent.MOUSE_LEFT_PRESSED, move);
 		createElements();
 		initConditions();
 		addElementsInOrder();
@@ -189,7 +189,7 @@ public class NgRoom1 extends EmptyScene {
 		switchLights.setId("switch");
 		MoveSceneElementEf move = moveNg(617, 510);
 		move.getNextEffects().add(switchLights);
-		lamp.addBehavior(MouseEventImpl.MOUSE_LEFT_PRESSED, move);
+		lamp.addBehavior(EAdMouseEvent.MOUSE_LEFT_PRESSED, move);
 	}
 
 	private void setDoor() {
@@ -216,7 +216,7 @@ public class NgRoom1 extends EmptyScene {
 		MoveSceneElementEf move = moveNg(430, 260);
 		move.setCondition(moveCondition);
 
-		portrait.addBehavior(MouseEventImpl.MOUSE_LEFT_CLICK, move);
+		portrait.addBehavior(EAdMouseEvent.MOUSE_LEFT_CLICK, move);
 
 		move.getNextEffects().add(NgCommon.getLookNorthEffect());
 		move.getNextEffects().add(getSpeakEffect(0));

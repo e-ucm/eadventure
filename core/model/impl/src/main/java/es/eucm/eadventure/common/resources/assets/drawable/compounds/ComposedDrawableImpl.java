@@ -43,7 +43,7 @@ import es.eucm.eadventure.common.model.elements.extra.EAdListImpl;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.BasicDrawable;
 import es.eucm.eadventure.common.resources.assets.drawable.compounds.ComposedDrawable;
 import es.eucm.eadventure.common.resources.assets.drawable.compounds.DisplacedDrawable;
-import es.eucm.eadventure.common.util.EAdPositionImpl;
+import es.eucm.eadventure.common.util.EAdPosition;
 
 public class ComposedDrawableImpl implements ComposedDrawable {
 
@@ -61,7 +61,7 @@ public class ComposedDrawableImpl implements ComposedDrawable {
 
 	@Override
 	public void addDrawable(BasicDrawable drawable, int xOffset, int yOffset) {
-		assetList.add(new DisplacedDrawableImpl(drawable, new EAdPositionImpl(
+		assetList.add(new DisplacedDrawableImpl(drawable, new EAdPosition(
 				xOffset, yOffset)));
 	}
 

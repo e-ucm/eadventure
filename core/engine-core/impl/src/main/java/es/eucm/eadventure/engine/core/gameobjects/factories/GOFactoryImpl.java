@@ -80,6 +80,9 @@ public class GOFactoryImpl<S extends EAdElement, T extends GameObject<? extends 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Override
 	public T get(S element) {
+		if ( element == null )
+			return null;
+		
 		GameObject temp = null;
 		if (useCache) {
 			temp = cache.get(element);

@@ -49,7 +49,7 @@ import es.eucm.eadventure.common.impl.importer.subimporters.chapter.scene.Shaped
 import es.eucm.eadventure.common.model.elements.EAdAction;
 import es.eucm.eadventure.common.model.elements.EAdCondition;
 import es.eucm.eadventure.common.model.elements.effects.ActorActionsEf;
-import es.eucm.eadventure.common.model.elements.guievents.MouseEventImpl;
+import es.eucm.eadventure.common.model.elements.guievents.EAdMouseEvent;
 import es.eucm.eadventure.common.model.elements.scene.EAdSceneElement;
 import es.eucm.eadventure.common.model.elements.scene.EAdSceneElementDef;
 import es.eucm.eadventure.common.model.elements.scenes.SceneElementDefImpl;
@@ -124,7 +124,7 @@ public class ActiveAreaImporter extends ElementImporter<ActiveArea> {
 
 		ActorActionsEf showActions = new ActorActionsEf(
 				newActiveArea);
-		newActiveArea.addBehavior(MouseEventImpl.MOUSE_RIGHT_CLICK,
+		newActiveArea.addBehavior(EAdMouseEvent.MOUSE_RIGHT_CLICK,
 				showActions);
 
 		((ActionImporter) actionImporter).addAllActions(oldObject.getActions(),

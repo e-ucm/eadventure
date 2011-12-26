@@ -56,10 +56,11 @@ import es.eucm.eadventure.common.params.paint.EAdFill;
 import es.eucm.eadventure.common.params.text.EAdFont;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.Shape;
 import es.eucm.eadventure.common.util.EAdMatrix;
-import es.eucm.eadventure.common.util.EAdRectangleImpl;
+import es.eucm.eadventure.common.util.EAdRectangle;
 import es.eucm.eadventure.engine.core.platform.DrawableAsset;
 import es.eucm.eadventure.engine.core.platform.FontHandler;
 import es.eucm.eadventure.engine.core.platform.assets.impl.PlayNBezierShape;
+import es.eucm.eadventure.engine.core.platform.rendering.AbstractCanvas;
 import es.eucm.eadventure.engine.core.util.EAdTransformation;
 
 public class PlayNCanvas extends AbstractCanvas<Canvas> {
@@ -181,7 +182,7 @@ public class PlayNCanvas extends AbstractCanvas<Canvas> {
 	}
 
 	@Override
-	public void clip(EAdRectangleImpl rectangle) {
+	public void clip(EAdRectangle rectangle) {
 		Path p = PlayN.graphics().createPath();
 		p.moveTo(0, 0);
 		p.lineTo(rectangle.getWidth(), 0);

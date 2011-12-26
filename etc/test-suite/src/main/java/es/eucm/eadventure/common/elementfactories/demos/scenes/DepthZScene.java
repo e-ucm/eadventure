@@ -53,8 +53,8 @@ import es.eucm.eadventure.common.params.fills.EAdColor;
 import es.eucm.eadventure.common.params.fills.EAdPaintImpl;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.shapes.CircleShape;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.shapes.RectangleShape;
-import es.eucm.eadventure.common.util.EAdPositionImpl;
-import es.eucm.eadventure.common.util.EAdPositionImpl.Corner;
+import es.eucm.eadventure.common.util.EAdPosition;
+import es.eucm.eadventure.common.util.EAdPosition.Corner;
 
 public class DepthZScene extends EmptyScene {
 	
@@ -63,11 +63,11 @@ public class DepthZScene extends EmptyScene {
 		int totalTime = 2000;
 		
 		SceneElementImpl e1 = new SceneElementImpl(new RectangleShape( 50, 500, new EAdPaintImpl( EAdColor.RED, EAdColor.BLACK ) ));
-		e1.setPosition(new EAdPositionImpl( Corner.CENTER, 400, 300 ));
+		e1.setPosition(new EAdPosition( Corner.CENTER, 400, 300 ));
 		getComponents().add(e1);
 		
 		SceneElementImpl e2 = new SceneElementImpl( new CircleShape( 20, 20, 20, 20, new EAdPaintImpl( EAdColor.GREEN, EAdColor.BLACK ) ));
-		e2.setPosition(new EAdPositionImpl( Corner.CENTER, 10, 300 ));
+		e2.setPosition(new EAdPosition( Corner.CENTER, 10, 300 ));
 		getComponents().add(e2);
 		
 		EAdField<Integer> xField = new FieldImpl<Integer>(e2, SceneElementImpl.VAR_X);

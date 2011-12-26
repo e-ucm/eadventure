@@ -39,13 +39,12 @@ package es.eucm.eadventure.engine.core.gameobjects.go;
 
 import java.util.List;
 
-import es.eucm.eadventure.common.interfaces.features.Positioned;
-import es.eucm.eadventure.engine.core.guiactions.GUIAction;
-import es.eucm.eadventure.engine.core.input.MouseState;
+import es.eucm.eadventure.common.util.EAdPosition;
+import es.eucm.eadventure.engine.core.input.InputAction;
 import es.eucm.eadventure.engine.core.platform.RuntimeAsset;
 import es.eucm.eadventure.engine.core.util.EAdTransformation;
 
-public interface DrawableGO<T> extends GameObject<T>, Positioned, Renderable {
+public interface DrawableGO<T> extends GameObject<T>, Renderable {
 	
 	/**
 	 * Process the action in the graphic interface (click, etc.)
@@ -54,7 +53,7 @@ public interface DrawableGO<T> extends GameObject<T>, Positioned, Renderable {
 	 *            the action to process
 	 * @return {@code true} if he action has been processed by the object
 	 */
-	boolean processAction(GUIAction action);
+	boolean processAction(InputAction<?> action);
 	
 	/**
 	 * The the draggable element
@@ -63,7 +62,7 @@ public interface DrawableGO<T> extends GameObject<T>, Positioned, Renderable {
 	 *            The mouse state
 	 * @return The game object that is draggable
 	 */
-	SceneElementGO<?> getDraggableElement(MouseState mouseState);
+	SceneElementGO<?> getDraggableElement( );
 	
 	/**
 	 * Layout out the child game objects of this game objects
@@ -105,5 +104,7 @@ public interface DrawableGO<T> extends GameObject<T>, Positioned, Renderable {
 	 */
 	List<RuntimeAsset<?>> getAssets(List<RuntimeAsset<?>> assetList,
 			boolean allAssets);
+
+	EAdPosition getPosition();
 
 }

@@ -43,10 +43,11 @@ import com.google.inject.Inject;
 
 import es.eucm.eadventure.common.resources.StringHandler;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.CaptionImpl;
-import es.eucm.eadventure.engine.core.impl.VariableMap;
+import es.eucm.eadventure.engine.core.game.VariableMap;
 import es.eucm.eadventure.engine.core.platform.AssetHandler;
 import es.eucm.eadventure.engine.core.platform.FontHandler;
 import es.eucm.eadventure.engine.core.platform.RuntimeFont;
+import es.eucm.eadventure.engine.core.platform.assets.RuntimeCaption;
 
 public class PlayNEngineCaption extends RuntimeCaption<Canvas> {
 

@@ -48,6 +48,7 @@ import playn.core.Image;
 import com.google.inject.Inject;
 
 import es.eucm.eadventure.engine.core.platform.AssetHandler;
+import es.eucm.eadventure.engine.core.platform.assets.RuntimeImage;
 import es.eucm.eadventure.engine.core.platform.rendering.GenericCanvas;
 
 public class PlayNEngineImage extends RuntimeImage<Canvas> {

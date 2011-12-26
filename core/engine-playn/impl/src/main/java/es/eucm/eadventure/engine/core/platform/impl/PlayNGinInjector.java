@@ -42,40 +42,40 @@ import com.google.gwt.inject.client.Ginjector;
 
 import es.eucm.eadventure.common.resources.StringHandler;
 import es.eucm.eadventure.engine.core.game.Game;
-import es.eucm.eadventure.engine.core.gameobjects.impl.ComposedSceneGOImpl;
-import es.eucm.eadventure.engine.core.gameobjects.impl.SceneGOImpl;
-import es.eucm.eadventure.engine.core.gameobjects.impl.VideoSceneGO;
-import es.eucm.eadventure.engine.core.gameobjects.impl.effects.ActorActionsEffectGO;
-import es.eucm.eadventure.engine.core.gameobjects.impl.effects.CancelEffectGO;
-import es.eucm.eadventure.engine.core.gameobjects.impl.effects.ChangeFieldGO;
-import es.eucm.eadventure.engine.core.gameobjects.impl.effects.ChangeSceneGO;
-import es.eucm.eadventure.engine.core.gameobjects.impl.effects.ComplexBlockingEffectGO;
-import es.eucm.eadventure.engine.core.gameobjects.impl.effects.HighlightEffectGO;
-import es.eucm.eadventure.engine.core.gameobjects.impl.effects.InterpolationGO;
-import es.eucm.eadventure.engine.core.gameobjects.impl.effects.InventoryEffectGO;
-import es.eucm.eadventure.engine.core.gameobjects.impl.effects.MoveSceneElementGO;
-import es.eucm.eadventure.engine.core.gameobjects.impl.effects.PlaySoundEffectGO;
-import es.eucm.eadventure.engine.core.gameobjects.impl.effects.QuitGameEffectGO;
-import es.eucm.eadventure.engine.core.gameobjects.impl.effects.RandomEffectGO;
-import es.eucm.eadventure.engine.core.gameobjects.impl.effects.ShowSceneElementGO;
-import es.eucm.eadventure.engine.core.gameobjects.impl.effects.SpeakEffectGO;
-import es.eucm.eadventure.engine.core.gameobjects.impl.effects.TriggerMacroEffectGO;
-import es.eucm.eadventure.engine.core.gameobjects.impl.effects.WaitEffectGO;
-import es.eucm.eadventure.engine.core.gameobjects.impl.effects.physics.PhApplyForceGO;
-import es.eucm.eadventure.engine.core.gameobjects.impl.effects.physics.PhysicsEffectGO;
-import es.eucm.eadventure.engine.core.gameobjects.impl.events.ConditionEventGO;
-import es.eucm.eadventure.engine.core.gameobjects.impl.events.SceneElementEventGO;
-import es.eucm.eadventure.engine.core.gameobjects.impl.events.SceneElementTimedEventGO;
-import es.eucm.eadventure.engine.core.gameobjects.impl.events.SystemEventGO;
-import es.eucm.eadventure.engine.core.gameobjects.impl.sceneelements.BasicSceneElementGO;
-import es.eucm.eadventure.engine.core.gameobjects.impl.sceneelements.ComplexSceneElementGO;
-import es.eucm.eadventure.engine.core.gameobjects.impl.transitions.SimpleTransitionGO;
+import es.eucm.eadventure.engine.core.gameobjects.ComposedSceneGOImpl;
+import es.eucm.eadventure.engine.core.gameobjects.SceneGOImpl;
+import es.eucm.eadventure.engine.core.gameobjects.VideoSceneGO;
+import es.eucm.eadventure.engine.core.gameobjects.effects.ActorActionsEffectGO;
+import es.eucm.eadventure.engine.core.gameobjects.effects.CancelEffectGO;
+import es.eucm.eadventure.engine.core.gameobjects.effects.ChangeFieldGO;
+import es.eucm.eadventure.engine.core.gameobjects.effects.ChangeSceneGO;
+import es.eucm.eadventure.engine.core.gameobjects.effects.ComplexBlockingEffectGO;
+import es.eucm.eadventure.engine.core.gameobjects.effects.HighlightEffectGO;
+import es.eucm.eadventure.engine.core.gameobjects.effects.InterpolationGO;
+import es.eucm.eadventure.engine.core.gameobjects.effects.InventoryEffectGO;
+import es.eucm.eadventure.engine.core.gameobjects.effects.MoveSceneElementGO;
+import es.eucm.eadventure.engine.core.gameobjects.effects.PlaySoundEffectGO;
+import es.eucm.eadventure.engine.core.gameobjects.effects.QuitGameEffectGO;
+import es.eucm.eadventure.engine.core.gameobjects.effects.RandomEffectGO;
+import es.eucm.eadventure.engine.core.gameobjects.effects.ShowSceneElementGO;
+import es.eucm.eadventure.engine.core.gameobjects.effects.SpeakEffectGO;
+import es.eucm.eadventure.engine.core.gameobjects.effects.TriggerMacroEffectGO;
+import es.eucm.eadventure.engine.core.gameobjects.effects.WaitEffectGO;
+import es.eucm.eadventure.engine.core.gameobjects.effects.physics.PhApplyForceGO;
+import es.eucm.eadventure.engine.core.gameobjects.effects.physics.PhysicsEffectGO;
+import es.eucm.eadventure.engine.core.gameobjects.events.ConditionEvGO;
+import es.eucm.eadventure.engine.core.gameobjects.events.SceneElementEvGO;
+import es.eucm.eadventure.engine.core.gameobjects.events.TimedEvGO;
+import es.eucm.eadventure.engine.core.gameobjects.events.SystemEvGO;
+import es.eucm.eadventure.engine.core.gameobjects.sceneelements.BasicSceneElementGO;
+import es.eucm.eadventure.engine.core.gameobjects.sceneelements.ComplexSceneElementGO;
+import es.eucm.eadventure.engine.core.gameobjects.transitions.SimpleTransitionGO;
 import es.eucm.eadventure.engine.core.impl.modules.BasicGameModule;
-import es.eucm.eadventure.engine.core.input.MouseState;
+import es.eucm.eadventure.engine.core.input.InputHandler;
 import es.eucm.eadventure.engine.core.inventory.InventoryHandler;
 import es.eucm.eadventure.engine.core.platform.AssetHandler;
-import es.eucm.eadventure.engine.core.platform.GUI;
 import es.eucm.eadventure.engine.core.platform.EngineConfiguration;
+import es.eucm.eadventure.engine.core.platform.GUI;
 import es.eucm.eadventure.engine.core.platform.PlatformLauncher;
 import es.eucm.eadventure.engine.core.platform.assets.impl.PlayNEngineImage;
 import es.eucm.eadventure.engine.core.platform.impl.extra.PlayNAssetHandlerModule;
@@ -107,10 +107,10 @@ public interface PlayNGinInjector extends Ginjector {
 	public InterpolationGO getVarInterpolationGO();
 	public WaitEffectGO getWaitEffectGO();
 	
-	public ConditionEventGO getConditionEventGO();
-	public SceneElementEventGO getSceneElementEventGO();
-	public SceneElementTimedEventGO getSceneElementTimedEventGO();
-	public SystemEventGO getSystemEventGO();
+	public ConditionEvGO getConditionEventGO();
+	public SceneElementEvGO getSceneElementEventGO();
+	public TimedEvGO getSceneElementTimedEventGO();
+	public SystemEvGO getSystemEventGO();
 	
 	public BasicSceneElementGO getBasicSceneElementGO();
 	public ComplexSceneElementGO getComplexSceneElementGO();
@@ -126,7 +126,7 @@ public interface PlayNGinInjector extends Ginjector {
 	
 	public StringHandler getStringHandler();
 
-	public MouseState getMouseState();
+	public InputHandler getMouseState();
 
 	public PhysicsEffectGO getPhysicsEffectGO();
 

@@ -37,12 +37,10 @@
 
 package es.eucm.eadventure.common.model.elements.extra;
 
-
 /**
  * Interface for all the list elements in the eAdventure game model
  */
-public interface EAdList<P> extends
-		Iterable<P> {
+public interface EAdList<P> extends Iterable<P> {
 
 	/**
 	 * <p>
@@ -89,7 +87,7 @@ public interface EAdList<P> extends
 	 * 
 	 * @param e
 	 *            element to remove.
-	 * @return 
+	 * @return
 	 * 
 	 * @throws NullPointerException
 	 *             if {@code e} is {@code null}.
@@ -150,6 +148,11 @@ public interface EAdList<P> extends
 	 */
 	public int indexOf(P o);
 
+	/**
+	 * Returns the class object of the elements hold by this list
+	 * 
+	 * @return the list class
+	 */
 	public Class<?> getValueClass();
 
 	/**

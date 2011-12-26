@@ -58,12 +58,12 @@ import es.eucm.eadventure.common.params.paint.EAdFill;
 import es.eucm.eadventure.common.params.text.EAdFont;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.Shape;
 import es.eucm.eadventure.common.util.EAdMatrix;
-import es.eucm.eadventure.common.util.EAdRectangleImpl;
+import es.eucm.eadventure.common.util.EAdRectangle;
 import es.eucm.eadventure.engine.assets.AndroidBezierShape;
 import es.eucm.eadventure.engine.assets.AndroidEngineFont;
 import es.eucm.eadventure.engine.core.platform.DrawableAsset;
 import es.eucm.eadventure.engine.core.platform.FontHandler;
-import es.eucm.eadventure.engine.core.platform.impl.rendering.AbstractCanvas;
+import es.eucm.eadventure.engine.core.platform.rendering.AbstractCanvas;
 import es.eucm.eadventure.engine.core.platform.rendering.filters.FilterFactory;
 import es.eucm.eadventure.engine.core.util.EAdTransformation;
 
@@ -171,7 +171,7 @@ public class AndroidCanvas extends AbstractCanvas<Canvas> {
 	}
 
 	@Override
-	public void clip(EAdRectangleImpl rectangle) {
+	public void clip(EAdRectangle rectangle) {
 		g.clipRect(rectangle.getX(), rectangle.getY(), rectangle.getWidth(),
 				rectangle.getHeight());
 	}

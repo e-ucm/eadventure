@@ -50,7 +50,7 @@ import es.eucm.eadventure.common.model.elements.scene.EAdSceneElement;
 import es.eucm.eadventure.common.model.elements.scenes.SceneElementImpl;
 import es.eucm.eadventure.common.model.elements.variables.FieldImpl;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.Caption;
-import es.eucm.eadventure.common.util.EAdPositionImpl;
+import es.eucm.eadventure.common.util.EAdPosition;
 
 /**
  * <p>
@@ -110,7 +110,7 @@ public class ShowSceneElementEf extends AbstractEffect {
 			ShowTextAnimation animation) {
 		SceneElementImpl text = new SceneElementImpl(caption);
 		text.setId(this.id + "_caption");
-		text.setPosition(new EAdPositionImpl(x, y));
+		text.setPosition(new EAdPosition(x, y));
 		setSceneElement(text, animation);
 	}
 

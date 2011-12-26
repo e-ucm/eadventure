@@ -39,6 +39,7 @@ package es.eucm.eadventure.engine.core.game;
 
 import es.eucm.eadventure.common.model.elements.EAdAdventureModel;
 import es.eucm.eadventure.common.model.elements.EAdChapter;
+import es.eucm.eadventure.engine.core.util.EAdTransformation;
 
 /**
  * Main game interface. Include the methods to update the game state, render the
@@ -78,5 +79,7 @@ public interface Game {
 	void setGame(EAdAdventureModel model, EAdChapter eAdChapter);
 	
 	void updateInitialTransformation();
+	
+	EAdTransformation getInitialTransformation();
 
 }

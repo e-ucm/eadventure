@@ -41,8 +41,8 @@ import es.eucm.eadventure.common.elementfactories.demos.normalguy.NgCommon;
 import es.eucm.eadventure.common.model.elements.scenes.SceneElementDefImpl;
 import es.eucm.eadventure.common.model.elements.scenes.SceneElementImpl;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.ImageImpl;
-import es.eucm.eadventure.common.util.EAdPositionImpl;
-import es.eucm.eadventure.common.util.EAdPositionImpl.Corner;
+import es.eucm.eadventure.common.util.EAdPosition;
+import es.eucm.eadventure.common.util.EAdPosition.Corner;
 
 public class PositionScene extends EmptyScene {
 
@@ -55,7 +55,7 @@ public class PositionScene extends EmptyScene {
 		NgCommon.init();
 		SceneElementImpl e = new SceneElementImpl( NgCommon.getMainCharacter());
 		e.setScale(0.5f);
-		e.setPosition(new EAdPositionImpl(Corner.BOTTOM_CENTER, 400, 300));
+		e.setPosition(new EAdPosition(Corner.BOTTOM_CENTER, 400, 300));
 		
 		this.getComponents().add(e);
 	}

@@ -6,7 +6,7 @@ import es.eucm.eadventure.common.model.elements.effects.enums.InterpolationType;
 import es.eucm.eadventure.common.model.elements.effects.variables.ChangeFieldEf;
 import es.eucm.eadventure.common.model.elements.events.SceneElementEv;
 import es.eucm.eadventure.common.model.elements.events.enums.SceneElementEventType;
-import es.eucm.eadventure.common.model.elements.guievents.MouseEventImpl;
+import es.eucm.eadventure.common.model.elements.guievents.EAdMouseEvent;
 import es.eucm.eadventure.common.model.elements.scene.EAdSceneElementDef;
 import es.eucm.eadventure.common.model.elements.scenes.SceneElementDefImpl;
 import es.eucm.eadventure.common.model.elements.scenes.SceneElementImpl;
@@ -22,8 +22,8 @@ import es.eucm.eadventure.common.resources.assets.drawable.basics.Image;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.ImageImpl;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.animation.Frame;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.animation.FramesAnimation;
-import es.eucm.eadventure.common.util.EAdPositionImpl;
-import es.eucm.eadventure.common.util.EAdPositionImpl.Corner;
+import es.eucm.eadventure.common.util.EAdPosition;
+import es.eucm.eadventure.common.util.EAdPosition.Corner;
 
 public class BVSScene extends EmptyScene {
 
@@ -53,19 +53,19 @@ public class BVSScene extends EmptyScene {
 		//250 x 200
 		
 		SceneElementImpl b = getButton(optionUris);
-		b.setPosition(new EAdPositionImpl(Corner.BOTTOM_LEFT, 75, 575));
+		b.setPosition(new EAdPosition(Corner.BOTTOM_LEFT, 75, 575));
 		getComponents().add(b);
 		
 		b = getButton(option1Uris);
-		b.setPosition(new EAdPositionImpl(Corner.BOTTOM_RIGHT, 725, 575));
+		b.setPosition(new EAdPosition(Corner.BOTTOM_RIGHT, 725, 575));
 		getComponents().add(b);
 
 		b = getButton(option2Uris);
-		b.setPosition(new EAdPositionImpl(Corner.TOP_RIGHT, 725, 150));
+		b.setPosition(new EAdPosition(Corner.TOP_RIGHT, 725, 150));
 		getComponents().add(b);
 
 		b = getButton(option3Uris);
-		b.setPosition(new EAdPositionImpl(Corner.TOP_LEFT, 75, 150));
+		b.setPosition(new EAdPosition(Corner.TOP_LEFT, 75, 150));
 		getComponents().add(b);
 
 		CaptionImpl caption = new CaptionImpl(new EAdString("Choose how to start a cough..."));
@@ -106,14 +106,14 @@ public class BVSScene extends EmptyScene {
 						SceneElementImpl.VAR_SCALE), 0.0f, 0.4f, 150,
 				InterpolationLoopType.NO_LOOP, InterpolationType.LINEAR);
 
-		buttonRef.addBehavior(MouseEventImpl.MOUSE_ENTERED, e);
-		buttonRef.addBehavior(MouseEventImpl.MOUSE_ENTERED, e2);
+		buttonRef.addBehavior(EAdMouseEvent.MOUSE_ENTERED, e);
+		buttonRef.addBehavior(EAdMouseEvent.MOUSE_ENTERED, e2);
 
 		e = new ChangeFieldEf(scale2, new ValueOp(0));
-		buttonRef.addBehavior(MouseEventImpl.MOUSE_EXITED, e);
+		buttonRef.addBehavior(EAdMouseEvent.MOUSE_EXITED, e);
 		EAdField<Float> scale = new FieldImpl<Float>(buttonRef, SceneElementImpl.VAR_SCALE);
 		e = new ChangeFieldEf(scale, new ValueOp(1.0f));
-		buttonRef.addBehavior(MouseEventImpl.MOUSE_EXITED, e);
+		buttonRef.addBehavior(EAdMouseEvent.MOUSE_EXITED, e);
 
 		
 		return buttonRef;

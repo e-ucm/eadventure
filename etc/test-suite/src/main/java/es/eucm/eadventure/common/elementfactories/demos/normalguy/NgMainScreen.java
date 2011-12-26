@@ -44,10 +44,10 @@ import es.eucm.eadventure.common.model.elements.effects.enums.InterpolationLoopT
 import es.eucm.eadventure.common.model.elements.effects.enums.InterpolationType;
 import es.eucm.eadventure.common.model.elements.events.SceneElementEv;
 import es.eucm.eadventure.common.model.elements.events.enums.SceneElementEventType;
-import es.eucm.eadventure.common.model.elements.guievents.MouseEventImpl;
+import es.eucm.eadventure.common.model.elements.guievents.EAdMouseEvent;
 import es.eucm.eadventure.common.model.elements.scenes.SceneElementImpl;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.ImageImpl;
-import es.eucm.eadventure.common.util.EAdPositionImpl.Corner;
+import es.eucm.eadventure.common.util.EAdPosition.Corner;
 
 public class NgMainScreen extends EmptyScene {
 
@@ -84,7 +84,7 @@ public class NgMainScreen extends EmptyScene {
 		ChangeSceneEf changeScene = new ChangeSceneEf( );
 		changeScene.setId("changeScene");
 		changeScene.setNextScene(new NgRoom1());
-		getBackground().addBehavior(MouseEventImpl.MOUSE_LEFT_PRESSED, changeScene);
+		getBackground().addBehavior(EAdMouseEvent.MOUSE_LEFT_PRESSED, changeScene);
 		
 		logo.getEvents().add(e);
 		

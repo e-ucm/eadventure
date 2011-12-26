@@ -45,15 +45,15 @@ import es.eucm.eadventure.common.model.elements.effects.ActorActionsEf;
 import es.eucm.eadventure.common.model.elements.effects.text.SpeakEf;
 import es.eucm.eadventure.common.model.elements.events.SceneElementEv;
 import es.eucm.eadventure.common.model.elements.events.enums.SceneElementEventType;
-import es.eucm.eadventure.common.model.elements.guievents.MouseEventImpl;
+import es.eucm.eadventure.common.model.elements.guievents.EAdMouseEvent;
 import es.eucm.eadventure.common.model.elements.scenes.SceneElementImpl;
 import es.eucm.eadventure.common.model.elements.trajectories.SimpleTrajectoryDefinition;
 import es.eucm.eadventure.common.model.predef.effects.MakeActiveElementEf;
 import es.eucm.eadventure.common.model.predef.effects.MoveActiveElementEf;
 import es.eucm.eadventure.common.model.predef.effects.SpeakSceneElementEf;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.ImageImpl;
-import es.eucm.eadventure.common.util.EAdPositionImpl;
-import es.eucm.eadventure.common.util.EAdPositionImpl.Corner;
+import es.eucm.eadventure.common.util.EAdPosition;
+import es.eucm.eadventure.common.util.EAdPosition.Corner;
 
 public class SpeakAndMoveScene extends EmptyScene {
 
@@ -67,7 +67,7 @@ public class SpeakAndMoveScene extends EmptyScene {
 		SceneElementImpl character = new SceneElementImpl(
 				NgCommon.getMainCharacter());
 
-		character.setPosition(new EAdPositionImpl(Corner.BOTTOM_CENTER, 400,
+		character.setPosition(new EAdPosition(Corner.BOTTOM_CENTER, 400,
 				400));
 
 		SpeakEf effect = new SpeakSceneElementEf(character);
@@ -81,7 +81,7 @@ public class SpeakAndMoveScene extends EmptyScene {
 		// effect.setFont(new EAdFontImpl(18));
 
 		// effect.seta
-		character.addBehavior(MouseEventImpl.MOUSE_LEFT_PRESSED, effect);
+		character.addBehavior(EAdMouseEvent.MOUSE_LEFT_PRESSED, effect);
 
 		this.getComponents().add(character);
 
@@ -97,7 +97,7 @@ public class SpeakAndMoveScene extends EmptyScene {
 		d.setLimits(0, 0, 800, 600);
 		setTrajectoryDefinition(d);
 
-		getBackground().addBehavior(MouseEventImpl.MOUSE_LEFT_PRESSED,
+		getBackground().addBehavior(EAdMouseEvent.MOUSE_LEFT_PRESSED,
 				new MoveActiveElementEf());
 
 		SceneElementImpl actionsObject = new SceneElementImpl(
@@ -121,7 +121,7 @@ public class SpeakAndMoveScene extends EmptyScene {
 		actionsObject.getDefinition().getActions().add(action);
 
 		EAdEffect showActions = new ActorActionsEf(actionsObject.getDefinition());
-		actionsObject.addBehavior(MouseEventImpl.MOUSE_RIGHT_CLICK,
+		actionsObject.addBehavior(EAdMouseEvent.MOUSE_RIGHT_CLICK,
 				showActions);
 		getComponents().add(actionsObject);
 	}

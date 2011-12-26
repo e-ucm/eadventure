@@ -44,18 +44,18 @@ import org.junit.Before;
 import org.junit.Test;
 
 import es.eucm.eadventure.common.model.elements.conditions.EmptyCond;
-import es.eucm.eadventure.common.model.elements.conditions.enums.EmptyConditionValue;
-import es.eucm.eadventure.engine.core.evaluators.impl.EmptyConditionEvaluator;
+import es.eucm.eadventure.common.model.elements.conditions.enums.EmptyCondValue;
+import es.eucm.eadventure.engine.core.evaluators.EmptyCondEvaluator;
 
 public class EmtpyConditionEvaluatorTest {
 	
-	protected EmptyConditionEvaluator evaluator;	
-	protected EmptyCond cTrue = new EmptyCond(EmptyConditionValue.TRUE);
-	protected EmptyCond cFalse = new EmptyCond(EmptyConditionValue.FALSE);
+	protected EmptyCondEvaluator evaluator;	
+	protected EmptyCond cTrue = new EmptyCond(EmptyCondValue.TRUE);
+	protected EmptyCond cFalse = new EmptyCond(EmptyCondValue.FALSE);
 	
 	@Before
 	public void setUp(){
-		evaluator = new EmptyConditionEvaluator();
+		evaluator = new EmptyCondEvaluator();
 	}
 
 	@Test

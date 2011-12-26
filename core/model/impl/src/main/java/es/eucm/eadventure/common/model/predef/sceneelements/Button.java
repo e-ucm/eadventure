@@ -37,7 +37,7 @@
 
 package es.eucm.eadventure.common.model.predef.sceneelements;
 
-import es.eucm.eadventure.common.model.elements.guievents.MouseEventImpl;
+import es.eucm.eadventure.common.model.elements.guievents.EAdMouseEvent;
 import es.eucm.eadventure.common.model.elements.scenes.ComplexSceneElementImpl;
 import es.eucm.eadventure.common.model.elements.scenes.SceneElementDefImpl;
 import es.eucm.eadventure.common.model.elements.scenes.SceneElementImpl;
@@ -50,7 +50,7 @@ import es.eucm.eadventure.common.params.text.EAdString;
 import es.eucm.eadventure.common.resources.EAdBundleId;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.CaptionImpl;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.shapes.RectangleShape;
-import es.eucm.eadventure.common.util.EAdPositionImpl.Corner;
+import es.eucm.eadventure.common.util.EAdPosition.Corner;
 
 public class Button extends ComplexSceneElementImpl {
 
@@ -97,8 +97,8 @@ public class Button extends ComplexSceneElementImpl {
 				definition.getInitialBundle());
 		ChangeAppearanceEf changeAppearance2 = new ChangeAppearanceEf(this,
 				over);
-		addBehavior(MouseEventImpl.MOUSE_EXITED, changeAppearance);
-		addBehavior(MouseEventImpl.MOUSE_ENTERED, changeAppearance2);
+		addBehavior(EAdMouseEvent.MOUSE_EXITED, changeAppearance);
+		addBehavior(EAdMouseEvent.MOUSE_ENTERED, changeAppearance2);
 	}
 
 }

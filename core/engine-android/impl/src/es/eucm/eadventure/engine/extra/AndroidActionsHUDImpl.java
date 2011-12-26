@@ -52,22 +52,22 @@ import com.google.inject.Singleton;
 import es.eucm.eadventure.common.model.elements.EAdAction;
 import es.eucm.eadventure.common.model.elements.extra.EAdList;
 import es.eucm.eadventure.common.util.EAdInterpolator;
-import es.eucm.eadventure.common.util.EAdPositionImpl;
-import es.eucm.eadventure.common.util.EAdPositionImpl.Corner;
+import es.eucm.eadventure.common.util.EAdPosition;
+import es.eucm.eadventure.common.util.EAdPosition.Corner;
 import es.eucm.eadventure.engine.core.game.GameLoop;
 import es.eucm.eadventure.engine.core.game.GameState;
 import es.eucm.eadventure.engine.core.gameobjects.GameObjectManager;
 import es.eucm.eadventure.engine.core.gameobjects.factories.SceneElementGOFactory;
 import es.eucm.eadventure.engine.core.gameobjects.go.SceneElementGO;
+import es.eucm.eadventure.engine.core.gameobjects.huds.AbstractHUD;
+import es.eucm.eadventure.engine.core.gameobjects.huds.ActionSceneElement;
 import es.eucm.eadventure.engine.core.gameobjects.huds.ActionsHUD;
-import es.eucm.eadventure.engine.core.gameobjects.huds.impl.AbstractHUD;
-import es.eucm.eadventure.engine.core.gameobjects.huds.impl.ActionSceneElement;
-import es.eucm.eadventure.engine.core.guiactions.GUIAction;
-import es.eucm.eadventure.engine.core.guiactions.MouseAction;
+import es.eucm.eadventure.engine.core.input.InputAction;
+import es.eucm.eadventure.engine.core.input.actions.MouseActionImpl;
 import es.eucm.eadventure.engine.core.platform.GUI;
 import es.eucm.eadventure.engine.core.platform.rendering.GenericCanvas;
 import es.eucm.eadventure.engine.core.util.EAdTransformation;
-import es.eucm.eadventure.engine.core.util.impl.EAdTransformationImpl;
+import es.eucm.eadventure.engine.core.util.EAdTransformationImpl;
 
 
 @Singleton
@@ -85,7 +85,7 @@ public class AndroidActionsHUDImpl extends AbstractHUD implements ActionsHUD {
 	
 	private static int offset = actionWidth/3;
 
-	private List<EAdPositionImpl> positions;
+	private List<EAdPosition> positions;
 
 	private List<SceneElementGO<?>> actionsGO;
 
@@ -109,7 +109,7 @@ public class AndroidActionsHUDImpl extends AbstractHUD implements ActionsHUD {
 
 	protected SceneElementGO<?> sceneElement;
 	
-	private EAdPositionImpl posInicial, posFinal;
+	private EAdPosition posInicial, posFinal;
 
 	/**
 	 * The logger
@@ -134,7 +134,7 @@ public class AndroidActionsHUDImpl extends AbstractHUD implements ActionsHUD {
 		super(gui);
 		this.gameState = gameState;
 		actionsGO = new ArrayList<SceneElementGO<?>>();
-		positions = new ArrayList<EAdPositionImpl>();
+		positions = new ArrayList<EAdPosition>();
 		this.sceneElementFactory = factory;
 		this.gameObjectManager = gameObjectManager;
 
@@ -159,10 +159,10 @@ public class AndroidActionsHUDImpl extends AbstractHUD implements ActionsHUD {
 	 * .eucm.eadventure.engine.core.guiactions.GUIAction)
 	 */
 	@Override
-	public boolean processAction(GUIAction action) {
+	public boolean processAction(InputAction<?> action) {
 		boolean remove = false;
-		if (action instanceof MouseAction) {
-			MouseAction temp = (MouseAction) action;
+		if (action instanceof MouseActionImpl) {
+			MouseActionImpl temp = (MouseActionImpl) action;
 
 			switch (temp.getType()) {
 			case CLICK:
@@ -218,7 +218,7 @@ public class AndroidActionsHUDImpl extends AbstractHUD implements ActionsHUD {
 		for (EAdAction a : actions) {
 			ActionSceneElement action = new ActionSceneElement(a);
 			action.setPosition(Corner.TOP_LEFT, x, y); 
-			positions.add(new EAdPositionImpl(place - x, GUI.VIRTUAL_HEIGHT/2 - actionHeight/2 - y));
+			positions.add(new EAdPosition(place - x, GUI.VIRTUAL_HEIGHT/2 - actionHeight/2 - y));
 			actionsGO.add(sceneElementFactory.get(action));
 			actionsGO.get(i).getAsset().loadAsset(); 
 			height = actionsGO.get(i).getAsset().getHeight();
@@ -239,7 +239,7 @@ public class AndroidActionsHUDImpl extends AbstractHUD implements ActionsHUD {
 		for (SceneElementGO<?> go : actionsGO) {
 
 			EAdTransformationImpl posT = new EAdTransformationImpl();
-			EAdPositionImpl p = this.positions.get(i);
+			EAdPosition p = this.positions.get(i);
 			if (state == ActionsState.STOPPED) {
 				posT.getMatrix().translate(p.getX() * interpolation1, p.getY() * interpolation2, true);
 				gui.addElement(go, gui.addTransformation(gui.addTransformation(t, transformation), posT));

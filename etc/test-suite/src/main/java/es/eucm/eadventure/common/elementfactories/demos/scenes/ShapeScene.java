@@ -50,7 +50,7 @@ import es.eucm.eadventure.common.model.elements.variables.FieldImpl;
 import es.eucm.eadventure.common.params.fills.EAdColor;
 import es.eucm.eadventure.common.params.fills.EAdPaintImpl;
 import es.eucm.eadventure.common.resources.assets.drawable.Drawable;
-import es.eucm.eadventure.common.util.EAdPositionImpl.Corner;
+import es.eucm.eadventure.common.util.EAdPosition.Corner;
 
 /**
  * Scene with shapes. Test containst for different types of shapes

@@ -40,7 +40,8 @@ package es.eucm.eadventure.engine.core.platform.assets.impl;
 import java.awt.Graphics2D;
 import java.awt.geom.GeneralPath;
 
-import es.eucm.eadventure.common.util.EAdPositionImpl;
+import es.eucm.eadventure.common.util.EAdPosition;
+import es.eucm.eadventure.engine.core.platform.assets.RuntimeBezierShape;
 
 public class DesktopBezierShape extends RuntimeBezierShape<Graphics2D> {
 	
@@ -51,11 +52,11 @@ public class DesktopBezierShape extends RuntimeBezierShape<Graphics2D> {
 		super.loadAsset();
 		path = new GeneralPath();
 		
-		EAdPositionImpl p = descriptor.getPoints().get(0);
+		EAdPosition p = descriptor.getPoints().get(0);
 		path.moveTo(p.getX(), p.getY());
 		
 		int pointIndex = 1;
-		EAdPositionImpl p1, p2, p3;
+		EAdPosition p1, p2, p3;
 		for ( Integer i: descriptor.getSegmentsLength() ){
 				switch( i ){
 				case 1:

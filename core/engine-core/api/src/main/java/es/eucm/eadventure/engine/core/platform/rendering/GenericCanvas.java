@@ -42,7 +42,7 @@ import es.eucm.eadventure.common.params.text.EAdFont;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.Shape;
 import es.eucm.eadventure.common.resources.assets.drawable.filters.DrawableFilter;
 import es.eucm.eadventure.common.util.EAdMatrix;
-import es.eucm.eadventure.common.util.EAdRectangleImpl;
+import es.eucm.eadventure.common.util.EAdRectangle;
 import es.eucm.eadventure.engine.core.platform.DrawableAsset;
 import es.eucm.eadventure.engine.core.util.EAdTransformation;
 
@@ -128,7 +128,7 @@ public interface GenericCanvas<S> {
 	 * @param rectangle
 	 */
 	// TODO Remove?
-	void clip(EAdRectangleImpl rectangle);
+	void clip(EAdRectangle rectangle);
 
 	/**
 	 * Save the configuration and parameters of the graphic context in a stack

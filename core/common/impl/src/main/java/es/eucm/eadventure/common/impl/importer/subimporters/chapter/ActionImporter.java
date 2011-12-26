@@ -70,9 +70,8 @@ import es.eucm.eadventure.common.model.elements.effects.TriggerMacroEf;
 import es.eucm.eadventure.common.model.elements.effects.enums.InventoryEffectAction;
 import es.eucm.eadventure.common.model.elements.effects.text.SpeakEf;
 import es.eucm.eadventure.common.model.elements.effects.variables.ChangeFieldEf;
-import es.eucm.eadventure.common.model.elements.guievents.DragEventImpl;
 import es.eucm.eadventure.common.model.elements.guievents.EAdDragEvent;
-import es.eucm.eadventure.common.model.elements.guievents.enums.DragAction;
+import es.eucm.eadventure.common.model.elements.guievents.enums.DragEventType;
 import es.eucm.eadventure.common.model.elements.scene.EAdSceneElement;
 import es.eucm.eadventure.common.model.elements.scene.EAdSceneElementDef;
 import es.eucm.eadventure.common.model.elements.scenes.SceneElementDefImpl;
@@ -528,7 +527,7 @@ public class ActionImporter implements EAdElementImporter<Action, EAdAction> {
 		}
 		
 		for ( Entry<EAdAction, EAdSceneElementDef> e: targets.entrySet() ){
-			EAdDragEvent dragEvent = new DragEventImpl(actor, DragAction.DROP);
+			EAdDragEvent dragEvent = new EAdDragEvent(actor, DragEventType.DROP);
 			TriggerMacroEf trigger = triggers.get(e.getKey());
 			e.getValue().addBehavior(dragEvent, trigger);
 		}

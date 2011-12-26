@@ -39,26 +39,26 @@ package es.eucm.eadventure.common.model.elements.conditions;
 
 import es.eucm.eadventure.common.interfaces.Element;
 import es.eucm.eadventure.common.interfaces.Param;
-import es.eucm.eadventure.common.model.elements.conditions.enums.EmptyConditionValue;
+import es.eucm.eadventure.common.model.elements.conditions.enums.EmptyCondValue;
 
 @Element(runtime = EmptyCond.class, detailed = EmptyCond.class)
 public class EmptyCond extends AbstractCondition {
 
 	public static EmptyCond TRUE_EMPTY_CONDITION = new EmptyCond(
-			EmptyConditionValue.TRUE);
+			EmptyCondValue.TRUE);
 
 	public static EmptyCond FALSE_EMPTY_CONDITION = new EmptyCond(
-			EmptyConditionValue.FALSE);
+			EmptyCondValue.FALSE);
 
 	@Param("value")
-	private EmptyConditionValue value;
+	private EmptyCondValue value;
 	
 	public EmptyCond(){
 		super( );
 		this.setId("emptyCondition");
 	}
 
-	public EmptyCond(EmptyConditionValue value) {
+	public EmptyCond(EmptyCondValue value) {
 		super();
 		this.value = value;
 	}
@@ -66,7 +66,7 @@ public class EmptyCond extends AbstractCondition {
 	/**
 	 * @return the value
 	 */
-	public EmptyConditionValue getValue() {
+	public EmptyCondValue getValue() {
 		return value;
 	}
 
@@ -74,7 +74,7 @@ public class EmptyCond extends AbstractCondition {
 	 * @param value
 	 *            the value to set
 	 */
-	public void setValue(EmptyConditionValue value) {
+	public void setValue(EmptyCondValue value) {
 		this.value = value;
 	}
 	

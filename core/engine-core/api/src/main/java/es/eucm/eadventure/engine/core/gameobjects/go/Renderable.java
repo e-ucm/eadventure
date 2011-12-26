@@ -37,7 +37,7 @@
 
 package es.eucm.eadventure.engine.core.gameobjects.go;
 
-import es.eucm.eadventure.engine.core.guiactions.GUIAction;
+import es.eucm.eadventure.engine.core.input.InputAction;
 import es.eucm.eadventure.engine.core.platform.rendering.GenericCanvas;
 import es.eucm.eadventure.engine.core.util.EAdTransformation;
 
@@ -51,7 +51,7 @@ public interface Renderable {
 	
 	boolean contains( int x, int y );
 	
-	boolean processAction(GUIAction action);
+	boolean processAction(InputAction<?> action);
 	
 	EAdTransformation getTransformation();
 

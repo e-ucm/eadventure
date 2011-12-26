@@ -46,7 +46,7 @@ import com.google.inject.Inject;
 
 import es.eucm.eadventure.engine.AndroidAssetHandler;
 import es.eucm.eadventure.engine.core.platform.AssetHandler;
-import es.eucm.eadventure.engine.core.platform.assets.impl.RuntimeSound;
+import es.eucm.eadventure.engine.core.platform.assets.RuntimeSound;
 
 public class AndroidSound extends RuntimeSound {
 

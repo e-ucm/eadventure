@@ -59,12 +59,11 @@ import com.google.gwt.user.client.Event.NativePreviewHandler;
 import com.google.inject.Inject;
 
 import es.eucm.eadventure.common.model.elements.guievents.EAdMouseEvent;
-import es.eucm.eadventure.common.model.elements.guievents.MouseEventImpl;
-import es.eucm.eadventure.common.model.elements.guievents.enums.MouseActionType;
-import es.eucm.eadventure.common.model.elements.guievents.enums.MouseButton;
+import es.eucm.eadventure.common.model.elements.guievents.enums.MouseEventType;
+import es.eucm.eadventure.common.model.elements.guievents.enums.MouseButtonType;
 import es.eucm.eadventure.engine.core.game.Game;
-import es.eucm.eadventure.engine.core.guiactions.impl.MouseActionImpl;
-import es.eucm.eadventure.engine.core.input.MouseState;
+import es.eucm.eadventure.engine.core.input.InputHandler;
+import es.eucm.eadventure.engine.core.input.actions.MouseActionImpl;
 import es.eucm.eadventure.engine.core.platform.AssetHandler;
 import es.eucm.eadventure.engine.core.platform.EngineConfiguration;
 import es.eucm.eadventure.engine.core.platform.GUI;
@@ -81,7 +80,7 @@ public class EAdEngine implements playn.core.Game, Keyboard.Listener {
 
 	private GUI gui;
 
-	private MouseState mouseState;
+	private InputHandler mouseState;
 
 	private EngineConfiguration platformConfiguration;
 
@@ -89,7 +88,7 @@ public class EAdEngine implements playn.core.Game, Keyboard.Listener {
 
 	@Inject
 	public EAdEngine(Game game, GUI gui, AssetHandler assetHandler,
-			MouseState mouseState, EngineConfiguration platformConfiguration) {
+			InputHandler mouseState, EngineConfiguration platformConfiguration) {
 		this.game = game;
 		this.gui = gui;
 		this.mouseState = mouseState;
@@ -146,47 +145,44 @@ public class EAdEngine implements playn.core.Game, Keyboard.Listener {
 						int eventType = event.getTypeInt();
 						int eventX = event.getNativeEvent().getClientX();
 						int eventY = event.getNativeEvent().getClientY();
-						MouseButton b = getMouseButton(event.getNativeEvent()
+						MouseButtonType b = getMouseButton(event.getNativeEvent()
 								.getButton());
 						// TODO double click
-						mouseState.setMousePosition(eventX, eventY);
 						EAdMouseEvent e = null;
 						switch (eventType) {
 						case com.google.gwt.user.client.Event.ONCLICK:
 							// Do nothing. Clicks are processed in ONMOUSEUP;
 							break;
 						case com.google.gwt.user.client.Event.ONMOUSEDOWN:
-							mouseState.setMousePressed(true, b);
-							e = MouseEventImpl.getMouseEvent(
-									MouseActionType.PRESSED, b);
+							e = EAdMouseEvent.getMouseEvent(
+									MouseEventType.PRESSED, b);
 							break;
 						case com.google.gwt.user.client.Event.ONMOUSEUP:
-							mouseState.setMousePressed(false, null);
-							e = MouseEventImpl.getMouseEvent(
-									MouseActionType.RELEASED, b);
-							mouseState.getMouseEvents().add(new MouseActionImpl(MouseEventImpl.getMouseEvent(
-									MouseActionType.CLICK, b), eventX, eventY ));
+							e = EAdMouseEvent.getMouseEvent(
+									MouseEventType.RELEASED, b);
+							mouseState.addAction(new MouseActionImpl(EAdMouseEvent.getMouseEvent(
+									MouseEventType.CLICK, b), eventX, eventY ));
 							break;
 						default:
 							// not interested in other events
 						}
 						if (e != null)
-							mouseState.getMouseEvents().add(
+							mouseState.addAction(
 									new MouseActionImpl(e, eventX, eventY));
 					}
 				});
 	}
 
-	private MouseButton getMouseButton(int b) {
+	private MouseButtonType getMouseButton(int b) {
 		switch (b) {
 		case NativeEvent.BUTTON_LEFT:
-			return MouseButton.BUTTON_1;
+			return MouseButtonType.BUTTON_1;
 		case NativeEvent.BUTTON_MIDDLE:
-			return MouseButton.BUTTON_2;
+			return MouseButtonType.BUTTON_2;
 		case NativeEvent.BUTTON_RIGHT:
-			return MouseButton.BUTTON_3;
+			return MouseButtonType.BUTTON_3;
 		default:
-			return MouseButton.NO_BUTTON;
+			return MouseButtonType.NO_BUTTON;
 		}
 	}
 

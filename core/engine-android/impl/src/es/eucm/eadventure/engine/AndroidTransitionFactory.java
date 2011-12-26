@@ -42,7 +42,7 @@ import com.google.inject.Injector;
 
 import es.eucm.eadventure.common.model.elements.transitions.EAdTransition;
 import es.eucm.eadventure.engine.core.gameobjects.go.TransitionGO;
-import es.eucm.eadventure.engine.core.gameobjects.impl.transitions.SimpleTransitionGO;
+import es.eucm.eadventure.engine.core.gameobjects.transitions.SimpleTransitionGO;
 import es.eucm.eadventure.engine.core.platform.TransitionFactory;
 
 public class AndroidTransitionFactory implements TransitionFactory {

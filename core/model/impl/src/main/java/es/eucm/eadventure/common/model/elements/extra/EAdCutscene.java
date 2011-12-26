@@ -43,7 +43,7 @@ import es.eucm.eadventure.common.model.elements.EAdChapter;
 import es.eucm.eadventure.common.model.elements.effects.ChangeSceneEf;
 import es.eucm.eadventure.common.model.elements.effects.variables.ChangeFieldEf;
 import es.eucm.eadventure.common.model.elements.extra.EAdList;
-import es.eucm.eadventure.common.model.elements.guievents.MouseEventImpl;
+import es.eucm.eadventure.common.model.elements.guievents.EAdMouseEvent;
 import es.eucm.eadventure.common.model.elements.scene.EAdScene;
 import es.eucm.eadventure.common.model.elements.scenes.ComposedScene;
 import es.eucm.eadventure.common.model.elements.transitions.EAdTransition;
@@ -85,13 +85,13 @@ public class EAdCutscene extends ComposedScene {
 					currentScene, new MathOp(
 							"[0] + 1", currentScene));
 			slide.getBackground().getBehavior()
-					.addBehavior(MouseEventImpl.MOUSE_LEFT_CLICK, e);
+					.addBehavior(EAdMouseEvent.MOUSE_LEFT_CLICK, e);
 
 			if (slide.getTime() == -1) {
 				ChangeSceneEf e2 = new ChangeSceneEf( this,
 						EAdTransition.DISPLACE);
 				slide.getBackground().getBehavior()
-						.addBehavior(MouseEventImpl.MOUSE_LEFT_CLICK, e2);
+						.addBehavior(EAdMouseEvent.MOUSE_LEFT_CLICK, e2);
 			} else {
 //				EAdTimerImpl timer = new EAdTimerImpl();
 //				timer.setId("timer");
@@ -116,7 +116,7 @@ public class EAdCutscene extends ComposedScene {
 		ChangeSceneEf e3 = new ChangeSceneEf(nextScene,
 				EAdTransition.DISPLACE);
 		slides.get(slides.size() - 1).getBackground().getBehavior()
-				.addBehavior(MouseEventImpl.MOUSE_LEFT_CLICK, e3);
+				.addBehavior(EAdMouseEvent.MOUSE_LEFT_CLICK, e3);
 	}
 
 	public void setNextScene(EAdScene nextScene) {

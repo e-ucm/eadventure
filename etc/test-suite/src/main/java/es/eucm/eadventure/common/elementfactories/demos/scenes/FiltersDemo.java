@@ -7,7 +7,7 @@ import es.eucm.eadventure.common.resources.assets.drawable.filters.FilteredDrawa
 import es.eucm.eadventure.common.resources.assets.drawable.filters.FilteredDrawableImpl;
 import es.eucm.eadventure.common.resources.assets.drawable.filters.MatrixFilter;
 import es.eucm.eadventure.common.util.EAdMatrixImpl;
-import es.eucm.eadventure.common.util.EAdPositionImpl.Corner;
+import es.eucm.eadventure.common.util.EAdPosition.Corner;
 
 public class FiltersDemo extends EmptyScene {
 

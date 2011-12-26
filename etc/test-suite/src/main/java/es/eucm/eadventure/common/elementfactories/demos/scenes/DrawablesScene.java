@@ -39,7 +39,7 @@ package es.eucm.eadventure.common.elementfactories.demos.scenes;
 
 import es.eucm.eadventure.common.elementfactories.EAdElementsFactory;
 import es.eucm.eadventure.common.model.elements.enums.CommonStates;
-import es.eucm.eadventure.common.model.elements.guievents.MouseEventImpl;
+import es.eucm.eadventure.common.model.elements.guievents.EAdMouseEvent;
 import es.eucm.eadventure.common.model.elements.scenes.SceneElementImpl;
 import es.eucm.eadventure.common.model.elements.variables.FieldImpl;
 import es.eucm.eadventure.common.model.elements.variables.operations.ValueOp;
@@ -169,7 +169,7 @@ public class DrawablesScene extends EmptyScene {
 				.getSceneElementFactory()
 				.createSceneElement(stateDrawable, x + 50, y + 40);
 		sceneElement.addBehavior(
-				MouseEventImpl.MOUSE_RIGHT_CLICK,
+				EAdMouseEvent.MOUSE_RIGHT_CLICK,
 				EAdElementsFactory
 						.getInstance()
 						.getEffectFactory()
@@ -179,7 +179,7 @@ public class DrawablesScene extends EmptyScene {
 								new ValueOp(CommonStates.EAD_STATE_DEFAULT
 												.toString())));
 		sceneElement.addBehavior(
-				MouseEventImpl.MOUSE_LEFT_CLICK,
+				EAdMouseEvent.MOUSE_LEFT_CLICK,
 				EAdElementsFactory
 						.getInstance()
 						.getEffectFactory()

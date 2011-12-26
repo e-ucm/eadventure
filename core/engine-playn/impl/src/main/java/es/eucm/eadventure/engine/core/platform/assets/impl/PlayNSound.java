@@ -40,6 +40,7 @@ package es.eucm.eadventure.engine.core.platform.assets.impl;
 import com.google.inject.Inject;
 
 import es.eucm.eadventure.engine.core.platform.AssetHandler;
+import es.eucm.eadventure.engine.core.platform.assets.RuntimeSound;
 
 public class PlayNSound extends RuntimeSound {
 

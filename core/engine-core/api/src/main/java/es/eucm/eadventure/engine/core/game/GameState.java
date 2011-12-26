@@ -44,8 +44,9 @@ import es.eucm.eadventure.common.model.elements.EAdEffect;
 import es.eucm.eadventure.common.model.elements.scene.EAdScene;
 import es.eucm.eadventure.common.model.elements.scene.EAdSceneElement;
 import es.eucm.eadventure.engine.core.gameobjects.go.EffectGO;
+import es.eucm.eadventure.engine.core.gameobjects.go.SceneElementGO;
 import es.eucm.eadventure.engine.core.gameobjects.go.SceneGO;
-import es.eucm.eadventure.engine.core.guiactions.GUIAction;
+import es.eucm.eadventure.engine.core.input.InputAction;
 
 /**
  * The state of the game.
@@ -108,7 +109,7 @@ public interface GameState {
 	 * @param parent
 	 *            scene element who launched the effect
 	 */
-	void addEffect(EAdEffect e, GUIAction action, EAdSceneElement parent);
+	void addEffect(EAdEffect e, InputAction<?> action, EAdSceneElement parent);
 
 	/**
 	 * Adds a new effect in a specific position in the queue
@@ -122,7 +123,7 @@ public interface GameState {
 	 * @param parent
 	 *            the element that that launched this effect
 	 */
-	void addEffect(int pos, EAdEffect e, GUIAction action,
+	void addEffect(int pos, EAdEffect e, InputAction<?> action,
 			EAdSceneElement parent);
 
 	/**
@@ -136,7 +137,7 @@ public interface GameState {
 	 * 
 	 * @return
 	 */
-	EAdSceneElement getActiveElement();
+	SceneElementGO<?> getActiveElement();
 
 	/**
 	 * Sets the active element of the game

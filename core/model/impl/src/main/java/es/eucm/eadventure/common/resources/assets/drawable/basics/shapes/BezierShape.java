@@ -43,7 +43,7 @@ import es.eucm.eadventure.common.model.elements.extra.EAdListImpl;
 import es.eucm.eadventure.common.params.fills.EAdPaintImpl;
 import es.eucm.eadventure.common.params.paint.EAdPaint;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.Shape;
-import es.eucm.eadventure.common.util.EAdPositionImpl;
+import es.eucm.eadventure.common.util.EAdPosition;
 
 public class BezierShape implements Shape, Cloneable {
 
@@ -54,13 +54,13 @@ public class BezierShape implements Shape, Cloneable {
 	private boolean closed;
 
 	@Param("points")
-	private EAdList<EAdPositionImpl> points;
+	private EAdList<EAdPosition> points;
 
 	@Param("segmentsLength")
 	private EAdList<Integer> segmentsLength;
 
 	public BezierShape() {
-		points = new EAdListImpl<EAdPositionImpl>(EAdPositionImpl.class);
+		points = new EAdListImpl<EAdPosition>(EAdPosition.class);
 		segmentsLength = new EAdListImpl<Integer>(Integer.class);
 		paint = EAdPaintImpl.TRANSPARENT;
 	}
@@ -70,20 +70,20 @@ public class BezierShape implements Shape, Cloneable {
 		this.paint = paint;
 	}
 
-	public BezierShape(EAdPositionImpl startPoint) {
+	public BezierShape(EAdPosition startPoint) {
 		this();
 		init(startPoint);
 
 	}
 
-	private void init(EAdPositionImpl startPoint) {
+	private void init(EAdPosition startPoint) {
 		points.add(startPoint);
 		closed = false;
 
 	}
 
 	public BezierShape(int x, int y) {
-		this(new EAdPositionImpl(x, y));
+		this(new EAdPosition(x, y));
 	}
 
 	/**
@@ -95,7 +95,7 @@ public class BezierShape implements Shape, Cloneable {
 	 *            y coordinate
 	 */
 	public void moveTo(int x, int y) {
-		init(new EAdPositionImpl(x, y));
+		init(new EAdPosition(x, y));
 	}
 
 	@Override
@@ -107,22 +107,22 @@ public class BezierShape implements Shape, Cloneable {
 		this.paint = paint;
 	}
 
-	public void lineTo(EAdPositionImpl p) {
+	public void lineTo(EAdPosition p) {
 		points.add(p);
 		segmentsLength.add(1);
 	}
 
 	public void lineTo(int x, int y) {
-		this.lineTo(new EAdPositionImpl(x, y));
+		this.lineTo(new EAdPosition(x, y));
 	}
 
-	public void quadTo(EAdPositionImpl p1, EAdPositionImpl p2) {
+	public void quadTo(EAdPosition p1, EAdPosition p2) {
 		points.add(p1);
 		points.add(p2);
 		segmentsLength.add(2);
 	}
 
-	public void curveTo(EAdPositionImpl p1, EAdPositionImpl p2, EAdPositionImpl p3) {
+	public void curveTo(EAdPosition p1, EAdPosition p2, EAdPosition p3) {
 		points.add(p1);
 		points.add(p2);
 		points.add(p3);
@@ -137,7 +137,7 @@ public class BezierShape implements Shape, Cloneable {
 		return closed;
 	}
 
-	public EAdList<EAdPositionImpl> getPoints() {
+	public EAdList<EAdPosition> getPoints() {
 		return points;
 	}
 
@@ -146,7 +146,7 @@ public class BezierShape implements Shape, Cloneable {
 	}
 
 	public void cubeTo(int x1, int y1, int x2, int y2) {
-		quadTo(new EAdPositionImpl(x1, y1), new EAdPositionImpl(x2, y2));
+		quadTo(new EAdPosition(x1, y1), new EAdPosition(x2, y2));
 	}
 	
 	public Object clone(){
@@ -156,8 +156,8 @@ public class BezierShape implements Shape, Cloneable {
 			s.segmentsLength.add(new Integer(i.intValue()));
 		}
 		
-		for ( EAdPositionImpl p: points ){
-			s.points.add(new EAdPositionImpl( p.getX(), p.getY()));
+		for ( EAdPosition p: points ){
+			s.points.add(new EAdPosition( p.getX(), p.getY()));
 		}
 		
 		s.paint = paint;

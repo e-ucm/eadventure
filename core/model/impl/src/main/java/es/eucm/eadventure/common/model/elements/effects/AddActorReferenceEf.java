@@ -41,7 +41,7 @@ import es.eucm.eadventure.common.interfaces.Element;
 import es.eucm.eadventure.common.interfaces.Param;
 import es.eucm.eadventure.common.model.elements.effects.sceneelements.AbstractSceneElementEffect;
 import es.eucm.eadventure.common.model.elements.scene.EAdSceneElementDef;
-import es.eucm.eadventure.common.util.EAdPositionImpl;
+import es.eucm.eadventure.common.util.EAdPosition;
 
 /**
  * Effect that adds an actor reference to the current scene
@@ -55,7 +55,7 @@ public class AddActorReferenceEf extends AbstractEffect {
 	private EAdSceneElementDef actor;
 
 	@Param("position")
-	private EAdPositionImpl position;
+	private EAdPosition position;
 
 	@Param("initialEffect")
 	private AbstractSceneElementEffect effect;
@@ -64,7 +64,7 @@ public class AddActorReferenceEf extends AbstractEffect {
 
 	}
 
-	public AddActorReferenceEf(EAdSceneElementDef actor, EAdPositionImpl p,
+	public AddActorReferenceEf(EAdSceneElementDef actor, EAdPosition p,
 			AbstractSceneElementEffect effect) {
 		this.actor = actor;
 		this.position = p;
@@ -75,7 +75,7 @@ public class AddActorReferenceEf extends AbstractEffect {
 		return actor;
 	}
 
-	public EAdPositionImpl getPosition() {
+	public EAdPosition getPosition() {
 		return position;
 	}
 

@@ -55,8 +55,8 @@ import es.eucm.eadventure.common.model.elements.scene.EAdSceneElement;
 import es.eucm.eadventure.common.model.elements.scenes.SceneElementDefImpl;
 import es.eucm.eadventure.common.model.elements.scenes.SceneElementImpl;
 import es.eucm.eadventure.common.resources.StringHandler;
-import es.eucm.eadventure.common.util.EAdPositionImpl;
-import es.eucm.eadventure.common.util.EAdRectangleImpl;
+import es.eucm.eadventure.common.util.EAdPosition;
+import es.eucm.eadventure.common.util.EAdRectangle;
 
 /**
  * Elements reference importer
@@ -87,8 +87,8 @@ public class ElementReferenceImporter extends ElementImporter<ElementReference> 
 		SceneElementImpl newRef = (SceneElementImpl) object;
 		newRef.setId(oldObject.getTargetId() + "_ref");
 
-		newRef.setPosition(new EAdPositionImpl(
-				EAdPositionImpl.Corner.BOTTOM_CENTER, oldObject.getX(),
+		newRef.setPosition(new EAdPosition(
+				EAdPosition.Corner.BOTTOM_CENTER, oldObject.getX(),
 				oldObject.getY()));
 		newRef.setScale(oldObject.getScale());
 		newRef.setInitialOrientation(Orientation.S);
@@ -103,10 +103,10 @@ public class ElementReferenceImporter extends ElementImporter<ElementReference> 
 				Dimension d = resourceImporter.getDimensions(imageUri);
 				int width = (int) d.getWidth();
 				int height = (int) d.getHeight();
-				EAdPositionImpl p = new EAdPositionImpl(oldObject.getX(),
+				EAdPosition p = new EAdPosition(oldObject.getX(),
 						oldObject.getY(), 0.5f, 1.0f);
 				float scale = oldObject.getScale();
-				EAdRectangleImpl bounds = new EAdRectangleImpl(p.getJavaX(width
+				EAdRectangle bounds = new EAdRectangle(p.getJavaX(width
 						* scale), p.getJavaY(height * scale),
 						(int) (width * scale), (int) (height * scale));
 				super.addInfluenceArea(newRef, bounds,

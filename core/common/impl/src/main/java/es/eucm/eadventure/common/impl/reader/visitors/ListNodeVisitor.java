@@ -48,7 +48,7 @@ import es.eucm.eadventure.common.impl.reader.ProxyElement;
 import es.eucm.eadventure.common.impl.reader.extra.ObjectFactory;
 import es.eucm.eadventure.common.model.elements.extra.EAdList;
 import es.eucm.eadventure.common.model.elements.extra.EAdListImpl;
-import es.eucm.eadventure.common.util.EAdPositionImpl;
+import es.eucm.eadventure.common.util.EAdPosition;
 
 public class ListNodeVisitor extends NodeVisitor<EAdList<Object>> {
 
@@ -68,7 +68,7 @@ public class ListNodeVisitor extends NodeVisitor<EAdList<Object>> {
 		//TODO do for more tyes?
 		if (list.getValueClass() == Integer.class ||
 				list.getValueClass() == Float.class ||
-				list.getValueClass() == EAdPositionImpl.class || list.getValueClass() == EAdPositionImpl.class) {
+				list.getValueClass() == EAdPosition.class || list.getValueClass() == EAdPosition.class) {
 			String value = node.getTextContent();
 			if (value != null && !value.equals("")) {
 				String[] values = value.split("\\|");

@@ -40,12 +40,12 @@ package es.eucm.eadventure.common.resources.assets.drawable.compounds;
 import es.eucm.eadventure.common.interfaces.Param;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.BasicDrawable;
 import es.eucm.eadventure.common.resources.assets.drawable.compounds.DisplacedDrawable;
-import es.eucm.eadventure.common.util.EAdPositionImpl;
+import es.eucm.eadventure.common.util.EAdPosition;
 
 public class DisplacedDrawableImpl implements DisplacedDrawable {
 
 	@Param("displacement")
-	private EAdPositionImpl displacement;
+	private EAdPosition displacement;
 	
 	@Param("asset")
 	private BasicDrawable drawable;
@@ -54,7 +54,7 @@ public class DisplacedDrawableImpl implements DisplacedDrawable {
 		
 	}
 	
-	public DisplacedDrawableImpl( BasicDrawable drawable, EAdPositionImpl displacement ){
+	public DisplacedDrawableImpl( BasicDrawable drawable, EAdPosition displacement ){
 		this.drawable = drawable;
 		this.displacement = displacement;
 	}
@@ -63,7 +63,7 @@ public class DisplacedDrawableImpl implements DisplacedDrawable {
 	 * @see es.eucm.eadventure.common.resources.assets.drawable.DisplacedDrawable#getDisplacement()
 	 */
 	@Override
-	public EAdPositionImpl getDisplacement() {
+	public EAdPosition getDisplacement() {
 		return displacement;
 	}
 	
@@ -72,7 +72,7 @@ public class DisplacedDrawableImpl implements DisplacedDrawable {
 	 * 
 	 * @param position
 	 */
-	public void setDisplacement(EAdPositionImpl position) {
+	public void setDisplacement(EAdPosition position) {
 		displacement = position;
 	}
 

@@ -39,35 +39,35 @@ package es.eucm.eadventure.engine.core.platform.impl;
 
 import com.google.inject.Inject;
 
+import es.eucm.eadventure.engine.core.gameobjects.ComposedSceneGOImpl;
+import es.eucm.eadventure.engine.core.gameobjects.SceneGOImpl;
+import es.eucm.eadventure.engine.core.gameobjects.VideoSceneGO;
+import es.eucm.eadventure.engine.core.gameobjects.effects.ActorActionsEffectGO;
+import es.eucm.eadventure.engine.core.gameobjects.effects.CancelEffectGO;
+import es.eucm.eadventure.engine.core.gameobjects.effects.ChangeFieldGO;
+import es.eucm.eadventure.engine.core.gameobjects.effects.ChangeSceneGO;
+import es.eucm.eadventure.engine.core.gameobjects.effects.ComplexBlockingEffectGO;
+import es.eucm.eadventure.engine.core.gameobjects.effects.HighlightEffectGO;
+import es.eucm.eadventure.engine.core.gameobjects.effects.InterpolationGO;
+import es.eucm.eadventure.engine.core.gameobjects.effects.InventoryEffectGO;
+import es.eucm.eadventure.engine.core.gameobjects.effects.MoveSceneElementGO;
+import es.eucm.eadventure.engine.core.gameobjects.effects.PlaySoundEffectGO;
+import es.eucm.eadventure.engine.core.gameobjects.effects.QuitGameEffectGO;
+import es.eucm.eadventure.engine.core.gameobjects.effects.RandomEffectGO;
+import es.eucm.eadventure.engine.core.gameobjects.effects.ShowSceneElementGO;
+import es.eucm.eadventure.engine.core.gameobjects.effects.SpeakEffectGO;
+import es.eucm.eadventure.engine.core.gameobjects.effects.TriggerMacroEffectGO;
+import es.eucm.eadventure.engine.core.gameobjects.effects.WaitEffectGO;
+import es.eucm.eadventure.engine.core.gameobjects.effects.physics.PhApplyForceGO;
+import es.eucm.eadventure.engine.core.gameobjects.effects.physics.PhysicsEffectGO;
+import es.eucm.eadventure.engine.core.gameobjects.events.ConditionEvGO;
+import es.eucm.eadventure.engine.core.gameobjects.events.SceneElementEvGO;
+import es.eucm.eadventure.engine.core.gameobjects.events.TimedEvGO;
+import es.eucm.eadventure.engine.core.gameobjects.events.SystemEvGO;
 import es.eucm.eadventure.engine.core.gameobjects.go.SceneGO;
-import es.eucm.eadventure.engine.core.gameobjects.impl.ComposedSceneGOImpl;
-import es.eucm.eadventure.engine.core.gameobjects.impl.SceneGOImpl;
-import es.eucm.eadventure.engine.core.gameobjects.impl.VideoSceneGO;
-import es.eucm.eadventure.engine.core.gameobjects.impl.effects.ActorActionsEffectGO;
-import es.eucm.eadventure.engine.core.gameobjects.impl.effects.CancelEffectGO;
-import es.eucm.eadventure.engine.core.gameobjects.impl.effects.ChangeFieldGO;
-import es.eucm.eadventure.engine.core.gameobjects.impl.effects.ChangeSceneGO;
-import es.eucm.eadventure.engine.core.gameobjects.impl.effects.ComplexBlockingEffectGO;
-import es.eucm.eadventure.engine.core.gameobjects.impl.effects.HighlightEffectGO;
-import es.eucm.eadventure.engine.core.gameobjects.impl.effects.InterpolationGO;
-import es.eucm.eadventure.engine.core.gameobjects.impl.effects.InventoryEffectGO;
-import es.eucm.eadventure.engine.core.gameobjects.impl.effects.MoveSceneElementGO;
-import es.eucm.eadventure.engine.core.gameobjects.impl.effects.PlaySoundEffectGO;
-import es.eucm.eadventure.engine.core.gameobjects.impl.effects.QuitGameEffectGO;
-import es.eucm.eadventure.engine.core.gameobjects.impl.effects.RandomEffectGO;
-import es.eucm.eadventure.engine.core.gameobjects.impl.effects.ShowSceneElementGO;
-import es.eucm.eadventure.engine.core.gameobjects.impl.effects.SpeakEffectGO;
-import es.eucm.eadventure.engine.core.gameobjects.impl.effects.TriggerMacroEffectGO;
-import es.eucm.eadventure.engine.core.gameobjects.impl.effects.WaitEffectGO;
-import es.eucm.eadventure.engine.core.gameobjects.impl.effects.physics.PhApplyForceGO;
-import es.eucm.eadventure.engine.core.gameobjects.impl.effects.physics.PhysicsEffectGO;
-import es.eucm.eadventure.engine.core.gameobjects.impl.events.ConditionEventGO;
-import es.eucm.eadventure.engine.core.gameobjects.impl.events.SceneElementEventGO;
-import es.eucm.eadventure.engine.core.gameobjects.impl.events.SceneElementTimedEventGO;
-import es.eucm.eadventure.engine.core.gameobjects.impl.events.SystemEventGO;
-import es.eucm.eadventure.engine.core.gameobjects.impl.sceneelements.BasicSceneElementGO;
-import es.eucm.eadventure.engine.core.gameobjects.impl.sceneelements.ComplexSceneElementGO;
-import es.eucm.eadventure.engine.core.gameobjects.impl.transitions.SimpleTransitionGO;
+import es.eucm.eadventure.engine.core.gameobjects.sceneelements.BasicSceneElementGO;
+import es.eucm.eadventure.engine.core.gameobjects.sceneelements.ComplexSceneElementGO;
+import es.eucm.eadventure.engine.core.gameobjects.transitions.SimpleTransitionGO;
 import es.eucm.eadventure.engine.core.platform.GenericInjector;
 
 public class PlayNInjector implements GenericInjector {
@@ -125,13 +125,13 @@ public class PlayNInjector implements GenericInjector {
 			go = ginjector.getPhysicsEffectGO();
 		else if (clazz == PhApplyForceGO.class)
 			go = ginjector.getPhApplyForceGO();
-		else if (clazz == ConditionEventGO.class)
+		else if (clazz == ConditionEvGO.class)
 			go = ginjector.getConditionEventGO();
-		else if (clazz == SceneElementEventGO.class)
+		else if (clazz == SceneElementEvGO.class)
 			go = ginjector.getSceneElementEventGO();
-		else if (clazz == SceneElementTimedEventGO.class)
+		else if (clazz == TimedEvGO.class)
 			go = ginjector.getSceneElementTimedEventGO();
-		else if (clazz == SystemEventGO.class)
+		else if (clazz == SystemEvGO.class)
 			go = ginjector.getSystemEventGO();
 		else if (clazz == BasicSceneElementGO.class)
 			go = ginjector.getBasicSceneElementGO();

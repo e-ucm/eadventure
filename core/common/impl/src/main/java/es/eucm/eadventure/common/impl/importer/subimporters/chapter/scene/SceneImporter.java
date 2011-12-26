@@ -60,7 +60,7 @@ import es.eucm.eadventure.common.model.elements.EAdChapter;
 import es.eucm.eadventure.common.model.elements.EAdCondition;
 import es.eucm.eadventure.common.model.elements.events.SceneElementEv;
 import es.eucm.eadventure.common.model.elements.events.enums.SceneElementEventType;
-import es.eucm.eadventure.common.model.elements.guievents.MouseEventImpl;
+import es.eucm.eadventure.common.model.elements.guievents.EAdMouseEvent;
 import es.eucm.eadventure.common.model.elements.scene.EAdSceneElement;
 import es.eucm.eadventure.common.model.elements.scene.EAdSceneElementDef;
 import es.eucm.eadventure.common.model.elements.scenes.SceneElementDefImpl;
@@ -75,8 +75,8 @@ import es.eucm.eadventure.common.resources.StringHandler;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.ImageImpl;
 import es.eucm.eadventure.common.resources.assets.multimedia.Sound;
 import es.eucm.eadventure.common.resources.assets.multimedia.SoundImpl;
-import es.eucm.eadventure.common.util.EAdPositionImpl;
-import es.eucm.eadventure.common.util.EAdPositionImpl.Corner;
+import es.eucm.eadventure.common.util.EAdPosition;
+import es.eucm.eadventure.common.util.EAdPosition.Corner;
 
 /**
  * Scenes importer
@@ -178,8 +178,8 @@ public class SceneImporter implements EAdElementImporter<Scene, SceneImpl> {
 					.getElementById(Player.IDENTIFIER);
 			SceneElementImpl playerReference = new SceneElementImpl(
 					player);
-			EAdPositionImpl p = new EAdPositionImpl(
-					EAdPositionImpl.Corner.BOTTOM_CENTER,
+			EAdPosition p = new EAdPosition(
+					EAdPosition.Corner.BOTTOM_CENTER,
 					oldScene.getPositionX(), oldScene.getPositionY());
 			playerReference.setPosition(p);
 			playerReference.setScale(oldScene.getPlayerScale());
@@ -202,7 +202,7 @@ public class SceneImporter implements EAdElementImporter<Scene, SceneImpl> {
 			}
 
 			scene.getBackground().addBehavior(
-					MouseEventImpl.MOUSE_LEFT_CLICK,
+					EAdMouseEvent.MOUSE_LEFT_CLICK,
 					new MoveActiveElementEf());
 			
 			// Add move camera with character
@@ -235,7 +235,7 @@ public class SceneImporter implements EAdElementImporter<Scene, SceneImpl> {
 				scene.getComponents().add(barrier);
 			}
 
-			playerReference.setPosition(new EAdPositionImpl(
+			playerReference.setPosition(new EAdPosition(
 					Corner.BOTTOM_CENTER, nodeDef.getInitial().getX(), nodeDef
 							.getInitial().getY()));
 			playerReference.setScale(nodeDef.getInitial().getScale());
@@ -247,7 +247,7 @@ public class SceneImporter implements EAdElementImporter<Scene, SceneImpl> {
 		for (ActiveArea a : list) {
 			SceneElementImpl activeArea = (SceneElementImpl) factory.getElementById(a
 					.getId());
-			activeArea.setPosition(new EAdPositionImpl(EAdPositionImpl.Corner.TOP_LEFT, a.getX(), a.getY()));
+			activeArea.setPosition(new EAdPosition(EAdPosition.Corner.TOP_LEFT, a.getX(), a.getY()));
 			activeArea.setVarInitialValue(SceneElementImpl.VAR_Z, Integer.MAX_VALUE - 2 );
 			if (activeArea != null)
 				scene.getComponents().add(activeArea);

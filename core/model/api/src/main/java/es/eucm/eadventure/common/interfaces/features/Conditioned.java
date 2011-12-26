@@ -40,7 +40,7 @@ package es.eucm.eadventure.common.interfaces.features;
 import es.eucm.eadventure.common.model.elements.EAdCondition;
 
 /**
- * An element to define conditions in the model
+ * An element affected by a condition
  */
 public interface Conditioned {
 

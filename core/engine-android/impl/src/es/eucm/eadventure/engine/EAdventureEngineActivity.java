@@ -43,8 +43,10 @@ import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.view.Window;
 import android.view.WindowManager;
+
 import com.google.inject.Guice;
 import com.google.inject.Injector;
+
 import es.eucm.eadventure.common.elementfactories.EAdElementsFactory;
 import es.eucm.eadventure.common.model.elements.EAdAdventureModel;
 import es.eucm.eadventure.common.model.elements.EAdAdventureModelImpl;
@@ -57,10 +59,10 @@ import es.eucm.eadventure.engine.assets.specialassetrenderers.RockPlayerAndroidV
 import es.eucm.eadventure.engine.core.game.Game;
 import es.eucm.eadventure.engine.core.game.GameController;
 import es.eucm.eadventure.engine.core.impl.modules.BasicGameModule;
-import es.eucm.eadventure.engine.core.input.MouseState;
+import es.eucm.eadventure.engine.core.input.InputHandler;
 import es.eucm.eadventure.engine.core.platform.AssetHandler;
-import es.eucm.eadventure.engine.core.platform.GUI;
 import es.eucm.eadventure.engine.core.platform.EngineConfiguration;
+import es.eucm.eadventure.engine.core.platform.GUI;
 import es.eucm.eadventure.engine.extra.AndroidAssetHandlerModule;
 import es.eucm.eadventure.engine.extra.AndroidModule;
 import es.eucm.eadventure.engine.extra.EAdventureSurfaceView;
@@ -137,7 +139,7 @@ public class EAdventureEngineActivity extends Activity {
 		surfaceView = new EAdventureSurfaceView(this);
 		setContentView(surfaceView);
 		surfaceView.start(injector.getInstance(GUI.class), config,
-				injector.getInstance(MouseState.class));
+				injector.getInstance(InputHandler.class));
 
 		gameController = injector.getInstance(GameController.class);
 		gameController.start();

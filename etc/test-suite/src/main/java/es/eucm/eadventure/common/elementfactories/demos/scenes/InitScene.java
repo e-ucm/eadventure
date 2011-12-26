@@ -46,7 +46,7 @@ import es.eucm.eadventure.common.elementfactories.demos.SceneDemo;
 import es.eucm.eadventure.common.elementfactories.demos.normalguy.NgMainScreen;
 import es.eucm.eadventure.common.model.elements.effects.ChangeSceneEf;
 import es.eucm.eadventure.common.model.elements.effects.text.SpeakEf;
-import es.eucm.eadventure.common.model.elements.guievents.MouseEventImpl;
+import es.eucm.eadventure.common.model.elements.guievents.EAdMouseEvent;
 import es.eucm.eadventure.common.model.elements.scene.EAdSceneElementDef;
 import es.eucm.eadventure.common.model.elements.scenes.SceneElementDefImpl;
 import es.eucm.eadventure.common.model.elements.scenes.SceneElementImpl;
@@ -58,7 +58,7 @@ import es.eucm.eadventure.common.params.fills.EAdPaintImpl;
 import es.eucm.eadventure.common.params.paint.EAdFill;
 import es.eucm.eadventure.common.params.text.EAdFont;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.ImageImpl;
-import es.eucm.eadventure.common.util.EAdPositionImpl.Corner;
+import es.eucm.eadventure.common.util.EAdPosition.Corner;
 
 public class InitScene extends EmptyScene {
 
@@ -87,7 +87,7 @@ public class InitScene extends EmptyScene {
 			Button b = new Button();
 			sf.setString(b.getLabel(), s.getDemoName());
 			b.setPosition(x, y);
-			b.addBehavior(MouseEventImpl.MOUSE_LEFT_PRESSED,
+			b.addBehavior(EAdMouseEvent.MOUSE_LEFT_PRESSED,
 					new ChangeSceneEf( s, EAdTransition.BASIC));
 			this.getComponents().add(b);
 			s.getComponents().add(goBack);
@@ -98,7 +98,7 @@ public class InitScene extends EmptyScene {
 			effect.setColor(EAdColor.GRAY, speakPaint);
 			effect.setFont(font);
 			sf.setString(effect.getString(), s.getSceneDescription());
-			info.addBehavior(MouseEventImpl.MOUSE_LEFT_PRESSED, effect);
+			info.addBehavior(EAdMouseEvent.MOUSE_LEFT_PRESSED, effect);
 			// info.setScale(0.5f);
 			s.getComponents().add(info);
 			y += 45;
@@ -119,7 +119,7 @@ public class InitScene extends EmptyScene {
 				"@drawable/goback.png"));
 		goBack.setId("goBack");
 		goBack.setPosition(Corner.BOTTOM_LEFT, 10, 590);
-		goBack.addBehavior(MouseEventImpl.MOUSE_LEFT_PRESSED,
+		goBack.addBehavior(EAdMouseEvent.MOUSE_LEFT_PRESSED,
 				new ChangeSceneEf( this, EAdTransition.BASIC));
 		goBack.setScale(0.5f);
 

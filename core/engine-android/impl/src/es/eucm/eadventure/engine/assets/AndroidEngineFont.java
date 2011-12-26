@@ -41,7 +41,7 @@ import android.graphics.Paint;
 import android.graphics.Typeface;
 import es.eucm.eadventure.common.params.text.EAdFont;
 import es.eucm.eadventure.common.params.text.FontStyle;
-import es.eucm.eadventure.common.util.EAdRectangleImpl;
+import es.eucm.eadventure.common.util.EAdRectangle;
 import es.eucm.eadventure.engine.core.platform.RuntimeFont;
 
 public class AndroidEngineFont implements RuntimeFont {
@@ -95,8 +95,8 @@ public class AndroidEngineFont implements RuntimeFont {
 	}
 
 	@Override
-	public EAdRectangleImpl stringBounds(String string) {
-		return new EAdRectangleImpl(0, 0, stringWidth(string), lineHeight());
+	public EAdRectangle stringBounds(String string) {
+		return new EAdRectangle(0, 0, stringWidth(string), lineHeight());
 	}
 	
 	public Typeface getTextPaint(){

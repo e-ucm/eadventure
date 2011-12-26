@@ -43,7 +43,7 @@ import com.google.gwt.dom.client.Style;
 import com.google.gwt.dom.client.Style.Unit;
 
 import es.eucm.eadventure.common.params.text.EAdFont;
-import es.eucm.eadventure.common.util.EAdRectangleImpl;
+import es.eucm.eadventure.common.util.EAdRectangle;
 import es.eucm.eadventure.engine.core.platform.RuntimeFont;
 
 public class PlayNEngineFont implements RuntimeFont {
@@ -90,8 +90,8 @@ public class PlayNEngineFont implements RuntimeFont {
 	}
 
 	@Override
-	public EAdRectangleImpl stringBounds(String string) {
-		return new EAdRectangleImpl(0, 0, stringWidth(string), lineHeight());
+	public EAdRectangle stringBounds(String string) {
+		return new EAdRectangle(0, 0, stringWidth(string), lineHeight());
 	}
 	
 	private void prepareElement(){

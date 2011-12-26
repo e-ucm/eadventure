@@ -14,7 +14,7 @@ import es.eucm.eadventure.common.model.elements.effects.variables.ChangeFieldEf;
 import es.eucm.eadventure.common.model.elements.events.ConditionedEv;
 import es.eucm.eadventure.common.model.elements.events.enums.ConditionedEventType;
 import es.eucm.eadventure.common.model.elements.extra.EAdList;
-import es.eucm.eadventure.common.model.elements.guievents.MouseEventImpl;
+import es.eucm.eadventure.common.model.elements.guievents.EAdMouseEvent;
 import es.eucm.eadventure.common.model.elements.scene.EAdComplexSceneElement;
 import es.eucm.eadventure.common.model.elements.scene.EAdSceneElement;
 import es.eucm.eadventure.common.model.elements.scenes.ComplexSceneElementImpl;
@@ -57,10 +57,10 @@ public class EditionSceneElement extends ComplexSceneElementImpl {
 		
 		ChangeFieldEf makeActiveElement = new MakeActiveElementEf(proxy);
 
-		proxy.addBehavior(MouseEventImpl.MOUSE_ENTERED, changeAlphaEffect(proxy, 0.6f, new OperationCond(SystemFields.ACTIVE_ELEMENT, proxy, Comparator.DIFFERENT)));
-		proxy.addBehavior(MouseEventImpl.MOUSE_EXITED, changeAlphaEffect(proxy, 0.3f, new OperationCond(SystemFields.ACTIVE_ELEMENT, proxy, Comparator.DIFFERENT)));
-		proxy.addBehavior(MouseEventImpl.MOUSE_LEFT_CLICK, makeActiveElement);
-		proxy.addBehavior(MouseEventImpl.MOUSE_LEFT_CLICK, changeAlphaEffect(proxy, 1.0f, null));
+		proxy.addBehavior(EAdMouseEvent.MOUSE_ENTERED, changeAlphaEffect(proxy, 0.6f, new OperationCond(SystemFields.ACTIVE_ELEMENT, proxy, Comparator.DIFFERENT)));
+		proxy.addBehavior(EAdMouseEvent.MOUSE_EXITED, changeAlphaEffect(proxy, 0.3f, new OperationCond(SystemFields.ACTIVE_ELEMENT, proxy, Comparator.DIFFERENT)));
+		proxy.addBehavior(EAdMouseEvent.MOUSE_LEFT_CLICK, makeActiveElement);
+		proxy.addBehavior(EAdMouseEvent.MOUSE_LEFT_CLICK, changeAlphaEffect(proxy, 1.0f, null));
 
 		ConditionedEv conditionedEvent = new ConditionedEv(new OperationCond(SystemFields.ACTIVE_ELEMENT, proxy, Comparator.EQUAL));
 		conditionedEvent.addEffect(ConditionedEventType.CONDITIONS_UNMET, changeAlphaEffect(proxy, 0.3f, null));
@@ -88,7 +88,7 @@ public class EditionSceneElement extends ComplexSceneElementImpl {
 				new FieldImpl<Boolean>(square, SceneElementImpl.VAR_VISIBLE),
 				new ValueOp(Boolean.FALSE)));
 		
-		proxy.addBehavior(MouseEventImpl.MOUSE_LEFT_CLICK, new ChangeFieldEf(
+		proxy.addBehavior(EAdMouseEvent.MOUSE_LEFT_CLICK, new ChangeFieldEf(
 				new FieldImpl<Boolean>(square, SceneElementImpl.VAR_VISIBLE),
 				new ValueOp(Boolean.TRUE)));
 		
@@ -107,7 +107,7 @@ public class EditionSceneElement extends ComplexSceneElementImpl {
 				
 				TriggerMacroEf effect = new TriggerMacroEf();
 				effect.putMacro(macro, cond);
-				square.addBehavior(MouseEventImpl.MOUSE_LEFT_CLICK, effect);
+				square.addBehavior(EAdMouseEvent.MOUSE_LEFT_CLICK, effect);
 				
 				prev = bundleID;
 			}
@@ -117,9 +117,9 @@ public class EditionSceneElement extends ComplexSceneElementImpl {
 		ANDCond cond = new ANDCond(new OperationCond(appearanceField, prev, Comparator.EQUAL), 
 				new NOTCond(new OperationCond(changedAppearance)));
 		effect.setCondition(cond);
-		square.addBehavior(MouseEventImpl.MOUSE_LEFT_CLICK, effect);
+		square.addBehavior(EAdMouseEvent.MOUSE_LEFT_CLICK, effect);
 		
-		square.addBehavior(MouseEventImpl.MOUSE_LEFT_CLICK, new ChangeFieldEf(changedAppearance, new ValueOp(Boolean.FALSE)));
+		square.addBehavior(EAdMouseEvent.MOUSE_LEFT_CLICK, new ChangeFieldEf(changedAppearance, new ValueOp(Boolean.FALSE)));
 
 	}
 
@@ -135,10 +135,10 @@ public class EditionSceneElement extends ComplexSceneElementImpl {
 				new FieldImpl<Boolean>(square, SceneElementImpl.VAR_VISIBLE),
 				new ValueOp(Boolean.FALSE)));
 		
-		proxy.addBehavior(MouseEventImpl.MOUSE_LEFT_CLICK, new ChangeFieldEf(
+		proxy.addBehavior(EAdMouseEvent.MOUSE_LEFT_CLICK, new ChangeFieldEf(
 				new FieldImpl<Boolean>(square, SceneElementImpl.VAR_VISIBLE),
 				new ValueOp(Boolean.TRUE)));
-		proxy.addBehavior(MouseEventImpl.MOUSE_LEFT_CLICK, new ChangeFieldEf(
+		proxy.addBehavior(EAdMouseEvent.MOUSE_LEFT_CLICK, new ChangeFieldEf(
 				new FieldImpl<Integer>(square, SceneElementImpl.VAR_X),
 				new ValueOp(new FieldImpl<Integer>(proxy, SceneElementImpl.VAR_WIDTH))));
 

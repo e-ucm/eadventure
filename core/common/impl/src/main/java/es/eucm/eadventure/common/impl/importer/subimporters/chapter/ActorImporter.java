@@ -49,7 +49,7 @@ import es.eucm.eadventure.common.impl.importer.interfaces.EAdElementFactory;
 import es.eucm.eadventure.common.impl.importer.interfaces.ResourceImporter;
 import es.eucm.eadventure.common.model.elements.EAdAction;
 import es.eucm.eadventure.common.model.elements.effects.ActorActionsEf;
-import es.eucm.eadventure.common.model.elements.guievents.MouseEventImpl;
+import es.eucm.eadventure.common.model.elements.guievents.EAdMouseEvent;
 import es.eucm.eadventure.common.model.elements.scene.EAdSceneElementDef;
 import es.eucm.eadventure.common.model.elements.scenes.SceneElementDefImpl;
 import es.eucm.eadventure.common.resources.StringHandler;
@@ -130,7 +130,7 @@ public abstract class ActorImporter<P extends Element> implements
 	protected void addActionsEffect(P oldObject, SceneElementDefImpl actor) {
 		// add actions
 		ActorActionsEf showActions = new ActorActionsEf(actor);
-		actor.addBehavior(MouseEventImpl.MOUSE_RIGHT_CLICK, showActions);
+		actor.addBehavior(EAdMouseEvent.MOUSE_RIGHT_CLICK, showActions);
 		
 		// add other actions
 		actionImporter.addAllActions(oldObject.getActions(), actor, false);

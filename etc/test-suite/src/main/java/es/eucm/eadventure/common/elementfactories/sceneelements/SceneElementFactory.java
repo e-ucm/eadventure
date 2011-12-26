@@ -39,12 +39,12 @@ package es.eucm.eadventure.common.elementfactories.sceneelements;
 
 import es.eucm.eadventure.common.elementfactories.EAdElementsFactory;
 import es.eucm.eadventure.common.model.elements.EAdEffect;
-import es.eucm.eadventure.common.model.elements.guievents.MouseEventImpl;
+import es.eucm.eadventure.common.model.elements.guievents.EAdMouseEvent;
 import es.eucm.eadventure.common.model.elements.scenes.SceneElementDefImpl;
 import es.eucm.eadventure.common.model.elements.scenes.SceneElementImpl;
 import es.eucm.eadventure.common.resources.EAdBundleId;
 import es.eucm.eadventure.common.resources.assets.drawable.Drawable;
-import es.eucm.eadventure.common.util.EAdPositionImpl;
+import es.eucm.eadventure.common.util.EAdPosition;
 
 public class SceneElementFactory {
 
@@ -63,7 +63,7 @@ public class SceneElementFactory {
 			int y) {
 		SceneElementImpl sceneElement = new SceneElementImpl(appearance);
 		sceneElement.setId("sceneElement" + ID_GENERATOR++);
-		sceneElement.setPosition(new EAdPositionImpl(x, y));
+		sceneElement.setPosition(new EAdPosition(x, y));
 		return sceneElement;
 	}
 
@@ -88,12 +88,12 @@ public class SceneElementFactory {
 				.getResources()
 				.addAsset(bundle, SceneElementDefImpl.appearance,
 						appearance2);
-		sceneElement.addBehavior(MouseEventImpl.MOUSE_ENTERED,
+		sceneElement.addBehavior(EAdMouseEvent.MOUSE_ENTERED,
 				EAdElementsFactory.getInstance().getEffectFactory()
 						.getChangeAppearance(sceneElement, bundle));
 		sceneElement
 				.addBehavior(
-						MouseEventImpl.MOUSE_EXITED,
+						EAdMouseEvent.MOUSE_EXITED,
 						EAdElementsFactory
 								.getInstance()
 								.getEffectFactory()
@@ -116,7 +116,7 @@ public class SceneElementFactory {
 			int x, int y, EAdEffect effect) {
 		SceneElementImpl sceneElement = this.createSceneElement(appearance,
 				x, y);
-		sceneElement.addBehavior(MouseEventImpl.MOUSE_LEFT_CLICK, effect);
+		sceneElement.addBehavior(EAdMouseEvent.MOUSE_LEFT_CLICK, effect);
 		return sceneElement;
 	}
 

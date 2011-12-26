@@ -41,8 +41,8 @@ import com.google.inject.Inject;
 
 import es.eucm.eadventure.common.ReflectionProvider;
 import es.eucm.eadventure.common.model.elements.scene.EAdSceneElement;
+import es.eucm.eadventure.engine.core.factorymapproviders.ElementGameObjectFactoryConfigurator;
 import es.eucm.eadventure.engine.core.gameobjects.go.SceneElementGO;
-import es.eucm.eadventure.engine.core.impl.factorymapproviders.ElementGameObjectFactoryConfigurator;
 import es.eucm.eadventure.engine.core.platform.GenericInjector;
 
 /**

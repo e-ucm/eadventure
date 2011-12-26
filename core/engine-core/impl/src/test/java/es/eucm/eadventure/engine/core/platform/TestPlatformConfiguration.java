@@ -37,7 +37,7 @@
 
 package es.eucm.eadventure.engine.core.platform;
 
-import es.eucm.eadventure.engine.core.platform.impl.AbstractEngineConfiguration;
+import es.eucm.eadventure.engine.core.platform.AbstractEngineConfiguration;
 
 
 public class TestPlatformConfiguration extends AbstractEngineConfiguration {

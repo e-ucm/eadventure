@@ -49,7 +49,7 @@ import es.eucm.eadventure.common.model.elements.scenes.SceneElementImpl;
 import es.eucm.eadventure.common.resources.assets.drawable.Drawable;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.ImageImpl;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.animation.FramesAnimation;
-import es.eucm.eadventure.common.util.EAdPositionImpl;
+import es.eucm.eadventure.common.util.EAdPosition;
 
 public class PlayAnimationEffectImporter extends
 		EffectImporter<PlayAnimationEffect, ShowSceneElementEf> {
@@ -81,7 +81,7 @@ public class PlayAnimationEffectImporter extends
 				oldObject.getPath(), ImageImpl.class);
 		SceneElementImpl element = new SceneElementImpl(asset);
 		element.setId("animation" + ID_GENERATOR++);
-		element.setPosition(new EAdPositionImpl(oldObject.getX(), oldObject
+		element.setPosition(new EAdPosition(oldObject.getX(), oldObject
 				.getY()));
 		if (asset instanceof FramesAnimation) {
 			int time = 0;

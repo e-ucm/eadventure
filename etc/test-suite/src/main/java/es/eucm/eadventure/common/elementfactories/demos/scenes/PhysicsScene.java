@@ -53,7 +53,7 @@ import es.eucm.eadventure.common.model.elements.events.ConditionedEv;
 import es.eucm.eadventure.common.model.elements.events.SceneElementEv;
 import es.eucm.eadventure.common.model.elements.events.enums.ConditionedEventType;
 import es.eucm.eadventure.common.model.elements.events.enums.SceneElementEventType;
-import es.eucm.eadventure.common.model.elements.guievents.MouseEventImpl;
+import es.eucm.eadventure.common.model.elements.guievents.EAdMouseEvent;
 import es.eucm.eadventure.common.model.elements.scene.EAdSceneElementDef;
 import es.eucm.eadventure.common.model.elements.scenes.ComplexSceneElementImpl;
 import es.eucm.eadventure.common.model.elements.scenes.SceneElementDefImpl;
@@ -71,8 +71,8 @@ import es.eucm.eadventure.common.resources.assets.drawable.basics.shapes.BezierS
 import es.eucm.eadventure.common.resources.assets.drawable.basics.shapes.CircleShape;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.shapes.RectangleShape;
 import es.eucm.eadventure.common.resources.assets.drawable.compounds.ComposedDrawableImpl;
-import es.eucm.eadventure.common.util.EAdPositionImpl;
-import es.eucm.eadventure.common.util.EAdPositionImpl.Corner;
+import es.eucm.eadventure.common.util.EAdPosition;
+import es.eucm.eadventure.common.util.EAdPosition.Corner;
 
 public class PhysicsScene extends EmptyScene {
 
@@ -98,7 +98,7 @@ public class PhysicsScene extends EmptyScene {
 
 		// getEvents().add(event);
 		getBackground()
-				.addBehavior(MouseEventImpl.MOUSE_ENTERED, effect);
+				.addBehavior(EAdMouseEvent.MOUSE_ENTERED, effect);
 
 		addCanyon(effect);
 //		addWalls(effect);
@@ -118,17 +118,17 @@ public class PhysicsScene extends EmptyScene {
 		SceneElementImpl ground = new SceneElementImpl(
 				groundS);
 		ground.setId("ground");
-		ground.setPosition(new EAdPositionImpl(Corner.CENTER, 400, 545));
+		ground.setPosition(new EAdPosition(Corner.CENTER, 400, 545));
 
 		SceneElementImpl wall = new SceneElementImpl( groundS);
 		wall.setId("wall");
-		wall.setPosition(new EAdPositionImpl(Corner.CENTER, 775, 300));
+		wall.setPosition(new EAdPosition(Corner.CENTER, 775, 300));
 		wall.setVarInitialValue(SceneElementImpl.VAR_ROTATION,
 				(float) Math.PI / 2.0f);
 
 		SceneElementImpl wall2 = new SceneElementImpl( groundS);
 		wall2.setId("wall2");
-		wall2.setPosition(new EAdPositionImpl(Corner.CENTER, 25, 300));
+		wall2.setPosition(new EAdPosition(Corner.CENTER, 25, 300));
 		wall2.setVarInitialValue(SceneElementImpl.VAR_ROTATION,
 				(float) Math.PI / 2.0f);
 
@@ -156,8 +156,8 @@ public class PhysicsScene extends EmptyScene {
 				 new ImageImpl("@drawable/canyonbottom.png"));
 		canyonSupport.setId("canyonSupport");
 		
-		canyon.setPosition(new EAdPositionImpl(Corner.CENTER, 130, height));
-		canyonSupport.setPosition(new EAdPositionImpl(100, height));
+		canyon.setPosition(new EAdPosition(Corner.CENTER, 130, height));
+		canyonSupport.setPosition(new EAdPosition(100, height));
 		
 		ComposedDrawableImpl composed = new ComposedDrawableImpl();
 		composed.addDrawable(new RectangleShape(80, 600, new EAdLinearGradient(EAdColor.BROWN, EAdColor.LIGHT_BROWN, 80, 0)));
@@ -218,10 +218,10 @@ public class PhysicsScene extends EmptyScene {
 		applyForce.setForce(new MathOp("([0] - [1]) * 500", mouseX, canyonX),
 				new MathOp("([0] - [1]) * 500", mouseY, canyonY));
 		AddActorReferenceEf addEffect = new AddActorReferenceEf(
-				bullet, new EAdPositionImpl(Corner.CENTER, 140, height - 5),
+				bullet, new EAdPosition(Corner.CENTER, 140, height - 5),
 				applyForce);
 
-		getBackground().addBehavior(MouseEventImpl.MOUSE_LEFT_PRESSED,
+		getBackground().addBehavior(EAdMouseEvent.MOUSE_LEFT_PRESSED,
 				addEffect);
 
 		// Add text
@@ -241,13 +241,13 @@ public class PhysicsScene extends EmptyScene {
 				new RectangleShape(100, 10, new EAdLinearGradient(
 						EAdColor.DARK_BROWN, EAdColor.LIGHT_BROWN, 100, 10)));
 		holder.setId("holder");
-		holder.setPosition(new EAdPositionImpl(Corner.CENTER, 400, 50));
+		holder.setPosition(new EAdPosition(Corner.CENTER, 400, 50));
 
 		SceneElementImpl rope = new SceneElementImpl(
 				new RectangleShape(150, 10, new EAdLinearGradient(
 						EAdColor.YELLOW, EAdColor.LIGHT_BROWN, 150, 10)));
 		rope.setId("rope");
-		rope.setPosition(new EAdPositionImpl(Corner.CENTER, 450, 50));
+		rope.setPosition(new EAdPosition(Corner.CENTER, 450, 50));
 		rope.setVarInitialValue(PhysicsEffect.VAR_PH_TYPE, PhType.DYNAMIC);
 		rope.setVarInitialValue(PhysicsEffect.VAR_PH_FRICTION, 0.7f);
 		getComponents().add(rope);
@@ -288,7 +288,7 @@ public class PhysicsScene extends EmptyScene {
 		waves.getComponents().add(wave1);
 		addGoal(waves);
 		waves.getComponents().add(wave2);
-		waves.setPosition(EAdPositionImpl.Corner.BOTTOM_LEFT, -50, 600);
+		waves.setPosition(EAdPosition.Corner.BOTTOM_LEFT, -50, 600);
 		
 		this.getComponents().add(waves);
 		

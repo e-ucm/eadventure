@@ -52,8 +52,8 @@ import es.eucm.eadventure.common.model.elements.variables.EAdVarDef;
 import es.eucm.eadventure.common.model.elements.variables.VarDefImpl;
 import es.eucm.eadventure.common.params.text.EAdString;
 import es.eucm.eadventure.common.resources.assets.drawable.Drawable;
-import es.eucm.eadventure.common.util.EAdPositionImpl;
-import es.eucm.eadventure.common.util.EAdPositionImpl.Corner;
+import es.eucm.eadventure.common.util.EAdPosition;
+import es.eucm.eadventure.common.util.EAdPosition.Corner;
 
 @Element(detailed = SceneElementImpl.class, runtime = SceneElementImpl.class)
 public class SceneElementImpl extends AbstractElementWithBehavior
@@ -171,7 +171,7 @@ public class SceneElementImpl extends AbstractElementWithBehavior
 		vars.put(var, value);
 	}
 
-	public void setPosition(EAdPositionImpl position) {
+	public void setPosition(EAdPosition position) {
 		vars.put(VAR_X, position.getX());
 		vars.put(VAR_Y, position.getY());
 		vars.put(VAR_DISP_X, position.getDispX());
@@ -209,7 +209,7 @@ public class SceneElementImpl extends AbstractElementWithBehavior
 	}
 
 	public void setPosition(Corner corner, int x, int y) {
-		setPosition(EAdPositionImpl.volatileEAdPosition(corner, x, y));
+		setPosition(EAdPosition.volatileEAdPosition(corner, x, y));
 	}
 
 	@Override

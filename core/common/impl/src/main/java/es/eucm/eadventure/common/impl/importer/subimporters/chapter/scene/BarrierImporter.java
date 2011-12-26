@@ -55,8 +55,8 @@ import es.eucm.eadventure.common.model.elements.variables.EAdField;
 import es.eucm.eadventure.common.model.elements.variables.FieldImpl;
 import es.eucm.eadventure.common.model.elements.variables.operations.BooleanOp;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.shapes.RectangleShape;
-import es.eucm.eadventure.common.util.EAdPositionImpl;
-import es.eucm.eadventure.common.util.EAdPositionImpl.Corner;
+import es.eucm.eadventure.common.util.EAdPosition;
+import es.eucm.eadventure.common.util.EAdPosition.Corner;
 
 @Singleton
 public class BarrierImporter implements
@@ -106,7 +106,7 @@ public class BarrierImporter implements
 				.getResources()
 				.addAsset(barrier.getDefinition().getInitialBundle(),
 						SceneElementDefImpl.appearance, rectangle);
-		barrier.setPosition(new EAdPositionImpl(Corner.TOP_LEFT, oldObject
+		barrier.setPosition(new EAdPosition(Corner.TOP_LEFT, oldObject
 				.getX(), oldObject.getY()));
 
 		return barrier;

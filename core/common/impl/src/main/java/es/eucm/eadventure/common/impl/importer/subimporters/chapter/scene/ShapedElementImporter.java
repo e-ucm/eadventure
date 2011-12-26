@@ -43,7 +43,7 @@ import es.eucm.eadventure.common.data.chapter.Rectangle;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.Shape;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.shapes.BezierShape;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.shapes.RectangleShape;
-import es.eucm.eadventure.common.util.EAdRectangleImpl;
+import es.eucm.eadventure.common.util.EAdRectangle;
 
 public class ShapedElementImporter {
 
@@ -71,10 +71,10 @@ public class ShapedElementImporter {
 		return shape;
 	}
 	
-	public static EAdRectangleImpl getBounds( Rectangle oldObject ){
+	public static EAdRectangle getBounds( Rectangle oldObject ){
 		if (oldObject.isRectangular() || oldObject.getPoints().size() == 0) {
 			oldObject.setRectangular(true);
-			return new EAdRectangleImpl(oldObject.getX(), oldObject.getY(), oldObject.getWidth(), oldObject.getHeight());
+			return new EAdRectangle(oldObject.getX(), oldObject.getY(), oldObject.getWidth(), oldObject.getHeight());
 			
 		} else {
 			int maxX = Integer.MIN_VALUE;
@@ -88,7 +88,7 @@ public class ShapedElementImporter {
 				minY = (int) (p.getY() < minY ? p.getY() : minY);
 			}
 			
-			return new EAdRectangleImpl( minX, minY, maxX - minX, maxY - minY );
+			return new EAdRectangle( minX, minY, maxX - minX, maxY - minY );
 			
 		}
 	}

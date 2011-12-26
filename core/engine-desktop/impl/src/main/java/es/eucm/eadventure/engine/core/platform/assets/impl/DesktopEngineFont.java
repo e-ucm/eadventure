@@ -47,7 +47,7 @@ import java.io.IOException;
 
 import es.eucm.eadventure.common.params.text.EAdFont;
 import es.eucm.eadventure.common.params.text.FontStyle;
-import es.eucm.eadventure.common.util.EAdRectangleImpl;
+import es.eucm.eadventure.common.util.EAdRectangle;
 import es.eucm.eadventure.engine.core.platform.AssetHandler;
 import es.eucm.eadventure.engine.core.platform.RuntimeFont;
 
@@ -114,9 +114,9 @@ public class DesktopEngineFont implements RuntimeFont {
 	}
 
 	@Override
-	public EAdRectangleImpl stringBounds(String string) {
+	public EAdRectangle stringBounds(String string) {
 		Rectangle r = font.getStringBounds(string, frc).getBounds();
-		return new EAdRectangleImpl(r.x, r.y, r.width, r.height);
+		return new EAdRectangle(r.x, r.y, r.width, r.height);
 	}
 
 }

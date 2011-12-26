@@ -45,8 +45,8 @@ import es.eucm.eadventure.common.model.elements.EAdEffect;
 import es.eucm.eadventure.common.model.elements.enums.CommonStates;
 import es.eucm.eadventure.common.model.elements.events.SceneElementEv;
 import es.eucm.eadventure.common.model.elements.events.enums.SceneElementEventType;
-import es.eucm.eadventure.common.model.elements.guievents.KeyEventImpl;
-import es.eucm.eadventure.common.model.elements.guievents.MouseEventImpl;
+import es.eucm.eadventure.common.model.elements.guievents.EAdKeyEvent;
+import es.eucm.eadventure.common.model.elements.guievents.EAdMouseEvent;
 import es.eucm.eadventure.common.model.elements.scenes.SceneElementImpl;
 import es.eucm.eadventure.common.model.elements.variables.FieldImpl;
 import es.eucm.eadventure.common.model.elements.variables.operations.ValueOp;
@@ -57,7 +57,7 @@ import es.eucm.eadventure.common.resources.assets.drawable.compounds.OrientedDra
 import es.eucm.eadventure.common.resources.assets.drawable.compounds.OrientedDrawableImpl;
 import es.eucm.eadventure.common.resources.assets.drawable.compounds.StateDrawable;
 import es.eucm.eadventure.common.resources.assets.drawable.compounds.StateDrawableImpl;
-import es.eucm.eadventure.common.util.EAdPositionImpl.Corner;
+import es.eucm.eadventure.common.util.EAdPosition.Corner;
 
 public class CharacterScene extends EmptyScene {
 
@@ -123,7 +123,7 @@ public class CharacterScene extends EmptyScene {
 						100, 210, goUpEffect);
 		this.getComponents().add(goUpArrow);
 
-		element.addBehavior(KeyEventImpl.KEY_ARROW_UP, goUpEffect);
+		element.addBehavior(EAdKeyEvent.KEY_ARROW_UP, goUpEffect);
 
 		EAdEffect goDownEffect = EAdElementsFactory
 				.getInstance()
@@ -139,7 +139,7 @@ public class CharacterScene extends EmptyScene {
 						100, 320, goDownEffect);
 		this.getComponents().add(goDownArrow);
 
-		element.addBehavior(KeyEventImpl.KEY_ARROW_DOWN, goDownEffect);
+		element.addBehavior(EAdKeyEvent.KEY_ARROW_DOWN, goDownEffect);
 
 		EAdEffect goLeftEffect = EAdElementsFactory
 				.getInstance()
@@ -155,7 +155,7 @@ public class CharacterScene extends EmptyScene {
 						0, 260, goLeftEffect);
 		this.getComponents().add(goLeftArrow);
 
-		element.addBehavior(KeyEventImpl.KEY_ARROW_LEFT, goLeftEffect);
+		element.addBehavior(EAdKeyEvent.KEY_ARROW_LEFT, goLeftEffect);
 
 		EAdEffect goRightEffect = EAdElementsFactory
 				.getInstance()
@@ -171,7 +171,7 @@ public class CharacterScene extends EmptyScene {
 						200, 260, goRightEffect);
 		this.getComponents().add(goRightArrow);
 
-		element.addBehavior(KeyEventImpl.KEY_ARROW_RIGHT, goRightEffect);
+		element.addBehavior(EAdKeyEvent.KEY_ARROW_RIGHT, goRightEffect);
 
 		// Change state buttons
 		EAdEffect standEffect = EAdElementsFactory
@@ -188,7 +188,7 @@ public class CharacterScene extends EmptyScene {
 		StringFactory sf = EAdElementsFactory.getInstance().getStringFactory();
 		Button stand = new Button( );
 		sf.setString(stand.getLabel(), "Stand");
-		stand.addBehavior(MouseEventImpl.MOUSE_LEFT_PRESSED, standEffect);
+		stand.addBehavior(EAdMouseEvent.MOUSE_LEFT_PRESSED, standEffect);
 		stand.setPosition(Corner.CENTER, 600, 250);
 		getComponents().add(stand);
 
@@ -202,7 +202,7 @@ public class CharacterScene extends EmptyScene {
 								CommonStates.EAD_STATE_TALKING.toString()));
 		Button talk = new Button( );
 		sf.setString(talk.getLabel(), "Talk");
-		talk.addBehavior(MouseEventImpl.MOUSE_LEFT_PRESSED, talkEffect);
+		talk.addBehavior(EAdMouseEvent.MOUSE_LEFT_PRESSED, talkEffect);
 		talk.setPosition(Corner.CENTER, 600, 290);
 		getComponents().add(talk);
 
@@ -216,7 +216,7 @@ public class CharacterScene extends EmptyScene {
 								CommonStates.EAD_STATE_WALKING.toString()));
 		Button walk = new Button( );
 		sf.setString(walk.getLabel(), "Walk");
-		walk.addBehavior(MouseEventImpl.MOUSE_LEFT_PRESSED, walkEffect);
+		walk.addBehavior(EAdMouseEvent.MOUSE_LEFT_PRESSED, walkEffect);
 		walk.setPosition(Corner.CENTER, 600, 330);
 		getComponents().add(walk);
 	}

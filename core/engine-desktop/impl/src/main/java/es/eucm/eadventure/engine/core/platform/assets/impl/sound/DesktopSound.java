@@ -43,7 +43,7 @@ import java.io.InputStream;
 import com.google.inject.Inject;
 
 import es.eucm.eadventure.engine.core.platform.AssetHandler;
-import es.eucm.eadventure.engine.core.platform.assets.impl.RuntimeSound;
+import es.eucm.eadventure.engine.core.platform.assets.RuntimeSound;
 import es.eucm.eadventure.engine.core.platform.impl.DesktopAssetHandler;
 
 public class DesktopSound extends RuntimeSound {

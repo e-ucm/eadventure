@@ -39,7 +39,7 @@ package es.eucm.eadventure.engine.core.gameobjects.go;
 
 import es.eucm.eadventure.common.model.elements.EAdEffect;
 import es.eucm.eadventure.common.model.elements.scene.EAdSceneElement;
-import es.eucm.eadventure.engine.core.guiactions.GUIAction;
+import es.eucm.eadventure.engine.core.input.InputAction;
 
 public interface EffectGO<P extends EAdEffect> extends DrawableGO<P> {
 
@@ -116,7 +116,7 @@ public interface EffectGO<P extends EAdEffect> extends DrawableGO<P> {
 	 * @param gui
 	 *            the gui action
 	 */
-	void setGUIAction(GUIAction gui);
+	void setGUIAction(InputAction<?> gui);
 
 	/**
 	 * Sets the element launching the effect

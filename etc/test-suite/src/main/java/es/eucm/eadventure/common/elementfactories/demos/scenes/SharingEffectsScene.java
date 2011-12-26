@@ -40,7 +40,7 @@ package es.eucm.eadventure.common.elementfactories.demos.scenes;
 import es.eucm.eadventure.common.model.elements.effects.variables.ChangeFieldEf;
 import es.eucm.eadventure.common.model.elements.events.SceneElementEv;
 import es.eucm.eadventure.common.model.elements.events.enums.SceneElementEventType;
-import es.eucm.eadventure.common.model.elements.guievents.MouseEventImpl;
+import es.eucm.eadventure.common.model.elements.guievents.EAdMouseEvent;
 import es.eucm.eadventure.common.model.elements.scenes.SceneElementImpl;
 import es.eucm.eadventure.common.model.elements.variables.EAdField;
 import es.eucm.eadventure.common.model.elements.variables.FieldImpl;
@@ -50,8 +50,8 @@ import es.eucm.eadventure.common.model.elements.variables.operations.ValueOp;
 import es.eucm.eadventure.common.model.predef.effects.MakeActiveElementEf;
 import es.eucm.eadventure.common.params.fills.EAdColor;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.shapes.RectangleShape;
-import es.eucm.eadventure.common.util.EAdPositionImpl;
-import es.eucm.eadventure.common.util.EAdPositionImpl.Corner;
+import es.eucm.eadventure.common.util.EAdPosition;
+import es.eucm.eadventure.common.util.EAdPosition.Corner;
 
 public class SharingEffectsScene extends EmptyScene {
 
@@ -62,7 +62,7 @@ public class SharingEffectsScene extends EmptyScene {
 		EAdField<Float> field = new FieldImpl<Float>( SystemFields.ACTIVE_ELEMENT, SceneElementImpl.VAR_ROTATION );
 		ChangeFieldEf effect = new ChangeFieldEf( field, new MathOp("[0] + 0.1", field) );
 		effect.setId("change");
-		b.addBehavior(MouseEventImpl.MOUSE_LEFT_CLICK, effect);
+		b.addBehavior(EAdMouseEvent.MOUSE_LEFT_CLICK, effect);
 		
 		ChangeFieldEf changeAlpha1 = new ChangeFieldEf();
 		changeAlpha1.setId("changeAlpha");
@@ -86,11 +86,11 @@ public class SharingEffectsScene extends EmptyScene {
 			for ( int j = 0; j < 4; j++ ){
 				SceneElementImpl e = new SceneElementImpl( new RectangleShape( 30, 30, EAdColor.BLUE ) );
 				e.setId("e" + i + "" + j);
-				e.setPosition(new EAdPositionImpl( Corner.CENTER, i * 60 + 40, j * 60 + 100));
+				e.setPosition(new EAdPosition( Corner.CENTER, i * 60 + 40, j * 60 + 100));
 				MakeActiveElementEf ef = new MakeActiveElementEf( e );
-				e.addBehavior(MouseEventImpl.MOUSE_LEFT_CLICK, ef);
-				e.addBehavior(MouseEventImpl.MOUSE_ENTERED, changeAlpha1);
-				e.addBehavior(MouseEventImpl.MOUSE_EXITED, changeAlpha2);
+				e.addBehavior(EAdMouseEvent.MOUSE_LEFT_CLICK, ef);
+				e.addBehavior(EAdMouseEvent.MOUSE_ENTERED, changeAlpha1);
+				e.addBehavior(EAdMouseEvent.MOUSE_EXITED, changeAlpha2);
 				getComponents().add(e);
 			}
 				

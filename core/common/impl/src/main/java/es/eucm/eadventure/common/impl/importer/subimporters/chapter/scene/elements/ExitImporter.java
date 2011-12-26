@@ -51,7 +51,7 @@ import es.eucm.eadventure.common.model.elements.EAdCondition;
 import es.eucm.eadventure.common.model.elements.EAdEffect;
 import es.eucm.eadventure.common.model.elements.conditions.NOTCond;
 import es.eucm.eadventure.common.model.elements.effects.ChangeSceneEf;
-import es.eucm.eadventure.common.model.elements.guievents.MouseEventImpl;
+import es.eucm.eadventure.common.model.elements.guievents.EAdMouseEvent;
 import es.eucm.eadventure.common.model.elements.scene.EAdScene;
 import es.eucm.eadventure.common.model.elements.scene.EAdSceneElement;
 import es.eucm.eadventure.common.model.elements.scenes.SceneElementImpl;
@@ -157,8 +157,8 @@ public class ExitImporter extends ElementImporter<Exit> {
 		ChangeCursorEf changeCursorBack = new ChangeCursorEf(
 				factory.getDefaultCursor());
 
-		newExit.addBehavior(MouseEventImpl.MOUSE_ENTERED, changeCursor);
-		newExit.addBehavior(MouseEventImpl.MOUSE_EXITED, changeCursorBack);
+		newExit.addBehavior(EAdMouseEvent.MOUSE_ENTERED, changeCursor);
+		newExit.addBehavior(EAdMouseEvent.MOUSE_EXITED, changeCursorBack);
 	}
 
 	private void addEfects(SceneElementImpl newExit, Exit oldObject,
@@ -167,14 +167,14 @@ public class ExitImporter extends ElementImporter<Exit> {
 		for (Effect e : oldObject.getEffects().getEffects()) {
 			EAdEffect eadEffect = effectsImporterFactory.getEffect(e);
 			eadEffect.setCondition(enableCondition);
-			newExit.addBehavior(MouseEventImpl.MOUSE_LEFT_CLICK, eadEffect);
+			newExit.addBehavior(EAdMouseEvent.MOUSE_LEFT_CLICK, eadEffect);
 		}
 
 		// No effects
 		for (Effect e : oldObject.getNotEffects().getEffects()) {
 			EAdEffect eadEffect = effectsImporterFactory.getEffect(e);
 			eadEffect.setCondition(new NOTCond(enableCondition));
-			newExit.addBehavior(MouseEventImpl.MOUSE_LEFT_CLICK, eadEffect);
+			newExit.addBehavior(EAdMouseEvent.MOUSE_LEFT_CLICK, eadEffect);
 		}
 	}
 

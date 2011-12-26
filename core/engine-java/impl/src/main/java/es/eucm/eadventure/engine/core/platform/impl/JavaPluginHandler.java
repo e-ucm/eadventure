@@ -41,11 +41,11 @@ import com.google.inject.Singleton;
 
 import es.eucm.eadventure.common.model.elements.effects.physics.PhApplyImpluseEf;
 import es.eucm.eadventure.common.model.elements.effects.physics.PhysicsEffect;
+import es.eucm.eadventure.engine.core.gameobjects.effects.physics.PhApplyForceGO;
+import es.eucm.eadventure.engine.core.gameobjects.effects.physics.PhysicsEffectGO;
 import es.eucm.eadventure.engine.core.gameobjects.factories.EffectGOFactory;
 import es.eucm.eadventure.engine.core.gameobjects.factories.EventGOFactory;
 import es.eucm.eadventure.engine.core.gameobjects.factories.SceneElementGOFactory;
-import es.eucm.eadventure.engine.core.gameobjects.impl.effects.physics.PhApplyForceGO;
-import es.eucm.eadventure.engine.core.gameobjects.impl.effects.physics.PhysicsEffectGO;
 import es.eucm.eadventure.engine.core.plugins.PluginHandler;
 
 @Singleton

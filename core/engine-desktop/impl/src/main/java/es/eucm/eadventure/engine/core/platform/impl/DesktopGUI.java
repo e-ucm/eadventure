@@ -44,7 +44,6 @@ import java.awt.Cursor;
 import java.awt.Graphics2D;
 import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
-import java.awt.MouseInfo;
 import java.awt.Point;
 import java.awt.RenderingHints;
 import java.awt.RenderingHints.Key;
@@ -64,9 +63,8 @@ import es.eucm.eadventure.common.resources.assets.drawable.basics.Image;
 import es.eucm.eadventure.engine.core.game.GameState;
 import es.eucm.eadventure.engine.core.gameobjects.GameObjectManager;
 import es.eucm.eadventure.engine.core.gameobjects.factories.SceneElementGOFactory;
-import es.eucm.eadventure.engine.core.guiactions.KeyAction;
-import es.eucm.eadventure.engine.core.input.KeyboardState;
-import es.eucm.eadventure.engine.core.input.MouseState;
+import es.eucm.eadventure.engine.core.input.InputHandler;
+import es.eucm.eadventure.engine.core.platform.AbstractGUI;
 import es.eucm.eadventure.engine.core.platform.EngineConfiguration;
 import es.eucm.eadventure.engine.core.platform.GUI;
 import es.eucm.eadventure.engine.core.platform.RuntimeAsset;
@@ -114,10 +112,10 @@ public class DesktopGUI extends AbstractGUI<Graphics2D> implements GUI {
 
 	@Inject
 	public DesktopGUI(EngineConfiguration conf, GameObjectManager gameObjectManager,
-			MouseState mouseState, KeyboardState keyboardState,
+			InputHandler mouseState,
 			GameState gameState, SceneElementGOFactory gameObjectFactory,
 			DesktopCanvas canvas) {
-		super(conf, gameObjectManager, mouseState, keyboardState, gameState,
+		super(conf, gameObjectManager, mouseState, gameState,
 				gameObjectFactory, canvas);
 		try {
 			this.robot = new Robot();
@@ -337,8 +335,7 @@ public class DesktopGUI extends AbstractGUI<Graphics2D> implements GUI {
 		BufferStrategy bs = canvas.getBufferStrategy();
 		bs.getDrawGraphics().getFontMetrics();
 
-		DesktopInputListener listener = new DesktopInputListener(mouseState,
-				keyboardState);
+		DesktopInputListener listener = new DesktopInputListener(mouseState);
 		canvas.addMouseListener(listener);
 		canvas.addMouseMotionListener(listener);
 		canvas.addKeyListener(listener);
@@ -354,44 +351,44 @@ public class DesktopGUI extends AbstractGUI<Graphics2D> implements GUI {
 	 * In desktop games, arrow keys are used to move the mouse if not consumed
 	 * by a game object
 	 */
-	@Override
-	protected void processKeyAction(KeyAction action) {
-		super.processKeyAction(action);
-		if (action != null && !action.isConsumed()) {
-			if (robot != null) {
-				int x = MouseInfo.getPointerInfo().getLocation().x;
-				int y = MouseInfo.getPointerInfo().getLocation().y;
-				boolean move = false;
-
-				switch (action.getKeyCode()) {
-				case ARROW_UP:
-					y = y - MOUSE_MOVE;
-					move = true;
-					break;
-				case ARROW_DOWN:
-					y = y + MOUSE_MOVE;
-					move = true;
-					break;
-				case ARROW_LEFT:
-					x = x - MOUSE_MOVE;
-					move = true;
-					break;
-				case ARROW_RIGHT:
-					x = x + MOUSE_MOVE;
-					move = true;
-					break;
-				}
-				if (move) {
-					x = Math.max(x, frame.getX());
-					y = Math.max(y, frame.getY());
-					x = Math.min(x, frame.getX() + frame.getWidth());
-					y = Math.min(y, frame.getY() + frame.getHeight());
-					robot.mouseMove(x, y);
-				}
-
-			}
-		}
-	}
+//	@Override
+//	protected void processKeyAction(KeyActionImpl action) {
+//		super.processKeyAction(action);
+//		if (action != null && !action.isConsumed()) {
+//			if (robot != null) {
+//				int x = MouseInfo.getPointerInfo().getLocation().x;
+//				int y = MouseInfo.getPointerInfo().getLocation().y;
+//				boolean move = false;
+//
+//				switch (action.getKeyCode()) {
+//				case ARROW_UP:
+//					y = y - MOUSE_MOVE;
+//					move = true;
+//					break;
+//				case ARROW_DOWN:
+//					y = y + MOUSE_MOVE;
+//					move = true;
+//					break;
+//				case ARROW_LEFT:
+//					x = x - MOUSE_MOVE;
+//					move = true;
+//					break;
+//				case ARROW_RIGHT:
+//					x = x + MOUSE_MOVE;
+//					move = true;
+//					break;
+//				}
+//				if (move) {
+//					x = Math.max(x, frame.getX());
+//					y = Math.max(y, frame.getY());
+//					x = Math.min(x, frame.getX() + frame.getWidth());
+//					y = Math.min(y, frame.getY() + frame.getHeight());
+//					robot.mouseMove(x, y);
+//				}
+//
+//			}
+//		}
+//	}
 
 	@Override
 	public void finish() {

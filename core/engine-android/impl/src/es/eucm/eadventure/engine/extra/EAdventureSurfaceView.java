@@ -50,12 +50,11 @@ import android.view.View;
 
 import com.google.inject.Singleton;
 
-import es.eucm.eadventure.common.model.elements.guievents.MouseEventImpl;
-import es.eucm.eadventure.common.model.elements.guievents.enums.MouseActionType;
-import es.eucm.eadventure.common.model.elements.guievents.enums.MouseButton;
-import es.eucm.eadventure.engine.core.guiactions.MouseAction;
-import es.eucm.eadventure.engine.core.guiactions.impl.MouseActionImpl;
-import es.eucm.eadventure.engine.core.input.MouseState;
+import es.eucm.eadventure.common.model.elements.guievents.EAdMouseEvent;
+import es.eucm.eadventure.common.model.elements.guievents.enums.MouseEventType;
+import es.eucm.eadventure.common.model.elements.guievents.enums.MouseButtonType;
+import es.eucm.eadventure.engine.core.input.InputHandler;
+import es.eucm.eadventure.engine.core.input.actions.MouseActionImpl;
 import es.eucm.eadventure.engine.core.platform.EngineConfiguration;
 import es.eucm.eadventure.engine.core.platform.GUI;
 
@@ -74,30 +73,29 @@ public class EAdventureSurfaceView extends SurfaceView implements SurfaceHolder.
 
 	private class EAdventureGestureListener extends SimpleOnGestureListener {
 
-		private MouseState mouseState;
+		private InputHandler mouseState;
 		private static final int SWIPE_MIN_DISTANCE = 120;
 		private static final int SWIPE_VELOCITY = 200;
 
 
-		public EAdventureGestureListener(MouseState mouseState) {
+		public EAdventureGestureListener(InputHandler mouseState) {
 			this.mouseState = mouseState;
 		}
 
 		@Override
 		public boolean onDown(MotionEvent e){
-
-			mouseState.setMousePressed(true, MouseButton.BUTTON_1);
+//			mouseState.setMousePressed(true, MouseButton.BUTTON_1);
 			return true;
 		}
 
 		@Override
 		public boolean onSingleTapConfirmed(MotionEvent e){
 
-			mouseState.getMouseEvents().add(new MouseActionImpl(MouseEventImpl.MOUSE_LEFT_PRESSED, 
-					mouseState.getMouseX(), mouseState.getMouseY()));
-			MouseAction action = new MouseActionImpl(MouseActionType.CLICK, 
-					MouseButton.BUTTON_1, mouseState.getMouseX(), mouseState.getMouseY());
-			mouseState.getMouseEvents().add(action);
+			mouseState.addAction(new MouseActionImpl(EAdMouseEvent.MOUSE_LEFT_PRESSED, 
+					(int) e.getX(), (int) e.getY()));
+			MouseActionImpl action = new MouseActionImpl(MouseEventType.CLICK, 
+					MouseButtonType.BUTTON_1, (int) e.getX(), (int) e.getY());
+			mouseState.addAction(action);
 
 			return true;
 		}
@@ -105,37 +103,37 @@ public class EAdventureSurfaceView extends SurfaceView implements SurfaceHolder.
 		@Override
 		public void onLongPress(MotionEvent e){
 
-			mouseState.getMouseEvents().add(new MouseActionImpl(MouseEventImpl.MOUSE_RIGHT_CLICK, 
-					mouseState.getMouseX(), mouseState.getMouseY()));
-			MouseAction action = new MouseActionImpl(MouseActionType.CLICK, 
-					MouseButton.BUTTON_2, mouseState.getMouseX(), mouseState.getMouseY());
-			mouseState.getMouseEvents().add(action);
+			mouseState.addAction(new MouseActionImpl(EAdMouseEvent.MOUSE_RIGHT_CLICK, 
+					(int) e.getX(), (int) e.getY()));
+			MouseActionImpl action = new MouseActionImpl(MouseEventType.CLICK, 
+					MouseButtonType.BUTTON_2, (int) e.getX(), (int) e.getY());
+			mouseState.addAction(action);
 		}
 
 		@Override
 		public boolean onFling (MotionEvent e1, MotionEvent e2, float velocityX, float velocityY){
 
 			if (e1.getX() - e2.getX() > SWIPE_MIN_DISTANCE && Math.abs(velocityX) > SWIPE_VELOCITY) {
-				MouseAction action = new MouseActionImpl(MouseActionType.SWIPE_LEFT, 
-						MouseButton.NO_BUTTON, mouseState.getMouseX(), mouseState.getMouseY());
-				mouseState.getMouseEvents().add(action);
+				MouseActionImpl action = new MouseActionImpl(MouseEventType.SWIPE_LEFT, 
+						MouseButtonType.NO_BUTTON, (int) e2.getX(), (int) e2.getY());
+				mouseState.addAction(action);
 			}  
 			else if (e2.getX() - e1.getX() > SWIPE_MIN_DISTANCE && Math.abs(velocityX) > SWIPE_VELOCITY) {
-				MouseAction action = new MouseActionImpl(MouseActionType.SWIPE_RIGHT, 
-						MouseButton.NO_BUTTON, mouseState.getMouseX(), mouseState.getMouseY());
-				mouseState.getMouseEvents().add(action);
+				MouseActionImpl action = new MouseActionImpl(MouseEventType.SWIPE_RIGHT, 
+						MouseButtonType.NO_BUTTON, (int) e2.getX(), (int) e2.getY());
+				mouseState.addAction(action);
 			}
 			
-			mouseState.setMousePressed(false, null);
+//			mouseState.setMousePressed(false, null);
 			return true;
 		}
 	}
 
 	private class OnTouchListener implements View.OnTouchListener {
 
-		private MouseState mouseState;
+		private InputHandler mouseState;
 
-		public OnTouchListener(MouseState mouseState ) {
+		public OnTouchListener(InputHandler mouseState ) {
 			this.mouseState = mouseState;
 		}
 
@@ -145,14 +143,14 @@ public class EAdventureSurfaceView extends SurfaceView implements SurfaceHolder.
 			int x = (int) event.getRawX();
 			int y = (int) event.getRawY() - 50;
 
-			mouseState.setMousePosition(x, y);
+//			mouseState.setMousePosition(x, y);
 
 			if (gestureDetector.onTouchEvent(event)) {
 				return true;
 			}
 
 			if (event.getAction() == MotionEvent.ACTION_UP) {
-				mouseState.setMousePressed(false, null);
+//				mouseState.setMousePressed(false, null);
 			}
 
 			return false;	
@@ -181,7 +179,7 @@ public class EAdventureSurfaceView extends SurfaceView implements SurfaceHolder.
 
 	public void start(GUI gui,
 			EngineConfiguration platformConfiguration,
-			MouseState mouseState) {
+			InputHandler mouseState) {
 		configuration = platformConfiguration;
 		gestureDetector = new GestureDetector(new EAdventureGestureListener(mouseState));
 		this.setOnTouchListener(new OnTouchListener(mouseState));

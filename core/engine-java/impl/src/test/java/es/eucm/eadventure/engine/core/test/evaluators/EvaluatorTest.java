@@ -47,21 +47,21 @@ import es.eucm.eadventure.common.model.elements.conditions.ANDCond;
 import es.eucm.eadventure.common.model.elements.conditions.EmptyCond;
 import es.eucm.eadventure.common.model.elements.conditions.NOTCond;
 import es.eucm.eadventure.common.model.elements.conditions.ORCond;
-import es.eucm.eadventure.common.model.elements.conditions.enums.EmptyConditionValue;
-import es.eucm.eadventure.engine.core.evaluators.impl.EvaluatorFactoryImpl;
+import es.eucm.eadventure.common.model.elements.conditions.enums.EmptyCondValue;
+import es.eucm.eadventure.engine.core.evaluators.EvaluatorFactoryImpl;
 import es.eucm.eadventure.engine.core.game.ValueMap;
-import es.eucm.eadventure.engine.core.impl.ValueMapImpl;
+import es.eucm.eadventure.engine.core.game.ValueMapImpl;
 import es.eucm.eadventure.engine.core.operator.OperatorFactory;
-import es.eucm.eadventure.engine.core.operators.impl.OperatorFactoryImpl;
+import es.eucm.eadventure.engine.core.operators.OperatorFactoryImpl;
 import es.eucm.eadventure.engine.core.platform.impl.JavaReflectionProvider;
 
 public class EvaluatorTest {
 	
 	protected EvaluatorFactoryImpl evaluator;	
 
-	protected EmptyCond cTrue = new EmptyCond(EmptyConditionValue.TRUE);
+	protected EmptyCond cTrue = new EmptyCond(EmptyCondValue.TRUE);
 	
-	protected EmptyCond cFalse = new EmptyCond(EmptyConditionValue.FALSE);
+	protected EmptyCond cFalse = new EmptyCond(EmptyCondValue.FALSE);
 	
 	@Before
 	public void setUp(){

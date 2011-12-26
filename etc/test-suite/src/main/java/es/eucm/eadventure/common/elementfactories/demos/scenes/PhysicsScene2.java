@@ -44,7 +44,7 @@ import es.eucm.eadventure.common.model.elements.effects.physics.PhApplyImpluseEf
 import es.eucm.eadventure.common.model.elements.effects.physics.PhysicsEffect;
 import es.eucm.eadventure.common.model.elements.events.ConditionedEv;
 import es.eucm.eadventure.common.model.elements.events.enums.ConditionedEventType;
-import es.eucm.eadventure.common.model.elements.guievents.MouseEventImpl;
+import es.eucm.eadventure.common.model.elements.guievents.EAdMouseEvent;
 import es.eucm.eadventure.common.model.elements.scenes.SceneElementImpl;
 import es.eucm.eadventure.common.model.elements.scenes.SceneImpl;
 import es.eucm.eadventure.common.model.elements.variables.FieldImpl;
@@ -54,8 +54,8 @@ import es.eucm.eadventure.common.params.fills.EAdLinearGradient;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.shapes.BezierShape;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.shapes.CircleShape;
 import es.eucm.eadventure.common.resources.assets.drawable.basics.shapes.RectangleShape;
-import es.eucm.eadventure.common.util.EAdPositionImpl;
-import es.eucm.eadventure.common.util.EAdPositionImpl.Corner;
+import es.eucm.eadventure.common.util.EAdPosition;
+import es.eucm.eadventure.common.util.EAdPosition.Corner;
 
 public class PhysicsScene2 extends PhysicsScene {
 
@@ -70,7 +70,7 @@ public class PhysicsScene2 extends PhysicsScene {
 		SceneElementImpl e2 = new SceneElementImpl(rShape);
 		e2.setId("e2");
 		getComponents().add(e2);
-		e2.setPosition(new EAdPositionImpl(Corner.CENTER, 500, 200));
+		e2.setPosition(new EAdPosition(Corner.CENTER, 500, 200));
 		e2.setVarInitialValue(SceneElementImpl.VAR_ROTATION,
 				(float) Math.PI / 4.0f);
 
@@ -81,7 +81,7 @@ public class PhysicsScene2 extends PhysicsScene {
 		SceneElementImpl e3 = new SceneElementImpl( rShape);
 		e3.setId("e3");
 		getComponents().add(e3);
-		e3.setPosition(new EAdPositionImpl(Corner.CENTER, 200, 100));
+		e3.setPosition(new EAdPosition(Corner.CENTER, 200, 100));
 		e3.setVarInitialValue(SceneElementImpl.VAR_ROTATION,
 				(float) Math.PI / 2.0f);
 
@@ -93,12 +93,12 @@ public class PhysicsScene2 extends PhysicsScene {
 
 		SceneElementImpl b = new SceneElementImpl( circle);
 		b.setId("ball");
-		b.setPosition(new EAdPositionImpl(Corner.CENTER, 500, 0));
+		b.setPosition(new EAdPosition(Corner.CENTER, 500, 0));
 		getComponents().add(b, 0);
 		effect.addSceneElement(b);
 		b.setVarInitialValue(PhysicsEffect.VAR_PH_TYPE, PhType.DYNAMIC);
 		getBackground().addBehavior(
-				MouseEventImpl.MOUSE_LEFT_CLICK,
+				EAdMouseEvent.MOUSE_LEFT_CLICK,
 				new PhApplyImpluseEf(b, new MathOp(
 						 "0"), new MathOp(
 						 "-100")));
@@ -109,14 +109,14 @@ public class PhysicsScene2 extends PhysicsScene {
 			for (int j = 0; j < 5; j++) {
 				SceneElementImpl e = new SceneElementImpl( circle);
 				e.setId("ball" + i + "_" + j);
-				e.setPosition(new EAdPositionImpl(Corner.CENTER, i * 60 + 200,
+				e.setPosition(new EAdPosition(Corner.CENTER, i * 60 + 200,
 						j * 60 + 200));
 				getComponents().add(e);
 				effect.addSceneElement(e);
 				e.setVarInitialValue(PhysicsEffect.VAR_PH_TYPE,
 						PhType.DYNAMIC);
 				getBackground().addBehavior(
-						MouseEventImpl.MOUSE_LEFT_CLICK,
+						EAdMouseEvent.MOUSE_LEFT_CLICK,
 						new PhApplyImpluseEf(e, new MathOp(
 								 "0"),
 								new MathOp(

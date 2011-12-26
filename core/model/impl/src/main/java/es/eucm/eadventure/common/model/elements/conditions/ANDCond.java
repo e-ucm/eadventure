@@ -40,7 +40,7 @@ package es.eucm.eadventure.common.model.elements.conditions;
 import es.eucm.eadventure.common.interfaces.Element;
 import es.eucm.eadventure.common.model.elements.EAdCondition;
 import es.eucm.eadventure.common.model.elements.conditions.enums.ConditionOperator;
-import es.eucm.eadventure.common.model.elements.conditions.enums.EmptyConditionValue;
+import es.eucm.eadventure.common.model.elements.conditions.enums.EmptyCondValue;
 
 @Element(runtime = ANDCond.class, detailed = ANDCond.class)
 public class ANDCond extends ListedCond {
@@ -50,13 +50,13 @@ public class ANDCond extends ListedCond {
 	}
 	
 	public ANDCond() {
-		super(ConditionOperator.AND, new EmptyCond(EmptyConditionValue.TRUE));
+		super(ConditionOperator.AND, new EmptyCond(EmptyCondValue.TRUE));
 		setId("andCondition");
 	}
 
 	@Override
 	public EmptyCond getNullOperator() {
-		return new EmptyCond(EmptyConditionValue.TRUE);
+		return new EmptyCond(EmptyCondValue.TRUE);
 	}
 	
 	@Override
