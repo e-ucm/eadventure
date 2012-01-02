@@ -84,6 +84,7 @@ import com.markupartist.android.widget.ActionBar.IntentAction;
 
 import ead.elementfactories.demos.TechDemoAdventure;
 import ead.engine.EAdventureEngineActivity;
+import ead.engine.R;
 import ead.engine.home.local.DeletingGame;
 import ead.engine.home.local.LocalGamesListAdapter;
 import ead.engine.home.local.SearchGamesThread;
@@ -91,15 +92,14 @@ import ead.engine.home.preferences.PreferencesActivity;
 import ead.engine.home.repository.connection.RepositoryServices;
 import ead.engine.home.repository.database.GameInfo;
 import ead.engine.home.repository.database.RepositoryDatabase;
-import ead.engine.home.repository.handler.RepoResourceHandler;
 import ead.engine.home.repository.handler.ProgressNotifier.ProgressMessage;
+import ead.engine.home.repository.handler.RepoResourceHandler;
 import ead.engine.home.saved.LoadGamesArray;
 import ead.engine.home.saved.LoadGamesListAdapter;
 import ead.engine.home.saved.SearchForSavedGames;
 import ead.engine.home.utils.ActivityPipe;
 import ead.engine.home.utils.ViewPagerIndicator;
 import ead.engine.home.utils.directory.Paths;
-import es.eucm.eadventure.engine.R;
 
 /**
  * Displays different fragments using a ViewPager instance

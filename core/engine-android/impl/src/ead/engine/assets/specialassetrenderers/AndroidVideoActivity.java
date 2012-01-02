@@ -40,6 +40,7 @@ package ead.engine.assets.specialassetrenderers;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.media.AudioManager;
@@ -51,7 +52,7 @@ import android.os.Bundle;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import ead.engine.EAdventureEngineActivity;
-import es.eucm.eadventure.engine.R;
+import ead.engine.R;
 
 
 public class AndroidVideoActivity extends Activity implements OnCompletionListener,

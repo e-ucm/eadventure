@@ -46,8 +46,8 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+import ead.engine.R;
 import ead.engine.home.repository.database.GameInfo;
-import es.eucm.eadventure.engine.R;
 
 /**
  * An adapter to store the installed games

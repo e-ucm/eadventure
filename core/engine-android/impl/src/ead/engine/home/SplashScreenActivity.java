@@ -49,10 +49,10 @@ import android.util.Log;
 import android.view.MotionEvent;
 import android.view.Window;
 import android.view.WindowManager;
+import ead.engine.R;
 import ead.engine.home.repository.handler.RepoResourceHandler;
 import ead.engine.home.utils.EngineResInstaller;
 import ead.engine.home.utils.directory.Paths;
-import es.eucm.eadventure.engine.R;
 
 /**
  * Opening activity for the application. It shows the eAdventure Mobile logo for two seconds.

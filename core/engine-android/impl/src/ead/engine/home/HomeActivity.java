@@ -37,12 +37,6 @@
 
 package ead.engine.home;
 
-import com.markupartist.android.widget.ActionBar;
-
-import ead.engine.home.preferences.PreferencesActivity;
-import ead.engine.home.repository.handler.RepoResourceHandler;
-import ead.engine.home.utils.directory.Paths;
-import es.eucm.eadventure.engine.R;
 import android.app.Activity;
 import android.app.Dialog;
 import android.app.ProgressDialog;
@@ -61,6 +55,13 @@ import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.markupartist.android.widget.ActionBar;
+
+import ead.engine.R;
+import ead.engine.home.preferences.PreferencesActivity;
+import ead.engine.home.repository.handler.RepoResourceHandler;
+import ead.engine.home.utils.directory.Paths;
 
 /**
  * The home menu of eAdventure Mobile. The several icons displayed allow navigating through 

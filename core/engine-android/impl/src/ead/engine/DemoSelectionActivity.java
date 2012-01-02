@@ -46,7 +46,6 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import ead.elementfactories.demos.TechDemoAdventure;
-import es.eucm.eadventure.engine.R;
 
 public class DemoSelectionActivity extends ListActivity {
 	

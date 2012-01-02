@@ -40,6 +40,7 @@ package ead.engine.home.preferences;
 import java.io.File;
 import java.net.URI;
 import java.util.List;
+
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
@@ -53,10 +54,10 @@ import android.os.Bundle;
 import android.preference.PreferenceActivity;
 import android.util.Log;
 import android.widget.Toast;
+import ead.engine.R;
 import ead.engine.home.WorkspaceActivity;
 import ead.engine.home.repository.handler.RepoResourceHandler;
 import ead.engine.home.utils.directory.Paths;
-import es.eucm.eadventure.engine.R;
 
 /**
  * Launches the AndExplorer application to navigate through the external storage

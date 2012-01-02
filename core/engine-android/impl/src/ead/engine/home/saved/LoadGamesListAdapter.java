@@ -46,8 +46,8 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+import ead.engine.R;
 import ead.engine.home.saved.LoadGamesArray.InfoLoadGames;
-import es.eucm.eadventure.engine.R;
 
 /**
  * An adapter for showing each saved game with its information in the list

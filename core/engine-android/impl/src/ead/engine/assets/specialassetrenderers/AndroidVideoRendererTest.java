@@ -45,17 +45,18 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.view.Window;
 import android.view.WindowManager;
+
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 
 import ead.common.resources.assets.multimedia.Video;
 import ead.common.resources.assets.multimedia.VideoImpl;
 import ead.engine.AndroidAssetHandler;
+import ead.engine.R;
 import ead.engine.core.modules.BasicGameModule;
 import ead.engine.core.platform.AssetHandler;
 import ead.engine.extra.AndroidAssetHandlerModule;
 import ead.engine.extra.AndroidModule;
-import es.eucm.eadventure.engine.R;
 
 public class AndroidVideoRendererTest extends Activity {
 	
