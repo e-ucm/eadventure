@@ -41,7 +41,7 @@
 		<activity android:screenOrientation="landscape"
 			android:name=".assets.specialassetrenderers.AndroidVideoActivity"></activity>
 		<activity android:screenOrientation="landscape"
-			android:name=".assets.specialassetrenderers.AndroidVideoRendererTest"></activity>
+			android:name=".assets.specialassetrenderers.AndroidVideoRendererTestndererTestndererTestndererTest"></activity>
 
     </application>
 </manifest>

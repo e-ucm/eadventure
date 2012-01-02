@@ -1,33 +1,33 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <parent>
-    <groupId>es.eucm.eadventure</groupId>
+    <groupId>ead</groupId>
     <version>2.0.1-SNAPSHOT</version>
     <artifactId>common</artifactId>
   </parent>
   <modelVersion>4.0.0</modelVersion>
-  <groupId>es.eucm.eadventure</groupId>
+  <groupId>ead</groupId>
   <artifactId>common-impl</artifactId>
   <packaging>jar</packaging>
   <version>2.0.1-SNAPSHOT</version>
   <name>e-Adventure Common implementation</name>
   <dependencies>
     <dependency>
-    	<groupId>es.eucm.eadventure</groupId>
+    	<groupId>ead</groupId>
     	<artifactId>common-api</artifactId>
     	<version>${project.version}</version>
     </dependency>
     <dependency>
-    	<groupId>es.eucm.eadventure</groupId>
+    	<groupId>ead</groupId>
     	<artifactId>common-model-api</artifactId>
     	<version>${project.version}</version>
     </dependency>
     <dependency>
-    	<groupId>es.eucm.eadventure</groupId>
+    	<groupId>ead</groupId>
     	<artifactId>common-model-impl</artifactId>
     	<version>${project.version}</version>
     </dependency>
     <dependency>
-    	<groupId>es.eucm.eadventure</groupId>
+    	<groupId>ead</groupId>
     	<artifactId>common-model-impl</artifactId>
     	<version>${project.version}</version>
     </dependency>
@@ -39,7 +39,7 @@
     <!-- tests -->
     
     <dependency>
-    	<groupId>es.eucm.eadventure</groupId>
+    	<groupId>ead</groupId>
     	<artifactId>test-suite</artifactId>
     	<version>${project.version}</version>
     </dependency>

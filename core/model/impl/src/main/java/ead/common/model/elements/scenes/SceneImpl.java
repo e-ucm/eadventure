@@ -1,0 +1,125 @@
+/**
+ * eAdventure (formerly <e-Adventure> and <e-Game>) is a research project of the
+ *    <e-UCM> research group.
+ *
+ *    Copyright 2005-2010 <e-UCM> research group.
+ *
+ *    You can access a list of all the contributors to eAdventure at:
+ *          http://e-adventure.e-ucm.es/contributors
+ *
+ *    <e-UCM> is a research group of the Department of Software Engineering
+ *          and Artificial Intelligence at the Complutense University of Madrid
+ *          (School of Computer Science).
+ *
+ *          C Profesor Jose Garcia Santesmases sn,
+ *          28040 Madrid (Madrid), Spain.
+ *
+ *          For more info please visit:  <http://e-adventure.e-ucm.es> or
+ *          <http://www.e-ucm.es>
+ *
+ * ****************************************************************************
+ *
+ *  This file is part of eAdventure, version 2.0
+ *
+ *      eAdventure is free software: you can redistribute it and/or modify
+ *      it under the terms of the GNU Lesser General Public License as published by
+ *      the Free Software Foundation, either version 3 of the License, or
+ *      (at your option) any later version.
+ *
+ *      eAdventure is distributed in the hope that it will be useful,
+ *      but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *      MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *      GNU Lesser General Public License for more details.
+ *
+ *      You should have received a copy of the GNU Lesser General Public License
+ *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
+package ead.common.model.elements.scenes;
+
+import ead.common.interfaces.Element;
+import ead.common.interfaces.Param;
+import ead.common.model.elements.scene.EAdScene;
+import ead.common.model.elements.trajectories.TrajectoryDefinition;
+import ead.common.model.elements.variables.EAdVarDef;
+import ead.common.model.elements.variables.VarDefImpl;
+import ead.common.resources.assets.drawable.Drawable;
+
+/**
+ * <p>
+ * Default implementation of the {@link EAdScene} interface
+ * </p>
+ * 
+ */
+@Element(runtime = SceneImpl.class, detailed = SceneImpl.class)
+public class SceneImpl extends ComplexSceneElementImpl implements EAdScene {
+
+	public static final EAdVarDef<Boolean> VAR_SCENE_LOADED = new VarDefImpl<Boolean>(
+			"scene_loaded", Boolean.class, Boolean.FALSE);
+
+	public static final EAdVarDef<TrajectoryDefinition> VAR_TRAJECTORY_DEFINITION = new VarDefImpl<TrajectoryDefinition>(
+			"trajectory_generator", TrajectoryDefinition.class, null);
+
+	@Param("background")
+	protected SceneElementImpl background;
+
+	@Param(value = "acceptsVisualEffects", defaultValue = "true")
+	protected Boolean acceptsVisualEffects;
+
+	/**
+	 * This property indicates if the game can return to this scene after a
+	 * cutscene or similiar
+	 */
+	@Param(value = "returnable", defaultValue = "true")
+	protected Boolean returnable;
+
+	/**
+	 * Default constructor.
+	 * 
+	 * @param parent
+	 *            The parent element in the model
+	 */
+	public SceneImpl() {
+		this(null);
+	}
+
+	public SceneImpl(Drawable backgroundDrawable) {
+		super();
+		background = new SceneElementImpl(backgroundDrawable);
+		background.setId("background");
+		returnable = true;
+		acceptsVisualEffects = true;
+	}
+
+	public SceneElementImpl getBackground() {
+		return background;
+	}
+
+	public void setBackground(SceneElementImpl background) {
+		this.background = background;
+	}
+
+	@Override
+	public Boolean getReturnable() {
+		return returnable;
+	}
+
+	public void setReturnable(Boolean returnable) {
+		this.returnable = returnable;
+	}
+
+	public void setTrajectoryDefinition(
+			TrajectoryDefinition trajectoryDefinition) {
+		this.setVarInitialValue(VAR_TRAJECTORY_DEFINITION, trajectoryDefinition);
+	}
+
+	@Override
+	public Boolean getAcceptsVisualEffects() {
+		return acceptsVisualEffects;
+	}
+
+	public void setAcceptsVisualEffects(Boolean acceptsVisualEffects) {
+		this.acceptsVisualEffects = acceptsVisualEffects;
+	}
+
+}

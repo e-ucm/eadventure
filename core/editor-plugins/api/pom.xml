@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <parent>
-    <groupId>es.eucm.eadventure</groupId>
+    <groupId>ead</groupId>
     <version>2.0.1-SNAPSHOT</version>
     <artifactId>editor-plugins</artifactId>
   </parent>
   <modelVersion>4.0.0</modelVersion>
-  <groupId>es.eucm.eadventure</groupId>
+  <groupId>ead</groupId>
   <artifactId>editor-plugins-api</artifactId>
   <packaging>jar</packaging>
   <version>2.0.1-SNAPSHOT</version>
   <name>e-Adventure Editor Plugins API</name>
   <dependencies>
     <dependency>
-    	<groupId>es.eucm.eadventure</groupId>
+    	<groupId>ead</groupId>
     	<artifactId>editor-core-api</artifactId>
     	<version>${project.version}</version>
     </dependency>
