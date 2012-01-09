@@ -40,6 +40,8 @@ package ead.elementfactories.demos.scenes;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.gwtent.reflection.client.Reflectable;
+
 import ead.common.model.elements.effects.ChangeSceneEf;
 import ead.common.model.elements.effects.text.SpeakEf;
 import ead.common.model.elements.guievents.EAdMouseEvent;
@@ -60,6 +62,7 @@ import ead.elementfactories.StringFactory;
 import ead.elementfactories.demos.SceneDemo;
 import ead.elementfactories.demos.normalguy.NgMainScreen;
 
+@Reflectable
 public class InitScene extends EmptyScene {
 
 	private List<SceneDemo> sceneDemos;

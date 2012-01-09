@@ -61,7 +61,7 @@ import ead.common.model.elements.scenes.SceneElementDefImpl;
 import ead.common.model.elements.scenes.SceneElementImpl;
 import ead.common.model.elements.variables.EAdField;
 import ead.common.model.elements.variables.EAdVarDef;
-import ead.common.model.elements.variables.FieldImpl;
+import ead.common.model.elements.variables.EAdFieldImpl;
 import ead.common.model.elements.variables.SystemFields;
 import ead.common.model.elements.variables.VarDefImpl;
 import ead.common.model.elements.variables.operations.BooleanOp;
@@ -117,16 +117,16 @@ public class TimerImporter implements EAdElementImporter<Timer, EAdEvent> {
 		initCondition = conditionsImporter.convert(oldTimer.getInitCond(),
 				initCondition);
 		EAdSceneElement timer = getSceneElementForTimer(oldTimer, initCondition);
-		EAdField<Boolean> runningField = new FieldImpl<Boolean>(timer,
+		EAdField<Boolean> runningField = new EAdFieldImpl<Boolean>(timer,
 				RUNNING_VAR);
-		EAdField<Boolean> notTriggeredField = new FieldImpl<Boolean>(timer,
+		EAdField<Boolean> notTriggeredField = new EAdFieldImpl<Boolean>(timer,
 				NOT_TRIGGERED_VAR);
 
-		EAdField<Boolean> visibleField = new FieldImpl<Boolean>(timer,
+		EAdField<Boolean> visibleField = new EAdFieldImpl<Boolean>(timer,
 				SceneElementImpl.VAR_VISIBLE);
 		ChangeFieldEf changeVisible = new ChangeFieldEf(
 				visibleField, BooleanOp.TRUE_OP);
-		EAdField<Integer> currentTimeField = new FieldImpl<Integer>(timer,
+		EAdField<Integer> currentTimeField = new EAdFieldImpl<Integer>(timer,
 				CURRENT_TIME_VAR);
 
 		ModifyHUDEf modifyHUD = new ModifyHUDEf(timer, true);
@@ -182,12 +182,12 @@ public class TimerImporter implements EAdElementImporter<Timer, EAdEvent> {
 		timer.setVarInitialValue(SceneElementImpl.VAR_ENABLE, false);
 		timer.setId("timer" + ID++);
 
-		EAdField<Integer> currentTimeField = new FieldImpl<Integer>(timer,
+		EAdField<Integer> currentTimeField = new EAdFieldImpl<Integer>(timer,
 				CURRENT_TIME_VAR);
-		EAdField<Boolean> runningField = new FieldImpl<Boolean>(timer,
+		EAdField<Boolean> runningField = new EAdFieldImpl<Boolean>(timer,
 				RUNNING_VAR);
 
-		EAdField<Boolean> visibleField = new FieldImpl<Boolean>(timer,
+		EAdField<Boolean> visibleField = new EAdFieldImpl<Boolean>(timer,
 				SceneElementImpl.VAR_VISIBLE);
 
 		timer.setVarInitialValue(SceneElementImpl.VAR_VISIBLE, false);

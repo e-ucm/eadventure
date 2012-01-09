@@ -37,11 +37,8 @@
 
 package ead.common.resources.assets.drawable.basics.shapes.extra;
 
-import com.gwtent.reflection.client.Reflectable;
-
 import ead.common.resources.assets.drawable.basics.shapes.BezierShape;
 
-@Reflectable
 public interface BalloonStroke {
 
 	void addHorizontal(BezierShape shape, int x1, int x2, int y,

@@ -48,7 +48,7 @@ import ead.common.model.elements.scenes.SceneImpl;
 import ead.common.model.elements.trajectories.NodeTrajectoryDefinition;
 import ead.common.model.elements.trajectories.Side;
 import ead.common.model.elements.trajectories.TrajectoryDefinition;
-import ead.common.model.elements.variables.FieldImpl;
+import ead.common.model.elements.variables.EAdFieldImpl;
 import ead.common.model.elements.variables.operations.ValueOp;
 import ead.common.model.predef.effects.MakeActiveElementEf;
 import ead.common.model.predef.effects.MoveActiveElementEf;
@@ -85,7 +85,7 @@ public class TrajectoriesScene extends EmptyScene {
 				new MoveActiveElementEf());
 
 		ChangeFieldEf changeSide = new ChangeFieldEf();
-		changeSide.addField(new FieldImpl<Side>( element, NodeTrajectoryDefinition.VAR_CURRENT_SIDE));
+		changeSide.addField(new EAdFieldImpl<Side>( element, NodeTrajectoryDefinition.VAR_CURRENT_SIDE));
 		changeSide.setOperation(new ValueOp( null ));
 		
 		createTrajectory1(changeSide);
@@ -106,7 +106,7 @@ public class TrajectoriesScene extends EmptyScene {
 
 		ChangeFieldEf effect = new ChangeFieldEf();
 		effect.setId("changeTrajectory");
-		effect.addField(new FieldImpl<TrajectoryDefinition>(this,
+		effect.addField(new EAdFieldImpl<TrajectoryDefinition>(this,
 				SceneImpl.VAR_TRAJECTORY_DEFINITION));
 		effect.setOperation(new ValueOp(trajectory));
 
@@ -158,7 +158,7 @@ public class TrajectoriesScene extends EmptyScene {
 
 		ChangeFieldEf effect = new ChangeFieldEf();
 		effect.setId("changeTrajectory");
-		effect.addField(new FieldImpl<TrajectoryDefinition>(this,
+		effect.addField(new EAdFieldImpl<TrajectoryDefinition>(this,
 				SceneImpl.VAR_TRAJECTORY_DEFINITION));
 		effect.setOperation(new ValueOp(trajectory));
 		
@@ -179,7 +179,7 @@ public class TrajectoriesScene extends EmptyScene {
 
 		ChangeFieldEf effect = new ChangeFieldEf();
 		effect.setId("changeTrajectory");
-		effect.addField(new FieldImpl<TrajectoryDefinition>(this,
+		effect.addField(new EAdFieldImpl<TrajectoryDefinition>(this,
 				SceneImpl.VAR_TRAJECTORY_DEFINITION));
 		effect.setOperation(new ValueOp(trajectory));
 		effect.getNextEffects().add(changeSide);

@@ -47,7 +47,7 @@ import ead.common.model.elements.events.enums.SceneElementEventType;
 import ead.common.model.elements.events.enums.TimedEventType;
 import ead.common.model.elements.scenes.SceneElementImpl;
 import ead.common.model.elements.variables.EAdField;
-import ead.common.model.elements.variables.FieldImpl;
+import ead.common.model.elements.variables.EAdFieldImpl;
 import ead.common.model.elements.variables.operations.MathOp;
 import ead.common.params.fills.EAdColor;
 import ead.common.params.fills.EAdPaintImpl;
@@ -70,7 +70,7 @@ public class DepthZScene extends EmptyScene {
 		e2.setPosition(new EAdPosition( Corner.CENTER, 10, 300 ));
 		getComponents().add(e2);
 		
-		EAdField<Integer> xField = new FieldImpl<Integer>(e2, SceneElementImpl.VAR_X);
+		EAdField<Integer> xField = new EAdFieldImpl<Integer>(e2, SceneElementImpl.VAR_X);
 		InterpolationEf effect = new InterpolationEf(xField, 50, 750, totalTime, InterpolationLoopType.REVERSE, InterpolationType.LINEAR);
 		
 		TimedEv timedEvent = new TimedEv();
@@ -78,11 +78,11 @@ public class DepthZScene extends EmptyScene {
 		e2.setVarInitialValue(SceneElementImpl.VAR_Z, 1);
 		e2.setVarInitialValue(SceneElementImpl.VAR_SCALE, 1.2f);
 		
-		EAdField<Integer> zField = new FieldImpl<Integer>(e2, SceneElementImpl.VAR_Z);
+		EAdField<Integer> zField = new EAdFieldImpl<Integer>(e2, SceneElementImpl.VAR_Z);
 		ChangeFieldEf changeZ = new ChangeFieldEf( zField, new MathOp("- [0]", zField ));
 		changeZ.setId("changeZ");
 		
-		EAdField<Float> scaleField = new FieldImpl<Float>(e2, SceneElementImpl.VAR_SCALE);
+		EAdField<Float> scaleField = new EAdFieldImpl<Float>(e2, SceneElementImpl.VAR_SCALE);
 		ChangeFieldEf changeScale = new ChangeFieldEf( scaleField, new MathOp("1 / [0]", scaleField ));
 		changeScale.setId("changeSacle");
 		timedEvent.addEffect(TimedEventType.START_TIME, changeScale);

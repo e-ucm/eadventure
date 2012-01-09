@@ -45,7 +45,7 @@ import ead.common.model.elements.events.enums.SceneElementEventType;
 import ead.common.model.elements.scene.EAdSceneElement;
 import ead.common.model.elements.scenes.SceneElementImpl;
 import ead.common.model.elements.variables.EAdField;
-import ead.common.model.elements.variables.FieldImpl;
+import ead.common.model.elements.variables.EAdFieldImpl;
 import ead.common.model.elements.variables.SystemFields;
 import ead.common.model.elements.variables.operations.MathOp;
 
@@ -66,19 +66,19 @@ public class StayInBoundsEv extends SceneElementEv {
 		EAdField<Integer> maxX = SystemFields.GAME_WIDTH;
 		EAdField<Integer> maxY = SystemFields.GAME_HEIGHT;
 
-		EAdField<Integer> x = new FieldImpl<Integer>(e,
+		EAdField<Integer> x = new EAdFieldImpl<Integer>(e,
 				SceneElementImpl.VAR_X);
 
-		EAdField<Integer> y = new FieldImpl<Integer>(e,
+		EAdField<Integer> y = new EAdFieldImpl<Integer>(e,
 				SceneElementImpl.VAR_Y);
 
-		EAdField<Integer> left = new FieldImpl<Integer>(e,
+		EAdField<Integer> left = new EAdFieldImpl<Integer>(e,
 				SceneElementImpl.VAR_LEFT);
-		EAdField<Integer> top = new FieldImpl<Integer>(e,
+		EAdField<Integer> top = new EAdFieldImpl<Integer>(e,
 				SceneElementImpl.VAR_TOP);
-		EAdField<Integer> right = new FieldImpl<Integer>(e,
+		EAdField<Integer> right = new EAdFieldImpl<Integer>(e,
 				SceneElementImpl.VAR_RIGHT);
-		EAdField<Integer> bottom = new FieldImpl<Integer>(e,
+		EAdField<Integer> bottom = new EAdFieldImpl<Integer>(e,
 				SceneElementImpl.VAR_BOTTOM);
 
 		// Correct X Left

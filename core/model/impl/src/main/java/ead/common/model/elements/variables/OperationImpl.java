@@ -37,14 +37,11 @@
 
 package ead.common.model.elements.variables;
 
-import com.gwtent.reflection.client.Reflectable;
-
 import ead.common.interfaces.Param;
 import ead.common.model.elements.EAdElementImpl;
 import ead.common.model.elements.extra.EAdList;
 import ead.common.model.elements.extra.EAdListImpl;
 
-@Reflectable
 public abstract class OperationImpl extends EAdElementImpl implements EAdOperation {
 
 	/**

@@ -53,7 +53,7 @@ import ead.common.model.elements.scenes.SceneElementImpl;
 import ead.common.model.elements.trajectories.SimpleTrajectoryDefinition;
 import ead.common.model.elements.variables.EAdField;
 import ead.common.model.elements.variables.EAdVarDef;
-import ead.common.model.elements.variables.FieldImpl;
+import ead.common.model.elements.variables.EAdFieldImpl;
 import ead.common.model.elements.variables.SystemFields;
 import ead.common.model.elements.variables.VarDefImpl;
 import ead.common.model.elements.variables.operations.BooleanOp;
@@ -71,7 +71,7 @@ public class NgRoom1 extends EmptyScene {
 	private SceneElementImpl darkness;
 	private OperationCond isDark;
 	private NOTCond isNotDark;
-	private FieldImpl<Boolean> darknessVisible;
+	private EAdFieldImpl<Boolean> darknessVisible;
 	private SceneElementImpl table;
 	private SceneElementImpl lamp;
 	private SceneElementImpl carpet;
@@ -115,7 +115,7 @@ public class NgRoom1 extends EmptyScene {
 	}
 
 	private void initConditions() {
-		darknessVisible = new FieldImpl<Boolean>(darkness,
+		darknessVisible = new EAdFieldImpl<Boolean>(darkness,
 				SceneElementImpl.VAR_VISIBLE);
 
 		isDark = new OperationCond(darknessVisible);
@@ -169,13 +169,13 @@ public class NgRoom1 extends EmptyScene {
 
 	private void setDarkness(SceneElementImpl ng) {
 		SceneElementEv event = new SceneElementEv();
-		ChangeFieldEf changeX = new ChangeFieldEf( new FieldImpl<Integer>(darkness,
-						SceneElementImpl.VAR_X), new FieldImpl<Integer>(
+		ChangeFieldEf changeX = new ChangeFieldEf( new EAdFieldImpl<Integer>(darkness,
+						SceneElementImpl.VAR_X), new EAdFieldImpl<Integer>(
 						ng, SceneElementImpl.VAR_CENTER_X));
 		changeX.setId("changeX");
 		ChangeFieldEf changeY = new ChangeFieldEf(
-				new FieldImpl<Integer>(darkness,
-						SceneElementImpl.VAR_Y), new FieldImpl<Integer>(
+				new EAdFieldImpl<Integer>(darkness,
+						SceneElementImpl.VAR_Y), new EAdFieldImpl<Integer>(
 						ng, SceneElementImpl.VAR_CENTER_Y));
 		changeY.setId("changeY");
 		event.addEffect(SceneElementEventType.ALWAYS, changeX);
@@ -204,7 +204,7 @@ public class NgRoom1 extends EmptyScene {
 	private void addText(SceneElementImpl portrait) {
 		EAdVarDef<Integer> timesClicked = new VarDefImpl<Integer>(
 				"timesClicked", Integer.class, 0);
-		EAdField<Integer> timesField = new FieldImpl<Integer>(portrait,
+		EAdField<Integer> timesField = new EAdFieldImpl<Integer>(portrait,
 				timesClicked);
 
 		ChangeFieldEf addTimes = new ChangeFieldEf(

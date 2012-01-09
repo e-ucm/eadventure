@@ -45,7 +45,7 @@ import ead.common.model.elements.conditions.EmptyCond;
 import ead.common.model.elements.scenes.ComplexSceneElementImpl;
 import ead.common.model.elements.scenes.SceneElementImpl;
 import ead.common.model.elements.variables.EAdField;
-import ead.common.model.elements.variables.FieldImpl;
+import ead.common.model.elements.variables.EAdFieldImpl;
 import ead.common.model.elements.variables.SystemFields;
 import ead.common.params.EAdFontImpl;
 import ead.common.params.fills.EAdColor;
@@ -136,7 +136,7 @@ public class InventoryHUDImpl extends AbstractHUD implements InventoryHUD {
 		inventory = new ComplexSceneElementImpl(rectangle);
 
 		inventoryDispY = 0.0f;
-		inventoryDispYField = new FieldImpl<Float>(inventory,
+		inventoryDispYField = new EAdFieldImpl<Float>(inventory,
 				SceneElementImpl.VAR_DISP_Y);
 
 		inventory.setPosition(new EAdPosition(0, guiHeight, 0.0f,

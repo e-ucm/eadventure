@@ -47,7 +47,6 @@ import ead.common.model.elements.scene.EAdSceneElement;
 import ead.common.model.elements.scene.EAdSceneElementDef;
 import ead.common.model.elements.scenes.SceneElementImpl;
 import ead.common.model.elements.variables.SystemFields;
-import ead.engine.core.game.Game;
 import ead.engine.core.game.GameState;
 import ead.engine.core.gameobjects.go.DrawableGO;
 import ead.engine.core.gameobjects.go.SceneElementGO;
@@ -70,7 +69,7 @@ public class MouseHandler {
 
 	private GameState gameState;
 
-	private Game game;
+	private EAdTransformation initialTransformation;
 
 	// Mouse position
 
@@ -132,10 +131,9 @@ public class MouseHandler {
 	 */
 	private int initZ;
 
-	public MouseHandler(Game game, GameState gameState) {
+	public MouseHandler(GameState gameState) {
 		mouseEvents = new ConcurrentLinkedQueue<MouseActionImpl>();
 		this.gameState = gameState;
-		this.game = game;
 	}
 
 	/**
@@ -335,9 +333,9 @@ public class MouseHandler {
 		this.mouseRawY = y;
 		
 
-		if (game.getInitialTransformation() != null) {
+		if (initialTransformation != null) {
 			// Mouse
-			float mouse[] = game.getInitialTransformation().getMatrix()
+			float mouse[] = initialTransformation.getMatrix()
 					.multiplyPointInverse(x, y, true);
 			gameState.getValueMap().setValue(SystemFields.MOUSE_X,
 					(int) mouse[0]);
@@ -369,6 +367,10 @@ public class MouseHandler {
 			return isInside();
 		}
 		return false;
+	}
+	
+	public void setInitialTransformation(EAdTransformation t ){
+		this.initialTransformation = t;
 	}
 
 }

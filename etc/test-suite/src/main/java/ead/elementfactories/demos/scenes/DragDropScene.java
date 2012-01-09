@@ -44,7 +44,7 @@ import ead.common.model.elements.guievents.enums.DragEventType;
 import ead.common.model.elements.scenes.SceneElementDefImpl;
 import ead.common.model.elements.scenes.SceneElementImpl;
 import ead.common.model.elements.variables.EAdField;
-import ead.common.model.elements.variables.FieldImpl;
+import ead.common.model.elements.variables.EAdFieldImpl;
 import ead.common.model.elements.variables.operations.MathOp;
 import ead.common.model.elements.variables.operations.ValueOp;
 import ead.common.params.fills.EAdColor;
@@ -109,7 +109,7 @@ public class DragDropScene extends EmptyScene {
 	}
 
 	private void addBehaviors(SceneElementImpl e2, SceneElementImpl e1) {
-		EAdField<Float> scale = new FieldImpl<Float>(e2,
+		EAdField<Float> scale = new EAdFieldImpl<Float>(e2,
 				SceneElementImpl.VAR_SCALE);
 		ChangeFieldEf changeScale1 = new ChangeFieldEf(scale, new ValueOp(1.2f));
 		changeScale1.setId("changeScale");
@@ -121,18 +121,18 @@ public class DragDropScene extends EmptyScene {
 				changeScale2);
 		
 
-		FieldImpl<Integer> fieldX = new FieldImpl<Integer>(e1, SceneElementImpl.VAR_X);
-		FieldImpl<Integer> fieldY = new FieldImpl<Integer>(e1, SceneElementImpl.VAR_Y);
+		EAdFieldImpl<Integer> fieldX = new EAdFieldImpl<Integer>(e1, SceneElementImpl.VAR_X);
+		EAdFieldImpl<Integer> fieldY = new EAdFieldImpl<Integer>(e1, SceneElementImpl.VAR_Y);
 
 		ChangeFieldEf changeX = new ChangeFieldEf(
 				fieldX,
-				new MathOp("[0]", new FieldImpl<Integer>(e2,
+				new MathOp("[0]", new EAdFieldImpl<Integer>(e2,
 						SceneElementImpl.VAR_X)));
 		changeX.setId("x");
 
 		ChangeFieldEf changeY = new ChangeFieldEf(
 				fieldY,
-				new MathOp("[0]", new FieldImpl<Integer>(e2,
+				new MathOp("[0]", new EAdFieldImpl<Integer>(e2,
 						SceneElementImpl.VAR_Y)));
 		changeY.setId("y");
 

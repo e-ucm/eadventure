@@ -189,5 +189,9 @@ public abstract class AbstractGUI<T> implements GUI {
 		EAdTransformationImpl t = new EAdTransformationImpl(m, visible, alpha);
 		return t;
 	}
+	
+	public void setInitialTransformation(EAdTransformation initialTransformation){
+		inputHandler.setInitialTransformation(initialTransformation);
+	}
 
 }

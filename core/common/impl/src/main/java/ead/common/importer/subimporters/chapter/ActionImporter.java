@@ -70,7 +70,7 @@ import ead.common.model.elements.scene.EAdSceneElement;
 import ead.common.model.elements.scene.EAdSceneElementDef;
 import ead.common.model.elements.scenes.SceneElementDefImpl;
 import ead.common.model.elements.variables.EAdField;
-import ead.common.model.elements.variables.FieldImpl;
+import ead.common.model.elements.variables.EAdFieldImpl;
 import ead.common.model.elements.variables.operations.BooleanOp;
 import ead.common.model.predef.effects.MoveActiveElementEf;
 import ead.common.params.text.EAdString;
@@ -290,10 +290,10 @@ public class ActionImporter implements EAdElementImporter<Action, EAdAction> {
 		case Action.GRAB:
 			if (!isActiveArea) {
 
-				EAdField<EAdSceneElement> sceneElement = new FieldImpl<EAdSceneElement>(
+				EAdField<EAdSceneElement> sceneElement = new EAdFieldImpl<EAdSceneElement>(
 						actor, SceneElementDefImpl.VAR_SCENE_ELEMENT);
 
-				EAdField<Boolean> inInventory = new FieldImpl<Boolean>(
+				EAdField<Boolean> inInventory = new EAdFieldImpl<Boolean>(
 						sceneElement, InventoryImpl.VAR_IN_INVENTORY);
 
 				ModifyInventoryEf addToInventory = new ModifyInventoryEf(

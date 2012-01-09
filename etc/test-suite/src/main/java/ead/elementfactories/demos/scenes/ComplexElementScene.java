@@ -47,7 +47,7 @@ import ead.common.model.elements.guievents.EAdMouseEvent;
 import ead.common.model.elements.scenes.ComplexSceneElementImpl;
 import ead.common.model.elements.scenes.SceneElementImpl;
 import ead.common.model.elements.variables.EAdField;
-import ead.common.model.elements.variables.FieldImpl;
+import ead.common.model.elements.variables.EAdFieldImpl;
 import ead.common.model.elements.variables.operations.ValueOp;
 import ead.common.params.fills.EAdColor;
 import ead.common.params.fills.EAdPaintImpl;
@@ -81,7 +81,7 @@ public class ComplexElementScene extends EmptyScene {
 
 		getComponents().add(complex);
 
-		EAdField<Float> rotation = new FieldImpl<Float>(complex,
+		EAdField<Float> rotation = new EAdFieldImpl<Float>(complex,
 				SceneElementImpl.VAR_ROTATION);
 
 		InterpolationEf effect = new InterpolationEf(rotation, 0,
@@ -93,7 +93,7 @@ public class ComplexElementScene extends EmptyScene {
 
 		complex.getEvents().add(event);
 
-		EAdField<Float> rotation2 = new FieldImpl<Float>(e,
+		EAdField<Float> rotation2 = new EAdFieldImpl<Float>(e,
 				SceneElementImpl.VAR_ROTATION);
 
 		e.addBehavior(EAdMouseEvent.MOUSE_RIGHT_CLICK,
@@ -109,7 +109,7 @@ public class ComplexElementScene extends EmptyScene {
 
 		e.getEvents().add(event2);
 
-		EAdField<Float> scale = new FieldImpl<Float>(complex,
+		EAdField<Float> scale = new EAdFieldImpl<Float>(complex,
 				SceneElementImpl.VAR_SCALE);
 
 		complex.setScale(0.5f);

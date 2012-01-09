@@ -8,7 +8,6 @@ import com.google.inject.Singleton;
 import ead.common.model.elements.guievents.EAdMouseEvent;
 import ead.common.model.elements.guievents.enums.DragEventType;
 import ead.common.model.elements.scene.EAdSceneElementDef;
-import ead.engine.core.game.Game;
 import ead.engine.core.game.GameState;
 import ead.engine.core.gameobjects.GameObjectManager;
 import ead.engine.core.gameobjects.go.DrawableGO;
@@ -49,13 +48,13 @@ public class InputHandlerImpl implements InputHandler {
 
 	private boolean checkDrag = true;
 
-	// FIXME this is configurable
+	// FIXME this must be configurable
 	private boolean propagateEvents = true;
 
 	@Inject
-	public InputHandlerImpl(Game game, GameState gameState,
+	public InputHandlerImpl(GameState gameState,
 			GameObjectManager gameObjects) {
-		mouseHandler = new MouseHandler(game, gameState);
+		mouseHandler = new MouseHandler(gameState);
 		keyboardHandler = new KeyboardHandler();
 		this.gameObjects = gameObjects;
 		this.gameState = gameState;
@@ -315,6 +314,10 @@ public class InputHandlerImpl implements InputHandler {
 	@Override
 	public int getRawPointerY() {
 		return mouseHandler.getMouseY();
+	}
+	
+	public void setInitialTransformation(EAdTransformation initialTransformation){
+		mouseHandler.setInitialTransformation(initialTransformation);
 	}
 
 }

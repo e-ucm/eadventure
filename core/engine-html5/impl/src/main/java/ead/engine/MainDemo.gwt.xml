@@ -1,12 +1,5 @@
 <module rename-to='eadengine'>
-  <inherits name='playn.PlayN'/>
-  <inherits name='ead.common.model'/>
-  <inherits name='ead.engine.enginecore'/>
-  <inherits name='java.util.lib'/>
-  <inherits name='com.gwtent.GwtEnt'/>
-  <inherits name='com.google.gwt.logging.Logging'/>
-  <inherits name='ead.Resources'/>
-  <inherits name='org.jbox2d.GwtBox2D'/>
+
 
 <inherits name="com.google.gwt.xml.XML" />
   
@@ -26,9 +19,7 @@
    <set-property name="gwt.logging.consoleHandler" value="ENABLED" />
    <set-property name="gwt.logging.popupHandler" value="DISABLED" />
 
-  <source path='core'/>
-  <source path='reader'/>
-  <source path='html'/>
+
 
 <!--   <public path="../../../../../resources" />
  -->

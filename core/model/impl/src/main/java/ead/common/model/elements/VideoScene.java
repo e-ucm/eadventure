@@ -49,7 +49,7 @@ import ead.common.model.elements.scene.EAdScene;
 import ead.common.model.elements.scenes.SceneImpl;
 import ead.common.model.elements.transitions.EAdTransition;
 import ead.common.model.elements.variables.EAdVarDef;
-import ead.common.model.elements.variables.FieldImpl;
+import ead.common.model.elements.variables.EAdFieldImpl;
 import ead.common.model.elements.variables.VarDefImpl;
 import ead.common.model.elements.variables.operations.BooleanOp;
 import ead.common.resources.annotation.Asset;
@@ -89,7 +89,7 @@ public class VideoScene extends SceneImpl implements EAdScene {
 
 	public void setUpForEngine() {
 		finalEffects.add(new ChangeFieldEf(
-				new FieldImpl<Boolean>( this, VAR_FINISHED ), new BooleanOp(
+				new EAdFieldImpl<Boolean>( this, VAR_FINISHED ), new BooleanOp(
 						EmptyCond.TRUE_EMPTY_CONDITION)));
 		ChangeSceneEf e3 = new ChangeSceneEf( nextScene,
 				EAdTransition.DISPLACE);

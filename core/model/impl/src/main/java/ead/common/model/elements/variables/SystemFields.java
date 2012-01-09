@@ -46,51 +46,51 @@ public class SystemFields {
 	/**
 	 * X coordinate of the mouse in the window coordinate system
 	 */
-	public static final EAdField<Integer> MOUSE_X = new FieldImpl<Integer>(
+	public static final EAdField<Integer> MOUSE_X = new EAdFieldImpl<Integer>(
 			null, new VarDefImpl<Integer>("mouse_x", Integer.class, 0));
 
 	/**
 	 * Y coordinate of the mouse in the window coordinate system
 	 */
-	public static final EAdField<Integer> MOUSE_Y = new FieldImpl<Integer>(
+	public static final EAdField<Integer> MOUSE_Y = new EAdFieldImpl<Integer>(
 			null, new VarDefImpl<Integer>("mouse_y", Integer.class, 0));
 
 	/**
 	 * X coordinate of the mouse in the scene coordinate system
 	 */
-	public static final EAdField<Integer> MOUSE_SCENE_X = new FieldImpl<Integer>(
+	public static final EAdField<Integer> MOUSE_SCENE_X = new EAdFieldImpl<Integer>(
 			null, new VarDefImpl<Integer>("mouse_scene_x", Integer.class, 0));
 
 	/**
 	 * Y coordinate of the mouse in the scene coordinate system
 	 */
-	public static final EAdField<Integer> MOUSE_SCENE_Y = new FieldImpl<Integer>(
+	public static final EAdField<Integer> MOUSE_SCENE_Y = new EAdFieldImpl<Integer>(
 			null, new VarDefImpl<Integer>("mouse_scene_y", Integer.class, 0));
 
-	public static final EAdField<Integer> GAME_WIDTH = new FieldImpl<Integer>(
+	public static final EAdField<Integer> GAME_WIDTH = new EAdFieldImpl<Integer>(
 			null, new VarDefImpl<Integer>("gui_width", Integer.class, 800));
 
-	public static final EAdField<Integer> GAME_HEIGHT = new FieldImpl<Integer>(
+	public static final EAdField<Integer> GAME_HEIGHT = new EAdFieldImpl<Integer>(
 			null, new VarDefImpl<Integer>("gui_height", Integer.class, 600));
 
 	/**
 	 * Variable containing the active element in the game
 	 */
-	public static final EAdField<EAdSceneElement> ACTIVE_ELEMENT = new FieldImpl<EAdSceneElement>(
+	public static final EAdField<EAdSceneElement> ACTIVE_ELEMENT = new EAdFieldImpl<EAdSceneElement>(
 			null, new VarDefImpl<EAdSceneElement>("active_element",
 					EAdSceneElement.class, null));
 
 	public static final ImageImpl DEFAULT_MOUSE = new ImageImpl(
 			"@drawable/default_cursor.png");
 
-	public static final EAdField<ImageImpl> MOUSE_CURSOR = new FieldImpl<ImageImpl>(
+	public static final EAdField<ImageImpl> MOUSE_CURSOR = new EAdFieldImpl<ImageImpl>(
 			null, new VarDefImpl<ImageImpl>("mouse_cursor", ImageImpl.class,
 					DEFAULT_MOUSE));
 
-	public static final EAdField<Boolean> SHOW_MOUSE = new FieldImpl<Boolean>(
+	public static final EAdField<Boolean> SHOW_MOUSE = new EAdFieldImpl<Boolean>(
 			null, new VarDefImpl<Boolean>("show_mouse", Boolean.class, true));
 
-	public static final EAdField<Integer> ELAPSED_TIME_PER_UPDATE = new FieldImpl<Integer>(
+	public static final EAdField<Integer> ELAPSED_TIME_PER_UPDATE = new EAdFieldImpl<Integer>(
 			null, new VarDefImpl<Integer>("elapsed_time_per_update",
 					Integer.class, 0));
 

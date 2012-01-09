@@ -48,7 +48,7 @@ import ead.common.model.elements.events.SceneElementEv;
 import ead.common.model.elements.events.enums.SceneElementEventType;
 import ead.common.model.elements.scene.EAdSceneElement;
 import ead.common.model.elements.scenes.SceneElementImpl;
-import ead.common.model.elements.variables.FieldImpl;
+import ead.common.model.elements.variables.EAdFieldImpl;
 import ead.common.resources.assets.drawable.basics.Caption;
 import ead.common.util.EAdPosition;
 
@@ -83,7 +83,7 @@ public class ShowSceneElementEf extends AbstractEffect {
 		case FADE_IN:
 			text.setVarInitialValue(SceneElementImpl.VAR_ALPHA, 0.0f);
 			InterpolationEf effect = new InterpolationEf(
-					new FieldImpl<Float>(text,
+					new EAdFieldImpl<Float>(text,
 							SceneElementImpl.VAR_ALPHA), 0.0f, 1.0f, 500,
 					InterpolationLoopType.NO_LOOP);
 

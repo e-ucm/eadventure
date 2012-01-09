@@ -267,6 +267,7 @@ public class GameImpl implements Game {
 				configuration.getWidth() / (float) adventure.getGameWidth(),
 				configuration.getHeight() / (float) adventure.getGameHeight(),
 				true);
+		gui.setInitialTransformation(initialTransformation);
 	}
 
 	public EAdTransformation getInitialTransformation() {

@@ -43,7 +43,7 @@ import ead.common.model.elements.events.enums.SceneElementEventType;
 import ead.common.model.elements.guievents.EAdMouseEvent;
 import ead.common.model.elements.scenes.SceneElementImpl;
 import ead.common.model.elements.variables.EAdField;
-import ead.common.model.elements.variables.FieldImpl;
+import ead.common.model.elements.variables.EAdFieldImpl;
 import ead.common.model.elements.variables.SystemFields;
 import ead.common.model.elements.variables.operations.MathOp;
 import ead.common.model.elements.variables.operations.ValueOp;
@@ -59,7 +59,7 @@ public class SharingEffectsScene extends EmptyScene {
 		SceneElementImpl b = new SceneElementImpl(  new RectangleShape( 50, 50, EAdColor.RED ) );
 		b.setId("button");
 		
-		EAdField<Float> field = new FieldImpl<Float>( SystemFields.ACTIVE_ELEMENT, SceneElementImpl.VAR_ROTATION );
+		EAdField<Float> field = new EAdFieldImpl<Float>( SystemFields.ACTIVE_ELEMENT, SceneElementImpl.VAR_ROTATION );
 		ChangeFieldEf effect = new ChangeFieldEf( field, new MathOp("[0] + 0.1", field) );
 		effect.setId("change");
 		b.addBehavior(EAdMouseEvent.MOUSE_LEFT_CLICK, effect);

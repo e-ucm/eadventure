@@ -50,7 +50,7 @@ import ead.common.model.elements.scenes.SceneElementDefImpl;
 import ead.common.model.elements.scenes.SceneElementImpl;
 import ead.common.model.elements.trajectories.NodeTrajectoryDefinition;
 import ead.common.model.elements.variables.EAdField;
-import ead.common.model.elements.variables.FieldImpl;
+import ead.common.model.elements.variables.EAdFieldImpl;
 import ead.common.model.elements.variables.operations.BooleanOp;
 import ead.common.resources.assets.drawable.basics.shapes.RectangleShape;
 import ead.common.util.EAdPosition;
@@ -89,7 +89,7 @@ public class BarrierImporter implements
 			ConditionedEv event = new ConditionedEv();
 			event.setId("barrierCondition");
 			event.setCondition(condition);
-			EAdField<Boolean> barrierOn = new FieldImpl<Boolean>(barrier,
+			EAdField<Boolean> barrierOn = new EAdFieldImpl<Boolean>(barrier,
 					NodeTrajectoryDefinition.VAR_BARRIER_ON);
 			event.addEffect(ConditionedEventType.CONDITIONS_MET,
 					new ChangeFieldEf(barrierOn,

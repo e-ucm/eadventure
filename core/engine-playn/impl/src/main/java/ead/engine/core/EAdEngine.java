@@ -148,6 +148,8 @@ public class EAdEngine implements playn.core.Game, Keyboard.Listener {
 						int eventY = event.getNativeEvent().getClientY();
 						MouseButtonType b = getMouseButton(event.getNativeEvent()
 								.getButton());
+						
+						inputHandler.addAction(new MouseActionImpl(EAdMouseEvent.MOUSE_MOVED, eventX, eventY ));
 						// TODO double click
 						EAdMouseEvent e = null;
 						switch (eventType) {

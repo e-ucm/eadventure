@@ -37,8 +37,6 @@
 
 package ead.common.model.elements.variables;
 
-import com.gwtent.reflection.client.Reflectable;
-
 import ead.common.model.EAdElement;
 
 /**
@@ -46,8 +44,7 @@ import ead.common.model.EAdElement;
  * 
  * 
  */
-@Reflectable
-public interface EAdField<T> extends EAdElement, EAdOperation {
+public interface EAdField<T> extends EAdOperation {
 
 	/**
 	 * Returns the element holding the field. If the element is {@code null}

@@ -45,7 +45,7 @@ import ead.common.model.elements.events.enums.SceneElementEventType;
 import ead.common.model.elements.guievents.EAdKeyEvent;
 import ead.common.model.elements.guievents.EAdMouseEvent;
 import ead.common.model.elements.scenes.SceneElementImpl;
-import ead.common.model.elements.variables.FieldImpl;
+import ead.common.model.elements.variables.EAdFieldImpl;
 import ead.common.model.elements.variables.operations.ValueOp;
 import ead.common.model.predef.sceneelements.Button;
 import ead.common.resources.assets.drawable.basics.ImageImpl;
@@ -113,7 +113,7 @@ public class CharacterScene extends EmptyScene {
 				.getInstance()
 				.getEffectFactory()
 				.getChangeVarValueEffect(
-						new FieldImpl<Orientation>(element,
+						new EAdFieldImpl<Orientation>(element,
 								SceneElementImpl.VAR_ORIENTATION),
 						new ValueOp( Orientation.N));
 		SceneElementImpl goUpArrow = EAdElementsFactory
@@ -129,7 +129,7 @@ public class CharacterScene extends EmptyScene {
 				.getInstance()
 				.getEffectFactory()
 				.getChangeVarValueEffect(
-						new FieldImpl<Orientation>(element,
+						new EAdFieldImpl<Orientation>(element,
 								SceneElementImpl.VAR_ORIENTATION),
 						new ValueOp(Orientation.S));
 		SceneElementImpl goDownArrow = EAdElementsFactory
@@ -145,7 +145,7 @@ public class CharacterScene extends EmptyScene {
 				.getInstance()
 				.getEffectFactory()
 				.getChangeVarValueEffect(
-						new FieldImpl<Orientation>(element,
+						new EAdFieldImpl<Orientation>(element,
 								SceneElementImpl.VAR_ORIENTATION),
 						new ValueOp( Orientation.W));
 		SceneElementImpl goLeftArrow = EAdElementsFactory
@@ -161,7 +161,7 @@ public class CharacterScene extends EmptyScene {
 				.getInstance()
 				.getEffectFactory()
 				.getChangeVarValueEffect(
-						new FieldImpl<Orientation>(element,
+						new EAdFieldImpl<Orientation>(element,
 								SceneElementImpl.VAR_ORIENTATION),
 						new ValueOp( Orientation.E));
 		SceneElementImpl goRightArrow = EAdElementsFactory
@@ -178,7 +178,7 @@ public class CharacterScene extends EmptyScene {
 				.getInstance()
 				.getEffectFactory()
 				.getChangeVarValueEffect(
-						new FieldImpl<String>(element,
+						new EAdFieldImpl<String>(element,
 								SceneElementImpl.VAR_STATE),
 						new ValueOp(
 								CommonStates.EAD_STATE_DEFAULT.toString()));
@@ -196,7 +196,7 @@ public class CharacterScene extends EmptyScene {
 				.getInstance()
 				.getEffectFactory()
 				.getChangeVarValueEffect(
-						new FieldImpl<String>(element,
+						new EAdFieldImpl<String>(element,
 								SceneElementImpl.VAR_STATE),
 						new ValueOp(
 								CommonStates.EAD_STATE_TALKING.toString()));
@@ -210,7 +210,7 @@ public class CharacterScene extends EmptyScene {
 				.getInstance()
 				.getEffectFactory()
 				.getChangeVarValueEffect(
-						new FieldImpl<String>(element,
+						new EAdFieldImpl<String>(element,
 								SceneElementImpl.VAR_STATE),
 						new ValueOp(
 								CommonStates.EAD_STATE_WALKING.toString()));

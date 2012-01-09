@@ -37,6 +37,8 @@
 
 package ead.common.model.elements.scenes;
 
+import com.gwtent.reflection.client.Reflectable;
+
 import ead.common.interfaces.Element;
 import ead.common.interfaces.Param;
 import ead.common.interfaces.features.enums.Orientation;
@@ -55,6 +57,7 @@ import ead.common.resources.assets.drawable.Drawable;
 import ead.common.util.EAdPosition;
 import ead.common.util.EAdPosition.Corner;
 
+@Reflectable
 @Element(detailed = SceneElementImpl.class, runtime = SceneElementImpl.class)
 public class SceneElementImpl extends AbstractElementWithBehavior
 		implements EAdSceneElement {

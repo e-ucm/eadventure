@@ -3,6 +3,7 @@ package ead.engine.core.input;
 import ead.common.model.elements.scene.EAdSceneElementDef;
 import ead.engine.core.gameobjects.go.DrawableGO;
 import ead.engine.core.gameobjects.go.SceneElementGO;
+import ead.engine.core.util.EAdTransformation;
 
 /**
  * An element registering all the GUI actions performed, and the current state
@@ -75,5 +76,7 @@ public interface InputHandler {
 	SceneElementGO<?> getDraggingGameObject();
 
 	EAdSceneElementDef getDraggingElement();
+
+	void setInitialTransformation(EAdTransformation initialTransformation);
 
 }

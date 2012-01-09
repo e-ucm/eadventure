@@ -37,7 +37,7 @@
 
 package ead.common.params;
 
-import com.gwtent.reflection.client.Reflectable;
+import ead.common.model.EAdElement;
 
 /**
  * <p>An eAdventure parameter is data that it's used by the {@link EAdElement}s. A
@@ -46,7 +46,6 @@ import com.gwtent.reflection.client.Reflectable;
  * 
  * <p>Override {@link Object#equals(Object)} in implementing classes.</p>
  */
-@Reflectable
 public interface EAdParam {
 
 	/**

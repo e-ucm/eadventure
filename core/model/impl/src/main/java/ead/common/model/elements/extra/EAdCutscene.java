@@ -48,7 +48,7 @@ import ead.common.model.elements.scene.EAdScene;
 import ead.common.model.elements.scenes.ComposedScene;
 import ead.common.model.elements.transitions.EAdTransition;
 import ead.common.model.elements.variables.EAdField;
-import ead.common.model.elements.variables.FieldImpl;
+import ead.common.model.elements.variables.EAdFieldImpl;
 import ead.common.model.elements.variables.operations.MathOp;
 
 /**
@@ -74,7 +74,7 @@ public class EAdCutscene extends ComposedScene {
 	}
 
 	public void setUpForEngine(EAdChapter chapter) {
-		EAdField<Integer> currentScene = new FieldImpl<Integer>(this,
+		EAdField<Integer> currentScene = new EAdFieldImpl<Integer>(this,
 				VAR_CURRENT_SCENE);
 //		EAdField<Boolean> sceneLoaded = new EAdFieldImpl<Boolean>(this,
 //				EAdSceneImpl.VAR_SCENE_LOADED);

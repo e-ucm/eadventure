@@ -40,7 +40,7 @@ package ead.elementfactories.demos.scenes;
 import ead.common.model.elements.enums.CommonStates;
 import ead.common.model.elements.guievents.EAdMouseEvent;
 import ead.common.model.elements.scenes.SceneElementImpl;
-import ead.common.model.elements.variables.FieldImpl;
+import ead.common.model.elements.variables.EAdFieldImpl;
 import ead.common.model.elements.variables.operations.ValueOp;
 import ead.common.params.fills.EAdColor;
 import ead.common.params.fills.EAdLinearGradient;
@@ -173,7 +173,7 @@ public class DrawablesScene extends EmptyScene {
 						.getInstance()
 						.getEffectFactory()
 						.getChangeVarValueEffect(
-								new FieldImpl<String>(sceneElement,
+								new EAdFieldImpl<String>(sceneElement,
 										SceneElementImpl.VAR_STATE),
 								new ValueOp(CommonStates.EAD_STATE_DEFAULT
 												.toString())));
@@ -183,7 +183,7 @@ public class DrawablesScene extends EmptyScene {
 						.getInstance()
 						.getEffectFactory()
 						.getChangeVarValueEffect(
-								new FieldImpl<String>(sceneElement,
+								new EAdFieldImpl<String>(sceneElement,
 										SceneElementImpl.VAR_STATE),
 								new ValueOp(CommonStates.EAD_STATE_TALKING
 												.toString())));

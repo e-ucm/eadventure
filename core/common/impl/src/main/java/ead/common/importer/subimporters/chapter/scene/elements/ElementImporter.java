@@ -52,7 +52,7 @@ import ead.common.model.elements.scenes.SceneElementDefImpl;
 import ead.common.model.elements.scenes.SceneElementImpl;
 import ead.common.model.elements.trajectories.NodeTrajectoryDefinition;
 import ead.common.model.elements.variables.EAdField;
-import ead.common.model.elements.variables.FieldImpl;
+import ead.common.model.elements.variables.EAdFieldImpl;
 import ead.common.model.elements.variables.operations.BooleanOp;
 import ead.common.model.predef.effects.MoveActiveElementEf;
 import ead.common.params.fills.EAdColor;
@@ -187,7 +187,7 @@ public abstract class ElementImporter<T> implements
 		ConditionedEv event = new ConditionedEv();
 		event.setCondition(condition);
 
-		EAdField<Boolean> enableField = new FieldImpl<Boolean>(
+		EAdField<Boolean> enableField = new EAdFieldImpl<Boolean>(
 				newActiveAreaReference, SceneElementImpl.VAR_VISIBLE);
 
 		ChangeFieldEf changeEnable = new ChangeFieldEf();

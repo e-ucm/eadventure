@@ -21,7 +21,7 @@ import ead.common.model.elements.scenes.ComplexSceneElementImpl;
 import ead.common.model.elements.scenes.SceneElementDefImpl;
 import ead.common.model.elements.scenes.SceneElementImpl;
 import ead.common.model.elements.variables.EAdField;
-import ead.common.model.elements.variables.FieldImpl;
+import ead.common.model.elements.variables.EAdFieldImpl;
 import ead.common.model.elements.variables.SystemFields;
 import ead.common.model.elements.variables.VarDefImpl;
 import ead.common.model.elements.variables.operations.ValueOp;
@@ -85,15 +85,15 @@ public class EditionSceneElement extends ComplexSceneElementImpl {
 		this.components.add(square);
 		
 		unselectEffects.add(new ChangeFieldEf(
-				new FieldImpl<Boolean>(square, SceneElementImpl.VAR_VISIBLE),
+				new EAdFieldImpl<Boolean>(square, SceneElementImpl.VAR_VISIBLE),
 				new ValueOp(Boolean.FALSE)));
 		
 		proxy.addBehavior(EAdMouseEvent.MOUSE_LEFT_CLICK, new ChangeFieldEf(
-				new FieldImpl<Boolean>(square, SceneElementImpl.VAR_VISIBLE),
+				new EAdFieldImpl<Boolean>(square, SceneElementImpl.VAR_VISIBLE),
 				new ValueOp(Boolean.TRUE)));
 		
-		FieldImpl<EAdBundleId> appearanceField = new FieldImpl<EAdBundleId>(proxy, ResourcedElementImpl.VAR_BUNDLE_ID);
-		FieldImpl<Boolean> changedAppearance = new FieldImpl<Boolean>(proxy, new VarDefImpl<Boolean>("changed", Boolean.class, Boolean.FALSE));
+		EAdFieldImpl<EAdBundleId> appearanceField = new EAdFieldImpl<EAdBundleId>(proxy, ResourcedElementImpl.VAR_BUNDLE_ID);
+		EAdFieldImpl<Boolean> changedAppearance = new EAdFieldImpl<Boolean>(proxy, new VarDefImpl<Boolean>("changed", Boolean.class, Boolean.FALSE));
 
 		EAdBundleId prev = proxy.getDefinition().getResources().getInitialBundle();
 		for (EAdBundleId bundleID : proxy.getDefinition().getResources().getBundles()) {
@@ -132,22 +132,22 @@ public class EditionSceneElement extends ComplexSceneElementImpl {
 		this.components.add(square);
 		
 		unselectEffects.add(new ChangeFieldEf(
-				new FieldImpl<Boolean>(square, SceneElementImpl.VAR_VISIBLE),
+				new EAdFieldImpl<Boolean>(square, SceneElementImpl.VAR_VISIBLE),
 				new ValueOp(Boolean.FALSE)));
 		
 		proxy.addBehavior(EAdMouseEvent.MOUSE_LEFT_CLICK, new ChangeFieldEf(
-				new FieldImpl<Boolean>(square, SceneElementImpl.VAR_VISIBLE),
+				new EAdFieldImpl<Boolean>(square, SceneElementImpl.VAR_VISIBLE),
 				new ValueOp(Boolean.TRUE)));
 		proxy.addBehavior(EAdMouseEvent.MOUSE_LEFT_CLICK, new ChangeFieldEf(
-				new FieldImpl<Integer>(square, SceneElementImpl.VAR_X),
-				new ValueOp(new FieldImpl<Integer>(proxy, SceneElementImpl.VAR_WIDTH))));
+				new EAdFieldImpl<Integer>(square, SceneElementImpl.VAR_X),
+				new ValueOp(new EAdFieldImpl<Integer>(proxy, SceneElementImpl.VAR_WIDTH))));
 
 	}
 	
 	
 	
 	private ChangeFieldEf changeAlphaEffect(EAdSceneElement proxy, float alpha, EAdCondition cond) {
-		EAdField<Float> alphaField = new FieldImpl<Float>(proxy,
+		EAdField<Float> alphaField = new EAdFieldImpl<Float>(proxy,
 				SceneElementImpl.VAR_ALPHA);
 		ChangeFieldEf effect = new ChangeFieldEf(
 				 alphaField, new ValueOp(alpha));

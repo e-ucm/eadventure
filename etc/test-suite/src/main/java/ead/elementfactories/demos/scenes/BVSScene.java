@@ -11,7 +11,7 @@ import ead.common.model.elements.scene.EAdSceneElementDef;
 import ead.common.model.elements.scenes.SceneElementDefImpl;
 import ead.common.model.elements.scenes.SceneElementImpl;
 import ead.common.model.elements.variables.EAdField;
-import ead.common.model.elements.variables.FieldImpl;
+import ead.common.model.elements.variables.EAdFieldImpl;
 import ead.common.model.elements.variables.operations.ValueOp;
 import ead.common.params.EAdFontImpl;
 import ead.common.params.fills.EAdColor;
@@ -78,12 +78,12 @@ public class BVSScene extends EmptyScene {
 		
 		SceneElementEv event = new SceneElementEv();
 		InterpolationEf effect = new InterpolationEf(
-				new FieldImpl<Integer>(titleRef,
+				new EAdFieldImpl<Integer>(titleRef,
 						SceneElementImpl.VAR_X), -50, 20, 2500,
 				InterpolationLoopType.NO_LOOP, InterpolationType.BOUNCE_END);
 		event.addEffect(SceneElementEventType.ADDED_TO_SCENE, effect);
 		effect = new InterpolationEf(
-				new FieldImpl<Integer>(titleRef,
+				new EAdFieldImpl<Integer>(titleRef,
 						SceneElementImpl.VAR_Y), -50, 20, 2500,
 				InterpolationLoopType.NO_LOOP, InterpolationType.BOUNCE_END);
 		event.addEffect(SceneElementEventType.ADDED_TO_SCENE, effect);
@@ -97,11 +97,11 @@ public class BVSScene extends EmptyScene {
 		SceneElementImpl buttonRef = new SceneElementImpl(button);
 		buttonRef.setPosition(20, 20);
 		
-		EAdField<Integer> scale2 = new FieldImpl<Integer>(buttonRef, SceneElementImpl.VAR_Z);
+		EAdField<Integer> scale2 = new EAdFieldImpl<Integer>(buttonRef, SceneElementImpl.VAR_Z);
 		ChangeFieldEf e = new ChangeFieldEf(scale2, new ValueOp(1));
 		
 		InterpolationEf e2 = new InterpolationEf(
-				new FieldImpl<Float>(buttonRef,
+				new EAdFieldImpl<Float>(buttonRef,
 						SceneElementImpl.VAR_SCALE), 0.0f, 0.4f, 150,
 				InterpolationLoopType.NO_LOOP, InterpolationType.LINEAR);
 
@@ -110,7 +110,7 @@ public class BVSScene extends EmptyScene {
 
 		e = new ChangeFieldEf(scale2, new ValueOp(0));
 		buttonRef.addBehavior(EAdMouseEvent.MOUSE_EXITED, e);
-		EAdField<Float> scale = new FieldImpl<Float>(buttonRef, SceneElementImpl.VAR_SCALE);
+		EAdField<Float> scale = new EAdFieldImpl<Float>(buttonRef, SceneElementImpl.VAR_SCALE);
 		e = new ChangeFieldEf(scale, new ValueOp(1.0f));
 		buttonRef.addBehavior(EAdMouseEvent.MOUSE_EXITED, e);
 

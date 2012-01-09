@@ -55,7 +55,7 @@ import ead.common.model.elements.extra.EAdMapImpl;
 import ead.common.model.elements.guievents.EAdMouseEvent;
 import ead.common.model.elements.scenes.SceneElementImpl;
 import ead.common.model.elements.variables.EAdField;
-import ead.common.model.elements.variables.FieldImpl;
+import ead.common.model.elements.variables.EAdFieldImpl;
 import ead.common.model.elements.variables.VarDefImpl;
 import ead.common.model.elements.variables.operations.BooleanOp;
 import ead.common.model.elements.variables.operations.ValueOp;
@@ -78,7 +78,7 @@ public class ShowQuestionEf extends ComplexBlockingEffect {
 	/**
 	 * System field to control questions
 	 */
-	private static final EAdField<Boolean> ANSWER_SELECTED = new FieldImpl<Boolean>(
+	private static final EAdField<Boolean> ANSWER_SELECTED = new EAdFieldImpl<Boolean>(
 			null, new VarDefImpl<Boolean>("EAdShowQuestion_answer_selected",
 					Boolean.class, false));
 
@@ -159,7 +159,7 @@ public class ShowQuestionEf extends ComplexBlockingEffect {
 				.setVarInitialValue(SceneElementImpl.VAR_ALPHA, 0.0f);
 		ChangeFieldEf setAlpha = new ChangeFieldEf();
 		setAlpha.setOperation(new ValueOp(0.0f));
-		setAlpha.addField(new FieldImpl<Float>(questionElement,
+		setAlpha.addField(new EAdFieldImpl<Float>(questionElement,
 				SceneElementImpl.VAR_ALPHA));
 		getInitEffects().add(setAlpha);
 

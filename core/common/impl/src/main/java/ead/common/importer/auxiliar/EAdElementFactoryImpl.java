@@ -56,7 +56,7 @@ import ead.common.model.elements.EAdCondition;
 import ead.common.model.elements.EAdEffect;
 import ead.common.model.elements.scene.EAdSceneElementDef;
 import ead.common.model.elements.variables.EAdField;
-import ead.common.model.elements.variables.FieldImpl;
+import ead.common.model.elements.variables.EAdFieldImpl;
 import ead.common.model.elements.variables.SystemFields;
 import ead.common.model.elements.variables.VarDefImpl;
 import ead.common.resources.assets.drawable.basics.ImageImpl;
@@ -195,11 +195,11 @@ public class EAdElementFactoryImpl implements EAdElementFactory {
 		EAdField<?> var = vars.get(id);
 		if (var == null) {
 			if (type == Condition.FLAG_CONDITION)
-				var = new FieldImpl<Boolean>(currentChapter,
+				var = new EAdFieldImpl<Boolean>(currentChapter,
 						new VarDefImpl<Boolean>(id, Boolean.class,
 								Boolean.FALSE));
 			else
-				var = new FieldImpl<Integer>(currentChapter,
+				var = new EAdFieldImpl<Integer>(currentChapter,
 						new VarDefImpl<Integer>(id, Integer.class, 0));
 			vars.put(id, var);
 		}

@@ -59,7 +59,7 @@ import ead.common.model.elements.scenes.SceneElementDefImpl;
 import ead.common.model.elements.scenes.SceneElementImpl;
 import ead.common.model.elements.scenes.SceneImpl;
 import ead.common.model.elements.variables.EAdField;
-import ead.common.model.elements.variables.FieldImpl;
+import ead.common.model.elements.variables.EAdFieldImpl;
 import ead.common.model.elements.variables.SystemFields;
 import ead.common.model.elements.variables.operations.MathOp;
 import ead.common.params.fills.EAdColor;
@@ -92,7 +92,7 @@ public class PhysicsScene extends EmptyScene {
 
 		ConditionedEv event = new ConditionedEv();
 		OperationCond condition = new OperationCond(
-				new FieldImpl<Boolean>(this, SceneImpl.VAR_SCENE_LOADED));
+				new EAdFieldImpl<Boolean>(this, SceneImpl.VAR_SCENE_LOADED));
 		event.setCondition(condition);
 		event.addEffect(ConditionedEventType.CONDITIONS_MET, effect);
 
@@ -170,7 +170,7 @@ public class PhysicsScene extends EmptyScene {
 		
 		this.getComponents().add(grass);
 
-		EAdField<Float> rotationField = new FieldImpl<Float>(canyon,
+		EAdField<Float> rotationField = new EAdFieldImpl<Float>(canyon,
 				SceneElementImpl.VAR_ROTATION);
 
 		ChangeFieldEf followMouse = new ChangeFieldEf();
@@ -178,10 +178,10 @@ public class PhysicsScene extends EmptyScene {
 
 		EAdField<Integer> mouseX = SystemFields.MOUSE_X;
 		EAdField<Integer> mouseY = SystemFields.MOUSE_Y;
-		EAdField<Integer> canyonX = new FieldImpl<Integer>(canyon,
+		EAdField<Integer> canyonX = new EAdFieldImpl<Integer>(canyon,
 				SceneElementImpl.VAR_X);
 
-		EAdField<Integer> canyonY = new FieldImpl<Integer>(canyon,
+		EAdField<Integer> canyonY = new EAdFieldImpl<Integer>(canyon,
 				SceneElementImpl.VAR_Y);
 
 		String expression = "- acos( ( [2] - [0] ) / sqrt( sqr( [2] - [0] ) + sqr( [3] - [1] ) ) )";
@@ -192,10 +192,10 @@ public class PhysicsScene extends EmptyScene {
 		OperationCond c1 = new OperationCond(mouseX, 0,
 				Comparator.GREATER_EQUAL);
 		OperationCond c2 = new OperationCond(mouseY,
-				new FieldImpl<Integer>(canyon, SceneElementImpl.VAR_Y),
+				new EAdFieldImpl<Integer>(canyon, SceneElementImpl.VAR_Y),
 				Comparator.LESS_EQUAL);
 		OperationCond c3 = new OperationCond(mouseX,
-				new FieldImpl<Integer>(canyon, SceneElementImpl.VAR_X),
+				new EAdFieldImpl<Integer>(canyon, SceneElementImpl.VAR_X),
 				Comparator.GREATER_EQUAL);
 		followMouse.setCondition(new ANDCond(c1, c2, c3));
 
@@ -267,7 +267,7 @@ public class PhysicsScene extends EmptyScene {
 		SceneElementEv event = new SceneElementEv();
 
 		InterpolationEf effect = new InterpolationEf(
-				new FieldImpl<Integer>(getBackground(),
+				new EAdFieldImpl<Integer>(getBackground(),
 						SceneElementImpl.VAR_X), 0, -800, 100000,
 				InterpolationLoopType.REVERSE, InterpolationType.LINEAR);
 

@@ -51,7 +51,7 @@ import ead.common.model.elements.scene.EAdSceneElement;
 import ead.common.model.elements.scenes.SceneElementImpl;
 import ead.common.model.elements.variables.EAdField;
 import ead.common.model.elements.variables.EAdVarDef;
-import ead.common.model.elements.variables.FieldImpl;
+import ead.common.model.elements.variables.EAdFieldImpl;
 import ead.common.model.elements.variables.VarDefImpl;
 import ead.common.model.elements.variables.operations.BooleanOp;
 import ead.common.model.elements.variables.operations.ListOp;
@@ -83,7 +83,7 @@ public class MoleGame extends EmptyScene {
 
 	public MoleGame() {
 		setBackgroundFill(EAdColor.DARK_BROWN);
-		moleField = new FieldImpl<EAdSceneElement>(this, moleVar);
+		moleField = new EAdFieldImpl<EAdSceneElement>(this, moleVar);
 
 		dissapearMole = new ChangeFieldEf();
 		dissapearMole.setId("dissaperMole");
@@ -113,7 +113,7 @@ public class MoleGame extends EmptyScene {
 
 			}
 		listVar = new VarDefImpl<EAdList>("moleListVar", EAdList.class, list);
-		listField = new FieldImpl<EAdList>(this, listVar);
+		listField = new EAdFieldImpl<EAdList>(this, listVar);
 		initLoop();
 
 	}

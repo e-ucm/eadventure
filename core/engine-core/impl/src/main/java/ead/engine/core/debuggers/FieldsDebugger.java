@@ -47,7 +47,7 @@ import ead.common.model.EAdElement;
 import ead.common.model.elements.scenes.SceneElementDefImpl;
 import ead.common.model.elements.scenes.SceneElementImpl;
 import ead.common.model.elements.variables.EAdVarDef;
-import ead.common.model.elements.variables.FieldImpl;
+import ead.common.model.elements.variables.EAdFieldImpl;
 import ead.common.model.elements.variables.SystemFields;
 import ead.common.params.EAdFontImpl;
 import ead.common.params.fills.EAdColor;
@@ -134,7 +134,7 @@ public class FieldsDebugger implements Debugger {
 						c = new CaptionImpl();
 						stringHandler.setString(c.getText(), var.getName()
 								+ "=[0]");
-						c.getFields().add(new FieldImpl(element, var));
+						c.getFields().add(new EAdFieldImpl(element, var));
 						c.getFields().add(SystemFields.SHOW_MOUSE);
 						c.setFont(font);
 						c.setTextPaint(EAdColor.WHITE);

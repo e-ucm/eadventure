@@ -7,7 +7,7 @@ import ead.common.model.elements.events.enums.SceneElementEventType;
 import ead.common.model.elements.scenes.SceneElementImpl;
 import ead.common.model.elements.variables.EAdField;
 import ead.common.model.elements.variables.EAdOperation;
-import ead.common.model.elements.variables.FieldImpl;
+import ead.common.model.elements.variables.EAdFieldImpl;
 import ead.common.model.elements.variables.SystemFields;
 import ead.common.model.elements.variables.operations.MathOp;
 
@@ -15,17 +15,17 @@ public class ScrollWithSceneElementEv extends SceneElementEv {
 
 	public ScrollWithSceneElementEv(EAdElement scene, EAdElement character) {
 		this.setId("scrollWidthElement");
-		EAdField<Integer> xElement = new FieldImpl<Integer>(character,
+		EAdField<Integer> xElement = new EAdFieldImpl<Integer>(character,
 				SceneElementImpl.VAR_X);
-		EAdField<Integer> yElement = new FieldImpl<Integer>(character,
+		EAdField<Integer> yElement = new EAdFieldImpl<Integer>(character,
 				SceneElementImpl.VAR_Y);
-		EAdField<Integer> xScene = new FieldImpl<Integer>(scene,
+		EAdField<Integer> xScene = new EAdFieldImpl<Integer>(scene,
 				SceneElementImpl.VAR_X);
-		EAdField<Integer> yScene = new FieldImpl<Integer>(scene,
+		EAdField<Integer> yScene = new EAdFieldImpl<Integer>(scene,
 				SceneElementImpl.VAR_Y);
-		EAdField<Integer> widthScene = new FieldImpl<Integer>(scene,
+		EAdField<Integer> widthScene = new EAdFieldImpl<Integer>(scene,
 				SceneElementImpl.VAR_WIDTH);
-		EAdField<Integer> heightScene = new FieldImpl<Integer>(scene,
+		EAdField<Integer> heightScene = new EAdFieldImpl<Integer>(scene,
 				SceneElementImpl.VAR_HEIGHT);
 		
 		

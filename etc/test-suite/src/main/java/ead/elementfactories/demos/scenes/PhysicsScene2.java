@@ -47,7 +47,7 @@ import ead.common.model.elements.events.enums.ConditionedEventType;
 import ead.common.model.elements.guievents.EAdMouseEvent;
 import ead.common.model.elements.scenes.SceneElementImpl;
 import ead.common.model.elements.scenes.SceneImpl;
-import ead.common.model.elements.variables.FieldImpl;
+import ead.common.model.elements.variables.EAdFieldImpl;
 import ead.common.model.elements.variables.operations.MathOp;
 import ead.common.params.fills.EAdColor;
 import ead.common.params.fills.EAdLinearGradient;
@@ -127,7 +127,7 @@ public class PhysicsScene2 extends PhysicsScene {
 			}
 
 		ConditionedEv event = new ConditionedEv();
-		OperationCond condition = new OperationCond(new FieldImpl<Boolean>(
+		OperationCond condition = new OperationCond(new EAdFieldImpl<Boolean>(
 				this, SceneImpl.VAR_SCENE_LOADED));
 		event.setCondition(condition);
 		event.addEffect(ConditionedEventType.CONDITIONS_MET, effect);

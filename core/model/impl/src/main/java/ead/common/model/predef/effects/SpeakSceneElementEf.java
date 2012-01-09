@@ -43,7 +43,7 @@ import ead.common.model.elements.scene.EAdSceneElement;
 import ead.common.model.elements.scene.EAdSceneElementDef;
 import ead.common.model.elements.scenes.SceneElementDefImpl;
 import ead.common.model.elements.scenes.SceneElementImpl;
-import ead.common.model.elements.variables.FieldImpl;
+import ead.common.model.elements.variables.EAdFieldImpl;
 import ead.common.params.text.EAdString;
 
 public class SpeakSceneElementEf extends SpeakEf {
@@ -66,15 +66,15 @@ public class SpeakSceneElementEf extends SpeakEf {
 		if ( element instanceof EAdSceneElement )
 			setOrigin(element);
 		else if ( element instanceof EAdSceneElementDef )
-			setOrigin( new FieldImpl<EAdSceneElement>( element, SceneElementDefImpl.VAR_SCENE_ELEMENT));
+			setOrigin( new EAdFieldImpl<EAdSceneElement>( element, SceneElementDefImpl.VAR_SCENE_ELEMENT));
 		else
 			setOrigin( element );
 	}
 
 	private void setOrigin(EAdElement element) {
-		FieldImpl<Integer> centerX = new FieldImpl<Integer>(element,
+		EAdFieldImpl<Integer> centerX = new EAdFieldImpl<Integer>(element,
 				SceneElementImpl.VAR_CENTER_X);
-		FieldImpl<Integer> centerY = new FieldImpl<Integer>(element,
+		EAdFieldImpl<Integer> centerY = new EAdFieldImpl<Integer>(element,
 				SceneElementImpl.VAR_CENTER_Y);
 		
 		setPosition(centerX, centerY);

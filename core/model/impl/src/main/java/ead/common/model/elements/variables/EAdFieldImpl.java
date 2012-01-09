@@ -37,17 +37,12 @@
 
 package ead.common.model.elements.variables;
 
-import com.gwtent.reflection.client.Reflectable;
-
 import ead.common.interfaces.Element;
 import ead.common.interfaces.Param;
 import ead.common.model.EAdElement;
-import ead.common.model.elements.variables.EAdField;
-import ead.common.model.elements.variables.EAdVarDef;
 
-@Reflectable
-@Element(detailed = FieldImpl.class, runtime = FieldImpl.class)
-public class FieldImpl<T> implements EAdField<T> {
+@Element(detailed = EAdFieldImpl.class, runtime = EAdFieldImpl.class)
+public class EAdFieldImpl<T> extends OperationImpl implements EAdField<T> {
 
 	@Param("element")
 	private EAdElement element;
@@ -55,11 +50,11 @@ public class FieldImpl<T> implements EAdField<T> {
 	@Param("variable")
 	private EAdVarDef<T> varDef;
 
-	public FieldImpl() {
+	public EAdFieldImpl() {
 
 	}
 
-	public FieldImpl(EAdElement element, EAdVarDef<T> varDef) {
+	public EAdFieldImpl(EAdElement element, EAdVarDef<T> varDef) {
 		this.element = element;
 		this.varDef = varDef;
 	}

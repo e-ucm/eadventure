@@ -72,7 +72,7 @@ import ead.common.model.elements.scenes.SceneElementDefImpl;
 import ead.common.model.elements.scenes.SceneElementImpl;
 import ead.common.model.elements.scenes.SceneImpl;
 import ead.common.model.elements.variables.EAdField;
-import ead.common.model.elements.variables.FieldImpl;
+import ead.common.model.elements.variables.EAdFieldImpl;
 import ead.common.model.elements.variables.operations.BooleanOp;
 import ead.common.model.elements.variables.operations.MathOp;
 import ead.common.model.elements.variables.operations.ValueOp;
@@ -249,7 +249,7 @@ public class BookImporter implements EAdElementImporter<Book, EAdScene> {
 		else
 			content.setPosition(0, 0);
 
-		EAdField<Integer> xVar = new FieldImpl<Integer>(content,
+		EAdField<Integer> xVar = new EAdFieldImpl<Integer>(content,
 				SceneElementImpl.VAR_X);
 
 		SceneElementEv event = new SceneElementEv();
@@ -315,10 +315,10 @@ public class BookImporter implements EAdElementImporter<Book, EAdScene> {
 		arrow.setId("arrow");
 		this.addAppearance(book, arrow, resourceNormal, resourceOver);
 
-		EAdField<Integer> xVar = new FieldImpl<Integer>(content,
+		EAdField<Integer> xVar = new EAdFieldImpl<Integer>(content,
 				SceneElementImpl.VAR_X);
 
-		EAdField<Boolean> visibleVar = new FieldImpl<Boolean>(arrow,
+		EAdField<Boolean> visibleVar = new EAdFieldImpl<Boolean>(arrow,
 				SceneElementImpl.VAR_VISIBLE);
 		InterpolationEf move = new InterpolationEf(xVar,
 				new MathOp("[0]", xVar), new MathOp(expression,
