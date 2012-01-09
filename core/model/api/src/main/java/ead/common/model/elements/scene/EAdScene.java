@@ -53,6 +53,8 @@ public interface EAdScene extends EAdComplexSceneElement {
 	 *         similiar
 	 */
 	Boolean getReturnable();
+	
+	void setBackground( EAdSceneElement sceneElement );
 
 	/**
 	 * 

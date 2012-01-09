@@ -51,10 +51,6 @@ import ead.common.model.elements.EAdEvent;
 import ead.common.model.elements.scene.EAdSceneElementDef;
 import ead.common.model.elements.variables.SystemFields;
 import ead.engine.core.debuggers.Debugger;
-import ead.engine.core.game.Game;
-import ead.engine.core.game.GameLoop;
-import ead.engine.core.game.GameState;
-import ead.engine.core.game.ValueMap;
 import ead.engine.core.gameobjects.GameObjectManager;
 import ead.engine.core.gameobjects.factories.EventGOFactory;
 import ead.engine.core.gameobjects.go.DrawableGO;
@@ -63,7 +59,6 @@ import ead.engine.core.gameobjects.go.EventGO;
 import ead.engine.core.gameobjects.huds.BasicHUD;
 import ead.engine.core.gameobjects.huds.EffectHUD;
 import ead.engine.core.gameobjects.huds.InventoryHUD;
-import ead.engine.core.input.InputHandler;
 import ead.engine.core.inventory.InventoryHandler;
 import ead.engine.core.platform.AssetHandler;
 import ead.engine.core.platform.EngineConfiguration;
@@ -110,10 +105,9 @@ public class GameImpl implements Game {
 	@Inject
 	public GameImpl(GUI gui, GameState gameState, EffectHUD effectHUD,
 			AssetHandler assetHandler, GameObjectManager gameObjectManager,
-			Debugger debugger, ValueMap valueMap, InputHandler mouseState,
-			BasicHUD basicHud, InventoryHUD inventoryHud,
-			InventoryHandler inventoryHandler, EventGOFactory eventFactory,
-			EngineConfiguration configuration) {
+			Debugger debugger, ValueMap valueMap, BasicHUD basicHud,
+			InventoryHUD inventoryHud, InventoryHandler inventoryHandler,
+			EventGOFactory eventFactory, EngineConfiguration configuration) {
 		this.gui = gui;
 		this.gameState = gameState;
 		this.effectHUD = effectHUD;
@@ -137,9 +131,9 @@ public class GameImpl implements Game {
 			processEffects();
 			updateChapterEvents();
 			gameState.getScene().update();
-			
+
 		}
-		
+
 		gameObjectManager.updateHUDs();
 		gui.addElement(gameState.getScene(), initialTransformation);
 		// Add huds
@@ -261,9 +255,10 @@ public class GameImpl implements Game {
 
 		gameState.setInitialScene(eAdChapter.getInitialScene());
 		updateInitialTransformation();
-		
+
 		// FIXME probably move this to other place
-		gameState.getValueMap().setValue(SystemFields.ELAPSED_TIME_PER_UPDATE, GameLoop.SKIP_MILLIS_TICK);
+		gameState.getValueMap().setValue(SystemFields.ELAPSED_TIME_PER_UPDATE,
+				GameLoop.SKIP_MILLIS_TICK);
 	}
 
 	public void updateInitialTransformation() {
@@ -273,8 +268,8 @@ public class GameImpl implements Game {
 				configuration.getHeight() / (float) adventure.getGameHeight(),
 				true);
 	}
-	
-	public EAdTransformation getInitialTransformation( ){
+
+	public EAdTransformation getInitialTransformation() {
 		return initialTransformation;
 	}
 

@@ -47,7 +47,6 @@ import ead.common.params.fills.EAdPaintImpl;
 import ead.common.params.paint.EAdPaint;
 import ead.common.params.text.EAdFont;
 import ead.common.params.text.EAdString;
-import ead.common.resources.assets.drawable.basics.Caption;
 import ead.common.resources.assets.drawable.basics.CaptionImpl;
 import ead.common.resources.assets.drawable.basics.enums.Alignment;
 import ead.common.resources.assets.drawable.basics.shapes.extra.BalloonType;
@@ -136,8 +135,12 @@ public class SpeakEf extends AbstractEffect {
 		this.caption.setFont(font);
 	}
 	
-	public Caption getCaption( ){
+	public CaptionImpl getCaption( ){
 		return caption;
+	}
+	
+	public void setCaption(CaptionImpl caption){
+		this.caption = caption;
 	}
 
 	public EAdPaint getBubbleColor() {

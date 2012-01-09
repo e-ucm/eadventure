@@ -58,8 +58,6 @@ public interface DrawableGO<T> extends GameObject<T>, Renderable {
 	/**
 	 * The the draggable element
 	 * 
-	 * @param mouseState
-	 *            The mouse state
 	 * @return The game object that is draggable
 	 */
 	SceneElementGO<?> getDraggableElement( );

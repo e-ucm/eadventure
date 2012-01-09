@@ -59,103 +59,115 @@ import ead.engine.core.platform.EngineConfiguration;
 import ead.engine.core.platform.GUI;
 
 @Singleton
-public class EAdventureSurfaceView extends SurfaceView implements SurfaceHolder.Callback {
+public class EAdventureSurfaceView extends SurfaceView implements
+		SurfaceHolder.Callback {
 
 	private SurfaceHolder holder;
 
 	private EAdventureRenderingThread mThread;
-	
+
 	@SuppressWarnings("unused")
 	private EngineConfiguration configuration;
 
-	private static final Logger logger = Logger.getLogger("EAdventureSurfaceView");
+	private static final Logger logger = Logger
+			.getLogger("EAdventureSurfaceView");
 
 	private GestureDetector gestureDetector;
 
 	private class EAdventureGestureListener extends SimpleOnGestureListener {
 
-		private InputHandler mouseState;
+		private InputHandler inputHandler;
 		private static final int SWIPE_MIN_DISTANCE = 120;
 		private static final int SWIPE_VELOCITY = 200;
 
-
-		public EAdventureGestureListener(InputHandler mouseState) {
-			this.mouseState = mouseState;
+		public EAdventureGestureListener(InputHandler inputHandler) {
+			this.inputHandler = inputHandler;
 		}
 
 		@Override
-		public boolean onDown(MotionEvent e){
-//			mouseState.setMousePressed(true, MouseButton.BUTTON_1);
+		public boolean onDown(MotionEvent e) {
+			inputHandler.addAction(new MouseActionImpl(
+					EAdMouseEvent.MOUSE_LEFT_PRESSED, (int) e.getX(), (int) e
+							.getY()));
 			return true;
 		}
 
 		@Override
-		public boolean onSingleTapConfirmed(MotionEvent e){
+		public boolean onSingleTapConfirmed(MotionEvent e) {
 
-			mouseState.addAction(new MouseActionImpl(EAdMouseEvent.MOUSE_LEFT_PRESSED, 
-					(int) e.getX(), (int) e.getY()));
-			MouseActionImpl action = new MouseActionImpl(MouseEventType.CLICK, 
+			inputHandler.addAction(new MouseActionImpl(
+					EAdMouseEvent.MOUSE_LEFT_PRESSED, (int) e.getX(), (int) e
+							.getY()));
+			MouseActionImpl action = new MouseActionImpl(MouseEventType.CLICK,
 					MouseButtonType.BUTTON_1, (int) e.getX(), (int) e.getY());
-			mouseState.addAction(action);
+			inputHandler.addAction(action);
 
 			return true;
 		}
 
 		@Override
-		public void onLongPress(MotionEvent e){
+		public void onLongPress(MotionEvent e) {
 
-			mouseState.addAction(new MouseActionImpl(EAdMouseEvent.MOUSE_RIGHT_CLICK, 
-					(int) e.getX(), (int) e.getY()));
-			MouseActionImpl action = new MouseActionImpl(MouseEventType.CLICK, 
+			inputHandler.addAction(new MouseActionImpl(
+					EAdMouseEvent.MOUSE_RIGHT_CLICK, (int) e.getX(), (int) e
+							.getY()));
+			MouseActionImpl action = new MouseActionImpl(MouseEventType.CLICK,
 					MouseButtonType.BUTTON_2, (int) e.getX(), (int) e.getY());
-			mouseState.addAction(action);
+			inputHandler.addAction(action);
 		}
 
 		@Override
-		public boolean onFling (MotionEvent e1, MotionEvent e2, float velocityX, float velocityY){
+		public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX,
+				float velocityY) {
 
-			if (e1.getX() - e2.getX() > SWIPE_MIN_DISTANCE && Math.abs(velocityX) > SWIPE_VELOCITY) {
-				MouseActionImpl action = new MouseActionImpl(MouseEventType.SWIPE_LEFT, 
-						MouseButtonType.NO_BUTTON, (int) e2.getX(), (int) e2.getY());
-				mouseState.addAction(action);
-			}  
-			else if (e2.getX() - e1.getX() > SWIPE_MIN_DISTANCE && Math.abs(velocityX) > SWIPE_VELOCITY) {
-				MouseActionImpl action = new MouseActionImpl(MouseEventType.SWIPE_RIGHT, 
-						MouseButtonType.NO_BUTTON, (int) e2.getX(), (int) e2.getY());
-				mouseState.addAction(action);
+			if (e1.getX() - e2.getX() > SWIPE_MIN_DISTANCE
+					&& Math.abs(velocityX) > SWIPE_VELOCITY) {
+				MouseActionImpl action = new MouseActionImpl(
+						MouseEventType.SWIPE_LEFT, MouseButtonType.NO_BUTTON,
+						(int) e2.getX(), (int) e2.getY());
+				inputHandler.addAction(action);
+			} else if (e2.getX() - e1.getX() > SWIPE_MIN_DISTANCE
+					&& Math.abs(velocityX) > SWIPE_VELOCITY) {
+				MouseActionImpl action = new MouseActionImpl(
+						MouseEventType.SWIPE_RIGHT, MouseButtonType.NO_BUTTON,
+						(int) e2.getX(), (int) e2.getY());
+				inputHandler.addAction(action);
 			}
-			
-//			mouseState.setMousePressed(false, null);
+
+			inputHandler.addAction(new MouseActionImpl(
+					EAdMouseEvent.MOUSE_LEFT_RELEASED, (int) e2.getX(),
+					(int) e2.getY()));
 			return true;
 		}
 	}
 
 	private class OnTouchListener implements View.OnTouchListener {
 
-		@SuppressWarnings("unused")
-		private InputHandler mouseState;
+		private InputHandler inputHandler;
 
-		public OnTouchListener(InputHandler mouseState ) {
-			this.mouseState = mouseState;
+		public OnTouchListener(InputHandler inputHandler) {
+			this.inputHandler = inputHandler;
 		}
 
 		@Override
 		public boolean onTouch(View v, MotionEvent event) {
 
-//			int x = (int) event.getRawX();
-//			int y = (int) event.getRawY() - 50;
+			int x = (int) event.getRawX();
+			int y = (int) event.getRawY() - 50;
 
-//			mouseState.setMousePosition(x, y);
+			inputHandler.addAction(new MouseActionImpl(EAdMouseEvent.MOUSE_MOVED,
+					x, y));
+			
+			if (event.getAction() == MotionEvent.ACTION_UP) {
+				inputHandler.addAction(new MouseActionImpl(
+						EAdMouseEvent.MOUSE_LEFT_RELEASED, x, y));
+			}
 
 			if (gestureDetector.onTouchEvent(event)) {
 				return true;
 			}
 
-			if (event.getAction() == MotionEvent.ACTION_UP) {
-//				mouseState.setMousePressed(false, null);
-			}
-
-			return false;	
+			return true;
 		}
 
 	};
@@ -179,13 +191,14 @@ public class EAdventureSurfaceView extends SurfaceView implements SurfaceHolder.
 		return holder;
 	}
 
-	public void start(GUI gui,
-			EngineConfiguration platformConfiguration,
-			InputHandler mouseState) {
+	public void start(GUI gui, EngineConfiguration platformConfiguration,
+			InputHandler inputHandler) {
 		configuration = platformConfiguration;
-		gestureDetector = new GestureDetector(new EAdventureGestureListener(mouseState));
-		this.setOnTouchListener(new OnTouchListener(mouseState));
-		mThread = new EAdventureRenderingThread(holder, gui, platformConfiguration);
+		gestureDetector = new GestureDetector(new EAdventureGestureListener(
+				inputHandler));
+		this.setOnTouchListener(new OnTouchListener(inputHandler));
+		mThread = new EAdventureRenderingThread(holder, gui,
+				platformConfiguration);
 		logger.info("Thread created");
 		mThread.start();
 	}

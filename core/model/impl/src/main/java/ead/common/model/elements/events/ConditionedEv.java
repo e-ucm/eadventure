@@ -74,11 +74,11 @@ public class ConditionedEv extends AbstractEvent implements
 		this.condition = condition;
 	}
 	
-	public boolean isRunNotMetConditionsInFirstCheck( ){
+	public boolean isRunNotMetConditions( ){
 		return runNotMetConditions;
 	}
 	
-	public void setRunNotMetConditionsInFirstCheck(boolean run ){
+	public void setRunNotMetConditions(boolean run ){
 		this.runNotMetConditions = run;
 	}
 

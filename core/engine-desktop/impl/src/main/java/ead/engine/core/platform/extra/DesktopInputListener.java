@@ -67,7 +67,7 @@ public class DesktopInputListener implements MouseListener,
 	/**
 	 * The state of the mouse
 	 */
-	private InputHandler mouseState;
+	private InputHandler inputHandler;
 
 	/**
 	 * The logger
@@ -75,8 +75,8 @@ public class DesktopInputListener implements MouseListener,
 	private static final Logger logger = Logger
 			.getLogger("DesktopInputListener");
 
-	public DesktopInputListener(InputHandler inputState) {
-		this.mouseState = inputState;
+	public DesktopInputListener(InputHandler inputHandler) {
+		this.inputHandler = inputHandler;
 		logger.info("New instance");
 	}
 
@@ -86,56 +86,56 @@ public class DesktopInputListener implements MouseListener,
 		if (e.getClickCount() == 2)
 			action = MouseEventType.DOUBLE_CLICK;
 
-		mouseState.addAction(getMouseAction(e, action, e.getX(),
+		inputHandler.addAction(getMouseAction(e, action, e.getX(),
 				e.getY()));
 	}
 
 	@Override
 	public void mousePressed(MouseEvent e) {
-		mouseState.addAction(getMouseAction(e, MouseEventType.PRESSED,
+		inputHandler.addAction(getMouseAction(e, MouseEventType.PRESSED,
 				e.getX(), e.getY()));
 	}
 
 	@Override
 	public void mouseReleased(MouseEvent e) {
-		mouseState.addAction(getMouseAction(e, MouseEventType.RELEASED,
+		inputHandler.addAction(getMouseAction(e, MouseEventType.RELEASED,
 				e.getX(), e.getY()));
 	}
 
 	@Override
 	public void mouseEntered(MouseEvent e) {
-		mouseState.addAction(getMouseAction(e, MouseEventType.MOVED, e.getX(), e.getY()));
+		inputHandler.addAction(getMouseAction(e, MouseEventType.MOVED, e.getX(), e.getY()));
 	}
 
 	@Override
 	public void mouseExited(MouseEvent e) {
-		mouseState.addAction(getMouseAction(e, MouseEventType.MOVED, MouseHandler.OUT_VAL, MouseHandler.OUT_VAL));
+		inputHandler.addAction(getMouseAction(e, MouseEventType.MOVED, MouseHandler.OUT_VAL, MouseHandler.OUT_VAL));
 	}
 
 	@Override
 	public void mouseDragged(MouseEvent e) {
-		mouseState.addAction(getMouseAction(e, MouseEventType.MOVED, e.getX(), e.getY()));
+		inputHandler.addAction(getMouseAction(e, MouseEventType.MOVED, e.getX(), e.getY()));
 	}
 
 	@Override
 	public void mouseMoved(MouseEvent e) {
-		mouseState.addAction(getMouseAction(e, MouseEventType.MOVED, e.getX(), e.getY()));
+		inputHandler.addAction(getMouseAction(e, MouseEventType.MOVED, e.getX(), e.getY()));
 	}
 
 	@Override
 	public void keyTyped(KeyEvent e) {
-		mouseState.addAction(getKeyboardAction(KeyEventType.KEY_TYPED, e));
+		inputHandler.addAction(getKeyboardAction(KeyEventType.KEY_TYPED, e));
 	}
 
 	@Override
 	public void keyPressed(KeyEvent e) {
-		mouseState
+		inputHandler
 				.addAction(getKeyboardAction(KeyEventType.KEY_PRESSED, e));
 	}
 
 	@Override
 	public void keyReleased(KeyEvent e) {
-		mouseState
+		inputHandler
 				.addAction(getKeyboardAction(KeyEventType.KEY_RELEASED, e));
 	}
 

@@ -41,13 +41,13 @@ import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.google.inject.name.Named;
 
-import ead.common.AbstractFactory;
 import ead.common.EAdElementImporter;
-import ead.common.MapProvider;
-import ead.common.ReflectionProvider;
 import ead.common.importer.interfaces.EffectsImporterFactory;
 import ead.common.model.elements.EAdEffect;
 import ead.common.model.elements.effects.EffectsMacro;
+import ead.common.util.AbstractFactory;
+import ead.common.util.MapProvider;
+import ead.common.util.ReflectionProvider;
 import es.eucm.eadventure.common.data.chapter.effects.Effect;
 import es.eucm.eadventure.common.data.chapter.effects.Effects;
 

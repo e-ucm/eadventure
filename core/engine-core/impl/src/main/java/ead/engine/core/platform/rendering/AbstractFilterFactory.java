@@ -1,9 +1,9 @@
 package ead.engine.core.platform.rendering;
 
-import ead.common.AbstractFactory;
-import ead.common.MapProvider;
-import ead.common.ReflectionProvider;
 import ead.common.resources.assets.drawable.filters.DrawableFilter;
+import ead.common.util.AbstractFactory;
+import ead.common.util.MapProvider;
+import ead.common.util.ReflectionProvider;
 import ead.engine.core.platform.DrawableAsset;
 import ead.engine.core.platform.rendering.GenericCanvas;
 import ead.engine.core.platform.rendering.filters.FilterFactory;

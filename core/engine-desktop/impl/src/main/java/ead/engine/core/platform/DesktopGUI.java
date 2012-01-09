@@ -110,10 +110,10 @@ public class DesktopGUI extends AbstractGUI<Graphics2D> implements GUI {
 
 	@Inject
 	public DesktopGUI(EngineConfiguration conf, GameObjectManager gameObjectManager,
-			InputHandler mouseState,
+			InputHandler inputHandler,
 			GameState gameState, SceneElementGOFactory gameObjectFactory,
 			DesktopCanvas canvas) {
-		super(conf, gameObjectManager, mouseState, gameState,
+		super(conf, gameObjectManager, inputHandler, gameState,
 				gameObjectFactory, canvas);
 //		try {
 //			this.robot = new Robot();
@@ -333,7 +333,7 @@ public class DesktopGUI extends AbstractGUI<Graphics2D> implements GUI {
 		BufferStrategy bs = canvas.getBufferStrategy();
 		bs.getDrawGraphics().getFontMetrics();
 
-		DesktopInputListener listener = new DesktopInputListener(mouseState);
+		DesktopInputListener listener = new DesktopInputListener(inputHandler);
 		canvas.addMouseListener(listener);
 		canvas.addMouseMotionListener(listener);
 		canvas.addKeyListener(listener);

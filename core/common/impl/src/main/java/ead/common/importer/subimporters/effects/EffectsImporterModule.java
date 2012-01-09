@@ -46,7 +46,6 @@ import com.google.inject.TypeLiteral;
 import com.google.inject.name.Names;
 
 import ead.common.EAdElementImporter;
-import ead.common.MapProvider;
 import ead.common.importer.interfaces.EffectsImporterFactory;
 import ead.common.importer.subimporters.effects.texts.ShowTextEffectImporter;
 import ead.common.importer.subimporters.effects.texts.SpeakCharEffectImporter;
@@ -56,6 +55,7 @@ import ead.common.importer.subimporters.effects.variables.DeactivateFlagImporter
 import ead.common.importer.subimporters.effects.variables.DecrementVarImporter;
 import ead.common.importer.subimporters.effects.variables.IncrementVarImporter;
 import ead.common.importer.subimporters.effects.variables.SetValueImporter;
+import ead.common.util.MapProvider;
 import es.eucm.eadventure.common.data.chapter.effects.ActivateEffect;
 import es.eucm.eadventure.common.data.chapter.effects.CancelActionEffect;
 import es.eucm.eadventure.common.data.chapter.effects.ConsumeObjectEffect;

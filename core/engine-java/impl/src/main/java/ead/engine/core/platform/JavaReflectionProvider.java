@@ -42,9 +42,9 @@ import java.util.logging.Logger;
 
 import com.google.inject.Singleton;
 
-import ead.common.ReflectionProvider;
 import ead.common.interfaces.Element;
 import ead.common.model.EAdElement;
+import ead.common.util.ReflectionProvider;
 
 @Singleton
 public class JavaReflectionProvider implements ReflectionProvider {

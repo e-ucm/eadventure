@@ -39,7 +39,7 @@ package ead.common;
 
 public class DOMTags {
 
-	public static final String PACKAGE = "es.eucm.eadventure.common";
+	public static final String PACKAGE = "ead.common";
 
 	public static final String CLASS_AT = "c";
 

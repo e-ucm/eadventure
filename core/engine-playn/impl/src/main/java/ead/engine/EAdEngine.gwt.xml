@@ -1,11 +1,12 @@
 <module rename-to='eadengine'>
   <inherits name='playn.PlayN'/>
-  <inherits name='es.eucm.eadventure.common.model'/>
-  <inherits name='es.eucm.eadventure.engine.enginecore'/>
+  <inherits name='ead.common.model'/>
+  <inherits name='ead.engine.enginecore'/>
+  <inherits name='ead.elementfactories' />
   <inherits name='java.util.lib'/>
   <inherits name='com.gwtent.GwtEnt'/>
   <inherits name='com.google.gwt.logging.Logging'/>
-  <inherits name='es.eucm.eadventure.Resources'/>
+  <inherits name='ead.Resources'/>
   <inherits name='org.jbox2d.GwtBox2D'/>
 
 <inherits name="com.google.gwt.xml.XML" />
@@ -32,5 +33,5 @@
 
 <!--   <public path="../../../../../resources" />
  -->
-  <entry-point class='es.eucm.eadventure.engine.html.HtmlEntryPoint'/>
+  <entry-point class='ead.engine.html.HtmlEntryPoint'/>
 </module>

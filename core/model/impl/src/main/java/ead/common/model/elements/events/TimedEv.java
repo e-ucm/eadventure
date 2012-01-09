@@ -44,7 +44,7 @@ import ead.common.interfaces.Param;
 public class TimedEv extends AbstractEvent {
 
 	@Param("time")
-	private long time;
+	private int time;
 
 	@Param("repeats")
 	private int repeats;
@@ -67,11 +67,11 @@ public class TimedEv extends AbstractEvent {
 	 * 
 	 * @return
 	 */
-	public long getTime() {
+	public int getTime() {
 		return time;
 	}
 
-	public void setTime(long time) {
+	public void setTime(int time) {
 		this.time = time;
 	}
 

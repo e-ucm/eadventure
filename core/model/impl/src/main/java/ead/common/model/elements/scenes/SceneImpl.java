@@ -40,6 +40,7 @@ package ead.common.model.elements.scenes;
 import ead.common.interfaces.Element;
 import ead.common.interfaces.Param;
 import ead.common.model.elements.scene.EAdScene;
+import ead.common.model.elements.scene.EAdSceneElement;
 import ead.common.model.elements.trajectories.TrajectoryDefinition;
 import ead.common.model.elements.variables.EAdVarDef;
 import ead.common.model.elements.variables.VarDefImpl;
@@ -61,7 +62,7 @@ public class SceneImpl extends ComplexSceneElementImpl implements EAdScene {
 			"trajectory_generator", TrajectoryDefinition.class, null);
 
 	@Param("background")
-	protected SceneElementImpl background;
+	protected EAdSceneElement background;
 
 	@Param(value = "acceptsVisualEffects", defaultValue = "true")
 	protected Boolean acceptsVisualEffects;
@@ -91,11 +92,11 @@ public class SceneImpl extends ComplexSceneElementImpl implements EAdScene {
 		acceptsVisualEffects = true;
 	}
 
-	public SceneElementImpl getBackground() {
+	public EAdSceneElement getBackground() {
 		return background;
 	}
 
-	public void setBackground(SceneElementImpl background) {
+	public void setBackground(EAdSceneElement background) {
 		this.background = background;
 	}
 

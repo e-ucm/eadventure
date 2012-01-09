@@ -81,7 +81,7 @@ public class EAdEngine implements playn.core.Game, Keyboard.Listener {
 
 	private GUI gui;
 
-	private InputHandler mouseState;
+	private InputHandler inputHandler;
 
 	private EngineConfiguration platformConfiguration;
 
@@ -89,10 +89,10 @@ public class EAdEngine implements playn.core.Game, Keyboard.Listener {
 
 	@Inject
 	public EAdEngine(Game game, GUI gui, AssetHandler assetHandler,
-			InputHandler mouseState, EngineConfiguration platformConfiguration) {
+			InputHandler inputHandler, EngineConfiguration platformConfiguration) {
 		this.game = game;
 		this.gui = gui;
-		this.mouseState = mouseState;
+		this.inputHandler = inputHandler;
 		this.platformConfiguration = platformConfiguration;
 		((PlayNAssetHandler) assetHandler).setEngine(this);
 		logger.info("New instance");
@@ -161,14 +161,14 @@ public class EAdEngine implements playn.core.Game, Keyboard.Listener {
 						case com.google.gwt.user.client.Event.ONMOUSEUP:
 							e = EAdMouseEvent.getMouseEvent(
 									MouseEventType.RELEASED, b);
-							mouseState.addAction(new MouseActionImpl(EAdMouseEvent.getMouseEvent(
+							inputHandler.addAction(new MouseActionImpl(EAdMouseEvent.getMouseEvent(
 									MouseEventType.CLICK, b), eventX, eventY ));
 							break;
 						default:
 							// not interested in other events
 						}
 						if (e != null)
-							mouseState.addAction(
+							inputHandler.addAction(
 									new MouseActionImpl(e, eventX, eventY));
 					}
 				});

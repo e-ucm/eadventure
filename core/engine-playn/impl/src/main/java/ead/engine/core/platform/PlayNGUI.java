@@ -90,9 +90,9 @@ public class PlayNGUI extends AbstractGUI<Canvas> implements GUI {
 
 	@Inject
 	public PlayNGUI(EngineConfiguration platformConfiguration,
-			GameObjectManager gameObjectManager, InputHandler mouseState, GameState gameState,
+			GameObjectManager gameObjectManager, InputHandler inputHandler, GameState gameState,
 			SceneElementGOFactory gameObjectFactory, PlayNCanvas canvas) {
-		super(platformConfiguration, gameObjectManager, mouseState,
+		super(platformConfiguration, gameObjectManager, inputHandler,
 				gameState, gameObjectFactory, canvas);
 		logger.info("New instance");
 	}

@@ -429,6 +429,11 @@ public class DesktopDemos extends BaseTestLauncher {
 						dialog.setVisible(true);
 						EAdAdventureModel model = importer.importGame(folder
 								+ "/" + projectName + "Imported");
+						
+						if ( checkBox.isSelected() ){
+							
+						}
+						
 						dialog.setVisible(false);
 
 						if (model != null) {

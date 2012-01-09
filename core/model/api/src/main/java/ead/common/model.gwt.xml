@@ -24,7 +24,6 @@
   <source path='predef'/>
   <source path='util' />
   
-  <!-- TESTS -->
-  <source path='elementfactories'/>
+
 
 </module>

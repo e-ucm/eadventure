@@ -4,7 +4,7 @@ import playn.core.Canvas;
 
 import com.google.inject.Inject;
 
-import ead.common.ReflectionProvider;
+import ead.common.util.ReflectionProvider;
 import ead.engine.core.platform.rendering.AbstractFilterFactory;
 
 public class PlayNFilterFactory extends AbstractFilterFactory<Canvas>{

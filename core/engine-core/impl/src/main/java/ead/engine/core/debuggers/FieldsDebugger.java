@@ -73,7 +73,7 @@ public class FieldsDebugger implements Debugger {
 
 	private EAdElement element;
 
-	private InputHandler mouseState;
+	private InputHandler inputHandler;
 
 	private List<DrawableGO<?>> gos;
 
@@ -90,9 +90,9 @@ public class FieldsDebugger implements Debugger {
 	private EAdColor color = new EAdColor(120, 120, 120, 50);
 
 	@Inject
-	public FieldsDebugger(InputHandler mouseState, ValueMap valueMap,
+	public FieldsDebugger(InputHandler inputHandler, ValueMap valueMap,
 			StringHandler stringHandler, SceneElementGOFactory gameObjectFactory) {
-		this.mouseState = mouseState;
+		this.inputHandler = inputHandler;
 		this.valueMap = valueMap;
 		this.stringHandler = stringHandler;
 		this.gameObjectFactory = gameObjectFactory;
@@ -105,10 +105,10 @@ public class FieldsDebugger implements Debugger {
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@Override
 	public List<DrawableGO<?>> getGameObjects() {
-		if (mouseState.getGameObjectUnderPointer() != null
-				&& mouseState.getGameObjectUnderPointer().getElement() != element
-				&& mouseState.getGameObjectUnderPointer().getElement() instanceof EAdElement) {
-			element = (EAdElement) mouseState.getGameObjectUnderPointer()
+		if (inputHandler.getGameObjectUnderPointer() != null
+				&& inputHandler.getGameObjectUnderPointer().getElement() != element
+				&& inputHandler.getGameObjectUnderPointer().getElement() instanceof EAdElement) {
+			element = (EAdElement) inputHandler.getGameObjectUnderPointer()
 					.getElement();
 			gos.clear();
 			if (element != null) {

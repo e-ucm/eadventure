@@ -3,6 +3,7 @@ package ead.engine.core.input;
 import java.util.logging.Logger;
 
 import com.google.inject.Inject;
+import com.google.inject.Singleton;
 
 import ead.common.model.elements.guievents.EAdMouseEvent;
 import ead.common.model.elements.guievents.enums.DragEventType;
@@ -13,9 +14,6 @@ import ead.engine.core.gameobjects.GameObjectManager;
 import ead.engine.core.gameobjects.go.DrawableGO;
 import ead.engine.core.gameobjects.go.Renderable;
 import ead.engine.core.gameobjects.go.SceneElementGO;
-import ead.engine.core.input.InputAction;
-import ead.engine.core.input.InputHandler;
-import ead.engine.core.input.InputState;
 import ead.engine.core.input.actions.DragAction;
 import ead.engine.core.input.actions.KeyActionImpl;
 import ead.engine.core.input.actions.MouseActionImpl;
@@ -23,6 +21,7 @@ import ead.engine.core.input.states.KeyboardState;
 import ead.engine.core.input.states.MouseState;
 import ead.engine.core.util.EAdTransformation;
 
+@Singleton
 public class InputHandlerImpl implements InputHandler {
 
 	/**

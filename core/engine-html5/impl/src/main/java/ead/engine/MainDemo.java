@@ -5,7 +5,7 @@ import com.google.gwt.core.client.EntryPoint;
 public class MainDemo implements EntryPoint {
 //	  private Surface surface;
 	  
-	  private double radio = 89;
+//	  private double radio = 89;
 
 	public void onModuleLoad() {
 	    // Creates a surface of dimension 200 x 200.

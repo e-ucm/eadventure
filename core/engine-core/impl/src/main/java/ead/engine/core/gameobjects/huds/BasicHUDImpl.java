@@ -101,7 +101,7 @@ public class BasicHUDImpl extends AbstractHUD implements BasicHUD {
 
 	protected GameState gameState;
 
-	protected InputHandler mouseState;
+	protected InputHandler inputHandler;
 
 	private SceneElementImpl contextual;
 
@@ -120,14 +120,14 @@ public class BasicHUDImpl extends AbstractHUD implements BasicHUD {
 	@Inject
 	public BasicHUDImpl(MenuHUD menuHUD,
 			SceneElementGOFactory gameObjectFactory, GameState gameState,
-			InputHandler mouseState, StringHandler stringHandler, GUI gui,
+			InputHandler inputHandler, StringHandler stringHandler, GUI gui,
 			AssetHandler assetHandler) {
 		super(gui);
 		logger.info("New instance");
 		this.menuHUD = menuHUD;
 		this.sceneElementFactory = gameObjectFactory;
 		this.gameState = gameState;
-		this.mouseState = mouseState;
+		this.inputHandler = inputHandler;
 		this.stringHandler = stringHandler;
 		this.assetHandler = assetHandler;
 	}
@@ -206,7 +206,7 @@ public class BasicHUDImpl extends AbstractHUD implements BasicHUD {
 	}
 
 	private void updateContextual() {
-		DrawableGO<?> go = mouseState.getGameObjectUnderPointer();
+		DrawableGO<?> go = inputHandler.getGameObjectUnderPointer();
 
 		ValueMap valueMap = gameState.getValueMap();
 		if (go != null) {

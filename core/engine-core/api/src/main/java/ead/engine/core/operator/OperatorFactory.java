@@ -37,11 +37,11 @@
 
 package ead.engine.core.operator;
 
-import ead.common.Factory;
 import ead.common.model.EAdElement;
 import ead.common.model.elements.variables.EAdField;
 import ead.common.model.elements.variables.EAdOperation;
 import ead.common.model.elements.variables.EAdVarDef;
+import ead.common.util.Factory;
 import ead.engine.core.evaluators.EvaluatorFactory;
 import ead.engine.core.game.ValueMap;
 

@@ -37,6 +37,7 @@
 
 package ead.common.interfaces;
 
+import ead.common.model.elements.EAdBehavior;
 import ead.common.model.elements.EAdEffect;
 import ead.common.model.elements.extra.EAdList;
 import ead.common.model.elements.guievents.EAdGUIEvent;
@@ -75,4 +76,6 @@ public interface WithBehavior {
 	 * @param effects the list of effects
 	 */
 	void addBehavior(EAdGUIEvent event, EAdList<EAdEffect> effects);
+	
+	EAdBehavior getBehavior();
 }

@@ -52,6 +52,10 @@ public class ListOp extends OperationImpl {
 	
 	@Param("listfield")
 	private EAdField<EAdList> listField;
+	
+	public ListOp( ){
+		
+	}
 
 	public ListOp(EAdField<EAdList> listField, ListOpType operation) {
 		super();

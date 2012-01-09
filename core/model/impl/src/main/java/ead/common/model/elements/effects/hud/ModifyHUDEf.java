@@ -1,5 +1,7 @@
 package ead.common.model.elements.effects.hud;
 
+import ead.common.interfaces.Element;
+import ead.common.interfaces.Param;
 import ead.common.model.EAdElement;
 import ead.common.model.elements.effects.sceneelements.AbstractSceneElementEffect;
 
@@ -8,8 +10,10 @@ import ead.common.model.elements.effects.sceneelements.AbstractSceneElementEffec
  * Modifies the elements contained by the basic HUD during the game
  * 
  */
+@Element(detailed = ModifyHUDEf.class, runtime = ModifyHUDEf.class)
 public class ModifyHUDEf extends AbstractSceneElementEffect {
 
+	@Param("add")
 	private boolean add;
 
 	/**
@@ -25,12 +29,20 @@ public class ModifyHUDEf extends AbstractSceneElementEffect {
 		this.add = add;
 	}
 	
+	public ModifyHUDEf( ){
+		this( null, true );
+	}
+	
 	/**
 	 * 
 	 * @return if true, the element must be added to the basic HUD. if false, the
 	 *            element must be removed from the basic HUD
 	 */
-	public boolean isAdd( ){
+	public boolean getAdd( ){
 		return add;
+	}
+	
+	public void setAdd(boolean add){
+		this.add = add;
 	}
 }

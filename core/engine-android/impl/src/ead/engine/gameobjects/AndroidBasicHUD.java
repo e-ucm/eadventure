@@ -48,11 +48,11 @@ public class AndroidBasicHUD extends BasicHUDImpl {
 	@Inject
 	public AndroidBasicHUD(GUI gui, MenuHUD menuHUD,
 			SceneElementGOFactory gameObjectFactory, GameState gameState,
-			GameObjectManager gameObjectManager, InputHandler mouseState,
+			GameObjectManager gameObjectManager, InputHandler inputHandler,
 			StringHandler stringHandler,
 			EngineConfiguration platformConfiguration,
 			AssetHandler assetHandler) {
-		super(menuHUD, gameObjectFactory, gameState, mouseState, stringHandler,
+		super(menuHUD, gameObjectFactory, gameState, inputHandler, stringHandler,
 				gui, assetHandler);
 		this.platformConfiguration = platformConfiguration;
 		this.vibrator = (Vibrator) ((AndroidAssetHandler) assetHandler).getContext().getSystemService(Context.VIBRATOR_SERVICE);
@@ -83,15 +83,14 @@ public class AndroidBasicHUD extends BasicHUDImpl {
 	@SuppressWarnings("unchecked")
 	public void render(GenericCanvas<?> canvas) {
 		
-//		if (mouseState.isMousePressed(MouseButton.BUTTON_1)) {
-		if (mouseState.checkState(MouseState.LEFT_BUTTON_PRESSED)) {
+		if (inputHandler.checkState(MouseState.LEFT_BUTTON_PRESSED)) {
 			BitmapCanvas graphicContext = (BitmapCanvas) canvas
 					.getNativeGraphicContext();
-			if (mouseState.getPointerX() != -1 && mouseState.getPointerX() != -1) {
+			if (inputHandler.getPointerX() != -1 && inputHandler.getPointerX() != -1) {
 
 				int notScaledX, notScaledY; 
-				notScaledX = mouseState.getRawPointerX();
-				notScaledY = mouseState.getRawPointerY();
+				notScaledX = inputHandler.getRawPointerX();
+				notScaledY = inputHandler.getRawPointerY();
 				
 				Canvas c = new Canvas(magGlass);
 				c.clipPath(clip);
@@ -126,7 +125,7 @@ public class AndroidBasicHUD extends BasicHUDImpl {
 				graphicContext.setMatrix(null);
 				graphicContext.drawBitmap(magGlass, magX, magY, null);
 
-				GameObject<? extends EAdElement> go = (GameObject<? extends EAdElement>) mouseState
+				GameObject<? extends EAdElement> go = (GameObject<? extends EAdElement>) inputHandler
 						.getGameObjectUnderPointer();
 
 				if (go != null && go.getElement() instanceof EAdElement) {

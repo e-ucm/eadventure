@@ -39,10 +39,10 @@ package ead.engine.core.trajectories;
 
 import com.google.inject.Inject;
 
-import ead.common.AbstractFactory;
-import ead.common.ReflectionProvider;
 import ead.common.model.EAdElement;
 import ead.common.model.elements.trajectories.TrajectoryDefinition;
+import ead.common.util.AbstractFactory;
+import ead.common.util.ReflectionProvider;
 import ead.engine.core.factorymapproviders.TrajectoryFactoryMapProvider;
 import ead.engine.core.game.ValueMap;
 import ead.engine.core.gameobjects.factories.SceneElementGOFactory;

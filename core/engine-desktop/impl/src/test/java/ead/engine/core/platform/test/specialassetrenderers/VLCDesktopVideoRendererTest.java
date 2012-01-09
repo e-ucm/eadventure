@@ -64,9 +64,9 @@ public class VLCDesktopVideoRendererTest extends TestCase {
 	
 	@Test
 	public void testLoadVideo() throws URISyntaxException, IOException  {
-		testVideo("es/eucm/eadventure/resources/binary/flame.mpg");
-		testVideo("es/eucm/eadventure/resources/binary/bbb_trailer_360p.webm");
-		testVideo("es/eucm/eadventure/resources/binary/bbb_trailer_400p.ogv");
+		testVideo("ead/resources/flame.mpg");
+		testVideo("ead/resources/binary/bbb_trailer_360p.webm");
+		testVideo("ead/resources/binary/bbb_trailer_400p.ogv");
 
 	}
 	

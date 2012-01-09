@@ -185,7 +185,7 @@ public class EAdGUILookAndFeel extends BasicLookAndFeel {
 	protected void initClassDefaults(UIDefaults table) {
 		super.initClassDefaults(table);
 		final String basicPackageName = "javax.swing.plaf.basic.";
-		final String eadPackageName = "es.eucm.eadventure.gui.extra.";
+		final String eadPackageName = "ead.gui.extra.";
 
 		Object[] uiDefaults = { "ButtonUI", eadPackageName + "EAdButtonUI",
 				"CheckBoxUI", eadPackageName + "EAdCheckBoxUI", "ComboBoxUI",

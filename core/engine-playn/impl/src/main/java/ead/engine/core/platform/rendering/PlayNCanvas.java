@@ -49,7 +49,6 @@ import playn.core.TextFormat.Effect;
 
 import com.google.inject.Inject;
 
-import ead.common.ReflectionProvider;
 import ead.common.params.fills.EAdColor;
 import ead.common.params.fills.EAdLinearGradient;
 import ead.common.params.paint.EAdFill;
@@ -57,6 +56,7 @@ import ead.common.params.text.EAdFont;
 import ead.common.resources.assets.drawable.basics.Shape;
 import ead.common.util.EAdMatrix;
 import ead.common.util.EAdRectangle;
+import ead.common.util.ReflectionProvider;
 import ead.engine.core.platform.DrawableAsset;
 import ead.engine.core.platform.FontHandler;
 import ead.engine.core.platform.assets.PlayNBezierShape;

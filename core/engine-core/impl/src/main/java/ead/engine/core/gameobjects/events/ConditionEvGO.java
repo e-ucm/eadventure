@@ -66,7 +66,7 @@ public class ConditionEvGO extends AbstractEventGO<ConditionedEv> {
 						.getEffectsForEvent(ConditionedEventType.CONDITIONS_MET));
 			}
 			triggered = true;
-		} else if (triggered || ( firstCheck && element.isRunNotMetConditionsInFirstCheck())) {
+		} else if (triggered || ( firstCheck && element.isRunNotMetConditions())) {
 			triggered = false;
 			runEffects(element
 					.getEffectsForEvent(ConditionedEventType.CONDITIONS_UNMET));

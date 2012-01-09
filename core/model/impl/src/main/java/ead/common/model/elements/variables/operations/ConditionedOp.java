@@ -55,6 +55,9 @@ public class ConditionedOp extends OperationImpl {
 	@Param("opFalse")
 	private EAdOperation opFalse;
 	
+	public ConditionedOp( ){
+		
+	}
 	
 	public ConditionedOp(EAdCondition c, EAdOperation opTrue, EAdOperation opFalse ) {
 		super();

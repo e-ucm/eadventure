@@ -42,10 +42,10 @@ import com.google.inject.Provides;
 import com.google.inject.name.Named;
 import com.google.inject.name.Names;
 
-import ead.common.ReflectionProvider;
 import ead.common.model.elements.EAdAdventureModel;
 import ead.common.model.elements.EAdAdventureModelImpl;
 import ead.common.model.elements.scene.EAdScene;
+import ead.common.util.ReflectionProvider;
 import ead.engine.core.debuggers.Debugger;
 import ead.engine.core.debuggers.EAdMainDebugger;
 import ead.engine.core.evaluators.EvaluatorFactory;

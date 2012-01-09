@@ -84,7 +84,7 @@ public class InventoryHUDImpl extends AbstractHUD implements InventoryHUD {
 
 	private SceneElementGOFactory sceneElementFactory;
 	
-	private InputHandler mouseState;
+	private InputHandler inputHandler;
 
 	private int guiHeight;
 
@@ -107,11 +107,11 @@ public class InventoryHUDImpl extends AbstractHUD implements InventoryHUD {
 	@Inject
 	public InventoryHUDImpl(GUI gui, GameState gameState,
 			SceneElementGOFactory factory,
-			InventoryHandler inventoryHandler, InputHandler mouseState) {
+			InventoryHandler inventoryHandler, InputHandler inputHandler) {
 		super(gui);
 		valueMap = gameState.getValueMap();
 		this.sceneElementFactory = factory;
-		this.mouseState = mouseState;
+		this.inputHandler = inputHandler;
 		disp = (float) GameLoop.SKIP_MILLIS_TICK / (float) TIME_TO_SHOW;
 		this.inventoryHandler = inventoryHandler;
 		initInventory();
@@ -248,7 +248,7 @@ public class InventoryHUDImpl extends AbstractHUD implements InventoryHUD {
 	}
 
 	public boolean isItemDragged() {
-		SceneElementGO<?> go = mouseState.getDraggingGameObject();
+		SceneElementGO<?> go = inputHandler.getDraggingGameObject();
 		if (go != null) {
 			return valueMap.getValue(go.getElement(),
 					InventoryImpl.VAR_IN_INVENTORY);

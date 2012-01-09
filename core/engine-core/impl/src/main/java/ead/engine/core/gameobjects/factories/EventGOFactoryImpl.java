@@ -39,8 +39,8 @@ package ead.engine.core.gameobjects.factories;
 
 import com.google.inject.Inject;
 
-import ead.common.ReflectionProvider;
 import ead.common.model.elements.EAdEvent;
+import ead.common.util.ReflectionProvider;
 import ead.engine.core.factorymapproviders.EventGameObjectFactoryConfigurator;
 import ead.engine.core.gameobjects.factories.EventGOFactory;
 import ead.engine.core.gameobjects.go.EventGO;

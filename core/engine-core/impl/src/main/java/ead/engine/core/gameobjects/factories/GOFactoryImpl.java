@@ -42,8 +42,8 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import ead.common.ReflectionProvider;
 import ead.common.model.EAdElement;
+import ead.common.util.ReflectionProvider;
 import ead.engine.core.gameobjects.factories.GameObjectFactory;
 import ead.engine.core.gameobjects.go.GameObject;
 import ead.engine.core.platform.GenericInjector;

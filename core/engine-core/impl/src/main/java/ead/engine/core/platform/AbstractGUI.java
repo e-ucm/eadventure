@@ -82,7 +82,7 @@ public abstract class AbstractGUI<T> implements GUI {
 	/**
 	 * The current mouse state
 	 */
-	protected InputHandler mouseState;
+	protected InputHandler inputHandler;
 
 	protected GameState gameState;
 
@@ -91,11 +91,11 @@ public abstract class AbstractGUI<T> implements GUI {
 	protected GenericCanvas<T> eAdCanvas;
 
 	public AbstractGUI(EngineConfiguration platformConfiguration,
-			GameObjectManager gameObjectManager, InputHandler mouseState, GameState gameState,
+			GameObjectManager gameObjectManager, InputHandler inputHandler, GameState gameState,
 			SceneElementGOFactory gameObjectFactory, GenericCanvas<T> canvas) {
 		this.platformConfiguration = platformConfiguration;
 		this.gameObjects = gameObjectManager;
-		this.mouseState = mouseState;
+		this.inputHandler = inputHandler;
 		this.gameState = gameState;
 		this.gameObjectFactory = gameObjectFactory;
 		this.eAdCanvas = canvas;
@@ -137,7 +137,7 @@ public abstract class AbstractGUI<T> implements GUI {
 	 * Process the different sort of inputs received by the game
 	 */
 	protected void processInput() {		
-		mouseState.processActions();
+		inputHandler.processActions();
 	}
 
 	/**

@@ -210,8 +210,8 @@ public class DesktopAssetHandler extends JavaAbstractAssetHandler {
 		File file = fileMap.get(path);
 		if (file == null) {
 			// TODO improve?
-			//String location = path.replaceAll("@", "es.eucm.eadventure.resources.");
-			String location = path.replaceAll("@", "es/eucm/eadventure/resources/");
+			//String location = path.replaceAll("@", "ead.resources.");
+			String location = path.replaceAll("@", "ead/resources/");
 			//location = location.replaceAll("/", ".");
 			InputStream inputStream = ClassLoader.getSystemResourceAsStream(location);
 			return inputStream;
@@ -268,7 +268,7 @@ public class DesktopAssetHandler extends JavaAbstractAssetHandler {
 			File file = fileMap.get(path);
 			if (file == null) {
 				// TODO improve?
-				String location = path.replaceAll("@", "es/eucm/eadventure/resources/");
+				String location = path.replaceAll("@", "ead/resources/");
 				return ClassLoader.getSystemResource(location).getFile();
 			} else {
 				return file.getAbsolutePath();

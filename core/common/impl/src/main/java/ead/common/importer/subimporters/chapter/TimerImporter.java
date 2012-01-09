@@ -144,7 +144,7 @@ public class TimerImporter implements EAdElementImporter<Timer, EAdEvent> {
 		event.addEffect(ConditionedEventType.CONDITIONS_MET,
 				new ChangeFieldEf(notTriggeredField,
 						BooleanOp.FALSE_OP));
-		event.setRunNotMetConditionsInFirstCheck(false);
+		event.setRunNotMetConditions(false);
 		event.setCondition(new ANDCond(initCondition,
 				new OperationCond(notTriggeredField)));
 

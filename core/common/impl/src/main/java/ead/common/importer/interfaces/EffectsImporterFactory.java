@@ -38,9 +38,9 @@
 package ead.common.importer.interfaces;
 
 import ead.common.EAdElementImporter;
-import ead.common.Factory;
 import ead.common.model.elements.EAdEffect;
 import ead.common.model.elements.effects.EffectsMacro;
+import ead.common.util.Factory;
 import es.eucm.eadventure.common.data.chapter.effects.Effect;
 import es.eucm.eadventure.common.data.chapter.effects.Effects;
 

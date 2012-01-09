@@ -37,6 +37,8 @@
 
 package ead.common.model.elements.variables;
 
+import com.gwtent.reflection.client.Reflectable;
+
 import ead.common.model.EAdElement;
 
 /**
@@ -45,6 +47,7 @@ import ead.common.model.EAdElement;
  * to a variable
  * 
  */
+@Reflectable
 public interface EAdOperation extends EAdElement {
 
 }

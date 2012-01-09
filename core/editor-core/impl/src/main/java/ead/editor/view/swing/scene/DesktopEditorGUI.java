@@ -84,10 +84,10 @@ public class DesktopEditorGUI extends DesktopGUI {
 
 	@Inject
 	public DesktopEditorGUI(EngineConfiguration platformConfiguration,
-			GameObjectManager gameObjectManager, InputHandler mouseState,
+			GameObjectManager gameObjectManager, InputHandler inputHandler,
 			GameState gameState, SceneElementGOFactory gameObjectFactory,
 			DesktopCanvas canvas) {
-		super(platformConfiguration, gameObjectManager, mouseState, gameState,
+		super(platformConfiguration, gameObjectManager, inputHandler, gameState,
 				gameObjectFactory, canvas);
 	}
 
@@ -207,7 +207,7 @@ public class DesktopEditorGUI extends DesktopGUI {
 
 					panel.setVisible(true);
 
-					listener = new DesktopInputListener(mouseState);
+					listener = new DesktopInputListener(inputHandler);
 					panel.addMouseListener(listener);
 					panel.addMouseMotionListener(listener);
 					panel.addKeyListener(listener);

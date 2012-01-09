@@ -60,10 +60,10 @@ public class AndroidGUI extends AbstractGUI<Canvas> {
 
 	@Inject
 	public AndroidGUI(EngineConfiguration platformConfiguration,
-			GameObjectManager gameObjectManager, InputHandler mouseState,
+			GameObjectManager gameObjectManager, InputHandler inputHandler,
 			ValueMap valueMap, GameState gameState,
 			SceneElementGOFactory gameObjectFactory, AndroidCanvas canvas) {
-		super(platformConfiguration, gameObjectManager, mouseState, gameState,
+		super(platformConfiguration, gameObjectManager, inputHandler, gameState,
 				gameObjectFactory, canvas);
 	}
 
