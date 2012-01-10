@@ -37,6 +37,8 @@
 
 package ead.common.params;
 
+import com.gwtent.reflection.client.Reflectable;
+
 import ead.common.model.EAdElement;
 
 /**
@@ -46,6 +48,7 @@ import ead.common.model.EAdElement;
  * 
  * <p>Override {@link Object#equals(Object)} in implementing classes.</p>
  */
+@Reflectable
 public interface EAdParam {
 
 	/**

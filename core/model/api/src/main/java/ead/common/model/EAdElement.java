@@ -37,10 +37,13 @@
 
 package ead.common.model;
 
+import com.gwtent.reflection.client.Reflectable;
+
 
 /**
  * Base interface for eAdventure's game model objects.
  */
+@Reflectable
 public interface EAdElement {
 
 	/**
