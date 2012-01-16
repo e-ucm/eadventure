@@ -39,30 +39,32 @@ package ead.engine.core.gameobjects.effects;
 
 import com.google.inject.Inject;
 
-import ead.common.model.elements.effects.PlaySoundEf;
+import ead.common.model.elements.effects.timedevents.WaitEf;
 import ead.common.resources.StringHandler;
+import ead.engine.core.game.GameLoop;
 import ead.engine.core.game.GameState;
 import ead.engine.core.gameobjects.factories.SceneElementGOFactory;
 import ead.engine.core.platform.AssetHandler;
 import ead.engine.core.platform.GUI;
-import ead.engine.core.platform.assets.RuntimeSound;
 
-public class PlaySoundEffectGO extends AbstractEffectGO<PlaySoundEf> {
-
+public class WaitGO extends AbstractEffectGO<WaitEf>{
+	
+	private int time;
+	
 	@Inject
-	public PlaySoundEffectGO(AssetHandler assetHandler,
-			StringHandler stringHandler, SceneElementGOFactory gameObjectFactory,
-			GUI gui, GameState gameState) {
+	public WaitGO(AssetHandler assetHandler, StringHandler stringHandler,
+			SceneElementGOFactory gameObjectFactory, GUI gui, GameState gameState) {
 		super(assetHandler, stringHandler, gameObjectFactory, gui, gameState);
 	}
 
 	@Override
 	public void initilize() {
 		super.initilize();
-		RuntimeSound sound = (RuntimeSound) assetHandler
-				.getRuntimeAsset(element.getSound());
-		sound.loadAsset();
-		sound.play();
+		time = element.getTime();
+	}
+	
+	public void update( ){
+		time -= GameLoop.SKIP_MILLIS_TICK;
 	}
 
 	@Override
@@ -72,7 +74,11 @@ public class PlaySoundEffectGO extends AbstractEffectGO<PlaySoundEf> {
 
 	@Override
 	public boolean isFinished() {
-		return true;
+		return time <= 0;
+	}
+	
+	public String toString( ){
+		return "WaitEffect:  Time left " + time ;
 	}
 
 }

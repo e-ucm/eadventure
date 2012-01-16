@@ -64,8 +64,11 @@ import ead.engine.core.gameobjects.factories.EventGOFactory;
 import ead.engine.core.gameobjects.factories.EventGOFactoryImpl;
 import ead.engine.core.gameobjects.factories.SceneElementGOFactory;
 import ead.engine.core.gameobjects.factories.SceneElementGOFactoryImpl;
+import ead.engine.core.gameobjects.factories.TransitionFactoryImpl;
+import ead.engine.core.gameobjects.go.transitions.SceneLoader;
 import ead.engine.core.gameobjects.huds.EffectHUD;
 import ead.engine.core.gameobjects.huds.EffectHUDImpl;
+import ead.engine.core.gameobjects.transitions.JavaSceneLoader;
 import ead.engine.core.inventory.InventoryHandler;
 import ead.engine.core.inventory.InventoryHandlerImpl;
 import ead.engine.core.operator.OperatorFactory;
@@ -79,6 +82,7 @@ import ead.engine.core.platform.JavaInjector;
 import ead.engine.core.platform.JavaPluginHandler;
 import ead.engine.core.platform.JavaReflectionProvider;
 import ead.engine.core.platform.LoadingScreen;
+import ead.engine.core.platform.TransitionFactory;
 import ead.engine.core.plugins.PluginHandler;
 import ead.engine.core.trajectories.TrajectoryFactory;
 import ead.engine.core.trajectories.TrajectoryFactoryImpl;
@@ -100,8 +104,10 @@ public class BasicGameModule extends AbstractModule {
 		bind(PluginHandler.class).to(JavaPluginHandler.class);
 		bind(GenericInjector.class).to(JavaInjector.class);
 		bind(InventoryHandler.class).to(InventoryHandlerImpl.class);
+		bind(TransitionFactory.class).to(TransitionFactoryImpl.class);
 
 		bind(ReflectionProvider.class).to(JavaReflectionProvider.class);
+		bind(SceneLoader.class).to(JavaSceneLoader.class);
 
 		bind(EAdAdventureModel.class).to(EAdAdventureModelImpl.class);
 		bind(EAdScene.class).annotatedWith(Names.named("LoadingScreen"))

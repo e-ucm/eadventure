@@ -39,7 +39,6 @@ package ead.common.model.elements.guievents;
 
 import ead.common.model.EAdElement;
 
-
 /**
  * Implemented by all classes that represents the data contained in a GUI event.
  * Inherited classes will only contain static information about the event, the

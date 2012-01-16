@@ -94,4 +94,7 @@ public class SystemFields {
 			null, new VarDefImpl<Integer>("elapsed_time_per_update",
 					Integer.class, 0));
 
+	public static final EAdField<Boolean> PROCESS_INPUT = new EAdFieldImpl<Boolean>(
+			null, new VarDefImpl<Boolean>("process_input", Boolean.class, true));
+
 }

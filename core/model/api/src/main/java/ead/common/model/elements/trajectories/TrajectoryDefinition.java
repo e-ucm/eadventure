@@ -37,15 +37,12 @@
 
 package ead.common.model.elements.trajectories;
 
-import com.gwtent.reflection.client.Reflectable;
-
 import ead.common.model.EAdElement;
 
 /**
  * General interface for trajectory definitions. 
  * 
  */
-@Reflectable
 public interface TrajectoryDefinition extends EAdElement {
 
 

@@ -238,4 +238,9 @@ public class SceneElementImpl extends AbstractElementWithBehavior
 		return dragCond;
 	}
 
+	public void setInitialAlpha(float f) {
+		this.setVarInitialValue(SceneElementImpl.VAR_ALPHA, f);
+		
+	}
+
 }

@@ -190,9 +190,9 @@ public class DrawablesScene extends EmptyScene {
 		getComponents().add(sceneElement);
 
 		// Frames
-		String uris[] = new String[8];
-		for (int i = 1; i <= 8; i++)
-			uris[i - 1] = "@drawable/paniel_wlr_0" + i + ".png";
+		String uris[] = new String[2];
+		for (int i = 1; i <= 2; i++)
+			uris[i - 1] = "@drawable/man_walk_e_" + i + ".png";
 
 		FramesAnimation animation = EAdElementsFactory.getInstance()
 				.getDrawableFactory().getFramesAnimation(uris, 500);

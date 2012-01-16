@@ -46,8 +46,6 @@ import ead.engine.core.gameobjects.factories.SceneElementGOFactory;
 import ead.engine.core.gameobjects.go.DrawableGO;
 import ead.engine.core.gameobjects.go.Renderable;
 import ead.engine.core.input.InputHandler;
-import ead.engine.core.platform.EngineConfiguration;
-import ead.engine.core.platform.GUI;
 import ead.engine.core.platform.rendering.GenericCanvas;
 import ead.engine.core.util.EAdTransformation;
 import ead.engine.core.util.EAdTransformationImpl;
@@ -91,8 +89,9 @@ public abstract class AbstractGUI<T> implements GUI {
 	protected GenericCanvas<T> eAdCanvas;
 
 	public AbstractGUI(EngineConfiguration platformConfiguration,
-			GameObjectManager gameObjectManager, InputHandler inputHandler, GameState gameState,
-			SceneElementGOFactory gameObjectFactory, GenericCanvas<T> canvas) {
+			GameObjectManager gameObjectManager, InputHandler inputHandler,
+			GameState gameState, SceneElementGOFactory gameObjectFactory,
+			GenericCanvas<T> canvas) {
 		this.platformConfiguration = platformConfiguration;
 		this.gameObjects = gameObjectManager;
 		this.inputHandler = inputHandler;
@@ -136,8 +135,8 @@ public abstract class AbstractGUI<T> implements GUI {
 	/**
 	 * Process the different sort of inputs received by the game
 	 */
-	protected void processInput() {		
-		inputHandler.processActions();
+	protected void processInput() {
+			inputHandler.processActions();
 	}
 
 	/**
@@ -189,8 +188,8 @@ public abstract class AbstractGUI<T> implements GUI {
 		EAdTransformationImpl t = new EAdTransformationImpl(m, visible, alpha);
 		return t;
 	}
-	
-	public void setInitialTransformation(EAdTransformation initialTransformation){
+
+	public void setInitialTransformation(EAdTransformation initialTransformation) {
 		inputHandler.setInitialTransformation(initialTransformation);
 	}
 

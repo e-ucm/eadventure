@@ -39,11 +39,23 @@ package ead.common.interfaces.features;
 
 import ead.common.params.text.EAdString;
 
+/**
+ * Implemented by elements with name
+ * 
+ */
 public interface Named {
 
 	/**
 	 * @return the {@link EAdString} of the name
 	 */
 	EAdString getName();
+
+	/**
+	 * Sets the name for the element
+	 * 
+	 * @param name
+	 *            the name
+	 */
+	void setName(EAdString name);
 
 }

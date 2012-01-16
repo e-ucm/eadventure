@@ -122,7 +122,7 @@ public class PlayNEngineImage extends RuntimeImage<Canvas> {
 
 	@Override
 	public boolean isLoaded() {
-		return (image != null && image.isReady());
+		return (image != null && image.width() > 0 && image.isReady());
 	}
 
 	@Override

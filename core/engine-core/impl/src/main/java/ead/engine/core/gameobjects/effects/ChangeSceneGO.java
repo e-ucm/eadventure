@@ -43,7 +43,7 @@ import ead.common.model.elements.effects.ChangeSceneEf;
 import ead.common.resources.StringHandler;
 import ead.engine.core.game.GameState;
 import ead.engine.core.gameobjects.factories.SceneElementGOFactory;
-import ead.engine.core.gameobjects.go.TransitionGO;
+import ead.engine.core.gameobjects.go.transitions.TransitionGO;
 import ead.engine.core.platform.AssetHandler;
 import ead.engine.core.platform.GUI;
 import ead.engine.core.platform.TransitionFactory;
@@ -64,7 +64,7 @@ public class ChangeSceneGO extends AbstractEffectGO<ChangeSceneEf> {
 	@Override
 	public void initilize() {
 		super.initilize();
-		TransitionGO transition = transitionFactory.getTransition(element.getTransition());
+		TransitionGO<?> transition = transitionFactory.getTransition(element.getTransition());
 		if (element.getNextScene() != null)
 			transition.setNext(element.getNextScene());
 		else

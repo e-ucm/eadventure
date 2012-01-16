@@ -43,7 +43,14 @@ import ead.common.interfaces.features.Evented;
 import ead.common.interfaces.features.Variabled;
 import ead.common.model.EAdElement;
 
-public interface EAdSceneElement extends EAdElement, WithBehavior, Variabled, Evented, Draggable {
+/**
+ * 
+ * A scene element is the minimal unit to build games. A scene element is
+ * anything displayed in the game.
+ * 
+ */
+public interface EAdSceneElement extends EAdElement, WithBehavior, Variabled,
+		Evented, Draggable {
 
 	/**
 	 * Returns the definition for this scene element

@@ -63,7 +63,7 @@ import ead.engine.core.platform.assets.RuntimeCaption;
 import ead.engine.core.platform.rendering.GenericCanvas;
 import ead.engine.core.util.EAdTransformation;
 
-public class SpeakEffectGO extends AbstractEffectGO<SpeakEf> {
+public class SpeakGO extends AbstractEffectGO<SpeakEf> {
 
 	private static final int MARGIN_PROPORTION = 35;
 
@@ -86,7 +86,7 @@ public class SpeakEffectGO extends AbstractEffectGO<SpeakEf> {
 	private float alpha;
 
 	@Inject
-	public SpeakEffectGO(AssetHandler assetHandler,
+	public SpeakGO(AssetHandler assetHandler,
 			StringHandler stringHandler,
 			SceneElementGOFactory gameObjectFactory, GUI gui,
 			GameState gameState, OperatorFactory operatorFactory) {

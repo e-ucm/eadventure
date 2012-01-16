@@ -77,7 +77,6 @@ import ead.engine.core.input.InputAction;
 import ead.engine.core.platform.AssetHandler;
 import ead.engine.core.platform.DrawableAsset;
 import ead.engine.core.platform.GUI;
-import ead.engine.core.platform.RuntimeAsset;
 import ead.engine.core.platform.rendering.GenericCanvas;
 import ead.engine.core.util.EAdTransformation;
 
@@ -186,8 +185,7 @@ public abstract class SceneElementGOImpl<T extends EAdSceneElement> extends
 		ValueMap valueMap = gameState.getValueMap();
 		enable = valueMap.getValue(element, SceneElementImpl.VAR_ENABLE);
 		visible = valueMap.getValue(element, SceneElementImpl.VAR_VISIBLE);
-		rotation = valueMap
-				.getValue(element, SceneElementImpl.VAR_ROTATION);
+		rotation = valueMap.getValue(element, SceneElementImpl.VAR_ROTATION);
 		scale = valueMap.getValue(element, SceneElementImpl.VAR_SCALE);
 		alpha = valueMap.getValue(element, SceneElementImpl.VAR_ALPHA);
 		orientation = valueMap.getValue(element,
@@ -213,14 +211,12 @@ public abstract class SceneElementGOImpl<T extends EAdSceneElement> extends
 		int scaleH = (int) (height * scale);
 		int x = position.getJavaX(scaleW);
 		int y = position.getJavaY(scaleH);
-		gameState.getValueMap().setValue(element,
-				SceneElementImpl.VAR_LEFT, x);
-		gameState.getValueMap().setValue(element,
-				SceneElementImpl.VAR_RIGHT, x + scaleW);
-		gameState.getValueMap().setValue(element, SceneElementImpl.VAR_TOP,
-				y);
-		gameState.getValueMap().setValue(element,
-				SceneElementImpl.VAR_BOTTOM, y + scaleH);
+		gameState.getValueMap().setValue(element, SceneElementImpl.VAR_LEFT, x);
+		gameState.getValueMap().setValue(element, SceneElementImpl.VAR_RIGHT,
+				x + scaleW);
+		gameState.getValueMap().setValue(element, SceneElementImpl.VAR_TOP, y);
+		gameState.getValueMap().setValue(element, SceneElementImpl.VAR_BOTTOM,
+				y + scaleH);
 		gameState.getValueMap().setValue(element,
 				SceneElementImpl.VAR_CENTER_X, x + scaleW / 2);
 		gameState.getValueMap().setValue(element,
@@ -307,9 +303,7 @@ public abstract class SceneElementGOImpl<T extends EAdSceneElement> extends
 	@Override
 	public AssetDescriptor getCurrentAssetDescriptor() {
 
-		AssetDescriptor a = element
-				.getDefinition()
-				.getResources()
+		AssetDescriptor a = element.getDefinition().getResources()
 				.getAsset(getCurrentBundle(), SceneElementDefImpl.appearance);
 
 		return getCurrentAssetDescriptor(a);
@@ -338,7 +332,8 @@ public abstract class SceneElementGOImpl<T extends EAdSceneElement> extends
 		}
 		// Check frame animation
 		else if (a instanceof FramesAnimation) {
-			return ((FramesAnimation) a).getFrameFromTime(timeDisplayed).getDrawable();
+			return ((FramesAnimation) a).getFrameFromTime(timeDisplayed)
+					.getDrawable();
 		} else {
 			return a;
 		}
@@ -365,7 +360,7 @@ public abstract class SceneElementGOImpl<T extends EAdSceneElement> extends
 	}
 
 	@Override
-	public List<RuntimeAsset<?>> getAssets(List<RuntimeAsset<?>> assetList,
+	public List<AssetDescriptor> getAssets(List<AssetDescriptor> assetList,
 			boolean allAssets) {
 		List<EAdBundleId> bundles = new ArrayList<EAdBundleId>();
 		if (allAssets)
@@ -377,7 +372,7 @@ public abstract class SceneElementGOImpl<T extends EAdSceneElement> extends
 		for (EAdBundleId bundle : bundles) {
 			AssetDescriptor a = getElement().getDefinition().getResources()
 					.getAsset(bundle, SceneElementDefImpl.appearance);
-			getAssetsRecursively(a, assetList, allAssets);
+			getAssetsRecursively(a, assetList, true);
 		}
 
 		for (EAdAction a : getActions())
@@ -388,7 +383,7 @@ public abstract class SceneElementGOImpl<T extends EAdSceneElement> extends
 	}
 
 	protected void getAssetsRecursively(AssetDescriptor a,
-			List<RuntimeAsset<?>> assetList, boolean allAssets) {
+			List<AssetDescriptor> assetList, boolean allAssets) {
 		if (a == null)
 			return;
 
@@ -419,17 +414,17 @@ public abstract class SceneElementGOImpl<T extends EAdSceneElement> extends
 		} else if (a instanceof FramesAnimation) {
 			if (!allAssets)
 				getAssetsRecursively(
-						((FramesAnimation) a).getFrameFromTime(timeDisplayed).getDrawable(),
-						assetList, allAssets);
+						((FramesAnimation) a).getFrameFromTime(timeDisplayed)
+								.getDrawable(), assetList, allAssets);
 			else {
 				for (int i = 0; i < ((FramesAnimation) a).getFrameCount(); i++) {
-					getAssetsRecursively(
-							((FramesAnimation) a).getFrameFromTime(i).getDrawable(),
-							assetList, allAssets);
+					getAssetsRecursively(((FramesAnimation) a)
+							.getFrameFromTime(i).getDrawable(), assetList,
+							allAssets);
 				}
 			}
 		} else
-			assetList.add(assetHandler.getRuntimeAsset(a));
+			assetList.add(a);
 	}
 
 	@Override
@@ -444,20 +439,20 @@ public abstract class SceneElementGOImpl<T extends EAdSceneElement> extends
 
 	@Override
 	public void setScale(float scale) {
-		gameState.getValueMap().setValue(element,
-				SceneElementImpl.VAR_SCALE, scale);
+		gameState.getValueMap().setValue(element, SceneElementImpl.VAR_SCALE,
+				scale);
 	}
 
 	public void setWidth(int width) {
 		this.width = width;
-		gameState.getValueMap().setValue(element,
-				SceneElementImpl.VAR_WIDTH, width);
+		gameState.getValueMap().setValue(element, SceneElementImpl.VAR_WIDTH,
+				width);
 	}
 
 	public void setHeight(int height) {
 		this.height = height;
-		gameState.getValueMap().setValue(element,
-				SceneElementImpl.VAR_HEIGHT, height);
+		gameState.getValueMap().setValue(element, SceneElementImpl.VAR_HEIGHT,
+				height);
 	}
 
 	@Override
@@ -502,7 +497,7 @@ public abstract class SceneElementGOImpl<T extends EAdSceneElement> extends
 	@Override
 	public void render(GenericCanvas c) {
 		if (this.getRenderAsset() != null)
-			//FIXME fix me! no suppress warnings
+			// FIXME fix me! no suppress warnings
 			getRenderAsset().render(c);
 		else {
 			// FIXME Improve, when has no asset
@@ -532,4 +527,25 @@ public abstract class SceneElementGOImpl<T extends EAdSceneElement> extends
 				ResourcedElementImpl.VAR_BUNDLE_ID, bundle);
 	}
 
+	public void setX(int x) {
+		this.position.set(x, position.getY());
+		gameState.getValueMap().setValue(element, SceneElementImpl.VAR_X, x);
+	}
+
+	public void setY(int y) {
+		this.position.set(position.getX(), y);
+		gameState.getValueMap().setValue(element, SceneElementImpl.VAR_Y, y);
+	}
+
+	public void setAlpha(float alpha) {
+		gameState.getValueMap().setValue(element, SceneElementImpl.VAR_ALPHA,
+				alpha);
+		this.alpha = alpha;
+	}
+	
+	public void setEnabled(boolean enable){
+		gameState.getValueMap().setValue(element, SceneElementImpl.VAR_ENABLE,
+				enable);
+		this.enable = enable;
+	}
 }

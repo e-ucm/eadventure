@@ -37,11 +37,14 @@
 
 package ead.common.model.elements.enums;
 
+import com.gwtent.reflection.client.Reflectable;
+
 /**
  * An enumerate with common states for scene elements
  * 
  * 
  */
+@Reflectable
 public enum CommonStates {
 	/**
 	 * Default state

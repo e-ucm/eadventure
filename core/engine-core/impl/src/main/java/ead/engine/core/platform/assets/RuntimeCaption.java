@@ -195,14 +195,12 @@ public class RuntimeCaption<GraphicContext> extends
 		if (timeShown <= 0) {
 			goForward(1);
 		}
-		
 
 		if (descriptor.getFields().size() > 0) {
 			text = valueMap.processTextVars(
 					stringsReader.getString(descriptor.getText()),
 					descriptor.getFields());
-		}
-		else {
+		} else {
 			text = stringsReader.getString(descriptor.getText());
 		}
 
@@ -481,21 +479,25 @@ public class RuntimeCaption<GraphicContext> extends
 
 		int i = currentPart * linesInPart;
 		// Draw lines
-		for (String s : getText()) {
-			switch (descriptor.getAlignment()) {
-			case CENTER:
-				xOffset = (bounds.width - widths.get(i)) / 2;
-				break;
-			case RIGHT:
-				xOffset = (bounds.width - widths.get(i))
-						- descriptor.getPadding();
-				break;
-			default:
-				xOffset = descriptor.getPadding();
+		try {
+			for (String s : getText()) {
+				switch (descriptor.getAlignment()) {
+				case CENTER:
+					xOffset = (bounds.width - widths.get(i)) / 2;
+					break;
+				case RIGHT:
+					xOffset = (bounds.width - widths.get(i))
+							- descriptor.getPadding();
+					break;
+				default:
+					xOffset = descriptor.getPadding();
+				}
+				c.drawText(s, xOffset, yOffset);
+				yOffset += getLineHeight();
+				i++;
 			}
-			c.drawText(s, xOffset, yOffset);
-			yOffset += getLineHeight();
-			i++;
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 	}
 

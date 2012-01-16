@@ -54,9 +54,9 @@ import ead.common.model.elements.EAdAdventureModelImpl;
 import ead.engine.core.game.Game;
 
 public class GWTReader {
-	
+
 	private static Logger logger = Logger.getLogger("GWTReader");
-	
+
 	private String xml;
 
 	public void readXML(String fileName, final Game game) {
@@ -66,20 +66,23 @@ public class GWTReader {
 		try {
 			requestBuilder.sendRequest(null, new RequestCallback() {
 				public void onError(Request request, Throwable exception) {
-					//throw exception;
+					// throw exception;
 				}
 
 				public void onResponseReceived(Request request,
 						Response response) {
 					xml = response.getText();
 					Document doc = XMLParser.parse(xml);
-					
+
 					ElementNodeVisitor env = new ElementNodeVisitor();
-					NodeVisitor.init(doc.getFirstChild().getAttributes().getNamedItem(DOMTags.PACKAGE_AT).getNodeValue());
+					NodeVisitor.init(doc.getFirstChild().getAttributes()
+							.getNamedItem(DOMTags.PACKAGE_AT).getNodeValue());
 					getAliasMap(doc);
-					EAdAdventureModelImpl data = (EAdAdventureModelImpl) env.visit(doc.getFirstChild().getFirstChild(), null, null, null);
+					EAdAdventureModelImpl data = (EAdAdventureModelImpl) env
+							.visit(doc.getFirstChild().getFirstChild(), null,
+									null, null);
 					data.getDepthControlList().clear();
-					
+
 					game.setGame(data, data.getChapters().get(0));
 				}
 			});
@@ -89,34 +92,38 @@ public class GWTReader {
 	}
 
 	static String getNodeText(com.google.gwt.xml.client.Node xmlNode) {
-        if(xmlNode == null)
-                return "";
-        NodeList nodes = xmlNode.getChildNodes();
-        String result = "";
-        for (int i = 0; i < nodes.getLength(); i++) {
-        	String value = nodes.item(i).getNodeValue();
-            if (value != null)
-            	result += (value.equals("null") ? "" : value);
-        }
-        return result;
+		if (xmlNode == null)
+			return "";
+		NodeList nodes = xmlNode.getChildNodes();
+		String result = "";
+		try {
+			for (int i = 0; i < nodes.getLength(); i++) {
+				String value = nodes.item(i).getNodeValue();
+				if (value != null)
+					result += (value.equals("null") ? "" : value);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return result;
 	}
 
 	private void getAliasMap(Document doc) {
 		NodeList nl = doc.getFirstChild().getChildNodes();
-		
-		for(int i=0, cnt=nl.getLength(); i<cnt; i++)
-		{
+
+		for (int i = 0, cnt = nl.getLength(); i < cnt; i++) {
 			logger.info(nl.item(i).getNodeName());
 			if (nl.item(i).getNodeName().equals("keyMap")) {
 				NodeList nl2 = nl.item(i).getChildNodes();
-				
-				for(int j=0, cnt2=nl2.getLength(); j<cnt2; j++)
-				{
+
+				for (int j = 0, cnt2 = nl2.getLength(); j < cnt2; j++) {
 					Node n = nl2.item(j);
-					NodeVisitor.aliasMap.put(n.getAttributes().getNamedItem("key").getNodeValue(),
-							n.getAttributes().getNamedItem("value").getNodeValue());
+					NodeVisitor.aliasMap.put(
+							n.getAttributes().getNamedItem("key")
+									.getNodeValue(), n.getAttributes()
+									.getNamedItem("value").getNodeValue());
 				}
-				
+
 			}
 		}
 

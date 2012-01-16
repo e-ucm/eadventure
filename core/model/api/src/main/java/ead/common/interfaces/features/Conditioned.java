@@ -49,13 +49,13 @@ public interface Conditioned {
 	 * 
 	 * @return The condition
 	 */
-	public EAdCondition getCondition();
+	EAdCondition getCondition();
 	
 	/**
 	 * Set the actual condition
 	 * 
 	 * @param condition The condition
 	 */
-	public void setCondition(EAdCondition condition);
+	void setCondition(EAdCondition condition);
 	
 }

@@ -78,7 +78,7 @@ public class PlayNReflectionProvider implements ReflectionProvider {
 						stack.push(temp2);
 					for (Class<?> newClass : ClassHelper.AsClass(temp).getInterfaces())
 						stack.push(newClass);
-				} catch (ReflectionRequiredException e)  {
+				} catch (ReflectionRequiredException e)  {					
 					e.printStackTrace();
 				}
 			}

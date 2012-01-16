@@ -47,6 +47,7 @@ import ead.common.model.elements.extra.EAdList;
 import ead.common.model.elements.scene.EAdComplexSceneElement;
 import ead.common.model.elements.scene.EAdSceneElement;
 import ead.common.resources.StringHandler;
+import ead.common.resources.assets.AssetDescriptor;
 import ead.engine.core.evaluators.EvaluatorFactory;
 import ead.engine.core.game.GameState;
 import ead.engine.core.gameobjects.factories.EventGOFactory;
@@ -55,7 +56,6 @@ import ead.engine.core.gameobjects.go.SceneElementGO;
 import ead.engine.core.input.InputAction;
 import ead.engine.core.platform.AssetHandler;
 import ead.engine.core.platform.GUI;
-import ead.engine.core.platform.RuntimeAsset;
 import ead.engine.core.util.EAdTransformation;
 
 public class ComplexSceneElementGO extends
@@ -170,7 +170,7 @@ public class ComplexSceneElementGO extends
 	}
 
 	@Override
-	public List<RuntimeAsset<?>> getAssets(List<RuntimeAsset<?>> assetList,
+	public List<AssetDescriptor> getAssets(List<AssetDescriptor> assetList,
 			boolean allAssets) {
 		for (EAdSceneElement sceneElement : element.getComponents())
 			assetList = sceneElementFactory.get(sceneElement).getAssets(

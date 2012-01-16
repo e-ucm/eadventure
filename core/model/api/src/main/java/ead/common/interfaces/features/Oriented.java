@@ -41,7 +41,7 @@ import ead.common.interfaces.features.enums.Orientation;
 
 /**
  * 
- * Implemented by all classes that has orientation
+ * Implemented by all classes with orientation
  * 
  */
 public interface Oriented {

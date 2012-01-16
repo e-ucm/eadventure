@@ -57,11 +57,13 @@ public interface Resourced {
 	AssetDescriptor getAsset(String id);
 
 	/**
-	 * Get the asset for the given id.
+	 * Get the asset for the given id in the given bundle
 	 * 
+	 * @param bundleId
+	 *            the bundle in which look for the asset
 	 * @param id
-	 *            The id of the asset
-	 * @return The asset with that id
+	 *            the asset's id
+	 * @return the asset
 	 */
 	AssetDescriptor getAsset(EAdBundleId bundleId, String id);
 
@@ -75,6 +77,14 @@ public interface Resourced {
 	 *         elements with no initial bundle.
 	 */
 	EAdBundleId getInitialBundle();
+
+	/**
+	 * Sets the initial bundle for the element
+	 * 
+	 * @param bundleId
+	 *            the initial bundle
+	 */
+	void setInitialBundle(EAdBundleId bundleId);
 
 	/**
 	 * Get the resources {@link EAdResources} of this element.

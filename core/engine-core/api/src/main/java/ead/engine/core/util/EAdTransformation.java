@@ -67,4 +67,8 @@ public interface EAdTransformation extends Cloneable {
 	 */
 	Object clone();
 
+	void setAlpha(float sceneAlpha);
+	
+	void setVisible(boolean visible);
+
 }

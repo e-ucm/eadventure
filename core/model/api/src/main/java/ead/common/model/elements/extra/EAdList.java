@@ -59,7 +59,7 @@ public interface EAdList<P> extends Iterable<P> {
 	 * @throws NullPointerException
 	 *             if {@code e} is {@code null}.
 	 */
-	public void add(P e);
+	void add(P e);
 
 	/**
 	 * Inserts the specified element at the specified position. Shifts the
@@ -80,7 +80,7 @@ public interface EAdList<P> extends Iterable<P> {
 	 *             {@code index < 0 || index > size())}.
 	 * 
 	 */
-	public void add(P e, int index);
+	void add(P e, int index);
 
 	/**
 	 * Removes the specified element (if exists) from this list.
@@ -92,7 +92,7 @@ public interface EAdList<P> extends Iterable<P> {
 	 * @throws NullPointerException
 	 *             if {@code e} is {@code null}.
 	 */
-	public boolean remove(P e);
+	boolean remove(P e);
 
 	/**
 	 * Remove the element at the specified position. Shifts the element
@@ -106,14 +106,14 @@ public interface EAdList<P> extends Iterable<P> {
 	 *             if the index is out of range
 	 *             {@code index < 0 || index >= size()}.
 	 */
-	public P remove(int index);
+	P remove(int index);
 
 	/**
 	 * Returns the number of elements in this list.
 	 * 
 	 * @return the number of elements in this list {@code size() >= 0}
 	 */
-	public int size();
+	int size();
 
 	/**
 	 * Returns the element at position i in this list.
@@ -122,7 +122,7 @@ public interface EAdList<P> extends Iterable<P> {
 	 *            the position or index of the element.
 	 * @return the element in the position.
 	 */
-	public P get(int i);
+	P get(int i);
 
 	/**
 	 * Returns true if this list contains the specified element. More formally,
@@ -133,7 +133,7 @@ public interface EAdList<P> extends Iterable<P> {
 	 *            the element
 	 * @return true if this list contains the specified element
 	 */
-	public boolean contains(P element);
+	boolean contains(P element);
 
 	/**
 	 * Returns the index of the first occurrence of the specified element in
@@ -146,18 +146,18 @@ public interface EAdList<P> extends Iterable<P> {
 	 * @return the index of the first occurrence of the specified element in
 	 *         this list, or -1 if this list does not contain the element
 	 */
-	public int indexOf(P o);
+	int indexOf(P o);
 
 	/**
 	 * Returns the class object of the elements hold by this list
 	 * 
 	 * @return the list class
 	 */
-	public Class<?> getValueClass();
+	Class<?> getValueClass();
 
 	/**
 	 * Clear the elements of the list
 	 */
-	public void clear();
+	void clear();
 
 }

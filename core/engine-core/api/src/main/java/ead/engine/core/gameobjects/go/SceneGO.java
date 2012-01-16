@@ -39,11 +39,6 @@ package ead.engine.core.gameobjects.go;
 
 import ead.common.model.elements.scene.EAdScene;
 
-public interface SceneGO<T extends EAdScene> extends DrawableGO<T> {
-
-	/**
-	 * @return true if this screen can display effects
-	 */
-	boolean acceptsVisualEffects();
+public interface SceneGO<T extends EAdScene> extends SceneElementGO<T> {
 	
 }

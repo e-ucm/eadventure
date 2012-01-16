@@ -60,7 +60,11 @@ public @interface Param {
 	 *         attribute name
 	 */
 	String value();
-	
+
+	/**
+	 * 
+	 * @return the default value for the param
+	 */
 	String defaultValue() default "";
 
 }

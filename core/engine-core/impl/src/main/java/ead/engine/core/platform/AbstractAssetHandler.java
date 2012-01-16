@@ -37,7 +37,9 @@
 
 package ead.engine.core.platform;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -49,10 +51,6 @@ import ead.common.interfaces.features.Resourced;
 import ead.common.resources.EAdBundleId;
 import ead.common.resources.assets.AssetDescriptor;
 import ead.common.resources.assets.drawable.Drawable;
-import ead.engine.core.platform.AssetHandler;
-import ead.engine.core.platform.DrawableAsset;
-import ead.engine.core.platform.FontHandler;
-import ead.engine.core.platform.RuntimeAsset;
 import ead.engine.core.platform.rendering.GenericCanvas;
 
 /**
@@ -125,22 +123,32 @@ public abstract class AbstractAssetHandler implements AssetHandler {
 		if (descriptor == null) {
 			return null;
 		}
+		synchronized (cache) {
+			RuntimeAsset<T> temp = (RuntimeAsset<T>) cache.get(descriptor);
 
-		RuntimeAsset<T> temp = (RuntimeAsset<T>) cache.get(descriptor);
-
-		if (temp == null) {
-			Class<?> clazz = descriptor.getClass();
-			Class<? extends RuntimeAsset<?>> tempClass = null;
-			while (clazz != null && tempClass == null) {
-				tempClass = classMap.get(clazz);
-				clazz = clazz.getSuperclass();
+			if (temp == null) {
+				Class<?> clazz = descriptor.getClass();
+				Class<? extends RuntimeAsset<?>> tempClass = null;
+				while (clazz != null && tempClass == null) {
+					tempClass = classMap.get(clazz);
+					clazz = clazz.getSuperclass();
+				}
+				temp = (RuntimeAsset<T>) getInstance(tempClass);
+				temp.setDescriptor(descriptor);
+				cache.put(descriptor, temp);
 			}
-			temp = (RuntimeAsset<T>) getInstance(tempClass);
-			temp.setDescriptor(descriptor);
-			cache.put(descriptor, temp);
+			return temp;
 		}
-		return temp;
 
+	}
+
+	public <T extends AssetDescriptor> RuntimeAsset<T> getRuntimeAsset(
+			T descriptor, boolean load) {
+		RuntimeAsset<T> runtimeAsset = getRuntimeAsset(descriptor);
+		if (load) {
+			runtimeAsset.loadAsset();
+		}
+		return runtimeAsset;
 	}
 
 	@SuppressWarnings("unchecked")
@@ -177,14 +185,17 @@ public abstract class AbstractAssetHandler implements AssetHandler {
 			return null;
 		}
 
-		RuntimeAsset<?> finalAsset = cache.get(descriptor);
-		if (finalAsset != null) {
+		synchronized (cache) {
+			RuntimeAsset<?> finalAsset = cache.get(descriptor);
+			if (finalAsset != null) {
+				return finalAsset;
+			}
+
+			finalAsset = getRuntimeAsset(descriptor);
+			cache.put(descriptor, finalAsset);
 			return finalAsset;
 		}
 
-		finalAsset = getRuntimeAsset(descriptor);
-		cache.put(descriptor, finalAsset);
-		return finalAsset;
 	}
 
 	/*
@@ -207,6 +218,27 @@ public abstract class AbstractAssetHandler implements AssetHandler {
 	@Override
 	public boolean isLoaded() {
 		return loaded;
+	}
+
+	private ArrayList<AssetDescriptor> descriptorsToRemove = new ArrayList<AssetDescriptor>();
+
+	public void clean(List<AssetDescriptor> exceptions) {
+		descriptorsToRemove.clear();
+		for (AssetDescriptor asset : cache.keySet()) {
+			if (!exceptions.contains(asset)) {
+				descriptorsToRemove.add(asset);
+			}
+		}
+
+		synchronized (cache) {
+			for (AssetDescriptor a : descriptorsToRemove) {
+				RuntimeAsset<?> asset = cache.remove(a);
+				asset.freeMemory();
+			}
+		}
+
+		logger.info(descriptorsToRemove.size()
+				+ " unused assets were remove from the cache");
 	}
 
 	protected void setLoaded(boolean loaded) {

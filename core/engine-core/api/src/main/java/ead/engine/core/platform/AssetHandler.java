@@ -37,6 +37,8 @@
 
 package ead.engine.core.platform;
 
+import java.util.List;
+
 import ead.common.interfaces.features.Resourced;
 import ead.common.resources.EAdBundleId;
 import ead.common.resources.assets.AssetDescriptor;
@@ -107,8 +109,22 @@ public interface AssetHandler {
 	 */
 	<T extends AssetDescriptor> RuntimeAsset<T> getRuntimeAsset(T descriptor);
 
+	/**
+	 * Returns the runtime asset for a given asset descriptor. It loads it if
+	 * parameter load is true. Otherwise, asset must be loaded through
+	 * {@link RuntimeAsset#loadAsset()}
+	 * 
+	 * @param descriptor
+	 *            the asset descriptor
+	 * @param load
+	 *            if the asset must be loaded
+	 * @return the runtime asset
+	 */
+	<T extends AssetDescriptor> RuntimeAsset<T> getRuntimeAsset(T descriptor,
+			boolean load);
 
-	<T extends Drawable, GraphicContext> DrawableAsset<T, GraphicContext> getDrawableAsset(T descriptor, GenericCanvas<GraphicContext> clazz);
+	<T extends Drawable, GraphicContext> DrawableAsset<T, GraphicContext> getDrawableAsset(
+			T descriptor, GenericCanvas<GraphicContext> clazz);
 
 	/**
 	 * Returns true if the adventure assets have been correctly loaded
@@ -125,5 +141,14 @@ public interface AssetHandler {
 	 * @return the absolute path
 	 */
 	String getAbsolutePath(String uri);
+
+	/**
+	 * Frees and removes all the assets contained in the cache, except for the
+	 * ones in the exceptions list
+	 * 
+	 * @param exceptions
+	 *            list with assets not to be deleted
+	 */
+	void clean(List<AssetDescriptor> exceptions);
 
 }

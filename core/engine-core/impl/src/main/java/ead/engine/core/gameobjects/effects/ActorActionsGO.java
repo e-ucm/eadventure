@@ -39,47 +39,67 @@ package ead.engine.core.gameobjects.effects;
 
 import com.google.inject.Inject;
 
-import ead.common.model.elements.EAdCondition;
-import ead.common.model.elements.EAdEffect;
-import ead.common.model.elements.effects.EffectsMacro;
-import ead.common.model.elements.effects.TriggerMacroEf;
+import ead.common.model.elements.effects.ActorActionsEf;
+import ead.common.model.elements.effects.enums.ChangeActorActions;
+import ead.common.model.elements.scene.EAdSceneElement;
+import ead.common.model.elements.scenes.SceneElementDefImpl;
+import ead.common.model.elements.variables.SystemFields;
 import ead.common.resources.StringHandler;
-import ead.engine.core.evaluators.EvaluatorFactory;
 import ead.engine.core.game.GameState;
+import ead.engine.core.gameobjects.GameObjectManager;
 import ead.engine.core.gameobjects.factories.SceneElementGOFactory;
+import ead.engine.core.gameobjects.go.SceneElementGO;
+import ead.engine.core.gameobjects.huds.ActionsHUD;
+import ead.engine.core.input.actions.MouseActionImpl;
 import ead.engine.core.platform.AssetHandler;
 import ead.engine.core.platform.GUI;
 
-public class TriggerMacroEffectGO extends AbstractEffectGO<TriggerMacroEf> {
+public class ActorActionsGO extends
+		AbstractEffectGO<ActorActionsEf> {
 
-	private EvaluatorFactory evaluator;
+	/**
+	 * The current {@link ActionsHUD}
+	 */
+	private ActionsHUD actionsHUD;
+
+	private GameObjectManager gameObjectManager;
 
 	@Inject
-	public TriggerMacroEffectGO(AssetHandler assetHandler,
-			StringHandler stringHandler,
+	public ActorActionsGO(AssetHandler assetHandler,
+			StringHandler stringsReader,
 			SceneElementGOFactory gameObjectFactory, GUI gui,
-			GameState gameState, EvaluatorFactory evaluator) {
-		super(assetHandler, stringHandler, gameObjectFactory, gui, gameState);
-		this.evaluator = evaluator;
+			GameState gameState, ActionsHUD actionsHUD,
+			GameObjectManager gameObjectManager) {
+		super(assetHandler, stringsReader, gameObjectFactory, gui, gameState);
+		this.actionsHUD = actionsHUD;
+		this.gameObjectManager = gameObjectManager;
 	}
 
 	@Override
 	public void initilize() {
 		super.initilize();
-
-		EffectsMacro macro = null;
-
-		for (int i = 0; i < element.getMacros().size() && macro == null; i++) {
-			EAdCondition c = element.getConditions().get(i);
-			if (evaluator.evaluate(c)) {
-				macro = element.getMacros().get(i);
+		if (element.getChange() == ChangeActorActions.SHOW_ACTIONS) {
+			EAdSceneElement ref = gameState.getValueMap().getValue(
+					element.getActionElement(),
+					SceneElementDefImpl.VAR_SCENE_ELEMENT);
+			if (ref != null) {
+				SceneElementGO<?> sceneElement = sceneElementFactory.get(ref);
+				if (sceneElement.getActions() != null) {
+					int x = sceneElement.getCenterX();
+					int y = sceneElement.getCenterY();
+					if (action instanceof MouseActionImpl) {
+						x = gameState.getValueMap().getValue(SystemFields.MOUSE_X);
+						y = gameState.getValueMap().getValue(SystemFields.MOUSE_Y);
+						//x = ((MouseAction) action).getVirtualX();
+						//y = ((MouseAction) action).getVirtualY();
+					}
+					actionsHUD.setElement(sceneElement, x, y);
+					gameObjectManager.addHUD(actionsHUD);
+				}
 			}
+		} else {
+			gameObjectManager.removeHUD(actionsHUD);
 		}
-
-		if (macro != null)
-			for (EAdEffect e : macro.getEffects()) {
-				gameState.addEffect(e, action, parent);
-			}
 	}
 
 	@Override

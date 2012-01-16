@@ -64,9 +64,6 @@ public class SceneImpl extends ComplexSceneElementImpl implements EAdScene {
 	@Param("background")
 	protected EAdSceneElement background;
 
-	@Param(value = "acceptsVisualEffects", defaultValue = "true")
-	protected Boolean acceptsVisualEffects;
-
 	/**
 	 * This property indicates if the game can return to this scene after a
 	 * cutscene or similiar
@@ -89,7 +86,6 @@ public class SceneImpl extends ComplexSceneElementImpl implements EAdScene {
 		background = new SceneElementImpl(backgroundDrawable);
 		background.setId("background");
 		returnable = true;
-		acceptsVisualEffects = true;
 	}
 
 	public EAdSceneElement getBackground() {
@@ -112,15 +108,6 @@ public class SceneImpl extends ComplexSceneElementImpl implements EAdScene {
 	public void setTrajectoryDefinition(
 			TrajectoryDefinition trajectoryDefinition) {
 		this.setVarInitialValue(VAR_TRAJECTORY_DEFINITION, trajectoryDefinition);
-	}
-
-	@Override
-	public Boolean getAcceptsVisualEffects() {
-		return acceptsVisualEffects;
-	}
-
-	public void setAcceptsVisualEffects(Boolean acceptsVisualEffects) {
-		this.acceptsVisualEffects = acceptsVisualEffects;
 	}
 
 }

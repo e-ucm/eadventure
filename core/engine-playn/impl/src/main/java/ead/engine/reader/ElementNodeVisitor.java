@@ -53,17 +53,23 @@ import ead.common.model.EAdElement;
  *  class="EDITOR_TYPE"></element>}.
  */
 public class ElementNodeVisitor extends NodeVisitor<EAdElement> {
-	
-	protected static final Logger logger = Logger.getLogger("ElementNodeVisitor");
+
+	protected static final Logger logger = Logger
+			.getLogger("ElementNodeVisitor");
 
 	@Override
-	public EAdElement visit(Node node, Field field, Object parent, Class<?> listClass) {
+	public EAdElement visit(Node node, Field field, Object parent,
+			Class<?> listClass) {
 		EAdElement element = null;
 		if (node == null)
-			logger.severe("Null node: " + field.getName() + " parent: " + (parent != null ? parent.getClass().getName() : "NULL"));
-		
-		if (node.getChildNodes() != null && node.getChildNodes().getLength() == 1 && !node.getChildNodes().item(0).hasChildNodes()) {
-			element = (EAdElement) ObjectFactory.getObject(GWTReader.getNodeText(node), EAdElement.class);
+			logger.severe("Null node: " + field.getName() + " parent: "
+					+ (parent != null ? parent.getClass().getName() : "NULL"));
+
+		if (node.getChildNodes() != null
+				&& node.getChildNodes().getLength() == 1
+				&& !node.getChildNodes().item(0).hasChildNodes()) {
+			element = (EAdElement) ObjectFactory.getObject(
+					GWTReader.getNodeText(node), EAdElement.class);
 			if (element != null && !(element instanceof ProxyElement)) {
 				setValue(field, parent, element);
 				return element;
@@ -77,39 +83,44 @@ public class ElementNodeVisitor extends NodeVisitor<EAdElement> {
 		if (node.getAttributes() == null) {
 			logger.severe("Null attributes for element");
 		}
-		
+
 		Node n = node.getAttributes().getNamedItem(DOMTags.UNIQUE_ID_AT);
 		String uniqueId = n != null ? n.getNodeValue() : null;
 		n = node.getAttributes().getNamedItem(DOMTags.ID_AT);
 		String id = n != null ? n.getNodeValue() : null;
 
-		
 		n = node.getAttributes().getNamedItem(loaderType);
 		String clazz = null;
 		if (n != null) {
 			clazz = n.getNodeValue();
 			clazz = translateClass(clazz);
 		} else {
-			logger.info("Null element for: " + (parent != null ? parent.getClass() : node.getNodeName()));
+			logger.info("Null element for: "
+					+ (parent != null ? parent.getClass() : node.getNodeName()));
 		}
-		
+
 		if (clazz != null) {
 			ClassType<?> classType = TypeOracle.Instance.getClassType(clazz);
 			logger.finest("Reading element " + uniqueId + " of type " + clazz);
 			if (classType.findConstructor() != null) {
-				element = (EAdElement) classType.findConstructor().newInstance();
+				element = (EAdElement) classType.findConstructor()
+						.newInstance();
 				element.setId(id);
 			}
 		}
 
 		if (element != null)
 			ObjectFactory.addElement(uniqueId, element);
-		
+
 		setValue(field, parent, element);
 
-		if (element != null)
-			readFields(element, node);
-		
+		try {
+			if (element != null)
+				readFields(element, node);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
 		return element;
 	}
 

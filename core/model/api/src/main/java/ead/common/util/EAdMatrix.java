@@ -37,10 +37,13 @@
 
 package ead.common.util;
 
+import com.gwtent.reflection.client.Reflectable;
+
 
 /**
  * Generic Java matrix definition, used for transformations
  */
+@Reflectable
 public interface EAdMatrix {
 	
 	/**

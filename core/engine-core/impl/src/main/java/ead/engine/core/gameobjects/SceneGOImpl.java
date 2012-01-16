@@ -48,6 +48,7 @@ import ead.common.model.elements.scene.EAdScene;
 import ead.common.model.elements.scene.EAdSceneElement;
 import ead.common.model.elements.scenes.SceneElementImpl;
 import ead.common.resources.StringHandler;
+import ead.common.resources.assets.AssetDescriptor;
 import ead.engine.core.game.GameState;
 import ead.engine.core.gameobjects.factories.EventGOFactory;
 import ead.engine.core.gameobjects.factories.SceneElementGOFactory;
@@ -57,7 +58,6 @@ import ead.engine.core.gameobjects.sceneelements.SceneElementGOImpl;
 import ead.engine.core.input.InputAction;
 import ead.engine.core.platform.AssetHandler;
 import ead.engine.core.platform.GUI;
-import ead.engine.core.platform.RuntimeAsset;
 import ead.engine.core.util.EAdTransformation;
 
 public class SceneGOImpl extends SceneElementGOImpl<EAdScene> implements
@@ -115,14 +115,7 @@ public class SceneGOImpl extends SceneElementGOImpl<EAdScene> implements
 	}
 
 	@Override
-	public boolean acceptsVisualEffects() {
-		if (element != null)
-			return element.getAcceptsVisualEffects();
-		return false;
-	}
-
-	@Override
-	public List<RuntimeAsset<?>> getAssets(List<RuntimeAsset<?>> assetList,
+	public List<AssetDescriptor> getAssets(List<AssetDescriptor> assetList,
 			boolean allAssets) {
 		if (element != null) {
 			EAdSceneElement background = element.getBackground();

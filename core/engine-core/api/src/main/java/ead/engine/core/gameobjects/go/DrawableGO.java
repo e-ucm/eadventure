@@ -39,13 +39,13 @@ package ead.engine.core.gameobjects.go;
 
 import java.util.List;
 
+import ead.common.resources.assets.AssetDescriptor;
 import ead.common.util.EAdPosition;
 import ead.engine.core.input.InputAction;
-import ead.engine.core.platform.RuntimeAsset;
 import ead.engine.core.util.EAdTransformation;
 
 public interface DrawableGO<T> extends GameObject<T>, Renderable {
-	
+
 	/**
 	 * Process the action in the graphic interface (click, etc.)
 	 * 
@@ -54,14 +54,14 @@ public interface DrawableGO<T> extends GameObject<T>, Renderable {
 	 * @return {@code true} if he action has been processed by the object
 	 */
 	boolean processAction(InputAction<?> action);
-	
+
 	/**
 	 * The the draggable element
 	 * 
 	 * @return The game object that is draggable
 	 */
-	SceneElementGO<?> getDraggableElement( );
-	
+	SceneElementGO<?> getDraggableElement();
+
 	/**
 	 * Layout out the child game objects of this game objects
 	 * 
@@ -69,7 +69,7 @@ public interface DrawableGO<T> extends GameObject<T>, Renderable {
 	 *            the transformation accumulated by this game object container
 	 */
 	void doLayout(EAdTransformation transformation);
-	
+
 	/**
 	 * Returns the transformation (translation, rotation, scale, etc.) of this
 	 * game object
@@ -84,7 +84,7 @@ public interface DrawableGO<T> extends GameObject<T>, Renderable {
 	 * @return if this game object is enable for user interactions
 	 */
 	boolean isEnable();
-	
+
 	/**
 	 * <p>
 	 * Adds the assets used by this game object to the list and returns it
@@ -100,9 +100,15 @@ public interface DrawableGO<T> extends GameObject<T>, Renderable {
 	 *            If true all assets are added, if false only required ones are
 	 * @return The list of assets with the ones of this game object added
 	 */
-	List<RuntimeAsset<?>> getAssets(List<RuntimeAsset<?>> assetList,
+	List<AssetDescriptor> getAssets(List<AssetDescriptor> assetList,
 			boolean allAssets);
 
+	/**
+	 * Returns the position for the drawable. Changing this position dosen't
+	 * change the drawable position
+	 * 
+	 * @return
+	 */
 	EAdPosition getPosition();
 
 }

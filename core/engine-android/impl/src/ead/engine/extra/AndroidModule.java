@@ -46,7 +46,6 @@ import com.google.inject.name.Named;
 
 import ead.engine.AndroidFontCache;
 import ead.engine.AndroidGUI;
-import ead.engine.AndroidTransitionFactory;
 import ead.engine.core.GameProfilerImpl;
 import ead.engine.core.game.GameLoop;
 import ead.engine.core.game.GameProfiler;
@@ -62,7 +61,6 @@ import ead.engine.core.input.InputHandler;
 import ead.engine.core.input.InputHandlerImpl;
 import ead.engine.core.platform.FontHandlerImpl;
 import ead.engine.core.platform.GUI;
-import ead.engine.core.platform.TransitionFactory;
 import ead.engine.core.platform.rendering.filters.FilterFactory;
 import ead.engine.gameobjects.AndroidBasicHUD;
 import ead.engine.rendering.AndroidFilterFactory;
@@ -85,7 +83,6 @@ public class AndroidModule extends AbstractModule {
 		bind(InventoryHUD.class).to(InventoryHUDImpl.class);
 		bind(FontHandlerImpl.class).to(AndroidFontCache.class);
 		bind(MenuHUD.class).to(MenuHUDImpl.class);
-		bind(TransitionFactory.class).to(AndroidTransitionFactory.class);
 		bind(new TypeLiteral<FilterFactory<Canvas>>(){}).to(AndroidFilterFactory.class);
 	}
 	

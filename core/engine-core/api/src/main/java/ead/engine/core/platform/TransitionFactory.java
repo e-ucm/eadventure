@@ -38,7 +38,7 @@
 package ead.engine.core.platform;
 
 import ead.common.model.elements.transitions.EAdTransition;
-import ead.engine.core.gameobjects.go.TransitionGO;
+import ead.engine.core.gameobjects.go.transitions.TransitionGO;
 
 /**
  * Factory to provide the actual TransitionGO (which are platform dependent),
@@ -50,6 +50,6 @@ public interface TransitionFactory {
 	 * @param transition the {@link EAdTransition}
 	 * @return A {@link TransitionGO} for the transition
 	 */
-	TransitionGO getTransition(EAdTransition transition);
+	<T extends EAdTransition> TransitionGO<T> getTransition(T transition);
 	
 }

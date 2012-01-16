@@ -37,9 +37,8 @@
 
 package ead.common.model.elements.scene;
 
-
 /**
- * Scenes in the eAdventure model. Scenes are the fundamental elements of games.
+ * Scenes in the eAdventure model. A scene is a game screen.
  */
 public interface EAdScene extends EAdComplexSceneElement {
 
@@ -49,17 +48,26 @@ public interface EAdScene extends EAdComplexSceneElement {
 	EAdSceneElement getBackground();
 
 	/**
+	 * Sets the scene element representing the background
+	 * 
+	 * @param sceneElement
+	 *            the scene element for the background
+	 */
+	void setBackground(EAdSceneElement sceneElement);
+
+	/**
 	 * @return true if the game can return to this scene after a cutscene or
 	 *         similiar
 	 */
 	Boolean getReturnable();
-	
-	void setBackground( EAdSceneElement sceneElement );
 
 	/**
+	 * Sets if the game can return to this scene after a cutscen or similar
 	 * 
-	 * @return true if accepts visual effects
+	 * @param returnable
+	 *            if the game can return to this scene after a cutscen or
+	 *            similar
 	 */
-	Boolean getAcceptsVisualEffects();
+	void setReturnable(Boolean returnable);
 
 }

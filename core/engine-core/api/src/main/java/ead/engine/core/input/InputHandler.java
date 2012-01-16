@@ -78,5 +78,10 @@ public interface InputHandler {
 	EAdSceneElementDef getDraggingElement();
 
 	void setInitialTransformation(EAdTransformation initialTransformation);
+	
+	/**
+	 * Clears all the pending inputs for the game
+	 */
+	void clearAllInputs();
 
 }

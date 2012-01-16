@@ -45,6 +45,7 @@ import com.google.inject.Inject;
 import ead.common.model.elements.scene.EAdScene;
 import ead.common.model.elements.scenes.ComposedScene;
 import ead.common.resources.StringHandler;
+import ead.common.resources.assets.AssetDescriptor;
 import ead.engine.core.game.GameState;
 import ead.engine.core.gameobjects.factories.EventGOFactory;
 import ead.engine.core.gameobjects.factories.SceneElementGOFactory;
@@ -53,7 +54,6 @@ import ead.engine.core.gameobjects.sceneelements.SceneElementGOImpl;
 import ead.engine.core.input.InputAction;
 import ead.engine.core.platform.AssetHandler;
 import ead.engine.core.platform.GUI;
-import ead.engine.core.platform.RuntimeAsset;
 import ead.engine.core.util.EAdTransformation;
 
 public class ComposedSceneGOImpl extends SceneElementGOImpl<ComposedScene>
@@ -86,15 +86,7 @@ public class ComposedSceneGOImpl extends SceneElementGOImpl<ComposedScene>
 	}
 
 	@Override
-	public boolean acceptsVisualEffects() {
-		if (currentScene == null)
-			updateScene();
-		return ((SceneGO<?>) sceneElementFactory.get(currentScene))
-				.acceptsVisualEffects();
-	}
-
-	@Override
-	public List<RuntimeAsset<?>> getAssets(List<RuntimeAsset<?>> assetList,
+	public List<AssetDescriptor> getAssets(List<AssetDescriptor> assetList,
 			boolean allAssets) {
 		if (currentScene == null)
 			updateScene();

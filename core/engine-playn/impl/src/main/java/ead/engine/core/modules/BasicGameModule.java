@@ -68,6 +68,7 @@ import ead.engine.core.gameobjects.factories.EventGOFactory;
 import ead.engine.core.gameobjects.factories.EventGOFactoryImpl;
 import ead.engine.core.gameobjects.factories.SceneElementGOFactory;
 import ead.engine.core.gameobjects.factories.SceneElementGOFactoryImpl;
+import ead.engine.core.gameobjects.factories.TransitionFactoryImpl;
 import ead.engine.core.gameobjects.huds.EffectHUD;
 import ead.engine.core.gameobjects.huds.EffectHUDImpl;
 import ead.engine.core.gameobjects.huds.InventoryHUD;
@@ -83,6 +84,7 @@ import ead.engine.core.platform.LoadingScreen;
 import ead.engine.core.platform.PlayNInjector;
 import ead.engine.core.platform.PlayNPluginHandler;
 import ead.engine.core.platform.SpecialAssetRenderer;
+import ead.engine.core.platform.TransitionFactory;
 import ead.engine.core.platform.rendering.PlayNFilterFactory;
 import ead.engine.core.platform.rendering.filters.FilterFactory;
 import ead.engine.core.platform.specialassetrenderers.PlayNVideoRenderer;
@@ -115,6 +117,7 @@ public class BasicGameModule extends AbstractGinModule {
 		bind(EAdAdventureModel.class).to(EAdAdventureModelImpl.class);
 		bind(EAdScene.class).annotatedWith(Names.named("LoadingScreen"))
 				.to(LoadingScreen.class).in(Singleton.class);
+		bind(TransitionFactory.class).to(TransitionFactoryImpl.class).in(Singleton.class);
 
 		bind(new TypeLiteral<SpecialAssetRenderer<Video, ?>>() {
 		}).to(PlayNVideoRenderer.class);

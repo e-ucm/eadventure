@@ -40,13 +40,13 @@ package ead.engine.core.gameobjects.huds;
 import java.util.ArrayList;
 import java.util.List;
 
+import ead.common.resources.assets.AssetDescriptor;
 import ead.common.util.EAdPosition;
 import ead.engine.core.gameobjects.go.DrawableGO;
 import ead.engine.core.gameobjects.go.SceneElementGO;
 import ead.engine.core.gameobjects.huds.HudGO;
 import ead.engine.core.input.InputAction;
 import ead.engine.core.platform.GUI;
-import ead.engine.core.platform.RuntimeAsset;
 import ead.engine.core.platform.rendering.GenericCanvas;
 import ead.engine.core.util.EAdTransformation;
 import ead.engine.core.util.EAdTransformationImpl;
@@ -121,7 +121,7 @@ public abstract class AbstractHUD implements HudGO {
 	}
 
 	@Override
-	public List<RuntimeAsset<?>> getAssets(List<RuntimeAsset<?>> assetList,
+	public List<AssetDescriptor> getAssets(List<AssetDescriptor> assetList,
 			boolean allAssets) {
 		return assetList;
 	}

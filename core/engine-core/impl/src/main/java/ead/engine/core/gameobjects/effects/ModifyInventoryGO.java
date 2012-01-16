@@ -61,12 +61,12 @@ import ead.engine.core.platform.GUI;
  * </p>
  * 
  */
-public class InventoryEffectGO extends AbstractEffectGO<ModifyInventoryEf> {
+public class ModifyInventoryGO extends AbstractEffectGO<ModifyInventoryEf> {
 
 	private InventoryHandler inventoryHandler;
 
 	@Inject
-	public InventoryEffectGO(AssetHandler assetHandler,
+	public ModifyInventoryGO(AssetHandler assetHandler,
 			StringHandler stringHandler,
 			SceneElementGOFactory gameObjectFactory, GUI gui,
 			GameState gameState, InventoryHandler inventoryHandler) {

@@ -42,22 +42,22 @@ import com.google.inject.Inject;
 import ead.engine.core.gameobjects.ComposedSceneGOImpl;
 import ead.engine.core.gameobjects.SceneGOImpl;
 import ead.engine.core.gameobjects.VideoSceneGO;
-import ead.engine.core.gameobjects.effects.ActorActionsEffectGO;
+import ead.engine.core.gameobjects.effects.ActorActionsGO;
 import ead.engine.core.gameobjects.effects.CancelEffectGO;
 import ead.engine.core.gameobjects.effects.ChangeFieldGO;
 import ead.engine.core.gameobjects.effects.ChangeSceneGO;
 import ead.engine.core.gameobjects.effects.ComplexBlockingEffectGO;
-import ead.engine.core.gameobjects.effects.HighlightEffectGO;
+import ead.engine.core.gameobjects.effects.HighlightSceneElementGO;
 import ead.engine.core.gameobjects.effects.InterpolationGO;
-import ead.engine.core.gameobjects.effects.InventoryEffectGO;
+import ead.engine.core.gameobjects.effects.ModifyInventoryGO;
 import ead.engine.core.gameobjects.effects.MoveSceneElementGO;
-import ead.engine.core.gameobjects.effects.PlaySoundEffectGO;
-import ead.engine.core.gameobjects.effects.QuitGameEffectGO;
+import ead.engine.core.gameobjects.effects.PlaySoundGO;
+import ead.engine.core.gameobjects.effects.QuitGameGO;
 import ead.engine.core.gameobjects.effects.RandomEffectGO;
 import ead.engine.core.gameobjects.effects.ShowSceneElementGO;
-import ead.engine.core.gameobjects.effects.SpeakEffectGO;
-import ead.engine.core.gameobjects.effects.TriggerMacroEffectGO;
-import ead.engine.core.gameobjects.effects.WaitEffectGO;
+import ead.engine.core.gameobjects.effects.SpeakGO;
+import ead.engine.core.gameobjects.effects.TriggerMacroGO;
+import ead.engine.core.gameobjects.effects.WaitGO;
 import ead.engine.core.gameobjects.effects.physics.PhApplyForceGO;
 import ead.engine.core.gameobjects.effects.physics.PhysicsEffectGO;
 import ead.engine.core.gameobjects.events.ConditionEvGO;
@@ -67,8 +67,7 @@ import ead.engine.core.gameobjects.events.TimedEvGO;
 import ead.engine.core.gameobjects.go.SceneGO;
 import ead.engine.core.gameobjects.sceneelements.BasicSceneElementGO;
 import ead.engine.core.gameobjects.sceneelements.ComplexSceneElementGO;
-import ead.engine.core.gameobjects.transitions.SimpleTransitionGO;
-import ead.engine.core.platform.GenericInjector;
+import ead.engine.core.gameobjects.transitions.BasicTransitionGO;
 
 public class PlayNInjector implements GenericInjector {
 
@@ -87,9 +86,9 @@ public class PlayNInjector implements GenericInjector {
 	@Override
 	public <T> T getInstance(Class<T> clazz) {
 		Object go = null;
-		if (clazz == SimpleTransitionGO.class)
+		if (clazz == BasicTransitionGO.class)
 			go = ginjector.getSimpleTransitionGO();
-		else if (clazz == ActorActionsEffectGO.class)
+		else if (clazz == ActorActionsGO.class)
 			go = ginjector.getActorActionEffectGO();
 		else if (clazz == CancelEffectGO.class)
 			go = ginjector.getCancelEffectGO();
@@ -99,27 +98,27 @@ public class PlayNInjector implements GenericInjector {
 			go = ginjector.getChangeFieldGO();
 		else if (clazz == ComplexBlockingEffectGO.class)
 			go = ginjector.getComplexBlockingEffectGO();
-		else if (clazz == HighlightEffectGO.class)
+		else if (clazz == HighlightSceneElementGO.class)
 			go = ginjector.getHighlightEffectGO();
-		else if (clazz == InventoryEffectGO.class)
+		else if (clazz == ModifyInventoryGO.class)
 			go = ginjector.getModifyActorStateGO();
 		else if (clazz == MoveSceneElementGO.class)
 			go = ginjector.getMoveSceneElementGO();
-		else if (clazz == PlaySoundEffectGO.class)
+		else if (clazz == PlaySoundGO.class)
 			go = ginjector.getPlaySoundEffectGO();
-		else if (clazz == QuitGameEffectGO.class)
+		else if (clazz == QuitGameGO.class)
 			go = ginjector.getQuitGameEffectGO();
 		else if (clazz == RandomEffectGO.class)
 			go = ginjector.getRandomEffectGO();
 		else if (clazz == ShowSceneElementGO.class)
 			go = ginjector.getShowSceneElementGO();
-		else if (clazz == SpeakEffectGO.class)
+		else if (clazz == SpeakGO.class)
 			go = ginjector.getSpeakEffectGO();
-		else if (clazz == TriggerMacroEffectGO.class)
+		else if (clazz == TriggerMacroGO.class)
 			go = ginjector.getTriggerMacroEffectGO();
 		else if (clazz == InterpolationGO.class)
 			go = ginjector.getVarInterpolationGO();
-		else if (clazz == WaitEffectGO.class)
+		else if (clazz == WaitGO.class)
 			go = ginjector.getWaitEffectGO();
 		else if (clazz == PhysicsEffectGO.class)
 			go = ginjector.getPhysicsEffectGO();

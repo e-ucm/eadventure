@@ -44,11 +44,11 @@ import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import com.google.inject.Inject;
-
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+
+import com.google.inject.Inject;
 
 import ead.engine.core.platform.AssetHandler;
 import ead.engine.core.platform.assets.RuntimeImage;
@@ -140,6 +140,8 @@ public class AndroidEngineImage extends RuntimeImage<Canvas> {
 			}
 	    } catch (FileNotFoundException e) {
 	    	logger.info("File not found: " + f.getName());
+	    } catch ( OutOfMemoryError e  ){
+	    	logger.info("Out of memory error caused by: " + f.getName());
 	    }
 	    return b;
 	}

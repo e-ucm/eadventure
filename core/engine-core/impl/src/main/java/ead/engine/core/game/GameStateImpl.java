@@ -57,8 +57,6 @@ import ead.common.model.elements.scenes.SceneImpl;
 import ead.common.model.elements.variables.EAdVarDef;
 import ead.common.model.elements.variables.SystemFields;
 import ead.engine.core.evaluators.EvaluatorFactory;
-import ead.engine.core.game.GameState;
-import ead.engine.core.game.ValueMap;
 import ead.engine.core.gameobjects.factories.EffectGOFactory;
 import ead.engine.core.gameobjects.factories.EventGOFactory;
 import ead.engine.core.gameobjects.factories.SceneElementGOFactory;
@@ -108,7 +106,7 @@ public class GameStateImpl implements GameState {
 			SceneElementGOFactory gameObjectFactory,
 			EffectGOFactory effectFactory, ValueMap valueMap,
 			EvaluatorFactory evaluatorFactory, EventGOFactory eventGOFactory,
-			PluginHandler pluginHandler) {
+			PluginHandler pluginHandler ) {
 		logger.log(Level.INFO, "New instance");
 		effects = new ArrayList<EffectGO<?>>();
 		effectsQueue = new ArrayList<EffectGO<?>>();
@@ -144,7 +142,7 @@ public class GameStateImpl implements GameState {
 	@Override
 	public void setScene(SceneGO<? extends EAdScene> newScene) {
 		// Clean cache
-		sceneElementFactory.clean();
+//		sceneElementFactory.clean();
 		if (this.scene != null && this.scene.getElement() != null) {
 			valueMap.setValue(scene.getElement(), SceneImpl.VAR_SCENE_LOADED,
 					Boolean.FALSE);

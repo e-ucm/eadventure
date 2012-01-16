@@ -37,11 +37,19 @@
 
 package ead.common.model.elements.transitions;
 
-import com.gwtent.reflection.client.Reflectable;
+import ead.common.model.EAdElement;
 
-@Reflectable
-public enum EAdTransition {
+/**
+ * Implemented by transitions between scenes
+ * 
+ */
+public interface EAdTransition extends EAdElement {
 
-	BASIC, DISPLACE
-	
+	/**
+	 * The time for the transition, in milliseconds
+	 * 
+	 * @return the time for the transition
+	 */
+	int getTime();
+
 }

@@ -39,46 +39,37 @@ package ead.engine.core.gameobjects.effects;
 
 import com.google.inject.Inject;
 
-import ead.common.model.elements.effects.AddActorReferenceEf;
-import ead.common.model.elements.effects.sceneelements.AbstractSceneElementEffect;
-import ead.common.model.elements.events.SceneElementEv;
-import ead.common.model.elements.events.enums.SceneElementEventType;
-import ead.common.model.elements.scene.EAdScene;
-import ead.common.model.elements.scene.EAdSceneElementDef;
+import ead.common.model.elements.effects.timedevents.HighlightSceneElementEf;
 import ead.common.model.elements.scenes.SceneElementImpl;
 import ead.common.resources.StringHandler;
+import ead.engine.core.game.GameLoop;
 import ead.engine.core.game.GameState;
 import ead.engine.core.gameobjects.factories.SceneElementGOFactory;
 import ead.engine.core.platform.AssetHandler;
 import ead.engine.core.platform.GUI;
 
-public class AddActorReferenceEffectGO extends
-		AbstractEffectGO<AddActorReferenceEf> {
+public class HighlightSceneElementGO extends
+		AbstractEffectGO<HighlightSceneElementEf> {
+
+	private int time;
+
+	private float oldScale;
+
+	private boolean started;
 
 	@Inject
-	public AddActorReferenceEffectGO(AssetHandler assetHandler,
-			StringHandler stringsReader,
-			SceneElementGOFactory gameObjectFactory, GUI gui,
-			GameState gameState) {
-		super(assetHandler, stringsReader, gameObjectFactory, gui, gameState);
+	public HighlightSceneElementGO(AssetHandler assetHandler,
+			StringHandler stringHandler, SceneElementGOFactory gameObjectFactory,
+			GUI gui, GameState gameState) {
+		super(assetHandler, stringHandler, gameObjectFactory, gui, gameState);
 	}
 
 	@Override
 	public void initilize() {
 		super.initilize();
-		EAdScene scene = gameState.getScene().getElement();
-		if (scene != null) {
-			EAdSceneElementDef actor = element.getActor();
-			SceneElementImpl ref = new SceneElementImpl(actor);
-			ref.setPosition(element.getPosition());
-			SceneElementEv event = new SceneElementEv();
-			event.addEffect(SceneElementEventType.ADDED_TO_SCENE,
-					element.getInitialEffect());
-			((AbstractSceneElementEffect) element.getInitialEffect())
-					.setSceneElement(ref);
-			ref.getEvents().add(event);
-			scene.getComponents().add(ref, 0);
-		}
+		oldScale = gameState.getValueMap().getValue(element, SceneElementImpl.VAR_SCALE);
+		time = element.getTime();
+		started = false;
 	}
 
 	@Override
@@ -86,9 +77,24 @@ public class AddActorReferenceEffectGO extends
 		return false;
 	}
 
+	public void update() {
+		if (time > 0) {
+			if (!started) {
+				gameState.getValueMap().setValue(element, SceneElementImpl.VAR_SCALE,
+						oldScale * 2);
+				started = true;
+			}
+			time -= GameLoop.SKIP_MILLIS_TICK;
+			if (time <= 0) {
+				gameState.getValueMap().setValue(element, SceneElementImpl.VAR_SCALE,
+						oldScale);
+			}
+		}
+	}
+
 	@Override
 	public boolean isFinished() {
-		return true;
+		return time <= 0;
 	}
 
 }

@@ -39,23 +39,51 @@ package ead.common.interfaces.features;
 
 import ead.common.params.text.EAdString;
 
+/**
+ * An element with documentation
+ * 
+ */
 public interface Documented {
 
 	/**
 	 * @return the {@link EAdString} of the documentation
 	 */
 	EAdString getDoc();
-	
+
+	/**
+	 * Sets the documentation associated to the element
+	 * 
+	 * @param documentation
+	 *            the documentation
+	 */
+	void setDoc(EAdString documentation);
+
 	/**
 	 * 
 	 * @return the {@link EAdString} of the short description for the element
 	 */
 	EAdString getDesc();
-	
+
+	/**
+	 * Sets the description for the element
+	 * 
+	 * @param description
+	 *            the description
+	 */
+	void setDesc(EAdString description);
+
 	/**
 	 * 
 	 * @return the {@link EAdString} of the long description for the element
 	 */
-	EAdString getDetailDesc();	
+	EAdString getDetailDesc();
+
+	/**
+	 * Sets the detailed description for the element
+	 * 
+	 * @param detailedDescription
+	 *            the detailed description
+	 */
+	void setDetailDesc(EAdString detailedDescription);
 
 }

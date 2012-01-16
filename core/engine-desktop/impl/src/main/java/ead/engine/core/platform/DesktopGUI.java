@@ -62,10 +62,6 @@ import ead.engine.core.game.GameState;
 import ead.engine.core.gameobjects.GameObjectManager;
 import ead.engine.core.gameobjects.factories.SceneElementGOFactory;
 import ead.engine.core.input.InputHandler;
-import ead.engine.core.platform.AbstractGUI;
-import ead.engine.core.platform.EngineConfiguration;
-import ead.engine.core.platform.GUI;
-import ead.engine.core.platform.RuntimeAsset;
 import ead.engine.core.platform.assets.DesktopEngineImage;
 import ead.engine.core.platform.extra.DesktopInputListener;
 import ead.engine.core.platform.rendering.DesktopCanvas;
@@ -244,20 +240,20 @@ public class DesktopGUI extends AbstractGUI<Graphics2D> implements GUI {
 		// TODO test effects, probably should allow disabling
 		setHint(g, RenderingHints.VALUE_ANTIALIAS_ON,
 				RenderingHints.KEY_ANTIALIASING);
-		// setHint(g, RenderingHints.VALUE_ALPHA_INTERPOLATION_QUALITY,
-		// RenderingHints.KEY_ALPHA_INTERPOLATION);
-		// setHint(g, RenderingHints.VALUE_TEXT_ANTIALIAS_ON,
-		// RenderingHints.KEY_TEXT_ANTIALIASING);
-		// setHint(g, RenderingHints.VALUE_COLOR_RENDER_QUALITY,
-		// RenderingHints.KEY_COLOR_RENDERING);
-		// setHint(g, RenderingHints.VALUE_FRACTIONALMETRICS_ON,
-		// RenderingHints.KEY_FRACTIONALMETRICS);
-		// setHint(g, RenderingHints.VALUE_INTERPOLATION_BICUBIC,
-		// RenderingHints.KEY_INTERPOLATION);
-		// setHint(g, RenderingHints.VALUE_RENDER_QUALITY,
-		// RenderingHints.KEY_RENDERING);
-		// setHint(g, RenderingHints.VALUE_STROKE_NORMALIZE,
-		// RenderingHints.KEY_STROKE_CONTROL);
+//		 setHint(g, RenderingHints.VALUE_ALPHA_INTERPOLATION_QUALITY,
+//		 RenderingHints.KEY_ALPHA_INTERPOLATION);
+		 setHint(g, RenderingHints.VALUE_TEXT_ANTIALIAS_ON,
+		 RenderingHints.KEY_TEXT_ANTIALIASING);
+		 setHint(g, RenderingHints.VALUE_COLOR_RENDER_QUALITY,
+		 RenderingHints.KEY_COLOR_RENDERING);
+//		 setHint(g, RenderingHints.VALUE_FRACTIONALMETRICS_ON,
+//		 RenderingHints.KEY_FRACTIONALMETRICS);
+//		 setHint(g, RenderingHints.VALUE_INTERPOLATION_BICUBIC,
+//		 RenderingHints.KEY_INTERPOLATION);
+//		 setHint(g, RenderingHints.VALUE_RENDER_QUALITY,
+//		 RenderingHints.KEY_RENDERING);
+		 setHint(g, RenderingHints.VALUE_STROKE_NORMALIZE,
+		 RenderingHints.KEY_STROKE_CONTROL);
 	}
 
 	/*

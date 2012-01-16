@@ -39,32 +39,46 @@ package ead.engine.core.gameobjects.effects;
 
 import com.google.inject.Inject;
 
-import ead.common.model.elements.effects.timedevents.WaitEf;
+import ead.common.model.elements.effects.AddActorReferenceEf;
+import ead.common.model.elements.effects.sceneelements.AbstractSceneElementEffect;
+import ead.common.model.elements.events.SceneElementEv;
+import ead.common.model.elements.events.enums.SceneElementEventType;
+import ead.common.model.elements.scene.EAdScene;
+import ead.common.model.elements.scene.EAdSceneElementDef;
+import ead.common.model.elements.scenes.SceneElementImpl;
 import ead.common.resources.StringHandler;
-import ead.engine.core.game.GameLoop;
 import ead.engine.core.game.GameState;
 import ead.engine.core.gameobjects.factories.SceneElementGOFactory;
 import ead.engine.core.platform.AssetHandler;
 import ead.engine.core.platform.GUI;
 
-public class WaitEffectGO extends AbstractEffectGO<WaitEf>{
-	
-	private int time;
-	
+public class AddActorReferenceGO extends
+		AbstractEffectGO<AddActorReferenceEf> {
+
 	@Inject
-	public WaitEffectGO(AssetHandler assetHandler, StringHandler stringHandler,
-			SceneElementGOFactory gameObjectFactory, GUI gui, GameState gameState) {
-		super(assetHandler, stringHandler, gameObjectFactory, gui, gameState);
+	public AddActorReferenceGO(AssetHandler assetHandler,
+			StringHandler stringsReader,
+			SceneElementGOFactory gameObjectFactory, GUI gui,
+			GameState gameState) {
+		super(assetHandler, stringsReader, gameObjectFactory, gui, gameState);
 	}
 
 	@Override
 	public void initilize() {
 		super.initilize();
-		time = element.getTime();
-	}
-	
-	public void update( ){
-		time -= GameLoop.SKIP_MILLIS_TICK;
+		EAdScene scene = gameState.getScene().getElement();
+		if (scene != null) {
+			EAdSceneElementDef actor = element.getActor();
+			SceneElementImpl ref = new SceneElementImpl(actor);
+			ref.setPosition(element.getPosition());
+			SceneElementEv event = new SceneElementEv();
+			event.addEffect(SceneElementEventType.ADDED_TO_SCENE,
+					element.getInitialEffect());
+			((AbstractSceneElementEffect) element.getInitialEffect())
+					.setSceneElement(ref);
+			ref.getEvents().add(event);
+			scene.getComponents().add(ref, 0);
+		}
 	}
 
 	@Override
@@ -74,11 +88,7 @@ public class WaitEffectGO extends AbstractEffectGO<WaitEf>{
 
 	@Override
 	public boolean isFinished() {
-		return time <= 0;
-	}
-	
-	public String toString( ){
-		return "WaitEffect:  Time left " + time ;
+		return true;
 	}
 
 }

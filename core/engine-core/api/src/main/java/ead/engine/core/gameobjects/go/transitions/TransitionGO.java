@@ -35,18 +35,55 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ead.engine.core.gameobjects.go;
+package ead.engine.core.gameobjects.go.transitions;
 
 import ead.common.model.elements.scene.EAdScene;
-import ead.common.resources.assets.drawable.basics.BasicDrawable;
-import ead.engine.core.platform.RuntimeAsset;
+import ead.common.model.elements.transitions.EAdTransition;
+import ead.engine.core.gameobjects.go.SceneGO;
 
-public interface TransitionGO extends SceneGO<EAdScene> {
+/**
+ * A transition game object
+ * 
+ */
+public interface TransitionGO<T extends EAdTransition> extends
+		SceneGO<EAdScene>, SceneLoaderListener {
 
-	void setPrevious(SceneGO<?> screen);
-	
-	void setNext(EAdScene screen);
+	/**
+	 * Set the previous scene for the transition
+	 * 
+	 * @param scene
+	 *            the previous scene
+	 */
+	void setPrevious(SceneGO<?> scene);
 
-	RuntimeAsset<? extends BasicDrawable> getBackground();	
-	
+	/**
+	 * Sets the next scene for the transition
+	 * 
+	 * @param scene
+	 *            the next scene for the transition
+	 */
+	void setNext(EAdScene scene);
+
+	/**
+	 * Returns if the next scene is loaded
+	 * 
+	 * @return
+	 */
+	boolean isLoadedNextScene();
+
+	/**
+	 * Returns if the transition is finished
+	 * 
+	 * @return
+	 */
+	boolean isFinished();
+
+	/**
+	 * Sets the transition data
+	 * 
+	 * @param transition
+	 *            the transition data
+	 */
+	void setTransition(T transition);
+
 }

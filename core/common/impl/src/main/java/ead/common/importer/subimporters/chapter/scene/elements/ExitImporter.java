@@ -51,7 +51,11 @@ import ead.common.model.elements.guievents.EAdMouseEvent;
 import ead.common.model.elements.scene.EAdScene;
 import ead.common.model.elements.scene.EAdSceneElement;
 import ead.common.model.elements.scenes.SceneElementImpl;
+import ead.common.model.elements.transitions.DisplaceTransition;
 import ead.common.model.elements.transitions.EAdTransition;
+import ead.common.model.elements.transitions.EmptyTransition;
+import ead.common.model.elements.transitions.FadeInTransition;
+import ead.common.model.elements.transitions.enums.DisplaceTransitionType;
 import ead.common.model.predef.effects.ChangeCursorEf;
 import ead.common.params.text.EAdString;
 import ead.common.resources.StringHandler;
@@ -119,8 +123,32 @@ public class ExitImporter extends ElementImporter<Exit> {
 		// Change scene effect
 		EAdScene scene = (EAdScene) factory.getElementById(oldObject
 				.getNextSceneId());
+		
+		EAdTransition transition = null;
+		int time = oldObject.getTransitionTime();
+		switch ( oldObject.getTransitionType() ){
+		case Exit.NO_TRANSITION:
+			transition = EmptyTransition.instance();
+			break;
+		case Exit.FADE_IN:
+			transition = new FadeInTransition( time );
+			break;
+		case Exit.LEFT_TO_RIGHT:
+			transition = new DisplaceTransition( time, DisplaceTransitionType.HORIZONTAL, true );
+			break;
+		case Exit.RIGHT_TO_LEFT:
+			transition = new DisplaceTransition( time, DisplaceTransitionType.HORIZONTAL, false );
+			break;
+		case Exit.TOP_TO_BOTTOM:
+			transition = new DisplaceTransition( time, DisplaceTransitionType.VERTICAL, true );
+			break;
+		case Exit.BOTTOM_TO_TOP:
+			transition = new DisplaceTransition( time, DisplaceTransitionType.VERTICAL, false);
+			break;
+		}
+		
 		ChangeSceneEf changeScene = new ChangeSceneEf(scene,
-				EAdTransition.BASIC);
+				transition);
 		changeScene.setId("change_screen_" + newExit.getId());
 		changeScene.setCondition(enableCondition);
 		changeScene.setBlocking(true);

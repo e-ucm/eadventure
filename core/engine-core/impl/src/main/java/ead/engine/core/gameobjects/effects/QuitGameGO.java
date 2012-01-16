@@ -39,67 +39,40 @@ package ead.engine.core.gameobjects.effects;
 
 import com.google.inject.Inject;
 
-import ead.common.model.elements.effects.ActorActionsEf;
-import ead.common.model.elements.effects.enums.ChangeActorActions;
-import ead.common.model.elements.scene.EAdSceneElement;
-import ead.common.model.elements.scenes.SceneElementDefImpl;
-import ead.common.model.elements.variables.SystemFields;
+import ead.common.model.elements.effects.QuitGameEf;
 import ead.common.resources.StringHandler;
+import ead.engine.core.game.GameController;
 import ead.engine.core.game.GameState;
-import ead.engine.core.gameobjects.GameObjectManager;
 import ead.engine.core.gameobjects.factories.SceneElementGOFactory;
-import ead.engine.core.gameobjects.go.SceneElementGO;
-import ead.engine.core.gameobjects.huds.ActionsHUD;
-import ead.engine.core.input.actions.MouseActionImpl;
+import ead.engine.core.gameobjects.go.GameObject;
 import ead.engine.core.platform.AssetHandler;
 import ead.engine.core.platform.GUI;
 
-public class ActorActionsEffectGO extends
-		AbstractEffectGO<ActorActionsEf> {
+/**
+ * <p>
+ * {@link GameObject} for the {@link QuitGameEf} effect
+ * </p>
+ *
+ */
+public class QuitGameGO extends AbstractEffectGO<QuitGameEf> {
 
-	/**
-	 * The current {@link ActionsHUD}
-	 */
-	private ActionsHUD actionsHUD;
 
-	private GameObjectManager gameObjectManager;
-
+	private GameController gameController;
+	
 	@Inject
-	public ActorActionsEffectGO(AssetHandler assetHandler,
-			StringHandler stringsReader,
-			SceneElementGOFactory gameObjectFactory, GUI gui,
-			GameState gameState, ActionsHUD actionsHUD,
-			GameObjectManager gameObjectManager) {
-		super(assetHandler, stringsReader, gameObjectFactory, gui, gameState);
-		this.actionsHUD = actionsHUD;
-		this.gameObjectManager = gameObjectManager;
+	public QuitGameGO(AssetHandler assetHandler,
+			StringHandler stringHandler, SceneElementGOFactory gameObjectFactory,
+			GUI gui, GameState gameState,
+			GameController gameController) {
+		super(assetHandler, stringHandler, gameObjectFactory, gui, gameState);
+		this.gameController = gameController;
 	}
 
 	@Override
 	public void initilize() {
 		super.initilize();
-		if (element.getChange() == ChangeActorActions.SHOW_ACTIONS) {
-			EAdSceneElement ref = gameState.getValueMap().getValue(
-					element.getActionElement(),
-					SceneElementDefImpl.VAR_SCENE_ELEMENT);
-			if (ref != null) {
-				SceneElementGO<?> sceneElement = sceneElementFactory.get(ref);
-				if (sceneElement.getActions() != null) {
-					int x = sceneElement.getCenterX();
-					int y = sceneElement.getCenterY();
-					if (action instanceof MouseActionImpl) {
-						x = gameState.getValueMap().getValue(SystemFields.MOUSE_X);
-						y = gameState.getValueMap().getValue(SystemFields.MOUSE_Y);
-						//x = ((MouseAction) action).getVirtualX();
-						//y = ((MouseAction) action).getVirtualY();
-					}
-					actionsHUD.setElement(sceneElement, x, y);
-					gameObjectManager.addHUD(actionsHUD);
-				}
-			}
-		} else {
-			gameObjectManager.removeHUD(actionsHUD);
-		}
+		// TODO should probably take to the screen with the evaluation report
+		gameController.stop();
 	}
 
 	@Override
@@ -109,7 +82,7 @@ public class ActorActionsEffectGO extends
 
 	@Override
 	public boolean isFinished() {
-		return true;
+		return false;
 	}
 
 }

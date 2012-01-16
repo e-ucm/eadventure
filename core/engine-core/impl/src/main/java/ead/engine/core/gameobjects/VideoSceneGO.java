@@ -90,11 +90,6 @@ public class VideoSceneGO extends SceneElementGOImpl<VideoScene> implements
 	}
 
 	@Override
-	public boolean acceptsVisualEffects() {
-		return false;
-	}
-
-	@Override
 	public void update() {
 		super.update();
 		if (specialAssetRenderer.isFinished()) {

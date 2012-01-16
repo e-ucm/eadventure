@@ -44,6 +44,7 @@ import com.google.inject.Inject;
 import ead.common.model.elements.EAdEffect;
 import ead.common.model.elements.scene.EAdSceneElement;
 import ead.common.resources.StringHandler;
+import ead.common.resources.assets.AssetDescriptor;
 import ead.common.util.EAdPosition;
 import ead.engine.core.game.GameLoop;
 import ead.engine.core.game.GameState;
@@ -53,7 +54,6 @@ import ead.engine.core.gameobjects.go.EffectGO;
 import ead.engine.core.input.InputAction;
 import ead.engine.core.platform.AssetHandler;
 import ead.engine.core.platform.GUI;
-import ead.engine.core.platform.RuntimeAsset;
 import ead.engine.core.platform.rendering.GenericCanvas;
 import ead.engine.core.util.EAdTransformation;
 
@@ -172,7 +172,7 @@ public abstract class AbstractEffectGO<P extends EAdEffect> extends
 	}
 
 	@Override
-	public List<RuntimeAsset<?>> getAssets(List<RuntimeAsset<?>> assetList,
+	public List<AssetDescriptor> getAssets(List<AssetDescriptor> assetList,
 			boolean allAssets) {
 		return assetList;
 	}

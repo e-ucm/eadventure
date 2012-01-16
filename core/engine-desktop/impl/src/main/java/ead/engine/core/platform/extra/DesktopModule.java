@@ -66,11 +66,9 @@ import ead.engine.core.input.InputHandlerImpl;
 import ead.engine.core.platform.DesktopFontCache;
 import ead.engine.core.platform.DesktopGUI;
 import ead.engine.core.platform.DesktopPlatformLauncher;
-import ead.engine.core.platform.DesktopTransitionFactory;
 import ead.engine.core.platform.FontHandlerImpl;
 import ead.engine.core.platform.GUI;
 import ead.engine.core.platform.PlatformLauncher;
-import ead.engine.core.platform.TransitionFactory;
 import ead.engine.core.platform.rendering.DesktopFilterFactory;
 import ead.engine.core.platform.rendering.filters.FilterFactory;
 
@@ -91,7 +89,6 @@ public class DesktopModule extends AbstractModule {
 		bind(ActionsHUD.class).to(ActionsHUDImpl.class);
 		bind(MenuHUD.class).to(MenuHUDImpl.class);
 		bind(FontHandlerImpl.class).to(DesktopFontCache.class);
-		bind(TransitionFactory.class).to(DesktopTransitionFactory.class);
 		bind(new TypeLiteral<FilterFactory<Graphics2D>>(){}).to(DesktopFilterFactory.class);
 	}
 	

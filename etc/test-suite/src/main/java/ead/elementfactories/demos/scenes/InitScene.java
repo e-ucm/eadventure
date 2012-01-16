@@ -48,7 +48,8 @@ import ead.common.model.elements.guievents.EAdMouseEvent;
 import ead.common.model.elements.scene.EAdSceneElementDef;
 import ead.common.model.elements.scenes.SceneElementDefImpl;
 import ead.common.model.elements.scenes.SceneElementImpl;
-import ead.common.model.elements.transitions.EAdTransition;
+import ead.common.model.elements.transitions.DisplaceTransition;
+import ead.common.model.elements.transitions.enums.DisplaceTransitionType;
 import ead.common.model.predef.sceneelements.Button;
 import ead.common.params.EAdFontImpl;
 import ead.common.params.fills.EAdColor;
@@ -91,7 +92,7 @@ public class InitScene extends EmptyScene {
 			sf.setString(b.getLabel(), s.getDemoName());
 			b.setPosition(x, y);
 			b.addBehavior(EAdMouseEvent.MOUSE_LEFT_PRESSED,
-					new ChangeSceneEf( s, EAdTransition.BASIC));
+					new ChangeSceneEf( s, new DisplaceTransition(1000, DisplaceTransitionType.VERTICAL, true)));
 			this.getComponents().add(b);
 			s.getComponents().add(goBack);
 			SceneElementImpl info = new SceneElementImpl(infoButton);
@@ -123,7 +124,7 @@ public class InitScene extends EmptyScene {
 		goBack.setId("goBack");
 		goBack.setPosition(Corner.BOTTOM_LEFT, 10, 590);
 		goBack.addBehavior(EAdMouseEvent.MOUSE_LEFT_PRESSED,
-				new ChangeSceneEf( this, EAdTransition.BASIC));
+				new ChangeSceneEf( this, new DisplaceTransition(5000, DisplaceTransitionType.HORIZONTAL, true)));
 		goBack.setScale(0.5f);
 
 	}

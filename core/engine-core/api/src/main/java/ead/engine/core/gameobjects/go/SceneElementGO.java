@@ -98,8 +98,17 @@ public interface SceneElementGO<T extends EAdSceneElement> extends
 
 	/**
 	 * Returns the current scale of the element
+	 * 
 	 * @return
 	 */
 	float getScale();
+
+	void setX(int x);
+
+	void setY(int y);
+	
+	void setAlpha(float alpha);
+	
+	void setEnabled(boolean b);
 
 }

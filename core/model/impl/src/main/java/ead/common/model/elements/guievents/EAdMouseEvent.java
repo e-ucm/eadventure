@@ -158,6 +158,9 @@ public class EAdMouseEvent extends EAdElementImpl implements EAdGUIEvent {
 	}
 
 	public String toString() {
+		if ( button == null || type == null){
+			return "mousevent";
+		}
 		return type.toString() + ";" + button.toString();
 	}
 

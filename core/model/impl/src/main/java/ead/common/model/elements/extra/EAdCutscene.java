@@ -42,11 +42,10 @@ import ead.common.interfaces.Param;
 import ead.common.model.elements.EAdChapter;
 import ead.common.model.elements.effects.ChangeSceneEf;
 import ead.common.model.elements.effects.variables.ChangeFieldEf;
-import ead.common.model.elements.extra.EAdList;
 import ead.common.model.elements.guievents.EAdMouseEvent;
 import ead.common.model.elements.scene.EAdScene;
 import ead.common.model.elements.scenes.ComposedScene;
-import ead.common.model.elements.transitions.EAdTransition;
+import ead.common.model.elements.transitions.EmptyTransition;
 import ead.common.model.elements.variables.EAdField;
 import ead.common.model.elements.variables.EAdFieldImpl;
 import ead.common.model.elements.variables.operations.MathOp;
@@ -89,7 +88,7 @@ public class EAdCutscene extends ComposedScene {
 
 			if (slide.getTime() == -1) {
 				ChangeSceneEf e2 = new ChangeSceneEf( this,
-						EAdTransition.DISPLACE);
+						EmptyTransition.instance());
 				slide.getBackground().getBehavior()
 						.addBehavior(EAdMouseEvent.MOUSE_LEFT_CLICK, e2);
 			} else {
@@ -114,7 +113,7 @@ public class EAdCutscene extends ComposedScene {
 			}
 		}
 		ChangeSceneEf e3 = new ChangeSceneEf(nextScene,
-				EAdTransition.DISPLACE);
+				EmptyTransition.instance());
 		slides.get(slides.size() - 1).getBackground().getBehavior()
 				.addBehavior(EAdMouseEvent.MOUSE_LEFT_CLICK, e3);
 	}
@@ -129,6 +128,10 @@ public class EAdCutscene extends ComposedScene {
 
 	public EAdList<EAdSlide> getSlides() {
 		return slides;
+	}
+	
+	public void setSlides(EAdList<EAdSlide> slides){
+		this.slides = slides;
 	}
 
 	

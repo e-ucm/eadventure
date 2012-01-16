@@ -35,37 +35,61 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ead.engine.core.platform;
+package ead.engine.core.gameobjects.effects;
 
 import com.google.inject.Inject;
-import com.google.inject.Injector;
 
-import ead.common.model.elements.transitions.EAdTransition;
-import ead.engine.core.gameobjects.go.TransitionGO;
-import ead.engine.core.gameobjects.transitions.DisplaceTransitionGO;
-import ead.engine.core.gameobjects.transitions.EmptyTransitionGO;
-import ead.engine.core.gameobjects.transitions.SimpleTransitionGO;
-import ead.engine.core.platform.TransitionFactory;
+import ead.common.model.elements.EAdCondition;
+import ead.common.model.elements.EAdEffect;
+import ead.common.model.elements.effects.EffectsMacro;
+import ead.common.model.elements.effects.TriggerMacroEf;
+import ead.common.resources.StringHandler;
+import ead.engine.core.evaluators.EvaluatorFactory;
+import ead.engine.core.game.GameState;
+import ead.engine.core.gameobjects.factories.SceneElementGOFactory;
+import ead.engine.core.platform.AssetHandler;
+import ead.engine.core.platform.GUI;
 
-public class DesktopTransitionFactory implements TransitionFactory {
-	
-	private Injector injector;
+public class TriggerMacroGO extends AbstractEffectGO<TriggerMacroEf> {
+
+	private EvaluatorFactory evaluator;
 
 	@Inject
-	public DesktopTransitionFactory(Injector injector) {
-		this.injector = injector;
+	public TriggerMacroGO(AssetHandler assetHandler,
+			StringHandler stringHandler,
+			SceneElementGOFactory gameObjectFactory, GUI gui,
+			GameState gameState, EvaluatorFactory evaluator) {
+		super(assetHandler, stringHandler, gameObjectFactory, gui, gameState);
+		this.evaluator = evaluator;
 	}
-	
+
 	@Override
-	public TransitionGO getTransition(EAdTransition transition) {
-		switch (transition) {
-		case BASIC:
-			return injector.getInstance(EmptyTransitionGO.class);
-		case DISPLACE:
-			return injector.getInstance(DisplaceTransitionGO.class);
-		default:
-			return injector.getInstance(SimpleTransitionGO.class);
+	public void initilize() {
+		super.initilize();
+
+		EffectsMacro macro = null;
+
+		for (int i = 0; i < element.getMacros().size() && macro == null; i++) {
+			EAdCondition c = element.getConditions().get(i);
+			if (evaluator.evaluate(c)) {
+				macro = element.getMacros().get(i);
+			}
 		}
+
+		if (macro != null)
+			for (EAdEffect e : macro.getEffects()) {
+				gameState.addEffect(e, action, parent);
+			}
+	}
+
+	@Override
+	public boolean isVisualEffect() {
+		return false;
+	}
+
+	@Override
+	public boolean isFinished() {
+		return true;
 	}
 
 }

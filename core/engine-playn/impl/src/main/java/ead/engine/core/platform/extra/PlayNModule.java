@@ -47,14 +47,14 @@ import ead.engine.core.game.GameLoop;
 import ead.engine.core.game.GameProfiler;
 import ead.engine.core.gameobjects.GameObjectManager;
 import ead.engine.core.gameobjects.GameObjectManagerImpl;
+import ead.engine.core.gameobjects.go.transitions.SceneLoader;
 import ead.engine.core.gameobjects.huds.ActionsHUD;
 import ead.engine.core.gameobjects.huds.ActionsHUDImpl;
 import ead.engine.core.gameobjects.huds.BasicHUD;
 import ead.engine.core.gameobjects.huds.BasicHUDImpl;
 import ead.engine.core.gameobjects.huds.MenuHUD;
 import ead.engine.core.gameobjects.huds.MenuHUDImpl;
-import ead.engine.core.gameobjects.transitions.PlayNSimpleTransitionGO;
-import ead.engine.core.gameobjects.transitions.SimpleTransitionGO;
+import ead.engine.core.gameobjects.transitions.PlayNSceneLoader;
 import ead.engine.core.input.InputHandler;
 import ead.engine.core.input.InputHandlerImpl;
 import ead.engine.core.platform.AbstractEngineConfiguration;
@@ -68,8 +68,6 @@ import ead.engine.core.platform.PlayNGameLoop;
 import ead.engine.core.platform.PlayNGameProfiler;
 import ead.engine.core.platform.PlayNPlatformLauncher;
 import ead.engine.core.platform.PlayNReflectionProvider;
-import ead.engine.core.platform.PlayNTransitionFactory;
-import ead.engine.core.platform.TransitionFactory;
 
 public class PlayNModule extends AbstractGinModule {
 
@@ -89,8 +87,7 @@ public class PlayNModule extends AbstractGinModule {
 		bind(ActionsHUD.class).to(ActionsHUDImpl.class).in(Singleton.class);
 		bind(MenuHUD.class).to(MenuHUDImpl.class).in(Singleton.class);
 		bind(FontHandlerImpl.class).to(PlayNFontCache.class).in(Singleton.class);
-		bind(TransitionFactory.class).to(PlayNTransitionFactory.class).in(Singleton.class);
-		bind(SimpleTransitionGO.class).to(PlayNSimpleTransitionGO.class);
+		bind(SceneLoader.class).to(PlayNSceneLoader.class).in(Singleton.class);
 	}
 
 	@Provides

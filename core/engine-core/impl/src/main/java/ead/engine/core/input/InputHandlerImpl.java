@@ -8,6 +8,7 @@ import com.google.inject.Singleton;
 import ead.common.model.elements.guievents.EAdMouseEvent;
 import ead.common.model.elements.guievents.enums.DragEventType;
 import ead.common.model.elements.scene.EAdSceneElementDef;
+import ead.common.model.elements.variables.SystemFields;
 import ead.engine.core.game.GameState;
 import ead.engine.core.gameobjects.GameObjectManager;
 import ead.engine.core.gameobjects.go.DrawableGO;
@@ -52,8 +53,7 @@ public class InputHandlerImpl implements InputHandler {
 	private boolean propagateEvents = true;
 
 	@Inject
-	public InputHandlerImpl(GameState gameState,
-			GameObjectManager gameObjects) {
+	public InputHandlerImpl(GameState gameState, GameObjectManager gameObjects) {
 		mouseHandler = new MouseHandler(gameState);
 		keyboardHandler = new KeyboardHandler();
 		this.gameObjects = gameObjects;
@@ -71,13 +71,17 @@ public class InputHandlerImpl implements InputHandler {
 
 	@Override
 	public void processActions() {
-		// Keyboard
-		processKeyActions();
+		if (gameState.getValueMap().getValue(SystemFields.PROCESS_INPUT)) {
+			// Keyboard
+			processKeyActions();
 
-		// Mouse
-		processMouseActions();
-		processEnterExit();
-		processDrag();
+			// Mouse
+			processMouseActions();
+			processEnterExit();
+			processDrag();
+		} else {
+			clearAllInputs();
+		}
 	}
 
 	/**
@@ -144,7 +148,7 @@ public class InputHandlerImpl implements InputHandler {
 			while (!action.isConsumed() && i >= 0) {
 				DrawableGO<?> go = gameObjects.getGameObjects().get(i);
 				EAdTransformation t = gameObjects.getTransformations().get(i);
-				
+
 				if (contains(go, x, y, t)) {
 					go.processAction(action);
 				}
@@ -315,9 +319,21 @@ public class InputHandlerImpl implements InputHandler {
 	public int getRawPointerY() {
 		return mouseHandler.getMouseY();
 	}
-	
-	public void setInitialTransformation(EAdTransformation initialTransformation){
+
+	public void setInitialTransformation(EAdTransformation initialTransformation) {
 		mouseHandler.setInitialTransformation(initialTransformation);
+	}
+
+	@Override
+	public void clearAllInputs() {
+		keyboardHandler.getKeyActions().clear();
+		if (!mouseHandler.getMouseEvents().isEmpty()) {
+			MouseActionImpl action = mouseHandler.getMouseEvents().poll();
+			mouseHandler
+					.setPosition(action.getVirtualX(), action.getVirtualY());
+		}
+		mouseHandler.getMouseEvents().clear();
+
 	}
 
 }

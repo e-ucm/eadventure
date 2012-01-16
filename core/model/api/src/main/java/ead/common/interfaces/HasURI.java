@@ -37,12 +37,15 @@
 
 package ead.common.interfaces;
 
+import com.gwtent.reflection.client.Reflectable;
+
 import ead.common.params.EAdURI;
 
 /**
  * Implemented by those elements which has an URI
  * 
  */
+@Reflectable
 public interface HasURI {
 
 	/**

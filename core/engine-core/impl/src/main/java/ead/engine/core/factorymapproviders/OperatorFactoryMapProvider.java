@@ -40,9 +40,8 @@ package ead.engine.core.factorymapproviders;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.gwtent.reflection.client.impl.FieldImpl;
-
 import ead.common.model.elements.variables.EAdField;
+import ead.common.model.elements.variables.EAdFieldImpl;
 import ead.common.model.elements.variables.operations.BooleanOp;
 import ead.common.model.elements.variables.operations.ConditionedOp;
 import ead.common.model.elements.variables.operations.ListOp;
@@ -88,7 +87,7 @@ public class OperatorFactoryMapProvider extends AbstractMapProvider<Class<?>, Op
 		factoryMap.put(BooleanOp.class, new BooleanOperator(evaluatorFactory));
 		factoryMap.put(ValueOp.class, new ValueOperator(reflectionProvider));
 		factoryMap.put(EAdField.class, fieldOperator);
-		factoryMap.put(FieldImpl.class, fieldOperator);
+		factoryMap.put(EAdFieldImpl.class, fieldOperator);
 		factoryMap.put(ListOp.class, new ListOperator(valueMap));
 		factoryMap.put(ConditionedOp.class, new ConditionedOperator(evaluatorFactory, operatorFactory));
 		factoryMap.putAll(tempMap);

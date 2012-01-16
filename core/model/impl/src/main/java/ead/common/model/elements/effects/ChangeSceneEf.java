@@ -41,6 +41,7 @@ import ead.common.interfaces.Element;
 import ead.common.interfaces.Param;
 import ead.common.model.elements.scene.EAdScene;
 import ead.common.model.elements.transitions.EAdTransition;
+import ead.common.model.elements.transitions.EmptyTransition;
 
 /**
  * <p>Change the current scene, if the next scene is set to null, go to
@@ -63,7 +64,7 @@ public class ChangeSceneEf extends AbstractEffect {
 	 * 			The id of the effect
 	 */
 	public ChangeSceneEf() {
-		this(null, EAdTransition.BASIC);
+		this(null, EmptyTransition.instance());
 	}
 
 	/**

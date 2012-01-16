@@ -39,26 +39,18 @@ package ead.engine.core.gameobjects.effects;
 
 import com.google.inject.Inject;
 
-import ead.common.model.elements.effects.timedevents.HighlightSceneElementEf;
-import ead.common.model.elements.scenes.SceneElementImpl;
+import ead.common.model.elements.effects.PlaySoundEf;
 import ead.common.resources.StringHandler;
-import ead.engine.core.game.GameLoop;
 import ead.engine.core.game.GameState;
 import ead.engine.core.gameobjects.factories.SceneElementGOFactory;
 import ead.engine.core.platform.AssetHandler;
 import ead.engine.core.platform.GUI;
+import ead.engine.core.platform.assets.RuntimeSound;
 
-public class HighlightEffectGO extends
-		AbstractEffectGO<HighlightSceneElementEf> {
-
-	private int time;
-
-	private float oldScale;
-
-	private boolean started;
+public class PlaySoundGO extends AbstractEffectGO<PlaySoundEf> {
 
 	@Inject
-	public HighlightEffectGO(AssetHandler assetHandler,
+	public PlaySoundGO(AssetHandler assetHandler,
 			StringHandler stringHandler, SceneElementGOFactory gameObjectFactory,
 			GUI gui, GameState gameState) {
 		super(assetHandler, stringHandler, gameObjectFactory, gui, gameState);
@@ -67,9 +59,10 @@ public class HighlightEffectGO extends
 	@Override
 	public void initilize() {
 		super.initilize();
-		oldScale = gameState.getValueMap().getValue(element, SceneElementImpl.VAR_SCALE);
-		time = element.getTime();
-		started = false;
+		RuntimeSound sound = (RuntimeSound) assetHandler
+				.getRuntimeAsset(element.getSound());
+		sound.loadAsset();
+		sound.play();
 	}
 
 	@Override
@@ -77,24 +70,9 @@ public class HighlightEffectGO extends
 		return false;
 	}
 
-	public void update() {
-		if (time > 0) {
-			if (!started) {
-				gameState.getValueMap().setValue(element, SceneElementImpl.VAR_SCALE,
-						oldScale * 2);
-				started = true;
-			}
-			time -= GameLoop.SKIP_MILLIS_TICK;
-			if (time <= 0) {
-				gameState.getValueMap().setValue(element, SceneElementImpl.VAR_SCALE,
-						oldScale);
-			}
-		}
-	}
-
 	@Override
 	public boolean isFinished() {
-		return time <= 0;
+		return true;
 	}
 
 }

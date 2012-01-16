@@ -43,6 +43,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
 
+import com.gwtent.reflection.client.ReflectionRequiredException;
 import com.gwtent.reflection.client.TypeOracle;
 
 import ead.common.model.EAdElement;
@@ -77,8 +78,31 @@ public class ObjectFactory {
 
 	@SuppressWarnings("unchecked")
 	public static Object getObject(String value, Class<?> fieldType) {
-		if (reflectionProvider.isAssignableFrom(EAdParam.class, fieldType)) {
-			EAdParam param = constructParam(value, (Class<? extends EAdParam>) fieldType);
+		if (fieldType == String.class)
+			return value;
+		else if (fieldType == Integer.class || fieldType == int.class)
+			return Integer.parseInt(value);
+		else if (fieldType == Boolean.class || fieldType == boolean.class)
+			return Boolean.parseBoolean(value);
+		else if (fieldType == Float.class || fieldType == float.class)
+			return Float.parseFloat(value);
+		else if (fieldType == Character.class || fieldType == char.class) {
+			return new Character(value.charAt(0));
+		} else if (fieldType == EAdBundleId.class)
+			return new EAdBundleId(value);
+		else if (fieldType == EAdMatrix.class
+				|| fieldType == EAdMatrixImpl.class)
+			return EAdMatrixImpl.parse(value);
+		else if (fieldType == Class.class)
+			return getClassFromName(value);
+		else if (fieldType.isEnum()) {
+			@SuppressWarnings("rawtypes")
+			Class<? extends Enum> enumClass = (Class<? extends Enum>) fieldType;
+			return Enum.valueOf(enumClass, value);
+		} else if (reflectionProvider.isAssignableFrom(EAdParam.class,
+				fieldType)) {
+			EAdParam param = constructParam(value,
+					(Class<? extends EAdParam>) fieldType);
 			return param;
 		} else if (reflectionProvider.isAssignableFrom(EAdElement.class,
 				fieldType)) {
@@ -92,28 +116,9 @@ public class ObjectFactory {
 		} else if (reflectionProvider.isAssignableFrom(AssetDescriptor.class,
 				fieldType)) {
 			return assetsMap.get(value);
-		} else if (fieldType == String.class)
-			return value;
-		else if (fieldType == Integer.class || fieldType == int.class)
-			return Integer.parseInt(value);
-		else if (fieldType == Boolean.class || fieldType == boolean.class)
-			return Boolean.parseBoolean(value);
-		else if (fieldType == Float.class || fieldType == float.class)
-			return Float.parseFloat(value);
-		else if (fieldType == Character.class || fieldType == char.class) {
-			return new Character(value.charAt(0));
-		} else if (fieldType == EAdBundleId.class)
-			return new EAdBundleId(value);
-		else if (fieldType == EAdMatrix.class || fieldType == EAdMatrixImpl.class)
-			return EAdMatrixImpl.parse(value);
-		else if (fieldType == Class.class)
-			return getClassFromName(value);
-		else if (fieldType.isEnum()) {
-			@SuppressWarnings("rawtypes")
-			Class<? extends Enum> enumClass = (Class<? extends Enum>) fieldType;
-			return Enum.valueOf(enumClass, value);
 		} else {
-			logger.info("The field type " + fieldType + "with value " + value + " was not recognised. The string is returned");
+			logger.info("The field type " + fieldType + "with value " + value
+					+ " was not recognised. The string is returned");
 			return value;
 		}
 	}
@@ -126,15 +131,19 @@ public class ObjectFactory {
 	}
 
 	public static void addElement(String id, EAdElement element) {
+		logger.info("Element with id " + id + " added.");
 		elementsMap.put(id, element);
 		int i = 0;
 		while (i < proxies.size()) {
 			if (proxies.get(i).getValue().equals(id)) {
 				if (proxies.get(i).getField() != null)
-					NodeVisitor.setValue(proxies.get(i).getField(), proxies.get(i).getParent(), element);
+					NodeVisitor.setValue(proxies.get(i).getField(), proxies
+							.get(i).getParent(), element);
 				else if (proxies.get(i).getList() != null) {
-					proxies.get(i).getList().remove(proxies.get(i).getListPos());
-					proxies.get(i).getList().add(element, proxies.get(i).getListPos());
+					proxies.get(i).getList()
+							.remove(proxies.get(i).getListPos());
+					proxies.get(i).getList()
+							.add(element, proxies.get(i).getListPos());
 				}
 				proxies.remove(i);
 			} else
@@ -149,8 +158,9 @@ public class ObjectFactory {
 	public static Map<String, Object> getParamsMap() {
 		return paramsMap;
 	}
-	
-	private static EAdParam constructParam( String value, Class<? extends EAdParam> clazz ) {
+
+	private static EAdParam constructParam(String value,
+			Class<? extends EAdParam> clazz) {
 		if (clazz.equals(EAdString.class))
 			return new EAdString(value);
 		if (clazz.equals(EAdColor.class))
@@ -163,18 +173,19 @@ public class ObjectFactory {
 			return new EAdFontImpl(value);
 		if (clazz.equals(EAdPosition.class))
 			return new EAdPosition(value);
-		if (clazz.equals(EAdRectangle.class)) 
+		if (clazz.equals(EAdRectangle.class))
 			return new EAdRectangle(value);
-		if (clazz.equals(EAdURIImpl.class)) 
+		if (clazz.equals(EAdURIImpl.class))
 			return new EAdURIImpl(value);
-		
-		logger.severe("Param class " + clazz + " needs constructor explicitly defined");
+
+		logger.severe("Param class " + clazz
+				+ " needs constructor explicitly defined");
 		return null;
 	}
 
 	public static Class<?> getClassFromName(String clazz) {
 		if (clazz.equals("java.lang.Float"))
-			return  Float.class;
+			return Float.class;
 		else if (clazz.equals("java.lang.Integer"))
 			return Integer.class;
 		else if (clazz.equals("java.lang.Boolean"))
@@ -182,10 +193,17 @@ public class ObjectFactory {
 		else if (clazz.equals("java.lang.Class"))
 			return Class.class;
 		else if (clazz.equals("java.lang.Character"))
-			return Class.class;
+			return Character.class;
+		else if (clazz.equals("java.lang.String"))
+			return String.class;
 		else
-			return TypeOracle.Instance.getClassType(clazz).getDeclaringClass();
-	}	
-
+			try {
+				Class<?> clazz2 = TypeOracle.Instance.getClassType(clazz)
+						.getDeclaringClass();
+				return clazz2;
+			} catch (ReflectionRequiredException e) {
+				return Object.class;
+			}
+	}
 
 }

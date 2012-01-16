@@ -44,7 +44,7 @@ import ead.common.model.elements.guievents.EAdGUIEvent;
 
 /**
  * Implemented by all classes with effects to GUI events.
- *
+ * 
  */
 public interface WithBehavior {
 
@@ -58,13 +58,15 @@ public interface WithBehavior {
 	 * @return the effects list associated with the given event
 	 */
 	EAdList<EAdEffect> getEffects(EAdGUIEvent event);
-	
+
 	/**
-	 * Add an effect to the list of effects associated with the {@link EAdGUIEvent}
+	 * Add an effect to the list of effects associated with the
+	 * {@link EAdGUIEvent}
 	 * 
 	 * @param event
-	 * 			the GUI event
-	 * @param effect the new effect to be added to the list
+	 *            the GUI event
+	 * @param effect
+	 *            the new effect to be added to the list
 	 */
 	void addBehavior(EAdGUIEvent event, EAdEffect effect);
 
@@ -72,10 +74,24 @@ public interface WithBehavior {
 	 * Adds the given effects to the list of the events that will be executed
 	 * when the given event is processed by this element
 	 * 
-	 * @param event the GUI event
-	 * @param effects the list of effects
+	 * @param event
+	 *            the GUI event
+	 * @param effects
+	 *            the list of effects
 	 */
 	void addBehavior(EAdGUIEvent event, EAdList<EAdEffect> effects);
-	
+
+	/**
+	 * 
+	 * @return the behavior of the element
+	 */
 	EAdBehavior getBehavior();
+
+	/**
+	 * Sets the behavior for the element
+	 * 
+	 * @param behavior
+	 *            the behavior
+	 */
+	void setBehavior(EAdBehavior behavior);
 }

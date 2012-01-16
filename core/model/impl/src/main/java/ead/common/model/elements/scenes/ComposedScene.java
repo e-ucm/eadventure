@@ -66,9 +66,4 @@ public class ComposedScene extends SceneImpl implements EAdScene {
 		return scenes;
 	}
 
-	@Override
-	public Boolean getAcceptsVisualEffects() {
-		return false;
-	}
-
 }
