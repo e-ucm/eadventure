@@ -101,7 +101,7 @@ public class ActiveAreaImporter extends ElementImporter<ActiveArea> {
 				oldObject.getInfluenceArea());
 
 		// enable event
-		addEnableEvent(newActiveAreaReference,
+		addVisibleEvent(newActiveAreaReference,
 				getEnableCondition(oldObject.getConditions()));
 
 		// Add description

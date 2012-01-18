@@ -54,24 +54,27 @@ public class ChangeSceneGO extends AbstractEffectGO<ChangeSceneEf> {
 
 	@Inject
 	public ChangeSceneGO(AssetHandler assetHandler,
-			StringHandler stringHandler, SceneElementGOFactory gameObjectFactory,
-			GUI gui, GameState gameState, TransitionFactory transitionFactory) {
+			StringHandler stringHandler,
+			SceneElementGOFactory gameObjectFactory, GUI gui,
+			GameState gameState, TransitionFactory transitionFactory) {
 		super(assetHandler, stringHandler, gameObjectFactory, gui, gameState);
 		this.transitionFactory = transitionFactory;
 	}
 
-		
 	@Override
 	public void initilize() {
 		super.initilize();
-		TransitionGO<?> transition = transitionFactory.getTransition(element.getTransition());
-		if (element.getNextScene() != null)
-			transition.setNext(element.getNextScene());
-		else
-			transition.setNext(gameState.getPreviousScene());
-		transition.setPrevious(gameState.getScene());
-		
-		gameState.setScene(transition);
+		if (element.getNextScene() == null || element.getNextScene() != gameState.getScene().getElement()) {
+			TransitionGO<?> transition = transitionFactory
+					.getTransition(element.getTransition());
+			if (element.getNextScene() != null)
+				transition.setNext(element.getNextScene());
+			else
+				transition.setNext(gameState.getPreviousScene());
+			transition.setPrevious(gameState.getScene());
+
+			gameState.setScene(transition);
+		}
 	}
 
 	@Override
@@ -81,7 +84,6 @@ public class ChangeSceneGO extends AbstractEffectGO<ChangeSceneEf> {
 
 	@Override
 	public boolean isFinished() {
-		// TODO ¿Cuándo termina?
 		return true;
 	}
 

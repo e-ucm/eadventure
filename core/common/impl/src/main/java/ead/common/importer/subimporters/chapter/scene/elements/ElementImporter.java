@@ -181,14 +181,14 @@ public abstract class ElementImporter<T> implements
 		}
 	}
 
-	protected void addEnableEvent(SceneElementImpl newActiveAreaReference,
+	protected void addVisibleEvent(SceneElementImpl newReference,
 			EAdCondition condition) {
 
 		ConditionedEv event = new ConditionedEv();
 		event.setCondition(condition);
 
 		EAdField<Boolean> enableField = new EAdFieldImpl<Boolean>(
-				newActiveAreaReference, SceneElementImpl.VAR_VISIBLE);
+				newReference, SceneElementImpl.VAR_VISIBLE);
 
 		ChangeFieldEf changeEnable = new ChangeFieldEf();
 
@@ -197,7 +197,7 @@ public abstract class ElementImporter<T> implements
 		event.addEffect(ConditionedEventType.CONDITIONS_MET, changeEnable);
 		event.addEffect(ConditionedEventType.CONDITIONS_UNMET, changeEnable);
 
-		newActiveAreaReference.getEvents().add(event);
+		newReference.getEvents().add(event);
 	}
 
 }

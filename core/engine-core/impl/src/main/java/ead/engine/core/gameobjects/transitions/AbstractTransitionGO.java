@@ -53,6 +53,7 @@ public abstract class AbstractTransitionGO<T extends EAdTransition> extends
 				eventFactory);
 		this.sceneLoader = sceneLoader;
 		EAdScene scene = this.createLoadingScene();
+		scene.setReturnable(false);
 		this.setElement(scene);
 	}
 

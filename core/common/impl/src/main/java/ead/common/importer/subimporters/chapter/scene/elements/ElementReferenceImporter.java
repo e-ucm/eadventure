@@ -116,10 +116,6 @@ public class ElementReferenceImporter extends ElementImporter<ElementReference> 
 			// add description
 			super.addDefaultBehavior(newRef, newRef.getDefinition().getDesc());
 
-			// add enable
-			super.addEnableEvent(newRef,
-					super.getEnableCondition(oldObject.getConditions()));
-
 			// add dragable
 			if (factory.isDraggableActor(actor)) {
 				newRef.setDragCond(EmptyCond.TRUE_EMPTY_CONDITION);
@@ -132,6 +128,10 @@ public class ElementReferenceImporter extends ElementImporter<ElementReference> 
 			newRef.setVarInitialValue(SceneElementImpl.VAR_ENABLE,
 					Boolean.FALSE);
 		}
+		
+		// add visible
+		super.addVisibleEvent(newRef,
+				super.getEnableCondition(oldObject.getConditions()));
 
 		return newRef;
 	}

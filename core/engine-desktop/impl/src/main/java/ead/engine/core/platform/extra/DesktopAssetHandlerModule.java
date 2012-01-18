@@ -88,6 +88,8 @@ public class DesktopAssetHandlerModule extends AbstractModule {
 		bind(AssetHandler.class).to(DesktopAssetHandler.class);
 		bind(new TypeLiteral<SpecialAssetRenderer<Video, ?>>() {
 		}).to(VLCDesktopVideoRenderer.class);
+//		bind(new TypeLiteral<SpecialAssetRenderer<Video, ?>>() {
+//			}).to(DesktopVideoRenderer.class);
 	}
 
 	@SuppressWarnings("unchecked")

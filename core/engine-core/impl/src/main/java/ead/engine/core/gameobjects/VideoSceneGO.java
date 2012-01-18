@@ -65,6 +65,8 @@ public class VideoSceneGO extends SceneElementGOImpl<VideoScene> implements
 
 	private Object component;
 
+	private boolean error;
+
 	@Inject
 	public VideoSceneGO(AssetHandler assetHandler, StringHandler stringsReader,
 			SceneElementGOFactory gameObjectFactory, GUI gui,
@@ -76,23 +78,33 @@ public class VideoSceneGO extends SceneElementGOImpl<VideoScene> implements
 		logger.info("New instance");
 		this.specialAssetRenderer = specialAssetRenderer;
 		this.component = null;
+		this.error = false;
 	}
 
 	public void doLayout(EAdTransformation transformation) {
 		if (component == null)
-			component = specialAssetRenderer.getComponent((Video) element
-					.getDefinition().getAsset(VideoScene.video));
-		if (specialAssetRenderer.isFinished()) {
-			gui.showSpecialResource(null, 0, 0, true);
-			component = null;
-		} else
-			gui.showSpecialResource(component, 0, 0, true);
+			try {
+				component = specialAssetRenderer.getComponent((Video) element
+						.getDefinition().getAsset(VideoScene.video));
+			} catch (Exception e) {
+				error = true;
+			} catch ( LinkageError e ){
+				error = true;
+			}
+
+		if (!error) {
+			if (specialAssetRenderer.isFinished()) {
+				gui.showSpecialResource(null, 0, 0, true);
+				component = null;
+			} else
+				gui.showSpecialResource(component, 0, 0, true);
+		}
 	}
 
 	@Override
 	public void update() {
 		super.update();
-		if (specialAssetRenderer.isFinished()) {
+		if (error || specialAssetRenderer.isFinished()) {
 			gui.showSpecialResource(null, 0, 0, true);
 			for (EAdEffect e : element.getFinalEffects()) {
 				gameState.addEffect(e);

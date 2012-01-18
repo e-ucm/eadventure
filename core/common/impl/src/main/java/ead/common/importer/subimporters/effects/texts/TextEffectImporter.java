@@ -51,12 +51,17 @@ import ead.common.model.elements.variables.EAdField;
 import ead.common.model.elements.variables.EAdOperation;
 import ead.common.model.elements.variables.operations.BooleanOp;
 import ead.common.resources.StringHandler;
+import ead.common.resources.assets.drawable.basics.shapes.extra.BalloonType;
 import es.eucm.eadventure.common.data.chapter.conditions.Condition;
 import es.eucm.eadventure.common.data.chapter.conditions.Conditions;
 import es.eucm.eadventure.common.data.chapter.effects.AbstractEffect;
 
 public abstract class TextEffectImporter<T extends AbstractEffect> extends
 		EffectImporter<T, SpeakEf> {
+	
+	public static final String WHISPER = "#:*";
+	public static final String THOUGHT = "#O";
+	public static final String YELL = "#!";
 
 	protected static int ID_GENERATOR = 0;
 
@@ -173,6 +178,32 @@ public abstract class TextEffectImporter<T extends AbstractEffect> extends
 			}
 		}
 		return finalText;
+	}
+	
+	/**
+	 * Sets the ballon type for the effect and deletes the balloon type tag form
+	 * the line and returns it
+	 * 
+	 * @param effect
+	 * @param line
+	 * @return
+	 */
+	public static String setBallonType(SpeakEf effect, String line) {
+		BalloonType type = BalloonType.ROUNDED_RECTANGLE;
+		if (line.startsWith(WHISPER)) {
+			// TODO Whisper balloon
+			type = BalloonType.ROUNDED_RECTANGLE;
+			line = line.substring(WHISPER.length());
+		} else if (line.startsWith(THOUGHT)) {
+			type = BalloonType.CLOUD;
+			line = line.substring(THOUGHT.length());
+		} else if (line.startsWith(YELL)) {
+			type = BalloonType.ELECTRIC;
+			line = line.substring(YELL.length());
+		}
+
+		effect.setBalloonType(type);
+		return line;
 	}
 
 }

@@ -44,35 +44,75 @@ import ead.common.importer.interfaces.EAdElementFactory;
 import ead.common.model.elements.EAdCondition;
 import ead.common.model.elements.effects.ChangeSceneEf;
 import ead.common.model.elements.scene.EAdScene;
+import ead.common.model.elements.transitions.DisplaceTransition;
+import ead.common.model.elements.transitions.EAdTransition;
+import ead.common.model.elements.transitions.EmptyTransition;
+import ead.common.model.elements.transitions.FadeInTransition;
+import ead.common.model.elements.transitions.enums.DisplaceTransitionType;
+import es.eucm.eadventure.common.data.chapter.Exit;
 import es.eucm.eadventure.common.data.chapter.conditions.Conditions;
 import es.eucm.eadventure.common.data.chapter.effects.TriggerSceneEffect;
 
-public class TriggerSceneImporter extends EffectImporter<TriggerSceneEffect, ChangeSceneEf>{
-	
+public class TriggerSceneImporter extends
+		EffectImporter<TriggerSceneEffect, ChangeSceneEf> {
+
 	private EAdElementFactory factory;
-	
+
 	@Inject
 	public TriggerSceneImporter(
-			EAdElementImporter<Conditions, EAdCondition> conditionImporter, EAdElementFactory factory) {
+			EAdElementImporter<Conditions, EAdCondition> conditionImporter,
+			EAdElementFactory factory) {
 		super(conditionImporter);
 		this.factory = factory;
 	}
 
 	@Override
 	public ChangeSceneEf init(TriggerSceneEffect oldObject) {
-		ChangeSceneEf effect =  new ChangeSceneEf();
+		ChangeSceneEf effect = new ChangeSceneEf();
 		effect.setId("triggerCutscene");
 		return effect;
 	}
 
 	@Override
 	public ChangeSceneEf convert(TriggerSceneEffect oldObject, Object object) {
-		ChangeSceneEf changeScene =  super.convert(oldObject, object);
-		
-		EAdScene scene = (EAdScene) factory.getElementById(oldObject.getTargetId());
+		ChangeSceneEf changeScene = super.convert(oldObject, object);
+
+		EAdScene scene = (EAdScene) factory.getElementById(oldObject
+				.getTargetId());
 		changeScene.setNextScene(scene);
-		
+
 		return changeScene;
+	}
+
+	public static EAdTransition getTransition(int type, int time) {
+		EAdTransition transition = null;
+		switch (type) {
+		case Exit.NO_TRANSITION:
+			transition = EmptyTransition.instance();
+			break;
+		case Exit.FADE_IN:
+			transition = new FadeInTransition(time);
+			break;
+		case Exit.LEFT_TO_RIGHT:
+			transition = new DisplaceTransition(time,
+					DisplaceTransitionType.HORIZONTAL, true);
+			break;
+		case Exit.RIGHT_TO_LEFT:
+			transition = new DisplaceTransition(time,
+					DisplaceTransitionType.HORIZONTAL, false);
+			break;
+		case Exit.TOP_TO_BOTTOM:
+			transition = new DisplaceTransition(time,
+					DisplaceTransitionType.VERTICAL, true);
+			break;
+		case Exit.BOTTOM_TO_TOP:
+			transition = new DisplaceTransition(time,
+					DisplaceTransitionType.VERTICAL, false);
+			break;
+		default:
+			transition = EmptyTransition.instance();
+		}
+		return transition;
 	}
 
 }

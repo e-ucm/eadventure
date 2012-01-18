@@ -68,6 +68,8 @@ import ead.engine.core.gameobjects.go.SceneGO;
 import ead.engine.core.gameobjects.sceneelements.BasicSceneElementGO;
 import ead.engine.core.gameobjects.sceneelements.ComplexSceneElementGO;
 import ead.engine.core.gameobjects.transitions.BasicTransitionGO;
+import ead.engine.core.gameobjects.transitions.DisplaceTransitionGO;
+import ead.engine.core.gameobjects.transitions.FadeInTransitionGO;
 
 public class PlayNInjector implements GenericInjector {
 
@@ -88,6 +90,10 @@ public class PlayNInjector implements GenericInjector {
 		Object go = null;
 		if (clazz == BasicTransitionGO.class)
 			go = ginjector.getSimpleTransitionGO();
+		else if ( clazz == DisplaceTransitionGO.class )
+			go = ginjector.getDisplaceTransitionGO();
+		else if ( clazz == FadeInTransitionGO.class )
+			go = ginjector.getDisplaceTransitionGO();
 		else if (clazz == ActorActionsGO.class)
 			go = ginjector.getActorActionEffectGO();
 		else if (clazz == CancelEffectGO.class)

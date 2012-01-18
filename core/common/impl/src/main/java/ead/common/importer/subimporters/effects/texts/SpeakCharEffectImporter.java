@@ -48,17 +48,12 @@ import ead.common.model.predef.effects.SpeakSceneElementEf;
 import ead.common.params.fills.EAdColor;
 import ead.common.params.fills.EAdPaintImpl;
 import ead.common.resources.StringHandler;
-import ead.common.resources.assets.drawable.basics.shapes.extra.BalloonType;
 import es.eucm.eadventure.common.data.chapter.conditions.Conditions;
 import es.eucm.eadventure.common.data.chapter.effects.SpeakCharEffect;
 import es.eucm.eadventure.common.data.chapter.elements.NPC;
 
 public class SpeakCharEffectImporter extends
 		TextEffectImporter<SpeakCharEffect> {
-
-	public static final String WHISPER = "#:*";
-	public static final String THOUGHT = "#O";
-	public static final String YELL = "#!";
 
 	private NPC npc;
 
@@ -82,32 +77,22 @@ public class SpeakCharEffectImporter extends
 	public SpeakEf convert(SpeakCharEffect oldObject, Object object) {
 		SpeakEf effect = super.convert(oldObject, object);
 
-		for ( EAdOperation op: TextEffectImporter.getOperations(oldObject.getLine(), factory)){
+		for (EAdOperation op : TextEffectImporter.getOperations(
+				oldObject.getLine(), factory)) {
 			effect.getCaption().getFields().add(op);
 		}
-		String line = TextEffectImporter.translateLine(oldObject.getLine());
-		stringHandler.setString(effect.getString(), line);
-		setColor( effect, oldObject.getLine(), npc );
 
+		String line = setBallonType(effect, oldObject.getLine());
+
+
+		line = TextEffectImporter.translateLine(line);
+		stringHandler.setString(effect.getString(), line);
+		setColor(effect, npc);
 
 		return effect;
 	}
-	
-	public static void setColor( SpeakEf effect, String line, NPC npc ){
-		BalloonType type = BalloonType.ROUNDED_RECTANGLE;
-		if (line.startsWith(WHISPER)) {
-			// TODO Whisper balloon
-			type = BalloonType.ROUNDED_RECTANGLE;
-			line = line.substring(WHISPER.length());
-		} else if (line.startsWith(THOUGHT)) {
-			type = BalloonType.CLOUD;
-			line = line.substring(THOUGHT.length());
-		} else if (line.startsWith(YELL)) {
-			type = BalloonType.ELECTRIC;
-			line = line.substring(YELL.length());
-		}
-		
-		effect.setBalloonType(type);
+
+	public static void setColor(SpeakEf effect, NPC npc) {
 
 		EAdColor center = new EAdColor("0x"
 				+ npc.getTextFrontColor().substring(1) + "ff");
@@ -119,8 +104,8 @@ public class SpeakCharEffectImporter extends
 		EAdColor bubbleBorder = new EAdColor("0x"
 				+ npc.getBubbleBorderColor().substring(1) + "ff");
 
-		effect.setColor(new EAdPaintImpl(center, border),
-				new EAdPaintImpl(bubbleCenter, bubbleBorder));
+		effect.setColor(new EAdPaintImpl(center, border), new EAdPaintImpl(
+				bubbleCenter, bubbleBorder));
 	}
 
 }

@@ -83,7 +83,7 @@ public class EAdEngine implements playn.core.Game, Keyboard.Listener {
 
 	private InputHandler inputHandler;
 
-	private EngineConfiguration platformConfiguration;
+	private EngineConfiguration engineConfiguration;
 
 	private static final Logger logger = Logger.getLogger("EAdEngine");
 
@@ -93,14 +93,14 @@ public class EAdEngine implements playn.core.Game, Keyboard.Listener {
 		this.game = game;
 		this.gui = gui;
 		this.inputHandler = inputHandler;
-		this.platformConfiguration = platformConfiguration;
+		this.engineConfiguration = platformConfiguration;
 		((PlayNAssetHandler) assetHandler).setEngine(this);
 		logger.info("New instance");
 	}
 
 	@Override
 	public void init() {
-		graphics().setSize(platformConfiguration.getWidth(), platformConfiguration.getHeight());
+		graphics().setSize(engineConfiguration.getWidth(), engineConfiguration.getHeight());
 		PlayN.log().debug("EAdEngine: init");
 		
 		HtmlPlatform.disableRightClickContextMenu();

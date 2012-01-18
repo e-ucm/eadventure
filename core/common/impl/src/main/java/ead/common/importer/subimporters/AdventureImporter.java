@@ -54,16 +54,18 @@ import es.eucm.eadventure.common.data.chapter.Chapter;
  * 
  * 
  */
-public class AdventureImporter implements EAdElementImporter<AdventureData, EAdAdventureModel> {
+public class AdventureImporter implements
+		EAdElementImporter<AdventureData, EAdAdventureModel> {
 
 	private EAdElementImporter<Chapter, EAdChapter> chapterImporter;
 
 	private StringHandler stringsWriter;
-	
+
 	private EAdElementFactory factory;
-	
+
 	@Inject
-	public AdventureImporter(EAdElementImporter<Chapter, EAdChapter> chapterImporter,
+	public AdventureImporter(
+			EAdElementImporter<Chapter, EAdChapter> chapterImporter,
 			StringHandler stringHandler, EAdElementFactory factory) {
 		this.chapterImporter = chapterImporter;
 		this.stringsWriter = stringHandler;
@@ -71,30 +73,36 @@ public class AdventureImporter implements EAdElementImporter<AdventureData, EAdA
 	}
 
 	@Override
-	public EAdAdventureModel init( AdventureData oldData ) {
-		EAdAdventureModelImpl model = new EAdAdventureModelImpl( );
+	public EAdAdventureModel init(AdventureData oldData) {
+		EAdAdventureModelImpl model = new EAdAdventureModelImpl();
 		return model;
 	}
-	
+
 	@Override
-	public EAdAdventureModel convert( AdventureData oldData, Object object ) {
+	public EAdAdventureModel convert(AdventureData oldData, Object object) {
 		factory.setOldDataModel(oldData);
 		EAdAdventureModelImpl model = (EAdAdventureModelImpl) object;
-		model.setInventory(new InventoryImpl());
+		
+		// FIXME positions for the inventory (among other thins in AdventureData)
+		if (oldData.getInventoryPosition() != AdventureData.INVENTORY_NONE){
+			model.setInventory(new InventoryImpl());
+		}
+
 		stringsWriter.setString(model.getTitle(), oldData.getTitle());
-		stringsWriter.setString(model.getDescription(), oldData.getDescription());
+		stringsWriter.setString(model.getDescription(),
+				oldData.getDescription());
 
-		for ( Chapter oldChapter : oldData.getChapters( ) ) {
-			EAdChapter newChapter = chapterImporter.init( oldChapter );
+		for (Chapter oldChapter : oldData.getChapters()) {
+			EAdChapter newChapter = chapterImporter.init(oldChapter);
 
-			if ( newChapter != null ) {
-				model.getChapters( ).add( newChapter );
+			if (newChapter != null) {
+				model.getChapters().add(newChapter);
 			}
-			
-			newChapter = chapterImporter.convert( oldChapter, newChapter );
+
+			newChapter = chapterImporter.convert(oldChapter, newChapter);
 
 		}
-	
+
 		return model;
 	}
 

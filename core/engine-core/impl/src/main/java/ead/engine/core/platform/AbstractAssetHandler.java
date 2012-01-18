@@ -224,13 +224,13 @@ public abstract class AbstractAssetHandler implements AssetHandler {
 
 	public void clean(List<AssetDescriptor> exceptions) {
 		descriptorsToRemove.clear();
-		for (AssetDescriptor asset : cache.keySet()) {
-			if (!exceptions.contains(asset)) {
-				descriptorsToRemove.add(asset);
-			}
-		}
-
 		synchronized (cache) {
+			for (AssetDescriptor asset : cache.keySet()) {
+				if (!exceptions.contains(asset)) {
+					descriptorsToRemove.add(asset);
+				}
+			}
+
 			for (AssetDescriptor a : descriptorsToRemove) {
 				RuntimeAsset<?> asset = cache.remove(a);
 				asset.freeMemory();

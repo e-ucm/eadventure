@@ -43,6 +43,7 @@ import ead.common.EAdElementImporter;
 import ead.common.importer.interfaces.EAdElementFactory;
 import ead.common.importer.interfaces.EffectsImporterFactory;
 import ead.common.importer.interfaces.ResourceImporter;
+import ead.common.importer.subimporters.effects.TriggerSceneImporter;
 import ead.common.model.elements.EAdCondition;
 import ead.common.model.elements.EAdEffect;
 import ead.common.model.elements.conditions.NOTCond;
@@ -51,11 +52,7 @@ import ead.common.model.elements.guievents.EAdMouseEvent;
 import ead.common.model.elements.scene.EAdScene;
 import ead.common.model.elements.scene.EAdSceneElement;
 import ead.common.model.elements.scenes.SceneElementImpl;
-import ead.common.model.elements.transitions.DisplaceTransition;
 import ead.common.model.elements.transitions.EAdTransition;
-import ead.common.model.elements.transitions.EmptyTransition;
-import ead.common.model.elements.transitions.FadeInTransition;
-import ead.common.model.elements.transitions.enums.DisplaceTransitionType;
 import ead.common.model.predef.effects.ChangeCursorEf;
 import ead.common.params.text.EAdString;
 import ead.common.resources.StringHandler;
@@ -99,56 +96,39 @@ public class ExitImporter extends ElementImporter<Exit> {
 		EAdCondition enableCondition = getEnableCondition(oldObject
 				.getConditions());
 
-		super.addEnableEvent(newExit, enableCondition);
-
-		// Effects
-		addEfects(newExit, oldObject, enableCondition);
+		// If the exit has not-effects, it is always visible
+		if (!oldObject.isHasNotEffects())
+			super.addVisibleEvent(newExit, enableCondition);
 
 		// Add influence area
 		addInfluenceArea(newExit, oldObject, oldObject.getInfluenceArea());
 
 		// Add get to the exit
-		addGoToExit(newExit, oldObject, enableCondition);
+		ChangeSceneEf changeScene = addGoToExit(newExit, oldObject,
+				enableCondition);
 
 		// Add appearance (name and cursor)
 		addAppearance(newExit, oldObject);
 
+		// Effects
+		addEffects(newExit, oldObject, enableCondition, changeScene);
+
 		return newExit;
 	}
 
-	private void addGoToExit(SceneElementImpl newExit, Exit oldObject,
+	private ChangeSceneEf addGoToExit(SceneElementImpl newExit, Exit oldObject,
 			EAdCondition enableCondition) {
 
-		//FIXME this should stop effects util later (set blockig is not enough?)
+		// FIXME this should stop effects util later (set blockig is not
+		// enough?)
 		// Change scene effect
 		EAdScene scene = (EAdScene) factory.getElementById(oldObject
 				.getNextSceneId());
-		
-		EAdTransition transition = null;
-		int time = oldObject.getTransitionTime();
-		switch ( oldObject.getTransitionType() ){
-		case Exit.NO_TRANSITION:
-			transition = EmptyTransition.instance();
-			break;
-		case Exit.FADE_IN:
-			transition = new FadeInTransition( time );
-			break;
-		case Exit.LEFT_TO_RIGHT:
-			transition = new DisplaceTransition( time, DisplaceTransitionType.HORIZONTAL, true );
-			break;
-		case Exit.RIGHT_TO_LEFT:
-			transition = new DisplaceTransition( time, DisplaceTransitionType.HORIZONTAL, false );
-			break;
-		case Exit.TOP_TO_BOTTOM:
-			transition = new DisplaceTransition( time, DisplaceTransitionType.VERTICAL, true );
-			break;
-		case Exit.BOTTOM_TO_TOP:
-			transition = new DisplaceTransition( time, DisplaceTransitionType.VERTICAL, false);
-			break;
-		}
-		
-		ChangeSceneEf changeScene = new ChangeSceneEf(scene,
-				transition);
+
+		EAdTransition transition = TriggerSceneImporter.getTransition(
+				oldObject.getTransitionType(), oldObject.getTransitionTime());
+
+		ChangeSceneEf changeScene = new ChangeSceneEf(scene, transition);
 		changeScene.setId("change_screen_" + newExit.getId());
 		changeScene.setCondition(enableCondition);
 		changeScene.setBlocking(true);
@@ -161,6 +141,7 @@ public class ExitImporter extends ElementImporter<Exit> {
 		}
 
 		addGoToExit(newExit, oldObject, enableCondition, changeScene);
+		return changeScene;
 
 	}
 
@@ -188,13 +169,13 @@ public class ExitImporter extends ElementImporter<Exit> {
 		newExit.addBehavior(EAdMouseEvent.MOUSE_EXITED, changeCursorBack);
 	}
 
-	private void addEfects(SceneElementImpl newExit, Exit oldObject,
-			EAdCondition enableCondition) {
+	private void addEffects(SceneElementImpl newExit, Exit oldObject,
+			EAdCondition enableCondition, EAdEffect changeSceneEffect) {
 		// Normal effects
 		for (Effect e : oldObject.getEffects().getEffects()) {
 			EAdEffect eadEffect = effectsImporterFactory.getEffect(e);
 			eadEffect.setCondition(enableCondition);
-			newExit.addBehavior(EAdMouseEvent.MOUSE_LEFT_CLICK, eadEffect);
+			changeSceneEffect.getNextEffects().add(eadEffect);
 		}
 
 		// No effects

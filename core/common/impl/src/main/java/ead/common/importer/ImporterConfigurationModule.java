@@ -87,7 +87,6 @@ import ead.common.model.elements.VideoScene;
 import ead.common.model.elements.conditions.OperationCond;
 import ead.common.model.elements.effects.EffectsMacro;
 import ead.common.model.elements.effects.text.SpeakEf;
-import ead.common.model.elements.extra.EAdCutscene;
 import ead.common.model.elements.scene.EAdScene;
 import ead.common.model.elements.scene.EAdSceneElement;
 import ead.common.model.elements.scene.EAdSceneElementDef;
@@ -165,7 +164,7 @@ public class ImporterConfigurationModule extends AbstractModule {
 		}).to(SceneImporter.class);
 		EAdElementFactoryImpl.importerMap.put(Scene.class, SceneImporter.class);
 
-		bind(new TypeLiteral<EAdElementImporter<Slidescene, EAdCutscene>>() {
+		bind(new TypeLiteral<EAdElementImporter<Slidescene, EAdScene>>() {
 		}).to(SlidesceneImporter.class);
 		EAdElementFactoryImpl.importerMap.put(Slidescene.class,
 				SlidesceneImporter.class);

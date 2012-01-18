@@ -70,6 +70,8 @@ import ead.engine.core.gameobjects.events.TimedEvGO;
 import ead.engine.core.gameobjects.sceneelements.BasicSceneElementGO;
 import ead.engine.core.gameobjects.sceneelements.ComplexSceneElementGO;
 import ead.engine.core.gameobjects.transitions.BasicTransitionGO;
+import ead.engine.core.gameobjects.transitions.DisplaceTransitionGO;
+import ead.engine.core.gameobjects.transitions.FadeInTransitionGO;
 import ead.engine.core.input.InputHandler;
 import ead.engine.core.inventory.InventoryHandler;
 import ead.engine.core.modules.BasicGameModule;
@@ -85,6 +87,9 @@ public interface PlayNGinInjector extends Ginjector {
 	public Game getGame();
 	
 	public BasicTransitionGO getSimpleTransitionGO();
+	public DisplaceTransitionGO getDisplaceTransitionGO();
+	public FadeInTransitionGO getFadeInTransitionGO();
+	
 	
 	public ActorActionsGO getActorActionEffectGO();
 	public CancelEffectGO getCancelEffectGO();

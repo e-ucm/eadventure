@@ -141,8 +141,6 @@ public class GameStateImpl implements GameState {
 	 */
 	@Override
 	public void setScene(SceneGO<? extends EAdScene> newScene) {
-		// Clean cache
-//		sceneElementFactory.clean();
 		if (this.scene != null && this.scene.getElement() != null) {
 			valueMap.setValue(scene.getElement(), SceneImpl.VAR_SCENE_LOADED,
 					Boolean.FALSE);

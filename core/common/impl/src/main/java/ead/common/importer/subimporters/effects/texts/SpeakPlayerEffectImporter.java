@@ -48,7 +48,6 @@ import ead.common.model.predef.effects.SpeakSceneElementEf;
 import ead.common.params.fills.EAdColor;
 import ead.common.params.fills.EAdPaintImpl;
 import ead.common.resources.StringHandler;
-import ead.common.resources.assets.drawable.basics.shapes.extra.BalloonType;
 import es.eucm.eadventure.common.data.chapter.conditions.Conditions;
 import es.eucm.eadventure.common.data.chapter.effects.SpeakPlayerEffect;
 import es.eucm.eadventure.common.data.chapter.elements.NPC;
@@ -83,28 +82,13 @@ public class SpeakPlayerEffectImporter extends
 			Object object) {
 		SpeakEf effect = super.convert(oldObject, object);
 
-		String line = oldObject.getLine();
-
-		BalloonType type = BalloonType.ROUNDED_RECTANGLE;
-		if (line.startsWith(SpeakCharEffectImporter.WHISPER)) {
-			// TODO Whisper balloon
-			type = BalloonType.ROUNDED_RECTANGLE;
-			line = line.substring(SpeakCharEffectImporter.WHISPER.length());
-		} else if (line.startsWith(SpeakCharEffectImporter.THOUGHT)) {
-			type = BalloonType.CLOUD;
-			line = line.substring(SpeakCharEffectImporter.THOUGHT.length());
-		} else if (line.startsWith(SpeakCharEffectImporter.YELL)) {
-			type = BalloonType.ELECTRIC;
-			line = line.substring(SpeakCharEffectImporter.YELL.length());
-		}
-
+		String line = setBallonType(effect, oldObject.getLine());
 		
 		for ( EAdOperation op: TextEffectImporter.getOperations(oldObject.getLine(), factory)){
 			effect.getCaption().getFields().add(op);
 		}
-		String finalLine = TextEffectImporter.translateLine(oldObject.getLine());
+		String finalLine = TextEffectImporter.translateLine(line);
 		stringHandler.setString(effect.getString(), finalLine);
-		effect.setBalloonType(type);
 
 		EAdColor center = new EAdColor("0x"
 				+ npc.getTextFrontColor().substring(1) + "ff");

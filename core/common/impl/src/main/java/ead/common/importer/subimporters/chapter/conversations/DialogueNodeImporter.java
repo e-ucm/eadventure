@@ -89,11 +89,12 @@ public class DialogueNodeImporter implements
 		if ( initialEffect == null ){
 			initialEffect = new SpeakEf( );
 			initialEffect.setColor(EAdColor.TRANSPARENT, EAdColor.TRANSPARENT);
+			previousEffect = initialEffect;
 		}
 		
 		for (Effect e : oldObject.getEffects().getEffects()) {
 			EAdEffect effect = effectsImporter.getEffect(e);
-			initialEffect.getNextEffects().add(effect);
+			previousEffect.getNextEffects().add(effect);
 		}
 		return initialEffect;
 	}

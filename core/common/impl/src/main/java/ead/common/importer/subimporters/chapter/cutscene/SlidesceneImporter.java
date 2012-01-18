@@ -41,13 +41,24 @@ import com.google.inject.Inject;
 
 import ead.common.EAdElementImporter;
 import ead.common.importer.interfaces.EAdElementFactory;
+import ead.common.importer.interfaces.EffectsImporterFactory;
 import ead.common.importer.interfaces.ResourceImporter;
+import ead.common.importer.subimporters.effects.TriggerSceneImporter;
 import ead.common.model.elements.EAdChapter;
 import ead.common.model.elements.EAdCondition;
-import ead.common.model.elements.extra.EAdCutscene;
-import ead.common.model.elements.extra.EAdSlide;
+import ead.common.model.elements.EAdEffect;
+import ead.common.model.elements.conditions.EmptyCond;
+import ead.common.model.elements.effects.ChangeSceneEf;
+import ead.common.model.elements.effects.EffectsMacro;
+import ead.common.model.elements.effects.TriggerMacroEf;
+import ead.common.model.elements.guievents.EAdMouseEvent;
 import ead.common.model.elements.scene.EAdScene;
-import ead.common.resources.assets.drawable.basics.animation.Frame;
+import ead.common.model.elements.scenes.SceneElementImpl;
+import ead.common.model.elements.scenes.SceneImpl;
+import ead.common.model.elements.transitions.EAdTransition;
+import ead.common.model.elements.transitions.EmptyTransition;
+import ead.common.resources.StringHandler;
+import ead.common.resources.assets.drawable.basics.BasicDrawable;
 import ead.common.resources.assets.drawable.basics.animation.FramesAnimation;
 import ead.common.resources.assets.multimedia.Sound;
 import ead.common.resources.assets.multimedia.SoundImpl;
@@ -60,63 +71,88 @@ import es.eucm.eadventure.common.data.chapter.scenes.Slidescene;
  * 
  */
 public class SlidesceneImporter implements
-		EAdElementImporter<Slidescene, EAdCutscene> {
+		EAdElementImporter<Slidescene, EAdScene> {
 
 	private EAdElementFactory factory;
 
 	private ResourceImporter resourceImporter;
 
+	private StringHandler stringHandler;
+
+	private EffectsImporterFactory effectsImporter;
+
 	@Inject
-	public SlidesceneImporter(
+	public SlidesceneImporter(EffectsImporterFactory effectsImporter,
 			EAdElementImporter<Conditions, EAdCondition> conditionsImporter,
-			EAdElementFactory factory, ResourceImporter resourceImporter) {
+			EAdElementFactory factory, ResourceImporter resourceImporter,
+			StringHandler stringHandler) {
 		this.factory = factory;
 		this.resourceImporter = resourceImporter;
+		this.stringHandler = stringHandler;
+		this.effectsImporter = effectsImporter;
 	}
 
 	@Override
-	public EAdCutscene init(Slidescene oldSlideScene) {
-		EAdCutscene cutscene = new EAdCutscene();
-		cutscene.setId(oldSlideScene.getId());
-		return cutscene;
+	public EAdScene init(Slidescene oldSlideScene) {
+		EAdScene scene = new SceneImpl();
+		scene.setId(oldSlideScene.getId() + "_slide_1");
+		return scene;
 	}
 
 	@Override
-	public EAdCutscene convert(Slidescene oldSlideScene, Object object) {
+	public EAdScene convert(Slidescene oldSlideScene, Object object) {
 		EAdChapter chapter = factory.getCurrentChapterModel();
-		EAdCutscene cutscene = (EAdCutscene) object;
+		EAdScene cutscene = (EAdScene) object;
 
 		importDocumentation(cutscene, oldSlideScene);
 		importResources(cutscene, oldSlideScene, chapter);
 
-		if (oldSlideScene.getNext() == Slidescene.NEWSCENE) {
-			EAdScene scene = (EAdScene) factory.getElementById(oldSlideScene
-					.getTargetId());
-			cutscene.setNextScene(scene);
-		}
-		// TODO convert the end-game next scene value
-
-		cutscene.setUpForEngine(chapter);
-
 		return cutscene;
 	}
 
-	private void importResources(EAdCutscene cutscene,
-			Slidescene oldSlidesceneScene, EAdChapter chapter) {
-		Resources res = oldSlidesceneScene.getResources().get(0);
+	private void importResources(EAdScene cutscene, Slidescene oldSlides,
+			EAdChapter chapter) {
+		cutscene.setReturnable(false);
+		Resources res = oldSlides.getResources().get(0);
 		String assetPath = res.getAssetPath(Slidescene.RESOURCE_TYPE_SLIDES);
-
 		FramesAnimation asset = (FramesAnimation) resourceImporter
 				.getAssetDescritptor(assetPath, FramesAnimation.class);
-		for (int i = 0; i < asset.getFrameCount(); i++) {
-			Frame f = asset.getFrame(i);
-			EAdSlide slide = new EAdSlide(f.getDrawable());
-			slide.setId("slide_" + i);
-			slide.setTime(f.getTime());
-			cutscene.addSlide(slide);
+		ChangeSceneEf changeScene = getNextScene(oldSlides);
+
+		EffectsMacro macro = effectsImporter.getMacroEffects(oldSlides
+				.getEffects());
+		if (macro != null) {
+			TriggerMacroEf triggerMacro = new TriggerMacroEf();
+			triggerMacro.putMacro(macro, EmptyCond.TRUE_EMPTY_CONDITION);
+			changeScene.getNextEffects().add(triggerMacro);
 		}
 
-		for (Resources r : oldSlidesceneScene.getResources()) {
+		EAdScene[] scenes = new EAdScene[asset.getFrameCount()];
+		for (int i = 0; i < asset.getFrameCount(); i++) {
+			if (i == 0)
+				scenes[i] = cutscene;
+			else
+				scenes[i] = new SceneImpl();
+			BasicDrawable drawable = asset.getFrame(i).getDrawable();
+			scenes[i].setBackground(new SceneElementImpl(drawable));
+			scenes[i].setReturnable(false);
+		}
+
+		for (int i = 0; i < scenes.length; i++) {
+			EAdEffect effect = null;
+			if (i == scenes.length - 1) {
+				effect = changeScene;
+			} else {
+				effect = new ChangeSceneEf();
+				((ChangeSceneEf) effect).setNextScene(scenes[i + 1]);
+			}
+
+			scenes[i].getBackground().addBehavior(
+					EAdMouseEvent.MOUSE_LEFT_CLICK, effect);
+
+		}
+
+		for (Resources r : oldSlides.getResources()) {
 			// Music is imported to chapter level. So, the chapter will
 			// remain with the last sound track appeared in the scenes
 			String musicPath = r.getAssetPath(Slidescene.RESOURCE_TYPE_MUSIC);
@@ -131,15 +167,36 @@ public class SlidesceneImporter implements
 
 	}
 
-	private void importDocumentation(EAdCutscene space, Slidescene oldScene) {
-		/*
-		 * FIXME space.setName(new EAdString(stringHandler.getUniqueId()));
-		 * stringHandler.addString(space.getName(), oldScene.getName());
-		 * 
-		 * space.setDocumentation(new EAdString(stringHandler.getUniqueId()));
-		 * stringHandler.addString(space.getDocumentation(),
-		 * oldScene.getDocumentation());
-		 */
+	private ChangeSceneEf getNextScene(Slidescene oldSlides) {
+		EAdScene nextScene = null;
+		EAdTransition transition = EmptyTransition.instance();
+		switch (oldSlides.getNext()) {
+		case Slidescene.GOBACK:
+			nextScene = null;
+			break;
+		case Slidescene.ENDCHAPTER:
+			// FIXME end chapter slide scene
+			nextScene = null;
+			break;
+		case Slidescene.NEWSCENE:
+			nextScene = (EAdScene) factory.getElementById(oldSlides
+					.getTargetId());
+			transition = TriggerSceneImporter.getTransition(
+					oldSlides.getTransitionType(),
+					oldSlides.getTransitionTime());
+			break;
+		}
+		ChangeSceneEf changeScene = new ChangeSceneEf();
+		changeScene.setNextScene(nextScene);
+		changeScene.setTransition(transition);
+		return changeScene;
+	}
+
+	private void importDocumentation(EAdScene scene, Slidescene oldScene) {
+		stringHandler.setString(scene.getDefinition().getDoc(),
+				oldScene.getDocumentation());
+		stringHandler.setString(scene.getDefinition().getName(),
+				oldScene.getName());
 	}
 
 }

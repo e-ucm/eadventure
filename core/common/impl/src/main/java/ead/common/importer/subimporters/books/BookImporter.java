@@ -191,8 +191,9 @@ public class BookImporter implements EAdElementImporter<Book, EAdScene> {
 		if (oldObject.getType() == Book.TYPE_PAGES) {
 			CaptionImpl captionImpl = new CaptionImpl();
 			captionImpl.setFont(new EAdFontImpl(18));
+//			captionImpl.setAlignment(Alignment.CENTER);
 			stringHandler.setString(captionImpl.getLabel(), HTML_NOT_SUPPORTED);
-			image.addDrawable(captionImpl, 400, 0);
+			image.addDrawable(captionImpl, 0, 0);
 		} else
 			for (BookParagraph p : oldObject.getParagraphs()) {
 				if (p.getContent() != null && !p.getContent().equals(""))
@@ -242,69 +243,72 @@ public class BookImporter implements EAdElementImporter<Book, EAdScene> {
 
 		SceneElementImpl content = new SceneElementImpl(image);
 		content.setId(oldObject.getId() + "_content");
-		
-		if ( oldObject.getType() == Book.TYPE_PAGES ){
-			content.setPosition(Corner.CENTER, 400, 300);
-		}	
-		else
-			content.setPosition(0, 0);
-
-		EAdField<Integer> xVar = new EAdFieldImpl<Integer>(content,
-				SceneElementImpl.VAR_X);
-
-		SceneElementEv event = new SceneElementEv();
-		event.setId("restartBook");
-		event.addEffect(SceneElementEventType.ADDED_TO_SCENE,
-				new ChangeFieldEf(xVar, new ValueOp(0)));
-		content.getEvents().add(event);
-
-		EAdCondition leftCondition = new OperationCond(xVar, 0,
-				Comparator.LESS);
-		SceneElementImpl leftArrow = getArrow(oldObject, content,
-				Book.RESOURCE_TYPE_ARROW_LEFT_NORMAL,
-				Book.RESOURCE_TYPE_ARROW_LEFT_OVER, "[0] + " + BOOK_WIDTH,
-				leftCondition);
-		Point p = oldObject.getPreviousPagePoint();
-		int x = 10;
-		int y = 10;
-		if (p != null) {
-			x = p.x;
-			y = p.y;
-		}
-		leftArrow.setPosition(x, y);
-
-		EAdCondition rightCondition = EmptyCond.TRUE_EMPTY_CONDITION;
-		SceneElementImpl rightArrow = getArrow(oldObject, content,
-				Book.RESOURCE_TYPE_ARROW_RIGHT_NORMAL,
-				Book.RESOURCE_TYPE_ARROW_RIGHT_OVER, "[0] - " + BOOK_WIDTH,
-				rightCondition);
-
-		p = oldObject.getNextPagePoint();
-		x = 790;
-		y = 10;
-		Corner c = Corner.TOP_RIGHT;
-		if (p != null) {
-			x = p.x;
-			y = p.y;
-			c = Corner.TOP_LEFT;
-		}
-
-		rightArrow.setPosition(new EAdPosition(c, x, y));
-
-		EAdCondition endCondition = new OperationCond(xVar,
-				-(((column / 2) - 1) * BOOK_WIDTH + BOOK_WIDTH / 2),
-				Comparator.LESS);
-
-		ChangeSceneEf changeScene = new ChangeSceneEf();
-		changeScene.setId("endBook");
-		changeScene.setCondition(endCondition);
-		rightArrow.addBehavior(EAdMouseEvent.MOUSE_LEFT_CLICK, changeScene);
-
-		book.getComponents().add(content);
-		book.getComponents().add(leftArrow);
-		book.getComponents().add(rightArrow);
 		book.setReturnable(false);
+		book.getComponents().add(content);
+		
+		if ( oldObject.getType() == Book.TYPE_PARAGRAPHS ){
+			content.setPosition(Corner.CENTER, 400, 300);
+			EAdField<Integer> xVar = new EAdFieldImpl<Integer>(content,
+					SceneElementImpl.VAR_X);
 
+			SceneElementEv event = new SceneElementEv();
+			event.setId("restartBook");
+			event.addEffect(SceneElementEventType.ADDED_TO_SCENE,
+					new ChangeFieldEf(xVar, new ValueOp(0)));
+			content.getEvents().add(event);
+
+			EAdCondition leftCondition = new OperationCond(xVar, 0,
+					Comparator.LESS);
+			SceneElementImpl leftArrow = getArrow(oldObject, content,
+					Book.RESOURCE_TYPE_ARROW_LEFT_NORMAL,
+					Book.RESOURCE_TYPE_ARROW_LEFT_OVER, "[0] + " + BOOK_WIDTH,
+					leftCondition);
+			Point p = oldObject.getPreviousPagePoint();
+			int x = 10;
+			int y = 10;
+			if (p != null) {
+				x = p.x;
+				y = p.y;
+			}
+			leftArrow.setPosition(x, y);
+
+			EAdCondition rightCondition = EmptyCond.TRUE_EMPTY_CONDITION;
+			SceneElementImpl rightArrow = getArrow(oldObject, content,
+					Book.RESOURCE_TYPE_ARROW_RIGHT_NORMAL,
+					Book.RESOURCE_TYPE_ARROW_RIGHT_OVER, "[0] - " + BOOK_WIDTH,
+					rightCondition);
+
+			p = oldObject.getNextPagePoint();
+			x = 790;
+			y = 10;
+			Corner c = Corner.TOP_RIGHT;
+			if (p != null) {
+				x = p.x;
+				y = p.y;
+				c = Corner.TOP_LEFT;
+			}
+
+			rightArrow.setPosition(new EAdPosition(c, x, y));
+
+			EAdCondition endCondition = new OperationCond(xVar,
+					-(((column / 2) - 1) * BOOK_WIDTH + BOOK_WIDTH / 2),
+					Comparator.LESS);
+
+			ChangeSceneEf changeScene = new ChangeSceneEf();
+			changeScene.setId("endBook");
+			changeScene.setCondition(endCondition);
+			rightArrow.addBehavior(EAdMouseEvent.MOUSE_LEFT_CLICK, changeScene);
+
+			
+			book.getComponents().add(leftArrow);
+			book.getComponents().add(rightArrow);
+		}	
+		else {
+			content.setPosition(Corner.CENTER, 400, 300);
+			content.setVarInitialValue(SceneElementImpl.VAR_ENABLE, false);
+			book.getBackground().addBehavior(EAdMouseEvent.MOUSE_LEFT_CLICK, new ChangeSceneEf());
+		}
+		
 		return book;
 	}
 

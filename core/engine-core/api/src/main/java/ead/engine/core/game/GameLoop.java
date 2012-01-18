@@ -43,7 +43,7 @@ package ead.engine.core.game;
  */
 public interface GameLoop {
 
-	static final int TICKS_PER_SECOND = 30;
+	static final int TICKS_PER_SECOND = 15;
 
 	public static final int SKIP_MILLIS_TICK = 1000 / TICKS_PER_SECOND;
 

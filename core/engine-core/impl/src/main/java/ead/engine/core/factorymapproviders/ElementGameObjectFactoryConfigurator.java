@@ -38,8 +38,6 @@
 package ead.engine.core.factorymapproviders;
 
 import ead.common.model.elements.VideoScene;
-import ead.common.model.elements.extra.EAdCutscene;
-import ead.common.model.elements.extra.EAdSlide;
 import ead.common.model.elements.scene.EAdScene;
 import ead.common.model.elements.scene.EAdSceneElement;
 import ead.common.model.elements.scenes.ComplexSceneElementImpl;
@@ -62,15 +60,9 @@ public class ElementGameObjectFactoryConfigurator
 		factoryMap.put(EAdScene.class, SceneGOImpl.class);
 		factoryMap.put(SceneImpl.class, SceneGOImpl.class);
 		factoryMap.put(ComposedScene.class, ComposedSceneGOImpl.class);
-		factoryMap.put(EAdCutscene.class, ComposedSceneGOImpl.class);
-		factoryMap.put(EAdSlide.class, SceneGOImpl.class);
 		factoryMap.put(SceneElementImpl.class, BasicSceneElementGO.class);
 		factoryMap
 				.put(ComplexSceneElementImpl.class, ComplexSceneElementGO.class);
-		// FIXME remove timers
-		// factoryMap.put(EAdTimer.class, TimerGO.class);
-		// factoryMap.put(EAdTimerImpl.class, TimerGO.class);
-		
 		factoryMap.put(VideoScene.class, VideoSceneGO.class);
 		factoryMap.put(LoadingScreen.class, SceneGOImpl.class);
 	}
