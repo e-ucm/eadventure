@@ -72,8 +72,6 @@ public class ConsumeObjectEffectImporter extends EffectImporter<ConsumeObjectEff
 	public EAdEffect convert(ConsumeObjectEffect oldObject, Object object) {
 		ModifyInventoryEf effect = (ModifyInventoryEf) object;
 		
-		effect.setQueueable(true);
-		
 		importConditions(oldObject, effect);
 
 		effect.setModification(InventoryEffectAction.REMOVE_FROM_INVENTORY);

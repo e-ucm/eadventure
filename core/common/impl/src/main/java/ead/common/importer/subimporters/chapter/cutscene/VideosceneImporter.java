@@ -41,10 +41,13 @@ import com.google.inject.Inject;
 
 import ead.common.EAdElementImporter;
 import ead.common.importer.interfaces.EAdElementFactory;
+import ead.common.importer.interfaces.EffectsImporterFactory;
 import ead.common.importer.interfaces.ResourceImporter;
 import ead.common.model.elements.EAdChapter;
 import ead.common.model.elements.EAdCondition;
+import ead.common.model.elements.EAdEffect;
 import ead.common.model.elements.VideoScene;
+import ead.common.model.elements.effects.EffectsMacro;
 import ead.common.model.elements.scene.EAdScene;
 import ead.common.resources.assets.multimedia.Video;
 import ead.common.resources.assets.multimedia.VideoImpl;
@@ -57,7 +60,8 @@ import es.eucm.eadventure.common.data.chapter.scenes.Videoscene;
  * Scenes importer
  * 
  */
-public class VideosceneImporter implements EAdElementImporter<Videoscene, VideoScene> {
+public class VideosceneImporter implements
+		EAdElementImporter<Videoscene, VideoScene> {
 
 	/**
 	 * Resources importer
@@ -66,12 +70,16 @@ public class VideosceneImporter implements EAdElementImporter<Videoscene, VideoS
 
 	private EAdElementFactory factory;
 
+	private EffectsImporterFactory effectsImporter;
+
 	@Inject
-	public VideosceneImporter(EAdElementImporter<Conditions, EAdCondition> conditionsImporter,
-			ResourceImporter resourceImporter,
-			EAdElementFactory factory) {
+	public VideosceneImporter(
+			EAdElementImporter<Conditions, EAdCondition> conditionsImporter,
+			ResourceImporter resourceImporter, EAdElementFactory factory,
+			EffectsImporterFactory effectsImporter) {
 		this.resourceImporter = resourceImporter;
 		this.factory = factory;
+		this.effectsImporter = effectsImporter;
 	}
 
 	@Override
@@ -85,31 +93,36 @@ public class VideosceneImporter implements EAdElementImporter<Videoscene, VideoS
 	public VideoScene convert(Videoscene oldSlideScene, Object object) {
 		EAdChapter chapter = factory.getCurrentChapterModel();
 		VideoScene cutscene = (VideoScene) object;
+		EffectsMacro macro = effectsImporter.getMacroEffects(oldSlideScene
+				.getEffects());
+		if (macro != null)
+			for (EAdEffect e : macro.getEffects())
+				cutscene.getFinalEffects().add(e);
 
-		//TODO should import resources
+		// TODO should import conditioned resources
 		importResources(cutscene, oldSlideScene, chapter);
 
 		if (oldSlideScene.getNext() == Slidescene.NEWSCENE) {
-			EAdScene scene = (EAdScene) factory.getElementById(oldSlideScene.getTargetId());
+			EAdScene scene = (EAdScene) factory.getElementById(oldSlideScene
+					.getTargetId());
 			cutscene.setNextScene(scene);
 		}
-		//TODO convert the end-game next scene value
-
-		cutscene.setUpForEngine();
+		// TODO convert the end-game next scene value
 
 		return cutscene;
 	}
 
-	private void importResources(VideoScene cutscene, Videoscene oldSlidesceneScene,
-			EAdChapter chapter) {
+	private void importResources(VideoScene cutscene,
+			Videoscene oldSlidesceneScene, EAdChapter chapter) {
 		Resources res = oldSlidesceneScene.getResources().get(0);
 		String assetPath = res.getAssetPath(Videoscene.RESOURCE_TYPE_VIDEO);
 		String[] temp = assetPath.split("/");
 		String name = temp[temp.length - 1];
 		resourceImporter.copyFile(assetPath, "binary/" + name);
-		
+
 		Video video = new VideoImpl("@binary/" + name);
-		cutscene.getDefinition().getResources().addAsset(VideoScene.video, video);
+		cutscene.getDefinition().getResources()
+				.addAsset(VideoScene.video, video);
 	}
 
 }

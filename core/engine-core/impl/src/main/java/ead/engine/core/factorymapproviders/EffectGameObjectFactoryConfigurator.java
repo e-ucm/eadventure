@@ -71,6 +71,7 @@ import ead.engine.core.gameobjects.effects.MoveSceneElementGO;
 import ead.engine.core.gameobjects.effects.PlaySoundGO;
 import ead.engine.core.gameobjects.effects.QuitGameGO;
 import ead.engine.core.gameobjects.effects.RandomEffectGO;
+import ead.engine.core.gameobjects.effects.RandomGO;
 import ead.engine.core.gameobjects.effects.ShowSceneElementGO;
 import ead.engine.core.gameobjects.effects.SpeakGO;
 import ead.engine.core.gameobjects.effects.TriggerMacroGO;
@@ -103,6 +104,7 @@ public class EffectGameObjectFactoryConfigurator
 				AddActorReferenceGO.class);
 		factoryMap.put(ShowQuestionEf.class, ComplexBlockingEffectGO.class);
 		factoryMap.put(ModifyHUDEf.class, ModifyHudGO.class);
+		factoryMap.put(RandomEf.class, RandomGO.class);
 	}
 	
 	

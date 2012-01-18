@@ -74,8 +74,6 @@ public class DeactivateFlagImporter extends EffectImporter<DeactivateEffect, Cha
 		changeVar.setId( "changeVarValue" + ID_GENERATOR++);
 		super.importConditions(oldObject, changeVar);
 		
-		changeVar.setQueueable(true);
-		
 		return changeVar;
 	}
 	

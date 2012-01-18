@@ -90,8 +90,6 @@ public class ActorActionsGO extends
 					if (action instanceof MouseActionImpl) {
 						x = gameState.getValueMap().getValue(SystemFields.MOUSE_X);
 						y = gameState.getValueMap().getValue(SystemFields.MOUSE_Y);
-						//x = ((MouseAction) action).getVirtualX();
-						//y = ((MouseAction) action).getVirtualY();
 					}
 					actionsHUD.setElement(sceneElement, x, y);
 					gameObjectManager.addHUD(actionsHUD);

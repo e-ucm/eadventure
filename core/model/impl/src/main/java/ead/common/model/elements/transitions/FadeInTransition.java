@@ -4,6 +4,10 @@ import ead.common.interfaces.Element;
 
 @Element(detailed = FadeInTransition.class, runtime = FadeInTransition.class )
 public class FadeInTransition extends EmptyTransition {
+	
+	public FadeInTransition( ){
+		
+	}
 
 	public FadeInTransition( int time ){
 		super( time );

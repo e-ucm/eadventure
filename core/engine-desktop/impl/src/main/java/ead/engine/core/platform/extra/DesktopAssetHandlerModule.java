@@ -77,7 +77,7 @@ import ead.engine.core.platform.assets.RuntimeComposedDrawable;
 import ead.engine.core.platform.assets.RuntimeDisplacedDrawable;
 import ead.engine.core.platform.assets.RuntimeFilteredDrawable;
 import ead.engine.core.platform.assets.sound.DesktopSound;
-import ead.engine.core.platform.specialassetrenderers.VLCDesktopVideoRenderer;
+import ead.engine.core.platform.specialassetrenderers.DesktopVideoRenderer;
 
 public class DesktopAssetHandlerModule extends AbstractModule {
 
@@ -86,10 +86,10 @@ public class DesktopAssetHandlerModule extends AbstractModule {
 		bind(StringFileHandler.class).to(DefaultStringFileHandler.class);
 		bind(StringHandler.class).to(StringHandlerImpl.class);
 		bind(AssetHandler.class).to(DesktopAssetHandler.class);
-		bind(new TypeLiteral<SpecialAssetRenderer<Video, ?>>() {
-		}).to(VLCDesktopVideoRenderer.class);
 //		bind(new TypeLiteral<SpecialAssetRenderer<Video, ?>>() {
-//			}).to(DesktopVideoRenderer.class);
+//		}).to(VLCDesktopVideoRenderer.class);
+		bind(new TypeLiteral<SpecialAssetRenderer<Video, ?>>() {
+			}).to(DesktopVideoRenderer.class);
 	}
 
 	@SuppressWarnings("unchecked")

@@ -44,6 +44,7 @@ import com.google.inject.Injector;
 import ead.common.model.elements.EAdAdventureModel;
 import ead.common.params.text.EAdString;
 import ead.common.resources.StringHandler;
+import ead.elementfactories.EAdElementsFactory;
 import ead.engine.core.game.Game;
 import ead.engine.core.platform.PlatformLauncher;
 
@@ -62,7 +63,8 @@ public abstract class BaseTestLauncher {
 		Game game = injector.getInstance(Game.class);
 		game.setGame(model, model.getChapters().get(0));
 		StringHandler stringHandler = injector.getInstance(StringHandler.class);
-		stringHandler.setStrings(strings);
+		stringHandler.addStrings(strings);
+		stringHandler.addStrings(EAdElementsFactory.getInstance().getStringFactory().getStrings());
 	}
 	
 	/**

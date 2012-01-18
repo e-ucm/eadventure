@@ -78,8 +78,6 @@ public class MoveObjectEffectImporter extends
 		EffectsMacro macro = new EffectsMacro();
 		macro.setId("macro");
 		effect.putMacro(macro, EmptyCond.TRUE_EMPTY_CONDITION);
-
-		effect.setQueueable(true);
 		macro.getEffects().add(
 				new MoveSceneElementEf((EAdSceneElementDef) factory
 						.getElementById(oldObject.getTargetId()), oldObject

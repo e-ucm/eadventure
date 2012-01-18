@@ -74,7 +74,6 @@ public class SetValueImporter extends
 		ChangeFieldEf effect = new ChangeFieldEf(var, op);
 		effect.setId("changeVarValueFromSet" + ID_GENERATOR++);
 		super.importConditions(oldObject, effect);
-		effect.setQueueable(true);
 		return effect;
 	}
 

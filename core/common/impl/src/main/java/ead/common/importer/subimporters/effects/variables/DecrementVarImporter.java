@@ -76,8 +76,6 @@ public class DecrementVarImporter extends
 		effect.setId("changeVarValueFromIncrement" + ID_GENERATOR++);
 		super.importConditions(oldObject, effect);
 		
-		effect.setQueueable(true);
-		
 		return effect;
 	}
 	

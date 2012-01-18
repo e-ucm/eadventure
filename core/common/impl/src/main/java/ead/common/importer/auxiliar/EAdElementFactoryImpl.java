@@ -59,6 +59,7 @@ import ead.common.model.elements.variables.EAdField;
 import ead.common.model.elements.variables.EAdFieldImpl;
 import ead.common.model.elements.variables.SystemFields;
 import ead.common.model.elements.variables.VarDefImpl;
+import ead.common.resources.assets.drawable.basics.Image;
 import ead.common.resources.assets.drawable.basics.ImageImpl;
 import es.eucm.eadventure.common.data.adventure.AdventureData;
 import es.eucm.eadventure.common.data.adventure.DescriptorData;
@@ -74,6 +75,7 @@ public class EAdElementFactoryImpl implements EAdElementFactory {
 	private Map<String, Map<String, EAdField<?>>> chapterVars;
 	private Map<String, Map<String, EAdCondition>> chapterGlobalStates;
 	private List<EAdSceneElementDef> draggableActors;
+	private Map<String, Image> defaultCursors;
 
 	private Map<String, Object> oldType;
 
@@ -100,6 +102,7 @@ public class EAdElementFactoryImpl implements EAdElementFactory {
 		chapterVars = new HashMap<String, Map<String, EAdField<?>>>();
 		chapterGlobalStates = new HashMap<String, Map<String, EAdCondition>>();
 		oldType = new HashMap<String, Object>();
+		defaultCursors = new HashMap<String, Image>();
 		this.injector = injector;
 	}
 
@@ -238,23 +241,28 @@ public class EAdElementFactoryImpl implements EAdElementFactory {
 		return model;
 	}
 
-	private ImageImpl defaultCursor;
-
 	@Override
-	public ImageImpl getDefaultCursor() {
+	public Image getDefaultCursor(String type) {
+		Image cursor = defaultCursors.get(type);
 
-		if (defaultCursor == null) {
-			String path = model.getCursorPath(AdventureData.DEFAULT_CURSOR);
+		if (cursor == null) {
+			String path = model.getCursorPath(type);
 			if (path != null) {
-				defaultCursor = (ImageImpl) injector.getInstance(
+				cursor = (Image) injector.getInstance(
 						ResourceImporter.class).getAssetDescritptor(path,
 						ImageImpl.class);
-			} else {
-				defaultCursor = SystemFields.DEFAULT_MOUSE;
+				
 			}
-
+			else {
+				// FIXME Use more cursors...
+				if ( type.equals(AdventureData.EXIT_CURSOR) )
+					cursor = new ImageImpl("@drawable/exit.png");
+				else
+					cursor = SystemFields.DEFAULT_MOUSE;
+			}
+			defaultCursors.put(type, cursor);
 		}
-		return defaultCursor;
+		return cursor;
 	}
 
 	@Override

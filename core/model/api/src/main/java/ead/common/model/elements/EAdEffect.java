@@ -42,10 +42,11 @@ import ead.common.model.EAdElement;
 import ead.common.model.elements.extra.EAdList;
 
 /**
- * <p>An effect in the eAdventure model represents any set of
- * actions to be taken in the game, both modifying the runtime model
- * (e.g. increasing a variable) or modifying the view (e.g. starting
- * an animation).</p>
+ * <p>
+ * An effect in the eAdventure model represents any set of actions to be taken
+ * in the game, both modifying the runtime model (e.g. increasing a variable) or
+ * modifying the view (e.g. starting an animation).
+ * </p>
  * 
  */
 public interface EAdEffect extends EAdElement, Conditioned {
@@ -68,17 +69,34 @@ public interface EAdEffect extends EAdElement, Conditioned {
 	boolean isOpaque();
 
 	boolean isQueueable();
-	
-	void setQueueable( boolean queueable );
-	
-	void setBlocking( boolean blocking );
-	
-	void setOpaque( boolean opaque );
-	
+
+	void setQueueable(boolean queueable);
+
+	void setBlocking(boolean blocking);
+
+	void setOpaque(boolean opaque);
+
 	/**
 	 * Returns the effects to be launched when this effect ends
+	 * 
 	 * @return
 	 */
 	EAdList<EAdEffect> getNextEffects();
+
+	/**
+	 * Sets if the effects in the next effects list are launched even when the
+	 * condition for the event is not fulfilled
+	 * 
+	 * @param always
+	 */
+	void setNextEffectsAlways(boolean always);
+
+	/**
+	 * Returns if the effects in the next effects list must be launched when the
+	 * effect's conditions is not fulfilled
+	 * 
+	 * @return
+	 */
+	boolean isNextEffectsAlways();
 
 }

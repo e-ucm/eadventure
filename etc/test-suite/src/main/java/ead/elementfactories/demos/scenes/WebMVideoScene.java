@@ -53,7 +53,6 @@ public class WebMVideoScene extends EmptyScene {
 		videoScene.setId("videoScene");
 		Video video = new VideoImpl("@binary/bbb_trailer_400p.ogv");
 		videoScene.getDefinition().getResources().addAsset(VideoScene.video, video);
-		videoScene.setUpForEngine();
 		
 		ChangeSceneEf changeScene = new ChangeSceneEf();
 		changeScene.setId("changeScene");

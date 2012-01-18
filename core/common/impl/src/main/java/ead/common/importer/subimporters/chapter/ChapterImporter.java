@@ -52,6 +52,7 @@ import ead.common.model.elements.scene.EAdScene;
 import ead.common.model.predef.effects.ChangeCursorEf;
 import ead.common.resources.StringHandler;
 import es.eucm.eadventure.common.data.HasId;
+import es.eucm.eadventure.common.data.adventure.AdventureData;
 import es.eucm.eadventure.common.data.chapter.Chapter;
 import es.eucm.eadventure.common.data.chapter.Timer;
 import es.eucm.eadventure.common.data.chapter.effects.Macro;
@@ -154,7 +155,7 @@ public class ChapterImporter implements EAdElementImporter<Chapter, EAdChapter> 
 	private void setAdventureCursor(Chapter oldChapter) {
 
 		ChangeCursorEf changeCursor = new ChangeCursorEf(
-				elementFactory.getDefaultCursor());
+				elementFactory.getDefaultCursor(AdventureData.DEFAULT_CURSOR));
 		EAdScene scene = (EAdScene) elementFactory.getElementById(oldChapter
 				.getInitialGeneralScene().getId());
 

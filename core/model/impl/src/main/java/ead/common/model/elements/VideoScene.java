@@ -39,18 +39,12 @@ package ead.common.model.elements;
 
 import ead.common.interfaces.Element;
 import ead.common.interfaces.Param;
-import ead.common.model.elements.conditions.EmptyCond;
-import ead.common.model.elements.effects.ChangeSceneEf;
-import ead.common.model.elements.effects.variables.ChangeFieldEf;
 import ead.common.model.elements.extra.EAdList;
 import ead.common.model.elements.extra.EAdListImpl;
 import ead.common.model.elements.scene.EAdScene;
 import ead.common.model.elements.scenes.SceneImpl;
-import ead.common.model.elements.transitions.EmptyTransition;
-import ead.common.model.elements.variables.EAdFieldImpl;
 import ead.common.model.elements.variables.EAdVarDef;
 import ead.common.model.elements.variables.VarDefImpl;
-import ead.common.model.elements.variables.operations.BooleanOp;
 import ead.common.resources.annotation.Asset;
 import ead.common.resources.assets.multimedia.Video;
 
@@ -84,14 +78,6 @@ public class VideoScene extends SceneImpl implements EAdScene {
 	@Override
 	public Boolean getReturnable() {
 		return false;
-	}
-
-	public void setUpForEngine() {
-		finalEffects.add(new ChangeFieldEf(new EAdFieldImpl<Boolean>(this,
-				VAR_FINISHED), new BooleanOp(EmptyCond.TRUE_EMPTY_CONDITION)));
-		ChangeSceneEf e3 = new ChangeSceneEf(nextScene,
-				EmptyTransition.instance());
-		finalEffects.add(e3);
 	}
 
 	public void setNextScene(EAdScene nextScene) {

@@ -40,12 +40,12 @@ package ead.common.model.elements.effects;
 import ead.common.interfaces.Element;
 import ead.common.interfaces.Param;
 import ead.common.model.elements.EAdEffect;
-import ead.common.model.elements.ResourcedElementImpl;
+import ead.common.model.elements.EAdElementImpl;
 import ead.common.model.elements.extra.EAdList;
 import ead.common.model.elements.extra.EAdListImpl;
 
 @Element(detailed = EffectsMacro.class, runtime = EffectsMacro.class)
-public class EffectsMacro extends ResourcedElementImpl {
+public class EffectsMacro extends EAdElementImpl {
 
 	@Param("effects")
 	protected EAdList<EAdEffect> effects;

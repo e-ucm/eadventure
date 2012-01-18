@@ -74,8 +74,6 @@ public class ActivateFlagImporter extends EffectImporter<ActivateEffect, ChangeF
 		changeVar.setId("changeVarValue" + ID_GENERATOR++);
 		super.importConditions(oldObject, changeVar);
 
-		changeVar.setQueueable(true);
-
 		return changeVar;
 	}
 

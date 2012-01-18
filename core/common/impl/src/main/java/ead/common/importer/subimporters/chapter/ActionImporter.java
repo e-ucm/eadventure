@@ -57,6 +57,7 @@ import ead.common.model.elements.actions.ActionImpl;
 import ead.common.model.elements.conditions.ANDCond;
 import ead.common.model.elements.conditions.EmptyCond;
 import ead.common.model.elements.conditions.NOTCond;
+import ead.common.model.elements.conditions.ORCond;
 import ead.common.model.elements.conditions.OperationCond;
 import ead.common.model.elements.effects.EffectsMacro;
 import ead.common.model.elements.effects.ModifyInventoryEf;
@@ -127,22 +128,29 @@ public class ActionImporter implements EAdElementImporter<Action, EAdAction> {
 		return null;
 	}
 
-	public EAdCondition setCondition(Action oldObject, EAdAction action,
+	public EAdCondition[] setCondition(Action oldObject, EAdAction action,
 			EAdCondition previousCondition) {
+		EAdCondition conditions[] = new EAdCondition[2];
 		EAdCondition condition = conditionsImporter.init(oldObject
 				.getConditions());
 		condition = conditionsImporter.convert(oldObject.getConditions(),
 				condition);
+		
+		EAdCondition andCondition = null;
 
 		if (previousCondition == null && condition == null)
-			return EmptyCond.TRUE_EMPTY_CONDITION;
+			andCondition = EmptyCond.TRUE_EMPTY_CONDITION;
 		else if (previousCondition != null && condition != null)
-			return new ANDCond(condition, new NOTCond(
+			andCondition = new ANDCond(condition, new NOTCond(
 					previousCondition));
 		else if (condition == null)
-			return previousCondition;
+			andCondition = previousCondition;
 		else
-			return condition;
+			andCondition = condition;
+		
+		conditions[0] = andCondition;
+		conditions[1] = condition;
+		return conditions;
 
 	}
 
@@ -436,6 +444,7 @@ public class ActionImporter implements EAdElementImporter<Action, EAdAction> {
 		HashMap<String, EAdAction> customActions = new HashMap<String, EAdAction>();
 		HashMap<String, EAdAction> interactActions = new HashMap<String, EAdAction>();
 		HashMap<EAdAction, EAdCondition> previousConditions = new HashMap<EAdAction, EAdCondition>();
+		HashMap<EAdAction, EAdCondition> orConditions = new HashMap<EAdAction, EAdCondition>();
 		HashMap<EAdAction, TriggerMacroEf> triggers = new HashMap<EAdAction, TriggerMacroEf>();
 		HashMap<EAdAction, EAdSceneElementDef> targets = new HashMap<EAdAction, EAdSceneElementDef>();
 		HashMap<EAdAction, Boolean> getsTo = new HashMap<EAdAction, Boolean>();
@@ -501,9 +510,20 @@ public class ActionImporter implements EAdElementImporter<Action, EAdAction> {
 			}
 
 			// Set condition
-			EAdCondition c = setCondition(a, action,
+			EAdCondition conds[] = setCondition(a, action,
 					previousConditions.get(action));
+			EAdCondition c = conds[0];
 			previousConditions.put(action, c);
+			
+			// Or condition
+			EAdCondition orCondition = orConditions.get(action);
+			if ( orCondition == null ){
+				orCondition = conds[1];
+			}
+			else {
+				orCondition = new ORCond( conds[1], orCondition );
+			}
+			orConditions.put(action, orCondition);
 
 			// Add effects
 			if (a.getType() == Action.DRAG_TO) {
@@ -522,6 +542,8 @@ public class ActionImporter implements EAdElementImporter<Action, EAdAction> {
 		for ( Entry<EAdAction, TriggerMacroEf> e: triggers.entrySet()){
 			EAdAction a = e.getKey();
 			TriggerMacroEf trigger = e.getValue();
+			EAdCondition orCondition = orConditions.get(e.getKey());
+			trigger.setCondition(orCondition);
 			addMoveTo( getsTo.get(a), trigger, actor, a );
 		}
 		

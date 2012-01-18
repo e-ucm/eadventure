@@ -13,6 +13,10 @@ public class DisplaceTransition extends EmptyTransition {
 	@Param("forward")
 	private boolean forward;
 	
+	public DisplaceTransition( ){
+		
+	}
+	
 	public DisplaceTransition(int time, DisplaceTransitionType type, boolean forward ) {
 		super(time);
 		this.type = type;

@@ -56,6 +56,7 @@ import ead.engine.core.gameobjects.factories.EventGOFactory;
 import ead.engine.core.gameobjects.go.DrawableGO;
 import ead.engine.core.gameobjects.go.EffectGO;
 import ead.engine.core.gameobjects.go.EventGO;
+import ead.engine.core.gameobjects.huds.ActionsHUD;
 import ead.engine.core.gameobjects.huds.BasicHUD;
 import ead.engine.core.gameobjects.huds.EffectHUD;
 import ead.engine.core.gameobjects.huds.InventoryHUD;
@@ -80,13 +81,13 @@ public class GameImpl implements Game {
 	private EffectHUD effectHUD;
 
 	private InventoryHUD inventoryHUD;
+	
+	private ActionsHUD actionsHUD;
 
 	private static final Logger logger = Logger.getLogger("GameImpl");
 
 	// Auxiliary variable, to avoid new every time
 	private static ArrayList<EffectGO<?>> finishedEffects = new ArrayList<EffectGO<?>>();
-
-	private boolean effectHUDon;
 
 	private GameObjectManager gameObjectManager;
 
@@ -107,12 +108,12 @@ public class GameImpl implements Game {
 			AssetHandler assetHandler, GameObjectManager gameObjectManager,
 			Debugger debugger, ValueMap valueMap, BasicHUD basicHud,
 			InventoryHUD inventoryHud, InventoryHandler inventoryHandler,
-			EventGOFactory eventFactory, EngineConfiguration configuration) {
+			EventGOFactory eventFactory, EngineConfiguration configuration, ActionsHUD actionsHUD) {
 		this.gui = gui;
 		this.gameState = gameState;
 		this.effectHUD = effectHUD;
+		this.actionsHUD = actionsHUD;
 		this.assetHandler = assetHandler;
-		this.effectHUDon = false;
 		this.adventure = null;
 		this.gameObjectManager = gameObjectManager;
 		this.debugger = debugger;
@@ -193,10 +194,11 @@ public class GameImpl implements Game {
 			visualEffect = gameState.getEffects().get(index++).isVisualEffect();
 		}
 
+		boolean effectHUDon = gameObjectManager.getHUDs().contains(effectHUD);
 		if (visualEffect) {
-			if (!effectHUDon) {
+			if (!effectHUDon){
 				gameObjectManager.addHUD(effectHUD);
-				effectHUDon = true;
+				gameObjectManager.removeHUD(actionsHUD);
 			}
 			effectHUD.setEffects(gameState.getEffects());
 		} else {

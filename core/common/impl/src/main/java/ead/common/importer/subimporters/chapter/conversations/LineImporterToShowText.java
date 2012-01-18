@@ -102,6 +102,7 @@ public class LineImporterToShowText implements
 				effect.setCondition(condition);
 			}
 		}
+		effect.setNextEffectsAlways(true);
 
 		return effect;
 	}

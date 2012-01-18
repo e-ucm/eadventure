@@ -95,26 +95,26 @@ public class DesktopGUI extends AbstractGUI<Graphics2D> implements GUI {
 	/**
 	 * AWT Robot, used to move the mouse in the screen
 	 */
-//	private Robot robot;
+	// private Robot robot;
 
 	/**
 	 * Represent how many pixels the mouse moves when the arrow keys are pressed
 	 */
-//	private int MOUSE_MOVE = 20;
+	// private int MOUSE_MOVE = 20;
 
 	private Object currentComponent;
 
 	@Inject
-	public DesktopGUI(EngineConfiguration conf, GameObjectManager gameObjectManager,
-			InputHandler inputHandler,
+	public DesktopGUI(EngineConfiguration conf,
+			GameObjectManager gameObjectManager, InputHandler inputHandler,
 			GameState gameState, SceneElementGOFactory gameObjectFactory,
 			DesktopCanvas canvas) {
 		super(conf, gameObjectManager, inputHandler, gameState,
 				gameObjectFactory, canvas);
-//		try {
-//			this.robot = new Robot();
-//		} catch (AWTException e) {
-//		}
+		// try {
+		// this.robot = new Robot();
+		// } catch (AWTException e) {
+		// }
 	}
 
 	/*
@@ -144,6 +144,7 @@ public class DesktopGUI extends AbstractGUI<Graphics2D> implements GUI {
 					@Override
 					public void run() {
 						frame.add(canvas);
+						canvas.createBufferStrategy(2);
 					}
 				});
 			} else {
@@ -178,28 +179,38 @@ public class DesktopGUI extends AbstractGUI<Graphics2D> implements GUI {
 		SwingUtilities.doInEDTNow(new Runnable() {
 			@Override
 			public void run() {
-				BufferStrategy bs = canvas.getBufferStrategy();
-				Graphics2D g = (Graphics2D) bs.getDrawGraphics();
-				eAdCanvas.setGraphicContext(g);
-				g.setClip(0, 0, platformConfiguration.getWidth(),
-						platformConfiguration.getHeight());
+				try {
+					BufferStrategy bs = canvas.getBufferStrategy();
+					Graphics2D g = (Graphics2D) bs.getDrawGraphics();
+					eAdCanvas.setGraphicContext(g);
+					g.setClip(0, 0, platformConfiguration.getWidth(),
+							platformConfiguration.getHeight());
 
-				setRenderingHints(g);
+					setRenderingHints(g);
 
-				g.setFont(g.getFont().deriveFont(20.0f));
+					g.setFont(g.getFont().deriveFont(20.0f));
 
-				render(interpolation);
+					render(interpolation);
 
-				g.dispose();
+					g.dispose();
+				} catch (IllegalStateException e) {
+					e.printStackTrace();
+					canvas.createBufferStrategy(2);
+				}
 			}
 		});
 
 		SwingUtilities.doInEDT(new Runnable() {
 			@Override
 			public void run() {
-				BufferStrategy bs = canvas.getBufferStrategy();
-				bs.show();
-				Toolkit.getDefaultToolkit().sync();
+				try {
+					BufferStrategy bs = canvas.getBufferStrategy();
+					bs.show();
+					Toolkit.getDefaultToolkit().sync();
+				} catch (IllegalStateException e) {
+					e.printStackTrace();
+					canvas.createBufferStrategy(2);
+				}
 			}
 		});
 	}
@@ -240,20 +251,20 @@ public class DesktopGUI extends AbstractGUI<Graphics2D> implements GUI {
 		// TODO test effects, probably should allow disabling
 		setHint(g, RenderingHints.VALUE_ANTIALIAS_ON,
 				RenderingHints.KEY_ANTIALIASING);
-//		 setHint(g, RenderingHints.VALUE_ALPHA_INTERPOLATION_QUALITY,
-//		 RenderingHints.KEY_ALPHA_INTERPOLATION);
-		 setHint(g, RenderingHints.VALUE_TEXT_ANTIALIAS_ON,
-		 RenderingHints.KEY_TEXT_ANTIALIASING);
-		 setHint(g, RenderingHints.VALUE_COLOR_RENDER_QUALITY,
-		 RenderingHints.KEY_COLOR_RENDERING);
-//		 setHint(g, RenderingHints.VALUE_FRACTIONALMETRICS_ON,
-//		 RenderingHints.KEY_FRACTIONALMETRICS);
-//		 setHint(g, RenderingHints.VALUE_INTERPOLATION_BICUBIC,
-//		 RenderingHints.KEY_INTERPOLATION);
-//		 setHint(g, RenderingHints.VALUE_RENDER_QUALITY,
-//		 RenderingHints.KEY_RENDERING);
-		 setHint(g, RenderingHints.VALUE_STROKE_NORMALIZE,
-		 RenderingHints.KEY_STROKE_CONTROL);
+		// setHint(g, RenderingHints.VALUE_ALPHA_INTERPOLATION_QUALITY,
+		// RenderingHints.KEY_ALPHA_INTERPOLATION);
+		setHint(g, RenderingHints.VALUE_TEXT_ANTIALIAS_ON,
+				RenderingHints.KEY_TEXT_ANTIALIASING);
+		setHint(g, RenderingHints.VALUE_COLOR_RENDER_QUALITY,
+				RenderingHints.KEY_COLOR_RENDERING);
+		// setHint(g, RenderingHints.VALUE_FRACTIONALMETRICS_ON,
+		// RenderingHints.KEY_FRACTIONALMETRICS);
+		// setHint(g, RenderingHints.VALUE_INTERPOLATION_BICUBIC,
+		// RenderingHints.KEY_INTERPOLATION);
+		// setHint(g, RenderingHints.VALUE_RENDER_QUALITY,
+		// RenderingHints.KEY_RENDERING);
+		setHint(g, RenderingHints.VALUE_STROKE_NORMALIZE,
+				RenderingHints.KEY_STROKE_CONTROL);
 	}
 
 	/*
@@ -345,44 +356,44 @@ public class DesktopGUI extends AbstractGUI<Graphics2D> implements GUI {
 	 * In desktop games, arrow keys are used to move the mouse if not consumed
 	 * by a game object
 	 */
-//	@Override
-//	protected void processKeyAction(KeyActionImpl action) {
-//		super.processKeyAction(action);
-//		if (action != null && !action.isConsumed()) {
-//			if (robot != null) {
-//				int x = MouseInfo.getPointerInfo().getLocation().x;
-//				int y = MouseInfo.getPointerInfo().getLocation().y;
-//				boolean move = false;
-//
-//				switch (action.getKeyCode()) {
-//				case ARROW_UP:
-//					y = y - MOUSE_MOVE;
-//					move = true;
-//					break;
-//				case ARROW_DOWN:
-//					y = y + MOUSE_MOVE;
-//					move = true;
-//					break;
-//				case ARROW_LEFT:
-//					x = x - MOUSE_MOVE;
-//					move = true;
-//					break;
-//				case ARROW_RIGHT:
-//					x = x + MOUSE_MOVE;
-//					move = true;
-//					break;
-//				}
-//				if (move) {
-//					x = Math.max(x, frame.getX());
-//					y = Math.max(y, frame.getY());
-//					x = Math.min(x, frame.getX() + frame.getWidth());
-//					y = Math.min(y, frame.getY() + frame.getHeight());
-//					robot.mouseMove(x, y);
-//				}
-//
-//			}
-//		}
-//	}
+	// @Override
+	// protected void processKeyAction(KeyActionImpl action) {
+	// super.processKeyAction(action);
+	// if (action != null && !action.isConsumed()) {
+	// if (robot != null) {
+	// int x = MouseInfo.getPointerInfo().getLocation().x;
+	// int y = MouseInfo.getPointerInfo().getLocation().y;
+	// boolean move = false;
+	//
+	// switch (action.getKeyCode()) {
+	// case ARROW_UP:
+	// y = y - MOUSE_MOVE;
+	// move = true;
+	// break;
+	// case ARROW_DOWN:
+	// y = y + MOUSE_MOVE;
+	// move = true;
+	// break;
+	// case ARROW_LEFT:
+	// x = x - MOUSE_MOVE;
+	// move = true;
+	// break;
+	// case ARROW_RIGHT:
+	// x = x + MOUSE_MOVE;
+	// move = true;
+	// break;
+	// }
+	// if (move) {
+	// x = Math.max(x, frame.getX());
+	// y = Math.max(y, frame.getY());
+	// x = Math.min(x, frame.getX() + frame.getWidth());
+	// y = Math.min(y, frame.getY() + frame.getHeight());
+	// robot.mouseMove(x, y);
+	// }
+	//
+	// }
+	// }
+	// }
 
 	@Override
 	public void finish() {
@@ -391,7 +402,5 @@ public class DesktopGUI extends AbstractGUI<Graphics2D> implements GUI {
 		}
 
 	}
-	
-	
 
 }

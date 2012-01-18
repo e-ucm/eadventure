@@ -63,7 +63,6 @@ public class TriggerConversationImporter extends EffectImporter<TriggerConversat
 	@Override
 	public TriggerMacroEf init(TriggerConversationEffect oldObject) {
 		TriggerMacroEf triggerMacro = new TriggerMacroEf( );
-		triggerMacro.setQueueable(true);
 		return triggerMacro;
 	}
 	

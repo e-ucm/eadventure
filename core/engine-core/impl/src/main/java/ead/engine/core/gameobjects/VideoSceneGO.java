@@ -43,6 +43,7 @@ import com.google.inject.Inject;
 
 import ead.common.model.elements.EAdEffect;
 import ead.common.model.elements.VideoScene;
+import ead.common.model.elements.effects.ChangeSceneEf;
 import ead.common.resources.StringHandler;
 import ead.common.resources.assets.multimedia.Video;
 import ead.engine.core.game.GameState;
@@ -105,10 +106,16 @@ public class VideoSceneGO extends SceneElementGOImpl<VideoScene> implements
 	public void update() {
 		super.update();
 		if (error || specialAssetRenderer.isFinished()) {
-			gui.showSpecialResource(null, 0, 0, true);
+			
+			if (!error)
+				gui.showSpecialResource(null, 0, 0, true);
+			
+			ChangeSceneEf ef = new ChangeSceneEf(  );
+			ef.setNextScene(element.getNextScene());
 			for (EAdEffect e : element.getFinalEffects()) {
-				gameState.addEffect(e);
+				ef.getNextEffects().add(e);
 			}
+			gameState.addEffect(ef);
 		} else {
 			specialAssetRenderer.start();
 		}

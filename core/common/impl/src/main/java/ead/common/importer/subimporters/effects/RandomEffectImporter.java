@@ -66,7 +66,6 @@ public class RandomEffectImporter extends
 	public RandomEf init(RandomEffect oldObject) {
 		RandomEf effect = new RandomEf();
 		effect.setId("randomEffect" + ID_GENERATOR++);
-		effect.setQueueable(true);
 		return effect;
 	}
 	

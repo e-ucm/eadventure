@@ -72,7 +72,8 @@ public class StringXMLHandler extends DefaultHandler {
 	@Override
 	public void characters(char[] ch, int start, int length)
 			throws SAXException {
-		text.append( new String( ch, start, length ) );
+		if ( text != null )
+			text.append( new String( ch, start, length ) );
 	}
 
 	@Override
@@ -80,8 +81,7 @@ public class StringXMLHandler extends DefaultHandler {
 			throws SAXException {
 		if ( qName.equals("string")){
 			String value = text.toString();
-			EAdString string = EAdString.newEAdString(key);
-			string.parse("key");
+			EAdString string = new EAdString(key);
 			strings.put(string, value);
 		}
 	}

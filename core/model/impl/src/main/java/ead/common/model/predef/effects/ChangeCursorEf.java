@@ -40,21 +40,19 @@ package ead.common.model.predef.effects;
 import ead.common.model.elements.effects.variables.ChangeFieldEf;
 import ead.common.model.elements.variables.SystemFields;
 import ead.common.model.elements.variables.operations.ValueOp;
-import ead.common.resources.assets.drawable.basics.ImageImpl;
+import ead.common.resources.assets.drawable.basics.Image;
 
 /**
  * Effect that changes the cursor (this effect only works in some platforms)
  * 
  */
 public class ChangeCursorEf extends ChangeFieldEf {
-	
-	public ChangeCursorEf(ImageImpl image){
+
+	public ChangeCursorEf(Image image) {
 		super();
 		setId("changeCursorEffect");
 		addField(SystemFields.MOUSE_CURSOR);
 		setOperation(new ValueOp(image));
 	}
-	
-	
 
 }

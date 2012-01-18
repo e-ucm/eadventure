@@ -106,7 +106,7 @@ public class GameStateImpl implements GameState {
 			SceneElementGOFactory gameObjectFactory,
 			EffectGOFactory effectFactory, ValueMap valueMap,
 			EvaluatorFactory evaluatorFactory, EventGOFactory eventGOFactory,
-			PluginHandler pluginHandler ) {
+			PluginHandler pluginHandler) {
 		logger.log(Level.INFO, "New instance");
 		effects = new ArrayList<EffectGO<?>>();
 		effectsQueue = new ArrayList<EffectGO<?>>();
@@ -202,19 +202,24 @@ public class GameStateImpl implements GameState {
 	// TODO consider leaving effect initialization for later
 	public void addEffect(int pos, EAdEffect e, InputAction<?> action,
 			EAdSceneElement parent) {
-		if (e != null && evaluatorFactory.evaluate(e.getCondition())) {
-			EffectGO<?> effectGO = effectFactory.get(e);
-			effectGO.setGUIAction(action);
-			effectGO.setParent(parent);
-			effectGO.initilize();
-			if (e.isQueueable())
-				synchronized (effectsQueue) {
-					pos = pos == -1 ? effectsQueue.size() : pos;
-					effectsQueue.add(pos, effectGO);
+		if (e != null) {
+			if (evaluatorFactory.evaluate(e.getCondition())) {
+				EffectGO<?> effectGO = effectFactory.get(e);
+				effectGO.setGUIAction(action);
+				effectGO.setParent(parent);
+				effectGO.initilize();
+				if (e.isQueueable())
+					synchronized (effectsQueue) {
+						pos = pos == -1 ? effectsQueue.size() : pos;
+						effectsQueue.add(pos, effectGO);
+					}
+				else {
+					effectGO.update();
+					effectGO.finish();
 				}
-			else {
-				effectGO.update();
-				effectGO.finish();
+			} else if (e.isNextEffectsAlways()) {
+				for (EAdEffect ne : e.getNextEffects())
+					addEffect(ne);
 			}
 		}
 

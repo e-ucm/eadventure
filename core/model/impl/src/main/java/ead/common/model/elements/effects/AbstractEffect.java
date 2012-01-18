@@ -78,6 +78,9 @@ public abstract class AbstractEffect extends ConditionedElement
 
 	@Param("nextEffects")
 	private EAdList<EAdEffect> nextEffects;
+	
+	@Param(value="nextEffectsAlways", defaultValue="false")
+	private boolean nextEffectsAlways;
 
 	/**
 	 * Creates an non-blocking and non-opaque effect with next effects list
@@ -94,6 +97,7 @@ public abstract class AbstractEffect extends ConditionedElement
 		blocking = false;
 		opaque = false;
 		queueable = false;
+		nextEffectsAlways = false;
 		events = new EAdListImpl<EAdEvent>(EAdEvent.class);
 		nextEffects = new EAdListImpl<EAdEffect>(EAdEffect.class);
 	}
@@ -155,6 +159,14 @@ public abstract class AbstractEffect extends ConditionedElement
 
 	public EAdList<EAdEffect> getNextEffects() {
 		return nextEffects;
+	}
+	
+	public void setNextEffectsAlways(boolean always){
+		this.nextEffectsAlways = always;
+	}
+	
+	public boolean isNextEffectsAlways(){
+		return nextEffectsAlways;
 	}
 
 }

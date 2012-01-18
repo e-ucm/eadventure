@@ -72,8 +72,6 @@ public class GenerateObjectEffectImporter extends EffectImporter<GenerateObjectE
 	public EAdEffect convert(GenerateObjectEffect oldObject, Object object) {
 		ModifyInventoryEf effect = (ModifyInventoryEf) object;
 		
-		effect.setQueueable(true);
-		
 		importConditions(oldObject, effect);
 
 		effect.setModification(InventoryEffectAction.ADD_TO_INVENTORY);

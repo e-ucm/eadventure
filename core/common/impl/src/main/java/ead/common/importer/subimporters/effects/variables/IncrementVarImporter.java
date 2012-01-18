@@ -75,7 +75,6 @@ public class IncrementVarImporter extends
 		ChangeFieldEf effect = new ChangeFieldEf( var, op);
 		effect.setId("changeVarValueFromIncrement" + ID_GENERATOR++);
 		super.importConditions(oldObject, effect);
-		effect.setQueueable(true);
 		return effect;
 	}
 	

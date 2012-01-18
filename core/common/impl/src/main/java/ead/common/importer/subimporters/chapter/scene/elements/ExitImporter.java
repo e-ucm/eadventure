@@ -56,7 +56,9 @@ import ead.common.model.elements.transitions.EAdTransition;
 import ead.common.model.predef.effects.ChangeCursorEf;
 import ead.common.params.text.EAdString;
 import ead.common.resources.StringHandler;
+import ead.common.resources.assets.drawable.basics.Image;
 import ead.common.resources.assets.drawable.basics.ImageImpl;
+import es.eucm.eadventure.common.data.adventure.AdventureData;
 import es.eucm.eadventure.common.data.chapter.Exit;
 import es.eucm.eadventure.common.data.chapter.ExitLook;
 import es.eucm.eadventure.common.data.chapter.conditions.Conditions;
@@ -131,8 +133,6 @@ public class ExitImporter extends ElementImporter<Exit> {
 		ChangeSceneEf changeScene = new ChangeSceneEf(scene, transition);
 		changeScene.setId("change_screen_" + newExit.getId());
 		changeScene.setCondition(enableCondition);
-		changeScene.setBlocking(true);
-		changeScene.setQueueable(true);
 
 		// Post effects
 		for (Effect e : oldObject.getPostEffects().getEffects()) {
@@ -154,16 +154,16 @@ public class ExitImporter extends ElementImporter<Exit> {
 		newExit.setVarInitialValue(SceneElementImpl.VAR_NAME, name);
 
 		// Change cursor
-		ImageImpl cursor = null;
+		Image cursor = null;
 		if (exitLook.getCursorPath() == null)
 			// Default
-			cursor = new ImageImpl("@drawable/exit.png");
+			cursor = factory.getDefaultCursor(AdventureData.EXIT_CURSOR);
 		else
 			cursor = (ImageImpl) resourceImporter.getAssetDescritptor(
 					exitLook.getCursorPath(), ImageImpl.class);
+		
 		ChangeCursorEf changeCursor = new ChangeCursorEf(cursor);
-		ChangeCursorEf changeCursorBack = new ChangeCursorEf(
-				factory.getDefaultCursor());
+		ChangeCursorEf changeCursorBack = new ChangeCursorEf(factory.getDefaultCursor(AdventureData.DEFAULT_CURSOR));
 
 		newExit.addBehavior(EAdMouseEvent.MOUSE_ENTERED, changeCursor);
 		newExit.addBehavior(EAdMouseEvent.MOUSE_EXITED, changeCursorBack);

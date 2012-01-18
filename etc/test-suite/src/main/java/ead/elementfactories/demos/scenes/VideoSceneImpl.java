@@ -49,7 +49,6 @@ public class VideoSceneImpl extends VideoScene implements SceneDemo {
 		setId("videoScene");
 		Video video = new VideoImpl("@binary/bbb_trailer_360p.webm");
 		getDefinition().getResources().addAsset(VideoScene.video, video);
-		setUpForEngine();
 	}
 
 	@Override

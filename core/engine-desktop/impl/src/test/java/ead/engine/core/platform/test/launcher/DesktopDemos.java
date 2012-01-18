@@ -77,6 +77,7 @@ import ead.common.params.EAdURIImpl;
 import ead.common.params.text.EAdString;
 import ead.common.reader.EAdAdventureDOMModelReader;
 import ead.common.resources.StringHandler;
+import ead.common.strings.DefaultStringFileHandler;
 import ead.common.writer.EAdAdventureModelWriter;
 import ead.elementfactories.EAdElementsFactory;
 import ead.elementfactories.demos.SceneDemo;
@@ -106,8 +107,9 @@ public class DesktopDemos extends BaseTestLauncher {
 	protected static JList list;
 
 	private static final Dimension DIMENSIONS[] = new Dimension[] {
-			new Dimension(800, 600), new Dimension(1200, 900),new Dimension(1024, 768),
-			new Dimension(400, 300), new Dimension(700, 800) };
+			new Dimension(800, 600), new Dimension(1200, 900),
+			new Dimension(1024, 768), new Dimension(400, 300),
+			new Dimension(700, 800) };
 
 	protected static JCheckBox checkBox;
 
@@ -178,8 +180,7 @@ public class DesktopDemos extends BaseTestLauncher {
 		public SceneDemosFrame() {
 			super("Scenes demo");
 			TechDemoAdventure model = new TechDemoAdventure();
-			model.setInventory(EAdElementsFactory.getInstance()
-					.getInventory());
+			model.setInventory(EAdElementsFactory.getInstance().getInventory());
 			Object scenes[] = model.getScenes().toArray();
 
 			setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -275,7 +276,8 @@ public class DesktopDemos extends BaseTestLauncher {
 							is.close();
 
 							Injector injector = createNewInjector();
-							EngineConfiguration conf = injector.getInstance(EngineConfiguration.class);
+							EngineConfiguration conf = injector
+									.getInstance(EngineConfiguration.class);
 							conf.setSize(d.width, d.height);
 							new DesktopDemos(injector, model,
 									EAdElementsFactory.getInstance()
@@ -290,10 +292,10 @@ public class DesktopDemos extends BaseTestLauncher {
 
 					} else {
 						Injector injector = createNewInjector();
-						injector.getInstance(EngineConfiguration.class).setSize(d.width, d.height);
-						new DesktopDemos(injector, model,
-								EAdElementsFactory.getInstance()
-										.getStringFactory().getStrings())
+						injector.getInstance(EngineConfiguration.class)
+								.setSize(d.width, d.height);
+						new DesktopDemos(injector, model, EAdElementsFactory
+								.getInstance().getStringFactory().getStrings())
 								.start();
 					}
 				}
@@ -347,18 +349,23 @@ public class DesktopDemos extends BaseTestLauncher {
 
 						Dimension d = (Dimension) comboBox.getSelectedItem();
 
-						
-
 						Injector injector = createNewInjector();
-						injector.getInstance(EngineConfiguration.class).setSize(d.width, d.height);
+						injector.getInstance(EngineConfiguration.class)
+								.setSize(d.width, d.height);
 						DesktopAssetHandler assetHandler = (DesktopAssetHandler) injector
 								.getInstance(AssetHandler.class);
 						assetHandler.setResourceLocation(fileChooser
 								.getCurrentDirectory());
 
-						new DesktopDemos(injector, model, EAdElementsFactory
-								.getInstance().getStringFactory().getStrings())
-								.start();
+						File f = new File(fileChooser.getCurrentDirectory(),
+								"strings.xml");
+						if (f.exists()) {
+							DefaultStringFileHandler stringsFileHandler = new DefaultStringFileHandler();
+							new DesktopDemos(injector, model,
+									stringsFileHandler
+											.read(new FileInputStream(f)))
+									.start();
+						}
 
 					} catch (FileNotFoundException e) {
 						// TODO Auto-generated catch block
@@ -429,11 +436,11 @@ public class DesktopDemos extends BaseTestLauncher {
 						dialog.setVisible(true);
 						EAdAdventureModel model = importer.importGame(folder
 								+ "/" + projectName + "Imported");
-						
-						if ( checkBox.isSelected() ){
-							
+
+						if (checkBox.isSelected()) {
+
 						}
-						
+
 						dialog.setVisible(false);
 
 						if (model != null) {
@@ -452,7 +459,8 @@ public class DesktopDemos extends BaseTestLauncher {
 							injector.getInstance(StringHandler.class)
 									.setString(new EAdString("Loading"),
 											"loading");
-							injector.getInstance(EngineConfiguration.class).setSize(d.width, d.height);
+							injector.getInstance(EngineConfiguration.class)
+									.setSize(d.width, d.height);
 
 							Game game = injector.getInstance(Game.class);
 							game.setGame(model, model.getChapters().get(0));

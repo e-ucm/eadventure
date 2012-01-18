@@ -87,7 +87,6 @@ public abstract class TextEffectImporter<T extends AbstractEffect> extends
 
 		showText.setBlocking(true);
 		showText.setOpaque(true);
-		showText.setQueueable(true);
 
 		return showText;
 	}
