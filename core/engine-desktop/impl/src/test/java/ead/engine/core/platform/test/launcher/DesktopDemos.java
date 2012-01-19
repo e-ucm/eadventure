@@ -368,10 +368,8 @@ public class DesktopDemos extends BaseTestLauncher {
 						}
 
 					} catch (FileNotFoundException e) {
-						// TODO Auto-generated catch block
 						e.printStackTrace();
 					} catch (IOException e) {
-						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
 				}

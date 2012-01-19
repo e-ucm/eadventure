@@ -123,7 +123,6 @@ public class HomeActivity extends Activity {
 	    imview.setOnClickListener(new OnClickListener() {
 	    	
 			public void onClick(View arg0) {
-				// TODO Auto-generated method stub
 				Intent i= new Intent().setAction(Intent.ACTION_VIEW).setData(Uri.parse("http://e-adventure.e-ucm.es/"));
 				startActivity(i);
 			}

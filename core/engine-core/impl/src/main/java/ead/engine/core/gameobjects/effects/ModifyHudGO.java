@@ -8,18 +8,18 @@ import ead.engine.core.game.GameState;
 import ead.engine.core.gameobjects.effects.sceneelement.SceneElementEffectGO;
 import ead.engine.core.gameobjects.factories.SceneElementGOFactory;
 import ead.engine.core.gameobjects.go.DrawableGO;
-import ead.engine.core.gameobjects.huds.BasicHUD;
+import ead.engine.core.gameobjects.huds.TopBasicHUD;
 import ead.engine.core.platform.AssetHandler;
 import ead.engine.core.platform.GUI;
 
 public class ModifyHudGO extends SceneElementEffectGO<ModifyHUDEf> {
 
-	private BasicHUD basicHUD;
+	private TopBasicHUD basicHUD;
 
 	@Inject
 	public ModifyHudGO(AssetHandler assetHandler, StringHandler stringsReader,
 			SceneElementGOFactory sceneElementGOFactory, GUI gui,
-			GameState gameState, BasicHUD basicHUD) {
+			GameState gameState, TopBasicHUD basicHUD) {
 		super(assetHandler, stringsReader, sceneElementGOFactory, gui,
 				gameState);
 		this.basicHUD = basicHUD;

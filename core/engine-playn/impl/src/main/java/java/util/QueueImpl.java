@@ -71,13 +71,12 @@ public class QueueImpl<E> extends ArrayList<E> implements Queue<E> {
 
 	@Override
 	public E element() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public boolean offer(E arg0) {
-		// TODO Auto-generated method stub
+
 		return false;
 	}
 
@@ -91,7 +90,6 @@ public class QueueImpl<E> extends ArrayList<E> implements Queue<E> {
 
 	@Override
 	public E remove() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 }

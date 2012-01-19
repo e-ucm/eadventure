@@ -91,7 +91,6 @@ public class TrajectoryFactoryImpl extends
 	@Override
 	public boolean canGetTo(TrajectoryDefinition trajectoryDefinition,
 			EAdElement movingElement, SceneElementGO<?> sceneElement) {
-		// TODO Auto-generated method stub
 		return false;
 	}
 }

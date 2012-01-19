@@ -37,7 +37,6 @@
 
 package ead.engine.core.platform;
 
-import ead.common.resources.assets.drawable.basics.BasicDrawable;
 import ead.engine.core.gameobjects.go.DrawableGO;
 import ead.engine.core.util.EAdTransformation;
 
@@ -99,15 +98,6 @@ public interface GUI {
 	 *            cycle
 	 */
 	void commit(float interpolation);
-
-	/**
-	 * <p>
-	 * Commit the current game state into an image
-	 * </p>
-	 * 
-	 * @return
-	 */
-	RuntimeAsset<? extends BasicDrawable> commitToImage();
 
 	/**
 	 * Initialize the GUI

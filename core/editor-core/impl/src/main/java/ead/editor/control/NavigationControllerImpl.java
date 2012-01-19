@@ -50,39 +50,31 @@ public class NavigationControllerImpl extends ChangeNotifierImpl implements Navi
 
 	@Override
 	public void goForward() {
-		// TODO Auto-generated method stub
-
 		processChange();
 	}
 
 	@Override
 	public void goBackward() {
-		// TODO Auto-generated method stub
-
 		processChange();
 	}
 
 	@Override
 	public boolean canGoForward() {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
 	public boolean canGoBackward() {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
 	public void clearHistory() {
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public void setNavigation(Object object) {
-		// TODO Auto-generated method stub
 
 		processChange();
 	}

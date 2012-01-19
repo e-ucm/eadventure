@@ -40,8 +40,9 @@ package ead.engine.core.gameobjects;
 import java.util.List;
 
 import ead.engine.core.gameobjects.go.DrawableGO;
-import ead.engine.core.gameobjects.huds.BasicHUD;
+import ead.engine.core.gameobjects.huds.BottomBasicHUD;
 import ead.engine.core.gameobjects.huds.HudGO;
+import ead.engine.core.gameobjects.huds.TopBasicHUD;
 import ead.engine.core.platform.GUI;
 import ead.engine.core.util.EAdTransformation;
 
@@ -65,7 +66,7 @@ public interface GameObjectManager  {
 
 	List<HudGO> getHUDs();
 
-	void setBasicHUD(BasicHUD basicHud);
+	void setBasicHUDs(TopBasicHUD topBasicHud, BottomBasicHUD bottomBasicHUD);
 
 	void updateHUDs();
 

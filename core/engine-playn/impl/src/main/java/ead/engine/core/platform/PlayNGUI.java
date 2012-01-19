@@ -57,10 +57,6 @@ import ead.engine.core.game.GameState;
 import ead.engine.core.gameobjects.GameObjectManager;
 import ead.engine.core.gameobjects.factories.SceneElementGOFactory;
 import ead.engine.core.input.InputHandler;
-import ead.engine.core.platform.AbstractGUI;
-import ead.engine.core.platform.EngineConfiguration;
-import ead.engine.core.platform.GUI;
-import ead.engine.core.platform.RuntimeAsset;
 import ead.engine.core.platform.rendering.PlayNCanvas;
 
 /**
@@ -143,17 +139,6 @@ public class PlayNGUI extends AbstractGUI<Canvas> implements GUI {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see es.eucm.eadventure.engine.core.platform.GUI#commitToImage()
-	 */
-	@Override
-	public RuntimeAsset<ImageImpl> commitToImage() {
-		// NOT SUPPORTED
-		return null;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
 	 * @see es.eucm.eadventure.engine.core.platform.GUI#initilize()
 	 */
 	@Override
@@ -183,7 +168,6 @@ public class PlayNGUI extends AbstractGUI<Canvas> implements GUI {
 
 	@Override
 	public void finish() {
-		// TODO Auto-generated method stub
 
 	}
 

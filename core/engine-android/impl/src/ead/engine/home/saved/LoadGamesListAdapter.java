@@ -78,7 +78,6 @@ public class LoadGamesListAdapter extends BaseAdapter {
 	 * @see android.widget.Adapter#getItem(int)
 	 */
 	public Object getItem(int position) {
-		// TODO Auto-generated method stub
 		return infoSaved.get(position);
 	}
 
@@ -87,7 +86,6 @@ public class LoadGamesListAdapter extends BaseAdapter {
 	 * @see android.widget.Adapter#getItemId(int)
 	 */
 	public long getItemId(int position) {
-		// TODO Auto-generated method stub
 		return position;
 	}
 
@@ -95,7 +93,6 @@ public class LoadGamesListAdapter extends BaseAdapter {
 	 * Create the view by inflating the proper layout
 	 */
 	public View getView(int position, View convertView, ViewGroup parent) {
-		// TODO Auto-generated method stub
 		View v = convertView;
 		InfoLoadGames savedGame = infoSaved.get(position);
 
@@ -132,7 +129,6 @@ public class LoadGamesListAdapter extends BaseAdapter {
 	 * @see android.widget.Adapter#getCount()
 	 */
 	public int getCount() {
-		// TODO Auto-generated method stub
 		return infoSaved.size();
 	}
 

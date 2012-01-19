@@ -104,22 +104,6 @@ public class EAdListImpl<P> implements EAdList<P> {
 	public int indexOf(P element) {
 		return this.elements.indexOf(element);
 	}
-	
-	/* TODO needed for something?
-	public boolean equals( Object o ){
-		if ( o instanceof EAdList ){
-			EAdList<?> list = (es.eucm.eadventure.common.model.extra.EAdList<?> ) o;
-			if ( list.size() == this.size() ){
-				for ( int i = 0; i < this.size(); i++ ){
-					if ( !list.get(i).equals(this.get(i)) )
-						return false;
-				}
-				return true;
-			}
-		}
-		return false;
-	}
-	*/
 
 	@Override
 	public Class<?> getValueClass() {

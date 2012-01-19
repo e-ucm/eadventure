@@ -144,7 +144,6 @@ public class EAdPaintImpl extends EAdParamImpl implements EAdFill {
 	@Override
 	public void parse(String data) {
 		String temp[] = data.split(SEPARATOR);
-		//FIXME fill or border color can be gradients...
 		if (temp[0].length() == 10)
 			setFill(new EAdColor(temp[0]));
 		else

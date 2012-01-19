@@ -127,7 +127,6 @@ public interface GenericCanvas<S> {
 	 * 
 	 * @param rectangle
 	 */
-	// TODO Remove?
 	void clip(EAdRectangle rectangle);
 
 	/**

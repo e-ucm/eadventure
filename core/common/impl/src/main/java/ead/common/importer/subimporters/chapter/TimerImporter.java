@@ -306,7 +306,7 @@ public class TimerImporter implements EAdElementImporter<Timer, EAdEvent> {
 					+ " - ([0] / 1000)", currentTimeField);
 		else
 			timeOperation = new MathOp("[0] / 1000", currentTimeField);
-		// FIXME if oldTimer.isCountDown(), use operations in captions
+		
 		stringHandler.setString(text.getLabel(), oldTimer.getDisplayName()
 				+ " [0]");
 		text.getFields().add(timeOperation);

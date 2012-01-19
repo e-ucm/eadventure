@@ -86,7 +86,6 @@ public class EAdListComponentProvider<T> implements
 
 		@Override
 		public void selectionChanged() {
-			// TODO Auto-generated method stub
 
 		}
 
@@ -139,13 +138,11 @@ public class EAdListComponentProvider<T> implements
 
 		@Override
 		public boolean setValue(int rowIndex, int columnIndex, Object value) {
-			// TODO Auto-generated method stub
 			return false;
 		}
 
 		@Override
 		public Object getValue(int rowIndex, int columnIndex) {
-			// TODO Auto-generated method stub
 			return null;
 		}
 

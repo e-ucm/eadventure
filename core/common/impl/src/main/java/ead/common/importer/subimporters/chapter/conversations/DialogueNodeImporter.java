@@ -43,6 +43,9 @@ import ead.common.EAdElementImporter;
 import ead.common.importer.interfaces.EffectsImporterFactory;
 import ead.common.model.elements.EAdEffect;
 import ead.common.model.elements.effects.text.SpeakEf;
+import ead.common.model.elements.effects.variables.ChangeFieldEf;
+import ead.common.model.elements.variables.SystemFields;
+import ead.common.model.elements.variables.operations.BooleanOp;
 import ead.common.params.fills.EAdColor;
 import es.eucm.eadventure.common.data.chapter.conversation.line.ConversationLine;
 import es.eucm.eadventure.common.data.chapter.conversation.node.DialogueConversationNode;
@@ -56,7 +59,8 @@ public class DialogueNodeImporter implements
 	private EffectsImporterFactory effectsImporter;
 
 	@Inject
-	public DialogueNodeImporter(EffectsImporterFactory effectsImporter,
+	public DialogueNodeImporter(
+			EffectsImporterFactory effectsImporter,
 			EAdElementImporter<ConversationLine, SpeakEf> conversationLineImporter) {
 
 		this.effectsImporter = effectsImporter;
@@ -67,36 +71,42 @@ public class DialogueNodeImporter implements
 	public EAdEffect init(DialogueConversationNode oldObject) {
 		return null;
 	}
-	
+
 	@Override
 	public EAdEffect convert(DialogueConversationNode oldObject, Object object) {
 		SpeakEf initialEffect = null;
 		SpeakEf previousEffect = null;
 		for (int i = 0; i < oldObject.getLineCount(); i++) {
-			SpeakEf effect = conversationLineImporter.init(oldObject
-					.getLine(i));
-			effect = conversationLineImporter.convert(oldObject
-					.getLine(i), effect);
-			if ( i == 0 ){
+			SpeakEf effect = conversationLineImporter
+					.init(oldObject.getLine(i));
+			effect = conversationLineImporter.convert(oldObject.getLine(i),
+					effect);
+			if (i == 0) {
 				initialEffect = effect;
-			}
-			else {
+			} else {
 				previousEffect.getNextEffects().add(effect);
 			}
 			previousEffect = effect;
 		}
 
-		if ( initialEffect == null ){
-			initialEffect = new SpeakEf( );
+		if (initialEffect == null) {
+			initialEffect = new SpeakEf();
 			initialEffect.setColor(EAdColor.TRANSPARENT, EAdColor.TRANSPARENT);
 			initialEffect.getCaption().getText().parse("");
 			previousEffect = initialEffect;
 		}
-		
+
 		for (Effect e : oldObject.getEffects().getEffects()) {
 			EAdEffect effect = effectsImporter.getEffect(e);
 			previousEffect.getNextEffects().add(effect);
 		}
+
+		if (oldObject.isTerminal()) {
+			ChangeFieldEf changeField = new ChangeFieldEf(
+					SystemFields.BASIC_HUD_OPAQUE, BooleanOp.FALSE_OP);
+			previousEffect.getNextEffects().add(changeField);
+		}
+
 		return initialEffect;
 	}
 }

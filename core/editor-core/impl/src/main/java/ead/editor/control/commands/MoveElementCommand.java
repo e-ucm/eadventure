@@ -130,7 +130,6 @@ public class MoveElementCommand<P> extends Command {
 	 */
 	@Override
 	public boolean canRedo() {
-		// TODO Auto-generated method stub
 		return true;
 	}
 

@@ -191,13 +191,13 @@ public class EAdEngine implements playn.core.Game, Keyboard.Listener {
 
 	@Override
 	public void onKeyDown(Event event) {
-		// TODO Auto-generated method stub
+		
 
 	}
 
 	@Override
 	public void onKeyUp(Event event) {
-		// TODO Auto-generated method stub
+
 
 	}
 
@@ -241,7 +241,6 @@ public class EAdEngine implements playn.core.Game, Keyboard.Listener {
 
 	@Override
 	public void onKeyTyped(TypedEvent event) {
-		// TODO Auto-generated method stub
 
 	}
 

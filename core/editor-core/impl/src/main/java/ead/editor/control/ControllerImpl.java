@@ -52,13 +52,13 @@ public class ControllerImpl implements Controller {
 
 	@Override
 	public void setModel(EAdAdventureModel model) {
-		// TODO Auto-generated method stub
+		
 
 	}
 
 	@Override
 	public void setLocale(Locale locale) {
-		// TODO Auto-generated method stub
+		
 
 	}
 

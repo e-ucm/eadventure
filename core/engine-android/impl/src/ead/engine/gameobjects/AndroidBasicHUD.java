@@ -23,7 +23,7 @@ import ead.engine.core.game.GameState;
 import ead.engine.core.gameobjects.GameObjectManager;
 import ead.engine.core.gameobjects.factories.SceneElementGOFactory;
 import ead.engine.core.gameobjects.go.GameObject;
-import ead.engine.core.gameobjects.huds.BasicHUDImpl;
+import ead.engine.core.gameobjects.huds.TopBasicHUDImpl;
 import ead.engine.core.gameobjects.huds.MenuHUD;
 import ead.engine.core.input.InputHandler;
 import ead.engine.core.input.states.MouseState;
@@ -34,7 +34,7 @@ import ead.engine.core.platform.rendering.GenericCanvas;
 import ead.engine.extra.BitmapCanvas;
 
 @Singleton
-public class AndroidBasicHUD extends BasicHUDImpl {
+public class AndroidBasicHUD extends TopBasicHUDImpl {
 
 	private Paint borderPaint;
 	private Path clip;

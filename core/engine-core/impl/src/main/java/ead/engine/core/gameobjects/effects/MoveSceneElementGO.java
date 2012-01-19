@@ -195,7 +195,7 @@ public class MoveSceneElementGO extends
 			totalTime = (side.getLength() / PIXELS_PER_SECOND * 1000)
 					* side.getSpeedFactor();
 
-			//TODO should make more generic...
+			//TODO should be more generic...
 			TrajectoryDefinition d = gameState.getValueMap().getValue(gameState.getScene()
 					.getElement(), SceneImpl.VAR_TRAJECTORY_DEFINITION);
 			if (d != null && element.isUseTrajectory() && side instanceof DijkstraPathSide ) {

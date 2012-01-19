@@ -97,4 +97,12 @@ public class SystemFields {
 	public static final EAdField<Boolean> PROCESS_INPUT = new EAdFieldImpl<Boolean>(
 			null, new VarDefImpl<Boolean>("process_input", Boolean.class, true));
 
+	/**
+	 * If true, the player will only be able to interact with the elements in or
+	 * above the basic HUD (like the effect HUD, or the actions HUD)
+	 */
+	public static final EAdField<Boolean> BASIC_HUD_OPAQUE = new EAdFieldImpl<Boolean>(
+			null, new VarDefImpl<Boolean>("basic_hud_opaque", Boolean.class,
+					false));
+
 }

@@ -57,9 +57,10 @@ import ead.engine.core.gameobjects.go.DrawableGO;
 import ead.engine.core.gameobjects.go.EffectGO;
 import ead.engine.core.gameobjects.go.EventGO;
 import ead.engine.core.gameobjects.huds.ActionsHUD;
-import ead.engine.core.gameobjects.huds.BasicHUD;
+import ead.engine.core.gameobjects.huds.BottomBasicHUD;
 import ead.engine.core.gameobjects.huds.EffectHUD;
 import ead.engine.core.gameobjects.huds.InventoryHUD;
+import ead.engine.core.gameobjects.huds.TopBasicHUD;
 import ead.engine.core.inventory.InventoryHandler;
 import ead.engine.core.platform.AssetHandler;
 import ead.engine.core.platform.EngineConfiguration;
@@ -81,7 +82,7 @@ public class GameImpl implements Game {
 	private EffectHUD effectHUD;
 
 	private InventoryHUD inventoryHUD;
-	
+
 	private ActionsHUD actionsHUD;
 
 	private static final Logger logger = Logger.getLogger("GameImpl");
@@ -106,9 +107,10 @@ public class GameImpl implements Game {
 	@Inject
 	public GameImpl(GUI gui, GameState gameState, EffectHUD effectHUD,
 			AssetHandler assetHandler, GameObjectManager gameObjectManager,
-			Debugger debugger, ValueMap valueMap, BasicHUD basicHud,
-			InventoryHUD inventoryHud, InventoryHandler inventoryHandler,
-			EventGOFactory eventFactory, EngineConfiguration configuration, ActionsHUD actionsHUD) {
+			Debugger debugger, ValueMap valueMap, TopBasicHUD basicHud,
+			BottomBasicHUD bottomBasicHud, InventoryHUD inventoryHud,
+			InventoryHandler inventoryHandler, EventGOFactory eventFactory,
+			EngineConfiguration configuration, ActionsHUD actionsHUD) {
 		this.gui = gui;
 		this.gameState = gameState;
 		this.effectHUD = effectHUD;
@@ -122,7 +124,7 @@ public class GameImpl implements Game {
 		this.eventFactory = eventFactory;
 		this.configuration = configuration;
 		events = new ArrayList<EventGO<?>>();
-		gameObjectManager.setBasicHUD(basicHud);
+		gameObjectManager.setBasicHUDs(basicHud, bottomBasicHud);
 	}
 
 	@Override
@@ -196,7 +198,7 @@ public class GameImpl implements Game {
 
 		boolean effectHUDon = gameObjectManager.getHUDs().contains(effectHUD);
 		if (visualEffect) {
-			if (!effectHUDon){
+			if (!effectHUDon) {
 				gameObjectManager.addHUD(effectHUD);
 				gameObjectManager.removeHUD(actionsHUD);
 			}

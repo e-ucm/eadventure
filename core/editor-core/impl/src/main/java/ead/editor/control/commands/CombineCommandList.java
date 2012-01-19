@@ -169,7 +169,6 @@ public class CombineCommandList extends Command {
 	 */
 	@Override
 	public boolean combine(Command other) {
-		// TODO Auto-generated method stub
 		return false;
 	}
 

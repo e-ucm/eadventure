@@ -63,7 +63,6 @@ public class PreviewPanelImpl implements PreviewPanel {
 
 	@Override
 	public List<PreviewElement> getElements() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 

@@ -95,7 +95,6 @@ public class EAdListFieldDescriptorImpl<S> extends FieldDescriptorImpl<EAdList<S
 
 	@Override
 	public Panel getPanel(int pos, boolean selected) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 

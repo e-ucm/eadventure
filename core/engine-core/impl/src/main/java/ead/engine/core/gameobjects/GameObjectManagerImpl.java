@@ -43,10 +43,10 @@ import java.util.logging.Logger;
 
 import com.google.inject.Singleton;
 
-import ead.engine.core.gameobjects.GameObjectManager;
 import ead.engine.core.gameobjects.go.DrawableGO;
-import ead.engine.core.gameobjects.huds.BasicHUD;
+import ead.engine.core.gameobjects.huds.BottomBasicHUD;
 import ead.engine.core.gameobjects.huds.HudGO;
+import ead.engine.core.gameobjects.huds.TopBasicHUD;
 import ead.engine.core.platform.GUI;
 import ead.engine.core.util.EAdTransformation;
 
@@ -63,7 +63,9 @@ public class GameObjectManagerImpl implements GameObjectManager {
 
 	private int bufferPointer;
 	
-	private BasicHUD basicHud;
+	private TopBasicHUD topBasicHud;
+	
+	private BottomBasicHUD bottomBasicHud;
 
 	private static final Logger logger = Logger
 			.getLogger("GameObjectManagerImpl");
@@ -82,8 +84,9 @@ public class GameObjectManagerImpl implements GameObjectManager {
 		logger.info("New instance");
 	}
 	
-	public void setBasicHUD( BasicHUD basicHUD ){
-		this.basicHud = basicHUD;
+	public void setBasicHUDs( TopBasicHUD basicHUD, BottomBasicHUD bottomBasicHUD ){
+		this.topBasicHud = basicHUD;
+		this.bottomBasicHud = bottomBasicHUD;
 		basicHUD.setGameObjectManager( this );
 	}
 
@@ -141,12 +144,13 @@ public class GameObjectManagerImpl implements GameObjectManager {
 	 */
 	@Override
 	public void addHUDs(GUI gui, EAdTransformation t) {
+		gui.addElement(bottomBasicHud, t);
 		if (!huds.isEmpty()) {
 			for (HudGO hud : huds) {
 				gui.addElement(hud, t);
 			}
 		}
-		gui.addElement(basicHud, t);
+		gui.addElement(topBasicHud, t);
 	}
 
 	/*
@@ -187,7 +191,7 @@ public class GameObjectManagerImpl implements GameObjectManager {
 				hud.update();
 			}
 		}
-		basicHud.update();
+		topBasicHud.update();
 	}
 
 }

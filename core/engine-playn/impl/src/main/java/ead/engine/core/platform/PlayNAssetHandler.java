@@ -92,15 +92,11 @@ public class PlayNAssetHandler extends AbstractAssetHandler {
 
 	@Override
 	public void initilize() {
-		// TODO Auto-generated method stub
-
 		setLoaded(true);
-
 	}
 
 	@Override
 	public void terminate() {
-		// TODO Auto-generated method stub
 
 	}
 

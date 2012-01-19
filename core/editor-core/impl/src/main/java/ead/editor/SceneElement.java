@@ -68,7 +68,6 @@ public class SceneElement extends JComponent{
 	 * Getter for the horizontal position of the element 
 	 */
 	public double getPosX() {
-		// TODO Auto-generated method stub
 		return posX;
 	}
 
@@ -76,7 +75,6 @@ public class SceneElement extends JComponent{
 	 * Getter for the vertical position of the element 
 	 */
 	public double getPosY() {
-		// TODO Auto-generated method stub
 		return posY;
 	}
 	

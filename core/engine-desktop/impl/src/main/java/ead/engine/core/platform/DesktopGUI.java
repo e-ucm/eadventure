@@ -215,12 +215,7 @@ public class DesktopGUI extends AbstractGUI<Graphics2D> implements GUI {
 		});
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see es.eucm.eadventure.engine.core.platform.GUI#commitToImage()
-	 */
-	@Override
+	
 	public RuntimeAsset<? extends BasicDrawable> commitToImage() {
 
 		DesktopEngineImage image = new DesktopEngineImage(

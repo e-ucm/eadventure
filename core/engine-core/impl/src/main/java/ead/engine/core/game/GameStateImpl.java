@@ -199,7 +199,6 @@ public class GameStateImpl implements GameState {
 	 * es.eucm.eadventure.common.model.effects.EAdEffect)
 	 */
 	@Override
-	// TODO consider leaving effect initialization for later
 	public void addEffect(int pos, EAdEffect e, InputAction<?> action,
 			EAdSceneElement parent) {
 		if (e != null) {

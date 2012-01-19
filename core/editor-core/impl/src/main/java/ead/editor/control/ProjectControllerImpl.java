@@ -60,20 +60,16 @@ public class ProjectControllerImpl implements ProjectController {
 	
 	@Override
 	public void load(String projectURL) {
-		// TODO Auto-generated method stub
-		
 		actionManager.clearCommands();
 	}
 
 	@Override
 	public void save() {
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public void saveAs(String projectURL) {
-		// TODO Copy contents and change active directory
 
 		this.projectURL = projectURL;
 
@@ -82,7 +78,6 @@ public class ProjectControllerImpl implements ProjectController {
 
 	@Override
 	public void newProject() {
-		// TODO Auto-generated method stub
 		
 	}
 

@@ -46,6 +46,9 @@ import ead.common.EAdElementImporter;
 import ead.common.importer.interfaces.EffectsImporterFactory;
 import ead.common.model.elements.EAdEffect;
 import ead.common.model.elements.effects.text.ShowQuestionEf;
+import ead.common.model.elements.effects.variables.ChangeFieldEf;
+import ead.common.model.elements.variables.SystemFields;
+import ead.common.model.elements.variables.operations.BooleanOp;
 import ead.common.params.text.EAdString;
 import ead.common.resources.StringHandler;
 import es.eucm.eadventure.common.data.chapter.conversation.Conversation;
@@ -115,7 +118,9 @@ public class ConversationImporter implements
 			}
 		}
 		EAdEffect initialEffect = nodes.get(oldObject.getRootNode());
-		return initialEffect;
+		ChangeFieldEf changeField = new ChangeFieldEf(SystemFields.BASIC_HUD_OPAQUE, BooleanOp.TRUE_OP );
+		changeField.getNextEffects().add(initialEffect);
+		return changeField;
 	}
 
 }

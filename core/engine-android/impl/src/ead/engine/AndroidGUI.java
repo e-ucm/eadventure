@@ -42,7 +42,6 @@ import android.graphics.Canvas;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
-import ead.common.resources.assets.drawable.basics.ImageImpl;
 import ead.engine.core.game.GameState;
 import ead.engine.core.game.ValueMap;
 import ead.engine.core.gameobjects.GameObjectManager;
@@ -50,7 +49,6 @@ import ead.engine.core.gameobjects.factories.SceneElementGOFactory;
 import ead.engine.core.input.InputHandler;
 import ead.engine.core.platform.AbstractGUI;
 import ead.engine.core.platform.EngineConfiguration;
-import ead.engine.core.platform.RuntimeAsset;
 import ead.engine.extra.BitmapCanvas;
 import ead.engine.extra.EAdventureRenderingThread;
 import ead.engine.rendering.AndroidCanvas;
@@ -65,13 +63,6 @@ public class AndroidGUI extends AbstractGUI<Canvas> {
 			SceneElementGOFactory gameObjectFactory, AndroidCanvas canvas) {
 		super(platformConfiguration, gameObjectManager, inputHandler, gameState,
 				gameObjectFactory, canvas);
-	}
-
-	@Override
-	public RuntimeAsset<ImageImpl> commitToImage() {
-		// FIXME does not commit to image
-		// canvas.getBitmap();?
-		return null;
 	}
 
 	@Override
@@ -104,7 +95,6 @@ public class AndroidGUI extends AbstractGUI<Canvas> {
 
 	@Override
 	public void finish() {
-		// TODO Auto-generated method stub
 
 	}
 

@@ -68,7 +68,6 @@ public class OperationCondEvaluator implements
 		Object value2 = operatorFactory.operate(Object.class,
 				condition.getOp2());
 
-		//TODO check if comparison between nulls is required
 		if (value1 == null || value2 == null)
 			return false;
 
