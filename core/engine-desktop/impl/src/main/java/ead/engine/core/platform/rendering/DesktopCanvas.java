@@ -79,29 +79,33 @@ public class DesktopCanvas extends AbstractCanvas<Graphics2D> {
 	private AlphaComposite alphaComposite;
 
 	@Inject
-	public DesktopCanvas(FontHandler fontHandler, FilterFactory<Graphics2D> filterFactory) {
+	public DesktopCanvas(FontHandler fontHandler,
+			FilterFactory<Graphics2D> filterFactory) {
 		super(fontHandler, filterFactory);
 		fillCache = new HashMap<EAdFill, Paint>();
 		strokeCache = new HashMap<EAdPaint, Stroke>();
 		graphicStack = new Stack<Graphics2D>();
-		alphaComposite = AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1.0f);
+		alphaComposite = AlphaComposite.getInstance(AlphaComposite.SRC_OVER,
+				1.0f);
 	}
 
 	@Override
 	public void setTransformation(EAdTransformation t) {
-		setMatrix( t.getMatrix() );
-		if (alphaComposite.getAlpha() != t.getAlpha()) { 
-			alphaComposite = AlphaComposite.getInstance(AlphaComposite.SRC_OVER,
-					t.getAlpha());
+		setMatrix(t.getMatrix());
+		if (t.getClip() != null)
+			clip(t.getClip());
+		if (alphaComposite.getAlpha() != t.getAlpha()) {
+			alphaComposite = AlphaComposite.getInstance(
+					AlphaComposite.SRC_OVER, t.getAlpha());
 			g.setComposite(alphaComposite);
-		}		
+		}
 	}
-	
-	public void setMatrix( EAdMatrix mat ){	
+
+	public void setMatrix(EAdMatrix mat) {
 		g.setTransform(getAffineTransform(mat));
 	}
-	
-	public AffineTransform getAffineTransform( EAdMatrix mat ){
+
+	public AffineTransform getAffineTransform(EAdMatrix mat) {
 		float m[] = mat.getFlatMatrix();
 		return new AffineTransform(m[0], m[1], m[3], m[4], m[6], m[7]);
 	}
@@ -122,7 +126,7 @@ public class DesktopCanvas extends AbstractCanvas<Graphics2D> {
 			g.draw(s);
 		}
 	}
-	
+
 	@Override
 	public void fillRect(int x, int y, int width, int height) {
 		// Fill
@@ -136,10 +140,8 @@ public class DesktopCanvas extends AbstractCanvas<Graphics2D> {
 			g.setStroke(getStroke(paint));
 			g.drawRect(x, y, width, height);
 		}
-		
+
 	}
-	
-	
 
 	@Override
 	public void drawText(String str, int x, int y) {
@@ -235,12 +237,12 @@ public class DesktopCanvas extends AbstractCanvas<Graphics2D> {
 	@Override
 	public void scale(float scaleX, float scaleY) {
 		g.scale(scaleX, scaleY);
-		
+
 	}
 
 	@Override
 	public void rotate(float angle) {
-		g.rotate(angle);	
+		g.rotate(angle);
 	}
 
 }

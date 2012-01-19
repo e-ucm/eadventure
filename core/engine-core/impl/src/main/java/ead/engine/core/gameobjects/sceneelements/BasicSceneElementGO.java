@@ -102,6 +102,9 @@ public class BasicSceneElementGO extends
 		list = element.getDefinition().getEffects(action.getGUIEvent());
 		processed |= addEffects(list, action);
 		
+		if ( !element.isPropagateGUIEvents() )
+			action.consume();
+		
 		return processed;
 
 	}

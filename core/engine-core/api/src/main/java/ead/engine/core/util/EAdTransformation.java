@@ -38,6 +38,7 @@
 package ead.engine.core.util;
 
 import ead.common.util.EAdMatrix;
+import ead.common.util.EAdRectangle;
 
 /**
  * Transformation applicable to the graphic context.
@@ -70,5 +71,9 @@ public interface EAdTransformation extends Cloneable {
 	void setAlpha(float sceneAlpha);
 	
 	void setVisible(boolean visible);
+	
+	EAdRectangle getClip( );
+	
+	void setClip( int x, int y, int width, int height );
 
 }

@@ -64,10 +64,14 @@ public abstract class AbstractElementWithBehavior extends
 	@Param("events")
 	protected EAdList<EAdEvent> events;
 
+	@Param(value="propagateGUIEvents", defaultValue="true")
+	private boolean propagateGUIEvents;
+
 	public AbstractElementWithBehavior() {
 		super();
 		this.behavior = new BehaviorImpl();
 		this.events = new EAdListImpl<EAdEvent>(EAdEvent.class);
+		this.propagateGUIEvents = true;
 		behavior.setId(id + "behaviors");
 	}
 
@@ -125,6 +129,14 @@ public abstract class AbstractElementWithBehavior extends
 	@Override
 	public EAdList<EAdEvent> getEvents() {
 		return events;
+	}
+	
+	public void setPropagateGUIEvents(boolean propagate){
+		this.propagateGUIEvents = propagate;
+	}
+	
+	public boolean isPropagateGUIEvents(){
+		return propagateGUIEvents;
 	}
 
 }

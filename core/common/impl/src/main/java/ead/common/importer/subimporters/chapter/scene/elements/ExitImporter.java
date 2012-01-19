@@ -90,6 +90,7 @@ public class ExitImporter extends ElementImporter<Exit> {
 	@Override
 	public EAdSceneElement convert(Exit oldObject, Object object) {
 		SceneElementImpl newExit = (SceneElementImpl) object;
+		newExit.setPropagateGUIEvents(false);
 
 		// Shape
 		setShape(newExit, oldObject);

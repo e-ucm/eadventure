@@ -40,6 +40,7 @@ package ead.engine.core.platform;
 import java.util.logging.Logger;
 
 import ead.common.util.EAdMatrixImpl;
+import ead.common.util.EAdRectangle;
 import ead.engine.core.game.GameState;
 import ead.engine.core.gameobjects.GameObjectManager;
 import ead.engine.core.gameobjects.factories.SceneElementGOFactory;
@@ -186,6 +187,24 @@ public abstract class AbstractGUI<T> implements GUI {
 		float alpha = t1.getAlpha() * t2.getAlpha();
 		boolean visible = t1.isVisible() && t2.isVisible();
 		EAdTransformationImpl t = new EAdTransformationImpl(m, visible, alpha);
+		EAdRectangle clip1 = t1.getClip();
+		EAdRectangle clip2 = t2.getClip();
+		EAdRectangle newclip = new EAdRectangle( 0,0,0,0);
+		
+		// FIXME multiply for matrix to know where the clip actually is
+		if ( clip1 == null ){
+			newclip = clip2;
+		}
+		else if ( clip2 == null ){
+			newclip = clip1;
+		}
+		else if ( clip1 != null && clip2 != null ){
+			newclip = clip2;
+		}
+		
+		if ( newclip != null )
+			t.setClip(newclip.x, newclip.y, newclip.width, newclip.height);
+		
 		return t;
 	}
 

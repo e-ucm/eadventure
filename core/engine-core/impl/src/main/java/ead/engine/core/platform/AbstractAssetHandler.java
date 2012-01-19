@@ -123,22 +123,26 @@ public abstract class AbstractAssetHandler implements AssetHandler {
 		if (descriptor == null) {
 			return null;
 		}
+		
+		RuntimeAsset<T> temp = null;
 		synchronized (cache) {
-			RuntimeAsset<T> temp = (RuntimeAsset<T>) cache.get(descriptor);
+			temp = (RuntimeAsset<T>) cache.get(descriptor);
+		}
 
-			if (temp == null) {
-				Class<?> clazz = descriptor.getClass();
-				Class<? extends RuntimeAsset<?>> tempClass = null;
-				while (clazz != null && tempClass == null) {
-					tempClass = classMap.get(clazz);
-					clazz = clazz.getSuperclass();
-				}
-				temp = (RuntimeAsset<T>) getInstance(tempClass);
-				temp.setDescriptor(descriptor);
+		if (temp == null) {
+			Class<?> clazz = descriptor.getClass();
+			Class<? extends RuntimeAsset<?>> tempClass = null;
+			while (clazz != null && tempClass == null) {
+				tempClass = classMap.get(clazz);
+				clazz = clazz.getSuperclass();
+			}
+			temp = (RuntimeAsset<T>) getInstance(tempClass);
+			temp.setDescriptor(descriptor);
+			synchronized (cache) {
 				cache.put(descriptor, temp);
 			}
-			return temp;
 		}
+		return temp;
 
 	}
 

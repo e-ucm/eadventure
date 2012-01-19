@@ -13,6 +13,7 @@ import ead.common.params.fills.EAdPaintImpl;
 import ead.common.resources.StringHandler;
 import ead.common.resources.assets.drawable.basics.shapes.CircleShape;
 import ead.common.resources.assets.drawable.basics.shapes.RectangleShape;
+import ead.common.util.EAdPosition.Corner;
 import ead.engine.core.game.GameState;
 import ead.engine.core.gameobjects.SceneGOImpl;
 import ead.engine.core.gameobjects.factories.EventGOFactory;
@@ -90,20 +91,22 @@ public abstract class AbstractTransitionGO<T extends EAdTransition> extends
 		RectangleShape rs = new RectangleShape(gameState.getValueMap()
 				.getValue(SystemFields.GAME_WIDTH), gameState.getValueMap()
 				.getValue(SystemFields.GAME_HEIGHT));
-		rs.setPaint(new EAdPaintImpl(new EAdColor(100, 100, 100, 30),
+		rs.setPaint(new EAdPaintImpl(new EAdColor(100, 100, 100, 0),
 				EAdColor.BLACK));
 
-		int circleRaidus = 15;
-		CircleShape circle = new CircleShape(circleRaidus, circleRaidus,
-				circleRaidus, 40, new EAdLinearGradient(EAdColor.ORANGE,
-						EAdColor.YELLOW, circleRaidus * 2, circleRaidus * 2));
+		int circleRadius = 15;
+		CircleShape circle = new CircleShape(circleRadius, circleRadius,
+				circleRadius, 40, new EAdLinearGradient(EAdColor.ORANGE,
+						EAdColor.YELLOW, circleRadius * 2, circleRadius * 2));
 		SceneElementImpl loadingText = new SceneElementImpl(circle);
 		loadingText.setInitialAlpha(0.8f);
 		loadingText.setId("loadingText");
+		loadingText.setPosition(Corner.CENTER, circleRadius * 2, circleRadius * 2 );
 		rotationField = new EAdFieldImpl<Float>(loadingText,
 				SceneElementImpl.VAR_ROTATION);
 
 		scene.setBackground(new SceneElementImpl(rs));
+		scene.getComponents().add(loadingText);
 		return scene;
 	}
 
@@ -115,7 +118,7 @@ public abstract class AbstractTransitionGO<T extends EAdTransition> extends
 
 	public void update() {
 		super.update();
-		if (!loading) {
+		if (!loaded && !loading) {
 			loading = true;
 			sceneLoader.loadScene(nextScene, this);
 		}

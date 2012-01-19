@@ -39,6 +39,7 @@ package ead.engine.core.util;
 
 import ead.common.util.EAdMatrix;
 import ead.common.util.EAdMatrixImpl;
+import ead.common.util.EAdRectangle;
 import ead.engine.core.util.EAdTransformation;
 
 public class EAdTransformationImpl implements EAdTransformation {
@@ -50,6 +51,8 @@ public class EAdTransformationImpl implements EAdTransformation {
 	private boolean visible;
 
 	private float alpha;
+
+	public EAdRectangle clip;
 
 	public EAdTransformationImpl(EAdMatrix matrix, boolean visible, float alpha) {
 		this.matrix = matrix;
@@ -77,23 +80,37 @@ public class EAdTransformationImpl implements EAdTransformation {
 	public float getAlpha() {
 		return alpha;
 	}
-	
-	public void setAlpha(float alpha){
+
+	public void setAlpha(float alpha) {
 		this.alpha = alpha;
 	}
-	
-	public void setVisible( boolean visible ){
+
+	public void setVisible(boolean visible) {
 		this.visible = visible;
 	}
-	
-	public Object clone(){
+
+	public Object clone() {
 		EAdTransformationImpl t = new EAdTransformationImpl();
 		t.alpha = alpha;
 		t.visible = visible;
 		t.matrix = new EAdMatrixImpl(matrix.getFlatMatrix());
 		return t;
-		
+
 	}
-	
+
+	public EAdRectangle getClip() {
+		return clip;
+	}
+
+	public void setClip(int x, int y, int width, int height) {
+		if (clip == null) {
+			clip = new EAdRectangle(x, y, width, height);
+		} else {
+			clip.x = x;
+			clip.y = y;
+			clip.width = width;
+			clip.height = height;
+		}
+	}
 
 }

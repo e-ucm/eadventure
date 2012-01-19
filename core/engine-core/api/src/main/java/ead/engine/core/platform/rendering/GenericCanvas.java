@@ -127,6 +127,7 @@ public interface GenericCanvas<S> {
 	 * 
 	 * @param rectangle
 	 */
+	// TODO clip with shapes to
 	void clip(EAdRectangle rectangle);
 
 	/**

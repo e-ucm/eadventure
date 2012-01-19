@@ -157,8 +157,8 @@ public class SceneImporter implements EAdElementImporter<Scene, SceneImpl> {
 
 	private void importSceneElements(SceneImpl scene, Scene oldScene,
 			EAdChapter chapter) {
-		importExits(scene, oldScene.getExits());
-		importAciveAreas(scene, oldScene.getActiveAreas());
+		int substract = importExits(1, scene, oldScene.getExits());
+		importAciveAreas(substract, scene, oldScene.getActiveAreas());
 		importReferences(scene, oldScene.getItemReferences(), chapter);
 		importReferences(scene, oldScene.getAtrezzoReferences(), chapter);
 		importReferences(scene, oldScene.getCharacterReferences(), chapter);
@@ -243,26 +243,31 @@ public class SceneImporter implements EAdElementImporter<Scene, SceneImpl> {
 
 	}
 
-	private void importAciveAreas(SceneImpl scene, List<ActiveArea> list) {
+	private void importAciveAreas(int substract, SceneImpl scene, List<ActiveArea> list) {
+		int i = 0;
 		for (ActiveArea a : list) {
 			SceneElementImpl activeArea = (SceneElementImpl) factory.getElementById(a
 					.getId());
 			activeArea.setPosition(new EAdPosition(EAdPosition.Corner.TOP_LEFT, a.getX(), a.getY()));
-			activeArea.setVarInitialValue(SceneElementImpl.VAR_Z, Integer.MAX_VALUE - 2 );
+			activeArea.setVarInitialValue(SceneElementImpl.VAR_Z, Integer.MAX_VALUE - substract - i );
+			i++;
 			if (activeArea != null)
 				scene.getComponents().add(activeArea);
 		}
 
 	}
 
-	private void importExits(SceneImpl scene, List<Exit> list) {
+	private int importExits(int substract, SceneImpl scene, List<Exit> list) {
+		int i = 0;
 		for (Exit e : list) {
 			EAdSceneElement se = exitsImporter.init(e);
-			se.setVarInitialValue(SceneElementImpl.VAR_Z, Integer.MAX_VALUE - 1);
+			se.setVarInitialValue(SceneElementImpl.VAR_Z, Integer.MAX_VALUE - substract - i);
 			se = exitsImporter.convert(e, se);
+			i++;
 			if (se != null)
 				scene.getComponents().add(se);
 		}
+		return i;
 
 	}
 

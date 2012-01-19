@@ -86,6 +86,7 @@ public class ElementReferenceImporter extends ElementImporter<ElementReference> 
 				.getElementById(oldObject.getTargetId());
 		SceneElementImpl newRef = (SceneElementImpl) object;
 		newRef.setId(oldObject.getTargetId() + "_ref");
+		newRef.setPropagateGUIEvents(false);
 
 		newRef.setPosition(new EAdPosition(
 				EAdPosition.Corner.BOTTOM_CENTER, oldObject.getX(),
