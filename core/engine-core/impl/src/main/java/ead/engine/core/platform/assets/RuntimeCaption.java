@@ -391,7 +391,7 @@ public class RuntimeCaption<GraphicContext> extends
 	 * Updates the time a text must be shown to be completely read
 	 */
 	private void updateTimeShown() {
-		// FIXME Debería venir de un controlador con las opciones de la rapidez
+		// FIXME Deberia venir de un controlador con las opciones de la rapidez
 		// de lectura del texto
 		int multiplier = 1;
 		timeShown = 0;

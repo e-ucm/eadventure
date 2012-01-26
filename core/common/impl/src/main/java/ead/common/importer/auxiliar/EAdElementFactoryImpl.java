@@ -89,7 +89,8 @@ public class EAdElementFactoryImpl implements EAdElementFactory {
 
 	private Injector injector;
 
-	public static Map<Class<?>, Class<? extends GenericImporter<?, ?>>> importerMap = new HashMap<Class<?>, Class<? extends GenericImporter<?, ?>>>();
+	public static Map<Class<?>, Class<? extends GenericImporter<?, ?>>> importerMap 
+		= new HashMap<Class<?>, Class<? extends GenericImporter<?, ?>>>();
 
 	@Inject
 	public EAdElementFactoryImpl(
@@ -134,8 +135,8 @@ public class EAdElementFactoryImpl implements EAdElementFactory {
 	}
 
 	public Map<String, EAdElement> getChapterElements() {
-		Map<String, EAdElement> chapterElements = elements.get(currentChapter
-				.getId());
+		Map<String, EAdElement> chapterElements = elements.get(
+			currentChapter.getId());
 
 		if (chapterElements == null) {
 			chapterElements = new HashMap<String, EAdElement>();

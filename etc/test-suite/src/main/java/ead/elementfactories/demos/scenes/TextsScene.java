@@ -53,19 +53,48 @@ public class TextsScene extends EmptyScene {
 		this.setBackgroundFill(EAdColor.DARK_GRAY);
 		
 		// Show text caption
-		CaptionImpl caption = EAdElementsFactory.getInstance().getCaptionFactory().createCaption("Show text Á ÑÑÑ !!!! *Á", EAdPaintImpl.WHITE_ON_BLACK, EAdPaintImpl.BLACK_ON_WHITE, new EAdFontImpl( new EAdURIImpl( "@binary/DroidSans-Bold.ttf"), 20));
-		EAdEffect effect = EAdElementsFactory.getInstance().getEffectFactory().getShowText("This text is showing through an EAdShowText effect", 400, 200, ShowTextAnimation.FADE_IN );
-		getComponents().add(EAdElementsFactory.getInstance().getSceneElementFactory().createSceneElement(caption, 10, 10, effect));
+		CaptionImpl caption = EAdElementsFactory.getInstance()
+			.getCaptionFactory().createCaption(
+				"Show text \u00c1 \u00d1\u00d1\u00d1 !!!! *\u00c1", 
+				EAdPaintImpl.WHITE_ON_BLACK, 
+				EAdPaintImpl.BLACK_ON_WHITE, 
+				new EAdFontImpl( new EAdURIImpl( "@binary/DroidSans-Bold.ttf"),
+				20));
+		EAdEffect effect = EAdElementsFactory.getInstance()
+			.getEffectFactory().getShowText(
+				"This text is showing through an EAdShowText effect", 
+				400, 200, ShowTextAnimation.FADE_IN );
+		getComponents().add(EAdElementsFactory.getInstance()
+			.getSceneElementFactory().createSceneElement(
+				caption, 10, 10, effect));
 		
 		// Show question caption
-		CaptionImpl caption2 = EAdElementsFactory.getInstance().getCaptionFactory().createCaption("Launch a question", EAdPaintImpl.WHITE_ON_BLACK, EAdPaintImpl.BLACK_ON_WHITE, new EAdFontImpl( new EAdURIImpl( "@binary/DroidSans-Bold.ttf"), 20));
-		EAdEffect question = EAdElementsFactory.getInstance().getEffectFactory().getShowQuestion("I have a question and you have to answer, I'm afraid", 5 );
-		getComponents().add(EAdElementsFactory.getInstance().getSceneElementFactory().createSceneElement(caption2, 10, 100, question));
+		CaptionImpl caption2 = EAdElementsFactory.getInstance()
+				.getCaptionFactory().createCaption(
+						"Launch a question", 
+						EAdPaintImpl.WHITE_ON_BLACK, 
+						EAdPaintImpl.BLACK_ON_WHITE, 
+						new EAdFontImpl( new EAdURIImpl( "@binary/DroidSans-Bold.ttf"), 20));
+		EAdEffect question = EAdElementsFactory.getInstance()
+				.getEffectFactory().getShowQuestion(
+						"I have a question and you have to answer, I'm afraid", 5 );
+		getComponents().add(EAdElementsFactory.getInstance()
+				.getSceneElementFactory().createSceneElement(
+						caption2, 10, 100, question));
 		
 		// Show text caption
-		CaptionImpl caption3 = EAdElementsFactory.getInstance().getCaptionFactory().createCaption("Show very long text", EAdPaintImpl.WHITE_ON_BLACK, EAdPaintImpl.BLACK_ON_WHITE, new EAdFontImpl( new EAdURIImpl( "@binary/DroidSans-Bold.ttf"), 20));
-		EAdEffect effect2 = EAdElementsFactory.getInstance().getEffectFactory().getShowText(StringType.VERY_LONG_STRING.getString(), 400, 200, ShowTextAnimation.FADE_IN, 100 );
-		getComponents().add(EAdElementsFactory.getInstance().getSceneElementFactory().createSceneElement(caption3, 10, 200, effect2));
+		CaptionImpl caption3 = EAdElementsFactory.getInstance()
+				.getCaptionFactory().createCaption(
+						"Show very long text", EAdPaintImpl.WHITE_ON_BLACK, 
+						EAdPaintImpl.BLACK_ON_WHITE, 
+						new EAdFontImpl( new EAdURIImpl( "@binary/DroidSans-Bold.ttf"), 20));
+		EAdEffect effect2 = EAdElementsFactory.getInstance()
+				.getEffectFactory().getShowText(
+						StringType.VERY_LONG_STRING.getString(), 
+						400, 200, ShowTextAnimation.FADE_IN, 100 );
+		getComponents().add(EAdElementsFactory.getInstance()
+				.getSceneElementFactory().createSceneElement(
+						caption3, 10, 200, effect2));
 	}
 	
 	@Override

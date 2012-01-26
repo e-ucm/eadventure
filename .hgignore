@@ -1,44 +1,42 @@
-
+#
+# Please add a comment to any new ignore line to explain why
+# it is needed: we should try to keep this file as compact as possible.
+#
 syntax: glob
-*.class
-*.prefs
-*.settings
-*/target/*
-*/ProjectImported/*
-*/EAdventure1Project/*
-*/impl/.gwt/*
-core/engine-desktop/impl/hs_err_pid1828.log
-core/engine-desktop/impl/hs_err_pid2504.log
-core/engine-android/impl/gen/es/eucm/eadventure/engine/R.java
-core/engine-android/impl/gen/*
+
+# ignore editor backups
+**~
+
+# ignore all compilation output
+**.class
+*/target/
+
+# test output
+**/test/resources/result*
+
+# eclipse settings
+*.{prefs,settings}
+**.{classpath,project}
+*/ProjectImported/
+*/EAdventure1Project/
+
+# gwt settings, output and support
+*/impl/.gwt/
+**/war/*
+core/engine-android/impl/libs/android-support-v4/
+core/engine-android/impl/gen/
+
+# jvm error files
+core/engine-desktop/impl/hs_err*.log
+
+# android-compilation generated files and output
+core/engine-android/impl/gen/**
 core/engine-playn/impl/gwt-unitCache/gwt-unitCache*
+core/engine-android/impl/bin/
+
+# FIXME: find out why these are here
+core/engine-android/impl/gen/es/eucm/eadventure/engine/R.java
 core/engine-desktop/impl/src/test/resources/T1-movimientoImported/drawable/assets_animation_walks-up_08.png
-
-syntax: regexp
-^core/engine-android/impl/bin$
 core/engine-desktop/impl/src/test/resources/T1-movimiento*
-^core/engine-desktop/impl/src/test/resources/FirstPersonEffectsTestImported$
-^core/engine-playn/impl/war/eadengine$
-^core/engine-playn/impl/war/WEB-INF/deploy$
-^core/engine-playn/impl/war/WEB-INF/lib$
-^core/engine-html5/impl/war/eadengine$
-^core/engine-html5/impl/war/WEB-INF/deploy$
-^core/engine-html5/impl/war/WEB-INF/lib$
-^core/engine-android/impl/libs/android-support-v4\.jar$
-^core/engine-android/impl/gen$
+core/engine-desktop/impl/src/test/resources/FirstPersonEffectsTestImported*
 
-syntax: regexp
-^\.classpath$
-^\.project$
-^build-tools/\.classpath$
-^build-tools/\.project$
-^core/(common|model)/(.*)/\.classpath$
-^core/(common|model)/(.*)/\.project$
-^core/(gui|utils)/\.classpath$
-^core/(gui|utils)/\.project$
-^etc/(test-suite)/\.project$
-^etc/(test-suite)/\.classpath$
-^core/editor-(.*)/(.*)/\.classpath$
-^core/editor-(.*)/(.*)/\.project$
-^core/engine-(core|desktop|applet|plugins|java|playn)/(.*)/\.classpath$
-^core/engine-(core|desktop|applet|plugins|java|playn)/(.*)/\.project$
