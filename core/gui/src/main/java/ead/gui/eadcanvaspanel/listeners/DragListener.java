@@ -102,7 +102,7 @@ public class DragListener implements KeyListener, MouseListener,
 
 	@Override
 	public void keyPressed(KeyEvent e) {
-		// TODO ConvendrÌa que est·s teclas fueran configurables
+		// TODO Convendr√≠a que est√°s teclas fueran configurables
 		switch (e.getKeyCode()) {
 		case KeyEvent.VK_UP:
 			e.consume();

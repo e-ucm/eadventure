@@ -74,7 +74,7 @@ import ead.gui.eadcanvaspanel.scrollcontainers.ScrollCanvasPanel;
  * To convenient resizing, it's necessary to add this panel as ComponentListener
  * to its parent.
  * 
- * @author ¡ngel Serrano Laguna
+ * @author √Ångel Serrano Laguna
  */
 public class EAdCanvasPanel extends JComponent implements ComponentListener,
 		MouseListener {

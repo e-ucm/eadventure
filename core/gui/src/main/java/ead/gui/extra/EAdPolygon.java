@@ -47,7 +47,7 @@ import java.util.List;
  * EAdPolygon contains functionality for add points, remove points, move and
  * scale.
  * 
- * @author ¡ngel Serrano
+ * @author √Ångel Serrano
  * 
  */
 public class EAdPolygon extends Polygon {
