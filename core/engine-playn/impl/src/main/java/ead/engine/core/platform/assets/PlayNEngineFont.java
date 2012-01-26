@@ -52,7 +52,7 @@ public class PlayNEngineFont implements RuntimeFont {
 
 	private Element element;
 
-	private static final String HEIGHT_TEXT = "ABCDEFGHIJKLMNÑOPQRSTUVWXYZabcefghijklmnñopqrstuvwxyz1234567890!?";
+	private static final String HEIGHT_TEXT = "ABCDEFGHIJKLMNÃ‘OPQRSTUVWXYZabcefghijklmnÃ±opqrstuvwxyz1234567890!?";
 
 	public PlayNEngineFont(EAdFont font) {
 		this.font = font;

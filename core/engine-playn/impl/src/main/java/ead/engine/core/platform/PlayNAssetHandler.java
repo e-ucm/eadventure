@@ -105,30 +105,35 @@ public class PlayNAssetHandler extends AbstractAssetHandler {
 		return uri.replaceAll("@", "eadengine/");
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public RuntimeAsset<?> getInstance(Class<? extends RuntimeAsset<?>> clazz) {
+		
+		// FIXME: it is ugly to discard all these generics; find another way to get clean builds
+		RuntimeAsset r = null;
 		if (clazz == PlayNEngineImage.class)
-			return new PlayNEngineImage(this);
-		if (clazz == PlayNBezierShape.class)
-			return new PlayNBezierShape(engine);
-		if (clazz == PlayNEngineCaption.class)
-			return new PlayNEngineCaption(fontHandler, valueMap, stringHandler,
-					this);
-		if (clazz == PlayNEngineSpriteImage.class)
-			return new PlayNEngineSpriteImage(this);
-		if (clazz == PlayNEngineSpriteImage.class)
-			return new PlayNEngineSpriteImage(this);
-		if (clazz == PlayNSound.class)
-			return new PlayNSound(this);
-		if ( clazz == RuntimeComposedDrawable.class )
-			return new RuntimeComposedDrawable<Canvas>( this );
-		if ( clazz == RuntimeDisplacedDrawable.class )
-			return new RuntimeDisplacedDrawable<Canvas>( this );
-		if ( clazz == RuntimeFilteredDrawable.class )
-			return new RuntimeFilteredDrawable<Canvas>( this );
-
-		logger.log(Level.SEVERE, "No instance for runtime asset: " + clazz);
-		return null;
+			r = new PlayNEngineImage(this);
+		else if (clazz == PlayNBezierShape.class)
+			r = new PlayNBezierShape(engine);
+		else if (clazz == PlayNEngineCaption.class)
+			r = new PlayNEngineCaption(fontHandler, valueMap, stringHandler, this);
+		else if (clazz == PlayNEngineSpriteImage.class)
+			r = new PlayNEngineSpriteImage(this);
+		else if (clazz == PlayNEngineSpriteImage.class)
+			r = new PlayNEngineSpriteImage(this);
+		else if (clazz == PlayNSound.class)
+			r = new PlayNSound(this);
+		else if ( clazz == (Object)RuntimeComposedDrawable.class )
+			r = new RuntimeComposedDrawable<Canvas>( this );
+		else if ( clazz == (Object)RuntimeDisplacedDrawable.class )
+			r = new RuntimeDisplacedDrawable<Canvas>( this );
+		else if ( clazz == (Object)RuntimeFilteredDrawable.class )
+			r = new RuntimeFilteredDrawable<Canvas>( this );
+		else {
+			logger.log(Level.SEVERE, "No instance for runtime asset: " + clazz);
+		}
+		
+		return (RuntimeAsset<?>)r;
 	}
 
 }

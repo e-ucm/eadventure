@@ -72,6 +72,7 @@ import ead.engine.core.input.actions.KeyActionImpl;
 import ead.engine.core.platform.AssetHandler;
 import ead.engine.core.platform.DrawableAsset;
 import ead.engine.core.platform.GUI;
+import ead.engine.core.platform.RuntimeAsset;
 import ead.engine.core.platform.rendering.GenericCanvas;
 import ead.engine.core.util.EAdTransformation;
 import ead.engine.core.util.EAdTransformationImpl;
@@ -248,8 +249,7 @@ public class TopBasicHUDImpl extends AbstractHUD implements TopBasicHUD {
 		if (cursor != newCursor) {
 			cursor = newCursor;
 			if (cursor != null) {
-
-				DrawableAsset<? extends ImageImpl, ?> rAsset = (DrawableAsset<? extends ImageImpl, ?>) assetHandler
+				DrawableAsset<Drawable, ?> rAsset = (DrawableAsset<Drawable, ?> ) assetHandler
 						.getRuntimeAsset(cursor);
 				logger.info("width" + rAsset.getWidth());
 				rAsset.loadAsset();

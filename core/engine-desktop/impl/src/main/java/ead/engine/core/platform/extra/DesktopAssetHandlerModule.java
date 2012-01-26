@@ -95,26 +95,27 @@ public class DesktopAssetHandlerModule extends AbstractModule {
 	@SuppressWarnings("unchecked")
 	@Provides
 	@Singleton
-	Map<Class<? extends AssetDescriptor>, Class<? extends RuntimeAsset<?>>> provideMap() {
-		Map<Class<? extends AssetDescriptor>, Class<? extends RuntimeAsset<?>>> map = new HashMap<Class<? extends AssetDescriptor>, Class<? extends RuntimeAsset<?>>>();
+	Map<Class<? extends AssetDescriptor>, Class<? extends RuntimeAsset<? extends AssetDescriptor>>> provideMap() {
 
+		// FIXME: There must be a better way of doing this that does not break the build
+		Map map = new HashMap();
+		
 		map.put(ImageImpl.class, DesktopEngineImage.class);
-		map.put(ImageImpl.class, DesktopEngineImage.class);
-		map.put(Caption.class, (Class<? extends RuntimeAsset<?>>) RuntimeCaption.class);
-		map.put(CaptionImpl.class, (Class<? extends RuntimeAsset<?>>) RuntimeCaption.class);
-		map.put(ComposedDrawable.class, (Class<? extends RuntimeAsset<?>>) RuntimeComposedDrawable.class);
-		map.put(ComposedDrawableImpl.class, (Class<? extends RuntimeAsset<?>>) RuntimeComposedDrawable.class);
+		map.put(Caption.class, RuntimeCaption.class);
+		map.put(CaptionImpl.class, RuntimeCaption.class);
+		map.put(ComposedDrawable.class, RuntimeComposedDrawable.class);
+		map.put(ComposedDrawableImpl.class, RuntimeComposedDrawable.class);
 		map.put(RectangleShape.class, DesktopBezierShape.class);
 		map.put(BezierShape.class, DesktopBezierShape.class);
-		map.put(DisplacedDrawable.class, (Class<? extends RuntimeAsset<?>>) RuntimeDisplacedDrawable.class);
-		map.put(DisplacedDrawableImpl.class, (Class<? extends RuntimeAsset<?>>) RuntimeDisplacedDrawable.class);
+		map.put(DisplacedDrawable.class, RuntimeDisplacedDrawable.class);
+		map.put(DisplacedDrawableImpl.class, RuntimeDisplacedDrawable.class);
 		map.put(SpriteImageImpl.class, DesktopEngineSpriteImage.class);
 		map.put(Sound.class, DesktopSound.class);
 		map.put(SoundImpl.class, DesktopSound.class);
-		map.put(FilteredDrawable.class, (Class<? extends RuntimeAsset<?>>) RuntimeFilteredDrawable.class);
-		map.put(FilteredDrawableImpl.class, (Class<? extends RuntimeAsset<?>>) RuntimeFilteredDrawable.class);
+		map.put(FilteredDrawable.class, RuntimeFilteredDrawable.class);
+		map.put(FilteredDrawableImpl.class, RuntimeFilteredDrawable.class);
 
-		return map;
+		return (Map<Class<? extends AssetDescriptor>, Class<? extends RuntimeAsset<? extends AssetDescriptor>>>)map;
 	}
 
 }

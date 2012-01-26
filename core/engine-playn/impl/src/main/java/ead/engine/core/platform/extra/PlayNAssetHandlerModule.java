@@ -88,26 +88,27 @@ public class PlayNAssetHandlerModule extends AbstractGinModule {
 	@Provides
 	@Singleton
 	Map<Class<? extends AssetDescriptor>, Class<? extends RuntimeAsset<?>>> provideMap() {
-		Map<Class<? extends AssetDescriptor>, Class<? extends RuntimeAsset<?>>> map = new HashMap<Class<? extends AssetDescriptor>, Class<? extends RuntimeAsset<?>>>();
+		// FIXME: There must be a better way of doing this that does not break the build
+		Map map = new HashMap();
 
 		map.put(ImageImpl.class, PlayNEngineImage.class);
 		map.put(ImageImpl.class, PlayNEngineImage.class);
 		map.put(Caption.class, PlayNEngineCaption.class);
 		map.put(CaptionImpl.class, PlayNEngineCaption.class);
-		map.put(ComposedDrawable.class, (Class<? extends RuntimeAsset<?>>) RuntimeComposedDrawable.class);
-		map.put(ComposedDrawableImpl.class, (Class<? extends RuntimeAsset<?>>) RuntimeComposedDrawable.class);
+		map.put(ComposedDrawable.class, RuntimeComposedDrawable.class);
+		map.put(ComposedDrawableImpl.class, RuntimeComposedDrawable.class);
 		map.put(RectangleShape.class, PlayNBezierShape.class);
 		map.put(BezierShape.class, PlayNBezierShape.class);
-		map.put(DisplacedDrawable.class, (Class<? extends RuntimeAsset<?>>) RuntimeDisplacedDrawable.class);
-		map.put(DisplacedDrawableImpl.class, (Class<? extends RuntimeAsset<?>>) RuntimeDisplacedDrawable.class);
-		map.put(SpriteImageImpl.class, (Class<? extends RuntimeAsset<?>>) RuntimeSpriteImage.class);
-		map.put(FilteredDrawable.class, (Class<? extends RuntimeAsset<?>>) RuntimeFilteredDrawable.class);
-		map.put(FilteredDrawableImpl.class, (Class<? extends RuntimeAsset<?>>) RuntimeFilteredDrawable.class);
+		map.put(DisplacedDrawable.class, RuntimeDisplacedDrawable.class);
+		map.put(DisplacedDrawableImpl.class, RuntimeDisplacedDrawable.class);
+		map.put(SpriteImageImpl.class, RuntimeSpriteImage.class);
+		map.put(FilteredDrawable.class, RuntimeFilteredDrawable.class);
+		map.put(FilteredDrawableImpl.class, RuntimeFilteredDrawable.class);
 		map.put(SpriteImageImpl.class, PlayNEngineSpriteImage.class);
 		map.put(Sound.class, PlayNSound.class);
 		map.put(SoundImpl.class, PlayNSound.class);
 
-		return map;
+		return (Map<Class<? extends AssetDescriptor>, Class<? extends RuntimeAsset<?>>>)map;
 	}
 
 }
