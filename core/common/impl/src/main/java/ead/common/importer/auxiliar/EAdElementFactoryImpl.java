@@ -153,7 +153,7 @@ public class EAdElementFactoryImpl implements EAdElementFactory {
 	}
 
 	@SuppressWarnings("unchecked")
-	private <S, I> GenericImporter<S, I> findGenericImporter(Class<S> clazz) {
+	private <S, I extends EAdElement> GenericImporter<S, I> findGenericImporter(Class<S> clazz) {
 		Class<? extends GenericImporter<?, ?>> importerClass = importerMap
 				.get(clazz);
 		GenericImporter<?, ?> genericImporter = injector.getInstance(importerClass);
