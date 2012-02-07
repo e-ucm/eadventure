@@ -59,17 +59,17 @@ import ead.utils.swing.SwingUtilities;
  * This frame allows for panels to be placed on top of the interface
  * in a modal manner. The parts of the interface that are still visible
  * became darker and blurry to indicate modality.
- * 
+ *
  */
 public class EAdFrame extends JFrame {
 
     private static final long serialVersionUID = 1L;
-    
+
     /**
      * The {@link EAdGlassPane} for the blurriness effect
      */
     private EAdGlassPane glass;
-    
+
     /**
      * The blurriness operation
      */
@@ -84,34 +84,30 @@ public class EAdFrame extends JFrame {
      * Panel with the interface contents
      */
     private JPanel contentPane;
-    
+
     /**
      * The current focus component in the interface
      */
     private Component focus = null;
-    
+
     public EAdFrame() {
         setLayout(new EAdBorderLayout());
         setBackground(EAdGUILookAndFeel.getBackgroundColor());
-        
+
         contentPane = new JPanel();
         contentPane.setBackground(EAdGUILookAndFeel.getBackgroundColor());
         contentPane.setLayout(new BorderLayout());
         super.add( contentPane, EAdBorderLayout.CENTER);
-        
-    	float[] matrix = new float[25];
-    	for (int i = 0; i < 25; i++)
-    		matrix[i] = 1.0f/25.0f;
 
     	op = new GaussianBlurFilter(5);
 
     	glass = new EAdGlassPane(this);
         super.add( glass, EAdBorderLayout.GLASS );
     }
-    
+
     /**
      * Add a modal panel to the application
-     * 
+     *
      * @param modalPanel
      */
     public void addModalPanel( final JPanel modalPanel ) {
@@ -121,7 +117,7 @@ public class EAdFrame extends JFrame {
     			@Override
     			public void run() {
     				image = null;
-    				
+
     				if (temp1 == null || temp1.getWidth() != contentPane.getWidth() || temp1.getHeight() != contentPane.getHeight()) {
     					if (temp1 != null) temp1.flush();
     					if (temp2 != null) temp2.flush();
@@ -129,7 +125,7 @@ public class EAdFrame extends JFrame {
         				temp2 = new BufferedImage(contentPane.getWidth(), contentPane.getHeight(), BufferedImage.TYPE_4BYTE_ABGR);
     				}
     	    		contentPane.paint(temp1.getGraphics());
-    	    		
+
     	    		image = op.filter(temp1, temp2);
     	            Graphics2D g2 = (Graphics2D) image.getGraphics();
     	    		g2.setColor( EAdGUILookAndFeel.getForegroundColor() );
@@ -152,11 +148,11 @@ public class EAdFrame extends JFrame {
 			}
         });
     }
-    
+
     public BufferedImage getImage() {
     	return image;
     }
-    
+
     /**
      * Remove the modal panel at the top
      */
@@ -172,7 +168,7 @@ public class EAdFrame extends JFrame {
 	        }
         }
     }
-    
+
     /**
      * @return true if the glass panel is visible (the interface is blurry and darkend)
      */
@@ -204,7 +200,7 @@ public class EAdFrame extends JFrame {
     }
 
     @Override
-	public void setRootPane(JRootPane root) 
+	public void setRootPane(JRootPane root)
     {
         if(rootPane != null) {
             remove(rootPane);
@@ -221,5 +217,5 @@ public class EAdFrame extends JFrame {
             }
         }
     }
-    
+
 }
