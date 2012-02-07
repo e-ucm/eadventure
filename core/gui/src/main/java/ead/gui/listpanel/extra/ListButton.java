@@ -47,46 +47,35 @@ import javax.swing.JButton;
 
 import ead.gui.CommonGUIMessages;
 import ead.gui.R;
+import ead.utils.i18n.Resource;
 
 public class ListButton extends JButton {
 
 	private static final long serialVersionUID = 1L;
 
 	public static enum Type {ADD, DELETE, MOVE_UP, MOVE_DOWN, DUPLICATE};
-	
+
 	public ListButton(Type type) {
 		super();
-		
-		try {
-			InputStream is = ClassLoader
-					.getSystemResourceAsStream(getImage(type));
-			setIcon(new ImageIcon(ImageIO.read(is)));
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+
+        setIcon(new ImageIcon(Resource.loadImage(getImageName(type))));
 
 		setContentAreaFilled(false);
 		setMargin(new Insets(0, 0, 0, 0));
 		setToolTipText(getToolTip(type));
-	
 	}
-	
-	public String getImage(Type type) {
+
+	public String getImageName(Type type) {
 		switch(type) {
-		case ADD:
-			return R.Drawable.add_png;
-		case DELETE:
-			return R.Drawable.delete_png;
-		case MOVE_UP:
-			return R.Drawable.move_up_png;
-		case MOVE_DOWN:
-			return R.Drawable.move_down_png;
-		case DUPLICATE:
-			return R.Drawable.duplicate_png;
+            case ADD:       return R.Drawable.add_png;
+            case DELETE:	return R.Drawable.delete_png;
+            case MOVE_UP:	return R.Drawable.move_up_png;
+            case MOVE_DOWN:	return R.Drawable.move_down_png;
+            case DUPLICATE:	return R.Drawable.duplicate_png;
 		}
 		return null;
 	}
-	
+
 
 	public String getToolTip(Type type) {
 		switch(type) {
@@ -103,6 +92,4 @@ public class ListButton extends JButton {
 		}
 		return null;
 	}
-
-	
 }

@@ -51,6 +51,7 @@ import javax.swing.JDialog;
 
 import ead.editor.R;
 import ead.editor.view.SplashScreen;
+import ead.utils.i18n.Resource;
 import ead.utils.swing.SwingUtilities;
 
 /**
@@ -61,60 +62,60 @@ public class SplashScreenImpl implements SplashScreen {
 	/**
 	 * Logger
 	 */
-	private static Logger logger = Logger.getLogger("SplashScreenImpl");
-	
+	private static final Logger logger = Logger.getLogger("SplashScreenImpl");
+
 	/**
 	 * The splash screen dialog
 	 */
 	protected SplashScreenDialog splashScreenDialog;
-	
+
 	/**
 	 * The background image of the dialog
 	 */
 	protected BufferedImage image;
-	
+
 	/**
 	 * The time at which the splash screen appeared
 	 */
 	private long startTime;
-	
+
 	/**
 	 * The minimum time to display the splash screen
 	 */
 	private static final long MIN_TIME = 4000;
-	
+
 	@Override
 	public void show() {
 		logger.info("Showing Splash-screen");
 
 		try {
-			image = ImageIO.read(ClassLoader.getSystemResourceAsStream(R.Drawable.SplashScreenLogo_png));
+			image = Resource.load(R.Drawable.SplashScreenLogo_png);
 		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		
+            logger.warning("Error loading image");
+        }
+
 		SwingUtilities.doInEDTNow(new Runnable() {
 			@Override
 			public void run() {
 				splashScreenDialog = new SplashScreenDialog();
 				splashScreenDialog.setUndecorated(true);
-				
+
 		        int width = image.getWidth( null );
 		        int height = image.getHeight( null );
 		        splashScreenDialog.setSize( width, height );
 		        splashScreenDialog.setResizable( false );
-		        
+
 		        double screenWidth = Toolkit.getDefaultToolkit( ).getScreenSize( ).getWidth( );
 		        double screenHeight = Toolkit.getDefaultToolkit( ).getScreenSize( ).getHeight( );
 		        int locX = Math.round( ( (int) screenWidth - width ) / 2.0f );
 		        int locY = Math.round( ( (int) screenHeight - height ) / 2.0f );
 		        splashScreenDialog.setLocation( locX, locY );
 		        splashScreenDialog.setCursor( Cursor.getPredefinedCursor( Cursor.WAIT_CURSOR ) );
-		        
+
 		        splashScreenDialog.setVisible(true);
 			}
 		});
-		
+
 		startTime = System.currentTimeMillis();
 	}
 
@@ -126,10 +127,10 @@ public class SplashScreenImpl implements SplashScreen {
 			try {
 				Thread.sleep(MIN_TIME - (System.currentTimeMillis() - startTime));
 			} catch(Exception e) {
-				
+
 			}
 		}
-		
+
 		SwingUtilities.doInEDTNow(new Runnable() {
 			@Override
 			public void run() {
@@ -138,20 +139,20 @@ public class SplashScreenImpl implements SplashScreen {
 			}
 		});
 	}
-	
+
 	/**
 	 * The actual splash screen dialog, that shows the image, the message
 	 * and dots following it to show the user that the program is loading.
 	 */
 	private class SplashScreenDialog extends JDialog {
-		
+
 		private static final long serialVersionUID = 7388884935911211935L;
 
 		/**
 		 * The number of dots to be drawn at the end of the message
 		 */
 		private int status = 0;
-				
+
 		/**
 		 * Timer used to show the dots at the end of the message
 		 */
@@ -160,7 +161,7 @@ public class SplashScreenImpl implements SplashScreen {
 	            repaint();
 	        }
 	    });
-		
+
 		@Override
 		public void paint(Graphics g) {
 			super.paint(g);

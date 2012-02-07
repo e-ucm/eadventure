@@ -63,6 +63,7 @@ import org.slf4j.LoggerFactory;
 import ead.gui.EAdGUILookAndFeel;
 import ead.gui.R;
 import ead.gui.listpanel.ListPanel;
+import ead.utils.i18n.Resource;
 
 /**
  * Edit the header of each column to include a name and a help icon.
@@ -102,6 +103,7 @@ public class InfoHeaderRenderer extends JPanel implements TableCellRenderer {
         setLayout( new GridBagLayout( ) );
     }
 
+    @Override
     public Component getTableCellRendererComponent( final JTable table, final Object value, boolean isSelected, boolean hasFocus, int row, final int column ) {
         removeAll( );
         this.setBackground(EAdGUILookAndFeel.getBackgroundColor());
@@ -115,12 +117,9 @@ public class InfoHeaderRenderer extends JPanel implements TableCellRenderer {
         label.setFont( EAdGUILookAndFeel.getBoldFont().deriveFont(16.0f) );
         add( label, c );
         if( helpPath != null ) {
-        	InputStream is = ClassLoader.getSystemResourceAsStream( R.Drawable.information_png );   
-    	    try {
-				infoButton = new JButton( new ImageIcon( ImageIO.read(is) ) );
-			} catch (IOException e1) {
-				e1.printStackTrace();
-			}
+            infoButton = new JButton( new ImageIcon(
+                    Resource.loadImage(R.Drawable.information_png)));
+
             infoButton.setContentAreaFilled( false );
             infoButton.setBorder( BorderFactory.createEmptyBorder( 0, 6, 0, 0 ) );
             c.gridx = 1;
@@ -142,7 +141,7 @@ public class InfoHeaderRenderer extends JPanel implements TableCellRenderer {
                     }
                     if( infoButton.contains( mouseX, mouseY ) ) {
                     	//TODO open a dialog with the help
-                    	//new HelpDialog( helpPath ); 
+                    	//new HelpDialog( helpPath );
                     	logger.info("Help button pressed, " + helpPath);
                     }
                 }

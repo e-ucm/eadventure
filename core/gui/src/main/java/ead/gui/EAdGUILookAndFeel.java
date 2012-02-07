@@ -48,8 +48,8 @@
 /*
  Copyright (C) 2004-2009 <e-UCM> research group
 
- This file is part of <e-Adventure> project, an educational game & game-like 
- simulation authoring tool, availabe at http://e-adventure.e-ucm.es. 
+ This file is part of <e-Adventure> project, an educational game & game-like
+ simulation authoring tool, availabe at http://e-adventure.e-ucm.es.
 
  <e-Adventure> is free software; you can redistribute it and/or modify
  it under the terms of the GNU General Public License as published by
@@ -68,6 +68,7 @@
  */
 package ead.gui;
 
+import ead.utils.i18n.Resource;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.FontFormatException;
@@ -105,34 +106,23 @@ public class EAdGUILookAndFeel extends BasicLookAndFeel {
 	static {
 		instance = new EAdGUILookAndFeel();
 
-		try {
-			InputStream is = ClassLoader
-					//.getSystemResourceAsStream("DroidSans.ttf");
-					//.getSystemResourceAsStream("KunKhmer.ttf");
-					//.getSystemResourceAsStream("WireWyrm.otf");
-					.getSystemResourceAsStream("roboto/Roboto-Regular.ttf");
-			instance.font = Font.createFont(Font.TRUETYPE_FONT, is);
-			instance.font = instance.font.deriveFont(12.0f);
+        instance.font = Resource
+                .loadFont("roboto/Roboto-Regular.ttf")
+                .deriveFont(12.0f);
 
-			is = ClassLoader
-					//.getSystemResourceAsStream("DroidSans-Bold.ttf");
-					.getSystemResourceAsStream("roboto/Roboto-Bold.ttf");
-			instance.boldFont = Font.createFont(Font.TRUETYPE_FONT, is);
-			instance.boldFont = instance.boldFont.deriveFont(12.0f);
-			
-			UIManager.put("javax.swing.plaf.FontUIResource",
-					new FontUIResource(instance.font));
+        instance.boldFont = Resource
+                .loadFont("roboto/Roboto-Bold.ttf")
+                .deriveFont(12.0f);
 
-			System.setProperty("awt.useSystemAAFontSettings", "on");
-			
-			UIManager
-					.setLookAndFeel(instance);
-			instance.setConstants();
+        UIManager.put("javax.swing.plaf.FontUIResource",
+                new FontUIResource(instance.font));
+
+        System.setProperty("awt.useSystemAAFontSettings", "on");
+
+        try {
+            UIManager.setLookAndFeel(instance);
+            instance.setConstants();
 		} catch (UnsupportedLookAndFeelException e) {
-			e.printStackTrace();
-		} catch (FontFormatException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}

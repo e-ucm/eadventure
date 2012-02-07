@@ -54,67 +54,67 @@ import javax.swing.plaf.basic.BasicCheckBoxUI;
 
 import ead.gui.EAdGUILookAndFeel;
 import ead.gui.R;
+import ead.utils.i18n.Resource;
 
 public class EAdCheckBoxUI extends BasicCheckBoxUI {
 
 	public EAdCheckBoxUI() {
 		super();
 	}
-	
+
 	public static ComponentUI createUI(JComponent c) {
 		return new EAdCheckBoxUI();
 	}
-	
+
 	public void installUI(JComponent c) {
 		super.installUI(c);
-		
+
 		JCheckBox radioButton = (JCheckBox) c;
-		
-        try {
-            InputStream is = ClassLoader.getSystemResourceAsStream( R.Drawable.box_empty_png );
-            ImageIcon icon = new ImageIcon( ImageIO.read(is) );
-            radioButton.setIcon( icon );
-            radioButton.setDisabledIcon( icon );
-            radioButton.setPressedIcon( icon );
-            
-            is = ClassLoader.getSystemResourceAsStream( R.Drawable.box_checked_png );
-            icon = new ImageIcon( ImageIO.read(is) );
-            radioButton.setDisabledSelectedIcon( icon );
-            radioButton.setSelectedIcon( icon );
-        }
-        catch( IOException e ) {
-            e.printStackTrace();
-        }
-        
-        radioButton.setBackground(radioButton.isEnabled() ? EAdGUILookAndFeel.getBackgroundColor() : EAdGUILookAndFeel.getDisabledColor());
+
+        ImageIcon i;
+        i = new ImageIcon(Resource.loadImage(R.Drawable.box_empty_png));
+        radioButton.setIcon( i );
+        radioButton.setDisabledIcon( i );
+        radioButton.setPressedIcon( i );
+
+        i = new ImageIcon(Resource.loadImage(R.Drawable.box_checked_png));
+        radioButton.setDisabledSelectedIcon( i );
+        radioButton.setSelectedIcon( i );
+
+        radioButton.setBackground(radioButton.isEnabled() ?
+                EAdGUILookAndFeel.getBackgroundColor() :
+                EAdGUILookAndFeel.getDisabledColor());
         radioButton.setForeground(EAdGUILookAndFeel.getForegroundColor());
-        
+
         radioButton.setFocusPainted( false );
         radioButton.setBorderPainted( true );
 
         EAdBorder border = new EAdBorder(radioButton);
         radioButton.setBorder( border );
 
-        EAdBorderListener eAdButtonListener = new EAdBorderListener( border, radioButton );
+        EAdBorderListener eAdButtonListener
+                = new EAdBorderListener( border, radioButton );
         radioButton.addMouseListener(eAdButtonListener);
         radioButton.addFocusListener(eAdButtonListener);
         radioButton.addActionListener(eAdButtonListener);
         radioButton.addPropertyChangeListener("enabled", eAdButtonListener);
 	}
-	
+
 	@Override
 	public Dimension getPreferredSize(JComponent c) {
 		JCheckBox r = (JCheckBox) c;
 	    r.setBorderPainted( true );
     	FontMetrics fm = c.getFontMetrics(c.getFont());
-        return new Dimension(fm.stringWidth(r.getText()) + r.getIcon().getIconWidth() + 16 + 2*EAdBorder.BORDER,
+        return new Dimension(fm.stringWidth(r.getText())
+                + r.getIcon().getIconWidth() + 16 + 2 * EAdBorder.BORDER,
 				(int) (1.2f*fm.getHeight()) + 4 + EAdBorder.BORDER);
 	}
 
 	@Override
 	public void paint(Graphics g, JComponent c)  {
-	       ((Graphics2D) g).setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
-			super.paint(g, c);
-		}
-
+        ((Graphics2D) g).setRenderingHint(
+                RenderingHints.KEY_TEXT_ANTIALIASING,
+                RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
+        super.paint(g, c);
+    }
 }

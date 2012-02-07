@@ -51,6 +51,12 @@ import javax.swing.BorderFactory;
 import javax.swing.JMenuBar;
 import javax.swing.JPanel;
 
+import bibliothek.gui.DockController;
+import bibliothek.gui.Dockable;
+import bibliothek.gui.dock.DefaultDockable;
+import bibliothek.gui.dock.SplitDockStation;
+import bibliothek.gui.dock.station.split.SplitDockProperty;
+
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
@@ -61,6 +67,8 @@ import ead.editor.view.menu.EditorMenuBar;
 import ead.gui.EAdFrame;
 import ead.gui.EAdHideingSplitPane;
 import ead.utils.swing.SwingUtilities;
+import java.util.logging.Level;
+import javax.swing.JFrame;
 
 /**
  * Default implementation of the main editor window
@@ -110,6 +118,11 @@ public class EditorWindowImpl implements EditorWindow {
 	 */
 	protected EAdFrame editorWindow;
 
+    /**
+     * Dock controller
+     */
+    protected DockController controller;
+
 	@Inject
 	public EditorWindowImpl(ToolPanel toolPanel, EditorMenuBar editorMenuBar) {
 		this.toolPanel = toolPanel;
@@ -118,12 +131,35 @@ public class EditorWindowImpl implements EditorWindow {
 
 	@Override
 	public void initialize() {
-		
-		setIcons();
-		createRightPanel();
-		createLeftPanel();
+
+		rightPanel = new JPanel();
+		rightPanel.setLayout(new BorderLayout());
+
+		mainPanel = new JPanel();
+		rightPanel.add(mainPanel, BorderLayout.CENTER);
+
+		JPanel topPanel = new JPanel();
+		topPanel.setLayout(new BorderLayout());
+		titlePanel = new JPanel();
+		topPanel.add(titlePanel, BorderLayout.CENTER);
+		topPanel.add(toolPanel.getPanel(), BorderLayout.EAST);
+
+		rightPanel.add(topPanel, BorderLayout.NORTH);
+
+        leftPanel = new JPanel();
+		leftPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+
+		leftPanel.setLayout(new BorderLayout());
+
+        // requires left and right panel; builds a splitPane
 		createMainWindow();
-	}
+        // requires main window
+		setIcons();
+
+        controller = new DockController();
+        controller.setRootWindow(editorWindow);
+        // FIXME: may want to call setup auto-calling of controller.kill() on close
+    }
 
 	@Override
 	public void showWindow() {
@@ -147,43 +183,14 @@ public class EditorWindowImpl implements EditorWindow {
 	}
 
 	/**
-	 * Create the right editor panel
-	 */
-	private void createRightPanel() {
-		rightPanel = new JPanel();
-		rightPanel.setLayout(new BorderLayout());
-
-		mainPanel = new JPanel();
-		rightPanel.add(mainPanel, BorderLayout.CENTER);
-
-		JPanel topPanel = new JPanel();
-		topPanel.setLayout(new BorderLayout());
-		titlePanel = new JPanel();
-		topPanel.add(titlePanel, BorderLayout.CENTER);
-		topPanel.add(toolPanel.getPanel(), BorderLayout.EAST);
-
-		rightPanel.add(topPanel, BorderLayout.NORTH);
-	}
-
-	/**
-	 * Create the left editor panel
-	 */
-	private void createLeftPanel() {
-		leftPanel = new JPanel();
-		leftPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-
-		leftPanel.setLayout(new BorderLayout());
-	}
-
-	/**
 	 * Create the main window of the editor
 	 */
 	private void createMainWindow() {
 		editorWindow = new EAdFrame();
-		editorWindow.setTitle("eAdventure");
+		editorWindow.setTitle("eAdventure Editor");
 
-		EAdHideingSplitPane splitPane = new EAdHideingSplitPane(leftPanel,
-				rightPanel);
+		EAdHideingSplitPane splitPane =
+                new EAdHideingSplitPane(leftPanel, rightPanel);
 		editorWindow.add(splitPane);
 
 		JMenuBar menuBar = editorMenuBar.getMenuBar();
@@ -201,7 +208,7 @@ public class EditorWindowImpl implements EditorWindow {
 
 	/**
 	 * Set the icons of the applications.
-	 * 
+	 *
 	 * NOTE: This method does not work in Mac, where applications can no change
 	 * the icon programmatically. An application bundle must be used, see:
 	 * http://developer.apple.com/library/mac/#documentation/Java/Conceptual/
@@ -224,7 +231,7 @@ public class EditorWindowImpl implements EditorWindow {
 							.getSystemResourceAsStream(R.Drawable.EditorIcon128x128_png)));
 					editorWindow.setIconImages(icons);
 				} catch (Exception e) {
-					logger.severe("Could not load icons correctly");
+					logger.log(Level.SEVERE, "Icon loading failed", e);
 				}
 
 			}
@@ -241,11 +248,13 @@ public class EditorWindowImpl implements EditorWindow {
 				editorWindow.setMinimumSize(new Dimension(640, 400));
 				Dimension screenSize = Toolkit.getDefaultToolkit()
 						.getScreenSize();
-				int width = (int) screenSize.getWidth();
-				int height = (int) screenSize.getHeight();
+				int width = (int) (screenSize.getWidth() * .8f);
+				int height = (int) (screenSize.getHeight() * .8f);
+                logger.log(Level.INFO, "Setting size to {0}x{1}", new Object[]{width, height});
 				editorWindow.setSize(width, height);
 				editorWindow.setLocation((screenSize.width - width) / 2,
 						(screenSize.height - height) / 2);
+                editorWindow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 			}
 		});
 	}

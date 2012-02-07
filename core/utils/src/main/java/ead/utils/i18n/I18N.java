@@ -300,7 +300,7 @@ public abstract class I18N {
                         }
                     }
                 } else {
-                    logger.log(Level.INFO, "Bundle-file NOT FOUND in classpath:'{0}'",
+                    logger.log(Level.FINE, "Bundle-file NOT FOUND in classpath:'{0}'",
                         new Object[]{fileNames[i]});
                 }
             }
@@ -468,9 +468,8 @@ public abstract class I18N {
                     if (files.contains(fileNames[j])) {
                         assignField(fields.get(fieldName), baseFolder + fileNames[j]);
                         fields.remove(fieldName);
-                        // FIXME - remove stupid debugging
                         String value = "Bundle '" + baseName + "' resource " + fieldName + " OK";
-                        logger.info(value);
+                        logger.fine(value);
                     }
                 }
             }

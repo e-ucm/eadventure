@@ -54,41 +54,36 @@ import javax.swing.plaf.basic.BasicRadioButtonUI;
 
 import ead.gui.EAdGUILookAndFeel;
 import ead.gui.R;
+import ead.utils.i18n.Resource;
 
 public class EAdRadioButtonUI extends BasicRadioButtonUI {
-	
+
 	public EAdRadioButtonUI() {
 		super();
 	}
-	
+
 	public static ComponentUI createUI(JComponent c) {
 		return new EAdRadioButtonUI();
 	}
-	
+
 	public void installUI(JComponent c) {
 		super.installUI(c);
-		
+
 		JRadioButton radioButton = (JRadioButton) c;
-		
-        try {
-            InputStream is = ClassLoader.getSystemResourceAsStream( R.Drawable.radio_empty_png );
-            ImageIcon icon = new ImageIcon( ImageIO.read(is) );
-            radioButton.setIcon( icon );
-            radioButton.setDisabledIcon( icon );
-            radioButton.setPressedIcon( icon );
-            
-            is = ClassLoader.getSystemResourceAsStream( R.Drawable.radio_checked_png );
-            icon = new ImageIcon( ImageIO.read(is) );
-            radioButton.setDisabledSelectedIcon( icon );
-            radioButton.setSelectedIcon( icon );
-        }
-        catch( IOException e ) {
-            e.printStackTrace();
-        }
-        
+
+        ImageIcon i;
+        i = new ImageIcon( Resource.loadImage( R.Drawable.radio_empty_png));
+        radioButton.setIcon( i );
+        radioButton.setDisabledIcon( i );
+        radioButton.setPressedIcon( i );
+
+        i = new ImageIcon( Resource.loadImage( R.Drawable.radio_checked_png ));
+        radioButton.setDisabledSelectedIcon( i );
+        radioButton.setSelectedIcon( i );
+
         radioButton.setBackground(radioButton.isEnabled() ? EAdGUILookAndFeel.getBackgroundColor() : EAdGUILookAndFeel.getDisabledColor());
         radioButton.setForeground(EAdGUILookAndFeel.getForegroundColor());
-        
+
         radioButton.setFocusPainted( false );
         radioButton.setBorderPainted( true );
 
@@ -101,12 +96,13 @@ public class EAdRadioButtonUI extends BasicRadioButtonUI {
         radioButton.addActionListener(eAdButtonListener);
         radioButton.addPropertyChangeListener("enabled", eAdButtonListener);
 	}
-	
+
 	@Override
 	public Dimension getPreferredSize(JComponent c) {
 		JRadioButton r = (JRadioButton) c;
 	    r.setBorderPainted( true );
-    	FontMetrics fm = c.getFontMetrics(c.getFont());
+        // FIXME - this calculation is used in several places...
+        FontMetrics fm = c.getFontMetrics(c.getFont());
         return new Dimension(fm.stringWidth(r.getText()) + r.getIcon().getIconWidth() + 16 + 2*EAdBorder.BORDER,
 				(int) (1.2f*fm.getHeight()) + 4 + EAdBorder.BORDER);
 	}

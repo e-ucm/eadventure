@@ -55,9 +55,10 @@ import javax.swing.JTable;
 import javax.swing.border.Border;
 
 import ead.gui.R;
+import ead.utils.i18n.Resource;
 
 /**
- * 
+ *
  */
 public class ConditionsCellRendererEditor extends AbstractCellEditor implements
 		CellRenderEditor {
@@ -90,6 +91,7 @@ public class ConditionsCellRendererEditor extends AbstractCellEditor implements
 		return createButton(isSelected, table);
 	}
 
+    @Override
 	public Component getTableCellRendererComponent(JTable table, Object value,
 			boolean isSelected, boolean hasFocus, int row, int column) {
 		if (value == null)
@@ -98,23 +100,14 @@ public class ConditionsCellRendererEditor extends AbstractCellEditor implements
 		return createButton(isSelected, table);
 	}
 
-	private Icon createIcon() throws IOException {
+	private Icon createIcon() {
 
-		// Create icon
-		InputStream is;
-		Icon icon = null;
-
+		// FIXME: set a good value here, instead of defaulting to false
 		boolean hasConditions = false;
 
-		if (hasConditions) {
-			is = ClassLoader
-					.getSystemResourceAsStream(R.Drawable.conditions16x16_png);
-			icon = new ImageIcon(ImageIO.read(is));
-		} else {
-			is = ClassLoader
-					.getSystemResourceAsStream(R.Drawable.no_conditions16x16_png);
-			icon = new ImageIcon(ImageIO.read(is));
-		}
+        String imageName = hasConditions ?
+            R.Drawable.conditions16x16_png : R.Drawable.no_conditions16x16_png;
+        Icon icon = new ImageIcon(Resource.loadImage(imageName));
 
 		return icon;
 	}
@@ -139,12 +132,7 @@ public class ConditionsCellRendererEditor extends AbstractCellEditor implements
 		}
 
 		// Create icon (if applicable)
-		Icon icon = null;
-		try {
-			icon = createIcon();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		Icon icon = createIcon();
 
 		// Create button
 		if (text != null && icon != null) {
@@ -164,17 +152,14 @@ public class ConditionsCellRendererEditor extends AbstractCellEditor implements
 
 		button.addActionListener(new ActionListener() {
 
-			public void actionPerformed(ActionEvent arg0) {
+            @Override
+			public void actionPerformed(ActionEvent ae) {
 
 				// TODO
 				// new ConditionsDialog( ConditionsCellRendererEditor.this.value
 				// );
 				// Update icon
-				try {
-					((JButton) (arg0.getSource())).setIcon(createIcon());
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
+                ((JButton) (ae.getSource())).setIcon(createIcon());
 			}
 		});
 		temp.setLayout(new BorderLayout());

@@ -37,6 +37,7 @@
 
 package ead.gui;
 
+import ead.utils.i18n.Resource;
 import java.io.IOException;
 import java.io.InputStream;
 
@@ -54,12 +55,12 @@ public class EAdSimpleButton extends JButton {
 	private static final Logger logger = LoggerFactory.getLogger(EAdSimpleButton.class);
 
 	public static enum SimpleButton { UNDO, REDO, BACKWARD, FORWARD, SEARCH };
-	
+
 	public EAdSimpleButton(SimpleButton simpleButton) {
 		super(getIcon(simpleButton));
 		setToolTipText(getToolTip(simpleButton));
 	}
-	
+
 	public static String getToolTip(SimpleButton simpleButton) {
 		switch (simpleButton) {
 		case REDO:
@@ -78,32 +79,17 @@ public class EAdSimpleButton extends JButton {
 	}
 
 	private static ImageIcon getIcon(SimpleButton simpleButton) {
-		ImageIcon normal = null;
-		InputStream normalIs = null;
-		switch (simpleButton) {
-		case REDO:
-			normalIs = ClassLoader.getSystemResourceAsStream(R.Drawable.redo_png);
-			break;
-		case UNDO:
-			normalIs = ClassLoader.getSystemResourceAsStream(R.Drawable.undo_png);
-			break;
-		case SEARCH:
-			normalIs = ClassLoader.getSystemResourceAsStream(R.Drawable.search_png);
-			break;
-		case BACKWARD:
-			normalIs = ClassLoader.getSystemResourceAsStream(R.Drawable.backward_png);
-			break;
-		case FORWARD:
-			normalIs = ClassLoader.getSystemResourceAsStream(R.Drawable.forward_png);
-			break;
-		default:
-			normalIs = ClassLoader.getSystemResourceAsStream(R.Drawable.redo_png);
-		}
-		try {
-			normal = new ImageIcon(ImageIO.read(normalIs));
-		} catch (IOException e) {
-			logger.error("Cannot load icons", e);
-		}
-		return normal;
+		String imageName;
+        switch (simpleButton) {
+            case REDO:      imageName = R.Drawable.redo_png; break;
+            case UNDO:      imageName = R.Drawable.undo_png; break;
+            case SEARCH:    imageName = R.Drawable.search_png; break;
+            case BACKWARD:  imageName = R.Drawable.backward_png; break;
+            case FORWARD:   imageName = R.Drawable.forward_png; break;
+            default:
+                throw new IllegalArgumentException(
+                    "No such simpleButton type: " + simpleButton);
+        }
+        return new ImageIcon(Resource.loadImage(imageName));
 	}
 }

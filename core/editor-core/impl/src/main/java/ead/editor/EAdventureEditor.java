@@ -49,6 +49,8 @@ import ead.editor.control.ViewController;
 import ead.editor.view.SplashScreen;
 import ead.editor.view.impl.SplashScreenImpl;
 
+
+
 /**
  * eAdventure editor launcher.
  * This class has a main method.
@@ -59,50 +61,49 @@ public class EAdventureEditor implements Launcher {
 	 * Logger
 	 */
 	private static Logger logger = LoggerFactory.getLogger(EAdventureEditor.class);
-	
+
 	/**
 	 * Controller for the view
 	 */
 	private ViewController viewController;
-	
+
 	public static void main(String[] args) {
 		// The following line is used by MacOS X to set the application name correctly
 		System.setProperty("com.apple.mrj.application.apple.menu.about.name", "eAdventure");
-		
+
 		SplashScreen splashScreen = new SplashScreenImpl();
 		splashScreen.show();
-		
+
 		Injector injector = Guice.createInjector(new EditorGuiceModule());
 
 		Launcher launcher = injector.getInstance(Launcher.class);
 
-		
 		launcher.configure();
 		launcher.initialize();
 		splashScreen.hide();
+
 		launcher.start();
 	}
-	
+
 	@Inject
 	public EAdventureEditor(ViewController viewController) {
 		this.viewController = viewController;
 	}
-	
+
 	@Override
 	public void configure() {
 		logger.info("Configuring...");
 	}
-	
+
 	@Override
 	public void initialize() {
 		logger.info("Initializing...");
 		viewController.initialize();
 	}
-	
+
 	@Override
 	public void start() {
 		logger.info("Starting...");
 		viewController.showWindow();
-	}
-	
+    }
 }
