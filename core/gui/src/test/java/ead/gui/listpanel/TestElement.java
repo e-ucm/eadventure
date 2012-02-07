@@ -40,7 +40,7 @@ package ead.gui.listpanel;
 /**
  * Element with two String for the test
  * 
- * @author Sergio Bellón
+ * @author Sergio BellÃ³n
  *
  */
 public class TestElement {

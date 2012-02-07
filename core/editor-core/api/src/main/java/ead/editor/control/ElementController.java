@@ -43,9 +43,8 @@ import ead.editor.view.generics.Panel;
 /**
  * Controller for a specific element in the model
  * 
- * @param <S>
- *            A type of element in the model, which must inherit from
- *            {@link EAdElement}
+ * @param S A type of element in the model, which must inherit from
+ *        {@link EAdElement}
  */
 public interface ElementController<S extends EAdElement> {
 
@@ -57,21 +56,18 @@ public interface ElementController<S extends EAdElement> {
 	};
 
 	/**
-	 * @param element
-	 *            The element controlled by this controller
+	 * @param element controlled by this controller
 	 */
 	void setElement(S element);
 
 	/**
-	 * @return The element controlled by this controller
+	 * @return element controlled by this controller
 	 */
 	S getElement();
 
 	/**
-	 * @param view
-	 *            The current view in the editor
+	 * @param current view in the editor
 	 * @return The panel for the corresponding {@link View}
 	 */
 	Panel getPanel(View view);
-
 }

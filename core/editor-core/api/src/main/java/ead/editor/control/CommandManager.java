@@ -40,7 +40,7 @@ package ead.editor.control;
 import ead.editor.control.change.ChangeNotifier;
 
 /**
- * Interface for the management of Command that modify the game model.
+ * Interface for the management of Commands that modify the game model.
  */
 public interface CommandManager extends ChangeNotifier {
 
@@ -80,7 +80,7 @@ public interface CommandManager extends ChangeNotifier {
 	public void clearCommands();
 
 	/**
-	 * Add a new stack of commands, used to perform contained task
+	 * Add a new stack of commands, used to perform contained tasks
 	 * such as those in a modal panel
 	 */
 	void addStack();

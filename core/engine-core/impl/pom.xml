@@ -15,7 +15,7 @@
     	<groupId>ead</groupId>
     	<artifactId>engine-core-api</artifactId>
     	<version>${project.version}</version>
-    </dependency>
+    </dependency>   
     <dependency>
     	<groupId>ead</groupId>
     	<artifactId>common-model-impl</artifactId>

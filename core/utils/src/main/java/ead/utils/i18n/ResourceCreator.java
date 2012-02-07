@@ -38,77 +38,109 @@
 package ead.utils.i18n;
 
 import java.io.File;
-import java.util.HashSet;
+import java.io.IOException;
+import java.io.PrintStream;
+import java.lang.String;
 import java.util.Set;
+import java.util.TreeSet;
 
 //TODO This class should be called for any project that has
 //     resources upon building
 /**
- * This class allow the automatic creation of the R.java files that define
+ * This class allows the automatic creation of the R.java files that define
  * the class which is used to internationalize resources in the application.
- * This class is generated with a map of all available resources in the
- * classpath for efficiency purposes and should thus be included in the
- * release generation process to include the latest changes to the
- * resource file structure.
+ * The R classes contain generated maps of all available resources in the
+ * classpath, and should be regenerated as part of the release process. This
+ * method is much quicker than scanning jar-files at execution time.
+ *
+ * R.java files imitate a similar mechanism developed for Android applications;
+ * you can read more about it at
+ * http://developer.android.com/guide/topics/resources/accessing-resources.html
  */
 public class ResourceCreator {
 
 	private static String eol = System.getProperty("line.separator");
-	
+
 	/**
 	 * Generate the R.java file with the R class for the given project and package
-	 * 
+	 *
 	 * @param args projecteURL: the location of the project for which the R file must be generated
 	 * packageName: the name of the main package in the project
 	 */
-	public static void main(String[] args) {
-		String projectURL = args[0]; // /Users/..../eadventure.editor-core-impl
-		String packageName = args[1]; // es.eucm.eadventure.editor
-		
-		File resources = 
+	public static void main(String[] args) throws IOException {
+
+        String regenName = ResourceCreator.class.getCanonicalName();
+        if (args.length < 2 || (args.length > 0 && args[0].equals("-h"))) {
+            System.err.println("Syntax: java -cp <classpath> "
+                + regenName
+                + " <project-location> <package-name> [<source-location>]\n"
+                + "Where \n"
+                + "   classpath - "
+                    + "the classpath you are using now\n"
+                + "   project-location - "
+                    + "location of the project whose resources you want to index\n"
+                + "   package-name - "
+                    + "name of the package you want to create the R.java file in\n"
+                + "   source-location - "
+                    + "location for output R.java file; if absent, stdout is used\n");
+            System.exit(-1);
+        }
+
+		String projectURL = args[0];  // /Users/..../eadventure.editor-core-impl
+		String packageName = args[1]; // ead.editor
+        PrintStream out = (args.length == 2) ?
+                System.out : new PrintStream(args[2]);
+
+        String importName = ResourceCreator.class.getCanonicalName()
+                .replace(ResourceCreator.class.getSimpleName(), "I18N");
+
+		File resources =
 			new File(projectURL + File.separator + "src" + File.separator
 					+ "main" + File.separator + "resources");
 
-		String classContent = "package " + packageName + ";" + eol;
-		classContent += "import es.eucm.eadventure.utils.i18n.I18N;" + eol;
-		classContent += "import java.util.HashSet;" + eol;
-		classContent += "import java.util.Set;" + eol;
-		
-		classContent += "/*" + eol;
-		classContent += " * This is an automatically generated resources class" + eol;
-		classContent += " * Run class es.eucm.eadventure.utils with " + eol;
-		classContent += " * paramenters: \"" + projectURL + " " + packageName + "\"" + eol;
-		classContent += " * where \"" + projectURL + "\" is the project location" + eol;
-		classContent += " * and \"" + packageName + "\" is the name of the package" + eol;
-		classContent += " * to recrate or update this class" + eol;
-		classContent += " */" + eol;
-		classContent += "public class R {" + eol + eol;
-		
-		classContent += createClass(resources, "Drawable") + eol;
-		
-		classContent += "}" + eol;
-		
-		System.out.println(classContent);
-		//TODO class contents should be written to R.
+		String classContent = ""
+            + "package " + packageName + ";" + eol
+            + eol
+            + "import " + importName + ";" + eol
+            + "import java.util.Set;" + eol
+            + "import java.util.TreeSet;" + eol
+            + eol
+            + "/**" + eol
+            + " * Resource index for this package (statically compiled)." + eol
+            + " *" + eol
+            + " * This is an AUTOMATICALLY-GENERATED file - " + eol
+            + " * Run class " + regenName + " with " + eol
+            + " * paramenters: \"" + projectURL + " " + packageName + "\"" + eol
+            + " * where \"" + projectURL + "\" is the project location" + eol
+            + " * and \"" + packageName + "\" is the name of the package" + eol
+            + " * to re-create or update this class" + eol
+            + " */" + eol
+            + "public class R {" + eol
+            + eol
+            + createClass(resources, "Drawable")
+            + "}" + eol;
+
+		out.println(classContent);
 	}
-	
+
 	/**
 	 * Create a sub-class, which contains the actual resources (e.g. "Drawable").
-	 * 
+	 *
 	 * @param location the location of the resources
 	 * @param className the name of the new class
 	 * @return A string with the full definition of the sub-class
 	 */
 	private static String createClass(File location, String className) {
-		String classContent = "public static class " + className + " {" + eol;
-		
-		File resources = 
+		StringBuilder classContent = new StringBuilder(
+                "\tpublic static class " + className + " {" + eol);
+
+		File resources =
 			new File(location.getAbsolutePath() + File.separator + className.toLowerCase());
 
-		
-		Set<String> res = new HashSet<String>();
-		Set<String> files = new HashSet<String>();
-		
+
+		Set<String> res = new TreeSet<String>();
+		Set<String> files = new TreeSet<String>();
+
 		for (File file : resources.listFiles()) {
 			if (file.getName().startsWith(".")) {
 			} else if (file.isDirectory())
@@ -120,31 +152,34 @@ public class ResourceCreator {
 		}
 
 		for (String resource : res) {
-			String tmp[] = resource.split("\\.");
-			String constant = tmp[0];
-			for (int i = 1; i < tmp.length - 1; i++) {
-				constant += "." + tmp[i];
-			}
-			constant += "_" + tmp[tmp.length - 1];
-			classContent += "public static String " + constant + ";" + eol;
+			String constant = resource.replace('.', '_');
+            classContent.append("\t\tpublic static String ")
+                    .append(constant).append(";")
+                    .append(eol);
 		}
-		
-		classContent += "static {" + eol;
-		classContent += "Set<String> files = new HashSet<String>();" + eol;
 
-		for (String file : files) 
-			classContent += "files.add(\"" + file + "\");" + eol;
-		classContent += "I18N.initializeResources(Drawable.class.getName(), Drawable.class, files);" + eol;
-		
-		classContent += "}" + eol;
-		classContent += "}" + eol;
-		
-		return classContent;
+        classContent.append(eol)
+                .append("\t\tstatic {").append(eol)
+                .append("\t\t\tSet<String> files = new TreeSet<String>();").append(eol)
+                .append(eol);
+
+		for (String file : files) {
+			classContent.append("\t\t\tfiles.add(\"").append(file).append("\");")
+                    .append(eol);
+        }
+
+        classContent.append(eol)
+            .append("\t\t\tI18N.initializeResources(Drawable.class.getName(),"
+                + " Drawable.class, files);").append(eol)
+            .append("\t\t}").append(eol)
+            .append("\t}").append(eol);
+
+		return classContent.toString();
 	}
-		
+
 	/**
 	 * Recursive method to visit all the sub-folders in the resource structure
-	 * 
+	 *
 	 * @param files
 	 * @param currentPath
 	 * @param currentDir
@@ -158,5 +193,4 @@ public class ResourceCreator {
 			}
 		}
 	}
-
 }

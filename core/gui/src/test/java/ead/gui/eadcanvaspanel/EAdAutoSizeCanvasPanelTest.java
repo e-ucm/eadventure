@@ -80,7 +80,7 @@ public class EAdAutoSizeCanvasPanelTest {
 		j.addMouseMotionListener(listener);
 
 		dragPanel.add(j);
-		JButton b = new JButton("Botón");
+		JButton b = new JButton("BotÃ³n");
 		b.setBounds(new Rectangle(0, 0, 100, 30));
 		dragPanel.add(b);
 		b.addKeyListener(listener);

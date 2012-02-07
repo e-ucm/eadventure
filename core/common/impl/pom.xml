@@ -27,11 +27,6 @@
     	<version>${project.version}</version>
     </dependency>
     <dependency>
-    	<groupId>ead</groupId>
-    	<artifactId>common-model-impl</artifactId>
-    	<version>${project.version}</version>
-    </dependency>
-    <dependency>
       	<groupId>es.eucm.eadventure</groupId>
       	<artifactId>legacy-loader</artifactId>
       	<version>1.3.2</version>

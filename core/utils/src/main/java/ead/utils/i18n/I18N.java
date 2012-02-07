@@ -37,6 +37,7 @@
 
 package ead.utils.i18n;
 
+import ead.utils.clazz.ClassLoaderUtils;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -54,9 +55,6 @@ import java.util.Properties;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
-import ead.utils.clazz.ClassLoaderUtils;
-
 
 /**
  * Common superclass for all message bundle classes. Provides convenience
@@ -84,7 +82,7 @@ import ead.utils.clazz.ClassLoaderUtils;
  * <p>
  * Clients may subclass this type.
  * </p>
- * 
+ *
  * <p>This class is based on Eclipse {@link org.eclipse.osgi.util.NLS} class</p>
  */
 public abstract class I18N {
@@ -105,7 +103,7 @@ public abstract class I18N {
 	/**
 	 * Bind the given message's substitution locations with the given string
 	 * values.
-	 * 
+	 *
 	 * @param message
 	 *            the message to be manipulated
 	 * @param bindings
@@ -140,12 +138,17 @@ public abstract class I18N {
 				}
 				// look for a substitution
 				int number = -1;
+                String numberSubstring = message.substring(i, index);
 				try {
-					number = Integer.parseInt(message.substring(i, index));
+					number = Integer.parseInt(numberSubstring);
 				} catch (NumberFormatException e) {
-					throw new IllegalArgumentException();
+					throw new IllegalArgumentException("In message "
+                            + message + ", '"
+                            + numberSubstring + "' is not a number");
 				}
 				if (number >= bindings.length || number < 0) {
+                    logger.log(Level.WARNING, "Missing argument for {0} in {1}",
+                            new Object[]{numberSubstring, message});
 					buffer.append("<missing argument>"); //$NON-NLS-1$
 					i = index;
 					break;
@@ -190,7 +193,7 @@ public abstract class I18N {
 	/**
 	 * Initialize the given class with the values from the specified message
 	 * bundle.
-	 * 
+	 *
 	 * @param bundleName
 	 *            fully qualified path of the class name
 	 * @param clazz
@@ -213,18 +216,18 @@ public abstract class I18N {
 	/**
 	 * Initialize the given class with the values from the specified resources
 	 * bundle.
-	 * 
+	 *
 	 * @param bundleName
 	 *            fully qualified path of the class name
 	 * @param clazz
 	 *            the class where the constants will exist
-	 * @param files 
+	 * @param files
 	 */
 	public static void initializeResources(final String bundleName,
 			final Class<?> clazz, Set<String> files) {
 		loadResources(bundleName, clazz, files);
 	}
-	
+
 	//
 	// Internal methods
 	//
@@ -241,7 +244,7 @@ public abstract class I18N {
 
 	/**
 	 * Load the given resource bundle using the specified class loader.
-	 * 
+	 *
 	 * @param baseName
 	 *            the base name of the resource bundle, a fully qualified class
 	 *            name
@@ -255,12 +258,12 @@ public abstract class I18N {
 	/**
 	 * Load the <code>baseName</code> messages bundle and initialize
 	 * <code>clazz</code> fields.
-	 * 
+	 *
 	 * <p>
 	 * This method initializes <code>clazz</code> public static String fields
 	 * using the messages loaded from <code>baseName</code> bundle.
 	 * </p>
-	 * 
+	 *
 	 * @param baseName
 	 *            the base name of the resource bundle, a fully qualified class
 	 *            name
@@ -289,16 +292,18 @@ public abstract class I18N {
 					try {
 						Properties props = new Properties();
 						props.load(input);
-						
+
 						for(Map.Entry<Object, Object> e : props.entrySet()){
-							Object key = e.getKey();
+							String key = (String)e.getKey();
 							if(fieldNames.contains(key)){
 								if(fields.containsKey(key)){
 									assignField(fields.get(key), e.getValue());
 									fields.remove(key);
 								}
 							} else {
-								logger.log(Level.WARNING, "Bundle '"+baseName+"': has an unused message "+key);
+								logger.log(Level.WARNING,
+                                        "Bundle '{0}' has an unused message {1}",
+                                        new Object[]{baseName, key});
 							}
 						}
 					} catch (IOException e) {
@@ -314,12 +319,12 @@ public abstract class I18N {
 					}
 				}
 			}
-			
+
 			for(Map.Entry<String, Field> e : fields.entrySet()){
 				Field field = e.getValue();
 				String value = "Bundle '"+baseName+"': message "+ field.getName()+ " is missing";
 				logger.info(value);
-				assignField(field, value);				
+				assignField(field, value);
 			}
 		}
 	}
@@ -354,20 +359,20 @@ public abstract class I18N {
 		}
 	}
 
-	}	
-	
+	}
+
 	private static final Object[] EMPTY_ARGS = new Object[0];
 
 	private static String[] I18N_SUFFIXES;
 
 	/**
 	 * Build an array of property files to search.
-	 * 
+	 *
 	 * @param bundleName
 	 *            User provided properties file bundle name.
 	 * @param locale
 	 *            User provided locale
-	 * 
+	 *
 	 * @return Returns an array of file names
 	 */
 	private static String[] buildBundleFileNames(String bundleName,
@@ -390,26 +395,26 @@ public abstract class I18N {
 
 	/**
 	 * Calculate the bundle name suffixes for the system default locale.
-	 * 
+	 *
 	 * <p>
 	 * Build the suffixes list for a particular <code>Locale</code> using a
 	 * similar algorithm to the described in
 	 * {@link java.util.ResourceBundle#getBundle(String, Locale, ClassLoader)}}
 	 * </p>
-	 * 
+	 *
 	 * @param locale
 	 *            <code>Locale</code> use to build the suffixes list.
-	 * 
+	 *
 	 * @see java.util.ResourceBundle#getBundle(String, Locale, ClassLoader)
 	 * @see java.util.ResourceBundle
-	 * 
+	 *
 	 * @return Return the list of bundle name suffixes
 	 */
 	private static String[] buildBundleFileNameSuffixes(Locale locale) {
 		ArrayList<String> result = new ArrayList<String>(4);
 		String localeString = locale.toString();
 		int lastSeparator;
-		
+
 		// 1. Build the list of suffixes using the provided locale
 		do {
 			result.add('_' + localeString + EXTENSION);
@@ -429,34 +434,34 @@ public abstract class I18N {
 				}
 			} while (lastSeparator != -1);
 		}
-		
+
 		// 3. Add the default extension
 		result.add(EXTENSION);
 
 		return result.toArray(new String[0]);
 	}
-	
+
 	/**
 	 * Load the resources for the resources class with the default locale
-	 * 
+	 *
 	 * @param baseName The base name of the class
 	 * @param clazz The class
-	 * @param files 
+	 * @param files
 	 */
 	private static void loadResources(final String baseName, final Class<?> clazz, Set<String> files) {
 		loadResources(baseName, clazz, files, Locale.getDefault());
 	}
-	
+
 	/**
 	 * Load the resources for the resources class with the given locale
-	 * 
+	 *
 	 * @param baseName the base name of the class
 	 * @param clazz the class
-	 * @param files 
+	 * @param files
 	 * @param locale the locale
 	 */
 	private static void loadResources(final String baseName, final Class<?> clazz, Set<String> files, Locale locale) {
-		synchronized(clazz){
+		synchronized(clazz) {
 			Field[] fieldDecls = clazz.getDeclaredFields();
 			Map<String, Field> fields = new HashMap<String, Field>();
 			List<String> fieldNames = new ArrayList<String>();
@@ -465,37 +470,39 @@ public abstract class I18N {
 				fields.put(name, fieldDecls[i]);
 				fieldNames.add(name);
 			}
-			
+
 			String[] temp = baseName.split("[\\.$]");
 			String baseFolder = temp[temp.length - 1].toLowerCase() + File.separator;
-			
+
 			for (int i = 0; i < fieldNames.size(); i++) {
 				String fieldName = fieldNames.get(i);
-				
+
 				String[] fileNames = buildResourceFileNames(fieldName, locale);
 
 				for (int j = 0; j < fileNames.length; j++) {
 					if (files.contains(fileNames[j])) {
-						assignField(fields.get(fieldName), baseFolder + fileNames[j]);				
+						assignField(fields.get(fieldName), baseFolder + fileNames[j]);
 						fields.remove(fieldName);
+                        // FIXME - remove stupid debugging
+                        String value = "Bundle '"+baseName+"' message "+ fieldName + " was found";
+                        logger.info(value);
 					}
 				}
 			}
-			
+
 			//TODO: set the value to the default error resources
 			for(Map.Entry<String, Field> e : fields.entrySet()){
 				Field field = e.getValue();
-				String value = "Bundle '"+baseName+"': message "+ field.getName()+ " is missing";
+				String value = "Bundle '"+baseName+"' message "+ field.getName()+ " is missing";
 				logger.info(value);
-				assignField(field, value);				
+				assignField(field, value);
 			}
 		}
-
 	}
-	
+
 	/**
 	 * Build all the possible names for the file corresponding to fieldName
-	 * 
+	 *
 	 * @param fieldName The name of the field
 	 * @param locale The current locale
 	 * @return The list of possible file names
@@ -504,15 +511,15 @@ public abstract class I18N {
 		ArrayList<String> result = new ArrayList<String>(4);
 		String localeString = locale.toString();
 		int lastSeparator;
-		
-		String fileName = new String(fieldName);
+
+		String fileName = ""+fieldName;
 		for (int i = fieldName.length() - 1; i >= 0; i--) {
 			if (fieldName.charAt(i) == '_') {
 				fileName = fieldName.substring(0, i) + "." + fieldName.substring(i+1, fieldName.length());
 				break;
 			}
 		}
-		
+
 		// 1. Build the list of suffixes using the provided locale
 		do {
 			result.add(localeString + File.separator + fileName);
@@ -523,7 +530,7 @@ public abstract class I18N {
 		} while (lastSeparator != -1);
 
 		// 2. Build the list of suffixes using the default locale if needed
-		if (!locale.equals(Locale.getDefault())) {
+		if ( ! locale.equals(Locale.getDefault())) {
 			do {
 				result.add(localeString + File.separator + fileName);
 				lastSeparator = localeString.lastIndexOf('_');
@@ -532,11 +539,11 @@ public abstract class I18N {
 				}
 			} while (lastSeparator != -1);
 		}
-		
+
 		// 3. Add the default extension
 		result.add(fileName);
 
 		return result.toArray(new String[0]);
 	}
-	
+
 }

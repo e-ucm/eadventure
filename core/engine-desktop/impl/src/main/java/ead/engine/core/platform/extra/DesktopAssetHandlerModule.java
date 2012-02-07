@@ -97,7 +97,6 @@ public class DesktopAssetHandlerModule extends AbstractModule {
 	@Singleton
 	Map<Class<? extends AssetDescriptor>, Class<? extends RuntimeAsset<? extends AssetDescriptor>>> provideMap() {
 
-		// FIXME: There must be a better way of doing this that does not break the build
 		Map map = new HashMap();
 		
 		map.put(ImageImpl.class, DesktopEngineImage.class);

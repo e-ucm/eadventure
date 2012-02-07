@@ -111,7 +111,7 @@ public class ColumnsLayout implements LayoutManager2 {
 
 	@Override
 	public void invalidateLayout(Container target) {
-
+        throw new IllegalAccessError("Not yet implemented");
 	}
 
 	@Override
@@ -121,7 +121,7 @@ public class ColumnsLayout implements LayoutManager2 {
 
 	@Override
 	public void addLayoutComponent(String name, Component comp) {
-
+        throw new IllegalAccessError("Not yet implemented");
 	}
 
 	@Override
@@ -151,8 +151,12 @@ public class ColumnsLayout implements LayoutManager2 {
 						break;
 					case ColumnsConstraints.RIGHT_ALIGNMENT:
 						cX = xLayout + widths[nColumn] - cWidth;
+                        break;
 					case ColumnsConstraints.CENTER_ALIGNMENT:
 						cX = xLayout + widths[nColumn] / 2 - cWidth / 2;
+                        break;
+                    default: 
+                        throw new IllegalArgumentException("Bad cp.alignment: " + cp.alignment);
 					}
 				}
 				yLayout += rowAlignment ? ColumnsConstraints.DEFAULT_MARGIN_Y : cp.margin;
@@ -187,11 +191,11 @@ public class ColumnsLayout implements LayoutManager2 {
 		for (ArrayList<ComponentProperties> column : columns) {
 			int row = 0;
 			for (ComponentProperties cp : column) {
-				heights[row] = cp.c.getPreferredSize().height > heights[row] ? cp.c.getPreferredSize().height : heights[row];
+				heights[row] = (cp.c.getPreferredSize().height > heights[row]) ? 
+                        cp.c.getPreferredSize().height : heights[row];
 				row++;
 			}
 		}
-
 	}
 
 	private void calculateWidths() {

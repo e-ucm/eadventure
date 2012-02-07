@@ -46,12 +46,12 @@ public class ClassLoaderUtils {
 	/**
 	 * Mask containing public and static modifiers.
 	 */
-	public static final int PUBLIC_STATIC_MOD_MASK = Modifier.PUBLIC
-			| Modifier.STATIC;
+	public static final int PUBLIC_STATIC_MOD_MASK =
+            Modifier.PUBLIC | Modifier.STATIC;
 
 	/**
 	 * Return a <code>ClassLoader</code>.
-	 * 
+	 *
 	 * <p>
 	 * Return a suitable <code>ClassLoader</code> using the following
 	 * algorithm:
@@ -63,10 +63,10 @@ public class ClassLoaderUtils {
 	 * <li>Return the {@link ClassLoader#getSystemClassLoader()}} </li>
 	 * </ol>
 	 * </p>
-	 * 
+	 *
 	 * @param clazz
 	 *            <code>Class</code> to use
-	 * 
+	 *
 	 * @return A <code>ClassLoader</code>
 	 * @throws SecurityException
 	 *             If a security manager exists and its checkPermission method
@@ -111,16 +111,16 @@ public class ClassLoaderUtils {
 	/**
 	 * Check if if the <code>actualModifiers</code> contains the
 	 * <code>expectedModifiers</code>
-	 * 
+	 *
 	 * @param actualModifiers
 	 *            Element actual modifiers
 	 * @param expectedModifiers
 	 *            Expected modifiers
-	 * 
+	 *
 	 * @return <code>true</code> if the <code>actualModifiers</code>
 	 *         contains the <code>expectedModifiers</code>,
 	 *         <code>false</code> otherwise.
-	 * 
+	 *
 	 * @see java.lang.reflect.Modifier
 	 */
 	public static boolean checkModifiers(int actualModifiers,
@@ -133,18 +133,18 @@ public class ClassLoaderUtils {
 	 * Check if if the <code>actualModifiers</code> are exactly the
 	 * <code>expectedModifiers</code> using <code>mask</code> as
 	 * <code>actualModifiers</code> mask.
-	 * 
+	 *
 	 * @param actualModifiers
 	 *            Element actual modifiers
 	 * @param expectedModifiers
 	 *            Expected modifiers
 	 * @param mask
 	 *            Mask used to compare the modifiers
-	 * 
+	 *
 	 * @return <code>true</code> if the <code>actualModifiers</code> are
 	 *         exactly the <code>expectedModifiers</code>, <code>false</code>
 	 *         otherwise.
-	 * 
+	 *
 	 * @see java.lang.reflect.Modifier
 	 */
 	public static boolean checkModifiers(int actualModifiers,

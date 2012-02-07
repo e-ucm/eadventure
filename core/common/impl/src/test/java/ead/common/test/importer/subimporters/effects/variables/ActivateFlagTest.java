@@ -56,7 +56,7 @@ public class ActivateFlagTest extends
 		addTestObject(new ActivateEffect("flag1"));
 		addTestObject(new ActivateEffect("flag2"));
 		addTestObject(new ActivateEffect("anotherFlag"));
-		addTestObject(new ActivateEffect("�"));
+		addTestObject(new ActivateEffect("¡Ñí!"));
 		
 	}
 

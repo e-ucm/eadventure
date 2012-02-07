@@ -56,7 +56,7 @@ public class EAdFixCanvasPanelTest {
 
 	@SuppressWarnings("serial")
 	public static void main(String args[]) {
-		JFrame f = new JFrame("Tamaño fijo");
+		JFrame f = new JFrame("TamaÃ±o fijo");
 		EAdFixScrollCanvasPanel scroll = new EAdFixScrollCanvasPanel();
 
 		EAdCanvasPanel dragPanel = scroll.getCanvas();
@@ -78,7 +78,7 @@ public class EAdFixCanvasPanelTest {
 		j.addMouseMotionListener(listener);
 
 		dragPanel.add(j);
-		JButton b = new JButton("Botón");
+		JButton b = new JButton("BotÃ³n");
 		b.setBounds(new Rectangle(0, 0, 100, 30));
 		dragPanel.add(b);
 		b.addKeyListener(listener);
