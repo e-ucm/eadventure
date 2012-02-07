@@ -94,9 +94,12 @@ public class ResourceCreator {
         String importName = ResourceCreator.class.getCanonicalName()
                 .replace(ResourceCreator.class.getSimpleName(), "I18N");
 
+        // Expect a project-location/src/main/resources folder
 		File resources =
-			new File(projectURL + File.separator + "src" + File.separator
-					+ "main" + File.separator + "resources");
+			new File(projectURL + File.separator
+                + "src" + File.separator
+				+ "main" + File.separator
+                + "resources");
 
 		String classContent = ""
             + "package " + packageName + ";" + eol

@@ -61,40 +61,39 @@ public class EAdHideingSplitPane extends JPanel {
 	private static final long serialVersionUID = -4895653681865804475L;
 
 	private Component leftPanel;
-	
+
 	private JPanel leftPanelContainer;
-	
+
 	private Component rightPanel;
-	
-	private boolean contrated = true;
-	
+
+	private boolean contracted = true;
+
 	private Changer changer;
-	
+
 	private EAdHideingLayout layout;
-	
+
 	private static final int MIN_WIDTH = 42;
-	
+
 	private static final int MAX_WIDTH = 342;
-	
+
 	private static final int INCREMENT = 25;
-	
-	public EAdHideingSplitPane(Component LeftPanel2,
-			Component rightPanel2) {
-		this.leftPanel = LeftPanel2;
-		this.rightPanel = rightPanel2;
+
+	public EAdHideingSplitPane(Component anotherLeftPanel,
+			Component anotherRightPanel) {
+		this.leftPanel = anotherLeftPanel;
+		this.rightPanel = anotherRightPanel;
 
 		this.leftPanelContainer = new JPanel() {
-		
+
 			private static final long serialVersionUID = -8383046686527758671L;
 
 			@Override
 			public void doLayout() { }
-
 		};
-		
+
 		this.leftPanelContainer.setLayout(new BorderLayout());
 		this.leftPanelContainer.add(leftPanel, BorderLayout.CENTER);
-		
+
 		layout = new EAdHideingLayout();
 		this.setLayout(layout);
 		this.add(leftPanelContainer, EAdHideingLayout.LEFT_CONTAINER);
@@ -104,35 +103,35 @@ public class EAdHideingSplitPane extends JPanel {
 
 			@Override
 			public void eventDispatched(AWTEvent event) {
-				boolean oldContrated = contrated;
-				if (leftPanelContainer.getMousePosition() != null || 
+				boolean oldContracted = contracted;
+				if (leftPanelContainer.getMousePosition() != null ||
 						leftPanel.getMousePosition() != null)
-					contrated = false;
+					contracted = false;
 				if (rightPanel.getMousePosition() != null)
-					contrated = true;
-				if (oldContrated ^ contrated) {
+					contracted = true;
+				if (oldContracted ^ contracted) {
 					if (changer != null) {
 						changer.stop();
 						changer = null;
 					}
-					changer = new Changer(!contrated, layout);
+					changer = new Changer(!contracted, layout);
 					new Thread(changer).start();
 				}
 			}
-			
+
 		}, AWTEvent.MOUSE_MOTION_EVENT_MASK);
 	}
-	
+
 	private class EAdHideingLayout implements LayoutManager2 {
 
 		private Component rightPanel;
-		
+
 		private Component leftContainer;
-		
+
 		public static final String RIGHT_PANEL = "right";
-		
+
 		public static final String LEFT_CONTAINER = "left_container";
-		
+
 		private int width = MIN_WIDTH;
 
 		@Override
@@ -149,7 +148,7 @@ public class EAdHideingSplitPane extends JPanel {
 		public void layoutContainer(Container arg0) {
 			Dimension d = arg0.getSize();
 			arg0.setComponentZOrder(leftContainer, 0);
-			
+
 			leftContainer.setBounds(0, 0, width, d.height);
 			rightPanel.setBounds(MIN_WIDTH, 0, d.width - MIN_WIDTH, d.height);
 			leftPanel.setBounds(0, 0, MAX_WIDTH, d.height);
@@ -210,17 +209,17 @@ public class EAdHideingSplitPane extends JPanel {
 	public class Changer implements Runnable {
 
 		private boolean increment;
-		
+
 		private boolean stopped;
-		
+
 		private EAdHideingLayout layout;
-		
+
 		public Changer(boolean increment, EAdHideingLayout layout) {
 			this.increment = increment;
 			this.layout = layout;
 			stopped = false;
 		}
-		
+
 		@Override
 		public void run() {
 			while (((increment && layout.getWidth() < EAdHideingSplitPane.MAX_WIDTH)
@@ -234,7 +233,7 @@ public class EAdHideingSplitPane extends JPanel {
 						else
 							layout.setWidth(layout.getWidth() - INCREMENT);
 					}
-					
+
 				});
 
 				try {
@@ -247,16 +246,16 @@ public class EAdHideingSplitPane extends JPanel {
 					public void run() {
 						revalidate();
 					}
-					
+
 				});
 			}
 			stopped = true;
 		}
-		
+
 		public void stop() {
 			this.stopped = true;
 		}
-		
+
 		public boolean isStopped() {
 			return stopped;
 		}

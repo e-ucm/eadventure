@@ -48,6 +48,10 @@ import ead.editor.view.EditorWindow;
 
 /**
  * Default implementation of the {@link ViewController}.
+ *
+ * The editor's view controller is in charge of showing the main editor window,
+ * instantiating the command manager, and launching all further windows
+ * and dialogs.
  */
 @Singleton
 public class ViewControllerImpl implements ViewController {
@@ -56,12 +60,12 @@ public class ViewControllerImpl implements ViewController {
 	 * Editor window
 	 */
 	private EditorWindow editorWindow;
-	
+
 	/**
 	 * Action manager
 	 */
 	private CommandManager actionManager;
-	
+
 	@Inject
 	public ViewControllerImpl(EditorWindow editorWindow,
 			CommandManager actionManager) {
@@ -90,5 +94,4 @@ public class ViewControllerImpl implements ViewController {
 		editorWindow.removeModalPanel();
 		actionManager.removeCommandStacks(cancelChanges);
 	}
-	
 }

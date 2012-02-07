@@ -67,16 +67,16 @@ abstract public class SwingUtilities {
 	/**
 	 * <p>Executes {@code doRun.run()} method synchronously with the AWT
 	 * Event Dispatcher Thread (EDT).</p>
-	 * 
+	 *
 	 * <p>Unlike {@link javax.swing.SwingUtilities#invokeAndWait(Runnable)}
 	 * exceptions are treated.</p>
 	 * <p><ul>
 	 *   <li>{@code java.lang.InterruptedException} marks current thread as interrupted, {@code Thread.currentThread().interrupt()}.</li>
 	 *   <li>{@code java.lang.reflect.InvocationTargetException}: shows an error dialog including the stack trace.</li>
 	 * </ul></p>
-	 * 
+	 *
 	 * @param doRun Piece of code to be run in EDT
-	 * 
+	 *
 	 * @see javax.swing.SwingUtilities#invokeAndWait(Runnable)
 	 */
 	static public void doInEDTNow (Runnable doRun) {
@@ -107,7 +107,7 @@ abstract public class SwingUtilities {
 		});
 		return pointer.reference;
 	}
-	
+
 	static public <T> T doInEDTNow (final ReturnnableRunnable<T> doRun){
 		final Pointer<T> pointer= new Pointer<T>();
 		doInEDTNow(new Runnable(){
@@ -157,7 +157,7 @@ abstract public class SwingUtilities {
 		lbl = new JLabel();
 		lbl.setText(I18N.bind(Messages.exception_dialog_message, exp.getMessage()));
 		header.add(lbl);
-		
+
 		dialog.getContentPane().add(header, BorderLayout.NORTH);
 		// Stack Traces
 		JTextArea traceArea = new JTextArea();
@@ -183,9 +183,9 @@ abstract public class SwingUtilities {
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 		dialog.setLocation((screenSize.width / 2) - (dialog.getWidth() / 2),
 				(screenSize.height / 2) - (dialog.getHeight() / 2));
-		
+
 		dialog.setResizable(true);
-		
+
 		dialog.pack();
 		dialog.setVisible(true);
 	}
@@ -204,7 +204,7 @@ abstract public class SwingUtilities {
 			fillStackTrace(buf, cause);
 		}
 	}
-	
+
 	public static Rectangle calculatePaintingArea(JComponent c) {
 		Dimension d = c.getSize();
 		Rectangle result = new Rectangle();
