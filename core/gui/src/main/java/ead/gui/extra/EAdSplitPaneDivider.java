@@ -54,19 +54,22 @@ public class EAdSplitPaneDivider extends BasicSplitPaneDivider {
 
 
 	private static final long serialVersionUID = 739432631859464680L;
-    
+
 	public EAdSplitPaneDivider(BasicSplitPaneUI ui) {
 		super(ui);
         this.setBackground(EAdGUILookAndFeel.getBackgroundColor());
 	}
-	
+
+    @Override
     protected JButton createLeftOneTouchButton() {
         JButton b = new JButton() {
 			private static final long serialVersionUID = 1L;
-			
+
+            @Override
 			public void setBorder(Border b) {
             }
-			
+
+            @Override
             public void paint(Graphics g) {
                 if (splitPane != null) {
                     int[]   xs = new int[3];
@@ -101,13 +104,14 @@ public class EAdSplitPaneDivider extends BasicSplitPaneDivider {
                     g.fillPolygon(xs, ys, 3);
                 }
             }
-            
-            // Don't want the button to participate in focus traversable.
-		    public boolean isFocusTraversable() {
+
+            // Button should not participate in focus traversal.
+            @Override
+		    public boolean isFocusable() {
 		    	return false;
 		    }
         };
-        b.setMinimumSize(new Dimension((orientation == JSplitPane.VERTICAL_SPLIT ? getHeight() : getWidth()) , 
+        b.setMinimumSize(new Dimension((orientation == JSplitPane.VERTICAL_SPLIT ? getHeight() : getWidth()) ,
         		(orientation == JSplitPane.VERTICAL_SPLIT ? getHeight() : getWidth())));
         b.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
         b.setFocusPainted(false);
@@ -120,6 +124,7 @@ public class EAdSplitPaneDivider extends BasicSplitPaneDivider {
      * Returns the size of the divider, that is the width if the splitpane
      * is HORIZONTAL_SPLIT, or the height of VERTICAL_SPLIT.
      */
+    @Override
     public int getDividerSize() {
         return dividerSize - 4;
     }
@@ -129,14 +134,17 @@ public class EAdSplitPaneDivider extends BasicSplitPaneDivider {
      * Creates and return an instance of JButton that can be used to
      * collapse the right component in the split pane.
      */
+    @Override
     protected JButton createRightOneTouchButton() {
         JButton b = new JButton() {
 
 			private static final long serialVersionUID = 1L;
-			
+
+            @Override
 			public void setBorder(Border border) {
             }
-			
+
+            @Override
             public void paint(Graphics g) {
                 if (splitPane != null) {
                     int[]          xs = new int[3];
@@ -169,8 +177,10 @@ public class EAdSplitPaneDivider extends BasicSplitPaneDivider {
                     g.fillPolygon(xs, ys, 3);
                 }
             }
-		    // Don't want the button to participate in focus traversable.
-		    public boolean isFocusTraversable() {
+
+            // Button should not participate in focus traversal.
+            @Override
+		    public boolean isFocusable() {
 				return false;
 		    }
 	    };
@@ -185,23 +195,20 @@ public class EAdSplitPaneDivider extends BasicSplitPaneDivider {
     /**
      * Paints the divider.
      */
+    @Override
     public void paint(Graphics g) {
-      super.paint(g);
-      
-      if (orientation == JSplitPane.VERTICAL_SPLIT) {
-          int left = (this.getWidth() - 0) / 2 - 10;
-          g.drawLine(left, 1, left + 20, 1);
-          g.drawLine(left, 3, left + 20, 3);
-          g.drawLine(left, 5, left + 20, 5);
-      }
-      else {
-          int top = (this.getHeight() - 0) / 2 - 10;
-          g.drawLine(1, top, 1, top + 20);
-          g.drawLine(3, top, 3, top + 20);
-          g.drawLine(5, top, 5, top + 20);
-      }
+        super.paint(g);
 
+        if (orientation == JSplitPane.VERTICAL_SPLIT) {
+            int left = (this.getWidth() - 0) / 2 - 10;
+            g.drawLine(left, 1, left + 20, 1);
+            g.drawLine(left, 3, left + 20, 3);
+            g.drawLine(left, 5, left + 20, 5);
+        } else {
+            int top = (this.getHeight() - 0) / 2 - 10;
+            g.drawLine(1, top, 1, top + 20);
+            g.drawLine(3, top, 3, top + 20);
+            g.drawLine(5, top, 5, top + 20);
+        }
     }
-
-    
 }

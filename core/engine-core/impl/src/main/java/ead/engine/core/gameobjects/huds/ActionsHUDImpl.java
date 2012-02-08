@@ -64,12 +64,13 @@ import ead.engine.core.platform.GUI;
 import ead.engine.core.platform.rendering.GenericCanvas;
 import ead.engine.core.util.EAdTransformation;
 import ead.engine.core.util.EAdTransformationImpl;
+import java.util.logging.Level;
 
 /**
  * <p>
  * Default generic implementation of the {@link ActionsHUD}
  * </p>
- * 
+ *
  */
 @Singleton
 public class ActionsHUDImpl extends AbstractHUD implements ActionsHUD {
@@ -141,7 +142,7 @@ public class ActionsHUDImpl extends AbstractHUD implements ActionsHUD {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * es.eucm.eadventure.engine.core.gameobjects.GameObject#processAction(es
 	 * .eucm.eadventure.engine.core.guiactions.GUIAction)
@@ -153,9 +154,9 @@ public class ActionsHUDImpl extends AbstractHUD implements ActionsHUD {
 			MouseActionImpl temp = (MouseActionImpl) action;
 
 			switch (temp.getType()) {
-			case CLICK:
-				remove = true;
-			default:
+                case CLICK: remove = true; break;
+                default:
+                    logger.warning("Non-click MouseActionImpl in HUD - totally unexpected");
 			}
 
 		} else if (action instanceof KeyActionImpl) {
@@ -175,12 +176,13 @@ public class ActionsHUDImpl extends AbstractHUD implements ActionsHUD {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * es.eucm.eadventure.engine.core.gameobjects.GameObject#setElement(java
 	 * .lang.Object)
 	 */
 
+    @Override
 	public void setElement(SceneElementGO<?> ref, int x, int y) {
 		currentTime = 0;
 		sceneElement = ref;
@@ -192,7 +194,7 @@ public class ActionsHUDImpl extends AbstractHUD implements ActionsHUD {
 		this.y = y;
 		radius = Math.min(maxRadius, radius);
 		actions = ref.getActions();
-		logger.info("Set element, actions: " + actions);
+		logger.log(Level.INFO, "Set element, actions: {0}", actions);
 		initActionGOs();
 	}
 
@@ -231,6 +233,7 @@ public class ActionsHUDImpl extends AbstractHUD implements ActionsHUD {
 		}
 	}
 
+    @Override
 	public void doLayout(EAdTransformation t) {
 		float interpolation1 = EAdInterpolator.BOUNCE_END.interpolate(
 				currentTime, ANIMATION_TIME, 1.0f);
@@ -265,6 +268,7 @@ public class ActionsHUDImpl extends AbstractHUD implements ActionsHUD {
 
 	}
 
+    @Override
 	public void update() {
 
 		if (currentTime < ANIMATION_TIME) {
@@ -273,7 +277,6 @@ public class ActionsHUDImpl extends AbstractHUD implements ActionsHUD {
 					ANIMATION_TIME, 1.0f);
 		} else {
 			alpha = 1.0f;
-
 		}
 
 		currentTime = currentTime > ANIMATION_TIME ? ANIMATION_TIME

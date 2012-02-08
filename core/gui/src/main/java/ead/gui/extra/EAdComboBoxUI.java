@@ -48,8 +48,8 @@
 /*
     Copyright (C) 2004-2009 <e-UCM> research group
 
-    This file is part of <e-Adventure> project, an educational game & game-like 
-    simulation authoring tool, availabe at http://e-adventure.e-ucm.es. 
+    This file is part of <e-Adventure> project, an educational game & game-like
+    simulation authoring tool, availabe at http://e-adventure.e-ucm.es.
 
     <e-Adventure> is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -101,11 +101,12 @@ public class EAdComboBoxUI extends BasicComboBoxUI {
     public static ComponentUI createUI(JComponent c) {
         return new EAdComboBoxUI();
     }
-    
+
     public EAdComboBoxUI() {
         super();
     }
-    
+
+    @SuppressWarnings("unchecked")
 	@Override
 	public void installUI(JComponent c) {
 		super.installUI(c);
@@ -114,22 +115,26 @@ public class EAdComboBoxUI extends BasicComboBoxUI {
 		comboBox.setBorder( null );
 		comboBox.setBackground(EAdGUILookAndFeel.getBackgroundColor());
         comboBox.setRenderer( new EAdComboBoxRenderer( comboBox ) );
-        
+
         listBox.setSelectionForeground(EAdGUILookAndFeel.getForegroundColor());
         listBox.setSelectionBackground(EAdGUILookAndFeel.getBackgroundColor());
-        
+
         if (comboBox.getEditor( ) != null && comboBox.getEditor( ).getEditorComponent( ) != null) {
         	comboBox.getEditor( ).getEditorComponent( ).addFocusListener( new FocusListener( ) {
+                @Override
                 public void focusGained( FocusEvent arg0 ) {
                    SwingUtilities.doInEDTNow( new Runnable( ) {
+                        @Override
                         public void run( ) {
                         	comboBox.repaint( );
                         }
                    } );
                 }
-                
+
+                @Override
                 public void focusLost( FocusEvent arg0 ) {
                     SwingUtilities.doInEDTNow( new Runnable( ) {
+                        @Override
                         public void run( ) {
                         	comboBox.repaint( );
                         }
@@ -138,13 +143,13 @@ public class EAdComboBoxUI extends BasicComboBoxUI {
             } );
         }
     }
-	
+
 	@Override
 	public Dimension getPreferredSize(JComponent c) {
 		Dimension d = super.getPreferredSize(c);
         return new Dimension(Math.max(d.width, 50), Math.max(d.height, 28));
 	}
-	
+
     @Override
     protected LayoutManager createLayoutManager() {
         return new LayoutManager() {
@@ -164,7 +169,7 @@ public class EAdComboBoxUI extends BasicComboBoxUI {
                 JComboBox cb = (JComboBox)parent;
                 int width = cb.getWidth();
                 int height = cb.getHeight();
-                
+
                 Insets insets = getInsets();
                 int buttonSize = height - (insets.top + insets.bottom);
                 Rectangle cvb;
@@ -188,7 +193,7 @@ public class EAdComboBoxUI extends BasicComboBoxUI {
         bcp.setBorder( new EAdBorder());
         return bcp;
     }
-    
+
     @Override
     protected JButton createArrowButton() {
         JButton button = new EAdButton(JButton.PREVIOUS);
@@ -218,7 +223,7 @@ public class EAdComboBoxUI extends BasicComboBoxUI {
         private static final long serialVersionUID = -4690197769299510034L;
 
         private Object oldValue;
-        
+
         public EAdComboBoxEditor( String emptyText2 ) {
             super();
 
@@ -230,45 +235,49 @@ public class EAdComboBoxUI extends BasicComboBoxUI {
                 setToolTipText(emptyText2);
             }
         }
-        
+
         @Override
         public Insets getInsets() {
         	return new Insets(6, 6, 6, 6);
         }
 
-       
+
         @Override
         public void setEnabled(boolean enabled) {
             super.setEnabled( enabled );
             SwingUtilities.doInEDTNow( new Runnable() {
+                @Override
                 public void run( ) {
                     repaint();
                 }
             });
         }
-        
+
+        @Override
         public Component getEditorComponent( ) {
             return this;
         }
 
-        /** 
-         * Sets the item that should be edited. 
+        /**
+         * Sets the item that should be edited.
          *
          * @param anObject the displayed value of the editor
          */
+        @Override
         public void setItem(Object anObject) {
             if ( anObject != null )  {
                 setText(anObject.toString());
-                
+
                 oldValue = anObject;
             } else {
                 setText("");
             }
         }
 
+        @Override
         public Object getItem() {
             Object newValue = getText();
-            
+
             if (oldValue != null && !(oldValue instanceof String))  {
                 // The original value is not a string. Should return the value in it's
                 // original type.
@@ -287,9 +296,5 @@ public class EAdComboBoxUI extends BasicComboBoxUI {
             }
             return newValue;
         }
-
     }
-    
-    
-    
 }

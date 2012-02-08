@@ -48,8 +48,6 @@ import ead.common.params.EAdURI;
 import ead.common.params.EAdURIImpl;
 import ead.engine.core.game.GameController;
 import ead.engine.core.modules.BasicGameModule;
-import ead.engine.core.platform.AssetHandler;
-import ead.engine.core.platform.PlatformLauncher;
 import ead.engine.core.platform.extra.DesktopAssetHandlerModule;
 import ead.engine.core.platform.extra.DesktopModule;
 
@@ -62,12 +60,12 @@ import ead.engine.core.platform.extra.DesktopModule;
 public class DesktopPlatformLauncher implements PlatformLauncher {
 
 	private GameController gameController;
-	
+
 	/**
 	 * Engine asset handler {@link AssetHandler}
 	 */
 	private AssetHandler assetHandler;
-	
+
 	@Inject
 	public DesktopPlatformLauncher(GameController gameController,
 			AssetHandler assetHandler) {
@@ -83,14 +81,15 @@ public class DesktopPlatformLauncher implements PlatformLauncher {
 		}
 		gameController.start();
 	}
-	
+
 	public static void main(String[] args) {
 		System.setProperty("com.apple.mrj.application.apple.menu.about.name", "eAdventure");
-		
-		Injector injector = Guice.createInjector(new DesktopAssetHandlerModule(), new DesktopModule(), new BasicGameModule());
+
+		Injector injector = Guice.createInjector(
+                new DesktopAssetHandlerModule(), new DesktopModule(), new BasicGameModule());
 
 		PlatformLauncher launcher = injector.getInstance(PlatformLauncher.class);
-		
+
 		EAdURI file = null;
 
 		if (args.length == 0) {
@@ -100,7 +99,7 @@ public class DesktopPlatformLauncher implements PlatformLauncher {
 			//TODO extract file from args
 			file = new EAdURIImpl( args[0] );
 		}
-		
+
 		launcher.launch( file );
 	}
 

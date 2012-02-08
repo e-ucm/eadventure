@@ -37,6 +37,20 @@
 
 package ead.engine.core.platform;
 
+import com.google.inject.Inject;
+import com.google.inject.Singleton;
+
+import ead.common.resources.assets.drawable.basics.BasicDrawable;
+import ead.engine.core.game.GameState;
+import ead.engine.core.gameobjects.GameObjectManager;
+import ead.engine.core.gameobjects.factories.SceneElementGOFactory;
+import ead.engine.core.input.InputHandler;
+import ead.engine.core.platform.assets.DesktopEngineImage;
+import ead.engine.core.platform.extra.DesktopInputListener;
+import ead.engine.core.platform.rendering.DesktopCanvas;
+import ead.utils.swing.SwingExceptionHandler;
+import ead.utils.swing.SwingUtilities;
+
 import java.awt.Canvas;
 import java.awt.Component;
 import java.awt.Cursor;
@@ -51,22 +65,7 @@ import java.awt.image.BufferStrategy;
 import java.awt.image.MemoryImageSource;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
 import javax.swing.JFrame;
-
-import com.google.inject.Inject;
-import com.google.inject.Singleton;
-
-import ead.common.resources.assets.drawable.basics.BasicDrawable;
-import ead.engine.core.game.GameState;
-import ead.engine.core.gameobjects.GameObjectManager;
-import ead.engine.core.gameobjects.factories.SceneElementGOFactory;
-import ead.engine.core.input.InputHandler;
-import ead.engine.core.platform.assets.DesktopEngineImage;
-import ead.engine.core.platform.extra.DesktopInputListener;
-import ead.engine.core.platform.rendering.DesktopCanvas;
-import ead.utils.swing.SwingExceptionHandler;
-import ead.utils.swing.SwingUtilities;
 
 /**
  * <p>
@@ -119,7 +118,7 @@ public class DesktopGUI extends AbstractGUI<Graphics2D> implements GUI {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * es.eucm.eadventure.engine.core.platform.GUI#showSpecialResource(java.
 	 * lang.Object, int, int, boolean)
@@ -166,7 +165,7 @@ public class DesktopGUI extends AbstractGUI<Graphics2D> implements GUI {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see es.eucm.eadventure.engine.core.platform.GUI#commit(float)
 	 */
 	@Override
@@ -215,7 +214,7 @@ public class DesktopGUI extends AbstractGUI<Graphics2D> implements GUI {
 		});
 	}
 
-	
+
 	public RuntimeAsset<? extends BasicDrawable> commitToImage() {
 
 		DesktopEngineImage image = new DesktopEngineImage(
@@ -239,7 +238,7 @@ public class DesktopGUI extends AbstractGUI<Graphics2D> implements GUI {
 
 	/**
 	 * Set the appropriate rendering hints to get the best graphic results.
-	 * 
+	 *
 	 * @param g
 	 */
 	protected void setRenderingHints(Graphics2D g) {
@@ -264,7 +263,7 @@ public class DesktopGUI extends AbstractGUI<Graphics2D> implements GUI {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see es.eucm.eadventure.engine.core.platform.GUI#initilize()
 	 */
 	@Override
@@ -343,11 +342,11 @@ public class DesktopGUI extends AbstractGUI<Graphics2D> implements GUI {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * es.eucm.eadventure.engine.core.platform.impl.AbstractGUI#processKeyAction
 	 * (es.eucm.eadventure.engine.core.guiactions.KeyAction)
-	 * 
+	 *
 	 * In desktop games, arrow keys are used to move the mouse if not consumed
 	 * by a game object
 	 */

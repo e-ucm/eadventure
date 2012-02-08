@@ -78,8 +78,8 @@ public class DesktopModule extends AbstractModule {
 
 	@Override
 	protected void configure() {
-		bind(new TypeLiteral<Reader<EAdAdventureModel>>() {
-		}).to(EAdAdventureDOMModelReader.class);
+		bind(new TypeLiteral<Reader<EAdAdventureModel>>() {})
+                .to(EAdAdventureDOMModelReader.class);
 		bind(GameLoop.class).to(GameLoopImpl.class);
 		bind(GameProfiler.class).to(GameProfilerImpl.class);
 		configureGUI();
@@ -94,7 +94,7 @@ public class DesktopModule extends AbstractModule {
 		bind(FontHandlerImpl.class).to(DesktopFontCache.class);
 		bind(new TypeLiteral<FilterFactory<Graphics2D>>(){}).to(DesktopFilterFactory.class);
 	}
-	
+
 	protected void configureGUI() {
 		bind(GUI.class).to(DesktopGUI.class);
 	}

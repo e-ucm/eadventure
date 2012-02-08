@@ -56,7 +56,7 @@ import ead.engine.core.util.EAdTransformationImpl;
  * Abstract implementation of the GUI (Graphic User Interface) for the
  * eAdventure 2 games
  * </p>
- * 
+ *
  * @param <T>
  *            A parameter for the graphic context of the GUI (e.g. in AWT Java
  *            it will be Graphics2D)
@@ -66,7 +66,7 @@ public abstract class AbstractGUI<T> implements GUI {
 	/**
 	 * Logger
 	 */
-	protected static final Logger logger = Logger.getLogger("AbstractGUI");
+	private static final Logger logger = Logger.getLogger("AbstractGUI");
 
 	/**
 	 * Platform configuration parameters
@@ -103,11 +103,11 @@ public abstract class AbstractGUI<T> implements GUI {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * es.eucm.eadventure.engine.core.platform.GUI#addElement(es.eucm.eadventure
 	 * .engine.core.gameobjects.GameObject)
-	 * 
+	 *
 	 * The element should not be offset as it is being dragged in the scene
 	 */
 	@Override
@@ -125,7 +125,7 @@ public abstract class AbstractGUI<T> implements GUI {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see es.eucm.eadventure.engine.core.platform.GUI#prepareGUI()
 	 */
 	@Override
@@ -142,7 +142,7 @@ public abstract class AbstractGUI<T> implements GUI {
 
 	/**
 	 * Render the game objects into the graphic context
-	 * 
+	 *
 	 * @param interpolation
 	 *            The current interpolation between ideal game frames
 	 */
@@ -160,7 +160,7 @@ public abstract class AbstractGUI<T> implements GUI {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see es.eucm.eadventure.engine.core.platform.GUI#getWidth()
 	 */
 	@Override
@@ -170,7 +170,7 @@ public abstract class AbstractGUI<T> implements GUI {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see es.eucm.eadventure.engine.core.platform.GUI#getHeight()
 	 */
 	@Override
@@ -190,7 +190,7 @@ public abstract class AbstractGUI<T> implements GUI {
 		EAdRectangle clip1 = t1.getClip();
 		EAdRectangle clip2 = t2.getClip();
 		EAdRectangle newclip = new EAdRectangle( 0,0,0,0);
-		
+
 		// FIXME multiply for matrix to know where the clip actually is
 		if ( clip1 == null ){
 			newclip = clip2;
@@ -201,15 +201,15 @@ public abstract class AbstractGUI<T> implements GUI {
 		else if ( clip1 != null && clip2 != null ){
 			newclip = clip2;
 		}
-		
+
 		if ( newclip != null )
 			t.setClip(newclip.x, newclip.y, newclip.width, newclip.height);
-		
+
 		return t;
 	}
 
+    @Override
 	public void setInitialTransformation(EAdTransformation initialTransformation) {
 		inputHandler.setInitialTransformation(initialTransformation);
 	}
-
 }

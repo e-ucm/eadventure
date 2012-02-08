@@ -37,13 +37,13 @@
 
 package ead.engine.core;
 
-import java.util.logging.Logger;
-
 import com.google.inject.Inject;
 
 import ead.engine.core.game.Game;
 import ead.engine.core.game.GameLoop;
 import ead.engine.core.game.GameProfiler;
+
+import java.util.logging.Logger;
 
 /**
  * Based on:
@@ -88,7 +88,7 @@ public class GameLoopImpl implements GameLoop {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see es.eucm.eadventure.engine.core.GameLoop#runLoop(boolean)
 	 */
 	@Override
@@ -150,7 +150,7 @@ public class GameLoopImpl implements GameLoop {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * es.eucm.eadventure.engine.core.GameLoop#setGame(es.eucm.eadventure.engine
 	 * .core.Game)
@@ -162,7 +162,7 @@ public class GameLoopImpl implements GameLoop {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see es.eucm.eadventure.engine.core.GameLoop#pause()
 	 */
 	@Override
@@ -172,7 +172,7 @@ public class GameLoopImpl implements GameLoop {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see es.eucm.eadventure.engine.core.GameLoop#resume()
 	 */
 	@Override

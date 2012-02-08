@@ -51,10 +51,11 @@ import ead.engine.core.gameobjects.factories.SceneElementGOFactory;
 import ead.engine.core.operator.OperatorFactory;
 import ead.engine.core.platform.AssetHandler;
 import ead.engine.core.platform.GUI;
+import java.util.logging.Level;
 
 public class InterpolationGO extends AbstractEffectGO<InterpolationEf> {
 
-	private static Logger logger = Logger.getLogger("VarInterpolationGO");
+	private static final Logger logger = Logger.getLogger("VarInterpolationGO");
 
 	private int currentTime;
 
@@ -106,28 +107,19 @@ public class InterpolationGO extends AbstractEffectGO<InterpolationEf> {
 		endValue += offset;
 		interpolationLength = endValue - startValue;
 		finished = false;
-		logger.info(element.getElement() + "." + element.getVarDef()
-				+ " is going to be inerpolated from " + startValue + " to "
-				+ endValue);
+		logger.log(Level.INFO, "{0}.{1} is going to be inerpolated from {2} to {3}",
+                new Object[]{element.getElement(), element.getVarDef(), startValue, endValue});
 		delay = element.getDelay();
 
 		owner = element.getElement() == null ? parent : gameState.getValueMap()
 				.getFinalElement(element.getElement());
 
 		switch (element.getInterpolationType()) {
-		case BOUNCE_END:
-			interpolator = EAdInterpolator.BOUNCE_END;
-			break;
-		case ACCELERATE:
-			interpolator = EAdInterpolator.ACCELERATE;
-			break;
-		case DESACCELERATE:
-			interpolator = EAdInterpolator.DESACCELERATE;
-		default:
-			interpolator = EAdInterpolator.LINEAR;
-			break;
+            case BOUNCE_END:	interpolator = EAdInterpolator.BOUNCE_END; break;
+            case ACCELERATE:    interpolator = EAdInterpolator.ACCELERATE; break;
+            case DESACCELERATE:	interpolator = EAdInterpolator.DESACCELERATE; break;
+            default:			interpolator = EAdInterpolator.LINEAR;	break;
 		}
-
 	}
 
 	@Override
@@ -140,6 +132,7 @@ public class InterpolationGO extends AbstractEffectGO<InterpolationEf> {
 		return finished;
 	}
 
+    @Override
 	public void update() {
 		if (delay <= 0) {
 			currentTime += GameLoop.SKIP_MILLIS_TICK;
@@ -170,7 +163,6 @@ public class InterpolationGO extends AbstractEffectGO<InterpolationEf> {
 				finished |= (element.getLoops() > 0 && loops >= element
 						.getLoops());
 			} else {
-
 				// TODO this should be done "automatically"
 				if (integer)
 					gameState.getValueMap().setValue(owner,
@@ -188,17 +180,11 @@ public class InterpolationGO extends AbstractEffectGO<InterpolationEf> {
 	}
 
 	public Object interpolation() {
-		int time = reverse ? element.getInterpolationTime() - currentTime : currentTime;
+		int time = reverse ?
+                element.getInterpolationTime() - currentTime : currentTime;
 		float f = interpolator.interpolate(time,
 				element.getInterpolationTime(), interpolationLength);
-		
 		f += startValue;
-
-		if (integer)
-			return new Integer(Math.round(f));
-		else
-			return new Float(f);
-
+		return (integer) ? new Integer(Math.round(f)) : new Float(f);
 	}
-
 }

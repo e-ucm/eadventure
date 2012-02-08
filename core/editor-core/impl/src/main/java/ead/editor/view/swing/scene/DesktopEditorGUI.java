@@ -93,7 +93,7 @@ public class DesktopEditorGUI extends DesktopGUI {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * es.eucm.eadventure.engine.core.platform.GUI#showSpecialResource(java.
 	 * lang.Object, int, int, boolean)
@@ -106,7 +106,7 @@ public class DesktopEditorGUI extends DesktopGUI {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see es.eucm.eadventure.engine.core.platform.GUI#commit(float)
 	 */
 	@Override
@@ -177,7 +177,7 @@ public class DesktopEditorGUI extends DesktopGUI {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see es.eucm.eadventure.engine.core.platform.GUI#commitToImage()
 	 */
 	@Override
@@ -187,7 +187,7 @@ public class DesktopEditorGUI extends DesktopGUI {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see es.eucm.eadventure.engine.core.platform.GUI#initilize()
 	 */
 	@Override
