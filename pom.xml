@@ -305,7 +305,8 @@
 				<artifactId>maven-license-plugin</artifactId>
 				<configuration>
 					<header>${basedir}/etc/LICENSE.txt</header>
-					<failIfMissing>true</failIfMissing>
+					<strictCheck>true</strictCheck>
+                    <failIfMissing>true</failIfMissing>
 					<aggregate>true</aggregate>
 					<excludes>
 						<exclude>*.*</exclude>
