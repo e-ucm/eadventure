@@ -93,8 +93,7 @@ public class BasicGameModule extends AbstractModule {
 	protected void configure() {
 		installFactories();
 		bind(ValueMap.class).to(VariableMap.class);
-		bind(EngineConfiguration.class)
-.to(AbstractEngineConfiguration.class);
+		bind(EngineConfiguration.class).to(AbstractEngineConfiguration.class);
 		bind(GameState.class).to(GameStateImpl.class);
 		bind(GameController.class).to(GameControllerImpl.class);
 		bind(Game.class).to(GameImpl.class);

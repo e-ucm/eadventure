@@ -37,10 +37,13 @@
 
 package ead.utils.i18n;
 
+
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.PrintStream;
-import java.lang.String;
 import java.util.Set;
 import java.util.TreeSet;
 
@@ -70,15 +73,17 @@ public class ResourceCreator {
 	public static void main(String[] args) throws IOException {
 
         String regenName = ResourceCreator.class.getCanonicalName();
-        if (args.length < 2 || (args.length > 0 && args[0].equals("-h"))) {
+        if (args.length < 3 || args.length > 4 || (args.length > 0 && args[0].equals("-h"))) {
             System.err.println("Syntax: java -cp <classpath> "
                 + regenName
-                + " <project-location> <package-name> [<source-location>]\n"
+                + " <project-location> <package-name> <license-file> [<source-location>]\n"
                 + "Where \n"
                 + "   classpath - "
                     + "the classpath you are using now\n"
                 + "   project-location - "
                     + "location of the project whose resources you want to index\n"
+                + "   license-file - "
+                    + "name of the file with the license you want to pre-pend\n"
                 + "   package-name - "
                     + "name of the package you want to create the R.java file in\n"
                 + "   source-location - "
@@ -86,10 +91,11 @@ public class ResourceCreator {
             System.exit(-1);
         }
 
-		String projectURL = args[0];  // /Users/..../eadventure.editor-core-impl
-		String packageName = args[1]; // ead.editor
-        PrintStream out = (args.length == 2) ?
-                System.out : new PrintStream(args[2]);
+		String projectURL = args[0];       // .../eadventure.editor-core-impl
+		String packageName = args[1];      // ead.editor
+        String licenseFileName = args[2];  // etc/LICENSE.txt
+        PrintStream out = (args.length == 3) ?
+                System.out : new PrintStream(args[3]);
 
         String importName = ResourceCreator.class.getCanonicalName()
                 .replace(ResourceCreator.class.getSimpleName(), "I18N");
@@ -101,7 +107,15 @@ public class ResourceCreator {
 				+ "main" + File.separator
                 + "resources");
 
-		String classContent = ""
+        // build a paramString to include in class comment
+        StringBuilder parameterString = new StringBuilder();
+        for (String s : args) {
+            parameterString.append(" \"").append(s).append("\"");
+        }
+
+        printLicense(licenseFileName, out);
+
+		String classContent = eol
             + "package " + packageName + ";" + eol
             + eol
             + "import " + importName + ";" + eol
@@ -112,10 +126,8 @@ public class ResourceCreator {
             + " * Resource index for this package (statically compiled)." + eol
             + " *" + eol
             + " * This is an AUTOMATICALLY-GENERATED file - " + eol
-            + " * Run class " + regenName + " with " + eol
-            + " * paramenters: \"" + projectURL + " " + packageName + "\"" + eol
-            + " * where \"" + projectURL + "\" is the project location" + eol
-            + " * and \"" + packageName + "\" is the name of the package" + eol
+            + " * Run class " + regenName + " with parameters: " + eol
+            + " *   " + parameterString.toString() + eol
             + " * to re-create or update this class" + eol
             + " */" + eol
             + "public class R {" + eol
@@ -125,6 +137,32 @@ public class ResourceCreator {
 
 		out.println(classContent);
 	}
+
+    /**
+     * Return file contents as a string
+     */
+    private static void printLicense(String fileName, PrintStream out) {
+        File f = new File(fileName);
+        BufferedReader br = null;
+        try {
+            out.println("/**");
+            br = new BufferedReader(
+                new InputStreamReader(new FileInputStream(f), "UTF-8"));
+            while (br.ready()) {
+                out.println(" * " + br.readLine());
+            }
+            out.println(" */");
+        } catch (IOException e) {
+            System.err.println("Error adding license from '" + f.getAbsolutePath() + "'");
+            e.printStackTrace();
+        } finally {
+            try {
+                br.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
 
 	/**
 	 * Create a sub-class, which contains the actual resources (e.g. "Drawable").

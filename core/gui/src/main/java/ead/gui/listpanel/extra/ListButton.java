@@ -37,17 +37,12 @@
 
 package ead.gui.listpanel.extra;
 
-import java.awt.Insets;
-import java.io.IOException;
-import java.io.InputStream;
-
-import javax.imageio.ImageIO;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-
 import ead.gui.CommonGUIMessages;
 import ead.gui.R;
 import ead.utils.i18n.Resource;
+import java.awt.Insets;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
 
 public class ListButton extends JButton {
 
@@ -79,16 +74,11 @@ public class ListButton extends JButton {
 
 	public String getToolTip(Type type) {
 		switch(type) {
-		case ADD:
-			return CommonGUIMessages.add_new;
-		case DELETE:
-			return CommonGUIMessages.delete;
-		case MOVE_UP:
-			return CommonGUIMessages.move_up;
-		case MOVE_DOWN:
-			return CommonGUIMessages.move_down;
-		case DUPLICATE:
-			return CommonGUIMessages.duplicate;
+            case ADD:   	return CommonGUIMessages.add_new;
+            case DELETE:	return CommonGUIMessages.delete;
+            case MOVE_UP:	return CommonGUIMessages.move_up;
+            case MOVE_DOWN:	return CommonGUIMessages.move_down;
+            case DUPLICATE:	return CommonGUIMessages.duplicate;
 		}
 		return null;
 	}

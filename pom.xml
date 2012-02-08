@@ -8,7 +8,7 @@
 	<prerequisites>
 		<maven>2.2.0</maven>
 	</prerequisites>
-	<!-- ===================================================================== -->
+    <!-- ===================================================================== -->
 	<!-- PROJECT INFO -->
 	<!-- ===================================================================== -->
 	<name>e-Adventure Platform</name>
@@ -161,39 +161,40 @@
 				</plugins>
 			</build>
 		</profile>
-                <profile>
-                    <id>noTest</id>
-                    <activation>
-                            <activeByDefault>true</activeByDefault>
-                    </activation>
-                    <modules>
-                            <module>build-tools</module>
-                            <module>core/utils</module>
-                            <module>core/common</module>
-                            <module>core/gui</module>
-                            <module>core/editor-core</module>
-                            <module>core/editor-plugins</module>
-                            <module>core/engine-core</module>
-                            <module>core/engine-java</module>
-                            <module>core/engine-playn</module>
-                            <module>core/engine-html5</module>
-                            <module>core/engine-plugins</module>
-                            <module>core/engine-desktop</module>
-                            <module>core/engine-applet</module>
-                            <module>core/engine-android</module>
-                            <module>core/model</module>
-                            <module>etc/test-suite</module>
-                    </modules>                    
-                    <properties>                        
-                        <maven.test.skip>true</maven.test.skip>
-                    </properties>
-                </profile>
+        <profile>
+            <id>noTest</id>
+            <activation>
+                    <activeByDefault>true</activeByDefault>
+            </activation>
+            <modules>
+                    <module>build-tools</module>
+                    <module>core/utils</module>
+                    <module>core/common</module>
+                    <module>core/gui</module>
+                    <module>core/editor-core</module>
+                    <module>core/editor-plugins</module>
+                    <module>core/engine-core</module>
+                    <module>core/engine-java</module>
+                    <module>core/engine-playn</module>
+                    <module>core/engine-html5</module>
+                    <module>core/engine-plugins</module>
+                    <module>core/engine-desktop</module>
+                    <module>core/engine-applet</module>
+                    <module>core/engine-android</module>
+                    <module>core/model</module>
+                    <module>etc/test-suite</module>
+            </modules>
+            <properties>
+                <maven.test.skip>true</maven.test.skip>
+            </properties>
+        </profile>
 	</profiles>
 	<!-- ====================================================================== -->
 	<!-- B U I L D -->
 	<!-- ====================================================================== -->
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>${project.build.sourceEncoding}</project.reporting.outputEncoding>
 		<compile.source>1.6</compile.source>
 		<compile.target>1.6</compile.target>
 		<slf4j.version>1.6.1</slf4j.version>
@@ -302,18 +303,17 @@
 				<inherited>false</inherited>
 				<groupId>com.mycila.maven-license-plugin</groupId>
 				<artifactId>maven-license-plugin</artifactId>
-				<version>1.8.0</version>
 				<configuration>
-					<header>${basedir}/etc/LICENSE.TXT</header>
-					<failIfMissing>false</failIfMissing>
+					<header>${basedir}/etc/LICENSE.txt</header>
+					<failIfMissing>true</failIfMissing>
 					<aggregate>true</aggregate>
 					<excludes>
-						<exclude>**/*.TXT</exclude>
-						<exclude>**/*.txt</exclude>
-						<exclude>**/src/test/resources/**</exclude>
-						<exclude>**/src/test/data/**</exclude>
-						<exclude>**/*.XML</exclude>
+						<exclude>*.*</exclude>
+						<exclude>**/.*</exclude>
+                        <exclude>**/*.txt</exclude>
 						<exclude>**/*.xml</exclude>
+						<exclude>**/*.properties</exclude>
+						<exclude>**/resources/**</exclude>
 					</excludes>
 				</configuration>
 				<executions>
@@ -334,9 +334,9 @@
 				</executions>
 			</plugin>
 		</plugins>
-		<!-- Plugin Management contains plugin elements in much the same way, except 
-			that rather than configuring plugin information for this particular project 
-			build, it is intended to configure project builds that inherit from this 
+		<!-- Plugin Management contains plugin elements in much the same way, except
+			that rather than configuring plugin information for this particular project
+			build, it is intended to configure project builds that inherit from this
 			one. -->
 		<pluginManagement>
 			<!-- Set versions of common plugins for reproducibility, ordered alphabetically -->
@@ -481,7 +481,7 @@
 					<artifactId>taglist-maven-plugin</artifactId>
 					<version>2.4</version>
 				</plugin>
-				<!-- Aggregate results from Checkstyle, Cobertura, Clover, Surefire, 
+				<!-- Aggregate results from Checkstyle, Cobertura, Clover, Surefire,
 					PMD, CPD, FindBugs, Taglist reports. -->
 				<plugin>
 					<groupId>org.codehaus.mojo</groupId>
@@ -566,9 +566,9 @@
 				<artifactId>maven-surefire-report-plugin</artifactId>
 				<version>2.8</version>
 			</plugin>
-			<!-- Currently Apache RAT maven plugin is in incubation phase and there 
+			<!-- Currently Apache RAT maven plugin is in incubation phase and there
 				is no build in Apache Maven Plugins Snapshots Repository -->
-			<!--plugin> <groupId>org.apache.rat</groupId> <artifactId>apache-rat-plugin</artifactId> 
+			<!--plugin> <groupId>org.apache.rat</groupId> <artifactId>apache-rat-plugin</artifactId>
 				</plugin -->
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
@@ -741,7 +741,7 @@
 				<version>1.8.1</version>
 				<scope>test</scope>
 			</dependency>
-			<!--dependency> <groupId>org.mockito</groupId> <artifactId>mockito-all</artifactId> 
+			<!--dependency> <groupId>org.mockito</groupId> <artifactId>mockito-all</artifactId>
 				<version>1.8.1</version> <scope>test</scope> </dependency -->
 			<dependency>
 				<groupId>org.jmock</groupId>

@@ -37,9 +37,6 @@
 
 package ead.engine.core.platform.extra;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import com.google.inject.AbstractModule;
 import com.google.inject.Provides;
 import com.google.inject.Singleton;
@@ -78,6 +75,8 @@ import ead.engine.core.platform.assets.RuntimeDisplacedDrawable;
 import ead.engine.core.platform.assets.RuntimeFilteredDrawable;
 import ead.engine.core.platform.assets.sound.DesktopSound;
 import ead.engine.core.platform.specialassetrenderers.DesktopVideoRenderer;
+import java.util.HashMap;
+import java.util.Map;
 
 public class DesktopAssetHandlerModule extends AbstractModule {
 
@@ -98,7 +97,7 @@ public class DesktopAssetHandlerModule extends AbstractModule {
 	Map<Class<? extends AssetDescriptor>, Class<? extends RuntimeAsset<? extends AssetDescriptor>>> provideMap() {
 
 		Map map = new HashMap();
-		
+
 		map.put(ImageImpl.class, DesktopEngineImage.class);
 		map.put(Caption.class, RuntimeCaption.class);
 		map.put(CaptionImpl.class, RuntimeCaption.class);
@@ -116,5 +115,4 @@ public class DesktopAssetHandlerModule extends AbstractModule {
 
 		return (Map<Class<? extends AssetDescriptor>, Class<? extends RuntimeAsset<? extends AssetDescriptor>>>)map;
 	}
-
 }

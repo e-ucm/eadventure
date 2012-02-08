@@ -80,15 +80,15 @@ public class PreviewPanelComponentProvider implements ComponentProvider<PreviewP
 
 	@SuppressWarnings("unused")
 	private CommandManager commandManager;
-	
+
 	private Game game;
-	
+
 	private GameState gameState;
-	
+
 	private DesktopEditorGUI gui;
-	
+
 	private EngineConfiguration conf;
-	
+
 	public PreviewPanelComponentProvider(CommandManager commandManager) {
 		this.commandManager = commandManager;
 		Injector injector = Guice.createInjector(new DesktopAssetHandlerModule(),
@@ -105,23 +105,23 @@ public class PreviewPanelComponentProvider implements ComponentProvider<PreviewP
 
 		gui = (DesktopEditorGUI) injector.getInstance(GUI.class);
 		conf = injector.getInstance(EngineConfiguration.class);
-		
+
 		EAdScene scene = new EmptyScene();
-		
+
 		c.getScenes().add(scene);
 		c.setInitialScene(scene);
 
 		game = injector.getInstance(Game.class);
 		game.setGame(model, model.getChapters().get(0));
 		gameState = injector.getInstance(GameState.class);
-		
+
 		new Thread(new Runnable() {
 
 			@Override
 			public void run() {
 				launcher.launch(null);
 			}
-			
+
 		}).start();
 	}
 
@@ -132,25 +132,25 @@ public class PreviewPanelComponentProvider implements ComponentProvider<PreviewP
 			panel = gui.getPanel();
 			Thread.yield();
 		} while (panel == null);
-		
+
 		ChangeSceneEf changeScene = new ChangeSceneEf();
 		//TODO will need to clear scene stack...
 		changeScene.setNextScene(new EditionScene(element.getScene()));
 		gameState.addEffect(changeScene);
-		
+
 		EAdScrollPane pane = new EAdScrollPane(panel, EAdScrollPane.VERTICAL_SCROLLBAR_ALWAYS, EAdScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
 		//pane.setMinimumSize(new Dimension(200, 150));
-		
+
 		JPanel mainPanel = new JPanel();
 		mainPanel.setLayout(new BorderLayout());
 		mainPanel.add(pane, BorderLayout.CENTER);
-		
+
 		JPanel zoomPanel = new JPanel();
 		zoomPanel.setLayout(new GridLayout(1,0));
 		JButton zoom = new JButton("zoom +");
 		zoomPanel.add(zoom);
 		zoom.addActionListener(new ZoomAction(panel, + 1, pane, conf, game));
-		
+
 		JButton zoom2 = new JButton("zoom -");
 		zoomPanel.add(zoom2);
 		zoom2.addActionListener(new ZoomAction(panel, - 1, pane, conf, game));
@@ -160,17 +160,17 @@ public class PreviewPanelComponentProvider implements ComponentProvider<PreviewP
 	}
 
 	private static class ZoomAction implements ActionListener {
-		
+
 		private JPanel panel;
-		
+
 		private int sign;
-		
+
 		private EngineConfiguration conf;
 
 		private EAdScrollPane pane;
-		
+
 		private Game game;
-		
+
 		public ZoomAction(JPanel panel2, int sign, EAdScrollPane pane, EngineConfiguration conf, Game game ) {
 			panel = panel2;
 			this.pane = pane;
@@ -193,10 +193,5 @@ public class PreviewPanelComponentProvider implements ComponentProvider<PreviewP
 				pane.getViewport().setView(panel);
 			}
 		}
-
 	}
-
-
-	
-	
 }

@@ -37,22 +37,19 @@
 
 package ead.editor.view.impl;
 
-import java.awt.Cursor;
-import java.awt.Graphics;
-import java.awt.Toolkit;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.image.BufferedImage;
-import java.io.IOException;
-import java.util.logging.Logger;
-
-import javax.imageio.ImageIO;
-import javax.swing.JDialog;
-
 import ead.editor.R;
 import ead.editor.view.SplashScreen;
 import ead.utils.i18n.Resource;
 import ead.utils.swing.SwingUtilities;
+import java.awt.Cursor;
+import java.awt.Dimension;
+import java.awt.Graphics;
+import java.awt.Image;
+import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.logging.Logger;
+import javax.swing.JDialog;
 
 /**
  * Default implementation of the eAdventure editor splash screen.
@@ -72,7 +69,7 @@ public class SplashScreenImpl implements SplashScreen {
 	/**
 	 * The background image of the dialog
 	 */
-	protected BufferedImage image;
+	protected Image image;
 
 	/**
 	 * The time at which the splash screen appeared
@@ -88,11 +85,7 @@ public class SplashScreenImpl implements SplashScreen {
 	public void show() {
 		logger.info("Showing Splash-screen");
 
-		try {
-			image = Resource.load(R.Drawable.SplashScreenLogo_png);
-		} catch (IOException e) {
-            logger.warning("Error loading image");
-        }
+        image = Resource.loadImage(R.Drawable.SplashScreenLogo_png);
 
 		SwingUtilities.doInEDTNow(new Runnable() {
 			@Override
@@ -105,8 +98,9 @@ public class SplashScreenImpl implements SplashScreen {
 		        splashScreenDialog.setSize( width, height );
 		        splashScreenDialog.setResizable( false );
 
-		        double screenWidth = Toolkit.getDefaultToolkit( ).getScreenSize( ).getWidth( );
-		        double screenHeight = Toolkit.getDefaultToolkit( ).getScreenSize( ).getHeight( );
+                Dimension screenSize = Toolkit.getDefaultToolkit( ).getScreenSize( );
+		        double screenWidth = screenSize.getWidth( );
+		        double screenHeight = screenSize.getHeight( );
 		        int locX = Math.round( ( (int) screenWidth - width ) / 2.0f );
 		        int locY = Math.round( ( (int) screenHeight - height ) / 2.0f );
 		        splashScreenDialog.setLocation( locX, locY );
