@@ -96,7 +96,7 @@ public class DesktopAssetHandler extends JavaAbstractAssetHandler {
 	@Inject
 	public DesktopAssetHandler(
 			Injector injector,
-			Map<Class<? extends AssetDescriptor>, Class<? extends RuntimeAsset<?>>> classMap, FontHandler fontHandler) {
+			Map<Class<? extends AssetDescriptor>, Class<? extends RuntimeAsset<? extends AssetDescriptor>>> classMap, FontHandler fontHandler) {
 		super(injector, classMap, fontHandler);
 		fileMap = new HashMap<String, File>();
 		logger.info("New instance");

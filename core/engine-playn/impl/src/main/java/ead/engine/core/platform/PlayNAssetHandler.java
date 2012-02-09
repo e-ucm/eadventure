@@ -77,7 +77,7 @@ public class PlayNAssetHandler extends AbstractAssetHandler {
 
 	@Inject
 	public PlayNAssetHandler(
-			Map<Class<? extends AssetDescriptor>, Class<? extends RuntimeAsset<?>>> classMap,
+			Map<Class<? extends AssetDescriptor>, Class<? extends RuntimeAsset<? extends AssetDescriptor>>> classMap,
 			FontHandler fontCache, VariableMap valueMap,
 			StringHandler stringHandler) {
 		super(classMap, fontCache);
@@ -105,7 +105,6 @@ public class PlayNAssetHandler extends AbstractAssetHandler {
 		return uri.replaceAll("@", "eadengine/");
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
 	public RuntimeAsset<?> getInstance(Class<? extends RuntimeAsset<?>> clazz) {
 		

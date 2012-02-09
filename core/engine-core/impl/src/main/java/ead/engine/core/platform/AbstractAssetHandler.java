@@ -82,7 +82,7 @@ public abstract class AbstractAssetHandler implements AssetHandler {
 	 * A class map of the asset descriptor classes and their corresponding
 	 * runtime assets
 	 */
-	private Map<Class<? extends AssetDescriptor>, Class<? extends RuntimeAsset<?>>> classMap;
+	private Map<Class<? extends AssetDescriptor>, Class<? extends RuntimeAsset<? extends AssetDescriptor>>> classMap;
 
 	private boolean loaded = false;
 
@@ -101,7 +101,7 @@ public abstract class AbstractAssetHandler implements AssetHandler {
 	 */
 	@Inject
 	public AbstractAssetHandler(
-			Map<Class<? extends AssetDescriptor>, Class<? extends RuntimeAsset<?>>> classMap,
+			Map<Class<? extends AssetDescriptor>, Class<? extends RuntimeAsset<? extends AssetDescriptor>>> classMap,
 			FontHandler fontHandler) {
 		this.classMap = classMap;
 		cache = new HashMap<AssetDescriptor, RuntimeAsset<?>>();
