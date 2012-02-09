@@ -40,6 +40,7 @@ package ead.engine.core;
 import java.util.logging.Logger;
 
 import com.google.inject.Inject;
+import com.google.inject.Singleton;
 
 import ead.engine.core.game.Game;
 import ead.engine.core.game.GameLoop;
@@ -59,6 +60,7 @@ import ead.engine.core.game.GameProfiler;
  * >XNA framework time handling</a>.</li>
  * </ul>
  */
+@Singleton
 public class GameLoopImpl implements GameLoop {
 
 	private static final Logger logger = Logger.getLogger("GameLoopImpl");
@@ -81,9 +83,12 @@ public class GameLoopImpl implements GameLoop {
 
 	private GameProfiler gameProfiler;
 
+	private boolean game_is_running;
+
 	@Inject
 	public GameLoopImpl(GameProfiler gameProfiler) {
 		this.gameProfiler = gameProfiler;
+		game_is_running = true;
 	}
 
 	/*
@@ -113,7 +118,7 @@ public class GameLoopImpl implements GameLoop {
 
 		float interpolation;
 
-		boolean game_is_running = true;
+
 
 		gameProfiler.setPrevStatsTime(System.nanoTime());
 
@@ -178,5 +183,16 @@ public class GameLoopImpl implements GameLoop {
 	@Override
 	public void resume() {
 		// TODO implement the pause mechanism
+	}
+
+	@Override
+	public void stop() {
+		this.game_is_running = false;
+		
+	}
+
+	@Override
+	public boolean isRunning() {
+		return game_is_running;
 	}
 }

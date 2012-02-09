@@ -60,6 +60,7 @@ public class GWTReader {
 	private String xml;
 
 	public void readXML(String fileName, final Game game) {
+		logger.info("Reading " + fileName);
 		RequestBuilder requestBuilder = new RequestBuilder(RequestBuilder.GET,
 				fileName);
 
@@ -67,13 +68,16 @@ public class GWTReader {
 			requestBuilder.sendRequest(null, new RequestCallback() {
 				public void onError(Request request, Throwable exception) {
 					// throw exception;
+					logger.info("Error: " + exception);
 				}
 
 				public void onResponseReceived(Request request,
 						Response response) {
 					xml = response.getText();
+					logger.info("Parsing XML...");
 					Document doc = XMLParser.parse(xml);
-
+					logger.info("Parsed.");
+					logger.info("Building the game.");
 					ElementNodeVisitor env = new ElementNodeVisitor();
 					NodeVisitor.init(doc.getFirstChild().getAttributes()
 							.getNamedItem(DOMTags.PACKAGE_AT).getNodeValue());
@@ -81,8 +85,15 @@ public class GWTReader {
 					EAdAdventureModelImpl data = (EAdAdventureModelImpl) env
 							.visit(doc.getFirstChild().getFirstChild(), null,
 									null, null);
-					data.getDepthControlList().clear();
-
+					
+					logger.info("Built.");
+					
+					if (data == null)
+						logger.info("Data is null");
+					else{
+						data.getDepthControlList().clear();
+						logger.info("Setting the game");
+					}
 					game.setGame(data, data.getChapters().get(0));
 				}
 			});

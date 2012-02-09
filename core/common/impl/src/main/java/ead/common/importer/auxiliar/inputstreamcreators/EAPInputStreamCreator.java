@@ -35,29 +35,53 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ead.elementfactories.demos.scenes;
+package ead.common.importer.auxiliar.inputstreamcreators;
 
-import ead.common.model.elements.VideoScene;
-import ead.common.resources.assets.multimedia.Video;
-import ead.common.resources.assets.multimedia.VideoImpl;
-import ead.elementfactories.demos.SceneDemo;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
+import java.net.MalformedURLException;
+import java.net.URL;
 
-public class VideoSceneImpl extends VideoScene implements SceneDemo {
+import es.eucm.eadventure.common.loader.InputStreamCreator;
 
-	public VideoSceneImpl() {
-		super();
-		setId("videoScene");
-		Video video = new VideoImpl("@binary/bbb_trailer_360p.webm");
-		getDefinition().getResources().addAsset(VideoScene.video, video);
+public class EAPInputStreamCreator implements InputStreamCreator {
+
+	private String absolutePath;
+	
+	public void setFile( String file ){
+		this.absolutePath = file;
 	}
 
 	@Override
-	public String getSceneDescription() {
-		return "A scene showing a video";
+	public InputStream buildInputStream( String filePath ) {
+		try {
+			return new FileInputStream( new File( absolutePath, filePath ) );
+		}
+		catch ( FileNotFoundException e ) {
+			return null;
+		}
 	}
 
-	public String getDemoName() {
-		return "Video Scene";
+	@Override
+	public URL buildURL( String path ) {
+		try {
+			return new File( absolutePath, path ).toURI( ).toURL( );
+		}
+		catch ( MalformedURLException e ) {
+			return null;
+		}
+	}
+
+	@Override
+	public String[] listNames( String filePath ) {
+		File dir = new File( absolutePath, filePath );
+		if ( dir.exists( ) && dir.isDirectory( ) )
+			return dir.list( );
+		else
+			return new String[0];
+
 	}
 
 }

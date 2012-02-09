@@ -37,19 +37,31 @@
 
 package ead.common.importer;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.OutputStream;
 import java.util.ArrayList;
+import java.util.Map;
+import java.util.Properties;
+import java.util.Random;
 import java.util.logging.Logger;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipOutputStream;
 
 import com.google.inject.Inject;
 
 import ead.common.EAdElementImporter;
+import ead.common.ProjectFiles;
 import ead.common.StringFileHandler;
+import ead.common.importer.auxiliar.inputstreamcreators.ImporterInputStreamCreator;
 import ead.common.importer.interfaces.ResourceImporter;
 import ead.common.model.elements.EAdAdventureModel;
+import ead.common.params.text.EAdString;
 import ead.common.resources.StringHandler;
 import ead.common.writer.EAdAdventureModelWriter;
 import es.eucm.eadventure.common.data.adventure.AdventureData;
@@ -73,6 +85,14 @@ public class EAdventure1XImporter {
 
 	private StringFileHandler stringFileHandler;
 
+	private Random rand = new Random();
+
+	private String destinyFile;
+	
+	private int progress;
+	
+	private String progressText;
+
 	private static final Logger logger = Logger.getLogger("EAdventureImporter");
 
 	@Inject
@@ -91,33 +111,75 @@ public class EAdventure1XImporter {
 	/**
 	 * Imports and old game form 1.x version
 	 * 
+	 * @param eadFile
+	 *            original ead file
 	 * @param destiny
-	 *            Folder path where the import project will be stored
+	 *            File where the import project will be stored. If {@code null},
+	 *            import project won't be saved
 	 * @return An {@link EAdventureModel} complete with all game information
 	 */
-	public EAdAdventureModel importGame(String destiny) {
+	public EAdAdventureModel importGame(String eadFile, String destiny) {
+		progress = 0;
+		progressText = "Starting importer...";
+		stringsHandler.getStrings().clear();
+		((ImporterInputStreamCreator) inputStreamCreator).setFile(eadFile);
+		progress = 10;
+		progressText = "Loading old game...";
 		AdventureData adventureData = loadGame();
 
 		if (adventureData == null) {
 			return null;
 		}
 
-		resourceImporter.setPath(destiny);
+		progress = 40;
+		progressText = "Creating temporary files...";
+		// Temp folder to use during importation
+		String tempFolder = System.getProperty("java.io.tmpdir");
+		File tmpDir = new File(tempFolder + File.separator + "eAdventureTemp"
+				+ rand.nextInt());
+		if (tmpDir.exists() == false) {
+			tmpDir.mkdir();
+		}
+		tmpDir.deleteOnExit();
+
+		progress = 50;
+		progressText = "Creating temporary files...";
+		resourceImporter.setPath(tmpDir.getAbsolutePath());
+		destinyFile = tmpDir.getAbsolutePath();
 
 		EAdAdventureModel model = adventureImporter.init(adventureData);
 		model = adventureImporter.convert(adventureData, model);
 
+		if (destiny != null) {
+			progress = 90;
+			progressText = "Creating " + destiny;
+			createGameFile(model, tmpDir.getAbsolutePath(), destiny);
+		}
+		
+		progress = 100;
+		progressText = "Done";
+
+		return model;
+
+	}
+
+	private void createGameFile(EAdAdventureModel model, String path,
+			String destiny) {
+
+		// FIXME file names should be somewhere else as constants
+
+		// Create data.xml
 		EAdAdventureModelWriter writer = new EAdAdventureModelWriter();
 
 		try {
-			OutputStream os = new FileOutputStream(
-					new File(destiny, "data.xml"));
+			OutputStream os = new FileOutputStream(new File(path, ProjectFiles.DATA_FILE));
 			writer.write(model, os);
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
 
-		File f = new File(destiny, "strings.xml");
+		// Create strings.xml
+		File f = new File(path, ProjectFiles.STRINGS_FILE);
 
 		try {
 			stringFileHandler.write(new FileOutputStream(f),
@@ -125,7 +187,65 @@ public class EAdventure1XImporter {
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
-		return model;
+
+		// ead.properties
+		File propertiesFile = new File(path, ProjectFiles.PROPERTIES_FILE);
+		Properties properties = new Properties();
+		properties.setProperty("targetEngine", "ead-200");
+
+		try {
+			FileOutputStream output = new FileOutputStream(propertiesFile);
+			properties.store(output, "Importe version");
+		} catch (FileNotFoundException e1) {
+			e1.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		// Create zip file
+		try {
+			String fileName = destiny.endsWith(".ead") ? destiny : destiny
+					+ ".ead";
+			File outFolder = new File(fileName);
+
+			ZipOutputStream out = new ZipOutputStream(new BufferedOutputStream(
+					new FileOutputStream(outFolder)));
+
+			addFolderToZip(out, new File(path), false);
+			out.flush();
+			out.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+	}
+
+	public void addFolderToZip(ZipOutputStream zip, File folder, boolean addPath) {
+		BufferedInputStream in = null;
+		byte[] data = new byte[1000];
+		File files[] = folder.listFiles();
+		for (File f : files) {
+			try {
+				if (f.isDirectory()) {
+					addFolderToZip(zip, f, true);
+				} else {
+					String entryName = (addPath ? f.getParentFile().getName()
+							+ "/" : "")
+							+ f.getName();
+
+					zip.putNextEntry(new ZipEntry(entryName));
+
+					in = new BufferedInputStream(new FileInputStream(f), 1000);
+					int count;
+					while ((count = in.read(data, 0, 1000)) != -1) {
+						zip.write(data, 0, count);
+					}
+					zip.closeEntry();
+				}
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
 
 	}
 
@@ -146,6 +266,26 @@ public class EAdventure1XImporter {
 			logger.info(i.getMessage());
 		}
 		return data;
+	}
+
+	public String getDestinyFile() {
+		return destinyFile;
+	}
+
+	public Map<EAdString, String> getStrings() {
+		return stringsHandler.getStrings();
+	}
+	
+	/**
+	 * Return the progress of the importer (between 0 and 100)
+	 * @return
+	 */
+	public int getProgress( ){
+		return progress;
+	}
+	
+	public String getProgressText( ){
+		return progressText;
 	}
 
 }

@@ -91,6 +91,10 @@ public class PlayNVideoRenderer implements SpecialAssetRenderer<Video, Widget> {
 	public Widget getComponent(Video asset) {
 		String path = assetHandler.getAbsolutePath(asset.getUri().getPath());
 		// TODO Last parameter should be a capture of the vide
+		
+		if ( path.endsWith(".avi")){
+			path = path.substring(0, path.length() - 3 ) + "webm";
+		}
 		videoWidget = new VideoWidget(true, false, "");
 		List<VideoSource> sources = new ArrayList<VideoSource>();
 		logger.info("New video widget: " + path);
@@ -111,5 +115,12 @@ public class PlayNVideoRenderer implements SpecialAssetRenderer<Video, Widget> {
 	@Override
 	public boolean start() {
 		return true;
+	}
+
+	@Override
+	public void reset() {
+		if ( videoWidget.isEnded() ){
+			videoWidget.setCurrentTime(0);
+		}	
 	}
 }

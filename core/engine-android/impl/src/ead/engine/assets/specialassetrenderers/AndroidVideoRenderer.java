@@ -89,4 +89,9 @@ public class AndroidVideoRenderer implements SpecialAssetRenderer<Video, Object>
 		return true;
 	}
 
+	@Override
+	public void reset() {
+		finished = false;	
+	}
+
 }

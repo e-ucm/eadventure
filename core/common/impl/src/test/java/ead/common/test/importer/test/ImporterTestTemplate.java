@@ -56,7 +56,7 @@ import ead.common.test.CommonTestModule;
 public abstract class ImporterTestTemplate<OldType, NewType extends EAdElement> {
 
 	public static final Injector INJECTOR = Guice
-			.createInjector(new ImporterConfigurationModule("project.eap"), new CommonTestModule());
+			.createInjector(new ImporterConfigurationModule(), new CommonTestModule());
 
 	protected EAdElementImporter<OldType, NewType> importer;
 	protected List<OldType> oldObjects;
