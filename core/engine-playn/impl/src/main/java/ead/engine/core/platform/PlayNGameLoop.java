@@ -64,4 +64,16 @@ public class PlayNGameLoop implements GameLoop {
 
 	}
 
+	@Override
+	public void stop() {
+		
+		
+	}
+
+	@Override
+	public boolean isRunning() {
+		
+		return true;
+	}
+
 }

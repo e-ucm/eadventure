@@ -37,6 +37,8 @@
 
 package ead.engine.core.gameobjects.events;
 
+import java.util.logging.Logger;
+
 import com.google.inject.Inject;
 
 import ead.common.model.elements.events.SystemEv;
@@ -48,6 +50,8 @@ import ead.engine.core.platform.AssetHandler;
 public class SystemEvGO extends AbstractEventGO<SystemEv> {
 
 	private boolean triggered = false;
+	
+	private Logger logger = Logger.getLogger("SystemEvGO");
 
 	private AssetHandler assetHandler;
 
@@ -63,6 +67,7 @@ public class SystemEvGO extends AbstractEventGO<SystemEv> {
 	@Override
 	public void update() {
 		// TODO probably not enough to just check for assets loaded
+		logger.info("Checking if the game is loaded...");
 		if (assetHandler.isLoaded() && game.getAdventureModel() != null && !triggered) {
 			runEffects(element.getEffectsForEvent(SystemEventType.GAME_LOADED));
 			triggered = true;

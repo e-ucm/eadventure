@@ -35,7 +35,7 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ead.engine.core.platform.test.launcher;
+package ead.engine;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -100,7 +100,7 @@ import ead.engine.core.test.launcher.BaseTestLauncher;
  * Base class for desktop's launchers
  * 
  */
-public class DesktopDemos extends BaseTestLauncher {
+public class DesktopEAdEngine extends BaseTestLauncher {
 
 	protected static JComboBox comboBox;
 
@@ -117,7 +117,7 @@ public class DesktopDemos extends BaseTestLauncher {
 
 	protected static JCheckBox fieldsDebugger;
 
-	public DesktopDemos(Injector injector, EAdAdventureModel model,
+	public DesktopEAdEngine(Injector injector, EAdAdventureModel model,
 			Map<EAdString, String> strings) {
 		super(injector, model, strings);
 		System.setProperty("com.apple.mrj.application.apple.menu.about.name",
@@ -125,6 +125,12 @@ public class DesktopDemos extends BaseTestLauncher {
 	}
 
 	public static void main(String args[]) {
+		try {
+			javax.swing.UIManager.setLookAndFeel(javax.swing.UIManager
+					.getSystemLookAndFeelClassName());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		JFrame frame = new SceneDemosFrame();
 		frame.setVisible(true);
 	}
@@ -244,7 +250,7 @@ public class DesktopDemos extends BaseTestLauncher {
 
 		@Override
 		public void actionPerformed(ActionEvent arg0) {
-			new Thread() {
+			Thread t = new Thread() {
 				public void run() {
 					Dimension d = (Dimension) comboBox.getSelectedItem();
 					EAdScene scene = (EAdScene) list.getSelectedValue();
@@ -279,7 +285,7 @@ public class DesktopDemos extends BaseTestLauncher {
 							EngineConfiguration conf = injector
 									.getInstance(EngineConfiguration.class);
 							conf.setSize(d.width, d.height);
-							new DesktopDemos(injector, model,
+							new DesktopEAdEngine(injector, model,
 									EAdElementsFactory.getInstance()
 											.getStringFactory().getStrings())
 									.start();
@@ -294,13 +300,14 @@ public class DesktopDemos extends BaseTestLauncher {
 						Injector injector = createNewInjector();
 						injector.getInstance(EngineConfiguration.class)
 								.setSize(d.width, d.height);
-						new DesktopDemos(injector, model, EAdElementsFactory
-								.getInstance().getStringFactory().getStrings())
+						new DesktopEAdEngine(injector, model,
+								EAdElementsFactory.getInstance()
+										.getStringFactory().getStrings())
 								.start();
 					}
 				}
-			}.start();
-
+			};
+			t.start();
 		}
 	}
 
@@ -361,7 +368,7 @@ public class DesktopDemos extends BaseTestLauncher {
 								"strings.xml");
 						if (f.exists()) {
 							DefaultStringFileHandler stringsFileHandler = new DefaultStringFileHandler();
-							new DesktopDemos(injector, model,
+							new DesktopEAdEngine(injector, model,
 									stringsFileHandler
 											.read(new FileInputStream(f)))
 									.start();
@@ -412,8 +419,7 @@ public class DesktopDemos extends BaseTestLauncher {
 						String projectName = f.getName();
 
 						Injector injector = Guice.createInjector(
-								new ImporterConfigurationModule(folder + "/"
-										+ projectName),
+								new ImporterConfigurationModule(),
 								new DesktopAssetHandlerModule(),
 								new DesktopModule(), new BasicGameModule());
 						EAdventure1XImporter importer = injector
@@ -433,7 +439,8 @@ public class DesktopDemos extends BaseTestLauncher {
 						dialog.getContentPane().add(label, BorderLayout.CENTER);
 						dialog.setVisible(true);
 						EAdAdventureModel model = importer.importGame(folder
-								+ "/" + projectName + "Imported");
+								+ "/" + projectName, folder + "/" + projectName
+								+ "Imported");
 
 						if (checkBox.isSelected()) {
 

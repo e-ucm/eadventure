@@ -70,10 +70,6 @@ import ead.common.reader.visitors.NodeVisitor;
 public class EAdAdventureDOMModelReader implements Reader<EAdAdventureModel> {
 	
 	private static final Logger logger = Logger.getLogger("EAdReader");
-		
-	@Inject
-	public EAdAdventureDOMModelReader() {
-	}
 	
 	@Override
 	public EAdAdventureModel read(URI fileURI) {

@@ -235,13 +235,16 @@ public class GameImpl implements Game {
 
 	@Override
 	public void setGame(EAdAdventureModel model, EAdChapter eAdChapter) {
+		logger.info("Setting the game");
 		gameState.getValueMap().setValue(SystemFields.GAME_WIDTH,
 				model.getGameWidth());
 		gameState.getValueMap().setValue(SystemFields.GAME_HEIGHT,
 				model.getGameHeight());
 
 		this.adventure = model;
+		
 		if (adventure.getInventory() != null) {
+			logger.info("Building inventory...");
 			for (EAdSceneElementDef def : adventure.getInventory()
 					.getInitialItems())
 				inventoryHandler.add(def);
@@ -249,6 +252,7 @@ public class GameImpl implements Game {
 		}
 		gameState.setCurrentChapter(eAdChapter);
 
+		logger.info("Init game events...");
 		events.clear();
 		for (EAdEvent e : eAdChapter.getEvents()) {
 			EventGO<?> eventGO = eventFactory.get(e);

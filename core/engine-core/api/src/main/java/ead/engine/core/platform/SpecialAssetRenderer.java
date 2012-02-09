@@ -67,4 +67,9 @@ public interface SpecialAssetRenderer<S, T> {
 	 */
 	boolean start();
 
+	/**
+	 * Resets the special asset renderer
+	 */
+	void reset();
+
 }
