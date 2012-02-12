@@ -38,7 +38,6 @@
 package ead.common.reader.visitors;
 
 import java.lang.reflect.Field;
-import java.util.logging.Level;
 
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -49,22 +48,27 @@ import ead.common.model.elements.extra.EAdListImpl;
 import ead.common.reader.ProxyElement;
 import ead.common.reader.extra.ObjectFactory;
 import ead.common.util.EAdPosition;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class ListNodeVisitor extends NodeVisitor<EAdList<Object>> {
+
+    private static final Logger logger = LoggerFactory.getLogger("NodeVisitor");
+
 
 	@Override
 	public EAdList<Object> visit(Node node, Field field, Object parent, Class<?> listClass) {
 		NodeList nl = node.getChildNodes();
-		
+
 		EAdList<Object> list = null;
-		
+
 		if (field == null || parent == null) {
 			list = createNewList(node);
 		} else {
 			list = getListFromParent(field, parent);
 			list.clear();
 		}
-		
+
 		//TODO do for more tyes?
 		if (list.getValueClass() == Integer.class ||
 				list.getValueClass() == Float.class ||
@@ -72,7 +76,7 @@ public class ListNodeVisitor extends NodeVisitor<EAdList<Object>> {
 			String value = node.getTextContent();
 			if (value != null && !value.equals("")) {
 				String[] values = value.split("\\|");
-				for (int i = 0; i < values.length; i++) 
+				for (int i = 0; i < values.length; i++)
 					list.add(ObjectFactory.getObject(values[i], list.getValueClass()));
 			}
 		} else {
@@ -84,18 +88,18 @@ public class ListNodeVisitor extends NodeVisitor<EAdList<Object>> {
 				if (object instanceof ProxyElement) {
 					((ProxyElement) object).setList(list, i);
 				}
-				
+
 				list.add(object);
 			}
 		}
 		return list;
 	}
-	
+
 	private EAdList<Object> createNewList(Node node) {
 		Node n = node.getAttributes().getNamedItem(DOMTags.CLASS_AT);
 		String clazz = n.getNodeValue();
 		clazz = translateClass(clazz);
-		
+
 		Class<?> c = null;
 		try {
 			c = ClassLoader.getSystemClassLoader().loadClass(clazz);
@@ -113,16 +117,14 @@ public class ListNodeVisitor extends NodeVisitor<EAdList<Object>> {
 		try {
 			field.setAccessible(true);
 			list = (EAdList<Object>) field.get(parent);
-		} catch (IllegalArgumentException e) {
-			logger.log(Level.SEVERE, e.getMessage(), e);
-		} catch (IllegalAccessException e) {
-			logger.log(Level.SEVERE, e.getMessage(), e);
+		} catch (Exception e) {
+			logger.error("Error retrieving parent list", e);
 		} finally {
 			field.setAccessible(accessible);
 		}
 		return list;
 	}
-	
+
 	@Override
 	public String getNodeType() {
 		return DOMTags.LIST_TAG;

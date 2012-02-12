@@ -37,14 +37,14 @@
 
 package ead.engine.extra;
 
-import java.util.logging.Logger;
-
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.view.SurfaceHolder;
 import ead.engine.AndroidGUI;
 import ead.engine.core.platform.EngineConfiguration;
 import ead.engine.core.platform.GUI;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class EAdventureRenderingThread extends Thread {
 
@@ -62,8 +62,9 @@ public class EAdventureRenderingThread extends Thread {
 
 	private static BitmapCanvas aCanvas;
 
-	private static final Logger logger = Logger.getLogger("EAdventureRenderingThread");
-	
+	private static final Logger logger
+            = LoggerFactory.getLogger("EAdventureRenderingThread");
+
     public static boolean paint = false;
 
 	public EAdventureRenderingThread(SurfaceHolder holder, GUI aGUI, EngineConfiguration platformConfiguration) {
@@ -71,7 +72,7 @@ public class EAdventureRenderingThread extends Thread {
 		mDone = false;
 		mSurfaceHolder = holder;
 		this.platformConfiguration = platformConfiguration;
-		gui = (AndroidGUI) aGUI; 
+		gui = (AndroidGUI) aGUI;
 	}
 
 	@Override
@@ -84,8 +85,8 @@ public class EAdventureRenderingThread extends Thread {
 		/*
 		 * This is our main activity thread's loop, we go until
 		 * asked to quit.
-		 */            
-		while (!mDone) {               
+		 */
+		while (!mDone) {
 
 			synchronized (this) {
 
@@ -97,22 +98,22 @@ public class EAdventureRenderingThread extends Thread {
 					}
 				}
 
-				if (mDone) 
+				if (mDone)
 					break;
 
 			}
 
 			if (mHasSurface){
-				
+
 				paint = true;
 
 				Canvas c = null;
-				// Get ready to draw.            
+				// Get ready to draw.
 				try {
-					c = mSurfaceHolder.lockCanvas();					
+					c = mSurfaceHolder.lockCanvas();
 					synchronized (EAdventureRenderingThread.mSurfaceHolder){
-						c.drawBitmap(aCanvas.getBitmap(), 0, 0, null);					
-					}	
+						c.drawBitmap(aCanvas.getBitmap(), 0, 0, null);
+					}
 				}
 				finally {
 					if (c != null) {

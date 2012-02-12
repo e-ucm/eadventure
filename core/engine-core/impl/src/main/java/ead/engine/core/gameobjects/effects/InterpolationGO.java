@@ -37,8 +37,6 @@
 
 package ead.engine.core.gameobjects.effects;
 
-import java.util.logging.Logger;
-
 import com.google.inject.Inject;
 
 import ead.common.model.EAdElement;
@@ -51,11 +49,13 @@ import ead.engine.core.gameobjects.factories.SceneElementGOFactory;
 import ead.engine.core.operator.OperatorFactory;
 import ead.engine.core.platform.AssetHandler;
 import ead.engine.core.platform.GUI;
-import java.util.logging.Level;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class InterpolationGO extends AbstractEffectGO<InterpolationEf> {
 
-	private static final Logger logger = Logger.getLogger("VarInterpolationGO");
+	private static final Logger logger = LoggerFactory.getLogger("VarInterpolationGO");
 
 	private int currentTime;
 
@@ -90,8 +90,8 @@ public class InterpolationGO extends AbstractEffectGO<InterpolationEf> {
 	}
 
 	@Override
-	public void initilize() {
-		super.initilize();
+	public void initialize() {
+		super.initialize();
 		currentTime = 0;
 		loops = 0;
 		reverse = false;
@@ -107,7 +107,7 @@ public class InterpolationGO extends AbstractEffectGO<InterpolationEf> {
 		endValue += offset;
 		interpolationLength = endValue - startValue;
 		finished = false;
-		logger.log(Level.INFO, "{0}.{1} is going to be inerpolated from {2} to {3}",
+		logger.info("{}.{} is going to be inerpolated from {} to {}",
                 new Object[]{element.getElement(), element.getVarDef(), startValue, endValue});
 		delay = element.getDelay();
 

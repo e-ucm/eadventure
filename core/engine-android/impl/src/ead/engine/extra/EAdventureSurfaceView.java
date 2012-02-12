@@ -37,8 +37,6 @@
 
 package ead.engine.extra;
 
-import java.util.logging.Logger;
-
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.GestureDetector;
@@ -49,6 +47,8 @@ import android.view.SurfaceView;
 import android.view.View;
 
 import com.google.inject.Singleton;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import ead.common.model.elements.guievents.EAdMouseEvent;
 import ead.common.model.elements.guievents.enums.MouseButtonType;
@@ -70,7 +70,7 @@ public class EAdventureSurfaceView extends SurfaceView implements
 	private EngineConfiguration configuration;
 
 	private static final Logger logger = Logger
-			.getLogger("EAdventureSurfaceView");
+			.getLoggerFactory("EAdventureSurfaceView");
 
 	private GestureDetector gestureDetector;
 
@@ -157,7 +157,7 @@ public class EAdventureSurfaceView extends SurfaceView implements
 
 			inputHandler.addAction(new MouseActionImpl(EAdMouseEvent.MOUSE_MOVED,
 					x, y));
-			
+
 			if (event.getAction() == MotionEvent.ACTION_UP) {
 				inputHandler.addAction(new MouseActionImpl(
 						EAdMouseEvent.MOUSE_LEFT_RELEASED, x, y));

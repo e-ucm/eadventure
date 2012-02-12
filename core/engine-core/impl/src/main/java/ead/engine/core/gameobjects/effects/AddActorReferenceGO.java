@@ -64,8 +64,8 @@ public class AddActorReferenceGO extends
 	}
 
 	@Override
-	public void initilize() {
-		super.initilize();
+	public void initialize() {
+		super.initialize();
 		EAdScene scene = gameState.getScene().getElement();
 		if (scene != null) {
 			EAdSceneElementDef actor = element.getActor();

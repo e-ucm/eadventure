@@ -38,7 +38,6 @@
 package ead.engine.core.gameobjects;
 
 import java.util.List;
-import java.util.logging.Logger;
 
 import com.google.inject.Inject;
 
@@ -55,11 +54,13 @@ import ead.engine.core.input.InputAction;
 import ead.engine.core.platform.AssetHandler;
 import ead.engine.core.platform.GUI;
 import ead.engine.core.util.EAdTransformation;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class ComposedSceneGOImpl extends SceneElementGOImpl<ComposedScene>
 		implements SceneGO<ComposedScene> {
 
-	private static final Logger logger = Logger.getLogger("ScreenGOImpl");
+	private static final Logger logger = LoggerFactory.getLogger("ScreenGOImpl");
 
 	private EAdScene currentScene;
 
@@ -112,5 +113,4 @@ public class ComposedSceneGOImpl extends SceneElementGOImpl<ComposedScene>
 	public boolean processAction(InputAction<?> action) {
 		return false;
 	}
-
 }

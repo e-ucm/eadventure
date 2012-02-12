@@ -66,7 +66,7 @@ public class AndroidGUI extends AbstractGUI<Canvas> {
 	}
 
 	@Override
-	public void initilize() {
+	public void initialize() {
 		// Nothing to initialize
 	}
 

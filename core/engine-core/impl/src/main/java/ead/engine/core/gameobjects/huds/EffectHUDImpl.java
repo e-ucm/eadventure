@@ -38,22 +38,22 @@
 package ead.engine.core.gameobjects.huds;
 
 import java.util.List;
-import java.util.logging.Logger;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 import ead.engine.core.gameobjects.go.EffectGO;
-import ead.engine.core.gameobjects.huds.EffectHUD;
 import ead.engine.core.input.InputAction;
 import ead.engine.core.platform.GUI;
 import ead.engine.core.util.EAdTransformation;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * <p>
  * Default implementation of {@link EffectHUD}
  * </p>
- * 
+ *
  */
 @Singleton
 public class EffectHUDImpl extends AbstractHUD implements EffectHUD {
@@ -61,7 +61,7 @@ public class EffectHUDImpl extends AbstractHUD implements EffectHUD {
 	/**
 	 * The logger
 	 */
-	private static final Logger logger = Logger.getLogger("EffectHUDImpl");
+	private static final Logger logger = LoggerFactory.getLogger("EffectHUDImpl");
 
 	/**
 	 * List of current {@link EffectGO}
@@ -80,7 +80,7 @@ public class EffectHUDImpl extends AbstractHUD implements EffectHUD {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * es.eucm.eadventure.engine.core.gameobjects.GameObject#processAction(es
 	 * .eucm.eadventure.engine.core.guiactions.GUIAction)
@@ -96,7 +96,7 @@ public class EffectHUDImpl extends AbstractHUD implements EffectHUD {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see es.eucm.eadventure.engine.core.gameobjects.GameObject#doLayout()
 	 */
 	@Override

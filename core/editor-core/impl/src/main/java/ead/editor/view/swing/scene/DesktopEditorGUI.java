@@ -37,23 +37,8 @@
 
 package ead.editor.view.swing.scene;
 
-import java.awt.BorderLayout;
-import java.awt.Dimension;
-import java.awt.Graphics2D;
-import java.awt.Rectangle;
-import java.awt.Toolkit;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
-import java.awt.image.VolatileImage;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
-import javax.swing.JPanel;
-import javax.swing.Scrollable;
-
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-
 import ead.common.resources.assets.drawable.basics.ImageImpl;
 import ead.engine.core.game.GameState;
 import ead.engine.core.gameobjects.GameObjectManager;
@@ -65,11 +50,23 @@ import ead.engine.core.platform.RuntimeAsset;
 import ead.engine.core.platform.extra.DesktopInputListener;
 import ead.engine.core.platform.rendering.DesktopCanvas;
 import ead.utils.swing.SwingUtilities;
+import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.awt.Graphics2D;
+import java.awt.Rectangle;
+import java.awt.Toolkit;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
+import java.awt.image.VolatileImage;
+import javax.swing.JPanel;
+import javax.swing.Scrollable;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @Singleton
 public class DesktopEditorGUI extends DesktopGUI {
 
-	private static final Logger logger = Logger.getLogger("DesktopEditorGUI");
+	private static final Logger logger = LoggerFactory.getLogger("DesktopEditorGUI");
 
 	/**
 	 * The {@code Container} where the game is represented
@@ -123,9 +120,9 @@ public class DesktopEditorGUI extends DesktopGUI {
 						&& panel.getVisibleRect().getWidth() > 0
 						&& panel.getVisibleRect().getHeight() > 0) {
 					if (backbufferImage == null) {
-						logger.fine("New backbuffer: "
-								+ (int) panel.getVisibleRect().getWidth() + "x"
-								+ (int) panel.getVisibleRect().getHeight());
+						logger.debug("New backbuffer: {}x{}",
+								(int) panel.getVisibleRect().getWidth(),
+								(int) panel.getVisibleRect().getHeight());
 						backbufferImage = panel.createVolatileImage((int) panel
 								.getVisibleRect().getWidth(), (int) panel
 								.getVisibleRect().getHeight());
@@ -134,9 +131,9 @@ public class DesktopEditorGUI extends DesktopGUI {
 									.getWidth()
 							&& panel.getVisibleRect().getHeight() != backbufferImage
 									.getHeight()) {
-						logger.fine("Resized backbuffer: "
-								+ (int) panel.getVisibleRect().getWidth() + "x"
-								+ (int) panel.getVisibleRect().getHeight());
+						logger.debug("Resized backbuffer: {}x{}",
+								(int) panel.getVisibleRect().getWidth(),
+								(int) panel.getVisibleRect().getHeight());
 						backbufferImage = panel.createVolatileImage((int) panel
 								.getVisibleRect().getWidth(), (int) panel
 								.getVisibleRect().getHeight());
@@ -188,10 +185,10 @@ public class DesktopEditorGUI extends DesktopGUI {
 	/*
 	 * (non-Javadoc)
 	 *
-	 * @see es.eucm.eadventure.engine.core.platform.GUI#initilize()
+	 * @see es.eucm.eadventure.engine.core.platform.GUI#initialize()
 	 */
 	@Override
-	public void initilize() {
+	public void initialize() {
 		try {
 			SwingUtilities.doInEDTNow(new Runnable() {
 				@Override
@@ -225,10 +222,11 @@ public class DesktopEditorGUI extends DesktopGUI {
 				}
 			});
 		} catch (RuntimeException e) {
-			logger.log(Level.SEVERE, e.getMessage(), e);
+            throw new IllegalArgumentException(
+                    "could not initialize Desktop EditorGui", e);
 		}
 
-		logger.info("Desktop GUI initilized");
+		logger.info("Desktop EditorGui initialized");
 	}
 
 	@Override
@@ -252,6 +250,7 @@ public class DesktopEditorGUI extends DesktopGUI {
 			this.platformConfiguration = platformConfiguration;
 		}
 
+        @Override
 		public void setPreferredSize(Dimension d) {
 			super.setPreferredSize(d);
 			platformConfiguration.setSize(d.width, d.height);

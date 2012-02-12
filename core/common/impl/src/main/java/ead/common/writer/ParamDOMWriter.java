@@ -41,20 +41,24 @@ import org.w3c.dom.Element;
 
 import ead.common.DOMTags;
 import ead.common.params.EAdParam;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Writer for {@link EAdParam}
- * 
+ *
  */
 public class ParamDOMWriter extends DOMWriter<Object> {
+
+    private static final Logger logger = LoggerFactory.getLogger("DOMWriter");
 
 	@Override
 	public Element buildNode(Object data, Class<?> listClass) {
 		Element node = doc.createElement(DOMTags.PARAM_AT);
-		
+
 		String value = null;
 		if (data == null)
-			logger.warning("Null data");
+			logger.warn("Null data");
 		else {
 			if (data instanceof EAdParam)
 				value = ((EAdParam) data).toStringData();
@@ -63,7 +67,7 @@ public class ParamDOMWriter extends DOMWriter<Object> {
 			else
 				value = data.toString();
 		}
-		
+
 		String compressedValue = paramsMap.get(data);
 		if (compressedValue == null) {
 			if (DOMWriter.USE_PARAM_IDS) {
@@ -76,7 +80,7 @@ public class ParamDOMWriter extends DOMWriter<Object> {
 		} else {
 			value = compressedValue;
 		}
-		
+
 		if ( listClass == null || listClass != data.getClass() )
 			node.setAttribute(DOMTags.CLASS_AT, shortClass(data.getClass().getName()));
 		node.setTextContent(value);

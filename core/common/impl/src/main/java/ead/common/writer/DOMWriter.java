@@ -40,7 +40,6 @@ package ead.common.writer;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.logging.Logger;
 
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -57,19 +56,21 @@ import ead.common.model.elements.extra.EAdMap;
 import ead.common.params.EAdParam;
 import ead.common.resources.EAdResources;
 import ead.common.resources.assets.AssetDescriptor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Abstract implementation of a DOMWriter
- * 
+ *
  * @param <T>
  *            The type of the element writen by this DOMWriter
  */
 public abstract class DOMWriter<T> {
 
-	protected static final Logger logger = Logger.getLogger("DOMWriter");
+	protected static final Logger logger = LoggerFactory.getLogger("DOMWriter");
 
 	public static final boolean USE_PARAM_IDS = false;
-	
+
 	public static final boolean USE_DEFAULT_VALUES = true;
 
 	/**
@@ -90,12 +91,12 @@ public abstract class DOMWriter<T> {
 	protected static Map<Object, String> paramsMap = new HashMap<Object, String>();
 
 	public static DepthManager depthManager;
-	
+
 	/**
 	 * A map to store repeated assets and save some space in XML
 	 */
 	protected static ArrayList<AssetDescriptor> mappedAsset = new ArrayList<AssetDescriptor>();
-	
+
 	public static void initMaps(EAdAdventureModel data) {
 		elementMap.clear();
 		mappedElement.clear();
@@ -107,7 +108,7 @@ public abstract class DOMWriter<T> {
 			doc = DocumentBuilderFactory.newInstance().newDocumentBuilder()
 					.newDocument();
 		} catch (ParserConfigurationException e) {
-			e.printStackTrace();
+			logger.error("Error configuring parser for '{}'", data.getId(), e);
 		}
 	}
 
@@ -115,10 +116,10 @@ public abstract class DOMWriter<T> {
 	 * <p>
 	 * Build the actual node created by this DOMWriter
 	 * </p>
-	 * 
+	 *
 	 * @param data
 	 *            The data to be placed in the node
-	 * @param listClass 
+	 * @param listClass
 	 * @return The xml node created by the DOMWriter
 	 */
 	public abstract Element buildNode(T data, Class<?> listClass);
@@ -159,7 +160,7 @@ public abstract class DOMWriter<T> {
 		}
 		return alias;
 	}
-	
+
 	public static String convertToCode(int val) {
 		String code = "";
 		if (val == 0)

@@ -37,8 +37,6 @@
 
 package ead.engine.core.operators;
 
-import java.util.logging.Logger;
-
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
@@ -53,12 +51,14 @@ import ead.engine.core.factorymapproviders.OperatorFactoryMapProvider;
 import ead.engine.core.game.ValueMap;
 import ead.engine.core.operator.Operator;
 import ead.engine.core.operator.OperatorFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @Singleton
 public class OperatorFactoryImpl extends AbstractFactory<Operator<?>> implements
 		OperatorFactory {
 
-	private Logger log = Logger.getLogger("Operator Factory");
+	private Logger log = LoggerFactory.getLogger("Operator Factory");
 
 	private ValueMap valueMap;
 
@@ -78,7 +78,7 @@ public class OperatorFactoryImpl extends AbstractFactory<Operator<?>> implements
 			T operation) {
 		S result = operate(fieldResult.getVarDef().getType(), operation);
 		if (result != null) {
-			log.finest(operation + ": " + fieldResult + " := " + result);
+			log.debug(operation + ": {} := {}", fieldResult, result);
 			valueMap.setValue(fieldResult, result);
 		}
 		return result;
@@ -89,7 +89,7 @@ public class OperatorFactoryImpl extends AbstractFactory<Operator<?>> implements
 	@Override
 	public <T extends EAdOperation, S> S operate(Class<S> clazz, T operation) {
 		if (operation == null) {
-			log.severe("null operation attempted: null was returned with class " + clazz);
+			log.error("Null operation attempted: null returned as class {}", clazz);
 			return null;
 		}
 		Operator<T> operator = (Operator<T>) get(operation.getClass());

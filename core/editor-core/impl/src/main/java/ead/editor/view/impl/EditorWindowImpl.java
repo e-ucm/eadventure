@@ -37,6 +37,17 @@
 
 package ead.editor.view.impl;
 
+import bibliothek.gui.DockController;
+import com.google.inject.Inject;
+import com.google.inject.Singleton;
+import ead.editor.R;
+import ead.editor.view.EditorWindow;
+import ead.editor.view.ToolPanel;
+import ead.editor.view.menu.EditorMenuBar;
+import ead.gui.EAdFrame;
+import ead.gui.EAdHideingSplitPane;
+import ead.utils.i18n.Resource;
+import ead.utils.swing.SwingUtilities;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -44,31 +55,12 @@ import java.awt.Image;
 import java.awt.Toolkit;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Logger;
-
-import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
+import javax.swing.JFrame;
 import javax.swing.JMenuBar;
 import javax.swing.JPanel;
-
-import bibliothek.gui.DockController;
-import bibliothek.gui.Dockable;
-import bibliothek.gui.dock.DefaultDockable;
-import bibliothek.gui.dock.SplitDockStation;
-import bibliothek.gui.dock.station.split.SplitDockProperty;
-
-import com.google.inject.Inject;
-import com.google.inject.Singleton;
-
-import ead.editor.R;
-import ead.editor.view.EditorWindow;
-import ead.editor.view.ToolPanel;
-import ead.editor.view.menu.EditorMenuBar;
-import ead.gui.EAdFrame;
-import ead.gui.EAdHideingSplitPane;
-import ead.utils.swing.SwingUtilities;
-import java.util.logging.Level;
-import javax.swing.JFrame;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Default implementation of the main editor window
@@ -79,7 +71,7 @@ public class EditorWindowImpl implements EditorWindow {
 	/**
 	 * Logger
 	 */
-	private static final Logger logger = Logger
+	private static final Logger logger = LoggerFactory
 			.getLogger("EditorWindowImpl");
 
 	/**
@@ -219,21 +211,11 @@ public class EditorWindowImpl implements EditorWindow {
 			@Override
 			public void run() {
 				List<Image> icons = new ArrayList<Image>();
-
-				try {
-					icons.add(ImageIO.read(ClassLoader
-							.getSystemResourceAsStream(R.Drawable.EditorIcon16x16_png)));
-					icons.add(ImageIO.read(ClassLoader
-							.getSystemResourceAsStream(R.Drawable.EditorIcon32x32_png)));
-					icons.add(ImageIO.read(ClassLoader
-							.getSystemResourceAsStream(R.Drawable.EditorIcon64x64_png)));
-					icons.add(ImageIO.read(ClassLoader
-							.getSystemResourceAsStream(R.Drawable.EditorIcon128x128_png)));
-					editorWindow.setIconImages(icons);
-				} catch (Exception e) {
-					logger.log(Level.SEVERE, "Icon loading failed", e);
-				}
-
+                icons.add(Resource.loadImage(R.Drawable.EditorIcon16x16_png));
+                icons.add(Resource.loadImage(R.Drawable.EditorIcon32x32_png));
+                icons.add(Resource.loadImage(R.Drawable.EditorIcon64x64_png));
+                icons.add(Resource.loadImage(R.Drawable.EditorIcon128x128_png));
+                editorWindow.setIconImages(icons);
 			}
 		});
 	}
@@ -250,7 +232,7 @@ public class EditorWindowImpl implements EditorWindow {
 						.getScreenSize();
 				int width = (int) (screenSize.getWidth() * .8f);
 				int height = (int) (screenSize.getHeight() * .8f);
-                logger.log(Level.INFO, "Setting size to {0}x{1}", new Object[]{width, height});
+                logger.info("Setting size to {}x{}", new Object[]{width, height});
 				editorWindow.setSize(width, height);
 				editorWindow.setLocation((screenSize.width - width) / 2,
 						(screenSize.height - height) / 2);

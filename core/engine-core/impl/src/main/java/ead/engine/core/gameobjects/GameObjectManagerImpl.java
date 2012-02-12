@@ -39,7 +39,6 @@ package ead.engine.core.gameobjects;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Logger;
 
 import com.google.inject.Singleton;
 
@@ -49,6 +48,8 @@ import ead.engine.core.gameobjects.huds.HudGO;
 import ead.engine.core.gameobjects.huds.TopBasicHUD;
 import ead.engine.core.platform.GUI;
 import ead.engine.core.util.EAdTransformation;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @Singleton
 public class GameObjectManagerImpl implements GameObjectManager {
@@ -62,12 +63,12 @@ public class GameObjectManagerImpl implements GameObjectManager {
 	private int pointer;
 
 	private int bufferPointer;
-	
+
 	private TopBasicHUD topBasicHud;
-	
+
 	private BottomBasicHUD bottomBasicHud;
 
-	private static final Logger logger = Logger
+	private static final Logger logger = LoggerFactory
 			.getLogger("GameObjectManagerImpl");
 
 	@SuppressWarnings("unchecked")
@@ -83,7 +84,7 @@ public class GameObjectManagerImpl implements GameObjectManager {
 		this.huds = new ArrayList<HudGO>();
 		logger.info("New instance");
 	}
-	
+
 	public void setBasicHUDs( TopBasicHUD basicHUD, BottomBasicHUD bottomBasicHUD ){
 		this.topBasicHud = basicHUD;
 		this.bottomBasicHud = bottomBasicHUD;
@@ -92,7 +93,7 @@ public class GameObjectManagerImpl implements GameObjectManager {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * es.eucm.eadventure.engine.core.gameobjects.GameObjectManager#add(es.eucm
 	 * .eadventure.engine.core.gameobjects.GameObject)
@@ -107,7 +108,7 @@ public class GameObjectManagerImpl implements GameObjectManager {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * es.eucm.eadventure.engine.core.gameobjects.GameObjectManager#getGameObjects
 	 * ()
@@ -124,7 +125,7 @@ public class GameObjectManagerImpl implements GameObjectManager {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * es.eucm.eadventure.engine.core.gameobjects.GameObjectManager#addHUD(es
 	 * .eucm.eadventure.engine.core.gameobjects.huds.HudGO)
@@ -138,7 +139,7 @@ public class GameObjectManagerImpl implements GameObjectManager {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * es.eucm.eadventure.engine.core.gameobjects.GameObjectManager#getHUD()
 	 */
@@ -155,7 +156,7 @@ public class GameObjectManagerImpl implements GameObjectManager {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * es.eucm.eadventure.engine.core.gameobjects.GameObjectManager#removeHUD()
 	 */
@@ -167,7 +168,7 @@ public class GameObjectManagerImpl implements GameObjectManager {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see es.eucm.eadventure.engine.core.gameobjects.GameObjectManager#swap()
 	 */
 	@Override
@@ -179,7 +180,8 @@ public class GameObjectManagerImpl implements GameObjectManager {
 			transformations[bufferPointer].clear();
 		}
 	}
-	
+
+    @Override
 	public List<HudGO> getHUDs(){
 		return huds;
 	}

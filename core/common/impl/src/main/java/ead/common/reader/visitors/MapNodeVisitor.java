@@ -39,7 +39,6 @@ package ead.common.reader.visitors;
 
 import java.lang.reflect.Field;
 import java.util.Map;
-import java.util.logging.Level;
 
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -47,21 +46,25 @@ import org.w3c.dom.NodeList;
 import ead.common.DOMTags;
 import ead.common.model.elements.extra.EAdMap;
 import ead.common.model.elements.extra.EAdMapImpl;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class MapNodeVisitor extends NodeVisitor<Map<Object, Object>> {
+
+	private static final Logger logger = LoggerFactory.getLogger("MapNodeVisitor");
 
 	@Override
 	public Map<Object, Object> visit(Node node, Field field, Object parent, Class<?> listClass) {
 		NodeList nl = node.getChildNodes();
-		
+
 		EAdMap<Object, Object> map = null;
-		
+
 		if (field == null || parent == null) {
 			map = createNewMap(node);
 		} else {
 			map = getMapFromParent(field, parent);
 		}
-		
+
 		String type;
 		for(int i=0, cnt=nl.getLength(); i<cnt; i+=2)
 		{
@@ -74,17 +77,17 @@ public class MapNodeVisitor extends NodeVisitor<Map<Object, Object>> {
 
 		return map;
 	}
-	
+
 	private EAdMap<Object, Object> createNewMap(Node node) {
 		Node n = node.getAttributes().getNamedItem(DOMTags.KEY_CLASS_AT);
 		String clazz = n.getNodeValue();
 		clazz = translateClass(clazz);
-		
+
 		n = node.getAttributes().getNamedItem(DOMTags.VALUE_CLASS_AT);
 		String value_clazz = n.getNodeValue();
 		value_clazz = translateClass(clazz);
 
-		
+
 		Class<?> keyClass = null;
 		Class<?> valueClass = null;
 		try {
@@ -104,16 +107,15 @@ public class MapNodeVisitor extends NodeVisitor<Map<Object, Object>> {
 		try {
 			field.setAccessible(true);
 			list = (EAdMap<Object, Object>) field.get(parent);
-		} catch (IllegalArgumentException e) {
-			logger.log(Level.SEVERE, e.getMessage(), e);
-		} catch (IllegalAccessException e) {
-			logger.log(Level.SEVERE, e.getMessage(), e);
+		} catch (Exception e) {
+			logger.error("Error retrieving parent map for {} from {}",
+                    new Object[] {field.getName(), parent}, e);
 		} finally {
 			field.setAccessible(accessible);
 		}
 		return list;
 	}
-	
+
 	@Override
 	public String getNodeType() {
 		return DOMTags.MAP_TAG;

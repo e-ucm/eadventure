@@ -42,7 +42,6 @@ import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
-import java.util.logging.Logger;
 
 import ead.common.model.elements.guievents.EAdMouseEvent;
 import ead.common.model.elements.guievents.enums.KeyEventCode;
@@ -53,13 +52,15 @@ import ead.engine.core.input.InputHandler;
 import ead.engine.core.input.MouseHandler;
 import ead.engine.core.input.actions.KeyActionImpl;
 import ead.engine.core.input.actions.MouseActionImpl;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * <p>
  * This class listens to input by the user and converts it into the engine input
  * model
  * </p>
- * 
+ *
  */
 public class DesktopInputListener implements MouseListener,
 		MouseMotionListener, KeyListener {
@@ -72,7 +73,7 @@ public class DesktopInputListener implements MouseListener,
 	/**
 	 * The logger
 	 */
-	private static final Logger logger = Logger
+	private static final Logger logger = LoggerFactory
 			.getLogger("DesktopInputListener");
 
 	public DesktopInputListener(InputHandler inputHandler) {
@@ -141,7 +142,7 @@ public class DesktopInputListener implements MouseListener,
 
 	/**
 	 * Get the GUI {@link KeyAction}, form the Java {@link KeyEventType}
-	 * 
+	 *
 	 * @param actionType
 	 *            The action type
 	 * @param keyEvent
@@ -172,7 +173,7 @@ public class DesktopInputListener implements MouseListener,
 	/**
 	 * Get the GUI {@link MouseAction} from the Java {@link MouseEvent}, given
 	 * the position in the virtual GUI representation
-	 * 
+	 *
 	 * @param e
 	 *            The Java {@link MouseEvent}
 	 * @param action

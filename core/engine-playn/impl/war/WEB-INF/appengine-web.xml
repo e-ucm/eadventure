@@ -3,7 +3,7 @@
   <application>eadventure2</application>
   <version>7</version>
  <precompilation-enabled>false</precompilation-enabled>
-  
+
   <!-- Configure serving/caching of GWT files -->
   <static-files>
     <include path="**" />
@@ -15,8 +15,9 @@
     <exclude path="**.gwt.rpc" />
   </static-files>
 
-  <!-- Configure java.util.logging -->
-  <system-properties>
+<!-- Configure java.util.logging
+      (GAE uses JUL for its own logging; we can redirect ours to use JUL) -->
+    <system-properties>
     <property name="java.util.logging.config.file" value="WEB-INF/logging.properties"/>
   </system-properties>
 

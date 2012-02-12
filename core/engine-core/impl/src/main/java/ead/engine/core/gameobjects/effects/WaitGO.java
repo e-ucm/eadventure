@@ -58,8 +58,8 @@ public class WaitGO extends AbstractEffectGO<WaitEf>{
 	}
 
 	@Override
-	public void initilize() {
-		super.initilize();
+	public void initialize() {
+		super.initialize();
 		time = element.getTime();
 	}
 	

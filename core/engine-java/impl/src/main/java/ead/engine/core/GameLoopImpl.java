@@ -42,8 +42,8 @@ import com.google.inject.Inject;
 import ead.engine.core.game.Game;
 import ead.engine.core.game.GameLoop;
 import ead.engine.core.game.GameProfiler;
-
-import java.util.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Based on:
@@ -61,7 +61,7 @@ import java.util.logging.Logger;
  */
 public class GameLoopImpl implements GameLoop {
 
-	private static final Logger logger = Logger.getLogger("GameLoopImpl");
+	private static final Logger logger = LoggerFactory.getLogger("GameLoopImpl");
 
 	static final int SKIP_NANOS_TICK = 1000000000 / TICKS_PER_SECOND;
 

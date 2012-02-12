@@ -126,8 +126,8 @@ public class MoveSceneElementGO extends
 	}
 
 	@Override
-	public void initilize() {
-		super.initilize();
+	public void initialize() {
+		super.initialize();
 		ValueMap valueMap = gameState.getValueMap();
 
 		int endX = operatorFactory.operate(Integer.class, element.getxTarget());

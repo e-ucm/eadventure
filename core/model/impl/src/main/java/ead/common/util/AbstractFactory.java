@@ -38,8 +38,8 @@
 package ead.common.util;
 
 import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import ead.common.interfaces.EAdRuntimeException;
 
@@ -48,7 +48,7 @@ import ead.common.interfaces.EAdRuntimeException;
  * map that is intended to be injected though guice. When no element is found of
  * the class given as a parameter, an element of one of its interfaces is
  * searched as well.
- * 
+ *
  * @param <T>
  *            The return type of the factory.
  */
@@ -58,7 +58,7 @@ public abstract class AbstractFactory<T> implements Factory<T> {
 
 	protected ReflectionProvider reflectionProvider;
 
-	protected static final Logger logger = Logger.getLogger("AbstractFactory");
+	protected static final Logger logger = LoggerFactory.getLogger("AbstractFactory");
 
 	public AbstractFactory(MapProvider<Class<?>, T> mapProvider,
 			ReflectionProvider interfacesProvider) {
@@ -76,7 +76,7 @@ public abstract class AbstractFactory<T> implements Factory<T> {
 	public T get(Class<?> object) {
 		T element = map.get(object);
 		if (element == null) {
-			logger.log(Level.INFO, "No element in factory for object " + object
+			logger.info("No element in factory for object " + object
 					+ " " + this.getClass());
 			Class<?> c = reflectionProvider.getSuperclass(object);
 			while (element == null && c != null) {

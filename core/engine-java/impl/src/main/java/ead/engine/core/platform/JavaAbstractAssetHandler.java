@@ -56,7 +56,7 @@ public abstract class JavaAbstractAssetHandler extends AbstractAssetHandler {
 	 */
 	private Injector injector;
 
-	
+
 	public JavaAbstractAssetHandler(
 			Injector injector,
 			Map<Class<? extends AssetDescriptor>, Class<? extends RuntimeAsset<?>>> classMap, FontHandler fontHandler ) {
@@ -64,13 +64,14 @@ public abstract class JavaAbstractAssetHandler extends AbstractAssetHandler {
 		this.injector = injector;
 	}
 
+    @Override
 	public RuntimeAsset<?> getInstance(Class<? extends RuntimeAsset<?>> clazz) {
 		return injector.getInstance(clazz);
 	}
 
 	/**
 	 * Helper method to create a directory within the system temporary directory
-	 * 
+	 *
 	 * @param name
 	 *            The name of the directory
 	 * @return The reference to the directory
@@ -94,5 +95,4 @@ public abstract class JavaAbstractAssetHandler extends AbstractAssetHandler {
 
 		return (temp);
 	}
-
 }

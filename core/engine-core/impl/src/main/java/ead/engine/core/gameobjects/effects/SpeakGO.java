@@ -114,8 +114,8 @@ public class SpeakGO extends AbstractEffectGO<SpeakEf> {
 	}
 
 	@Override
-	public void initilize() {
-		super.initilize();
+	public void initialize() {
+		super.initialize();
 		finished = false;
 		ballon = sceneElementFactory.get(getSceneElement());
 		alpha = 0.0f;

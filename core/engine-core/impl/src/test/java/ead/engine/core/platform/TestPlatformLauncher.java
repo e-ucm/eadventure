@@ -61,7 +61,7 @@ public class TestPlatformLauncher implements PlatformLauncher {
 
 	@Override
 	public void launch(EAdURI file) {
-		gui.initilize();
+		gui.initialize();
 		gameLoop.setGame(game);
 
 		game.loadGame();

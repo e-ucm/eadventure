@@ -10,7 +10,8 @@
       <threadsafe>true</threadsafe>
   -->
 
-  <!-- Configure java.util.logging -->
+  <!-- Configure java.util.logging
+      (GAE uses JUL for its own logging; we can redirect ours to use JUL) -->
   <system-properties>
     <property name="java.util.logging.config.file" value="WEB-INF/logging.properties"/>
   </system-properties>

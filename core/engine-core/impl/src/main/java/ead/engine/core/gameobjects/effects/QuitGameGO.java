@@ -69,8 +69,8 @@ public class QuitGameGO extends AbstractEffectGO<QuitGameEf> {
 	}
 
 	@Override
-	public void initilize() {
-		super.initilize();
+	public void initialize() {
+		super.initialize();
 		// TODO should probably take to the screen with the evaluation report
 		gameController.stop();
 	}

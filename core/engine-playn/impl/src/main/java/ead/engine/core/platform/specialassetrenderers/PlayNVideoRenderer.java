@@ -39,7 +39,8 @@ package ead.engine.core.platform.specialassetrenderers;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.google.gwt.user.client.ui.Widget;
 import com.google.inject.Inject;
@@ -61,7 +62,7 @@ import fr.hd3d.html5.video.client.VideoWidget;
  */
 public class PlayNVideoRenderer implements SpecialAssetRenderer<Video, Widget> {
 
-	private static Logger logger = Logger.getLogger("PlayNVideoRenderer");
+	private static Logger logger = LoggerFactory.getLogger("PlayNVideoRenderer");
 
 	private AssetHandler assetHandler;
 

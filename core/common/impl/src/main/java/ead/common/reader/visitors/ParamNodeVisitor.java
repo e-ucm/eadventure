@@ -38,14 +38,18 @@
 package ead.common.reader.visitors;
 
 import java.lang.reflect.Field;
-import java.util.logging.Level;
+
 
 import org.w3c.dom.Node;
 
 import ead.common.DOMTags;
 import ead.common.reader.extra.ObjectFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class ParamNodeVisitor extends NodeVisitor<Object> {
+
+    private static final Logger logger = LoggerFactory.getLogger("DOMWriter");
 
 	@Override
 	public Object visit(Node node, Field field, Object parent, Class<?> listClass) {
@@ -56,8 +60,8 @@ public class ParamNodeVisitor extends NodeVisitor<Object> {
 					String clazz = node.getAttributes().getNamedItem(DOMTags.CLASS_AT).getNodeValue();
 					clazz = translateClass(clazz);
 					c = ClassLoader.getSystemClassLoader().loadClass(clazz);
-				} 
-				
+				}
+
 				Object object = null;
 
 				String value = node.getTextContent();
@@ -67,25 +71,23 @@ public class ParamNodeVisitor extends NodeVisitor<Object> {
 				}
 				else {
 					object = ObjectFactory.getObject(value, c);
-					if (node.getAttributes().getNamedItem(DOMTags.UNIQUE_ID_AT) != null) 
+					if (node.getAttributes().getNamedItem(DOMTags.UNIQUE_ID_AT) != null)
 						ObjectFactory.getParamsMap().put(node.getAttributes().getNamedItem(DOMTags.UNIQUE_ID_AT).getNodeValue(), object);
 				}
-				 
+
 
 				setValue(field, parent, object);
-				
+
 				return object;
-			} catch (ClassNotFoundException e) {
-				logger.log(Level.SEVERE, e.getMessage(), e);
-			} catch (IllegalArgumentException e) {
-				logger.log(Level.SEVERE, e.getMessage(), e);
-			} 
+			} catch (Exception e) {
+				logger.error("Error visiting params node {}", node.getNodeName(), e);
+			}
 		}
 		return null;
 	}
 
 
-	
+
 	@Override
 	public String getNodeType() {
 		return DOMTags.PARAM_AT;

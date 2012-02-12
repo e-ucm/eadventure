@@ -38,8 +38,6 @@
 package ead.common.reader.visitors;
 
 import java.lang.reflect.Field;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -48,6 +46,8 @@ import ead.common.DOMTags;
 import ead.common.resources.EAdBundleId;
 import ead.common.resources.EAdResources;
 import ead.common.resources.assets.AssetDescriptor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * <p>
@@ -73,12 +73,12 @@ import ead.common.resources.assets.AssetDescriptor;
  * x N<br>
  * &nbsp;&nbsp;&nbsp;{@code	</bundle>}<br>
  * {@code </resources>}<br>
- * 
+ *
  * </p>
  */
 public class ResourcesNodeVisitor extends NodeVisitor<EAdResources> {
-	
-	protected static final Logger logger = Logger.getLogger("ElementNodeVisitor");
+
+	protected static final Logger logger = LoggerFactory.getLogger("ElementNodeVisitor");
 
 	@Override
 	public EAdResources visit(Node node, Field field, Object parent, Class<?> listClass) {
@@ -87,11 +87,11 @@ public class ResourcesNodeVisitor extends NodeVisitor<EAdResources> {
 		try {
 			field.setAccessible(true);
 			resources = (EAdResources) field.get(parent);
-			
+
 			String initialBundleId = node.getAttributes().getNamedItem(DOMTags.INITIAL_BUNDLE_TAG).getNodeValue();
 
 			NodeList nl = node.getChildNodes();
-			
+
 			for(int i=0, cnt=nl.getLength(); i<cnt; i++)
 			{
 				if (nl.item(i).getNodeName().equals(DOMTags.BUNDLE_TAG)) {
@@ -103,7 +103,7 @@ public class ResourcesNodeVisitor extends NodeVisitor<EAdResources> {
 						resources.setInitialBundle(id);
 						resources.removeBundle(temp);
 					}
-					
+
 					NodeList nl2 = nl.item(i).getChildNodes();
 					for (int j = 0, cnt2=nl2.getLength(); j<cnt2;j++) {
 						AssetDescriptor asset = (AssetDescriptor) VisitorFactory.getVisitor(DOMTags.ASSET_AT).visit(nl2.item(j), null, null, null);
@@ -114,19 +114,17 @@ public class ResourcesNodeVisitor extends NodeVisitor<EAdResources> {
 					resources.addAsset(nl.item(i).getAttributes().getNamedItem(DOMTags.ID_AT).getNodeValue(), asset);
 				}
 			}
-		
-		} catch (IllegalArgumentException e) {
-			logger.log(Level.SEVERE, e.getMessage(), e);
-		} catch (IllegalAccessException e) {
-			logger.log(Level.SEVERE, e.getMessage(), e);
+
+		} catch (Exception e) {
+        	logger.error("Error visiting node {}", node.getNodeName(), e);
 		} finally {
 			field.setAccessible(accessible);
 		}
-		
+
 		return resources;
 	}
-	
-	
+
+
 
 
 	@Override

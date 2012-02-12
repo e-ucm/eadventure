@@ -39,7 +39,6 @@ package ead.engine.core.gameobjects.huds;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Logger;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -64,7 +63,8 @@ import ead.engine.core.platform.GUI;
 import ead.engine.core.platform.rendering.GenericCanvas;
 import ead.engine.core.util.EAdTransformation;
 import ead.engine.core.util.EAdTransformationImpl;
-import java.util.logging.Level;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * <p>
@@ -88,7 +88,7 @@ public class ActionsHUDImpl extends AbstractHUD implements ActionsHUD {
 	/**
 	 * The logger
 	 */
-	private static final Logger logger = Logger.getLogger("ActionsHUDImpl");
+	private static final Logger logger = LoggerFactory.getLogger("ActionsHUDImpl");
 
 	/**
 	 * List of the {@link EAdAction}s
@@ -156,7 +156,7 @@ public class ActionsHUDImpl extends AbstractHUD implements ActionsHUD {
 			switch (temp.getType()) {
                 case CLICK: remove = true; break;
                 default:
-                    logger.warning("Non-click MouseActionImpl in HUD - totally unexpected");
+                    logger.warn("Non-click MouseActionImpl in HUD - totally unexpected");
 			}
 
 		} else if (action instanceof KeyActionImpl) {
@@ -194,7 +194,7 @@ public class ActionsHUDImpl extends AbstractHUD implements ActionsHUD {
 		this.y = y;
 		radius = Math.min(maxRadius, radius);
 		actions = ref.getActions();
-		logger.log(Level.INFO, "Set element, actions: {0}", actions);
+		logger.info("Set element, actions: {}", actions);
 		initActionGOs();
 	}
 

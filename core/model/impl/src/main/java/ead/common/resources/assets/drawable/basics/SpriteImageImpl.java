@@ -37,45 +37,46 @@
 
 package ead.common.resources.assets.drawable.basics;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
 import ead.common.interfaces.Param;
 import ead.common.resources.assets.drawable.basics.BasicDrawable;
 import ead.common.resources.assets.drawable.basics.SpriteImage;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class SpriteImageImpl implements BasicDrawable {
 
-	private static final Logger logger = Logger.getLogger("SpriteImageImpl");
-	
+	private static final Logger logger = LoggerFactory.getLogger("SpriteImageImpl");
+
 	@Param("totalSprites")
 	private Integer totalSprites;
 
 	@Param("sprite")
 	private Integer sprite;
-	
+
 	@Param("image")
 	private ImageImpl image;
 
 	public SpriteImageImpl(){
-		
+
 	}
-	
-	
-	
+
+
+
 	public SpriteImageImpl(ImageImpl image, int totalSprites, int sprite) {
 		this.image = image;
 		this.totalSprites = totalSprites;
 		this.sprite = sprite;
-		if (sprite >= totalSprites)
-			logger.log(Level.SEVERE, "Sprite number is invalid for number of sprites");
+		if (sprite >= totalSprites) {
+			logger.error("Sprite number {} is invalid for total of {} sprites",
+                    sprite, totalSprites);
+        }
 	}
 
 
 	/**
 	 * Returns the total number of sprites in the image return by
 	 * {@link SpriteImage#getImage()}
-	 * 
+	 *
 	 * @return
 	 */
 	public Integer getTotalSprites() {
@@ -84,17 +85,17 @@ public class SpriteImageImpl implements BasicDrawable {
 
 	/**
 	 * Returns the number of sprite represented by this sprite
-	 * 
+	 *
 	 * @return
 	 */
 	public Integer getSprite() {
 		return sprite;
 	}
-	
+
 	public ImageImpl getImage(){
 		return image;
 	}
-	
+
 	public int hashCode( ){
 		return super.hashCode() + sprite + totalSprites;
 	}
@@ -107,5 +108,5 @@ public class SpriteImageImpl implements BasicDrawable {
 		this.sprite = sprite;
 	}
 
-	
+
 }

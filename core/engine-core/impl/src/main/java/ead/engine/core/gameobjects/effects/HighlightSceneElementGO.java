@@ -65,8 +65,8 @@ public class HighlightSceneElementGO extends
 	}
 
 	@Override
-	public void initilize() {
-		super.initilize();
+	public void initialize() {
+		super.initialize();
 		oldScale = gameState.getValueMap().getValue(element, SceneElementImpl.VAR_SCALE);
 		time = element.getTime();
 		started = false;

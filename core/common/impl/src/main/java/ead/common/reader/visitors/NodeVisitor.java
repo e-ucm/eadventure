@@ -45,7 +45,6 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.logging.Logger;
 
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -53,15 +52,17 @@ import org.w3c.dom.NodeList;
 import ead.common.DOMTags;
 import ead.common.interfaces.Param;
 import ead.common.reader.extra.ObjectFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public abstract class NodeVisitor<T> {
-	
-	protected static final Logger logger = Logger.getLogger("NodeVisitor");
+
+	private static final Logger logger = LoggerFactory.getLogger("NodeVisitor");
 
 	private static String packageName;
-	
+
 	public static Map<String, String> aliasMap = new HashMap<String, String>();
-	
+
 	protected static String loaderType;
 
 	public static void init(String packageN) {
@@ -72,31 +73,31 @@ public abstract class NodeVisitor<T> {
 	}
 
 	public abstract T visit(Node node, Field field, Object parent, Class<?> listClass);
-	
+
 	public abstract String getNodeType();
-	
+
 	protected String translateClass(String clazz) {
 		if (aliasMap.containsKey(clazz))
 			clazz = aliasMap.get(clazz);
 		return clazz != null && clazz.startsWith(".") ? packageName + clazz : clazz;
 	}
-	
+
 	protected void readFields(Object element, Node node) {
-		initilizeDefaultValues(element);
+		initializeDefaultValues(element);
 
 		NodeList nl = node.getChildNodes();
-		
+
 		for(int i=0, cnt=nl.getLength(); i<cnt; i++)
 		{
 			Node newNode = nl.item(i);
 			Field field = getField(element, newNode.getAttributes().getNamedItem(DOMTags.PARAM_AT).getNodeValue());
 
 			if (VisitorFactory.getVisitor(newNode.getNodeName()).visit(newNode, field, element, null) == null)
-				logger.severe("Failed visiting node " + newNode.getNodeName() + " for element " + element.getClass());
+				logger.error("Failed visiting node " + newNode.getNodeName() + " for element " + element.getClass());
 		}
 	}
-	
-	private void initilizeDefaultValues(Object element) {
+
+	private void initializeDefaultValues(Object element) {
 		Class<?> clazz = element.getClass();
 		while (clazz != null) {
 			for (Field f : clazz.getDeclaredFields()) {
@@ -111,34 +112,35 @@ public abstract class NodeVisitor<T> {
 			clazz = clazz.getSuperclass();
 		}
 	}
-	
+
 	public static void setValue(Field field, Object parent, Object object) {
 		if (field != null && parent != null) {
 			PropertyDescriptor pd = getPropertyDescriptor(parent.getClass(), field.getName());
-			if (pd == null)
-				logger.severe("Missing descriptor for " + field.getName() + " in " + parent.getClass());
-			Method method = pd.getWriteMethod();
-			if (method == null)
-				logger.severe("Missing write method for " + field.getName() + " in " + parent.getClass());
-			try {
+			if (pd == null) {
+				logger.error("Missing descriptor for {} in {}",
+                        new Object[]{field.getName(), parent.getClass()});
+            }
+            Method method = pd.getWriteMethod();
+			if (method == null) {
+				logger.error("Missing write method for {} in {}",
+                        new Object[]{field.getName(), parent.getClass()});
+            }
+            try {
 				method.invoke(parent, object);
-			} catch (IllegalArgumentException e) {
-				e.printStackTrace();
-			} catch (IllegalAccessException e) {
-				e.printStackTrace();
-			} catch (InvocationTargetException e) {
-				e.printStackTrace();
+			} catch (Exception e) {
+				logger.error("Error setting value for {} in {}",
+                        new Object[]{field.getName(), parent.getClass()}, e);
 			}
 		}
 
 	}
-	
+
 	/**
 	 * Gets the {@link Field} object identified by the given id. It gives
 	 * precedence to Fields annotated with the id though the {@link Param}
 	 * annotation, if non is found it checks if the id coincides with the name
 	 * of a field.
-	 * 
+	 *
 	 * @param object
 	 *            The object for where the field should be
 	 * @param paramValue
@@ -157,24 +159,24 @@ public abstract class NodeVisitor<T> {
 		}
 		return null;
 	}
-	
+
 	/**
 	 * Utility method to find a property descriptor for a single property
-	 * 
+	 *
 	 * @param c
 	 * @param fieldName
 	 * @return
 	 */
 	private static PropertyDescriptor getPropertyDescriptor(Class<?> c, String fieldName) {
 		try {
-			for (PropertyDescriptor pd : 
+			for (PropertyDescriptor pd :
 				Introspector.getBeanInfo(c).getPropertyDescriptors()) {
 				if (pd.getName().equals(fieldName)) {
 					return pd;
 				}
 			}
 		} catch (IntrospectionException e) {
-			throw new IllegalArgumentException("Could not find getters or setters for field " 
+			throw new IllegalArgumentException("Could not find getters or setters for field "
 					+ fieldName + " in class " + c.getCanonicalName());
 		}
 		return null;

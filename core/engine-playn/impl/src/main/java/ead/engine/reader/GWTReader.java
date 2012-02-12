@@ -37,8 +37,6 @@
 
 package ead.engine.reader;
 
-import java.util.logging.Logger;
-
 import com.google.gwt.http.client.Request;
 import com.google.gwt.http.client.RequestBuilder;
 import com.google.gwt.http.client.RequestCallback;
@@ -48,14 +46,15 @@ import com.google.gwt.xml.client.Document;
 import com.google.gwt.xml.client.Node;
 import com.google.gwt.xml.client.NodeList;
 import com.google.gwt.xml.client.XMLParser;
-
 import ead.common.DOMTags;
 import ead.common.model.elements.EAdAdventureModelImpl;
 import ead.engine.core.game.Game;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class GWTReader {
 
-	private static Logger logger = Logger.getLogger("GWTReader");
+	private static Logger logger = LoggerFactory.getLogger("GWTReader");
 
 	private String xml;
 

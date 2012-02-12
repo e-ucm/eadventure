@@ -37,8 +37,6 @@
 
 package ead.common.writer;
 
-import java.util.logging.Level;
-
 import org.w3c.dom.Element;
 
 import ead.common.DOMTags;
@@ -53,20 +51,24 @@ public class ElementDOMWriter extends FieldParamWriter<EAdElement> {
 		try {
 			// Check if the element is new
 			if (!elementMap.containsKey(element)) {
-				elementMap.put(element, DOMTags.ELEMENT_AT + DOMWriter.convertToCode(mappedElement.size()));
+				elementMap.put(element, DOMTags.ELEMENT_AT
+                        + DOMWriter.convertToCode(mappedElement.size()));
 				mappedElement.add(element);
-				if (depthManager.isStored(element)) {
+
+                if (depthManager.isStored(element)) {
 					EAdElement conflicting = depthManager.getInstanceOfElement(element);
-					logger.severe("Type " + element.getClass() + " has differing equals and hashcodes ("+ element.equals(conflicting) + "_" + conflicting.hashCode() + " != " + element.hashCode() + ")");
+					logger.error("Type {} has differing equals and hashcodes ({}_{} != {})",
+                            new Object[]{element.getClass(), element.equals(conflicting),
+                                conflicting.hashCode(), element.hashCode()});
 				}
 			}
-			
+
 			if (depthManager.inPreviousList(element) || depthManager.isStored(element)) {
 				node.setTextContent(elementMap.get(element));
 				return node;
-			} 
+			}
 			depthManager.setStored(element);
-			
+
 			// Set id and unique id
 			node.setAttribute(DOMTags.ID_AT, element.getId());
 			node.setAttribute(DOMTags.UNIQUE_ID_AT, elementMap.get(element));
@@ -82,25 +84,20 @@ public class ElementDOMWriter extends FieldParamWriter<EAdElement> {
 			}
 
 			if (annotation == null) {
-				logger.log(Level.SEVERE, "No Element annotation in class "
-						+ element.getClass());
-				throw new EAdRuntimeException("No Element annotation in class "
-						+ element.getClass());
-			} else {
-
 				node.setAttribute(DOMTags.TYPE_AT, shortClass(annotation.detailed()
 						.getName()));
 				node.setAttribute(DOMTags.CLASS_AT, shortClass(annotation.runtime()
 						.getName()));
+
+                // Add Param fields
+                super.processParams(node, element);
+			} else {
+            	logger.error("No Element annotation in class {}",
+                        element.getClass());
 			}
 
-			clazz = element.getClass();
-
-			// Add Param fields
-			super.processParams(node, element);
-
-		} catch (IllegalArgumentException e) {
-			logger.log(Level.SEVERE, e.getMessage(), e);
+		} catch (Exception e) {
+			logger.error("Exception writing element {}", element.getClass(), e);
 		}
 
 		return node;

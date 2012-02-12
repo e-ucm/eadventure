@@ -37,7 +37,8 @@
 
 package ead.engine.core.gameobjects;
 
-import java.util.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.google.inject.Inject;
 
@@ -60,7 +61,7 @@ import ead.engine.core.util.EAdTransformation;
 public class VideoSceneGO extends SceneElementGOImpl<VideoScene> implements
 		SceneGO<VideoScene> {
 
-	private static final Logger logger = Logger.getLogger("VideoScreenGOImpl");
+	private static final Logger logger = LoggerFactory.getLogger("VideoScreenGOImpl");
 
 	private SpecialAssetRenderer<Video, ?> specialAssetRenderer;
 

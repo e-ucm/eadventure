@@ -37,8 +37,6 @@
 
 package ead.engine.reader;
 
-import java.util.logging.Logger;
-
 import com.google.gwt.xml.client.Node;
 import com.gwtent.reflection.client.ClassType;
 import com.gwtent.reflection.client.Field;
@@ -46,6 +44,8 @@ import com.gwtent.reflection.client.TypeOracle;
 
 import ead.common.DOMTags;
 import ead.common.model.EAdElement;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Visitor for the element. The element should be {@code <element id="ID"
@@ -54,7 +54,7 @@ import ead.common.model.EAdElement;
  */
 public class ElementNodeVisitor extends NodeVisitor<EAdElement> {
 
-	protected static final Logger logger = Logger
+	protected static final Logger logger = LoggerFactory
 			.getLogger("ElementNodeVisitor");
 
 	@Override
@@ -62,8 +62,8 @@ public class ElementNodeVisitor extends NodeVisitor<EAdElement> {
 			Class<?> listClass) {
 		EAdElement element = null;
 		if (node == null)
-			logger.severe("Null node: " + field.getName() + " parent: "
-					+ (parent != null ? parent.getClass().getName() : "NULL"));
+			logger.error("Null node: {} parent: {}", field.getName(),
+					(parent != null ? parent.getClass().getName() : "NULL"));
 
 		if (node.getChildNodes() != null
 				&& node.getChildNodes().getLength() == 1
@@ -81,7 +81,7 @@ public class ElementNodeVisitor extends NodeVisitor<EAdElement> {
 		}
 
 		if (node.getAttributes() == null) {
-			logger.severe("Null attributes for element");
+			logger.error("Null attributes for element {}", node.getClass());
 		}
 
 		Node n = node.getAttributes().getNamedItem(DOMTags.UNIQUE_ID_AT);
@@ -101,10 +101,9 @@ public class ElementNodeVisitor extends NodeVisitor<EAdElement> {
 
 		if (clazz != null) {
 			ClassType<?> classType = TypeOracle.Instance.getClassType(clazz);
-			logger.finest("Reading element " + uniqueId + " of type " + clazz);
+			logger.debug("Reading element '{}' of type {}", uniqueId, clazz);
 			if (classType.findConstructor() != null) {
-				element = (EAdElement) classType.findConstructor()
-						.newInstance();
+				element = (EAdElement)classType.findConstructor().newInstance();
 				element.setId(id);
 			}
 		}
@@ -118,7 +117,7 @@ public class ElementNodeVisitor extends NodeVisitor<EAdElement> {
 			if (element != null)
 				readFields(element, node);
 		} catch (Exception e) {
-			e.printStackTrace();
+			logger.error("Error reading fields from {}", element.getClass());
 		}
 
 		return element;

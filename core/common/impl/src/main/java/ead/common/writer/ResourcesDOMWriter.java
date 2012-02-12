@@ -52,13 +52,13 @@ import ead.common.resources.assets.AssetDescriptor;
  * <p>
  * DOM writer for the "resources" element in the eAdventure 2 xml
  * </p>
- * 
+ *
  */
 public class ResourcesDOMWriter extends DOMWriter<EAdResources> {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * es.eucm.eadventure.common.impl.writer.DOMWriter#buildNode(java.lang.Object
 	 * )
@@ -88,7 +88,7 @@ public class ResourcesDOMWriter extends DOMWriter<EAdResources> {
 
 	/**
 	 * Create a node from an {@link EAdAssetBundle}
-	 * 
+	 *
 	 * @param id
 	 *            The {@link EAdBundleId} of the bundle
 	 * @param bundle
@@ -101,7 +101,7 @@ public class ResourcesDOMWriter extends DOMWriter<EAdResources> {
 
 		for (String assetId : ((EAdAssetBundleImpl) bundle).getIds()) {
 			if (bundle.getAsset(assetId) == null)
-				logger.warning("Null asset " + assetId + " in bundle " + id.getBundleId());
+				logger.warn("Null asset '{}' in bundle {}", assetId, id.getBundleId());
 			else {
 				Node assetNode = processAsset(assetId, bundle.getAsset(assetId));
 				doc.adoptNode(assetNode);
@@ -114,7 +114,7 @@ public class ResourcesDOMWriter extends DOMWriter<EAdResources> {
 
 	/**
 	 * Create a node from an {@link AssetDescriptor}
-	 * 
+	 *
 	 * @param id
 	 *            The id of the asset
 	 * @param assetDescriptor

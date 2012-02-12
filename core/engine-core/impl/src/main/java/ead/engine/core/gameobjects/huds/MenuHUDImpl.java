@@ -37,8 +37,6 @@
 
 package ead.engine.core.gameobjects.huds;
 
-import java.util.logging.Logger;
-
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
@@ -61,12 +59,14 @@ import ead.engine.core.gameobjects.huds.MenuHUD;
 import ead.engine.core.input.InputAction;
 import ead.engine.core.input.actions.KeyActionImpl;
 import ead.engine.core.platform.GUI;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * <p>
  * Abstract implementation of the Menu HUD
  * </p>
- * 
+ *
  */
 @Singleton
 public class MenuHUDImpl extends AbstractHUD implements MenuHUD {
@@ -74,7 +74,7 @@ public class MenuHUDImpl extends AbstractHUD implements MenuHUD {
 	/**
 	 * The logger
 	 */
-	private static Logger logger = Logger.getLogger("MenuHUDImpl");
+	private static Logger logger = LoggerFactory.getLogger("MenuHUDImpl");
 
 	/**
 	 * The current {@link GameState}
@@ -88,7 +88,7 @@ public class MenuHUDImpl extends AbstractHUD implements MenuHUD {
 			GameObjectManager gameObjectManager, StringHandler stringHandler,
 			SceneElementGOFactory sceneElementFactory) {
 		super(gui);
-		logger.info("New instance");
+		logger.info("New instance of MenuHUD");
 		this.gameState = gameState;
 		this.gameObjectManager = gameObjectManager;
 		addExitButton(stringHandler, sceneElementFactory);
@@ -101,7 +101,7 @@ public class MenuHUDImpl extends AbstractHUD implements MenuHUD {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * es.eucm.eadventure.engine.core.gameobjects.GameObject#processAction(es
 	 * .eucm.eadventure.engine.core.guiactions.GUIAction)
@@ -124,6 +124,7 @@ public class MenuHUDImpl extends AbstractHUD implements MenuHUD {
 		return true;
 	}
 
+    @Override
 	public boolean contains(int x, int y) {
 		return true;
 	}

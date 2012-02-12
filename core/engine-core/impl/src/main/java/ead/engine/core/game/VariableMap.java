@@ -166,7 +166,7 @@ public class VariableMap extends ValueMapImpl implements ValueMap {
 					varName = expression.substring(beginVar + 1, endVar );
 					indexCondition = new Integer(varName);
 				} catch ( NumberFormatException e ){
-					logger.warning(varName + " is not a valid index in " + expression );
+					logger.warn(varName + " is not a valid index in " + expression );
 					return BEGIN_CONDITION_CHAR + expression + END_CONDITION_CHAR;
 				}
 

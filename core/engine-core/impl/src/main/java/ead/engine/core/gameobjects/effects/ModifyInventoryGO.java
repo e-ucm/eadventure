@@ -75,8 +75,8 @@ public class ModifyInventoryGO extends AbstractEffectGO<ModifyInventoryEf> {
 	}
 
 	@Override
-	public void initilize() {
-		super.initilize();
+	public void initialize() {
+		super.initialize();
 		switch (element.getModification()) {
 		case ADD_TO_INVENTORY:
 			inventoryHandler.add(element.getSceneElementDef());

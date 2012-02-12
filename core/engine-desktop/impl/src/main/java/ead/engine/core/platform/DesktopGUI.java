@@ -63,9 +63,9 @@ import java.awt.RenderingHints.Key;
 import java.awt.Toolkit;
 import java.awt.image.BufferStrategy;
 import java.awt.image.MemoryImageSource;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JFrame;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * <p>
@@ -79,7 +79,7 @@ public class DesktopGUI extends AbstractGUI<Graphics2D> implements GUI {
 	/**
 	 * The class logger
 	 */
-	private static final Logger logger = Logger.getLogger("DesktopGUI");
+	private static final Logger logger = LoggerFactory.getLogger("DesktopGUI");
 
 	/**
 	 * The {@code JFrame} where the game is represented
@@ -193,7 +193,9 @@ public class DesktopGUI extends AbstractGUI<Graphics2D> implements GUI {
 
 					g.dispose();
 				} catch (IllegalStateException e) {
-					e.printStackTrace();
+                    logger.warn(
+                        "error commiting GUI phase 1; "
+                            + "will use fallback bufferStrategy", e);
 					canvas.createBufferStrategy(2);
 				}
 			}
@@ -207,7 +209,9 @@ public class DesktopGUI extends AbstractGUI<Graphics2D> implements GUI {
 					bs.show();
 					Toolkit.getDefaultToolkit().sync();
 				} catch (IllegalStateException e) {
-					e.printStackTrace();
+                    logger.warn(
+                        "error commiting GUI phase 2; "
+                            + "will use fallback bufferStrategy 2", e);
 					canvas.createBufferStrategy(2);
 				}
 			}
@@ -264,10 +268,10 @@ public class DesktopGUI extends AbstractGUI<Graphics2D> implements GUI {
 	/*
 	 * (non-Javadoc)
 	 *
-	 * @see es.eucm.eadventure.engine.core.platform.GUI#initilize()
+	 * @see es.eucm.eadventure.engine.core.platform.GUI#initialize()
 	 */
 	@Override
-	public void initilize() {
+	public void initialize() {
 		try {
 			SwingUtilities.doInEDTNow(new Runnable() {
 				@Override
@@ -304,10 +308,10 @@ public class DesktopGUI extends AbstractGUI<Graphics2D> implements GUI {
 				}
 			});
 		} catch (RuntimeException e) {
-			logger.log(Level.SEVERE, e.getMessage(), e);
+			throw new IllegalArgumentException("Error initializing desktop GUI", e);
 		}
 
-		logger.info("Desktop GUI initilized");
+		logger.info("Desktop GUI initialized");
 	}
 
 	/**

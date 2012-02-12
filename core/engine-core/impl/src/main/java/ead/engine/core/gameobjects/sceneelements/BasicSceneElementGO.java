@@ -37,9 +37,6 @@
 
 package ead.engine.core.gameobjects.sceneelements;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
 import com.google.inject.Inject;
 
 import ead.common.model.elements.EAdEffect;
@@ -54,11 +51,13 @@ import ead.engine.core.gameobjects.go.SceneElementGO;
 import ead.engine.core.input.InputAction;
 import ead.engine.core.platform.AssetHandler;
 import ead.engine.core.platform.GUI;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class BasicSceneElementGO extends
 		SceneElementGOImpl<SceneElementImpl> {
 
-	private static final Logger logger = Logger
+	private static final Logger logger = LoggerFactory
 			.getLogger("BasicSceneElementGOImpl");
 
 	private EvaluatorFactory evaluatorFactory;
@@ -77,7 +76,7 @@ public class BasicSceneElementGO extends
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see es.eucm.eadventure.engine.core.gameobjects.impl.SceneElementGOImpl#
 	 * getDraggableElement(es.eucm.eadventure.engine.core.MouseState)
 	 */
@@ -90,7 +89,7 @@ public class BasicSceneElementGO extends
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see es.eucm.eadventure.engine.core.gameobjects.impl.SceneElementGOImpl#
 	 * processAction(es.eucm.eadventure.engine.core.guiactions.GUIAction)
 	 */
@@ -98,13 +97,13 @@ public class BasicSceneElementGO extends
 	public boolean processAction(InputAction<?> action) {
 		EAdList<EAdEffect> list = element.getEffects(action.getGUIEvent());
 		boolean processed = addEffects(list, action);
-		
+
 		list = element.getDefinition().getEffects(action.getGUIEvent());
 		processed |= addEffects(list, action);
-		
+
 		if ( !element.isPropagateGUIEvents() )
 			action.consume();
-		
+
 		return processed;
 
 	}
@@ -113,7 +112,7 @@ public class BasicSceneElementGO extends
 		if (list != null && list.size() > 0) {
 			action.consume();
 			for (EAdEffect e : list) {
-				logger.log(Level.FINE, "GUI Action: " + action + " effect " + e);
+				logger.debug("GUI Action: '{}' effect '{}'", action, e);
 				gameState.addEffect(e, action, getElement());
 			}
 			return true;

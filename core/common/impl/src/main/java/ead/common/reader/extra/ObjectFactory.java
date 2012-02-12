@@ -42,7 +42,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.logging.Logger;
 
 import ead.common.model.EAdElement;
 import ead.common.params.EAdParam;
@@ -52,14 +51,16 @@ import ead.common.resources.EAdBundleId;
 import ead.common.resources.assets.AssetDescriptor;
 import ead.common.util.EAdMatrix;
 import ead.common.util.EAdMatrixImpl;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Includes methods to generate an object of a given type from a string value
  */
 public class ObjectFactory {
 
-	private static final Logger logger = Logger.getLogger("ObjectFactory");
-	
+	private static final Logger logger = LoggerFactory.getLogger("ObjectFactory");
+
 	private static Map<String, Object> paramsMap = new HashMap<String, Object>();
 	private static Map<String, AssetDescriptor> assetsMap = new HashMap<String, AssetDescriptor>();
 	private static Map<String, EAdElement> elementsMap = new HashMap<String, EAdElement>();
@@ -80,31 +81,30 @@ public class ObjectFactory {
 			return element;
 		} else if ( AssetDescriptor.class.isAssignableFrom(fieldType)){
 			return assetsMap.get(value);
-		}
-		else if (fieldType == String.class )
+		} else if (fieldType == String.class ) {
 			return value;
-		else if (fieldType == Integer.class || fieldType == int.class)
+        } else if (fieldType == Integer.class || fieldType == int.class) {
 			return Integer.parseInt(value);
-		else if (fieldType == Boolean.class || fieldType == boolean.class)
+        } else if (fieldType == Boolean.class || fieldType == boolean.class) {
 			return Boolean.parseBoolean(value);
-		else if (fieldType == Float.class || fieldType == float.class)
+        } else if (fieldType == Float.class || fieldType == float.class) {
 			return Float.parseFloat(value);
-		else if (fieldType == Character.class || fieldType == char.class){
+        } else if (fieldType == Character.class || fieldType == char.class) {
 			return new Character(value.charAt(0));
-		}
-		else if (fieldType == EAdBundleId.class)
+		} else if (fieldType == EAdBundleId.class) {
 			return new EAdBundleId(value);
-		else if (fieldType == EAdMatrix.class || fieldType == EAdMatrixImpl.class)
+        } else if (fieldType == EAdMatrix.class
+                || fieldType == EAdMatrixImpl.class) {
 			return EAdMatrixImpl.parse(value);
-		else if (fieldType == Class.class)
+        } else if (fieldType == Class.class) {
 			try {
 				return ClassLoader.getSystemClassLoader().loadClass(value);
 			} catch (ClassNotFoundException e) {
 				return Object.class;
 			}
-		else if (fieldType.isEnum())
+        } else if (fieldType.isEnum()) {
 			return Enum.valueOf(fieldType.asSubclass(Enum.class), value);
-		else {
+        } else {
 			if (elementsMap.containsKey(value)) {
 				//FIXME This could be a temporary fix
 				EAdElement element = elementsMap.get(value);
@@ -118,7 +118,7 @@ public class ObjectFactory {
 
 	}
 
-	public static void initilize() {
+	public static void initialize() {
 		paramsMap.clear();
 		elementsMap.clear();
 		assetsMap.clear();
@@ -141,21 +141,21 @@ public class ObjectFactory {
 				i++;
 		}
 	}
-	
+
 	public static Map<String, Object> getParamsMap() {
 		return paramsMap;
 	}
 	public static void addAsset( String id, AssetDescriptor descriptor ){
 		assetsMap.put(id, descriptor);
 	}
-	
+
 	private static EAdParam constructParam( String value, Class<? extends EAdParam> clazz ){
 		try {
 			Constructor<?> c = clazz.getConstructor(String.class);
 			return (EAdParam) c.newInstance(value);
 		} catch (Exception e) {
-			e.printStackTrace();
-		}
+            logger.error("Error building param for '{}'", value, e);
+        }
 		return null;
 	}
 }

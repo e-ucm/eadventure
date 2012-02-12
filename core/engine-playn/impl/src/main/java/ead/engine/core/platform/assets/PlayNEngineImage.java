@@ -39,9 +39,6 @@ package ead.engine.core.platform.assets;
 
 import static playn.core.PlayN.assetManager;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
 import playn.core.Canvas;
 import playn.core.Image;
 
@@ -50,6 +47,8 @@ import com.google.inject.Inject;
 import ead.engine.core.platform.AssetHandler;
 import ead.engine.core.platform.assets.RuntimeImage;
 import ead.engine.core.platform.rendering.GenericCanvas;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class PlayNEngineImage extends RuntimeImage<Canvas> {
 
@@ -57,11 +56,11 @@ public class PlayNEngineImage extends RuntimeImage<Canvas> {
 	 * The buffered image
 	 */
 	private Image image;
-	
+
 	/**
 	 * The logger
 	 */
-	private static final Logger logger = Logger
+	private static final Logger logger = LoggerFactory
 			.getLogger("PlayNEngineImage");
 
 	@Inject
@@ -92,18 +91,19 @@ public class PlayNEngineImage extends RuntimeImage<Canvas> {
 		logger.info("Loading image " + descriptor.getUri());
 		if (image == null && assetHandler != null) {
 			try {
-				image = assetManager().getImage(assetHandler.getAbsolutePath(descriptor.getUri().getPath()));
+                String path = assetHandler.getAbsolutePath(
+                        descriptor.getUri().getPath());
+            	image = assetManager().getImage(path);
 				if (image != null) {
-					logger.log(Level.INFO, "Image loaded: " + descriptor.getUri() + " from path " + assetHandler.getAbsolutePath(descriptor.getUri().getPath()));
-					logger.info("Width" + image.width());
+					logger.info("Image loaded OK: {} from {} width {}",
+                            new Object[]{descriptor.getUri(), path, image.width()});
 					return image.isReady();
 				} else {
-					logger.log(Level.SEVERE, "Image NOT loaded: " + descriptor.getUri());
+					logger.error("Image NOT loaded: {}", descriptor.getUri());
 					return true;
 				}
 			} catch (Exception e) {
-				logger.log(Level.SEVERE, 
-						"Could not load image! " + descriptor.getUri(), e);
+				logger.error("Error loading image: {}", descriptor.getUri(), e);
 				return false;
 			}
 		}
@@ -115,7 +115,8 @@ public class PlayNEngineImage extends RuntimeImage<Canvas> {
 		if (image != null) {
 			//TODO flush image
 			//image.flush();
-			logger.log(Level.INFO, "Image flushed: " + (descriptor != null ? descriptor.getUri() : "no descriptor"));
+			logger.info("Image flushed: {}",
+                    (descriptor != null ? descriptor.getUri() : "no descriptor"));
 		}
 		image = null;
 	}
@@ -129,5 +130,4 @@ public class PlayNEngineImage extends RuntimeImage<Canvas> {
 	public void render(GenericCanvas<Canvas> c) {
 		c.getNativeGraphicContext().drawImage(image, 0, 0);
 	}
-
 }

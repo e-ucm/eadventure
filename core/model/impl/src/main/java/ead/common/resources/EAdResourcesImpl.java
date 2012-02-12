@@ -37,18 +37,14 @@
 
 package ead.common.resources;
 
+import ead.common.model.EAdElement;
+import ead.common.resources.assets.AssetDescriptor;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
-import ead.common.model.EAdElement;
-import ead.common.resources.EAdAssetBundle;
-import ead.common.resources.EAdBundleId;
-import ead.common.resources.EAdResources;
-import ead.common.resources.assets.AssetDescriptor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class EAdResourcesImpl extends EAdAssetBundleImpl implements EAdResources {
 
@@ -56,7 +52,7 @@ public class EAdResourcesImpl extends EAdAssetBundleImpl implements EAdResources
 
 	private EAdBundleId initialBundle;
 
-	private static final Logger logger = Logger.getLogger( "EAdResourcesImpl" );
+	private static final Logger logger = LoggerFactory.getLogger( "EAdResourcesImpl" );
 
 	/**
 	 * Default constructor. The different asset descriptors and bundles are
@@ -69,7 +65,7 @@ public class EAdResourcesImpl extends EAdAssetBundleImpl implements EAdResources
 		boolean hasBundle = false;
 		EAdAssetBundle bundle = new EAdAssetBundleImpl( );
 
-		
+
 		/* Should probably only be implemented for a "strict" resource implementation
 		for ( java.lang.reflect.Field a : c.getFields( ) ) {
 			Asset asset = a.getAnnotation( Asset.class );
@@ -95,7 +91,7 @@ public class EAdResourcesImpl extends EAdAssetBundleImpl implements EAdResources
 		AssetDescriptor asset = super.getAsset( id );
 		if ( asset != null )
 			return asset;
-		logger.log(Level.SEVERE, "No such asset, id: " + id );
+		logger.error("No such asset: id '{}'", id );
 		return null;
 	}
 
@@ -121,7 +117,7 @@ public class EAdResourcesImpl extends EAdAssetBundleImpl implements EAdResources
 			assetBundles.put(bundleId, bundle);
 		}
 	}
-	
+
 	@Override
 	public EAdBundleId getInitialBundle( ) {
 		return this.initialBundle;
@@ -164,7 +160,7 @@ public class EAdResourcesImpl extends EAdAssetBundleImpl implements EAdResources
 			return true;
 		}
 		return false;
-			
+
 	}
 
 	@Override

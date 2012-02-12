@@ -84,7 +84,7 @@ public class GameControllerImpl implements GameController {
 	 */
 	@Override
 	public void start() {
-		gui.initilize();
+		gui.initialize();
 		gameLoop.setGame(game);
 		game.loadGame();
 		gameLoop.runLoop(threaded);

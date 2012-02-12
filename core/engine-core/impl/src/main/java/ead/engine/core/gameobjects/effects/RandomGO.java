@@ -58,8 +58,8 @@ public class RandomGO extends AbstractEffectGO<RandomEf>{
 		super(assetHandler, stringsReader, gameObjectFactory, gui, gameState);
 	}
 	
-	public void initilize( ){
-		super.initilize();
+	public void initialize( ){
+		super.initialize();
 		
 		float totalProbability = 0.0f;
 		for ( Float f: element.getEffects().values()){

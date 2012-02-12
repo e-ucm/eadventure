@@ -38,8 +38,6 @@
 package ead.common.reader.visitors;
 
 import java.lang.reflect.Field;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import org.w3c.dom.Node;
 
@@ -47,6 +45,8 @@ import ead.common.DOMTags;
 import ead.common.model.EAdElement;
 import ead.common.reader.ProxyElement;
 import ead.common.reader.extra.ObjectFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Visitor for the element. The element should be {@code <element id="ID"
@@ -54,8 +54,8 @@ import ead.common.reader.extra.ObjectFactory;
  *  class="EDITOR_TYPE"></element>}.
  */
 public class ElementNodeVisitor extends NodeVisitor<EAdElement> {
-	
-	protected static final Logger logger = Logger.getLogger("ElementNodeVisitor");
+
+	protected static final Logger logger = LoggerFactory.getLogger("ElementNodeVisitor");
 
 	@Override
 	public EAdElement visit(Node node, Field field, Object parent, Class<?> listClass) {
@@ -71,7 +71,7 @@ public class ElementNodeVisitor extends NodeVisitor<EAdElement> {
 				return element;
 			}
 		}
-		
+
 		Node n = node.getAttributes().getNamedItem(DOMTags.UNIQUE_ID_AT);
 		String uniqueId = n != null ? n.getNodeValue() : null;
 		n = node.getAttributes().getNamedItem(DOMTags.ID_AT);
@@ -87,17 +87,17 @@ public class ElementNodeVisitor extends NodeVisitor<EAdElement> {
 		}
 
 		Class<?> c = null;
-		
+
 		if (clazz != null) {
 			try {
 				c = ClassLoader.getSystemClassLoader().loadClass(clazz);
 				element = (EAdElement) c.newInstance();
 				element.setId(id);
 			} catch (Exception e1) {
-				logger.log(Level.SEVERE, e1.getMessage(), e1);
+				logger.error(e1.getMessage(), e1);
 			}
 		}
-		
+
 		if (element != null)
 			ObjectFactory.addElement(uniqueId, element);
 
@@ -105,7 +105,7 @@ public class ElementNodeVisitor extends NodeVisitor<EAdElement> {
 
 		if (element != null)
 			readFields(element, node);
-		
+
 		return element;
 	}
 
@@ -113,5 +113,4 @@ public class ElementNodeVisitor extends NodeVisitor<EAdElement> {
 	public String getNodeType() {
 		return DOMTags.ELEMENT_AT;
 	}
-
 }

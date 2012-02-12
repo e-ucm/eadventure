@@ -37,20 +37,20 @@
 
 package ead.engine.core.evaluators;
 
-import java.util.logging.Logger;
-
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 import ead.common.model.elements.conditions.NOTCond;
 import ead.engine.core.evaluators.Evaluator;
 import ead.engine.core.evaluators.EvaluatorFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @Singleton
 public class NOTCondEvaluator implements Evaluator<NOTCond> {
-	
+
 	@SuppressWarnings("unused")
-	private Logger logger = Logger.getLogger("NOTConditionEvaluator");
+	private static final Logger logger = LoggerFactory.getLogger("NOTConditionEvaluator");
 
 	private EvaluatorFactory evaluatorFactory;
 

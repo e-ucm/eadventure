@@ -49,8 +49,6 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import javax.imageio.ImageIO;
 
@@ -78,14 +76,19 @@ import es.eucm.eadventure.common.data.chapter.conditions.Conditions;
 import es.eucm.eadventure.common.data.chapter.resources.Resources;
 import es.eucm.eadventure.common.loader.InputStreamCreator;
 import es.eucm.eadventure.common.loader.Loader;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Resource Importer
- * 
- * 
+ *
+ *
  */
 @Singleton
 public class ResourceImporterImpl implements ResourceImporter {
+
+	private static final Logger logger = LoggerFactory
+			.getLogger("ResourceImporterImpl");
 
 	/**
 	 * Conditions importer
@@ -116,9 +119,6 @@ public class ResourceImporterImpl implements ResourceImporter {
 	 * A map matching old uris with the new assets
 	 */
 	private Map<String, AssetDescriptor> assets;
-
-	private static final Logger logger = Logger
-			.getLogger("ResourceImporterImpl");
 
 	@Inject
 	public ResourceImporterImpl(
@@ -161,7 +161,7 @@ public class ResourceImporterImpl implements ResourceImporter {
 			newURI = folder + "/" + fileName;
 
 			if (!copyFile(oldURI, newURI)) {
-				logger.log(Level.SEVERE, "Missing resource: " + oldURI);
+				logger.error("Missing resource: {}", oldURI);
 				return null;
 			}
 
@@ -345,7 +345,7 @@ public class ResourceImporterImpl implements ResourceImporter {
 	/**
 	 * Imports an animation in the form _01.png, _02.png, or _01.jpg, _02.jpg,
 	 * etc.
-	 * 
+	 *
 	 * @param assetPath
 	 *            the root asset path
 	 * @return the asset
@@ -354,7 +354,7 @@ public class ResourceImporterImpl implements ResourceImporter {
 		String fileExtension = getFileExtension(assetPath);
 		if ( fileExtension == null )
 			return null;
-		
+
 		FramesAnimation frames = new FramesAnimation();
 		int frame = 1;
 		int frameTime = 500;
@@ -369,7 +369,7 @@ public class ResourceImporterImpl implements ResourceImporter {
 		else
 			return null;
 	}
-	
+
 	private String getFileExtension(String assetPath ){
 		String prefix = "_01";
 		if (fileExists(assetPath + prefix + ".png")){

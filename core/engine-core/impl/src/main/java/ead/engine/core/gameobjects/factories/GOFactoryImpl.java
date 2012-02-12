@@ -37,25 +37,23 @@
 
 package ead.engine.core.gameobjects.factories;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
 import ead.common.model.EAdElement;
 import ead.common.util.ReflectionProvider;
-import ead.engine.core.gameobjects.factories.GameObjectFactory;
 import ead.engine.core.gameobjects.go.GameObject;
 import ead.engine.core.platform.GenericInjector;
+import java.util.HashMap;
+import java.util.Map;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class GOFactoryImpl<S extends EAdElement, T extends GameObject<? extends S>> implements
 		GameObjectFactory<S, T> {
 
-	private static final Logger logger = Logger
+	private static final Logger logger = LoggerFactory
 			.getLogger("GameObjectFactoryImpl");
-	
+
 	private ReflectionProvider reflectionProvider;
-	
+
 	private GenericInjector injector;
 
 	private boolean useCache;
@@ -73,7 +71,7 @@ public class GOFactoryImpl<S extends EAdElement, T extends GameObject<? extends 
 		this.reflectionProvider = reflectionProvider;
 		this.injector = injector;
 	}
-	
+
 	public void setClassMap( Map<Class<? extends S>, Class<? extends T>> classMap ){
 		this.classMap = classMap;
 	}
@@ -83,7 +81,7 @@ public class GOFactoryImpl<S extends EAdElement, T extends GameObject<? extends 
 	public T get(S element) {
 		if ( element == null )
 			return null;
-		
+
 		GameObject temp = null;
 		if (useCache) {
 			temp = cache.get(element);
@@ -98,19 +96,18 @@ public class GOFactoryImpl<S extends EAdElement, T extends GameObject<? extends 
 			tempClass = classMap.get(runtimeClass);
 		}
 		if (tempClass == null) {
-			logger.log(Level.SEVERE, "No game element mapped for class "
-					+ element.getClass());
+			logger.error("No game element mapped for class {}", element.getClass());
 		} else {
 			temp = (GameObject) injector.getInstance(tempClass);
 			if (temp == null)
-				logger.severe("No instace for game object of class " + tempClass);
+				logger.error("No instace for game object of class {}", tempClass);
 			temp.setElement(element);
 			if ( useCache )
 				cache.put(element, (T) temp);
 		}
 		return (T) temp;
 	}
-	
+
 
 	public void remove(EAdElement element) {
 		cache.remove(element);
@@ -119,7 +116,7 @@ public class GOFactoryImpl<S extends EAdElement, T extends GameObject<? extends 
 	public void clean() {
 		cache.clear();
 	}
-	
+
 	public void put( Class<? extends S> clazz1, Class<? extends T> clazz2 ){
 		classMap.put(clazz1, clazz2);
 	}

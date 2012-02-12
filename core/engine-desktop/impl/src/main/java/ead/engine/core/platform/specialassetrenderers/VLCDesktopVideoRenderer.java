@@ -42,8 +42,6 @@ import java.awt.Color;
 import java.awt.Component;
 import java.io.File;
 import java.lang.reflect.InvocationTargetException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import com.google.inject.Inject;
 import com.sun.jna.NativeLibrary;
@@ -53,6 +51,8 @@ import ead.engine.core.platform.AssetHandler;
 import ead.engine.core.platform.SpecialAssetRenderer;
 import ead.engine.core.platform.specialassetrenderers.extra.VLCMediaPlayerEventListener;
 import ead.engine.core.platform.specialassetrenderers.extra.WinRegistry;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import uk.co.caprica.vlcj.player.MediaPlayerFactory;
 import uk.co.caprica.vlcj.player.embedded.EmbeddedMediaPlayer;
@@ -60,15 +60,15 @@ import uk.co.caprica.vlcj.player.embedded.videosurface.CanvasVideoSurface;
 
 /**
  * <p>Video renderer for desktop (and applets) using vlcj library {@link http://code.google.com/p/vlcj/}</p>
- * 
+ *
  *
  */
 public class VLCDesktopVideoRenderer implements SpecialAssetRenderer<Video, Component> {
-	
+
 	/**
 	 * Logger
 	 */
-	private static Logger logger = Logger.getLogger("VLCDesktopVideoRenderer");
+	private static Logger logger = LoggerFactory.getLogger("VLCDesktopVideoRenderer");
 
 	/**
 	 * The vlcj media player (controls, etc.)
@@ -79,12 +79,12 @@ public class VLCDesktopVideoRenderer implements SpecialAssetRenderer<Video, Comp
 	 * The vlcj surface for the video
 	 */
 	private CanvasVideoSurface videoSurface;
-	
+
 	/**
 	 * True if finished
 	 */
 	protected boolean finished;
-	
+
 	/**
 	 * True if started
 	 */
@@ -94,17 +94,17 @@ public class VLCDesktopVideoRenderer implements SpecialAssetRenderer<Video, Comp
 	 * The vlcj media player factory
 	 */
 	private static MediaPlayerFactory mediaPlayerFactory;
-	
+
 	/**
 	 * Used to configure vlc when necessary
 	 */
 	private static String vlcOptions = "";
-	
+
 	/**
 	 * The path of the video file
 	 */
 	private String path;
-	
+
 	/**
 	 * The eAd asset handler
 	 */
@@ -113,26 +113,26 @@ public class VLCDesktopVideoRenderer implements SpecialAssetRenderer<Video, Comp
 	@Inject
 	public VLCDesktopVideoRenderer(AssetHandler assetHandler) {
 		this.assetHandler = assetHandler;
-		initilizeVariables();
+		initializeVariables();
 	}
-	
+
 	@Override
 	public Component getComponent(Video asset) {
 		if (mediaPlayerFactory == null) {
 			String[] options = {vlcOptions};
 			mediaPlayerFactory = new MediaPlayerFactory (options);
 		}
-		
+
 		Canvas canvas = new Canvas();
 		canvas.setBackground(Color.black);
 		started = false;
-		
+
 		mediaPlayer = mediaPlayerFactory.newEmbeddedMediaPlayer();
 		videoSurface = mediaPlayerFactory.newVideoSurface(canvas);
 		mediaPlayer.setVideoSurface(videoSurface);
-		
+
 		mediaPlayer.addMediaPlayerEventListener(new VLCMediaPlayerEventListener(this));
-		
+
 		path = asset.getUri().getPath();
 		if (assetHandler != null)
 			path = assetHandler.getAbsolutePath(asset.getUri().getPath());
@@ -141,30 +141,30 @@ public class VLCDesktopVideoRenderer implements SpecialAssetRenderer<Video, Comp
 
 		return canvas;
 	}
-	
+
 	/**
 	 * Initialize system and system dependent variables for vlcj.
 	 */
-	private void initilizeVariables() {
+	private void initializeVariables() {
 		String os = System.getProperty("os.name").toLowerCase();
 		if (os.contains("win")) {
 			String temp = null;
 			try {
-				temp = WinRegistry.readString(WinRegistry.HKEY_LOCAL_MACHINE,
+                temp = WinRegistry.readString(WinRegistry.HKEY_LOCAL_MACHINE,
 							"Software\\VideoLAN\\VLC", "InstallDir");
-				if ( temp == null )
+				if (temp == null) {
 					temp = WinRegistry.readString(WinRegistry.HKEY_LOCAL_MACHINE,
 							"Software\\Wow6432Node\\VideoLAN\\VLC", "InstallDir");
-				logger.log(Level.INFO, "VLC folder: " + temp);
-			} catch (IllegalArgumentException e) {
-			} catch (IllegalAccessException e) {
-			} catch (InvocationTargetException e) {
-			}
-			
+                }
+                logger.info("VLC folder: '{}'", temp);
+			} catch (Exception e) {
+                logger.debug("VLC folder not found in Windows Registry");
+            }
+
 			if (temp == null) {
-				logger.log(Level.WARNING, "VLC not installed");
+				logger.warn("VLC not installed");
 				// not exists, extract
-					
+
 			}
 			String pathLibvlc = temp;
 			String pathPlugins = temp + "\\plugins";
@@ -175,19 +175,20 @@ public class VLCDesktopVideoRenderer implements SpecialAssetRenderer<Video, Comp
 		} else if (os.contains("mac")) {
 			String temp = "/Applications/VLC.app";
 			if (!new File("/Applications/VLC.app/").exists()) {
-				logger.log(Level.WARNING, "VLC not installed");
+				logger.warn("VLC not installed");
 				// not exists, extract
 				//temp = ....;
-			} else
-				logger.log(Level.INFO, "VLC installed");
-			String pathLibvlc = temp + "/Contents/MacOS/lib/";
+			} else {
+				logger.info("VLC installed");
+            }
+            String pathLibvlc = temp + "/Contents/MacOS/lib/";
 			String pathPlugins = temp + "/Contents/MacOS/plugins/";
 			NativeLibrary.addSearchPath("vlc", pathLibvlc);
 			System.setProperty("jna.library.path", pathLibvlc);
 			System.setProperty("VLC_PLUGIN_PATH", pathPlugins);
 			vlcOptions = "--vout=macosx";
 		} else {
-			logger.log(Level.SEVERE, "OS not supported by VLC video plugin: " + os);
+			logger.error("OS '{}' not supported by VLC video plugin", os);
 		}
 	}
 
@@ -209,7 +210,7 @@ public class VLCDesktopVideoRenderer implements SpecialAssetRenderer<Video, Comp
 
 	/**
 	 * Set the finished flag
-	 * 
+	 *
 	 * @param b The new value for finished
 	 */
 	public void setFinished(boolean b) {
@@ -218,11 +219,11 @@ public class VLCDesktopVideoRenderer implements SpecialAssetRenderer<Video, Comp
 
 	/**
 	 * Set the started flag
-	 * 
+	 *
 	 * @param b The new value for started
 	 */
 	public void setStarted(boolean b) {
 		this.started = b;
 	}
-	
+
 }

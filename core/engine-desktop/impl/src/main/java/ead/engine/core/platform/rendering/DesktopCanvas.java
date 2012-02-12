@@ -225,7 +225,8 @@ public class DesktopCanvas extends AbstractCanvas<Graphics2D> {
 		try {
 			g = graphicStack.pop();
 		} catch (EmptyStackException e) {
-			logger.severe("Attempted to restore canvas when there was nothing to restore. You may revise the use of save and restore on your code.");
+			logger.error("Attempted to restore canvas when there was nothing to restore. "
+                + "Check the use of save and restore on your code.");
 		}
 	}
 

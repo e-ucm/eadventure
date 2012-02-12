@@ -132,7 +132,7 @@ public class ImporterConfigurationModule extends AbstractModule {
 	private String projectFile;
 
 	/**
-	 * 
+	 *
 	 * @param projectFile
 	 *            Could be an *.eap file or and *.ead file
 	 */
@@ -149,9 +149,8 @@ public class ImporterConfigurationModule extends AbstractModule {
 		bind(String.class).annotatedWith(Names.named("StringsFile"))
 				.toInstance(projectFile + "/strings.xml");
 
-		bind(
-				new TypeLiteral<EAdElementImporter<AdventureData, EAdAdventureModel>>() {
-				}).to(AdventureImporter.class);
+		bind(new TypeLiteral<EAdElementImporter<AdventureData, EAdAdventureModel>>() {})
+                .to(AdventureImporter.class);
 		EAdElementFactoryImpl.importerMap.put(AdventureData.class,
 				AdventureImporter.class);
 
@@ -198,7 +197,7 @@ public class ImporterConfigurationModule extends AbstractModule {
 		}).to(ConditionsImporter.class);
 		EAdElementFactoryImpl.importerMap.put(Conditions.class,
 				ConditionsImporter.class);
-		
+
 		EAdElementFactoryImpl.importerMap.put(GlobalState.class,
 				ConditionsImporter.class);
 

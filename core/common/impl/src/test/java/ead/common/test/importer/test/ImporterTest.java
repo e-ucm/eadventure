@@ -53,15 +53,16 @@ import es.eucm.eadventure.common.data.adventure.AdventureData;
 public class ImporterTest extends TestCase {
 
 	private EAdventure1XImporter importer;
-	
+
 	private String projectFolder = "src/test/resources/Un paseo por eAdventure 1.2/";
-	
+
 	@Before
+    @Override
 	public void setUp( ) {
 		Injector injector = Guice.createInjector( new ImporterConfigurationModule( projectFolder ) );
 		importer = injector.getInstance( EAdventure1XImporter.class );
 	}
-	
+
 	@Test
 	public void testImportGame( ) {
 		EAdAdventureModel data = importer.importGame( "src/test/resources/Import Un paseo por eAdventure 1.2/"  );
@@ -69,7 +70,7 @@ public class ImporterTest extends TestCase {
 		AdventureData oldData = importer.loadGame(  );
 		assertNotNull( oldData );
 	}
-	
+
 	@Test
 	public void testImportGameFromZip( ){
 		EAdAdventureModel data = importer.importGame(  "src/test/resources/Chocolate.ead" );

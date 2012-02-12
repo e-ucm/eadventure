@@ -39,7 +39,8 @@ package ead.engine.core.game;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -62,7 +63,7 @@ public class ValueMapImpl implements ValueMap {
 
 	protected OperatorFactory operatorFactory;
 
-	protected static final Logger logger = Logger.getLogger("Value Map");
+	protected static final Logger logger = LoggerFactory.getLogger("Value Map");
 
 	private ReflectionProvider reflectionProvider;
 
@@ -99,7 +100,7 @@ public class ValueMapImpl implements ValueMap {
 
 			valMap.put(varDef, value);
 		} else {
-			logger.warning("setValue failed: Impossible to cast "
+			logger.warn("setValue failed: Impossible to cast "
 					+ varDef.getType() + " to " + value.getClass()
 					+ " for element " + element.getId() + " of class "
 					+ element.getClass());

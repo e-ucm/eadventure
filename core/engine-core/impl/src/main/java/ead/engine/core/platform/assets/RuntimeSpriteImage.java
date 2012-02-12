@@ -37,7 +37,8 @@
 
 package ead.engine.core.platform.assets;
 
-import java.util.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.google.inject.Inject;
 
@@ -57,7 +58,7 @@ public abstract class RuntimeSpriteImage<GraphicContext> extends
 	/**
 	 * Logger
 	 */
-	private Logger logger = Logger.getLogger("RuntimeSpriteImage");
+	private Logger logger = LoggerFactory.getLogger("RuntimeSpriteImage");
 
 	/**
 	 * The asset handler

@@ -62,8 +62,8 @@ public class ChangeSceneGO extends AbstractEffectGO<ChangeSceneEf> {
 	}
 
 	@Override
-	public void initilize() {
-		super.initilize();
+	public void initialize() {
+		super.initialize();
 		if (element.getNextScene() == null || element.getNextScene() != gameState.getScene().getElement()) {
 			TransitionGO<?> transition = transitionFactory
 					.getTransition(element.getTransition());

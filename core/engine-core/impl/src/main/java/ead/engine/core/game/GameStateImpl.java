@@ -41,8 +41,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map.Entry;
 import java.util.Stack;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -66,6 +64,8 @@ import ead.engine.core.gameobjects.go.SceneGO;
 import ead.engine.core.input.InputAction;
 import ead.engine.core.platform.LoadingScreen;
 import ead.engine.core.plugins.PluginHandler;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @Singleton
 public class GameStateImpl implements GameState {
@@ -89,7 +89,7 @@ public class GameStateImpl implements GameState {
 	 */
 	private List<EffectGO<?>> effectsQueue;
 
-	private static Logger logger = Logger.getLogger("GameState");
+	private static Logger logger = LoggerFactory.getLogger("GameState");
 
 	private boolean paused;
 
@@ -107,7 +107,7 @@ public class GameStateImpl implements GameState {
 			EffectGOFactory effectFactory, ValueMap valueMap,
 			EvaluatorFactory evaluatorFactory, EventGOFactory eventGOFactory,
 			PluginHandler pluginHandler) {
-		logger.log(Level.INFO, "New instance");
+		logger.info("New instance of GameState");
 		effects = new ArrayList<EffectGO<?>>();
 		effectsQueue = new ArrayList<EffectGO<?>>();
 		this.loadingScreen = loadingScreen;
@@ -122,9 +122,10 @@ public class GameStateImpl implements GameState {
 		installPlugins();
 	}
 
+    @Override
 	public SceneGO<?> getScene() {
 		if (scene == null) {
-			logger.log(Level.FINE, "null scene, Loading screen: "
+			logger.debug("null scene, Loading screen: "
 					+ (loadingScreen != null));
 			this.scene = (SceneGO<?>) sceneElementFactory.get(loadingScreen);
 			previousSceneStack.push(loadingScreen);
@@ -134,7 +135,7 @@ public class GameStateImpl implements GameState {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * es.eucm.eadventure.engine.core.GameState#setScene(es.eucm.eadventure.
 	 * engine.core.gameobjects.SceneGO)
@@ -161,7 +162,7 @@ public class GameStateImpl implements GameState {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see es.eucm.eadventure.engine.core.GameState#getEffects()
 	 */
 	@Override
@@ -171,7 +172,7 @@ public class GameStateImpl implements GameState {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see es.eucm.eadventure.engine.core.GameState#getValueMap()
 	 */
 	@Override
@@ -181,7 +182,7 @@ public class GameStateImpl implements GameState {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * es.eucm.eadventure.engine.core.GameState#addEffect(es.eucm.eadventure
 	 * .common.model.effects.EAdEffect)
@@ -194,7 +195,7 @@ public class GameStateImpl implements GameState {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see es.eucm.eadventure.engine.core.GameState#addEffect(int,
 	 * es.eucm.eadventure.common.model.effects.EAdEffect)
 	 */
@@ -206,7 +207,7 @@ public class GameStateImpl implements GameState {
 				EffectGO<?> effectGO = effectFactory.get(e);
 				effectGO.setGUIAction(action);
 				effectGO.setParent(parent);
-				effectGO.initilize();
+				effectGO.initialize();
 				if (e.isQueueable())
 					synchronized (effectsQueue) {
 						pos = pos == -1 ? effectsQueue.size() : pos;

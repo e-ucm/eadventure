@@ -76,8 +76,8 @@ public class ActorActionsGO extends
 	}
 
 	@Override
-	public void initilize() {
-		super.initilize();
+	public void initialize() {
+		super.initialize();
 		if (element.getChange() == ChangeActorActions.SHOW_ACTIONS) {
 			EAdSceneElement ref = gameState.getValueMap().getValue(
 					element.getActionElement(),

@@ -37,28 +37,25 @@
 
 package ead.engine.core.evaluators;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
 import com.google.inject.Singleton;
-
 import ead.common.model.elements.conditions.EmptyCond;
-import ead.engine.core.evaluators.Evaluator;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @Singleton
 public class EmptyCondEvaluator implements Evaluator<EmptyCond> {
-	
-	private static final Logger logger = Logger.getLogger("EmptyConditionEvaluator");
-	
+
+	private static final Logger logger = LoggerFactory.getLogger("EmptyConditionEvaluator");
+
 	@Override
 	public boolean evaluate(EmptyCond condition) {
 		switch(condition.getValue()) {
-		case TRUE:
-			return true;
-		case FALSE:
-			return false;
+            case TRUE:	return true;
+            case FALSE:	return false;
+            default: logger.error(
+                    "Invalid value '{}' for empty condition '{}'",
+                        condition.getValue(), condition);
 		}
-		logger.log(Level.SEVERE, "Invalid value for empty condition, condition: " + condition);
 		return false;
 	}
 

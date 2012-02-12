@@ -37,21 +37,19 @@
 
 package ead.engine.core.platform;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
 import com.google.inject.Inject;
 import com.google.inject.Injector;
-
 import ead.common.interfaces.features.Resourced;
 import ead.common.resources.EAdBundleId;
 import ead.common.resources.assets.AssetDescriptor;
 import ead.common.resources.assets.drawable.Drawable;
 import ead.engine.core.platform.rendering.GenericCanvas;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * <p>
@@ -70,13 +68,13 @@ public abstract class AbstractAssetHandler implements AssetHandler {
 	/**
 	 * The class logger
 	 */
-	private static final Logger logger = Logger
+	private static final Logger logger = LoggerFactory
 			.getLogger("AbstractAssetHandler");
 
 	/**
 	 * A cache of the runtime assets for each asset descriptor
 	 */
-	protected Map<AssetDescriptor, RuntimeAsset<?>> cache;
+	final protected Map<AssetDescriptor, RuntimeAsset<?>> cache;
 
 	/**
 	 * A class map of the asset descriptor classes and their corresponding
@@ -90,7 +88,7 @@ public abstract class AbstractAssetHandler implements AssetHandler {
 
 	/**
 	 * Default constructor, values are supplied by injection
-	 * 
+	 *
 	 * @param injector
 	 *            The guice injector
 	 * @param classMap
@@ -111,7 +109,7 @@ public abstract class AbstractAssetHandler implements AssetHandler {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * es.eucm.eadventure.engine.core.platform.AssetHandler#getRuntimeAsset(
 	 * es.eucm.eadventure.common.resources.assets.AssetDescriptor)
@@ -123,7 +121,7 @@ public abstract class AbstractAssetHandler implements AssetHandler {
 		if (descriptor == null) {
 			return null;
 		}
-		
+
 		RuntimeAsset<T> temp = null;
 		synchronized (cache) {
 			temp = (RuntimeAsset<T>) cache.get(descriptor);
@@ -146,6 +144,7 @@ public abstract class AbstractAssetHandler implements AssetHandler {
 
 	}
 
+    @Override
 	public <T extends AssetDescriptor> RuntimeAsset<T> getRuntimeAsset(
 			T descriptor, boolean load) {
 		RuntimeAsset<T> runtimeAsset = getRuntimeAsset(descriptor);
@@ -167,7 +166,7 @@ public abstract class AbstractAssetHandler implements AssetHandler {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * es.eucm.eadventure.engine.core.platform.AssetHandler#getRuntimeAsset(
 	 * es.eucm.eadventure.common.model.EAdElement,
@@ -181,8 +180,7 @@ public abstract class AbstractAssetHandler implements AssetHandler {
 			descriptor = element.getAsset(id);
 
 		if (descriptor == null) {
-			logger.log(Level.SEVERE,
-					"No such asset. element: " + element.getClass()
+			logger.error("No such asset. element: " + element.getClass()
 							+ "; bundleId: "
 							+ (bundleId != null ? bundleId : "null") + "; id: "
 							+ id);
@@ -199,12 +197,11 @@ public abstract class AbstractAssetHandler implements AssetHandler {
 			cache.put(descriptor, finalAsset);
 			return finalAsset;
 		}
-
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * es.eucm.eadventure.engine.core.platform.AssetHandler#getRuntimeAsset(
 	 * es.eucm.eadventure.common.model.EAdElement, java.lang.String)
@@ -216,7 +213,7 @@ public abstract class AbstractAssetHandler implements AssetHandler {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see es.eucm.eadventure.engine.core.platform.AssetHandler#isLoaded()
 	 */
 	@Override
@@ -226,6 +223,7 @@ public abstract class AbstractAssetHandler implements AssetHandler {
 
 	private ArrayList<AssetDescriptor> descriptorsToRemove = new ArrayList<AssetDescriptor>();
 
+    @Override
 	public void clean(List<AssetDescriptor> exceptions) {
 		descriptorsToRemove.clear();
 		synchronized (cache) {
@@ -248,5 +246,4 @@ public abstract class AbstractAssetHandler implements AssetHandler {
 	protected void setLoaded(boolean loaded) {
 		this.loaded = loaded;
 	}
-
 }

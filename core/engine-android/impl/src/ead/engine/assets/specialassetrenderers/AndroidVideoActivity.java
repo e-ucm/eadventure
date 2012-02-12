@@ -38,8 +38,6 @@
 package ead.engine.assets.specialassetrenderers;
 
 import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -51,9 +49,11 @@ import android.media.MediaPlayer.OnVideoSizeChangedListener;
 import android.os.Bundle;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
+import ead.editor.R;
 import ead.engine.EAdventureEngineActivity;
 import ead.engine.R;
-
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class AndroidVideoActivity extends Activity implements OnCompletionListener,
 OnPreparedListener, OnVideoSizeChangedListener, SurfaceHolder.Callback {
@@ -61,7 +61,7 @@ OnPreparedListener, OnVideoSizeChangedListener, SurfaceHolder.Callback {
 	/**
 	 * The class logger
 	 */
-	private static final Logger logger = Logger.getLogger("AndroidVideoActivity");
+	private static final Logger logger = LoggerFactory.getLogger("AndroidVideoActivity");
 	private int videoWidth;
 	private int videoHeight;
 	private MediaPlayer mediaPlayer;
@@ -72,7 +72,7 @@ OnPreparedListener, OnVideoSizeChangedListener, SurfaceHolder.Callback {
 	private boolean videoReady = false;
 
 	/**
-	 * 
+	 *
 	 * Called when the activity is first created.
 	 */
 	@Override
@@ -92,7 +92,7 @@ OnPreparedListener, OnVideoSizeChangedListener, SurfaceHolder.Callback {
 
 		clean();
 
-		try {			
+		try {
 			mediaPlayer = new MediaPlayer();
 			mediaPlayer.setDataSource(path);
 			mediaPlayer.setDisplay(surfaceHolder);
@@ -101,23 +101,19 @@ OnPreparedListener, OnVideoSizeChangedListener, SurfaceHolder.Callback {
 			mediaPlayer.setOnPreparedListener(this);
 			mediaPlayer.setOnVideoSizeChangedListener(this);
 			mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
-			
-		} catch (IllegalArgumentException e) {
-			logger.log(Level.SEVERE, e.getMessage(), e);
-		} catch (IllegalStateException e) {
-			logger.log(Level.SEVERE, e.getMessage(), e);
-		} catch (IOException e) {
-			logger.log(Level.SEVERE, e.getMessage(), e);
+
+		} catch (Exception e) {
+			logger.error("preparing video from {}", path,  e);
 		}
 	}
 
 	public void onCompletion(MediaPlayer arg0) {
-		
+
 		returnToAdventure();
 	}
 
 	private void returnToAdventure() {
-		
+
 		Intent i = new Intent(this, EAdventureEngineActivity.class);
 		this.startActivity(i);
 		this.finish();
@@ -183,7 +179,7 @@ OnPreparedListener, OnVideoSizeChangedListener, SurfaceHolder.Callback {
 	}
 
 	private void startVideoPlayback() {
-		
+
 		surfaceHolder.setFixedSize(videoWidth, videoHeight);
 		mediaPlayer.start();
 	}

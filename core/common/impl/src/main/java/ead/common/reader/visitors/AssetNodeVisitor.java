@@ -38,14 +38,14 @@
 package ead.common.reader.visitors;
 
 import java.lang.reflect.Field;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import org.w3c.dom.Node;
 
 import ead.common.DOMTags;
 import ead.common.reader.extra.ObjectFactory;
 import ead.common.resources.assets.AssetDescriptor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * <p>
@@ -59,7 +59,7 @@ import ead.common.resources.assets.AssetDescriptor;
  */
 public class AssetNodeVisitor extends NodeVisitor<AssetDescriptor> {
 
-	protected static final Logger logger = Logger.getLogger("AssetNodeVisitor");
+	private static final Logger logger = LoggerFactory.getLogger("AssetNodeVisitor");
 
 	@Override
 	public AssetDescriptor visit(Node node, Field field, Object parent, Class<?> listClass) {
@@ -68,34 +68,30 @@ public class AssetNodeVisitor extends NodeVisitor<AssetDescriptor> {
 			setValue(field, parent, element);
 			return element;
 		}
-			
+
 		String uniqueId = node.getAttributes().getNamedItem(DOMTags.UNIQUE_ID_AT).getNodeValue();
 
 		String clazz = node.getAttributes().getNamedItem(DOMTags.CLASS_AT).getNodeValue();
 		clazz = translateClass(clazz);
-		
+
 		Class<?> c = null;
 		try {
 			c = ClassLoader.getSystemClassLoader().loadClass(clazz);
 			element = (AssetDescriptor) c.newInstance();
-		} catch (ClassNotFoundException e) {
-			logger.log(Level.SEVERE, e.getMessage(), e);
-		} catch (SecurityException e) {
-			logger.log(Level.SEVERE, e.getMessage(), e);
 		} catch (Exception e) {
-			logger.log(Level.SEVERE, e.getMessage(), e);
+			logger.error("loading class for {}", clazz, e);
 		}
-		
+
 		if (element != null)
 			ObjectFactory.addAsset(uniqueId, element);
 		setValue(field, parent, element);
 
 		readFields(element, node);
-		
+
 		return element;
 	}
-	
-	
+
+
 
 
 	@Override

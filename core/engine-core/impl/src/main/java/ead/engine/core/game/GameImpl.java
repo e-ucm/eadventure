@@ -37,14 +37,8 @@
 
 package ead.engine.core.game;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-
 import ead.common.model.elements.EAdAdventureModel;
 import ead.common.model.elements.EAdChapter;
 import ead.common.model.elements.EAdEvent;
@@ -67,6 +61,10 @@ import ead.engine.core.platform.EngineConfiguration;
 import ead.engine.core.platform.GUI;
 import ead.engine.core.util.EAdTransformation;
 import ead.engine.core.util.EAdTransformationImpl;
+import java.util.ArrayList;
+import java.util.List;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @Singleton
 public class GameImpl implements Game {
@@ -85,7 +83,7 @@ public class GameImpl implements Game {
 
 	private ActionsHUD actionsHUD;
 
-	private static final Logger logger = Logger.getLogger("GameImpl");
+	private static final Logger logger = LoggerFactory.getLogger("GameImpl");
 
 	// Auxiliary variable, to avoid new every time
 	private static ArrayList<EffectGO<?>> finishedEffects = new ArrayList<EffectGO<?>>();
@@ -185,8 +183,8 @@ public class GameImpl implements Game {
 
 		// Delete finished effects
 		for (EffectGO<?> e : finishedEffects) {
-			logger.log(Level.INFO,
-					"Finished or discarded effect " + e.getClass());
+			logger.info("Finished or discarded effect {}",
+                    e.getClass().getCanonicalName());
 			gameState.getEffects().remove(e);
 		}
 
@@ -223,7 +221,7 @@ public class GameImpl implements Game {
 
 	@Override
 	public void loadGame() {
-		assetHandler.initilize();
+		assetHandler.initialize();
 
 		// TODO should probably find multiplatform reading?
 		// reader.read(assetHandler.getResourceAsStream("@adventure.xml"));

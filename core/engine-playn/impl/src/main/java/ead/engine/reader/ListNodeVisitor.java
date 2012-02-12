@@ -37,8 +37,6 @@
 
 package ead.engine.reader;
 
-import java.util.logging.Level;
-
 import com.google.gwt.xml.client.Node;
 import com.google.gwt.xml.client.NodeList;
 import com.gwtent.reflection.client.ClassType;
@@ -49,16 +47,20 @@ import ead.common.DOMTags;
 import ead.common.model.elements.extra.EAdList;
 import ead.common.model.elements.extra.EAdListImpl;
 import ead.common.util.EAdPosition;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class ListNodeVisitor extends NodeVisitor<EAdList<Object>> {
+
+	private static final Logger logger = LoggerFactory.getLogger("ListNodeVisitor");
 
 	@SuppressWarnings("unchecked")
 	@Override
 	public EAdList<Object> visit(Node node, Field field, Object parent, Class<?> listClass) {
 		NodeList nl = node.getChildNodes();
-		
+
 		EAdList<Object> list = null;
-		
+
 		if (field == null || parent == null) {
 			list = createNewList(node);
 		} else {
@@ -66,18 +68,19 @@ public class ListNodeVisitor extends NodeVisitor<EAdList<Object>> {
 				list = (EAdList<Object>) field.getFieldValue(parent);
 				list.clear();
 			} catch (ClassCastException e) {
-				logger.log(Level.WARNING, "Fail to cast as list, field: " + field.getName() + " in " + parent);
+                logger.error("Failed to cast as list, field {} in {}",
+                    new Object[] {field.getName(), parent}, e);
 			}
 		}
-		
-		//TODO do for more tyes?
+
+		// TODO: do for more types?
 		if (list.getValueClass() == Integer.class ||
 				list.getValueClass() == Float.class ||
 				list.getValueClass() == EAdPosition.class || list.getValueClass() == EAdPosition.class) {
 			String value = GWTReader.getNodeText(node);
 			if (value != null && !value.equals("")) {
 				String[] values = value.split("\\|");
-				for (int i = 0; i < values.length; i++) 
+				for (int i = 0; i < values.length; i++)
 					list.add(ObjectFactory.getObject(values[i], list.getValueClass()));
 			}
 		} else {
@@ -93,19 +96,19 @@ public class ListNodeVisitor extends NodeVisitor<EAdList<Object>> {
 			}
 		}
 		return list;
-		
+
 	}
-	
+
 	private EAdList<Object> createNewList(Node node) {
 		Node n = node.getAttributes().getNamedItem(DOMTags.CLASS_AT);
 		String clazz = n.getNodeValue();
 		clazz = translateClass(clazz);
-		
+
 		ClassType<?> classType = TypeOracle.Instance.getClassType(clazz);
 
 		return new EAdListImpl<Object>(classType.getClass());
 	}
-	
+
 	@Override
 	public String getNodeType() {
 		return DOMTags.LIST_TAG;

@@ -66,8 +66,8 @@ public class Box2DGO extends AbstractEffectGO<Box2DEffect> {
 	private World world;
 
 	@Override
-	public void initilize() {
-		super.initilize();
+	public void initialize() {
+		super.initialize();
 		AABB aabb = new AABB(new Vec2(0, 0), new Vec2(1000, 1000));
 		world = new World(aabb, new Vec2(0, 10.0f), true);
 

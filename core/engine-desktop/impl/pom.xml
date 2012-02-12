@@ -59,11 +59,11 @@
 			<version>1.2.0</version>
 		</dependency>
 
-		<!-- Currently unused 
-		    <dependency> 
-			    <groupId>com.kitfox.svg</groupId> 
-			    <artifactId>svg-salamander-tiny</artifactId> 
-				<version>1.0.0</version> 
+		<!-- Currently unused
+		    <dependency>
+			    <groupId>com.kitfox.svg</groupId>
+			    <artifactId>svg-salamander-tiny</artifactId>
+				<version>1.0.0</version>
 			</dependency> -->
 		<!-- tests -->
 

@@ -37,8 +37,6 @@
 
 package ead.engine.reader;
 
-import java.util.logging.Logger;
-
 import com.google.gwt.xml.client.Node;
 import com.gwtent.reflection.client.ClassType;
 import com.gwtent.reflection.client.Field;
@@ -46,6 +44,8 @@ import com.gwtent.reflection.client.TypeOracle;
 
 import ead.common.DOMTags;
 import ead.common.resources.assets.AssetDescriptor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * <p>
@@ -58,8 +58,8 @@ import ead.common.resources.assets.AssetDescriptor;
  * </p>
  */
 public class AssetNodeVisitor extends NodeVisitor<AssetDescriptor> {
-	
-	protected static final Logger logger = Logger.getLogger("AssetNodeVisitor");
+
+	protected static final Logger logger = LoggerFactory.getLogger("AssetNodeVisitor");
 
 	@Override
 	public AssetDescriptor visit(Node node, Field field, Object parent, Class<?> listClass) {
@@ -68,24 +68,24 @@ public class AssetNodeVisitor extends NodeVisitor<AssetDescriptor> {
 			setValue(field, parent, element);
 			return element;
 		}
-			
+
 		String uniqueId = node.getAttributes().getNamedItem(DOMTags.UNIQUE_ID_AT).getNodeValue();
 
 		String clazz = node.getAttributes().getNamedItem(DOMTags.CLASS_AT).getNodeValue();
 		clazz = translateClass(clazz);
-		
+
 		ClassType<?> classType = TypeOracle.Instance.getClassType(clazz);
 		element = (AssetDescriptor) classType.findConstructor().newInstance();
-		
+
 		if (element != null)
 			ObjectFactory.addAsset(uniqueId, element);
 		setValue(field, parent, element);
 
 		readFields(element, node);
-		
+
 		return element;
 	}
-	
+
 	@Override
 	public String getNodeType() {
 		return DOMTags.ASSET_AT;

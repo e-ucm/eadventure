@@ -68,8 +68,8 @@ public class ShowSceneElementGO extends AbstractEffectGO<ShowSceneElementEf> {
 	}
 
 	@Override
-	public void initilize() {
-		super.initilize();
+	public void initialize() {
+		super.initialize();
 		time = element.getTime();
 		sceneElement = sceneElementFactory.get(element.getSceneElement());
 

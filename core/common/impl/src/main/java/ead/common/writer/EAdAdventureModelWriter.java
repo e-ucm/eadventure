@@ -37,31 +37,28 @@
 
 package ead.common.writer;
 
+import ead.common.DOMTags;
+import ead.common.Writer;
+import ead.common.model.elements.EAdAdventureModel;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.net.URI;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
-
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
-import ead.common.DOMTags;
-import ead.common.Writer;
-import ead.common.model.elements.EAdAdventureModel;
-
 public class EAdAdventureModelWriter implements Writer<EAdAdventureModel> {
 
-	private static final Logger logger = Logger.getLogger("EAdAdventureModelWriter");
-	
+	private static final Logger logger = LoggerFactory.getLogger("EAdAdventureModelWriter");
+
 	@Override
 	public boolean write(EAdAdventureModel data, URI fileURI) {
 		return false;
@@ -77,9 +74,9 @@ public class EAdAdventureModelWriter implements Writer<EAdAdventureModel> {
 	            Document doc = db.newDocument( );
 	            Transformer transformer = null;
 	            OutputStreamWriter outputStreamWriter = null;
-	            
+
 	            DOMWriter.initMaps(data);
-	            
+
 	            Element root = doc.createElement(DOMTags.ROOT_TAG);
 	            root.setAttribute(DOMTags.PACKAGE_AT, DOMTags.PACKAGE);
 	            doc.adoptNode(root);
@@ -89,9 +86,8 @@ public class EAdAdventureModelWriter implements Writer<EAdAdventureModel> {
 	            Node newNode = listDOMWriter.buildNode(data, null);
 	            doc.adoptNode(newNode);
 	            root.appendChild( newNode );
-	            
+
 	            root.appendChild(createMapNode(doc));
-	            
 
 	            transformer = tf.newTransformer( );
 
@@ -104,21 +100,21 @@ public class EAdAdventureModelWriter implements Writer<EAdAdventureModel> {
 	            return true;
 	        }
 	        catch( Exception e ) {
-	        	logger.log(Level.SEVERE, "Error writing adventure ", e);
+	        	logger.error("Error writing adventure", e);
 	            return false;
 	        }
 	}
-	
+
 	public Node createMapNode(Document doc) {
 		Element node = doc.createElement("keyMap");
-		
+
 		for (String key : DOMWriter.depthManager.getAliasMap().keySet()) {
 			Element n = doc.createElement("entry");
 			n.setAttribute("key",  key);
 			n.setAttribute("value", DOMWriter.depthManager.getAliasMap().get(key));
 			node.appendChild(n);
 		}
-		
+
 		return node;
 	}
 

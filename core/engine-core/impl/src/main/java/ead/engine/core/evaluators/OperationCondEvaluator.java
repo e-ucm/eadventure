@@ -37,7 +37,8 @@
 
 package ead.engine.core.evaluators;
 
-import java.util.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -50,8 +51,8 @@ import ead.engine.core.operator.OperatorFactory;
 public class OperationCondEvaluator implements
 		Evaluator<OperationCond> {
 
-	private static final Logger logger = Logger
-			.getLogger("VarConditionEvaluator");
+	private static final Logger logger = LoggerFactory
+		.getLogger("VarConditionEvaluator");
 
 	private OperatorFactory operatorFactory;
 
@@ -74,11 +75,11 @@ public class OperationCondEvaluator implements
 		if ( value1 instanceof Number ){
 			value1 = ((Number) value1).floatValue();
 		}
-		
+
 		if ( value2 instanceof Number ){
 			value2 = ((Number) value2).floatValue();
 		}
-		
+
 		if (value1.getClass() == value2.getClass() && value1 instanceof Comparable) {
 			int result = ((Comparable) value1).compareTo(value2);
 			switch (condition.getOperator()) {

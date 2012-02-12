@@ -57,8 +57,8 @@ public class PlaySoundGO extends AbstractEffectGO<PlaySoundEf> {
 	}
 
 	@Override
-	public void initilize() {
-		super.initilize();
+	public void initialize() {
+		super.initialize();
 		RuntimeSound sound = (RuntimeSound) assetHandler
 				.getRuntimeAsset(element.getSound());
 		sound.loadAsset();

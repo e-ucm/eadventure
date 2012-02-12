@@ -61,7 +61,7 @@ public class ChangeFieldGO extends AbstractEffectGO<ChangeFieldEf> {
 	}
 
 	@Override
-	public void initilize() {
+	public void initialize() {
 		for (EAdField<?> v : element.getFields()) {
 			operatorFactory.operate(v, element.getOperation());
 		}

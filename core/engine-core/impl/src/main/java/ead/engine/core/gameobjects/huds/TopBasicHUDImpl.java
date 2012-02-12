@@ -37,7 +37,8 @@
 
 package ead.engine.core.gameobjects.huds;
 
-import java.util.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -91,7 +92,7 @@ public class TopBasicHUDImpl extends AbstractHUD implements TopBasicHUD {
 	/**
 	 * The logger
 	 */
-	protected static final Logger logger = Logger.getLogger("BasicHUDImpl");
+	protected static final Logger logger = LoggerFactory.getLogger("BasicHUDImpl");
 
 	private static final int CURSOR_SIZE = 32;
 

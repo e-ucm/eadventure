@@ -40,7 +40,8 @@ package ead.engine.core.platform;
 import static playn.core.PlayN.graphics;
 
 import java.awt.Graphics2D;
-import java.util.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.swing.JFrame;
 
@@ -71,7 +72,7 @@ public class PlayNGUI extends AbstractGUI<Canvas> implements GUI {
 	/**
 	 * The class logger
 	 */
-	private static final Logger logger = Logger.getLogger("PlayNGUI");
+	private static final Logger logger = LoggerFactory.getLogger("PlayNGUI");
 
 	/**
 	 * The {@code Canvas} object where the actual game is drawn
@@ -139,12 +140,12 @@ public class PlayNGUI extends AbstractGUI<Canvas> implements GUI {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see es.eucm.eadventure.engine.core.platform.GUI#initilize()
+	 * @see es.eucm.eadventure.engine.core.platform.GUI#initialize()
 	 */
 	@Override
-	public void initilize() {
+	public void initialize() {
 		// TODO initialize Canvas
-		logger.info("PlayN GUI initilized");
+		logger.info("PlayN GUI initialized");
 	}
 
 	/**

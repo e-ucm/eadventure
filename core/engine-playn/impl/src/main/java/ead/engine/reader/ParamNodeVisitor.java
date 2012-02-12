@@ -39,16 +39,15 @@ package ead.engine.reader;
 
 import com.gwtent.reflection.client.Field;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
 import com.google.gwt.xml.client.Node;
 
 import ead.common.DOMTags;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class ParamNodeVisitor extends NodeVisitor<Object> {
 
-	protected static final Logger logger = Logger.getLogger("ParamNodeVisitor");
+	protected static final Logger logger = LoggerFactory.getLogger("ParamNodeVisitor");
 
 	@Override
 	public Object visit(Node node, Field field, Object parent, Class<?> listClass) {
@@ -56,38 +55,44 @@ public class ParamNodeVisitor extends NodeVisitor<Object> {
 		Object object = null;
 		if (textContent != null && !textContent.equals("")) {
 			Class<?> c = listClass;
-			if (c == null || (node.getAttributes() != null && node.getAttributes().getNamedItem(DOMTags.CLASS_AT) != null)) {
-				String clazz = node.getAttributes().getNamedItem(DOMTags.CLASS_AT).getNodeValue();
+			if (c == null || (node.getAttributes() != null && node.getAttributes()
+                    .getNamedItem(DOMTags.CLASS_AT) != null)) {
+				String clazz = node.getAttributes()
+                        .getNamedItem(DOMTags.CLASS_AT).getNodeValue();
 				clazz = translateClass(clazz);
 				try {
 					c = ObjectFactory.getClassFromName(clazz);
 				} catch (NullPointerException e) {
-					logger.severe(e.getMessage());
+					logger.error("Error resolving class {}", clazz, e);
 				}
 			}
-			
+
 			String value = textContent;
 			if ( ObjectFactory.getParamsMap().containsKey(value)){
 				object = ObjectFactory.getParamsMap().get(value);
-				logger.finest(value + " of value " + object.toString() + " and type "  + object.getClass() + " was compressed." );
-			}
-			else {
+				logger.debug("Mapped '{}' of value '{}' and type {} to existing instance",
+                    new Object[] {value, object.toString(), object.getClass()});
+			} else {
 				object = ObjectFactory.getObject(value, c);
-				if (node.getAttributes() != null && node.getAttributes().getNamedItem(DOMTags.UNIQUE_ID_AT) != null) 
-					ObjectFactory.getParamsMap().put(node.getAttributes().getNamedItem(DOMTags.UNIQUE_ID_AT).getNodeValue(), object);
-			}
-			 
+				if (node.getAttributes() != null && node.getAttributes()
+                        .getNamedItem(DOMTags.UNIQUE_ID_AT) != null) {
+					ObjectFactory.getParamsMap().put(node.getAttributes()
+                            .getNamedItem(DOMTags.UNIQUE_ID_AT).getNodeValue(), object);
+                }
+            }
+
 			setValue(field, parent, object);
 
 			try {
 				setValue(field, parent, object);
 			} catch (IllegalArgumentException e) {
-				logger.log(Level.SEVERE, e.getMessage(), e);
-			} 
-		} 
+				logger.error("Error setting value of {} in {}",
+                    new Object[] {field.getName(), e.getMessage()}, e);
+			}
+		}
 		return object;
 	}
-	
+
 	@Override
 	public String getNodeType() {
 		return DOMTags.PARAM_AT;

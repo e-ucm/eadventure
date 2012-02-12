@@ -37,8 +37,6 @@
 
 package ead.engine.core.input;
 
-import java.util.logging.Logger;
-
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
@@ -57,6 +55,8 @@ import ead.engine.core.input.actions.MouseActionImpl;
 import ead.engine.core.input.states.KeyboardState;
 import ead.engine.core.input.states.MouseState;
 import ead.engine.core.util.EAdTransformation;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @Singleton
 public class InputHandlerImpl implements InputHandler {
@@ -64,7 +64,7 @@ public class InputHandlerImpl implements InputHandler {
 	/**
 	 * Logger
 	 */
-	protected static final Logger logger = Logger.getLogger("InputHandler");
+	protected static final Logger logger = LoggerFactory.getLogger("InputHandler");
 
 	/**
 	 * Maximum number of events to be processes per cycle
@@ -126,18 +126,21 @@ public class InputHandlerImpl implements InputHandler {
 	 */
 	private void processKeyActions() {
 		int j = 0;
-		while (!keyboardHandler.getKeyActions().isEmpty()
-				&& (j < MAX_EVENTS_PER_CYCLE || keyboardHandler.getKeyActions()
-						.size() > MAX_EVENTS_IN_QUEUE)) {
+		while ( ! keyboardHandler.getKeyActions().isEmpty()
+                && (j < MAX_EVENTS_PER_CYCLE
+                        || keyboardHandler.getKeyActions().size()
+                            > MAX_EVENTS_IN_QUEUE)) {
 
 			KeyActionImpl action = keyboardHandler.getKeyActions().poll();
 
 			DrawableGO<?> go = gameState.getActiveElement();
-			if (go != null)
+
+            // first, the active element gets a try at consuming it
+            if (go != null)
 				go.processAction(action);
 
+            // then, all elements get a try
 			int i = gameObjects.getGameObjects().size() - 1;
-
 			while (propagateEvents && !action.isConsumed() && i >= 0) {
 				go = gameObjects.getGameObjects().get(i);
 				go.processAction(action);
@@ -145,10 +148,9 @@ public class InputHandlerImpl implements InputHandler {
 			}
 
 			if (action.isConsumed() && go != null) {
-				logger.info("Action " + action + " consumed by " + go);
+				logger.info("Action {} consumed by {}", action, go);
 			} else {
-				logger.info("Action " + action
-						+ " not consumed by any element.");
+				logger.info("Action {} not consumed by any element", action);
 			}
 			j++;
 		}
@@ -191,7 +193,7 @@ public class InputHandlerImpl implements InputHandler {
 				}
 
 				if (action.isConsumed())
-					logger.info("Action " + action + " consumed by " + go + "");
+					logger.info("Action {} consumed by {}", action, go);
 
 				i = propagateEvents ? i - 1 : -1;
 			}

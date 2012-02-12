@@ -102,7 +102,7 @@ public interface GUI {
 	/**
 	 * Initialize the GUI
 	 */
-	void initilize();
+	void initialize();
 
 	/**
 	 * Returns the main window's width

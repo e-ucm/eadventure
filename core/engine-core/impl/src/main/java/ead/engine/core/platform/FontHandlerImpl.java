@@ -37,54 +37,53 @@
 
 package ead.engine.core.platform;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
 import ead.common.params.EAdFontImpl;
 import ead.common.params.text.EAdFont;
 import ead.common.util.EAdRectangle;
-import ead.engine.core.platform.AssetHandler;
-import ead.engine.core.platform.FontHandler;
-import ead.engine.core.platform.RuntimeFont;
+import java.util.HashMap;
+import java.util.Map;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public abstract class FontHandlerImpl implements FontHandler {
 
-	protected Logger logger = Logger.getLogger("FontCacheImpl");
+	protected Logger logger = LoggerFactory.getLogger("FontCacheImpl");
 
 	protected Map<EAdFont, RuntimeFont> fontCache;
-	
+
 	protected AssetHandler assetHandler;
-	
+
 	public FontHandlerImpl( ) {
-		logger.log(Level.INFO, "New instance");
+		logger.info("New instance of FontHandler");
 		fontCache = new HashMap<EAdFont, RuntimeFont>();
 	}
-	
+
+    @Override
 	public void setAssetHandler( AssetHandler assetHandler ){
 		this.assetHandler = assetHandler;
 	}
 
 	/**
 	 * Puts a runtime font in the cache
-	 * 
+	 *
 	 * @param font
 	 *            {@link EAdFontImpl}
 	 * @param rFont
 	 *            {@link RuntimeFont} associated to the given {@link EAdFontImpl}
 	 */
+    @Override
 	public void put(EAdFont font, RuntimeFont rFont) {
 		fontCache.put(font, rFont);
 	}
 
 	/**
 	 * Returns {@link RuntimeFont} associated to the given {@link EAdFontImpl}
-	 * 
+	 *
 	 * @param font
 	 *            the {@link EAdFontImpl}
 	 * @return {@link RuntimeFont} associated to the given {@link EAdFontImpl}
 	 */
+    @Override
 	public RuntimeFont get(EAdFont font) {
 		if ( !fontCache.containsKey(font) ){
 			this.addEAdFont(font);
@@ -95,7 +94,7 @@ public abstract class FontHandlerImpl implements FontHandler {
 	/**
 	 * Returns the string width with the given font in the current context, -1
 	 * if font is not present in the cache
-	 * 
+	 *
 	 * @param string
 	 *            String to be measured
 	 * @param font
@@ -103,6 +102,7 @@ public abstract class FontHandlerImpl implements FontHandler {
 	 * @return the string width with the given font in the current context, -1
 	 *         if font is not present in the cache
 	 */
+    @Override
 	public int stringWidth(String string, EAdFont font) {
 		if (fontCache.containsKey(font))
 			return fontCache.get(font).stringWidth(string);
@@ -113,12 +113,13 @@ public abstract class FontHandlerImpl implements FontHandler {
 	/**
 	 * Returns one line's height with the given font, -1 if font is not present
 	 * in the cache
-	 * 
+	 *
 	 * @param font
 	 *            Font used in string measurement
 	 * @return one line's height with the given font, -1 if font is not present
 	 *         in the cache
 	 */
+    @Override
 	public int lineHeight(EAdFont font) {
 		if (fontCache.containsKey(font))
 			return fontCache.get(font).lineHeight();
@@ -129,12 +130,13 @@ public abstract class FontHandlerImpl implements FontHandler {
 	/**
 	 * Returns the string bounds with the given {@link EAdFontImpl}, <b>null</b> if
 	 * font is not present in the cache
-	 * 
+	 *
 	 * @param string
 	 *            string to be measured
 	 * @return the string bounds, <b>null</b> if font is not present in the
 	 *         cache
 	 */
+    @Override
 	public EAdRectangle stringBounds(String string, EAdFont font) {
 		if (fontCache.containsKey(font))
 			return fontCache.get(font).stringBounds(string);
@@ -149,6 +151,7 @@ public abstract class FontHandlerImpl implements FontHandler {
 	 * @param font
 	 *            given {@link EAdFontImpl}
 	 */
+    @Override
 	public abstract void addEAdFont(EAdFont font);
 
 }

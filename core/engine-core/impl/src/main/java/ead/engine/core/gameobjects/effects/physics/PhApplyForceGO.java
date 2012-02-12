@@ -70,8 +70,8 @@ public class PhApplyForceGO extends AbstractEffectGO<PhApplyImpluseEf> {
 	}
 
 	@Override
-	public void initilize() {
-		super.initilize();
+	public void initialize() {
+		super.initialize();
 		float x = operatorFactory.operate(Float.class, element.getxForce());
 		float y = operatorFactory.operate(Float.class, element.getyForce());
 		ValueMap valueMap = gameState.getValueMap();

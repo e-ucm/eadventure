@@ -37,13 +37,13 @@
 
 package ead.engine.core;
 
-import java.util.logging.Logger;
-
 import ead.engine.core.game.GameProfiler;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
- * 
- * 
+ *
+ *
  * Loosely based on:
  * <ul>
  *   <li>Andrew Davison great book, <a href="http://fivedots.coe.psu.ac.th/~ad/jg/">Killer Game
@@ -62,8 +62,8 @@ public class GameProfilerImpl implements GameProfiler {
 	  /**
 	   * Game loop logger.
 	   */
-	  private static final Logger logger = Logger.getLogger("Game Profiler");
-	  	  
+	  private static final Logger logger = LoggerFactory.getLogger("Game Profiler");
+
 	  /**
 	   * Time since last statistics gathering (in ns).
 	   */
@@ -88,9 +88,9 @@ public class GameProfilerImpl implements GameProfiler {
 	   * Average updates per second (UPS)
 	   */
 	  private double averageUPS;
-	  
+
 	  private int tick;
-	  
+
 	  private int frame;
 
 	@Override

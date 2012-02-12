@@ -41,7 +41,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.gwtent.reflection.client.ReflectionRequiredException;
 import com.gwtent.reflection.client.TypeOracle;
@@ -67,7 +68,7 @@ import ead.engine.core.platform.PlayNReflectionProvider;
  */
 public class ObjectFactory {
 
-	private static final Logger logger = Logger.getLogger("ObjectFactory");
+	private static final Logger logger = LoggerFactory.getLogger("ObjectFactory");
 
 	private static Map<String, Object> paramsMap = new HashMap<String, Object>();
 	private static Map<String, AssetDescriptor> assetsMap = new HashMap<String, AssetDescriptor>();
@@ -123,7 +124,7 @@ public class ObjectFactory {
 		}
 	}
 
-	public static void initilize() {
+	public static void initialize() {
 		paramsMap.clear();
 		elementsMap.clear();
 		assetsMap.clear();
@@ -178,8 +179,8 @@ public class ObjectFactory {
 		if (clazz.equals(EAdURIImpl.class))
 			return new EAdURIImpl(value);
 
-		logger.severe("Param class " + clazz
-				+ " needs constructor explicitly defined");
+		logger.error("Param class {} needs an explicitly defined constructor",
+                clazz);;
 		return null;
 	}
 

@@ -11,8 +11,8 @@
   <version>2.0.1-SNAPSHOT</version>
   <artifactId>gui</artifactId>
   <packaging>jar</packaging>
-  <name>e-Adventure GUI (Graphical User Interface)</name>
-  <description>e-Adventure appearance, used for the editor and other elements.</description>
+  <name>e-Adventure GUI</name>
+  <description>e-Adventure Graphical User Interface, used for the editor and other elements.</description>
   <dependencies>
     <dependency>
       <groupId>com.google.inject</groupId>
@@ -24,16 +24,6 @@
        <artifactId>swingx</artifactId>
        <version>1.6.1</version>
 	</dependency>
-      <dependency>
-        <groupId>org.slf4j</groupId>
-        <artifactId>slf4j-api</artifactId>
-        <version>${slf4j.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>org.slf4j</groupId>
-        <artifactId>slf4j-simple</artifactId>
-        <version>${slf4j.version}</version>
-      </dependency>
     <dependency>
     	<groupId>ead</groupId>
     	<artifactId>utils</artifactId>

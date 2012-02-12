@@ -37,15 +37,7 @@
 
 package ead.common.importer;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.OutputStream;
-import java.util.ArrayList;
-import java.util.logging.Logger;
-
 import com.google.inject.Inject;
-
 import ead.common.EAdElementImporter;
 import ead.common.StringFileHandler;
 import ead.common.importer.interfaces.ResourceImporter;
@@ -56,10 +48,17 @@ import es.eucm.eadventure.common.data.adventure.AdventureData;
 import es.eucm.eadventure.common.loader.InputStreamCreator;
 import es.eucm.eadventure.common.loader.Loader;
 import es.eucm.eadventure.common.loader.incidences.Incidence;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.OutputStream;
+import java.util.ArrayList;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * An importer for old games from 1.x version
- * 
+ *
  */
 public class EAdventure1XImporter {
 
@@ -73,7 +72,7 @@ public class EAdventure1XImporter {
 
 	private StringFileHandler stringFileHandler;
 
-	private static final Logger logger = Logger.getLogger("EAdventureImporter");
+	private static final Logger logger = LoggerFactory.getLogger("EAdventureImporter");
 
 	@Inject
 	public EAdventure1XImporter(
@@ -90,58 +89,68 @@ public class EAdventure1XImporter {
 
 	/**
 	 * Imports and old game form 1.x version
-	 * 
-	 * @param destiny
+	 *
+	 * @param destination
 	 *            Folder path where the import project will be stored
 	 * @return An {@link EAdventureModel} complete with all game information
 	 */
-	public EAdAdventureModel importGame(String destiny) {
+	public EAdAdventureModel importGame(String destination) {
 		AdventureData adventureData = loadGame();
 
 		if (adventureData == null) {
 			return null;
 		}
 
-		resourceImporter.setPath(destiny);
+		resourceImporter.setPath(destination);
 
 		EAdAdventureModel model = adventureImporter.init(adventureData);
 		model = adventureImporter.convert(adventureData, model);
 
 		EAdAdventureModelWriter writer = new EAdAdventureModelWriter();
 
+        OutputStream os = null;
 		try {
-			OutputStream os = new FileOutputStream(
-					new File(destiny, "data.xml"));
+			os = new FileOutputStream(new File(destination, "data.xml"));
 			writer.write(model, os);
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		}
+		} catch (Exception e) {
+            logger.error("Cannot write data.xml "
+                    + "while importing to '{}'", destination, e);
+        } finally {
+            if (os != null) try {
+                os.close();
+            } catch (Exception e) {
+                logger.error("Error closing data.xml "
+                        + "while importing '{}", destination, e);
+            }
+        }
 
-		File f = new File(destiny, "strings.xml");
+
+		File f = new File(destination, "strings.xml");
 
 		try {
 			stringFileHandler.write(new FileOutputStream(f),
 					stringsHandler.getStrings());
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
+		} catch (Exception e) {
+			logger.error("Cannot handle strings.xml "
+                    + "while importing '{}'", destination, e);
 		}
-		return model;
 
+		return model;
 	}
 
 	/**
 	 * Loads an old model AdventureData
-	 * 
+	 *
 	 */
 	public AdventureData loadGame() {
 		ArrayList<Incidence> incidences = new ArrayList<Incidence>();
-		AdventureData data = Loader.loadAdventureData(inputStreamCreator,
-				incidences, true);
+		AdventureData data = Loader.loadAdventureData(
+                inputStreamCreator,	incidences, true);
 		if (data == null) {
-			logger.info("Invalid <e-Adventure> game");
+			logger.warn("Invalid <e-Adventure> game");
 		}
 
-		logger.info("There was the following incidences during the file reading:");
+		logger.info("There were the following incidences during loading:");
 		for (Incidence i : incidences) {
 			logger.info(i.getMessage());
 		}

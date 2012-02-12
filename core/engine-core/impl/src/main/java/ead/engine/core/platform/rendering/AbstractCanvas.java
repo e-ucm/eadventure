@@ -37,8 +37,6 @@
 
 package ead.engine.core.platform.rendering;
 
-import java.util.logging.Logger;
-
 import com.google.inject.Inject;
 
 import ead.common.params.paint.EAdPaint;
@@ -47,42 +45,44 @@ import ead.engine.core.platform.DrawableAsset;
 import ead.engine.core.platform.FontHandler;
 import ead.engine.core.platform.rendering.GenericCanvas;
 import ead.engine.core.platform.rendering.filters.FilterFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public abstract class AbstractCanvas<T> implements GenericCanvas<T> {
-	
-	protected static final Logger logger = Logger.getLogger("EAdCanvas");
-	
+
+	protected static final Logger logger = LoggerFactory.getLogger("EAdCanvas");
+
 	protected T g;
-	
+
 	protected EAdPaint paint;
-	
+
 	protected FontHandler fontHandler;
-	
+
 	protected FilterFactory<T> filterFactory;
-	
+
 	@Inject
 	public AbstractCanvas( FontHandler fontHandler, FilterFactory<T> filterFactory ){
 		this.fontHandler = fontHandler;
 		this.filterFactory = filterFactory;
 	}
-	
+
 	public void setGraphicContext( T g ){
 		this.g = g;
 	}
-	
+
 	public void drawText( String text ){
 		drawText( text, 0, 0 );
 	}
-	
+
 	public void setPaint( EAdPaint paint ){
 		this.paint = paint;
 	}
-	
+
 	@Override
 	public T getNativeGraphicContext() {
 		return g;
 	}
-	
+
 	public void setFilter(DrawableAsset<?, T> drawable, DrawableFilter filter){
 		filterFactory.applyFilter(drawable, filter, this);
 	}

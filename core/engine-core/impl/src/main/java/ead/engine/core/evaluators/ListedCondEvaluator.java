@@ -38,8 +38,6 @@
 package ead.engine.core.evaluators;
 
 import java.util.Iterator;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -50,24 +48,27 @@ import ead.common.model.elements.conditions.enums.EmptyCondValue;
 import ead.engine.core.evaluators.Evaluator;
 import ead.engine.core.evaluators.EvaluatorFactory;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 @Singleton
 public class ListedCondEvaluator implements Evaluator<ListedCond> {
 
-	private static final Logger logger = Logger.getLogger("ListedConditionEvaluator");
-	
+	private static final Logger logger = LoggerFactory.getLogger("ListedConditionEvaluator");
+
 	private EvaluatorFactory evaluatorFactory;
-	
+
 	@Inject
 	public ListedCondEvaluator(EvaluatorFactory evaluatorFactory) {
 		this.evaluatorFactory = evaluatorFactory;
 	}
-	
+
 	@Override
 	public boolean evaluate(ListedCond condition) {
 		boolean temp = false;
 		if (condition.getNullOperator().getValue() == EmptyCondValue.TRUE)
 			temp = true;
-		
+
 		Iterator<EAdCondition> conditions = condition.getConditionsIterator();
 		while (conditions.hasNext()) {
 			EAdCondition cond = conditions.next();
@@ -80,7 +81,7 @@ public class ListedCondEvaluator implements Evaluator<ListedCond> {
 				temp = temp || temp2;
 				break;
 			default:
-				logger.log(Level.WARNING, "No valid operator, condition: " + condition);
+				logger.warn("No valid operator, condition: '{}'", condition);
 			}
 		}
 		return temp;

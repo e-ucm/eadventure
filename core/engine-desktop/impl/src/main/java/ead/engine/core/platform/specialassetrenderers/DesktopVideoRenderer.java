@@ -37,12 +37,13 @@
 
 package ead.engine.core.platform.specialassetrenderers;
 
+import com.google.inject.Inject;
+import ead.common.resources.assets.multimedia.Video;
+import ead.engine.core.platform.AssetHandler;
+import ead.engine.core.platform.SpecialAssetRenderer;
 import java.awt.Component;
 import java.io.IOException;
 import java.net.MalformedURLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
 import javax.media.CannotRealizeException;
 import javax.media.Codec;
 import javax.media.ControllerEvent;
@@ -56,77 +57,75 @@ import javax.media.PlugInManager;
 import javax.media.PrefetchCompleteEvent;
 import javax.media.RealizeCompleteEvent;
 import javax.media.StopEvent;
-
-import com.google.inject.Inject;
-
-import ead.common.resources.assets.multimedia.Video;
-import ead.engine.core.platform.AssetHandler;
-import ead.engine.core.platform.SpecialAssetRenderer;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class DesktopVideoRenderer implements SpecialAssetRenderer<Video, Component> {
 
-	private static Logger logger = Logger.getLogger("DesktopVideoRenderer");
-	
+	private static Logger logger = LoggerFactory.getLogger("DesktopVideoRenderer");
+
 	private static boolean loaded = false;
-	
+
 	private boolean finished = false;
-	
+
 	private boolean started = false;
-	
+
 	private Player mediaPlayer;
-	
+
 	private static String CODEC_CLASS_NAME = "net.sourceforge.jffmpeg.VideoDecoder";
-	
+
 	private AssetHandler assetHandler;
-	
+
 	private Component video;
-	
+
 	@Inject
 	public DesktopVideoRenderer(AssetHandler assetHandler) {
 		this.assetHandler = assetHandler;
 	}
-	
+
 	@Override
 	public Component getComponent(Video asset) {
-		if (!loaded) {
+		if ( ! loaded) {
 	        try {
-	            Codec video = (Codec) Class.forName( CODEC_CLASS_NAME ).newInstance( );
-	            PlugInManager.addPlugIn( CODEC_CLASS_NAME, video.getSupportedInputFormats( ),  video.getSupportedOutputFormats( null ), PlugInManager.CODEC );
+	            Codec c = (Codec) Class.forName( CODEC_CLASS_NAME ).newInstance( );
+	            PlugInManager.addPlugIn( CODEC_CLASS_NAME,
+                        c.getSupportedInputFormats(),
+                        c.getSupportedOutputFormats( null ), PlugInManager.CODEC );
 	            PlugInManager.commit( );
 	            loaded = true;
-	        }
-	        catch( Exception e ) {
-	        	logger.severe("Could not load video codec!");
+	        } catch( Exception e ) {
+	        	logger.error("Could not load video codec! (for '{}')", asset.getUri(), e);
 	        }
 		}
 		video = null;
 		finished = false;
-		
+
 		Manager.setHint(Manager.LIGHTWEIGHT_RENDERER, true);
+        final String uri = asset.getUri().toString();
 		try {
-			String path = asset.getUri().getPath();
-			if (assetHandler != null)
-				path = assetHandler.getAbsolutePath(asset.getUri().getPath());
-			MediaLocator mediaLocator = new MediaLocator("file://" + path);
+			final String path = (assetHandler != null) ?
+				assetHandler.getAbsolutePath(asset.getUri().getPath()) :
+                asset.getUri().getPath();
+            MediaLocator mediaLocator = new MediaLocator("file://" + path);
 			mediaPlayer = Manager.createRealizedPlayer(mediaLocator);
 			mediaPlayer.addControllerListener(new ControllerListener() {
 
 				@Override
 				public void controllerUpdate(ControllerEvent event) {
 			        if( event instanceof RealizeCompleteEvent ) {
-			            logger.info("RealizeCompleteEvent");
+			            logger.info("RealizeCompleteEvent for '{}'", path);
 			            //realized = true;
 			            //notify( );
 			        }
 			        else if( event instanceof EndOfMediaEvent ) {
-			            logger.info("EndOfMediaEvent");
+			            logger.info("EndOfMediaEvent for '{}'", path);
 			            mediaPlayer.close( );
 			            mediaPlayer.deallocate( );
 			            mediaPlayer = null;
 			            finished = true;
 			        }
 			        else if( event instanceof StopEvent ) {
-			        	logger.info("StopEvent");
+			        	logger.info("StopEvent for '{}'", path);
 			            mediaPlayer.close( );
 			            mediaPlayer.deallocate( );
 			            mediaPlayer = null;
@@ -134,22 +133,22 @@ public class DesktopVideoRenderer implements SpecialAssetRenderer<Video, Compone
 			            //notify( );
 			        }
 			        else if( event instanceof PrefetchCompleteEvent ) {
-			            logger.info("PrefetchCompleteEvent");
+			            logger.info("PrefetchCompleteEvent for '{}'", path);
 			            //notify( );
 			        }
 			    }
-				
+
 			});
 			video = mediaPlayer.getVisualComponent();
-			
+
 		} catch (NoPlayerException e) {
-			logger.log(Level.SEVERE, "No player", e);
+			logger.error("No player for '{}'", uri, e);
 		} catch (MalformedURLException e) {
-			logger.log(Level.SEVERE, "Malformed URL", e);
+			logger.error("Malformed URL for '{}'", uri, e);
 		} catch (IOException e) {
-			logger.log(Level.SEVERE, "IO Exception", e);
+			logger.error("IO Exception for '{}'", uri, e);
 		} catch (CannotRealizeException e) {
-			logger.log(Level.SEVERE, "Cannot realized player", e);
+			logger.error("Cannot realize player for '{}'", uri, e);
 		}
 		return video;
 	}

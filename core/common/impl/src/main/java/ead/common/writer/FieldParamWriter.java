@@ -66,12 +66,16 @@ public abstract class FieldParamWriter<T> extends DOMWriter<T> {
 					Param param = field.getAnnotation(Param.class);
 					if (param != null) {
 						PropertyDescriptor pd = getPropertyDescriptor(data.getClass(), field.getName());
-						if (pd == null)
-							logger.severe("Missing descriptor for " + field.getName() + " in " + data.getClass());
-						Method method = pd.getReadMethod();
-						if (method == null)
-							logger.severe("Missing read method for " + field.getName() + " in " + data.getClass());
-						Object o = method.invoke(data);
+						if (pd == null) {
+							logger.error("Missing descriptor for {} in {} ",
+                                    field.getName(), data.getClass());
+                        }
+                        Method method = pd.getReadMethod();
+						if (method == null) {
+							logger.error("Missing read-method for {} in {} ",
+                                    field.getName(), data.getClass());
+                        }
+                        Object o = method.invoke(data);
 
 						if (!isEmpty(o)) {
 							Element newNode = super.initNode(o, null);
@@ -95,25 +99,25 @@ public abstract class FieldParamWriter<T> extends DOMWriter<T> {
 
 		DOMWriter.depthManager.levelDown();
 	}
-	
-	
+
+
 	/**
 	 * Utility method to find a property descriptor for a single property
-	 * 
+	 *
 	 * @param c
 	 * @param fieldName
 	 * @return
 	 */
 	private static PropertyDescriptor getPropertyDescriptor(Class<?> c, String fieldName) {
 		try {
-			for (PropertyDescriptor pd : 
+			for (PropertyDescriptor pd :
 				Introspector.getBeanInfo(c).getPropertyDescriptors()) {
 				if (pd.getName().equals(fieldName)) {
 					return pd;
 				}
 			}
 		} catch (IntrospectionException e) {
-			throw new IllegalArgumentException("Could not find getters or setters for field " 
+			throw new IllegalArgumentException("Could not find getters or setters for field "
 					+ fieldName + " in class " + c.getCanonicalName());
 		}
 		return null;
@@ -123,7 +127,7 @@ public abstract class FieldParamWriter<T> extends DOMWriter<T> {
 	/**
 	 * Determines if an object is empty (whether it's null or whether is empty,
 	 * in case of being a list or a map)
-	 * 
+	 *
 	 * @param o
 	 *            the object to check
 	 * @return
@@ -138,10 +142,10 @@ public abstract class FieldParamWriter<T> extends DOMWriter<T> {
 		if (o instanceof EAdMap && ((EAdMap<?, ?>) o).isEmpty()) {
 			return true;
 		}
-		
+
 		if ( o instanceof EAdResources && ((EAdResources) o).isEmpty())
 			return true;
-		
+
 		return false;
 	}
 

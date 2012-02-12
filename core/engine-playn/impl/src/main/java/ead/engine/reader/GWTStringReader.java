@@ -37,8 +37,6 @@
 
 package ead.engine.reader;
 
-import java.util.logging.Logger;
-
 import com.google.gwt.http.client.Request;
 import com.google.gwt.http.client.RequestBuilder;
 import com.google.gwt.http.client.RequestCallback;
@@ -50,28 +48,32 @@ import com.google.gwt.xml.client.XMLParser;
 
 import ead.common.params.text.EAdString;
 import ead.common.resources.StringHandler;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class GWTStringReader {
 
-	private static Logger logger = Logger.getLogger("GWTStringReader");
+	private static Logger logger = LoggerFactory.getLogger("GWTStringReader");
 
 	public void readXML(String fileName, final StringHandler stringHandler) {
 		RequestBuilder requestBuilder = new RequestBuilder(RequestBuilder.GET,
 				fileName);
-		
-		logger.info("Read strings: " + fileName);
+
+		logger.info("Read strings: {}", fileName);
 
 		try {
 			requestBuilder.sendRequest(null, new RequestCallback() {
+                @Override
 				public void onError(Request request, Throwable exception) {
 					//throw exception;
 				}
 
+                @Override
 				public void onResponseReceived(Request request,
 						Response response) {
 					String xml = response.getText();
 					Document doc = XMLParser.parse(xml);
-					
+
 
 					NodeList nl = doc.getFirstChild().getChildNodes();
 					for (int i = 0; i < nl.getLength(); i++) {
@@ -86,5 +88,5 @@ public class GWTStringReader {
 		}
 	}
 
-	
+
 }

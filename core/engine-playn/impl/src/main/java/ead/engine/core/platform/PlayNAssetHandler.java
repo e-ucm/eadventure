@@ -38,8 +38,6 @@
 package ead.engine.core.platform;
 
 import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import playn.core.Canvas;
 
@@ -61,9 +59,13 @@ import ead.engine.core.platform.assets.PlayNSound;
 import ead.engine.core.platform.assets.RuntimeComposedDrawable;
 import ead.engine.core.platform.assets.RuntimeDisplacedDrawable;
 import ead.engine.core.platform.assets.RuntimeFilteredDrawable;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @Singleton
 public class PlayNAssetHandler extends AbstractAssetHandler {
+
+	private Logger logger = LoggerFactory.getLogger("PlayNAssetHandler");
 
 	private EAdEngine engine;
 
@@ -72,8 +74,6 @@ public class PlayNAssetHandler extends AbstractAssetHandler {
 	private VariableMap valueMap;
 
 	private StringHandler stringHandler;
-
-	private Logger logger = Logger.getLogger("PlayNAssetHandler");
 
 	@Inject
 	public PlayNAssetHandler(
@@ -91,7 +91,7 @@ public class PlayNAssetHandler extends AbstractAssetHandler {
 	}
 
 	@Override
-	public void initilize() {
+	public void initialize() {
 		setLoaded(true);
 	}
 
@@ -108,7 +108,7 @@ public class PlayNAssetHandler extends AbstractAssetHandler {
 	@SuppressWarnings("unchecked")
 	@Override
 	public RuntimeAsset<?> getInstance(Class<? extends RuntimeAsset<?>> clazz) {
-		
+
 		// FIXME: it is ugly to discard all these generics; find another way to get clean builds
 		RuntimeAsset r = null;
 		if (clazz == PlayNEngineImage.class)
@@ -130,9 +130,9 @@ public class PlayNAssetHandler extends AbstractAssetHandler {
 		else if ( clazz == (Object)RuntimeFilteredDrawable.class )
 			r = new RuntimeFilteredDrawable<Canvas>( this );
 		else {
-			logger.log(Level.SEVERE, "No instance for runtime asset: " + clazz);
+			logger.error("No instance for runtime asset: {}", clazz);
 		}
-		
+
 		return (RuntimeAsset<?>)r;
 	}
 

@@ -62,8 +62,8 @@ public class ModifyHudGO extends SceneElementEffectGO<ModifyHUDEf> {
 		this.basicHUD = basicHUD;
 	}
 
-	public void initilize() {
-		super.initilize();
+	public void initialize() {
+		super.initialize();
 		DrawableGO<?> drawable = this.sceneElementFactory.get(sceneElement);
 		if (element.getAdd()) {
 			if (!basicHUD.getContaintedGOs().contains(drawable))

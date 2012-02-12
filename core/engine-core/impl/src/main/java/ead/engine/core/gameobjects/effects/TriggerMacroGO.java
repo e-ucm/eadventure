@@ -64,8 +64,8 @@ public class TriggerMacroGO extends AbstractEffectGO<TriggerMacroEf> {
 	}
 
 	@Override
-	public void initilize() {
-		super.initilize();
+	public void initialize() {
+		super.initialize();
 
 		EffectsMacro macro = null;
 

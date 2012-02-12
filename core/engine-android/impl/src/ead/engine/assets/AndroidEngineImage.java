@@ -41,8 +41,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -53,24 +51,27 @@ import com.google.inject.Inject;
 import ead.engine.core.platform.AssetHandler;
 import ead.engine.core.platform.assets.RuntimeImage;
 import ead.engine.core.platform.rendering.GenericCanvas;
+import java.awt.Canvas;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class AndroidEngineImage extends RuntimeImage<Canvas> {
 
 	public Bitmap image;
-	
+
 	// FIXME find a better solution
 	private static Bitmap defaultImage;
-	
-	private static final Logger logger = Logger.getLogger("AndroidEngineImage");
-	
+
+	private static final Logger logger = LoggerFactory.getLogger("AndroidEngineImage");
+
 	@Inject
 	public AndroidEngineImage(AssetHandler assetHandler) {
 		 super(assetHandler);
 		if ( defaultImage == null ){
 			defaultImage = decodeFile(assetHandler.getAbsolutePath("@drawable/nocursor.png"));
 		}
-	}		
-	
+	}
+
 	public AndroidEngineImage(Bitmap image) {
 		super(null);
 		this.image = image;
@@ -93,21 +94,21 @@ public class AndroidEngineImage extends RuntimeImage<Canvas> {
 			return image.getHeight();
 		return 1;
 	}
-	
+
 	@Override
 	public boolean loadAsset() {
-		
+
 		image = decodeFile(assetHandler.getAbsolutePath(descriptor.getUri().getPath()));
-	
+
 		logger.info("New instance, loaded = " + (image != null));
 		return image != null;
 	}
-	
+
 	@Override
 	public void freeMemory() {
 		if (image != null) {
 			image.recycle();
-			logger.log(Level.INFO, "Image recycled: " + (descriptor != null ? descriptor.getUri() : "no descriptor"));
+			logger.info("Image recycled: " + (descriptor != null ? descriptor.getUri() : "no descriptor"));
 		}
 		image = null;
 	}
@@ -116,12 +117,12 @@ public class AndroidEngineImage extends RuntimeImage<Canvas> {
 	public boolean isLoaded() {
 		return image != null;
 	}
-	
+
 	/**
-	 * Returns a bitmap considering its size in order to reduce the amount of memory used 
+	 * Returns a bitmap considering its size in order to reduce the amount of memory used
 	 */
 	private Bitmap decodeFile(String path){
-		
+
 		File f = new File(path);
 	    Bitmap b = null;
 	    try {
@@ -130,7 +131,7 @@ public class AndroidEngineImage extends RuntimeImage<Canvas> {
 	        o.inPurgeable = true;
 	        o.inTempStorage = new byte [16 * 1024];
     		o.inPreferredConfig = Bitmap.Config.RGB_565;
-	        
+
     		FileInputStream fis = new FileInputStream(f);
 	        b = BitmapFactory.decodeStream(fis, null, o);
 	        try {
@@ -150,7 +151,4 @@ public class AndroidEngineImage extends RuntimeImage<Canvas> {
 	public void render(GenericCanvas<Canvas> c) {
 		c.getNativeGraphicContext().drawBitmap(getImage(), 0, 0, null);
 	}
-	
-	
-	
 }

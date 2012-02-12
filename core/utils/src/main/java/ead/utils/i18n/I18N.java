@@ -53,8 +53,9 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Common superclass for all message bundle classes. Provides convenience
@@ -78,7 +79,7 @@ import java.util.logging.Logger;
  */
 public abstract class I18N {
 
-    private static final Logger logger = Logger.getLogger(I18N.class.getName());
+    private static final Logger logger = LoggerFactory.getLogger(I18N.class.getName());
 
     /**
      * Creates a new I18N instance.
@@ -137,7 +138,7 @@ public abstract class I18N {
                                 + numberSubstring + "' is not a number");
                     }
                     if (number >= bindings.length || number < 0) {
-                        logger.log(Level.WARNING, "Missing argument for {0} in {1}",
+                        logger.warn("Missing argument for {} in {}",
                                 new Object[]{numberSubstring, message});
                         buffer.append("<missing argument>"); //$NON-NLS-1$
                         i = index;
@@ -284,38 +285,39 @@ public abstract class I18N {
                                     fields.remove(key);
                                 }
                             } else {
-                                logger.log(Level.WARNING,
-                                        "Bundle '{0}' has an unused message {1}",
+                                logger.warn("Bundle '{}' has an unused message {}",
                                         new Object[]{baseName, key});
                             }
                         }
                         noBundleFound = false;
                     } catch (IOException e) {
-                        logger.log(Level.SEVERE, "Error loading message bundle " + fileNames[i], e);
+                        logger.error("Error loading message bundle '{}'", baseName, e);
                     } finally {
                         if (input != null) {
                             try {
                                 input.close();
                             } catch (IOException e) {
-                                logger.log(Level.FINEST, "Error closing stream", e);
+                                logger.error("Error closing stream when loading for {}", baseName, e);
                             }
                         }
                     }
                 } else {
-                    logger.log(Level.FINE, "Bundle-file NOT FOUND in classpath:'{0}'",
-                        new Object[]{fileNames[i]});
+                    logger.debug("Bundle-file NOT FOUND in classpath:'{}'",
+                       fileNames[i]);
                 }
             }
 
             if (noBundleFound) {
-                logger.log(Level.SEVERE, "No bundle (or fallback) found for {0}.", baseName);
+                logger.error( "No bundle (or fallback) found for {0}.", baseName);
             }
 
+            //TODO: set the value to the default error resources
             for (Map.Entry<String, Field> e : fields.entrySet()) {
                 Field field = e.getValue();
-                String value = "Bundle '" + baseName + "': message " + field.getName() + " is missing";
-                logger.info(value);
+                String value = "Bundle " + baseName
+                        + ": message " + field.getName() + " is missing";
                 assignField(field, value);
+                logger.warn(value);
             }
         }
     }
@@ -348,10 +350,10 @@ public abstract class I18N {
                     field.set(null, value);
                 }
             } catch (Exception e) {
-                logger.log(Level.SEVERE, "Exception setting field value.", e);
+                logger.error("Error setting field value for {}",
+                        field.getName(), e);
             }
         }
-
     }
     private static final Object[] EMPTY_ARGS = new Object[0];
     private static String[] I18N_SUFFIXES;
@@ -471,7 +473,7 @@ public abstract class I18N {
                         assignField(fields.get(fieldName), baseFolder + fileNames[j]);
                         fields.remove(fieldName);
                         String value = "Bundle '" + baseName + "' resource " + fieldName + " OK";
-                        logger.fine(value);
+                        logger.debug(value);
                     }
                 }
             }
@@ -479,9 +481,10 @@ public abstract class I18N {
             //TODO: set the value to the default error resources
             for (Map.Entry<String, Field> e : fields.entrySet()) {
                 Field field = e.getValue();
-                String value = "Bundle '" + baseName + "' resource " + field.getName() + " MISSING";
-                logger.info(value);
-                assignField(field, value);
+                String value = "Bundle " + baseName
+                        + ": message " + field.getName() + " is missing";
+                assignField(field, value.replaceAll("[ :.]+", "_"));
+                logger.warn(value);
             }
         }
     }

@@ -37,27 +37,27 @@
 
 package ead.engine.html;
 
-import java.util.logging.Logger;
-
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.user.client.ui.RootPanel;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class HtmlEntryPoint implements EntryPoint {
 
-	private static Logger logger = Logger.getLogger("HtmlEntryPoint");
+	private static Logger logger = LoggerFactory.getLogger("HtmlEntryPoint");
 
 	@Override
 	public void onModuleLoad() {
 		if (RootPanel.get("demo") != null) {
-			logger.info("demo");
+			logger.info("engine demo");
 			EAdEngineHtml engineDemo = new EAdEngineHtml();
 			engineDemo.onModuleLoad();
 		} else {
-			logger.info("eles");
+			logger.info("this is not a simple demo");
 			EAdEngineHTMLProtocol protocol = new EAdEngineHTMLProtocol();
 			protocol.onModuleLoad();
 		}
- 		
+
 	}
 
 }

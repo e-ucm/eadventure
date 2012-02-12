@@ -37,13 +37,13 @@
 
 package ead.engine.extra;
 
-import java.util.logging.Logger;
-
 import com.google.inject.Inject;
 
 import ead.engine.core.game.Game;
 import ead.engine.core.game.GameLoop;
 import ead.engine.core.game.GameProfiler;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Based on:
@@ -60,11 +60,11 @@ import ead.engine.core.game.GameProfiler;
  * </ul>
  */
 public class AndroidGameLoopImpl implements GameLoop {
-	
-	private static final Logger logger = Logger.getLogger("AndroidGameLoopImpl");	
-	
+
+	private static final Logger logger = LoggerFactory.getLogger("AndroidGameLoopImpl");
+
 	static final int SKIP_NANOS_TICK = 1000000000 / TICKS_PER_SECOND;
-	
+
 	static final int SKIP_MILLIS_TICK = 1000 / TICKS_PER_SECOND;
 
 	static final int MAX_FRAMES_PER_SECOND = 30;
@@ -77,12 +77,12 @@ public class AndroidGameLoopImpl implements GameLoop {
 
 	private long nextTickTime = System.nanoTime();
 
-	private long nextFrameTime = System.nanoTime();	
+	private long nextFrameTime = System.nanoTime();
 
 	private Game game;
 
 	private GameProfiler gameProfiler;
-	
+
 	boolean game_is_running;
 
 	@Inject
@@ -92,7 +92,7 @@ public class AndroidGameLoopImpl implements GameLoop {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see es.eucm.eadventure.engine.core.GameLoop#runLoop(boolean)
 	 */
 	@Override
@@ -112,7 +112,7 @@ public class AndroidGameLoopImpl implements GameLoop {
 	}
 
 	private void runLoop() {
-		
+
 		int loops;
 
 		float interpolation;
@@ -137,7 +137,7 @@ public class AndroidGameLoopImpl implements GameLoop {
 			}
 
 			tempTime = System.nanoTime();
-			
+
 			if (tempTime > nextFrameTime && EAdventureRenderingThread.paint) {
 				nextFrameTime = tempTime + SKIP_NANOS_FRAME;
 				interpolation = (float) (tempTime + SKIP_NANOS_TICK - nextTickTime)
@@ -151,13 +151,13 @@ public class AndroidGameLoopImpl implements GameLoop {
 				} catch (InterruptedException e) {
 				}
 			}
-		}			
-		
+		}
+
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * es.eucm.eadventure.engine.core.GameLoop#setGame(es.eucm.eadventure.engine
 	 * .core.Game)
@@ -169,7 +169,7 @@ public class AndroidGameLoopImpl implements GameLoop {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see es.eucm.eadventure.engine.core.GameLoop#pause()
 	 */
 	@Override
@@ -182,7 +182,7 @@ public class AndroidGameLoopImpl implements GameLoop {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see es.eucm.eadventure.engine.core.GameLoop#resume()
 	 */
 	@Override

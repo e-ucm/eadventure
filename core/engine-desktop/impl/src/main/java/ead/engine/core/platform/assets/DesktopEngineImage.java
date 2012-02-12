@@ -37,20 +37,15 @@
 
 package ead.engine.core.platform.assets;
 
-import java.awt.Graphics2D;
-import java.awt.image.BufferedImage;
-import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
-import javax.imageio.ImageIO;
-
 import com.google.inject.Inject;
-
 import ead.engine.core.platform.AssetHandler;
 import ead.engine.core.platform.DesktopAssetHandler;
-import ead.engine.core.platform.assets.RuntimeImage;
 import ead.engine.core.platform.rendering.GenericCanvas;
+import java.awt.Graphics2D;
+import java.awt.image.BufferedImage;
+import javax.imageio.ImageIO;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class DesktopEngineImage extends RuntimeImage<Graphics2D> {
 
@@ -62,7 +57,7 @@ public class DesktopEngineImage extends RuntimeImage<Graphics2D> {
 	/**
 	 * The logger
 	 */
-	private static final Logger logger = Logger
+	private static final Logger logger = LoggerFactory
 			.getLogger("DesktopEngineImage");
 
 	@Inject
@@ -73,18 +68,18 @@ public class DesktopEngineImage extends RuntimeImage<Graphics2D> {
 
 	/**
 	 * Creates an empty {@link DesktopEngineImage} with the given dimensions
-	 * 
+	 *
 	 * @param width
 	 * @param height
 	 */
 	public DesktopEngineImage(int width, int height) {
 		super(null);
 		image = new BufferedImage(width, height, BufferedImage.TYPE_4BYTE_ABGR);
-		
+
 		// Test code to see if it has any influence in performance
 		if (width >= 800)
 			image.setAccelerationPriority(1.0f);
-		
+
 		logger.info("New instance, width:" + width + "; height:" + height);
 	}
 
@@ -111,15 +106,10 @@ public class DesktopEngineImage extends RuntimeImage<Graphics2D> {
 			try {
 				image = ImageIO.read(((DesktopAssetHandler) assetHandler
 						).getResourceAsStream(descriptor.getUri().getPath()));
-				logger.log(Level.INFO, "Image loaded: " + descriptor.getUri());
+				logger.debug("Image loaded: '{}'", descriptor.getUri());
 				return true;
-			} catch (IOException e) {
-				logger.log(Level.SEVERE, 
-						"Could not load image! " + descriptor.getUri(), e);
-				return false;
 			} catch (Exception e) {
-				logger.log(Level.SEVERE, 
-						"Could not load image! " + descriptor.getUri(), e);
+				logger.error("Error loading image: '{}'", descriptor.getUri(), e);
 				return false;
 			}
 		}
@@ -130,7 +120,8 @@ public class DesktopEngineImage extends RuntimeImage<Graphics2D> {
 	public void freeMemory() {
 		if (image != null) {
 			image.flush();
-			logger.log(Level.INFO, "Image flushed: " + (descriptor != null ? descriptor.getUri() : "no descriptor"));
+			logger.info("Image flushed: '{}'",
+                    (descriptor != null ? descriptor.getUri() : "<no descriptor>"));
 		}
 		image = null;
 	}
@@ -139,7 +130,7 @@ public class DesktopEngineImage extends RuntimeImage<Graphics2D> {
 	public boolean isLoaded() {
 		return image != null;
 	}
-	
+
 	public boolean contains( int x, int y ){
 		if ( super.contains(x, y)){
 			int alpha = image.getRGB( x, y ) >>> 24;

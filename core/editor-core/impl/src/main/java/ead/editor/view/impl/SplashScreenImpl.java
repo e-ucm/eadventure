@@ -48,7 +48,8 @@ import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import javax.swing.JDialog;
 
 /**
@@ -59,7 +60,7 @@ public class SplashScreenImpl implements SplashScreen {
 	/**
 	 * Logger
 	 */
-	private static final Logger logger = Logger.getLogger("SplashScreenImpl");
+	private static final Logger logger = LoggerFactory.getLogger("SplashScreenImpl");
 
 	/**
 	 * The splash screen dialog

@@ -40,7 +40,8 @@ package ead.engine.core.platform;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.google.inject.Singleton;
 
@@ -50,8 +51,8 @@ import ead.common.resources.StringHandler;
 @Singleton
 public class StringHandlerImpl implements StringHandler {
 
-	private Logger logger = Logger.getLogger("DefaultStringHandler");
-	
+	private Logger logger = LoggerFactory.getLogger("DefaultStringHandler");
+
 	private Map<EAdString, String> strings;
 
 	public StringHandlerImpl() {
@@ -70,7 +71,7 @@ public class StringHandlerImpl implements StringHandler {
 
 	@Override
 	public void setString(EAdString eAdString, String string) {
-		logger.finest("Add string " + eAdString.toString() + " " + string);
+		logger.debug("Add string '{}': '{}'", eAdString.toString(),  string);
 		strings.put(eAdString, string);
 	}
 
@@ -92,5 +93,4 @@ public class StringHandlerImpl implements StringHandler {
 	public Map<EAdString, String> getStrings() {
 		return strings;
 	}
-
 }

@@ -90,8 +90,8 @@ public class PhysicsEffectGO extends AbstractEffectGO<PhysicsEffect> {
 	}
 
 	@Override
-	public void initilize() {
-		super.initilize();
+	public void initialize() {
+		super.initialize();
 
 		//doStep true = not simulate inactive bodies
 		world = new World(new Vec2(0.0f, 10.0f), true);

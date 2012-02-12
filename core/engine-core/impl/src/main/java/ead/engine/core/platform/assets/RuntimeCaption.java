@@ -39,7 +39,8 @@ package ead.engine.core.platform.assets;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.google.inject.Inject;
 
@@ -61,7 +62,7 @@ public class RuntimeCaption<GraphicContext> extends
 		AbstractRuntimeAsset<Caption> implements
 		DrawableAsset<Caption, GraphicContext> {
 
-	private Logger logger = Logger.getLogger("RuntimeCaption");
+	private Logger logger = LoggerFactory.getLogger("RuntimeCaption");
 
 	private AssetHandler assetHandler;
 

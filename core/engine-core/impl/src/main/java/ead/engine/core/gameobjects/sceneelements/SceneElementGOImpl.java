@@ -40,7 +40,8 @@ package ead.engine.core.gameobjects.sceneelements;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map.Entry;
-import java.util.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.google.inject.Inject;
 
@@ -83,7 +84,7 @@ import ead.engine.core.util.EAdTransformation;
 public abstract class SceneElementGOImpl<T extends EAdSceneElement> extends
 		DrawableGameObjectImpl<T> implements SceneElementGO<T> {
 
-	private static final Logger logger = Logger.getLogger("SceneElementGOImpl");
+	private static final Logger logger = LoggerFactory.getLogger("SceneElementGOImpl");
 
 	private EventGOFactory eventFactory;
 

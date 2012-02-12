@@ -81,7 +81,7 @@ public abstract class AbstractEffectGO<P extends EAdEffect> extends
 	}
 
 	@Override
-	public void initilize() {
+	public void initialize() {
 		initialized = true;
 		stopped = false;
 	}

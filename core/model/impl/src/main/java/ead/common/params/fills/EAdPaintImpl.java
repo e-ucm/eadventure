@@ -37,10 +37,10 @@
 
 package ead.common.params.fills;
 
-import java.util.logging.Logger;
-
 import ead.common.params.EAdParamImpl;
 import ead.common.params.paint.EAdFill;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * <p>
@@ -51,7 +51,7 @@ public class EAdPaintImpl extends EAdParamImpl implements EAdFill {
 
 	public static final String SEPARATOR = ":";
 
-	private static final Logger logger = Logger.getLogger("EAdPaintImpl");
+	private static final Logger logger = LoggerFactory.getLogger("EAdPaintImpl");
 
 	/**
 	 * Basic black border and white center EAdBordered color
@@ -107,7 +107,7 @@ public class EAdPaintImpl extends EAdParamImpl implements EAdFill {
 
 	/**
 	 * Set the color of the border
-	 * 
+	 *
 	 * @param color
 	 *            the color of the border
 	 */
@@ -117,7 +117,7 @@ public class EAdPaintImpl extends EAdParamImpl implements EAdFill {
 
 	/**
 	 * Set the color of the center
-	 * 
+	 *
 	 * @param fill
 	 *            the color of the center
 	 */
@@ -132,9 +132,9 @@ public class EAdPaintImpl extends EAdParamImpl implements EAdFill {
 	@Override
 	public String toStringData() {
 		if (fill == null)
-			logger.warning("Null fill");
+			logger.warn("Null fill");
 		if (border == null)
-			logger.warning("Null border");
+			logger.warn("Null border");
 		return (fill != null ? fill : EAdColor.BLACK).toStringData()
 				+ SEPARATOR
 				+ (border != null ? border : EAdColor.BLACK).toStringData()
@@ -181,4 +181,12 @@ public class EAdPaintImpl extends EAdParamImpl implements EAdFill {
 		return false;
 	}
 
+    @Override
+    public int hashCode() {
+        int hash = 3;
+        hash = 67 * hash + (this.fill != null ? this.fill.hashCode() : 0);
+        hash = 67 * hash + (this.border != null ? this.border.hashCode() : 0);
+        hash = 67 * hash + this.width;
+        return hash;
+    }
 }

@@ -37,27 +37,10 @@
 
 package ead.engine.core;
 
-import static playn.core.PlayN.graphics;
-import static playn.core.PlayN.keyboard;
-import static playn.core.PlayN.pointer;
-
-import java.util.logging.Logger;
-
-import playn.core.Canvas;
-import playn.core.CanvasLayer;
-import playn.core.Graphics;
-import playn.core.Keyboard;
-import playn.core.Keyboard.Event;
-import playn.core.Keyboard.TypedEvent;
-import playn.core.PlayN;
-import playn.core.Pointer;
-import playn.html.HtmlPlatform;
-
 import com.google.gwt.dom.client.NativeEvent;
 import com.google.gwt.user.client.Event.NativePreviewEvent;
 import com.google.gwt.user.client.Event.NativePreviewHandler;
 import com.google.inject.Inject;
-
 import ead.common.model.elements.guievents.EAdMouseEvent;
 import ead.common.model.elements.guievents.enums.MouseButtonType;
 import ead.common.model.elements.guievents.enums.MouseEventType;
@@ -69,6 +52,18 @@ import ead.engine.core.platform.EngineConfiguration;
 import ead.engine.core.platform.GUI;
 import ead.engine.core.platform.PlayNAssetHandler;
 import ead.engine.core.platform.PlayNGUI;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import playn.core.Canvas;
+import playn.core.CanvasLayer;
+import playn.core.Graphics;
+import playn.core.Keyboard;
+import playn.core.Keyboard.Event;
+import playn.core.Keyboard.TypedEvent;
+import playn.core.PlayN;
+import static playn.core.PlayN.*;
+import playn.core.Pointer;
+import playn.html.HtmlPlatform;
 
 public class EAdEngine implements playn.core.Game, Keyboard.Listener {
 
@@ -85,7 +80,7 @@ public class EAdEngine implements playn.core.Game, Keyboard.Listener {
 
 	private EngineConfiguration engineConfiguration;
 
-	private static final Logger logger = Logger.getLogger("EAdEngine");
+	private static final Logger logger = LoggerFactory.getLogger("EAdEngine");
 
 	@Inject
 	public EAdEngine(Game game, GUI gui, AssetHandler assetHandler,
@@ -95,14 +90,14 @@ public class EAdEngine implements playn.core.Game, Keyboard.Listener {
 		this.inputHandler = inputHandler;
 		this.engineConfiguration = platformConfiguration;
 		((PlayNAssetHandler) assetHandler).setEngine(this);
-		logger.info("New instance");
+		logger.info("New EAdEngine instance");
 	}
 
 	@Override
 	public void init() {
 		graphics().setSize(engineConfiguration.getWidth(), engineConfiguration.getHeight());
 		PlayN.log().debug("EAdEngine: init");
-		
+
 		HtmlPlatform.disableRightClickContextMenu();
 
 		/*
@@ -148,7 +143,7 @@ public class EAdEngine implements playn.core.Game, Keyboard.Listener {
 						int eventY = event.getNativeEvent().getClientY();
 						MouseButtonType b = getMouseButton(event.getNativeEvent()
 								.getButton());
-						
+
 						inputHandler.addAction(new MouseActionImpl(EAdMouseEvent.MOUSE_MOVED, eventX, eventY ));
 						// TODO double click
 						EAdMouseEvent e = null;
@@ -191,7 +186,7 @@ public class EAdEngine implements playn.core.Game, Keyboard.Listener {
 
 	@Override
 	public void onKeyDown(Event event) {
-		
+
 
 	}
 
@@ -243,5 +238,4 @@ public class EAdEngine implements playn.core.Game, Keyboard.Listener {
 	public void onKeyTyped(TypedEvent event) {
 
 	}
-
 }

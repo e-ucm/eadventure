@@ -44,8 +44,9 @@ import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
@@ -56,7 +57,7 @@ import javax.swing.JPanel;
  */
 public class Resource {
 
-	private static final Logger logger = Logger.getLogger("Resource");
+	private static final Logger logger = LoggerFactory.getLogger("Resource");
 
     private static BufferedImage placeholderImage;
     private static Font placeholderFont;
@@ -94,7 +95,7 @@ public class Resource {
         try {
             return ImageIO.read(ClassLoader.getSystemResourceAsStream(resourceName));
         } catch (IOException e) {
-            logger.log(Level.WARNING, "Image not found: ''{0}''", resourceName);
+            logger.warn("Image not found: '{}'", resourceName);
             return placeholderImage();
         }
     }
@@ -108,9 +109,9 @@ public class Resource {
             return Font.createFont(Font.TRUETYPE_FONT,
                 ClassLoader.getSystemResourceAsStream(resourceName));
         } catch (IOException e) {
-            logger.log(Level.WARNING, "Font not found: ''{0}''", resourceName);
+            logger.warn("Font not found: '{}'", resourceName, e);
         } catch (FontFormatException ffe) {
-            logger.log(Level.WARNING, "Bad font format: ''{0}''", resourceName);
+            logger.warn("Bad font format: '{}'", resourceName, ffe);
         }
         return placeholderFont();
     }

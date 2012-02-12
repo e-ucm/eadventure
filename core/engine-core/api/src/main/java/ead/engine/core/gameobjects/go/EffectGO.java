@@ -43,7 +43,7 @@ import ead.engine.core.input.InputAction;
 
 public interface EffectGO<P extends EAdEffect> extends DrawableGO<P> {
 
-	void initilize();
+	void initialize();
 
 	/**
 	 * 

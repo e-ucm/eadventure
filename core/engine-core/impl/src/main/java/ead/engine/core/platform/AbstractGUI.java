@@ -37,8 +37,6 @@
 
 package ead.engine.core.platform;
 
-import java.util.logging.Logger;
-
 import ead.common.util.EAdMatrixImpl;
 import ead.common.util.EAdRectangle;
 import ead.engine.core.game.GameState;
@@ -50,6 +48,8 @@ import ead.engine.core.input.InputHandler;
 import ead.engine.core.platform.rendering.GenericCanvas;
 import ead.engine.core.util.EAdTransformation;
 import ead.engine.core.util.EAdTransformationImpl;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * <p>
@@ -66,7 +66,7 @@ public abstract class AbstractGUI<T> implements GUI {
 	/**
 	 * Logger
 	 */
-	private static final Logger logger = Logger.getLogger("AbstractGUI");
+	private static final Logger logger = LoggerFactory.getLogger("AbstractGUI");
 
 	/**
 	 * Platform configuration parameters

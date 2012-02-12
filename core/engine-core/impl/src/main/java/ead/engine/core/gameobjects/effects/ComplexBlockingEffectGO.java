@@ -65,8 +65,8 @@ public class ComplexBlockingEffectGO extends
 		this.evaluatorFactory = evaluatorFactory;
 	}
 	
-	public void initilize( ){
-		super.initilize();
+	public void initialize( ){
+		super.initialize();
 		for ( EAdEffect e: element.getInitEffects() ){
 			gameState.addEffect(e);
 		}

@@ -37,35 +37,33 @@
 
 package ead.engine.core.evaluators;
 
-import java.util.logging.Logger;
-
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-
 import ead.common.model.elements.EAdCondition;
 import ead.common.util.AbstractFactory;
 import ead.common.util.ReflectionProvider;
-import ead.engine.core.evaluators.Evaluator;
-import ead.engine.core.evaluators.EvaluatorFactory;
 import ead.engine.core.factorymapproviders.EvaluatorFactoryMapProvider;
 import ead.engine.core.game.ValueMap;
 import ead.engine.core.operator.OperatorFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @Singleton
 public class EvaluatorFactoryImpl extends AbstractFactory<Evaluator<?>> implements EvaluatorFactory {
 
 	@SuppressWarnings("unused")
-	private static final Logger logger = Logger.getLogger("EvaluatorFactoryImpl");
-	
+	private static final Logger logger = LoggerFactory.getLogger("EvaluatorFactoryImpl");
+
 	@Inject
 	public EvaluatorFactoryImpl(ReflectionProvider interfacesProvider) {
 		super(null, interfacesProvider);
 	}
-	
+
+    @Override
 	public void install( ValueMap valueMap, OperatorFactory operatorFactory ){
 		setMap(new EvaluatorFactoryMapProvider( valueMap, this, operatorFactory ));
 	}
-	
+
 	@SuppressWarnings("unchecked")
 	@Override
 	public <T extends EAdCondition> boolean evaluate(T condition) {
