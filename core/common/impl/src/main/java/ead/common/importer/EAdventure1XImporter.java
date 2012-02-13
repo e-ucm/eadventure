@@ -49,6 +49,7 @@ import java.util.ArrayList;
 import java.util.Map;
 import java.util.Properties;
 import java.util.Random;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
@@ -260,8 +261,12 @@ public class EAdventure1XImporter {
 	 */
 	public AdventureData loadGame() {
 		ArrayList<Incidence> incidences = new ArrayList<Incidence>();
-		AdventureData data = Loader.loadAdventureData(inputStreamCreator,
-				incidences, true);
+		AdventureData data = null;
+		try {
+			data = Loader.loadAdventureData(inputStreamCreator, incidences, true);
+		} catch(Exception e) {
+			logger.log(Level.SEVERE, "Exception while reading old <e-Adventure> game", e);
+		}
 		if (data == null) {
 			logger.info("Invalid <e-Adventure> game");
 		}

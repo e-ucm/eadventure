@@ -43,13 +43,17 @@ import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import es.eucm.eadventure.common.loader.InputStreamCreator;
 
 public class EAPInputStreamCreator implements InputStreamCreator {
 
 	private String absolutePath;
-	
+
+	private static final Logger logger = Logger.getLogger("EAPInputStreamCreator");
+
 	public void setFile( String file ){
 		this.absolutePath = file;
 	}
@@ -60,16 +64,19 @@ public class EAPInputStreamCreator implements InputStreamCreator {
 			return new FileInputStream( new File( absolutePath, filePath ) );
 		}
 		catch ( FileNotFoundException e ) {
-			return null;
+			logger.log(Level.SEVERE, "Problem building input stream for file: " + filePath, e);
 		}
+		return null;
 	}
 
 	@Override
 	public URL buildURL( String path ) {
 		try {
-			return new File( absolutePath, path ).toURI( ).toURL( );
+			URL url = new File( absolutePath, path ).toURI( ).toURL( );
+			return url;
 		}
 		catch ( MalformedURLException e ) {
+			logger.log(Level.SEVERE, "Problem building URL for path: " + path, e);
 			return null;
 		}
 	}
@@ -77,11 +84,12 @@ public class EAPInputStreamCreator implements InputStreamCreator {
 	@Override
 	public String[] listNames( String filePath ) {
 		File dir = new File( absolutePath, filePath );
-		if ( dir.exists( ) && dir.isDirectory( ) )
+		if ( dir.exists( ) && dir.isDirectory( ) ) {
 			return dir.list( );
-		else
+		} else {
+			logger.log(Level.WARNING, "Path does not exist of isn't a directory: " + filePath);
 			return new String[0];
-
+		}
 	}
 
 }
