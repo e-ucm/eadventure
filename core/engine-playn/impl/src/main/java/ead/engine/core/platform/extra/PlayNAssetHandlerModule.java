@@ -87,7 +87,7 @@ public class PlayNAssetHandlerModule extends AbstractGinModule {
 	@SuppressWarnings("unchecked")
 	@Provides
 	@Singleton
-	Map<Class<? extends AssetDescriptor>, Class<? extends RuntimeAsset<?>>> provideMap() {
+	Map<Class<? extends AssetDescriptor>, Class<? extends RuntimeAsset<? extends AssetDescriptor>>> provideMap() {
 		// FIXME: There must be a better way of doing this that does not break the build
 		Map map = new HashMap();
 
@@ -108,7 +108,7 @@ public class PlayNAssetHandlerModule extends AbstractGinModule {
 		map.put(Sound.class, PlayNSound.class);
 		map.put(SoundImpl.class, PlayNSound.class);
 
-		return (Map<Class<? extends AssetDescriptor>, Class<? extends RuntimeAsset<?>>>)map;
+		return (Map<Class<? extends AssetDescriptor>, Class<? extends RuntimeAsset<? extends AssetDescriptor>>>)map;
 	}
 
 }

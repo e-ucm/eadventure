@@ -91,8 +91,8 @@ public class AndroidAssetHandlerModule extends AbstractModule {
 	@SuppressWarnings("unchecked")
 	@Provides
 	@Singleton
-	Map<Class<? extends AssetDescriptor>, Class<? extends RuntimeAsset<?>>> provideMap() {
-		Map<Class<? extends AssetDescriptor>, Class<? extends RuntimeAsset<?>>> map = new HashMap<Class<? extends AssetDescriptor>, Class<? extends RuntimeAsset<?>>>( );
+	Map<Class<? extends AssetDescriptor>, Class<? extends RuntimeAsset<? extends AssetDescriptor>>> provideMap() {
+		Map<Class<? extends AssetDescriptor>, Class<? extends RuntimeAsset<? extends AssetDescriptor>>> map = new HashMap<Class<? extends AssetDescriptor>, Class<? extends RuntimeAsset<? extends AssetDescriptor>>>( );
 		map.put(ImageImpl.class, AndroidEngineImage.class);
 		map.put(ImageImpl.class, AndroidEngineImage.class);
 		map.put(Caption.class, (Class<? extends RuntimeAsset<?>>) AndroidEngineCaption.class);

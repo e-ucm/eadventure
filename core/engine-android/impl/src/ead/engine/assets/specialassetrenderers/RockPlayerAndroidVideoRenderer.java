@@ -91,4 +91,10 @@ public class RockPlayerAndroidVideoRenderer implements SpecialAssetRenderer<Vide
 		return true;
 	}
 
+	@Override
+	public void reset() {
+		finished = false;
+		
+	}
+
 }

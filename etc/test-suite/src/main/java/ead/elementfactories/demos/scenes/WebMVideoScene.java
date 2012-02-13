@@ -45,18 +45,17 @@ import ead.common.resources.assets.drawable.basics.ImageImpl;
 import ead.common.resources.assets.multimedia.Video;
 import ead.common.resources.assets.multimedia.VideoImpl;
 import ead.elementfactories.EAdElementsFactory;
+import ead.elementfactories.demos.SceneDemo;
 
-public class WebMVideoScene extends EmptyScene {
+public class WebMVideoScene extends VideoScene implements SceneDemo {
 
 	public WebMVideoScene() {
-		VideoScene videoScene = new VideoScene();
-		videoScene.setId("videoScene");
-		Video video = new VideoImpl("@binary/bbb_trailer_400p.ogv");
-		videoScene.getDefinition().getResources().addAsset(VideoScene.video, video);
+		setId("videoScene");
+		Video video = new VideoImpl("@binary/Heimlich.AVIXVID.webm");
+		getDefinition().getResources().addAsset(VideoScene.video, video);
 		
 		ChangeSceneEf changeScene = new ChangeSceneEf();
 		changeScene.setId("changeScene");
-		changeScene.setNextScene(videoScene);
 
 		SceneElementImpl goRightArrow = EAdElementsFactory
 				.getInstance()

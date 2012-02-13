@@ -167,4 +167,10 @@ public class DesktopVideoRenderer implements SpecialAssetRenderer<Video, Compone
         }
 		return false;
 	}
+
+	@Override
+	public void reset() {
+		finished = false;
+		started = false;
+	}
 }

@@ -226,4 +226,9 @@ public class VLCDesktopVideoRenderer implements SpecialAssetRenderer<Video, Comp
 		this.started = b;
 	}
 
+	@Override
+	public void reset() {
+		finished = false;
+	}
+	
 }

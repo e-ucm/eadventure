@@ -40,6 +40,7 @@ package ead.editor.view.swing.scene;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import ead.common.resources.assets.drawable.basics.ImageImpl;
+import ead.engine.core.game.GameLoop;
 import ead.engine.core.game.GameState;
 import ead.engine.core.gameobjects.GameObjectManager;
 import ead.engine.core.gameobjects.factories.SceneElementGOFactory;
@@ -83,9 +84,9 @@ public class DesktopEditorGUI extends DesktopGUI {
 	public DesktopEditorGUI(EngineConfiguration platformConfiguration,
 			GameObjectManager gameObjectManager, InputHandler inputHandler,
 			GameState gameState, SceneElementGOFactory gameObjectFactory,
-			DesktopCanvas canvas) {
+			DesktopCanvas canvas, GameLoop gameLoop ) {
 		super(platformConfiguration, gameObjectManager, inputHandler, gameState,
-				gameObjectFactory, canvas);
+				gameObjectFactory, canvas, gameLoop );
 	}
 
 	/*

@@ -39,14 +39,12 @@ package ead.common.importer;
 
 import com.google.inject.AbstractModule;
 import com.google.inject.TypeLiteral;
-import com.google.inject.name.Names;
 
 import ead.common.EAdElementImporter;
 import ead.common.GenericImporter;
-import ead.common.importer.auxiliar.EAPInputStreamCreator;
 import ead.common.importer.auxiliar.EAdElementFactoryImpl;
 import ead.common.importer.auxiliar.ImporterImageLoaderFactory;
-import ead.common.importer.auxiliar.ZipInputStreamCreator;
+import ead.common.importer.auxiliar.inputstreamcreators.ImporterInputStreamCreator;
 import ead.common.importer.interfaces.EAdElementFactory;
 import ead.common.importer.interfaces.ResourceImporter;
 import ead.common.importer.resources.AnimationImporter;
@@ -129,25 +127,10 @@ import es.eucm.eadventure.common.loader.InputStreamCreator;
  */
 public class ImporterConfigurationModule extends AbstractModule {
 
-	private String projectFile;
-
-	/**
-	 *
-	 * @param projectFile
-	 *            Could be an *.eap file or and *.ead file
-	 */
-	public ImporterConfigurationModule(String projectFile) {
-		this.projectFile = projectFile;
-	}
-
 	@Override
 	protected void configure() {
 		this.install(new EffectsImporterModule());
 
-		bind(String.class).annotatedWith(Names.named("projectFolder"))
-				.toInstance(projectFile);
-		bind(String.class).annotatedWith(Names.named("StringsFile"))
-				.toInstance(projectFile + "/strings.xml");
 
 		bind(new TypeLiteral<EAdElementImporter<AdventureData, EAdAdventureModel>>() {})
                 .to(AdventureImporter.class);
@@ -293,15 +276,7 @@ public class ImporterConfigurationModule extends AbstractModule {
 		bind(ResourceImporter.class).to(ResourceImporterImpl.class);
 		bind(EAdElementFactory.class).to(EAdElementFactoryImpl.class);
 		bind(ImageLoaderFactory.class).to(ImporterImageLoaderFactory.class);
-
-		if (projectFile.endsWith(".eap")) {
-			projectFile = projectFile.substring(0, projectFile.length() - 4);
-			bind(InputStreamCreator.class).toInstance(
-					new EAPInputStreamCreator(projectFile));
-		} else if (projectFile.endsWith(".zip") || projectFile.endsWith(".ead")) {
-			bind(InputStreamCreator.class).toInstance(
-					new ZipInputStreamCreator(projectFile));
-		}
+		bind(InputStreamCreator.class).to(ImporterInputStreamCreator.class);
 	}
 
 }

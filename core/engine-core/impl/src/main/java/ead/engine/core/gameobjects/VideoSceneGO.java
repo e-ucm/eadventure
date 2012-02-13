@@ -86,12 +86,15 @@ public class VideoSceneGO extends SceneElementGOImpl<VideoScene> implements
 	public void doLayout(EAdTransformation transformation) {
 		if (component == null)
 			try {
-				component = specialAssetRenderer.getComponent((Video) element
-						.getDefinition().getAsset(VideoScene.video));
+				Video v = (Video) element
+						.getDefinition().getAsset(VideoScene.video);
+				component = specialAssetRenderer.getComponent(v);
 			} catch (Exception e) {
 				error = true;
-			} catch ( LinkageError e ){
+				e.printStackTrace();
+			} catch ( Error e ){
 				error = true;
+				e.printStackTrace();
 			}
 
 		if (!error) {
@@ -107,9 +110,13 @@ public class VideoSceneGO extends SceneElementGOImpl<VideoScene> implements
 	public void update() {
 		super.update();
 		if (error || specialAssetRenderer.isFinished()) {
-			
-			if (!error)
+			logger.info("Video finished");
+			component = null;
+			if (!error){
 				gui.showSpecialResource(null, 0, 0, true);
+				specialAssetRenderer.reset();
+				
+			}
 			
 			ChangeSceneEf ef = new ChangeSceneEf(  );
 			ef.setNextScene(element.getNextScene());
@@ -117,7 +124,7 @@ public class VideoSceneGO extends SceneElementGOImpl<VideoScene> implements
 				ef.getNextEffects().add(e);
 			}
 			gameState.addEffect(ef);
-		} else {
+		} else if ( component != null ){
 			specialAssetRenderer.start();
 		}
 	}

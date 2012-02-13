@@ -151,7 +151,8 @@ public class InitScene extends EmptyScene {
 		sceneDemos.add(new InventoryScene());
 		sceneDemos.add(new ScrollScene());
 		sceneDemos.add(new FiltersDemo());
-		// sceneDemos.add(new VideoScene());
+		sceneDemos.add(new VideoSceneDemo());
+		sceneDemos.add(new WebMVideoScene());
 		sceneDemos.add(new NgMainScreen());
 		// sceneDemos.add(new NgRoom1());
 

@@ -138,7 +138,8 @@ public class ResourceImporterImpl implements ResourceImporter {
 	@Override
 	public void setPath(String newAdventurePath) {
 		this.newAdventurePath = newAdventurePath;
-
+		this.urisCorrespondences.clear();
+		this.assets.clear();
 		createFolders();
 	}
 

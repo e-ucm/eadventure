@@ -66,11 +66,7 @@ import org.xml.sax.SAXException;
 public class EAdAdventureDOMModelReader implements Reader<EAdAdventureModel> {
 
 	private static final Logger logger = LoggerFactory.getLogger("EAdReader");
-
-	@Inject
-	public EAdAdventureDOMModelReader() {
-	}
-
+	
 	@Override
 	public EAdAdventureModel read(URI fileURI) {
 		try {

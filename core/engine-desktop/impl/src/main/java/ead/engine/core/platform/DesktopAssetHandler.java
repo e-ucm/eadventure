@@ -62,6 +62,15 @@ import org.slf4j.LoggerFactory;
  * into the system temporary directory. A map is used to identify the temporary
  * files with their original descriptors. </p>
  *
+ * <p>
+ * Desktop implementation of the engine asset handler.
+ * </p>
+ * <p>
+ * This asset handler extracts all the files from the adventure zip file and
+ * extracts them into the system temporary directory. A map is used to identify
+ * the temporary files with their original descriptors.
+ * </p>
+ * 
  */
 @Singleton
 public class DesktopAssetHandler extends JavaAbstractAssetHandler {
@@ -82,7 +91,7 @@ public class DesktopAssetHandler extends JavaAbstractAssetHandler {
     @Inject
     public DesktopAssetHandler(
             Injector injector,
-            Map<Class<? extends AssetDescriptor>, Class<? extends RuntimeAsset<?>>> classMap, FontHandler fontHandler) {
+			Map<Class<? extends AssetDescriptor>, Class<? extends RuntimeAsset<? extends AssetDescriptor>>> classMap, FontHandler fontHandler) {
         super(injector, classMap, fontHandler);
         fileMap = new HashMap<String, File>();
         logger.info("New instance");

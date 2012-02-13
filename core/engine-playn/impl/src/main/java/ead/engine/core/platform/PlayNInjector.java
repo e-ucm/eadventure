@@ -49,6 +49,7 @@ import ead.engine.core.gameobjects.effects.ChangeSceneGO;
 import ead.engine.core.gameobjects.effects.ComplexBlockingEffectGO;
 import ead.engine.core.gameobjects.effects.HighlightSceneElementGO;
 import ead.engine.core.gameobjects.effects.InterpolationGO;
+import ead.engine.core.gameobjects.effects.ModifyHudGO;
 import ead.engine.core.gameobjects.effects.ModifyInventoryGO;
 import ead.engine.core.gameobjects.effects.MoveSceneElementGO;
 import ead.engine.core.gameobjects.effects.PlaySoundGO;
@@ -120,6 +121,8 @@ public class PlayNInjector implements GenericInjector {
 			go = ginjector.getShowSceneElementGO();
 		else if (clazz == SpeakGO.class)
 			go = ginjector.getSpeakEffectGO();
+		else if ( clazz == ModifyHudGO.class )
+			go = ginjector.getModifyHUGGO();
 		else if (clazz == TriggerMacroGO.class)
 			go = ginjector.getTriggerMacroEffectGO();
 		else if (clazz == InterpolationGO.class)

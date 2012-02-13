@@ -69,7 +69,7 @@ public class AndroidAssetHandler extends AbstractAssetHandler {
 
 	@Inject
 	public AndroidAssetHandler(Injector injector,
-			Map<Class<? extends AssetDescriptor>, Class<? extends RuntimeAsset<?>>> classMap, FontHandler fontHandler ) {
+			Map<Class<? extends AssetDescriptor>, Class<? extends RuntimeAsset<? extends AssetDescriptor>>> classMap, FontHandler fontHandler ) {
 		super(classMap, fontHandler );
 		logger.info("New instance");
 		sdCardLocation = Environment.getExternalStorageDirectory()

@@ -37,10 +37,13 @@
 
 package ead.engine.core.platform;
 
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 import ead.common.resources.assets.drawable.basics.BasicDrawable;
+import ead.engine.core.game.GameLoop;
 import ead.engine.core.game.GameState;
 import ead.engine.core.gameobjects.GameObjectManager;
 import ead.engine.core.gameobjects.factories.SceneElementGOFactory;
@@ -91,6 +94,8 @@ public class DesktopGUI extends AbstractGUI<Graphics2D> implements GUI {
 	 */
 	private Canvas canvas;
 
+	private GameLoop gameLoop;
+
 	/**
 	 * AWT Robot, used to move the mouse in the screen
 	 */
@@ -107,9 +112,10 @@ public class DesktopGUI extends AbstractGUI<Graphics2D> implements GUI {
 	public DesktopGUI(EngineConfiguration conf,
 			GameObjectManager gameObjectManager, InputHandler inputHandler,
 			GameState gameState, SceneElementGOFactory gameObjectFactory,
-			DesktopCanvas canvas) {
+			DesktopCanvas canvas, GameLoop gameLoop) {
 		super(conf, gameObjectManager, inputHandler, gameState,
 				gameObjectFactory, canvas);
+		this.gameLoop = gameLoop;
 		// try {
 		// this.robot = new Robot();
 		// } catch (AWTException e) {
@@ -170,54 +176,57 @@ public class DesktopGUI extends AbstractGUI<Graphics2D> implements GUI {
 	 */
 	@Override
 	public void commit(final float interpolation) {
-		processInput();
+		if (frame.isVisible()) {
+			processInput();
 
-		if (currentComponent != null)
-			return;
+			if (currentComponent != null)
+				return;
 
-		SwingUtilities.doInEDTNow(new Runnable() {
-			@Override
-			public void run() {
-				try {
-					BufferStrategy bs = canvas.getBufferStrategy();
-					Graphics2D g = (Graphics2D) bs.getDrawGraphics();
-					eAdCanvas.setGraphicContext(g);
-					g.setClip(0, 0, platformConfiguration.getWidth(),
-							platformConfiguration.getHeight());
+			SwingUtilities.doInEDTNow(new Runnable() {
+				@Override
+				public void run() {
+					try {
+						BufferStrategy bs = canvas.getBufferStrategy();
+						Graphics2D g = (Graphics2D) bs.getDrawGraphics();
+						eAdCanvas.setGraphicContext(g);
+						g.setClip(0, 0, platformConfiguration.getWidth(),
+								platformConfiguration.getHeight());
 
-					setRenderingHints(g);
+						setRenderingHints(g);
 
-					g.setFont(g.getFont().deriveFont(20.0f));
+						g.setFont(g.getFont().deriveFont(20.0f));
 
-					render(interpolation);
+						render(interpolation);
 
-					g.dispose();
-				} catch (IllegalStateException e) {
-                    logger.warn(
-                        "error commiting GUI phase 1; "
-                            + "will use fallback bufferStrategy", e);
-					canvas.createBufferStrategy(2);
+						g.dispose();
+					} catch (IllegalStateException e) {
+						if (gameLoop.isRunning()) {
+                            logger.warn("error commiting GUI phase 1; "
+                                + "will use fallback bufferStrategy", e);
+							canvas.createBufferStrategy(2);
+						}
+					}
 				}
-			}
-		});
+			});
 
-		SwingUtilities.doInEDT(new Runnable() {
-			@Override
-			public void run() {
-				try {
-					BufferStrategy bs = canvas.getBufferStrategy();
-					bs.show();
-					Toolkit.getDefaultToolkit().sync();
-				} catch (IllegalStateException e) {
-                    logger.warn(
-                        "error commiting GUI phase 2; "
-                            + "will use fallback bufferStrategy 2", e);
-					canvas.createBufferStrategy(2);
+			SwingUtilities.doInEDT(new Runnable() {
+				@Override
+				public void run() {
+					try {
+						BufferStrategy bs = canvas.getBufferStrategy();
+						bs.show();
+						Toolkit.getDefaultToolkit().sync();
+					} catch (IllegalStateException e) {
+					    if (gameLoop.isRunning()) {
+                            logger.warn("error commiting GUI phase 1; "
+                                + "will use fallback bufferStrategy", e);
+							canvas.createBufferStrategy(2);
+						}
+					}
 				}
-			}
-		});
+			});
+		}
 	}
-
 
 	public RuntimeAsset<? extends BasicDrawable> commitToImage() {
 
@@ -285,7 +294,7 @@ public class DesktopGUI extends AbstractGUI<Graphics2D> implements GUI {
 					frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 					frame.setSize(platformConfiguration.getWidth(),
 							platformConfiguration.getHeight());
-					frame.setUndecorated(false);
+					frame.setUndecorated(true);
 					frame.setIgnoreRepaint(true);
 
 					if (platformConfiguration.isFullscreen()) {
@@ -322,6 +331,46 @@ public class DesktopGUI extends AbstractGUI<Graphics2D> implements GUI {
 		canvas.setSize(frame.getSize());
 		canvas.setBounds(0, 0, canvas.getWidth(), canvas.getHeight());
 		frame.add(canvas);
+		frame.pack();
+		frame.addWindowListener(new WindowListener() {
+
+			@Override
+			public void windowActivated(WindowEvent arg0) {
+
+			}
+
+			@Override
+			public void windowClosed(WindowEvent arg0) {
+
+			}
+
+			@Override
+			public void windowClosing(WindowEvent arg0) {
+				gameLoop.stop();
+				frame.dispose();
+			}
+
+			@Override
+			public void windowDeactivated(WindowEvent arg0) {
+
+			}
+
+			@Override
+			public void windowDeiconified(WindowEvent arg0) {
+
+			}
+
+			@Override
+			public void windowIconified(WindowEvent arg0) {
+
+			}
+
+			@Override
+			public void windowOpened(WindowEvent arg0) {
+
+			}
+
+		});
 
 		canvas.setEnabled(true);
 		canvas.setVisible(true);

@@ -59,13 +59,13 @@ public class ImporterTest extends TestCase {
 	@Before
     @Override
 	public void setUp( ) {
-		Injector injector = Guice.createInjector( new ImporterConfigurationModule( projectFolder ) );
+		Injector injector = Guice.createInjector( new ImporterConfigurationModule(  ) );
 		importer = injector.getInstance( EAdventure1XImporter.class );
 	}
 
 	@Test
 	public void testImportGame( ) {
-		EAdAdventureModel data = importer.importGame( "src/test/resources/Import Un paseo por eAdventure 1.2/"  );
+		EAdAdventureModel data = importer.importGame( null, null  );
 		assertNotNull( data );
 		AdventureData oldData = importer.loadGame(  );
 		assertNotNull( oldData );
@@ -73,7 +73,7 @@ public class ImporterTest extends TestCase {
 
 	@Test
 	public void testImportGameFromZip( ){
-		EAdAdventureModel data = importer.importGame(  "src/test/resources/Chocolate.ead" );
+		EAdAdventureModel data = importer.importGame(  null, "src/test/resources/Chocolate.ead" );
 		assertNotNull( data );
 	}
 

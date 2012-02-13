@@ -52,6 +52,7 @@ import ead.engine.core.gameobjects.effects.ChangeSceneGO;
 import ead.engine.core.gameobjects.effects.ComplexBlockingEffectGO;
 import ead.engine.core.gameobjects.effects.HighlightSceneElementGO;
 import ead.engine.core.gameobjects.effects.InterpolationGO;
+import ead.engine.core.gameobjects.effects.ModifyHudGO;
 import ead.engine.core.gameobjects.effects.ModifyInventoryGO;
 import ead.engine.core.gameobjects.effects.MoveSceneElementGO;
 import ead.engine.core.gameobjects.effects.PlaySoundGO;
@@ -140,5 +141,7 @@ public interface PlayNGinInjector extends Ginjector {
 	public InventoryHandler getInventoryHandler();
 
 	public ComposedSceneGOImpl getComposedSceneGO();
+
+	public ModifyHudGO getModifyHUGGO();
 	
 }

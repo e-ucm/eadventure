@@ -38,8 +38,8 @@
 package ead.engine.core.game;
 
 /**
- * The game loop. Implementation of the loop are recommended to include
- * fixed UPS (updates per second) and variable but capped FPS (frames per second).
+ * The game loop. Implementation of the loop are recommended to include fixed
+ * UPS (updates per second) and variable but capped FPS (frames per second).
  */
 public interface GameLoop {
 
@@ -49,10 +49,11 @@ public interface GameLoop {
 
 	/**
 	 * Run the game loop
-	 * @param threaded 
+	 * 
+	 * @param threaded
 	 */
 	public void runLoop(boolean threaded);
-	
+
 	/**
 	 * Set the {@link Game} to update and render in this loop.
 	 * 
@@ -69,5 +70,18 @@ public interface GameLoop {
 	 * Resume the game loop after a pause
 	 */
 	public void resume();
+
+	/**
+	 * Stops the game loop
+	 * 
+	 * @param running
+	 */
+	public void stop();
 	
+	/**
+	 * Check if the game loop is running
+	 * @return
+	 */
+	public boolean isRunning( );
+
 }

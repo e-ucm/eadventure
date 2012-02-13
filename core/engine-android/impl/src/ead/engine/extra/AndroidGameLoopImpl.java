@@ -192,4 +192,15 @@ public class AndroidGameLoopImpl implements GameLoop {
 			game_is_running = true;
 		}
 	}
+
+	@Override
+	public void stop() {
+		game_is_running = false;
+		
+	}
+
+	@Override
+	public boolean isRunning() {
+		return game_is_running;
+	}
 }
