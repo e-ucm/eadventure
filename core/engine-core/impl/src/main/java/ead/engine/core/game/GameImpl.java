@@ -183,8 +183,7 @@ public class GameImpl implements Game {
 
 		// Delete finished effects
 		for (EffectGO<?> e : finishedEffects) {
-			logger.info("Finished or discarded effect {}",
-                    e.getClass().getCanonicalName());
+			logger.info("Finished or discarded effect {}", e.getClass());
 			gameState.getEffects().remove(e);
 		}
 
