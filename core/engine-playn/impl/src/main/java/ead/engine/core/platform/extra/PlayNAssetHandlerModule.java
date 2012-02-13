@@ -84,7 +84,7 @@ public class PlayNAssetHandlerModule extends AbstractGinModule {
 		bind(AssetHandler.class).to(PlayNAssetHandler.class).in(Singleton.class);
 	}
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Provides
 	@Singleton
 	Map<Class<? extends AssetDescriptor>, Class<? extends RuntimeAsset<? extends AssetDescriptor>>> provideMap() {

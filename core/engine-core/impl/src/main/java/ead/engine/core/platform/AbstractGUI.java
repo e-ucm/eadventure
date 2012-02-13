@@ -99,6 +99,7 @@ public abstract class AbstractGUI<T> implements GUI {
 		this.gameState = gameState;
 		this.gameObjectFactory = gameObjectFactory;
 		this.eAdCanvas = canvas;
+		logger.info("Created abstract GUI");
 	}
 
 	/*

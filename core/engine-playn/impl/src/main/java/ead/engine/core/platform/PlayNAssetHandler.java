@@ -109,6 +109,7 @@ public class PlayNAssetHandler extends AbstractAssetHandler {
 	public RuntimeAsset<?> getInstance(Class<? extends RuntimeAsset<?>> clazz) {
 
 		// FIXME: it is ugly to discard all these generics; find another way to get clean builds
+		@SuppressWarnings("rawtypes")
 		RuntimeAsset r = null;
 		if (clazz == PlayNEngineImage.class)
 			r = new PlayNEngineImage(this);

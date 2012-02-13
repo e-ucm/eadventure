@@ -37,12 +37,11 @@
 
 package ead.gui;
 
-import ead.utils.i18n.Resource;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+
+import ead.utils.i18n.Resource;
 
 /**
  * Button for the eAdventure GUI.
@@ -50,7 +49,6 @@ import org.slf4j.LoggerFactory;
 public class EAdButton extends JButton {
 
     private static final long serialVersionUID = 3364781023045177824L;
-    private static final Logger logger = LoggerFactory.getLogger(EAdButton.class);
 
     public EAdButton(String string) {
         super(string);

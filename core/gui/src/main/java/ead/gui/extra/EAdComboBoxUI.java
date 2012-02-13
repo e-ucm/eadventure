@@ -106,7 +106,6 @@ public class EAdComboBoxUI extends BasicComboBoxUI {
         super();
     }
 
-    @SuppressWarnings("unchecked")
 	@Override
 	public void installUI(JComponent c) {
 		super.installUI(c);

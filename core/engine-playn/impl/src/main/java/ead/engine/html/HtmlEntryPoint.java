@@ -57,7 +57,5 @@ public class HtmlEntryPoint implements EntryPoint {
 			EAdEngineHTMLProtocol protocol = new EAdEngineHTMLProtocol();
 			protocol.onModuleLoad();
 		}
-
 	}
-
 }

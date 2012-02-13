@@ -197,8 +197,7 @@ public class DesktopEAdEngine {
 
 		private static final long serialVersionUID = 3665422751105063444L;
 
-        @SuppressWarnings("unchecked")
-		public SceneDemosFrame() {
+        public SceneDemosFrame() {
 			super("Scenes demo");
 			TechDemoAdventure model = new TechDemoAdventure();
 			model.setInventory(EAdElementsFactory.getInstance().getInventory());

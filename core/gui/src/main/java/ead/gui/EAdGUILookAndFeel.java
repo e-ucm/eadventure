@@ -68,12 +68,8 @@
  */
 package ead.gui;
 
-import ead.utils.i18n.Resource;
 import java.awt.Color;
 import java.awt.Font;
-import java.awt.FontFormatException;
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.Enumeration;
 
 import javax.swing.JPopupMenu;
@@ -84,6 +80,8 @@ import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.plaf.ColorUIResource;
 import javax.swing.plaf.FontUIResource;
 import javax.swing.plaf.basic.BasicLookAndFeel;
+
+import ead.utils.i18n.Resource;
 
 public class EAdGUILookAndFeel extends BasicLookAndFeel {
 

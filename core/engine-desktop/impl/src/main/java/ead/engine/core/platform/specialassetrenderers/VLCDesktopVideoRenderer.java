@@ -41,7 +41,13 @@ import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Component;
 import java.io.File;
-import java.lang.reflect.InvocationTargetException;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import uk.co.caprica.vlcj.player.MediaPlayerFactory;
+import uk.co.caprica.vlcj.player.embedded.EmbeddedMediaPlayer;
+import uk.co.caprica.vlcj.player.embedded.videosurface.CanvasVideoSurface;
 
 import com.google.inject.Inject;
 import com.sun.jna.NativeLibrary;
@@ -51,12 +57,6 @@ import ead.engine.core.platform.AssetHandler;
 import ead.engine.core.platform.SpecialAssetRenderer;
 import ead.engine.core.platform.specialassetrenderers.extra.VLCMediaPlayerEventListener;
 import ead.engine.core.platform.specialassetrenderers.extra.WinRegistry;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import uk.co.caprica.vlcj.player.MediaPlayerFactory;
-import uk.co.caprica.vlcj.player.embedded.EmbeddedMediaPlayer;
-import uk.co.caprica.vlcj.player.embedded.videosurface.CanvasVideoSurface;
 
 /**
  * <p>Video renderer for desktop (and applets) using vlcj library {@link http://code.google.com/p/vlcj/}</p>
