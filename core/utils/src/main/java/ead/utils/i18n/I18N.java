@@ -267,12 +267,14 @@ public abstract class I18N {
             }
 
             // Compute bundle file names using the default system Locale
-            boolean noBundleFound = false;
+            boolean noBundleFound = true;
             String[] fileNames = buildBundleFileNames(baseName, locale);
             ClassLoader loader = ClassLoaderUtils.getClassLoader(I18N.class);
             for (int i = 0; i < fileNames.length; i++) {
-                InputStream input = loader.getResourceAsStream("/"+fileNames[i]);
-                if (input != null) {
+                InputStream input = loader.getResourceAsStream(fileNames[i]);
+            	logger.debug("Searching for file {} for bundle {}", fileNames[i], baseName);
+            	if (input != null) {
+                	logger.info("Processing file {} for bundle {}", fileNames[i], baseName);
                     try {
                         Properties props = new Properties();
                         props.load(input);
@@ -308,7 +310,7 @@ public abstract class I18N {
             }
 
             if (noBundleFound) {
-                logger.error( "No bundle (or fallback) found for {0}.", baseName);
+                logger.error("No bundle (or fallback) found for {}", baseName);
             }
 
             //TODO: set the value to the default error resources

@@ -117,7 +117,8 @@ public class EAdGUILookAndFeel extends BasicLookAndFeel {
         UIManager.put("javax.swing.plaf.FontUIResource",
                 new FontUIResource(instance.font));
 
-        System.setProperty("awt.useSystemAAFontSettings", "on");
+        System.setProperty("awt.useSystemAAFontSettings", "on");  
+        System.setProperty("swing.aatext", "true");
 
         try {
             UIManager.setLookAndFeel(instance);

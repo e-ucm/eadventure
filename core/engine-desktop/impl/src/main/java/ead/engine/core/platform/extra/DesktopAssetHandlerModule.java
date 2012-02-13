@@ -94,7 +94,7 @@ public class DesktopAssetHandlerModule extends AbstractModule {
 	@SuppressWarnings("unchecked")
 	@Provides
 	@Singleton
-	Map<Class<? extends AssetDescriptor>, Class<? extends RuntimeAsset<?>>> provideMap() {
+	Map<Class<? extends AssetDescriptor>, Class<? extends RuntimeAsset<? extends AssetDescriptor>>> provideMap() {
 
 		Map map = new HashMap();
 
@@ -113,6 +113,6 @@ public class DesktopAssetHandlerModule extends AbstractModule {
 		map.put(FilteredDrawable.class, RuntimeFilteredDrawable.class);
 		map.put(FilteredDrawableImpl.class, RuntimeFilteredDrawable.class);
 
-		return (Map<Class<? extends AssetDescriptor>, Class<? extends RuntimeAsset<?>>>)map;
+		return (Map<Class<? extends AssetDescriptor>, Class<? extends RuntimeAsset<? extends AssetDescriptor>>>)map;
 	}
 }
