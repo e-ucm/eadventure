@@ -16,12 +16,12 @@ public class FiltersDemo extends EmptyScene {
 		ImageImpl i = new ImageImpl("@drawable/ng_key.png");
 		FilteredDrawable d = new FilteredDrawableImpl(i, new MatrixFilter(m, 1.0f, 0.0f));
 		SceneElementImpl e = new SceneElementImpl(d);
-		e.setScale(0.8f);
+		e.setInitialScale(0.8f);
 		e.setPosition(Corner.CENTER, 400, 300);
 		
 		SceneElementImpl e2 = new SceneElementImpl(i);
 		e2.setPosition(Corner.CENTER, 400, 400);
-		e2.setScale(0.8f);
+		e2.setInitialScale(0.8f);
 		getComponents().add(e2);
 		getComponents().add(e);
 	}

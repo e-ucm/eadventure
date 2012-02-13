@@ -141,5 +141,7 @@ public interface EAdElementFactory {
 
 	boolean isDraggableActor(EAdSceneElementDef actor);
 
+	void init();
+
 
 }

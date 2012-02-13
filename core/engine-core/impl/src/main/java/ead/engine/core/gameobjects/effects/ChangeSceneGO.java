@@ -44,13 +44,16 @@ import ead.common.resources.StringHandler;
 import ead.engine.core.game.GameState;
 import ead.engine.core.gameobjects.factories.SceneElementGOFactory;
 import ead.engine.core.gameobjects.go.transitions.TransitionGO;
+import ead.engine.core.gameobjects.go.transitions.TransitionGO.TransitionListener;
 import ead.engine.core.platform.AssetHandler;
 import ead.engine.core.platform.GUI;
 import ead.engine.core.platform.TransitionFactory;
 
-public class ChangeSceneGO extends AbstractEffectGO<ChangeSceneEf> {
+public class ChangeSceneGO extends AbstractEffectGO<ChangeSceneEf> implements TransitionListener {
 
 	private TransitionFactory transitionFactory;
+	
+	private boolean end;
 
 	@Inject
 	public ChangeSceneGO(AssetHandler assetHandler,
@@ -64,14 +67,17 @@ public class ChangeSceneGO extends AbstractEffectGO<ChangeSceneEf> {
 	@Override
 	public void initilize() {
 		super.initilize();
+		end = false;
 		if (element.getNextScene() == null || element.getNextScene() != gameState.getScene().getElement()) {
 			TransitionGO<?> transition = transitionFactory
 					.getTransition(element.getTransition());
+			transition.getTransitionListeners().add(this);
 			if (element.getNextScene() != null)
 				transition.setNext(element.getNextScene());
 			else
 				transition.setNext(gameState.getPreviousScene());
 			transition.setPrevious(gameState.getScene());
+			
 
 			gameState.setScene(transition);
 		}
@@ -84,7 +90,17 @@ public class ChangeSceneGO extends AbstractEffectGO<ChangeSceneEf> {
 
 	@Override
 	public boolean isFinished() {
-		return true;
+		return end;
+	}
+
+	@Override
+	public void transitionBegins() {
+		
+	}
+
+	@Override
+	public void transitionEnds() {
+		end = true;
 	}
 
 }

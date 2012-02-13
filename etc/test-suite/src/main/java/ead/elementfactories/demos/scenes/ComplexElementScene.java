@@ -72,7 +72,7 @@ public class ComplexElementScene extends EmptyScene {
 				.createSceneElement(new RectangleShape(400, 400, EAdColor.BLUE),
 						new RectangleShape(400, 400, EAdColor.RED), 40, 40);
 
-		e.setScale(0.1f);
+		e.setInitialScale(0.1f);
 		e.setVarInitialValue(SceneElementImpl.VAR_ROTATION,
 				(float) Math.PI / 6);
 		e.setPosition(new EAdPosition(Corner.CENTER, 50, 50));
@@ -112,7 +112,7 @@ public class ComplexElementScene extends EmptyScene {
 		EAdField<Float> scale = new EAdFieldImpl<Float>(complex,
 				SceneElementImpl.VAR_SCALE);
 
-		complex.setScale(0.5f);
+		complex.setInitialScale(0.5f);
 		InterpolationEf effect3 = new InterpolationEf(scale,
 				0.0f, 1.5f, 5000, InterpolationLoopType.REVERSE, InterpolationType.LINEAR);
 

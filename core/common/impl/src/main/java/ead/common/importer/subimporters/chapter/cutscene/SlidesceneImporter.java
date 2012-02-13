@@ -37,6 +37,8 @@
 
 package ead.common.importer.subimporters.chapter.cutscene;
 
+import java.awt.Dimension;
+
 import com.google.inject.Inject;
 
 import ead.common.EAdElementImporter;
@@ -47,10 +49,13 @@ import ead.common.importer.subimporters.effects.TriggerSceneImporter;
 import ead.common.model.elements.EAdChapter;
 import ead.common.model.elements.EAdCondition;
 import ead.common.model.elements.EAdEffect;
+import ead.common.model.elements.EAdEvent;
 import ead.common.model.elements.conditions.EmptyCond;
 import ead.common.model.elements.effects.ChangeSceneEf;
 import ead.common.model.elements.effects.EffectsMacro;
 import ead.common.model.elements.effects.TriggerMacroEf;
+import ead.common.model.elements.events.TimedEv;
+import ead.common.model.elements.events.enums.TimedEventType;
 import ead.common.model.elements.guievents.EAdMouseEvent;
 import ead.common.model.elements.scene.EAdScene;
 import ead.common.model.elements.scenes.SceneElementImpl;
@@ -58,7 +63,7 @@ import ead.common.model.elements.scenes.SceneImpl;
 import ead.common.model.elements.transitions.EAdTransition;
 import ead.common.model.elements.transitions.EmptyTransition;
 import ead.common.resources.StringHandler;
-import ead.common.resources.assets.drawable.basics.BasicDrawable;
+import ead.common.resources.assets.drawable.basics.Image;
 import ead.common.resources.assets.drawable.basics.animation.FramesAnimation;
 import ead.common.resources.assets.multimedia.Sound;
 import ead.common.resources.assets.multimedia.SoundImpl;
@@ -126,6 +131,8 @@ public class SlidesceneImporter implements
 			triggerMacro.putMacro(macro, EmptyCond.TRUE_EMPTY_CONDITION);
 			changeScene.getNextEffects().add(triggerMacro);
 		}
+		
+		
 
 		EAdScene[] scenes = new EAdScene[asset.getFrameCount()];
 		for (int i = 0; i < asset.getFrameCount(); i++) {
@@ -133,8 +140,17 @@ public class SlidesceneImporter implements
 				scenes[i] = cutscene;
 			else
 				scenes[i] = new SceneImpl();
-			BasicDrawable drawable = asset.getFrame(i).getDrawable();
-			scenes[i].setBackground(new SceneElementImpl(drawable));
+			Image drawable = (Image) asset.getFrame(i).getDrawable();
+			SceneElementImpl background = new SceneElementImpl(drawable);
+			// Adjust scene background to 800x600 (restriction from old model)
+			Dimension d = resourceImporter.getDimensionsForNewImage(drawable.getUri().getPath());
+			float scaleX = 800.0f / d.width;
+			float scaleY = 600.0f / d.height;
+			
+			background.setInitialScale(scaleX, scaleY);
+			background.setId(scenes[i].getId() + "_background" );
+			
+			scenes[i].setBackground(background);
 			scenes[i].setReturnable(false);
 		}
 
@@ -149,6 +165,11 @@ public class SlidesceneImporter implements
 
 			scenes[i].getBackground().addBehavior(
 					EAdMouseEvent.MOUSE_LEFT_CLICK, effect);
+			
+			if ( i != scenes.length - 1 ){
+				EAdEvent changeEvent = getChangeSceneEvent(scenes[i + 1], asset.getFrame(i).getTime(), effect);
+				scenes[i].getBackground().getEvents().add(changeEvent);
+			}
 
 		}
 
@@ -165,6 +186,14 @@ public class SlidesceneImporter implements
 			}
 		}
 
+	}
+
+	private EAdEvent getChangeSceneEvent(EAdScene eAdScene, int time, EAdEffect changeScene) {
+		TimedEv event = new TimedEv( );
+		event.setRepeats(1);
+		event.setTime(time);
+		event.addEffect(TimedEventType.START_TIME, changeScene);
+		return event;
 	}
 
 	private ChangeSceneEf getNextScene(Slidescene oldSlides) {

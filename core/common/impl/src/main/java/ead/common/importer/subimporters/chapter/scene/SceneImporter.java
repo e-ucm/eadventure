@@ -182,7 +182,7 @@ public class SceneImporter implements EAdElementImporter<Scene, SceneImpl> {
 					EAdPosition.Corner.BOTTOM_CENTER,
 					oldScene.getPositionX(), oldScene.getPositionY());
 			playerReference.setPosition(p);
-			playerReference.setScale(oldScene.getPlayerScale());
+			playerReference.setInitialScale(oldScene.getPlayerScale());
 
 			// Make it active element of the scene
 			MakeActiveElementEf effect = new MakeActiveElementEf(
@@ -206,7 +206,7 @@ public class SceneImporter implements EAdElementImporter<Scene, SceneImpl> {
 					new MoveActiveElementEf());
 			
 			// Add move camera with character
-			Dimension d = resourceImporter.getDimensions(oldScene.getResources().get(0).getAssetPath(Scene.RESOURCE_TYPE_BACKGROUND));
+			Dimension d = resourceImporter.getDimensionsForOldImage(oldScene.getResources().get(0).getAssetPath(Scene.RESOURCE_TYPE_BACKGROUND));
 			scene.setBounds(d.width, 600);
 			
 			ScrollWithSceneElementEv scroll = new ScrollWithSceneElementEv( scene, playerReference );
@@ -238,7 +238,7 @@ public class SceneImporter implements EAdElementImporter<Scene, SceneImpl> {
 			playerReference.setPosition(new EAdPosition(
 					Corner.BOTTOM_CENTER, nodeDef.getInitial().getX(), nodeDef
 							.getInitial().getY()));
-			playerReference.setScale(nodeDef.getInitial().getScale());
+			playerReference.setInitialScale(nodeDef.getInitial().getScale());
 		}
 
 	}
@@ -308,7 +308,8 @@ public class SceneImporter implements EAdElementImporter<Scene, SceneImpl> {
 						image);
 				foreground.setId("foreground");
 				foreground.setVarInitialValue(SceneElementImpl.VAR_Z, Integer.MAX_VALUE);
-				scene.getComponents().add(foreground);
+				//FIXME foreground mask
+//				scene.getComponents().add(foreground);
 			}
 			// Music is imported to chapter level. So, the chapter will
 			// remain with the last sound track appeared in the scenes

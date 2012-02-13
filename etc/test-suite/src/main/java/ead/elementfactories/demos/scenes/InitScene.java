@@ -125,7 +125,7 @@ public class InitScene extends EmptyScene {
 		goBack.setPosition(Corner.BOTTOM_LEFT, 10, 590);
 		goBack.addBehavior(EAdMouseEvent.MOUSE_LEFT_PRESSED,
 				new ChangeSceneEf( this, new DisplaceTransition(1000, DisplaceTransitionType.HORIZONTAL, true)));
-		goBack.setScale(0.5f);
+		goBack.setInitialScale(0.5f);
 
 	}
 

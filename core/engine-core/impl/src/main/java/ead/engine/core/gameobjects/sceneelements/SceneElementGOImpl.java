@@ -90,6 +90,10 @@ public abstract class SceneElementGOImpl<T extends EAdSceneElement> extends
 	protected EAdPosition position;
 
 	protected float scale;
+	
+	protected float scaleX;
+	
+	protected float scaleY;
 
 	protected Orientation orientation;
 
@@ -187,6 +191,8 @@ public abstract class SceneElementGOImpl<T extends EAdSceneElement> extends
 		visible = valueMap.getValue(element, SceneElementImpl.VAR_VISIBLE);
 		rotation = valueMap.getValue(element, SceneElementImpl.VAR_ROTATION);
 		scale = valueMap.getValue(element, SceneElementImpl.VAR_SCALE);
+		scaleX = valueMap.getValue(element, SceneElementImpl.VAR_SCALE_X);
+		scaleY = valueMap.getValue(element, SceneElementImpl.VAR_SCALE_Y);
 		alpha = valueMap.getValue(element, SceneElementImpl.VAR_ALPHA);
 		orientation = valueMap.getValue(element,
 				SceneElementImpl.VAR_ORIENTATION);
@@ -207,8 +213,8 @@ public abstract class SceneElementGOImpl<T extends EAdSceneElement> extends
 	 * Sets some variables
 	 */
 	protected void setVars() {
-		int scaleW = (int) (width * scale);
-		int scaleH = (int) (height * scale);
+		int scaleW = (int) (width * scale * scaleX);
+		int scaleH = (int) (height * scale * scaleY);
 		int x = position.getJavaX(scaleW);
 		int y = position.getJavaY(scaleH);
 		gameState.getValueMap().setValue(element, SceneElementImpl.VAR_LEFT, x);
@@ -236,7 +242,7 @@ public abstract class SceneElementGOImpl<T extends EAdSceneElement> extends
 
 		transformation.getMatrix().translate(deltaX, deltaY, true);
 		transformation.getMatrix().rotate(rotation, true);
-		transformation.getMatrix().scale(scale, scale, true);
+		transformation.getMatrix().scale(scale * scaleX, scale * scaleY, true);
 		transformation.getMatrix().translate(-deltaX, -deltaY, true);
 
 	}

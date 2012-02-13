@@ -40,6 +40,7 @@ package ead.common.model.elements.effects.text;
 import ead.common.interfaces.Element;
 import ead.common.interfaces.Param;
 import ead.common.model.elements.effects.AbstractEffect;
+import ead.common.model.elements.variables.EAdField;
 import ead.common.model.elements.variables.EAdOperation;
 import ead.common.params.EAdFontImpl;
 import ead.common.params.fills.EAdColor;
@@ -74,6 +75,9 @@ public class SpeakEf extends AbstractEffect {
 
 	@Param(value="ballonType", defaultValue="ROUNDED_RECTANGLE")
 	private BalloonType ballonType;
+	
+	@Param(value="state_field")
+	private EAdField<String> stateField;
 
 	/**
 	 * Creates an speak effect, with no text and no position, with text color of
@@ -177,6 +181,14 @@ public class SpeakEf extends AbstractEffect {
 
 	public EAdString getString() {
 		return caption.getLabel();
+	}
+	
+	public void setStateField(EAdField<String> stateField){
+		this.stateField = stateField;
+	}
+	
+	public EAdField<String> getStateField(){
+		return this.stateField;
 	}
 	
 	

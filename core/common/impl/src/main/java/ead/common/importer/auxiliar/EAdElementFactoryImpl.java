@@ -279,4 +279,20 @@ public class EAdElementFactoryImpl implements EAdElementFactory {
 		return draggableActors.contains(actor);
 	}
 
+	@Override
+	public void init() {
+		this.elements.clear();
+		this.chapterGlobalStates.clear();
+		this.chapterVars.clear();
+		this.currentChapter = null;
+		this.currentOldChapter = null;
+		this.defaultCursors.clear();
+		this.draggableActors.clear();
+		this.elements.clear();
+		this.model = null;
+		this.oldType.clear();
+	}
+	
+	
+
 }

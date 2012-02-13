@@ -67,7 +67,7 @@ public class TrajectoriesScene extends EmptyScene {
 				CharacterScene.getStateDrawable());
 		element.setId("player");
 
-		element.setScale(3.0f);
+		element.setInitialScale(3.0f);
 
 		element.setPosition(new EAdPosition(Corner.BOTTOM_CENTER, 400, 300));
 

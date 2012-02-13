@@ -42,7 +42,6 @@ import ead.engine.DesktopGame;
 import ead.engine.core.modules.BasicGameModule;
 import ead.engine.core.platform.extra.DesktopAssetHandlerModule;
 import ead.engine.core.platform.extra.DesktopModule;
-import ead.utils.swing.SwingUtilities;
 
 /**
  * Initial frame, showing all the possible options for the engine: run a game,

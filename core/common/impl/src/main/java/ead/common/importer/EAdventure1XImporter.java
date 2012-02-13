@@ -59,6 +59,7 @@ import ead.common.EAdElementImporter;
 import ead.common.ProjectFiles;
 import ead.common.StringFileHandler;
 import ead.common.importer.auxiliar.inputstreamcreators.ImporterInputStreamCreator;
+import ead.common.importer.interfaces.EAdElementFactory;
 import ead.common.importer.interfaces.ResourceImporter;
 import ead.common.model.elements.EAdAdventureModel;
 import ead.common.params.text.EAdString;
@@ -84,6 +85,8 @@ public class EAdventure1XImporter {
 	private StringHandler stringsHandler;
 
 	private StringFileHandler stringFileHandler;
+	
+	private EAdElementFactory elementFactory;
 
 	private Random rand = new Random();
 
@@ -100,12 +103,13 @@ public class EAdventure1XImporter {
 			EAdElementImporter<AdventureData, EAdAdventureModel> adventureImp,
 			ResourceImporter resourceImporter,
 			InputStreamCreator inputStreamCreator, StringHandler stringsWriter,
-			StringFileHandler stringFileHandler) {
+			StringFileHandler stringFileHandler, EAdElementFactory elementFactory) {
 		this.adventureImporter = adventureImp;
 		this.resourceImporter = resourceImporter;
 		this.inputStreamCreator = inputStreamCreator;
 		this.stringsHandler = stringsWriter;
 		this.stringFileHandler = stringFileHandler;
+		this.elementFactory = elementFactory;
 	}
 
 	/**
@@ -123,6 +127,7 @@ public class EAdventure1XImporter {
 		progressText = "Starting importer...";
 		stringsHandler.getStrings().clear();
 		((ImporterInputStreamCreator) inputStreamCreator).setFile(eadFile);
+		elementFactory.init();
 		progress = 10;
 		progressText = "Loading old game...";
 		AdventureData adventureData = loadGame();
@@ -195,7 +200,7 @@ public class EAdventure1XImporter {
 
 		try {
 			FileOutputStream output = new FileOutputStream(propertiesFile);
-			properties.store(output, "Importe version");
+			properties.store(output, "Imported version");
 		} catch (FileNotFoundException e1) {
 			e1.printStackTrace();
 		} catch (IOException e) {

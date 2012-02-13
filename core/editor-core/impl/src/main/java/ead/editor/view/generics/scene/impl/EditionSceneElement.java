@@ -51,7 +51,7 @@ public class EditionSceneElement extends ComplexSceneElementImpl {
 		this.setVarInitialValue(SceneElementImpl.VAR_Y, (int) (scale * (Integer) proxy.getVars().get(SceneElementImpl.VAR_Y)));
 		proxy.setVarInitialValue(SceneElementImpl.VAR_X, 0);
 		proxy.setVarInitialValue(SceneElementImpl.VAR_Y, 0);
-		this.setVarInitialValue(SceneElementImpl.VAR_SCALE, scale);
+		this.setInitialScale(scale);
 		
 		proxy.setVarInitialValue(SceneElementImpl.VAR_ALPHA, 0.3f);
 		

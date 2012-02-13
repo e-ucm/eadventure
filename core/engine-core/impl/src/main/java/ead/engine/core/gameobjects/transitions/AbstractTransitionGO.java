@@ -1,5 +1,8 @@
 package ead.engine.core.gameobjects.transitions;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import ead.common.model.elements.scene.EAdScene;
 import ead.common.model.elements.scenes.SceneElementImpl;
 import ead.common.model.elements.scenes.SceneImpl;
@@ -45,6 +48,8 @@ public abstract class AbstractTransitionGO<T extends EAdTransition> extends
 
 	private EAdField<Float> rotationField;
 
+	private ArrayList<TransitionListener> listeners;
+
 	public AbstractTransitionGO(AssetHandler assetHandler,
 			StringHandler stringHandler,
 			SceneElementGOFactory gameObjectFactory, GUI gui,
@@ -56,6 +61,7 @@ public abstract class AbstractTransitionGO<T extends EAdTransition> extends
 		EAdScene scene = this.createLoadingScene();
 		scene.setReturnable(false);
 		this.setElement(scene);
+		listeners = new ArrayList<TransitionListener>();
 	}
 
 	public void setTransition(T transition) {
@@ -65,6 +71,9 @@ public abstract class AbstractTransitionGO<T extends EAdTransition> extends
 	public void setPrevious(SceneGO<?> scene) {
 		this.previousScene = scene;
 		gameState.getValueMap().setValue(SystemFields.PROCESS_INPUT, false);
+		for ( TransitionListener l: this.getTransitionListeners() ){
+			l.transitionBegins();
+		}
 	}
 
 	@Override
@@ -73,6 +82,9 @@ public abstract class AbstractTransitionGO<T extends EAdTransition> extends
 		nextSceneGO.update();
 		loaded = true;
 		loading = false;
+		for ( TransitionListener l: this.getTransitionListeners() ){
+			l.transitionEnds();
+		}
 	}
 
 	@Override
@@ -101,7 +113,8 @@ public abstract class AbstractTransitionGO<T extends EAdTransition> extends
 		SceneElementImpl loadingText = new SceneElementImpl(circle);
 		loadingText.setInitialAlpha(0.8f);
 		loadingText.setId("loadingText");
-		loadingText.setPosition(Corner.CENTER, circleRadius * 2, circleRadius * 2 );
+		loadingText.setPosition(Corner.CENTER, circleRadius * 2,
+				circleRadius * 2);
 		rotationField = new EAdFieldImpl<Float>(loadingText,
 				SceneElementImpl.VAR_ROTATION);
 
@@ -122,9 +135,9 @@ public abstract class AbstractTransitionGO<T extends EAdTransition> extends
 			loading = true;
 			sceneLoader.loadScene(nextScene, this);
 		}
-		
+
 		rotation += 0.5f;
-		if (rotation > 2 * Math.PI){
+		if (rotation > 2 * Math.PI) {
 			rotation -= 2 * Math.PI;
 		}
 		gameState.getValueMap().setValue(rotationField, rotation);
@@ -134,5 +147,9 @@ public abstract class AbstractTransitionGO<T extends EAdTransition> extends
 			gameState.setScene(nextSceneGO);
 			sceneLoader.freeUnusedAssets(nextSceneGO);
 		}
+	}
+
+	public List<TransitionListener> getTransitionListeners() {
+		return listeners;
 	}
 }

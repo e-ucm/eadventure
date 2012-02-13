@@ -14,6 +14,8 @@ import ead.common.params.EAdURIImpl;
 import ead.common.params.text.EAdString;
 import ead.common.resources.StringHandler;
 import ead.elementfactories.EAdElementsFactory;
+import ead.engine.core.debuggers.EAdMainDebugger;
+import ead.engine.core.debuggers.FieldsDebugger;
 import ead.engine.core.game.Game;
 import ead.engine.core.modules.BasicGameModule;
 import ead.engine.core.platform.EngineConfiguration;
@@ -43,6 +45,8 @@ public class DesktopGame {
 	}
 
 	public void init(EAdAdventureModel model, Map<EAdString, String> strings) {
+		EAdMainDebugger.addDebugger(FieldsDebugger.class);
+		
 		injector = Guice.createInjector(new DesktopAssetHandlerModule(),
 				new DesktopModule(), new BasicGameModule());
 

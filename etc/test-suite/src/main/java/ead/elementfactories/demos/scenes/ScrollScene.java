@@ -8,9 +8,11 @@ import ead.common.model.elements.scenes.SceneElementImpl;
 import ead.common.model.elements.trajectories.SimpleTrajectoryDefinition;
 import ead.common.model.predef.effects.MakeActiveElementEf;
 import ead.common.model.predef.effects.MoveActiveElementEf;
+import ead.common.model.predef.effects.SpeakSceneElementEf;
 import ead.common.model.predef.events.ScrollWithSceneElementEv;
 import ead.common.resources.assets.drawable.basics.ImageImpl;
 import ead.common.util.EAdPosition.Corner;
+import ead.elementfactories.EAdElementsFactory;
 import ead.elementfactories.demos.normalguy.NgCommon;
 
 public class ScrollScene extends EmptyScene {
@@ -24,6 +26,11 @@ public class ScrollScene extends EmptyScene {
 		EAdSceneElementDef d = NgCommon.getMainCharacter();
 		SceneElementImpl character = new SceneElementImpl( d );
 		character.setPosition(Corner.BOTTOM_CENTER, 1000 / 2, 1213 / 2);
+		
+		SpeakSceneElementEf effect = new SpeakSceneElementEf( character );
+		EAdElementsFactory.getInstance().getStringFactory().setString(effect.getCaption().getText(), "Sometimes I don't speak right");
+		character.addBehavior(EAdMouseEvent.MOUSE_RIGHT_CLICK, effect);
+		
 		
 		this.getComponents().add(character);
 

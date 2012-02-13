@@ -89,7 +89,7 @@ public class NgRoom1 extends EmptyScene {
 		ng = new SceneElementImpl(NgCommon.getMainCharacter());
 
 		ng.setPosition(Corner.BOTTOM_CENTER, 200, 400);
-		ng.setScale(0.8f);
+		ng.setInitialScale(0.8f);
 
 		SimpleTrajectoryDefinition d = new SimpleTrajectoryDefinition(false);
 		d.setLimits(150, 380, 800, 600);

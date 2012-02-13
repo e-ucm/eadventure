@@ -209,7 +209,7 @@ public class DrawablesScene extends EmptyScene {
 		SceneElementImpl paniel = EAdElementsFactory.getInstance()
 				.getSceneElementFactory()
 				.createSceneElement(animation, margin, 220);
-		paniel.setScale(0.8f);
+		paniel.setInitialScale(0.8f);
 		getComponents().add(paniel);
 
 	}

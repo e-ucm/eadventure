@@ -59,8 +59,8 @@ import ead.common.util.EAdPosition.Corner;
 
 @Reflectable
 @Element(detailed = SceneElementImpl.class, runtime = SceneElementImpl.class)
-public class SceneElementImpl extends AbstractElementWithBehavior
-		implements EAdSceneElement {
+public class SceneElementImpl extends AbstractElementWithBehavior implements
+		EAdSceneElement {
 
 	public static final EAdVarDef<Orientation> VAR_ORIENTATION = new VarDefImpl<Orientation>(
 			"orientation", Orientation.class, Orientation.S);
@@ -70,6 +70,12 @@ public class SceneElementImpl extends AbstractElementWithBehavior
 
 	public static final EAdVarDef<Float> VAR_SCALE = new VarDefImpl<Float>(
 			"scale", Float.class, 1.0f);
+	
+	public static final EAdVarDef<Float> VAR_SCALE_X = new VarDefImpl<Float>(
+			"scale_x", Float.class, 1.0f);
+	
+	public static final EAdVarDef<Float> VAR_SCALE_Y = new VarDefImpl<Float>(
+			"scale_y", Float.class, 1.0f);
 
 	public static final EAdVarDef<Float> VAR_ALPHA = new VarDefImpl<Float>(
 			"alpha", Float.class, 1.0f);
@@ -83,11 +89,11 @@ public class SceneElementImpl extends AbstractElementWithBehavior
 	public static final EAdVarDef<Boolean> VAR_ENABLE = new VarDefImpl<Boolean>(
 			"enable", Boolean.class, Boolean.TRUE);
 
-	public static final EAdVarDef<Integer> VAR_X = new VarDefImpl<Integer>(
-			"x", Integer.class, 0);
+	public static final EAdVarDef<Integer> VAR_X = new VarDefImpl<Integer>("x",
+			Integer.class, 0);
 
-	public static final EAdVarDef<Integer> VAR_Y = new VarDefImpl<Integer>(
-			"y", Integer.class, 0);
+	public static final EAdVarDef<Integer> VAR_Y = new VarDefImpl<Integer>("y",
+			Integer.class, 0);
 
 	public static final EAdVarDef<Integer> VAR_LEFT = new VarDefImpl<Integer>(
 			"left", Integer.class, 0);
@@ -107,8 +113,8 @@ public class SceneElementImpl extends AbstractElementWithBehavior
 	public static final EAdVarDef<Integer> VAR_CENTER_Y = new VarDefImpl<Integer>(
 			"center_y", Integer.class, 0);
 
-	public static final EAdVarDef<Integer> VAR_Z = new VarDefImpl<Integer>(
-			"z", Integer.class, 0);
+	public static final EAdVarDef<Integer> VAR_Z = new VarDefImpl<Integer>("z",
+			Integer.class, 0);
 
 	public static final EAdVarDef<Float> VAR_DISP_X = new VarDefImpl<Float>(
 			"disp_x", Float.class, 0.0f);
@@ -127,9 +133,10 @@ public class SceneElementImpl extends AbstractElementWithBehavior
 
 	public static final EAdVarDef<EAdString> VAR_NAME = new VarDefImpl<EAdString>(
 			"name", EAdString.class, null);
-	
+
 	/**
-	 * Flag to indicate that the element will return to its initial position after being released from a drag action
+	 * Flag to indicate that the element will return to its initial position
+	 * after being released from a drag action
 	 */
 	public static final EAdVarDef<Boolean> VAR_RETURN_WHEN_DRAGGED = new VarDefImpl<Boolean>(
 			"returnWhenDragged", Boolean.class, Boolean.FALSE);
@@ -181,15 +188,7 @@ public class SceneElementImpl extends AbstractElementWithBehavior
 		vars.put(VAR_DISP_Y, position.getDispY());
 	}
 
-	/**
-	 * Sets scale for this reference
-	 * 
-	 * @param scale
-	 *            the scale
-	 */
-	public void setScale(float scale) {
-		vars.put(VAR_SCALE, scale);
-	}
+
 
 	/**
 	 * Sets the initial orientation for the actor reference
@@ -240,7 +239,22 @@ public class SceneElementImpl extends AbstractElementWithBehavior
 
 	public void setInitialAlpha(float f) {
 		this.setVarInitialValue(SceneElementImpl.VAR_ALPHA, f);
-		
+
+	}
+	
+	/**
+	 * Sets the initial scale for the scene element
+	 * 
+	 * @param scale
+	 *            the initial scale
+	 */
+	public void setInitialScale(float scale) {
+		setVarInitialValue(SceneElementImpl.VAR_SCALE, scale);
+	}
+	
+	public void setInitialScale(float scaleX, float scaleY ){
+		setVarInitialValue(SceneElementImpl.VAR_SCALE_X, scaleX);
+		setVarInitialValue(SceneElementImpl.VAR_SCALE_Y, scaleY);
 	}
 
 }

@@ -54,8 +54,6 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
-import com.google.inject.Inject;
-
 import ead.common.DOMTags;
 import ead.common.Reader;
 import ead.common.model.elements.EAdAdventureModel;

@@ -63,10 +63,15 @@ public class SpeakSceneElementEf extends SpeakEf {
 	}
 	
 	public void setElement( EAdElement element ){
-		if ( element instanceof EAdSceneElement )
+		if ( element instanceof EAdSceneElement ){
 			setOrigin(element);
-		else if ( element instanceof EAdSceneElementDef )
-			setOrigin( new EAdFieldImpl<EAdSceneElement>( element, SceneElementDefImpl.VAR_SCENE_ELEMENT));
+			setStateField(new EAdFieldImpl<String>(element, SceneElementImpl.VAR_STATE));
+		}
+		else if ( element instanceof EAdSceneElementDef ){
+			EAdFieldImpl<EAdSceneElement> fieldElement = new EAdFieldImpl<EAdSceneElement>( element, SceneElementDefImpl.VAR_SCENE_ELEMENT); 
+			setOrigin( fieldElement );
+			setStateField(new EAdFieldImpl<String>(fieldElement, SceneElementImpl.VAR_STATE));
+		}
 		else
 			setOrigin( element );
 	}

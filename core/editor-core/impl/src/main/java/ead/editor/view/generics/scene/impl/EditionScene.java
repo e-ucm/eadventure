@@ -18,7 +18,7 @@ public class EditionScene extends EmptyScene {
 		
 		SceneElementImpl element = new SceneElementImpl();
 		element.setDefinition(elementDef);
-		element.setVarInitialValue(SceneElementImpl.VAR_SCALE, 1.0f);
+		element.setInitialScale(1.0f);
 		this.getComponents().add(element);
 		
 		for (EAdSceneElement sceneElement : scene.getComponents())

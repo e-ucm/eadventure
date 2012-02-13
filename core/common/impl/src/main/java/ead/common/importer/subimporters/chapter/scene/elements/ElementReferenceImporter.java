@@ -91,7 +91,7 @@ public class ElementReferenceImporter extends ElementImporter<ElementReference> 
 		newRef.setPosition(new EAdPosition(
 				EAdPosition.Corner.BOTTOM_CENTER, oldObject.getX(),
 				oldObject.getY()));
-		newRef.setScale(oldObject.getScale());
+		newRef.setInitialScale(oldObject.getScale());
 		newRef.setInitialOrientation(Orientation.S);
 		newRef.setDefinition(actor);
 
@@ -101,7 +101,7 @@ public class ElementReferenceImporter extends ElementImporter<ElementReference> 
 			if (!factory.isFirstPerson()) {
 				// add influence area
 				String imageUri = getImageUri(oldObject.getTargetId());
-				Dimension d = resourceImporter.getDimensions(imageUri);
+				Dimension d = resourceImporter.getDimensionsForOldImage(imageUri);
 				int width = (int) d.getWidth();
 				int height = (int) d.getHeight();
 				EAdPosition p = new EAdPosition(oldObject.getX(),

@@ -54,8 +54,6 @@ public class ImporterTest extends TestCase {
 
 	private EAdventure1XImporter importer;
 	
-	private String projectFolder = "src/test/resources/Un paseo por eAdventure 1.2/";
-	
 	@Before
 	public void setUp( ) {
 		Injector injector = Guice.createInjector( new ImporterConfigurationModule(  ) );

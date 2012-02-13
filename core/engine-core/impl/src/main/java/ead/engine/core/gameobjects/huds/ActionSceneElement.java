@@ -53,7 +53,7 @@ public class ActionSceneElement extends SceneElementImpl {
 
 	public ActionSceneElement(EAdAction eAdAction) {
 		super();
-		this.setScale(0.8f);
+		this.setInitialScale(0.8f);
 		ActorActionsEf e = new ActorActionsEf( null,
 				ChangeActorActions.HIDE_ACTIONS);
 		this.addBehavior(EAdMouseEvent.MOUSE_LEFT_CLICK, e);
