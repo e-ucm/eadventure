@@ -88,9 +88,11 @@ public class EAdventure1XImporter {
 	private static final Logger logger = LoggerFactory.getLogger("EAdventureImporter");
 
 	private String destinyFile;
-	
+
+    private Random rand = new Random();
+
 	private int progress;
-	
+
 	private String progressText;
 
 
@@ -153,7 +155,7 @@ public class EAdventure1XImporter {
 			progressText = "Creating " + destiny;
 			createGameFile(model, tmpDir.getAbsolutePath(), destiny);
 		}
-		
+
 		progress = 100;
 		progressText = "Done";
 
@@ -162,7 +164,7 @@ public class EAdventure1XImporter {
 	}
 
 	private void createGameFile(EAdAdventureModel model, String path,
-			String destiny) {
+			String destination) {
 
 		// FIXME file names should be somewhere else as constants
 
@@ -171,7 +173,7 @@ public class EAdventure1XImporter {
 
         OutputStream os = null;
 		try {
-			OutputStream os = new FileOutputStream(new File(path, ProjectFiles.DATA_FILE));
+		    os = new FileOutputStream(new File(path, ProjectFiles.DATA_FILE));
 			writer.write(model, os);
 		} catch (Exception e) {
             logger.error("Cannot write data.xml "
@@ -212,8 +214,8 @@ public class EAdventure1XImporter {
 
 		// Create zip file
 		try {
-			String fileName = destiny.endsWith(".ead") ? destiny : destiny
-					+ ".ead";
+			String fileName = destination.endsWith(".ead") ?
+                    destination : destination + ".ead";
 			File outFolder = new File(fileName);
 
 			ZipOutputStream out = new ZipOutputStream(new BufferedOutputStream(
@@ -223,13 +225,12 @@ public class EAdventure1XImporter {
 			out.flush();
 			out.close();
 		} catch (Exception e) {
-			e.printStackTrace();
+            logger.error("Error outputting zip to {}", destination, e);
 		}
 
 	}
 
 	public void addFolderToZip(ZipOutputStream zip, File folder, boolean addPath) {
-		BufferedInputStream in = null;
 		byte[] data = new byte[1000];
 		File files[] = folder.listFiles();
 		for (File f : files) {
@@ -243,7 +244,8 @@ public class EAdventure1XImporter {
 
 					zip.putNextEntry(new ZipEntry(entryName));
 
-					in = new BufferedInputStream(new FileInputStream(f), 1000);
+					BufferedInputStream in =
+                            new BufferedInputStream(new FileInputStream(f), 1000);
 					int count;
 					while ((count = in.read(data, 0, 1000)) != -1) {
 						zip.write(data, 0, count);
@@ -251,11 +253,9 @@ public class EAdventure1XImporter {
 					zip.closeEntry();
 				}
 			} catch (IOException e) {
-				e.printStackTrace();
+                logger.error("Error adding folder {} to zip", folder, e);
 			}
 		}
-
-		return model;
 	}
 
 	/**
@@ -288,7 +288,7 @@ public class EAdventure1XImporter {
 	public Map<EAdString, String> getStrings() {
 		return stringsHandler.getStrings();
 	}
-	
+
 	/**
 	 * Return the progress of the importer (between 0 and 100)
 	 * @return
@@ -296,9 +296,8 @@ public class EAdventure1XImporter {
 	public int getProgress( ){
 		return progress;
 	}
-	
+
 	public String getProgressText( ){
 		return progressText;
 	}
-
 }

@@ -94,13 +94,12 @@ import ead.engine.core.platform.EngineConfiguration;
 import ead.engine.core.platform.PlatformLauncher;
 import ead.engine.core.platform.extra.DesktopAssetHandlerModule;
 import ead.engine.core.platform.extra.DesktopModule;
-import ead.engine.core.test.launcher.BaseTestLauncher;
 
 /**
  * Base class for desktop's launchers
- * 
+ *
  */
-public class DesktopEAdEngine extends BaseTestLauncher {
+public class DesktopEAdEngine {
 
 	protected static JComboBox comboBox;
 
@@ -117,9 +116,17 @@ public class DesktopEAdEngine extends BaseTestLauncher {
 
 	protected static JCheckBox fieldsDebugger;
 
+	private PlatformLauncher launcher;
+
 	public DesktopEAdEngine(Injector injector, EAdAdventureModel model,
 			Map<EAdString, String> strings) {
-		super(injector, model, strings);
+
+        launcher = injector.getInstance(PlatformLauncher.class);
+		Game game = injector.getInstance(Game.class);
+		game.setGame(model, model.getChapters().get(0));
+		StringHandler stringHandler = injector.getInstance(StringHandler.class);
+		stringHandler.addStrings(strings);
+		stringHandler.addStrings(EAdElementsFactory.getInstance().getStringFactory().getStrings());
 		System.setProperty("com.apple.mrj.application.apple.menu.about.name",
 				"eAdventure");
 	}
@@ -133,6 +140,13 @@ public class DesktopEAdEngine extends BaseTestLauncher {
 		}
 		JFrame frame = new SceneDemosFrame();
 		frame.setVisible(true);
+	}
+
+	/**
+	 * Launches the test
+	 */
+	public void start() {
+		launcher.launch(null);
 	}
 
 	public static class ClassListCellRenderer extends JLabel implements
@@ -183,6 +197,7 @@ public class DesktopEAdEngine extends BaseTestLauncher {
 
 		private static final long serialVersionUID = 3665422751105063444L;
 
+        @SuppressWarnings("unchecked")
 		public SceneDemosFrame() {
 			super("Scenes demo");
 			TechDemoAdventure model = new TechDemoAdventure();

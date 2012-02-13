@@ -89,7 +89,7 @@
         <profile>
             <id>build</id>
             <activation>
-                <activeByDefault>true</activeByDefault>
+                <activeByDefault>false</activeByDefault>
             </activation>
             <modules>
                 <module>build-tools</module>
@@ -165,7 +165,7 @@
         <profile>
             <id>noTest</id>
             <activation>
-                <activeByDefault>false</activeByDefault>
+                <activeByDefault>true</activeByDefault>
             </activation>
             <modules>
                 <module>build-tools</module>
