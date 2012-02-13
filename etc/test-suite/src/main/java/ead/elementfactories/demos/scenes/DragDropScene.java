@@ -39,17 +39,17 @@ package ead.elementfactories.demos.scenes;
 
 import ead.common.model.elements.conditions.EmptyCond;
 import ead.common.model.elements.effects.variables.ChangeFieldEf;
-import ead.common.model.elements.guievents.EAdDragEvent;
-import ead.common.model.elements.guievents.enums.DragEventType;
-import ead.common.model.elements.scenes.SceneElementDefImpl;
+import ead.common.model.elements.guievents.DragGEv;
+import ead.common.model.elements.guievents.enums.DragGEvType;
+import ead.common.model.elements.scenes.SceneElementDef;
 import ead.common.model.elements.scenes.SceneElementImpl;
 import ead.common.model.elements.variables.EAdField;
-import ead.common.model.elements.variables.EAdFieldImpl;
+import ead.common.model.elements.variables.BasicField;
 import ead.common.model.elements.variables.operations.MathOp;
 import ead.common.model.elements.variables.operations.ValueOp;
-import ead.common.params.fills.EAdColor;
-import ead.common.params.fills.EAdLinearGradient;
-import ead.common.params.fills.EAdPaintImpl;
+import ead.common.params.fills.ColorFill;
+import ead.common.params.fills.LinearGradientFill;
+import ead.common.params.fills.PaintFill;
 import ead.common.resources.assets.drawable.basics.shapes.BallonShape;
 import ead.common.resources.assets.drawable.basics.shapes.BezierShape;
 import ead.common.resources.assets.drawable.basics.shapes.extra.BalloonType;
@@ -59,14 +59,14 @@ import ead.common.util.EAdPosition.Corner;
 public class DragDropScene extends EmptyScene {
 
 	public DragDropScene() {
-		setBackgroundFill(new EAdLinearGradient(EAdColor.LIGHT_GRAY,
-				new EAdColor(245, 255, 245), 800, 600));
+		setBackgroundFill(new LinearGradientFill(ColorFill.LIGHT_GRAY,
+				new ColorFill(245, 255, 245), 800, 600));
 		BezierShape shape = new BallonShape(0, 0, 100, 100,
 				BalloonType.ROUNDED_RECTANGLE);
-		shape.setPaint(new EAdLinearGradient(EAdColor.RED, new EAdColor(200, 0,
+		shape.setPaint(new LinearGradientFill(ColorFill.RED, new ColorFill(200, 0,
 				0), 100, 100));
 		
-		SceneElementDefImpl def = new SceneElementDefImpl( shape );
+		SceneElementDef def = new SceneElementDef( shape );
 		
 		
 		
@@ -90,7 +90,7 @@ public class DragDropScene extends EmptyScene {
 
 		BezierShape shape2 = new BallonShape(0, 0, 110, 110,
 				BalloonType.ROUNDED_RECTANGLE);
-		shape2.setPaint(EAdPaintImpl.BLACK_ON_WHITE);
+		shape2.setPaint(PaintFill.BLACK_ON_WHITE);
 		SceneElementImpl e2 = new SceneElementImpl(shape2);
 		e2.setPosition(new EAdPosition(Corner.CENTER, 100, 300));
 
@@ -109,30 +109,30 @@ public class DragDropScene extends EmptyScene {
 	}
 
 	private void addBehaviors(SceneElementImpl e2, SceneElementImpl e1) {
-		EAdField<Float> scale = new EAdFieldImpl<Float>(e2,
+		EAdField<Float> scale = new BasicField<Float>(e2,
 				SceneElementImpl.VAR_SCALE);
 		ChangeFieldEf changeScale1 = new ChangeFieldEf(scale, new ValueOp(1.2f));
 		changeScale1.setId("changeScale");
 		ChangeFieldEf changeScale2 = new ChangeFieldEf( scale, new ValueOp(1.0f));
 		changeScale2.setId("changeScale");
-		e2.addBehavior(new EAdDragEvent(e1.getDefinition(), DragEventType.ENTERED),
+		e2.addBehavior(new DragGEv(e1.getDefinition(), DragGEvType.ENTERED),
 				changeScale1);
-		e2.addBehavior(new EAdDragEvent(e1.getDefinition(), DragEventType.EXITED),
+		e2.addBehavior(new DragGEv(e1.getDefinition(), DragGEvType.EXITED),
 				changeScale2);
 		
 
-		EAdFieldImpl<Integer> fieldX = new EAdFieldImpl<Integer>(e1, SceneElementImpl.VAR_X);
-		EAdFieldImpl<Integer> fieldY = new EAdFieldImpl<Integer>(e1, SceneElementImpl.VAR_Y);
+		BasicField<Integer> fieldX = new BasicField<Integer>(e1, SceneElementImpl.VAR_X);
+		BasicField<Integer> fieldY = new BasicField<Integer>(e1, SceneElementImpl.VAR_Y);
 
 		ChangeFieldEf changeX = new ChangeFieldEf(
 				fieldX,
-				new MathOp("[0]", new EAdFieldImpl<Integer>(e2,
+				new MathOp("[0]", new BasicField<Integer>(e2,
 						SceneElementImpl.VAR_X)));
 		changeX.setId("x");
 
 		ChangeFieldEf changeY = new ChangeFieldEf(
 				fieldY,
-				new MathOp("[0]", new EAdFieldImpl<Integer>(e2,
+				new MathOp("[0]", new BasicField<Integer>(e2,
 						SceneElementImpl.VAR_Y)));
 		changeY.setId("y");
 

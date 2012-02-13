@@ -41,9 +41,9 @@ import ead.common.model.EAdElement;
 import ead.common.model.elements.effects.text.SpeakEf;
 import ead.common.model.elements.scene.EAdSceneElement;
 import ead.common.model.elements.scene.EAdSceneElementDef;
-import ead.common.model.elements.scenes.SceneElementDefImpl;
+import ead.common.model.elements.scenes.SceneElementDef;
 import ead.common.model.elements.scenes.SceneElementImpl;
-import ead.common.model.elements.variables.EAdFieldImpl;
+import ead.common.model.elements.variables.BasicField;
 import ead.common.params.text.EAdString;
 
 public class SpeakSceneElementEf extends SpeakEf {
@@ -65,21 +65,21 @@ public class SpeakSceneElementEf extends SpeakEf {
 	public void setElement( EAdElement element ){
 		if ( element instanceof EAdSceneElement ){
 			setOrigin(element);
-			setStateField(new EAdFieldImpl<String>(element, SceneElementImpl.VAR_STATE));
+			setStateField(new BasicField<String>(element, SceneElementImpl.VAR_STATE));
 		}
 		else if ( element instanceof EAdSceneElementDef ){
-			EAdFieldImpl<EAdSceneElement> fieldElement = new EAdFieldImpl<EAdSceneElement>( element, SceneElementDefImpl.VAR_SCENE_ELEMENT); 
+			BasicField<EAdSceneElement> fieldElement = new BasicField<EAdSceneElement>( element, SceneElementDef.VAR_SCENE_ELEMENT); 
 			setOrigin( fieldElement );
-			setStateField(new EAdFieldImpl<String>(fieldElement, SceneElementImpl.VAR_STATE));
+			setStateField(new BasicField<String>(fieldElement, SceneElementImpl.VAR_STATE));
 		}
 		else
 			setOrigin( element );
 	}
 
 	private void setOrigin(EAdElement element) {
-		EAdFieldImpl<Integer> centerX = new EAdFieldImpl<Integer>(element,
+		BasicField<Integer> centerX = new BasicField<Integer>(element,
 				SceneElementImpl.VAR_CENTER_X);
-		EAdFieldImpl<Integer> centerY = new EAdFieldImpl<Integer>(element,
+		BasicField<Integer> centerY = new BasicField<Integer>(element,
 				SceneElementImpl.VAR_CENTER_Y);
 		
 		setPosition(centerX, centerY);

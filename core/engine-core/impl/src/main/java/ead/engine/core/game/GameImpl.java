@@ -132,7 +132,7 @@ public class GameImpl implements Game {
 
 		if (!gameState.isPaused()) {
 			processEffects();
-			updateChapterEvents();
+			updateGameEvents();
 			gameState.getScene().update();
 
 		}
@@ -151,7 +151,11 @@ public class GameImpl implements Game {
 
 	}
 
-	private void updateChapterEvents() {
+	private void updateGameEvents() {
+		Long l = gameState.getValueMap().getValue(SystemFields.GAME_TIME);
+		l += GameLoop.SKIP_MILLIS_TICK;
+		gameState.getValueMap().setValue(SystemFields.GAME_TIME, l);
+		
 		for (EventGO<?> e : events) {
 			e.update();
 		}

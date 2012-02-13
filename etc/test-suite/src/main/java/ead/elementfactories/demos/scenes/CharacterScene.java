@@ -41,19 +41,19 @@ import ead.common.interfaces.features.enums.Orientation;
 import ead.common.model.elements.EAdEffect;
 import ead.common.model.elements.enums.CommonStates;
 import ead.common.model.elements.events.SceneElementEv;
-import ead.common.model.elements.events.enums.SceneElementEventType;
-import ead.common.model.elements.guievents.EAdKeyEvent;
-import ead.common.model.elements.guievents.EAdMouseEvent;
+import ead.common.model.elements.events.enums.SceneElementEvType;
+import ead.common.model.elements.guievents.KeyGEv;
+import ead.common.model.elements.guievents.MouseGEv;
 import ead.common.model.elements.scenes.SceneElementImpl;
-import ead.common.model.elements.variables.EAdFieldImpl;
+import ead.common.model.elements.variables.BasicField;
 import ead.common.model.elements.variables.operations.ValueOp;
 import ead.common.model.predef.sceneelements.Button;
-import ead.common.resources.assets.drawable.basics.ImageImpl;
+import ead.common.resources.assets.drawable.basics.Image;
 import ead.common.resources.assets.drawable.basics.animation.FramesAnimation;
+import ead.common.resources.assets.drawable.compounds.EAdOrientedDrawable;
 import ead.common.resources.assets.drawable.compounds.OrientedDrawable;
-import ead.common.resources.assets.drawable.compounds.OrientedDrawableImpl;
+import ead.common.resources.assets.drawable.compounds.EAdStateDrawable;
 import ead.common.resources.assets.drawable.compounds.StateDrawable;
-import ead.common.resources.assets.drawable.compounds.StateDrawableImpl;
 import ead.common.util.EAdPosition.Corner;
 import ead.elementfactories.EAdElementsFactory;
 import ead.elementfactories.StringFactory;
@@ -102,7 +102,7 @@ public class CharacterScene extends EmptyScene {
 		SceneElementEv event = new SceneElementEv();
 		event.setId("makeActive");
 
-		event.addEffect(SceneElementEventType.ADDED_TO_SCENE, EAdElementsFactory
+		event.addEffect(SceneElementEvType.FIRST_UPDATE, EAdElementsFactory
 				.getInstance().getEffectFactory().getMakeActiveElement(element));
 
 		element.getEvents().add(event);
@@ -113,72 +113,72 @@ public class CharacterScene extends EmptyScene {
 				.getInstance()
 				.getEffectFactory()
 				.getChangeVarValueEffect(
-						new EAdFieldImpl<Orientation>(element,
+						new BasicField<Orientation>(element,
 								SceneElementImpl.VAR_ORIENTATION),
 						new ValueOp( Orientation.N));
 		SceneElementImpl goUpArrow = EAdElementsFactory
 				.getInstance()
 				.getSceneElementFactory()
-				.createSceneElement(new ImageImpl("@drawable/arrow_up.png"),
+				.createSceneElement(new Image("@drawable/arrow_up.png"),
 						100, 210, goUpEffect);
 		this.getComponents().add(goUpArrow);
 
-		element.addBehavior(EAdKeyEvent.KEY_ARROW_UP, goUpEffect);
+		element.addBehavior(KeyGEv.KEY_ARROW_UP, goUpEffect);
 
 		EAdEffect goDownEffect = EAdElementsFactory
 				.getInstance()
 				.getEffectFactory()
 				.getChangeVarValueEffect(
-						new EAdFieldImpl<Orientation>(element,
+						new BasicField<Orientation>(element,
 								SceneElementImpl.VAR_ORIENTATION),
 						new ValueOp(Orientation.S));
 		SceneElementImpl goDownArrow = EAdElementsFactory
 				.getInstance()
 				.getSceneElementFactory()
-				.createSceneElement(new ImageImpl("@drawable/arrow_down.png"),
+				.createSceneElement(new Image("@drawable/arrow_down.png"),
 						100, 320, goDownEffect);
 		this.getComponents().add(goDownArrow);
 
-		element.addBehavior(EAdKeyEvent.KEY_ARROW_DOWN, goDownEffect);
+		element.addBehavior(KeyGEv.KEY_ARROW_DOWN, goDownEffect);
 
 		EAdEffect goLeftEffect = EAdElementsFactory
 				.getInstance()
 				.getEffectFactory()
 				.getChangeVarValueEffect(
-						new EAdFieldImpl<Orientation>(element,
+						new BasicField<Orientation>(element,
 								SceneElementImpl.VAR_ORIENTATION),
 						new ValueOp( Orientation.W));
 		SceneElementImpl goLeftArrow = EAdElementsFactory
 				.getInstance()
 				.getSceneElementFactory()
-				.createSceneElement(new ImageImpl("@drawable/arrow_left.png"),
+				.createSceneElement(new Image("@drawable/arrow_left.png"),
 						0, 260, goLeftEffect);
 		this.getComponents().add(goLeftArrow);
 
-		element.addBehavior(EAdKeyEvent.KEY_ARROW_LEFT, goLeftEffect);
+		element.addBehavior(KeyGEv.KEY_ARROW_LEFT, goLeftEffect);
 
 		EAdEffect goRightEffect = EAdElementsFactory
 				.getInstance()
 				.getEffectFactory()
 				.getChangeVarValueEffect(
-						new EAdFieldImpl<Orientation>(element,
+						new BasicField<Orientation>(element,
 								SceneElementImpl.VAR_ORIENTATION),
 						new ValueOp( Orientation.E));
 		SceneElementImpl goRightArrow = EAdElementsFactory
 				.getInstance()
 				.getSceneElementFactory()
-				.createSceneElement(new ImageImpl("@drawable/arrow_right.png"),
+				.createSceneElement(new Image("@drawable/arrow_right.png"),
 						200, 260, goRightEffect);
 		this.getComponents().add(goRightArrow);
 
-		element.addBehavior(EAdKeyEvent.KEY_ARROW_RIGHT, goRightEffect);
+		element.addBehavior(KeyGEv.KEY_ARROW_RIGHT, goRightEffect);
 
 		// Change state buttons
 		EAdEffect standEffect = EAdElementsFactory
 				.getInstance()
 				.getEffectFactory()
 				.getChangeVarValueEffect(
-						new EAdFieldImpl<String>(element,
+						new BasicField<String>(element,
 								SceneElementImpl.VAR_STATE),
 						new ValueOp(
 								CommonStates.EAD_STATE_DEFAULT.toString()));
@@ -188,7 +188,7 @@ public class CharacterScene extends EmptyScene {
 		StringFactory sf = EAdElementsFactory.getInstance().getStringFactory();
 		Button stand = new Button( );
 		sf.setString(stand.getLabel(), "Stand");
-		stand.addBehavior(EAdMouseEvent.MOUSE_LEFT_PRESSED, standEffect);
+		stand.addBehavior(MouseGEv.MOUSE_LEFT_PRESSED, standEffect);
 		stand.setPosition(Corner.CENTER, 600, 250);
 		getComponents().add(stand);
 
@@ -196,13 +196,13 @@ public class CharacterScene extends EmptyScene {
 				.getInstance()
 				.getEffectFactory()
 				.getChangeVarValueEffect(
-						new EAdFieldImpl<String>(element,
+						new BasicField<String>(element,
 								SceneElementImpl.VAR_STATE),
 						new ValueOp(
 								CommonStates.EAD_STATE_TALKING.toString()));
 		Button talk = new Button( );
 		sf.setString(talk.getLabel(), "Talk");
-		talk.addBehavior(EAdMouseEvent.MOUSE_LEFT_PRESSED, talkEffect);
+		talk.addBehavior(MouseGEv.MOUSE_LEFT_PRESSED, talkEffect);
 		talk.setPosition(Corner.CENTER, 600, 290);
 		getComponents().add(talk);
 
@@ -210,20 +210,20 @@ public class CharacterScene extends EmptyScene {
 				.getInstance()
 				.getEffectFactory()
 				.getChangeVarValueEffect(
-						new EAdFieldImpl<String>(element,
+						new BasicField<String>(element,
 								SceneElementImpl.VAR_STATE),
 						new ValueOp(
 								CommonStates.EAD_STATE_WALKING.toString()));
 		Button walk = new Button( );
 		sf.setString(walk.getLabel(), "Walk");
-		walk.addBehavior(EAdMouseEvent.MOUSE_LEFT_PRESSED, walkEffect);
+		walk.addBehavior(MouseGEv.MOUSE_LEFT_PRESSED, walkEffect);
 		walk.setPosition(Corner.CENTER, 600, 330);
 		getComponents().add(walk);
 	}
 
-	private static OrientedDrawable getTalkDrawable() {
-		OrientedDrawableImpl oriented = new OrientedDrawableImpl();
-		oriented.setDrawable(Orientation.N, new ImageImpl(
+	private static EAdOrientedDrawable getTalkDrawable() {
+		OrientedDrawable oriented = new OrientedDrawable();
+		oriented.setDrawable(Orientation.N, new Image(
 				"@drawable/stand_up.png"));
 
 		FramesAnimation right = EAdElementsFactory.getInstance()
@@ -241,8 +241,8 @@ public class CharacterScene extends EmptyScene {
 		return oriented;
 	}
 
-	private static OrientedDrawable getWalkDrawable() {
-		OrientedDrawableImpl oriented = new OrientedDrawableImpl();
+	private static EAdOrientedDrawable getWalkDrawable() {
+		OrientedDrawable oriented = new OrientedDrawable();
 
 		FramesAnimation up = EAdElementsFactory.getInstance()
 				.getDrawableFactory().getFramesAnimation(walkUpUris, 500);
@@ -263,11 +263,11 @@ public class CharacterScene extends EmptyScene {
 		return oriented;
 	}
 
-	public static StateDrawable getStateDrawable() {
-		OrientedDrawable stand = EAdElementsFactory.getInstance()
+	public static EAdStateDrawable getStateDrawable() {
+		EAdOrientedDrawable stand = EAdElementsFactory.getInstance()
 				.getDrawableFactory().getOrientedDrawable(standUris);
 
-		StateDrawableImpl stateDrawable = new StateDrawableImpl();
+		StateDrawable stateDrawable = new StateDrawable();
 		stateDrawable.addDrawable(CommonStates.EAD_STATE_DEFAULT.toString(),
 				stand);
 		stateDrawable.addDrawable(CommonStates.EAD_STATE_TALKING.toString(),

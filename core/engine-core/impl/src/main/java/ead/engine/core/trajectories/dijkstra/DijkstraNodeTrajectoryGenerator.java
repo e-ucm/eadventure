@@ -53,7 +53,7 @@ import ead.common.model.elements.trajectories.Node;
 import ead.common.model.elements.trajectories.NodeTrajectoryDefinition;
 import ead.common.model.elements.trajectories.Side;
 import ead.common.model.elements.variables.EAdField;
-import ead.common.model.elements.variables.EAdFieldImpl;
+import ead.common.model.elements.variables.BasicField;
 import ead.common.util.EAdPosition;
 import ead.common.util.EAdRectangle;
 import ead.engine.core.game.ValueMap;
@@ -402,7 +402,7 @@ public class DijkstraNodeTrajectoryGenerator implements
 	private void addInfluenceAreaIntersections(SceneElementGO<?> sceneElement,
 			List<DijkstraNode> intersections) {
 		EAdRectangle rectangle = valueMap
-				.getValue(new EAdFieldImpl<EAdRectangle>(
+				.getValue(new BasicField<EAdRectangle>(
 						(EAdElement) sceneElement.getElement(),
 						NodeTrajectoryDefinition.VAR_INFLUENCE_AREA));
 		// TODO check if the position of the element isn't relevant (i.e. if the
@@ -427,7 +427,7 @@ public class DijkstraNodeTrajectoryGenerator implements
 		if (sceneElement == null)
 			return false;
 		EAdRectangle rectangle = valueMap
-				.getValue(new EAdFieldImpl<EAdRectangle>(
+				.getValue(new BasicField<EAdRectangle>(
 						(EAdElement) sceneElement.getElement(),
 						NodeTrajectoryDefinition.VAR_INFLUENCE_AREA));
 		if (rectangle == null)
@@ -456,7 +456,7 @@ public class DijkstraNodeTrajectoryGenerator implements
 			List<DijkstraNode> intersections) {
 		for (EAdSceneElement barrier : trajectoryDefinition.getBarriers()) {
 			SceneElementGO<?> go = gameObjectFactory.get(barrier);
-			EAdField<Boolean> barrierOn = new EAdFieldImpl<Boolean>(barrier,
+			EAdField<Boolean> barrierOn = new BasicField<Boolean>(barrier,
 					NodeTrajectoryDefinition.VAR_BARRIER_ON);
 			if (valueMap.getValue(barrierOn)) {
 				EAdPosition position = go.getPosition();

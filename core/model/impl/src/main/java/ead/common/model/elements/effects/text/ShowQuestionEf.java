@@ -49,22 +49,22 @@ import ead.common.model.elements.effects.enums.InterpolationLoopType;
 import ead.common.model.elements.effects.enums.InterpolationType;
 import ead.common.model.elements.effects.variables.ChangeFieldEf;
 import ead.common.model.elements.events.SceneElementEv;
-import ead.common.model.elements.events.enums.SceneElementEventType;
+import ead.common.model.elements.events.enums.SceneElementEvType;
 import ead.common.model.elements.extra.EAdMap;
 import ead.common.model.elements.extra.EAdMapImpl;
-import ead.common.model.elements.guievents.EAdMouseEvent;
+import ead.common.model.elements.guievents.MouseGEv;
 import ead.common.model.elements.scenes.SceneElementImpl;
 import ead.common.model.elements.variables.EAdField;
-import ead.common.model.elements.variables.EAdFieldImpl;
-import ead.common.model.elements.variables.VarDefImpl;
+import ead.common.model.elements.variables.BasicField;
+import ead.common.model.elements.variables.VarDef;
 import ead.common.model.elements.variables.operations.BooleanOp;
 import ead.common.model.elements.variables.operations.ValueOp;
-import ead.common.params.EAdFontImpl;
-import ead.common.params.fills.EAdColor;
-import ead.common.params.fills.EAdPaintImpl;
+import ead.common.params.BasicFont;
+import ead.common.params.fills.ColorFill;
+import ead.common.params.fills.PaintFill;
 import ead.common.params.text.EAdFont;
 import ead.common.params.text.EAdString;
-import ead.common.resources.assets.drawable.basics.CaptionImpl;
+import ead.common.resources.assets.drawable.basics.Caption;
 
 /**
  * <p>
@@ -78,8 +78,8 @@ public class ShowQuestionEf extends ComplexBlockingEffect {
 	/**
 	 * System field to control questions
 	 */
-	private static final EAdField<Boolean> ANSWER_SELECTED = new EAdFieldImpl<Boolean>(
-			null, new VarDefImpl<Boolean>("EAdShowQuestion_answer_selected",
+	private static final EAdField<Boolean> ANSWER_SELECTED = new BasicField<Boolean>(
+			null, new VarDef<Boolean>("EAdShowQuestion_answer_selected",
 					Boolean.class, false));
 
 	@Param("answers")
@@ -147,11 +147,11 @@ public class ShowQuestionEf extends ComplexBlockingEffect {
 	private void setUpQuestion() {
 		int fontSize = 20;
 		int padding = 8;
-		EAdFont font = new EAdFontImpl(fontSize);
-		CaptionImpl caption = new CaptionImpl(question);
+		EAdFont font = new BasicFont(fontSize);
+		Caption caption = new Caption(question);
 		caption.setFont(font);
 		caption.setPadding(padding);
-		caption.setBubblePaint(EAdPaintImpl.BLACK_ON_WHITE);
+		caption.setBubblePaint(PaintFill.BLACK_ON_WHITE);
 		SceneElementImpl questionElement = new SceneElementImpl(caption);
 		questionElement.setPosition(10, y);
 
@@ -159,7 +159,7 @@ public class ShowQuestionEf extends ComplexBlockingEffect {
 				.setVarInitialValue(SceneElementImpl.VAR_ALPHA, 0.0f);
 		ChangeFieldEf setAlpha = new ChangeFieldEf();
 		setAlpha.setOperation(new ValueOp(0.0f));
-		setAlpha.addField(new EAdFieldImpl<Float>(questionElement,
+		setAlpha.addField(new BasicField<Float>(questionElement,
 				SceneElementImpl.VAR_ALPHA));
 		getInitEffects().add(setAlpha);
 
@@ -168,7 +168,7 @@ public class ShowQuestionEf extends ComplexBlockingEffect {
 
 		InterpolationEf interpolation = new InterpolationEf(
 				questionElement, SceneElementImpl.VAR_ALPHA, 0, 1.0f, 500);
-		event.addEffect(SceneElementEventType.ADDED_TO_SCENE, interpolation);
+		event.addEffect(SceneElementEvType.FIRST_UPDATE, interpolation);
 
 		questionElement.getEvents().add(event);
 
@@ -179,20 +179,20 @@ public class ShowQuestionEf extends ComplexBlockingEffect {
 			EAdEffect selectEffect, EAdEffect inEffect, EAdEffect outEffect) {
 		int fontSize = 18;
 		int padding = 5;
-		EAdFont font = new EAdFontImpl(fontSize);
-		CaptionImpl caption = new CaptionImpl(entry.getKey());
+		EAdFont font = new BasicFont(fontSize);
+		Caption caption = new Caption(entry.getKey());
 		caption.setFont(font);
 		caption.setPadding(padding);
-		caption.setBubblePaint(EAdColor.WHITE);
+		caption.setBubblePaint(ColorFill.WHITE);
 		SceneElementImpl answerElement = new SceneElementImpl(caption);
 		answerElement.setPosition(-800, y);
-		answerElement.addBehavior(EAdMouseEvent.MOUSE_LEFT_CLICK,
+		answerElement.addBehavior(MouseGEv.MOUSE_LEFT_CLICK,
 				selectEffect);
-		answerElement.addBehavior(EAdMouseEvent.MOUSE_LEFT_CLICK,
+		answerElement.addBehavior(MouseGEv.MOUSE_LEFT_CLICK,
 				entry.getValue());
 
-		answerElement.addBehavior(EAdMouseEvent.MOUSE_ENTERED, inEffect);
-		answerElement.addBehavior(EAdMouseEvent.MOUSE_EXITED, outEffect);
+		answerElement.addBehavior(MouseGEv.MOUSE_ENTERED, inEffect);
+		answerElement.addBehavior(MouseGEv.MOUSE_EXITED, outEffect);
 		y += fontSize * 2 + padding * 2;
 
 		SceneElementEv event = new SceneElementEv();
@@ -201,7 +201,7 @@ public class ShowQuestionEf extends ComplexBlockingEffect {
 				answerElement, SceneElementImpl.VAR_X, 0, 820, 400, 500 + pos * 100,
 				InterpolationLoopType.NO_LOOP, 1,
 				InterpolationType.LINEAR);
-		event.addEffect(SceneElementEventType.ADDED_TO_SCENE, interpolation);
+		event.addEffect(SceneElementEvType.FIRST_UPDATE, interpolation);
 		
 		answerElement.getEvents().add(event);
 

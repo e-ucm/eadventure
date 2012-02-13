@@ -46,8 +46,8 @@ import playn.core.Canvas;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
-import ead.common.resources.StringHandler;
 import ead.common.resources.assets.AssetDescriptor;
+import ead.common.util.StringHandler;
 import ead.engine.core.EAdEngine;
 import ead.engine.core.game.VariableMap;
 import ead.engine.core.platform.AbstractAssetHandler;

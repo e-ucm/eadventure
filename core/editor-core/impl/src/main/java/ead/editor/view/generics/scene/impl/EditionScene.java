@@ -3,7 +3,7 @@ package ead.editor.view.generics.scene.impl;
 import ead.common.model.elements.scene.EAdScene;
 import ead.common.model.elements.scene.EAdSceneElement;
 import ead.common.model.elements.scene.EAdSceneElementDef;
-import ead.common.model.elements.scenes.SceneElementDefImpl;
+import ead.common.model.elements.scenes.SceneElementDef;
 import ead.common.model.elements.scenes.SceneElementImpl;
 import ead.common.resources.EAdResources;
 import ead.elementfactories.demos.scenes.EmptyScene;
@@ -12,9 +12,9 @@ public class EditionScene extends EmptyScene {
 
 	public EditionScene(EAdScene scene) {
 		
-		EAdSceneElementDef elementDef = new SceneElementDefImpl();
+		EAdSceneElementDef elementDef = new SceneElementDef();
 		EAdResources oldResources = scene.getBackground().getDefinition().getResources();
-		elementDef.getResources().addAsset(oldResources.getInitialBundle(), SceneElementDefImpl.appearance, oldResources.getAsset(oldResources.getInitialBundle(), SceneElementDefImpl.appearance));
+		elementDef.getResources().addAsset(oldResources.getInitialBundle(), SceneElementDef.appearance, oldResources.getAsset(oldResources.getInitialBundle(), SceneElementDef.appearance));
 		
 		SceneElementImpl element = new SceneElementImpl();
 		element.setDefinition(elementDef);

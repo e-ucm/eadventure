@@ -47,9 +47,9 @@ import com.google.inject.name.Named;
 import com.google.inject.name.Names;
 
 import ead.common.model.elements.EAdAdventureModel;
-import ead.common.model.elements.EAdAdventureModelImpl;
+import ead.common.model.elements.BasicAdventureModel;
 import ead.common.model.elements.scene.EAdScene;
-import ead.common.resources.assets.multimedia.Video;
+import ead.common.resources.assets.multimedia.EAdVideo;
 import ead.engine.core.debuggers.Debugger;
 import ead.engine.core.debuggers.EAdMainDebugger;
 import ead.engine.core.evaluators.EvaluatorFactory;
@@ -114,12 +114,12 @@ public class BasicGameModule extends AbstractGinModule {
 				Singleton.class);
 		bind(InventoryHUD.class).to(InventoryHUDImpl.class).in(Singleton.class);
 
-		bind(EAdAdventureModel.class).to(EAdAdventureModelImpl.class);
+		bind(EAdAdventureModel.class).to(BasicAdventureModel.class);
 		bind(EAdScene.class).annotatedWith(Names.named("LoadingScreen"))
 				.to(LoadingScreen.class).in(Singleton.class);
 		bind(TransitionFactory.class).to(TransitionFactoryImpl.class).in(Singleton.class);
 
-		bind(new TypeLiteral<SpecialAssetRenderer<Video, ?>>() {
+		bind(new TypeLiteral<SpecialAssetRenderer<EAdVideo, ?>>() {
 		}).to(PlayNVideoRenderer.class);
 		bind(new TypeLiteral<FilterFactory<Canvas>>() {
 		}).to(PlayNFilterFactory.class);

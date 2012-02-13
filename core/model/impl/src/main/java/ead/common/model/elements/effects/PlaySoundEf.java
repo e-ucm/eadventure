@@ -39,7 +39,7 @@ package ead.common.model.elements.effects;
 
 import ead.common.interfaces.Element;
 import ead.common.interfaces.Param;
-import ead.common.resources.assets.multimedia.Sound;
+import ead.common.resources.assets.multimedia.EAdSound;
 
 /**
  * An effect that plays a sound
@@ -50,7 +50,7 @@ import ead.common.resources.assets.multimedia.Sound;
 public class PlaySoundEf extends AbstractEffect {
 
 	@Param("sound")
-	private Sound sound;
+	private EAdSound sound;
 
 	/**
 	 * Creates a play sound effect
@@ -60,7 +60,7 @@ public class PlaySoundEf extends AbstractEffect {
 	 * @param sound
 	 *            the sound to be played
 	 */
-	public PlaySoundEf( Sound sound) {
+	public PlaySoundEf( EAdSound sound) {
 		super();
 		this.sound = sound;
 	}
@@ -69,7 +69,7 @@ public class PlaySoundEf extends AbstractEffect {
 		this( null );
 	}
 	
-	public void setSound( Sound sound ){
+	public void setSound( EAdSound sound ){
 		this.sound = sound;
 	}
 
@@ -78,7 +78,7 @@ public class PlaySoundEf extends AbstractEffect {
 	 * 
 	 * @return
 	 */
-	public Sound getSound() {
+	public EAdSound getSound() {
 		return sound;
 	}
 

@@ -54,7 +54,7 @@ import javax.swing.Scrollable;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
-import ead.common.resources.assets.drawable.basics.ImageImpl;
+import ead.common.resources.assets.drawable.basics.Image;
 import ead.engine.core.game.GameLoop;
 import ead.engine.core.game.GameState;
 import ead.engine.core.gameobjects.GameObjectManager;
@@ -182,7 +182,7 @@ public class DesktopEditorGUI extends DesktopGUI {
 	 * @see es.eucm.eadventure.engine.core.platform.GUI#commitToImage()
 	 */
 	@Override
-	public RuntimeAsset<ImageImpl> commitToImage() {
+	public RuntimeAsset<Image> commitToImage() {
 		return null;
 	}
 

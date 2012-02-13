@@ -38,7 +38,7 @@
 package ead.editor.control.commands;
 
 import ead.common.params.text.EAdString;
-import ead.common.resources.StringHandler;
+import ead.common.util.StringHandler;
 import ead.editor.control.Command;
 
 /**

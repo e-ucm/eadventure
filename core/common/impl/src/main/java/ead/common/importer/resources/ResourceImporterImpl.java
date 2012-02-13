@@ -67,7 +67,7 @@ import ead.common.model.elements.EAdCondition;
 import ead.common.model.elements.conditions.ANDCond;
 import ead.common.model.elements.conditions.NOTCond;
 import ead.common.model.elements.events.ConditionedEv;
-import ead.common.model.elements.events.enums.ConditionedEventType;
+import ead.common.model.elements.events.enums.ConditionedEvType;
 import ead.common.model.predef.effects.ChangeAppearanceEf;
 import ead.common.resources.EAdBundleId;
 import ead.common.resources.assets.AssetDescriptor;
@@ -271,7 +271,7 @@ public class ResourceImporterImpl implements ResourceImporter {
 						null, bundleId);
 				changeAppereance.setId(conditionEvent.getId()
 						+ "change_appearence");
-				conditionEvent.addEffect(ConditionedEventType.CONDITIONS_MET,
+				conditionEvent.addEffect(ConditionedEvType.CONDITIONS_MET,
 						changeAppereance);
 
 				((Evented) element).getEvents().add(conditionEvent);

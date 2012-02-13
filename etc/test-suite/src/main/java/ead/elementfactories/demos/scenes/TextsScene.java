@@ -39,26 +39,26 @@ package ead.elementfactories.demos.scenes;
 
 import ead.common.model.elements.EAdEffect;
 import ead.common.model.elements.effects.enums.ShowTextAnimation;
-import ead.common.params.EAdFontImpl;
-import ead.common.params.EAdURIImpl;
-import ead.common.params.fills.EAdColor;
-import ead.common.params.fills.EAdPaintImpl;
-import ead.common.resources.assets.drawable.basics.CaptionImpl;
+import ead.common.params.BasicFont;
+import ead.common.params.fills.ColorFill;
+import ead.common.params.fills.PaintFill;
+import ead.common.resources.assets.drawable.basics.Caption;
+import ead.common.util.EAdURI;
 import ead.elementfactories.EAdElementsFactory;
 import ead.elementfactories.StringFactory.StringType;
 
 public class TextsScene extends EmptyScene {
 	
 	public TextsScene( ){
-		this.setBackgroundFill(EAdColor.DARK_GRAY);
+		this.setBackgroundFill(ColorFill.DARK_GRAY);
 		
 		// Show text caption
-		CaptionImpl caption = EAdElementsFactory.getInstance()
+		Caption caption = EAdElementsFactory.getInstance()
 			.getCaptionFactory().createCaption(
 				"Show text \u00c1 \u00d1\u00d1\u00d1 !!!! *\u00c1", 
-				EAdPaintImpl.WHITE_ON_BLACK, 
-				EAdPaintImpl.BLACK_ON_WHITE, 
-				new EAdFontImpl( new EAdURIImpl( "@binary/DroidSans-Bold.ttf"),
+				PaintFill.WHITE_ON_BLACK, 
+				PaintFill.BLACK_ON_WHITE, 
+				new BasicFont( new EAdURI( "@binary/DroidSans-Bold.ttf"),
 				20));
 		EAdEffect effect = EAdElementsFactory.getInstance()
 			.getEffectFactory().getShowText(
@@ -69,12 +69,12 @@ public class TextsScene extends EmptyScene {
 				caption, 10, 10, effect));
 		
 		// Show question caption
-		CaptionImpl caption2 = EAdElementsFactory.getInstance()
+		Caption caption2 = EAdElementsFactory.getInstance()
 				.getCaptionFactory().createCaption(
 						"Launch a question", 
-						EAdPaintImpl.WHITE_ON_BLACK, 
-						EAdPaintImpl.BLACK_ON_WHITE, 
-						new EAdFontImpl( new EAdURIImpl( "@binary/DroidSans-Bold.ttf"), 20));
+						PaintFill.WHITE_ON_BLACK, 
+						PaintFill.BLACK_ON_WHITE, 
+						new BasicFont( new EAdURI( "@binary/DroidSans-Bold.ttf"), 20));
 		EAdEffect question = EAdElementsFactory.getInstance()
 				.getEffectFactory().getShowQuestion(
 						"I have a question and you have to answer, I'm afraid", 5 );
@@ -83,11 +83,11 @@ public class TextsScene extends EmptyScene {
 						caption2, 10, 100, question));
 		
 		// Show text caption
-		CaptionImpl caption3 = EAdElementsFactory.getInstance()
+		Caption caption3 = EAdElementsFactory.getInstance()
 				.getCaptionFactory().createCaption(
-						"Show very long text", EAdPaintImpl.WHITE_ON_BLACK, 
-						EAdPaintImpl.BLACK_ON_WHITE, 
-						new EAdFontImpl( new EAdURIImpl( "@binary/DroidSans-Bold.ttf"), 20));
+						"Show very long text", PaintFill.WHITE_ON_BLACK, 
+						PaintFill.BLACK_ON_WHITE, 
+						new BasicFont( new EAdURI( "@binary/DroidSans-Bold.ttf"), 20));
 		EAdEffect effect2 = EAdElementsFactory.getInstance()
 				.getEffectFactory().getShowText(
 						StringType.VERY_LONG_STRING.getString(), 

@@ -45,7 +45,7 @@ import ead.common.model.elements.EAdCondition;
  * Abstract implementation of the EAdConditionElement based on the abstract
  * implementation of the EAdElement
  */
-public abstract class ConditionedElement extends EAdElementImpl implements
+public abstract class ConditionedElement extends BasicElement implements
 		Conditioned {
 
 	@Param("condition")

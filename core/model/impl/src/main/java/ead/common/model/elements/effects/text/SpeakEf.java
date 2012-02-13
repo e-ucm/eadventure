@@ -42,13 +42,13 @@ import ead.common.interfaces.Param;
 import ead.common.model.elements.effects.AbstractEffect;
 import ead.common.model.elements.variables.EAdField;
 import ead.common.model.elements.variables.EAdOperation;
-import ead.common.params.EAdFontImpl;
-import ead.common.params.fills.EAdColor;
-import ead.common.params.fills.EAdPaintImpl;
+import ead.common.params.BasicFont;
+import ead.common.params.fills.ColorFill;
+import ead.common.params.fills.PaintFill;
 import ead.common.params.paint.EAdPaint;
 import ead.common.params.text.EAdFont;
 import ead.common.params.text.EAdString;
-import ead.common.resources.assets.drawable.basics.CaptionImpl;
+import ead.common.resources.assets.drawable.basics.Caption;
 import ead.common.resources.assets.drawable.basics.enums.Alignment;
 import ead.common.resources.assets.drawable.basics.shapes.extra.BalloonType;
 
@@ -68,7 +68,7 @@ public class SpeakEf extends AbstractEffect {
 	private EAdOperation y;
 	
 	@Param("caption")
-	private CaptionImpl caption;
+	private Caption caption;
 
 	@Param("bubbleColor")
 	private EAdPaint bubbleColor;
@@ -81,8 +81,8 @@ public class SpeakEf extends AbstractEffect {
 
 	/**
 	 * Creates an speak effect, with no text and no position, with text color of
-	 * {@link EAdPaintImpl#WHITE_ON_BLACK} and bubble color of
-	 * {@link EAdPaintImpl#BLACK_ON_WHITE}
+	 * {@link PaintFill#WHITE_ON_BLACK} and bubble color of
+	 * {@link PaintFill#BLACK_ON_WHITE}
 	 */
 	public SpeakEf() {
 		this(EAdString.newEAdString("string"));
@@ -90,10 +90,10 @@ public class SpeakEf extends AbstractEffect {
 
 	public SpeakEf(EAdString text) {
 		super();
-		caption = new CaptionImpl(text);
-		caption.setTextPaint(EAdColor.BLACK);
-		bubbleColor = EAdPaintImpl.BLACK_ON_WHITE;
-		caption.setFont(EAdFontImpl.REGULAR);
+		caption = new Caption(text);
+		caption.setTextPaint(ColorFill.BLACK);
+		bubbleColor = PaintFill.BLACK_ON_WHITE;
+		caption.setFont(BasicFont.REGULAR);
 		ballonType = BalloonType.ROUNDED_RECTANGLE;
 		caption.setAlignment(Alignment.LEFT);
 		setQueueable(true);
@@ -139,11 +139,11 @@ public class SpeakEf extends AbstractEffect {
 		this.caption.setFont(font);
 	}
 	
-	public CaptionImpl getCaption( ){
+	public Caption getCaption( ){
 		return caption;
 	}
 	
-	public void setCaption(CaptionImpl caption){
+	public void setCaption(Caption caption){
 		this.caption = caption;
 	}
 

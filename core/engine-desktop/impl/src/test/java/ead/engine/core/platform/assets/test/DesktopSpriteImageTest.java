@@ -44,8 +44,8 @@ import org.junit.Test;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 
-import ead.common.resources.assets.drawable.basics.ImageImpl;
-import ead.common.resources.assets.drawable.basics.SpriteImageImpl;
+import ead.common.resources.assets.drawable.basics.Image;
+import ead.common.resources.assets.drawable.basics.SpriteImage;
 import ead.engine.core.platform.assets.DesktopEngineSpriteImage;
 import ead.engine.core.platform.extra.DesktopAssetHandlerModule;
 
@@ -53,9 +53,9 @@ public class DesktopSpriteImageTest extends TestCase {
 
 	private Injector injector;
 		
-	private SpriteImageImpl sprite1;
+	private SpriteImage sprite1;
 	
-	private SpriteImageImpl sprite2;
+	private SpriteImage sprite2;
 	
 	private DesktopEngineSpriteImage spriteImage1;
 
@@ -68,12 +68,12 @@ public class DesktopSpriteImageTest extends TestCase {
 		spriteImage1 = injector.getInstance(DesktopEngineSpriteImage.class);
 		
 		
-		sprite1 = new SpriteImageImpl(new ImageImpl("@drawable/loading.png"), 9, 2);
+		sprite1 = new SpriteImage(new Image("@drawable/loading.png"), 9, 2);
 		spriteImage1.setDescriptor(sprite1);
 		
 		spriteImage2 = injector.getInstance(DesktopEngineSpriteImage.class);
 
-		sprite2 = new SpriteImageImpl(new ImageImpl("@drawable/loading.png"), 9, 6);
+		sprite2 = new SpriteImage(new Image("@drawable/loading.png"), 9, 6);
 		spriteImage2.setDescriptor(sprite2);
 		
 		

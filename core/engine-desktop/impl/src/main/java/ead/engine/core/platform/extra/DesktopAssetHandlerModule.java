@@ -46,24 +46,24 @@ import com.google.inject.Singleton;
 import com.google.inject.TypeLiteral;
 
 import ead.common.StringFileHandler;
-import ead.common.resources.StringHandler;
 import ead.common.resources.assets.AssetDescriptor;
+import ead.common.resources.assets.drawable.basics.EAdCaption;
 import ead.common.resources.assets.drawable.basics.Caption;
-import ead.common.resources.assets.drawable.basics.CaptionImpl;
-import ead.common.resources.assets.drawable.basics.ImageImpl;
-import ead.common.resources.assets.drawable.basics.SpriteImageImpl;
+import ead.common.resources.assets.drawable.basics.Image;
+import ead.common.resources.assets.drawable.basics.SpriteImage;
 import ead.common.resources.assets.drawable.basics.shapes.BezierShape;
 import ead.common.resources.assets.drawable.basics.shapes.RectangleShape;
+import ead.common.resources.assets.drawable.compounds.EAdComposedDrawable;
 import ead.common.resources.assets.drawable.compounds.ComposedDrawable;
-import ead.common.resources.assets.drawable.compounds.ComposedDrawableImpl;
+import ead.common.resources.assets.drawable.compounds.EAdDisplacedDrawable;
 import ead.common.resources.assets.drawable.compounds.DisplacedDrawable;
-import ead.common.resources.assets.drawable.compounds.DisplacedDrawableImpl;
+import ead.common.resources.assets.drawable.filters.EAdFilteredDrawable;
 import ead.common.resources.assets.drawable.filters.FilteredDrawable;
-import ead.common.resources.assets.drawable.filters.FilteredDrawableImpl;
+import ead.common.resources.assets.multimedia.EAdSound;
 import ead.common.resources.assets.multimedia.Sound;
-import ead.common.resources.assets.multimedia.SoundImpl;
-import ead.common.resources.assets.multimedia.Video;
+import ead.common.resources.assets.multimedia.EAdVideo;
 import ead.common.strings.DefaultStringFileHandler;
+import ead.common.util.StringHandler;
 import ead.engine.core.platform.AssetHandler;
 import ead.engine.core.platform.DesktopAssetHandler;
 import ead.engine.core.platform.RuntimeAsset;
@@ -88,7 +88,7 @@ public class DesktopAssetHandlerModule extends AbstractModule {
 		bind(AssetHandler.class).to(DesktopAssetHandler.class);
 //		bind(new TypeLiteral<SpecialAssetRenderer<Video, ?>>() {
 //		}).to(VLCDesktopVideoRenderer.class);
-		bind(new TypeLiteral<SpecialAssetRenderer<Video, ?>>() {
+		bind(new TypeLiteral<SpecialAssetRenderer<EAdVideo, ?>>() {
 			}).to(DesktopVideoRenderer.class);
 	}
 
@@ -100,20 +100,20 @@ public class DesktopAssetHandlerModule extends AbstractModule {
 		// FIXME: There must be a better way of doing this that does not break the build
 		Map map = new HashMap();
 		
-		map.put(ImageImpl.class, DesktopEngineImage.class);
+		map.put(Image.class, DesktopEngineImage.class);
+		map.put(EAdCaption.class, RuntimeCaption.class);
 		map.put(Caption.class, RuntimeCaption.class);
-		map.put(CaptionImpl.class, RuntimeCaption.class);
+		map.put(EAdComposedDrawable.class, RuntimeComposedDrawable.class);
 		map.put(ComposedDrawable.class, RuntimeComposedDrawable.class);
-		map.put(ComposedDrawableImpl.class, RuntimeComposedDrawable.class);
 		map.put(RectangleShape.class, DesktopBezierShape.class);
 		map.put(BezierShape.class, DesktopBezierShape.class);
+		map.put(EAdDisplacedDrawable.class, RuntimeDisplacedDrawable.class);
 		map.put(DisplacedDrawable.class, RuntimeDisplacedDrawable.class);
-		map.put(DisplacedDrawableImpl.class, RuntimeDisplacedDrawable.class);
-		map.put(SpriteImageImpl.class, DesktopEngineSpriteImage.class);
+		map.put(SpriteImage.class, DesktopEngineSpriteImage.class);
+		map.put(EAdSound.class, DesktopSound.class);
 		map.put(Sound.class, DesktopSound.class);
-		map.put(SoundImpl.class, DesktopSound.class);
+		map.put(EAdFilteredDrawable.class, RuntimeFilteredDrawable.class);
 		map.put(FilteredDrawable.class, RuntimeFilteredDrawable.class);
-		map.put(FilteredDrawableImpl.class, RuntimeFilteredDrawable.class);
 
 		return (Map<Class<? extends AssetDescriptor>, Class<? extends RuntimeAsset<? extends AssetDescriptor>>>)map;
 	}

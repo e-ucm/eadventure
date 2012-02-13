@@ -37,9 +37,9 @@
 
 package ead.elementfactories.demos.scenes;
 
-import ead.common.model.elements.scenes.SceneElementDefImpl;
+import ead.common.model.elements.scenes.SceneElementDef;
 import ead.common.model.elements.scenes.SceneElementImpl;
-import ead.common.resources.assets.drawable.basics.ImageImpl;
+import ead.common.resources.assets.drawable.basics.Image;
 import ead.common.util.EAdPosition;
 import ead.common.util.EAdPosition.Corner;
 import ead.elementfactories.demos.normalguy.NgCommon;
@@ -49,8 +49,8 @@ public class PositionScene extends EmptyScene {
 	public PositionScene() {
 		getBackground().getDefinition().getResources().addAsset(
 				getBackground().getDefinition().getInitialBundle(),
-				SceneElementDefImpl.appearance,
-				new ImageImpl("@drawable/centerbackground.png"));
+				SceneElementDef.appearance,
+				new Image("@drawable/centerbackground.png"));
 		
 		NgCommon.init();
 		SceneElementImpl e = new SceneElementImpl( NgCommon.getMainCharacter());

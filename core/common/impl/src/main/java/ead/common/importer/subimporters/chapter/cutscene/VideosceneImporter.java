@@ -46,11 +46,11 @@ import ead.common.importer.interfaces.ResourceImporter;
 import ead.common.model.elements.EAdChapter;
 import ead.common.model.elements.EAdCondition;
 import ead.common.model.elements.EAdEffect;
-import ead.common.model.elements.VideoScene;
 import ead.common.model.elements.effects.EffectsMacro;
 import ead.common.model.elements.scene.EAdScene;
+import ead.common.model.elements.scenes.VideoScene;
+import ead.common.resources.assets.multimedia.EAdVideo;
 import ead.common.resources.assets.multimedia.Video;
-import ead.common.resources.assets.multimedia.VideoImpl;
 import es.eucm.eadventure.common.data.chapter.conditions.Conditions;
 import es.eucm.eadventure.common.data.chapter.resources.Resources;
 import es.eucm.eadventure.common.data.chapter.scenes.Slidescene;
@@ -120,7 +120,7 @@ public class VideosceneImporter implements
 		String name = temp[temp.length - 1];
 		resourceImporter.copyFile(assetPath, "binary/" + name);
 
-		Video video = new VideoImpl("@binary/" + name);
+		EAdVideo video = new Video("@binary/" + name);
 		cutscene.getDefinition().getResources()
 				.addAsset(VideoScene.video, video);
 	}

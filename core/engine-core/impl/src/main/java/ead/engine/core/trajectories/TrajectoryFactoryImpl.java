@@ -40,7 +40,7 @@ package ead.engine.core.trajectories;
 import com.google.inject.Inject;
 
 import ead.common.model.EAdElement;
-import ead.common.model.elements.trajectories.TrajectoryDefinition;
+import ead.common.model.elements.trajectories.EAdTrajectoryDefinition;
 import ead.common.util.AbstractFactory;
 import ead.common.util.ReflectionProvider;
 import ead.engine.core.factorymapproviders.TrajectoryFactoryMapProvider;
@@ -63,11 +63,11 @@ public class TrajectoryFactoryImpl extends
 	}
 
 	@Override
-	public Path getTrajectory(TrajectoryDefinition trajectoryDefinition,
+	public Path getTrajectory(EAdTrajectoryDefinition trajectoryDefinition,
 			EAdElement movingElement, int x, int y) {
 
 		@SuppressWarnings("unchecked")
-		TrajectoryGenerator<TrajectoryDefinition> generator = (TrajectoryGenerator<TrajectoryDefinition>) this
+		TrajectoryGenerator<EAdTrajectoryDefinition> generator = (TrajectoryGenerator<EAdTrajectoryDefinition>) this
 				.get(trajectoryDefinition.getClass());
 
 		return generator.getTrajectory(trajectoryDefinition, movingElement,
@@ -75,12 +75,12 @@ public class TrajectoryFactoryImpl extends
 	}
 
 	@Override
-	public Path getTrajectory(TrajectoryDefinition trajectoryDefinition,
+	public Path getTrajectory(EAdTrajectoryDefinition trajectoryDefinition,
 			EAdElement movingElement, int x, int y,
 			SceneElementGO<?> sceneElement) {
 
 		@SuppressWarnings("unchecked")
-		TrajectoryGenerator<TrajectoryDefinition> generator = (TrajectoryGenerator<TrajectoryDefinition>) this
+		TrajectoryGenerator<EAdTrajectoryDefinition> generator = (TrajectoryGenerator<EAdTrajectoryDefinition>) this
 				.get(trajectoryDefinition.getClass());
 
 		return generator.getTrajectory(trajectoryDefinition, movingElement,
@@ -89,7 +89,7 @@ public class TrajectoryFactoryImpl extends
 	}
 
 	@Override
-	public boolean canGetTo(TrajectoryDefinition trajectoryDefinition,
+	public boolean canGetTo(EAdTrajectoryDefinition trajectoryDefinition,
 			EAdElement movingElement, SceneElementGO<?> sceneElement) {
 		return false;
 	}

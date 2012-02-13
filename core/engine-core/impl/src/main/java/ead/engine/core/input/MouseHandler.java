@@ -42,7 +42,7 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 
 import com.google.inject.Singleton;
 
-import ead.common.model.elements.guievents.enums.MouseButtonType;
+import ead.common.model.elements.guievents.enums.MouseGEvButtonType;
 import ead.common.model.elements.scene.EAdSceneElement;
 import ead.common.model.elements.scene.EAdSceneElementDef;
 import ead.common.model.elements.scenes.SceneElementImpl;
@@ -93,7 +93,7 @@ public class MouseHandler {
 	/**
 	 * Which button is pressed on the mouse
 	 */
-	private MouseButtonType buttonPressed = null;
+	private MouseGEvButtonType buttonPressed = null;
 
 	/**
 	 * Queue with mouse events
@@ -176,7 +176,7 @@ public class MouseHandler {
 	 * 
 	 * @return true if main mouse button is pressed
 	 */
-	public boolean isMousePressed(MouseButtonType button) {
+	public boolean isMousePressed(MouseGEvButtonType button) {
 		return mousePressed && button == this.buttonPressed;
 	}
 
@@ -187,7 +187,7 @@ public class MouseHandler {
 	 * @param mousePressed
 	 *            the pressed status of the main mouse button
 	 */
-	public void setMousePressed(boolean mousePressed, MouseButtonType button) {
+	public void setMousePressed(boolean mousePressed, MouseGEvButtonType button) {
 		this.mousePressed = mousePressed;
 		this.buttonPressed = button;
 	}
@@ -360,7 +360,7 @@ public class MouseHandler {
 	}
 
 	public boolean checkState(MouseState state) {
-		if (state.isInside() && ( state.getMouseButton() == MouseButtonType.NO_BUTTON || state.getMouseButton() == null )) {
+		if (state.isInside() && ( state.getMouseButton() == MouseGEvButtonType.NO_BUTTON || state.getMouseButton() == null )) {
 			return isInside();
 		}
 		else if ( state.isInside() && state.isPressed() && this.isMousePressed(state.getMouseButton())){

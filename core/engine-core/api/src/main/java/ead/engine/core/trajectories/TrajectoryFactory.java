@@ -37,13 +37,13 @@
 
 package ead.engine.core.trajectories;
 
-import ead.common.model.elements.trajectories.TrajectoryDefinition;
+import ead.common.model.elements.trajectories.EAdTrajectoryDefinition;
 
 /**
  * A factory with all {@link TrajectoryGenerator} for all
- * {@link TrajectoryDefinition}.
+ * {@link EAdTrajectoryDefinition}.
  */
 public interface TrajectoryFactory extends
-		TrajectoryGenerator<TrajectoryDefinition> {
+		TrajectoryGenerator<EAdTrajectoryDefinition> {
 
 }

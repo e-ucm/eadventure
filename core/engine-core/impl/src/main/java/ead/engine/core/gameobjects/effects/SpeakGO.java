@@ -41,16 +41,16 @@ import com.google.inject.Inject;
 
 import ead.common.model.elements.effects.text.SpeakEf;
 import ead.common.model.elements.enums.CommonStates;
-import ead.common.model.elements.guievents.enums.MouseEventType;
+import ead.common.model.elements.guievents.enums.MouseGEvType;
 import ead.common.model.elements.scene.EAdSceneElement;
-import ead.common.model.elements.scenes.ComplexSceneElementImpl;
+import ead.common.model.elements.scenes.ComplexSceneElement;
 import ead.common.model.elements.scenes.SceneElementImpl;
 import ead.common.model.elements.variables.SystemFields;
-import ead.common.resources.StringHandler;
-import ead.common.resources.assets.drawable.basics.Caption;
+import ead.common.resources.assets.drawable.basics.EAdCaption;
 import ead.common.resources.assets.drawable.basics.shapes.BallonShape;
 import ead.common.resources.assets.drawable.basics.shapes.BezierShape;
 import ead.common.util.EAdPosition;
+import ead.common.util.StringHandler;
 import ead.engine.core.game.GameLoop;
 import ead.engine.core.game.GameState;
 import ead.engine.core.gameobjects.factories.SceneElementGOFactory;
@@ -103,7 +103,7 @@ public class SpeakGO extends AbstractEffectGO<SpeakEf> {
 			MouseActionImpl mouseAction = (MouseActionImpl) action;
 			action.consume();
 			if (!finished)
-				if (mouseAction.getType() == MouseEventType.PRESSED) {
+				if (mouseAction.getType() == MouseGEvType.PRESSED) {
 					if (caption.getTimesRead() >= 1
 							|| caption.getCurrentPart() == caption
 									.getTotalParts() - 1)
@@ -176,7 +176,7 @@ public class SpeakGO extends AbstractEffectGO<SpeakEf> {
 		}
 
 		rectangle.setPaint(element.getBubbleColor());
-		Caption text = element.getCaption();
+		EAdCaption text = element.getCaption();
 		text.setPadding(MARGIN);
 		text.setPreferredWidth(right - left);
 		text.setPreferredHeight(bottom - top);
@@ -185,7 +185,7 @@ public class SpeakGO extends AbstractEffectGO<SpeakEf> {
 		textSE.setId("text");
 		textSE.setPosition(new EAdPosition(left, top));
 
-		ComplexSceneElementImpl complex = new ComplexSceneElementImpl(rectangle);
+		ComplexSceneElement complex = new ComplexSceneElement(rectangle);
 		complex.setId("complex");
 		complex.getComponents().add(textSE);
 

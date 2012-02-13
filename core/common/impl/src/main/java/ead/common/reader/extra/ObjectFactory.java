@@ -51,7 +51,7 @@ import ead.common.reader.visitors.NodeVisitor;
 import ead.common.resources.EAdBundleId;
 import ead.common.resources.assets.AssetDescriptor;
 import ead.common.util.EAdMatrix;
-import ead.common.util.EAdMatrixImpl;
+import ead.common.util.BasicMatrix;
 
 /**
  * Includes methods to generate an object of a given type from a string value
@@ -94,8 +94,8 @@ public class ObjectFactory {
 		}
 		else if (fieldType == EAdBundleId.class)
 			return new EAdBundleId(value);
-		else if (fieldType == EAdMatrix.class || fieldType == EAdMatrixImpl.class)
-			return EAdMatrixImpl.parse(value);
+		else if (fieldType == EAdMatrix.class || fieldType == BasicMatrix.class)
+			return BasicMatrix.parse(value);
 		else if (fieldType == Class.class)
 			try {
 				return ClassLoader.getSystemClassLoader().loadClass(value);

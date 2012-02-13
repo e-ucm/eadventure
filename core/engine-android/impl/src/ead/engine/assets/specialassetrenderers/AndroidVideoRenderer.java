@@ -42,12 +42,12 @@ import android.content.Intent;
 
 import com.google.inject.Inject;
 
-import ead.common.resources.assets.multimedia.Video;
+import ead.common.resources.assets.multimedia.EAdVideo;
 import ead.engine.AndroidAssetHandler;
 import ead.engine.core.platform.AssetHandler;
 import ead.engine.core.platform.SpecialAssetRenderer;
 
-public class AndroidVideoRenderer implements SpecialAssetRenderer<Video, Object> {
+public class AndroidVideoRenderer implements SpecialAssetRenderer<EAdVideo, Object> {
 	
 	private AndroidAssetHandler assetHandler;
 	
@@ -62,7 +62,7 @@ public class AndroidVideoRenderer implements SpecialAssetRenderer<Video, Object>
 	}
 
 	@Override
-	public Object getComponent(Video asset) {
+	public Object getComponent(EAdVideo asset) {
 		
 		if (assetHandler != null) {
 

@@ -41,11 +41,11 @@ import ead.common.model.elements.conditions.OperationCond;
 import ead.common.model.elements.conditions.enums.Comparator;
 import ead.common.model.elements.effects.variables.ChangeFieldEf;
 import ead.common.model.elements.events.SceneElementEv;
-import ead.common.model.elements.events.enums.SceneElementEventType;
+import ead.common.model.elements.events.enums.SceneElementEvType;
 import ead.common.model.elements.scene.EAdSceneElement;
 import ead.common.model.elements.scenes.SceneElementImpl;
 import ead.common.model.elements.variables.EAdField;
-import ead.common.model.elements.variables.EAdFieldImpl;
+import ead.common.model.elements.variables.BasicField;
 import ead.common.model.elements.variables.SystemFields;
 import ead.common.model.elements.variables.operations.MathOp;
 
@@ -66,19 +66,19 @@ public class StayInBoundsEv extends SceneElementEv {
 		EAdField<Integer> maxX = SystemFields.GAME_WIDTH;
 		EAdField<Integer> maxY = SystemFields.GAME_HEIGHT;
 
-		EAdField<Integer> x = new EAdFieldImpl<Integer>(e,
+		EAdField<Integer> x = new BasicField<Integer>(e,
 				SceneElementImpl.VAR_X);
 
-		EAdField<Integer> y = new EAdFieldImpl<Integer>(e,
+		EAdField<Integer> y = new BasicField<Integer>(e,
 				SceneElementImpl.VAR_Y);
 
-		EAdField<Integer> left = new EAdFieldImpl<Integer>(e,
+		EAdField<Integer> left = new BasicField<Integer>(e,
 				SceneElementImpl.VAR_LEFT);
-		EAdField<Integer> top = new EAdFieldImpl<Integer>(e,
+		EAdField<Integer> top = new BasicField<Integer>(e,
 				SceneElementImpl.VAR_TOP);
-		EAdField<Integer> right = new EAdFieldImpl<Integer>(e,
+		EAdField<Integer> right = new BasicField<Integer>(e,
 				SceneElementImpl.VAR_RIGHT);
-		EAdField<Integer> bottom = new EAdFieldImpl<Integer>(e,
+		EAdField<Integer> bottom = new BasicField<Integer>(e,
 				SceneElementImpl.VAR_BOTTOM);
 
 		// Correct X Left
@@ -88,7 +88,7 @@ public class StayInBoundsEv extends SceneElementEv {
 		OperationCond c = new OperationCond(left, 0, Comparator.LESS);
 		effect.setCondition(c);
 
-		addEffect(SceneElementEventType.ALWAYS, effect);
+		addEffect(SceneElementEvType.ALWAYS, effect);
 
 		// Correct X Right
 		String expression2 = "[0] - ( [1] - [2] )";
@@ -97,7 +97,7 @@ public class StayInBoundsEv extends SceneElementEv {
 		effect.setId("correctXRight");
 		c = new OperationCond(maxX, left, Comparator.LESS);
 		effect.setCondition(c);
-		addEffect(SceneElementEventType.ALWAYS, effect);
+		addEffect(SceneElementEvType.ALWAYS, effect);
 
 		// Correct Y top
 		effect = new ChangeFieldEf( y,
@@ -105,7 +105,7 @@ public class StayInBoundsEv extends SceneElementEv {
 		effect.setId("correctYTop");
 		c = new OperationCond(top, 0, Comparator.LESS);
 		effect.setCondition(c);
-		addEffect(SceneElementEventType.ALWAYS, effect);
+		addEffect(SceneElementEvType.ALWAYS, effect);
 
 		// Correct Y bottom
 		effect = new ChangeFieldEf( y,
@@ -113,7 +113,7 @@ public class StayInBoundsEv extends SceneElementEv {
 		effect.setId("correctXRight");
 		c = new OperationCond(maxY, bottom, Comparator.LESS);
 		effect.setCondition(c);
-		addEffect(SceneElementEventType.ALWAYS, effect);
+		addEffect(SceneElementEvType.ALWAYS, effect);
 
 	}
 

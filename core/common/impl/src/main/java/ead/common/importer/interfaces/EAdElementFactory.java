@@ -44,7 +44,7 @@ import ead.common.model.elements.EAdChapter;
 import ead.common.model.elements.EAdCondition;
 import ead.common.model.elements.scene.EAdSceneElementDef;
 import ead.common.model.elements.variables.EAdField;
-import ead.common.resources.assets.drawable.basics.Image;
+import ead.common.resources.assets.drawable.basics.EAdImage;
 import es.eucm.eadventure.common.data.adventure.AdventureData;
 import es.eucm.eadventure.common.data.chapter.Chapter;
 
@@ -133,7 +133,7 @@ public interface EAdElementFactory {
 	 * @param type the type of the cursor
 	 * @return the image for the cursor
 	 */
-	Image getDefaultCursor(String type);
+	EAdImage getDefaultCursor(String type);
 	
 	Map<String, EAdElement> getChapterElements();
 

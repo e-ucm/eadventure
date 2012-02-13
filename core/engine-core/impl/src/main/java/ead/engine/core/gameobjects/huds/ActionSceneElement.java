@@ -39,11 +39,11 @@ package ead.engine.core.gameobjects.huds;
 
 import ead.common.interfaces.Element;
 import ead.common.model.elements.EAdAction;
-import ead.common.model.elements.actions.ActionImpl;
+import ead.common.model.elements.actions.ElementAction;
 import ead.common.model.elements.effects.ActorActionsEf;
 import ead.common.model.elements.effects.enums.ChangeActorActions;
-import ead.common.model.elements.guievents.EAdMouseEvent;
-import ead.common.model.elements.scenes.SceneElementDefImpl;
+import ead.common.model.elements.guievents.MouseGEv;
+import ead.common.model.elements.scenes.SceneElementDef;
 import ead.common.model.elements.scenes.SceneElementImpl;
 import ead.common.model.predef.effects.ChangeAppearanceEf;
 import ead.common.resources.assets.AssetDescriptor;
@@ -56,35 +56,35 @@ public class ActionSceneElement extends SceneElementImpl {
 		this.setInitialScale(0.8f);
 		ActorActionsEf e = new ActorActionsEf( null,
 				ChangeActorActions.HIDE_ACTIONS);
-		this.addBehavior(EAdMouseEvent.MOUSE_LEFT_CLICK, e);
-		this.addBehavior(EAdMouseEvent.MOUSE_RIGHT_CLICK, e);
-		this.addBehavior(EAdMouseEvent.MOUSE_LEFT_CLICK,
+		this.addBehavior(MouseGEv.MOUSE_LEFT_CLICK, e);
+		this.addBehavior(MouseGEv.MOUSE_RIGHT_CLICK, e);
+		this.addBehavior(MouseGEv.MOUSE_LEFT_CLICK,
 				eAdAction.getEffects());
-		this.addBehavior(EAdMouseEvent.MOUSE_RIGHT_CLICK,
+		this.addBehavior(MouseGEv.MOUSE_RIGHT_CLICK,
 				eAdAction.getEffects());
 
 		AssetDescriptor asset = eAdAction.getAsset(
-				eAdAction.getInitialBundle(), ActionImpl.appearance);
+				eAdAction.getInitialBundle(), ElementAction.appearance);
 		definition.getResources().addAsset(definition.getInitialBundle(),
-				SceneElementDefImpl.appearance, asset);
+				SceneElementDef.appearance, asset);
 
 		if (eAdAction.getResources().getBundles()
 				.contains(eAdAction.getHighlightBundle())) {
 			definition.getResources().addBundle(eAdAction.getHighlightBundle());
 			definition.getResources().addAsset(
 					eAdAction.getHighlightBundle(),
-					SceneElementDefImpl.appearance,
+					SceneElementDef.appearance,
 					eAdAction.getAsset(eAdAction.getHighlightBundle(),
-							ActionImpl.appearance));
-			this.addBehavior(EAdMouseEvent.MOUSE_ENTERED,
+							ElementAction.appearance));
+			this.addBehavior(MouseGEv.MOUSE_ENTERED,
 					new ChangeAppearanceEf( this,
 							eAdAction.getHighlightBundle()));
 		} else
 			definition.getResources().addAsset(eAdAction.getHighlightBundle(),
-					SceneElementDefImpl.appearance, asset);
+					SceneElementDef.appearance, asset);
 
 		this.addBehavior(
-				EAdMouseEvent.MOUSE_EXITED,
+				MouseGEv.MOUSE_EXITED,
 				new ChangeAppearanceEf(this, definition
 						.getInitialBundle()));
 		

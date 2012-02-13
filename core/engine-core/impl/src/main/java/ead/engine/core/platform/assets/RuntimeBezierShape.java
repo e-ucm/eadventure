@@ -37,7 +37,7 @@
 
 package ead.engine.core.platform.assets;
 
-import ead.common.resources.assets.drawable.Drawable;
+import ead.common.resources.assets.drawable.EAdDrawable;
 import ead.common.resources.assets.drawable.basics.shapes.BezierShape;
 import ead.common.util.EAdPosition;
 import ead.engine.core.platform.DrawableAsset;
@@ -109,7 +109,7 @@ public abstract class RuntimeBezierShape<GraphicContext> extends AbstractRuntime
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public <S extends Drawable> DrawableAsset<S, GraphicContext> getDrawable() {
+	public <S extends EAdDrawable> DrawableAsset<S, GraphicContext> getDrawable() {
 		return (DrawableAsset<S, GraphicContext>) this;
 	}
 	

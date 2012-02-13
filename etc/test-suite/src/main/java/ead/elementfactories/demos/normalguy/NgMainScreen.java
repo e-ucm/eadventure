@@ -42,26 +42,26 @@ import ead.common.model.elements.effects.InterpolationEf;
 import ead.common.model.elements.effects.enums.InterpolationLoopType;
 import ead.common.model.elements.effects.enums.InterpolationType;
 import ead.common.model.elements.events.SceneElementEv;
-import ead.common.model.elements.events.enums.SceneElementEventType;
-import ead.common.model.elements.guievents.EAdMouseEvent;
+import ead.common.model.elements.events.enums.SceneElementEvType;
+import ead.common.model.elements.guievents.MouseGEv;
 import ead.common.model.elements.scenes.SceneElementImpl;
-import ead.common.resources.assets.drawable.basics.ImageImpl;
+import ead.common.resources.assets.drawable.basics.Image;
 import ead.common.util.EAdPosition.Corner;
 import ead.elementfactories.demos.scenes.EmptyScene;
 
 public class NgMainScreen extends EmptyScene {
 
 	public NgMainScreen() {
-		setBackground(new SceneElementImpl( new ImageImpl(
+		setBackground(new SceneElementImpl( new Image(
 				"@drawable/ng_mainscreen_bg.png")));
 		getBackground().setId("background");
 		SceneElementImpl spiral = new SceneElementImpl(
-				new ImageImpl("@drawable/ng_spiral.png"));
+				new Image("@drawable/ng_spiral.png"));
 		spiral.setId("spiral");
 		spiral.setPosition(Corner.CENTER, 400, 300);
 		getComponents().add(spiral);
 		SceneElementImpl logo = new SceneElementImpl(
-				new ImageImpl("@drawable/ng_logo.png"));
+				new Image("@drawable/ng_logo.png"));
 		logo.setId("spiral");
 		logo.setPosition(Corner.CENTER, 400, 300);
 		getComponents().add(logo);
@@ -72,19 +72,19 @@ public class NgMainScreen extends EmptyScene {
 		InterpolationEf rotate = new InterpolationEf(spiral,
 				SceneElementImpl.VAR_ROTATION, 0, 2 * Math.PI, 50000, 0,
 				InterpolationLoopType.RESTART, -1, InterpolationType.DESACCELERATE);
-		e.addEffect(SceneElementEventType.ADDED_TO_SCENE, rotate);
+		e.addEffect(SceneElementEvType.FIRST_UPDATE, rotate);
 		spiral.getEvents().add(e);
 		
 		e = new SceneElementEv();
 		InterpolationEf bounce = new InterpolationEf(logo,
 				SceneElementImpl.VAR_SCALE, 0.0f, 1.0f, 1000, 1000,
 				InterpolationLoopType.NO_LOOP, 1, InterpolationType.LINEAR);
-		e.addEffect(SceneElementEventType.ADDED_TO_SCENE, bounce);
+		e.addEffect(SceneElementEvType.FIRST_UPDATE, bounce);
 		
 		ChangeSceneEf changeScene = new ChangeSceneEf( );
 		changeScene.setId("changeScene");
 		changeScene.setNextScene(new NgRoom1());
-		getBackground().addBehavior(EAdMouseEvent.MOUSE_LEFT_PRESSED, changeScene);
+		getBackground().addBehavior(MouseGEv.MOUSE_LEFT_PRESSED, changeScene);
 		
 		logo.getEvents().add(e);
 		

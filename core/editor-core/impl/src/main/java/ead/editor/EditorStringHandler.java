@@ -44,7 +44,7 @@ import java.util.Map.Entry;
 import com.google.inject.Singleton;
 
 import ead.common.params.text.EAdString;
-import ead.common.resources.StringHandler;
+import ead.common.util.StringHandler;
 
 /**
  * TODO EditorStringHandler should have support for translation and other i18n tasks

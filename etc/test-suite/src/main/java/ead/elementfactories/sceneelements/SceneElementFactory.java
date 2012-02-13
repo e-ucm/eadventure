@@ -38,11 +38,11 @@
 package ead.elementfactories.sceneelements;
 
 import ead.common.model.elements.EAdEffect;
-import ead.common.model.elements.guievents.EAdMouseEvent;
-import ead.common.model.elements.scenes.SceneElementDefImpl;
+import ead.common.model.elements.guievents.MouseGEv;
+import ead.common.model.elements.scenes.SceneElementDef;
 import ead.common.model.elements.scenes.SceneElementImpl;
 import ead.common.resources.EAdBundleId;
-import ead.common.resources.assets.drawable.Drawable;
+import ead.common.resources.assets.drawable.EAdDrawable;
 import ead.common.util.EAdPosition;
 import ead.elementfactories.EAdElementsFactory;
 
@@ -59,7 +59,7 @@ public class SceneElementFactory {
 	 * @param y
 	 * @return
 	 */
-	public SceneElementImpl createSceneElement(Drawable appearance, int x,
+	public SceneElementImpl createSceneElement(EAdDrawable appearance, int x,
 			int y) {
 		SceneElementImpl sceneElement = new SceneElementImpl(appearance);
 		sceneElement.setId("sceneElement" + ID_GENERATOR++);
@@ -77,8 +77,8 @@ public class SceneElementFactory {
 	 * @param y
 	 * @return
 	 */
-	public SceneElementImpl createSceneElement(Drawable appearance1,
-			Drawable appearance2, int x, int y) {
+	public SceneElementImpl createSceneElement(EAdDrawable appearance1,
+			EAdDrawable appearance2, int x, int y) {
 		SceneElementImpl sceneElement = createSceneElement(appearance1, x,
 				y);
 		EAdBundleId bundle = new EAdBundleId("bundle2");
@@ -86,14 +86,14 @@ public class SceneElementFactory {
 		sceneElement
 				.getDefinition()
 				.getResources()
-				.addAsset(bundle, SceneElementDefImpl.appearance,
+				.addAsset(bundle, SceneElementDef.appearance,
 						appearance2);
-		sceneElement.addBehavior(EAdMouseEvent.MOUSE_ENTERED,
+		sceneElement.addBehavior(MouseGEv.MOUSE_ENTERED,
 				EAdElementsFactory.getInstance().getEffectFactory()
 						.getChangeAppearance(sceneElement, bundle));
 		sceneElement
 				.addBehavior(
-						EAdMouseEvent.MOUSE_EXITED,
+						MouseGEv.MOUSE_EXITED,
 						EAdElementsFactory
 								.getInstance()
 								.getEffectFactory()
@@ -112,11 +112,11 @@ public class SceneElementFactory {
 	 * @param effect
 	 * @return
 	 */
-	public SceneElementImpl createSceneElement(Drawable appearance,
+	public SceneElementImpl createSceneElement(EAdDrawable appearance,
 			int x, int y, EAdEffect effect) {
 		SceneElementImpl sceneElement = this.createSceneElement(appearance,
 				x, y);
-		sceneElement.addBehavior(EAdMouseEvent.MOUSE_LEFT_CLICK, effect);
+		sceneElement.addBehavior(MouseGEv.MOUSE_LEFT_CLICK, effect);
 		return sceneElement;
 	}
 

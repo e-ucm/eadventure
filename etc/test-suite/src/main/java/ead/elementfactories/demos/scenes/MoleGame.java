@@ -43,36 +43,36 @@ import ead.common.model.elements.effects.enums.InterpolationLoopType;
 import ead.common.model.elements.effects.enums.InterpolationType;
 import ead.common.model.elements.effects.variables.ChangeFieldEf;
 import ead.common.model.elements.events.TimedEv;
-import ead.common.model.elements.events.enums.TimedEventType;
+import ead.common.model.elements.events.enums.TimedEvType;
 import ead.common.model.elements.extra.EAdList;
 import ead.common.model.elements.extra.EAdListImpl;
-import ead.common.model.elements.guievents.EAdMouseEvent;
+import ead.common.model.elements.guievents.MouseGEv;
 import ead.common.model.elements.scene.EAdSceneElement;
 import ead.common.model.elements.scenes.SceneElementImpl;
 import ead.common.model.elements.variables.EAdField;
 import ead.common.model.elements.variables.EAdVarDef;
-import ead.common.model.elements.variables.EAdFieldImpl;
-import ead.common.model.elements.variables.VarDefImpl;
+import ead.common.model.elements.variables.BasicField;
+import ead.common.model.elements.variables.VarDef;
 import ead.common.model.elements.variables.operations.BooleanOp;
 import ead.common.model.elements.variables.operations.ListOp;
 import ead.common.model.elements.variables.operations.ListOpType;
 import ead.common.model.elements.variables.operations.MathOp;
-import ead.common.params.fills.EAdColor;
-import ead.common.resources.assets.drawable.Drawable;
-import ead.common.resources.assets.drawable.basics.ImageImpl;
+import ead.common.params.fills.ColorFill;
+import ead.common.resources.assets.drawable.EAdDrawable;
+import ead.common.resources.assets.drawable.basics.Image;
 import ead.common.resources.assets.drawable.basics.animation.Frame;
 import ead.common.resources.assets.drawable.basics.animation.FramesAnimation;
 
 @SuppressWarnings("rawtypes")
 public class MoleGame extends EmptyScene {
 
-	private Drawable holeImage = new ImageImpl("@drawable/hole.png");
+	private EAdDrawable holeImage = new Image("@drawable/hole.png");
 
 	private FramesAnimation mole;
 
 	private ChangeFieldEf dissapearMole;
 
-	private EAdVarDef<EAdSceneElement> moleVar = new VarDefImpl<EAdSceneElement>(
+	private EAdVarDef<EAdSceneElement> moleVar = new VarDef<EAdSceneElement>(
 			"moleVar", EAdSceneElement.class, null);
 
 	private EAdVarDef<EAdList> listVar;
@@ -82,8 +82,8 @@ public class MoleGame extends EmptyScene {
 	private EAdField<EAdSceneElement> moleField;
 
 	public MoleGame() {
-		setBackgroundFill(EAdColor.DARK_BROWN);
-		moleField = new EAdFieldImpl<EAdSceneElement>(this, moleVar);
+		setBackgroundFill(ColorFill.DARK_BROWN);
+		moleField = new BasicField<EAdSceneElement>(this, moleVar);
 
 		dissapearMole = new ChangeFieldEf();
 		dissapearMole.setId("dissaperMole");
@@ -112,8 +112,8 @@ public class MoleGame extends EmptyScene {
 				this.getComponents().add(hole);
 
 			}
-		listVar = new VarDefImpl<EAdList>("moleListVar", EAdList.class, list);
-		listField = new EAdFieldImpl<EAdList>(this, listVar);
+		listVar = new VarDef<EAdList>("moleListVar", EAdList.class, list);
+		listField = new BasicField<EAdList>(this, listVar);
 		initLoop();
 
 	}
@@ -122,7 +122,7 @@ public class MoleGame extends EmptyScene {
 		SceneElementImpl hole = new SceneElementImpl(holeImage);
 		hole.setId("hole" + x);
 		hole.setPosition(x, y);
-		hole.addBehavior(EAdMouseEvent.MOUSE_LEFT_PRESSED, (EAdEffect) null);
+		hole.addBehavior(MouseGEv.MOUSE_LEFT_PRESSED, (EAdEffect) null);
 		return hole;
 	}
 
@@ -146,7 +146,7 @@ public class MoleGame extends EmptyScene {
 		mole.setVarInitialValue(SceneElementImpl.VAR_TIME_DISPLAYED,
 				initTime);
 
-		mole.addBehavior(EAdMouseEvent.MOUSE_LEFT_PRESSED, dissapearMole);
+		mole.addBehavior(MouseGEv.MOUSE_LEFT_PRESSED, dissapearMole);
 		// mole.getEvents().add(event);
 
 		return mole;
@@ -168,10 +168,10 @@ public class MoleGame extends EmptyScene {
 				new MathOp("-30"), 500, 0, InterpolationLoopType.REVERSE, 2,
 				InterpolationType.LINEAR);
 		event.addEffect(
-				TimedEventType.END_TIME,
+				TimedEvType.END_TIME,
 				effect);
 		event.addEffect(
-				TimedEventType.END_TIME,
+				TimedEvType.END_TIME,
 				interpolation);
 		event.setTime(1100);
 		this.getBackground().getEvents().add(event);

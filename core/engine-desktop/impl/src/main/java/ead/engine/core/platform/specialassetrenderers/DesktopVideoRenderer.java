@@ -59,11 +59,11 @@ import javax.media.StopEvent;
 
 import com.google.inject.Inject;
 
-import ead.common.resources.assets.multimedia.Video;
+import ead.common.resources.assets.multimedia.EAdVideo;
 import ead.engine.core.platform.AssetHandler;
 import ead.engine.core.platform.SpecialAssetRenderer;
 
-public class DesktopVideoRenderer implements SpecialAssetRenderer<Video, Component> {
+public class DesktopVideoRenderer implements SpecialAssetRenderer<EAdVideo, Component> {
 
 	private static Logger logger = Logger.getLogger("DesktopVideoRenderer");
 	
@@ -87,7 +87,7 @@ public class DesktopVideoRenderer implements SpecialAssetRenderer<Video, Compone
 	}
 	
 	@Override
-	public Component getComponent(Video asset) {
+	public Component getComponent(EAdVideo asset) {
 		if (!loaded) {
 	        try {
 	            Codec video = (Codec) Class.forName( CODEC_CLASS_NAME ).newInstance( );

@@ -40,7 +40,7 @@ package ead.engine.core.gameobjects.effects;
 import com.google.inject.Inject;
 
 import ead.common.model.elements.effects.ChangeSceneEf;
-import ead.common.resources.StringHandler;
+import ead.common.util.StringHandler;
 import ead.engine.core.game.GameState;
 import ead.engine.core.gameobjects.factories.SceneElementGOFactory;
 import ead.engine.core.gameobjects.go.transitions.TransitionGO;
@@ -52,6 +52,8 @@ import ead.engine.core.platform.TransitionFactory;
 public class ChangeSceneGO extends AbstractEffectGO<ChangeSceneEf> implements TransitionListener {
 
 	private TransitionFactory transitionFactory;
+	
+	private TransitionGO<?> transition;
 	
 	private boolean end;
 
@@ -69,7 +71,7 @@ public class ChangeSceneGO extends AbstractEffectGO<ChangeSceneEf> implements Tr
 		super.initilize();
 		end = false;
 		if (element.getNextScene() == null || element.getNextScene() != gameState.getScene().getElement()) {
-			TransitionGO<?> transition = transitionFactory
+			transition = transitionFactory
 					.getTransition(element.getTransition());
 			transition.getTransitionListeners().add(this);
 			if (element.getNextScene() != null)

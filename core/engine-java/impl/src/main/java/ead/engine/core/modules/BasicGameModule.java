@@ -43,7 +43,7 @@ import com.google.inject.name.Named;
 import com.google.inject.name.Names;
 
 import ead.common.model.elements.EAdAdventureModel;
-import ead.common.model.elements.EAdAdventureModelImpl;
+import ead.common.model.elements.BasicAdventureModel;
 import ead.common.model.elements.scene.EAdScene;
 import ead.common.util.ReflectionProvider;
 import ead.engine.core.debuggers.Debugger;
@@ -109,7 +109,7 @@ public class BasicGameModule extends AbstractModule {
 		bind(ReflectionProvider.class).to(JavaReflectionProvider.class);
 		bind(SceneLoader.class).to(JavaSceneLoader.class);
 
-		bind(EAdAdventureModel.class).to(EAdAdventureModelImpl.class);
+		bind(EAdAdventureModel.class).to(BasicAdventureModel.class);
 		bind(EAdScene.class).annotatedWith(Names.named("LoadingScreen"))
 				.to(LoadingScreen.class).asEagerSingleton();
 

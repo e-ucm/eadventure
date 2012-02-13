@@ -45,9 +45,9 @@ import ead.common.EAdElementImporter;
 import ead.common.importer.interfaces.EAdElementFactory;
 import ead.common.importer.interfaces.ResourceImporter;
 import ead.common.model.elements.EAdAction;
-import ead.common.model.elements.scenes.SceneElementDefImpl;
-import ead.common.resources.StringHandler;
-import ead.common.resources.assets.drawable.basics.ImageImpl;
+import ead.common.model.elements.scenes.SceneElementDef;
+import ead.common.resources.assets.drawable.basics.Image;
+import ead.common.util.StringHandler;
 import es.eucm.eadventure.common.data.chapter.Action;
 import es.eucm.eadventure.common.data.chapter.elements.Item;
 
@@ -70,10 +70,10 @@ public class ItemImporter extends ActorImporter<Item> {
 		}
 
 		properties = new HashMap<String, String>();
-		properties.put(resource, SceneElementDefImpl.appearance);
+		properties.put(resource, SceneElementDef.appearance);
 
 		objectClasses = new HashMap<String, Object>();
-		objectClasses.put(resource, ImageImpl.class);
+		objectClasses.put(resource, Image.class);
 
 	}
 	

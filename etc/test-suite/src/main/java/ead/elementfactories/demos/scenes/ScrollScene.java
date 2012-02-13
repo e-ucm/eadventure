@@ -1,8 +1,8 @@
 package ead.elementfactories.demos.scenes;
 
 import ead.common.model.elements.events.SceneElementEv;
-import ead.common.model.elements.events.enums.SceneElementEventType;
-import ead.common.model.elements.guievents.EAdMouseEvent;
+import ead.common.model.elements.events.enums.SceneElementEvType;
+import ead.common.model.elements.guievents.MouseGEv;
 import ead.common.model.elements.scene.EAdSceneElementDef;
 import ead.common.model.elements.scenes.SceneElementImpl;
 import ead.common.model.elements.trajectories.SimpleTrajectoryDefinition;
@@ -10,7 +10,7 @@ import ead.common.model.predef.effects.MakeActiveElementEf;
 import ead.common.model.predef.effects.MoveActiveElementEf;
 import ead.common.model.predef.effects.SpeakSceneElementEf;
 import ead.common.model.predef.events.ScrollWithSceneElementEv;
-import ead.common.resources.assets.drawable.basics.ImageImpl;
+import ead.common.resources.assets.drawable.basics.Image;
 import ead.common.util.EAdPosition.Corner;
 import ead.elementfactories.EAdElementsFactory;
 import ead.elementfactories.demos.normalguy.NgCommon;
@@ -19,7 +19,7 @@ public class ScrollScene extends EmptyScene {
 
 	public ScrollScene() {
 		setBounds(1000, 1213);
-		setBackground(new SceneElementImpl(new ImageImpl(
+		setBackground(new SceneElementImpl(new Image(
 				"@drawable/scrollbg.png")));
 		
 		NgCommon.init();
@@ -29,7 +29,7 @@ public class ScrollScene extends EmptyScene {
 		
 		SpeakSceneElementEf effect = new SpeakSceneElementEf( character );
 		EAdElementsFactory.getInstance().getStringFactory().setString(effect.getCaption().getText(), "Sometimes I don't speak right");
-		character.addBehavior(EAdMouseEvent.MOUSE_RIGHT_CLICK, effect);
+		character.addBehavior(MouseGEv.MOUSE_RIGHT_CLICK, effect);
 		
 		
 		this.getComponents().add(character);
@@ -39,7 +39,7 @@ public class ScrollScene extends EmptyScene {
 
 		SceneElementEv event = new SceneElementEv();
 		event.setId("makeAcitveCharacter");
-		event.addEffect(SceneElementEventType.ADDED_TO_SCENE, makeActive);
+		event.addEffect(SceneElementEvType.FIRST_UPDATE, makeActive);
 		character.getEvents().add(event);
 		
 		this.getEvents().add(new ScrollWithSceneElementEv(this, character));
@@ -48,7 +48,7 @@ public class ScrollScene extends EmptyScene {
 		trajectory.setLimits(0, 0, 1000, 1213);
 		setTrajectoryDefinition(trajectory);
 
-		getBackground().addBehavior(EAdMouseEvent.MOUSE_LEFT_PRESSED,
+		getBackground().addBehavior(MouseGEv.MOUSE_LEFT_PRESSED,
 				new MoveActiveElementEf());
 		
 	}

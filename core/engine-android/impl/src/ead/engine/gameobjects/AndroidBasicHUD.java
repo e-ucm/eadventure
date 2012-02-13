@@ -17,7 +17,7 @@ import com.google.inject.Singleton;
 import ead.common.model.EAdElement;
 import ead.common.model.elements.scenes.SceneElementImpl;
 import ead.common.params.text.EAdString;
-import ead.common.resources.StringHandler;
+import ead.common.util.StringHandler;
 import ead.engine.AndroidAssetHandler;
 import ead.engine.core.game.GameState;
 import ead.engine.core.gameobjects.GameObjectManager;

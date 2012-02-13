@@ -45,23 +45,23 @@ import com.google.inject.Provides;
 import com.google.inject.Singleton;
 import com.google.inject.TypeLiteral;
 
-import ead.common.resources.StringHandler;
 import ead.common.resources.assets.AssetDescriptor;
+import ead.common.resources.assets.drawable.basics.EAdCaption;
 import ead.common.resources.assets.drawable.basics.Caption;
-import ead.common.resources.assets.drawable.basics.CaptionImpl;
-import ead.common.resources.assets.drawable.basics.ImageImpl;
-import ead.common.resources.assets.drawable.basics.SpriteImageImpl;
+import ead.common.resources.assets.drawable.basics.Image;
+import ead.common.resources.assets.drawable.basics.SpriteImage;
 import ead.common.resources.assets.drawable.basics.shapes.BezierShape;
 import ead.common.resources.assets.drawable.basics.shapes.RectangleShape;
+import ead.common.resources.assets.drawable.compounds.EAdComposedDrawable;
 import ead.common.resources.assets.drawable.compounds.ComposedDrawable;
-import ead.common.resources.assets.drawable.compounds.ComposedDrawableImpl;
+import ead.common.resources.assets.drawable.compounds.EAdDisplacedDrawable;
 import ead.common.resources.assets.drawable.compounds.DisplacedDrawable;
-import ead.common.resources.assets.drawable.compounds.DisplacedDrawableImpl;
+import ead.common.resources.assets.drawable.filters.EAdFilteredDrawable;
 import ead.common.resources.assets.drawable.filters.FilteredDrawable;
-import ead.common.resources.assets.drawable.filters.FilteredDrawableImpl;
+import ead.common.resources.assets.multimedia.EAdSound;
 import ead.common.resources.assets.multimedia.Sound;
-import ead.common.resources.assets.multimedia.SoundImpl;
-import ead.common.resources.assets.multimedia.Video;
+import ead.common.resources.assets.multimedia.EAdVideo;
+import ead.common.util.StringHandler;
 import ead.engine.AndroidAssetHandler;
 import ead.engine.assets.AndroidBezierShape;
 import ead.engine.assets.AndroidEngineCaption;
@@ -85,7 +85,7 @@ public class AndroidAssetHandlerModule extends AbstractModule {
 		bind(AssetHandler.class).to(AndroidAssetHandler.class);
 		
 		//Bind to AndroidVideoRenderer (uses API mediaplayer) or RockPlayerAndroidVideoRenderer
-		bind(new TypeLiteral<SpecialAssetRenderer<Video, ?>>(){}).to(AndroidVideoRenderer.class);
+		bind(new TypeLiteral<SpecialAssetRenderer<EAdVideo, ?>>(){}).to(AndroidVideoRenderer.class);
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -93,21 +93,21 @@ public class AndroidAssetHandlerModule extends AbstractModule {
 	@Singleton
 	Map<Class<? extends AssetDescriptor>, Class<? extends RuntimeAsset<? extends AssetDescriptor>>> provideMap() {
 		Map<Class<? extends AssetDescriptor>, Class<? extends RuntimeAsset<? extends AssetDescriptor>>> map = new HashMap<Class<? extends AssetDescriptor>, Class<? extends RuntimeAsset<? extends AssetDescriptor>>>( );
-		map.put(ImageImpl.class, AndroidEngineImage.class);
-		map.put(ImageImpl.class, AndroidEngineImage.class);
+		map.put(Image.class, AndroidEngineImage.class);
+		map.put(Image.class, AndroidEngineImage.class);
+		map.put(EAdCaption.class, (Class<? extends RuntimeAsset<?>>) AndroidEngineCaption.class);
 		map.put(Caption.class, (Class<? extends RuntimeAsset<?>>) AndroidEngineCaption.class);
-		map.put(CaptionImpl.class, (Class<? extends RuntimeAsset<?>>) AndroidEngineCaption.class);
+		map.put(EAdComposedDrawable.class, (Class<? extends RuntimeAsset<?>>) RuntimeComposedDrawable.class);
 		map.put(ComposedDrawable.class, (Class<? extends RuntimeAsset<?>>) RuntimeComposedDrawable.class);
-		map.put(ComposedDrawableImpl.class, (Class<? extends RuntimeAsset<?>>) RuntimeComposedDrawable.class);
 		map.put(RectangleShape.class, AndroidBezierShape.class);
 		map.put(BezierShape.class, AndroidBezierShape.class);
+		map.put(EAdDisplacedDrawable.class, (Class<? extends RuntimeAsset<?>>) RuntimeDisplacedDrawable.class);
 		map.put(DisplacedDrawable.class, (Class<? extends RuntimeAsset<?>>) RuntimeDisplacedDrawable.class);
-		map.put(DisplacedDrawableImpl.class, (Class<? extends RuntimeAsset<?>>) RuntimeDisplacedDrawable.class);
-		map.put(SpriteImageImpl.class, (Class<? extends RuntimeAsset<?>>) RuntimeSpriteImage.class);
+		map.put(SpriteImage.class, (Class<? extends RuntimeAsset<?>>) RuntimeSpriteImage.class);
+		map.put(EAdFilteredDrawable.class, (Class<? extends RuntimeAsset<?>>) RuntimeFilteredDrawable.class);
 		map.put(FilteredDrawable.class, (Class<? extends RuntimeAsset<?>>) RuntimeFilteredDrawable.class);
-		map.put(FilteredDrawableImpl.class, (Class<? extends RuntimeAsset<?>>) RuntimeFilteredDrawable.class);
+		map.put(EAdSound.class, AndroidSound.class);
 		map.put(Sound.class, AndroidSound.class);
-		map.put(SoundImpl.class, AndroidSound.class);
 		//TODO Sprite image
 		//map.put(SpriteImageImpl.class, AndroidEngineSpriteImage.class);
 		

@@ -48,11 +48,11 @@ import ead.common.interfaces.features.enums.Orientation;
 import ead.common.model.elements.EAdCondition;
 import ead.common.model.elements.conditions.EmptyCond;
 import ead.common.model.elements.scene.EAdSceneElement;
-import ead.common.model.elements.scenes.SceneElementDefImpl;
+import ead.common.model.elements.scenes.SceneElementDef;
 import ead.common.model.elements.scenes.SceneElementImpl;
-import ead.common.resources.StringHandler;
 import ead.common.util.EAdPosition;
 import ead.common.util.EAdRectangle;
+import ead.common.util.StringHandler;
 import es.eucm.eadventure.common.data.chapter.ElementReference;
 import es.eucm.eadventure.common.data.chapter.conditions.Conditions;
 import es.eucm.eadventure.common.data.chapter.elements.Item;
@@ -82,7 +82,7 @@ public class ElementReferenceImporter extends ElementImporter<ElementReference> 
 	@Override
 	public EAdSceneElement convert(ElementReference oldObject, Object object) {
 
-		SceneElementDefImpl actor = (SceneElementDefImpl) factory
+		SceneElementDef actor = (SceneElementDef) factory
 				.getElementById(oldObject.getTargetId());
 		SceneElementImpl newRef = (SceneElementImpl) object;
 		newRef.setId(oldObject.getTargetId() + "_ref");

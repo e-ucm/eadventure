@@ -37,7 +37,7 @@
 
 package ead.common.resources.assets.drawable.basics.shapes;
 
-import ead.common.params.fills.EAdPaintImpl;
+import ead.common.params.fills.PaintFill;
 import ead.common.params.paint.EAdPaint;
 
 public class CircleShape extends BezierShape {
@@ -64,7 +64,7 @@ public class CircleShape extends BezierShape {
 	}
 	
 	public CircleShape(int cx, int cy, int radius, int segments){
-		this( cx, cy, radius, segments, EAdPaintImpl.WHITE_ON_BLACK);
+		this( cx, cy, radius, segments, PaintFill.WHITE_ON_BLACK);
 	}
 
 }

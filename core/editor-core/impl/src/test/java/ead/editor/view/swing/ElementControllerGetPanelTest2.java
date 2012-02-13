@@ -48,7 +48,7 @@ import static org.mockito.Mockito.*;
 
 import ead.common.model.elements.scene.EAdSceneElementDef;
 import ead.common.params.text.EAdString;
-import ead.common.resources.StringHandler;
+import ead.common.util.StringHandler;
 import ead.editor.EditorStringHandler;
 import ead.editor.control.CommandManager;
 import ead.editor.control.ElementController;

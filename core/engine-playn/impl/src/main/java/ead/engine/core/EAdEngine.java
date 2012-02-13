@@ -58,9 +58,9 @@ import com.google.gwt.user.client.Event.NativePreviewEvent;
 import com.google.gwt.user.client.Event.NativePreviewHandler;
 import com.google.inject.Inject;
 
-import ead.common.model.elements.guievents.EAdMouseEvent;
-import ead.common.model.elements.guievents.enums.MouseButtonType;
-import ead.common.model.elements.guievents.enums.MouseEventType;
+import ead.common.model.elements.guievents.MouseGEv;
+import ead.common.model.elements.guievents.enums.MouseGEvButtonType;
+import ead.common.model.elements.guievents.enums.MouseGEvType;
 import ead.engine.core.game.Game;
 import ead.engine.core.input.InputHandler;
 import ead.engine.core.input.actions.MouseActionImpl;
@@ -146,25 +146,25 @@ public class EAdEngine implements playn.core.Game, Keyboard.Listener {
 						int eventType = event.getTypeInt();
 						int eventX = event.getNativeEvent().getClientX();
 						int eventY = event.getNativeEvent().getClientY();
-						MouseButtonType b = getMouseButton(event.getNativeEvent()
+						MouseGEvButtonType b = getMouseButton(event.getNativeEvent()
 								.getButton());
 						
-						inputHandler.addAction(new MouseActionImpl(EAdMouseEvent.MOUSE_MOVED, eventX, eventY ));
+						inputHandler.addAction(new MouseActionImpl(MouseGEv.MOUSE_MOVED, eventX, eventY ));
 						// TODO double click
-						EAdMouseEvent e = null;
+						MouseGEv e = null;
 						switch (eventType) {
 						case com.google.gwt.user.client.Event.ONCLICK:
 							// Do nothing. Clicks are processed in ONMOUSEUP;
 							break;
 						case com.google.gwt.user.client.Event.ONMOUSEDOWN:
-							e = EAdMouseEvent.getMouseEvent(
-									MouseEventType.PRESSED, b);
+							e = MouseGEv.getMouseEvent(
+									MouseGEvType.PRESSED, b);
 							break;
 						case com.google.gwt.user.client.Event.ONMOUSEUP:
-							e = EAdMouseEvent.getMouseEvent(
-									MouseEventType.RELEASED, b);
-							inputHandler.addAction(new MouseActionImpl(EAdMouseEvent.getMouseEvent(
-									MouseEventType.CLICK, b), eventX, eventY ));
+							e = MouseGEv.getMouseEvent(
+									MouseGEvType.RELEASED, b);
+							inputHandler.addAction(new MouseActionImpl(MouseGEv.getMouseEvent(
+									MouseGEvType.CLICK, b), eventX, eventY ));
 							break;
 						default:
 							// not interested in other events
@@ -176,16 +176,16 @@ public class EAdEngine implements playn.core.Game, Keyboard.Listener {
 				});
 	}
 
-	private MouseButtonType getMouseButton(int b) {
+	private MouseGEvButtonType getMouseButton(int b) {
 		switch (b) {
 		case NativeEvent.BUTTON_LEFT:
-			return MouseButtonType.BUTTON_1;
+			return MouseGEvButtonType.BUTTON_1;
 		case NativeEvent.BUTTON_MIDDLE:
-			return MouseButtonType.BUTTON_2;
+			return MouseGEvButtonType.BUTTON_2;
 		case NativeEvent.BUTTON_RIGHT:
-			return MouseButtonType.BUTTON_3;
+			return MouseGEvButtonType.BUTTON_3;
 		default:
-			return MouseButtonType.NO_BUTTON;
+			return MouseGEvButtonType.NO_BUTTON;
 		}
 	}
 

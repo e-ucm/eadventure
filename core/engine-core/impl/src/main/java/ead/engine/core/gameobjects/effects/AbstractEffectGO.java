@@ -43,9 +43,9 @@ import com.google.inject.Inject;
 
 import ead.common.model.elements.EAdEffect;
 import ead.common.model.elements.scene.EAdSceneElement;
-import ead.common.resources.StringHandler;
 import ead.common.resources.assets.AssetDescriptor;
 import ead.common.util.EAdPosition;
+import ead.common.util.StringHandler;
 import ead.engine.core.game.GameLoop;
 import ead.engine.core.game.GameState;
 import ead.engine.core.gameobjects.DrawableGameObjectImpl;

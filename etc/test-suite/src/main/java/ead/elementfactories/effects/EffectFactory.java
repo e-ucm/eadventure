@@ -54,9 +54,9 @@ import ead.common.model.predef.effects.ChangeAppearanceEf;
 import ead.common.model.predef.effects.MakeActiveElementEf;
 import ead.common.params.text.EAdString;
 import ead.common.resources.EAdBundleId;
+import ead.common.resources.assets.drawable.basics.EAdCaption;
 import ead.common.resources.assets.drawable.basics.Caption;
-import ead.common.resources.assets.drawable.basics.CaptionImpl;
-import ead.common.resources.assets.multimedia.SoundImpl;
+import ead.common.resources.assets.multimedia.Sound;
 import ead.elementfactories.EAdElementsFactory;
 import ead.elementfactories.StringFactory.StringType;
 
@@ -83,7 +83,7 @@ public class EffectFactory {
 	public ShowSceneElementEf getShowText(String text, int x, int y,
 			ShowTextAnimation animation, int maximumHeight) {
 		ShowSceneElementEf effect = new ShowSceneElementEf();
-		CaptionImpl c = EAdElementsFactory.getInstance().getCaptionFactory()
+		Caption c = EAdElementsFactory.getInstance().getCaptionFactory()
 				.createCaption(text);
 		c.setPreferredHeight(maximumHeight);
 		effect.setCaption(c, x, y, animation);
@@ -92,7 +92,7 @@ public class EffectFactory {
 
 	public ShowSceneElementEf getShowText(String text, int x, int y,
 			ShowTextAnimation animation) {
-		return this.getShowText(text, x, y, animation, Caption.SCREEN_SIZE);
+		return this.getShowText(text, x, y, animation, EAdCaption.SCREEN_SIZE);
 	}
 
 	/**
@@ -137,7 +137,7 @@ public class EffectFactory {
 	}
 
 	public PlaySoundEf getPlaySound(String string) {
-		SoundImpl sound = new SoundImpl(string);
+		Sound sound = new Sound(string);
 		PlaySoundEf effect = new PlaySoundEf( sound);
 		effect.setId("playSound" + ID_GENERATOR++);
 		return effect;

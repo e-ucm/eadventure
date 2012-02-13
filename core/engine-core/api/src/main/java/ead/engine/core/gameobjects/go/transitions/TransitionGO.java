@@ -108,4 +108,6 @@ public interface TransitionGO<T extends EAdTransition> extends
 
 	}
 
+	SceneGO<?> getNextSceneGO();
+
 }

@@ -45,7 +45,7 @@ import com.google.inject.Inject;
 import ead.common.model.elements.EAdEffect;
 import ead.common.model.elements.extra.EAdList;
 import ead.common.model.elements.scenes.SceneElementImpl;
-import ead.common.resources.StringHandler;
+import ead.common.util.StringHandler;
 import ead.engine.core.evaluators.EvaluatorFactory;
 import ead.engine.core.game.GameState;
 import ead.engine.core.gameobjects.factories.EventGOFactory;

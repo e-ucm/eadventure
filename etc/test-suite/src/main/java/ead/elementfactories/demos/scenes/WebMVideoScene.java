@@ -37,13 +37,13 @@
 
 package ead.elementfactories.demos.scenes;
 
-import ead.common.model.elements.VideoScene;
 import ead.common.model.elements.effects.ChangeSceneEf;
-import ead.common.model.elements.guievents.EAdKeyEvent;
+import ead.common.model.elements.guievents.KeyGEv;
 import ead.common.model.elements.scenes.SceneElementImpl;
-import ead.common.resources.assets.drawable.basics.ImageImpl;
+import ead.common.model.elements.scenes.VideoScene;
+import ead.common.resources.assets.drawable.basics.Image;
+import ead.common.resources.assets.multimedia.EAdVideo;
 import ead.common.resources.assets.multimedia.Video;
-import ead.common.resources.assets.multimedia.VideoImpl;
 import ead.elementfactories.EAdElementsFactory;
 import ead.elementfactories.demos.SceneDemo;
 
@@ -51,7 +51,7 @@ public class WebMVideoScene extends VideoScene implements SceneDemo {
 
 	public WebMVideoScene() {
 		setId("videoScene");
-		Video video = new VideoImpl("@binary/Heimlich.AVIXVID.webm");
+		EAdVideo video = new Video("@binary/Heimlich.AVIXVID.webm");
 		getDefinition().getResources().addAsset(VideoScene.video, video);
 		
 		ChangeSceneEf changeScene = new ChangeSceneEf();
@@ -60,11 +60,11 @@ public class WebMVideoScene extends VideoScene implements SceneDemo {
 		SceneElementImpl goRightArrow = EAdElementsFactory
 				.getInstance()
 				.getSceneElementFactory()
-				.createSceneElement(new ImageImpl("@drawable/arrow_right.png"),
+				.createSceneElement(new Image("@drawable/arrow_right.png"),
 						200, 60, changeScene);
 		this.getComponents().add(goRightArrow);
 		
-		goRightArrow.addBehavior(EAdKeyEvent.KEY_ARROW_RIGHT, changeScene);
+		goRightArrow.addBehavior(KeyGEv.KEY_ARROW_RIGHT, changeScene);
 
 	}
 	

@@ -48,16 +48,16 @@ import ead.common.model.elements.EAdCondition;
 import ead.common.model.elements.EAdEffect;
 import ead.common.model.elements.conditions.NOTCond;
 import ead.common.model.elements.effects.ChangeSceneEf;
-import ead.common.model.elements.guievents.EAdMouseEvent;
+import ead.common.model.elements.guievents.MouseGEv;
 import ead.common.model.elements.scene.EAdScene;
 import ead.common.model.elements.scene.EAdSceneElement;
 import ead.common.model.elements.scenes.SceneElementImpl;
 import ead.common.model.elements.transitions.EAdTransition;
 import ead.common.model.predef.effects.ChangeCursorEf;
 import ead.common.params.text.EAdString;
-import ead.common.resources.StringHandler;
+import ead.common.resources.assets.drawable.basics.EAdImage;
 import ead.common.resources.assets.drawable.basics.Image;
-import ead.common.resources.assets.drawable.basics.ImageImpl;
+import ead.common.util.StringHandler;
 import es.eucm.eadventure.common.data.adventure.AdventureData;
 import es.eucm.eadventure.common.data.chapter.Exit;
 import es.eucm.eadventure.common.data.chapter.ExitLook;
@@ -155,19 +155,19 @@ public class ExitImporter extends ElementImporter<Exit> {
 		newExit.setVarInitialValue(SceneElementImpl.VAR_NAME, name);
 
 		// Change cursor
-		Image cursor = null;
+		EAdImage cursor = null;
 		if (exitLook.getCursorPath() == null)
 			// Default
 			cursor = factory.getDefaultCursor(AdventureData.EXIT_CURSOR);
 		else
-			cursor = (ImageImpl) resourceImporter.getAssetDescritptor(
-					exitLook.getCursorPath(), ImageImpl.class);
+			cursor = (Image) resourceImporter.getAssetDescritptor(
+					exitLook.getCursorPath(), Image.class);
 		
 		ChangeCursorEf changeCursor = new ChangeCursorEf(cursor);
 		ChangeCursorEf changeCursorBack = new ChangeCursorEf(factory.getDefaultCursor(AdventureData.DEFAULT_CURSOR));
 
-		newExit.addBehavior(EAdMouseEvent.MOUSE_ENTERED, changeCursor);
-		newExit.addBehavior(EAdMouseEvent.MOUSE_EXITED, changeCursorBack);
+		newExit.addBehavior(MouseGEv.MOUSE_ENTERED, changeCursor);
+		newExit.addBehavior(MouseGEv.MOUSE_EXITED, changeCursorBack);
 	}
 
 	private void addEffects(SceneElementImpl newExit, Exit oldObject,
@@ -183,7 +183,7 @@ public class ExitImporter extends ElementImporter<Exit> {
 		for (Effect e : oldObject.getNotEffects().getEffects()) {
 			EAdEffect eadEffect = effectsImporterFactory.getEffect(e);
 			eadEffect.setCondition(new NOTCond(enableCondition));
-			newExit.addBehavior(EAdMouseEvent.MOUSE_LEFT_CLICK, eadEffect);
+			newExit.addBehavior(MouseGEv.MOUSE_LEFT_CLICK, eadEffect);
 		}
 	}
 

@@ -54,7 +54,7 @@ import com.google.inject.Injector;
 import com.google.inject.name.Names;
 
 import ead.common.model.elements.EAdAdventureModel;
-import ead.common.model.elements.EAdAdventureModelImpl;
+import ead.common.model.elements.BasicAdventureModel;
 import ead.common.reader.EAdAdventureDOMModelReader;
 
 public class EAdReaderTest extends TestCase {
@@ -73,7 +73,7 @@ public class EAdReaderTest extends TestCase {
 	public class ConfigurationModule extends AbstractModule {
 		@Override
 		protected void configure( ) {
-			bind( EAdAdventureModel.class ).to( EAdAdventureModelImpl.class );
+			bind( EAdAdventureModel.class ).to( BasicAdventureModel.class );
 			bind( String.class ).annotatedWith(Names.named("classParam")).toInstance("class");
 		}
 	}

@@ -42,10 +42,10 @@ import com.google.inject.Inject;
 import ead.common.EAdElementImporter;
 import ead.common.importer.interfaces.EAdElementFactory;
 import ead.common.model.elements.EAdAdventureModel;
-import ead.common.model.elements.EAdAdventureModelImpl;
+import ead.common.model.elements.BasicAdventureModel;
 import ead.common.model.elements.EAdChapter;
-import ead.common.model.elements.InventoryImpl;
-import ead.common.resources.StringHandler;
+import ead.common.model.elements.BasicInventory;
+import ead.common.util.StringHandler;
 import es.eucm.eadventure.common.data.adventure.AdventureData;
 import es.eucm.eadventure.common.data.chapter.Chapter;
 
@@ -74,18 +74,18 @@ public class AdventureImporter implements
 
 	@Override
 	public EAdAdventureModel init(AdventureData oldData) {
-		EAdAdventureModelImpl model = new EAdAdventureModelImpl();
+		BasicAdventureModel model = new BasicAdventureModel();
 		return model;
 	}
 
 	@Override
 	public EAdAdventureModel convert(AdventureData oldData, Object object) {
 		factory.setOldDataModel(oldData);
-		EAdAdventureModelImpl model = (EAdAdventureModelImpl) object;
+		BasicAdventureModel model = (BasicAdventureModel) object;
 		
 		// FIXME positions for the inventory (among other thins in AdventureData)
 		if (oldData.getInventoryPosition() != AdventureData.INVENTORY_NONE){
-			model.setInventory(new InventoryImpl());
+			model.setInventory(new BasicInventory());
 		}
 
 		stringsWriter.setString(model.getTitle(), oldData.getTitle());

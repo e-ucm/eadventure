@@ -47,23 +47,23 @@ import com.google.inject.Inject;
 import ead.common.interfaces.features.enums.Orientation;
 import ead.common.model.elements.EAdAction;
 import ead.common.model.elements.EAdEvent;
-import ead.common.model.elements.ResourcedElementImpl;
+import ead.common.model.elements.ResourcedElement;
 import ead.common.model.elements.extra.EAdList;
 import ead.common.model.elements.scene.EAdSceneElement;
-import ead.common.model.elements.scenes.SceneElementDefImpl;
+import ead.common.model.elements.scenes.SceneElementDef;
 import ead.common.model.elements.scenes.SceneElementImpl;
 import ead.common.model.elements.variables.EAdVarDef;
-import ead.common.params.fills.EAdPaintImpl;
+import ead.common.params.fills.PaintFill;
 import ead.common.resources.EAdBundleId;
-import ead.common.resources.StringHandler;
 import ead.common.resources.assets.AssetDescriptor;
-import ead.common.resources.assets.drawable.Drawable;
+import ead.common.resources.assets.drawable.EAdDrawable;
 import ead.common.resources.assets.drawable.basics.animation.FramesAnimation;
-import ead.common.resources.assets.drawable.compounds.OrientedDrawable;
-import ead.common.resources.assets.drawable.compounds.StateDrawable;
+import ead.common.resources.assets.drawable.compounds.EAdOrientedDrawable;
+import ead.common.resources.assets.drawable.compounds.EAdStateDrawable;
+import ead.common.resources.assets.drawable.filters.EAdFilteredDrawable;
 import ead.common.resources.assets.drawable.filters.FilteredDrawable;
-import ead.common.resources.assets.drawable.filters.FilteredDrawableImpl;
 import ead.common.util.EAdPosition;
+import ead.common.util.StringHandler;
 import ead.engine.core.game.GameLoop;
 import ead.engine.core.game.GameState;
 import ead.engine.core.game.ValueMap;
@@ -144,10 +144,10 @@ public abstract class SceneElementGOImpl<T extends EAdSceneElement> extends
 		gameState.getValueMap().remove(element);
 
 		gameState.getValueMap().setValue(element,
-				ResourcedElementImpl.VAR_BUNDLE_ID,
+				ResourcedElement.VAR_BUNDLE_ID,
 				element.getDefinition().getInitialBundle());
 		gameState.getValueMap().setValue(element.getDefinition(),
-				SceneElementDefImpl.VAR_SCENE_ELEMENT, element);
+				SceneElementDef.VAR_SCENE_ELEMENT, element);
 
 		for (Entry<EAdVarDef<?>, Object> entry : element.getVars().entrySet()) {
 			gameState.getValueMap().setValue(element, entry.getKey(),
@@ -310,7 +310,7 @@ public abstract class SceneElementGOImpl<T extends EAdSceneElement> extends
 	public AssetDescriptor getCurrentAssetDescriptor() {
 
 		AssetDescriptor a = element.getDefinition().getResources()
-				.getAsset(getCurrentBundle(), SceneElementDefImpl.appearance);
+				.getAsset(getCurrentBundle(), SceneElementDef.appearance);
 
 		return getCurrentAssetDescriptor(a);
 	}
@@ -320,20 +320,20 @@ public abstract class SceneElementGOImpl<T extends EAdSceneElement> extends
 			return null;
 
 		// FIXME this is horrible
-		if (a instanceof FilteredDrawable) {
-			return new FilteredDrawableImpl(
-					(Drawable) getCurrentAssetDescriptor(((FilteredDrawable) a)
+		if (a instanceof EAdFilteredDrawable) {
+			return new FilteredDrawable(
+					(EAdDrawable) getCurrentAssetDescriptor(((EAdFilteredDrawable) a)
 							.getDrawable()),
-					((FilteredDrawable) a).getFilter());
+					((EAdFilteredDrawable) a).getFilter());
 		}
 		// Check state
-		if (a instanceof StateDrawable) {
-			StateDrawable stateDrawable = (StateDrawable) a;
+		if (a instanceof EAdStateDrawable) {
+			EAdStateDrawable stateDrawable = (EAdStateDrawable) a;
 			return getCurrentAssetDescriptor(stateDrawable.getDrawable(state));
 		}
 		// Check orientation
-		else if (a instanceof OrientedDrawable) {
-			return getCurrentAssetDescriptor(((OrientedDrawable) a)
+		else if (a instanceof EAdOrientedDrawable) {
+			return getCurrentAssetDescriptor(((EAdOrientedDrawable) a)
 					.getDrawable(orientation));
 		}
 		// Check frame animation
@@ -377,7 +377,7 @@ public abstract class SceneElementGOImpl<T extends EAdSceneElement> extends
 
 		for (EAdBundleId bundle : bundles) {
 			AssetDescriptor a = getElement().getDefinition().getResources()
-					.getAsset(bundle, SceneElementDefImpl.appearance);
+					.getAsset(bundle, SceneElementDef.appearance);
 			getAssetsRecursively(a, assetList, true);
 		}
 
@@ -393,27 +393,27 @@ public abstract class SceneElementGOImpl<T extends EAdSceneElement> extends
 		if (a == null)
 			return;
 
-		if (a instanceof StateDrawable) {
+		if (a instanceof EAdStateDrawable) {
 			if (!allAssets)
-				getAssetsRecursively(((StateDrawable) a).getDrawable(state),
+				getAssetsRecursively(((EAdStateDrawable) a).getDrawable(state),
 						assetList, allAssets);
 			else {
-				for (String s : ((StateDrawable) a).getStates()) {
-					getAssetsRecursively(((StateDrawable) a).getDrawable(s),
+				for (String s : ((EAdStateDrawable) a).getStates()) {
+					getAssetsRecursively(((EAdStateDrawable) a).getDrawable(s),
 							assetList, allAssets);
 				}
 
 			}
 
-		} else if (a instanceof OrientedDrawable) {
+		} else if (a instanceof EAdOrientedDrawable) {
 			if (!allAssets)
 				getAssetsRecursively(
-						((OrientedDrawable) a).getDrawable(orientation),
+						((EAdOrientedDrawable) a).getDrawable(orientation),
 						assetList, allAssets);
 			else {
 
 				for (Orientation o : Orientation.values()) {
-					getAssetsRecursively(((OrientedDrawable) a).getDrawable(o),
+					getAssetsRecursively(((EAdOrientedDrawable) a).getDrawable(o),
 							assetList, allAssets);
 				}
 			}
@@ -507,7 +507,7 @@ public abstract class SceneElementGOImpl<T extends EAdSceneElement> extends
 			getRenderAsset().render(c);
 		else {
 			// FIXME Improve, when has no asset
-			c.setPaint(EAdPaintImpl.BLACK_ON_WHITE);
+			c.setPaint(PaintFill.BLACK_ON_WHITE);
 			c.fillRect(0, 0, width, height);
 		}
 	}
@@ -519,18 +519,18 @@ public abstract class SceneElementGOImpl<T extends EAdSceneElement> extends
 
 	public EAdBundleId getCurrentBundle() {
 		EAdBundleId current = gameState.getValueMap().getValue(element,
-				ResourcedElementImpl.VAR_BUNDLE_ID);
+				ResourcedElement.VAR_BUNDLE_ID);
 		if (current == null) {
 			current = element.getDefinition().getInitialBundle();
 			gameState.getValueMap().setValue(element,
-					ResourcedElementImpl.VAR_BUNDLE_ID, current);
+					ResourcedElement.VAR_BUNDLE_ID, current);
 		}
 		return current;
 	}
 
 	public void setCurrentBundle(EAdBundleId bundle) {
 		gameState.getValueMap().setValue(element,
-				ResourcedElementImpl.VAR_BUNDLE_ID, bundle);
+				ResourcedElement.VAR_BUNDLE_ID, bundle);
 	}
 
 	public void setX(int x) {

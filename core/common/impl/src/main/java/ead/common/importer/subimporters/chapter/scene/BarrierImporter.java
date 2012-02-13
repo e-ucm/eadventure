@@ -44,13 +44,13 @@ import ead.common.EAdElementImporter;
 import ead.common.model.elements.EAdCondition;
 import ead.common.model.elements.effects.variables.ChangeFieldEf;
 import ead.common.model.elements.events.ConditionedEv;
-import ead.common.model.elements.events.enums.ConditionedEventType;
+import ead.common.model.elements.events.enums.ConditionedEvType;
 import ead.common.model.elements.scene.EAdSceneElement;
-import ead.common.model.elements.scenes.SceneElementDefImpl;
+import ead.common.model.elements.scenes.SceneElementDef;
 import ead.common.model.elements.scenes.SceneElementImpl;
 import ead.common.model.elements.trajectories.NodeTrajectoryDefinition;
 import ead.common.model.elements.variables.EAdField;
-import ead.common.model.elements.variables.EAdFieldImpl;
+import ead.common.model.elements.variables.BasicField;
 import ead.common.model.elements.variables.operations.BooleanOp;
 import ead.common.resources.assets.drawable.basics.shapes.RectangleShape;
 import ead.common.util.EAdPosition;
@@ -89,12 +89,12 @@ public class BarrierImporter implements
 			ConditionedEv event = new ConditionedEv();
 			event.setId("barrierCondition");
 			event.setCondition(condition);
-			EAdField<Boolean> barrierOn = new EAdFieldImpl<Boolean>(barrier,
+			EAdField<Boolean> barrierOn = new BasicField<Boolean>(barrier,
 					NodeTrajectoryDefinition.VAR_BARRIER_ON);
-			event.addEffect(ConditionedEventType.CONDITIONS_MET,
+			event.addEffect(ConditionedEvType.CONDITIONS_MET,
 					new ChangeFieldEf(barrierOn,
 							BooleanOp.TRUE_OP));
-			event.addEffect(ConditionedEventType.CONDITIONS_UNMET,
+			event.addEffect(ConditionedEvType.CONDITIONS_UNMET,
 					new ChangeFieldEf(barrierOn,
 							BooleanOp.FALSE_OP));
 
@@ -105,7 +105,7 @@ public class BarrierImporter implements
 		barrier.getDefinition()
 				.getResources()
 				.addAsset(barrier.getDefinition().getInitialBundle(),
-						SceneElementDefImpl.appearance, rectangle);
+						SceneElementDef.appearance, rectangle);
 		barrier.setPosition(new EAdPosition(Corner.TOP_LEFT, oldObject
 				.getX(), oldObject.getY()));
 

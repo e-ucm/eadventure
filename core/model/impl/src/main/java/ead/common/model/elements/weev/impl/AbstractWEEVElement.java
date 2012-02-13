@@ -37,12 +37,12 @@
 
 package ead.common.model.elements.weev.impl;
 
-import ead.common.model.elements.EAdElementImpl;
+import ead.common.model.elements.BasicElement;
 import ead.common.model.weev.WEEVElement;
 
 /**
  * Abstract implementation of {@link WEEVElement}
  */
-public abstract class AbstractWEEVElement extends EAdElementImpl implements WEEVElement {
+public abstract class AbstractWEEVElement extends BasicElement implements WEEVElement {
 
 }

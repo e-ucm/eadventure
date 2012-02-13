@@ -37,10 +37,10 @@
 
 package ead.elementfactories.demos.scenes;
 
-import ead.common.model.elements.scenes.SceneElementDefImpl;
-import ead.common.model.elements.scenes.SceneImpl;
-import ead.common.params.fills.EAdColor;
-import ead.common.params.fills.EAdLinearGradient;
+import ead.common.model.elements.scenes.SceneElementDef;
+import ead.common.model.elements.scenes.BasicScene;
+import ead.common.params.fills.ColorFill;
+import ead.common.params.fills.LinearGradientFill;
 import ead.common.params.paint.EAdFill;
 import ead.common.params.text.EAdString;
 import ead.common.resources.assets.drawable.basics.shapes.RectangleShape;
@@ -50,24 +50,24 @@ import ead.elementfactories.demos.SceneDemo;
  * An empty scene
  * 
  */
-public class EmptyScene extends SceneImpl implements SceneDemo {
+public class EmptyScene extends BasicScene implements SceneDemo {
 
 	private RectangleShape rectangle;
 
 	public EmptyScene() {
 		super();
 		setId("EmptyScene");
-		((SceneElementDefImpl) this.getDefinition()).setName(EAdString.newEAdString("name"));
-		((SceneElementDefImpl) this.getDefinition()).setDesc(EAdString.newEAdString("desc"));
-		((SceneElementDefImpl) this.getDefinition()).setDetailDesc(EAdString.newEAdString("detailDesc"));
-		((SceneElementDefImpl) this.getDefinition()).setDoc(EAdString.newEAdString("doc"));
+		((SceneElementDef) this.getDefinition()).setName(EAdString.newEAdString("name"));
+		((SceneElementDef) this.getDefinition()).setDesc(EAdString.newEAdString("desc"));
+		((SceneElementDef) this.getDefinition()).setDetailDesc(EAdString.newEAdString("detailDesc"));
+		((SceneElementDef) this.getDefinition()).setDoc(EAdString.newEAdString("doc"));
 		
 		
 		rectangle = new RectangleShape(800, 600);
-		rectangle.setPaint(new EAdLinearGradient(new EAdColor(240, 240, 240), EAdColor.WHITE, 800, 600));
+		rectangle.setPaint(new LinearGradientFill(new ColorFill(240, 240, 240), ColorFill.WHITE, 800, 600));
 		getBackground().getDefinition().getResources().addAsset(
 				getBackground().getDefinition().getInitialBundle(),
-				SceneElementDefImpl.appearance, rectangle);
+				SceneElementDef.appearance, rectangle);
 	}
 	
 	public void setBackgroundFill( EAdFill fill ){

@@ -38,18 +38,18 @@
 package ead.elementfactories.demos.scenes;
 
 import ead.common.model.elements.EAdInventory;
-import ead.common.model.elements.InventoryImpl;
+import ead.common.model.elements.BasicInventory;
 import ead.common.model.elements.effects.ActorActionsEf;
 import ead.common.model.elements.effects.ModifyInventoryEf;
 import ead.common.model.elements.effects.enums.InventoryEffectAction;
-import ead.common.model.elements.guievents.EAdMouseEvent;
-import ead.common.model.elements.guievents.enums.MouseButtonType;
-import ead.common.model.elements.guievents.enums.MouseEventType;
+import ead.common.model.elements.guievents.MouseGEv;
+import ead.common.model.elements.guievents.enums.MouseGEvButtonType;
+import ead.common.model.elements.guievents.enums.MouseGEvType;
 import ead.common.model.elements.scene.EAdSceneElementDef;
-import ead.common.model.elements.scenes.SceneElementDefImpl;
+import ead.common.model.elements.scenes.SceneElementDef;
 import ead.common.model.elements.scenes.SceneElementImpl;
-import ead.common.params.fills.EAdColor;
-import ead.common.resources.assets.drawable.basics.ImageImpl;
+import ead.common.params.fills.ColorFill;
+import ead.common.resources.assets.drawable.basics.Image;
 import ead.common.resources.assets.drawable.basics.shapes.RectangleShape;
 import ead.elementfactories.EAdElementsFactory;
 
@@ -57,28 +57,28 @@ public class InventoryScene extends EmptyScene {
 	
 	public InventoryScene( ){
 		super();
-		SceneElementDefImpl item = new SceneElementDefImpl( new ImageImpl("@drawable/ng_key.png"));
+		SceneElementDef item = new SceneElementDef( new Image("@drawable/ng_key.png"));
 		
 		item.getActions().add(EAdElementsFactory.getInstance().getActionsFactory().getBasicAction());
 		
-		item.addBehavior(EAdMouseEvent.MOUSE_LEFT_CLICK, new ActorActionsEf( item ));
-		item.addBehavior(EAdMouseEvent.MOUSE_RIGHT_CLICK, new ActorActionsEf( item ));
-		item.addBehavior(EAdMouseEvent.getMouseEvent(MouseEventType.PRESSED, MouseButtonType.BUTTON_3), new ActorActionsEf( item ));
+		item.addBehavior(MouseGEv.MOUSE_LEFT_CLICK, new ActorActionsEf( item ));
+		item.addBehavior(MouseGEv.MOUSE_RIGHT_CLICK, new ActorActionsEf( item ));
+		item.addBehavior(MouseGEv.getMouseEvent(MouseGEvType.PRESSED, MouseGEvButtonType.BUTTON_3), new ActorActionsEf( item ));
 		
-		EAdSceneElementDef item2 = new SceneElementDefImpl( new RectangleShape( 10, 10, EAdColor.BLUE ));
-		EAdSceneElementDef item3 = new SceneElementDefImpl( new RectangleShape( 90, 90, EAdColor.GREEN ));
-		EAdInventory inventory = new InventoryImpl();
+		EAdSceneElementDef item2 = new SceneElementDef( new RectangleShape( 10, 10, ColorFill.BLUE ));
+		EAdSceneElementDef item3 = new SceneElementDef( new RectangleShape( 90, 90, ColorFill.GREEN ));
+		EAdInventory inventory = new BasicInventory();
 //		inventory.getInitialItems().add(item);
 		inventory.getInitialItems().add(item2);
 		inventory.getInitialItems().add(item3);
 		EAdElementsFactory.getInstance().setInventory(inventory);
 		
 		
-		SceneElementImpl key = new SceneElementImpl( new ImageImpl("@drawable/ng_key.png") );
+		SceneElementImpl key = new SceneElementImpl( new Image("@drawable/ng_key.png") );
 		key.setPosition(200, 200);
 		ModifyInventoryEf effect = new ModifyInventoryEf( item, InventoryEffectAction.ADD_TO_INVENTORY );
 		
-		key.addBehavior(EAdMouseEvent.MOUSE_LEFT_CLICK, effect);
+		key.addBehavior(MouseGEv.MOUSE_LEFT_CLICK, effect);
 		
 		getComponents().add(key);
 	}

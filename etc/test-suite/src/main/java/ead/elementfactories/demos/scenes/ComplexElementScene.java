@@ -42,15 +42,15 @@ import ead.common.model.elements.effects.enums.InterpolationLoopType;
 import ead.common.model.elements.effects.enums.InterpolationType;
 import ead.common.model.elements.effects.variables.ChangeFieldEf;
 import ead.common.model.elements.events.SceneElementEv;
-import ead.common.model.elements.events.enums.SceneElementEventType;
-import ead.common.model.elements.guievents.EAdMouseEvent;
-import ead.common.model.elements.scenes.ComplexSceneElementImpl;
+import ead.common.model.elements.events.enums.SceneElementEvType;
+import ead.common.model.elements.guievents.MouseGEv;
+import ead.common.model.elements.scenes.ComplexSceneElement;
 import ead.common.model.elements.scenes.SceneElementImpl;
 import ead.common.model.elements.variables.EAdField;
-import ead.common.model.elements.variables.EAdFieldImpl;
+import ead.common.model.elements.variables.BasicField;
 import ead.common.model.elements.variables.operations.ValueOp;
-import ead.common.params.fills.EAdColor;
-import ead.common.params.fills.EAdPaintImpl;
+import ead.common.params.fills.ColorFill;
+import ead.common.params.fills.PaintFill;
 import ead.common.resources.assets.drawable.basics.shapes.RectangleShape;
 import ead.common.util.EAdPosition;
 import ead.common.util.EAdPosition.Corner;
@@ -60,8 +60,8 @@ public class ComplexElementScene extends EmptyScene {
 
 	public ComplexElementScene() {
 		RectangleShape rectangle = new RectangleShape(400, 400);
-		rectangle.setPaint(EAdPaintImpl.BLACK_ON_WHITE);
-		ComplexSceneElementImpl complex = new ComplexSceneElementImpl(rectangle);
+		rectangle.setPaint(PaintFill.BLACK_ON_WHITE);
+		ComplexSceneElement complex = new ComplexSceneElement(rectangle);
 		complex.setId("complex");
 		complex.setBounds(400, 400);
 		complex.setPosition(new EAdPosition(Corner.CENTER, 400, 300));
@@ -69,8 +69,8 @@ public class ComplexElementScene extends EmptyScene {
 		SceneElementImpl e = EAdElementsFactory
 				.getInstance()
 				.getSceneElementFactory()
-				.createSceneElement(new RectangleShape(400, 400, EAdColor.BLUE),
-						new RectangleShape(400, 400, EAdColor.RED), 40, 40);
+				.createSceneElement(new RectangleShape(400, 400, ColorFill.BLUE),
+						new RectangleShape(400, 400, ColorFill.RED), 40, 40);
 
 		e.setInitialScale(0.1f);
 		e.setVarInitialValue(SceneElementImpl.VAR_ROTATION,
@@ -81,7 +81,7 @@ public class ComplexElementScene extends EmptyScene {
 
 		getComponents().add(complex);
 
-		EAdField<Float> rotation = new EAdFieldImpl<Float>(complex,
+		EAdField<Float> rotation = new BasicField<Float>(complex,
 				SceneElementImpl.VAR_ROTATION);
 
 		InterpolationEf effect = new InterpolationEf(rotation, 0,
@@ -89,14 +89,14 @@ public class ComplexElementScene extends EmptyScene {
 				InterpolationType.LINEAR);
 
 		SceneElementEv event = new SceneElementEv();
-		event.addEffect(SceneElementEventType.ADDED_TO_SCENE, effect);
+		event.addEffect(SceneElementEvType.FIRST_UPDATE, effect);
 
 		complex.getEvents().add(event);
 
-		EAdField<Float> rotation2 = new EAdFieldImpl<Float>(e,
+		EAdField<Float> rotation2 = new BasicField<Float>(e,
 				SceneElementImpl.VAR_ROTATION);
 
-		e.addBehavior(EAdMouseEvent.MOUSE_RIGHT_CLICK,
+		e.addBehavior(MouseGEv.MOUSE_RIGHT_CLICK,
 				new ChangeFieldEf(rotation,
 						new ValueOp((float) 0.1f)));
 
@@ -105,18 +105,18 @@ public class ComplexElementScene extends EmptyScene {
 				InterpolationType.LINEAR);
 
 		SceneElementEv event2 = new SceneElementEv();
-		event2.addEffect(SceneElementEventType.ADDED_TO_SCENE, effect2);
+		event2.addEffect(SceneElementEvType.FIRST_UPDATE, effect2);
 
 		e.getEvents().add(event2);
 
-		EAdField<Float> scale = new EAdFieldImpl<Float>(complex,
+		EAdField<Float> scale = new BasicField<Float>(complex,
 				SceneElementImpl.VAR_SCALE);
 
 		complex.setInitialScale(0.5f);
 		InterpolationEf effect3 = new InterpolationEf(scale,
 				0.0f, 1.5f, 5000, InterpolationLoopType.REVERSE, InterpolationType.LINEAR);
 
-		event2.addEffect(SceneElementEventType.ADDED_TO_SCENE, effect3);
+		event2.addEffect(SceneElementEvType.FIRST_UPDATE, effect3);
 
 	}
 

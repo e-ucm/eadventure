@@ -41,18 +41,18 @@ import com.google.inject.Inject;
 
 import ead.common.GenericImporter;
 import ead.common.importer.interfaces.EAdElementFactory;
-import ead.common.params.fills.EAdColor;
-import ead.common.params.fills.EAdPaintImpl;
+import ead.common.params.fills.ColorFill;
+import ead.common.params.fills.PaintFill;
 import ead.common.params.text.EAdString;
-import ead.common.resources.StringHandler;
+import ead.common.resources.assets.drawable.basics.EAdCaption;
 import ead.common.resources.assets.drawable.basics.Caption;
-import ead.common.resources.assets.drawable.basics.CaptionImpl;
+import ead.common.util.StringHandler;
 import es.eucm.eadventure.common.data.chapter.conversation.line.ConversationLine;
 import es.eucm.eadventure.common.data.chapter.elements.NPC;
 import es.eucm.eadventure.common.data.chapter.elements.Player;
 
 public class LineImporterToCaption implements
-		GenericImporter<ConversationLine, Caption> {
+		GenericImporter<ConversationLine, EAdCaption> {
 
 	@Inject
 	private EAdElementFactory factory;
@@ -60,16 +60,16 @@ public class LineImporterToCaption implements
 	@Inject
 	private StringHandler stringHandler;
 
-	public Caption init(ConversationLine line) {
+	public EAdCaption init(ConversationLine line) {
 		return null;
 	}
 
 	@Override
-	public Caption convert(ConversationLine line, Object object) {
+	public EAdCaption convert(ConversationLine line, Object object) {
 		// Set caption attributes
 		EAdString string = EAdString.newEAdString("line");
 		stringHandler.setString(string, line.getText());
-		CaptionImpl caption = new CaptionImpl(string);
+		Caption caption = new Caption(string);
 
 		NPC character = null;
 		if (line.getName().equals(Player.IDENTIFIER))
@@ -85,13 +85,13 @@ public class LineImporterToCaption implements
 			String textBorderColor = getColor(character.getTextBorderColor());
 
 			if (bg != null) {
-				EAdPaintImpl bubble = new EAdPaintImpl(
-						new EAdColor(bg), new EAdColor(borderBg));
+				PaintFill bubble = new PaintFill(
+						new ColorFill(bg), new ColorFill(borderBg));
 				caption.setBubblePaint(bubble);
 			}
 
-			EAdPaintImpl text = new EAdPaintImpl(
-					new EAdColor(textColor), new EAdColor(textBorderColor));
+			PaintFill text = new PaintFill(
+					new ColorFill(textColor), new ColorFill(textBorderColor));
 
 			caption.setTextPaint(text);
 		}

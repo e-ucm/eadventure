@@ -44,22 +44,22 @@ import com.google.gwt.inject.client.AbstractGinModule;
 import com.google.inject.Provides;
 import com.google.inject.Singleton;
 
-import ead.common.resources.StringHandler;
 import ead.common.resources.assets.AssetDescriptor;
+import ead.common.resources.assets.drawable.basics.EAdCaption;
 import ead.common.resources.assets.drawable.basics.Caption;
-import ead.common.resources.assets.drawable.basics.CaptionImpl;
-import ead.common.resources.assets.drawable.basics.ImageImpl;
-import ead.common.resources.assets.drawable.basics.SpriteImageImpl;
+import ead.common.resources.assets.drawable.basics.Image;
+import ead.common.resources.assets.drawable.basics.SpriteImage;
 import ead.common.resources.assets.drawable.basics.shapes.BezierShape;
 import ead.common.resources.assets.drawable.basics.shapes.RectangleShape;
+import ead.common.resources.assets.drawable.compounds.EAdComposedDrawable;
 import ead.common.resources.assets.drawable.compounds.ComposedDrawable;
-import ead.common.resources.assets.drawable.compounds.ComposedDrawableImpl;
+import ead.common.resources.assets.drawable.compounds.EAdDisplacedDrawable;
 import ead.common.resources.assets.drawable.compounds.DisplacedDrawable;
-import ead.common.resources.assets.drawable.compounds.DisplacedDrawableImpl;
+import ead.common.resources.assets.drawable.filters.EAdFilteredDrawable;
 import ead.common.resources.assets.drawable.filters.FilteredDrawable;
-import ead.common.resources.assets.drawable.filters.FilteredDrawableImpl;
+import ead.common.resources.assets.multimedia.EAdSound;
 import ead.common.resources.assets.multimedia.Sound;
-import ead.common.resources.assets.multimedia.SoundImpl;
+import ead.common.util.StringHandler;
 import ead.engine.core.platform.AssetHandler;
 import ead.engine.core.platform.PlayNAssetHandler;
 import ead.engine.core.platform.RuntimeAsset;
@@ -91,22 +91,22 @@ public class PlayNAssetHandlerModule extends AbstractGinModule {
 		// FIXME: There must be a better way of doing this that does not break the build
 		Map map = new HashMap();
 
-		map.put(ImageImpl.class, PlayNEngineImage.class);
-		map.put(ImageImpl.class, PlayNEngineImage.class);
+		map.put(Image.class, PlayNEngineImage.class);
+		map.put(Image.class, PlayNEngineImage.class);
+		map.put(EAdCaption.class, PlayNEngineCaption.class);
 		map.put(Caption.class, PlayNEngineCaption.class);
-		map.put(CaptionImpl.class, PlayNEngineCaption.class);
+		map.put(EAdComposedDrawable.class, RuntimeComposedDrawable.class);
 		map.put(ComposedDrawable.class, RuntimeComposedDrawable.class);
-		map.put(ComposedDrawableImpl.class, RuntimeComposedDrawable.class);
 		map.put(RectangleShape.class, PlayNBezierShape.class);
 		map.put(BezierShape.class, PlayNBezierShape.class);
+		map.put(EAdDisplacedDrawable.class, RuntimeDisplacedDrawable.class);
 		map.put(DisplacedDrawable.class, RuntimeDisplacedDrawable.class);
-		map.put(DisplacedDrawableImpl.class, RuntimeDisplacedDrawable.class);
-		map.put(SpriteImageImpl.class, RuntimeSpriteImage.class);
+		map.put(SpriteImage.class, RuntimeSpriteImage.class);
+		map.put(EAdFilteredDrawable.class, RuntimeFilteredDrawable.class);
 		map.put(FilteredDrawable.class, RuntimeFilteredDrawable.class);
-		map.put(FilteredDrawableImpl.class, RuntimeFilteredDrawable.class);
-		map.put(SpriteImageImpl.class, PlayNEngineSpriteImage.class);
+		map.put(SpriteImage.class, PlayNEngineSpriteImage.class);
+		map.put(EAdSound.class, PlayNSound.class);
 		map.put(Sound.class, PlayNSound.class);
-		map.put(SoundImpl.class, PlayNSound.class);
 
 		return (Map<Class<? extends AssetDescriptor>, Class<? extends RuntimeAsset<? extends AssetDescriptor>>>)map;
 	}

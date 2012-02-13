@@ -39,9 +39,9 @@ package ead.common.model.predef.effects;
 
 import ead.common.interfaces.Element;
 import ead.common.model.EAdElement;
-import ead.common.model.elements.ResourcedElementImpl;
+import ead.common.model.elements.ResourcedElement;
 import ead.common.model.elements.effects.variables.ChangeFieldEf;
-import ead.common.model.elements.variables.EAdFieldImpl;
+import ead.common.model.elements.variables.BasicField;
 import ead.common.model.elements.variables.operations.ValueOp;
 import ead.common.resources.EAdBundleId;
 
@@ -52,9 +52,9 @@ public class ChangeAppearanceEf extends ChangeFieldEf {
 		super();
 		this.setId("changeApperance");
 		if (element == null) 
-			this.setParentVar(ResourcedElementImpl.VAR_BUNDLE_ID);
+			this.setParentVar(ResourcedElement.VAR_BUNDLE_ID);
 		else
-			this.addField(new EAdFieldImpl<EAdBundleId>(element, ResourcedElementImpl.VAR_BUNDLE_ID));
+			this.addField(new BasicField<EAdBundleId>(element, ResourcedElement.VAR_BUNDLE_ID));
 		this.setOperation(new ValueOp(bundleId));
 	}
 

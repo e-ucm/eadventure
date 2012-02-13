@@ -42,10 +42,10 @@ import org.w3c.dom.Node;
 
 import ead.common.DOMTags;
 import ead.common.resources.EAdAssetBundle;
-import ead.common.resources.EAdAssetBundleImpl;
+import ead.common.resources.BasicAssetBundle;
 import ead.common.resources.EAdBundleId;
 import ead.common.resources.EAdResources;
-import ead.common.resources.EAdResourcesImpl;
+import ead.common.resources.BasicResources;
 import ead.common.resources.assets.AssetDescriptor;
 
 /**
@@ -70,16 +70,16 @@ public class ResourcesDOMWriter extends DOMWriter<EAdResources> {
 			node.setAttribute(DOMTags.INITIAL_BUNDLE_TAG, resources.getInitialBundle()
 					.getBundleId());
 
-		for (String assetId : ((EAdAssetBundleImpl) resources).getIds()) {
+		for (String assetId : ((BasicAssetBundle) resources).getIds()) {
 			Node assetNode = processAsset(assetId, resources.getAsset(assetId));
 			doc.adoptNode(assetNode);
 			node.appendChild(assetNode);
 		}
 
-		for (EAdBundleId bundleId : ((EAdResourcesImpl) resources)
+		for (EAdBundleId bundleId : ((BasicResources) resources)
 				.getBundleIds()) {
 			Node bundleNode = processBundle(bundleId,
-					((EAdResourcesImpl) resources).getBundle(bundleId));
+					((BasicResources) resources).getBundle(bundleId));
 			node.appendChild(bundleNode);
 		}
 
@@ -99,7 +99,7 @@ public class ResourcesDOMWriter extends DOMWriter<EAdResources> {
 		Element bundleNode = doc.createElement(DOMTags.BUNDLE_TAG);
 		bundleNode.setAttribute(DOMTags.ID_AT, id.getBundleId());
 
-		for (String assetId : ((EAdAssetBundleImpl) bundle).getIds()) {
+		for (String assetId : ((BasicAssetBundle) bundle).getIds()) {
 			if (bundle.getAsset(assetId) == null)
 				logger.warning("Null asset " + assetId + " in bundle " + id.getBundleId());
 			else {

@@ -1,10 +1,10 @@
 package ead.common.resources.assets.drawable.filters;
 
 import ead.common.interfaces.Param;
-import ead.common.resources.assets.drawable.filters.DrawableFilter;
+import ead.common.resources.assets.drawable.filters.EAdDrawableFilter;
 import ead.common.util.EAdMatrix;
 
-public class MatrixFilter implements DrawableFilter {
+public class MatrixFilter implements EAdDrawableFilter {
 
 	@Param("matrix")
 	private EAdMatrix matrix;

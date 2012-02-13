@@ -40,7 +40,7 @@ package ead.engine.core.platform;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
 
-import ead.common.params.EAdURI;
+import ead.common.util.EAdURI;
 import ead.engine.core.game.Game;
 import ead.engine.core.game.GameLoop;
 import ead.engine.core.platform.GUI;

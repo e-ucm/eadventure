@@ -42,14 +42,14 @@ import ead.common.model.elements.EAdEffect;
 import ead.common.model.elements.effects.variables.ChangeFieldEf;
 import ead.common.model.elements.enums.CommonStates;
 import ead.common.model.elements.scene.EAdSceneElementDef;
-import ead.common.model.elements.scenes.SceneElementDefImpl;
+import ead.common.model.elements.scenes.SceneElementDef;
 import ead.common.model.elements.scenes.SceneElementImpl;
 import ead.common.model.elements.variables.operations.ValueOp;
-import ead.common.resources.assets.drawable.basics.ImageImpl;
+import ead.common.resources.assets.drawable.basics.Image;
 import ead.common.resources.assets.drawable.basics.animation.Frame;
 import ead.common.resources.assets.drawable.basics.animation.FramesAnimation;
-import ead.common.resources.assets.drawable.compounds.OrientedDrawableImpl;
-import ead.common.resources.assets.drawable.compounds.StateDrawableImpl;
+import ead.common.resources.assets.drawable.compounds.OrientedDrawable;
+import ead.common.resources.assets.drawable.compounds.StateDrawable;
 
 public class NgCommon {
 
@@ -81,12 +81,12 @@ public class NgCommon {
 		int walkTime = 200;
 		int talkTime = 300;
 
-		StateDrawableImpl stateDrawables = new StateDrawableImpl();
-		mainCharacter = new SceneElementDefImpl(stateDrawables);
+		StateDrawable stateDrawables = new StateDrawable();
+		mainCharacter = new SceneElementDef(stateDrawables);
 		mainCharacter.setId("mainCharacter");
 
 		// Stand
-		OrientedDrawableImpl oriented = new OrientedDrawableImpl();
+		OrientedDrawable oriented = new OrientedDrawable();
 		// South
 		FramesAnimation frames = new FramesAnimation();
 		Frame standSouth = new Frame("@drawable/man_stand_s_1.png", notBlink);
@@ -95,7 +95,7 @@ public class NgCommon {
 
 		oriented.setDrawable(Orientation.S, frames);
 		// North
-		ImageImpl standNorth = new ImageImpl("@drawable/man_stand_n.png");
+		Image standNorth = new Image("@drawable/man_stand_n.png");
 		oriented.setDrawable(Orientation.N, standNorth);
 
 		// East
@@ -118,7 +118,7 @@ public class NgCommon {
 				oriented);
 
 		// Walk
-		oriented = new OrientedDrawableImpl();
+		oriented = new OrientedDrawable();
 		// South
 		frames = new FramesAnimation();
 		frames.addFrame(new Frame("@drawable/man_walk_s_1.png", walkTime));
@@ -148,7 +148,7 @@ public class NgCommon {
 				oriented);
 		
 		// Talk
-		oriented = new OrientedDrawableImpl();
+		oriented = new OrientedDrawable();
 		// South
 		frames = new FramesAnimation();
 		frames.addFrame(new Frame("@drawable/man_stand_s_1.png", talkTime));

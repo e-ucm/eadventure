@@ -44,13 +44,13 @@ import com.google.inject.Inject;
 import ead.common.EAdElementImporter;
 import ead.common.importer.interfaces.EAdElementFactory;
 import ead.common.model.elements.EAdChapter;
-import ead.common.model.elements.EAdChapterImpl;
+import ead.common.model.elements.BasicChapter;
 import ead.common.model.elements.EAdEvent;
 import ead.common.model.elements.events.SceneElementEv;
-import ead.common.model.elements.events.enums.SceneElementEventType;
+import ead.common.model.elements.events.enums.SceneElementEvType;
 import ead.common.model.elements.scene.EAdScene;
 import ead.common.model.predef.effects.ChangeCursorEf;
-import ead.common.resources.StringHandler;
+import ead.common.util.StringHandler;
 import es.eucm.eadventure.common.data.HasId;
 import es.eucm.eadventure.common.data.adventure.AdventureData;
 import es.eucm.eadventure.common.data.chapter.Chapter;
@@ -86,14 +86,14 @@ public class ChapterImporter implements EAdElementImporter<Chapter, EAdChapter> 
 
 	@Override
 	public EAdChapter init(Chapter oldChapter) {
-		EAdChapterImpl newChapter = new EAdChapterImpl();
+		BasicChapter newChapter = new BasicChapter();
 		newChapter.setId("chapter" + CHAPTER_ID++);
 		return newChapter;
 	}
 
 	@Override
 	public EAdChapter convert(Chapter oldChapter, Object object) {
-		EAdChapterImpl newChapter = (EAdChapterImpl) object;
+		BasicChapter newChapter = (BasicChapter) object;
 		elementFactory.setCurrentChapterModel(newChapter, oldChapter);
 
 		stringHandler.setString(newChapter.getTitle(), oldChapter.getTitle());
@@ -160,7 +160,7 @@ public class ChapterImporter implements EAdElementImporter<Chapter, EAdChapter> 
 				.getInitialGeneralScene().getId());
 
 		SceneElementEv event = new SceneElementEv();
-		event.addEffect(SceneElementEventType.ADDED_TO_SCENE, changeCursor);
+		event.addEffect(SceneElementEvType.FIRST_UPDATE, changeCursor);
 		scene.getEvents().add(event);
 
 	}

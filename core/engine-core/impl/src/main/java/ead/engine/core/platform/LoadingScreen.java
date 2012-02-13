@@ -46,13 +46,13 @@ import ead.common.interfaces.Param;
 import ead.common.model.elements.EAdEvent;
 import ead.common.model.elements.effects.ChangeSceneEf;
 import ead.common.model.elements.events.SystemEv;
-import ead.common.model.elements.events.enums.SystemEventType;
+import ead.common.model.elements.events.enums.SystemEvType;
 import ead.common.model.elements.scene.EAdScene;
-import ead.common.model.elements.scenes.SceneElementDefImpl;
-import ead.common.model.elements.scenes.SceneImpl;
-import ead.common.resources.assets.drawable.basics.ImageImpl;
+import ead.common.model.elements.scenes.SceneElementDef;
+import ead.common.model.elements.scenes.BasicScene;
+import ead.common.resources.assets.drawable.basics.Image;
 
-public class LoadingScreen extends SceneImpl implements EAdScene {
+public class LoadingScreen extends BasicScene implements EAdScene {
 
 	private Logger logger = Logger.getLogger("LoadingScreen");
 
@@ -69,13 +69,13 @@ public class LoadingScreen extends SceneImpl implements EAdScene {
 				.getDefinition()
 				.getResources()
 				.addAsset(getBackground().getDefinition().getInitialBundle(),
-						SceneElementDefImpl.appearance,
-						new ImageImpl("@drawable/loading.png"));
+						SceneElementDef.appearance,
+						new Image("@drawable/loading.png"));
 		EAdEvent event = new SystemEv();
 		event.setId("startEvent");
 		effect = new ChangeSceneEf();
 		effect.setId("LoadingChangeScreen");
-		event.addEffect(SystemEventType.GAME_LOADED, effect);
+		event.addEffect(SystemEvType.GAME_LOADED, effect);
 		this.getEvents().add(event);
 	}
 

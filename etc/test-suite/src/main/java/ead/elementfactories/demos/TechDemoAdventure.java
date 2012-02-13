@@ -3,8 +3,8 @@ package ead.elementfactories.demos;
 import java.util.ArrayList;
 import java.util.List;
 
-import ead.common.model.elements.EAdAdventureModelImpl;
-import ead.common.model.elements.EAdChapterImpl;
+import ead.common.model.elements.BasicAdventureModel;
+import ead.common.model.elements.BasicChapter;
 import ead.common.model.elements.scene.EAdScene;
 import ead.elementfactories.demos.normalguy.NgMainScreen;
 import ead.elementfactories.demos.scenes.BVSScene;
@@ -26,14 +26,14 @@ import ead.elementfactories.demos.scenes.ShowQuestionScene;
 import ead.elementfactories.demos.scenes.SpeakAndMoveScene;
 import ead.elementfactories.demos.scenes.TrajectoriesScene;
 
-public class TechDemoAdventure extends EAdAdventureModelImpl {
+public class TechDemoAdventure extends BasicAdventureModel {
 	
 	private List<SceneDemo> sceneDemos;
 	
-	private EAdChapterImpl chapter;
+	private BasicChapter chapter;
 	
 	public TechDemoAdventure( ){
-		chapter = new EAdChapterImpl();
+		chapter = new BasicChapter();
 		this.getChapters().add(chapter);
 		
 		

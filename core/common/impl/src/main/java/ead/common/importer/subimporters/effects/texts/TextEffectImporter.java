@@ -50,15 +50,19 @@ import ead.common.model.elements.effects.text.SpeakEf;
 import ead.common.model.elements.variables.EAdField;
 import ead.common.model.elements.variables.EAdOperation;
 import ead.common.model.elements.variables.operations.BooleanOp;
-import ead.common.resources.StringHandler;
+import ead.common.params.fills.ColorFill;
+import ead.common.params.fills.PaintFill;
+import ead.common.resources.assets.drawable.basics.EAdCaption;
 import ead.common.resources.assets.drawable.basics.shapes.extra.BalloonType;
+import ead.common.util.StringHandler;
 import es.eucm.eadventure.common.data.chapter.conditions.Condition;
 import es.eucm.eadventure.common.data.chapter.conditions.Conditions;
 import es.eucm.eadventure.common.data.chapter.effects.AbstractEffect;
+import es.eucm.eadventure.common.data.chapter.elements.NPC;
 
 public abstract class TextEffectImporter<T extends AbstractEffect> extends
 		EffectImporter<T, SpeakEf> {
-	
+
 	public static final String WHISPER = "#:*";
 	public static final String THOUGHT = "#O";
 	public static final String YELL = "#!";
@@ -149,8 +153,7 @@ public abstract class TextEffectImporter<T extends AbstractEffect> extends
 				return null;
 			}
 			if (op1 != null && number != null)
-				return new BooleanOp(new OperationCond(op1, number,
-						comparator));
+				return new BooleanOp(new OperationCond(op1, number, comparator));
 		}
 
 		return null;
@@ -178,7 +181,7 @@ public abstract class TextEffectImporter<T extends AbstractEffect> extends
 		}
 		return finalText;
 	}
-	
+
 	/**
 	 * Sets the ballon type for the effect and deletes the balloon type tag form
 	 * the line and returns it
@@ -203,6 +206,40 @@ public abstract class TextEffectImporter<T extends AbstractEffect> extends
 
 		effect.setBalloonType(type);
 		return line;
+	}
+
+	public static void setSpeakEffect(SpeakEf effect, String originalLine,
+			NPC npc, EAdElementFactory factory, StringHandler stringHandler) {
+		if (originalLine != null) {
+			EAdCaption caption = effect.getCaption();
+			String line = setBallonType(effect, originalLine);
+			translateText(stringHandler, caption, line, factory);
+
+		}
+
+		ColorFill center = new ColorFill("0x"
+				+ npc.getTextFrontColor().substring(1) + "ff");
+		ColorFill border = new ColorFill("0x"
+				+ npc.getTextBorderColor().substring(1) + "ff");
+
+		ColorFill bubbleCenter = new ColorFill("0x"
+				+ npc.getBubbleBkgColor().substring(1) + "ff");
+		ColorFill bubbleBorder = new ColorFill("0x"
+				+ npc.getBubbleBorderColor().substring(1) + "ff");
+
+		effect.setColor(new PaintFill(center, border), new PaintFill(
+				bubbleCenter, bubbleBorder));
+	}
+
+	public static void translateText(StringHandler stringHandler,
+			EAdCaption caption, String originalLine, EAdElementFactory factory) {
+
+		for (EAdOperation op : TextEffectImporter.getOperations(originalLine,
+				factory)) {
+			caption.getFields().add(op);
+		}
+		String finalLine = TextEffectImporter.translateLine(originalLine);
+		stringHandler.setString(caption.getText(), finalLine);
 	}
 
 }

@@ -55,18 +55,18 @@ import ead.common.model.elements.effects.ChangeSceneEf;
 import ead.common.model.elements.effects.EffectsMacro;
 import ead.common.model.elements.effects.TriggerMacroEf;
 import ead.common.model.elements.events.TimedEv;
-import ead.common.model.elements.events.enums.TimedEventType;
-import ead.common.model.elements.guievents.EAdMouseEvent;
+import ead.common.model.elements.events.enums.TimedEvType;
+import ead.common.model.elements.guievents.MouseGEv;
 import ead.common.model.elements.scene.EAdScene;
 import ead.common.model.elements.scenes.SceneElementImpl;
-import ead.common.model.elements.scenes.SceneImpl;
+import ead.common.model.elements.scenes.BasicScene;
 import ead.common.model.elements.transitions.EAdTransition;
 import ead.common.model.elements.transitions.EmptyTransition;
-import ead.common.resources.StringHandler;
-import ead.common.resources.assets.drawable.basics.Image;
+import ead.common.resources.assets.drawable.basics.EAdImage;
 import ead.common.resources.assets.drawable.basics.animation.FramesAnimation;
+import ead.common.resources.assets.multimedia.EAdSound;
 import ead.common.resources.assets.multimedia.Sound;
-import ead.common.resources.assets.multimedia.SoundImpl;
+import ead.common.util.StringHandler;
 import es.eucm.eadventure.common.data.chapter.conditions.Conditions;
 import es.eucm.eadventure.common.data.chapter.resources.Resources;
 import es.eucm.eadventure.common.data.chapter.scenes.Slidescene;
@@ -99,7 +99,7 @@ public class SlidesceneImporter implements
 
 	@Override
 	public EAdScene init(Slidescene oldSlideScene) {
-		EAdScene scene = new SceneImpl();
+		EAdScene scene = new BasicScene();
 		scene.setId(oldSlideScene.getId() + "_slide_1");
 		return scene;
 	}
@@ -139,8 +139,8 @@ public class SlidesceneImporter implements
 			if (i == 0)
 				scenes[i] = cutscene;
 			else
-				scenes[i] = new SceneImpl();
-			Image drawable = (Image) asset.getFrame(i).getDrawable();
+				scenes[i] = new BasicScene();
+			EAdImage drawable = (EAdImage) asset.getFrame(i).getDrawable();
 			SceneElementImpl background = new SceneElementImpl(drawable);
 			// Adjust scene background to 800x600 (restriction from old model)
 			Dimension d = resourceImporter.getDimensionsForNewImage(drawable.getUri().getPath());
@@ -164,7 +164,7 @@ public class SlidesceneImporter implements
 			}
 
 			scenes[i].getBackground().addBehavior(
-					EAdMouseEvent.MOUSE_LEFT_CLICK, effect);
+					MouseGEv.MOUSE_LEFT_CLICK, effect);
 			
 			if ( i != scenes.length - 1 ){
 				EAdEvent changeEvent = getChangeSceneEvent(scenes[i + 1], asset.getFrame(i).getTime(), effect);
@@ -179,8 +179,8 @@ public class SlidesceneImporter implements
 			String musicPath = r.getAssetPath(Slidescene.RESOURCE_TYPE_MUSIC);
 
 			if (musicPath != null) {
-				Sound sound = (Sound) resourceImporter.getAssetDescritptor(
-						musicPath, SoundImpl.class);
+				EAdSound sound = (EAdSound) resourceImporter.getAssetDescritptor(
+						musicPath, Sound.class);
 				chapter.getResources().addAsset(chapter.getInitialBundle(),
 						EAdChapter.music, sound);
 			}
@@ -192,7 +192,7 @@ public class SlidesceneImporter implements
 		TimedEv event = new TimedEv( );
 		event.setRepeats(1);
 		event.setTime(time);
-		event.addEffect(TimedEventType.START_TIME, changeScene);
+		event.addEffect(TimedEvType.START_TIME, changeScene);
 		return event;
 	}
 

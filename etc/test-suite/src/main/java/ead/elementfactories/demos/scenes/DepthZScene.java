@@ -43,14 +43,14 @@ import ead.common.model.elements.effects.enums.InterpolationType;
 import ead.common.model.elements.effects.variables.ChangeFieldEf;
 import ead.common.model.elements.events.SceneElementEv;
 import ead.common.model.elements.events.TimedEv;
-import ead.common.model.elements.events.enums.SceneElementEventType;
-import ead.common.model.elements.events.enums.TimedEventType;
+import ead.common.model.elements.events.enums.SceneElementEvType;
+import ead.common.model.elements.events.enums.TimedEvType;
 import ead.common.model.elements.scenes.SceneElementImpl;
 import ead.common.model.elements.variables.EAdField;
-import ead.common.model.elements.variables.EAdFieldImpl;
+import ead.common.model.elements.variables.BasicField;
 import ead.common.model.elements.variables.operations.MathOp;
-import ead.common.params.fills.EAdColor;
-import ead.common.params.fills.EAdPaintImpl;
+import ead.common.params.fills.ColorFill;
+import ead.common.params.fills.PaintFill;
 import ead.common.resources.assets.drawable.basics.shapes.CircleShape;
 import ead.common.resources.assets.drawable.basics.shapes.RectangleShape;
 import ead.common.util.EAdPosition;
@@ -62,15 +62,15 @@ public class DepthZScene extends EmptyScene {
 		
 		int totalTime = 2000;
 		
-		SceneElementImpl e1 = new SceneElementImpl(new RectangleShape( 50, 500, new EAdPaintImpl( EAdColor.RED, EAdColor.BLACK ) ));
+		SceneElementImpl e1 = new SceneElementImpl(new RectangleShape( 50, 500, new PaintFill( ColorFill.RED, ColorFill.BLACK ) ));
 		e1.setPosition(new EAdPosition( Corner.CENTER, 400, 300 ));
 		getComponents().add(e1);
 		
-		SceneElementImpl e2 = new SceneElementImpl( new CircleShape( 20, 20, 20, 20, new EAdPaintImpl( EAdColor.GREEN, EAdColor.BLACK ) ));
+		SceneElementImpl e2 = new SceneElementImpl( new CircleShape( 20, 20, 20, 20, new PaintFill( ColorFill.GREEN, ColorFill.BLACK ) ));
 		e2.setPosition(new EAdPosition( Corner.CENTER, 10, 300 ));
 		getComponents().add(e2);
 		
-		EAdField<Integer> xField = new EAdFieldImpl<Integer>(e2, SceneElementImpl.VAR_X);
+		EAdField<Integer> xField = new BasicField<Integer>(e2, SceneElementImpl.VAR_X);
 		InterpolationEf effect = new InterpolationEf(xField, 50, 750, totalTime, InterpolationLoopType.REVERSE, InterpolationType.LINEAR);
 		
 		TimedEv timedEvent = new TimedEv();
@@ -78,20 +78,20 @@ public class DepthZScene extends EmptyScene {
 		e2.setVarInitialValue(SceneElementImpl.VAR_Z, 1);
 		e2.setVarInitialValue(SceneElementImpl.VAR_SCALE, 1.2f);
 		
-		EAdField<Integer> zField = new EAdFieldImpl<Integer>(e2, SceneElementImpl.VAR_Z);
+		EAdField<Integer> zField = new BasicField<Integer>(e2, SceneElementImpl.VAR_Z);
 		ChangeFieldEf changeZ = new ChangeFieldEf( zField, new MathOp("- [0]", zField ));
 		changeZ.setId("changeZ");
 		
-		EAdField<Float> scaleField = new EAdFieldImpl<Float>(e2, SceneElementImpl.VAR_SCALE);
+		EAdField<Float> scaleField = new BasicField<Float>(e2, SceneElementImpl.VAR_SCALE);
 		ChangeFieldEf changeScale = new ChangeFieldEf( scaleField, new MathOp("1 / [0]", scaleField ));
 		changeScale.setId("changeSacle");
-		timedEvent.addEffect(TimedEventType.START_TIME, changeScale);
-		timedEvent.addEffect(TimedEventType.START_TIME, changeZ);
+		timedEvent.addEffect(TimedEvType.START_TIME, changeScale);
+		timedEvent.addEffect(TimedEvType.START_TIME, changeZ);
 		e2.getEvents().add(timedEvent);
 		
 		
 		SceneElementEv event = new SceneElementEv();
-		event.addEffect(SceneElementEventType.ADDED_TO_SCENE, effect);
+		event.addEffect(SceneElementEvType.FIRST_UPDATE, effect);
 		
 		e2.getEvents().add(event);
 		

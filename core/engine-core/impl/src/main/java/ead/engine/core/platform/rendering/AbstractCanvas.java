@@ -42,7 +42,7 @@ import java.util.logging.Logger;
 import com.google.inject.Inject;
 
 import ead.common.params.paint.EAdPaint;
-import ead.common.resources.assets.drawable.filters.DrawableFilter;
+import ead.common.resources.assets.drawable.filters.EAdDrawableFilter;
 import ead.engine.core.platform.DrawableAsset;
 import ead.engine.core.platform.FontHandler;
 import ead.engine.core.platform.rendering.GenericCanvas;
@@ -83,7 +83,7 @@ public abstract class AbstractCanvas<T> implements GenericCanvas<T> {
 		return g;
 	}
 	
-	public void setFilter(DrawableAsset<?, T> drawable, DrawableFilter filter){
+	public void setFilter(DrawableAsset<?, T> drawable, EAdDrawableFilter filter){
 		filterFactory.applyFilter(drawable, filter, this);
 	}
 

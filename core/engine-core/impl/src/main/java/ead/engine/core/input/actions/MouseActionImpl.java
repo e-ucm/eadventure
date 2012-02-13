@@ -37,11 +37,11 @@
 
 package ead.engine.core.input.actions;
 
-import ead.common.model.elements.guievents.EAdMouseEvent;
-import ead.common.model.elements.guievents.enums.MouseButtonType;
-import ead.common.model.elements.guievents.enums.MouseEventType;
+import ead.common.model.elements.guievents.MouseGEv;
+import ead.common.model.elements.guievents.enums.MouseGEvButtonType;
+import ead.common.model.elements.guievents.enums.MouseGEvType;
 
-public class MouseActionImpl extends AbstractInputAction<EAdMouseEvent> {
+public class MouseActionImpl extends AbstractInputAction<MouseGEv> {
 
 	/**
 	 * Virtual X coordinate where the action was performed.
@@ -53,14 +53,14 @@ public class MouseActionImpl extends AbstractInputAction<EAdMouseEvent> {
 	 */
 	private int virtualY;
 
-	public MouseActionImpl(EAdMouseEvent event, int virtualX, int virtualY) {
+	public MouseActionImpl(MouseGEv event, int virtualX, int virtualY) {
 		super( event );
 		this.virtualX = virtualX;
 		this.virtualY = virtualY;
 	}
 	
-	public MouseActionImpl(MouseEventType type, MouseButtonType button, int virtualX, int virtualY ){
-		this( new EAdMouseEvent( type, button), virtualX, virtualY);
+	public MouseActionImpl(MouseGEvType type, MouseGEvButtonType button, int virtualX, int virtualY ){
+		this( new MouseGEv( type, button), virtualX, virtualY);
 	}
 
 	/**
@@ -77,11 +77,11 @@ public class MouseActionImpl extends AbstractInputAction<EAdMouseEvent> {
 		return virtualY;
 	}
 
-	public MouseEventType getType() {
+	public MouseGEvType getType() {
 		return event.getType();
 	}
 
-	public MouseButtonType getButton() {
+	public MouseGEvButtonType getButton() {
 		return event.getButton();
 	}
 

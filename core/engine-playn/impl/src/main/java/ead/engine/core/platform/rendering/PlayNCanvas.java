@@ -49,11 +49,11 @@ import playn.core.TextFormat.Effect;
 
 import com.google.inject.Inject;
 
-import ead.common.params.fills.EAdColor;
-import ead.common.params.fills.EAdLinearGradient;
+import ead.common.params.fills.ColorFill;
+import ead.common.params.fills.LinearGradientFill;
 import ead.common.params.paint.EAdFill;
 import ead.common.params.text.EAdFont;
-import ead.common.resources.assets.drawable.basics.Shape;
+import ead.common.resources.assets.drawable.basics.EAdShape;
 import ead.common.util.EAdMatrix;
 import ead.common.util.EAdRectangle;
 import ead.common.util.ReflectionProvider;
@@ -91,7 +91,7 @@ public class PlayNCanvas extends AbstractCanvas<Canvas> {
 	}
 
 	@Override
-	public void drawShape(DrawableAsset<? extends Shape, Canvas> shape) {
+	public void drawShape(DrawableAsset<? extends EAdShape, Canvas> shape) {
 		Path s = ((PlayNBezierShape) shape).getShape();
 		// Fill
 		if (paint.getFill() != null) {
@@ -124,13 +124,13 @@ public class PlayNCanvas extends AbstractCanvas<Canvas> {
 	}
 
 	private void updatePaintFill(EAdFill fill) {
-		if (fill instanceof EAdColor) {
-			EAdColor c = (EAdColor) fill;
+		if (fill instanceof ColorFill) {
+			ColorFill c = (ColorFill) fill;
 			g.setFillColor(Color.argb(c.getAlpha(), c.getRed(), c.getGreen(),
 					c.getBlue()));
-		} else if (fill instanceof EAdLinearGradient) {
-			EAdLinearGradient gradient = (EAdLinearGradient) fill;
-			EAdColor c = gradient.getColor1();
+		} else if (fill instanceof LinearGradientFill) {
+			LinearGradientFill gradient = (LinearGradientFill) fill;
+			ColorFill c = gradient.getColor1();
 			int cint1 = Color.argb(c.getAlpha(), c.getRed(), c.getGreen(),
 					c.getBlue());
 			c = gradient.getColor2();
@@ -145,11 +145,11 @@ public class PlayNCanvas extends AbstractCanvas<Canvas> {
 	}
 
 	private void updatePaintBorder(EAdFill border) {
-		EAdColor c = EAdColor.BLACK;
-		if (border instanceof EAdColor) {
-			c = (EAdColor) border;
-		} else if (border instanceof EAdLinearGradient) {
-			c = ((EAdLinearGradient) border).getColor1();
+		ColorFill c = ColorFill.BLACK;
+		if (border instanceof ColorFill) {
+			c = (ColorFill) border;
+		} else if (border instanceof LinearGradientFill) {
+			c = ((LinearGradientFill) border).getColor1();
 		}
 		g.setStrokeColor(Color.argb(c.getAlpha(), c.getRed(), c.getGreen(),
 				c.getBlue()));
@@ -212,11 +212,11 @@ public class PlayNCanvas extends AbstractCanvas<Canvas> {
 	}
 
 	private int getColor(EAdFill fill) {
-		EAdColor c = EAdColor.TRANSPARENT;
-		if (fill instanceof EAdColor) {
-			c = (EAdColor) fill;
-		} else if (fill instanceof EAdLinearGradient) {
-			c = ((EAdLinearGradient) fill).getColor1();
+		ColorFill c = ColorFill.TRANSPARENT;
+		if (fill instanceof ColorFill) {
+			c = (ColorFill) fill;
+		} else if (fill instanceof LinearGradientFill) {
+			c = ((LinearGradientFill) fill).getColor1();
 		}
 		return Color.argb(c.getAlpha(), c.getRed(), c.getGreen(), c.getBlue());
 	}

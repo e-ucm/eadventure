@@ -42,11 +42,11 @@ import ead.common.model.elements.extra.EAdList;
 import ead.common.model.elements.extra.EAdListImpl;
 import ead.common.model.elements.scene.EAdScene;
 import ead.common.model.elements.variables.EAdVarDef;
-import ead.common.model.elements.variables.VarDefImpl;
+import ead.common.model.elements.variables.VarDef;
 
-public class ComposedScene extends SceneImpl implements EAdScene {
+public class ComposedScene extends BasicScene implements EAdScene {
 	
-	public static final EAdVarDef<Integer> VAR_CURRENT_SCENE = new VarDefImpl<Integer>(
+	public static final EAdVarDef<Integer> VAR_CURRENT_SCENE = new VarDef<Integer>(
 			"current_scene", Integer.class, 0);
 
 	@Param("scenes")

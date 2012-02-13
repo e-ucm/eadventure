@@ -59,7 +59,7 @@ import javax.swing.JFrame;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
-import ead.common.resources.assets.drawable.basics.BasicDrawable;
+import ead.common.resources.assets.drawable.basics.EAdBasicDrawable;
 import ead.engine.core.game.GameLoop;
 import ead.engine.core.game.GameState;
 import ead.engine.core.gameobjects.GameObjectManager;
@@ -227,7 +227,7 @@ public class DesktopGUI extends AbstractGUI<Graphics2D> implements GUI {
 		}
 	}
 
-	public RuntimeAsset<? extends BasicDrawable> commitToImage() {
+	public RuntimeAsset<? extends EAdBasicDrawable> commitToImage() {
 
 		DesktopEngineImage image = new DesktopEngineImage(
 				platformConfiguration.getWidth(),

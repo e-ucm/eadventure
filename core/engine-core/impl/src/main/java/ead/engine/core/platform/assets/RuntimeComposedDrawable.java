@@ -44,9 +44,9 @@ import java.util.logging.Logger;
 import com.google.inject.Inject;
 
 import ead.common.model.elements.extra.EAdList;
-import ead.common.resources.assets.drawable.Drawable;
-import ead.common.resources.assets.drawable.compounds.ComposedDrawable;
-import ead.common.resources.assets.drawable.compounds.DisplacedDrawable;
+import ead.common.resources.assets.drawable.EAdDrawable;
+import ead.common.resources.assets.drawable.compounds.EAdComposedDrawable;
+import ead.common.resources.assets.drawable.compounds.EAdDisplacedDrawable;
 import ead.engine.core.platform.AssetHandler;
 import ead.engine.core.platform.DrawableAsset;
 import ead.engine.core.platform.rendering.GenericCanvas;
@@ -57,8 +57,8 @@ import ead.engine.core.platform.rendering.GenericCanvas;
  * 
  */
 public class RuntimeComposedDrawable<GraphicContext> extends
-		AbstractRuntimeAsset<ComposedDrawable> implements
-		DrawableAsset<ComposedDrawable, GraphicContext> {
+		AbstractRuntimeAsset<EAdComposedDrawable> implements
+		DrawableAsset<EAdComposedDrawable, GraphicContext> {
 
 	/**
 	 * Logger
@@ -80,10 +80,10 @@ public class RuntimeComposedDrawable<GraphicContext> extends
 	}
 
 	@SuppressWarnings("unchecked")
-	public void setDescriptor(ComposedDrawable e) {
+	public void setDescriptor(EAdComposedDrawable e) {
 		super.setDescriptor(e);
 		drawables.clear();
-		for (DisplacedDrawable d : e.getAssetList()) {
+		for (EAdDisplacedDrawable d : e.getAssetList()) {
 			drawables.add((DrawableAsset<?, GraphicContext>) assetHandler.getDrawableAsset(d, null));
 		}
 	}
@@ -100,41 +100,41 @@ public class RuntimeComposedDrawable<GraphicContext> extends
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public <S extends Drawable> DrawableAsset<S, GraphicContext> getDrawable() {
+	public <S extends EAdDrawable> DrawableAsset<S, GraphicContext> getDrawable() {
 		return (DrawableAsset<S, GraphicContext>) this;
 	}
 
 	public int getWidth() {
 		int width = 0;
-		for (Drawable asset : descriptor.getAssetList())
+		for (EAdDrawable asset : descriptor.getAssetList())
 			width = Math.max(assetHandler.getDrawableAsset(asset, null).getWidth(), width);
 		return width;
 	}
 
 	public int getHeight() {
 		int height = 0;
-		for (Drawable asset : descriptor.getAssetList())
+		for (EAdDrawable asset : descriptor.getAssetList())
 			height = Math.max(assetHandler.getDrawableAsset(asset, null).getHeight(), height);
 		return height;
 	}
 
 	@Override
 	public boolean loadAsset() {
-		for (Drawable asset : descriptor.getAssetList())
+		for (EAdDrawable asset : descriptor.getAssetList())
 			assetHandler.getRuntimeAsset(asset).loadAsset();
 		return assetHandler != null;
 	}
 
 	@Override
 	public void freeMemory() {
-		for (Drawable asset : descriptor.getAssetList())
+		for (EAdDrawable asset : descriptor.getAssetList())
 			assetHandler.getRuntimeAsset(asset).freeMemory();
 	}
 
 	@Override
 	public boolean isLoaded() {
 		boolean loaded = true;
-		for (Drawable asset : descriptor.getAssetList())
+		for (EAdDrawable asset : descriptor.getAssetList())
 			loaded = loaded & assetHandler.getRuntimeAsset(asset).isLoaded();
 		return loaded;
 	}
@@ -155,7 +155,7 @@ public class RuntimeComposedDrawable<GraphicContext> extends
 		return false;
 	}
 
-	public EAdList<DisplacedDrawable> getAssetList() {
+	public EAdList<EAdDisplacedDrawable> getAssetList() {
 		return descriptor.getAssetList();
 	}
 

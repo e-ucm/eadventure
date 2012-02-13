@@ -51,8 +51,8 @@ import com.google.inject.Guice;
 import com.google.inject.Injector;
 
 import ead.common.model.elements.EAdAdventureModel;
-import ead.common.model.elements.EAdAdventureModelImpl;
-import ead.common.model.elements.EAdChapterImpl;
+import ead.common.model.elements.BasicAdventureModel;
+import ead.common.model.elements.BasicChapter;
 import ead.common.model.elements.effects.ChangeSceneEf;
 import ead.common.model.elements.scene.EAdScene;
 import ead.editor.control.CommandManager;
@@ -76,7 +76,7 @@ public class PreviewPanelComponentProvider implements ComponentProvider<PreviewP
 
 	private EAdAdventureModel model;
 
-	private EAdChapterImpl c;
+	private BasicChapter c;
 
 	@SuppressWarnings("unused")
 	private CommandManager commandManager;
@@ -95,11 +95,11 @@ public class PreviewPanelComponentProvider implements ComponentProvider<PreviewP
 				new DesktopEditorModule(), new BasicGameModule());
 
 		launcher = injector.getInstance(PlatformLauncher.class);
-		model = new EAdAdventureModelImpl();
+		model = new BasicAdventureModel();
 		if (EAdElementsFactory.getInstance().getInventory() != null) {
 			model.setInventory(EAdElementsFactory.getInstance().getInventory());
 		}
-		c = new EAdChapterImpl();
+		c = new BasicChapter();
 		model.getChapters().add(c);
 
 

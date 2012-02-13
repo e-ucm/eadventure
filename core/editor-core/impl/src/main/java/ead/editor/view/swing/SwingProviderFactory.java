@@ -41,7 +41,7 @@ import javax.swing.JComponent;
 
 import com.google.inject.Inject;
 
-import ead.common.resources.StringHandler;
+import ead.common.util.StringHandler;
 import ead.editor.control.CommandManager;
 import ead.editor.control.FieldValueReader;
 import ead.editor.view.ComponentProvider;

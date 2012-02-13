@@ -54,15 +54,15 @@ import com.google.inject.Guice;
 import com.google.inject.Injector;
 
 import ead.common.model.elements.EAdAdventureModel;
-import ead.common.model.elements.EAdAdventureModelImpl;
-import ead.common.model.elements.EAdChapterImpl;
+import ead.common.model.elements.BasicAdventureModel;
+import ead.common.model.elements.BasicChapter;
 import ead.common.reader.EAdAdventureDOMModelReader;
 import ead.common.writer.EAdAdventureModelWriter;
 
 public class EAdWriterTest extends TestCase {
 
 	private File file;
-	private EAdAdventureModelImpl model;
+	private BasicAdventureModel model;
 	private EAdAdventureModelWriter writer;
 	private EAdAdventureDOMModelReader reader;
 	private File file2;
@@ -74,8 +74,8 @@ public class EAdWriterTest extends TestCase {
 
 		file = new File("src/test/resources/result.xml");
 		file2 = new File("src/test/resources/result2.xml");
-		model = new EAdAdventureModelImpl();
-		EAdChapterImpl chapter = new EAdChapterImpl();
+		model = new BasicAdventureModel();
+		BasicChapter chapter = new BasicChapter();
 		chapter.setId("chapter1");
 
 		model.getChapters().add(chapter);
@@ -90,7 +90,7 @@ public class EAdWriterTest extends TestCase {
 	public class ConfigurationModule extends AbstractModule {
 		@Override
 		protected void configure() {
-			bind(EAdAdventureModel.class).to(EAdAdventureModelImpl.class);
+			bind(EAdAdventureModel.class).to(BasicAdventureModel.class);
 		}
 	}
 

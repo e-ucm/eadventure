@@ -45,13 +45,11 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 import ead.common.model.EAdElement;
-import ead.common.model.elements.scenes.SceneElementImpl;
 import ead.common.model.elements.variables.EAdField;
 import ead.common.model.elements.variables.EAdOperation;
 import ead.common.model.elements.variables.EAdVarDef;
 import ead.common.util.ReflectionProvider;
 import ead.engine.core.evaluators.EvaluatorFactory;
-import ead.engine.core.game.ValueMap;
 import ead.engine.core.operator.OperatorFactory;
 
 @Singleton
@@ -90,12 +88,6 @@ public class ValueMapImpl implements ValueMap {
 				|| reflectionProvider.isAssignableFrom(varDef.getType(),
 						value.getClass())) {
 			
-			if ( element != null && element.getId() != null && element.getId().equals("Player_ref") && varDef.getName().equals(SceneElementImpl.VAR_X.getName())){
-				int x = 0;
-				x *= x + x;
-			}
-			
-
 			Map<EAdVarDef<?>, Object> valMap = element == null ? systemVars
 					: map.get(getFinalElement(element));
 			if (valMap == null) {

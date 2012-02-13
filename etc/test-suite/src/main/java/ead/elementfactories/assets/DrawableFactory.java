@@ -38,19 +38,19 @@
 package ead.elementfactories.assets;
 
 import ead.common.interfaces.features.enums.Orientation;
-import ead.common.resources.assets.drawable.Drawable;
-import ead.common.resources.assets.drawable.basics.ImageImpl;
+import ead.common.resources.assets.drawable.EAdDrawable;
+import ead.common.resources.assets.drawable.basics.Image;
 import ead.common.resources.assets.drawable.basics.animation.Frame;
 import ead.common.resources.assets.drawable.basics.animation.FramesAnimation;
+import ead.common.resources.assets.drawable.compounds.EAdOrientedDrawable;
 import ead.common.resources.assets.drawable.compounds.OrientedDrawable;
-import ead.common.resources.assets.drawable.compounds.OrientedDrawableImpl;
+import ead.common.resources.assets.drawable.compounds.EAdStateDrawable;
 import ead.common.resources.assets.drawable.compounds.StateDrawable;
-import ead.common.resources.assets.drawable.compounds.StateDrawableImpl;
 
 public class DrawableFactory {
 	
-	public ImageImpl getImage( String uri ){
-		ImageImpl image = new ImageImpl( uri );
+	public Image getImage( String uri ){
+		Image image = new Image( uri );
 		return image;
 	}
 	
@@ -63,8 +63,8 @@ public class DrawableFactory {
 		
 	}
 	
-	public OrientedDrawable getOrientedDrawable( String[] uris ){
-		OrientedDrawableImpl oriented = new OrientedDrawableImpl( );
+	public EAdOrientedDrawable getOrientedDrawable( String[] uris ){
+		OrientedDrawable oriented = new OrientedDrawable( );
 		if ( uris.length == 4 ){
 			int i = 0;
 			oriented.setDrawable(Orientation.N, getImage( uris[i++]));
@@ -75,8 +75,8 @@ public class DrawableFactory {
 		return oriented;
 	}
 	
-	public StateDrawable getStateDrawable( String[] states, Drawable[] drawables){
-		StateDrawableImpl state = new StateDrawableImpl( );
+	public EAdStateDrawable getStateDrawable( String[] states, EAdDrawable[] drawables){
+		StateDrawable state = new StateDrawable( );
 		if ( states.length == drawables.length ){
 			int i = 0;
 			for ( String s: states ){

@@ -46,10 +46,10 @@ import playn.html.HtmlPlatform.Mode;
 import com.google.gwt.core.client.GWT;
 
 import ead.common.model.elements.EAdAdventureModel;
-import ead.common.model.elements.EAdAdventureModelImpl;
-import ead.common.model.elements.EAdChapterImpl;
+import ead.common.model.elements.BasicAdventureModel;
+import ead.common.model.elements.BasicChapter;
 import ead.common.model.elements.scene.EAdScene;
-import ead.common.resources.StringHandler;
+import ead.common.util.StringHandler;
 import ead.elementfactories.EAdElementsFactory;
 import ead.elementfactories.demos.scenes.InitScene;
 import ead.engine.core.EAdEngine;
@@ -89,8 +89,8 @@ public class EAdEngineHtml extends HtmlGame {
 		Game game = injector.getGame();
 		game.loadGame();
 
-		EAdAdventureModel model = new EAdAdventureModelImpl();
-		EAdChapterImpl chapter = new EAdChapterImpl();
+		EAdAdventureModel model = new BasicAdventureModel();
+		BasicChapter chapter = new BasicChapter();
 		chapter.setId("chapter1");
 
 		model.getChapters().add(chapter);

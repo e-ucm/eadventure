@@ -6,13 +6,13 @@ import com.google.inject.Guice;
 import com.google.inject.Injector;
 
 import ead.common.model.elements.EAdAdventureModel;
-import ead.common.model.elements.EAdAdventureModelImpl;
-import ead.common.model.elements.EAdChapterImpl;
+import ead.common.model.elements.BasicAdventureModel;
+import ead.common.model.elements.BasicChapter;
 import ead.common.model.elements.scene.EAdScene;
-import ead.common.params.EAdURI;
-import ead.common.params.EAdURIImpl;
 import ead.common.params.text.EAdString;
-import ead.common.resources.StringHandler;
+import ead.common.util.EAdURI;
+import ead.common.util.EAdURI;
+import ead.common.util.StringHandler;
 import ead.elementfactories.EAdElementsFactory;
 import ead.engine.core.debuggers.EAdMainDebugger;
 import ead.engine.core.debuggers.FieldsDebugger;
@@ -30,8 +30,8 @@ public class DesktopGame {
 	private String file;
 
 	public DesktopGame(EAdScene scene) {
-		EAdAdventureModel model = new EAdAdventureModelImpl();
-		EAdChapterImpl chapter = new EAdChapterImpl();
+		EAdAdventureModel model = new BasicAdventureModel();
+		BasicChapter chapter = new BasicChapter();
 		chapter.setId("chapter1");
 		chapter.getScenes().add(scene);
 		chapter.setInitialScene(scene);
@@ -60,7 +60,7 @@ public class DesktopGame {
 	public void launch() {
 		final PlatformLauncher launcher = injector
 				.getInstance(PlatformLauncher.class);
-		final EAdURI uri = ( file == null ) ? null : new EAdURIImpl(file);
+		final EAdURI uri = ( file == null ) ? null : new EAdURI(file);
 
 		EngineConfiguration conf = injector
 				.getInstance(EngineConfiguration.class);

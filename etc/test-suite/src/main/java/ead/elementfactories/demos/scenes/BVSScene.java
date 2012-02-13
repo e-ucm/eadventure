@@ -5,20 +5,20 @@ import ead.common.model.elements.effects.enums.InterpolationLoopType;
 import ead.common.model.elements.effects.enums.InterpolationType;
 import ead.common.model.elements.effects.variables.ChangeFieldEf;
 import ead.common.model.elements.events.SceneElementEv;
-import ead.common.model.elements.events.enums.SceneElementEventType;
-import ead.common.model.elements.guievents.EAdMouseEvent;
+import ead.common.model.elements.events.enums.SceneElementEvType;
+import ead.common.model.elements.guievents.MouseGEv;
 import ead.common.model.elements.scene.EAdSceneElementDef;
-import ead.common.model.elements.scenes.SceneElementDefImpl;
+import ead.common.model.elements.scenes.SceneElementDef;
 import ead.common.model.elements.scenes.SceneElementImpl;
 import ead.common.model.elements.variables.EAdField;
-import ead.common.model.elements.variables.EAdFieldImpl;
+import ead.common.model.elements.variables.BasicField;
 import ead.common.model.elements.variables.operations.ValueOp;
-import ead.common.params.EAdFontImpl;
-import ead.common.params.fills.EAdColor;
-import ead.common.params.fills.EAdPaintImpl;
+import ead.common.params.BasicFont;
+import ead.common.params.fills.ColorFill;
+import ead.common.params.fills.PaintFill;
 import ead.common.params.text.EAdString;
-import ead.common.resources.assets.drawable.basics.CaptionImpl;
-import ead.common.resources.assets.drawable.basics.ImageImpl;
+import ead.common.resources.assets.drawable.basics.Caption;
+import ead.common.resources.assets.drawable.basics.Image;
 import ead.common.resources.assets.drawable.basics.animation.Frame;
 import ead.common.resources.assets.drawable.basics.animation.FramesAnimation;
 import ead.common.util.EAdPosition;
@@ -46,8 +46,8 @@ public class BVSScene extends EmptyScene {
 		//NgCommon.init();
 		EAdSceneElementDef background = getBackground().getDefinition();
 		
-		ImageImpl drawable = new ImageImpl("@drawable/backgroundSVB.jpg");	
-		background.getResources().addAsset(background.getInitialBundle(), SceneElementDefImpl.appearance, drawable);
+		Image drawable = new Image("@drawable/backgroundSVB.jpg");	
+		background.getResources().addAsset(background.getInitialBundle(), SceneElementDef.appearance, drawable);
 		
 		//250 x 200
 		
@@ -67,52 +67,52 @@ public class BVSScene extends EmptyScene {
 		b.setPosition(new EAdPosition(Corner.TOP_LEFT, 75, 150));
 		getComponents().add(b);
 
-		CaptionImpl caption = new CaptionImpl(new EAdString("Choose how to start a cough..."));
-		caption.setFont(new EAdFontImpl(45.0f));
-		caption.setTextPaint(new EAdPaintImpl(EAdColor.GREEN, EAdColor.WHITE));
-		EAdSceneElementDef title = new SceneElementDefImpl();
-		title.getResources().addAsset(title.getInitialBundle(), SceneElementDefImpl.appearance, caption);
+		Caption caption = new Caption(new EAdString("Choose how to start a cough..."));
+		caption.setFont(new BasicFont(45.0f));
+		caption.setTextPaint(new PaintFill(ColorFill.GREEN, ColorFill.WHITE));
+		EAdSceneElementDef title = new SceneElementDef();
+		title.getResources().addAsset(title.getInitialBundle(), SceneElementDef.appearance, caption);
 		SceneElementImpl titleRef = new SceneElementImpl(title);
 		titleRef.setPosition(20, 20);
 		getComponents().add(titleRef);
 		
 		SceneElementEv event = new SceneElementEv();
 		InterpolationEf effect = new InterpolationEf(
-				new EAdFieldImpl<Integer>(titleRef,
+				new BasicField<Integer>(titleRef,
 						SceneElementImpl.VAR_X), -50, 20, 2500,
 				InterpolationLoopType.NO_LOOP, InterpolationType.BOUNCE_END);
-		event.addEffect(SceneElementEventType.ADDED_TO_SCENE, effect);
+		event.addEffect(SceneElementEvType.FIRST_UPDATE, effect);
 		effect = new InterpolationEf(
-				new EAdFieldImpl<Integer>(titleRef,
+				new BasicField<Integer>(titleRef,
 						SceneElementImpl.VAR_Y), -50, 20, 2500,
 				InterpolationLoopType.NO_LOOP, InterpolationType.BOUNCE_END);
-		event.addEffect(SceneElementEventType.ADDED_TO_SCENE, effect);
+		event.addEffect(SceneElementEvType.FIRST_UPDATE, effect);
 
 		getBackground().getEvents().add(event);
 	}
 	
 	private SceneElementImpl getButton(String[] frames) {
-		EAdSceneElementDef button = new SceneElementDefImpl();
-		button.getResources().addAsset(button.getInitialBundle(), SceneElementDefImpl.appearance, getAnimation(frames));
+		EAdSceneElementDef button = new SceneElementDef();
+		button.getResources().addAsset(button.getInitialBundle(), SceneElementDef.appearance, getAnimation(frames));
 		SceneElementImpl buttonRef = new SceneElementImpl(button);
 		buttonRef.setPosition(20, 20);
 		
-		EAdField<Integer> scale2 = new EAdFieldImpl<Integer>(buttonRef, SceneElementImpl.VAR_Z);
+		EAdField<Integer> scale2 = new BasicField<Integer>(buttonRef, SceneElementImpl.VAR_Z);
 		ChangeFieldEf e = new ChangeFieldEf(scale2, new ValueOp(1));
 		
 		InterpolationEf e2 = new InterpolationEf(
-				new EAdFieldImpl<Float>(buttonRef,
+				new BasicField<Float>(buttonRef,
 						SceneElementImpl.VAR_SCALE), 0.0f, 0.4f, 150,
 				InterpolationLoopType.NO_LOOP, InterpolationType.LINEAR);
 
-		buttonRef.addBehavior(EAdMouseEvent.MOUSE_ENTERED, e);
-		buttonRef.addBehavior(EAdMouseEvent.MOUSE_ENTERED, e2);
+		buttonRef.addBehavior(MouseGEv.MOUSE_ENTERED, e);
+		buttonRef.addBehavior(MouseGEv.MOUSE_ENTERED, e2);
 
 		e = new ChangeFieldEf(scale2, new ValueOp(0));
-		buttonRef.addBehavior(EAdMouseEvent.MOUSE_EXITED, e);
-		EAdField<Float> scale = new EAdFieldImpl<Float>(buttonRef, SceneElementImpl.VAR_SCALE);
+		buttonRef.addBehavior(MouseGEv.MOUSE_EXITED, e);
+		EAdField<Float> scale = new BasicField<Float>(buttonRef, SceneElementImpl.VAR_SCALE);
 		e = new ChangeFieldEf(scale, new ValueOp(1.0f));
-		buttonRef.addBehavior(EAdMouseEvent.MOUSE_EXITED, e);
+		buttonRef.addBehavior(MouseGEv.MOUSE_EXITED, e);
 
 		
 		return buttonRef;

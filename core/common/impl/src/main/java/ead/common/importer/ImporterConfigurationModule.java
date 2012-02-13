@@ -81,16 +81,16 @@ import ead.common.model.elements.EAdChapter;
 import ead.common.model.elements.EAdCondition;
 import ead.common.model.elements.EAdEffect;
 import ead.common.model.elements.EAdEvent;
-import ead.common.model.elements.VideoScene;
 import ead.common.model.elements.conditions.OperationCond;
 import ead.common.model.elements.effects.EffectsMacro;
 import ead.common.model.elements.effects.text.SpeakEf;
 import ead.common.model.elements.scene.EAdScene;
 import ead.common.model.elements.scene.EAdSceneElement;
 import ead.common.model.elements.scene.EAdSceneElementDef;
-import ead.common.model.elements.scenes.SceneImpl;
+import ead.common.model.elements.scenes.BasicScene;
+import ead.common.model.elements.scenes.VideoScene;
 import ead.common.model.elements.trajectories.NodeTrajectoryDefinition;
-import ead.common.resources.assets.drawable.basics.Caption;
+import ead.common.resources.assets.drawable.basics.EAdCaption;
 import ead.common.resources.assets.drawable.basics.animation.Frame;
 import ead.common.resources.assets.drawable.basics.animation.FramesAnimation;
 import es.eucm.eadventure.common.data.adventure.AdventureData;
@@ -143,7 +143,7 @@ public class ImporterConfigurationModule extends AbstractModule {
 		EAdElementFactoryImpl.importerMap.put(Chapter.class,
 				ChapterImporter.class);
 
-		bind(new TypeLiteral<EAdElementImporter<Scene, SceneImpl>>() {
+		bind(new TypeLiteral<EAdElementImporter<Scene, BasicScene>>() {
 		}).to(SceneImporter.class);
 		EAdElementFactoryImpl.importerMap.put(Scene.class, SceneImporter.class);
 
@@ -244,7 +244,7 @@ public class ImporterConfigurationModule extends AbstractModule {
 		EAdElementFactoryImpl.importerMap.put(DialogueConversationNode.class,
 				DialogueNodeImporter.class);
 
-		bind(new TypeLiteral<GenericImporter<ConversationLine, Caption>>() {
+		bind(new TypeLiteral<GenericImporter<ConversationLine, EAdCaption>>() {
 		}).to(LineImporterToCaption.class);
 		EAdElementFactoryImpl.importerMap.put(ConversationLine.class,
 				LineImporterToCaption.class);

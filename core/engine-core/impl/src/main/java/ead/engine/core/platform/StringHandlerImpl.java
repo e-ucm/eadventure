@@ -45,7 +45,7 @@ import java.util.logging.Logger;
 import com.google.inject.Singleton;
 
 import ead.common.params.text.EAdString;
-import ead.common.resources.StringHandler;
+import ead.common.util.StringHandler;
 
 @Singleton
 public class StringHandlerImpl implements StringHandler {

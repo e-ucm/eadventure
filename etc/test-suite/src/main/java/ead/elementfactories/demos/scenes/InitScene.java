@@ -44,19 +44,19 @@ import com.gwtent.reflection.client.Reflectable;
 
 import ead.common.model.elements.effects.ChangeSceneEf;
 import ead.common.model.elements.effects.text.SpeakEf;
-import ead.common.model.elements.guievents.EAdMouseEvent;
+import ead.common.model.elements.guievents.MouseGEv;
 import ead.common.model.elements.scene.EAdSceneElementDef;
-import ead.common.model.elements.scenes.SceneElementDefImpl;
+import ead.common.model.elements.scenes.SceneElementDef;
 import ead.common.model.elements.scenes.SceneElementImpl;
 import ead.common.model.elements.transitions.DisplaceTransition;
 import ead.common.model.elements.transitions.enums.DisplaceTransitionType;
 import ead.common.model.predef.sceneelements.Button;
-import ead.common.params.EAdFontImpl;
-import ead.common.params.fills.EAdColor;
-import ead.common.params.fills.EAdPaintImpl;
+import ead.common.params.BasicFont;
+import ead.common.params.fills.ColorFill;
+import ead.common.params.fills.PaintFill;
 import ead.common.params.paint.EAdFill;
 import ead.common.params.text.EAdFont;
-import ead.common.resources.assets.drawable.basics.ImageImpl;
+import ead.common.resources.assets.drawable.basics.Image;
 import ead.common.util.EAdPosition.Corner;
 import ead.elementfactories.EAdElementsFactory;
 import ead.elementfactories.StringFactory;
@@ -72,14 +72,14 @@ public class InitScene extends EmptyScene {
 
 	private EAdSceneElementDef infoButton;
 	
-	private EAdFill fill = new EAdColor(255, 255, 255, 200);
+	private EAdFill fill = new ColorFill(255, 255, 255, 200);
 	
-	private EAdFont font = new EAdFontImpl( 18 );
+	private EAdFont font = new BasicFont( 18 );
 
-	private EAdPaintImpl speakPaint = new EAdPaintImpl(fill, EAdColor.LIGHT_GRAY, 5);
+	private PaintFill speakPaint = new PaintFill(fill, ColorFill.LIGHT_GRAY, 5);
 
 	public InitScene() {
-		this.setBackground(new SceneElementImpl(new ImageImpl("@drawable/techdemo-bg.png")));
+		this.setBackground(new SceneElementImpl(new Image("@drawable/techdemo-bg.png")));
 		getBackground().setId("background");
 		initList();
 		initGOBackButton();
@@ -91,7 +91,7 @@ public class InitScene extends EmptyScene {
 			Button b = new Button();
 			sf.setString(b.getLabel(), s.getDemoName());
 			b.setPosition(x, y);
-			b.addBehavior(EAdMouseEvent.MOUSE_LEFT_PRESSED,
+			b.addBehavior(MouseGEv.MOUSE_LEFT_PRESSED,
 					new ChangeSceneEf( s, new DisplaceTransition(1000, DisplaceTransitionType.VERTICAL, true)));
 			this.getComponents().add(b);
 			s.getComponents().add(goBack);
@@ -99,10 +99,10 @@ public class InitScene extends EmptyScene {
 			info.setPosition(Corner.BOTTOM_LEFT, 80, 590);
 			SpeakEf effect = new SpeakEf();
 			effect.setId("infoSpeak");
-			effect.setColor(EAdColor.GRAY, speakPaint);
+			effect.setColor(ColorFill.GRAY, speakPaint);
 			effect.setFont(font);
 			sf.setString(effect.getString(), s.getSceneDescription());
-			info.addBehavior(EAdMouseEvent.MOUSE_LEFT_PRESSED, effect);
+			info.addBehavior(MouseGEv.MOUSE_LEFT_PRESSED, effect);
 			// info.setScale(0.5f);
 			s.getComponents().add(info);
 			y += 45;
@@ -114,16 +114,16 @@ public class InitScene extends EmptyScene {
 	}
 
 	private void initInfoButton() {
-		infoButton = new SceneElementDefImpl(new ImageImpl("@drawable/infobutton.png"));
+		infoButton = new SceneElementDef(new Image("@drawable/infobutton.png"));
 		infoButton.setId("info");
 	}
 
 	private void initGOBackButton() {
-		goBack = new SceneElementImpl(new ImageImpl(
+		goBack = new SceneElementImpl(new Image(
 				"@drawable/goback.png"));
 		goBack.setId("goBack");
 		goBack.setPosition(Corner.BOTTOM_LEFT, 10, 590);
-		goBack.addBehavior(EAdMouseEvent.MOUSE_LEFT_PRESSED,
+		goBack.addBehavior(MouseGEv.MOUSE_LEFT_PRESSED,
 				new ChangeSceneEf( this, new DisplaceTransition(1000, DisplaceTransitionType.HORIZONTAL, true)));
 		goBack.setInitialScale(0.5f);
 

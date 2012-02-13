@@ -52,7 +52,7 @@ import com.google.gwt.user.client.ui.Widget;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
-import ead.common.resources.assets.drawable.basics.ImageImpl;
+import ead.common.resources.assets.drawable.basics.Image;
 import ead.engine.core.game.GameState;
 import ead.engine.core.gameobjects.GameObjectManager;
 import ead.engine.core.gameobjects.factories.SceneElementGOFactory;
@@ -162,7 +162,7 @@ public class PlayNGUI extends AbstractGUI<Canvas> implements GUI {
 		 */
 	}
 
-	public void changeCursor(ImageImpl image) {
+	public void changeCursor(Image image) {
 		// NOT COMPATIBLE?
 	}
 

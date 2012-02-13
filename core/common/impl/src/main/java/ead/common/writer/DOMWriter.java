@@ -51,7 +51,7 @@ import org.w3c.dom.Element;
 import ead.common.DOMTags;
 import ead.common.model.EAdElement;
 import ead.common.model.elements.EAdAdventureModel;
-import ead.common.model.elements.EAdAdventureModelImpl;
+import ead.common.model.elements.BasicAdventureModel;
 import ead.common.model.elements.extra.EAdList;
 import ead.common.model.elements.extra.EAdMap;
 import ead.common.params.EAdParam;
@@ -101,7 +101,7 @@ public abstract class DOMWriter<T> {
 		mappedElement.clear();
 		paramsMap.clear();
 		mappedAsset.clear();
-		depthManager = new DepthManager(((EAdAdventureModelImpl) data).getDepthControlList());
+		depthManager = new DepthManager(((BasicAdventureModel) data).getDepthControlList());
 
 		try {
 			doc = DocumentBuilderFactory.newInstance().newDocumentBuilder()

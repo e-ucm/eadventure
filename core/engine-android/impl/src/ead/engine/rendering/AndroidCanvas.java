@@ -52,11 +52,11 @@ import android.graphics.Typeface;
 
 import com.google.inject.Inject;
 
-import ead.common.params.fills.EAdColor;
-import ead.common.params.fills.EAdLinearGradient;
+import ead.common.params.fills.ColorFill;
+import ead.common.params.fills.LinearGradientFill;
 import ead.common.params.paint.EAdFill;
 import ead.common.params.text.EAdFont;
-import ead.common.resources.assets.drawable.basics.Shape;
+import ead.common.resources.assets.drawable.basics.EAdShape;
 import ead.common.util.EAdMatrix;
 import ead.common.util.EAdRectangle;
 import ead.engine.assets.AndroidBezierShape;
@@ -109,7 +109,7 @@ public class AndroidCanvas extends AbstractCanvas<Canvas> {
 	}
 
 	@Override
-	public void drawShape(DrawableAsset<? extends Shape, Canvas> shape) {
+	public void drawShape(DrawableAsset<? extends EAdShape, Canvas> shape) {
 		Path s = ((AndroidBezierShape) shape).getShape();
 		// Fill
 		if (paint.getFill() != null) {
@@ -181,14 +181,14 @@ public class AndroidCanvas extends AbstractCanvas<Canvas> {
 		Paint p = fillCache.get(fill);
 		if (p == null) {
 			p = new Paint();
-			if (fill instanceof EAdColor) {
-				EAdColor c = (EAdColor) fill;
+			if (fill instanceof ColorFill) {
+				ColorFill c = (ColorFill) fill;
 				p.setColor(Color.argb(c.getAlpha(), c.getRed(), c.getGreen(),
 						c.getBlue()));
 
-			} else if (fill instanceof EAdLinearGradient) {
-				EAdLinearGradient gradient = (EAdLinearGradient) fill;
-				EAdColor c = gradient.getColor1();
+			} else if (fill instanceof LinearGradientFill) {
+				LinearGradientFill gradient = (LinearGradientFill) fill;
+				ColorFill c = gradient.getColor1();
 				int c1 = Color.argb(c.getAlpha(), c.getRed(), c.getGreen(),
 						c.getBlue());
 				c = gradient.getColor2();

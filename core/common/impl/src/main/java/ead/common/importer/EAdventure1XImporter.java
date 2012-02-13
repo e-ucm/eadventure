@@ -64,7 +64,7 @@ import ead.common.importer.interfaces.EAdElementFactory;
 import ead.common.importer.interfaces.ResourceImporter;
 import ead.common.model.elements.EAdAdventureModel;
 import ead.common.params.text.EAdString;
-import ead.common.resources.StringHandler;
+import ead.common.util.StringHandler;
 import ead.common.writer.EAdAdventureModelWriter;
 import es.eucm.eadventure.common.data.adventure.AdventureData;
 import es.eucm.eadventure.common.loader.InputStreamCreator;

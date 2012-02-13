@@ -39,7 +39,7 @@ package ead.common.model.elements.events;
 
 import ead.common.interfaces.Param;
 import ead.common.model.elements.EAdEffect;
-import ead.common.model.elements.EAdElementImpl;
+import ead.common.model.elements.BasicElement;
 import ead.common.model.elements.EAdEvent;
 import ead.common.model.elements.extra.EAdList;
 import ead.common.model.elements.extra.EAdListImpl;
@@ -50,7 +50,7 @@ import ead.common.model.elements.extra.EAdMapImpl;
  * <p>Abstract implementation of an eAdventure event.</p>
  * 
  */
-public abstract class AbstractEvent extends EAdElementImpl implements EAdEvent {
+public abstract class AbstractEvent extends BasicElement implements EAdEvent {
 
 	/**
 	 * List of effects

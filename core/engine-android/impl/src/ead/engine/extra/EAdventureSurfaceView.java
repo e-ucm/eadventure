@@ -50,9 +50,9 @@ import android.view.View;
 
 import com.google.inject.Singleton;
 
-import ead.common.model.elements.guievents.EAdMouseEvent;
-import ead.common.model.elements.guievents.enums.MouseButtonType;
-import ead.common.model.elements.guievents.enums.MouseEventType;
+import ead.common.model.elements.guievents.MouseGEv;
+import ead.common.model.elements.guievents.enums.MouseGEvButtonType;
+import ead.common.model.elements.guievents.enums.MouseGEvType;
 import ead.engine.core.input.InputHandler;
 import ead.engine.core.input.actions.MouseActionImpl;
 import ead.engine.core.platform.EngineConfiguration;
@@ -87,7 +87,7 @@ public class EAdventureSurfaceView extends SurfaceView implements
 		@Override
 		public boolean onDown(MotionEvent e) {
 			inputHandler.addAction(new MouseActionImpl(
-					EAdMouseEvent.MOUSE_LEFT_PRESSED, (int) e.getX(), (int) e
+					MouseGEv.MOUSE_LEFT_PRESSED, (int) e.getX(), (int) e
 							.getY()));
 			return true;
 		}
@@ -96,10 +96,10 @@ public class EAdventureSurfaceView extends SurfaceView implements
 		public boolean onSingleTapConfirmed(MotionEvent e) {
 
 			inputHandler.addAction(new MouseActionImpl(
-					EAdMouseEvent.MOUSE_LEFT_PRESSED, (int) e.getX(), (int) e
+					MouseGEv.MOUSE_LEFT_PRESSED, (int) e.getX(), (int) e
 							.getY()));
-			MouseActionImpl action = new MouseActionImpl(MouseEventType.CLICK,
-					MouseButtonType.BUTTON_1, (int) e.getX(), (int) e.getY());
+			MouseActionImpl action = new MouseActionImpl(MouseGEvType.CLICK,
+					MouseGEvButtonType.BUTTON_1, (int) e.getX(), (int) e.getY());
 			inputHandler.addAction(action);
 
 			return true;
@@ -109,10 +109,10 @@ public class EAdventureSurfaceView extends SurfaceView implements
 		public void onLongPress(MotionEvent e) {
 
 			inputHandler.addAction(new MouseActionImpl(
-					EAdMouseEvent.MOUSE_RIGHT_CLICK, (int) e.getX(), (int) e
+					MouseGEv.MOUSE_RIGHT_CLICK, (int) e.getX(), (int) e
 							.getY()));
-			MouseActionImpl action = new MouseActionImpl(MouseEventType.CLICK,
-					MouseButtonType.BUTTON_2, (int) e.getX(), (int) e.getY());
+			MouseActionImpl action = new MouseActionImpl(MouseGEvType.CLICK,
+					MouseGEvButtonType.BUTTON_2, (int) e.getX(), (int) e.getY());
 			inputHandler.addAction(action);
 		}
 
@@ -123,19 +123,19 @@ public class EAdventureSurfaceView extends SurfaceView implements
 			if (e1.getX() - e2.getX() > SWIPE_MIN_DISTANCE
 					&& Math.abs(velocityX) > SWIPE_VELOCITY) {
 				MouseActionImpl action = new MouseActionImpl(
-						MouseEventType.SWIPE_LEFT, MouseButtonType.NO_BUTTON,
+						MouseGEvType.SWIPE_LEFT, MouseGEvButtonType.NO_BUTTON,
 						(int) e2.getX(), (int) e2.getY());
 				inputHandler.addAction(action);
 			} else if (e2.getX() - e1.getX() > SWIPE_MIN_DISTANCE
 					&& Math.abs(velocityX) > SWIPE_VELOCITY) {
 				MouseActionImpl action = new MouseActionImpl(
-						MouseEventType.SWIPE_RIGHT, MouseButtonType.NO_BUTTON,
+						MouseGEvType.SWIPE_RIGHT, MouseGEvButtonType.NO_BUTTON,
 						(int) e2.getX(), (int) e2.getY());
 				inputHandler.addAction(action);
 			}
 
 			inputHandler.addAction(new MouseActionImpl(
-					EAdMouseEvent.MOUSE_LEFT_RELEASED, (int) e2.getX(),
+					MouseGEv.MOUSE_LEFT_RELEASED, (int) e2.getX(),
 					(int) e2.getY()));
 			return true;
 		}
@@ -155,12 +155,12 @@ public class EAdventureSurfaceView extends SurfaceView implements
 			int x = (int) event.getRawX();
 			int y = (int) event.getRawY() - 50;
 
-			inputHandler.addAction(new MouseActionImpl(EAdMouseEvent.MOUSE_MOVED,
+			inputHandler.addAction(new MouseActionImpl(MouseGEv.MOUSE_MOVED,
 					x, y));
 			
 			if (event.getAction() == MotionEvent.ACTION_UP) {
 				inputHandler.addAction(new MouseActionImpl(
-						EAdMouseEvent.MOUSE_LEFT_RELEASED, x, y));
+						MouseGEv.MOUSE_LEFT_RELEASED, x, y));
 			}
 
 			if (gestureDetector.onTouchEvent(event)) {

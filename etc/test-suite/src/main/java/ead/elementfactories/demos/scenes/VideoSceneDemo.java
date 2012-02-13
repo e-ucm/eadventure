@@ -37,9 +37,9 @@
 
 package ead.elementfactories.demos.scenes;
 
-import ead.common.model.elements.VideoScene;
+import ead.common.model.elements.scenes.VideoScene;
+import ead.common.resources.assets.multimedia.EAdVideo;
 import ead.common.resources.assets.multimedia.Video;
-import ead.common.resources.assets.multimedia.VideoImpl;
 import ead.elementfactories.demos.SceneDemo;
 
 public class VideoSceneDemo extends VideoScene implements SceneDemo {
@@ -47,7 +47,7 @@ public class VideoSceneDemo extends VideoScene implements SceneDemo {
 	public VideoSceneDemo() {
 		super();
 		setId("videoScene");
-		Video video = new VideoImpl("@binary/flame.mpg");
+		EAdVideo video = new Video("@binary/flame.mpg");
 		getDefinition().getResources().addAsset(VideoScene.video, video);
 	}
 

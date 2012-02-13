@@ -41,7 +41,7 @@ import com.google.inject.Inject;
 
 import ead.common.model.elements.effects.timedevents.HighlightSceneElementEf;
 import ead.common.model.elements.scenes.SceneElementImpl;
-import ead.common.resources.StringHandler;
+import ead.common.util.StringHandler;
 import ead.engine.core.game.GameLoop;
 import ead.engine.core.game.GameState;
 import ead.engine.core.gameobjects.factories.SceneElementGOFactory;

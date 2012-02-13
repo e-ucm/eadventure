@@ -39,7 +39,7 @@ package ead.common.model.predef.events;
 
 import ead.common.model.elements.effects.variables.ChangeFieldEf;
 import ead.common.model.elements.events.SceneElementEv;
-import ead.common.model.elements.events.enums.SceneElementEventType;
+import ead.common.model.elements.events.enums.SceneElementEvType;
 import ead.common.model.elements.scenes.SceneElementImpl;
 import ead.common.model.elements.variables.SystemFields;
 
@@ -57,8 +57,8 @@ public class ChaseMouseEv extends SceneElementEv {
 		chaseY.setParentVar(SceneElementImpl.VAR_Y);
 		chaseY.setOperation(SystemFields.MOUSE_Y);
 
-		addEffect(SceneElementEventType.ALWAYS, chaseX);
-		addEffect(SceneElementEventType.ALWAYS, chaseY);
+		addEffect(SceneElementEvType.ALWAYS, chaseX);
+		addEffect(SceneElementEvType.ALWAYS, chaseY);
 
 	}
 

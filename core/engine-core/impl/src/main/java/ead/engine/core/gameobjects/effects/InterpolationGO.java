@@ -43,8 +43,8 @@ import com.google.inject.Inject;
 
 import ead.common.model.EAdElement;
 import ead.common.model.elements.effects.InterpolationEf;
-import ead.common.resources.StringHandler;
-import ead.common.util.EAdInterpolator;
+import ead.common.util.Interpolator;
+import ead.common.util.StringHandler;
 import ead.engine.core.game.GameLoop;
 import ead.engine.core.game.GameState;
 import ead.engine.core.gameobjects.factories.SceneElementGOFactory;
@@ -78,7 +78,7 @@ public class InterpolationGO extends AbstractEffectGO<InterpolationEf> {
 
 	private EAdElement owner;
 
-	private EAdInterpolator interpolator;
+	private Interpolator interpolator;
 
 	@Inject
 	public InterpolationGO(AssetHandler assetHandler,
@@ -116,15 +116,15 @@ public class InterpolationGO extends AbstractEffectGO<InterpolationEf> {
 
 		switch (element.getInterpolationType()) {
 		case BOUNCE_END:
-			interpolator = EAdInterpolator.BOUNCE_END;
+			interpolator = Interpolator.BOUNCE_END;
 			break;
 		case ACCELERATE:
-			interpolator = EAdInterpolator.ACCELERATE;
+			interpolator = Interpolator.ACCELERATE;
 			break;
 		case DESACCELERATE:
-			interpolator = EAdInterpolator.DESACCELERATE;
+			interpolator = Interpolator.DESACCELERATE;
 		default:
-			interpolator = EAdInterpolator.LINEAR;
+			interpolator = Interpolator.LINEAR;
 			break;
 		}
 

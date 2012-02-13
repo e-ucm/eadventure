@@ -42,11 +42,11 @@ import com.google.inject.Inject;
 import ead.common.model.elements.effects.AddActorReferenceEf;
 import ead.common.model.elements.effects.sceneelements.AbstractSceneElementEffect;
 import ead.common.model.elements.events.SceneElementEv;
-import ead.common.model.elements.events.enums.SceneElementEventType;
+import ead.common.model.elements.events.enums.SceneElementEvType;
 import ead.common.model.elements.scene.EAdScene;
 import ead.common.model.elements.scene.EAdSceneElementDef;
 import ead.common.model.elements.scenes.SceneElementImpl;
-import ead.common.resources.StringHandler;
+import ead.common.util.StringHandler;
 import ead.engine.core.game.GameState;
 import ead.engine.core.gameobjects.factories.SceneElementGOFactory;
 import ead.engine.core.platform.AssetHandler;
@@ -72,7 +72,7 @@ public class AddActorReferenceGO extends
 			SceneElementImpl ref = new SceneElementImpl(actor);
 			ref.setPosition(element.getPosition());
 			SceneElementEv event = new SceneElementEv();
-			event.addEffect(SceneElementEventType.ADDED_TO_SCENE,
+			event.addEffect(SceneElementEvType.FIRST_UPDATE,
 					element.getInitialEffect());
 			((AbstractSceneElementEffect) element.getInitialEffect())
 					.setSceneElement(ref);

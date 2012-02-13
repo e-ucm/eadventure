@@ -40,10 +40,10 @@ package ead.common.model.elements.conditions;
 import ead.common.interfaces.Element;
 import ead.common.interfaces.Param;
 import ead.common.model.elements.EAdCondition;
-import ead.common.model.elements.ResourcedElementImpl;
+import ead.common.model.elements.ResourcedElement;
 
 @Element(runtime = NOTCond.class, detailed = NOTCond.class)
-public class NOTCond extends ResourcedElementImpl implements EAdCondition {
+public class NOTCond extends ResourcedElement implements EAdCondition {
 
 	@Param("condition")
 	private EAdCondition condition;

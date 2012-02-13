@@ -43,7 +43,7 @@ import javax.swing.event.DocumentListener;
 import javax.swing.text.JTextComponent;
 
 import ead.common.params.text.EAdString;
-import ead.common.resources.StringHandler;
+import ead.common.util.StringHandler;
 import ead.editor.control.CommandManager;
 import ead.editor.control.FieldValueReader;
 import ead.editor.control.commands.ChangeEAdStringValueCommand;

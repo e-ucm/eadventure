@@ -40,13 +40,13 @@ package ead.common.resources.assets.drawable.basics.animation;
 import ead.common.interfaces.Param;
 import ead.common.model.elements.extra.EAdList;
 import ead.common.model.elements.extra.EAdListImpl;
-import ead.common.resources.assets.drawable.Drawable;
+import ead.common.resources.assets.drawable.EAdDrawable;
 
 /**
  * Represents a frames animation. Contains frames
  * 
  */
-public class FramesAnimation implements Drawable {
+public class FramesAnimation implements EAdDrawable {
 
 	@Param("frames")
 	private EAdList<Frame> frames;

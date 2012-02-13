@@ -48,7 +48,7 @@ import java.util.logging.Logger;
 import com.google.inject.Inject;
 import com.sun.jna.NativeLibrary;
 
-import ead.common.resources.assets.multimedia.Video;
+import ead.common.resources.assets.multimedia.EAdVideo;
 import ead.engine.core.platform.AssetHandler;
 import ead.engine.core.platform.SpecialAssetRenderer;
 import ead.engine.core.platform.specialassetrenderers.extra.VLCMediaPlayerEventListener;
@@ -63,7 +63,7 @@ import uk.co.caprica.vlcj.player.embedded.videosurface.CanvasVideoSurface;
  * 
  *
  */
-public class VLCDesktopVideoRenderer implements SpecialAssetRenderer<Video, Component> {
+public class VLCDesktopVideoRenderer implements SpecialAssetRenderer<EAdVideo, Component> {
 	
 	/**
 	 * Logger
@@ -117,7 +117,7 @@ public class VLCDesktopVideoRenderer implements SpecialAssetRenderer<Video, Comp
 	}
 	
 	@Override
-	public Component getComponent(Video asset) {
+	public Component getComponent(EAdVideo asset) {
 		if (mediaPlayerFactory == null) {
 			String[] options = {vlcOptions};
 			mediaPlayerFactory = new MediaPlayerFactory (options);

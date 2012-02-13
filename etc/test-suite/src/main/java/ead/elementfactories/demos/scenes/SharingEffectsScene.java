@@ -39,16 +39,16 @@ package ead.elementfactories.demos.scenes;
 
 import ead.common.model.elements.effects.variables.ChangeFieldEf;
 import ead.common.model.elements.events.SceneElementEv;
-import ead.common.model.elements.events.enums.SceneElementEventType;
-import ead.common.model.elements.guievents.EAdMouseEvent;
+import ead.common.model.elements.events.enums.SceneElementEvType;
+import ead.common.model.elements.guievents.MouseGEv;
 import ead.common.model.elements.scenes.SceneElementImpl;
 import ead.common.model.elements.variables.EAdField;
-import ead.common.model.elements.variables.EAdFieldImpl;
+import ead.common.model.elements.variables.BasicField;
 import ead.common.model.elements.variables.SystemFields;
 import ead.common.model.elements.variables.operations.MathOp;
 import ead.common.model.elements.variables.operations.ValueOp;
 import ead.common.model.predef.effects.MakeActiveElementEf;
-import ead.common.params.fills.EAdColor;
+import ead.common.params.fills.ColorFill;
 import ead.common.resources.assets.drawable.basics.shapes.RectangleShape;
 import ead.common.util.EAdPosition;
 import ead.common.util.EAdPosition.Corner;
@@ -56,13 +56,13 @@ import ead.common.util.EAdPosition.Corner;
 public class SharingEffectsScene extends EmptyScene {
 
 	public SharingEffectsScene( ){
-		SceneElementImpl b = new SceneElementImpl(  new RectangleShape( 50, 50, EAdColor.RED ) );
+		SceneElementImpl b = new SceneElementImpl(  new RectangleShape( 50, 50, ColorFill.RED ) );
 		b.setId("button");
 		
-		EAdField<Float> field = new EAdFieldImpl<Float>( SystemFields.ACTIVE_ELEMENT, SceneElementImpl.VAR_ROTATION );
+		EAdField<Float> field = new BasicField<Float>( SystemFields.ACTIVE_ELEMENT, SceneElementImpl.VAR_ROTATION );
 		ChangeFieldEf effect = new ChangeFieldEf( field, new MathOp("[0] + 0.1", field) );
 		effect.setId("change");
-		b.addBehavior(EAdMouseEvent.MOUSE_LEFT_CLICK, effect);
+		b.addBehavior(MouseGEv.MOUSE_LEFT_CLICK, effect);
 		
 		ChangeFieldEf changeAlpha1 = new ChangeFieldEf();
 		changeAlpha1.setId("changeAlpha");
@@ -77,20 +77,20 @@ public class SharingEffectsScene extends EmptyScene {
 		SceneElementEv event = new SceneElementEv();
 //		EAdVarInterpolationEffect rotate = new EAdVarInterpolationEffect( "rotate", )
 		
-		event.addEffect(SceneElementEventType.ADDED_TO_SCENE, effect);
+		event.addEffect(SceneElementEvType.FIRST_UPDATE, effect);
 		
 		b.setPosition(20, 20);
 		this.getComponents().add(b);
 		
 		for ( int i = 0; i < 4; i++)
 			for ( int j = 0; j < 4; j++ ){
-				SceneElementImpl e = new SceneElementImpl( new RectangleShape( 30, 30, EAdColor.BLUE ) );
+				SceneElementImpl e = new SceneElementImpl( new RectangleShape( 30, 30, ColorFill.BLUE ) );
 				e.setId("e" + i + "" + j);
 				e.setPosition(new EAdPosition( Corner.CENTER, i * 60 + 40, j * 60 + 100));
 				MakeActiveElementEf ef = new MakeActiveElementEf( e );
-				e.addBehavior(EAdMouseEvent.MOUSE_LEFT_CLICK, ef);
-				e.addBehavior(EAdMouseEvent.MOUSE_ENTERED, changeAlpha1);
-				e.addBehavior(EAdMouseEvent.MOUSE_EXITED, changeAlpha2);
+				e.addBehavior(MouseGEv.MOUSE_LEFT_CLICK, ef);
+				e.addBehavior(MouseGEv.MOUSE_ENTERED, changeAlpha1);
+				e.addBehavior(MouseGEv.MOUSE_EXITED, changeAlpha2);
 				getComponents().add(e);
 			}
 				

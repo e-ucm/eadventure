@@ -51,7 +51,7 @@ import com.google.inject.Singleton;
 
 import ead.common.model.elements.EAdAction;
 import ead.common.model.elements.extra.EAdList;
-import ead.common.util.EAdInterpolator;
+import ead.common.util.Interpolator;
 import ead.common.util.EAdPosition;
 import ead.common.util.EAdPosition.Corner;
 import ead.engine.core.game.GameLoop;
@@ -232,8 +232,8 @@ public class AndroidActionsHUDImpl extends AbstractHUD implements ActionsHUD {
 
 	public void doLayout(EAdTransformation t) {
 		
-		float interpolation1 = EAdInterpolator.BOUNCE_END.interpolate(currentTime, ANIMATION_TIME, 1.0f);
-		float interpolation2 = EAdInterpolator.LINEAR.interpolate(currentTime, ANIMATION_TIME, 1.0f);
+		float interpolation1 = Interpolator.BOUNCE_END.interpolate(currentTime, ANIMATION_TIME, 1.0f);
+		float interpolation2 = Interpolator.LINEAR.interpolate(currentTime, ANIMATION_TIME, 1.0f);
 		int i = 0;
 		transformation.setAlpha(alpha);
 		for (SceneElementGO<?> go : actionsGO) {
@@ -277,7 +277,7 @@ public class AndroidActionsHUDImpl extends AbstractHUD implements ActionsHUD {
 		
 		if (currentTime < ANIMATION_TIME) {
 			currentTime += GameLoop.SKIP_MILLIS_TICK;
-			alpha = EAdInterpolator.LINEAR.interpolate(currentTime,
+			alpha = Interpolator.LINEAR.interpolate(currentTime,
 					ANIMATION_TIME, 1.0f);
 		} else {
 			alpha = 1.0f;			

@@ -43,7 +43,7 @@ import com.google.inject.Injector;
 
 import ead.common.model.elements.EAdAdventureModel;
 import ead.common.params.text.EAdString;
-import ead.common.resources.StringHandler;
+import ead.common.util.StringHandler;
 import ead.elementfactories.EAdElementsFactory;
 import ead.engine.core.game.Game;
 import ead.engine.core.platform.PlatformLauncher;

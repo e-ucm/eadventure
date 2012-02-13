@@ -70,14 +70,14 @@ import com.google.inject.Injector;
 import ead.common.importer.EAdventure1XImporter;
 import ead.common.importer.ImporterConfigurationModule;
 import ead.common.model.elements.EAdAdventureModel;
-import ead.common.model.elements.EAdAdventureModelImpl;
-import ead.common.model.elements.EAdChapterImpl;
+import ead.common.model.elements.BasicAdventureModel;
+import ead.common.model.elements.BasicChapter;
 import ead.common.model.elements.scene.EAdScene;
-import ead.common.params.EAdURIImpl;
 import ead.common.params.text.EAdString;
 import ead.common.reader.EAdAdventureDOMModelReader;
-import ead.common.resources.StringHandler;
 import ead.common.strings.DefaultStringFileHandler;
+import ead.common.util.EAdURI;
+import ead.common.util.StringHandler;
 import ead.common.writer.EAdAdventureModelWriter;
 import ead.elementfactories.EAdElementsFactory;
 import ead.elementfactories.demos.SceneDemo;
@@ -264,8 +264,8 @@ public class DesktopEAdEngine extends BaseTestLauncher {
 					}
 
 					if (checkBox.isSelected()) {
-						EAdAdventureModel model = new EAdAdventureModelImpl();
-						EAdChapterImpl chapter = new EAdChapterImpl();
+						EAdAdventureModel model = new BasicAdventureModel();
+						BasicChapter chapter = new BasicChapter();
 						chapter.setId("chapter1");
 						chapter.getScenes().add(scene);
 						chapter.setInitialScene(scene);
@@ -482,7 +482,7 @@ public class DesktopEAdEngine extends BaseTestLauncher {
 									+ "Imported");
 							// File file = new File("/ProyectoJuegoFINAL.ead");
 							((DesktopPlatformLauncher) launcher)
-									.launch(new EAdURIImpl(file.toString()));
+									.launch(new EAdURI(file.toString()));
 						} else {
 							JOptionPane
 									.showMessageDialog(
