@@ -38,18 +38,18 @@
 package ead.engine.core.trajectories;
 
 import ead.common.model.EAdElement;
-import ead.common.model.elements.trajectories.TrajectoryDefinition;
+import ead.common.model.elements.trajectories.EAdTrajectoryDefinition;
 import ead.engine.core.gameobjects.go.SceneElementGO;
 
 /**
  * General interface for trajectories generators. Trajectories are build from a
- * {@link TrajectoryDefinition}
+ * {@link EAdTrajectoryDefinition}
  * 
  * 
  * @param <T>
  *            the class of the trajectory definition
  */
-public interface TrajectoryGenerator<T extends TrajectoryDefinition> {
+public interface TrajectoryGenerator<T extends EAdTrajectoryDefinition> {
 
 	/**
 	 * Returns a {@link Path} representing the trajectory to go to the given x

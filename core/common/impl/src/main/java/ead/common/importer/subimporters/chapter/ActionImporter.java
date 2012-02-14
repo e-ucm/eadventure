@@ -52,8 +52,8 @@ import ead.common.model.EAdElement;
 import ead.common.model.elements.EAdAction;
 import ead.common.model.elements.EAdCondition;
 import ead.common.model.elements.EAdEffect;
-import ead.common.model.elements.InventoryImpl;
-import ead.common.model.elements.actions.ActionImpl;
+import ead.common.model.elements.BasicInventory;
+import ead.common.model.elements.actions.ElementAction;
 import ead.common.model.elements.conditions.ANDCond;
 import ead.common.model.elements.conditions.EmptyCond;
 import ead.common.model.elements.conditions.NOTCond;
@@ -65,20 +65,20 @@ import ead.common.model.elements.effects.TriggerMacroEf;
 import ead.common.model.elements.effects.enums.InventoryEffectAction;
 import ead.common.model.elements.effects.text.SpeakEf;
 import ead.common.model.elements.effects.variables.ChangeFieldEf;
-import ead.common.model.elements.guievents.EAdDragEvent;
-import ead.common.model.elements.guievents.enums.DragEventType;
+import ead.common.model.elements.guievents.DragGEv;
+import ead.common.model.elements.guievents.enums.DragGEvType;
 import ead.common.model.elements.scene.EAdSceneElement;
 import ead.common.model.elements.scene.EAdSceneElementDef;
-import ead.common.model.elements.scenes.SceneElementDefImpl;
+import ead.common.model.elements.scenes.SceneElementDef;
 import ead.common.model.elements.variables.EAdField;
-import ead.common.model.elements.variables.EAdFieldImpl;
+import ead.common.model.elements.variables.BasicField;
 import ead.common.model.elements.variables.operations.BooleanOp;
 import ead.common.model.predef.effects.MoveActiveElementEf;
 import ead.common.params.text.EAdString;
 import ead.common.resources.EAdBundleId;
-import ead.common.resources.StringHandler;
-import ead.common.resources.assets.drawable.basics.ImageImpl;
+import ead.common.resources.assets.drawable.basics.Image;
 import ead.common.resources.assets.drawable.basics.enums.Alignment;
+import ead.common.util.StringHandler;
 import es.eucm.eadventure.common.data.chapter.Action;
 import es.eucm.eadventure.common.data.chapter.CustomAction;
 import es.eucm.eadventure.common.data.chapter.conditions.Conditions;
@@ -118,7 +118,7 @@ public class ActionImporter implements EAdElementImporter<Action, EAdAction> {
 
 	@Override
 	public EAdAction init(Action oldObject) {
-		EAdAction basicAction = new ActionImpl();
+		EAdAction basicAction = new ElementAction();
 		basicAction.setId(oldObject.getTargetId() + "_action");
 		return basicAction;
 	}
@@ -154,7 +154,7 @@ public class ActionImporter implements EAdElementImporter<Action, EAdAction> {
 
 	}
 
-	public EAdAction convert(Action oldObject, ActionImpl action,
+	public EAdAction convert(Action oldObject, ElementAction action,
 			EAdSceneElementDef owner, EAdCondition condition,
 			boolean isActiveArea, TriggerMacroEf trigger ) {
 
@@ -170,7 +170,7 @@ public class ActionImporter implements EAdElementImporter<Action, EAdAction> {
 		return action;
 	}
 
-	private void setName(Action oldObject, ActionImpl action) {
+	private void setName(Action oldObject, ElementAction action) {
 		String actionName = "Action";
 		if (oldObject instanceof CustomAction) {
 			CustomAction customAction = (CustomAction) oldObject;
@@ -181,7 +181,7 @@ public class ActionImporter implements EAdElementImporter<Action, EAdAction> {
 		stringHandler.setString(action.getName(), actionName);
 	}
 
-	private void addEffects(TriggerMacroEf triggerEffect, Action oldObject, ActionImpl action,
+	private void addEffects(TriggerMacroEf triggerEffect, Action oldObject, ElementAction action,
 			EAdSceneElementDef actor, EAdCondition condition,
 			boolean isActiveArea) {
 		// Add effects
@@ -214,18 +214,18 @@ public class ActionImporter implements EAdElementImporter<Action, EAdAction> {
 		}
 	}
 
-	private void addAppearance(Action oldObject, ActionImpl action) {
+	private void addAppearance(Action oldObject, ElementAction action) {
 		// If it's a standard action
 		if (oldObject.getType() != Action.CUSTOM
 				&& oldObject.getType() != Action.CUSTOM_INTERACT) {
 			action.getResources().addAsset(action.getNormalBundle(),
-					ActionImpl.appearance,
-					new ImageImpl(getDrawablePath(oldObject.getType())));
+					ElementAction.appearance,
+					new Image(getDrawablePath(oldObject.getType())));
 			action.getResources()
 					.addAsset(
 							action.getHighlightBundle(),
-							ActionImpl.appearance,
-							new ImageImpl(getHighlightDrawablePath(oldObject
+							ElementAction.appearance,
+							new Image(getHighlightDrawablePath(oldObject
 									.getType())));
 		} else {
 			// TODO highlight and pressed are now appearances, but resource
@@ -238,8 +238,8 @@ public class ActionImporter implements EAdElementImporter<Action, EAdAction> {
 			EAdBundleId temp = action.getInitialBundle();
 			action.setInitialBundle(action.getHighlightBundle());
 
-			resourcesStrings.put("buttonOver", ActionImpl.appearance);
-			resourcesClasses.put("buttonOver", ImageImpl.class);
+			resourcesStrings.put("buttonOver", ElementAction.appearance);
+			resourcesClasses.put("buttonOver", Image.class);
 			resourceImporter.importResources(action,
 					((CustomAction) oldObject).getResources(),
 					resourcesStrings, resourcesClasses);
@@ -248,8 +248,8 @@ public class ActionImporter implements EAdElementImporter<Action, EAdAction> {
 
 			resourcesStrings.clear();
 			resourcesClasses.clear();
-			resourcesStrings.put("buttonNormal", ActionImpl.appearance);
-			resourcesClasses.put("buttonNormal", ImageImpl.class);
+			resourcesStrings.put("buttonNormal", ElementAction.appearance);
+			resourcesClasses.put("buttonNormal", Image.class);
 
 			resourceImporter.importResources(action,
 					((CustomAction) oldObject).getResources(),
@@ -298,11 +298,11 @@ public class ActionImporter implements EAdElementImporter<Action, EAdAction> {
 		case Action.GRAB:
 			if (!isActiveArea) {
 
-				EAdField<EAdSceneElement> sceneElement = new EAdFieldImpl<EAdSceneElement>(
-						actor, SceneElementDefImpl.VAR_SCENE_ELEMENT);
+				EAdField<EAdSceneElement> sceneElement = new BasicField<EAdSceneElement>(
+						actor, SceneElementDef.VAR_SCENE_ELEMENT);
 
-				EAdField<Boolean> inInventory = new EAdFieldImpl<Boolean>(
-						sceneElement, InventoryImpl.VAR_IN_INVENTORY);
+				EAdField<Boolean> inInventory = new BasicField<Boolean>(
+						sceneElement, BasicInventory.VAR_IN_INVENTORY);
 
 				ModifyInventoryEf addToInventory = new ModifyInventoryEf(
 						actor, InventoryEffectAction.ADD_TO_INVENTORY);
@@ -326,14 +326,14 @@ public class ActionImporter implements EAdElementImporter<Action, EAdAction> {
 
 	private static EAdString examineString;
 
-	private static ImageImpl examineImage, examineOverImage;
+	private static Image examineImage, examineOverImage;
 
 	private static void initExamineAction(StringHandler handler) {
 		examineString = EAdString.newEAdString("examineActionName");
 		handler.setString(examineString, "Examine");
 
-		examineImage = new ImageImpl(getDrawablePath(Action.EXAMINE));
-		examineOverImage = new ImageImpl(
+		examineImage = new Image(getDrawablePath(Action.EXAMINE));
+		examineOverImage = new Image(
 				getHighlightDrawablePath(Action.EXAMINE));
 	}
 
@@ -357,7 +357,7 @@ public class ActionImporter implements EAdElementImporter<Action, EAdAction> {
 			if (examineString == null)
 				initExamineAction(stringHandler);
 
-			ActionImpl examineAction = new ActionImpl(examineString);
+			ElementAction examineAction = new ElementAction(examineString);
 			examineAction.setId(actor.getId() + "_examinate");
 
 			// Effect
@@ -370,11 +370,11 @@ public class ActionImporter implements EAdElementImporter<Action, EAdAction> {
 
 			// Appearance
 			examineAction.getResources().addAsset(
-					examineAction.getNormalBundle(), ActionImpl.appearance,
+					examineAction.getNormalBundle(), ElementAction.appearance,
 					examineImage);
 			examineAction.getResources().addAsset(
 					examineAction.getHighlightBundle(),
-					ActionImpl.appearance, examineOverImage);
+					ElementAction.appearance, examineOverImage);
 
 			actor.getActions().add(examineAction);
 		}
@@ -435,7 +435,7 @@ public class ActionImporter implements EAdElementImporter<Action, EAdAction> {
 	}
 
 	public void addAllActions(List<Action> actionsList,
-			SceneElementDefImpl actor, boolean isActiveArea) {
+			SceneElementDef actor, boolean isActiveArea) {
 
 		// add examine
 		addExamine(actor, actionsList);
@@ -534,7 +534,7 @@ public class ActionImporter implements EAdElementImporter<Action, EAdAction> {
 				targets.put(action, target);
 
 			} else
-				action = convert(a, (ActionImpl) action, actor, c,
+				action = convert(a, (ElementAction) action, actor, c,
 						isActiveArea, trigger);
 
 		}
@@ -548,7 +548,7 @@ public class ActionImporter implements EAdElementImporter<Action, EAdAction> {
 		}
 		
 		for ( Entry<EAdAction, EAdSceneElementDef> e: targets.entrySet() ){
-			EAdDragEvent dragEvent = new EAdDragEvent(actor, DragEventType.DROP);
+			DragGEv dragEvent = new DragGEv(actor, DragGEvType.DROP);
 			TriggerMacroEf trigger = triggers.get(e.getKey());
 			e.getValue().addBehavior(dragEvent, trigger);
 		}
@@ -566,7 +566,7 @@ public class ActionImporter implements EAdElementImporter<Action, EAdAction> {
 		}
 	}
 
-	private EAdSceneElementDef addDrag(TriggerMacroEf triggerMacro, Action a, SceneElementDefImpl actor, EAdCondition c) {
+	private EAdSceneElementDef addDrag(TriggerMacroEf triggerMacro, Action a, SceneElementDef actor, EAdCondition c) {
 		EAdElement element = factory.getElementById(a.getTargetId());
 		EAdSceneElementDef target = null;
 
@@ -593,7 +593,7 @@ public class ActionImporter implements EAdElementImporter<Action, EAdAction> {
 				|| a.getType() == Action.CUSTOM_INTERACT;
 	}
 
-	private EAdSceneElementDef addInteraction(TriggerMacroEf triggerMacro, Action a, SceneElementDefImpl actor,
+	private EAdSceneElementDef addInteraction(TriggerMacroEf triggerMacro, Action a, SceneElementDef actor,
 			EAdCondition condition) {
 
 		EffectsMacro macro = effectsImporterFactory.getMacroEffects(a

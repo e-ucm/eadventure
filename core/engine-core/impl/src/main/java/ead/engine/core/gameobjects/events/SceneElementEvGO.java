@@ -40,7 +40,9 @@ package ead.engine.core.gameobjects.events;
 import com.google.inject.Inject;
 
 import ead.common.model.elements.events.SceneElementEv;
-import ead.common.model.elements.events.enums.SceneElementEventType;
+import ead.common.model.elements.events.enums.SceneElementEvType;
+import ead.common.model.elements.variables.SystemFields;
+import ead.engine.core.game.GameLoop;
 import ead.engine.core.game.GameState;
 
 public class SceneElementEvGO extends AbstractEventGO<SceneElementEv> {
@@ -48,6 +50,8 @@ public class SceneElementEvGO extends AbstractEventGO<SceneElementEv> {
 	private boolean firstCheck = true;
 
 	private boolean hasAlways;
+	
+	private Long timeLastUpdate;
 	
 	@Inject
 	public SceneElementEvGO(GameState gameState) {
@@ -57,18 +61,25 @@ public class SceneElementEvGO extends AbstractEventGO<SceneElementEv> {
 
 	public void initialize() {
 		firstCheck = true;
-		hasAlways = element.getEffectsForEvent(SceneElementEventType.ALWAYS) != null;
+		hasAlways = element.getEffectsForEvent(SceneElementEvType.ALWAYS) != null;
+		timeLastUpdate = -1l;
 	}
 
 	@Override
 	public void update() {
+		Long currentTime = gameState.getValueMap().getValue(SystemFields.GAME_TIME);
+		if ( timeLastUpdate == -1 || currentTime - timeLastUpdate > GameLoop.SKIP_MILLIS_TICK * 2 ){
+			runEffects(element.getEffectsForEvent(SceneElementEvType.ADDED_TO_SCENE));
+		}
+		timeLastUpdate = currentTime;
+		
 		if (firstCheck) {
 			firstCheck = false;
-			runEffects(element.getEffectsForEvent(SceneElementEventType.ADDED_TO_SCENE));
+			runEffects(element.getEffectsForEvent(SceneElementEvType.FIRST_UPDATE));
 		}
 
 		if (hasAlways)
-			runEffects(element.getEffectsForEvent(SceneElementEventType.ALWAYS));
+			runEffects(element.getEffectsForEvent(SceneElementEvType.ALWAYS));
 	}
 
 }

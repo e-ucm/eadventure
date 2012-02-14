@@ -39,7 +39,7 @@ package ead.common.model.elements.variables.operations;
 
 import ead.common.interfaces.Element;
 import ead.common.interfaces.Param;
-import ead.common.model.elements.variables.OperationImpl;
+import ead.common.model.elements.variables.AbstractOperation;
 
 /**
  * 
@@ -47,7 +47,7 @@ import ead.common.model.elements.variables.OperationImpl;
  * 
  */
 @Element(runtime = ValueOp.class, detailed = ValueOp.class)
-public class ValueOp extends OperationImpl {
+public class ValueOp extends AbstractOperation {
 
 	@Param("value")
 	private Object value;

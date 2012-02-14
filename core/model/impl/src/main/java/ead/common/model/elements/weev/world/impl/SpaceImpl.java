@@ -39,14 +39,14 @@ package ead.common.model.elements.weev.world.impl;
 
 import ead.common.interfaces.Element;
 import ead.common.interfaces.Param;
-import ead.common.model.elements.scenes.SceneImpl;
+import ead.common.model.elements.scenes.BasicScene;
 import ead.common.model.weev.world.Space;
 
 /**
  * Default {@link Space} implementation
  */
 @Element(detailed = SpaceImpl.class, runtime = SpaceImpl.class)
-public class SpaceImpl extends SceneImpl implements Space {
+public class SpaceImpl extends BasicScene implements Space {
 
 	@Param(value = "x")
 	private int x;

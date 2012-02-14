@@ -43,7 +43,7 @@ import java.util.Map;
 import com.google.inject.AbstractModule;
 
 import ead.common.params.text.EAdString;
-import ead.common.resources.StringHandler;
+import ead.common.util.StringHandler;
 
 public class CommonTestModule extends AbstractModule{
 

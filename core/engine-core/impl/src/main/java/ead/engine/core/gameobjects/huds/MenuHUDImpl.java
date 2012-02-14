@@ -41,17 +41,17 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 import ead.common.model.elements.effects.QuitGameEf;
-import ead.common.model.elements.guievents.EAdMouseEvent;
-import ead.common.model.elements.guievents.enums.KeyEventCode;
+import ead.common.model.elements.guievents.MouseGEv;
+import ead.common.model.elements.guievents.enums.KeyGEvCode;
 import ead.common.model.elements.guievents.enums.KeyEventType;
 import ead.common.model.elements.scenes.SceneElementImpl;
-import ead.common.params.EAdFontImpl;
-import ead.common.params.fills.EAdColor;
-import ead.common.params.fills.EAdLinearGradient;
-import ead.common.params.fills.EAdPaintImpl;
-import ead.common.resources.StringHandler;
-import ead.common.resources.assets.drawable.basics.CaptionImpl;
+import ead.common.params.BasicFont;
+import ead.common.params.fills.ColorFill;
+import ead.common.params.fills.LinearGradientFill;
+import ead.common.params.fills.PaintFill;
+import ead.common.resources.assets.drawable.basics.Caption;
 import ead.common.util.EAdPosition;
+import ead.common.util.StringHandler;
 import ead.engine.core.game.GameState;
 import ead.engine.core.gameobjects.GameObjectManager;
 import ead.engine.core.gameobjects.factories.SceneElementGOFactory;
@@ -110,7 +110,7 @@ public class MenuHUDImpl extends AbstractHUD implements MenuHUD {
 	public boolean processAction(InputAction<?> action) {
 		if (action instanceof KeyActionImpl) {
 			KeyActionImpl keyAction = (KeyActionImpl) action;
-			if (keyAction.getKeyCode() == KeyEventCode.ESC
+			if (keyAction.getKeyCode() == KeyGEvCode.ESC
 					&& keyAction.getType() == KeyEventType.KEY_PRESSED) {
 				gameObjectManager.removeHUD(this);
 				gameState.setPaused(false);
@@ -131,15 +131,15 @@ public class MenuHUDImpl extends AbstractHUD implements MenuHUD {
 
 	private void addExitButton(StringHandler stringHandler,
 			SceneElementGOFactory sceneElementFactory) {
-		CaptionImpl c = new CaptionImpl();
+		Caption c = new Caption();
 		stringHandler.setString(c.getText(), "Exit");
 		SceneElementImpl button = new SceneElementImpl( c);
 		button.setId("exit_button");
-		c.setBubblePaint(new EAdPaintImpl(new EAdLinearGradient(
-				EAdColor.ORANGE, new EAdColor(255, 200, 0), 0, 40), EAdColor.BLACK, 2));
+		c.setBubblePaint(new PaintFill(new LinearGradientFill(
+				ColorFill.ORANGE, new ColorFill(255, 200, 0), 0, 40), ColorFill.BLACK, 2));
 		c.setPadding(10);
-		c.setFont(new EAdFontImpl(18));
-		button.getBehavior().addBehavior(EAdMouseEvent.MOUSE_LEFT_CLICK,
+		c.setFont(new BasicFont(18));
+		button.getBehavior().addBehavior(MouseGEv.MOUSE_LEFT_CLICK,
 				new QuitGameEf());
 		button.setPosition(new EAdPosition(EAdPosition.Corner.CENTER,
 				400, 300));

@@ -43,7 +43,7 @@ import ead.common.interfaces.features.Evented;
 import ead.common.model.elements.EAdBehavior;
 import ead.common.model.elements.EAdEffect;
 import ead.common.model.elements.EAdEvent;
-import ead.common.model.elements.behaviors.BehaviorImpl;
+import ead.common.model.elements.behaviors.Behavior;
 import ead.common.model.elements.extra.EAdList;
 import ead.common.model.elements.extra.EAdListImpl;
 import ead.common.model.elements.guievents.EAdGUIEvent;
@@ -53,7 +53,7 @@ import ead.common.model.elements.guievents.EAdGUIEvent;
  * 
  */
 public abstract class AbstractElementWithBehavior extends
-		EAdElementImpl implements Evented, WithBehavior {
+		BasicElement implements Evented, WithBehavior {
 
 	@Param("behavior")
 	protected EAdBehavior behavior;
@@ -69,7 +69,7 @@ public abstract class AbstractElementWithBehavior extends
 
 	public AbstractElementWithBehavior() {
 		super();
-		this.behavior = new BehaviorImpl();
+		this.behavior = new Behavior();
 		this.events = new EAdListImpl<EAdEvent>(EAdEvent.class);
 		this.propagateGUIEvents = true;
 		behavior.setId(id + "behaviors");

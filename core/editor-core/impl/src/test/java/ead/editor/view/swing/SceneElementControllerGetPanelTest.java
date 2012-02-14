@@ -47,7 +47,7 @@ import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.WindowConstants;
 
 import ead.common.model.elements.scene.EAdScene;
-import ead.common.resources.StringHandler;
+import ead.common.util.StringHandler;
 import ead.editor.EditorStringHandler;
 import ead.editor.control.CommandManager;
 import ead.editor.control.ElementController;

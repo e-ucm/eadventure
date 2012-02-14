@@ -37,13 +37,13 @@
 
 package ead.engine.core.factorymapproviders;
 
-import ead.common.model.elements.VideoScene;
 import ead.common.model.elements.scene.EAdScene;
 import ead.common.model.elements.scene.EAdSceneElement;
-import ead.common.model.elements.scenes.ComplexSceneElementImpl;
+import ead.common.model.elements.scenes.ComplexSceneElement;
 import ead.common.model.elements.scenes.ComposedScene;
 import ead.common.model.elements.scenes.SceneElementImpl;
-import ead.common.model.elements.scenes.SceneImpl;
+import ead.common.model.elements.scenes.BasicScene;
+import ead.common.model.elements.scenes.VideoScene;
 import ead.engine.core.gameobjects.ComposedSceneGOImpl;
 import ead.engine.core.gameobjects.SceneGOImpl;
 import ead.engine.core.gameobjects.VideoSceneGO;
@@ -58,11 +58,11 @@ public class ElementGameObjectFactoryConfigurator
 
 	public ElementGameObjectFactoryConfigurator() {
 		factoryMap.put(EAdScene.class, SceneGOImpl.class);
-		factoryMap.put(SceneImpl.class, SceneGOImpl.class);
+		factoryMap.put(BasicScene.class, SceneGOImpl.class);
 		factoryMap.put(ComposedScene.class, ComposedSceneGOImpl.class);
 		factoryMap.put(SceneElementImpl.class, BasicSceneElementGO.class);
 		factoryMap
-				.put(ComplexSceneElementImpl.class, ComplexSceneElementGO.class);
+				.put(ComplexSceneElement.class, ComplexSceneElementGO.class);
 		factoryMap.put(VideoScene.class, VideoSceneGO.class);
 		factoryMap.put(LoadingScreen.class, SceneGOImpl.class);
 	}

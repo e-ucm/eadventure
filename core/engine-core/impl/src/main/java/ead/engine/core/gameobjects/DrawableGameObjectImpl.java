@@ -38,7 +38,7 @@
 package ead.engine.core.gameobjects;
 
 import ead.common.model.EAdElement;
-import ead.common.resources.StringHandler;
+import ead.common.util.StringHandler;
 import ead.engine.core.game.GameState;
 import ead.engine.core.gameobjects.factories.SceneElementGOFactory;
 import ead.engine.core.gameobjects.go.DrawableGO;

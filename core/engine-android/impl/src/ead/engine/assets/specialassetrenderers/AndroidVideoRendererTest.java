@@ -49,8 +49,8 @@ import android.view.WindowManager;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 
+import ead.common.resources.assets.multimedia.EAdVideo;
 import ead.common.resources.assets.multimedia.Video;
-import ead.common.resources.assets.multimedia.VideoImpl;
 import ead.engine.AndroidAssetHandler;
 import ead.engine.R;
 import ead.engine.core.modules.BasicGameModule;
@@ -91,7 +91,7 @@ public class AndroidVideoRendererTest extends Activity {
 		sdcard = Environment.getExternalStorageDirectory().toString();
 		File file = new File(sdcard + "/eAd2/flame.mp4");
 		//File file = new File(sdcard + "/eAd2/flame.mpg");
-		Video video = new VideoImpl(file.getAbsolutePath());
+		EAdVideo video = new Video(file.getAbsolutePath());
 		final AndroidVideoRenderer androidVideoRenderer = new AndroidVideoRenderer(aah);
 		//final RockPlayerAndroidVideoRenderer androidVideoRenderer = new RockPlayerAndroidVideoRenderer(aah);
 		androidVideoRenderer.getComponent(video);

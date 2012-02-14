@@ -48,20 +48,20 @@ import ead.common.importer.interfaces.ResourceImporter;
 import ead.common.interfaces.features.enums.Orientation;
 import ead.common.model.elements.EAdAction;
 import ead.common.model.elements.enums.CommonStates;
-import ead.common.model.elements.scenes.SceneElementDefImpl;
-import ead.common.resources.StringHandler;
-import ead.common.resources.assets.drawable.Drawable;
-import ead.common.resources.assets.drawable.basics.BasicDrawable;
-import ead.common.resources.assets.drawable.basics.ImageImpl;
+import ead.common.model.elements.scenes.SceneElementDef;
+import ead.common.resources.assets.drawable.EAdDrawable;
+import ead.common.resources.assets.drawable.basics.EAdBasicDrawable;
+import ead.common.resources.assets.drawable.basics.Image;
 import ead.common.resources.assets.drawable.basics.animation.Frame;
 import ead.common.resources.assets.drawable.basics.animation.FramesAnimation;
+import ead.common.resources.assets.drawable.compounds.EAdOrientedDrawable;
 import ead.common.resources.assets.drawable.compounds.OrientedDrawable;
-import ead.common.resources.assets.drawable.compounds.OrientedDrawableImpl;
+import ead.common.resources.assets.drawable.compounds.EAdStateDrawable;
 import ead.common.resources.assets.drawable.compounds.StateDrawable;
-import ead.common.resources.assets.drawable.compounds.StateDrawableImpl;
-import ead.common.resources.assets.drawable.filters.FilteredDrawableImpl;
+import ead.common.resources.assets.drawable.filters.FilteredDrawable;
 import ead.common.resources.assets.drawable.filters.MatrixFilter;
-import ead.common.util.EAdMatrixImpl;
+import ead.common.util.BasicMatrix;
+import ead.common.util.StringHandler;
 import es.eucm.eadventure.common.data.chapter.Action;
 import es.eucm.eadventure.common.data.chapter.elements.NPC;
 import es.eucm.eadventure.common.data.chapter.resources.Resources;
@@ -80,40 +80,40 @@ public class NPCImporter extends ActorImporter<NPC> {
 
 	@Override
 	public void initResourcesCorrespondencies() {
-		ArrayList<StateDrawable> drawables = new ArrayList<StateDrawable>();
+		ArrayList<EAdStateDrawable> drawables = new ArrayList<EAdStateDrawable>();
 
 		properties = new HashMap<String, String>();
 		properties.put(NPC.RESOURCE_TYPE_STAND_DOWN,
-				SceneElementDefImpl.appearance);
+				SceneElementDef.appearance);
 
 		objectClasses = new HashMap<String, Object>();
 		objectClasses.put(NPC.RESOURCE_TYPE_STAND_DOWN, drawables);
 
 		for (Resources r : element.getResources()) {
 
-			StateDrawableImpl stateDrawable = new StateDrawableImpl();
+			StateDrawable stateDrawable = new StateDrawable();
 
-			OrientedDrawable stand = getOrientedAsset(r,
+			EAdOrientedDrawable stand = getOrientedAsset(r,
 					NPC.RESOURCE_TYPE_STAND_UP, NPC.RESOURCE_TYPE_STAND_DOWN,
 					NPC.RESOURCE_TYPE_STAND_RIGHT, NPC.RESOURCE_TYPE_STAND_LEFT);
 			stateDrawable.addDrawable(
 					CommonStates.EAD_STATE_DEFAULT.toString(), stand);
 
-			OrientedDrawable walk = getOrientedAsset(r,
+			EAdOrientedDrawable walk = getOrientedAsset(r,
 					NPC.RESOURCE_TYPE_WALK_UP, NPC.RESOURCE_TYPE_WALK_DOWN,
 					NPC.RESOURCE_TYPE_WALK_RIGHT, NPC.RESOURCE_TYPE_WALK_LEFT);
 			stateDrawable.addDrawable(
 					CommonStates.EAD_STATE_WALKING.toString(),
 					walk == null ? stand : walk);
 
-			OrientedDrawable talking = getOrientedAsset(r,
+			EAdOrientedDrawable talking = getOrientedAsset(r,
 					NPC.RESOURCE_TYPE_SPEAK_UP, NPC.RESOURCE_TYPE_SPEAK_DOWN,
 					NPC.RESOURCE_TYPE_SPEAK_RIGHT, NPC.RESOURCE_TYPE_SPEAK_LEFT);
 			stateDrawable.addDrawable(
 					CommonStates.EAD_STATE_TALKING.toString(),
 					talking == null ? stand : talking);
 
-			OrientedDrawable using = getOrientedAsset(r,
+			EAdOrientedDrawable using = getOrientedAsset(r,
 					NPC.RESOURCE_TYPE_USE_RIGHT, NPC.RESOURCE_TYPE_USE_LEFT,
 					NPC.RESOURCE_TYPE_SPEAK_RIGHT, NPC.RESOURCE_TYPE_USE_LEFT);
 			stateDrawable.addDrawable(CommonStates.EAD_STATE_USING.toString(),
@@ -124,20 +124,20 @@ public class NPCImporter extends ActorImporter<NPC> {
 
 	}
 
-	private OrientedDrawable getOrientedAsset(Resources r, String up,
+	private EAdOrientedDrawable getOrientedAsset(Resources r, String up,
 			String down, String right, String left) {
 		if (up == null && down == null && right == null && left == null)
 			return null;
 
-		OrientedDrawableImpl oriented = new OrientedDrawableImpl();
-		Drawable north = (Drawable) resourceImporter.getAssetDescritptor(
-				r.getAssetPath(up), ImageImpl.class);
-		Drawable south = (Drawable) resourceImporter.getAssetDescritptor(
-				r.getAssetPath(down), ImageImpl.class);
-		Drawable east = (Drawable) resourceImporter.getAssetDescritptor(
-				r.getAssetPath(right), ImageImpl.class);
-		Drawable west = (Drawable) resourceImporter.getAssetDescritptor(
-				r.getAssetPath(left), ImageImpl.class);
+		OrientedDrawable oriented = new OrientedDrawable();
+		EAdDrawable north = (EAdDrawable) resourceImporter.getAssetDescritptor(
+				r.getAssetPath(up), Image.class);
+		EAdDrawable south = (EAdDrawable) resourceImporter.getAssetDescritptor(
+				r.getAssetPath(down), Image.class);
+		EAdDrawable east = (EAdDrawable) resourceImporter.getAssetDescritptor(
+				r.getAssetPath(right), Image.class);
+		EAdDrawable west = (EAdDrawable) resourceImporter.getAssetDescritptor(
+				r.getAssetPath(left), Image.class);
 
 		// Fill north
 		if (north == null) {
@@ -174,9 +174,9 @@ public class NPCImporter extends ActorImporter<NPC> {
 		FramesAnimation mirror = new FramesAnimation();
 
 		for (Frame f : a.getFrames()) {
-			EAdMatrixImpl m = new EAdMatrixImpl();
+			BasicMatrix m = new BasicMatrix();
 			m.scale(-1.0f, 1.0f, true);
-			BasicDrawable d = new FilteredDrawableImpl(f.getDrawable(), new MatrixFilter(m, 1.0f, 0.0f));
+			EAdBasicDrawable d = new FilteredDrawable(f.getDrawable(), new MatrixFilter(m, 1.0f, 0.0f));
 			mirror.addFrame(new Frame(d, f.getTime()));
 		}
 		return mirror;

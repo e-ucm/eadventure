@@ -47,7 +47,7 @@ import com.google.gwt.xml.client.Node;
 import com.google.gwt.xml.client.NodeList;
 import com.google.gwt.xml.client.XMLParser;
 import ead.common.DOMTags;
-import ead.common.model.elements.EAdAdventureModelImpl;
+import ead.common.model.elements.BasicAdventureModel;
 import ead.engine.core.game.Game;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -81,7 +81,7 @@ public class GWTReader {
 					NodeVisitor.init(doc.getFirstChild().getAttributes()
 							.getNamedItem(DOMTags.PACKAGE_AT).getNodeValue());
 					getAliasMap(doc);
-					EAdAdventureModelImpl data = (EAdAdventureModelImpl) env
+					BasicAdventureModel data = (BasicAdventureModel) env
 							.visit(doc.getFirstChild().getFirstChild(), null,
 									null, null);
 					

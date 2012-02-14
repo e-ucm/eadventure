@@ -40,21 +40,21 @@ package ead.engine.core.gameobjects.huds;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
-import ead.common.model.elements.InventoryImpl;
+import ead.common.model.elements.BasicInventory;
 import ead.common.model.elements.conditions.EmptyCond;
-import ead.common.model.elements.scenes.ComplexSceneElementImpl;
+import ead.common.model.elements.scenes.ComplexSceneElement;
 import ead.common.model.elements.scenes.SceneElementImpl;
 import ead.common.model.elements.variables.EAdField;
-import ead.common.model.elements.variables.EAdFieldImpl;
+import ead.common.model.elements.variables.BasicField;
 import ead.common.model.elements.variables.SystemFields;
-import ead.common.params.EAdFontImpl;
-import ead.common.params.fills.EAdColor;
+import ead.common.params.BasicFont;
+import ead.common.params.fills.ColorFill;
 import ead.common.params.text.EAdFont;
 import ead.common.params.text.EAdString;
-import ead.common.resources.StringHandler;
-import ead.common.resources.assets.drawable.basics.CaptionImpl;
+import ead.common.resources.assets.drawable.basics.Caption;
 import ead.common.resources.assets.drawable.basics.shapes.RectangleShape;
 import ead.common.util.EAdPosition;
+import ead.common.util.StringHandler;
 import ead.common.util.EAdPosition.Corner;
 import ead.engine.core.game.GameLoop;
 import ead.engine.core.game.GameState;
@@ -78,7 +78,7 @@ public class InventoryHUDImpl extends AbstractHUD implements InventoryHUD {
 
 	private static final int INVENTORY_HEIGHT = 60;
 
-	private ComplexSceneElementImpl inventory;
+	private ComplexSceneElement inventory;
 
 	private ValueMap valueMap;
 
@@ -131,12 +131,12 @@ public class InventoryHUDImpl extends AbstractHUD implements InventoryHUD {
 		int width = valueMap.getValue(SystemFields.GAME_WIDTH);
 		guiHeight = valueMap.getValue(SystemFields.GAME_HEIGHT);
 		RectangleShape rectangle = new RectangleShape(width, INVENTORY_HEIGHT);
-		rectangle.setPaint(new EAdColor(200, 200, 200, 100));
+		rectangle.setPaint(new ColorFill(200, 200, 200, 100));
 
-		inventory = new ComplexSceneElementImpl(rectangle);
+		inventory = new ComplexSceneElement(rectangle);
 
 		inventoryDispY = 0.0f;
-		inventoryDispYField = new EAdFieldImpl<Float>(inventory,
+		inventoryDispYField = new BasicField<Float>(inventory,
 				SceneElementImpl.VAR_DISP_Y);
 
 		inventory.setPosition(new EAdPosition(0, guiHeight, 0.0f,
@@ -212,7 +212,7 @@ public class InventoryHUDImpl extends AbstractHUD implements InventoryHUD {
 				element.setDragCond(EmptyCond.TRUE_EMPTY_CONDITION);
 				element.setVarInitialValue(SceneElementImpl.VAR_SCALE,
 						scale);
-				element.setVarInitialValue(InventoryImpl.VAR_IN_INVENTORY,
+				element.setVarInitialValue(BasicInventory.VAR_IN_INVENTORY,
 						true);
 				element.setVarInitialValue(
 						SceneElementImpl.VAR_RETURN_WHEN_DRAGGED, true);
@@ -233,13 +233,13 @@ public class InventoryHUDImpl extends AbstractHUD implements InventoryHUD {
 		}
 	}
 
-	private EAdFont counterFont = new EAdFontImpl(10);
+	private EAdFont counterFont = new BasicFont(10);
 
 	private SceneElementImpl getCounter(int count, float counterSize) {
-		CaptionImpl number = new CaptionImpl(new EAdString(
+		Caption number = new Caption(new EAdString(
 				StringHandler.TEXTUAL_STRING_PREFIX + count));
-		number.setTextPaint(EAdColor.WHITE);
-		number.setBubblePaint(new EAdColor(0, 0, 0, 100));
+		number.setTextPaint(ColorFill.WHITE);
+		number.setBubblePaint(new ColorFill(0, 0, 0, 100));
 		number.setPadding(3);
 		number.setFont(counterFont);
 		SceneElementImpl numberElement = new SceneElementImpl(number);
@@ -251,7 +251,7 @@ public class InventoryHUDImpl extends AbstractHUD implements InventoryHUD {
 		SceneElementGO<?> go = inputHandler.getDraggingGameObject();
 		if (go != null) {
 			return valueMap.getValue(go.getElement(),
-					InventoryImpl.VAR_IN_INVENTORY);
+					BasicInventory.VAR_IN_INVENTORY);
 		}
 		return false;
 	}

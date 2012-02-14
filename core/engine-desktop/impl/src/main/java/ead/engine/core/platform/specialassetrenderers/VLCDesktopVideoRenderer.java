@@ -41,16 +41,7 @@ import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Component;
 import java.io.File;
-import java.lang.reflect.InvocationTargetException;
 
-import com.google.inject.Inject;
-import com.sun.jna.NativeLibrary;
-
-import ead.common.resources.assets.multimedia.Video;
-import ead.engine.core.platform.AssetHandler;
-import ead.engine.core.platform.SpecialAssetRenderer;
-import ead.engine.core.platform.specialassetrenderers.extra.VLCMediaPlayerEventListener;
-import ead.engine.core.platform.specialassetrenderers.extra.WinRegistry;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -58,12 +49,21 @@ import uk.co.caprica.vlcj.player.MediaPlayerFactory;
 import uk.co.caprica.vlcj.player.embedded.EmbeddedMediaPlayer;
 import uk.co.caprica.vlcj.player.embedded.videosurface.CanvasVideoSurface;
 
+import com.google.inject.Inject;
+import com.sun.jna.NativeLibrary;
+
+import ead.common.resources.assets.multimedia.EAdVideo;
+import ead.engine.core.platform.AssetHandler;
+import ead.engine.core.platform.SpecialAssetRenderer;
+import ead.engine.core.platform.specialassetrenderers.extra.VLCMediaPlayerEventListener;
+import ead.engine.core.platform.specialassetrenderers.extra.WinRegistry;
+
 /**
  * <p>Video renderer for desktop (and applets) using vlcj library {@link http://code.google.com/p/vlcj/}</p>
  *
  *
  */
-public class VLCDesktopVideoRenderer implements SpecialAssetRenderer<Video, Component> {
+public class VLCDesktopVideoRenderer implements SpecialAssetRenderer<EAdVideo, Component> {
 
 	/**
 	 * Logger
@@ -117,7 +117,7 @@ public class VLCDesktopVideoRenderer implements SpecialAssetRenderer<Video, Comp
 	}
 
 	@Override
-	public Component getComponent(Video asset) {
+	public Component getComponent(EAdVideo asset) {
 		if (mediaPlayerFactory == null) {
 			String[] options = {vlcOptions};
 			mediaPlayerFactory = new MediaPlayerFactory (options);

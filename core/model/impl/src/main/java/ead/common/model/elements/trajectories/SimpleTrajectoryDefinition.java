@@ -41,8 +41,8 @@ import com.gwtent.reflection.client.Reflectable;
 
 import ead.common.interfaces.Element;
 import ead.common.interfaces.Param;
-import ead.common.model.elements.EAdElementImpl;
-import ead.common.model.elements.trajectories.TrajectoryDefinition;
+import ead.common.model.elements.BasicElement;
+import ead.common.model.elements.trajectories.EAdTrajectoryDefinition;
 
 /**
  * A simple trajectory generator. Trace the trajectory to a point with a
@@ -51,7 +51,7 @@ import ead.common.model.elements.trajectories.TrajectoryDefinition;
  */
 @Reflectable
 @Element(runtime = SimpleTrajectoryDefinition.class, detailed = SimpleTrajectoryDefinition.class)
-public class SimpleTrajectoryDefinition extends EAdElementImpl implements TrajectoryDefinition {
+public class SimpleTrajectoryDefinition extends BasicElement implements EAdTrajectoryDefinition {
 
 	@Param("onlyHorizontal")
 	private boolean onlyHorizontal;

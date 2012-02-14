@@ -43,7 +43,7 @@ import ead.common.EAdElementImporter;
 import ead.common.importer.interfaces.ResourceImporter;
 import ead.common.model.elements.EAdCondition;
 import ead.common.model.elements.effects.PlaySoundEf;
-import ead.common.resources.assets.multimedia.SoundImpl;
+import ead.common.resources.assets.multimedia.Sound;
 import es.eucm.eadventure.common.data.chapter.conditions.Conditions;
 import es.eucm.eadventure.common.data.chapter.effects.PlaySoundEffect;
 
@@ -75,7 +75,7 @@ public class PlaySoundEffectImporter extends
 
 		String newURI = resourceImporter.getURI(oldObject.getPath());
 
-		effect.setSound(new SoundImpl(newURI));
+		effect.setSound(new Sound(newURI));
 		return effect;
 	}
 

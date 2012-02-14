@@ -41,13 +41,13 @@ import com.gwtent.reflection.client.Reflectable;
 
 import ead.common.interfaces.Element;
 import ead.common.interfaces.Param;
-import ead.common.model.elements.EAdElementImpl;
+import ead.common.model.elements.BasicElement;
 import ead.common.model.elements.extra.EAdList;
 import ead.common.model.elements.extra.EAdListImpl;
 import ead.common.model.elements.scene.EAdSceneElement;
-import ead.common.model.elements.trajectories.TrajectoryDefinition;
+import ead.common.model.elements.trajectories.EAdTrajectoryDefinition;
 import ead.common.model.elements.variables.EAdVarDef;
-import ead.common.model.elements.variables.VarDefImpl;
+import ead.common.model.elements.variables.VarDef;
 import ead.common.util.EAdRectangle;
 
 /**
@@ -57,22 +57,22 @@ import ead.common.util.EAdRectangle;
  */
 @Reflectable
 @Element(detailed = NodeTrajectoryDefinition.class, runtime = NodeTrajectoryDefinition.class)
-public class NodeTrajectoryDefinition extends EAdElementImpl implements
-		TrajectoryDefinition {
+public class NodeTrajectoryDefinition extends BasicElement implements
+		EAdTrajectoryDefinition {
 
 	/**
 	 * Variable's definition for whether a barrier is on or not
 	 */
-	public static final EAdVarDef<Boolean> VAR_BARRIER_ON = new VarDefImpl<Boolean>(
+	public static final EAdVarDef<Boolean> VAR_BARRIER_ON = new VarDef<Boolean>(
 			"barrierOn", Boolean.class, Boolean.FALSE);
 
-	public static final EAdVarDef<EAdRectangle> VAR_INFLUENCE_AREA = new VarDefImpl<EAdRectangle>(
+	public static final EAdVarDef<EAdRectangle> VAR_INFLUENCE_AREA = new VarDef<EAdRectangle>(
 			"influence_area", EAdRectangle.class, null);
 
 	/**
 	 * Variable for the current side
 	 */
-	public static final EAdVarDef<Side> VAR_CURRENT_SIDE = new VarDefImpl<Side>(
+	public static final EAdVarDef<Side> VAR_CURRENT_SIDE = new VarDef<Side>(
 			"currentSide", Side.class, null);
 
 	@Param("nodes")

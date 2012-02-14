@@ -37,33 +37,33 @@
 
 package ead.engine.core.input.states;
 
-import ead.common.model.elements.guievents.enums.MouseButtonType;
+import ead.common.model.elements.guievents.enums.MouseGEvButtonType;
 import ead.engine.core.input.InputState;
 
 public class MouseState implements InputState {
 
 	public static final MouseState POINTER_INSIDE = new MouseState(
-			MouseButtonType.NO_BUTTON, false, true);
+			MouseGEvButtonType.NO_BUTTON, false, true);
 
 	public static final MouseState LEFT_BUTTON_PRESSED = new MouseState(
-			MouseButtonType.BUTTON_1, true, true);
+			MouseGEvButtonType.BUTTON_1, true, true);
 	public static final MouseState RIGHT_BUTTON_PRESSED = new MouseState(
-			MouseButtonType.BUTTON_3, true, true);
+			MouseGEvButtonType.BUTTON_3, true, true);
 
-	private MouseButtonType mouseButton;
+	private MouseGEvButtonType mouseButton;
 
 	private boolean pressed;
 
 	private boolean isInside;
 
-	private MouseState(MouseButtonType mouseButton, boolean pressed,
+	private MouseState(MouseGEvButtonType mouseButton, boolean pressed,
 			boolean isInside) {
 		this.mouseButton = mouseButton;
 		this.pressed = pressed;
 		this.isInside = isInside;
 	}
 
-	public MouseButtonType getMouseButton() {
+	public MouseGEvButtonType getMouseButton() {
 		return mouseButton;
 	}
 

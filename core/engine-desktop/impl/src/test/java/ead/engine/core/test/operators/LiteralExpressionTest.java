@@ -38,8 +38,8 @@
 package ead.engine.core.test.operators;
 
 import ead.common.model.elements.variables.EAdField;
-import ead.common.model.elements.variables.EAdFieldImpl;
-import ead.common.model.elements.variables.VarDefImpl;
+import ead.common.model.elements.variables.BasicField;
+import ead.common.model.elements.variables.VarDef;
 import ead.common.model.elements.variables.operations.MathOp;
 
 public class LiteralExpressionTest extends
@@ -50,14 +50,14 @@ public class LiteralExpressionTest extends
 	@Override
 	public void generateOperations() {
 		
-		EAdField<Integer> x = new EAdFieldImpl<Integer>(null,
-				new VarDefImpl<Integer>("x", Integer.class, 1));
-		EAdField<Float> y = new EAdFieldImpl<Float>(null,
-				new VarDefImpl<Float>("y", Float.class, 0.5f));
-		EAdField<Float> z = new EAdFieldImpl<Float>(null,
-				new VarDefImpl<Float>("z", Float.class, 4.2f));
-		EAdField<Double> w = new EAdFieldImpl<Double>(null,
-				new VarDefImpl<Double>("w", Double.class, 10928408.868979));
+		EAdField<Integer> x = new BasicField<Integer>(null,
+				new VarDef<Integer>("x", Integer.class, 1));
+		EAdField<Float> y = new BasicField<Float>(null,
+				new VarDef<Float>("y", Float.class, 0.5f));
+		EAdField<Float> z = new BasicField<Float>(null,
+				new VarDef<Float>("z", Float.class, 4.2f));
+		EAdField<Double> w = new BasicField<Double>(null,
+				new VarDef<Double>("w", Double.class, 10928408.868979));
 
 		MathOp[] operations = new MathOp[] {
 				new MathOp("3 + 5 + 8"),

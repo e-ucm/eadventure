@@ -38,18 +38,18 @@
 package ead.elementfactories.demos.scenes;
 
 import ead.common.model.elements.EAdEffect;
-import ead.common.model.elements.actions.ActionImpl;
+import ead.common.model.elements.actions.ElementAction;
 import ead.common.model.elements.effects.ActorActionsEf;
 import ead.common.model.elements.effects.text.SpeakEf;
 import ead.common.model.elements.events.SceneElementEv;
-import ead.common.model.elements.events.enums.SceneElementEventType;
-import ead.common.model.elements.guievents.EAdMouseEvent;
+import ead.common.model.elements.events.enums.SceneElementEvType;
+import ead.common.model.elements.guievents.MouseGEv;
 import ead.common.model.elements.scenes.SceneElementImpl;
 import ead.common.model.elements.trajectories.SimpleTrajectoryDefinition;
 import ead.common.model.predef.effects.MakeActiveElementEf;
 import ead.common.model.predef.effects.MoveActiveElementEf;
 import ead.common.model.predef.effects.SpeakSceneElementEf;
-import ead.common.resources.assets.drawable.basics.ImageImpl;
+import ead.common.resources.assets.drawable.basics.Image;
 import ead.common.util.EAdPosition;
 import ead.common.util.EAdPosition.Corner;
 import ead.elementfactories.EAdElementsFactory;
@@ -81,7 +81,7 @@ public class SpeakAndMoveScene extends EmptyScene {
 		// effect.setFont(new EAdFontImpl(18));
 
 		// effect.seta
-		character.addBehavior(EAdMouseEvent.MOUSE_LEFT_PRESSED, effect);
+		character.addBehavior(MouseGEv.MOUSE_LEFT_PRESSED, effect);
 
 		this.getComponents().add(character);
 
@@ -90,26 +90,26 @@ public class SpeakAndMoveScene extends EmptyScene {
 
 		SceneElementEv event = new SceneElementEv();
 		event.setId("makeAcitveCharacter");
-		event.addEffect(SceneElementEventType.ADDED_TO_SCENE, makeActive);
+		event.addEffect(SceneElementEvType.FIRST_UPDATE, makeActive);
 		character.getEvents().add(event);
 
 		SimpleTrajectoryDefinition d = new SimpleTrajectoryDefinition(false);
 		d.setLimits(0, 0, 800, 600);
 		setTrajectoryDefinition(d);
 
-		getBackground().addBehavior(EAdMouseEvent.MOUSE_LEFT_PRESSED,
+		getBackground().addBehavior(MouseGEv.MOUSE_LEFT_PRESSED,
 				new MoveActiveElementEf());
 
 		SceneElementImpl actionsObject = new SceneElementImpl(
-				new ImageImpl("@drawable/infobutton.png"));
+				new Image("@drawable/infobutton.png"));
 		actionsObject.setPosition(100, 100);
-		ActionImpl action = new ActionImpl();
+		ElementAction action = new ElementAction();
 		action.getResources().addAsset(action.getInitialBundle(),
-				ActionImpl.appearance,
-				new ImageImpl("@drawable/examine-normal.png"));
+				ElementAction.appearance,
+				new Image("@drawable/examine-normal.png"));
 		action.getResources().addAsset(action.getHighlightBundle(),
-				ActionImpl.appearance,
-				new ImageImpl("@drawable/examine-pressed.png"));
+				ElementAction.appearance,
+				new Image("@drawable/examine-pressed.png"));
 
 		SpeakEf speak = new SpeakEf();
 
@@ -121,7 +121,7 @@ public class SpeakAndMoveScene extends EmptyScene {
 		actionsObject.getDefinition().getActions().add(action);
 
 		EAdEffect showActions = new ActorActionsEf(actionsObject.getDefinition());
-		actionsObject.addBehavior(EAdMouseEvent.MOUSE_RIGHT_CLICK,
+		actionsObject.addBehavior(MouseGEv.MOUSE_RIGHT_CLICK,
 				showActions);
 		getComponents().add(actionsObject);
 	}

@@ -39,6 +39,9 @@ package ead.engine;
 
 import java.util.Map;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import android.content.Context;
 import android.content.res.Resources;
 import android.os.Environment;
@@ -51,7 +54,6 @@ import ead.common.resources.assets.AssetDescriptor;
 import ead.engine.core.platform.AbstractAssetHandler;
 import ead.engine.core.platform.FontHandler;
 import ead.engine.core.platform.RuntimeAsset;
-import org.slf4j.LoggerFactory;
 
 @Singleton
 public class AndroidAssetHandler extends AbstractAssetHandler {

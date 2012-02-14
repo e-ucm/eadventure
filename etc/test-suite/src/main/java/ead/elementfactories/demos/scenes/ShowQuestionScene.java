@@ -38,7 +38,7 @@
 package ead.elementfactories.demos.scenes;
 
 import ead.common.model.elements.effects.text.ShowQuestionEf;
-import ead.common.model.elements.guievents.EAdMouseEvent;
+import ead.common.model.elements.guievents.MouseGEv;
 import ead.common.model.elements.scenes.SceneElementImpl;
 import ead.elementfactories.EAdElementsFactory;
 import ead.elementfactories.StringFactory;
@@ -64,7 +64,7 @@ public class ShowQuestionScene extends EmptyScene {
 		
 		effect.setUpNewInstance();
 
-		element.addBehavior(EAdMouseEvent.MOUSE_LEFT_CLICK, effect);
+		element.addBehavior(MouseGEv.MOUSE_LEFT_CLICK, effect);
 	}
 
 	@Override

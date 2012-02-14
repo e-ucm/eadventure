@@ -40,7 +40,7 @@ package ead.engine.core.gameobjects.events;
 import com.google.inject.Inject;
 
 import ead.common.model.elements.events.ConditionedEv;
-import ead.common.model.elements.events.enums.ConditionedEventType;
+import ead.common.model.elements.events.enums.ConditionedEvType;
 import ead.engine.core.evaluators.EvaluatorFactory;
 import ead.engine.core.game.GameState;
 
@@ -63,13 +63,13 @@ public class ConditionEvGO extends AbstractEventGO<ConditionedEv> {
 		if (evaluator.evaluate(element.getCondition())) {
 			if (!triggered) {
 				runEffects(element
-						.getEffectsForEvent(ConditionedEventType.CONDITIONS_MET));
+						.getEffectsForEvent(ConditionedEvType.CONDITIONS_MET));
 			}
 			triggered = true;
 		} else if (triggered || ( firstCheck && element.isRunNotMetConditions())) {
 			triggered = false;
 			runEffects(element
-					.getEffectsForEvent(ConditionedEventType.CONDITIONS_UNMET));
+					.getEffectsForEvent(ConditionedEvType.CONDITIONS_UNMET));
 		}
 		firstCheck = false;
 	}

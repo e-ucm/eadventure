@@ -41,8 +41,8 @@ import com.google.inject.Inject;
 
 import ead.common.model.elements.scenes.SceneElementImpl;
 import ead.common.model.elements.transitions.FadeInTransition;
-import ead.common.resources.StringHandler;
-import ead.common.util.EAdInterpolator;
+import ead.common.util.Interpolator;
+import ead.common.util.StringHandler;
 import ead.engine.core.game.GameState;
 import ead.engine.core.gameobjects.factories.EventGOFactory;
 import ead.engine.core.gameobjects.factories.SceneElementGOFactory;
@@ -89,7 +89,7 @@ public class FadeInTransitionGO extends AbstractTransitionGO<FadeInTransition>{
 				finished = true;
 			}
 			else {
-				sceneAlpha = (EAdInterpolator.LINEAR.interpolate(currentTime - startTime, transition.getTime(), 1.0f));
+				sceneAlpha = (Interpolator.LINEAR.interpolate(currentTime - startTime, transition.getTime(), 1.0f));
 			}
 		}
 	}

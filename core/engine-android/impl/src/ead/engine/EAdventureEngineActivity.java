@@ -48,11 +48,11 @@ import com.google.inject.Guice;
 import com.google.inject.Injector;
 
 import ead.common.model.elements.EAdAdventureModel;
-import ead.common.model.elements.EAdAdventureModelImpl;
-import ead.common.model.elements.EAdChapterImpl;
+import ead.common.model.elements.BasicAdventureModel;
+import ead.common.model.elements.BasicChapter;
 import ead.common.model.elements.scene.EAdScene;
-import ead.common.model.elements.scenes.SceneImpl;
-import ead.common.resources.StringHandler;
+import ead.common.model.elements.scenes.BasicScene;
+import ead.common.util.StringHandler;
 import ead.elementfactories.EAdElementsFactory;
 import ead.engine.assets.specialassetrenderers.AndroidVideoRenderer;
 import ead.engine.assets.specialassetrenderers.RockPlayerAndroidVideoRenderer;
@@ -121,14 +121,14 @@ public class EAdventureEngineActivity extends Activity {
 		Class<? extends EAdScene> demoClass = (Class<? extends EAdScene>) getIntent()
 				.getExtras().getSerializable("demo");
 
-		SceneImpl sceneImpl = (SceneImpl) injector.getInstance(demoClass);
+		BasicScene sceneImpl = (BasicScene) injector.getInstance(demoClass);
 
 		StringHandler sh = injector.getInstance(StringHandler.class);
 		sh.addStrings(EAdElementsFactory.getInstance().getStringFactory()
 				.getStrings());
 
-		EAdAdventureModel model = new EAdAdventureModelImpl();
-		EAdChapterImpl c1 = new EAdChapterImpl();
+		EAdAdventureModel model = new BasicAdventureModel();
+		BasicChapter c1 = new BasicChapter();
 		c1.setId("chapter1");
 		c1.getScenes().add(sceneImpl);
 		c1.setInitialScene(sceneImpl);

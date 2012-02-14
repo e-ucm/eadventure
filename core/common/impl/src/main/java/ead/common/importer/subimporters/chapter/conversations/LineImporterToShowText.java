@@ -46,7 +46,7 @@ import ead.common.model.EAdElement;
 import ead.common.model.elements.EAdCondition;
 import ead.common.model.elements.effects.text.SpeakEf;
 import ead.common.model.predef.effects.SpeakSceneElementEf;
-import ead.common.resources.StringHandler;
+import ead.common.util.StringHandler;
 import es.eucm.eadventure.common.data.chapter.conditions.Conditions;
 import es.eucm.eadventure.common.data.chapter.conversation.line.ConversationLine;
 import es.eucm.eadventure.common.data.chapter.elements.NPC;

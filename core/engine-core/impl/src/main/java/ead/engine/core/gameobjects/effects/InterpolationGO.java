@@ -41,8 +41,8 @@ import com.google.inject.Inject;
 
 import ead.common.model.EAdElement;
 import ead.common.model.elements.effects.InterpolationEf;
-import ead.common.resources.StringHandler;
-import ead.common.util.EAdInterpolator;
+import ead.common.util.Interpolator;
+import ead.common.util.StringHandler;
 import ead.engine.core.game.GameLoop;
 import ead.engine.core.game.GameState;
 import ead.engine.core.gameobjects.factories.SceneElementGOFactory;
@@ -55,7 +55,8 @@ import org.slf4j.LoggerFactory;
 
 public class InterpolationGO extends AbstractEffectGO<InterpolationEf> {
 
-	private static final Logger logger = LoggerFactory.getLogger("VarInterpolationGO");
+	private static final Logger logger = LoggerFactory
+			.getLogger("VarInterpolationGO");
 
 	private int currentTime;
 
@@ -79,12 +80,13 @@ public class InterpolationGO extends AbstractEffectGO<InterpolationEf> {
 
 	private EAdElement owner;
 
-	private EAdInterpolator interpolator;
+	private Interpolator interpolator;
 
 	@Inject
 	public InterpolationGO(AssetHandler assetHandler,
-			StringHandler stringHandler, SceneElementGOFactory gameObjectFactory,
-			GUI gui, GameState gameState, OperatorFactory operatorFactory) {
+			StringHandler stringHandler,
+			SceneElementGOFactory gameObjectFactory, GUI gui,
+			GameState gameState, OperatorFactory operatorFactory) {
 		super(assetHandler, stringHandler, gameObjectFactory, gui, gameState);
 		this.operatorFactory = operatorFactory;
 	}
@@ -108,17 +110,24 @@ public class InterpolationGO extends AbstractEffectGO<InterpolationEf> {
 		interpolationLength = endValue - startValue;
 		finished = false;
 		logger.info("{}.{} is going to be inerpolated from {} to {}",
-                new Object[]{element.getElement(), element.getVarDef(), startValue, endValue});
+				new Object[] { element.getElement(), element.getVarDef(),
+						startValue, endValue });
 		delay = element.getDelay();
 
 		owner = element.getElement() == null ? parent : gameState.getValueMap()
 				.getFinalElement(element.getElement());
 
 		switch (element.getInterpolationType()) {
-            case BOUNCE_END:	interpolator = EAdInterpolator.BOUNCE_END; break;
-            case ACCELERATE:    interpolator = EAdInterpolator.ACCELERATE; break;
-            case DESACCELERATE:	interpolator = EAdInterpolator.DESACCELERATE; break;
-            default:			interpolator = EAdInterpolator.LINEAR;	break;
+		case BOUNCE_END:
+			interpolator = Interpolator.BOUNCE_END;
+			break;
+		case DESACCELERATE:
+			interpolator = Interpolator.DESACCELERATE;
+			break;
+		default:
+			interpolator = Interpolator.LINEAR;
+			break;
+
 		}
 	}
 
@@ -132,7 +141,7 @@ public class InterpolationGO extends AbstractEffectGO<InterpolationEf> {
 		return finished;
 	}
 
-    @Override
+	@Override
 	public void update() {
 		if (delay <= 0) {
 			currentTime += GameLoop.SKIP_MILLIS_TICK;
@@ -173,15 +182,15 @@ public class InterpolationGO extends AbstractEffectGO<InterpolationEf> {
 			}
 		} else {
 			delay -= GameLoop.SKIP_MILLIS_TICK;
-			if ( delay < 0 ){
+			if (delay < 0) {
 				currentTime -= delay;
 			}
 		}
 	}
 
 	public Object interpolation() {
-		int time = reverse ?
-                element.getInterpolationTime() - currentTime : currentTime;
+		int time = reverse ? element.getInterpolationTime() - currentTime
+				: currentTime;
 		float f = interpolator.interpolate(time,
 				element.getInterpolationTime(), interpolationLength);
 		f += startValue;

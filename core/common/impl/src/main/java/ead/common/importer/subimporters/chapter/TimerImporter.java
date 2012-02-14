@@ -54,22 +54,22 @@ import ead.common.model.elements.effects.hud.ModifyHUDEf;
 import ead.common.model.elements.effects.variables.ChangeFieldEf;
 import ead.common.model.elements.events.ConditionedEv;
 import ead.common.model.elements.events.SceneElementEv;
-import ead.common.model.elements.events.enums.ConditionedEventType;
-import ead.common.model.elements.events.enums.SceneElementEventType;
+import ead.common.model.elements.events.enums.ConditionedEvType;
+import ead.common.model.elements.events.enums.SceneElementEvType;
 import ead.common.model.elements.scene.EAdSceneElement;
-import ead.common.model.elements.scenes.SceneElementDefImpl;
+import ead.common.model.elements.scenes.SceneElementDef;
 import ead.common.model.elements.scenes.SceneElementImpl;
 import ead.common.model.elements.variables.EAdField;
 import ead.common.model.elements.variables.EAdVarDef;
-import ead.common.model.elements.variables.EAdFieldImpl;
+import ead.common.model.elements.variables.BasicField;
 import ead.common.model.elements.variables.SystemFields;
-import ead.common.model.elements.variables.VarDefImpl;
+import ead.common.model.elements.variables.VarDef;
 import ead.common.model.elements.variables.operations.BooleanOp;
 import ead.common.model.elements.variables.operations.MathOp;
 import ead.common.model.elements.variables.operations.ValueOp;
-import ead.common.params.EAdFontImpl;
-import ead.common.resources.StringHandler;
-import ead.common.resources.assets.drawable.basics.CaptionImpl;
+import ead.common.params.BasicFont;
+import ead.common.resources.assets.drawable.basics.Caption;
+import ead.common.util.StringHandler;
 import es.eucm.eadventure.common.data.chapter.Timer;
 import es.eucm.eadventure.common.data.chapter.conditions.Conditions;
 
@@ -86,13 +86,13 @@ public class TimerImporter implements EAdElementImporter<Timer, EAdEvent> {
 
 	private StringHandler stringHandler;
 
-	private static final EAdVarDef<Integer> CURRENT_TIME_VAR = new VarDefImpl<Integer>(
+	private static final EAdVarDef<Integer> CURRENT_TIME_VAR = new VarDef<Integer>(
 			"current_time_timer", Integer.class, 0);
 
-	private static final EAdVarDef<Boolean> RUNNING_VAR = new VarDefImpl<Boolean>(
+	private static final EAdVarDef<Boolean> RUNNING_VAR = new VarDef<Boolean>(
 			"stopped_timer", Boolean.class, false);
 
-	private static final EAdVarDef<Boolean> NOT_TRIGGERED_VAR = new VarDefImpl<Boolean>(
+	private static final EAdVarDef<Boolean> NOT_TRIGGERED_VAR = new VarDef<Boolean>(
 			"stopped_timer", Boolean.class, true);
 
 	@Inject
@@ -117,16 +117,16 @@ public class TimerImporter implements EAdElementImporter<Timer, EAdEvent> {
 		initCondition = conditionsImporter.convert(oldTimer.getInitCond(),
 				initCondition);
 		EAdSceneElement timer = getSceneElementForTimer(oldTimer, initCondition);
-		EAdField<Boolean> runningField = new EAdFieldImpl<Boolean>(timer,
+		EAdField<Boolean> runningField = new BasicField<Boolean>(timer,
 				RUNNING_VAR);
-		EAdField<Boolean> notTriggeredField = new EAdFieldImpl<Boolean>(timer,
+		EAdField<Boolean> notTriggeredField = new BasicField<Boolean>(timer,
 				NOT_TRIGGERED_VAR);
 
-		EAdField<Boolean> visibleField = new EAdFieldImpl<Boolean>(timer,
+		EAdField<Boolean> visibleField = new BasicField<Boolean>(timer,
 				SceneElementImpl.VAR_VISIBLE);
 		ChangeFieldEf changeVisible = new ChangeFieldEf(
 				visibleField, BooleanOp.TRUE_OP);
-		EAdField<Integer> currentTimeField = new EAdFieldImpl<Integer>(timer,
+		EAdField<Integer> currentTimeField = new BasicField<Integer>(timer,
 				CURRENT_TIME_VAR);
 
 		ModifyHUDEf modifyHUD = new ModifyHUDEf(timer, true);
@@ -135,13 +135,13 @@ public class TimerImporter implements EAdElementImporter<Timer, EAdEvent> {
 				runningField, new BooleanOp(
 						EmptyCond.TRUE_EMPTY_CONDITION));
 
-		event.addEffect(ConditionedEventType.CONDITIONS_MET, modifyHUD);
-		event.addEffect(ConditionedEventType.CONDITIONS_MET, changeVisible);
-		event.addEffect(ConditionedEventType.CONDITIONS_MET,
+		event.addEffect(ConditionedEvType.CONDITIONS_MET, modifyHUD);
+		event.addEffect(ConditionedEvType.CONDITIONS_MET, changeVisible);
+		event.addEffect(ConditionedEvType.CONDITIONS_MET,
 				new ChangeFieldEf(currentTimeField,
 						new ValueOp(0)));
-		event.addEffect(ConditionedEventType.CONDITIONS_MET, changeRunning);
-		event.addEffect(ConditionedEventType.CONDITIONS_MET,
+		event.addEffect(ConditionedEvType.CONDITIONS_MET, changeRunning);
+		event.addEffect(ConditionedEvType.CONDITIONS_MET,
 				new ChangeFieldEf(notTriggeredField,
 						BooleanOp.FALSE_OP));
 		event.setRunNotMetConditions(false);
@@ -155,7 +155,7 @@ public class TimerImporter implements EAdElementImporter<Timer, EAdEvent> {
 			visibleEvent.setCondition(new ANDCond(new OperationCond(
 					visibleField), new NOTCond(new OperationCond(
 					runningField))));
-			visibleEvent.addEffect(ConditionedEventType.CONDITIONS_MET,
+			visibleEvent.addEffect(ConditionedEvType.CONDITIONS_MET,
 					changeVisibleFalse);
 			timer.getEvents().add(visibleEvent);
 		}
@@ -163,11 +163,11 @@ public class TimerImporter implements EAdElementImporter<Timer, EAdEvent> {
 		if (oldTimer.isMultipleStarts()) {
 			ConditionedEv multipleStarts = new ConditionedEv();
 			multipleStarts.setCondition(initCondition);
-			multipleStarts.addEffect(ConditionedEventType.CONDITIONS_MET,
+			multipleStarts.addEffect(ConditionedEvType.CONDITIONS_MET,
 					changeRunning);
-			multipleStarts.addEffect(ConditionedEventType.CONDITIONS_MET,
+			multipleStarts.addEffect(ConditionedEvType.CONDITIONS_MET,
 					changeVisible);
-			multipleStarts.addEffect(ConditionedEventType.CONDITIONS_MET,
+			multipleStarts.addEffect(ConditionedEvType.CONDITIONS_MET,
 					new ChangeFieldEf(currentTimeField,
 							new ValueOp(0)));
 			timer.getEvents().add(multipleStarts);
@@ -182,12 +182,12 @@ public class TimerImporter implements EAdElementImporter<Timer, EAdEvent> {
 		timer.setVarInitialValue(SceneElementImpl.VAR_ENABLE, false);
 		timer.setId("timer" + ID++);
 
-		EAdField<Integer> currentTimeField = new EAdFieldImpl<Integer>(timer,
+		EAdField<Integer> currentTimeField = new BasicField<Integer>(timer,
 				CURRENT_TIME_VAR);
-		EAdField<Boolean> runningField = new EAdFieldImpl<Boolean>(timer,
+		EAdField<Boolean> runningField = new BasicField<Boolean>(timer,
 				RUNNING_VAR);
 
-		EAdField<Boolean> visibleField = new EAdFieldImpl<Boolean>(timer,
+		EAdField<Boolean> visibleField = new BasicField<Boolean>(timer,
 				SceneElementImpl.VAR_VISIBLE);
 
 		timer.setVarInitialValue(SceneElementImpl.VAR_VISIBLE, false);
@@ -237,7 +237,7 @@ public class TimerImporter implements EAdElementImporter<Timer, EAdEvent> {
 
 			ConditionedEv stopEvent = new ConditionedEv();
 			stopEvent.setCondition(stopCondition);
-			stopEvent.addEffect(ConditionedEventType.CONDITIONS_MET,
+			stopEvent.addEffect(ConditionedEvType.CONDITIONS_MET,
 					triggerStopEffects);
 			stopEffects.getEffects().add(
 					new ChangeFieldEf(runningField,
@@ -277,7 +277,7 @@ public class TimerImporter implements EAdElementImporter<Timer, EAdEvent> {
 
 
 			ConditionedEv expireEffectsEvent = new ConditionedEv();
-			expireEffectsEvent.addEffect(ConditionedEventType.CONDITIONS_MET,
+			expireEffectsEvent.addEffect(ConditionedEvType.CONDITIONS_MET,
 					triggerExpiredEffects);
 			expireEffectsEvent.setCondition(expireCondition);
 
@@ -292,13 +292,13 @@ public class TimerImporter implements EAdElementImporter<Timer, EAdEvent> {
 		updateCurrentTime.setOperation(new MathOp("[0] + [1]",
 				currentTimeField, SystemFields.ELAPSED_TIME_PER_UPDATE));
 		updateCurrentTime.setCondition(new OperationCond(runningField));
-		updater.addEffect(SceneElementEventType.ALWAYS, updateCurrentTime);
+		updater.addEffect(SceneElementEvType.ALWAYS, updateCurrentTime);
 	}
 
 	private void addAppearance(SceneElementImpl timer, Timer oldTimer,
 			EAdField<Integer> currentTimeField) {
-		CaptionImpl text = new CaptionImpl();
-		text.setFont(new EAdFontImpl(18));
+		Caption text = new Caption();
+		text.setFont(new BasicFont(18));
 
 		MathOp timeOperation = null;
 		if (oldTimer.isCountDown())
@@ -313,7 +313,7 @@ public class TimerImporter implements EAdElementImporter<Timer, EAdEvent> {
 		timer.getDefinition()
 				.getResources()
 				.addAsset(timer.getDefinition().getInitialBundle(),
-						SceneElementDefImpl.appearance, text);
+						SceneElementDef.appearance, text);
 
 	}
 }

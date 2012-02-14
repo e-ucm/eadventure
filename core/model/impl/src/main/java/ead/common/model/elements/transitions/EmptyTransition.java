@@ -39,14 +39,14 @@ package ead.common.model.elements.transitions;
 
 import ead.common.interfaces.Element;
 import ead.common.interfaces.Param;
-import ead.common.model.elements.EAdElementImpl;
+import ead.common.model.elements.BasicElement;
 
 /**
  * Basic empty transition
  *
  */
 @Element(detailed = EmptyTransition.class, runtime = EmptyTransition.class)
-public class EmptyTransition extends EAdElementImpl implements EAdTransition {
+public class EmptyTransition extends BasicElement implements EAdTransition {
 	
 	private static final EmptyTransition transition = new EmptyTransition( 0 );
 	

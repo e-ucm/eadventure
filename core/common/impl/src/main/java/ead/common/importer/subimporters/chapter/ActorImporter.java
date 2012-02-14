@@ -46,10 +46,10 @@ import ead.common.importer.interfaces.EAdElementFactory;
 import ead.common.importer.interfaces.ResourceImporter;
 import ead.common.model.elements.EAdAction;
 import ead.common.model.elements.effects.ActorActionsEf;
-import ead.common.model.elements.guievents.EAdMouseEvent;
+import ead.common.model.elements.guievents.MouseGEv;
 import ead.common.model.elements.scene.EAdSceneElementDef;
-import ead.common.model.elements.scenes.SceneElementDefImpl;
-import ead.common.resources.StringHandler;
+import ead.common.model.elements.scenes.SceneElementDef;
+import ead.common.util.StringHandler;
 import es.eucm.eadventure.common.data.chapter.Action;
 import es.eucm.eadventure.common.data.chapter.elements.Description;
 import es.eucm.eadventure.common.data.chapter.elements.Element;
@@ -89,12 +89,12 @@ public abstract class ActorImporter<P extends Element> implements
 	@Override
 	public EAdSceneElementDef init(P oldObject) {
 		this.element = oldObject;
-		return new SceneElementDefImpl();
+		return new SceneElementDef();
 	}
 
 	@Override
 	public EAdSceneElementDef convert(P oldObject, Object object) {
-		SceneElementDefImpl actor = (SceneElementDefImpl) object;
+		SceneElementDef actor = (SceneElementDef) object;
 		actor.setId(oldObject.getId());
 		elementFactory.getCurrentChapterModel().getActors().add(actor);
 
@@ -127,10 +127,10 @@ public abstract class ActorImporter<P extends Element> implements
 
 	public abstract void initResourcesCorrespondencies();
 
-	protected void addActionsEffect(P oldObject, SceneElementDefImpl actor) {
+	protected void addActionsEffect(P oldObject, SceneElementDef actor) {
 		// add actions
 		ActorActionsEf showActions = new ActorActionsEf(actor);
-		actor.addBehavior(EAdMouseEvent.MOUSE_RIGHT_CLICK, showActions);
+		actor.addBehavior(MouseGEv.MOUSE_RIGHT_CLICK, showActions);
 		
 		// add other actions
 		actionImporter.addAllActions(oldObject.getActions(), actor, false);

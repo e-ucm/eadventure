@@ -43,8 +43,8 @@ import com.google.inject.Inject;
 
 import ead.common.model.elements.scene.EAdScene;
 import ead.common.model.elements.scenes.ComposedScene;
-import ead.common.resources.StringHandler;
 import ead.common.resources.assets.AssetDescriptor;
+import ead.common.util.StringHandler;
 import ead.engine.core.game.GameState;
 import ead.engine.core.gameobjects.factories.EventGOFactory;
 import ead.engine.core.gameobjects.factories.SceneElementGOFactory;

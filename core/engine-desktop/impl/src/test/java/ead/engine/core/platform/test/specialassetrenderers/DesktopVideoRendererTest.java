@@ -52,8 +52,8 @@ import junit.framework.TestCase;
 
 import org.junit.Test;
 
+import ead.common.resources.assets.multimedia.EAdVideo;
 import ead.common.resources.assets.multimedia.Video;
-import ead.common.resources.assets.multimedia.VideoImpl;
 import ead.engine.core.platform.specialassetrenderers.DesktopVideoRenderer;
 
 public class DesktopVideoRendererTest extends TestCase {
@@ -67,7 +67,7 @@ public class DesktopVideoRendererTest extends TestCase {
 		Enumeration<URL> temp = ClassLoader.getSystemResources("binary/flame.mpg");
 		File file = new File(temp.nextElement().toURI());
 		assertTrue(file.exists());
-		Video video = new VideoImpl(file.getAbsolutePath());
+		EAdVideo video = new Video(file.getAbsolutePath());
 		assertTrue(new File(video.getUri().getPath()).exists());
 		final DesktopVideoRenderer desktopVideoRenderer = new DesktopVideoRenderer(null);
 		o = desktopVideoRenderer.getComponent(video);

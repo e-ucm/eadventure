@@ -40,7 +40,7 @@ package ead.engine.core.platform;
 import ead.common.interfaces.features.Resourced;
 import ead.common.resources.EAdBundleId;
 import ead.common.resources.assets.AssetDescriptor;
-import ead.common.resources.assets.drawable.Drawable;
+import ead.common.resources.assets.drawable.EAdDrawable;
 import ead.engine.core.platform.rendering.GenericCanvas;
 import java.util.List;
 
@@ -122,7 +122,7 @@ public interface AssetHandler {
 	<T extends AssetDescriptor> RuntimeAsset<T> getRuntimeAsset(T descriptor,
 			boolean load);
 
-	<T extends Drawable, GraphicContext> DrawableAsset<T, GraphicContext> getDrawableAsset(
+	<T extends EAdDrawable, GraphicContext> DrawableAsset<T, GraphicContext> getDrawableAsset(
 			T descriptor, GenericCanvas<GraphicContext> clazz);
 
 	/**

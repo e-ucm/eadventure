@@ -45,7 +45,7 @@ import org.slf4j.LoggerFactory;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.inject.Inject;
 
-import ead.common.resources.assets.multimedia.Video;
+import ead.common.resources.assets.multimedia.EAdVideo;
 import ead.engine.core.platform.AssetHandler;
 import ead.engine.core.platform.EngineConfiguration;
 import ead.engine.core.platform.SpecialAssetRenderer;
@@ -60,7 +60,7 @@ import fr.hd3d.html5.video.client.VideoWidget;
  * game in the html layout.
  * 
  */
-public class PlayNVideoRenderer implements SpecialAssetRenderer<Video, Widget> {
+public class PlayNVideoRenderer implements SpecialAssetRenderer<EAdVideo, Widget> {
 
 	private static Logger logger = LoggerFactory.getLogger("PlayNVideoRenderer");
 
@@ -89,7 +89,7 @@ public class PlayNVideoRenderer implements SpecialAssetRenderer<Video, Widget> {
 	 * http://code.google.com/p/gwt-html5-video/wiki/GettingStarted
 	 */
 	@Override
-	public Widget getComponent(Video asset) {
+	public Widget getComponent(EAdVideo asset) {
 		String path = assetHandler.getAbsolutePath(asset.getUri().getPath());
 		// TODO Last parameter should be a capture of the vide
 		

@@ -42,6 +42,9 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
@@ -51,9 +54,6 @@ import com.google.inject.Inject;
 import ead.engine.core.platform.AssetHandler;
 import ead.engine.core.platform.assets.RuntimeImage;
 import ead.engine.core.platform.rendering.GenericCanvas;
-import java.awt.Canvas;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class AndroidEngineImage extends RuntimeImage<Canvas> {
 

@@ -37,29 +37,27 @@
 
 package ead.common.reader;
 
-import com.google.inject.Inject;
-import ead.common.DOMTags;
-import ead.common.Reader;
-import ead.common.model.elements.EAdAdventureModel;
-import ead.common.model.elements.EAdAdventureModelImpl;
-import ead.common.reader.extra.ObjectFactory;
-import ead.common.reader.visitors.ElementNodeVisitor;
-import ead.common.reader.visitors.NodeVisitor;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.io.InputStream;
 import java.net.URI;
+
 import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-import org.xml.sax.SAXException;
 
+import ead.common.DOMTags;
+import ead.common.Reader;
+import ead.common.model.elements.BasicAdventureModel;
+import ead.common.model.elements.EAdAdventureModel;
+import ead.common.reader.extra.ObjectFactory;
+import ead.common.reader.visitors.ElementNodeVisitor;
+import ead.common.reader.visitors.NodeVisitor;
 /**
  * The reader for the XML representation of the model
  */
@@ -81,14 +79,14 @@ public class EAdAdventureDOMModelReader implements Reader<EAdAdventureModel> {
 
 	@Override
 	public EAdAdventureModel read(InputStream inputStream) {
-		EAdAdventureModelImpl data = null;
+		BasicAdventureModel data = null;
 		try {
 			ObjectFactory.initialize();
 			Document doc = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(inputStream);
 			ElementNodeVisitor env = new ElementNodeVisitor();
 			NodeVisitor.init(doc.getFirstChild().getAttributes().getNamedItem(DOMTags.PACKAGE_AT).getNodeValue());
 			getAliasMap(doc);
-			data = (EAdAdventureModelImpl) env.visit(doc.getFirstChild().getFirstChild(), null, null, null);
+			data = (BasicAdventureModel) env.visit(doc.getFirstChild().getFirstChild(), null, null, null);
 			data.getDepthControlList().clear();
 
 			return data;

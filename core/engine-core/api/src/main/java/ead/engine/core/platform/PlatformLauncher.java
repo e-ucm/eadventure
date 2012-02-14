@@ -37,7 +37,7 @@
 
 package ead.engine.core.platform;
 
-import ead.common.params.EAdURI;
+import ead.common.util.EAdURI;
 
 /**
  * This interface is implemented by the appropriate launcher for each platform.

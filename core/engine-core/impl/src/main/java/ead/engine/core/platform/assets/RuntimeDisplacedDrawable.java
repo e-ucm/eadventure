@@ -43,16 +43,16 @@ import org.slf4j.LoggerFactory;
 import com.google.inject.Inject;
 
 import ead.common.resources.assets.AssetDescriptor;
-import ead.common.resources.assets.drawable.Drawable;
-import ead.common.resources.assets.drawable.compounds.DisplacedDrawable;
+import ead.common.resources.assets.drawable.EAdDrawable;
+import ead.common.resources.assets.drawable.compounds.EAdDisplacedDrawable;
 import ead.common.util.EAdPosition;
 import ead.engine.core.platform.AssetHandler;
 import ead.engine.core.platform.DrawableAsset;
 import ead.engine.core.platform.rendering.GenericCanvas;
 
 public class RuntimeDisplacedDrawable<GraphicContext> extends
-		AbstractRuntimeAsset<DisplacedDrawable> implements
-		DrawableAsset<DisplacedDrawable, GraphicContext> {
+		AbstractRuntimeAsset<EAdDisplacedDrawable> implements
+		DrawableAsset<EAdDisplacedDrawable, GraphicContext> {
 
 	/**
 	 * Logger
@@ -104,7 +104,7 @@ public class RuntimeDisplacedDrawable<GraphicContext> extends
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public <S extends Drawable> DrawableAsset<S, GraphicContext> getDrawable() {
+	public <S extends EAdDrawable> DrawableAsset<S, GraphicContext> getDrawable() {
 		return (DrawableAsset<S, GraphicContext>) this;
 	}
 

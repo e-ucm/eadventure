@@ -42,8 +42,8 @@ import org.slf4j.LoggerFactory;
 
 import com.google.inject.Inject;
 
-import ead.common.resources.assets.drawable.Drawable;
-import ead.common.resources.assets.drawable.basics.SpriteImageImpl;
+import ead.common.resources.assets.drawable.EAdDrawable;
+import ead.common.resources.assets.drawable.basics.SpriteImage;
 import ead.engine.core.platform.AssetHandler;
 import ead.engine.core.platform.DrawableAsset;
 
@@ -53,7 +53,7 @@ import ead.engine.core.platform.DrawableAsset;
  * 
  */
 public abstract class RuntimeSpriteImage<GraphicContext> extends
-		AbstractRuntimeAsset<SpriteImageImpl> implements DrawableAsset<SpriteImageImpl, GraphicContext> {
+		AbstractRuntimeAsset<SpriteImage> implements DrawableAsset<SpriteImage, GraphicContext> {
 
 	/**
 	 * Logger
@@ -76,8 +76,8 @@ public abstract class RuntimeSpriteImage<GraphicContext> extends
 	}
 
 	@Override
-	public void setDescriptor(SpriteImageImpl descriptor) {
-		this.descriptor = (SpriteImageImpl) descriptor;
+	public void setDescriptor(SpriteImage descriptor) {
+		this.descriptor = (SpriteImage) descriptor;
 		this.rows = (int) Math.sqrt(descriptor.getTotalSprites());
 		this.cols = (int) Math.sqrt(descriptor.getTotalSprites());
 	}
@@ -89,7 +89,7 @@ public abstract class RuntimeSpriteImage<GraphicContext> extends
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public <S extends Drawable> DrawableAsset<S, GraphicContext> getDrawable() {
+	public <S extends EAdDrawable> DrawableAsset<S, GraphicContext> getDrawable() {
 		return (DrawableAsset<S, GraphicContext>) this;
 	}
 

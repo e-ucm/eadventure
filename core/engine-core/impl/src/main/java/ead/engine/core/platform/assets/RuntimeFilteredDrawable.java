@@ -39,13 +39,13 @@ package ead.engine.core.platform.assets;
 
 import com.google.inject.Inject;
 
-import ead.common.resources.assets.drawable.Drawable;
-import ead.common.resources.assets.drawable.filters.FilteredDrawable;
+import ead.common.resources.assets.drawable.EAdDrawable;
+import ead.common.resources.assets.drawable.filters.EAdFilteredDrawable;
 import ead.engine.core.platform.AssetHandler;
 import ead.engine.core.platform.DrawableAsset;
 import ead.engine.core.platform.rendering.GenericCanvas;
 
-public class RuntimeFilteredDrawable<GraphicContext> extends AbstractRuntimeAsset<FilteredDrawable> implements DrawableAsset<FilteredDrawable, GraphicContext>{
+public class RuntimeFilteredDrawable<GraphicContext> extends AbstractRuntimeAsset<EAdFilteredDrawable> implements DrawableAsset<EAdFilteredDrawable, GraphicContext>{
 	
 	private AssetHandler assetHandler;
 	
@@ -97,7 +97,7 @@ public class RuntimeFilteredDrawable<GraphicContext> extends AbstractRuntimeAsse
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public <S extends Drawable> DrawableAsset<S, GraphicContext> getDrawable() {
+	public <S extends EAdDrawable> DrawableAsset<S, GraphicContext> getDrawable() {
 		return (DrawableAsset<S, GraphicContext>) this;
 	}
 

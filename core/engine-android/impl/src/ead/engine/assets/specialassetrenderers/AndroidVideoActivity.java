@@ -37,7 +37,8 @@
 
 package ead.engine.assets.specialassetrenderers;
 
-import java.io.IOException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -49,11 +50,8 @@ import android.media.MediaPlayer.OnVideoSizeChangedListener;
 import android.os.Bundle;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
-import ead.editor.R;
 import ead.engine.EAdventureEngineActivity;
 import ead.engine.R;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class AndroidVideoActivity extends Activity implements OnCompletionListener,
 OnPreparedListener, OnVideoSizeChangedListener, SurfaceHolder.Callback {

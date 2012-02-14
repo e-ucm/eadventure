@@ -46,16 +46,16 @@ import ead.common.interfaces.features.enums.Orientation;
 import ead.common.model.elements.effects.sceneelements.MoveSceneElementEf;
 import ead.common.model.elements.enums.CommonStates;
 import ead.common.model.elements.scene.EAdSceneElement;
-import ead.common.model.elements.scenes.SceneElementDefImpl;
+import ead.common.model.elements.scenes.SceneElementDef;
 import ead.common.model.elements.scenes.SceneElementImpl;
-import ead.common.model.elements.scenes.SceneImpl;
+import ead.common.model.elements.scenes.BasicScene;
 import ead.common.model.elements.trajectories.NodeTrajectoryDefinition;
-import ead.common.model.elements.trajectories.TrajectoryDefinition;
+import ead.common.model.elements.trajectories.EAdTrajectoryDefinition;
 import ead.common.model.elements.variables.EAdVarDef;
-import ead.common.model.elements.variables.VarDefImpl;
-import ead.common.resources.StringHandler;
-import ead.common.util.EAdInterpolator;
+import ead.common.model.elements.variables.VarDef;
+import ead.common.util.Interpolator;
 import ead.common.util.EAdPosition;
+import ead.common.util.StringHandler;
 import ead.engine.core.game.GameState;
 import ead.engine.core.game.ValueMap;
 import ead.engine.core.gameobjects.effects.sceneelement.SceneElementEffectGO;
@@ -77,7 +77,7 @@ import ead.engine.core.trajectories.dijkstra.DijkstraPathSide;
 public class MoveSceneElementGO extends
 		SceneElementEffectGO<MoveSceneElementEf> {
 
-	private static final EAdVarDef<MoveSceneElementGO> VAR_ELEMENT_MOVING = new VarDefImpl<MoveSceneElementGO>(
+	private static final EAdVarDef<MoveSceneElementGO> VAR_ELEMENT_MOVING = new VarDef<MoveSceneElementGO>(
 			"element_moving", MoveSceneElementGO.class, null);
 
 	/**
@@ -136,10 +136,10 @@ public class MoveSceneElementGO extends
 
 		EAdSceneElement target = element.getTarget() != null ? valueMap
 				.getValue(element.getTarget(),
-						SceneElementDefImpl.VAR_SCENE_ELEMENT) : null;
+						SceneElementDef.VAR_SCENE_ELEMENT) : null;
 
-		TrajectoryDefinition d = valueMap.getValue(gameState.getScene()
-				.getElement(), SceneImpl.VAR_TRAJECTORY_DEFINITION);
+		EAdTrajectoryDefinition d = valueMap.getValue(gameState.getScene()
+				.getElement(), BasicScene.VAR_TRAJECTORY_DEFINITION);
 		if (d != null && element.isUseTrajectory()) {
 			if (target == null)
 				path = trajectoryFactory.getTrajectory(d, element.getSceneElement(),
@@ -196,8 +196,8 @@ public class MoveSceneElementGO extends
 					* side.getSpeedFactor();
 
 			//TODO should be more generic...
-			TrajectoryDefinition d = gameState.getValueMap().getValue(gameState.getScene()
-					.getElement(), SceneImpl.VAR_TRAJECTORY_DEFINITION);
+			EAdTrajectoryDefinition d = gameState.getValueMap().getValue(gameState.getScene()
+					.getElement(), BasicScene.VAR_TRAJECTORY_DEFINITION);
 			if (d != null && element.isUseTrajectory() && side instanceof DijkstraPathSide ) {
 				gameState.getValueMap().setValue(element.getSceneElement(), NodeTrajectoryDefinition.VAR_CURRENT_SIDE, ((DijkstraPathSide) side).getSide());
 			}
@@ -267,21 +267,21 @@ public class MoveSceneElementGO extends
 						sceneElement,
 						SceneElementImpl.VAR_X,
 						initX
-								+ (int) EAdInterpolator.LINEAR
+								+ (int) Interpolator.LINEAR
 										.interpolate(currentTime, totalTime,
 												targetX - initX));
 				gameState.getValueMap().setValue(
 						sceneElement,
 						SceneElementImpl.VAR_Y,
 						initY
-								+ (int) EAdInterpolator.LINEAR
+								+ (int) Interpolator.LINEAR
 										.interpolate(currentTime, totalTime,
 												targetY - initY));
 				gameState.getValueMap().setValue(
 						sceneElement,
 						SceneElementImpl.VAR_SCALE,
 						initScale
-								+ (float) EAdInterpolator.LINEAR
+								+ (float) Interpolator.LINEAR
 										.interpolate(currentTime, totalTime,
 												targetScale - initScale));
 

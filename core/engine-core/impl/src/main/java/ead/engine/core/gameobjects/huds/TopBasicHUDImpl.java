@@ -44,36 +44,33 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 import ead.common.model.EAdElement;
-import ead.common.model.elements.guievents.enums.KeyEventCode;
+import ead.common.model.elements.guievents.enums.KeyGEvCode;
 import ead.common.model.elements.guievents.enums.KeyEventType;
-import ead.common.model.elements.scenes.SceneElementDefImpl;
+import ead.common.model.elements.scenes.SceneElementDef;
 import ead.common.model.elements.scenes.SceneElementImpl;
 import ead.common.model.elements.variables.SystemFields;
 import ead.common.model.predef.events.ChaseMouseEv;
 import ead.common.model.predef.events.StayInBoundsEv;
-import ead.common.params.EAdFontImpl;
-import ead.common.params.fills.EAdColor;
+import ead.common.params.BasicFont;
+import ead.common.params.fills.ColorFill;
 import ead.common.params.text.EAdString;
-import ead.common.resources.StringHandler;
-import ead.common.resources.assets.drawable.Drawable;
-import ead.common.resources.assets.drawable.basics.CaptionImpl;
-import ead.common.resources.assets.drawable.basics.ImageImpl;
+import ead.common.resources.assets.drawable.EAdDrawable;
+import ead.common.resources.assets.drawable.basics.Caption;
+import ead.common.resources.assets.drawable.basics.Image;
 import ead.common.util.EAdPosition;
+import ead.common.util.StringHandler;
 import ead.engine.core.game.GameState;
 import ead.engine.core.game.ValueMap;
 import ead.engine.core.gameobjects.GameObjectManager;
 import ead.engine.core.gameobjects.factories.SceneElementGOFactory;
 import ead.engine.core.gameobjects.go.DrawableGO;
 import ead.engine.core.gameobjects.go.SceneElementGO;
-import ead.engine.core.gameobjects.huds.TopBasicHUD;
-import ead.engine.core.gameobjects.huds.MenuHUD;
 import ead.engine.core.input.InputAction;
 import ead.engine.core.input.InputHandler;
 import ead.engine.core.input.actions.KeyActionImpl;
 import ead.engine.core.platform.AssetHandler;
 import ead.engine.core.platform.DrawableAsset;
 import ead.engine.core.platform.GUI;
-import ead.engine.core.platform.RuntimeAsset;
 import ead.engine.core.platform.rendering.GenericCanvas;
 import ead.engine.core.util.EAdTransformation;
 import ead.engine.core.util.EAdTransformationImpl;
@@ -106,13 +103,13 @@ public class TopBasicHUDImpl extends AbstractHUD implements TopBasicHUD {
 
 	private SceneElementImpl contextual;
 
-	private CaptionImpl c = new CaptionImpl();
+	private Caption c = new Caption();
 
 	private StringHandler stringHandler;
 
 	private SceneElementImpl mouse;
 
-	private Drawable cursor;
+	private EAdDrawable cursor;
 
 	private AssetHandler assetHandler;
 
@@ -141,7 +138,7 @@ public class TopBasicHUDImpl extends AbstractHUD implements TopBasicHUD {
 	public boolean processAction(InputAction<?> action) {
 		if (action instanceof KeyActionImpl) {
 			KeyActionImpl keyAction = (KeyActionImpl) action;
-			if (keyAction.getKeyCode() == KeyEventCode.ESC
+			if (keyAction.getKeyCode() == KeyGEvCode.ESC
 					&& keyAction.getType() == KeyEventType.KEY_PRESSED) {
 				gameObjectManager.addHUD(menuHUD);
 				gameState.setPaused(true);
@@ -189,11 +186,11 @@ public class TopBasicHUDImpl extends AbstractHUD implements TopBasicHUD {
 	// Contextual
 
 	private void initContextual() {
-		c = new CaptionImpl();
-		c.setFont(new EAdFontImpl(12.0f));
-		c.setBubblePaint(new EAdColor(255, 255, 125));
+		c = new Caption();
+		c.setFont(new BasicFont(12.0f));
+		c.setBubblePaint(new ColorFill(255, 255, 125));
 		c.setPadding(10);
-		c.setTextPaint(EAdColor.BLACK);
+		c.setTextPaint(ColorFill.BLACK);
 		stringHandler.setString(c.getText(), "");
 		contextual = new SceneElementImpl(c);
 		contextual.setPosition(new EAdPosition(0, 0, 0.5f, 1.5f));
@@ -245,12 +242,12 @@ public class TopBasicHUDImpl extends AbstractHUD implements TopBasicHUD {
 
 	@SuppressWarnings("unchecked")
 	private void checkMouseImage() {
-		ImageImpl newCursor = gameState.getValueMap().getValue(
+		Image newCursor = gameState.getValueMap().getValue(
 				SystemFields.MOUSE_CURSOR);
 		if (cursor != newCursor) {
 			cursor = newCursor;
 			if (cursor != null) {
-				DrawableAsset<Drawable, ?> rAsset = (DrawableAsset<Drawable, ?> ) assetHandler
+				DrawableAsset<EAdDrawable, ?> rAsset = (DrawableAsset<EAdDrawable, ?> ) assetHandler
 						.getRuntimeAsset(cursor);
 				logger.info("width" + rAsset.getWidth());
 				rAsset.loadAsset();
@@ -260,7 +257,7 @@ public class TopBasicHUDImpl extends AbstractHUD implements TopBasicHUD {
 				mouse.getDefinition()
 						.getResources()
 						.addAsset(mouse.getDefinition().getInitialBundle(),
-								SceneElementDefImpl.appearance, cursor);
+								SceneElementDef.appearance, cursor);
 				gameState.getValueMap().setValue(mouse,
 						SceneElementImpl.VAR_SCALE, scale);
 			}

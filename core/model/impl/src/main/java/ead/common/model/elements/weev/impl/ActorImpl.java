@@ -38,14 +38,14 @@
 package ead.common.model.elements.weev.impl;
 
 import ead.common.interfaces.Element;
-import ead.common.model.elements.scenes.SceneElementDefImpl;
+import ead.common.model.elements.scenes.SceneElementDef;
 import ead.common.model.weev.Actor;
 
 /**
  * Default {@link Actor} implementation
  */
-@Element(detailed = ActorImpl.class, runtime = SceneElementDefImpl.class)
-public class ActorImpl extends SceneElementDefImpl implements Actor {
+@Element(detailed = ActorImpl.class, runtime = SceneElementDef.class)
+public class ActorImpl extends SceneElementDef implements Actor {
 
 	public ActorImpl() {
 		super();

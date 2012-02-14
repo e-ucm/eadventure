@@ -37,22 +37,22 @@
 
 package ead.engine.core.input.actions;
 
-import ead.common.model.elements.guievents.EAdKeyEvent;
-import ead.common.model.elements.guievents.enums.KeyEventCode;
+import ead.common.model.elements.guievents.KeyGEv;
+import ead.common.model.elements.guievents.enums.KeyGEvCode;
 import ead.common.model.elements.guievents.enums.KeyEventType;
 
-public class KeyActionImpl extends AbstractInputAction<EAdKeyEvent> {
+public class KeyActionImpl extends AbstractInputAction<KeyGEv> {
 
-	public KeyActionImpl(KeyEventType type, KeyEventCode code) {
-		super( new EAdKeyEvent(type, code) );
+	public KeyActionImpl(KeyEventType type, KeyGEvCode code) {
+		super( new KeyGEv(type, code) );
 	}
 
 	public KeyActionImpl(KeyEventType type, char letter) {
-		this(type, KeyEventCode.LETTER);
+		this(type, KeyGEvCode.LETTER);
 		this.getGUIEvent().setCharacter(letter);
 	}
 
-	public KeyEventCode getKeyCode() {
+	public KeyGEvCode getKeyCode() {
 		return event.getKeyCode();
 	}
 

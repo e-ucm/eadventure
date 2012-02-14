@@ -41,7 +41,7 @@ import ead.common.interfaces.Element;
 import ead.common.interfaces.Param;
 import ead.common.model.elements.EAdCondition;
 import ead.common.model.elements.conditions.EmptyCond;
-import ead.common.model.elements.variables.OperationImpl;
+import ead.common.model.elements.variables.AbstractOperation;
 
 /**
  * Represents an operation that has a boolean as a result
@@ -49,7 +49,7 @@ import ead.common.model.elements.variables.OperationImpl;
  * 
  */
 @Element(runtime = BooleanOp.class, detailed = BooleanOp.class)
-public class BooleanOp extends OperationImpl {
+public class BooleanOp extends AbstractOperation {
 
 	/**
 	 * Set to false boolean operation

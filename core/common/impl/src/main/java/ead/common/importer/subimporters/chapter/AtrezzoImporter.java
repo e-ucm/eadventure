@@ -46,9 +46,9 @@ import ead.common.importer.interfaces.EAdElementFactory;
 import ead.common.importer.interfaces.ResourceImporter;
 import ead.common.model.elements.EAdAction;
 import ead.common.model.elements.scene.EAdSceneElementDef;
-import ead.common.model.elements.scenes.SceneElementDefImpl;
-import ead.common.resources.StringHandler;
-import ead.common.resources.assets.drawable.basics.ImageImpl;
+import ead.common.model.elements.scenes.SceneElementDef;
+import ead.common.resources.assets.drawable.basics.Image;
+import ead.common.util.StringHandler;
 import es.eucm.eadventure.common.data.chapter.Action;
 import es.eucm.eadventure.common.data.chapter.elements.Atrezzo;
 
@@ -71,10 +71,10 @@ public class AtrezzoImporter extends ActorImporter<Atrezzo>{
 	public void initResourcesCorrespondencies( ) {
 		
 		properties = new HashMap<String, String>();
-		properties.put(Atrezzo.RESOURCE_TYPE_IMAGE, SceneElementDefImpl.appearance);
+		properties.put(Atrezzo.RESOURCE_TYPE_IMAGE, SceneElementDef.appearance);
 		
 		objectClasses = new HashMap<String, Object>();
-		objectClasses.put(Atrezzo.RESOURCE_TYPE_IMAGE, ImageImpl.class);
+		objectClasses.put(Atrezzo.RESOURCE_TYPE_IMAGE, Image.class);
 		
 	}
 

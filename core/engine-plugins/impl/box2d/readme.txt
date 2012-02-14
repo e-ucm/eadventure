@@ -1,1 +1,0 @@
-This folder contains some classes to demonstrate the integration with the Box2D physic engine, to future implementations.

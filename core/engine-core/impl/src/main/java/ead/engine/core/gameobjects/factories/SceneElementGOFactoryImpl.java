@@ -38,11 +38,11 @@
 package ead.engine.core.gameobjects.factories;
 
 import com.google.inject.Inject;
+import com.google.inject.Singleton;
 
 import ead.common.model.elements.scene.EAdSceneElement;
 import ead.common.util.ReflectionProvider;
 import ead.engine.core.factorymapproviders.ElementGameObjectFactoryConfigurator;
-import ead.engine.core.gameobjects.factories.SceneElementGOFactory;
 import ead.engine.core.gameobjects.go.SceneElementGO;
 import ead.engine.core.platform.GenericInjector;
 
@@ -51,6 +51,7 @@ import ead.engine.core.platform.GenericInjector;
  * Default implementation of the {@link GameObjectFactor}.
  * </p>
  */
+@Singleton
 public class SceneElementGOFactoryImpl
 		extends
 		GOFactoryImpl<EAdSceneElement, SceneElementGO<? extends EAdSceneElement>>

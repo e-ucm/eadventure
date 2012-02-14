@@ -41,8 +41,8 @@ import playn.core.Canvas;
 
 import com.google.inject.Inject;
 
-import ead.common.resources.StringHandler;
-import ead.common.resources.assets.drawable.basics.CaptionImpl;
+import ead.common.resources.assets.drawable.basics.Caption;
+import ead.common.util.StringHandler;
 import ead.engine.core.game.VariableMap;
 import ead.engine.core.platform.AssetHandler;
 import ead.engine.core.platform.FontHandler;
@@ -58,7 +58,7 @@ public class PlayNEngineCaption extends RuntimeCaption<Canvas> {
 	}
 
 	public void setHasBuble(boolean b) {
-		((CaptionImpl) this.descriptor).setHasBubble(b);
+		((Caption) this.descriptor).setHasBubble(b);
 	}
 
 	public int getLineHeight() {

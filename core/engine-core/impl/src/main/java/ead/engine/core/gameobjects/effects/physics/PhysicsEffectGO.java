@@ -57,8 +57,8 @@ import ead.common.model.elements.scene.EAdScene;
 import ead.common.model.elements.scene.EAdSceneElement;
 import ead.common.model.elements.scenes.SceneElementImpl;
 import ead.common.model.elements.variables.EAdVarDef;
-import ead.common.model.elements.variables.VarDefImpl;
-import ead.common.resources.StringHandler;
+import ead.common.model.elements.variables.VarDef;
+import ead.common.util.StringHandler;
 import ead.engine.core.game.GameLoop;
 import ead.engine.core.game.GameState;
 import ead.engine.core.game.ValueMap;
@@ -75,10 +75,10 @@ public class PhysicsEffectGO extends AbstractEffectGO<PhysicsEffect> {
 
 	private float timeStep;
 
-	public static final EAdVarDef<Body> VAR_PH_BODY = new VarDefImpl<Body>(
+	public static final EAdVarDef<Body> VAR_PH_BODY = new VarDef<Body>(
 			"ph_body", Body.class, null);
 
-	public static final EAdVarDef<World> VAR_PH_WORLD = new VarDefImpl<World>(
+	public static final EAdVarDef<World> VAR_PH_WORLD = new VarDef<World>(
 			"ph_world", World.class, null);
 
 	@Inject

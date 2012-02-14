@@ -40,7 +40,7 @@ package ead.engine.core.gameobjects.events;
 import com.google.inject.Inject;
 
 import ead.common.model.elements.events.TimedEv;
-import ead.common.model.elements.events.enums.TimedEventType;
+import ead.common.model.elements.events.enums.TimedEvType;
 import ead.engine.core.game.GameLoop;
 import ead.engine.core.game.GameState;
 
@@ -68,12 +68,12 @@ public class TimedEvGO extends
 		if (repeats != 0) {
 			if (elapsedTime == 0) {
 				this.runEffects(element
-						.getEffectsForEvent(TimedEventType.START_TIME));
+						.getEffectsForEvent(TimedEvType.START_TIME));
 			}
 			elapsedTime += GameLoop.SKIP_MILLIS_TICK;
 			if (elapsedTime > element.getTime()) {
 				this.runEffects(element
-						.getEffectsForEvent(TimedEventType.END_TIME));
+						.getEffectsForEvent(TimedEvType.END_TIME));
 				elapsedTime = 0;
 				repeats--;
 			}

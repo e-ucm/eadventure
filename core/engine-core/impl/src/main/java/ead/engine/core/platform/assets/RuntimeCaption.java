@@ -45,11 +45,11 @@ import org.slf4j.LoggerFactory;
 import com.google.inject.Inject;
 
 import ead.common.model.elements.variables.SystemFields;
-import ead.common.resources.StringHandler;
-import ead.common.resources.assets.drawable.Drawable;
-import ead.common.resources.assets.drawable.basics.Caption;
+import ead.common.resources.assets.drawable.EAdDrawable;
+import ead.common.resources.assets.drawable.basics.EAdCaption;
 import ead.common.resources.assets.drawable.basics.shapes.RectangleShape;
 import ead.common.util.EAdRectangle;
+import ead.common.util.StringHandler;
 import ead.engine.core.game.GameLoop;
 import ead.engine.core.game.VariableMap;
 import ead.engine.core.platform.AssetHandler;
@@ -59,8 +59,8 @@ import ead.engine.core.platform.RuntimeFont;
 import ead.engine.core.platform.rendering.GenericCanvas;
 
 public class RuntimeCaption<GraphicContext> extends
-		AbstractRuntimeAsset<Caption> implements
-		DrawableAsset<Caption, GraphicContext> {
+		AbstractRuntimeAsset<EAdCaption> implements
+		DrawableAsset<EAdCaption, GraphicContext> {
 
 	private Logger logger = LoggerFactory.getLogger("RuntimeCaption");
 
@@ -226,7 +226,7 @@ public class RuntimeCaption<GraphicContext> extends
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public <S extends Drawable> DrawableAsset<S, GraphicContext> getDrawable() {
+	public <S extends EAdDrawable> DrawableAsset<S, GraphicContext> getDrawable() {
 		return (DrawableAsset<S, GraphicContext>) this;
 	}
 
@@ -241,10 +241,10 @@ public class RuntimeCaption<GraphicContext> extends
 		int preferredWidth = 0;
 
 		switch (descriptor.getPreferredWidth()) {
-		case Caption.AUTO_SIZE:
+		case EAdCaption.AUTO_SIZE:
 			preferredWidth = Integer.MAX_VALUE;
 			break;
-		case Caption.SCREEN_SIZE:
+		case EAdCaption.SCREEN_SIZE:
 			preferredWidth = valueMap.getValue(SystemFields.GAME_WIDTH);
 			break;
 		default:
@@ -296,10 +296,10 @@ public class RuntimeCaption<GraphicContext> extends
 
 		int preferredHeight = 0;
 		switch (descriptor.getPreferredHeight()) {
-		case Caption.SCREEN_SIZE:
+		case EAdCaption.SCREEN_SIZE:
 			preferredHeight = valueMap.getValue(SystemFields.GAME_HEIGHT);
 			break;
-		case Caption.AUTO_SIZE:
+		case EAdCaption.AUTO_SIZE:
 			preferredHeight = Integer.MAX_VALUE;
 			break;
 		default:
@@ -311,14 +311,14 @@ public class RuntimeCaption<GraphicContext> extends
 		linesInPart = linesInPart < lines.size() ? linesInPart : lines.size();
 		totalParts = (int) Math
 				.ceil((float) lines.size() / (float) linesInPart);
-		bounds.height = descriptor.getPreferredHeight() == Caption.AUTO_SIZE ? linesInPart
+		bounds.height = descriptor.getPreferredHeight() == EAdCaption.AUTO_SIZE ? linesInPart
 				* lineHeight
 				: preferredHeight;
 
-		bounds.width = descriptor.getPreferredWidth() == Caption.AUTO_SIZE ? bounds.width
+		bounds.width = descriptor.getPreferredWidth() == EAdCaption.AUTO_SIZE ? bounds.width
 				: preferredWidth;
 
-		heightOffset = descriptor.getPreferredHeight() != Caption.AUTO_SIZE ? (preferredHeight - (linesInPart * lineHeight)) / 2
+		heightOffset = descriptor.getPreferredHeight() != EAdCaption.AUTO_SIZE ? (preferredHeight - (linesInPart * lineHeight)) / 2
 				: 0;
 
 		bounds.width += descriptor.getPadding() * 2;
@@ -443,7 +443,7 @@ public class RuntimeCaption<GraphicContext> extends
 		updateTimeShown();
 	}
 
-	public Caption getCaption() {
+	public EAdCaption getCaption() {
 		return descriptor;
 	}
 

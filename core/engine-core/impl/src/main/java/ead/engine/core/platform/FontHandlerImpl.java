@@ -37,7 +37,7 @@
 
 package ead.engine.core.platform;
 
-import ead.common.params.EAdFontImpl;
+import ead.common.params.BasicFont;
 import ead.common.params.text.EAdFont;
 import ead.common.util.EAdRectangle;
 import java.util.HashMap;
@@ -67,9 +67,9 @@ public abstract class FontHandlerImpl implements FontHandler {
 	 * Puts a runtime font in the cache
 	 *
 	 * @param font
-	 *            {@link EAdFontImpl}
+	 *            {@link BasicFont}
 	 * @param rFont
-	 *            {@link RuntimeFont} associated to the given {@link EAdFontImpl}
+	 *            {@link RuntimeFont} associated to the given {@link BasicFont}
 	 */
     @Override
 	public void put(EAdFont font, RuntimeFont rFont) {
@@ -77,11 +77,11 @@ public abstract class FontHandlerImpl implements FontHandler {
 	}
 
 	/**
-	 * Returns {@link RuntimeFont} associated to the given {@link EAdFontImpl}
+	 * Returns {@link RuntimeFont} associated to the given {@link BasicFont}
 	 *
 	 * @param font
-	 *            the {@link EAdFontImpl}
-	 * @return {@link RuntimeFont} associated to the given {@link EAdFontImpl}
+	 *            the {@link BasicFont}
+	 * @return {@link RuntimeFont} associated to the given {@link BasicFont}
 	 */
     @Override
 	public RuntimeFont get(EAdFont font) {
@@ -128,7 +128,7 @@ public abstract class FontHandlerImpl implements FontHandler {
 	}
 
 	/**
-	 * Returns the string bounds with the given {@link EAdFontImpl}, <b>null</b> if
+	 * Returns the string bounds with the given {@link BasicFont}, <b>null</b> if
 	 * font is not present in the cache
 	 *
 	 * @param string
@@ -146,10 +146,10 @@ public abstract class FontHandlerImpl implements FontHandler {
 
 	/**
 	 * Adds a new {@link RuntimeFont} to cache based on the given
-	 * {@link EAdFontImpl}
+	 * {@link BasicFont}
 	 * 
 	 * @param font
-	 *            given {@link EAdFontImpl}
+	 *            given {@link BasicFont}
 	 */
     @Override
 	public abstract void addEAdFont(EAdFont font);

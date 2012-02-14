@@ -42,9 +42,9 @@ import com.google.inject.Inject;
 import ead.common.model.elements.effects.ActorActionsEf;
 import ead.common.model.elements.effects.enums.ChangeActorActions;
 import ead.common.model.elements.scene.EAdSceneElement;
-import ead.common.model.elements.scenes.SceneElementDefImpl;
+import ead.common.model.elements.scenes.SceneElementDef;
 import ead.common.model.elements.variables.SystemFields;
-import ead.common.resources.StringHandler;
+import ead.common.util.StringHandler;
 import ead.engine.core.game.GameState;
 import ead.engine.core.gameobjects.GameObjectManager;
 import ead.engine.core.gameobjects.factories.SceneElementGOFactory;
@@ -81,7 +81,7 @@ public class ActorActionsGO extends
 		if (element.getChange() == ChangeActorActions.SHOW_ACTIONS) {
 			EAdSceneElement ref = gameState.getValueMap().getValue(
 					element.getActionElement(),
-					SceneElementDefImpl.VAR_SCENE_ELEMENT);
+					SceneElementDef.VAR_SCENE_ELEMENT);
 			if (ref != null) {
 				SceneElementGO<?> sceneElement = sceneElementFactory.get(ref);
 				if (sceneElement.getActions() != null) {

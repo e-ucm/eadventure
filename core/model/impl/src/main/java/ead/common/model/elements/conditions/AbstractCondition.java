@@ -38,9 +38,9 @@
 package ead.common.model.elements.conditions;
 
 import ead.common.model.elements.EAdCondition;
-import ead.common.model.elements.EAdElementImpl;
+import ead.common.model.elements.BasicElement;
 
-public abstract class AbstractCondition extends EAdElementImpl implements
+public abstract class AbstractCondition extends BasicElement implements
 		EAdCondition {
 
 	public AbstractCondition() {

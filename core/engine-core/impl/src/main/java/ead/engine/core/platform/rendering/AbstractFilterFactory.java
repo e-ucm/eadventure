@@ -37,7 +37,7 @@
 
 package ead.engine.core.platform.rendering;
 
-import ead.common.resources.assets.drawable.filters.DrawableFilter;
+import ead.common.resources.assets.drawable.filters.EAdDrawableFilter;
 import ead.common.util.AbstractFactory;
 import ead.common.util.MapProvider;
 import ead.common.util.ReflectionProvider;
@@ -56,7 +56,7 @@ public class AbstractFilterFactory<GraphicContext> extends AbstractFactory<Runti
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public <T extends DrawableFilter> void applyFilter(DrawableAsset<?, GraphicContext> drawable, T filter, GenericCanvas<GraphicContext> c) {
+	public <T extends EAdDrawableFilter> void applyFilter(DrawableAsset<?, GraphicContext> drawable, T filter, GenericCanvas<GraphicContext> c) {
 		RuntimeFilter<T, GraphicContext> rf = (RuntimeFilter<T, GraphicContext>) this.get(filter.getClass());
 		if ( rf != null )
 			rf.applyFilter(drawable, filter, c);

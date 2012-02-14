@@ -38,71 +38,76 @@
 package ead.common.model.elements.variables;
 
 import ead.common.model.elements.scene.EAdSceneElement;
-import ead.common.model.elements.variables.EAdField;
-import ead.common.resources.assets.drawable.basics.ImageImpl;
+import ead.common.resources.assets.drawable.basics.Image;
 
 public class SystemFields {
 
 	/**
 	 * X coordinate of the mouse in the window coordinate system
 	 */
-	public static final EAdField<Integer> MOUSE_X = new EAdFieldImpl<Integer>(
-			null, new VarDefImpl<Integer>("mouse_x", Integer.class, 0));
+	public static final EAdField<Integer> MOUSE_X = new BasicField<Integer>(
+			null, new VarDef<Integer>("mouse_x", Integer.class, 0));
 
 	/**
 	 * Y coordinate of the mouse in the window coordinate system
 	 */
-	public static final EAdField<Integer> MOUSE_Y = new EAdFieldImpl<Integer>(
-			null, new VarDefImpl<Integer>("mouse_y", Integer.class, 0));
+	public static final EAdField<Integer> MOUSE_Y = new BasicField<Integer>(
+			null, new VarDef<Integer>("mouse_y", Integer.class, 0));
 
 	/**
 	 * X coordinate of the mouse in the scene coordinate system
 	 */
-	public static final EAdField<Integer> MOUSE_SCENE_X = new EAdFieldImpl<Integer>(
-			null, new VarDefImpl<Integer>("mouse_scene_x", Integer.class, 0));
+	public static final EAdField<Integer> MOUSE_SCENE_X = new BasicField<Integer>(
+			null, new VarDef<Integer>("mouse_scene_x", Integer.class, 0));
 
 	/**
 	 * Y coordinate of the mouse in the scene coordinate system
 	 */
-	public static final EAdField<Integer> MOUSE_SCENE_Y = new EAdFieldImpl<Integer>(
-			null, new VarDefImpl<Integer>("mouse_scene_y", Integer.class, 0));
+	public static final EAdField<Integer> MOUSE_SCENE_Y = new BasicField<Integer>(
+			null, new VarDef<Integer>("mouse_scene_y", Integer.class, 0));
 
-	public static final EAdField<Integer> GAME_WIDTH = new EAdFieldImpl<Integer>(
-			null, new VarDefImpl<Integer>("gui_width", Integer.class, 800));
+	public static final EAdField<Integer> GAME_WIDTH = new BasicField<Integer>(
+			null, new VarDef<Integer>("gui_width", Integer.class, 800));
 
-	public static final EAdField<Integer> GAME_HEIGHT = new EAdFieldImpl<Integer>(
-			null, new VarDefImpl<Integer>("gui_height", Integer.class, 600));
+	public static final EAdField<Integer> GAME_HEIGHT = new BasicField<Integer>(
+			null, new VarDef<Integer>("gui_height", Integer.class, 600));
 
 	/**
 	 * Variable containing the active element in the game
 	 */
-	public static final EAdField<EAdSceneElement> ACTIVE_ELEMENT = new EAdFieldImpl<EAdSceneElement>(
-			null, new VarDefImpl<EAdSceneElement>("active_element",
+	public static final EAdField<EAdSceneElement> ACTIVE_ELEMENT = new BasicField<EAdSceneElement>(
+			null, new VarDef<EAdSceneElement>("active_element",
 					EAdSceneElement.class, null));
 
-	public static final ImageImpl DEFAULT_MOUSE = new ImageImpl(
+	public static final Image DEFAULT_MOUSE = new Image(
 			"@drawable/default_cursor.png");
 
-	public static final EAdField<ImageImpl> MOUSE_CURSOR = new EAdFieldImpl<ImageImpl>(
-			null, new VarDefImpl<ImageImpl>("mouse_cursor", ImageImpl.class,
+	public static final EAdField<Image> MOUSE_CURSOR = new BasicField<Image>(
+			null, new VarDef<Image>("mouse_cursor", Image.class,
 					DEFAULT_MOUSE));
 
-	public static final EAdField<Boolean> SHOW_MOUSE = new EAdFieldImpl<Boolean>(
-			null, new VarDefImpl<Boolean>("show_mouse", Boolean.class, true));
+	public static final EAdField<Boolean> SHOW_MOUSE = new BasicField<Boolean>(
+			null, new VarDef<Boolean>("show_mouse", Boolean.class, true));
 
-	public static final EAdField<Integer> ELAPSED_TIME_PER_UPDATE = new EAdFieldImpl<Integer>(
-			null, new VarDefImpl<Integer>("elapsed_time_per_update",
+	public static final EAdField<Integer> ELAPSED_TIME_PER_UPDATE = new BasicField<Integer>(
+			null, new VarDef<Integer>("elapsed_time_per_update",
 					Integer.class, 0));
 
-	public static final EAdField<Boolean> PROCESS_INPUT = new EAdFieldImpl<Boolean>(
-			null, new VarDefImpl<Boolean>("process_input", Boolean.class, true));
+	public static final EAdField<Boolean> PROCESS_INPUT = new BasicField<Boolean>(
+			null, new VarDef<Boolean>("process_input", Boolean.class, true));
 
 	/**
 	 * If true, the player will only be able to interact with the elements in or
 	 * above the basic HUD (like the effect HUD, or the actions HUD)
 	 */
-	public static final EAdField<Boolean> BASIC_HUD_OPAQUE = new EAdFieldImpl<Boolean>(
-			null, new VarDefImpl<Boolean>("basic_hud_opaque", Boolean.class,
+	public static final EAdField<Boolean> BASIC_HUD_OPAQUE = new BasicField<Boolean>(
+			null, new VarDef<Boolean>("basic_hud_opaque", Boolean.class,
 					false));
+
+	/**
+	 * Field holding the milliseconds since the game started 
+	 */
+	public static final EAdField<Long> GAME_TIME = new BasicField<Long>(null,
+			new VarDef<Long>("game_time", Long.class, 0l));
 
 }

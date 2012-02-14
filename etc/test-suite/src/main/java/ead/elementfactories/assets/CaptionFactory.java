@@ -37,25 +37,25 @@
 
 package ead.elementfactories.assets;
 
-import ead.common.params.EAdFontImpl;
-import ead.common.params.EAdURIImpl;
-import ead.common.params.fills.EAdColor;
-import ead.common.params.fills.EAdLinearGradient;
-import ead.common.params.fills.EAdPaintImpl;
+import ead.common.params.BasicFont;
+import ead.common.params.fills.ColorFill;
+import ead.common.params.fills.LinearGradientFill;
+import ead.common.params.fills.PaintFill;
 import ead.common.params.paint.EAdFill;
 import ead.common.params.text.EAdFont;
-import ead.common.resources.assets.drawable.basics.CaptionImpl;
+import ead.common.resources.assets.drawable.basics.Caption;
+import ead.common.util.EAdURI;
 import ead.elementfactories.EAdElementsFactory;
 
 public class CaptionFactory {
 	
-	private EAdFill fill = new EAdLinearGradient(EAdColor.GRAY, EAdColor.LIGHT_GRAY, 20, 20, true);
+	private EAdFill fill = new LinearGradientFill(ColorFill.GRAY, ColorFill.LIGHT_GRAY, 20, 20, true);
 	
-	private EAdFont droidFont = new EAdFontImpl( new EAdURIImpl( "@binary/DroidSans-Bold.ttf"), 20);
+	private EAdFont droidFont = new BasicFont( new EAdURI( "@binary/DroidSans-Bold.ttf"), 20);
 
-	public CaptionImpl createCaption(String text, EAdFill textFill,
+	public Caption createCaption(String text, EAdFill textFill,
 			EAdFill bubbleFill, EAdFont font) {
-		CaptionImpl caption = new CaptionImpl();
+		Caption caption = new Caption();
 		EAdElementsFactory.getInstance().getStringFactory().setString(caption.getText(), text);
 
 		caption.setTextPaint(textFill);
@@ -66,13 +66,13 @@ public class CaptionFactory {
 
 	}
 
-	public CaptionImpl createCaption(String text, EAdFill textFill,
+	public Caption createCaption(String text, EAdFill textFill,
 			EAdFill bubbleFill) {
 		return createCaption(text, textFill, bubbleFill, droidFont );
 	}
 
-	public CaptionImpl createCaption(String text) {
-		return createCaption(text, EAdPaintImpl.WHITE_ON_BLACK, fill );
+	public Caption createCaption(String text) {
+		return createCaption(text, PaintFill.WHITE_ON_BLACK, fill );
 	}
 
 }

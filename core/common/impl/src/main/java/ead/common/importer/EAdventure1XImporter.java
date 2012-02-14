@@ -39,35 +39,38 @@ package ead.common.importer;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
+import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
+import java.util.ArrayList;
 import java.util.Map;
 import java.util.Properties;
 import java.util.Random;
-import java.util.logging.Level;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.google.inject.Inject;
+
 import ead.common.EAdElementImporter;
 import ead.common.ProjectFiles;
 import ead.common.StringFileHandler;
 import ead.common.importer.auxiliar.inputstreamcreators.ImporterInputStreamCreator;
+import ead.common.importer.interfaces.EAdElementFactory;
 import ead.common.importer.interfaces.ResourceImporter;
 import ead.common.model.elements.EAdAdventureModel;
 import ead.common.params.text.EAdString;
-import ead.common.resources.StringHandler;
+import ead.common.util.StringHandler;
 import ead.common.writer.EAdAdventureModelWriter;
 import es.eucm.eadventure.common.data.adventure.AdventureData;
 import es.eucm.eadventure.common.loader.InputStreamCreator;
 import es.eucm.eadventure.common.loader.Loader;
 import es.eucm.eadventure.common.loader.incidences.Incidence;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.OutputStream;
-import java.util.ArrayList;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * An importer for old games from 1.x version
@@ -84,8 +87,8 @@ public class EAdventure1XImporter {
 	private StringHandler stringsHandler;
 
 	private StringFileHandler stringFileHandler;
-
-	private static final Logger logger = LoggerFactory.getLogger("EAdventureImporter");
+	
+	private EAdElementFactory elementFactory;
 
 	private String destinyFile;
 
@@ -95,18 +98,20 @@ public class EAdventure1XImporter {
 
 	private String progressText;
 
+	private static final Logger logger = LoggerFactory.getLogger("EAdventureImporter");
 
 	@Inject
 	public EAdventure1XImporter(
 			EAdElementImporter<AdventureData, EAdAdventureModel> adventureImp,
 			ResourceImporter resourceImporter,
 			InputStreamCreator inputStreamCreator, StringHandler stringsWriter,
-			StringFileHandler stringFileHandler) {
+			StringFileHandler stringFileHandler, EAdElementFactory elementFactory) {
 		this.adventureImporter = adventureImp;
 		this.resourceImporter = resourceImporter;
 		this.inputStreamCreator = inputStreamCreator;
 		this.stringsHandler = stringsWriter;
 		this.stringFileHandler = stringFileHandler;
+		this.elementFactory = elementFactory;
 	}
 
 	/**
@@ -114,6 +119,7 @@ public class EAdventure1XImporter {
 	 *
 	 * @param eadFile
 	 *            original ead file
+	 * @param destiny
 	 *            File where the import project will be stored. If {@code null},
 	 *            import project won't be saved
 	 * @return An {@link EAdventureModel} complete with all game information
@@ -123,6 +129,7 @@ public class EAdventure1XImporter {
 		progressText = "Starting importer...";
 		stringsHandler.getStrings().clear();
 		((ImporterInputStreamCreator) inputStreamCreator).setFile(eadFile);
+		elementFactory.init();
 		progress = 10;
 		progressText = "Loading old game...";
 		AdventureData adventureData = loadGame();
@@ -205,7 +212,7 @@ public class EAdventure1XImporter {
 
 		try {
 			FileOutputStream output = new FileOutputStream(propertiesFile);
-			properties.store(output, "Importe version");
+			properties.store(output, "Imported version");
 		} catch (FileNotFoundException e1) {
 			e1.printStackTrace();
 		} catch (IOException e) {

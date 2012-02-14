@@ -40,6 +40,7 @@ package ead.common.importer.resources;
 import java.awt.Dimension;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -64,7 +65,7 @@ import ead.common.model.elements.EAdCondition;
 import ead.common.model.elements.conditions.ANDCond;
 import ead.common.model.elements.conditions.NOTCond;
 import ead.common.model.elements.events.ConditionedEv;
-import ead.common.model.elements.events.enums.ConditionedEventType;
+import ead.common.model.elements.events.enums.ConditionedEvType;
 import ead.common.model.predef.effects.ChangeAppearanceEf;
 import ead.common.resources.EAdBundleId;
 import ead.common.resources.assets.AssetDescriptor;
@@ -270,7 +271,7 @@ public class ResourceImporterImpl implements ResourceImporter {
 						null, bundleId);
 				changeAppereance.setId(conditionEvent.getId()
 						+ "change_appearence");
-				conditionEvent.addEffect(ConditionedEventType.CONDITIONS_MET,
+				conditionEvent.addEffect(ConditionedEvType.CONDITIONS_MET,
 						changeAppereance);
 
 				((Evented) element).getEvents().add(conditionEvent);
@@ -415,14 +416,33 @@ public class ResourceImporterImpl implements ResourceImporter {
 	}
 
 	@Override
-	public Dimension getDimensions(String imageUri) {
-		if (imageUri != null) {
-			BufferedImage image = loadImage(imageUri);
+	public Dimension getDimensionsForOldImage(String oldUri) {
+		if (oldUri != null) {
+			BufferedImage image = loadImage(oldUri);
 			if (image != null) {
 				Dimension d = new Dimension(image.getWidth(), image.getHeight());
 				image.flush();
 				return d;
 			}
+		}
+		return new Dimension(100, 100);
+	}
+
+	@Override
+	public Dimension getDimensionsForNewImage(String newURI) {
+		try {
+		File toResourceFile = new File(newAdventurePath, newURI.substring(1));
+			FileInputStream inputStream = new FileInputStream( toResourceFile );
+			BufferedImage image = ImageIO.read(inputStream);
+			if (image != null) {
+				Dimension d = new Dimension(image.getWidth(), image.getHeight());
+				image.flush();
+				return d;
+			}
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
 		return new Dimension(100, 100);
 	}

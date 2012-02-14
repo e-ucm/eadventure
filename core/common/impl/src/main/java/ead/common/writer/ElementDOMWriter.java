@@ -40,7 +40,6 @@ package ead.common.writer;
 import org.w3c.dom.Element;
 
 import ead.common.DOMTags;
-import ead.common.interfaces.EAdRuntimeException;
 import ead.common.model.EAdElement;
 
 public class ElementDOMWriter extends FieldParamWriter<EAdElement> {
@@ -83,7 +82,7 @@ public class ElementDOMWriter extends FieldParamWriter<EAdElement> {
 				clazz = clazz.getSuperclass();
 			}
 
-			if (annotation == null) {
+			if (annotation != null) {
 				node.setAttribute(DOMTags.TYPE_AT, shortClass(annotation.detailed()
 						.getName()));
 				node.setAttribute(DOMTags.CLASS_AT, shortClass(annotation.runtime()

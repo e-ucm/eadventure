@@ -44,19 +44,19 @@ import java.util.Map;
 import com.google.inject.Inject;
 
 import ead.common.model.EAdElement;
-import ead.common.model.elements.scenes.SceneElementDefImpl;
+import ead.common.model.elements.scenes.SceneElementDef;
 import ead.common.model.elements.scenes.SceneElementImpl;
 import ead.common.model.elements.variables.EAdVarDef;
-import ead.common.model.elements.variables.EAdFieldImpl;
+import ead.common.model.elements.variables.BasicField;
 import ead.common.model.elements.variables.SystemFields;
-import ead.common.params.EAdFontImpl;
-import ead.common.params.fills.EAdColor;
+import ead.common.params.BasicFont;
+import ead.common.params.fills.ColorFill;
 import ead.common.params.text.EAdFont;
-import ead.common.resources.StringHandler;
-import ead.common.resources.assets.drawable.basics.CaptionImpl;
+import ead.common.resources.assets.drawable.basics.Caption;
 import ead.common.resources.assets.drawable.basics.shapes.RectangleShape;
+import ead.common.resources.assets.drawable.compounds.EAdComposedDrawable;
 import ead.common.resources.assets.drawable.compounds.ComposedDrawable;
-import ead.common.resources.assets.drawable.compounds.ComposedDrawableImpl;
+import ead.common.util.StringHandler;
 import ead.engine.core.debuggers.Debugger;
 import ead.engine.core.game.ValueMap;
 import ead.engine.core.gameobjects.factories.SceneElementGOFactory;
@@ -85,9 +85,9 @@ public class FieldsDebugger implements Debugger {
 
 	private SceneElementGOFactory gameObjectFactory;
 
-	private EAdFont font = new EAdFontImpl(12);
+	private EAdFont font = new BasicFont(12);
 
-	private EAdColor color = new EAdColor(120, 120, 120, 50);
+	private ColorFill color = new ColorFill(120, 120, 120, 50);
 
 	@Inject
 	public FieldsDebugger(InputHandler inputHandler, ValueMap valueMap,
@@ -117,28 +117,28 @@ public class FieldsDebugger implements Debugger {
 
 				if (fields != null) {
 
-					ComposedDrawable d = new ComposedDrawableImpl();
+					EAdComposedDrawable d = new ComposedDrawable();
 					RectangleShape shape = new RectangleShape(300, 20 * (fields
 							.keySet().size() + 2));
 					shape.setPaint(color);
 					d.addDrawable(shape, -10, -10);
-					CaptionImpl c = new CaptionImpl();
+					Caption c = new Caption();
 					stringHandler.setString(c.getText(), element + "");
 					c.setFont(font);
-					c.setTextPaint(EAdColor.RED);
-					c.setBubblePaint(EAdColor.WHITE);
+					c.setTextPaint(ColorFill.RED);
+					c.setBubblePaint(ColorFill.WHITE);
 					c.setPadding(2);
 					d.addDrawable(c, 0, 0);
 					int yOffset = 20;
 					for (EAdVarDef<?> var : fields.keySet()) {
-						c = new CaptionImpl();
+						c = new Caption();
 						stringHandler.setString(c.getText(), var.getName()
 								+ "=[0]");
-						c.getFields().add(new EAdFieldImpl(element, var));
+						c.getFields().add(new BasicField(element, var));
 						c.getFields().add(SystemFields.SHOW_MOUSE);
 						c.setFont(font);
-						c.setTextPaint(EAdColor.WHITE);
-						c.setBubblePaint(EAdColor.BLACK);
+						c.setTextPaint(ColorFill.WHITE);
+						c.setBubblePaint(ColorFill.BLACK);
 						c.setPadding(2);
 						d.addDrawable(c, 0, yOffset);
 						yOffset += 20;
@@ -148,7 +148,7 @@ public class FieldsDebugger implements Debugger {
 					vars.getDefinition()
 							.getResources()
 							.addAsset(vars.getDefinition().getInitialBundle(),
-									SceneElementDefImpl.appearance, d);
+									SceneElementDef.appearance, d);
 
 					gos.add(gameObjectFactory.get(vars));
 				}

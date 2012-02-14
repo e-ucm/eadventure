@@ -43,14 +43,14 @@ import ead.common.model.elements.effects.enums.PhType;
 import ead.common.model.elements.effects.physics.PhApplyImpluseEf;
 import ead.common.model.elements.effects.physics.PhysicsEffect;
 import ead.common.model.elements.events.ConditionedEv;
-import ead.common.model.elements.events.enums.ConditionedEventType;
-import ead.common.model.elements.guievents.EAdMouseEvent;
+import ead.common.model.elements.events.enums.ConditionedEvType;
+import ead.common.model.elements.guievents.MouseGEv;
 import ead.common.model.elements.scenes.SceneElementImpl;
-import ead.common.model.elements.scenes.SceneImpl;
-import ead.common.model.elements.variables.EAdFieldImpl;
+import ead.common.model.elements.scenes.BasicScene;
+import ead.common.model.elements.variables.BasicField;
 import ead.common.model.elements.variables.operations.MathOp;
-import ead.common.params.fills.EAdColor;
-import ead.common.params.fills.EAdLinearGradient;
+import ead.common.params.fills.ColorFill;
+import ead.common.params.fills.LinearGradientFill;
 import ead.common.resources.assets.drawable.basics.shapes.BezierShape;
 import ead.common.resources.assets.drawable.basics.shapes.CircleShape;
 import ead.common.resources.assets.drawable.basics.shapes.RectangleShape;
@@ -60,12 +60,12 @@ import ead.common.util.EAdPosition.Corner;
 public class PhysicsScene2 extends PhysicsScene {
 
 	public PhysicsScene2() {
-		setBackgroundFill(new EAdLinearGradient(EAdColor.YELLOW, EAdColor.ORANGE, 800, 600));
+		setBackgroundFill(new LinearGradientFill(ColorFill.YELLOW, ColorFill.ORANGE, 800, 600));
 	}
 
 	protected void init() {
 
-		RectangleShape rShape = new RectangleShape(10, 100, EAdColor.BROWN);
+		RectangleShape rShape = new RectangleShape(10, 100, ColorFill.BROWN);
 
 		SceneElementImpl e2 = new SceneElementImpl(rShape);
 		e2.setId("e2");
@@ -88,8 +88,8 @@ public class PhysicsScene2 extends PhysicsScene {
 		effect.addSceneElement(e3);
 
 		BezierShape circle = new CircleShape(20, 20, 20, 60);
-		circle.setPaint(new EAdLinearGradient(EAdColor.GREEN,
-				new EAdColor(0, 100, 0), 40, 40));
+		circle.setPaint(new LinearGradientFill(ColorFill.GREEN,
+				new ColorFill(0, 100, 0), 40, 40));
 
 		SceneElementImpl b = new SceneElementImpl( circle);
 		b.setId("ball");
@@ -98,7 +98,7 @@ public class PhysicsScene2 extends PhysicsScene {
 		effect.addSceneElement(b);
 		b.setVarInitialValue(PhysicsEffect.VAR_PH_TYPE, PhType.DYNAMIC);
 		getBackground().addBehavior(
-				EAdMouseEvent.MOUSE_LEFT_CLICK,
+				MouseGEv.MOUSE_LEFT_CLICK,
 				new PhApplyImpluseEf(b, new MathOp(
 						 "0"), new MathOp(
 						 "-100")));
@@ -116,7 +116,7 @@ public class PhysicsScene2 extends PhysicsScene {
 				e.setVarInitialValue(PhysicsEffect.VAR_PH_TYPE,
 						PhType.DYNAMIC);
 				getBackground().addBehavior(
-						EAdMouseEvent.MOUSE_LEFT_CLICK,
+						MouseGEv.MOUSE_LEFT_CLICK,
 						new PhApplyImpluseEf(e, new MathOp(
 								 "0"),
 								new MathOp(
@@ -127,10 +127,10 @@ public class PhysicsScene2 extends PhysicsScene {
 			}
 
 		ConditionedEv event = new ConditionedEv();
-		OperationCond condition = new OperationCond(new EAdFieldImpl<Boolean>(
-				this, SceneImpl.VAR_SCENE_LOADED));
+		OperationCond condition = new OperationCond(new BasicField<Boolean>(
+				this, BasicScene.VAR_SCENE_LOADED));
 		event.setCondition(condition);
-		event.addEffect(ConditionedEventType.CONDITIONS_MET, effect);
+		event.addEffect(ConditionedEvType.CONDITIONS_MET, effect);
 
 		getEvents().add(event);
 		

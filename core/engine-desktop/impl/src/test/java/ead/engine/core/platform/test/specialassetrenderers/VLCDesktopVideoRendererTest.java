@@ -52,8 +52,8 @@ import junit.framework.TestCase;
 
 import org.junit.Test;
 
+import ead.common.resources.assets.multimedia.EAdVideo;
 import ead.common.resources.assets.multimedia.Video;
-import ead.common.resources.assets.multimedia.VideoImpl;
 import ead.engine.core.platform.specialassetrenderers.VLCDesktopVideoRenderer;
 
 public class VLCDesktopVideoRendererTest extends TestCase {
@@ -74,7 +74,7 @@ public class VLCDesktopVideoRendererTest extends TestCase {
 		Enumeration<URL> temp = ClassLoader.getSystemResources(fileName);
 		File file = new File(temp.nextElement().toURI());
 		assertTrue(file.exists());
-		Video video = new VideoImpl(file.getAbsolutePath());
+		EAdVideo video = new Video(file.getAbsolutePath());
 		assertTrue(new File(video.getUri().getPath()).exists());
 		final VLCDesktopVideoRenderer desktopVideoRenderer = new VLCDesktopVideoRenderer(null);
 		o = desktopVideoRenderer.getComponent(video);

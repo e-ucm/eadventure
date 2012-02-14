@@ -40,34 +40,35 @@ package ead.common.importer.subimporters.chapter.scene.elements;
 import ead.common.EAdElementImporter;
 import ead.common.importer.interfaces.EAdElementFactory;
 import ead.common.importer.subimporters.chapter.scene.ShapedElementImporter;
+import ead.common.importer.subimporters.effects.texts.TextEffectImporter;
 import ead.common.model.elements.EAdCondition;
 import ead.common.model.elements.EAdEffect;
 import ead.common.model.elements.effects.text.SpeakEf;
 import ead.common.model.elements.effects.variables.ChangeFieldEf;
 import ead.common.model.elements.events.ConditionedEv;
-import ead.common.model.elements.events.enums.ConditionedEventType;
-import ead.common.model.elements.guievents.EAdMouseEvent;
+import ead.common.model.elements.events.enums.ConditionedEvType;
+import ead.common.model.elements.guievents.MouseGEv;
 import ead.common.model.elements.scene.EAdSceneElement;
-import ead.common.model.elements.scenes.SceneElementDefImpl;
+import ead.common.model.elements.scenes.SceneElementDef;
 import ead.common.model.elements.scenes.SceneElementImpl;
 import ead.common.model.elements.trajectories.NodeTrajectoryDefinition;
 import ead.common.model.elements.variables.EAdField;
-import ead.common.model.elements.variables.EAdFieldImpl;
+import ead.common.model.elements.variables.BasicField;
 import ead.common.model.elements.variables.operations.BooleanOp;
 import ead.common.model.predef.effects.MoveActiveElementEf;
-import ead.common.params.fills.EAdColor;
-import ead.common.params.fills.EAdPaintImpl;
+import ead.common.model.predef.effects.SpeakSceneElementEf;
+import ead.common.params.fills.ColorFill;
 import ead.common.params.text.EAdString;
-import ead.common.resources.StringHandler;
-import ead.common.resources.assets.drawable.basics.Shape;
-import ead.common.resources.assets.drawable.basics.enums.Alignment;
+import ead.common.resources.assets.drawable.basics.EAdShape;
 import ead.common.util.EAdRectangle;
+import ead.common.util.StringHandler;
 import es.eucm.eadventure.common.data.chapter.Exit;
 import es.eucm.eadventure.common.data.chapter.InfluenceArea;
 import es.eucm.eadventure.common.data.chapter.Rectangle;
 import es.eucm.eadventure.common.data.chapter.conditions.Conditions;
 import es.eucm.eadventure.common.data.chapter.elements.Description;
 import es.eucm.eadventure.common.data.chapter.elements.Element;
+import es.eucm.eadventure.common.data.chapter.elements.Player;
 
 public abstract class ElementImporter<T> implements
 		EAdElementImporter<T, EAdSceneElement> {
@@ -92,12 +93,12 @@ public abstract class ElementImporter<T> implements
 			EAdCondition enableCondition, EAdEffect finalEffect) {
 
 		if (factory.isFirstPerson()) {
-			newExit.addBehavior(EAdMouseEvent.MOUSE_LEFT_CLICK, finalEffect);
+			newExit.addBehavior(MouseGEv.MOUSE_LEFT_CLICK, finalEffect);
 		} else {
 			MoveActiveElementEf move = new MoveActiveElementEf();
 			move.setTarget(newExit.getDefinition());
 			move.getNextEffects().add(finalEffect);
-			newExit.addBehavior(EAdMouseEvent.MOUSE_LEFT_CLICK, move);
+			newExit.addBehavior(MouseGEv.MOUSE_LEFT_CLICK, move);
 		}
 
 	}
@@ -130,15 +131,15 @@ public abstract class ElementImporter<T> implements
 	}
 
 	protected void setShape(SceneElementImpl sceneElement, Rectangle exit) {
-		Shape shape = ShapedElementImporter.importShape(exit);
+		EAdShape shape = ShapedElementImporter.importShape(exit);
 		sceneElement.setPosition(exit.getX(), exit.getY());
-		shape.setPaint(EAdColor.TRANSPARENT);
+		shape.setPaint(ColorFill.TRANSPARENT);
 
 		sceneElement
 				.getDefinition()
 				.getResources()
 				.addAsset(sceneElement.getDefinition().getInitialBundle(),
-						SceneElementDefImpl.appearance, shape);
+						SceneElementDef.appearance, shape);
 	}
 
 	protected EAdCondition getEnableCondition(Conditions c) {
@@ -149,7 +150,7 @@ public abstract class ElementImporter<T> implements
 
 	}
 
-	protected void setDocumentation(SceneElementDefImpl newElement,
+	protected void setDocumentation(SceneElementDef newElement,
 			Element oldObject) {
 		// FIXME multiple descriptions not supported
 		if (oldObject.getDescriptions().size() > 0) {
@@ -168,15 +169,20 @@ public abstract class ElementImporter<T> implements
 
 	protected void addDefaultBehavior(SceneElementImpl sceneElement,
 			EAdString shortDescription) {
-		sceneElement.setVarInitialValue(SceneElementImpl.VAR_NAME,
-				sceneElement.getDefinition().getName());
+		sceneElement.setVarInitialValue(SceneElementImpl.VAR_NAME, sceneElement
+				.getDefinition().getName());
 		if (shortDescription != null) {
-			SpeakEf showDescription = new SpeakEf(
-					shortDescription);
-			showDescription.setAlignment(Alignment.CENTER);
-			showDescription.setColor(EAdPaintImpl.WHITE_ON_BLACK,
-					EAdColor.TRANSPARENT);
-			sceneElement.addBehavior(EAdMouseEvent.MOUSE_LEFT_CLICK,
+			SpeakEf showDescription = null;
+			if (factory.isFirstPerson()) {
+				showDescription = new SpeakEf(shortDescription);
+				
+
+			} else {
+				showDescription = new SpeakSceneElementEf(shortDescription);
+				((SpeakSceneElementEf) showDescription).setElement(factory.getElementById(Player.IDENTIFIER));
+			}
+			TextEffectImporter.setSpeakEffect(showDescription, null, factory.getCurrentOldChapterModel().getPlayer(), factory, stringHandler);
+			sceneElement.addBehavior(MouseGEv.MOUSE_LEFT_CLICK,
 					showDescription);
 		}
 	}
@@ -187,15 +193,15 @@ public abstract class ElementImporter<T> implements
 		ConditionedEv event = new ConditionedEv();
 		event.setCondition(condition);
 
-		EAdField<Boolean> enableField = new EAdFieldImpl<Boolean>(
-				newReference, SceneElementImpl.VAR_VISIBLE);
+		EAdField<Boolean> enableField = new BasicField<Boolean>(newReference,
+				SceneElementImpl.VAR_VISIBLE);
 
 		ChangeFieldEf changeEnable = new ChangeFieldEf();
 
 		changeEnable.addField(enableField);
 		changeEnable.setOperation(new BooleanOp(condition));
-		event.addEffect(ConditionedEventType.CONDITIONS_MET, changeEnable);
-		event.addEffect(ConditionedEventType.CONDITIONS_UNMET, changeEnable);
+		event.addEffect(ConditionedEvType.CONDITIONS_MET, changeEnable);
+		event.addEffect(ConditionedEvType.CONDITIONS_UNMET, changeEnable);
 
 		newReference.getEvents().add(event);
 	}

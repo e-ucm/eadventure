@@ -51,7 +51,6 @@ import ead.common.model.elements.variables.EAdOperation;
 import ead.common.model.elements.variables.EAdVarDef;
 import ead.common.util.ReflectionProvider;
 import ead.engine.core.evaluators.EvaluatorFactory;
-import ead.engine.core.game.ValueMap;
 import ead.engine.core.operator.OperatorFactory;
 
 @Singleton
@@ -89,7 +88,7 @@ public class ValueMapImpl implements ValueMap {
 		if (value == null
 				|| reflectionProvider.isAssignableFrom(varDef.getType(),
 						value.getClass())) {
-
+			
 			Map<EAdVarDef<?>, Object> valMap = element == null ? systemVars
 					: map.get(getFinalElement(element));
 			if (valMap == null) {

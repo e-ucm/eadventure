@@ -40,20 +40,20 @@ package ead.engine.core.platform;
 import com.google.inject.Inject;
 
 import ead.common.model.elements.effects.timedevents.WaitEf;
-import ead.common.model.elements.guievents.EAdMouseEvent;
+import ead.common.model.elements.guievents.MouseGEv;
 import ead.common.model.elements.scene.EAdScene;
-import ead.common.model.elements.scenes.SceneElementDefImpl;
+import ead.common.model.elements.scenes.SceneElementDef;
 import ead.common.model.elements.scenes.SceneElementImpl;
-import ead.common.model.elements.scenes.SceneImpl;
-import ead.common.resources.StringHandler;
-import ead.common.resources.assets.drawable.basics.ImageImpl;
+import ead.common.model.elements.scenes.BasicScene;
+import ead.common.resources.assets.drawable.basics.Image;
 import ead.common.util.EAdPosition;
+import ead.common.util.StringHandler;
 import ead.engine.core.game.GameLoop;
 
-public class EffectOpaqueBlockTestScreen extends SceneImpl implements
+public class EffectOpaqueBlockTestScreen extends BasicScene implements
 		EAdScene {
 
-	private SceneElementDefImpl buttonActor;
+	private SceneElementDef buttonActor;
 	private StringHandler stringHandler;
 	private SceneElementImpl buttonReference;
 	private SceneElementImpl buttonReference2;
@@ -74,11 +74,11 @@ public class EffectOpaqueBlockTestScreen extends SceneImpl implements
 	}
 
 	private void initButtonActor() {
-		buttonActor = new SceneElementDefImpl();
+		buttonActor = new SceneElementDef();
 		buttonActor.setId("StartGame");
 		buttonActor.getResources().addAsset(buttonActor.getInitialBundle(),
-				SceneElementDefImpl.appearance,
-				new ImageImpl("@drawable/start.png"));
+				SceneElementDef.appearance,
+				new Image("@drawable/start.png"));
 		stringHandler.setString(buttonActor.getName(), "Start game");
 
 		// EAdBehavior b = new StandardBehavior(buttonActor, "b");
@@ -97,25 +97,25 @@ public class EffectOpaqueBlockTestScreen extends SceneImpl implements
 				.getDefinition()
 				.getResources()
 				.addAsset(buttonActor2.getDefinition().getInitialBundle(),
-						SceneElementDefImpl.appearance,
-						new ImageImpl("@drawable/start.png"));
+						SceneElementDef.appearance,
+						new Image("@drawable/start.png"));
 
 		WaitEf waitEffect = new WaitEf(
 				GameLoop.SKIP_MILLIS_TICK + 1);
 		buttonActor2
-				.addBehavior(EAdMouseEvent.MOUSE_LEFT_CLICK, waitEffect);
+				.addBehavior(MouseGEv.MOUSE_LEFT_CLICK, waitEffect);
 
 		WaitEf waitEffect2 = new WaitEf(
 				GameLoop.SKIP_MILLIS_TICK + 1);
 		waitEffect2.setOpaque(false);
-		buttonActor2.addBehavior(EAdMouseEvent.MOUSE_LEFT_CLICK,
+		buttonActor2.addBehavior(MouseGEv.MOUSE_LEFT_CLICK,
 				waitEffect2);
 
 		WaitEf waitEffect3 = new WaitEf(
 				GameLoop.SKIP_MILLIS_TICK + 1);
 		waitEffect3.setOpaque(false);
 		waitEffect3.setBlocking(false);
-		buttonActor2.addBehavior(EAdMouseEvent.MOUSE_LEFT_CLICK,
+		buttonActor2.addBehavior(MouseGEv.MOUSE_LEFT_CLICK,
 				waitEffect3);
 
 		buttonActor2.setPosition(new EAdPosition(

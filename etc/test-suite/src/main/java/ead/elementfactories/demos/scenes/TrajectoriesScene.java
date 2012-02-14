@@ -39,35 +39,35 @@ package ead.elementfactories.demos.scenes;
 
 import ead.common.model.elements.effects.variables.ChangeFieldEf;
 import ead.common.model.elements.events.SceneElementEv;
-import ead.common.model.elements.events.enums.SceneElementEventType;
-import ead.common.model.elements.guievents.EAdKeyEvent;
-import ead.common.model.elements.guievents.EAdMouseEvent;
+import ead.common.model.elements.events.enums.SceneElementEvType;
+import ead.common.model.elements.guievents.KeyGEv;
+import ead.common.model.elements.guievents.MouseGEv;
 import ead.common.model.elements.guievents.enums.KeyEventType;
 import ead.common.model.elements.scenes.SceneElementImpl;
-import ead.common.model.elements.scenes.SceneImpl;
+import ead.common.model.elements.scenes.BasicScene;
 import ead.common.model.elements.trajectories.NodeTrajectoryDefinition;
 import ead.common.model.elements.trajectories.Side;
-import ead.common.model.elements.trajectories.TrajectoryDefinition;
-import ead.common.model.elements.variables.EAdFieldImpl;
+import ead.common.model.elements.trajectories.EAdTrajectoryDefinition;
+import ead.common.model.elements.variables.BasicField;
 import ead.common.model.elements.variables.operations.ValueOp;
 import ead.common.model.predef.effects.MakeActiveElementEf;
 import ead.common.model.predef.effects.MoveActiveElementEf;
-import ead.common.params.fills.EAdColor;
-import ead.common.params.fills.EAdLinearGradient;
+import ead.common.params.fills.ColorFill;
+import ead.common.params.fills.LinearGradientFill;
 import ead.common.util.EAdPosition;
 import ead.common.util.EAdPosition.Corner;
 
 public class TrajectoriesScene extends EmptyScene {
 
 	public TrajectoriesScene() {
-		setBackgroundFill(new EAdLinearGradient(EAdColor.DARK_GRAY,
-				EAdColor.LIGHT_GRAY, 800, 600, true));
+		setBackgroundFill(new LinearGradientFill(ColorFill.DARK_GRAY,
+				ColorFill.LIGHT_GRAY, 800, 600, true));
 
 		SceneElementImpl element = new SceneElementImpl(
 				CharacterScene.getStateDrawable());
 		element.setId("player");
 
-		element.setScale(3.0f);
+		element.setInitialScale(3.0f);
 
 		element.setPosition(new EAdPosition(Corner.BOTTOM_CENTER, 400, 300));
 
@@ -75,17 +75,17 @@ public class TrajectoriesScene extends EmptyScene {
 				element);
 
 		SceneElementEv event = new SceneElementEv();
-		event.addEffect(SceneElementEventType.ADDED_TO_SCENE, effect);
+		event.addEffect(SceneElementEvType.FIRST_UPDATE, effect);
 
 		element.getEvents().add(event);
 
 		getComponents().add(element);
 
-		getBackground().addBehavior(EAdMouseEvent.MOUSE_LEFT_CLICK,
+		getBackground().addBehavior(MouseGEv.MOUSE_LEFT_CLICK,
 				new MoveActiveElementEf());
 
 		ChangeFieldEf changeSide = new ChangeFieldEf();
-		changeSide.addField(new EAdFieldImpl<Side>( element, NodeTrajectoryDefinition.VAR_CURRENT_SIDE));
+		changeSide.addField(new BasicField<Side>( element, NodeTrajectoryDefinition.VAR_CURRENT_SIDE));
 		changeSide.setOperation(new ValueOp( null ));
 		
 		createTrajectory1(changeSide);
@@ -106,12 +106,12 @@ public class TrajectoriesScene extends EmptyScene {
 
 		ChangeFieldEf effect = new ChangeFieldEf();
 		effect.setId("changeTrajectory");
-		effect.addField(new EAdFieldImpl<TrajectoryDefinition>(this,
-				SceneImpl.VAR_TRAJECTORY_DEFINITION));
+		effect.addField(new BasicField<EAdTrajectoryDefinition>(this,
+				BasicScene.VAR_TRAJECTORY_DEFINITION));
 		effect.setOperation(new ValueOp(trajectory));
 
 		getBackground().addBehavior(
-				new EAdKeyEvent(KeyEventType.KEY_PRESSED, '1'), effect);
+				new KeyGEv(KeyEventType.KEY_PRESSED, '1'), effect);
 		
 		effect.getNextEffects().add(changeSide);
 
@@ -158,14 +158,14 @@ public class TrajectoriesScene extends EmptyScene {
 
 		ChangeFieldEf effect = new ChangeFieldEf();
 		effect.setId("changeTrajectory");
-		effect.addField(new EAdFieldImpl<TrajectoryDefinition>(this,
-				SceneImpl.VAR_TRAJECTORY_DEFINITION));
+		effect.addField(new BasicField<EAdTrajectoryDefinition>(this,
+				BasicScene.VAR_TRAJECTORY_DEFINITION));
 		effect.setOperation(new ValueOp(trajectory));
 		
 		effect.getNextEffects().add(changeSide);
 
 		getBackground().addBehavior(
-				new EAdKeyEvent(KeyEventType.KEY_PRESSED, '2'), effect);
+				new KeyGEv(KeyEventType.KEY_PRESSED, '2'), effect);
 	}
 
 	private void createTrajectory3(ChangeFieldEf changeSide) {
@@ -179,13 +179,13 @@ public class TrajectoriesScene extends EmptyScene {
 
 		ChangeFieldEf effect = new ChangeFieldEf();
 		effect.setId("changeTrajectory");
-		effect.addField(new EAdFieldImpl<TrajectoryDefinition>(this,
-				SceneImpl.VAR_TRAJECTORY_DEFINITION));
+		effect.addField(new BasicField<EAdTrajectoryDefinition>(this,
+				BasicScene.VAR_TRAJECTORY_DEFINITION));
 		effect.setOperation(new ValueOp(trajectory));
 		effect.getNextEffects().add(changeSide);
 
 		getBackground().addBehavior(
-				new EAdKeyEvent(KeyEventType.KEY_PRESSED, '3'), effect);
+				new KeyGEv(KeyEventType.KEY_PRESSED, '3'), effect);
 	}
 
 	@Override

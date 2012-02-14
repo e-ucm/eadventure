@@ -46,9 +46,9 @@ import org.mockito.MockitoAnnotations;
 import ead.common.model.elements.extra.EAdList;
 import ead.common.model.elements.extra.EAdListImpl;
 import ead.common.model.elements.scene.EAdScene;
-import ead.common.model.elements.scenes.SceneElementDefImpl;
-import ead.common.model.elements.scenes.SceneImpl;
-import ead.common.resources.assets.drawable.basics.ImageImpl;
+import ead.common.model.elements.scenes.SceneElementDef;
+import ead.common.model.elements.scenes.BasicScene;
+import ead.common.resources.assets.drawable.basics.Image;
 import ead.editor.SceneLinksPanel;
 
 public class SceneLinksPanelTest {
@@ -62,8 +62,8 @@ public class SceneLinksPanelTest {
 
 		EAdList<EAdScene> list = new EAdListImpl<EAdScene>(EAdScene.class);
 
-		EAdScene space = new SceneImpl();
-		space.getBackground().getDefinition().getResources().addAsset(space.getDefinition().getInitialBundle(), SceneElementDefImpl.appearance, new ImageImpl("@drawable/loading.png"));
+		EAdScene space = new BasicScene();
+		space.getBackground().getDefinition().getResources().addAsset(space.getDefinition().getInitialBundle(), SceneElementDef.appearance, new Image("@drawable/loading.png"));
 
 		//Change the number of elements in the list to see how the scale works
 		list.add(space);

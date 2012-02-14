@@ -37,7 +37,7 @@
 
 package ead.engine.html;
 
-import ead.common.resources.StringHandler;
+import ead.common.util.StringHandler;
 import ead.elementfactories.EAdElementsFactory;
 import ead.engine.core.game.Game;
 import ead.engine.reader.GWTReader;

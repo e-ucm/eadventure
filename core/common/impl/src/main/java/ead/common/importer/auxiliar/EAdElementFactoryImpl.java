@@ -56,11 +56,11 @@ import ead.common.model.elements.EAdCondition;
 import ead.common.model.elements.EAdEffect;
 import ead.common.model.elements.scene.EAdSceneElementDef;
 import ead.common.model.elements.variables.EAdField;
-import ead.common.model.elements.variables.EAdFieldImpl;
+import ead.common.model.elements.variables.BasicField;
 import ead.common.model.elements.variables.SystemFields;
-import ead.common.model.elements.variables.VarDefImpl;
+import ead.common.model.elements.variables.VarDef;
+import ead.common.resources.assets.drawable.basics.EAdImage;
 import ead.common.resources.assets.drawable.basics.Image;
-import ead.common.resources.assets.drawable.basics.ImageImpl;
 import es.eucm.eadventure.common.data.adventure.AdventureData;
 import es.eucm.eadventure.common.data.adventure.DescriptorData;
 import es.eucm.eadventure.common.data.chapter.Chapter;
@@ -75,7 +75,7 @@ public class EAdElementFactoryImpl implements EAdElementFactory {
 	private Map<String, Map<String, EAdField<?>>> chapterVars;
 	private Map<String, Map<String, EAdCondition>> chapterGlobalStates;
 	private List<EAdSceneElementDef> draggableActors;
-	private Map<String, Image> defaultCursors;
+	private Map<String, EAdImage> defaultCursors;
 
 	private Map<String, Object> oldType;
 
@@ -103,7 +103,7 @@ public class EAdElementFactoryImpl implements EAdElementFactory {
 		chapterVars = new HashMap<String, Map<String, EAdField<?>>>();
 		chapterGlobalStates = new HashMap<String, Map<String, EAdCondition>>();
 		oldType = new HashMap<String, Object>();
-		defaultCursors = new HashMap<String, Image>();
+		defaultCursors = new HashMap<String, EAdImage>();
 		this.injector = injector;
 	}
 
@@ -199,12 +199,12 @@ public class EAdElementFactoryImpl implements EAdElementFactory {
 		EAdField<?> var = vars.get(id);
 		if (var == null) {
 			if (type == Condition.FLAG_CONDITION)
-				var = new EAdFieldImpl<Boolean>(currentChapter,
-						new VarDefImpl<Boolean>(id, Boolean.class,
+				var = new BasicField<Boolean>(currentChapter,
+						new VarDef<Boolean>(id, Boolean.class,
 								Boolean.FALSE));
 			else
-				var = new EAdFieldImpl<Integer>(currentChapter,
-						new VarDefImpl<Integer>(id, Integer.class, 0));
+				var = new BasicField<Integer>(currentChapter,
+						new VarDef<Integer>(id, Integer.class, 0));
 			vars.put(id, var);
 		}
 		return var;
@@ -243,21 +243,21 @@ public class EAdElementFactoryImpl implements EAdElementFactory {
 	}
 
 	@Override
-	public Image getDefaultCursor(String type) {
-		Image cursor = defaultCursors.get(type);
+	public EAdImage getDefaultCursor(String type) {
+		EAdImage cursor = defaultCursors.get(type);
 
 		if (cursor == null) {
 			String path = model.getCursorPath(type);
 			if (path != null) {
-				cursor = (Image) injector.getInstance(
+				cursor = (EAdImage) injector.getInstance(
 						ResourceImporter.class).getAssetDescritptor(path,
-						ImageImpl.class);
+						Image.class);
 				
 			}
 			else {
 				// FIXME Use more cursors...
 				if ( type.equals(AdventureData.EXIT_CURSOR) )
-					cursor = new ImageImpl("@drawable/exit.png");
+					cursor = new Image("@drawable/exit.png");
 				else
 					cursor = SystemFields.DEFAULT_MOUSE;
 			}
@@ -278,5 +278,21 @@ public class EAdElementFactoryImpl implements EAdElementFactory {
 	public boolean isDraggableActor(EAdSceneElementDef actor) {
 		return draggableActors.contains(actor);
 	}
+
+	@Override
+	public void init() {
+		this.elements.clear();
+		this.chapterGlobalStates.clear();
+		this.chapterVars.clear();
+		this.currentChapter = null;
+		this.currentOldChapter = null;
+		this.defaultCursors.clear();
+		this.draggableActors.clear();
+		this.elements.clear();
+		this.model = null;
+		this.oldType.clear();
+	}
+	
+	
 
 }

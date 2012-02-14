@@ -38,14 +38,14 @@
 package ead.engine.core.platform.assets;
 
 import playn.core.Color;
-import ead.common.params.fills.EAdColor;
+import ead.common.params.fills.ColorFill;
 
 public class PlayNEngineColor {
 
 	private int color;
 
 	//TODO better implement some kind of factory with a cache
-	public PlayNEngineColor(EAdColor color) {
+	public PlayNEngineColor(ColorFill color) {
 		this.color = Color.argb(color.getAlpha(), color.getRed(), color.getGreen(), color.getBlue());
 	}
 

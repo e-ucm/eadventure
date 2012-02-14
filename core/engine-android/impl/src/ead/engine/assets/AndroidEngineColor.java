@@ -38,14 +38,14 @@
 package ead.engine.assets;
 
 import android.graphics.Color;
-import ead.common.params.fills.EAdColor;
+import ead.common.params.fills.ColorFill;
 
 public class AndroidEngineColor {
 
 	private int color;
 
 	//TODO better implement some kind of factory with a cache
-	public AndroidEngineColor(EAdColor eAdColor) {
+	public AndroidEngineColor(ColorFill eAdColor) {
 		color = Color.argb(eAdColor.getAlpha(), eAdColor.getRed(), eAdColor.getGreen(), eAdColor.getBlue());
 	}
 

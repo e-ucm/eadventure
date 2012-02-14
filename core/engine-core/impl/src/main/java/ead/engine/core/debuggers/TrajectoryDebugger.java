@@ -46,23 +46,23 @@ import ead.common.model.elements.extra.EAdList;
 import ead.common.model.elements.scene.EAdScene;
 import ead.common.model.elements.scene.EAdSceneElement;
 import ead.common.model.elements.scene.EAdSceneElementDef;
-import ead.common.model.elements.scenes.SceneElementDefImpl;
+import ead.common.model.elements.scenes.SceneElementDef;
 import ead.common.model.elements.scenes.SceneElementImpl;
-import ead.common.model.elements.scenes.SceneImpl;
+import ead.common.model.elements.scenes.BasicScene;
 import ead.common.model.elements.trajectories.Node;
 import ead.common.model.elements.trajectories.NodeTrajectoryDefinition;
 import ead.common.model.elements.trajectories.Side;
 import ead.common.model.elements.trajectories.SimpleTrajectoryDefinition;
-import ead.common.model.elements.trajectories.TrajectoryDefinition;
-import ead.common.params.fills.EAdColor;
-import ead.common.params.fills.EAdPaintImpl;
+import ead.common.model.elements.trajectories.EAdTrajectoryDefinition;
+import ead.common.params.fills.ColorFill;
+import ead.common.params.fills.PaintFill;
 import ead.common.params.paint.EAdPaint;
 import ead.common.resources.assets.drawable.basics.shapes.BezierShape;
 import ead.common.resources.assets.drawable.basics.shapes.CircleShape;
 import ead.common.resources.assets.drawable.basics.shapes.LineShape;
 import ead.common.resources.assets.drawable.basics.shapes.RectangleShape;
+import ead.common.resources.assets.drawable.compounds.EAdComposedDrawable;
 import ead.common.resources.assets.drawable.compounds.ComposedDrawable;
-import ead.common.resources.assets.drawable.compounds.ComposedDrawableImpl;
 import ead.common.util.EAdPosition;
 import ead.common.util.EAdRectangle;
 import ead.engine.core.debuggers.Debugger;
@@ -86,7 +86,7 @@ public class TrajectoryDebugger implements Debugger {
 
 	private EAdScene currentScene;
 
-	private TrajectoryDefinition currentTrajectory;
+	private EAdTrajectoryDefinition currentTrajectory;
 
 	private List<DrawableGO<?>> gameObjects;
 
@@ -107,7 +107,7 @@ public class TrajectoryDebugger implements Debugger {
 	public List<DrawableGO<?>> getGameObjects() {
 		if (currentScene != gameState.getScene().getElement()
 				|| valueMap.getValue(currentScene,
-						SceneImpl.VAR_TRAJECTORY_DEFINITION) != currentTrajectory) {
+						BasicScene.VAR_TRAJECTORY_DEFINITION) != currentTrajectory) {
 			createTrajectory();
 		}
 
@@ -118,8 +118,8 @@ public class TrajectoryDebugger implements Debugger {
 				barriers.get(i)
 						.setPaint(
 								valueMap.getValue(e,
-										NodeTrajectoryDefinition.VAR_BARRIER_ON) ? EAdColor.YELLOW
-										: EAdColor.TRANSPARENT);
+										NodeTrajectoryDefinition.VAR_BARRIER_ON) ? ColorFill.YELLOW
+										: ColorFill.TRANSPARENT);
 				i++;
 			}
 		}
@@ -133,7 +133,7 @@ public class TrajectoryDebugger implements Debugger {
 
 		if (currentScene != null) {
 			currentTrajectory = valueMap.getValue(currentScene,
-					SceneImpl.VAR_TRAJECTORY_DEFINITION);
+					BasicScene.VAR_TRAJECTORY_DEFINITION);
 
 			if (currentTrajectory instanceof NodeTrajectoryDefinition) {
 				createNodes((NodeTrajectoryDefinition) currentTrajectory);
@@ -143,7 +143,7 @@ public class TrajectoryDebugger implements Debugger {
 				SimpleTrajectoryDefinition def = (SimpleTrajectoryDefinition) currentTrajectory;
 				SceneElementImpl area = new SceneElementImpl(
 						new RectangleShape(def.getRight() - def.getLeft(), def
-								.getBottom() - def.getTop(), new EAdColor(0,
+								.getBottom() - def.getTop(), new ColorFill(0,
 								200, 0, 100)));
 				area.setId("walking_area");
 				area.setPosition(def.getLeft(), def.getTop());
@@ -154,7 +154,7 @@ public class TrajectoryDebugger implements Debugger {
 	}
 
 	private void addInfluenceAreas(EAdList<EAdSceneElement> sceneElements) {
-		EAdPaint p = new EAdColor(0, 0, 200, 100);
+		EAdPaint p = new ColorFill(0, 0, 200, 100);
 		for (EAdSceneElement sceneElement : sceneElements) {
 			EAdRectangle rectangle = gameState.getValueMap().getValue(
 					sceneElement, NodeTrajectoryDefinition.VAR_INFLUENCE_AREA);
@@ -172,7 +172,7 @@ public class TrajectoryDebugger implements Debugger {
 	}
 
 	private void createNodes(NodeTrajectoryDefinition trajectory) {
-		ComposedDrawable map = new ComposedDrawableImpl();
+		EAdComposedDrawable map = new ComposedDrawable();
 		for (Side s : trajectory.getSides()) {
 			int x1 = trajectory.getNodeForId(s.getIdStart()).getX();
 			int y1 = trajectory.getNodeForId(s.getIdStart()).getY();
@@ -180,17 +180,17 @@ public class TrajectoryDebugger implements Debugger {
 			int y2 = trajectory.getNodeForId(s.getIdEnd()).getY();
 
 			LineShape line = new LineShape(x1, y1, x2, y2, 4);
-			line.setPaint(EAdColor.DARK_BROWN);
+			line.setPaint(ColorFill.DARK_BROWN);
 			map.addDrawable(line);
 
 		}
 
 		for (Node n : trajectory.getNodes()) {
 			CircleShape circle = new CircleShape(n.getX(), n.getY(), 20, 20);
-			EAdColor color = trajectory.getInitial() == n ? EAdColor.RED
-					: EAdColor.BLUE;
+			ColorFill color = trajectory.getInitial() == n ? ColorFill.RED
+					: ColorFill.BLUE;
 
-			circle.setPaint(new EAdPaintImpl(color, EAdColor.BLACK, 2));
+			circle.setPaint(new PaintFill(color, ColorFill.BLACK, 2));
 			map.addDrawable(circle);
 		}
 
@@ -200,9 +200,9 @@ public class TrajectoryDebugger implements Debugger {
 		for (EAdSceneElement e : trajectory.getBarriers()) {
 			EAdSceneElementDef def = e.getDefinition();
 			BezierShape s = (BezierShape) def.getAsset(def.getInitialBundle(),
-					SceneElementDefImpl.appearance);
+					SceneElementDef.appearance);
 			BezierShape barrier = (BezierShape) s.clone();
-			barrier.setPaint(EAdColor.YELLOW);
+			barrier.setPaint(ColorFill.YELLOW);
 			barriers.add(barrier);
 			EAdPosition p = ((DrawableGO<?>) sceneElementFactory.get(e))
 					.getPosition();

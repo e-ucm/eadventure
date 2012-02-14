@@ -37,13 +37,10 @@
 
 package ead.engine.core.platform.specialassetrenderers;
 
-import com.google.inject.Inject;
-import ead.common.resources.assets.multimedia.Video;
-import ead.engine.core.platform.AssetHandler;
-import ead.engine.core.platform.SpecialAssetRenderer;
 import java.awt.Component;
 import java.io.IOException;
 import java.net.MalformedURLException;
+
 import javax.media.CannotRealizeException;
 import javax.media.Codec;
 import javax.media.ControllerEvent;
@@ -57,10 +54,16 @@ import javax.media.PlugInManager;
 import javax.media.PrefetchCompleteEvent;
 import javax.media.RealizeCompleteEvent;
 import javax.media.StopEvent;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class DesktopVideoRenderer implements SpecialAssetRenderer<Video, Component> {
+import com.google.inject.Inject;
+
+import ead.common.resources.assets.multimedia.EAdVideo;
+import ead.engine.core.platform.AssetHandler;
+import ead.engine.core.platform.SpecialAssetRenderer;
+public class DesktopVideoRenderer implements SpecialAssetRenderer<EAdVideo, Component> {
 
 	private static Logger logger = LoggerFactory.getLogger("DesktopVideoRenderer");
 
@@ -84,7 +87,7 @@ public class DesktopVideoRenderer implements SpecialAssetRenderer<Video, Compone
 	}
 
 	@Override
-	public Component getComponent(Video asset) {
+	public Component getComponent(EAdVideo asset) {
 		if ( ! loaded) {
 	        try {
 	            Codec c = (Codec) Class.forName( CODEC_CLASS_NAME ).newInstance( );

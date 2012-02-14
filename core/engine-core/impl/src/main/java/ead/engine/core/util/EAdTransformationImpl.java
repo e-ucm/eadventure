@@ -38,7 +38,7 @@
 package ead.engine.core.util;
 
 import ead.common.util.EAdMatrix;
-import ead.common.util.EAdMatrixImpl;
+import ead.common.util.BasicMatrix;
 import ead.common.util.EAdRectangle;
 import ead.engine.core.util.EAdTransformation;
 
@@ -61,7 +61,7 @@ public class EAdTransformationImpl implements EAdTransformation {
 	}
 
 	public EAdTransformationImpl() {
-		matrix = new EAdMatrixImpl();
+		matrix = new BasicMatrix();
 		visible = true;
 		alpha = 1.0f;
 	}
@@ -93,7 +93,7 @@ public class EAdTransformationImpl implements EAdTransformation {
 		EAdTransformationImpl t = new EAdTransformationImpl();
 		t.alpha = alpha;
 		t.visible = visible;
-		t.matrix = new EAdMatrixImpl(matrix.getFlatMatrix());
+		t.matrix = new BasicMatrix(matrix.getFlatMatrix());
 		return t;
 
 	}

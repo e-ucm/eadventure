@@ -39,8 +39,8 @@ package ead.common.resources.assets.drawable.basics.animation;
 
 import ead.common.interfaces.Param;
 import ead.common.resources.assets.AssetDescriptor;
-import ead.common.resources.assets.drawable.basics.BasicDrawable;
-import ead.common.resources.assets.drawable.basics.ImageImpl;
+import ead.common.resources.assets.drawable.basics.EAdBasicDrawable;
+import ead.common.resources.assets.drawable.basics.Image;
 
 /**
  * 
@@ -61,7 +61,7 @@ public class Frame implements AssetDescriptor {
 	private int time;
 	
 	@Param("drawable")
-	private BasicDrawable drawable;
+	private EAdBasicDrawable drawable;
 
 	public Frame(){
 		
@@ -87,10 +87,10 @@ public class Frame implements AssetDescriptor {
 	 *            the time for the frame
 	 */
 	public Frame(String uri, int time) {
-		this( new ImageImpl(uri), time);
+		this( new Image(uri), time);
 	}
 	
-	public Frame( BasicDrawable drawable, int time ){
+	public Frame( EAdBasicDrawable drawable, int time ){
 		this.drawable = drawable;
 		this.time = time;
 	}
@@ -114,7 +114,7 @@ public class Frame implements AssetDescriptor {
 		return time;
 	}
 	
-	public BasicDrawable getDrawable( ){
+	public EAdBasicDrawable getDrawable( ){
 		return drawable;
 	}
 	
@@ -125,7 +125,7 @@ public class Frame implements AssetDescriptor {
 		return false;
 	}
 
-	public void setDrawable(BasicDrawable drawable) {
+	public void setDrawable(EAdBasicDrawable drawable) {
 		this.drawable = drawable;
 	}
 

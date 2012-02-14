@@ -37,16 +37,13 @@
 
 package ead.gui;
 
-import ead.utils.i18n.Resource;
-import java.io.IOException;
-import java.io.InputStream;
-
-import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import ead.utils.i18n.Resource;
 
 public class EAdSimpleButton extends JButton {
 

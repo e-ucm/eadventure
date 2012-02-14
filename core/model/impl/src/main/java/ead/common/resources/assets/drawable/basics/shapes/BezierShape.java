@@ -40,12 +40,12 @@ package ead.common.resources.assets.drawable.basics.shapes;
 import ead.common.interfaces.Param;
 import ead.common.model.elements.extra.EAdList;
 import ead.common.model.elements.extra.EAdListImpl;
-import ead.common.params.fills.EAdPaintImpl;
+import ead.common.params.fills.PaintFill;
 import ead.common.params.paint.EAdPaint;
-import ead.common.resources.assets.drawable.basics.Shape;
+import ead.common.resources.assets.drawable.basics.EAdShape;
 import ead.common.util.EAdPosition;
 
-public class BezierShape implements Shape, Cloneable {
+public class BezierShape implements EAdShape, Cloneable {
 
 	@Param("paint")
 	private EAdPaint paint;
@@ -62,7 +62,7 @@ public class BezierShape implements Shape, Cloneable {
 	public BezierShape() {
 		points = new EAdListImpl<EAdPosition>(EAdPosition.class);
 		segmentsLength = new EAdListImpl<Integer>(Integer.class);
-		paint = EAdPaintImpl.TRANSPARENT;
+		paint = PaintFill.TRANSPARENT;
 	}
 	
 	public BezierShape( EAdPaint paint ){

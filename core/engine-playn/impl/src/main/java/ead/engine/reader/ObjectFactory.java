@@ -48,19 +48,19 @@ import com.gwtent.reflection.client.ReflectionRequiredException;
 import com.gwtent.reflection.client.TypeOracle;
 
 import ead.common.model.EAdElement;
-import ead.common.params.EAdFontImpl;
+import ead.common.params.BasicFont;
 import ead.common.params.EAdParam;
-import ead.common.params.EAdURIImpl;
-import ead.common.params.fills.EAdColor;
-import ead.common.params.fills.EAdLinearGradient;
-import ead.common.params.fills.EAdPaintImpl;
+import ead.common.params.fills.ColorFill;
+import ead.common.params.fills.LinearGradientFill;
+import ead.common.params.fills.PaintFill;
 import ead.common.params.text.EAdString;
 import ead.common.resources.EAdBundleId;
 import ead.common.resources.assets.AssetDescriptor;
 import ead.common.util.EAdMatrix;
-import ead.common.util.EAdMatrixImpl;
+import ead.common.util.BasicMatrix;
 import ead.common.util.EAdPosition;
 import ead.common.util.EAdRectangle;
+import ead.common.util.EAdURI;
 import ead.engine.core.platform.PlayNReflectionProvider;
 
 /**
@@ -92,8 +92,8 @@ public class ObjectFactory {
 		} else if (fieldType == EAdBundleId.class)
 			return new EAdBundleId(value);
 		else if (fieldType == EAdMatrix.class
-				|| fieldType == EAdMatrixImpl.class)
-			return EAdMatrixImpl.parse(value);
+				|| fieldType == BasicMatrix.class)
+			return BasicMatrix.parse(value);
 		else if (fieldType == Class.class)
 			return getClassFromName(value);
 		else if (fieldType.isEnum()) {
@@ -164,20 +164,20 @@ public class ObjectFactory {
 			Class<? extends EAdParam> clazz) {
 		if (clazz.equals(EAdString.class))
 			return new EAdString(value);
-		if (clazz.equals(EAdColor.class))
-			return new EAdColor(value);
-		if (clazz.equals(EAdLinearGradient.class))
-			return new EAdLinearGradient(value);
-		if (clazz.equals(EAdPaintImpl.class))
-			return new EAdPaintImpl(value);
-		if (clazz.equals(EAdFontImpl.class))
-			return new EAdFontImpl(value);
+		if (clazz.equals(ColorFill.class))
+			return new ColorFill(value);
+		if (clazz.equals(LinearGradientFill.class))
+			return new LinearGradientFill(value);
+		if (clazz.equals(PaintFill.class))
+			return new PaintFill(value);
+		if (clazz.equals(BasicFont.class))
+			return new BasicFont(value);
 		if (clazz.equals(EAdPosition.class))
 			return new EAdPosition(value);
 		if (clazz.equals(EAdRectangle.class))
 			return new EAdRectangle(value);
-		if (clazz.equals(EAdURIImpl.class))
-			return new EAdURIImpl(value);
+		if (clazz.equals(EAdURI.class))
+			return new EAdURI(value);
 
 		logger.error("Param class {} needs an explicitly defined constructor",
                 clazz);;

@@ -50,8 +50,8 @@ import ead.common.model.elements.EAdChapter;
 import ead.common.model.elements.EAdEffect;
 import ead.common.model.elements.scene.EAdScene;
 import ead.common.model.elements.scene.EAdSceneElement;
-import ead.common.model.elements.scenes.SceneElementDefImpl;
-import ead.common.model.elements.scenes.SceneImpl;
+import ead.common.model.elements.scenes.SceneElementDef;
+import ead.common.model.elements.scenes.BasicScene;
 import ead.common.model.elements.variables.EAdVarDef;
 import ead.common.model.elements.variables.SystemFields;
 import ead.engine.core.evaluators.EvaluatorFactory;
@@ -143,14 +143,15 @@ public class GameStateImpl implements GameState {
 	@Override
 	public void setScene(SceneGO<? extends EAdScene> newScene) {
 		if (this.scene != null && this.scene.getElement() != null) {
-			valueMap.setValue(scene.getElement(), SceneImpl.VAR_SCENE_LOADED,
+			valueMap.setValue(scene.getElement(), BasicScene.VAR_SCENE_LOADED,
 					Boolean.FALSE);
 			if (scene.getElement().getReturnable())
 				previousSceneStack.push(scene.getElement());
 		}
 		this.scene = newScene;
+		scene.update();
 		if (this.scene != null && this.scene.getElement() != null) {
-			valueMap.setValue(scene.getElement(), SceneImpl.VAR_SCENE_LOADED,
+			valueMap.setValue(scene.getElement(), BasicScene.VAR_SCENE_LOADED,
 					Boolean.TRUE);
 			for (Entry<EAdVarDef<?>, Object> e : scene.getElement().getVars()
 					.entrySet()) {
@@ -271,7 +272,7 @@ public class GameStateImpl implements GameState {
 	public SceneElementGO<?> getActiveElement() {
 		EAdSceneElement activeElement = valueMap.getValue(
 				valueMap.getValue(SystemFields.ACTIVE_ELEMENT),
-				SceneElementDefImpl.VAR_SCENE_ELEMENT);
+				SceneElementDef.VAR_SCENE_ELEMENT);
 		if (activeElement != null)
 			return sceneElementFactory.get(activeElement);
 		else

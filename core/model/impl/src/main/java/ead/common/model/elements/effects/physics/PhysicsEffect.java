@@ -46,7 +46,7 @@ import ead.common.model.elements.extra.EAdList;
 import ead.common.model.elements.extra.EAdListImpl;
 import ead.common.model.elements.scene.EAdSceneElement;
 import ead.common.model.elements.variables.EAdVarDef;
-import ead.common.model.elements.variables.VarDefImpl;
+import ead.common.model.elements.variables.VarDef;
 
 @Element(detailed = PhysicsEffect.class, runtime = PhysicsEffect.class)
 public class PhysicsEffect extends AbstractEffect {
@@ -54,19 +54,19 @@ public class PhysicsEffect extends AbstractEffect {
 
 
 
-	public static final EAdVarDef<PhType> VAR_PH_TYPE = new VarDefImpl<PhType>(
+	public static final EAdVarDef<PhType> VAR_PH_TYPE = new VarDef<PhType>(
 			"ph_type", PhType.class, PhType.STATIC);
 
-	public static final EAdVarDef<PhShape> VAR_PH_SHAPE = new VarDefImpl<PhShape>(
+	public static final EAdVarDef<PhShape> VAR_PH_SHAPE = new VarDef<PhShape>(
 			"ph_shape", PhShape.class, PhShape.RECTANGULAR);
 
-	public static final EAdVarDef<Float> VAR_PH_FRICTION = new VarDefImpl<Float>(
+	public static final EAdVarDef<Float> VAR_PH_FRICTION = new VarDef<Float>(
 			"ph_friction", Float.class, 0.3f);
 	
-	public static final EAdVarDef<Float> VAR_PH_RESTITUTION = new VarDefImpl<Float>(
+	public static final EAdVarDef<Float> VAR_PH_RESTITUTION = new VarDef<Float>(
 			"ph_restitution", Float.class, 0.1f);
 	
-	public static final EAdVarDef<Float> VAR_PH_DENSITY = new VarDefImpl<Float>(
+	public static final EAdVarDef<Float> VAR_PH_DENSITY = new VarDef<Float>(
 			"ph_restitution", Float.class, 0.001f);
 		
 

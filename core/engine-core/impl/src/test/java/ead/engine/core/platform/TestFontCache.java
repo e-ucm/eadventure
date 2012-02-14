@@ -37,7 +37,7 @@
 
 package ead.engine.core.platform;
 
-import ead.common.params.EAdFontImpl;
+import ead.common.params.BasicFont;
 import ead.common.params.text.EAdFont;
 import ead.common.util.EAdRectangle;
 import ead.engine.core.platform.FontHandlerImpl;
@@ -50,7 +50,7 @@ public class TestFontCache extends FontHandlerImpl {
 		this.fontCache.put(font, new RuntimeFont(){
 
 			@Override
-			public EAdFontImpl getEAdFont() {
+			public BasicFont getEAdFont() {
 				return null;
 			}
 

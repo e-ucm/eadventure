@@ -44,7 +44,7 @@ import javax.swing.WindowConstants;
 
 import static org.mockito.Mockito.*;
 
-import ead.common.resources.StringHandler;
+import ead.common.util.StringHandler;
 import ead.editor.EditorStringHandler;
 import ead.editor.control.CommandManager;
 import ead.editor.control.FieldValueReader;

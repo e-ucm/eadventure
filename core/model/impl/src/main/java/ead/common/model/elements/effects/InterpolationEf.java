@@ -43,7 +43,7 @@ import ead.common.model.EAdElement;
 import ead.common.model.elements.effects.enums.InterpolationLoopType;
 import ead.common.model.elements.effects.enums.InterpolationType;
 import ead.common.model.elements.variables.EAdField;
-import ead.common.model.elements.variables.EAdFieldImpl;
+import ead.common.model.elements.variables.BasicField;
 import ead.common.model.elements.variables.EAdVarDef;
 import ead.common.model.elements.variables.operations.MathOp;
 
@@ -150,12 +150,12 @@ public class InterpolationEf extends AbstractEffect {
 				endValue, time, 0, loopType, -1, interpolationType);
 	}
 
-	public InterpolationEf(EAdFieldImpl<?> field, float start,
+	public InterpolationEf(BasicField<?> field, float start,
 			float endValue, int time, InterpolationLoopType loopType) {
 		this(field, start, endValue, time, loopType, InterpolationType.LINEAR);
 	}
 
-	public InterpolationEf(EAdFieldImpl<?> field, int start,
+	public InterpolationEf(BasicField<?> field, int start,
 			int end, int timeToFinish, InterpolationLoopType loopType) {
 		this(field, (float) start, (float) end, timeToFinish, loopType);
 	}

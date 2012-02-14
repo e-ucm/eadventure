@@ -38,21 +38,21 @@
 package ead.elementfactories.actions;
 
 import ead.common.model.elements.EAdAction;
-import ead.common.model.elements.actions.ActionImpl;
+import ead.common.model.elements.actions.ElementAction;
 import ead.common.model.elements.effects.text.SpeakEf;
-import ead.common.resources.assets.drawable.basics.ImageImpl;
+import ead.common.resources.assets.drawable.basics.Image;
 import ead.elementfactories.EAdElementsFactory;
 
 public class ActionsFactory {
 	
 	public EAdAction getBasicAction( ){
-		ActionImpl action = new ActionImpl();
+		ElementAction action = new ElementAction();
 		action.getResources().addAsset(action.getInitialBundle(),
-				ActionImpl.appearance,
-				new ImageImpl("@drawable/examine-normal.png"));
+				ElementAction.appearance,
+				new Image("@drawable/examine-normal.png"));
 		action.getResources().addAsset(action.getHighlightBundle(),
-				ActionImpl.appearance,
-				new ImageImpl("@drawable/examine-pressed.png"));
+				ElementAction.appearance,
+				new Image("@drawable/examine-pressed.png"));
 
 		SpeakEf speak = new SpeakEf();
 

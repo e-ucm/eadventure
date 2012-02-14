@@ -94,6 +94,22 @@ public interface ResourceImporter {
 	 * @return
 	 */
 	String getNewProjecFolder();
-	
-	Dimension getDimensions(String targetId);
+
+	/**
+	 * Returns the dimensions for the image in the given old project uri
+	 * 
+	 * @param oldUri
+	 *            the old project image uri
+	 * @return the dimensions for the image
+	 */
+	Dimension getDimensionsForOldImage(String oldUri);
+
+	/**
+	 * Returns the dimensions for the image in the given new project uri
+	 * 
+	 * @param oldUri
+	 *            the new project image uri
+	 * @return the dimensions for the image
+	 */
+	Dimension getDimensionsForNewImage(String newUri);
 }

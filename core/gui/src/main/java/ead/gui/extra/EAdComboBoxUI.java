@@ -40,7 +40,7 @@
  * <e-UCM>, Department of Software Engineering and Artificial Intelligence.
  * Faculty of Informatics, Complutense University of Madrid (Spain).
  * @author Del Blanco, A., Marchiori, E., Torrente, F.J.
- * @author Moreno-Ger, P. & Fernández-Manjón, B. (directors)
+ * @author Moreno-Ger, P. & Fern��ndez-Manj��n, B. (directors)
  * @year 2009
  * Web-site: http://e-adventure.e-ucm.es
  */
@@ -105,8 +105,7 @@ public class EAdComboBoxUI extends BasicComboBoxUI {
     public EAdComboBoxUI() {
         super();
     }
-
-    @SuppressWarnings("unchecked")
+    
 	@Override
 	public void installUI(JComponent c) {
 		super.installUI(c);

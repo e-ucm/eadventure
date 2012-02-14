@@ -37,6 +37,8 @@
 
 package ead.engine.core.gameobjects.go.transitions;
 
+import java.util.List;
+
 import ead.common.model.elements.scene.EAdScene;
 import ead.common.model.elements.transitions.EAdTransition;
 import ead.engine.core.gameobjects.go.SceneGO;
@@ -85,5 +87,27 @@ public interface TransitionGO<T extends EAdTransition> extends
 	 *            the transition data
 	 */
 	void setTransition(T transition);
+
+	/**
+	 * Returns the list of TransitionListener. You can add or remove your
+	 * transition listeners in this list
+	 */
+	List<TransitionListener> getTransitionListeners();
+
+	public interface TransitionListener {
+
+		/**
+		 * Method called when transition begins
+		 */
+		void transitionBegins();
+
+		/**
+		 * Method called when transition ends
+		 */
+		void transitionEnds();
+
+	}
+
+	SceneGO<?> getNextSceneGO();
 
 }

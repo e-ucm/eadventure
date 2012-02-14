@@ -42,7 +42,7 @@ import org.junit.Test;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 
-import ead.common.resources.assets.drawable.basics.ImageImpl;
+import ead.common.resources.assets.drawable.basics.Image;
 import ead.engine.core.platform.assets.DesktopEngineImage;
 import ead.engine.core.platform.extra.DesktopAssetHandlerModule;
 import junit.framework.TestCase;
@@ -59,7 +59,7 @@ public class DesktopEngineImageTest extends TestCase {
 	@Test
 	public void testImageLoadUnload() {
 		DesktopEngineImage image = injector.getInstance(DesktopEngineImage.class);
-		ImageImpl imageDescriptor = new ImageImpl("@drawable/loading.png");
+		Image imageDescriptor = new Image("@drawable/loading.png");
 		image.setDescriptor(imageDescriptor);
 		image.loadAsset();
 		
@@ -73,7 +73,7 @@ public class DesktopEngineImageTest extends TestCase {
 	@Test
 	public void testUnloadUnloaded() {
 		DesktopEngineImage image = injector.getInstance(DesktopEngineImage.class);
-		ImageImpl imageDescriptor = new ImageImpl("@drawable/loading.png");
+		Image imageDescriptor = new Image("@drawable/loading.png");
 		image.setDescriptor(imageDescriptor);
 		
 		assertFalse(image.isLoaded());
@@ -114,7 +114,7 @@ public class DesktopEngineImageTest extends TestCase {
 	@Test
 	public void testMemoryUse() {
 		DesktopEngineImage image = injector.getInstance(DesktopEngineImage.class);
-		ImageImpl imageDescriptor = new ImageImpl("@drawable/loading.png");
+		Image imageDescriptor = new Image("@drawable/loading.png");
 		image.setDescriptor(imageDescriptor);
 
 		long memoryUse = getMemoryUse();

@@ -46,7 +46,7 @@ import ead.common.model.elements.effects.text.SpeakEf;
 import ead.common.model.elements.effects.variables.ChangeFieldEf;
 import ead.common.model.elements.variables.SystemFields;
 import ead.common.model.elements.variables.operations.BooleanOp;
-import ead.common.params.fills.EAdColor;
+import ead.common.params.fills.ColorFill;
 import es.eucm.eadventure.common.data.chapter.conversation.line.ConversationLine;
 import es.eucm.eadventure.common.data.chapter.conversation.node.DialogueConversationNode;
 import es.eucm.eadventure.common.data.chapter.effects.Effect;
@@ -91,7 +91,7 @@ public class DialogueNodeImporter implements
 
 		if (initialEffect == null) {
 			initialEffect = new SpeakEf();
-			initialEffect.setColor(EAdColor.TRANSPARENT, EAdColor.TRANSPARENT);
+			initialEffect.setColor(ColorFill.TRANSPARENT, ColorFill.TRANSPARENT);
 			initialEffect.getCaption().getText().parse("");
 			previousEffect = initialEffect;
 		}

@@ -58,8 +58,8 @@ import org.slf4j.LoggerFactory;
 import ead.common.model.elements.extra.EAdList;
 import ead.common.model.elements.scene.EAdScene;
 import ead.common.model.elements.scene.EAdSceneElement;
-import ead.common.model.elements.scenes.SceneElementDefImpl;
-import ead.common.resources.assets.drawable.basics.ImageImpl;
+import ead.common.model.elements.scenes.SceneElementDef;
+import ead.common.resources.assets.drawable.basics.Image;
 import ead.gui.eadcanvaspanel.EAdCanvasPanel;
 import ead.gui.eadcanvaspanel.listeners.DragListener;
 import ead.gui.eadcanvaspanel.scrollcontainers.EAdFixScrollCanvasPanel;
@@ -134,11 +134,11 @@ public class SceneLinksPanel extends EAdFixScrollCanvasPanel {
 				EAdSceneElement element = scene.getBackground();
 				// TODO Loading images to be fixed with some specific image
 				// object
-				ImageImpl imageImpl = (ImageImpl) element
+				Image imageImpl = (Image) element
 						.getDefinition()
 						.getResources()
 						.getAsset(element.getDefinition().getInitialBundle(),
-								SceneElementDefImpl.appearance);
+								SceneElementDef.appearance);
 				image = ImageIO.read(getResourceAsStream(imageImpl.getUri()
 						.getPath()));
 
@@ -149,11 +149,11 @@ public class SceneLinksPanel extends EAdFixScrollCanvasPanel {
 			} catch (IOException e) {
 				logger.error(
 						"Could not load image! "
-								+ ((ImageImpl) scene
+								+ ((Image) scene
 										.getDefinition()
 										.getResources()
 										.getAsset(
-												SceneElementDefImpl.appearance))
+												SceneElementDef.appearance))
 										.getUri(), e);
 			}
 

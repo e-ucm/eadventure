@@ -37,7 +37,7 @@
 
 package ead.engine.core.platform;
 
-import ead.common.util.EAdMatrixImpl;
+import ead.common.util.BasicMatrix;
 import ead.common.util.EAdRectangle;
 import ead.engine.core.game.GameState;
 import ead.engine.core.gameobjects.GameObjectManager;
@@ -181,7 +181,7 @@ public abstract class AbstractGUI<T> implements GUI {
 	@Override
 	public EAdTransformation addTransformation(EAdTransformation t1,
 			EAdTransformation t2) {
-		EAdMatrixImpl m = new EAdMatrixImpl();
+		BasicMatrix m = new BasicMatrix();
 		m.multiply(t1.getMatrix().getFlatMatrix(), true);
 		m.multiply(t2.getMatrix().getFlatMatrix(), true);
 		float alpha = t1.getAlpha() * t2.getAlpha();

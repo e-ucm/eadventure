@@ -42,7 +42,7 @@ import com.google.inject.Injector;
 import ead.common.interfaces.features.Resourced;
 import ead.common.resources.EAdBundleId;
 import ead.common.resources.assets.AssetDescriptor;
-import ead.common.resources.assets.drawable.Drawable;
+import ead.common.resources.assets.drawable.EAdDrawable;
 import ead.engine.core.platform.rendering.GenericCanvas;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -156,7 +156,7 @@ public abstract class AbstractAssetHandler implements AssetHandler {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public <T extends Drawable, GraphicContext> DrawableAsset<T, GraphicContext> getDrawableAsset(
+	public <T extends EAdDrawable, GraphicContext> DrawableAsset<T, GraphicContext> getDrawableAsset(
 			T descriptor, GenericCanvas<GraphicContext> c) {
 		return (DrawableAsset<T, GraphicContext>) getRuntimeAsset(descriptor);
 	}

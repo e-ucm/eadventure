@@ -40,8 +40,8 @@ package ead.engine.core.gameobjects.effects.sceneelement;
 import ead.common.model.EAdElement;
 import ead.common.model.elements.effects.sceneelements.AbstractSceneElementEffect;
 import ead.common.model.elements.scene.EAdSceneElement;
-import ead.common.model.elements.scenes.SceneElementDefImpl;
-import ead.common.resources.StringHandler;
+import ead.common.model.elements.scenes.SceneElementDef;
+import ead.common.util.StringHandler;
 import ead.engine.core.game.GameState;
 import ead.engine.core.gameobjects.effects.AbstractEffectGO;
 import ead.engine.core.gameobjects.factories.SceneElementGOFactory;
@@ -70,7 +70,7 @@ public abstract class SceneElementEffectGO<T extends AbstractSceneElementEffect>
 			this.sceneElement = (EAdSceneElement) sceneElement;
 		} else if (sceneElement != null) {
 			this.sceneElement = gameState.getValueMap().getValue(sceneElement,
-					SceneElementDefImpl.VAR_SCENE_ELEMENT);
+					SceneElementDef.VAR_SCENE_ELEMENT);
 		}
 	}
 }

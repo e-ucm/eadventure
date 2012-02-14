@@ -39,10 +39,10 @@ package ead.engine.reader;
 
 import com.gwtent.reflection.client.Field;
 
-import ead.common.model.elements.EAdElementImpl;
+import ead.common.model.elements.BasicElement;
 import ead.common.model.elements.extra.EAdList;
 
-public class ProxyElement extends EAdElementImpl {
+public class ProxyElement extends BasicElement {
 
 	private Object parent;
 	

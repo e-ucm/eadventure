@@ -39,8 +39,8 @@ package ead.engine.core.platform.assets;
 
 import com.google.inject.Inject;
 
-import ead.common.resources.assets.drawable.Drawable;
-import ead.common.resources.assets.drawable.basics.ImageImpl;
+import ead.common.resources.assets.drawable.EAdDrawable;
+import ead.common.resources.assets.drawable.basics.Image;
 import ead.engine.core.platform.AssetHandler;
 import ead.engine.core.platform.DrawableAsset;
 
@@ -48,7 +48,7 @@ import ead.engine.core.platform.DrawableAsset;
  * Represents a runtime engine image, associated with an {@link AssetDescritpor}
  * 
  */
-public abstract class RuntimeImage<GraphicContext> extends AbstractRuntimeAsset<ImageImpl> implements DrawableAsset<ImageImpl, GraphicContext> {
+public abstract class RuntimeImage<GraphicContext> extends AbstractRuntimeAsset<Image> implements DrawableAsset<Image, GraphicContext> {
 
 	/**
 	 * The asset handler
@@ -67,7 +67,7 @@ public abstract class RuntimeImage<GraphicContext> extends AbstractRuntimeAsset<
 	
 	@SuppressWarnings("unchecked")
 	@Override
-	public <S extends Drawable> DrawableAsset<S, GraphicContext> getDrawable() {
+	public <S extends EAdDrawable> DrawableAsset<S, GraphicContext> getDrawable() {
 		return (DrawableAsset<S, GraphicContext>) this;
 	}
 		

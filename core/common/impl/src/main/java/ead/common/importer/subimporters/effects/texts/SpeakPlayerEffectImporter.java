@@ -43,11 +43,8 @@ import ead.common.EAdElementImporter;
 import ead.common.importer.interfaces.EAdElementFactory;
 import ead.common.model.elements.EAdCondition;
 import ead.common.model.elements.effects.text.SpeakEf;
-import ead.common.model.elements.variables.EAdOperation;
 import ead.common.model.predef.effects.SpeakSceneElementEf;
-import ead.common.params.fills.EAdColor;
-import ead.common.params.fills.EAdPaintImpl;
-import ead.common.resources.StringHandler;
+import ead.common.util.StringHandler;
 import es.eucm.eadventure.common.data.chapter.conditions.Conditions;
 import es.eucm.eadventure.common.data.chapter.effects.SpeakPlayerEffect;
 import es.eucm.eadventure.common.data.chapter.elements.NPC;
@@ -82,26 +79,7 @@ public class SpeakPlayerEffectImporter extends
 			Object object) {
 		SpeakEf effect = super.convert(oldObject, object);
 
-		String line = setBallonType(effect, oldObject.getLine());
-		
-		for ( EAdOperation op: TextEffectImporter.getOperations(oldObject.getLine(), factory)){
-			effect.getCaption().getFields().add(op);
-		}
-		String finalLine = TextEffectImporter.translateLine(line);
-		stringHandler.setString(effect.getString(), finalLine);
-
-		EAdColor center = new EAdColor("0x"
-				+ npc.getTextFrontColor().substring(1) + "ff");
-		EAdColor border = new EAdColor("0x"
-				+ npc.getTextBorderColor().substring(1) + "ff");
-
-		EAdColor bubbleCenter = new EAdColor("0x"
-				+ npc.getBubbleBkgColor().substring(1) + "ff");
-		EAdColor bubbleBorder = new EAdColor("0x"
-				+ npc.getBubbleBorderColor().substring(1) + "ff");
-
-		effect.setColor(new EAdPaintImpl(center, border), new EAdPaintImpl(
-				bubbleCenter, bubbleBorder));
+		TextEffectImporter.setSpeakEffect(effect, oldObject.getLine(), npc, factory, stringHandler);
 		
 		return effect;
 	}

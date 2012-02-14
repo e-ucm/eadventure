@@ -45,9 +45,9 @@ import ead.common.model.elements.EAdCondition;
 import ead.common.model.elements.effects.text.SpeakEf;
 import ead.common.model.elements.variables.EAdOperation;
 import ead.common.model.predef.effects.SpeakSceneElementEf;
-import ead.common.params.fills.EAdColor;
-import ead.common.params.fills.EAdPaintImpl;
-import ead.common.resources.StringHandler;
+import ead.common.params.fills.ColorFill;
+import ead.common.params.fills.PaintFill;
+import ead.common.util.StringHandler;
 import es.eucm.eadventure.common.data.chapter.conditions.Conditions;
 import es.eucm.eadventure.common.data.chapter.effects.SpeakCharEffect;
 import es.eucm.eadventure.common.data.chapter.elements.NPC;
@@ -94,17 +94,17 @@ public class SpeakCharEffectImporter extends
 
 	public static void setColor(SpeakEf effect, NPC npc) {
 
-		EAdColor center = new EAdColor("0x"
+		ColorFill center = new ColorFill("0x"
 				+ npc.getTextFrontColor().substring(1) + "ff");
-		EAdColor border = new EAdColor("0x"
+		ColorFill border = new ColorFill("0x"
 				+ npc.getTextBorderColor().substring(1) + "ff");
 
-		EAdColor bubbleCenter = new EAdColor("0x"
+		ColorFill bubbleCenter = new ColorFill("0x"
 				+ npc.getBubbleBkgColor().substring(1) + "ff");
-		EAdColor bubbleBorder = new EAdColor("0x"
+		ColorFill bubbleBorder = new ColorFill("0x"
 				+ npc.getBubbleBorderColor().substring(1) + "ff");
 
-		effect.setColor(new EAdPaintImpl(center, border), new EAdPaintImpl(
+		effect.setColor(new PaintFill(center, border), new PaintFill(
 				bubbleCenter, bubbleBorder));
 	}
 

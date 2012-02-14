@@ -37,7 +37,7 @@
 
 package ead.engine.core.platform;
 
-import ead.common.resources.assets.drawable.Drawable;
+import ead.common.resources.assets.drawable.EAdDrawable;
 import ead.engine.core.platform.rendering.GenericCanvas;
 
 /**
@@ -46,9 +46,9 @@ import ead.engine.core.platform.rendering.GenericCanvas;
  * </p>
  * 
  * @param <T>
- *            The class of the {@link Drawable} object
+ *            The class of the {@link EAdDrawable} object
  */
-public interface DrawableAsset<T extends Drawable, GraphicContext> extends RuntimeAsset<T> {
+public interface DrawableAsset<T extends EAdDrawable, GraphicContext> extends RuntimeAsset<T> {
 
 	/**
 	 * Returns the width of the asset
@@ -69,7 +69,7 @@ public interface DrawableAsset<T extends Drawable, GraphicContext> extends Runti
 	 * the object itself. Others, like in animations, will be some other
 	 * {@link DrawableAsset}
 	 */
-	<S extends Drawable> DrawableAsset<S, GraphicContext> getDrawable();
+	<S extends EAdDrawable> DrawableAsset<S, GraphicContext> getDrawable();
 
 	/**
 	 * Render the asset at (0, 0) position (transformations are applied in the

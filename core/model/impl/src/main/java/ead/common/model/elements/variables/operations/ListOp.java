@@ -41,11 +41,11 @@ import ead.common.interfaces.Element;
 import ead.common.interfaces.Param;
 import ead.common.model.elements.extra.EAdList;
 import ead.common.model.elements.variables.EAdField;
-import ead.common.model.elements.variables.OperationImpl;
+import ead.common.model.elements.variables.AbstractOperation;
 
 @Element(runtime = ListOp.class, detailed = ListOp.class)
 @SuppressWarnings("rawtypes")
-public class ListOp extends OperationImpl {
+public class ListOp extends AbstractOperation {
 	
 	@Param("operation")
 	private ListOpType operation;

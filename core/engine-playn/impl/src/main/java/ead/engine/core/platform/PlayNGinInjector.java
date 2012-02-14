@@ -40,7 +40,7 @@ package ead.engine.core.platform;
 import com.google.gwt.inject.client.GinModules;
 import com.google.gwt.inject.client.Ginjector;
 
-import ead.common.resources.StringHandler;
+import ead.common.util.StringHandler;
 import ead.engine.core.game.Game;
 import ead.engine.core.gameobjects.ComposedSceneGOImpl;
 import ead.engine.core.gameobjects.SceneGOImpl;

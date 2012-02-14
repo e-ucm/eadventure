@@ -44,8 +44,7 @@ import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.google.inject.Singleton;
 
-import ead.common.params.EAdURI;
-import ead.common.params.EAdURIImpl;
+import ead.common.util.EAdURI;
 import ead.engine.core.game.GameController;
 import ead.engine.core.modules.BasicGameModule;
 import ead.engine.core.platform.extra.DesktopAssetHandlerModule;
@@ -97,7 +96,7 @@ public class DesktopPlatformLauncher implements PlatformLauncher {
 			//File file = new File("/ProyectoJuegoFINAL.ead");
 		} else {
 			//TODO extract file from args
-			file = new EAdURIImpl( args[0] );
+			file = new EAdURI( args[0] );
 		}
 
 		launcher.launch( file );

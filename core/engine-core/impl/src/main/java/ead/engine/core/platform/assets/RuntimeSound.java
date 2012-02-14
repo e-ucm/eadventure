@@ -39,10 +39,10 @@ package ead.engine.core.platform.assets;
 
 import com.google.inject.Inject;
 
-import ead.common.resources.assets.multimedia.Sound;
+import ead.common.resources.assets.multimedia.EAdSound;
 import ead.engine.core.platform.AssetHandler;
 
-public abstract class RuntimeSound extends AbstractRuntimeAsset<Sound> {
+public abstract class RuntimeSound extends AbstractRuntimeAsset<EAdSound> {
 
 	protected AssetHandler assetHandler;
 

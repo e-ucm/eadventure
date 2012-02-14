@@ -40,7 +40,7 @@ package ead.common.model.elements.variables.operations;
 import ead.common.interfaces.Element;
 import ead.common.interfaces.Param;
 import ead.common.model.elements.variables.EAdField;
-import ead.common.model.elements.variables.OperationImpl;
+import ead.common.model.elements.variables.AbstractOperation;
 
 /**
  * <p>
@@ -53,7 +53,7 @@ import ead.common.model.elements.variables.OperationImpl;
  * </p>
  */
 @Element(runtime = MathOp.class, detailed = MathOp.class)
-public class MathOp extends OperationImpl {
+public class MathOp extends AbstractOperation {
 
 	/**
 	 * Expression to be evaluated

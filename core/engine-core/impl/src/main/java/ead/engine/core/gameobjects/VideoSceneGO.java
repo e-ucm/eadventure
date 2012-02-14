@@ -43,10 +43,10 @@ import org.slf4j.LoggerFactory;
 import com.google.inject.Inject;
 
 import ead.common.model.elements.EAdEffect;
-import ead.common.model.elements.VideoScene;
 import ead.common.model.elements.effects.ChangeSceneEf;
-import ead.common.resources.StringHandler;
-import ead.common.resources.assets.multimedia.Video;
+import ead.common.model.elements.scenes.VideoScene;
+import ead.common.resources.assets.multimedia.EAdVideo;
+import ead.common.util.StringHandler;
 import ead.engine.core.game.GameState;
 import ead.engine.core.gameobjects.factories.EventGOFactory;
 import ead.engine.core.gameobjects.factories.SceneElementGOFactory;
@@ -63,7 +63,7 @@ public class VideoSceneGO extends SceneElementGOImpl<VideoScene> implements
 
 	private static final Logger logger = LoggerFactory.getLogger("VideoScreenGOImpl");
 
-	private SpecialAssetRenderer<Video, ?> specialAssetRenderer;
+	private SpecialAssetRenderer<EAdVideo, ?> specialAssetRenderer;
 
 	private Object component;
 
@@ -73,7 +73,7 @@ public class VideoSceneGO extends SceneElementGOImpl<VideoScene> implements
 	public VideoSceneGO(AssetHandler assetHandler, StringHandler stringsReader,
 			SceneElementGOFactory gameObjectFactory, GUI gui,
 			GameState gameState,
-			SpecialAssetRenderer<Video, ?> specialAssetRenderer,
+			SpecialAssetRenderer<EAdVideo, ?> specialAssetRenderer,
 			EventGOFactory eventFactory) {
 		super(assetHandler, stringsReader, gameObjectFactory, gui, gameState,
 				eventFactory);
@@ -86,7 +86,7 @@ public class VideoSceneGO extends SceneElementGOImpl<VideoScene> implements
 	public void doLayout(EAdTransformation transformation) {
 		if (component == null)
 			try {
-				Video v = (Video) element
+				EAdVideo v = (EAdVideo) element
 						.getDefinition().getAsset(VideoScene.video);
 				component = specialAssetRenderer.getComponent(v);
 			} catch (Exception e) {
