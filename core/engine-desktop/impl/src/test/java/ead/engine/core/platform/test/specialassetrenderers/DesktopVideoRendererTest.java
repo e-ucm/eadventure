@@ -54,7 +54,7 @@ import org.junit.Test;
 
 import ead.common.resources.assets.multimedia.EAdVideo;
 import ead.common.resources.assets.multimedia.Video;
-import ead.engine.core.platform.specialassetrenderers.DesktopVideoRenderer;
+import ead.engine.core.platform.assets.specialassetrenderers.DesktopVideoRenderer;
 
 public class DesktopVideoRendererTest extends TestCase {
 

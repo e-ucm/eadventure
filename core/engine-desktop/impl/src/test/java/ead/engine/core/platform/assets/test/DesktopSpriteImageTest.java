@@ -47,7 +47,7 @@ import com.google.inject.Injector;
 import ead.common.resources.assets.drawable.basics.Image;
 import ead.common.resources.assets.drawable.basics.SpriteImage;
 import ead.engine.core.platform.assets.DesktopEngineSpriteImage;
-import ead.engine.core.platform.extra.DesktopAssetHandlerModule;
+import ead.engine.core.platform.module.DesktopAssetHandlerModule;
 
 public class DesktopSpriteImageTest extends TestCase {
 

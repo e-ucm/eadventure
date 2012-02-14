@@ -46,9 +46,9 @@ import com.google.inject.Singleton;
 
 import ead.common.util.EAdURI;
 import ead.engine.core.game.GameController;
-import ead.engine.core.modules.BasicGameModule;
-import ead.engine.core.platform.extra.DesktopAssetHandlerModule;
-import ead.engine.core.platform.extra.DesktopModule;
+import ead.engine.core.platform.module.DesktopAssetHandlerModule;
+import ead.engine.core.platform.module.DesktopModule;
+import ead.engine.core.platform.modules.BasicGameModule;
 
 /**
  * <p>

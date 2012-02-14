@@ -86,14 +86,14 @@ import ead.engine.core.debuggers.EAdMainDebugger;
 import ead.engine.core.debuggers.FieldsDebugger;
 import ead.engine.core.debuggers.TrajectoryDebugger;
 import ead.engine.core.game.Game;
-import ead.engine.core.modules.BasicGameModule;
 import ead.engine.core.platform.AssetHandler;
 import ead.engine.core.platform.DesktopAssetHandler;
 import ead.engine.core.platform.DesktopPlatformLauncher;
 import ead.engine.core.platform.EngineConfiguration;
 import ead.engine.core.platform.PlatformLauncher;
-import ead.engine.core.platform.extra.DesktopAssetHandlerModule;
-import ead.engine.core.platform.extra.DesktopModule;
+import ead.engine.core.platform.module.DesktopAssetHandlerModule;
+import ead.engine.core.platform.module.DesktopModule;
+import ead.engine.core.platform.modules.BasicGameModule;
 
 /**
  * Base class for desktop's launchers

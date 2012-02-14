@@ -63,11 +63,11 @@ import ead.elementfactories.EAdElementsFactory;
 import ead.elementfactories.demos.scenes.EmptyScene;
 import ead.engine.core.game.Game;
 import ead.engine.core.game.GameState;
-import ead.engine.core.modules.BasicGameModule;
 import ead.engine.core.platform.EngineConfiguration;
 import ead.engine.core.platform.GUI;
 import ead.engine.core.platform.PlatformLauncher;
-import ead.engine.core.platform.extra.DesktopAssetHandlerModule;
+import ead.engine.core.platform.module.DesktopAssetHandlerModule;
+import ead.engine.core.platform.modules.BasicGameModule;
 import ead.gui.EAdScrollPane;
 
 public class PreviewPanelComponentProvider implements ComponentProvider<PreviewPanel, JComponent> {

@@ -40,9 +40,9 @@ package ead.engine.core;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 
-import ead.engine.core.modules.BasicGameModule;
-import ead.engine.core.platform.extra.DesktopAssetHandlerModule;
-import ead.engine.core.platform.extra.DesktopModule;
+import ead.engine.core.platform.module.DesktopAssetHandlerModule;
+import ead.engine.core.platform.module.DesktopModule;
+import ead.engine.core.platform.modules.BasicGameModule;
 
 public class TestUtil {
 

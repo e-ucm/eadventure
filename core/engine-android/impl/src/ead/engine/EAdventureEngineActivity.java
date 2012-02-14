@@ -54,18 +54,19 @@ import ead.common.model.elements.scene.EAdScene;
 import ead.common.model.elements.scenes.BasicScene;
 import ead.common.util.StringHandler;
 import ead.elementfactories.EAdElementsFactory;
-import ead.engine.assets.specialassetrenderers.AndroidVideoRenderer;
-import ead.engine.assets.specialassetrenderers.RockPlayerAndroidVideoRenderer;
 import ead.engine.core.game.Game;
 import ead.engine.core.game.GameController;
 import ead.engine.core.input.InputHandler;
-import ead.engine.core.modules.BasicGameModule;
+import ead.engine.core.platform.AndroidAssetHandler;
 import ead.engine.core.platform.AssetHandler;
 import ead.engine.core.platform.EngineConfiguration;
 import ead.engine.core.platform.GUI;
-import ead.engine.extra.AndroidAssetHandlerModule;
-import ead.engine.extra.AndroidModule;
-import ead.engine.extra.EAdventureSurfaceView;
+import ead.engine.core.platform.assets.specialassetrenderers.AndroidVideoRenderer;
+import ead.engine.core.platform.assets.specialassetrenderers.RockPlayerAndroidVideoRenderer;
+import ead.engine.core.platform.extra.EAdventureSurfaceView;
+import ead.engine.core.platform.modules.AndroidAssetHandlerModule;
+import ead.engine.core.platform.modules.AndroidModule;
+import ead.engine.core.platform.modules.BasicGameModule;
 
 public class EAdventureEngineActivity extends Activity {
 

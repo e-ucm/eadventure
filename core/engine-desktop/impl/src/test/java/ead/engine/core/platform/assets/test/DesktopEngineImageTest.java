@@ -44,7 +44,7 @@ import com.google.inject.Injector;
 
 import ead.common.resources.assets.drawable.basics.Image;
 import ead.engine.core.platform.assets.DesktopEngineImage;
-import ead.engine.core.platform.extra.DesktopAssetHandlerModule;
+import ead.engine.core.platform.module.DesktopAssetHandlerModule;
 import junit.framework.TestCase;
 
 public class DesktopEngineImageTest extends TestCase {

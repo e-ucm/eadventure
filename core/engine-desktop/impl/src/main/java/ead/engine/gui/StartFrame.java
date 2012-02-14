@@ -76,9 +76,9 @@ import ead.common.reader.EAdAdventureDOMModelReader;
 import ead.common.strings.DefaultStringFileHandler;
 import ead.elementfactories.demos.scenes.InitScene;
 import ead.engine.DesktopGame;
-import ead.engine.core.modules.BasicGameModule;
-import ead.engine.core.platform.extra.DesktopAssetHandlerModule;
-import ead.engine.core.platform.extra.DesktopModule;
+import ead.engine.core.platform.module.DesktopAssetHandlerModule;
+import ead.engine.core.platform.module.DesktopModule;
+import ead.engine.core.platform.modules.BasicGameModule;
 
 /**
  * Initial frame, showing all the possible options for the engine: run a game,
