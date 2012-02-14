@@ -91,7 +91,6 @@ public interface PlayNGinInjector extends Ginjector {
 	public DisplaceTransitionGO getDisplaceTransitionGO();
 	public FadeInTransitionGO getFadeInTransitionGO();
 	
-	
 	public ActorActionsGO getActorActionEffectGO();
 	public CancelEffectGO getCancelEffectGO();
 	public ChangeSceneGO getChangeSceneGO();

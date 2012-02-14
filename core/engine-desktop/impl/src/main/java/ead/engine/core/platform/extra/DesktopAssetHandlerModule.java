@@ -91,7 +91,7 @@ public class DesktopAssetHandlerModule extends AbstractModule {
 			}).to(DesktopVideoRenderer.class);
 	}
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Provides
 	@Singleton
 	Map<Class<? extends AssetDescriptor>, Class<? extends RuntimeAsset<? extends AssetDescriptor>>> provideMap() {
