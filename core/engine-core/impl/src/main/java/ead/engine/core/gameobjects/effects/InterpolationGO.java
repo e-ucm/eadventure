@@ -172,13 +172,12 @@ public class InterpolationGO extends AbstractEffectGO<InterpolationEf> {
 				finished |= (element.getLoops() > 0 && loops >= element
 						.getLoops());
 			} else {
-				// TODO this should be done "automatically"
 				if (integer)
 					gameState.getValueMap().setValue(owner,
-							element.getVarDef(), (Integer) interpolation());
+							element.getVarDef(), interpolation().intValue());
 				else
 					gameState.getValueMap().setValue(owner,
-							element.getVarDef(), (Float) interpolation());
+							element.getVarDef(), interpolation().floatValue());
 			}
 		} else {
 			delay -= GameLoop.SKIP_MILLIS_TICK;
@@ -188,7 +187,7 @@ public class InterpolationGO extends AbstractEffectGO<InterpolationEf> {
 		}
 	}
 
-	public Object interpolation() {
+	public Number interpolation() {
 		int time = reverse ? element.getInterpolationTime() - currentTime
 				: currentTime;
 		float f = interpolator.interpolate(time,

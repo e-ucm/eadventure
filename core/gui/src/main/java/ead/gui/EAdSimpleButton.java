@@ -42,8 +42,6 @@ import javax.swing.JButton;
 
 import ead.utils.i18n.Resource;
 
-import ead.utils.i18n.Resource;
-
 public class EAdSimpleButton extends JButton {
 
 	private static final long serialVersionUID = 7971695719028514636L;
