@@ -40,3 +40,4 @@ core/engine-desktop/impl/src/test/resources/T1-movimientoImported/drawable/asset
 core/engine-desktop/impl/src/test/resources/T1-movimiento*
 core/engine-desktop/impl/src/test/resources/FirstPersonEffectsTestImported*
 
+core/engine-desktop/impl/engine_configuration.xml
