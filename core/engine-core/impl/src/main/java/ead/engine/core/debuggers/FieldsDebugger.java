@@ -45,7 +45,7 @@ import com.google.inject.Inject;
 
 import ead.common.model.EAdElement;
 import ead.common.model.elements.scenes.SceneElementDef;
-import ead.common.model.elements.scenes.SceneElementImpl;
+import ead.common.model.elements.scenes.SceneElement;
 import ead.common.model.elements.variables.EAdVarDef;
 import ead.common.model.elements.variables.BasicField;
 import ead.common.model.elements.variables.SystemFields;
@@ -79,7 +79,7 @@ public class FieldsDebugger implements Debugger {
 
 	private ValueMap valueMap;
 
-	private SceneElementImpl vars;
+	private SceneElement vars;
 
 	private StringHandler stringHandler;
 
@@ -97,9 +97,9 @@ public class FieldsDebugger implements Debugger {
 		this.stringHandler = stringHandler;
 		this.gameObjectFactory = gameObjectFactory;
 		gos = new ArrayList<DrawableGO<?>>();
-		vars = new SceneElementImpl();
+		vars = new SceneElement();
 		vars.setId("vars");
-		vars.setVarInitialValue(SceneElementImpl.VAR_ENABLE, false);
+		vars.setVarInitialValue(SceneElement.VAR_ENABLE, false);
 	}
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })

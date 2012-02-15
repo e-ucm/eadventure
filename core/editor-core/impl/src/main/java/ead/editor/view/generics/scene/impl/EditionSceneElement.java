@@ -56,7 +56,7 @@ import ead.common.model.elements.scene.EAdComplexSceneElement;
 import ead.common.model.elements.scene.EAdSceneElement;
 import ead.common.model.elements.scenes.ComplexSceneElement;
 import ead.common.model.elements.scenes.SceneElementDef;
-import ead.common.model.elements.scenes.SceneElementImpl;
+import ead.common.model.elements.scenes.SceneElement;
 import ead.common.model.elements.variables.EAdField;
 import ead.common.model.elements.variables.BasicField;
 import ead.common.model.elements.variables.SystemFields;
@@ -77,20 +77,20 @@ public class EditionSceneElement extends ComplexSceneElement {
 	public EditionSceneElement(EAdSceneElement element, float scale) {
 		setId(element.getId() + "_edition");
 		
-		if (element instanceof SceneElementImpl) {
+		if (element instanceof SceneElement) {
 			proxy = new BasicSceneElementProxy(element);
 		} else if (element instanceof EAdComplexSceneElement){
 			proxy = new ComplexSceneElementProxy(element);
 		}
 		
 		this.components.add(proxy);
-		this.setVarInitialValue(SceneElementImpl.VAR_X, (int) (scale * (Integer) proxy.getVars().get(SceneElementImpl.VAR_X)));
-		this.setVarInitialValue(SceneElementImpl.VAR_Y, (int) (scale * (Integer) proxy.getVars().get(SceneElementImpl.VAR_Y)));
-		proxy.setVarInitialValue(SceneElementImpl.VAR_X, 0);
-		proxy.setVarInitialValue(SceneElementImpl.VAR_Y, 0);
+		this.setVarInitialValue(SceneElement.VAR_X, (int) (scale * (Integer) proxy.getVars().get(SceneElement.VAR_X)));
+		this.setVarInitialValue(SceneElement.VAR_Y, (int) (scale * (Integer) proxy.getVars().get(SceneElement.VAR_Y)));
+		proxy.setVarInitialValue(SceneElement.VAR_X, 0);
+		proxy.setVarInitialValue(SceneElement.VAR_Y, 0);
 		this.setInitialScale(scale);
 		
-		proxy.setVarInitialValue(SceneElementImpl.VAR_ALPHA, 0.3f);
+		proxy.setVarInitialValue(SceneElement.VAR_ALPHA, 0.3f);
 		
 		ChangeFieldEf makeActiveElement = new MakeActiveElementEf(proxy);
 
@@ -112,21 +112,21 @@ public class EditionSceneElement extends ComplexSceneElement {
 	
 	private void addChangeAppearance() {
 		SceneElementDef squareDef = new SceneElementDef();
-		SceneElementImpl square = new SceneElementImpl(squareDef);
+		SceneElement square = new SceneElement(squareDef);
 		square.setDragCond(EmptyCond.FALSE_EMPTY_CONDITION);
-		square.setVarInitialValue(SceneElementImpl.VAR_X, 12);
-		square.setVarInitialValue(SceneElementImpl.VAR_Y, 12);
+		square.setVarInitialValue(SceneElement.VAR_X, 12);
+		square.setVarInitialValue(SceneElement.VAR_Y, 12);
 
 		squareDef.getResources().addAsset(squareDef.getInitialBundle(), SceneElementDef.appearance, new RectangleShape(10, 10, PaintFill.BLACK_ON_WHITE));
-		square.setVarInitialValue(SceneElementImpl.VAR_VISIBLE, Boolean.FALSE);
+		square.setVarInitialValue(SceneElement.VAR_VISIBLE, Boolean.FALSE);
 		this.components.add(square);
 		
 		unselectEffects.add(new ChangeFieldEf(
-				new BasicField<Boolean>(square, SceneElementImpl.VAR_VISIBLE),
+				new BasicField<Boolean>(square, SceneElement.VAR_VISIBLE),
 				new ValueOp(Boolean.FALSE)));
 		
 		proxy.addBehavior(MouseGEv.MOUSE_LEFT_CLICK, new ChangeFieldEf(
-				new BasicField<Boolean>(square, SceneElementImpl.VAR_VISIBLE),
+				new BasicField<Boolean>(square, SceneElement.VAR_VISIBLE),
 				new ValueOp(Boolean.TRUE)));
 		
 		BasicField<EAdBundleId> appearanceField = new BasicField<EAdBundleId>(proxy, ResourcedElement.VAR_BUNDLE_ID);
@@ -162,22 +162,22 @@ public class EditionSceneElement extends ComplexSceneElement {
 
 	private void addResizeSquare() {
 		SceneElementDef squareDef = new SceneElementDef();
-		SceneElementImpl square = new SceneElementImpl(squareDef);
+		SceneElement square = new SceneElement(squareDef);
 		square.setDragCond(EmptyCond.TRUE_EMPTY_CONDITION);
 		squareDef.getResources().addAsset(squareDef.getInitialBundle(), SceneElementDef.appearance, new RectangleShape(10, 10, PaintFill.BLACK_ON_WHITE));
-		square.setVarInitialValue(SceneElementImpl.VAR_VISIBLE, Boolean.FALSE);
+		square.setVarInitialValue(SceneElement.VAR_VISIBLE, Boolean.FALSE);
 		this.components.add(square);
 		
 		unselectEffects.add(new ChangeFieldEf(
-				new BasicField<Boolean>(square, SceneElementImpl.VAR_VISIBLE),
+				new BasicField<Boolean>(square, SceneElement.VAR_VISIBLE),
 				new ValueOp(Boolean.FALSE)));
 		
 		proxy.addBehavior(MouseGEv.MOUSE_LEFT_CLICK, new ChangeFieldEf(
-				new BasicField<Boolean>(square, SceneElementImpl.VAR_VISIBLE),
+				new BasicField<Boolean>(square, SceneElement.VAR_VISIBLE),
 				new ValueOp(Boolean.TRUE)));
 		proxy.addBehavior(MouseGEv.MOUSE_LEFT_CLICK, new ChangeFieldEf(
-				new BasicField<Integer>(square, SceneElementImpl.VAR_X),
-				new ValueOp(new BasicField<Integer>(proxy, SceneElementImpl.VAR_WIDTH))));
+				new BasicField<Integer>(square, SceneElement.VAR_X),
+				new ValueOp(new BasicField<Integer>(proxy, SceneElement.VAR_WIDTH))));
 
 	}
 	
@@ -185,7 +185,7 @@ public class EditionSceneElement extends ComplexSceneElement {
 	
 	private ChangeFieldEf changeAlphaEffect(EAdSceneElement proxy, float alpha, EAdCondition cond) {
 		EAdField<Float> alphaField = new BasicField<Float>(proxy,
-				SceneElementImpl.VAR_ALPHA);
+				SceneElement.VAR_ALPHA);
 		ChangeFieldEf effect = new ChangeFieldEf(
 				 alphaField, new ValueOp(alpha));
 		if (cond != null)

@@ -55,12 +55,12 @@ import ead.common.model.elements.guievents.MouseGEv;
 import ead.common.model.elements.scene.EAdSceneElement;
 import ead.common.model.elements.scene.EAdSceneElementDef;
 import ead.common.model.elements.scenes.SceneElementDef;
-import ead.common.model.elements.scenes.SceneElementImpl;
+import ead.common.model.elements.scenes.SceneElement;
 import ead.common.model.elements.scenes.BasicScene;
 import ead.common.model.elements.trajectories.NodeTrajectoryDefinition;
 import ead.common.model.elements.trajectories.SimpleTrajectoryDefinition;
 import ead.common.model.predef.effects.MakeActiveElementEf;
-import ead.common.model.predef.effects.MoveActiveElementEf;
+import ead.common.model.predef.effects.MoveActiveElementToMouseEf;
 import ead.common.model.predef.events.ScrollWithSceneElementEv;
 import ead.common.resources.assets.drawable.basics.Image;
 import ead.common.resources.assets.multimedia.EAdSound;
@@ -162,21 +162,21 @@ public class SceneImporter implements EAdElementImporter<Scene, BasicScene> {
 		importReferences(scene, oldScene.getItemReferences(), chapter);
 		importReferences(scene, oldScene.getAtrezzoReferences(), chapter);
 		importReferences(scene, oldScene.getCharacterReferences(), chapter);
-		SceneElementImpl playerReference = addPlayer(scene, oldScene,
+		SceneElement playerReference = addPlayer(scene, oldScene,
 				chapter);
 		importTrajectory(scene, oldScene.getTrajectory(),
 				oldScene.getBarriers(), playerReference);
 
 	}
 
-	private SceneElementImpl addPlayer(BasicScene scene, Scene oldScene,
+	private SceneElement addPlayer(BasicScene scene, Scene oldScene,
 			EAdChapter chapter) {
 		if (factory.isFirstPerson()) {
 			return null;
 		} else {
 			EAdSceneElementDef player = (EAdSceneElementDef) factory
 					.getElementById(Player.IDENTIFIER);
-			SceneElementImpl playerReference = new SceneElementImpl(
+			SceneElement playerReference = new SceneElement(
 					player);
 			EAdPosition p = new EAdPosition(
 					EAdPosition.Corner.BOTTOM_CENTER,
@@ -203,7 +203,7 @@ public class SceneImporter implements EAdElementImporter<Scene, BasicScene> {
 
 			scene.getBackground().addBehavior(
 					MouseGEv.MOUSE_LEFT_CLICK,
-					new MoveActiveElementEf());
+					new MoveActiveElementToMouseEf());
 			
 			// Add move camera with character
 			Dimension d = resourceImporter.getDimensionsForOldImage(oldScene.getResources().get(0).getAssetPath(Scene.RESOURCE_TYPE_BACKGROUND));
@@ -218,7 +218,7 @@ public class SceneImporter implements EAdElementImporter<Scene, BasicScene> {
 	}
 
 	private void importTrajectory(BasicScene scene, Trajectory trajectory,
-			List<Barrier> barriers, SceneElementImpl playerReference) {
+			List<Barrier> barriers, SceneElement playerReference) {
 		if (trajectory == null) {
 			scene.setTrajectoryDefinition(new SimpleTrajectoryDefinition(true));
 		} else {
@@ -246,10 +246,10 @@ public class SceneImporter implements EAdElementImporter<Scene, BasicScene> {
 	private void importAciveAreas(int substract, BasicScene scene, List<ActiveArea> list) {
 		int i = 0;
 		for (ActiveArea a : list) {
-			SceneElementImpl activeArea = (SceneElementImpl) factory.getElementById(a
+			SceneElement activeArea = (SceneElement) factory.getElementById(a
 					.getId());
 			activeArea.setPosition(new EAdPosition(EAdPosition.Corner.TOP_LEFT, a.getX(), a.getY()));
-			activeArea.setVarInitialValue(SceneElementImpl.VAR_Z, Integer.MAX_VALUE - substract - i );
+			activeArea.setVarInitialValue(SceneElement.VAR_Z, Integer.MAX_VALUE - substract - i );
 			i++;
 			if (activeArea != null)
 				scene.getComponents().add(activeArea);
@@ -261,7 +261,7 @@ public class SceneImporter implements EAdElementImporter<Scene, BasicScene> {
 		int i = 0;
 		for (Exit e : list) {
 			EAdSceneElement se = exitsImporter.init(e);
-			se.setVarInitialValue(SceneElementImpl.VAR_Z, Integer.MAX_VALUE - substract - i);
+			se.setVarInitialValue(SceneElement.VAR_Z, Integer.MAX_VALUE - substract - i);
 			se = exitsImporter.convert(e, se);
 			i++;
 			if (se != null)
@@ -276,7 +276,7 @@ public class SceneImporter implements EAdElementImporter<Scene, BasicScene> {
 		for (ElementReference oldRef : references) {
 			EAdSceneElement newRef = referencesImporter.init(oldRef);
 			newRef = referencesImporter.convert(oldRef, newRef);
-			newRef.setVarInitialValue(SceneElementImpl.VAR_Z,
+			newRef.setVarInitialValue(SceneElement.VAR_Z,
 					oldRef.getLayer());
 			scene.getComponents().add(newRef);
 		}
@@ -304,10 +304,10 @@ public class SceneImporter implements EAdElementImporter<Scene, BasicScene> {
 			if (foregroundPath != null) {
 				Image image = (Image) resourceImporter
 						.getAssetDescritptor(foregroundPath, Image.class);
-				SceneElementImpl foreground = new SceneElementImpl(
+				SceneElement foreground = new SceneElement(
 						image);
 				foreground.setId("foreground");
-				foreground.setVarInitialValue(SceneElementImpl.VAR_Z, Integer.MAX_VALUE);
+				foreground.setVarInitialValue(SceneElement.VAR_Z, Integer.MAX_VALUE);
 				//FIXME foreground mask
 //				scene.getComponents().add(foreground);
 			}

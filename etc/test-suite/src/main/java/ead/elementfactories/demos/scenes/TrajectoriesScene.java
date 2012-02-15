@@ -43,7 +43,7 @@ import ead.common.model.elements.events.enums.SceneElementEvType;
 import ead.common.model.elements.guievents.KeyGEv;
 import ead.common.model.elements.guievents.MouseGEv;
 import ead.common.model.elements.guievents.enums.KeyEventType;
-import ead.common.model.elements.scenes.SceneElementImpl;
+import ead.common.model.elements.scenes.SceneElement;
 import ead.common.model.elements.scenes.BasicScene;
 import ead.common.model.elements.trajectories.NodeTrajectoryDefinition;
 import ead.common.model.elements.trajectories.Side;
@@ -51,7 +51,7 @@ import ead.common.model.elements.trajectories.EAdTrajectoryDefinition;
 import ead.common.model.elements.variables.BasicField;
 import ead.common.model.elements.variables.operations.ValueOp;
 import ead.common.model.predef.effects.MakeActiveElementEf;
-import ead.common.model.predef.effects.MoveActiveElementEf;
+import ead.common.model.predef.effects.MoveActiveElementToMouseEf;
 import ead.common.params.fills.ColorFill;
 import ead.common.params.fills.LinearGradientFill;
 import ead.common.util.EAdPosition;
@@ -63,7 +63,7 @@ public class TrajectoriesScene extends EmptyScene {
 		setBackgroundFill(new LinearGradientFill(ColorFill.DARK_GRAY,
 				ColorFill.LIGHT_GRAY, 800, 600, true));
 
-		SceneElementImpl element = new SceneElementImpl(
+		SceneElement element = new SceneElement(
 				CharacterScene.getStateDrawable());
 		element.setId("player");
 
@@ -82,7 +82,7 @@ public class TrajectoriesScene extends EmptyScene {
 		getComponents().add(element);
 
 		getBackground().addBehavior(MouseGEv.MOUSE_LEFT_CLICK,
-				new MoveActiveElementEf());
+				new MoveActiveElementToMouseEf());
 
 		ChangeFieldEf changeSide = new ChangeFieldEf();
 		changeSide.addField(new BasicField<Side>( element, NodeTrajectoryDefinition.VAR_CURRENT_SIDE));

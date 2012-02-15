@@ -62,7 +62,7 @@ import ead.engine.core.gameobjects.huds.AbstractHUD;
 import ead.engine.core.gameobjects.huds.ActionSceneElement;
 import ead.engine.core.gameobjects.huds.ActionsHUD;
 import ead.engine.core.input.InputAction;
-import ead.engine.core.input.actions.MouseActionImpl;
+import ead.engine.core.input.actions.MouseInputAction;
 import ead.engine.core.platform.GUI;
 import ead.engine.core.platform.rendering.GenericCanvas;
 import ead.engine.core.util.EAdTransformation;
@@ -162,8 +162,8 @@ public class AndroidActionsHUDImpl extends AbstractHUD implements ActionsHUD {
 	@Override
 	public boolean processAction(InputAction<?> action) {
 		boolean remove = false;
-		if (action instanceof MouseActionImpl) {
-			MouseActionImpl temp = (MouseActionImpl) action;
+		if (action instanceof MouseInputAction) {
+			MouseInputAction temp = (MouseInputAction) action;
 
 			switch (temp.getType()) {
 			case CLICK:

@@ -50,12 +50,12 @@ import ead.common.model.elements.events.enums.ConditionedEvType;
 import ead.common.model.elements.guievents.MouseGEv;
 import ead.common.model.elements.scene.EAdSceneElement;
 import ead.common.model.elements.scenes.SceneElementDef;
-import ead.common.model.elements.scenes.SceneElementImpl;
+import ead.common.model.elements.scenes.SceneElement;
 import ead.common.model.elements.trajectories.NodeTrajectoryDefinition;
 import ead.common.model.elements.variables.EAdField;
 import ead.common.model.elements.variables.BasicField;
 import ead.common.model.elements.variables.operations.BooleanOp;
-import ead.common.model.predef.effects.MoveActiveElementEf;
+import ead.common.model.predef.effects.MoveActiveElementToMouseEf;
 import ead.common.model.predef.effects.SpeakSceneElementEf;
 import ead.common.params.fills.ColorFill;
 import ead.common.params.text.EAdString;
@@ -89,13 +89,13 @@ public abstract class ElementImporter<T> implements
 		this.stringHandler = stringHandler;
 	}
 
-	protected void addGoToExit(SceneElementImpl newExit, Exit oldObject,
+	protected void addGoToExit(SceneElement newExit, Exit oldObject,
 			EAdCondition enableCondition, EAdEffect finalEffect) {
 
 		if (factory.isFirstPerson()) {
 			newExit.addBehavior(MouseGEv.MOUSE_LEFT_CLICK, finalEffect);
 		} else {
-			MoveActiveElementEf move = new MoveActiveElementEf();
+			MoveActiveElementToMouseEf move = new MoveActiveElementToMouseEf();
 			move.setTarget(newExit.getDefinition());
 			move.getNextEffects().add(finalEffect);
 			newExit.addBehavior(MouseGEv.MOUSE_LEFT_CLICK, move);
@@ -130,7 +130,7 @@ public abstract class ElementImporter<T> implements
 				ShapedElementImporter.getBounds(element), influenceArea);
 	}
 
-	protected void setShape(SceneElementImpl sceneElement, Rectangle exit) {
+	protected void setShape(SceneElement sceneElement, Rectangle exit) {
 		EAdShape shape = ShapedElementImporter.importShape(exit);
 		sceneElement.setPosition(exit.getX(), exit.getY());
 		shape.setPaint(ColorFill.TRANSPARENT);
@@ -167,9 +167,9 @@ public abstract class ElementImporter<T> implements
 
 	}
 
-	protected void addDefaultBehavior(SceneElementImpl sceneElement,
+	protected void addDefaultBehavior(SceneElement sceneElement,
 			EAdString shortDescription) {
-		sceneElement.setVarInitialValue(SceneElementImpl.VAR_NAME, sceneElement
+		sceneElement.setVarInitialValue(SceneElement.VAR_NAME, sceneElement
 				.getDefinition().getName());
 		if (shortDescription != null) {
 			SpeakEf showDescription = null;
@@ -187,14 +187,14 @@ public abstract class ElementImporter<T> implements
 		}
 	}
 
-	protected void addVisibleEvent(SceneElementImpl newReference,
+	protected void addVisibleEvent(SceneElement newReference,
 			EAdCondition condition) {
 
 		ConditionedEv event = new ConditionedEv();
 		event.setCondition(condition);
 
 		EAdField<Boolean> enableField = new BasicField<Boolean>(newReference,
-				SceneElementImpl.VAR_VISIBLE);
+				SceneElement.VAR_VISIBLE);
 
 		ChangeFieldEf changeEnable = new ChangeFieldEf();
 

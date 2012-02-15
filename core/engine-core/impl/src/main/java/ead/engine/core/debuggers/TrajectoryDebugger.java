@@ -47,7 +47,7 @@ import ead.common.model.elements.scene.EAdScene;
 import ead.common.model.elements.scene.EAdSceneElement;
 import ead.common.model.elements.scene.EAdSceneElementDef;
 import ead.common.model.elements.scenes.SceneElementDef;
-import ead.common.model.elements.scenes.SceneElementImpl;
+import ead.common.model.elements.scenes.SceneElement;
 import ead.common.model.elements.scenes.BasicScene;
 import ead.common.model.elements.trajectories.Node;
 import ead.common.model.elements.trajectories.NodeTrajectoryDefinition;
@@ -141,7 +141,7 @@ public class TrajectoryDebugger implements Debugger {
 						.getComponents());
 			} else if (currentTrajectory instanceof SimpleTrajectoryDefinition) {
 				SimpleTrajectoryDefinition def = (SimpleTrajectoryDefinition) currentTrajectory;
-				SceneElementImpl area = new SceneElementImpl(
+				SceneElement area = new SceneElement(
 						new RectangleShape(def.getRight() - def.getLeft(), def
 								.getBottom() - def.getTop(), new ColorFill(0,
 								200, 0, 100)));
@@ -163,8 +163,8 @@ public class TrajectoryDebugger implements Debugger {
 						rectangle.getHeight());
 				shape.setPaint(p);
 
-				SceneElementImpl area = new SceneElementImpl(shape);
-				area.setVarInitialValue(SceneElementImpl.VAR_ENABLE, false);
+				SceneElement area = new SceneElement(shape);
+				area.setVarInitialValue(SceneElement.VAR_ENABLE, false);
 				area.setPosition(rectangle.getX(), rectangle.getY());
 				gameObjects.add(sceneElementFactory.get(area));
 			}
@@ -194,7 +194,7 @@ public class TrajectoryDebugger implements Debugger {
 			map.addDrawable(circle);
 		}
 
-		SceneElementImpl mapElement = new SceneElementImpl(map);
+		SceneElement mapElement = new SceneElement(map);
 		mapElement.setId("trajectoryMap");
 
 		for (EAdSceneElement e : trajectory.getBarriers()) {

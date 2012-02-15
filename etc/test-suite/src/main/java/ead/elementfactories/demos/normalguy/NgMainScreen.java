@@ -44,7 +44,7 @@ import ead.common.model.elements.effects.enums.InterpolationType;
 import ead.common.model.elements.events.SceneElementEv;
 import ead.common.model.elements.events.enums.SceneElementEvType;
 import ead.common.model.elements.guievents.MouseGEv;
-import ead.common.model.elements.scenes.SceneElementImpl;
+import ead.common.model.elements.scenes.SceneElement;
 import ead.common.resources.assets.drawable.basics.Image;
 import ead.common.util.EAdPosition.Corner;
 import ead.elementfactories.demos.scenes.EmptyScene;
@@ -52,15 +52,15 @@ import ead.elementfactories.demos.scenes.EmptyScene;
 public class NgMainScreen extends EmptyScene {
 
 	public NgMainScreen() {
-		setBackground(new SceneElementImpl( new Image(
+		setBackground(new SceneElement( new Image(
 				"@drawable/ng_mainscreen_bg.png")));
 		getBackground().setId("background");
-		SceneElementImpl spiral = new SceneElementImpl(
+		SceneElement spiral = new SceneElement(
 				new Image("@drawable/ng_spiral.png"));
 		spiral.setId("spiral");
 		spiral.setPosition(Corner.CENTER, 400, 300);
 		getComponents().add(spiral);
-		SceneElementImpl logo = new SceneElementImpl(
+		SceneElement logo = new SceneElement(
 				new Image("@drawable/ng_logo.png"));
 		logo.setId("spiral");
 		logo.setPosition(Corner.CENTER, 400, 300);
@@ -70,14 +70,14 @@ public class NgMainScreen extends EmptyScene {
 		// Animations
 		SceneElementEv e = new SceneElementEv();
 		InterpolationEf rotate = new InterpolationEf(spiral,
-				SceneElementImpl.VAR_ROTATION, 0, 2 * Math.PI, 50000, 0,
+				SceneElement.VAR_ROTATION, 0, 2 * Math.PI, 50000, 0,
 				InterpolationLoopType.RESTART, -1, InterpolationType.DESACCELERATE);
 		e.addEffect(SceneElementEvType.FIRST_UPDATE, rotate);
 		spiral.getEvents().add(e);
 		
 		e = new SceneElementEv();
 		InterpolationEf bounce = new InterpolationEf(logo,
-				SceneElementImpl.VAR_SCALE, 0.0f, 1.0f, 1000, 1000,
+				SceneElement.VAR_SCALE, 0.0f, 1.0f, 1000, 1000,
 				InterpolationLoopType.NO_LOOP, 1, InterpolationType.LINEAR);
 		e.addEffect(SceneElementEvType.FIRST_UPDATE, bounce);
 		

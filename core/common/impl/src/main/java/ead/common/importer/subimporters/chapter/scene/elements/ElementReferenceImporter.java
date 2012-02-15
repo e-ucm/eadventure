@@ -49,7 +49,7 @@ import ead.common.model.elements.EAdCondition;
 import ead.common.model.elements.conditions.EmptyCond;
 import ead.common.model.elements.scene.EAdSceneElement;
 import ead.common.model.elements.scenes.SceneElementDef;
-import ead.common.model.elements.scenes.SceneElementImpl;
+import ead.common.model.elements.scenes.SceneElement;
 import ead.common.util.EAdPosition;
 import ead.common.util.EAdRectangle;
 import ead.common.util.StringHandler;
@@ -75,7 +75,7 @@ public class ElementReferenceImporter extends ElementImporter<ElementReference> 
 	}
 
 	public EAdSceneElement init(ElementReference oldObject) {
-		SceneElementImpl newRef = new SceneElementImpl();
+		SceneElement newRef = new SceneElement();
 		return newRef;
 	}
 
@@ -84,7 +84,7 @@ public class ElementReferenceImporter extends ElementImporter<ElementReference> 
 
 		SceneElementDef actor = (SceneElementDef) factory
 				.getElementById(oldObject.getTargetId());
-		SceneElementImpl newRef = (SceneElementImpl) object;
+		SceneElement newRef = (SceneElement) object;
 		newRef.setId(oldObject.getTargetId() + "_ref");
 		newRef.setPropagateGUIEvents(false);
 
@@ -121,12 +121,12 @@ public class ElementReferenceImporter extends ElementImporter<ElementReference> 
 			if (factory.isDraggableActor(actor)) {
 				newRef.setDragCond(EmptyCond.TRUE_EMPTY_CONDITION);
 				newRef.setVarInitialValue(
-						SceneElementImpl.VAR_RETURN_WHEN_DRAGGED,
+						SceneElement.VAR_RETURN_WHEN_DRAGGED,
 						isReturnWhenDragged(oldObject.getTargetId()));
 
 			}
 		} else {
-			newRef.setVarInitialValue(SceneElementImpl.VAR_ENABLE,
+			newRef.setVarInitialValue(SceneElement.VAR_ENABLE,
 					Boolean.FALSE);
 		}
 		

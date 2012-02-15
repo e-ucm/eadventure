@@ -39,7 +39,7 @@ package ead.elementfactories.demos.scenes;
 
 import ead.common.model.elements.effects.ChangeSceneEf;
 import ead.common.model.elements.guievents.KeyGEv;
-import ead.common.model.elements.scenes.SceneElementImpl;
+import ead.common.model.elements.scenes.SceneElement;
 import ead.common.model.elements.scenes.VideoScene;
 import ead.common.resources.assets.drawable.basics.Image;
 import ead.common.resources.assets.multimedia.EAdVideo;
@@ -57,7 +57,7 @@ public class WebMVideoScene extends VideoScene implements SceneDemo {
 		ChangeSceneEf changeScene = new ChangeSceneEf();
 		changeScene.setId("changeScene");
 
-		SceneElementImpl goRightArrow = EAdElementsFactory
+		SceneElement goRightArrow = EAdElementsFactory
 				.getInstance()
 				.getSceneElementFactory()
 				.createSceneElement(new Image("@drawable/arrow_right.png"),

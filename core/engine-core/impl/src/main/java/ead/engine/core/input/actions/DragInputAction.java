@@ -41,7 +41,7 @@ import ead.common.model.elements.guievents.DragGEv;
 import ead.common.model.elements.guievents.enums.DragGEvType;
 import ead.common.model.elements.scene.EAdSceneElementDef;
 
-public class DragAction extends AbstractInputAction<DragGEv> {
+public class DragInputAction extends AbstractInputAction<DragGEv> {
 
 	/**
 	 * Virtual X coordinate where the action was performed.
@@ -53,7 +53,7 @@ public class DragAction extends AbstractInputAction<DragGEv> {
 	 */
 	private int virtualY;
 
-	public DragAction(EAdSceneElementDef draggingElement, DragGEvType action,
+	public DragInputAction(EAdSceneElementDef draggingElement, DragGEvType action,
 			int virtualX, int virtualY) {
 		super( new DragGEv(draggingElement, action) );
 		this.virtualX = virtualX;

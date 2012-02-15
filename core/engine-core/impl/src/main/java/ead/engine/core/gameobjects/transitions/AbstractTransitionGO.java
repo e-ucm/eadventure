@@ -41,7 +41,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ead.common.model.elements.scene.EAdScene;
-import ead.common.model.elements.scenes.SceneElementImpl;
+import ead.common.model.elements.scenes.SceneElement;
 import ead.common.model.elements.scenes.BasicScene;
 import ead.common.model.elements.transitions.EAdTransition;
 import ead.common.model.elements.variables.EAdField;
@@ -143,15 +143,15 @@ public abstract class AbstractTransitionGO<T extends EAdTransition> extends
 		CircleShape circle = new CircleShape(circleRadius, circleRadius,
 				circleRadius, 40, new LinearGradientFill(ColorFill.ORANGE,
 						ColorFill.YELLOW, circleRadius * 2, circleRadius * 2));
-		SceneElementImpl loadingText = new SceneElementImpl(circle);
+		SceneElement loadingText = new SceneElement(circle);
 		loadingText.setInitialAlpha(0.8f);
 		loadingText.setId("loadingText");
 		loadingText.setPosition(Corner.CENTER, circleRadius * 2,
 				circleRadius * 2);
 		rotationField = new BasicField<Float>(loadingText,
-				SceneElementImpl.VAR_ROTATION);
+				SceneElement.VAR_ROTATION);
 
-		scene.setBackground(new SceneElementImpl(rs));
+		scene.setBackground(new SceneElement(rs));
 		scene.getComponents().add(loadingText);
 		return scene;
 	}

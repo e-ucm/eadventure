@@ -45,7 +45,7 @@ import ead.common.model.elements.events.SceneElementEv;
 import ead.common.model.elements.events.enums.SceneElementEvType;
 import ead.common.model.elements.scene.EAdScene;
 import ead.common.model.elements.scene.EAdSceneElementDef;
-import ead.common.model.elements.scenes.SceneElementImpl;
+import ead.common.model.elements.scenes.SceneElement;
 import ead.common.util.StringHandler;
 import ead.engine.core.game.GameState;
 import ead.engine.core.gameobjects.factories.SceneElementGOFactory;
@@ -69,7 +69,7 @@ public class AddActorReferenceGO extends
 		EAdScene scene = gameState.getScene().getElement();
 		if (scene != null) {
 			EAdSceneElementDef actor = element.getActor();
-			SceneElementImpl ref = new SceneElementImpl(actor);
+			SceneElement ref = new SceneElement(actor);
 			ref.setPosition(element.getPosition());
 			SceneElementEv event = new SceneElementEv();
 			event.addEffect(SceneElementEvType.FIRST_UPDATE,

@@ -44,7 +44,7 @@ import ead.common.model.elements.enums.CommonStates;
 import ead.common.model.elements.guievents.enums.MouseGEvType;
 import ead.common.model.elements.scene.EAdSceneElement;
 import ead.common.model.elements.scenes.ComplexSceneElement;
-import ead.common.model.elements.scenes.SceneElementImpl;
+import ead.common.model.elements.scenes.SceneElement;
 import ead.common.model.elements.variables.SystemFields;
 import ead.common.resources.assets.drawable.basics.EAdCaption;
 import ead.common.resources.assets.drawable.basics.shapes.BallonShape;
@@ -56,7 +56,7 @@ import ead.engine.core.game.GameState;
 import ead.engine.core.gameobjects.factories.SceneElementGOFactory;
 import ead.engine.core.gameobjects.go.SceneElementGO;
 import ead.engine.core.input.InputAction;
-import ead.engine.core.input.actions.MouseActionImpl;
+import ead.engine.core.input.actions.MouseInputAction;
 import ead.engine.core.operator.OperatorFactory;
 import ead.engine.core.platform.AssetHandler;
 import ead.engine.core.platform.GUI;
@@ -80,7 +80,7 @@ public class SpeakGO extends AbstractEffectGO<SpeakEf> {
 
 	private boolean gone;
 
-	private SceneElementImpl textSE;
+	private SceneElement textSE;
 
 	private OperatorFactory operatorFactory;
 
@@ -99,8 +99,8 @@ public class SpeakGO extends AbstractEffectGO<SpeakEf> {
 
 	@Override
 	public boolean processAction(InputAction<?> action) {
-		if (action instanceof MouseActionImpl) {
-			MouseActionImpl mouseAction = (MouseActionImpl) action;
+		if (action instanceof MouseInputAction) {
+			MouseInputAction mouseAction = (MouseInputAction) action;
 			action.consume();
 			if (!finished)
 				if (mouseAction.getType() == MouseGEvType.PRESSED) {
@@ -181,7 +181,7 @@ public class SpeakGO extends AbstractEffectGO<SpeakEf> {
 		text.setPreferredWidth(right - left);
 		text.setPreferredHeight(bottom - top);
 
-		textSE = new SceneElementImpl(text);
+		textSE = new SceneElement(text);
 		textSE.setId("text");
 		textSE.setPosition(new EAdPosition(left, top));
 

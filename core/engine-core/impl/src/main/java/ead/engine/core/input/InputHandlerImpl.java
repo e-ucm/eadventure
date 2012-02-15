@@ -49,9 +49,9 @@ import ead.engine.core.gameobjects.GameObjectManager;
 import ead.engine.core.gameobjects.go.DrawableGO;
 import ead.engine.core.gameobjects.go.Renderable;
 import ead.engine.core.gameobjects.go.SceneElementGO;
-import ead.engine.core.input.actions.DragAction;
-import ead.engine.core.input.actions.KeyActionImpl;
-import ead.engine.core.input.actions.MouseActionImpl;
+import ead.engine.core.input.actions.DragInputAction;
+import ead.engine.core.input.actions.KeyInputAction;
+import ead.engine.core.input.actions.MouseInputAction;
 import ead.engine.core.input.states.KeyboardState;
 import ead.engine.core.input.states.MouseState;
 import ead.engine.core.util.EAdTransformation;
@@ -99,10 +99,10 @@ public class InputHandlerImpl implements InputHandler {
 
 	@Override
 	public void addAction(InputAction<?> action) {
-		if (action instanceof MouseActionImpl) {
-			mouseHandler.getMouseEvents().add((MouseActionImpl) action);
-		} else if (action instanceof KeyActionImpl) {
-			keyboardHandler.getKeyActions().add((KeyActionImpl) action);
+		if (action instanceof MouseInputAction) {
+			mouseHandler.getMouseEvents().add((MouseInputAction) action);
+		} else if (action instanceof KeyInputAction) {
+			keyboardHandler.getKeyActions().add((KeyInputAction) action);
 		}
 	}
 
@@ -131,7 +131,7 @@ public class InputHandlerImpl implements InputHandler {
                         || keyboardHandler.getKeyActions().size()
                             > MAX_EVENTS_IN_QUEUE)) {
 
-			KeyActionImpl action = keyboardHandler.getKeyActions().poll();
+			KeyInputAction action = keyboardHandler.getKeyActions().poll();
 
 			DrawableGO<?> go = gameState.getActiveElement();
 
@@ -165,8 +165,8 @@ public class InputHandlerImpl implements InputHandler {
 				&& (j < MAX_EVENTS_PER_CYCLE || mouseHandler.getMouseEvents()
 						.size() > MAX_EVENTS_IN_QUEUE)) {
 
-			MouseActionImpl action = mouseHandler.getMouseEvents().poll();
-			MouseActionImpl mouseAction = (MouseActionImpl) action;
+			MouseInputAction action = mouseHandler.getMouseEvents().poll();
+			MouseInputAction mouseAction = (MouseInputAction) action;
 			int x = mouseAction.getVirtualX();
 			int y = mouseAction.getVirtualY();
 			mouseHandler.setPosition(x, y);
@@ -214,12 +214,12 @@ public class InputHandlerImpl implements InputHandler {
 			int y = mouseHandler.getMouseScaledY();
 
 			if (oldGO != null) {
-				MouseActionImpl exitAction = new MouseActionImpl(
+				MouseInputAction exitAction = new MouseInputAction(
 						MouseGEv.MOUSE_EXITED, x, y);
 				oldGO.processAction(exitAction);
 
 				if (draggedGO != null) {
-					DragAction action = new DragAction(
+					DragInputAction action = new DragInputAction(
 							mouseHandler.getDraggingElement(),
 							DragGEvType.EXITED, x, y);
 					oldGO.processAction(action);
@@ -227,11 +227,11 @@ public class InputHandlerImpl implements InputHandler {
 			}
 
 			if (currentGO != null) {
-				MouseActionImpl enterAction = new MouseActionImpl(
+				MouseInputAction enterAction = new MouseInputAction(
 						MouseGEv.MOUSE_ENTERED, x, y);
 				currentGO.processAction(enterAction);
 				if (draggedGO != null) {
-					DragAction action = new DragAction(
+					DragInputAction action = new DragInputAction(
 							mouseHandler.getDraggingElement(),
 							DragGEvType.ENTERED, x, y);
 					currentGO.processAction(action);
@@ -310,17 +310,17 @@ public class InputHandlerImpl implements InputHandler {
 		if (currentDraggedGO != null) {
 			if (!checkState(MouseState.LEFT_BUTTON_PRESSED)) {
 				DrawableGO<?> goMouse = getGameObjectUnderPointer();
-				MouseActionImpl drop = new MouseActionImpl(
+				MouseInputAction drop = new MouseInputAction(
 						MouseGEv.MOUSE_DROP, x, y);
 				currentDraggedGO.processAction(drop);
 				if (goMouse != null) {
 					// Exit too
-					DragAction action = new DragAction(
+					DragInputAction action = new DragInputAction(
 							mouseHandler.getDraggingElement(),
 							DragGEvType.EXITED, x, y);
 					goMouse.processAction(action);
 					// Drop
-					DragAction action2 = new DragAction(
+					DragInputAction action2 = new DragInputAction(
 							mouseHandler.getDraggingElement(),
 							DragGEvType.DROP, x, y);
 					goMouse.processAction(action2);
@@ -337,7 +337,7 @@ public class InputHandlerImpl implements InputHandler {
 					if (draggedGO != null) {
 						mouseHandler.setDraggingGameObject(draggedGO);
 						mouseHandler.getDraggingGameObject().processAction(
-								new MouseActionImpl(
+								new MouseInputAction(
 										MouseGEv.MOUSE_START_DRAG, x, y));
 					}
 				}
@@ -367,7 +367,7 @@ public class InputHandlerImpl implements InputHandler {
 	public void clearAllInputs() {
 		keyboardHandler.getKeyActions().clear();
 		if (!mouseHandler.getMouseEvents().isEmpty()) {
-			MouseActionImpl action = mouseHandler.getMouseEvents().poll();
+			MouseInputAction action = mouseHandler.getMouseEvents().poll();
 			mouseHandler
 					.setPosition(action.getVirtualX(), action.getVirtualY());
 		}

@@ -50,8 +50,8 @@ import ead.common.model.elements.guievents.enums.MouseGEvButtonType;
 import ead.common.model.elements.guievents.enums.MouseGEvType;
 import ead.engine.core.input.InputHandler;
 import ead.engine.core.input.MouseHandler;
-import ead.engine.core.input.actions.KeyActionImpl;
-import ead.engine.core.input.actions.MouseActionImpl;
+import ead.engine.core.input.actions.KeyInputAction;
+import ead.engine.core.input.actions.MouseInputAction;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -149,24 +149,24 @@ public class DesktopInputListener implements MouseListener,
 	 *            The key event
 	 * @return The GUI {@link KeyAction}
 	 */
-	public KeyActionImpl getKeyboardAction(KeyEventType actionType,
+	public KeyInputAction getKeyboardAction(KeyEventType actionType,
 			KeyEvent keyEvent) {
 		switch (keyEvent.getKeyCode()) {
 		case KeyEvent.VK_UP:
-			return new KeyActionImpl(actionType, KeyGEvCode.ARROW_UP);
+			return new KeyInputAction(actionType, KeyGEvCode.ARROW_UP);
 		case KeyEvent.VK_DOWN:
-			return new KeyActionImpl(actionType, KeyGEvCode.ARROW_DOWN);
+			return new KeyInputAction(actionType, KeyGEvCode.ARROW_DOWN);
 		case KeyEvent.VK_LEFT:
-			return new KeyActionImpl(actionType, KeyGEvCode.ARROW_LEFT);
+			return new KeyInputAction(actionType, KeyGEvCode.ARROW_LEFT);
 		case KeyEvent.VK_RIGHT:
-			return new KeyActionImpl(actionType, KeyGEvCode.ARROW_RIGHT);
+			return new KeyInputAction(actionType, KeyGEvCode.ARROW_RIGHT);
 		case KeyEvent.VK_ENTER:
-			return new KeyActionImpl(actionType, KeyGEvCode.RETURN);
+			return new KeyInputAction(actionType, KeyGEvCode.RETURN);
 		case KeyEvent.VK_ESCAPE:
-			return new KeyActionImpl(actionType, KeyGEvCode.ESC);
+			return new KeyInputAction(actionType, KeyGEvCode.ESC);
 		}
 		if (keyEvent.getKeyChar() != 0)
-			return new KeyActionImpl(actionType, keyEvent.getKeyChar());
+			return new KeyInputAction(actionType, keyEvent.getKeyChar());
 		return null;
 	}
 
@@ -184,11 +184,11 @@ public class DesktopInputListener implements MouseListener,
 	 *            The position along the Y axis
 	 * @return The GUI {@link MouseAction}
 	 */
-	public MouseActionImpl getMouseAction(MouseEvent e, MouseGEvType action,
+	public MouseInputAction getMouseAction(MouseEvent e, MouseGEvType action,
 			int virtualX, int virtualY) {
 		MouseGEvButtonType b = getMouseButton(e.getButton());
 		MouseGEv event = MouseGEv.getMouseEvent(action, b);
-		return new MouseActionImpl(event, virtualX, virtualY);
+		return new MouseInputAction(event, virtualX, virtualY);
 
 	}
 

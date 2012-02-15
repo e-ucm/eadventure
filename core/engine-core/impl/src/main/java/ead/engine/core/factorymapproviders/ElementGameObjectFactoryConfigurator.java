@@ -41,7 +41,7 @@ import ead.common.model.elements.scene.EAdScene;
 import ead.common.model.elements.scene.EAdSceneElement;
 import ead.common.model.elements.scenes.ComplexSceneElement;
 import ead.common.model.elements.scenes.ComposedScene;
-import ead.common.model.elements.scenes.SceneElementImpl;
+import ead.common.model.elements.scenes.SceneElement;
 import ead.common.model.elements.scenes.BasicScene;
 import ead.common.model.elements.scenes.VideoScene;
 import ead.engine.core.gameobjects.ComposedSceneGOImpl;
@@ -60,7 +60,7 @@ public class ElementGameObjectFactoryConfigurator
 		factoryMap.put(EAdScene.class, SceneGOImpl.class);
 		factoryMap.put(BasicScene.class, SceneGOImpl.class);
 		factoryMap.put(ComposedScene.class, ComposedSceneGOImpl.class);
-		factoryMap.put(SceneElementImpl.class, BasicSceneElementGO.class);
+		factoryMap.put(SceneElement.class, BasicSceneElementGO.class);
 		factoryMap
 				.put(ComplexSceneElement.class, ComplexSceneElementGO.class);
 		factoryMap.put(VideoScene.class, VideoSceneGO.class);

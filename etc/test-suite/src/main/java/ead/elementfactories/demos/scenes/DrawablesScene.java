@@ -39,7 +39,7 @@ package ead.elementfactories.demos.scenes;
 
 import ead.common.model.elements.enums.CommonStates;
 import ead.common.model.elements.guievents.MouseGEv;
-import ead.common.model.elements.scenes.SceneElementImpl;
+import ead.common.model.elements.scenes.SceneElement;
 import ead.common.model.elements.variables.BasicField;
 import ead.common.model.elements.variables.operations.ValueOp;
 import ead.common.params.fills.ColorFill;
@@ -164,7 +164,7 @@ public class DrawablesScene extends EmptyScene {
 		getComponents().add(
 				EAdElementsFactory.getInstance().getSceneElementFactory()
 						.createSceneElement(caption, x, y));
-		SceneElementImpl sceneElement = EAdElementsFactory.getInstance()
+		SceneElement sceneElement = EAdElementsFactory.getInstance()
 				.getSceneElementFactory()
 				.createSceneElement(stateDrawable, x + 50, y + 40);
 		sceneElement.addBehavior(
@@ -174,7 +174,7 @@ public class DrawablesScene extends EmptyScene {
 						.getEffectFactory()
 						.getChangeVarValueEffect(
 								new BasicField<String>(sceneElement,
-										SceneElementImpl.VAR_STATE),
+										SceneElement.VAR_STATE),
 								new ValueOp(CommonStates.EAD_STATE_DEFAULT
 												.toString())));
 		sceneElement.addBehavior(
@@ -184,7 +184,7 @@ public class DrawablesScene extends EmptyScene {
 						.getEffectFactory()
 						.getChangeVarValueEffect(
 								new BasicField<String>(sceneElement,
-										SceneElementImpl.VAR_STATE),
+										SceneElement.VAR_STATE),
 								new ValueOp(CommonStates.EAD_STATE_TALKING
 												.toString())));
 		getComponents().add(sceneElement);
@@ -206,7 +206,7 @@ public class DrawablesScene extends EmptyScene {
 				EAdElementsFactory.getInstance().getSceneElementFactory()
 						.createSceneElement(caption, margin, 180));
 
-		SceneElementImpl paniel = EAdElementsFactory.getInstance()
+		SceneElement paniel = EAdElementsFactory.getInstance()
 				.getSceneElementFactory()
 				.createSceneElement(animation, margin, 220);
 		paniel.setInitialScale(0.8f);

@@ -40,15 +40,15 @@ package ead.engine.core.input;
 import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
-import ead.engine.core.input.actions.KeyActionImpl;
+import ead.engine.core.input.actions.KeyInputAction;
 import ead.engine.core.input.states.KeyboardState;
 
 public class KeyboardHandler  {
 
-	private Queue<KeyActionImpl> keyActions;
+	private Queue<KeyInputAction> keyActions;
 	
 	public KeyboardHandler() {
-		keyActions = new ConcurrentLinkedQueue<KeyActionImpl>();
+		keyActions = new ConcurrentLinkedQueue<KeyInputAction>();
 	}
 	
 	/**
@@ -56,7 +56,7 @@ public class KeyboardHandler  {
 	 * 
 	 * @return Returns the queue of {@link KeyActions} yet to be processed
 	 */
-	public Queue<KeyActionImpl> getKeyActions() {
+	public Queue<KeyInputAction> getKeyActions() {
 		return keyActions;
 	}
 	

@@ -45,7 +45,7 @@ import ead.common.model.elements.events.SceneElementEv;
 import ead.common.model.elements.events.enums.SceneElementEvType;
 import ead.common.model.elements.guievents.MouseGEv;
 import ead.common.model.elements.scenes.ComplexSceneElement;
-import ead.common.model.elements.scenes.SceneElementImpl;
+import ead.common.model.elements.scenes.SceneElement;
 import ead.common.model.elements.variables.EAdField;
 import ead.common.model.elements.variables.BasicField;
 import ead.common.model.elements.variables.operations.ValueOp;
@@ -66,14 +66,14 @@ public class ComplexElementScene extends EmptyScene {
 		complex.setBounds(400, 400);
 		complex.setPosition(new EAdPosition(Corner.CENTER, 400, 300));
 
-		SceneElementImpl e = EAdElementsFactory
+		SceneElement e = EAdElementsFactory
 				.getInstance()
 				.getSceneElementFactory()
 				.createSceneElement(new RectangleShape(400, 400, ColorFill.BLUE),
 						new RectangleShape(400, 400, ColorFill.RED), 40, 40);
 
 		e.setInitialScale(0.1f);
-		e.setVarInitialValue(SceneElementImpl.VAR_ROTATION,
+		e.setVarInitialValue(SceneElement.VAR_ROTATION,
 				(float) Math.PI / 6);
 		e.setPosition(new EAdPosition(Corner.CENTER, 50, 50));
 
@@ -82,7 +82,7 @@ public class ComplexElementScene extends EmptyScene {
 		getComponents().add(complex);
 
 		EAdField<Float> rotation = new BasicField<Float>(complex,
-				SceneElementImpl.VAR_ROTATION);
+				SceneElement.VAR_ROTATION);
 
 		InterpolationEf effect = new InterpolationEf(rotation, 0,
 				2 * (float) Math.PI, 10000, InterpolationLoopType.RESTART,
@@ -94,7 +94,7 @@ public class ComplexElementScene extends EmptyScene {
 		complex.getEvents().add(event);
 
 		EAdField<Float> rotation2 = new BasicField<Float>(e,
-				SceneElementImpl.VAR_ROTATION);
+				SceneElement.VAR_ROTATION);
 
 		e.addBehavior(MouseGEv.MOUSE_RIGHT_CLICK,
 				new ChangeFieldEf(rotation,
@@ -110,7 +110,7 @@ public class ComplexElementScene extends EmptyScene {
 		e.getEvents().add(event2);
 
 		EAdField<Float> scale = new BasicField<Float>(complex,
-				SceneElementImpl.VAR_SCALE);
+				SceneElement.VAR_SCALE);
 
 		complex.setInitialScale(0.5f);
 		InterpolationEf effect3 = new InterpolationEf(scale,

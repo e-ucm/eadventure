@@ -45,12 +45,12 @@ import com.google.inject.Singleton;
 import ead.common.model.elements.guievents.enums.MouseGEvButtonType;
 import ead.common.model.elements.scene.EAdSceneElement;
 import ead.common.model.elements.scene.EAdSceneElementDef;
-import ead.common.model.elements.scenes.SceneElementImpl;
+import ead.common.model.elements.scenes.SceneElement;
 import ead.common.model.elements.variables.SystemFields;
 import ead.engine.core.game.GameState;
 import ead.engine.core.gameobjects.go.DrawableGO;
 import ead.engine.core.gameobjects.go.SceneElementGO;
-import ead.engine.core.input.actions.MouseActionImpl;
+import ead.engine.core.input.actions.MouseInputAction;
 import ead.engine.core.input.states.MouseState;
 import ead.engine.core.util.EAdTransformation;
 
@@ -98,7 +98,7 @@ public class MouseHandler {
 	/**
 	 * Queue with mouse events
 	 */
-	private Queue<MouseActionImpl> mouseEvents;
+	private Queue<MouseInputAction> mouseEvents;
 
 	/**
 	 * Game object under the mouse
@@ -132,7 +132,7 @@ public class MouseHandler {
 	private int initZ;
 
 	public MouseHandler(GameState gameState) {
-		mouseEvents = new ConcurrentLinkedQueue<MouseActionImpl>();
+		mouseEvents = new ConcurrentLinkedQueue<MouseInputAction>();
 		this.gameState = gameState;
 	}
 
@@ -163,9 +163,9 @@ public class MouseHandler {
 					SystemFields.MOUSE_SCENE_X);
 			int mouseVirtualY = gameState.getValueMap().getValue(
 					SystemFields.MOUSE_SCENE_Y);
-			gameState.getValueMap().setValue(e, SceneElementImpl.VAR_X,
+			gameState.getValueMap().setValue(e, SceneElement.VAR_X,
 					mouseVirtualX - diffX);
-			gameState.getValueMap().setValue(e, SceneElementImpl.VAR_Y,
+			gameState.getValueMap().setValue(e, SceneElement.VAR_Y,
 					mouseVirtualY - diffY);
 		}
 	}
@@ -198,7 +198,7 @@ public class MouseHandler {
 	 * 
 	 * @return the queue of registered mouse events
 	 */
-	public Queue<MouseActionImpl> getMouseEvents() {
+	public Queue<MouseInputAction> getMouseEvents() {
 		return mouseEvents;
 	}
 
@@ -290,9 +290,9 @@ public class MouseHandler {
 			EAdSceneElement sceneElement = dragElementGO.getElement();
 
 			initDragX = gameState.getValueMap().getValue(sceneElement,
-					SceneElementImpl.VAR_X);
+					SceneElement.VAR_X);
 			initDragY = gameState.getValueMap().getValue(sceneElement,
-					SceneElementImpl.VAR_Y);
+					SceneElement.VAR_Y);
 
 			int mouseVirtualX = gameState.getValueMap().getValue(
 					SystemFields.MOUSE_SCENE_X);
@@ -302,22 +302,22 @@ public class MouseHandler {
 			diffY = mouseVirtualY - initDragY;
 
 			initZ = gameState.getValueMap().getValue(sceneElement,
-					SceneElementImpl.VAR_Z);
+					SceneElement.VAR_Z);
 
 			gameState.getValueMap().setValue(sceneElement,
-					SceneElementImpl.VAR_Z, DRAG_Z);
+					SceneElement.VAR_Z, DRAG_Z);
 
 		} else {
 			if (draggingGameObject != null) {
 				EAdSceneElement sceneElement = draggingGameObject.getElement();
 				gameState.getValueMap().setValue(sceneElement,
-						SceneElementImpl.VAR_Z, initZ);
+						SceneElement.VAR_Z, initZ);
 				if (gameState.getValueMap().getValue(sceneElement,
-						SceneElementImpl.VAR_RETURN_WHEN_DRAGGED)) {
+						SceneElement.VAR_RETURN_WHEN_DRAGGED)) {
 					gameState.getValueMap().setValue(sceneElement,
-							SceneElementImpl.VAR_X, initDragX);
+							SceneElement.VAR_X, initDragX);
 					gameState.getValueMap().setValue(sceneElement,
-							SceneElementImpl.VAR_Y, initDragY);
+							SceneElement.VAR_Y, initDragY);
 				}
 			}
 			draggingGameObject = null;

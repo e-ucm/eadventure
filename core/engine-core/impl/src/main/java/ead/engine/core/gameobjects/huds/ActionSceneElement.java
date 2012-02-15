@@ -44,12 +44,12 @@ import ead.common.model.elements.effects.ActorActionsEf;
 import ead.common.model.elements.effects.enums.ChangeActorActions;
 import ead.common.model.elements.guievents.MouseGEv;
 import ead.common.model.elements.scenes.SceneElementDef;
-import ead.common.model.elements.scenes.SceneElementImpl;
+import ead.common.model.elements.scenes.SceneElement;
 import ead.common.model.predef.effects.ChangeAppearanceEf;
 import ead.common.resources.assets.AssetDescriptor;
 
-@Element(detailed = SceneElementImpl.class, runtime = SceneElementImpl.class)
-public class ActionSceneElement extends SceneElementImpl {
+@Element(detailed = SceneElement.class, runtime = SceneElement.class)
+public class ActionSceneElement extends SceneElement {
 
 	public ActionSceneElement(EAdAction eAdAction) {
 		super();
@@ -88,7 +88,7 @@ public class ActionSceneElement extends SceneElementImpl {
 				new ChangeAppearanceEf(this, definition
 						.getInitialBundle()));
 		
-		setVarInitialValue(SceneElementImpl.VAR_NAME, eAdAction.getName());
+		setVarInitialValue(SceneElement.VAR_NAME, eAdAction.getName());
 		
 		
 	}

@@ -43,7 +43,7 @@ import ead.common.model.elements.effects.variables.ChangeFieldEf;
 import ead.common.model.elements.enums.CommonStates;
 import ead.common.model.elements.scene.EAdSceneElementDef;
 import ead.common.model.elements.scenes.SceneElementDef;
-import ead.common.model.elements.scenes.SceneElementImpl;
+import ead.common.model.elements.scenes.SceneElement;
 import ead.common.model.elements.variables.operations.ValueOp;
 import ead.common.resources.assets.drawable.basics.Image;
 import ead.common.resources.assets.drawable.basics.animation.Frame;
@@ -70,7 +70,7 @@ public class NgCommon {
 	private static void createEffects() {
 		 lookNorth = new ChangeFieldEf();
 		 lookNorth.setId("lookNorth");
-		 lookNorth.setParentVar(SceneElementImpl.VAR_ORIENTATION);
+		 lookNorth.setParentVar(SceneElement.VAR_ORIENTATION);
 		 lookNorth.setOperation(new ValueOp( Orientation.N ));		
 	}
 

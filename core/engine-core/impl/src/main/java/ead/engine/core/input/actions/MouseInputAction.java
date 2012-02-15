@@ -37,27 +37,52 @@
 
 package ead.engine.core.input.actions;
 
-import ead.common.model.elements.guievents.KeyGEv;
-import ead.common.model.elements.guievents.enums.KeyGEvCode;
-import ead.common.model.elements.guievents.enums.KeyEventType;
+import ead.common.model.elements.guievents.MouseGEv;
+import ead.common.model.elements.guievents.enums.MouseGEvButtonType;
+import ead.common.model.elements.guievents.enums.MouseGEvType;
 
-public class KeyActionImpl extends AbstractInputAction<KeyGEv> {
+public class MouseInputAction extends AbstractInputAction<MouseGEv> {
 
-	public KeyActionImpl(KeyEventType type, KeyGEvCode code) {
-		super( new KeyGEv(type, code) );
+	/**
+	 * Virtual X coordinate where the action was performed.
+	 */
+	private int virtualX;
+
+	/**
+	 * Virtual Y coordinate where the action was performed.
+	 */
+	private int virtualY;
+
+	public MouseInputAction(MouseGEv event, int virtualX, int virtualY) {
+		super( event );
+		this.virtualX = virtualX;
+		this.virtualY = virtualY;
+	}
+	
+	public MouseInputAction(MouseGEvType type, MouseGEvButtonType button, int virtualX, int virtualY ){
+		this( new MouseGEv( type, button), virtualX, virtualY);
 	}
 
-	public KeyActionImpl(KeyEventType type, char letter) {
-		this(type, KeyGEvCode.LETTER);
-		this.getGUIEvent().setCharacter(letter);
+	/**
+	 * @return the virtualX
+	 */
+	public int getVirtualX() {
+		return virtualX;
 	}
 
-	public KeyGEvCode getKeyCode() {
-		return event.getKeyCode();
+	/**
+	 * @return the virtualY
+	 */
+	public int getVirtualY() {
+		return virtualY;
 	}
 
-	public KeyEventType getType() {
+	public MouseGEvType getType() {
 		return event.getType();
+	}
+
+	public MouseGEvButtonType getButton() {
+		return event.getButton();
 	}
 
 }

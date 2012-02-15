@@ -71,6 +71,9 @@ public abstract class SceneElementEffectGO<T extends AbstractSceneElementEffect>
 		} else if (sceneElement != null) {
 			this.sceneElement = gameState.getValueMap().getValue(sceneElement,
 					SceneElementDef.VAR_SCENE_ELEMENT);
+		} else {
+			this.sceneElement = this.parent;
 		}
+		
 	}
 }

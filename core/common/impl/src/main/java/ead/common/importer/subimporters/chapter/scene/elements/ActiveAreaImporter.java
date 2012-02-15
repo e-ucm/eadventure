@@ -50,7 +50,7 @@ import ead.common.model.elements.guievents.MouseGEv;
 import ead.common.model.elements.scene.EAdSceneElement;
 import ead.common.model.elements.scene.EAdSceneElementDef;
 import ead.common.model.elements.scenes.SceneElementDef;
-import ead.common.model.elements.scenes.SceneElementImpl;
+import ead.common.model.elements.scenes.SceneElement;
 import ead.common.resources.assets.drawable.basics.shapes.BezierShape;
 import ead.common.util.StringHandler;
 import es.eucm.eadventure.common.data.chapter.Action;
@@ -73,7 +73,7 @@ public class ActiveAreaImporter extends ElementImporter<ActiveArea> {
 	@Override
 	public EAdSceneElement init(ActiveArea oldObject) {
 		SceneElementDef newActiveArea = new SceneElementDef();
-		EAdSceneElement newActiveAreaReference = new SceneElementImpl(
+		EAdSceneElement newActiveAreaReference = new SceneElement(
 				newActiveArea);
 		return newActiveAreaReference;
 	}
@@ -81,7 +81,7 @@ public class ActiveAreaImporter extends ElementImporter<ActiveArea> {
 	@Override
 	public EAdSceneElement convert(ActiveArea oldObject, Object object) {
 		// Reference to the active area
-		SceneElementImpl newActiveAreaReference = (SceneElementImpl) object;
+		SceneElement newActiveAreaReference = (SceneElement) object;
 		newActiveAreaReference.setId(oldObject.getId() + "_ActiveArea");
 
 		SceneElementDef newActiveArea = (SceneElementDef) newActiveAreaReference
@@ -120,7 +120,7 @@ public class ActiveAreaImporter extends ElementImporter<ActiveArea> {
 
 	private void addActions(ActiveArea oldObject,
 			SceneElementDef newActiveArea,
-			SceneElementImpl newActiveAreaReference) {
+			SceneElement newActiveAreaReference) {
 
 		ActorActionsEf showActions = new ActorActionsEf(
 				newActiveArea);

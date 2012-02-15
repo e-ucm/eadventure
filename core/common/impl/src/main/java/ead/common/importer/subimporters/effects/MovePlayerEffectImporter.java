@@ -41,11 +41,11 @@ import com.google.inject.Inject;
 
 import ead.common.EAdElementImporter;
 import ead.common.model.elements.EAdCondition;
-import ead.common.model.predef.effects.MoveActiveElementEf;
+import ead.common.model.predef.effects.MoveActiveElementToMouseEf;
 import es.eucm.eadventure.common.data.chapter.conditions.Conditions;
 import es.eucm.eadventure.common.data.chapter.effects.MovePlayerEffect;
 
-public class MovePlayerEffectImporter extends EffectImporter<MovePlayerEffect, MoveActiveElementEf>{
+public class MovePlayerEffectImporter extends EffectImporter<MovePlayerEffect, MoveActiveElementToMouseEf>{
 
 	@Inject
 	public MovePlayerEffectImporter(
@@ -54,16 +54,16 @@ public class MovePlayerEffectImporter extends EffectImporter<MovePlayerEffect, M
 	}
 
 	@Override
-	public MoveActiveElementEf init(MovePlayerEffect oldObject) {
-		MoveActiveElementEf effect =  new MoveActiveElementEf();
+	public MoveActiveElementToMouseEf init(MovePlayerEffect oldObject) {
+		MoveActiveElementToMouseEf effect =  new MoveActiveElementToMouseEf();
 		effect.setId("movePlayerEffect" + ID_GENERATOR++);
 		return effect;
 	}
 
 	@Override
-	public MoveActiveElementEf convert(MovePlayerEffect oldObject,
+	public MoveActiveElementToMouseEf convert(MovePlayerEffect oldObject,
 			Object newElement) {
-		MoveActiveElementEf effect = super.convert(oldObject, newElement);
+		MoveActiveElementToMouseEf effect = super.convert(oldObject, newElement);
 		effect.setTargetCoordiantes(oldObject.getX(), oldObject.getY());
 		return effect;
 	}

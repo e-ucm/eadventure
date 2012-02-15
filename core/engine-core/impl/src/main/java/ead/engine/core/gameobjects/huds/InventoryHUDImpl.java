@@ -42,10 +42,11 @@ import com.google.inject.Singleton;
 
 import ead.common.model.elements.BasicInventory;
 import ead.common.model.elements.conditions.EmptyCond;
+import ead.common.model.elements.guievents.enums.MouseGEvButtonType;
 import ead.common.model.elements.scenes.ComplexSceneElement;
-import ead.common.model.elements.scenes.SceneElementImpl;
-import ead.common.model.elements.variables.EAdField;
+import ead.common.model.elements.scenes.SceneElement;
 import ead.common.model.elements.variables.BasicField;
+import ead.common.model.elements.variables.EAdField;
 import ead.common.model.elements.variables.SystemFields;
 import ead.common.params.BasicFont;
 import ead.common.params.fills.ColorFill;
@@ -54,18 +55,20 @@ import ead.common.params.text.EAdString;
 import ead.common.resources.assets.drawable.basics.Caption;
 import ead.common.resources.assets.drawable.basics.shapes.RectangleShape;
 import ead.common.util.EAdPosition;
-import ead.common.util.StringHandler;
 import ead.common.util.EAdPosition.Corner;
+import ead.common.util.StringHandler;
 import ead.engine.core.game.GameLoop;
 import ead.engine.core.game.GameState;
 import ead.engine.core.game.ValueMap;
 import ead.engine.core.gameobjects.factories.SceneElementGOFactory;
 import ead.engine.core.gameobjects.go.SceneElementGO;
-import ead.engine.core.gameobjects.huds.InventoryHUD;
+import ead.engine.core.input.InputAction;
 import ead.engine.core.input.InputHandler;
+import ead.engine.core.input.actions.MouseInputAction;
 import ead.engine.core.inventory.InventoryHandler;
 import ead.engine.core.inventory.InventoryItem;
 import ead.engine.core.platform.GUI;
+import ead.engine.core.util.EAdTransformation;
 
 @Singleton
 public class InventoryHUDImpl extends AbstractHUD implements InventoryHUD {
@@ -83,7 +86,7 @@ public class InventoryHUDImpl extends AbstractHUD implements InventoryHUD {
 	private ValueMap valueMap;
 
 	private SceneElementGOFactory sceneElementFactory;
-	
+
 	private InputHandler inputHandler;
 
 	private int guiHeight;
@@ -101,13 +104,17 @@ public class InventoryHUDImpl extends AbstractHUD implements InventoryHUD {
 	private long currentUpdate = -1;
 
 	private int delay = 0;
-	
+
 	private int mouseY = 0;
+
+	public boolean isShowing;
+
+	private Integer height;
 
 	@Inject
 	public InventoryHUDImpl(GUI gui, GameState gameState,
-			SceneElementGOFactory factory,
-			InventoryHandler inventoryHandler, InputHandler inputHandler) {
+			SceneElementGOFactory factory, InventoryHandler inventoryHandler,
+			InputHandler inputHandler) {
 		super(gui);
 		valueMap = gameState.getValueMap();
 		this.sceneElementFactory = factory;
@@ -116,15 +123,27 @@ public class InventoryHUDImpl extends AbstractHUD implements InventoryHUD {
 		this.inventoryHandler = inventoryHandler;
 		initInventory();
 		updateItems();
+		isShowing = true;
+		height = valueMap.getValue(SystemFields.GAME_HEIGHT);
+	}
+
+	@Override
+	public void doLayout(EAdTransformation t) {
+		if (isShowing) {
+			super.doLayout(t);
+		}
 	}
 
 	@Override
 	public void update() {
-		mouseY = valueMap.getValue(SystemFields.MOUSE_Y);
-		updateState();
-		updateDisp();
-		updateItems();
-		super.update();
+		isShowing = valueMap.getValue(SystemFields.SHOW_INVENTORY);
+		if (isShowing) {
+			mouseY = valueMap.getValue(SystemFields.MOUSE_Y);
+			updateState();
+			updateDisp();
+			updateItems();
+			super.update();
+		}
 	}
 
 	private void initInventory() {
@@ -137,7 +156,7 @@ public class InventoryHUDImpl extends AbstractHUD implements InventoryHUD {
 
 		inventoryDispY = 0.0f;
 		inventoryDispYField = new BasicField<Float>(inventory,
-				SceneElementImpl.VAR_DISP_Y);
+				SceneElement.VAR_DISP_Y);
 
 		inventory.setPosition(new EAdPosition(0, guiHeight, 0.0f,
 				inventoryDispY));
@@ -152,8 +171,7 @@ public class InventoryHUDImpl extends AbstractHUD implements InventoryHUD {
 		}
 
 		if (!isItemDragged()
-				&& mouseY < guiHeight - INVENTORY_HEIGHT
-						* 3
+				&& mouseY < guiHeight - INVENTORY_HEIGHT * 3
 				&& (state == InventoryState.SHOWN || state == InventoryState.GOING_UP)) {
 			state = InventoryState.GOING_DOWN;
 		}
@@ -181,8 +199,7 @@ public class InventoryHUDImpl extends AbstractHUD implements InventoryHUD {
 					state = InventoryState.HIDDEN;
 				}
 			}
-		}
-		else {
+		} else {
 			delay -= GameLoop.SKIP_MILLIS_TICK;
 		}
 	}
@@ -196,8 +213,7 @@ public class InventoryHUDImpl extends AbstractHUD implements InventoryHUD {
 			state = InventoryState.GOING_DOWN;
 			int x = INVENTORY_HEIGHT;
 			for (InventoryItem i : inventoryHandler.getItems()) {
-				SceneElementImpl element = new SceneElementImpl(
-						i.getElement());
+				SceneElement element = new SceneElement(i.getElement());
 				element.setPosition(Corner.CENTER, x, INVENTORY_HEIGHT / 2);
 
 				SceneElementGO<?> go = sceneElementFactory.get(element);
@@ -210,19 +226,17 @@ public class InventoryHUDImpl extends AbstractHUD implements InventoryHUD {
 				sceneElementFactory.remove(element);
 
 				element.setDragCond(EmptyCond.TRUE_EMPTY_CONDITION);
-				element.setVarInitialValue(SceneElementImpl.VAR_SCALE,
-						scale);
+				element.setVarInitialValue(SceneElement.VAR_SCALE, scale);
 				element.setVarInitialValue(BasicInventory.VAR_IN_INVENTORY,
 						true);
 				element.setVarInitialValue(
-						SceneElementImpl.VAR_RETURN_WHEN_DRAGGED, true);
+						SceneElement.VAR_RETURN_WHEN_DRAGGED, true);
 
 				inventory.getComponents().add(element);
 
 				if (i.getCount() > 1) {
 					float counterSize = size / 3;
-					SceneElementImpl counter = getCounter(i.getCount(),
-							counterSize);
+					SceneElement counter = getCounter(i.getCount(), counterSize);
 					counter.setPosition(Corner.CENTER, x, INVENTORY_HEIGHT / 2);
 
 					inventory.getComponents().add(counter);
@@ -235,14 +249,14 @@ public class InventoryHUDImpl extends AbstractHUD implements InventoryHUD {
 
 	private EAdFont counterFont = new BasicFont(10);
 
-	private SceneElementImpl getCounter(int count, float counterSize) {
+	private SceneElement getCounter(int count, float counterSize) {
 		Caption number = new Caption(new EAdString(
 				StringHandler.TEXTUAL_STRING_PREFIX + count));
 		number.setTextPaint(ColorFill.WHITE);
 		number.setBubblePaint(new ColorFill(0, 0, 0, 100));
 		number.setPadding(3);
 		number.setFont(counterFont);
-		SceneElementImpl numberElement = new SceneElementImpl(number);
+		SceneElement numberElement = new SceneElement(number);
 		numberElement.setPosition(Corner.CENTER, 0, 0);
 		return numberElement;
 	}
@@ -255,4 +269,26 @@ public class InventoryHUDImpl extends AbstractHUD implements InventoryHUD {
 		}
 		return false;
 	}
+
+	@Override
+	public boolean contains(int x, int y) {
+		if (state != InventoryState.HIDDEN) {
+			return true;
+		}
+		return false;
+	}
+
+	@Override
+	public boolean processAction(InputAction<?> action) {
+		if (action instanceof MouseInputAction) {
+			MouseInputAction mouseAction = (MouseInputAction) action;
+
+			if (height - INVENTORY_HEIGHT > mouseAction.getVirtualY()
+					&& mouseAction.getButton() != MouseGEvButtonType.NO_BUTTON) {
+				state = InventoryState.GOING_DOWN;
+			}
+		}
+		return super.processAction(action);
+	}
+
 }

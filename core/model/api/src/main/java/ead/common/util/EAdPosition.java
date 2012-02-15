@@ -39,7 +39,6 @@ package ead.common.util;
 
 import ead.common.params.EAdParam;
 
-
 /**
  * <p>
  * This class represents a position in the eAdventure model
@@ -67,7 +66,45 @@ public class EAdPosition implements EAdParam {
 	public static final String SEPARATOR = ":";
 
 	public static enum Corner {
-		TOP_LEFT, BOTTOM_LEFT, BOTTOM_CENTER, CENTER, TOP_RIGHT, BOTTOM_RIGHT
+		TOP_LEFT, BOTTOM_LEFT, BOTTOM_CENTER, CENTER, TOP_RIGHT, BOTTOM_RIGHT;
+
+		public float getDispY() {
+			switch (this) {
+			case TOP_LEFT:
+				return 0f;
+			case TOP_RIGHT:
+				return 0f;
+			case BOTTOM_LEFT:
+				return 1f;
+			case BOTTOM_RIGHT:
+				return 1f;
+			case BOTTOM_CENTER:
+				return 1f;
+			case CENTER:
+				return 0.5f;
+			default:
+				return 0.0f;
+			}
+		}
+
+		public float getDispX() {
+			switch (this) {
+			case TOP_LEFT:
+				return 0f;
+			case TOP_RIGHT:
+				return 1f;
+			case BOTTOM_LEFT:
+				return 0f;
+			case BOTTOM_RIGHT:
+				return 1f;
+			case BOTTOM_CENTER:
+				return 0.5f;
+			case CENTER:
+				return 0.5f;
+			default:
+				return 0.0f;
+			}
+		}
 	}
 
 	private int x;
@@ -134,38 +171,13 @@ public class EAdPosition implements EAdParam {
 	}
 
 	private void setCorner(Corner corner) {
-		switch (corner) {
-		case TOP_LEFT:
-			dispX = 0f;
-			dispY = 0f;
-			break;
-		case TOP_RIGHT:
-			dispX = 1f;
-			dispY = 0f;
-			break;
-		case BOTTOM_LEFT:
-			dispX = 0f;
-			dispY = 1f;
-			break;
-		case BOTTOM_RIGHT:
-			dispX = 1f;
-			dispY = 1f;
-			break;
-		case BOTTOM_CENTER:
-			dispX = 0.5f;
-			dispY = 1f;
-			break;
-		case CENTER:
-			dispX = 0.5f;
-			dispY = 0.5f;
-			break;
-		}
+		dispX = corner.getDispX();
+		dispY = corner.getDispY();
 	}
 
 	public int getX() {
 		return x;
 	}
-
 
 	public void setX(int x) {
 		this.x = x;
@@ -175,11 +187,9 @@ public class EAdPosition implements EAdParam {
 		return y;
 	}
 
-
 	public void setY(int y) {
 		this.y = y;
 	}
-
 
 	public float getDispX() {
 		return dispX;
@@ -195,7 +205,6 @@ public class EAdPosition implements EAdParam {
 		this.dispX = dispX;
 	}
 
-
 	public float getDispY() {
 		return dispY;
 	}
@@ -210,11 +219,9 @@ public class EAdPosition implements EAdParam {
 		this.dispY = despY;
 	}
 
-
 	public int getJavaX(float width) {
 		return (int) (x - dispX * width);
 	}
-
 
 	public int getJavaY(float height) {
 		return (int) (y - dispY * height);
@@ -237,19 +244,19 @@ public class EAdPosition implements EAdParam {
 	public String toString() {
 		return toStringData();
 	}
-	
+
 	@Override
 	public boolean equals(Object object) {
 		if (object == null || !(object instanceof EAdPosition))
 			return false;
 		EAdPosition newPos = (EAdPosition) object;
-		if (newPos.getX() == x && newPos.getY() == y && newPos.getDispX() == dispX && newPos.getDispY() == dispY)
+		if (newPos.getX() == x && newPos.getY() == y
+				&& newPos.getDispX() == dispX && newPos.getDispY() == dispY)
 			return true;
 		return false;
 	}
 
-	private static EAdPosition volatileEAdPosition = new EAdPosition(0,
-			0);
+	private static EAdPosition volatileEAdPosition = new EAdPosition(0, 0);
 
 	/**
 	 * Returns a static position, with the corner set to {@link Corner#TOP_LEFT}
@@ -278,8 +285,7 @@ public class EAdPosition implements EAdParam {
 	 * 
 	 * @return the static position
 	 */
-	public static EAdPosition volatileEAdPosition(Corner corner, int x,
-			int y) {
+	public static EAdPosition volatileEAdPosition(Corner corner, int x, int y) {
 		volatileEAdPosition.x = x;
 		volatileEAdPosition.y = y;
 		volatileEAdPosition.setCorner(corner);
@@ -300,8 +306,8 @@ public class EAdPosition implements EAdParam {
 	 *            displacement in the y axis
 	 * @return the static position
 	 */
-	public static EAdPosition volatileEAdPosition(int x, int y,
-			float dispX, float dispY) {
+	public static EAdPosition volatileEAdPosition(int x, int y, float dispX,
+			float dispY) {
 		volatileEAdPosition.x = x;
 		volatileEAdPosition.y = y;
 		volatileEAdPosition.dispX = dispX;
@@ -309,9 +315,9 @@ public class EAdPosition implements EAdParam {
 		return volatileEAdPosition;
 	}
 
-
 	public String toStringData() {
-		return x + SEPARATOR + y + SEPARATOR + (dispX != 0 ? dispX : "0") + SEPARATOR + (dispY != 0 ? dispY : "0");
+		return x + SEPARATOR + y + SEPARATOR + (dispX != 0 ? dispX : "0")
+				+ SEPARATOR + (dispY != 0 ? dispY : "0");
 	}
 
 	public void parse(String data) {
@@ -321,7 +327,6 @@ public class EAdPosition implements EAdParam {
 		dispX = Float.parseFloat(temp[2]);
 		dispY = Float.parseFloat(temp[3]);
 	}
-
 
 	public void set(int x, int y) {
 		setX(x);

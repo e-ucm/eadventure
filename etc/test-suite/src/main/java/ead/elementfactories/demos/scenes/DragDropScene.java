@@ -42,7 +42,7 @@ import ead.common.model.elements.effects.variables.ChangeFieldEf;
 import ead.common.model.elements.guievents.DragGEv;
 import ead.common.model.elements.guievents.enums.DragGEvType;
 import ead.common.model.elements.scenes.SceneElementDef;
-import ead.common.model.elements.scenes.SceneElementImpl;
+import ead.common.model.elements.scenes.SceneElement;
 import ead.common.model.elements.variables.EAdField;
 import ead.common.model.elements.variables.BasicField;
 import ead.common.model.elements.variables.operations.MathOp;
@@ -70,19 +70,19 @@ public class DragDropScene extends EmptyScene {
 		
 		
 		
-		SceneElementImpl e1 = new SceneElementImpl(def);
+		SceneElement e1 = new SceneElement(def);
 		e1.setDragCond(EmptyCond.TRUE_EMPTY_CONDITION);
 		e1.setPosition(new EAdPosition(Corner.CENTER, 600, 300));
 		
-		SceneElementImpl e4 = new SceneElementImpl(def);
+		SceneElement e4 = new SceneElement(def);
 		e4.setDragCond(EmptyCond.TRUE_EMPTY_CONDITION);
 		e4.setPosition(new EAdPosition(Corner.TOP_LEFT, 20, 20));
 		e4.setInitialScale(0.5f);
 		
-		SceneElementImpl e5 = new SceneElementImpl(def);
+		SceneElement e5 = new SceneElement(def);
 		e5.setDragCond(EmptyCond.TRUE_EMPTY_CONDITION);
 		e5.setPosition(new EAdPosition(Corner.TOP_RIGHT, 500, 10));
-		e5.setVarInitialValue(SceneElementImpl.VAR_ROTATION, 0.5f);
+		e5.setVarInitialValue(SceneElement.VAR_ROTATION, 0.5f);
 		e5.setInitialScale(1.5f);
 		
 		
@@ -91,10 +91,10 @@ public class DragDropScene extends EmptyScene {
 		BezierShape shape2 = new BallonShape(0, 0, 110, 110,
 				BalloonType.ROUNDED_RECTANGLE);
 		shape2.setPaint(PaintFill.BLACK_ON_WHITE);
-		SceneElementImpl e2 = new SceneElementImpl(shape2);
+		SceneElement e2 = new SceneElement(shape2);
 		e2.setPosition(new EAdPosition(Corner.CENTER, 100, 300));
 
-		SceneElementImpl e3 = new SceneElementImpl(shape2);
+		SceneElement e3 = new SceneElement(shape2);
 		e3.setPosition(new EAdPosition(Corner.CENTER, 300, 300));
 
 		addBehaviors(e2, e1);
@@ -108,9 +108,9 @@ public class DragDropScene extends EmptyScene {
 
 	}
 
-	private void addBehaviors(SceneElementImpl e2, SceneElementImpl e1) {
+	private void addBehaviors(SceneElement e2, SceneElement e1) {
 		EAdField<Float> scale = new BasicField<Float>(e2,
-				SceneElementImpl.VAR_SCALE);
+				SceneElement.VAR_SCALE);
 		ChangeFieldEf changeScale1 = new ChangeFieldEf(scale, new ValueOp(1.2f));
 		changeScale1.setId("changeScale");
 		ChangeFieldEf changeScale2 = new ChangeFieldEf( scale, new ValueOp(1.0f));
@@ -121,19 +121,19 @@ public class DragDropScene extends EmptyScene {
 				changeScale2);
 		
 
-		BasicField<Integer> fieldX = new BasicField<Integer>(e1, SceneElementImpl.VAR_X);
-		BasicField<Integer> fieldY = new BasicField<Integer>(e1, SceneElementImpl.VAR_Y);
+		BasicField<Integer> fieldX = new BasicField<Integer>(e1, SceneElement.VAR_X);
+		BasicField<Integer> fieldY = new BasicField<Integer>(e1, SceneElement.VAR_Y);
 
 		ChangeFieldEf changeX = new ChangeFieldEf(
 				fieldX,
 				new MathOp("[0]", new BasicField<Integer>(e2,
-						SceneElementImpl.VAR_X)));
+						SceneElement.VAR_X)));
 		changeX.setId("x");
 
 		ChangeFieldEf changeY = new ChangeFieldEf(
 				fieldY,
 				new MathOp("[0]", new BasicField<Integer>(e2,
-						SceneElementImpl.VAR_Y)));
+						SceneElement.VAR_Y)));
 		changeY.setId("y");
 
 //		e2.addBehavior(new EAdDragEventImpl(e1.getDefinition(), DragAction.DROP), changeX);

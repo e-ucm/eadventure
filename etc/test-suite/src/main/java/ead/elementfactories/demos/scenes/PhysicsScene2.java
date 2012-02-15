@@ -45,7 +45,7 @@ import ead.common.model.elements.effects.physics.PhysicsEffect;
 import ead.common.model.elements.events.ConditionedEv;
 import ead.common.model.elements.events.enums.ConditionedEvType;
 import ead.common.model.elements.guievents.MouseGEv;
-import ead.common.model.elements.scenes.SceneElementImpl;
+import ead.common.model.elements.scenes.SceneElement;
 import ead.common.model.elements.scenes.BasicScene;
 import ead.common.model.elements.variables.BasicField;
 import ead.common.model.elements.variables.operations.MathOp;
@@ -67,22 +67,22 @@ public class PhysicsScene2 extends PhysicsScene {
 
 		RectangleShape rShape = new RectangleShape(10, 100, ColorFill.BROWN);
 
-		SceneElementImpl e2 = new SceneElementImpl(rShape);
+		SceneElement e2 = new SceneElement(rShape);
 		e2.setId("e2");
 		getComponents().add(e2);
 		e2.setPosition(new EAdPosition(Corner.CENTER, 500, 200));
-		e2.setVarInitialValue(SceneElementImpl.VAR_ROTATION,
+		e2.setVarInitialValue(SceneElement.VAR_ROTATION,
 				(float) Math.PI / 4.0f);
 
 		PhysicsEffect effect = new PhysicsEffect();
 		effect.addSceneElement(e2);
 
 		
-		SceneElementImpl e3 = new SceneElementImpl( rShape);
+		SceneElement e3 = new SceneElement( rShape);
 		e3.setId("e3");
 		getComponents().add(e3);
 		e3.setPosition(new EAdPosition(Corner.CENTER, 200, 100));
-		e3.setVarInitialValue(SceneElementImpl.VAR_ROTATION,
+		e3.setVarInitialValue(SceneElement.VAR_ROTATION,
 				(float) Math.PI / 2.0f);
 
 		effect.addSceneElement(e3);
@@ -91,7 +91,7 @@ public class PhysicsScene2 extends PhysicsScene {
 		circle.setPaint(new LinearGradientFill(ColorFill.GREEN,
 				new ColorFill(0, 100, 0), 40, 40));
 
-		SceneElementImpl b = new SceneElementImpl( circle);
+		SceneElement b = new SceneElement( circle);
 		b.setId("ball");
 		b.setPosition(new EAdPosition(Corner.CENTER, 500, 0));
 		getComponents().add(b, 0);
@@ -107,7 +107,7 @@ public class PhysicsScene2 extends PhysicsScene {
 
 		for (int i = 0; i < 5; i++)
 			for (int j = 0; j < 5; j++) {
-				SceneElementImpl e = new SceneElementImpl( circle);
+				SceneElement e = new SceneElement( circle);
 				e.setId("ball" + i + "_" + j);
 				e.setPosition(new EAdPosition(Corner.CENTER, i * 60 + 200,
 						j * 60 + 200));

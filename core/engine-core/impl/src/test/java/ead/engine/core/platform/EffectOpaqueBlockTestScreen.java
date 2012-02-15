@@ -43,7 +43,7 @@ import ead.common.model.elements.effects.timedevents.WaitEf;
 import ead.common.model.elements.guievents.MouseGEv;
 import ead.common.model.elements.scene.EAdScene;
 import ead.common.model.elements.scenes.SceneElementDef;
-import ead.common.model.elements.scenes.SceneElementImpl;
+import ead.common.model.elements.scenes.SceneElement;
 import ead.common.model.elements.scenes.BasicScene;
 import ead.common.resources.assets.drawable.basics.Image;
 import ead.common.util.EAdPosition;
@@ -55,9 +55,9 @@ public class EffectOpaqueBlockTestScreen extends BasicScene implements
 
 	private SceneElementDef buttonActor;
 	private StringHandler stringHandler;
-	private SceneElementImpl buttonReference;
-	private SceneElementImpl buttonReference2;
-	private SceneElementImpl buttonActor2;
+	private SceneElement buttonReference;
+	private SceneElement buttonReference2;
+	private SceneElement buttonActor2;
 
 	@Inject
 	public EffectOpaqueBlockTestScreen(StringHandler stringHandler) {
@@ -85,13 +85,13 @@ public class EffectOpaqueBlockTestScreen extends BasicScene implements
 
 		// buttonActor.setBehavior(b);
 
-		buttonReference = new SceneElementImpl(buttonActor);
+		buttonReference = new SceneElement(buttonActor);
 		buttonReference.setPosition(new EAdPosition(
 				EAdPosition.Corner.BOTTOM_CENTER, 200, 200));
 	}
 
 	private void initButtonActor2() {
-		buttonActor2 = new SceneElementImpl();
+		buttonActor2 = new SceneElement();
 		buttonActor2.setId("StartGame");
 		buttonActor2
 				.getDefinition()

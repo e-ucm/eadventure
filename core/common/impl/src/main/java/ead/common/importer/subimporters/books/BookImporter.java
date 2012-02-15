@@ -69,10 +69,11 @@ import ead.common.model.elements.guievents.MouseGEv;
 import ead.common.model.elements.scene.EAdScene;
 import ead.common.model.elements.scene.EAdSceneElement;
 import ead.common.model.elements.scenes.SceneElementDef;
-import ead.common.model.elements.scenes.SceneElementImpl;
+import ead.common.model.elements.scenes.SceneElement;
 import ead.common.model.elements.scenes.BasicScene;
 import ead.common.model.elements.variables.EAdField;
 import ead.common.model.elements.variables.BasicField;
+import ead.common.model.elements.variables.SystemFields;
 import ead.common.model.elements.variables.operations.BooleanOp;
 import ead.common.model.elements.variables.operations.MathOp;
 import ead.common.model.elements.variables.operations.ValueOp;
@@ -172,6 +173,10 @@ public class BookImporter implements EAdElementImporter<Book, EAdScene> {
 	@Override
 	public EAdScene convert(Book oldObject, Object newElement) {
 		BasicScene book = (BasicScene) newElement;
+		ChangeFieldEf hideInventory = new ChangeFieldEf(SystemFields.SHOW_INVENTORY, BooleanOp.FALSE_OP );
+		SceneElementEv hideEvent = new SceneElementEv( );
+		hideEvent.addEffect(SceneElementEvType.ADDED_TO_SCENE, hideInventory);
+		book.getEvents().add(hideEvent);
 		// Import background
 		AssetDescriptor background = resourceImporter.getAssetDescritptor(
 				oldObject.getResources().get(0)
@@ -187,6 +192,9 @@ public class BookImporter implements EAdElementImporter<Book, EAdScene> {
 		dispY = TEXT_Y;
 		column = 0;
 		image = new ComposedDrawable();
+		
+		ChangeFieldEf showInventory = new ChangeFieldEf(SystemFields.SHOW_INVENTORY, BooleanOp.TRUE_OP );
+		
 
 		if (oldObject.getType() == Book.TYPE_PAGES) {
 			Caption captionImpl = new Caption();
@@ -243,11 +251,11 @@ public class BookImporter implements EAdElementImporter<Book, EAdScene> {
 
 		
 		
-		SceneElementImpl content = new SceneElementImpl(image);
+		SceneElement content = new SceneElement(image);
 		content.setId(oldObject.getId() + "_content");
 		
 		EAdField<Integer> xField = new BasicField<Integer>(content,
-				SceneElementImpl.VAR_X);
+				SceneElement.VAR_X);
 		// Event to restart the x variable
 		SceneElementEv xEvent = new SceneElementEv( );
 		content.getEvents().add(xEvent);
@@ -269,7 +277,7 @@ public class BookImporter implements EAdElementImporter<Book, EAdScene> {
 
 			EAdCondition leftCondition = new OperationCond(xField, 0,
 					Comparator.LESS);
-			SceneElementImpl leftArrow = getArrow(oldObject, content,
+			SceneElement leftArrow = getArrow(oldObject, content,
 					Book.RESOURCE_TYPE_ARROW_LEFT_NORMAL,
 					Book.RESOURCE_TYPE_ARROW_LEFT_OVER, "[0] + " + BOOK_WIDTH,
 					leftCondition);
@@ -283,7 +291,7 @@ public class BookImporter implements EAdElementImporter<Book, EAdScene> {
 			leftArrow.setPosition(x, y);
 
 			EAdCondition rightCondition = EmptyCond.TRUE_EMPTY_CONDITION;
-			SceneElementImpl rightArrow = getArrow(oldObject, content,
+			SceneElement rightArrow = getArrow(oldObject, content,
 					Book.RESOURCE_TYPE_ARROW_RIGHT_NORMAL,
 					Book.RESOURCE_TYPE_ARROW_RIGHT_OVER, "[0] - " + BOOK_WIDTH,
 					rightCondition);
@@ -308,6 +316,7 @@ public class BookImporter implements EAdElementImporter<Book, EAdScene> {
 			changeScene.setId("endBook");
 			changeScene.setCondition(endCondition);
 			rightArrow.addBehavior(MouseGEv.MOUSE_LEFT_CLICK, changeScene);
+			changeScene.getNextEffects().add(showInventory);
 
 			
 			book.getComponents().add(leftArrow);
@@ -315,25 +324,27 @@ public class BookImporter implements EAdElementImporter<Book, EAdScene> {
 		}	
 		else {
 			content.setPosition(Corner.CENTER, 400, 300);
-			content.setVarInitialValue(SceneElementImpl.VAR_ENABLE, false);
-			book.getBackground().addBehavior(MouseGEv.MOUSE_LEFT_CLICK, new ChangeSceneEf());
+			content.setVarInitialValue(SceneElement.VAR_ENABLE, false);
+			ChangeSceneEf changeScene = new ChangeSceneEf();
+			changeScene.getNextEffects().add(showInventory);
+			book.getBackground().addBehavior(MouseGEv.MOUSE_LEFT_CLICK, changeScene);
 		}
 		
 		return book;
 	}
 
-	private SceneElementImpl getArrow(Book book, EAdSceneElement content,
+	private SceneElement getArrow(Book book, EAdSceneElement content,
 			String resourceNormal, String resourceOver, String expression,
 			EAdCondition condition) {
-		SceneElementImpl arrow = new SceneElementImpl();
+		SceneElement arrow = new SceneElement();
 		arrow.setId("arrow");
 		this.addAppearance(book, arrow, resourceNormal, resourceOver);
 
 		EAdField<Integer> xVar = new BasicField<Integer>(content,
-				SceneElementImpl.VAR_X);
+				SceneElement.VAR_X);
 
 		EAdField<Boolean> visibleVar = new BasicField<Boolean>(arrow,
-				SceneElementImpl.VAR_VISIBLE);
+				SceneElement.VAR_VISIBLE);
 		InterpolationEf move = new InterpolationEf(xVar,
 				new MathOp("[0]", xVar), new MathOp(expression,
 						xVar), 500, InterpolationLoopType.NO_LOOP,
@@ -438,7 +449,7 @@ public class BookImporter implements EAdElementImporter<Book, EAdScene> {
 
 	}
 
-	private void addAppearance(Book book, SceneElementImpl arrow,
+	private void addAppearance(Book book, SceneElement arrow,
 			String normal, String over) {
 		AssetDescriptor normalAsset = getArrowAsset(book, normal);
 

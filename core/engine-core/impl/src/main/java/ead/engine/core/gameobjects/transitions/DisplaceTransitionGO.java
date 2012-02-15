@@ -39,7 +39,7 @@ package ead.engine.core.gameobjects.transitions;
 
 import com.google.inject.Inject;
 
-import ead.common.model.elements.scenes.SceneElementImpl;
+import ead.common.model.elements.scenes.SceneElement;
 import ead.common.model.elements.transitions.DisplaceTransition;
 import ead.common.model.elements.transitions.enums.DisplaceTransitionType;
 import ead.common.model.elements.variables.SystemFields;
@@ -105,7 +105,7 @@ public class DisplaceTransitionGO extends
 		if (isLoadedNextScene()) {
 
 			int currentTime = gameState.getValueMap().getValue(getElement(),
-					SceneElementImpl.VAR_TIME_DISPLAYED);
+					SceneElement.VAR_TIME_DISPLAYED);
 			if (startTime == -1) {
 				startTime = currentTime;
 			}

@@ -48,7 +48,7 @@ import ead.common.model.elements.extra.EAdList;
 import ead.common.model.elements.extra.EAdListImpl;
 import ead.common.model.elements.guievents.MouseGEv;
 import ead.common.model.elements.scene.EAdSceneElement;
-import ead.common.model.elements.scenes.SceneElementImpl;
+import ead.common.model.elements.scenes.SceneElement;
 import ead.common.model.elements.variables.EAdField;
 import ead.common.model.elements.variables.EAdVarDef;
 import ead.common.model.elements.variables.BasicField;
@@ -87,7 +87,7 @@ public class MoleGame extends EmptyScene {
 
 		dissapearMole = new ChangeFieldEf();
 		dissapearMole.setId("dissaperMole");
-		dissapearMole.setParentVar(SceneElementImpl.VAR_VISIBLE);
+		dissapearMole.setParentVar(SceneElement.VAR_VISIBLE);
 		dissapearMole.setOperation(BooleanOp.FALSE_OP);
 
 		mole = new FramesAnimation();
@@ -104,11 +104,11 @@ public class MoleGame extends EmptyScene {
 		for (int i = 0; i < col; i++)
 			for (int j = 0; j < row; j++) {
 				EAdSceneElement mole = getMole(size * i, size * j);
-				mole.setVarInitialValue(SceneElementImpl.VAR_SCALE, scale);
+				mole.setVarInitialValue(SceneElement.VAR_SCALE, scale);
 				getComponents().add(mole);
 				list.add(mole);
 				EAdSceneElement hole = getHole(size * i, size * j + 25);
-				hole.setVarInitialValue(SceneElementImpl.VAR_SCALE, scale);
+				hole.setVarInitialValue(SceneElement.VAR_SCALE, scale);
 				this.getComponents().add(hole);
 
 			}
@@ -119,7 +119,7 @@ public class MoleGame extends EmptyScene {
 	}
 
 	private EAdSceneElement getHole(int x, int y) {
-		SceneElementImpl hole = new SceneElementImpl(holeImage);
+		SceneElement hole = new SceneElement(holeImage);
 		hole.setId("hole" + x);
 		hole.setPosition(x, y);
 		hole.addBehavior(MouseGEv.MOUSE_LEFT_PRESSED, (EAdEffect) null);
@@ -127,7 +127,7 @@ public class MoleGame extends EmptyScene {
 	}
 
 	private EAdSceneElement getMole(int x, int y) {
-		SceneElementImpl mole = new SceneElementImpl(this.mole);
+		SceneElement mole = new SceneElement(this.mole);
 		mole.setId("mole" + x + "" + y);
 		mole.setPosition(x, y + 30);
 
@@ -143,7 +143,7 @@ public class MoleGame extends EmptyScene {
 		// event.addEffect(SceneElementEvent.ADDED_TO_SCENE, interpolation);
 
 		int initTime = (int) Math.round(Math.random() * 5500);
-		mole.setVarInitialValue(SceneElementImpl.VAR_TIME_DISPLAYED,
+		mole.setVarInitialValue(SceneElement.VAR_TIME_DISPLAYED,
 				initTime);
 
 		mole.addBehavior(MouseGEv.MOUSE_LEFT_PRESSED, dissapearMole);
@@ -164,7 +164,7 @@ public class MoleGame extends EmptyScene {
 		effect.addField(moleField);
 
 		InterpolationEf interpolation = new InterpolationEf(
-				moleField, SceneElementImpl.VAR_Y, new MathOp("0"),
+				moleField, SceneElement.VAR_Y, new MathOp("0"),
 				new MathOp("-30"), 500, 0, InterpolationLoopType.REVERSE, 2,
 				InterpolationType.LINEAR);
 		event.addEffect(

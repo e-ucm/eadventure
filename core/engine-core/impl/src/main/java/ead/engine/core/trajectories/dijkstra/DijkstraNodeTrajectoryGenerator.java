@@ -48,7 +48,7 @@ import com.google.inject.Singleton;
 
 import ead.common.model.EAdElement;
 import ead.common.model.elements.scene.EAdSceneElement;
-import ead.common.model.elements.scenes.SceneElementImpl;
+import ead.common.model.elements.scenes.SceneElement;
 import ead.common.model.elements.trajectories.Node;
 import ead.common.model.elements.trajectories.NodeTrajectoryDefinition;
 import ead.common.model.elements.trajectories.Side;
@@ -286,7 +286,7 @@ public class DijkstraNodeTrajectoryGenerator implements
 					currentNode = end;
 				else {
 					currentNode = new DijkstraNode(currentPosition);
-					currentNode.setScale(valueMap.getValue(movingElement, SceneElementImpl.VAR_SCALE));
+					currentNode.setScale(valueMap.getValue(movingElement, SceneElement.VAR_SCALE));
 					intersections.add(currentNode);
 				}
 			}
@@ -578,8 +578,8 @@ public class DijkstraNodeTrajectoryGenerator implements
 			int distance = Integer.MAX_VALUE;
 			for (Node node : nodeTrajectoryDefinition.getNodes()) {
 				int d = (int) Math.sqrt(Math.pow(
-						node.getX() - valueMap.getValue(movingElement, SceneElementImpl.VAR_X), 2)
-						+ Math.pow(node.getY() - valueMap.getValue(movingElement, SceneElementImpl.VAR_Y), 2));
+						node.getX() - valueMap.getValue(movingElement, SceneElement.VAR_X), 2)
+						+ Math.pow(node.getY() - valueMap.getValue(movingElement, SceneElement.VAR_Y), 2));
 				if (d < distance) {
 					for (Side side2 : nodeTrajectoryDefinition.getSides())
 						if (side2.getIdEnd().equals(node.getId())
@@ -595,9 +595,9 @@ public class DijkstraNodeTrajectoryGenerator implements
 	
 	private EAdPosition getCurrentPosition(EAdElement element) {
 		int x = valueMap.getValue(element,
-				SceneElementImpl.VAR_X);
+				SceneElement.VAR_X);
 		int y = valueMap.getValue(element,
-				SceneElementImpl.VAR_Y);
+				SceneElement.VAR_Y);
 		return new EAdPosition(x, y);
 	}
 

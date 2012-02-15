@@ -47,7 +47,7 @@ import ead.common.model.elements.events.ConditionedEv;
 import ead.common.model.elements.events.enums.ConditionedEvType;
 import ead.common.model.elements.scene.EAdSceneElement;
 import ead.common.model.elements.scenes.SceneElementDef;
-import ead.common.model.elements.scenes.SceneElementImpl;
+import ead.common.model.elements.scenes.SceneElement;
 import ead.common.model.elements.trajectories.NodeTrajectoryDefinition;
 import ead.common.model.elements.variables.EAdField;
 import ead.common.model.elements.variables.BasicField;
@@ -72,14 +72,14 @@ public class BarrierImporter implements
 
 	@Override
 	public EAdSceneElement init(Barrier oldObject) {
-		EAdSceneElement element = new SceneElementImpl();
+		EAdSceneElement element = new SceneElement();
 		element.setId(oldObject.getId());
 		return element;
 	}
 
 	@Override
 	public EAdSceneElement convert(Barrier oldObject, Object newElement) {
-		SceneElementImpl barrier = (SceneElementImpl) newElement;
+		SceneElement barrier = (SceneElement) newElement;
 
 		if (oldObject.getConditions() != null) {
 			EAdCondition condition = conditionsImporter.init(oldObject

@@ -38,7 +38,7 @@
 package ead.elementfactories.demos.scenes;
 
 import ead.common.model.elements.scenes.SceneElementDef;
-import ead.common.model.elements.scenes.SceneElementImpl;
+import ead.common.model.elements.scenes.SceneElement;
 import ead.common.resources.assets.drawable.basics.Image;
 import ead.common.util.EAdPosition;
 import ead.common.util.EAdPosition.Corner;
@@ -53,7 +53,7 @@ public class PositionScene extends EmptyScene {
 				new Image("@drawable/centerbackground.png"));
 		
 		NgCommon.init();
-		SceneElementImpl e = new SceneElementImpl( NgCommon.getMainCharacter());
+		SceneElement e = new SceneElement( NgCommon.getMainCharacter());
 		e.setInitialScale(0.5f);
 		e.setPosition(new EAdPosition(Corner.BOTTOM_CENTER, 400, 300));
 		

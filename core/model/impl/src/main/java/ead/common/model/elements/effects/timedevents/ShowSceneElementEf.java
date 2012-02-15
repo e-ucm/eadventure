@@ -47,7 +47,7 @@ import ead.common.model.elements.effects.enums.ShowTextAnimation;
 import ead.common.model.elements.events.SceneElementEv;
 import ead.common.model.elements.events.enums.SceneElementEvType;
 import ead.common.model.elements.scene.EAdSceneElement;
-import ead.common.model.elements.scenes.SceneElementImpl;
+import ead.common.model.elements.scenes.SceneElement;
 import ead.common.model.elements.variables.BasicField;
 import ead.common.resources.assets.drawable.basics.EAdCaption;
 import ead.common.util.EAdPosition;
@@ -81,10 +81,10 @@ public class ShowSceneElementEf extends AbstractEffect {
 		this.sceneElement = text;
 		switch (animation) {
 		case FADE_IN:
-			text.setVarInitialValue(SceneElementImpl.VAR_ALPHA, 0.0f);
+			text.setVarInitialValue(SceneElement.VAR_ALPHA, 0.0f);
 			InterpolationEf effect = new InterpolationEf(
 					new BasicField<Float>(text,
-							SceneElementImpl.VAR_ALPHA), 0.0f, 1.0f, 500,
+							SceneElement.VAR_ALPHA), 0.0f, 1.0f, 500,
 					InterpolationLoopType.NO_LOOP);
 
 			SceneElementEv event = new SceneElementEv();
@@ -108,7 +108,7 @@ public class ShowSceneElementEf extends AbstractEffect {
 	 */
 	public void setCaption(EAdCaption caption, int x, int y,
 			ShowTextAnimation animation) {
-		SceneElementImpl text = new SceneElementImpl(caption);
+		SceneElement text = new SceneElement(caption);
 		text.setId(this.id + "_caption");
 		text.setPosition(new EAdPosition(x, y));
 		setSceneElement(text, animation);

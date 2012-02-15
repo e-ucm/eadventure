@@ -39,14 +39,14 @@ package ead.elementfactories.demos.scenes;
 
 import ead.common.model.elements.effects.text.ShowQuestionEf;
 import ead.common.model.elements.guievents.MouseGEv;
-import ead.common.model.elements.scenes.SceneElementImpl;
+import ead.common.model.elements.scenes.SceneElement;
 import ead.elementfactories.EAdElementsFactory;
 import ead.elementfactories.StringFactory;
 
 public class ShowQuestionScene extends EmptyScene {
 
 	public ShowQuestionScene() {
-		SceneElementImpl element = EAdElementsFactory.getInstance()
+		SceneElement element = EAdElementsFactory.getInstance()
 				.getSceneElementFactory()
 				.createSceneElement("Launch show question", 10, 10);
 

@@ -44,7 +44,7 @@ import ead.common.model.elements.effects.QuitGameEf;
 import ead.common.model.elements.guievents.MouseGEv;
 import ead.common.model.elements.guievents.enums.KeyGEvCode;
 import ead.common.model.elements.guievents.enums.KeyEventType;
-import ead.common.model.elements.scenes.SceneElementImpl;
+import ead.common.model.elements.scenes.SceneElement;
 import ead.common.params.BasicFont;
 import ead.common.params.fills.ColorFill;
 import ead.common.params.fills.LinearGradientFill;
@@ -57,7 +57,7 @@ import ead.engine.core.gameobjects.GameObjectManager;
 import ead.engine.core.gameobjects.factories.SceneElementGOFactory;
 import ead.engine.core.gameobjects.huds.MenuHUD;
 import ead.engine.core.input.InputAction;
-import ead.engine.core.input.actions.KeyActionImpl;
+import ead.engine.core.input.actions.KeyInputAction;
 import ead.engine.core.platform.GUI;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -108,8 +108,8 @@ public class MenuHUDImpl extends AbstractHUD implements MenuHUD {
 	 */
 	@Override
 	public boolean processAction(InputAction<?> action) {
-		if (action instanceof KeyActionImpl) {
-			KeyActionImpl keyAction = (KeyActionImpl) action;
+		if (action instanceof KeyInputAction) {
+			KeyInputAction keyAction = (KeyInputAction) action;
 			if (keyAction.getKeyCode() == KeyGEvCode.ESC
 					&& keyAction.getType() == KeyEventType.KEY_PRESSED) {
 				gameObjectManager.removeHUD(this);
@@ -133,7 +133,7 @@ public class MenuHUDImpl extends AbstractHUD implements MenuHUD {
 			SceneElementGOFactory sceneElementFactory) {
 		Caption c = new Caption();
 		stringHandler.setString(c.getText(), "Exit");
-		SceneElementImpl button = new SceneElementImpl( c);
+		SceneElement button = new SceneElement( c);
 		button.setId("exit_button");
 		c.setBubblePaint(new PaintFill(new LinearGradientFill(
 				ColorFill.ORANGE, new ColorFill(255, 200, 0), 0, 40), ColorFill.BLACK, 2));

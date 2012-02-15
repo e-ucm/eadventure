@@ -44,7 +44,10 @@ import ead.common.model.elements.scene.EAdSceneElement;
 import ead.common.model.elements.trajectories.EAdTrajectoryDefinition;
 import ead.common.model.elements.variables.EAdVarDef;
 import ead.common.model.elements.variables.VarDef;
+import ead.common.params.fills.ColorFill;
 import ead.common.resources.assets.drawable.EAdDrawable;
+import ead.common.resources.assets.drawable.basics.shapes.RectangleShape;
+import ead.common.util.EAdPosition.Corner;
 
 /**
  * <p>
@@ -78,14 +81,16 @@ public class BasicScene extends ComplexSceneElement implements EAdScene {
 	 *            The parent element in the model
 	 */
 	public BasicScene() {
-		this(null);
+		this(new RectangleShape(800, 600, ColorFill.BLACK));
 	}
 
 	public BasicScene(EAdDrawable backgroundDrawable) {
 		super();
-		background = new SceneElementImpl(backgroundDrawable);
+		background = new SceneElement(backgroundDrawable);
 		background.setId("background");
+		background.setPosition(Corner.TOP_LEFT, 0, 0);
 		returnable = true;
+		setCenter(Corner.TOP_LEFT);
 	}
 
 	public EAdSceneElement getBackground() {
@@ -108,6 +113,16 @@ public class BasicScene extends ComplexSceneElement implements EAdScene {
 	public void setTrajectoryDefinition(
 			EAdTrajectoryDefinition trajectoryDefinition) {
 		this.setVarInitialValue(VAR_TRAJECTORY_DEFINITION, trajectoryDefinition);
+	}
+
+	/**
+	 * Adds an element to the scene
+	 * 
+	 * @param element
+	 *            the element to be added
+	 */
+	public void addSceneElement(SceneElement element) {
+		getComponents().add(element);
 	}
 
 }

@@ -40,7 +40,7 @@ package ead.elementfactories.sceneelements;
 import ead.common.model.elements.EAdEffect;
 import ead.common.model.elements.guievents.MouseGEv;
 import ead.common.model.elements.scenes.SceneElementDef;
-import ead.common.model.elements.scenes.SceneElementImpl;
+import ead.common.model.elements.scenes.SceneElement;
 import ead.common.resources.EAdBundleId;
 import ead.common.resources.assets.drawable.EAdDrawable;
 import ead.common.util.EAdPosition;
@@ -59,9 +59,9 @@ public class SceneElementFactory {
 	 * @param y
 	 * @return
 	 */
-	public SceneElementImpl createSceneElement(EAdDrawable appearance, int x,
+	public SceneElement createSceneElement(EAdDrawable appearance, int x,
 			int y) {
-		SceneElementImpl sceneElement = new SceneElementImpl(appearance);
+		SceneElement sceneElement = new SceneElement(appearance);
 		sceneElement.setId("sceneElement" + ID_GENERATOR++);
 		sceneElement.setPosition(new EAdPosition(x, y));
 		return sceneElement;
@@ -77,9 +77,9 @@ public class SceneElementFactory {
 	 * @param y
 	 * @return
 	 */
-	public SceneElementImpl createSceneElement(EAdDrawable appearance1,
+	public SceneElement createSceneElement(EAdDrawable appearance1,
 			EAdDrawable appearance2, int x, int y) {
-		SceneElementImpl sceneElement = createSceneElement(appearance1, x,
+		SceneElement sceneElement = createSceneElement(appearance1, x,
 				y);
 		EAdBundleId bundle = new EAdBundleId("bundle2");
 		sceneElement.getDefinition().getResources().addBundle(bundle);
@@ -112,9 +112,9 @@ public class SceneElementFactory {
 	 * @param effect
 	 * @return
 	 */
-	public SceneElementImpl createSceneElement(EAdDrawable appearance,
+	public SceneElement createSceneElement(EAdDrawable appearance,
 			int x, int y, EAdEffect effect) {
-		SceneElementImpl sceneElement = this.createSceneElement(appearance,
+		SceneElement sceneElement = this.createSceneElement(appearance,
 				x, y);
 		sceneElement.addBehavior(MouseGEv.MOUSE_LEFT_CLICK, effect);
 		return sceneElement;
@@ -128,12 +128,12 @@ public class SceneElementFactory {
 	 * @param y
 	 * @return
 	 */
-	public SceneElementImpl createSceneElement(String text, int x, int y) {
+	public SceneElement createSceneElement(String text, int x, int y) {
 		return createSceneElement(EAdElementsFactory.getInstance()
 				.getCaptionFactory().createCaption(text), x, y);
 	}
 
-	public SceneElementImpl createSceneElement(String string, int x, int y,
+	public SceneElement createSceneElement(String string, int x, int y,
 			EAdEffect effect) {
 		return createSceneElement(EAdElementsFactory.getInstance()
 				.getCaptionFactory().createCaption(string), x, y, effect);

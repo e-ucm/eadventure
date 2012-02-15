@@ -40,12 +40,17 @@ package ead.common.model.predef.effects;
 import ead.common.model.elements.effects.sceneelements.MoveSceneElementEf;
 import ead.common.model.elements.variables.SystemFields;
 
-public class MoveActiveElementEf extends MoveSceneElementEf {
+/**
+ * Moves the active element to the mouse position
+ * 
+ */
+public class MoveActiveElementToMouseEf extends MoveSceneElementEf {
 
-	public MoveActiveElementEf() {
+	public MoveActiveElementToMouseEf() {
 		super();
 		setSceneElement(SystemFields.ACTIVE_ELEMENT);
-		setTargetCoordiantes(SystemFields.MOUSE_SCENE_X, SystemFields.MOUSE_SCENE_Y);
+		setTargetCoordiantes(SystemFields.MOUSE_SCENE_X,
+				SystemFields.MOUSE_SCENE_Y);
 	}
 
 }

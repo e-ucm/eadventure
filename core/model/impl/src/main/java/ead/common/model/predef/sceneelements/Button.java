@@ -40,7 +40,7 @@ package ead.common.model.predef.sceneelements;
 import ead.common.model.elements.guievents.MouseGEv;
 import ead.common.model.elements.scenes.ComplexSceneElement;
 import ead.common.model.elements.scenes.SceneElementDef;
-import ead.common.model.elements.scenes.SceneElementImpl;
+import ead.common.model.elements.scenes.SceneElement;
 import ead.common.model.predef.effects.ChangeAppearanceEf;
 import ead.common.params.BasicFont;
 import ead.common.params.fills.ColorFill;
@@ -63,10 +63,10 @@ public class Button extends ComplexSceneElement {
 		caption.setFont(new BasicFont(12));
 		caption.setTextPaint(ColorFill.BLACK);
 
-		SceneElementImpl text = new SceneElementImpl(caption);
+		SceneElement text = new SceneElement(caption);
 		text.setId("text");
 		text.setPosition(Corner.CENTER, 100, 15);
-		text.setVarInitialValue(SceneElementImpl.VAR_ENABLE, Boolean.FALSE);
+		text.setVarInitialValue(SceneElement.VAR_ENABLE, Boolean.FALSE);
 
 		createButton();
 		getComponents().add(text);

@@ -44,10 +44,10 @@ import ead.common.model.elements.effects.text.SpeakEf;
 import ead.common.model.elements.events.SceneElementEv;
 import ead.common.model.elements.events.enums.SceneElementEvType;
 import ead.common.model.elements.guievents.MouseGEv;
-import ead.common.model.elements.scenes.SceneElementImpl;
+import ead.common.model.elements.scenes.SceneElement;
 import ead.common.model.elements.trajectories.SimpleTrajectoryDefinition;
 import ead.common.model.predef.effects.MakeActiveElementEf;
-import ead.common.model.predef.effects.MoveActiveElementEf;
+import ead.common.model.predef.effects.MoveActiveElementToMouseEf;
 import ead.common.model.predef.effects.SpeakSceneElementEf;
 import ead.common.resources.assets.drawable.basics.Image;
 import ead.common.util.EAdPosition;
@@ -64,7 +64,7 @@ public class SpeakAndMoveScene extends EmptyScene {
 		// .createSceneElement(CharacterScene.getStateDrawable(), 100, 300);
 
 		NgCommon.init();
-		SceneElementImpl character = new SceneElementImpl(
+		SceneElement character = new SceneElement(
 				NgCommon.getMainCharacter());
 
 		character.setPosition(new EAdPosition(Corner.BOTTOM_CENTER, 400,
@@ -98,9 +98,9 @@ public class SpeakAndMoveScene extends EmptyScene {
 		setTrajectoryDefinition(d);
 
 		getBackground().addBehavior(MouseGEv.MOUSE_LEFT_PRESSED,
-				new MoveActiveElementEf());
+				new MoveActiveElementToMouseEf());
 
-		SceneElementImpl actionsObject = new SceneElementImpl(
+		SceneElement actionsObject = new SceneElement(
 				new Image("@drawable/infobutton.png"));
 		actionsObject.setPosition(100, 100);
 		ElementAction action = new ElementAction();

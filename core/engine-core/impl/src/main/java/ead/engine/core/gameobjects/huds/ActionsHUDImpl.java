@@ -57,8 +57,8 @@ import ead.engine.core.gameobjects.GameObjectManager;
 import ead.engine.core.gameobjects.factories.SceneElementGOFactory;
 import ead.engine.core.gameobjects.go.SceneElementGO;
 import ead.engine.core.input.InputAction;
-import ead.engine.core.input.actions.KeyActionImpl;
-import ead.engine.core.input.actions.MouseActionImpl;
+import ead.engine.core.input.actions.KeyInputAction;
+import ead.engine.core.input.actions.MouseInputAction;
 import ead.engine.core.platform.GUI;
 import ead.engine.core.platform.rendering.GenericCanvas;
 import ead.engine.core.util.EAdTransformation;
@@ -150,8 +150,8 @@ public class ActionsHUDImpl extends AbstractHUD implements ActionsHUD {
 	@Override
 	public boolean processAction(InputAction<?> action) {
 		boolean remove = false;
-		if (action instanceof MouseActionImpl) {
-			MouseActionImpl temp = (MouseActionImpl) action;
+		if (action instanceof MouseInputAction) {
+			MouseInputAction temp = (MouseInputAction) action;
 
 			switch (temp.getType()) {
                 case CLICK: remove = true; break;
@@ -159,8 +159,8 @@ public class ActionsHUDImpl extends AbstractHUD implements ActionsHUD {
                     logger.warn("Non-click MouseActionImpl in HUD - totally unexpected");
 			}
 
-		} else if (action instanceof KeyActionImpl) {
-			KeyActionImpl keyAction = (KeyActionImpl) action;
+		} else if (action instanceof KeyInputAction) {
+			KeyInputAction keyAction = (KeyInputAction) action;
 			remove = keyAction.getKeyCode() == KeyGEvCode.ESC;
 		}
 

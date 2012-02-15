@@ -46,7 +46,7 @@ import com.google.inject.Inject;
 
 import ead.common.model.elements.scene.EAdScene;
 import ead.common.model.elements.scene.EAdSceneElement;
-import ead.common.model.elements.scenes.SceneElementImpl;
+import ead.common.model.elements.scenes.SceneElement;
 import ead.common.resources.assets.AssetDescriptor;
 import ead.common.util.StringHandler;
 import ead.engine.core.game.GameState;
@@ -97,8 +97,8 @@ public class SceneGOImpl extends SceneElementGOImpl<EAdScene> implements
 
 		@Override
 		public int compare(EAdSceneElement o1, EAdSceneElement o2) {
-			int z1 = gameState.getValueMap().getValue(o1, SceneElementImpl.VAR_Z);
-			int z2 = gameState.getValueMap().getValue(o2, SceneElementImpl.VAR_Z);
+			int z1 = gameState.getValueMap().getValue(o1, SceneElement.VAR_Z);
+			int z2 = gameState.getValueMap().getValue(o2, SceneElement.VAR_Z);
 			return z1 - z2;
 		}
 

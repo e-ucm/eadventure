@@ -47,7 +47,7 @@ import ead.common.model.elements.effects.text.SpeakEf;
 import ead.common.model.elements.guievents.MouseGEv;
 import ead.common.model.elements.scene.EAdSceneElementDef;
 import ead.common.model.elements.scenes.SceneElementDef;
-import ead.common.model.elements.scenes.SceneElementImpl;
+import ead.common.model.elements.scenes.SceneElement;
 import ead.common.model.elements.transitions.DisplaceTransition;
 import ead.common.model.elements.transitions.enums.DisplaceTransitionType;
 import ead.common.model.predef.sceneelements.Button;
@@ -68,7 +68,7 @@ public class InitScene extends EmptyScene {
 
 	private List<SceneDemo> sceneDemos;
 
-	private SceneElementImpl goBack;
+	private SceneElement goBack;
 
 	private EAdSceneElementDef infoButton;
 	
@@ -79,7 +79,7 @@ public class InitScene extends EmptyScene {
 	private PaintFill speakPaint = new PaintFill(fill, ColorFill.LIGHT_GRAY, 5);
 
 	public InitScene() {
-		this.setBackground(new SceneElementImpl(new Image("@drawable/techdemo-bg.png")));
+		this.setBackground(new SceneElement(new Image("@drawable/techdemo-bg.png")));
 		getBackground().setId("background");
 		initList();
 		initGOBackButton();
@@ -95,7 +95,7 @@ public class InitScene extends EmptyScene {
 					new ChangeSceneEf( s, new DisplaceTransition(1000, DisplaceTransitionType.VERTICAL, true)));
 			this.getComponents().add(b);
 			s.getComponents().add(goBack);
-			SceneElementImpl info = new SceneElementImpl(infoButton);
+			SceneElement info = new SceneElement(infoButton);
 			info.setPosition(Corner.BOTTOM_LEFT, 80, 590);
 			SpeakEf effect = new SpeakEf();
 			effect.setId("infoSpeak");
@@ -119,7 +119,7 @@ public class InitScene extends EmptyScene {
 	}
 
 	private void initGOBackButton() {
-		goBack = new SceneElementImpl(new Image(
+		goBack = new SceneElement(new Image(
 				"@drawable/goback.png"));
 		goBack.setId("goBack");
 		goBack.setPosition(Corner.BOTTOM_LEFT, 10, 590);

@@ -52,7 +52,7 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 import ead.common.model.EAdElement;
-import ead.common.model.elements.scenes.SceneElementImpl;
+import ead.common.model.elements.scenes.SceneElement;
 import ead.common.params.text.EAdString;
 import ead.common.util.StringHandler;
 import ead.engine.core.game.GameState;
@@ -167,7 +167,7 @@ public class AndroidBasicHUD extends TopBasicHUDImpl {
 
 				if (go != null && go.getElement() instanceof EAdElement) {
 					EAdString name = gameState.getValueMap().getValue((EAdElement) go.getElement(),
-							SceneElementImpl.VAR_NAME);
+							SceneElement.VAR_NAME);
 					if (name != null) {
 						graphicContext.drawText(name.toString(), textX, textY, textPaint);
 						if (vibrate) activateVibrationFor(50);

@@ -43,7 +43,7 @@ import java.util.List;
 import com.google.inject.Inject;
 
 import ead.common.model.EAdElement;
-import ead.common.model.elements.scenes.SceneElementImpl;
+import ead.common.model.elements.scenes.SceneElement;
 import ead.common.model.elements.trajectories.SimpleTrajectoryDefinition;
 import ead.common.util.EAdPosition;
 import ead.engine.core.game.ValueMap;
@@ -78,7 +78,7 @@ public class SimpleTrajectoryGenerator implements
 			list.add(new EAdPosition(getX(def, x), getY(def, y)));
 		}
 
-		return new SimplePathImpl(list, currentPosition, valueMap.getValue(movingElement, SceneElementImpl.VAR_SCALE));
+		return new SimplePathImpl(list, currentPosition, valueMap.getValue(movingElement, SceneElement.VAR_SCALE));
 	}
 
 	@Override
@@ -95,7 +95,7 @@ public class SimpleTrajectoryGenerator implements
 			list.add(new EAdPosition(x, y));
 		}
 
-		return new SimplePathImpl(list,currentPosition, valueMap.getValue(movingElement, SceneElementImpl.VAR_SCALE));
+		return new SimplePathImpl(list,currentPosition, valueMap.getValue(movingElement, SceneElement.VAR_SCALE));
 	}
 
 	@Override
@@ -123,9 +123,9 @@ public class SimpleTrajectoryGenerator implements
 	
 	private EAdPosition getCurrentPosition(EAdElement element) {
 		int x = valueMap.getValue(element,
-				SceneElementImpl.VAR_X);
+				SceneElement.VAR_X);
 		int y = valueMap.getValue(element,
-				SceneElementImpl.VAR_Y);
+				SceneElement.VAR_Y);
 		return new EAdPosition(x, y);
 	}
 

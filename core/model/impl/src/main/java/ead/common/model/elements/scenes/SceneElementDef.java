@@ -48,6 +48,8 @@ import ead.common.model.elements.scene.EAdSceneElementDef;
 import ead.common.model.elements.variables.EAdVarDef;
 import ead.common.model.elements.variables.VarDef;
 import ead.common.params.text.EAdString;
+import ead.common.resources.EAdBundleId;
+import ead.common.resources.EAdResources;
 import ead.common.resources.annotation.Asset;
 import ead.common.resources.annotation.Bundled;
 import ead.common.resources.assets.AssetDescriptor;
@@ -145,5 +147,31 @@ public class SceneElementDef extends ResourcedElement implements
 	public void setInitialAppearance(EAdDrawable d) {
 		this.getResources().addAsset(this.getInitialBundle(),
 				SceneElementDef.appearance, d);
+	}
+
+	/**
+	 * Sets the initial appearance for the scene element
+	 * 
+	 * @param appearance
+	 *            the initial appearance
+	 */
+	public void setAppearance(EAdDrawable appearance) {
+		setAppearance(getInitialBundle(), appearance);
+	}
+
+	/**
+	 * Sets the appearance in the given bundle
+	 * 
+	 * @param bundle
+	 *            the bundle id
+	 * @param appearance
+	 *            the appearance
+	 */
+	public void setAppearance(EAdBundleId bundle, EAdDrawable appearance) {
+		EAdResources resources = getResources();
+		if (!resources.getBundles().contains(bundle)) {
+			resources.addBundle(bundle);
+		}
+		resources.addAsset(bundle, SceneElementDef.appearance, appearance);
 	}
 }

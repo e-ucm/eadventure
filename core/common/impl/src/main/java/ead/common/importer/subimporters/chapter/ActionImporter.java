@@ -73,7 +73,7 @@ import ead.common.model.elements.scenes.SceneElementDef;
 import ead.common.model.elements.variables.EAdField;
 import ead.common.model.elements.variables.BasicField;
 import ead.common.model.elements.variables.operations.BooleanOp;
-import ead.common.model.predef.effects.MoveActiveElementEf;
+import ead.common.model.predef.effects.MoveActiveElementToMouseEf;
 import ead.common.params.text.EAdString;
 import ead.common.resources.EAdBundleId;
 import ead.common.resources.assets.drawable.basics.Image;
@@ -556,7 +556,7 @@ public class ActionImporter implements EAdElementImporter<Action, EAdAction> {
 	
 	private void addMoveTo( boolean needsGoTo, TriggerMacroEf triggerEffect, EAdSceneElementDef actor, EAdAction action ){
 		if (!factory.isFirstPerson() && needsGoTo) {
-			MoveActiveElementEf moveActiveElement = new MoveActiveElementEf();
+			MoveActiveElementToMouseEf moveActiveElement = new MoveActiveElementToMouseEf();
 			moveActiveElement.setId("moveToActionTarget");
 			moveActiveElement.setTarget(actor);
 			moveActiveElement.getNextEffects().add(triggerEffect);

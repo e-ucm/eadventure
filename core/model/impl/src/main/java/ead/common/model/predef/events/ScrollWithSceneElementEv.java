@@ -41,7 +41,7 @@ import ead.common.model.EAdElement;
 import ead.common.model.elements.effects.variables.ChangeFieldEf;
 import ead.common.model.elements.events.SceneElementEv;
 import ead.common.model.elements.events.enums.SceneElementEvType;
-import ead.common.model.elements.scenes.SceneElementImpl;
+import ead.common.model.elements.scenes.SceneElement;
 import ead.common.model.elements.variables.EAdField;
 import ead.common.model.elements.variables.EAdOperation;
 import ead.common.model.elements.variables.BasicField;
@@ -53,17 +53,17 @@ public class ScrollWithSceneElementEv extends SceneElementEv {
 	public ScrollWithSceneElementEv(EAdElement scene, EAdElement character) {
 		this.setId("scrollWidthElement");
 		EAdField<Integer> xElement = new BasicField<Integer>(character,
-				SceneElementImpl.VAR_X);
+				SceneElement.VAR_X);
 		EAdField<Integer> yElement = new BasicField<Integer>(character,
-				SceneElementImpl.VAR_Y);
+				SceneElement.VAR_Y);
 		EAdField<Integer> xScene = new BasicField<Integer>(scene,
-				SceneElementImpl.VAR_X);
+				SceneElement.VAR_X);
 		EAdField<Integer> yScene = new BasicField<Integer>(scene,
-				SceneElementImpl.VAR_Y);
+				SceneElement.VAR_Y);
 		EAdField<Integer> widthScene = new BasicField<Integer>(scene,
-				SceneElementImpl.VAR_WIDTH);
+				SceneElement.VAR_WIDTH);
 		EAdField<Integer> heightScene = new BasicField<Integer>(scene,
-				SceneElementImpl.VAR_HEIGHT);
+				SceneElement.VAR_HEIGHT);
 		
 		
 		// [0] = x-element

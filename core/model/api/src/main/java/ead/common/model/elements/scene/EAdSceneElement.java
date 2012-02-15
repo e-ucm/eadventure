@@ -42,6 +42,7 @@ import ead.common.interfaces.features.Draggable;
 import ead.common.interfaces.features.Evented;
 import ead.common.interfaces.features.Variabled;
 import ead.common.model.EAdElement;
+import ead.common.util.EAdPosition.Corner;
 
 /**
  * 
@@ -58,5 +59,17 @@ public interface EAdSceneElement extends EAdElement, WithBehavior, Variabled,
 	 * @return the definition for this scene element
 	 */
 	EAdSceneElementDef getDefinition();
+
+	/**
+	 * Sets the position for the scene element
+	 * 
+	 * @param corner
+	 *            center
+	 * @param x
+	 *            x coordinate
+	 * @param y
+	 *            y coordiante
+	 */
+	void setPosition(Corner topLeft, int i, int j);
 
 }

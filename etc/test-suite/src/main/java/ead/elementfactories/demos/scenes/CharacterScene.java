@@ -44,7 +44,7 @@ import ead.common.model.elements.events.SceneElementEv;
 import ead.common.model.elements.events.enums.SceneElementEvType;
 import ead.common.model.elements.guievents.KeyGEv;
 import ead.common.model.elements.guievents.MouseGEv;
-import ead.common.model.elements.scenes.SceneElementImpl;
+import ead.common.model.elements.scenes.SceneElement;
 import ead.common.model.elements.variables.BasicField;
 import ead.common.model.elements.variables.operations.ValueOp;
 import ead.common.model.predef.sceneelements.Button;
@@ -95,7 +95,7 @@ public class CharacterScene extends EmptyScene {
 //				.createSceneElement(getStateDrawable(), 100, 300);
 		
 		NgCommon.init();
-		SceneElementImpl element = new SceneElementImpl( NgCommon.getMainCharacter() );
+		SceneElement element = new SceneElement( NgCommon.getMainCharacter() );
 		element.setPosition(Corner.CENTER, 400, 300);
 		
 
@@ -114,9 +114,9 @@ public class CharacterScene extends EmptyScene {
 				.getEffectFactory()
 				.getChangeVarValueEffect(
 						new BasicField<Orientation>(element,
-								SceneElementImpl.VAR_ORIENTATION),
+								SceneElement.VAR_ORIENTATION),
 						new ValueOp( Orientation.N));
-		SceneElementImpl goUpArrow = EAdElementsFactory
+		SceneElement goUpArrow = EAdElementsFactory
 				.getInstance()
 				.getSceneElementFactory()
 				.createSceneElement(new Image("@drawable/arrow_up.png"),
@@ -130,9 +130,9 @@ public class CharacterScene extends EmptyScene {
 				.getEffectFactory()
 				.getChangeVarValueEffect(
 						new BasicField<Orientation>(element,
-								SceneElementImpl.VAR_ORIENTATION),
+								SceneElement.VAR_ORIENTATION),
 						new ValueOp(Orientation.S));
-		SceneElementImpl goDownArrow = EAdElementsFactory
+		SceneElement goDownArrow = EAdElementsFactory
 				.getInstance()
 				.getSceneElementFactory()
 				.createSceneElement(new Image("@drawable/arrow_down.png"),
@@ -146,9 +146,9 @@ public class CharacterScene extends EmptyScene {
 				.getEffectFactory()
 				.getChangeVarValueEffect(
 						new BasicField<Orientation>(element,
-								SceneElementImpl.VAR_ORIENTATION),
+								SceneElement.VAR_ORIENTATION),
 						new ValueOp( Orientation.W));
-		SceneElementImpl goLeftArrow = EAdElementsFactory
+		SceneElement goLeftArrow = EAdElementsFactory
 				.getInstance()
 				.getSceneElementFactory()
 				.createSceneElement(new Image("@drawable/arrow_left.png"),
@@ -162,9 +162,9 @@ public class CharacterScene extends EmptyScene {
 				.getEffectFactory()
 				.getChangeVarValueEffect(
 						new BasicField<Orientation>(element,
-								SceneElementImpl.VAR_ORIENTATION),
+								SceneElement.VAR_ORIENTATION),
 						new ValueOp( Orientation.E));
-		SceneElementImpl goRightArrow = EAdElementsFactory
+		SceneElement goRightArrow = EAdElementsFactory
 				.getInstance()
 				.getSceneElementFactory()
 				.createSceneElement(new Image("@drawable/arrow_right.png"),
@@ -179,7 +179,7 @@ public class CharacterScene extends EmptyScene {
 				.getEffectFactory()
 				.getChangeVarValueEffect(
 						new BasicField<String>(element,
-								SceneElementImpl.VAR_STATE),
+								SceneElement.VAR_STATE),
 						new ValueOp(
 								CommonStates.EAD_STATE_DEFAULT.toString()));
 //		EAdBasicSceneElement stand = EAdElementsFactory.getInstance()
@@ -197,7 +197,7 @@ public class CharacterScene extends EmptyScene {
 				.getEffectFactory()
 				.getChangeVarValueEffect(
 						new BasicField<String>(element,
-								SceneElementImpl.VAR_STATE),
+								SceneElement.VAR_STATE),
 						new ValueOp(
 								CommonStates.EAD_STATE_TALKING.toString()));
 		Button talk = new Button( );
@@ -211,7 +211,7 @@ public class CharacterScene extends EmptyScene {
 				.getEffectFactory()
 				.getChangeVarValueEffect(
 						new BasicField<String>(element,
-								SceneElementImpl.VAR_STATE),
+								SceneElement.VAR_STATE),
 						new ValueOp(
 								CommonStates.EAD_STATE_WALKING.toString()));
 		Button walk = new Button( );

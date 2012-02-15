@@ -41,7 +41,7 @@ import com.google.inject.Inject;
 
 import ead.common.model.elements.EAdEffect;
 import ead.common.model.elements.extra.EAdList;
-import ead.common.model.elements.scenes.SceneElementImpl;
+import ead.common.model.elements.scenes.SceneElement;
 import ead.common.util.StringHandler;
 import ead.engine.core.evaluators.EvaluatorFactory;
 import ead.engine.core.game.GameState;
@@ -55,7 +55,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class BasicSceneElementGO extends
-		SceneElementGOImpl<SceneElementImpl> {
+		SceneElementGOImpl<SceneElement> {
 
 	private static final Logger logger = LoggerFactory
 			.getLogger("BasicSceneElementGOImpl");

@@ -53,13 +53,14 @@ import ead.common.model.elements.scene.EAdSceneElementDef;
 import ead.common.model.elements.variables.EAdVarDef;
 import ead.common.model.elements.variables.VarDef;
 import ead.common.params.text.EAdString;
+import ead.common.resources.EAdBundleId;
 import ead.common.resources.assets.drawable.EAdDrawable;
 import ead.common.util.EAdPosition;
 import ead.common.util.EAdPosition.Corner;
 
 @Reflectable
-@Element(detailed = SceneElementImpl.class, runtime = SceneElementImpl.class)
-public class SceneElementImpl extends AbstractElementWithBehavior implements
+@Element(detailed = SceneElement.class, runtime = SceneElement.class)
+public class SceneElement extends AbstractElementWithBehavior implements
 		EAdSceneElement {
 
 	public static final EAdVarDef<Orientation> VAR_ORIENTATION = new VarDef<Orientation>(
@@ -68,17 +69,17 @@ public class SceneElementImpl extends AbstractElementWithBehavior implements
 	public static final EAdVarDef<String> VAR_STATE = new VarDef<String>(
 			"state", String.class, CommonStates.EAD_STATE_DEFAULT.toString());
 
-	public static final EAdVarDef<Float> VAR_SCALE = new VarDef<Float>(
-			"scale", Float.class, 1.0f);
-	
+	public static final EAdVarDef<Float> VAR_SCALE = new VarDef<Float>("scale",
+			Float.class, 1.0f);
+
 	public static final EAdVarDef<Float> VAR_SCALE_X = new VarDef<Float>(
 			"scale_x", Float.class, 1.0f);
-	
+
 	public static final EAdVarDef<Float> VAR_SCALE_Y = new VarDef<Float>(
 			"scale_y", Float.class, 1.0f);
 
-	public static final EAdVarDef<Float> VAR_ALPHA = new VarDef<Float>(
-			"alpha", Float.class, 1.0f);
+	public static final EAdVarDef<Float> VAR_ALPHA = new VarDef<Float>("alpha",
+			Float.class, 1.0f);
 
 	public static final EAdVarDef<Float> VAR_ROTATION = new VarDef<Float>(
 			"rotation", Float.class, 0.0f);
@@ -98,8 +99,8 @@ public class SceneElementImpl extends AbstractElementWithBehavior implements
 	public static final EAdVarDef<Integer> VAR_LEFT = new VarDef<Integer>(
 			"left", Integer.class, 0);
 
-	public static final EAdVarDef<Integer> VAR_TOP = new VarDef<Integer>(
-			"top", Integer.class, 0);
+	public static final EAdVarDef<Integer> VAR_TOP = new VarDef<Integer>("top",
+			Integer.class, 0);
 
 	public static final EAdVarDef<Integer> VAR_RIGHT = new VarDef<Integer>(
 			"right", Integer.class, 0);
@@ -150,7 +151,7 @@ public class SceneElementImpl extends AbstractElementWithBehavior implements
 	@Param("dragCond")
 	protected EAdCondition dragCond;
 
-	public SceneElementImpl() {
+	public SceneElement() {
 		super();
 		dragCond = EmptyCond.FALSE_EMPTY_CONDITION;
 		definition = new SceneElementDef();
@@ -166,12 +167,12 @@ public class SceneElementImpl extends AbstractElementWithBehavior implements
 	 * @param appearance
 	 *            the initial appearance
 	 */
-	public SceneElementImpl(EAdDrawable appearance) {
+	public SceneElement(EAdDrawable appearance) {
 		this();
 		this.definition = new SceneElementDef(appearance);
 	}
 
-	public SceneElementImpl(EAdSceneElementDef actor) {
+	public SceneElement(EAdSceneElementDef actor) {
 		this();
 		setId(actor.getId() + "_ref");
 		this.definition = actor;
@@ -188,7 +189,10 @@ public class SceneElementImpl extends AbstractElementWithBehavior implements
 		vars.put(VAR_DISP_Y, position.getDispY());
 	}
 
-
+	public void setCenter(Corner center) {
+		vars.put(VAR_DISP_X, center.getDispX());
+		vars.put(VAR_DISP_Y, center.getDispY());
+	}
 
 	/**
 	 * Sets the initial orientation for the actor reference
@@ -238,10 +242,10 @@ public class SceneElementImpl extends AbstractElementWithBehavior implements
 	}
 
 	public void setInitialAlpha(float f) {
-		this.setVarInitialValue(SceneElementImpl.VAR_ALPHA, f);
+		this.setVarInitialValue(SceneElement.VAR_ALPHA, f);
 
 	}
-	
+
 	/**
 	 * Sets the initial scale for the scene element
 	 * 
@@ -249,12 +253,34 @@ public class SceneElementImpl extends AbstractElementWithBehavior implements
 	 *            the initial scale
 	 */
 	public void setInitialScale(float scale) {
-		setVarInitialValue(SceneElementImpl.VAR_SCALE, scale);
+		setVarInitialValue(SceneElement.VAR_SCALE, scale);
 	}
-	
-	public void setInitialScale(float scaleX, float scaleY ){
-		setVarInitialValue(SceneElementImpl.VAR_SCALE_X, scaleX);
-		setVarInitialValue(SceneElementImpl.VAR_SCALE_Y, scaleY);
+
+	public void setInitialScale(float scaleX, float scaleY) {
+		setVarInitialValue(SceneElement.VAR_SCALE_X, scaleX);
+		setVarInitialValue(SceneElement.VAR_SCALE_Y, scaleY);
+	}
+
+	/**
+	 * Sets the initial appearance for the scene element
+	 * 
+	 * @param appearance
+	 *            the initial appearance
+	 */
+	public void setAppearance(EAdDrawable appearance) {
+		getDefinition().setAppearance(appearance);
+	}
+
+	/**
+	 * Sets the appearance in the given bundle
+	 * 
+	 * @param bundle
+	 *            the bundle id
+	 * @param appearance
+	 *            the appearance
+	 */
+	public void setAppearance(EAdBundleId bundle, EAdDrawable appearance) {
+		getDefinition().setAppearance(bundle, appearance);
 	}
 
 }

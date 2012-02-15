@@ -50,7 +50,7 @@ import ead.engine.core.gameobjects.GameObjectManager;
 import ead.engine.core.gameobjects.factories.SceneElementGOFactory;
 import ead.engine.core.gameobjects.go.SceneElementGO;
 import ead.engine.core.gameobjects.huds.ActionsHUD;
-import ead.engine.core.input.actions.MouseActionImpl;
+import ead.engine.core.input.actions.MouseInputAction;
 import ead.engine.core.platform.AssetHandler;
 import ead.engine.core.platform.GUI;
 
@@ -87,7 +87,7 @@ public class ActorActionsGO extends
 				if (sceneElement.getActions() != null) {
 					int x = sceneElement.getCenterX();
 					int y = sceneElement.getCenterY();
-					if (action instanceof MouseActionImpl) {
+					if (action instanceof MouseInputAction) {
 						x = gameState.getValueMap().getValue(SystemFields.MOUSE_X);
 						y = gameState.getValueMap().getValue(SystemFields.MOUSE_Y);
 					}

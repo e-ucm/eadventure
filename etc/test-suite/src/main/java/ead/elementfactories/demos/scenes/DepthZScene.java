@@ -45,7 +45,7 @@ import ead.common.model.elements.events.SceneElementEv;
 import ead.common.model.elements.events.TimedEv;
 import ead.common.model.elements.events.enums.SceneElementEvType;
 import ead.common.model.elements.events.enums.TimedEvType;
-import ead.common.model.elements.scenes.SceneElementImpl;
+import ead.common.model.elements.scenes.SceneElement;
 import ead.common.model.elements.variables.EAdField;
 import ead.common.model.elements.variables.BasicField;
 import ead.common.model.elements.variables.operations.MathOp;
@@ -62,27 +62,27 @@ public class DepthZScene extends EmptyScene {
 		
 		int totalTime = 2000;
 		
-		SceneElementImpl e1 = new SceneElementImpl(new RectangleShape( 50, 500, new PaintFill( ColorFill.RED, ColorFill.BLACK ) ));
+		SceneElement e1 = new SceneElement(new RectangleShape( 50, 500, new PaintFill( ColorFill.RED, ColorFill.BLACK ) ));
 		e1.setPosition(new EAdPosition( Corner.CENTER, 400, 300 ));
 		getComponents().add(e1);
 		
-		SceneElementImpl e2 = new SceneElementImpl( new CircleShape( 20, 20, 20, 20, new PaintFill( ColorFill.GREEN, ColorFill.BLACK ) ));
+		SceneElement e2 = new SceneElement( new CircleShape( 20, 20, 20, 20, new PaintFill( ColorFill.GREEN, ColorFill.BLACK ) ));
 		e2.setPosition(new EAdPosition( Corner.CENTER, 10, 300 ));
 		getComponents().add(e2);
 		
-		EAdField<Integer> xField = new BasicField<Integer>(e2, SceneElementImpl.VAR_X);
+		EAdField<Integer> xField = new BasicField<Integer>(e2, SceneElement.VAR_X);
 		InterpolationEf effect = new InterpolationEf(xField, 50, 750, totalTime, InterpolationLoopType.REVERSE, InterpolationType.LINEAR);
 		
 		TimedEv timedEvent = new TimedEv();
 		timedEvent.setTime(totalTime);
-		e2.setVarInitialValue(SceneElementImpl.VAR_Z, 1);
-		e2.setVarInitialValue(SceneElementImpl.VAR_SCALE, 1.2f);
+		e2.setVarInitialValue(SceneElement.VAR_Z, 1);
+		e2.setVarInitialValue(SceneElement.VAR_SCALE, 1.2f);
 		
-		EAdField<Integer> zField = new BasicField<Integer>(e2, SceneElementImpl.VAR_Z);
+		EAdField<Integer> zField = new BasicField<Integer>(e2, SceneElement.VAR_Z);
 		ChangeFieldEf changeZ = new ChangeFieldEf( zField, new MathOp("- [0]", zField ));
 		changeZ.setId("changeZ");
 		
-		EAdField<Float> scaleField = new BasicField<Float>(e2, SceneElementImpl.VAR_SCALE);
+		EAdField<Float> scaleField = new BasicField<Float>(e2, SceneElement.VAR_SCALE);
 		ChangeFieldEf changeScale = new ChangeFieldEf( scaleField, new MathOp("1 / [0]", scaleField ));
 		changeScale.setId("changeSacle");
 		timedEvent.addEffect(TimedEvType.START_TIME, changeScale);

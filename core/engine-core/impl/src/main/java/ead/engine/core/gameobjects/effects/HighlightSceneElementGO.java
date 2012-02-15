@@ -40,7 +40,7 @@ package ead.engine.core.gameobjects.effects;
 import com.google.inject.Inject;
 
 import ead.common.model.elements.effects.timedevents.HighlightSceneElementEf;
-import ead.common.model.elements.scenes.SceneElementImpl;
+import ead.common.model.elements.scenes.SceneElement;
 import ead.common.util.StringHandler;
 import ead.engine.core.game.GameLoop;
 import ead.engine.core.game.GameState;
@@ -67,7 +67,7 @@ public class HighlightSceneElementGO extends
 	@Override
 	public void initialize() {
 		super.initialize();
-		oldScale = gameState.getValueMap().getValue(element, SceneElementImpl.VAR_SCALE);
+		oldScale = gameState.getValueMap().getValue(element, SceneElement.VAR_SCALE);
 		time = element.getTime();
 		started = false;
 	}
@@ -80,13 +80,13 @@ public class HighlightSceneElementGO extends
 	public void update() {
 		if (time > 0) {
 			if (!started) {
-				gameState.getValueMap().setValue(element, SceneElementImpl.VAR_SCALE,
+				gameState.getValueMap().setValue(element, SceneElement.VAR_SCALE,
 						oldScale * 2);
 				started = true;
 			}
 			time -= GameLoop.SKIP_MILLIS_TICK;
 			if (time <= 0) {
-				gameState.getValueMap().setValue(element, SceneElementImpl.VAR_SCALE,
+				gameState.getValueMap().setValue(element, SceneElement.VAR_SCALE,
 						oldScale);
 			}
 		}

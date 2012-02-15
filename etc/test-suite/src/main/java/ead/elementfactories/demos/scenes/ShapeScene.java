@@ -43,7 +43,7 @@ import ead.common.model.elements.effects.enums.InterpolationType;
 import ead.common.model.elements.events.SceneElementEv;
 import ead.common.model.elements.events.enums.SceneElementEvType;
 import ead.common.model.elements.scene.EAdSceneElement;
-import ead.common.model.elements.scenes.SceneElementImpl;
+import ead.common.model.elements.scenes.SceneElement;
 import ead.common.model.elements.variables.BasicField;
 import ead.common.params.fills.ColorFill;
 import ead.common.params.fills.PaintFill;
@@ -69,8 +69,8 @@ public class ShapeScene extends EmptyScene {
 		EAdDrawable rectangleAsset1 = shapeFactory.getElement(ShapeFactory.ShapeType.RECTANGULAR_SHAPE, size, size, PaintFill.WHITE_ON_BLACK);
 		EAdDrawable rectangleAsset2 = shapeFactory.getElement(ShapeFactory.ShapeType.RECTANGULAR_SHAPE, size, size, PaintFill.BLACK_ON_WHITE);
 		EAdSceneElement e = EAdElementsFactory.getInstance().getSceneElementFactory().createSceneElement(rectangleAsset1, rectangleAsset2, x + 20, margin);
-		e.setVarInitialValue(SceneElementImpl.VAR_SCALE, 0.5f);
-		e.setVarInitialValue(SceneElementImpl.VAR_ROTATION, 0.5f);
+		e.setVarInitialValue(SceneElement.VAR_SCALE, 0.5f);
+		e.setVarInitialValue(SceneElement.VAR_ROTATION, 0.5f);
 		getComponents().add(e);
 		x+= margin + size;
 		
@@ -107,10 +107,10 @@ public class ShapeScene extends EmptyScene {
 		// Rectangle rotating
 		EAdDrawable asset21 = shapeFactory.getElement(ShapeFactory.ShapeType.RECTANGULAR_SHAPE, size, size * 3, new PaintFill( ColorFill.RED, ColorFill.BROWN ));
 		EAdDrawable asset22 = shapeFactory.getElement(ShapeFactory.ShapeType.RECTANGULAR_SHAPE, size, size * 3, new PaintFill( ColorFill.LIGHT_BROWN, ColorFill.DARK_BROWN));
-		SceneElementImpl rotatingRectangle = EAdElementsFactory.getInstance().getSceneElementFactory().createSceneElement(asset21, asset22, 330, 200);
+		SceneElement rotatingRectangle = EAdElementsFactory.getInstance().getSceneElementFactory().createSceneElement(asset21, asset22, 330, 200);
 		rotatingRectangle.setPosition(Corner.CENTER, 400, 300);
 		getComponents().add(rotatingRectangle);
-		InterpolationEf interpolation = EAdElementsFactory.getInstance().getEffectFactory().getInterpolationEffect(new BasicField<Float>(rotatingRectangle, SceneElementImpl.VAR_ROTATION), 0, (float) (Math.PI * 2.0), 2000, InterpolationLoopType.RESTART, InterpolationType.LINEAR); 
+		InterpolationEf interpolation = EAdElementsFactory.getInstance().getEffectFactory().getInterpolationEffect(new BasicField<Float>(rotatingRectangle, SceneElement.VAR_ROTATION), 0, (float) (Math.PI * 2.0), 2000, InterpolationLoopType.RESTART, InterpolationType.LINEAR); 
 		SceneElementEv event = EAdElementsFactory.getInstance().getEventsFactory().getEvent(SceneElementEvType.FIRST_UPDATE, interpolation);
 		rotatingRectangle.getEvents().add(event);
 		getComponents().add(rotatingRectangle);

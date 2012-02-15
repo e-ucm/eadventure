@@ -46,7 +46,7 @@ import ead.common.model.elements.guievents.enums.MouseGEvButtonType;
 import ead.common.model.elements.guievents.enums.MouseGEvType;
 import ead.engine.core.game.Game;
 import ead.engine.core.input.InputHandler;
-import ead.engine.core.input.actions.MouseActionImpl;
+import ead.engine.core.input.actions.MouseInputAction;
 import ead.engine.core.platform.AssetHandler;
 import ead.engine.core.platform.EngineConfiguration;
 import ead.engine.core.platform.GUI;
@@ -144,7 +144,7 @@ public class EAdEngine implements playn.core.Game, Keyboard.Listener {
 						MouseGEvButtonType b = getMouseButton(event.getNativeEvent()
 								.getButton());
 
-						inputHandler.addAction(new MouseActionImpl(MouseGEv.MOUSE_MOVED, eventX, eventY ));
+						inputHandler.addAction(new MouseInputAction(MouseGEv.MOUSE_MOVED, eventX, eventY ));
 						// TODO double click
 						MouseGEv e = null;
 						switch (eventType) {
@@ -158,7 +158,7 @@ public class EAdEngine implements playn.core.Game, Keyboard.Listener {
 						case com.google.gwt.user.client.Event.ONMOUSEUP:
 							e = MouseGEv.getMouseEvent(
 									MouseGEvType.RELEASED, b);
-							inputHandler.addAction(new MouseActionImpl(MouseGEv.getMouseEvent(
+							inputHandler.addAction(new MouseInputAction(MouseGEv.getMouseEvent(
 									MouseGEvType.CLICK, b), eventX, eventY ));
 							break;
 						default:
@@ -166,7 +166,7 @@ public class EAdEngine implements playn.core.Game, Keyboard.Listener {
 						}
 						if (e != null)
 							inputHandler.addAction(
-									new MouseActionImpl(e, eventX, eventY));
+									new MouseInputAction(e, eventX, eventY));
 					}
 				});
 	}

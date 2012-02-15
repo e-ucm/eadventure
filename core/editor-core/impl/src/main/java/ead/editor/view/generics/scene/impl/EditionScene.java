@@ -41,7 +41,7 @@ import ead.common.model.elements.scene.EAdScene;
 import ead.common.model.elements.scene.EAdSceneElement;
 import ead.common.model.elements.scene.EAdSceneElementDef;
 import ead.common.model.elements.scenes.SceneElementDef;
-import ead.common.model.elements.scenes.SceneElementImpl;
+import ead.common.model.elements.scenes.SceneElement;
 import ead.common.resources.EAdResources;
 import ead.elementfactories.demos.scenes.EmptyScene;
 
@@ -53,7 +53,7 @@ public class EditionScene extends EmptyScene {
 		EAdResources oldResources = scene.getBackground().getDefinition().getResources();
 		elementDef.getResources().addAsset(oldResources.getInitialBundle(), SceneElementDef.appearance, oldResources.getAsset(oldResources.getInitialBundle(), SceneElementDef.appearance));
 		
-		SceneElementImpl element = new SceneElementImpl();
+		SceneElement element = new SceneElement();
 		element.setDefinition(elementDef);
 		element.setInitialScale(1.0f);
 		this.getComponents().add(element);

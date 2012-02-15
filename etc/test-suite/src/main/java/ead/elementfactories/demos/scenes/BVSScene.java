@@ -46,7 +46,7 @@ import ead.common.model.elements.events.enums.SceneElementEvType;
 import ead.common.model.elements.guievents.MouseGEv;
 import ead.common.model.elements.scene.EAdSceneElementDef;
 import ead.common.model.elements.scenes.SceneElementDef;
-import ead.common.model.elements.scenes.SceneElementImpl;
+import ead.common.model.elements.scenes.SceneElement;
 import ead.common.model.elements.variables.EAdField;
 import ead.common.model.elements.variables.BasicField;
 import ead.common.model.elements.variables.operations.ValueOp;
@@ -88,7 +88,7 @@ public class BVSScene extends EmptyScene {
 		
 		//250 x 200
 		
-		SceneElementImpl b = getButton(optionUris);
+		SceneElement b = getButton(optionUris);
 		b.setPosition(new EAdPosition(Corner.BOTTOM_LEFT, 75, 575));
 		getComponents().add(b);
 		
@@ -109,37 +109,37 @@ public class BVSScene extends EmptyScene {
 		caption.setTextPaint(new PaintFill(ColorFill.GREEN, ColorFill.WHITE));
 		EAdSceneElementDef title = new SceneElementDef();
 		title.getResources().addAsset(title.getInitialBundle(), SceneElementDef.appearance, caption);
-		SceneElementImpl titleRef = new SceneElementImpl(title);
+		SceneElement titleRef = new SceneElement(title);
 		titleRef.setPosition(20, 20);
 		getComponents().add(titleRef);
 		
 		SceneElementEv event = new SceneElementEv();
 		InterpolationEf effect = new InterpolationEf(
 				new BasicField<Integer>(titleRef,
-						SceneElementImpl.VAR_X), -50, 20, 2500,
+						SceneElement.VAR_X), -50, 20, 2500,
 				InterpolationLoopType.NO_LOOP, InterpolationType.BOUNCE_END);
 		event.addEffect(SceneElementEvType.FIRST_UPDATE, effect);
 		effect = new InterpolationEf(
 				new BasicField<Integer>(titleRef,
-						SceneElementImpl.VAR_Y), -50, 20, 2500,
+						SceneElement.VAR_Y), -50, 20, 2500,
 				InterpolationLoopType.NO_LOOP, InterpolationType.BOUNCE_END);
 		event.addEffect(SceneElementEvType.FIRST_UPDATE, effect);
 
 		getBackground().getEvents().add(event);
 	}
 	
-	private SceneElementImpl getButton(String[] frames) {
+	private SceneElement getButton(String[] frames) {
 		EAdSceneElementDef button = new SceneElementDef();
 		button.getResources().addAsset(button.getInitialBundle(), SceneElementDef.appearance, getAnimation(frames));
-		SceneElementImpl buttonRef = new SceneElementImpl(button);
+		SceneElement buttonRef = new SceneElement(button);
 		buttonRef.setPosition(20, 20);
 		
-		EAdField<Integer> scale2 = new BasicField<Integer>(buttonRef, SceneElementImpl.VAR_Z);
+		EAdField<Integer> scale2 = new BasicField<Integer>(buttonRef, SceneElement.VAR_Z);
 		ChangeFieldEf e = new ChangeFieldEf(scale2, new ValueOp(1));
 		
 		InterpolationEf e2 = new InterpolationEf(
 				new BasicField<Float>(buttonRef,
-						SceneElementImpl.VAR_SCALE), 0.0f, 0.4f, 150,
+						SceneElement.VAR_SCALE), 0.0f, 0.4f, 150,
 				InterpolationLoopType.NO_LOOP, InterpolationType.LINEAR);
 
 		buttonRef.addBehavior(MouseGEv.MOUSE_ENTERED, e);
@@ -147,7 +147,7 @@ public class BVSScene extends EmptyScene {
 
 		e = new ChangeFieldEf(scale2, new ValueOp(0));
 		buttonRef.addBehavior(MouseGEv.MOUSE_EXITED, e);
-		EAdField<Float> scale = new BasicField<Float>(buttonRef, SceneElementImpl.VAR_SCALE);
+		EAdField<Float> scale = new BasicField<Float>(buttonRef, SceneElement.VAR_SCALE);
 		e = new ChangeFieldEf(scale, new ValueOp(1.0f));
 		buttonRef.addBehavior(MouseGEv.MOUSE_EXITED, e);
 

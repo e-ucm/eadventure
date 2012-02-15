@@ -47,7 +47,7 @@ import ead.common.model.elements.guievents.enums.MouseGEvButtonType;
 import ead.common.model.elements.guievents.enums.MouseGEvType;
 import ead.common.model.elements.scene.EAdSceneElementDef;
 import ead.common.model.elements.scenes.SceneElementDef;
-import ead.common.model.elements.scenes.SceneElementImpl;
+import ead.common.model.elements.scenes.SceneElement;
 import ead.common.params.fills.ColorFill;
 import ead.common.resources.assets.drawable.basics.Image;
 import ead.common.resources.assets.drawable.basics.shapes.RectangleShape;
@@ -74,7 +74,7 @@ public class InventoryScene extends EmptyScene {
 		EAdElementsFactory.getInstance().setInventory(inventory);
 		
 		
-		SceneElementImpl key = new SceneElementImpl( new Image("@drawable/ng_key.png") );
+		SceneElement key = new SceneElement( new Image("@drawable/ng_key.png") );
 		key.setPosition(200, 200);
 		ModifyInventoryEf effect = new ModifyInventoryEf( item, InventoryEffectAction.ADD_TO_INVENTORY );
 		

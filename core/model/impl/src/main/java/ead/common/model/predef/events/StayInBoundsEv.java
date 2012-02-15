@@ -43,7 +43,7 @@ import ead.common.model.elements.effects.variables.ChangeFieldEf;
 import ead.common.model.elements.events.SceneElementEv;
 import ead.common.model.elements.events.enums.SceneElementEvType;
 import ead.common.model.elements.scene.EAdSceneElement;
-import ead.common.model.elements.scenes.SceneElementImpl;
+import ead.common.model.elements.scenes.SceneElement;
 import ead.common.model.elements.variables.EAdField;
 import ead.common.model.elements.variables.BasicField;
 import ead.common.model.elements.variables.SystemFields;
@@ -67,19 +67,19 @@ public class StayInBoundsEv extends SceneElementEv {
 		EAdField<Integer> maxY = SystemFields.GAME_HEIGHT;
 
 		EAdField<Integer> x = new BasicField<Integer>(e,
-				SceneElementImpl.VAR_X);
+				SceneElement.VAR_X);
 
 		EAdField<Integer> y = new BasicField<Integer>(e,
-				SceneElementImpl.VAR_Y);
+				SceneElement.VAR_Y);
 
 		EAdField<Integer> left = new BasicField<Integer>(e,
-				SceneElementImpl.VAR_LEFT);
+				SceneElement.VAR_LEFT);
 		EAdField<Integer> top = new BasicField<Integer>(e,
-				SceneElementImpl.VAR_TOP);
+				SceneElement.VAR_TOP);
 		EAdField<Integer> right = new BasicField<Integer>(e,
-				SceneElementImpl.VAR_RIGHT);
+				SceneElement.VAR_RIGHT);
 		EAdField<Integer> bottom = new BasicField<Integer>(e,
-				SceneElementImpl.VAR_BOTTOM);
+				SceneElement.VAR_BOTTOM);
 
 		// Correct X Left
 		String expression1 = "[0] - [1]";

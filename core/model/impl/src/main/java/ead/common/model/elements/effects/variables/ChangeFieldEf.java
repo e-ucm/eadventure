@@ -54,7 +54,7 @@ import ead.common.model.elements.variables.EAdVarDef;
 public class ChangeFieldEf extends AbstractEffect {
 
 	/**
-	 * Field to be changed
+	 * Fields to be changed
 	 */
 	@Param("fields")
 	private EAdList<EAdField<?>> fields;

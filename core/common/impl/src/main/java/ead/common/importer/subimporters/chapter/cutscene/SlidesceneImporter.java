@@ -54,14 +54,19 @@ import ead.common.model.elements.conditions.EmptyCond;
 import ead.common.model.elements.effects.ChangeSceneEf;
 import ead.common.model.elements.effects.EffectsMacro;
 import ead.common.model.elements.effects.TriggerMacroEf;
+import ead.common.model.elements.effects.variables.ChangeFieldEf;
+import ead.common.model.elements.events.SceneElementEv;
 import ead.common.model.elements.events.TimedEv;
+import ead.common.model.elements.events.enums.SceneElementEvType;
 import ead.common.model.elements.events.enums.TimedEvType;
 import ead.common.model.elements.guievents.MouseGEv;
 import ead.common.model.elements.scene.EAdScene;
-import ead.common.model.elements.scenes.SceneElementImpl;
 import ead.common.model.elements.scenes.BasicScene;
+import ead.common.model.elements.scenes.SceneElement;
 import ead.common.model.elements.transitions.EAdTransition;
 import ead.common.model.elements.transitions.EmptyTransition;
+import ead.common.model.elements.variables.SystemFields;
+import ead.common.model.elements.variables.operations.BooleanOp;
 import ead.common.resources.assets.drawable.basics.EAdImage;
 import ead.common.resources.assets.drawable.basics.animation.FramesAnimation;
 import ead.common.resources.assets.multimedia.EAdSound;
@@ -123,6 +128,12 @@ public class SlidesceneImporter implements
 		FramesAnimation asset = (FramesAnimation) resourceImporter
 				.getAssetDescritptor(assetPath, FramesAnimation.class);
 		ChangeSceneEf changeScene = getNextScene(oldSlides);
+		
+		ChangeFieldEf hideInventory = new ChangeFieldEf(SystemFields.SHOW_INVENTORY, BooleanOp.FALSE_OP );
+		SceneElementEv bgEvent = new SceneElementEv( );
+		bgEvent.addEffect(SceneElementEvType.ADDED_TO_SCENE, hideInventory);
+		
+		cutscene.getEvents().add(bgEvent);
 
 		EffectsMacro macro = effectsImporter.getMacroEffects(oldSlides
 				.getEffects());
@@ -141,7 +152,7 @@ public class SlidesceneImporter implements
 			else
 				scenes[i] = new BasicScene();
 			EAdImage drawable = (EAdImage) asset.getFrame(i).getDrawable();
-			SceneElementImpl background = new SceneElementImpl(drawable);
+			SceneElement background = new SceneElement(drawable);
 			// Adjust scene background to 800x600 (restriction from old model)
 			Dimension d = resourceImporter.getDimensionsForNewImage(drawable.getUri().getPath());
 			float scaleX = 800.0f / d.width;
@@ -158,6 +169,8 @@ public class SlidesceneImporter implements
 			EAdEffect effect = null;
 			if (i == scenes.length - 1) {
 				effect = changeScene;
+				ChangeFieldEf showInventory = new ChangeFieldEf(SystemFields.SHOW_INVENTORY, BooleanOp.TRUE_OP );
+				effect.getNextEffects().add(showInventory);
 			} else {
 				effect = new ChangeSceneEf();
 				((ChangeSceneEf) effect).setNextScene(scenes[i + 1]);

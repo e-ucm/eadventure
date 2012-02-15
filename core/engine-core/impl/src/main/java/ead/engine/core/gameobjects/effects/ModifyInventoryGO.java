@@ -42,7 +42,7 @@ import com.google.inject.Inject;
 import ead.common.model.elements.effects.ModifyInventoryEf;
 import ead.common.model.elements.scene.EAdSceneElement;
 import ead.common.model.elements.scenes.SceneElementDef;
-import ead.common.model.elements.scenes.SceneElementImpl;
+import ead.common.model.elements.scenes.SceneElement;
 import ead.common.util.StringHandler;
 import ead.engine.core.game.GameState;
 import ead.engine.core.gameobjects.factories.SceneElementGOFactory;
@@ -85,9 +85,9 @@ public class ModifyInventoryGO extends AbstractEffectGO<ModifyInventoryEf> {
 						.getValue(element.getSceneElementDef(),
 								SceneElementDef.VAR_SCENE_ELEMENT);
 				gameState.getValueMap().setValue(sceneElement,
-						SceneElementImpl.VAR_VISIBLE, false);
+						SceneElement.VAR_VISIBLE, false);
 				gameState.getValueMap().setValue(sceneElement,
-						SceneElementImpl.VAR_ENABLE, true);
+						SceneElement.VAR_ENABLE, true);
 			}
 			break;
 		case REMOVE_FROM_INVENTORY:

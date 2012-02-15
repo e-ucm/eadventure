@@ -88,6 +88,9 @@ public class SystemFields {
 
 	public static final EAdField<Boolean> SHOW_MOUSE = new BasicField<Boolean>(
 			null, new VarDef<Boolean>("show_mouse", Boolean.class, true));
+	
+	public static final EAdField<Boolean> SHOW_INVENTORY = new BasicField<Boolean>(
+			null, new VarDef<Boolean>("show_inventory", Boolean.class, true));
 
 	public static final EAdField<Integer> ELAPSED_TIME_PER_UPDATE = new BasicField<Integer>(
 			null, new VarDef<Integer>("elapsed_time_per_update",

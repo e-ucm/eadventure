@@ -55,7 +55,7 @@ import ead.common.model.elements.effects.enums.PhType;
 import ead.common.model.elements.effects.physics.PhysicsEffect;
 import ead.common.model.elements.scene.EAdScene;
 import ead.common.model.elements.scene.EAdSceneElement;
-import ead.common.model.elements.scenes.SceneElementImpl;
+import ead.common.model.elements.scenes.SceneElement;
 import ead.common.model.elements.variables.EAdVarDef;
 import ead.common.model.elements.variables.VarDef;
 import ead.common.util.StringHandler;
@@ -141,11 +141,11 @@ public class PhysicsEffectGO extends AbstractEffectGO<PhysicsEffect> {
 				Body b = valueMap.getValue(e, VAR_PH_BODY);
 				if (b != null) {
 
-					valueMap.setValue(e, SceneElementImpl.VAR_X,
+					valueMap.setValue(e, SceneElement.VAR_X,
 							(int) (b.getWorldCenter().x * WORLD_SCALE));
-					valueMap.setValue(e, SceneElementImpl.VAR_Y,
+					valueMap.setValue(e, SceneElement.VAR_Y,
 							(int) (b.getWorldCenter().y * WORLD_SCALE));
-					valueMap.setValue(e, SceneElementImpl.VAR_ROTATION,
+					valueMap.setValue(e, SceneElement.VAR_ROTATION,
 							b.getAngle());
 				}
 			}
@@ -166,10 +166,10 @@ public class PhysicsEffectGO extends AbstractEffectGO<PhysicsEffect> {
 
 	public static void createBody(World world, EAdSceneElement e,
 			ValueMap valueMap) {
-		float x = valueMap.getValue(e, SceneElementImpl.VAR_X) / WORLD_SCALE;
-		float y = valueMap.getValue(e, SceneElementImpl.VAR_Y) / WORLD_SCALE;
-		float width = valueMap.getValue(e, SceneElementImpl.VAR_WIDTH) / WORLD_SCALE;
-		float height = valueMap.getValue(e, SceneElementImpl.VAR_HEIGHT) / WORLD_SCALE;
+		float x = valueMap.getValue(e, SceneElement.VAR_X) / WORLD_SCALE;
+		float y = valueMap.getValue(e, SceneElement.VAR_Y) / WORLD_SCALE;
+		float width = valueMap.getValue(e, SceneElement.VAR_WIDTH) / WORLD_SCALE;
+		float height = valueMap.getValue(e, SceneElement.VAR_HEIGHT) / WORLD_SCALE;
 
 		// TODO what if corner is not center?
 		PhType phType = valueMap.getValue(e, PhysicsEffect.VAR_PH_TYPE);
@@ -199,7 +199,7 @@ public class PhysicsEffectGO extends AbstractEffectGO<PhysicsEffect> {
 		}
 
 		bd.position.set(x, y);
-		bd.angle = valueMap.getValue(e, SceneElementImpl.VAR_ROTATION);
+		bd.angle = valueMap.getValue(e, SceneElement.VAR_ROTATION);
 
 		FixtureDef fixture = new FixtureDef();
 		fixture.shape = s;

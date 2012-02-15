@@ -51,7 +51,7 @@ import ead.common.model.elements.effects.ChangeSceneEf;
 import ead.common.model.elements.guievents.MouseGEv;
 import ead.common.model.elements.scene.EAdScene;
 import ead.common.model.elements.scene.EAdSceneElement;
-import ead.common.model.elements.scenes.SceneElementImpl;
+import ead.common.model.elements.scenes.SceneElement;
 import ead.common.model.elements.transitions.EAdTransition;
 import ead.common.model.predef.effects.ChangeCursorEf;
 import ead.common.params.text.EAdString;
@@ -82,14 +82,14 @@ public class ExitImporter extends ElementImporter<Exit> {
 	}
 
 	public EAdSceneElement init(Exit oldObject) {
-		SceneElementImpl newExit = new SceneElementImpl();
+		SceneElement newExit = new SceneElement();
 		newExit.setId("exit" + ID_GENERATOR++);
 		return newExit;
 	}
 
 	@Override
 	public EAdSceneElement convert(Exit oldObject, Object object) {
-		SceneElementImpl newExit = (SceneElementImpl) object;
+		SceneElement newExit = (SceneElement) object;
 		newExit.setPropagateGUIEvents(false);
 
 		// Shape
@@ -119,7 +119,7 @@ public class ExitImporter extends ElementImporter<Exit> {
 		return newExit;
 	}
 
-	private ChangeSceneEf addGoToExit(SceneElementImpl newExit, Exit oldObject,
+	private ChangeSceneEf addGoToExit(SceneElement newExit, Exit oldObject,
 			EAdCondition enableCondition) {
 
 		// FIXME this should stop effects util later (set blockig is not
@@ -146,13 +146,13 @@ public class ExitImporter extends ElementImporter<Exit> {
 
 	}
 
-	private void addAppearance(SceneElementImpl newExit, Exit oldObject) {
+	private void addAppearance(SceneElement newExit, Exit oldObject) {
 		// Add name
 		ExitLook exitLook = oldObject.getDefaultExitLook();
 
 		EAdString name = EAdString.newEAdString("exitLookName");
 		stringHandler.setString(name, exitLook.getExitText());
-		newExit.setVarInitialValue(SceneElementImpl.VAR_NAME, name);
+		newExit.setVarInitialValue(SceneElement.VAR_NAME, name);
 
 		// Change cursor
 		EAdImage cursor = null;
@@ -170,7 +170,7 @@ public class ExitImporter extends ElementImporter<Exit> {
 		newExit.addBehavior(MouseGEv.MOUSE_EXITED, changeCursorBack);
 	}
 
-	private void addEffects(SceneElementImpl newExit, Exit oldObject,
+	private void addEffects(SceneElement newExit, Exit oldObject,
 			EAdCondition enableCondition, EAdEffect changeSceneEffect) {
 		// Normal effects
 		for (Effect e : oldObject.getEffects().getEffects()) {
