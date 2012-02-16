@@ -37,15 +37,20 @@
 
 package ead.engine.core.gameobjects.factories;
 
+import java.util.HashMap;
+import java.util.Map;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import com.google.inject.Singleton;
+
 import ead.common.model.EAdElement;
 import ead.common.util.ReflectionProvider;
 import ead.engine.core.gameobjects.go.GameObject;
 import ead.engine.core.platform.GenericInjector;
-import java.util.HashMap;
-import java.util.Map;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
+@Singleton
 public class GOFactoryImpl<S extends EAdElement, T extends GameObject<? extends S>> implements
 		GameObjectFactory<S, T> {
 

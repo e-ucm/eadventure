@@ -58,6 +58,7 @@ public class EAdEngine {
 				"com.apple.mrj.application.apple.menu.about.name",
 				"eAdventure");
         
+//		EAdMainDebugger.addDebugger(FieldsDebugger.class);
 		StartFrame frame = new StartFrame();
 		frame.setVisible(true);
 	}

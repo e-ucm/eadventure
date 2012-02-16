@@ -44,21 +44,20 @@ import java.util.Map;
 import com.google.inject.Inject;
 
 import ead.common.model.EAdElement;
-import ead.common.model.elements.scenes.SceneElementDef;
 import ead.common.model.elements.scenes.SceneElement;
-import ead.common.model.elements.variables.EAdVarDef;
+import ead.common.model.elements.scenes.SceneElementDef;
 import ead.common.model.elements.variables.BasicField;
+import ead.common.model.elements.variables.EAdVarDef;
 import ead.common.model.elements.variables.SystemFields;
 import ead.common.params.BasicFont;
 import ead.common.params.fills.ColorFill;
 import ead.common.params.text.EAdFont;
 import ead.common.resources.assets.drawable.basics.Caption;
 import ead.common.resources.assets.drawable.basics.shapes.RectangleShape;
-import ead.common.resources.assets.drawable.compounds.EAdComposedDrawable;
 import ead.common.resources.assets.drawable.compounds.ComposedDrawable;
+import ead.common.resources.assets.drawable.compounds.EAdComposedDrawable;
 import ead.common.util.StringHandler;
-import ead.engine.core.debuggers.Debugger;
-import ead.engine.core.game.ValueMap;
+import ead.engine.core.game.GameState;
 import ead.engine.core.gameobjects.factories.SceneElementGOFactory;
 import ead.engine.core.gameobjects.go.DrawableGO;
 import ead.engine.core.gameobjects.go.GameObject;
@@ -77,7 +76,7 @@ public class FieldsDebugger implements Debugger {
 
 	private List<DrawableGO<?>> gos;
 
-	private ValueMap valueMap;
+	private GameState gameState;
 
 	private SceneElement vars;
 
@@ -90,12 +89,12 @@ public class FieldsDebugger implements Debugger {
 	private ColorFill color = new ColorFill(120, 120, 120, 50);
 
 	@Inject
-	public FieldsDebugger(InputHandler inputHandler, ValueMap valueMap,
+	public FieldsDebugger(InputHandler inputHandler, GameState gameState,
 			StringHandler stringHandler, SceneElementGOFactory gameObjectFactory) {
 		this.inputHandler = inputHandler;
-		this.valueMap = valueMap;
 		this.stringHandler = stringHandler;
 		this.gameObjectFactory = gameObjectFactory;
+		this.gameState = gameState;
 		gos = new ArrayList<DrawableGO<?>>();
 		vars = new SceneElement();
 		vars.setId("vars");
@@ -108,11 +107,12 @@ public class FieldsDebugger implements Debugger {
 		if (inputHandler.getGameObjectUnderPointer() != null
 				&& inputHandler.getGameObjectUnderPointer().getElement() != element
 				&& inputHandler.getGameObjectUnderPointer().getElement() instanceof EAdElement) {
-			element = (EAdElement) inputHandler.getGameObjectUnderPointer()
-					.getElement();
+//			element = (EAdElement) inputHandler.getGameObjectUnderPointer()
+//					.getElement();
+			element = gameState.getCurrentChapter();
 			gos.clear();
 			if (element != null) {
-				Map<EAdVarDef<?>, Object> fields = valueMap
+				Map<EAdVarDef<?>, Object> fields = gameState.getValueMap()
 						.getElementVars(element);
 
 				if (fields != null) {

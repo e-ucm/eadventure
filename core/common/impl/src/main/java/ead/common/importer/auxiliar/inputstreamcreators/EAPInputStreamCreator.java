@@ -64,7 +64,7 @@ public class EAPInputStreamCreator implements InputStreamCreator {
 			return new FileInputStream( new File( absolutePath, filePath ) );
 		}
 		catch ( FileNotFoundException e ) {
-			logger.log(Level.SEVERE, "Problem building input stream for file: " + filePath, e);
+			
 		}
 		return null;
 	}

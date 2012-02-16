@@ -48,6 +48,8 @@ import ead.common.model.elements.EAdCondition;
 import ead.common.model.elements.EAdEffect;
 import ead.common.model.elements.conditions.NOTCond;
 import ead.common.model.elements.effects.ChangeSceneEf;
+import ead.common.model.elements.effects.EffectsMacro;
+import ead.common.model.elements.effects.TriggerMacroEf;
 import ead.common.model.elements.guievents.MouseGEv;
 import ead.common.model.elements.scene.EAdScene;
 import ead.common.model.elements.scene.EAdSceneElement;
@@ -122,8 +124,6 @@ public class ExitImporter extends ElementImporter<Exit> {
 	private ChangeSceneEf addGoToExit(SceneElement newExit, Exit oldObject,
 			EAdCondition enableCondition) {
 
-		// FIXME this should stop effects util later (set blockig is not
-		// enough?)
 		// Change scene effect
 		EAdScene scene = (EAdScene) factory.getElementById(oldObject
 				.getNextSceneId());
@@ -172,19 +172,17 @@ public class ExitImporter extends ElementImporter<Exit> {
 
 	private void addEffects(SceneElement newExit, Exit oldObject,
 			EAdCondition enableCondition, EAdEffect changeSceneEffect) {
+		TriggerMacroEf triggerMacro = new TriggerMacroEf( );
+		
 		// Normal effects
-		for (Effect e : oldObject.getEffects().getEffects()) {
-			EAdEffect eadEffect = effectsImporterFactory.getEffect(e);
-			eadEffect.setCondition(enableCondition);
-			changeSceneEffect.getNextEffects().add(eadEffect);
-		}
+		EffectsMacro normalMacro = effectsImporterFactory.getMacroEffects(oldObject.getEffects());
+		triggerMacro.putMacro(normalMacro, enableCondition);
 
 		// No effects
-		for (Effect e : oldObject.getNotEffects().getEffects()) {
-			EAdEffect eadEffect = effectsImporterFactory.getEffect(e);
-			eadEffect.setCondition(new NOTCond(enableCondition));
-			newExit.addBehavior(MouseGEv.MOUSE_LEFT_CLICK, eadEffect);
-		}
+		EffectsMacro noEffectsMacro = effectsImporterFactory.getMacroEffects(oldObject.getNotEffects());
+		triggerMacro.putMacro(noEffectsMacro, new NOTCond(enableCondition));
+		
+		newExit.addBehavior(MouseGEv.MOUSE_LEFT_CLICK, triggerMacro);
 	}
 
 }

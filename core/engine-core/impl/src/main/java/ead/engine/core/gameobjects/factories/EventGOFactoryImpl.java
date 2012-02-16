@@ -38,14 +38,15 @@
 package ead.engine.core.gameobjects.factories;
 
 import com.google.inject.Inject;
+import com.google.inject.Singleton;
 
 import ead.common.model.elements.EAdEvent;
 import ead.common.util.ReflectionProvider;
 import ead.engine.core.factorymapproviders.EventGameObjectFactoryConfigurator;
-import ead.engine.core.gameobjects.factories.EventGOFactory;
 import ead.engine.core.gameobjects.go.EventGO;
 import ead.engine.core.platform.GenericInjector;
 
+@Singleton
 public class EventGOFactoryImpl extends
 		GOFactoryImpl<EAdEvent, EventGO<? extends EAdEvent>> implements
 		EventGOFactory {

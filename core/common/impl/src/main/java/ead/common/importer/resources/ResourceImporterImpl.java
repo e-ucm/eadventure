@@ -71,6 +71,7 @@ import ead.common.model.elements.events.enums.ConditionedEvType;
 import ead.common.model.predef.effects.ChangeAppearanceEf;
 import ead.common.resources.EAdBundleId;
 import ead.common.resources.assets.AssetDescriptor;
+import ead.common.resources.assets.drawable.basics.Image;
 import ead.common.resources.assets.drawable.basics.animation.Frame;
 import ead.common.resources.assets.drawable.basics.animation.FramesAnimation;
 import es.eucm.eadventure.common.data.animation.Animation;
@@ -310,7 +311,11 @@ public class ResourceImporterImpl implements ResourceImporter {
 
 		// Special case
 		if (assetPath.startsWith("assets/special/EmptyAnimation")) {
-			if (!(assetPath.endsWith(".eaa") || assetPath.endsWith("_01.png")))
+			if (assetPath.endsWith("_01.png")) {
+				String uri = this.getURI(assetPath);
+				return new Image(uri);
+			} else if (!(assetPath.endsWith(".eaa") || assetPath
+					.endsWith("_01.png")))
 				if (fileExists(assetPath + ".eaa"))
 					assetPath += ".eaa";
 				else if (fileExists(assetPath + "_01.png")) {
@@ -321,7 +326,7 @@ public class ResourceImporterImpl implements ResourceImporter {
 					logger.info("There was a problem with EmptyAnimation");
 				}
 		}
-		
+
 		if (assetPath.startsWith("assets/animation")
 				|| assetPath.startsWith("assets/special/EmptyAnimation")) {
 			if (assetPath.endsWith(".eaa")
@@ -371,6 +376,7 @@ public class ResourceImporterImpl implements ResourceImporter {
 	 * @return the asset
 	 */
 	private AssetDescriptor importImagesAnimation(String assetPath) {
+
 		String fileExtension = getFileExtension(assetPath);
 		if (fileExtension == null)
 			return null;
@@ -417,7 +423,7 @@ public class ResourceImporterImpl implements ResourceImporter {
 			try {
 				is.close();
 			} catch (IOException e) {
-				
+
 			}
 		}
 		return exists;

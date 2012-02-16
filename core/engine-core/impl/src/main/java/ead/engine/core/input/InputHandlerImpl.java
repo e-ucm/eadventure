@@ -37,6 +37,12 @@
 
 package ead.engine.core.input;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
@@ -55,8 +61,6 @@ import ead.engine.core.input.actions.MouseInputAction;
 import ead.engine.core.input.states.KeyboardState;
 import ead.engine.core.input.states.MouseState;
 import ead.engine.core.util.EAdTransformation;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 @Singleton
 public class InputHandlerImpl implements InputHandler {
@@ -64,7 +68,8 @@ public class InputHandlerImpl implements InputHandler {
 	/**
 	 * Logger
 	 */
-	protected static final Logger logger = LoggerFactory.getLogger("InputHandler");
+	protected static final Logger logger = LoggerFactory
+			.getLogger("InputHandler");
 
 	/**
 	 * Maximum number of events to be processes per cycle
@@ -85,6 +90,8 @@ public class InputHandlerImpl implements InputHandler {
 	private GameObjectManager gameObjects;
 
 	private boolean checkDrag = true;
+
+	private ArrayList<DrawableGO<?>> gameObjectsUnderMouse = new ArrayList<DrawableGO<?>>();
 
 	// FIXME this must be configurable
 	private boolean propagateEvents = true;
@@ -126,20 +133,19 @@ public class InputHandlerImpl implements InputHandler {
 	 */
 	private void processKeyActions() {
 		int j = 0;
-		while ( ! keyboardHandler.getKeyActions().isEmpty()
-                && (j < MAX_EVENTS_PER_CYCLE
-                        || keyboardHandler.getKeyActions().size()
-                            > MAX_EVENTS_IN_QUEUE)) {
+		while (!keyboardHandler.getKeyActions().isEmpty()
+				&& (j < MAX_EVENTS_PER_CYCLE || keyboardHandler.getKeyActions()
+						.size() > MAX_EVENTS_IN_QUEUE)) {
 
 			KeyInputAction action = keyboardHandler.getKeyActions().poll();
 
 			DrawableGO<?> go = gameState.getActiveElement();
 
-            // first, the active element gets a try at consuming it
-            if (go != null)
+			// first, the active element gets a try at consuming it
+			if (go != null)
 				go.processAction(action);
 
-            // then, all elements get a try
+			// then, all elements get a try
 			int i = gameObjects.getGameObjects().size() - 1;
 			while (propagateEvents && !action.isConsumed() && i >= 0) {
 				go = gameObjects.getGameObjects().get(i);
@@ -222,7 +228,8 @@ public class InputHandlerImpl implements InputHandler {
 					DragInputAction action = new DragInputAction(
 							mouseHandler.getDraggingElement(),
 							DragGEvType.EXITED, x, y);
-					oldGO.processAction(action);
+					for (DrawableGO<?> go : this.getAllGOUnderMouse())
+						go.processAction(action);
 				}
 			}
 
@@ -234,7 +241,8 @@ public class InputHandlerImpl implements InputHandler {
 					DragInputAction action = new DragInputAction(
 							mouseHandler.getDraggingElement(),
 							DragGEvType.ENTERED, x, y);
-					currentGO.processAction(action);
+					for (DrawableGO<?> go : this.getAllGOUnderMouse())
+						go.processAction(action);
 				}
 			}
 			mouseHandler.setGameObjectUnderMouse(currentGO);
@@ -309,21 +317,34 @@ public class InputHandlerImpl implements InputHandler {
 		int y = getPointerY();
 		if (currentDraggedGO != null) {
 			if (!checkState(MouseState.LEFT_BUTTON_PRESSED)) {
-				DrawableGO<?> goMouse = getGameObjectUnderPointer();
+				List<DrawableGO<?>> goMouseList = getAllGOUnderMouse();
 				MouseInputAction drop = new MouseInputAction(
 						MouseGEv.MOUSE_DROP, x, y);
 				currentDraggedGO.processAction(drop);
-				if (goMouse != null) {
+				if (goMouseList.size() > 0) {
+					DrawableGO<?> goMouse = null;
+					int i = 0;
+
 					// Exit too
 					DragInputAction action = new DragInputAction(
 							mouseHandler.getDraggingElement(),
 							DragGEvType.EXITED, x, y);
-					goMouse.processAction(action);
+					while (i < goMouseList.size()) {
+						goMouse = goMouseList.get(i);
+						goMouse.processAction(action);
+						i++;
+					}
+
 					// Drop
 					DragInputAction action2 = new DragInputAction(
 							mouseHandler.getDraggingElement(),
 							DragGEvType.DROP, x, y);
-					goMouse.processAction(action2);
+					i = 0;
+					while (i < goMouseList.size()) {
+						goMouse = goMouseList.get(i);
+						goMouse.processAction(action2);
+						i++;
+					}
 				}
 				mouseHandler.setDraggingGameObject(null);
 				checkDrag = true;
@@ -331,15 +352,20 @@ public class InputHandlerImpl implements InputHandler {
 		} else {
 			if (checkDrag && checkState(MouseState.LEFT_BUTTON_PRESSED)) {
 				checkDrag = false;
-				DrawableGO<?> go = getGameObjectUnderPointer();
-				if (go != null) {
+				List<DrawableGO<?>> goList = getAllGOUnderMouse();
+				boolean dragFound = false;
+				int i = 0;
+				while (!dragFound && i < goList.size()) {
+					DrawableGO<?> go = goList.get(i);
 					SceneElementGO<?> draggedGO = go.getDraggableElement();
 					if (draggedGO != null) {
 						mouseHandler.setDraggingGameObject(draggedGO);
 						mouseHandler.getDraggingGameObject().processAction(
-								new MouseInputAction(
-										MouseGEv.MOUSE_START_DRAG, x, y));
+								new MouseInputAction(MouseGEv.MOUSE_START_DRAG,
+										x, y));
+						dragFound = true;
 					}
+					i++;
 				}
 
 			} else if (!checkState(MouseState.LEFT_BUTTON_PRESSED)) {
@@ -347,6 +373,25 @@ public class InputHandlerImpl implements InputHandler {
 			}
 		}
 
+	}
+
+	private List<DrawableGO<?>> getAllGOUnderMouse() {
+		gameObjectsUnderMouse.clear();
+		if (checkState(MouseState.POINTER_INSIDE)) {
+			for (int i = gameObjects.getGameObjects().size() - 1; i >= 0; i--) {
+				DrawableGO<?> tempGameObject = gameObjects.getGameObjects()
+						.get(i);
+				if (tempGameObject != mouseHandler.getDraggingGameObject()) {
+					EAdTransformation t = gameObjects.getTransformations().get(
+							i);
+					if (contains(tempGameObject, mouseHandler.getMouseX(),
+							mouseHandler.getMouseY(), t)) {
+						gameObjectsUnderMouse.add(tempGameObject);
+					}
+				}
+			}
+		}
+		return gameObjectsUnderMouse;
 	}
 
 	@Override

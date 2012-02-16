@@ -82,5 +82,9 @@ public class Image implements EAdImage {
 	public int hashCode(){
 		return (uri != null ? uri.hashCode() * 10 : 0);
 	}
+	
+	public String toString(){
+		return "Img:" + uri;
+	}
 
 }

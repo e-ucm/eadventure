@@ -88,9 +88,8 @@ public class ElementReferenceImporter extends ElementImporter<ElementReference> 
 		newRef.setId(oldObject.getTargetId() + "_ref");
 		newRef.setPropagateGUIEvents(false);
 
-		newRef.setPosition(new EAdPosition(
-				EAdPosition.Corner.BOTTOM_CENTER, oldObject.getX(),
-				oldObject.getY()));
+		newRef.setPosition(new EAdPosition(EAdPosition.Corner.BOTTOM_CENTER,
+				oldObject.getX(), oldObject.getY()));
 		newRef.setInitialScale(oldObject.getScale());
 		newRef.setInitialOrientation(Orientation.S);
 		newRef.setDefinition(actor);
@@ -101,14 +100,15 @@ public class ElementReferenceImporter extends ElementImporter<ElementReference> 
 			if (!factory.isFirstPerson()) {
 				// add influence area
 				String imageUri = getImageUri(oldObject.getTargetId());
-				Dimension d = resourceImporter.getDimensionsForOldImage(imageUri);
+				Dimension d = resourceImporter
+						.getDimensionsForOldImage(imageUri);
 				int width = (int) d.getWidth();
 				int height = (int) d.getHeight();
 				EAdPosition p = new EAdPosition(oldObject.getX(),
 						oldObject.getY(), 0.5f, 1.0f);
 				float scale = oldObject.getScale();
-				EAdRectangle bounds = new EAdRectangle(p.getJavaX(width
-						* scale), p.getJavaY(height * scale),
+				EAdRectangle bounds = new EAdRectangle(
+						p.getJavaX(width * scale), p.getJavaY(height * scale),
 						(int) (width * scale), (int) (height * scale));
 				super.addInfluenceArea(newRef, bounds,
 						oldObject.getInfluenceArea());
@@ -120,16 +120,14 @@ public class ElementReferenceImporter extends ElementImporter<ElementReference> 
 			// add dragable
 			if (factory.isDraggableActor(actor)) {
 				newRef.setDragCond(EmptyCond.TRUE_EMPTY_CONDITION);
-				newRef.setVarInitialValue(
-						SceneElement.VAR_RETURN_WHEN_DRAGGED,
+				newRef.setVarInitialValue(SceneElement.VAR_RETURN_WHEN_DRAGGED,
 						isReturnWhenDragged(oldObject.getTargetId()));
 
 			}
 		} else {
-			newRef.setVarInitialValue(SceneElement.VAR_ENABLE,
-					Boolean.FALSE);
+			newRef.setVarInitialValue(SceneElement.VAR_ENABLE, Boolean.FALSE);
 		}
-		
+
 		// add visible
 		super.addVisibleEvent(newRef,
 				super.getEnableCondition(oldObject.getConditions()));
@@ -142,8 +140,12 @@ public class ElementReferenceImporter extends ElementImporter<ElementReference> 
 		NPC npc = factory.getCurrentOldChapterModel().getCharacter(targetId);
 		if (i != null) {
 			return i.isReturnsWhenDragged();
-		} else if (npc != null)
-			return npc.isReturnsWhenDragged();
+		} else if (npc != null) {
+			// Yeah, I thought too that the right code is the commented line, but
+			// no...
+			// return npc.isReturnsWhenDragged();
+			return false;
+		}
 
 		return false;
 	}

@@ -63,7 +63,6 @@ public class ImporterInputStreamCreator implements InputStreamCreator {
 			projectFile = projectFile.substring(0, projectFile.length() - 4);
 			currentStreamCreator = new EAPInputStreamCreator();
 			((EAPInputStreamCreator) currentStreamCreator).setFile(projectFile);
-			currentStreamCreator = new EAPInputStreamCreator();
 			logger.log(Level.INFO, "Eap project reader");
 		} else if (projectFile.endsWith(".zip") || projectFile.endsWith(".ead")) {
 			currentStreamCreator = new ZipInputStreamCreator();

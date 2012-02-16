@@ -38,6 +38,8 @@
 package ead.common.importer.subimporters.chapter.cutscene;
 
 import java.awt.Dimension;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.google.inject.Inject;
 
@@ -63,18 +65,25 @@ import ead.common.model.elements.guievents.MouseGEv;
 import ead.common.model.elements.scene.EAdScene;
 import ead.common.model.elements.scenes.BasicScene;
 import ead.common.model.elements.scenes.SceneElement;
+import ead.common.model.elements.transitions.DisplaceTransition;
 import ead.common.model.elements.transitions.EAdTransition;
 import ead.common.model.elements.transitions.EmptyTransition;
+import ead.common.model.elements.transitions.FadeInTransition;
+import ead.common.model.elements.transitions.enums.DisplaceTransitionType;
 import ead.common.model.elements.variables.SystemFields;
 import ead.common.model.elements.variables.operations.BooleanOp;
-import ead.common.resources.assets.drawable.basics.EAdImage;
+import ead.common.resources.assets.drawable.basics.Image;
 import ead.common.resources.assets.drawable.basics.animation.FramesAnimation;
-import ead.common.resources.assets.multimedia.EAdSound;
-import ead.common.resources.assets.multimedia.Sound;
 import ead.common.util.StringHandler;
+import es.eucm.eadventure.common.data.animation.Animation;
+import es.eucm.eadventure.common.data.animation.Frame;
+import es.eucm.eadventure.common.data.animation.ImageLoaderFactory;
+import es.eucm.eadventure.common.data.animation.Transition;
 import es.eucm.eadventure.common.data.chapter.conditions.Conditions;
 import es.eucm.eadventure.common.data.chapter.resources.Resources;
 import es.eucm.eadventure.common.data.chapter.scenes.Slidescene;
+import es.eucm.eadventure.common.loader.InputStreamCreator;
+import es.eucm.eadventure.common.loader.Loader;
 
 /**
  * Scenes importer
@@ -91,11 +100,22 @@ public class SlidesceneImporter implements
 
 	private EffectsImporterFactory effectsImporter;
 
+	private ImageLoaderFactory imageLoader;
+
+	private InputStreamCreator inputStreamCreator;
+
+	private Animation animation;
+
+	private FramesAnimation frames;
+
 	@Inject
 	public SlidesceneImporter(EffectsImporterFactory effectsImporter,
 			EAdElementImporter<Conditions, EAdCondition> conditionsImporter,
 			EAdElementFactory factory, ResourceImporter resourceImporter,
-			StringHandler stringHandler) {
+			StringHandler stringHandler, ImageLoaderFactory imageLoader,
+			InputStreamCreator inputStreamCreator) {
+		this.imageLoader = imageLoader;
+		this.inputStreamCreator = inputStreamCreator;
 		this.factory = factory;
 		this.resourceImporter = resourceImporter;
 		this.stringHandler = stringHandler;
@@ -122,90 +142,155 @@ public class SlidesceneImporter implements
 
 	private void importResources(EAdScene cutscene, Slidescene oldSlides,
 			EAdChapter chapter) {
+		// FIXME music is not imported for animations
 		cutscene.setReturnable(false);
 		Resources res = oldSlides.getResources().get(0);
 		String assetPath = res.getAssetPath(Slidescene.RESOURCE_TYPE_SLIDES);
-		FramesAnimation asset = (FramesAnimation) resourceImporter
-				.getAssetDescritptor(assetPath, FramesAnimation.class);
-		ChangeSceneEf changeScene = getNextScene(oldSlides);
-		
-		ChangeFieldEf hideInventory = new ChangeFieldEf(SystemFields.SHOW_INVENTORY, BooleanOp.FALSE_OP );
-		SceneElementEv bgEvent = new SceneElementEv( );
-		bgEvent.addEffect(SceneElementEvType.ADDED_TO_SCENE, hideInventory);
-		
-		cutscene.getEvents().add(bgEvent);
 
+		ChangeFieldEf hideInventory = new ChangeFieldEf(
+				SystemFields.SHOW_INVENTORY, BooleanOp.FALSE_OP);
+
+		// hide inventory event
+		addHideInventoryEvent(cutscene, hideInventory);
+
+		// Change scene after slide show
+		ChangeSceneEf changeNextScene = getNextScene(oldSlides);
 		EffectsMacro macro = effectsImporter.getMacroEffects(oldSlides
 				.getEffects());
 		if (macro != null) {
 			TriggerMacroEf triggerMacro = new TriggerMacroEf();
 			triggerMacro.putMacro(macro, EmptyCond.TRUE_EMPTY_CONDITION);
-			changeScene.getNextEffects().add(triggerMacro);
+			changeNextScene.getNextEffects().add(triggerMacro);
 		}
-		
-		
 
-		EAdScene[] scenes = new EAdScene[asset.getFrameCount()];
-		for (int i = 0; i < asset.getFrameCount(); i++) {
+		initAnimation(assetPath);
+		// generate slides properties
+		List<Image> backgroundImages = generateBgImages();
+		List<EAdTransition> transitions = generateTransitions();
+		List<Integer> times = generateTimes();
+
+		EAdScene[] scenes = new EAdScene[backgroundImages.size()];
+		for (int i = 0; i < scenes.length; i++) {
 			if (i == 0)
 				scenes[i] = cutscene;
 			else
 				scenes[i] = new BasicScene();
-			EAdImage drawable = (EAdImage) asset.getFrame(i).getDrawable();
+
+			Image drawable = backgroundImages.get(i);
 			SceneElement background = new SceneElement(drawable);
-			// Adjust scene background to 800x600 (restriction from old model)
-			Dimension d = resourceImporter.getDimensionsForNewImage(drawable.getUri().getPath());
+			// Adjust scene background to 800x600 (restriction from old
+			// model)
+			Dimension d = resourceImporter.getDimensionsForNewImage(drawable
+					.getUri().getPath());
 			float scaleX = 800.0f / d.width;
 			float scaleY = 600.0f / d.height;
-			
 			background.setInitialScale(scaleX, scaleY);
-			background.setId(scenes[i].getId() + "_background" );
-			
+
+			background.setId(scenes[i].getId() + "_background");
 			scenes[i].setBackground(background);
 			scenes[i].setReturnable(false);
 		}
 
 		for (int i = 0; i < scenes.length; i++) {
-			EAdEffect effect = null;
+			ChangeSceneEf effect = null;
 			if (i == scenes.length - 1) {
-				effect = changeScene;
-				ChangeFieldEf showInventory = new ChangeFieldEf(SystemFields.SHOW_INVENTORY, BooleanOp.TRUE_OP );
+				effect = changeNextScene;
+				ChangeFieldEf showInventory = new ChangeFieldEf(
+						SystemFields.SHOW_INVENTORY, BooleanOp.TRUE_OP);
 				effect.getNextEffects().add(showInventory);
 			} else {
 				effect = new ChangeSceneEf();
 				((ChangeSceneEf) effect).setNextScene(scenes[i + 1]);
 			}
+			effect.setTransition(transitions.get(i));
 
-			scenes[i].getBackground().addBehavior(
-					MouseGEv.MOUSE_LEFT_CLICK, effect);
-			
-			if ( i != scenes.length - 1 ){
-				EAdEvent changeEvent = getChangeSceneEvent(scenes[i + 1], asset.getFrame(i).getTime(), effect);
+			scenes[i].getBackground().addBehavior(MouseGEv.MOUSE_LEFT_CLICK,
+					effect);
+
+			if (i != scenes.length - 1) {
+				EAdEvent changeEvent = getChangeSceneEvent(scenes[i + 1],
+						times.get(i), effect);
 				scenes[i].getBackground().getEvents().add(changeEvent);
 			}
 
 		}
 
-		for (Resources r : oldSlides.getResources()) {
-			// Music is imported to chapter level. So, the chapter will
-			// remain with the last sound track appeared in the scenes
-			String musicPath = r.getAssetPath(Slidescene.RESOURCE_TYPE_MUSIC);
+	}
 
-			if (musicPath != null) {
-				EAdSound sound = (EAdSound) resourceImporter.getAssetDescritptor(
-						musicPath, Sound.class);
-				chapter.getResources().addAsset(chapter.getInitialBundle(),
-						EAdChapter.music, sound);
-			}
+	private void initAnimation(String assetPath) {
+		if (assetPath.endsWith(".eaa")) {
+			animation = Loader.loadAnimation(inputStreamCreator, assetPath,
+					imageLoader);
+
+		} else {
+			frames = (FramesAnimation) resourceImporter.getAssetDescritptor(
+					assetPath, FramesAnimation.class);
 		}
 
 	}
 
-	private EAdEvent getChangeSceneEvent(EAdScene eAdScene, int time, EAdEffect changeScene) {
-		TimedEv event = new TimedEv( );
+	private List<Integer> generateTimes() {
+		ArrayList<Integer> times = new ArrayList<Integer>();
+		if (animation != null) {
+			for (int i = 0; i < animation.getFrames().size(); i++) {
+				times.add(new Long(animation.getFrame(i).getTime()).intValue());
+			}
+		} else {
+			for (ead.common.resources.assets.drawable.basics.animation.Frame f : frames
+					.getFrames()) {
+				times.add(f.getTime());
+			}
+		}
+		return times;
+	}
+
+	private List<EAdTransition> generateTransitions() {
+		ArrayList<EAdTransition> transitions = new ArrayList<EAdTransition>();
+		if (animation != null) {
+			for (int i = 0; i < animation.getFrames().size(); i++) {
+				Transition t = animation.getTranstionForFrame(i);
+				if (t != null) {
+					transitions.add(getTransition(t.getType(),
+							new Long(t.getTime()).intValue()));
+				} else {
+					transitions.add(EmptyTransition.instance());
+				}
+			}
+		} else {
+			for (int i = 0; i < frames.getFrameCount(); i++) {
+				transitions.add(EmptyTransition.instance());
+			}
+		}
+		return transitions;
+	}
+
+	private List<Image> generateBgImages() {
+		ArrayList<Image> images = new ArrayList<Image>();
+		if (animation != null) {
+			for (Frame f : animation.getFrames()) {
+				String uri = resourceImporter.getURI(f.getUri());
+				images.add(new Image(uri));
+			}
+		} else {
+			for (int i = 0; i < frames.getFrameCount(); i++) {
+				images.add((Image) frames.getFrame(i).getDrawable());
+			}
+		}
+		return images;
+	}
+
+	private void addHideInventoryEvent(EAdScene cutscene, ChangeFieldEf field) {
+		SceneElementEv bgEvent = new SceneElementEv();
+		bgEvent.addEffect(SceneElementEvType.ADDED_TO_SCENE, field);
+		cutscene.getEvents().add(bgEvent);
+	}
+
+	private EAdEvent getChangeSceneEvent(EAdScene eAdScene, int time,
+			EAdEffect changeScene) {
+		TimedEv event = new TimedEv();
 		event.setRepeats(1);
 		event.setTime(time);
-		event.addEffect(TimedEvType.START_TIME, changeScene);
+		event.addEffect(TimedEvType.END_TIME, changeScene);
 		return event;
 	}
 
@@ -239,6 +324,21 @@ public class SlidesceneImporter implements
 				oldScene.getDocumentation());
 		stringHandler.setString(scene.getDefinition().getName(),
 				oldScene.getName());
+	}
+
+	public static EAdTransition getTransition(int type, int time) {
+		switch (type) {
+		case Transition.TYPE_FADEIN:
+			return new FadeInTransition(time);
+		case Transition.TYPE_HORIZONTAL:
+			return new DisplaceTransition(time,
+					DisplaceTransitionType.HORIZONTAL, true);
+		case Transition.TYPE_VERTICAL:
+			return new DisplaceTransition(time,
+					DisplaceTransitionType.VERTICAL, true);
+		default:
+			return EmptyTransition.instance();
+		}
 	}
 
 }
