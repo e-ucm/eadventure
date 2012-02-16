@@ -38,9 +38,17 @@
 package ead.common.importer.subimporters.chapter.scene;
 
 import java.awt.Dimension;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import javax.imageio.ImageIO;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.google.inject.Inject;
 
@@ -54,9 +62,9 @@ import ead.common.model.elements.events.enums.SceneElementEvType;
 import ead.common.model.elements.guievents.MouseGEv;
 import ead.common.model.elements.scene.EAdSceneElement;
 import ead.common.model.elements.scene.EAdSceneElementDef;
-import ead.common.model.elements.scenes.SceneElementDef;
-import ead.common.model.elements.scenes.SceneElement;
 import ead.common.model.elements.scenes.BasicScene;
+import ead.common.model.elements.scenes.SceneElement;
+import ead.common.model.elements.scenes.SceneElementDef;
 import ead.common.model.elements.trajectories.NodeTrajectoryDefinition;
 import ead.common.model.elements.trajectories.SimpleTrajectoryDefinition;
 import ead.common.model.predef.effects.MakeActiveElementEf;
@@ -66,8 +74,8 @@ import ead.common.resources.assets.drawable.basics.Image;
 import ead.common.resources.assets.multimedia.EAdSound;
 import ead.common.resources.assets.multimedia.Sound;
 import ead.common.util.EAdPosition;
-import ead.common.util.StringHandler;
 import ead.common.util.EAdPosition.Corner;
+import ead.common.util.StringHandler;
 import es.eucm.eadventure.common.data.chapter.ElementReference;
 import es.eucm.eadventure.common.data.chapter.Exit;
 import es.eucm.eadventure.common.data.chapter.Trajectory;
@@ -83,6 +91,9 @@ import es.eucm.eadventure.common.data.chapter.scenes.Scene;
  * 
  */
 public class SceneImporter implements EAdElementImporter<Scene, BasicScene> {
+
+	private static final Logger logger = LoggerFactory
+			.getLogger("SceneImporter");
 
 	/**
 	 * String handler
@@ -162,8 +173,7 @@ public class SceneImporter implements EAdElementImporter<Scene, BasicScene> {
 		importReferences(scene, oldScene.getItemReferences(), chapter);
 		importReferences(scene, oldScene.getAtrezzoReferences(), chapter);
 		importReferences(scene, oldScene.getCharacterReferences(), chapter);
-		SceneElement playerReference = addPlayer(scene, oldScene,
-				chapter);
+		SceneElement playerReference = addPlayer(scene, oldScene, chapter);
 		importTrajectory(scene, oldScene.getTrajectory(),
 				oldScene.getBarriers(), playerReference);
 
@@ -176,10 +186,8 @@ public class SceneImporter implements EAdElementImporter<Scene, BasicScene> {
 		} else {
 			EAdSceneElementDef player = (EAdSceneElementDef) factory
 					.getElementById(Player.IDENTIFIER);
-			SceneElement playerReference = new SceneElement(
-					player);
-			EAdPosition p = new EAdPosition(
-					EAdPosition.Corner.BOTTOM_CENTER,
+			SceneElement playerReference = new SceneElement(player);
+			EAdPosition p = new EAdPosition(EAdPosition.Corner.BOTTOM_CENTER,
 					oldScene.getPositionX(), oldScene.getPositionY());
 			playerReference.setPosition(p);
 			playerReference.setInitialScale(oldScene.getPlayerScale());
@@ -187,7 +195,7 @@ public class SceneImporter implements EAdElementImporter<Scene, BasicScene> {
 			// Make it active element of the scene
 			MakeActiveElementEf effect = new MakeActiveElementEf(
 					playerReference);
-			
+
 			SceneElementEv event = new SceneElementEv();
 			event.setId("makeAcitveCharacter");
 			event.addEffect(SceneElementEvType.FIRST_UPDATE, effect);
@@ -201,15 +209,17 @@ public class SceneImporter implements EAdElementImporter<Scene, BasicScene> {
 				scene.getComponents().add(playerReference, layer - 1);
 			}
 
-			scene.getBackground().addBehavior(
-					MouseGEv.MOUSE_LEFT_CLICK,
+			scene.getBackground().addBehavior(MouseGEv.MOUSE_LEFT_CLICK,
 					new MoveActiveElementToMouseEf());
-			
+
 			// Add move camera with character
-			Dimension d = resourceImporter.getDimensionsForOldImage(oldScene.getResources().get(0).getAssetPath(Scene.RESOURCE_TYPE_BACKGROUND));
+			Dimension d = resourceImporter.getDimensionsForOldImage(oldScene
+					.getResources().get(0)
+					.getAssetPath(Scene.RESOURCE_TYPE_BACKGROUND));
 			scene.setBounds(d.width, 600);
-			
-			ScrollWithSceneElementEv scroll = new ScrollWithSceneElementEv( scene, playerReference );
+
+			ScrollWithSceneElementEv scroll = new ScrollWithSceneElementEv(
+					scene, playerReference);
 			scene.getEvents().add(scroll);
 
 			return playerReference;
@@ -235,21 +245,23 @@ public class SceneImporter implements EAdElementImporter<Scene, BasicScene> {
 				scene.getComponents().add(barrier);
 			}
 
-			playerReference.setPosition(new EAdPosition(
-					Corner.BOTTOM_CENTER, nodeDef.getInitial().getX(), nodeDef
-							.getInitial().getY()));
+			playerReference.setPosition(new EAdPosition(Corner.BOTTOM_CENTER,
+					nodeDef.getInitial().getX(), nodeDef.getInitial().getY()));
 			playerReference.setInitialScale(nodeDef.getInitial().getScale());
 		}
 
 	}
 
-	private void importAciveAreas(int substract, BasicScene scene, List<ActiveArea> list) {
+	private void importAciveAreas(int substract, BasicScene scene,
+			List<ActiveArea> list) {
 		int i = 0;
 		for (ActiveArea a : list) {
 			SceneElement activeArea = (SceneElement) factory.getElementById(a
 					.getId());
-			activeArea.setPosition(new EAdPosition(EAdPosition.Corner.TOP_LEFT, a.getX(), a.getY()));
-			activeArea.setVarInitialValue(SceneElement.VAR_Z, Integer.MAX_VALUE - substract - i );
+			activeArea.setPosition(new EAdPosition(EAdPosition.Corner.TOP_LEFT,
+					a.getX(), a.getY()));
+			activeArea.setVarInitialValue(SceneElement.VAR_Z, Integer.MAX_VALUE
+					- substract - i);
 			i++;
 			if (activeArea != null)
 				scene.getComponents().add(activeArea);
@@ -261,7 +273,8 @@ public class SceneImporter implements EAdElementImporter<Scene, BasicScene> {
 		int i = 0;
 		for (Exit e : list) {
 			EAdSceneElement se = exitsImporter.init(e);
-			se.setVarInitialValue(SceneElement.VAR_Z, Integer.MAX_VALUE - substract - i);
+			se.setVarInitialValue(SceneElement.VAR_Z, Integer.MAX_VALUE
+					- substract - i);
 			se = exitsImporter.convert(e, se);
 			i++;
 			if (se != null)
@@ -276,8 +289,7 @@ public class SceneImporter implements EAdElementImporter<Scene, BasicScene> {
 		for (ElementReference oldRef : references) {
 			EAdSceneElement newRef = referencesImporter.init(oldRef);
 			newRef = referencesImporter.convert(oldRef, newRef);
-			newRef.setVarInitialValue(SceneElement.VAR_Z,
-					oldRef.getLayer());
+			newRef.setVarInitialValue(SceneElement.VAR_Z, oldRef.getLayer());
 			scene.getComponents().add(newRef);
 		}
 
@@ -302,14 +314,24 @@ public class SceneImporter implements EAdElementImporter<Scene, BasicScene> {
 			String foregroundPath = r
 					.getAssetPath(Scene.RESOURCE_TYPE_FOREGROUND);
 			if (foregroundPath != null) {
-				Image image = (Image) resourceImporter
-						.getAssetDescritptor(foregroundPath, Image.class);
-				SceneElement foreground = new SceneElement(
-						image);
+
+				Image image = (Image) resourceImporter.getAssetDescritptor(
+						foregroundPath, Image.class);
+				
+				String path = image.getUri().getPath();
+				if ( path.endsWith(".jpg") || path.endsWith(".JPG")){
+					image = new Image( path.substring(0, path.length()  - 3 ) + "png");
+				}
+
+				String backgroundPath = r
+						.getAssetPath(Scene.RESOURCE_TYPE_BACKGROUND);
+				applyForegroundMask(image.getUri().getPath(), foregroundPath, backgroundPath);
+
+				SceneElement foreground = new SceneElement(image);
 				foreground.setId("foreground");
-				foreground.setVarInitialValue(SceneElement.VAR_Z, Integer.MAX_VALUE);
-				//FIXME foreground mask
-//				scene.getComponents().add(foreground);
+				foreground.setVarInitialValue(SceneElement.VAR_Z,
+						Integer.MAX_VALUE);
+				scene.getComponents().add(foreground);
 			}
 			// Music is imported to chapter level. So, the chapter will
 			// remain with the last sound track appeared in the scenes
@@ -321,6 +343,47 @@ public class SceneImporter implements EAdElementImporter<Scene, BasicScene> {
 						EAdChapter.music, sound);
 			}
 		}
+
+	}
+
+	private void applyForegroundMask(String finalPath, String foregroundPath,
+			String backgroundPath) {
+		BufferedImage foreground = resourceImporter.getOldImage(foregroundPath);
+		BufferedImage background = resourceImporter.getOldImage(backgroundPath);
+
+		int width = foreground.getWidth();
+		int height = foreground.getHeight();
+
+		int[] backgroundPixels = background.getRGB(0, 0, width, height, null,
+				0, width);
+		int[] maskPixels = foreground.getRGB(0, 0, width, height, null, 0,
+				width);
+
+		for (int i = 0; i < backgroundPixels.length; i++) {
+			int color = backgroundPixels[i];
+			int mask = maskPixels[i];
+			
+			if ( mask != 0xffffffff ){
+				backgroundPixels[i] = color;
+			}
+			else {
+				backgroundPixels[i] = 0x00000000;
+			}
+			 
+		}
+
+		foreground.setRGB(0, 0, width, height, backgroundPixels, 0, width);
+
+		String newUri = resourceImporter.getURI(foregroundPath);
+
+		try {
+			ImageIO.write(foreground, "png", new File(resourceImporter.getNewProjecFolder(), newUri.substring(1)));
+		} catch (IOException e) {
+			logger.error("Error creating foreground image {}", e);
+		}
+		
+		foreground.flush();
+		background.flush();
 
 	}
 

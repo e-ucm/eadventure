@@ -38,6 +38,7 @@
 package ead.common.importer.interfaces;
 
 import java.awt.Dimension;
+import java.awt.image.BufferedImage;
 import java.util.List;
 import java.util.Map;
 
@@ -112,4 +113,23 @@ public interface ResourceImporter {
 	 * @return the dimensions for the image
 	 */
 	Dimension getDimensionsForNewImage(String newUri);
+
+	/**
+	 * Loads an image from an old project uri
+	 * 
+	 * @param oldUri
+	 *            the old uri
+	 * @return the image
+	 */
+	BufferedImage getOldImage(String oldUri);
+
+	/**
+	 * Loads an image from an old project uri
+	 * 
+	 * @param oldUri
+	 *            the old uri
+	 * @return the image
+	 */
+	BufferedImage getNewImage(String newUri);
+
 }

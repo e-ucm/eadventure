@@ -41,7 +41,6 @@ import java.awt.Dimension;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -52,6 +51,9 @@ import java.util.List;
 import java.util.Map;
 
 import javax.imageio.ImageIO;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -77,13 +79,11 @@ import es.eucm.eadventure.common.data.chapter.conditions.Conditions;
 import es.eucm.eadventure.common.data.chapter.resources.Resources;
 import es.eucm.eadventure.common.loader.InputStreamCreator;
 import es.eucm.eadventure.common.loader.Loader;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * Resource Importer
- *
- *
+ * 
+ * 
  */
 @Singleton
 public class ResourceImporterImpl implements ResourceImporter {
@@ -184,27 +184,42 @@ public class ResourceImporterImpl implements ResourceImporter {
 	public boolean copyFile(String oldURI, String newURI) {
 
 		File toResourceFile = new File(newAdventurePath, newURI);
+		InputStream in = null;
+		OutputStream out = null;
+		boolean success = false;
 
 		try {
-			InputStream in = inputStreamCreator.buildInputStream(oldURI);
-			if (in == null)
-				return false;
-			OutputStream out = new FileOutputStream(toResourceFile);
-
-			byte[] buf = new byte[1024];
-			int len;
-			while ((len = in.read(buf)) > 0) {
-				out.write(buf, 0, len);
+			in = inputStreamCreator.buildInputStream(oldURI);
+			if (in != null) {
+				out = new FileOutputStream(toResourceFile);
+				byte[] buf = new byte[1024];
+				int len;
+				while ((len = in.read(buf)) > 0) {
+					out.write(buf, 0, len);
+				}
+				success = true;
 			}
-			in.close();
-			out.close();
 
-		} catch (FileNotFoundException e) {
-			return false;
-		} catch (IOException e) {
-			return false;
+		} catch (Exception e) {
+			logger.error("Error copying '{}' to '{}'", oldURI, newURI);
+		} finally {
+			if (in != null) {
+				try {
+					in.close();
+				} catch (IOException e) {
+					logger.error("Error accesing '{}'", oldURI);
+				}
+			}
+
+			if (out != null) {
+				try {
+					out.close();
+				} catch (IOException e) {
+					logger.error("Error accesing '{}'", newURI);
+				}
+			}
 		}
-		return true;
+		return success;
 
 	}
 
@@ -306,9 +321,12 @@ public class ResourceImporterImpl implements ResourceImporter {
 					logger.info("There was a problem with EmptyAnimation");
 				}
 		}
+		
 		if (assetPath.startsWith("assets/animation")
 				|| assetPath.startsWith("assets/special/EmptyAnimation")) {
-			if ( assetPath.endsWith(".eaa") || ( getFileExtension(assetPath) == null && fileExists(assetPath + ".eaa"))) {
+			if (assetPath.endsWith(".eaa")
+					|| (getFileExtension(assetPath) == null && fileExists(assetPath
+							+ ".eaa"))) {
 				Animation a = Loader.loadAnimation(inputStreamCreator,
 						assetPath, imageLoader);
 				asset = animationImporter.init(a);
@@ -347,14 +365,14 @@ public class ResourceImporterImpl implements ResourceImporter {
 	/**
 	 * Imports an animation in the form _01.png, _02.png, or _01.jpg, _02.jpg,
 	 * etc.
-	 *
+	 * 
 	 * @param assetPath
 	 *            the root asset path
 	 * @return the asset
 	 */
 	private AssetDescriptor importImagesAnimation(String assetPath) {
 		String fileExtension = getFileExtension(assetPath);
-		if ( fileExtension == null )
+		if (fileExtension == null)
 			return null;
 
 		FramesAnimation frames = new FramesAnimation();
@@ -366,21 +384,21 @@ public class ResourceImporterImpl implements ResourceImporter {
 			frames.addFrame(new Frame(newPath, frameTime));
 			oldPath = assetPath + "_0" + frame++ + fileExtension;
 		}
-		if ( frames.getFrameCount() > 0 )
-				return frames;
+		if (frames.getFrameCount() > 0)
+			return frames;
 		else
 			return null;
 	}
 
-	private String getFileExtension(String assetPath ){
+	private String getFileExtension(String assetPath) {
 		String prefix = "_01";
-		if (fileExists(assetPath + prefix + ".png")){
+		if (fileExists(assetPath + prefix + ".png")) {
 			return ".png";
-		}else if (fileExists(assetPath + prefix + ".jpg")){
+		} else if (fileExists(assetPath + prefix + ".jpg")) {
 			return ".jpg";
-		}else if (fileExists(assetPath + prefix + ".PNG")){
+		} else if (fileExists(assetPath + prefix + ".PNG")) {
 			return ".PNG";
-		}else if (fileExists(assetPath + prefix + ".JPG")){
+		} else if (fileExists(assetPath + prefix + ".JPG")) {
 			return ".JPG";
 		} else
 			return null;
@@ -399,7 +417,7 @@ public class ResourceImporterImpl implements ResourceImporter {
 			try {
 				is.close();
 			} catch (IOException e) {
-				e.printStackTrace();
+				
 			}
 		}
 		return exists;
@@ -410,7 +428,7 @@ public class ResourceImporterImpl implements ResourceImporter {
 		try {
 			return ImageIO.read(inputStreamCreator.buildInputStream(oldUri));
 		} catch (Exception e) {
-			e.printStackTrace();
+			logger.error("Error loading {}", oldUri);
 		}
 		return null;
 	}
@@ -430,21 +448,38 @@ public class ResourceImporterImpl implements ResourceImporter {
 
 	@Override
 	public Dimension getDimensionsForNewImage(String newURI) {
-		try {
-		File toResourceFile = new File(newAdventurePath, newURI.substring(1));
-			FileInputStream inputStream = new FileInputStream( toResourceFile );
-			BufferedImage image = ImageIO.read(inputStream);
-			if (image != null) {
-				Dimension d = new Dimension(image.getWidth(), image.getHeight());
-				image.flush();
-				return d;
-			}
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
+		BufferedImage image = this.getNewImage(newURI);
+		if (image != null) {
+			return new Dimension(image.getWidth(), image.getHeight());
+		} else {
+			return new Dimension(100, 100);
 		}
-		return new Dimension(100, 100);
 	}
 
+	@Override
+	public BufferedImage getOldImage(String oldUri) {
+		return loadImage(oldUri);
+	}
+
+	@Override
+	public BufferedImage getNewImage(String newURI) {
+		File toResourceFile = new File(newAdventurePath, newURI.substring(1));
+		FileInputStream inputStream = null;
+		BufferedImage image = null;
+		try {
+			inputStream = new FileInputStream(toResourceFile);
+			image = ImageIO.read(inputStream);
+		} catch (Exception e) {
+			logger.error("Error loading {}", newURI);
+		} finally {
+			if (inputStream != null) {
+				try {
+					inputStream.close();
+				} catch (IOException e) {
+					logger.error("Error closing input stream from {}", newURI);
+				}
+			}
+		}
+		return image;
+	}
 }
