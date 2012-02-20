@@ -122,7 +122,7 @@ public class BasicScene extends ComplexSceneElement implements EAdScene {
 	 *            the element to be added
 	 */
 	public void addSceneElement(SceneElement element) {
-		getComponents().add(element);
+		getSceneElements().add(element);
 	}
 
 }

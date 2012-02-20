@@ -37,7 +37,6 @@
 
 package ead.common.model.elements.scene;
 
-import ead.common.model.EAdElement;
 import ead.common.model.elements.extra.EAdList;
 
 /**
@@ -49,8 +48,8 @@ import ead.common.model.elements.extra.EAdList;
 public interface EAdComplexSceneElement extends EAdSceneElement {
 	
 	/**
-	 * @return the {@link EAdElement}s that make up the scene
+	 * @return the {@link EAdSceneElement}s that make up the scene
 	 */
-	EAdList<EAdSceneElement> getComponents();
+	EAdList<EAdSceneElement> getSceneElements();
 
 }

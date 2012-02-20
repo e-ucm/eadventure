@@ -69,7 +69,7 @@ public class ScrollScene extends EmptyScene {
 		character.addBehavior(MouseGEv.MOUSE_RIGHT_CLICK, effect);
 		
 		
-		this.getComponents().add(character);
+		this.getSceneElements().add(character);
 
 		MakeActiveElementEf makeActive = new MakeActiveElementEf(
 				character);

@@ -59,7 +59,7 @@ public class StorySectionImpl extends AbstractStoryElement implements
 	private EAdList<StorySectionStart> sectionStarts;
 	
 	public StorySectionImpl() {
-		name = EAdString.newEAdString("name");
+		name = EAdString.newRandomEAdString("name");
 		sectionStarts = new EAdListImpl<StorySectionStart>(StorySectionStart.class);
 	}
 

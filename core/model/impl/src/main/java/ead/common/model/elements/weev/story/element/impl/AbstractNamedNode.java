@@ -49,7 +49,7 @@ public abstract class AbstractNamedNode extends AbstractNode {
 	private EAdString name;
 	
 	public AbstractNamedNode() {
-		name = EAdString.newEAdString("name");
+		name = EAdString.newRandomEAdString("name");
 	}
 	
 	public EAdString getName() {

@@ -80,7 +80,7 @@ public class InventoryScene extends EmptyScene {
 		
 		key.addBehavior(MouseGEv.MOUSE_LEFT_CLICK, effect);
 		
-		getComponents().add(key);
+		getSceneElements().add(key);
 	}
 	
 	@Override

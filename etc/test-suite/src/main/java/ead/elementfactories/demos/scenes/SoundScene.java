@@ -49,7 +49,7 @@ public class SoundScene extends EmptyScene {
 	public SoundScene( ){
 		Caption caption = EAdElementsFactory.getInstance().getCaptionFactory().createCaption("Play", PaintFill.WHITE_ON_BLACK, PaintFill.BLACK_ON_WHITE, new BasicFont( new EAdURI( "@binary/DroidSans-Bold.ttf"), 20));
 		EAdEffect effect = EAdElementsFactory.getInstance().getEffectFactory().getPlaySound("@binary/sound.mp3" );
-		getComponents().add(EAdElementsFactory.getInstance().getSceneElementFactory().createSceneElement(caption, 10, 10, effect));
+		getSceneElements().add(EAdElementsFactory.getInstance().getSceneElementFactory().createSceneElement(caption, 10, 10, effect));
 	}
 	
 	

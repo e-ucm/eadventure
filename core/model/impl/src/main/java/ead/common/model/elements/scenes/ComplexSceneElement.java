@@ -73,8 +73,8 @@ public class ComplexSceneElement extends SceneElement implements
 	public static final EAdVarDef<Boolean> VAR_AUTO_SIZE_VERTICAL = new VarDef<Boolean>(
 			"autoSizeV", Boolean.class, Boolean.TRUE);
 
-	@Param("components")
-	protected EAdList<EAdSceneElement> components;
+	@Param("sceneElements")
+	protected EAdList<EAdSceneElement> sceneElements;
 
 	/**
 	 * Creates an empty complex scene element
@@ -84,7 +84,7 @@ public class ComplexSceneElement extends SceneElement implements
 	 */
 	public ComplexSceneElement() {
 		super();
-		components = new EAdListImpl<EAdSceneElement>(EAdSceneElement.class);
+		sceneElements = new EAdListImpl<EAdSceneElement>(EAdSceneElement.class);
 	}
 
 	public ComplexSceneElement(EAdSceneElementDef definition) {
@@ -112,7 +112,7 @@ public class ComplexSceneElement extends SceneElement implements
 	}
 
 	@Override
-	public EAdList<EAdSceneElement> getComponents() {
-		return components;
+	public EAdList<EAdSceneElement> getSceneElements() {
+		return sceneElements;
 	}
 }

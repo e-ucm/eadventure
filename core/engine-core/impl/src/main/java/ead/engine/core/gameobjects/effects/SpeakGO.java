@@ -187,7 +187,7 @@ public class SpeakGO extends AbstractEffectGO<SpeakEf> {
 
 		ComplexSceneElement complex = new ComplexSceneElement(rectangle);
 		complex.setId("complex");
-		complex.getComponents().add(textSE);
+		complex.getSceneElements().add(textSE);
 
 		caption = (RuntimeCaption<?>) (sceneElementFactory.get(textSE))
 				.getRenderAsset();

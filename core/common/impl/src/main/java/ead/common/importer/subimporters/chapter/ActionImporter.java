@@ -329,7 +329,7 @@ public class ActionImporter implements EAdElementImporter<Action, EAdAction> {
 	private static Image examineImage, examineOverImage;
 
 	private static void initExamineAction(StringHandler handler) {
-		examineString = EAdString.newEAdString("examineActionName");
+		examineString = EAdString.newRandomEAdString("examineActionName");
 		handler.setString(examineString, "Examine");
 
 		examineImage = new Image(getDrawablePath(Action.EXAMINE));

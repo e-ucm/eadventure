@@ -261,7 +261,7 @@ public class BookImporter implements EAdElementImporter<Book, EAdScene> {
 		xEvent.addEffect(SceneElementEvType.ADDED_TO_SCENE, changeX);
 
 		book.setReturnable(false);
-		book.getComponents().add(content);
+		book.getSceneElements().add(content);
 
 		if (oldObject.getType() == Book.TYPE_PARAGRAPHS) {
 			content.setPosition(Corner.TOP_LEFT, 0, 0);
@@ -315,8 +315,8 @@ public class BookImporter implements EAdElementImporter<Book, EAdScene> {
 			rightArrow.addBehavior(MouseGEv.MOUSE_LEFT_CLICK, changeScene);
 			changeScene.getNextEffects().add(showInventory);
 
-			book.getComponents().add(leftArrow);
-			book.getComponents().add(rightArrow);
+			book.getSceneElements().add(leftArrow);
+			book.getSceneElements().add(rightArrow);
 		} else {
 			content.setPosition(Corner.CENTER, 400, 300);
 			content.setVarInitialValue(SceneElement.VAR_ENABLE, false);

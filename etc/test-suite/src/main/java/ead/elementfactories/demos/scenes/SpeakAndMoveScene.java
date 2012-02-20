@@ -83,7 +83,7 @@ public class SpeakAndMoveScene extends EmptyScene {
 		// effect.seta
 		character.addBehavior(MouseGEv.MOUSE_LEFT_PRESSED, effect);
 
-		this.getComponents().add(character);
+		this.getSceneElements().add(character);
 
 		MakeActiveElementEf makeActive = new MakeActiveElementEf(
 				character);
@@ -123,7 +123,7 @@ public class SpeakAndMoveScene extends EmptyScene {
 		EAdEffect showActions = new ActorActionsEf(actionsObject.getDefinition());
 		actionsObject.addBehavior(MouseGEv.MOUSE_RIGHT_CLICK,
 				showActions);
-		getComponents().add(actionsObject);
+		getSceneElements().add(actionsObject);
 	}
 
 	@Override

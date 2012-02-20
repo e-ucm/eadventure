@@ -93,8 +93,8 @@ public class InitScene extends EmptyScene {
 			b.setPosition(x, y);
 			b.addBehavior(MouseGEv.MOUSE_LEFT_PRESSED,
 					new ChangeSceneEf( s, new DisplaceTransition(1000, DisplaceTransitionType.VERTICAL, true)));
-			this.getComponents().add(b);
-			s.getComponents().add(goBack);
+			this.getSceneElements().add(b);
+			s.getSceneElements().add(goBack);
 			SceneElement info = new SceneElement(infoButton);
 			info.setPosition(Corner.BOTTOM_LEFT, 80, 590);
 			SpeakEf effect = new SpeakEf();
@@ -104,7 +104,7 @@ public class InitScene extends EmptyScene {
 			sf.setString(effect.getString(), s.getSceneDescription());
 			info.addBehavior(MouseGEv.MOUSE_LEFT_PRESSED, effect);
 			// info.setScale(0.5f);
-			s.getComponents().add(info);
+			s.getSceneElements().add(info);
 			y += 45;
 			if (y > 520) {
 				y = 200;

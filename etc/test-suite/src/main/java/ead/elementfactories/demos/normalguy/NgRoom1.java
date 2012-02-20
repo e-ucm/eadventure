@@ -111,7 +111,7 @@ public class NgRoom1 extends EmptyScene {
 		setPortrait();
 		setDoor();
 		setKey();
-		this.getComponents().add(darkness);
+		this.getSceneElements().add(darkness);
 	}
 
 	private void initConditions() {
@@ -157,14 +157,14 @@ public class NgRoom1 extends EmptyScene {
 	}
 
 	private void addElementsInOrder() {
-		getComponents().add(door);
-		getComponents().add(key);
-		getComponents().add(portrait);
-		getComponents().add(carpet);
-		getComponents().add(ng);
-		getComponents().add(table);
-		getComponents().add(lamp);
-		getComponents().add(darkness);
+		getSceneElements().add(door);
+		getSceneElements().add(key);
+		getSceneElements().add(portrait);
+		getSceneElements().add(carpet);
+		getSceneElements().add(ng);
+		getSceneElements().add(table);
+		getSceneElements().add(lamp);
+		getSceneElements().add(darkness);
 	}
 
 	private void setDarkness(SceneElement ng) {

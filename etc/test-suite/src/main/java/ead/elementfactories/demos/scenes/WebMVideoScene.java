@@ -62,7 +62,7 @@ public class WebMVideoScene extends VideoScene implements SceneDemo {
 				.getSceneElementFactory()
 				.createSceneElement(new Image("@drawable/arrow_right.png"),
 						200, 60, changeScene);
-		this.getComponents().add(goRightArrow);
+		this.getSceneElements().add(goRightArrow);
 		
 		goRightArrow.addBehavior(KeyGEv.KEY_ARROW_RIGHT, changeScene);
 

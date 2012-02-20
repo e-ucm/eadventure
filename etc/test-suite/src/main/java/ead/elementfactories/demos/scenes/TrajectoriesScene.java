@@ -79,7 +79,7 @@ public class TrajectoriesScene extends EmptyScene {
 
 		element.getEvents().add(event);
 
-		getComponents().add(element);
+		getSceneElements().add(element);
 
 		getBackground().addBehavior(MouseGEv.MOUSE_LEFT_CLICK,
 				new MoveActiveElementToMouseEf());

@@ -69,7 +69,7 @@ public class PhysicsScene2 extends PhysicsScene {
 
 		SceneElement e2 = new SceneElement(rShape);
 		e2.setId("e2");
-		getComponents().add(e2);
+		getSceneElements().add(e2);
 		e2.setPosition(new EAdPosition(Corner.CENTER, 500, 200));
 		e2.setVarInitialValue(SceneElement.VAR_ROTATION,
 				(float) Math.PI / 4.0f);
@@ -80,7 +80,7 @@ public class PhysicsScene2 extends PhysicsScene {
 		
 		SceneElement e3 = new SceneElement( rShape);
 		e3.setId("e3");
-		getComponents().add(e3);
+		getSceneElements().add(e3);
 		e3.setPosition(new EAdPosition(Corner.CENTER, 200, 100));
 		e3.setVarInitialValue(SceneElement.VAR_ROTATION,
 				(float) Math.PI / 2.0f);
@@ -94,7 +94,7 @@ public class PhysicsScene2 extends PhysicsScene {
 		SceneElement b = new SceneElement( circle);
 		b.setId("ball");
 		b.setPosition(new EAdPosition(Corner.CENTER, 500, 0));
-		getComponents().add(b, 0);
+		getSceneElements().add(b, 0);
 		effect.addSceneElement(b);
 		b.setVarInitialValue(PhysicsEffect.VAR_PH_TYPE, PhType.DYNAMIC);
 		getBackground().addBehavior(
@@ -111,7 +111,7 @@ public class PhysicsScene2 extends PhysicsScene {
 				e.setId("ball" + i + "_" + j);
 				e.setPosition(new EAdPosition(Corner.CENTER, i * 60 + 200,
 						j * 60 + 200));
-				getComponents().add(e);
+				getSceneElements().add(e);
 				effect.addSceneElement(e);
 				e.setVarInitialValue(PhysicsEffect.VAR_PH_TYPE,
 						PhType.DYNAMIC);

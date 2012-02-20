@@ -84,10 +84,10 @@ public class SceneElementDef extends ResourcedElement implements
 	public SceneElementDef() {
 		super();
 		this.actions = new EAdListImpl<EAdAction>(EAdAction.class);
-		this.name = EAdString.newEAdString("name");
-		this.desc = EAdString.newEAdString("desc");
-		this.detailDesc = EAdString.newEAdString("detailDesc");
-		this.doc = EAdString.newEAdString("doc");
+		this.name = EAdString.newRandomEAdString("name");
+		this.desc = EAdString.newRandomEAdString("desc");
+		this.detailDesc = EAdString.newRandomEAdString("detailDesc");
+		this.doc = EAdString.newRandomEAdString("doc");
 
 	}
 

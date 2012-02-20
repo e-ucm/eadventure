@@ -89,8 +89,8 @@ public class BasicAdventureModel implements EAdAdventureModel {
 		chapters = new EAdListImpl<EAdChapter>(EAdChapter.class);
 		vars = new EAdMapImpl<EAdVarDef<?>, Object>(EAdVarDef.class,
 				Object.class);
-		description = EAdString.newEAdString("desc");
-		title = EAdString.newEAdString("title");
+		description = EAdString.newRandomEAdString("desc");
+		title = EAdString.newRandomEAdString("title");
 		gameWidth = DEFAULT_WIDTH;
 		gameHeight = DEFAULT_HEIGHT;
 		depthControlList = new EAdListImpl<EAdElement>(EAdElement.class);

@@ -78,10 +78,10 @@ public class ElementControllerGetPanelTest2 extends EAdFrame {
         //this.setLayout(new BorderLayout());
         
         EAdSceneElementDef sceneElementDef = mock(EAdSceneElementDef.class);
-        when(sceneElementDef.getName()).thenReturn(EAdString.newEAdString("testName"));
-        when(sceneElementDef.getDoc()).thenReturn(EAdString.newEAdString("testDocumentation"));
-        when(sceneElementDef.getDesc()).thenReturn(EAdString.newEAdString("testDescription"));
-        when(sceneElementDef.getDetailDesc()).thenReturn(EAdString.newEAdString("testDetailedDescription"));
+        when(sceneElementDef.getName()).thenReturn(EAdString.newRandomEAdString("testName"));
+        when(sceneElementDef.getDoc()).thenReturn(EAdString.newRandomEAdString("testDocumentation"));
+        when(sceneElementDef.getDesc()).thenReturn(EAdString.newRandomEAdString("testDescription"));
+        when(sceneElementDef.getDetailDesc()).thenReturn(EAdString.newRandomEAdString("testDetailedDescription"));
         
         CommandManager commandManager = mock(CommandManager.class);
         

@@ -56,10 +56,10 @@ public class EditionScene extends EmptyScene {
 		SceneElement element = new SceneElement();
 		element.setDefinition(elementDef);
 		element.setInitialScale(1.0f);
-		this.getComponents().add(element);
+		this.getSceneElements().add(element);
 		
-		for (EAdSceneElement sceneElement : scene.getComponents())
-			this.getComponents().add(new EditionSceneElement(sceneElement, 1.0f));
+		for (EAdSceneElement sceneElement : scene.getSceneElements())
+			this.getSceneElements().add(new EditionSceneElement(sceneElement, 1.0f));
 	}
 	
 }

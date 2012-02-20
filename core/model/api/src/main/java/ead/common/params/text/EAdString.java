@@ -88,8 +88,12 @@ public class EAdString implements EAdParam {
 		this.id = data;
 	}
 
-	public static EAdString newEAdString(String string) {
+	public static EAdString newRandomEAdString(String string) {
 		return new EAdString(string + (new Random()).nextInt(100000000));
+	}
+	
+	public static EAdString newEAdString(String string){
+		return new EAdString(string);
 	}
 	
 }

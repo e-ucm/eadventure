@@ -90,7 +90,7 @@ public class StringFactory {
 		if (strings == null) {
 			strings = new ArrayList<EAdString>();
 			for (StringType type : StringType.values()) {
-				EAdString string = EAdString.newEAdString(type.toString());
+				EAdString string = EAdString.newRandomEAdString(type.toString());
 				strings.add(string);
 			}
 		}
@@ -120,7 +120,7 @@ public class StringFactory {
 	}
 
 	public EAdString getString(String string) {
-		EAdString eAdString = EAdString.newEAdString(string);
+		EAdString eAdString = EAdString.newRandomEAdString(string);
 		setString(eAdString, string);
 		return eAdString;
 	}

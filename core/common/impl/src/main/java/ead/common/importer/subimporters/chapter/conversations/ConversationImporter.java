@@ -109,7 +109,7 @@ public class ConversationImporter implements
 				ShowQuestionEf currentNodeEffect = (ShowQuestionEf) nodes
 						.get(node);
 				for (int i = 0; i < node.getChildCount(); i++) {
-					EAdString string = EAdString.newEAdString("line");
+					EAdString string = EAdString.newRandomEAdString("line");
 					stringHandler.setString(string, node.getLineText(i));
 					currentNodeEffect.addAnswer(string,
 							nodes.get(node.getChild(i)));

@@ -133,11 +133,11 @@ public class PhysicsScene extends EmptyScene {
 				(float) Math.PI / 2.0f);
 
 		effect.addSceneElement(ground);
-		getComponents().add(ground);
+		getSceneElements().add(ground);
 		effect.addSceneElement(wall);
-		getComponents().add(wall);
+		getSceneElements().add(wall);
 		effect.addSceneElement(wall2);
-		getComponents().add(wall2);
+		getSceneElements().add(wall2);
 
 	}
 
@@ -168,7 +168,7 @@ public class PhysicsScene extends EmptyScene {
 		grass.setPosition(90, height + 60);
 		effect.getElements().add(grass);
 		
-		this.getComponents().add(grass);
+		this.getSceneElements().add(grass);
 
 		EAdField<Float> rotationField = new BasicField<Float>(canyon,
 				SceneElement.VAR_ROTATION);
@@ -203,8 +203,8 @@ public class PhysicsScene extends EmptyScene {
 		event.addEffect(SceneElementEvType.ALWAYS, followMouse);
 		canyon.getEvents().add(event);
 
-		getComponents().add(canyon);
-		getComponents().add(canyonSupport);
+		getSceneElements().add(canyon);
+		getSceneElements().add(canyonSupport);
 
 		// Bullet generation
 
@@ -231,7 +231,7 @@ public class PhysicsScene extends EmptyScene {
 		c.setBubblePaint(ColorFill.TRANSPARENT);
 		SceneElement e = new SceneElement( c);
 		e.setPosition(120, 375);
-		getComponents().add(e);
+		getSceneElements().add(e);
 
 	}
 
@@ -250,8 +250,8 @@ public class PhysicsScene extends EmptyScene {
 		rope.setPosition(new EAdPosition(Corner.CENTER, 450, 50));
 		rope.setVarInitialValue(PhysicsEffect.VAR_PH_TYPE, PhType.DYNAMIC);
 		rope.setVarInitialValue(PhysicsEffect.VAR_PH_FRICTION, 0.7f);
-		getComponents().add(rope);
-		getComponents().add(holder);
+		getSceneElements().add(rope);
+		getSceneElements().add(holder);
 
 		effect.addJoint(holder, rope);
 
@@ -285,12 +285,12 @@ public class PhysicsScene extends EmptyScene {
 		wave2.setId("wave2");
 		ComplexSceneElement waves = new ComplexSceneElement();
 		waves.setId("waves");
-		waves.getComponents().add(wave1);
+		waves.getSceneElements().add(wave1);
 		addGoal(waves);
-		waves.getComponents().add(wave2);
+		waves.getSceneElements().add(wave2);
 		waves.setPosition(EAdPosition.Corner.BOTTOM_LEFT, -50, 600);
 		
-		this.getComponents().add(waves);
+		this.getSceneElements().add(waves);
 		
 	}
 	
@@ -305,7 +305,7 @@ public class PhysicsScene extends EmptyScene {
 		SceneElement goal = new SceneElement( shape);
 		goal.setId("goal");
 		goal.setPosition(540, 0);
-		waves.getComponents().add(goal);
+		waves.getSceneElements().add(goal);
 	}
 
 }

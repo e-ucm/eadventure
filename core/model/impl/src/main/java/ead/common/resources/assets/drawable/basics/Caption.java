@@ -88,7 +88,7 @@ public class Caption implements EAdCaption {
 	private Alignment alignment;
 
 	public Caption() {
-		this(EAdString.newEAdString("label"));
+		this(EAdString.newRandomEAdString("label"));
 	}
 
 	public Caption(EAdString label) {
@@ -103,6 +103,10 @@ public class Caption implements EAdCaption {
 		padding = DEFAULT_PADDING;
 		alignment = Alignment.CENTER;
 		fields = new EAdListImpl<EAdOperation>(EAdOperation.class);
+	}
+
+	public Caption(String string) {
+		this(EAdString.newEAdString(string));
 	}
 
 	@Override

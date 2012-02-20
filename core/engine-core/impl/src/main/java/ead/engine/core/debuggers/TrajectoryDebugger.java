@@ -138,7 +138,7 @@ public class TrajectoryDebugger implements Debugger {
 			if (currentTrajectory instanceof NodeTrajectoryDefinition) {
 				createNodes((NodeTrajectoryDefinition) currentTrajectory);
 				addInfluenceAreas(gameState.getScene().getElement()
-						.getComponents());
+						.getSceneElements());
 			} else if (currentTrajectory instanceof SimpleTrajectoryDefinition) {
 				SimpleTrajectoryDefinition def = (SimpleTrajectoryDefinition) currentTrajectory;
 				SceneElement area = new SceneElement(

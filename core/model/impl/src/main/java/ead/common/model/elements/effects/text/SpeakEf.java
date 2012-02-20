@@ -85,7 +85,7 @@ public class SpeakEf extends AbstractEffect {
 	 * {@link PaintFill#BLACK_ON_WHITE}
 	 */
 	public SpeakEf() {
-		this(EAdString.newEAdString("string"));
+		this(EAdString.newRandomEAdString("string"));
 	}
 
 	public SpeakEf(EAdString text) {

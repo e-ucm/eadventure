@@ -59,8 +59,8 @@ public class FiltersDemo extends EmptyScene {
 		SceneElement e2 = new SceneElement(i);
 		e2.setPosition(Corner.CENTER, 400, 400);
 		e2.setInitialScale(0.8f);
-		getComponents().add(e2);
-		getComponents().add(e);
+		getSceneElements().add(e2);
+		getSceneElements().add(e);
 	}
 
 	@Override

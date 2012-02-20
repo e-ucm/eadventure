@@ -69,8 +69,8 @@ public class EffectOpaqueBlockTestScreen extends BasicScene implements
 		initButtonActor();
 		initButtonActor2();
 
-		getComponents().add(buttonReference);
-		getComponents().add(buttonReference2);
+		getSceneElements().add(buttonReference);
+		getSceneElements().add(buttonReference2);
 	}
 
 	private void initButtonActor() {

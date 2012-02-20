@@ -83,7 +83,7 @@ public class EditionSceneElement extends ComplexSceneElement {
 			proxy = new ComplexSceneElementProxy(element);
 		}
 		
-		this.components.add(proxy);
+		this.sceneElements.add(proxy);
 		this.setVarInitialValue(SceneElement.VAR_X, (int) (scale * (Integer) proxy.getVars().get(SceneElement.VAR_X)));
 		this.setVarInitialValue(SceneElement.VAR_Y, (int) (scale * (Integer) proxy.getVars().get(SceneElement.VAR_Y)));
 		proxy.setVarInitialValue(SceneElement.VAR_X, 0);
@@ -119,7 +119,7 @@ public class EditionSceneElement extends ComplexSceneElement {
 
 		squareDef.getResources().addAsset(squareDef.getInitialBundle(), SceneElementDef.appearance, new RectangleShape(10, 10, PaintFill.BLACK_ON_WHITE));
 		square.setVarInitialValue(SceneElement.VAR_VISIBLE, Boolean.FALSE);
-		this.components.add(square);
+		this.sceneElements.add(square);
 		
 		unselectEffects.add(new ChangeFieldEf(
 				new BasicField<Boolean>(square, SceneElement.VAR_VISIBLE),
@@ -166,7 +166,7 @@ public class EditionSceneElement extends ComplexSceneElement {
 		square.setDragCond(EmptyCond.TRUE_EMPTY_CONDITION);
 		squareDef.getResources().addAsset(squareDef.getInitialBundle(), SceneElementDef.appearance, new RectangleShape(10, 10, PaintFill.BLACK_ON_WHITE));
 		square.setVarInitialValue(SceneElement.VAR_VISIBLE, Boolean.FALSE);
-		this.components.add(square);
+		this.sceneElements.add(square);
 		
 		unselectEffects.add(new ChangeFieldEf(
 				new BasicField<Boolean>(square, SceneElement.VAR_VISIBLE),

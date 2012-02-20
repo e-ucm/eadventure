@@ -204,9 +204,9 @@ public class SceneImporter implements EAdElementImporter<Scene, BasicScene> {
 			int layer = oldScene.getPlayerLayer();
 
 			if (layer <= 0) {
-				scene.getComponents().add(playerReference);
+				scene.getSceneElements().add(playerReference);
 			} else {
-				scene.getComponents().add(playerReference, layer - 1);
+				scene.getSceneElements().add(playerReference, layer - 1);
 			}
 
 			scene.getBackground().addBehavior(MouseGEv.MOUSE_LEFT_CLICK,
@@ -242,7 +242,7 @@ public class SceneImporter implements EAdElementImporter<Scene, BasicScene> {
 				barrier = barrierImporter.convert(b, barrier);
 
 				nodeDef.addBarrier(barrier);
-				scene.getComponents().add(barrier);
+				scene.getSceneElements().add(barrier);
 			}
 
 			playerReference.setPosition(new EAdPosition(Corner.BOTTOM_CENTER,
@@ -264,7 +264,7 @@ public class SceneImporter implements EAdElementImporter<Scene, BasicScene> {
 					- substract - i);
 			i++;
 			if (activeArea != null)
-				scene.getComponents().add(activeArea);
+				scene.getSceneElements().add(activeArea);
 		}
 
 	}
@@ -278,7 +278,7 @@ public class SceneImporter implements EAdElementImporter<Scene, BasicScene> {
 			se = exitsImporter.convert(e, se);
 			i++;
 			if (se != null)
-				scene.getComponents().add(se);
+				scene.getSceneElements().add(se);
 		}
 		return i;
 
@@ -290,7 +290,7 @@ public class SceneImporter implements EAdElementImporter<Scene, BasicScene> {
 			EAdSceneElement newRef = referencesImporter.init(oldRef);
 			newRef = referencesImporter.convert(oldRef, newRef);
 			newRef.setVarInitialValue(SceneElement.VAR_Z, oldRef.getLayer());
-			scene.getComponents().add(newRef);
+			scene.getSceneElements().add(newRef);
 		}
 
 	}
@@ -331,7 +331,7 @@ public class SceneImporter implements EAdElementImporter<Scene, BasicScene> {
 				foreground.setId("foreground");
 				foreground.setVarInitialValue(SceneElement.VAR_Z,
 						Integer.MAX_VALUE);
-				scene.getComponents().add(foreground);
+				scene.getSceneElements().add(foreground);
 			}
 			// Music is imported to chapter level. So, the chapter will
 			// remain with the last sound track appeared in the scenes

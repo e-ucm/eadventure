@@ -206,7 +206,7 @@ public class InventoryHUDImpl extends AbstractHUD implements InventoryHUD {
 
 	private void updateItems() {
 		if (currentUpdate != inventoryHandler.updateNumber()) {
-			inventory.getComponents().clear();
+			inventory.getSceneElements().clear();
 			delay = 1000;
 			this.inventoryDispY = 1.0f;
 			valueMap.setValue(inventoryDispYField, inventoryDispY);
@@ -232,14 +232,14 @@ public class InventoryHUDImpl extends AbstractHUD implements InventoryHUD {
 				element.setVarInitialValue(
 						SceneElement.VAR_RETURN_WHEN_DRAGGED, true);
 
-				inventory.getComponents().add(element);
+				inventory.getSceneElements().add(element);
 
 				if (i.getCount() > 1) {
 					float counterSize = size / 3;
 					SceneElement counter = getCounter(i.getCount(), counterSize);
 					counter.setPosition(Corner.CENTER, x, INVENTORY_HEIGHT / 2);
 
-					inventory.getComponents().add(counter);
+					inventory.getSceneElements().add(counter);
 				}
 				x += INVENTORY_HEIGHT;
 			}

@@ -60,7 +60,7 @@ public class AdaptationStructureImpl extends AbstractWEEVElement implements
 	
 	public AdaptationStructureImpl() {
 		profiles = new EAdListImpl<AdaptationProfile>(AdaptationProfile.class);
-		name = EAdString.newEAdString("name");
+		name = EAdString.newRandomEAdString("name");
 	}
 
 	@Override

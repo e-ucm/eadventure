@@ -52,7 +52,7 @@ public class ParallelStory extends AbstractAreaNode {
 	private EAdString name;
 
 	public ParallelStory() {
-		name = EAdString.newEAdString("name");
+		name = EAdString.newRandomEAdString("name");
 	}
 
 	public EAdString getName() {

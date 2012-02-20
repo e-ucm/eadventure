@@ -69,7 +69,7 @@ public class Button extends ComplexSceneElement {
 		text.setVarInitialValue(SceneElement.VAR_ENABLE, Boolean.FALSE);
 
 		createButton();
-		getComponents().add(text);
+		getSceneElements().add(text);
 	}
 
 	public EAdString getLabel() {

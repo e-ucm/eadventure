@@ -104,7 +104,7 @@ public class ShowQuestionEf extends ComplexBlockingEffect {
 
 	public EAdString getQuestion() {
 		if (question == null) {
-			question = EAdString.newEAdString("question");
+			question = EAdString.newRandomEAdString("question");
 		}
 		return question;
 	}

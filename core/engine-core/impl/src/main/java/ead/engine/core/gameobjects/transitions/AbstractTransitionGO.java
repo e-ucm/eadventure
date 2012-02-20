@@ -152,7 +152,7 @@ public abstract class AbstractTransitionGO<T extends EAdTransition> extends
 				SceneElement.VAR_ROTATION);
 
 		scene.setBackground(new SceneElement(rs));
-		scene.getComponents().add(loadingText);
+		scene.getSceneElements().add(loadingText);
 		return scene;
 	}
 

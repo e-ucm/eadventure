@@ -67,7 +67,7 @@ public class ElementAction extends ResourcedElement implements EAdAction {
 	private EAdBundleId highlightBundle;
 	
 	public ElementAction(){
-		this( EAdString.newEAdString("name"));
+		this( EAdString.newRandomEAdString("name"));
 	}
 	
 	public ElementAction(EAdString name) {

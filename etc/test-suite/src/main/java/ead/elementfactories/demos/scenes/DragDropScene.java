@@ -100,11 +100,11 @@ public class DragDropScene extends EmptyScene {
 		addBehaviors(e2, e1);
 		addBehaviors(e3, e1);
 
-		getComponents().add(e2);
-		getComponents().add(e3);
-		getComponents().add(e1);
-		getComponents().add(e4);
-		getComponents().add(e5);
+		getSceneElements().add(e2);
+		getSceneElements().add(e3);
+		getSceneElements().add(e1);
+		getSceneElements().add(e4);
+		getSceneElements().add(e5);
 
 	}
 

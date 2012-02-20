@@ -64,7 +64,7 @@ public class TextsScene extends EmptyScene {
 			.getEffectFactory().getShowText(
 				"This text is showing through an EAdShowText effect", 
 				400, 200, ShowTextAnimation.FADE_IN );
-		getComponents().add(EAdElementsFactory.getInstance()
+		getSceneElements().add(EAdElementsFactory.getInstance()
 			.getSceneElementFactory().createSceneElement(
 				caption, 10, 10, effect));
 		
@@ -78,7 +78,7 @@ public class TextsScene extends EmptyScene {
 		EAdEffect question = EAdElementsFactory.getInstance()
 				.getEffectFactory().getShowQuestion(
 						"I have a question and you have to answer, I'm afraid", 5 );
-		getComponents().add(EAdElementsFactory.getInstance()
+		getSceneElements().add(EAdElementsFactory.getInstance()
 				.getSceneElementFactory().createSceneElement(
 						caption2, 10, 100, question));
 		
@@ -92,7 +92,7 @@ public class TextsScene extends EmptyScene {
 				.getEffectFactory().getShowText(
 						StringType.VERY_LONG_STRING.getString(), 
 						400, 200, ShowTextAnimation.FADE_IN, 100 );
-		getComponents().add(EAdElementsFactory.getInstance()
+		getSceneElements().add(EAdElementsFactory.getInstance()
 				.getSceneElementFactory().createSceneElement(
 						caption3, 10, 200, effect2));
 	}

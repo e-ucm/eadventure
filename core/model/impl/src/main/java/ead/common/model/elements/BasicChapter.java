@@ -92,8 +92,8 @@ public class BasicChapter extends ResourcedElement implements EAdChapter, Evente
 		scenes = new EAdListImpl<EAdScene>(EAdScene.class);
 		actors = new EAdListImpl<EAdSceneElementDef>(EAdSceneElementDef.class);
 		events = new EAdListImpl<EAdEvent>(EAdEvent.class);
-		title = EAdString.newEAdString("title");
-		description = EAdString.newEAdString("desc");
+		title = EAdString.newRandomEAdString("title");
+		description = EAdString.newRandomEAdString("desc");
 		vars = new EAdMapImpl<EAdVarDef<?>, Object>(EAdVarDef.class,
 				Object.class);
 

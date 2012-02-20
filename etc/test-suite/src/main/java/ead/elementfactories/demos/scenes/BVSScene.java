@@ -90,19 +90,19 @@ public class BVSScene extends EmptyScene {
 		
 		SceneElement b = getButton(optionUris);
 		b.setPosition(new EAdPosition(Corner.BOTTOM_LEFT, 75, 575));
-		getComponents().add(b);
+		getSceneElements().add(b);
 		
 		b = getButton(option1Uris);
 		b.setPosition(new EAdPosition(Corner.BOTTOM_RIGHT, 725, 575));
-		getComponents().add(b);
+		getSceneElements().add(b);
 
 		b = getButton(option2Uris);
 		b.setPosition(new EAdPosition(Corner.TOP_RIGHT, 725, 150));
-		getComponents().add(b);
+		getSceneElements().add(b);
 
 		b = getButton(option3Uris);
 		b.setPosition(new EAdPosition(Corner.TOP_LEFT, 75, 150));
-		getComponents().add(b);
+		getSceneElements().add(b);
 
 		Caption caption = new Caption(new EAdString("Choose how to start a cough..."));
 		caption.setFont(new BasicFont(45.0f));
@@ -111,7 +111,7 @@ public class BVSScene extends EmptyScene {
 		title.getResources().addAsset(title.getInitialBundle(), SceneElementDef.appearance, caption);
 		SceneElement titleRef = new SceneElement(title);
 		titleRef.setPosition(20, 20);
-		getComponents().add(titleRef);
+		getSceneElements().add(titleRef);
 		
 		SceneElementEv event = new SceneElementEv();
 		InterpolationEf effect = new InterpolationEf(

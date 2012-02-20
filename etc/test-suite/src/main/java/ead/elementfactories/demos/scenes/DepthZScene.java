@@ -64,11 +64,11 @@ public class DepthZScene extends EmptyScene {
 		
 		SceneElement e1 = new SceneElement(new RectangleShape( 50, 500, new PaintFill( ColorFill.RED, ColorFill.BLACK ) ));
 		e1.setPosition(new EAdPosition( Corner.CENTER, 400, 300 ));
-		getComponents().add(e1);
+		getSceneElements().add(e1);
 		
 		SceneElement e2 = new SceneElement( new CircleShape( 20, 20, 20, 20, new PaintFill( ColorFill.GREEN, ColorFill.BLACK ) ));
 		e2.setPosition(new EAdPosition( Corner.CENTER, 10, 300 ));
-		getComponents().add(e2);
+		getSceneElements().add(e2);
 		
 		EAdField<Integer> xField = new BasicField<Integer>(e2, SceneElement.VAR_X);
 		InterpolationEf effect = new InterpolationEf(xField, 50, 750, totalTime, InterpolationLoopType.REVERSE, InterpolationType.LINEAR);

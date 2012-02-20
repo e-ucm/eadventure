@@ -50,7 +50,7 @@ public class ShowQuestionScene extends EmptyScene {
 				.getSceneElementFactory()
 				.createSceneElement("Launch show question", 10, 10);
 
-		getComponents().add(element);
+		getSceneElements().add(element);
 
 		StringFactory stringFactory = EAdElementsFactory.getInstance()
 				.getStringFactory();

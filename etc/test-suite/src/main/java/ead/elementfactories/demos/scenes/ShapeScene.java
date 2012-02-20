@@ -71,37 +71,37 @@ public class ShapeScene extends EmptyScene {
 		EAdSceneElement e = EAdElementsFactory.getInstance().getSceneElementFactory().createSceneElement(rectangleAsset1, rectangleAsset2, x + 20, margin);
 		e.setVarInitialValue(SceneElement.VAR_SCALE, 0.5f);
 		e.setVarInitialValue(SceneElement.VAR_ROTATION, 0.5f);
-		getComponents().add(e);
+		getSceneElements().add(e);
 		x+= margin + size;
 		
 		// Circle
 		EAdDrawable asset1 = shapeFactory.getElement(ShapeFactory.ShapeType.CIRCLE_SHAPE, size, size, new PaintFill( ColorFill.YELLOW, ColorFill.BROWN ));
 		EAdDrawable asset2 = shapeFactory.getElement(ShapeFactory.ShapeType.CIRCLE_SHAPE, size, size, new PaintFill( ColorFill.ORANGE, ColorFill.BROWN ));
-		getComponents().add(EAdElementsFactory.getInstance().getSceneElementFactory().createSceneElement(asset1, asset2, x, margin));
+		getSceneElements().add(EAdElementsFactory.getInstance().getSceneElementFactory().createSceneElement(asset1, asset2, x, margin));
 		x+= margin + size;
 		
 		// Triangle
 		EAdDrawable asset31 = shapeFactory.getElement(ShapeFactory.ShapeType.TRIANGLE_SHAPE, size, size, new PaintFill( ColorFill.BLUE, ColorFill.BROWN ));
 		EAdDrawable asset32 = shapeFactory.getElement(ShapeFactory.ShapeType.TRIANGLE_SHAPE, size, size, new PaintFill( ColorFill.CYAN, ColorFill.BLACK ));
-		getComponents().add(EAdElementsFactory.getInstance().getSceneElementFactory().createSceneElement(asset31, asset32, x, margin));
+		getSceneElements().add(EAdElementsFactory.getInstance().getSceneElementFactory().createSceneElement(asset31, asset32, x, margin));
 		x+= margin + size;
 		
 		// Irregular shape 1
 		EAdDrawable asset51 = shapeFactory.getElement(ShapeFactory.ShapeType.IRREGULAR_SHAPE_1, size, size, new PaintFill( ColorFill.MAGENTA, ColorFill.YELLOW ));
 		EAdDrawable asset52 = shapeFactory.getElement(ShapeFactory.ShapeType.IRREGULAR_SHAPE_1, size, size, new PaintFill( ColorFill.RED, ColorFill.ORANGE ));
-		getComponents().add(EAdElementsFactory.getInstance().getSceneElementFactory().createSceneElement(asset51, asset52, x, margin));
+		getSceneElements().add(EAdElementsFactory.getInstance().getSceneElementFactory().createSceneElement(asset51, asset52, x, margin));
 		x+= margin + size;
 		
 		// Random shape
 		EAdDrawable asset41 = shapeFactory.getElement(ShapeFactory.ShapeType.IRREGULAR_RANDOM_SHAPE, size, size, new PaintFill( ColorFill.GRAY, ColorFill.BROWN ));
 		EAdDrawable asset42 = shapeFactory.getElement(ShapeFactory.ShapeType.IRREGULAR_RANDOM_SHAPE, size, size, new PaintFill( ColorFill.DARK_GRAY, ColorFill.BLACK ));
-		getComponents().add(EAdElementsFactory.getInstance().getSceneElementFactory().createSceneElement(asset41, asset42, x, margin));
+		getSceneElements().add(EAdElementsFactory.getInstance().getSceneElementFactory().createSceneElement(asset41, asset42, x, margin));
 		x = margin;
 		
 		// Drop shape
 		EAdDrawable asset61 = shapeFactory.getElement(ShapeFactory.ShapeType.DROP_SHAPE, size, size, new PaintFill( ColorFill.GRAY, ColorFill.BROWN ));
 		EAdDrawable asset62 = shapeFactory.getElement(ShapeFactory.ShapeType.DROP_SHAPE, size, size, new PaintFill( ColorFill.DARK_GRAY, ColorFill.BLACK ));
-		getComponents().add(EAdElementsFactory.getInstance().getSceneElementFactory().createSceneElement(asset61, asset62, x, margin * 2 + size));
+		getSceneElements().add(EAdElementsFactory.getInstance().getSceneElementFactory().createSceneElement(asset61, asset62, x, margin * 2 + size));
 		x+= margin + size;
 		
 		// Rectangle rotating
@@ -109,11 +109,11 @@ public class ShapeScene extends EmptyScene {
 		EAdDrawable asset22 = shapeFactory.getElement(ShapeFactory.ShapeType.RECTANGULAR_SHAPE, size, size * 3, new PaintFill( ColorFill.LIGHT_BROWN, ColorFill.DARK_BROWN));
 		SceneElement rotatingRectangle = EAdElementsFactory.getInstance().getSceneElementFactory().createSceneElement(asset21, asset22, 330, 200);
 		rotatingRectangle.setPosition(Corner.CENTER, 400, 300);
-		getComponents().add(rotatingRectangle);
+		getSceneElements().add(rotatingRectangle);
 		InterpolationEf interpolation = EAdElementsFactory.getInstance().getEffectFactory().getInterpolationEffect(new BasicField<Float>(rotatingRectangle, SceneElement.VAR_ROTATION), 0, (float) (Math.PI * 2.0), 2000, InterpolationLoopType.RESTART, InterpolationType.LINEAR); 
 		SceneElementEv event = EAdElementsFactory.getInstance().getEventsFactory().getEvent(SceneElementEvType.FIRST_UPDATE, interpolation);
 		rotatingRectangle.getEvents().add(event);
-		getComponents().add(rotatingRectangle);
+		getSceneElements().add(rotatingRectangle);
 		
 	}
 	

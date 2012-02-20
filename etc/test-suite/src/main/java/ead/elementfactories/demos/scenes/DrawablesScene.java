@@ -73,7 +73,7 @@ public class DrawablesScene extends EmptyScene {
 		EAdComposedDrawable composed = new ComposedDrawable();
 		composed.addDrawable(caption);
 		composed.addDrawable(drawable, 0, 40);
-		getComponents().add(
+		getSceneElements().add(
 				EAdElementsFactory.getInstance().getSceneElementFactory()
 						.createSceneElement(composed, x, y));
 
@@ -135,7 +135,7 @@ public class DrawablesScene extends EmptyScene {
 		composed.addDrawable(caption);
 		composed.addDrawable(composedDrawable, 0, 40);
 
-		getComponents().add(
+		getSceneElements().add(
 				EAdElementsFactory.getInstance().getSceneElementFactory()
 						.createSceneElement(composed, x, y));
 
@@ -161,7 +161,7 @@ public class DrawablesScene extends EmptyScene {
 		caption.setPadding(0);
 		caption.setTextPaint(ColorFill.BLACK);
 
-		getComponents().add(
+		getSceneElements().add(
 				EAdElementsFactory.getInstance().getSceneElementFactory()
 						.createSceneElement(caption, x, y));
 		SceneElement sceneElement = EAdElementsFactory.getInstance()
@@ -187,7 +187,7 @@ public class DrawablesScene extends EmptyScene {
 										SceneElement.VAR_STATE),
 								new ValueOp(CommonStates.EAD_STATE_TALKING
 												.toString())));
-		getComponents().add(sceneElement);
+		getSceneElements().add(sceneElement);
 
 		// Frames
 		String uris[] = new String[2];
@@ -202,7 +202,7 @@ public class DrawablesScene extends EmptyScene {
 		caption.setPadding(0);
 		caption.setTextPaint(ColorFill.BLACK);
 
-		getComponents().add(
+		getSceneElements().add(
 				EAdElementsFactory.getInstance().getSceneElementFactory()
 						.createSceneElement(caption, margin, 180));
 
@@ -210,7 +210,7 @@ public class DrawablesScene extends EmptyScene {
 				.getSceneElementFactory()
 				.createSceneElement(animation, margin, 220);
 		paniel.setInitialScale(0.8f);
-		getComponents().add(paniel);
+		getSceneElements().add(paniel);
 
 	}
 
