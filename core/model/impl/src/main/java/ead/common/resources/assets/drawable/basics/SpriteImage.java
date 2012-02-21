@@ -41,8 +41,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import ead.common.interfaces.Param;
-import ead.common.resources.assets.drawable.basics.EAdBasicDrawable;
-import ead.common.resources.assets.drawable.basics.EAdSpriteImage;
 
 public class SpriteImage implements EAdBasicDrawable {
 

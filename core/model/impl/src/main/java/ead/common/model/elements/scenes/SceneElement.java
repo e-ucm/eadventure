@@ -283,4 +283,8 @@ public class SceneElement extends AbstractElementWithBehavior implements
 		getDefinition().setAppearance(bundle, appearance);
 	}
 
+	public void setInitialEnable(boolean enable) {
+		setVarInitialValue(SceneElement.VAR_ENABLE, enable);	
+	}
+
 }

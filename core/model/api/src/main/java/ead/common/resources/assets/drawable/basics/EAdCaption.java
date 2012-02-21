@@ -46,12 +46,8 @@ import ead.common.resources.assets.drawable.basics.enums.Alignment;
 
 /**
  * General interface for texts to be shown during the game
- * 
- * 
  */
 public interface EAdCaption extends EAdBasicDrawable {
-
-
 
 	/**
 	 * Constant that can be used to define infinite maximum width/height for the
@@ -70,54 +66,81 @@ public interface EAdCaption extends EAdBasicDrawable {
 	 * 
 	 * @return
 	 */
-	public EAdString getText();
+	EAdString getText();
 
 	/**
 	 * Returns the font for the text
 	 * 
 	 * @return
 	 */
-	public EAdFont getFont();
+	EAdFont getFont();
+
+	/**
+	 * Sets the font for the caption
+	 * 
+	 * @param font
+	 *            the font
+	 */
+	void setFont(EAdFont font);
 
 	/**
 	 * Returns the color for the text
 	 * 
 	 * @return
 	 */
-	public EAdPaint getTextPaint();
+	EAdPaint getTextPaint();
 
 	/**
 	 * Returns whether this caption has a bubble
 	 * 
 	 * @return
 	 */
-	public boolean hasBubble();
+	boolean hasBubble();
 
 	/**
 	 * Returns the padding used in bubble drawing
 	 * 
 	 * @return the padding used in bubble drawing
 	 */
-	public int getPadding();
+	int getPadding();
+
+	/**
+	 * Sets the padding for the caption
+	 * 
+	 * @param padding
+	 *            the padding
+	 */
+	void setPadding(int padding);
 
 	/**
 	 * Returns the color for the bubble containing the text
 	 * 
 	 * @return
 	 */
-	public EAdPaint getBubblePaint();
+	EAdPaint getBubblePaint();
 
 	/**
-	 * Returns the preferred width for this text, and integer greater than zero,
-	 * or the constants {@link EAdCaption#AUTO_SIZE} or {@link EAdCaption#SCREEN_SIZE}
+	 * Returns the preferred width for this text, an integer greater than zero,
+	 * or the constants {@link EAdCaption#AUTO_SIZE} or
+	 * {@link EAdCaption#SCREEN_SIZE}
 	 * 
 	 * @return
 	 */
 	int getPreferredWidth();
 
 	/**
-	 * Returns the preferred height for this text, and integer greater than
-	 * zero, or the constants {@link EAdCaption#AUTO_SIZE} or
+	 * Sets the preferred width for the caption, an integer greater than zero,
+	 * or the constants {@link EAdCaption#AUTO_SIZE} or
+	 * {@link EAdCaption#SCREEN_SIZE}
+	 * 
+	 * @param preferredWidth
+	 *            the preferred width
+	 */
+	void setPreferredWidth(int preferredWidth);
+
+	/**
+	 * Returns the preferred height for this text, an integer greater than zero,
+	 * or the constants {@link EAdCaption#AUTO_SIZE} or
 	 * {@link EAdCaption#SCREEN_SIZE}
 	 * 
 	 * @return
@@ -140,10 +163,14 @@ public interface EAdCaption extends EAdBasicDrawable {
 	 */
 	Alignment getAlignment();
 
-	public void setPadding(int margin);
-
-	public void setPreferredWidth(int i);
-
-	public void setPreferredHeight(int i);
+	/**
+	 * Sets the preferred height for the caption, an integer greater than zero,
+	 * or the constants {@link EAdCaption#AUTO_SIZE} or
+	 * {@link EAdCaption#SCREEN_SIZE}
+	 * 
+	 * @param preferredHeight
+	 *            the preferred height
+	 */
+	void setPreferredHeight(int preferredHeight);
 
 }

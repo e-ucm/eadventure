@@ -49,7 +49,7 @@ import ead.engine.core.gameobjects.GameObjectManager;
 import ead.engine.core.gameobjects.factories.SceneElementGOFactory;
 import ead.engine.core.input.DesktopInputListener;
 import ead.engine.core.input.InputHandler;
-import ead.engine.core.platform.assets.DesktopEngineImage;
+import ead.engine.core.platform.assets.drawables.basics.DesktopImage;
 import ead.engine.core.platform.rendering.DesktopCanvas;
 import ead.utils.swing.SwingExceptionHandler;
 import ead.utils.swing.SwingUtilities;
@@ -230,7 +230,7 @@ public class DesktopGUI extends AbstractGUI<Graphics2D> implements GUI {
 
 	public RuntimeAsset<? extends EAdBasicDrawable> commitToImage() {
 
-		DesktopEngineImage image = new DesktopEngineImage(
+		DesktopImage image = new DesktopImage(
 				platformConfiguration.getWidth(),
 				platformConfiguration.getHeight());
 

@@ -66,8 +66,8 @@ public class JavaSceneLoader extends AbstractSceneLoader {
 		}.start();
 	}
 	
-	public void freeUnusedAssets(SceneGO<?> currentScene){
-		super.freeUnusedAssets(currentScene);
+	public void freeUnusedAssets(SceneGO<?> currentScene, SceneGO<?> nextScene){
+		super.freeUnusedAssets(currentScene, nextScene);
 		new Thread( ){
 			public void run( ){
 				freeScene();

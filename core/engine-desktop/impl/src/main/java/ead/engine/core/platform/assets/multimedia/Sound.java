@@ -35,7 +35,7 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ead.engine.core.platform.assets.sound;
+package ead.engine.core.platform.assets.multimedia;
 
 /**
  * This abstract class defines any kind of sound event managed in eAdventure.

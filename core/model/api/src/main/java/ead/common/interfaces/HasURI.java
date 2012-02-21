@@ -54,4 +54,12 @@ public interface HasURI {
 	 * @return
 	 */
 	EAdURI getUri();
+
+	/**
+	 * Sets the uri for the element
+	 * 
+	 * @param uri
+	 *            the uri
+	 */
+	void setUri(EAdURI uri);
 }

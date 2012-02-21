@@ -103,7 +103,7 @@ public class DisplaceTransitionGO extends
 	public void update() {
 		super.update();
 		if (isLoadedNextScene()) {
-
+			nextSceneGO.update();
 			int currentTime = gameState.getValueMap().getValue(getElement(),
 					SceneElement.VAR_TIME_DISPLAYED);
 			if (startTime == -1) {

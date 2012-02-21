@@ -35,11 +35,12 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ead.engine.core.platform.assets;
+package ead.engine.core.platform.assets.drawables.basics;
 
 import com.google.inject.Inject;
 import ead.engine.core.platform.AssetHandler;
 import ead.engine.core.platform.DesktopAssetHandler;
+import ead.engine.core.platform.assets.drawables.basics.RuntimeImage;
 import ead.engine.core.platform.rendering.GenericCanvas;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
@@ -47,7 +48,7 @@ import javax.imageio.ImageIO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class DesktopEngineImage extends RuntimeImage<Graphics2D> {
+public class DesktopImage extends RuntimeImage<Graphics2D> {
 
 	/**
 	 * The buffered image
@@ -61,18 +62,18 @@ public class DesktopEngineImage extends RuntimeImage<Graphics2D> {
 			.getLogger("DesktopEngineImage");
 
 	@Inject
-	public DesktopEngineImage(AssetHandler assetHandler) {
+	public DesktopImage(AssetHandler assetHandler) {
 		super(assetHandler);
 		logger.info("New instance");
 	}
 
 	/**
-	 * Creates an empty {@link DesktopEngineImage} with the given dimensions
+	 * Creates an empty {@link DesktopImage} with the given dimensions
 	 *
 	 * @param width
 	 * @param height
 	 */
-	public DesktopEngineImage(int width, int height) {
+	public DesktopImage(int width, int height) {
 		super(null);
 		image = new BufferedImage(width, height, BufferedImage.TYPE_4BYTE_ABGR);
 

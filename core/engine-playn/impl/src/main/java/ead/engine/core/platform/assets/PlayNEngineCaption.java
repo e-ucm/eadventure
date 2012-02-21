@@ -47,7 +47,7 @@ import ead.engine.core.game.VariableMap;
 import ead.engine.core.platform.AssetHandler;
 import ead.engine.core.platform.FontHandler;
 import ead.engine.core.platform.RuntimeFont;
-import ead.engine.core.platform.assets.RuntimeCaption;
+import ead.engine.core.platform.assets.drawables.basics.RuntimeCaption;
 
 public class PlayNEngineCaption extends RuntimeCaption<Canvas> {
 

@@ -40,7 +40,7 @@ package ead.engine.core.platform.assets;
 import android.graphics.Canvas;
 import android.graphics.Path;
 import ead.common.util.EAdPosition;
-import ead.engine.core.platform.assets.RuntimeBezierShape;
+import ead.engine.core.platform.assets.drawables.basics.RuntimeBezierShape;
 
 public class AndroidBezierShape extends RuntimeBezierShape<Canvas> {
 	
@@ -89,6 +89,13 @@ public class AndroidBezierShape extends RuntimeBezierShape<Canvas> {
 	@Override
 	public boolean contains(int x, int y) {
 		return x > 0 && y > 0 && x < getWidth() && y < getHeight();
+	}
+
+	@Override
+	public void freeMemory() {
+		path.reset();
+		path = null;
+		
 	}
 
 }

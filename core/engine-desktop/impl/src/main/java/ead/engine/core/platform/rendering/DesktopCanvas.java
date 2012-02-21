@@ -62,8 +62,8 @@ import ead.common.util.EAdMatrix;
 import ead.common.util.EAdRectangle;
 import ead.engine.core.platform.DrawableAsset;
 import ead.engine.core.platform.FontHandler;
-import ead.engine.core.platform.assets.DesktopBezierShape;
-import ead.engine.core.platform.assets.DesktopEngineFont;
+import ead.engine.core.platform.assets.DesktopFont;
+import ead.engine.core.platform.assets.drawables.basics.DesktopBezierShape;
 import ead.engine.core.platform.rendering.AbstractCanvas;
 import ead.engine.core.platform.rendering.filters.FilterFactory;
 import ead.engine.core.util.EAdTransformation;
@@ -166,7 +166,7 @@ public class DesktopCanvas extends AbstractCanvas<Graphics2D> {
 
 	@Override
 	public void setFont(EAdFont font) {
-		DesktopEngineFont f = (DesktopEngineFont) fontHandler.get(font);
+		DesktopFont f = (DesktopFont) fontHandler.get(font);
 		g.setFont(f.getFont());
 	}
 

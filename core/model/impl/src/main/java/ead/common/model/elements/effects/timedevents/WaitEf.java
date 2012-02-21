@@ -80,6 +80,7 @@ public class WaitEf extends AbstractEffect {
 		this.time = time;
 		this.setBlocking(true);
 		this.setOpaque(true);
+		this.setQueueable(true);
 	}
 
 	/**

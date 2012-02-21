@@ -39,6 +39,9 @@ package ead.engine.core.gameobjects.sceneelements;
 
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.google.inject.Inject;
 
 import ead.common.model.elements.EAdEffect;
@@ -56,8 +59,6 @@ import ead.engine.core.input.InputAction;
 import ead.engine.core.platform.AssetHandler;
 import ead.engine.core.platform.GUI;
 import ead.engine.core.util.EAdTransformation;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class ComplexSceneElementGO extends
 		SceneElementGOImpl<EAdComplexSceneElement> {
@@ -177,6 +178,15 @@ public class ComplexSceneElementGO extends
 			assetList = sceneElementFactory.get(sceneElement).getAssets(
 					assetList, allAssets);
 		return assetList;
+	}
+
+	@Override
+	public void collectSceneElements(List<EAdSceneElement> elements) {
+		super.collectSceneElements(elements);
+		for ( EAdSceneElement e: element.getSceneElements()){
+			elements.add(e);
+		}
+		
 	}
 
 	// @Override

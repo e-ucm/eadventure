@@ -89,10 +89,10 @@ public abstract class AbstractTransitionGO<T extends EAdTransition> extends
 
 	public AbstractTransitionGO(AssetHandler assetHandler,
 			StringHandler stringHandler,
-			SceneElementGOFactory gameObjectFactory, GUI gui,
+			SceneElementGOFactory sceneElementFactory, GUI gui,
 			GameState gameState, EventGOFactory eventFactory,
 			SceneLoader sceneLoader) {
-		super(assetHandler, stringHandler, gameObjectFactory, gui, gameState,
+		super(assetHandler, stringHandler, sceneElementFactory, gui, gameState,
 				eventFactory);
 		this.sceneLoader = sceneLoader;
 		EAdScene scene = this.createLoadingScene();
@@ -176,7 +176,8 @@ public abstract class AbstractTransitionGO<T extends EAdTransition> extends
 		gameState.getValueMap().setValue(rotationField, rotation);
 
 		if (isFinished()) {
-			sceneLoader.freeUnusedAssets(nextSceneGO);
+			sceneLoader.freeUnusedAssets(nextSceneGO, previousScene);
+			
 			gameState.setScene(nextSceneGO);
 			gameState.getValueMap().setValue(SystemFields.PROCESS_INPUT, true);
 			for (TransitionListener l : this.getTransitionListeners()) {

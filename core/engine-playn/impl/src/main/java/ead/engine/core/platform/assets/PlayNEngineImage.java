@@ -45,7 +45,7 @@ import playn.core.Image;
 import com.google.inject.Inject;
 
 import ead.engine.core.platform.AssetHandler;
-import ead.engine.core.platform.assets.RuntimeImage;
+import ead.engine.core.platform.assets.drawables.basics.RuntimeImage;
 import ead.engine.core.platform.rendering.GenericCanvas;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

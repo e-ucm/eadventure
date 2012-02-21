@@ -37,24 +37,39 @@
 
 package ead.common.resources.assets.drawable.basics;
 
-
-
 import ead.common.interfaces.Param;
 import ead.common.util.EAdURI;
 
+/**
+ * An image asset
+ * 
+ */
 public class Image implements EAdImage {
-	
+
 	@Param("uri")
 	private EAdURI uri;
-	
-	public Image( ){
-		
+
+	/**
+	 * Constructs an empty
+	 */
+	public Image() {
+
 	}
 
+	/**
+	 * Constructs an image with the given URI
+	 * 
+	 * @param uri
+	 *            the image's URI
+	 */
 	public Image(String uri) {
 		this.uri = new EAdURI(uri);
 	}
-	
+
+	/**
+	 * Constructs an image with the given URI
+	 * @param uri the URI
+	 */
 	public Image(EAdURI uri) {
 		this.uri = uri;
 	}
@@ -63,13 +78,14 @@ public class Image implements EAdImage {
 	public EAdURI getUri() {
 		return uri;
 	}
-	
+
+	@Override
 	public void setUri(EAdURI uri) {
 		this.uri = uri;
 	}
-	
-	public boolean equals( Object o ){
-		if ( o != null && o instanceof EAdImage ){
+
+	public boolean equals(Object o) {
+		if (o != null && o instanceof EAdImage) {
 			if (uri == null && ((Image) o).getUri() == null)
 				return false;
 			if (((Image) o).getUri() == null && uri != null)
@@ -78,12 +94,12 @@ public class Image implements EAdImage {
 		}
 		return false;
 	}
-	
-	public int hashCode(){
+
+	public int hashCode() {
 		return (uri != null ? uri.hashCode() * 10 : 0);
 	}
-	
-	public String toString(){
+
+	public String toString() {
 		return "Img:" + uri;
 	}
 

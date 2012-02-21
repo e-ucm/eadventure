@@ -35,45 +35,67 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ead.engine.core.platform.assets;
+package ead.engine.core.platform.assets.drawables.basics;
 
-import com.google.inject.Inject;
+import java.awt.Graphics2D;
+import java.awt.geom.GeneralPath;
 
-import ead.common.resources.assets.drawable.EAdDrawable;
-import ead.common.resources.assets.drawable.basics.Image;
-import ead.engine.core.platform.AssetHandler;
-import ead.engine.core.platform.DrawableAsset;
+import ead.common.util.EAdPosition;
+import ead.engine.core.platform.assets.drawables.basics.RuntimeBezierShape;
 
-/**
- * Represents a runtime engine image, associated with an {@link AssetDescritpor}
- * 
- */
-public abstract class RuntimeImage<GraphicContext> extends AbstractRuntimeAsset<Image> implements DrawableAsset<Image, GraphicContext> {
-
-	/**
-	 * The asset handler
-	 */
-	protected AssetHandler assetHandler;
+public class DesktopBezierShape extends RuntimeBezierShape<Graphics2D> {
 	
-	@Inject 
-	public RuntimeImage(AssetHandler assetHandler ){
-		this.assetHandler = assetHandler;
-	}
+	private GeneralPath path;
 
 	@Override
-	public void update() {
-
-	}
-	
-	@SuppressWarnings("unchecked")
-	@Override
-	public <S extends EAdDrawable> DrawableAsset<S, GraphicContext> getDrawable() {
-		return (DrawableAsset<S, GraphicContext>) this;
-	}
+	public boolean loadAsset() {
+		super.loadAsset();
+		path = new GeneralPath();
 		
-	public boolean contains( int x, int y ){
-		// TODO process image alpha
-		return x > 0 && y > 0 && x < getWidth() && y < getHeight();
+		EAdPosition p = descriptor.getPoints().get(0);
+		path.moveTo(p.getX(), p.getY());
+		
+		int pointIndex = 1;
+		EAdPosition p1, p2, p3;
+		for ( Integer i: descriptor.getSegmentsLength() ){
+				switch( i ){
+				case 1:
+					p1 = descriptor.getPoints().get(pointIndex++);
+					path.lineTo(p1.getX(), p1.getY());
+					break;
+				case 2:
+					p1 = descriptor.getPoints().get(pointIndex++);
+					p2 = descriptor.getPoints().get(pointIndex++);
+					path.quadTo(p1.getX(), p1.getY(), p2.getX(), p2.getY());
+					break;
+				case 3:
+					p1 = descriptor.getPoints().get(pointIndex++);
+					p2 = descriptor.getPoints().get(pointIndex++);
+					p3 = descriptor.getPoints().get(pointIndex++);
+					path.curveTo(p1.getX(), p1.getY(), p2.getX(), p2.getY(), p3.getX(), p3.getY());
+					break;			
+			}
+		}
+		
+		if ( descriptor.isClosed() )
+			path.closePath();
+		
+		return true;
+	}
+	
+	public GeneralPath getShape( ){
+		return path;
+	}
+
+	@Override
+	public boolean contains(int x, int y) {
+		return path.contains(x, y);
+	}
+
+	@Override
+	public void freeMemory() {
+		path.reset();
+		path = null;
 	}
 
 }

@@ -52,10 +52,10 @@ import android.graphics.Canvas;
 import com.google.inject.Inject;
 
 import ead.engine.core.platform.AssetHandler;
-import ead.engine.core.platform.assets.RuntimeImage;
+import ead.engine.core.platform.assets.drawables.basics.RuntimeImage;
 import ead.engine.core.platform.rendering.GenericCanvas;
 
-public class AndroidEngineImage extends RuntimeImage<Canvas> {
+public class AndroidImage extends RuntimeImage<Canvas> {
 
 	public Bitmap image;
 
@@ -65,14 +65,14 @@ public class AndroidEngineImage extends RuntimeImage<Canvas> {
 	private static final Logger logger = LoggerFactory.getLogger("AndroidEngineImage");
 
 	@Inject
-	public AndroidEngineImage(AssetHandler assetHandler) {
+	public AndroidImage(AssetHandler assetHandler) {
 		 super(assetHandler);
 		if ( defaultImage == null ){
 			defaultImage = decodeFile(assetHandler.getAbsolutePath("@drawable/nocursor.png"));
 		}
 	}
 
-	public AndroidEngineImage(Bitmap image) {
+	public AndroidImage(Bitmap image) {
 		super(null);
 		this.image = image;
 	}

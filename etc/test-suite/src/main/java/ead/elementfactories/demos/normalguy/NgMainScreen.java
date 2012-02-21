@@ -44,6 +44,7 @@ import ead.common.model.elements.effects.enums.InterpolationType;
 import ead.common.model.elements.events.SceneElementEv;
 import ead.common.model.elements.events.enums.SceneElementEvType;
 import ead.common.model.elements.guievents.MouseGEv;
+import ead.common.model.elements.scene.EAdScene;
 import ead.common.model.elements.scenes.SceneElement;
 import ead.common.resources.assets.drawable.basics.Image;
 import ead.common.util.EAdPosition.Corner;
@@ -51,7 +52,7 @@ import ead.elementfactories.demos.scenes.EmptyScene;
 
 public class NgMainScreen extends EmptyScene {
 
-	public NgMainScreen() {
+	public NgMainScreen(EAdScene initScene) {
 		setBackground(new SceneElement( new Image(
 				"@drawable/ng_mainscreen_bg.png")));
 		getBackground().setId("background");
@@ -70,8 +71,8 @@ public class NgMainScreen extends EmptyScene {
 		// Animations
 		SceneElementEv e = new SceneElementEv();
 		InterpolationEf rotate = new InterpolationEf(spiral,
-				SceneElement.VAR_ROTATION, 0, 2 * Math.PI, 50000, 0,
-				InterpolationLoopType.RESTART, -1, InterpolationType.DESACCELERATE);
+				SceneElement.VAR_ROTATION, 0, 2 * Math.PI, 20000, 0,
+				InterpolationLoopType.RESTART, -1, InterpolationType.LINEAR);
 		e.addEffect(SceneElementEvType.FIRST_UPDATE, rotate);
 		spiral.getEvents().add(e);
 		
@@ -83,7 +84,7 @@ public class NgMainScreen extends EmptyScene {
 		
 		ChangeSceneEf changeScene = new ChangeSceneEf( );
 		changeScene.setId("changeScene");
-		changeScene.setNextScene(new NgRoom1());
+		changeScene.setNextScene(new NgRoom1(initScene));
 		getBackground().addBehavior(MouseGEv.MOUSE_LEFT_PRESSED, changeScene);
 		
 		logo.getEvents().add(e);

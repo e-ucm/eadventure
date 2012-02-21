@@ -189,4 +189,10 @@ public class BasicFont extends AbstractParam implements EAdFont {
 		style = FontStyle.valueOf(strings[2]);
 	}
 
+	@Override
+	public void setUri(EAdURI uri) {
+		this.uri = uri;
+		
+	}
+
 }

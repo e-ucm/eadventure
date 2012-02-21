@@ -41,7 +41,7 @@ import com.google.inject.Singleton;
 
 import ead.common.params.text.EAdFont;
 import ead.engine.core.platform.FontHandlerImpl;
-import ead.engine.core.platform.assets.AndroidEngineFont;
+import ead.engine.core.platform.assets.AndroidFont;
 
 @Singleton
 public class AndroidFontCache extends FontHandlerImpl {
@@ -49,7 +49,7 @@ public class AndroidFontCache extends FontHandlerImpl {
 	@Override
 	public void addEAdFont(EAdFont font) {
 		if (!fontCache.containsKey(font)) {
-			fontCache.put(font, new AndroidEngineFont(font));
+			fontCache.put(font, new AndroidFont(font));
 		}
 	}
 

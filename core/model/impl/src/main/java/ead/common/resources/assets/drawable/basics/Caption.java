@@ -50,6 +50,10 @@ import ead.common.params.text.EAdString;
 import ead.common.resources.assets.drawable.basics.EAdCaption;
 import ead.common.resources.assets.drawable.basics.enums.Alignment;
 
+/**
+ * A caption asset. It's represented by a text, and a bubble 
+ *
+ */
 public class Caption implements EAdCaption {
 
 	/**
@@ -87,10 +91,17 @@ public class Caption implements EAdCaption {
 	@Param("alignment")
 	private Alignment alignment;
 
+	/**
+	 * Constructs an empty caption
+	 */
 	public Caption() {
 		this(EAdString.newRandomEAdString("label"));
 	}
 
+	/**
+	 * Constructs a caption with the given label
+	 * @param label the label
+	 */
 	public Caption(EAdString label) {
 		this.label = label;
 		textPaint = new PaintFill(ColorFill.BLACK, ColorFill.WHITE);
@@ -105,6 +116,10 @@ public class Caption implements EAdCaption {
 		fields = new EAdListImpl<EAdOperation>(EAdOperation.class);
 	}
 
+	/**
+	 * Constructs a caption with the given string
+	 * @param string
+	 */
 	public Caption(String string) {
 		this(EAdString.newEAdString(string));
 	}
@@ -119,6 +134,7 @@ public class Caption implements EAdCaption {
 		return font;
 	}
 
+	@Override
 	public void setFont(EAdFont font) {
 		this.font = font;
 	}

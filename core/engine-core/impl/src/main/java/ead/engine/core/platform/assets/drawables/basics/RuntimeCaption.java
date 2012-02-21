@@ -35,7 +35,7 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ead.engine.core.platform.assets;
+package ead.engine.core.platform.assets.drawables.basics;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -56,6 +56,7 @@ import ead.engine.core.platform.AssetHandler;
 import ead.engine.core.platform.DrawableAsset;
 import ead.engine.core.platform.FontHandler;
 import ead.engine.core.platform.RuntimeFont;
+import ead.engine.core.platform.assets.AbstractRuntimeAsset;
 import ead.engine.core.platform.rendering.GenericCanvas;
 
 public class RuntimeCaption<GraphicContext> extends

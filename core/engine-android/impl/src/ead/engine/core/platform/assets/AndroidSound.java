@@ -46,7 +46,7 @@ import com.google.inject.Inject;
 
 import ead.engine.core.platform.AndroidAssetHandler;
 import ead.engine.core.platform.AssetHandler;
-import ead.engine.core.platform.assets.RuntimeSound;
+import ead.engine.core.platform.assets.multimedia.RuntimeSound;
 
 public class AndroidSound extends RuntimeSound {
 

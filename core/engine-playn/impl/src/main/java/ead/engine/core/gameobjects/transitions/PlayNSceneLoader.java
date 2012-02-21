@@ -62,8 +62,8 @@ public class PlayNSceneLoader extends AbstractSceneLoader {
 		sceneLoaderListener.sceneLoaded(sceneGO);
 	}
 	
-	public void freeUnusedAssets(SceneGO<?> currentScene) {
-		super.freeUnusedAssets(currentScene);
+	public void freeUnusedAssets(SceneGO<?> currentScene, SceneGO<?> oldScene) {
+		super.freeUnusedAssets(currentScene, oldScene);
 		super.freeScene();
 	}
 

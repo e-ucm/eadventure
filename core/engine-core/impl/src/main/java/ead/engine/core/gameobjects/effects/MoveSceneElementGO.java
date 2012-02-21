@@ -296,13 +296,13 @@ public class MoveSceneElementGO extends
 	}
 
 	public void finish() {
-		if (path.isGetsTo() || element.getTarget() == null)
-			super.finish();
-		
 		gameState.getValueMap().setValue(element.getSceneElement(),
 				SceneElement.VAR_STATE, oldState);
 		gameState.getValueMap()
 				.setValue(sceneElement, VAR_ELEMENT_MOVING, (Object) null);
+		
+		if (path.isGetsTo() || element.getTarget() == null)
+			super.finish();
 	}
 
 	public void stop() {

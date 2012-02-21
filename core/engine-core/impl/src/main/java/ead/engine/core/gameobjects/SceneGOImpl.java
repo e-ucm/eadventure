@@ -133,5 +133,14 @@ public class SceneGOImpl extends SceneElementGOImpl<EAdScene> implements
 	public boolean processAction(InputAction<?> action) {
 		return false;
 	}
+	
+	@Override
+	public void collectSceneElements(List<EAdSceneElement> elements) {
+		super.collectSceneElements(elements);
+		for ( EAdSceneElement e: element.getSceneElements()){
+			elements.add(e);
+		}
+		
+	}
 
 }

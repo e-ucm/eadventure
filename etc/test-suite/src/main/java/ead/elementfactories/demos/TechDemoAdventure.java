@@ -98,7 +98,7 @@ public class TechDemoAdventure extends BasicAdventureModel {
 		sceneDemos.add(new ScrollScene());
 		sceneDemos.add(new FiltersDemo());
 //		sceneDemos.add(new VideoScene());
-		sceneDemos.add(new NgMainScreen());
+		sceneDemos.add(new NgMainScreen(null));
 //		sceneDemos.add(new NgRoom1());
 		sceneDemos.add(new BVSScene());
 	}

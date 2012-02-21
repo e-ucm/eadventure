@@ -41,9 +41,12 @@ import ead.common.interfaces.features.enums.Orientation;
 import ead.common.model.elements.EAdEffect;
 import ead.common.model.elements.effects.variables.ChangeFieldEf;
 import ead.common.model.elements.enums.CommonStates;
+import ead.common.model.elements.scene.EAdSceneElement;
 import ead.common.model.elements.scene.EAdSceneElementDef;
-import ead.common.model.elements.scenes.SceneElementDef;
 import ead.common.model.elements.scenes.SceneElement;
+import ead.common.model.elements.scenes.SceneElementDef;
+import ead.common.model.elements.variables.BasicField;
+import ead.common.model.elements.variables.EAdField;
 import ead.common.model.elements.variables.operations.ValueOp;
 import ead.common.resources.assets.drawable.basics.Image;
 import ead.common.resources.assets.drawable.basics.animation.Frame;
@@ -56,7 +59,9 @@ public class NgCommon {
 	private static boolean init = false;
 
 	private static EAdSceneElementDef mainCharacter;
-	
+
+	private static EAdField<EAdSceneElement> mainCharacterSceneElement;
+
 	private static ChangeFieldEf lookNorth;
 
 	public static void init() {
@@ -68,10 +73,11 @@ public class NgCommon {
 	}
 
 	private static void createEffects() {
-		 lookNorth = new ChangeFieldEf();
-		 lookNorth.setId("lookNorth");
-		 lookNorth.setParentVar(SceneElement.VAR_ORIENTATION);
-		 lookNorth.setOperation(new ValueOp( Orientation.N ));		
+		lookNorth = new ChangeFieldEf();
+		lookNorth.setId("lookNorth");
+		lookNorth.addField(new BasicField<Orientation>(
+				mainCharacterSceneElement, SceneElement.VAR_ORIENTATION));
+		lookNorth.setOperation(new ValueOp(Orientation.N));
 	}
 
 	private static void createMainCharacter() {
@@ -143,10 +149,10 @@ public class NgCommon {
 		frames.addFrame(new Frame("@drawable/man_walk_w_2.png", walkTime));
 
 		oriented.setDrawable(Orientation.W, frames);
-		
+
 		stateDrawables.addDrawable(CommonStates.EAD_STATE_WALKING + "",
 				oriented);
-		
+
 		// Talk
 		oriented = new OrientedDrawable();
 		// South
@@ -169,18 +175,20 @@ public class NgCommon {
 		frames.addFrame(new Frame("@drawable/man_talk_w.png", talkTime));
 
 		oriented.setDrawable(Orientation.W, frames);
-		
+
 		stateDrawables.addDrawable(CommonStates.EAD_STATE_TALKING + "",
 				oriented);
 
-		
+		mainCharacterSceneElement = new BasicField<EAdSceneElement>(
+				mainCharacter, SceneElementDef.VAR_SCENE_ELEMENT);
+
 	}
 
 	public static EAdSceneElementDef getMainCharacter() {
 		return mainCharacter;
 	}
-	
-	public static EAdEffect getLookNorthEffect(){
+
+	public static EAdEffect getLookNorthEffect() {
 		return lookNorth;
 	}
 

@@ -69,10 +69,10 @@ import ead.engine.core.platform.assets.PlayNEngineCaption;
 import ead.engine.core.platform.assets.PlayNEngineImage;
 import ead.engine.core.platform.assets.PlayNEngineSpriteImage;
 import ead.engine.core.platform.assets.PlayNSound;
-import ead.engine.core.platform.assets.RuntimeComposedDrawable;
-import ead.engine.core.platform.assets.RuntimeDisplacedDrawable;
-import ead.engine.core.platform.assets.RuntimeFilteredDrawable;
-import ead.engine.core.platform.assets.RuntimeSpriteImage;
+import ead.engine.core.platform.assets.drawables.compunds.RuntimeComposedDrawable;
+import ead.engine.core.platform.assets.drawables.compunds.RuntimeDisplacedDrawable;
+import ead.engine.core.platform.assets.drawables.compunds.RuntimeFilteredDrawable;
+import ead.engine.core.platform.assets.drawables.compunds.RuntimeSpriteImage;
 
 public class PlayNAssetHandlerModule extends AbstractGinModule {
 

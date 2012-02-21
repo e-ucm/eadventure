@@ -35,76 +35,46 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ead.engine.core.platform.assets;
+package ead.engine.core.platform.assets.drawables.basics;
 
-import android.graphics.Paint;
-import android.graphics.Typeface;
-import ead.common.params.text.EAdFont;
-import ead.common.params.text.FontStyle;
-import ead.common.util.EAdRectangle;
-import ead.engine.core.platform.RuntimeFont;
+import com.google.inject.Inject;
 
-public class AndroidEngineFont implements RuntimeFont {
+import ead.common.resources.assets.drawable.EAdDrawable;
+import ead.common.resources.assets.drawable.basics.Image;
+import ead.engine.core.platform.AssetHandler;
+import ead.engine.core.platform.DrawableAsset;
+import ead.engine.core.platform.assets.AbstractRuntimeAsset;
 
-	private EAdFont eadFont;
+/**
+ * Represents a runtime engine image, associated with an {@link AssetDescritpor}
+ * 
+ */
+public abstract class RuntimeImage<GraphicContext> extends AbstractRuntimeAsset<Image> implements DrawableAsset<Image, GraphicContext> {
 
-	private Typeface font;
+	/**
+	 * The asset handler
+	 */
+	protected AssetHandler assetHandler;
 	
-	private int size;
-
-	private Paint textPaint;
-
-	public AndroidEngineFont(EAdFont font) {
-		this.eadFont = font;
-		this.font = Typeface.create(font.getName(), getStyle(font.getStyle()));
-		textPaint = new Paint();
-		textPaint.setTypeface(this.font);
-		size = (int) font.getSize();
-		textPaint.setTextSize(size);
-	}
-
-	private int getStyle(FontStyle style) {
-		switch (style) {
-		case BOLD:
-			return Typeface.BOLD;
-		case ITALIC:
-			return Typeface.ITALIC;
-		case PLAIN:
-		default:
-			return Typeface.NORMAL;
-		}
-	}
-
-	public Typeface getFont() {
-		return font;
+	@Inject 
+	public RuntimeImage(AssetHandler assetHandler ){
+		this.assetHandler = assetHandler;
 	}
 
 	@Override
-	public EAdFont getEAdFont() {
-		return eadFont;
-	}
+	public void update() {
 
-	@Override
-	public int stringWidth(String string) {
-		return (int) textPaint.measureText(string);
-	}
-
-	@Override
-	public int lineHeight() {
-		return (int) (Math.abs(textPaint.ascent()) + textPaint.descent());
-	}
-
-	@Override
-	public EAdRectangle stringBounds(String string) {
-		return new EAdRectangle(0, 0, stringWidth(string), lineHeight());
 	}
 	
-	public Typeface getTextPaint(){
-		return font;
+	@SuppressWarnings("unchecked")
+	@Override
+	public <S extends EAdDrawable> DrawableAsset<S, GraphicContext> getDrawable() {
+		return (DrawableAsset<S, GraphicContext>) this;
 	}
-	
-	public int size(){
-		return size;
+		
+	public boolean contains( int x, int y ){
+		// TODO process image alpha
+		return x > 0 && y > 0 && x < getWidth() && y < getHeight();
 	}
 
 }

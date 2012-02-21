@@ -41,7 +41,7 @@ import com.google.inject.Singleton;
 
 import ead.common.params.text.EAdFont;
 import ead.engine.core.platform.FontHandlerImpl;
-import ead.engine.core.platform.assets.DesktopEngineFont;
+import ead.engine.core.platform.assets.DesktopFont;
 
 @Singleton
 public class DesktopFontCache extends FontHandlerImpl {
@@ -49,7 +49,7 @@ public class DesktopFontCache extends FontHandlerImpl {
 	@Override
 	public void addEAdFont(EAdFont font) {
 		if (!fontCache.containsKey(font)) {
-			fontCache.put(font, new DesktopEngineFont(font, assetHandler));
+			fontCache.put(font, new DesktopFont(font, assetHandler));
 		}
 	}
 

@@ -35,7 +35,7 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ead.engine.core.platform.assets.sound;
+package ead.engine.core.platform.assets.multimedia;
 
 import java.io.IOException;
 import java.io.InputStream;

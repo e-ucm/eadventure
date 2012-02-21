@@ -35,12 +35,13 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ead.engine.core.platform.assets;
+package ead.engine.core.platform.assets.drawables.basics;
 
 import ead.common.resources.assets.drawable.EAdDrawable;
 import ead.common.resources.assets.drawable.basics.shapes.BezierShape;
 import ead.common.util.EAdPosition;
 import ead.engine.core.platform.DrawableAsset;
+import ead.engine.core.platform.assets.AbstractRuntimeAsset;
 import ead.engine.core.platform.rendering.GenericCanvas;
 
 public abstract class RuntimeBezierShape<GraphicContext> extends AbstractRuntimeAsset<BezierShape> implements DrawableAsset<BezierShape, GraphicContext>{
@@ -90,11 +91,6 @@ public abstract class RuntimeBezierShape<GraphicContext> extends AbstractRuntime
 	@Override
 	public int getHeight() {
 		return height;
-	}
-
-	@Override
-	public void freeMemory() {
-		
 	}
 
 	@Override

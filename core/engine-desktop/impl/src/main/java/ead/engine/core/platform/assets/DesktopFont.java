@@ -51,7 +51,7 @@ import ead.common.util.EAdRectangle;
 import ead.engine.core.platform.AssetHandler;
 import ead.engine.core.platform.RuntimeFont;
 
-public class DesktopEngineFont implements RuntimeFont {
+public class DesktopFont implements RuntimeFont {
 
 	private EAdFont eadFont;
 
@@ -60,7 +60,7 @@ public class DesktopEngineFont implements RuntimeFont {
 	private static FontRenderContext frc = new FontRenderContext(null, true,
 			true);
 
-	public DesktopEngineFont(EAdFont font, AssetHandler assetHandler) {
+	public DesktopFont(EAdFont font, AssetHandler assetHandler) {
 		this.eadFont = font;
 		if (eadFont.isTTF()) {
 			try {

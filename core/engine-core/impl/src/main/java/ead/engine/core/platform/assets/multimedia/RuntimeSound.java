@@ -35,22 +35,36 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ead.engine.core.platform.assets;
+package ead.engine.core.platform.assets.multimedia;
 
-import android.graphics.Color;
-import ead.common.params.fills.ColorFill;
+import com.google.inject.Inject;
 
-public class AndroidEngineColor {
+import ead.common.resources.assets.multimedia.EAdSound;
+import ead.engine.core.platform.AssetHandler;
+import ead.engine.core.platform.assets.AbstractRuntimeAsset;
 
-	private int color;
+public abstract class RuntimeSound extends AbstractRuntimeAsset<EAdSound> {
 
-	//TODO better implement some kind of factory with a cache
-	public AndroidEngineColor(ColorFill eAdColor) {
-		color = Color.argb(eAdColor.getAlpha(), eAdColor.getRed(), eAdColor.getGreen(), eAdColor.getBlue());
+	protected AssetHandler assetHandler;
+
+	@Inject
+	public RuntimeSound(AssetHandler assetHandler) {
+		this.assetHandler = assetHandler;
 	}
 
-	public int getColor() {
-		return color;
+	@Override
+	public void update() {
+
 	}
+
+	/**
+	 * Plays the sound
+	 */
+	public abstract void play();
+
+	/**
+	 * Stops playing the sound
+	 */
+	public abstract void stop();
 
 }

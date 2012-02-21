@@ -43,7 +43,7 @@ import playn.core.Canvas;
 import playn.core.Path;
 import ead.common.util.EAdPosition;
 import ead.engine.core.EAdEngine;
-import ead.engine.core.platform.assets.RuntimeBezierShape;
+import ead.engine.core.platform.assets.drawables.basics.RuntimeBezierShape;
 
 public class PlayNBezierShape extends RuntimeBezierShape<Canvas> {
 	
@@ -103,6 +103,13 @@ public class PlayNBezierShape extends RuntimeBezierShape<Canvas> {
 	@Override
 	public boolean contains(int x, int y) {
 		return x > 0 && y > 0 && x < getWidth() && y < getHeight();
+	}
+
+	@Override
+	public void freeMemory() {
+		path.reset();
+		path = null;
+		
 	}
 
 }

@@ -39,17 +39,14 @@ package ead.common.resources.assets.drawable.basics;
 
 import ead.common.params.paint.EAdPaint;
 
+/**
+ * General interface for shape assets
+ * 
+ */
 public interface EAdShape extends EAdBasicDrawable {
 
 	/**
-	 * <p>
 	 * Return the color with which to draw the shape.
-	 * </p>
-	 * <p>
-	 * The color can have alpha = 0 if the shape is expected to be invisible. As
-	 * it uses {@link EAdBorderedColor} it can be used to paint just the outline
-	 * of the shape.
-	 * </p>
 	 * 
 	 * @return The color of the shape
 	 */

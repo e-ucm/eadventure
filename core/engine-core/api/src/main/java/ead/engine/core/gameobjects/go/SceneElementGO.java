@@ -37,6 +37,8 @@
 
 package ead.engine.core.gameobjects.go;
 
+import java.util.List;
+
 import ead.common.interfaces.features.Oriented;
 import ead.common.model.elements.EAdAction;
 import ead.common.model.elements.extra.EAdList;
@@ -110,5 +112,7 @@ public interface SceneElementGO<T extends EAdSceneElement> extends
 	void setAlpha(float alpha);
 	
 	void setEnabled(boolean b);
+	
+	void collectSceneElements(List<EAdSceneElement> elements);
 
 }

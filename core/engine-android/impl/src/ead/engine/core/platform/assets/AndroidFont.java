@@ -37,33 +37,74 @@
 
 package ead.engine.core.platform.assets;
 
-import com.google.inject.Inject;
+import android.graphics.Paint;
+import android.graphics.Typeface;
+import ead.common.params.text.EAdFont;
+import ead.common.params.text.FontStyle;
+import ead.common.util.EAdRectangle;
+import ead.engine.core.platform.RuntimeFont;
 
-import ead.common.resources.assets.multimedia.EAdSound;
-import ead.engine.core.platform.AssetHandler;
+public class AndroidFont implements RuntimeFont {
 
-public abstract class RuntimeSound extends AbstractRuntimeAsset<EAdSound> {
+	private EAdFont eadFont;
 
-	protected AssetHandler assetHandler;
+	private Typeface font;
+	
+	private int size;
 
-	@Inject
-	public RuntimeSound(AssetHandler assetHandler) {
-		this.assetHandler = assetHandler;
+	private Paint textPaint;
+
+	public AndroidFont(EAdFont font) {
+		this.eadFont = font;
+		this.font = Typeface.create(font.getName(), getStyle(font.getStyle()));
+		textPaint = new Paint();
+		textPaint.setTypeface(this.font);
+		size = (int) font.getSize();
+		textPaint.setTextSize(size);
+	}
+
+	private int getStyle(FontStyle style) {
+		switch (style) {
+		case BOLD:
+			return Typeface.BOLD;
+		case ITALIC:
+			return Typeface.ITALIC;
+		case PLAIN:
+		default:
+			return Typeface.NORMAL;
+		}
+	}
+
+	public Typeface getFont() {
+		return font;
 	}
 
 	@Override
-	public void update() {
-
+	public EAdFont getEAdFont() {
+		return eadFont;
 	}
 
-	/**
-	 * Plays the sound
-	 */
-	public abstract void play();
+	@Override
+	public int stringWidth(String string) {
+		return (int) textPaint.measureText(string);
+	}
 
-	/**
-	 * Stops playing the sound
-	 */
-	public abstract void stop();
+	@Override
+	public int lineHeight() {
+		return (int) (Math.abs(textPaint.ascent()) + textPaint.descent());
+	}
+
+	@Override
+	public EAdRectangle stringBounds(String string) {
+		return new EAdRectangle(0, 0, stringWidth(string), lineHeight());
+	}
+	
+	public Typeface getTextPaint(){
+		return font;
+	}
+	
+	public int size(){
+		return size;
+	}
 
 }

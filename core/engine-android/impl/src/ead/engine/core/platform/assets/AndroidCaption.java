@@ -39,25 +39,20 @@ package ead.engine.core.platform.assets;
 
 import com.google.inject.Inject;
 
-import ead.common.resources.assets.drawable.basics.Caption;
 import ead.common.util.StringHandler;
 import ead.engine.core.game.VariableMap;
 import ead.engine.core.platform.AssetHandler;
 import ead.engine.core.platform.FontHandlerImpl;
 import ead.engine.core.platform.RuntimeFont;
-import ead.engine.core.platform.assets.RuntimeCaption;
+import ead.engine.core.platform.assets.drawables.basics.RuntimeCaption;
 import ead.engine.core.platform.rendering.AndroidCanvas;
 
-public class AndroidEngineCaption extends RuntimeCaption<AndroidCanvas> {
+public class AndroidCaption extends RuntimeCaption<AndroidCanvas> {
 
 	@Inject
-	public AndroidEngineCaption(FontHandlerImpl fontCache, VariableMap valueMap,
+	public AndroidCaption(FontHandlerImpl fontCache, VariableMap valueMap,
 			StringHandler stringHandler, AssetHandler handler) {
 		super(fontCache, valueMap, stringHandler, handler );
-	}
-
-	public void setHasBuble(boolean b) {
-		((Caption) this.descriptor).setHasBubble(b);
 	}
 
 	public int getLineHeight() {

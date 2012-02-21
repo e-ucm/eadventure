@@ -35,66 +35,85 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ead.engine.core.platform.assets.sound;
-
-import java.io.IOException;
-import java.io.InputStream;
+package ead.engine.core.platform.assets.drawables.compunds;
 
 import com.google.inject.Inject;
 
+import ead.common.resources.assets.drawable.EAdDrawable;
+import ead.common.resources.assets.drawable.filters.EAdFilteredDrawable;
 import ead.engine.core.platform.AssetHandler;
-import ead.engine.core.platform.DesktopAssetHandler;
-import ead.engine.core.platform.assets.RuntimeSound;
+import ead.engine.core.platform.DrawableAsset;
+import ead.engine.core.platform.assets.AbstractRuntimeAsset;
+import ead.engine.core.platform.rendering.GenericCanvas;
 
-public class DesktopSound extends RuntimeSound {
-
-	private InputStream inputStream;
-
-	private Sound sound;
-
+public class RuntimeFilteredDrawable<GraphicContext> extends AbstractRuntimeAsset<EAdFilteredDrawable> implements DrawableAsset<EAdFilteredDrawable, GraphicContext>{
+	
+	private AssetHandler assetHandler;
+	
+	private DrawableAsset<?, GraphicContext> drawable;
+	
 	@Inject
-	public DesktopSound(AssetHandler assetHandler) {
-		super(assetHandler);
+	public RuntimeFilteredDrawable( AssetHandler assetHandler ){
+		this.assetHandler = assetHandler;
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public boolean loadAsset() {
-		String path = getAssetDescriptor().getUri().getPath();
-		inputStream = ((DesktopAssetHandler) assetHandler)
-				.getResourceAsStream(path);
-		if (path.endsWith(".mid") || path.endsWith(".midi")) {
-			sound = new SoundMidi(inputStream, false);
-		} else if (path.endsWith(".mp3")) {
-			sound = new SoundMp3(inputStream, false);
+		drawable = (DrawableAsset<?, GraphicContext>) assetHandler.getRuntimeAsset(descriptor.getDrawable());
+		if ( drawable != null ){
+			return drawable.loadAsset();
 		}
-
-		return inputStream != null;
+		return false;
 	}
 
 	@Override
 	public void freeMemory() {
-		try {
-			inputStream.close();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		if ( drawable != null )
+			drawable.freeMemory();
 	}
 
 	@Override
 	public boolean isLoaded() {
-		return inputStream != null;
+		return drawable != null && drawable.isLoaded();
 	}
 
 	@Override
-	public void play() {
-		if (sound != null)
-			sound.playOnce();
+	public void update() {
+		if (drawable != null)
+			drawable.update();
 	}
 
 	@Override
-	public void stop() {
-		if (sound != null)
-			sound.startPlaying();
+	public int getWidth() {
+		// TODO filter could change width and height
+		return drawable.getWidth();
+	}
+
+	@Override
+	public int getHeight() {
+		// TODO filter could change width and height
+		return drawable.getHeight();
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public <S extends EAdDrawable> DrawableAsset<S, GraphicContext> getDrawable() {
+		return (DrawableAsset<S, GraphicContext>) this;
+	}
+
+	@Override
+	public void render(GenericCanvas<GraphicContext> c) {
+		c.save();
+		c.setFilter(drawable, descriptor.getFilter());
+		drawable.render(c);
+		c.restore();
+	}
+
+	@Override
+	public boolean contains(int x, int y) {
+		// TODO filter could change this
+		return drawable.contains(x, y);
 	}
 
 }

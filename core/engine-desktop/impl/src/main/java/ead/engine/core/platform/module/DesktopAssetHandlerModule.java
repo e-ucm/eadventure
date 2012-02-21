@@ -37,6 +37,9 @@
 
 package ead.engine.core.platform.module;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import com.google.inject.AbstractModule;
 import com.google.inject.Provides;
 import com.google.inject.Singleton;
@@ -44,21 +47,21 @@ import com.google.inject.TypeLiteral;
 
 import ead.common.StringFileHandler;
 import ead.common.resources.assets.AssetDescriptor;
-import ead.common.resources.assets.drawable.basics.EAdCaption;
 import ead.common.resources.assets.drawable.basics.Caption;
+import ead.common.resources.assets.drawable.basics.EAdCaption;
 import ead.common.resources.assets.drawable.basics.Image;
 import ead.common.resources.assets.drawable.basics.SpriteImage;
 import ead.common.resources.assets.drawable.basics.shapes.BezierShape;
 import ead.common.resources.assets.drawable.basics.shapes.RectangleShape;
-import ead.common.resources.assets.drawable.compounds.EAdComposedDrawable;
 import ead.common.resources.assets.drawable.compounds.ComposedDrawable;
-import ead.common.resources.assets.drawable.compounds.EAdDisplacedDrawable;
 import ead.common.resources.assets.drawable.compounds.DisplacedDrawable;
+import ead.common.resources.assets.drawable.compounds.EAdComposedDrawable;
+import ead.common.resources.assets.drawable.compounds.EAdDisplacedDrawable;
 import ead.common.resources.assets.drawable.filters.EAdFilteredDrawable;
 import ead.common.resources.assets.drawable.filters.FilteredDrawable;
 import ead.common.resources.assets.multimedia.EAdSound;
-import ead.common.resources.assets.multimedia.Sound;
 import ead.common.resources.assets.multimedia.EAdVideo;
+import ead.common.resources.assets.multimedia.Sound;
 import ead.common.strings.DefaultStringFileHandler;
 import ead.common.util.StringHandler;
 import ead.engine.core.platform.AssetHandler;
@@ -66,18 +69,15 @@ import ead.engine.core.platform.DesktopAssetHandler;
 import ead.engine.core.platform.RuntimeAsset;
 import ead.engine.core.platform.SpecialAssetRenderer;
 import ead.engine.core.platform.StringHandlerImpl;
-import ead.engine.core.platform.assets.DesktopBezierShape;
-import ead.engine.core.platform.assets.DesktopEngineImage;
-import ead.engine.core.platform.assets.DesktopEngineSpriteImage;
-import ead.engine.core.platform.assets.RuntimeCaption;
-import ead.engine.core.platform.assets.RuntimeComposedDrawable;
-import ead.engine.core.platform.assets.RuntimeDisplacedDrawable;
-import ead.engine.core.platform.assets.RuntimeFilteredDrawable;
-import ead.engine.core.platform.assets.sound.DesktopSound;
+import ead.engine.core.platform.assets.drawables.basics.DesktopBezierShape;
+import ead.engine.core.platform.assets.drawables.basics.DesktopImage;
+import ead.engine.core.platform.assets.drawables.basics.RuntimeCaption;
+import ead.engine.core.platform.assets.drawables.compunds.RuntimeComposedDrawable;
+import ead.engine.core.platform.assets.drawables.compunds.RuntimeDisplacedDrawable;
+import ead.engine.core.platform.assets.drawables.compunds.RuntimeFilteredDrawable;
+import ead.engine.core.platform.assets.drawables.compunds.RuntimeSpriteImage;
+import ead.engine.core.platform.assets.multimedia.DesktopSound;
 import ead.engine.core.platform.assets.specialassetrenderers.DesktopVideoRenderer;
-
-import java.util.HashMap;
-import java.util.Map;
 
 public class DesktopAssetHandlerModule extends AbstractModule {
 
@@ -99,7 +99,7 @@ public class DesktopAssetHandlerModule extends AbstractModule {
 
 		Map map = new HashMap();
 
-		map.put(Image.class, DesktopEngineImage.class);
+		map.put(Image.class, DesktopImage.class);
 		map.put(EAdCaption.class, RuntimeCaption.class);
 		map.put(Caption.class, RuntimeCaption.class);
 		map.put(EAdComposedDrawable.class, RuntimeComposedDrawable.class);
@@ -108,7 +108,7 @@ public class DesktopAssetHandlerModule extends AbstractModule {
 		map.put(BezierShape.class, DesktopBezierShape.class);
 		map.put(EAdDisplacedDrawable.class, RuntimeDisplacedDrawable.class);
 		map.put(DisplacedDrawable.class, RuntimeDisplacedDrawable.class);
-		map.put(SpriteImage.class, DesktopEngineSpriteImage.class);
+		map.put(SpriteImage.class, RuntimeSpriteImage.class);
 		map.put(EAdSound.class, DesktopSound.class);
 		map.put(Sound.class, DesktopSound.class);
 		map.put(EAdFilteredDrawable.class, RuntimeFilteredDrawable.class);

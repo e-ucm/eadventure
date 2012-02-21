@@ -35,7 +35,7 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ead.engine.core.platform.assets;
+package ead.engine.core.platform.assets.drawables.compunds;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -50,6 +50,7 @@ import ead.common.resources.assets.drawable.compounds.EAdComposedDrawable;
 import ead.common.resources.assets.drawable.compounds.EAdDisplacedDrawable;
 import ead.engine.core.platform.AssetHandler;
 import ead.engine.core.platform.DrawableAsset;
+import ead.engine.core.platform.assets.AbstractRuntimeAsset;
 import ead.engine.core.platform.rendering.GenericCanvas;
 
 /**

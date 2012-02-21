@@ -68,13 +68,13 @@ import ead.engine.core.platform.RuntimeAsset;
 import ead.engine.core.platform.SpecialAssetRenderer;
 import ead.engine.core.platform.StringHandlerImpl;
 import ead.engine.core.platform.assets.AndroidBezierShape;
-import ead.engine.core.platform.assets.AndroidEngineCaption;
-import ead.engine.core.platform.assets.AndroidEngineImage;
+import ead.engine.core.platform.assets.AndroidCaption;
+import ead.engine.core.platform.assets.AndroidImage;
 import ead.engine.core.platform.assets.AndroidSound;
-import ead.engine.core.platform.assets.RuntimeComposedDrawable;
-import ead.engine.core.platform.assets.RuntimeDisplacedDrawable;
-import ead.engine.core.platform.assets.RuntimeFilteredDrawable;
-import ead.engine.core.platform.assets.RuntimeSpriteImage;
+import ead.engine.core.platform.assets.drawables.compunds.RuntimeComposedDrawable;
+import ead.engine.core.platform.assets.drawables.compunds.RuntimeDisplacedDrawable;
+import ead.engine.core.platform.assets.drawables.compunds.RuntimeFilteredDrawable;
+import ead.engine.core.platform.assets.drawables.compunds.RuntimeSpriteImage;
 import ead.engine.core.platform.assets.specialassetrenderers.AndroidVideoRenderer;
 
 public class AndroidAssetHandlerModule extends AbstractModule {
@@ -93,10 +93,10 @@ public class AndroidAssetHandlerModule extends AbstractModule {
 	@Singleton
 	Map<Class<? extends AssetDescriptor>, Class<? extends RuntimeAsset<? extends AssetDescriptor>>> provideMap() {
 		Map<Class<? extends AssetDescriptor>, Class<? extends RuntimeAsset<? extends AssetDescriptor>>> map = new HashMap<Class<? extends AssetDescriptor>, Class<? extends RuntimeAsset<? extends AssetDescriptor>>>( );
-		map.put(Image.class, AndroidEngineImage.class);
-		map.put(Image.class, AndroidEngineImage.class);
-		map.put(EAdCaption.class, (Class<? extends RuntimeAsset<?>>) AndroidEngineCaption.class);
-		map.put(Caption.class, (Class<? extends RuntimeAsset<?>>) AndroidEngineCaption.class);
+		map.put(Image.class, AndroidImage.class);
+		map.put(Image.class, AndroidImage.class);
+		map.put(EAdCaption.class, (Class<? extends RuntimeAsset<?>>) AndroidCaption.class);
+		map.put(Caption.class, (Class<? extends RuntimeAsset<?>>) AndroidCaption.class);
 		map.put(EAdComposedDrawable.class, (Class<? extends RuntimeAsset<?>>) RuntimeComposedDrawable.class);
 		map.put(ComposedDrawable.class, (Class<? extends RuntimeAsset<?>>) RuntimeComposedDrawable.class);
 		map.put(RectangleShape.class, AndroidBezierShape.class);

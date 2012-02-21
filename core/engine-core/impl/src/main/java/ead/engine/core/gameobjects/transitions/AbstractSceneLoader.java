@@ -40,7 +40,11 @@ package ead.engine.core.gameobjects.transitions;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import ead.common.model.elements.scene.EAdScene;
+import ead.common.model.elements.scene.EAdSceneElement;
 import ead.common.resources.assets.AssetDescriptor;
 import ead.engine.core.gameobjects.factories.SceneElementGOFactory;
 import ead.engine.core.gameobjects.go.SceneGO;
@@ -49,6 +53,8 @@ import ead.engine.core.gameobjects.go.transitions.SceneLoaderListener;
 import ead.engine.core.platform.AssetHandler;
 
 public abstract class AbstractSceneLoader implements SceneLoader {
+	
+	private static final Logger logger = LoggerFactory.getLogger("SceneLoader");
 
 	private SceneElementGOFactory sceneElementFactory;
 
@@ -57,6 +63,10 @@ public abstract class AbstractSceneLoader implements SceneLoader {
 	private List<AssetDescriptor> assetsList;
 
 	private List<AssetDescriptor> currentAssets;
+	
+	private List<EAdSceneElement> goList;
+
+	private List<EAdSceneElement> currentGoList;
 
 	protected SceneLoaderListener sceneLoaderListener;
 
@@ -65,6 +75,8 @@ public abstract class AbstractSceneLoader implements SceneLoader {
 	protected SceneGO<?> sceneGO;
 
 	protected SceneGO<?> currentSceneGO;
+	
+	protected SceneGO<?> oldSceneGO;
 
 	public AbstractSceneLoader(AssetHandler assetHandler,
 			SceneElementGOFactory sceneElementFactory) {
@@ -72,6 +84,8 @@ public abstract class AbstractSceneLoader implements SceneLoader {
 		this.assetHandler = assetHandler;
 		assetsList = new ArrayList<AssetDescriptor>();
 		currentAssets = new ArrayList<AssetDescriptor>();
+		goList = new ArrayList<EAdSceneElement>();
+		currentGoList = new ArrayList<EAdSceneElement>();
 	}
 
 	public void loadScene(EAdScene scene, SceneLoaderListener listener) {
@@ -91,13 +105,30 @@ public abstract class AbstractSceneLoader implements SceneLoader {
 		}
 	}
 
-	public void freeUnusedAssets(SceneGO<?> currentScene) {
+	public void freeUnusedAssets(SceneGO<?> currentScene, SceneGO<?> oldScene) {
 		this.currentSceneGO = currentScene;
+		this.oldSceneGO = oldScene;
 	}
 
 	protected void freeScene() {
 		currentAssets.clear();
 		assetHandler.clean(currentSceneGO.getAssets(currentAssets, true));
+		
+		goList.clear();
+		currentGoList.clear();
+		
+		sceneGO.collectSceneElements(currentGoList);
+		oldSceneGO.collectSceneElements(goList);
+		
+		int i = 0;
+		for ( EAdSceneElement e: goList ){
+			if ( !currentGoList.contains(e)){
+				sceneElementFactory.remove(e);
+				i++;
+			}
+		}
+		
+		logger.info("{} unused game objects removed", i);
 	}
 
 }

@@ -35,7 +35,7 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ead.engine.core.platform.assets;
+package ead.engine.core.platform.assets.drawables.compunds;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -48,6 +48,7 @@ import ead.common.resources.assets.drawable.compounds.EAdDisplacedDrawable;
 import ead.common.util.EAdPosition;
 import ead.engine.core.platform.AssetHandler;
 import ead.engine.core.platform.DrawableAsset;
+import ead.engine.core.platform.assets.AbstractRuntimeAsset;
 import ead.engine.core.platform.rendering.GenericCanvas;
 
 public class RuntimeDisplacedDrawable<GraphicContext> extends

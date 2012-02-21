@@ -62,6 +62,6 @@ public interface SceneLoader {
 	 * @param currentScene
 	 *            the current scene
 	 */
-	void freeUnusedAssets(SceneGO<?> currentScene);
+	void freeUnusedAssets(SceneGO<?> currentScene, SceneGO<?> oldScene);
 
 }

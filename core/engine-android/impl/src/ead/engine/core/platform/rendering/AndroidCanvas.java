@@ -62,7 +62,7 @@ import ead.common.util.EAdRectangle;
 import ead.engine.core.platform.DrawableAsset;
 import ead.engine.core.platform.FontHandler;
 import ead.engine.core.platform.assets.AndroidBezierShape;
-import ead.engine.core.platform.assets.AndroidEngineFont;
+import ead.engine.core.platform.assets.AndroidFont;
 import ead.engine.core.platform.rendering.AbstractCanvas;
 import ead.engine.core.platform.rendering.filters.FilterFactory;
 import ead.engine.core.util.EAdTransformation;
@@ -166,7 +166,7 @@ public class AndroidCanvas extends AbstractCanvas<Canvas> {
 
 	@Override
 	public void setFont(EAdFont font) {
-		AndroidEngineFont f = (AndroidEngineFont) fontHandler.get(font);
+		AndroidFont f = (AndroidFont) fontHandler.get(font);
 		this.font = f.getFont();
 		size = f.size();
 	}

@@ -37,6 +37,9 @@
 
 package ead.engine.core.gameobjects.sceneelements;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.google.inject.Inject;
 
 import ead.common.model.elements.EAdEffect;
@@ -51,8 +54,6 @@ import ead.engine.core.gameobjects.go.SceneElementGO;
 import ead.engine.core.input.InputAction;
 import ead.engine.core.platform.AssetHandler;
 import ead.engine.core.platform.GUI;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class BasicSceneElementGO extends
 		SceneElementGOImpl<SceneElement> {
