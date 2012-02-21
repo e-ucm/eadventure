@@ -56,23 +56,21 @@ import ead.common.params.fills.ColorFill;
 import ead.common.params.fills.LinearGradientFill;
 import ead.common.util.EAdPosition;
 import ead.common.util.EAdPosition.Corner;
+import ead.elementfactories.demos.normalguy.NgCommon;
 
 public class TrajectoriesScene extends EmptyScene {
 
 	public TrajectoriesScene() {
+		NgCommon.init();
 		setBackgroundFill(new LinearGradientFill(ColorFill.DARK_GRAY,
 				ColorFill.LIGHT_GRAY, 800, 600, true));
 
-		SceneElement element = new SceneElement(
-				CharacterScene.getStateDrawable());
+		SceneElement element = new SceneElement(NgCommon.getMainCharacter());
 		element.setId("player");
-
-		element.setInitialScale(3.0f);
 
 		element.setPosition(new EAdPosition(Corner.BOTTOM_CENTER, 400, 300));
 
-		MakeActiveElementEf effect = new MakeActiveElementEf(
-				element);
+		MakeActiveElementEf effect = new MakeActiveElementEf(element);
 
 		SceneElementEv event = new SceneElementEv();
 		event.addEffect(SceneElementEvType.FIRST_UPDATE, effect);
@@ -85,9 +83,10 @@ public class TrajectoriesScene extends EmptyScene {
 				new MoveActiveElementToMouseEf());
 
 		ChangeFieldEf changeSide = new ChangeFieldEf();
-		changeSide.addField(new BasicField<Side>( element, NodeTrajectoryDefinition.VAR_CURRENT_SIDE));
-		changeSide.setOperation(new ValueOp( null ));
-		
+		changeSide.addField(new BasicField<Side>(element,
+				NodeTrajectoryDefinition.VAR_CURRENT_SIDE));
+		changeSide.setOperation(new ValueOp(null));
+
 		createTrajectory1(changeSide);
 		createTrajectory2(changeSide);
 		createTrajectory3(changeSide);
@@ -110,9 +109,9 @@ public class TrajectoriesScene extends EmptyScene {
 				BasicScene.VAR_TRAJECTORY_DEFINITION));
 		effect.setOperation(new ValueOp(trajectory));
 
-		getBackground().addBehavior(
-				new KeyGEv(KeyEventType.KEY_PRESSED, '1'), effect);
-		
+		getBackground().addBehavior(new KeyGEv(KeyEventType.KEY_PRESSED, '1'),
+				effect);
+
 		effect.getNextEffects().add(changeSide);
 
 		setTrajectoryDefinition(trajectory);
@@ -161,11 +160,11 @@ public class TrajectoriesScene extends EmptyScene {
 		effect.addField(new BasicField<EAdTrajectoryDefinition>(this,
 				BasicScene.VAR_TRAJECTORY_DEFINITION));
 		effect.setOperation(new ValueOp(trajectory));
-		
+
 		effect.getNextEffects().add(changeSide);
 
-		getBackground().addBehavior(
-				new KeyGEv(KeyEventType.KEY_PRESSED, '2'), effect);
+		getBackground().addBehavior(new KeyGEv(KeyEventType.KEY_PRESSED, '2'),
+				effect);
 	}
 
 	private void createTrajectory3(ChangeFieldEf changeSide) {
@@ -184,8 +183,8 @@ public class TrajectoriesScene extends EmptyScene {
 		effect.setOperation(new ValueOp(trajectory));
 		effect.getNextEffects().add(changeSide);
 
-		getBackground().addBehavior(
-				new KeyGEv(KeyEventType.KEY_PRESSED, '3'), effect);
+		getBackground().addBehavior(new KeyGEv(KeyEventType.KEY_PRESSED, '3'),
+				effect);
 	}
 
 	@Override

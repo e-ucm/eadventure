@@ -41,19 +41,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ead.common.model.elements.scene.EAdScene;
-import ead.common.model.elements.scenes.SceneElement;
 import ead.common.model.elements.scenes.BasicScene;
+import ead.common.model.elements.scenes.SceneElement;
 import ead.common.model.elements.transitions.EAdTransition;
-import ead.common.model.elements.variables.EAdField;
 import ead.common.model.elements.variables.BasicField;
+import ead.common.model.elements.variables.EAdField;
 import ead.common.model.elements.variables.SystemFields;
 import ead.common.params.fills.ColorFill;
 import ead.common.params.fills.LinearGradientFill;
 import ead.common.params.fills.PaintFill;
 import ead.common.resources.assets.drawable.basics.shapes.CircleShape;
 import ead.common.resources.assets.drawable.basics.shapes.RectangleShape;
-import ead.common.util.StringHandler;
 import ead.common.util.EAdPosition.Corner;
+import ead.common.util.StringHandler;
 import ead.engine.core.game.GameState;
 import ead.engine.core.gameobjects.SceneGOImpl;
 import ead.engine.core.gameobjects.factories.EventGOFactory;
@@ -153,6 +153,8 @@ public abstract class AbstractTransitionGO<T extends EAdTransition> extends
 
 		scene.setBackground(new SceneElement(rs));
 		scene.getSceneElements().add(loadingText);
+		
+		loadingText.setInitialAlpha(0.7f);
 		return scene;
 	}
 

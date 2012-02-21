@@ -71,15 +71,16 @@ public class InitScene extends EmptyScene {
 	private SceneElement goBack;
 
 	private EAdSceneElementDef infoButton;
-	
+
 	private EAdFill fill = new ColorFill(255, 255, 255, 200);
-	
-	private EAdFont font = new BasicFont( 18 );
+
+	private EAdFont font = new BasicFont(18);
 
 	private PaintFill speakPaint = new PaintFill(fill, ColorFill.LIGHT_GRAY, 5);
 
 	public InitScene() {
-		this.setBackground(new SceneElement(new Image("@drawable/techdemo-bg.png")));
+		this.setBackground(new SceneElement(new Image(
+				"@drawable/techdemo-bg.png")));
 		getBackground().setId("background");
 		initList();
 		initGOBackButton();
@@ -91,8 +92,9 @@ public class InitScene extends EmptyScene {
 			Button b = new Button();
 			sf.setString(b.getLabel(), s.getDemoName());
 			b.setPosition(x, y);
-			b.addBehavior(MouseGEv.MOUSE_LEFT_PRESSED,
-					new ChangeSceneEf( s, new DisplaceTransition(1000, DisplaceTransitionType.VERTICAL, true)));
+			b.addBehavior(MouseGEv.MOUSE_LEFT_PRESSED, new ChangeSceneEf(s,
+					new DisplaceTransition(1000,
+							DisplaceTransitionType.VERTICAL, true)));
 			this.getSceneElements().add(b);
 			s.getSceneElements().add(goBack);
 			SceneElement info = new SceneElement(infoButton);
@@ -119,12 +121,12 @@ public class InitScene extends EmptyScene {
 	}
 
 	private void initGOBackButton() {
-		goBack = new SceneElement(new Image(
-				"@drawable/goback.png"));
+		goBack = new SceneElement(new Image("@drawable/goback.png"));
 		goBack.setId("goBack");
 		goBack.setPosition(Corner.BOTTOM_LEFT, 10, 590);
-		goBack.addBehavior(MouseGEv.MOUSE_LEFT_PRESSED,
-				new ChangeSceneEf( this, new DisplaceTransition(1000, DisplaceTransitionType.HORIZONTAL, true)));
+		goBack.addBehavior(MouseGEv.MOUSE_LEFT_PRESSED, new ChangeSceneEf(this,
+				new DisplaceTransition(1000, DisplaceTransitionType.HORIZONTAL,
+						true)));
 		goBack.setInitialScale(0.5f);
 
 	}
@@ -141,7 +143,7 @@ public class InitScene extends EmptyScene {
 		sceneDemos.add(new DrawablesScene());
 		// sceneDemos.add(new MoleGame());
 		sceneDemos.add(new ShowQuestionScene());
-		// sceneDemos.add(new TrajectoriesScene());
+		sceneDemos.add(new TrajectoriesScene());
 		// sceneDemos.add(new PhysicsScene());
 		sceneDemos.add(new PhysicsScene2());
 		sceneDemos.add(new DragDropScene());
