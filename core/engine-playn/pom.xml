@@ -19,6 +19,6 @@
   <properties>
     <gwtversion>2.4.0</gwtversion>
     <gwt.version>2.4.0</gwt.version>
-    <playnversion>1.0.1</playnversion>
+    <playnversion>1.1.9</playnversion>
   </properties>
 </project>
