@@ -46,7 +46,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 
 import ead.common.params.text.EAdFont;
-import ead.common.params.text.FontStyle;
+import ead.common.params.text.enums.FontStyle;
 import ead.common.util.EAdRectangle;
 import ead.engine.core.platform.AssetHandler;
 import ead.engine.core.platform.RuntimeFont;
@@ -117,6 +117,10 @@ public class DesktopFont implements RuntimeFont {
 	public EAdRectangle stringBounds(String string) {
 		Rectangle r = font.getStringBounds(string, frc).getBounds();
 		return new EAdRectangle(r.x, r.y, r.width, r.height);
+	}
+	
+	public String toString(){
+		return "DesktopFont:"  + eadFont;
 	}
 
 }

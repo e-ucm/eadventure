@@ -80,7 +80,7 @@ import ead.common.model.predef.effects.ChangeAppearanceEf;
 import ead.common.params.BasicFont;
 import ead.common.params.fills.ColorFill;
 import ead.common.params.text.EAdFont;
-import ead.common.params.text.FontStyle;
+import ead.common.params.text.enums.FontStyle;
 import ead.common.resources.EAdBundleId;
 import ead.common.resources.assets.AssetDescriptor;
 import ead.common.resources.assets.drawable.basics.Caption;

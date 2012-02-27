@@ -35,19 +35,13 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ead.common.model.elements.variables.operations;
+package ead.common.params.text.enums;
 
 import com.gwtent.reflection.client.Reflectable;
 
 @Reflectable
-public enum ListOpType {
-	/**
-	 * Return the list with a random order
-	 */
-	RANDOM_LIST,
-	
-	/**
-	 * Returns a random element of the list
-	 */
-	RANDOM_ELEMENT;
-}
+public enum FontStyle {
+
+	BOLD, PLAIN, ITALIC
+
+};

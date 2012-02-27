@@ -40,7 +40,7 @@ package ead.engine.core.platform.assets;
 import android.graphics.Paint;
 import android.graphics.Typeface;
 import ead.common.params.text.EAdFont;
-import ead.common.params.text.FontStyle;
+import ead.common.params.text.enums.FontStyle;
 import ead.common.util.EAdRectangle;
 import ead.engine.core.platform.RuntimeFont;
 

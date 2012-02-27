@@ -38,7 +38,7 @@
 package ead.common.params;
 
 import ead.common.params.text.EAdFont;
-import ead.common.params.text.FontStyle;
+import ead.common.params.text.enums.FontStyle;
 import ead.common.util.EAdURI;
 
 
@@ -192,7 +192,14 @@ public class BasicFont extends AbstractParam implements EAdFont {
 	@Override
 	public void setUri(EAdURI uri) {
 		this.uri = uri;
-		
+	}
+	
+	public int hashCode(){
+		return toStringData().hashCode();
+	}
+	
+	public boolean equals(Object o){
+		return o.equals(toString());
 	}
 
 }

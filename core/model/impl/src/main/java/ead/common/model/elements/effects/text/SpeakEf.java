@@ -51,6 +51,7 @@ import ead.common.params.text.EAdString;
 import ead.common.resources.assets.drawable.basics.Caption;
 import ead.common.resources.assets.drawable.basics.enums.Alignment;
 import ead.common.resources.assets.drawable.basics.shapes.extra.BalloonType;
+import ead.common.util.EAdURI;
 
 /**
  * 
@@ -61,22 +62,28 @@ import ead.common.resources.assets.drawable.basics.shapes.extra.BalloonType;
 @Element(runtime = SpeakEf.class, detailed = SpeakEf.class)
 public class SpeakEf extends AbstractEffect {
 
+	private static final EAdFont DEFAULT_FONT = new BasicFont(new EAdURI(
+			"@binary/DroidSans-Bold.ttf"), 32);
+
+	private static final PaintFill BUBBLE_PAINT = new PaintFill(
+			new ColorFill(255, 255, 255, 220), ColorFill.BLACK, 2);
+
 	@Param("x")
 	private EAdOperation x;
 
 	@Param("y")
 	private EAdOperation y;
-	
+
 	@Param("caption")
 	private Caption caption;
 
 	@Param("bubbleColor")
 	private EAdPaint bubbleColor;
 
-	@Param(value="ballonType", defaultValue="ROUNDED_RECTANGLE")
+	@Param(value = "ballonType", defaultValue = "ROUNDED_RECTANGLE")
 	private BalloonType ballonType;
-	
-	@Param(value="state_field")
+
+	@Param(value = "state_field")
 	private EAdField<String> stateField;
 
 	/**
@@ -92,10 +99,11 @@ public class SpeakEf extends AbstractEffect {
 		super();
 		caption = new Caption(text);
 		caption.setTextPaint(ColorFill.BLACK);
-		bubbleColor = PaintFill.BLACK_ON_WHITE;
+		bubbleColor = BUBBLE_PAINT;
 		caption.setFont(BasicFont.REGULAR);
 		ballonType = BalloonType.ROUNDED_RECTANGLE;
 		caption.setAlignment(Alignment.LEFT);
+		caption.setFont(DEFAULT_FONT);
 		setQueueable(true);
 		setOpaque(true);
 	}
@@ -138,12 +146,12 @@ public class SpeakEf extends AbstractEffect {
 	public void setFont(EAdFont font) {
 		this.caption.setFont(font);
 	}
-	
-	public Caption getCaption( ){
+
+	public Caption getCaption() {
 		return caption;
 	}
-	
-	public void setCaption(Caption caption){
+
+	public void setCaption(Caption caption) {
 		this.caption = caption;
 	}
 
@@ -182,14 +190,13 @@ public class SpeakEf extends AbstractEffect {
 	public EAdString getString() {
 		return caption.getLabel();
 	}
-	
-	public void setStateField(EAdField<String> stateField){
+
+	public void setStateField(EAdField<String> stateField) {
 		this.stateField = stateField;
 	}
-	
-	public EAdField<String> getStateField(){
+
+	public EAdField<String> getStateField() {
 		return this.stateField;
 	}
-	
-	
+
 }

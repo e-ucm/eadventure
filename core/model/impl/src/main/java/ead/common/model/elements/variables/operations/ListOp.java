@@ -42,6 +42,7 @@ import ead.common.interfaces.Param;
 import ead.common.model.elements.extra.EAdList;
 import ead.common.model.elements.variables.EAdField;
 import ead.common.model.elements.variables.AbstractOperation;
+import ead.common.model.elements.variables.operations.enums.ListOpType;
 
 @Element(runtime = ListOp.class, detailed = ListOp.class)
 @SuppressWarnings("rawtypes")

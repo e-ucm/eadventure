@@ -54,6 +54,31 @@ public class BasicField<T> extends AbstractOperation implements EAdField<T> {
 
 	}
 
+	/**
+	 * Constructs a field
+	 * 
+	 * @param element
+	 *            field owner. It can be {@code null}, if there's no owner
+	 * @param name
+	 *            field name
+	 * @param fieldType
+	 *            field type
+	 * @param initialValue
+	 *            field initial value
+	 */
+	public BasicField(EAdElement element, String name, Class<T> fieldType,
+			T initialValue) {
+		this(element, new VarDef<T>(name, fieldType, initialValue));
+	}
+
+	/**
+	 * Constructs a field
+	 * 
+	 * @param element
+	 *            field owner
+	 * @param varDef
+	 *            variable definition
+	 */
 	public BasicField(EAdElement element, EAdVarDef<T> varDef) {
 		this.element = element;
 		this.varDef = varDef;
@@ -74,7 +99,7 @@ public class BasicField<T> extends AbstractOperation implements EAdField<T> {
 		return (element != null ? element.getId() : "") + "_" + varDef.getId()
 				+ "_field";
 	}
-	
+
 	@Override
 	public void setId(String id) {
 	}
@@ -82,8 +107,9 @@ public class BasicField<T> extends AbstractOperation implements EAdField<T> {
 	public boolean equals(Object o) {
 		if (o != null && o instanceof EAdField) {
 			EAdField<?> f = ((EAdField<?>) o);
-			boolean elementEquals = (f.getElement() == null && element == null) ||
-					(f.getElement() != null && f.getElement().equals(element));
+			boolean elementEquals = (f.getElement() == null && element == null)
+					|| (f.getElement() != null && f.getElement()
+							.equals(element));
 			if (elementEquals)
 				return f.getVarDef().equals(varDef);
 		}
@@ -91,13 +117,14 @@ public class BasicField<T> extends AbstractOperation implements EAdField<T> {
 	}
 
 	public int hashCode() {
-		return ("" + (element != null ? element.hashCode() : "") + "_" + varDef.hashCode()).hashCode();
+		return ("" + (element != null ? element.hashCode() : "") + "_" + varDef
+				.hashCode()).hashCode();
 	}
-	
+
 	public String toString() {
 		return (element != null ? element : "NULL") + "." + varDef.getName();
 	}
-	
+
 	public void setVarDef(EAdVarDef<T> varDef) {
 		this.varDef = varDef;
 	}
@@ -106,5 +133,4 @@ public class BasicField<T> extends AbstractOperation implements EAdField<T> {
 		this.element = element;
 	}
 
-	
 }

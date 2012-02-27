@@ -39,6 +39,7 @@ package ead.common.params.text;
 
 import ead.common.interfaces.HasURI;
 import ead.common.params.EAdParam;
+import ead.common.params.text.enums.FontStyle;
 
 /**
  * General interfaces for eAdventure text fonts

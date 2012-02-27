@@ -42,6 +42,11 @@ import com.gwtent.reflection.client.Reflectable;
 import ead.common.model.EAdElement;
 
 @Reflectable
+/**
+ * Implementation of a basic {@link EAdElement}. Most of the model elements inherits from this basis class
+ * @author anserran
+ *
+ */
 public abstract class BasicElement implements EAdElement {
 
 	protected String id;
@@ -54,13 +59,13 @@ public abstract class BasicElement implements EAdElement {
 	public String getId() {
 		return id;
 	}
-	
+
 	@Override
 	public void setId(String id) {
 		this.id = id;
 	}
-	
-	public String toString(){
+
+	public String toString() {
 		return id;
 	}
 

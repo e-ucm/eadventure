@@ -47,7 +47,7 @@ public class RectangleStroke implements BalloonStroke {
 		shape.lineTo(xOrigin, y);
 		shape.lineTo(xOrigin, yOrigin);
 		int diff = x2 - xOrigin;
-		diff = Math.abs(diff) > 40 ? 40 * (int) Math.signum(x2 - xOrigin) : diff;
+		diff = Math.abs(diff) > 20 ? 20 * (int) Math.signum(x2 - xOrigin) : diff;
 		
 
 		shape.lineTo(xOrigin + diff, y);

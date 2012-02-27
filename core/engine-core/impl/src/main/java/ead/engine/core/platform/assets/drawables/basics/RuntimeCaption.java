@@ -39,6 +39,7 @@ package ead.engine.core.platform.assets.drawables.basics;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -59,11 +60,12 @@ import ead.engine.core.platform.RuntimeFont;
 import ead.engine.core.platform.assets.AbstractRuntimeAsset;
 import ead.engine.core.platform.rendering.GenericCanvas;
 
+
 public class RuntimeCaption<GraphicContext> extends
 		AbstractRuntimeAsset<EAdCaption> implements
 		DrawableAsset<EAdCaption, GraphicContext> {
 
-	private Logger logger = LoggerFactory.getLogger("RuntimeCaption");
+	private static final Logger logger = LoggerFactory.getLogger("RuntimeCaption");
 
 	private AssetHandler assetHandler;
 
@@ -468,7 +470,7 @@ public class RuntimeCaption<GraphicContext> extends
 			assetHandler.getDrawableAsset(shape, c).render(c);
 		}
 
-		c.setPaint(descriptor.getTextPaint());
+		
 		c.setFont(descriptor.getFont());
 		int xOffset = 0;
 		int yOffset = getAssetDescriptor().getPadding();
@@ -494,6 +496,7 @@ public class RuntimeCaption<GraphicContext> extends
 				default:
 					xOffset = descriptor.getPadding();
 				}
+				c.setPaint(descriptor.getTextPaint());
 				c.drawText(s, xOffset, yOffset);
 				yOffset += getLineHeight();
 				i++;
