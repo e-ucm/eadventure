@@ -38,7 +38,7 @@
 package ead.engine.html;
 
 import playn.core.PlayN;
-import playn.html.HtmlAssetManager;
+import playn.html.HtmlAssets;
 import playn.html.HtmlGame;
 import playn.html.HtmlPlatform;
 import playn.html.HtmlPlatform.Mode;
@@ -65,7 +65,7 @@ public class EAdEngineHtml extends HtmlGame {
 	@Override
 	public void start() {
 
-		HtmlAssetManager assets = HtmlPlatform.register(Mode.AUTODETECT).assetManager();
+		HtmlAssets assets = HtmlPlatform.register(Mode.AUTODETECT).assets();
 		
 		
 		

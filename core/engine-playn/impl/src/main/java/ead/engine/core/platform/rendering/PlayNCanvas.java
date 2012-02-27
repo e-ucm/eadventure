@@ -82,7 +82,7 @@ public class PlayNCanvas extends AbstractCanvas<Canvas> {
 		setMatrix( t.getMatrix() );
 		if (t.getClip() != null)
 			clip(t.getClip());
-		// TODO alpha
+		t.setAlpha(t.getAlpha());
 	}
 	
 	public void setMatrix( EAdMatrix mat ){
@@ -104,7 +104,6 @@ public class PlayNCanvas extends AbstractCanvas<Canvas> {
 			g.setStrokeWidth(paint.getBorderWidth());
 			g.strokePath(s);
 		}
-
 	}
 	
 	@Override
@@ -120,7 +119,6 @@ public class PlayNCanvas extends AbstractCanvas<Canvas> {
 			g.setStrokeWidth(paint.getBorderWidth());
 			g.fillRect(x, y, width, height);
 		}
-		
 	}
 
 	private void updatePaintFill(EAdFill fill) {
