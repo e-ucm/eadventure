@@ -45,6 +45,8 @@ import ead.common.util.EAdURI;
 /**
  * EAdFont represents a text font and its metrics
  * 
+ * 
+ * {@link EAdURI}
  */
 public class BasicFont extends AbstractParam implements EAdFont {
 
