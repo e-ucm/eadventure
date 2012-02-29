@@ -72,6 +72,10 @@ public class BasicFont extends AbstractParam implements EAdFont {
 	 * Regular EAdFont
 	 */
 	public static final BasicFont REGULAR = new BasicFont(25.0f);
+	
+	/**
+	 * Regular bold font
+	 */
 
 	public static final BasicFont REGULAR_BOLD = new BasicFont(null, 25.0f,
 			FontStyle.BOLD);
