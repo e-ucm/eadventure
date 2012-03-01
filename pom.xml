@@ -101,13 +101,12 @@
                 <module>core/engine-core</module>
                 <module>core/engine-java</module>
                 <module>core/engine-playn</module>
-                <module>core/engine-html5</module>
                 <module>core/engine-plugins</module>
                 <module>core/engine-desktop</module>
                 <module>core/engine-applet</module>
                 <module>core/engine-android</module>
                 <module>core/model</module>
-                <module>etc/test-suite</module>
+                <module>core/test-suite</module>
             </modules>
         </profile>
         <profile>
@@ -177,13 +176,12 @@
                 <module>core/engine-core</module>
                 <module>core/engine-java</module>
                 <module>core/engine-playn</module>
-                <module>core/engine-html5</module>
                 <module>core/engine-plugins</module>
                 <module>core/engine-desktop</module>
                 <module>core/engine-applet</module>
                 <module>core/engine-android</module>
                 <module>core/model</module>
-                <module>etc/test-suite</module>
+                <module>core/test-suite</module>
             </modules>
             <properties>
                 <maven.test.skip>true</maven.test.skip>

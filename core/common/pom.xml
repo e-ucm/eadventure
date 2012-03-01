@@ -19,11 +19,6 @@
       <artifactId>guice</artifactId>
       <classifier>no_aop</classifier>
     </dependency>
-    <dependency>
-        <groupId>ead</groupId>
-        <artifactId>utils</artifactId>
-        <version>${project.version}</version>
-    </dependency>
   </dependencies>
   <modules>
     <module>api</module>

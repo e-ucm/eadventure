@@ -18,12 +18,12 @@
     </dependency>
     <dependency>
     	<groupId>ead</groupId>
-    	<artifactId>common-model-api</artifactId>
+    	<artifactId>model-api</artifactId>
     	<version>${project.version}</version>
     </dependency>
     <dependency>
     	<groupId>ead</groupId>
-    	<artifactId>common-model-impl</artifactId>
+    	<artifactId>model-impl</artifactId>
     	<version>${project.version}</version>
     </dependency>
     <dependency>
