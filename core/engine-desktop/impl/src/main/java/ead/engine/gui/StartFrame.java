@@ -63,6 +63,9 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.filechooser.FileFilter;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 
@@ -93,6 +96,8 @@ public class StartFrame extends JFrame {
 
 	private static final String PROPERTIES_FILE = "engine_configuration.xml";
 
+	private static final Logger logger = LoggerFactory.getLogger("EAdEngine");
+
 	private JFileChooser fileChooser;
 
 	private Properties properties;
@@ -103,7 +108,7 @@ public class StartFrame extends JFrame {
 
 	private StringFileHandler stringFileHandler;
 
-//	private ProgressDialog progressDialog;
+	// private ProgressDialog progressDialog;
 
 	private File dataFile;
 
@@ -124,14 +129,33 @@ public class StartFrame extends JFrame {
 
 	private void loadProperties() {
 		properties = new Properties();
-		try {
-			FileInputStream in = new FileInputStream(PROPERTIES_FILE);
-			properties.load(in);
-			in.close();
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
+		File f = new File(PROPERTIES_FILE);
+		if (f.exists()) {
+			FileInputStream in = null;
+			try {
+				in = new FileInputStream(PROPERTIES_FILE);
+				properties.load(in);
+			} catch (FileNotFoundException e) {
+				logger.warn(PROPERTIES_FILE + " not found");
+			} catch (IOException e) {
+				logger.warn("{}", e);
+			} finally {
+				if (in != null) {
+					try {
+						in.close();
+					} catch (IOException e) {
+						logger.warn("{}", e);
+					}
+				}
+			}
+		} else {
+			logger.info("First execution. " + PROPERTIES_FILE
+					+ " will be created.");
+			try {
+				f.createNewFile();
+			} catch (IOException e) {
+				logger.warn(PROPERTIES_FILE + " wasn't created.");
+			}
 		}
 
 	}
@@ -150,7 +174,7 @@ public class StartFrame extends JFrame {
 		// Strings file handler
 		stringFileHandler = new DefaultStringFileHandler();
 
-//		progressDialog = new ProgressDialog(this, importer);
+		// progressDialog = new ProgressDialog(this, importer);
 	}
 
 	private void setFrameProperties() {
@@ -169,17 +193,23 @@ public class StartFrame extends JFrame {
 
 			@Override
 			public void windowClosing(WindowEvent arg0) {
+				FileOutputStream out = null;
 				try {
-					FileOutputStream out = new FileOutputStream(PROPERTIES_FILE);
-
+					out = new FileOutputStream(PROPERTIES_FILE);
 					properties.setProperty(FILE_CHOOSER_DIRECTORY, fileChooser
 							.getCurrentDirectory().getAbsolutePath());
 					properties.store(out, "-- No comments --");
-					out.close();
+
 				} catch (FileNotFoundException e) {
-					e.printStackTrace();
 				} catch (IOException e) {
-					e.printStackTrace();
+				} finally {
+					if (out != null) {
+						try {
+							out.close();
+						} catch (IOException e) {
+							logger.warn("{}", e);
+						}
+					}
 				}
 
 			}
@@ -269,48 +299,48 @@ public class StartFrame extends JFrame {
 							"eAdventure importation",
 							JOptionPane.INFORMATION_MESSAGE);
 
-			new Thread( ){
-				
-				public void run( ){
+			new Thread() {
+
+				public void run() {
 					EAdAdventureModel model = null;
 					String destinyFile = null;
 					Map<EAdString, String> strings = null;
-					
+
 					if (result == JOptionPane.CANCEL_OPTION)
 						return;
 
 					String destiny = null;
 
 					if (result == JOptionPane.YES_OPTION) {
-						int fileResult = fileChooser.showSaveDialog(StartFrame.this);
+						int fileResult = fileChooser
+								.showSaveDialog(StartFrame.this);
 						if (fileResult == JFileChooser.CANCEL_OPTION)
 							return;
 						if (fileResult == JFileChooser.APPROVE_OPTION)
-							destiny = fileChooser.getSelectedFile().getAbsolutePath();
+							destiny = fileChooser.getSelectedFile()
+									.getAbsolutePath();
 					}
 
 					model = importer.importGame(f.getAbsolutePath(), destiny);
 					destinyFile = importer.getDestinyFile();
 					strings = importer.getStrings();
-					
+
 					if (model != null) {
-						DesktopGame game = new DesktopGame(model, destinyFile, strings);
+						DesktopGame game = new DesktopGame(model, destinyFile,
+								strings);
 						game.launch();
 					}
 				}
 			}.start();
-			
-//			progressDialog.setVisible(true);
-			
 
-			
+			// progressDialog.setVisible(true);
 
 		} else {
-			
+
 			EAdAdventureModel model = null;
 			String destinyFile = null;
 			Map<EAdString, String> strings = null;
-			
+
 			try {
 				FileInputStream in = new FileInputStream(dataFile);
 				model = reader.read(in);
@@ -326,15 +356,13 @@ public class StartFrame extends JFrame {
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-			
+
 			if (model != null) {
 				DesktopGame game = new DesktopGame(model, destinyFile, strings);
 				game.launch();
 			}
 
 		}
-
-
 
 	}
 

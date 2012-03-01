@@ -37,18 +37,18 @@
 
 package ead.engine.core.platform.assets;
 
-import static playn.core.PlayN.assetManager;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import playn.core.Canvas;
 import playn.core.Image;
+import playn.core.PlayN;
 
 import com.google.inject.Inject;
 
 import ead.engine.core.platform.AssetHandler;
 import ead.engine.core.platform.assets.drawables.basics.RuntimeImage;
 import ead.engine.core.platform.rendering.GenericCanvas;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class PlayNEngineImage extends RuntimeImage<Canvas> {
 
@@ -93,7 +93,7 @@ public class PlayNEngineImage extends RuntimeImage<Canvas> {
 			try {
                 String path = assetHandler.getAbsolutePath(
                         descriptor.getUri().getPath());
-            	image = assetManager().getImage(path);
+            	image = PlayN.assets().getImage(path);
 				if (image != null) {
 					logger.info("Image loaded OK: {} from {} width {}",
                             new Object[]{descriptor.getUri(), path, image.width()});
