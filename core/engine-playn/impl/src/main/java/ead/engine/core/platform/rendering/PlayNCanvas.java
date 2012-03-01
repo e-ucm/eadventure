@@ -82,7 +82,7 @@ public class PlayNCanvas extends AbstractCanvas<Canvas> {
 		setMatrix( t.getMatrix() );
 		if (t.getClip() != null)
 			clip(t.getClip());
-		t.setAlpha(t.getAlpha());
+		g.setAlpha(t.getAlpha());
 	}
 	
 	public void setMatrix( EAdMatrix mat ){

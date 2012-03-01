@@ -66,7 +66,7 @@ public class SpeakAndMoveScene extends EmptyScene {
 		NgCommon.init();
 		SceneElement character = new SceneElement(
 				NgCommon.getMainCharacter());
-
+		character.setInitialAlpha(0.5f);
 		character.setPosition(new EAdPosition(Corner.BOTTOM_CENTER, 400,
 				400));
 

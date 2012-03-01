@@ -115,17 +115,17 @@ public class InputHandlerImpl implements InputHandler {
 
 	@Override
 	public void processActions() {
-		if (gameState.getValueMap().getValue(SystemFields.PROCESS_INPUT)) {
-			// Keyboard
-			processKeyActions();
 
-			// Mouse
-			processMouseActions();
+		boolean processInput = gameState.getValueMap().getValue(
+				SystemFields.PROCESS_INPUT);
+		if (processInput) {
+
+			processKeyActions();
 			processEnterExit();
 			processDrag();
-		} else {
-			clearAllInputs();
 		}
+
+		processMouseActions(processInput);
 	}
 
 	/**
@@ -164,8 +164,10 @@ public class InputHandlerImpl implements InputHandler {
 
 	/**
 	 * Process actions (i.e. button presses) of the mouse
+	 * 
+	 * @param processInput
 	 */
-	private void processMouseActions() {
+	private void processMouseActions(boolean processInput) {
 		int j = 0;
 		while (!mouseHandler.getMouseEvents().isEmpty()
 				&& (j < MAX_EVENTS_PER_CYCLE || mouseHandler.getMouseEvents()
@@ -187,21 +189,25 @@ public class InputHandlerImpl implements InputHandler {
 				mouseHandler.setMousePressed(false, mouseAction.getButton());
 				break;
 			}
+			
+			if (processInput) {
 
-			int i = gameObjects.getGameObjects().size() - 1;
+				int i = gameObjects.getGameObjects().size() - 1;
 
-			while (!action.isConsumed() && i >= 0) {
-				DrawableGO<?> go = gameObjects.getGameObjects().get(i);
-				EAdTransformation t = gameObjects.getTransformations().get(i);
+				while (!action.isConsumed() && i >= 0) {
+					DrawableGO<?> go = gameObjects.getGameObjects().get(i);
+					EAdTransformation t = gameObjects.getTransformations().get(
+							i);
 
-				if (contains(go, x, y, t)) {
-					go.processAction(action);
+					if (contains(go, x, y, t)) {
+						go.processAction(action);
+					}
+
+					if (action.isConsumed())
+						logger.info("Action {} consumed by {}", action, go);
+
+					i = propagateEvents ? i - 1 : -1;
 				}
-
-				if (action.isConsumed())
-					logger.info("Action {} consumed by {}", action, go);
-
-				i = propagateEvents ? i - 1 : -1;
 			}
 
 			j++;
@@ -228,8 +234,8 @@ public class InputHandlerImpl implements InputHandler {
 					DragInputAction action = new DragInputAction(
 							mouseHandler.getDraggingElement(),
 							DragGEvType.EXITED, x, y);
-					for (DrawableGO<?> go : this.getAllGOUnderMouse())
-						go.processAction(action);
+
+					oldGO.processAction(action);
 				}
 			}
 
@@ -241,8 +247,7 @@ public class InputHandlerImpl implements InputHandler {
 					DragInputAction action = new DragInputAction(
 							mouseHandler.getDraggingElement(),
 							DragGEvType.ENTERED, x, y);
-					for (DrawableGO<?> go : this.getAllGOUnderMouse())
-						go.processAction(action);
+					currentGO.processAction(action);
 				}
 			}
 			mouseHandler.setGameObjectUnderMouse(currentGO);
@@ -313,6 +318,7 @@ public class InputHandlerImpl implements InputHandler {
 
 	private void processDrag() {
 		DrawableGO<?> currentDraggedGO = mouseHandler.getDraggingGameObject();
+		DrawableGO<?> currentGO = getGameObjectUnderPointer();
 		int x = getPointerX();
 		int y = getPointerY();
 		if (currentDraggedGO != null) {
@@ -326,13 +332,13 @@ public class InputHandlerImpl implements InputHandler {
 					int i = 0;
 
 					// Exit too
-					DragInputAction action = new DragInputAction(
-							mouseHandler.getDraggingElement(),
-							DragGEvType.EXITED, x, y);
-					while (i < goMouseList.size()) {
-						goMouse = goMouseList.get(i);
-						goMouse.processAction(action);
-						i++;
+					if (currentGO != null) {
+						DragInputAction action = new DragInputAction(
+								mouseHandler.getDraggingElement(),
+								DragGEvType.EXITED, x, y);
+
+						currentGO.processAction(action);
+
 					}
 
 					// Drop
