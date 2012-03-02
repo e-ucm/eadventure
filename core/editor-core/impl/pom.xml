@@ -39,7 +39,6 @@
             <version>3.5.0</version>
         </dependency>
 
-
         <dependency>
 			<groupId>ead</groupId>
 			<artifactId>engine-core-api</artifactId>

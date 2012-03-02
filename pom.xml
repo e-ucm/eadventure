@@ -307,6 +307,7 @@
                     <failIfMissing>true</failIfMissing>
                     <aggregate>true</aggregate>
                     <excludes>
+                        <exclude>**/repository/**</exclude>
                         <exclude>*.*</exclude>
                         <exclude>**/.*</exclude>
                         <exclude>**/*.txt</exclude>
