@@ -27,17 +27,11 @@
 			<artifactId>engine-java-impl</artifactId>
 			<version>${project.version}</version>
 		</dependency>
-		<dependency>
-			<groupId>ead</groupId>
-			<artifactId>utils</artifactId>
-			<version>${project.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>ead</groupId>
-			<artifactId>gui</artifactId>
-			<version>${project.version}</version>
-		</dependency>
-
+		    <dependency>
+    	<groupId>ead</groupId>
+    	<artifactId>utils</artifactId>
+    	<version>${project.version}</version>
+    </dependency>
 		<dependency>
 			<groupId>javax.media</groupId>
 			<artifactId>jmf</artifactId>

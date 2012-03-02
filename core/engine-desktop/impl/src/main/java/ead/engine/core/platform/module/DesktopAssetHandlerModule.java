@@ -86,7 +86,7 @@ public class DesktopAssetHandlerModule extends AbstractModule {
 		bind(StringFileHandler.class).to(DefaultStringFileHandler.class);
 		bind(StringHandler.class).to(StringHandlerImpl.class);
 		bind(AssetHandler.class).to(DesktopAssetHandler.class);
-//		bind(new TypeLiteral<SpecialAssetRenderer<Video, ?>>() {
+//		bind(new TypeLiteral<SpecialAssetRenderer<EAdVideo, ?>>() {
 //		}).to(VLCDesktopVideoRenderer.class);
 		bind(new TypeLiteral<SpecialAssetRenderer<EAdVideo, ?>>() {
 			}).to(DesktopVideoRenderer.class);

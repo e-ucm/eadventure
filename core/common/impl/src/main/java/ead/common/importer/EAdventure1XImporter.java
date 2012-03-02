@@ -173,8 +173,6 @@ public class EAdventure1XImporter {
 	private void createGameFile(EAdAdventureModel model, String path,
 			String destination) {
 
-		// FIXME file names should be somewhere else as constants
-
 		// Create data.xml
 		EAdAdventureModelWriter writer = new EAdAdventureModelWriter();
 
