@@ -44,24 +44,26 @@ import ead.common.model.elements.transitions.EAdTransition;
 import ead.common.model.elements.transitions.EmptyTransition;
 
 /**
- * <p>Change the current scene, if the next scene is set to null, go to
- * previous possible scene.</p>
- *
+ * <p>
+ * Change the current scene, if the next scene is set to null, go to previous
+ * possible scene.
+ * </p>
+ * 
  */
 @Element(runtime = ChangeSceneEf.class, detailed = ChangeSceneEf.class)
 public class ChangeSceneEf extends AbstractEffect {
 
 	@Param("nextScreen")
 	private EAdScene nextScene;
-	
+
 	@Param("transition")
 	private EAdTransition transition;
-	
+
 	/**
 	 * Construct a new EAdChangeScene effect
 	 * 
 	 * @param id
-	 * 			The id of the effect
+	 *            The id of the effect
 	 */
 	public ChangeSceneEf() {
 		this(null, EmptyTransition.instance());
@@ -71,16 +73,20 @@ public class ChangeSceneEf extends AbstractEffect {
 	 * Construct a new EAdChangeScene effect
 	 * 
 	 * @param id
-	 * 			The id of the effect
+	 *            The id of the effect
 	 * @param nextScene
-	 * 			The next scene where to go, can be null to go back to previous
+	 *            The next scene where to go, can be null to go back to previous
 	 */
-	public ChangeSceneEf( EAdScene nextScene, EAdTransition transition) {
+	public ChangeSceneEf(EAdScene nextScene, EAdTransition transition) {
 		super();
 		setId("changeScene");
 		this.nextScene = nextScene;
 		this.transition = transition;
 		this.setQueueable(true);
+	}
+
+	public ChangeSceneEf(EAdScene scene) {
+		this(scene, EmptyTransition.instance());
 	}
 
 	/**
@@ -91,7 +97,8 @@ public class ChangeSceneEf extends AbstractEffect {
 	}
 
 	/**
-	 * @param nextScene the nextScene to set
+	 * @param nextScene
+	 *            the nextScene to set
 	 */
 	public void setNextScene(EAdScene nextScene) {
 		this.nextScene = nextScene;
@@ -100,9 +107,9 @@ public class ChangeSceneEf extends AbstractEffect {
 	public EAdTransition getTransition() {
 		return transition;
 	}
-	
+
 	public void setTransition(EAdTransition transition) {
 		this.transition = transition;
 	}
-	
+
 }

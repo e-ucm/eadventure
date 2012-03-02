@@ -46,6 +46,7 @@ import ead.common.model.elements.scene.EAdScene;
 import ead.common.model.elements.variables.EAdVarDef;
 import ead.common.model.elements.variables.VarDef;
 import ead.common.resources.annotation.Asset;
+import ead.common.resources.annotation.Bundled;
 import ead.common.resources.assets.multimedia.EAdVideo;
 
 @Element(detailed = VideoScene.class, runtime = VideoScene.class)
@@ -57,6 +58,7 @@ public class VideoScene extends BasicScene implements EAdScene {
 	public static final EAdVarDef<Boolean> VAR_FINISHED = new VarDef<Boolean>(
 			"finished", Boolean.class, Boolean.FALSE);
 
+	@Bundled
 	@Asset({ EAdVideo.class })
 	public static final String video = "video";
 
@@ -71,6 +73,10 @@ public class VideoScene extends BasicScene implements EAdScene {
 		finalEffects = new EAdListImpl<EAdEffect>(EAdEffect.class);
 	}
 
+	/**
+	 * Effects launched when the video ends
+	 * @return
+	 */
 	public EAdList<EAdEffect> getFinalEffects() {
 		return finalEffects;
 	}
