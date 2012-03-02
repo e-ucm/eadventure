@@ -42,9 +42,9 @@ import javax.swing.WindowConstants;
 
 import ead.gui.EAdButton;
 import ead.gui.EAdFrame;
-import ead.gui.EAdHideingSplitPane;
+import ead.gui.EAdHidingSplitPane;
 
-public class InterfaceTestHideingSplitPanel extends EAdFrame {
+public class InterfaceTestHidingSplitPanel extends EAdFrame {
 
 	private static final long serialVersionUID = -2461051282795540526L;
 
@@ -52,10 +52,10 @@ public class InterfaceTestHideingSplitPanel extends EAdFrame {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		new InterfaceTestHideingSplitPanel();
+		new InterfaceTestHidingSplitPanel();
 	}
 	
-	public InterfaceTestHideingSplitPanel() {
+	public InterfaceTestHidingSplitPanel() {
         setSize( 400,400 );
 
         JPanel left1 = new JPanel();
@@ -64,7 +64,7 @@ public class InterfaceTestHideingSplitPanel extends EAdFrame {
         JPanel right = new JPanel();
         right.add(new EAdButton("right"));
         
-        EAdHideingSplitPane pane = new EAdHideingSplitPane(left1, right);
+        EAdHidingSplitPane pane = new EAdHidingSplitPane(left1, right);
         this.add(pane);
        
         setVisible( true );

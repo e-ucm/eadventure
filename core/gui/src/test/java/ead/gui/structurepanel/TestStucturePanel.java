@@ -44,7 +44,7 @@ import javax.swing.Icon;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-import ead.gui.EAdHideingSplitPane;
+import ead.gui.EAdHidingSplitPane;
 import ead.gui.extra.EAdBorderLayout;
 import ead.gui.structurepanel.StructureElement;
 import ead.gui.structurepanel.StructureElementChangeListener;
@@ -160,7 +160,7 @@ public class TestStucturePanel {
 		panel.setLayout(new BorderLayout());
 		panel.add(structurePanel, BorderLayout.CENTER);
 
-		EAdHideingSplitPane pane = new EAdHideingSplitPane(panel, right);
+		EAdHidingSplitPane pane = new EAdHidingSplitPane(panel, right);
 
 
 		f.add(pane, EAdBorderLayout.CENTER);

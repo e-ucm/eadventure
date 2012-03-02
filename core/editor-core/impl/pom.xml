@@ -22,14 +22,25 @@
 			<artifactId>common-impl</artifactId>
 			<version>${project.version}</version>
 		</dependency>
-		<dependency>
+
+        <dependency>
 			<groupId>org.dockingframes</groupId>
 			<artifactId>docking-frames-common</artifactId>
 			<version>1.1.0</version>
-			<type>jar</type>
-			<scope>compile</scope>
 		</dependency>
 		<dependency>
+		  <groupId>org.jgrapht</groupId>
+          <artifactId>jgrapht-jdk1.6</artifactId>
+          <version>0.8.3</version>
+		</dependency>
+        <dependency>
+            <groupId>org.apache.lucene</groupId>
+            <artifactId>lucene-core</artifactId>
+            <version>3.5.0</version>
+        </dependency>
+
+
+        <dependency>
 			<groupId>ead</groupId>
 			<artifactId>engine-core-api</artifactId>
 			<version>${project.version}</version>
@@ -93,7 +104,7 @@
 				</plugin>
 			</plugins>
 		</build>
-	</profile>                                                                                                                    
-</profiles>  
-  
+	</profile>
+</profiles>
+
 </project>

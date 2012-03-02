@@ -37,19 +37,20 @@
 
 package ead.editor;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.google.inject.Guice;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
-
-import ead.editor.Launcher;
+import ead.common.importer.EAdventure1XImporter;
+import ead.common.importer.ImporterConfigurationModule;
+import ead.common.model.elements.EAdAdventureModel;
 import ead.editor.control.ViewController;
 import ead.editor.view.SplashScreen;
 import ead.editor.view.impl.SplashScreenImpl;
-
-
+import ead.engine.core.platform.module.DesktopAssetHandlerModule;
+import ead.engine.core.platform.module.DesktopModule;
+import ead.engine.core.platform.modules.BasicGameModule;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * eAdventure editor launcher.
@@ -74,16 +75,31 @@ public class EAdventureEditor implements Launcher {
 		SplashScreen splashScreen = new SplashScreenImpl();
 		splashScreen.show();
 
-		Injector injector = Guice.createInjector(new EditorGuiceModule());
+		Injector injector = Guice.createInjector(
+                new EditorGuiceModule(),
+                new ImporterConfigurationModule(),
+                new BasicGameModule(),
+                new DesktopModule(),
+                new DesktopAssetHandlerModule());
 
 		Launcher launcher = injector.getInstance(Launcher.class);
 
 		launcher.configure();
+
+        EAdAdventureModel model = doImport(injector);
+        model.getChapters();
+
 		launcher.initialize();
 		splashScreen.hide();
 
 		launcher.start();
 	}
+
+    public static EAdAdventureModel doImport(Injector injector) {
+        String fileName = "/home/mfreire/code/e-ucm/e-adventure-1.x/games/PrimerosAuxiliosGame.ead";
+        EAdventure1XImporter importer = injector.getInstance(EAdventure1XImporter.class);
+        return importer.importGame(fileName, "/tmp/imported");
+    }
 
 	@Inject
 	public EAdventureEditor(ViewController viewController) {

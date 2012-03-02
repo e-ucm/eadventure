@@ -56,7 +56,7 @@ import ead.utils.swing.SwingUtilities;
  * panel will hide when the mouse leaves it and expand when the mouse
  * hovers over it.
  */
-public class EAdHideingSplitPane extends JPanel {
+public class EAdHidingSplitPane extends JPanel {
 
 	private static final long serialVersionUID = -4895653681865804475L;
 
@@ -70,7 +70,7 @@ public class EAdHideingSplitPane extends JPanel {
 
 	private Changer changer;
 
-	private EAdHideingLayout layout;
+	private EAdHidingLayout layout;
 
 	private static final int MIN_WIDTH = 42;
 
@@ -78,7 +78,7 @@ public class EAdHideingSplitPane extends JPanel {
 
 	private static final int INCREMENT = 25;
 
-	public EAdHideingSplitPane(Component anotherLeftPanel,
+	public EAdHidingSplitPane(Component anotherLeftPanel,
 			Component anotherRightPanel) {
 		this.leftPanel = anotherLeftPanel;
 		this.rightPanel = anotherRightPanel;
@@ -94,10 +94,10 @@ public class EAdHideingSplitPane extends JPanel {
 		this.leftPanelContainer.setLayout(new BorderLayout());
 		this.leftPanelContainer.add(leftPanel, BorderLayout.CENTER);
 
-		layout = new EAdHideingLayout();
+		layout = new EAdHidingLayout();
 		this.setLayout(layout);
-		this.add(leftPanelContainer, EAdHideingLayout.LEFT_CONTAINER);
-		this.add(rightPanel, EAdHideingLayout.RIGHT_PANEL);
+		this.add(leftPanelContainer, EAdHidingLayout.LEFT_CONTAINER);
+		this.add(rightPanel, EAdHidingLayout.RIGHT_PANEL);
 
 		Toolkit.getDefaultToolkit().addAWTEventListener(new AWTEventListener() {
 
@@ -122,7 +122,7 @@ public class EAdHideingSplitPane extends JPanel {
 		}, AWTEvent.MOUSE_MOTION_EVENT_MASK);
 	}
 
-	private class EAdHideingLayout implements LayoutManager2 {
+	private class EAdHidingLayout implements LayoutManager2 {
 
 		private Component rightPanel;
 
@@ -212,9 +212,9 @@ public class EAdHideingSplitPane extends JPanel {
 
 		private boolean stopped;
 
-		private EAdHideingLayout layout;
+		private EAdHidingLayout layout;
 
-		public Changer(boolean increment, EAdHideingLayout layout) {
+		public Changer(boolean increment, EAdHidingLayout layout) {
 			this.increment = increment;
 			this.layout = layout;
 			stopped = false;
@@ -222,8 +222,8 @@ public class EAdHideingSplitPane extends JPanel {
 
 		@Override
 		public void run() {
-			while (((increment && layout.getWidth() < EAdHideingSplitPane.MAX_WIDTH)
-					|| (!increment && layout.getWidth() > EAdHideingSplitPane.MIN_WIDTH)) && !stopped) {
+			while (((increment && layout.getWidth() < EAdHidingSplitPane.MAX_WIDTH)
+					|| (!increment && layout.getWidth() > EAdHidingSplitPane.MIN_WIDTH)) && !stopped) {
 				SwingUtilities.doInEDTNow(new Runnable() {
 
 					@Override

@@ -37,17 +37,6 @@
 
 package ead.editor.view.impl;
 
-import bibliothek.gui.DockController;
-import com.google.inject.Inject;
-import com.google.inject.Singleton;
-import ead.editor.R;
-import ead.editor.view.EditorWindow;
-import ead.editor.view.ToolPanel;
-import ead.editor.view.menu.EditorMenuBar;
-import ead.gui.EAdFrame;
-import ead.gui.EAdHideingSplitPane;
-import ead.utils.i18n.Resource;
-import ead.utils.swing.SwingUtilities;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -55,12 +44,36 @@ import java.awt.Image;
 import java.awt.Toolkit;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.TreeMap;
+
 import javax.swing.BorderFactory;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JMenuBar;
 import javax.swing.JPanel;
+import javax.swing.JSeparator;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import bibliothek.gui.DockController;
+import bibliothek.gui.DockStation;
+import bibliothek.gui.Dockable;
+import bibliothek.gui.dock.DefaultDockable;
+import bibliothek.gui.dock.SplitDockStation;
+import bibliothek.gui.dock.StackDockStation;
+
+import com.google.inject.Inject;
+import com.google.inject.Singleton;
+
+import ead.editor.R;
+import ead.editor.view.EditorWindow;
+import ead.editor.view.ToolPanel;
+import ead.editor.view.menu.EditorMenuBar;
+import ead.gui.EAdFrame;
+import ead.gui.EAdHidingSplitPane;
+import ead.utils.i18n.Resource;
+import ead.utils.swing.SwingUtilities;
 
 /**
  * Default implementation of the main editor window
@@ -75,17 +88,17 @@ public class EditorWindowImpl implements EditorWindow {
 			.getLogger("EditorWindowImpl");
 
 	/**
-	 * Main right panel in the editor
+	 * Main right panel in the editor; contains main editing area.
 	 */
-	private JPanel rightPanel;
+	private SplitDockStation rightPanel;
 
 	/**
-	 * Main left panel in the editor
+	 * Main left panel in the editor; contains list-of-tools
 	 */
 	private JPanel leftPanel;
 
 	/**
-	 * The main panel where elements are edited
+	 * The main panel where elements are edited; split into right&left
 	 */
 	private JPanel mainPanel;
 
@@ -101,12 +114,19 @@ public class EditorWindowImpl implements EditorWindow {
 	private ToolPanel toolPanel;
 
 	/**
+	 * Root views
+	 */
+	private TreeMap<String, DockStation> rootViews
+		= new TreeMap<String, DockStation>();
+	
+	/**
 	 * The menu bar for the editor
 	 */
 	private EditorMenuBar editorMenuBar;
 
 	/**
-	 * Editor window
+	 * Editor window where everything will be placed; has support for blurryness
+	 * effect to denote dialog-modality.
 	 */
 	protected EAdFrame editorWindow;
 
@@ -124,35 +144,76 @@ public class EditorWindowImpl implements EditorWindow {
 	@Override
 	public void initialize() {
 
-		rightPanel = new JPanel();
-		rightPanel.setLayout(new BorderLayout());
-
-		mainPanel = new JPanel();
-		rightPanel.add(mainPanel, BorderLayout.CENTER);
-
-		JPanel topPanel = new JPanel();
-		topPanel.setLayout(new BorderLayout());
+		rightPanel = new SplitDockStation();
 		titlePanel = new JPanel();
-		topPanel.add(titlePanel, BorderLayout.CENTER);
-		topPanel.add(toolPanel.getPanel(), BorderLayout.EAST);
-
-		rightPanel.add(topPanel, BorderLayout.NORTH);
+		editorMenuBar.getMenuBar().add(new JSeparator());
+		editorMenuBar.getMenuBar().add(toolPanel.getPanel());
 
         leftPanel = new JPanel();
 		leftPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-
 		leftPanel.setLayout(new BorderLayout());
+		leftPanel.setOpaque(true);
+		leftPanel.setBackground(leftPanel.getBackground().darker());
 
-        // requires left and right panel; builds a splitPane
+        // requires left and right panel; builds an animated splitPane
 		createMainWindow();
         // requires main window
 		setIcons();
 
         controller = new DockController();
         controller.setRootWindow(editorWindow);
+        controller.add(rightPanel);
         // FIXME: may want to call setup auto-calling of controller.kill() on close
+        
+        addView("red", "1", coloredPanel(Color.red), true);
+        addView("red", "2", coloredPanel(Color.orange), true);
+        addView("blue", "3", coloredPanel(Color.blue), true);
+        addView("blue", "4", coloredPanel(Color.cyan), true);
     }
 
+	private static JPanel coloredPanel(Color color){
+		JPanel panel = new JPanel();
+		panel.setOpaque( true );
+		panel.setBackground( color );
+		return panel;
+	}
+	
+	/**
+	 * Creates a new view of a given category.
+	 */
+	private Dockable createNewView(String type) {
+        logger.info("Creating new stack for type {}", type);
+        StackDockStation dockStation = new StackDockStation();
+		JPanel panel = new JPanel();
+		panel.setOpaque( true );
+		panel.setBackground(Color.white);
+		panel.add(new JLabel("This would be a list of " + type), BorderLayout.NORTH);
+		//panel.add(dockStation, BorderLayout.CENTER);
+		DefaultDockable dockable = new DefaultDockable(panel);
+		dockable.setTitleText(type);
+		rightPanel.drop(dockable);
+		// TODO: i18n, & also use an icon
+		return dockStation;
+	}
+
+	@Override
+	public void addView(String type, String elementId, JPanel view, boolean reuseExisting) {
+		Dockable destination = null;		
+//		if ( ! rootViews.containsKey(type)) {
+//			rootViews.put(type, createNewView(type));
+//		} else {
+//			destination = rootViews.get(type);
+//			// FIXME: need to check for existence in a more robust way
+//			if (! destination.isDockableVisible()) {
+//				rootViews.put(type, createNewView(type));
+//			}
+//		}
+		//destination = rootViews.get(type);
+		DefaultDockable dockable = new DefaultDockable(view);
+		dockable.setTitleText(elementId);
+//
+	}	
+	
 	@Override
 	public void showWindow() {
 		setSizeAndPosition();
@@ -181,20 +242,18 @@ public class EditorWindowImpl implements EditorWindow {
 		editorWindow = new EAdFrame();
 		editorWindow.setTitle("eAdventure Editor");
 
-		EAdHideingSplitPane splitPane =
-                new EAdHideingSplitPane(leftPanel, rightPanel);
+		EAdHidingSplitPane splitPane =
+                new EAdHidingSplitPane(leftPanel, rightPanel);
 		editorWindow.add(splitPane);
 
 		JMenuBar menuBar = editorMenuBar.getMenuBar();
 		editorWindow.setJMenuBar(menuBar);
 
 		SwingUtilities.doInEDTNow(new Runnable() {
-
 			@Override
 			public void run() {
 				editorWindow.setVisible(false);
 			}
-
 		});
 	}
 
@@ -242,11 +301,6 @@ public class EditorWindowImpl implements EditorWindow {
 	}
 
 	@Override
-	public JPanel getRightPanel() {
-		return rightPanel;
-	}
-
-	@Override
 	public JPanel getLeftPanel() {
 		return leftPanel;
 	}
@@ -270,5 +324,4 @@ public class EditorWindowImpl implements EditorWindow {
 	public EditorMenuBar getEditorMenuBar() {
 		return editorMenuBar;
 	}
-
 }

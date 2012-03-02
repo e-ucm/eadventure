@@ -71,23 +71,23 @@ public class EditorGuiceModule extends AbstractModule {
 	protected void configure() {
 
 		configureMainViewElements();
-		
+
 		configureController();
 
 		configureMenu();
-		
+
 		bind(Launcher.class).to(EAdventureEditor.class);
 
 	}
-	
+
 	/**
 	 * Configure the main elements of the editor view
 	 */
 	private void configureMainViewElements() {
 		bind(EditorWindow.class).to(EditorWindowImpl.class);
-		bind(ToolPanel.class).to(ToolPanelImpl.class);
+        bind(ToolPanel.class).to(ToolPanelImpl.class);
 	}
-	
+
 	/**
 	 * Configure controller for the application, the project and the navigation
 	 */
@@ -107,5 +107,5 @@ public class EditorGuiceModule extends AbstractModule {
 		bind(FileMenu.class).to(FileMenuImpl.class);
 		bind(EditMenu.class).to(EditMenuImpl.class);
 	}
-	
+
 }

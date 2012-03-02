@@ -174,6 +174,7 @@ public class EAdGUILookAndFeel extends BasicLookAndFeel {
 	protected void initClassDefaults(UIDefaults table) {
 		super.initClassDefaults(table);
 		final String basicPackageName = "javax.swing.plaf.basic.";
+		final String defaultPackageName = "javax.swing.plaf.";
 		final String eadPackageName = "ead.gui.extra.";
 
 		Object[] uiDefaults = { "ButtonUI", eadPackageName + "EAdButtonUI",
@@ -187,6 +188,7 @@ public class EAdGUILookAndFeel extends BasicLookAndFeel {
 				"ProgressBarUI", basicPackageName + "BasicProgressBarUI",
 				"RadioButtonUI", eadPackageName + "EAdRadioButtonUI",
 				"ScrollBarUI", eadPackageName + "EAdScrollBarUI",
+				"FileChooserUI", basicPackageName + "BasicFileChooserUI",
 				"ScrollPaneUI", basicPackageName + "BasicScrollPaneUI",
 				"SeparatorUI", basicPackageName + "BasicSeparatorUI",
 				"SliderUI", basicPackageName + "BasicSliderUI", "SplitPaneUI",
@@ -197,7 +199,8 @@ public class EAdGUILookAndFeel extends BasicLookAndFeel {
 				basicPackageName + "BasicToolBarUI", "ToolTipUI",
 				basicPackageName + "BasicToolTipUI", "TreeUI",
 				basicPackageName + "BasicTreeUI", "RootPaneUI",
-				basicPackageName + "BasicRootPaneUI", "SpinnerUI", eadPackageName + "EAdSpinnerUI"};
+				basicPackageName + "BasicRootPaneUI", "SpinnerUI", 
+				eadPackageName + "EAdSpinnerUI"};
 
 		table.putDefaults(uiDefaults);
 	}
