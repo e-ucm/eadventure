@@ -21,11 +21,6 @@
     	<artifactId>engine-plugins-impl</artifactId>
     	<version>${project.version}</version>
     </dependency>
-    <dependency>
-    	<groupId>ead</groupId>
-    	<artifactId>utils</artifactId>
-    	<version>${project.version}</version>
-    </dependency>
     
     <dependency>
     	<groupId>ead</groupId>

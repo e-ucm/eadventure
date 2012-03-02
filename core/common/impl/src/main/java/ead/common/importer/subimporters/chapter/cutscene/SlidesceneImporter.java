@@ -47,12 +47,9 @@ import ead.common.EAdElementImporter;
 import ead.common.importer.interfaces.EAdElementFactory;
 import ead.common.importer.interfaces.EffectsImporterFactory;
 import ead.common.importer.interfaces.ResourceImporter;
-import ead.common.importer.subimporters.effects.TriggerSceneImporter;
-import ead.common.model.elements.EAdChapter;
 import ead.common.model.elements.EAdCondition;
 import ead.common.model.elements.EAdEffect;
 import ead.common.model.elements.EAdEvent;
-import ead.common.model.elements.conditions.EmptyCond;
 import ead.common.model.elements.effects.ChangeSceneEf;
 import ead.common.model.elements.effects.EffectsMacro;
 import ead.common.model.elements.effects.TriggerMacroEf;
@@ -65,11 +62,8 @@ import ead.common.model.elements.guievents.MouseGEv;
 import ead.common.model.elements.scene.EAdScene;
 import ead.common.model.elements.scenes.BasicScene;
 import ead.common.model.elements.scenes.SceneElement;
-import ead.common.model.elements.transitions.DisplaceTransition;
 import ead.common.model.elements.transitions.EAdTransition;
 import ead.common.model.elements.transitions.EmptyTransition;
-import ead.common.model.elements.transitions.FadeInTransition;
-import ead.common.model.elements.transitions.enums.DisplaceTransitionType;
 import ead.common.model.elements.variables.SystemFields;
 import ead.common.model.elements.variables.operations.BooleanOp;
 import ead.common.resources.assets.drawable.basics.Image;
@@ -89,16 +83,7 @@ import es.eucm.eadventure.common.loader.Loader;
  * Scenes importer
  * 
  */
-public class SlidesceneImporter implements
-		EAdElementImporter<Slidescene, EAdScene> {
-
-	private EAdElementFactory factory;
-
-	private ResourceImporter resourceImporter;
-
-	private StringHandler stringHandler;
-
-	private EffectsImporterFactory effectsImporter;
+public class SlidesceneImporter extends CutsceneImporter<Slidescene> {
 
 	private ImageLoaderFactory imageLoader;
 
@@ -108,18 +93,18 @@ public class SlidesceneImporter implements
 
 	private FramesAnimation frames;
 
+	private EAdElementImporter<Conditions, EAdCondition> conditionsImporter;
+
 	@Inject
 	public SlidesceneImporter(EffectsImporterFactory effectsImporter,
 			EAdElementImporter<Conditions, EAdCondition> conditionsImporter,
 			EAdElementFactory factory, ResourceImporter resourceImporter,
 			StringHandler stringHandler, ImageLoaderFactory imageLoader,
 			InputStreamCreator inputStreamCreator) {
+		super(stringHandler, factory, effectsImporter, resourceImporter);
 		this.imageLoader = imageLoader;
 		this.inputStreamCreator = inputStreamCreator;
-		this.factory = factory;
-		this.resourceImporter = resourceImporter;
-		this.stringHandler = stringHandler;
-		this.effectsImporter = effectsImporter;
+		this.conditionsImporter = conditionsImporter;
 	}
 
 	@Override
@@ -131,38 +116,46 @@ public class SlidesceneImporter implements
 
 	@Override
 	public EAdScene convert(Slidescene oldSlideScene, Object object) {
-		EAdChapter chapter = factory.getCurrentChapterModel();
-		EAdScene cutscene = (EAdScene) object;
-
-		importDocumentation(cutscene, oldSlideScene);
-		importResources(cutscene, oldSlideScene, chapter);
-
+		EAdScene cutscene = super.convert(oldSlideScene, object);
 		return cutscene;
 	}
 
-	private void importResources(EAdScene cutscene, Slidescene oldSlides,
-			EAdChapter chapter) {
-		// FIXME music is not imported for animations
-		cutscene.setReturnable(false);
-		Resources res = oldSlides.getResources().get(0);
-		String assetPath = res.getAssetPath(Slidescene.RESOURCE_TYPE_SLIDES);
+	protected void importResources(Slidescene oldSlides, EAdScene cutscene) {
+		// Hide inventory event
+		addHideInventoryEvent(cutscene);
+		EAdEffect changeNextScene = getEndEffect(oldSlides);
 
-		ChangeFieldEf hideInventory = new ChangeFieldEf(
-				SystemFields.SHOW_INVENTORY, BooleanOp.FALSE_OP);
-
-		// hide inventory event
-		addHideInventoryEvent(cutscene, hideInventory);
-
-		// Change scene after slide show
-		ChangeSceneEf changeNextScene = getNextScene(oldSlides);
-		EffectsMacro macro = effectsImporter.getMacroEffects(oldSlides
-				.getEffects());
-		if (macro != null) {
+		if (oldSlides.getResources().size() == 1) {
+			createSceneFromSlides(cutscene, oldSlides, oldSlides.getResources()
+					.get(0), changeNextScene);
+		} else {
+			// When there's more than one appearance, we create a series of
+			// scene for every animation.
+			// Then, the initial cutscene decides which appearance to launch
 			TriggerMacroEf triggerMacro = new TriggerMacroEf();
-			triggerMacro.putMacro(macro, EmptyCond.TRUE_EMPTY_CONDITION);
-			changeNextScene.getNextEffects().add(triggerMacro);
+			for (Resources res : oldSlides.getResources()) {
+				EAdScene scene = new BasicScene();
+				createSceneFromSlides(scene, oldSlides, res, changeNextScene);
+				EffectsMacro macro = new EffectsMacro();
+				macro.getEffects().add(new ChangeSceneEf(scene));
+				EAdCondition c = conditionsImporter.init(res.getConditions());
+				c = conditionsImporter.convert(res.getConditions(), c);
+				triggerMacro.putMacro(macro, c);
+			}
+			SceneElementEv event = new SceneElementEv();
+			event.addEffect(SceneElementEvType.ADDED_TO_SCENE, triggerMacro);
+			cutscene.getEvents().add(event);
 		}
 
+	}
+
+	private void createSceneFromSlides(EAdScene cutscene, Slidescene oldSlides,
+			Resources res, EAdEffect changeNextScene) {
+		String assetPath = res.getAssetPath(Slidescene.RESOURCE_TYPE_SLIDES);
+
+		// Change scene after slide show
+
+		// FIXME music is not imported for animations
 		initAnimation(assetPath);
 		// generate slides properties
 		List<Image> backgroundImages = generateBgImages();
@@ -171,7 +164,7 @@ public class SlidesceneImporter implements
 
 		EAdScene[] scenes = new EAdScene[backgroundImages.size()];
 		for (int i = 0; i < scenes.length; i++) {
-			if (i == 0)
+			if (i == 0 && oldSlides.getResources().size() == 1)
 				scenes[i] = cutscene;
 			else
 				scenes[i] = new BasicScene();
@@ -192,7 +185,7 @@ public class SlidesceneImporter implements
 		}
 
 		for (int i = 0; i < scenes.length; i++) {
-			ChangeSceneEf effect = null;
+			EAdEffect effect = null;
 			if (i == scenes.length - 1) {
 				effect = changeNextScene;
 				ChangeFieldEf showInventory = new ChangeFieldEf(
@@ -202,7 +195,9 @@ public class SlidesceneImporter implements
 				effect = new ChangeSceneEf();
 				((ChangeSceneEf) effect).setNextScene(scenes[i + 1]);
 			}
-			effect.setTransition(transitions.get(i));
+
+			if (effect instanceof ChangeSceneEf)
+				((ChangeSceneEf) effect).setTransition(transitions.get(i));
 
 			scenes[i].getBackground().addBehavior(MouseGEv.MOUSE_LEFT_CLICK,
 					effect);
@@ -214,7 +209,6 @@ public class SlidesceneImporter implements
 			}
 
 		}
-
 	}
 
 	private void initAnimation(String assetPath) {
@@ -279,9 +273,11 @@ public class SlidesceneImporter implements
 		return images;
 	}
 
-	private void addHideInventoryEvent(EAdScene cutscene, ChangeFieldEf field) {
+	private void addHideInventoryEvent(EAdScene cutscene) {
+		ChangeFieldEf hideInventory = new ChangeFieldEf(
+				SystemFields.SHOW_INVENTORY, BooleanOp.FALSE_OP);
 		SceneElementEv bgEvent = new SceneElementEv();
-		bgEvent.addEffect(SceneElementEvType.ADDED_TO_SCENE, field);
+		bgEvent.addEffect(SceneElementEvType.ADDED_TO_SCENE, hideInventory);
 		cutscene.getEvents().add(bgEvent);
 	}
 
@@ -294,51 +290,9 @@ public class SlidesceneImporter implements
 		return event;
 	}
 
-	private ChangeSceneEf getNextScene(Slidescene oldSlides) {
-		EAdScene nextScene = null;
-		EAdTransition transition = EmptyTransition.instance();
-		switch (oldSlides.getNext()) {
-		case Slidescene.GOBACK:
-			nextScene = null;
-			break;
-		case Slidescene.ENDCHAPTER:
-			// FIXME end chapter slide scene
-			nextScene = null;
-			break;
-		case Slidescene.NEWSCENE:
-			nextScene = (EAdScene) factory.getElementById(oldSlides
-					.getTargetId());
-			transition = TriggerSceneImporter.getTransition(
-					oldSlides.getTransitionType(),
-					oldSlides.getTransitionTime());
-			break;
-		}
-		ChangeSceneEf changeScene = new ChangeSceneEf();
-		changeScene.setNextScene(nextScene);
-		changeScene.setTransition(transition);
-		return changeScene;
-	}
+	@Override
+	protected void importConfiguration(EAdScene scene, EAdEffect endEffect) {
 
-	private void importDocumentation(EAdScene scene, Slidescene oldScene) {
-		stringHandler.setString(scene.getDefinition().getDoc(),
-				oldScene.getDocumentation());
-		stringHandler.setString(scene.getDefinition().getName(),
-				oldScene.getName());
-	}
-
-	public static EAdTransition getTransition(int type, int time) {
-		switch (type) {
-		case Transition.TYPE_FADEIN:
-			return new FadeInTransition(time);
-		case Transition.TYPE_HORIZONTAL:
-			return new DisplaceTransition(time,
-					DisplaceTransitionType.HORIZONTAL, true);
-		case Transition.TYPE_VERTICAL:
-			return new DisplaceTransition(time,
-					DisplaceTransitionType.VERTICAL, true);
-		default:
-			return EmptyTransition.instance();
-		}
 	}
 
 }

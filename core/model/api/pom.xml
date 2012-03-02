@@ -3,11 +3,11 @@
   <parent>
     <groupId>ead</groupId>
     <version>2.0.1-SNAPSHOT</version>
-    <artifactId>common-model</artifactId>
+    <artifactId>model</artifactId>
   </parent>
   <modelVersion>4.0.0</modelVersion>
   <groupId>ead</groupId>
-  <artifactId>common-model-api</artifactId>
+  <artifactId>model-api</artifactId>
   <packaging>jar</packaging>
   <version>2.0.1-SNAPSHOT</version>
   <name>e-Adventure Common Model API</name>

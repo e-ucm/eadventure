@@ -88,7 +88,6 @@ import ead.common.model.elements.scene.EAdScene;
 import ead.common.model.elements.scene.EAdSceneElement;
 import ead.common.model.elements.scene.EAdSceneElementDef;
 import ead.common.model.elements.scenes.BasicScene;
-import ead.common.model.elements.scenes.VideoScene;
 import ead.common.model.elements.trajectories.NodeTrajectoryDefinition;
 import ead.common.resources.assets.drawable.basics.EAdCaption;
 import ead.common.resources.assets.drawable.basics.animation.Frame;
@@ -151,7 +150,7 @@ public class ImporterConfigurationModule extends AbstractModule {
 		EAdElementFactoryImpl.importerMap.put(Slidescene.class,
 				SlidesceneImporter.class);
 
-		bind(new TypeLiteral<EAdElementImporter<Videoscene, VideoScene>>() {
+		bind(new TypeLiteral<EAdElementImporter<Videoscene, EAdScene>>() {
 		}).to(VideosceneImporter.class);
 		EAdElementFactoryImpl.importerMap.put(Videoscene.class,
 				VideosceneImporter.class);

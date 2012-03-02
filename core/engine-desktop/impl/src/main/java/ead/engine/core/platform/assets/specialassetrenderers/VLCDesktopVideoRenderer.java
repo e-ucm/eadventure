@@ -40,6 +40,8 @@ package ead.engine.core.platform.assets.specialassetrenderers;
 import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.io.File;
 
 import org.slf4j.Logger;
@@ -138,6 +140,13 @@ public class VLCDesktopVideoRenderer implements SpecialAssetRenderer<EAdVideo, C
 			path = assetHandler.getAbsolutePath(asset.getUri().getPath());
 
 		finished = false;
+		canvas.addMouseListener(new MouseAdapter( ){
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				mediaPlayer.stop();
+			}
+			
+		});
 
 		return canvas;
 	}

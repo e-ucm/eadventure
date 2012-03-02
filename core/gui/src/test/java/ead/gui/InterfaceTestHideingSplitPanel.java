@@ -35,63 +35,41 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package java.util;
+package ead.gui;
 
-public class QueueImpl<E> extends ArrayList<E> implements Queue<E> {
+import javax.swing.JPanel;
+import javax.swing.WindowConstants;
+
+import ead.gui.EAdButton;
+import ead.gui.EAdFrame;
+import ead.gui.EAdHideingSplitPane;
+
+public class InterfaceTestHideingSplitPanel extends EAdFrame {
+
+	private static final long serialVersionUID = -2461051282795540526L;
 
 	/**
-	 * 
+	 * @param args
 	 */
-	private static final long serialVersionUID = 1L;
+	public static void main(String[] args) {
+		new InterfaceTestHideingSplitPanel();
+	}
+	
+	public InterfaceTestHideingSplitPanel() {
+        setSize( 400,400 );
 
-	public E pop() {
-        if (size() == 0)
-            return null;
-
-        return remove(0);
-    }
-
-    public void push(E item) {
-        add(item);
-    }
-
-    public E first() {
-        if (size() == 0)
-            return null;
-
-        return get(0);
-    }
-
-    public E last() {
-        if (size() == 0)
-            return null;
-
-        return get(size() - 1);
-    }
-
-	@Override
-	public E element() {
-		// TODO Auto-generated method stub
-		return null;
+        JPanel left1 = new JPanel();
+        left1.add(new EAdButton("left1"));
+        
+        JPanel right = new JPanel();
+        right.add(new EAdButton("right"));
+        
+        EAdHideingSplitPane pane = new EAdHideingSplitPane(left1, right);
+        this.add(pane);
+       
+        setVisible( true );
+        setDefaultCloseOperation( WindowConstants.EXIT_ON_CLOSE );
 	}
 
-	@Override
-	public boolean offer(E arg0) {
-		// TODO Auto-generated method stub
-		return false;
-	}
 
-    public E peek() {
-        return first();
-    }
-
-    public E poll() {
-        return pop();
-    }
-
-	@Override
-	public E remove() {
-		// TODO Auto-generated method stub
-		return null;
-	}
 }

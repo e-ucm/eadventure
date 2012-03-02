@@ -9,7 +9,7 @@
   </parent>
   <groupId>ead</groupId>
   <version>2.0.1-SNAPSHOT</version>
-  <artifactId>common-model</artifactId>
+  <artifactId>model</artifactId>
   <packaging>pom</packaging>
   <name>e-Adventure Common model</name>
   <description>e-Adventure Common model interfaces/classes to both editor and engine.</description>

@@ -38,6 +38,8 @@
 package ead.engine.core.platform.assets.specialassetrenderers;
 
 import java.awt.Component;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.io.IOException;
 import java.net.MalformedURLException;
 
@@ -143,6 +145,14 @@ public class DesktopVideoRenderer implements SpecialAssetRenderer<EAdVideo, Comp
 
 			});
 			video = mediaPlayer.getVisualComponent();
+			video.addMouseListener(new MouseAdapter(){
+
+				@Override
+				public void mouseClicked(MouseEvent e) {
+					mediaPlayer.stop();
+				}
+				
+			});
 
 		} catch (NoPlayerException e) {
 			logger.error("No player for '{}'", uri, e);

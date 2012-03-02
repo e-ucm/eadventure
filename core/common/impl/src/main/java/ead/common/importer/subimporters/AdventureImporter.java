@@ -83,7 +83,7 @@ public class AdventureImporter implements
 		factory.setOldDataModel(oldData);
 		BasicAdventureModel model = (BasicAdventureModel) object;
 		
-		// FIXME positions for the inventory (among other thins in AdventureData)
+		// FIXME positions for the inventory (among other things in AdventureData)
 		if (oldData.getInventoryPosition() != AdventureData.INVENTORY_NONE){
 			model.setInventory(new BasicInventory());
 		}
