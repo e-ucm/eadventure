@@ -4,6 +4,6 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.jgrapht</groupId>
   <artifactId>jgrapht-jdk1.6</artifactId>
-  <version>8.3</version>
+  <version>0.8.3</version>
   <description>POM was created from install:install-file</description>
 </project>
