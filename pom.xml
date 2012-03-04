@@ -10,8 +10,8 @@
         <maven>2.2.0</maven>
     </prerequisites>
     <!-- ===================================================================== -->
-	<!-- PROJECT INFO -->
-	<!-- ===================================================================== -->
+    <!-- PROJECT INFO -->
+    <!-- ===================================================================== -->
     <name>e-Adventure Platform</name>
     <description>e-Adventure is an authoring tool for the creation of point-and-click games, especially designed for educational purposes.</description>
     <url>http://e-adventure.e-ucm.es</url>
@@ -27,9 +27,9 @@
     <mailingLists>
         <mailingList>
             <name>e-Adventure User Forum</name>
-			<!--subscribe></subscribe -->
-			<!--unsubscribe></unsubscribe -->
-			<!--post></post -->
+            <!--subscribe></subscribe -->
+            <!--unsubscribe></unsubscribe -->
+            <!--post></post -->
             <archive>http://e-adventure.e-ucm.es/moodle/</archive>
         </mailingList>
     </mailingLists>
@@ -82,9 +82,9 @@
             <timezone>+1</timezone>
         </developer>
     </developers>
-	<!-- ===================================================================== -->
-	<!-- BUILD PROFILES -->
-	<!-- ===================================================================== -->
+    <!-- ===================================================================== -->
+    <!-- BUILD PROFILES -->
+    <!-- ===================================================================== -->
     <profiles>
         <profile>
             <id>build</id>
@@ -116,7 +116,7 @@
             </modules>
         </profile>
         <profile>
-			<!-- Build with experimental modules -->
+            <!-- Build with experimental modules -->
             <id>sandbox</id>
             <modules>
             </modules>
@@ -125,7 +125,7 @@
             <id>editor-release</id>
             <build>
                 <plugins>
-					<!-- Specific plugins to build an editor release -->
+                <!-- Specific plugins to build an editor release -->
                 </plugins>
             </build>
         </profile>
@@ -133,7 +133,7 @@
             <id>engine-platform-release</id>
             <build>
                 <plugins>
-					<!-- Specific plugins to build a desktop release -->
+                <!-- Specific plugins to build a desktop release -->
                 </plugins>
             </build>
         </profile>
@@ -141,7 +141,7 @@
             <id>engine-desktop-release</id>
             <build>
                 <plugins>
-					<!-- Specific plugins to build a desktop release -->
+                <!-- Specific plugins to build a desktop release -->
                 </plugins>
             </build>
         </profile>
@@ -149,7 +149,7 @@
             <id>engine-applet-release</id>
             <build>
                 <plugins>
-					<!-- Specific plugins to build an applet release -->
+                <!-- Specific plugins to build an applet release -->
                 </plugins>
             </build>
         </profile>
@@ -157,7 +157,7 @@
             <id>engine-android-release</id>
             <build>
                 <plugins>
-					<!-- Specific plugins to build an android release -->
+                <!-- Specific plugins to build an android release -->
                 </plugins>
             </build>
         </profile>
@@ -188,9 +188,9 @@
             </properties>
         </profile>
     </profiles>
-	<!-- ====================================================================== -->
-	<!-- B U I L D -->
-	<!-- ====================================================================== -->
+    <!-- ====================================================================== -->
+    <!-- B U I L D -->
+    <!-- ====================================================================== -->
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>${project.build.sourceEncoding}</project.reporting.outputEncoding>
@@ -222,13 +222,13 @@
                     <encoding>${project.build.sourceEncoding}</encoding>
                 </configuration>
             </plugin>
-			<!-- Dependency manipulation (copy, unpack) and analysis. -->
+            <!-- Dependency manipulation (copy, unpack) and analysis. -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-dependency-plugin</artifactId>
                 <version>2.2</version>
             </plugin>
-			<!-- Build a JAR of sources for use in IDEs and distribution to the repository. -->
+            <!-- Build a JAR of sources for use in IDEs and distribution to the repository. -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-source-plugin</artifactId>
@@ -247,7 +247,7 @@
                     <attach>true</attach>
                 </configuration>
             </plugin>
-			<!-- Copy the resources to the output directory for including in the JAR. -->
+            <!-- Copy the resources to the output directory for including in the JAR. -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-resources-plugin</artifactId>
@@ -296,7 +296,7 @@
                     </execution>
                 </executions>
             </plugin>
-			<!-- Manage the licenses in the source files. -->
+            <!-- Manage the licenses in the source files. -->
             <plugin>
                 <inherited>false</inherited>
                 <groupId>com.mycila.maven-license-plugin</groupId>
@@ -334,12 +334,14 @@
                 </executions>
             </plugin>
         </plugins>
-		<!-- Plugin Management contains plugin elements in much the same way, except
-			that rather than configuring plugin information for this particular project
-			build, it is intended to configure project builds that inherit from this
-			one. -->
+        <!-- 
+            Plugin Management contains plugin elements in much the same way, except
+            that rather than configuring plugin information for this particular project
+            build, it is intended to configure project builds that inherit from this
+            one. 
+        -->
         <pluginManagement>
-			<!-- Set versions of common plugins for reproducibility, ordered alphabetically -->
+            <!-- Set versions of common plugins for reproducibility, ordered alphabetically -->
             <plugins>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
@@ -566,10 +568,10 @@
                 <artifactId>maven-surefire-report-plugin</artifactId>
                 <version>2.8</version>
             </plugin>
-			<!-- Currently Apache RAT maven plugin is in incubation phase and there
-				is no build in Apache Maven Plugins Snapshots Repository -->
-			<!--plugin> <groupId>org.apache.rat</groupId> <artifactId>apache-rat-plugin</artifactId>
-				</plugin -->
+            <!-- Currently Apache RAT maven plugin is in incubation phase and there
+                    is no build in Apache Maven Plugins Snapshots Repository -->
+            <!--plugin> <groupId>org.apache.rat</groupId> <artifactId>apache-rat-plugin</artifactId>
+                    </plugin -->
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>versions-maven-plugin</artifactId>
@@ -591,18 +593,18 @@
             </plugin>
         </plugins>
     </reporting>
-	<!-- ====================================================================== -->
-	<!-- SOURCE CODE MANAGEMENT -->
-	<!-- ====================================================================== -->
+    <!-- ====================================================================== -->
+    <!-- SOURCE CODE MANAGEMENT -->
+    <!-- ====================================================================== -->
     <scm>
         <connection>scm:hg:https://eadventure.googlecode.com/hg/</connection>
         <developerConnection>scm:hg:https://eadventure.googlecode.com/hg/</developerConnection>
         <url>https://eadventure.googlecode.com/hg/</url>
     </scm>
 
-	<!-- ====================================================================== -->
-	<!-- DISTRIBUTION MANAGEMENT -->
-	<!-- ====================================================================== -->
+    <!-- ====================================================================== -->
+    <!-- DISTRIBUTION MANAGEMENT -->
+    <!-- ====================================================================== -->
     <distributionManagement>
         <downloadUrl>http://sourceforge.net/projects/e-adventure/</downloadUrl>
         <snapshotRepository>
@@ -625,9 +627,9 @@
             <url>scp://emarchiori,e-adventure@web.sourceforge.net/htdocs/release/${project.version}</url>
         </site>
     </distributionManagement>
-	<!-- ====================================================================== -->
-	<!-- R E P O S I T O R I E S -->
-	<!-- ====================================================================== -->
+    <!-- ====================================================================== -->
+    <!-- R E P O S I T O R I E S -->
+    <!-- ====================================================================== -->
     <repositories>
         <repository>
             <id>maven repo</id>
@@ -711,27 +713,49 @@
             </releases>
         </pluginRepository>
     </pluginRepositories>
-	<!-- ====================================================================== -->
-	<!-- D E P E N D E N C I E S -->
-	<!-- ====================================================================== -->
+    <!-- ====================================================================== -->
+    <!-- D E P E N D E N C I E S -->
+    <!-- ====================================================================== -->
     <dependencies>
-
-        <!-- Project-wide dependency on slf4j -->
+        <!-- 
+            Project-wide dependency on slf4j API
+            Subprojects can choose their own implementations; they 
+            will not conflict or propagate thanks to 
+            the <optional>true</optional>
+            basic logging is
+            
+            <dependency>
+                <groupId>org.slf4j</groupId>
+                <artifactId>slf4j-simple</artifactId>
+                <optional>true</optional>
+            </dependency>
+            
+            No implementation specified means no logs are generated
+        -->
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
-            <version>1.6.1</version>
-        </dependency>
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-simple</artifactId>
-            <version>1.6.1</version>
         </dependency>
     </dependencies>
     <dependencyManagement>
         <dependencies>
-
-			<!-- Injection management -->
+            <!-- logging and variants -->
+            <dependency>
+                <groupId>org.slf4j</groupId>
+                <artifactId>slf4j-api</artifactId>
+                <version>1.6.1</version>
+            </dependency>
+            <dependency>
+                <groupId>org.slf4j</groupId>
+                <artifactId>slf4j-simple</artifactId>
+                <version>1.6.1</version>
+            </dependency>
+            <dependency>
+                <groupId>org.slf4j</groupId>
+                <artifactId>slf4j-log4j12</artifactId>
+                <version>1.6.1</version>
+            </dependency>            
+            <!-- Injection management -->
             <dependency>
                 <groupId>com.google.inject</groupId>
                 <artifactId>guice</artifactId>
@@ -740,7 +764,7 @@
                 <scope>compile</scope>
             </dependency>
 
-			<!-- testing libraries -->
+            <!-- testing libraries -->
             <dependency>
                 <groupId>junit</groupId>
                 <artifactId>junit</artifactId>
@@ -753,8 +777,8 @@
                 <version>1.8.1</version>
                 <scope>test</scope>
             </dependency>
-			<!--dependency> <groupId>org.mockito</groupId> <artifactId>mockito-all</artifactId>
-				<version>1.8.1</version> <scope>test</scope> </dependency -->
+            <!--dependency> <groupId>org.mockito</groupId> <artifactId>mockito-all</artifactId>
+                    <version>1.8.1</version> <scope>test</scope> </dependency -->
             <dependency>
                 <groupId>org.jmock</groupId>
                 <artifactId>jmock-junit4</artifactId>

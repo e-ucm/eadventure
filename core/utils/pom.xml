@@ -14,5 +14,10 @@
     <name>e-Adventure Utilities</name>
     <description>e-Adventure shared utility classes.</description>
     <dependencies>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-simple</artifactId>
+            <optional>true</optional>            
+        </dependency>         
     </dependencies>
 </project>
