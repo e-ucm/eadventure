@@ -35,32 +35,29 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ead.editor.view.generics.scene.impl;
+/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package ead.editor.model;
 
-import ead.common.model.elements.scene.EAdScene;
-import ead.common.model.elements.scene.EAdSceneElement;
-import ead.common.model.elements.scene.EAdSceneElementDef;
-import ead.common.model.elements.scenes.SceneElement;
-import ead.common.model.elements.scenes.SceneElementDef;
-import ead.common.resources.EAdResources;
-import ead.elementfactories.demos.scenes.EmptyScene;
+/**
+ * Any type of connection between two EditorNodes.
+ * The type of the connection is assigned during building; typically, it 
+ * corresponds to the field that generated the connection. For instance, 
+ * if object A contains an object B in its "peer" property, then the type 
+ * would be the string "peer".
+ * @author mfreire
+ */
+public class EditorEdge {
 
+    private String type;
+    
+    public EditorEdge(String type) {
+        this.type = type;
+    }
 
-public class EditionScene extends EmptyScene {
-
-	public EditionScene(EAdScene scene) {
-
-		EAdSceneElementDef elementDef = new SceneElementDef();
-		EAdResources oldResources = scene.getBackground().getDefinition().getResources();
-		elementDef.getResources().addAsset(oldResources.getInitialBundle(), SceneElementDef.appearance, oldResources.getAsset(oldResources.getInitialBundle(), SceneElementDef.appearance));
-
-		SceneElement element = new SceneElement();
-		element.setDefinition(elementDef);
-		element.setInitialScale(1.0f);
-		this.getSceneElements().add(element);
-
-		for (EAdSceneElement sceneElement : scene.getSceneElements())
-			this.getSceneElements().add(new EditionSceneElement(sceneElement, 1.0f));
-	}
-
+    public String getType() {
+        return type;
+    }
 }

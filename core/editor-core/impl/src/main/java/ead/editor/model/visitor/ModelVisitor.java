@@ -35,32 +35,34 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ead.editor.view.generics.scene.impl;
+/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package ead.editor.model.visitor;
 
-import ead.common.model.elements.scene.EAdScene;
-import ead.common.model.elements.scene.EAdSceneElement;
-import ead.common.model.elements.scene.EAdSceneElementDef;
-import ead.common.model.elements.scenes.SceneElement;
-import ead.common.model.elements.scenes.SceneElementDef;
-import ead.common.resources.EAdResources;
-import ead.elementfactories.demos.scenes.EmptyScene;
+import ead.common.model.EAdElement;
 
+/**
+ * A model visitor gets called whenever an asset or element is visited.
+ * Fields do not trigger separate visits.
+ * 
+ * @author mfreire
+ */
+public interface ModelVisitor {
+   
+    /**
+     * Visits an object
+     * @param target object that is being visited
+     * @param source element from which it is being visited
+     * @param sourceName name of property in source followed to get here
+     * @return true if deepening is desired, false otherwise
+     */
+    boolean visitObject(Object target, Object source, String sourceName);
 
-public class EditionScene extends EmptyScene {
-
-	public EditionScene(EAdScene scene) {
-
-		EAdSceneElementDef elementDef = new SceneElementDef();
-		EAdResources oldResources = scene.getBackground().getDefinition().getResources();
-		elementDef.getResources().addAsset(oldResources.getInitialBundle(), SceneElementDef.appearance, oldResources.getAsset(oldResources.getInitialBundle(), SceneElementDef.appearance));
-
-		SceneElement element = new SceneElement();
-		element.setDefinition(elementDef);
-		element.setInitialScale(1.0f);
-		this.getSceneElements().add(element);
-
-		for (EAdSceneElement sceneElement : scene.getSceneElements())
-			this.getSceneElements().add(new EditionSceneElement(sceneElement, 1.0f));
-	}
-
+    /**
+     * Looks at an element's property. @see{visitElement} for this element must
+     * already have been called. This is handy for search-indexing
+     */
+    void visitProperty(Object target, String propertyName, String textValue);
 }

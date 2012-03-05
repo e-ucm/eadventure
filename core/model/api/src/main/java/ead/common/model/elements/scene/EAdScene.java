@@ -62,10 +62,10 @@ public interface EAdScene extends EAdComplexSceneElement {
 	Boolean getReturnable();
 
 	/**
-	 * Sets if the game can return to this scene after a cutscen or similar
+	 * Sets if the game can return to this scene after a cutscene or similar
 	 * 
 	 * @param returnable
-	 *            if the game can return to this scene after a cutscen or
+	 *            if the game can return to this scene after a cutscene or
 	 *            similar
 	 */
 	void setReturnable(Boolean returnable);

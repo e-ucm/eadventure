@@ -35,32 +35,41 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ead.editor.view.generics.scene.impl;
+package ead.gui;
 
-import ead.common.model.elements.scene.EAdScene;
-import ead.common.model.elements.scene.EAdSceneElement;
-import ead.common.model.elements.scene.EAdSceneElementDef;
-import ead.common.model.elements.scenes.SceneElement;
-import ead.common.model.elements.scenes.SceneElementDef;
-import ead.common.resources.EAdResources;
-import ead.elementfactories.demos.scenes.EmptyScene;
+import javax.swing.JPanel;
+import javax.swing.WindowConstants;
 
+import ead.gui.EAdButton;
+import ead.gui.EAdFrame;
+import ead.gui.EAdHidingSplitPane;
 
-public class EditionScene extends EmptyScene {
+public class InterfaceTestHidingSplitPanel extends EAdFrame {
 
-	public EditionScene(EAdScene scene) {
+	private static final long serialVersionUID = -2461051282795540526L;
 
-		EAdSceneElementDef elementDef = new SceneElementDef();
-		EAdResources oldResources = scene.getBackground().getDefinition().getResources();
-		elementDef.getResources().addAsset(oldResources.getInitialBundle(), SceneElementDef.appearance, oldResources.getAsset(oldResources.getInitialBundle(), SceneElementDef.appearance));
-
-		SceneElement element = new SceneElement();
-		element.setDefinition(elementDef);
-		element.setInitialScale(1.0f);
-		this.getSceneElements().add(element);
-
-		for (EAdSceneElement sceneElement : scene.getSceneElements())
-			this.getSceneElements().add(new EditionSceneElement(sceneElement, 1.0f));
+	/**
+	 * @param args
+	 */
+	public static void main(String[] args) {
+		new InterfaceTestHidingSplitPanel();
 	}
+	
+	public InterfaceTestHidingSplitPanel() {
+        setSize( 400,400 );
+
+        JPanel left1 = new JPanel();
+        left1.add(new EAdButton("left1"));
+        
+        JPanel right = new JPanel();
+        right.add(new EAdButton("right"));
+        
+        EAdHidingSplitPane pane = new EAdHidingSplitPane(left1, right);
+        this.add(pane);
+       
+        setVisible( true );
+        setDefaultCloseOperation( WindowConstants.EXIT_ON_CLOSE );
+	}
+
 
 }

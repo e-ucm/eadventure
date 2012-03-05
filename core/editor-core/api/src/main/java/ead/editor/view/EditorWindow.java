@@ -57,17 +57,27 @@ public interface EditorWindow {
 	void showWindow();
 
 	/**
+	 * Creates a new modal pane.
 	 * @param modalPanel Add a new modal panel
 	 */
 	void addModalPanel(JPanel modalPanel);
 
 	/**
+	 * Creates a new view.
+	 * @param type used for grouping purposes; views with the same type
+	 *    can be grouped together. 
+	 * @param view actual view to place in editor
+	 * @param elementId of element being edited; null indicates no particular element
+	 * @param reuseExisting - if specified, will try to reuse existing views
+	 *    of the same element.
+	 */
+	void addView(String type, String elementId, JPanel view, boolean reuseExisting);
+	
+	/**
 	 * Remove the top modal panel
 	 */
 	void removeModalPanel();
 	
-	public JPanel getRightPanel();
-
 	public JPanel getLeftPanel();
 
 	public JPanel getMainPanel();

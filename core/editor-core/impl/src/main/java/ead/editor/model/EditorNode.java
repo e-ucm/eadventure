@@ -35,32 +35,54 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ead.editor.view.generics.scene.impl;
+package ead.editor.model;
 
-import ead.common.model.elements.scene.EAdScene;
-import ead.common.model.elements.scene.EAdSceneElement;
-import ead.common.model.elements.scene.EAdSceneElementDef;
-import ead.common.model.elements.scenes.SceneElement;
-import ead.common.model.elements.scenes.SceneElementDef;
-import ead.common.resources.EAdResources;
-import ead.elementfactories.demos.scenes.EmptyScene;
+import org.apache.lucene.document.Document;
 
+/**
+ * The editor uses these nodes to encapsulate actual model objects, be they
+ * Resources or EAdElements. The nodes are expected to be collected into
+ * a large model graph, and must have a model-wide unique id.
+ *
+ * @author mfreire
+ */
+public class EditorNode {
+    private int id;
+    private Object content;
+    private Document doc;
 
-public class EditionScene extends EmptyScene {
+    public EditorNode(int id, Object content) {
+        this.id = id;
+        this.content = content;
+        this.doc = new Document();
+    }
 
-	public EditionScene(EAdScene scene) {
+    public Document getDoc() {
+        return doc;
+    }
+    
+    public Object getContent() {
+        return content;
+    }
 
-		EAdSceneElementDef elementDef = new SceneElementDef();
-		EAdResources oldResources = scene.getBackground().getDefinition().getResources();
-		elementDef.getResources().addAsset(oldResources.getInitialBundle(), SceneElementDef.appearance, oldResources.getAsset(oldResources.getInitialBundle(), SceneElementDef.appearance));
+    public void setContent(Object content) {
+        this.content = content;
+    }
 
-		SceneElement element = new SceneElement();
-		element.setDefinition(elementDef);
-		element.setInitialScale(1.0f);
-		this.getSceneElements().add(element);
+    public int getId() {
+        return id;
+    }
 
-		for (EAdSceneElement sceneElement : scene.getSceneElements())
-			this.getSceneElements().add(new EditionSceneElement(sceneElement, 1.0f));
-	}
+    @Override
+    public boolean equals(Object other) {
+        if (other == null || (getClass() != other.getClass())) {
+            return false;
+        }
+        return ((EditorNode) other).id == id;
+    }
 
+    @Override
+    public int hashCode() {
+        return 23 * this.id + 5;
+    }
 }

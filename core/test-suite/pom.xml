@@ -23,6 +23,6 @@
     	<groupId>ead</groupId>
     	<artifactId>model-impl</artifactId>
     	<version>${project.version}</version>
-    </dependency>
+    </dependency>    
   </dependencies>
 </project>
