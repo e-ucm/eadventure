@@ -89,7 +89,8 @@ public class TopBasicHUDImpl extends AbstractHUD implements TopBasicHUD {
 	/**
 	 * The logger
 	 */
-	protected static final Logger logger = LoggerFactory.getLogger("BasicHUDImpl");
+	protected static final Logger logger = LoggerFactory
+			.getLogger("BasicHUDImpl");
 
 	private static final int CURSOR_SIZE = 32;
 
@@ -114,6 +115,8 @@ public class TopBasicHUDImpl extends AbstractHUD implements TopBasicHUD {
 	private AssetHandler assetHandler;
 
 	private GameObjectManager gameObjectManager;
+
+	private DrawableGO<?> currentGO;
 
 	@Inject
 	public TopBasicHUDImpl(MenuHUD menuHUD,
@@ -194,10 +197,8 @@ public class TopBasicHUDImpl extends AbstractHUD implements TopBasicHUD {
 		stringHandler.setString(c.getText(), "");
 		contextual = new SceneElement(c);
 		contextual.setPosition(new EAdPosition(0, 0, 0.5f, 1.5f));
-		contextual.setVarInitialValue(SceneElement.VAR_VISIBLE,
-				Boolean.FALSE);
-		contextual.setVarInitialValue(SceneElement.VAR_ENABLE,
-				Boolean.FALSE);
+		contextual.setVarInitialValue(SceneElement.VAR_VISIBLE, Boolean.FALSE);
+		contextual.setVarInitialValue(SceneElement.VAR_ENABLE, Boolean.FALSE);
 		contextual.getEvents().add(new StayInBoundsEv(contextual));
 		contextual.getEvents().add(new ChaseMouseEv());
 		addElement(sceneElementFactory.get(contextual));
@@ -205,30 +206,32 @@ public class TopBasicHUDImpl extends AbstractHUD implements TopBasicHUD {
 
 	private void updateContextual() {
 		DrawableGO<?> go = inputHandler.getGameObjectUnderPointer();
+		if (go != currentGO) {
+			ValueMap valueMap = gameState.getValueMap();
+			if (go != null) {
+				EAdString name = valueMap.getValue(
+						(EAdElement) go.getElement(), SceneElement.VAR_NAME);
+				if (name != null && !stringHandler.getString(name).equals("")) {
+					stringHandler.setString(c.getText(),
+							stringHandler.getString(name));
 
-		ValueMap valueMap = gameState.getValueMap();
-		if (go != null) {
-			EAdString name = valueMap.getValue((EAdElement) go.getElement(),
-					SceneElement.VAR_NAME);
-			if (name != null && !stringHandler.getString(name).equals("")) {
-				stringHandler.setString(c.getText(),
-						stringHandler.getString(name));
+					SceneElementGO<?> cgo = sceneElementFactory.get(contextual);
 
-				SceneElementGO<?> cgo = sceneElementFactory.get(contextual);
+					cgo.getRenderAsset().update();
+					sceneElementFactory.get(contextual).update();
 
-				cgo.getRenderAsset().update();
-				sceneElementFactory.get(contextual).update();
+					gameState.getValueMap().setValue(contextual,
+							SceneElement.VAR_VISIBLE, true);
+				} else {
+					gameState.getValueMap().setValue(contextual,
+							SceneElement.VAR_VISIBLE, false);
 
-				gameState.getValueMap().setValue(contextual,
-						SceneElement.VAR_VISIBLE, true);
+				}
 			} else {
 				gameState.getValueMap().setValue(contextual,
 						SceneElement.VAR_VISIBLE, false);
-
 			}
-		} else {
-			gameState.getValueMap().setValue(contextual,
-					SceneElement.VAR_VISIBLE, false);
+			currentGO = go;
 		}
 	}
 
@@ -247,7 +250,7 @@ public class TopBasicHUDImpl extends AbstractHUD implements TopBasicHUD {
 		if (cursor != newCursor) {
 			cursor = newCursor;
 			if (cursor != null) {
-				DrawableAsset<EAdDrawable, ?> rAsset = (DrawableAsset<EAdDrawable, ?> ) assetHandler
+				DrawableAsset<EAdDrawable, ?> rAsset = (DrawableAsset<EAdDrawable, ?>) assetHandler
 						.getRuntimeAsset(cursor);
 				logger.info("width" + rAsset.getWidth());
 				rAsset.loadAsset();
@@ -258,8 +261,8 @@ public class TopBasicHUDImpl extends AbstractHUD implements TopBasicHUD {
 						.getResources()
 						.addAsset(mouse.getDefinition().getInitialBundle(),
 								SceneElementDef.appearance, cursor);
-				gameState.getValueMap().setValue(mouse,
-						SceneElement.VAR_SCALE, scale);
+				gameState.getValueMap().setValue(mouse, SceneElement.VAR_SCALE,
+						scale);
 			}
 
 		}
@@ -272,14 +275,11 @@ public class TopBasicHUDImpl extends AbstractHUD implements TopBasicHUD {
 		boolean showMouse = gameState.getValueMap().getValue(
 				SystemFields.SHOW_MOUSE);
 
-		gameState.getValueMap().setValue(mouse,
-				SceneElement.VAR_VISIBLE,
+		gameState.getValueMap().setValue(mouse, SceneElement.VAR_VISIBLE,
 				!(x < 0 || y < 0) && showMouse);
 		if (x >= 0 && y >= 0) {
-			gameState.getValueMap().setValue(mouse, SceneElement.VAR_X,
-					x);
-			gameState.getValueMap().setValue(mouse, SceneElement.VAR_Y,
-					y);
+			gameState.getValueMap().setValue(mouse, SceneElement.VAR_X, x);
+			gameState.getValueMap().setValue(mouse, SceneElement.VAR_Y, y);
 		}
 	}
 

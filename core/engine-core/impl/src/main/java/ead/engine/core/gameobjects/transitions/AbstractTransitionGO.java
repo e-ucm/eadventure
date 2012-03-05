@@ -107,6 +107,7 @@ public abstract class AbstractTransitionGO<T extends EAdTransition> extends
 
 	public void setPrevious(SceneGO<?> scene) {
 		this.previousScene = scene;
+		gameState.getValueMap().clearUpdateList();
 		gameState.getValueMap().setValue(SystemFields.PROCESS_INPUT, false);
 		for (TransitionListener l : this.getTransitionListeners()) {
 			l.transitionBegins();

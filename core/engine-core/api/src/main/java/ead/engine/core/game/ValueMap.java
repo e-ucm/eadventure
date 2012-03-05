@@ -71,6 +71,16 @@ public interface ValueMap {
 	 */
 	void setValue(EAdField<?> field, Object value);
 
+	/**
+	 * Sets the value a variable in a element
+	 * 
+	 * @param element
+	 *            the element
+	 * @param varDef
+	 *            the var definition
+	 * @param value
+	 *            the value for the variable
+	 */
 	void setValue(EAdElement element, EAdVarDef<?> varDef, Object value);
 
 	/**
@@ -94,7 +104,7 @@ public interface ValueMap {
 	 *            the operation whose result will be assigned to the variable
 	 */
 	void setValue(EAdElement element, EAdVarDef<?> var, EAdOperation operation);
-	
+
 	// Gets
 
 	/**
@@ -118,7 +128,7 @@ public interface ValueMap {
 	 * @return the variable's value
 	 */
 	<S> S getValue(EAdElement element, EAdVarDef<S> varDef);
-	
+
 	/**
 	 * Returns the variables associated to an element, whose values are
 	 * different from the defaults
@@ -137,6 +147,42 @@ public interface ValueMap {
 	 */
 	void remove(EAdElement element);
 
+	/**
+	 * Returns the final element associated to the given element. It could be
+	 * the element itself, but if the element is a field (with type
+	 * {@link EAdElement}), the element pointed by the field will be returned,
+	 * 
+	 * @param element
+	 *            the element
+	 * @return the final element pointed by the element
+	 */
 	EAdElement getFinalElement(EAdElement element);
+
+	/**
+	 * Checks if the value map contains updated variables' values for the given
+	 * element. If it does, true is returned, and the element checking for
+	 * updates should read the variables he is interested in. The element is
+	 * deleted for the update list of the value map until another of its fields
+	 * is updated
+	 * 
+	 * @param element
+	 *            the element
+	 * @return if any element's field has been updated since last check
+	 */
+	boolean checkForUpdates(EAdElement element);
+
+	/**
+	 * Sets if the updates list is enable and it is recording all fields changes
+	 * 
+	 * @param enable
+	 *            if it's enable or not
+	 * 
+	 */
+	void setUpdateListEnable(boolean enable);
+	
+	/**
+	 * Clears the update list
+	 */
+	void clearUpdateList( );
 
 }

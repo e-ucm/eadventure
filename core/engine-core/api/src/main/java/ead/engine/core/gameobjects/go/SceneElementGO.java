@@ -115,4 +115,6 @@ public interface SceneElementGO<T extends EAdSceneElement> extends
 	
 	void collectSceneElements(List<EAdSceneElement> elements);
 
+	boolean isVisible();
+
 }

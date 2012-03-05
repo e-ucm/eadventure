@@ -37,15 +37,22 @@
 
 package ead.engine.core.platform.assets.drawables.basics;
 
+import java.awt.BasicStroke;
 import java.awt.Graphics2D;
+import java.awt.RenderingHints;
 import java.awt.geom.GeneralPath;
+import java.awt.geom.Rectangle2D;
+import java.awt.image.BufferedImage;
 
+import ead.common.params.paint.EAdPaint;
 import ead.common.util.EAdPosition;
-import ead.engine.core.platform.assets.drawables.basics.RuntimeBezierShape;
+import ead.engine.core.platform.rendering.DesktopCanvas;
+import ead.engine.core.platform.rendering.GenericCanvas;
 
 public class DesktopBezierShape extends RuntimeBezierShape<Graphics2D> {
 
 	private GeneralPath path;
+	private BufferedImage pathImage;
 
 	@Override
 	public boolean loadAsset() {
@@ -81,6 +88,32 @@ public class DesktopBezierShape extends RuntimeBezierShape<Graphics2D> {
 		if (descriptor.isClosed())
 			path.closePath();
 
+		Rectangle2D bounds = path.getBounds();
+		EAdPaint paint = descriptor.getPaint();
+
+		pathImage = new BufferedImage((int) (bounds.getWidth() + bounds.getX())
+				+ paint.getBorderWidth() * 2,
+				(int) (bounds.getHeight() + bounds.getY())
+						+ paint.getBorderWidth() * 2,
+				BufferedImage.TYPE_INT_ARGB);
+
+		Graphics2D g = (Graphics2D) pathImage.getGraphics();
+		g.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
+				RenderingHints.VALUE_ANTIALIAS_ON);
+
+		// Fill
+		if (paint.getFill() != null) {
+			g.setPaint(DesktopCanvas.createPaint(paint.getFill()));
+			g.fill(path);
+		}
+		// Border
+		if (paint.getBorder() != null && paint.getBorderWidth() > 0) {
+			g.setPaint(DesktopCanvas.createPaint(paint.getBorder()));
+			g.setStroke(new BasicStroke(paint.getBorderWidth()));
+			g.draw(path);
+		}
+		g.dispose();
+
 		return true;
 	}
 
@@ -99,6 +132,15 @@ public class DesktopBezierShape extends RuntimeBezierShape<Graphics2D> {
 			path.reset();
 			path = null;
 		}
+		if (pathImage != null) {
+			pathImage.flush();
+		}
+		this.loaded = false;
+	}
+
+	@Override
+	public void render(GenericCanvas<Graphics2D> c) {
+		c.getNativeGraphicContext().drawImage(pathImage, 0, 0, null);
 	}
 
 }

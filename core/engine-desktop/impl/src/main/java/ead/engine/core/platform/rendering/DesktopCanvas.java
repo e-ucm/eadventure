@@ -188,18 +188,24 @@ public class DesktopCanvas extends AbstractCanvas<Graphics2D> {
 		}
 		Paint p = fillCache.get(fill);
 		if (p == null) {
-			if (fill instanceof ColorFill) {
-				ColorFill c = (ColorFill) fill;
-				p = new Color(c.getRed(), c.getGreen(), c.getBlue(),
-						c.getAlpha());
-			} else if (fill instanceof LinearGradientFill) {
-				LinearGradientFill gradient = (LinearGradientFill) fill;
-				Color c1 = (Color) getPaint(gradient.getColor1());
-				Color c2 = (Color) getPaint(gradient.getColor2());
-				p = new GradientPaint(gradient.getX0(), gradient.getY0(), c1,
-						gradient.getX1(), gradient.getY1(), c2);
-			}
+			p = createPaint(fill);
 			fillCache.put(fill, p);
+		}
+		return p;
+	}
+	
+	public static Paint createPaint(EAdFill fill){
+		Paint p = null;
+		if (fill instanceof ColorFill) {
+			ColorFill c = (ColorFill) fill;
+			p = new Color(c.getRed(), c.getGreen(), c.getBlue(),
+					c.getAlpha());
+		} else if (fill instanceof LinearGradientFill) {
+			LinearGradientFill gradient = (LinearGradientFill) fill;
+			Color c1 = (Color) createPaint(gradient.getColor1());
+			Color c2 = (Color) createPaint(gradient.getColor2());
+			p = new GradientPaint(gradient.getX0(), gradient.getY0(), c1,
+					gradient.getX1(), gradient.getY1(), c2);
 		}
 		return p;
 	}

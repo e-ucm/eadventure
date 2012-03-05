@@ -40,6 +40,7 @@ package ead.engine.core.gameobjects.sceneelements;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map.Entry;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -51,8 +52,8 @@ import ead.common.model.elements.EAdEvent;
 import ead.common.model.elements.ResourcedElement;
 import ead.common.model.elements.extra.EAdList;
 import ead.common.model.elements.scene.EAdSceneElement;
-import ead.common.model.elements.scenes.SceneElementDef;
 import ead.common.model.elements.scenes.SceneElement;
+import ead.common.model.elements.scenes.SceneElementDef;
 import ead.common.model.elements.variables.EAdVarDef;
 import ead.common.params.fills.PaintFill;
 import ead.common.resources.EAdBundleId;
@@ -144,12 +145,11 @@ public abstract class SceneElementGOImpl<T extends EAdSceneElement> extends
 		super.setElement(element);
 
 		gameState.getValueMap().remove(element);
-
-		gameState.getValueMap().setValue(element,
-				ResourcedElement.VAR_BUNDLE_ID,
-				element.getDefinition().getInitialBundle());
 		gameState.getValueMap().setValue(element.getDefinition(),
 				SceneElementDef.VAR_SCENE_ELEMENT, element);
+		gameState.getValueMap().setValue(element,
+				ResourcedElement.VAR_BUNDLE_ID, element.getDefinition().getInitialBundle());
+		gameState.getValueMap().checkForUpdates(element.getDefinition());
 
 		for (Entry<EAdVarDef<?>, Object> entry : element.getVars().entrySet()) {
 			gameState.getValueMap().setValue(element, entry.getKey(),
@@ -198,8 +198,7 @@ public abstract class SceneElementGOImpl<T extends EAdSceneElement> extends
 		alpha = valueMap.getValue(element, SceneElement.VAR_ALPHA);
 		orientation = valueMap.getValue(element, SceneElement.VAR_ORIENTATION);
 		state = valueMap.getValue(element, SceneElement.VAR_STATE);
-		timeDisplayed = valueMap.getValue(element,
-				SceneElement.VAR_TIME_DISPLAYED);
+
 		position.setX(valueMap.getValue(element, SceneElement.VAR_X));
 		position.setY(valueMap.getValue(element, SceneElement.VAR_Y));
 		position.setDispX(valueMap.getValue(element, SceneElement.VAR_DISP_X));
@@ -267,15 +266,21 @@ public abstract class SceneElementGOImpl<T extends EAdSceneElement> extends
 			for (EventGO<?> eventGO : eventGOList)
 				eventGO.update();
 
+		gameState.getValueMap().setUpdateListEnable(false);
+		timeDisplayed += GameLoop.SKIP_MILLIS_TICK;
 		gameState.getValueMap().setValue(element,
-				SceneElement.VAR_TIME_DISPLAYED,
-				timeDisplayed + GameLoop.SKIP_MILLIS_TICK);
+				SceneElement.VAR_TIME_DISPLAYED, timeDisplayed);
+		gameState.getValueMap().setUpdateListEnable(true);
 
 		if (getAsset() != null)
 			getAsset().update();
 
-		updateVars();
-		setVars();
+		if (gameState.getValueMap().checkForUpdates(element)) {
+			gameState.getValueMap().setUpdateListEnable(false);
+			updateVars();
+			setVars();
+			gameState.getValueMap().setUpdateListEnable(true);
+		}
 	}
 
 	@Override
@@ -307,7 +312,8 @@ public abstract class SceneElementGOImpl<T extends EAdSceneElement> extends
 	public AssetDescriptor getCurrentAssetDescriptor() {
 
 		AssetDescriptor a = element.getDefinition().getResources()
-				.getAsset(getCurrentBundle(), SceneElementDef.appearance);
+				.getAsset(gameState.getValueMap().getValue(element,
+						ResourcedElement.VAR_BUNDLE_ID), SceneElementDef.appearance);
 
 		return getCurrentAssetDescriptor(a);
 	}
@@ -355,8 +361,10 @@ public abstract class SceneElementGOImpl<T extends EAdSceneElement> extends
 	public DrawableAsset<?, ?> getRenderAsset() {
 		DrawableAsset<?, ?> r = getAsset();
 		if (r instanceof DrawableAsset && r.isLoaded()) {
-			setWidth(r.getWidth());
-			setHeight(r.getHeight());
+			if (r.getWidth() != width)
+				setWidth(r.getWidth());
+			if (r.getHeight() != height)
+				setHeight(r.getHeight());
 			return r.getDrawable();
 		}
 		return r;
@@ -370,7 +378,8 @@ public abstract class SceneElementGOImpl<T extends EAdSceneElement> extends
 			bundles.addAll(getElement().getDefinition().getResources()
 					.getBundles());
 		else
-			bundles.add(getCurrentBundle());
+			bundles.add(gameState.getValueMap().getValue(element,
+					ResourcedElement.VAR_BUNDLE_ID));
 
 		for (EAdBundleId bundle : bundles) {
 			AssetDescriptor a = getElement().getDefinition().getResources()
@@ -515,22 +524,6 @@ public abstract class SceneElementGOImpl<T extends EAdSceneElement> extends
 
 	}
 
-	public EAdBundleId getCurrentBundle() {
-		EAdBundleId current = gameState.getValueMap().getValue(element,
-				ResourcedElement.VAR_BUNDLE_ID);
-		if (current == null) {
-			current = element.getDefinition().getInitialBundle();
-			gameState.getValueMap().setValue(element,
-					ResourcedElement.VAR_BUNDLE_ID, current);
-		}
-		return current;
-	}
-
-	public void setCurrentBundle(EAdBundleId bundle) {
-		gameState.getValueMap().setValue(element,
-				ResourcedElement.VAR_BUNDLE_ID, bundle);
-	}
-
 	public void setX(int x) {
 		this.position.set(x, position.getY());
 		gameState.getValueMap().setValue(element, SceneElement.VAR_X, x);
@@ -557,5 +550,9 @@ public abstract class SceneElementGOImpl<T extends EAdSceneElement> extends
 	public void collectSceneElements(List<EAdSceneElement> elements) {
 		if (getElement() != null)
 			elements.add(getElement());
+	}
+
+	public boolean isVisible() {
+		return visible;
 	}
 }

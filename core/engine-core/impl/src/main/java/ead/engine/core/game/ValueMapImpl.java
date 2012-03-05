@@ -37,8 +37,10 @@
 
 package ead.engine.core.game;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -66,6 +68,10 @@ public class ValueMapImpl implements ValueMap {
 
 	private ReflectionProvider reflectionProvider;
 
+	private ArrayList<EAdElement> updateList;
+
+	private boolean updateEnable;
+
 	@Inject
 	public ValueMapImpl(ReflectionProvider reflectionProvider,
 			OperatorFactory operatorFactory, EvaluatorFactory evaluatorFactory) {
@@ -76,6 +82,8 @@ public class ValueMapImpl implements ValueMap {
 		setOperatorFactory(operatorFactory);
 		operatorFactory.install(this, evaluatorFactory);
 		evaluatorFactory.install(this, operatorFactory);
+		updateList = new ArrayList<EAdElement>();
+		updateEnable = true;
 	}
 
 	@Override
@@ -88,7 +96,7 @@ public class ValueMapImpl implements ValueMap {
 		if (value == null
 				|| reflectionProvider.isAssignableFrom(varDef.getType(),
 						value.getClass())) {
-			
+
 			Map<EAdVarDef<?>, Object> valMap = element == null ? systemVars
 					: map.get(getFinalElement(element));
 			if (valMap == null) {
@@ -98,6 +106,9 @@ public class ValueMapImpl implements ValueMap {
 			}
 
 			valMap.put(varDef, value);
+			if (updateEnable)
+				addUpdatedElement(element);
+
 		} else {
 			logger.warn("setValue failed: Impossible to cast "
 					+ varDef.getType() + " to " + value.getClass()
@@ -143,7 +154,7 @@ public class ValueMapImpl implements ValueMap {
 		}
 		Object value = valMap.get(varDef);
 		// If the variable has not been set, returns the initial value
-		
+
 		// reflectionProvider.isAssignableFrom is not used, because types are
 		// checked in setValue
 		return value == null ? varDef.getInitialValue() : (S) value;
@@ -169,6 +180,31 @@ public class ValueMapImpl implements ValueMap {
 				return element;
 		} else
 			return element;
+	}
+
+	@Override
+	public boolean checkForUpdates(EAdElement element) {
+		if (updateList.contains(element)) {
+			updateList.remove(element);
+			return true;
+		}
+		return false;
+	}
+
+	private void addUpdatedElement(EAdElement element) {
+		if (element != null && !updateList.contains(element)) {
+			updateList.add(element);
+		}
+	}
+
+	@Override
+	public void setUpdateListEnable(boolean enable) {
+		updateEnable = enable;
+	}
+
+	@Override
+	public void clearUpdateList() {
+		updateList.clear();
 	}
 
 }
