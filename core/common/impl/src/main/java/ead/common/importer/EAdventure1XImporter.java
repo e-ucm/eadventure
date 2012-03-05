@@ -46,6 +46,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 import java.util.Random;
@@ -74,7 +75,7 @@ import es.eucm.eadventure.common.loader.incidences.Incidence;
 
 /**
  * An importer for old games from 1.x version
- *
+ * 
  */
 public class EAdventure1XImporter {
 
@@ -87,36 +88,37 @@ public class EAdventure1XImporter {
 	private StringHandler stringsHandler;
 
 	private StringFileHandler stringFileHandler;
-	
+
 	private EAdElementFactory elementFactory;
 
 	private String destinyFile;
 
-    private Random rand = new Random();
+	private Random rand = new Random();
 
-	private int progress;
+	private List<ImporterProgressListener> listeners;
 
-	private String progressText;
-
-	private static final Logger logger = LoggerFactory.getLogger("EAdventureImporter");
+	private static final Logger logger = LoggerFactory
+			.getLogger("EAdventureImporter");
 
 	@Inject
 	public EAdventure1XImporter(
 			EAdElementImporter<AdventureData, EAdAdventureModel> adventureImp,
 			ResourceImporter resourceImporter,
 			InputStreamCreator inputStreamCreator, StringHandler stringsWriter,
-			StringFileHandler stringFileHandler, EAdElementFactory elementFactory) {
+			StringFileHandler stringFileHandler,
+			EAdElementFactory elementFactory) {
 		this.adventureImporter = adventureImp;
 		this.resourceImporter = resourceImporter;
 		this.inputStreamCreator = inputStreamCreator;
 		this.stringsHandler = stringsWriter;
 		this.stringFileHandler = stringFileHandler;
 		this.elementFactory = elementFactory;
+		this.listeners = new ArrayList<ImporterProgressListener>();
 	}
 
 	/**
 	 * Imports and old game form 1.x version
-	 *
+	 * 
 	 * @param eadFile
 	 *            original ead file
 	 * @param destiny
@@ -125,21 +127,18 @@ public class EAdventure1XImporter {
 	 * @return An {@link EAdventureModel} complete with all game information
 	 */
 	public EAdAdventureModel importGame(String eadFile, String destiny) {
-		progress = 0;
-		progressText = "Starting importer...";
+		updateProgress(0, "Starting importer...");
 		stringsHandler.getStrings().clear();
 		((ImporterInputStreamCreator) inputStreamCreator).setFile(eadFile);
 		elementFactory.init();
-		progress = 10;
-		progressText = "Loading old game...";
+		updateProgress(10, "Loading old game...");
 		AdventureData adventureData = loadGame();
 
 		if (adventureData == null) {
 			return null;
 		}
 
-		progress = 40;
-		progressText = "Creating temporary files...";
+		updateProgress(40, "Creating temporary files...");
 		// Temp folder to use during importation
 		String tempFolder = System.getProperty("java.io.tmpdir");
 		File tmpDir = new File(tempFolder + File.separator + "eAdventureTemp"
@@ -149,8 +148,7 @@ public class EAdventure1XImporter {
 		}
 		tmpDir.deleteOnExit();
 
-		progress = 50;
-		progressText = "Creating temporary files...";
+		updateProgress(50, "Creating temporary files...");
 		resourceImporter.setPath(tmpDir.getAbsolutePath());
 		destinyFile = tmpDir.getAbsolutePath();
 
@@ -158,13 +156,11 @@ public class EAdventure1XImporter {
 		model = adventureImporter.convert(adventureData, model);
 
 		if (destiny != null) {
-			progress = 90;
-			progressText = "Creating " + destiny;
+			updateProgress(90, "Creating " + destiny);
 			createGameFile(model, tmpDir.getAbsolutePath(), destiny);
 		}
 
-		progress = 100;
-		progressText = "Done";
+		updateProgress(100, "Done.");
 
 		return model;
 
@@ -176,21 +172,22 @@ public class EAdventure1XImporter {
 		// Create data.xml
 		EAdAdventureModelWriter writer = new EAdAdventureModelWriter();
 
-        OutputStream os = null;
+		OutputStream os = null;
 		try {
-		    os = new FileOutputStream(new File(path, ProjectFiles.DATA_FILE));
+			os = new FileOutputStream(new File(path, ProjectFiles.DATA_FILE));
 			writer.write(model, os);
 		} catch (Exception e) {
-            logger.error("Cannot write data.xml "
-                    + "while importing to '{}'", destination, e);
-        } finally {
-            if (os != null) try {
-                os.close();
-            } catch (Exception e) {
-                logger.error("Error closing data.xml "
-                        + "while importing '{}", destination, e);
-            }
-        }
+			logger.error("Cannot write data.xml " + "while importing to '{}'",
+					destination, e);
+		} finally {
+			if (os != null)
+				try {
+					os.close();
+				} catch (Exception e) {
+					logger.error("Error closing data.xml "
+							+ "while importing '{}", destination, e);
+				}
+		}
 
 		// Create strings.xml
 		File f = new File(path, ProjectFiles.STRINGS_FILE);
@@ -199,8 +196,8 @@ public class EAdventure1XImporter {
 			stringFileHandler.write(new FileOutputStream(f),
 					stringsHandler.getStrings());
 		} catch (Exception e) {
-			logger.error("Cannot handle strings.xml "
-                    + "while importing '{}'", destination, e);
+			logger.error("Cannot handle strings.xml " + "while importing '{}'",
+					destination, e);
 		}
 
 		// ead.properties
@@ -219,8 +216,8 @@ public class EAdventure1XImporter {
 
 		// Create zip file
 		try {
-			String fileName = destination.endsWith(".ead") ?
-                    destination : destination + ".ead";
+			String fileName = destination.endsWith(".ead") ? destination
+					: destination + ".ead";
 			File outFolder = new File(fileName);
 
 			ZipOutputStream out = new ZipOutputStream(new BufferedOutputStream(
@@ -230,7 +227,7 @@ public class EAdventure1XImporter {
 			out.flush();
 			out.close();
 		} catch (Exception e) {
-            logger.error("Error outputting zip to {}", destination, e);
+			logger.error("Error outputting zip to {}", destination, e);
 		}
 
 	}
@@ -249,8 +246,8 @@ public class EAdventure1XImporter {
 
 					zip.putNextEntry(new ZipEntry(entryName));
 
-					BufferedInputStream in =
-                            new BufferedInputStream(new FileInputStream(f), 1000);
+					BufferedInputStream in = new BufferedInputStream(
+							new FileInputStream(f), 1000);
 					int count;
 					while ((count = in.read(data, 0, 1000)) != -1) {
 						zip.write(data, 0, count);
@@ -258,21 +255,22 @@ public class EAdventure1XImporter {
 					zip.closeEntry();
 				}
 			} catch (IOException e) {
-                logger.error("Error adding folder {} to zip", folder, e);
+				logger.error("Error adding folder {} to zip", folder, e);
 			}
 		}
 	}
 
 	/**
 	 * Loads an old model AdventureData
-	 *
+	 * 
 	 */
 	public AdventureData loadGame() {
 		ArrayList<Incidence> incidences = new ArrayList<Incidence>();
 		AdventureData data = null;
 		try {
-			data = Loader.loadAdventureData(inputStreamCreator, incidences, true);
-		} catch(Exception e) {
+			data = Loader.loadAdventureData(inputStreamCreator, incidences,
+					true);
+		} catch (Exception e) {
 			logger.error("Exception while reading old <e-Adventure> game", e);
 		}
 		if (data == null) {
@@ -294,15 +292,19 @@ public class EAdventure1XImporter {
 		return stringsHandler.getStrings();
 	}
 
-	/**
-	 * Return the progress of the importer (between 0 and 100)
-	 * @return
-	 */
-	public int getProgress( ){
-		return progress;
+	public void addProgressListener(ImporterProgressListener progressListener) {
+		listeners.add(progressListener);
 	}
 
-	public String getProgressText( ){
-		return progressText;
+	public void updateProgress(int progress, String text) {
+		for (ImporterProgressListener l : listeners) {
+			l.update(progress, text);
+		}
+	}
+
+	public static interface ImporterProgressListener {
+
+		public void update(int progress, String text);
+
 	}
 }

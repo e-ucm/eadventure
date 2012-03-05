@@ -117,7 +117,7 @@ public class StartFrame extends JFrame {
 	
 	private int ticksPerSecond = 30;
 
-	// private ProgressDialog progressDialog;
+	private ProgressDialog progressDialog;
 
 	private File dataFile;
 
@@ -184,7 +184,7 @@ public class StartFrame extends JFrame {
 		// Strings file handler
 		stringFileHandler = new DefaultStringFileHandler();
 
-		// progressDialog = new ProgressDialog(this, importer);
+		progressDialog = new ProgressDialog(this, importer);
 	}
 
 	private void setFrameProperties() {
@@ -362,7 +362,7 @@ public class StartFrame extends JFrame {
 				}
 			}.start();
 
-			// progressDialog.setVisible(true);
+			progressDialog.setVisible(true);
 
 		} else {
 
