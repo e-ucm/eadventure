@@ -63,32 +63,31 @@ import org.slf4j.LoggerFactory;
 @Singleton
 public class GameLoopImpl implements GameLoop {
 
-	private static final Logger logger = LoggerFactory.getLogger("GameLoopImpl");
-
-	static final int SKIP_NANOS_TICK = 1000000000 / TICKS_PER_SECOND;
-
-	static final int MAX_FRAMES_PER_SECOND = 30;
-
-	static final int SKIP_MILLIS_FRAME = 1000 / MAX_FRAMES_PER_SECOND;
-
-	static final int SKIP_NANOS_FRAME = 1000000000 / MAX_FRAMES_PER_SECOND;
+	protected static final Logger logger = LoggerFactory.getLogger("GameLoopImpl");
 
 	static final int MAX_FRAMESKIP = 5;
 
-	private long nextTickTime = System.nanoTime();
+	protected long nextTickTime = System.nanoTime();
 
-	private long nextFrameTime = System.nanoTime();
+	protected long nextFrameTime = System.nanoTime();
 
-	private Game game;
+	protected Game game;
 
-	private GameProfiler gameProfiler;
+	protected GameProfiler gameProfiler;
 
-	private boolean game_is_running;
+	protected boolean game_is_running;
+	
+	protected int skipMilliSeconds;
+	
+	protected int skipNanosFrame;
+
+	protected int ticksPerSecond;
 
 	@Inject
 	public GameLoopImpl(GameProfiler gameProfiler) {
 		this.gameProfiler = gameProfiler;
 		game_is_running = true;
+		this.setTicksPerSecond(15);
 	}
 
 	/*
@@ -133,15 +132,15 @@ public class GameLoopImpl implements GameLoop {
 				game.update();
 				gameProfiler.countTick();
 
-				nextTickTime += SKIP_NANOS_TICK;
+				nextTickTime += skipNanosFrame;
 				loops++;
 			}
 
 			tempTime = System.nanoTime();
 			if (tempTime > nextFrameTime) {
-				nextFrameTime = tempTime + SKIP_NANOS_FRAME;
-				interpolation = (float) (tempTime + SKIP_NANOS_TICK - nextTickTime)
-						/ (float) (SKIP_NANOS_TICK);
+				nextFrameTime = tempTime + skipNanosFrame;
+				interpolation = (float) (tempTime + skipNanosFrame - nextTickTime)
+						/ (float) (skipNanosFrame);
 				game.render(interpolation);
 				gameProfiler.countFrame();
 			} else {
@@ -172,7 +171,7 @@ public class GameLoopImpl implements GameLoop {
 	 */
 	@Override
 	public void pause() {
-		// TODO implement the pause mechanism
+		
 	}
 
 	/*
@@ -182,7 +181,7 @@ public class GameLoopImpl implements GameLoop {
 	 */
 	@Override
 	public void resume() {
-		// TODO implement the pause mechanism
+
 	}
 
 	@Override
@@ -194,5 +193,21 @@ public class GameLoopImpl implements GameLoop {
 	@Override
 	public boolean isRunning() {
 		return game_is_running;
+	}
+
+	@Override
+	public void setTicksPerSecond(int ticksPerSecond) {
+		this.ticksPerSecond = ticksPerSecond;
+		this.skipMilliSeconds = 1000 / ticksPerSecond;
+		this.skipNanosFrame = 1000000000 / ticksPerSecond;
+	}
+
+	@Override
+	public int getSkipMillisTick() {
+		return skipMilliSeconds;
+	}
+	
+	public int getTicksPerSecond(){
+		return ticksPerSecond;
 	}
 }

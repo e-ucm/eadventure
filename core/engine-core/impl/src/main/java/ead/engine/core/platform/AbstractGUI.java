@@ -37,8 +37,12 @@
 
 package ead.engine.core.platform;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import ead.common.util.BasicMatrix;
 import ead.common.util.EAdRectangle;
+import ead.engine.core.game.GameLoop;
 import ead.engine.core.game.GameState;
 import ead.engine.core.gameobjects.GameObjectManager;
 import ead.engine.core.gameobjects.factories.SceneElementGOFactory;
@@ -48,15 +52,13 @@ import ead.engine.core.input.InputHandler;
 import ead.engine.core.platform.rendering.GenericCanvas;
 import ead.engine.core.util.EAdTransformation;
 import ead.engine.core.util.EAdTransformationImpl;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * <p>
  * Abstract implementation of the GUI (Graphic User Interface) for the
  * eAdventure 2 games
  * </p>
- *
+ * 
  * @param <T>
  *            A parameter for the graphic context of the GUI (e.g. in AWT Java
  *            it will be Graphics2D)
@@ -89,26 +91,29 @@ public abstract class AbstractGUI<T> implements GUI {
 
 	protected GenericCanvas<T> eAdCanvas;
 
+	protected GameLoop gameLoop;
+
 	public AbstractGUI(EngineConfiguration platformConfiguration,
 			GameObjectManager gameObjectManager, InputHandler inputHandler,
 			GameState gameState, SceneElementGOFactory gameObjectFactory,
-			GenericCanvas<T> canvas) {
+			GenericCanvas<T> canvas, GameLoop gameLoop) {
 		this.platformConfiguration = platformConfiguration;
 		this.gameObjects = gameObjectManager;
 		this.inputHandler = inputHandler;
 		this.gameState = gameState;
 		this.gameObjectFactory = gameObjectFactory;
 		this.eAdCanvas = canvas;
+		this.gameLoop = gameLoop;
 		logger.info("Created abstract GUI");
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * es.eucm.eadventure.engine.core.platform.GUI#addElement(es.eucm.eadventure
 	 * .engine.core.gameobjects.GameObject)
-	 *
+	 * 
 	 * The element should not be offset as it is being dragged in the scene
 	 */
 	@Override
@@ -126,7 +131,7 @@ public abstract class AbstractGUI<T> implements GUI {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see es.eucm.eadventure.engine.core.platform.GUI#prepareGUI()
 	 */
 	@Override
@@ -138,12 +143,12 @@ public abstract class AbstractGUI<T> implements GUI {
 	 * Process the different sort of inputs received by the game
 	 */
 	protected void processInput() {
-			inputHandler.processActions();
+		inputHandler.processActions();
 	}
 
 	/**
 	 * Render the game objects into the graphic context
-	 *
+	 * 
 	 * @param interpolation
 	 *            The current interpolation between ideal game frames
 	 */
@@ -161,7 +166,7 @@ public abstract class AbstractGUI<T> implements GUI {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see es.eucm.eadventure.engine.core.platform.GUI#getWidth()
 	 */
 	@Override
@@ -171,7 +176,7 @@ public abstract class AbstractGUI<T> implements GUI {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see es.eucm.eadventure.engine.core.platform.GUI#getHeight()
 	 */
 	@Override
@@ -190,27 +195,33 @@ public abstract class AbstractGUI<T> implements GUI {
 		EAdTransformationImpl t = new EAdTransformationImpl(m, visible, alpha);
 		EAdRectangle clip1 = t1.getClip();
 		EAdRectangle clip2 = t2.getClip();
-		EAdRectangle newclip = new EAdRectangle( 0,0,0,0);
+		EAdRectangle newclip = new EAdRectangle(0, 0, 0, 0);
 
 		// FIXME multiply for matrix to know where the clip actually is
-		if ( clip1 == null ){
+		if (clip1 == null) {
 			newclip = clip2;
-		}
-		else if ( clip2 == null ){
+		} else if (clip2 == null) {
 			newclip = clip1;
-		}
-		else if ( clip1 != null && clip2 != null ){
+		} else if (clip1 != null && clip2 != null) {
 			newclip = clip2;
 		}
 
-		if ( newclip != null )
+		if (newclip != null)
 			t.setClip(newclip.x, newclip.y, newclip.width, newclip.height);
 
 		return t;
 	}
 
-    @Override
+	@Override
 	public void setInitialTransformation(EAdTransformation initialTransformation) {
 		inputHandler.setInitialTransformation(initialTransformation);
+	}
+
+	public int getSkippedMilliseconds() {
+		return gameLoop.getSkipMillisTick();
+	}
+	
+	public int getTicksPerSecond(){
+		return gameLoop.getTicksPerSecond();
 	}
 }

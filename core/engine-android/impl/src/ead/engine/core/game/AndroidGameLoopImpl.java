@@ -39,13 +39,7 @@ package ead.engine.core.game;
 
 import com.google.inject.Inject;
 
-import ead.engine.core.game.Game;
-import ead.engine.core.game.GameLoop;
-import ead.engine.core.game.GameProfiler;
 import ead.engine.core.platform.extra.EAdventureRenderingThread;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * Based on:
@@ -61,40 +55,16 @@ import org.slf4j.LoggerFactory;
  * >XNA framework time handling</a>.</li>
  * </ul>
  */
-public class AndroidGameLoopImpl implements GameLoop {
-
-	private static final Logger logger = LoggerFactory.getLogger("AndroidGameLoopImpl");
-
-	static final int SKIP_NANOS_TICK = 1000000000 / TICKS_PER_SECOND;
-
-	static final int SKIP_MILLIS_TICK = 1000 / TICKS_PER_SECOND;
-
-	static final int MAX_FRAMES_PER_SECOND = 30;
-
-	static final int SKIP_MILLIS_FRAME = 1000 / MAX_FRAMES_PER_SECOND;
-
-	static final int SKIP_NANOS_FRAME = 1000000000 / MAX_FRAMES_PER_SECOND;
-
-	static final int MAX_FRAMESKIP = 5;
-
-	private long nextTickTime = System.nanoTime();
-
-	private long nextFrameTime = System.nanoTime();
-
-	private Game game;
-
-	private GameProfiler gameProfiler;
-
-	boolean game_is_running;
+public class AndroidGameLoopImpl extends GameLoopImpl {
 
 	@Inject
 	public AndroidGameLoopImpl(GameProfiler gameProfiler) {
-		this.gameProfiler = gameProfiler;
+		super(gameProfiler);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see es.eucm.eadventure.engine.core.GameLoop#runLoop(boolean)
 	 */
 	@Override
@@ -134,22 +104,23 @@ public class AndroidGameLoopImpl implements GameLoop {
 				game.update();
 				gameProfiler.countTick();
 
-				nextTickTime += SKIP_NANOS_TICK;
+				nextTickTime += skipNanosFrame;
 				loops++;
 			}
 
 			tempTime = System.nanoTime();
 
 			if (tempTime > nextFrameTime && EAdventureRenderingThread.paint) {
-				nextFrameTime = tempTime + SKIP_NANOS_FRAME;
-				interpolation = (float) (tempTime + SKIP_NANOS_TICK - nextTickTime)
-						/ (float) (SKIP_NANOS_TICK);
+				nextFrameTime = tempTime + skipNanosFrame;
+				interpolation = (float) (tempTime + skipNanosFrame - nextTickTime)
+						/ (float) (skipNanosFrame);
 				game.render(interpolation);
 				gameProfiler.countFrame();
 				EAdventureRenderingThread.paint = false;
 			} else {
 				try {
-					Thread.sleep(Math.max(1, (nextFrameTime - tempTime) / 1000000));
+					Thread.sleep(Math.max(1,
+							(nextFrameTime - tempTime) / 1000000));
 				} catch (InterruptedException e) {
 				}
 			}
@@ -159,7 +130,7 @@ public class AndroidGameLoopImpl implements GameLoop {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * es.eucm.eadventure.engine.core.GameLoop#setGame(es.eucm.eadventure.engine
 	 * .core.Game)
@@ -171,26 +142,24 @@ public class AndroidGameLoopImpl implements GameLoop {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see es.eucm.eadventure.engine.core.GameLoop#pause()
 	 */
 	@Override
 	public void pause() {
-		// TODO implement the pause mechanism
-		synchronized (this){
+		synchronized (this) {
 			game_is_running = false;
 		}
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see es.eucm.eadventure.engine.core.GameLoop#resume()
 	 */
 	@Override
 	public void resume() {
-		// TODO implement the pause mechanism
-		synchronized (this){
+		synchronized (this) {
 			game_is_running = true;
 		}
 	}
@@ -198,7 +167,7 @@ public class AndroidGameLoopImpl implements GameLoop {
 	@Override
 	public void stop() {
 		game_is_running = false;
-		
+
 	}
 
 	@Override

@@ -43,10 +43,6 @@ package ead.engine.core.game;
  */
 public interface GameLoop {
 
-	static final int TICKS_PER_SECOND = 15;
-
-	public static final int SKIP_MILLIS_TICK = 1000 / TICKS_PER_SECOND;
-
 	/**
 	 * Run the game loop
 	 * 
@@ -83,5 +79,20 @@ public interface GameLoop {
 	 * @return
 	 */
 	public boolean isRunning( );
+	
+	/**
+	 * Sets the ticks per second
+	 * @param ticksPerSecond
+	 * @return
+	 */
+	public void setTicksPerSecond(int ticksPerSecond );
+	
+	/**
+	 * Returns the skipped milliseconds in one update
+	 * @return
+	 */
+	public int getSkipMillisTick( );
+
+	public int getTicksPerSecond(); 
 
 }

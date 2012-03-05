@@ -51,6 +51,7 @@ import ead.common.util.EAdURI;
 import ead.common.util.StringHandler;
 import ead.elementfactories.EAdElementsFactory;
 import ead.engine.core.game.Game;
+import ead.engine.core.game.GameLoop;
 import ead.engine.core.platform.EngineConfiguration;
 import ead.engine.core.platform.PlatformLauncher;
 import ead.engine.core.platform.module.DesktopAssetHandlerModule;
@@ -90,13 +91,15 @@ public class DesktopGame {
 		stringHandler.addStrings(strings);
 	}
 
-	public void launch() {
+	public void launch(int ticksPerSecond) {
 		final PlatformLauncher launcher = injector
 				.getInstance(PlatformLauncher.class);
 		final EAdURI uri = ( file == null ) ? null : new EAdURI(file);
 
 		EngineConfiguration conf = injector
 				.getInstance(EngineConfiguration.class);
+		GameLoop gameLoop = injector.getInstance(GameLoop.class);
+		gameLoop.setTicksPerSecond(ticksPerSecond);
 		conf.setSize(800, 600);
 
 		new Thread() {

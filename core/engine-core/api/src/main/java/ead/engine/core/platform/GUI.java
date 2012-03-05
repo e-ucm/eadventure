@@ -137,4 +137,16 @@ public interface GUI {
 
 	void setInitialTransformation(EAdTransformation initialTransformation);
 	
+	/**
+	 * Returns the milliseconds since last update
+	 * @return
+	 */
+	int getSkippedMilliseconds();
+	
+	/**
+	 * Returns tics per second in the game
+	 * @return
+	 */
+	int getTicksPerSecond();
+	
 }

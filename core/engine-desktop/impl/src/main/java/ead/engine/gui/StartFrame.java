@@ -41,6 +41,8 @@ import java.awt.BorderLayout;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.File;
@@ -56,6 +58,7 @@ import java.util.zip.ZipInputStream;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -93,10 +96,14 @@ public class StartFrame extends JFrame {
 	private static final long serialVersionUID = -6973214467232788904L;
 
 	private static final String FILE_CHOOSER_DIRECTORY = "file_chooser_directory";
+	
+	private static final String HZ_PROPERTY = "hz_property";
 
 	private static final String PROPERTIES_FILE = "engine_configuration.xml";
 
 	private static final Logger logger = LoggerFactory.getLogger("EAdEngine");
+	
+	private static final Integer[] HZ = new Integer[]{30, 40, 50, 60};
 
 	private JFileChooser fileChooser;
 
@@ -107,6 +114,8 @@ public class StartFrame extends JFrame {
 	private EAdAdventureDOMModelReader reader;
 
 	private StringFileHandler stringFileHandler;
+	
+	private int ticksPerSecond = 30;
 
 	// private ProgressDialog progressDialog;
 
@@ -122,6 +131,7 @@ public class StartFrame extends JFrame {
 		initFileChooser();
 		addLogo();
 		addOpen();
+		addTicksPerSecond();
 		pack();
 		setLocationRelativeTo(null);
 
@@ -198,6 +208,7 @@ public class StartFrame extends JFrame {
 					out = new FileOutputStream(PROPERTIES_FILE);
 					properties.setProperty(FILE_CHOOSER_DIRECTORY, fileChooser
 							.getCurrentDirectory().getAbsolutePath());
+					properties.setProperty(HZ_PROPERTY, ticksPerSecond+"");
 					properties.store(out, "-- No comments --");
 
 				} catch (FileNotFoundException e) {
@@ -241,6 +252,24 @@ public class StartFrame extends JFrame {
 
 		});
 	}
+	
+	private void addTicksPerSecond() {
+		ticksPerSecond = Integer.parseInt(properties.getProperty(HZ_PROPERTY, 30 + ""));
+		JComboBox hzCombo = new JComboBox(HZ);
+		hzCombo.setSelectedItem(ticksPerSecond);
+		JPanel panel = new JPanel();
+		panel.add(new JLabel("Hz:"));
+		panel.add(hzCombo);
+		getContentPane().add(panel);
+		hzCombo.addItemListener(new ItemListener(){
+
+			@Override
+			public void itemStateChanged(ItemEvent ev) {
+				ticksPerSecond = (Integer) ev.getItem();		
+			}
+			
+		});
+	}
 
 	private void addLogo() {
 		try {
@@ -281,7 +310,7 @@ public class StartFrame extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				DesktopGame game = new DesktopGame(new InitScene());
-				game.launch();
+				game.launch(ticksPerSecond);
 
 			}
 
@@ -328,7 +357,7 @@ public class StartFrame extends JFrame {
 					if (model != null) {
 						DesktopGame game = new DesktopGame(model, destinyFile,
 								strings);
-						game.launch();
+						game.launch(ticksPerSecond);
 					}
 				}
 			}.start();
@@ -359,7 +388,7 @@ public class StartFrame extends JFrame {
 
 			if (model != null) {
 				DesktopGame game = new DesktopGame(model, destinyFile, strings);
-				game.launch();
+				game.launch(ticksPerSecond);
 			}
 
 		}

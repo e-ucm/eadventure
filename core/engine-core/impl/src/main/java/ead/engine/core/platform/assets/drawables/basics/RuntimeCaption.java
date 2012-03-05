@@ -51,11 +51,11 @@ import ead.common.resources.assets.drawable.basics.EAdCaption;
 import ead.common.resources.assets.drawable.basics.shapes.RectangleShape;
 import ead.common.util.EAdRectangle;
 import ead.common.util.StringHandler;
-import ead.engine.core.game.GameLoop;
 import ead.engine.core.game.VariableMap;
 import ead.engine.core.platform.AssetHandler;
 import ead.engine.core.platform.DrawableAsset;
 import ead.engine.core.platform.FontHandler;
+import ead.engine.core.platform.GUI;
 import ead.engine.core.platform.RuntimeFont;
 import ead.engine.core.platform.assets.AbstractRuntimeAsset;
 import ead.engine.core.platform.rendering.GenericCanvas;
@@ -132,14 +132,17 @@ public class RuntimeCaption<GraphicContext> extends
 	private VariableMap valueMap;
 
 	private StringHandler stringsReader;
+	
+	private GUI gui;
 
 	@Inject
-	public RuntimeCaption(FontHandler fontCache, VariableMap valueMap,
+	public RuntimeCaption(GUI gui, FontHandler fontCache, VariableMap valueMap,
 			StringHandler stringsReader, AssetHandler assetHandler) {
 		this.fontCache = fontCache;
 		this.valueMap = valueMap;
 		this.stringsReader = stringsReader;
 		this.assetHandler = assetHandler;
+		this.gui = gui;
 		logger.info("New instance");
 	}
 
@@ -195,7 +198,7 @@ public class RuntimeCaption<GraphicContext> extends
 		if (!isLoaded())
 			loadAsset();
 
-		timeShown -= GameLoop.SKIP_MILLIS_TICK;
+		timeShown -= gui.getSkippedMilliseconds();
 		if (timeShown <= 0) {
 			goForward(1);
 		}

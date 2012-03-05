@@ -59,7 +59,6 @@ import ead.common.model.elements.scenes.SceneElement;
 import ead.common.model.elements.variables.EAdVarDef;
 import ead.common.model.elements.variables.VarDef;
 import ead.common.util.StringHandler;
-import ead.engine.core.game.GameLoop;
 import ead.engine.core.game.GameState;
 import ead.engine.core.game.ValueMap;
 import ead.engine.core.gameobjects.effects.AbstractEffectGO;
@@ -70,10 +69,14 @@ import ead.engine.core.platform.GUI;
 public class PhysicsEffectGO extends AbstractEffectGO<PhysicsEffect> {
 
 	public static float WORLD_SCALE = 15.0f;
-	
+
 	private World world;
 
 	private float timeStep;
+
+	private int velocityIterations;
+
+	private int positionIterations;
 
 	public static final EAdVarDef<Body> VAR_PH_BODY = new VarDef<Body>(
 			"ph_body", Body.class, null);
@@ -93,7 +96,7 @@ public class PhysicsEffectGO extends AbstractEffectGO<PhysicsEffect> {
 	public void initialize() {
 		super.initialize();
 
-		//doStep true = not simulate inactive bodies
+		// doStep true = not simulate inactive bodies
 		world = new World(new Vec2(0.0f, 10.0f), true);
 		world.setContinuousPhysics(true);
 		world.setWarmStarting(true);
@@ -101,7 +104,9 @@ public class PhysicsEffectGO extends AbstractEffectGO<PhysicsEffect> {
 		ValueMap valueMap = gameState.getValueMap();
 		valueMap.setValue(null, VAR_PH_WORLD, world);
 
-		timeStep = 1.0f / (float) GameLoop.TICKS_PER_SECOND;
+		timeStep = 1.0f / gui.getTicksPerSecond();
+		velocityIterations = 24;
+		positionIterations = 8;
 
 		for (EAdSceneElement e : element.getElements()) {
 			createBody(world, e, valueMap);
@@ -129,9 +134,7 @@ public class PhysicsEffectGO extends AbstractEffectGO<PhysicsEffect> {
 	@Override
 	public void update() {
 		super.update();
-		// FIXME this must depend on FPS
-		//for (int i = 0; i < 3; i++)
-			world.step(timeStep, 24, 8);
+		world.step(timeStep, velocityIterations, positionIterations);
 
 		EAdScene scene = gameState.getScene().getElement();
 
@@ -168,8 +171,10 @@ public class PhysicsEffectGO extends AbstractEffectGO<PhysicsEffect> {
 			ValueMap valueMap) {
 		float x = valueMap.getValue(e, SceneElement.VAR_X) / WORLD_SCALE;
 		float y = valueMap.getValue(e, SceneElement.VAR_Y) / WORLD_SCALE;
-		float width = valueMap.getValue(e, SceneElement.VAR_WIDTH) / WORLD_SCALE;
-		float height = valueMap.getValue(e, SceneElement.VAR_HEIGHT) / WORLD_SCALE;
+		float width = valueMap.getValue(e, SceneElement.VAR_WIDTH)
+				/ WORLD_SCALE;
+		float height = valueMap.getValue(e, SceneElement.VAR_HEIGHT)
+				/ WORLD_SCALE;
 
 		// TODO what if corner is not center?
 		PhType phType = valueMap.getValue(e, PhysicsEffect.VAR_PH_TYPE);
@@ -204,8 +209,7 @@ public class PhysicsEffectGO extends AbstractEffectGO<PhysicsEffect> {
 		FixtureDef fixture = new FixtureDef();
 		fixture.shape = s;
 		fixture.density = valueMap.getValue(e, PhysicsEffect.VAR_PH_DENSITY);
-		fixture.friction = valueMap.getValue(e,
-				PhysicsEffect.VAR_PH_FRICTION);
+		fixture.friction = valueMap.getValue(e, PhysicsEffect.VAR_PH_FRICTION);
 		fixture.restitution = valueMap.getValue(e,
 				PhysicsEffect.VAR_PH_RESTITUTION);
 

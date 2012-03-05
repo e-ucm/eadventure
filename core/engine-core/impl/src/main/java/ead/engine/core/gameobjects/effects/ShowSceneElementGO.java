@@ -41,7 +41,6 @@ import com.google.inject.Inject;
 
 import ead.common.model.elements.effects.timedevents.ShowSceneElementEf;
 import ead.common.util.StringHandler;
-import ead.engine.core.game.GameLoop;
 import ead.engine.core.game.GameState;
 import ead.engine.core.gameobjects.factories.SceneElementGOFactory;
 import ead.engine.core.gameobjects.go.SceneElementGO;
@@ -88,7 +87,7 @@ public class ShowSceneElementGO extends AbstractEffectGO<ShowSceneElementEf> {
 	public void update() {
 		super.update();
 		sceneElement.update();
-		time -= GameLoop.SKIP_MILLIS_TICK;
+		time -= gui.getSkippedMilliseconds();
 
 	}
 

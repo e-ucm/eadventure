@@ -43,6 +43,7 @@ import ead.common.util.StringHandler;
 import ead.engine.core.game.VariableMap;
 import ead.engine.core.platform.AssetHandler;
 import ead.engine.core.platform.FontHandlerImpl;
+import ead.engine.core.platform.GUI;
 import ead.engine.core.platform.RuntimeFont;
 import ead.engine.core.platform.assets.drawables.basics.RuntimeCaption;
 import ead.engine.core.platform.rendering.AndroidCanvas;
@@ -50,9 +51,9 @@ import ead.engine.core.platform.rendering.AndroidCanvas;
 public class AndroidCaption extends RuntimeCaption<AndroidCanvas> {
 
 	@Inject
-	public AndroidCaption(FontHandlerImpl fontCache, VariableMap valueMap,
+	public AndroidCaption(GUI gui, FontHandlerImpl fontCache, VariableMap valueMap,
 			StringHandler stringHandler, AssetHandler handler) {
-		super(fontCache, valueMap, stringHandler, handler );
+		super(gui, fontCache, valueMap, stringHandler, handler );
 	}
 
 	public int getLineHeight() {

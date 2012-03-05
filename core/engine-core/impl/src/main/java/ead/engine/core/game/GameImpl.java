@@ -151,7 +151,7 @@ public class GameImpl implements Game {
 
 	private void updateGameEvents() {
 		Long l = gameState.getValueMap().getValue(SystemFields.GAME_TIME);
-		l += GameLoop.SKIP_MILLIS_TICK;
+		l += gui.getSkippedMilliseconds();
 		gameState.getValueMap().setValue(SystemFields.GAME_TIME, l);
 		
 		for (EventGO<?> e : events) {
@@ -267,7 +267,7 @@ public class GameImpl implements Game {
 
 		// FIXME probably move this to other place
 		gameState.getValueMap().setValue(SystemFields.ELAPSED_TIME_PER_UPDATE,
-				GameLoop.SKIP_MILLIS_TICK);
+				gui.getSkippedMilliseconds());
 	}
 
 	public void updateInitialTransformation() {

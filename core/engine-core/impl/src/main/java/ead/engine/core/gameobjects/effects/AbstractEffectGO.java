@@ -46,7 +46,6 @@ import ead.common.model.elements.scene.EAdSceneElement;
 import ead.common.resources.assets.AssetDescriptor;
 import ead.common.util.EAdPosition;
 import ead.common.util.StringHandler;
-import ead.engine.core.game.GameLoop;
 import ead.engine.core.game.GameState;
 import ead.engine.core.gameobjects.DrawableGameObjectImpl;
 import ead.engine.core.gameobjects.factories.SceneElementGOFactory;
@@ -87,7 +86,7 @@ public abstract class AbstractEffectGO<P extends EAdEffect> extends
 	}
 	
 	public void update(){
-		currentTime += GameLoop.SKIP_MILLIS_TICK;
+		currentTime += gui.getSkippedMilliseconds();
 	}
 
 	public P getEffect() {

@@ -66,7 +66,6 @@ import ead.common.resources.assets.drawable.filters.EAdFilteredDrawable;
 import ead.common.resources.assets.drawable.filters.FilteredDrawable;
 import ead.common.util.EAdPosition;
 import ead.common.util.StringHandler;
-import ead.engine.core.game.GameLoop;
 import ead.engine.core.game.GameState;
 import ead.engine.core.game.ValueMap;
 import ead.engine.core.gameobjects.DrawableGameObjectImpl;
@@ -267,7 +266,7 @@ public abstract class SceneElementGOImpl<T extends EAdSceneElement> extends
 				eventGO.update();
 
 		gameState.getValueMap().setUpdateListEnable(false);
-		timeDisplayed += GameLoop.SKIP_MILLIS_TICK;
+		timeDisplayed += gui.getSkippedMilliseconds();
 		gameState.getValueMap().setValue(element,
 				SceneElement.VAR_TIME_DISPLAYED, timeDisplayed);
 		gameState.getValueMap().setUpdateListEnable(true);

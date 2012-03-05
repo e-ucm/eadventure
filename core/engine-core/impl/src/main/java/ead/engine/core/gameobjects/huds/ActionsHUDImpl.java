@@ -40,6 +40,9 @@ package ead.engine.core.gameobjects.huds;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
@@ -47,11 +50,10 @@ import ead.common.model.elements.EAdAction;
 import ead.common.model.elements.extra.EAdList;
 import ead.common.model.elements.guievents.enums.KeyGEvCode;
 import ead.common.model.elements.variables.SystemFields;
-import ead.common.util.Interpolator;
 import ead.common.util.EAdPosition;
 import ead.common.util.EAdPosition.Corner;
+import ead.common.util.Interpolator;
 import ead.engine.core.evaluators.EvaluatorFactory;
-import ead.engine.core.game.GameLoop;
 import ead.engine.core.game.GameState;
 import ead.engine.core.gameobjects.GameObjectManager;
 import ead.engine.core.gameobjects.factories.SceneElementGOFactory;
@@ -63,8 +65,6 @@ import ead.engine.core.platform.GUI;
 import ead.engine.core.platform.rendering.GenericCanvas;
 import ead.engine.core.util.EAdTransformation;
 import ead.engine.core.util.EAdTransformationImpl;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * <p>
@@ -272,7 +272,7 @@ public class ActionsHUDImpl extends AbstractHUD implements ActionsHUD {
 	public void update() {
 
 		if (currentTime < ANIMATION_TIME) {
-			currentTime += GameLoop.SKIP_MILLIS_TICK;
+			currentTime += gui.getSkippedMilliseconds();
 			alpha = Interpolator.LINEAR.interpolate(currentTime,
 					ANIMATION_TIME, 1.0f);
 		} else {

@@ -41,8 +41,8 @@ import com.google.inject.Inject;
 
 import ead.common.model.elements.events.TimedEv;
 import ead.common.model.elements.events.enums.TimedEvType;
-import ead.engine.core.game.GameLoop;
 import ead.engine.core.game.GameState;
+import ead.engine.core.platform.GUI;
 
 public class TimedEvGO extends
 		AbstractEventGO<TimedEv> {
@@ -50,10 +50,13 @@ public class TimedEvGO extends
 	private int elapsedTime;
 
 	private int repeats;
+	
+	private GUI gui;
 
 	@Inject
-	public TimedEvGO(GameState gameState) {
+	public TimedEvGO(GUI gui, GameState gameState) {
 		super(gameState);
+		this.gui = gui;
 	}
 
 	@Override
@@ -70,7 +73,7 @@ public class TimedEvGO extends
 				this.runEffects(element
 						.getEffectsForEvent(TimedEvType.START_TIME));
 			}
-			elapsedTime += GameLoop.SKIP_MILLIS_TICK;
+			elapsedTime += gui.getSkippedMilliseconds();
 			if (elapsedTime > element.getTime()) {
 				this.runEffects(element
 						.getEffectsForEvent(TimedEvType.END_TIME));

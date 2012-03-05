@@ -42,13 +42,12 @@ import android.graphics.Canvas;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
+import ead.engine.core.game.GameLoop;
 import ead.engine.core.game.GameState;
 import ead.engine.core.game.ValueMap;
 import ead.engine.core.gameobjects.GameObjectManager;
 import ead.engine.core.gameobjects.factories.SceneElementGOFactory;
 import ead.engine.core.input.InputHandler;
-import ead.engine.core.platform.AbstractGUI;
-import ead.engine.core.platform.EngineConfiguration;
 import ead.engine.core.platform.extra.BitmapCanvas;
 import ead.engine.core.platform.extra.EAdventureRenderingThread;
 import ead.engine.core.platform.rendering.AndroidCanvas;
@@ -60,9 +59,9 @@ public class AndroidGUI extends AbstractGUI<Canvas> {
 	public AndroidGUI(EngineConfiguration platformConfiguration,
 			GameObjectManager gameObjectManager, InputHandler inputHandler,
 			ValueMap valueMap, GameState gameState,
-			SceneElementGOFactory gameObjectFactory, AndroidCanvas canvas) {
+			SceneElementGOFactory gameObjectFactory, AndroidCanvas canvas, GameLoop gameLoop) {
 		super(platformConfiguration, gameObjectManager, inputHandler, gameState,
-				gameObjectFactory, canvas);
+				gameObjectFactory, canvas, gameLoop);
 	}
 
 	@Override

@@ -42,7 +42,6 @@ import com.google.inject.Inject;
 import ead.common.model.elements.effects.timedevents.HighlightSceneElementEf;
 import ead.common.model.elements.scenes.SceneElement;
 import ead.common.util.StringHandler;
-import ead.engine.core.game.GameLoop;
 import ead.engine.core.game.GameState;
 import ead.engine.core.gameobjects.factories.SceneElementGOFactory;
 import ead.engine.core.platform.AssetHandler;
@@ -84,7 +83,7 @@ public class HighlightSceneElementGO extends
 						oldScale * 2);
 				started = true;
 			}
-			time -= GameLoop.SKIP_MILLIS_TICK;
+			time -= gui.getSkippedMilliseconds();
 			if (time <= 0) {
 				gameState.getValueMap().setValue(element, SceneElement.VAR_SCALE,
 						oldScale);

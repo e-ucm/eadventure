@@ -51,7 +51,6 @@ import ead.common.resources.assets.drawable.basics.shapes.BallonShape;
 import ead.common.resources.assets.drawable.basics.shapes.BezierShape;
 import ead.common.util.EAdPosition;
 import ead.common.util.StringHandler;
-import ead.engine.core.game.GameLoop;
 import ead.engine.core.game.GameState;
 import ead.engine.core.gameobjects.factories.SceneElementGOFactory;
 import ead.engine.core.gameobjects.go.SceneElementGO;
@@ -214,7 +213,7 @@ public class SpeakGO extends AbstractEffectGO<SpeakEf> {
 		super.update();
 
 		if (finished) {
-			alpha -= 0.003f * GameLoop.SKIP_MILLIS_TICK;
+			alpha -= 0.003f * gui.getSkippedMilliseconds();
 			if (alpha <= 0.0f) {
 				alpha = 0.0f;
 				gone = true;
@@ -224,7 +223,7 @@ public class SpeakGO extends AbstractEffectGO<SpeakEf> {
 				ballon.update();
 				finished = finished || caption.getTimesRead() > 0;
 			} else {
-				alpha += 0.003f * GameLoop.SKIP_MILLIS_TICK;
+				alpha += 0.003f * gui.getSkippedMilliseconds();
 				if (alpha > 1.0f) {
 					alpha = 1.0f;
 				}

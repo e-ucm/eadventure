@@ -101,7 +101,7 @@ public class PhysicsScene2 extends PhysicsScene {
 				MouseGEv.MOUSE_LEFT_CLICK,
 				new PhApplyImpluseEf(b, new MathOp(
 						 "0"), new MathOp(
-						 "-100")));
+						 "-1")));
 		b.setVarInitialValue(PhysicsEffect.VAR_PH_RESTITUTION, 0.3f);
 		b.setVarInitialValue(PhysicsEffect.VAR_PH_SHAPE, PhShape.CIRCULAR);
 

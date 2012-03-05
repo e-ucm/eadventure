@@ -41,7 +41,6 @@ import com.google.inject.Inject;
 
 import ead.common.model.elements.effects.timedevents.WaitEf;
 import ead.common.util.StringHandler;
-import ead.engine.core.game.GameLoop;
 import ead.engine.core.game.GameState;
 import ead.engine.core.gameobjects.factories.SceneElementGOFactory;
 import ead.engine.core.platform.AssetHandler;
@@ -64,7 +63,7 @@ public class WaitGO extends AbstractEffectGO<WaitEf>{
 	}
 	
 	public void update( ){
-		time -= GameLoop.SKIP_MILLIS_TICK;
+		time -= gui.getSkippedMilliseconds();
 	}
 
 	@Override

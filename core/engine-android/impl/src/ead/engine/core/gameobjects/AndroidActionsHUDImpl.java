@@ -40,6 +40,9 @@ package ead.engine.core.gameobjects;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Rect;
@@ -50,12 +53,10 @@ import com.google.inject.Singleton;
 
 import ead.common.model.elements.EAdAction;
 import ead.common.model.elements.extra.EAdList;
-import ead.common.util.Interpolator;
 import ead.common.util.EAdPosition;
 import ead.common.util.EAdPosition.Corner;
-import ead.engine.core.game.GameLoop;
+import ead.common.util.Interpolator;
 import ead.engine.core.game.GameState;
-import ead.engine.core.gameobjects.GameObjectManager;
 import ead.engine.core.gameobjects.factories.SceneElementGOFactory;
 import ead.engine.core.gameobjects.go.SceneElementGO;
 import ead.engine.core.gameobjects.huds.AbstractHUD;
@@ -67,8 +68,6 @@ import ead.engine.core.platform.GUI;
 import ead.engine.core.platform.rendering.GenericCanvas;
 import ead.engine.core.util.EAdTransformation;
 import ead.engine.core.util.EAdTransformationImpl;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 
 @Singleton
@@ -277,14 +276,14 @@ public class AndroidActionsHUDImpl extends AbstractHUD implements ActionsHUD {
 			go.update();
 
 		if (currentTime < ANIMATION_TIME) {
-			currentTime += GameLoop.SKIP_MILLIS_TICK;
+			currentTime += gui.getSkippedMilliseconds();
 			alpha = Interpolator.LINEAR.interpolate(currentTime,
 					ANIMATION_TIME, 1.0f);
 		} else {
 			alpha = 1.0f;
 		}
 
-		if (swapTime < SWAP_TIME) swapTime += GameLoop.SKIP_MILLIS_TICK;
+		if (swapTime < SWAP_TIME) swapTime += gui.getSkippedMilliseconds();
 
 		currentTime = currentTime > ANIMATION_TIME ? ANIMATION_TIME : currentTime;
 		swapTime = swapTime > SWAP_TIME ? SWAP_TIME : swapTime;

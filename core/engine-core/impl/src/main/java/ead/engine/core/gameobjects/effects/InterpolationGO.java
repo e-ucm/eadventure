@@ -37,21 +37,20 @@
 
 package ead.engine.core.gameobjects.effects;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.google.inject.Inject;
 
 import ead.common.model.EAdElement;
 import ead.common.model.elements.effects.InterpolationEf;
 import ead.common.util.Interpolator;
 import ead.common.util.StringHandler;
-import ead.engine.core.game.GameLoop;
 import ead.engine.core.game.GameState;
 import ead.engine.core.gameobjects.factories.SceneElementGOFactory;
 import ead.engine.core.operator.OperatorFactory;
 import ead.engine.core.platform.AssetHandler;
 import ead.engine.core.platform.GUI;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class InterpolationGO extends AbstractEffectGO<InterpolationEf> {
 
@@ -144,7 +143,7 @@ public class InterpolationGO extends AbstractEffectGO<InterpolationEf> {
 	@Override
 	public void update() {
 		if (delay <= 0) {
-			currentTime += GameLoop.SKIP_MILLIS_TICK;
+			currentTime += gui.getSkippedMilliseconds();
 			if (currentTime > element.getInterpolationTime()) {
 				loops++;
 				switch (element.getLoopType()) {
@@ -180,7 +179,7 @@ public class InterpolationGO extends AbstractEffectGO<InterpolationEf> {
 							element.getVarDef(), interpolation().floatValue());
 			}
 		} else {
-			delay -= GameLoop.SKIP_MILLIS_TICK;
+			delay -= gui.getSkippedMilliseconds();
 			if (delay < 0) {
 				currentTime -= delay;
 			}

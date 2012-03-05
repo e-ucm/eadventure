@@ -42,8 +42,8 @@ import com.google.inject.Inject;
 import ead.common.model.elements.events.SceneElementEv;
 import ead.common.model.elements.events.enums.SceneElementEvType;
 import ead.common.model.elements.variables.SystemFields;
-import ead.engine.core.game.GameLoop;
 import ead.engine.core.game.GameState;
+import ead.engine.core.platform.GUI;
 
 public class SceneElementEvGO extends AbstractEventGO<SceneElementEv> {
 
@@ -53,9 +53,12 @@ public class SceneElementEvGO extends AbstractEventGO<SceneElementEv> {
 	
 	private Long timeLastUpdate;
 	
+	private GUI gui;
+	
 	@Inject
-	public SceneElementEvGO(GameState gameState) {
+	public SceneElementEvGO(GUI gui, GameState gameState) {
 		super(gameState);
+		this.gui = gui;
 	}
 
 
@@ -68,7 +71,7 @@ public class SceneElementEvGO extends AbstractEventGO<SceneElementEv> {
 	@Override
 	public void update() {
 		Long currentTime = gameState.getValueMap().getValue(SystemFields.GAME_TIME);
-		if ( timeLastUpdate == -1 || currentTime - timeLastUpdate > GameLoop.SKIP_MILLIS_TICK * 2 ){
+		if ( timeLastUpdate == -1 || currentTime - timeLastUpdate > gui.getSkippedMilliseconds() * 2 ){
 			runEffects(element.getEffectsForEvent(SceneElementEvType.ADDED_TO_SCENE));
 		}
 		timeLastUpdate = currentTime;

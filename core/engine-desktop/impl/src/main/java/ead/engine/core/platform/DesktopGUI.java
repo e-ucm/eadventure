@@ -94,8 +94,6 @@ public class DesktopGUI extends AbstractGUI<Graphics2D> implements GUI {
 	 */
 	private Canvas canvas;
 
-	private GameLoop gameLoop;
-
 	/**
 	 * AWT Robot, used to move the mouse in the screen
 	 */
@@ -114,8 +112,7 @@ public class DesktopGUI extends AbstractGUI<Graphics2D> implements GUI {
 			GameState gameState, SceneElementGOFactory gameObjectFactory,
 			DesktopCanvas canvas, GameLoop gameLoop) {
 		super(conf, gameObjectManager, inputHandler, gameState,
-				gameObjectFactory, canvas);
-		this.gameLoop = gameLoop;
+				gameObjectFactory, canvas, gameLoop);
 		// try {
 		// this.robot = new Robot();
 		// } catch (AWTException e) {

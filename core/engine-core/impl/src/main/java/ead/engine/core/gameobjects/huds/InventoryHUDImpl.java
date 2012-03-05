@@ -57,7 +57,6 @@ import ead.common.resources.assets.drawable.basics.shapes.RectangleShape;
 import ead.common.util.EAdPosition;
 import ead.common.util.EAdPosition.Corner;
 import ead.common.util.StringHandler;
-import ead.engine.core.game.GameLoop;
 import ead.engine.core.game.GameState;
 import ead.engine.core.game.ValueMap;
 import ead.engine.core.gameobjects.factories.SceneElementGOFactory;
@@ -119,7 +118,7 @@ public class InventoryHUDImpl extends AbstractHUD implements InventoryHUD {
 		valueMap = gameState.getValueMap();
 		this.sceneElementFactory = factory;
 		this.inputHandler = inputHandler;
-		disp = (float) GameLoop.SKIP_MILLIS_TICK / (float) TIME_TO_SHOW;
+		disp = (float) gui.getSkippedMilliseconds() / (float) TIME_TO_SHOW;
 		this.inventoryHandler = inventoryHandler;
 		initInventory();
 		updateItems();
@@ -200,7 +199,7 @@ public class InventoryHUDImpl extends AbstractHUD implements InventoryHUD {
 				}
 			}
 		} else {
-			delay -= GameLoop.SKIP_MILLIS_TICK;
+			delay -= gui.getSkippedMilliseconds();
 		}
 	}
 

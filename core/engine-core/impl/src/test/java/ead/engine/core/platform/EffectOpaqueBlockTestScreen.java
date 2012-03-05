@@ -42,13 +42,12 @@ import com.google.inject.Inject;
 import ead.common.model.elements.effects.timedevents.WaitEf;
 import ead.common.model.elements.guievents.MouseGEv;
 import ead.common.model.elements.scene.EAdScene;
-import ead.common.model.elements.scenes.SceneElementDef;
-import ead.common.model.elements.scenes.SceneElement;
 import ead.common.model.elements.scenes.BasicScene;
+import ead.common.model.elements.scenes.SceneElement;
+import ead.common.model.elements.scenes.SceneElementDef;
 import ead.common.resources.assets.drawable.basics.Image;
 import ead.common.util.EAdPosition;
 import ead.common.util.StringHandler;
-import ead.engine.core.game.GameLoop;
 
 public class EffectOpaqueBlockTestScreen extends BasicScene implements
 		EAdScene {
@@ -101,18 +100,18 @@ public class EffectOpaqueBlockTestScreen extends BasicScene implements
 						new Image("@drawable/start.png"));
 
 		WaitEf waitEffect = new WaitEf(
-				GameLoop.SKIP_MILLIS_TICK + 1);
+				60 + 1);
 		buttonActor2
 				.addBehavior(MouseGEv.MOUSE_LEFT_CLICK, waitEffect);
 
 		WaitEf waitEffect2 = new WaitEf(
-				GameLoop.SKIP_MILLIS_TICK + 1);
+				60 + 1);
 		waitEffect2.setOpaque(false);
 		buttonActor2.addBehavior(MouseGEv.MOUSE_LEFT_CLICK,
 				waitEffect2);
 
 		WaitEf waitEffect3 = new WaitEf(
-				GameLoop.SKIP_MILLIS_TICK + 1);
+				60 + 1);
 		waitEffect3.setOpaque(false);
 		waitEffect3.setBlocking(false);
 		buttonActor2.addBehavior(MouseGEv.MOUSE_LEFT_CLICK,
