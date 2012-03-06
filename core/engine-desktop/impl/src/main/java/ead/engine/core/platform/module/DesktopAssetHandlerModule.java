@@ -62,6 +62,8 @@ import ead.common.resources.assets.drawable.filters.FilteredDrawable;
 import ead.common.resources.assets.multimedia.EAdSound;
 import ead.common.resources.assets.multimedia.EAdVideo;
 import ead.common.resources.assets.multimedia.Sound;
+import ead.common.resources.assets.text.BasicFont;
+import ead.common.resources.assets.text.EAdFont;
 import ead.common.strings.DefaultStringFileHandler;
 import ead.common.util.StringHandler;
 import ead.engine.core.platform.AssetHandler;
@@ -69,6 +71,7 @@ import ead.engine.core.platform.DesktopAssetHandler;
 import ead.engine.core.platform.RuntimeAsset;
 import ead.engine.core.platform.SpecialAssetRenderer;
 import ead.engine.core.platform.StringHandlerImpl;
+import ead.engine.core.platform.assets.DesktopFont;
 import ead.engine.core.platform.assets.drawables.basics.DesktopBezierShape;
 import ead.engine.core.platform.assets.drawables.basics.DesktopImage;
 import ead.engine.core.platform.assets.drawables.basics.RuntimeCaption;
@@ -113,6 +116,8 @@ public class DesktopAssetHandlerModule extends AbstractModule {
 		map.put(Sound.class, DesktopSound.class);
 		map.put(EAdFilteredDrawable.class, RuntimeFilteredDrawable.class);
 		map.put(FilteredDrawable.class, RuntimeFilteredDrawable.class);
+		map.put(BasicFont.class, DesktopFont.class);
+		map.put(EAdFont.class, DesktopFont.class);
 
 		return (Map<Class<? extends AssetDescriptor>, Class<? extends RuntimeAsset<? extends AssetDescriptor>>>)map;
 	}

@@ -40,10 +40,8 @@ package ead.engine.core.game;
 import com.google.inject.Inject;
 import com.google.inject.name.Named;
 
-import ead.engine.core.game.Game;
-import ead.engine.core.game.GameController;
-import ead.engine.core.game.GameLoop;
-import ead.engine.core.game.ValueMap;
+import ead.common.util.EAdURI;
+import ead.engine.core.platform.AssetHandler;
 import ead.engine.core.platform.GUI;
 
 public class GameControllerImpl implements GameController {
@@ -67,14 +65,18 @@ public class GameControllerImpl implements GameController {
 	 * Indicates that the game loop is executed in a different thread
 	 */
 	private boolean threaded;
+	
+	
+	private AssetHandler assetHandler;
 
 	@Inject
 	public GameControllerImpl(Game game, GameLoop gameLoop, GUI gui,
-			@Named("threaded") Boolean threaded, ValueMap valueMap) {
+			@Named("threaded") Boolean threaded, ValueMap valueMap, AssetHandler assetHandler) {
 		this.game = game;
 		this.gameLoop = gameLoop;
 		this.gui = gui;
 		this.threaded = threaded;
+		this.assetHandler = assetHandler;
 	}
 
 	/*
@@ -83,7 +85,8 @@ public class GameControllerImpl implements GameController {
 	 * @see es.eucm.eadventure.engine.core.GameController#start()
 	 */
 	@Override
-	public void start() {
+	public void start(EAdURI uri) {
+		assetHandler.setResourcesLocation(uri);
 		gui.initialize();
 		gameLoop.setGame(game);
 		game.loadGame();

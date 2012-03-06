@@ -37,15 +37,20 @@
 
 package ead.engine.core.platform;
 
-import ead.common.params.BasicFont;
-import ead.common.params.text.EAdFont;
-import ead.common.util.EAdRectangle;
 import java.util.HashMap;
 import java.util.Map;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public abstract class FontHandlerImpl implements FontHandler {
+import com.google.inject.Singleton;
+
+import ead.common.resources.assets.text.BasicFont;
+import ead.common.resources.assets.text.EAdFont;
+import ead.common.util.EAdRectangle;
+
+@Singleton
+public class FontHandlerImpl implements FontHandler {
 
 	protected Logger logger = LoggerFactory.getLogger("FontCacheImpl");
 
@@ -53,39 +58,39 @@ public abstract class FontHandlerImpl implements FontHandler {
 
 	protected AssetHandler assetHandler;
 
-	public FontHandlerImpl( ) {
+	public FontHandlerImpl() {
 		logger.info("New instance of FontHandler");
 		fontCache = new HashMap<EAdFont, RuntimeFont>();
 	}
 
-    @Override
-	public void setAssetHandler( AssetHandler assetHandler ){
+	@Override
+	public void setAssetHandler(AssetHandler assetHandler) {
 		this.assetHandler = assetHandler;
 	}
 
 	/**
 	 * Puts a runtime font in the cache
-	 *
+	 * 
 	 * @param font
 	 *            {@link BasicFont}
 	 * @param rFont
 	 *            {@link RuntimeFont} associated to the given {@link BasicFont}
 	 */
-    @Override
+	@Override
 	public void put(EAdFont font, RuntimeFont rFont) {
 		fontCache.put(font, rFont);
 	}
 
 	/**
 	 * Returns {@link RuntimeFont} associated to the given {@link BasicFont}
-	 *
+	 * 
 	 * @param font
 	 *            the {@link BasicFont}
 	 * @return {@link RuntimeFont} associated to the given {@link BasicFont}
 	 */
-    @Override
+	@Override
 	public RuntimeFont get(EAdFont font) {
-		if ( !fontCache.containsKey(font) ){
+		if (!fontCache.containsKey(font)) {
 			this.addEAdFont(font);
 		}
 		return fontCache.get(font);
@@ -94,7 +99,7 @@ public abstract class FontHandlerImpl implements FontHandler {
 	/**
 	 * Returns the string width with the given font in the current context, -1
 	 * if font is not present in the cache
-	 *
+	 * 
 	 * @param string
 	 *            String to be measured
 	 * @param font
@@ -102,7 +107,7 @@ public abstract class FontHandlerImpl implements FontHandler {
 	 * @return the string width with the given font in the current context, -1
 	 *         if font is not present in the cache
 	 */
-    @Override
+	@Override
 	public int stringWidth(String string, EAdFont font) {
 		if (fontCache.containsKey(font))
 			return fontCache.get(font).stringWidth(string);
@@ -113,13 +118,13 @@ public abstract class FontHandlerImpl implements FontHandler {
 	/**
 	 * Returns one line's height with the given font, -1 if font is not present
 	 * in the cache
-	 *
+	 * 
 	 * @param font
 	 *            Font used in string measurement
 	 * @return one line's height with the given font, -1 if font is not present
 	 *         in the cache
 	 */
-    @Override
+	@Override
 	public int lineHeight(EAdFont font) {
 		if (fontCache.containsKey(font))
 			return fontCache.get(font).lineHeight();
@@ -128,15 +133,15 @@ public abstract class FontHandlerImpl implements FontHandler {
 	}
 
 	/**
-	 * Returns the string bounds with the given {@link BasicFont}, <b>null</b> if
-	 * font is not present in the cache
-	 *
+	 * Returns the string bounds with the given {@link BasicFont}, <b>null</b>
+	 * if font is not present in the cache
+	 * 
 	 * @param string
 	 *            string to be measured
 	 * @return the string bounds, <b>null</b> if font is not present in the
 	 *         cache
 	 */
-    @Override
+	@Override
 	public EAdRectangle stringBounds(String string, EAdFont font) {
 		if (fontCache.containsKey(font))
 			return fontCache.get(font).stringBounds(string);
@@ -151,7 +156,13 @@ public abstract class FontHandlerImpl implements FontHandler {
 	 * @param font
 	 *            given {@link BasicFont}
 	 */
-    @Override
-	public abstract void addEAdFont(EAdFont font);
+	@Override
+	public void addEAdFont(EAdFont font) {
+		RuntimeFont runtimeFont = (RuntimeFont) assetHandler
+				.getRuntimeAsset(font);
+		if (!fontCache.containsKey(font)) {
+			fontCache.put(font, runtimeFont);
+		}
+	}
 
 }

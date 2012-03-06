@@ -42,7 +42,6 @@ import ead.common.model.elements.scenes.ComplexSceneElement;
 import ead.common.model.elements.scenes.SceneElementDef;
 import ead.common.model.elements.scenes.SceneElement;
 import ead.common.model.predef.effects.ChangeAppearanceEf;
-import ead.common.params.BasicFont;
 import ead.common.params.fills.ColorFill;
 import ead.common.params.fills.LinearGradientFill;
 import ead.common.params.fills.PaintFill;
@@ -50,6 +49,7 @@ import ead.common.params.text.EAdString;
 import ead.common.resources.EAdBundleId;
 import ead.common.resources.assets.drawable.basics.Caption;
 import ead.common.resources.assets.drawable.basics.shapes.RectangleShape;
+import ead.common.resources.assets.text.BasicFont;
 import ead.common.util.EAdPosition.Corner;
 
 public class Button extends ComplexSceneElement {

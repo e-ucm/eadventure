@@ -108,7 +108,7 @@ public class InterpolationGO extends AbstractEffectGO<InterpolationEf> {
 		endValue += offset;
 		interpolationLength = endValue - startValue;
 		finished = false;
-		logger.info("{}.{} is going to be inerpolated from {} to {}",
+		logger.info("{}.{} is going to be interpolated from {} to {}",
 				new Object[] { element.getElement(), element.getVarDef(),
 						startValue, endValue });
 		delay = element.getDelay();

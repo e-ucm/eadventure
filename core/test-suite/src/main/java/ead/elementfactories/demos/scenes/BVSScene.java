@@ -50,7 +50,6 @@ import ead.common.model.elements.scenes.SceneElement;
 import ead.common.model.elements.variables.EAdField;
 import ead.common.model.elements.variables.BasicField;
 import ead.common.model.elements.variables.operations.ValueOp;
-import ead.common.params.BasicFont;
 import ead.common.params.fills.ColorFill;
 import ead.common.params.fills.PaintFill;
 import ead.common.params.text.EAdString;
@@ -58,6 +57,7 @@ import ead.common.resources.assets.drawable.basics.Caption;
 import ead.common.resources.assets.drawable.basics.Image;
 import ead.common.resources.assets.drawable.basics.animation.Frame;
 import ead.common.resources.assets.drawable.basics.animation.FramesAnimation;
+import ead.common.resources.assets.text.BasicFont;
 import ead.common.util.EAdPosition;
 import ead.common.util.EAdPosition.Corner;
 

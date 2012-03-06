@@ -39,6 +39,9 @@ package ead.engine.core.platform;
 
 import java.util.Map;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import playn.core.Canvas;
 
 import com.google.inject.Inject;
@@ -48,20 +51,15 @@ import ead.common.resources.assets.AssetDescriptor;
 import ead.common.util.StringHandler;
 import ead.engine.core.EAdEngine;
 import ead.engine.core.game.VariableMap;
-import ead.engine.core.platform.AbstractAssetHandler;
-import ead.engine.core.platform.FontHandler;
-import ead.engine.core.platform.RuntimeAsset;
-import ead.engine.core.platform.assets.PlayNBezierShape;
-import ead.engine.core.platform.assets.PlayNEngineCaption;
-import ead.engine.core.platform.assets.PlayNEngineImage;
-import ead.engine.core.platform.assets.PlayNEngineSpriteImage;
-import ead.engine.core.platform.assets.PlayNSound;
+import ead.engine.core.platform.assets.PlayNFont;
+import ead.engine.core.platform.assets.drawable.basics.PlayNBezierShape;
+import ead.engine.core.platform.assets.drawable.basics.PlayNImage;
+import ead.engine.core.platform.assets.drawables.basics.RuntimeCaption;
 import ead.engine.core.platform.assets.drawables.compunds.RuntimeComposedDrawable;
 import ead.engine.core.platform.assets.drawables.compunds.RuntimeDisplacedDrawable;
 import ead.engine.core.platform.assets.drawables.compunds.RuntimeFilteredDrawable;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import ead.engine.core.platform.assets.drawables.compunds.RuntimeSpriteImage;
+import ead.engine.core.platform.assets.multimedia.PlayNSound;
 
 @Singleton
 public class PlayNAssetHandler extends AbstractAssetHandler {
@@ -76,15 +74,18 @@ public class PlayNAssetHandler extends AbstractAssetHandler {
 
 	private StringHandler stringHandler;
 
+	private GUI gui;
+
 	@Inject
 	public PlayNAssetHandler(
 			Map<Class<? extends AssetDescriptor>, Class<? extends RuntimeAsset<? extends AssetDescriptor>>> classMap,
 			FontHandler fontCache, VariableMap valueMap,
-			StringHandler stringHandler) {
+			StringHandler stringHandler, GUI gui) {
 		super(classMap, fontCache);
 		this.fontHandler = fontCache;
 		this.valueMap = valueMap;
 		this.stringHandler = stringHandler;
+		this.gui = gui;
 	}
 
 	public void setEngine(EAdEngine engine) {
@@ -109,32 +110,35 @@ public class PlayNAssetHandler extends AbstractAssetHandler {
 	@Override
 	public RuntimeAsset<?> getInstance(Class<? extends RuntimeAsset<?>> clazz) {
 
-		// FIXME: it is ugly to discard all these generics; find another way to get clean builds
+		// FIXME: it is ugly to discard all these generics; find another way to
+		// get clean builds
 		@SuppressWarnings("rawtypes")
 		RuntimeAsset r = null;
-		if (clazz == PlayNEngineImage.class)
-			r = new PlayNEngineImage(this);
+		if (clazz == PlayNImage.class)
+			r = new PlayNImage(this);
 		else if (clazz == PlayNBezierShape.class)
 			r = new PlayNBezierShape(engine);
-		else if (clazz == PlayNEngineCaption.class)
-			r = new PlayNEngineCaption(fontHandler, valueMap, stringHandler, this);
-		else if (clazz == PlayNEngineSpriteImage.class)
-			r = new PlayNEngineSpriteImage(this);
-		else if (clazz == PlayNEngineSpriteImage.class)
-			r = new PlayNEngineSpriteImage(this);
+		else if (clazz == (Object) RuntimeCaption.class)
+			r = new RuntimeCaption<Canvas>(gui, fontHandler, valueMap,
+					stringHandler, this);
+		else if (clazz == (Object) RuntimeSpriteImage.class)
+			r = new RuntimeSpriteImage<Canvas>(this);
 		else if (clazz == PlayNSound.class)
 			r = new PlayNSound(this);
-		else if ( clazz == (Object)RuntimeComposedDrawable.class )
-			r = new RuntimeComposedDrawable<Canvas>( this );
-		else if ( clazz == (Object)RuntimeDisplacedDrawable.class )
-			r = new RuntimeDisplacedDrawable<Canvas>( this );
-		else if ( clazz == (Object)RuntimeFilteredDrawable.class )
-			r = new RuntimeFilteredDrawable<Canvas>( this );
+		else if (clazz == (Object) RuntimeComposedDrawable.class)
+			r = new RuntimeComposedDrawable<Canvas>(this);
+		else if (clazz == (Object) RuntimeDisplacedDrawable.class)
+			r = new RuntimeDisplacedDrawable<Canvas>(this);
+		else if (clazz == (Object) RuntimeFilteredDrawable.class)
+			r = new RuntimeFilteredDrawable<Canvas>(this);
+		else if ( clazz == (Object)PlayNFont.class){
+			r = new PlayNFont( this );
+		}
 		else {
 			logger.error("No instance for runtime asset: {}", clazz);
 		}
 
-		return (RuntimeAsset<?>)r;
+		return (RuntimeAsset<?>) r;
 	}
 
 }

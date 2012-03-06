@@ -39,7 +39,6 @@ package ead.engine.core.gameobjects.transitions;
 
 import com.google.inject.Inject;
 
-import ead.common.model.elements.scenes.SceneElement;
 import ead.common.model.elements.transitions.FadeInTransition;
 import ead.common.util.Interpolator;
 import ead.common.util.StringHandler;
@@ -61,6 +60,8 @@ public class FadeInTransitionGO extends AbstractTransitionGO<FadeInTransition>{
 	private float sceneAlpha;
 	
 	private EAdTransformation transformation;
+	
+	private int currentTime;
 
 	@Inject
 	public FadeInTransitionGO(AssetHandler assetHandler,
@@ -72,14 +73,14 @@ public class FadeInTransitionGO extends AbstractTransitionGO<FadeInTransition>{
 				eventFactory, sceneLoader);
 		finished = false;
 		transformation = new EAdTransformationImpl();
+		currentTime = 0;
 	}
 	
 	public void update() {
 		super.update();
 		if (isLoadedNextScene()) {
 
-			int currentTime = gameState.getValueMap().getValue(getElement(),
-					SceneElement.VAR_TIME_DISPLAYED);
+			currentTime += gui.getSkippedMilliseconds();
 			if (startTime == -1) {
 				startTime = currentTime;
 				sceneAlpha = 0.0f;

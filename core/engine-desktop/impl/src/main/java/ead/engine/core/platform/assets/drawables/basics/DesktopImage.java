@@ -37,16 +37,19 @@
 
 package ead.engine.core.platform.assets.drawables.basics;
 
-import com.google.inject.Inject;
-import ead.engine.core.platform.AssetHandler;
-import ead.engine.core.platform.DesktopAssetHandler;
-import ead.engine.core.platform.assets.drawables.basics.RuntimeImage;
-import ead.engine.core.platform.rendering.GenericCanvas;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
+
 import javax.imageio.ImageIO;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import com.google.inject.Inject;
+
+import ead.engine.core.platform.AssetHandler;
+import ead.engine.core.platform.DesktopAssetHandler;
+import ead.engine.core.platform.rendering.GenericCanvas;
 
 public class DesktopImage extends RuntimeImage<Graphics2D> {
 

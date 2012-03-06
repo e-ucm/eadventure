@@ -46,17 +46,18 @@ import ead.common.model.elements.effects.ChangeSceneEf;
 import ead.common.model.elements.effects.text.SpeakEf;
 import ead.common.model.elements.guievents.MouseGEv;
 import ead.common.model.elements.scene.EAdSceneElementDef;
-import ead.common.model.elements.scenes.SceneElementDef;
 import ead.common.model.elements.scenes.SceneElement;
+import ead.common.model.elements.scenes.SceneElementDef;
 import ead.common.model.elements.transitions.DisplaceTransition;
+import ead.common.model.elements.transitions.FadeInTransition;
 import ead.common.model.elements.transitions.enums.DisplaceTransitionType;
 import ead.common.model.predef.sceneelements.Button;
-import ead.common.params.BasicFont;
 import ead.common.params.fills.ColorFill;
 import ead.common.params.fills.PaintFill;
 import ead.common.params.paint.EAdFill;
-import ead.common.params.text.EAdFont;
 import ead.common.resources.assets.drawable.basics.Image;
+import ead.common.resources.assets.text.BasicFont;
+import ead.common.resources.assets.text.EAdFont;
 import ead.common.util.EAdPosition.Corner;
 import ead.elementfactories.EAdElementsFactory;
 import ead.elementfactories.StringFactory;
@@ -125,8 +126,7 @@ public class InitScene extends EmptyScene {
 		goBack.setId("goBack");
 		goBack.setPosition(Corner.BOTTOM_LEFT, 10, 590);
 		goBack.addBehavior(MouseGEv.MOUSE_LEFT_PRESSED, new ChangeSceneEf(this,
-				new DisplaceTransition(1000, DisplaceTransitionType.HORIZONTAL,
-						true)));
+				new FadeInTransition(1000)));
 		goBack.setInitialScale(0.5f);
 
 	}

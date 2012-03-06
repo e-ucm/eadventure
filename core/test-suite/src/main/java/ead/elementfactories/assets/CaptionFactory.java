@@ -37,13 +37,13 @@
 
 package ead.elementfactories.assets;
 
-import ead.common.params.BasicFont;
 import ead.common.params.fills.ColorFill;
 import ead.common.params.fills.LinearGradientFill;
 import ead.common.params.fills.PaintFill;
 import ead.common.params.paint.EAdFill;
-import ead.common.params.text.EAdFont;
 import ead.common.resources.assets.drawable.basics.Caption;
+import ead.common.resources.assets.text.BasicFont;
+import ead.common.resources.assets.text.EAdFont;
 import ead.common.util.EAdURI;
 import ead.elementfactories.EAdElementsFactory;
 

@@ -37,8 +37,8 @@
 
 package ead.engine.core.platform;
 
-import ead.common.params.BasicFont;
-import ead.common.params.text.EAdFont;
+import ead.common.resources.assets.text.BasicFont;
+import ead.common.resources.assets.text.EAdFont;
 import ead.common.util.EAdRectangle;
 import ead.engine.core.platform.FontHandlerImpl;
 import ead.engine.core.platform.RuntimeFont;

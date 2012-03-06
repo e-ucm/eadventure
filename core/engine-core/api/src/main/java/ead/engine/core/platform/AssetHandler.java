@@ -37,12 +37,14 @@
 
 package ead.engine.core.platform;
 
+import java.util.List;
+
 import ead.common.interfaces.features.Resourced;
 import ead.common.resources.EAdBundleId;
 import ead.common.resources.assets.AssetDescriptor;
 import ead.common.resources.assets.drawable.EAdDrawable;
+import ead.common.util.EAdURI;
 import ead.engine.core.platform.rendering.GenericCanvas;
-import java.util.List;
 
 /**
  * <p>
@@ -69,7 +71,7 @@ public interface AssetHandler {
 	/**
 	 * Returns the runtime asset asset represented by the given id in the
 	 * element for the selected bundle
-	 *
+	 * 
 	 * @param element
 	 *            The element with the asset
 	 * @param bundleId
@@ -85,7 +87,7 @@ public interface AssetHandler {
 	/**
 	 * Returns the runtime asset asset represented by the given id in the
 	 * element, with no asset bundle
-	 *
+	 * 
 	 * @param element
 	 *            The element with the asset
 	 * @param id
@@ -97,7 +99,7 @@ public interface AssetHandler {
 
 	/**
 	 * Returns the runtime asset for a given asset descriptor
-	 *
+	 * 
 	 * @param <T>
 	 *            The type of the asset descriptor
 	 * @param descriptor
@@ -112,7 +114,7 @@ public interface AssetHandler {
 	 * Returns the runtime asset for a given asset descriptor. It loads it if
 	 * parameter load is true. Otherwise, asset must be loaded through
 	 * {@link RuntimeAsset#loadAsset()}
-	 *
+	 * 
 	 * @param descriptor
 	 *            the asset descriptor
 	 * @param load
@@ -127,14 +129,14 @@ public interface AssetHandler {
 
 	/**
 	 * Returns true if the adventure assets have been correctly loaded
-	 *
+	 * 
 	 * @return true if assets loaded
 	 */
 	boolean isLoaded();
 
 	/**
 	 * Returns the absolute path of an uri in a given system
-	 *
+	 * 
 	 * @param uri
 	 *            the uri
 	 * @return the absolute path
@@ -144,10 +146,18 @@ public interface AssetHandler {
 	/**
 	 * Frees and removes all the assets contained in the cache, except for the
 	 * ones in the exceptions list
-	 *
+	 * 
 	 * @param exceptions
 	 *            list with assets not to be deleted
 	 */
 	void clean(List<AssetDescriptor> exceptions);
+
+	/**
+	 * Sets the resources location
+	 * 
+	 * @param uri
+	 *            uri point to the resources locatin root
+	 */
+	void setResourcesLocation(EAdURI uri);
 
 }

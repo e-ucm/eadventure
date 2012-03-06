@@ -40,13 +40,15 @@ package ead.engine;
 import android.app.ListActivity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import ead.elementfactories.demos.TechDemoAdventure;
-import ead.engine.R;
 
 public class DemoSelectionActivity extends ListActivity {
 	
@@ -69,5 +71,29 @@ public class DemoSelectionActivity extends ListActivity {
 			  });
 		
 	}
+
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		MenuInflater inflater = getMenuInflater();
+		inflater.inflate(R.menu.main_menu, menu);
+		return true;
+	}
+	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch ( item.getItemId()){
+		case R.id.open_ead:
+			Intent i = new Intent();
+			i.setAction(Intent.ACTION_CHOOSER);
+			i.setType(".ead");
+			startActivityForResult( i, 0 );
+			return true;
+		}
+		return false;
+	}
+	
+	
+
+	
 
 }

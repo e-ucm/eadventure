@@ -44,19 +44,19 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 import ead.common.model.EAdElement;
-import ead.common.model.elements.guievents.enums.KeyGEvCode;
 import ead.common.model.elements.guievents.enums.KeyEventType;
-import ead.common.model.elements.scenes.SceneElementDef;
+import ead.common.model.elements.guievents.enums.KeyGEvCode;
 import ead.common.model.elements.scenes.SceneElement;
+import ead.common.model.elements.scenes.SceneElementDef;
 import ead.common.model.elements.variables.SystemFields;
 import ead.common.model.predef.events.ChaseMouseEv;
 import ead.common.model.predef.events.StayInBoundsEv;
-import ead.common.params.BasicFont;
 import ead.common.params.fills.ColorFill;
 import ead.common.params.text.EAdString;
 import ead.common.resources.assets.drawable.EAdDrawable;
 import ead.common.resources.assets.drawable.basics.Caption;
 import ead.common.resources.assets.drawable.basics.Image;
+import ead.common.resources.assets.text.BasicFont;
 import ead.common.util.EAdPosition;
 import ead.common.util.StringHandler;
 import ead.engine.core.game.GameState;
@@ -64,14 +64,12 @@ import ead.engine.core.game.ValueMap;
 import ead.engine.core.gameobjects.GameObjectManager;
 import ead.engine.core.gameobjects.factories.SceneElementGOFactory;
 import ead.engine.core.gameobjects.go.DrawableGO;
-import ead.engine.core.gameobjects.go.SceneElementGO;
 import ead.engine.core.input.InputAction;
 import ead.engine.core.input.InputHandler;
 import ead.engine.core.input.actions.KeyInputAction;
 import ead.engine.core.platform.AssetHandler;
 import ead.engine.core.platform.DrawableAsset;
 import ead.engine.core.platform.GUI;
-import ead.engine.core.platform.rendering.GenericCanvas;
 import ead.engine.core.util.EAdTransformation;
 import ead.engine.core.util.EAdTransformationImpl;
 
@@ -102,21 +100,25 @@ public class TopBasicHUDImpl extends AbstractHUD implements TopBasicHUD {
 
 	protected InputHandler inputHandler;
 
-	private SceneElement contextual;
-
-	private Caption c = new Caption();
-
 	private StringHandler stringHandler;
-
-	private SceneElement mouse;
-
-	private EAdDrawable cursor;
 
 	private AssetHandler assetHandler;
 
 	private GameObjectManager gameObjectManager;
 
 	private DrawableGO<?> currentGO;
+
+	// Contextual
+	private SceneElement contextual;
+
+	private Caption contextualCaption;
+
+	// Mouse
+	private SceneElement mouse;
+
+	private DrawableGO<?> mouseGO;
+
+	private EAdDrawable cursor;
 
 	@Inject
 	public TopBasicHUDImpl(MenuHUD menuHUD,
@@ -131,6 +133,8 @@ public class TopBasicHUDImpl extends AbstractHUD implements TopBasicHUD {
 		this.inputHandler = inputHandler;
 		this.stringHandler = stringHandler;
 		this.assetHandler = assetHandler;
+		initContextual();
+		initMouse();
 	}
 
 	public void setGameObjectManager(GameObjectManager gameObjectManager) {
@@ -149,26 +153,19 @@ public class TopBasicHUDImpl extends AbstractHUD implements TopBasicHUD {
 				return true;
 			}
 		}
-
 		return false;
+	}
+
+	public void doLayout(EAdTransformation t) {
+		super.doLayout(t);
+		gui.addElement(mouseGO, t);
 	}
 
 	@Override
 	public void update() {
-		if (contextual != null)
-			updateContextual();
-		if (mouse != null)
-			updateMouse();
+		updateContextual();
+		updateMouse();
 		super.update();
-	}
-
-	public void doLayout(EAdTransformation t) {
-		if (contextual == null)
-			initContextual();
-		if (mouse == null)
-			initMouse();
-
-		super.doLayout(t);
 	}
 
 	@Override
@@ -177,30 +174,25 @@ public class TopBasicHUDImpl extends AbstractHUD implements TopBasicHUD {
 	}
 
 	@Override
-	public void render(GenericCanvas<?> c) {
-
-	}
-
-	@Override
 	public boolean contains(int x, int y) {
 		return false;
 	}
 
 	// Contextual
-
 	private void initContextual() {
-		c = new Caption();
-		c.setFont(new BasicFont(12.0f));
-		c.setBubblePaint(new ColorFill(255, 255, 125));
-		c.setPadding(10);
-		c.setTextPaint(ColorFill.BLACK);
-		stringHandler.setString(c.getText(), "");
-		contextual = new SceneElement(c);
+		contextualCaption = new Caption();
+		contextualCaption.setFont(new BasicFont(12.0f));
+		contextualCaption.setBubblePaint(new ColorFill(255, 255, 125));
+		contextualCaption.setPadding(10);
+		contextualCaption.setTextPaint(ColorFill.BLACK);
+		stringHandler.setString(contextualCaption.getText(), "");
+		contextual = new SceneElement(contextualCaption);
 		contextual.setPosition(new EAdPosition(0, 0, 0.5f, 1.5f));
 		contextual.setVarInitialValue(SceneElement.VAR_VISIBLE, Boolean.FALSE);
 		contextual.setVarInitialValue(SceneElement.VAR_ENABLE, Boolean.FALSE);
 		contextual.getEvents().add(new StayInBoundsEv(contextual));
 		contextual.getEvents().add(new ChaseMouseEv());
+		contextual.setId("contextual");
 		addElement(sceneElementFactory.get(contextual));
 	}
 
@@ -212,12 +204,8 @@ public class TopBasicHUDImpl extends AbstractHUD implements TopBasicHUD {
 				EAdString name = valueMap.getValue(
 						(EAdElement) go.getElement(), SceneElement.VAR_NAME);
 				if (name != null && !stringHandler.getString(name).equals("")) {
-					stringHandler.setString(c.getText(),
+					stringHandler.setString(contextualCaption.getText(),
 							stringHandler.getString(name));
-
-					SceneElementGO<?> cgo = sceneElementFactory.get(contextual);
-
-					cgo.getRenderAsset().update();
 					sceneElementFactory.get(contextual).update();
 
 					gameState.getValueMap().setValue(contextual,
@@ -240,7 +228,7 @@ public class TopBasicHUDImpl extends AbstractHUD implements TopBasicHUD {
 		mouse = new SceneElement(cursor);
 		mouse.setId("mouse");
 		mouse.setVarInitialValue(SceneElement.VAR_ENABLE, Boolean.FALSE);
-		addElement(sceneElementFactory.get(mouse));
+		mouseGO = sceneElementFactory.get(mouse);
 	}
 
 	@SuppressWarnings("unchecked")
@@ -254,13 +242,17 @@ public class TopBasicHUDImpl extends AbstractHUD implements TopBasicHUD {
 						.getRuntimeAsset(cursor);
 				logger.info("width" + rAsset.getWidth());
 				rAsset.loadAsset();
-				float scale = 1.0f / (rAsset.getWidth() > rAsset.getHeight() ? rAsset
-						.getWidth() / CURSOR_SIZE
-						: rAsset.getHeight() / CURSOR_SIZE);
 				mouse.getDefinition()
 						.getResources()
 						.addAsset(mouse.getDefinition().getInitialBundle(),
 								SceneElementDef.appearance, cursor);
+				float scale = 1.0f;
+				if (rAsset.getWidth() > 0 && rAsset.getHeight() > 0) {
+					scale = 1.0f / (rAsset.getWidth() > rAsset.getHeight() ? rAsset
+							.getWidth() / CURSOR_SIZE
+							: rAsset.getHeight() / CURSOR_SIZE);
+
+				}
 				gameState.getValueMap().setValue(mouse, SceneElement.VAR_SCALE,
 						scale);
 			}
@@ -272,15 +264,23 @@ public class TopBasicHUDImpl extends AbstractHUD implements TopBasicHUD {
 		checkMouseImage();
 		int x = gameState.getValueMap().getValue(SystemFields.MOUSE_X);
 		int y = gameState.getValueMap().getValue(SystemFields.MOUSE_Y);
+		int width = gameState.getValueMap().getValue(SystemFields.GAME_WIDTH);
+		int height = gameState.getValueMap().getValue(SystemFields.GAME_HEIGHT);
 		boolean showMouse = gameState.getValueMap().getValue(
 				SystemFields.SHOW_MOUSE);
 
-		gameState.getValueMap().setValue(mouse, SceneElement.VAR_VISIBLE,
-				!(x < 0 || y < 0) && showMouse);
-		if (x >= 0 && y >= 0) {
+		boolean visible = false;
+
+		if (x >= 0 && y >= 0 && x <= width && y <= height) {
 			gameState.getValueMap().setValue(mouse, SceneElement.VAR_X, x);
 			gameState.getValueMap().setValue(mouse, SceneElement.VAR_Y, y);
+			visible = showMouse;
 		}
+
+		gameState.getValueMap().setValue(mouse, SceneElement.VAR_VISIBLE,
+				visible);
+
+		mouseGO.update();
 	}
 
 }

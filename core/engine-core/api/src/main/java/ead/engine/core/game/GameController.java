@@ -37,30 +37,35 @@
 
 package ead.engine.core.game;
 
+import ead.common.util.EAdURI;
+
 /**
  * Game controller interface allows for the definition of special start, stop
  * pause and resume methods.
  */
 public interface GameController {
-	
-    /**
-     * Start the game
-     */
-    public void start();
-    
-    /**
-     * Stop the game
-     */
-    public void stop();
-    
-    /**
-     * Pause the game
-     */
-    public void pause();
-    
-    /**
-     * Resume the game
-     */
-    public void resume();
+
+	/**
+	 * Start the game
+	 * 
+	 * @param uri
+	 *            uri pointing the resources location root
+	 */
+	public void start(EAdURI uri);
+
+	/**
+	 * Stop the game
+	 */
+	public void stop();
+
+	/**
+	 * Pause the game
+	 */
+	public void pause();
+
+	/**
+	 * Resume the game
+	 */
+	public void resume();
 
 }

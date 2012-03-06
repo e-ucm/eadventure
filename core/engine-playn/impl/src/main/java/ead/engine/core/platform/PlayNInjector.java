@@ -94,7 +94,7 @@ public class PlayNInjector implements GenericInjector {
 		else if ( clazz == DisplaceTransitionGO.class )
 			go = ginjector.getDisplaceTransitionGO();
 		else if ( clazz == FadeInTransitionGO.class )
-			go = ginjector.getDisplaceTransitionGO();
+			go = ginjector.getFadeInTransitionGO();
 		else if (clazz == ActorActionsGO.class)
 			go = ginjector.getActorActionEffectGO();
 		else if (clazz == CancelEffectGO.class)

@@ -74,7 +74,6 @@ public class EAdEngineHtml extends HtmlGame {
 		
 		assets.setPathPrefix("");
 
-		injector.getPlatformLauncher();
 		injector.getPlayNInjector().setInjector(injector);
 		
 		Game game = loadGame();

@@ -41,6 +41,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -48,7 +49,6 @@ import com.gwtent.reflection.client.ReflectionRequiredException;
 import com.gwtent.reflection.client.TypeOracle;
 
 import ead.common.model.EAdElement;
-import ead.common.params.BasicFont;
 import ead.common.params.EAdParam;
 import ead.common.params.fills.ColorFill;
 import ead.common.params.fills.LinearGradientFill;
@@ -56,8 +56,8 @@ import ead.common.params.fills.PaintFill;
 import ead.common.params.text.EAdString;
 import ead.common.resources.EAdBundleId;
 import ead.common.resources.assets.AssetDescriptor;
-import ead.common.util.EAdMatrix;
 import ead.common.util.BasicMatrix;
+import ead.common.util.EAdMatrix;
 import ead.common.util.EAdPosition;
 import ead.common.util.EAdRectangle;
 import ead.common.util.EAdURI;
@@ -170,8 +170,6 @@ public class ObjectFactory {
 			return new LinearGradientFill(value);
 		if (clazz.equals(PaintFill.class))
 			return new PaintFill(value);
-		if (clazz.equals(BasicFont.class))
-			return new BasicFont(value);
 		if (clazz.equals(EAdPosition.class))
 			return new EAdPosition(value);
 		if (clazz.equals(EAdRectangle.class))

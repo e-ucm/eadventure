@@ -143,7 +143,8 @@ public class EAdventureEngineActivity extends Activity {
 				injector.getInstance(InputHandler.class));
 
 		gameController = injector.getInstance(GameController.class);
-		gameController.start();
+		// FIXME no null, something else
+		gameController.start(null);
 	}
 
 	@Override

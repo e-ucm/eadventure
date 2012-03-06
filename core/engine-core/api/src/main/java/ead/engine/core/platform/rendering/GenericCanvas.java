@@ -38,9 +38,9 @@
 package ead.engine.core.platform.rendering;
 
 import ead.common.params.paint.EAdPaint;
-import ead.common.params.text.EAdFont;
 import ead.common.resources.assets.drawable.basics.EAdShape;
 import ead.common.resources.assets.drawable.filters.EAdDrawableFilter;
+import ead.common.resources.assets.text.EAdFont;
 import ead.common.util.EAdMatrix;
 import ead.common.util.EAdRectangle;
 import ead.engine.core.platform.DrawableAsset;

@@ -45,41 +45,47 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 
-import ead.common.params.text.EAdFont;
-import ead.common.params.text.enums.FontStyle;
+import com.google.inject.Inject;
+
+import ead.common.resources.assets.text.enums.FontStyle;
 import ead.common.util.EAdRectangle;
 import ead.engine.core.platform.AssetHandler;
-import ead.engine.core.platform.RuntimeFont;
+import ead.engine.core.platform.assets.text.BasicRuntimeFont;
 
-public class DesktopFont implements RuntimeFont {
-
-	private EAdFont eadFont;
+public class DesktopFont extends BasicRuntimeFont {
 
 	private Font font;
 
 	private static FontRenderContext frc = new FontRenderContext(null, true,
 			true);
 
-	public DesktopFont(EAdFont font, AssetHandler assetHandler) {
-		this.eadFont = font;
-		if (eadFont.isTTF()) {
+	@Inject
+	public DesktopFont(AssetHandler assetHandler) {
+		super(assetHandler);
+	}
+
+	public boolean loadAsset() {
+		if (descriptor.isTTF()) {
 			try {
 				this.font = Font.createFont(
 						Font.TRUETYPE_FONT,
-						new FileInputStream(new File(assetHandler
-								.getAbsolutePath(eadFont.getUri().getPath()))));
-				this.font = this.font.deriveFont(eadFont.getSize());
-				
+						new FileInputStream(
+								new File(assetHandler
+										.getAbsolutePath(descriptor.getUri()
+												.getPath()))));
+				this.font = this.font.deriveFont(descriptor.getSize());
+
 			} catch (FontFormatException e) {
-				this.font = new Font(font.getName(), getStyle(font.getStyle()),
-						(int) font.getSize());
+				this.font = new Font(descriptor.getName(),
+						getStyle(descriptor.getStyle()), (int) descriptor.getSize());
 			} catch (IOException e) {
-				this.font = new Font(font.getName(), getStyle(font.getStyle()),
-						(int) font.getSize());
+				this.font = new Font(descriptor.getName(),
+						getStyle(descriptor.getStyle()), (int) descriptor.getSize());
 			}
 		} else
-			this.font = new Font(font.getName(), getStyle(font.getStyle()),
-					(int) font.getSize());
+			this.font = new Font(descriptor.getName(),
+					getStyle(descriptor.getStyle()), (int) descriptor.getSize());
+		return super.loadAsset();
 	}
 
 	private int getStyle(FontStyle style) {
@@ -99,11 +105,6 @@ public class DesktopFont implements RuntimeFont {
 	}
 
 	@Override
-	public EAdFont getEAdFont() {
-		return eadFont;
-	}
-
-	@Override
 	public int stringWidth(String string) {
 		return (int) font.getStringBounds(string, frc).getWidth();
 	}
@@ -117,10 +118,6 @@ public class DesktopFont implements RuntimeFont {
 	public EAdRectangle stringBounds(String string) {
 		Rectangle r = font.getStringBounds(string, frc).getBounds();
 		return new EAdRectangle(r.x, r.y, r.width, r.height);
-	}
-	
-	public String toString(){
-		return "DesktopFont:"  + eadFont;
 	}
 
 }

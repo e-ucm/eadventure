@@ -39,10 +39,10 @@ package ead.elementfactories.demos.scenes;
 
 import ead.common.model.elements.EAdEffect;
 import ead.common.model.elements.effects.enums.ShowTextAnimation;
-import ead.common.params.BasicFont;
 import ead.common.params.fills.ColorFill;
 import ead.common.params.fills.PaintFill;
 import ead.common.resources.assets.drawable.basics.Caption;
+import ead.common.resources.assets.text.BasicFont;
 import ead.common.util.EAdURI;
 import ead.elementfactories.EAdElementsFactory;
 import ead.elementfactories.StringFactory.StringType;

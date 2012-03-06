@@ -42,8 +42,8 @@ import com.google.inject.Provides;
 import com.google.inject.name.Named;
 import com.google.inject.name.Names;
 
-import ead.common.model.elements.EAdAdventureModel;
 import ead.common.model.elements.BasicAdventureModel;
+import ead.common.model.elements.EAdAdventureModel;
 import ead.common.model.elements.scene.EAdScene;
 import ead.common.util.ReflectionProvider;
 import ead.engine.core.debuggers.Debugger;
@@ -68,7 +68,7 @@ import ead.engine.core.gameobjects.factories.TransitionFactoryImpl;
 import ead.engine.core.gameobjects.go.transitions.SceneLoader;
 import ead.engine.core.gameobjects.huds.EffectHUD;
 import ead.engine.core.gameobjects.huds.EffectHUDImpl;
-import ead.engine.core.gameobjects.transitions.JavaSceneLoader;
+import ead.engine.core.gameobjects.transitions.sceneloaders.DefaultSceneLoader;
 import ead.engine.core.inventory.InventoryHandler;
 import ead.engine.core.inventory.InventoryHandlerImpl;
 import ead.engine.core.operator.OperatorFactory;
@@ -106,7 +106,7 @@ public class BasicGameModule extends AbstractModule {
 		bind(TransitionFactory.class).to(TransitionFactoryImpl.class);
 
 		bind(ReflectionProvider.class).to(JavaReflectionProvider.class);
-		bind(SceneLoader.class).to(JavaSceneLoader.class);
+		bind(SceneLoader.class).to(DefaultSceneLoader.class);
 
 		bind(EAdAdventureModel.class).to(BasicAdventureModel.class);
 		bind(EAdScene.class).annotatedWith(Names.named("LoadingScreen"))

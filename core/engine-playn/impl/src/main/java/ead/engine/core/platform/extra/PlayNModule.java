@@ -45,6 +45,7 @@ import com.google.inject.name.Named;
 import ead.common.util.ReflectionProvider;
 import ead.engine.core.game.GameLoop;
 import ead.engine.core.game.GameProfiler;
+import ead.engine.core.game.PlayNGameLoop;
 import ead.engine.core.gameobjects.GameObjectManager;
 import ead.engine.core.gameobjects.GameObjectManagerImpl;
 import ead.engine.core.gameobjects.go.transitions.SceneLoader;
@@ -52,45 +53,37 @@ import ead.engine.core.gameobjects.huds.ActionsHUD;
 import ead.engine.core.gameobjects.huds.ActionsHUDImpl;
 import ead.engine.core.gameobjects.huds.BottomBasicHUD;
 import ead.engine.core.gameobjects.huds.BottomBasicHUDImpl;
-import ead.engine.core.gameobjects.huds.TopBasicHUD;
-import ead.engine.core.gameobjects.huds.TopBasicHUDImpl;
 import ead.engine.core.gameobjects.huds.MenuHUD;
 import ead.engine.core.gameobjects.huds.MenuHUDImpl;
-import ead.engine.core.gameobjects.transitions.PlayNSceneLoader;
+import ead.engine.core.gameobjects.huds.TopBasicHUD;
+import ead.engine.core.gameobjects.huds.TopBasicHUDImpl;
+import ead.engine.core.gameobjects.transitions.sceneloaders.DefaultSceneLoader;
 import ead.engine.core.input.InputHandler;
 import ead.engine.core.input.InputHandlerImpl;
 import ead.engine.core.platform.AbstractEngineConfiguration;
 import ead.engine.core.platform.EngineConfiguration;
-import ead.engine.core.platform.FontHandlerImpl;
 import ead.engine.core.platform.GUI;
-import ead.engine.core.platform.PlatformLauncher;
-import ead.engine.core.platform.PlayNFontCache;
 import ead.engine.core.platform.PlayNGUI;
-import ead.engine.core.platform.PlayNGameLoop;
 import ead.engine.core.platform.PlayNGameProfiler;
-import ead.engine.core.platform.PlayNPlatformLauncher;
 import ead.engine.core.platform.PlayNReflectionProvider;
 
 public class PlayNModule extends AbstractGinModule {
 
 	@Override
 	protected void configure() {
-		bind(GameLoop.class).to(PlayNGameLoop.class);
-		
+		bind(GameLoop.class).to(PlayNGameLoop.class).in(Singleton.class);
 		bind(ReflectionProvider.class).to(PlayNReflectionProvider.class).in(Singleton.class);
 		bind(GameProfiler.class).to(PlayNGameProfiler.class).in(Singleton.class);
 		bind(GUI.class).to(PlayNGUI.class).in(Singleton.class);
 		bind(EngineConfiguration.class)
 				.to(AbstractEngineConfiguration.class).in(Singleton.class);
-		bind(PlatformLauncher.class).to(PlayNPlatformLauncher.class).in(Singleton.class);
 		bind(InputHandler.class).to(InputHandlerImpl.class).in(Singleton.class);
 		bind(GameObjectManager.class).to(GameObjectManagerImpl.class).in(Singleton.class);
 		bind(TopBasicHUD.class).to(TopBasicHUDImpl.class).in(Singleton.class);
 		bind(BottomBasicHUD.class).to(BottomBasicHUDImpl.class).in(Singleton.class);
 		bind(ActionsHUD.class).to(ActionsHUDImpl.class).in(Singleton.class);
 		bind(MenuHUD.class).to(MenuHUDImpl.class).in(Singleton.class);
-		bind(FontHandlerImpl.class).to(PlayNFontCache.class).in(Singleton.class);
-		bind(SceneLoader.class).to(PlayNSceneLoader.class).in(Singleton.class);
+		bind(SceneLoader.class).to(DefaultSceneLoader.class).in(Singleton.class);
 	}
 
 	@Provides

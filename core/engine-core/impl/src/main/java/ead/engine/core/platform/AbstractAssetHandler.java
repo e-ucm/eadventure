@@ -43,6 +43,7 @@ import ead.common.interfaces.features.Resourced;
 import ead.common.resources.EAdBundleId;
 import ead.common.resources.assets.AssetDescriptor;
 import ead.common.resources.assets.drawable.EAdDrawable;
+import ead.common.util.EAdURI;
 import ead.engine.core.platform.rendering.GenericCanvas;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -85,6 +86,8 @@ public abstract class AbstractAssetHandler implements AssetHandler {
 	private boolean loaded = false;
 
 	protected FontHandler fontHandler;
+	
+	protected EAdURI resourcesUri;
 
 	/**
 	 * Default constructor, values are supplied by injection
@@ -245,5 +248,9 @@ public abstract class AbstractAssetHandler implements AssetHandler {
 
 	protected void setLoaded(boolean loaded) {
 		this.loaded = loaded;
+	}
+	
+	public void setResourcesLocation(EAdURI uri){
+		this.resourcesUri = uri;
 	}
 }

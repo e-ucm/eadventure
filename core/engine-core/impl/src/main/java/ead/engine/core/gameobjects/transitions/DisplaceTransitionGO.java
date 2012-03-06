@@ -39,7 +39,6 @@ package ead.engine.core.gameobjects.transitions;
 
 import com.google.inject.Inject;
 
-import ead.common.model.elements.scenes.SceneElement;
 import ead.common.model.elements.transitions.DisplaceTransition;
 import ead.common.model.elements.transitions.enums.DisplaceTransitionType;
 import ead.common.model.elements.variables.SystemFields;
@@ -68,6 +67,8 @@ public class DisplaceTransitionGO extends
 	private int x1, x2, y1, y2;
 	
 	private EAdTransformation transformation;
+	
+	private int currentTime;
 
 	@Inject
 	public DisplaceTransitionGO(AssetHandler assetHandler,
@@ -81,6 +82,7 @@ public class DisplaceTransitionGO extends
 		width = gameState.getValueMap().getValue(SystemFields.GAME_WIDTH);
 		height = gameState.getValueMap().getValue(SystemFields.GAME_HEIGHT);
 		transformation = new EAdTransformationImpl( );
+		currentTime = 0;
 	}
 
 	public void doLayout(EAdTransformation t) {
@@ -103,9 +105,7 @@ public class DisplaceTransitionGO extends
 	public void update() {
 		super.update();
 		if (isLoadedNextScene()) {
-			nextSceneGO.update();
-			int currentTime = gameState.getValueMap().getValue(getElement(),
-					SceneElement.VAR_TIME_DISPLAYED);
+			currentTime += gui.getSkippedMilliseconds();
 			if (startTime == -1) {
 				startTime = currentTime;
 			}

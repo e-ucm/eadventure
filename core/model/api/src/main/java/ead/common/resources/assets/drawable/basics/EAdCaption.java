@@ -40,9 +40,9 @@ package ead.common.resources.assets.drawable.basics;
 import ead.common.model.elements.extra.EAdList;
 import ead.common.model.elements.variables.EAdOperation;
 import ead.common.params.paint.EAdPaint;
-import ead.common.params.text.EAdFont;
 import ead.common.params.text.EAdString;
 import ead.common.resources.assets.drawable.basics.enums.Alignment;
+import ead.common.resources.assets.text.EAdFont;
 
 /**
  * General interface for texts to be shown during the game

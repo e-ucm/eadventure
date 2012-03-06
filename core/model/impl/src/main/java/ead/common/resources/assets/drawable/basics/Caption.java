@@ -41,14 +41,14 @@ import ead.common.interfaces.Param;
 import ead.common.model.elements.extra.EAdList;
 import ead.common.model.elements.extra.EAdListImpl;
 import ead.common.model.elements.variables.EAdOperation;
-import ead.common.params.BasicFont;
 import ead.common.params.fills.ColorFill;
 import ead.common.params.fills.PaintFill;
 import ead.common.params.paint.EAdPaint;
-import ead.common.params.text.EAdFont;
 import ead.common.params.text.EAdString;
 import ead.common.resources.assets.drawable.basics.EAdCaption;
 import ead.common.resources.assets.drawable.basics.enums.Alignment;
+import ead.common.resources.assets.text.BasicFont;
+import ead.common.resources.assets.text.EAdFont;
 
 /**
  * A caption asset. It's represented by a text, and a bubble 

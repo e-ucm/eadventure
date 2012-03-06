@@ -65,12 +65,8 @@ import ead.engine.core.gameobjects.huds.TopBasicHUD;
 import ead.engine.core.gameobjects.huds.TopBasicHUDImpl;
 import ead.engine.core.input.InputHandler;
 import ead.engine.core.input.InputHandlerImpl;
-import ead.engine.core.platform.DesktopFontCache;
 import ead.engine.core.platform.DesktopGUI;
-import ead.engine.core.platform.DesktopPlatformLauncher;
-import ead.engine.core.platform.FontHandlerImpl;
 import ead.engine.core.platform.GUI;
-import ead.engine.core.platform.PlatformLauncher;
 import ead.engine.core.platform.rendering.DesktopFilterFactory;
 import ead.engine.core.platform.rendering.filters.FilterFactory;
 
@@ -83,7 +79,6 @@ public class DesktopModule extends AbstractModule {
 		bind(GameLoop.class).to(GameLoopImpl.class);
 		bind(GameProfiler.class).to(GameProfilerImpl.class);
 		configureGUI();
-		bind(PlatformLauncher.class).to(DesktopPlatformLauncher.class);
 		bind(InputHandler.class).to(InputHandlerImpl.class);
 		bind(GameObjectManager.class).to(GameObjectManagerImpl.class);
 		bind(TopBasicHUD.class).to(TopBasicHUDImpl.class);
@@ -91,7 +86,6 @@ public class DesktopModule extends AbstractModule {
 		bind(InventoryHUD.class).to(InventoryHUDImpl.class);
 		bind(ActionsHUD.class).to(ActionsHUDImpl.class);
 		bind(MenuHUD.class).to(MenuHUDImpl.class);
-		bind(FontHandlerImpl.class).to(DesktopFontCache.class);
 		bind(new TypeLiteral<FilterFactory<Graphics2D>>(){}).to(DesktopFilterFactory.class);
 	}
 

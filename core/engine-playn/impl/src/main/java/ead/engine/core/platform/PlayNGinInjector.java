@@ -75,56 +75,77 @@ import ead.engine.core.gameobjects.transitions.DisplaceTransitionGO;
 import ead.engine.core.gameobjects.transitions.FadeInTransitionGO;
 import ead.engine.core.input.InputHandler;
 import ead.engine.core.inventory.InventoryHandler;
-import ead.engine.core.modules.BasicGameModule;
-import ead.engine.core.platform.assets.PlayNEngineImage;
+import ead.engine.core.platform.assets.drawable.basics.PlayNImage;
 import ead.engine.core.platform.extra.PlayNAssetHandlerModule;
 import ead.engine.core.platform.extra.PlayNModule;
+import ead.engine.core.platform.modules.BasicGameModule;
 
-@GinModules({PlayNAssetHandlerModule.class, PlayNModule.class, BasicGameModule.class})
+@GinModules({ PlayNAssetHandlerModule.class, PlayNModule.class,
+		BasicGameModule.class })
 public interface PlayNGinInjector extends Ginjector {
-	
-	public PlatformLauncher getPlatformLauncher();
 
 	public Game getGame();
-	
+
 	public BasicTransitionGO getSimpleTransitionGO();
+
 	public DisplaceTransitionGO getDisplaceTransitionGO();
+
 	public FadeInTransitionGO getFadeInTransitionGO();
-	
+
 	public ActorActionsGO getActorActionEffectGO();
+
 	public CancelEffectGO getCancelEffectGO();
+
 	public ChangeSceneGO getChangeSceneGO();
+
 	public ChangeFieldGO getChangeFieldGO();
+
 	public ComplexBlockingEffectGO getComplexBlockingEffectGO();
+
 	public HighlightSceneElementGO getHighlightEffectGO();
+
 	public ModifyInventoryGO getModifyActorStateGO();
+
 	public MoveSceneElementGO getMoveSceneElementGO();
+
 	public PlaySoundGO getPlaySoundEffectGO();
+
 	public QuitGameGO getQuitGameEffectGO();
+
 	public RandomEffectGO getRandomEffectGO();
+
 	public ShowSceneElementGO getShowSceneElementGO();
+
 	public SpeakGO getSpeakEffectGO();
+
 	public TriggerMacroGO getTriggerMacroEffectGO();
+
 	public InterpolationGO getVarInterpolationGO();
+
 	public WaitGO getWaitEffectGO();
-	
+
 	public ConditionEvGO getConditionEventGO();
+
 	public SceneElementEvGO getSceneElementEventGO();
+
 	public TimedEvGO getSceneElementTimedEventGO();
+
 	public SystemEvGO getSystemEventGO();
-	
+
 	public BasicSceneElementGO getBasicSceneElementGO();
+
 	public ComplexSceneElementGO getComplexSceneElementGO();
-	
+
 	public SceneGOImpl getSceneGO();
+
 	public VideoSceneGO getVideoSceneGO();
 
 	public GUI getGUI();
 
-	public PlayNEngineImage getPlayNEngineImage();
+	public PlayNImage getPlayNEngineImage();
 
 	public AssetHandler getAssetHandler();
-	
+
 	public StringHandler getStringHandler();
 
 	public InputHandler getMouseState();
@@ -134,13 +155,13 @@ public interface PlayNGinInjector extends Ginjector {
 	public PhApplyForceGO getPhApplyForceGO();
 
 	public EngineConfiguration getPlatformConfiguration();
-	
+
 	public PlayNInjector getPlayNInjector();
-	
+
 	public InventoryHandler getInventoryHandler();
 
 	public ComposedSceneGOImpl getComposedSceneGO();
 
 	public ModifyHudGO getModifyHUGGO();
-	
+
 }

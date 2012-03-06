@@ -42,15 +42,15 @@ import ead.common.interfaces.Param;
 import ead.common.model.elements.effects.AbstractEffect;
 import ead.common.model.elements.variables.EAdField;
 import ead.common.model.elements.variables.EAdOperation;
-import ead.common.params.BasicFont;
 import ead.common.params.fills.ColorFill;
 import ead.common.params.fills.PaintFill;
 import ead.common.params.paint.EAdPaint;
-import ead.common.params.text.EAdFont;
 import ead.common.params.text.EAdString;
 import ead.common.resources.assets.drawable.basics.Caption;
 import ead.common.resources.assets.drawable.basics.enums.Alignment;
 import ead.common.resources.assets.drawable.basics.shapes.extra.BalloonType;
+import ead.common.resources.assets.text.BasicFont;
+import ead.common.resources.assets.text.EAdFont;
 import ead.common.util.EAdURI;
 
 /**

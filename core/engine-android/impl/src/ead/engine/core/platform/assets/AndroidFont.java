@@ -39,28 +39,35 @@ package ead.engine.core.platform.assets;
 
 import android.graphics.Paint;
 import android.graphics.Typeface;
-import ead.common.params.text.EAdFont;
-import ead.common.params.text.enums.FontStyle;
+
+import com.google.inject.Inject;
+
+import ead.common.resources.assets.text.enums.FontStyle;
 import ead.common.util.EAdRectangle;
-import ead.engine.core.platform.RuntimeFont;
+import ead.engine.core.platform.AssetHandler;
+import ead.engine.core.platform.assets.text.BasicRuntimeFont;
 
-public class AndroidFont implements RuntimeFont {
-
-	private EAdFont eadFont;
+public class AndroidFont extends BasicRuntimeFont {
 
 	private Typeface font;
 	
 	private int size;
 
 	private Paint textPaint;
+	
+	@Inject
+	public AndroidFont(AssetHandler assetHandler){
+		super(assetHandler);
+	}
+	
 
-	public AndroidFont(EAdFont font) {
-		this.eadFont = font;
-		this.font = Typeface.create(font.getName(), getStyle(font.getStyle()));
+	public boolean loadAsset() {
+		this.font = Typeface.create(descriptor.getName(), getStyle(descriptor.getStyle()));
 		textPaint = new Paint();
 		textPaint.setTypeface(this.font);
-		size = (int) font.getSize();
+		size = (int) descriptor.getSize();
 		textPaint.setTextSize(size);
+		return super.loadAsset();
 	}
 
 	private int getStyle(FontStyle style) {
@@ -77,11 +84,6 @@ public class AndroidFont implements RuntimeFont {
 
 	public Typeface getFont() {
 		return font;
-	}
-
-	@Override
-	public EAdFont getEAdFont() {
-		return eadFont;
 	}
 
 	@Override

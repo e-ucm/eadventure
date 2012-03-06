@@ -40,10 +40,11 @@ package ead.engine.core.platform;
 import static playn.core.PlayN.graphics;
 
 import java.awt.Graphics2D;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import javax.swing.JFrame;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import playn.core.Canvas;
 import playn.core.CanvasLayer;
@@ -54,6 +55,7 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 import ead.common.resources.assets.drawable.basics.Image;
+import ead.engine.core.game.GameLoop;
 import ead.engine.core.game.GameState;
 import ead.engine.core.gameobjects.GameObjectManager;
 import ead.engine.core.gameobjects.factories.SceneElementGOFactory;
@@ -88,9 +90,9 @@ public class PlayNGUI extends AbstractGUI<Canvas> implements GUI {
 	@Inject
 	public PlayNGUI(EngineConfiguration platformConfiguration,
 			GameObjectManager gameObjectManager, InputHandler inputHandler, GameState gameState,
-			SceneElementGOFactory gameObjectFactory, PlayNCanvas canvas) {
+			SceneElementGOFactory gameObjectFactory, PlayNCanvas canvas, GameLoop gameLoop) {
 		super(platformConfiguration, gameObjectManager, inputHandler,
-				gameState, gameObjectFactory, canvas);
+				gameState, gameObjectFactory, canvas, gameLoop);
 		logger.info("New instance");
 	}
 

@@ -327,6 +327,9 @@ public class StartFrame extends JFrame {
 							"Selected file is from an old version of eAdventure. Do you want to save the imported game in a new file?",
 							"eAdventure importation",
 							JOptionPane.INFORMATION_MESSAGE);
+			
+			if (result == JOptionPane.CANCEL_OPTION)
+				return;
 
 			new Thread() {
 
@@ -334,9 +337,6 @@ public class StartFrame extends JFrame {
 					EAdAdventureModel model = null;
 					String destinyFile = null;
 					Map<EAdString, String> strings = null;
-
-					if (result == JOptionPane.CANCEL_OPTION)
-						return;
 
 					String destiny = null;
 
