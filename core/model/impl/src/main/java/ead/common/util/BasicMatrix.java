@@ -48,6 +48,8 @@ public class BasicMatrix implements EAdMatrix {
 	 * Dimension of the transformation matrix
 	 */
 	private static final int DIMENSION = 3;
+	
+	private boolean validated = false;
 
 	/**
 	 * <p>
@@ -141,6 +143,7 @@ public class BasicMatrix implements EAdMatrix {
 
 	@Override
 	public void multiply(float m1[], boolean post) {
+		validated = false;
 		invalidateMatrixes();
 		if (post)
 			this.matrix = multiply(this.matrix, m1);
@@ -244,6 +247,16 @@ public class BasicMatrix implements EAdMatrix {
 		for (int i = 0; i < 9; i++)
 			m.matrix[i] = Float.parseFloat(v[i]);
 		return m;
+	}
+	
+	@Override
+	public boolean isValidated() {
+		return validated;
+	}
+
+	@Override
+	public void setValidated(boolean validated) {
+		this.validated = validated;
 	}
 	
 

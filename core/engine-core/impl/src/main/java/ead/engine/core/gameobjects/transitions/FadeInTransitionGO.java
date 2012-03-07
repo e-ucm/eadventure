@@ -49,7 +49,6 @@ import ead.engine.core.gameobjects.go.transitions.SceneLoader;
 import ead.engine.core.platform.AssetHandler;
 import ead.engine.core.platform.GUI;
 import ead.engine.core.util.EAdTransformation;
-import ead.engine.core.util.EAdTransformationImpl;
 
 public class FadeInTransitionGO extends AbstractTransitionGO<FadeInTransition>{
 	
@@ -58,8 +57,6 @@ public class FadeInTransitionGO extends AbstractTransitionGO<FadeInTransition>{
 	private int startTime = -1;
 
 	private float sceneAlpha;
-	
-	private EAdTransformation transformation;
 	
 	private int currentTime;
 
@@ -72,7 +69,6 @@ public class FadeInTransitionGO extends AbstractTransitionGO<FadeInTransition>{
 		super(assetHandler, stringHandler, gameObjectFactory, gui, gameState,
 				eventFactory, sceneLoader);
 		finished = false;
-		transformation = new EAdTransformationImpl();
 		currentTime = 0;
 	}
 	
@@ -99,7 +95,7 @@ public class FadeInTransitionGO extends AbstractTransitionGO<FadeInTransition>{
 		if (this.isLoadedNextScene()) {
 			gui.addElement(previousScene, t);
 			transformation.setAlpha(sceneAlpha);
-			gui.addElement(nextSceneGO, gui.addTransformation(t, transformation));
+			gui.addElement(nextSceneGO, transformation);
 		} else {
 			super.doLayout(t);
 		}

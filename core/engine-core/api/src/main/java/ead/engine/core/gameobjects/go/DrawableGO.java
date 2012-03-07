@@ -79,6 +79,12 @@ public interface DrawableGO<T> extends GameObject<T>, Renderable {
 	EAdTransformation getTransformation();
 
 	/**
+	 * Resets the current transformation, deleting any parent's transformation
+	 * effect
+	 */
+	void resetTransfromation();
+
+	/**
 	 * Returns if this game object is enable for user interactions
 	 * 
 	 * @return if this game object is enable for user interactions

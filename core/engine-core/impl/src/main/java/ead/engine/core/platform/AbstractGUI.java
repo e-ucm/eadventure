@@ -40,7 +40,6 @@ package ead.engine.core.platform;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import ead.common.util.BasicMatrix;
 import ead.common.util.EAdRectangle;
 import ead.engine.core.game.GameLoop;
 import ead.engine.core.game.GameState;
@@ -51,7 +50,6 @@ import ead.engine.core.gameobjects.go.Renderable;
 import ead.engine.core.input.InputHandler;
 import ead.engine.core.platform.rendering.GenericCanvas;
 import ead.engine.core.util.EAdTransformation;
-import ead.engine.core.util.EAdTransformationImpl;
 
 /**
  * <p>
@@ -118,13 +116,18 @@ public abstract class AbstractGUI<T> implements GUI {
 	 */
 	@Override
 	public void addElement(DrawableGO<?> element,
-			EAdTransformation transformation) {
+			EAdTransformation parentTransformation) {
 		EAdTransformation t = element.getTransformation();
+
 		if (t != null) {
-			EAdTransformation tResult = addTransformation(transformation, t);
-			if (tResult.isVisible()) {
-				gameObjects.add(element, tResult);
-				element.doLayout(tResult);
+
+			if (!t.isValidated() || !parentTransformation.isValidated()) {
+				element.resetTransfromation();
+				addTransformation(t, parentTransformation);
+			}
+			if (t.isVisible()) {
+				gameObjects.add(element, t);
+				element.doLayout(t);
 			}
 		}
 	}
@@ -135,8 +138,11 @@ public abstract class AbstractGUI<T> implements GUI {
 	 * @see es.eucm.eadventure.engine.core.platform.GUI#prepareGUI()
 	 */
 	@Override
-	public void prepareGUI(EAdTransformation t) {
+	public void prepareGUI() {
 		gameObjects.swap();
+		for ( EAdTransformation t: gameObjects.getTransformations() ){
+			t.setValidated(true);
+		}
 	}
 
 	/**
@@ -187,12 +193,13 @@ public abstract class AbstractGUI<T> implements GUI {
 	@Override
 	public EAdTransformation addTransformation(EAdTransformation t1,
 			EAdTransformation t2) {
-		BasicMatrix m = new BasicMatrix();
-		m.multiply(t1.getMatrix().getFlatMatrix(), true);
-		m.multiply(t2.getMatrix().getFlatMatrix(), true);
 		float alpha = t1.getAlpha() * t2.getAlpha();
 		boolean visible = t1.isVisible() && t2.isVisible();
-		EAdTransformationImpl t = new EAdTransformationImpl(m, visible, alpha);
+
+		t1.setAlpha(alpha);
+		t1.setVisible(visible);
+		t1.getMatrix().multiply(t2.getMatrix().getFlatMatrix(), false);
+
 		EAdRectangle clip1 = t1.getClip();
 		EAdRectangle clip2 = t2.getClip();
 		EAdRectangle newclip = new EAdRectangle(0, 0, 0, 0);
@@ -207,9 +214,10 @@ public abstract class AbstractGUI<T> implements GUI {
 		}
 
 		if (newclip != null)
-			t.setClip(newclip.x, newclip.y, newclip.width, newclip.height);
+			t1.setClip(newclip.x, newclip.y, newclip.width, newclip.height);
 
-		return t;
+		return t1;
+
 	}
 
 	@Override
@@ -220,8 +228,8 @@ public abstract class AbstractGUI<T> implements GUI {
 	public int getSkippedMilliseconds() {
 		return gameLoop.getSkipMillisTick();
 	}
-	
-	public int getTicksPerSecond(){
+
+	public int getTicksPerSecond() {
 		return gameLoop.getTicksPerSecond();
 	}
 }

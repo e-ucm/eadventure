@@ -56,10 +56,13 @@ public abstract class AbstractHUD implements HudGO {
 	protected GUI gui;
 
 	private List<DrawableGO<?>> hudGameObjects;
+	
+	protected EAdTransformation transformation;
 
 	public AbstractHUD(GUI gui) {
 		this.gui = gui;
 		hudGameObjects = new ArrayList<DrawableGO<?>>();
+		transformation = new EAdTransformationImpl();
 	}
 	
 	public List<DrawableGO<?>> getContaintedGOs( ){
@@ -107,7 +110,7 @@ public abstract class AbstractHUD implements HudGO {
 	
 	@Override
 	public EAdTransformation getTransformation() {
-		return EAdTransformationImpl.INITIAL_TRANSFORMATION;
+		return transformation;
 	}
 	
 	@Override
@@ -129,6 +132,10 @@ public abstract class AbstractHUD implements HudGO {
 	@Override
 	public EAdPosition getPosition() {
 		return null;
+	}
+	
+	public void resetTransfromation(){
+		transformation.getMatrix().setIdentity();
 	}
 	
 

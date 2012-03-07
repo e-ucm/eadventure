@@ -55,10 +55,10 @@ public interface GUI {
 	 * 
 	 * @param go
 	 *            the game object
-	 * @param transform
-	 *            the transformation of the parent element
+	 * @param parentTransformation
+	 *            parent transformation
 	 */
-	void addElement(DrawableGO<?> go, EAdTransformation transform);
+	void addElement(DrawableGO<?> go, EAdTransformation parentTransformation);
 
 	/**
 	 * Show a special resource on the screen (e.g. video, HTML, etc.)
@@ -81,11 +81,9 @@ public interface GUI {
 	 * for drawing and process the dragging element if needed.
 	 * </p>
 	 * 
-	 * @param t
-	 *            the initial transformation
 	 * 
 	 */
-	void prepareGUI(EAdTransformation t);
+	void prepareGUI();
 
 	/**
 	 * <p>
@@ -124,8 +122,8 @@ public interface GUI {
 	 * @param t1
 	 *            transformation 1
 	 * @param t2
-	 *            transformation 1
-	 * @return the result of adding t2 to t1
+	 *            transformation 2
+	 * @returns t1
 	 */
 	EAdTransformation addTransformation(EAdTransformation t1,
 			EAdTransformation t2);
@@ -136,17 +134,19 @@ public interface GUI {
 	void finish();
 
 	void setInitialTransformation(EAdTransformation initialTransformation);
-	
+
 	/**
 	 * Returns the milliseconds since last update
+	 * 
 	 * @return
 	 */
 	int getSkippedMilliseconds();
-	
+
 	/**
 	 * Returns tics per second in the game
+	 * 
 	 * @return
 	 */
 	int getTicksPerSecond();
-	
+
 }

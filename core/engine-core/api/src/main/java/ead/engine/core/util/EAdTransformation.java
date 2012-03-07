@@ -59,7 +59,8 @@ public interface EAdTransformation extends Cloneable {
 	boolean isVisible();
 
 	/**
-	 * @return the transparency of the transformation (1.0 opaque, 0.0 transparent)
+	 * @return the transparency of the transformation (1.0 opaque, 0.0
+	 *         transparent)
 	 */
 	float getAlpha();
 
@@ -69,11 +70,15 @@ public interface EAdTransformation extends Cloneable {
 	Object clone();
 
 	void setAlpha(float sceneAlpha);
-	
+
 	void setVisible(boolean visible);
-	
-	EAdRectangle getClip( );
-	
-	void setClip( int x, int y, int width, int height );
+
+	EAdRectangle getClip();
+
+	void setClip(int x, int y, int width, int height);
+
+	boolean isValidated();
+
+	void setValidated(boolean validated);
 
 }

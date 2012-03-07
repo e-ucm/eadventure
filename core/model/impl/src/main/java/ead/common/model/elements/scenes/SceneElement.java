@@ -287,4 +287,9 @@ public class SceneElement extends AbstractElementWithBehavior implements
 		setVarInitialValue(SceneElement.VAR_ENABLE, enable);	
 	}
 
+	public void setInitialRotation(float rotation) {
+		setVarInitialValue(SceneElement.VAR_ROTATION, rotation);
+		
+	}
+
 }

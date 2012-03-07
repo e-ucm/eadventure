@@ -142,6 +142,10 @@ public class InterpolationEf extends AbstractEffect {
 	public InterpolationEf() {
 		super();
 	}
+	
+	public InterpolationEf(EAdField<?> field, float startValue, float endValue, int time ){
+		this(field, startValue, endValue, time, InterpolationLoopType.NO_LOOP, InterpolationType.LINEAR);
+	}
 
 	public InterpolationEf(EAdField<?> field, float startValue,
 			float endValue, int time, InterpolationLoopType loopType,

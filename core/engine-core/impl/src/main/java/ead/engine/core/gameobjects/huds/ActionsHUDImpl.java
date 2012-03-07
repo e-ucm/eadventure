@@ -70,7 +70,7 @@ import ead.engine.core.util.EAdTransformationImpl;
  * <p>
  * Default generic implementation of the {@link ActionsHUD}
  * </p>
- *
+ * 
  */
 @Singleton
 public class ActionsHUDImpl extends AbstractHUD implements ActionsHUD {
@@ -79,8 +79,6 @@ public class ActionsHUDImpl extends AbstractHUD implements ActionsHUD {
 
 	private int currentTime;
 
-	private EAdTransformationImpl transformation = new EAdTransformationImpl();
-
 	private int width;
 
 	private int height;
@@ -88,7 +86,8 @@ public class ActionsHUDImpl extends AbstractHUD implements ActionsHUD {
 	/**
 	 * The logger
 	 */
-	private static final Logger logger = LoggerFactory.getLogger("ActionsHUDImpl");
+	private static final Logger logger = LoggerFactory
+			.getLogger("ActionsHUDImpl");
 
 	/**
 	 * List of the {@link EAdAction}s
@@ -142,7 +141,7 @@ public class ActionsHUDImpl extends AbstractHUD implements ActionsHUD {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * es.eucm.eadventure.engine.core.gameobjects.GameObject#processAction(es
 	 * .eucm.eadventure.engine.core.guiactions.GUIAction)
@@ -154,9 +153,11 @@ public class ActionsHUDImpl extends AbstractHUD implements ActionsHUD {
 			MouseInputAction temp = (MouseInputAction) action;
 
 			switch (temp.getType()) {
-                case CLICK: remove = true; break;
-                default:
-                    logger.warn("Non-click MouseActionImpl in HUD - totally unexpected");
+			case CLICK:
+				remove = true;
+				break;
+			default:
+				logger.warn("Non-click MouseActionImpl in HUD - totally unexpected");
 			}
 
 		} else if (action instanceof KeyInputAction) {
@@ -176,13 +177,13 @@ public class ActionsHUDImpl extends AbstractHUD implements ActionsHUD {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * es.eucm.eadventure.engine.core.gameobjects.GameObject#setElement(java
 	 * .lang.Object)
 	 */
 
-    @Override
+	@Override
 	public void setElement(SceneElementGO<?> ref, int x, int y) {
 		currentTime = 0;
 		sceneElement = ref;
@@ -216,8 +217,9 @@ public class ActionsHUDImpl extends AbstractHUD implements ActionsHUD {
 		for (EAdAction a : actions) {
 			boolean add = false;
 			int k = 0;
-			while ( k < a.getEffects().size() && !add ){
-				add = evaluatorFactory.evaluate(a.getEffects().get(k).getCondition());
+			while (k < a.getEffects().size() && !add) {
+				add = evaluatorFactory.evaluate(a.getEffects().get(k)
+						.getCondition());
 				k++;
 			}
 
@@ -233,10 +235,10 @@ public class ActionsHUDImpl extends AbstractHUD implements ActionsHUD {
 		}
 	}
 
-    @Override
+	@Override
 	public void doLayout(EAdTransformation t) {
-		float interpolation1 = Interpolator.BOUNCE_END.interpolate(
-				currentTime, ANIMATION_TIME, 1.0f);
+		float interpolation1 = Interpolator.BOUNCE_END.interpolate(currentTime,
+				ANIMATION_TIME, 1.0f);
 		float interpolation2 = Interpolator.LINEAR.interpolate(currentTime,
 				ANIMATION_TIME, 1.0f);
 		transformation.setAlpha(alpha);
@@ -246,10 +248,8 @@ public class ActionsHUDImpl extends AbstractHUD implements ActionsHUD {
 			EAdPosition p = this.positions.get(i);
 			posT.getMatrix().translate(p.getX() * interpolation1,
 					p.getY() * interpolation2, true);
-			gui.addElement(
-					go,
-					gui.addTransformation(
-							gui.addTransformation(t, transformation), posT));
+
+			gui.addElement(go, gui.addTransformation(posT, t));
 			i++;
 		}
 	}
@@ -268,7 +268,7 @@ public class ActionsHUDImpl extends AbstractHUD implements ActionsHUD {
 
 	}
 
-    @Override
+	@Override
 	public void update() {
 
 		if (currentTime < ANIMATION_TIME) {
@@ -283,6 +283,7 @@ public class ActionsHUDImpl extends AbstractHUD implements ActionsHUD {
 				: currentTime;
 
 		alpha = alpha > 1.0f ? 1.0f : alpha;
+		transformation.setAlpha(alpha);
 	}
 
 	@Override

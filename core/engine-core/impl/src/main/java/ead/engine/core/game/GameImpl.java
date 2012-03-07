@@ -144,8 +144,9 @@ public class GameImpl implements Game {
 			for (DrawableGO<?> go : debugger.getGameObjects()) {
 				gui.addElement(go, initialTransformation);
 			}
-
-		gui.prepareGUI(initialTransformation);
+		
+		initialTransformation.setValidated(true);
+		gui.prepareGUI();
 
 	}
 
@@ -276,6 +277,7 @@ public class GameImpl implements Game {
 				configuration.getWidth() / (float) adventure.getGameWidth(),
 				configuration.getHeight() / (float) adventure.getGameHeight(),
 				true);
+		initialTransformation.setValidated(true);
 		gui.setInitialTransformation(initialTransformation);
 	}
 

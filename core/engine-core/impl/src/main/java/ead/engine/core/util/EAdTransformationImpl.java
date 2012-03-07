@@ -52,18 +52,22 @@ public class EAdTransformationImpl implements EAdTransformation {
 
 	private float alpha;
 
+	private boolean validated;
+
 	public EAdRectangle clip;
 
 	public EAdTransformationImpl(EAdMatrix matrix, boolean visible, float alpha) {
 		this.matrix = matrix;
 		this.visible = visible;
 		this.alpha = alpha;
+		validated = false;
 	}
 
 	public EAdTransformationImpl() {
 		matrix = new BasicMatrix();
 		visible = true;
 		alpha = 1.0f;
+		validated = false;
 	}
 
 	@Override
@@ -82,11 +86,17 @@ public class EAdTransformationImpl implements EAdTransformation {
 	}
 
 	public void setAlpha(float alpha) {
-		this.alpha = alpha;
+		if (alpha != this.alpha) {
+			validated = false;
+			this.alpha = alpha;
+		}
 	}
 
 	public void setVisible(boolean visible) {
-		this.visible = visible;
+		if (visible != this.visible) {
+			validated = false;
+			this.visible = visible;
+		}
 	}
 
 	public Object clone() {
@@ -103,6 +113,7 @@ public class EAdTransformationImpl implements EAdTransformation {
 	}
 
 	public void setClip(int x, int y, int width, int height) {
+		validated = false;
 		if (clip == null) {
 			clip = new EAdRectangle(x, y, width, height);
 		} else {
@@ -111,6 +122,17 @@ public class EAdTransformationImpl implements EAdTransformation {
 			clip.width = width;
 			clip.height = height;
 		}
+	}
+
+	@Override
+	public boolean isValidated() {
+		return validated && matrix.isValidated();
+	}
+
+	@Override
+	public void setValidated(boolean validated) {
+		this.validated = validated;
+		matrix.setValidated(validated);
 	}
 
 }

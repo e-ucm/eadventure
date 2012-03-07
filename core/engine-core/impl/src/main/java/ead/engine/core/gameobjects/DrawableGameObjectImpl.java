@@ -97,5 +97,9 @@ public abstract class DrawableGameObjectImpl<T extends EAdElement> extends
 	public SceneElementGO<?> getDraggableElement() {
 		return null;
 	}
+	
+	public void resetTransfromation(){
+		transformation.getMatrix().setIdentity();
+	}
 
 }

@@ -308,7 +308,6 @@ public class AndroidActionsHUDImpl extends AbstractHUD implements ActionsHUD {
 		}
 	}
 
-
 	@Override
 	public boolean contains(int x, int y) {
 		return true;

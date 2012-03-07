@@ -179,6 +179,7 @@ public abstract class SceneElementGOImpl<T extends EAdSceneElement> extends
 		position = new EAdPosition(0, 0);
 		updateVars();
 		setVars();
+		resetTransfromation();
 		// To load dimensions
 		getRenderAsset();
 	}
@@ -203,7 +204,7 @@ public abstract class SceneElementGOImpl<T extends EAdSceneElement> extends
 		position.setDispX(valueMap.getValue(element, SceneElement.VAR_DISP_X));
 		position.setDispY(valueMap.getValue(element, SceneElement.VAR_DISP_Y));
 
-		updateTransformation();
+		
 	}
 
 	/**
@@ -227,7 +228,7 @@ public abstract class SceneElementGOImpl<T extends EAdSceneElement> extends
 
 	}
 
-	protected void updateTransformation() {
+	public void resetTransfromation() {
 		transformation.setAlpha(alpha);
 		transformation.setVisible(visible);
 		transformation.getMatrix().setIdentity();
@@ -278,6 +279,7 @@ public abstract class SceneElementGOImpl<T extends EAdSceneElement> extends
 			gameState.getValueMap().setUpdateListEnable(false);
 			updateVars();
 			setVars();
+			resetTransfromation();
 			gameState.getValueMap().setUpdateListEnable(true);
 		}
 	}
