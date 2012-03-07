@@ -47,14 +47,14 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import playn.core.Canvas;
-import playn.core.CanvasLayer;
 
+import com.google.gwt.dom.client.Element;
+import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
-import ead.common.resources.assets.drawable.basics.Image;
 import ead.engine.core.game.GameLoop;
 import ead.engine.core.game.GameState;
 import ead.engine.core.gameobjects.GameObjectManager;
@@ -75,15 +75,6 @@ public class PlayNGUI extends AbstractGUI<Canvas> implements GUI {
 	 * The class logger
 	 */
 	private static final Logger logger = LoggerFactory.getLogger("PlayNGUI");
-
-	/**
-	 * The {@code Canvas} object where the actual game is drawn
-	 */
-	@SuppressWarnings("unused")
-	private Canvas canvas;
-
-	@SuppressWarnings("unused")
-	private CanvasLayer canvasLayer;
 
 	private Object currentComponent;
 
@@ -109,8 +100,14 @@ public class PlayNGUI extends AbstractGUI<Canvas> implements GUI {
 		if (resource != null) {
 			if (currentComponent != resource) {
 				Widget widget = (Widget) resource;
-				RootPanel.get().add(widget, 0, 0);
-				// graphics().rootLayer().remove(canvasLayer);
+				Element root = DOM.getElementById("playn-root");
+				int xRoot = root.getAbsoluteLeft();
+				int yRoot = root.getAbsoluteTop();
+				int width = root.getAbsoluteRight() - xRoot;
+				int height = root.getAbsoluteBottom() - yRoot;
+				widget.setWidth(width + "");
+				widget.setHeight(height + "");
+				RootPanel.get().add(widget, xRoot, yRoot);
 				graphics().rootLayer().setVisible(false);
 				currentComponent = resource;
 			}
@@ -146,7 +143,6 @@ public class PlayNGUI extends AbstractGUI<Canvas> implements GUI {
 	 */
 	@Override
 	public void initialize() {
-		// TODO initialize Canvas
 		logger.info("PlayN GUI initialized");
 	}
 
@@ -155,18 +151,8 @@ public class PlayNGUI extends AbstractGUI<Canvas> implements GUI {
 	 * 
 	 * @param layer
 	 */
-	public void initializeCanvas(Canvas canvas, CanvasLayer layer) {
+	public void initializeCanvas(Canvas canvas) {
 		eAdCanvas.setGraphicContext(canvas);
-		this.canvasLayer = layer;
-		/*
-		 * canvas.addMouseListener(listener);
-		 * canvas.addMouseMotionListener(listener);
-		 * canvas.addKeyListener(listener);
-		 */
-	}
-
-	public void changeCursor(Image image) {
-		// NOT COMPATIBLE?
 	}
 
 	@Override

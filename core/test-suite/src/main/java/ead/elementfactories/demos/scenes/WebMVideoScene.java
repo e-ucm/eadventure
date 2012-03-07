@@ -51,7 +51,7 @@ public class WebMVideoScene extends VideoScene implements SceneDemo {
 
 	public WebMVideoScene() {
 		setId("videoScene");
-		EAdVideo video = new Video("@binary/Heimlich.AVIXVID.webm");
+		EAdVideo video = new Video("@binary/eAdventure.webm");
 		getDefinition().getResources().addAsset(VideoScene.video, video);
 		
 		ChangeSceneEf changeScene = new ChangeSceneEf();

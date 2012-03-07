@@ -37,10 +37,10 @@
 
 package ead.engine.html;
 
-import com.google.gwt.core.client.EntryPoint;
-import com.google.gwt.user.client.ui.RootPanel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import com.google.gwt.core.client.EntryPoint;
 
 public class HtmlEntryPoint implements EntryPoint {
 
@@ -48,8 +48,9 @@ public class HtmlEntryPoint implements EntryPoint {
 
 	@Override
 	public void onModuleLoad() {
-		if (RootPanel.get("demo") != null) {
-			logger.info("engine demo");
+		String demo = com.google.gwt.user.client.Window.Location.getParameter("demo");
+		if ( demo == null ){
+			logger.info("engine demo {}", demo);
 			EAdEngineHtml engineDemo = new EAdEngineHtml();
 			engineDemo.onModuleLoad();
 		} else {

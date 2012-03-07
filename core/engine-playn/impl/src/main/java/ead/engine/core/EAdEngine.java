@@ -37,40 +37,31 @@
 
 package ead.engine.core;
 
-import com.google.gwt.dom.client.NativeEvent;
-import com.google.gwt.user.client.Event.NativePreviewEvent;
-import com.google.gwt.user.client.Event.NativePreviewHandler;
+import static playn.core.PlayN.graphics;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import playn.core.Canvas;
+import playn.core.CanvasImage;
+import playn.core.Graphics;
+import playn.core.PlayN;
+import playn.html.HtmlPlatform;
+
 import com.google.inject.Inject;
-import ead.common.model.elements.guievents.MouseGEv;
-import ead.common.model.elements.guievents.enums.MouseGEvButtonType;
-import ead.common.model.elements.guievents.enums.MouseGEvType;
+
 import ead.engine.core.game.Game;
 import ead.engine.core.input.InputHandler;
-import ead.engine.core.input.actions.MouseInputAction;
+import ead.engine.core.input.PlayNInputListener;
 import ead.engine.core.platform.AssetHandler;
 import ead.engine.core.platform.EngineConfiguration;
 import ead.engine.core.platform.GUI;
 import ead.engine.core.platform.PlayNAssetHandler;
 import ead.engine.core.platform.PlayNGUI;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import playn.core.Canvas;
-import playn.core.CanvasLayer;
-import playn.core.Graphics;
-import playn.core.Keyboard;
-import playn.core.Keyboard.Event;
-import playn.core.Keyboard.TypedEvent;
-import playn.core.PlayN;
-import static playn.core.PlayN.*;
-import playn.core.Pointer;
-import playn.html.HtmlPlatform;
 
-public class EAdEngine implements playn.core.Game, Keyboard.Listener {
+public class EAdEngine implements playn.core.Game {
 
 	private Canvas gameLayer;
-
-	@SuppressWarnings("unused")
-	private float touchVectorX, touchVectorY;
 
 	private Game game;
 
@@ -95,104 +86,21 @@ public class EAdEngine implements playn.core.Game, Keyboard.Listener {
 
 	@Override
 	public void init() {
-		graphics().setSize(engineConfiguration.getWidth(), engineConfiguration.getHeight());
+		graphics().setSize(engineConfiguration.getWidth(),
+				engineConfiguration.getHeight());
 		PlayN.log().debug("EAdEngine: init");
-
+		PlayNInputListener listener = new PlayNInputListener(inputHandler);
+		PlayN.mouse().setListener(listener);
+		PlayN.keyboard().setListener(listener);
 		HtmlPlatform.disableRightClickContextMenu();
+		HtmlPlatform.setCursor(null);
 
-		/*
-		 * gameLayer = graphics().createSurfaceLayer(graphics().width(),
-		 * graphics().height()); graphics().rootLayer().add(gameLayer);
-		 */
-
-		CanvasLayer layer = graphics().createCanvasLayer(graphics().width(),
-				graphics().height());
-		graphics().rootLayer().add(layer);
-
-		gameLayer = layer.canvas();
-		gameLayer.setStrokeWidth(2);
+		CanvasImage canvas = graphics().createImage(graphics().width(), graphics().height());
+		gameLayer = canvas.canvas();
 		gameLayer.setStrokeColor(0xffff0000);
-		gameLayer.strokeRect(1, 1, 46, 46);
-
-		((PlayNGUI) gui).initializeCanvas(gameLayer, layer);
-
-		keyboard().setListener(this);
-		pointer().setListener(new Pointer.Listener() {
-			@Override
-			public void onPointerEnd(Pointer.Event event) {
-				touchVectorX = touchVectorY = 0;
-			}
-
-			@Override
-			public void onPointerDrag(Pointer.Event event) {
-				touchMove(event.x(), event.y());
-			}
-
-			@Override
-			public void onPointerStart(Pointer.Event event) {
-				touchMove(event.x(), event.y());
-			}
-		});
-
-		com.google.gwt.user.client.Event
-				.addNativePreviewHandler(new NativePreviewHandler() {
-					public void onPreviewNativeEvent(
-							final NativePreviewEvent event) {
-						int eventType = event.getTypeInt();
-						int eventX = event.getNativeEvent().getClientX();
-						int eventY = event.getNativeEvent().getClientY();
-						MouseGEvButtonType b = getMouseButton(event.getNativeEvent()
-								.getButton());
-
-						inputHandler.addAction(new MouseInputAction(MouseGEv.MOUSE_MOVED, eventX, eventY ));
-						// TODO double click
-						MouseGEv e = null;
-						switch (eventType) {
-						case com.google.gwt.user.client.Event.ONCLICK:
-							// Do nothing. Clicks are processed in ONMOUSEUP;
-							break;
-						case com.google.gwt.user.client.Event.ONMOUSEDOWN:
-							e = MouseGEv.getMouseEvent(
-									MouseGEvType.PRESSED, b);
-							break;
-						case com.google.gwt.user.client.Event.ONMOUSEUP:
-							e = MouseGEv.getMouseEvent(
-									MouseGEvType.RELEASED, b);
-							inputHandler.addAction(new MouseInputAction(MouseGEv.getMouseEvent(
-									MouseGEvType.CLICK, b), eventX, eventY ));
-							break;
-						default:
-							// not interested in other events
-						}
-						if (e != null)
-							inputHandler.addAction(
-									new MouseInputAction(e, eventX, eventY));
-					}
-				});
-	}
-
-	private MouseGEvButtonType getMouseButton(int b) {
-		switch (b) {
-		case NativeEvent.BUTTON_LEFT:
-			return MouseGEvButtonType.BUTTON_1;
-		case NativeEvent.BUTTON_MIDDLE:
-			return MouseGEvButtonType.BUTTON_2;
-		case NativeEvent.BUTTON_RIGHT:
-			return MouseGEvButtonType.BUTTON_3;
-		default:
-			return MouseGEvButtonType.NO_BUTTON;
-		}
-	}
-
-	@Override
-	public void onKeyDown(Event event) {
-
-
-	}
-
-	@Override
-	public void onKeyUp(Event event) {
-
+		gameLayer.drawText("Loading...", 20, 20);
+		graphics().rootLayer().add(graphics().createImageLayer(canvas));
+		((PlayNGUI) gui).initializeCanvas(gameLayer);
 
 	}
 
@@ -212,14 +120,6 @@ public class EAdEngine implements playn.core.Game, Keyboard.Listener {
 
 	}
 
-	private void touchMove(float x, float y) {
-		float cx = graphics().screenWidth() / 2;
-		float cy = graphics().screenHeight() / 2;
-
-		touchVectorX = (x - cx) * 1.0f / cx;
-		touchVectorY = (y - cy) * 1.0f / cy;
-	}
-
 	@Override
 	public void paint(float alpha) {
 		game.render(alpha);
@@ -234,8 +134,4 @@ public class EAdEngine implements playn.core.Game, Keyboard.Listener {
 		return graphics();
 	}
 
-	@Override
-	public void onKeyTyped(TypedEvent event) {
-
-	}
 }

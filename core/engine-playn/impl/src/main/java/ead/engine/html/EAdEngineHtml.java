@@ -66,12 +66,6 @@ public class EAdEngineHtml extends HtmlGame {
 	public void start() {
 
 		HtmlAssets assets = HtmlPlatform.register(Mode.AUTODETECT).assets();
-		
-		
-		
-		//FIXME This should be added when the cursor starts working correctly...
-//		HtmlPlatform.setCursor(null);
-		
 		assets.setPathPrefix("");
 
 		injector.getPlayNInjector().setInjector(injector);
