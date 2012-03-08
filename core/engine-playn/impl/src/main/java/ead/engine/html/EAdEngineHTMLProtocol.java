@@ -37,6 +37,9 @@
 
 package ead.engine.html;
 
+import com.google.gwt.core.client.Scheduler;
+import com.google.gwt.core.client.Scheduler.RepeatingCommand;
+
 import ead.common.util.StringHandler;
 import ead.elementfactories.EAdElementsFactory;
 import ead.engine.core.game.Game;
@@ -45,20 +48,37 @@ import ead.engine.reader.GWTStringReader;
 
 public class EAdEngineHTMLProtocol extends EAdEngineHtml {
 
+	private Game game;
+
 	public Game loadGame() {
-		Game game = injector.getGame();
+		game = injector.getGame();
 		game.loadGame();
-
-		GWTReader gwtReader = new GWTReader();
-		gwtReader.readXML("eadengine/data.xml", game);
-
-		// String handler after creating the scene
-		StringHandler stringHandler = injector.getStringHandler();
-		stringHandler.addStrings(EAdElementsFactory.getInstance()
-				.getStringFactory().getStrings());
-		GWTStringReader stringReader = new GWTStringReader();
-		stringReader.readXML("eadengine/values/strings.xml", stringHandler);
-		
+		Scheduler.get().scheduleIncremental(new LoadXML());
 		return game;
+	}
+
+	public class LoadXML implements RepeatingCommand {
+
+		private int state = 0;
+
+		@Override
+		public boolean execute() {
+			if (state == 0) {
+				GWTReader gwtReader = new GWTReader();
+				gwtReader.readXML("eadengine/data.xml", game);
+				state++;
+				return false;
+			} else {
+				StringHandler stringHandler = injector.getStringHandler();
+				stringHandler.addStrings(EAdElementsFactory.getInstance()
+						.getStringFactory().getStrings());
+				GWTStringReader stringReader = new GWTStringReader();
+				stringReader.readXML("eadengine/values/strings.xml",
+						stringHandler);
+				state++;
+				return true;
+			}
+		}
+
 	}
 }

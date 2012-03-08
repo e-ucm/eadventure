@@ -35,62 +35,55 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ead.common.resources.assets.drawable.compounds;
+package ead.engine.core.platform.assets;
 
-import ead.common.interfaces.Param;
-import ead.common.resources.assets.drawable.basics.EAdBasicDrawable;
-import ead.common.resources.assets.drawable.compounds.EAdDisplacedDrawable;
-import ead.common.util.EAdPosition;
+import ead.common.resources.assets.AssetDescriptor;
 
-public class DisplacedDrawable implements EAdDisplacedDrawable {
+/**
+ * A platform-independent description of an asset in the runtime environment
+ * 
+ * @param <T>
+ *            The type of the {@link AssetDescriptor}
+ */
+public interface RuntimeAsset<T extends AssetDescriptor> {
 
-	@Param("displacement")
-	private EAdPosition displacement;
-	
-	@Param("asset")
-	private EAdBasicDrawable drawable;
-	
-	public DisplacedDrawable(){
-		
-	}
-	
-	public DisplacedDrawable( EAdBasicDrawable drawable, EAdPosition displacement ){
-		this.drawable = drawable;
-		this.displacement = displacement;
-	}
-	
-	/* (non-Javadoc)
-	 * @see es.eucm.eadventure.common.resources.assets.drawable.DisplacedDrawable#getDisplacement()
-	 */
-	@Override
-	public EAdPosition getDisplacement() {
-		return displacement;
-	}
-	
 	/**
-	 * Set the relative displacement of the asset
+	 * Load the actual asset into memory
 	 * 
-	 * @param position
+	 * @return True if the asset was loaded correctly
 	 */
-	public void setDisplacement(EAdPosition position) {
-		displacement = position;
-	}
+	boolean loadAsset();
 
-	/* (non-Javadoc)
-	 * @see es.eucm.eadventure.common.resources.assets.drawable.DisplacedDrawable#getDrawable()
-	 */
-	@Override
-	public EAdBasicDrawable getDrawable() {
-		return drawable;
-	}
-	
 	/**
-	 * Set the drawable asset
-	 * 
-	 * @param asset
+	 * Free the memory resources used by the asset
 	 */
-	public void setDrawable(EAdBasicDrawable asset) {
-		this.drawable = asset;
-	}
+	void freeMemory();
+
+	/**
+	 * Returns true if the asset is loaded
+	 * 
+	 * @return true if the asset is loaded
+	 */
+	boolean isLoaded();
+
+	/**
+	 * Set the descriptor of the asset
+	 * 
+	 * @param descriptor
+	 *            the {@link AssetDescriptor}
+	 */
+	void setDescriptor(T descriptor);
+
+	/**
+	 * Returns the asset descriptor for this runtime asset
+	 * 
+	 * @return
+	 */
+	T getAssetDescriptor();
+
+	/**
+	 * Updates the asset
+	 */
+	void update();
 
 }

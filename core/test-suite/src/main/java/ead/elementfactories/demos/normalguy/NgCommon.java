@@ -51,7 +51,6 @@ import ead.common.model.elements.variables.operations.ValueOp;
 import ead.common.resources.assets.drawable.basics.Image;
 import ead.common.resources.assets.drawable.basics.animation.Frame;
 import ead.common.resources.assets.drawable.basics.animation.FramesAnimation;
-import ead.common.resources.assets.drawable.compounds.OrientedDrawable;
 import ead.common.resources.assets.drawable.compounds.StateDrawable;
 
 public class NgCommon {
@@ -92,7 +91,7 @@ public class NgCommon {
 		mainCharacter.setId("mainCharacter");
 
 		// Stand
-		OrientedDrawable oriented = new OrientedDrawable();
+		StateDrawable oriented = new StateDrawable();
 		// South
 		FramesAnimation frames = new FramesAnimation();
 		Frame standSouth = new Frame("@drawable/man_stand_s_1.png", notBlink);
@@ -124,7 +123,7 @@ public class NgCommon {
 				oriented);
 
 		// Walk
-		oriented = new OrientedDrawable();
+		oriented = new StateDrawable();
 		// South
 		frames = new FramesAnimation();
 		frames.addFrame(new Frame("@drawable/man_walk_s_1.png", walkTime));
@@ -154,7 +153,7 @@ public class NgCommon {
 				oriented);
 
 		// Talk
-		oriented = new OrientedDrawable();
+		oriented = new StateDrawable();
 		// South
 		frames = new FramesAnimation();
 		frames.addFrame(new Frame("@drawable/man_stand_s_1.png", talkTime));

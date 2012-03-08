@@ -53,7 +53,7 @@ import ead.engine.core.gameobjects.factories.SceneElementGOFactory;
 import ead.engine.core.gameobjects.go.SceneGO;
 import ead.engine.core.gameobjects.go.transitions.SceneLoader;
 import ead.engine.core.gameobjects.go.transitions.SceneLoaderListener;
-import ead.engine.core.platform.AssetHandler;
+import ead.engine.core.platform.assets.AssetHandler;
 
 @Singleton
 public class DefaultSceneLoader implements SceneLoader {
@@ -109,8 +109,9 @@ public class DefaultSceneLoader implements SceneLoader {
 		assetsList = sceneGO.getAssets(assetsList, false);
 
 		for (AssetDescriptor asset : assetsList) {
-			if (asset != null)
+			if (asset != null) {
 				assetHandler.getRuntimeAsset(asset, true);
+			}
 		}
 	}
 
@@ -124,7 +125,8 @@ public class DefaultSceneLoader implements SceneLoader {
 
 	protected void freeScene() {
 		currentAssets.clear();
-		assetHandler.clean(currentSceneGO.getAssets(currentAssets, true));
+		// FIXME remove assets in other way
+//		assetHandler.clean(currentSceneGO.getAssets(currentAssets, true));
 
 		goList.clear();
 		currentGoList.clear();

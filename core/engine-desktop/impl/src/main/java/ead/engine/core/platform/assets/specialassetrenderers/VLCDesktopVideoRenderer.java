@@ -55,8 +55,8 @@ import com.google.inject.Inject;
 import com.sun.jna.NativeLibrary;
 
 import ead.common.resources.assets.multimedia.EAdVideo;
-import ead.engine.core.platform.AssetHandler;
-import ead.engine.core.platform.SpecialAssetRenderer;
+import ead.engine.core.platform.assets.AssetHandler;
+import ead.engine.core.platform.assets.SpecialAssetRenderer;
 import ead.engine.core.platform.assets.specialassetrenderers.extra.VLCMediaPlayerEventListener;
 import ead.engine.core.platform.assets.specialassetrenderers.extra.WinRegistry;
 

@@ -61,8 +61,8 @@ import ead.engine.core.gameobjects.factories.SceneElementGOFactory;
 import ead.engine.core.gameobjects.go.SceneGO;
 import ead.engine.core.gameobjects.go.transitions.SceneLoader;
 import ead.engine.core.gameobjects.go.transitions.TransitionGO;
-import ead.engine.core.platform.AssetHandler;
 import ead.engine.core.platform.GUI;
+import ead.engine.core.platform.assets.AssetHandler;
 
 public abstract class AbstractTransitionGO<T extends EAdTransition> extends
 		SceneGOImpl implements TransitionGO<T> {

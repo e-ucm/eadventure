@@ -41,34 +41,40 @@ import ead.common.interfaces.Param;
 import ead.common.model.elements.extra.EAdList;
 import ead.common.model.elements.extra.EAdListImpl;
 import ead.common.resources.assets.drawable.basics.EAdBasicDrawable;
-import ead.common.resources.assets.drawable.compounds.EAdComposedDrawable;
-import ead.common.resources.assets.drawable.compounds.EAdDisplacedDrawable;
 import ead.common.util.EAdPosition;
 
 public class ComposedDrawable implements EAdComposedDrawable {
 
 	@Param("assetList")
-	private EAdList<EAdDisplacedDrawable> assetList;
+	private EAdList<EAdBasicDrawable> assetList;
+
+	@Param("positions")
+	private EAdList<EAdPosition> positionsList;
 
 	public ComposedDrawable() {
-		assetList = new EAdListImpl<EAdDisplacedDrawable>(EAdDisplacedDrawable.class);
+		assetList = new EAdListImpl<EAdBasicDrawable>(EAdBasicDrawable.class);
+		positionsList = new EAdListImpl<EAdPosition>(EAdPosition.class);
 	}
 
 	@Override
-	public EAdList<EAdDisplacedDrawable> getAssetList() {
+	public EAdList<EAdBasicDrawable> getAssetList() {
 		return assetList;
 	}
 
 	@Override
 	public void addDrawable(EAdBasicDrawable drawable, int xOffset, int yOffset) {
-		assetList.add(new DisplacedDrawable(drawable, new EAdPosition(
-				xOffset, yOffset)));
+		assetList.add(drawable);
+		positionsList.add(new EAdPosition(xOffset, yOffset));
 	}
 
 	@Override
 	public void addDrawable(EAdBasicDrawable drawable) {
 		addDrawable(drawable, 0, 0);
 	}
-	
+
+	@Override
+	public EAdList<EAdPosition> getPositions() {
+		return positionsList;
+	}
 
 }

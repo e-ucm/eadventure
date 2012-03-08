@@ -51,7 +51,7 @@ import android.graphics.Canvas;
 
 import com.google.inject.Inject;
 
-import ead.engine.core.platform.AssetHandler;
+import ead.engine.core.platform.assets.AssetHandler;
 import ead.engine.core.platform.assets.drawables.basics.RuntimeImage;
 import ead.engine.core.platform.rendering.GenericCanvas;
 

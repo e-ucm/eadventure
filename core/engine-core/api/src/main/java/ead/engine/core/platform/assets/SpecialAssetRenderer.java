@@ -35,54 +35,41 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ead.engine.core.platform;
-
-import ead.common.resources.assets.text.EAdFont;
-import ead.common.util.EAdRectangle;
+package ead.engine.core.platform.assets;
 
 /**
- * Represents a runtime font. Unlike {@link EAdFont}, which only contains static
- * information about the font, this class contains information that would be
- * required during the game execution, such as font measurements.
+ * Renderer for special assets (e.g. video), which need to be rendered
+ * independently of the rest of the elements in the game.
  * 
- * {@link RuntimeFont} is born from an {@link EAdFont}
+ * @param <S>
+ *            The type of the asset
+ * @param <T>
+ *            The type of the component used to render the asset
  */
-public interface RuntimeFont {
+public interface SpecialAssetRenderer<S, T> {
 
 	/**
-	 * Returns the {@link EAdFont} linked to this object
+	 * The platform-dependent component or element used to rendered the asset
 	 * 
-	 * @return the {@link EAdFont} linked to this object
+	 * @param asset
+	 *            the asset to be rendered
+	 * @return
 	 */
-	EAdFont getEAdFont();
+	T getComponent(S asset);
 
 	/**
-	 * Returns the string width with the given font in the current context
-	 * 
-	 * @param string
-	 *            String to be measured
-	 * @param font
-	 *            Font used in string measurement
-	 * @return the string width with the given font in the current context
+	 * @return true if reproduction of asset has finished
 	 */
-	int stringWidth(String string);
+	boolean isFinished();
 
 	/**
-	 * Returns one line's height with the given font
-	 * 
-	 * @param font
-	 *            Font used in string measurement
-	 * @return one line's height with the given font
+	 * @return start the reproduction of the asset
 	 */
-	int lineHeight();
+	boolean start();
 
 	/**
-	 * Returns the string bounds
-	 * 
-	 * @param string
-	 *            string to be measured
-	 * @return the string bounds
+	 * Resets the special asset renderer
 	 */
-	EAdRectangle stringBounds(String string);
+	void reset();
 
 }

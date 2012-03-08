@@ -38,13 +38,10 @@
 package ead.engine.core.platform.assets;
 
 import ead.common.resources.assets.AssetDescriptor;
-import ead.engine.core.platform.RuntimeAsset;
 
 public abstract class AbstractRuntimeAsset<T extends AssetDescriptor> implements RuntimeAsset<T> {
 
 	protected T descriptor;
-	
-	protected String state;
 	
 	@Override
 	public void setDescriptor(T descriptor) {
@@ -57,7 +54,4 @@ public abstract class AbstractRuntimeAsset<T extends AssetDescriptor> implements
 		return descriptor;
 	}
 	
-	public void setState(String state){
-		this.state = state;
-	}
 }

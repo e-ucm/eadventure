@@ -37,6 +37,7 @@
 
 package ead.common.resources.assets.drawable.compounds;
 
+import java.util.Collection;
 import java.util.Set;
 
 import ead.common.resources.assets.drawable.EAdDrawable;
@@ -75,5 +76,12 @@ public interface EAdStateDrawable extends EAdDrawable {
 	 * @return A set with all the states in the drawable bundle
 	 */
 	Set<String> getStates();
+
+	/**
+	 * Returns a collection with all the drawables contained by this state drawable
+	 * 
+	 * @return
+	 */
+	Collection<EAdDrawable> getDrawables();
 
 }

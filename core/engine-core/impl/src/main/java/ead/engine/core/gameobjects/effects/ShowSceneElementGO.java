@@ -44,8 +44,8 @@ import ead.common.util.StringHandler;
 import ead.engine.core.game.GameState;
 import ead.engine.core.gameobjects.factories.SceneElementGOFactory;
 import ead.engine.core.gameobjects.go.SceneElementGO;
-import ead.engine.core.platform.AssetHandler;
 import ead.engine.core.platform.GUI;
+import ead.engine.core.platform.assets.AssetHandler;
 import ead.engine.core.util.EAdTransformation;
 
 public class ShowSceneElementGO extends AbstractEffectGO<ShowSceneElementEf> {

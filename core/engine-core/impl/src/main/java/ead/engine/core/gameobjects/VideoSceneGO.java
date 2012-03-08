@@ -53,9 +53,9 @@ import ead.engine.core.gameobjects.factories.SceneElementGOFactory;
 import ead.engine.core.gameobjects.go.SceneGO;
 import ead.engine.core.gameobjects.sceneelements.SceneElementGOImpl;
 import ead.engine.core.input.InputAction;
-import ead.engine.core.platform.AssetHandler;
 import ead.engine.core.platform.GUI;
-import ead.engine.core.platform.SpecialAssetRenderer;
+import ead.engine.core.platform.assets.AssetHandler;
+import ead.engine.core.platform.assets.SpecialAssetRenderer;
 import ead.engine.core.util.EAdTransformation;
 
 public class VideoSceneGO extends SceneElementGOImpl<VideoScene> implements

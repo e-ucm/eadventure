@@ -37,31 +37,35 @@
 
 package ead.engine.core.platform.assets.drawables.compunds;
 
+import java.util.List;
+
 import com.google.inject.Inject;
 
-import ead.common.resources.assets.drawable.EAdDrawable;
 import ead.common.resources.assets.drawable.filters.EAdFilteredDrawable;
-import ead.engine.core.platform.AssetHandler;
-import ead.engine.core.platform.DrawableAsset;
 import ead.engine.core.platform.assets.AbstractRuntimeAsset;
+import ead.engine.core.platform.assets.AssetHandler;
+import ead.engine.core.platform.assets.RuntimeDrawable;
 import ead.engine.core.platform.rendering.GenericCanvas;
 
-public class RuntimeFilteredDrawable<GraphicContext> extends AbstractRuntimeAsset<EAdFilteredDrawable> implements DrawableAsset<EAdFilteredDrawable, GraphicContext>{
-	
+public class RuntimeFilteredDrawable<GraphicContext> extends
+		AbstractRuntimeAsset<EAdFilteredDrawable> implements
+		RuntimeDrawable<EAdFilteredDrawable, GraphicContext> {
+
 	private AssetHandler assetHandler;
-	
-	private DrawableAsset<?, GraphicContext> drawable;
-	
+
+	private RuntimeDrawable<?, GraphicContext> drawable;
+
 	@Inject
-	public RuntimeFilteredDrawable( AssetHandler assetHandler ){
+	public RuntimeFilteredDrawable(AssetHandler assetHandler) {
 		this.assetHandler = assetHandler;
 	}
 
 	@SuppressWarnings("unchecked")
 	@Override
 	public boolean loadAsset() {
-		drawable = (DrawableAsset<?, GraphicContext>) assetHandler.getRuntimeAsset(descriptor.getDrawable());
-		if ( drawable != null ){
+		drawable = (RuntimeDrawable<?, GraphicContext>) assetHandler
+				.getRuntimeAsset(descriptor.getDrawable());
+		if (drawable != null) {
 			return drawable.loadAsset();
 		}
 		return false;
@@ -69,7 +73,7 @@ public class RuntimeFilteredDrawable<GraphicContext> extends AbstractRuntimeAsse
 
 	@Override
 	public void freeMemory() {
-		if ( drawable != null )
+		if (drawable != null)
 			drawable.freeMemory();
 	}
 
@@ -96,12 +100,6 @@ public class RuntimeFilteredDrawable<GraphicContext> extends AbstractRuntimeAsse
 		return drawable.getHeight();
 	}
 
-	@SuppressWarnings("unchecked")
-	@Override
-	public <S extends EAdDrawable> DrawableAsset<S, GraphicContext> getDrawable() {
-		return (DrawableAsset<S, GraphicContext>) this;
-	}
-
 	@Override
 	public void render(GenericCanvas<GraphicContext> c) {
 		c.save();
@@ -114,6 +112,11 @@ public class RuntimeFilteredDrawable<GraphicContext> extends AbstractRuntimeAsse
 	public boolean contains(int x, int y) {
 		// TODO filter could change this
 		return drawable.contains(x, y);
+	}
+
+	@Override
+	public RuntimeDrawable<?, ?> getDrawable(int time, List<String> states, int level) {
+		return this;
 	}
 
 }

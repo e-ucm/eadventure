@@ -52,8 +52,8 @@ import ead.engine.core.gameobjects.factories.EventGOFactory;
 import ead.engine.core.gameobjects.factories.SceneElementGOFactory;
 import ead.engine.core.gameobjects.go.SceneElementGO;
 import ead.engine.core.input.InputAction;
-import ead.engine.core.platform.AssetHandler;
 import ead.engine.core.platform.GUI;
+import ead.engine.core.platform.assets.AssetHandler;
 
 public class BasicSceneElementGO extends
 		SceneElementGOImpl<SceneElement> {

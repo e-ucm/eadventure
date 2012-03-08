@@ -35,7 +35,7 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ead.engine.core.platform;
+package ead.engine.core.platform.assets;
 
 import java.util.List;
 
@@ -124,7 +124,7 @@ public interface AssetHandler {
 	<T extends AssetDescriptor> RuntimeAsset<T> getRuntimeAsset(T descriptor,
 			boolean load);
 
-	<T extends EAdDrawable, GraphicContext> DrawableAsset<T, GraphicContext> getDrawableAsset(
+	<T extends EAdDrawable, GraphicContext> RuntimeDrawable<T, GraphicContext> getDrawableAsset(
 			T descriptor, GenericCanvas<GraphicContext> clazz);
 
 	/**

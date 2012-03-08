@@ -44,8 +44,8 @@ import com.google.inject.Inject;
 
 import ead.common.resources.assets.multimedia.EAdVideo;
 import ead.engine.core.platform.AndroidAssetHandler;
-import ead.engine.core.platform.AssetHandler;
-import ead.engine.core.platform.SpecialAssetRenderer;
+import ead.engine.core.platform.assets.AssetHandler;
+import ead.engine.core.platform.assets.SpecialAssetRenderer;
 
 public class AndroidVideoRenderer implements SpecialAssetRenderer<EAdVideo, Object> {
 	

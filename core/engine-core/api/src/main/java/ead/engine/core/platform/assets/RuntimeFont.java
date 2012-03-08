@@ -35,25 +35,54 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ead.common.resources.assets.drawable.compounds;
+package ead.engine.core.platform.assets;
 
-import ead.common.interfaces.features.enums.Orientation;
-import ead.common.resources.assets.drawable.EAdDrawable;
+import ead.common.resources.assets.text.EAdFont;
+import ead.common.util.EAdRectangle;
 
 /**
+ * Represents a runtime font. Unlike {@link EAdFont}, which only contains static
+ * information about the font, this class contains information that would be
+ * required during the game execution, such as font measurements.
  * 
- * Interface defining oriented drawables
- * 
+ * {@link RuntimeFont} is born from an {@link EAdFont}
  */
-public interface EAdOrientedDrawable extends EAdDrawable {
+public interface RuntimeFont {
 
 	/**
-	 * Returns the {@link EAdDrawable} associated with the given orientation
+	 * Returns the {@link EAdFont} linked to this object
 	 * 
-	 * @param orientation
-	 *            the orientation
-	 * @return the {@link EAdDrawable} associated with the given orientation
+	 * @return the {@link EAdFont} linked to this object
 	 */
-	EAdDrawable getDrawable(Orientation orientation);
+	EAdFont getEAdFont();
+
+	/**
+	 * Returns the string width with the given font in the current context
+	 * 
+	 * @param string
+	 *            String to be measured
+	 * @param font
+	 *            Font used in string measurement
+	 * @return the string width with the given font in the current context
+	 */
+	int stringWidth(String string);
+
+	/**
+	 * Returns one line's height with the given font
+	 * 
+	 * @param font
+	 *            Font used in string measurement
+	 * @return one line's height with the given font
+	 */
+	int lineHeight();
+
+	/**
+	 * Returns the string bounds
+	 * 
+	 * @param string
+	 *            string to be measured
+	 * @return the string bounds
+	 */
+	EAdRectangle stringBounds(String string);
 
 }

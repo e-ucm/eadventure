@@ -44,7 +44,6 @@ import com.google.inject.Inject;
 
 import ead.common.resources.assets.text.enums.FontStyle;
 import ead.common.util.EAdRectangle;
-import ead.engine.core.platform.AssetHandler;
 import ead.engine.core.platform.assets.text.BasicRuntimeFont;
 
 public class AndroidFont extends BasicRuntimeFont {

@@ -42,8 +42,6 @@ import ead.common.resources.assets.drawable.EAdDrawable;
 import ead.common.resources.assets.drawable.basics.Image;
 import ead.common.resources.assets.drawable.basics.animation.Frame;
 import ead.common.resources.assets.drawable.basics.animation.FramesAnimation;
-import ead.common.resources.assets.drawable.compounds.EAdOrientedDrawable;
-import ead.common.resources.assets.drawable.compounds.OrientedDrawable;
 import ead.common.resources.assets.drawable.compounds.EAdStateDrawable;
 import ead.common.resources.assets.drawable.compounds.StateDrawable;
 
@@ -63,8 +61,8 @@ public class DrawableFactory {
 		
 	}
 	
-	public EAdOrientedDrawable getOrientedDrawable( String[] uris ){
-		OrientedDrawable oriented = new OrientedDrawable( );
+	public StateDrawable getOrientedDrawable( String[] uris ){
+		StateDrawable oriented = new StateDrawable( );
 		if ( uris.length == 4 ){
 			int i = 0;
 			oriented.setDrawable(Orientation.N, getImage( uris[i++]));

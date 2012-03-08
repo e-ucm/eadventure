@@ -49,6 +49,7 @@ import ead.engine.core.gameobjects.GameObjectManager;
 import ead.engine.core.gameobjects.factories.SceneElementGOFactory;
 import ead.engine.core.input.DesktopInputListener;
 import ead.engine.core.input.InputHandler;
+import ead.engine.core.platform.assets.RuntimeAsset;
 import ead.engine.core.platform.assets.drawables.basics.DesktopImage;
 import ead.engine.core.platform.rendering.DesktopCanvas;
 import ead.utils.swing.SwingExceptionHandler;

@@ -45,9 +45,9 @@ import ead.engine.core.game.GameState;
 import ead.engine.core.gameobjects.factories.SceneElementGOFactory;
 import ead.engine.core.gameobjects.go.transitions.TransitionGO;
 import ead.engine.core.gameobjects.go.transitions.TransitionGO.TransitionListener;
-import ead.engine.core.platform.AssetHandler;
 import ead.engine.core.platform.GUI;
 import ead.engine.core.platform.TransitionFactory;
+import ead.engine.core.platform.assets.AssetHandler;
 
 public class ChangeSceneGO extends AbstractEffectGO<ChangeSceneEf> implements TransitionListener {
 

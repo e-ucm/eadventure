@@ -47,8 +47,8 @@ import org.slf4j.LoggerFactory;
 
 import com.google.inject.Inject;
 
-import ead.engine.core.platform.AssetHandler;
 import ead.engine.core.platform.DesktopAssetHandler;
+import ead.engine.core.platform.assets.AssetHandler;
 import ead.engine.core.platform.rendering.GenericCanvas;
 
 public class DesktopImage extends RuntimeImage<Graphics2D> {

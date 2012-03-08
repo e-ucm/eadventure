@@ -50,8 +50,6 @@ import ead.common.model.elements.variables.operations.ValueOp;
 import ead.common.model.predef.sceneelements.Button;
 import ead.common.resources.assets.drawable.basics.Image;
 import ead.common.resources.assets.drawable.basics.animation.FramesAnimation;
-import ead.common.resources.assets.drawable.compounds.EAdOrientedDrawable;
-import ead.common.resources.assets.drawable.compounds.OrientedDrawable;
 import ead.common.resources.assets.drawable.compounds.EAdStateDrawable;
 import ead.common.resources.assets.drawable.compounds.StateDrawable;
 import ead.common.util.EAdPosition.Corner;
@@ -221,8 +219,8 @@ public class CharacterScene extends EmptyScene {
 		getSceneElements().add(walk);
 	}
 
-	private static EAdOrientedDrawable getTalkDrawable() {
-		OrientedDrawable oriented = new OrientedDrawable();
+	private static StateDrawable getTalkDrawable() {
+		StateDrawable oriented = new StateDrawable();
 		oriented.setDrawable(Orientation.N, new Image(
 				"@drawable/stand_up.png"));
 
@@ -241,8 +239,8 @@ public class CharacterScene extends EmptyScene {
 		return oriented;
 	}
 
-	private static EAdOrientedDrawable getWalkDrawable() {
-		OrientedDrawable oriented = new OrientedDrawable();
+	private static StateDrawable getWalkDrawable() {
+		StateDrawable oriented = new StateDrawable();
 
 		FramesAnimation up = EAdElementsFactory.getInstance()
 				.getDrawableFactory().getFramesAnimation(walkUpUris, 500);
@@ -264,7 +262,7 @@ public class CharacterScene extends EmptyScene {
 	}
 
 	public static EAdStateDrawable getStateDrawable() {
-		EAdOrientedDrawable stand = EAdElementsFactory.getInstance()
+		StateDrawable stand = EAdElementsFactory.getInstance()
 				.getDrawableFactory().getOrientedDrawable(standUris);
 
 		StateDrawable stateDrawable = new StateDrawable();

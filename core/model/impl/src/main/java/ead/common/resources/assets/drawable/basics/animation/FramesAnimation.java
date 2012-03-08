@@ -66,7 +66,7 @@ public class FramesAnimation implements EAdDrawable {
 	public void addFrame(Frame frame) {
 		frames.add(frame);
 	}
-	
+
 	private int getTotalTime() {
 		int totalTime = 0;
 		for (Frame frame : frames)
@@ -94,7 +94,12 @@ public class FramesAnimation implements EAdDrawable {
 		return frames.size();
 	}
 
-	public Frame getFrameFromTime(long timeDisplayed) {
+	public Frame getFrameFromTime(int timeDisplayed) {
+		int i = this.getFrameIndexFromTime(timeDisplayed);
+		return frames.get(i);
+	}
+
+	public int getFrameIndexFromTime(int timeDisplayed) {
 		int totalTime = getTotalTime();
 		if (totalTime > 0) {
 			long time = timeDisplayed % totalTime;
@@ -105,15 +110,13 @@ public class FramesAnimation implements EAdDrawable {
 				i++;
 			}
 
-			return getFrame(i);
+			return i;
 		}
-		return null;
+		return 0;
 	}
 
 	public EAdList<Frame> getFrames() {
 		return frames;
 	}
-	
-	
-	
+
 }

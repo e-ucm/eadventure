@@ -37,32 +37,35 @@
 
 package ead.engine.core.platform.assets.drawables.basics;
 
-import ead.common.resources.assets.drawable.EAdDrawable;
+import java.util.List;
+
 import ead.common.resources.assets.drawable.basics.shapes.BezierShape;
 import ead.common.util.EAdPosition;
-import ead.engine.core.platform.DrawableAsset;
 import ead.engine.core.platform.assets.AbstractRuntimeAsset;
+import ead.engine.core.platform.assets.RuntimeDrawable;
 import ead.engine.core.platform.rendering.GenericCanvas;
 
-public abstract class RuntimeBezierShape<GraphicContext> extends AbstractRuntimeAsset<BezierShape> implements DrawableAsset<BezierShape, GraphicContext>{
-	
+public abstract class RuntimeBezierShape<GraphicContext> extends
+		AbstractRuntimeAsset<BezierShape> implements
+		RuntimeDrawable<BezierShape, GraphicContext> {
+
 	protected boolean loaded = false;
-	
+
 	protected int width = 0;
-	
+
 	protected int height = 0;
-	
+
 	@Override
-	public boolean loadAsset(){
+	public boolean loadAsset() {
 		int point = 0;
-		
+
 		EAdPosition p = null;
 		int xMax = Integer.MIN_VALUE;
 		int xMin = Integer.MAX_VALUE;
 		int yMax = Integer.MIN_VALUE;
-		int yMin = Integer.MAX_VALUE; 
-		
-		for ( Integer i : descriptor.getSegmentsLength() ){
+		int yMin = Integer.MAX_VALUE;
+
+		for (Integer i : descriptor.getSegmentsLength()) {
 			p = descriptor.getPoints().get(point);
 			xMax = xMax < p.getX() ? p.getX() : xMax;
 			xMin = xMin > p.getX() ? p.getX() : xMin;
@@ -70,19 +73,19 @@ public abstract class RuntimeBezierShape<GraphicContext> extends AbstractRuntime
 			yMin = yMin > p.getY() ? p.getY() : yMin;
 			point += i;
 		}
-		
+
 		p = descriptor.getPoints().get(point);
 		xMax = xMax < p.getX() ? p.getX() : xMax;
 		xMin = xMin > p.getX() ? p.getX() : xMin;
 		yMax = yMax < p.getY() ? p.getY() : yMax;
 		yMin = yMin > p.getY() ? p.getY() : yMin;
-		
+
 		width = xMax - xMin;
 		height = yMax - yMin;
 		loaded = true;
 		return true;
 	}
-	
+
 	@Override
 	public int getWidth() {
 		return width;
@@ -100,19 +103,17 @@ public abstract class RuntimeBezierShape<GraphicContext> extends AbstractRuntime
 
 	@Override
 	public void update() {
-		
+
 	}
 
-	@SuppressWarnings("unchecked")
-	@Override
-	public <S extends EAdDrawable> DrawableAsset<S, GraphicContext> getDrawable() {
-		return (DrawableAsset<S, GraphicContext>) this;
-	}
-	
-	public void render(GenericCanvas<GraphicContext> c){
+	public void render(GenericCanvas<GraphicContext> c) {
 		c.setPaint(descriptor.getPaint());
 		c.drawShape(this);
 	}
 	
+	@Override
+	public RuntimeDrawable<?, ?> getDrawable(int time, List<String> states, int level) {
+		return this;
+	}
 
 }

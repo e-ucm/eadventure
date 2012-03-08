@@ -43,10 +43,11 @@ import org.slf4j.LoggerFactory;
 import playn.core.Canvas;
 import playn.core.Image;
 import playn.core.PlayN;
+import playn.core.ResourceCallback;
 
 import com.google.inject.Inject;
 
-import ead.engine.core.platform.AssetHandler;
+import ead.engine.core.platform.assets.AssetHandler;
 import ead.engine.core.platform.assets.drawables.basics.RuntimeImage;
 import ead.engine.core.platform.rendering.GenericCanvas;
 
@@ -62,6 +63,8 @@ public class PlayNImage extends RuntimeImage<Canvas> {
 	 */
 	private static final Logger logger = LoggerFactory
 			.getLogger("PlayNEngineImage");
+
+	private boolean loaded;
 
 	@Inject
 	public PlayNImage(AssetHandler assetHandler) {
@@ -87,16 +90,18 @@ public class PlayNImage extends RuntimeImage<Canvas> {
 
 	@Override
 	public boolean loadAsset() {
-		// Some DesktopEngineImage can be created without an assetHandler
 		logger.info("Loading image " + descriptor.getUri());
-		if (image == null && assetHandler != null) {
+		loaded = false;
+		if (image == null) {
 			try {
-                String path = assetHandler.getAbsolutePath(
-                        descriptor.getUri().getPath());
-            	image = PlayN.assets().getImage(path);
+				String path = assetHandler.getAbsolutePath(descriptor.getUri()
+						.getPath());
+				image = PlayN.assets().getImage(path);
 				if (image != null) {
-					logger.info("Image loaded OK: {} from {} width {}",
-                            new Object[]{descriptor.getUri(), path, image.width()});
+					logger.info(
+							"Image loaded OK: {} from {} width {}",
+							new Object[] { descriptor.getUri(), path,
+									image.width() });
 					return image.isReady();
 				} else {
 					logger.error("Image NOT loaded: {}", descriptor.getUri());
@@ -107,23 +112,34 @@ public class PlayNImage extends RuntimeImage<Canvas> {
 				return false;
 			}
 		}
-		return assetHandler != null && image.isReady();
+		image.addCallback(new ResourceCallback<Image>() {
+
+			@Override
+			public void done(Image resource) {
+				loaded = true;
+			}
+
+			@Override
+			public void error(Throwable err) {
+
+			}
+
+		});
+		return loaded;
 	}
 
 	@Override
 	public void freeMemory() {
 		if (image != null) {
-			//TODO flush image
-			//image.flush();
-			logger.info("Image flushed: {}",
-                    (descriptor != null ? descriptor.getUri() : "no descriptor"));
+			// image.flush();
+			loaded = false;
 		}
 		image = null;
 	}
 
 	@Override
 	public boolean isLoaded() {
-		return (image != null && image.width() > 0 && image.isReady());
+		return loaded;
 	}
 
 	@Override

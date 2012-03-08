@@ -59,6 +59,7 @@ import com.google.inject.Singleton;
 
 import ead.common.resources.assets.AssetDescriptor;
 import ead.common.util.EAdURI;
+import ead.engine.core.platform.assets.RuntimeAsset;
 
 /**
  * <p>

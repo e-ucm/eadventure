@@ -52,13 +52,14 @@ import ead.common.util.StringHandler;
 import ead.engine.core.EAdEngine;
 import ead.engine.core.game.VariableMap;
 import ead.engine.core.platform.assets.PlayNFont;
+import ead.engine.core.platform.assets.RuntimeAsset;
 import ead.engine.core.platform.assets.drawable.basics.PlayNBezierShape;
 import ead.engine.core.platform.assets.drawable.basics.PlayNImage;
 import ead.engine.core.platform.assets.drawables.basics.RuntimeCaption;
+import ead.engine.core.platform.assets.drawables.basics.RuntimeFramesAnimation;
 import ead.engine.core.platform.assets.drawables.compunds.RuntimeComposedDrawable;
-import ead.engine.core.platform.assets.drawables.compunds.RuntimeDisplacedDrawable;
 import ead.engine.core.platform.assets.drawables.compunds.RuntimeFilteredDrawable;
-import ead.engine.core.platform.assets.drawables.compunds.RuntimeSpriteImage;
+import ead.engine.core.platform.assets.drawables.compunds.RuntimeStateDrawable;
 import ead.engine.core.platform.assets.multimedia.PlayNSound;
 
 @Singleton
@@ -121,16 +122,16 @@ public class PlayNAssetHandler extends AbstractAssetHandler {
 		else if (clazz == (Object) RuntimeCaption.class)
 			r = new RuntimeCaption<Canvas>(gui, fontHandler, valueMap,
 					stringHandler, this);
-		else if (clazz == (Object) RuntimeSpriteImage.class)
-			r = new RuntimeSpriteImage<Canvas>(this);
 		else if (clazz == PlayNSound.class)
 			r = new PlayNSound(this);
 		else if (clazz == (Object) RuntimeComposedDrawable.class)
 			r = new RuntimeComposedDrawable<Canvas>(this);
-		else if (clazz == (Object) RuntimeDisplacedDrawable.class)
-			r = new RuntimeDisplacedDrawable<Canvas>(this);
 		else if (clazz == (Object) RuntimeFilteredDrawable.class)
 			r = new RuntimeFilteredDrawable<Canvas>(this);
+		else if ( clazz == (Object) RuntimeFramesAnimation.class)
+			r = new RuntimeFramesAnimation(this);
+		else if ( clazz == (Object) RuntimeStateDrawable.class)
+			r = new RuntimeStateDrawable(this);
 		else if ( clazz == (Object)PlayNFont.class){
 			r = new PlayNFont( this );
 		}

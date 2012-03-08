@@ -39,18 +39,19 @@ package ead.engine.core.platform.assets.drawables.compunds;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.google.inject.Inject;
 
-import ead.common.model.elements.extra.EAdList;
 import ead.common.resources.assets.drawable.EAdDrawable;
+import ead.common.resources.assets.drawable.basics.EAdBasicDrawable;
 import ead.common.resources.assets.drawable.compounds.EAdComposedDrawable;
-import ead.common.resources.assets.drawable.compounds.EAdDisplacedDrawable;
-import ead.engine.core.platform.AssetHandler;
-import ead.engine.core.platform.DrawableAsset;
+import ead.common.util.EAdPosition;
 import ead.engine.core.platform.assets.AbstractRuntimeAsset;
+import ead.engine.core.platform.assets.AssetHandler;
+import ead.engine.core.platform.assets.RuntimeDrawable;
 import ead.engine.core.platform.rendering.GenericCanvas;
 
 /**
@@ -60,7 +61,7 @@ import ead.engine.core.platform.rendering.GenericCanvas;
  */
 public class RuntimeComposedDrawable<GraphicContext> extends
 		AbstractRuntimeAsset<EAdComposedDrawable> implements
-		DrawableAsset<EAdComposedDrawable, GraphicContext> {
+		RuntimeDrawable<EAdComposedDrawable, GraphicContext> {
 
 	/**
 	 * Logger
@@ -72,12 +73,12 @@ public class RuntimeComposedDrawable<GraphicContext> extends
 	 */
 	protected AssetHandler assetHandler;
 
-	protected ArrayList<DrawableAsset<?, GraphicContext>> drawables;
-	
+	protected ArrayList<RuntimeDrawable<?, GraphicContext>> drawables;
+
 	@Inject
 	public RuntimeComposedDrawable(AssetHandler assetHandler) {
 		this.assetHandler = assetHandler;
-		this.drawables = new ArrayList<DrawableAsset<?, GraphicContext>>();
+		this.drawables = new ArrayList<RuntimeDrawable<?, GraphicContext>>();
 		logger.info("New instance");
 	}
 
@@ -85,38 +86,35 @@ public class RuntimeComposedDrawable<GraphicContext> extends
 	public void setDescriptor(EAdComposedDrawable e) {
 		super.setDescriptor(e);
 		drawables.clear();
-		for (EAdDisplacedDrawable d : e.getAssetList()) {
-			drawables.add((DrawableAsset<?, GraphicContext>) assetHandler.getDrawableAsset(d, null));
+		for (EAdBasicDrawable d : e.getAssetList()) {
+			drawables.add((RuntimeDrawable<?, GraphicContext>) assetHandler
+					.getDrawableAsset(d, null));
 		}
 	}
 
 	@Override
 	public void update() {
-		for (DrawableAsset<?, GraphicContext> d : getAssets())
+		for (RuntimeDrawable<?, GraphicContext> d : getAssets())
 			d.update();
 	}
 
-	public List<DrawableAsset<?, GraphicContext>> getAssets() {
+	public List<RuntimeDrawable<?, GraphicContext>> getAssets() {
 		return drawables;
-	}
-
-	@SuppressWarnings("unchecked")
-	@Override
-	public <S extends EAdDrawable> DrawableAsset<S, GraphicContext> getDrawable() {
-		return (DrawableAsset<S, GraphicContext>) this;
 	}
 
 	public int getWidth() {
 		int width = 0;
 		for (EAdDrawable asset : descriptor.getAssetList())
-			width = Math.max(assetHandler.getDrawableAsset(asset, null).getWidth(), width);
+			width = Math.max(assetHandler.getDrawableAsset(asset, null)
+					.getWidth(), width);
 		return width;
 	}
 
 	public int getHeight() {
 		int height = 0;
 		for (EAdDrawable asset : descriptor.getAssetList())
-			height = Math.max(assetHandler.getDrawableAsset(asset, null).getHeight(), height);
+			height = Math.max(assetHandler.getDrawableAsset(asset, null)
+					.getHeight(), height);
 		return height;
 	}
 
@@ -142,23 +140,36 @@ public class RuntimeComposedDrawable<GraphicContext> extends
 	}
 
 	public void render(GenericCanvas<GraphicContext> c) {
-		for (DrawableAsset<?, GraphicContext> d : getAssets()) {
+		int i = 0;
+		for (RuntimeDrawable<?, GraphicContext> d : getAssets()) {
+			EAdPosition p = descriptor.getPositions().get(i);
+			int dispX = p.getJavaX(d.getWidth());
+			int dispY = p.getJavaY(d.getHeight());
+			c.save();
+			c.translate(dispX, dispY);
 			d.render(c);
+			c.restore();
+			i++;
 		}
 	}
 
 	@Override
 	public boolean contains(int x, int y) {
-		for (DrawableAsset<?, GraphicContext> d : getAssets()) {
-			if (d.contains(x, y)) {
+		int i = 0;
+		for (RuntimeDrawable<?, GraphicContext> d : getAssets()) {
+			EAdPosition p = descriptor.getPositions().get(i);
+			int dispX = p.getJavaX(d.getWidth());
+			int dispY = p.getJavaY(d.getHeight());
+			if (d.contains(x - dispX, y - dispY)) {
 				return true;
 			}
 		}
 		return false;
 	}
-
-	public EAdList<EAdDisplacedDrawable> getAssetList() {
-		return descriptor.getAssetList();
+	
+	@Override
+	public RuntimeDrawable<?, ?> getDrawable(int time, List<String> states, int level) {
+		return this;
 	}
 
 }

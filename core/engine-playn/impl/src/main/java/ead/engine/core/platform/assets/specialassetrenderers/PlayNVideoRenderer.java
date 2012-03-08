@@ -46,9 +46,9 @@ import com.google.gwt.user.client.ui.Widget;
 import com.google.inject.Inject;
 
 import ead.common.resources.assets.multimedia.EAdVideo;
-import ead.engine.core.platform.AssetHandler;
 import ead.engine.core.platform.EngineConfiguration;
-import ead.engine.core.platform.SpecialAssetRenderer;
+import ead.engine.core.platform.assets.AssetHandler;
+import ead.engine.core.platform.assets.SpecialAssetRenderer;
 import fr.hd3d.html5.video.client.VideoSource;
 import fr.hd3d.html5.video.client.VideoWidget;
 

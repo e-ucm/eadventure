@@ -53,7 +53,7 @@ import com.google.inject.Singleton;
 import ead.common.resources.assets.AssetDescriptor;
 import ead.engine.core.platform.AbstractAssetHandler;
 import ead.engine.core.platform.FontHandler;
-import ead.engine.core.platform.RuntimeAsset;
+import ead.engine.core.platform.assets.RuntimeAsset;
 
 @Singleton
 public class AndroidAssetHandler extends AbstractAssetHandler {

@@ -45,8 +45,8 @@ import ead.common.util.StringHandler;
 import ead.engine.core.game.GameState;
 import ead.engine.core.gameobjects.factories.SceneElementGOFactory;
 import ead.engine.core.operator.OperatorFactory;
-import ead.engine.core.platform.AssetHandler;
 import ead.engine.core.platform.GUI;
+import ead.engine.core.platform.assets.AssetHandler;
 
 public class ChangeFieldGO extends AbstractEffectGO<ChangeFieldEf> {
 

@@ -41,8 +41,8 @@ import com.google.inject.Inject;
 import com.google.inject.name.Named;
 
 import ead.common.util.EAdURI;
-import ead.engine.core.platform.AssetHandler;
 import ead.engine.core.platform.GUI;
+import ead.engine.core.platform.assets.AssetHandler;
 
 public class GameControllerImpl implements GameController {
 

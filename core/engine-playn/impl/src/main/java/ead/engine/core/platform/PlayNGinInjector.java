@@ -75,6 +75,7 @@ import ead.engine.core.gameobjects.transitions.DisplaceTransitionGO;
 import ead.engine.core.gameobjects.transitions.FadeInTransitionGO;
 import ead.engine.core.input.InputHandler;
 import ead.engine.core.inventory.InventoryHandler;
+import ead.engine.core.platform.assets.AssetHandler;
 import ead.engine.core.platform.assets.drawable.basics.PlayNImage;
 import ead.engine.core.platform.extra.PlayNAssetHandlerModule;
 import ead.engine.core.platform.extra.PlayNModule;

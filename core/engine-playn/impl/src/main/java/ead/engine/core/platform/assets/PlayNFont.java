@@ -44,7 +44,6 @@ import com.google.gwt.dom.client.Style.Unit;
 
 import ead.common.resources.assets.text.EAdFont;
 import ead.common.util.EAdRectangle;
-import ead.engine.core.platform.AssetHandler;
 import ead.engine.core.platform.assets.text.BasicRuntimeFont;
 
 public class PlayNFont extends BasicRuntimeFont {

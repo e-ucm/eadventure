@@ -42,8 +42,8 @@ import java.io.InputStream;
 
 import com.google.inject.Inject;
 
-import ead.engine.core.platform.AssetHandler;
 import ead.engine.core.platform.DesktopAssetHandler;
+import ead.engine.core.platform.assets.AssetHandler;
 import ead.engine.core.platform.assets.multimedia.RuntimeSound;
 
 public class DesktopSound extends RuntimeSound {

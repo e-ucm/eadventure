@@ -37,6 +37,7 @@
 
 package ead.engine.core.gameobjects.sceneelements;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -56,8 +57,8 @@ import ead.engine.core.gameobjects.factories.EventGOFactory;
 import ead.engine.core.gameobjects.factories.SceneElementGOFactory;
 import ead.engine.core.gameobjects.go.SceneElementGO;
 import ead.engine.core.input.InputAction;
-import ead.engine.core.platform.AssetHandler;
 import ead.engine.core.platform.GUI;
+import ead.engine.core.platform.assets.AssetHandler;
 import ead.engine.core.util.EAdTransformation;
 
 public class ComplexSceneElementGO extends
@@ -65,6 +66,8 @@ public class ComplexSceneElementGO extends
 
 	private static final Logger logger = LoggerFactory
 			.getLogger("EAdComplexSceneElement");
+	
+	private List<SceneElementGO<?>> sceneElements;
 
 	private boolean first = true;
 
@@ -77,13 +80,15 @@ public class ComplexSceneElementGO extends
 		super(assetHandler, stringHandler, gameObjectFactory, gui, gameState,
 				eventFactory);
 		logger.info("New instance");
+		sceneElements = new ArrayList<SceneElementGO<?>>();
 	}
 
 	public void setElement(EAdComplexSceneElement element) {
 		super.setElement(element);
+		sceneElements.clear();
 		for (EAdSceneElement sceneElement : element.getSceneElements()) {
 			SceneElementGO<?> go = sceneElementFactory.get(sceneElement);
-			go.getRenderAsset();
+			sceneElements.add(go);
 		}
 	}
 
@@ -113,8 +118,8 @@ public class ComplexSceneElementGO extends
 	@Override
 	public void update() {
 		super.update();
-		for (EAdSceneElement sceneElement : element.getSceneElements()) {
-			sceneElementFactory.get(sceneElement).update();
+		for (SceneElementGO<?> sceneElement : sceneElements) {
+			sceneElement.update();
 		}
 	}
 
@@ -141,8 +146,7 @@ public class ComplexSceneElementGO extends
 		int minY = minX;
 		int maxX = Integer.MIN_VALUE;
 		int maxY = maxX;
-		for (EAdSceneElement sceneElement : element.getSceneElements()) {
-			SceneElementGO<?> go = sceneElementFactory.get(sceneElement);
+		for (SceneElementGO<?> go : sceneElements) {
 			int xLeft = go.getPosition().getJavaX(go.getWidth());
 			int xRight = xLeft + go.getWidth();
 			int yTop = go.getPosition().getJavaY(go.getHeight());
@@ -164,8 +168,7 @@ public class ComplexSceneElementGO extends
 
 	@Override
 	public void doLayout(EAdTransformation transformation) {
-		for (EAdSceneElement sceneElement : element.getSceneElements()) {
-			SceneElementGO<?> go = sceneElementFactory.get(sceneElement);
+		for (SceneElementGO<?> go : sceneElements) {
 			gui.addElement(go, transformation);
 
 		}

@@ -51,8 +51,8 @@ import ead.engine.core.gameobjects.factories.SceneElementGOFactory;
 import ead.engine.core.gameobjects.go.SceneElementGO;
 import ead.engine.core.gameobjects.huds.ActionsHUD;
 import ead.engine.core.input.actions.MouseInputAction;
-import ead.engine.core.platform.AssetHandler;
 import ead.engine.core.platform.GUI;
+import ead.engine.core.platform.assets.AssetHandler;
 
 public class ActorActionsGO extends
 		AbstractEffectGO<ActorActionsEf> {

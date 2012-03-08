@@ -44,6 +44,7 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 import ead.common.model.EAdElement;
+import ead.common.model.elements.ResourcedElement;
 import ead.common.model.elements.guievents.enums.KeyEventType;
 import ead.common.model.elements.guievents.enums.KeyGEvCode;
 import ead.common.model.elements.scenes.SceneElement;
@@ -53,6 +54,7 @@ import ead.common.model.predef.events.ChaseMouseEv;
 import ead.common.model.predef.events.StayInBoundsEv;
 import ead.common.params.fills.ColorFill;
 import ead.common.params.text.EAdString;
+import ead.common.resources.EAdBundleId;
 import ead.common.resources.assets.drawable.EAdDrawable;
 import ead.common.resources.assets.drawable.basics.Caption;
 import ead.common.resources.assets.drawable.basics.Image;
@@ -67,9 +69,9 @@ import ead.engine.core.gameobjects.go.DrawableGO;
 import ead.engine.core.input.InputAction;
 import ead.engine.core.input.InputHandler;
 import ead.engine.core.input.actions.KeyInputAction;
-import ead.engine.core.platform.AssetHandler;
-import ead.engine.core.platform.DrawableAsset;
 import ead.engine.core.platform.GUI;
+import ead.engine.core.platform.assets.AssetHandler;
+import ead.engine.core.platform.assets.RuntimeDrawable;
 import ead.engine.core.util.EAdTransformation;
 import ead.engine.core.util.EAdTransformationImpl;
 
@@ -119,6 +121,10 @@ public class TopBasicHUDImpl extends AbstractHUD implements TopBasicHUD {
 	private DrawableGO<?> mouseGO;
 
 	private EAdDrawable cursor;
+
+	private EAdBundleId mouseBundle = new EAdBundleId("mouse2");
+
+	private int i = 0;
 
 	@Inject
 	public TopBasicHUDImpl(MenuHUD menuHUD,
@@ -238,14 +244,14 @@ public class TopBasicHUDImpl extends AbstractHUD implements TopBasicHUD {
 		if (cursor != newCursor) {
 			cursor = newCursor;
 			if (cursor != null) {
-				DrawableAsset<EAdDrawable, ?> rAsset = (DrawableAsset<EAdDrawable, ?>) assetHandler
+				RuntimeDrawable<EAdDrawable, ?> rAsset = (RuntimeDrawable<EAdDrawable, ?>) assetHandler
 						.getRuntimeAsset(cursor);
 				logger.info("width" + rAsset.getWidth());
 				rAsset.loadAsset();
-				mouse.getDefinition()
-						.getResources()
-						.addAsset(mouse.getDefinition().getInitialBundle(),
-								SceneElementDef.appearance, cursor);
+				EAdBundleId bundle = i++ % 2 == 1 ? mouse.getDefinition()
+						.getInitialBundle() : mouseBundle;
+				mouse.getDefinition().getResources()
+						.addAsset(bundle, SceneElementDef.appearance, cursor);
 				float scale = 1.0f;
 				if (rAsset.getWidth() > 0 && rAsset.getHeight() > 0) {
 					scale = 1.0f / (rAsset.getWidth() > rAsset.getHeight() ? rAsset
@@ -255,6 +261,8 @@ public class TopBasicHUDImpl extends AbstractHUD implements TopBasicHUD {
 				}
 				gameState.getValueMap().setValue(mouse, SceneElement.VAR_SCALE,
 						scale);
+				gameState.getValueMap().setValue(mouse,
+						ResourcedElement.VAR_BUNDLE_ID, bundle);
 			}
 
 		}

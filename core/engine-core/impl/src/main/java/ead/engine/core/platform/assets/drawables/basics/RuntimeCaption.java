@@ -46,26 +46,25 @@ import org.slf4j.LoggerFactory;
 import com.google.inject.Inject;
 
 import ead.common.model.elements.variables.SystemFields;
-import ead.common.resources.assets.drawable.EAdDrawable;
 import ead.common.resources.assets.drawable.basics.EAdCaption;
 import ead.common.resources.assets.drawable.basics.shapes.RectangleShape;
 import ead.common.util.EAdRectangle;
 import ead.common.util.StringHandler;
 import ead.engine.core.game.VariableMap;
-import ead.engine.core.platform.AssetHandler;
-import ead.engine.core.platform.DrawableAsset;
 import ead.engine.core.platform.FontHandler;
 import ead.engine.core.platform.GUI;
-import ead.engine.core.platform.RuntimeFont;
 import ead.engine.core.platform.assets.AbstractRuntimeAsset;
+import ead.engine.core.platform.assets.AssetHandler;
+import ead.engine.core.platform.assets.RuntimeDrawable;
+import ead.engine.core.platform.assets.RuntimeFont;
 import ead.engine.core.platform.rendering.GenericCanvas;
-
 
 public class RuntimeCaption<GraphicContext> extends
 		AbstractRuntimeAsset<EAdCaption> implements
-		DrawableAsset<EAdCaption, GraphicContext> {
+		RuntimeDrawable<EAdCaption, GraphicContext> {
 
-	private static final Logger logger = LoggerFactory.getLogger("RuntimeCaption");
+	private static final Logger logger = LoggerFactory
+			.getLogger("RuntimeCaption");
 
 	private AssetHandler assetHandler;
 
@@ -132,7 +131,7 @@ public class RuntimeCaption<GraphicContext> extends
 	private VariableMap valueMap;
 
 	private StringHandler stringsReader;
-	
+
 	private GUI gui;
 
 	@Inject
@@ -194,6 +193,8 @@ public class RuntimeCaption<GraphicContext> extends
 	 * eadventure.engine.core.GameState)
 	 */
 	@Override
+	// FIXME this is the only asset using the update method, this must be
+	// deleted, because with getDrawable can be done
 	public void update() {
 		if (!isLoaded())
 			loadAsset();
@@ -228,12 +229,6 @@ public class RuntimeCaption<GraphicContext> extends
 		if (bounds == null)
 			return 1;
 		return bounds.height;
-	}
-
-	@SuppressWarnings("unchecked")
-	@Override
-	public <S extends EAdDrawable> DrawableAsset<S, GraphicContext> getDrawable() {
-		return (DrawableAsset<S, GraphicContext>) this;
 	}
 
 	private void wrapText() {
@@ -473,7 +468,6 @@ public class RuntimeCaption<GraphicContext> extends
 			assetHandler.getDrawableAsset(shape, c).render(c);
 		}
 
-		
 		c.setFont(descriptor.getFont());
 		int xOffset = 0;
 		int yOffset = getAssetDescriptor().getPadding();
@@ -512,6 +506,12 @@ public class RuntimeCaption<GraphicContext> extends
 	@Override
 	public boolean contains(int x, int y) {
 		return x > 0 && y > 0 && x < getWidth() && y < getHeight();
+	}
+
+	@Override
+	public RuntimeDrawable<?, ?> getDrawable(int time, List<String> states,
+			int level) {
+		return this;
 	}
 
 }

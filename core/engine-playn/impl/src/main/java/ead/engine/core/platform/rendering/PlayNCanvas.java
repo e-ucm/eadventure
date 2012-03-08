@@ -57,8 +57,8 @@ import ead.common.resources.assets.text.EAdFont;
 import ead.common.util.EAdMatrix;
 import ead.common.util.EAdRectangle;
 import ead.common.util.ReflectionProvider;
-import ead.engine.core.platform.DrawableAsset;
 import ead.engine.core.platform.FontHandler;
+import ead.engine.core.platform.assets.RuntimeDrawable;
 import ead.engine.core.platform.assets.drawable.basics.PlayNBezierShape;
 import ead.engine.core.platform.rendering.AbstractCanvas;
 import ead.engine.core.util.EAdTransformation;
@@ -91,7 +91,7 @@ public class PlayNCanvas extends AbstractCanvas<Canvas> {
 	}
 
 	@Override
-	public void drawShape(DrawableAsset<? extends EAdShape, Canvas> shape) {
+	public void drawShape(RuntimeDrawable<? extends EAdShape, Canvas> shape) {
 		Path s = ((PlayNBezierShape) shape).getShape();
 		// Fill
 		if (paint.getFill() != null) {

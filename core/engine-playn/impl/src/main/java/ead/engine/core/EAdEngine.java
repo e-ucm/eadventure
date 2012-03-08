@@ -53,11 +53,11 @@ import com.google.inject.Inject;
 import ead.engine.core.game.Game;
 import ead.engine.core.input.InputHandler;
 import ead.engine.core.input.PlayNInputListener;
-import ead.engine.core.platform.AssetHandler;
 import ead.engine.core.platform.EngineConfiguration;
 import ead.engine.core.platform.GUI;
 import ead.engine.core.platform.PlayNAssetHandler;
 import ead.engine.core.platform.PlayNGUI;
+import ead.engine.core.platform.assets.AssetHandler;
 
 public class EAdEngine implements playn.core.Game {
 

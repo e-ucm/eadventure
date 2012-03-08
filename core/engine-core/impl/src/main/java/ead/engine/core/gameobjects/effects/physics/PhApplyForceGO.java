@@ -54,8 +54,8 @@ import ead.engine.core.game.ValueMap;
 import ead.engine.core.gameobjects.effects.AbstractEffectGO;
 import ead.engine.core.gameobjects.factories.SceneElementGOFactory;
 import ead.engine.core.operator.OperatorFactory;
-import ead.engine.core.platform.AssetHandler;
 import ead.engine.core.platform.GUI;
+import ead.engine.core.platform.assets.AssetHandler;
 
 public class PhApplyForceGO extends AbstractEffectGO<PhApplyImpluseEf> {
 

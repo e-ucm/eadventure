@@ -41,7 +41,7 @@ import ead.common.resources.assets.text.BasicFont;
 import ead.common.resources.assets.text.EAdFont;
 import ead.common.util.EAdRectangle;
 import ead.engine.core.platform.FontHandlerImpl;
-import ead.engine.core.platform.RuntimeFont;
+import ead.engine.core.platform.assets.RuntimeFont;
 
 public class TestFontCache extends FontHandlerImpl {
 

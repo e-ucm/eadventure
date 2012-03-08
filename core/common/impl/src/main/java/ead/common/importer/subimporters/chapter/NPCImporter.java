@@ -54,8 +54,6 @@ import ead.common.resources.assets.drawable.basics.EAdBasicDrawable;
 import ead.common.resources.assets.drawable.basics.Image;
 import ead.common.resources.assets.drawable.basics.animation.Frame;
 import ead.common.resources.assets.drawable.basics.animation.FramesAnimation;
-import ead.common.resources.assets.drawable.compounds.EAdOrientedDrawable;
-import ead.common.resources.assets.drawable.compounds.OrientedDrawable;
 import ead.common.resources.assets.drawable.compounds.EAdStateDrawable;
 import ead.common.resources.assets.drawable.compounds.StateDrawable;
 import ead.common.resources.assets.drawable.filters.FilteredDrawable;
@@ -93,27 +91,27 @@ public class NPCImporter extends ActorImporter<NPC> {
 
 			StateDrawable stateDrawable = new StateDrawable();
 
-			EAdOrientedDrawable stand = getOrientedAsset(r,
+			StateDrawable stand = getOrientedAsset(r,
 					NPC.RESOURCE_TYPE_STAND_UP, NPC.RESOURCE_TYPE_STAND_DOWN,
 					NPC.RESOURCE_TYPE_STAND_RIGHT, NPC.RESOURCE_TYPE_STAND_LEFT);
 			stateDrawable.addDrawable(
 					CommonStates.EAD_STATE_DEFAULT.toString(), stand);
 
-			EAdOrientedDrawable walk = getOrientedAsset(r,
+			StateDrawable walk = getOrientedAsset(r,
 					NPC.RESOURCE_TYPE_WALK_UP, NPC.RESOURCE_TYPE_WALK_DOWN,
 					NPC.RESOURCE_TYPE_WALK_RIGHT, NPC.RESOURCE_TYPE_WALK_LEFT);
 			stateDrawable.addDrawable(
 					CommonStates.EAD_STATE_WALKING.toString(),
 					walk == null ? stand : walk);
 
-			EAdOrientedDrawable talking = getOrientedAsset(r,
+			StateDrawable talking = getOrientedAsset(r,
 					NPC.RESOURCE_TYPE_SPEAK_UP, NPC.RESOURCE_TYPE_SPEAK_DOWN,
 					NPC.RESOURCE_TYPE_SPEAK_RIGHT, NPC.RESOURCE_TYPE_SPEAK_LEFT);
 			stateDrawable.addDrawable(
 					CommonStates.EAD_STATE_TALKING.toString(),
 					talking == null ? stand : talking);
 
-			EAdOrientedDrawable using = getOrientedAsset(r,
+			StateDrawable using = getOrientedAsset(r,
 					NPC.RESOURCE_TYPE_USE_RIGHT, NPC.RESOURCE_TYPE_USE_LEFT,
 					NPC.RESOURCE_TYPE_SPEAK_RIGHT, NPC.RESOURCE_TYPE_USE_LEFT);
 			stateDrawable.addDrawable(CommonStates.EAD_STATE_USING.toString(),
@@ -124,12 +122,12 @@ public class NPCImporter extends ActorImporter<NPC> {
 
 	}
 
-	private EAdOrientedDrawable getOrientedAsset(Resources r, String up,
+	private StateDrawable getOrientedAsset(Resources r, String up,
 			String down, String right, String left) {
 		if (up == null && down == null && right == null && left == null)
 			return null;
 
-		OrientedDrawable oriented = new OrientedDrawable();
+		StateDrawable oriented = new StateDrawable();
 		EAdDrawable north = (EAdDrawable) resourceImporter.getAssetDescritptor(
 				r.getAssetPath(up), Image.class);
 		EAdDrawable south = (EAdDrawable) resourceImporter.getAssetDescritptor(

@@ -59,9 +59,9 @@ import ead.common.resources.assets.drawable.basics.EAdShape;
 import ead.common.resources.assets.text.EAdFont;
 import ead.common.util.EAdMatrix;
 import ead.common.util.EAdRectangle;
-import ead.engine.core.platform.DrawableAsset;
 import ead.engine.core.platform.FontHandler;
 import ead.engine.core.platform.assets.AndroidFont;
+import ead.engine.core.platform.assets.RuntimeDrawable;
 import ead.engine.core.platform.assets.drawable.basics.AndroidBezierShape;
 import ead.engine.core.platform.rendering.AbstractCanvas;
 import ead.engine.core.platform.rendering.filters.FilterFactory;
@@ -109,7 +109,7 @@ public class AndroidCanvas extends AbstractCanvas<Canvas> {
 	}
 
 	@Override
-	public void drawShape(DrawableAsset<? extends EAdShape, Canvas> shape) {
+	public void drawShape(RuntimeDrawable<? extends EAdShape, Canvas> shape) {
 		Path s = ((AndroidBezierShape) shape).getShape();
 		// Fill
 		if (paint.getFill() != null) {

@@ -39,7 +39,7 @@ package ead.engine.core.platform.assets.multimedia;
 
 import com.google.inject.Inject;
 
-import ead.engine.core.platform.AssetHandler;
+import ead.engine.core.platform.assets.AssetHandler;
 import ead.engine.core.platform.assets.multimedia.RuntimeSound;
 
 public class PlayNSound extends RuntimeSound {

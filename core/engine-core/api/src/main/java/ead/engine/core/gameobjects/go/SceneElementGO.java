@@ -43,9 +43,8 @@ import ead.common.interfaces.features.Oriented;
 import ead.common.model.elements.EAdAction;
 import ead.common.model.elements.extra.EAdList;
 import ead.common.model.elements.scene.EAdSceneElement;
-import ead.common.resources.assets.AssetDescriptor;
 import ead.common.util.EAdPosition;
-import ead.engine.core.platform.DrawableAsset;
+import ead.engine.core.platform.assets.RuntimeDrawable;
 
 /**
  * 
@@ -62,21 +61,7 @@ public interface SceneElementGO<T extends EAdSceneElement> extends
 	 * 
 	 * @return
 	 */
-	DrawableAsset<?, ?> getRenderAsset();
-
-	/**
-	 * Returns the runtime asset representing the scene element
-	 * 
-	 * @return
-	 */
-	DrawableAsset<?, ?> getAsset();
-
-	/**
-	 * Returns the current asset descriptor, used for rendering
-	 * 
-	 * @return
-	 */
-	AssetDescriptor getCurrentAssetDescriptor();
+	RuntimeDrawable<?, ?> getRenderAsset();
 
 	int getWidth();
 

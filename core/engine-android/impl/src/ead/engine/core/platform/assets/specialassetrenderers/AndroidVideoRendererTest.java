@@ -53,7 +53,7 @@ import ead.common.resources.assets.multimedia.EAdVideo;
 import ead.common.resources.assets.multimedia.Video;
 import ead.engine.R;
 import ead.engine.core.platform.AndroidAssetHandler;
-import ead.engine.core.platform.AssetHandler;
+import ead.engine.core.platform.assets.AssetHandler;
 import ead.engine.core.platform.modules.AndroidAssetHandlerModule;
 import ead.engine.core.platform.modules.AndroidModule;
 import ead.engine.core.platform.modules.BasicGameModule;

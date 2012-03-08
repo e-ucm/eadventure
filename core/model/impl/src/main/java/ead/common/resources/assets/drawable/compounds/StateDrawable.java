@@ -37,13 +37,13 @@
 
 package ead.common.resources.assets.drawable.compounds;
 
+import java.util.Collection;
 import java.util.Set;
 
 import ead.common.interfaces.Param;
 import ead.common.model.elements.extra.EAdMap;
 import ead.common.model.elements.extra.EAdMapImpl;
 import ead.common.resources.assets.drawable.EAdDrawable;
-import ead.common.resources.assets.drawable.compounds.EAdStateDrawable;
 
 /**
  * Basic implementation for a {@link EAdStateDrawable}
@@ -84,10 +84,12 @@ public class StateDrawable implements EAdStateDrawable {
 		return drawables.get(stateName);
 	}
 
-	public EAdMap<String, EAdDrawable> getDrawables() {
-		return drawables;
+	public Collection<EAdDrawable> getDrawables() {
+		return drawables.values();
 	}
-	
-	
+
+	public void setDrawable(Object state, EAdDrawable image) {
+		addDrawable(state.toString(), image);
+	}
 
 }

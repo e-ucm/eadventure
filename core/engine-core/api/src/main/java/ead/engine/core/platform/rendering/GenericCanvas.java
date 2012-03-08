@@ -43,7 +43,7 @@ import ead.common.resources.assets.drawable.filters.EAdDrawableFilter;
 import ead.common.resources.assets.text.EAdFont;
 import ead.common.util.EAdMatrix;
 import ead.common.util.EAdRectangle;
-import ead.engine.core.platform.DrawableAsset;
+import ead.engine.core.platform.assets.RuntimeDrawable;
 import ead.engine.core.util.EAdTransformation;
 
 /**
@@ -81,7 +81,7 @@ public interface GenericCanvas<S> {
 	 *            configured through
 	 *            {@code setTransformation(EAdTransformation t)} are applied)
 	 */
-	void drawShape(DrawableAsset<? extends EAdShape, S> shape);
+	void drawShape(RuntimeDrawable<? extends EAdShape, S> shape);
 
 	/**
 	 * Draws the text in 0, 0. Same result can be accomplished calling
@@ -186,6 +186,6 @@ public interface GenericCanvas<S> {
 	 * @param filter
 	 *            the filter. {@code null} if no filter must be applied
 	 */
-	void setFilter(DrawableAsset<?, S> drawable, EAdDrawableFilter filter);
+	void setFilter(RuntimeDrawable<?, S> drawable, EAdDrawableFilter filter);
 
 }

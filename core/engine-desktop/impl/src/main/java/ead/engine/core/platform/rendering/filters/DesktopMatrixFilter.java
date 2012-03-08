@@ -41,7 +41,7 @@ import java.awt.Graphics2D;
 import java.awt.geom.AffineTransform;
 
 import ead.common.resources.assets.drawable.filters.MatrixFilter;
-import ead.engine.core.platform.DrawableAsset;
+import ead.engine.core.platform.assets.RuntimeDrawable;
 import ead.engine.core.platform.rendering.DesktopCanvas;
 import ead.engine.core.platform.rendering.GenericCanvas;
 import ead.engine.core.platform.rendering.filters.RuntimeFilter;
@@ -49,7 +49,7 @@ import ead.engine.core.platform.rendering.filters.RuntimeFilter;
 public class DesktopMatrixFilter implements RuntimeFilter<MatrixFilter, Graphics2D> {
 
 	@Override
-	public void applyFilter(DrawableAsset<?, Graphics2D> drawable, MatrixFilter filter, GenericCanvas<Graphics2D> c) {
+	public void applyFilter(RuntimeDrawable<?, Graphics2D> drawable, MatrixFilter filter, GenericCanvas<Graphics2D> c) {
 		Graphics2D g = c.getNativeGraphicContext();
 		float deltaX = filter.getOriginX() * drawable.getWidth();
 		float deltaY = filter.getOriginY() * drawable.getHeight();

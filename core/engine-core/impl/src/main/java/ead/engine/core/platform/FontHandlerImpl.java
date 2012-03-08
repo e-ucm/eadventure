@@ -48,6 +48,8 @@ import com.google.inject.Singleton;
 import ead.common.resources.assets.text.BasicFont;
 import ead.common.resources.assets.text.EAdFont;
 import ead.common.util.EAdRectangle;
+import ead.engine.core.platform.assets.AssetHandler;
+import ead.engine.core.platform.assets.RuntimeFont;
 
 @Singleton
 public class FontHandlerImpl implements FontHandler {

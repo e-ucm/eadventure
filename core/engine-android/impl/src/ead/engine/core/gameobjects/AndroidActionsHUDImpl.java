@@ -220,8 +220,7 @@ public class AndroidActionsHUDImpl extends AbstractHUD implements ActionsHUD {
 			action.setPosition(Corner.TOP_LEFT, x, y);
 			positions.add(new EAdPosition(place - x, GUI.VIRTUAL_HEIGHT/2 - actionHeight/2 - y));
 			actionsGO.add(sceneElementFactory.get(action));
-			actionsGO.get(i).getAsset().loadAsset();
-			height = actionsGO.get(i).getAsset().getHeight();
+			height = actionsGO.get(i).getHeight();
 			scale = actionHeight/height;
 			gameState.getValueMap().setValue(action, ActionSceneElement.VAR_SCALE, scale);
 			place += actionWidth + offset;

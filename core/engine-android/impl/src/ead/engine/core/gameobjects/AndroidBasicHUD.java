@@ -64,9 +64,9 @@ import ead.engine.core.gameobjects.huds.MenuHUD;
 import ead.engine.core.input.InputHandler;
 import ead.engine.core.input.states.MouseState;
 import ead.engine.core.platform.AndroidAssetHandler;
-import ead.engine.core.platform.AssetHandler;
 import ead.engine.core.platform.EngineConfiguration;
 import ead.engine.core.platform.GUI;
+import ead.engine.core.platform.assets.AssetHandler;
 import ead.engine.core.platform.extra.BitmapCanvas;
 import ead.engine.core.platform.rendering.GenericCanvas;
 

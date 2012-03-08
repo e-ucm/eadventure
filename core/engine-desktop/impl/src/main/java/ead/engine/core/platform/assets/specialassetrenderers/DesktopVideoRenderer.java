@@ -63,8 +63,8 @@ import org.slf4j.LoggerFactory;
 import com.google.inject.Inject;
 
 import ead.common.resources.assets.multimedia.EAdVideo;
-import ead.engine.core.platform.AssetHandler;
-import ead.engine.core.platform.SpecialAssetRenderer;
+import ead.engine.core.platform.assets.AssetHandler;
+import ead.engine.core.platform.assets.SpecialAssetRenderer;
 public class DesktopVideoRenderer implements SpecialAssetRenderer<EAdVideo, Component> {
 
 	private static Logger logger = LoggerFactory.getLogger("DesktopVideoRenderer");

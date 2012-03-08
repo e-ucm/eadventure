@@ -37,27 +37,30 @@
 
 package ead.engine.core.platform.assets.drawables.basics;
 
+import java.util.List;
+
 import com.google.inject.Inject;
 
-import ead.common.resources.assets.drawable.EAdDrawable;
 import ead.common.resources.assets.drawable.basics.Image;
-import ead.engine.core.platform.AssetHandler;
-import ead.engine.core.platform.DrawableAsset;
 import ead.engine.core.platform.assets.AbstractRuntimeAsset;
+import ead.engine.core.platform.assets.AssetHandler;
+import ead.engine.core.platform.assets.RuntimeDrawable;
 
 /**
  * Represents a runtime engine image, associated with an {@link AssetDescritpor}
  * 
  */
-public abstract class RuntimeImage<GraphicContext> extends AbstractRuntimeAsset<Image> implements DrawableAsset<Image, GraphicContext> {
+public abstract class RuntimeImage<GraphicContext> extends
+		AbstractRuntimeAsset<Image> implements
+		RuntimeDrawable<Image, GraphicContext> {
 
 	/**
 	 * The asset handler
 	 */
 	protected AssetHandler assetHandler;
-	
-	@Inject 
-	public RuntimeImage(AssetHandler assetHandler ){
+
+	@Inject
+	public RuntimeImage(AssetHandler assetHandler) {
 		this.assetHandler = assetHandler;
 	}
 
@@ -65,16 +68,15 @@ public abstract class RuntimeImage<GraphicContext> extends AbstractRuntimeAsset<
 	public void update() {
 
 	}
-	
-	@SuppressWarnings("unchecked")
+
 	@Override
-	public <S extends EAdDrawable> DrawableAsset<S, GraphicContext> getDrawable() {
-		return (DrawableAsset<S, GraphicContext>) this;
-	}
-		
-	public boolean contains( int x, int y ){
-		// TODO process image alpha
+	public boolean contains(int x, int y) {
 		return x > 0 && y > 0 && x < getWidth() && y < getHeight();
+	}
+	
+	@Override
+	public RuntimeDrawable<?, ?> getDrawable(int time, List<String> states, int level) {
+		return this;
 	}
 
 }

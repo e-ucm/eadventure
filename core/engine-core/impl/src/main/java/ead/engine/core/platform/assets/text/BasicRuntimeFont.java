@@ -1,9 +1,9 @@
 package ead.engine.core.platform.assets.text;
 
 import ead.common.resources.assets.text.EAdFont;
-import ead.engine.core.platform.AssetHandler;
-import ead.engine.core.platform.RuntimeFont;
 import ead.engine.core.platform.assets.AbstractRuntimeAsset;
+import ead.engine.core.platform.assets.AssetHandler;
+import ead.engine.core.platform.assets.RuntimeFont;
 
 public abstract class BasicRuntimeFont extends AbstractRuntimeAsset<EAdFont>
 		implements RuntimeFont {

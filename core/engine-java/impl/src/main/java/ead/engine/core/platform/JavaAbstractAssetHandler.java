@@ -46,7 +46,7 @@ import com.google.inject.Injector;
 import ead.common.resources.assets.AssetDescriptor;
 import ead.engine.core.platform.AbstractAssetHandler;
 import ead.engine.core.platform.FontHandler;
-import ead.engine.core.platform.RuntimeAsset;
+import ead.engine.core.platform.assets.RuntimeAsset;
 
 public abstract class JavaAbstractAssetHandler extends AbstractAssetHandler {
 
