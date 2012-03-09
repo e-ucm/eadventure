@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
+
   <parent>
     <groupId>ead</groupId>
     <version>2.0.1-SNAPSHOT</version>
@@ -10,15 +12,185 @@
   <groupId>ead</groupId>
   <version>2.0.1-SNAPSHOT</version>
   <artifactId>engine-playn</artifactId>
-  <packaging>pom</packaging>
-  <name>e-Adventure Engine Play'N</name>
-  <description>e-Adventure Engine Play'N, version for Play'N.</description>
-  <modules>
-    <module>impl</module>
-  </modules>
+  <packaging>jar</packaging>
+  <name>e-Adventure Play'N Engine</name>
+  <description>
+    Play'N / GWT e-Adventure engine; requires GWT SDK to build, generates web app
+  </description>
+  <build>
+    <outputDirectory>${project.basedir}/war/WEB-INF/classes</outputDirectory>
+
+    <pluginManagement>
+      <plugins>
+
+        <plugin>
+          <groupId>org.codehaus.mojo</groupId>
+          <artifactId>gwt-maven-plugin</artifactId>
+          <version>2.4.0</version>
+          <executions>
+            <execution>
+              <goals>
+                <goal>compile</goal>
+                <goal>generateAsync</goal>
+                <goal>test</goal>
+              </goals>
+            </execution>
+          </executions>
+          <configuration>
+            <compileSourcesArtifacts>
+              <artifact>org.codehaus.mojo:domain</artifact>
+            </compileSourcesArtifacts>
+          </configuration>
+        </plugin>
+
+        <!--
+          This configuration is used to store Eclipse m2e settings
+          only. It has no influence on the Maven build itself.
+        -->
+        <plugin>
+          <groupId>org.eclipse.m2e</groupId>
+          <artifactId>lifecycle-mapping</artifactId>
+          <version>1.0.0</version>
+          <configuration>
+            <lifecycleMappingMetadata>
+              <pluginExecutions>
+                <pluginExecution>
+                  <pluginExecutionFilter>
+                    <groupId>org.datanucleus</groupId>
+                    <artifactId>maven-datanucleus-plugin</artifactId>
+                    <versionRange>[1.1.4,)</versionRange>
+                    <goals>
+                        <goal>enhance</goal>
+                    </goals>
+                </pluginExecutionFilter>
+                <action>
+                    <ignore></ignore>
+                </action>
+              </pluginExecution>
+              <pluginExecution>
+                <pluginExecutionFilter>
+                  <groupId>net.kindleit</groupId>
+                  <artifactId>maven-gae-plugin</artifactId>
+                  <versionRange>[0.7.3,)</versionRange>
+                  <goals>
+                      <goal>unpack</goal>
+                  </goals>
+                </pluginExecutionFilter>
+                <action>
+                  <execute />
+                </action>
+              </pluginExecution>
+              <pluginExecution>
+                  <pluginExecutionFilter>
+                    <groupId>org.bsc.maven</groupId>
+                    <artifactId>maven-processor-plugin</artifactId>
+                    <versionRange>[2.0.5,)</versionRange>
+                    <goals>
+                      <goal>process</goal>
+                    </goals>
+                  </pluginExecutionFilter>
+                  <action>
+                      <execute />
+                  </action>
+                </pluginExecution>
+              </pluginExecutions>
+            </lifecycleMappingMetadata>
+          </configuration>
+        </plugin>
+      </plugins>
+    </pluginManagement>
+  </build>
+
   <properties>
+    <gwt.module>ead.engine.EAdEngine</gwt.module>
+    <gwt.name>eadengine</gwt.name>
     <gwtversion>2.4.0</gwtversion>
     <gwt.version>2.4.0</gwt.version>
     <playnversion>1.1.9</playnversion>
   </properties>
+
+  <dependencies>
+
+    <dependency>
+        <groupId>ead</groupId>
+        <artifactId>model</artifactId>
+        <version>${project.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>ead</groupId>
+      <artifactId>engine-core</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>ead</groupId>
+      <artifactId>test-suite</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+
+    <!-- external -->
+
+    <dependency>
+      <groupId>com.google.gwt</groupId>
+      <artifactId>gwt-user</artifactId>
+      <version>${gwtversion}</version>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>com.google.gwt</groupId>
+      <artifactId>gwt-servlet</artifactId>
+      <version>${gwtversion}</version>
+      <scope>compile</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>com.googlecode.playn</groupId>
+      <artifactId>playn-core</artifactId>
+      <version>${playnversion}</version>
+    </dependency>
+    <dependency>
+      <groupId>com.googlecode.playn</groupId>
+      <artifactId>playn-html</artifactId>
+      <version>${playnversion}</version>
+    </dependency>
+    <dependency>
+      <groupId>com.googlecode.playn</groupId>
+      <artifactId>playn-jbox2d</artifactId>
+      <version>${playnversion}</version>
+    </dependency>
+    <dependency>
+      <groupId>com.googlecode.playn</groupId>
+      <artifactId>playn-webgl</artifactId>
+      <version>${playnversion}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>com.samskivert</groupId>
+      <artifactId>pythagoras</artifactId>
+      <version>1.1</version>
+    </dependency>
+
+    <dependency>
+      <groupId>com.google.gwt.inject</groupId>
+      <artifactId>gin</artifactId>
+      <version>1.5.0</version>
+    </dependency>
+    <dependency>
+      <groupId>com.gwtent</groupId>
+      <artifactId>GwtEnt</artifactId>
+      <version>2.0RC1</version>
+    </dependency>
+
+    <dependency>
+        <groupId>fr.hd3d.html5</groupId>
+        <artifactId>video</artifactId>
+        <version>1.0.0</version>
+    </dependency>
+
+    <dependency>
+        <groupId>org.slf4j</groupId>
+        <artifactId>slf4j-simple</artifactId>
+        <optional>true</optional>
+    </dependency>
+
+  </dependencies>
 </project>

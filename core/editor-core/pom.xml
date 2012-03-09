@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
+
   <parent>
     <groupId>ead</groupId>
     <version>2.0.1-SNAPSHOT</version>
@@ -10,11 +12,70 @@
   <groupId>ead</groupId>
   <version>2.0.1-SNAPSHOT</version>
   <artifactId>editor-core</artifactId>
-  <packaging>pom</packaging>
-  <name>e-Adventure Editor Core</name>
-  <description>e-Adventure Editor Core interface and classes.</description>
-  <modules>
-    <module>api</module>
-    <module>impl</module>
-  </modules>
+  <packaging>jar</packaging>
+  <name>e-Adventure Dditor</name>
+  <description>
+    Java desktop application e-Adventure editor
+  </description>  
+  <dependencies>
+
+    <dependency>
+      <groupId>ead</groupId>
+      <artifactId>common</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>ead</groupId>
+      <artifactId>engine-desktop</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>ead</groupId>
+      <artifactId>gui</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>ead</groupId>
+      <artifactId>utils</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+
+    <!-- external -->
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-log4j12</artifactId>
+      <optional>true</optional>
+    </dependency>
+    <dependency>
+      <groupId>org.dockingframes</groupId>
+      <artifactId>docking-frames-common</artifactId>
+      <version>1.1.0</version>
+    </dependency>
+    <dependency>
+      <groupId>org.jgrapht</groupId>
+      <artifactId>jgrapht-jdk1.6</artifactId>
+      <version>0.8.3</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.lucene</groupId>
+      <artifactId>lucene-core</artifactId>
+      <version>3.5.0</version>
+    </dependency>
+
+    <!-- test -->
+    <dependency>
+      <groupId>ead</groupId>
+      <artifactId>test-suite</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.mockito</groupId>
+      <artifactId>mockito-core</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+    </dependency>
+
+  </dependencies>
 </project>

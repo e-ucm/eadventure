@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
+
   <parent>
     <groupId>ead</groupId>
     <version>2.0.1-SNAPSHOT</version>
@@ -10,10 +12,35 @@
   <groupId>ead</groupId>
   <version>2.0.1-SNAPSHOT</version>
   <artifactId>engine-applet</artifactId>
-  <packaging>pom</packaging>
-  <name>e-Adventure Engine Applet</name>
-  <description>e-Adventure Engine Applet version specfific classes.</description>
-  <modules>
-    <module>impl</module>
-  </modules>
+  <packaging>jar</packaging>
+  <name>e-Adventure Applet</name>
+  <description>
+    Web-based java applet engine
+  </description>
+  <dependencies>
+
+    <dependency>
+      <groupId>ead</groupId>
+      <artifactId>engine-core</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>ead</groupId>
+      <artifactId>engine-plugins</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>ead</groupId>
+      <artifactId>utils</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+
+    <!-- external -->
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-simple</artifactId>
+      <optional>true</optional>
+    </dependency>
+
+  </dependencies>
 </project>

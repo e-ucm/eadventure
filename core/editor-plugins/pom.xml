@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
+
   <parent>
     <groupId>ead</groupId>
     <version>2.0.1-SNAPSHOT</version>
@@ -9,12 +11,19 @@
   </parent>
   <groupId>ead</groupId>
   <version>2.0.1-SNAPSHOT</version>
-  <artifactId>editor-plugins</artifactId>
-  <packaging>pom</packaging>
+	<artifactId>editor-plugins</artifactId>
+	<packaging>jar</packaging>
   <name>e-Adventure Editor Plugins</name>
-  <description>e-Adventure Plugins Core interface and classes.</description>
-  <modules>
-    <module>api</module>
-    <module>impl</module>
-  </modules>
+  <description>
+    Editor plugins for game-editor extension
+  </description>
+	<dependencies>
+
+    <dependency>
+			<groupId>ead</groupId>
+			<artifactId>editor-core</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+
+  </dependencies>
 </project>

@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
+
   <parent>
     <groupId>ead</groupId>
     <version>2.0.1-SNAPSHOT</version>
@@ -10,18 +12,39 @@
   <groupId>ead</groupId>
   <version>2.0.1-SNAPSHOT</version>
   <artifactId>model</artifactId>
-  <packaging>pom</packaging>
-  <name>e-Adventure Common model</name>
-  <description>e-Adventure Common model interfaces/classes to both editor and engine.</description>
+  <packaging>jar</packaging>
+  <name>e-Adventure Model</name>
+  <description>
+    Model, describing e-Adventure games in an engine-oriented way.
+    Also includes a few format-related interfaces. GWT-safe
+  </description>
   <dependencies>
+
+    <!-- external -->
     <dependency>
       <groupId>com.google.inject</groupId>
       <artifactId>guice</artifactId>
       <classifier>no_aop</classifier>
     </dependency>
+    <dependency>
+      <groupId>com.gwtent</groupId>
+      <artifactId>GwtEnt</artifactId>
+      <version>2.0RC1</version>
+    </dependency>
+
+    <!-- tests -->
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.mockito</groupId>
+      <artifactId>mockito-core</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.jmock</groupId>
+      <artifactId>jmock-junit4</artifactId>
+    </dependency>
+
   </dependencies>
-  <modules>
-    <module>api</module>
-    <module>impl</module>
-  </modules>
 </project>
