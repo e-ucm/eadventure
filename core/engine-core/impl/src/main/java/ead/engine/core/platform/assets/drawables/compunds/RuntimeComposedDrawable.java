@@ -92,12 +92,6 @@ public class RuntimeComposedDrawable<GraphicContext> extends
 		}
 	}
 
-	@Override
-	public void update() {
-		for (RuntimeDrawable<?, GraphicContext> d : getAssets())
-			d.update();
-	}
-
 	public List<RuntimeDrawable<?, GraphicContext>> getAssets() {
 		return drawables;
 	}

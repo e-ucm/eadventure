@@ -192,7 +192,7 @@ public class RuntimeCaption<GraphicContext> extends
 	 * @see es.eucm.eadventure.engine.core.platform.RuntimeAsset#update(es.eucm.
 	 * eadventure.engine.core.GameState)
 	 */
-	@Override
+	
 	// FIXME this is the only asset using the update method, this must be
 	// deleted, because with getDrawable can be done
 	public void update() {
@@ -511,6 +511,8 @@ public class RuntimeCaption<GraphicContext> extends
 	@Override
 	public RuntimeDrawable<?, ?> getDrawable(int time, List<String> states,
 			int level) {
+		// FIXME man, fix this
+		update();
 		return this;
 	}
 

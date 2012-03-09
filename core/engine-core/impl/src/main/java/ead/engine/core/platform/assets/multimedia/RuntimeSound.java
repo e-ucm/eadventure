@@ -52,11 +52,6 @@ public abstract class RuntimeSound extends AbstractRuntimeAsset<EAdSound> {
 		this.assetHandler = assetHandler;
 	}
 
-	@Override
-	public void update() {
-
-	}
-
 	/**
 	 * Plays the sound
 	 */

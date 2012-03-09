@@ -65,11 +65,6 @@ public abstract class RuntimeImage<GraphicContext> extends
 	}
 
 	@Override
-	public void update() {
-
-	}
-
-	@Override
 	public boolean contains(int x, int y) {
 		return x > 0 && y > 0 && x < getWidth() && y < getHeight();
 	}

@@ -310,7 +310,6 @@ public abstract class SceneElementGOImpl<T extends EAdSceneElement> extends
 			gameState.getValueMap().setUpdateListEnable(true);
 		}
 		if (runtimeDrawable != null) {
-			runtimeDrawable.update();
 			currentDrawable = runtimeDrawable.getDrawable(timeDisplayed,
 					statesList, 0);
 			if (currentDrawable != null)
@@ -344,11 +343,6 @@ public abstract class SceneElementGOImpl<T extends EAdSceneElement> extends
 	@Override
 	public Orientation getOrientation() {
 		return orientation;
-	}
-
-	@Override
-	public RuntimeDrawable<?, ?> getRenderAsset() {
-		return currentDrawable;
 	}
 
 	@Override

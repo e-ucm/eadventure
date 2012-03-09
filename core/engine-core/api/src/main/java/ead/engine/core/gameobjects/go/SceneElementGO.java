@@ -44,7 +44,6 @@ import ead.common.model.elements.EAdAction;
 import ead.common.model.elements.extra.EAdList;
 import ead.common.model.elements.scene.EAdSceneElement;
 import ead.common.util.EAdPosition;
-import ead.engine.core.platform.assets.RuntimeDrawable;
 
 /**
  * 
@@ -55,13 +54,6 @@ public interface SceneElementGO<T extends EAdSceneElement> extends
 	void setPosition(EAdPosition position);
 
 	void setScale(float scale);
-
-	/**
-	 * Returns the final drawable asset to be rendered for this scene element
-	 * 
-	 * @return
-	 */
-	RuntimeDrawable<?, ?> getRenderAsset();
 
 	int getWidth();
 

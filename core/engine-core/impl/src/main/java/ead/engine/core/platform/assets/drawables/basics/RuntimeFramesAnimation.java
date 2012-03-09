@@ -67,11 +67,6 @@ public class RuntimeFramesAnimation extends
 	}
 
 	@Override
-	public void update() {
-
-	}
-
-	@Override
 	public RuntimeDrawable<?, ?> getDrawable(int time, List<String> states,
 			int level) {
 		int index = descriptor.getFrameIndexFromTime(time);

@@ -67,11 +67,6 @@ public class RuntimeStateDrawable extends
 	}
 
 	@Override
-	public void update() {
-
-	}
-
-	@Override
 	public RuntimeDrawable<?, ?> getDrawable(int time, List<String> states,
 			int level) {
 		String state = states.get(level);

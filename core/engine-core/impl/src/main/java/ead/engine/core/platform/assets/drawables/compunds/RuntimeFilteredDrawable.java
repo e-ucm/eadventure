@@ -83,12 +83,6 @@ public class RuntimeFilteredDrawable<GraphicContext> extends
 	}
 
 	@Override
-	public void update() {
-		if (drawable != null)
-			drawable.update();
-	}
-
-	@Override
 	public int getWidth() {
 		// TODO filter could change width and height
 		return drawable.getWidth();

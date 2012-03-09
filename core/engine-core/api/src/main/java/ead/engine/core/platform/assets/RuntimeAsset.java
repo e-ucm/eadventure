@@ -81,9 +81,4 @@ public interface RuntimeAsset<T extends AssetDescriptor> {
 	 */
 	T getAssetDescriptor();
 
-	/**
-	 * Updates the asset
-	 */
-	void update();
-
 }

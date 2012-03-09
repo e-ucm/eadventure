@@ -32,11 +32,6 @@ public abstract class BasicRuntimeFont extends AbstractRuntimeAsset<EAdFont>
 		return loaded;
 	}
 
-	@Override
-	public void update() {
-
-	}
-
 	public EAdFont getEAdFont() {
 		return descriptor;
 	}

@@ -101,11 +101,6 @@ public abstract class RuntimeBezierShape<GraphicContext> extends
 		return loaded;
 	}
 
-	@Override
-	public void update() {
-
-	}
-
 	public void render(GenericCanvas<GraphicContext> c) {
 		c.setPaint(descriptor.getPaint());
 		c.drawShape(this);
