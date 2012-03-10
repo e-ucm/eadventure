@@ -1,68 +1,68 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-  <modelVersion>4.0.0</modelVersion>
+		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
 
-  <parent>
-    <groupId>ead</groupId>
-    <version>2.0.1-SNAPSHOT</version>
-    <artifactId>base</artifactId>
-    <relativePath>../../</relativePath>
-  </parent>
-  <groupId>ead</groupId>
-  <version>2.0.1-SNAPSHOT</version>
-  <artifactId>engine-desktop</artifactId>
-  <packaging>jar</packaging>
-  <name>e-Adventure Desktop Engine</name>
-  <description>
-    Java desktop application engine
-  </description>
-  <dependencies>
+	<parent>
+		<groupId>ead</groupId>
+		<version>2.0.1-SNAPSHOT</version>
+		<artifactId>base</artifactId>
+		<relativePath>../../</relativePath>
+	</parent>
+	<groupId>ead</groupId>
+	<version>2.0.1-SNAPSHOT</version>
+	<artifactId>engine-desktop</artifactId>
+	<packaging>jar</packaging>
+	<name>e-Adventure Desktop Engine</name>
+	<description>
+		Java desktop application engine
+	</description>
+	<dependencies>
   
-    <dependency>
-      <groupId>ead</groupId>
-      <artifactId>common</artifactId>
-      <version>${project.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>ead</groupId>
-      <artifactId>engine-java</artifactId>
-      <version>${project.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>ead</groupId>
-      <artifactId>utils</artifactId>
-      <version>${project.version}</version>
-    </dependency>
+		<dependency>
+			<groupId>ead</groupId>
+			<artifactId>common</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>ead</groupId>
+			<artifactId>engine-java</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>ead</groupId>
+			<artifactId>utils</artifactId>
+			<version>${project.version}</version>
+		</dependency>
 
     <!-- external -->
 
-    <dependency>
-      <groupId>org.slf4j</groupId>
-      <artifactId>slf4j-simple</artifactId>
-      <optional>true</optional>
-    </dependency>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-simple</artifactId>
+			<optional>true</optional>
+		</dependency>
 
-    <dependency>
-      <groupId>javax.media</groupId>
-      <artifactId>jmf</artifactId>
-      <version>2.1.1e</version>
-    </dependency>
-    <dependency>
-      <groupId>net.sourceforge</groupId>
-      <artifactId>jffmpeg</artifactId>
-      <version>1.1.0</version>
-    </dependency>
-    <dependency>
-      <groupId>net.java.dev.jna</groupId>
-      <artifactId>jna</artifactId>
-      <version>3.2.3</version>
-    </dependency>
-    <dependency>
-      <groupId>uk.co.caprica</groupId>
-      <artifactId>vlcj</artifactId>
-      <version>1.2.0</version>
-    </dependency>
+		<dependency>
+			<groupId>javax.media</groupId>
+			<artifactId>jmf</artifactId>
+			<version>2.1.1e</version>
+		</dependency>
+		<dependency>
+			<groupId>net.sourceforge</groupId>
+			<artifactId>jffmpeg</artifactId>
+			<version>1.1.0</version>
+		</dependency>
+		<dependency>
+			<groupId>net.java.dev.jna</groupId>
+			<artifactId>jna</artifactId>
+			<version>3.2.3</version>
+		</dependency>
+		<dependency>
+			<groupId>uk.co.caprica</groupId>
+			<artifactId>vlcj</artifactId>
+			<version>1.2.0</version>
+		</dependency>
 
     <!-- Currently unused
     <dependency>
@@ -72,23 +72,71 @@
     </dependency> -->
 
     <!-- tests -->
-    <dependency>
-      <groupId>ead</groupId>
-      <artifactId>test-suite</artifactId>
-      <version>${project.version}</version>
-    </dependency>
+		<dependency>
+			<groupId>ead</groupId>
+			<artifactId>test-suite</artifactId>
+			<version>${project.version}</version>
+		</dependency>
 
-    <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.mockito</groupId>
-      <artifactId>mockito-core</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.jmock</groupId>
-      <artifactId>jmock-junit4</artifactId>
-    </dependency>
-  </dependencies>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.mockito</groupId>
+			<artifactId>mockito-core</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.jmock</groupId>
+			<artifactId>jmock-junit4</artifactId>
+		</dependency>
+	
+	</dependencies>
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-shade-plugin</artifactId>
+				<version>1.5</version>
+				<executions>
+					<execution>
+						<phase>package</phase>
+						<goals>
+							<goal>shade</goal>
+						</goals>
+						<configuration>
+							<minimizeJar>true</minimizeJar>
+							<!-- this may cause problems; it saves around 8MB -->							
+							<shadedArtifactAttached>true</shadedArtifactAttached>
+							<shadedClassifierName>unified</shadedClassifierName>
+							<filters>																						
+								<filter>
+									<!-- TODO: fix the library instead -->
+									<artifact>org.jbox2d:jbox2d-library</artifact>
+									<excludes>
+										<exclude>org/slf4j/**</exclude>
+									</excludes>
+								</filter>																																																							
+								<filter>
+									<artifact>javax.media:jmf</artifact>
+									<excludes>
+										<exclude>META-INF/*.SF</exclude>
+										<exclude>META-INF/*.RSA</exclude>
+										<exclude>META-INF/*.DSA</exclude>										
+									</excludes>
+								</filter>
+							</filters>
+							<transformers>
+								<transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+									<manifestEntries>
+										<Main-Class>ead.engine.EAdEngine</Main-Class>
+									</manifestEntries>
+								</transformer>
+							</transformers>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>			
+		</plugins>
+	</build>  
 </project>

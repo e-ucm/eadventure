@@ -91,21 +91,21 @@ public class AndroidAssetHandlerModule extends AbstractModule {
 		bind(new TypeLiteral<SpecialAssetRenderer<EAdVideo, ?>>(){}).to(AndroidVideoRenderer.class);
 	}
 	
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"unchecked", "rawtypes"})
 	@Provides
 	@Singleton
 	Map<Class<? extends AssetDescriptor>, Class<? extends RuntimeAsset<? extends AssetDescriptor>>> provideMap() {
-		Map<Class<? extends AssetDescriptor>, Class<? extends RuntimeAsset<? extends AssetDescriptor>>> map = new HashMap<Class<? extends AssetDescriptor>, Class<? extends RuntimeAsset<? extends AssetDescriptor>>>( );
+		Map map = new HashMap( );
 		map.put(Image.class, AndroidImage.class);
 		map.put(Image.class, AndroidImage.class);
-		map.put(EAdCaption.class, (Class<? extends RuntimeAsset<?>>) RuntimeCaption.class);
-		map.put(Caption.class, (Class<? extends RuntimeAsset<?>>) RuntimeCaption.class);
-		map.put(EAdComposedDrawable.class, (Class<? extends RuntimeAsset<?>>) RuntimeComposedDrawable.class);
-		map.put(ComposedDrawable.class, (Class<? extends RuntimeAsset<?>>) RuntimeComposedDrawable.class);
+		map.put(EAdCaption.class, RuntimeCaption.class);
+		map.put(Caption.class, RuntimeCaption.class);
+		map.put(EAdComposedDrawable.class, RuntimeComposedDrawable.class);
+		map.put(ComposedDrawable.class, RuntimeComposedDrawable.class);
 		map.put(RectangleShape.class, AndroidBezierShape.class);
 		map.put(BezierShape.class, AndroidBezierShape.class);
-		map.put(EAdFilteredDrawable.class, (Class<? extends RuntimeAsset<?>>) RuntimeFilteredDrawable.class);
-		map.put(FilteredDrawable.class, (Class<? extends RuntimeAsset<?>>) RuntimeFilteredDrawable.class);
+		map.put(EAdFilteredDrawable.class, RuntimeFilteredDrawable.class);
+		map.put(FilteredDrawable.class, RuntimeFilteredDrawable.class);
 		map.put(EAdSound.class, AndroidSound.class);
 		map.put(Sound.class, AndroidSound.class);
 		map.put(EAdFont.class, AndroidFont.class);
@@ -116,7 +116,7 @@ public class AndroidAssetHandlerModule extends AbstractModule {
 		//TODO Sprite image
 		//map.put(SpriteImageImpl.class, AndroidEngineSpriteImage.class);
 		
-		return map;
+		return (Map<Class<? extends AssetDescriptor>, Class<? extends RuntimeAsset<? extends AssetDescriptor>>>)map;
 	}
 
 	

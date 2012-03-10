@@ -1,61 +1,122 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-  <modelVersion>4.0.0</modelVersion>
+		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
 
-  <parent>
-    <groupId>ead</groupId>
-    <version>2.0.1-SNAPSHOT</version>
-    <artifactId>base</artifactId>
-    <relativePath>../../</relativePath>
-  </parent>
-  <groupId>ead</groupId>
-  <version>2.0.1-SNAPSHOT</version>
-  <artifactId>engine-android-impl</artifactId>
-  <packaging>jar</packaging>
-  <name>e-Adventure Android Engine</name>
-  <description>
-    Android engine; requires ADK to build, generates android .apk
-  </description>
-  <dependencies>
+	<parent>
+		<groupId>ead</groupId>
+		<version>2.0.1-SNAPSHOT</version>
+		<artifactId>base</artifactId>
+		<relativePath>../../</relativePath>
+	</parent>
+	<groupId>ead</groupId>
+	<version>2.0.1-SNAPSHOT</version>
+	<artifactId>engine-android</artifactId>
+	<packaging>apk</packaging>
+	<name>e-Adventure Android Engine</name>
+	<description>
+		Android engine; requires ADK to build, generates android .apk
+	</description>
+	<dependencies>
 
-    <dependency>
-        <groupId>ead</groupId>
-        <artifactId>engine-core</artifactId>
-        <version>${project.version}</version>
-    </dependency>
-    <dependency>
-        <groupId>ead</groupId>
-        <artifactId>engine-plugins</artifactId>
-        <version>${project.version}</version>
-    </dependency>
-
-    <!-- external -->
-    <dependency>
-        <groupId>org.slf4j</groupId>
-        <artifactId>slf4j-simple</artifactId>
-        <optional>true</optional>
-    </dependency>
+		<dependency>
+			<groupId>ead</groupId>
+			<artifactId>engine-core</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>ead</groupId>
+			<artifactId>engine-java</artifactId>
+			<version>${project.version}</version>
+		</dependency>	
+		<dependency>
+			<groupId>ead</groupId>
+			<artifactId>engine-plugins</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		
+    <!-- external -->		
+		<dependency>
+			<groupId>com.google.android</groupId>
+			<artifactId>android</artifactId>
+			<version>2.3.3</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.google.android</groupId>
+			<artifactId>support-v4</artifactId>
+			<version>r6</version>
+		</dependency>		
+		<dependency>
+			<groupId>com.markupartist.android</groupId>
+			<artifactId>actionbar</artifactId>
+			<version>0.1.0-SNAPSHOT</version>
+			<type>apklib</type>
+		</dependency>
+		
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-simple</artifactId>
+			<optional>true</optional>
+		</dependency>
 
     <!-- tests -->
-    <dependency>
-        <groupId>ead</groupId>
-        <artifactId>test-suite</artifactId>
-        <version>${project.version}</version>
-    </dependency>
+		<dependency>
+			<groupId>ead</groupId>
+			<artifactId>test-suite</artifactId>
+			<version>${project.version}</version>
+		</dependency>
 
-  </dependencies>
-
-  <!-- skip eclipse-plugin; will use own .settings and .classpath -->
-  <build>
-    <plugins>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-eclipse-plugin</artifactId>
-        <configuration>
-          <skip>true</skip>
-        </configuration>
-      </plugin>
-    </plugins>
-  </build>
+	</dependencies>
+	<pluginRepositories>
+		<pluginRepository>
+			<id>oss.sonatype.org-jayway-snapshots</id>
+			<name>Jayway OpenSource SNAPSHOTs on Sonatype.org</name>
+			<url>http://oss.sonatype.org/content/repositories/jayway-snapshots/</url>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+		</pluginRepository>
+	</pluginRepositories>
+	
+	<build>
+		<finalName>${project.artifactId}</finalName>
+		<sourceDirectory>src</sourceDirectory>
+		<pluginManagement>
+			<plugins>
+				<plugin>
+					<groupId>com.jayway.maven.plugins.android.generation2</groupId>
+					<artifactId>android-maven-plugin</artifactId>
+					<version>3.1.1-SNAPSHOT</version>
+					<extensions>true</extensions>
+				</plugin>
+			</plugins>
+		</pluginManagement>
+		<plugins>
+			<!-- skip eclipse-plugin; will use own .settings and .classpath -->			
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-eclipse-plugin</artifactId>
+				<configuration>
+					<skip>true</skip>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>com.jayway.maven.plugins.android.generation2</groupId>
+				<artifactId>android-maven-plugin</artifactId>
+				<configuration>
+					<run>
+						<debug>true</debug>
+					</run>
+					<sdk>
+						<platform>10</platform>
+					</sdk>
+					<emulator>
+						<avd>16</avd>
+					</emulator>
+					<undeployBeforeDeploy>true</undeployBeforeDeploy>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
 </project>

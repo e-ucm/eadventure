@@ -36,6 +36,6 @@
  */
 
 /**
- * eAdventure common API.
+ * eAdventure common.
  */
 package ead.common;

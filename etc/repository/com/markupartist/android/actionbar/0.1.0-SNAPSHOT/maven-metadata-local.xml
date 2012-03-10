@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<metadata modelVersion="1.1.0">
+  <groupId>com.markupartist.android</groupId>
+  <artifactId>actionbar</artifactId>
+  <version>0.1.0-SNAPSHOT</version>
+  <versioning>
+    <snapshot>
+      <localCopy>true</localCopy>
+    </snapshot>
+    <lastUpdated>20120309153830</lastUpdated>
+    <snapshotVersions>
+      <snapshotVersion>
+        <extension>apklib</extension>
+        <value>0.1.0-SNAPSHOT</value>
+        <updated>20120309153830</updated>
+      </snapshotVersion>
+      <snapshotVersion>
+        <extension>pom</extension>
+        <value>0.1.0-SNAPSHOT</value>
+        <updated>20120309153830</updated>
+      </snapshotVersion>
+    </snapshotVersions>
+  </versioning>
+</metadata>

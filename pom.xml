@@ -318,6 +318,8 @@
                       <exclude>**/*.xml</exclude>
                       <exclude>**/*.properties</exclude>
                       <exclude>**/resources/**</exclude>
+                      <!-- android-generated -->
+                      <exclude>**/R.java</exclude>
                   </excludes>
               </configuration>
               <executions>
@@ -651,7 +653,7 @@
       <name>mercurial maven repo</name>
       <url>http://eadventure.googlecode.com/hg/etc/repository/</url>
       <snapshots>
-        <enabled>false</enabled>
+        <enabled>true</enabled>
       </snapshots>
       <releases>
         <enabled>true</enabled>
@@ -667,18 +669,6 @@
       <releases>
         <enabled>false</enabled>
       </releases>
-    </repository>
-    <repository>
-        <id>eadventure-snapshots</id>
-      <name>e-Adventure Snapshots</name>
-      <layout>default</layout>
-      <url>https://eadventure.googlecode.com/hg/maven2-snapshots</url>
-      <releases>
-        <enabled>false</enabled>
-      </releases>
-      <snapshots>
-        <enabled>true</enabled>
-      </snapshots>
     </repository>
   </repositories>
   <pluginRepositories>
