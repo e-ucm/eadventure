@@ -54,10 +54,16 @@ import ead.engine.core.game.Game;
 import ead.engine.core.game.GameController;
 import ead.engine.core.game.GameControllerImpl;
 import ead.engine.core.game.GameImpl;
+import ead.engine.core.game.GameLoop;
+import ead.engine.core.game.GameLoopImpl;
+import ead.engine.core.game.GameProfiler;
+import ead.engine.core.game.GameProfilerImpl;
 import ead.engine.core.game.GameState;
 import ead.engine.core.game.GameStateImpl;
 import ead.engine.core.game.ValueMap;
 import ead.engine.core.game.VariableMap;
+import ead.engine.core.gameobjects.GameObjectManager;
+import ead.engine.core.gameobjects.GameObjectManagerImpl;
 import ead.engine.core.gameobjects.factories.EffectGOFactory;
 import ead.engine.core.gameobjects.factories.EffectGOFactoryImpl;
 import ead.engine.core.gameobjects.factories.EventGOFactory;
@@ -69,6 +75,8 @@ import ead.engine.core.gameobjects.go.transitions.SceneLoader;
 import ead.engine.core.gameobjects.huds.EffectHUD;
 import ead.engine.core.gameobjects.huds.EffectHUDImpl;
 import ead.engine.core.gameobjects.transitions.sceneloaders.DefaultSceneLoader;
+import ead.engine.core.input.InputHandler;
+import ead.engine.core.input.InputHandlerImpl;
 import ead.engine.core.inventory.InventoryHandler;
 import ead.engine.core.inventory.InventoryHandlerImpl;
 import ead.engine.core.operator.OperatorFactory;
@@ -94,9 +102,16 @@ public class BasicGameModule extends AbstractModule {
 		installFactories();
 		bind(ValueMap.class).to(VariableMap.class);
 		bind(EngineConfiguration.class).to(AbstractEngineConfiguration.class);
+		
 		bind(GameState.class).to(GameStateImpl.class);
 		bind(GameController.class).to(GameControllerImpl.class);
 		bind(Game.class).to(GameImpl.class);
+		bind(GameLoop.class).to(GameLoopImpl.class);
+		bind(GameProfiler.class).to(GameProfilerImpl.class);
+		
+		bind(InputHandler.class).to(InputHandlerImpl.class);
+		bind(GameObjectManager.class).to(GameObjectManagerImpl.class);
+		
 		bind(EffectHUD.class).to(EffectHUDImpl.class);
 		bind(FontHandler.class).to(FontHandlerImpl.class);
 		bind(Debugger.class).to(EAdMainDebugger.class);

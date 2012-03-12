@@ -37,56 +37,37 @@
 
 package ead.engine.core.platform.modules;
 
-import java.util.HashMap;
 import java.util.Map;
 
-import com.google.inject.AbstractModule;
 import com.google.inject.Provides;
 import com.google.inject.Singleton;
 import com.google.inject.TypeLiteral;
 
 import ead.common.resources.assets.AssetDescriptor;
-import ead.common.resources.assets.drawable.basics.Caption;
-import ead.common.resources.assets.drawable.basics.EAdCaption;
 import ead.common.resources.assets.drawable.basics.Image;
-import ead.common.resources.assets.drawable.basics.animation.FramesAnimation;
 import ead.common.resources.assets.drawable.basics.shapes.BezierShape;
 import ead.common.resources.assets.drawable.basics.shapes.RectangleShape;
-import ead.common.resources.assets.drawable.compounds.ComposedDrawable;
-import ead.common.resources.assets.drawable.compounds.EAdComposedDrawable;
-import ead.common.resources.assets.drawable.compounds.EAdStateDrawable;
-import ead.common.resources.assets.drawable.compounds.StateDrawable;
-import ead.common.resources.assets.drawable.filters.EAdFilteredDrawable;
-import ead.common.resources.assets.drawable.filters.FilteredDrawable;
 import ead.common.resources.assets.multimedia.EAdSound;
 import ead.common.resources.assets.multimedia.EAdVideo;
 import ead.common.resources.assets.multimedia.Sound;
 import ead.common.resources.assets.text.BasicFont;
 import ead.common.resources.assets.text.EAdFont;
-import ead.common.util.StringHandler;
 import ead.engine.core.platform.AndroidAssetHandler;
-import ead.engine.core.platform.StringHandlerImpl;
 import ead.engine.core.platform.assets.AndroidFont;
 import ead.engine.core.platform.assets.AssetHandler;
 import ead.engine.core.platform.assets.RuntimeAsset;
 import ead.engine.core.platform.assets.SpecialAssetRenderer;
 import ead.engine.core.platform.assets.drawable.basics.AndroidBezierShape;
 import ead.engine.core.platform.assets.drawable.basics.AndroidImage;
-import ead.engine.core.platform.assets.drawables.basics.RuntimeCaption;
-import ead.engine.core.platform.assets.drawables.basics.RuntimeFramesAnimation;
-import ead.engine.core.platform.assets.drawables.compunds.RuntimeComposedDrawable;
-import ead.engine.core.platform.assets.drawables.compunds.RuntimeFilteredDrawable;
-import ead.engine.core.platform.assets.drawables.compunds.RuntimeStateDrawable;
 import ead.engine.core.platform.assets.multimedia.AndroidSound;
 import ead.engine.core.platform.assets.specialassetrenderers.AndroidVideoRenderer;
 
-public class AndroidAssetHandlerModule extends AbstractModule {
+public class AndroidAssetHandlerModule extends AssetHandlerModule {
 
 	@Override
 	protected void configure() {
-		bind(StringHandler.class).to(StringHandlerImpl.class);
+		super.configure();
 		bind(AssetHandler.class).to(AndroidAssetHandler.class);
-		
 		//Bind to AndroidVideoRenderer (uses API mediaplayer) or RockPlayerAndroidVideoRenderer
 		bind(new TypeLiteral<SpecialAssetRenderer<EAdVideo, ?>>(){}).to(AndroidVideoRenderer.class);
 	}
@@ -94,28 +75,16 @@ public class AndroidAssetHandlerModule extends AbstractModule {
 	@SuppressWarnings({"unchecked", "rawtypes"})
 	@Provides
 	@Singleton
-	Map<Class<? extends AssetDescriptor>, Class<? extends RuntimeAsset<? extends AssetDescriptor>>> provideMap() {
-		Map map = new HashMap( );
+	public Map<Class<? extends AssetDescriptor>, Class<? extends RuntimeAsset<? extends AssetDescriptor>>> provideMap() {
+		Map map = super.provideMap();
 		map.put(Image.class, AndroidImage.class);
 		map.put(Image.class, AndroidImage.class);
-		map.put(EAdCaption.class, RuntimeCaption.class);
-		map.put(Caption.class, RuntimeCaption.class);
-		map.put(EAdComposedDrawable.class, RuntimeComposedDrawable.class);
-		map.put(ComposedDrawable.class, RuntimeComposedDrawable.class);
 		map.put(RectangleShape.class, AndroidBezierShape.class);
 		map.put(BezierShape.class, AndroidBezierShape.class);
-		map.put(EAdFilteredDrawable.class, RuntimeFilteredDrawable.class);
-		map.put(FilteredDrawable.class, RuntimeFilteredDrawable.class);
 		map.put(EAdSound.class, AndroidSound.class);
 		map.put(Sound.class, AndroidSound.class);
 		map.put(EAdFont.class, AndroidFont.class);
 		map.put(BasicFont.class, AndroidFont.class);
-		map.put(StateDrawable.class, RuntimeStateDrawable.class);
-		map.put(EAdStateDrawable.class, RuntimeStateDrawable.class);
-		map.put(FramesAnimation.class, RuntimeFramesAnimation.class);
-		//TODO Sprite image
-		//map.put(SpriteImageImpl.class, AndroidEngineSpriteImage.class);
-		
 		return (Map<Class<? extends AssetDescriptor>, Class<? extends RuntimeAsset<? extends AssetDescriptor>>>)map;
 	}
 

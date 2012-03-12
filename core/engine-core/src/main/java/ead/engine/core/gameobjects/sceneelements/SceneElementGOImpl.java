@@ -55,7 +55,6 @@ import ead.common.model.elements.scene.EAdSceneElement;
 import ead.common.model.elements.scenes.SceneElement;
 import ead.common.model.elements.scenes.SceneElementDef;
 import ead.common.model.elements.variables.EAdVarDef;
-import ead.common.params.fills.PaintFill;
 import ead.common.resources.EAdBundleId;
 import ead.common.resources.assets.AssetDescriptor;
 import ead.common.util.EAdPosition;
@@ -73,7 +72,6 @@ import ead.engine.core.platform.GUI;
 import ead.engine.core.platform.assets.AssetHandler;
 import ead.engine.core.platform.assets.RuntimeCompoundDrawable;
 import ead.engine.core.platform.assets.RuntimeDrawable;
-import ead.engine.core.platform.rendering.GenericCanvas;
 import ead.engine.core.util.EAdTransformation;
 
 public abstract class SceneElementGOImpl<T extends EAdSceneElement> extends
@@ -427,24 +425,16 @@ public abstract class SceneElementGOImpl<T extends EAdSceneElement> extends
 	public boolean isEnable() {
 		return enable;
 	}
+	
+	public RuntimeDrawable<?, ?> getRuntimeDrawable(){
+		return currentDrawable;
+	}
 
 	@Override
 	public boolean contains(int x, int y) {
 		if (this.currentDrawable != null)
 			return this.currentDrawable.contains(x, y);
 		return false;
-	}
-
-	@Override
-	public void render(GenericCanvas c) {
-		if (this.currentDrawable != null)
-			// FIXME fix me! no suppress warnings
-			currentDrawable.render(c);
-		else {
-			// FIXME Improve, when has no asset
-			c.setPaint(PaintFill.BLACK_ON_WHITE);
-			c.fillRect(0, 0, width, height);
-		}
 	}
 
 	@Override

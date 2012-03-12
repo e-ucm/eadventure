@@ -47,6 +47,7 @@ import ead.engine.core.gameobjects.go.SceneElementGO;
 import ead.engine.core.gameobjects.huds.HudGO;
 import ead.engine.core.input.InputAction;
 import ead.engine.core.platform.GUI;
+import ead.engine.core.platform.assets.RuntimeDrawable;
 import ead.engine.core.platform.rendering.GenericCanvas;
 import ead.engine.core.util.EAdTransformation;
 import ead.engine.core.util.EAdTransformationImpl;
@@ -136,6 +137,10 @@ public abstract class AbstractHUD implements HudGO {
 	
 	public void resetTransfromation(){
 		transformation.getMatrix().setIdentity();
+	}
+	
+	public RuntimeDrawable<?, ?> getRuntimeDrawable(){
+		return null;
 	}
 	
 

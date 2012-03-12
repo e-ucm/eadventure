@@ -40,6 +40,9 @@ package ead.engine.core.gameobjects;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.google.inject.Singleton;
 
 import ead.engine.core.gameobjects.go.DrawableGO;
@@ -48,15 +51,11 @@ import ead.engine.core.gameobjects.huds.HudGO;
 import ead.engine.core.gameobjects.huds.TopBasicHUD;
 import ead.engine.core.platform.GUI;
 import ead.engine.core.util.EAdTransformation;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 @Singleton
 public class GameObjectManagerImpl implements GameObjectManager {
 
 	private ArrayList<DrawableGO<?>>[] gameObjects;
-
-	private ArrayList<EAdTransformation>[] transformations;
 
 	private ArrayList<HudGO> huds;
 
@@ -76,9 +75,6 @@ public class GameObjectManagerImpl implements GameObjectManager {
 		this.gameObjects = new ArrayList[2];
 		this.gameObjects[0] = new ArrayList<DrawableGO<?>>();
 		this.gameObjects[1] = new ArrayList<DrawableGO<?>>();
-		this.transformations = new ArrayList[2];
-		this.transformations[0] = new ArrayList<EAdTransformation>();
-		this.transformations[1] = new ArrayList<EAdTransformation>();
 		this.pointer = 0;
 		this.bufferPointer = 1;
 		this.huds = new ArrayList<HudGO>();
@@ -102,7 +98,6 @@ public class GameObjectManagerImpl implements GameObjectManager {
 	public void add(DrawableGO<?> element, EAdTransformation transformation) {
 		synchronized (GameObjectManager.lock) {
 			this.gameObjects[bufferPointer].add(element);
-			this.transformations[bufferPointer].add(transformation);
 		}
 	}
 
@@ -116,11 +111,6 @@ public class GameObjectManagerImpl implements GameObjectManager {
 	@Override
 	public List<DrawableGO<?>> getGameObjects() {
 		return this.gameObjects[pointer];
-	}
-
-	@Override
-	public List<EAdTransformation> getTransformations() {
-		return this.transformations[pointer];
 	}
 
 	/*
@@ -177,7 +167,6 @@ public class GameObjectManagerImpl implements GameObjectManager {
 			pointer = bufferPointer;
 			bufferPointer = (bufferPointer + 1) % 2;
 			gameObjects[bufferPointer].clear();
-			transformations[bufferPointer].clear();
 		}
 	}
 

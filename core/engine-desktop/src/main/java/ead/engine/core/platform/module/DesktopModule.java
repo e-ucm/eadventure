@@ -47,12 +47,6 @@ import com.google.inject.name.Named;
 import ead.common.Reader;
 import ead.common.model.elements.EAdAdventureModel;
 import ead.common.reader.EAdAdventureDOMModelReader;
-import ead.engine.core.game.GameLoop;
-import ead.engine.core.game.GameLoopImpl;
-import ead.engine.core.game.GameProfiler;
-import ead.engine.core.game.GameProfilerImpl;
-import ead.engine.core.gameobjects.GameObjectManager;
-import ead.engine.core.gameobjects.GameObjectManagerImpl;
 import ead.engine.core.gameobjects.huds.ActionsHUD;
 import ead.engine.core.gameobjects.huds.ActionsHUDImpl;
 import ead.engine.core.gameobjects.huds.BottomBasicHUD;
@@ -63,8 +57,6 @@ import ead.engine.core.gameobjects.huds.MenuHUD;
 import ead.engine.core.gameobjects.huds.MenuHUDImpl;
 import ead.engine.core.gameobjects.huds.TopBasicHUD;
 import ead.engine.core.gameobjects.huds.TopBasicHUDImpl;
-import ead.engine.core.input.InputHandler;
-import ead.engine.core.input.InputHandlerImpl;
 import ead.engine.core.platform.DesktopGUI;
 import ead.engine.core.platform.GUI;
 import ead.engine.core.platform.rendering.DesktopFilterFactory;
@@ -76,11 +68,9 @@ public class DesktopModule extends AbstractModule {
 	protected void configure() {
 		bind(new TypeLiteral<Reader<EAdAdventureModel>>() {})
                 .to(EAdAdventureDOMModelReader.class);
-		bind(GameLoop.class).to(GameLoopImpl.class);
-		bind(GameProfiler.class).to(GameProfilerImpl.class);
+		
 		configureGUI();
-		bind(InputHandler.class).to(InputHandlerImpl.class);
-		bind(GameObjectManager.class).to(GameObjectManagerImpl.class);
+
 		bind(TopBasicHUD.class).to(TopBasicHUDImpl.class);
 		bind(BottomBasicHUD.class).to(BottomBasicHUDImpl.class);
 		bind(InventoryHUD.class).to(InventoryHUDImpl.class);

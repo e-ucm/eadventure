@@ -34,10 +34,7 @@ core/engine-android/gen/**
 core/engine-playn/gwt-unitCache/gwt-unitCache*
 core/engine-android/bin/
 
-# FIXME: find out why these are here
 core/engine-android/gen/es/eucm/eadventure/engine/R.java
-core/engine-desktop/src/test/resources/T1-movimientoImported/drawable/assets_animation_walks-up_08.png
-core/engine-desktop/src/test/resources/T1-movimiento*
-core/engine-desktop/src/test/resources/FirstPersonEffectsTestImported*
 
 core/engine-desktop/engine_configuration.xml
+core/engine-playn/.gwt/.gwt-log

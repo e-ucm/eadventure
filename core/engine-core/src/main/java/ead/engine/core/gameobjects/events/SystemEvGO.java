@@ -37,7 +37,8 @@
 
 package ead.engine.core.gameobjects.events;
 
-import java.util.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.google.inject.Inject;
 
@@ -51,7 +52,7 @@ public class SystemEvGO extends AbstractEventGO<SystemEv> {
 
 	private boolean triggered = false;
 	
-	private Logger logger = Logger.getLogger("SystemEvGO");
+	private static final Logger logger = LoggerFactory.getLogger("SystemEvGO");
 
 	private AssetHandler assetHandler;
 

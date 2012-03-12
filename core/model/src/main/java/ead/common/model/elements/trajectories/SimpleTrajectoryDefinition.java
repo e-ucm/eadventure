@@ -49,7 +49,6 @@ import ead.common.model.elements.trajectories.EAdTrajectoryDefinition;
  * straight line.
  * 
  */
-@Reflectable
 @Element(runtime = SimpleTrajectoryDefinition.class, detailed = SimpleTrajectoryDefinition.class)
 public class SimpleTrajectoryDefinition extends BasicElement implements EAdTrajectoryDefinition {
 

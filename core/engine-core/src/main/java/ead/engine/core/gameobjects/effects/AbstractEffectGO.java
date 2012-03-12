@@ -53,7 +53,7 @@ import ead.engine.core.gameobjects.go.EffectGO;
 import ead.engine.core.input.InputAction;
 import ead.engine.core.platform.GUI;
 import ead.engine.core.platform.assets.AssetHandler;
-import ead.engine.core.platform.rendering.GenericCanvas;
+import ead.engine.core.platform.assets.RuntimeDrawable;
 import ead.engine.core.util.EAdTransformation;
 
 public abstract class AbstractEffectGO<P extends EAdEffect> extends
@@ -140,11 +140,6 @@ public abstract class AbstractEffectGO<P extends EAdEffect> extends
 	public void setParent( EAdSceneElement parent ){
 		this.parent = parent;
 	}
-	
-	@Override
-	public void render(GenericCanvas<?> c) {
-
-	}
 
 	@Override
 	public boolean contains(int x, int y) {
@@ -174,6 +169,10 @@ public abstract class AbstractEffectGO<P extends EAdEffect> extends
 	public List<AssetDescriptor> getAssets(List<AssetDescriptor> assetList,
 			boolean allAssets) {
 		return assetList;
+	}
+	
+	public RuntimeDrawable<?, ?> getRuntimeDrawable(){
+		return null;
 	}
 
 }

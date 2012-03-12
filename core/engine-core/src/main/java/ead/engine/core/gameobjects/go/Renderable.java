@@ -38,21 +38,37 @@
 package ead.engine.core.gameobjects.go;
 
 import ead.engine.core.input.InputAction;
-import ead.engine.core.platform.rendering.GenericCanvas;
 import ead.engine.core.util.EAdTransformation;
 
 public interface Renderable {
 	
-	void doLayout( EAdTransformation t );
-	
-	void render( GenericCanvas<?> c );
+	/**
+	 * Layout out the child game objects of this game objects
+	 * 
+	 * @param transformation
+	 *            the transformation accumulated by this game object container
+	 */
+	void doLayout(EAdTransformation transformation);
 	
 	void update();
 	
 	boolean contains( int x, int y );
 	
+	/**
+	 * Process the action in the graphic interface (click, etc.)
+	 * 
+	 * @param action
+	 *            the action to process
+	 * @return {@code true} if he action has been processed by the object
+	 */
 	boolean processAction(InputAction<?> action);
 	
+	/**
+	 * Returns the transformation (translation, rotation, scale, etc.) of this
+	 * game object
+	 * 
+	 * @return the transformation
+	 */
 	EAdTransformation getTransformation();
 
 }

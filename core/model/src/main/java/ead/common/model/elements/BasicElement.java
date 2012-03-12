@@ -41,7 +41,6 @@ import com.gwtent.reflection.client.Reflectable;
 
 import ead.common.model.EAdElement;
 
-@Reflectable
 /**
  * Implementation of a basic {@link EAdElement}. Most of the model elements inherits from this basis class
  * @author anserran

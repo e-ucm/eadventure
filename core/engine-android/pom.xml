@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
 	<parent>
@@ -28,14 +28,14 @@
 			<groupId>ead</groupId>
 			<artifactId>engine-java</artifactId>
 			<version>${project.version}</version>
-		</dependency>	
+		</dependency>
 		<dependency>
 			<groupId>ead</groupId>
 			<artifactId>engine-plugins</artifactId>
 			<version>${project.version}</version>
 		</dependency>
-		
-    <!-- external -->		
+
+		<!-- external -->
 		<dependency>
 			<groupId>com.google.android</groupId>
 			<artifactId>android</artifactId>
@@ -46,21 +46,24 @@
 			<groupId>com.google.android</groupId>
 			<artifactId>support-v4</artifactId>
 			<version>r6</version>
-		</dependency>		
+		</dependency>
 		<dependency>
 			<groupId>com.markupartist.android</groupId>
 			<artifactId>actionbar</artifactId>
 			<version>0.1.0-SNAPSHOT</version>
 			<type>apklib</type>
 		</dependency>
-		
+
+		<!-- <dependency> <groupId>org.slf4j</groupId> <artifactId>slf4j-simple</artifactId> 
+			<optional>true</optional> </dependency> -->
+
 		<dependency>
 			<groupId>org.slf4j</groupId>
-			<artifactId>slf4j-simple</artifactId>
+			<artifactId>slf4j-android</artifactId>
 			<optional>true</optional>
 		</dependency>
 
-    <!-- tests -->
+		<!-- tests -->
 		<dependency>
 			<groupId>ead</groupId>
 			<artifactId>test-suite</artifactId>
@@ -78,7 +81,7 @@
 			</snapshots>
 		</pluginRepository>
 	</pluginRepositories>
-	
+
 	<build>
 		<finalName>${project.artifactId}</finalName>
 		<sourceDirectory>src</sourceDirectory>
@@ -93,7 +96,7 @@
 			</plugins>
 		</pluginManagement>
 		<plugins>
-			<!-- skip eclipse-plugin; will use own .settings and .classpath -->			
+			<!-- skip eclipse-plugin; will use own .settings and .classpath -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-eclipse-plugin</artifactId>
