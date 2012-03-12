@@ -37,88 +37,58 @@
 
 package ead.engine.core.platform.module;
 
-import java.util.HashMap;
 import java.util.Map;
 
-import com.google.inject.AbstractModule;
 import com.google.inject.Provides;
 import com.google.inject.Singleton;
 import com.google.inject.TypeLiteral;
 
 import ead.common.StringFileHandler;
 import ead.common.resources.assets.AssetDescriptor;
-import ead.common.resources.assets.drawable.basics.Caption;
-import ead.common.resources.assets.drawable.basics.EAdCaption;
 import ead.common.resources.assets.drawable.basics.Image;
-import ead.common.resources.assets.drawable.basics.animation.FramesAnimation;
 import ead.common.resources.assets.drawable.basics.shapes.BezierShape;
-import ead.common.resources.assets.drawable.basics.shapes.RectangleShape;
-import ead.common.resources.assets.drawable.compounds.ComposedDrawable;
-import ead.common.resources.assets.drawable.compounds.EAdComposedDrawable;
-import ead.common.resources.assets.drawable.compounds.EAdStateDrawable;
-import ead.common.resources.assets.drawable.compounds.StateDrawable;
-import ead.common.resources.assets.drawable.filters.EAdFilteredDrawable;
-import ead.common.resources.assets.drawable.filters.FilteredDrawable;
 import ead.common.resources.assets.multimedia.EAdSound;
 import ead.common.resources.assets.multimedia.EAdVideo;
 import ead.common.resources.assets.multimedia.Sound;
 import ead.common.resources.assets.text.BasicFont;
 import ead.common.resources.assets.text.EAdFont;
 import ead.common.strings.DefaultStringFileHandler;
-import ead.common.util.StringHandler;
 import ead.engine.core.platform.DesktopAssetHandler;
-import ead.engine.core.platform.StringHandlerImpl;
 import ead.engine.core.platform.assets.AssetHandler;
 import ead.engine.core.platform.assets.DesktopFont;
 import ead.engine.core.platform.assets.RuntimeAsset;
 import ead.engine.core.platform.assets.SpecialAssetRenderer;
 import ead.engine.core.platform.assets.drawables.basics.DesktopBezierShape;
 import ead.engine.core.platform.assets.drawables.basics.DesktopImage;
-import ead.engine.core.platform.assets.drawables.basics.RuntimeCaption;
-import ead.engine.core.platform.assets.drawables.basics.RuntimeFramesAnimation;
-import ead.engine.core.platform.assets.drawables.compunds.RuntimeComposedDrawable;
-import ead.engine.core.platform.assets.drawables.compunds.RuntimeFilteredDrawable;
-import ead.engine.core.platform.assets.drawables.compunds.RuntimeStateDrawable;
 import ead.engine.core.platform.assets.multimedia.DesktopSound;
 import ead.engine.core.platform.assets.specialassetrenderers.DesktopVideoRenderer;
+import ead.engine.core.platform.modules.AssetHandlerModule;
 
-public class DesktopAssetHandlerModule extends AbstractModule {
+public class DesktopAssetHandlerModule extends AssetHandlerModule {
 
 	@Override
 	protected void configure() {
 		bind(StringFileHandler.class).to(DefaultStringFileHandler.class);
-		bind(StringHandler.class).to(StringHandlerImpl.class);
 		bind(AssetHandler.class).to(DesktopAssetHandler.class);
-//		bind(new TypeLiteral<SpecialAssetRenderer<EAdVideo, ?>>() {
-//		}).to(VLCDesktopVideoRenderer.class);
+		// bind(new TypeLiteral<SpecialAssetRenderer<EAdVideo, ?>>() {
+		// }).to(VLCDesktopVideoRenderer.class);
 		bind(new TypeLiteral<SpecialAssetRenderer<EAdVideo, ?>>() {
-			}).to(DesktopVideoRenderer.class);
+		}).to(DesktopVideoRenderer.class);
+
+		super.configure();
 	}
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Provides
 	@Singleton
-	Map<Class<? extends AssetDescriptor>, Class<? extends RuntimeAsset<? extends AssetDescriptor>>> provideMap() {
-
-		Map map = new HashMap();
-
+	public Map<Class<? extends AssetDescriptor>, Class<? extends RuntimeAsset<? extends AssetDescriptor>>> provideMap() {
+		Map map = super.provideMap();
 		map.put(Image.class, DesktopImage.class);
-		map.put(EAdCaption.class, RuntimeCaption.class);
-		map.put(Caption.class, RuntimeCaption.class);
-		map.put(EAdComposedDrawable.class, RuntimeComposedDrawable.class);
-		map.put(ComposedDrawable.class, RuntimeComposedDrawable.class);
-		map.put(StateDrawable.class, RuntimeStateDrawable.class);
-		map.put(EAdStateDrawable.class, RuntimeStateDrawable.class);
-		map.put(FramesAnimation.class, RuntimeFramesAnimation.class);
-		map.put(RectangleShape.class, DesktopBezierShape.class);
 		map.put(BezierShape.class, DesktopBezierShape.class);
 		map.put(EAdSound.class, DesktopSound.class);
 		map.put(Sound.class, DesktopSound.class);
-		map.put(EAdFilteredDrawable.class, RuntimeFilteredDrawable.class);
-		map.put(FilteredDrawable.class, RuntimeFilteredDrawable.class);
 		map.put(BasicFont.class, DesktopFont.class);
 		map.put(EAdFont.class, DesktopFont.class);
-
-		return (Map<Class<? extends AssetDescriptor>, Class<? extends RuntimeAsset<? extends AssetDescriptor>>>)map;
+		return (Map<Class<? extends AssetDescriptor>, Class<? extends RuntimeAsset<? extends AssetDescriptor>>>) map;
 	}
 }

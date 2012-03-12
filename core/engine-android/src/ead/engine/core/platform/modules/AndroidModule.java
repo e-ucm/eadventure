@@ -44,14 +44,8 @@ import com.google.inject.Provides;
 import com.google.inject.TypeLiteral;
 import com.google.inject.name.Named;
 
-import ead.engine.core.game.AndroidGameLoopImpl;
-import ead.engine.core.game.GameLoop;
-import ead.engine.core.game.GameProfiler;
-import ead.engine.core.game.GameProfilerImpl;
 import ead.engine.core.gameobjects.AndroidActionsHUDImpl;
 import ead.engine.core.gameobjects.AndroidBasicHUD;
-import ead.engine.core.gameobjects.GameObjectManager;
-import ead.engine.core.gameobjects.GameObjectManagerImpl;
 import ead.engine.core.gameobjects.huds.ActionsHUD;
 import ead.engine.core.gameobjects.huds.BottomBasicHUD;
 import ead.engine.core.gameobjects.huds.BottomBasicHUDImpl;
@@ -60,8 +54,6 @@ import ead.engine.core.gameobjects.huds.InventoryHUDImpl;
 import ead.engine.core.gameobjects.huds.MenuHUD;
 import ead.engine.core.gameobjects.huds.MenuHUDImpl;
 import ead.engine.core.gameobjects.huds.TopBasicHUD;
-import ead.engine.core.input.InputHandler;
-import ead.engine.core.input.InputHandlerImpl;
 import ead.engine.core.platform.AndroidGUI;
 import ead.engine.core.platform.GUI;
 import ead.engine.core.platform.rendering.AndroidFilterFactory;
@@ -75,11 +67,7 @@ public class AndroidModule extends AbstractModule {
 	
 	@Override
 	protected void configure() {
-		bind(GameLoop.class).to(AndroidGameLoopImpl.class);
-		bind(GameProfiler.class).to(GameProfilerImpl.class);
 		bind(GUI.class).to(AndroidGUI.class);
-		bind(InputHandler.class).to(InputHandlerImpl.class);
-		bind(GameObjectManager.class).to(GameObjectManagerImpl.class);
 		bind(ActionsHUD.class).to(AndroidActionsHUDImpl.class);
 		bind(TopBasicHUD.class).to(AndroidBasicHUD.class);
 		bind(BottomBasicHUD.class).to(BottomBasicHUDImpl.class);

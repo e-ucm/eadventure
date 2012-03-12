@@ -1,2 +1,0 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?><!DOCTYPE animation SYSTEM "animation.dtd">
-<animation id="walking_down" slides="no" usetransitions="yes"><documentation>Walking down</documentation><transition time="0" type="none"/><frame maxSoundTime="1000" soundUri="" time="400" type="image" uri="assets/animation/waliking_down.png" waitforclick="no"/><transition time="0" type="none"/><frame maxSoundTime="1000" soundUri="" time="400" type="image" uri="assets/animation/walking_down_2.png" waitforclick="no"/><transition time="0" type="none"/></animation>

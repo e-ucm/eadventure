@@ -46,7 +46,6 @@ import ead.engine.core.game.GameState;
 import ead.engine.core.gameobjects.GameObjectManager;
 import ead.engine.core.gameobjects.factories.SceneElementGOFactory;
 import ead.engine.core.gameobjects.go.DrawableGO;
-import ead.engine.core.gameobjects.go.Renderable;
 import ead.engine.core.input.InputHandler;
 import ead.engine.core.platform.rendering.GenericCanvas;
 import ead.engine.core.util.EAdTransformation;
@@ -87,7 +86,7 @@ public abstract class AbstractGUI<T> implements GUI {
 
 	protected SceneElementGOFactory gameObjectFactory;
 
-	protected GenericCanvas<T> eAdCanvas;
+	protected GenericCanvas eAdCanvas;
 
 	protected GameLoop gameLoop;
 
@@ -140,8 +139,8 @@ public abstract class AbstractGUI<T> implements GUI {
 	@Override
 	public void prepareGUI() {
 		gameObjects.swap();
-		for ( EAdTransformation t: gameObjects.getTransformations() ){
-			t.setValidated(true);
+		for (DrawableGO<?> go : gameObjects.getGameObjects()) {
+			go.getTransformation().setValidated(true);
 		}
 	}
 
@@ -161,11 +160,13 @@ public abstract class AbstractGUI<T> implements GUI {
 	protected void render(float interpolation) {
 		// TODO use interpolation
 		synchronized (GameObjectManager.lock) {
-			for (int i = 0; i < gameObjects.getGameObjects().size(); i++) {
-				EAdTransformation t = gameObjects.getTransformations().get(i);
-				eAdCanvas.setTransformation(t);
-				((Renderable) gameObjects.getGameObjects().get(i))
-						.render(eAdCanvas);
+			for (DrawableGO<?> go : gameObjects.getGameObjects()) {
+				if (go != null && go.getRuntimeDrawable() != null) {
+					EAdTransformation t = go.getTransformation();
+					eAdCanvas.setTransformation(t);
+					go.getRuntimeDrawable().render(eAdCanvas);
+				}
+
 			}
 		}
 	}

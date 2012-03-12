@@ -60,7 +60,6 @@ import ead.engine.core.operator.OperatorFactory;
 import ead.engine.core.platform.GUI;
 import ead.engine.core.platform.assets.AssetHandler;
 import ead.engine.core.platform.assets.drawables.basics.RuntimeCaption;
-import ead.engine.core.platform.rendering.GenericCanvas;
 import ead.engine.core.util.EAdTransformation;
 
 public class SpeakGO extends AbstractEffectGO<SpeakEf> {
@@ -230,11 +229,6 @@ public class SpeakGO extends AbstractEffectGO<SpeakEf> {
 		}
 
 		transformation.setAlpha(alpha);
-	}
-
-	@Override
-	public void render(GenericCanvas<?> c) {
-
 	}
 
 	@Override

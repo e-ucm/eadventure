@@ -41,19 +41,9 @@ import java.util.List;
 
 import ead.common.resources.assets.AssetDescriptor;
 import ead.common.util.EAdPosition;
-import ead.engine.core.input.InputAction;
-import ead.engine.core.util.EAdTransformation;
+import ead.engine.core.platform.assets.RuntimeDrawable;
 
 public interface DrawableGO<T> extends GameObject<T>, Renderable {
-
-	/**
-	 * Process the action in the graphic interface (click, etc.)
-	 * 
-	 * @param action
-	 *            the action to process
-	 * @return {@code true} if he action has been processed by the object
-	 */
-	boolean processAction(InputAction<?> action);
 
 	/**
 	 * The the draggable element
@@ -61,22 +51,6 @@ public interface DrawableGO<T> extends GameObject<T>, Renderable {
 	 * @return The game object that is draggable
 	 */
 	SceneElementGO<?> getDraggableElement();
-
-	/**
-	 * Layout out the child game objects of this game objects
-	 * 
-	 * @param transformation
-	 *            the transformation accumulated by this game object container
-	 */
-	void doLayout(EAdTransformation transformation);
-
-	/**
-	 * Returns the transformation (translation, rotation, scale, etc.) of this
-	 * game object
-	 * 
-	 * @return the transformation
-	 */
-	EAdTransformation getTransformation();
 
 	/**
 	 * Resets the current transformation, deleting any parent's transformation
@@ -116,5 +90,7 @@ public interface DrawableGO<T> extends GameObject<T>, Renderable {
 	 * @return
 	 */
 	EAdPosition getPosition();
+
+	RuntimeDrawable<?, ?> getRuntimeDrawable();
 
 }

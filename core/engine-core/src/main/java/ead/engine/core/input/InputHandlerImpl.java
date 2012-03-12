@@ -196,8 +196,7 @@ public class InputHandlerImpl implements InputHandler {
 
 				while (!action.isConsumed() && i >= 0) {
 					DrawableGO<?> go = gameObjects.getGameObjects().get(i);
-					EAdTransformation t = gameObjects.getTransformations().get(
-							i);
+					EAdTransformation t = go.getTransformation();
 
 					if (contains(go, x, y, t)) {
 						go.processAction(action);
@@ -304,8 +303,7 @@ public class InputHandlerImpl implements InputHandler {
 				DrawableGO<?> tempGameObject = gameObjects.getGameObjects()
 						.get(i);
 				if (tempGameObject != mouseHandler.getDraggingGameObject()) {
-					EAdTransformation t = gameObjects.getTransformations().get(
-							i);
+					EAdTransformation t = tempGameObject.getTransformation();
 					if (contains(tempGameObject, mouseHandler.getMouseX(),
 							mouseHandler.getMouseY(), t)) {
 						return tempGameObject;
@@ -388,8 +386,7 @@ public class InputHandlerImpl implements InputHandler {
 				DrawableGO<?> tempGameObject = gameObjects.getGameObjects()
 						.get(i);
 				if (tempGameObject != mouseHandler.getDraggingGameObject()) {
-					EAdTransformation t = gameObjects.getTransformations().get(
-							i);
+					EAdTransformation t = tempGameObject.getTransformation();
 					if (contains(tempGameObject, mouseHandler.getMouseX(),
 							mouseHandler.getMouseY(), t)) {
 						gameObjectsUnderMouse.add(tempGameObject);

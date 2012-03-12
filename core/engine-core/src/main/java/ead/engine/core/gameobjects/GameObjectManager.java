@@ -62,8 +62,6 @@ public interface GameObjectManager  {
 	
 	void swap();
 
-	List<EAdTransformation> getTransformations();
-
 	List<HudGO> getHUDs();
 
 	void setBasicHUDs(TopBasicHUD topBasicHud, BottomBasicHUD bottomBasicHUD);
