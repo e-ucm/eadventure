@@ -25,7 +25,7 @@
 			<version>${project.version}</version>
 		</dependency>
     
-    <!-- external -->
+		<!-- external -->
 		<dependency>
 			<groupId>com.google.inject</groupId>
 			<artifactId>guice</artifactId>
@@ -37,7 +37,7 @@
 			<version>2.1.2</version>
 		</dependency>
 
-    <!-- tests -->
+		<!-- tests -->
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>

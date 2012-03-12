@@ -12,21 +12,18 @@
   <groupId>ead</groupId>
   <version>2.0.1-SNAPSHOT</version>
   <artifactId>engine-playn</artifactId>
-  <packaging>jar</packaging>
+  <packaging>war</packaging>
   <name>e-Adventure Play'N Engine</name>
   <description>
     Play'N / GWT e-Adventure engine; requires GWT SDK to build, generates web app
   </description>
   <build>
-    <outputDirectory>${project.basedir}/war/WEB-INF/classes</outputDirectory>
-
-    <pluginManagement>
+      <outputDirectory>${project.basedir}/war/WEB-INF/classes</outputDirectory>
       <plugins>
-
         <plugin>
           <groupId>org.codehaus.mojo</groupId>
           <artifactId>gwt-maven-plugin</artifactId>
-          <version>2.4.0</version>
+          <version>${gwt.version}</version>
           <executions>
             <execution>
               <goals>
@@ -38,8 +35,15 @@
           </executions>
           <configuration>
             <compileSourcesArtifacts>
-              <artifact>org.codehaus.mojo:domain</artifact>
-            </compileSourcesArtifacts>
+              <artifact>ead:model</artifact>
+              <artifact>ead:engine-core</artifact>
+              <artifact>ead:test-suite</artifact>
+            </compileSourcesArtifacts>            
+            <configuration>
+		      <buildOutputDirectory>${project.basedir}/war/WEB-INF</buildOutputDirectory>            
+		      <webappDirectory>${project.basedir}/war/WEB-INF</webappDirectory>
+              <module>${gwt.module}</module>
+            </configuration>
           </configuration>
         </plugin>
 
@@ -98,14 +102,18 @@
           </configuration>
         </plugin>
       </plugins>
-    </pluginManagement>
   </build>
 
   <properties>
+	<war.buildOutputDirectory>${project.basedir}/war/WEB-INF</war.buildOutputDirectory>            
+	<war.webappDirectory>${project.basedir}/war/WEB-INF</war.webappDirectory>		  	
+	<war.webXml>${project.basedir}/war/WEB-INF/web.xml</war.webXml>  
+  
     <gwt.module>ead.engine.EAdEngine</gwt.module>
     <gwt.name>eadengine</gwt.name>
-    <gwtversion>2.4.0</gwtversion>
     <gwt.version>2.4.0</gwt.version>
+    <gwt.voices.version>2.1.8</gwt.voices.version>
+    <gwt.runTarget>ead.engine.html/EAdEngineHtml.java</gwt.runTarget>
     <playnversion>1.1.9</playnversion>
   </properties>
 
@@ -132,16 +140,22 @@
     <dependency>
       <groupId>com.google.gwt</groupId>
       <artifactId>gwt-user</artifactId>
-      <version>${gwtversion}</version>
+      <version>${gwt.version}</version>
       <scope>provided</scope>
     </dependency>
     <dependency>
       <groupId>com.google.gwt</groupId>
       <artifactId>gwt-servlet</artifactId>
-      <version>${gwtversion}</version>
+      <version>${gwt.version}</version>
       <scope>compile</scope>
     </dependency>
-
+    <dependency>
+      <groupId>com.allen-sauer.gwt.voices</groupId>
+      <artifactId>gwt-voices</artifactId>
+      <version>${gwt.voices.version}</version>
+      <scope>compile</scope>
+    </dependency>
+    	
     <dependency>
       <groupId>com.googlecode.playn</groupId>
       <artifactId>playn-core</artifactId>

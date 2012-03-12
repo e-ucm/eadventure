@@ -13,7 +13,9 @@
 
 	NOTE: builds windows exes and self-executable jars of desktop-engine
     and editor-core; also builds playn webapp and android-engine apk;
-    takes around 1 minute on a quad-core
+    takes around 2 minutes on a quad-core; or 40s with -T 3;
+    most of the time (~30s and ~50s) is dedicated to building 
+    engine-android and engine-playn versions
 
 * Make a clean build of a single module
 	mvn clean install -pl ead:engine-desktop
@@ -57,4 +59,4 @@
 
 	NOTE: this currently performs a *lot* of duplicate work, and
 	does not even build subproject pages (it lumps everything together);
-	takes around 8 minutes on a quad-core...
+	takes around 10 minutes on a quad-core...
