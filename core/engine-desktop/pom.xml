@@ -35,8 +35,7 @@
 			<version>${project.version}</version>
 		</dependency>
 
-    <!-- external -->
-
+	    <!-- external -->
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-simple</artifactId>
@@ -64,14 +63,14 @@
 			<version>1.2.0</version>
 		</dependency>
 
-    <!-- Currently unused
-    <dependency>
-      <groupId>com.kitfox.svg</groupId>
-      <artifactId>svg-salamander-tiny</artifactId>
-      <version>1.0.0</version>
-    </dependency> -->
+		<!-- Currently unused
+		<dependency>
+		<groupId>com.kitfox.svg</groupId>
+		<artifactId>svg-salamander-tiny</artifactId>
+		<version>1.0.0</version>
+		</dependency> -->
 
-    <!-- tests -->
+		<!-- tests -->
 		<dependency>
 			<groupId>ead</groupId>
 			<artifactId>test-suite</artifactId>
@@ -136,7 +135,25 @@
 						</configuration>
 					</execution>
 				</executions>
-			</plugin>			
+			</plugin>
+			<plugin>
+				<groupId>org.bluestemsoftware.open.maven.plugin</groupId>
+				<artifactId>launch4j-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>l4j-gui</id>
+						<phase>package</phase>
+						<goals>
+							<goal>launch4j</goal>
+						</goals>
+						<configuration>
+							<classPath>
+								<mainClass>ead.engine.EAdEngine</mainClass>
+							</classPath>							
+						</configuration>						
+					</execution>
+				</executions>						
+			</plugin>				
 		</plugins>
 	</build>  
 </project>

@@ -125,6 +125,24 @@
 					</execution>
 				</executions>
 			</plugin>			
-		</plugins>
+			<plugin>
+				<groupId>org.bluestemsoftware.open.maven.plugin</groupId>
+				<artifactId>launch4j-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>l4j-gui</id>
+						<phase>package</phase>
+						<goals>
+							<goal>launch4j</goal>
+						</goals>
+						<configuration>
+							<classPath>
+								<mainClass>ead.editor.EAdventureEditor</mainClass>
+							</classPath>							
+						</configuration>						
+					</execution>
+				</executions>						
+			</plugin>	
+		</plugins>			
 	</build>  
 </project>
