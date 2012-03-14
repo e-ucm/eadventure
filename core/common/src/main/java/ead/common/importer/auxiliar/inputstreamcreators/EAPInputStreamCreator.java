@@ -37,22 +37,21 @@
 
 package ead.common.importer.auxiliar.inputstreamcreators;
 
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
 import es.eucm.eadventure.common.loader.InputStreamCreator;
+import java.io.File;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class EAPInputStreamCreator implements InputStreamCreator {
 
 	private String absolutePath;
 
-	private static final Logger logger = Logger.getLogger("EAPInputStreamCreator");
+	private static final Logger logger = LoggerFactory.getLogger("EAPInputStreamCreator");
 
 	public void setFile( String file ){
 		this.absolutePath = file;
@@ -76,7 +75,7 @@ public class EAPInputStreamCreator implements InputStreamCreator {
 			return url;
 		}
 		catch ( MalformedURLException e ) {
-			logger.log(Level.SEVERE, "Problem building URL for path: " + path, e);
+			logger.error("Problem building URL for path: '{}'", path, e);
 			return null;
 		}
 	}
@@ -87,9 +86,8 @@ public class EAPInputStreamCreator implements InputStreamCreator {
 		if ( dir.exists( ) && dir.isDirectory( ) ) {
 			return dir.list( );
 		} else {
-			logger.log(Level.WARNING, "Path does not exist of isn't a directory: " + filePath);
+			logger.warn("Path does not exist or is not a directory: '{}'", filePath);
 			return new String[0];
 		}
 	}
-
 }

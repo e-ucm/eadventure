@@ -224,6 +224,7 @@ public class ResourceImporterImpl implements ResourceImporter {
 
 	}
 
+	@Override
 	public void importResources(Resourced element, List<Resources> resources,
 			Map<String, String> resourcesStrings,
 			Map<String, Object> resourcesObjectClasses) {
