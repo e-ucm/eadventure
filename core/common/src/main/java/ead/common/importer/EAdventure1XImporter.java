@@ -41,7 +41,6 @@ import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -79,6 +78,8 @@ import es.eucm.eadventure.common.loader.incidences.Incidence;
  */
 public class EAdventure1XImporter {
 
+	public static final String CURRENT_EAD_ENGINE_VERSION = "ead-200";
+	
 	private EAdElementImporter<AdventureData, EAdAdventureModel> adventureImporter;
 
 	private ResourceImporter resourceImporter;
@@ -166,9 +167,31 @@ public class EAdventure1XImporter {
 
 	}
 
-	private void createGameFile(EAdAdventureModel model, String path,
+	/**
+	 * Creates a game file, using import-default arguments.
+	 * @param model to save
+	 * @param path to save it to
+	 * @param destination file name within path
+	 */
+	private boolean createGameFile(EAdAdventureModel model, String path,
 			String destination) {
+		return createGameFile(model, path, destination, ".ead", "Imported version");
+	}
+	
+	/**
+	 * Creates a game file.
+	 * @param model to save
+	 * @param path to save it to
+	 * @param destination file name within path
+	 * @param forceExtension extension to set on destination; may be null
+	 * @param targetEngine target engine; for instance, ead-200
+	 * @param propertiesComment comment to set on properties file
+	 */
+	public boolean createGameFile(EAdAdventureModel model, String path,
+			String destination, String forceExtension, String propertiesComment) {
 
+		boolean ok = true;
+		
 		// Create data.xml
 		EAdAdventureModelWriter writer = new EAdAdventureModelWriter();
 
@@ -177,63 +200,81 @@ public class EAdventure1XImporter {
 			os = new FileOutputStream(new File(path, ProjectFiles.DATA_FILE));
 			writer.write(model, os);
 		} catch (Exception e) {
-			logger.error("Cannot write data.xml " + "while importing to '{}'",
+			logger.error("Error writing data.xml while importing to '{}'",
 					destination, e);
 		} finally {
-			if (os != null)
+			if (os != null) {
 				try {
 					os.close();
 				} catch (Exception e) {
 					logger.error("Error closing data.xml "
 							+ "while importing '{}", destination, e);
+					ok = false;
 				}
+			}
 		}
 
 		// Create strings.xml
 		File f = new File(path, ProjectFiles.STRINGS_FILE);
-
 		try {
 			stringFileHandler.write(new FileOutputStream(f),
 					stringsHandler.getStrings());
 		} catch (Exception e) {
-			logger.error("Cannot handle strings.xml " + "while importing '{}'",
+			logger.error("Error writing strings file while importing '{}'",
 					destination, e);
+			ok = false;
 		}
 
 		// ead.properties
 		File propertiesFile = new File(path, ProjectFiles.PROPERTIES_FILE);
 		Properties properties = new Properties();
-		properties.setProperty("targetEngine", "ead-200");
+		properties.setProperty("targetEngine", CURRENT_EAD_ENGINE_VERSION);
 
 		try {
 			FileOutputStream output = new FileOutputStream(propertiesFile);
-			properties.store(output, "Imported version");
-		} catch (FileNotFoundException e1) {
-			e1.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
+			properties.store(output, propertiesComment);
+		} catch (Exception e) {
+			logger.error("Error writing properties file '{}'", 
+					propertiesFile.getAbsolutePath(), e);
+			ok = false;			
 		}
 
 		// Create zip file
+		String fileName = (forceExtension == null || destination.endsWith(forceExtension)) ? 
+				destination	: destination + forceExtension;
+		File outFolder = new File(fileName);
+		ZipOutputStream out = null;
 		try {
-			String fileName = destination.endsWith(".ead") ? destination
-					: destination + ".ead";
-			File outFolder = new File(fileName);
-
-			ZipOutputStream out = new ZipOutputStream(new BufferedOutputStream(
+			out = new ZipOutputStream(new BufferedOutputStream(
 					new FileOutputStream(outFolder)));
-
 			addFolderToZip(out, new File(path), false);
-			out.flush();
-			out.close();
 		} catch (Exception e) {
 			logger.error("Error outputting zip to {}", destination, e);
+			ok = false;			
+		} finally {
+			if (out != null) {
+				try { out.close(); }
+				catch (IOException ioe) { 
+					logger.error("Could not close zip file writing to '{}'", 
+							fileName, ioe);
+				}
+			}
 		}
-
+		return ok;
 	}
 
-	public void addFolderToZip(ZipOutputStream zip, File folder, boolean addPath) {
-		byte[] data = new byte[1000];
+	/**
+	 * Adds all files in folder to the supplied zipOutputStream. Optionally
+	 * includes their full paths too.
+	 * @param zip destination stream
+	 * @param folder folder to add
+	 * @param addPath whether to include full path information or not
+	 * @throws IOException if any error while adding
+	 */
+	public void addFolderToZip(ZipOutputStream zip, File folder, boolean addPath) 
+		throws IOException {
+		
+		byte[] data = new byte[1024];
 		File files[] = folder.listFiles();
 		for (File f : files) {
 			try {
@@ -247,15 +288,16 @@ public class EAdventure1XImporter {
 					zip.putNextEntry(new ZipEntry(entryName));
 
 					BufferedInputStream in = new BufferedInputStream(
-							new FileInputStream(f), 1000);
+							new FileInputStream(f), data.length);
 					int count;
-					while ((count = in.read(data, 0, 1000)) != -1) {
+					while ((count = in.read(data, 0, data.length)) != -1) {
 						zip.write(data, 0, count);
 					}
 					zip.closeEntry();
 				}
 			} catch (IOException e) {
 				logger.error("Error adding folder {} to zip", folder, e);
+				throw e;
 			}
 		}
 	}
