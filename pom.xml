@@ -266,6 +266,9 @@
 						<exclude>**/resources/**</exclude>
                         <!-- ignore android-generated java files -->
 						<exclude>**/R.java</exclude>
+                        <!-- ignore gwt base website and generated files -->
+						<exclude>core/engine-playn/war/**</exclude>
+						<exclude>core/engine-playn/gwt*/**</exclude>
 					</excludes>
 					<includes>
 						<!-- ignore /etc and other non-project directories -->
