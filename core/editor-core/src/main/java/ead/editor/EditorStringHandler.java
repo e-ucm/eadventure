@@ -37,56 +37,106 @@
 
 package ead.editor;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Map.Entry;
-
 import com.google.inject.Singleton;
-
 import ead.common.params.text.EAdString;
 import ead.common.util.StringHandler;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.TreeMap;
 
 /**
- * TODO EditorStringHandler should have support for translation and other i18n tasks
- * 
+ * A simple StringHandler, capable of managing language resolution.
  */
 @Singleton
 public class EditorStringHandler implements StringHandler {
+	
+	/**
+	 * Map with all strings.
+	 * The first key is the language ("" stands for "default language").
+	 */
+	private TreeMap<String, Map<EAdString, String>> strings;
 
-	private Map<EAdString, String> strings;
-
+	/**
+	 * Default language. Character-code of the default language.
+	 * "" for none-specified, "es" for Spanish, "es_ES" for
+	 * Spanish-from-Spain, and so on. This language will be used
+	 * for all non-language-specific searches. Note that this is different
+	 * from the "fallback" language of "" (empty-string).
+	 */
+	private String defaultLanguage;
+	
 	public EditorStringHandler() {
-		strings = new HashMap<EAdString, String>();
+		strings = new TreeMap<String, Map<EAdString, String>>();
+		defaultLanguage = "";
+		
+		// add root language
+		strings.put("", new HashMap<EAdString, String>());
 	}
 
+	public String getString(EAdString string, String lang) {
+		// either this language or any other parent language will do
+		while ( ! lang.isEmpty() && ! strings.containsKey(lang)) {
+			int pos = Math.max(lang.lastIndexOf('_')-1, 0);
+			lang = lang.substring(0, pos);			
+		}
+		String value = strings.get(lang).get(string);
+		return value == null ? "" : value;
+	}
+
+	public void setString(EAdString eAdString, String string, String lang) {		
+		while (true) {
+			// if language does not exist, create it
+			if ( ! strings.containsKey(lang)) {
+				strings.put(lang, new HashMap<EAdString, String>());
+			}
+			strings.get(lang).put(eAdString, string);
+			
+			if ( ! lang.isEmpty()) {
+				int pos = Math.max(lang.lastIndexOf('_')-1, 0);
+				lang = lang.substring(0, pos);
+			} else {
+				break;
+			}
+		}
+	}
+
+	public void setStrings(Map<EAdString, String> strings, String lang) {
+		strings.clear();
+		addStrings(strings, lang);
+	}
+
+	public void addStrings(Map<EAdString, String> strings, String lang) {
+		for (Map.Entry<EAdString, String> e : strings.entrySet()) {
+			setString(e.getKey(), e.getValue(), lang);
+		}
+	}
+
+	public Map<EAdString, String> getStrings(String lang) {
+		return strings.get(lang);
+	}	
+	
+	@Override
+	public Map<EAdString, String> getStrings() {
+		return getStrings(defaultLanguage);
+	}	
+	
 	@Override
 	public String getString(EAdString string) {
-		String value = strings.get(string);
-		return value == null ? "" : value;
+		return getString(string, defaultLanguage);
 	}
 
 	@Override
 	public void setString(EAdString eAdString, String string) {
-		strings.put(eAdString, string);
+		setString(eAdString, string, defaultLanguage);
 	}
 
 	@Override
 	public void setStrings(Map<EAdString, String> strings) {
-		this.strings = strings;
-
+		setStrings(strings, defaultLanguage);
 	}
 
 	@Override
 	public void addStrings(Map<EAdString, String> strings) {
-		for (Entry<EAdString, String> entry : strings.entrySet()) {
-			this.strings.put(entry.getKey(), entry.getValue());
-		}
-
+		addStrings(strings, defaultLanguage);		
 	}
-
-	@Override
-	public Map<EAdString, String> getStrings() {
-		return strings;
-	}
-
 }
