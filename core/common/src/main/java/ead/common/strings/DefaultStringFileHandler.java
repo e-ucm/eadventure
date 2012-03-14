@@ -63,10 +63,15 @@ import com.google.inject.Singleton;
 
 import ead.common.StringFileHandler;
 import ead.common.params.text.EAdString;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @Singleton
 public class DefaultStringFileHandler implements StringFileHandler {
 	
+	private static final Logger logger = LoggerFactory.getLogger("DefaultStringFileHandler");
+	
+	@Override
 	public Map<EAdString, String> read( InputStream inputStream ){
 		try {
 
@@ -79,12 +84,8 @@ public class DefaultStringFileHandler implements StringFileHandler {
 
 			return handler.getStrings();
 
-		} catch (ParserConfigurationException e) {
-			e.printStackTrace();
-		} catch (SAXException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
+		} catch (Exception e) {
+			logger.error("Could not read strings file", e);
 		}
 		
 		return null;
@@ -121,6 +122,7 @@ public class DefaultStringFileHandler implements StringFileHandler {
 
 			return true;
 		} catch (Exception e) {
+			logger.error("Could not write strings file", e);
 			return false;
 		}
 	}
