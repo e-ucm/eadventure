@@ -51,6 +51,13 @@ public interface ChangeNotifier {
 	void addChangeListener(ChangeListener changeListener);
 	
 	/**
+	 * Remove a change listener
+	 * 
+	 * @param changeListener The change listener
+	 */
+	void removeChangeListener(ChangeListener changeListener);
+	
+	/**
 	 * Call listener to process changes
 	 */
 	void processChange();

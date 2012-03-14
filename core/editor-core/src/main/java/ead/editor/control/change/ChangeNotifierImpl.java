@@ -40,9 +40,6 @@ package ead.editor.control.change;
 import java.util.ArrayList;
 import java.util.List;
 
-import ead.editor.control.change.ChangeListener;
-import ead.editor.control.change.ChangeNotifier;
-
 /**
  * Default change notifier implementation
  */
@@ -71,4 +68,8 @@ public class ChangeNotifierImpl implements ChangeNotifier {
 			cl.processChange();
 	}
 
+	@Override
+	public void removeChangeListener(ChangeListener changeListener) {
+		changeListenerList.remove(changeListener);
+	}
 }

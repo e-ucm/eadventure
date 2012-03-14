@@ -41,8 +41,7 @@ import java.util.Locale;
 
 import com.google.inject.Singleton;
 
-import ead.common.model.elements.EAdAdventureModel;
-import ead.editor.control.Controller;
+import ead.editor.model.EditorModel;
 
 /**
  * Default implementation for the {@link Controller}.
@@ -51,15 +50,12 @@ import ead.editor.control.Controller;
 public class ControllerImpl implements Controller {
 
 	@Override
-	public void setModel(EAdAdventureModel model) {
-		
+	public void setModel(EditorModel model) {		
 
 	}
 
 	@Override
-	public void setLocale(Locale locale) {
-		
+	public void setLocale(Locale locale) {		
 
 	}
-
 }

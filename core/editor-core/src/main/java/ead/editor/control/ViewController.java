@@ -62,11 +62,10 @@ public interface ViewController {
 	void addModalPanel(JPanel modalPane);
 	
 	/**
-	 * Remove a modal panel, with the possibility to cancel the changes
+	 * Remove a modal panel, possibly canceling any changes.
 	 * 
 	 * @param cancelChanges Cancel the changes of the actions in
 	 * the modal pane
 	 */
-	void removeModalPanel(boolean cancelChanges);
-	
+	void removeModalPanel(boolean cancelChanges);	
 }

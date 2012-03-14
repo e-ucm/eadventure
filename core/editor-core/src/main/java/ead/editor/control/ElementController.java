@@ -51,7 +51,7 @@ public interface ElementController<S extends EAdElement> {
 	/**
 	 * The types of views in the editor
 	 */
-	public static enum View {
+	public static enum LevelOfDetail {
 		EXPERT, ADVANCED, SIMPLE
 	};
 
@@ -69,5 +69,5 @@ public interface ElementController<S extends EAdElement> {
 	 * @param current view in the editor
 	 * @return The panel for the corresponding {@link View}
 	 */
-	Panel getPanel(View view);
+	Panel getPanel(LevelOfDetail level);
 }

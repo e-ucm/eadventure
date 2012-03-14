@@ -54,19 +54,19 @@ public class CommandManagerImpl extends ChangeNotifierImpl implements CommandMan
 	/**
 	 * Action stacks
 	 */
-	private Stack<CommandStacks> stacks;
+	private Stack<CommandStack> stacks;
 	
 	/**
 	 * Default constructor
 	 */
 	public CommandManagerImpl() {
-		stacks = new Stack<CommandStacks>();
-		stacks.push(new CommandStacks());
+		stacks = new Stack<CommandStack>();
+		stacks.push(new CommandStack());
 	}
 	
 	@Override
 	public void addStack() {
-		stacks.push(new CommandStacks());
+		stacks.push(new CommandStack());
 		processChange();
 	}
 	
@@ -77,7 +77,7 @@ public class CommandManagerImpl extends ChangeNotifierImpl implements CommandMan
 			stacks.pop();
 		}
 		else {
-			CommandStacks as = stacks.pop();
+			CommandStack as = stacks.pop();
 			if (as.getActionHistory() != 0) {
 				stacks.peek().increaseActionHistory();
 				if (as.canUndo())
@@ -91,7 +91,7 @@ public class CommandManagerImpl extends ChangeNotifierImpl implements CommandMan
 	
 	@Override
 	public void performCommand(Command action) {
-		CommandStacks currentStack = stacks.peek();
+		CommandStack currentStack = stacks.peek();
 		if (action.performCommand()) {
 			if (action.canUndo())
 				currentStack.getPerformed().push(action);
@@ -107,7 +107,7 @@ public class CommandManagerImpl extends ChangeNotifierImpl implements CommandMan
 	public void undoCommand() {
 		if (!canUndo())
 			return;
-		CommandStacks currentStack = stacks.peek();
+		CommandStack currentStack = stacks.peek();
 		if (currentStack.getPerformed().peek().undoCommand()) {
 			Command action = currentStack.getPerformed().pop();
 			if (action.canRedo())
@@ -124,7 +124,7 @@ public class CommandManagerImpl extends ChangeNotifierImpl implements CommandMan
 	public void redoCommand() {
 		if (!canRedo())
 			return;
-		CommandStacks currentStack = stacks.peek();
+		CommandStack currentStack = stacks.peek();
 		if (currentStack.getUndone().peek().redoCommand()) {
 			Command action = currentStack.getUndone().pop();
 			if (action.canUndo())
@@ -153,7 +153,7 @@ public class CommandManagerImpl extends ChangeNotifierImpl implements CommandMan
 
 	@Override
 	public boolean isChanged() {
-		for (CommandStacks as : stacks)
+		for (CommandStack as : stacks)
 			if (as.getActionHistory() != 0)
 				return true;
 		return false;
@@ -161,7 +161,7 @@ public class CommandManagerImpl extends ChangeNotifierImpl implements CommandMan
 
 	@Override
 	public void clearCommands() {
-		for (CommandStacks as : stacks)
+		for (CommandStack as : stacks)
 			as.clear();
 	}
 

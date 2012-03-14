@@ -41,6 +41,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import ead.editor.control.Command;
+import java.util.ArrayList;
 
 /**
  * Class that handles multiple commands in a list as a single one
@@ -75,116 +76,97 @@ public class CombineCommandList extends Command {
 		this.commandList = Arrays.asList(comms);
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see es.eucm.eadventure.editor.control.Command#performCommand()
+	/**
+	 * Performs this list of commands. Failure in any triggers an 
+	 * undo of previously-completed list-commands.
 	 */
 	@Override
-	public boolean performCommand() {
-		int c = 0;
-		while (c < commandList.size()) {
-			if (!commandList.get(c).performCommand()) {
-				if (c > 0)
-					performCommandFail(c);
+	public boolean performCommand() {		
+		ArrayList<Command> done = new ArrayList<Command>();
+		for (Command c : commandList) {
+			if (c.performCommand()) {
+				done.add(c);
+			} else {
+				for (Command good : done) {
+					good.undoCommand();
+				}				
 				return false;
 			}
-			c++;
 		}
 		return true;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see es.eucm.eadventure.editor.control.Command#canUndo()
+	/**
+	 * Returns true if all commands in the list can be undone
 	 */
 	@Override
 	public boolean canUndo() {
 		for (Command c : commandList) {
-			if (!c.canUndo())
+			if ( ! c.canUndo()) {
 				return false;
+			}
 		}
 		return true;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see es.eucm.eadventure.editor.control.Command#undoCommand()
+	/**
+	 * Undoes all commands in this list. Failure to undo any triggers
+	 * a redo of previously-completed undos.
 	 */
 	@Override
 	public boolean undoCommand() {
-		int c = 0;
-		while (c < commandList.size()) {
-			if (!commandList.get(c).undoCommand()) {
-				if (c > 0)
-					undoCommandFail(c);
+		ArrayList<Command> undone = new ArrayList<Command>();
+		for (Command c : commandList) {
+			if (c.undoCommand()) {
+				undone.add(c);
+			} else {
+				for (Command good : undone) {
+					good.redoCommand();
+				}				
 				return false;
 			}
-			c++;
 		}
 		return true;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see es.eucm.eadventure.editor.control.Command#canRedo()
+	/**
+	 * Returns true if all commands in the list can be redone
 	 */
 	@Override
 	public boolean canRedo() {
 		for (Command c : commandList) {
-			if (!c.canRedo())
+			if (!c.canRedo()) {
 				return false;
+			}
 		}
 		return true;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see es.eucm.eadventure.editor.control.Command#redoCommand()
+	/**
+	 * Repeats all commands in the list
 	 */
 	@Override
 	public boolean redoCommand() {
-		int c = 0;
-		while (c < commandList.size()) {
-			if (!commandList.get(c).redoCommand()) {
-				if (c > 0)
-					redoCommandFail(c);
+		ArrayList<Command> redone = new ArrayList<Command>();
+		for (Command c : commandList) {
+			if (c.redoCommand()) {
+				redone.add(c);
+			} else {
+				for (Command good : redone) {
+					good.undoCommand();
+				}				
 				return false;
 			}
-			c++;
 		}
 		return true;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * es.eucm.eadventure.editor.control.Command#combine(es.eucm.eadventure.
-	 * editor.control.Command)
+	/**
+	 * Combines this command with another. Essentially a NOP, as we do not
+	 * want to combine command-lists
 	 */
 	@Override
 	public boolean combine(Command other) {
 		return false;
 	}
-
-	private void performCommandFail(int c) {
-		for (int i = c - 1; i >= 0; i--)
-			commandList.get(i).undoCommand();
-	}
-
-	private void undoCommandFail(int c) {
-		for (int i = c - 1; i >= 0; i--)
-			commandList.get(i).redoCommand();
-	}
-
-	private void redoCommandFail(int c) {
-		for (int i = c - 1; i >= 0; i--)
-			commandList.get(i).undoCommand();
-	}
-
 }

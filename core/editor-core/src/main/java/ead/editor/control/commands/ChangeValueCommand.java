@@ -107,7 +107,7 @@ public class ChangeValueCommand<T> extends Command {
      * @param fieldName The name of the field
      */
     public ChangeValueCommand(Object data, T newValue, String fieldName) {
-    	
+    	this(data, newValue, fieldName, fieldName);
     }
     
     /**
@@ -116,14 +116,11 @@ public class ChangeValueCommand<T> extends Command {
     public Method getSetMethod(){
     	try {
             return data.getClass().getMethod(setName, newValue.getClass());
-        }
-        catch(SecurityException e) {
-            logger.error("Security exception");
-        }
-        catch(NoSuchMethodException e) {
-            logger.error("There's no such set method: " + setName);
-        }
-        
+        } catch(SecurityException e) {
+            logger.error("Security exception setting {}", setName, e);
+        } catch(NoSuchMethodException e) {
+            logger.error("No such set method: {}", setName, e);
+        }        
 		return null;
     }
     
@@ -134,16 +131,11 @@ public class ChangeValueCommand<T> extends Command {
     	
     	try {
             return data.getClass().getMethod(getName);
-        }
-        
-        catch(SecurityException e) {
-            logger.error("Security exception");
-        }
-        
-        catch(NoSuchMethodException e) {
-            logger.error("There's no such get method: " + getName);
-        }
-        
+        } catch(SecurityException e) {
+            logger.error("Security exception getting {}", getName, e);
+        } catch(NoSuchMethodException e) {
+            logger.error("No such get method: {}", getName, e);
+        }        
 		return null;
     }
 
@@ -151,19 +143,23 @@ public class ChangeValueCommand<T> extends Command {
 	 * Method to perform a changing values command 
 	 */
 	@SuppressWarnings("unchecked")
+	@Override
 	public boolean performCommand() {
 		
 		boolean done = false;
         if(getGetMethod() != null && getSetMethod() != null) {
             try {
                 oldValue = (T) getGetMethod().invoke(data);
-                if (newValue != null && oldValue == null || newValue == null && oldValue != null || (newValue != null && oldValue != null && !oldValue.equals(newValue))) {
-                	getSetMethod().invoke(data, newValue);
+                if ((newValue != null && oldValue == null) || 
+					(newValue == null && oldValue != null) ||
+					(newValue != null && oldValue != null && !oldValue.equals(newValue))) {
+					// ok, new != old, and 
+					getSetMethod().invoke(data, newValue);
                     done = true;
                 }
-            }
-            catch(Exception e) {
-            	logger.error("Error at performing change value command: " + this.setName);
+            } catch(Exception e) {
+            	logger.error("Error performing changValueCommand: {} ",
+						setName, e);
             }
         }
         return done;
@@ -179,7 +175,8 @@ public class ChangeValueCommand<T> extends Command {
 		return true;
 	}
 
-	/* (non-Javadoc)
+	/**
+	 * (non-Javadoc)
 	 * @see es.eucm.eadventure.editor.control.Command#redoCommand()
 	 */
 	@Override
@@ -197,7 +194,8 @@ public class ChangeValueCommand<T> extends Command {
         
 	}
 	
-	/* (non-Javadoc)
+	/**
+	 * (non-Javadoc)
 	 * @see es.eucm.eadventure.editor.control.Command#combine(es.eucm.eadventure.editor.control.Command)
 	 */
 	@SuppressWarnings({ "unchecked", "rawtypes" })
@@ -214,7 +212,8 @@ public class ChangeValueCommand<T> extends Command {
         return false;
 	}
 	
-	/* (non-Javadoc)
+	/**
+	 * (non-Javadoc)
 	 * @see es.eucm.eadventure.editor.control.Command#undoCommand()
 	 */
 	@Override
@@ -226,7 +225,7 @@ public class ChangeValueCommand<T> extends Command {
             done = true;
         }
         catch( Exception e ) {
-        	logger.error("Error at undoing Action");
+        	logger.error("Error at redoing Action");
         }
         return done;
 	}

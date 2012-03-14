@@ -105,6 +105,5 @@ public abstract class Command {
      * @return true if the actions were combined
      */
     public abstract boolean combine( Command other );
-
 	
 }

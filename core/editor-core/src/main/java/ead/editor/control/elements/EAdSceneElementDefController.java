@@ -47,7 +47,7 @@ import ead.editor.view.generics.impl.PanelImpl;
 public class EAdSceneElementDefController extends AbstractElementController<EAdSceneElementDef> {
 
 	@Override
-	public Panel getPanel(View view) {
+	public Panel getPanel(LevelOfDetail view) {
 		Panel panel = new PanelImpl(null, Panel.LayoutPolicy.VERTICAL);
 
 		switch (view) {
