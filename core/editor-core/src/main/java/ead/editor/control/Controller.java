@@ -37,9 +37,9 @@
 
 package ead.editor.control;
 
+import ead.editor.model.EditorModel;
 import java.util.Locale;
 
-import ead.common.model.elements.EAdAdventureModel;
 
 /**
  * Game editor controller.
@@ -51,7 +51,7 @@ public interface Controller {
 	 * 
 	 * @param model The eAdventure model
 	 */
-	void setModel(EAdAdventureModel model);
+	void setModel(EditorModel model);
 	
 	/**
 	 * Set the locale (which determines the language) of the editor

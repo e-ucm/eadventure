@@ -35,61 +35,45 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ead.editor.control;
+/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package ead.editor.view.dock;
 
-import ead.editor.control.change.ChangeNotifier;
+import ead.common.model.EAdElement;
+import java.util.NoSuchElementException;
 
 /**
- * Interface for the management of Commands that modify the editor model.
+ * Abstracted model access for editing purposes. Allows element access,
+ * element creation, and shallow copies.
+ *
+ * @author mfreire
  */
-public interface CommandManager extends ChangeNotifier {
+public interface ModelAccessor {
 
-	/**
-	 * Perform an command over the game model
-	 */
-	public void performCommand(Command action);
-	
-	/**
-	 * Undo the latest command over the game model
-	 */
-	public void undoCommand();
-	
-	/**
-	 * Redo the latest undo command over the game model
-	 */
-	public void redoCommand();
-	
-	/**
-	 * Returns true if there is an command to redo
-	 */
-	public boolean canRedo();
-	
-	/**
-	 * Returns true if there is an command to undo
-	 */
-	public boolean canUndo();
-	
-	/**
-	 * @return true if the game model was modified
-	 */
-	public boolean isChanged();
+    /**
+     * Gets the model element with id 'id'.
+     * @throws NoSuchElementException if not found.
+     * @param id of element (assigned by editor when project is imported)
+     * @return element with id as its editor-id
+     */
+    EAdElement getElement(String id);
 
-	/**
-	 * Clear the list of commands performed
-	 */
-	public void clearCommands();
+    /**
+     * Creates a new empty model element of type class).
+     * @param type of element
+     * @return brand new, unattached element of correct type, with a unique
+     * editor-id
+     */
+    EAdElement createElement(Class<? extends EAdElement> type);
 
-	/**
-	 * Add a new stack of commands, used to perform contained tasks
-	 * such as those in a modal panel
-	 */
-	void addStack();
-
-	/**
-	 * Remove command stack
-	 * 
-	 * @param cancelChanges Cancel changes performed on the command stack
-	 */
-	void removeCommandStacks(boolean cancelChanges);
-	
+    /**
+     * Creates a new shallow copy of an element. The copy will be unattached,
+     * will reference the same references as the original (not copies), and
+     * will have a unique editor-id.
+     * @param e element to copy
+     * @return unattached shallow copy of element, with a unique id
+     */
+    EAdElement copyElement(EAdElement e);
 }

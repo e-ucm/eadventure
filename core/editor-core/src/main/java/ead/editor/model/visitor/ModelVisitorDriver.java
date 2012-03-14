@@ -257,11 +257,13 @@ public class ModelVisitorDriver {
                         if (pd == null) {
                             logger.error("Missing descriptor for {} in {} ",
                                     field.getName(), data.getClass());
+							continue;
                         }
                         Method method = pd.getReadMethod();
                         if (method == null) {
                             logger.error("Missing read-method for {} in {} ",
                                     field.getName(), data.getClass());
+							continue;
                         }
                         Object o = method.invoke(data);
                         if (!isEmpty(o)) {

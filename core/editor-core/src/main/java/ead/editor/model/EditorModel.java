@@ -44,6 +44,8 @@ import ead.common.importer.EAdventure1XImporter;
 import ead.common.importer.ImporterConfigurationModule;
 import ead.common.model.EAdElement;
 import ead.common.model.elements.EAdAdventureModel;
+import ead.common.reader.EAdAdventureDOMModelReader;
+import ead.common.writer.EAdAdventureModelWriter;
 import ead.editor.Log4jConfig;
 import ead.editor.Log4jConfig.Slf4jLevel;
 import ead.editor.model.visitor.ModelVisitor;
@@ -52,31 +54,11 @@ import ead.engine.core.platform.module.DesktopAssetHandlerModule;
 import ead.engine.core.platform.module.DesktopModule;
 import ead.engine.core.platform.modules.BasicGameModule;
 import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
-import java.util.*;
-import org.apache.lucene.analysis.Analyzer;
-import org.apache.lucene.analysis.WhitespaceAnalyzer;
-import org.apache.lucene.document.Document;
-import org.apache.lucene.document.Field;
-import org.apache.lucene.document.Field.Index;
-import org.apache.lucene.document.Field.Store;
-import org.apache.lucene.index.IndexReader;
-import org.apache.lucene.index.IndexReader.FieldOption;
-import org.apache.lucene.index.IndexWriter;
-import org.apache.lucene.index.IndexWriterConfig;
-import org.apache.lucene.queryParser.MultiFieldQueryParser;
-import org.apache.lucene.queryParser.QueryParser;
-import org.apache.lucene.search.IndexSearcher;
-import org.apache.lucene.search.Query;
-import org.apache.lucene.search.ScoreDoc;
-import org.apache.lucene.search.TopScoreDocCollector;
-import org.apache.lucene.store.Directory;
-import org.apache.lucene.store.RAMDirectory;
-import org.apache.lucene.util.Version;
-import org.jgrapht.ext.EdgeNameProvider;
-import org.jgrapht.ext.GraphMLExporter;
-import org.jgrapht.ext.VertexNameProvider;
+import java.util.HashMap;
+import java.util.TreeMap;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import org.jgrapht.graph.ListenableDirectedGraph;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -86,14 +68,37 @@ import org.slf4j.LoggerFactory;
  * EAdAdventureModel, encompassing both traditional model objects and resources,
  * assets, and strings. Everything is searchable, and dependencies are tracked
  * as objects are changed.
- * 
+ *
  * @author mfreire
  */
-public class EditorModel extends ListenableDirectedGraph<EditorNode, EditorEdge> implements ModelVisitor {
+public class EditorModel implements ModelVisitor {
 
     private static final Logger logger = LoggerFactory.getLogger("EditorModel");
+    /**
+     * Node id generation
+     */
     private int lastNodeId = 0;
+    /**
+     * Importer for old models
+     */
     private EAdventure1XImporter importer;
+    /**
+     * Reader for DOM models
+     */
+    EAdAdventureDOMModelReader reader;
+    /**
+     * Writer for DOM models
+     */
+    EAdAdventureModelWriter writer;
+	/**
+	 * Folder where resources are stored
+	 * (under 
+	 */
+	
+	/**
+	 * Dependency graph; main model structure
+	 */
+	private ListenableDirectedGraph<EditorNode, EditorEdge> g;
     /**
      * Quick reference for node retrieval
      */
@@ -103,54 +108,120 @@ public class EditorModel extends ListenableDirectedGraph<EditorNode, EditorEdge>
      */
     private HashMap<Object, EditorNode> nodesByContent;
     /**
-     * Lucene index
+     * The root of the graph
      */
-    private Directory searchIndex;
+    private EditorNode root;
     /**
-     * Lucene updater
+     * Search index
      */
-    private IndexWriter indexWriter;
+    private ModelIndex nodeIndex;
     /**
-     * Max search hits in an ordered query
+     * Used to quickly search editor-nodes for editor-ids
      */
-    private static final int MAX_SEARCH_HITS = 100;
-    /**
-     * Query parser
-     */
-    private QueryParser queryParser;
-    /**
-     * Field analyzer
-     */
-    private Analyzer searchAnalyzer;
+    private Pattern editorIdPattern;
 
-    /**
-     * Constructor (with importer)
-     *
-     * @param importer
-     */
+	/**
+	 * Constructor. Does not do much beyond initializing fields.
+	 * @param reader 
+	 * @param importer 
+	 * @param writer 
+	 */
     @Inject
-    public EditorModel(EAdventure1XImporter importer) {
-        super(EditorEdge.class);
+    public EditorModel(
+            EAdAdventureDOMModelReader reader,
+            EAdventure1XImporter importer,
+            EAdAdventureModelWriter writer) {
+        g = new ListenableDirectedGraph<EditorNode, EditorEdge>(EditorEdge.class);
+        this.reader = reader;
         this.importer = importer;
+        this.writer = writer;
 
         this.nodesById = new TreeMap<Integer, EditorNode>();
         this.nodesByContent = new HashMap<Object, EditorNode>();
-        initSearchIndex();
+        this.nodeIndex = new ModelIndex();
     }
 
-    public void loadFromFile(File f) {
+	/**
+	 * Loads data from an EAdventure1.x game file.
+	 * 
+	 * @param f 
+	 */
+    public void loadFromImportFile(File f) {
         logger.info("Loading editor model from '{}'...", f);
         EAdAdventureModel m = importer.importGame(f.getAbsolutePath(), "/tmp/imported");
-        logger.info("Model loaded; building graph...");
+        
+		logger.info("Model loaded; building graph...");		
         ModelVisitorDriver driver = new ModelVisitorDriver();
         driver.visit(m, this);
-        firstIndexUpdate();
+		this.root = nodesByContent.get(m);
+		nodeIndex.firstIndexUpdate(g.vertexSet());
+		
         logger.info("Editor model loaded: {} nodes, {} edges",
-                new Object[] {vertexSet().size(), edgeSet().size()});
+                new Object[]{g.vertexSet().size(), g.edgeSet().size()});
     }
 
+	/**
+	 * Gets a unique ID. All new EditorNodes should get their IDs this way.
+	 * Uses a static field to store the last assigned ID; standard disclaimers
+	 * on thread-safety and classloaders apply.
+	 * 
+	 * @return 
+	 */
     private int generateId() {
         return lastNodeId++;
+    }
+
+    /**
+     * Makes sure that the returned id contains an eid-prefix. @see
+     * createOrUnfreeze for details
+     * @param id to alter
+     * @param eid to insert (not inserted if already present)
+     * @return the (possibly-altered) eid
+     */
+    private String decorateIdWithEid(String id, int eid) {
+        Matcher m = editorIdPattern.matcher(id);
+        if (m.find() && m.group(1).equals(""+eid)) {
+            return id;
+        } else {
+            return "__" + eid + "__" + id;
+        }
+    }
+
+    /**
+     * Wraps a targetContent in an EditorNode. If the content is of a
+     * type that has extra editor data associated (a subclass of EAdElement),
+     * and this editor data is available, it is used; otherwise, a new
+     * EditorNode is created.
+     * @param targetContent to wrap
+     * @return a new or old editorNode to wrap that content
+     */
+    private EditorNode createOrUnfreezeNode(Object targetContent) {
+
+        EditorNode node;
+        if (targetContent instanceof EAdElement) {
+            EAdElement e = (EAdElement) targetContent;
+
+            // get the editor-id - either new or reused
+            if (editorIdPattern == null) {
+                editorIdPattern = Pattern.compile("__([0-9]+)__.*");
+            }
+            Matcher m = editorIdPattern.matcher(e.getId());
+            if (m.find()) {
+                int eid = Integer.parseInt(m.group(1));
+                node = nodesById.get(eid);
+                node.setContent(targetContent);
+            } else {
+                int eid = generateId();
+                // associate new id with element
+                e.setId(decorateIdWithEid(e.getId(), generateId()));
+                node = new EditorNode(eid, e);
+            }
+        } else {
+            int eid = generateId();
+            node = new EditorNode(eid, targetContent);
+        }
+
+        return node;
     }
 
     /**
@@ -162,17 +233,19 @@ public class EditorModel extends ListenableDirectedGraph<EditorNode, EditorEdge>
      * on).
      */
     private EditorNode addNode(EditorNode source, String type, Object targetContent) {
-        boolean alreadyKnown = (nodesByContent.containsKey(targetContent));        
+        boolean alreadyKnown = (nodesByContent.containsKey(targetContent));
         EditorNode target = alreadyKnown
                 ? nodesByContent.get(targetContent)
-                : new EditorNode(generateId(), targetContent);
+                : createOrUnfreezeNode(targetContent);
 
         if (!alreadyKnown) {
-            addVertex(target);
+            g.addVertex(target);
         }
 
         if (source != null) {
-            addEdge(source, target, new EditorEdge(type));
+            g.addEdge(source, target, new EditorEdge(type));
+        } else {
+            root = target;
         }
 
         if (!alreadyKnown) {
@@ -185,35 +258,22 @@ public class EditorModel extends ListenableDirectedGraph<EditorNode, EditorEdge>
     }
 
     /**
-     * Configure Lucene indexing
+     * Visits a node
+	 * @see ModelVisitor#visitObject
      */
-    private void initSearchIndex() {
-        try {
-            searchIndex = new RAMDirectory();
-            // use a very simple analyzer; no fancy stopwords, stemming, ...
-            searchAnalyzer = new WhitespaceAnalyzer(Version.LUCENE_35);
-            IndexWriterConfig config = new IndexWriterConfig(
-                    Version.LUCENE_35, searchAnalyzer);
-            indexWriter = new IndexWriter(searchIndex, config);
-        } catch (Exception e) {
-            logger.error("Could not initialize search index (?)", e);
-        }
-    }
-
-    // -- ModelVisitor interface
-    
     @Override
     public boolean visitObject(Object target, Object source, String sourceName) {
-        logger.debug("Visiting object: '{}'--['{}']-->'{}'", 
-                new Object[]{ source, sourceName, target });
+        logger.debug("Visiting object: '{}'--['{}']-->'{}'",
+                new Object[]{source, sourceName, target});
 
         // source is null for root node
-        EditorNode sourceNode = (source != null) ? 
-                nodesByContent.get(source) : null;        
-        EditorNode e = addNode(sourceNode, sourceName, target);                
-        
+        EditorNode sourceNode = (source != null)
+                ? nodesByContent.get(source) : null;
+        EditorNode e = addNode(sourceNode, sourceName, target);
+
         if (e != null) {
-            e.getDoc().add(new Field("editor-id", "" + e.getId(), Store.YES, Index.NO));
+            nodeIndex.addProperty(e, ModelIndex.editorIdFieldName,
+                    "" + e.getId(), false);
             nodesByContent.put(target, e);
             return true;
         } else {
@@ -222,201 +282,87 @@ public class EditorModel extends ListenableDirectedGraph<EditorNode, EditorEdge>
         }
     }
 
+    /**
+     * Visits a node property. Mostly used for indexing
+	 * @see ModelVisitor#visitProperty
+     */
     @Override
     public void visitProperty(Object target, String propertyName, String textValue) {
-        logger.debug("Visiting property: '{}' :: '{}' = '{}'", 
-                new Object[]{ target, propertyName, textValue });
+        logger.debug("Visiting property: '{}' :: '{}' = '{}'",
+                new Object[]{target, propertyName, textValue});
         EditorNode e = nodesByContent.get(target);
-        e.getDoc().add(new Field(propertyName, textValue, Store.YES, Index.ANALYZED));
-    }
-
-    // -- Search-related
-    
-    /**
-     * Index an EditorNode for later search
-     */
-    private void firstIndexUpdate() {
-        for (EditorNode e : vertexSet()) {
-            Document doc = e.getDoc();
-            logger.trace("Writing index for {} of class {}", 
-                    new Object[] {e.getId(), e.getContent().getClass().getSimpleName()});
-            try {
-                indexWriter.addDocument(doc);
-            } catch (Exception ex) {
-                logger.error("Error adding search debugrmation for node {}",
-                        e.getId(), ex);
-            }
-        }
-        try {
-            indexWriter.commit();
-        } catch (Exception ex) {
-            logger.error("Error commiting search debugrmation", ex);
-        }
+        nodeIndex.addProperty(e, propertyName, textValue, true);
     }
 
     /**
-     * Lazily create or return the query parser
+     * Saves the editor model. Contains a normal EAdModel plus editing
+     *
+     * @param target
+     * @throws IOException
      */
-    private QueryParser getQueryAllParser() {
-
-        if (queryParser == null) {
-            try {
-                IndexReader reader = IndexReader.open(searchIndex);
-
-                ArrayList<String> al = new ArrayList<String>(
-                        reader.getFieldNames(FieldOption.INDEXED));
-                String[] allFields = al.toArray(new String[al.size()]);
-                if (logger.isDebugEnabled()) {
-                    Arrays.sort(allFields);
-                    logger.debug("enumerating indexed fields");
-                    for (String name : allFields) {
-                        logger.debug("  indexed field: '{}'", name);
-                    }
-                }
-                queryParser = new MultiFieldQueryParser(
-                        Version.LUCENE_35, allFields, searchAnalyzer);
-            } catch (IOException ioe) {
-                logger.error("Error constructing query parser", ioe);
-            }
-        }
-        return queryParser;
-    }
-    
-    
-    /**
-     * Get a (sorted) list of nodes that match a query
-     */
-    public List<EditorNode> searchAll(String queryText) {
-
-        ArrayList<EditorNode> nodes = new ArrayList<EditorNode>();
-        try {
-            IndexReader reader = IndexReader.open(searchIndex);
-            Query query = getQueryAllParser().parse(queryText);
-            IndexSearcher searcher = new IndexSearcher(reader);
-            TopScoreDocCollector collector = TopScoreDocCollector.create(
-                    MAX_SEARCH_HITS, true);
-            searcher.search(query, collector);
-            ScoreDoc[] hits = collector.topDocs().scoreDocs;
-            for (ScoreDoc hit : hits) {
-                String nodeId = searcher.doc(hit.doc).get("editor-id");
-                nodes.add(nodesById.get(Integer.parseInt(nodeId)));
-            }
-            searcher.close();
-        } catch (Exception e) {
-            logger.error("Error parsing or looking up query '{}' in index",
-                    queryText, e);
-        }
-
-        return nodes;
+    public void save(File target) throws IOException {
+        /*
+         * similar to import-write, but also adds one or more editor.xml files
+         */
+		
+		// save the model data
+		boolean ok = importer.createGameFile((EAdAdventureModel)root.getContent(), 
+				target.getParent(), target.getName(), ".eap", "Editor project");
+		
+		// save the editor data
+		// open the zip file
+		// write xml files to it
+		// close the zip file
+		
+		// 
     }
 
     /**
-     * Get a (sorted) list of nodes that match a query
+     * Loads the editor model. Discards the current editing session The file
+     * must have been built with save
+     *
+     * @param source
+     * @throws IOException
      */
-    public List<EditorNode> search(String field, String queryText) {
-
-        ArrayList<EditorNode> nodes = new ArrayList<EditorNode>();
-        try {
-            IndexReader reader = IndexReader.open(searchIndex);
-            Query query = new QueryParser(
-                    Version.LUCENE_35, field, searchAnalyzer).parse(queryText);
-            IndexSearcher searcher = new IndexSearcher(reader);
-            TopScoreDocCollector collector = TopScoreDocCollector.create(
-                    MAX_SEARCH_HITS, true);
-            searcher.search(query, collector);
-            ScoreDoc[] hits = collector.topDocs().scoreDocs;
-            for (ScoreDoc hit : hits) {
-                String nodeId = searcher.doc(hit.doc).get("editor-id");
-                nodes.add(nodesById.get(Integer.parseInt(nodeId)));
-            }
-            searcher.close();
-        } catch (Exception e) {
-            logger.error("Error parsing or looking up query '{}' in index",
-                    queryText, e);
-        }
-
-        return nodes;
-    }    
-    
-    private class IdProvider implements VertexNameProvider<EditorNode>, EdgeNameProvider<EditorEdge> {
-        @Override
-        public String getVertexName(EditorNode v) {
-            return ""+v.getId();
-        }
-
-        @Override
-        public String getEdgeName(EditorEdge e) {
-            return "";
-        }        
+    public void load(File source) throws IOException {
+        nodesByContent.clear();
+        nodesById.clear();
+        nodeIndex = new ModelIndex();
+        /*
+         * similar to import-read, but loads from v2 .ead file, and uses the
+         * editor.xml file to restore editor-ids (necessary for docking-frames
+         * support)
+         */
+        throw new UnsupportedOperationException("not yet implemented");
     }
-    
-    private class LabelProvider implements VertexNameProvider<EditorNode>, EdgeNameProvider<EditorEdge> {
-        @Override
-        public String getVertexName(EditorNode v) {
-            return v.getContent().getClass().getSimpleName();
-        }
-
-        @Override
-        public String getEdgeName(EditorEdge e) {
-            return e.getType();
-        }        
-    }      
-    
-    /**
-     * Export the graph to GML
-     */
-    public void exportGraph(File targetFile) {        
-        FileWriter fw = null;
-        try {
-            fw = new FileWriter(targetFile);
-            IdProvider idp = new IdProvider();
-            LabelProvider ldp = new LabelProvider();
-            
-//            GmlExporter<EditorNode, EditorEdge> exporter 
-//                    = new GmlExporter<EditorNode, EditorEdge>(idp, idp, idp, idp);            
-//            DOTExporter<EditorNode, EditorEdge> exporter 
-//                    = new DOTExporter<EditorNode, EditorEdge>(idp, idp, idp);
-            GraphMLExporter<EditorNode, EditorEdge> exporter 
-                    = new GraphMLExporter<EditorNode, EditorEdge>(idp, ldp, idp, ldp); 
-            exporter.export(fw, this);
-        } catch (Exception e) {
-            logger.warn("Error during GML export to {}", targetFile, e);
-        } finally {
-            try {
-                if (fw != null) fw.close();
-            } catch (Exception e) {
-                logger.error("Could not close GML writer", e);
-            }                    
-        }
-    }
-    
+		
     private void testSearch() {
         //for (EditorNode e : search("id", "elem*")) {
-        for (EditorNode e : searchAll("disp_x")) {
-            logger.info("found: " + e.getId() + " " 
-                    + e.getContent().getClass().getSimpleName() + " " 
-                    + e.getContent() + " :: " + 
-                        (e.getContent() instanceof EAdElement ? ((EAdElement)e.getContent()).getId() : "??"));
-        }        
+        for (EditorNode e : nodeIndex.searchAll("disp_x", nodesById)) {
+            logger.info("found: " + e.getId() + " "
+                    + e.getContent().getClass().getSimpleName() + " "
+                    + e.getContent() + " :: "
+                    + (e.getContent() instanceof EAdElement ? ((EAdElement) e.getContent()).getId() : "??"));
+        }
     }
 
     public static void main(String[] args) {
-        
-        Log4jConfig.configForConsole(Slf4jLevel.Fatal, new Object[] {
-            "ModelVisitorDriver", Slf4jLevel.Info,
-            "EditorModel", Slf4jLevel.Debug
-        });
-        
+
+        Log4jConfig.configForConsole(Slf4jLevel.Fatal, new Object[]{
+                    "ModelVisitorDriver", Slf4jLevel.Info,
+                    "EditorModel", Slf4jLevel.Debug
+                });
+
         Injector injector = Guice.createInjector(
-            new ImporterConfigurationModule(),
-            new BasicGameModule(),
-            new DesktopModule(),
-            new DesktopAssetHandlerModule());
+                new ImporterConfigurationModule(),
+                new BasicGameModule(),
+                new DesktopModule(),
+                new DesktopAssetHandlerModule());
         EditorModel model = injector.getInstance(EditorModel.class);
 
         File f = new File("/home/mfreire/code/e-ucm/e-adventure-1.x/games/PrimerosAuxiliosGame.ead");
-        model.loadFromFile(f);
-        
+        model.loadFromImportFile(f);
+
         model.testSearch();
         //model.exportGraph(new File("/tmp/exported.graphml"));
     }

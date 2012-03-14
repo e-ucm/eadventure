@@ -35,61 +35,50 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ead.editor.control;
+package ead.editor.view.dock;
 
-import ead.editor.control.change.ChangeNotifier;
+import bibliothek.gui.dock.common.MultipleCDockableLayout;
+import bibliothek.util.xml.XElement;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.IOException;
 
 /**
- * Interface for the management of Commands that modify the editor model.
+ * A very, very simple layout, which only has to store IDs. DockableLayouts
+ * represent "serialized properties of a dockable"; they have nothing to do with
+ * window-layouts.
+ *
+ * @author mfreire
  */
-public interface CommandManager extends ChangeNotifier {
+public class ElementLayout implements MultipleCDockableLayout {
 
-	/**
-	 * Perform an command over the game model
-	 */
-	public void performCommand(Command action);
-	
-	/**
-	 * Undo the latest command over the game model
-	 */
-	public void undoCommand();
-	
-	/**
-	 * Redo the latest undo command over the game model
-	 */
-	public void redoCommand();
-	
-	/**
-	 * Returns true if there is an command to redo
-	 */
-	public boolean canRedo();
-	
-	/**
-	 * Returns true if there is an command to undo
-	 */
-	public boolean canUndo();
-	
-	/**
-	 * @return true if the game model was modified
-	 */
-	public boolean isChanged();
+	private String id;
 
-	/**
-	 * Clear the list of commands performed
-	 */
-	public void clearCommands();
+	public void setId(String id) {
+		this.id = id;
+	}
 
-	/**
-	 * Add a new stack of commands, used to perform contained tasks
-	 * such as those in a modal panel
-	 */
-	void addStack();
+	public String getId() {
+		return id;
+	}
 
-	/**
-	 * Remove command stack
-	 * 
-	 * @param cancelChanges Cancel changes performed on the command stack
-	 */
-	void removeCommandStacks(boolean cancelChanges);
-	
+	@Override
+	public void writeStream(DataOutputStream out) throws IOException {
+		throw new UnsupportedOperationException("Not supported yet.");
+	}
+
+	@Override
+	public void readStream(DataInputStream in) throws IOException {
+		throw new UnsupportedOperationException("Not supported yet.");
+	}
+
+	@Override
+	public void writeXML(XElement element) {
+		element.setString(id);
+	}
+
+	@Override
+	public void readXML(XElement element) {
+		id = element.getString();
+	}
 }

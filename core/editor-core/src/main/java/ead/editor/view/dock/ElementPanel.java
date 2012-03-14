@@ -35,61 +35,21 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ead.editor.control;
+/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package ead.editor.view.dock;
 
-import ead.editor.control.change.ChangeNotifier;
+import ead.common.model.EAdElement;
 
 /**
- * Interface for the management of Commands that modify the editor model.
+ *
+ * @author mfreire
  */
-public interface CommandManager extends ChangeNotifier {
+public interface ElementPanel<E extends EAdElement> {
 
-	/**
-	 * Perform an command over the game model
-	 */
-	public void performCommand(Command action);
-	
-	/**
-	 * Undo the latest command over the game model
-	 */
-	public void undoCommand();
-	
-	/**
-	 * Redo the latest undo command over the game model
-	 */
-	public void redoCommand();
-	
-	/**
-	 * Returns true if there is an command to redo
-	 */
-	public boolean canRedo();
-	
-	/**
-	 * Returns true if there is an command to undo
-	 */
-	public boolean canUndo();
-	
-	/**
-	 * @return true if the game model was modified
-	 */
-	public boolean isChanged();
+    void setTarget(E target);
 
-	/**
-	 * Clear the list of commands performed
-	 */
-	public void clearCommands();
-
-	/**
-	 * Add a new stack of commands, used to perform contained tasks
-	 * such as those in a modal panel
-	 */
-	void addStack();
-
-	/**
-	 * Remove command stack
-	 * 
-	 * @param cancelChanges Cancel changes performed on the command stack
-	 */
-	void removeCommandStacks(boolean cancelChanges);
-	
+    E getTarget();
 }
