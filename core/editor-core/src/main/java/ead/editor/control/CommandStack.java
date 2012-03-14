@@ -44,7 +44,7 @@ import ead.editor.control.Command;
 /**
  * Stacks of performed and undone actions
  */
-public class CommandStacks extends Command {
+public class CommandStack extends Command {
 
 	/**
 	 * Stack of performed actions
@@ -57,16 +57,16 @@ public class CommandStacks extends Command {
 	private Stack<Command> undone;
 	
 	/**
-	 * The number of actions performed sucessfully over the model
-	 * (might differ from preformed.size() if there are actions that
-	 * cannot be undo.
+	 * The number of actions performed successfully on the model.
+	 * Might differ from preformed.size() if there are actions that
+	 * cannot be undone.
 	 */
 	private int actionHistory;
 
 	/**
 	 * Default constructor
 	 */
-	public CommandStacks() {
+	public CommandStack() {
 		performed = new Stack<Command>();
 		undone = new Stack<Command>();
 		actionHistory = 0;
