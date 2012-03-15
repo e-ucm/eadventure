@@ -93,7 +93,7 @@
 		<profile>
 			<id>build</id>
 			<activation>
-				<activeByDefault>false</activeByDefault>
+				<activeByDefault>true</activeByDefault>
 			</activation>
 			<modules>
 				<module>build-tools</module>
@@ -164,32 +164,6 @@
               <!-- Specific plugins to build an android release -->
 				</plugins>
 			</build>
-		</profile>
-		<profile>
-			<id>noTest</id>
-			<activation>
-				<activeByDefault>true</activeByDefault>
-			</activation>
-			<modules>
-				<module>build-tools</module>
-				<module>core/utils</module>
-				<module>core/common</module>
-				<module>core/gui</module>
-				<module>core/editor-core</module>
-				<module>core/editor-plugins</module>
-				<module>core/engine-core</module>
-				<module>core/engine-java</module>
-				<module>core/engine-playn</module>
-				<module>core/engine-plugins</module>
-				<module>core/engine-desktop</module>
-				<module>core/engine-applet</module>
-				<module>core/engine-android</module>
-				<module>core/model</module>
-				<module>core/test-suite</module>
-			</modules>
-			<properties>
-				<maven.test.skip>true</maven.test.skip>
-			</properties>
 		</profile>
 	</profiles>
 	<!-- ====================================================================== -->
@@ -310,7 +284,7 @@
 							<configuration>
 								<dependencyDetailsEnabled>false</dependencyDetailsEnabled>
 								<dependencyLocationsEnabled>false</dependencyLocationsEnabled>
-							</configuration>							
+							</configuration>
 						</plugin>
 						<!-- aggregate reports -->
 						<plugin>
@@ -319,7 +293,7 @@
 							<version>2.2</version>
 							<configuration>
 								<aggregate>true</aggregate>
-							</configuration>							
+							</configuration>
 						</plugin>
 						<!-- look for bugs in class-files; fairly deep -->
 						<plugin>
@@ -346,7 +320,7 @@
 							<configuration>
 								<xmlOutput>true</xmlOutput>
 								<xmlOutputDirectory>target/site</xmlOutputDirectory>
-							</configuration>						
+							</configuration>
 						</plugin>
 						<!-- similar to findbugs; older, lots of rules -->
 						<plugin>
@@ -358,10 +332,10 @@
 								<sourceEncoding>${project.build.sourceEncoding}</sourceEncoding>
 								<minimumTokens>30</minimumTokens>
 								<targetJdk>${compile.source}</targetJdk>
-								<aggregate>true</aggregate>								
-							</configuration>					
-						</plugin>						
-						<!-- find style deviations 
+								<aggregate>true</aggregate>
+							</configuration>
+						</plugin>
+						<!-- find style deviations
 						<plugin>
 							<groupId>org.apache.maven.plugins</groupId>
 							<artifactId>maven-checkstyle-plugin</artifactId>
@@ -375,15 +349,15 @@
 							</dependencies>
 						</plugin>
 						-->
-						<!-- 
+						<!--
 							Aggregate results from Checkstyle, Cobertura, Clover, Surefire,
-							PMD, CPD, FindBugs, Taglist reports. 
+							PMD, CPD, FindBugs, Taglist reports.
 						-->
 						<plugin>
 							<groupId>org.codehaus.mojo</groupId>
 							<artifactId>dashboard-maven-plugin</artifactId>
 							<version>1.0.0-beta-1</version>
-						</plugin>											
+						</plugin>
 						<!-- javadoc generation -->
 						<plugin>
 							<groupId>org.apache.maven.plugins</groupId>
@@ -428,11 +402,11 @@
 							<artifactId>maven-surefire-report-plugin</artifactId>
 							<version>2.8</version>
 						</plugin>
-						<!-- 
+						<!--
 							Currently Apache RAT maven plugin is in incubation phase and there
 							is no build in Apache Maven Plugins Snapshots Repository
-							<plugin> 
-								<groupId>org.apache.rat</groupId> 
+							<plugin>
+								<groupId>org.apache.rat</groupId>
 								<artifactId>apache-rat-plugin</artifactId>
 							</plugin>
 						-->
@@ -474,7 +448,7 @@
 						</plugin>
 					</reportPlugins>
 				</configuration>
-			</plugin>				
+			</plugin>
 		</plugins>
 		<!--
 			Plugin Management contains plugin elements in much the same way, except
@@ -486,8 +460,8 @@
 			<plugins>
 				<!-- ====================================================================== -->
 				<!-- Plugin management                                 -->
-				<!-- ====================================================================== -->					
-				
+				<!-- ====================================================================== -->
+
 				<!-- generate executables for shaded jars -->
 				<plugin>
 					<groupId>org.bluestemsoftware.open.maven.plugin</groupId>
@@ -522,7 +496,7 @@
 						</versionInfo>
 					</configuration>
 				</plugin>
-				<!-- Java compilation options -->			
+				<!-- Java compilation options -->
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-compiler-plugin</artifactId>
@@ -543,7 +517,7 @@
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-dependency-plugin</artifactId>
 					<version>2.2</version>
-				</plugin>	
+				</plugin>
 				<!-- Build a JAR of sources for use in IDEs and distribution to the repository -->
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
@@ -562,7 +536,7 @@
 						<excludeResources>true</excludeResources>
 						<attach>true</attach>
 					</configuration>
-				</plugin>				
+				</plugin>
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-deploy-plugin</artifactId>
@@ -766,7 +740,7 @@
 				<classifier>no_aop</classifier>
 				<scope>compile</scope>
 			</dependency>
-			
+
 
 			<!-- testing libraries -->
 			<dependency>
@@ -782,11 +756,11 @@
 				<scope>test</scope>
 			</dependency>
 			<!--
-			<dependency> 
-				<groupId>org.mockito</groupId> 
+			<dependency>
+				<groupId>org.mockito</groupId>
 				<artifactId>mockito-all</artifactId>
-				<version>1.8.1</version> 
-				<scope>test</scope> 
+				<version>1.8.1</version>
+				<scope>test</scope>
 			</dependency>
 			-->
 			<dependency>
