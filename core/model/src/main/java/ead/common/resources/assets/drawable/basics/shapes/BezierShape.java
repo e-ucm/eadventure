@@ -70,7 +70,7 @@ public class BezierShape implements EAdShape, Cloneable {
 	}
 
 	public BezierShape(EAdPaint paint) {
-		this(new EAdPosition(0,0));
+		this();
 		this.paint = paint;
 	}
 

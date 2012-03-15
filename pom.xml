@@ -628,6 +628,11 @@
 				<enabled>true</enabled>
 			</releases>
 		</repository>
+		<repository> 
+			<id>caprica</id>
+			<name>Caprica Software</name>
+			<url>http://www.capricasoftware.co.uk/repo</url> 
+		</repository>
 		<repository>
 			<id>mercurial maven repo</id>
 			<name>mercurial maven repo</name>
@@ -732,6 +737,18 @@
 				<artifactId>slf4j-android</artifactId>
 				<version>1.6.1-RC1</version>
 			</dependency>
+			<!-- vlcj Video -->
+			<dependency>
+				<groupId>uk.co.caprica</groupId> 
+				<artifactId>vlcj</artifactId> 
+				<version>2.0.0</version> 
+			</dependency>
+			<!-- JNA -->
+			<dependency>
+				<groupId>net.java.dev.jna</groupId>
+				<artifactId>jna</artifactId>
+				<version>3.4.0</version>
+			</dependency> 
 			<!-- Injection management -->
 			<dependency>
 				<groupId>com.google.inject</groupId>

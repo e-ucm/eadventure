@@ -134,5 +134,10 @@ public class VLCMediaPlayerEventListener implements MediaPlayerEventListener {
 	@Override
 	public void titleChanged(MediaPlayer arg0, int arg1) { }
 
+	@Override
+	public void videoOutput(MediaPlayer arg0, int arg1) {
+		
+	}
+
 
 }

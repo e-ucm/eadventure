@@ -55,12 +55,10 @@
 		<dependency>
 			<groupId>net.java.dev.jna</groupId>
 			<artifactId>jna</artifactId>
-			<version>3.2.3</version>
 		</dependency>
 		<dependency>
-			<groupId>uk.co.caprica</groupId>
-			<artifactId>vlcj</artifactId>
-			<version>1.2.0</version>
+			<groupId>uk.co.caprica</groupId> 
+			<artifactId>vlcj</artifactId>  
 		</dependency>
 
 		<!-- Currently unused
