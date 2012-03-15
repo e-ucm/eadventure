@@ -47,10 +47,6 @@ import ead.common.params.paint.EAdFill;
  */
 public class RectangleShape extends BezierShape {
 	
-	public RectangleShape( ){
-		
-	}
-	
 	public RectangleShape(int width, int height ){
 		this( width, height, PaintFill.TRANSPARENT );
 	}

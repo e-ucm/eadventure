@@ -11,6 +11,7 @@
 * Make a clean build of everything
 	mvn clean install -Dandroid.sdk.path=<path-to-android-sdk>
 
+	NOTE: "javac" must be accesible
 	NOTE: builds windows exes and self-executable jars of desktop-engine
     and editor-core; also builds playn webapp and android-engine apk;
     takes around 2 minutes on a quad-core; or 40s with -T 3;

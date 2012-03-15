@@ -45,10 +45,6 @@ public class BallonShape extends BezierShape {
 
 	private static int CORNER_RADIUS = 10;
 
-	public BallonShape(){
-		
-	}
-
 	public BallonShape(int left, int top, int right, int bottom,
 			BalloonType ballonType) {
 		this(left, top, right, bottom, ballonType, false, -1, -1);

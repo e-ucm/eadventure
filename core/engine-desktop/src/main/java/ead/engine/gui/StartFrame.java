@@ -96,14 +96,14 @@ public class StartFrame extends JFrame {
 	private static final long serialVersionUID = -6973214467232788904L;
 
 	private static final String FILE_CHOOSER_DIRECTORY = "file_chooser_directory";
-	
+
 	private static final String HZ_PROPERTY = "hz_property";
 
 	private static final String PROPERTIES_FILE = "engine_configuration.xml";
 
 	private static final Logger logger = LoggerFactory.getLogger("EAdEngine");
-	
-	private static final Integer[] HZ = new Integer[]{30, 40, 50, 60};
+
+	private static final Integer[] HZ = new Integer[] { 30, 40, 50, 60 };
 
 	private JFileChooser fileChooser;
 
@@ -114,7 +114,7 @@ public class StartFrame extends JFrame {
 	private EAdAdventureDOMModelReader reader;
 
 	private StringFileHandler stringFileHandler;
-	
+
 	private int ticksPerSecond = 30;
 
 	private ProgressDialog progressDialog;
@@ -208,7 +208,7 @@ public class StartFrame extends JFrame {
 					out = new FileOutputStream(PROPERTIES_FILE);
 					properties.setProperty(FILE_CHOOSER_DIRECTORY, fileChooser
 							.getCurrentDirectory().getAbsolutePath());
-					properties.setProperty(HZ_PROPERTY, ticksPerSecond+"");
+					properties.setProperty(HZ_PROPERTY, ticksPerSecond + "");
 					properties.store(out, "-- No comments --");
 
 				} catch (FileNotFoundException e) {
@@ -252,22 +252,23 @@ public class StartFrame extends JFrame {
 
 		});
 	}
-	
+
 	private void addTicksPerSecond() {
-		ticksPerSecond = Integer.parseInt(properties.getProperty(HZ_PROPERTY, 30 + ""));
+		ticksPerSecond = Integer.parseInt(properties.getProperty(HZ_PROPERTY,
+				30 + ""));
 		JComboBox hzCombo = new JComboBox(HZ);
 		hzCombo.setSelectedItem(ticksPerSecond);
 		JPanel panel = new JPanel();
 		panel.add(new JLabel("Hz:"));
 		panel.add(hzCombo);
 		getContentPane().add(panel);
-		hzCombo.addItemListener(new ItemListener(){
+		hzCombo.addItemListener(new ItemListener() {
 
 			@Override
 			public void itemStateChanged(ItemEvent ev) {
-				ticksPerSecond = (Integer) ev.getItem();		
+				ticksPerSecond = (Integer) ev.getItem();
 			}
-			
+
 		});
 	}
 
@@ -327,7 +328,7 @@ public class StartFrame extends JFrame {
 							"Selected file is from an old version of eAdventure. Do you want to save the imported game in a new file?",
 							"eAdventure importation",
 							JOptionPane.INFORMATION_MESSAGE);
-			
+
 			if (result == JOptionPane.CANCEL_OPTION)
 				return;
 
@@ -397,10 +398,12 @@ public class StartFrame extends JFrame {
 
 	private boolean isOldProject(File f) {
 		boolean isOldProject = true;
+		FileInputStream in = null;
+		ZipInputStream zipIn = null;
 		try {
 
-			FileInputStream in = new FileInputStream(f);
-			ZipInputStream zipIn = new ZipInputStream(in);
+			in = new FileInputStream(f);
+			zipIn = new ZipInputStream(in);
 			ZipEntry zipEntry = null;
 			while ((zipEntry = zipIn.getNextEntry()) != null) {
 				if (zipEntry.getName().endsWith(ProjectFiles.PROPERTIES_FILE)) {
@@ -418,27 +421,50 @@ public class StartFrame extends JFrame {
 			}
 			zipIn.close();
 		} catch (FileNotFoundException e) {
-			e.printStackTrace();
+
 		} catch (IOException e) {
-			e.printStackTrace();
+
+		} finally {
+			if (in != null) {
+				try {
+					in.close();
+				} catch (IOException e) {
+
+				}
+			}
+
+			if (zipIn != null) {
+				try {
+					zipIn.close();
+				} catch (IOException e) {
+				}
+			}
 		}
 		return isOldProject;
 	}
 
 	private void readZipEntry(ZipInputStream zipIn, File f) {
+		FileOutputStream dataOut = null;
 		try {
-			FileOutputStream dataOut = new FileOutputStream(f);
+			dataOut = new FileOutputStream(f);
 			byte data[] = new byte[1000];
 			int count;
 			while ((count = zipIn.read(data, 0, 1000)) != -1) {
 				dataOut.write(data, 0, count);
 			}
 			dataOut.flush();
-			dataOut.close();
 		} catch (FileNotFoundException e) {
-			e.printStackTrace();
+			logger.warn("File not found {}", f);
 		} catch (IOException e) {
-			e.printStackTrace();
+			logger.warn("IO Exception {}", f);
+		} finally {
+			if (dataOut != null) {
+				try {
+					dataOut.close();
+				} catch (IOException e) {
+
+				}
+			}
 		}
 	}
 

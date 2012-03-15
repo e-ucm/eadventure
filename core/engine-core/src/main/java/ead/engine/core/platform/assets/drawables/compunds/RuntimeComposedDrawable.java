@@ -115,7 +115,7 @@ public class RuntimeComposedDrawable<GraphicContext> extends
 	@Override
 	public boolean loadAsset() {
 		for (EAdDrawable asset : descriptor.getAssetList())
-			assetHandler.getRuntimeAsset(asset).loadAsset();
+			assetHandler.getRuntimeAsset(asset, true);
 		return assetHandler != null;
 	}
 

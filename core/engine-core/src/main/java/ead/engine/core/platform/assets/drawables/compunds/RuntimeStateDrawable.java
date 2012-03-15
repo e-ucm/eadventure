@@ -93,7 +93,7 @@ public class RuntimeStateDrawable extends
 		if (loading) {
 			loaded = true;
 			for (RuntimeCompoundDrawable<?> r : drawables.values()) {
-				if (!r.loadAsset()) {
+				if (!r.isLoaded()) {
 					loaded = false;
 					break;
 				}

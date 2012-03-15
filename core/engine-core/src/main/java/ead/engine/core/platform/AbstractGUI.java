@@ -158,7 +158,6 @@ public abstract class AbstractGUI<T> implements GUI {
 	 *            The current interpolation between ideal game frames
 	 */
 	protected void render(float interpolation) {
-		// TODO use interpolation
 		synchronized (GameObjectManager.lock) {
 			for (DrawableGO<?> go : gameObjects.getGameObjects()) {
 				if (go != null && go.getRuntimeDrawable() != null) {

@@ -35,77 +35,65 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ead.common.resources.assets.drawable.basics;
+package ead.engine.gl;
 
-import ead.common.interfaces.Param;
-import ead.common.util.EAdURI;
+import javax.microedition.khronos.opengles.GL10;
 
-/**
- * An image asset
- * 
- */
-public class Image implements EAdImage {
+import android.opengl.GLSurfaceView;
 
-	@Param("uri")
-	private EAdURI uri;
+import com.google.inject.Inject;
+import com.google.inject.Singleton;
 
-	/**
-	 * Constructs an empty
-	 */
-	public Image() {
+import ead.engine.core.game.GameLoop;
+import ead.engine.core.game.GameState;
+import ead.engine.core.gameobjects.GameObjectManager;
+import ead.engine.core.gameobjects.factories.SceneElementGOFactory;
+import ead.engine.core.input.InputHandler;
+import ead.engine.core.platform.AbstractGUI;
+import ead.engine.core.platform.EngineConfiguration;
 
-	}
+@Singleton
+public class GLGUI extends AbstractGUI<GL10> {
+	
+	private GLSurfaceView glSurfaceView;
 
-	/**
-	 * Constructs an image with the given URI
-	 * 
-	 * @param uri
-	 *            the image's URI
-	 */
-	public Image(String uri) {
-		this.uri = new EAdURI(uri);
-	}
-
-	/**
-	 * Constructs an image with the given URI
-	 * @param uri the URI
-	 */
-	public Image(EAdURI uri) {
-		this.uri = uri;
+	@Inject
+	public GLGUI(EngineConfiguration platformConfiguration,
+			GameObjectManager gameObjectManager, InputHandler inputHandler,
+			GameState gameState, SceneElementGOFactory gameObjectFactory,
+			GLCanvas canvas, GameLoop gameLoop) {
+		super(platformConfiguration, gameObjectManager, inputHandler,
+				gameState, gameObjectFactory, canvas, gameLoop);
 	}
 
 	@Override
-	public EAdURI getUri() {
-		return uri;
+	public void showSpecialResource(Object object, int x, int y,
+			boolean fullscreen) {
+		
+	}
+	
+	public void setGLSurfaceView(GLSurfaceView glSurfaceView){
+		this.glSurfaceView = glSurfaceView;
 	}
 
 	@Override
-	public void setUri(EAdURI uri) {
-		this.uri = uri;
+	public void commit(float interpolation) {
+		processInput();
+		glSurfaceView.requestRender();
 	}
 
-	public boolean equals(Object o) {
-		if ( o instanceof EAdImage ){
-			EAdURI uri = ((EAdImage) o).getUri();
-			if ( uri == null && this.uri == null ){
-				return true;
-			}
-			
-			if ( uri != null && this.uri != null ){
-				return uri.equals(this.uri);
-			}
-			
-			return false;
-		}
-		return false;
+	@Override
+	public void initialize() {
+		
 	}
 
-	public int hashCode() {
-		return (uri != null ? uri.hashCode() : 0);
+	@Override
+	public void finish() {
+		
 	}
-
-	public String toString() {
-		return "Img:" + uri;
+	
+	public GLSurfaceView getGLSurfaceView( ){
+		return glSurfaceView;
 	}
 
 }

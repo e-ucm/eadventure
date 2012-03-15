@@ -105,7 +105,7 @@ public class GameLoopImpl implements GameLoop {
 					runLoop();
 				}
 			};
-			Thread t = new Thread(runnable);
+			Thread t = new Thread(runnable, "GameLoop");
 			t.start();
 		}
 

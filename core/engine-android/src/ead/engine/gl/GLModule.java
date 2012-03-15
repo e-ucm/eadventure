@@ -35,77 +35,44 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ead.common.resources.assets.drawable.basics;
+package ead.engine.gl;
 
-import ead.common.interfaces.Param;
-import ead.common.util.EAdURI;
+import android.graphics.Canvas;
 
-/**
- * An image asset
- * 
- */
-public class Image implements EAdImage {
+import com.google.inject.AbstractModule;
+import com.google.inject.Provides;
+import com.google.inject.TypeLiteral;
+import com.google.inject.name.Named;
 
-	@Param("uri")
-	private EAdURI uri;
+import ead.engine.core.gameobjects.AndroidActionsHUDImpl;
+import ead.engine.core.gameobjects.AndroidBasicHUD;
+import ead.engine.core.gameobjects.huds.ActionsHUD;
+import ead.engine.core.gameobjects.huds.BottomBasicHUD;
+import ead.engine.core.gameobjects.huds.BottomBasicHUDImpl;
+import ead.engine.core.gameobjects.huds.InventoryHUD;
+import ead.engine.core.gameobjects.huds.InventoryHUDImpl;
+import ead.engine.core.gameobjects.huds.MenuHUD;
+import ead.engine.core.gameobjects.huds.MenuHUDImpl;
+import ead.engine.core.gameobjects.huds.TopBasicHUD;
+import ead.engine.core.platform.GUI;
+import ead.engine.core.platform.rendering.AndroidFilterFactory;
+import ead.engine.core.platform.rendering.filters.FilterFactory;
 
-	/**
-	 * Constructs an empty
-	 */
-	public Image() {
-
-	}
-
-	/**
-	 * Constructs an image with the given URI
-	 * 
-	 * @param uri
-	 *            the image's URI
-	 */
-	public Image(String uri) {
-		this.uri = new EAdURI(uri);
-	}
-
-	/**
-	 * Constructs an image with the given URI
-	 * @param uri the URI
-	 */
-	public Image(EAdURI uri) {
-		this.uri = uri;
-	}
-
+public class GLModule extends AbstractModule {
 	@Override
-	public EAdURI getUri() {
-		return uri;
+	protected void configure() {
+		bind(GUI.class).to(GLGUI.class);
+		bind(ActionsHUD.class).to(AndroidActionsHUDImpl.class);
+		bind(TopBasicHUD.class).to(AndroidBasicHUD.class);
+		bind(BottomBasicHUD.class).to(BottomBasicHUDImpl.class);
+		bind(InventoryHUD.class).to(InventoryHUDImpl.class);
+		bind(MenuHUD.class).to(MenuHUDImpl.class);
+		bind(new TypeLiteral<FilterFactory<Canvas>>(){}).to(AndroidFilterFactory.class);
 	}
-
-	@Override
-	public void setUri(EAdURI uri) {
-		this.uri = uri;
+	
+	@Provides
+	@Named("threaded")
+	public boolean provideThreaded() {
+		return Boolean.TRUE;
 	}
-
-	public boolean equals(Object o) {
-		if ( o instanceof EAdImage ){
-			EAdURI uri = ((EAdImage) o).getUri();
-			if ( uri == null && this.uri == null ){
-				return true;
-			}
-			
-			if ( uri != null && this.uri != null ){
-				return uri.equals(this.uri);
-			}
-			
-			return false;
-		}
-		return false;
-	}
-
-	public int hashCode() {
-		return (uri != null ? uri.hashCode() : 0);
-	}
-
-	public String toString() {
-		return "Img:" + uri;
-	}
-
 }

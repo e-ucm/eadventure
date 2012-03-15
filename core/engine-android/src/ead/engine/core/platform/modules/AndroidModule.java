@@ -37,11 +37,8 @@
 
 package ead.engine.core.platform.modules;
 
-import android.graphics.Canvas;
-
 import com.google.inject.AbstractModule;
 import com.google.inject.Provides;
-import com.google.inject.TypeLiteral;
 import com.google.inject.name.Named;
 
 import ead.engine.core.gameobjects.AndroidActionsHUDImpl;
@@ -56,8 +53,6 @@ import ead.engine.core.gameobjects.huds.MenuHUDImpl;
 import ead.engine.core.gameobjects.huds.TopBasicHUD;
 import ead.engine.core.platform.AndroidGUI;
 import ead.engine.core.platform.GUI;
-import ead.engine.core.platform.rendering.AndroidFilterFactory;
-import ead.engine.core.platform.rendering.filters.FilterFactory;
 
 public class AndroidModule extends AbstractModule {
 
@@ -73,7 +68,7 @@ public class AndroidModule extends AbstractModule {
 		bind(BottomBasicHUD.class).to(BottomBasicHUDImpl.class);
 		bind(InventoryHUD.class).to(InventoryHUDImpl.class);
 		bind(MenuHUD.class).to(MenuHUDImpl.class);
-		bind(new TypeLiteral<FilterFactory<Canvas>>(){}).to(AndroidFilterFactory.class);
+//		bind(new TypeLiteral<FilterFactory<Canvas>>(){}).to(AndroidFilterFactory.class);
 	}
 	
 	@Provides

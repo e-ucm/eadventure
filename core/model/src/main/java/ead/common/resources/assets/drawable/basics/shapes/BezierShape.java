@@ -59,14 +59,18 @@ public class BezierShape implements EAdShape, Cloneable {
 	@Param("segmentsLength")
 	private EAdList<Integer> segmentsLength;
 
+	// FIXME probably a good a idea tu use the vector notation, but before
+	// vectors storage must be added
+	private float[] vector;
+
 	public BezierShape() {
 		points = new EAdListImpl<EAdPosition>(EAdPosition.class);
 		segmentsLength = new EAdListImpl<Integer>(Integer.class);
 		paint = PaintFill.TRANSPARENT;
 	}
-	
-	public BezierShape( EAdPaint paint ){
-		this();
+
+	public BezierShape(EAdPaint paint) {
+		this(new EAdPosition(0,0));
 		this.paint = paint;
 	}
 
@@ -165,24 +169,74 @@ public class BezierShape implements EAdShape, Cloneable {
 	public void cubeTo(int x1, int y1, int x2, int y2) {
 		quadTo(new EAdPosition(x1, y1), new EAdPosition(x2, y2));
 	}
-	
-	public Object clone(){
+
+	public Object clone() {
 		BezierShape s = new BezierShape();
 		s.closed = closed;
-		for ( Integer i: segmentsLength ){
+		for (Integer i : segmentsLength) {
 			s.segmentsLength.add(new Integer(i.intValue()));
 		}
-		
-		for ( EAdPosition p: points ){
-			s.points.add(new EAdPosition( p.getX(), p.getY()));
+
+		for (EAdPosition p : points) {
+			s.points.add(new EAdPosition(p.getX(), p.getY()));
 		}
-		
+
 		s.paint = paint;
-		
+
 		return s;
 	}
-	
-	
-	
+
+	public int hashCode() {
+		if (vector == null) {
+			generateVector();
+		}
+		return vector.hashCode();
+	}
+
+	private void generateVector() {
+		if (points != null && segmentsLength != null) {
+			vector = new float[points.size() * 2 + segmentsLength.size() + 1];
+			int j = 0;
+			int i = 0;
+			int pointIndex = 0;
+			while (i < vector.length && j - 1 < segmentsLength.size() ) {
+				int segmentLength = j == 0 ? 1 : segmentsLength.get(j - 1);
+				vector[i++] = segmentLength;
+				for (int k = i; k < i + segmentLength * 2; k += 2) {
+					EAdPosition p = points.get(pointIndex++);
+					vector[k] = p.getX();
+					vector[k + 1] = p.getY();
+				}
+				i += segmentLength * 2;
+				j++;
+			}
+		}
+	}
+
+	public boolean equals(Object o) {
+		if (o instanceof BezierShape) {
+			BezierShape b = (BezierShape) o;
+			if ( vector == null )
+				generateVector();
+			
+			if (b.vector == null)
+				b.generateVector();
+
+			if (b.vector == null && vector == null)
+				return true;
+
+			if (b.vector != null && vector != null) {
+				if (b.vector.length == vector.length) {
+					for (int i = 0; i < b.vector.length; i++) {
+						if (b.vector[i] != vector[i]) {
+							return false;
+						}
+					}
+					return true;
+				}
+			}
+		}
+		return false;
+	}
 
 }

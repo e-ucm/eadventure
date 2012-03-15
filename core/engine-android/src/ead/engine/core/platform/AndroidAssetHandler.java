@@ -39,9 +39,6 @@ package ead.engine.core.platform;
 
 import java.util.Map;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import android.content.Context;
 import android.content.res.Resources;
 import android.os.Environment;
@@ -51,8 +48,6 @@ import com.google.inject.Injector;
 import com.google.inject.Singleton;
 
 import ead.common.resources.assets.AssetDescriptor;
-import ead.engine.core.platform.AbstractAssetHandler;
-import ead.engine.core.platform.FontHandler;
 import ead.engine.core.platform.assets.RuntimeAsset;
 
 @Singleton
@@ -63,9 +58,6 @@ public class AndroidAssetHandler extends AbstractAssetHandler {
 	private Context context;
 
 	private String sdCardLocation;
-
-	private static final Logger logger = LoggerFactory
-			.getLogger("AndroidAssetHandler");
 
 	private Injector injector;
 
