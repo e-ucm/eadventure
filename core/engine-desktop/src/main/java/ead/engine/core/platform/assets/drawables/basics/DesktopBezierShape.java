@@ -82,6 +82,8 @@ public class DesktopBezierShape extends RuntimeBezierShape<Graphics2D> {
 				path.curveTo(p1.getX(), p1.getY(), p2.getX(), p2.getY(),
 						p3.getX(), p3.getY());
 				break;
+			default:
+				
 			}
 		}
 

@@ -59,12 +59,11 @@ import ead.common.params.text.EAdString;
 import ead.common.util.StringHandler;
 import ead.editor.EditorStringHandler;
 import ead.editor.control.CommandManager;
-import ead.editor.control.ElementController;
+import ead.editor.control.ElementController.LevelOfDetail;
 import ead.editor.control.elements.EAdSceneController;
 import ead.editor.control.elements.EAdSceneElementDefController;
 import ead.editor.view.ComponentProvider;
 import ead.editor.view.generics.Panel;
-import ead.editor.view.swing.SwingProviderFactory;
 import ead.elementfactories.demos.scenes.ComplexElementScene;
 import ead.elementfactories.demos.scenes.InitScene;
 import ead.gui.EAdBorderedPanel;
@@ -139,7 +138,7 @@ public class ElementControllerGetPanelTest extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-		        Panel panel = sceneController.getPanel(ElementController.View.EXPERT);
+		        Panel panel = sceneController.getPanel(LevelOfDetail.EXPERT);
 		        ComponentProvider<Panel, JComponent> componentProvider = swingProviderFactory.getProvider(panel);
 		        if (component != null)
 		        	remove(component);
@@ -156,7 +155,7 @@ public class ElementControllerGetPanelTest extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-		        Panel panel = sceneController2.getPanel(ElementController.View.EXPERT);
+		        Panel panel = sceneController2.getPanel(LevelOfDetail.EXPERT);
 		        ComponentProvider<Panel, JComponent> componentProvider = swingProviderFactory.getProvider(panel);
 		        if (component != null)
 		        	remove(component);
@@ -173,7 +172,7 @@ public class ElementControllerGetPanelTest extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-		        Panel panel = sceneElementController.getPanel(ElementController.View.EXPERT);
+		        Panel panel = sceneElementController.getPanel(LevelOfDetail.EXPERT);
 		        ComponentProvider<Panel, JComponent> componentProvider = swingProviderFactory.getProvider(panel);
 		        if (component != null)
 		        	remove(component);

@@ -50,11 +50,10 @@ import ead.common.model.elements.scene.EAdScene;
 import ead.common.util.StringHandler;
 import ead.editor.EditorStringHandler;
 import ead.editor.control.CommandManager;
-import ead.editor.control.ElementController;
+import ead.editor.control.ElementController.LevelOfDetail;
 import ead.editor.control.elements.EAdSceneController;
 import ead.editor.view.ComponentProvider;
 import ead.editor.view.generics.Panel;
-import ead.editor.view.swing.SwingProviderFactory;
 import ead.elementfactories.demos.scenes.EmptyScene;
 import ead.gui.EAdFrame;
 import ead.gui.EAdGUILookAndFeel;
@@ -83,7 +82,7 @@ public class SceneElementControllerGetPanelTest extends EAdFrame {
         
         EAdSceneController sceneController = new EAdSceneController();
         sceneController.setElement(scene);
-        Panel panel = sceneController.getPanel(ElementController.View.EXPERT);
+        Panel panel = sceneController.getPanel(LevelOfDetail.EXPERT);
         
         StringHandler stringHandler = new EditorStringHandler();
 

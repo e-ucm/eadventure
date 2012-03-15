@@ -162,8 +162,9 @@ public class DesktopAssetHandler extends JavaAbstractAssetHandler {
 
 			@Override
 			public void run() {
+				ZipFile zipFile = null;
 				try {
-					ZipFile zipFile = new ZipFile(resourceLocation);
+					zipFile = new ZipFile(resourceLocation);
 
 					Enumeration<? extends ZipEntry> entries = zipFile.entries();
 
@@ -184,9 +185,16 @@ public class DesktopAssetHandler extends JavaAbstractAssetHandler {
 					}
 
 					setLoaded(true);
-				} catch (Exception e) {
+				} catch (IOException e) {
 					logger.error("error extracting zip '{}'", resourceLocation,
 							e);
+				} finally {
+					if (zipFile != null)
+						try {
+							zipFile.close();
+						} catch (IOException e) {
+							
+						}
 				}
 			}
 		};
