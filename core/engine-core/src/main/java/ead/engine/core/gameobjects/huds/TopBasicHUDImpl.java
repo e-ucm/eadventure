@@ -247,7 +247,6 @@ public class TopBasicHUDImpl extends AbstractHUD implements TopBasicHUD {
 				RuntimeDrawable<EAdDrawable, ?> rAsset = (RuntimeDrawable<EAdDrawable, ?>) assetHandler
 						.getRuntimeAsset(cursor);
 				logger.info("width" + rAsset.getWidth());
-				rAsset.loadAsset();
 				EAdBundleId bundle = i++ % 2 == 1 ? mouse.getDefinition()
 						.getInitialBundle() : mouseBundle;
 				mouse.getDefinition().getResources()

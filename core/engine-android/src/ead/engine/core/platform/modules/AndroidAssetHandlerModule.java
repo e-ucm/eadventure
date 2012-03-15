@@ -78,7 +78,6 @@ public class AndroidAssetHandlerModule extends AssetHandlerModule {
 	public Map<Class<? extends AssetDescriptor>, Class<? extends RuntimeAsset<? extends AssetDescriptor>>> provideMap() {
 		Map map = super.provideMap();
 		map.put(Image.class, AndroidImage.class);
-		map.put(Image.class, AndroidImage.class);
 		map.put(RectangleShape.class, AndroidBezierShape.class);
 		map.put(BezierShape.class, AndroidBezierShape.class);
 		map.put(EAdSound.class, AndroidSound.class);

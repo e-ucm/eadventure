@@ -64,11 +64,9 @@ public class RuntimeFilteredDrawable<GraphicContext> extends
 	@Override
 	public boolean loadAsset() {
 		drawable = (RuntimeDrawable<?, GraphicContext>) assetHandler
-				.getRuntimeAsset(descriptor.getDrawable());
-		if (drawable != null) {
-			return drawable.loadAsset();
-		}
-		return false;
+				.getRuntimeAsset(descriptor.getDrawable(), true);
+
+		return true;
 	}
 
 	@Override
@@ -109,7 +107,8 @@ public class RuntimeFilteredDrawable<GraphicContext> extends
 	}
 
 	@Override
-	public RuntimeDrawable<?, ?> getDrawable(int time, List<String> states, int level) {
+	public RuntimeDrawable<?, ?> getDrawable(int time, List<String> states,
+			int level) {
 		return this;
 	}
 
