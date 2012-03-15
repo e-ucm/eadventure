@@ -19,6 +19,7 @@
   </description>
   <build>
       <outputDirectory>${project.basedir}/war/WEB-INF/classes</outputDirectory>
+
       <plugins>
         <plugin>
           <groupId>org.codehaus.mojo</groupId>
@@ -38,10 +39,10 @@
               <artifact>ead:model</artifact>
               <artifact>ead:engine-core</artifact>
               <artifact>ead:test-suite</artifact>
-            </compileSourcesArtifacts>            
+            </compileSourcesArtifacts>
             <configuration>
-		      <buildOutputDirectory>${project.basedir}/war/WEB-INF</buildOutputDirectory>            
-		      <webappDirectory>${project.basedir}/war/WEB-INF</webappDirectory>
+		      <buildOutputDirectory>${project.basedir}/war</buildOutputDirectory>
+		      <webappDirectory>${project.basedir}/war</webappDirectory>
               <module>${gwt.module}</module>
             </configuration>
           </configuration>
@@ -101,14 +102,23 @@
             </lifecycleMappingMetadata>
           </configuration>
         </plugin>
+
+        <!-- war stuff -->
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-war-plugin</artifactId>
+          <version>2.1.1</version>
+          <configuration>
+            <buildOutputDirectory>${project.basedir}/war/WEB-INF/classes</buildOutputDirectory>
+            <warSourceDirectory>${project.basedir}/war</warSourceDirectory>
+            <webXml>${project.basedir}/war/WEB-INF/web.xml</webXml>
+          </configuration>
+        </plugin>
+
       </plugins>
   </build>
 
   <properties>
-	<war.buildOutputDirectory>${project.basedir}/war/WEB-INF</war.buildOutputDirectory>            
-	<war.webappDirectory>${project.basedir}/war/WEB-INF</war.webappDirectory>		  	
-	<war.webXml>${project.basedir}/war/WEB-INF/web.xml</war.webXml>  
-  
     <gwt.module>ead.engine.EAdEngine</gwt.module>
     <gwt.name>eadengine</gwt.name>
     <gwt.version>2.4.0</gwt.version>
@@ -155,7 +165,7 @@
       <version>${gwt.voices.version}</version>
       <scope>compile</scope>
     </dependency>
-    	
+
     <dependency>
       <groupId>com.googlecode.playn</groupId>
       <artifactId>playn-core</artifactId>
