@@ -78,5 +78,19 @@ public class EAdURI implements EAdParam {
 	public int hashCode( ){
 		return (uri != null ? uri.hashCode() : 0);
 	}
+	
+	public boolean equals( Object o ){
+		if ( o instanceof EAdURI ){
+			String uri = ((EAdURI) o).uri;
+			if ( this.uri == uri ){
+				return true;
+			}
+			
+			if ( this.uri != null && uri != null ){
+				return uri.equals(this.uri);
+			}
+		}
+		return false;
+	}
 
 }

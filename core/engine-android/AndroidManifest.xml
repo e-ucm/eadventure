@@ -5,6 +5,7 @@
       android:versionName="1.0">
     <uses-sdk android:minSdkVersion="10"/>
 
+    <uses-feature android:glEsVersion="0x00020000" android:required="true" />
 	<uses-permission android:name="android.permission.INTERNET"/>	
 	<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
 	<uses-permission android:name="android.permission.VIBRATE"/>
@@ -28,7 +29,7 @@
                 <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
         </activity>
-        <activity android:name=".DemoSelectionActivity">
+        <activity android:name=".EAdventureGLActivity" android:screenOrientation="landscape" android:launchMode="singleTask" >
         	<intent-filter>
 				<action android:name="android.intent.action.MAIN" />			
 				<category android:name="android.intent.category.LAUNCHER" />			

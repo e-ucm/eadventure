@@ -72,7 +72,7 @@ public abstract class AbstractAssetHandler implements AssetHandler {
 	/**
 	 * The class logger
 	 */
-	private static final Logger logger = LoggerFactory
+	protected static final Logger logger = LoggerFactory
 			.getLogger("AbstractAssetHandler");
 
 	/**
@@ -157,7 +157,7 @@ public abstract class AbstractAssetHandler implements AssetHandler {
 		if ( runtimeAsset == null ){
 			logger.warn("No runtime asset for {}", descriptor);
 		}
-		if (load) {
+		if (load && !runtimeAsset.isLoaded()) {
 			runtimeAsset.loadAsset();
 		}
 		return runtimeAsset;

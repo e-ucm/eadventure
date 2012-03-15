@@ -41,10 +41,6 @@ import ead.common.params.fills.PaintFill;
 import ead.common.params.paint.EAdPaint;
 
 public class CircleShape extends BezierShape {
-	
-	public CircleShape(){
-		
-	}
 
 	public CircleShape(int cx, int cy, int radius, int segments, EAdPaint paint) {
 		super( paint );

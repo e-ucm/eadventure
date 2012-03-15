@@ -180,25 +180,31 @@ public class AndroidCanvas extends AbstractCanvas<Canvas> {
 	private Paint getPaint(EAdFill fill) {
 		Paint p = fillCache.get(fill);
 		if (p == null) {
-			p = new Paint();
-			if (fill instanceof ColorFill) {
-				ColorFill c = (ColorFill) fill;
-				p.setColor(Color.argb(c.getAlpha(), c.getRed(), c.getGreen(),
-						c.getBlue()));
-
-			} else if (fill instanceof LinearGradientFill) {
-				LinearGradientFill gradient = (LinearGradientFill) fill;
-				ColorFill c = gradient.getColor1();
-				int c1 = Color.argb(c.getAlpha(), c.getRed(), c.getGreen(),
-						c.getBlue());
-				c = gradient.getColor2();
-				int c2 = Color.argb(c.getAlpha(), c.getRed(), c.getGreen(),
-						c.getBlue());
-				p.setShader(new LinearGradient(gradient.getX0(), gradient
-						.getY1(), gradient.getX1(), gradient.getY0(), c1, c2,
-						Shader.TileMode.REPEAT));
-			}
+			p = createPaint(fill);
+			
 			fillCache.put(fill, p);
+		}
+		return p;
+	}
+	
+	public static Paint createPaint(EAdFill fill){
+		Paint p = new Paint();
+		if (fill instanceof ColorFill) {
+			ColorFill c = (ColorFill) fill;
+			p.setColor(Color.argb(c.getAlpha(), c.getRed(), c.getGreen(),
+					c.getBlue()));
+
+		} else if (fill instanceof LinearGradientFill) {
+			LinearGradientFill gradient = (LinearGradientFill) fill;
+			ColorFill c = gradient.getColor1();
+			int c1 = Color.argb(c.getAlpha(), c.getRed(), c.getGreen(),
+					c.getBlue());
+			c = gradient.getColor2();
+			int c2 = Color.argb(c.getAlpha(), c.getRed(), c.getGreen(),
+					c.getBlue());
+			p.setShader(new LinearGradient(gradient.getX0(), gradient
+					.getY1(), gradient.getX1(), gradient.getY0(), c1, c2,
+					Shader.TileMode.REPEAT));
 		}
 		return p;
 	}

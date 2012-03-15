@@ -170,14 +170,6 @@ public class BasicMatrix implements EAdMatrix {
 		return new float[] { 1, 0, 0, 0, 1, 0, 0, 0, 1 };
 	}
 
-	public float getOffsetX() {
-		return matrix[7];
-	}
-
-	public float getOffsetY() {
-		return matrix[8];
-	}
-
 	public void setIdentity() {
 		invalidateMatrixes();
 		matrix = getIdentity();
@@ -259,5 +251,9 @@ public class BasicMatrix implements EAdMatrix {
 		this.validated = validated;
 	}
 	
+	public void setValues(float[] values){
+		this.matrix = values;
+		invalidateMatrixes();
+	}
 
 }

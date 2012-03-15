@@ -70,10 +70,6 @@ public interface EAdMatrix {
 
 	void multiply(float m[], boolean post);
 
-	float getOffsetX();
-
-	float getOffsetY();
-
 	void setIdentity();
 
 	float[] multiplyPoint(float x, float y, boolean post);
@@ -83,5 +79,7 @@ public interface EAdMatrix {
 	boolean isValidated();
 
 	void setValidated(boolean validated);
+
+	void setValues(float[] values);
 
 }

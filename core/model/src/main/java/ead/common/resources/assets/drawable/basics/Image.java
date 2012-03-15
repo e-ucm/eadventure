@@ -85,18 +85,23 @@ public class Image implements EAdImage {
 	}
 
 	public boolean equals(Object o) {
-		if (o != null && o instanceof EAdImage) {
-			if (uri == null && ((Image) o).getUri() == null)
-				return false;
-			if (((Image) o).getUri() == null && uri != null)
-				return false;
-			return ((Image) o).getUri().equals(uri);
+		if ( o instanceof EAdImage ){
+			EAdURI uri = ((EAdImage) o).getUri();
+			if ( uri == null && this.uri == null ){
+				return true;
+			}
+			
+			if ( uri != null && this.uri != null ){
+				return uri.equals(this.uri);
+			}
+			
+			return false;
 		}
 		return false;
 	}
 
 	public int hashCode() {
-		return (uri != null ? uri.hashCode() * 10 : 0);
+		return (uri != null ? uri.hashCode() : 0);
 	}
 
 	public String toString() {
