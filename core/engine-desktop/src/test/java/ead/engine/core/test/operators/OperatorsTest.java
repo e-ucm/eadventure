@@ -71,13 +71,22 @@ public abstract class OperatorsTest<T extends EAdOperation> {
 		results.add(result);
 	}
 
+    public static boolean compareFloat(float a, float b) {
+        double epsilon = 1E-5;
+        return (double)Math.abs(a-b) < epsilon;
+    }
+
 	@Test
 	public void testOperations() {
 		int i = 0;
 		for (T op : operations) {
 			Object result = results.get(i);
 			Object value = operatorFactory.operate(result.getClass(), op);
-			assertEquals(value, result);
+			if ((result instanceof Float) && (value instanceof Float)) {
+                assertEquals(true, compareFloat((Float)result, (Float)value));
+            } else {
+                assertEquals(value, result);
+            }
 			i++;
 		}
 	}

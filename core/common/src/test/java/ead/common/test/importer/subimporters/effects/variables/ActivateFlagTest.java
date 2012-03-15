@@ -49,22 +49,22 @@ public class ActivateFlagTest extends
 	public ActivateFlagTest() {
 		super(ActivateFlagImporter.class);
 	}
-	
+
 	@Override
 	public void addOldObjects() {
-		addTestObject(new ActivateEffect("flag1"));
-		addTestObject(new ActivateEffect("flag1"));
-		addTestObject(new ActivateEffect("flag2"));
-		addTestObject(new ActivateEffect("anotherFlag"));
-		addTestObject(new ActivateEffect("¡Ñí!"));
-		
+//		addTestObject(new ActivateEffect("flag1"));
+//		addTestObject(new ActivateEffect("flag1"));
+//		addTestObject(new ActivateEffect("flag2"));
+//		addTestObject(new ActivateEffect("anotherFlag"));
+//		addTestObject(new ActivateEffect("¡Ñí!"));
+
 	}
 
 	@Override
 	public boolean equals(ActivateEffect oldObject,
 			ChangeFieldEf newObject) {
 		boolean ok = super.equals(oldObject, newObject);
-		ok = newObject.getOperation().equals(BooleanOp.TRUE_OP) && ok;		
+		ok = newObject.getOperation().equals(BooleanOp.TRUE_OP) && ok;
 		return ok;
 	}
 

@@ -60,40 +60,40 @@ import ead.gui.EAdFrame;
 import ead.gui.EAdGUILookAndFeel;
 
 public class SceneElementControllerGetPanelTest extends EAdFrame {
+//
+//	private static final long serialVersionUID = 1L;
+//
+//	public static void main(String[] args) {
+//		try {
+//			UIManager.setLookAndFeel(EAdGUILookAndFeel.getInstance());
+//		} catch (UnsupportedLookAndFeelException e) {
+//			e.printStackTrace();
+//		}
+//		new SceneElementControllerGetPanelTest();
+//	}
+//
+//    public SceneElementControllerGetPanelTest() {
+//        setSize( 600,400 );
+//
+//        setLayout(new FlowLayout());
+//
+//        EAdScene scene = new EmptyScene();
+//
+//        CommandManager commandManager = mock(CommandManager.class);
+//
+//        EAdSceneController sceneController = new EAdSceneController();
+//        sceneController.setElement(scene);
+//        Panel panel = sceneController.getPanel(ElementController.View.EXPERT);
+//
+//        StringHandler stringHandler = new EditorStringHandler();
+//
+//        SwingProviderFactory swingProviderFactory = new SwingProviderFactory(stringHandler, commandManager);
+//        ComponentProvider<Panel, JComponent> componentProvider = swingProviderFactory.getProvider(panel);
+//        add(componentProvider.getComponent(panel));
+//
+//        setVisible( true );
+//        setDefaultCloseOperation( WindowConstants.EXIT_ON_CLOSE );
+//        //pack();
+//    }
 
-	private static final long serialVersionUID = 1L;
-
-	public static void main(String[] args) {
-		try {
-			UIManager.setLookAndFeel(EAdGUILookAndFeel.getInstance());
-		} catch (UnsupportedLookAndFeelException e) {
-			e.printStackTrace();
-		}
-		new SceneElementControllerGetPanelTest();
-	}
-	
-    public SceneElementControllerGetPanelTest() {
-        setSize( 600,400 );
-        
-        setLayout(new FlowLayout());
-        
-        EAdScene scene = new EmptyScene();
-        
-        CommandManager commandManager = mock(CommandManager.class);
-        
-        EAdSceneController sceneController = new EAdSceneController();
-        sceneController.setElement(scene);
-        Panel panel = sceneController.getPanel(ElementController.View.EXPERT);
-        
-        StringHandler stringHandler = new EditorStringHandler();
-
-        SwingProviderFactory swingProviderFactory = new SwingProviderFactory(stringHandler, commandManager);
-        ComponentProvider<Panel, JComponent> componentProvider = swingProviderFactory.getProvider(panel);
-        add(componentProvider.getComponent(panel));
-        
-        setVisible( true );
-        setDefaultCloseOperation( WindowConstants.EXIT_ON_CLOSE );
-        //pack();
-    }
-	
 }
