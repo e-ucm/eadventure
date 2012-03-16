@@ -35,10 +35,6 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package ead.editor.view.dock;
 
 import bibliothek.gui.dock.common.DefaultMultipleCDockable;

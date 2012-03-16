@@ -37,6 +37,7 @@
 
 package ead.editor.model;
 
+import java.util.Map;
 import org.apache.lucene.document.Document;
 
 /**
@@ -50,7 +51,7 @@ public class EditorNode {
     private int id;
     private Object content;
     private Document doc;
-
+	
     public EditorNode(int id, Object content) {
         this.id = id;
         this.content = content;
