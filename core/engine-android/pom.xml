@@ -23,16 +23,34 @@
 			<groupId>ead</groupId>
 			<artifactId>engine-core</artifactId>
 			<version>${project.version}</version>
+			<exclusions>
+				<exclusion>
+					<groupId>org.slf4j</groupId>
+					<artifactId>slf4j-api</artifactId>					
+				</exclusion>
+			</exclusions>
 		</dependency>
 		<dependency>
 			<groupId>ead</groupId>
 			<artifactId>engine-java</artifactId>
 			<version>${project.version}</version>
+			<exclusions>
+				<exclusion>
+					<groupId>org.slf4j</groupId>
+					<artifactId>slf4j-api</artifactId>					
+				</exclusion>
+			</exclusions>
 		</dependency>
 		<dependency>
 			<groupId>ead</groupId>
 			<artifactId>engine-plugins</artifactId>
 			<version>${project.version}</version>
+			<exclusions>
+				<exclusion>
+					<groupId>org.slf4j</groupId>
+					<artifactId>slf4j-api</artifactId>					
+				</exclusion>
+			</exclusions>
 		</dependency>
 
 		<!-- external -->
@@ -54,9 +72,7 @@
 			<type>apklib</type>
 		</dependency>
 
-		<!-- <dependency> <groupId>org.slf4j</groupId> <artifactId>slf4j-simple</artifactId> 
-			<optional>true</optional> </dependency> -->
-
+    <!-- note: includes slf4j-api -->
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-android</artifactId>
@@ -68,6 +84,12 @@
 			<groupId>ead</groupId>
 			<artifactId>test-suite</artifactId>
 			<version>${project.version}</version>
+			<exclusions>
+				<exclusion>
+					<groupId>org.slf4j</groupId>
+					<artifactId>slf4j-api</artifactId>					
+				</exclusion>
+			</exclusions>			
 		</dependency>
 
 	</dependencies>

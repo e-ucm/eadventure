@@ -9,7 +9,8 @@ syntax: glob
 
 # ignore all compilation output
 **.class
-*/target/
+**/target/
+**/war/WEB-INF/
 
 # test output
 **/test/resources/result*
@@ -20,21 +21,25 @@ syntax: glob
 */ProjectImported/
 */EAdventure1Project/
 
+# generated resources
+**/R.java
+
 # gwt settings, output and support
-*/impl/.gwt/
-**/war/*
-core/engine-android/libs/android-support-v4/
-core/engine-android/gen/
+core/engine-playn/.gwt/
+core/engine-playn/gwt-unitCache/gwt-unitCache/
 
 # jvm error files
-core/engine-desktop/impl/hs_err*.log
+**/hs_err*.log
 
-# android-compilation generated files and output
-core/engine-android/gen/**
-core/engine-playn/gwt-unitCache/gwt-unitCache*
+# android-compilation generated files and output; also, special lint.xml rules
+core/engine-android/gen/
 core/engine-android/bin/
+core/engine-android/libs/
 
-core/engine-android/gen/es/eucm/eadventure/engine/R.java
-
+# engine configuration (if launched locally)
 core/engine-desktop/engine_configuration.xml
-core/engine-playn/.gwt/.gwt-log
+
+# local, unversioned files
+local*
+local/
+

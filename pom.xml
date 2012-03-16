@@ -697,7 +697,13 @@
 	<!-- ====================================================================== -->
 	<dependencies>
 		<!--
-			Project-wide dependency on slf4j API
+			All projects should declare a dependency on 
+			<dependency>
+				<groupId>org.slf4j</groupId>
+				<artifactId>slf4j-api</artifactId>
+			</dependency>
+			(or slf4j-android; which includes slf4j inside).
+			
 			Subprojects can choose their own implementations; they
 			will not conflict or propagate as long as they use
 			the <optional>true</optional> element. Example (basic logging):
@@ -706,17 +712,12 @@
 				<artifactId>slf4j-simple</artifactId>
 				<optional>true</optional>
 			</dependency>
-
 			No implementation specified means no logs are generated
 		-->
-		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>slf4j-api</artifactId>
-		</dependency>
 	</dependencies>
 	<dependencyManagement>
 		<dependencies>
-			<!-- logging and variants -->
+			<!-- logging and variants -->			
 			<dependency>
 				<groupId>org.slf4j</groupId>
 				<artifactId>slf4j-api</artifactId>

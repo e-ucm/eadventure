@@ -24,8 +24,12 @@
 			<artifactId>model</artifactId>
 			<version>${project.version}</version>
 		</dependency>
-    
-		<!-- external -->
+
+    <!-- external -->
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-api</artifactId>
+    </dependency>
 		<dependency>
 			<groupId>com.google.inject</groupId>
 			<artifactId>guice</artifactId>
