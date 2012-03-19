@@ -42,6 +42,7 @@ import java.util.List;
 
 import com.google.inject.Inject;
 
+import ead.common.model.elements.EAdAdventureModel;
 import ead.common.model.elements.extra.EAdList;
 import ead.common.model.elements.scene.EAdScene;
 import ead.common.model.elements.scene.EAdSceneElement;
@@ -211,6 +212,11 @@ public class TrajectoryDebugger implements Debugger {
 
 		gameObjects.add(sceneElementFactory.get(mapElement));
 
+	}
+
+	@Override
+	public void setUp(EAdAdventureModel model) {
+		
 	}
 
 }

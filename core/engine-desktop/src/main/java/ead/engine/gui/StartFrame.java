@@ -50,6 +50,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Map;
 import java.util.Properties;
 import java.util.zip.ZipEntry;
@@ -58,12 +59,15 @@ import java.util.zip.ZipInputStream;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import javax.swing.filechooser.FileFilter;
 
 import org.slf4j.Logger;
@@ -82,6 +86,10 @@ import ead.common.reader.EAdAdventureDOMModelReader;
 import ead.common.strings.DefaultStringFileHandler;
 import ead.elementfactories.demos.scenes.InitScene;
 import ead.engine.DesktopGame;
+import ead.engine.core.debuggers.ChangeSceneDebugger;
+import ead.engine.core.debuggers.Debugger;
+import ead.engine.core.debuggers.FieldsDebugger;
+import ead.engine.core.debuggers.TrajectoryDebugger;
 import ead.engine.core.platform.module.DesktopAssetHandlerModule;
 import ead.engine.core.platform.module.DesktopModule;
 import ead.engine.core.platform.modules.BasicGameModule;
@@ -93,6 +101,8 @@ import ead.engine.core.platform.modules.BasicGameModule;
  */
 public class StartFrame extends JFrame {
 
+	private static final Logger logger = LoggerFactory.getLogger("EAdEngine");
+
 	private static final long serialVersionUID = -6973214467232788904L;
 
 	private static final String FILE_CHOOSER_DIRECTORY = "file_chooser_directory";
@@ -100,8 +110,6 @@ public class StartFrame extends JFrame {
 	private static final String HZ_PROPERTY = "hz_property";
 
 	private static final String PROPERTIES_FILE = "engine_configuration.xml";
-
-	private static final Logger logger = LoggerFactory.getLogger("EAdEngine");
 
 	private static final Integer[] HZ = new Integer[] { 30, 40, 50, 60 };
 
@@ -123,6 +131,19 @@ public class StartFrame extends JFrame {
 
 	private File stringsFile;
 
+	// Debuggers
+	private static final String[] DEBUGGERS_PROPERTY = new String[] {
+			"fields_debugger", "trajectories_debugger", "changeScene_debugger" };
+
+	private static final Class<?>[] DEBUGGERS_CLASS = new Class<?>[] {
+			FieldsDebugger.class, TrajectoryDebugger.class,
+			ChangeSceneDebugger.class };
+
+	private static final String[] DEBUGGERS_NAME = new String[] {
+			"Fields debugger", "Trajectory debugger", "Change Scene debugger" };
+
+	private ArrayList<Class<? extends Debugger>> debuggersClass;
+
 	public StartFrame() {
 		super("eAdventure ");
 		setFrameProperties();
@@ -132,6 +153,7 @@ public class StartFrame extends JFrame {
 		addLogo();
 		addOpen();
 		addTicksPerSecond();
+		addDebuggersCheckBoxes();
 		pack();
 		setLocationRelativeTo(null);
 
@@ -254,8 +276,15 @@ public class StartFrame extends JFrame {
 	}
 
 	private void addTicksPerSecond() {
-		ticksPerSecond = Integer.parseInt(properties.getProperty(HZ_PROPERTY,
-				30 + ""));
+		try {
+			ticksPerSecond = Integer.parseInt(properties.getProperty(
+					HZ_PROPERTY, 30 + ""));
+		} catch (NumberFormatException e) {
+			logger.warn(
+					"{} wasn't set OK in {}. Ticks per second are set to the default value.",
+					HZ_PROPERTY, PROPERTIES_FILE);
+			ticksPerSecond = 30;
+		}
 		JComboBox hzCombo = new JComboBox(HZ);
 		hzCombo.setSelectedItem(ticksPerSecond);
 		JPanel panel = new JPanel();
@@ -310,7 +339,8 @@ public class StartFrame extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				DesktopGame game = new DesktopGame(new InitScene());
+				DesktopGame game = new DesktopGame(new InitScene(),
+						debuggersClass);
 				game.launch(ticksPerSecond);
 
 			}
@@ -357,7 +387,7 @@ public class StartFrame extends JFrame {
 
 					if (model != null) {
 						DesktopGame game = new DesktopGame(model, destinyFile,
-								strings);
+								strings, debuggersClass);
 						game.launch(ticksPerSecond);
 					}
 				}
@@ -388,7 +418,8 @@ public class StartFrame extends JFrame {
 			}
 
 			if (model != null) {
-				DesktopGame game = new DesktopGame(model, destinyFile, strings);
+				DesktopGame game = new DesktopGame(model, destinyFile, strings,
+						debuggersClass);
 				game.launch(ticksPerSecond);
 			}
 
@@ -466,6 +497,54 @@ public class StartFrame extends JFrame {
 				}
 			}
 		}
+	}
+
+	@SuppressWarnings("unchecked")
+	private void addDebuggersCheckBoxes() {
+		JPanel p = new JPanel();
+		debuggersClass = new ArrayList<Class<? extends Debugger>>();
+		int i = 0;
+		for (String property : DEBUGGERS_PROPERTY) {
+			boolean b = Boolean.parseBoolean(properties.getProperty(property,
+					"false"));
+			JCheckBox checkBox = new JCheckBox(DEBUGGERS_NAME[i], b);
+			checkBox.addChangeListener(new DebuggerChangeListener(i, checkBox));
+			p.add(checkBox);
+			if (b) {
+				debuggersClass
+						.add((Class<? extends Debugger>) DEBUGGERS_CLASS[i]);
+			}
+			i++;
+		}
+		getContentPane().add(p);
+	}
+
+	public class DebuggerChangeListener implements ChangeListener {
+
+		private int index;
+
+		private JCheckBox checkBox;
+
+		private DebuggerChangeListener(int index, JCheckBox checkBox) {
+			this.index = index;
+			this.checkBox = checkBox;
+		}
+
+		@SuppressWarnings("unchecked")
+		@Override
+		public void stateChanged(ChangeEvent e) {
+			properties.setProperty(DEBUGGERS_PROPERTY[index],
+					checkBox.isSelected() + "");
+			Class<? extends Debugger> clazz = (Class<? extends Debugger>) DEBUGGERS_CLASS[index];
+			if (checkBox.isSelected()) {
+				if (!debuggersClass.contains(clazz))
+					debuggersClass.add(clazz);
+			} else {
+				debuggersClass.remove(clazz);
+			}
+
+		}
+
 	}
 
 }

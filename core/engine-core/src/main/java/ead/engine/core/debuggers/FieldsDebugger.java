@@ -44,6 +44,7 @@ import java.util.Map;
 import com.google.inject.Inject;
 
 import ead.common.model.EAdElement;
+import ead.common.model.elements.EAdAdventureModel;
 import ead.common.model.elements.scenes.SceneElement;
 import ead.common.model.elements.scenes.SceneElementDef;
 import ead.common.model.elements.variables.BasicField;
@@ -107,9 +108,8 @@ public class FieldsDebugger implements Debugger {
 		if (inputHandler.getGameObjectUnderPointer() != null
 				&& inputHandler.getGameObjectUnderPointer().getElement() != element
 				&& inputHandler.getGameObjectUnderPointer().getElement() instanceof EAdElement) {
-//			element = (EAdElement) inputHandler.getGameObjectUnderPointer()
-//					.getElement();
-			element = gameState.getCurrentChapter();
+			element = (EAdElement) inputHandler.getGameObjectUnderPointer()
+					.getElement();
 			gos.clear();
 			if (element != null) {
 				Map<EAdVarDef<?>, Object> fields = gameState.getValueMap()
@@ -161,6 +161,11 @@ public class FieldsDebugger implements Debugger {
 			go.update();
 		}
 		return gos;
+	}
+
+	@Override
+	public void setUp(EAdAdventureModel model) {
+		
 	}
 
 }

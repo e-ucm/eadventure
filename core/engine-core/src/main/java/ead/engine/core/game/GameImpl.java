@@ -37,14 +37,21 @@
 
 package ead.engine.core.game;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+
 import ead.common.model.elements.EAdAdventureModel;
 import ead.common.model.elements.EAdChapter;
 import ead.common.model.elements.EAdEvent;
 import ead.common.model.elements.scene.EAdSceneElementDef;
 import ead.common.model.elements.variables.SystemFields;
-import ead.engine.core.debuggers.Debugger;
+import ead.engine.core.debuggers.DebuggerHandler;
 import ead.engine.core.gameobjects.GameObjectManager;
 import ead.engine.core.gameobjects.factories.EventGOFactory;
 import ead.engine.core.gameobjects.go.DrawableGO;
@@ -61,10 +68,6 @@ import ead.engine.core.platform.GUI;
 import ead.engine.core.platform.assets.AssetHandler;
 import ead.engine.core.util.EAdTransformation;
 import ead.engine.core.util.EAdTransformationImpl;
-import java.util.ArrayList;
-import java.util.List;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 @Singleton
 public class GameImpl implements Game {
@@ -90,7 +93,7 @@ public class GameImpl implements Game {
 
 	private GameObjectManager gameObjectManager;
 
-	private Debugger debugger;
+	private DebuggerHandler debuggerHandler;
 
 	private InventoryHandler inventoryHandler;
 
@@ -105,7 +108,7 @@ public class GameImpl implements Game {
 	@Inject
 	public GameImpl(GUI gui, GameState gameState, EffectHUD effectHUD,
 			AssetHandler assetHandler, GameObjectManager gameObjectManager,
-			Debugger debugger, ValueMap valueMap, TopBasicHUD basicHud,
+			DebuggerHandler debugger, ValueMap valueMap, TopBasicHUD basicHud,
 			BottomBasicHUD bottomBasicHud, InventoryHUD inventoryHud,
 			InventoryHandler inventoryHandler, EventGOFactory eventFactory,
 			EngineConfiguration configuration, ActionsHUD actionsHUD) {
@@ -116,7 +119,7 @@ public class GameImpl implements Game {
 		this.assetHandler = assetHandler;
 		this.adventure = null;
 		this.gameObjectManager = gameObjectManager;
-		this.debugger = debugger;
+		this.debuggerHandler = debugger;
 		this.inventoryHUD = inventoryHud;
 		this.inventoryHandler = inventoryHandler;
 		this.eventFactory = eventFactory;
@@ -139,15 +142,20 @@ public class GameImpl implements Game {
 		gui.addElement(gameState.getScene(), initialTransformation);
 		// Add huds
 		gameObjectManager.addHUDs(gui, initialTransformation);
-
-		if (debugger != null && debugger.getGameObjects() != null)
-			for (DrawableGO<?> go : debugger.getGameObjects()) {
-				gui.addElement(go, initialTransformation);
-			}
+		
+		updateDebuggers();
 		
 		initialTransformation.setValidated(true);
 		gui.prepareGUI();
 
+	}
+
+	private void updateDebuggers() {
+		if (debuggerHandler != null && debuggerHandler.getGameObjects() != null){
+			for (DrawableGO<?> go : debuggerHandler.getGameObjects()) {
+				gui.addElement(go, initialTransformation);
+			}
+		}
 	}
 
 	private void updateGameEvents() {
@@ -226,13 +234,6 @@ public class GameImpl implements Game {
 	@Override
 	public void loadGame() {
 		assetHandler.initialize();
-
-		// TODO should probably find multiplatform reading?
-		// reader.read(assetHandler.getResourceAsStream("@adventure.xml"));
-
-		// TODO should probably be more careful loading chapter
-		// if (gameState.getCurrentChapter() == null)
-		// gameState.setCurrentChapter(adventure.getChapters().get(0));
 	}
 
 	@Override
@@ -262,6 +263,9 @@ public class GameImpl implements Game {
 			eventGO.initialize();
 			events.add(eventGO);
 		}
+		
+		// Set the debuggers
+		setDebuggers(model);
 
 		gameState.setInitialScene(eAdChapter.getInitialScene());
 		updateInitialTransformation();
@@ -269,6 +273,12 @@ public class GameImpl implements Game {
 		// FIXME probably move this to other place
 		gameState.getValueMap().setValue(SystemFields.ELAPSED_TIME_PER_UPDATE,
 				gui.getSkippedMilliseconds());
+	}
+
+	private void setDebuggers(EAdAdventureModel model) {
+		if (debuggerHandler != null){
+			debuggerHandler.setUp(model);
+		}
 	}
 
 	public void updateInitialTransformation() {

@@ -39,6 +39,7 @@ package ead.engine.core.debuggers;
 
 import java.util.List;
 
+import ead.common.model.elements.EAdAdventureModel;
 import ead.engine.core.gameobjects.go.DrawableGO;
 
 /**
@@ -54,5 +55,13 @@ public interface Debugger {
 	 * @return
 	 */
 	public List<DrawableGO<?>> getGameObjects();
+
+	/**
+	 * Set ups the debugger with the model of the current game
+	 * 
+	 * @param model
+	 *            the current game model
+	 */
+	public void setUp(EAdAdventureModel model);
 
 }

@@ -46,8 +46,8 @@ import ead.common.model.elements.BasicAdventureModel;
 import ead.common.model.elements.EAdAdventureModel;
 import ead.common.model.elements.scene.EAdScene;
 import ead.common.util.ReflectionProvider;
-import ead.engine.core.debuggers.Debugger;
-import ead.engine.core.debuggers.EAdMainDebugger;
+import ead.engine.core.debuggers.DebuggerHandler;
+import ead.engine.core.debuggers.DebuggerHandlerImpl;
 import ead.engine.core.evaluators.EvaluatorFactory;
 import ead.engine.core.evaluators.EvaluatorFactoryImpl;
 import ead.engine.core.game.Game;
@@ -114,7 +114,7 @@ public class BasicGameModule extends AbstractModule {
 		
 		bind(EffectHUD.class).to(EffectHUDImpl.class);
 		bind(FontHandler.class).to(FontHandlerImpl.class);
-		bind(Debugger.class).to(EAdMainDebugger.class);
+		bind(DebuggerHandler.class).to(DebuggerHandlerImpl.class);
 		bind(PluginHandler.class).to(JavaPluginHandler.class);
 		bind(GenericInjector.class).to(JavaInjector.class);
 		bind(InventoryHandler.class).to(InventoryHandlerImpl.class);

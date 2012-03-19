@@ -37,6 +37,7 @@
 
 package ead.engine;
 
+import java.util.List;
 import java.util.Map;
 
 import com.google.inject.Guice;
@@ -50,6 +51,8 @@ import ead.common.params.text.EAdString;
 import ead.common.util.EAdURI;
 import ead.common.util.StringHandler;
 import ead.elementfactories.EAdElementsFactory;
+import ead.engine.core.debuggers.Debugger;
+import ead.engine.core.debuggers.DebuggerHandler;
 import ead.engine.core.game.Game;
 import ead.engine.core.game.GameController;
 import ead.engine.core.game.GameLoop;
@@ -65,24 +68,38 @@ public class DesktopGame {
 	private String file;
 
 	public DesktopGame(EAdScene scene) {
+		this(scene, null);
+	}
+
+	public DesktopGame(EAdScene scene, List<Class<? extends Debugger>> debuggers) {
 		EAdAdventureModel model = new BasicAdventureModel();
 		BasicChapter chapter = new BasicChapter();
 		chapter.setId("chapter1");
 		chapter.getScenes().add(scene);
 		chapter.setInitialScene(scene);
 		model.getChapters().add(chapter);
-		init(model, EAdElementsFactory.getInstance().getStringFactory().getStrings());
+		init(model, EAdElementsFactory.getInstance().getStringFactory()
+				.getStrings(), debuggers);
 	}
 
-	public DesktopGame(EAdAdventureModel adventureModel, String file, Map<EAdString, String> strings) {
-		init(adventureModel, strings);
+	public DesktopGame(EAdAdventureModel adventureModel, String file,
+			Map<EAdString, String> strings,
+			List<Class<? extends Debugger>> debuggers) {
+		init(adventureModel, strings, debuggers);
 		this.file = file;
 	}
 
-	public void init(EAdAdventureModel model, Map<EAdString, String> strings) {
-		
+	public void init(EAdAdventureModel model, Map<EAdString, String> strings,
+			List<Class<? extends Debugger>> debuggers) {
+
 		injector = Guice.createInjector(new DesktopAssetHandlerModule(),
 				new DesktopModule(), new BasicGameModule());
+
+		if (debuggers != null && debuggers.size() > 0) {
+			DebuggerHandler debuggerHandler = injector
+					.getInstance(DebuggerHandler.class);
+			debuggerHandler.init(debuggers);
+		}
 
 		Game game = injector.getInstance(Game.class);
 		game.setGame(model, model.getChapters().get(0));
@@ -94,7 +111,7 @@ public class DesktopGame {
 	public void launch(int ticksPerSecond) {
 		final GameController launcher = injector
 				.getInstance(GameController.class);
-		final EAdURI uri = ( file == null ) ? null : new EAdURI(file);
+		final EAdURI uri = (file == null) ? null : new EAdURI(file);
 
 		EngineConfiguration conf = injector
 				.getInstance(EngineConfiguration.class);

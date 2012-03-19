@@ -50,8 +50,8 @@ import ead.common.model.elements.BasicAdventureModel;
 import ead.common.model.elements.EAdAdventureModel;
 import ead.common.model.elements.scene.EAdScene;
 import ead.common.resources.assets.multimedia.EAdVideo;
-import ead.engine.core.debuggers.Debugger;
-import ead.engine.core.debuggers.EAdMainDebugger;
+import ead.engine.core.debuggers.DebuggerHandler;
+import ead.engine.core.debuggers.DebuggerHandlerImpl;
 import ead.engine.core.evaluators.EvaluatorFactory;
 import ead.engine.core.evaluators.EvaluatorFactoryImpl;
 import ead.engine.core.game.Game;
@@ -106,7 +106,7 @@ public class BasicGameModule extends AbstractGinModule {
 		bind(Game.class).to(GameImpl.class).in(Singleton.class);
 		bind(EffectHUD.class).to(EffectHUDImpl.class).in(Singleton.class);
 		bind(FontHandler.class).to(FontHandlerImpl.class).in(Singleton.class);
-		bind(Debugger.class).to(EAdMainDebugger.class).in(Singleton.class);
+		bind(DebuggerHandler.class).to(DebuggerHandlerImpl.class).in(Singleton.class);
 		bind(PluginHandler.class).to(PlayNPluginHandler.class).in(
 				Singleton.class);
 		bind(GenericInjector.class).to(PlayNInjector.class).in(Singleton.class);
