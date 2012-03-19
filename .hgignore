@@ -26,7 +26,8 @@ syntax: glob
 
 # gwt settings, output and support
 core/engine-playn/.gwt/
-core/engine-playn/gwt-unitCache/gwt-unitCache/
+core/engine-playn/gwt-unitCache*
+core/engine-playn/war/eadengine*
 
 # jvm error files
 **/hs_err*.log
@@ -42,4 +43,3 @@ core/engine-desktop/engine_configuration.xml
 # local, unversioned files
 local*
 local/
-

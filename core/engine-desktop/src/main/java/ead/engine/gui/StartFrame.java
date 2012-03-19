@@ -332,7 +332,7 @@ public class StartFrame extends JFrame {
 			if (result == JOptionPane.CANCEL_OPTION)
 				return;
 
-			new Thread() {
+			new Thread("Importer") {
 
 				public void run() {
 					EAdAdventureModel model = null;
