@@ -184,7 +184,6 @@ public abstract class AbstractTransitionGO<T extends EAdTransition> extends
 
 		if (loaded && firstUpdate) {
 			gameState.getEffects().clear();
-			nextSceneGO.update();
 			firstUpdate = false;
 		}
 

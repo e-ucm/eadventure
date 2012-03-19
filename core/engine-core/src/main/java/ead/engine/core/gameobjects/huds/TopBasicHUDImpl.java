@@ -212,7 +212,6 @@ public class TopBasicHUDImpl extends AbstractHUD implements TopBasicHUD {
 				if (name != null && !stringHandler.getString(name).equals("")) {
 					stringHandler.setString(contextualCaption.getText(),
 							stringHandler.getString(name));
-					sceneElementFactory.get(contextual).update();
 
 					gameState.getValueMap().setValue(contextual,
 							SceneElement.VAR_VISIBLE, true);

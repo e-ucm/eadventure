@@ -182,7 +182,7 @@ public abstract class ElementImporter<T> implements
 				((SpeakSceneElementEf) showDescription).setElement(factory.getElementById(Player.IDENTIFIER));
 			}
 			TextEffectImporter.setSpeakEffect(showDescription, null, factory.getCurrentOldChapterModel().getPlayer(), factory, stringHandler);
-			sceneElement.addBehavior(MouseGEv.MOUSE_LEFT_CLICK,
+			sceneElement.addBehavior(MouseGEv.MOUSE_LEFT_PRESSED,
 					showDescription);
 		}
 	}

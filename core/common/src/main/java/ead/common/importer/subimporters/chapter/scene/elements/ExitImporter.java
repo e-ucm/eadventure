@@ -182,7 +182,7 @@ public class ExitImporter extends ElementImporter<Exit> {
 		EffectsMacro noEffectsMacro = effectsImporterFactory.getMacroEffects(oldObject.getNotEffects());
 		triggerMacro.putMacro(noEffectsMacro, new NOTCond(enableCondition));
 		
-		newExit.addBehavior(MouseGEv.MOUSE_LEFT_CLICK, triggerMacro);
+		newExit.addBehavior(MouseGEv.MOUSE_LEFT_PRESSED, triggerMacro);
 	}
 
 }

@@ -312,7 +312,7 @@ public class BookImporter implements EAdElementImporter<Book, EAdScene> {
 			ChangeSceneEf changeScene = new ChangeSceneEf();
 			changeScene.setId("endBook");
 			changeScene.setCondition(endCondition);
-			rightArrow.addBehavior(MouseGEv.MOUSE_LEFT_CLICK, changeScene);
+			rightArrow.addBehavior(MouseGEv.MOUSE_LEFT_PRESSED, changeScene);
 			changeScene.getNextEffects().add(showInventory);
 
 			book.getSceneElements().add(leftArrow);
@@ -322,7 +322,7 @@ public class BookImporter implements EAdElementImporter<Book, EAdScene> {
 			content.setVarInitialValue(SceneElement.VAR_ENABLE, false);
 			ChangeSceneEf changeScene = new ChangeSceneEf();
 			changeScene.getNextEffects().add(showInventory);
-			book.getBackground().addBehavior(MouseGEv.MOUSE_LEFT_CLICK,
+			book.getBackground().addBehavior(MouseGEv.MOUSE_LEFT_PRESSED,
 					changeScene);
 		}
 
@@ -352,7 +352,7 @@ public class BookImporter implements EAdElementImporter<Book, EAdScene> {
 				visibleVar, BooleanOp.FALSE_OP));
 		arrow.getEvents().add(event);
 
-		arrow.addBehavior(MouseGEv.MOUSE_LEFT_CLICK, move);
+		arrow.addBehavior(MouseGEv.MOUSE_LEFT_PRESSED, move);
 		return arrow;
 	}
 

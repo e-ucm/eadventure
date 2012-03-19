@@ -199,10 +199,10 @@ public class SlidesceneImporter extends CutsceneImporter<Slidescene> {
 			if (effect instanceof ChangeSceneEf)
 				((ChangeSceneEf) effect).setTransition(transitions.get(i));
 
-			scenes[i].getBackground().addBehavior(MouseGEv.MOUSE_LEFT_CLICK,
+			scenes[i].getBackground().addBehavior(MouseGEv.MOUSE_LEFT_PRESSED,
 					effect);
 
-			if (i != scenes.length - 1) {
+			if (i != scenes.length - 1 && times.get(i) != -1 ) {
 				EAdEvent changeEvent = getChangeSceneEvent(scenes[i + 1],
 						times.get(i), effect);
 				scenes[i].getBackground().getEvents().add(changeEvent);
@@ -227,7 +227,14 @@ public class SlidesceneImporter extends CutsceneImporter<Slidescene> {
 		ArrayList<Integer> times = new ArrayList<Integer>();
 		if (animation != null) {
 			for (int i = 0; i < animation.getFrames().size(); i++) {
-				times.add(new Long(animation.getFrame(i).getTime()).intValue());
+				if (animation.getFrame(i).isWaitforclick()) {
+					// Minus one means that no timed event for changing the
+					// scene must be added
+					times.add(-1);
+				} else {
+					times.add(new Long(animation.getFrame(i).getTime())
+							.intValue());
+				}
 			}
 		} else {
 			for (ead.common.resources.assets.drawable.basics.animation.Frame f : frames
