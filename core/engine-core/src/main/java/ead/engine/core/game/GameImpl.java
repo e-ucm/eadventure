@@ -140,10 +140,10 @@ public class GameImpl implements Game {
 
 		gameObjectManager.updateHUDs();
 		gui.addElement(gameState.getScene(), initialTransformation);
-		// Add huds
-		gameObjectManager.addHUDs(gui, initialTransformation);
 		
 		updateDebuggers();
+		// Add huds
+		gameObjectManager.addHUDs(gui, initialTransformation);
 		
 		initialTransformation.setValidated(true);
 		gui.prepareGUI();
@@ -153,6 +153,7 @@ public class GameImpl implements Game {
 	private void updateDebuggers() {
 		if (debuggerHandler != null && debuggerHandler.getGameObjects() != null){
 			for (DrawableGO<?> go : debuggerHandler.getGameObjects()) {
+				go.update();
 				gui.addElement(go, initialTransformation);
 			}
 		}

@@ -43,7 +43,7 @@ import ead.common.model.EAdElement;
 import ead.common.model.elements.variables.EAdField;
 import ead.common.model.elements.variables.EAdOperation;
 import ead.common.model.elements.variables.EAdVarDef;
-import ead.engine.core.operator.OperatorFactory;
+import ead.engine.core.operators.OperatorFactory;
 
 /**
  * The value map interfaces allows for the definition of key-value pairs of

@@ -41,7 +41,6 @@ import com.google.inject.Inject;
 
 import ead.common.model.elements.variables.EAdField;
 import ead.engine.core.game.ValueMap;
-import ead.engine.core.operator.Operator;
 
 public class FieldOperator implements Operator<EAdField<?>> {
 	

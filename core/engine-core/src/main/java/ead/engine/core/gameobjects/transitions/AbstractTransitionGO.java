@@ -185,6 +185,7 @@ public abstract class AbstractTransitionGO<T extends EAdTransition> extends
 		if (loaded && firstUpdate) {
 			gameState.getEffects().clear();
 			firstUpdate = false;
+			nextSceneGO.update();
 		}
 
 		// If time loading is bigger than 1 second, we show the loading symbol

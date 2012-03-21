@@ -51,7 +51,7 @@ import ead.common.model.elements.conditions.enums.EmptyCondValue;
 import ead.engine.core.evaluators.EvaluatorFactoryImpl;
 import ead.engine.core.game.ValueMap;
 import ead.engine.core.game.ValueMapImpl;
-import ead.engine.core.operator.OperatorFactory;
+import ead.engine.core.operators.OperatorFactory;
 import ead.engine.core.operators.OperatorFactoryImpl;
 import ead.engine.core.platform.JavaReflectionProvider;
 

@@ -39,8 +39,6 @@ package ead.engine.core.operators;
 
 import ead.common.model.elements.variables.operations.ConditionedOp;
 import ead.engine.core.evaluators.EvaluatorFactory;
-import ead.engine.core.operator.Operator;
-import ead.engine.core.operator.OperatorFactory;
 
 public class ConditionedOperator implements Operator<ConditionedOp> {
 

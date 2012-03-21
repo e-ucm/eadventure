@@ -199,7 +199,7 @@ public class BezierShape implements EAdShape, Cloneable {
 			int j = 0;
 			int i = 0;
 			int pointIndex = 0;
-			while (i < vector.length && j - 1 < segmentsLength.size() ) {
+			while (i < vector.length && j - 1 < segmentsLength.size() && pointIndex < points.size() ) {
 				int segmentLength = j == 0 ? 1 : segmentsLength.get(j - 1);
 				vector[i++] = segmentLength;
 				for (int k = i; k < i + segmentLength * 2; k += 2) {

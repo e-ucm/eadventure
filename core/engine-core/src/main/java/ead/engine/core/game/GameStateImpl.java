@@ -149,7 +149,6 @@ public class GameStateImpl implements GameState {
 				previousSceneStack.push(scene.getElement());
 		}
 		this.scene = newScene;
-		scene.update();
 		if (this.scene != null && this.scene.getElement() != null) {
 			valueMap.setValue(scene.getElement(), BasicScene.VAR_SCENE_LOADED,
 					Boolean.TRUE);

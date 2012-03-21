@@ -153,12 +153,13 @@ public class RuntimeCaption<GraphicContext> extends
 	@Override
 	public boolean loadAsset() {
 		font = fontCache.get(descriptor.getFont());
-		if (descriptor.getFields().size() > 0)
+		if (descriptor.getFields().size() > 0) {
 			text = valueMap.processTextVars(
 					stringsReader.getString(descriptor.getText()),
 					descriptor.getFields());
-		else
+		} else {
 			text = stringsReader.getString(descriptor.getText());
+		}
 
 		lines = new ArrayList<String>();
 		widths = new ArrayList<Integer>();
@@ -192,7 +193,7 @@ public class RuntimeCaption<GraphicContext> extends
 	 * @see es.eucm.eadventure.engine.core.platform.RuntimeAsset#update(es.eucm.
 	 * eadventure.engine.core.GameState)
 	 */
-	
+
 	// FIXME this is the only asset using the update method, this must be
 	// deleted, because with getDrawable can be done
 	public void update() {

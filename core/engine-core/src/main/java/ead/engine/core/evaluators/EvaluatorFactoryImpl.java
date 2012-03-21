@@ -44,7 +44,8 @@ import ead.common.util.AbstractFactory;
 import ead.common.util.ReflectionProvider;
 import ead.engine.core.factorymapproviders.EvaluatorFactoryMapProvider;
 import ead.engine.core.game.ValueMap;
-import ead.engine.core.operator.OperatorFactory;
+import ead.engine.core.operators.OperatorFactory;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

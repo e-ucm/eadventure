@@ -39,6 +39,7 @@ package ead.common.model.elements.effects;
 
 import ead.common.interfaces.Element;
 import ead.common.interfaces.Param;
+import ead.common.model.EAdElement;
 import ead.common.model.elements.scene.EAdScene;
 import ead.common.model.elements.transitions.EAdTransition;
 import ead.common.model.elements.transitions.EmptyTransition;
@@ -53,8 +54,8 @@ import ead.common.model.elements.transitions.EmptyTransition;
 @Element(runtime = ChangeSceneEf.class, detailed = ChangeSceneEf.class)
 public class ChangeSceneEf extends AbstractEffect {
 
-	@Param("nextScreen")
-	private EAdScene nextScene;
+	@Param("nextScene")
+	private EAdElement nextScene;
 
 	@Param("transition")
 	private EAdTransition transition;
@@ -90,17 +91,20 @@ public class ChangeSceneEf extends AbstractEffect {
 	}
 
 	/**
-	 * @return the nextScene
+	 * @return the nextScene. It could be a scene, or a field pointing to a
+	 *         scene
 	 */
-	public EAdScene getNextScene() {
+	public EAdElement getNextScene() {
 		return nextScene;
 	}
 
 	/**
 	 * @param nextScene
-	 *            the nextScene to set
+	 *            the nextScene to set. It should be an EAdScene or a field with
+	 *            EAdScene type. If it is neither, then the effect returns to
+	 *            the previous scene
 	 */
-	public void setNextScene(EAdScene nextScene) {
+	public void setNextScene(EAdElement nextScene) {
 		this.nextScene = nextScene;
 	}
 

@@ -174,23 +174,27 @@ public class ChapterImporter implements EAdElementImporter<Chapter, EAdChapter> 
 	}
 
 	private void registerOldElements(List<? extends HasId> list) {
-		for (HasId element : list)
+		for (HasId element : list){
 			elementFactory.registerOldElement(element.getId(), element);
+		}
 	}
 	
 	private void registerOldElementMacros(List<Macro> list){
-		for (Macro element : list)
+		for (Macro element : list){
 			elementFactory.registerOldElement(element.getId(), element);
+		}
 	}
 
 	private void importElements(List<? extends HasId> list) {
-		for (HasId element : list)
+		for (HasId element : list){
 			elementFactory.getElementById(element.getId());
+		}
 	}
 	
 	private void importElementsMacro(List<Macro> list) {
-		for (Macro element : list)
+		for (Macro element : list){
 			elementFactory.getElementById(element.getId());
+		}
 	}
 	
 	private void importActiveAreas(List<Scene> scenes) {

@@ -35,36 +35,45 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ead.engine.core.operator;
+package ead.engine.core.operators;
 
+import ead.common.model.EAdElement;
+import ead.common.model.elements.variables.EAdField;
 import ead.common.model.elements.variables.EAdOperation;
+import ead.common.model.elements.variables.EAdVarDef;
+import ead.common.util.Factory;
+import ead.engine.core.evaluators.EvaluatorFactory;
 import ead.engine.core.game.ValueMap;
 
 /**
- * 
- * Takes an {@link EAdOperation} and calculates its result through
- * {@link Operator#operate(EAdVar, EAdOperation)}
- * 
- * @param <T extends EAdOperation> This parameter represents the operation in
- *        the model that this Operator performs
+ * A factory with all {@link Operator} for all {@link EAdOperation}.
  */
-public interface Operator<T extends EAdOperation> {
+public interface OperatorFactory extends Factory<Operator<?>> {
 
 	/**
 	 * <p>
-	 * Calculates the result of an {@link EAdOperation}
+	 * Calculates the result of the given {@link EAdOperation} with the current
+	 * values in the {@link ValueMap}
 	 * </p>
-	 * The operator must make sure to store the new value in the
-	 * {@link ValueMap} if possible.
+	 * The value should be stored in the {@link ValueMap} by the actual
+	 * {@link Operator}
 	 * 
-	 * 
-	 * @param clazz
-	 *            the expect class for the result
-	 * @param operation
-	 *            the operation to calculate
-	 * 
-	 * @return an object with the operation result
+	 * @param <T>
+	 * @param eAdVar
+	 *            the var where the result will be stored
+	 * @param eAdOperation
+	 *            operation to be done
+	 * @return operation's result. If operation is {@code null}, a null is
+	 *         returned.
 	 */
-	<S> S operate(Class<S> clazz, T operation);
+	<T extends EAdOperation, S> S operate(EAdField<S> eAdVar, T eAdOperation);
+
+	<T extends EAdOperation, S> S operate(Class<S> eAdVar, T eAdOperation);
+	
+	<T extends EAdOperation, S> S operate(EAdElement element, EAdVarDef<S> varDef, T operation);
+
+	void install(ValueMap valueMap, EvaluatorFactory evaluatorFactory);
+
+	
 
 }

@@ -41,7 +41,6 @@ import com.google.inject.Inject;
 
 import ead.common.model.elements.variables.operations.ValueOp;
 import ead.common.util.ReflectionProvider;
-import ead.engine.core.operator.Operator;
 
 public class ValueOperator implements Operator<ValueOp> {
 

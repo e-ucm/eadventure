@@ -75,7 +75,7 @@ import ead.engine.core.gameobjects.huds.InventoryHUD;
 import ead.engine.core.gameobjects.huds.InventoryHUDImpl;
 import ead.engine.core.inventory.InventoryHandler;
 import ead.engine.core.inventory.InventoryHandlerImpl;
-import ead.engine.core.operator.OperatorFactory;
+import ead.engine.core.operators.OperatorFactory;
 import ead.engine.core.operators.OperatorFactoryImpl;
 import ead.engine.core.platform.FontHandler;
 import ead.engine.core.platform.FontHandlerImpl;

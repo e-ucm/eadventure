@@ -82,6 +82,7 @@ public abstract class CutsceneImporter<T extends Cutscene> implements
 	@Override
 	public EAdScene convert(T oldObject, Object newElement) {
 		EAdScene scene = (EAdScene) newElement;
+		factory.getCurrentChapterModel().getScenes().add(scene);
 		scene.setReturnable(false);
 		// Appearance
 		importResources(oldObject, scene);

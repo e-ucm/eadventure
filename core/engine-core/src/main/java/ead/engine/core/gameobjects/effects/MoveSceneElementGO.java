@@ -60,7 +60,7 @@ import ead.engine.core.game.GameState;
 import ead.engine.core.game.ValueMap;
 import ead.engine.core.gameobjects.effects.sceneelement.SceneElementEffectGO;
 import ead.engine.core.gameobjects.factories.SceneElementGOFactory;
-import ead.engine.core.operator.OperatorFactory;
+import ead.engine.core.operators.OperatorFactory;
 import ead.engine.core.platform.GUI;
 import ead.engine.core.platform.assets.AssetHandler;
 import ead.engine.core.trajectories.Path;

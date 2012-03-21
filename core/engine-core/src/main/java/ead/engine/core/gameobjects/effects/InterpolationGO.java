@@ -48,7 +48,7 @@ import ead.common.util.Interpolator;
 import ead.common.util.StringHandler;
 import ead.engine.core.game.GameState;
 import ead.engine.core.gameobjects.factories.SceneElementGOFactory;
-import ead.engine.core.operator.OperatorFactory;
+import ead.engine.core.operators.OperatorFactory;
 import ead.engine.core.platform.GUI;
 import ead.engine.core.platform.assets.AssetHandler;
 

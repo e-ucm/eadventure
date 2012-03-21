@@ -37,9 +37,14 @@
 
 package ead.engine.core.gameobjects.effects;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.google.inject.Inject;
 
+import ead.common.model.EAdElement;
 import ead.common.model.elements.effects.ChangeSceneEf;
+import ead.common.model.elements.scene.EAdScene;
 import ead.common.util.StringHandler;
 import ead.engine.core.game.GameState;
 import ead.engine.core.gameobjects.factories.SceneElementGOFactory;
@@ -49,12 +54,16 @@ import ead.engine.core.platform.GUI;
 import ead.engine.core.platform.TransitionFactory;
 import ead.engine.core.platform.assets.AssetHandler;
 
-public class ChangeSceneGO extends AbstractEffectGO<ChangeSceneEf> implements TransitionListener {
+public class ChangeSceneGO extends AbstractEffectGO<ChangeSceneEf> implements
+		TransitionListener {
+
+	private static final Logger logger = LoggerFactory
+			.getLogger("ChangeSceneGO");
 
 	private TransitionFactory transitionFactory;
-	
+
 	private TransitionGO<?> transition;
-	
+
 	private boolean end;
 
 	@Inject
@@ -70,16 +79,25 @@ public class ChangeSceneGO extends AbstractEffectGO<ChangeSceneEf> implements Tr
 	public void initialize() {
 		super.initialize();
 		end = false;
-		if (element.getNextScene() == null || element.getNextScene() != gameState.getScene().getElement()) {
-			transition = transitionFactory
-					.getTransition(element.getTransition());
+		if (element.getNextScene() == null
+				|| element.getNextScene() != gameState.getScene().getElement()) {
+			transition = transitionFactory.getTransition(element
+					.getTransition());
 			transition.getTransitionListeners().add(this);
-			if (element.getNextScene() != null)
-				transition.setNext(element.getNextScene());
-			else
+			EAdElement e = element.getNextScene();
+			if (e != null) {
+				EAdElement finalElement = gameState.getValueMap()
+						.getFinalElement(e);
+				if (finalElement instanceof EAdScene) {
+					transition.setNext((EAdScene) finalElement);
+				} else {
+					logger.warn("Element in change scene is not an EAdScene. Returning to previous scene.");
+					transition.setNext(gameState.getPreviousScene());
+				}
+			} else {
 				transition.setNext(gameState.getPreviousScene());
+			}
 			transition.setPrevious(gameState.getScene());
-			
 
 			gameState.setScene(transition);
 		}
@@ -97,7 +115,7 @@ public class ChangeSceneGO extends AbstractEffectGO<ChangeSceneEf> implements Tr
 
 	@Override
 	public void transitionBegins() {
-		
+
 	}
 
 	@Override

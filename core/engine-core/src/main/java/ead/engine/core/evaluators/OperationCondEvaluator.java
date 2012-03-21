@@ -45,7 +45,7 @@ import com.google.inject.Singleton;
 
 import ead.common.model.elements.conditions.OperationCond;
 import ead.engine.core.evaluators.Evaluator;
-import ead.engine.core.operator.OperatorFactory;
+import ead.engine.core.operators.OperatorFactory;
 
 @Singleton
 public class OperationCondEvaluator implements

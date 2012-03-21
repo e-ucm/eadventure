@@ -83,20 +83,23 @@ public class DesktopBezierShape extends RuntimeBezierShape<Graphics2D> {
 						p3.getX(), p3.getY());
 				break;
 			default:
-				
+
 			}
 		}
 
 		if (descriptor.isClosed())
 			path.closePath();
 
-		Rectangle2D bounds = path.getBounds();
 		EAdPaint paint = descriptor.getPaint();
 
-		pathImage = new BufferedImage((int) (bounds.getWidth() + bounds.getX())
-				+ paint.getBorderWidth() * 2,
-				(int) (bounds.getHeight() + bounds.getY())
-						+ paint.getBorderWidth() * 2,
+		Rectangle2D bounds = path.getBounds();
+		int width = Math.max(
+				(int) (bounds.getWidth() + bounds.getX())
+						+ paint.getBorderWidth() * 2, 1);
+		int height = Math.max((int) (bounds.getHeight() + bounds.getY())
+				+ paint.getBorderWidth() * 2, 1);
+
+		pathImage = new BufferedImage(width, height,
 				BufferedImage.TYPE_INT_ARGB);
 
 		Graphics2D g = (Graphics2D) pathImage.getGraphics();

@@ -52,7 +52,7 @@ import ead.engine.core.evaluators.ListedCondEvaluator;
 import ead.engine.core.evaluators.NOTCondEvaluator;
 import ead.engine.core.evaluators.OperationCondEvaluator;
 import ead.engine.core.game.ValueMap;
-import ead.engine.core.operator.OperatorFactory;
+import ead.engine.core.operators.OperatorFactory;
 
 public class EvaluatorFactoryMapProvider extends AbstractMapProvider<Class<?>, Evaluator<?>> {
 

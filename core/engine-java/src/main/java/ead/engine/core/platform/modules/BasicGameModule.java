@@ -79,7 +79,7 @@ import ead.engine.core.input.InputHandler;
 import ead.engine.core.input.InputHandlerImpl;
 import ead.engine.core.inventory.InventoryHandler;
 import ead.engine.core.inventory.InventoryHandlerImpl;
-import ead.engine.core.operator.OperatorFactory;
+import ead.engine.core.operators.OperatorFactory;
 import ead.engine.core.operators.OperatorFactoryImpl;
 import ead.engine.core.platform.AbstractEngineConfiguration;
 import ead.engine.core.platform.EngineConfiguration;

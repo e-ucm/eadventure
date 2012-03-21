@@ -42,7 +42,6 @@ import com.google.inject.Singleton;
 
 import ead.common.model.elements.variables.operations.BooleanOp;
 import ead.engine.core.evaluators.EvaluatorFactory;
-import ead.engine.core.operator.Operator;
 
 @Singleton
 public class BooleanOperator implements Operator<BooleanOp> {

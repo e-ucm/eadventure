@@ -47,7 +47,7 @@ import ead.common.model.elements.scenes.SceneElement;
 import ead.common.model.elements.variables.EAdOperation;
 import ead.engine.core.TestUtil;
 import ead.engine.core.game.ValueMap;
-import ead.engine.core.operator.OperatorFactory;
+import ead.engine.core.operators.OperatorFactory;
 
 public abstract class OperatorsTest<T extends EAdOperation> {
 

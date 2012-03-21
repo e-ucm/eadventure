@@ -43,7 +43,6 @@ import ead.common.model.elements.extra.EAdList;
 import ead.common.model.elements.extra.EAdListImpl;
 import ead.common.model.elements.variables.operations.ListOp;
 import ead.engine.core.game.ValueMap;
-import ead.engine.core.operator.Operator;
 
 public class ListOperator implements Operator<ListOp> {
 

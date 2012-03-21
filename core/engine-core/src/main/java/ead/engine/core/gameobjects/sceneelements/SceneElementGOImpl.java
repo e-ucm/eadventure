@@ -197,6 +197,7 @@ public abstract class SceneElementGOImpl<T extends EAdSceneElement> extends
 	 */
 	protected void updateVars() {
 		ValueMap valueMap = gameState.getValueMap();
+		
 		enable = valueMap.getValue(element, SceneElement.VAR_ENABLE);
 		visible = valueMap.getValue(element, SceneElement.VAR_VISIBLE);
 		rotation = valueMap.getValue(element, SceneElement.VAR_ROTATION);
@@ -215,7 +216,7 @@ public abstract class SceneElementGOImpl<T extends EAdSceneElement> extends
 		position.setY(valueMap.getValue(element, SceneElement.VAR_Y));
 		position.setDispX(valueMap.getValue(element, SceneElement.VAR_DISP_X));
 		position.setDispY(valueMap.getValue(element, SceneElement.VAR_DISP_Y));
-
+		
 		// Bundle update
 		EAdBundleId newBundle = valueMap.getValue(element,
 				ResourcedElement.VAR_BUNDLE_ID);
@@ -227,11 +228,22 @@ public abstract class SceneElementGOImpl<T extends EAdSceneElement> extends
 			if (a != null) {
 				runtimeDrawable = (RuntimeCompoundDrawable<?>) assetHandler
 						.getRuntimeAsset(a, true);
-				if ( runtimeDrawable != null ){
-					currentDrawable = runtimeDrawable.getDrawable(timeDisplayed, statesList, 0);
+				if (runtimeDrawable != null) {
+					currentDrawable = runtimeDrawable.getDrawable(
+							timeDisplayed, statesList, 0);
+					if (currentDrawable != null) {
+						if (currentDrawable.getWidth() != width) {
+							setWidth(currentDrawable.getWidth());
+						}
+						if (currentDrawable.getHeight() != height) {
+							setHeight(currentDrawable.getHeight());
+						}
+					}
+
 				}
 			}
 		}
+
 
 	}
 
@@ -300,6 +312,7 @@ public abstract class SceneElementGOImpl<T extends EAdSceneElement> extends
 				SceneElement.VAR_TIME_DISPLAYED, timeDisplayed);
 		gameState.getValueMap().setUpdateListEnable(true);
 
+		updateCurrentDawable();
 		if (gameState.getValueMap().checkForUpdates(element)) {
 			gameState.getValueMap().setUpdateListEnable(false);
 			updateVars();
@@ -307,6 +320,10 @@ public abstract class SceneElementGOImpl<T extends EAdSceneElement> extends
 			resetTransfromation();
 			gameState.getValueMap().setUpdateListEnable(true);
 		}
+
+	}
+
+	private void updateCurrentDawable() {
 		if (runtimeDrawable != null) {
 			currentDrawable = runtimeDrawable.getDrawable(timeDisplayed,
 					statesList, 0);
@@ -425,8 +442,8 @@ public abstract class SceneElementGOImpl<T extends EAdSceneElement> extends
 	public boolean isEnable() {
 		return enable;
 	}
-	
-	public RuntimeDrawable<?, ?> getRuntimeDrawable(){
+
+	public RuntimeDrawable<?, ?> getRuntimeDrawable() {
 		return currentDrawable;
 	}
 

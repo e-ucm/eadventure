@@ -56,7 +56,7 @@ import ead.engine.core.gameobjects.factories.SceneElementGOFactory;
 import ead.engine.core.gameobjects.go.SceneElementGO;
 import ead.engine.core.input.InputAction;
 import ead.engine.core.input.actions.MouseInputAction;
-import ead.engine.core.operator.OperatorFactory;
+import ead.engine.core.operators.OperatorFactory;
 import ead.engine.core.platform.GUI;
 import ead.engine.core.platform.assets.AssetHandler;
 import ead.engine.core.platform.assets.drawables.basics.RuntimeCaption;

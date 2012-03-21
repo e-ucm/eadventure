@@ -50,13 +50,13 @@ import ead.common.model.elements.variables.operations.ValueOp;
 import ead.common.util.ReflectionProvider;
 import ead.engine.core.evaluators.EvaluatorFactory;
 import ead.engine.core.game.ValueMap;
-import ead.engine.core.operator.Operator;
-import ead.engine.core.operator.OperatorFactory;
 import ead.engine.core.operators.BooleanOperator;
 import ead.engine.core.operators.ConditionedOperator;
 import ead.engine.core.operators.FieldOperator;
 import ead.engine.core.operators.ListOperator;
 import ead.engine.core.operators.MathOperator;
+import ead.engine.core.operators.Operator;
+import ead.engine.core.operators.OperatorFactory;
 import ead.engine.core.operators.ValueOperator;
 
 public class OperatorFactoryMapProvider extends AbstractMapProvider<Class<?>, Operator<?>> {
