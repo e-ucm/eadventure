@@ -429,6 +429,13 @@ public class DesktopGUI extends AbstractGUI<Graphics2D> implements GUI {
 
 	@Override
 	public void finish() {
+		if ( this.platformConfiguration.isFullscreen() ){
+			GraphicsDevice gd = GraphicsEnvironment
+					.getLocalGraphicsEnvironment()
+					.getDefaultScreenDevice();
+			gd.setFullScreenWindow(null);
+		}
+		
 		if (frame != null) {
 			frame.setVisible(false);
 		}
