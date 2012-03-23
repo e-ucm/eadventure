@@ -289,18 +289,25 @@ public class GameImpl implements Game {
 		if (initialTransformation != null) {
 			initialTransformation.setValidated(true);
 		}
+
 		if (currentWidth != configuration.getWidth()
 				|| currentHeight != configuration.getHeight()) {
 
 			currentWidth = configuration.getWidth();
 			currentHeight = configuration.getHeight();
 
+			float scaleX = configuration.getWidth()
+					/ (float) adventure.getGameWidth();
+			float scaleY = configuration.getHeight()
+					/ (float) adventure.getGameHeight();
+
+			float scale = scaleX < scaleY ? scaleX : scaleY;
+			float dispX = Math.abs(adventure.getGameWidth() * scaleX - adventure.getGameWidth() * scale) / 2;
+			float dispY = Math.abs(adventure.getGameHeight() * scaleY - adventure.getGameHeight() * scale) / 2;
+
 			initialTransformation = new EAdTransformationImpl();
-			initialTransformation.getMatrix()
-					.scale(configuration.getWidth()
-							/ (float) adventure.getGameWidth(),
-							configuration.getHeight()
-									/ (float) adventure.getGameHeight(), true);
+			initialTransformation.getMatrix().translate(dispX, dispY, true);
+			initialTransformation.getMatrix().scale(scale, scale, true);
 			initialTransformation.setValidated(false);
 			gui.setInitialTransformation(initialTransformation);
 		}

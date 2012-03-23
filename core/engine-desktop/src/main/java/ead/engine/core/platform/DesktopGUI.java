@@ -38,6 +38,7 @@
 package ead.engine.core.platform;
 
 import java.awt.Canvas;
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.Cursor;
 import java.awt.Graphics2D;
@@ -197,7 +198,9 @@ public class DesktopGUI extends AbstractGUI<Graphics2D> implements GUI {
 						setRenderingHints(g);
 
 						g.setFont(g.getFont().deriveFont(20.0f));
-
+						g.setColor(Color.BLACK);
+						g.fillRect(0, 0, platformConfiguration.getWidth(),
+								platformConfiguration.getHeight());
 						render(interpolation);
 
 						g.dispose();
@@ -429,13 +432,12 @@ public class DesktopGUI extends AbstractGUI<Graphics2D> implements GUI {
 
 	@Override
 	public void finish() {
-		if ( this.platformConfiguration.isFullscreen() ){
+		if (this.platformConfiguration.isFullscreen()) {
 			GraphicsDevice gd = GraphicsEnvironment
-					.getLocalGraphicsEnvironment()
-					.getDefaultScreenDevice();
+					.getLocalGraphicsEnvironment().getDefaultScreenDevice();
 			gd.setFullScreenWindow(null);
 		}
-		
+
 		if (frame != null) {
 			frame.setVisible(false);
 		}
