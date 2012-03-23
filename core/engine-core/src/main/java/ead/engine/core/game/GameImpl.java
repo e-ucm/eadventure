@@ -105,6 +105,10 @@ public class GameImpl implements Game {
 
 	private EngineConfiguration configuration;
 
+	private int currentWidth = -1;
+
+	private int currentHeight = -1;
+
 	@Inject
 	public GameImpl(GUI gui, GameState gameState, EffectHUD effectHUD,
 			AssetHandler assetHandler, GameObjectManager gameObjectManager,
@@ -131,27 +135,26 @@ public class GameImpl implements Game {
 	@Override
 	public void update() {
 
+		updateInitialTransformation();
 		if (!gameState.isPaused()) {
 			processEffects();
 			updateGameEvents();
 			gameState.getScene().update();
 
 		}
-
 		gameObjectManager.updateHUDs();
 		gui.addElement(gameState.getScene(), initialTransformation);
-		
+
 		updateDebuggers();
 		// Add huds
 		gameObjectManager.addHUDs(gui, initialTransformation);
-		
-		initialTransformation.setValidated(true);
+
 		gui.prepareGUI();
 
 	}
 
 	private void updateDebuggers() {
-		if (debuggerHandler != null && debuggerHandler.getGameObjects() != null){
+		if (debuggerHandler != null && debuggerHandler.getGameObjects() != null) {
 			for (DrawableGO<?> go : debuggerHandler.getGameObjects()) {
 				go.update();
 				gui.addElement(go, initialTransformation);
@@ -163,7 +166,7 @@ public class GameImpl implements Game {
 		Long l = gameState.getValueMap().getValue(SystemFields.GAME_TIME);
 		l += gui.getSkippedMilliseconds();
 		gameState.getValueMap().setValue(SystemFields.GAME_TIME, l);
-		
+
 		for (EventGO<?> e : events) {
 			e.update();
 		}
@@ -246,7 +249,7 @@ public class GameImpl implements Game {
 				model.getGameHeight());
 
 		this.adventure = model;
-		
+
 		if (adventure.getInventory() != null) {
 			logger.info("Building inventory...");
 			for (EAdSceneElementDef def : adventure.getInventory()
@@ -264,7 +267,7 @@ public class GameImpl implements Game {
 			eventGO.initialize();
 			events.add(eventGO);
 		}
-		
+
 		// Set the debuggers
 		setDebuggers(model);
 
@@ -277,19 +280,30 @@ public class GameImpl implements Game {
 	}
 
 	private void setDebuggers(EAdAdventureModel model) {
-		if (debuggerHandler != null){
+		if (debuggerHandler != null) {
 			debuggerHandler.setUp(model);
 		}
 	}
 
 	public void updateInitialTransformation() {
-		initialTransformation = new EAdTransformationImpl();
-		initialTransformation.getMatrix().scale(
-				configuration.getWidth() / (float) adventure.getGameWidth(),
-				configuration.getHeight() / (float) adventure.getGameHeight(),
-				true);
-		initialTransformation.setValidated(true);
-		gui.setInitialTransformation(initialTransformation);
+		if (initialTransformation != null) {
+			initialTransformation.setValidated(true);
+		}
+		if (currentWidth != configuration.getWidth()
+				|| currentHeight != configuration.getHeight()) {
+
+			currentWidth = configuration.getWidth();
+			currentHeight = configuration.getHeight();
+
+			initialTransformation = new EAdTransformationImpl();
+			initialTransformation.getMatrix()
+					.scale(configuration.getWidth()
+							/ (float) adventure.getGameWidth(),
+							configuration.getHeight()
+									/ (float) adventure.getGameHeight(), true);
+			initialTransformation.setValidated(false);
+			gui.setInitialTransformation(initialTransformation);
+		}
 	}
 
 	public EAdTransformation getInitialTransformation() {

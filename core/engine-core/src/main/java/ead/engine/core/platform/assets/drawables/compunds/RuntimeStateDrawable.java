@@ -43,6 +43,7 @@ import java.util.Map;
 
 import com.google.inject.Inject;
 
+import ead.common.resources.assets.drawable.EAdDrawable;
 import ead.common.resources.assets.drawable.compounds.EAdStateDrawable;
 import ead.engine.core.platform.assets.AbstractRuntimeAsset;
 import ead.engine.core.platform.assets.AssetHandler;
@@ -73,9 +74,12 @@ public class RuntimeStateDrawable extends
 	public boolean loadAsset() {
 		loading = true;
 		for (String s : descriptor.getStates()) {
-			RuntimeCompoundDrawable<?> r = (RuntimeCompoundDrawable<?>) assetHandler
-					.getRuntimeAsset(descriptor.getDrawable(s), true);
-			drawables.put(s, r);
+			EAdDrawable d = descriptor.getDrawable(s);
+			if (d != null) {
+				RuntimeCompoundDrawable<?> r = (RuntimeCompoundDrawable<?>) assetHandler
+						.getRuntimeAsset(d, true);
+				drawables.put(s, r);
+			}
 		}
 		return true;
 	}
@@ -108,6 +112,9 @@ public class RuntimeStateDrawable extends
 			int level) {
 		String state = states.get(level);
 		RuntimeCompoundDrawable<?> d = drawables.get(state);
+		if (d == null) {
+			drawables.get(drawables.values().iterator().next());
+		}
 		return d.getDrawable(time, states, ++level);
 	}
 

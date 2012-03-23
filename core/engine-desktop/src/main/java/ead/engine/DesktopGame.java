@@ -108,7 +108,7 @@ public class DesktopGame {
 		stringHandler.addStrings(strings);
 	}
 
-	public void launch(int ticksPerSecond) {
+	public void launch(int ticksPerSecond, boolean fullscreen) {
 		final GameController launcher = injector
 				.getInstance(GameController.class);
 		final EAdURI uri = (file == null) ? null : new EAdURI(file);
@@ -117,6 +117,7 @@ public class DesktopGame {
 				.getInstance(EngineConfiguration.class);
 		GameLoop gameLoop = injector.getInstance(GameLoop.class);
 		gameLoop.setTicksPerSecond(ticksPerSecond);
+		conf.setFullscreen(fullscreen);
 		conf.setSize(800, 600);
 
 		new Thread("DesktopGame") {

@@ -61,7 +61,7 @@ import ead.engine.core.platform.assets.SpecialAssetRenderer;
 import ead.engine.core.platform.assets.drawables.basics.DesktopBezierShape;
 import ead.engine.core.platform.assets.drawables.basics.DesktopImage;
 import ead.engine.core.platform.assets.multimedia.DesktopSound;
-import ead.engine.core.platform.assets.specialassetrenderers.VLCDesktopVideoRenderer;
+import ead.engine.core.platform.assets.specialassetrenderers.DesktopVideoRenderer;
 import ead.engine.core.platform.modules.AssetHandlerModule;
 
 public class DesktopAssetHandlerModule extends AssetHandlerModule {
@@ -70,10 +70,10 @@ public class DesktopAssetHandlerModule extends AssetHandlerModule {
 	protected void configure() {
 		bind(StringFileHandler.class).to(DefaultStringFileHandler.class);
 		bind(AssetHandler.class).to(DesktopAssetHandler.class);
-		 bind(new TypeLiteral<SpecialAssetRenderer<EAdVideo, ?>>() {
-		 }).to(VLCDesktopVideoRenderer.class);
-//		bind(new TypeLiteral<SpecialAssetRenderer<EAdVideo, ?>>() {
-//		}).to(DesktopVideoRenderer.class);
+		// bind(new TypeLiteral<SpecialAssetRenderer<EAdVideo, ?>>() {
+		// }).to(VLCDesktopVideoRenderer.class);
+		bind(new TypeLiteral<SpecialAssetRenderer<EAdVideo, ?>>() {
+		}).to(DesktopVideoRenderer.class);
 
 		super.configure();
 	}

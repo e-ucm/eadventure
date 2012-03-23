@@ -73,7 +73,6 @@ import ead.engine.core.platform.GUI;
 import ead.engine.core.platform.assets.AssetHandler;
 import ead.engine.core.platform.assets.RuntimeDrawable;
 import ead.engine.core.util.EAdTransformation;
-import ead.engine.core.util.EAdTransformationImpl;
 
 /**
  * <p>
@@ -172,11 +171,6 @@ public class TopBasicHUDImpl extends AbstractHUD implements TopBasicHUD {
 		updateContextual();
 		updateMouse();
 		super.update();
-	}
-
-	@Override
-	public EAdTransformation getTransformation() {
-		return EAdTransformationImpl.INITIAL_TRANSFORMATION;
 	}
 
 	@Override

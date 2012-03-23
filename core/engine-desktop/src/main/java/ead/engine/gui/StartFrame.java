@@ -38,6 +38,7 @@
 package ead.engine.gui;
 
 import java.awt.BorderLayout;
+import java.awt.FlowLayout;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -110,6 +111,8 @@ public class StartFrame extends JFrame {
 	private static final String HZ_PROPERTY = "hz_property";
 
 	private static final String PROPERTIES_FILE = "engine_configuration.xml";
+	
+	private static final String FULL_SCREEN = "full_screen";
 
 	private static final Integer[] HZ = new Integer[] { 30, 40, 50, 60 };
 
@@ -130,6 +133,8 @@ public class StartFrame extends JFrame {
 	private File dataFile;
 
 	private File stringsFile;
+	
+	private JPanel contentPane;
 
 	// Debuggers
 	private static final String[] DEBUGGERS_PROPERTY = new String[] {
@@ -154,6 +159,7 @@ public class StartFrame extends JFrame {
 		addOpen();
 		addTicksPerSecond();
 		addDebuggersCheckBoxes();
+		addFullScreen();
 		pack();
 		setLocationRelativeTo(null);
 
@@ -220,6 +226,8 @@ public class StartFrame extends JFrame {
 		}
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setLayout(new BorderLayout());
+		contentPane = new JPanel(new FlowLayout());
+		add(contentPane, BorderLayout.CENTER);
 
 		this.addWindowListener(new WindowAdapter() {
 
@@ -290,7 +298,7 @@ public class StartFrame extends JFrame {
 		JPanel panel = new JPanel();
 		panel.add(new JLabel("Hz:"));
 		panel.add(hzCombo);
-		getContentPane().add(panel);
+		contentPane.add(panel);
 		hzCombo.addItemListener(new ItemListener() {
 
 			@Override
@@ -341,7 +349,7 @@ public class StartFrame extends JFrame {
 			public void actionPerformed(ActionEvent arg0) {
 				DesktopGame game = new DesktopGame(new InitScene(),
 						debuggersClass);
-				game.launch(ticksPerSecond);
+				game.launch(ticksPerSecond, Boolean.parseBoolean(properties.getProperty(FULL_SCREEN)));
 
 			}
 
@@ -388,7 +396,7 @@ public class StartFrame extends JFrame {
 					if (model != null) {
 						DesktopGame game = new DesktopGame(model, destinyFile,
 								strings, debuggersClass);
-						game.launch(ticksPerSecond);
+						game.launch(ticksPerSecond, Boolean.parseBoolean(properties.getProperty(FULL_SCREEN)));
 					}
 				}
 			}.start();
@@ -420,7 +428,7 @@ public class StartFrame extends JFrame {
 			if (model != null) {
 				DesktopGame game = new DesktopGame(model, destinyFile, strings,
 						debuggersClass);
-				game.launch(ticksPerSecond);
+				game.launch(ticksPerSecond, Boolean.parseBoolean(properties.getProperty(FULL_SCREEN)));
 			}
 
 		}
@@ -516,7 +524,7 @@ public class StartFrame extends JFrame {
 			}
 			i++;
 		}
-		getContentPane().add(p);
+		contentPane.add(p);
 	}
 
 	public class DebuggerChangeListener implements ChangeListener {
@@ -545,6 +553,23 @@ public class StartFrame extends JFrame {
 
 		}
 
+	}
+	
+	private void addFullScreen() {
+		JPanel p = new JPanel();
+		boolean b = Boolean.parseBoolean(properties.getProperty(FULL_SCREEN, "false"));
+		final JCheckBox checkBox = new JCheckBox("Full screen", b);
+		checkBox.addChangeListener(new ChangeListener( ){
+
+			@Override
+			public void stateChanged(ChangeEvent e) {
+				properties.put(FULL_SCREEN, checkBox.isSelected() + "");
+			}
+			
+		});
+		p.add(checkBox);
+		contentPane.add(p);
+		
 	}
 
 }

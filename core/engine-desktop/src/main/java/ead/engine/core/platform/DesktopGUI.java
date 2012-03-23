@@ -37,8 +37,28 @@
 
 package ead.engine.core.platform;
 
+import java.awt.Canvas;
+import java.awt.Component;
+import java.awt.Cursor;
+import java.awt.Graphics2D;
+import java.awt.GraphicsDevice;
+import java.awt.GraphicsEnvironment;
+import java.awt.Point;
+import java.awt.RenderingHints;
+import java.awt.RenderingHints.Key;
+import java.awt.Toolkit;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
+import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.awt.event.WindowListener;
+import java.awt.image.BufferStrategy;
+import java.awt.image.MemoryImageSource;
+
+import javax.swing.JFrame;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
@@ -54,22 +74,6 @@ import ead.engine.core.platform.assets.drawables.basics.DesktopImage;
 import ead.engine.core.platform.rendering.DesktopCanvas;
 import ead.utils.swing.SwingExceptionHandler;
 import ead.utils.swing.SwingUtilities;
-
-import java.awt.Canvas;
-import java.awt.Component;
-import java.awt.Cursor;
-import java.awt.Graphics2D;
-import java.awt.GraphicsDevice;
-import java.awt.GraphicsEnvironment;
-import java.awt.Point;
-import java.awt.RenderingHints;
-import java.awt.RenderingHints.Key;
-import java.awt.Toolkit;
-import java.awt.image.BufferStrategy;
-import java.awt.image.MemoryImageSource;
-import javax.swing.JFrame;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * <p>
@@ -122,7 +126,7 @@ public class DesktopGUI extends AbstractGUI<Graphics2D> implements GUI {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * es.eucm.eadventure.engine.core.platform.GUI#showSpecialResource(java.
 	 * lang.Object, int, int, boolean)
@@ -169,7 +173,7 @@ public class DesktopGUI extends AbstractGUI<Graphics2D> implements GUI {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see es.eucm.eadventure.engine.core.platform.GUI#commit(float)
 	 */
 	@Override
@@ -199,8 +203,8 @@ public class DesktopGUI extends AbstractGUI<Graphics2D> implements GUI {
 						g.dispose();
 					} catch (IllegalStateException e) {
 						if (gameLoop.isRunning()) {
-                            logger.warn("error commiting GUI phase 1; "
-                                + "will use fallback bufferStrategy", e);
+							logger.warn("error commiting GUI phase 1; "
+									+ "will use fallback bufferStrategy", e);
 							canvas.createBufferStrategy(2);
 						}
 					}
@@ -215,9 +219,9 @@ public class DesktopGUI extends AbstractGUI<Graphics2D> implements GUI {
 						bs.show();
 						Toolkit.getDefaultToolkit().sync();
 					} catch (IllegalStateException e) {
-					    if (gameLoop.isRunning()) {
-                            logger.warn("error commiting GUI phase 1; "
-                                + "will use fallback bufferStrategy", e);
+						if (gameLoop.isRunning()) {
+							logger.warn("error commiting GUI phase 1; "
+									+ "will use fallback bufferStrategy", e);
 							canvas.createBufferStrategy(2);
 						}
 					}
@@ -228,8 +232,7 @@ public class DesktopGUI extends AbstractGUI<Graphics2D> implements GUI {
 
 	public RuntimeAsset<? extends EAdBasicDrawable> commitToImage() {
 
-		DesktopImage image = new DesktopImage(
-				platformConfiguration.getWidth(),
+		DesktopImage image = new DesktopImage(platformConfiguration.getWidth(),
 				platformConfiguration.getHeight());
 
 		Graphics2D g = (Graphics2D) image.getImage().getGraphics();
@@ -249,7 +252,7 @@ public class DesktopGUI extends AbstractGUI<Graphics2D> implements GUI {
 
 	/**
 	 * Set the appropriate rendering hints to get the best graphic results.
-	 *
+	 * 
 	 * @param g
 	 */
 	protected void setRenderingHints(Graphics2D g) {
@@ -274,7 +277,7 @@ public class DesktopGUI extends AbstractGUI<Graphics2D> implements GUI {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see es.eucm.eadventure.engine.core.platform.GUI#initialize()
 	 */
 	@Override
@@ -297,6 +300,7 @@ public class DesktopGUI extends AbstractGUI<Graphics2D> implements GUI {
 
 					if (platformConfiguration.isFullscreen()) {
 						// TODO this might not work in windows
+						frame.setUndecorated(true);
 						GraphicsDevice gd = GraphicsEnvironment
 								.getLocalGraphicsEnvironment()
 								.getDefaultScreenDevice();
@@ -315,7 +319,8 @@ public class DesktopGUI extends AbstractGUI<Graphics2D> implements GUI {
 				}
 			});
 		} catch (RuntimeException e) {
-			throw new IllegalArgumentException("Error initializing desktop GUI", e);
+			throw new IllegalArgumentException(
+					"Error initializing desktop GUI", e);
 		}
 
 		logger.info("Desktop GUI initialized");
@@ -330,17 +335,7 @@ public class DesktopGUI extends AbstractGUI<Graphics2D> implements GUI {
 		canvas.setBounds(0, 0, canvas.getWidth(), canvas.getHeight());
 		frame.add(canvas);
 		frame.pack();
-		frame.addWindowListener(new WindowListener() {
-
-			@Override
-			public void windowActivated(WindowEvent arg0) {
-
-			}
-
-			@Override
-			public void windowClosed(WindowEvent arg0) {
-
-			}
+		frame.addWindowListener(new WindowAdapter() {
 
 			@Override
 			public void windowClosing(WindowEvent arg0) {
@@ -348,23 +343,15 @@ public class DesktopGUI extends AbstractGUI<Graphics2D> implements GUI {
 				frame.dispose();
 			}
 
-			@Override
-			public void windowDeactivated(WindowEvent arg0) {
+		});
 
-			}
-
-			@Override
-			public void windowDeiconified(WindowEvent arg0) {
-
-			}
+		frame.addComponentListener(new ComponentAdapter() {
 
 			@Override
-			public void windowIconified(WindowEvent arg0) {
-
-			}
-
-			@Override
-			public void windowOpened(WindowEvent arg0) {
+			public void componentResized(ComponentEvent e) {
+				platformConfiguration.setSize(
+						frame.getContentPane().getWidth(), frame
+								.getContentPane().getHeight());
 
 			}
 
@@ -393,11 +380,11 @@ public class DesktopGUI extends AbstractGUI<Graphics2D> implements GUI {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * es.eucm.eadventure.engine.core.platform.impl.AbstractGUI#processKeyAction
 	 * (es.eucm.eadventure.engine.core.guiactions.KeyAction)
-	 *
+	 * 
 	 * In desktop games, arrow keys are used to move the mouse if not consumed
 	 * by a game object
 	 */

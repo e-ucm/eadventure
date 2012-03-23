@@ -304,8 +304,8 @@ public class MouseHandler {
 			initZ = gameState.getValueMap().getValue(sceneElement,
 					SceneElement.VAR_Z);
 
-			gameState.getValueMap().setValue(sceneElement,
-					SceneElement.VAR_Z, DRAG_Z);
+			gameState.getValueMap().setValue(sceneElement, SceneElement.VAR_Z,
+					DRAG_Z);
 
 		} else {
 			if (draggingGameObject != null) {
@@ -331,7 +331,6 @@ public class MouseHandler {
 	public void setPosition(int x, int y) {
 		this.mouseRawX = x;
 		this.mouseRawY = y;
-		
 
 		if (initialTransformation != null) {
 			// Mouse
@@ -345,31 +344,33 @@ public class MouseHandler {
 			if (gameState.getScene() != null) {
 				EAdTransformation t = gameState.getScene().getTransformation();
 				if (t != null) {
-					mouse = t.getMatrix().multiplyPointInverse(mouse[0],
-							mouse[1], true);
+					mouse = t.getMatrix().multiplyPointInverse(x, y, true);
 				}
 			}
+
 			gameState.getValueMap().setValue(SystemFields.MOUSE_SCENE_X,
 					(int) mouse[0]);
 			gameState.getValueMap().setValue(SystemFields.MOUSE_SCENE_Y,
 					(int) mouse[1]);
 		}
-		
+
 		updateDrag();
 
 	}
 
 	public boolean checkState(MouseState state) {
-		if (state.isInside() && ( state.getMouseButton() == MouseGEvButtonType.NO_BUTTON || state.getMouseButton() == null )) {
+		if (state.isInside()
+				&& (state.getMouseButton() == MouseGEvButtonType.NO_BUTTON || state
+						.getMouseButton() == null)) {
 			return isInside();
-		}
-		else if ( state.isInside() && state.isPressed() && this.isMousePressed(state.getMouseButton())){
+		} else if (state.isInside() && state.isPressed()
+				&& this.isMousePressed(state.getMouseButton())) {
 			return isInside();
 		}
 		return false;
 	}
-	
-	public void setInitialTransformation(EAdTransformation t ){
+
+	public void setInitialTransformation(EAdTransformation t) {
 		this.initialTransformation = t;
 	}
 
