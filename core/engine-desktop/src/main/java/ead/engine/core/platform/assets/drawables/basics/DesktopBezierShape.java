@@ -89,7 +89,49 @@ public class DesktopBezierShape extends RuntimeBezierShape<Graphics2D> {
 
 		if (descriptor.isClosed())
 			path.closePath();
+		
+		if (!descriptor.isPaintAsVector()){
+			generatePathImage();
+		}
 
+		
+
+		return true;
+	}
+
+	public GeneralPath getShape() {
+		return path;
+	}
+
+	@Override
+	public boolean contains(int x, int y) {
+		return path.contains(x, y);
+	}
+
+	@Override
+	public void freeMemory() {
+		if (path != null) {
+			path.reset();
+			path = null;
+		}
+		if (pathImage != null) {
+			pathImage.flush();
+		}
+		this.loaded = false;
+	}
+
+	@Override
+	public void render(GenericCanvas<Graphics2D> c) {
+		if (descriptor.isPaintAsVector() ){
+			c.setPaint(descriptor.getPaint());
+			c.drawShape(this);
+		}
+		else {
+			c.getNativeGraphicContext().drawImage(pathImage, 0, 0, null);
+		}
+	}
+	
+	private void generatePathImage( ){
 		EAdPaint paint = descriptor.getPaint();
 
 		Rectangle2D bounds = path.getBounds();
@@ -118,34 +160,6 @@ public class DesktopBezierShape extends RuntimeBezierShape<Graphics2D> {
 			g.draw(path);
 		}
 		g.dispose();
-
-		return true;
-	}
-
-	public GeneralPath getShape() {
-		return path;
-	}
-
-	@Override
-	public boolean contains(int x, int y) {
-		return path.contains(x, y);
-	}
-
-	@Override
-	public void freeMemory() {
-		if (path != null) {
-			path.reset();
-			path = null;
-		}
-		if (pathImage != null) {
-			pathImage.flush();
-		}
-		this.loaded = false;
-	}
-
-	@Override
-	public void render(GenericCanvas<Graphics2D> c) {
-		c.getNativeGraphicContext().drawImage(pathImage, 0, 0, null);
 	}
 
 }

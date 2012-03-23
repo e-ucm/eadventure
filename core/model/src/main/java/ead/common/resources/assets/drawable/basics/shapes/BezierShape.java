@@ -59,6 +59,9 @@ public class BezierShape implements EAdShape, Cloneable {
 	@Param("segmentsLength")
 	private EAdList<Integer> segmentsLength;
 
+	@Param("paintAsVector")
+	private boolean paintAsVector;
+
 	// FIXME probably a good a idea tu use the vector notation, but before
 	// vectors storage must be added
 	private float[] vector;
@@ -67,6 +70,7 @@ public class BezierShape implements EAdShape, Cloneable {
 		points = new EAdListImpl<EAdPosition>(EAdPosition.class);
 		segmentsLength = new EAdListImpl<Integer>(Integer.class);
 		paint = PaintFill.TRANSPARENT;
+		paintAsVector = false;
 	}
 
 	public BezierShape(EAdPaint paint) {
@@ -78,6 +82,31 @@ public class BezierShape implements EAdShape, Cloneable {
 		this();
 		init(startPoint);
 
+	}
+
+	/**
+	 * @return Returns true if the bezier shape must be painted as a vector
+	 *         image instead of a bitmap image. A bitmap image is faster, and it
+	 *         is the best option if the shape is not going to be scaled. The
+	 *         vector image is slower, and should be used when the shape is
+	 *         going to be scaled during game time. The default value is false;
+	 * 
+	 */
+	public boolean isPaintAsVector() {
+		return paintAsVector;
+	}
+
+	/**
+	 * Sets if the bezier shape must be rendered as a vector image
+	 * (paintAsVector is true) or as a bitmap image (paintAsVector is false). A
+	 * bitmap image is faster, and it is the best option if the shape is not
+	 * going to be scaled. The vector image is slower, and should be used when
+	 * the shape is going to be scaled during game time. The default value is false.
+	 * 
+	 * @param paintAsVector
+	 */
+	public void setPaintAsVector(boolean paintAsVector) {
+		this.paintAsVector = paintAsVector;
 	}
 
 	private void init(EAdPosition startPoint) {
@@ -199,7 +228,8 @@ public class BezierShape implements EAdShape, Cloneable {
 			int j = 0;
 			int i = 0;
 			int pointIndex = 0;
-			while (i < vector.length && j - 1 < segmentsLength.size() && pointIndex < points.size() ) {
+			while (i < vector.length && j - 1 < segmentsLength.size()
+					&& pointIndex < points.size()) {
 				int segmentLength = j == 0 ? 1 : segmentsLength.get(j - 1);
 				vector[i++] = segmentLength;
 				for (int k = i; k < i + segmentLength * 2; k += 2) {
@@ -216,9 +246,9 @@ public class BezierShape implements EAdShape, Cloneable {
 	public boolean equals(Object o) {
 		if (o instanceof BezierShape) {
 			BezierShape b = (BezierShape) o;
-			if ( vector == null )
+			if (vector == null)
 				generateVector();
-			
+
 			if (b.vector == null)
 				b.generateVector();
 

@@ -82,6 +82,7 @@ public class GLBezierShape extends RuntimeBezierShape<GL10>{
 	}
 	
 	public boolean loadAsset(){
+		// FIXME support paint as vector image
 		super.loadAsset();
 		path = new Path();
 

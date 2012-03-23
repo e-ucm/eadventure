@@ -37,8 +37,6 @@
 
 package ead.common.model.elements;
 
-import com.gwtent.reflection.client.Reflectable;
-
 import ead.common.model.EAdElement;
 
 /**

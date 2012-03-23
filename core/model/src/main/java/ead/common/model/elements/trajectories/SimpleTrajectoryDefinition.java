@@ -37,12 +37,9 @@
 
 package ead.common.model.elements.trajectories;
 
-import com.gwtent.reflection.client.Reflectable;
-
 import ead.common.interfaces.Element;
 import ead.common.interfaces.Param;
 import ead.common.model.elements.BasicElement;
-import ead.common.model.elements.trajectories.EAdTrajectoryDefinition;
 
 /**
  * A simple trajectory generator. Trace the trajectory to a point with a

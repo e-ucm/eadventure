@@ -60,21 +60,22 @@ public class ComplexElementScene extends EmptyScene {
 
 	public ComplexElementScene() {
 		RectangleShape rectangle = new RectangleShape(400, 400);
+		rectangle.setPaintAsVector(true);
 		rectangle.setPaint(PaintFill.BLACK_ON_WHITE);
 		ComplexSceneElement complex = new ComplexSceneElement(rectangle);
 		complex.setId("complex");
 		complex.setBounds(400, 400);
 		complex.setPosition(new EAdPosition(Corner.CENTER, 400, 300));
 
-		SceneElement e = EAdElementsFactory
-				.getInstance()
-				.getSceneElementFactory()
-				.createSceneElement(new RectangleShape(400, 400, ColorFill.BLUE),
-						new RectangleShape(400, 400, ColorFill.RED), 40, 40);
+		RectangleShape r1 = new RectangleShape(400, 400, ColorFill.BLUE);
+		r1.setPaintAsVector(true);
+		RectangleShape r2 = new RectangleShape(400, 400, ColorFill.RED);
+		r2.setPaintAsVector(true);
+		SceneElement e = EAdElementsFactory.getInstance()
+				.getSceneElementFactory().createSceneElement(r1, r2, 40, 40);
 
 		e.setInitialScale(0.1f);
-		e.setVarInitialValue(SceneElement.VAR_ROTATION,
-				(float) Math.PI / 6);
+		e.setVarInitialValue(SceneElement.VAR_ROTATION, (float) Math.PI / 6);
 		e.setPosition(new EAdPosition(Corner.CENTER, 50, 50));
 
 		complex.getSceneElements().add(e);
@@ -96,12 +97,11 @@ public class ComplexElementScene extends EmptyScene {
 		EAdField<Float> rotation2 = new BasicField<Float>(e,
 				SceneElement.VAR_ROTATION);
 
-		e.addBehavior(MouseGEv.MOUSE_RIGHT_CLICK,
-				new ChangeFieldEf(rotation,
-						new ValueOp((float) 0.1f)));
+		e.addBehavior(MouseGEv.MOUSE_RIGHT_CLICK, new ChangeFieldEf(rotation,
+				new ValueOp((float) 0.1f)));
 
-		InterpolationEf effect2 = new InterpolationEf(rotation2,
-				0, 2 * (float) Math.PI, 1000, InterpolationLoopType.RESTART,
+		InterpolationEf effect2 = new InterpolationEf(rotation2, 0,
+				2 * (float) Math.PI, 1000, InterpolationLoopType.RESTART,
 				InterpolationType.LINEAR);
 
 		SceneElementEv event2 = new SceneElementEv();
@@ -113,8 +113,8 @@ public class ComplexElementScene extends EmptyScene {
 				SceneElement.VAR_SCALE);
 
 		complex.setInitialScale(0.5f);
-		InterpolationEf effect3 = new InterpolationEf(scale,
-				0.0f, 1.5f, 5000, InterpolationLoopType.REVERSE, InterpolationType.LINEAR);
+		InterpolationEf effect3 = new InterpolationEf(scale, 0.0f, 1.5f, 5000,
+				InterpolationLoopType.REVERSE, InterpolationType.LINEAR);
 
 		event2.addEffect(SceneElementEvType.FIRST_UPDATE, effect3);
 

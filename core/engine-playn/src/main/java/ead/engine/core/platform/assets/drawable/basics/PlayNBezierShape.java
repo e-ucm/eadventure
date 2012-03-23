@@ -58,6 +58,7 @@ public class PlayNBezierShape extends RuntimeBezierShape<Canvas> {
 
 	@Override
 	public boolean loadAsset() {
+		// FIXME support paint as bitmap image
 		if (eAdEngine == null)
 			return false;
 		super.loadAsset();
