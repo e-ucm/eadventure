@@ -85,7 +85,7 @@ public class AndroidCanvas extends AbstractCanvas<Canvas> {
 	public void setTransformation(EAdTransformation t) {
 		setMatrix( t.getMatrix() );
 		if (t.getClip() != null)
-			clip(t.getClip());
+			setClip(t.getClip());
 		// TODO alpha
 	}
 	
@@ -172,7 +172,7 @@ public class AndroidCanvas extends AbstractCanvas<Canvas> {
 	}
 
 	@Override
-	public void clip(EAdRectangle rectangle) {
+	public void setClip(EAdRectangle rectangle) {
 		g.clipRect(rectangle.getX(), rectangle.getY(), rectangle.getWidth(),
 				rectangle.getHeight());
 	}

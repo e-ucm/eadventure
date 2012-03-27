@@ -113,9 +113,10 @@ public class RuntimeStateDrawable extends
 		String state = states.get(level);
 		RuntimeCompoundDrawable<?> d = drawables.get(state);
 		if (d == null) {
-			drawables.get(drawables.values().iterator().next());
+			return null;
+		} else {
+			return d.getDrawable(time, states, ++level);
 		}
-		return d.getDrawable(time, states, ++level);
 	}
 
 }

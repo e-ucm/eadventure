@@ -42,7 +42,7 @@ import com.google.inject.Inject;
 import ead.common.GenericImporter;
 import ead.common.importer.interfaces.EAdElementFactory;
 import ead.common.params.fills.ColorFill;
-import ead.common.params.fills.PaintFill;
+import ead.common.params.fills.Paint;
 import ead.common.params.text.EAdString;
 import ead.common.resources.assets.drawable.basics.EAdCaption;
 import ead.common.resources.assets.drawable.basics.Caption;
@@ -85,12 +85,12 @@ public class LineImporterToCaption implements
 			String textBorderColor = getColor(character.getTextBorderColor());
 
 			if (bg != null) {
-				PaintFill bubble = new PaintFill(
+				Paint bubble = new Paint(
 						new ColorFill(bg), new ColorFill(borderBg));
 				caption.setBubblePaint(bubble);
 			}
 
-			PaintFill text = new PaintFill(
+			Paint text = new Paint(
 					new ColorFill(textColor), new ColorFill(textBorderColor));
 
 			caption.setTextPaint(text);

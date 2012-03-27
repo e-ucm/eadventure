@@ -174,5 +174,13 @@ public abstract class AbstractEffectGO<P extends EAdEffect> extends
 	public RuntimeDrawable<?, ?> getRuntimeDrawable(){
 		return null;
 	}
+	
+	public int getWidth(){
+		return 1;
+	}
+	
+	public int getHeight(){
+		return 1;
+	}
 
 }

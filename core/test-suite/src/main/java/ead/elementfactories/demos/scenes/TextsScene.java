@@ -40,7 +40,7 @@ package ead.elementfactories.demos.scenes;
 import ead.common.model.elements.EAdEffect;
 import ead.common.model.elements.effects.enums.ShowTextAnimation;
 import ead.common.params.fills.ColorFill;
-import ead.common.params.fills.PaintFill;
+import ead.common.params.fills.Paint;
 import ead.common.resources.assets.drawable.basics.Caption;
 import ead.common.resources.assets.text.BasicFont;
 import ead.common.util.EAdURI;
@@ -56,8 +56,8 @@ public class TextsScene extends EmptyScene {
 		Caption caption = EAdElementsFactory.getInstance()
 			.getCaptionFactory().createCaption(
 				"Show text \u00c1 \u00d1\u00d1\u00d1 !!!! *\u00c1", 
-				PaintFill.WHITE_ON_BLACK, 
-				PaintFill.BLACK_ON_WHITE, 
+				Paint.WHITE_ON_BLACK, 
+				Paint.BLACK_ON_WHITE, 
 				new BasicFont( new EAdURI( "@binary/DroidSans-Bold.ttf"),
 				20));
 		EAdEffect effect = EAdElementsFactory.getInstance()
@@ -72,8 +72,8 @@ public class TextsScene extends EmptyScene {
 		Caption caption2 = EAdElementsFactory.getInstance()
 				.getCaptionFactory().createCaption(
 						"Launch a question", 
-						PaintFill.WHITE_ON_BLACK, 
-						PaintFill.BLACK_ON_WHITE, 
+						Paint.WHITE_ON_BLACK, 
+						Paint.BLACK_ON_WHITE, 
 						new BasicFont( new EAdURI( "@binary/DroidSans-Bold.ttf"), 20));
 		EAdEffect question = EAdElementsFactory.getInstance()
 				.getEffectFactory().getShowQuestion(
@@ -85,8 +85,8 @@ public class TextsScene extends EmptyScene {
 		// Show text caption
 		Caption caption3 = EAdElementsFactory.getInstance()
 				.getCaptionFactory().createCaption(
-						"Show very long text", PaintFill.WHITE_ON_BLACK, 
-						PaintFill.BLACK_ON_WHITE, 
+						"Show very long text", Paint.WHITE_ON_BLACK, 
+						Paint.BLACK_ON_WHITE, 
 						new BasicFont( new EAdURI( "@binary/DroidSans-Bold.ttf"), 20));
 		EAdEffect effect2 = EAdElementsFactory.getInstance()
 				.getEffectFactory().getShowText(

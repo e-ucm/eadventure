@@ -37,6 +37,7 @@
 
 package ead.engine.core.platform;
 
+import ead.engine.core.game.Game;
 import ead.engine.core.gameobjects.go.DrawableGO;
 import ead.engine.core.util.EAdTransformation;
 
@@ -46,8 +47,7 @@ import ead.engine.core.util.EAdTransformation;
  */
 public interface GUI {
 
-	int VIRTUAL_WIDTH = 800;
-	int VIRTUAL_HEIGHT = 600;
+	void setGame( Game game );
 
 	/**
 	 * Add an element to the scene. The order of the elements is used during

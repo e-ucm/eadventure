@@ -47,7 +47,7 @@ import ead.common.model.elements.guievents.enums.KeyEventType;
 import ead.common.model.elements.scenes.SceneElement;
 import ead.common.params.fills.ColorFill;
 import ead.common.params.fills.LinearGradientFill;
-import ead.common.params.fills.PaintFill;
+import ead.common.params.fills.Paint;
 import ead.common.resources.assets.drawable.basics.Caption;
 import ead.common.resources.assets.text.BasicFont;
 import ead.common.util.EAdPosition;
@@ -135,7 +135,7 @@ public class MenuHUDImpl extends AbstractHUD implements MenuHUD {
 		stringHandler.setString(c.getText(), "Exit");
 		SceneElement button = new SceneElement( c);
 		button.setId("exit_button");
-		c.setBubblePaint(new PaintFill(new LinearGradientFill(
+		c.setBubblePaint(new Paint(new LinearGradientFill(
 				ColorFill.ORANGE, new ColorFill(255, 200, 0), 0, 40), ColorFill.BLACK, 2));
 		c.setPadding(10);
 		c.setFont(new BasicFont(18));

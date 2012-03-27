@@ -130,6 +130,7 @@ public class GameImpl implements Game {
 		this.configuration = configuration;
 		events = new ArrayList<EventGO<?>>();
 		gameObjectManager.setBasicHUDs(basicHud, bottomBasicHud);
+		gui.setGame(this);
 	}
 
 	@Override

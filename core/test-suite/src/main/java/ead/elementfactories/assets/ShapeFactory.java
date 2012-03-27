@@ -37,7 +37,7 @@
 
 package ead.elementfactories.assets;
 
-import ead.common.params.fills.PaintFill;
+import ead.common.params.fills.Paint;
 import ead.common.resources.assets.drawable.basics.shapes.BezierShape;
 import ead.common.resources.assets.drawable.basics.shapes.RectangleShape;
 import ead.common.util.EAdPosition;
@@ -49,7 +49,7 @@ public class ShapeFactory {
 	}
 
 	public BezierShape getElement(Enum<?> type, int width, int height,
-			PaintFill color) {
+			Paint color) {
 		BezierShape s = null;
 		if (type instanceof ShapeType) {
 			switch ((ShapeType) type) {

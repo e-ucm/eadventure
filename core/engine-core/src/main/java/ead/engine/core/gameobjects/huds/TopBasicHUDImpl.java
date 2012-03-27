@@ -69,6 +69,7 @@ import ead.engine.core.gameobjects.go.DrawableGO;
 import ead.engine.core.input.InputAction;
 import ead.engine.core.input.InputHandler;
 import ead.engine.core.input.actions.KeyInputAction;
+import ead.engine.core.platform.EngineConfiguration;
 import ead.engine.core.platform.GUI;
 import ead.engine.core.platform.assets.AssetHandler;
 import ead.engine.core.platform.assets.RuntimeDrawable;
@@ -101,6 +102,8 @@ public class TopBasicHUDImpl extends AbstractHUD implements TopBasicHUD {
 
 	protected InputHandler inputHandler;
 
+	private EngineConfiguration engineConfiguration;
+
 	private StringHandler stringHandler;
 
 	private AssetHandler assetHandler;
@@ -129,7 +132,7 @@ public class TopBasicHUDImpl extends AbstractHUD implements TopBasicHUD {
 	public TopBasicHUDImpl(MenuHUD menuHUD,
 			SceneElementGOFactory gameObjectFactory, GameState gameState,
 			InputHandler inputHandler, StringHandler stringHandler, GUI gui,
-			AssetHandler assetHandler) {
+			AssetHandler assetHandler, EngineConfiguration engineConfiguration) {
 		super(gui);
 		logger.info("New instance");
 		this.menuHUD = menuHUD;
@@ -138,6 +141,7 @@ public class TopBasicHUDImpl extends AbstractHUD implements TopBasicHUD {
 		this.inputHandler = inputHandler;
 		this.stringHandler = stringHandler;
 		this.assetHandler = assetHandler;
+		this.engineConfiguration = engineConfiguration;
 		initContextual();
 		initMouse();
 	}
@@ -264,23 +268,19 @@ public class TopBasicHUDImpl extends AbstractHUD implements TopBasicHUD {
 		checkMouseImage();
 		int x = gameState.getValueMap().getValue(SystemFields.MOUSE_X);
 		int y = gameState.getValueMap().getValue(SystemFields.MOUSE_Y);
-		int width = gameState.getValueMap().getValue(SystemFields.GAME_WIDTH);
-		int height = gameState.getValueMap().getValue(SystemFields.GAME_HEIGHT);
 		boolean showMouse = gameState.getValueMap().getValue(
 				SystemFields.SHOW_MOUSE);
 
-		boolean visible = false;
-
-		if (x >= 0 && y >= 0 && x <= width && y <= height) {
-			gameState.getValueMap().setValue(mouse, SceneElement.VAR_X, x);
-			gameState.getValueMap().setValue(mouse, SceneElement.VAR_Y, y);
-			visible = showMouse;
-		}
+		gameState.getValueMap().setValue(mouse, SceneElement.VAR_X, x);
+		gameState.getValueMap().setValue(mouse, SceneElement.VAR_Y, y);
 
 		gameState.getValueMap().setValue(mouse, SceneElement.VAR_VISIBLE,
-				visible);
+				showMouse);
 
 		mouseGO.update();
+		mouseGO.getTransformation()
+				.setClip(0, 0, engineConfiguration.getWidth(),
+						engineConfiguration.getHeight());
 	}
 
 }

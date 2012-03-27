@@ -50,7 +50,7 @@ import ead.common.model.elements.variables.EAdField;
 import ead.common.model.elements.variables.BasicField;
 import ead.common.model.elements.variables.operations.MathOp;
 import ead.common.params.fills.ColorFill;
-import ead.common.params.fills.PaintFill;
+import ead.common.params.fills.Paint;
 import ead.common.resources.assets.drawable.basics.shapes.CircleShape;
 import ead.common.resources.assets.drawable.basics.shapes.RectangleShape;
 import ead.common.util.EAdPosition;
@@ -62,11 +62,11 @@ public class DepthZScene extends EmptyScene {
 		
 		int totalTime = 2000;
 		
-		SceneElement e1 = new SceneElement(new RectangleShape( 50, 500, new PaintFill( ColorFill.RED, ColorFill.BLACK ) ));
+		SceneElement e1 = new SceneElement(new RectangleShape( 50, 500, new Paint( ColorFill.RED, ColorFill.BLACK ) ));
 		e1.setPosition(new EAdPosition( Corner.CENTER, 400, 300 ));
 		getSceneElements().add(e1);
 		
-		SceneElement e2 = new SceneElement( new CircleShape( 20, 20, 20, 20, new PaintFill( ColorFill.GREEN, ColorFill.BLACK ) ));
+		SceneElement e2 = new SceneElement( new CircleShape( 20, 20, 20, 20, new Paint( ColorFill.GREEN, ColorFill.BLACK ) ));
 		e2.setPosition(new EAdPosition( Corner.CENTER, 10, 300 ));
 		getSceneElements().add(e2);
 		

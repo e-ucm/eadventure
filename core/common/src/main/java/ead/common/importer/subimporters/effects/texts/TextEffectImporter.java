@@ -51,7 +51,7 @@ import ead.common.model.elements.variables.EAdField;
 import ead.common.model.elements.variables.EAdOperation;
 import ead.common.model.elements.variables.operations.BooleanOp;
 import ead.common.params.fills.ColorFill;
-import ead.common.params.fills.PaintFill;
+import ead.common.params.fills.Paint;
 import ead.common.resources.assets.drawable.basics.EAdCaption;
 import ead.common.resources.assets.drawable.basics.shapes.extra.BalloonType;
 import ead.common.util.StringHandler;
@@ -227,7 +227,7 @@ public abstract class TextEffectImporter<T extends AbstractEffect> extends
 		ColorFill bubbleBorder = new ColorFill("0x"
 				+ npc.getBubbleBorderColor().substring(1) + "ff");
 
-		effect.setColor(new PaintFill(center, border), new PaintFill(
+		effect.setColor(new Paint(center, border), new Paint(
 				bubbleCenter, bubbleBorder));
 	}
 

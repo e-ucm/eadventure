@@ -49,7 +49,7 @@ import ead.common.model.elements.variables.operations.MathOp;
 import ead.common.model.elements.variables.operations.ValueOp;
 import ead.common.params.fills.ColorFill;
 import ead.common.params.fills.LinearGradientFill;
-import ead.common.params.fills.PaintFill;
+import ead.common.params.fills.Paint;
 import ead.common.resources.assets.drawable.basics.shapes.BallonShape;
 import ead.common.resources.assets.drawable.basics.shapes.BezierShape;
 import ead.common.resources.assets.drawable.basics.shapes.extra.BalloonType;
@@ -90,7 +90,7 @@ public class DragDropScene extends EmptyScene {
 
 		BezierShape shape2 = new BallonShape(0, 0, 110, 110,
 				BalloonType.ROUNDED_RECTANGLE);
-		shape2.setPaint(PaintFill.BLACK_ON_WHITE);
+		shape2.setPaint(Paint.BLACK_ON_WHITE);
 		SceneElement e2 = new SceneElement(shape2);
 		e2.setPosition(new EAdPosition(Corner.CENTER, 100, 300));
 

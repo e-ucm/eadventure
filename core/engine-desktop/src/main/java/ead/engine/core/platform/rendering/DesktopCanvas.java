@@ -93,7 +93,7 @@ public class DesktopCanvas extends AbstractCanvas<Graphics2D> {
 	public void setTransformation(EAdTransformation t) {
 		setMatrix(t.getMatrix());
 		if (t.getClip() != null)
-			clip(t.getClip());
+			setClip(t.getClip());
 		if (alphaComposite.getAlpha() != t.getAlpha()) {
 			alphaComposite = AlphaComposite.getInstance(
 					AlphaComposite.SRC_OVER, t.getAlpha());
@@ -171,9 +171,11 @@ public class DesktopCanvas extends AbstractCanvas<Graphics2D> {
 	}
 
 	@Override
-	public void clip(EAdRectangle rectangle) {
-		g.clipRect(rectangle.getX(), rectangle.getY(), rectangle.getWidth(),
-				rectangle.getHeight());
+	public void setClip(EAdRectangle rectangle) {
+		if ( rectangle != null ){
+			g.setClip(rectangle.getX(), rectangle.getY(), rectangle.getWidth(),
+					rectangle.getHeight());
+		}
 	}
 
 	private Paint getPaint(EAdFill fill) {

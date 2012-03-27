@@ -44,7 +44,7 @@ import ead.common.model.elements.variables.BasicField;
 import ead.common.model.elements.variables.operations.ValueOp;
 import ead.common.params.fills.ColorFill;
 import ead.common.params.fills.LinearGradientFill;
-import ead.common.params.fills.PaintFill;
+import ead.common.params.fills.Paint;
 import ead.common.params.paint.EAdFill;
 import ead.common.resources.assets.drawable.basics.Caption;
 import ead.common.resources.assets.drawable.basics.Image;
@@ -96,7 +96,7 @@ public class DrawablesScene extends EmptyScene {
 
 		RectangleShape rectangleB = new RectangleShape(rWidth, rHeight);
 		rectangleB
-				.setPaint(new PaintFill(ColorFill.GREEN, ColorFill.BLACK, 2));
+				.setPaint(new Paint(ColorFill.GREEN, ColorFill.BLACK, 2));
 
 		EAdFill p = new LinearGradientFill(ColorFill.BLUE, ColorFill.MAGENTA,
 				rWidth, rHeight, false);
@@ -104,15 +104,15 @@ public class DrawablesScene extends EmptyScene {
 		rectangleG.setPaint(p);
 
 		RectangleShape rectangle3 = new RectangleShape(rWidth, rHeight);
-		rectangle3.setPaint(new PaintFill(
+		rectangle3.setPaint(new Paint(
 				new LinearGradientFill(ColorFill.GREEN, ColorFill.YELLOW,
 						rWidth / 2, rHeight / 2, false), ColorFill.RED));
 
 		RectangleShape rectangle4 = new RectangleShape(rWidth, rHeight);
-		rectangle4.setPaint(new PaintFill(null, ColorFill.BROWN, 4));
+		rectangle4.setPaint(new Paint(null, ColorFill.BROWN, 4));
 
 		RectangleShape rectangle5 = new RectangleShape(rWidth, rHeight);
-		rectangle5.setPaint(new PaintFill(ColorFill.WHITE, p, 8));
+		rectangle5.setPaint(new Paint(ColorFill.WHITE, p, 8));
 
 		EAdComposedDrawable composedDrawable = new ComposedDrawable();
 		composedDrawable.addDrawable(rectangleShadow, 6, 6);
@@ -143,11 +143,11 @@ public class DrawablesScene extends EmptyScene {
 
 		// State drawable
 		RectangleShape rectangle1 = new RectangleShape(rHeight, rHeight);
-		rectangle1.setPaint(new PaintFill(ColorFill.LIGHT_BROWN,
+		rectangle1.setPaint(new Paint(ColorFill.LIGHT_BROWN,
 				ColorFill.LIGHT_BROWN, 8));
 
 		RectangleShape rectangle2 = new RectangleShape(rHeight, rHeight);
-		rectangle2.setPaint(new PaintFill(ColorFill.BLACK,
+		rectangle2.setPaint(new Paint(ColorFill.BLACK,
 				ColorFill.LIGHT_BROWN, 8));
 
 		EAdStateDrawable stateDrawable = new StateDrawable();

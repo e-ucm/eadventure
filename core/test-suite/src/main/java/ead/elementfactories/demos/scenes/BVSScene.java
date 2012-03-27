@@ -51,7 +51,7 @@ import ead.common.model.elements.variables.EAdField;
 import ead.common.model.elements.variables.BasicField;
 import ead.common.model.elements.variables.operations.ValueOp;
 import ead.common.params.fills.ColorFill;
-import ead.common.params.fills.PaintFill;
+import ead.common.params.fills.Paint;
 import ead.common.params.text.EAdString;
 import ead.common.resources.assets.drawable.basics.Caption;
 import ead.common.resources.assets.drawable.basics.Image;
@@ -106,7 +106,7 @@ public class BVSScene extends EmptyScene {
 
 		Caption caption = new Caption(new EAdString("Choose how to start a cough..."));
 		caption.setFont(new BasicFont(45.0f));
-		caption.setTextPaint(new PaintFill(ColorFill.GREEN, ColorFill.WHITE));
+		caption.setTextPaint(new Paint(ColorFill.GREEN, ColorFill.WHITE));
 		EAdSceneElementDef title = new SceneElementDef();
 		title.getResources().addAsset(title.getInitialBundle(), SceneElementDef.appearance, caption);
 		SceneElement titleRef = new SceneElement(title);

@@ -81,7 +81,7 @@ public class PlayNCanvas extends AbstractCanvas<Canvas> {
 	public void setTransformation(EAdTransformation t) {
 		setMatrix( t.getMatrix() );
 		if (t.getClip() != null)
-			clip(t.getClip());
+			setClip(t.getClip());
 		g.setAlpha(t.getAlpha());
 	}
 	
@@ -182,7 +182,7 @@ public class PlayNCanvas extends AbstractCanvas<Canvas> {
 	}
 
 	@Override
-	public void clip(EAdRectangle rectangle) {
+	public void setClip(EAdRectangle rectangle) {
 		Path p = PlayN.graphics().createPath();
 		p.moveTo(0, 0);
 		p.lineTo(rectangle.getWidth(), 0);

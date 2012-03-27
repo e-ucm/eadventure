@@ -57,7 +57,7 @@ public abstract class AbstractHUD implements HudGO {
 	protected GUI gui;
 
 	private List<DrawableGO<?>> hudGameObjects;
-	
+
 	protected EAdTransformation transformation;
 
 	public AbstractHUD(GUI gui) {
@@ -65,8 +65,8 @@ public abstract class AbstractHUD implements HudGO {
 		hudGameObjects = new ArrayList<DrawableGO<?>>();
 		transformation = new EAdTransformationImpl();
 	}
-	
-	public List<DrawableGO<?>> getContaintedGOs( ){
+
+	public List<DrawableGO<?>> getContaintedGOs() {
 		return hudGameObjects;
 	}
 
@@ -93,11 +93,11 @@ public abstract class AbstractHUD implements HudGO {
 	public boolean contains(int x, int y) {
 		return false;
 	}
-	
-	public boolean processAction(InputAction<?> action){
+
+	public boolean processAction(InputAction<?> action) {
 		return false;
 	}
-	
+
 	@Override
 	public void setElement(Void element) {
 		// Do nothing
@@ -108,12 +108,12 @@ public abstract class AbstractHUD implements HudGO {
 		// Return nothing
 		return null;
 	}
-	
+
 	@Override
 	public EAdTransformation getTransformation() {
 		return transformation;
 	}
-	
+
 	@Override
 	public SceneElementGO<?> getDraggableElement() {
 		return null;
@@ -134,14 +134,21 @@ public abstract class AbstractHUD implements HudGO {
 	public EAdPosition getPosition() {
 		return null;
 	}
-	
-	public void resetTransfromation(){
+
+	public void resetTransfromation() {
 		transformation.getMatrix().setIdentity();
 	}
-	
-	public RuntimeDrawable<?, ?> getRuntimeDrawable(){
+
+	public RuntimeDrawable<?, ?> getRuntimeDrawable() {
 		return null;
 	}
-	
+
+	public int getWidth() {
+		return 1;
+	}
+
+	public int getHeight() {
+		return 1;
+	}
 
 }

@@ -64,7 +64,7 @@ import ead.common.model.elements.variables.VarDef;
 import ead.common.model.elements.variables.operations.ValueOp;
 import ead.common.model.predef.effects.ChangeAppearanceEf;
 import ead.common.model.predef.effects.MakeActiveElementEf;
-import ead.common.params.fills.PaintFill;
+import ead.common.params.fills.Paint;
 import ead.common.resources.EAdBundleId;
 import ead.common.resources.assets.drawable.basics.shapes.RectangleShape;
 
@@ -117,7 +117,7 @@ public class EditionSceneElement extends ComplexSceneElement {
 		square.setVarInitialValue(SceneElement.VAR_X, 12);
 		square.setVarInitialValue(SceneElement.VAR_Y, 12);
 
-		squareDef.getResources().addAsset(squareDef.getInitialBundle(), SceneElementDef.appearance, new RectangleShape(10, 10, PaintFill.BLACK_ON_WHITE));
+		squareDef.getResources().addAsset(squareDef.getInitialBundle(), SceneElementDef.appearance, new RectangleShape(10, 10, Paint.BLACK_ON_WHITE));
 		square.setVarInitialValue(SceneElement.VAR_VISIBLE, Boolean.FALSE);
 		this.sceneElements.add(square);
 		
@@ -164,7 +164,7 @@ public class EditionSceneElement extends ComplexSceneElement {
 		SceneElementDef squareDef = new SceneElementDef();
 		SceneElement square = new SceneElement(squareDef);
 		square.setDragCond(EmptyCond.TRUE_EMPTY_CONDITION);
-		squareDef.getResources().addAsset(squareDef.getInitialBundle(), SceneElementDef.appearance, new RectangleShape(10, 10, PaintFill.BLACK_ON_WHITE));
+		squareDef.getResources().addAsset(squareDef.getInitialBundle(), SceneElementDef.appearance, new RectangleShape(10, 10, Paint.BLACK_ON_WHITE));
 		square.setVarInitialValue(SceneElement.VAR_VISIBLE, Boolean.FALSE);
 		this.sceneElements.add(square);
 		

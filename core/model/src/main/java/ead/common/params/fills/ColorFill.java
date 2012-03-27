@@ -152,7 +152,7 @@ public class ColorFill extends AbstractParam implements EAdFill {
 	 * Creates a new white color, with the values of white
 	 */
 	public ColorFill() {
-		this(255, 255, 255, 255);
+		this(0, 0, 0, 255);
 	}
 
 	/**
@@ -198,6 +198,34 @@ public class ColorFill extends AbstractParam implements EAdFill {
 	 */
 	public ColorFill(String data) {
 		parse(data);
+	}
+
+	/**
+	 * Sets the red, green, blue, alpha color components. Values are normalized
+	 * to be set between 0 and 255
+	 * 
+	 * @param red
+	 * @param green
+	 * @param blue
+	 */
+	public void setRGBA(int red, int green, int blue, int alpha) {
+		setRed(red);
+		setGreen(green);
+		setBlue(blue);
+		setAlpha(alpha);
+	}
+
+	/**
+	 * Sets the red, green, blue color components, leaving the alpha as it is.
+	 * Same effect as calling {@link ColorFill#setRGBA(int, int, int, int)} with
+	 * {@link ColorFill#getAlpha()} as fourth parameter
+	 * 
+	 * @param red
+	 * @param green
+	 * @param blue
+	 */
+	public void setRGB(int red, int green, int blue) {
+		this.setRGBA(red, green, blue, alpha);
 	}
 
 	/**
@@ -308,13 +336,26 @@ public class ColorFill extends AbstractParam implements EAdFill {
 	}
 
 	@Override
-	public void parse(String data) {
+	public boolean parse(String data) {
+		boolean error = false;
 		if (data != null && data.length() == 10) {
-			setRed(Integer.parseInt(data.substring(2, 4), 16));
-			setGreen(Integer.parseInt(data.substring(4, 6), 16));
-			setBlue(Integer.parseInt(data.substring(6, 8), 16));
-			setAlpha(Integer.parseInt(data.substring(8, 10), 16));
+			try {
+				setRed(Integer.parseInt(data.substring(2, 4), 16));
+				setGreen(Integer.parseInt(data.substring(4, 6), 16));
+				setBlue(Integer.parseInt(data.substring(6, 8), 16));
+				setAlpha(Integer.parseInt(data.substring(8, 10), 16));
+			} catch (NumberFormatException e) {
+				error = true;
+			}
+		} else {
+			error = true;
 		}
+
+		if (error) {
+			red = blue = green = 0;
+			alpha = 255;
+		}
+		return !error;
 	}
 
 	@Override
@@ -337,11 +378,10 @@ public class ColorFill extends AbstractParam implements EAdFill {
 		if (object == null || !(object instanceof ColorFill))
 			return false;
 		ColorFill paint = (ColorFill) object;
-		if (paint.alpha == alpha &&
-				paint.blue == blue &&
-				paint.green == green &&
-				paint.red == red)
+		if (paint.alpha == alpha && paint.blue == blue && paint.green == green
+				&& paint.red == red)
 			return true;
 		return false;
 	}
+
 }

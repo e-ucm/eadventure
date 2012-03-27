@@ -37,8 +37,8 @@
 
 package ead.common.resources.assets.drawable.basics.shapes;
 
-import ead.common.params.fills.PaintFill;
-import ead.common.params.paint.EAdFill;
+import ead.common.params.fills.Paint;
+import ead.common.params.paint.EAdPaint;
 
 
 /**
@@ -48,10 +48,10 @@ import ead.common.params.paint.EAdFill;
 public class RectangleShape extends BezierShape {
 	
 	public RectangleShape(int width, int height ){
-		this( width, height, PaintFill.TRANSPARENT );
+		this( width, height, Paint.TRANSPARENT );
 	}
 	
-	public RectangleShape(int width, int height, EAdFill fill ) {
+	public RectangleShape(int width, int height, EAdPaint fill ) {
 		super( 0, 0 );
 		lineTo( width, 0 );
 		lineTo( width, height );

@@ -45,7 +45,7 @@ import ead.common.model.elements.EAdCondition;
 import ead.common.model.elements.effects.text.SpeakEf;
 import ead.common.model.elements.variables.EAdOperation;
 import ead.common.params.fills.ColorFill;
-import ead.common.params.fills.PaintFill;
+import ead.common.params.fills.Paint;
 import ead.common.util.StringHandler;
 import es.eucm.eadventure.common.data.chapter.conditions.Conditions;
 import es.eucm.eadventure.common.data.chapter.effects.ShowTextEffect;
@@ -72,7 +72,7 @@ public class ShowTextEffectImporter extends TextEffectImporter<ShowTextEffect> {
 				.getRgbFrontColor()) + "ff");
 		ColorFill border = new ColorFill(Integer.toHexString(oldObject
 				.getRgbBorderColor()) + "ff");
-		showText.setColor(new PaintFill(center, border), PaintFill.TRANSPARENT);
+		showText.setColor(new Paint(center, border), Paint.TRANSPARENT);
 
 		return showText;
 	}

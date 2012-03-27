@@ -60,7 +60,7 @@ public class MouseHandler {
 	/**
 	 * Constant representing the mouse out of the window
 	 */
-	public static final int OUT_VAL = -1;
+	public static final int OUT_VAL = Integer.MIN_VALUE;
 
 	/**
 	 * Z used in drag

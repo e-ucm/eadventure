@@ -37,15 +37,15 @@
 
 package ead.common.util;
 
-import ead.common.params.EAdParam;
+import ead.common.params.AbstractParam;
 
 
 /**
  * Represents a 2D rectangle. It has an ( x, y ) coordinate, width and height
  * 
  */
-public class EAdRectangle implements EAdParam {
-	
+public class EAdRectangle extends AbstractParam {
+
 	public static final String SEPARATOR = ";";
 
 	/**
@@ -69,6 +69,13 @@ public class EAdRectangle implements EAdParam {
 	public int height;
 
 	/**
+	 * Constructs a rectangle in (0, 0), with width and height 0.
+	 */
+	public EAdRectangle() {
+		this(0, 0, 0, 0);
+	}
+
+	/**
 	 * Creates a rectangle
 	 * 
 	 * @param x
@@ -86,11 +93,11 @@ public class EAdRectangle implements EAdParam {
 		this.width = width;
 		this.height = height;
 	}
-	
-	public EAdRectangle( String string ){
-		parse( string );
+
+	public EAdRectangle(String string) {
+		parse(string);
 	}
-	
+
 	public int getX() {
 		return x;
 	}
@@ -149,8 +156,8 @@ public class EAdRectangle implements EAdParam {
 		this.y = position.getY();
 
 	}
-	
-	public String toString(){
+
+	public String toString() {
 		return toStringData();
 	}
 
@@ -160,24 +167,31 @@ public class EAdRectangle implements EAdParam {
 	}
 
 	@Override
-	public void parse(String data) {
-		String[] temp = data.split(SEPARATOR);
-		int i = 0;
-		x = Integer.parseInt(temp[i++]);
-		y = Integer.parseInt(temp[i++]);
-		width = Integer.parseInt(temp[i++]);
-		height = Integer.parseInt(temp[i++]);
+	public boolean parse(String data) {
+		boolean error = data == null;
+
+		if (!error) {
+			String[] temp = data.split(SEPARATOR);
+			if (temp.length == 4) {
+				int i = 0;
+				try {
+					x = Integer.parseInt(temp[i++]);
+					y = Integer.parseInt(temp[i++]);
+					width = Integer.parseInt(temp[i++]);
+					height = Integer.parseInt(temp[i++]);
+				} catch (NumberFormatException e) {
+					error = true;
+				}
+			} else {
+				error = true;
+			}
+
+		}
+		if (error) {
+			x = y = width = height = 0;
+		}
+
+		return !error;
 	}
 
-	@Override
-	public boolean equals(Object object) {
-		if (object == null || !(object instanceof EAdRectangle))
-			return false;
-		EAdRectangle newRect = (EAdRectangle) object;
-		if (newRect.getX() == x && newRect.getY() == y && newRect.getWidth() == width && newRect.getHeight() == height)
-			return true;
-		return false;
-	}
-
-	
 }

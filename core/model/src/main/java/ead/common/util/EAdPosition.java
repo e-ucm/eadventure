@@ -37,7 +37,7 @@
 
 package ead.common.util;
 
-import ead.common.params.EAdParam;
+import ead.common.params.AbstractParam;
 
 /**
  * <p>
@@ -61,7 +61,7 @@ import ead.common.params.EAdParam;
  * 5 . . . . . . . . . .<br>
  * </code>
  */
-public class EAdPosition implements EAdParam {
+public class EAdPosition extends AbstractParam {
 
 	public static final String SEPARATOR = ":";
 
@@ -114,6 +114,14 @@ public class EAdPosition implements EAdParam {
 	private float dispX;
 
 	private float dispY;
+
+	/**
+	 * Constructs a position in (0, 0), with dispX and dispY set to zero (
+	 * {@link Corner#TOP_LEFT})
+	 */
+	public EAdPosition() {
+		this(0, 0, 0, 0);
+	}
 
 	public EAdPosition(Corner corner, int x, int y) {
 		this(x, y, 0f, 0f);
@@ -245,17 +253,6 @@ public class EAdPosition implements EAdParam {
 		return toStringData();
 	}
 
-	@Override
-	public boolean equals(Object object) {
-		if (object == null || !(object instanceof EAdPosition))
-			return false;
-		EAdPosition newPos = (EAdPosition) object;
-		if (newPos.getX() == x && newPos.getY() == y
-				&& newPos.getDispX() == dispX && newPos.getDispY() == dispY)
-			return true;
-		return false;
-	}
-
 	private static EAdPosition volatileEAdPosition = new EAdPosition(0, 0);
 
 	/**
@@ -320,12 +317,29 @@ public class EAdPosition implements EAdParam {
 				+ SEPARATOR + (dispY != 0 ? dispY : "0");
 	}
 
-	public void parse(String data) {
-		String temp[] = data.split(SEPARATOR);
-		x = Integer.parseInt(temp[0]);
-		y = Integer.parseInt(temp[1]);
-		dispX = Float.parseFloat(temp[2]);
-		dispY = Float.parseFloat(temp[3]);
+	public boolean parse(String data) {
+		boolean error = data == null;
+		if (!error) {
+			String temp[] = data.split(SEPARATOR);
+			if (temp.length == 4) {
+				try {
+					x = Integer.parseInt(temp[0]);
+					y = Integer.parseInt(temp[1]);
+					dispX = Float.parseFloat(temp[2]);
+					dispY = Float.parseFloat(temp[3]);
+				} catch (NumberFormatException e) {
+					error = true;
+				}
+			} else {
+				error = true;
+			}
+
+			if (error) {
+				x = y = 0;
+				dispX = dispY = 0.0f;
+			}
+		}
+		return !error;
 	}
 
 	public void set(int x, int y) {

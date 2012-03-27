@@ -56,7 +56,7 @@ import ead.common.model.elements.trajectories.Side;
 import ead.common.model.elements.trajectories.SimpleTrajectoryDefinition;
 import ead.common.model.elements.trajectories.EAdTrajectoryDefinition;
 import ead.common.params.fills.ColorFill;
-import ead.common.params.fills.PaintFill;
+import ead.common.params.fills.Paint;
 import ead.common.params.paint.EAdPaint;
 import ead.common.resources.assets.drawable.basics.shapes.BezierShape;
 import ead.common.resources.assets.drawable.basics.shapes.CircleShape;
@@ -191,7 +191,7 @@ public class TrajectoryDebugger implements Debugger {
 			ColorFill color = trajectory.getInitial() == n ? ColorFill.RED
 					: ColorFill.BLUE;
 
-			circle.setPaint(new PaintFill(color, ColorFill.BLACK, 2));
+			circle.setPaint(new Paint(color, ColorFill.BLACK, 2));
 			map.addDrawable(circle);
 		}
 

@@ -45,34 +45,35 @@ import ead.common.params.EAdParam;
  * General internationalized string asset interface.
  */
 public class EAdString implements EAdParam {
-	
+
 	/**
 	 * The id
 	 */
 	private String id;
-	
+
 	/**
 	 * Construct a new string with the given id
 	 * 
-	 * @param id The id of the EAdString
+	 * @param id
+	 *            The id of the EAdString
 	 */
 	public EAdString(String id) {
 		this.id = id;
 	}
-	
+
 	@Override
 	public String toString() {
 		return id;
 	}
-	
+
 	@Override
 	public int hashCode() {
 		return id.hashCode();
 	}
-	
+
 	@Override
-	public boolean equals( Object o ){
-		if ( o instanceof EAdString ){
+	public boolean equals(Object o) {
+		if (o instanceof EAdString) {
 			return ((EAdString) o).id.equals(id);
 		}
 		return false;
@@ -84,16 +85,17 @@ public class EAdString implements EAdParam {
 	}
 
 	@Override
-	public void parse(String data) {
+	public boolean parse(String data) {
 		this.id = data;
+		return id != null;
 	}
 
 	public static EAdString newRandomEAdString(String string) {
 		return new EAdString(string + (new Random()).nextInt(100000000));
 	}
-	
-	public static EAdString newEAdString(String string){
+
+	public static EAdString newEAdString(String string) {
 		return new EAdString(string);
 	}
-	
+
 }

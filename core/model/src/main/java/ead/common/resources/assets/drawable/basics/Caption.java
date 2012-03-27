@@ -42,7 +42,7 @@ import ead.common.model.elements.extra.EAdList;
 import ead.common.model.elements.extra.EAdListImpl;
 import ead.common.model.elements.variables.EAdOperation;
 import ead.common.params.fills.ColorFill;
-import ead.common.params.fills.PaintFill;
+import ead.common.params.fills.Paint;
 import ead.common.params.paint.EAdPaint;
 import ead.common.params.text.EAdString;
 import ead.common.resources.assets.drawable.basics.EAdCaption;
@@ -104,8 +104,8 @@ public class Caption implements EAdCaption {
 	 */
 	public Caption(EAdString label) {
 		this.label = label;
-		textPaint = new PaintFill(ColorFill.BLACK, ColorFill.WHITE);
-		bubblePaint = new PaintFill(ColorFill.WHITE, ColorFill.BLACK);
+		textPaint = new Paint(ColorFill.BLACK, ColorFill.WHITE);
+		bubblePaint = new Paint(ColorFill.WHITE, ColorFill.BLACK);
 		this.font = BasicFont.BIG;
 		this.hasBubble = false;
 		this.bubblePaint = null;

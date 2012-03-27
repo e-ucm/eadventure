@@ -38,7 +38,7 @@
 package ead.elementfactories.demos.scenes;
 
 import ead.common.model.elements.EAdEffect;
-import ead.common.params.fills.PaintFill;
+import ead.common.params.fills.Paint;
 import ead.common.resources.assets.drawable.basics.Caption;
 import ead.common.resources.assets.text.BasicFont;
 import ead.common.util.EAdURI;
@@ -47,7 +47,7 @@ import ead.elementfactories.EAdElementsFactory;
 public class SoundScene extends EmptyScene {
 	
 	public SoundScene( ){
-		Caption caption = EAdElementsFactory.getInstance().getCaptionFactory().createCaption("Play", PaintFill.WHITE_ON_BLACK, PaintFill.BLACK_ON_WHITE, new BasicFont( new EAdURI( "@binary/DroidSans-Bold.ttf"), 20));
+		Caption caption = EAdElementsFactory.getInstance().getCaptionFactory().createCaption("Play", Paint.WHITE_ON_BLACK, Paint.BLACK_ON_WHITE, new BasicFont( new EAdURI( "@binary/DroidSans-Bold.ttf"), 20));
 		EAdEffect effect = EAdElementsFactory.getInstance().getEffectFactory().getPlaySound("@binary/sound.mp3" );
 		getSceneElements().add(EAdElementsFactory.getInstance().getSceneElementFactory().createSceneElement(caption, 10, 10, effect));
 	}

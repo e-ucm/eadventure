@@ -56,11 +56,10 @@ import ead.common.model.elements.scenes.SceneElement;
 import ead.common.params.text.EAdString;
 import ead.common.util.StringHandler;
 import ead.engine.core.game.GameState;
-import ead.engine.core.gameobjects.GameObjectManager;
 import ead.engine.core.gameobjects.factories.SceneElementGOFactory;
 import ead.engine.core.gameobjects.go.GameObject;
-import ead.engine.core.gameobjects.huds.TopBasicHUDImpl;
 import ead.engine.core.gameobjects.huds.MenuHUD;
+import ead.engine.core.gameobjects.huds.TopBasicHUDImpl;
 import ead.engine.core.input.InputHandler;
 import ead.engine.core.input.states.MouseState;
 import ead.engine.core.platform.AndroidAssetHandler;
@@ -88,9 +87,9 @@ public class AndroidBasicHUD extends TopBasicHUDImpl {
 			GameObjectManager gameObjectManager, InputHandler inputHandler,
 			StringHandler stringHandler,
 			EngineConfiguration platformConfiguration,
-			AssetHandler assetHandler) {
+			AssetHandler assetHandler, EngineConfiguration engineConfiguration) {
 		super(menuHUD, gameObjectFactory, gameState, inputHandler, stringHandler,
-				gui, assetHandler);
+				gui, assetHandler, engineConfiguration);
 		this.platformConfiguration = platformConfiguration;
 		this.vibrator = (Vibrator) ((AndroidAssetHandler) assetHandler).getContext().getSystemService(Context.VIBRATOR_SERVICE);
 		

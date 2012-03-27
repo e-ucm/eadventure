@@ -43,7 +43,7 @@ import ead.common.model.elements.effects.AbstractEffect;
 import ead.common.model.elements.variables.EAdField;
 import ead.common.model.elements.variables.EAdOperation;
 import ead.common.params.fills.ColorFill;
-import ead.common.params.fills.PaintFill;
+import ead.common.params.fills.Paint;
 import ead.common.params.paint.EAdPaint;
 import ead.common.params.text.EAdString;
 import ead.common.resources.assets.drawable.basics.Caption;
@@ -65,7 +65,7 @@ public class SpeakEf extends AbstractEffect {
 	private static final EAdFont DEFAULT_FONT = new BasicFont(new EAdURI(
 			"@binary/DroidSans-Bold.ttf"), 32);
 
-	private static final PaintFill BUBBLE_PAINT = new PaintFill(
+	private static final Paint BUBBLE_PAINT = new Paint(
 			new ColorFill(255, 255, 255, 220), ColorFill.BLACK, 2);
 
 	@Param("x")
@@ -88,8 +88,8 @@ public class SpeakEf extends AbstractEffect {
 
 	/**
 	 * Creates an speak effect, with no text and no position, with text color of
-	 * {@link PaintFill#WHITE_ON_BLACK} and bubble color of
-	 * {@link PaintFill#BLACK_ON_WHITE}
+	 * {@link Paint#WHITE_ON_BLACK} and bubble color of
+	 * {@link Paint#BLACK_ON_WHITE}
 	 */
 	public SpeakEf() {
 		this(EAdString.newRandomEAdString("string"));

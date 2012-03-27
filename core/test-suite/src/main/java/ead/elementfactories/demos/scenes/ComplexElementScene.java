@@ -50,7 +50,7 @@ import ead.common.model.elements.variables.EAdField;
 import ead.common.model.elements.variables.BasicField;
 import ead.common.model.elements.variables.operations.ValueOp;
 import ead.common.params.fills.ColorFill;
-import ead.common.params.fills.PaintFill;
+import ead.common.params.fills.Paint;
 import ead.common.resources.assets.drawable.basics.shapes.RectangleShape;
 import ead.common.util.EAdPosition;
 import ead.common.util.EAdPosition.Corner;
@@ -61,7 +61,7 @@ public class ComplexElementScene extends EmptyScene {
 	public ComplexElementScene() {
 		RectangleShape rectangle = new RectangleShape(400, 400);
 		rectangle.setPaintAsVector(true);
-		rectangle.setPaint(PaintFill.BLACK_ON_WHITE);
+		rectangle.setPaint(Paint.BLACK_ON_WHITE);
 		ComplexSceneElement complex = new ComplexSceneElement(rectangle);
 		complex.setId("complex");
 		complex.setBounds(400, 400);

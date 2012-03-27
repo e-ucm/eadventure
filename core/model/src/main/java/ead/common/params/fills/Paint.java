@@ -37,39 +37,36 @@
 
 package ead.common.params.fills;
 
-import java.util.logging.Logger;
-
 import ead.common.params.AbstractParam;
 import ead.common.params.paint.EAdFill;
+import ead.common.params.paint.EAdPaint;
 
 /**
  * <p>
  * This class represents a paint, with a fill and a border
  * </p>
  */
-public class PaintFill extends AbstractParam implements EAdFill {
+public class Paint extends AbstractParam implements EAdPaint {
 
 	public static final String SEPARATOR = ":";
-
-	private static final Logger logger = Logger.getLogger("EAdPaintImpl");
 
 	/**
 	 * Basic black border and white center EAdBordered color
 	 */
-	public static final PaintFill BLACK_ON_WHITE = new PaintFill(
-			ColorFill.WHITE, ColorFill.BLACK);
+	public static final Paint BLACK_ON_WHITE = new Paint(ColorFill.WHITE,
+			ColorFill.BLACK);
 
 	/**
 	 * Basic white border and black center EAdBordered color
 	 */
-	public static final PaintFill WHITE_ON_BLACK = new PaintFill(
-			ColorFill.BLACK, ColorFill.WHITE);
+	public static final Paint WHITE_ON_BLACK = new Paint(ColorFill.BLACK,
+			ColorFill.WHITE);
 
 	/**
 	 * Transparent color
 	 */
-	public static final PaintFill TRANSPARENT = new PaintFill(
-			ColorFill.TRANSPARENT, ColorFill.TRANSPARENT);
+	public static final Paint TRANSPARENT = new Paint(ColorFill.TRANSPARENT,
+			ColorFill.TRANSPARENT);
 
 	/**
 	 * The color of the center
@@ -86,15 +83,15 @@ public class PaintFill extends AbstractParam implements EAdFill {
 	 */
 	private int width = 1;
 
-	public PaintFill(String string) {
+	public Paint(String string) {
 		parse(string);
 	}
 
-	public PaintFill(EAdFill fill, EAdFill border) {
+	public Paint(EAdFill fill, EAdFill border) {
 		this(fill, border, 1);
 	}
 
-	public PaintFill(EAdFill center, EAdFill border, int width) {
+	public Paint(EAdFill center, EAdFill border, int width) {
 		this.fill = center;
 		this.border = border;
 		this.width = width;
@@ -131,10 +128,6 @@ public class PaintFill extends AbstractParam implements EAdFill {
 
 	@Override
 	public String toStringData() {
-		if (fill == null)
-			logger.warning("Null fill");
-		if (border == null)
-			logger.warning("Null border");
 		return (fill != null ? fill : ColorFill.BLACK).toStringData()
 				+ SEPARATOR
 				+ (border != null ? border : ColorFill.BLACK).toStringData()
@@ -142,17 +135,53 @@ public class PaintFill extends AbstractParam implements EAdFill {
 	}
 
 	@Override
-	public void parse(String data) {
-		String temp[] = data.split(SEPARATOR);
-		if (temp[0].length() == 10)
-			setFill(new ColorFill(temp[0]));
-		else
-			setFill(new LinearGradientFill(temp[0]));
-		if (temp[1].length() == 10)
-			setBorderColor(new ColorFill(temp[1]));
-		else
-			setBorderColor(new LinearGradientFill(temp[1]));
-		width = Integer.parseInt(temp[2]);
+	public boolean parse(String data) {
+		boolean error = data == null;
+		if (!error) {
+			String temp[] = data.split(SEPARATOR);
+			if (temp.length == 3) {
+
+				// First fill
+				if (temp[0].length() == 10) {
+					ColorFill c = new ColorFill();
+					error = !c.parse(temp[0]) || error;
+					setFill(c);
+				} else {
+					LinearGradientFill fill = new LinearGradientFill();
+					error = !fill.parse(temp[0]) || error;
+					setFill(fill);
+				}
+
+				// Second fill
+				if (temp[1].length() == 10) {
+					ColorFill c = new ColorFill();
+					error = !c.parse(temp[1]) || error;
+					setBorderColor(c);
+				} else {
+					LinearGradientFill fill = new LinearGradientFill();
+					error = !fill.parse(temp[1]) || error;
+					setBorderColor(fill);
+				}
+
+				// Width
+				try {
+					width = Integer.parseInt(temp[2]);
+				} catch (NumberFormatException e) {
+					error = true;
+				}
+
+			} else {
+				error = true;
+			}
+		}
+
+		if (error) {
+			this.fill = BLACK_ON_WHITE.fill;
+			this.border = BLACK_ON_WHITE.border;
+			this.width = BLACK_ON_WHITE.width;
+		}
+
+		return !error;
 	}
 
 	@Override
@@ -168,17 +197,6 @@ public class PaintFill extends AbstractParam implements EAdFill {
 	@Override
 	public int getBorderWidth() {
 		return width;
-	}
-
-	@Override
-	public boolean equals(Object object) {
-		if (object == null || !(object instanceof PaintFill))
-			return false;
-		PaintFill paint = (PaintFill) object;
-		if (paint.border.equals(border) && paint.fill.equals(fill)
-				&& paint.width == width)
-			return true;
-		return false;
 	}
 
 }

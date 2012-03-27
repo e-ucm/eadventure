@@ -46,7 +46,7 @@ import ead.common.model.elements.effects.text.SpeakEf;
 import ead.common.model.elements.variables.EAdOperation;
 import ead.common.model.predef.effects.SpeakSceneElementEf;
 import ead.common.params.fills.ColorFill;
-import ead.common.params.fills.PaintFill;
+import ead.common.params.fills.Paint;
 import ead.common.util.StringHandler;
 import es.eucm.eadventure.common.data.chapter.conditions.Conditions;
 import es.eucm.eadventure.common.data.chapter.effects.SpeakCharEffect;
@@ -104,7 +104,7 @@ public class SpeakCharEffectImporter extends
 		ColorFill bubbleBorder = new ColorFill("0x"
 				+ npc.getBubbleBorderColor().substring(1) + "ff");
 
-		effect.setColor(new PaintFill(center, border), new PaintFill(
+		effect.setColor(new Paint(center, border), new Paint(
 				bubbleCenter, bubbleBorder));
 	}
 

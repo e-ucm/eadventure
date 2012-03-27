@@ -51,7 +51,7 @@ import ead.common.model.elements.transitions.FadeInTransition;
 import ead.common.model.elements.transitions.enums.DisplaceTransitionType;
 import ead.common.model.predef.sceneelements.Button;
 import ead.common.params.fills.ColorFill;
-import ead.common.params.fills.PaintFill;
+import ead.common.params.fills.Paint;
 import ead.common.params.paint.EAdFill;
 import ead.common.resources.assets.drawable.basics.Image;
 import ead.common.resources.assets.text.BasicFont;
@@ -73,7 +73,7 @@ public class InitScene extends EmptyScene {
 
 	private EAdFont font = new BasicFont(18);
 
-	private PaintFill speakPaint = new PaintFill(fill, ColorFill.LIGHT_GRAY, 5);
+	private Paint speakPaint = new Paint(fill, ColorFill.LIGHT_GRAY, 5);
 
 	public InitScene() {
 		this.setBackground(new SceneElement(new Image(

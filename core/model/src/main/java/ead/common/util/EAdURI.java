@@ -44,24 +44,24 @@ import ead.common.params.EAdParam;
  * 
  */
 public class EAdURI implements EAdParam {
-	
+
 	private String uri;
-	
-	public EAdURI( String uri ){
-		parse( uri );
+
+	public EAdURI(String uri) {
+		parse(uri);
 	}
-	
+
 	/**
 	 * Returns a string representing the uri
 	 * 
 	 * @return a string representing the uri
 	 */
-	public String getPath(){
+	public String getPath() {
 		return uri;
 	}
 
 	@Override
-	public String toString( ) {
+	public String toString() {
 		return uri;
 	}
 
@@ -71,22 +71,23 @@ public class EAdURI implements EAdParam {
 	}
 
 	@Override
-	public void parse(String data) {
+	public boolean parse(String data) {
 		this.uri = data;
+		return uri != null;
 	}
-	
-	public int hashCode( ){
+
+	public int hashCode() {
 		return (uri != null ? uri.hashCode() : 0);
 	}
-	
-	public boolean equals( Object o ){
-		if ( o instanceof EAdURI ){
+
+	public boolean equals(Object o) {
+		if (o instanceof EAdURI) {
 			String uri = ((EAdURI) o).uri;
-			if ( this.uri == uri ){
+			if (this.uri == uri) {
 				return true;
 			}
-			
-			if ( this.uri != null && uri != null ){
+
+			if (this.uri != null && uri != null) {
 				return uri.equals(this.uri);
 			}
 		}

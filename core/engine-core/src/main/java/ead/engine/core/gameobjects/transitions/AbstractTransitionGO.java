@@ -49,7 +49,7 @@ import ead.common.model.elements.variables.EAdField;
 import ead.common.model.elements.variables.SystemFields;
 import ead.common.params.fills.ColorFill;
 import ead.common.params.fills.LinearGradientFill;
-import ead.common.params.fills.PaintFill;
+import ead.common.params.fills.Paint;
 import ead.common.resources.assets.drawable.basics.shapes.CircleShape;
 import ead.common.resources.assets.drawable.basics.shapes.RectangleShape;
 import ead.common.util.EAdPosition.Corner;
@@ -145,7 +145,7 @@ public abstract class AbstractTransitionGO<T extends EAdTransition> extends
 		RectangleShape rs = new RectangleShape(gameState.getValueMap()
 				.getValue(SystemFields.GAME_WIDTH), gameState.getValueMap()
 				.getValue(SystemFields.GAME_HEIGHT));
-		rs.setPaint(new PaintFill(new ColorFill(100, 100, 100, 0),
+		rs.setPaint(new Paint(new ColorFill(100, 100, 100, 0),
 				ColorFill.BLACK));
 
 		int circleRadius = 15;

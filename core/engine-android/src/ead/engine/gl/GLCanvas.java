@@ -215,7 +215,7 @@ public class GLCanvas extends AbstractCanvas<GL10> {
 	}
 
 	@Override
-	public void clip(EAdRectangle rectangle) {
+	public void setClip(EAdRectangle rectangle) {
 		// TODO Auto-generated method stub
 
 	}

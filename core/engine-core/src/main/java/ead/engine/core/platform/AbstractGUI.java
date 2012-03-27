@@ -40,13 +40,16 @@ package ead.engine.core.platform;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import ead.common.params.fills.ColorFill;
 import ead.common.util.EAdRectangle;
+import ead.engine.core.game.Game;
 import ead.engine.core.game.GameLoop;
 import ead.engine.core.game.GameState;
 import ead.engine.core.gameobjects.GameObjectManager;
 import ead.engine.core.gameobjects.factories.SceneElementGOFactory;
 import ead.engine.core.gameobjects.go.DrawableGO;
 import ead.engine.core.input.InputHandler;
+import ead.engine.core.platform.assets.RuntimeDrawable;
 import ead.engine.core.platform.rendering.GenericCanvas;
 import ead.engine.core.util.EAdTransformation;
 
@@ -90,6 +93,8 @@ public abstract class AbstractGUI<T> implements GUI {
 
 	protected GameLoop gameLoop;
 
+	private Game game;
+
 	public AbstractGUI(EngineConfiguration platformConfiguration,
 			GameObjectManager gameObjectManager, InputHandler inputHandler,
 			GameState gameState, SceneElementGOFactory gameObjectFactory,
@@ -102,6 +107,10 @@ public abstract class AbstractGUI<T> implements GUI {
 		this.eAdCanvas = canvas;
 		this.gameLoop = gameLoop;
 		logger.info("Created abstract GUI");
+	}
+
+	public void setGame(Game game) {
+		this.game = game;
 	}
 
 	/*
@@ -159,15 +168,36 @@ public abstract class AbstractGUI<T> implements GUI {
 	 */
 	protected void render(float interpolation) {
 		synchronized (GameObjectManager.lock) {
+
+			eAdCanvas.setClip(getClip());
 			for (DrawableGO<?> go : gameObjects.getGameObjects()) {
-				if (go != null && go.getRuntimeDrawable() != null) {
+				if (go != null) {
 					EAdTransformation t = go.getTransformation();
 					eAdCanvas.setTransformation(t);
-					go.getRuntimeDrawable().render(eAdCanvas);
+					RuntimeDrawable<?, ?> r = go.getRuntimeDrawable();
+					if (r != null) {
+						go.getRuntimeDrawable().render(eAdCanvas);
+					}
+					else {
+						eAdCanvas.setPaint(ColorFill.MAGENTA);
+						eAdCanvas.fillRect(0, 0, go.getWidth(), go.getHeight());
+					}
 				}
 
 			}
 		}
+	}
+
+	private EAdRectangle getClip() {
+		float[] init = game.getInitialTransformation().getMatrix()
+				.multiplyPoint(0, 0, true);
+		float[] end = game
+				.getInitialTransformation()
+				.getMatrix()
+				.multiplyPoint(game.getAdventureModel().getGameWidth(),
+						game.getAdventureModel().getGameHeight(), true);
+		return new EAdRectangle((int) init[0], (int) init[1],
+				(int) (end[0] - init[0]), (int) (end[1] - init[1]));
 	}
 
 	/*

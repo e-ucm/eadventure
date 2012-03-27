@@ -128,7 +128,7 @@ public interface GenericCanvas<S> {
 	 * @param rectangle
 	 */
 	// TODO clip with shapes to
-	void clip(EAdRectangle rectangle);
+	void setClip(EAdRectangle rectangle);
 
 	/**
 	 * Save the configuration and parameters of the graphic context in a stack

@@ -69,7 +69,6 @@ import ead.engine.core.platform.rendering.GenericCanvas;
 import ead.engine.core.util.EAdTransformation;
 import ead.engine.core.util.EAdTransformationImpl;
 
-
 @Singleton
 public class AndroidActionsHUDImpl extends AbstractHUD implements ActionsHUD {
 
@@ -83,7 +82,7 @@ public class AndroidActionsHUDImpl extends AbstractHUD implements ActionsHUD {
 
 	private static int actionHeight = 96;
 
-	private static int offset = actionWidth/3;
+	private static int offset = actionWidth / 3;
 
 	private List<EAdPosition> positions;
 
@@ -103,7 +102,7 @@ public class AndroidActionsHUDImpl extends AbstractHUD implements ActionsHUD {
 
 	private EAdTransformationImpl transformation = new EAdTransformationImpl();
 
-	private Rect actionBounds = new Rect(75,75,GUI.VIRTUAL_WIDTH-75,GUI.VIRTUAL_HEIGHT-75);
+	private Rect actionBounds = new Rect(75, 75, 800 - 75, 600 - 75);
 
 	private GameObjectManager gameObjectManager;
 
@@ -114,7 +113,8 @@ public class AndroidActionsHUDImpl extends AbstractHUD implements ActionsHUD {
 	/**
 	 * The logger
 	 */
-	private static final Logger logger = LoggerFactory.getLogger("ActionsHUDImpl");
+	private static final Logger logger = LoggerFactory
+			.getLogger("ActionsHUDImpl");
 
 	/**
 	 * List of the {@link EAdAction}s
@@ -127,10 +127,9 @@ public class AndroidActionsHUDImpl extends AbstractHUD implements ActionsHUD {
 
 	private GameState gameState;
 
-
 	@Inject
 	public AndroidActionsHUDImpl(GUI gui, GameObjectManager gameObjectManager,
-			GameState gameState, SceneElementGOFactory factory ) {
+			GameState gameState, SceneElementGOFactory factory) {
 		super(gui);
 		this.gameState = gameState;
 		actionsGO = new ArrayList<SceneElementGO<?>>();
@@ -153,7 +152,7 @@ public class AndroidActionsHUDImpl extends AbstractHUD implements ActionsHUD {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * es.eucm.eadventure.engine.core.gameobjects.GameObject#processAction(es
 	 * .eucm.eadventure.engine.core.guiactions.GUIAction)
@@ -190,7 +189,7 @@ public class AndroidActionsHUDImpl extends AbstractHUD implements ActionsHUD {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * es.eucm.eadventure.engine.core.gameobjects.GameObject#setElement(java
 	 * .lang.Object)
@@ -218,11 +217,13 @@ public class AndroidActionsHUDImpl extends AbstractHUD implements ActionsHUD {
 		for (EAdAction a : actions) {
 			ActionSceneElement action = new ActionSceneElement(a);
 			action.setPosition(Corner.TOP_LEFT, x, y);
-			positions.add(new EAdPosition(place - x, GUI.VIRTUAL_HEIGHT/2 - actionHeight/2 - y));
+			positions.add(new EAdPosition(place - x, 600 / 2
+					- actionHeight / 2 - y));
 			actionsGO.add(sceneElementFactory.get(action));
 			height = actionsGO.get(i).getHeight();
-			scale = actionHeight/height;
-			gameState.getValueMap().setValue(action, ActionSceneElement.VAR_SCALE, scale);
+			scale = actionHeight / height;
+			gameState.getValueMap().setValue(action,
+					ActionSceneElement.VAR_SCALE, scale);
 			place += actionWidth + offset;
 			i++;
 		}
@@ -231,8 +232,10 @@ public class AndroidActionsHUDImpl extends AbstractHUD implements ActionsHUD {
 
 	public void doLayout(EAdTransformation t) {
 
-		float interpolation1 = Interpolator.BOUNCE_END.interpolate(currentTime, ANIMATION_TIME, 1.0f);
-		float interpolation2 = Interpolator.LINEAR.interpolate(currentTime, ANIMATION_TIME, 1.0f);
+		float interpolation1 = Interpolator.BOUNCE_END.interpolate(currentTime,
+				ANIMATION_TIME, 1.0f);
+		float interpolation2 = Interpolator.LINEAR.interpolate(currentTime,
+				ANIMATION_TIME, 1.0f);
 		int i = 0;
 		transformation.setAlpha(alpha);
 		for (SceneElementGO<?> go : actionsGO) {
@@ -240,12 +243,17 @@ public class AndroidActionsHUDImpl extends AbstractHUD implements ActionsHUD {
 			EAdTransformationImpl posT = new EAdTransformationImpl();
 			EAdPosition p = this.positions.get(i);
 			if (state == ActionsState.STOPPED) {
-				posT.getMatrix().translate(p.getX() * interpolation1, p.getY() * interpolation2, true);
-				gui.addElement(go, gui.addTransformation(gui.addTransformation(t, transformation), posT));
-			}
-			else {
-				if (state == ActionsState.MOVING_RIGHT) p.setX(p.getX() + swapTime);
-				else p.setX(p.getX() - swapTime);
+				posT.getMatrix().translate(p.getX() * interpolation1,
+						p.getY() * interpolation2, true);
+				gui.addElement(
+						go,
+						gui.addTransformation(
+								gui.addTransformation(t, transformation), posT));
+			} else {
+				if (state == ActionsState.MOVING_RIGHT)
+					p.setX(p.getX() + swapTime);
+				else
+					p.setX(p.getX() - swapTime);
 
 				posT.getMatrix().translate(p.getX(), p.getY(), true);
 				gui.addElement(go, gui.addTransformation(t, posT));
@@ -253,7 +261,8 @@ public class AndroidActionsHUDImpl extends AbstractHUD implements ActionsHUD {
 			i++;
 		}
 
-		if (swapTime == SWAP_TIME) state = ActionsState.STOPPED;
+		if (swapTime == SWAP_TIME)
+			state = ActionsState.STOPPED;
 
 	}
 
@@ -282,26 +291,28 @@ public class AndroidActionsHUDImpl extends AbstractHUD implements ActionsHUD {
 			alpha = 1.0f;
 		}
 
-		if (swapTime < SWAP_TIME) swapTime += gui.getSkippedMilliseconds();
+		if (swapTime < SWAP_TIME)
+			swapTime += gui.getSkippedMilliseconds();
 
-		currentTime = currentTime > ANIMATION_TIME ? ANIMATION_TIME : currentTime;
+		currentTime = currentTime > ANIMATION_TIME ? ANIMATION_TIME
+				: currentTime;
 		swapTime = swapTime > SWAP_TIME ? SWAP_TIME : swapTime;
 		alpha = alpha > 1.0f ? 1.0f : alpha;
 
 		posInicial = positions.get(0);
-		posFinal = positions.get(positions.size()-1);
+		posFinal = positions.get(positions.size() - 1);
 
 	}
 
 	private void moveHUDleft() {
-		if (posFinal.getX() + actionWidth + this.x > actionBounds.right){
+		if (posFinal.getX() + actionWidth + this.x > actionBounds.right) {
 			swapTime = 0;
 			state = ActionsState.MOVING_LEFT;
 		}
 	}
 
 	private void moveHUDright() {
-		if (posInicial.getX() + this.x < actionBounds.left){
+		if (posInicial.getX() + this.x < actionBounds.left) {
 			swapTime = 0;
 			state = ActionsState.MOVING_RIGHT;
 		}

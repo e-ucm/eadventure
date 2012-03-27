@@ -197,7 +197,7 @@ public abstract class SceneElementGOImpl<T extends EAdSceneElement> extends
 	 */
 	protected void updateVars() {
 		ValueMap valueMap = gameState.getValueMap();
-		
+
 		enable = valueMap.getValue(element, SceneElement.VAR_ENABLE);
 		visible = valueMap.getValue(element, SceneElement.VAR_VISIBLE);
 		rotation = valueMap.getValue(element, SceneElement.VAR_ROTATION);
@@ -216,7 +216,7 @@ public abstract class SceneElementGOImpl<T extends EAdSceneElement> extends
 		position.setY(valueMap.getValue(element, SceneElement.VAR_Y));
 		position.setDispX(valueMap.getValue(element, SceneElement.VAR_DISP_X));
 		position.setDispY(valueMap.getValue(element, SceneElement.VAR_DISP_Y));
-		
+
 		// Bundle update
 		EAdBundleId newBundle = valueMap.getValue(element,
 				ResourcedElement.VAR_BUNDLE_ID);
@@ -243,7 +243,6 @@ public abstract class SceneElementGOImpl<T extends EAdSceneElement> extends
 				}
 			}
 		}
-
 
 	}
 
@@ -327,11 +326,14 @@ public abstract class SceneElementGOImpl<T extends EAdSceneElement> extends
 		if (runtimeDrawable != null) {
 			currentDrawable = runtimeDrawable.getDrawable(timeDisplayed,
 					statesList, 0);
-			if (currentDrawable != null)
-				if (currentDrawable.getWidth() != width)
+			if (currentDrawable != null) {
+				if (currentDrawable.getWidth() != width) {
 					setWidth(currentDrawable.getWidth());
-			if (currentDrawable.getHeight() != height)
-				setHeight(currentDrawable.getHeight());
+				}
+				if (currentDrawable.getHeight() != height) {
+					setHeight(currentDrawable.getHeight());
+				}
+			}
 		}
 	}
 
@@ -449,9 +451,11 @@ public abstract class SceneElementGOImpl<T extends EAdSceneElement> extends
 
 	@Override
 	public boolean contains(int x, int y) {
-		if (this.currentDrawable != null)
+		if (this.currentDrawable != null) {
 			return this.currentDrawable.contains(x, y);
-		return false;
+		} else {
+			return x >= 0 && y >= 0 && x < width && y < height;
+		}
 	}
 
 	@Override

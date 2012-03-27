@@ -60,7 +60,7 @@ import ead.common.model.elements.variables.VarDef;
 import ead.common.model.elements.variables.operations.BooleanOp;
 import ead.common.model.elements.variables.operations.ValueOp;
 import ead.common.params.fills.ColorFill;
-import ead.common.params.fills.PaintFill;
+import ead.common.params.fills.Paint;
 import ead.common.params.text.EAdString;
 import ead.common.resources.assets.drawable.basics.Caption;
 import ead.common.resources.assets.text.BasicFont;
@@ -151,7 +151,7 @@ public class ShowQuestionEf extends ComplexBlockingEffect {
 		Caption caption = new Caption(question);
 		caption.setFont(font);
 		caption.setPadding(padding);
-		caption.setBubblePaint(PaintFill.BLACK_ON_WHITE);
+		caption.setBubblePaint(Paint.BLACK_ON_WHITE);
 		SceneElement questionElement = new SceneElement(caption);
 		questionElement.setPosition(10, y);
 

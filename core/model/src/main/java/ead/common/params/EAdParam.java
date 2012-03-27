@@ -42,11 +42,15 @@ import com.gwtent.reflection.client.Reflectable;
 import ead.common.model.EAdElement;
 
 /**
- * <p>An eAdventure parameter is data that it's used by the {@link EAdElement}s. A
+ * <p>
+ * An eAdventure parameter is data that it's used by the {@link EAdElement}s. A
  * parameter is able to store itself in a string, and is able to reconstruct it
- * from it.</p>
+ * from it.
+ * </p>
  * 
- * <p>Override {@link Object#equals(Object)} in implementing classes.</p>
+ * <p>
+ * Override {@link Object#equals(Object)} in implementing classes.
+ * </p>
  */
 @Reflectable
 public interface EAdParam {
@@ -64,7 +68,10 @@ public interface EAdParam {
 	 * 
 	 * @param data
 	 *            the string to be parsed
+	 * @return if the data was correctly parsed. If it returns false, the
+	 *         parameter has been set to its default value
+	 * 
 	 */
-	void parse(String data);
+	boolean parse(String data);
 
 }

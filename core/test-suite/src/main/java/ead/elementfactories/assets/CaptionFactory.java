@@ -39,8 +39,9 @@ package ead.elementfactories.assets;
 
 import ead.common.params.fills.ColorFill;
 import ead.common.params.fills.LinearGradientFill;
-import ead.common.params.fills.PaintFill;
+import ead.common.params.fills.Paint;
 import ead.common.params.paint.EAdFill;
+import ead.common.params.paint.EAdPaint;
 import ead.common.resources.assets.drawable.basics.Caption;
 import ead.common.resources.assets.text.BasicFont;
 import ead.common.resources.assets.text.EAdFont;
@@ -48,15 +49,18 @@ import ead.common.util.EAdURI;
 import ead.elementfactories.EAdElementsFactory;
 
 public class CaptionFactory {
-	
-	private EAdFill fill = new LinearGradientFill(ColorFill.GRAY, ColorFill.LIGHT_GRAY, 20, 20, true);
-	
-	private EAdFont droidFont = new BasicFont( new EAdURI( "@binary/DroidSans-Bold.ttf"), 20);
 
-	public Caption createCaption(String text, EAdFill textFill,
-			EAdFill bubbleFill, EAdFont font) {
+	private EAdFill fill = new LinearGradientFill(ColorFill.GRAY,
+			ColorFill.LIGHT_GRAY, 20, 20, true);
+
+	private EAdFont droidFont = new BasicFont(new EAdURI(
+			"@binary/DroidSans-Bold.ttf"), 20);
+
+	public Caption createCaption(String text, EAdPaint textFill,
+			EAdPaint bubbleFill, EAdFont font) {
 		Caption caption = new Caption();
-		EAdElementsFactory.getInstance().getStringFactory().setString(caption.getText(), text);
+		EAdElementsFactory.getInstance().getStringFactory()
+				.setString(caption.getText(), text);
 
 		caption.setTextPaint(textFill);
 		caption.setBubblePaint(bubbleFill);
@@ -66,13 +70,13 @@ public class CaptionFactory {
 
 	}
 
-	public Caption createCaption(String text, EAdFill textFill,
+	public Caption createCaption(String text, EAdPaint textFill,
 			EAdFill bubbleFill) {
-		return createCaption(text, textFill, bubbleFill, droidFont );
+		return createCaption(text, textFill, bubbleFill, droidFont);
 	}
 
 	public Caption createCaption(String text) {
-		return createCaption(text, PaintFill.WHITE_ON_BLACK, fill );
+		return createCaption(text, Paint.WHITE_ON_BLACK, fill);
 	}
 
 }

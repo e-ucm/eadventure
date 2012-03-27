@@ -52,7 +52,7 @@ import ead.common.model.EAdElement;
 import ead.common.params.EAdParam;
 import ead.common.params.fills.ColorFill;
 import ead.common.params.fills.LinearGradientFill;
-import ead.common.params.fills.PaintFill;
+import ead.common.params.fills.Paint;
 import ead.common.params.text.EAdString;
 import ead.common.resources.EAdBundleId;
 import ead.common.resources.assets.AssetDescriptor;
@@ -168,8 +168,8 @@ public class ObjectFactory {
 			return new ColorFill(value);
 		if (clazz.equals(LinearGradientFill.class))
 			return new LinearGradientFill(value);
-		if (clazz.equals(PaintFill.class))
-			return new PaintFill(value);
+		if (clazz.equals(Paint.class))
+			return new Paint(value);
 		if (clazz.equals(EAdPosition.class))
 			return new EAdPosition(value);
 		if (clazz.equals(EAdRectangle.class))

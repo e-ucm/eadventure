@@ -44,7 +44,7 @@ import ead.common.model.elements.scenes.SceneElement;
 import ead.common.model.predef.effects.ChangeAppearanceEf;
 import ead.common.params.fills.ColorFill;
 import ead.common.params.fills.LinearGradientFill;
-import ead.common.params.fills.PaintFill;
+import ead.common.params.fills.Paint;
 import ead.common.params.text.EAdString;
 import ead.common.resources.EAdBundleId;
 import ead.common.resources.assets.drawable.basics.Caption;
@@ -79,10 +79,10 @@ public class Button extends ComplexSceneElement {
 	private void createButton() {
 		ColorFill lightGray = new ColorFill(200, 200, 200);
 		RectangleShape buttonBgNormal = new RectangleShape(200, 30);
-		buttonBgNormal.setPaint(new PaintFill(new LinearGradientFill(
+		buttonBgNormal.setPaint(new Paint(new LinearGradientFill(
 				ColorFill.WHITE, lightGray, 0, 20), ColorFill.BLACK));
 		RectangleShape buttonBgOver = new RectangleShape(200, 30);
-		buttonBgOver.setPaint(new PaintFill(new LinearGradientFill(lightGray,
+		buttonBgOver.setPaint(new Paint(new LinearGradientFill(lightGray,
 				ColorFill.WHITE, 0, 20), ColorFill.BLACK));
 
 		definition.getResources().addAsset(definition.getInitialBundle(),

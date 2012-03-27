@@ -48,11 +48,22 @@ public class LinearGradientFill extends AbstractParam implements EAdFill {
 
 	public static final String SEPARATOR = ";";
 
+	public static LinearGradientFill BLACK = new LinearGradientFill(
+			ColorFill.BLACK, ColorFill.BLACK, 0, 0, 1, 1);
+
 	private float x0, y0, x1, y1;
 
 	private ColorFill color1;
 
 	private ColorFill color2;
+
+	/**
+	 * Creates a linear gradient fill with the default value
+	 * {@link LinearGradientFill#BLACK}
+	 */
+	public LinearGradientFill() {
+		this(BLACK.color1, BLACK.color2, BLACK.x0, BLACK.y0, BLACK.x1, BLACK.y1);
+	}
 
 	/**
 	 * Constructs a linear gradient fill.
@@ -78,8 +89,8 @@ public class LinearGradientFill extends AbstractParam implements EAdFill {
 		parse(string);
 	}
 
-	public LinearGradientFill(ColorFill c1, ColorFill c2, int width, int height,
-			boolean vertical) {
+	public LinearGradientFill(ColorFill c1, ColorFill c2, int width,
+			int height, boolean vertical) {
 		this(c1, c2, 0, 0, vertical ? 0 : width, vertical ? height : 0);
 	}
 
@@ -148,34 +159,36 @@ public class LinearGradientFill extends AbstractParam implements EAdFill {
 	}
 
 	@Override
-	public void parse(String data) {
-		String temp[] = data.split(SEPARATOR);
-		int i = 0;
-		color1 = new ColorFill(temp[i++]);
-		color2 = new ColorFill(temp[i++]);
-		x0 = Float.parseFloat(temp[i++]);
-		y0 = Float.parseFloat(temp[i++]);
-		x1 = Float.parseFloat(temp[i++]);
-		y1 = Float.parseFloat(temp[i++]);
+	public boolean parse(String data) {
+		boolean error = data == null;
+		if (!error) {
+			String temp[] = data.split(SEPARATOR);
+			if (temp.length == 6) {
+				int i = 0;
+				try {
+					color1 = new ColorFill(temp[i++]);
+					color2 = new ColorFill(temp[i++]);
+					x0 = Float.parseFloat(temp[i++]);
+					y0 = Float.parseFloat(temp[i++]);
+					x1 = Float.parseFloat(temp[i++]);
+					y1 = Float.parseFloat(temp[i++]);
+				} catch (NumberFormatException e) {
+					error = true;
+				}
+			} else {
+				error = true;
+			}
+		}
 
-	}
+		if (error) {
+			color1 = BLACK.color1;
+			color2 = BLACK.color2;
+			x0 = BLACK.x0;
+			x1 = BLACK.x1;
+			y0 = BLACK.y0;
+			y1 = BLACK.y1;
+		}
+		return !error;
 
-	public boolean isVertical() {
-		return false;
-	}
-	
-	@Override
-	public boolean equals(Object object) {
-		if (object == null || !(object instanceof LinearGradientFill))
-			return false;
-		LinearGradientFill gradient = (LinearGradientFill) object;
-		if (gradient.color1.equals(color1) &&
-				gradient.color2.equals(color2) &&
-				gradient.x0 == x0 &&
-				gradient.x1 == x1 &&
-				gradient.y0 == y0 &&
-				gradient.y1 == y1)
-			return true;
-		return false;
 	}
 }
