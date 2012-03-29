@@ -67,6 +67,7 @@ public class ClassDockableFactory implements
         this.model = model;
     }
 
+	@SuppressWarnings("unchecked")
     public ElementPanel getPanelFor(String id) {
         EAdElement e = (id != null) ?
                 model.getElement(id) :

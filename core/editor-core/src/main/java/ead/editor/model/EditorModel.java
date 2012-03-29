@@ -37,24 +37,18 @@
 
 package ead.editor.model;
 
-import com.google.inject.Guice;
 import com.google.inject.Inject;
-import com.google.inject.Injector;
 import ead.common.importer.EAdventure1XImporter;
-import ead.common.importer.ImporterConfigurationModule;
 import ead.common.model.EAdElement;
 import ead.common.model.elements.EAdAdventureModel;
 import ead.common.reader.EAdAdventureDOMModelReader;
 import ead.common.writer.EAdAdventureModelWriter;
-import ead.editor.Log4jConfig;
-import ead.editor.Log4jConfig.Slf4jLevel;
 import ead.editor.model.visitor.ModelVisitor;
 import ead.editor.model.visitor.ModelVisitorDriver;
-import ead.engine.core.platform.module.DesktopAssetHandlerModule;
-import ead.engine.core.platform.module.DesktopModule;
-import ead.engine.core.platform.modules.BasicGameModule;
 import java.io.*;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.TreeMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -119,9 +113,9 @@ public class EditorModel implements ModelVisitor {
 
 	/**
 	 * Constructor. Does not do much beyond initializing fields.
-	 * @param reader 
-	 * @param importer 
-	 * @param writer 
+	 * @param reader
+	 * @param importer
+	 * @param writer
 	 */
     @Inject
     public EditorModel(
@@ -140,20 +134,20 @@ public class EditorModel implements ModelVisitor {
 
 	/**
 	 * Loads data from an EAdventure1.x game file.
-	 * 
+	 *
 	 * @param f old-version file to import from
 	 */
     public void loadFromImportFile(File f, File target) {
-        logger.info("Loading editor model from '{}'...", f);	
-        EAdAdventureModel m = importer.importGame(f.getAbsolutePath(), 
+        logger.info("Loading editor model from '{}'...", f);
+        EAdAdventureModel m = importer.importGame(f.getAbsolutePath(),
 				target.getAbsolutePath());
-        
-		logger.info("Model loaded; building graph...");		
+
+		logger.info("Model loaded; building graph...");
         ModelVisitorDriver driver = new ModelVisitorDriver();
         driver.visit(m, this);
 		this.root = nodesByContent.get(m);
 		nodeIndex.firstIndexUpdate(g.vertexSet());
-		
+
         logger.info("Editor model loaded: {} nodes, {} edges",
                 new Object[]{g.vertexSet().size(), g.edgeSet().size()});
     }
@@ -162,8 +156,8 @@ public class EditorModel implements ModelVisitor {
 	 * Gets a unique ID. All new EditorNodes should get their IDs this way.
 	 * Uses a static field to store the last assigned ID; standard disclaimers
 	 * on thread-safety and class-loaders apply.
-	 * 
-	 * @return 
+	 *
+	 * @return
 	 */
     private int generateId() {
         return lastNodeId++;
@@ -208,7 +202,7 @@ public class EditorModel implements ModelVisitor {
             if (m.find()) {
 				// content is eadElement, and has editor-anotation: unfreeze
                 eid = Integer.parseInt(m.group(1));
-                node = nodesById.get(eid);				
+                node = nodesById.get(eid);
 			} else {
 				// content is eadElement, but has no editor-annotation: add it
                 eid = generateId();
@@ -225,7 +219,7 @@ public class EditorModel implements ModelVisitor {
 
 		// assign content (may overwrite existing content; no big deal)
         node.setContent(targetContent);
-	    nodesByContent.put(targetContent, node);		
+	    nodesByContent.put(targetContent, node);
         return node;
     }
 
@@ -307,25 +301,25 @@ public class EditorModel implements ModelVisitor {
         /*
          * similar to import-write, but also adds one or more editor.xml files
          */
-		
+
 		// save the model data
 		if ( ! target.getName().endsWith(".eap")) {
 			target = new File(target.getParent(), target.getName() + " .eap");
 		}
-		boolean ok = importer.createGameFile((EAdAdventureModel)root.getContent(), 
+		boolean ok = importer.createGameFile((EAdAdventureModel)root.getContent(),
 				target.getParent(), target.getName(), ".eap", "Editor project");
-		
-		// write extra xml files to it		
-		// appendFileToZip(target, "editor.xml", );		
-		
-		// close the zip file again 
+
+		// write extra xml files to it
+		// appendFileToZip(target, "editor.xml", );
+
+		// close the zip file again
     }
-	
+
 	private static InputStream readEntryFromZip(File zipFile, String entryName) throws IOException {
 		ZipFile zip = new ZipFile(zipFile);
 		return zip.getInputStream(zip.getEntry(entryName));
 	}
-	
+
 	private static void appendEntryToZip(File zipFile, String entryName, InputStream is) throws IOException {
 		boolean errors = false;
 		byte[] data = new byte[1024];
@@ -340,24 +334,24 @@ public class EditorModel implements ModelVisitor {
 		} finally {
 			if (out != null) {
 				try { out.close(); }
-				catch (IOException ioe) { 
-					logger.error("Could not close zip file writing to '{}'", 
+				catch (IOException ioe) {
+					logger.error("Could not close zip file writing to '{}'",
 							zipFile, ioe);
 					errors = true;
 				}
 			}
 			if (is != null) {
 				try { is.close(); }
-				catch (IOException ioe) { 
-					logger.error("Could not close input stream for '{}'", 
+				catch (IOException ioe) {
+					logger.error("Could not close input stream for '{}'",
 							entryName, ioe);
 					errors = true;
 				}
 			}
 		}
 		if (errors) {
-			throw new IOException("Could not write '" 
-					+ entryName + "' into '" 
+			throw new IOException("Could not write '"
+					+ entryName + "' into '"
 					+ zipFile + "'; see log for details");
 		}
 	}
@@ -380,35 +374,31 @@ public class EditorModel implements ModelVisitor {
          */
         throw new UnsupportedOperationException("not yet implemented");
     }
-		
-    private void testSearch() {
-        //for (EditorNode e : search("id", "elem*")) {
-        for (EditorNode e : nodeIndex.searchAll("disp_x", nodesById)) {
-            logger.info("found: " + e.getId() + " "
-                    + e.getContent().getClass().getSimpleName() + " "
-                    + e.getContent() + " :: "
-                    + (e.getContent() instanceof EAdElement ? ((EAdElement) e.getContent()).getId() : "??"));
-        }
+	
+	// ---- search-related functions API ----
+	
+	/**
+	 * Queries all fields in all nodes for the provided text.
+	 * @param queryText
+	 * @return a list of all matching nodes, ranked by relevance
+	 */
+    public List<EditorNode> searchAll(String queryText) {
+		return nodeIndex.searchAll(queryText, nodesById);
     }
 
-    public static void main(String[] args) {
-
-        Log4jConfig.configForConsole(Slf4jLevel.Fatal, new Object[]{
-                    "ModelVisitorDriver", Slf4jLevel.Info,
-                    "EditorModel", Slf4jLevel.Debug
-                });
-
-        Injector injector = Guice.createInjector(
-                new ImporterConfigurationModule(),
-                new BasicGameModule(),
-                new DesktopModule(),
-                new DesktopAssetHandlerModule());
-        EditorModel model = injector.getInstance(EditorModel.class);
-
-        File f = new File("/home/mfreire/code/e-ucm/e-adventure-1.x/games/PrimerosAuxiliosGame.ead");
-        model.loadFromImportFile(f, new File("/tmp/imported"));
-
-        model.testSearch();
-        //model.exportGraph(new File("/tmp/exported.graphml"));
-    }
+    /**
+     * Queries a given field in all nodes for the provided text.
+	 * @param queryText 
+	 * @return a list of all matching nodes, ranked by relevance
+     */
+    public List<EditorNode> search(String field, String queryText) {	
+		return nodeIndex.search(field, queryText, nodesById);
+	}
+	
+	/**
+	 * Retrieves a list of all indexed fields.
+	 */
+	public List<String> getAllSearchableFields() {
+		return nodeIndex.getIndexedFieldNames();
+	}	
 }
