@@ -38,11 +38,7 @@
 package ead.editor.model;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.WhitespaceAnalyzer;
 import org.apache.lucene.document.Document;
@@ -89,7 +85,7 @@ public class ModelIndex {
      */
     private static final int MAX_SEARCH_HITS = 100;
     /**
-     * Query parser
+     * Query parser for 'all fields' queries
      */
     private QueryParser queryParser;
     /**
@@ -123,9 +119,10 @@ public class ModelIndex {
      * searches
      */
     public void addProperty(EditorNode e, String field, String value,
-            boolean searchable) {
+			boolean searchable) {
+		
         e.getDoc().add(new Field(field, value, Store.YES,
-                searchable? Index.ANALYZED : Index.NO));
+                searchable ? Index.ANALYZED : Index.NO));
     }
 
 
@@ -140,17 +137,17 @@ public class ModelIndex {
             try {
                 indexWriter.addDocument(doc);
             } catch (Exception ex) {
-                logger.error("Error adding search debugrmation for node {}",
+                logger.error("Error adding search information for node {}",
                         e.getId(), ex);
             }
         }
         try {
             indexWriter.commit();
         } catch (Exception ex) {
-            logger.error("Error commiting search debugrmation", ex);
+            logger.error("Error commiting search information", ex);
         }
     }
-
+	
     /**
      * Lazily create or return the query parser
      */
@@ -179,6 +176,20 @@ public class ModelIndex {
         return queryParser;
     }
 
+	/**
+	 * Get names of all indexed fields.
+	 * @return names of all indexed fields.
+	 */
+	public List<String> getIndexedFieldNames() {
+		try {
+			IndexReader reader = IndexReader.open(searchIndex);
+			return new ArrayList<String>(
+					reader.getFieldNames(IndexReader.FieldOption.INDEXED));
+		} catch (IOException ioe) {
+			throw new IllegalArgumentException(
+				"Error finding names of indexable fields", ioe);
+		}
+	}	
 
     /**
      * Get a (sorted) list of nodes that match a query

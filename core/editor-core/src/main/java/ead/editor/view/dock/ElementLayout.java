@@ -64,12 +64,12 @@ public class ElementLayout implements MultipleCDockableLayout {
 
 	@Override
 	public void writeStream(DataOutputStream out) throws IOException {
-		throw new UnsupportedOperationException("Not supported yet.");
+		throw new UnsupportedOperationException("Not supported");
 	}
 
 	@Override
 	public void readStream(DataInputStream in) throws IOException {
-		throw new UnsupportedOperationException("Not supported yet.");
+		throw new UnsupportedOperationException("Not supported");
 	}
 
 	@Override
