@@ -90,13 +90,14 @@ public class DesktopVideoRenderer implements SpecialAssetRenderer<EAdVideo, Comp
 
 	@Override
 	public Component getComponent(EAdVideo asset) {
-		if ( ! loaded) {
+		if (!loaded) {
 	        try {
 	            Codec c = (Codec) Class.forName( CODEC_CLASS_NAME ).newInstance( );
 	            PlugInManager.addPlugIn( CODEC_CLASS_NAME,
                         c.getSupportedInputFormats(),
                         c.getSupportedOutputFormats( null ), PlugInManager.CODEC );
 	            PlugInManager.commit( );
+	        	logger.info("Video codec loaded successfully (for '{}')", asset.getUri());
 	            loaded = true;
 	        } catch( Exception e ) {
 	        	logger.error("Could not load video codec! (for '{}')", asset.getUri(), e);
@@ -119,27 +120,17 @@ public class DesktopVideoRenderer implements SpecialAssetRenderer<EAdVideo, Comp
 				public void controllerUpdate(ControllerEvent event) {
 			        if( event instanceof RealizeCompleteEvent ) {
 			            logger.info("RealizeCompleteEvent for '{}'", path);
-			            //realized = true;
-			            //notify( );
 			        }
 			        else if( event instanceof EndOfMediaEvent ) {
 			            logger.info("EndOfMediaEvent for '{}'", path);
-			            mediaPlayer.close( );
-			            mediaPlayer.deallocate( );
-			            mediaPlayer = null;
-			            finished = true;
+			        	finishPlaying();
 			        }
 			        else if( event instanceof StopEvent ) {
 			        	logger.info("StopEvent for '{}'", path);
-			            mediaPlayer.close( );
-			            mediaPlayer.deallocate( );
-			            mediaPlayer = null;
-			            finished = true;
-			            //notify( );
+			        	finishPlaying();
 			        }
 			        else if( event instanceof PrefetchCompleteEvent ) {
 			            logger.info("PrefetchCompleteEvent for '{}'", path);
-			            //notify( );
 			        }
 			    }
 
@@ -156,14 +147,28 @@ public class DesktopVideoRenderer implements SpecialAssetRenderer<EAdVideo, Comp
 
 		} catch (NoPlayerException e) {
 			logger.error("No player for '{}'", uri, e);
+			finishPlaying();
 		} catch (MalformedURLException e) {
 			logger.error("Malformed URL for '{}'", uri, e);
+			finishPlaying();
 		} catch (IOException e) {
 			logger.error("IO Exception for '{}'", uri, e);
+			finishPlaying();
 		} catch (CannotRealizeException e) {
 			logger.error("Cannot realize player for '{}'", uri, e);
-		}
+			finishPlaying();
+		} 
 		return video;
+	}
+	
+	private void finishPlaying() {
+		if (!finished && mediaPlayer != null) {
+            mediaPlayer.close( );
+            mediaPlayer.deallocate( );
+		}
+        mediaPlayer = null;
+        video = null;
+        finished = true;
 	}
 
 	@Override

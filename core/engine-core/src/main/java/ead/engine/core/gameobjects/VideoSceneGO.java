@@ -84,49 +84,54 @@ public class VideoSceneGO extends SceneElementGOImpl<VideoScene> implements
 	}
 
 	public void doLayout(EAdTransformation transformation) {
-		if (component == null)
+		if (component == null) {
 			try {
 				EAdVideo v = (EAdVideo) element
 						.getDefinition().getAsset(VideoScene.video);
 				component = specialAssetRenderer.getComponent(v);
 			} catch (Exception e) {
+				logger.warn("Exception creating video component", e);
 				error = true;
-				e.printStackTrace();
 			} catch ( Error e ){
+				logger.warn("Error creating video component", e);
 				error = true;
-				e.printStackTrace();
 			}
+		}
 
 		if (!error) {
 			if (specialAssetRenderer.isFinished()) {
 				gui.showSpecialResource(null, 0, 0, true);
 				component = null;
-			} else
+			} else {
 				gui.showSpecialResource(component, 0, 0, true);
+			}
 		}
 	}
 
 	@Override
 	public void update() {
 		super.update();
-		if (error || specialAssetRenderer.isFinished()) {
+		if (error) {
+			logger.info("Video removed due to error");
+			removeVideoComponent();
+		} else if (specialAssetRenderer.isFinished()) {
 			logger.info("Video finished");
-			component = null;
-			if (!error){
-				gui.showSpecialResource(null, 0, 0, true);
-				specialAssetRenderer.reset();
-				
-			}
-			
-			ChangeSceneEf ef = new ChangeSceneEf(  );
-			ef.setNextScene(element.getNextScene());
-			for (EAdEffect e : element.getFinalEffects()) {
-				ef.getNextEffects().add(e);
-			}
-			gameState.addEffect(ef);
+			gui.showSpecialResource(null, 0, 0, true);
+			specialAssetRenderer.reset();
+			removeVideoComponent();
 		} else if ( component != null ){
 			specialAssetRenderer.start();
 		}
+	}
+	
+	private void removeVideoComponent() {
+		component = null;
+		ChangeSceneEf ef = new ChangeSceneEf(  );
+		ef.setNextScene(element.getNextScene());
+		for (EAdEffect e : element.getFinalEffects()) {
+			ef.getNextEffects().add(e);
+		}
+		gameState.addEffect(ef);
 	}
 
 	@Override

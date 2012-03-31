@@ -39,6 +39,8 @@ package ead.engine.core.platform.test.specialassetrenderers;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
+import java.awt.GraphicsDevice;
+import java.awt.GraphicsEnvironment;
 import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
@@ -64,13 +66,14 @@ public class VLCDesktopVideoRendererTest extends TestCase {
 
 	@Test
 	public void testLoadVideo() throws URISyntaxException, IOException  {
-//		testVideo("ead/resources/flame.mpg");
-//		testVideo("ead/resources/binary/bbb_trailer_360p.webm");
-//		testVideo("ead/resources/binary/bbb_trailer_400p.ogv");
+	//	testVideo("ead/resources/binary/flame.mpg", true);
+	//	testVideo("ead/resources/binary/flame.mpg", true);
+	//	testVideo("ead/resources/binary/bbb_trailer_360p.webm");
+	//	testVideo("ead/resources/binary/bbb_trailer_400p.ogv");
 
 	}
 
-	private void testVideo(String fileName) throws URISyntaxException, IOException {
+//	private void testVideo(String fileName, final boolean fullscreen) throws URISyntaxException, IOException {
 //		Enumeration<URL> temp = ClassLoader.getSystemResources(fileName);
 //		File file = new File(temp.nextElement().toURI());
 //		assertTrue(file.exists());
@@ -86,7 +89,22 @@ public class VLCDesktopVideoRendererTest extends TestCase {
 //			@Override
 //			public void run() {
 //				frame = new JFrame();
+//				frame.setUndecorated(true);
 //				frame.setSize(800, 600);
+//				if (fullscreen){
+//					GraphicsDevice gd = GraphicsEnvironment
+//							.getLocalGraphicsEnvironment()
+//							.getDefaultScreenDevice();
+//					gd.setFullScreenWindow(frame);
+//					
+//					// Fullscreen exclusive mode does not support
+//					//  painting of video on the canvas.
+//					int width = frame.getWidth();
+//					int height = frame.getHeight();
+//					gd.setFullScreenWindow(null);
+//					frame.setSize(width, height);
+//					frame.setLocation(0, 0);
+//				}
 //				frame.setLayout(new BorderLayout());
 //				frame.add(new JLabel("test video"), BorderLayout.NORTH);
 //				frame.add((Component) o, BorderLayout.CENTER);
@@ -107,6 +125,5 @@ public class VLCDesktopVideoRendererTest extends TestCase {
 //		frame.setVisible(false);
 //		frame.dispose();
 //		frame = null;
-	}
-
+//	}
 }

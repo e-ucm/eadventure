@@ -39,6 +39,8 @@ package ead.engine.core.platform.test.specialassetrenderers;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
+import java.awt.GraphicsDevice;
+import java.awt.GraphicsEnvironment;
 import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
@@ -62,9 +64,11 @@ public class DesktopVideoRendererTest extends TestCase {
 
 	private Object o;
 
+	private final boolean FULLSCREEN = true;
+	
 	@Test
 	public void testLoadVideo() throws URISyntaxException, IOException  {
-//		Enumeration<URL> temp = ClassLoader.getSystemResources("binary/flame.mpg");
+//		Enumeration<URL> temp = ClassLoader.getSystemResources("ead/resources/binary/flame.mpg");
 //		File file = new File(temp.nextElement().toURI());
 //		assertTrue(file.exists());
 //		EAdVideo video = new Video(file.getAbsolutePath());
@@ -79,7 +83,22 @@ public class DesktopVideoRendererTest extends TestCase {
 //			@Override
 //			public void run() {
 //				frame = new JFrame();
+//				frame.setUndecorated(true);
 //				frame.setSize(800, 600);
+//				if (FULLSCREEN) {
+//					GraphicsDevice gd = GraphicsEnvironment
+//							.getLocalGraphicsEnvironment()
+//							.getDefaultScreenDevice();
+//					gd.setFullScreenWindow(frame);
+//					
+//					// Fullscreen exclusive mode does not support
+//					//  painting of video on the canvas.
+//					int width = frame.getWidth();
+//					int height = frame.getHeight();
+//					gd.setFullScreenWindow(null);
+//					frame.setSize(width, height);
+//					frame.setLocation(0, 0);
+//				}
 //				frame.setLayout(new BorderLayout());
 //				frame.add(new JLabel("test video"), BorderLayout.NORTH);
 //				frame.add((Component) o, BorderLayout.CENTER);

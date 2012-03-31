@@ -37,6 +37,8 @@
 
 package ead.engine.core.platform;
 
+import static java.lang.String.format;
+
 import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Component;
@@ -135,24 +137,26 @@ public class DesktopGUI extends AbstractGUI<Graphics2D> implements GUI {
 	@Override
 	public void showSpecialResource(final Object resource, int x, int y,
 			boolean fullscreen) {
-		if (this.currentComponent == resource)
+		if (currentComponent == resource)
 			return;
-		if (this.currentComponent != null) {
+		if (currentComponent != null) {
 			SwingUtilities.doInEDTNow(new Runnable() {
 				@Override
 				public void run() {
 					frame.remove((Component) currentComponent);
+					setFullscreenIfNeeded();
 				}
 			});
 			currentComponent = null;
-		}
-		if (this.currentComponent == null) {
+		} 
+		if (currentComponent == null) {
 			if (resource == null) {
 				SwingUtilities.doInEDTNow(new Runnable() {
 					@Override
-					public void run() {
+					public void run() {						
 						frame.add(canvas);
 						canvas.createBufferStrategy(2);
+						canvas.requestFocus();
 					}
 				});
 			} else {
@@ -160,8 +164,19 @@ public class DesktopGUI extends AbstractGUI<Graphics2D> implements GUI {
 					@Override
 					public void run() {
 						frame.remove(canvas);
+						if (platformConfiguration.isFullscreen()) {
+							// Fullscreen exclusive mode does not support
+							//  painting of video on the canvas.
+							int width = frame.getWidth();
+							int height = frame.getHeight();
+							getGraphicsDevice().setFullScreenWindow(null);
+							frame.setSize(width, height);
+							frame.setLocation(0, 0);
+						}
 						((Component) resource).setBounds(0, 0,
 								frame.getWidth(), frame.getHeight());
+						logger.info(format("Component sized to (%dx%d)", 
+								frame.getWidth(), frame.getHeight()));
 						frame.add((Component) resource);
 						frame.validate();
 					}
@@ -301,20 +316,7 @@ public class DesktopGUI extends AbstractGUI<Graphics2D> implements GUI {
 					frame.setUndecorated(false);
 					frame.setIgnoreRepaint(true);
 
-					if (platformConfiguration.isFullscreen()) {
-						// TODO this might not work in windows
-						frame.setUndecorated(true);
-						GraphicsDevice gd = GraphicsEnvironment
-								.getLocalGraphicsEnvironment()
-								.getDefaultScreenDevice();
-						gd.setFullScreenWindow(frame);
-						platformConfiguration.setSize(frame.getWidth(),
-								frame.getHeight());
-						logger.info("Frame size: " + frame.getWidth() + " x "
-								+ frame.getHeight());
-					} else {
-						frame.setLocationRelativeTo(null);
-					}
+					setFullscreenIfNeeded();
 
 					frame.setVisible(true);
 
@@ -329,6 +331,28 @@ public class DesktopGUI extends AbstractGUI<Graphics2D> implements GUI {
 		logger.info("Desktop GUI initialized");
 	}
 
+	private void setFullscreenIfNeeded() {
+		if (platformConfiguration.isFullscreen()) {
+			// TODO this might not work in windows
+			if (!frame.isDisplayable()) {
+				frame.setUndecorated(true);
+			}
+			getGraphicsDevice().setFullScreenWindow(frame);
+			platformConfiguration.setSize(frame.getWidth(),
+					frame.getHeight());
+			logger.info("Frame size: " + frame.getWidth() + " x "
+					+ frame.getHeight());
+		} else {
+			frame.setLocationRelativeTo(null);
+		}
+	}
+	
+	private GraphicsDevice getGraphicsDevice() {
+		return GraphicsEnvironment
+				.getLocalGraphicsEnvironment()
+				.getDefaultScreenDevice();
+	}
+	
 	/**
 	 * Initialize the {@code Canvas} element where the actual game is drawn
 	 */
@@ -374,7 +398,7 @@ public class DesktopGUI extends AbstractGUI<Graphics2D> implements GUI {
 		canvas.createBufferStrategy(2);
 		BufferStrategy bs = canvas.getBufferStrategy();
 		bs.getDrawGraphics().getFontMetrics();
-
+		
 		DesktopInputListener listener = new DesktopInputListener(inputHandler);
 		canvas.addMouseListener(listener);
 		canvas.addMouseMotionListener(listener);
