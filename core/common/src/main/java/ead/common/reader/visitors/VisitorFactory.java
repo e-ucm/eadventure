@@ -53,7 +53,6 @@ public class VisitorFactory {
 		addVisitor(new AssetNodeVisitor());
 		addVisitor(new ListNodeVisitor());
 		addVisitor(new ResourcesNodeVisitor());
-		addVisitor(new ListNodeVisitor());
 		addVisitor(new MapNodeVisitor());
 	}
 	

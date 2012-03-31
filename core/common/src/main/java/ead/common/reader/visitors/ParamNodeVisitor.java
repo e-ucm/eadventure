@@ -37,8 +37,9 @@
 
 package ead.common.reader.visitors;
 
-import java.lang.reflect.Field;
+import static java.lang.String.format;
 
+import java.lang.reflect.Field;
 
 import org.w3c.dom.Node;
 
@@ -49,7 +50,7 @@ import org.slf4j.LoggerFactory;
 
 public class ParamNodeVisitor extends NodeVisitor<Object> {
 
-    private static final Logger logger = LoggerFactory.getLogger("DOMWriter");
+    private static final Logger logger = LoggerFactory.getLogger("ParamNodeVisitor");
 
 	@Override
 	public Object visit(Node node, Field field, Object parent, Class<?> listClass) {
@@ -67,7 +68,7 @@ public class ParamNodeVisitor extends NodeVisitor<Object> {
 				String value = node.getTextContent();
 				if ( ObjectFactory.getParamsMap().containsKey(value)){
 					object = ObjectFactory.getParamsMap().get(value);
-					logger.info(value + " of value " + object.toString() + " and type "  + object.getClass() + " was compressed." );
+					logger.info(format("%s of value %s and type %s was compressed.", value, object, object.getClass()));
 				}
 				else {
 					object = ObjectFactory.getObject(value, c);

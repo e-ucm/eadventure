@@ -49,11 +49,11 @@ public class ComposedDrawable implements EAdComposedDrawable {
 	private EAdList<EAdBasicDrawable> assetList;
 
 	@Param("positions")
-	private EAdList<EAdPosition> positionsList;
+	private EAdList<EAdPosition> positions;
 
 	public ComposedDrawable() {
 		assetList = new EAdListImpl<EAdBasicDrawable>(EAdBasicDrawable.class);
-		positionsList = new EAdListImpl<EAdPosition>(EAdPosition.class);
+		positions = new EAdListImpl<EAdPosition>(EAdPosition.class);
 	}
 
 	@Override
@@ -64,7 +64,7 @@ public class ComposedDrawable implements EAdComposedDrawable {
 	@Override
 	public void addDrawable(EAdBasicDrawable drawable, int xOffset, int yOffset) {
 		assetList.add(drawable);
-		positionsList.add(new EAdPosition(xOffset, yOffset));
+		positions.add(new EAdPosition(xOffset, yOffset));
 	}
 
 	@Override
@@ -74,7 +74,7 @@ public class ComposedDrawable implements EAdComposedDrawable {
 
 	@Override
 	public EAdList<EAdPosition> getPositions() {
-		return positionsList;
+		return positions;
 	}
 
 }

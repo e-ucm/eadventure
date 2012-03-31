@@ -78,7 +78,7 @@ import org.slf4j.LoggerFactory;
  */
 public class ResourcesNodeVisitor extends NodeVisitor<EAdResources> {
 
-	protected static final Logger logger = LoggerFactory.getLogger("ElementNodeVisitor");
+	protected static final Logger logger = LoggerFactory.getLogger("ResourcesNodeVisitor");
 
 	@Override
 	public EAdResources visit(Node node, Field field, Object parent, Class<?> listClass) {

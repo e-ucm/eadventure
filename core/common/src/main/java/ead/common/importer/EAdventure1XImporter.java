@@ -346,6 +346,9 @@ public class EAdventure1XImporter {
 
 	public static interface ImporterProgressListener {
 
+		//TODO It would be interesting to pass two values, current
+		// and max, so the progress bar can extrapolate between the
+		// two and give the appearance of work most of the time
 		public void update(int progress, String text);
 
 	}
