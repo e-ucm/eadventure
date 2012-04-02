@@ -62,12 +62,11 @@ public class DesktopImage extends RuntimeImage<Graphics2D> {
 	 * The logger
 	 */
 	private static final Logger logger = LoggerFactory
-			.getLogger("DesktopEngineImage");
+			.getLogger("DesktopImage");
 
 	@Inject
 	public DesktopImage(AssetHandler assetHandler) {
 		super(assetHandler);
-		logger.info("New instance");
 	}
 
 	/**
@@ -81,10 +80,9 @@ public class DesktopImage extends RuntimeImage<Graphics2D> {
 		image = new BufferedImage(width, height, BufferedImage.TYPE_4BYTE_ABGR);
 
 		// Test code to see if it has any influence in performance
-		if (width >= 800)
+		if (width >= 800){
 			image.setAccelerationPriority(1.0f);
-
-		logger.info("New instance, width:" + width + "; height:" + height);
+		}
 	}
 
 	public BufferedImage getImage() {

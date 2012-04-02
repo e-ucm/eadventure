@@ -140,7 +140,7 @@ public class CloudStroke extends RectangleStroke {
 
 	protected void addSegment(BezierShape shape, int x1, int y1, int x2,
 			int y2) {
-		shape.cubeTo(x1, y1, x2, y2);
+		shape.quadTo(x1, y1, x2, y2);
 	}
 
 	@Override
@@ -165,6 +165,6 @@ public class CloudStroke extends RectangleStroke {
 
 	protected void addOrigin(BezierShape shape, int x1, int y1, int x2,
 			int y2, int xOrigin, int yOrigin) {
-		shape.cubeTo(xOrigin, yOrigin, x2, y2);
+		shape.quadTo(xOrigin, yOrigin, x2, y2);
 	}
 }

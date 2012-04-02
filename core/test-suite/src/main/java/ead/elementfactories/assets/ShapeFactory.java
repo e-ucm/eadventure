@@ -134,8 +134,8 @@ public class ShapeFactory {
 	public BezierShape createDropShape( int width, int height ){
 		BezierShape shape = new BezierShape( width / 2, 0 );
 		shape.lineTo(width, 2 * height / 3 );
-		shape.cubeTo(width, height, width / 2, height );
-		shape.cubeTo(0, height, 0, 2 * height / 3 );
+		shape.quadTo(width, height, width / 2, height );
+		shape.quadTo(0, height, 0, 2 * height / 3 );
 		shape.setClosed(true);
 		return shape;
 	}

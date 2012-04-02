@@ -39,8 +39,10 @@ package ead.engine.core.platform.assets.drawables.basics;
 
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import ead.common.resources.assets.drawable.basics.shapes.BezierShape;
-import ead.common.util.EAdPosition;
 import ead.engine.core.platform.assets.AbstractRuntimeAsset;
 import ead.engine.core.platform.assets.RuntimeDrawable;
 import ead.engine.core.platform.rendering.GenericCanvas;
@@ -48,6 +50,9 @@ import ead.engine.core.platform.rendering.GenericCanvas;
 public abstract class RuntimeBezierShape<GraphicContext> extends
 		AbstractRuntimeAsset<BezierShape> implements
 		RuntimeDrawable<BezierShape, GraphicContext> {
+
+	protected final static Logger logger = LoggerFactory
+			.getLogger("RuntimeBezierShape");
 
 	protected boolean loaded = false;
 
@@ -57,28 +62,34 @@ public abstract class RuntimeBezierShape<GraphicContext> extends
 
 	@Override
 	public boolean loadAsset() {
-		int point = 0;
 
-		EAdPosition p = null;
+		Integer points = 1;
 		int xMax = Integer.MIN_VALUE;
 		int xMin = Integer.MAX_VALUE;
 		int yMax = Integer.MIN_VALUE;
 		int yMin = Integer.MAX_VALUE;
 
-		for (Integer i : descriptor.getSegmentsLength()) {
-			p = descriptor.getPoints().get(point);
-			xMax = xMax < p.getX() ? p.getX() : xMax;
-			xMin = xMin > p.getX() ? p.getX() : xMin;
-			yMax = yMax < p.getY() ? p.getY() : yMax;
-			yMin = yMin > p.getY() ? p.getY() : yMin;
-			point += i;
-		}
+		int index = 0;
+		int index2 = 0;
 
-		p = descriptor.getPoints().get(point);
-		xMax = xMax < p.getX() ? p.getX() : xMax;
-		xMin = xMin > p.getX() ? p.getX() : xMin;
-		yMax = yMax < p.getY() ? p.getY() : yMax;
-		yMin = yMin > p.getY() ? p.getY() : yMin;
+		while (index < descriptor.getPoints().size()) {
+			index2 = 0;
+			while (index2 < points) {
+				int x = descriptor.getPoints().get(index);
+				int y = descriptor.getPoints().get(index + 1);
+				xMax = xMax < x ? x : xMax;
+				xMin = xMin > x ? x : xMin;
+				yMax = yMax < y ? y : yMax;
+				yMin = yMin > y ? y : yMin;
+
+				index += 2;
+				index2++;
+			}
+			if (index < descriptor.getPoints().size()) {
+				points = descriptor.getPoints().get(index);
+			}
+			index++;
+		}
 
 		width = xMax - xMin;
 		height = yMax - yMin;
@@ -105,9 +116,10 @@ public abstract class RuntimeBezierShape<GraphicContext> extends
 		c.setPaint(descriptor.getPaint());
 		c.drawShape(this);
 	}
-	
+
 	@Override
-	public RuntimeDrawable<?, ?> getDrawable(int time, List<String> states, int level) {
+	public RuntimeDrawable<?, ?> getDrawable(int time, List<String> states,
+			int level) {
 		return this;
 	}
 

@@ -72,7 +72,7 @@ import ead.engine.core.util.EAdTransformation;
 @Singleton
 public class InventoryHUDImpl extends AbstractHUD implements InventoryHUD {
 
-	private static final int TIME_TO_SHOW = 300;
+	private static final int TIME_TO_SHOW = 500;
 
 	private enum InventoryState {
 		HIDDEN, GOING_UP, GOING_DOWN, SHOWN
@@ -118,7 +118,6 @@ public class InventoryHUDImpl extends AbstractHUD implements InventoryHUD {
 		valueMap = gameState.getValueMap();
 		this.sceneElementFactory = factory;
 		this.inputHandler = inputHandler;
-		disp = (float) gui.getSkippedMilliseconds() / (float) TIME_TO_SHOW;
 		this.inventoryHandler = inventoryHandler;
 		initInventory();
 		updateItems();
@@ -135,6 +134,7 @@ public class InventoryHUDImpl extends AbstractHUD implements InventoryHUD {
 
 	@Override
 	public void update() {
+		disp = (float) gui.getSkippedMilliseconds() / (float) TIME_TO_SHOW;
 		isShowing = valueMap.getValue(SystemFields.SHOW_INVENTORY);
 		if (isShowing) {
 			mouseY = valueMap.getValue(SystemFields.MOUSE_Y);
@@ -241,6 +241,7 @@ public class InventoryHUDImpl extends AbstractHUD implements InventoryHUD {
 					inventory.getSceneElements().add(counter);
 				}
 				x += INVENTORY_HEIGHT;
+				sceneElementFactory.remove(inventory);
 			}
 			currentUpdate = inventoryHandler.updateNumber();
 		}

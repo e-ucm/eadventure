@@ -62,10 +62,12 @@ public class ListDOMWriter extends DOMWriter<EAdList<?>> {
 			String value = null;
 			for (Object o : list) {
 				if (o != null) {
-					if (value == null)
+					if (value == null){
 						value = o.toString();
-					else
+					}
+					else{
 						value += "|" + o.toString();
+					}
 				}
 			}
 			node.setTextContent(value);

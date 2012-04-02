@@ -67,7 +67,7 @@ public class ObjectFactory {
 	private static List<ProxyElement> proxies = new ArrayList<ProxyElement>();
 
 	@SuppressWarnings("unchecked")
-	public static Object getObject(String value, Class<?> fieldType) {
+	public static Object getObject(String value, Class<?> fieldType) {		
 		if ( EAdParam.class.isAssignableFrom(fieldType)){
 			EAdParam param = constructParam( value, (Class<? extends EAdParam>) fieldType );
 			return param;

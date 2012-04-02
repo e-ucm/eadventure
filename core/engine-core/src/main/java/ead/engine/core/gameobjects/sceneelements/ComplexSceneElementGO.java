@@ -66,7 +66,7 @@ public class ComplexSceneElementGO extends
 
 	private static final Logger logger = LoggerFactory
 			.getLogger("EAdComplexSceneElement");
-	
+
 	private List<SceneElementGO<?>> sceneElements;
 
 	private boolean first = true;
@@ -118,8 +118,8 @@ public class ComplexSceneElementGO extends
 	@Override
 	public void update() {
 		super.update();
-		for (SceneElementGO<?> sceneElement : sceneElements) {
-			sceneElement.update();
+		for (EAdSceneElement sceneElement : element.getSceneElements()) {
+			sceneElementFactory.get(sceneElement).update();
 		}
 	}
 
@@ -168,8 +168,9 @@ public class ComplexSceneElementGO extends
 
 	@Override
 	public void doLayout(EAdTransformation transformation) {
-		for (SceneElementGO<?> go : sceneElements) {
-			gui.addElement(go, transformation);
+		for (EAdSceneElement sceneElement : element.getSceneElements()) {
+			gui.addElement(sceneElementFactory.get(sceneElement),
+					transformation);
 
 		}
 	}
@@ -186,10 +187,10 @@ public class ComplexSceneElementGO extends
 	@Override
 	public void collectSceneElements(List<EAdSceneElement> elements) {
 		super.collectSceneElements(elements);
-		for ( EAdSceneElement e: element.getSceneElements()){
+		for (EAdSceneElement e : element.getSceneElements()) {
 			elements.add(e);
 		}
-		
+
 	}
 
 	// @Override

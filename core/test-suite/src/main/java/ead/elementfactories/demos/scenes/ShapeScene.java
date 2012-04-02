@@ -48,6 +48,7 @@ import ead.common.model.elements.variables.BasicField;
 import ead.common.params.fills.ColorFill;
 import ead.common.params.fills.Paint;
 import ead.common.resources.assets.drawable.EAdDrawable;
+import ead.common.resources.assets.drawable.basics.shapes.CircleShape;
 import ead.common.util.EAdPosition.Corner;
 import ead.elementfactories.EAdElementsFactory;
 import ead.elementfactories.assets.ShapeFactory;
@@ -76,6 +77,7 @@ public class ShapeScene extends EmptyScene {
 		
 		// Circle
 		EAdDrawable asset1 = shapeFactory.getElement(ShapeFactory.ShapeType.CIRCLE_SHAPE, size, size, new Paint( ColorFill.YELLOW, ColorFill.BROWN ));
+		asset1 = new CircleShape( 0, 0, size, 4 );
 		EAdDrawable asset2 = shapeFactory.getElement(ShapeFactory.ShapeType.CIRCLE_SHAPE, size, size, new Paint( ColorFill.ORANGE, ColorFill.BROWN ));
 		getSceneElements().add(EAdElementsFactory.getInstance().getSceneElementFactory().createSceneElement(asset1, asset2, x, margin));
 		x+= margin + size;

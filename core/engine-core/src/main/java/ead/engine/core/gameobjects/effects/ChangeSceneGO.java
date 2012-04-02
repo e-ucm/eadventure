@@ -66,6 +66,8 @@ public class ChangeSceneGO extends AbstractEffectGO<ChangeSceneEf> implements
 
 	private boolean end;
 
+	private boolean firstFinish;
+
 	@Inject
 	public ChangeSceneGO(AssetHandler assetHandler,
 			StringHandler stringHandler,
@@ -77,6 +79,7 @@ public class ChangeSceneGO extends AbstractEffectGO<ChangeSceneEf> implements
 
 	@Override
 	public void initialize() {
+		firstFinish = true;
 		super.initialize();
 		end = false;
 		if (element.getNextScene() == null
@@ -121,6 +124,14 @@ public class ChangeSceneGO extends AbstractEffectGO<ChangeSceneEf> implements
 	@Override
 	public void transitionEnds() {
 		end = true;
+		finish();
+	}
+
+	public void finish() {
+		if (firstFinish) {
+			firstFinish = false;
+			super.finish();
+		}
 	}
 
 }

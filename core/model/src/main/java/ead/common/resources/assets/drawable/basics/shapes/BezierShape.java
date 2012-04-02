@@ -54,21 +54,13 @@ public class BezierShape implements EAdShape, Cloneable {
 	private boolean closed;
 
 	@Param("points")
-	private EAdList<EAdPosition> points;
-
-	@Param("segmentsLength")
-	private EAdList<Integer> segmentsLength;
+	private EAdList<Integer> points;
 
 	@Param("paintAsVector")
 	private boolean paintAsVector;
 
-	// FIXME probably a good a idea tu use the vector notation, but before
-	// vectors storage must be added
-	private float[] vector;
-
 	public BezierShape() {
-		points = new EAdListImpl<EAdPosition>(EAdPosition.class);
-		segmentsLength = new EAdListImpl<Integer>(Integer.class);
+		points = new EAdListImpl<Integer>(Integer.class);
 		paint = Paint.TRANSPARENT;
 		paintAsVector = false;
 	}
@@ -76,12 +68,6 @@ public class BezierShape implements EAdShape, Cloneable {
 	public BezierShape(EAdPaint paint) {
 		this();
 		this.paint = paint;
-	}
-
-	public BezierShape(EAdPosition startPoint) {
-		this();
-		init(startPoint);
-
 	}
 
 	/**
@@ -101,7 +87,8 @@ public class BezierShape implements EAdShape, Cloneable {
 	 * (paintAsVector is true) or as a bitmap image (paintAsVector is false). A
 	 * bitmap image is faster, and it is the best option if the shape is not
 	 * going to be scaled. The vector image is slower, and should be used when
-	 * the shape is going to be scaled during game time. The default value is false.
+	 * the shape is going to be scaled during game time. The default value is
+	 * false.
 	 * 
 	 * @param paintAsVector
 	 */
@@ -109,14 +96,9 @@ public class BezierShape implements EAdShape, Cloneable {
 		this.paintAsVector = paintAsVector;
 	}
 
-	private void init(EAdPosition startPoint) {
-		points.add(startPoint);
-		closed = false;
-
-	}
-
 	public BezierShape(int x, int y) {
-		this(new EAdPosition(x, y));
+		this();
+		moveTo(x, y);
 	}
 
 	/**
@@ -128,7 +110,9 @@ public class BezierShape implements EAdShape, Cloneable {
 	 *            y coordinate
 	 */
 	public void moveTo(int x, int y) {
-		init(new EAdPosition(x, y));
+		points.add(x);
+		points.add(y);
+		closed = false;
 	}
 
 	/**
@@ -158,8 +142,17 @@ public class BezierShape implements EAdShape, Cloneable {
 	}
 
 	public void lineTo(EAdPosition p) {
-		points.add(p);
-		segmentsLength.add(1);
+		checkMoveTo();
+		points.add(1);
+		points.add(p.getX());
+		points.add(p.getY());
+	}
+	
+	private void checkMoveTo(){
+		if ( points.size() == 0 ){
+			points.add(0);
+			points.add(0);
+		}
 	}
 
 	public void lineTo(int x, int y) {
@@ -167,16 +160,24 @@ public class BezierShape implements EAdShape, Cloneable {
 	}
 
 	public void quadTo(EAdPosition p1, EAdPosition p2) {
-		points.add(p1);
-		points.add(p2);
-		segmentsLength.add(2);
+		checkMoveTo();
+		points.add(2);
+		points.add(p1.getX());
+		points.add(p1.getY());
+		points.add(p2.getX());
+		points.add(p2.getY());
+
 	}
 
 	public void curveTo(EAdPosition p1, EAdPosition p2, EAdPosition p3) {
-		points.add(p1);
-		points.add(p2);
-		points.add(p3);
-		segmentsLength.add(3);
+		checkMoveTo();
+		points.add(3);
+		points.add(p1.getX());
+		points.add(p1.getY());
+		points.add(p2.getX());
+		points.add(p2.getY());
+		points.add(p3.getX());
+		points.add(p3.getY());
 	}
 
 	public void setClosed(boolean closed) {
@@ -187,84 +188,42 @@ public class BezierShape implements EAdShape, Cloneable {
 		return closed;
 	}
 
-	public EAdList<EAdPosition> getPoints() {
+	public EAdList<Integer> getPoints() {
 		return points;
 	}
 
-	public EAdList<Integer> getSegmentsLength() {
-		return segmentsLength;
-	}
-
-	public void cubeTo(int x1, int y1, int x2, int y2) {
+	public void quadTo(int x1, int y1, int x2, int y2) {
+		checkMoveTo();
 		quadTo(new EAdPosition(x1, y1), new EAdPosition(x2, y2));
 	}
 
 	public Object clone() {
 		BezierShape s = new BezierShape();
 		s.closed = closed;
-		for (Integer i : segmentsLength) {
-			s.segmentsLength.add(new Integer(i.intValue()));
+		for (Integer p : points) {
+			s.points.add(p);
 		}
-
-		for (EAdPosition p : points) {
-			s.points.add(new EAdPosition(p.getX(), p.getY()));
-		}
-
 		s.paint = paint;
-
 		return s;
 	}
 
 	public int hashCode() {
-		if (vector == null) {
-			generateVector();
-		}
-		return vector.hashCode();
+		return toString().hashCode();
 	}
 
-	private void generateVector() {
-		if (points != null && segmentsLength != null) {
-			vector = new float[points.size() * 2 + segmentsLength.size() + 1];
-			int j = 0;
-			int i = 0;
-			int pointIndex = 0;
-			while (i < vector.length && j - 1 < segmentsLength.size()
-					&& pointIndex < points.size()) {
-				int segmentLength = j == 0 ? 1 : segmentsLength.get(j - 1);
-				vector[i++] = segmentLength;
-				for (int k = i; k < i + segmentLength * 2; k += 2) {
-					EAdPosition p = points.get(pointIndex++);
-					vector[k] = p.getX();
-					vector[k + 1] = p.getY();
-				}
-				i += segmentLength * 2;
-				j++;
-			}
+	public String toString() {
+		String pointsText = "";
+		for (Integer i : points) {
+			pointsText += i + ";";
 		}
+		return closed + (paint != null ? paint.toStringData() : "") + ";"
+				+ pointsText;
 	}
 
 	public boolean equals(Object o) {
 		if (o instanceof BezierShape) {
 			BezierShape b = (BezierShape) o;
-			if (vector == null)
-				generateVector();
-
-			if (b.vector == null)
-				b.generateVector();
-
-			if (b.vector == null && vector == null)
-				return true;
-
-			if (b.vector != null && vector != null) {
-				if (b.vector.length == vector.length) {
-					for (int i = 0; i < b.vector.length; i++) {
-						if (b.vector[i] != vector[i]) {
-							return false;
-						}
-					}
-					return true;
-				}
-			}
+			return o.toString().equals(b.toString());
 		}
 		return false;
 	}

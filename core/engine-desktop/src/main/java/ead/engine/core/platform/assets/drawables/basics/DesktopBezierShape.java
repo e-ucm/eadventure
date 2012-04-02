@@ -44,43 +44,57 @@ import java.awt.geom.GeneralPath;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 
+import ead.common.model.elements.extra.EAdList;
 import ead.common.params.paint.EAdPaint;
-import ead.common.util.EAdPosition;
 import ead.engine.core.platform.rendering.DesktopCanvas;
 import ead.engine.core.platform.rendering.GenericCanvas;
 
 public class DesktopBezierShape extends RuntimeBezierShape<Graphics2D> {
 
 	private GeneralPath path;
+
 	private BufferedImage pathImage;
 
 	@Override
 	public boolean loadAsset() {
 		super.loadAsset();
 		path = new GeneralPath();
+		EAdList<Integer> points = descriptor.getPoints();
+		if (points.size() < 0) {
+			logger.warn(
+					"Bezier shape descriptor hasn't got enough points. ({})",
+					descriptor.toString());
+			return false;
+		}
 
-		EAdPosition p = descriptor.getPoints().get(0);
-		path.moveTo(p.getX(), p.getY());
+		path.moveTo(points.get(0), points.get(1));
 
-		int pointIndex = 1;
-		EAdPosition p1, p2, p3;
-		for (Integer i : descriptor.getSegmentsLength()) {
-			switch (i) {
+		int pointIndex = 2;
+		float x1, y1, x2, y2, x3, y3;
+
+		while (pointIndex < descriptor.getPoints().size()) {
+			int length = descriptor.getPoints().get(pointIndex++);
+			switch (length) {
 			case 1:
-				p1 = descriptor.getPoints().get(pointIndex++);
-				path.lineTo(p1.getX(), p1.getY());
+				x1 = descriptor.getPoints().get(pointIndex++);
+				y1 = descriptor.getPoints().get(pointIndex++);
+				path.lineTo(x1, y1);
 				break;
 			case 2:
-				p1 = descriptor.getPoints().get(pointIndex++);
-				p2 = descriptor.getPoints().get(pointIndex++);
-				path.quadTo(p1.getX(), p1.getY(), p2.getX(), p2.getY());
+				x1 = descriptor.getPoints().get(pointIndex++);
+				y1 = descriptor.getPoints().get(pointIndex++);
+				x2 = descriptor.getPoints().get(pointIndex++);
+				y2 = descriptor.getPoints().get(pointIndex++);
+				path.quadTo(x1, y1, x2, y2);
 				break;
 			case 3:
-				p1 = descriptor.getPoints().get(pointIndex++);
-				p2 = descriptor.getPoints().get(pointIndex++);
-				p3 = descriptor.getPoints().get(pointIndex++);
-				path.curveTo(p1.getX(), p1.getY(), p2.getX(), p2.getY(),
-						p3.getX(), p3.getY());
+				x1 = descriptor.getPoints().get(pointIndex++);
+				y1 = descriptor.getPoints().get(pointIndex++);
+				x2 = descriptor.getPoints().get(pointIndex++);
+				y2 = descriptor.getPoints().get(pointIndex++);
+				x3 = descriptor.getPoints().get(pointIndex++);
+				y3 = descriptor.getPoints().get(pointIndex++);
+				path.curveTo(x1, y1, x2, y2, x3, y3);
 				break;
 			default:
 
@@ -89,12 +103,10 @@ public class DesktopBezierShape extends RuntimeBezierShape<Graphics2D> {
 
 		if (descriptor.isClosed())
 			path.closePath();
-		
-		if (!descriptor.isPaintAsVector()){
+
+		if (!descriptor.isPaintAsVector()) {
 			generatePathImage();
 		}
-
-		
 
 		return true;
 	}
@@ -122,16 +134,15 @@ public class DesktopBezierShape extends RuntimeBezierShape<Graphics2D> {
 
 	@Override
 	public void render(GenericCanvas<Graphics2D> c) {
-		if (descriptor.isPaintAsVector() ){
+		if (descriptor.isPaintAsVector()) {
 			c.setPaint(descriptor.getPaint());
 			c.drawShape(this);
-		}
-		else {
+		} else {
 			c.getNativeGraphicContext().drawImage(pathImage, 0, 0, null);
 		}
 	}
-	
-	private void generatePathImage( ){
+
+	private void generatePathImage() {
 		EAdPaint paint = descriptor.getPaint();
 
 		Rectangle2D bounds = path.getBounds();

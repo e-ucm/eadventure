@@ -71,7 +71,7 @@ public abstract class AbstractElementWithBehavior extends
 		super();
 		this.behavior = new Behavior();
 		this.events = new EAdListImpl<EAdEvent>(EAdEvent.class);
-		this.propagateGUIEvents = true;
+		this.propagateGUIEvents = false;
 		behavior.setId(id + "behaviors");
 	}
 
