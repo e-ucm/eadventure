@@ -51,8 +51,8 @@ import ead.engine.core.gameobjects.go.GameObject;
 import ead.engine.core.platform.GenericInjector;
 
 @Singleton
-public class GOFactoryImpl<S extends EAdElement, T extends GameObject<? extends S>> implements
-		GameObjectFactory<S, T> {
+public class GOFactoryImpl<S extends EAdElement, T extends GameObject<? extends S>>
+		implements GameObjectFactory<S, T> {
 
 	private static final Logger logger = LoggerFactory
 			.getLogger("GameObjectFactoryImpl");
@@ -77,14 +77,14 @@ public class GOFactoryImpl<S extends EAdElement, T extends GameObject<? extends 
 		this.injector = injector;
 	}
 
-	public void setClassMap( Map<Class<? extends S>, Class<? extends T>> classMap ){
+	public void setClassMap(Map<Class<? extends S>, Class<? extends T>> classMap) {
 		this.classMap = classMap;
 	}
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Override
 	public T get(S element) {
-		if ( element == null )
+		if (element == null)
 			return null;
 
 		GameObject temp = null;
@@ -101,18 +101,21 @@ public class GOFactoryImpl<S extends EAdElement, T extends GameObject<? extends 
 			tempClass = classMap.get(runtimeClass);
 		}
 		if (tempClass == null) {
-			logger.error("No game element mapped for class {}", element.getClass());
+			logger.error("No game element mapped for class {}",
+					element.getClass());
 		} else {
 			temp = (GameObject) injector.getInstance(tempClass);
-			if (temp == null)
-				logger.error("No instace for game object of class {}", tempClass);
+			if (temp == null) {
+				logger.error("No instace for game object of class {}",
+						tempClass);
+			}
 			temp.setElement(element);
-			if ( useCache )
+			if (useCache) {
 				cache.put(element, (T) temp);
+			}
 		}
 		return (T) temp;
 	}
-
 
 	public void remove(EAdElement element) {
 		cache.remove(element);
@@ -122,7 +125,7 @@ public class GOFactoryImpl<S extends EAdElement, T extends GameObject<? extends 
 		cache.clear();
 	}
 
-	public void put( Class<? extends S> clazz1, Class<? extends T> clazz2 ){
+	public void put(Class<? extends S> clazz1, Class<? extends T> clazz2) {
 		classMap.put(clazz1, clazz2);
 	}
 

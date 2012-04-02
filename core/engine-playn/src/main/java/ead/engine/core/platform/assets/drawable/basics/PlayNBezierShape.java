@@ -37,11 +37,11 @@
 
 package ead.engine.core.platform.assets.drawable.basics;
 
-import com.google.inject.Inject;
-
 import playn.core.Canvas;
 import playn.core.Path;
-import ead.common.util.EAdPosition;
+
+import com.google.inject.Inject;
+
 import ead.engine.core.EAdEngine;
 import ead.engine.core.platform.assets.drawables.basics.RuntimeBezierShape;
 
@@ -64,31 +64,35 @@ public class PlayNBezierShape extends RuntimeBezierShape<Canvas> {
 		super.loadAsset();
 		path = eAdEngine.getGraphics().createPath();
 
-		EAdPosition p = descriptor.getPoints().get(0);
-		path.moveTo(p.getX(), p.getY());
+		int pointIndex = 2;
+		float x1, y1, x2, y2, x3, y3;
 
-		int pointIndex = 1;
-		EAdPosition p1, p2;
-		for (Integer i : descriptor.getSegmentsLength()) {
-			switch (i) {
+		while (pointIndex < descriptor.getPoints().size()) {
+			int length = descriptor.getPoints().get(pointIndex++);
+			switch (length) {
 			case 1:
-				p1 = descriptor.getPoints().get(pointIndex++);
-				path.lineTo(p1.getX(), p1.getY());
+				x1 = descriptor.getPoints().get(pointIndex++);
+				y1 = descriptor.getPoints().get(pointIndex++);
+				path.lineTo(x1, y1);
 				break;
 			case 2:
-				p1 = descriptor.getPoints().get(pointIndex++);
-				p2 = descriptor.getPoints().get(pointIndex++);
-				path.quadraticCurveTo(p1.getX(), p1.getY(), p2.getX(),
-						p2.getY());
+				x1 = descriptor.getPoints().get(pointIndex++);
+				y1 = descriptor.getPoints().get(pointIndex++);
+				x2 = descriptor.getPoints().get(pointIndex++);
+				y2 = descriptor.getPoints().get(pointIndex++);
+				path.quadraticCurveTo(x1, y1, x2, y2);
 				break;
 			case 3:
-				p1 = descriptor.getPoints().get(pointIndex++);
-				p2 = descriptor.getPoints().get(pointIndex++);
-				// p3 = descriptor.getPoints().get(pointIndex++);
-				// FIXME no curveTo?
-				// path.curveTo(p1.getX(), p1.getY(), p2.getX(), p2.getY(),
-				// p3.getX(), p3.getY());
+				x1 = descriptor.getPoints().get(pointIndex++);
+				y1 = descriptor.getPoints().get(pointIndex++);
+				x2 = descriptor.getPoints().get(pointIndex++);
+				y2 = descriptor.getPoints().get(pointIndex++);
+				x3 = descriptor.getPoints().get(pointIndex++);
+				y3 = descriptor.getPoints().get(pointIndex++);
+//				path.curveTo(x1, y1, x2, y2, x3, y3);
 				break;
+			default:
+
 			}
 		}
 

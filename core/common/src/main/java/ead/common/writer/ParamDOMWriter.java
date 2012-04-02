@@ -46,11 +46,11 @@ import org.slf4j.LoggerFactory;
 
 /**
  * Writer for {@link EAdParam}
- *
+ * 
  */
 public class ParamDOMWriter extends DOMWriter<Object> {
 
-    private static final Logger logger = LoggerFactory.getLogger("DOMWriter");
+	private static final Logger logger = LoggerFactory.getLogger("DOMWriter");
 
 	@Override
 	public Element buildNode(Object data, Class<?> listClass) {
@@ -60,18 +60,20 @@ public class ParamDOMWriter extends DOMWriter<Object> {
 		if (data == null)
 			logger.warn("Null data");
 		else {
-			if (data instanceof EAdParam)
+			if (data instanceof EAdParam) {
 				value = ((EAdParam) data).toStringData();
-			else if (data instanceof Class)
+			} else if (data instanceof Class) {
 				value = ((Class<?>) data).getName();
-			else
+			} else {
 				value = data.toString();
+			}
 		}
 
 		String compressedValue = paramsMap.get(data);
 		if (compressedValue == null) {
 			if (DOMWriter.USE_PARAM_IDS) {
-				String key = DOMTags.PARAM_AT + DOMWriter.convertToCode(paramsMap.keySet().size());
+				String key = DOMTags.PARAM_AT
+						+ DOMWriter.convertToCode(paramsMap.keySet().size());
 				if (key.length() < value.length()) {
 					paramsMap.put(data, key);
 					node.setAttribute(DOMTags.UNIQUE_ID_AT, key);
@@ -81,8 +83,9 @@ public class ParamDOMWriter extends DOMWriter<Object> {
 			value = compressedValue;
 		}
 
-		if ( listClass == null || listClass != data.getClass() )
-			node.setAttribute(DOMTags.CLASS_AT, shortClass(data.getClass().getName()));
+		if (listClass == null || listClass != data.getClass())
+			node.setAttribute(DOMTags.CLASS_AT, shortClass(data.getClass()
+					.getName()));
 		node.setTextContent(value);
 		return node;
 	}

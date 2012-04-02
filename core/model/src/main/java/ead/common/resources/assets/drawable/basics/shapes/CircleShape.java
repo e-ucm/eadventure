@@ -43,24 +43,27 @@ import ead.common.params.paint.EAdPaint;
 public class CircleShape extends BezierShape {
 
 	public CircleShape(int cx, int cy, int radius, int segments, EAdPaint paint) {
-		super( paint );
-		float angle = (float) (2 * Math.PI / segments);
-		float accAngle = angle;
+		super(paint);
+		int points = segments;
+		float angle = (float) (2 * Math.PI / points);
+		float acc = 0;
+		// Radius
+		radius = radius / 2;
 
-		for (int i = 0; i < segments; i++) {
-			int x = (int) (Math.cos(accAngle) * radius) + cx;
-			int y = (int) (Math.sin(accAngle) * radius) + cy;
-			if (i == 0)
-				moveTo(x, y);
-			else
-				lineTo(x, y);
-			accAngle += angle;
+		moveTo(radius * 2, radius);
+		for (int i = 0; i < points - 1; i++) {
+			acc += angle;
+			int x = (int) (Math.cos(acc) * radius);
+			int y = (int) (Math.sin(acc) * radius);
+			x += radius + cx;
+			y += radius + cy;
+			lineTo(x, y);
 		}
 		setClosed(true);
 	}
-	
-	public CircleShape(int cx, int cy, int radius, int segments){
-		this( cx, cy, radius, segments, Paint.WHITE_ON_BLACK);
+
+	public CircleShape(int cx, int cy, int radius, int segments) {
+		this(cx, cy, radius, segments, Paint.WHITE_ON_BLACK);
 	}
 
 }

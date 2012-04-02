@@ -45,7 +45,7 @@ public class RoundedRectangleStroke extends RectangleStroke {
 	public void addDiagonal(BezierShape shape, int x1, int x2, int y1,
 			int y2) {
 		int corner[] = this.getCornerFromDiagonal(x1, x2, y1, y2);
-		shape.cubeTo(corner[0], corner[1], x2, y2);
+		shape.quadTo(corner[0], corner[1], x2, y2);
 	}
 
 }

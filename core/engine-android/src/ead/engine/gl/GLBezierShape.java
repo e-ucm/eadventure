@@ -53,7 +53,6 @@ import android.opengl.GLES20;
 import com.google.inject.Inject;
 
 import ead.common.params.paint.EAdPaint;
-import ead.common.util.EAdPosition;
 import ead.engine.core.platform.assets.drawables.basics.RuntimeBezierShape;
 import ead.engine.core.platform.rendering.AndroidCanvas;
 import ead.engine.core.platform.rendering.GenericCanvas;
@@ -86,29 +85,35 @@ public class GLBezierShape extends RuntimeBezierShape<GL10>{
 		super.loadAsset();
 		path = new Path();
 
-		EAdPosition pos = descriptor.getPoints().get(0);
-		path.moveTo(pos.getX(), pos.getY());
+		int pointIndex = 2;
+		float x1, y1, x2, y2, x3, y3;
 
-		int pointIndex = 1;
-		EAdPosition p1, p2, p3;
-		for (Integer i : descriptor.getSegmentsLength()) {
-			switch (i) {
+		while (pointIndex < descriptor.getPoints().size()) {
+			int length = descriptor.getPoints().get(pointIndex++);
+			switch (length) {
 			case 1:
-				p1 = descriptor.getPoints().get(pointIndex++);
-				path.lineTo(p1.getX(), p1.getY());
+				x1 = descriptor.getPoints().get(pointIndex++);
+				y1 = descriptor.getPoints().get(pointIndex++);
+				path.lineTo(x1, y1);
 				break;
 			case 2:
-				p1 = descriptor.getPoints().get(pointIndex++);
-				p2 = descriptor.getPoints().get(pointIndex++);
-				path.quadTo(p1.getX(), p1.getY(), p2.getX(), p2.getY());
+				x1 = descriptor.getPoints().get(pointIndex++);
+				y1 = descriptor.getPoints().get(pointIndex++);
+				x2 = descriptor.getPoints().get(pointIndex++);
+				y2 = descriptor.getPoints().get(pointIndex++);
+				path.quadTo(x1, y1, x2, y2);
 				break;
 			case 3:
-				p1 = descriptor.getPoints().get(pointIndex++);
-				p2 = descriptor.getPoints().get(pointIndex++);
-				p3 = descriptor.getPoints().get(pointIndex++);
-				path.cubicTo(p1.getX(), p1.getY(), p2.getX(), p2.getY(),
-						p3.getX(), p3.getY());
+				x1 = descriptor.getPoints().get(pointIndex++);
+				y1 = descriptor.getPoints().get(pointIndex++);
+				x2 = descriptor.getPoints().get(pointIndex++);
+				y2 = descriptor.getPoints().get(pointIndex++);
+				x3 = descriptor.getPoints().get(pointIndex++);
+				y3 = descriptor.getPoints().get(pointIndex++);
+				path.cubicTo(x1, y1, x2, y2, x3, y3);
 				break;
+			default:
+
 			}
 		}
 
