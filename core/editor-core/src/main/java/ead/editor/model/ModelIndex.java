@@ -118,19 +118,18 @@ public class ModelIndex {
      * @param searchable if this field is to be indexed and used in "anywhere"
      * searches
      */
-    public void addProperty(EditorNode e, String field, String value,
+    public void addProperty(DependencyNode e, String field, String value,
 			boolean searchable) {
 		
         e.getDoc().add(new Field(field, value, Store.YES,
                 searchable ? Index.ANALYZED : Index.NO));
     }
 
-
     /**
-     * Index an EditorNode for later search
+     * Index an DependencyNode for later search
      */
-    public void firstIndexUpdate(Collection<EditorNode> nodes) {
-        for (EditorNode e : nodes) {
+    public void firstIndexUpdate(Collection<DependencyNode> nodes) {
+        for (DependencyNode e : nodes) {
             Document doc = e.getDoc();
             logger.trace("Writing index for {} of class {}",
                     new Object[] {e.getId(), e.getContent().getClass().getSimpleName()});
@@ -194,9 +193,9 @@ public class ModelIndex {
     /**
      * Get a (sorted) list of nodes that match a query
      */
-    public List<EditorNode> searchAll(String queryText, Map<Integer, EditorNode> nodesById) {
+    public List<DependencyNode> searchAll(String queryText, Map<Integer, DependencyNode> nodesById) {
 
-        ArrayList<EditorNode> nodes = new ArrayList<EditorNode>();
+        ArrayList<DependencyNode> nodes = new ArrayList<DependencyNode>();
         try {
             IndexReader reader = IndexReader.open(searchIndex);
             Query query = getQueryAllParser().parse(queryText);
@@ -221,9 +220,9 @@ public class ModelIndex {
     /**
      * Get a (sorted) list of nodes that match a query
      */
-    public List<EditorNode> search(String field, String queryText, Map<Integer, EditorNode> nodesById) {
+    public List<DependencyNode> search(String field, String queryText, Map<Integer, DependencyNode> nodesById) {
 
-        ArrayList<EditorNode> nodes = new ArrayList<EditorNode>();
+        ArrayList<DependencyNode> nodes = new ArrayList<DependencyNode>();
         try {
             IndexReader reader = IndexReader.open(searchIndex);
             Query query = new QueryParser(

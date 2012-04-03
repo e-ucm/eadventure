@@ -37,7 +37,6 @@
 
 package ead.editor.model;
 
-import java.util.Map;
 import org.apache.lucene.document.Document;
 
 /**
@@ -47,26 +46,26 @@ import org.apache.lucene.document.Document;
  *
  * @author mfreire
  */
-public class EditorNode {
+public abstract class DependencyNode<T> {
     private int id;
-    private Object content;
+    protected T content;
     private Document doc;
-	
-    public EditorNode(int id, Object content) {
+    
+    public DependencyNode(int id, T content) {
         this.id = id;
         this.content = content;
-        this.doc = new Document();
-    }
-
-    public Document getDoc() {
-        return doc;
+		this.doc = new Document();
     }
     
-    public Object getContent() {
+    public T getContent() {
         return content;
     }
 
-    public void setContent(Object content) {
+	public Document getDoc() {
+        return doc;
+    }
+
+    public void setContent(T content) {
         this.content = content;
     }
 
@@ -79,7 +78,7 @@ public class EditorNode {
         if (other == null || (getClass() != other.getClass())) {
             return false;
         }
-        return ((EditorNode) other).id == id;
+        return ((DependencyNode) other).id == id;
     }
 
     @Override

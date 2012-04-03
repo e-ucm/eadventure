@@ -1,3 +1,40 @@
+/**
+ * eAdventure (formerly <e-Adventure> and <e-Game>) is a research project of the
+ *    <e-UCM> research group.
+ *
+ *    Copyright 2005-2010 <e-UCM> research group.
+ *
+ *    You can access a list of all the contributors to eAdventure at:
+ *          http://e-adventure.e-ucm.es/contributors
+ *
+ *    <e-UCM> is a research group of the Department of Software Engineering
+ *          and Artificial Intelligence at the Complutense University of Madrid
+ *          (School of Computer Science).
+ *
+ *          C Profesor Jose Garcia Santesmases sn,
+ *          28040 Madrid (Madrid), Spain.
+ *
+ *          For more info please visit:  <http://e-adventure.e-ucm.es> or
+ *          <http://www.e-ucm.es>
+ *
+ * ****************************************************************************
+ *
+ *  This file is part of eAdventure, version 2.0
+ *
+ *      eAdventure is free software: you can redistribute it and/or modify
+ *      it under the terms of the GNU Lesser General Public License as published by
+ *      the Free Software Foundation, either version 3 of the License, or
+ *      (at your option) any later version.
+ *
+ *      eAdventure is distributed in the hope that it will be useful,
+ *      but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *      MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *      GNU Lesser General Public License for more details.
+ *
+ *      You should have received a copy of the GNU Lesser General Public License
+ *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
 /*
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
@@ -13,11 +50,12 @@ import ead.engine.core.platform.module.DesktopAssetHandlerModule;
 import ead.engine.core.platform.module.DesktopModule;
 import ead.engine.core.platform.modules.BasicGameModule;
 import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.Test;
-import static org.junit.Assert.*;
 import org.junit.BeforeClass;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -47,7 +85,8 @@ public class EditorModelTest {
     public void setUp() {
         Log4jConfig.configForConsole(Log4jConfig.Slf4jLevel.Info, new Object[]{
 			"ModelVisitorDriver", Log4jConfig.Slf4jLevel.Info,
-			"EditorModel", Log4jConfig.Slf4jLevel.Debug
+			"EditorModel", Log4jConfig.Slf4jLevel.Debug,
+		    "EAdventureImporter", Log4jConfig.Slf4jLevel.Debug
 		});		
 		
         Injector injector = Guice.createInjector(
@@ -92,7 +131,7 @@ public class EditorModelTest {
     public void simpleSearch() {
 		String s = "disp_x";
         logger.info("Now searching for '"+s+"' in all fields, all nodes...");
-		for (EditorNode e : model.searchAll(s)) {
+		for (DependencyNode e : model.searchAll(s)) {
             logger.info("found: " + e.getId() + " "
                     + e.getContent().getClass().getSimpleName() + " "
                     + e.getContent() + " :: "
@@ -100,7 +139,7 @@ public class EditorModelTest {
         }
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
 		EditorModelTest emt = new EditorModelTest();
 		emt.setUp();
 
@@ -110,5 +149,12 @@ public class EditorModelTest {
 		
 		emt.simpleSearch();
         //emt.model.exportGraph(new File("/tmp/exported.graphml"));
+		
+		ArrayList<DependencyNode> test = new ArrayList<DependencyNode>();
+		for (int i=1; i<10; i++) test.add(emt.model.getNode(i));
+		EditorNode en = new EditorNode(emt.model.generateId());
+		emt.model.registerEditorNode(en, test);		
+		
+		emt.model.save(new File("/tmp/saved"));		
     }
 }

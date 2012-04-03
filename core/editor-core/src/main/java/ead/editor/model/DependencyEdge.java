@@ -49,11 +49,11 @@ package ead.editor.model;
  * would be the string "peer".
  * @author mfreire
  */
-public class EditorEdge {
+public class DependencyEdge {
 
     private String type;
     
-    public EditorEdge(String type) {
+    public DependencyEdge(String type) {
         this.type = type;
     }
 
