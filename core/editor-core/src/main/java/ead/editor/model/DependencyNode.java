@@ -35,29 +35,54 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package ead.editor.model;
 
+import org.apache.lucene.document.Document;
+
 /**
- * Any type of connection between two EditorNodes.
- * The type of the connection is assigned during building; typically, it 
- * corresponds to the field that generated the connection. For instance, 
- * if object A contains an object B in its "peer" property, then the type 
- * would be the string "peer".
+ * The editor uses these nodes to encapsulate actual model objects, be they
+ * Resources or EAdElements. The nodes are expected to be collected into
+ * a large model graph, and must have a model-wide unique id.
+ *
  * @author mfreire
  */
-public class EditorEdge {
-
-    private String type;
+public abstract class DependencyNode<T> {
+    private int id;
+    protected T content;
+    private Document doc;
     
-    public EditorEdge(String type) {
-        this.type = type;
+    public DependencyNode(int id, T content) {
+        this.id = id;
+        this.content = content;
+		this.doc = new Document();
+    }
+    
+    public T getContent() {
+        return content;
     }
 
-    public String getType() {
-        return type;
+	public Document getDoc() {
+        return doc;
+    }
+
+    public void setContent(T content) {
+        this.content = content;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    @Override
+    public boolean equals(Object other) {
+        if (other == null || (getClass() != other.getClass())) {
+            return false;
+        }
+        return ((DependencyNode) other).id == id;
+    }
+
+    @Override
+    public int hashCode() {
+        return 23 * this.id + 5;
     }
 }

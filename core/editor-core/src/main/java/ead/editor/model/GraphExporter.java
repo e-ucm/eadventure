@@ -55,19 +55,19 @@ public class GraphExporter {
 
     private static final Logger logger = LoggerFactory.getLogger("GraphExporter");
 
-    public static void export(DirectedGraph<EditorNode, EditorEdge> g, File target) {
+    public static void export(DirectedGraph<DependencyNode, DependencyEdge> g, File target) {
         OutputStreamWriter writer = null;
         try {
             writer = new OutputStreamWriter(new FileOutputStream(target), "UTF-8");
             IdProvider idp = new IdProvider();
             LabelProvider ldp = new LabelProvider();
 
-//            GmlExporter<EditorNode, EditorEdge> exporter
-//                    = new GmlExporter<EditorNode, EditorEdge>(idp, idp, idp, idp);
-//            DOTExporter<EditorNode, EditorEdge> exporter
-//                    = new DOTExporter<EditorNode, EditorEdge>(idp, idp, idp);
-            GraphMLExporter<EditorNode, EditorEdge> exporter
-                    = new GraphMLExporter<EditorNode, EditorEdge>(idp, ldp, idp, ldp);
+//            GmlExporter<EditorNode, DependencyEdge> exporter
+//                    = new GmlExporter<EditorNode, DependencyEdge>(idp, idp, idp, idp);
+//            DOTExporter<EditorNode, DependencyEdge> exporter
+//                    = new DOTExporter<EditorNode, DependencyEdge>(idp, idp, idp);
+            GraphMLExporter<DependencyNode, DependencyEdge> exporter
+                    = new GraphMLExporter<DependencyNode, DependencyEdge>(idp, ldp, idp, ldp);
             exporter.export(writer, g);
         } catch (Exception e) {
             logger.warn("Error during export to {}", target, e);
@@ -80,26 +80,26 @@ public class GraphExporter {
         }
     }
 
-    private static class IdProvider implements VertexNameProvider<EditorNode>, EdgeNameProvider<EditorEdge> {
+    private static class IdProvider implements VertexNameProvider<DependencyNode>, EdgeNameProvider<DependencyEdge> {
         @Override
-        public String getVertexName(EditorNode v) {
+        public String getVertexName(DependencyNode v) {
             return ""+v.getId();
         }
 
         @Override
-        public String getEdgeName(EditorEdge e) {
+        public String getEdgeName(DependencyEdge e) {
             return "";
         }
     }
 
-    private static class LabelProvider implements VertexNameProvider<EditorNode>, EdgeNameProvider<EditorEdge> {
+    private static class LabelProvider implements VertexNameProvider<DependencyNode>, EdgeNameProvider<DependencyEdge> {
         @Override
-        public String getVertexName(EditorNode v) {
+        public String getVertexName(DependencyNode v) {
             return v.getContent().getClass().getSimpleName();
         }
 
         @Override
-        public String getEdgeName(EditorEdge e) {
+        public String getEdgeName(DependencyEdge e) {
             return e.getType();
         }
     }
