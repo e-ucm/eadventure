@@ -41,23 +41,16 @@
  */
 package ead.editor.model;
 
+import org.apache.lucene.document.Document;
+
 /**
- * Any type of connection between two EditorNodes.
- * The type of the connection is assigned during building; typically, it 
- * corresponds to the field that generated the connection. For instance, 
- * if object A contains an object B in its "peer" property, then the type 
- * would be the string "peer".
+ * An engine-model node. Used as a base for the dependency-tracking mechanism
+ * for the editor model.
  * @author mfreire
  */
-public class EditorEdge {
-
-    private String type;
-    
-    public EditorEdge(String type) {
-        this.type = type;
-    }
-
-    public String getType() {
-        return type;
+public class EngineNode<T> extends DependencyNode<T> {
+        
+	public EngineNode(int id, T content) {
+        super(id, content);
     }
 }

@@ -84,7 +84,8 @@ public class Log4jConfig {
     
     /**
      * Initial log4j configuration. Fails if no log4j present; should be 
-     * called only from main().
+     * called only from main(), but can be called repeatedly without ill
+	 * effects (only the 1st call will set the pattern, though).
      * @param defaultLevel
      * @param otherLevels if you want loggers "A" and "B" to use Debug, 
      * and logger "C" to use Warn, you would pass in

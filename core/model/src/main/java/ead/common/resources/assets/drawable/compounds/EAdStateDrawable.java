@@ -83,5 +83,4 @@ public interface EAdStateDrawable extends EAdDrawable {
 	 * @return
 	 */
 	Collection<EAdDrawable> getDrawables();
-
 }

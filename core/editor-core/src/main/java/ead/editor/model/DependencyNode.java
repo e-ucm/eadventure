@@ -35,41 +35,54 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ead.editor.view.dock;
+package ead.editor.model;
 
-import ead.common.model.EAdElement;
-import java.util.NoSuchElementException;
+import org.apache.lucene.document.Document;
 
 /**
- * Abstracted model access for editing purposes. Allows element access,
- * element creation, and shallow copies.
+ * The editor uses these nodes to encapsulate actual model objects, be they
+ * Resources or EAdElements. The nodes are expected to be collected into
+ * a large model graph, and must have a model-wide unique id.
  *
  * @author mfreire
  */
-public interface ModelAccessor {
+public abstract class DependencyNode<T> {
+    private int id;
+    protected T content;
+    private Document doc;
+    
+    public DependencyNode(int id, T content) {
+        this.id = id;
+        this.content = content;
+		this.doc = new Document();
+    }
+    
+    public T getContent() {
+        return content;
+    }
 
-    /**
-     * Gets the model element with id 'id'.
-     * @throws NoSuchElementException if not found.
-     * @param id of element (assigned by editor when project is imported)
-     * @return element with id as its editor-id
-     */
-    EAdElement getElement(String id);
+	public Document getDoc() {
+        return doc;
+    }
 
-    /**
-     * Creates a new empty model element of type class).
-     * @param type of element
-     * @return brand new, unattached element of correct type, with a unique
-     * editor-id
-     */
-    EAdElement createElement(Class<? extends EAdElement> type);
+    public void setContent(T content) {
+        this.content = content;
+    }
 
-    /**
-     * Creates a new shallow copy of an element. The copy will be unattached,
-     * will reference the same references as the original (not copies), and
-     * will have a unique editor-id.
-     * @param e element to copy
-     * @return unattached shallow copy of element, with a unique id
-     */
-    EAdElement copyElement(EAdElement e);
+    public int getId() {
+        return id;
+    }
+
+    @Override
+    public boolean equals(Object other) {
+        if (other == null || (getClass() != other.getClass())) {
+            return false;
+        }
+        return ((DependencyNode) other).id == id;
+    }
+
+    @Override
+    public int hashCode() {
+        return 23 * this.id + 5;
+    }
 }

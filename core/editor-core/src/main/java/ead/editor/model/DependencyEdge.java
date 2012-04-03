@@ -35,41 +35,29 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ead.editor.view.dock;
-
-import ead.common.model.EAdElement;
-import java.util.NoSuchElementException;
+/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package ead.editor.model;
 
 /**
- * Abstracted model access for editing purposes. Allows element access,
- * element creation, and shallow copies.
- *
+ * Any type of connection between two EditorNodes.
+ * The type of the connection is assigned during building; typically, it 
+ * corresponds to the field that generated the connection. For instance, 
+ * if object A contains an object B in its "peer" property, then the type 
+ * would be the string "peer".
  * @author mfreire
  */
-public interface ModelAccessor {
+public class DependencyEdge {
 
-    /**
-     * Gets the model element with id 'id'.
-     * @throws NoSuchElementException if not found.
-     * @param id of element (assigned by editor when project is imported)
-     * @return element with id as its editor-id
-     */
-    EAdElement getElement(String id);
+    private String type;
+    
+    public DependencyEdge(String type) {
+        this.type = type;
+    }
 
-    /**
-     * Creates a new empty model element of type class).
-     * @param type of element
-     * @return brand new, unattached element of correct type, with a unique
-     * editor-id
-     */
-    EAdElement createElement(Class<? extends EAdElement> type);
-
-    /**
-     * Creates a new shallow copy of an element. The copy will be unattached,
-     * will reference the same references as the original (not copies), and
-     * will have a unique editor-id.
-     * @param e element to copy
-     * @return unattached shallow copy of element, with a unique id
-     */
-    EAdElement copyElement(EAdElement e);
+    public String getType() {
+        return type;
+    }
 }

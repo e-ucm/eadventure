@@ -239,15 +239,17 @@ public class EAdventure1XImporter {
 			ok = false;			
 		}
 
-		// Create zip file
+		// Create final zip file with name destination+extension
+		// with everything (recursive) in 'path'
 		String fileName = (forceExtension == null || destination.endsWith(forceExtension)) ? 
 				destination	: destination + forceExtension;
-		File outFolder = new File(fileName);
+		File outputZipFile = new File(fileName);
 		ZipOutputStream out = null;
 		try {
 			out = new ZipOutputStream(new BufferedOutputStream(
-					new FileOutputStream(outFolder)));
+					new FileOutputStream(outputZipFile)));
 			addFolderToZip(out, new File(path), false);
+			logger.debug("Zip file {} complete", outputZipFile.getAbsolutePath());
 		} catch (Exception e) {
 			logger.error("Error outputting zip to {}", destination, e);
 			ok = false;			
@@ -274,7 +276,12 @@ public class EAdventure1XImporter {
 	public void addFolderToZip(ZipOutputStream zip, File folder, boolean addPath) 
 		throws IOException {
 		
-		byte[] data = new byte[1024];
+		logger.debug("adding folder {} to zip", folder);
+		if (folder == null || ! folder.isDirectory()) {
+			throw new IllegalArgumentException("not a folder: " + folder);
+		}
+		
+		byte data[] = new byte[1024];
 		File files[] = folder.listFiles();
 		for (File f : files) {
 			try {
