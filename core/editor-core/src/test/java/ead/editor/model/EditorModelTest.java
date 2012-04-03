@@ -144,17 +144,21 @@ public class EditorModelTest {
 		emt.setUp();
 
 		logger.info("Starting test run...");
-        File f = new File("/home/mfreire/code/e-ucm/e-adventure-1.x/games/PrimerosAuxiliosGame.ead");
-		emt.model.loadFromImportFile(f, new File("/tmp/imported"));
+//        File f = new File("/home/mfreire/code/e-ucm/e-adventure-1.x/games/PrimerosAuxiliosGame.ead");
+//		emt.model.loadFromImportFile(f);
+//		
+//		emt.simpleSearch();
+//        //emt.model.exportGraph(new File("/tmp/exported.graphml"));
+//		
+//		ArrayList<DependencyNode> test = new ArrayList<DependencyNode>();
+//		for (int i=1; i<10; i++) test.add(emt.model.getNode(i));
+//		EditorNode en = new EditorNode(emt.model.generateId());
+//		emt.model.registerEditorNode(en, test);		
 		
-		emt.simpleSearch();
-        //emt.model.exportGraph(new File("/tmp/exported.graphml"));
+		File saveFile = new File("/tmp/saved.eap"); 
 		
-		ArrayList<DependencyNode> test = new ArrayList<DependencyNode>();
-		for (int i=1; i<10; i++) test.add(emt.model.getNode(i));
-		EditorNode en = new EditorNode(emt.model.generateId());
-		emt.model.registerEditorNode(en, test);		
+//		emt.model.save(saveFile);
 		
-		emt.model.save(new File("/tmp/saved"));		
+		emt.model.load(saveFile);
     }
 }

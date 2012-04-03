@@ -249,6 +249,7 @@ public class EAdventure1XImporter {
 			out = new ZipOutputStream(new BufferedOutputStream(
 					new FileOutputStream(outputZipFile)));
 			addFolderToZip(out, new File(path), false);
+			logger.debug("Zip file {} complete", outputZipFile.getAbsolutePath());
 		} catch (Exception e) {
 			logger.error("Error outputting zip to {}", destination, e);
 			ok = false;			

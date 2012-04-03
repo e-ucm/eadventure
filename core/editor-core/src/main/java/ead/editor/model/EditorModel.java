@@ -1,42 +1,44 @@
 /**
  * eAdventure (formerly <e-Adventure> and <e-Game>) is a research project of the
- * <e-UCM> research group.
+ *    <e-UCM> research group.
  *
- * Copyright 2005-2010 <e-UCM> research group.
+ *    Copyright 2005-2010 <e-UCM> research group.
  *
- * You can access a list of all the contributors to eAdventure at:
- * http://e-adventure.e-ucm.es/contributors
+ *    You can access a list of all the contributors to eAdventure at:
+ *          http://e-adventure.e-ucm.es/contributors
  *
- * <e-UCM> is a research group of the Department of Software Engineering and
- * Artificial Intelligence at the Complutense University of Madrid (School of
- * Computer Science).
+ *    <e-UCM> is a research group of the Department of Software Engineering
+ *          and Artificial Intelligence at the Complutense University of Madrid
+ *          (School of Computer Science).
  *
- * C Profesor Jose Garcia Santesmases sn, 28040 Madrid (Madrid), Spain.
+ *          C Profesor Jose Garcia Santesmases sn,
+ *          28040 Madrid (Madrid), Spain.
  *
- * For more info please visit: <http://e-adventure.e-ucm.es> or
- * <http://www.e-ucm.es>
+ *          For more info please visit:  <http://e-adventure.e-ucm.es> or
+ *          <http://www.e-ucm.es>
  *
  * ****************************************************************************
  *
- * This file is part of eAdventure, version 2.0
+ *  This file is part of eAdventure, version 2.0
  *
- * eAdventure is free software: you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation, either version 3 of the License, or (at your option) any
- * later version.
+ *      eAdventure is free software: you can redistribute it and/or modify
+ *      it under the terms of the GNU Lesser General Public License as published by
+ *      the Free Software Foundation, either version 3 of the License, or
+ *      (at your option) any later version.
  *
- * eAdventure is distributed in the hope that it will be useful, but WITHOUT ANY
- * WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR
- * A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ *      eAdventure is distributed in the hope that it will be useful,
+ *      but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *      MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *      GNU Lesser General Public License for more details.
  *
- * You should have received a copy of the GNU Lesser General Public License
- * along with eAdventure. If not, see <http://www.gnu.org/licenses/>.
+ *      You should have received a copy of the GNU Lesser General Public License
+ *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
+
 package ead.editor.model;
 
 import com.google.inject.Inject;
-import com.sun.jna.platform.FileUtils;
+import ead.common.ProjectFiles;
 import ead.common.importer.EAdventure1XImporter;
 import ead.common.model.EAdElement;
 import ead.common.model.elements.EAdAdventureModel;
@@ -44,14 +46,11 @@ import ead.common.reader.EAdAdventureDOMModelReader;
 import ead.common.writer.EAdAdventureModelWriter;
 import ead.editor.model.visitor.ModelVisitor;
 import ead.editor.model.visitor.ModelVisitorDriver;
+import ead.utils.FileUtils;
 import java.io.*;
-import java.lang.reflect.Array;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipFile;
-import java.util.zip.ZipOutputStream;
 import org.jgrapht.graph.ListenableDirectedGraph;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -138,30 +137,6 @@ public class EditorModel implements ModelVisitor {
 		this.nodesByContent = new HashMap<Object, DependencyNode>();
 		this.nodeIndex = new ModelIndex();
 		this.saveDir = null;
-	}
-
-	/**
-	 * Loads data from an EAdventure1.x game file.
-	 *
-	 * @param f old-version file to import from
-	 * @param target target file to build into
-	 */
-	public void loadFromImportFile(File f, File target) {
-		logger.info("Loading editor model from '{}'...", f);
-		EAdAdventureModel m = importer.importGame(f.getAbsolutePath(),
-				target.getAbsolutePath());
-
-		logger.info("Model loaded; building graph...");
-		ModelVisitorDriver driver = new ModelVisitorDriver();
-		driver.visit(m, this);
-		this.root = nodesByContent.get(m);
-		nodeIndex.firstIndexUpdate(g.vertexSet());
-		
-		logger.info("Editor model loaded: {} nodes, {} edges",
-				new Object[]{g.vertexSet().size(), g.edgeSet().size()});
-		
-		
-		this.saveDir = 
 	}
 
 	/**
@@ -322,7 +297,9 @@ public class EditorModel implements ModelVisitor {
 
 	/**
 	 * Saves the editor model. Contains a normal EAdModel, plus resources,
-	 * plus editing
+	 * plus editor-specific model nodes. Does not include anything presentation-
+	 * related; that should be appended via 
+	 * FileUtils.appendEntryToZip(target, ...)
 	 *
 	 * @param target
 	 * @throws IOException
@@ -338,29 +315,34 @@ public class EditorModel implements ModelVisitor {
 		}
 		boolean ok = importer.createGameFile(
 			(EAdAdventureModel) root.getContent(),
-			target.getParent(), target.getName(), ".eap", "Editor project");
+			saveDir.getAbsolutePath(), target.getAbsolutePath(), 
+			".eap", "Editor project");
 
 		// write extra xml file to it
 		if (ok) try {
 			StringBuilder sb = new StringBuilder();
 			for (DependencyNode n : nodesById.values()) {
 				if (n instanceof EditorNode) {
+					logger.debug("Writing editorNode of type {} with id {}", 
+							new Object[] {n.getClass(), n.getId()});
 					((EditorNode)n).write(sb);
 				}			
 			}
 			ByteArrayInputStream bis = new ByteArrayInputStream(
 				sb.toString().getBytes("UTF-8"));
-			appendEntryToZip(target, "editor.xml", bis);
+			FileUtils.appendEntryToZip(target, "editor.xml", bis);
 		} catch (IOException ioe) {
 			logger.error("Could not write editor.xml file to {}", target, ioe);
 		}
 		
-		logger.info("Wrote editor data to {}", target);
+		logger.info("Wrote editor data from {} to {}", 
+				new Object[] {saveDir, target});
 	}
 
 	/**
 	 * Loads the editor model. Discards the current editing session. The file
-	 * must have been built with save()
+	 * must have been built with save(). Any presentation-related should be
+	 * added after this is called, using FileUtils.readEntryFromZip(source, ...)
 	 *
 	 * @param source
 	 * @throws IOException
@@ -370,13 +352,77 @@ public class EditorModel implements ModelVisitor {
 		nodesById.clear();
 		nodeIndex = new ModelIndex();
 
-		/*
-		 * similar to import-read, but loads from v2 .ead file, and uses the
-		 * editor.xml file to restore editor-ids (necessary for docking-frames
-		 * support)
-		 */
-		throw new UnsupportedOperationException("not yet implemented");
+		logger.info("Loading editor model from project file '{}'...", source);
+		saveDir = File.createTempFile("ead-editor-tmpdir", null);
+		saveDir.delete();
+		saveDir.mkdirs();
+		FileUtils.expand(source, saveDir);
+		
+		EAdAdventureModel m = reader.read(
+				new File(saveDir, ProjectFiles.DATA_FILE).toURI());
+				
+		logger.info("Model loaded; building graph...");
+		ModelVisitorDriver driver = new ModelVisitorDriver();
+		driver.visit(m, this);
+		this.root = nodesByContent.get(m);
+		nodeIndex.firstIndexUpdate(g.vertexSet());
+		
+		logger.info("Editor model loaded: {} nodes, {} edges",
+				new Object[]{g.vertexSet().size(), g.edgeSet().size()});
+		
+		logger.info("Using temp dir {} as a working directory", saveDir);		
 	}
+	
+
+	/**
+	 * Loads data from an EAdventure1.x game file.
+	 *
+	 * @param f old-version file to import from
+	 * @param target target file to build into
+	 */
+	public void loadFromImportFile(File f) throws IOException {
+		nodesByContent.clear();
+		nodesById.clear();
+		nodeIndex = new ModelIndex();
+
+		logger.info("Loading editor model from EAD 1.x import '{}'...", f);
+		File tmpFile = File.createTempFile("ead-editor-tmp", ".ead");		
+		EAdAdventureModel m = importer.importGame(f.getAbsolutePath(),
+				tmpFile.getAbsolutePath());
+
+		logger.info("Model loaded; building graph...");
+		ModelVisitorDriver driver = new ModelVisitorDriver();
+		driver.visit(m, this);
+		this.root = nodesByContent.get(m);
+		nodeIndex.firstIndexUpdate(g.vertexSet());
+		
+		logger.info("Editor model loaded: {} nodes, {} edges",
+				new Object[]{g.vertexSet().size(), g.edgeSet().size()});
+		
+		// FIXME: this can be simplified
+		// -- if the importer could hand over control of its temp-dir		
+		try {			
+			// get a temporary directory
+			saveDir = File.createTempFile("ead-editor-tmpdir", null);
+			saveDir.delete();
+			saveDir.mkdirs();
+		} catch (IOException ioe) {
+			logger.error("Could not create temporary extraction dir {}", saveDir);
+			throw ioe;
+		}
+
+		try {			
+			// unzip the imported bare-bones project into this directory
+			FileUtils.expand(tmpFile, saveDir);
+			tmpFile.delete();
+		} catch (IOException ioe) {
+			logger.error("Could not unzip project file '{}' into working dir", 
+					tmpFile.getAbsolutePath());
+			throw ioe;
+		}
+		
+		logger.info("Using temp dir {} as a working directory", saveDir);
+	}	
 	
 	// ---- basic access
 	public DependencyNode getNode(int id) {
