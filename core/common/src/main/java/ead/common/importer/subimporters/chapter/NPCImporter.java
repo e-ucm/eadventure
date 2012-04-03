@@ -119,7 +119,6 @@ public class NPCImporter extends ActorImporter<NPC> {
 
 			drawables.add(stateDrawable);
 		}
-
 	}
 
 	private StateDrawable getOrientedAsset(Resources r, String up,

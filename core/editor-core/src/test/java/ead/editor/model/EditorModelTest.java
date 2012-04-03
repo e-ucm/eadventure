@@ -125,10 +125,12 @@ public class EditorModelTest {
         System.out.println("load");
     }
 
+	// --- non-automated tests ---
+	
     /**
 	 * Tests indexing and searching
 	 */	
-    public void simpleSearch() {
+    private void testSimpleSearch() {
 		String s = "disp_x";
         logger.info("Now searching for '"+s+"' in all fields, all nodes...");
 		for (DependencyNode e : model.searchAll(s)) {
@@ -139,26 +141,52 @@ public class EditorModelTest {
         }
     }
 
+	/**
+	 * Test import-loading of an old ead 1.x file; also saves to new format.
+	 */
+	private void testImportLoad(File oldEadFile, File saveFile) throws Exception {
+		model.loadFromImportFile(oldEadFile);			
+	}
+
+	/**
+	 * Test saving editor-model to new format (must have something already loaded)
+	 */
+	private void testSave(File saveFile) throws Exception {
+		model.save(saveFile);
+	}
+	
+	/**
+	 * Test loading editor-model from new format (create dusing testSave)
+	 */
+	private void testLoad(File saveFile) throws Exception {
+		model.load(saveFile);
+	}
+			
     public static void main(String[] args) throws IOException {
 		EditorModelTest emt = new EditorModelTest();
 		emt.setUp();
 
 		logger.info("Starting test run...");
-//        File f = new File("/home/mfreire/code/e-ucm/e-adventure-1.x/games/PrimerosAuxiliosGame.ead");
-//		emt.model.loadFromImportFile(f);
+
+//      // Import-load		
+//      File f = new File("/home/mfreire/code/e-ucm/e-adventure-1.x/games/PrimerosAuxiliosGame.ead");
+//		emt.testImportLoad(f);
 //		
-//		emt.simpleSearch();
-//        //emt.model.exportGraph(new File("/tmp/exported.graphml"));
-//		
+		// Simple search
+//		emt.testSimpleSearch();
+		
+//		// Create gephi-compatible graph
+//      emt.model.exportGraph(new File("/tmp/exported.graphml"));
+
+//      // Test saving with a big random EditorNode 		
 //		ArrayList<DependencyNode> test = new ArrayList<DependencyNode>();
 //		for (int i=1; i<10; i++) test.add(emt.model.getNode(i));
 //		EditorNode en = new EditorNode(emt.model.generateId());
-//		emt.model.registerEditorNode(en, test);		
+//		emt.model.registerEditorNode(en, test);				
+//		File saveFile = new File("/tmp/saved.eap"); 		
+//		emt.testSave(saveFile);
 		
-		File saveFile = new File("/tmp/saved.eap"); 
-		
-//		emt.model.save(saveFile);
-		
-		emt.model.load(saveFile);
+//      // Test loading from previous save-file
+//		emt.testLoad(saveFile);
     }
 }
