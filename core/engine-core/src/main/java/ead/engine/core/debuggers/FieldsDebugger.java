@@ -97,9 +97,7 @@ public class FieldsDebugger implements Debugger {
 		this.gameObjectFactory = gameObjectFactory;
 		this.gameState = gameState;
 		gos = new ArrayList<DrawableGO<?>>();
-		vars = new SceneElement();
-		vars.setId("vars");
-		vars.setVarInitialValue(SceneElement.VAR_ENABLE, false);
+
 	}
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
@@ -143,7 +141,9 @@ public class FieldsDebugger implements Debugger {
 						d.addDrawable(c, 0, yOffset);
 						yOffset += 20;
 					}
-
+					vars = new SceneElement();
+					vars.setId("vars");
+					vars.setVarInitialValue(SceneElement.VAR_ENABLE, false);
 					vars.setPosition(10, 10);
 					vars.getDefinition()
 							.getResources()

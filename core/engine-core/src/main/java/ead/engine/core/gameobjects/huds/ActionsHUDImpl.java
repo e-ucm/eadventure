@@ -284,6 +284,10 @@ public class ActionsHUDImpl extends AbstractHUD implements ActionsHUD {
 
 		alpha = alpha > 1.0f ? 1.0f : alpha;
 		transformation.setAlpha(alpha);
+		
+		for (SceneElementGO<?> go : actionsGO) {
+			go.update();
+		}
 	}
 
 	@Override

@@ -45,6 +45,7 @@ import ead.common.model.elements.events.SceneElementEv;
 import ead.common.model.elements.events.enums.SceneElementEvType;
 import ead.common.model.elements.guievents.MouseGEv;
 import ead.common.model.elements.scenes.SceneElement;
+import ead.common.model.elements.scenes.SceneElementDef;
 import ead.common.model.elements.trajectories.SimpleTrajectoryDefinition;
 import ead.common.model.predef.effects.MakeActiveElementEf;
 import ead.common.model.predef.effects.MoveActiveElementToMouseEf;
@@ -105,10 +106,10 @@ public class SpeakAndMoveScene extends EmptyScene {
 		actionsObject.setPosition(100, 100);
 		ElementAction action = new ElementAction();
 		action.getResources().addAsset(action.getInitialBundle(),
-				ElementAction.appearance,
+				SceneElementDef.appearance,
 				new Image("@drawable/examine-normal.png"));
 		action.getResources().addAsset(action.getHighlightBundle(),
-				ElementAction.appearance,
+				SceneElementDef.appearance,
 				new Image("@drawable/examine-pressed.png"));
 
 		SpeakEf speak = new SpeakEf();

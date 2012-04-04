@@ -62,7 +62,6 @@ import ead.engine.core.platform.assets.drawables.basics.DesktopBezierShape;
 import ead.engine.core.platform.assets.drawables.basics.DesktopImage;
 import ead.engine.core.platform.assets.multimedia.DesktopSound;
 import ead.engine.core.platform.assets.specialassetrenderers.DesktopVideoRenderer;
-import ead.engine.core.platform.assets.specialassetrenderers.VLCDesktopVideoRenderer;
 import ead.engine.core.platform.modules.AssetHandlerModule;
 
 public class DesktopAssetHandlerModule extends AssetHandlerModule {

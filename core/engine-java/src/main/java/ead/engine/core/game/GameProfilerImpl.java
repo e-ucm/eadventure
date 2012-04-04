@@ -133,7 +133,7 @@ public class GameProfilerImpl implements GameProfiler {
 			prevStatsTime = statsTime;
 			frame = 0;
 			tick = 0;
-//			logger.info("FPS: " + averageFPS + "; UPS: " + averageUPS);
+			logger.info("FPS: " + averageFPS + "; UPS: " + averageUPS);
 		}
 	}
 
