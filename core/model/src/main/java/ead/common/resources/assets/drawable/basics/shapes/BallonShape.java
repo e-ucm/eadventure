@@ -44,6 +44,10 @@ import ead.common.resources.assets.drawable.basics.shapes.extra.BalloonType;
 public class BallonShape extends BezierShape {
 
 	private static int CORNER_RADIUS = 10;
+	
+	public BallonShape( ){
+		
+	}
 
 	public BallonShape(int left, int top, int right, int bottom,
 			BalloonType ballonType) {

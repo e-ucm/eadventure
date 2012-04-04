@@ -97,6 +97,7 @@ public class ElementDOMWriter extends FieldParamWriter<EAdElement> {
 
 		} catch (Exception e) {
 			logger.error("Exception writing element {}", element.getClass(), e);
+			error = true;
 		}
 
 		return node;

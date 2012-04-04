@@ -80,6 +80,7 @@ public class AssetNodeVisitor extends NodeVisitor<AssetDescriptor> {
 			element = (AssetDescriptor) c.newInstance();
 		} catch (Exception e) {
 			logger.error("loading class for {}", clazz, e);
+			error = true;
 		}
 
 		if (element != null)

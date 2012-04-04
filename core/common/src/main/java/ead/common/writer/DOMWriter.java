@@ -96,6 +96,8 @@ public abstract class DOMWriter<T> {
 	 * A map to store repeated assets and save some space in XML
 	 */
 	protected static ArrayList<AssetDescriptor> mappedAsset = new ArrayList<AssetDescriptor>();
+	
+	protected static boolean error;
 
 	public static void initMaps(EAdAdventureModel data) {
 		elementMap.clear();
@@ -103,12 +105,14 @@ public abstract class DOMWriter<T> {
 		paramsMap.clear();
 		mappedAsset.clear();
 		depthManager = new DepthManager(((BasicAdventureModel) data).getDepthControlList());
+		error = false;
 
 		try {
 			doc = DocumentBuilderFactory.newInstance().newDocumentBuilder()
 					.newDocument();
 		} catch (ParserConfigurationException e) {
 			logger.error("Error configuring parser for '{}'", data.getId(), e);
+			error = true;
 		}
 	}
 
@@ -187,6 +191,10 @@ public abstract class DOMWriter<T> {
 		paramsMap.clear();
 		mappedAsset.clear();
 		depthManager.clear();
+	}
+
+	public static boolean getError() {
+		return error;
 	}
 
 }

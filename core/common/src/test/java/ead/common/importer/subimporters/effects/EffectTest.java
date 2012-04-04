@@ -35,22 +35,25 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ead.common.resources.assets.drawable.basics.shapes;
+package ead.common.importer.subimporters.effects;
 
-public class LineShape extends BezierShape {
+import ead.common.EAdElementImporter;
+import ead.common.importer.test.ImporterTestTemplate;
+import ead.common.model.elements.EAdEffect;
+import es.eucm.eadventure.common.data.chapter.effects.Effect;
 
-	public LineShape(int x1, int y1, int x2, int y2, int width) {
-		int vy = x2 - x1;
-		int vx = y2 - y1;
-		float module = (float) Math.sqrt(vx * vx + vy * vy);
-		vy = (int) (((float) vy / module) * width);
-		vx = (int) (((float) vx / module) * width);
+public abstract class EffectTest<OldEffectType extends Effect, NewEffectType extends EAdEffect>
+		extends ImporterTestTemplate<OldEffectType, NewEffectType> {
 
-		moveTo(x1 - vx, y1 - vy);
-		lineTo(x1 + vx, y1 + vy);
-		lineTo(x2 + vx, y2 + vy);
-		lineTo(x2 - vx, y2 - vy);
-		setClosed(true);
+	public EffectTest(
+			Class<? extends EAdElementImporter<OldEffectType, NewEffectType>> importerClass) {
+		super(importerClass);
+	}
+
+	@Override
+	public boolean equals(OldEffectType oldObject, NewEffectType newObject) {
+		return newObject.isBlocking() && newObject.isOpaque()
+				&& newObject.isQueueable();
 	}
 
 }

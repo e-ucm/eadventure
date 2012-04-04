@@ -63,12 +63,15 @@ public abstract class NodeVisitor<T> {
 	public static Map<String, String> aliasMap = new HashMap<String, String>();
 
 	protected static String loaderType;
+	
+	protected static boolean error;
 
 	public static void init(String packageN) {
 		packageName = packageN;
 		loaderType = DOMTags.CLASS_AT;
 		//loaderType = DOMTags.TYPE_AT;
 		aliasMap.clear();
+		error = false;
 	}
 
 	public abstract T visit(Node node, Field field, Object parent, Class<?> listClass);
@@ -129,6 +132,7 @@ public abstract class NodeVisitor<T> {
 			} catch (Exception e) {
 				logger.error("Error setting value for {} in {}",
                         new Object[]{field.getName(), parent.getClass()}, e);
+				error = true;
 			}
 		}
 
@@ -179,6 +183,10 @@ public abstract class NodeVisitor<T> {
 					+ fieldName + " in class " + c.getCanonicalName());
 		}
 		return null;
+	}
+
+	public static boolean getError() {
+		return error;
 	}
 
 }

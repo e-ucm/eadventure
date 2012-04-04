@@ -110,6 +110,7 @@ public class MapNodeVisitor extends NodeVisitor<Map<Object, Object>> {
 		} catch (Exception e) {
 			logger.error("Error retrieving parent map for {} from {}",
                     new Object[] {field.getName(), parent}, e);
+			error = true;
 		} finally {
 			field.setAccessible(accessible);
 		}

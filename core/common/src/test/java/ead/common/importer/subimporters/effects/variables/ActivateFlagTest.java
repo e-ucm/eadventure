@@ -35,17 +35,37 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ead.common.test.importer.test;
+package ead.common.importer.subimporters.effects.variables;
 
-import es.eucm.eadventure.common.data.adventure.AdventureData;
+import ead.common.importer.subimporters.effects.EffectTest;
+import ead.common.importer.subimporters.effects.variables.ActivateFlagImporter;
+import ead.common.model.elements.effects.variables.ChangeFieldEf;
+import ead.common.model.elements.variables.operations.BooleanOp;
+import es.eucm.eadventure.common.data.chapter.effects.ActivateEffect;
 
-public class ImporterTestAux {
+public class ActivateFlagTest extends
+		EffectTest<ActivateEffect, ChangeFieldEf> {
 
-	
-	public static AdventureData getAdventureData( ){
-		AdventureData data = new AdventureData( );
-		data.setTitle( "Test adventure" );
-		data.setDescription( "Test data for unit tests" );
-		return data;
+	public ActivateFlagTest() {
+		super(ActivateFlagImporter.class);
 	}
+
+	@Override
+	public void addOldObjects() {
+//		addTestObject(new ActivateEffect("flag1"));
+//		addTestObject(new ActivateEffect("flag1"));
+//		addTestObject(new ActivateEffect("flag2"));
+//		addTestObject(new ActivateEffect("anotherFlag"));
+//		addTestObject(new ActivateEffect("¡Ñí!"));
+
+	}
+
+	@Override
+	public boolean equals(ActivateEffect oldObject,
+			ChangeFieldEf newObject) {
+		boolean ok = super.equals(oldObject, newObject);
+		ok = newObject.getOperation().equals(BooleanOp.TRUE_OP) && ok;
+		return ok;
+	}
+
 }

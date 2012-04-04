@@ -72,8 +72,9 @@ public class ParamNodeVisitor extends NodeVisitor<Object> {
 				}
 				else {
 					object = ObjectFactory.getObject(value, c);
-					if (node.getAttributes().getNamedItem(DOMTags.UNIQUE_ID_AT) != null)
+					if (node.getAttributes().getNamedItem(DOMTags.UNIQUE_ID_AT) != null){
 						ObjectFactory.getParamsMap().put(node.getAttributes().getNamedItem(DOMTags.UNIQUE_ID_AT).getNodeValue(), object);
+					}
 				}
 
 
@@ -82,6 +83,7 @@ public class ParamNodeVisitor extends NodeVisitor<Object> {
 				return object;
 			} catch (Exception e) {
 				logger.error("Error visiting params node {}", node.getNodeName(), e);
+				error = true;
 			}
 		}
 		return null;

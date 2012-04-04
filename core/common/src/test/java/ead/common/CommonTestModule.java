@@ -35,7 +35,7 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ead.common.test;
+package ead.common;
 
 import java.util.HashMap;
 import java.util.Map;

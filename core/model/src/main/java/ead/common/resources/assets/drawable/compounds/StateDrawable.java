@@ -63,6 +63,14 @@ public class StateDrawable implements EAdStateDrawable {
 		drawables = new EAdMapImpl<String, EAdDrawable>(String.class,
 				EAdDrawable.class);
 	}
+	
+	public EAdMap<String, EAdDrawable> getDrawables() {
+		return drawables;
+	}
+
+	public void setDrawables(EAdMap<String, EAdDrawable> drawables) {
+		this.drawables = drawables;
+	}
 
 	@Override
 	public boolean addDrawable(String stateName, EAdDrawable drawable) {
@@ -85,7 +93,7 @@ public class StateDrawable implements EAdStateDrawable {
 	}
 
 	@Override
-	public Collection<EAdDrawable> getDrawables() {
+	public Collection<EAdDrawable> getDrawablesCollection() {
 		return drawables.values();
 	}
 

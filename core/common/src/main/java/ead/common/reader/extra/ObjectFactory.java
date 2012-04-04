@@ -65,6 +65,7 @@ public class ObjectFactory {
 	private static Map<String, AssetDescriptor> assetsMap = new HashMap<String, AssetDescriptor>();
 	private static Map<String, EAdElement> elementsMap = new HashMap<String, EAdElement>();
 	private static List<ProxyElement> proxies = new ArrayList<ProxyElement>();
+	protected static boolean error;
 
 	@SuppressWarnings("unchecked")
 	public static Object getObject(String value, Class<?> fieldType) {		
@@ -122,6 +123,7 @@ public class ObjectFactory {
 		elementsMap.clear();
 		assetsMap.clear();
 		proxies.clear();
+		error = false;
 	}
 
 	public static void addElement( String id, EAdElement element){
@@ -154,7 +156,12 @@ public class ObjectFactory {
 			return (EAdParam) c.newInstance(value);
 		} catch (Exception e) {
             logger.error("Error building param for '{}'", value, e);
+            error = true;
         }
 		return null;
+	}
+
+	public static boolean getError() {
+		return error;
 	}
 }

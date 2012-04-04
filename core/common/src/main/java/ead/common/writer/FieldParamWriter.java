@@ -69,11 +69,13 @@ public abstract class FieldParamWriter<T> extends DOMWriter<T> {
 						if (pd == null) {
 							logger.error("Missing descriptor for {} in {} ",
                                     field.getName(), data.getClass());
+							error = true;
                         }
                         Method method = pd.getReadMethod();
 						if (method == null) {
 							logger.error("Missing read-method for {} in {} ",
                                     field.getName(), data.getClass());
+							error = true;
                         }
                         Object o = method.invoke(data);
 

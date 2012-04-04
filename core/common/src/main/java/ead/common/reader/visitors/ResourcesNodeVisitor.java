@@ -63,15 +63,13 @@ import org.slf4j.LoggerFactory;
  * x N<br>
  * {@code </resources>}<br>
  * and if there are bundles:<br>
- * {@code <resources> initialBundle="INITIAL_BUNDLEID"}<br>
+ * {@code <resources initialBundle="INITIAL_BUNDLEID" >}<br>
  * &nbsp;&nbsp;&nbsp;
- * {@code   <asset id="ASSET_ID" class="ASSETDESCRIPTOR_CLASS">ASSET_VALUE</asset>}
- * x N<br>
  * &nbsp;&nbsp;&nbsp;{@code	<bundle id="BUNDLE_ID">}<br>
- * &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
- * {@code   <asset id="ASSET_ID" class="ASSETDESCRIPTOR_CLASS">ASSET_VALUE</asset>}
+ * &nbsp;&nbsp;&nbsp;&nbsp;
+ * &nbsp;&nbsp;&nbsp;&nbsp;{@code<asset id="ASSET_ID" class="ASSETDESCRIPTOR_CLASS">ASSET_VALUE</asset>}
  * x N<br>
- * &nbsp;&nbsp;&nbsp;{@code	</bundle>}<br>
+ * &nbsp;&nbsp;&nbsp;{@code	</bundle>} x N<br>
  * {@code </resources>}<br>
  *
  * </p>
@@ -117,6 +115,7 @@ public class ResourcesNodeVisitor extends NodeVisitor<EAdResources> {
 
 		} catch (Exception e) {
         	logger.error("Error visiting node {}", node.getNodeName(), e);
+        	error = true;
 		} finally {
 			field.setAccessible(accessible);
 		}
