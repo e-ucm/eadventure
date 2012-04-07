@@ -61,12 +61,15 @@ import ead.engine.core.gameobjects.factories.SceneElementGOFactory;
 import ead.engine.core.gameobjects.go.SceneGO;
 import ead.engine.core.gameobjects.go.transitions.SceneLoader;
 import ead.engine.core.gameobjects.go.transitions.TransitionGO;
+import ead.engine.core.input.InputHandler;
 import ead.engine.core.platform.GUI;
 import ead.engine.core.platform.assets.AssetHandler;
 
 public abstract class AbstractTransitionGO<T extends EAdTransition> extends
 		SceneGOImpl implements TransitionGO<T> {
 
+	protected InputHandler inputHandler;
+	
 	protected T transition;
 
 	protected SceneGO<?> previousScene;
@@ -97,13 +100,14 @@ public abstract class AbstractTransitionGO<T extends EAdTransition> extends
 			StringHandler stringHandler,
 			SceneElementGOFactory sceneElementFactory, GUI gui,
 			GameState gameState, EventGOFactory eventFactory,
-			SceneLoader sceneLoader) {
+			SceneLoader sceneLoader, InputHandler inputHandler ) {
 		super(assetHandler, stringHandler, sceneElementFactory, gui, gameState,
 				eventFactory);
 		this.sceneLoader = sceneLoader;
 		EAdScene scene = this.createLoadingScene();
 		scene.setReturnable(false);
 		this.setElement(scene);
+		this.inputHandler = inputHandler;
 		listeners = new ArrayList<TransitionListener>();
 		firstUpdate = true;
 	}
@@ -184,6 +188,8 @@ public abstract class AbstractTransitionGO<T extends EAdTransition> extends
 
 		if (loaded && firstUpdate) {
 			gameState.getEffects().clear();
+			inputHandler.clearAllInputs();
+
 			firstUpdate = false;
 			nextSceneGO.update();
 		}
@@ -219,4 +225,5 @@ public abstract class AbstractTransitionGO<T extends EAdTransition> extends
 	public SceneGO<?> getNextSceneGO() {
 		return nextSceneGO;
 	}
+	
 }

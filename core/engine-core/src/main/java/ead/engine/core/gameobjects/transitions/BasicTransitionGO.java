@@ -45,6 +45,7 @@ import ead.engine.core.game.GameState;
 import ead.engine.core.gameobjects.factories.EventGOFactory;
 import ead.engine.core.gameobjects.factories.SceneElementGOFactory;
 import ead.engine.core.gameobjects.go.transitions.SceneLoader;
+import ead.engine.core.input.InputHandler;
 import ead.engine.core.platform.GUI;
 import ead.engine.core.platform.assets.AssetHandler;
 
@@ -55,9 +56,9 @@ public class BasicTransitionGO extends AbstractTransitionGO<EmptyTransition> {
 			StringHandler stringHandler,
 			SceneElementGOFactory gameObjectFactory, GUI gui,
 			GameState gameState, EventGOFactory eventFactory,
-			SceneLoader sceneLoader) {
+			SceneLoader sceneLoader, InputHandler inputHandler) {
 		super(assetHandler, stringHandler, gameObjectFactory, gui, gameState,
-				eventFactory, sceneLoader );
+				eventFactory, sceneLoader, inputHandler );
 	}
 	
 

@@ -255,7 +255,6 @@ public class GameStateImpl implements GameState {
 		synchronized (effectsQueue) {
 			for (EffectGO<?> e : effectsQueue) {
 				effects.add(e);
-				logger.info("Added " + e);
 			}
 			effectsQueue.clear();
 		}

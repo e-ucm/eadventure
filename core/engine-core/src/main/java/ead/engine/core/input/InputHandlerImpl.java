@@ -202,8 +202,9 @@ public class InputHandlerImpl implements InputHandler {
 						go.processAction(action);
 					}
 
-					if (action.isConsumed())
+					if (action.isConsumed()){
 						logger.info("Action {} consumed by {}", action, go);
+					}
 
 					i = propagateEvents ? i - 1 : -1;
 				}

@@ -40,9 +40,6 @@ package ead.engine.core.gameobjects.sceneelements;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.google.inject.Inject;
 
 import ead.common.model.elements.EAdEffect;
@@ -64,9 +61,6 @@ import ead.engine.core.util.EAdTransformation;
 public class ComplexSceneElementGO extends
 		SceneElementGOImpl<EAdComplexSceneElement> {
 
-	private static final Logger logger = LoggerFactory
-			.getLogger("EAdComplexSceneElement");
-
 	private List<SceneElementGO<?>> sceneElements;
 
 	private boolean first = true;
@@ -79,7 +73,6 @@ public class ComplexSceneElementGO extends
 			EventGOFactory eventFactory) {
 		super(assetHandler, stringHandler, gameObjectFactory, gui, gameState,
 				eventFactory);
-		logger.info("New instance");
 		sceneElements = new ArrayList<SceneElementGO<?>>();
 	}
 

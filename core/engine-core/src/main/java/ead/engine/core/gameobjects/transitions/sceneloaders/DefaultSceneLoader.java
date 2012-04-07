@@ -96,10 +96,10 @@ public class DefaultSceneLoader implements SceneLoader {
 	public void loadScene(EAdScene scene, SceneLoaderListener listener) {
 		this.scene = scene;
 		this.sceneLoaderListener = listener;
-		logger.info("Loading next scene...");
+		logger.info("Loading next scene: " + scene.getId());
 		loadScene();
 		sceneLoaderListener.sceneLoaded(sceneGO);
-		logger.info("Next scene loaded.");
+		logger.info( scene.getId() + " loaded.");
 	}
 
 	protected void loadScene() {

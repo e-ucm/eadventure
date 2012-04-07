@@ -134,7 +134,6 @@ public class TopBasicHUDImpl extends AbstractHUD implements TopBasicHUD {
 			InputHandler inputHandler, StringHandler stringHandler, GUI gui,
 			AssetHandler assetHandler, EngineConfiguration engineConfiguration) {
 		super(gui);
-		logger.info("New instance");
 		this.menuHUD = menuHUD;
 		this.sceneElementFactory = gameObjectFactory;
 		this.gameState = gameState;
@@ -243,7 +242,6 @@ public class TopBasicHUDImpl extends AbstractHUD implements TopBasicHUD {
 			if (cursor != null) {
 				RuntimeDrawable<EAdDrawable, ?> rAsset = (RuntimeDrawable<EAdDrawable, ?>) assetHandler
 						.getRuntimeAsset(cursor);
-				logger.info("width" + rAsset.getWidth());
 				EAdBundleId bundle = i++ % 2 == 1 ? mouse.getDefinition()
 						.getInitialBundle() : mouseBundle;
 				mouse.getDefinition().getResources()

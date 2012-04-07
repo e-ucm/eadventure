@@ -182,6 +182,7 @@ public class SpeakGO extends AbstractEffectGO<SpeakEf> {
 		textSE = new SceneElement(text);
 		textSE.setId("text");
 		textSE.setPosition(new EAdPosition(left, top));
+		textSE.setInitialEnable(false);
 
 		ComplexSceneElement complex = new ComplexSceneElement(rectangle);
 		complex.setId("complex");
@@ -190,6 +191,7 @@ public class SpeakGO extends AbstractEffectGO<SpeakEf> {
 		caption = (RuntimeCaption<?>) assetHandler.getRuntimeAsset(text);
 		caption.reset();
 
+		complex.setInitialEnable(false);
 		return complex;
 	}
 

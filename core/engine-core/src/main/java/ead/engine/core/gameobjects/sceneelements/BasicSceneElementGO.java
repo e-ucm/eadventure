@@ -71,7 +71,6 @@ public class BasicSceneElementGO extends
 			EventGOFactory eventFactory) {
 		super(assetHandler, stringHandler, gameObjectFactory, gui, gameState,
 				eventFactory);
-		logger.info("New instance");
 		this.evaluatorFactory = evaluatorFactory;
 	}
 

@@ -44,6 +44,8 @@ package ead.engine.core.game;
  * </p>
  */
 public interface GameProfiler {
+	
+	public static final boolean LOG_FPS = false;
 
 	/**
 	 * 1ms in ns.

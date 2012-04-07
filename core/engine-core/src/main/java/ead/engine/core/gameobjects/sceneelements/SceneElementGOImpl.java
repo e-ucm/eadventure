@@ -122,7 +122,6 @@ public abstract class SceneElementGOImpl<T extends EAdSceneElement> extends
 			SceneElementGOFactory gameObjectFactory, GUI gui,
 			GameState gameState, EventGOFactory eventFactory) {
 		super(assetHandler, stringHandler, gameObjectFactory, gui, gameState);
-		logger.info("New instance");
 		eventGOList = new ArrayList<EventGO<?>>();
 		this.eventFactory = eventFactory;
 		this.statesList = new ArrayList<String>();

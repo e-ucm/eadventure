@@ -102,7 +102,6 @@ public class ValueMapImpl implements ValueMap {
 			if (valMap == null) {
 				valMap = new HashMap<EAdVarDef<?>, Object>();
 				map.put(element, valMap);
-				logger.info("New value map String " + varDef.getType());
 			}
 
 			valMap.put(varDef, value);
