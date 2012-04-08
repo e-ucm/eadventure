@@ -41,23 +41,25 @@ import junit.framework.TestCase;
 
 import org.junit.Test;
 
-import ead.common.resources.assets.drawable.basics.Image;
+import ead.common.resources.assets.drawable.basics.shapes.BallonShape;
+import ead.common.resources.assets.drawable.basics.shapes.BezierShape;
+import ead.common.resources.assets.drawable.basics.shapes.extra.BalloonType;
 import ead.engine.core.TestUtil;
-import ead.engine.core.platform.assets.drawables.basics.DesktopImage;
+import ead.engine.core.platform.assets.drawables.basics.DesktopBezierShape;
 
-public class DesktopEngineImageTest extends TestCase {
+public class DesktopBezierShapeTest extends TestCase {
 
 	@Test
-	public void testImageLoadUnload() {
-		DesktopImage image = TestUtil.getInjector().getInstance(DesktopImage.class);
-		Image imageDescriptor = new Image("@drawable/loading.png");
-		image.setDescriptor(imageDescriptor);
-		image.loadAsset();
+	public void testShapeLoadUnload() {
+		DesktopBezierShape shape = TestUtil.getInjector().getInstance(DesktopBezierShape.class);
+		BezierShape shapeDescriptor = new BallonShape(0, 0, 100, 100, BalloonType.CLOUD);
+		shape.setDescriptor(shapeDescriptor);
+		shape.loadAsset();
 
-		assertTrue(image.isLoaded());
+		assertTrue(shape.isLoaded());
 
-		image.freeMemory();
+		shape.freeMemory();
 
-		assertFalse(image.isLoaded());
+		assertFalse(shape.isLoaded());
 	}
 }
