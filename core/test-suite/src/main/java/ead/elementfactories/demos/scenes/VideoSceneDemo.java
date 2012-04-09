@@ -48,7 +48,7 @@ public class VideoSceneDemo extends VideoScene implements SceneDemo {
 		super();
 		setId("videoScene");
 		EAdVideo video = new Video("@binary/flame.mpg");
-		getDefinition().getResources().addAsset(VideoScene.video, video);
+		getDefinition().getResources().addAsset(getDefinition().getInitialBundle(), VideoScene.video, video);
 	}
 
 	@Override

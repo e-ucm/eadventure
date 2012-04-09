@@ -61,7 +61,8 @@ import ead.engine.core.util.EAdTransformation;
 public class VideoSceneGO extends SceneElementGOImpl<VideoScene> implements
 		SceneGO<VideoScene> {
 
-	private static final Logger logger = LoggerFactory.getLogger("VideoScreenGOImpl");
+	private static final Logger logger = LoggerFactory
+			.getLogger("VideoScreenGOImpl");
 
 	private SpecialAssetRenderer<EAdVideo, ?> specialAssetRenderer;
 
@@ -86,13 +87,13 @@ public class VideoSceneGO extends SceneElementGOImpl<VideoScene> implements
 	public void doLayout(EAdTransformation transformation) {
 		if (component == null) {
 			try {
-				EAdVideo v = (EAdVideo) element
-						.getDefinition().getAsset(VideoScene.video);
+				EAdVideo v = (EAdVideo) element.getDefinition().getAsset(
+						currentBundle, VideoScene.video);
 				component = specialAssetRenderer.getComponent(v);
 			} catch (Exception e) {
 				logger.warn("Exception creating video component", e);
 				error = true;
-			} catch ( Error e ){
+			} catch (Error e) {
 				logger.warn("Error creating video component", e);
 				error = true;
 			}
@@ -119,19 +120,24 @@ public class VideoSceneGO extends SceneElementGOImpl<VideoScene> implements
 			gui.showSpecialResource(null, 0, 0, true);
 			specialAssetRenderer.reset();
 			removeVideoComponent();
-		} else if ( component != null ){
+		} else if (component != null) {
 			specialAssetRenderer.start();
 		}
 	}
-	
+
 	private void removeVideoComponent() {
 		component = null;
-		ChangeSceneEf ef = new ChangeSceneEf(  );
-		ef.setNextScene(element.getNextScene());
-		for (EAdEffect e : element.getFinalEffects()) {
-			ef.getNextEffects().add(e);
+
+		if (element.getFinalEffects().size() == 0) {
+			ChangeSceneEf ef = new ChangeSceneEf();
+			gameState.addEffect(ef);
+
+		} else {
+			for (EAdEffect e : element.getFinalEffects()) {
+				gameState.addEffect(e);
+			}
 		}
-		gameState.addEffect(ef);
+
 	}
 
 	@Override

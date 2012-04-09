@@ -62,9 +62,6 @@ public class VideoScene extends BasicScene implements EAdScene {
 	@Asset({ EAdVideo.class })
 	public static final String video = "video";
 
-	@Param("nextScene")
-	private EAdScene nextScene;
-
 	@Param("finalEffects")
 	private EAdList<EAdEffect> finalEffects;
 
@@ -84,14 +81,6 @@ public class VideoScene extends BasicScene implements EAdScene {
 	@Override
 	public Boolean getReturnable() {
 		return false;
-	}
-
-	public void setNextScene(EAdScene nextScene) {
-		this.nextScene = nextScene;
-	}
-
-	public EAdScene getNextScene() {
-		return nextScene;
 	}
 
 }

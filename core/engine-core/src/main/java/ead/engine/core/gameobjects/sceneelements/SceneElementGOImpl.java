@@ -108,7 +108,7 @@ public abstract class SceneElementGOImpl<T extends EAdSceneElement> extends
 
 	private ArrayList<EventGO<?>> eventGOList;
 
-	private EAdBundleId bundle;
+	protected EAdBundleId currentBundle;
 
 	private List<String> statesList;
 
@@ -220,10 +220,10 @@ public abstract class SceneElementGOImpl<T extends EAdSceneElement> extends
 		EAdBundleId newBundle = valueMap.getValue(element,
 				ResourcedElement.VAR_BUNDLE_ID);
 
-		if (bundle != newBundle) {
-			bundle = newBundle;
+		if (currentBundle != newBundle) {
+			currentBundle = newBundle;
 			AssetDescriptor a = element.getDefinition().getResources()
-					.getAsset(bundle, SceneElementDef.appearance);
+					.getAsset(currentBundle, SceneElementDef.appearance);
 			if (a != null) {
 				runtimeDrawable = (RuntimeCompoundDrawable<?>) assetHandler
 						.getRuntimeAsset(a, true);
