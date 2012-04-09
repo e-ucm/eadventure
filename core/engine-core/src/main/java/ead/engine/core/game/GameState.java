@@ -108,8 +108,10 @@ public interface GameState {
 	 *            the action that launched the effect
 	 * @param parent
 	 *            scene element who launched the effect
+	 * @return the effect game object create from the effect element
 	 */
-	void addEffect(EAdEffect e, InputAction<?> action, EAdSceneElement parent);
+	EffectGO<?> addEffect(EAdEffect e, InputAction<?> action,
+			EAdSceneElement parent);
 
 	/**
 	 * Adds a new effect in a specific position in the queue
@@ -122,8 +124,9 @@ public interface GameState {
 	 *            the action that launched this effect
 	 * @param parent
 	 *            the element that that launched this effect
+	 * @return the effect game object create from the effect element
 	 */
-	void addEffect(int pos, EAdEffect e, InputAction<?> action,
+	EffectGO<?> addEffect(int pos, EAdEffect e, InputAction<?> action,
 			EAdSceneElement parent);
 
 	/**

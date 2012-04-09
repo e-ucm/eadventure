@@ -47,12 +47,15 @@ import ead.common.util.StringHandler;
 import ead.engine.core.evaluators.EvaluatorFactory;
 import ead.engine.core.game.GameState;
 import ead.engine.core.gameobjects.factories.SceneElementGOFactory;
+import ead.engine.core.gameobjects.go.EffectGO;
 import ead.engine.core.platform.GUI;
 import ead.engine.core.platform.assets.AssetHandler;
 
 public class TriggerMacroGO extends AbstractEffectGO<TriggerMacroEf> {
 
 	private EvaluatorFactory evaluator;
+
+	private EffectGO<?>[] effects;
 
 	@Inject
 	public TriggerMacroGO(AssetHandler assetHandler,
@@ -76,10 +79,13 @@ public class TriggerMacroGO extends AbstractEffectGO<TriggerMacroEf> {
 			}
 		}
 
-		if (macro != null)
+		if (macro != null) {
+			effects = new EffectGO<?>[macro.getEffects().size()];
+			int i = 0;
 			for (EAdEffect e : macro.getEffects()) {
-				gameState.addEffect(e, action, parent);
+				effects[i++] = gameState.addEffect(e, action, parent);
 			}
+		}
 	}
 
 	@Override
@@ -89,6 +95,13 @@ public class TriggerMacroGO extends AbstractEffectGO<TriggerMacroEf> {
 
 	@Override
 	public boolean isFinished() {
+		if (effects != null) {
+			for (EffectGO<?> e : effects) {
+				if (e != null && !e.isFinished()) {
+					return false;
+				}
+			}
+		}
 		return true;
 	}
 

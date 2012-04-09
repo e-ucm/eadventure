@@ -145,8 +145,9 @@ public class GameStateImpl implements GameState {
 		if (this.scene != null && this.scene.getElement() != null) {
 			valueMap.setValue(scene.getElement(), BasicScene.VAR_SCENE_LOADED,
 					Boolean.FALSE);
-			if (scene.getElement().getReturnable())
+			if (scene.getElement().getReturnable()){
 				previousSceneStack.push(scene.getElement());
+			}
 		}
 		this.scene = newScene;
 		if (this.scene != null && this.scene.getElement() != null) {
@@ -188,9 +189,9 @@ public class GameStateImpl implements GameState {
 	 * .common.model.effects.EAdEffect)
 	 */
 	@Override
-	public void addEffect(EAdEffect e, InputAction<?> action,
+	public EffectGO<?> addEffect(EAdEffect e, InputAction<?> action,
 			EAdSceneElement parent) {
-		addEffect(-1, e, action, parent);
+		return addEffect(-1, e, action, parent);
 	}
 
 	/*
@@ -200,7 +201,7 @@ public class GameStateImpl implements GameState {
 	 * es.eucm.eadventure.common.model.effects.EAdEffect)
 	 */
 	@Override
-	public void addEffect(int pos, EAdEffect e, InputAction<?> action,
+	public EffectGO<?> addEffect(int pos, EAdEffect e, InputAction<?> action,
 			EAdSceneElement parent) {
 		if (e != null) {
 			if (evaluatorFactory.evaluate(e.getCondition())) {
@@ -217,11 +218,13 @@ public class GameStateImpl implements GameState {
 					effectGO.update();
 					effectGO.finish();
 				}
+				return effectGO;
 			} else if (e.isNextEffectsAlways()) {
 				for (EAdEffect ne : e.getNextEffects())
 					addEffect(ne);
 			}
 		}
+		return null;
 
 	}
 

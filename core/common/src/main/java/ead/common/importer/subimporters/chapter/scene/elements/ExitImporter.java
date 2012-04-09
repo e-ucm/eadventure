@@ -102,28 +102,32 @@ public class ExitImporter extends ElementImporter<Exit> {
 				.getConditions());
 
 		// If the exit has not-effects, it is always visible
-		if (!oldObject.isHasNotEffects())
+		if (!oldObject.isHasNotEffects()) {
 			super.addVisibleEvent(newExit, enableCondition);
+		}
 
 		// Add influence area
 		addInfluenceArea(newExit, oldObject, oldObject.getInfluenceArea());
 
-		// Add get to the exit
-		ChangeSceneEf changeScene = addGoToExit(newExit, oldObject,
+		// Change scene effect
+		ChangeSceneEf changeScene = createChangeScene(newExit, oldObject,
 				enableCondition);
+
+		// Effects
+		EAdEffect finalEffect = addEffects(newExit, oldObject, enableCondition,
+				changeScene);
+
+		// Add get to the exit
+		addGoToExit(newExit, oldObject, enableCondition, finalEffect);
 
 		// Add appearance (name and cursor)
 		addAppearance(newExit, oldObject);
 
-		// Effects
-		addEffects(newExit, oldObject, enableCondition, changeScene);
-
 		return newExit;
 	}
 
-	private ChangeSceneEf addGoToExit(SceneElement newExit, Exit oldObject,
-			EAdCondition enableCondition) {
-
+	private ChangeSceneEf createChangeScene(SceneElement newExit,
+			Exit oldObject, EAdCondition enableCondition) {
 		// Change scene effect
 		EAdScene scene = (EAdScene) factory.getElementById(oldObject
 				.getNextSceneId());
@@ -135,15 +139,17 @@ public class ExitImporter extends ElementImporter<Exit> {
 		changeScene.setId("change_screen_" + newExit.getId());
 		changeScene.setCondition(enableCondition);
 
+		EAdEffect previousEffect = changeScene;
 		// Post effects
 		for (Effect e : oldObject.getPostEffects().getEffects()) {
 			EAdEffect eadEffect = effectsImporterFactory.getEffect(e);
-			changeScene.getNextEffects().add(eadEffect);
+			if (eadEffect != null) {
+				previousEffect.getNextEffects().add(eadEffect);
+				previousEffect = eadEffect;
+			}
 		}
 
-		addGoToExit(newExit, oldObject, enableCondition, changeScene);
 		return changeScene;
-
 	}
 
 	private void addAppearance(SceneElement newExit, Exit oldObject) {
@@ -162,27 +168,35 @@ public class ExitImporter extends ElementImporter<Exit> {
 		else
 			cursor = (Image) resourceImporter.getAssetDescritptor(
 					exitLook.getCursorPath(), Image.class);
-		
+
 		ChangeCursorEf changeCursor = new ChangeCursorEf(cursor);
-		ChangeCursorEf changeCursorBack = new ChangeCursorEf(factory.getDefaultCursor(AdventureData.DEFAULT_CURSOR));
+		ChangeCursorEf changeCursorBack = new ChangeCursorEf(
+				factory.getDefaultCursor(AdventureData.DEFAULT_CURSOR));
 
 		newExit.addBehavior(MouseGEv.MOUSE_ENTERED, changeCursor);
 		newExit.addBehavior(MouseGEv.MOUSE_EXITED, changeCursorBack);
 	}
 
-	private void addEffects(SceneElement newExit, Exit oldObject,
+	private EAdEffect addEffects(SceneElement newExit, Exit oldObject,
 			EAdCondition enableCondition, EAdEffect changeSceneEffect) {
-		TriggerMacroEf triggerMacro = new TriggerMacroEf( );
-		
+		TriggerMacroEf triggerMacro = new TriggerMacroEf();
+
 		// Normal effects
-		EffectsMacro normalMacro = effectsImporterFactory.getMacroEffects(oldObject.getEffects());
+		EffectsMacro normalMacro = effectsImporterFactory
+				.getMacroEffects(oldObject.getEffects());
 		triggerMacro.putMacro(normalMacro, enableCondition);
 
 		// No effects
-		EffectsMacro noEffectsMacro = effectsImporterFactory.getMacroEffects(oldObject.getNotEffects());
-		triggerMacro.putMacro(noEffectsMacro, new NOTCond(enableCondition));
-		
-		newExit.addBehavior(MouseGEv.MOUSE_LEFT_PRESSED, triggerMacro);
+		if (oldObject.isHasNotEffects()) {
+			EffectsMacro noEffectsMacro = effectsImporterFactory
+					.getMacroEffects(oldObject.getNotEffects());
+			triggerMacro.putMacro(noEffectsMacro, new NOTCond(enableCondition));
+		}
+
+		// To maintain the execution order, the change scene effect must be
+		// added after effects/not-effects
+		triggerMacro.getNextEffects().add(changeSceneEffect);
+		return triggerMacro;
 	}
 
 }

@@ -82,6 +82,7 @@ public class ChangeSceneGO extends AbstractEffectGO<ChangeSceneEf> implements
 		firstFinish = true;
 		super.initialize();
 		end = false;
+		// If the effect is to a different scene
 		if (element.getNextScene() == null
 				|| element.getNextScene() != gameState.getScene().getElement()) {
 			transition = transitionFactory.getTransition(element
@@ -101,8 +102,11 @@ public class ChangeSceneGO extends AbstractEffectGO<ChangeSceneEf> implements
 				transition.setNext(gameState.getPreviousScene());
 			}
 			transition.setPrevious(gameState.getScene());
-
 			gameState.setScene(transition);
+		}
+		else {
+			// Execute post effects
+			end = true;
 		}
 	}
 
