@@ -40,8 +40,10 @@ package ead.elementfactories.demos.scenes;
 import ead.common.model.elements.effects.InterpolationEf;
 import ead.common.model.elements.effects.enums.InterpolationLoopType;
 import ead.common.model.elements.effects.enums.InterpolationType;
+import ead.common.model.elements.effects.hud.ModifyHUDEf;
 import ead.common.model.elements.events.SceneElementEv;
 import ead.common.model.elements.events.enums.SceneElementEvType;
+import ead.common.model.elements.guievents.MouseGEv;
 import ead.common.model.elements.scene.EAdSceneElement;
 import ead.common.model.elements.scenes.SceneElement;
 import ead.common.model.elements.variables.BasicField;
@@ -116,6 +118,13 @@ public class ShapeScene extends EmptyScene {
 		SceneElementEv event = EAdElementsFactory.getInstance().getEventsFactory().getEvent(SceneElementEvType.FIRST_UPDATE, interpolation);
 		rotatingRectangle.getEvents().add(event);
 		getSceneElements().add(rotatingRectangle);
+		
+		SceneElement rotatingRectangle2 = new SceneElement( rotatingRectangle.getDefinition() );
+		rotatingRectangle2.setPosition(Corner.CENTER, 400, 300);
+		ModifyHUDEf effect = new ModifyHUDEf(rotatingRectangle2, true);
+		rotatingRectangle.addBehavior(MouseGEv.MOUSE_LEFT_PRESSED, effect);
+		InterpolationEf interpolation2 = EAdElementsFactory.getInstance().getEffectFactory().getInterpolationEffect(new BasicField<Float>(rotatingRectangle2, SceneElement.VAR_ROTATION), 0, (float) (Math.PI * 2.0), 2000, InterpolationLoopType.RESTART, InterpolationType.LINEAR);
+		rotatingRectangle2.addBehavior(MouseGEv.MOUSE_ENTERED, interpolation2);
 		
 	}
 	

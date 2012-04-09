@@ -163,6 +163,9 @@ public class RuntimeComposedDrawable<GraphicContext> extends
 	
 	@Override
 	public RuntimeDrawable<?, ?> getDrawable(int time, List<String> states, int level) {
+		for ( RuntimeDrawable<?,?> d: this.drawables ){
+			d.getDrawable(time, states, level);
+		}
 		return this;
 	}
 

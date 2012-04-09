@@ -275,9 +275,6 @@ public class GameImpl implements Game {
 		gameState.setInitialScene(eAdChapter.getInitialScene());
 		updateInitialTransformation();
 
-		// FIXME probably move this to other place
-		gameState.getValueMap().setValue(SystemFields.ELAPSED_TIME_PER_UPDATE,
-				gui.getSkippedMilliseconds());
 	}
 
 	private void setDebuggers(EAdAdventureModel model) {

@@ -40,6 +40,7 @@ package ead.engine.core.game;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
+import ead.common.model.elements.variables.SystemFields;
 import ead.engine.core.game.Game;
 import ead.engine.core.game.GameLoop;
 import ead.engine.core.game.GameProfiler;
@@ -82,10 +83,13 @@ public class GameLoopImpl implements GameLoop {
 	protected int skipNanosFrame;
 
 	protected int ticksPerSecond;
+	
+	protected GameState gameState;
 
 	@Inject
-	public GameLoopImpl(GameProfiler gameProfiler) {
+	public GameLoopImpl(GameProfiler gameProfiler, GameState gameState) {
 		this.gameProfiler = gameProfiler;
+		this.gameState = gameState;
 		game_is_running = true;
 		this.setTicksPerSecond(15);
 	}
@@ -200,6 +204,8 @@ public class GameLoopImpl implements GameLoop {
 		this.ticksPerSecond = ticksPerSecond;
 		this.skipMilliSeconds = 1000 / ticksPerSecond;
 		this.skipNanosFrame = 1000000000 / ticksPerSecond;
+		gameState.getValueMap().setValue(SystemFields.ELAPSED_TIME_PER_UPDATE,
+				skipMilliSeconds);
 	}
 
 	@Override

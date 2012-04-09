@@ -287,6 +287,9 @@ public abstract class SceneElementGOImpl<T extends EAdSceneElement> extends
 	public SceneElementGO<?> getDraggableElement() {
 		return null;
 	}
+	
+	long t1;
+	long t2;
 
 	/*
 	 * (non-Javadoc)
@@ -300,9 +303,11 @@ public abstract class SceneElementGOImpl<T extends EAdSceneElement> extends
 	@Override
 	public void update() {
 
-		if (eventGOList != null)
-			for (EventGO<?> eventGO : eventGOList)
+		if (eventGOList != null) {
+			for (EventGO<?> eventGO : eventGOList) {
 				eventGO.update();
+			}
+		}
 
 		gameState.getValueMap().setUpdateListEnable(false);
 		timeDisplayed += gui.getSkippedMilliseconds();

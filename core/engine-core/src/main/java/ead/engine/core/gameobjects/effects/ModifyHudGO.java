@@ -68,8 +68,9 @@ public class ModifyHudGO extends SceneElementEffectGO<ModifyHUDEf> {
 		if (element.getAdd()) {
 			if (!basicHUD.getContaintedGOs().contains(drawable))
 				basicHUD.getContaintedGOs().add(drawable);
-		} else
+		} else{
 			basicHUD.getContaintedGOs().remove(drawable);
+		}
 	}
 
 	@Override

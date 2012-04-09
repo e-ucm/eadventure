@@ -194,8 +194,9 @@ public class TimerImporter implements EAdElementImporter<Timer, EAdEvent> {
 		timer.setPosition(10, 20 * ID - 1 );
 
 		// Appearance
-		if (oldTimer.isShowTime())
+		if (oldTimer.isShowTime()){
 			addAppearance(timer, oldTimer, currentTimeField);
+		}
 
 		// Event to update the timer
 		SceneElementEv updater = new SceneElementEv();
