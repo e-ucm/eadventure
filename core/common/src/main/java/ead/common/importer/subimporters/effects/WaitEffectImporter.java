@@ -40,6 +40,7 @@ package ead.common.importer.subimporters.effects;
 import com.google.inject.Inject;
 
 import ead.common.EAdElementImporter;
+import ead.common.importer.annotation.ImportAnnotator;
 import ead.common.model.elements.EAdCondition;
 import ead.common.model.elements.effects.timedevents.WaitEf;
 import es.eucm.eadventure.common.data.chapter.conditions.Conditions;
@@ -49,8 +50,9 @@ public class WaitEffectImporter extends EffectImporter<WaitTimeEffect, WaitEf>{
 
 	@Inject
 	public WaitEffectImporter(
-			EAdElementImporter<Conditions, EAdCondition> conditionImporter) {
-		super(conditionImporter);
+			EAdElementImporter<Conditions, EAdCondition> conditionImporter,
+            ImportAnnotator annotator) {
+		super(conditionImporter, annotator);
 	}
 
 	@Override
@@ -66,7 +68,7 @@ public class WaitEffectImporter extends EffectImporter<WaitTimeEffect, WaitEf>{
 		effect.setTime(oldObject.getTime() * 1000);
 		return effect;
 	}
-	
-	
+
+
 
 }

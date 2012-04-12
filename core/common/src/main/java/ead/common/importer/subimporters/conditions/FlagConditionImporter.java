@@ -40,6 +40,7 @@ package ead.common.importer.subimporters.conditions;
 import com.google.inject.Inject;
 
 import ead.common.EAdElementImporter;
+import ead.common.importer.annotation.ImportAnnotator;
 import ead.common.importer.interfaces.EAdElementFactory;
 import ead.common.model.elements.conditions.OperationCond;
 import ead.common.model.elements.variables.EAdField;
@@ -52,9 +53,13 @@ public class FlagConditionImporter
 
 	private EAdElementFactory factory;
 
+	protected ImportAnnotator annotator;
+
 	@Inject
-	public FlagConditionImporter(EAdElementFactory factory) {
+	public FlagConditionImporter(EAdElementFactory factory,
+			ImportAnnotator annotator) {
 		this.factory = factory;
+		this.annotator = annotator;
 	}
 
 	@SuppressWarnings("unchecked")

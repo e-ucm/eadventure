@@ -45,6 +45,7 @@ import java.util.Map.Entry;
 import com.google.inject.Inject;
 
 import ead.common.EAdElementImporter;
+import ead.common.importer.annotation.ImportAnnotator;
 import ead.common.importer.interfaces.EAdElementFactory;
 import ead.common.importer.interfaces.EffectsImporterFactory;
 import ead.common.importer.interfaces.ResourceImporter;
@@ -103,17 +104,21 @@ public class ActionImporter implements EAdElementImporter<Action, EAdAction> {
 
 	public static final String DRAWABLE_PATH = "@" + ResourceImporter.DRAWABLE;
 
+	protected ImportAnnotator annotator;
+	
 	@Inject
 	public ActionImporter(StringHandler stringHandler,
 			EffectsImporterFactory effectsImporterFactory,
 			ResourceImporter resourceImporter,
 			EAdElementImporter<Conditions, EAdCondition> conditionsImporter,
-			EAdElementFactory factory) {
+			EAdElementFactory factory,
+			ImportAnnotator annotator) {
 		this.stringHandler = stringHandler;
 		this.effectsImporterFactory = effectsImporterFactory;
 		this.conditionsImporter = conditionsImporter;
 		this.resourceImporter = resourceImporter;
 		this.factory = factory;
+		this.annotator = annotator;
 	}
 
 	@Override

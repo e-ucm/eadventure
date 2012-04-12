@@ -35,29 +35,7 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ead.common.resources.assets.drawable.basics.shapes;
-
-import ead.common.params.fills.Paint;
-import ead.common.params.paint.EAdPaint;
-
-
 /**
- * <p>Rectangular shape asset</p>
- * 
+ * eAdventure editor.
  */
-public class RectangleShape extends BezierShape {		
-	
-	public RectangleShape(int width, int height ){
-		this( width, height, Paint.TRANSPARENT );
-	}
-	
-	public RectangleShape(int width, int height, EAdPaint fill ) {
-		super( 0, 0 );
-		lineTo( width, 0 );
-		lineTo( width, height );
-		lineTo( 0, height );
-		setClosed(true);
-		setPaint(fill);
-	}
-	
-}
+package ead.editor;

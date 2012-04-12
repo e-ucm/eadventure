@@ -41,6 +41,7 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 import ead.common.EAdElementImporter;
+import ead.common.importer.annotation.ImportAnnotator;
 import ead.common.model.elements.EAdCondition;
 import ead.common.model.elements.effects.variables.ChangeFieldEf;
 import ead.common.model.elements.events.ConditionedEv;
@@ -64,10 +65,14 @@ public class BarrierImporter implements
 
 	private EAdElementImporter<Conditions, EAdCondition> conditionsImporter;
 
+	protected ImportAnnotator annotator;
+			
 	@Inject
 	public BarrierImporter(
-			EAdElementImporter<Conditions, EAdCondition> conditionsImporter) {
+			EAdElementImporter<Conditions, EAdCondition> conditionsImporter,
+			ImportAnnotator annotator) {
 		this.conditionsImporter = conditionsImporter;
+		this.annotator = annotator;		
 	}
 
 	@Override

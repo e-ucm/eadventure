@@ -40,6 +40,7 @@ package ead.common.importer.subimporters.chapter.conversations;
 import com.google.inject.Inject;
 
 import ead.common.EAdElementImporter;
+import ead.common.importer.annotation.ImportAnnotator;
 import ead.common.importer.interfaces.EffectsImporterFactory;
 import ead.common.model.elements.EAdEffect;
 import ead.common.model.elements.effects.text.SpeakEf;
@@ -58,13 +59,17 @@ public class DialogueNodeImporter implements
 
 	private EffectsImporterFactory effectsImporter;
 
+	protected ImportAnnotator annotator;
+
 	@Inject
 	public DialogueNodeImporter(
 			EffectsImporterFactory effectsImporter,
-			EAdElementImporter<ConversationLine, SpeakEf> conversationLineImporter) {
+			EAdElementImporter<ConversationLine, SpeakEf> conversationLineImporter,
+			ImportAnnotator annotator) {
 
 		this.effectsImporter = effectsImporter;
 		this.conversationLineImporter = conversationLineImporter;
+		this.annotator = annotator;
 	}
 
 	@Override
@@ -79,6 +84,9 @@ public class DialogueNodeImporter implements
 		for (int i = 0; i < oldObject.getLineCount(); i++) {
 			SpeakEf effect = conversationLineImporter
 					.init(oldObject.getLine(i));
+            annotator.annotate(effect, ImportAnnotator.Type.Comment,
+                    oldObject.getLineText(i));
+
 			effect = conversationLineImporter.convert(oldObject.getLine(i),
 					effect);
 			if (i == 0) {

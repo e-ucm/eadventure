@@ -40,6 +40,7 @@ package ead.common.importer.subimporters.effects;
 import com.google.inject.Inject;
 
 import ead.common.EAdElementImporter;
+import ead.common.importer.annotation.ImportAnnotator;
 import ead.common.importer.interfaces.EffectsImporterFactory;
 import ead.common.model.elements.EAdCondition;
 import ead.common.model.elements.EAdEffect;
@@ -57,8 +58,8 @@ public class RandomEffectImporter extends
 	@Inject
 	public RandomEffectImporter(
 			EAdElementImporter<Conditions, EAdCondition> conditionImporter,
-			EffectsImporterFactory effectsImporterFactory) {
-		super(conditionImporter);
+			EffectsImporterFactory effectsImporterFactory, ImportAnnotator annotator) {
+		super(conditionImporter, annotator);
 		this.effectsImporterFactory = effectsImporterFactory;
 	}
 
@@ -68,7 +69,7 @@ public class RandomEffectImporter extends
 		effect.setId("randomEffect" + ID_GENERATOR++);
 		return effect;
 	}
-	
+
 	@Override
 	public RandomEf convert(RandomEffect oldObject, Object object) {
 		RandomEf effect = super.convert(oldObject, object);

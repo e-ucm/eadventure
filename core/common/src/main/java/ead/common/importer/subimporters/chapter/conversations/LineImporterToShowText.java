@@ -40,6 +40,7 @@ package ead.common.importer.subimporters.chapter.conversations;
 import com.google.inject.Inject;
 
 import ead.common.EAdElementImporter;
+import ead.common.importer.annotation.ImportAnnotator;
 import ead.common.importer.interfaces.EAdElementFactory;
 import ead.common.importer.subimporters.effects.texts.SpeakCharEffectImporter;
 import ead.common.model.EAdElement;
@@ -61,13 +62,17 @@ public class LineImporterToShowText implements
 
 	private StringHandler stringHandler;
 
+	protected ImportAnnotator annotator;
+
 	@Inject
 	public LineImporterToShowText(
 			EAdElementImporter<Conditions, EAdCondition> conditionsImporter,
-			EAdElementFactory factory, StringHandler stringHandler) {
+			EAdElementFactory factory, StringHandler stringHandler,
+			ImportAnnotator annotator) {
 		this.conditionsImporter = conditionsImporter;
 		this.factory = factory;
 		this.stringHandler = stringHandler;
+		this.annotator = annotator;
 	}
 
 	public SpeakEf init(ConversationLine line) {

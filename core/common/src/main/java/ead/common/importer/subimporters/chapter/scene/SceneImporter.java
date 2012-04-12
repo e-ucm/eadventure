@@ -53,6 +53,7 @@ import org.slf4j.LoggerFactory;
 import com.google.inject.Inject;
 
 import ead.common.EAdElementImporter;
+import ead.common.importer.annotation.ImportAnnotator;
 import ead.common.importer.interfaces.EAdElementFactory;
 import ead.common.importer.interfaces.ResourceImporter;
 import ead.common.model.elements.EAdChapter;
@@ -127,6 +128,8 @@ public class SceneImporter implements EAdElementImporter<Scene, BasicScene> {
 
 	private EAdElementFactory factory;
 
+	protected ImportAnnotator annotator;
+
 	@Inject
 	public SceneImporter(
 			StringHandler stringHandler,
@@ -136,7 +139,8 @@ public class SceneImporter implements EAdElementImporter<Scene, BasicScene> {
 			EAdElementFactory factory,
 			EAdElementImporter<Exit, EAdSceneElement> exitsImporter,
 			EAdElementImporter<Trajectory, NodeTrajectoryDefinition> trajectoryImporter,
-			EAdElementImporter<Barrier, EAdSceneElement> barrierImporter) {
+			EAdElementImporter<Barrier, EAdSceneElement> barrierImporter,
+			ImportAnnotator annotator) {
 		this.stringHandler = stringHandler;
 		this.resourceImporter = resourceImporter;
 		this.exitsImporter = exitsImporter;
@@ -144,6 +148,7 @@ public class SceneImporter implements EAdElementImporter<Scene, BasicScene> {
 		this.trajectoryImporter = trajectoryImporter;
 		this.barrierImporter = barrierImporter;
 		this.factory = factory;
+		this.annotator = annotator;
 	}
 
 	@Override

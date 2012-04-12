@@ -51,9 +51,14 @@ public class EAdString implements EAdParam {
 	 */
 	private String id;
 
+    /*
+     * A reusable Random; not exposed
+     */
+    private transient static Random random;
+
 	/**
 	 * Construct a new string with the given id
-	 * 
+	 *
 	 * @param id
 	 *            The id of the EAdString
 	 */
@@ -91,7 +96,10 @@ public class EAdString implements EAdParam {
 	}
 
 	public static EAdString newRandomEAdString(String string) {
-		return new EAdString(string + (new Random()).nextInt(100000000));
+        if (random == null) {
+            random = new Random();
+        }
+		return new EAdString(string + random.nextInt(100000000));
 	}
 
 	public static EAdString newEAdString(String string) {

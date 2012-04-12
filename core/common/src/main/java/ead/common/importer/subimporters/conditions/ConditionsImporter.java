@@ -40,6 +40,7 @@ package ead.common.importer.subimporters.conditions;
 import com.google.inject.Inject;
 
 import ead.common.EAdElementImporter;
+import ead.common.importer.annotation.ImportAnnotator;
 import ead.common.importer.interfaces.EAdElementFactory;
 import ead.common.model.elements.EAdCondition;
 import ead.common.model.elements.conditions.ANDCond;
@@ -59,14 +60,18 @@ public class ConditionsImporter implements
 	private EAdElementImporter<VarCondition, OperationCond> varConditionImporter;
 	private EAdElementFactory factory;
 
+	protected ImportAnnotator annotator;
+	
 	@Inject
 	public ConditionsImporter(
 			EAdElementImporter<FlagCondition, OperationCond> flagConditionImporter,
 			EAdElementImporter<VarCondition, OperationCond> varConditionImporter,
-			EAdElementFactory factory) {
+			EAdElementFactory factory,
+			ImportAnnotator annotator) {
 		this.factory = factory;
 		this.flagConditionImporter = flagConditionImporter;
 		this.varConditionImporter = varConditionImporter;
+		this.annotator = annotator;
 	}
 
 	@Override

@@ -41,6 +41,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.google.inject.Inject;
+import ead.common.importer.annotation.ImportAnnotator;
 
 import ead.common.importer.interfaces.EAdElementFactory;
 import ead.common.importer.interfaces.EffectsImporterFactory;
@@ -61,8 +62,9 @@ public class VideosceneImporter extends CutsceneImporter<Videoscene> {
 	@Inject
 	public VideosceneImporter(StringHandler stringHandler,
 			ResourceImporter resourceImporter, EAdElementFactory factory,
-			EffectsImporterFactory effectsImporter) {
-		super(stringHandler, factory, effectsImporter, resourceImporter);
+			EffectsImporterFactory effectsImporter,
+			ImportAnnotator annotator) {
+		super(stringHandler, factory, effectsImporter, resourceImporter, annotator);
 	}
 
 	@Override

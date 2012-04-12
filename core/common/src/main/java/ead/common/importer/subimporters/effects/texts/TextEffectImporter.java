@@ -41,6 +41,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ead.common.EAdElementImporter;
+import ead.common.importer.annotation.ImportAnnotator;
 import ead.common.importer.interfaces.EAdElementFactory;
 import ead.common.importer.subimporters.effects.EffectImporter;
 import ead.common.model.elements.EAdCondition;
@@ -75,8 +76,8 @@ public abstract class TextEffectImporter<T extends AbstractEffect> extends
 
 	public TextEffectImporter(StringHandler stringHandler,
 			EAdElementImporter<Conditions, EAdCondition> conditionImporter,
-			EAdElementFactory factory) {
-		super(conditionImporter);
+			EAdElementFactory factory, ImportAnnotator annotator) {
+		super(conditionImporter, annotator);
 		this.stringHandler = stringHandler;
 		this.factory = factory;
 	}
@@ -185,7 +186,7 @@ public abstract class TextEffectImporter<T extends AbstractEffect> extends
 	/**
 	 * Sets the ballon type for the effect and deletes the balloon type tag form
 	 * the line and returns it
-	 * 
+	 *
 	 * @param effect
 	 * @param line
 	 * @return

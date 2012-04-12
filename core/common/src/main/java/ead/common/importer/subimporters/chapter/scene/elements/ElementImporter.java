@@ -38,6 +38,7 @@
 package ead.common.importer.subimporters.chapter.scene.elements;
 
 import ead.common.EAdElementImporter;
+import ead.common.importer.annotation.ImportAnnotator;
 import ead.common.importer.interfaces.EAdElementFactory;
 import ead.common.importer.subimporters.chapter.scene.ShapedElementImporter;
 import ead.common.importer.subimporters.effects.texts.TextEffectImporter;
@@ -81,12 +82,16 @@ public abstract class ElementImporter<T> implements
 
 	protected StringHandler stringHandler;
 
+	protected ImportAnnotator annotator;
+
 	public ElementImporter(EAdElementFactory factory,
 			EAdElementImporter<Conditions, EAdCondition> conditionsImporter,
-			StringHandler stringHandler) {
+			StringHandler stringHandler,
+			ImportAnnotator annotator) {
 		this.factory = factory;
 		this.conditionsImporter = conditionsImporter;
 		this.stringHandler = stringHandler;
+		this.annotator = annotator;
 	}
 
 	protected void addGoToExit(SceneElement newExit, Exit oldObject,

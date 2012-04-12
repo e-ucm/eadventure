@@ -40,6 +40,7 @@ package ead.common.importer.subimporters.effects.variables;
 import com.google.inject.Inject;
 
 import ead.common.EAdElementImporter;
+import ead.common.importer.annotation.ImportAnnotator;
 import ead.common.importer.interfaces.EAdElementFactory;
 import ead.common.importer.subimporters.effects.EffectImporter;
 import ead.common.model.elements.EAdCondition;
@@ -52,15 +53,16 @@ import es.eucm.eadventure.common.data.chapter.conditions.Conditions;
 import es.eucm.eadventure.common.data.chapter.effects.DeactivateEffect;
 
 public class DeactivateFlagImporter extends EffectImporter<DeactivateEffect, ChangeFieldEf>{
-	
+
 	private EAdElementFactory factory;
-	
+
 	private static int ID_GENERATOR = 0;
 
 	@Inject
 	public DeactivateFlagImporter(
-			EAdElementImporter<Conditions, EAdCondition> conditionImporter, EAdElementFactory factory) {
-		super(conditionImporter);
+			EAdElementImporter<Conditions, EAdCondition> conditionImporter,
+            EAdElementFactory factory, ImportAnnotator annotator) {
+		super(conditionImporter, annotator);
 		this.factory = factory;
 	}
 
@@ -69,14 +71,14 @@ public class DeactivateFlagImporter extends EffectImporter<DeactivateEffect, Cha
 		EAdField<?> var = factory.getVarByOldId(oldObject.getTargetId(), Condition.FLAG_CONDITION);
 		BooleanOp op = new BooleanOp( );
 		op.setCondition(EmptyCond.FALSE_EMPTY_CONDITION);
-		
+
 		ChangeFieldEf changeVar = new ChangeFieldEf( var, op );
 		changeVar.setId( "changeVarValue" + ID_GENERATOR++);
 		super.importConditions(oldObject, changeVar);
-		
+
 		return changeVar;
 	}
-	
+
 	@Override
 	public ChangeFieldEf convert(DeactivateEffect oldObject, Object object) {
 		return (ChangeFieldEf) object;

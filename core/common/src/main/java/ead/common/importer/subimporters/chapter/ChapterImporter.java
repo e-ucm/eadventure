@@ -42,6 +42,7 @@ import java.util.List;
 import com.google.inject.Inject;
 
 import ead.common.EAdElementImporter;
+import ead.common.importer.annotation.ImportAnnotator;
 import ead.common.importer.interfaces.EAdElementFactory;
 import ead.common.model.elements.EAdChapter;
 import ead.common.model.elements.BasicChapter;
@@ -61,7 +62,7 @@ import es.eucm.eadventure.common.data.chapter.scenes.Scene;
 
 /**
  * Chapter importer
- * 
+ *
  */
 public class ChapterImporter implements EAdElementImporter<Chapter, EAdChapter> {
 
@@ -73,15 +74,19 @@ public class ChapterImporter implements EAdElementImporter<Chapter, EAdChapter> 
 	private StringHandler stringHandler;
 
 	private EAdElementFactory elementFactory;
-	
+
 	private EAdElementImporter<Timer, EAdEvent> timerImporter;
+
+	protected ImportAnnotator annotator;
 
 	@Inject
 	public ChapterImporter(StringHandler stringHandler,
-			EAdElementFactory elementFactory, EAdElementImporter<Timer, EAdEvent> timerImporter) {
+			EAdElementFactory elementFactory, EAdElementImporter<Timer, EAdEvent> timerImporter,
+			ImportAnnotator annotator) {
 		this.stringHandler = stringHandler;
 		this.elementFactory = elementFactory;
 		this.timerImporter = timerImporter;
+		this.annotator = annotator;
 	}
 
 	@Override
@@ -94,7 +99,13 @@ public class ChapterImporter implements EAdElementImporter<Chapter, EAdChapter> 
 	@Override
 	public EAdChapter convert(Chapter oldChapter, Object object) {
 		BasicChapter newChapter = (BasicChapter) object;
-		elementFactory.setCurrentChapterModel(newChapter, oldChapter);
+
+        annotator.annotate(newChapter, ImportAnnotator.Type.Open, null);
+        annotator.annotate(newChapter, ImportAnnotator.Type.Entry,
+                "title:" + oldChapter.getTitle());
+        annotator.annotate(newChapter, ImportAnnotator.Type.Entry,
+                "description:" + oldChapter.getDescription());
+        elementFactory.setCurrentChapterModel(newChapter, oldChapter);
 
 		stringHandler.setString(newChapter.getTitle(), oldChapter.getTitle());
 		stringHandler.setString(newChapter.getDescription(),
@@ -149,6 +160,7 @@ public class ChapterImporter implements EAdElementImporter<Chapter, EAdChapter> 
 		newChapter.setInitialScene((EAdScene) elementFactory
 				.getElementById(oldChapter.getInitialGeneralScene().getId()));
 
+        annotator.annotate(newChapter, ImportAnnotator.Type.Close, null);
 		return newChapter;
 	}
 
@@ -164,7 +176,7 @@ public class ChapterImporter implements EAdElementImporter<Chapter, EAdChapter> 
 		scene.getEvents().add(event);
 
 	}
-	
+
 	private void registerActiveAreas(List<Scene> scenes) {
 		for ( Scene s: scenes ){
 			for ( ActiveArea a: s.getActiveAreas() ){
@@ -178,7 +190,7 @@ public class ChapterImporter implements EAdElementImporter<Chapter, EAdChapter> 
 			elementFactory.registerOldElement(element.getId(), element);
 		}
 	}
-	
+
 	private void registerOldElementMacros(List<Macro> list){
 		for (Macro element : list){
 			elementFactory.registerOldElement(element.getId(), element);
@@ -190,13 +202,13 @@ public class ChapterImporter implements EAdElementImporter<Chapter, EAdChapter> 
 			elementFactory.getElementById(element.getId());
 		}
 	}
-	
+
 	private void importElementsMacro(List<Macro> list) {
 		for (Macro element : list){
 			elementFactory.getElementById(element.getId());
 		}
 	}
-	
+
 	private void importActiveAreas(List<Scene> scenes) {
 		for ( Scene s: scenes ){
 			for ( ActiveArea a: s.getActiveAreas() ){

@@ -43,6 +43,7 @@ import java.util.HashMap;
 import com.google.inject.Inject;
 
 import ead.common.EAdElementImporter;
+import ead.common.importer.annotation.ImportAnnotator;
 import ead.common.importer.interfaces.EAdElementFactory;
 import ead.common.importer.interfaces.ResourceImporter;
 import ead.common.interfaces.features.enums.Orientation;
@@ -71,9 +72,10 @@ public class NPCImporter extends ActorImporter<NPC> {
 			ResourceImporter resourceImporter,
 			EAdElementFactory elementFactory,
 			EAdElementImporter<Action, EAdAction> actionImporter,
-			EAdElementFactory factory) {
+			EAdElementFactory factory,
+			ImportAnnotator annotator) {
 		super(stringHandler, resourceImporter, elementFactory, actionImporter,
-				factory);
+				factory, annotator);
 	}
 
 	@Override

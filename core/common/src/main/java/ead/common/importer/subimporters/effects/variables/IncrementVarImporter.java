@@ -40,6 +40,7 @@ package ead.common.importer.subimporters.effects.variables;
 import com.google.inject.Inject;
 
 import ead.common.EAdElementImporter;
+import ead.common.importer.annotation.ImportAnnotator;
 import ead.common.importer.interfaces.EAdElementFactory;
 import ead.common.importer.subimporters.effects.EffectImporter;
 import ead.common.model.elements.EAdCondition;
@@ -59,8 +60,8 @@ public class IncrementVarImporter extends
 	@Inject
 	public IncrementVarImporter(
 			EAdElementImporter<Conditions, EAdCondition> conditionImporter,
-			EAdElementFactory factory) {
-		super(conditionImporter);
+			EAdElementFactory factory, ImportAnnotator annotator) {
+		super(conditionImporter, annotator);
 		this.factory = factory;
 	}
 
@@ -77,7 +78,7 @@ public class IncrementVarImporter extends
 		super.importConditions(oldObject, effect);
 		return effect;
 	}
-	
+
 	@Override
 	public ChangeFieldEf convert(IncrementVarEffect oldObject, Object object) {
 		return (ChangeFieldEf) object;

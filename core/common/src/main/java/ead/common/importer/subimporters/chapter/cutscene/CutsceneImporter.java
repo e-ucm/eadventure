@@ -38,6 +38,7 @@
 package ead.common.importer.subimporters.chapter.cutscene;
 
 import ead.common.EAdElementImporter;
+import ead.common.importer.annotation.ImportAnnotator;
 import ead.common.importer.interfaces.EAdElementFactory;
 import ead.common.importer.interfaces.EffectsImporterFactory;
 import ead.common.importer.interfaces.ResourceImporter;
@@ -70,13 +71,17 @@ public abstract class CutsceneImporter<T extends Cutscene> implements
 
 	protected ResourceImporter resourceImporter;
 
+	protected ImportAnnotator annotator;
+	
 	public CutsceneImporter(StringHandler stringHandler,
 			EAdElementFactory factory, EffectsImporterFactory effectsImporter,
-			ResourceImporter resourceImporter) {
+			ResourceImporter resourceImporter,
+			ImportAnnotator annotator) {
 		this.stringHandler = stringHandler;
 		this.factory = factory;
 		this.effectsImporter = effectsImporter;
 		this.resourceImporter = resourceImporter;
+		this.annotator = annotator;
 	}
 
 	@Override

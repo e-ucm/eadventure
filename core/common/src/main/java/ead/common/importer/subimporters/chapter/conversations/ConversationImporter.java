@@ -43,6 +43,7 @@ import java.util.Map;
 import com.google.inject.Inject;
 
 import ead.common.EAdElementImporter;
+import ead.common.importer.annotation.ImportAnnotator;
 import ead.common.importer.interfaces.EffectsImporterFactory;
 import ead.common.model.elements.EAdEffect;
 import ead.common.model.elements.effects.text.ShowQuestionEf;
@@ -64,13 +65,17 @@ public class ConversationImporter implements
 
 	private EAdElementImporter<DialogueConversationNode, EAdEffect> dialogueImporter;
 
+	protected ImportAnnotator annotator;
+
 	@Inject
 	public ConversationImporter(
 			EAdElementImporter<DialogueConversationNode, EAdEffect> dialogueImporter,
-			EffectsImporterFactory effectFactory, StringHandler stringHandler) {
+			EffectsImporterFactory effectFactory, StringHandler stringHandler,
+			ImportAnnotator annotator) {
 		nodes = new HashMap<ConversationNode, EAdEffect>();
 		this.dialogueImporter = dialogueImporter;
 		this.stringHandler = stringHandler;
+		this.annotator = annotator;
 	}
 
 	@Override
@@ -80,6 +85,8 @@ public class ConversationImporter implements
 
 	public EAdEffect convert(Conversation oldObject, Object object) {
 		nodes.clear();
+
+        annotator.annotate(null, ImportAnnotator.Type.Open, oldObject.getId());
 
 		for (ConversationNode node : oldObject.getAllNodes()) {
 			if (node.getType() == ConversationNode.DIALOGUE) {
@@ -92,6 +99,7 @@ public class ConversationImporter implements
 			} else if (node.getType() == ConversationNode.OPTION) {
 				EAdEffect effect = new ShowQuestionEf();
 				nodes.put(node, effect);
+                annotator.annotate(effect, ImportAnnotator.Type.Comment, "choice");
 			}
 		}
 
@@ -120,7 +128,10 @@ public class ConversationImporter implements
 		EAdEffect initialEffect = nodes.get(oldObject.getRootNode());
 		ChangeFieldEf changeField = new ChangeFieldEf(SystemFields.BASIC_HUD_OPAQUE, BooleanOp.TRUE_OP );
 		changeField.getNextEffects().add(initialEffect);
-		return changeField;
+
+        annotator.annotate(null, ImportAnnotator.Type.Close, oldObject.getId());
+
+        return changeField;
 	}
 
 }

@@ -42,6 +42,8 @@ import com.google.inject.TypeLiteral;
 
 import ead.common.EAdElementImporter;
 import ead.common.GenericImporter;
+import ead.common.importer.annotation.ImportAnnotator;
+import ead.common.importer.annotation.NullAnnotator;
 import ead.common.importer.auxiliar.EAdElementFactoryImpl;
 import ead.common.importer.auxiliar.ImporterImageLoaderFactory;
 import ead.common.importer.auxiliar.inputstreamcreators.ImporterInputStreamCreator;
@@ -267,5 +269,7 @@ public class ImporterConfigurationModule extends AbstractModule {
 		bind(EAdElementFactory.class).to(EAdElementFactoryImpl.class);
 		bind(ImageLoaderFactory.class).to(ImporterImageLoaderFactory.class);
 		bind(InputStreamCreator.class).to(ImporterInputStreamCreator.class);
+		
+		bind(ImportAnnotator.class).to(NullAnnotator.class);
 	}
 }

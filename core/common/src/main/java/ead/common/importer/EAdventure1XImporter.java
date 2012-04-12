@@ -60,6 +60,7 @@ import com.google.inject.Inject;
 import ead.common.EAdElementImporter;
 import ead.common.ProjectFiles;
 import ead.common.StringFileHandler;
+import ead.common.importer.annotation.ImportAnnotator;
 import ead.common.importer.auxiliar.inputstreamcreators.ImporterInputStreamCreator;
 import ead.common.importer.interfaces.EAdElementFactory;
 import ead.common.importer.interfaces.ResourceImporter;
@@ -107,7 +108,8 @@ public class EAdventure1XImporter {
 			ResourceImporter resourceImporter,
 			InputStreamCreator inputStreamCreator, StringHandler stringsWriter,
 			StringFileHandler stringFileHandler,
-			EAdElementFactory elementFactory) {
+			EAdElementFactory elementFactory,
+			ImportAnnotator importAnnotator) {
 		this.adventureImporter = adventureImp;
 		this.resourceImporter = resourceImporter;
 		this.inputStreamCreator = inputStreamCreator;

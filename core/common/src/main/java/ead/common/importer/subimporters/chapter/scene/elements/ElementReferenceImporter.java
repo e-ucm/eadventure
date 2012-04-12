@@ -42,6 +42,7 @@ import java.awt.Dimension;
 import com.google.inject.Inject;
 
 import ead.common.EAdElementImporter;
+import ead.common.importer.annotation.ImportAnnotator;
 import ead.common.importer.interfaces.EAdElementFactory;
 import ead.common.importer.interfaces.ResourceImporter;
 import ead.common.interfaces.features.enums.Orientation;
@@ -69,8 +70,9 @@ public class ElementReferenceImporter extends ElementImporter<ElementReference> 
 	@Inject
 	public ElementReferenceImporter(EAdElementFactory factory,
 			EAdElementImporter<Conditions, EAdCondition> conditionsImporter,
-			StringHandler stringHandler, ResourceImporter resourceImporter) {
-		super(factory, conditionsImporter, stringHandler);
+			StringHandler stringHandler, ResourceImporter resourceImporter,
+			ImportAnnotator annotator) {
+		super(factory, conditionsImporter, stringHandler, annotator);
 		this.resourceImporter = resourceImporter;
 	}
 

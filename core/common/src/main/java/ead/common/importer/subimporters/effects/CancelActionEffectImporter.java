@@ -40,6 +40,7 @@ package ead.common.importer.subimporters.effects;
 import com.google.inject.Inject;
 
 import ead.common.EAdElementImporter;
+import ead.common.importer.annotation.ImportAnnotator;
 import ead.common.model.elements.EAdCondition;
 import ead.common.model.elements.EAdEffect;
 import es.eucm.eadventure.common.data.chapter.conditions.Conditions;
@@ -49,8 +50,9 @@ public class CancelActionEffectImporter extends EffectImporter<CancelActionEffec
 	
 	@Inject
 	public CancelActionEffectImporter(
-			EAdElementImporter<Conditions, EAdCondition> conditionImporter) {
-		super(conditionImporter);
+			EAdElementImporter<Conditions, EAdCondition> conditionImporter,
+			ImportAnnotator annotator) {
+		super(conditionImporter, annotator);
 	}
 
 	@Override

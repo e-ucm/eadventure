@@ -40,6 +40,7 @@ package ead.common.importer.subimporters.effects;
 import com.google.inject.Inject;
 
 import ead.common.EAdElementImporter;
+import ead.common.importer.annotation.ImportAnnotator;
 import ead.common.importer.interfaces.EAdElementFactory;
 import ead.common.model.elements.EAdCondition;
 import ead.common.model.elements.conditions.EmptyCond;
@@ -56,8 +57,8 @@ public class TriggerMacroImporter extends
 	@Inject
 	public TriggerMacroImporter(
 			EAdElementImporter<Conditions, EAdCondition> conditionImporter,
-			EAdElementFactory factory) {
-		super(conditionImporter);
+			EAdElementFactory factory, ImportAnnotator annotator) {
+		super(conditionImporter, annotator);
 		this.factory = factory;
 	}
 
