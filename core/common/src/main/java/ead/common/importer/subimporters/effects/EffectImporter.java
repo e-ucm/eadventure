@@ -38,6 +38,7 @@
 package ead.common.importer.subimporters.effects;
 
 import ead.common.EAdElementImporter;
+import ead.common.importer.annotation.ImportAnnotator;
 import ead.common.model.elements.EAdCondition;
 import ead.common.model.elements.EAdEffect;
 import es.eucm.eadventure.common.data.chapter.conditions.Conditions;
@@ -47,12 +48,16 @@ public abstract class EffectImporter<OldEffect extends AbstractEffect, NewEffect
 		implements EAdElementImporter<OldEffect, NewEffect> {
 
 	protected static int ID_GENERATOR = 0;
+
+	protected ImportAnnotator annotator;
 	
 	private EAdElementImporter<Conditions, EAdCondition> conditionImporter;
 
 	public EffectImporter(
-			EAdElementImporter<Conditions, EAdCondition> conditionImporter) {
+			EAdElementImporter<Conditions, EAdCondition> conditionImporter,
+			ImportAnnotator annotator) {
 		this.conditionImporter = conditionImporter;
+		this.annotator = annotator;
 	}
 
 	protected void importConditions(OldEffect oldEffect, NewEffect newEffect) {

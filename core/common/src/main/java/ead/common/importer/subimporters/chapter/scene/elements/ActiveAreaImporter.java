@@ -40,6 +40,7 @@ package ead.common.importer.subimporters.chapter.scene.elements;
 import com.google.inject.Inject;
 
 import ead.common.EAdElementImporter;
+import ead.common.importer.annotation.ImportAnnotator;
 import ead.common.importer.interfaces.EAdElementFactory;
 import ead.common.importer.subimporters.chapter.ActionImporter;
 import ead.common.importer.subimporters.chapter.scene.ShapedElementImporter;
@@ -65,8 +66,9 @@ public class ActiveAreaImporter extends ElementImporter<ActiveArea> {
 	public ActiveAreaImporter(
 			EAdElementImporter<Conditions, EAdCondition> conditionsImporter,
 			EAdElementImporter<Action, EAdAction> actionImporter,
-			StringHandler stringHandler, EAdElementFactory factory) {
-		super(factory, conditionsImporter, stringHandler);
+			StringHandler stringHandler, EAdElementFactory factory,
+			ImportAnnotator annotator) {
+		super(factory, conditionsImporter, stringHandler, annotator);
 		this.actionImporter = actionImporter;
 	}
 

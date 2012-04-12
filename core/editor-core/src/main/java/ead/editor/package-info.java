@@ -35,75 +35,7 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ead.common.params.text;
-
-import java.util.Random;
-
-import ead.common.params.EAdParam;
-
 /**
- * General internationalized string asset interface.
+ * eAdventure editor.
  */
-public class EAdString implements EAdParam {
-
-	/**
-	 * The id
-	 */
-	private String id;
-
-    /*
-     * A reusable Random; not exposed
-     */
-    private transient static Random random;
-
-	/**
-	 * Construct a new string with the given id
-	 *
-	 * @param id
-	 *            The id of the EAdString
-	 */
-	public EAdString(String id) {
-		this.id = id;
-	}
-
-	@Override
-	public String toString() {
-		return id;
-	}
-
-	@Override
-	public int hashCode() {
-		return id.hashCode();
-	}
-
-	@Override
-	public boolean equals(Object o) {
-		if (o instanceof EAdString) {
-			return ((EAdString) o).id.equals(id);
-		}
-		return false;
-	}
-
-	@Override
-	public String toStringData() {
-		return id;
-	}
-
-	@Override
-	public boolean parse(String data) {
-		this.id = data;
-		return id != null;
-	}
-
-	public static EAdString newRandomEAdString(String string) {
-        if (random == null) {
-            random = new Random();
-        }
-		return new EAdString(string + random.nextInt(100000000));
-	}
-
-	public static EAdString newEAdString(String string) {
-		return new EAdString(string);
-	}
-
-}
+package ead.editor;

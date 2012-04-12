@@ -40,6 +40,7 @@ package ead.common.importer.subimporters.effects.texts;
 import com.google.inject.Inject;
 
 import ead.common.EAdElementImporter;
+import ead.common.importer.annotation.ImportAnnotator;
 import ead.common.importer.interfaces.EAdElementFactory;
 import ead.common.model.elements.EAdCondition;
 import ead.common.model.elements.effects.text.SpeakEf;
@@ -54,14 +55,15 @@ public class ShowTextEffectImporter extends TextEffectImporter<ShowTextEffect> {
 
 	@Inject
 	public ShowTextEffectImporter(StringHandler stringHandler,
-			EAdElementImporter<Conditions, EAdCondition> conditionImporter, EAdElementFactory factory) {
-		super(stringHandler, conditionImporter, factory);
+			EAdElementImporter<Conditions, EAdCondition> conditionImporter,
+            EAdElementFactory factory, ImportAnnotator annotator) {
+		super(stringHandler, conditionImporter, factory, annotator);
 	}
 
 	@Override
 	public SpeakEf convert(ShowTextEffect oldObject, Object object) {
 		SpeakEf showText = super.convert(oldObject, object);
-		
+
 		for ( EAdOperation op: TextEffectImporter.getOperations(oldObject.getText(), factory)){
 			showText.getCaption().getFields().add(op);
 		}

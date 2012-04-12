@@ -42,6 +42,7 @@ import java.util.Map;
 import com.google.inject.Inject;
 
 import ead.common.EAdElementImporter;
+import ead.common.importer.annotation.ImportAnnotator;
 import ead.common.importer.interfaces.EAdElementFactory;
 import ead.common.importer.interfaces.ResourceImporter;
 import ead.common.model.elements.EAdAction;
@@ -73,17 +74,21 @@ public abstract class ActorImporter<P extends Element> implements
 
 	protected EAdElementFactory factory;
 
+	protected ImportAnnotator annotator;
+	
 	@Inject
 	public ActorImporter(StringHandler stringHandler,
 			ResourceImporter resourceImporter,
 			EAdElementFactory elementFactory,
 			EAdElementImporter<Action, EAdAction> actionImporter,
-			EAdElementFactory factory) {
+			EAdElementFactory factory,
+			ImportAnnotator annotator) {
 		this.stringHandler = stringHandler;
 		this.resourceImporter = resourceImporter;
 		this.elementFactory = elementFactory;
 		this.actionImporter = (ActionImporter) actionImporter;
 		this.factory = factory;
+		this.annotator = annotator;
 	}
 
 	@Override

@@ -44,6 +44,7 @@ import java.util.List;
 import com.google.inject.Inject;
 
 import ead.common.EAdElementImporter;
+import ead.common.importer.annotation.ImportAnnotator;
 import ead.common.importer.interfaces.EAdElementFactory;
 import ead.common.importer.interfaces.EffectsImporterFactory;
 import ead.common.importer.interfaces.ResourceImporter;
@@ -100,8 +101,9 @@ public class SlidesceneImporter extends CutsceneImporter<Slidescene> {
 			EAdElementImporter<Conditions, EAdCondition> conditionsImporter,
 			EAdElementFactory factory, ResourceImporter resourceImporter,
 			StringHandler stringHandler, ImageLoaderFactory imageLoader,
-			InputStreamCreator inputStreamCreator) {
-		super(stringHandler, factory, effectsImporter, resourceImporter);
+			InputStreamCreator inputStreamCreator,
+			ImportAnnotator annotator) {
+		super(stringHandler, factory, effectsImporter, resourceImporter, annotator);
 		this.imageLoader = imageLoader;
 		this.inputStreamCreator = inputStreamCreator;
 		this.conditionsImporter = conditionsImporter;

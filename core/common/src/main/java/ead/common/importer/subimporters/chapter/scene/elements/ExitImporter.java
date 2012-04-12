@@ -40,6 +40,7 @@ package ead.common.importer.subimporters.chapter.scene.elements;
 import com.google.inject.Inject;
 
 import ead.common.EAdElementImporter;
+import ead.common.importer.annotation.ImportAnnotator;
 import ead.common.importer.interfaces.EAdElementFactory;
 import ead.common.importer.interfaces.EffectsImporterFactory;
 import ead.common.importer.interfaces.ResourceImporter;
@@ -77,8 +78,9 @@ public class ExitImporter extends ElementImporter<Exit> {
 			EAdElementImporter<Conditions, EAdCondition> conditionsImporter,
 			EAdElementFactory factory,
 			EffectsImporterFactory effectsImporterFactory,
-			StringHandler stringHandler, ResourceImporter resourceImporter) {
-		super(factory, conditionsImporter, stringHandler);
+			StringHandler stringHandler, ResourceImporter resourceImporter,
+			ImportAnnotator annotator) {
+		super(factory, conditionsImporter, stringHandler, annotator);
 		this.effectsImporterFactory = effectsImporterFactory;
 		this.resourceImporter = resourceImporter;
 	}

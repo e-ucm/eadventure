@@ -45,7 +45,7 @@ import ead.common.params.paint.EAdPaint;
  * <p>Rectangular shape asset</p>
  * 
  */
-public class RectangleShape extends BezierShape {
+public class RectangleShape extends BezierShape {		
 	
 	public RectangleShape( ){
 		this( 0, 0 );

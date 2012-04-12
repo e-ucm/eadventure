@@ -40,6 +40,7 @@ package ead.common.importer.subimporters.effects;
 import com.google.inject.Inject;
 
 import ead.common.EAdElementImporter;
+import ead.common.importer.annotation.ImportAnnotator;
 import ead.common.importer.interfaces.EAdElementFactory;
 import ead.common.model.elements.EAdCondition;
 import ead.common.model.elements.effects.ChangeSceneEf;
@@ -55,8 +56,8 @@ public class TriggerBookEffectImporter extends
 	@Inject
 	public TriggerBookEffectImporter(
 			EAdElementImporter<Conditions, EAdCondition> conditionImporter,
-			EAdElementFactory factory) {
-		super(conditionImporter);
+			EAdElementFactory factory, ImportAnnotator annotator) {
+		super(conditionImporter, annotator);
 		this.factory = factory;
 	}
 
@@ -65,7 +66,7 @@ public class TriggerBookEffectImporter extends
 		ChangeSceneEf effect =  new ChangeSceneEf();
 		effect.setId("triggerBook_" + oldObject.getTargetId());
 		return effect;
-		
+
 	}
 
 	@Override

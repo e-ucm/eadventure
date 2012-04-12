@@ -40,6 +40,7 @@ package ead.common.importer.subimporters.chapter;
 import com.google.inject.Inject;
 
 import ead.common.EAdElementImporter;
+import ead.common.importer.annotation.ImportAnnotator;
 import ead.common.importer.interfaces.EffectsImporterFactory;
 import ead.common.model.elements.EAdCondition;
 import ead.common.model.elements.EAdEvent;
@@ -86,6 +87,8 @@ public class TimerImporter implements EAdElementImporter<Timer, EAdEvent> {
 
 	private StringHandler stringHandler;
 
+	protected ImportAnnotator annotator;
+
 	private static final EAdVarDef<Integer> CURRENT_TIME_VAR = new VarDef<Integer>(
 			"current_time_timer", Integer.class, 0);
 
@@ -98,10 +101,12 @@ public class TimerImporter implements EAdElementImporter<Timer, EAdEvent> {
 	@Inject
 	public TimerImporter(
 			EAdElementImporter<Conditions, EAdCondition> conditionsImporter,
-			EffectsImporterFactory effectsImporter, StringHandler stringHandler) {
+			EffectsImporterFactory effectsImporter, StringHandler stringHandler,
+			ImportAnnotator annotator) {
 		this.conditionsImporter = conditionsImporter;
 		this.effectsImporter = effectsImporter;
 		this.stringHandler = stringHandler;
+		this.annotator = annotator;
 	}
 
 	@Override

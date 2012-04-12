@@ -40,6 +40,7 @@ package ead.common.importer.subimporters.effects;
 import com.google.inject.Inject;
 
 import ead.common.EAdElementImporter;
+import ead.common.importer.annotation.ImportAnnotator;
 import ead.common.importer.interfaces.EAdElementFactory;
 import ead.common.model.elements.EAdCondition;
 import ead.common.model.elements.conditions.EmptyCond;
@@ -52,14 +53,14 @@ import es.eucm.eadventure.common.data.chapter.conditions.Conditions;
 import es.eucm.eadventure.common.data.chapter.effects.MoveNPCEffect;
 
 public class MoveNPCEffectImporter extends EffectImporter<MoveNPCEffect, TriggerMacroEf>{
-	
+
 	private EAdElementFactory factory;
-	
+
 	@Inject
 	public MoveNPCEffectImporter(
 			EAdElementImporter<Conditions, EAdCondition> conditionImporter,
-			EAdElementFactory factory) {
-		super(conditionImporter);
+			EAdElementFactory factory, ImportAnnotator annotator) {
+		super(conditionImporter, annotator);
 		this.factory = factory;
 	}
 
@@ -72,13 +73,13 @@ public class MoveNPCEffectImporter extends EffectImporter<MoveNPCEffect, Trigger
 
 	@Override
 	public TriggerMacroEf convert(MoveNPCEffect oldObject, Object object) {
-		TriggerMacroEf effect = super.convert(oldObject, object);	
+		TriggerMacroEf effect = super.convert(oldObject, object);
 		EffectsMacro macro = new EffectsMacro();
 		macro.setId("macro");
 		effect.putMacro(macro, EmptyCond.TRUE_EMPTY_CONDITION);
-		
 
-		macro.getEffects().add(new MoveSceneElementEf((EAdSceneElementDef) factory.getElementById(oldObject.getTargetId()), 
+
+		macro.getEffects().add(new MoveSceneElementEf((EAdSceneElementDef) factory.getElementById(oldObject.getTargetId()),
 				oldObject.getX(), oldObject.getY(), MovementSpeed.NORMAL));
 
 		return effect;

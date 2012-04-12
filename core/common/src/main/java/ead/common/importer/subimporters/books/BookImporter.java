@@ -51,6 +51,7 @@ import javax.imageio.ImageIO;
 import com.google.inject.Inject;
 
 import ead.common.EAdElementImporter;
+import ead.common.importer.annotation.ImportAnnotator;
 import ead.common.importer.interfaces.ResourceImporter;
 import ead.common.model.elements.EAdCondition;
 import ead.common.model.elements.conditions.EmptyCond;
@@ -139,6 +140,8 @@ public class BookImporter implements EAdElementImporter<Book, EAdScene> {
 	 */
 	public static final int TITLE_HEIGHT = 50;
 
+	protected ImportAnnotator annotator;
+			
 	private static final String HTML_NOT_SUPPORTED = "Sorry. HTML Books are no longer supported by eAdventure.";
 
 	private FontRenderContext frc = new FontRenderContext(null, true, true);
@@ -157,9 +160,11 @@ public class BookImporter implements EAdElementImporter<Book, EAdScene> {
 
 	@Inject
 	public BookImporter(ResourceImporter resourceImporter,
-			StringHandler stringHandler) {
+			StringHandler stringHandler,
+			ImportAnnotator annotator) {
 		this.resourceImporter = resourceImporter;
 		this.stringHandler = stringHandler;
+		this.annotator = annotator;
 	}
 
 	@Override

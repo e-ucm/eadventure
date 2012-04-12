@@ -42,6 +42,7 @@ import java.util.HashMap;
 import com.google.inject.Inject;
 
 import ead.common.EAdElementImporter;
+import ead.common.importer.annotation.ImportAnnotator;
 import ead.common.importer.interfaces.EAdElementFactory;
 import ead.common.importer.interfaces.ResourceImporter;
 import ead.common.model.elements.EAdAction;
@@ -57,8 +58,10 @@ public class ItemImporter extends ActorImporter<Item> {
 	public ItemImporter(StringHandler stringHandler,
 			ResourceImporter resourceImporter,
 			EAdElementFactory elementFactory,
-			EAdElementImporter<Action, EAdAction> actionImporter, EAdElementFactory factory) {
-		super(stringHandler, resourceImporter, elementFactory, actionImporter, factory);
+			EAdElementImporter<Action, EAdAction> actionImporter, EAdElementFactory factory,
+			ImportAnnotator annotator) {
+		super(stringHandler, resourceImporter, elementFactory, actionImporter, factory,
+			annotator);
 	}
 
 	@Override

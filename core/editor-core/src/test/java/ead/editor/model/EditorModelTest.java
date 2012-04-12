@@ -34,11 +34,6 @@
  *      You should have received a copy of the GNU Lesser General Public License
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
-
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package ead.editor.model;
 
 import com.google.inject.Guice;
@@ -67,14 +62,14 @@ import org.slf4j.LoggerFactory;
 public class EditorModelTest {
 
     private static final Logger logger = LoggerFactory.getLogger("EditorModelTest");
-	
+
     private EditorModel model;
-	
+
     public EditorModelTest() {
     }
 
     @BeforeClass
-    public static void setUpClass() throws Exception {				
+    public static void setUpClass() throws Exception {
     }
 
     @AfterClass
@@ -86,15 +81,16 @@ public class EditorModelTest {
         Log4jConfig.configForConsole(Log4jConfig.Slf4jLevel.Info, new Object[]{
 			"ModelVisitorDriver", Log4jConfig.Slf4jLevel.Info,
 			"EditorModel", Log4jConfig.Slf4jLevel.Debug,
+			"NullAnnotator", Log4jConfig.Slf4jLevel.Debug,
 		    "EAdventureImporter", Log4jConfig.Slf4jLevel.Debug
-		});		
-		
+		});
+
         Injector injector = Guice.createInjector(
                 new ImporterConfigurationModule(),
                 new BasicGameModule(),
                 new DesktopModule(),
                 new DesktopAssetHandlerModule());
-        model = injector.getInstance(EditorModel.class);		
+        model = injector.getInstance(EditorModel.class);
     }
 
     @After
@@ -106,7 +102,7 @@ public class EditorModelTest {
      */
     @Test
     public void testLoadFromImportFile() {
-        System.out.println("loadFromImportFile");       
+        System.out.println("loadFromImportFile");
     }
 
     /**
@@ -126,10 +122,10 @@ public class EditorModelTest {
     }
 
 	// --- non-automated tests ---
-	
+
     /**
 	 * Tests indexing and searching
-	 */	
+	 */
     private void testSimpleSearch() {
 		String s = "disp_x";
         logger.info("Now searching for '"+s+"' in all fields, all nodes...");
@@ -142,50 +138,50 @@ public class EditorModelTest {
     }
 
 	/**
-	 * Test import-loading of an old ead 1.x file; also saves to new format.
+	 * Test import-loading of an old ead 1.x file
 	 */
-	private void testImportLoad(File oldEadFile, File saveFile) throws Exception {
-		model.loadFromImportFile(oldEadFile);			
+	private void testImportLoad(File oldEadFile) throws IOException {
+		model.loadFromImportFile(oldEadFile);
 	}
 
 	/**
 	 * Test saving editor-model to new format (must have something already loaded)
 	 */
-	private void testSave(File saveFile) throws Exception {
+	private void testSave(File saveFile) throws IOException {
 		model.save(saveFile);
 	}
-	
+
 	/**
 	 * Test loading editor-model from new format (create dusing testSave)
 	 */
-	private void testLoad(File saveFile) throws Exception {
+	private void testLoad(File saveFile) throws IOException {
 		model.load(saveFile);
 	}
-			
+
     public static void main(String[] args) throws IOException {
 		EditorModelTest emt = new EditorModelTest();
 		emt.setUp();
 
 		logger.info("Starting test run...");
 
-//      // Import-load		
-//      File f = new File("/home/mfreire/code/e-ucm/e-adventure-1.x/games/PrimerosAuxiliosGame.ead");
-//		emt.testImportLoad(f);
-//		
+		// Import-load
+		File f = new File("/home/mfreire/code/e-ucm/e-adventure-1.x/games/PrimerosAuxiliosGame.ead");
+		emt.testImportLoad(f);
+
 		// Simple search
 //		emt.testSimpleSearch();
-		
+
 //		// Create gephi-compatible graph
 //      emt.model.exportGraph(new File("/tmp/exported.graphml"));
 
-//      // Test saving with a big random EditorNode 		
+//      // Test saving with a big random EditorNode
 //		ArrayList<DependencyNode> test = new ArrayList<DependencyNode>();
 //		for (int i=1; i<10; i++) test.add(emt.model.getNode(i));
 //		EditorNode en = new EditorNode(emt.model.generateId());
-//		emt.model.registerEditorNode(en, test);				
-//		File saveFile = new File("/tmp/saved.eap"); 		
+//		emt.model.registerEditorNode(en, test);
+//		File saveFile = new File("/tmp/saved.eap");
 //		emt.testSave(saveFile);
-		
+
 //      // Test loading from previous save-file
 //		emt.testLoad(saveFile);
     }

@@ -40,6 +40,7 @@ package ead.common.importer.subimporters.macros;
 import com.google.inject.Inject;
 
 import ead.common.EAdElementImporter;
+import ead.common.importer.annotation.ImportAnnotator;
 import ead.common.importer.interfaces.EffectsImporterFactory;
 import ead.common.model.elements.EAdEffect;
 import ead.common.model.elements.effects.EffectsMacro;
@@ -49,10 +50,14 @@ import es.eucm.eadventure.common.data.chapter.effects.Macro;
 public class MacroImporter implements EAdElementImporter<Macro, EffectsMacro>{
 	
 	private EffectsImporterFactory effectImporter;
+
+	protected ImportAnnotator annotator;;
 	
 	@Inject
-	public MacroImporter(EffectsImporterFactory effectImporter) {
+	public MacroImporter(EffectsImporterFactory effectImporter,
+			ImportAnnotator annotator) {
 		this.effectImporter = effectImporter;
+		this.annotator = annotator;
 	}
 	@Override
 	public EffectsMacro init( Macro oldMacro ) {

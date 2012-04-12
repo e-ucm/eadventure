@@ -40,6 +40,7 @@ package ead.common.importer.subimporters.effects;
 import com.google.inject.Inject;
 
 import ead.common.EAdElementImporter;
+import ead.common.importer.annotation.ImportAnnotator;
 import ead.common.importer.interfaces.EAdElementFactory;
 import ead.common.model.elements.EAdCondition;
 import ead.common.model.elements.EAdEffect;
@@ -50,13 +51,14 @@ import es.eucm.eadventure.common.data.chapter.conditions.Conditions;
 import es.eucm.eadventure.common.data.chapter.effects.TriggerConversationEffect;
 
 public class TriggerConversationImporter extends EffectImporter<TriggerConversationEffect, TriggerMacroEf>{
-	
+
 	private EAdElementFactory factory;
-	
+
 	@Inject
 	public TriggerConversationImporter(
-			EAdElementImporter<Conditions, EAdCondition> conditionImporter, EAdElementFactory factory) {
-		super(conditionImporter);
+			EAdElementImporter<Conditions, EAdCondition> conditionImporter,
+            EAdElementFactory factory, ImportAnnotator annotator) {
+		super(conditionImporter, annotator);
 		this.factory = factory;
 	}
 
@@ -65,18 +67,18 @@ public class TriggerConversationImporter extends EffectImporter<TriggerConversat
 		TriggerMacroEf triggerMacro = new TriggerMacroEf( );
 		return triggerMacro;
 	}
-	
+
 	@Override
 	public TriggerMacroEf convert(TriggerConversationEffect oldObject, Object object) {
 		TriggerMacroEf triggerMacro = super.convert(oldObject, object);
 		EffectsMacro macro = new EffectsMacro();
 		macro.setId("macroConversation");
 		triggerMacro.putMacro(macro, EmptyCond.TRUE_EMPTY_CONDITION);
-		
+
 		EAdEffect effect = (EAdEffect) factory.getElementById(oldObject.getTargetId());
 		if ( effect != null )
 			macro.getEffects().add(effect);
-		
+
 		return triggerMacro;
 	}
 

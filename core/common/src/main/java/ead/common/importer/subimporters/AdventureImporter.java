@@ -40,6 +40,7 @@ package ead.common.importer.subimporters;
 import com.google.inject.Inject;
 
 import ead.common.EAdElementImporter;
+import ead.common.importer.annotation.ImportAnnotator;
 import ead.common.importer.interfaces.EAdElementFactory;
 import ead.common.model.elements.EAdAdventureModel;
 import ead.common.model.elements.BasicAdventureModel;
@@ -66,12 +67,16 @@ public class AdventureImporter implements
 	@Inject
 	public AdventureImporter(
 			EAdElementImporter<Chapter, EAdChapter> chapterImporter,
-			StringHandler stringHandler, EAdElementFactory factory) {
+			StringHandler stringHandler, EAdElementFactory factory,
+			ImportAnnotator annotator) {
 		this.chapterImporter = chapterImporter;
 		this.stringsWriter = stringHandler;
 		this.factory = factory;
+		this.annotator = annotator;
 	}
 
+	protected ImportAnnotator annotator;	
+	
 	@Override
 	public EAdAdventureModel init(AdventureData oldData) {
 		BasicAdventureModel model = new BasicAdventureModel();

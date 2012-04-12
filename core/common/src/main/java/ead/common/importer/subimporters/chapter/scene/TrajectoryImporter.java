@@ -37,7 +37,9 @@
 
 package ead.common.importer.subimporters.chapter.scene;
 
+import com.google.inject.Inject;
 import ead.common.EAdElementImporter;
+import ead.common.importer.annotation.ImportAnnotator;
 import ead.common.model.elements.trajectories.NodeTrajectoryDefinition;
 import es.eucm.eadventure.common.data.chapter.Trajectory;
 import es.eucm.eadventure.common.data.chapter.Trajectory.Node;
@@ -45,6 +47,13 @@ import es.eucm.eadventure.common.data.chapter.Trajectory.Side;
 
 public class TrajectoryImporter implements
 		EAdElementImporter<Trajectory, NodeTrajectoryDefinition> {
+
+	protected ImportAnnotator annotator;
+
+    @Inject
+	public TrajectoryImporter(ImportAnnotator annotator) {
+		this.annotator = annotator;
+	}
 
 	@Override
 	public NodeTrajectoryDefinition init(Trajectory oldObject) {
@@ -65,7 +74,7 @@ public class TrajectoryImporter implements
 		for (Side s : oldObject.getSides()) {
 			trajectory.addSide(s.getIDStart(), s.getIDEnd(), s.getLength());
 		}
-		
+
 		trajectory.setInitial(oldObject.getInitial().getID());
 
 		return trajectory;

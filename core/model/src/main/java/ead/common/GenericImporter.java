@@ -58,7 +58,7 @@ package ead.common;
 public interface GenericImporter<OldT, NewT> {
 
 	/**
-	 * Returns a new model empty object equivalent to the oldObject. Null if
+	 * Returns a new-model equivalent to the old-model oldObject. Null if
 	 * conversion failed. Its parameters will be filled through
 	 * {@link GenericImporter#convert(Object, Object)}
 	 * 
@@ -73,10 +73,9 @@ public interface GenericImporter<OldT, NewT> {
 	 * @param oldObject
 	 *            the old object
 	 * @param newElement
-	 *            the new element. It'll be filled with the parameters from
+	 *            the new element. It will be filled with the parameters from
 	 *            oldObject
 	 * @return
 	 */
 	NewT convert(OldT oldObject, Object newElement);
-
 }

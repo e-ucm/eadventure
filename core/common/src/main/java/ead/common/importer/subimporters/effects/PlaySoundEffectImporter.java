@@ -40,6 +40,7 @@ package ead.common.importer.subimporters.effects;
 import com.google.inject.Inject;
 
 import ead.common.EAdElementImporter;
+import ead.common.importer.annotation.ImportAnnotator;
 import ead.common.importer.interfaces.ResourceImporter;
 import ead.common.model.elements.EAdCondition;
 import ead.common.model.elements.effects.PlaySoundEf;
@@ -57,8 +58,8 @@ public class PlaySoundEffectImporter extends
 	@Inject
 	public PlaySoundEffectImporter(
 			EAdElementImporter<Conditions, EAdCondition> conditionImporter,
-			ResourceImporter resourceImporter) {
-		super(conditionImporter);
+			ResourceImporter resourceImporter, ImportAnnotator annotator) {
+		super(conditionImporter, annotator);
 		this.resourceImporter = resourceImporter;
 	}
 
