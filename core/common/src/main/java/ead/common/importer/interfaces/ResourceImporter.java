@@ -45,6 +45,7 @@ import java.util.Map;
 import ead.common.interfaces.features.Resourced;
 import ead.common.resources.assets.AssetDescriptor;
 import es.eucm.eadventure.common.data.chapter.resources.Resources;
+import es.eucm.eadventure.common.loader.InputStreamCreator;
 
 public interface ResourceImporter {
 
@@ -131,5 +132,12 @@ public interface ResourceImporter {
 	 * @return the image
 	 */
 	BufferedImage getNewImage(String newUri);
+
+	/**
+	 * Returns the input stream creator to read files from the old project
+	 * 
+	 * @return
+	 */
+	InputStreamCreator getInputStreamCreator();
 
 }

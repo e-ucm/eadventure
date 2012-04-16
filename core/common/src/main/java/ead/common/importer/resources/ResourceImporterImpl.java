@@ -489,4 +489,8 @@ public class ResourceImporterImpl implements ResourceImporter {
 		}
 		return image;
 	}
+	
+	public InputStreamCreator getInputStreamCreator( ){
+		return this.inputStreamCreator;
+	}
 }

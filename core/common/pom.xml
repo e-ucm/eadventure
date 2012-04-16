@@ -46,6 +46,10 @@
       <artifactId>slf4j-simple</artifactId>
       <optional>true</optional>
     </dependency>
+    <dependency>
+    	<groupId>gui.ava</groupId>
+		<artifactId>html2image</artifactId>
+	</dependency>
 
     <!-- tests -->
     <dependency>

@@ -129,6 +129,10 @@ public class Side implements EAdElement {
 	public String getId() {
 		return idStart + "_" + idEnd;
 	}
+	
+	public int hashCode(){
+		return getId().hashCode();
+	}
 
 	@Override
 	public void setId(String id) {
