@@ -168,6 +168,8 @@ public class BookImporter implements EAdElementImporter<Book, EAdScene> {
 	private StringHandler stringHandler;
 	private ResourceImporter resourceImporter;
 
+	private ImportAnnotator annotator;
+
 	@Inject
 	public BookImporter(ResourceImporter resourceImporter,
 			StringHandler stringHandler,
