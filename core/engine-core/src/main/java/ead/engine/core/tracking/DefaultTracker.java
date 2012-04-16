@@ -35,36 +35,29 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ead.common.reader;
+package ead.engine.core.tracking;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import ead.common.PropertiesReader;
-import ead.common.model.elements.EAdAdventureModel;
+import ead.engine.core.gameobjects.go.DrawableGO;
+import ead.engine.core.gameobjects.go.EffectGO;
+import ead.engine.core.input.InputAction;
 
-public class PropertiesReaderImpl implements PropertiesReader {
+public class DefaultTracker extends AbstractTracker {
+
+	private static final Logger logger = LoggerFactory
+			.getLogger("DefaultTracker");
 
 	@Override
-	public void setProperties(EAdAdventureModel model,
-			InputStream eadPropertiesFile) {
-		BufferedReader br = new BufferedReader(new InputStreamReader(
-				eadPropertiesFile));
-		String line = null;
-
-		try {
-			while ((line = br.readLine()) != null) {
-				String[] strings = line.split("=");
-				if (strings.length == 2) {
-					String key = strings[0];
-					String value = strings[1];
-					model.setProperty(key, value);
-				}
-			}
-		} catch (IOException e) {
-
-		}
+	protected void trackImpl(InputAction<?> action, DrawableGO<?> target) {
+		logger.info("Action: {} over {}", action.getGUIEvent(),
+				target.getElement());
 	}
+
+	@Override
+	protected void trackImpl(EffectGO<?> effect) {
+		logger.info("Effect: {}", effect);
+	}
+
 }

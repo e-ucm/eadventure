@@ -35,36 +35,55 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ead.common.reader;
+package ead.engine.core.tracking;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-
-import ead.common.PropertiesReader;
 import ead.common.model.elements.EAdAdventureModel;
+import ead.common.model.elements.scene.EAdSceneElement;
+import ead.engine.core.gameobjects.go.DrawableGO;
+import ead.engine.core.gameobjects.go.EffectGO;
+import ead.engine.core.input.InputAction;
 
-public class PropertiesReaderImpl implements PropertiesReader {
+public abstract class AbstractTracker implements Tracker {
 
-	@Override
-	public void setProperties(EAdAdventureModel model,
-			InputStream eadPropertiesFile) {
-		BufferedReader br = new BufferedReader(new InputStreamReader(
-				eadPropertiesFile));
-		String line = null;
+	protected EAdAdventureModel model;
 
-		try {
-			while ((line = br.readLine()) != null) {
-				String[] strings = line.split("=");
-				if (strings.length == 2) {
-					String key = strings[0];
-					String value = strings[1];
-					model.setProperty(key, value);
-				}
-			}
-		} catch (IOException e) {
+	private boolean tracking;
+	
+	public AbstractTracker( ){
+		tracking = false;
+	}
 
+	public void startTracking(EAdAdventureModel model) {
+		this.model = model;
+		tracking = true;
+	}
+	
+	public void track(InputAction<?> action, DrawableGO<?> target){
+		if ( isTracking()){
+			trackImpl(action, target);
 		}
 	}
+	
+	protected abstract void trackImpl(InputAction<?> action, DrawableGO<?> target);
+
+	public void track(EffectGO<?> effect){
+		if (isTracking()){
+			trackImpl(effect);
+		}
+	}
+
+	protected abstract void trackImpl(EffectGO<?> effect);
+
+	public boolean isTracking() {
+		return tracking;
+	}
+
+	public void stop() {
+		tracking = false;
+	}
+
+	public void resume() {
+		tracking = true;
+	}
+
 }

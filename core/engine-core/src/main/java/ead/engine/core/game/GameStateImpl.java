@@ -42,6 +42,9 @@ import java.util.List;
 import java.util.Map.Entry;
 import java.util.Stack;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import com.google.inject.name.Named;
@@ -50,8 +53,8 @@ import ead.common.model.elements.EAdChapter;
 import ead.common.model.elements.EAdEffect;
 import ead.common.model.elements.scene.EAdScene;
 import ead.common.model.elements.scene.EAdSceneElement;
-import ead.common.model.elements.scenes.SceneElementDef;
 import ead.common.model.elements.scenes.BasicScene;
+import ead.common.model.elements.scenes.SceneElementDef;
 import ead.common.model.elements.variables.EAdVarDef;
 import ead.common.model.elements.variables.SystemFields;
 import ead.engine.core.evaluators.EvaluatorFactory;
@@ -64,8 +67,7 @@ import ead.engine.core.gameobjects.go.SceneGO;
 import ead.engine.core.input.InputAction;
 import ead.engine.core.platform.LoadingScreen;
 import ead.engine.core.plugins.PluginHandler;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import ead.engine.core.tracking.Tracker;
 
 @Singleton
 public class GameStateImpl implements GameState {
@@ -100,13 +102,15 @@ public class GameStateImpl implements GameState {
 	private EventGOFactory eventGOFactory;
 
 	private PluginHandler pluginHandler;
+	
+	private Tracker tracker;
 
 	@Inject
 	public GameStateImpl(@Named("LoadingScreen") EAdScene loadingScreen,
 			SceneElementGOFactory gameObjectFactory,
 			EffectGOFactory effectFactory, ValueMap valueMap,
 			EvaluatorFactory evaluatorFactory, EventGOFactory eventGOFactory,
-			PluginHandler pluginHandler) {
+			PluginHandler pluginHandler, Tracker tracker) {
 		logger.info("New instance of GameState");
 		effects = new ArrayList<EffectGO<?>>();
 		effectsQueue = new ArrayList<EffectGO<?>>();
@@ -118,6 +122,7 @@ public class GameStateImpl implements GameState {
 		this.effectFactory = effectFactory;
 		this.pluginHandler = pluginHandler;
 		this.eventGOFactory = eventGOFactory;
+		this.tracker = tracker;
 		// TODO improve
 		installPlugins();
 	}
@@ -209,6 +214,7 @@ public class GameStateImpl implements GameState {
 				effectGO.setGUIAction(action);
 				effectGO.setParent(parent);
 				effectGO.initialize();
+				tracker.track(effectGO);
 				if (e.isQueueable())
 					synchronized (effectsQueue) {
 						pos = pos == -1 ? effectsQueue.size() : pos;
