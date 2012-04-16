@@ -37,12 +37,12 @@
 
 package ead.common.model.elements;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import ead.common.interfaces.Element;
 import ead.common.interfaces.Param;
 import ead.common.model.EAdElement;
-import ead.common.model.elements.EAdAdventureModel;
-import ead.common.model.elements.EAdChapter;
-import ead.common.model.elements.EAdInventory;
 import ead.common.model.elements.extra.EAdList;
 import ead.common.model.elements.extra.EAdListImpl;
 import ead.common.model.elements.extra.EAdMap;
@@ -67,20 +67,22 @@ public class BasicAdventureModel implements EAdAdventureModel {
 
 	@Param("vars")
 	private EAdMap<EAdVarDef<?>, Object> vars;
-	
+
 	@Param("inventory")
 	private EAdInventory inventory;
-	
+
 	@Param("width")
 	private int gameWidth;
-	
+
 	@Param("height")
 	private int gameHeight;
-	
-	
-	
+
 	@Param("depthControlList")
 	private EAdList<EAdElement> depthControlList;
+
+	// This map is fulfilled with the values in ead.properties. That's why it
+	// hasn't got a @Param annotation
+	private Map<String, String> properties;
 
 	/**
 	 * Constructs a {@link BasicAdventureModel}.
@@ -94,6 +96,7 @@ public class BasicAdventureModel implements EAdAdventureModel {
 		gameWidth = DEFAULT_WIDTH;
 		gameHeight = DEFAULT_HEIGHT;
 		depthControlList = new EAdListImpl<EAdElement>(EAdElement.class);
+		properties = new HashMap<String, String>();
 	}
 
 	public EAdList<EAdChapter> getChapters() {
@@ -103,11 +106,10 @@ public class BasicAdventureModel implements EAdAdventureModel {
 	public String getId() {
 		return "adventure";
 	}
-	
+
 	@Override
 	public void setId(String id) {
 	}
-
 
 	/**
 	 * @return the description
@@ -134,7 +136,7 @@ public class BasicAdventureModel implements EAdAdventureModel {
 	public <T> void setVarInitialValue(EAdVarDef<T> var, T value) {
 		vars.put(var, value);
 	}
-	
+
 	public void setTitle(EAdString title) {
 		this.title = title;
 	}
@@ -152,7 +154,7 @@ public class BasicAdventureModel implements EAdAdventureModel {
 	public EAdInventory getInventory() {
 		return inventory;
 	}
-	
+
 	public EAdList<EAdElement> getDepthControlList() {
 		return depthControlList;
 	}
@@ -173,6 +175,16 @@ public class BasicAdventureModel implements EAdAdventureModel {
 
 	public void setGameHeight(int height) {
 		this.gameHeight = height;
+	}
+
+	@Override
+	public Map<String, String> getProperties() {
+		return properties;
+	}
+
+	@Override
+	public void setProperty(String key, String value) {
+		properties.put(key, value);
 	}
 
 }
