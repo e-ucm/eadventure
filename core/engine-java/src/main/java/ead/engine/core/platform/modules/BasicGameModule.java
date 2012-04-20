@@ -92,8 +92,12 @@ import ead.engine.core.platform.JavaReflectionProvider;
 import ead.engine.core.platform.LoadingScreen;
 import ead.engine.core.platform.TransitionFactory;
 import ead.engine.core.plugins.PluginHandler;
+import ead.engine.core.tracking.GLASGameTracker;
+import ead.engine.core.tracking.GameTracker;
 import ead.engine.core.trajectories.TrajectoryFactory;
 import ead.engine.core.trajectories.TrajectoryFactoryImpl;
+import es.eucm.glas.tracker.GLASTracker;
+import es.eucm.glas.tracker.JerseyTracker;
 
 public class BasicGameModule extends AbstractModule {
 
@@ -126,6 +130,11 @@ public class BasicGameModule extends AbstractModule {
 		bind(EAdAdventureModel.class).to(BasicAdventureModel.class);
 		bind(EAdScene.class).annotatedWith(Names.named("LoadingScreen"))
 				.to(LoadingScreen.class).asEagerSingleton();
+		
+		// Tracking
+//		bind(GameTracker.class).to(DefaultGameTracker.class);
+		bind(GameTracker.class).to(GLASGameTracker.class);
+		bind(GLASTracker.class).to(JerseyTracker.class);
 
 	}
 

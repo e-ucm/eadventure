@@ -35,38 +35,32 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ead.common.params;
+package ead.common.test.params;
 
-import static org.junit.Assert.assertTrue;
+import ead.common.util.EAdPosition;
 
-import org.junit.Test;
+public class PositionTest extends ParamsTest<EAdPosition> {
 
-import ead.common.EqualsHashCodeTest;
-
-public abstract class ParamsTest<T extends EAdParam> extends
-		EqualsHashCodeTest<T> {
-
-	public abstract T buildParam(String data);
-
-	public abstract T defaultValue();
-
-	@Test
-	public void testToStringDataParse() {
-		for (int i = 0; i < objects.length; i++) {
-			String data = objects[i].toStringData();
-			T c = buildParam(data);
-			assertTrue(c.equals(objects[i]));
-			assertTrue(objects[i].equals(c));
-		}
+	@Override
+	public EAdPosition buildParam(String data) {
+		return new EAdPosition(data);
 	}
 
-	@Test
-	public void testParseCorruptedData(){
-		String[] strings = new String[]{ null, "0;2;4;a", ";;;", "0:2;4.03f;0f", "dakjfaosidfyipu43676r21", "jo09ua87/77;;", ":0:2", "21;78;20:20", "ljasfasdfa", "123456789!"};
-		T defaultValue = defaultValue();
-		for ( String s: strings ){
-			T c = buildParam(s);
-			assertTrue(defaultValue.equals(c));
-		}
+	@Override
+	public EAdPosition defaultValue() {
+		return new EAdPosition();
 	}
+
+	@Override
+	public EAdPosition[] getObjects() {
+		EAdPosition[] positions = new EAdPosition[20];
+		for (int i = 0; i < positions.length; i += 2) {
+			positions[i] = new EAdPosition(i * 3, i * 4,
+					(float) (i - 1) * 800.f, (float) (i) * 600.f);
+			positions[i + 1] = new EAdPosition(i * 3, i * 4,
+					(float) (i - 1) * 800.f, (float) (i) * 600.f);
+		}
+		return positions;
+	}
+
 }

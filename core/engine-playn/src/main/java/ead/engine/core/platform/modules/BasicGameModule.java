@@ -89,6 +89,8 @@ import ead.engine.core.platform.assets.specialassetrenderers.PlayNVideoRenderer;
 import ead.engine.core.platform.rendering.PlayNFilterFactory;
 import ead.engine.core.platform.rendering.filters.FilterFactory;
 import ead.engine.core.plugins.PluginHandler;
+import ead.engine.core.tracking.DefaultGameTracker;
+import ead.engine.core.tracking.GameTracker;
 import ead.engine.core.trajectories.TrajectoryFactory;
 import ead.engine.core.trajectories.TrajectoryFactoryImpl;
 
@@ -123,6 +125,9 @@ public class BasicGameModule extends AbstractGinModule {
 		}).to(PlayNVideoRenderer.class);
 		bind(new TypeLiteral<FilterFactory<Canvas>>() {
 		}).to(PlayNFilterFactory.class);
+		
+		// Tracking
+		bind(GameTracker.class).to(DefaultGameTracker.class).in(Singleton.class);
 
 	}
 

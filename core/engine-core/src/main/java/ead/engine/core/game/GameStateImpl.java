@@ -67,7 +67,7 @@ import ead.engine.core.gameobjects.go.SceneGO;
 import ead.engine.core.input.InputAction;
 import ead.engine.core.platform.LoadingScreen;
 import ead.engine.core.plugins.PluginHandler;
-import ead.engine.core.tracking.Tracker;
+import ead.engine.core.tracking.GameTracker;
 
 @Singleton
 public class GameStateImpl implements GameState {
@@ -103,14 +103,14 @@ public class GameStateImpl implements GameState {
 
 	private PluginHandler pluginHandler;
 	
-	private Tracker tracker;
+	private GameTracker tracker;
 
 	@Inject
 	public GameStateImpl(@Named("LoadingScreen") EAdScene loadingScreen,
 			SceneElementGOFactory gameObjectFactory,
 			EffectGOFactory effectFactory, ValueMap valueMap,
 			EvaluatorFactory evaluatorFactory, EventGOFactory eventGOFactory,
-			PluginHandler pluginHandler, Tracker tracker) {
+			PluginHandler pluginHandler, GameTracker tracker) {
 		logger.info("New instance of GameState");
 		effects = new ArrayList<EffectGO<?>>();
 		effectsQueue = new ArrayList<EffectGO<?>>();

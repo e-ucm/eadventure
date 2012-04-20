@@ -35,53 +35,51 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ead.common.params;
+package ead.common.test;
 
-import static org.junit.Assert.assertTrue;
+import java.util.HashMap;
+import java.util.Map;
 
-import org.junit.Test;
+import com.google.inject.AbstractModule;
 
-import ead.common.params.fills.ColorFill;
+import ead.common.params.text.EAdString;
+import ead.common.util.StringHandler;
 
-public class ColorFillTest extends ParamsTest<ColorFill> {
-
-	@Test
-	public void testMaxMin() {
-		// Negative values and values over 255 must be normalized
-		ColorFill c = new ColorFill(-1, -20, 1000);
-		assertTrue(c.equals(new ColorFill(0, 0, 255)));
-		c = new ColorFill(20, 1000, -1020);
-		assertTrue(c.equals(new ColorFill(20, 255, 0)));
-
-	}
+public class CommonTestModule extends AbstractModule{
 
 	@Override
-	public ColorFill[] getObjects() {
-		ColorFill[] colors = new ColorFill[20];
-		for (int i = 0; i < colors.length; i += 2) {
-			colors[i] = new ColorFill(1 * i, 7 * i, i * 10);
-			colors[i + 1] = new ColorFill(1 * i, 7 * i, i * 10);
-		}
-		return colors;
+	protected void configure() {
+		bind(StringHandler.class).to(TestStringHandler.class);
 	}
 	
-	@Test
-	public void testWellKnownColors(){
-		assertTrue(new ColorFill("0xFF0000FF").equals(ColorFill.RED));
-		assertTrue(new ColorFill("0xFFFFFFFF").equals(ColorFill.WHITE));
-		assertTrue(new ColorFill("0x000000FF").equals(ColorFill.BLACK));
-		assertTrue(new ColorFill("0x0000FFFF").equals(ColorFill.BLUE));
-		assertTrue(new ColorFill("0x00FF00FF").equals(ColorFill.GREEN));
-	}
+	
+	public static class TestStringHandler implements StringHandler {
 
-	@Override
-	public ColorFill buildParam(String data) {
-		return new ColorFill(data);
-	}
+		@Override
+		public String getString(EAdString string) {
+			return string.toString();
+		}
 
-	@Override
-	public ColorFill defaultValue() {
-		return ColorFill.BLACK;
+		@Override
+		public void setString(EAdString eAdString, String string) {
+			
+		}
+
+		@Override
+		public void setStrings(Map<EAdString, String> strings) {
+			
+		}
+
+		@Override
+		public void addStrings(Map<EAdString, String> strings) {
+			
+		}
+
+		@Override
+		public Map<EAdString, String> getStrings() {
+			return new HashMap<EAdString, String>();
+		}
+		
 	}
 
 }

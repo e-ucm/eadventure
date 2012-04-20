@@ -35,59 +35,53 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ead.common.importer.test;
+package ead.common.test.params;
 
-import ead.common.EAdElementImporter;
-import ead.common.model.EAdElement;
+import static org.junit.Assert.assertTrue;
 
-public abstract class ImporterTestTemplate<OldType, NewType extends EAdElement> {
-//
-//	public static final Injector INJECTOR = Guice
-//			.createInjector(new ImporterConfigurationModule(), new CommonTestModule());
-//
-//	protected EAdElementImporter<OldType, NewType> importer;
-//	protected List<OldType> oldObjects;
-//
-	public ImporterTestTemplate(
-			Class<? extends EAdElementImporter<OldType, NewType>> importerClass) {
-//		importer = INJECTOR.getInstance(importerClass);
-//		oldObjects = new ArrayList<OldType>();
+import org.junit.Test;
+
+import ead.common.params.fills.ColorFill;
+
+public class ColorFillTest extends ParamsTest<ColorFill> {
+
+	@Test
+	public void testMaxMin() {
+		// Negative values and values over 255 must be normalized
+		ColorFill c = new ColorFill(-1, -20, 1000);
+		assertTrue(c.equals(new ColorFill(0, 0, 255)));
+		c = new ColorFill(20, 1000, -1020);
+		assertTrue(c.equals(new ColorFill(20, 255, 0)));
+
 	}
-//
-//	@Before
-//	public void setUp() {
-//		addOldObjects();
-//	}
-//
-	public abstract void addOldObjects();
-//
-//	public void addTestObject(OldType oldObject) {
-//		oldObjects.add(oldObject);
-//	}
-//
-	public abstract boolean equals(OldType oldObject, NewType newObject);
-//
-//	public NewType createNewObject(OldType oldObject) {
-//		NewType newObject = importer.init(oldObject);
-//		newObject = importer.convert(oldObject, newObject);
-//		return newObject;
-//	}
-//
-//	@Test
-//	public void testConvert() {
-//		for (OldType oldObject : oldObjects) {
-//			NewType newObject = createNewObject(oldObject);
-//			assertTrue(this.equals(oldObject, newObject));
-//		}
-//
-//		finalTests();
-//	}
-//
-//	/**
-//	 * Some additional test to make when importation is finished
-//	 */
-//	public void finalTests() {
-//
-//	}
+
+	@Override
+	public ColorFill[] getObjects() {
+		ColorFill[] colors = new ColorFill[20];
+		for (int i = 0; i < colors.length; i += 2) {
+			colors[i] = new ColorFill(1 * i, 7 * i, i * 10);
+			colors[i + 1] = new ColorFill(1 * i, 7 * i, i * 10);
+		}
+		return colors;
+	}
+	
+	@Test
+	public void testWellKnownColors(){
+		assertTrue(new ColorFill("0xFF0000FF").equals(ColorFill.RED));
+		assertTrue(new ColorFill("0xFFFFFFFF").equals(ColorFill.WHITE));
+		assertTrue(new ColorFill("0x000000FF").equals(ColorFill.BLACK));
+		assertTrue(new ColorFill("0x0000FFFF").equals(ColorFill.BLUE));
+		assertTrue(new ColorFill("0x00FF00FF").equals(ColorFill.GREEN));
+	}
+
+	@Override
+	public ColorFill buildParam(String data) {
+		return new ColorFill(data);
+	}
+
+	@Override
+	public ColorFill defaultValue() {
+		return ColorFill.BLACK;
+	}
 
 }

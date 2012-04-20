@@ -51,17 +51,13 @@ public class CircleShape extends BezierShape {
 		int points = segments;
 		float angle = (float) (2 * Math.PI / points);
 		float acc = 0;
-		// Radius
-		radius = radius / 2;
 
-		moveTo(radius * 2, radius);
+		moveTo(cx + radius, cy);
 		for (int i = 0; i < points - 1; i++) {
 			acc += angle;
 			int x = (int) (Math.cos(acc) * radius);
 			int y = (int) (Math.sin(acc) * radius);
-			x += radius + cx;
-			y += radius + cy;
-			lineTo(x, y);
+			lineTo(x + cx, y + cy);
 		}
 		setClosed(true);
 	}

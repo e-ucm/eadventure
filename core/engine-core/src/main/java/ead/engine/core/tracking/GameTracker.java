@@ -37,27 +37,65 @@
 
 package ead.engine.core.tracking;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
+import ead.common.model.elements.EAdAdventureModel;
 import ead.engine.core.gameobjects.go.DrawableGO;
 import ead.engine.core.gameobjects.go.EffectGO;
 import ead.engine.core.input.InputAction;
 
-public class DefaultTracker extends AbstractTracker {
+/**
+ * General interface for game engine trackers. Methods defined by this interface
+ * can be extended if required
+ * 
+ */
+public interface GameTracker {
+	
+	public static final String TRACKING_ENABLE = "tracking_enabled";
+	
+	public static final String GAME_KEY = "gamekey";
+	
+	public static final String SERVER_URL = "server_url";
 
-	private static final Logger logger = LoggerFactory
-			.getLogger("DefaultTracker");
+	/**
+	 * Starts the tracking
+	 * 
+	 * @param model
+	 *            the game model to be tracked
+	 */
+	void startTracking(EAdAdventureModel model);
 
-	@Override
-	protected void trackImpl(InputAction<?> action, DrawableGO<?> target) {
-		logger.info("Action: {} over {}", action.getGUIEvent(),
-				target.getElement());
-	}
+	/**
+	 * Tracks an input action executed over the target
+	 * 
+	 * @param action
+	 *            the performed action
+	 * @param target
+	 *            the game object receiving the action
+	 */
+	void track(InputAction<?> action, DrawableGO<?> target);
 
-	@Override
-	protected void trackImpl(EffectGO<?> effect) {
-		logger.info("Effect: {}", effect);
-	}
+	/**
+	 * Tracks a launched effect
+	 * 
+	 * @param effect
+	 *            the launched effect
+	 */
+	void track(EffectGO<?> effect);
+
+	/**
+	 * Returns if it is currently sending tracking data
+	 * 
+	 * @return
+	 */
+	boolean isTracking();
+
+	/**
+	 * Stops the tracking
+	 */
+	void stop();
+
+	/**
+	 * Resumes the tracking, in case it was stopped
+	 */
+	void resume();
 
 }

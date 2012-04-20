@@ -35,30 +35,38 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ead.common.params;
+package ead.engine.core.tracking;
 
-import ead.common.util.EAdRectangle;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-public class RectangleTest extends ParamsTest<EAdRectangle> {
+import com.google.inject.Singleton;
+
+import ead.common.model.elements.EAdAdventureModel;
+import ead.engine.core.gameobjects.go.DrawableGO;
+import ead.engine.core.gameobjects.go.EffectGO;
+import ead.engine.core.input.InputAction;
+
+@Singleton
+public class DefaultGameTracker extends AbstractGameTracker {
+
+	private static final Logger logger = LoggerFactory
+			.getLogger("DefaultTracker");
 
 	@Override
-	public EAdRectangle buildParam(String data) {
-		return new EAdRectangle(data);
+	protected void trackImpl(InputAction<?> action, DrawableGO<?> target) {
+		logger.info("Action: {} over {}", action.getGUIEvent(),
+				target.getElement());
 	}
 
 	@Override
-	public EAdRectangle defaultValue() {
-		return new EAdRectangle();
+	protected void trackImpl(EffectGO<?> effect) {
+		logger.info("Effect: {}", effect);
 	}
 
 	@Override
-	public EAdRectangle[] getObjects() {
-		EAdRectangle[] rectangles = new EAdRectangle[20];
-		for (int i = 0; i < rectangles.length; i += 2) {
-			rectangles[i] = new EAdRectangle(i - 2, i * 50, i * 7, i * 9);
-			rectangles[i + 1] = new EAdRectangle(i - 2, i * 50, i * 7, i * 9);
-		}
-		return rectangles;
+	protected void startTrackingImpl(EAdAdventureModel model) {
+		logger.info("Tracking starts.");		
 	}
 
 }

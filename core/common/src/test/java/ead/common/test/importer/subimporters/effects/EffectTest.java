@@ -35,63 +35,25 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ead.engine.core.tracking;
+package ead.common.test.importer.subimporters.effects;
 
-import ead.common.model.elements.EAdAdventureModel;
-import ead.engine.core.gameobjects.go.DrawableGO;
-import ead.engine.core.gameobjects.go.EffectGO;
-import ead.engine.core.input.InputAction;
+import ead.common.EAdElementImporter;
+import ead.common.model.elements.EAdEffect;
+import ead.common.test.importer.test.ImporterTestTemplate;
+import es.eucm.eadventure.common.data.chapter.effects.Effect;
 
-/**
- * General interface for game engine trackers. Methods defined by this interface
- * can be extended if required
- * 
- */
-public interface Tracker {
-	
-	public static final String TRACKING_ENABLE = "trackingEnable";
+public abstract class EffectTest<OldEffectType extends Effect, NewEffectType extends EAdEffect>
+		extends ImporterTestTemplate<OldEffectType, NewEffectType> {
 
-	/**
-	 * Starts the tracking
-	 * 
-	 * @param model
-	 *            the game model to be tracked
-	 */
-	void startTracking(EAdAdventureModel model);
+	public EffectTest(
+			Class<? extends EAdElementImporter<OldEffectType, NewEffectType>> importerClass) {
+		super(importerClass);
+	}
 
-	/**
-	 * Tracks an input action executed over the target
-	 * 
-	 * @param action
-	 *            the performed action
-	 * @param target
-	 *            the game object receiving the action
-	 */
-	void track(InputAction<?> action, DrawableGO<?> target);
-
-	/**
-	 * Tracks a launched effect
-	 * 
-	 * @param effect
-	 *            the launched effect
-	 */
-	void track(EffectGO<?> effect);
-
-	/**
-	 * Returns if it is currently sending tracking data
-	 * 
-	 * @return
-	 */
-	boolean isTracking();
-
-	/**
-	 * Stops the tracking
-	 */
-	void stop();
-
-	/**
-	 * Resumes the tracking, in case it was stopped
-	 */
-	void resume();
+	@Override
+	public boolean equals(OldEffectType oldObject, NewEffectType newObject) {
+		return newObject.isBlocking() && newObject.isOpaque()
+				&& newObject.isQueueable();
+	}
 
 }

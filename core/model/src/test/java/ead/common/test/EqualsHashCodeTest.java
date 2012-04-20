@@ -35,37 +35,60 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ead.common.importer.subimporters.effects.variables;
+package ead.common.test;
 
-import ead.common.importer.subimporters.effects.EffectTest;
-import ead.common.importer.subimporters.effects.variables.ActivateFlagImporter;
-import ead.common.model.elements.effects.variables.ChangeFieldEf;
-import ead.common.model.elements.variables.operations.BooleanOp;
-import es.eucm.eadventure.common.data.chapter.effects.ActivateEffect;
+import static org.junit.Assert.assertTrue;
 
-public class ActivateFlagTest extends
-		EffectTest<ActivateEffect, ChangeFieldEf> {
+import org.junit.Before;
+import org.junit.Test;
 
-	public ActivateFlagTest() {
-		super(ActivateFlagImporter.class);
+/**
+ * Class to test equals and hashcode methods
+ * 
+ */
+public abstract class EqualsHashCodeTest<T> {
+
+	protected T[] objects;
+
+	@Before
+	public void setUp() {
+		objects = getObjects();
 	}
 
-	@Override
-	public void addOldObjects() {
-//		addTestObject(new ActivateEffect("flag1"));
-//		addTestObject(new ActivateEffect("flag1"));
-//		addTestObject(new ActivateEffect("flag2"));
-//		addTestObject(new ActivateEffect("anotherFlag"));
-//		addTestObject(new ActivateEffect("¡Ñí!"));
+	/**
+	 * Data must be an array with length divisible by 2, and grouped by equals
+	 * pairs, i.e. object[i].equals(object[i+1]) must be true,
+	 * object[i+2].equals(object[i+3]) must be true, and so on. No pair can be
+	 * repeated
+	 * 
+	 * @return
+	 */
+	public abstract T[] getObjects();
 
+	@Test
+	public void testHashCode() {
+		for (int i = 0; i < objects.length; i += 2) {
+			assertTrue(objects[i].hashCode() == objects[i + 1].hashCode());
+			for (int j = 0; j < objects.length; j++) {
+				if (j != i && j != i + 1) {
+					assertTrue(objects[i].hashCode() != objects[j]
+							.hashCode());
+				}
+			}
+		}
 	}
 
-	@Override
-	public boolean equals(ActivateEffect oldObject,
-			ChangeFieldEf newObject) {
-		boolean ok = super.equals(oldObject, newObject);
-		ok = newObject.getOperation().equals(BooleanOp.TRUE_OP) && ok;
-		return ok;
+	@Test
+	public void testEqualsObject() {
+		for (int i = 0; i < objects.length; i += 2) {
+			assertTrue(objects[i].equals(objects[i + 1]));
+			for (int j = 0; j < objects.length; j++) {
+				if (j != i && j != i + 1) {
+					assertTrue(!objects[i].equals(objects[j]));
+					assertTrue(!objects[j].equals(objects[i]));
+				}
+			}
+		}
 	}
 
 }

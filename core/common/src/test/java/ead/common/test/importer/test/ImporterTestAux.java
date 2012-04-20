@@ -35,25 +35,17 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ead.common.importer.subimporters.effects;
+package ead.common.test.importer.test;
 
-import ead.common.EAdElementImporter;
-import ead.common.importer.test.ImporterTestTemplate;
-import ead.common.model.elements.EAdEffect;
-import es.eucm.eadventure.common.data.chapter.effects.Effect;
+import es.eucm.eadventure.common.data.adventure.AdventureData;
 
-public abstract class EffectTest<OldEffectType extends Effect, NewEffectType extends EAdEffect>
-		extends ImporterTestTemplate<OldEffectType, NewEffectType> {
+public class ImporterTestAux {
 
-	public EffectTest(
-			Class<? extends EAdElementImporter<OldEffectType, NewEffectType>> importerClass) {
-		super(importerClass);
+	
+	public static AdventureData getAdventureData( ){
+		AdventureData data = new AdventureData( );
+		data.setTitle( "Test adventure" );
+		data.setDescription( "Test data for unit tests" );
+		return data;
 	}
-
-	@Override
-	public boolean equals(OldEffectType oldObject, NewEffectType newObject) {
-		return newObject.isBlocking() && newObject.isOpaque()
-				&& newObject.isQueueable();
-	}
-
 }

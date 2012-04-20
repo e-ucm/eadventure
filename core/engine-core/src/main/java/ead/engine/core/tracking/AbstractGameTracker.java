@@ -35,32 +35,57 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ead.common.params;
+package ead.engine.core.tracking;
 
-import ead.common.util.EAdPosition;
+import ead.common.model.elements.EAdAdventureModel;
+import ead.engine.core.gameobjects.go.DrawableGO;
+import ead.engine.core.gameobjects.go.EffectGO;
+import ead.engine.core.input.InputAction;
 
-public class PositionTest extends ParamsTest<EAdPosition> {
+public abstract class AbstractGameTracker implements GameTracker {
 
-	@Override
-	public EAdPosition buildParam(String data) {
-		return new EAdPosition(data);
+	protected EAdAdventureModel model;
+
+	private boolean tracking;
+	
+	public AbstractGameTracker( ){
+		tracking = false;
 	}
 
-	@Override
-	public EAdPosition defaultValue() {
-		return new EAdPosition();
+	public void startTracking(EAdAdventureModel model) {
+		this.model = model;
+		tracking = true;
+		startTrackingImpl( model );
 	}
-
-	@Override
-	public EAdPosition[] getObjects() {
-		EAdPosition[] positions = new EAdPosition[20];
-		for (int i = 0; i < positions.length; i += 2) {
-			positions[i] = new EAdPosition(i * 3, i * 4,
-					(float) (i - 1) * 800.f, (float) (i) * 600.f);
-			positions[i + 1] = new EAdPosition(i * 3, i * 4,
-					(float) (i - 1) * 800.f, (float) (i) * 600.f);
+	
+	protected abstract void startTrackingImpl( EAdAdventureModel model );
+	
+	public void track(InputAction<?> action, DrawableGO<?> target){
+		if ( isTracking()){
+			trackImpl(action, target);
 		}
-		return positions;
+	}
+	
+	protected abstract void trackImpl(InputAction<?> action, DrawableGO<?> target);
+
+	public void track(EffectGO<?> effect){
+		if (isTracking()){
+			trackImpl(effect);
+		}
+	}
+
+	protected abstract void trackImpl(EffectGO<?> effect);
+
+	public boolean isTracking() {
+		return tracking;
+	}
+
+	public void stop() {
+		tracking = false;
+	}
+
+	public void resume() {
+		tracking = true;
 	}
 
 }

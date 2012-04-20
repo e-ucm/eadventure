@@ -66,7 +66,7 @@ import ead.engine.core.inventory.InventoryHandler;
 import ead.engine.core.platform.EngineConfiguration;
 import ead.engine.core.platform.GUI;
 import ead.engine.core.platform.assets.AssetHandler;
-import ead.engine.core.tracking.Tracker;
+import ead.engine.core.tracking.GameTracker;
 import ead.engine.core.util.EAdTransformation;
 import ead.engine.core.util.EAdTransformationImpl;
 
@@ -110,7 +110,7 @@ public class GameImpl implements Game {
 
 	private int currentHeight = -1;
 	
-	private Tracker tracker;
+	private GameTracker tracker;
 
 	@Inject
 	public GameImpl(GUI gui, GameState gameState, EffectHUD effectHUD,
@@ -118,7 +118,7 @@ public class GameImpl implements Game {
 			DebuggerHandler debugger, ValueMap valueMap, TopBasicHUD basicHud,
 			BottomBasicHUD bottomBasicHud, InventoryHUD inventoryHud,
 			InventoryHandler inventoryHandler, EventGOFactory eventFactory,
-			EngineConfiguration configuration, ActionsHUD actionsHUD, Tracker tracker) {
+			EngineConfiguration configuration, ActionsHUD actionsHUD, GameTracker tracker) {
 		this.gui = gui;
 		this.gameState = gameState;
 		this.effectHUD = effectHUD;
@@ -280,7 +280,7 @@ public class GameImpl implements Game {
 		updateInitialTransformation();
 		
 		// Start tracking
-		Boolean track = Boolean.parseBoolean( model.getProperties().get(Tracker.TRACKING_ENABLE) );
+		Boolean track = Boolean.parseBoolean( model.getProperties().get(GameTracker.TRACKING_ENABLE) );
 		if ( track ){
 			tracker.startTracking(model);
 		}

@@ -38,6 +38,7 @@
 package ead.engine.gui;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
@@ -67,8 +68,12 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JTextArea;
+import javax.swing.JTextField;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import javax.swing.filechooser.FileFilter;
 
 import org.slf4j.Logger;
@@ -111,8 +116,10 @@ public class StartFrame extends JFrame {
 	private static final String HZ_PROPERTY = "hz_property";
 
 	private static final String PROPERTIES_FILE = "engine_configuration.xml";
-	
+
 	private static final String FULL_SCREEN = "full_screen";
+
+	private static final String EAD_PROPERTIES = "ead_properties";
 
 	private static final Integer[] HZ = new Integer[] { 30, 40, 50, 60 };
 
@@ -133,8 +140,10 @@ public class StartFrame extends JFrame {
 	private File dataFile;
 
 	private File stringsFile;
-	
+
 	private JPanel contentPane;
+
+	private JTextArea propertiesField;
 
 	// Debuggers
 	private static final String[] DEBUGGERS_PROPERTY = new String[] {
@@ -160,6 +169,7 @@ public class StartFrame extends JFrame {
 		addTicksPerSecond();
 		addDebuggersCheckBoxes();
 		addFullScreen();
+		addPropertiesField();
 		pack();
 		setLocationRelativeTo(null);
 
@@ -349,7 +359,9 @@ public class StartFrame extends JFrame {
 			public void actionPerformed(ActionEvent arg0) {
 				DesktopGame game = new DesktopGame(new InitScene(),
 						debuggersClass);
-				game.launch(ticksPerSecond, Boolean.parseBoolean(properties.getProperty(FULL_SCREEN)));
+				setEAdProperties(propertiesField.getText(), game.getModel());
+				game.launch(ticksPerSecond, Boolean.parseBoolean(properties
+						.getProperty(FULL_SCREEN)));
 
 			}
 
@@ -396,7 +408,10 @@ public class StartFrame extends JFrame {
 					if (model != null) {
 						DesktopGame game = new DesktopGame(model, destinyFile,
 								strings, debuggersClass);
-						game.launch(ticksPerSecond, Boolean.parseBoolean(properties.getProperty(FULL_SCREEN)));
+						setEAdProperties(propertiesField.getText(), game.getModel());
+						game.launch(ticksPerSecond, Boolean
+								.parseBoolean(properties
+										.getProperty(FULL_SCREEN)));
 					}
 				}
 			}.start();
@@ -428,7 +443,9 @@ public class StartFrame extends JFrame {
 			if (model != null) {
 				DesktopGame game = new DesktopGame(model, destinyFile, strings,
 						debuggersClass);
-				game.launch(ticksPerSecond, Boolean.parseBoolean(properties.getProperty(FULL_SCREEN)));
+				setEAdProperties(propertiesField.getText(), game.getModel());
+				game.launch(ticksPerSecond, Boolean.parseBoolean(properties
+						.getProperty(FULL_SCREEN)));
 			}
 
 		}
@@ -554,22 +571,70 @@ public class StartFrame extends JFrame {
 		}
 
 	}
-	
+
 	private void addFullScreen() {
 		JPanel p = new JPanel();
-		boolean b = Boolean.parseBoolean(properties.getProperty(FULL_SCREEN, "false"));
+		boolean b = Boolean.parseBoolean(properties.getProperty(FULL_SCREEN,
+				"false"));
 		final JCheckBox checkBox = new JCheckBox("Full screen", b);
-		checkBox.addChangeListener(new ChangeListener( ){
+		checkBox.addChangeListener(new ChangeListener() {
 
 			@Override
 			public void stateChanged(ChangeEvent e) {
 				properties.put(FULL_SCREEN, checkBox.isSelected() + "");
 			}
-			
+
 		});
 		p.add(checkBox);
 		contentPane.add(p);
-		
+	}
+
+	private void addPropertiesField() {
+		propertiesField = new JTextArea();
+		Dimension d = new Dimension( 200, 200);
+		propertiesField.setSize(d);
+		propertiesField.setPreferredSize(d);
+		propertiesField.setMinimumSize(d);
+		propertiesField.setMaximumSize(d);
+		propertiesField.setLineWrap(true);
+		String value = properties.getProperty(EAD_PROPERTIES, "");
+		propertiesField.setText(value);
+
+		propertiesField.getDocument().addDocumentListener(
+				new DocumentListener() {
+
+					@Override
+					public void insertUpdate(DocumentEvent e) {
+						properties.setProperty(EAD_PROPERTIES,
+								propertiesField.getText());
+					}
+
+					@Override
+					public void removeUpdate(DocumentEvent e) {
+						properties.setProperty(EAD_PROPERTIES,
+								propertiesField.getText());
+					}
+
+					@Override
+					public void changedUpdate(DocumentEvent e) {
+						properties.setProperty(EAD_PROPERTIES,
+								propertiesField.getText());
+					}
+
+				});
+		contentPane.add(propertiesField);
+	}
+
+	private void setEAdProperties(String eadProperties, EAdAdventureModel model) {
+		try {
+			String[] lines = eadProperties.split(";");
+			for (String s : lines) {
+				String[] keyValue = s.split("=");
+				model.setProperty(keyValue[0], keyValue[1]);
+			}
+		} catch (Exception e) {
+			logger.warn("ead Properties incorrectly defined: {}", e);
+		}
 	}
 
 }

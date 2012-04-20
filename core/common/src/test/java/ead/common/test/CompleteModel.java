@@ -35,7 +35,7 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ead.common;
+package ead.common.test;
 
 import ead.common.model.elements.BasicAdventureModel;
 import ead.common.model.elements.BasicChapter;

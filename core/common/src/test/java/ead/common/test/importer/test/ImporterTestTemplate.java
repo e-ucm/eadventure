@@ -35,44 +35,59 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ead.common.params;
+package ead.common.test.importer.test;
 
-import ead.common.params.fills.ColorFill;
-import ead.common.params.fills.LinearGradientFill;
-import ead.common.params.fills.Paint;
+import ead.common.EAdElementImporter;
+import ead.common.model.EAdElement;
 
-public class PaintFillTest extends ParamsTest<Paint> {
-
-	@Override
-	public Paint buildParam(String data) {
-		return new Paint(data);
+public abstract class ImporterTestTemplate<OldType, NewType extends EAdElement> {
+//
+//	public static final Injector INJECTOR = Guice
+//			.createInjector(new ImporterConfigurationModule(), new CommonTestModule());
+//
+//	protected EAdElementImporter<OldType, NewType> importer;
+//	protected List<OldType> oldObjects;
+//
+	public ImporterTestTemplate(
+			Class<? extends EAdElementImporter<OldType, NewType>> importerClass) {
+//		importer = INJECTOR.getInstance(importerClass);
+//		oldObjects = new ArrayList<OldType>();
 	}
-
-	@Override
-	public Paint defaultValue() {
-		return Paint.BLACK_ON_WHITE;
-	}
-
-	@Override
-	public Paint[] getObjects() {
-		Paint[] fills = new Paint[20];
-		for ( int i = 0; i <fills.length; i+=2){
-			ColorFill c1 = new ColorFill(i * 3, i * 5, i * 7);
-			ColorFill c2 = new ColorFill(i * 4, i * 1, i * 8);
-			float x1 = i * 50;
-			float y1 = i * 100;
-			float x2 = i * 20;
-			float y2 = i * 70;
-			LinearGradientFill fill1 = new LinearGradientFill(c1, c2, x1, y1,
-					x2, y2);
-			ColorFill c3 = new ColorFill(i * 3, i * 5, i * 7);
-			ColorFill c4 = new ColorFill(i * 4, i * 1, i * 8);
-			LinearGradientFill fill2 = new LinearGradientFill(c3, c4, x1, y1,
-					x2, y2);
-			fills[i] = new Paint(fill1, c1);
-			fills[i + 1] = new Paint(fill2, c3);
-		}
-		return fills;
-	}
+//
+//	@Before
+//	public void setUp() {
+//		addOldObjects();
+//	}
+//
+	public abstract void addOldObjects();
+//
+//	public void addTestObject(OldType oldObject) {
+//		oldObjects.add(oldObject);
+//	}
+//
+	public abstract boolean equals(OldType oldObject, NewType newObject);
+//
+//	public NewType createNewObject(OldType oldObject) {
+//		NewType newObject = importer.init(oldObject);
+//		newObject = importer.convert(oldObject, newObject);
+//		return newObject;
+//	}
+//
+//	@Test
+//	public void testConvert() {
+//		for (OldType oldObject : oldObjects) {
+//			NewType newObject = createNewObject(oldObject);
+//			assertTrue(this.equals(oldObject, newObject));
+//		}
+//
+//		finalTests();
+//	}
+//
+//	/**
+//	 * Some additional test to make when importation is finished
+//	 */
+//	public void finalTests() {
+//
+//	}
 
 }

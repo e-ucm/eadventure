@@ -72,28 +72,28 @@ public class DesktopBezierShape extends RuntimeBezierShape<Graphics2D> {
 		int pointIndex = 2;
 		float x1, y1, x2, y2, x3, y3;
 
-		while (pointIndex < descriptor.getPoints().size()) {
-			int length = descriptor.getPoints().get(pointIndex++);
+		while (pointIndex < points.size()) {
+			int length = points.get(pointIndex++);
 			switch (length) {
 			case 1:
-				x1 = descriptor.getPoints().get(pointIndex++);
-				y1 = descriptor.getPoints().get(pointIndex++);
+				x1 = points.get(pointIndex++);
+				y1 = points.get(pointIndex++);
 				path.lineTo(x1, y1);
 				break;
 			case 2:
-				x1 = descriptor.getPoints().get(pointIndex++);
-				y1 = descriptor.getPoints().get(pointIndex++);
-				x2 = descriptor.getPoints().get(pointIndex++);
+				x1 = points.get(pointIndex++);
+				y1 = points.get(pointIndex++);
+				x2 = points.get(pointIndex++);
 				y2 = descriptor.getPoints().get(pointIndex++);
 				path.quadTo(x1, y1, x2, y2);
 				break;
 			case 3:
-				x1 = descriptor.getPoints().get(pointIndex++);
-				y1 = descriptor.getPoints().get(pointIndex++);
-				x2 = descriptor.getPoints().get(pointIndex++);
-				y2 = descriptor.getPoints().get(pointIndex++);
-				x3 = descriptor.getPoints().get(pointIndex++);
-				y3 = descriptor.getPoints().get(pointIndex++);
+				x1 = points.get(pointIndex++);
+				y1 = points.get(pointIndex++);
+				x2 = points.get(pointIndex++);
+				y2 = points.get(pointIndex++);
+				x3 = points.get(pointIndex++);
+				y3 = points.get(pointIndex++);
 				path.curveTo(x1, y1, x2, y2, x3, y3);
 				break;
 			default:

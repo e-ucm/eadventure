@@ -60,7 +60,7 @@ import ead.engine.core.input.actions.KeyInputAction;
 import ead.engine.core.input.actions.MouseInputAction;
 import ead.engine.core.input.states.KeyboardState;
 import ead.engine.core.input.states.MouseState;
-import ead.engine.core.tracking.Tracker;
+import ead.engine.core.tracking.GameTracker;
 import ead.engine.core.util.EAdTransformation;
 
 @Singleton
@@ -97,11 +97,11 @@ public class InputHandlerImpl implements InputHandler {
 	// FIXME this must be configurable
 	private boolean propagateEvents = true;
 
-	private Tracker tracker;
+	private GameTracker tracker;
 
 	@Inject
 	public InputHandlerImpl(GameState gameState, GameObjectManager gameObjects,
-			Tracker tracker) {
+			GameTracker tracker) {
 		mouseHandler = new MouseHandler(gameState);
 		keyboardHandler = new KeyboardHandler();
 		this.gameObjects = gameObjects;

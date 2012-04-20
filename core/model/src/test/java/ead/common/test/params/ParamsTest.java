@@ -35,60 +35,39 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ead.common;
+package ead.common.test.params;
 
 import static org.junit.Assert.assertTrue;
 
-import org.junit.Before;
 import org.junit.Test;
 
-/**
- * Class to test equals and hashcode methods
- * 
- */
-public abstract class EqualsHashCodeTest<T> {
+import ead.common.params.EAdParam;
+import ead.common.test.EqualsHashCodeTest;
 
-	protected T[] objects;
+public abstract class ParamsTest<T extends EAdParam> extends
+		EqualsHashCodeTest<T> {
 
-	@Before
-	public void setUp() {
-		objects = getObjects();
-	}
+	public abstract T buildParam(String data);
 
-	/**
-	 * Data must be an array with length divisible by 2, and grouped by equals
-	 * pairs, i.e. object[i].equals(object[i+1]) must be true,
-	 * object[i+2].equals(object[i+3]) must be true, and so on. No pair can be
-	 * repeated
-	 * 
-	 * @return
-	 */
-	public abstract T[] getObjects();
+	public abstract T defaultValue();
 
 	@Test
-	public void testHashCode() {
-		for (int i = 0; i < objects.length; i += 2) {
-			assertTrue(objects[i].hashCode() == objects[i + 1].hashCode());
-			for (int j = 0; j < objects.length; j++) {
-				if (j != i && j != i + 1) {
-					assertTrue(objects[i].hashCode() != objects[j]
-							.hashCode());
-				}
-			}
+	public void testToStringDataParse() {
+		for (int i = 0; i < objects.length; i++) {
+			String data = objects[i].toStringData();
+			T c = buildParam(data);
+			assertTrue(c.equals(objects[i]));
+			assertTrue(objects[i].equals(c));
 		}
 	}
 
 	@Test
-	public void testEqualsObject() {
-		for (int i = 0; i < objects.length; i += 2) {
-			assertTrue(objects[i].equals(objects[i + 1]));
-			for (int j = 0; j < objects.length; j++) {
-				if (j != i && j != i + 1) {
-					assertTrue(!objects[i].equals(objects[j]));
-					assertTrue(!objects[j].equals(objects[i]));
-				}
-			}
+	public void testParseCorruptedData(){
+		String[] strings = new String[]{ null, "0;2;4;a", ";;;", "0:2;4.03f;0f", "dakjfaosidfyipu43676r21", "jo09ua87/77;;", ":0:2", "21;78;20:20", "ljasfasdfa", "123456789!"};
+		T defaultValue = defaultValue();
+		for ( String s: strings ){
+			T c = buildParam(s);
+			assertTrue(defaultValue.equals(c));
 		}
 	}
-
 }

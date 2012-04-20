@@ -35,44 +35,37 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ead.common.params;
+package ead.common.test.importer.subimporters.effects.variables;
 
-import ead.common.params.fills.ColorFill;
-import ead.common.params.fills.LinearGradientFill;
+import ead.common.importer.subimporters.effects.variables.ActivateFlagImporter;
+import ead.common.model.elements.effects.variables.ChangeFieldEf;
+import ead.common.model.elements.variables.operations.BooleanOp;
+import ead.common.test.importer.subimporters.effects.EffectTest;
+import es.eucm.eadventure.common.data.chapter.effects.ActivateEffect;
 
-public class LinearGradientFillTest extends ParamsTest<LinearGradientFill> {
+public class ActivateFlagTest extends
+		EffectTest<ActivateEffect, ChangeFieldEf> {
 
-	@Override
-	public LinearGradientFill[] getObjects() {
-		LinearGradientFill[] fills = new LinearGradientFill[20];
-		for (int i = 0; i < fills.length; i += 2) {
-			ColorFill c1 = new ColorFill(i * 3, i * 5, i * 7);
-			ColorFill c2 = new ColorFill(i * 4, i * 1, i * 8);
-			float x1 = i * 50;
-			float y1 = i * 100;
-			float x2 = i * 20;
-			float y2 = i * 70;
-			LinearGradientFill fill1 = new LinearGradientFill(c1, c2, x1, y1,
-					x2, y2);
-			ColorFill c3 = new ColorFill(i * 3, i * 5, i * 7);
-			ColorFill c4 = new ColorFill(i * 4, i * 1, i * 8);
-			LinearGradientFill fill2 = new LinearGradientFill(c3, c4, x1, y1,
-					x2, y2);
-			fills[i] = fill1;
-			fills[i + 1] = fill2;
-		}
-
-		return fills;
+	public ActivateFlagTest() {
+		super(ActivateFlagImporter.class);
 	}
 
 	@Override
-	public LinearGradientFill buildParam(String data) {
-		return new LinearGradientFill(data);
+	public void addOldObjects() {
+//		addTestObject(new ActivateEffect("flag1"));
+//		addTestObject(new ActivateEffect("flag1"));
+//		addTestObject(new ActivateEffect("flag2"));
+//		addTestObject(new ActivateEffect("anotherFlag"));
+//		addTestObject(new ActivateEffect("¡Ñí!"));
+
 	}
 
 	@Override
-	public LinearGradientFill defaultValue() {
-		return LinearGradientFill.BLACK;
+	public boolean equals(ActivateEffect oldObject,
+			ChangeFieldEf newObject) {
+		boolean ok = super.equals(oldObject, newObject);
+		ok = newObject.getOperation().equals(BooleanOp.TRUE_OP) && ok;
+		return ok;
 	}
 
 }
