@@ -35,38 +35,30 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ead.common.params;
+package ead.common.test.params;
 
-import static org.junit.Assert.assertTrue;
+import ead.common.util.EAdRectangle;
 
-import org.junit.Test;
+public class RectangleTest extends ParamsTest<EAdRectangle> {
 
-import ead.common.EqualsHashCodeTest;
-
-public abstract class ParamsTest<T extends EAdParam> extends
-		EqualsHashCodeTest<T> {
-
-	public abstract T buildParam(String data);
-
-	public abstract T defaultValue();
-
-	@Test
-	public void testToStringDataParse() {
-		for (int i = 0; i < objects.length; i++) {
-			String data = objects[i].toStringData();
-			T c = buildParam(data);
-			assertTrue(c.equals(objects[i]));
-			assertTrue(objects[i].equals(c));
-		}
+	@Override
+	public EAdRectangle buildParam(String data) {
+		return new EAdRectangle(data);
 	}
 
-	@Test
-	public void testParseCorruptedData(){
-		String[] strings = new String[]{ null, "0;2;4;a", ";;;", "0:2;4.03f;0f", "dakjfaosidfyipu43676r21", "jo09ua87/77;;", ":0:2", "21;78;20:20", "ljasfasdfa", "123456789!"};
-		T defaultValue = defaultValue();
-		for ( String s: strings ){
-			T c = buildParam(s);
-			assertTrue(defaultValue.equals(c));
-		}
+	@Override
+	public EAdRectangle defaultValue() {
+		return new EAdRectangle();
 	}
+
+	@Override
+	public EAdRectangle[] getObjects() {
+		EAdRectangle[] rectangles = new EAdRectangle[20];
+		for (int i = 0; i < rectangles.length; i += 2) {
+			rectangles[i] = new EAdRectangle(i - 2, i * 50, i * 7, i * 9);
+			rectangles[i + 1] = new EAdRectangle(i - 2, i * 50, i * 7, i * 9);
+		}
+		return rectangles;
+	}
+
 }

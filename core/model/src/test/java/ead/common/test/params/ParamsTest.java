@@ -35,44 +35,39 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ead.common.params;
+package ead.common.test.params;
 
-import ead.common.params.fills.ColorFill;
-import ead.common.params.fills.LinearGradientFill;
+import static org.junit.Assert.assertTrue;
 
-public class LinearGradientFillTest extends ParamsTest<LinearGradientFill> {
+import org.junit.Test;
 
-	@Override
-	public LinearGradientFill[] getObjects() {
-		LinearGradientFill[] fills = new LinearGradientFill[20];
-		for (int i = 0; i < fills.length; i += 2) {
-			ColorFill c1 = new ColorFill(i * 3, i * 5, i * 7);
-			ColorFill c2 = new ColorFill(i * 4, i * 1, i * 8);
-			float x1 = i * 50;
-			float y1 = i * 100;
-			float x2 = i * 20;
-			float y2 = i * 70;
-			LinearGradientFill fill1 = new LinearGradientFill(c1, c2, x1, y1,
-					x2, y2);
-			ColorFill c3 = new ColorFill(i * 3, i * 5, i * 7);
-			ColorFill c4 = new ColorFill(i * 4, i * 1, i * 8);
-			LinearGradientFill fill2 = new LinearGradientFill(c3, c4, x1, y1,
-					x2, y2);
-			fills[i] = fill1;
-			fills[i + 1] = fill2;
+import ead.common.params.EAdParam;
+import ead.common.test.EqualsHashCodeTest;
+
+public abstract class ParamsTest<T extends EAdParam> extends
+		EqualsHashCodeTest<T> {
+
+	public abstract T buildParam(String data);
+
+	public abstract T defaultValue();
+
+	@Test
+	public void testToStringDataParse() {
+		for (int i = 0; i < objects.length; i++) {
+			String data = objects[i].toStringData();
+			T c = buildParam(data);
+			assertTrue(c.equals(objects[i]));
+			assertTrue(objects[i].equals(c));
 		}
-
-		return fills;
 	}
 
-	@Override
-	public LinearGradientFill buildParam(String data) {
-		return new LinearGradientFill(data);
+	@Test
+	public void testParseCorruptedData(){
+		String[] strings = new String[]{ null, "0;2;4;a", ";;;", "0:2;4.03f;0f", "dakjfaosidfyipu43676r21", "jo09ua87/77;;", ":0:2", "21;78;20:20", "ljasfasdfa", "123456789!"};
+		T defaultValue = defaultValue();
+		for ( String s: strings ){
+			T c = buildParam(s);
+			assertTrue(defaultValue.equals(c));
+		}
 	}
-
-	@Override
-	public LinearGradientFill defaultValue() {
-		return LinearGradientFill.BLACK;
-	}
-
 }

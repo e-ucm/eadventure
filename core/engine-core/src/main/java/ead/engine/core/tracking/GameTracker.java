@@ -35,60 +35,67 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ead.common;
+package ead.engine.core.tracking;
 
-import static org.junit.Assert.assertTrue;
-
-import org.junit.Before;
-import org.junit.Test;
+import ead.common.model.elements.EAdAdventureModel;
+import ead.engine.core.gameobjects.go.DrawableGO;
+import ead.engine.core.gameobjects.go.EffectGO;
+import ead.engine.core.input.InputAction;
 
 /**
- * Class to test equals and hashcode methods
+ * General interface for game engine trackers. Methods defined by this interface
+ * can be extended if required
  * 
  */
-public abstract class EqualsHashCodeTest<T> {
-
-	protected T[] objects;
-
-	@Before
-	public void setUp() {
-		objects = getObjects();
-	}
+public interface GameTracker {
+	
+	public static final String TRACKING_ENABLE = "tracking_enabled";
+	
+	public static final String GAME_KEY = "gamekey";
+	
+	public static final String SERVER_URL = "server_url";
 
 	/**
-	 * Data must be an array with length divisible by 2, and grouped by equals
-	 * pairs, i.e. object[i].equals(object[i+1]) must be true,
-	 * object[i+2].equals(object[i+3]) must be true, and so on. No pair can be
-	 * repeated
+	 * Starts the tracking
+	 * 
+	 * @param model
+	 *            the game model to be tracked
+	 */
+	void startTracking(EAdAdventureModel model);
+
+	/**
+	 * Tracks an input action executed over the target
+	 * 
+	 * @param action
+	 *            the performed action
+	 * @param target
+	 *            the game object receiving the action
+	 */
+	void track(InputAction<?> action, DrawableGO<?> target);
+
+	/**
+	 * Tracks a launched effect
+	 * 
+	 * @param effect
+	 *            the launched effect
+	 */
+	void track(EffectGO<?> effect);
+
+	/**
+	 * Returns if it is currently sending tracking data
 	 * 
 	 * @return
 	 */
-	public abstract T[] getObjects();
+	boolean isTracking();
 
-	@Test
-	public void testHashCode() {
-		for (int i = 0; i < objects.length; i += 2) {
-			assertTrue(objects[i].hashCode() == objects[i + 1].hashCode());
-			for (int j = 0; j < objects.length; j++) {
-				if (j != i && j != i + 1) {
-					assertTrue(objects[i].hashCode() != objects[j]
-							.hashCode());
-				}
-			}
-		}
-	}
+	/**
+	 * Stops the tracking
+	 */
+	void stop();
 
-	@Test
-	public void testEqualsObject() {
-		for (int i = 0; i < objects.length; i += 2) {
-			assertTrue(objects[i].equals(objects[i + 1]));
-			for (int j = 0; j < objects.length; j++) {
-				if (j != i && j != i + 1) {
-					assertTrue(!objects[i].equals(objects[j]));
-					assertTrue(!objects[j].equals(objects[i]));
-				}
-			}
-		}
-	}
+	/**
+	 * Resumes the tracking, in case it was stopped
+	 */
+	void resume();
 
 }

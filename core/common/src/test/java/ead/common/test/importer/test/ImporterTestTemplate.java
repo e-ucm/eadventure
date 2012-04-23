@@ -35,35 +35,59 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ead.common.resources.assets.drawable.basics.shapes;
+package ead.common.test.importer.test;
 
-import ead.common.params.fills.Paint;
-import ead.common.params.paint.EAdPaint;
+import ead.common.EAdElementImporter;
+import ead.common.model.EAdElement;
 
-public class CircleShape extends BezierShape {
-	
-	public CircleShape( ){
-		
+public abstract class ImporterTestTemplate<OldType, NewType extends EAdElement> {
+//
+//	public static final Injector INJECTOR = Guice
+//			.createInjector(new ImporterConfigurationModule(), new CommonTestModule());
+//
+//	protected EAdElementImporter<OldType, NewType> importer;
+//	protected List<OldType> oldObjects;
+//
+	public ImporterTestTemplate(
+			Class<? extends EAdElementImporter<OldType, NewType>> importerClass) {
+//		importer = INJECTOR.getInstance(importerClass);
+//		oldObjects = new ArrayList<OldType>();
 	}
-
-	public CircleShape(int cx, int cy, int radius, int segments, EAdPaint paint) {
-		super(paint);
-		int points = segments;
-		float angle = (float) (2 * Math.PI / points);
-		float acc = 0;
-
-		moveTo(cx + radius, cy);
-		for (int i = 0; i < points - 1; i++) {
-			acc += angle;
-			int x = (int) (Math.cos(acc) * radius);
-			int y = (int) (Math.sin(acc) * radius);
-			lineTo(x + cx, y + cy);
-		}
-		setClosed(true);
-	}
-
-	public CircleShape(int cx, int cy, int radius, int segments) {
-		this(cx, cy, radius, segments, Paint.WHITE_ON_BLACK);
-	}
+//
+//	@Before
+//	public void setUp() {
+//		addOldObjects();
+//	}
+//
+	public abstract void addOldObjects();
+//
+//	public void addTestObject(OldType oldObject) {
+//		oldObjects.add(oldObject);
+//	}
+//
+	public abstract boolean equals(OldType oldObject, NewType newObject);
+//
+//	public NewType createNewObject(OldType oldObject) {
+//		NewType newObject = importer.init(oldObject);
+//		newObject = importer.convert(oldObject, newObject);
+//		return newObject;
+//	}
+//
+//	@Test
+//	public void testConvert() {
+//		for (OldType oldObject : oldObjects) {
+//			NewType newObject = createNewObject(oldObject);
+//			assertTrue(this.equals(oldObject, newObject));
+//		}
+//
+//		finalTests();
+//	}
+//
+//	/**
+//	 * Some additional test to make when importation is finished
+//	 */
+//	public void finalTests() {
+//
+//	}
 
 }

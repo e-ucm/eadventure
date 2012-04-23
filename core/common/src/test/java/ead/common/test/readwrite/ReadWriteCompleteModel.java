@@ -35,7 +35,7 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ead.common.readwrite;
+package ead.common.test.readwrite;
 
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
@@ -49,10 +49,10 @@ import java.io.IOException;
 import org.junit.Before;
 import org.junit.Test;
 
-import ead.common.CompleteModel;
 import ead.common.reader.EAdAdventureDOMModelReader;
 import ead.common.reader.extra.ObjectFactory;
 import ead.common.reader.visitors.NodeVisitor;
+import ead.common.test.CompleteModel;
 import ead.common.writer.DOMWriter;
 import ead.common.writer.EAdAdventureModelWriter;
 

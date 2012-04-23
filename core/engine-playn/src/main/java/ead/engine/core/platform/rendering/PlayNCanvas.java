@@ -183,13 +183,13 @@ public class PlayNCanvas extends AbstractCanvas<Canvas> {
 
 	@Override
 	public void setClip(EAdRectangle rectangle) {
-		Path p = PlayN.graphics().createPath();
-		p.moveTo(0, 0);
-		p.lineTo(rectangle.getWidth(), 0);
-		p.lineTo(rectangle.getWidth(), rectangle.getHeight());
-		p.lineTo(0, rectangle.getHeight());
-		p.close();
-		g.clip(p);
+//		Path p = PlayN.graphics().createPath();
+//		p.moveTo(0, 0);
+//		p.lineTo(rectangle.getWidth(), 0);
+//		p.lineTo(rectangle.getWidth(), rectangle.getHeight());
+//		p.lineTo(0, rectangle.getHeight());
+//		p.close();
+//		g.clip(p);
 	}
 
 	@Override

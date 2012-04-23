@@ -62,6 +62,8 @@ import ead.engine.core.platform.module.DesktopModule;
 import ead.engine.core.platform.modules.BasicGameModule;
 
 public class DesktopGame {
+	
+	private EAdAdventureModel model;
 
 	private Injector injector;
 
@@ -92,6 +94,7 @@ public class DesktopGame {
 	public void init(EAdAdventureModel model, Map<EAdString, String> strings,
 			List<Class<? extends Debugger>> debuggers) {
 
+		this.model = model;
 		injector = Guice.createInjector(new DesktopAssetHandlerModule(),
 				new DesktopModule(), new BasicGameModule());
 
@@ -101,14 +104,16 @@ public class DesktopGame {
 			debuggerHandler.init(debuggers);
 		}
 
-		Game game = injector.getInstance(Game.class);
-		game.setGame(model, model.getChapters().get(0));
-
 		StringHandler stringHandler = injector.getInstance(StringHandler.class);
 		stringHandler.addStrings(strings);
+		
+		
 	}
 
 	public void launch(int ticksPerSecond, boolean fullscreen) {
+		Game game = injector.getInstance(Game.class);
+		game.setGame(model, model.getChapters().get(0));
+		
 		final GameController launcher = injector
 				.getInstance(GameController.class);
 		final EAdURI uri = (file == null) ? null : new EAdURI(file);
@@ -125,6 +130,10 @@ public class DesktopGame {
 				launcher.start(uri);
 			}
 		}.start();
+	}
+	
+	public EAdAdventureModel getModel(){
+		return model;
 	}
 
 }

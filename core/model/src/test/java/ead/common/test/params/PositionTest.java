@@ -35,35 +35,32 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ead.common.resources.assets.drawable.basics.shapes;
+package ead.common.test.params;
 
-import ead.common.params.fills.Paint;
-import ead.common.params.paint.EAdPaint;
+import ead.common.util.EAdPosition;
 
-public class CircleShape extends BezierShape {
-	
-	public CircleShape( ){
-		
+public class PositionTest extends ParamsTest<EAdPosition> {
+
+	@Override
+	public EAdPosition buildParam(String data) {
+		return new EAdPosition(data);
 	}
 
-	public CircleShape(int cx, int cy, int radius, int segments, EAdPaint paint) {
-		super(paint);
-		int points = segments;
-		float angle = (float) (2 * Math.PI / points);
-		float acc = 0;
+	@Override
+	public EAdPosition defaultValue() {
+		return new EAdPosition();
+	}
 
-		moveTo(cx + radius, cy);
-		for (int i = 0; i < points - 1; i++) {
-			acc += angle;
-			int x = (int) (Math.cos(acc) * radius);
-			int y = (int) (Math.sin(acc) * radius);
-			lineTo(x + cx, y + cy);
+	@Override
+	public EAdPosition[] getObjects() {
+		EAdPosition[] positions = new EAdPosition[20];
+		for (int i = 0; i < positions.length; i += 2) {
+			positions[i] = new EAdPosition(i * 3, i * 4,
+					(float) (i - 1) * 800.f, (float) (i) * 600.f);
+			positions[i + 1] = new EAdPosition(i * 3, i * 4,
+					(float) (i - 1) * 800.f, (float) (i) * 600.f);
 		}
-		setClosed(true);
-	}
-
-	public CircleShape(int cx, int cy, int radius, int segments) {
-		this(cx, cy, radius, segments, Paint.WHITE_ON_BLACK);
+		return positions;
 	}
 
 }

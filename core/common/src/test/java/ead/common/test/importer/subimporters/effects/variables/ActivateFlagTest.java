@@ -35,35 +35,37 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ead.common.resources.assets.drawable.basics.shapes;
+package ead.common.test.importer.subimporters.effects.variables;
 
-import ead.common.params.fills.Paint;
-import ead.common.params.paint.EAdPaint;
+import ead.common.importer.subimporters.effects.variables.ActivateFlagImporter;
+import ead.common.model.elements.effects.variables.ChangeFieldEf;
+import ead.common.model.elements.variables.operations.BooleanOp;
+import ead.common.test.importer.subimporters.effects.EffectTest;
+import es.eucm.eadventure.common.data.chapter.effects.ActivateEffect;
 
-public class CircleShape extends BezierShape {
-	
-	public CircleShape( ){
-		
+public class ActivateFlagTest extends
+		EffectTest<ActivateEffect, ChangeFieldEf> {
+
+	public ActivateFlagTest() {
+		super(ActivateFlagImporter.class);
 	}
 
-	public CircleShape(int cx, int cy, int radius, int segments, EAdPaint paint) {
-		super(paint);
-		int points = segments;
-		float angle = (float) (2 * Math.PI / points);
-		float acc = 0;
+	@Override
+	public void addOldObjects() {
+//		addTestObject(new ActivateEffect("flag1"));
+//		addTestObject(new ActivateEffect("flag1"));
+//		addTestObject(new ActivateEffect("flag2"));
+//		addTestObject(new ActivateEffect("anotherFlag"));
+//		addTestObject(new ActivateEffect("¡Ñí!"));
 
-		moveTo(cx + radius, cy);
-		for (int i = 0; i < points - 1; i++) {
-			acc += angle;
-			int x = (int) (Math.cos(acc) * radius);
-			int y = (int) (Math.sin(acc) * radius);
-			lineTo(x + cx, y + cy);
-		}
-		setClosed(true);
 	}
 
-	public CircleShape(int cx, int cy, int radius, int segments) {
-		this(cx, cy, radius, segments, Paint.WHITE_ON_BLACK);
+	@Override
+	public boolean equals(ActivateEffect oldObject,
+			ChangeFieldEf newObject) {
+		boolean ok = super.equals(oldObject, newObject);
+		ok = newObject.getOperation().equals(BooleanOp.TRUE_OP) && ok;
+		return ok;
 	}
 
 }

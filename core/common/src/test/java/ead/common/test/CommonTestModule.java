@@ -35,30 +35,51 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ead.common.params;
+package ead.common.test;
 
-import ead.common.util.EAdRectangle;
+import java.util.HashMap;
+import java.util.Map;
 
-public class RectangleTest extends ParamsTest<EAdRectangle> {
+import com.google.inject.AbstractModule;
+
+import ead.common.params.text.EAdString;
+import ead.common.util.StringHandler;
+
+public class CommonTestModule extends AbstractModule{
 
 	@Override
-	public EAdRectangle buildParam(String data) {
-		return new EAdRectangle(data);
+	protected void configure() {
+		bind(StringHandler.class).to(TestStringHandler.class);
 	}
+	
+	
+	public static class TestStringHandler implements StringHandler {
 
-	@Override
-	public EAdRectangle defaultValue() {
-		return new EAdRectangle();
-	}
-
-	@Override
-	public EAdRectangle[] getObjects() {
-		EAdRectangle[] rectangles = new EAdRectangle[20];
-		for (int i = 0; i < rectangles.length; i += 2) {
-			rectangles[i] = new EAdRectangle(i - 2, i * 50, i * 7, i * 9);
-			rectangles[i + 1] = new EAdRectangle(i - 2, i * 50, i * 7, i * 9);
+		@Override
+		public String getString(EAdString string) {
+			return string.toString();
 		}
-		return rectangles;
+
+		@Override
+		public void setString(EAdString eAdString, String string) {
+			
+		}
+
+		@Override
+		public void setStrings(Map<EAdString, String> strings) {
+			
+		}
+
+		@Override
+		public void addStrings(Map<EAdString, String> strings) {
+			
+		}
+
+		@Override
+		public Map<EAdString, String> getStrings() {
+			return new HashMap<EAdString, String>();
+		}
+		
 	}
 
 }

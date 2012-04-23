@@ -35,32 +35,17 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ead.common.params;
+package ead.common.test.importer.test;
 
-import ead.common.util.EAdPosition;
+import es.eucm.eadventure.common.data.adventure.AdventureData;
 
-public class PositionTest extends ParamsTest<EAdPosition> {
+public class ImporterTestAux {
 
-	@Override
-	public EAdPosition buildParam(String data) {
-		return new EAdPosition(data);
+	
+	public static AdventureData getAdventureData( ){
+		AdventureData data = new AdventureData( );
+		data.setTitle( "Test adventure" );
+		data.setDescription( "Test data for unit tests" );
+		return data;
 	}
-
-	@Override
-	public EAdPosition defaultValue() {
-		return new EAdPosition();
-	}
-
-	@Override
-	public EAdPosition[] getObjects() {
-		EAdPosition[] positions = new EAdPosition[20];
-		for (int i = 0; i < positions.length; i += 2) {
-			positions[i] = new EAdPosition(i * 3, i * 4,
-					(float) (i - 1) * 800.f, (float) (i) * 600.f);
-			positions[i + 1] = new EAdPosition(i * 3, i * 4,
-					(float) (i - 1) * 800.f, (float) (i) * 600.f);
-		}
-		return positions;
-	}
-
 }

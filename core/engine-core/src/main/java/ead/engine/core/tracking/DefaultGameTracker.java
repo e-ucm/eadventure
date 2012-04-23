@@ -35,17 +35,38 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ead.common.importer.test;
+package ead.engine.core.tracking;
 
-import es.eucm.eadventure.common.data.adventure.AdventureData;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-public class ImporterTestAux {
+import com.google.inject.Singleton;
 
-	
-	public static AdventureData getAdventureData( ){
-		AdventureData data = new AdventureData( );
-		data.setTitle( "Test adventure" );
-		data.setDescription( "Test data for unit tests" );
-		return data;
+import ead.common.model.elements.EAdAdventureModel;
+import ead.engine.core.gameobjects.go.DrawableGO;
+import ead.engine.core.gameobjects.go.EffectGO;
+import ead.engine.core.input.InputAction;
+
+@Singleton
+public class DefaultGameTracker extends AbstractGameTracker {
+
+	private static final Logger logger = LoggerFactory
+			.getLogger("DefaultTracker");
+
+	@Override
+	protected void trackImpl(InputAction<?> action, DrawableGO<?> target) {
+		logger.info("Action: {} over {}", action.getGUIEvent(),
+				target.getElement());
 	}
+
+	@Override
+	protected void trackImpl(EffectGO<?> effect) {
+		logger.info("Effect: {}", effect);
+	}
+
+	@Override
+	protected void startTrackingImpl(EAdAdventureModel model) {
+		logger.info("Tracking starts.");		
+	}
+
 }

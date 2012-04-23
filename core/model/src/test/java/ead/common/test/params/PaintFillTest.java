@@ -35,35 +35,44 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ead.common.resources.assets.drawable.basics.shapes;
+package ead.common.test.params;
 
+import ead.common.params.fills.ColorFill;
+import ead.common.params.fills.LinearGradientFill;
 import ead.common.params.fills.Paint;
-import ead.common.params.paint.EAdPaint;
 
-public class CircleShape extends BezierShape {
-	
-	public CircleShape( ){
-		
+public class PaintFillTest extends ParamsTest<Paint> {
+
+	@Override
+	public Paint buildParam(String data) {
+		return new Paint(data);
 	}
 
-	public CircleShape(int cx, int cy, int radius, int segments, EAdPaint paint) {
-		super(paint);
-		int points = segments;
-		float angle = (float) (2 * Math.PI / points);
-		float acc = 0;
+	@Override
+	public Paint defaultValue() {
+		return Paint.BLACK_ON_WHITE;
+	}
 
-		moveTo(cx + radius, cy);
-		for (int i = 0; i < points - 1; i++) {
-			acc += angle;
-			int x = (int) (Math.cos(acc) * radius);
-			int y = (int) (Math.sin(acc) * radius);
-			lineTo(x + cx, y + cy);
+	@Override
+	public Paint[] getObjects() {
+		Paint[] fills = new Paint[20];
+		for ( int i = 0; i <fills.length; i+=2){
+			ColorFill c1 = new ColorFill(i * 3, i * 5, i * 7);
+			ColorFill c2 = new ColorFill(i * 4, i * 1, i * 8);
+			float x1 = i * 50;
+			float y1 = i * 100;
+			float x2 = i * 20;
+			float y2 = i * 70;
+			LinearGradientFill fill1 = new LinearGradientFill(c1, c2, x1, y1,
+					x2, y2);
+			ColorFill c3 = new ColorFill(i * 3, i * 5, i * 7);
+			ColorFill c4 = new ColorFill(i * 4, i * 1, i * 8);
+			LinearGradientFill fill2 = new LinearGradientFill(c3, c4, x1, y1,
+					x2, y2);
+			fills[i] = new Paint(fill1, c1);
+			fills[i + 1] = new Paint(fill2, c3);
 		}
-		setClosed(true);
-	}
-
-	public CircleShape(int cx, int cy, int radius, int segments) {
-		this(cx, cy, radius, segments, Paint.WHITE_ON_BLACK);
+		return fills;
 	}
 
 }

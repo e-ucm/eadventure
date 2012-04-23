@@ -42,6 +42,7 @@ import playn.core.Path;
 
 import com.google.inject.Inject;
 
+import ead.common.model.elements.extra.EAdList;
 import ead.engine.core.EAdEngine;
 import ead.engine.core.platform.assets.drawables.basics.RuntimeBezierShape;
 
@@ -63,32 +64,36 @@ public class PlayNBezierShape extends RuntimeBezierShape<Canvas> {
 			return false;
 		super.loadAsset();
 		path = eAdEngine.getGraphics().createPath();
+		
+		EAdList<Integer> points = descriptor.getPoints();
+		
+		path.moveTo(points.get(0), points.get(1));
 
 		int pointIndex = 2;
 		float x1, y1, x2, y2, x3, y3;
 
-		while (pointIndex < descriptor.getPoints().size()) {
-			int length = descriptor.getPoints().get(pointIndex++);
+		while (pointIndex < points.size()) {
+			int length = points.get(pointIndex++);
 			switch (length) {
 			case 1:
-				x1 = descriptor.getPoints().get(pointIndex++);
-				y1 = descriptor.getPoints().get(pointIndex++);
+				x1 = points.get(pointIndex++);
+				y1 = points.get(pointIndex++);
 				path.lineTo(x1, y1);
 				break;
 			case 2:
-				x1 = descriptor.getPoints().get(pointIndex++);
-				y1 = descriptor.getPoints().get(pointIndex++);
-				x2 = descriptor.getPoints().get(pointIndex++);
-				y2 = descriptor.getPoints().get(pointIndex++);
+				x1 = points.get(pointIndex++);
+				y1 = points.get(pointIndex++);
+				x2 = points.get(pointIndex++);
+				y2 = points.get(pointIndex++);
 				path.quadraticCurveTo(x1, y1, x2, y2);
 				break;
 			case 3:
-				x1 = descriptor.getPoints().get(pointIndex++);
-				y1 = descriptor.getPoints().get(pointIndex++);
-				x2 = descriptor.getPoints().get(pointIndex++);
-				y2 = descriptor.getPoints().get(pointIndex++);
-				x3 = descriptor.getPoints().get(pointIndex++);
-				y3 = descriptor.getPoints().get(pointIndex++);
+				x1 = points.get(pointIndex++);
+				y1 = points.get(pointIndex++);
+				x2 = points.get(pointIndex++);
+				y2 = points.get(pointIndex++);
+				x3 = points.get(pointIndex++);
+				y3 = points.get(pointIndex++);
 //				path.curveTo(x1, y1, x2, y2, x3, y3);
 				break;
 			default:

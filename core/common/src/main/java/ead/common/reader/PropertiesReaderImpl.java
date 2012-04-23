@@ -35,51 +35,36 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ead.common;
+package ead.common.reader;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 
-import com.google.inject.AbstractModule;
+import ead.common.PropertiesReader;
+import ead.common.model.elements.EAdAdventureModel;
 
-import ead.common.params.text.EAdString;
-import ead.common.util.StringHandler;
-
-public class CommonTestModule extends AbstractModule{
+public class PropertiesReaderImpl implements PropertiesReader {
 
 	@Override
-	protected void configure() {
-		bind(StringHandler.class).to(TestStringHandler.class);
+	public void setProperties(EAdAdventureModel model,
+			InputStream eadPropertiesFile) {
+		BufferedReader br = new BufferedReader(new InputStreamReader(
+				eadPropertiesFile));
+		String line = null;
+
+		try {
+			while ((line = br.readLine()) != null) {
+				String[] strings = line.split("=");
+				if (strings.length == 2) {
+					String key = strings[0];
+					String value = strings[1];
+					model.setProperty(key, value);
+				}
+			}
+		} catch (IOException e) {
+
+		}
 	}
-	
-	
-	public static class TestStringHandler implements StringHandler {
-
-		@Override
-		public String getString(EAdString string) {
-			return string.toString();
-		}
-
-		@Override
-		public void setString(EAdString eAdString, String string) {
-			
-		}
-
-		@Override
-		public void setStrings(Map<EAdString, String> strings) {
-			
-		}
-
-		@Override
-		public void addStrings(Map<EAdString, String> strings) {
-			
-		}
-
-		@Override
-		public Map<EAdString, String> getStrings() {
-			return new HashMap<EAdString, String>();
-		}
-		
-	}
-
 }

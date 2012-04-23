@@ -1,4 +1,4 @@
-package ead.common.resources.assets;
+package ead.common.test.resources.assets;
 
 import static org.junit.Assert.assertTrue;
 

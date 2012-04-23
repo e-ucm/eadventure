@@ -35,35 +35,57 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ead.common.resources.assets.drawable.basics.shapes;
+package ead.engine.core.tracking;
 
-import ead.common.params.fills.Paint;
-import ead.common.params.paint.EAdPaint;
+import ead.common.model.elements.EAdAdventureModel;
+import ead.engine.core.gameobjects.go.DrawableGO;
+import ead.engine.core.gameobjects.go.EffectGO;
+import ead.engine.core.input.InputAction;
 
-public class CircleShape extends BezierShape {
+public abstract class AbstractGameTracker implements GameTracker {
+
+	protected EAdAdventureModel model;
+
+	private boolean tracking;
 	
-	public CircleShape( ){
-		
+	public AbstractGameTracker( ){
+		tracking = false;
 	}
 
-	public CircleShape(int cx, int cy, int radius, int segments, EAdPaint paint) {
-		super(paint);
-		int points = segments;
-		float angle = (float) (2 * Math.PI / points);
-		float acc = 0;
-
-		moveTo(cx + radius, cy);
-		for (int i = 0; i < points - 1; i++) {
-			acc += angle;
-			int x = (int) (Math.cos(acc) * radius);
-			int y = (int) (Math.sin(acc) * radius);
-			lineTo(x + cx, y + cy);
+	public void startTracking(EAdAdventureModel model) {
+		this.model = model;
+		tracking = true;
+		startTrackingImpl( model );
+	}
+	
+	protected abstract void startTrackingImpl( EAdAdventureModel model );
+	
+	public void track(InputAction<?> action, DrawableGO<?> target){
+		if ( isTracking()){
+			trackImpl(action, target);
 		}
-		setClosed(true);
+	}
+	
+	protected abstract void trackImpl(InputAction<?> action, DrawableGO<?> target);
+
+	public void track(EffectGO<?> effect){
+		if (isTracking()){
+			trackImpl(effect);
+		}
 	}
 
-	public CircleShape(int cx, int cy, int radius, int segments) {
-		this(cx, cy, radius, segments, Paint.WHITE_ON_BLACK);
+	protected abstract void trackImpl(EffectGO<?> effect);
+
+	public boolean isTracking() {
+		return tracking;
+	}
+
+	public void stop() {
+		tracking = false;
+	}
+
+	public void resume() {
+		tracking = true;
 	}
 
 }
