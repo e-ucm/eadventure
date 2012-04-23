@@ -37,10 +37,15 @@
 
 package ead.common.importer.auxiliar.inputstreamcreators;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.net.URLConnection;
+import java.net.URLStreamHandler;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.zip.ZipEntry;
@@ -54,14 +59,17 @@ import es.eucm.eadventure.common.loader.InputStreamCreator;
 public class ZipInputStreamCreator implements InputStreamCreator {
 
 	private ZipFile zipFile;
-	
-	public void setZipFile( String file ){
+
+	private String zipPath;
+
+	public void setZipFile(String file) {
 		try {
+			this.zipPath = file;
 			zipFile = new ZipFile(file);
 
 		} catch (IOException e) {
 			e.printStackTrace();
-		}		
+		}
 	}
 
 	@Override
@@ -100,14 +108,143 @@ public class ZipInputStreamCreator implements InputStreamCreator {
 
 	@Override
 	public URL buildURL(String path) {
-		ZipEntry zipEntry = zipFile.getEntry(path);
-
 		try {
-			return new URL(zipEntry.getName());
+			return createAssetURL(zipFile, zipPath, path);
 		} catch (MalformedURLException e) {
 			e.printStackTrace();
 		}
 		return null;
+
+	}
+
+	// Old classes
+
+	public static URL createAssetURL(ZipFile zipFile, String zipPath,
+			String assetPath) throws MalformedURLException {
+
+		URL url = null;
+
+		// File parentFile = new File(Controller.getInstance().getZipFile());
+		File parentFile = new File(zipPath);
+		File file = new File(parentFile, assetPath);
+
+		url = file.toURI().toURL();
+		url = new URL(url.getProtocol(), url.getHost(), url.getPort(),
+				url.getFile(), new ZipURLStreamHandler(zipFile, zipPath,
+						assetPath));
+
+		return url;
+	}
+
+	public static class ZipURLStreamHandler extends URLStreamHandler {
+
+		private String assetPath;
+
+		private String zipPath;
+
+		private ZipFile zipFile;
+
+		public ZipURLStreamHandler(ZipFile zipFile, String zipPath,
+				String assetPath) {
+			this.zipFile = zipFile;
+			this.assetPath = assetPath;
+			this.zipPath = zipPath;
+		}
+
+		public ZipURLStreamHandler(String assetPath) {
+
+			this.assetPath = assetPath;
+			zipPath = null;
+		}
+
+		/*
+		 * (non-Javadoc)
+		 * 
+		 * @see java.net.URLStreamHandler#openConnection(java.net.URL)
+		 */
+		@Override
+		protected URLConnection openConnection(URL u) throws IOException {
+
+			if (zipPath != null)
+				return new ZipURLConnection(u, zipPath, assetPath, zipFile);
+			return new ZipURLConnection(u, assetPath, zipFile);
+		}
+
+	}
+
+	public static class ZipURLConnection extends URLConnection {
+
+		private String assetPath;
+
+		private String zipPath;
+
+		private ZipFile zipFile;
+
+		/**
+		 * @param url
+		 * @throws MalformedURLException
+		 */
+		public ZipURLConnection(URL assetURL, String zipPath, String assetPath,
+				ZipFile zipFile) {
+
+			super(assetURL);
+			this.assetPath = assetPath;
+			this.zipPath = zipPath;
+			this.zipFile = zipFile;
+		}
+
+		/**
+		 * @param url
+		 * @throws MalformedURLException
+		 */
+		public ZipURLConnection(URL assetURL, String assetPath, ZipFile zipFile) {
+
+			super(assetURL);
+			this.assetPath = assetPath;
+			zipPath = null;
+			this.zipFile = zipFile;
+		}
+
+		/*
+		 * (non-Javadoc)
+		 * 
+		 * @see java.net.URLConnection#connect()
+		 */
+		@Override
+		public void connect() throws IOException {
+
+		}
+
+		@Override
+		public InputStream getInputStream() {
+
+			if (assetPath != null) {
+				return buildInputStream();
+			} else {
+				try {
+					return url.openStream();
+				} catch (IOException e) {
+					e.printStackTrace();
+					return null;
+				}
+				// return AssetsController.getInputStream(assetPath);
+			}
+		}
+
+		private InputStream buildInputStream() {
+
+			try {
+				return zipFile.getInputStream(zipFile.getEntry(this.assetPath));
+
+			} catch (FileNotFoundException e) {
+				e.printStackTrace();
+				
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			return null;
+		}
+
 	}
 
 }

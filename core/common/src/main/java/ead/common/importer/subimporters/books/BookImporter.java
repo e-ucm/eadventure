@@ -37,23 +37,30 @@
 
 package ead.common.importer.subimporters.books;
 
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Point;
 import java.awt.font.FontRenderContext;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.imageio.ImageIO;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.google.inject.Inject;
 
 import ead.common.EAdElementImporter;
 import ead.common.importer.annotation.ImportAnnotator;
 import ead.common.importer.interfaces.ResourceImporter;
+import ead.common.importer.resources.ResourceImporterImpl;
 import ead.common.model.elements.EAdCondition;
+import ead.common.model.elements.EAdEffect;
 import ead.common.model.elements.conditions.EmptyCond;
 import ead.common.model.elements.conditions.OperationCond;
 import ead.common.model.elements.conditions.enums.Comparator;
@@ -70,6 +77,7 @@ import ead.common.model.elements.guievents.MouseGEv;
 import ead.common.model.elements.scene.EAdScene;
 import ead.common.model.elements.scene.EAdSceneElement;
 import ead.common.model.elements.scenes.BasicScene;
+import ead.common.model.elements.scenes.ComplexSceneElement;
 import ead.common.model.elements.scenes.SceneElement;
 import ead.common.model.elements.scenes.SceneElementDef;
 import ead.common.model.elements.variables.BasicField;
@@ -81,6 +89,7 @@ import ead.common.model.predef.effects.ChangeAppearanceEf;
 import ead.common.params.fills.ColorFill;
 import ead.common.resources.EAdBundleId;
 import ead.common.resources.assets.AssetDescriptor;
+import ead.common.resources.assets.drawable.EAdDrawable;
 import ead.common.resources.assets.drawable.basics.Caption;
 import ead.common.resources.assets.drawable.basics.Image;
 import ead.common.resources.assets.drawable.basics.shapes.CircleShape;
@@ -92,7 +101,9 @@ import ead.common.util.EAdPosition;
 import ead.common.util.EAdPosition.Corner;
 import ead.common.util.StringHandler;
 import es.eucm.eadventure.common.data.chapter.book.Book;
+import es.eucm.eadventure.common.data.chapter.book.BookPage;
 import es.eucm.eadventure.common.data.chapter.book.BookParagraph;
+import gui.ava.html.image.generator.HtmlImageGenerator;
 
 public class BookImporter implements EAdElementImporter<Book, EAdScene> {
 
@@ -140,9 +151,8 @@ public class BookImporter implements EAdElementImporter<Book, EAdScene> {
 	 */
 	public static final int TITLE_HEIGHT = 50;
 
-	protected ImportAnnotator annotator;
-			
-	private static final String HTML_NOT_SUPPORTED = "Sorry. HTML Books are no longer supported by eAdventure.";
+	private static final Logger logger = LoggerFactory
+			.getLogger("BookImporter");
 
 	private FontRenderContext frc = new FontRenderContext(null, true, true);
 	private Font titleFont = new Font("Arial", Font.PLAIN, 33);
@@ -151,12 +161,14 @@ public class BookImporter implements EAdElementImporter<Book, EAdScene> {
 	private Font textFont = new Font("Arial", Font.PLAIN, 18);
 	private EAdFont textEAdFont = new BasicFont("Arial", 18, FontStyle.PLAIN);
 
-	private int dispY = 0;
+	private int paragraphDispY = 0;
 	private ComposedDrawable image;
-	private int column;
+	private int paragraphColumn;
 
 	private StringHandler stringHandler;
 	private ResourceImporter resourceImporter;
+
+	private ImportAnnotator annotator;
 
 	@Inject
 	public BookImporter(ResourceImporter resourceImporter,
@@ -194,65 +206,18 @@ public class BookImporter implements EAdElementImporter<Book, EAdScene> {
 						book.getBackground().getDefinition().getInitialBundle(),
 						SceneElementDef.appearance, background);
 
-		dispY = TEXT_Y;
-		column = 0;
-		image = new ComposedDrawable();
-
 		ChangeFieldEf showInventory = new ChangeFieldEf(
 				SystemFields.SHOW_INVENTORY, BooleanOp.TRUE_OP);
 
+		EAdDrawable image = null;
+		// Create content
+		paragraphColumn = 0;
 		if (oldObject.getType() == Book.TYPE_PAGES) {
-			Caption captionImpl = new Caption();
-			captionImpl.setFont(new BasicFont(18));
-			// captionImpl.setAlignment(Alignment.CENTER);
-			stringHandler.setString(captionImpl.getLabel(), HTML_NOT_SUPPORTED);
-			image.addDrawable(captionImpl, 0, 0);
-		} else
-			for (BookParagraph p : oldObject.getParagraphs()) {
-				if (p.getContent() != null && !p.getContent().equals(""))
-					switch (p.getType()) {
-					case BookParagraph.TITLE:
-						addTextDrawable(p.getContent(), titleFont,
-								titleEAdFont, 0, TITLE_HEIGHT, TEXT_WIDTH);
-						break;
-					case BookParagraph.TEXT:
-						addTextDrawable(p.getContent(), textFont, textEAdFont,
-								0, LINE_HEIGHT, TEXT_WIDTH);
-						break;
-					case BookParagraph.BULLET:
-						if (dispY + LINE_HEIGHT > PAGE_TEXT_HEIGHT) {
-							column++;
-							dispY = TEXT_Y;
-						}
-						CircleShape bullet = new CircleShape(0, 0,
-								BULLET_WIDTH / 3, 20);
-						bullet.setPaint(ColorFill.BLACK);
-						image.addDrawable(bullet,
-								getDispX() + BULLET_WIDTH / 2, dispY
-										+ LINE_HEIGHT / 2);
-						addTextDrawable(p.getContent(), textFont, textEAdFont,
-								BULLET_WIDTH, LINE_HEIGHT, TEXT_WIDTH_BULLET);
-						break;
-					case BookParagraph.IMAGE:
-						Image i = (Image) resourceImporter.getAssetDescritptor(
-								p.getContent(), Image.class);
-						try {
-							BufferedImage im = ImageIO.read(new File(
-									resourceImporter.getNewProjecFolder(), i
-											.getUri().toString().substring(1)));
-							int height = im.getHeight();
-							if (dispY + height > PAGE_TEXT_HEIGHT) {
-								column++;
-								dispY = TEXT_Y;
-							}
-							image.addDrawable(i, getDispX(), dispY);
-							dispY += height;
-						} catch (IOException e) {
-							e.printStackTrace();
-						}
-						break;
-					}
-			}
+			image = this.generatePagesBookContent(oldObject);
+		} else if (oldObject.getType() == Book.TYPE_PARAGRAPHS) {
+			paragraphDispY = TEXT_Y;
+			image = generateParagraphBookContent(oldObject);
+		}
 
 		SceneElement content = new SceneElement(image);
 		content.setId(oldObject.getId() + "_content");
@@ -268,70 +233,176 @@ public class BookImporter implements EAdElementImporter<Book, EAdScene> {
 		book.setReturnable(false);
 		book.getSceneElements().add(content);
 
-		if (oldObject.getType() == Book.TYPE_PARAGRAPHS) {
-			content.setPosition(Corner.TOP_LEFT, 0, 0);
-
-			SceneElementEv event = new SceneElementEv();
-			event.setId("restartBook");
-			event.addEffect(SceneElementEvType.FIRST_UPDATE, new ChangeFieldEf(
-					xField, new ValueOp(0)));
-			content.getEvents().add(event);
-
-			EAdCondition leftCondition = new OperationCond(xField, 0,
-					Comparator.LESS);
-			SceneElement leftArrow = getArrow(oldObject, content,
-					Book.RESOURCE_TYPE_ARROW_LEFT_NORMAL,
-					Book.RESOURCE_TYPE_ARROW_LEFT_OVER, BOOK_WIDTH,
-					leftCondition);
-			Point p = oldObject.getPreviousPagePoint();
-			int x = 10;
-			int y = 10;
-			if (p != null) {
-				x = p.x;
-				y = p.y;
-			}
-			leftArrow.setPosition(x, y);
-
-			EAdCondition rightCondition = EmptyCond.TRUE_EMPTY_CONDITION;
-			SceneElement rightArrow = getArrow(oldObject, content,
-					Book.RESOURCE_TYPE_ARROW_RIGHT_NORMAL,
-					Book.RESOURCE_TYPE_ARROW_RIGHT_OVER, -BOOK_WIDTH,
-					rightCondition);
-
-			p = oldObject.getNextPagePoint();
-			x = 790;
-			y = 10;
-			Corner c = Corner.TOP_RIGHT;
-			if (p != null) {
-				x = p.x;
-				y = p.y;
-				c = Corner.TOP_LEFT;
-			}
-
-			rightArrow.setPosition(new EAdPosition(c, x, y));
-
-			EAdCondition endCondition = new OperationCond(xField,
-					-(((column / 2) - 1) * BOOK_WIDTH + BOOK_WIDTH / 2),
-					Comparator.LESS);
-
-			ChangeSceneEf changeScene = new ChangeSceneEf();
-			changeScene.setId("endBook");
-			changeScene.setCondition(endCondition);
-			rightArrow.addBehavior(MouseGEv.MOUSE_LEFT_PRESSED, changeScene);
-			changeScene.getNextEffects().add(showInventory);
-
-			book.getSceneElements().add(leftArrow);
-			book.getSceneElements().add(rightArrow);
-		} else {
-			content.setPosition(Corner.CENTER, 400, 300);
-			content.setVarInitialValue(SceneElement.VAR_ENABLE, false);
-			ChangeSceneEf changeScene = new ChangeSceneEf();
-			changeScene.getNextEffects().add(showInventory);
-			book.getBackground().addBehavior(MouseGEv.MOUSE_LEFT_PRESSED,
-					changeScene);
-		}
+		addArrowsParagraphs(book, content, oldObject, xField, showInventory);
 
 		return book;
+	}
+
+	private void addArrowsParagraphs(ComplexSceneElement book,
+			SceneElement content, Book oldObject, EAdField<Integer> xField,
+			EAdEffect showInventory) {
+		content.setPosition(Corner.TOP_LEFT, 0, 0);
+
+		SceneElementEv event = new SceneElementEv();
+		event.setId("restartBook");
+		event.addEffect(SceneElementEvType.FIRST_UPDATE, new ChangeFieldEf(
+				xField, new ValueOp(0)));
+		content.getEvents().add(event);
+
+		EAdCondition leftCondition = new OperationCond(xField, 0,
+				Comparator.LESS);
+		SceneElement leftArrow = getArrow(oldObject, content,
+				Book.RESOURCE_TYPE_ARROW_LEFT_NORMAL,
+				Book.RESOURCE_TYPE_ARROW_LEFT_OVER, BOOK_WIDTH, leftCondition);
+		Point p = oldObject.getPreviousPagePoint();
+		int x = 10;
+		int y = 10;
+		if (p != null) {
+			x = p.x;
+			y = p.y;
+		}
+		leftArrow.setPosition(x, y);
+
+		EAdCondition rightCondition = EmptyCond.TRUE_EMPTY_CONDITION;
+		SceneElement rightArrow = getArrow(oldObject, content,
+				Book.RESOURCE_TYPE_ARROW_RIGHT_NORMAL,
+				Book.RESOURCE_TYPE_ARROW_RIGHT_OVER, -BOOK_WIDTH,
+				rightCondition);
+
+		p = oldObject.getNextPagePoint();
+		x = 790;
+		y = 10;
+		Corner c = Corner.TOP_RIGHT;
+		if (p != null) {
+			x = p.x;
+			y = p.y;
+			c = Corner.TOP_LEFT;
+		}
+
+		rightArrow.setPosition(new EAdPosition(c, x, y));
+
+		EAdCondition endCondition = new OperationCond(xField,
+				-(((paragraphColumn / 2) - 1) * BOOK_WIDTH + BOOK_WIDTH / 2),
+				Comparator.LESS);
+
+		ChangeSceneEf changeScene = new ChangeSceneEf();
+		changeScene.setId("endBook");
+		changeScene.setCondition(endCondition);
+		rightArrow.addBehavior(MouseGEv.MOUSE_LEFT_PRESSED, changeScene);
+		changeScene.getNextEffects().add(showInventory);
+
+		book.getSceneElements().add(leftArrow);
+		book.getSceneElements().add(rightArrow);
+
+	}
+
+	private EAdDrawable generateParagraphBookContent(Book oldObject) {
+		ComposedDrawable image = new ComposedDrawable();
+		for (BookParagraph p : oldObject.getParagraphs()) {
+			if (p.getContent() != null && !p.getContent().equals(""))
+				switch (p.getType()) {
+				case BookParagraph.TITLE:
+					addTextDrawable(p.getContent(), titleFont, titleEAdFont, 0,
+							TITLE_HEIGHT, TEXT_WIDTH);
+					break;
+				case BookParagraph.TEXT:
+					addTextDrawable(p.getContent(), textFont, textEAdFont, 0,
+							LINE_HEIGHT, TEXT_WIDTH);
+					break;
+				case BookParagraph.BULLET:
+					if (paragraphDispY + LINE_HEIGHT > PAGE_TEXT_HEIGHT) {
+						paragraphColumn++;
+						paragraphDispY = TEXT_Y;
+					}
+					CircleShape bullet = new CircleShape(0, 0,
+							BULLET_WIDTH / 3, 20);
+					bullet.setPaint(ColorFill.BLACK);
+					image.addDrawable(bullet, getDispX() + BULLET_WIDTH / 2,
+							paragraphDispY + LINE_HEIGHT / 2);
+					addTextDrawable(p.getContent(), textFont, textEAdFont,
+							BULLET_WIDTH, LINE_HEIGHT, TEXT_WIDTH_BULLET);
+					break;
+				case BookParagraph.IMAGE:
+					Image i = (Image) resourceImporter.getAssetDescritptor(
+							p.getContent(), Image.class);
+					try {
+						BufferedImage im = ImageIO.read(new File(
+								resourceImporter.getNewProjecFolder(), i
+										.getUri().toString().substring(1)));
+						int height = im.getHeight();
+						if (paragraphDispY + height > PAGE_TEXT_HEIGHT) {
+							paragraphColumn++;
+							paragraphDispY = TEXT_Y;
+						}
+						image.addDrawable(i, getDispX(), paragraphDispY);
+						paragraphDispY += height;
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+					break;
+				}
+		}
+		return image;
+	}
+
+	private EAdDrawable generatePagesBookContent(Book oldObject) {
+		ComposedDrawable image = new ComposedDrawable();
+		HtmlImageGenerator imgGenerator = new HtmlImageGenerator();
+		int x = 0;
+
+		for (BookPage page : oldObject.getPageURLs()) {
+			int leftMargin = page.getMarginStart();
+			int topMargin = page.getMarginTop();
+			int rightMargin = page.getMarginEnd();
+			int bottomMargin = page.getMarginBottom();
+			Image i = null;
+			switch (page.getType()) {
+			case BookPage.TYPE_IMAGE:
+				i = (Image) resourceImporter.getAssetDescritptor(page.getUri(),
+						Image.class);
+				break;
+			case BookPage.TYPE_RESOURCE:
+				URL url = resourceImporter.getInputStreamCreator().buildURL(
+						page.getUri());
+				if (url != null) {
+
+					// Generate image
+					int width = rightMargin - leftMargin > 0 ? rightMargin
+							- leftMargin : 800;
+					int height = bottomMargin - topMargin > 0 ? bottomMargin
+							- topMargin : 600;
+					imgGenerator.setSize(new Dimension(width, height));
+					imgGenerator.loadUrl(url);
+					BufferedImage img = imgGenerator.getBufferedImage();
+
+					String path = ResourceImporterImpl.DRAWABLE + "/"
+							+ page.getUri().replace('/', '_') + Math.round(Math.random() * 100)
+							+ ".png";
+					File f = new File(resourceImporter.getNewProjecFolder(),
+							path);
+					try {
+						ImageIO.write(img, "PNG", f);
+						i = new Image("@" + path);
+					} catch (IOException e) {
+						logger.error("Error writing image {}", e);
+					}
+				} else {
+					logger.warn("{} page not found.", page.getUri());
+				}
+				break;
+			case BookPage.TYPE_URL:
+				logger.warn("Remote URLs are no longer supported by eAdventure. {} wasn't imported." + page.getUri());
+				break;
+			}
+
+			if (i != null) {
+				image.addDrawable(i, x + leftMargin, topMargin);
+				x += BOOK_WIDTH;
+				paragraphColumn += 2;
+			}
+		}
+
+		return image;
 	}
 
 	private SceneElement getArrow(Book book, EAdSceneElement content,
@@ -369,19 +440,19 @@ public class BookImporter implements EAdElementImporter<Book, EAdScene> {
 			stringHandler.setString(caption.getText(), l);
 			caption.setFont(eadFont);
 			caption.setPadding(0);
-			if (dispY + lineHeight > PAGE_TEXT_HEIGHT) {
-				column++;
-				dispY = TEXT_Y;
+			if (paragraphDispY + lineHeight > PAGE_TEXT_HEIGHT) {
+				paragraphColumn++;
+				paragraphDispY = TEXT_Y;
 			}
 
-			image.addDrawable(caption, getDispX() + xOffset, dispY);
-			dispY += lineHeight;
+			image.addDrawable(caption, getDispX() + xOffset, paragraphDispY);
+			paragraphDispY += lineHeight;
 		}
 	}
 
 	private int getDispX() {
-		int offset = column / 2 * BOOK_WIDTH;
-		if (column % 2 == 0) {
+		int offset = paragraphColumn / 2 * BOOK_WIDTH;
+		if (paragraphColumn % 2 == 0) {
 			offset += TEXT_X_1;
 		} else
 			offset += TEXT_X_2;
