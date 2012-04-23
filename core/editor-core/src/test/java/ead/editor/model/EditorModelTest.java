@@ -152,7 +152,7 @@ public class EditorModelTest {
 	}
 
 	/**
-	 * Test loading editor-model from new format (create dusing testSave)
+	 * Test loading editor-model from new format (created using testSave)
 	 */
 	private void testLoad(File saveFile) throws IOException {
 		model.load(saveFile);
@@ -167,6 +167,11 @@ public class EditorModelTest {
 		// Import-load
 		File f = new File("/home/mfreire/code/e-ucm/e-adventure-1.x/games/PrimerosAuxiliosGame.ead");
 		emt.testImportLoad(f);
+        // Test save
+        File saveFile = new File("/tmp/saved.eap");
+        emt.testSave(saveFile);
+        // Test loading from previous save-file
+		emt.testLoad(saveFile);
 
 		// Simple search
 //		emt.testSimpleSearch();
