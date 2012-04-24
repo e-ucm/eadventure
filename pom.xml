@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>ead</groupId>
@@ -10,9 +10,9 @@
 	<prerequisites>
 		<maven>2.2.0</maven>
 	</prerequisites>
-    <!-- ===================================================================== -->
-    <!-- PROJECT INFO                                                          -->
-    <!-- ===================================================================== -->
+	<!-- ===================================================================== -->
+	<!-- PROJECT INFO -->
+	<!-- ===================================================================== -->
 	<name>e-Adventure Platform</name>
 	<description>
 		e-Adventure is an authoring tool for the creation of point-and-click games,
@@ -87,7 +87,7 @@
 		</developer>
 	</developers>
 	<!-- ===================================================================== -->
-	<!-- BUILD PROFILES                                                        -->
+	<!-- BUILD PROFILES -->
 	<!-- ===================================================================== -->
 	<profiles>
 		<profile>
@@ -114,13 +114,13 @@
 			</modules>
 		</profile>
 		<profile>
-            <!-- Build with third-party contributed modules -->
+			<!-- Build with third-party contributed modules -->
 			<id>withContrib</id>
 			<modules>
 			</modules>
 		</profile>
 		<profile>
-            <!-- Build with experimental modules -->
+			<!-- Build with experimental modules -->
 			<id>sandbox</id>
 			<modules>
 			</modules>
@@ -129,7 +129,7 @@
 			<id>editor-release</id>
 			<build>
 				<plugins>
-              <!-- Specific plugins to build an editor release -->
+					<!-- Specific plugins to build an editor release -->
 				</plugins>
 			</build>
 		</profile>
@@ -137,7 +137,7 @@
 			<id>engine-platform-release</id>
 			<build>
 				<plugins>
-              <!-- Specific plugins to build a desktop release -->
+					<!-- Specific plugins to build a desktop release -->
 				</plugins>
 			</build>
 		</profile>
@@ -145,7 +145,7 @@
 			<id>engine-desktop-release</id>
 			<build>
 				<plugins>
-              <!-- Specific plugins to build a desktop release -->
+					<!-- Specific plugins to build a desktop release -->
 				</plugins>
 			</build>
 		</profile>
@@ -153,7 +153,7 @@
 			<id>engine-applet-release</id>
 			<build>
 				<plugins>
-              <!-- Specific plugins to build an applet release -->
+					<!-- Specific plugins to build an applet release -->
 				</plugins>
 			</build>
 		</profile>
@@ -161,13 +161,13 @@
 			<id>engine-android-release</id>
 			<build>
 				<plugins>
-              <!-- Specific plugins to build an android release -->
+					<!-- Specific plugins to build an android release -->
 				</plugins>
 			</build>
 		</profile>
 	</profiles>
 	<!-- ====================================================================== -->
-	<!-- P R O P E R T I E S                                                    -->
+	<!-- P R O P E R T I E S -->
 	<!-- ====================================================================== -->
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -184,7 +184,7 @@
 		<launcher.numericalVersion>2.0.1.0</launcher.numericalVersion>
 	</properties>
 	<!-- ====================================================================== -->
-	<!-- B U I L D                                                              -->
+	<!-- B U I L D -->
 	<!-- ====================================================================== -->
 	<build>
 		<defaultGoal>install</defaultGoal>
@@ -202,17 +202,17 @@
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
 			</plugin>
-            <!-- Dependency manipulation (copy, unpack) and analysis. -->
+			<!-- Dependency manipulation (copy, unpack) and analysis. -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-dependency-plugin</artifactId>
 			</plugin>
-            <!-- Build a JAR of sources for use in IDEs and distribution to the repository. -->
+			<!-- Build a JAR of sources for use in IDEs and distribution to the repository. -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-source-plugin</artifactId>
 			</plugin>
-            <!-- Copy the resources to the output directory for including in the JAR. -->
+			<!-- Copy the resources to the output directory for including in the JAR. -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-resources-plugin</artifactId>
@@ -221,7 +221,7 @@
 					<encoding>${project.build.sourceEncoding}</encoding>
 				</configuration>
 			</plugin>
-            <!-- Manage the licenses in the source files. -->
+			<!-- Manage the licenses in the source files. -->
 			<plugin>
 				<inherited>false</inherited>
 				<groupId>com.mycila.maven-license-plugin</groupId>
@@ -238,9 +238,9 @@
 						<exclude>**/*.xml</exclude>
 						<exclude>**/*.properties</exclude>
 						<exclude>**/resources/**</exclude>
-                        <!-- ignore android-generated java files -->
+						<!-- ignore android-generated java files -->
 						<exclude>**/R.java</exclude>
-                        <!-- ignore gwt base website and generated files -->
+						<!-- ignore gwt base website and generated files -->
 						<exclude>core/engine-playn/war/**</exclude>
 						<exclude>core/engine-playn/gwt*/**</exclude>
 					</excludes>
@@ -268,7 +268,7 @@
 				</executions>
 			</plugin>
 			<!-- ====================================================================== -->
-			<!-- Report plugins                                               -->
+			<!-- Report plugins -->
 			<!-- ====================================================================== -->
 			<plugin>
 				<!-- Maven 3 reporting -->
@@ -335,24 +335,12 @@
 								<aggregate>true</aggregate>
 							</configuration>
 						</plugin>
-						<!-- find style deviations
-						<plugin>
-							<groupId>org.apache.maven.plugins</groupId>
-							<artifactId>maven-checkstyle-plugin</artifactId>
-							<version>2.5</version>
-							<dependencies>
-								<dependency>
-									<groupId>ead</groupId>
-									<artifactId>build-tools</artifactId>
-									<version>${project.version}</version>
-								</dependency>
-							</dependencies>
-						</plugin>
-						-->
-						<!--
-							Aggregate results from Checkstyle, Cobertura, Clover, Surefire,
-							PMD, CPD, FindBugs, Taglist reports.
-						-->
+						<!-- find style deviations <plugin> <groupId>org.apache.maven.plugins</groupId> 
+							<artifactId>maven-checkstyle-plugin</artifactId> <version>2.5</version> <dependencies> 
+							<dependency> <groupId>ead</groupId> <artifactId>build-tools</artifactId> 
+							<version>${project.version}</version> </dependency> </dependencies> </plugin> -->
+						<!-- Aggregate results from Checkstyle, Cobertura, Clover, Surefire, 
+							PMD, CPD, FindBugs, Taglist reports. -->
 						<plugin>
 							<groupId>org.codehaus.mojo</groupId>
 							<artifactId>dashboard-maven-plugin</artifactId>
@@ -402,14 +390,9 @@
 							<artifactId>maven-surefire-report-plugin</artifactId>
 							<version>2.8</version>
 						</plugin>
-						<!--
-							Currently Apache RAT maven plugin is in incubation phase and there
-							is no build in Apache Maven Plugins Snapshots Repository
-							<plugin>
-								<groupId>org.apache.rat</groupId>
-								<artifactId>apache-rat-plugin</artifactId>
-							</plugin>
-						-->
+						<!-- Currently Apache RAT maven plugin is in incubation phase and there 
+							is no build in Apache Maven Plugins Snapshots Repository <plugin> <groupId>org.apache.rat</groupId> 
+							<artifactId>apache-rat-plugin</artifactId> </plugin> -->
 						<plugin>
 							<groupId>org.codehaus.mojo</groupId>
 							<artifactId>versions-maven-plugin</artifactId>
@@ -450,16 +433,14 @@
 				</configuration>
 			</plugin>
 		</plugins>
-		<!--
-			Plugin Management contains plugin elements in much the same way, except
-			that rather than configuring plugin information for this particular project
-			build, it is intended to configure project builds that inherit from this
-			one.
-		-->
+		<!-- Plugin Management contains plugin elements in much the same way, except 
+			that rather than configuring plugin information for this particular project 
+			build, it is intended to configure project builds that inherit from this 
+			one. -->
 		<pluginManagement>
 			<plugins>
 				<!-- ====================================================================== -->
-				<!-- Plugin management                                 -->
+				<!-- Plugin management -->
 				<!-- ====================================================================== -->
 
 				<!-- generate executables for shaded jars -->
@@ -614,7 +595,7 @@
 		</site>
 	</distributionManagement>
 	<!-- ====================================================================== -->
-	<!-- R E P O S I T O R I E S                                                -->
+	<!-- R E P O S I T O R I E S -->
 	<!-- ====================================================================== -->
 	<repositories>
 		<repository>
@@ -628,10 +609,10 @@
 				<enabled>true</enabled>
 			</releases>
 		</repository>
-		<repository> 
+		<repository>
 			<id>caprica</id>
 			<name>Caprica Software</name>
-			<url>http://www.capricasoftware.co.uk/repo</url> 
+			<url>http://www.capricasoftware.co.uk/repo</url>
 		</repository>
 		<repository>
 			<id>mercurial maven repo</id>
@@ -660,6 +641,15 @@
 			<id>yoava</id>
 			<name>AOL yoava</name>
 			<url>http://yoava.artifactoryonline.com/yoava/repo</url>
+		</repository>
+		<!-- GLAS -->
+		<repository>
+			<id>glas-repo</id>
+			<url>https://github.com/anserran/glas/raw/master/glasrepository/releases</url>
+		</repository>
+		<repository>
+			<id>glas-snapshot-repo</id>
+			<url>https://github.com/anserran/glas/raw/master/glasrepository/snapshots</url>
 		</repository>
 
 	</repositories>
@@ -700,31 +690,20 @@
 		</pluginRepository>
 	</pluginRepositories>
 	<!-- ====================================================================== -->
-	<!-- D E P E N D E N C I E S                                                -->
+	<!-- D E P E N D E N C I E S -->
 	<!-- ====================================================================== -->
 	<dependencies>
-		<!--
-			All projects should declare a dependency on 
-			<dependency>
-				<groupId>org.slf4j</groupId>
-				<artifactId>slf4j-api</artifactId>
-			</dependency>
-			(or slf4j-android; which includes slf4j inside).
-			
-			Subprojects can choose their own implementations; they
-			will not conflict or propagate as long as they use
-			the <optional>true</optional> element. Example (basic logging):
-			<dependency>
-				<groupId>org.slf4j</groupId>
-				<artifactId>slf4j-simple</artifactId>
-				<optional>true</optional>
-			</dependency>
-			No implementation specified means no logs are generated
-		-->
+		<!-- All projects should declare a dependency on <dependency> <groupId>org.slf4j</groupId> 
+			<artifactId>slf4j-api</artifactId> </dependency> (or slf4j-android; which 
+			includes slf4j inside). Subprojects can choose their own implementations; 
+			they will not conflict or propagate as long as they use the <optional>true</optional> 
+			element. Example (basic logging): <dependency> <groupId>org.slf4j</groupId> 
+			<artifactId>slf4j-simple</artifactId> <optional>true</optional> </dependency> 
+			No implementation specified means no logs are generated -->
 	</dependencies>
 	<dependencyManagement>
 		<dependencies>
-			<!-- logging and variants -->			
+			<!-- logging and variants -->
 			<dependency>
 				<groupId>org.slf4j</groupId>
 				<artifactId>slf4j-api</artifactId>
@@ -747,16 +726,16 @@
 			</dependency>
 			<!-- vlcj Video -->
 			<dependency>
-				<groupId>uk.co.caprica</groupId> 
-				<artifactId>vlcj</artifactId> 
-				<version>2.0.0</version> 
+				<groupId>uk.co.caprica</groupId>
+				<artifactId>vlcj</artifactId>
+				<version>2.0.0</version>
 			</dependency>
 			<!-- JNA -->
 			<dependency>
 				<groupId>net.java.dev.jna</groupId>
 				<artifactId>jna</artifactId>
 				<version>3.4.0</version>
-			</dependency> 
+			</dependency>
 			<!-- Injection management -->
 			<dependency>
 				<groupId>com.google.inject</groupId>
@@ -780,14 +759,8 @@
 				<version>1.8.1</version>
 				<scope>test</scope>
 			</dependency>
-			<!--
-			<dependency>
-				<groupId>org.mockito</groupId>
-				<artifactId>mockito-all</artifactId>
-				<version>1.8.1</version>
-				<scope>test</scope>
-			</dependency>
-			-->
+			<!-- <dependency> <groupId>org.mockito</groupId> <artifactId>mockito-all</artifactId> 
+				<version>1.8.1</version> <scope>test</scope> </dependency> -->
 			<dependency>
 				<groupId>org.jmock</groupId>
 				<artifactId>jmock-junit4</artifactId>
@@ -799,6 +772,23 @@
 				<groupId>gui.ava</groupId>
 				<artifactId>html2image</artifactId>
 				<version>0.9</version>
+			</dependency>
+
+			<!-- GLAS -->
+			<dependency>
+				<groupId>es.eucm.glas</groupId>
+				<artifactId>glas-model</artifactId>
+				<version>0.1-SNAPSHOT</version>
+			</dependency>
+			<dependency>
+				<groupId>es.eucm.glas</groupId>
+				<artifactId>glas-tracker</artifactId>
+				<version>0.1-SNAPSHOT</version>
+			</dependency>
+			<dependency>
+				<groupId>es.eucm.glas</groupId>
+				<artifactId>glas-tracker-java</artifactId>
+				<version>0.1-SNAPSHOT</version>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>

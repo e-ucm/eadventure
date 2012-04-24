@@ -166,7 +166,7 @@ public class EditorModelTest {
 		logger.info("Starting test run...");
 
 		// Import-load
-		File f = new File("/home/mfreire/code/e-ucm/e-adventure-1.x/games/PrimerosAuxiliosGame.ead");
+		File f = new File("C:/Users/anserran/Desktop/eAdventure/juegos/test/firstAidGame.ead");
 		emt.testImportLoad(f);
         // Test save
         File saveFile = new File("/tmp/saved.eap");

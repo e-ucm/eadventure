@@ -54,5 +54,15 @@
 			<groupId>org.jmock</groupId>
 			<artifactId>jmock-junit4</artifactId>
 		</dependency>
+		
+		<!-- GLAS -->
+		<dependency>
+			<groupId>es.eucm.glas</groupId>
+			<artifactId>glas-model</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>es.eucm.glas</groupId>
+			<artifactId>glas-tracker</artifactId>
+		</dependency>
 	</dependencies>
 </project>

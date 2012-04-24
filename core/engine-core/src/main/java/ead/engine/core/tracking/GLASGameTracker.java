@@ -1,3 +1,40 @@
+/**
+ * eAdventure (formerly <e-Adventure> and <e-Game>) is a research project of the
+ *    <e-UCM> research group.
+ *
+ *    Copyright 2005-2010 <e-UCM> research group.
+ *
+ *    You can access a list of all the contributors to eAdventure at:
+ *          http://e-adventure.e-ucm.es/contributors
+ *
+ *    <e-UCM> is a research group of the Department of Software Engineering
+ *          and Artificial Intelligence at the Complutense University of Madrid
+ *          (School of Computer Science).
+ *
+ *          C Profesor Jose Garcia Santesmases sn,
+ *          28040 Madrid (Madrid), Spain.
+ *
+ *          For more info please visit:  <http://e-adventure.e-ucm.es> or
+ *          <http://www.e-ucm.es>
+ *
+ * ****************************************************************************
+ *
+ *  This file is part of eAdventure, version 2.0
+ *
+ *      eAdventure is free software: you can redistribute it and/or modify
+ *      it under the terms of the GNU Lesser General Public License as published by
+ *      the Free Software Foundation, either version 3 of the License, or
+ *      (at your option) any later version.
+ *
+ *      eAdventure is distributed in the hope that it will be useful,
+ *      but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *      MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *      GNU Lesser General Public License for more details.
+ *
+ *      You should have received a copy of the GNU Lesser General Public License
+ *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
 package ead.engine.core.tracking;
 
 import com.google.inject.Inject;
@@ -12,10 +49,10 @@ import ead.engine.core.input.InputAction;
 import ead.engine.core.input.actions.DragInputAction;
 import ead.engine.core.input.actions.KeyInputAction;
 import ead.engine.core.input.actions.MouseInputAction;
-import es.eucm.glas.model.games.traces.HighLevelTrace;
-import es.eucm.glas.model.games.traces.LowLevelTrace;
-import es.eucm.glas.model.games.traces.LowLevelTrace.Action;
-import es.eucm.glas.model.games.traces.LowLevelTrace.Device;
+import es.eucm.glas.model.games.traces.LogicTrace;
+import es.eucm.glas.model.games.traces.ActionTrace;
+import es.eucm.glas.model.games.traces.ActionTrace.Action;
+import es.eucm.glas.model.games.traces.ActionTrace.Device;
 import es.eucm.glas.tracker.GLASTracker;
 
 @Singleton
@@ -40,20 +77,20 @@ public class GLASGameTracker extends AbstractGameTracker {
 
 	@Override
 	protected void trackImpl(InputAction<?> action, DrawableGO<?> target) {
-		LowLevelTrace t = convertToTrace(action, target);
+		ActionTrace t = convertToTrace(action, target);
 		tracker.track(t);
 	}
 
-	private LowLevelTrace convertToTrace(InputAction<?> action,
+	private ActionTrace convertToTrace(InputAction<?> action,
 			DrawableGO<?> target) {
-		LowLevelTrace trace = new LowLevelTrace();
+		ActionTrace trace = new ActionTrace();
 		trace.setTarget(((EAdElement) target.getElement()).getId());
 		trace.setTimeStamp(System.currentTimeMillis() - initTimeStamp);
 
 		if (action instanceof MouseInputAction) {
 			MouseInputAction mouseAction = (MouseInputAction) action;
 			trace.setDevice(Device.MOUSE.ordinal());
-			LowLevelTrace.Action a = LowLevelTrace.Action.MOVED;
+			ActionTrace.Action a = ActionTrace.Action.MOVED;
 			switch (mouseAction.getType()) {
 			case PRESSED:
 				a = Action.PRESSED;
@@ -163,12 +200,12 @@ public class GLASGameTracker extends AbstractGameTracker {
 
 	@Override
 	protected void trackImpl(EffectGO<?> effect) {
-		HighLevelTrace t = convertToTrace(effect);
+		LogicTrace t = convertToTrace(effect);
 		tracker.track(t);
 	}
 
-	private HighLevelTrace convertToTrace(EffectGO<?> effect) {
-		HighLevelTrace trace = new HighLevelTrace();
+	private LogicTrace convertToTrace(EffectGO<?> effect) {
+		LogicTrace trace = new LogicTrace();
 		trace.setTimeStamp(System.currentTimeMillis() - initTimeStamp);
 		trace.setType(effect.getEffect().getClass().getName());
 		// FIXME more data

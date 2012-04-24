@@ -1,67 +1,72 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-  <modelVersion>4.0.0</modelVersion>
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
 
-  <parent>
-    <groupId>ead</groupId>
-    <version>2.0.1-SNAPSHOT</version>
-    <artifactId>base</artifactId>
-    <relativePath>../../</relativePath>
-  </parent>
-  <groupId>ead</groupId>
-  <version>2.0.1-SNAPSHOT</version>
-  <artifactId>engine-java</artifactId>
-  <packaging>jar</packaging>
-  <name>e-Adventure Engine Java</name>
-  <description>
+	<parent>
+		<groupId>ead</groupId>
+		<version>2.0.1-SNAPSHOT</version>
+		<artifactId>base</artifactId>
+		<relativePath>../../</relativePath>
+	</parent>
+	<groupId>ead</groupId>
+	<version>2.0.1-SNAPSHOT</version>
+	<artifactId>engine-java</artifactId>
+	<packaging>jar</packaging>
+	<name>e-Adventure Engine Java</name>
+	<description>
     Shared code for use in java-based (applet or desktop) engines
   </description>
-  <dependencies>
+	<dependencies>
 
-    <dependency>
-      <groupId>ead</groupId>
-      <artifactId>engine-core</artifactId>
-      <version>${project.version}</version>
-    </dependency>
+		<dependency>
+			<groupId>ead</groupId>
+			<artifactId>engine-core</artifactId>
+			<version>${project.version}</version>
+		</dependency>
 
-    <!-- external -->
-    <dependency>
-      <groupId>org.slf4j</groupId>
-      <artifactId>slf4j-api</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.slf4j</groupId>
-      <artifactId>slf4j-simple</artifactId>
-      <optional>true</optional>
-    </dependency>
-    <dependency>
-      <groupId>javax.media</groupId>
-      <artifactId>jmf</artifactId>
-      <version>2.1.1e</version>
-    </dependency>
+		<!-- external -->
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-simple</artifactId>
+			<optional>true</optional>
+		</dependency>
+		<dependency>
+			<groupId>javax.media</groupId>
+			<artifactId>jmf</artifactId>
+			<version>2.1.1e</version>
+		</dependency>
 
-    <!-- Currently unused
-    <dependency>
-        <groupId>com.kitfox.svg</groupId>
-        <artifactId>svg-salamander-tiny</artifactId>
-        <version>1.0.0</version>
-    </dependency>
-    -->
+		<!-- Currently unused <dependency> <groupId>com.kitfox.svg</groupId> <artifactId>svg-salamander-tiny</artifactId> 
+			<version>1.0.0</version> </dependency> -->
 
-    <!-- tests -->
-    <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.mockito</groupId>
-      <artifactId>mockito-core</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.jmock</groupId>
-      <artifactId>jmock-junit4</artifactId>
-    </dependency>
+		<!-- tests -->
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.mockito</groupId>
+			<artifactId>mockito-core</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.jmock</groupId>
+			<artifactId>jmock-junit4</artifactId>
+		</dependency>
 
-  </dependencies>
+		<!-- GLAS -->
+		<dependency>
+			<groupId>es.eucm.glas</groupId>
+			<artifactId>glas-model</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>es.eucm.glas</groupId>
+			<artifactId>glas-tracker-java</artifactId>
+		</dependency>
+
+	</dependencies>
 </project>
