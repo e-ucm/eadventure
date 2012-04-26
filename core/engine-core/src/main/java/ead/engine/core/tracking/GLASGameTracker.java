@@ -49,11 +49,13 @@ import ead.engine.core.input.InputAction;
 import ead.engine.core.input.actions.DragInputAction;
 import ead.engine.core.input.actions.KeyInputAction;
 import ead.engine.core.input.actions.MouseInputAction;
-import es.eucm.glas.model.games.traces.LogicTrace;
+import es.eucm.glas.model.TrackData;
 import es.eucm.glas.model.games.traces.ActionTrace;
 import es.eucm.glas.model.games.traces.ActionTrace.Action;
 import es.eucm.glas.model.games.traces.ActionTrace.Device;
+import es.eucm.glas.model.games.traces.LogicTrace;
 import es.eucm.glas.tracker.GLASTracker;
+import es.eucm.glas.tracker.TrackDataListener;
 
 @Singleton
 public class GLASGameTracker extends AbstractGameTracker {
@@ -72,7 +74,15 @@ public class GLASGameTracker extends AbstractGameTracker {
 		String serverURL = model.getProperties().get(SERVER_URL);
 		String gameKey = model.getProperties().get(GAME_KEY);
 		initTimeStamp = System.currentTimeMillis();
-		tracker.startTracking(serverURL, gameKey);
+		tracker.startTracking(serverURL, gameKey, new TrackDataListener(){
+
+			@Override
+			public void trackDataReceived(TrackData trackData) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+		});
 	}
 
 	@Override

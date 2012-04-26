@@ -89,10 +89,12 @@ import ead.engine.core.platform.assets.specialassetrenderers.PlayNVideoRenderer;
 import ead.engine.core.platform.rendering.PlayNFilterFactory;
 import ead.engine.core.platform.rendering.filters.FilterFactory;
 import ead.engine.core.plugins.PluginHandler;
-import ead.engine.core.tracking.DefaultGameTracker;
+import ead.engine.core.tracking.GLASGameTracker;
 import ead.engine.core.tracking.GameTracker;
 import ead.engine.core.trajectories.TrajectoryFactory;
 import ead.engine.core.trajectories.TrajectoryFactoryImpl;
+import es.eucm.glas.tracker.GLASTracker;
+import es.eucm.glas.tracker.gwttracker.GLASGwtTracker;
 
 public class BasicGameModule extends AbstractGinModule {
 
@@ -127,7 +129,10 @@ public class BasicGameModule extends AbstractGinModule {
 		}).to(PlayNFilterFactory.class);
 		
 		// Tracking
-		bind(GameTracker.class).to(DefaultGameTracker.class).in(Singleton.class);
+//		bind(GameTracker.class).to(DefaultGameTracker.class).in(Singleton.class);
+		bind(GLASTracker.class).to(GLASGwtTracker.class).in(Singleton.class);
+		bind(GameTracker.class).to(GLASGameTracker.class).in(Singleton.class);
+		
 
 	}
 
