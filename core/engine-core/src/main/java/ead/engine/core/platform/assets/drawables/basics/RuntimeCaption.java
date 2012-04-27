@@ -142,7 +142,6 @@ public class RuntimeCaption<GraphicContext> extends
 		this.stringsReader = stringsReader;
 		this.assetHandler = assetHandler;
 		this.gui = gui;
-		logger.info("New instance");
 	}
 
 	/*

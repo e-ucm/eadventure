@@ -84,7 +84,8 @@ public class ActiveAreaImporter extends ElementImporter<ActiveArea> {
 	public EAdSceneElement convert(ActiveArea oldObject, Object object) {
 		// Reference to the active area
 		SceneElement newActiveAreaReference = (SceneElement) object;
-		newActiveAreaReference.setId(oldObject.getId() + "_ActiveArea");
+		newActiveAreaReference.getDefinition().setId(oldObject.getId() + "_ActiveArea");
+		newActiveAreaReference.setId(oldObject.getId() + "_ActiveArea_ref");
 
 		SceneElementDef newActiveArea = (SceneElementDef) newActiveAreaReference
 				.getDefinition();
