@@ -81,5 +81,7 @@ public interface Game {
 	void updateInitialTransformation();
 	
 	EAdTransformation getInitialTransformation();
+	
+	EAdChapter getCurrentChapter();
 
 }

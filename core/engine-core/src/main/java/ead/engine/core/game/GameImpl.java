@@ -76,6 +76,8 @@ public class GameImpl implements Game {
 	private AssetHandler assetHandler;
 
 	private EAdAdventureModel adventure;
+	
+	private EAdChapter currentChapter;
 
 	private GUI gui;
 
@@ -248,6 +250,7 @@ public class GameImpl implements Game {
 	@Override
 	public void setGame(EAdAdventureModel model, EAdChapter eAdChapter) {
 		logger.info("Setting the game");
+		currentChapter = eAdChapter;
 		gameState.getValueMap().setValue(SystemFields.GAME_WIDTH,
 				model.getGameWidth());
 		gameState.getValueMap().setValue(SystemFields.GAME_HEIGHT,
@@ -323,6 +326,10 @@ public class GameImpl implements Game {
 
 	public EAdTransformation getInitialTransformation() {
 		return initialTransformation;
+	}
+	
+	public EAdChapter getCurrentChapter(){
+		return currentChapter;
 	}
 
 }
