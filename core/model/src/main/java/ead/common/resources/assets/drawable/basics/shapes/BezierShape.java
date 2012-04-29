@@ -63,6 +63,7 @@ public class BezierShape implements EAdShape, Cloneable {
 		points = new EAdListImpl<Integer>(Integer.class);
 		paint = Paint.TRANSPARENT;
 		paintAsVector = false;
+		closed = false;
 	}
 
 	public BezierShape(EAdPaint paint) {
@@ -147,9 +148,9 @@ public class BezierShape implements EAdShape, Cloneable {
 		points.add(p.getX());
 		points.add(p.getY());
 	}
-	
-	private void checkMoveTo(){
-		if ( points.size() == 0 ){
+
+	private void checkMoveTo() {
+		if (points.size() == 0) {
 			points.add(0);
 			points.add(0);
 		}
@@ -216,16 +217,21 @@ public class BezierShape implements EAdShape, Cloneable {
 		for (Integer i : points) {
 			pointsText += i + ";";
 		}
-		return closed + (paint != null ? paint.toStringData() : "") + ";"
+		return this.paintAsVector + ";" + closed + ";"
+				+ (paint != null ? paint.toStringData() : "") + ";"
 				+ pointsText;
 	}
 
 	public boolean equals(Object o) {
 		if (o instanceof BezierShape) {
 			BezierShape b = (BezierShape) o;
-			return o.toString().equals(b.toString());
+			return this.toString().equals(b.toString());
 		}
 		return false;
+	}
+
+	public void setPoints(EAdList<Integer> points) {
+		this.points = points;
 	}
 
 }

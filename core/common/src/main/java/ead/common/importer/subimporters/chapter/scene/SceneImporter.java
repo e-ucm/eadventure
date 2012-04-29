@@ -173,8 +173,8 @@ public class SceneImporter implements EAdElementImporter<Scene, BasicScene> {
 
 	private void importSceneElements(BasicScene scene, Scene oldScene,
 			EAdChapter chapter) {
-		int substract = importExits(1, scene, oldScene.getExits());
-		importAciveAreas(substract, scene, oldScene.getActiveAreas());
+		int substract = importAciveAreas(1, scene, oldScene.getActiveAreas());
+		importExits(substract, scene, oldScene.getExits());
 		importReferences(scene, oldScene.getItemReferences(), chapter);
 		importReferences(scene, oldScene.getAtrezzoReferences(), chapter);
 		importReferences(scene, oldScene.getCharacterReferences(), chapter);
@@ -257,7 +257,7 @@ public class SceneImporter implements EAdElementImporter<Scene, BasicScene> {
 
 	}
 
-	private void importAciveAreas(int substract, BasicScene scene,
+	private int importAciveAreas(int substract, BasicScene scene,
 			List<ActiveArea> list) {
 		int i = 0;
 		for (ActiveArea a : list) {
@@ -271,6 +271,8 @@ public class SceneImporter implements EAdElementImporter<Scene, BasicScene> {
 			if (activeArea != null)
 				scene.getSceneElements().add(activeArea);
 		}
+		return substract -i;
+		
 
 	}
 
@@ -282,10 +284,11 @@ public class SceneImporter implements EAdElementImporter<Scene, BasicScene> {
 					- substract - i);
 			se = exitsImporter.convert(e, se);
 			i++;
-			if (se != null)
+			if (se != null){
 				scene.getSceneElements().add(se);
+			}
 		}
-		return i;
+		return substract - i;
 
 	}
 

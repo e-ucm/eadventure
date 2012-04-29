@@ -77,4 +77,12 @@ public class TriggerMacroEf extends AbstractEffect implements EAdEffect {
 		return conditions;
 	}
 
+	public void setMacros(EAdList<EffectsMacro> macros) {
+		this.macros = macros;
+	}
+
+	public void setConditions(EAdList<EAdCondition> conditions) {
+		this.conditions = conditions;
+	}
+
 }

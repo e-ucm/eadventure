@@ -643,10 +643,14 @@ public class ActionImporter implements EAdElementImporter<Action, EAdAction> {
 
 		EffectsMacro macro = effectsImporterFactory.getMacroEffects(a
 				.getEffects());
-		ModifyInventoryEf removeFromInventory = new ModifyInventoryEf(actor,
-				InventoryEffectAction.REMOVE_FROM_INVENTORY);
-		if (a.getType() == Action.GIVE_TO && !hasCancelEffect(a.getEffects())) {
-			macro.getEffects().add(removeFromInventory);
+
+		if (macro != null) {
+			ModifyInventoryEf removeFromInventory = new ModifyInventoryEf(
+					actor, InventoryEffectAction.REMOVE_FROM_INVENTORY);
+			if (a.getType() == Action.GIVE_TO
+					&& !hasCancelEffect(a.getEffects())) {
+				macro.getEffects().add(removeFromInventory);
+			}
 		}
 		effectTrigger.putMacro(macro, condition);
 

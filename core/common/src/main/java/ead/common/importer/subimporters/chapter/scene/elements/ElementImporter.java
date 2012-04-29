@@ -38,6 +38,7 @@
 package ead.common.importer.subimporters.chapter.scene.elements;
 
 import ead.common.EAdElementImporter;
+import ead.common.importer.EAdventure1XImporter;
 import ead.common.importer.annotation.ImportAnnotator;
 import ead.common.importer.interfaces.EAdElementFactory;
 import ead.common.importer.subimporters.chapter.scene.ShapedElementImporter;
@@ -59,6 +60,7 @@ import ead.common.model.elements.variables.operations.BooleanOp;
 import ead.common.model.predef.effects.MoveActiveElementToMouseEf;
 import ead.common.model.predef.effects.SpeakSceneElementEf;
 import ead.common.params.fills.ColorFill;
+import ead.common.params.fills.Paint;
 import ead.common.params.text.EAdString;
 import ead.common.resources.assets.drawable.basics.EAdShape;
 import ead.common.util.EAdRectangle;
@@ -86,8 +88,7 @@ public abstract class ElementImporter<T> implements
 
 	public ElementImporter(EAdElementFactory factory,
 			EAdElementImporter<Conditions, EAdCondition> conditionsImporter,
-			StringHandler stringHandler,
-			ImportAnnotator annotator) {
+			StringHandler stringHandler, ImportAnnotator annotator) {
 		this.factory = factory;
 		this.conditionsImporter = conditionsImporter;
 		this.stringHandler = stringHandler;
@@ -138,7 +139,13 @@ public abstract class ElementImporter<T> implements
 	protected void setShape(SceneElement sceneElement, Rectangle exit) {
 		EAdShape shape = ShapedElementImporter.importShape(exit);
 		sceneElement.setPosition(exit.getX(), exit.getY());
-		shape.setPaint(ColorFill.TRANSPARENT);
+		if (EAdventure1XImporter.IMPORTER_DEBUG) {
+			ColorFill c = new ColorFill(ColorFill.RED.toString());
+			c.setAlpha(100);
+			shape.setPaint(c);
+		} else {
+			shape.setPaint(Paint.TRANSPARENT);
+		}
 
 		sceneElement
 				.getDefinition()
@@ -180,13 +187,15 @@ public abstract class ElementImporter<T> implements
 			SpeakEf showDescription = null;
 			if (factory.isFirstPerson()) {
 				showDescription = new SpeakEf(shortDescription);
-				
 
 			} else {
 				showDescription = new SpeakSceneElementEf(shortDescription);
-				((SpeakSceneElementEf) showDescription).setElement(factory.getElementById(Player.IDENTIFIER));
+				((SpeakSceneElementEf) showDescription).setElement(factory
+						.getElementById(Player.IDENTIFIER));
 			}
-			TextEffectImporter.setSpeakEffect(showDescription, null, factory.getCurrentOldChapterModel().getPlayer(), factory, stringHandler);
+			TextEffectImporter.setSpeakEffect(showDescription, null, factory
+					.getCurrentOldChapterModel().getPlayer(), factory,
+					stringHandler);
 			sceneElement.addBehavior(MouseGEv.MOUSE_LEFT_PRESSED,
 					showDescription);
 		}

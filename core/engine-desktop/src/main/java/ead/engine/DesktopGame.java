@@ -37,6 +37,14 @@
 
 package ead.engine;
 
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
@@ -48,8 +56,11 @@ import ead.common.model.elements.BasicChapter;
 import ead.common.model.elements.EAdAdventureModel;
 import ead.common.model.elements.scene.EAdScene;
 import ead.common.params.text.EAdString;
+import ead.common.reader.EAdAdventureDOMModelReader;
 import ead.common.util.EAdURI;
 import ead.common.util.StringHandler;
+import ead.common.writer.DOMWriter;
+import ead.common.writer.EAdAdventureModelWriter;
 import ead.elementfactories.EAdElementsFactory;
 import ead.engine.core.debuggers.Debugger;
 import ead.engine.core.debuggers.DebuggerHandler;
@@ -62,12 +73,14 @@ import ead.engine.core.platform.module.DesktopModule;
 import ead.engine.core.platform.modules.BasicGameModule;
 
 public class DesktopGame {
-	
+
 	private EAdAdventureModel model;
 
 	private Injector injector;
 
 	private String file;
+
+	private boolean writeAndRead = true;
 
 	public DesktopGame(EAdScene scene) {
 		this(scene, null);
@@ -94,7 +107,12 @@ public class DesktopGame {
 	public void init(EAdAdventureModel model, Map<EAdString, String> strings,
 			List<Class<? extends Debugger>> debuggers) {
 
-		this.model = model;
+		if (writeAndRead) {
+			this.model = writeAndRead(model);
+		} else {
+			this.model = model;
+		}
+		
 		injector = Guice.createInjector(new DesktopAssetHandlerModule(),
 				new DesktopModule(), new BasicGameModule());
 
@@ -106,14 +124,13 @@ public class DesktopGame {
 
 		StringHandler stringHandler = injector.getInstance(StringHandler.class);
 		stringHandler.addStrings(strings);
-		
-		
+
 	}
 
 	public void launch(int ticksPerSecond, boolean fullscreen) {
 		Game game = injector.getInstance(Game.class);
 		game.setGame(model, model.getChapters().get(0));
-		
+
 		final GameController launcher = injector
 				.getInstance(GameController.class);
 		final EAdURI uri = (file == null) ? null : new EAdURI(file);
@@ -131,9 +148,59 @@ public class DesktopGame {
 			}
 		}.start();
 	}
-	
-	public EAdAdventureModel getModel(){
+
+	public EAdAdventureModel getModel() {
 		return model;
+	}
+
+	public EAdAdventureModel writeAndRead(EAdAdventureModel model) {
+		File resultFile = null;
+		EAdAdventureModelWriter writer = null;
+		EAdAdventureDOMModelReader reader = null;
+
+		try {
+			resultFile = File.createTempFile("data", ".xml");
+			resultFile.deleteOnExit();
+			writer = new EAdAdventureModelWriter();
+			reader = new EAdAdventureDOMModelReader();
+		} catch (IOException e) {
+
+		}
+
+		FileOutputStream out = null;
+		try {
+			out = new FileOutputStream(resultFile);
+			assertTrue(writer.write(model, out));
+			assertTrue("DOM Writer had errors.", !DOMWriter.getError());
+		} catch (FileNotFoundException e) {
+			fail("Temp file impossible to be created to write XML.");
+		} finally {
+			if (out != null) {
+				try {
+					out.close();
+				} catch (IOException e) {
+
+				}
+			}
+		}
+
+		FileInputStream in = null;
+		try {
+			in = new FileInputStream(resultFile);
+			EAdAdventureModel model2 = reader.read(in);
+			return model2;
+		} catch (FileNotFoundException e) {
+
+		} finally {
+			if (in != null) {
+				try {
+					in.close();
+				} catch (IOException e) {
+
+				}
+			}
+		}
+		return null;
 	}
 
 }

@@ -40,6 +40,7 @@ package ead.common.importer.subimporters.chapter.scene.elements;
 import com.google.inject.Inject;
 
 import ead.common.EAdElementImporter;
+import ead.common.importer.EAdventure1XImporter;
 import ead.common.importer.annotation.ImportAnnotator;
 import ead.common.importer.interfaces.EAdElementFactory;
 import ead.common.importer.subimporters.chapter.ActionImporter;
@@ -52,6 +53,8 @@ import ead.common.model.elements.scene.EAdSceneElement;
 import ead.common.model.elements.scene.EAdSceneElementDef;
 import ead.common.model.elements.scenes.SceneElementDef;
 import ead.common.model.elements.scenes.SceneElement;
+import ead.common.params.fills.ColorFill;
+import ead.common.params.fills.Paint;
 import ead.common.resources.assets.drawable.basics.shapes.BezierShape;
 import ead.common.util.StringHandler;
 import es.eucm.eadventure.common.data.chapter.Action;
@@ -116,6 +119,14 @@ public class ActiveAreaImporter extends ElementImporter<ActiveArea> {
 
 	private void setShape(EAdSceneElementDef newActiveArea, ActiveArea oldObject) {
 		BezierShape shape = ShapedElementImporter.importShape(oldObject);
+		if ( EAdventure1XImporter.IMPORTER_DEBUG ){
+			ColorFill c = new ColorFill( ColorFill.GREEN.toString() );
+			c.setAlpha(100);
+			shape.setPaint(c);
+		}
+		else {
+			shape.setPaint(Paint.TRANSPARENT);
+		}
 
 		newActiveArea.getResources().addAsset(newActiveArea.getInitialBundle(),
 				SceneElementDef.appearance, shape);

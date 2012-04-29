@@ -40,21 +40,17 @@ package ead.common.test.readwrite;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
-import org.junit.Before;
 import org.junit.Test;
 
-import ead.common.reader.EAdAdventureDOMModelReader;
 import ead.common.reader.extra.ObjectFactory;
 import ead.common.reader.visitors.NodeVisitor;
 import ead.common.test.CompleteModel;
 import ead.common.writer.DOMWriter;
-import ead.common.writer.EAdAdventureModelWriter;
 
 /**
  * Test for general writing/reading on a complete model (with all possibles
@@ -64,25 +60,7 @@ import ead.common.writer.EAdAdventureModelWriter;
  * @author anserran
  * 
  */
-public class ReadWriteCompleteModel {
-
-	private File resultFile;
-
-	private EAdAdventureModelWriter writer;
-
-	private EAdAdventureDOMModelReader reader;
-
-	@Before
-	public void setUp() {
-		try {
-			resultFile = File.createTempFile("data", ".xml");
-			resultFile.deleteOnExit();
-			writer = new EAdAdventureModelWriter();
-			reader = new EAdAdventureDOMModelReader();
-		} catch (IOException e) {
-
-		}
-	}
+public class ReadWriteCompleteModel extends ReadWriteTest {
 
 	@Test
 	public void testWrite() {
