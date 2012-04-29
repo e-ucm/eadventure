@@ -58,6 +58,7 @@ import ead.common.resources.assets.drawable.compounds.EAdComposedDrawable;
 import ead.common.resources.assets.text.BasicFont;
 import ead.common.resources.assets.text.EAdFont;
 import ead.common.util.StringHandler;
+import ead.engine.core.game.Game;
 import ead.engine.core.game.GameState;
 import ead.engine.core.gameobjects.factories.SceneElementGOFactory;
 import ead.engine.core.gameobjects.go.DrawableGO;
@@ -84,6 +85,8 @@ public class FieldsDebugger implements Debugger {
 	private StringHandler stringHandler;
 
 	private SceneElementGOFactory gameObjectFactory;
+	
+	private Game game;
 
 	private EAdFont font = new BasicFont(12);
 
@@ -91,23 +94,22 @@ public class FieldsDebugger implements Debugger {
 
 	@Inject
 	public FieldsDebugger(InputHandler inputHandler, GameState gameState,
-			StringHandler stringHandler, SceneElementGOFactory gameObjectFactory) {
+			StringHandler stringHandler, SceneElementGOFactory gameObjectFactory, Game game) {
 		this.inputHandler = inputHandler;
 		this.stringHandler = stringHandler;
 		this.gameObjectFactory = gameObjectFactory;
 		this.gameState = gameState;
+		this.game = game;
 		gos = new ArrayList<DrawableGO<?>>();
-
 	}
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@Override
 	public List<DrawableGO<?>> getGameObjects() {
-		if (inputHandler.getGameObjectUnderPointer() != null
-				&& inputHandler.getGameObjectUnderPointer().getElement() != element
-				&& inputHandler.getGameObjectUnderPointer().getElement() instanceof EAdElement) {
-			element = (EAdElement) inputHandler.getGameObjectUnderPointer()
-					.getElement();
+		GameObject<?> newGO = inputHandler.getGameObjectUnderPointer();
+		EAdElement newElement = (EAdElement) (newGO != null ? newGO.getElement() : game.getCurrentChapter());
+		if ( newElement != element) {
+			element = newElement;
 			gos.clear();
 			if (element != null) {
 				Map<EAdVarDef<?>, Object> fields = gameState.getValueMap()

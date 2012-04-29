@@ -73,6 +73,7 @@ public class RandomGO extends AbstractEffectGO<RandomEf>{
 				gameState.addEffect(entry.getKey());
 				return;
 			}
+			totalProbability+= entry.getValue();
 		}
 	}
 

@@ -55,8 +55,8 @@ import ead.common.model.elements.EAdChapter;
 import ead.common.model.elements.EAdCondition;
 import ead.common.model.elements.EAdEffect;
 import ead.common.model.elements.scene.EAdSceneElementDef;
-import ead.common.model.elements.variables.EAdField;
 import ead.common.model.elements.variables.BasicField;
+import ead.common.model.elements.variables.EAdField;
 import ead.common.model.elements.variables.SystemFields;
 import ead.common.model.elements.variables.VarDef;
 import ead.common.resources.assets.drawable.basics.EAdImage;
@@ -89,8 +89,7 @@ public class EAdElementFactoryImpl implements EAdElementFactory {
 
 	private Injector injector;
 
-	public static Map<Class<?>, Class<? extends GenericImporter<?, ?>>> importerMap 
-		= new HashMap<Class<?>, Class<? extends GenericImporter<?, ?>>>();
+	public static Map<Class<?>, Class<? extends GenericImporter<?, ?>>> importerMap = new HashMap<Class<?>, Class<? extends GenericImporter<?, ?>>>();
 
 	@Inject
 	public EAdElementFactoryImpl(
@@ -135,8 +134,8 @@ public class EAdElementFactoryImpl implements EAdElementFactory {
 	}
 
 	public Map<String, EAdElement> getChapterElements() {
-		Map<String, EAdElement> chapterElements = elements.get(
-			currentChapter.getId());
+		Map<String, EAdElement> chapterElements = elements.get(currentChapter
+				.getId());
 
 		if (chapterElements == null) {
 			chapterElements = new HashMap<String, EAdElement>();
@@ -153,10 +152,12 @@ public class EAdElementFactoryImpl implements EAdElementFactory {
 	}
 
 	@SuppressWarnings("unchecked")
-	private <S, I extends EAdElement> GenericImporter<S, I> findGenericImporter(Class<S> clazz) {
+	private <S, I extends EAdElement> GenericImporter<S, I> findGenericImporter(
+			Class<S> clazz) {
 		Class<? extends GenericImporter<?, ?>> importerClass = importerMap
 				.get(clazz);
-		GenericImporter<?, ?> genericImporter = injector.getInstance(importerClass);
+		GenericImporter<?, ?> genericImporter = injector
+				.getInstance(importerClass);
 		return (GenericImporter<S, I>) genericImporter;
 	}
 
@@ -198,13 +199,17 @@ public class EAdElementFactoryImpl implements EAdElementFactory {
 
 		EAdField<?> var = vars.get(id);
 		if (var == null) {
-			if (type == Condition.FLAG_CONDITION)
-				var = new BasicField<Boolean>(currentChapter,
-						new VarDef<Boolean>(id, Boolean.class,
-								Boolean.FALSE));
-			else
-				var = new BasicField<Integer>(currentChapter,
-						new VarDef<Integer>(id, Integer.class, 0));
+			
+			if (type == Condition.FLAG_CONDITION) {
+				VarDef<Boolean> varDef = new VarDef<Boolean>(id, Boolean.class, Boolean.FALSE);
+				var = new BasicField<Boolean>(currentChapter, (VarDef<Boolean>) varDef);
+				currentChapter.setVarInitialValue(varDef, varDef.getInitialValue());
+
+			} else {
+				VarDef<Integer> varDef = new VarDef<Integer>(id, Integer.class, 0);
+				var = new BasicField<Integer>(currentChapter, (VarDef<Integer>) varDef);
+				currentChapter.setVarInitialValue(varDef, varDef.getInitialValue());
+			}
 			vars.put(id, var);
 		}
 		return var;
@@ -249,14 +254,13 @@ public class EAdElementFactoryImpl implements EAdElementFactory {
 		if (cursor == null) {
 			String path = model.getCursorPath(type);
 			if (path != null) {
-				cursor = (EAdImage) injector.getInstance(
-						ResourceImporter.class).getAssetDescritptor(path,
-						Image.class);
-				
-			}
-			else {
+				cursor = (EAdImage) injector
+						.getInstance(ResourceImporter.class)
+						.getAssetDescritptor(path, Image.class);
+
+			} else {
 				// FIXME Use more cursors...
-				if ( type.equals(AdventureData.EXIT_CURSOR) )
+				if (type.equals(AdventureData.EXIT_CURSOR))
 					cursor = new Image("@drawable/exit.png");
 				else
 					cursor = SystemFields.DEFAULT_MOUSE;
@@ -268,10 +272,10 @@ public class EAdElementFactoryImpl implements EAdElementFactory {
 
 	@Override
 	public void addDraggableActor(EAdSceneElementDef actor) {
-		if ( !draggableActors.contains(actor)){
+		if (!draggableActors.contains(actor)) {
 			draggableActors.add(actor);
 		}
-		
+
 	}
 
 	@Override
@@ -292,7 +296,5 @@ public class EAdElementFactoryImpl implements EAdElementFactory {
 		this.model = null;
 		this.oldType.clear();
 	}
-	
-	
 
 }
