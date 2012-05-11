@@ -80,7 +80,7 @@ public class DesktopGame {
 
 	private String file;
 
-	private boolean writeAndRead = true;
+	private boolean writeAndRead = false;
 
 	public DesktopGame(EAdScene scene) {
 		this(scene, null);

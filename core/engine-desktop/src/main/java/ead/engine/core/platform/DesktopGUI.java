@@ -66,6 +66,7 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 import ead.common.resources.assets.drawable.basics.EAdBasicDrawable;
+import ead.engine.core.game.GameController;
 import ead.engine.core.game.GameLoop;
 import ead.engine.core.game.GameState;
 import ead.engine.core.gameobjects.GameObjectManager;
@@ -113,14 +114,17 @@ public class DesktopGUI extends AbstractGUI<Graphics2D> implements GUI {
 	// private int MOUSE_MOVE = 20;
 
 	private Object currentComponent;
+	
+	private GameController gameController;
 
 	@Inject
 	public DesktopGUI(EngineConfiguration conf,
 			GameObjectManager gameObjectManager, InputHandler inputHandler,
 			GameState gameState, SceneElementGOFactory gameObjectFactory,
-			DesktopCanvas canvas, GameLoop gameLoop) {
+			DesktopCanvas canvas, GameLoop gameLoop, GameController gameController) {
 		super(conf, gameObjectManager, inputHandler, gameState,
 				gameObjectFactory, canvas, gameLoop);
+		this.gameController = gameController;
 		// try {
 		// this.robot = new Robot();
 		// } catch (AWTException e) {
@@ -366,8 +370,7 @@ public class DesktopGUI extends AbstractGUI<Graphics2D> implements GUI {
 
 			@Override
 			public void windowClosing(WindowEvent arg0) {
-				gameLoop.stop();
-				frame.dispose();
+				gameController.stop();
 			}
 
 		});
@@ -464,6 +467,7 @@ public class DesktopGUI extends AbstractGUI<Graphics2D> implements GUI {
 
 		if (frame != null) {
 			frame.setVisible(false);
+			frame.dispose();
 		}
 
 	}

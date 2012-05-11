@@ -50,7 +50,7 @@ public class ConditionedEv extends AbstractEvent implements
 	@Param("condition")
 	private EAdCondition condition;
 	
-	@Param("boolean")
+	@Param("runNotMetConditions")
 	private boolean runNotMetConditions;
 
 	public ConditionedEv() {

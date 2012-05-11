@@ -35,45 +35,72 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ead.engine.core.tracking;
+package ead.engine.reader;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.google.inject.Inject;
-import com.google.inject.Singleton;
+import com.google.gwt.http.client.Request;
+import com.google.gwt.http.client.RequestBuilder;
+import com.google.gwt.http.client.RequestCallback;
+import com.google.gwt.http.client.RequestException;
+import com.google.gwt.http.client.Response;
 
 import ead.common.model.elements.EAdAdventureModel;
-import ead.engine.core.gameobjects.go.DrawableGO;
-import ead.engine.core.gameobjects.go.EffectGO;
-import ead.engine.core.input.InputAction;
-import ead.engine.core.tracking.selection.TrackerSelector;
 
-@Singleton
-public class DefaultGameTracker extends AbstractGameTracker {
+public class GWTPropertiesReader {
 
 	private static final Logger logger = LoggerFactory
-			.getLogger("DefaultTracker");
-	
-	@Inject
-	public DefaultGameTracker( TrackerSelector selector){
-		super(selector);
+			.getLogger("PropertiesReader");
+
+	private EAdAdventureModel eadmodel;
+
+	private Callback callback;
+
+	public GWTPropertiesReader(Callback callback) {
+		this.callback = callback;
 	}
 
-	@Override
-	protected void trackImpl(InputAction<?> action, DrawableGO<?> target) {
-		logger.info("Action: {} over {}", action.getGUIEvent(),
-				target.getElement());
+	public void readProperties(EAdAdventureModel model, String fileName) {
+		this.eadmodel = model;
+		logger.info("Reading game properties...");
+		RequestBuilder requestBuilder = new RequestBuilder(RequestBuilder.GET,
+				fileName);
+
+		try {
+			requestBuilder.sendRequest(null, new RequestCallback() {
+
+				@Override
+				public void onError(Request arg0, Throwable arg1) {
+
+				}
+
+				@Override
+				public void onResponseReceived(Request arg0, Response resp) {
+					String properties = resp.getText();
+					logger.info("Find {}. Processing...", properties);
+
+					for (String line : properties.split("\\r?\\n")) {
+						String[] strings = line.split("=");
+						if (strings.length == 2) {
+							String key = strings[0];
+							String value = strings[1];
+							logger.info("{}={} read.", key, value);
+							eadmodel.setProperty(key, value);
+						}
+					}
+					callback.onComplete();
+
+				}
+			});
+		} catch (RequestException e) {
+			e.printStackTrace();
+		}
 	}
 
-	@Override
-	protected void trackImpl(EffectGO<?> effect) {
-		logger.info("Effect: {}", effect);
-	}
+	public static interface Callback {
 
-	@Override
-	protected void startTrackingImpl(EAdAdventureModel model) {
-		logger.info("Tracking starts.");		
+		void onComplete();
 	}
 
 }

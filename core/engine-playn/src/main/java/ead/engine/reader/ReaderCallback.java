@@ -35,45 +35,32 @@
  *      along with eAdventure.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ead.engine.core.tracking;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import com.google.inject.Inject;
-import com.google.inject.Singleton;
+package ead.engine.reader;
 
 import ead.common.model.elements.EAdAdventureModel;
-import ead.engine.core.gameobjects.go.DrawableGO;
-import ead.engine.core.gameobjects.go.EffectGO;
-import ead.engine.core.input.InputAction;
-import ead.engine.core.tracking.selection.TrackerSelector;
 
-@Singleton
-public class DefaultGameTracker extends AbstractGameTracker {
+/**
+ * Interface to listen reader events
+ * 
+ */
+public interface ReaderCallback {
 
-	private static final Logger logger = LoggerFactory
-			.getLogger("DefaultTracker");
-	
-	@Inject
-	public DefaultGameTracker( TrackerSelector selector){
-		super(selector);
-	}
+	/**
+	 * Call when the model is completely read
+	 * 
+	 * @param model
+	 *            the read model
+	 */
+	void readCompleted(EAdAdventureModel model);
 
-	@Override
-	protected void trackImpl(InputAction<?> action, DrawableGO<?> target) {
-		logger.info("Action: {} over {}", action.getGUIEvent(),
-				target.getElement());
-	}
-
-	@Override
-	protected void trackImpl(EffectGO<?> effect) {
-		logger.info("Effect: {}", effect);
-	}
-
-	@Override
-	protected void startTrackingImpl(EAdAdventureModel model) {
-		logger.info("Tracking starts.");		
-	}
+	/**
+	 * Call with any update progress
+	 * 
+	 * @param message
+	 *            the update message
+	 * @param progress
+	 *            the progress percentage (0 <= progress <= 100)
+	 */
+	void updateProgress(String message, int progress);
 
 }

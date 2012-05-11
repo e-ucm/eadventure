@@ -96,6 +96,10 @@ public class SceneElementDef extends ResourcedElement implements
 		getResources().addAsset(getInitialBundle(),
 				SceneElementDef.appearance, appearance);
 	}
+	
+	public void setActions(EAdList<EAdAction> actions) {
+		this.actions = actions;
+	}
 
 	@Override
 	public EAdList<EAdAction> getActions() {

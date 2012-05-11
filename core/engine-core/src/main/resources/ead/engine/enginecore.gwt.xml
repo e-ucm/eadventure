@@ -14,10 +14,6 @@
 
   <!-- Other module inherits                                      -->
 
-  <!-- Inherit the GIN (guice for gwt) module -->
-  <inherits name='com.google.gwt.inject.Inject'/>
-  <inherits name='java.util.lib'/>
-
   <!-- Specify the paths for translatable code                    -->
   <source path='core' excludes="**/*Test*.java"/>
 

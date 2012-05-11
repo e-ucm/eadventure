@@ -37,10 +37,14 @@
 
 package ead.engine.core.tracking;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import ead.common.model.elements.EAdAdventureModel;
 import ead.engine.core.gameobjects.go.DrawableGO;
 import ead.engine.core.gameobjects.go.EffectGO;
 import ead.engine.core.input.InputAction;
+import ead.engine.core.tracking.selection.TrackerSelector;
 
 public abstract class AbstractGameTracker implements GameTracker {
 
@@ -48,8 +52,13 @@ public abstract class AbstractGameTracker implements GameTracker {
 
 	private boolean tracking;
 	
-	public AbstractGameTracker( ){
+	private TrackerSelector selector;
+	
+	protected final static Logger logger = LoggerFactory.getLogger("GameTracker");
+	
+	public AbstractGameTracker( TrackerSelector selector){
 		tracking = false;
+		this.selector = selector;
 	}
 
 	public void startTracking(EAdAdventureModel model) {
@@ -61,7 +70,7 @@ public abstract class AbstractGameTracker implements GameTracker {
 	protected abstract void startTrackingImpl( EAdAdventureModel model );
 	
 	public void track(InputAction<?> action, DrawableGO<?> target){
-		if ( isTracking()){
+		if ( isTracking() && selector.accept(action, target)){
 			trackImpl(action, target);
 		}
 	}
@@ -69,7 +78,7 @@ public abstract class AbstractGameTracker implements GameTracker {
 	protected abstract void trackImpl(InputAction<?> action, DrawableGO<?> target);
 
 	public void track(EffectGO<?> effect){
-		if (isTracking()){
+		if (isTracking() && selector.accept(effect)){
 			trackImpl(effect);
 		}
 	}

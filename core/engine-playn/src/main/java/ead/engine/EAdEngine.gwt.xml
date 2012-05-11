@@ -17,6 +17,7 @@
 
 	<!-- Inherit the GIN (guice for gwt) module -->
 	<inherits name='com.google.gwt.inject.Inject' />
+  	<inherits name='java.util.lib'/>
 	<!-- <inherits name='com.google.inject.GuiceTemp'/> -->
 	
 	<!-- GLAS -->

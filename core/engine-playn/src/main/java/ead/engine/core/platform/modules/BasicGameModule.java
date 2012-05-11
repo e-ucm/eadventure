@@ -91,6 +91,8 @@ import ead.engine.core.platform.rendering.filters.FilterFactory;
 import ead.engine.core.plugins.PluginHandler;
 import ead.engine.core.tracking.GLASGameTracker;
 import ead.engine.core.tracking.GameTracker;
+import ead.engine.core.tracking.selection.DefaultTrackerSelector;
+import ead.engine.core.tracking.selection.TrackerSelector;
 import ead.engine.core.trajectories.TrajectoryFactory;
 import ead.engine.core.trajectories.TrajectoryFactoryImpl;
 import es.eucm.glas.tracker.GLASTracker;
@@ -130,8 +132,10 @@ public class BasicGameModule extends AbstractGinModule {
 		
 		// Tracking
 //		bind(GameTracker.class).to(DefaultGameTracker.class).in(Singleton.class);
+		bind(TrackerSelector.class).to(DefaultTrackerSelector.class).in(Singleton.class);
 		bind(GLASTracker.class).to(GLASGwtTracker.class).in(Singleton.class);
 		bind(GameTracker.class).to(GLASGameTracker.class).in(Singleton.class);
+		
 		
 
 	}

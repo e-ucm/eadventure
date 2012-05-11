@@ -42,6 +42,8 @@ import com.google.inject.Singleton;
 
 import ead.common.model.EAdElement;
 import ead.common.model.elements.EAdAdventureModel;
+import ead.common.model.elements.effects.ChangeSceneEf;
+import ead.common.model.elements.effects.variables.ChangeFieldEf;
 import ead.common.model.elements.guievents.DragGEv;
 import ead.engine.core.gameobjects.go.DrawableGO;
 import ead.engine.core.gameobjects.go.EffectGO;
@@ -49,6 +51,7 @@ import ead.engine.core.input.InputAction;
 import ead.engine.core.input.actions.DragInputAction;
 import ead.engine.core.input.actions.KeyInputAction;
 import ead.engine.core.input.actions.MouseInputAction;
+import ead.engine.core.tracking.selection.TrackerSelector;
 import es.eucm.glas.model.TrackData;
 import es.eucm.glas.model.games.traces.ActionTrace;
 import es.eucm.glas.model.games.traces.ActionTrace.Action;
@@ -64,9 +67,13 @@ public class GLASGameTracker extends AbstractGameTracker {
 
 	private long initTimeStamp;
 
+	private static final int DEFAULT_MAX_TRACES = 200;
+
 	@Inject
-	public GLASGameTracker(GLASTracker tracker) {
+	public GLASGameTracker(GLASTracker tracker, TrackerSelector selector) {
+		super(selector);
 		this.tracker = tracker;
+		logger.info("GLAS Game tracker created");
 	}
 
 	@Override
@@ -74,15 +81,27 @@ public class GLASGameTracker extends AbstractGameTracker {
 		String serverURL = model.getProperties().get(SERVER_URL);
 		String gameKey = model.getProperties().get(GAME_KEY);
 		initTimeStamp = System.currentTimeMillis();
-		tracker.startTracking(serverURL, gameKey, new TrackDataListener(){
+		logger.info("Starting tracking...");
+		tracker.startTracking(serverURL, gameKey, new TrackDataListener() {
 
 			@Override
 			public void trackDataReceived(TrackData trackData) {
-				// TODO Auto-generated method stub
-				
+				logger.info("Track data received.");
 			}
-			
+
 		});
+		try {
+			String maxTracesProp = model.getProperties().get(MAX_TRACES);
+			int maxTraces = maxTracesProp == null ? DEFAULT_MAX_TRACES
+					: Integer.parseInt(maxTracesProp);
+			tracker.setMaxTraces(maxTraces);
+		} catch (NumberFormatException e) {
+			tracker.setMaxTraces(DEFAULT_MAX_TRACES);
+			logger.info(
+					"Invalid number for {} parameter. Set to default value.",
+					MAX_TRACES);
+		}
+
 	}
 
 	@Override
@@ -217,9 +236,25 @@ public class GLASGameTracker extends AbstractGameTracker {
 	private LogicTrace convertToTrace(EffectGO<?> effect) {
 		LogicTrace trace = new LogicTrace();
 		trace.setTimeStamp(System.currentTimeMillis() - initTimeStamp);
-		trace.setType(effect.getEffect().getClass().getName());
-		// FIXME more data
+		trace.setType("unkown");
+		if (effect.getEffect() instanceof ChangeSceneEf) {
+			trace.setType("ChangeScene");
+			ChangeSceneEf changeScene = (ChangeSceneEf) effect.getEffect();
+			if (changeScene.getNextScene() != null) {
+				trace.setArg1(changeScene.getNextScene().getId());
+			}
+		}
+		else if ( effect.getEffect() instanceof ChangeFieldEf ){
+			
+		}
 		return trace;
+	}
+
+	public void stop() {
+		if (this.isTracking() && tracker != null) {
+			tracker.stopTracking();
+		}
+		super.stop();
 	}
 
 }

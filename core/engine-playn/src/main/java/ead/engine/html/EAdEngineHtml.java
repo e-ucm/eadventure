@@ -45,9 +45,9 @@ import playn.html.HtmlPlatform.Mode;
 
 import com.google.gwt.core.client.GWT;
 
-import ead.common.model.elements.EAdAdventureModel;
 import ead.common.model.elements.BasicAdventureModel;
 import ead.common.model.elements.BasicChapter;
+import ead.common.model.elements.EAdAdventureModel;
 import ead.common.model.elements.scene.EAdScene;
 import ead.common.util.StringHandler;
 import ead.elementfactories.EAdElementsFactory;
@@ -56,11 +56,14 @@ import ead.engine.core.EAdEngine;
 import ead.engine.core.game.Game;
 import ead.engine.core.platform.GUI;
 import ead.engine.core.platform.PlayNGinInjector;
+import ead.engine.reader.GWTPropertiesReader;
 
 public class EAdEngineHtml extends HtmlGame {
 
 	protected final static PlayNGinInjector injector = GWT
 			.create(PlayNGinInjector.class);
+	
+	private EAdAdventureModel model;
 
 	@Override
 	public void start() {
@@ -70,12 +73,26 @@ public class EAdEngineHtml extends HtmlGame {
 
 		injector.getPlayNInjector().setInjector(injector);
 		
-		Game game = loadGame();
+		final Game game = loadGame();
+		
+		GWTPropertiesReader reader = new GWTPropertiesReader( new GWTPropertiesReader.Callback(){
 
-		GUI gui = injector.getGUI();
+			@Override
+			public void onComplete() {
+				game.setGame(model, model.getChapters().get(0));
+				GUI gui = injector.getGUI();
+				
 
-		PlayN.run(new EAdEngine(game, gui, injector.getAssetHandler(), injector
-				.getMouseState(), injector.getPlatformConfiguration()));
+				PlayN.run(new EAdEngine(game, gui, injector.getAssetHandler(), injector
+						.getMouseState(), injector.getPlatformConfiguration()));			
+			}
+			
+		});
+		
+		model = game.getAdventureModel();
+		reader.readProperties(model, "eadengine/ead.properties");
+
+
 	}
 	
 	public Game loadGame() {

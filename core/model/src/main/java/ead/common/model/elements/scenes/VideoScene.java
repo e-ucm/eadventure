@@ -77,6 +77,10 @@ public class VideoScene extends BasicScene implements EAdScene {
 	public EAdList<EAdEffect> getFinalEffects() {
 		return finalEffects;
 	}
+	
+	public void setFinalEffects(EAdList<EAdEffect> finalEffects) {
+		this.finalEffects = finalEffects;
+	}
 
 	@Override
 	public Boolean getReturnable() {
