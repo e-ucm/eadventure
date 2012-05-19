@@ -40,9 +40,9 @@ package ead.engine.core;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 
-import ead.engine.core.platform.module.DesktopAssetHandlerModule;
-import ead.engine.core.platform.module.DesktopModule;
-import ead.engine.core.platform.modules.BasicGameModule;
+import ead.engine.desktop.core.platform.module.DesktopAssetHandlerModule;
+import ead.engine.desktop.core.platform.module.DesktopModule;
+import ead.engine.java.core.platform.modules.JavaBasicGameModule;
 
 public class TestUtil {
 
@@ -52,7 +52,7 @@ public class TestUtil {
 		if (injector == null) {
 			injector = Guice.createInjector(new DesktopAssetHandlerModule(),
 					new DesktopModule(),
-					new BasicGameModule());
+					new JavaBasicGameModule());
 		}
 		return injector;
 	}

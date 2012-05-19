@@ -61,12 +61,12 @@ import ead.engine.core.game.GameLoop;
 import ead.engine.core.game.GameState;
 import ead.engine.core.gameobjects.GameObjectManager;
 import ead.engine.core.gameobjects.factories.SceneElementGOFactory;
-import ead.engine.core.input.DesktopInputListener;
 import ead.engine.core.input.InputHandler;
-import ead.engine.core.platform.DesktopGUI;
 import ead.engine.core.platform.EngineConfiguration;
 import ead.engine.core.platform.assets.RuntimeAsset;
-import ead.engine.core.platform.rendering.DesktopCanvas;
+import ead.engine.desktop.core.input.DesktopInputListener;
+import ead.engine.desktop.core.platform.DesktopGUI;
+import ead.engine.desktop.core.platform.rendering.DesktopCanvas;
 import ead.utils.swing.SwingUtilities;
 
 @Singleton

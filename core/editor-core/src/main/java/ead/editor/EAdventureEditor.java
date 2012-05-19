@@ -37,20 +37,22 @@
 
 package ead.editor;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.google.inject.Guice;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
+
 import ead.common.importer.EAdventure1XImporter;
 import ead.common.importer.ImporterConfigurationModule;
 import ead.common.model.elements.EAdAdventureModel;
 import ead.editor.control.ViewController;
 import ead.editor.view.SplashScreen;
 import ead.editor.view.impl.SplashScreenImpl;
-import ead.engine.core.platform.module.DesktopAssetHandlerModule;
-import ead.engine.core.platform.module.DesktopModule;
-import ead.engine.core.platform.modules.BasicGameModule;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import ead.engine.desktop.core.platform.module.DesktopAssetHandlerModule;
+import ead.engine.desktop.core.platform.module.DesktopModule;
+import ead.engine.java.core.platform.modules.JavaBasicGameModule;
 
 /**
  * eAdventure editor launcher.
@@ -78,7 +80,7 @@ public class EAdventureEditor implements Launcher {
 		Injector injector = Guice.createInjector(
                 new EditorGuiceModule(),
                 new ImporterConfigurationModule(),
-                new BasicGameModule(),
+                new JavaBasicGameModule(),
                 new DesktopModule(),
                 new DesktopAssetHandlerModule());
 

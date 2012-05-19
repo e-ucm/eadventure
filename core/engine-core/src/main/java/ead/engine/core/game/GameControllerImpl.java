@@ -66,15 +66,15 @@ public class GameControllerImpl implements GameController {
 	 * Indicates that the game loop is executed in a different thread
 	 */
 	private boolean threaded;
-	
+
 	private GameTracker gameTracker;
-	
-	
+
 	private AssetHandler assetHandler;
 
 	@Inject
 	public GameControllerImpl(Game game, GameLoop gameLoop, GUI gui,
-			@Named("threaded") Boolean threaded, ValueMap valueMap, AssetHandler assetHandler, GameTracker gameTracker) {
+			@Named("threaded") Boolean threaded, AssetHandler assetHandler,
+			GameTracker gameTracker) {
 		this.game = game;
 		this.gameLoop = gameLoop;
 		this.gui = gui;

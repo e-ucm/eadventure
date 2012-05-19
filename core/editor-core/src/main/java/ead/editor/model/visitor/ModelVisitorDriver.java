@@ -37,6 +37,16 @@
 
 package ead.editor.model.visitor;
 
+import java.beans.IntrospectionException;
+import java.beans.Introspector;
+import java.beans.PropertyDescriptor;
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
+import java.util.Map;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import ead.common.interfaces.Param;
 import ead.common.model.EAdElement;
 import ead.common.model.elements.EAdAdventureModel;
@@ -49,16 +59,6 @@ import ead.common.resources.EAdAssetBundle;
 import ead.common.resources.EAdBundleId;
 import ead.common.resources.EAdResources;
 import ead.common.resources.assets.AssetDescriptor;
-import ead.common.test.resources.*;
-import ead.common.util.EAdPosition;
-import java.beans.IntrospectionException;
-import java.beans.Introspector;
-import java.beans.PropertyDescriptor;
-import java.lang.reflect.Field;
-import java.lang.reflect.Method;
-import java.util.Map;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class ModelVisitorDriver {
 

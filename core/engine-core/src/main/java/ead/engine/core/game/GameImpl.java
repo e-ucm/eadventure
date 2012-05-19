@@ -113,6 +113,8 @@ public class GameImpl implements Game {
 	private int currentHeight = -1;
 	
 	private GameTracker tracker;
+	
+	private GameLoop gameLoop;
 
 	@Inject
 	public GameImpl(GUI gui, GameState gameState, EffectHUD effectHUD,
@@ -120,7 +122,7 @@ public class GameImpl implements Game {
 			DebuggerHandler debugger, ValueMap valueMap, TopBasicHUD basicHud,
 			BottomBasicHUD bottomBasicHud, InventoryHUD inventoryHud,
 			InventoryHandler inventoryHandler, EventGOFactory eventFactory,
-			EngineConfiguration configuration, ActionsHUD actionsHUD, GameTracker tracker) {
+			EngineConfiguration configuration, ActionsHUD actionsHUD, GameTracker tracker, GameLoop gameLoop) {
 		this.gui = gui;
 		this.gameState = gameState;
 		this.effectHUD = effectHUD;
@@ -134,6 +136,7 @@ public class GameImpl implements Game {
 		this.eventFactory = eventFactory;
 		this.configuration = configuration;
 		this.tracker = tracker;
+		this.gameLoop = gameLoop;
 		events = new ArrayList<EventGO<?>>();
 		gameObjectManager.setBasicHUDs(basicHud, bottomBasicHud);
 		gui.setGame(this);
@@ -282,6 +285,8 @@ public class GameImpl implements Game {
 		gameState.setInitialScene(eAdChapter.getInitialScene());
 		updateInitialTransformation();
 		
+		gameState.getValueMap().setValue(SystemFields.ELAPSED_TIME_PER_UPDATE,
+				gameLoop.getSkipMillisTick());
 		// Start tracking
 		Boolean track = Boolean.parseBoolean( model.getProperties().get(GameTracker.TRACKING_ENABLE) );
 		if ( track ){

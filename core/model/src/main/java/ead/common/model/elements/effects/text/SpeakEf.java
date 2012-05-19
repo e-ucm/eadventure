@@ -49,9 +49,7 @@ import ead.common.params.text.EAdString;
 import ead.common.resources.assets.drawable.basics.Caption;
 import ead.common.resources.assets.drawable.basics.enums.Alignment;
 import ead.common.resources.assets.drawable.basics.shapes.extra.BalloonType;
-import ead.common.resources.assets.text.BasicFont;
 import ead.common.resources.assets.text.EAdFont;
-import ead.common.util.EAdURI;
 
 /**
  * 
@@ -61,9 +59,6 @@ import ead.common.util.EAdURI;
  */
 @Element(runtime = SpeakEf.class, detailed = SpeakEf.class)
 public class SpeakEf extends AbstractEffect {
-
-	private static final EAdFont DEFAULT_FONT = new BasicFont(new EAdURI(
-			"@binary/DroidSans-Bold.ttf"), 32);
 
 	private static final Paint BUBBLE_PAINT = new Paint(
 			new ColorFill(255, 255, 255, 220), ColorFill.BLACK, 2);
@@ -100,10 +95,7 @@ public class SpeakEf extends AbstractEffect {
 		caption = new Caption(text);
 		caption.setTextPaint(ColorFill.BLACK);
 		bubbleColor = BUBBLE_PAINT;
-		caption.setFont(BasicFont.REGULAR);
 		ballonType = BalloonType.ROUNDED_RECTANGLE;
-		caption.setAlignment(Alignment.LEFT);
-		caption.setFont(DEFAULT_FONT);
 		setQueueable(true);
 		setOpaque(true);
 	}

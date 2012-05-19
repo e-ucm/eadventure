@@ -108,9 +108,11 @@
 				<module>core/engine-plugins</module>
 				<module>core/engine-desktop</module>
 				<module>core/engine-applet</module>
-				<module>core/engine-android</module>
+				<!-- <module>core/engine-android</module> -->
 				<module>core/model</module>
 				<module>core/test-suite</module>
+				<!-- Demos modules -->
+				<module>demos/firstaidgame</module>
 			</modules>
 		</profile>
 		<profile>
