@@ -89,6 +89,14 @@ public class GLASGameTracker extends AbstractGameTracker {
 				logger.info("Track data received.");
 			}
 
+			@Override
+			public void error(String errorMessage) {
+				logger.warn(errorMessage);
+				logger.warn("Tracking will be disabled.");
+				GLASGameTracker.this.stop();
+				
+			}
+
 		});
 		try {
 			String maxTracesProp = model.getProperties().get(MAX_TRACES);
