@@ -224,7 +224,7 @@ public class StartFrame extends JFrame {
 	private void setFrameProperties() {
 		try {
 			Image i = ImageIO.read(ClassLoader
-					.getSystemResourceAsStream("ead/resources/drawable/eadventure_mini_logo.png"));
+					.getSystemResourceAsStream("ead/engine/resources/drawable/eadventure_mini_logo.png"));
 			setIconImage(i);
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -315,7 +315,7 @@ public class StartFrame extends JFrame {
 		try {
 			Image i = ImageIO
 					.read(ClassLoader
-							.getSystemResourceAsStream("ead/resources/drawable/eadventure_logo_engine.png"));
+							.getSystemResourceAsStream("ead/engine/resources/drawable/eadventure_logo_engine.png"));
 			JLabel l = new JLabel();
 			l.setIcon(new ImageIcon(i));
 			l.setSize(i.getWidth(null), i.getHeight(null));
