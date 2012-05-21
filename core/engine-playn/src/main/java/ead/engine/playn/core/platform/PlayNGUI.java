@@ -49,8 +49,9 @@ import org.slf4j.LoggerFactory;
 import playn.core.Canvas;
 
 import com.google.gwt.dom.client.Element;
+import com.google.gwt.dom.client.Style.Position;
+import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.user.client.DOM;
-import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -110,15 +111,21 @@ public class PlayNGUI extends AbstractGUI<Canvas> implements GUI {
 				int height = root.getAbsoluteBottom() - yRoot;
 				widget.setWidth(width + "");
 				widget.setHeight(height + "");
-				RootPanel.get().add(widget, xRoot, yRoot);
+				widget.getElement().getStyle().setLeft(xRoot, Unit.PX);
+				widget.getElement().getStyle().setTop(0, Unit.PX);
+				widget.getElement().getStyle().setZIndex(1000);
+				widget.getElement().getStyle().setPosition(Position.ABSOLUTE);
+				root.getParentElement().appendChild(widget.getElement());
 				graphics().rootLayer().setVisible(false);
 				currentComponent = resource;
 			}
 		} else {
 			if (currentComponent != null) {
 				// graphics().rootLayer().add(canvasLayer);
-				RootPanel.get().remove((Widget) currentComponent);
+				Element root = DOM.getElementById("playn-root");
+				root.getParentElement().removeChild(((Widget)currentComponent).getElement());
 				graphics().rootLayer().setVisible(true);
+				
 			}
 			currentComponent = null;
 		}

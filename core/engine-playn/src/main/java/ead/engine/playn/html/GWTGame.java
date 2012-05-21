@@ -106,6 +106,12 @@ public class GWTGame implements EngineCallback {
 		AssetHandler assetHandler = injector.getAssetHandler();
 		assetHandler.setResourcesLocation(new EAdURI(moduleName + "/"));
 		
+		Game game = injector.getGame();
+		game.loadGame();
+		PlayN.run(new EAdEngine(game, injector.getGUI(), injector
+				.getAssetHandler(), injector.getMouseState(), injector
+				.getPlatformConfiguration()));
+		
 		//Read selection
 		RequestBuilder requestBuilder = new RequestBuilder(RequestBuilder.GET,
 				moduleName + "/select.track");
@@ -159,10 +165,6 @@ public class GWTGame implements EngineCallback {
 				model.setProperty(e.getKey(), e.getValue());
 			}
 			game.setGame(model, model.getChapters().get(0));
-			game.loadGame();
-			PlayN.run(new EAdEngine(game, injector.getGUI(), injector
-					.getAssetHandler(), injector.getMouseState(), injector
-					.getPlatformConfiguration()));
 		}
 	}
 

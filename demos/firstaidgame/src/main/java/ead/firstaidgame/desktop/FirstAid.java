@@ -14,7 +14,8 @@ public class FirstAid {
 
 	public static void main(String args[]) {
 		
-
+		DesktopGame game = new DesktopGame();
+		game.launch(60, false);
 
 		EAdAdventureDOMModelReader reader = new EAdAdventureDOMModelReader();
 		EAdAdventureModel model = reader
@@ -26,8 +27,8 @@ public class FirstAid {
 		
 		PropertiesReader propertiesReader = new PropertiesReaderImpl( );
 		propertiesReader.setProperties(model, ClassLoader.getSystemResourceAsStream("ead/engine/resources/ead.properties"));
-		DesktopGame game = new DesktopGame(model, strings);
-		game.launch(60, false);
+		
+		game.setGame(model, strings, null);
 
 	}
 

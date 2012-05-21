@@ -46,6 +46,7 @@ import org.slf4j.LoggerFactory;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
+import ead.common.model.elements.BasicAdventureModel;
 import ead.common.model.elements.EAdAdventureModel;
 import ead.common.model.elements.EAdChapter;
 import ead.common.model.elements.EAdEvent;
@@ -137,6 +138,7 @@ public class GameImpl implements Game {
 		this.configuration = configuration;
 		this.tracker = tracker;
 		this.gameLoop = gameLoop;
+		this.adventure = new BasicAdventureModel( );
 		events = new ArrayList<EventGO<?>>();
 		gameObjectManager.setBasicHUDs(basicHud, bottomBasicHud);
 		gui.setGame(this);

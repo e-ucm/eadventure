@@ -51,13 +51,15 @@ import ead.engine.core.platform.assets.AssetHandler;
 public class SystemEvGO extends AbstractEventGO<SystemEv> {
 
 	private boolean triggered = false;
-	
+
 	private static final Logger logger = LoggerFactory.getLogger("SystemEvGO");
 
 	private AssetHandler assetHandler;
 
 	private Game game;
-	
+
+	private boolean first = true;
+
 	@Inject
 	public SystemEvGO(AssetHandler assetHandler, GameState gameState, Game game) {
 		super(gameState);
@@ -67,9 +69,13 @@ public class SystemEvGO extends AbstractEventGO<SystemEv> {
 
 	@Override
 	public void update() {
-		// TODO probably not enough to just check for assets loaded
-		logger.info("Checking if the game is loaded...");
-		if (assetHandler.isLoaded() && game.getAdventureModel() != null && !triggered) {
+		if (first) {
+			// TODO probably not enough to just check for assets loaded
+			logger.info("Checking if the game is loaded...");
+		}
+		first = false;
+		if (assetHandler.isLoaded() && game.getAdventureModel() != null
+				&& !triggered) {
 			runEffects(element.getEffectsForEvent(SystemEvType.GAME_LOADED));
 			triggered = true;
 		}

@@ -72,7 +72,7 @@ import ead.engine.java.core.platform.modules.JavaBasicGameModule;
 
 public class DesktopGame {
 
-	private EAdAdventureModel model;
+	private Game game;
 
 	private Injector injector;
 
@@ -80,43 +80,47 @@ public class DesktopGame {
 
 	private boolean writeAndRead = false;
 
+	public DesktopGame() {
+		injector = Guice.createInjector(new DesktopAssetHandlerModule(),
+				new DesktopModule(), new JavaBasicGameModule());
+		game = injector.getInstance(Game.class);
+	}
+
 	public DesktopGame(EAdScene scene) {
 		this(scene, null);
 	}
-	
-	public DesktopGame( EAdAdventureModel model, Map<EAdString, String> strings ){
-		this( model, null, strings, null );
+
+	public DesktopGame(EAdAdventureModel model, Map<EAdString, String> strings) {
+		this(model, null, strings, null);
 	}
 
 	public DesktopGame(EAdScene scene, List<Class<? extends Debugger>> debuggers) {
+		this();
 		EAdAdventureModel model = new BasicAdventureModel();
 		BasicChapter chapter = new BasicChapter();
 		chapter.setId("chapter1");
 		chapter.getScenes().add(scene);
 		chapter.setInitialScene(scene);
 		model.getChapters().add(chapter);
-		init(model, EAdElementsFactory.getInstance().getStringFactory()
+		setGame(model, EAdElementsFactory.getInstance().getStringFactory()
 				.getStrings(), debuggers);
 	}
 
 	public DesktopGame(EAdAdventureModel adventureModel, String file,
 			Map<EAdString, String> strings,
 			List<Class<? extends Debugger>> debuggers) {
-		init(adventureModel, strings, debuggers);
+		this();
+		setGame(adventureModel, strings, debuggers);
 		this.file = file;
 	}
 
-	protected void init(EAdAdventureModel model, Map<EAdString, String> strings,
+	public void setGame(EAdAdventureModel model,
+			Map<EAdString, String> strings,
 			List<Class<? extends Debugger>> debuggers) {
 
 		if (writeAndRead) {
-			this.model = writeAndRead(model);
-		} else {
-			this.model = model;
+			model = writeAndRead(model);
 		}
-		
-		injector = Guice.createInjector(new DesktopAssetHandlerModule(),
-				new DesktopModule(), new JavaBasicGameModule());
 
 		if (debuggers != null && debuggers.size() > 0) {
 			DebuggerHandler debuggerHandler = injector
@@ -127,22 +131,24 @@ public class DesktopGame {
 		StringHandler stringHandler = injector.getInstance(StringHandler.class);
 		stringHandler.addStrings(strings);
 
+		game.setGame(model, model.getChapters().get(0));
+
 	}
 
 	public void launch(int ticksPerSecond, boolean fullscreen) {
 		GameLoop gameLoop = injector.getInstance(GameLoop.class);
 		gameLoop.setTicksPerSecond(ticksPerSecond);
-		
+
 		AssetHandler assetHandler = injector.getInstance(AssetHandler.class);
 		List<String> text = assetHandler.getTextFile("@select.track");
-		
-		if ( text != null ){
-			TrackerSelector trackerSelector = injector.getInstance(TrackerSelector.class);
+
+		if (text != null) {
+			TrackerSelector trackerSelector = injector
+					.getInstance(TrackerSelector.class);
 			trackerSelector.setSelection(text);
 		}
-		
-		Game game = injector.getInstance(Game.class);
-		game.setGame(model, model.getChapters().get(0));
+
+		game = injector.getInstance(Game.class);
 
 		final GameController launcher = injector
 				.getInstance(GameController.class);
@@ -162,7 +168,7 @@ public class DesktopGame {
 	}
 
 	public EAdAdventureModel getModel() {
-		return model;
+		return game.getAdventureModel();
 	}
 
 	public EAdAdventureModel writeAndRead(EAdAdventureModel model) {

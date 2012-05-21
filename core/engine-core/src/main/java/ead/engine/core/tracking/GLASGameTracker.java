@@ -127,7 +127,9 @@ public class GLASGameTracker extends AbstractGameTracker {
 	private ActionTrace convertToTrace(InputAction<?> action,
 			DrawableGO<?> target) {
 		ActionTrace trace = new ActionTrace();
-		trace.setTarget(((EAdElement) target.getElement()).getId());
+		if (target.getElement() != null) {
+			trace.setTarget(((EAdElement) target.getElement()).getId());
+		}
 		trace.setTimeStamp(System.currentTimeMillis() - initTimeStamp);
 
 		if (action instanceof MouseInputAction) {
