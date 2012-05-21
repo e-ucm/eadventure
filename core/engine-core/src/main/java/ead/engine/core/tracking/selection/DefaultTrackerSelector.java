@@ -37,8 +37,19 @@
 
 package ead.engine.core.tracking.selection;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
+import ead.common.model.elements.effects.ChangeSceneEf;
+import ead.common.model.elements.effects.variables.ChangeFieldEf;
+import ead.common.model.elements.guievents.EAdGUIEvent;
+import ead.common.model.elements.guievents.MouseGEv;
+import ead.common.model.elements.variables.EAdField;
 import ead.engine.core.gameobjects.go.DrawableGO;
 import ead.engine.core.gameobjects.go.EffectGO;
 import ead.engine.core.input.InputAction;
@@ -46,14 +57,83 @@ import ead.engine.core.input.InputAction;
 @Singleton
 public class DefaultTrackerSelector implements TrackerSelector {
 
+	private static Map<String, Class<?>> effectCorrespondencies;
+
+	private static Map<String, EAdGUIEvent> actionCorrespondencies;
+
+	static {
+		effectCorrespondencies = new HashMap<String, Class<?>>();
+		effectCorrespondencies.put("changeScene", ChangeSceneEf.class);
+		effectCorrespondencies.put("changeField", ChangeFieldEf.class);
+
+		actionCorrespondencies = new HashMap<String, EAdGUIEvent>();
+		actionCorrespondencies.put("lpressed", MouseGEv.MOUSE_LEFT_PRESSED);
+		actionCorrespondencies.put("rpressed", MouseGEv.MOUSE_RIGHT_PRESSED);
+
+	}
+
+	private List<Class<?>> effectsAccepted;
+
+	private List<String> varsAccepted;
+
+	private List<EAdGUIEvent> actionsAccepted;
+
+	@Inject
+	public DefaultTrackerSelector( ) {
+		
+	}
+	
+	public void setSelection( List<String> text){
+		this.effectsAccepted = new ArrayList<Class<?>>();
+		this.varsAccepted = new ArrayList<String>();
+		this.actionsAccepted = new ArrayList<EAdGUIEvent>();
+		if (text != null) {
+			for (String s : text) {
+				String[] parts = s.split(";");
+				if (parts[0].equals("actions")) {
+					for (int i = 1; i < parts.length; i++) {
+						EAdGUIEvent ev = actionCorrespondencies.get(parts[i]);
+						if (ev != null) {
+							actionsAccepted.add(ev);
+						}
+
+					}
+				} else {
+					Class<?> effectClass = effectCorrespondencies.get(parts[0]);
+					if (effectClass != null) {
+						effectsAccepted.add(effectClass);
+						if (parts[0].equals("changeField")) {
+							for (int i = 0; i < parts.length; i++) {
+								varsAccepted.add(parts[i]);
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+
 	@Override
 	public boolean accept(InputAction<?> action, DrawableGO<?> target) {
-		return true;
+		return actionsAccepted.contains(action.getGUIEvent());
 	}
 
 	@Override
 	public boolean accept(EffectGO<?> effect) {
-		return true;
+		Class<?> c = effect.getEffect().getClass();
+		if (effectsAccepted.contains(c)) {
+			if (effect.getEffect() instanceof ChangeFieldEf) {
+				ChangeFieldEf cf = (ChangeFieldEf) effect.getEffect();
+				for (EAdField<?> f : cf.getFields()) {
+					if (varsAccepted.contains(f.getVarDef().getName())) {
+						return true;
+					}
+				}
+				return false;
+			}
+			return true;
+		}
+		return false;
 	}
 
 }

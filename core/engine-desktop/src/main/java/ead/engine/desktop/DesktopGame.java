@@ -64,6 +64,8 @@ import ead.engine.core.game.Game;
 import ead.engine.core.game.GameController;
 import ead.engine.core.game.GameLoop;
 import ead.engine.core.platform.EngineConfiguration;
+import ead.engine.core.platform.assets.AssetHandler;
+import ead.engine.core.tracking.selection.TrackerSelector;
 import ead.engine.desktop.core.platform.module.DesktopAssetHandlerModule;
 import ead.engine.desktop.core.platform.module.DesktopModule;
 import ead.engine.java.core.platform.modules.JavaBasicGameModule;
@@ -130,6 +132,14 @@ public class DesktopGame {
 	public void launch(int ticksPerSecond, boolean fullscreen) {
 		GameLoop gameLoop = injector.getInstance(GameLoop.class);
 		gameLoop.setTicksPerSecond(ticksPerSecond);
+		
+		AssetHandler assetHandler = injector.getInstance(AssetHandler.class);
+		List<String> text = assetHandler.getTextFile("@select.track");
+		
+		if ( text != null ){
+			TrackerSelector trackerSelector = injector.getInstance(TrackerSelector.class);
+			trackerSelector.setSelection(text);
+		}
 		
 		Game game = injector.getInstance(Game.class);
 		game.setGame(model, model.getChapters().get(0));

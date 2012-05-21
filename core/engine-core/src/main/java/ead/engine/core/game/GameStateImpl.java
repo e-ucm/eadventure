@@ -213,16 +213,18 @@ public class GameStateImpl implements GameState {
 				EffectGO<?> effectGO = effectFactory.get(e);
 				effectGO.setGUIAction(action);
 				effectGO.setParent(parent);
-				effectGO.initialize();
-				tracker.track(effectGO);
-				if (e.isQueueable())
+				effectGO.initialize();				
+				if (e.isQueueable()){
+					tracker.track(effectGO);
 					synchronized (effectsQueue) {
 						pos = pos == -1 ? effectsQueue.size() : pos;
 						effectsQueue.add(pos, effectGO);
 					}
+				}
 				else {
 					effectGO.update();
 					effectGO.finish();
+					tracker.track(effectGO);
 				}
 				return effectGO;
 			} else if (e.isNextEffectsAlways()) {

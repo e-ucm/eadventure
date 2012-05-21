@@ -37,6 +37,8 @@
 
 package ead.engine.playn.core.platform;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 
 import org.slf4j.Logger;
@@ -131,18 +133,29 @@ public class PlayNAssetHandler extends AbstractAssetHandler {
 			r = new RuntimeComposedDrawable<Canvas>(this);
 		else if (clazz == (Object) RuntimeFilteredDrawable.class)
 			r = new RuntimeFilteredDrawable<Canvas>(this);
-		else if ( clazz == (Object) RuntimeFramesAnimation.class)
+		else if (clazz == (Object) RuntimeFramesAnimation.class)
 			r = new RuntimeFramesAnimation(this);
-		else if ( clazz == (Object) RuntimeStateDrawable.class)
+		else if (clazz == (Object) RuntimeStateDrawable.class)
 			r = new RuntimeStateDrawable(this);
-		else if ( clazz == (Object)PlayNFont.class){
-			r = new PlayNFont( this );
-		}
-		else {
+		else if (clazz == (Object) PlayNFont.class) {
+			r = new PlayNFont(this);
+		} else {
 			logger.error("No instance for runtime asset: {}", clazz);
 		}
 
 		return (RuntimeAsset<?>) r;
 	}
+
+	@Override
+	public List<String> getTextFile(String path) {
+		String text = readFile(getAbsolutePath(path));
+		return Arrays.asList(text.split("\n"));
+	}
+
+	public final native String readFile(String path) /*-{
+		file = fopen(path, 0);
+		str = fread(file, flength(file));
+		return str;
+	}-*/;
 
 }

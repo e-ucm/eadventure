@@ -46,7 +46,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Enumeration;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.Scanner;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
@@ -86,10 +88,6 @@ import ead.engine.java.core.platform.JavaAbstractAssetHandler;
 @Singleton
 public class DesktopAssetHandler extends JavaAbstractAssetHandler {
 
-	/**
-	 * Map of original file names to file references in the temporary directory
-	 */
-	private Map<String, File> fileMap;
 	/**
 	 * The location of resource in the system
 	 */
@@ -214,37 +212,6 @@ public class DesktopAssetHandler extends JavaAbstractAssetHandler {
 		// TODO Should consider removing files from temporary directory
 	}
 
-	/**
-	 * Loads a file as an input stream
-	 * 
-	 * @param path
-	 *            file location, with '@' substituted for location root
-	 * @return The file as an input stream
-	 */
-	public InputStream getResourceAsStream(String path) {
-		// TODO improve: localization!
-		InputStream is = null;
-		if (fileMap.containsKey(path)) {
-			File file = fileMap.get(path);
-			try {
-				is = new FileInputStream(file);
-			} catch (FileNotFoundException e) {
-				logger.error("error loading resource {} (from file '{}')",
-						new Object[] { path, file.getAbsolutePath() }, e);
-			}
-		} else {
-			String location = path.replaceAll("@", "ead/engine/resources/");
-			is = ClassLoader.getSystemResourceAsStream(location);
-			if (is == null) {
-				logger.error(
-						"resource not found {} (from classpath-location '{}')",
-						new Object[] { path, location });
-			}
-		}
-
-		return is;
-	}
-
 	public void setResourcesLocation(EAdURI uri) {
 		if (uri != null)
 			this.resourceLocation = new File(uri.getPath());
@@ -302,4 +269,5 @@ public class DesktopAssetHandler extends JavaAbstractAssetHandler {
 			return file.getAbsolutePath();
 		}
 	}
+
 }

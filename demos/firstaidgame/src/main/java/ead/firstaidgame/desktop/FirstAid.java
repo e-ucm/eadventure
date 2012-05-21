@@ -18,7 +18,7 @@ public class FirstAid {
 
 		EAdAdventureDOMModelReader reader = new EAdAdventureDOMModelReader();
 		EAdAdventureModel model = reader
-				.read("src/main/resources/ead/engine/resources/data.xml");
+				.read("src/main/resources/ead/engine/resources/datad.xml");
 		DefaultStringFileHandler stringsHandler = new DefaultStringFileHandler();
 
 		Map<EAdString, String> strings = stringsHandler

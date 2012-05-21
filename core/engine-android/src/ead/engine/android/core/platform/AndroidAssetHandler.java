@@ -48,12 +48,12 @@ import com.google.inject.Injector;
 import com.google.inject.Singleton;
 
 import ead.common.resources.assets.AssetDescriptor;
-import ead.engine.core.platform.AbstractAssetHandler;
 import ead.engine.core.platform.FontHandler;
 import ead.engine.core.platform.assets.RuntimeAsset;
+import ead.engine.java.core.platform.JavaAbstractAssetHandler;
 
 @Singleton
-public class AndroidAssetHandler extends AbstractAssetHandler {
+public class AndroidAssetHandler extends JavaAbstractAssetHandler {
 
 	protected Resources resources;
 
@@ -66,7 +66,7 @@ public class AndroidAssetHandler extends AbstractAssetHandler {
 	@Inject
 	public AndroidAssetHandler(Injector injector,
 			Map<Class<? extends AssetDescriptor>, Class<? extends RuntimeAsset<? extends AssetDescriptor>>> classMap, FontHandler fontHandler ) {
-		super(classMap, fontHandler );
+		super(injector, classMap, fontHandler );
 		logger.info("New instance");
 		sdCardLocation = Environment.getExternalStorageDirectory()
 				.toString();

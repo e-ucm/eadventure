@@ -78,6 +78,7 @@ import ead.engine.core.inventory.InventoryHandler;
 import ead.engine.core.platform.EngineConfiguration;
 import ead.engine.core.platform.GUI;
 import ead.engine.core.platform.assets.AssetHandler;
+import ead.engine.core.tracking.selection.TrackerSelector;
 import ead.engine.playn.core.platform.assets.drawable.basics.PlayNImage;
 import ead.engine.playn.core.platform.extra.PlayNAssetHandlerModule;
 import ead.engine.playn.core.platform.extra.PlayNModule;
@@ -148,6 +149,8 @@ public interface PlayNGinInjector extends Ginjector {
 	public PlayNImage getPlayNEngineImage();
 
 	public AssetHandler getAssetHandler();
+	
+	public TrackerSelector getTrackerSelector();
 
 	public StringHandler getStringHandler();
 

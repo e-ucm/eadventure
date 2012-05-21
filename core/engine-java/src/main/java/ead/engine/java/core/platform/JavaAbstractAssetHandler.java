@@ -38,8 +38,14 @@
 package ead.engine.java.core.platform;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
+import java.util.Scanner;
 
 import com.google.inject.Injector;
 
@@ -56,22 +62,27 @@ public abstract class JavaAbstractAssetHandler extends AbstractAssetHandler {
 	 */
 	private Injector injector;
 
+	/**
+	 * Map of original file names to file references in the temporary directory
+	 */
+	protected Map<String, File> fileMap;
 
 	public JavaAbstractAssetHandler(
 			Injector injector,
-			Map<Class<? extends AssetDescriptor>, Class<? extends RuntimeAsset<? extends AssetDescriptor>>> classMap, FontHandler fontHandler ) {
+			Map<Class<? extends AssetDescriptor>, Class<? extends RuntimeAsset<? extends AssetDescriptor>>> classMap,
+			FontHandler fontHandler) {
 		super(classMap, fontHandler);
 		this.injector = injector;
 	}
 
-    @Override
+	@Override
 	public RuntimeAsset<?> getInstance(Class<? extends RuntimeAsset<?>> clazz) {
 		return injector.getInstance(clazz);
 	}
 
 	/**
 	 * Helper method to create a directory within the system temporary directory
-	 *
+	 * 
 	 * @param name
 	 *            The name of the directory
 	 * @return The reference to the directory
@@ -94,5 +105,57 @@ public abstract class JavaAbstractAssetHandler extends AbstractAssetHandler {
 		}
 
 		return (temp);
+	}
+
+	/**
+	 * Loads a file as an input stream
+	 * 
+	 * @param path
+	 *            file location, with '@' substituted for location root
+	 * @return The file as an input stream
+	 */
+	public InputStream getResourceAsStream(String path) {
+		// TODO improve: localization!
+		InputStream is = null;
+		if (fileMap.containsKey(path)) {
+			File file = fileMap.get(path);
+			try {
+				is = new FileInputStream(file);
+			} catch (FileNotFoundException e) {
+				logger.error("error loading resource {} (from file '{}')",
+						new Object[] { path, file.getAbsolutePath() }, e);
+			}
+		} else {
+			String location = path.replaceAll("@", "ead/engine/resources/");
+			is = ClassLoader.getSystemResourceAsStream(location);
+			if (is == null) {
+				logger.error(
+						"resource not found {} (from classpath-location '{}')",
+						new Object[] { path, location });
+			}
+		}
+
+		return is;
+	}
+
+	@Override
+	public List<String> getTextFile(String path) {
+		ArrayList<String> lines = new ArrayList<String>();
+		String NL = System.getProperty("line.separator");
+		Scanner scanner = null;
+		try {
+			scanner = new Scanner(getResourceAsStream(path));
+
+			while (scanner.hasNextLine()) {
+				lines.add(scanner.nextLine() + NL);
+			}
+		} catch (Exception e) {
+			return null;
+		} finally {
+			if (scanner != null) {
+				scanner.close();
+			}
+		}
+		return lines;
 	}
 }

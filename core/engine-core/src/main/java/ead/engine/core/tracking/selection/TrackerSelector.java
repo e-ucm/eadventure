@@ -37,6 +37,8 @@
 
 package ead.engine.core.tracking.selection;
 
+import java.util.List;
+
 import ead.engine.core.gameobjects.go.DrawableGO;
 import ead.engine.core.gameobjects.go.EffectGO;
 import ead.engine.core.input.InputAction;
@@ -66,5 +68,7 @@ public interface TrackerSelector {
 	 * @return
 	 */
 	boolean accept(EffectGO<?> effect);
+
+	public void setSelection(List<String> text);
 
 }

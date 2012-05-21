@@ -46,3 +46,4 @@ local/
 demos/firstaidgame/gwt-unitCache*
 demos/firstaidgame/war/firstaid*
 **/bin/**
+demos/firstaidgame/.gwt/

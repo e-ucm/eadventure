@@ -49,6 +49,8 @@ public class MouseGEv extends BasicElement implements EAdGUIEvent {
 
 	public static final MouseGEv MOUSE_RIGHT_CLICK = new MouseGEv(
 			MouseGEvType.CLICK, MouseGEvButtonType.BUTTON_3);
+	public static final MouseGEv MOUSE_RIGHT_PRESSED = new MouseGEv(
+			MouseGEvType.PRESSED, MouseGEvButtonType.BUTTON_3);
 	public static final MouseGEv MOUSE_LEFT_CLICK = new MouseGEv(
 			MouseGEvType.CLICK, MouseGEvButtonType.BUTTON_1);
 	public static final MouseGEv MOUSE_RIGHT_DOUBLE_CLICK = new MouseGEv(
@@ -165,7 +167,7 @@ public class MouseGEv extends BasicElement implements EAdGUIEvent {
 	}
 
 	public int hashCode() {
-		return type.hashCode() + button.hashCode();
+		return toString().hashCode();
 	}
 
 	public void setType(MouseGEvType type) {

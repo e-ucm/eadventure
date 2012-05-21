@@ -134,7 +134,7 @@ public class GWTBasicGameModule extends AbstractGinModule {
 //		bind(GameTracker.class).to(DefaultGameTracker.class).in(Singleton.class);
 		bind(TrackerSelector.class).to(DefaultTrackerSelector.class).in(Singleton.class);
 		bind(GLASTracker.class).to(GLASGwtTracker.class).in(Singleton.class);
-		bind(GameTracker.class).to(GLASGameTracker.class).in(Singleton.class);
+		bind(GameTracker.class).to(GLASGameTracker.class).in(Singleton.class);		
 		
 		
 

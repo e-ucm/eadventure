@@ -37,6 +37,8 @@
 
 package ead.engine.playn.html;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -50,10 +52,15 @@ import playn.html.HtmlPlatform;
 import playn.html.HtmlPlatform.Mode;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.http.client.Request;
+import com.google.gwt.http.client.RequestBuilder;
+import com.google.gwt.http.client.RequestCallback;
+import com.google.gwt.http.client.Response;
 
 import ead.common.model.elements.EAdAdventureModel;
 import ead.common.util.EAdURI;
 import ead.engine.core.game.Game;
+import ead.engine.core.platform.assets.AssetHandler;
 import ead.engine.playn.core.EAdEngine;
 import ead.engine.playn.core.platform.EngineCallback;
 import ead.engine.playn.core.platform.PlayNGinInjector;
@@ -95,6 +102,35 @@ public class GWTGame implements EngineCallback {
 	public void launch() {
 		HtmlAssets assets = HtmlPlatform.register(Mode.AUTODETECT).assets();
 		assets.setPathPrefix("");
+		
+		AssetHandler assetHandler = injector.getAssetHandler();
+		assetHandler.setResourcesLocation(new EAdURI(moduleName + "/"));
+		
+		//Read selection
+		RequestBuilder requestBuilder = new RequestBuilder(RequestBuilder.GET,
+				moduleName + "/select.track");
+
+		try {
+			requestBuilder.sendRequest(null, new RequestCallback() {
+
+				@Override
+				public void onError(Request arg0, Throwable arg1) {
+					error();
+				}
+
+				@Override
+				public void onResponseReceived(Request arg0, Response resp) {
+					String properties = resp.getText();
+					logger.info("Find {}. Processing...", properties);
+					injector.getTrackerSelector().setSelection(Arrays.asList(properties.split("\\r?\\n")));					
+					done();
+
+				}
+			});
+		} catch ( Exception e ){
+			error();
+		}
+		
 		// Read strings
 		GWTStringReader stringsReader = new GWTStringReader();
 		stringsReader.readXML(moduleName + "/strings.xml",
@@ -115,9 +151,8 @@ public class GWTGame implements EngineCallback {
 	public void done() {
 		filesRead++;
 		logger.info("Files read: {}", filesRead);
-		if (filesRead == 3) {
-			injector.getAssetHandler().setResourcesLocation(
-					new EAdURI(moduleName + "/"));
+		if (filesRead == 4) {
+
 			Game game = injector.getGame();
 			model = modelProxy.getModel();
 			for (Entry<String, String> e : propertiesMap.entrySet()) {

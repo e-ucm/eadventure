@@ -45,6 +45,8 @@ import ead.common.model.elements.EAdAdventureModel;
 import ead.common.model.elements.effects.ChangeSceneEf;
 import ead.common.model.elements.effects.variables.ChangeFieldEf;
 import ead.common.model.elements.guievents.DragGEv;
+import ead.common.model.elements.variables.EAdField;
+import ead.engine.core.game.ValueMap;
 import ead.engine.core.gameobjects.go.DrawableGO;
 import ead.engine.core.gameobjects.go.EffectGO;
 import ead.engine.core.input.InputAction;
@@ -69,10 +71,14 @@ public class GLASGameTracker extends AbstractGameTracker {
 
 	private static final int DEFAULT_MAX_TRACES = 200;
 
+	private ValueMap valueMap;
+
 	@Inject
-	public GLASGameTracker(GLASTracker tracker, TrackerSelector selector) {
+	public GLASGameTracker(ValueMap valueMap, GLASTracker tracker,
+			TrackerSelector selector) {
 		super(selector);
 		this.tracker = tracker;
+		this.valueMap = valueMap;
 		logger.info("GLAS Game tracker created");
 	}
 
@@ -94,7 +100,7 @@ public class GLASGameTracker extends AbstractGameTracker {
 				logger.warn(errorMessage);
 				logger.warn("Tracking will be disabled.");
 				GLASGameTracker.this.stop();
-				
+
 			}
 
 		});
@@ -251,9 +257,26 @@ public class GLASGameTracker extends AbstractGameTracker {
 			if (changeScene.getNextScene() != null) {
 				trace.setArg1(changeScene.getNextScene().getId());
 			}
-		}
-		else if ( effect.getEffect() instanceof ChangeFieldEf ){
-			
+		} else if (effect.getEffect() instanceof ChangeFieldEf) {
+			ChangeFieldEf changeField = (ChangeFieldEf) effect.getEffect();
+			String vars = "";
+			String value = null;
+			for (EAdField<?> f : changeField.getFields()) {
+				if (value != null) {
+					vars += ";";
+				}
+
+				vars += f.getVarDef().getName();
+
+				if (value == null) {
+					Object v = valueMap.getValue(f);
+					value = v == null ? "" : v.toString();
+				}
+				trace.setType("ChangeField");
+				trace.setArg1(vars);
+				trace.setArg2(value);
+			}
+
 		}
 		return trace;
 	}
