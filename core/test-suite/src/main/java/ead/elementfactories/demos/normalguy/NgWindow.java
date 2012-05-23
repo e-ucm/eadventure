@@ -15,7 +15,7 @@ public class NgWindow extends VideoScene implements SceneDemo {
 
 	@Override
 	public String getSceneDescription() {
-		return "A scene showing a video";
+		return "A scene showing the e-Adventure presentation video";
 	}
 
 	public String getDemoName() {

@@ -18,11 +18,9 @@ import ead.elementfactories.demos.scenes.EmptyScene;
 public class NgRoom3 extends EmptyScene{
 	private SceneElement ng;
 	private SceneElement door;
-	private EAdScene previousScene;
 	
 	
-	public NgRoom3(EAdScene previousScene) {
-		this.previousScene = previousScene;
+	public NgRoom3() {
 		NgCommon.init();
 		setBackground(new SceneElement(new Image("@drawable/ng_room2_bg.jpg")));
 		getBackground().setId("background");
@@ -59,7 +57,6 @@ public class NgRoom3 extends EmptyScene{
 		
 		createElements();
 		addElementsInOrder();
-		setDoor();
 	}
 	
 	/**
@@ -83,9 +80,8 @@ public class NgRoom3 extends EmptyScene{
 	/**
 	 * Sets door behavior
 	 */
-	private void setDoor() {
-		ChangeSceneEf goToPreviousScene = new ChangeSceneEf(this.previousScene,
-				new FadeInTransition(1000));
+	public void setDoor(EAdScene corridor) {
+		ChangeSceneEf goToPreviousScene = new ChangeSceneEf(corridor, new FadeInTransition(1000));
 		door.addBehavior(MouseGEv.MOUSE_LEFT_PRESSED,
 				goToPreviousScene);
 	}
