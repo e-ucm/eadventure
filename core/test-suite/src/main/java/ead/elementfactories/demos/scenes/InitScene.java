@@ -60,6 +60,8 @@ import ead.common.util.EAdPosition.Corner;
 import ead.elementfactories.EAdElementsFactory;
 import ead.elementfactories.StringFactory;
 import ead.elementfactories.demos.SceneDemo;
+import ead.elementfactories.demos.normalguy.NgMainScreen;
+import ead.elementfactories.demos.normalguy.NgRoom1;
 
 public class InitScene extends EmptyScene {
 
@@ -140,7 +142,7 @@ public class InitScene extends EmptyScene {
 		// sceneDemos.add(new MoleGame());
 		sceneDemos.add(new ShowQuestionScene());
 		sceneDemos.add(new TrajectoriesScene());
-		// sceneDemos.add(new PhysicsScene());
+		sceneDemos.add(new PhysicsScene());
 		sceneDemos.add(new PhysicsScene2());
 		sceneDemos.add(new DragDropScene());
 		sceneDemos.add(new PositionScene());
@@ -151,8 +153,8 @@ public class InitScene extends EmptyScene {
 		sceneDemos.add(new FiltersDemo());
 		sceneDemos.add(new VideoSceneDemo());
 		sceneDemos.add(new WebMVideoScene());
-//		sceneDemos.add(new NgMainScreen(this));
-		// sceneDemos.add(new NgRoom1());
+		sceneDemos.add(new NgMainScreen(this));
+		//sceneDemos.add(new NgRoom1());
 
 	}
 
