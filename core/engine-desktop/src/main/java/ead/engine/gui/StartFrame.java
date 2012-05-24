@@ -323,7 +323,6 @@ public class StartFrame extends JFrame {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-
 	}
 
 	private void addOpen() {
@@ -339,7 +338,6 @@ public class StartFrame extends JFrame {
 					loadGame(fileChooser.getSelectedFile());
 				}
 			}
-
 		});
 		add(p, BorderLayout.SOUTH);
 
@@ -353,60 +351,14 @@ public class StartFrame extends JFrame {
 				setEAdProperties(propertiesField.getText(), game.getModel());
 				game.launch(ticksPerSecond,
 						Boolean.parseBoolean(properties.getProperty(FULL_SCREEN)));
-
 			}
-
 		});
 	}
 
 	private void loadGame(final File f) {
-
 		if (isOldProject(f)) {
-
-			final int result = JOptionPane
-					.showConfirmDialog(
-							StartFrame.this,
-							"Selected file is from an old version of eAdventure. Do you want to save the imported game in a new file?",
-							"eAdventure importation", JOptionPane.INFORMATION_MESSAGE);
-
-			if (result == JOptionPane.CANCEL_OPTION)
-				return;
-
-			new Thread("Importer") {
-
-				public void run() {
-					EAdAdventureModel model = null;
-					String destinyFile = null;
-					Map<EAdString, String> strings = null;
-
-					String destiny = null;
-
-					if (result == JOptionPane.YES_OPTION) {
-						int fileResult = fileChooser.showSaveDialog(StartFrame.this);
-						if (fileResult == JFileChooser.CANCEL_OPTION)
-							return;
-						if (fileResult == JFileChooser.APPROVE_OPTION)
-							destiny = fileChooser.getSelectedFile().getAbsolutePath();
-					}
-
-					model = importer.importGame(f.getAbsolutePath(), destiny);
-					destinyFile = importer.getDestinyFile();
-					strings = importer.getStrings();
-
-					if (model != null) {
-						DesktopGame game = new DesktopGame(model, destinyFile, strings,
-								debuggersClass);
-						setEAdProperties(propertiesField.getText(), game.getModel());
-						game.launch(ticksPerSecond,
-								Boolean.parseBoolean(properties.getProperty(FULL_SCREEN)));
-					}
-				}
-			}.start();
-
-			progressDialog.setVisible(true);
-
+			openOldProject(f);
 		} else {
-
 			EAdAdventureModel model = null;
 			String destinyFile = null;
 			Map<EAdString, String> strings = null;
@@ -422,9 +374,9 @@ public class StartFrame extends JFrame {
 				strings = stringFileHandler.read(inStrings);
 				inStrings.close();
 			} catch (FileNotFoundException e) {
-				e.printStackTrace();
+				logger.info("Problem loading strings files", e);
 			} catch (IOException e) {
-				e.printStackTrace();
+				logger.info("Problem loading strings files", e);
 			}
 
 			if (model != null) {
@@ -433,9 +385,49 @@ public class StartFrame extends JFrame {
 				game.launch(ticksPerSecond,
 						Boolean.parseBoolean(properties.getProperty(FULL_SCREEN)));
 			}
-
 		}
+	}
 
+	private void openOldProject(final File f) {
+		final int result = JOptionPane
+				.showConfirmDialog(
+						StartFrame.this,
+						"Selected file is from an old version of eAdventure. Do you want to save the imported game in a new file?",
+						"eAdventure importation", JOptionPane.INFORMATION_MESSAGE);
+
+		if (result == JOptionPane.CANCEL_OPTION)
+			return;
+
+		new Thread("Importer") {
+			public void run() {
+				EAdAdventureModel model = null;
+				String destinyFile = null;
+				Map<EAdString, String> strings = null;
+
+				String destiny = null;
+
+				if (result == JOptionPane.YES_OPTION) {
+					int fileResult = fileChooser.showSaveDialog(StartFrame.this);
+					if (fileResult == JFileChooser.CANCEL_OPTION)
+						return;
+					if (fileResult == JFileChooser.APPROVE_OPTION)
+						destiny = fileChooser.getSelectedFile().getAbsolutePath();
+				}
+
+				model = importer.importGame(f.getAbsolutePath(), destiny);
+				destinyFile = importer.getDestinyFile();
+				strings = importer.getStrings();
+
+				if (model != null) {
+					DesktopGame game = new DesktopGame(model, destinyFile, strings, debuggersClass);
+					setEAdProperties(propertiesField.getText(), game.getModel());
+					game.launch(ticksPerSecond,
+							Boolean.parseBoolean(properties.getProperty(FULL_SCREEN)));
+				}
+			}
+		}.start();
+
+		progressDialog.setVisible(true);
 	}
 
 	private boolean isOldProject(File f) {
