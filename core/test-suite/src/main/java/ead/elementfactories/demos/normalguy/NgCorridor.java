@@ -39,11 +39,11 @@ public class NgCorridor extends EmptyScene{
 		// Set up room's variables
 		initVariables();
 		// Set the scene background
-		setBackground(new SceneElement(new Image("@drawable/bg_prueba.png")));
+		setBackground(new SceneElement(new Image("@drawable/ng_corridor_bg.png")));
 		getBackground().setId("ng_corridor_bg");
 		// Puts main character into the scene
 		ng = new SceneElement(NgCommon.getMainCharacter());
-		ng.setPosition(Corner.TOP_LEFT, 692, 125);	
+		ng.setPosition(Corner.TOP_LEFT, 660, 485);	
 		ng.setInitialScale(0.8f);
 		
 		SimpleTrajectoryDefinition d = new SimpleTrajectoryDefinition(false);	
@@ -74,7 +74,7 @@ public class NgCorridor extends EmptyScene{
 	 * Sets the window's position & image
 	 */
 	private void setWindow() {
-		window = new SceneElement(new Image("@drawable/ng_corridor_window.jpg"));
+		window = new SceneElement(new Image("@drawable/ng_corridor_window.png"));
 		window.setId("window");
 		window.setPosition(Corner.TOP_LEFT , 345, 39);
 	}
@@ -89,11 +89,11 @@ public class NgCorridor extends EmptyScene{
 		
 		door2 = new SceneElement(new Image("@drawable/ng_corridor_door2.png"));
 		door2.setId("door2");
-		door2.setPosition(Corner.TOP_LEFT, 49, 234);
+		door2.setPosition(Corner.TOP_LEFT, 48, 148);
 		
 		door3 = new SceneElement(new Image("@drawable/ng_corridor_door3.png"));
 		door3.setId("door3");
-		door3.setPosition(Corner.TOP_LEFT, 145, 92);
+		door3.setPosition(Corner.TOP_LEFT, 145, 8);
 		
 		door4 = new SceneElement(new Image("@drawable/ng_corridor_door4.png"));
 		door4.setId("door4");

@@ -99,7 +99,7 @@ public class NgRoom1 extends EmptyScene {
 
 	public NgRoom1() {
 		//this.initScene = initScene;
-		NgCommon.init();
+		//NgCommon.init();
 		initConditions();
 		setBackground(new SceneElement(new Image("@drawable/ng_room1_bg.png")));
 		getBackground().setId("background");

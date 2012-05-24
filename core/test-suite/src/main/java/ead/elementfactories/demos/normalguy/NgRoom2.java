@@ -86,8 +86,8 @@ public class NgRoom2 extends EmptyScene{
 	
 	public NgRoom2() {
 		NgCommon.init();
-		setBackground(new SceneElement(new Image("@drawable/ng_room2_bg.jpg")));
-		getBackground().setId("background");
+		setBackground(new SceneElement(new Image("@drawable/ng_room2_bg.png")));
+		getBackground().setId("ng_room2_bg");
 		
 		// Set up character's initial position
 		ng = new SceneElement(NgCommon.getMainCharacter());
@@ -107,7 +107,7 @@ public class NgRoom2 extends EmptyScene{
 		
 		// Area where the character can walk
 		SimpleTrajectoryDefinition d = new SimpleTrajectoryDefinition(false);
-		d.setLimits(262, 472, 800, 600);
+		d.setLimits(150, 380, 800, 600);
 		setTrajectoryDefinition(d);
 		
 		// Sets up character's movement
@@ -129,7 +129,7 @@ public class NgRoom2 extends EmptyScene{
 	 */
 	private void createElements() {
 		door = new SceneElement(new Image("@drawable/ng_room2_door.png"));
-		door.setId("door");
+		door.setId("ng_room2_door");
 		door.setPosition(Corner.TOP_LEFT, 615, 165);
 		
 		/* Falta crear:
@@ -152,8 +152,7 @@ public class NgRoom2 extends EmptyScene{
 	 */
 	public void setDoor(EAdScene corridor) {
 		ChangeSceneEf goToPreviousScene = new ChangeSceneEf(corridor, new FadeInTransition(1000));
-		door.addBehavior(MouseGEv.MOUSE_LEFT_PRESSED,
-				goToPreviousScene);
+		door.addBehavior(MouseGEv.MOUSE_LEFT_PRESSED, goToPreviousScene);
 	}
 	
 	private void setPhysics() {

@@ -22,8 +22,8 @@ public class NgRoom3 extends EmptyScene{
 	
 	public NgRoom3() {
 		NgCommon.init();
-		setBackground(new SceneElement(new Image("@drawable/ng_room2_bg.jpg")));
-		getBackground().setId("background");
+		setBackground(new SceneElement(new Image("@drawable/ng_room3_bg.png")));
+		getBackground().setId("ng_room3_bg");
 		
 		// Set up character's initial position
 		ng = new SceneElement(NgCommon.getMainCharacter());

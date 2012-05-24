@@ -1,6 +1,7 @@
 package ead.elementfactories.demos.normalguy;
 
 import ead.common.model.elements.scene.EAdScene;
+import ead.common.model.elements.scenes.SceneElementDef;
 
 public class NgSceneCreator {
 	
@@ -26,6 +27,8 @@ public class NgSceneCreator {
 	 * Creates every games' scene and sets up their elemenScene's behavior
 	 */
 	private NgSceneCreator() {
+		NgCommon.init();
+		
 		corridor = new NgCorridor();
 		room1 = new NgRoom1();
 		room2 = new NgRoom2();
