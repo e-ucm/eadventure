@@ -18,6 +18,7 @@ import ead.elementfactories.demos.scenes.EmptyScene;
 public class NgRoom3 extends EmptyScene{
 	private SceneElement ng;
 	private SceneElement door;
+	private SceneElement evil_ng;
 	
 	
 	public NgRoom3() {
@@ -27,7 +28,7 @@ public class NgRoom3 extends EmptyScene{
 		
 		// Set up character's initial position
 		ng = new SceneElement(NgCommon.getMainCharacter());
-		ng.setPosition(Corner.BOTTOM_CENTER, 862, 235);
+		ng.setPosition(Corner.TOP_LEFT, 125, 360);
 		ng.setInitialScale(0.8f);
 		
 		// Character can talk in the scene
@@ -63,9 +64,14 @@ public class NgRoom3 extends EmptyScene{
 	 * Generates the SceneElements
 	 */
 	private void createElements() {
-		door = new SceneElement(new Image("@drawable/ng_door.png"));
-		door.setId("door");
-		door.setPosition(Corner.CENTER, 862, 235);
+		door = new SceneElement(new Image("@drawable/ng_room3_door.png"));
+		door.setId("ng_room3_door");
+		door.setPosition(Corner.TOP_LEFT, 32, 201);
+		
+		evil_ng = new SceneElement(new Image("@drawable/evil_man_stand_s_1.png"));
+		evil_ng.setId("ng_room3_evil_ng");
+		evil_ng.setInitialScale(0.9f);
+		evil_ng.setPosition(Corner.TOP_LEFT, 600, 350);
 
 	}
 	
@@ -74,6 +80,7 @@ public class NgRoom3 extends EmptyScene{
 	 */
 	private void addElementsInOrder() {
 		getSceneElements().add(door);
+		getSceneElements().add(evil_ng);
 		getSceneElements().add(ng);
 	}
 	
@@ -82,7 +89,8 @@ public class NgRoom3 extends EmptyScene{
 	 */
 	public void setDoor(EAdScene corridor) {
 		ChangeSceneEf goToPreviousScene = new ChangeSceneEf(corridor, new FadeInTransition(1000));
-		door.addBehavior(MouseGEv.MOUSE_LEFT_PRESSED,
-				goToPreviousScene);
+		door.addBehavior(MouseGEv.MOUSE_LEFT_PRESSED, goToPreviousScene);
+		
+		
 	}
 }

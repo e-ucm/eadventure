@@ -16,6 +16,8 @@ import ead.common.model.elements.transitions.DisplaceTransition;
 import ead.common.model.elements.transitions.FadeInTransition;
 import ead.common.model.elements.transitions.enums.DisplaceTransitionType;
 import ead.common.model.elements.variables.SystemFields;
+import ead.common.model.predef.effects.SpeakSceneElementEf;
+import ead.common.params.text.EAdString;
 import ead.common.resources.assets.drawable.basics.Image;
 import ead.common.util.EAdPosition.Corner;
 import ead.elementfactories.demos.scenes.EmptyScene;
@@ -29,6 +31,8 @@ public class NgCorridor extends EmptyScene{
 	private SceneElement door2;
 	private SceneElement door3;
 	private SceneElement door4;
+	
+	private SceneElement doorClosed;
 	
 	private ArrayList<SceneElement> rooms;
 	
@@ -99,6 +103,10 @@ public class NgCorridor extends EmptyScene{
 		door4.setId("door4");
 		door4.setPosition(Corner.TOP_LEFT, 597, 8);
 		
+		doorClosed = new SceneElement(new Image("@drawable/ng_corridor_closed.png"));
+		doorClosed.setId("doorClosed");
+		doorClosed.setPosition(Corner.TOP_LEFT, 570, 72);
+		
 	}
 	
 	/**
@@ -110,6 +118,8 @@ public class NgCorridor extends EmptyScene{
 		getSceneElements().add(door2);
 		getSceneElements().add(door3);
 		getSceneElements().add(door4);
+		getSceneElements().add(doorClosed);
+		getSceneElements().add(ng);
 	}
 	
 	/**
@@ -174,18 +184,43 @@ public class NgCorridor extends EmptyScene{
 	 * Establish door's behavior
 	 */
 	private void doorsBehavior(EAdScene room1, EAdScene room2, EAdScene room3, EAdScene finalRoom) {
-		ChangeSceneEf goToRoom1 = new ChangeSceneEf(room1, new FadeInTransition(1000));
-		door1.addBehavior(MouseGEv.MOUSE_LEFT_PRESSED, goToRoom1);
+		setMovementAndChangeRoomBehavior(room1, door1);
+		setMovementAndChangeRoomBehavior(room2, door2);
+		setMovementAndChangeRoomBehavior(room3, door3);
+		setMovementAndChangeRoomBehavior(finalRoom, door4);
+		doorClosed();
+	}
+	
+	/**
+	 * Configures the movement & change room effects
+	 * @param room -> where to go through that door
+	 * @param element -> door selected
+	 */
+	private void setMovementAndChangeRoomBehavior(EAdScene room, SceneElement element) {
+		// Movement
+		MoveSceneElementEf move = new MoveSceneElementEf();
+		move.setTargetCoordiantes(SystemFields.MOUSE_SCENE_X, SystemFields.MOUSE_SCENE_Y);
+		move.setSceneElement(ng);
+		element.addBehavior(MouseGEv.MOUSE_LEFT_PRESSED, move);
 		
-		ChangeSceneEf goToRoom2 = new ChangeSceneEf(room2, new FadeInTransition(1000));
-		door2.addBehavior(MouseGEv.MOUSE_LEFT_PRESSED, goToRoom2);
+		// Changing the scene
+		ChangeSceneEf goToRoom = new ChangeSceneEf(room, new FadeInTransition(1000));
+		move.getNextEffects().add(goToRoom);
 		
-		ChangeSceneEf goToRoom3 = new ChangeSceneEf(room3, new FadeInTransition(1000));
-		door3.addBehavior(MouseGEv.MOUSE_LEFT_PRESSED, goToRoom3);
+	}
+	
+	private void doorClosed() {
+		// Message when the main character tries to open the door
+		MoveSceneElementEf move = moveNg(597, 8);
+		doorClosed.addBehavior(MouseGEv.MOUSE_LEFT_PRESSED, move);
 		
-		ChangeSceneEf goToRoom4 = new ChangeSceneEf(finalRoom, new FadeInTransition(1000));
-		door4.addBehavior(MouseGEv.MOUSE_LEFT_PRESSED, goToRoom4);
-		
+		move.getNextEffects().add(NgCommon.getLookEastEffect());
+        
+		EAdString talking = new EAdString("I think it is closed dude...");
+		SpeakSceneElementEf speak = new SpeakSceneElementEf(talking);
+		speak.setElement(ng);
+		speak.setId("speakEffect");
+		move.getNextEffects().add(speak);
 	}
 	
 	

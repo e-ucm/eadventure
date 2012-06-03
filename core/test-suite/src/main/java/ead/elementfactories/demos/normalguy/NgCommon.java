@@ -62,6 +62,8 @@ public class NgCommon {
 	private static EAdField<EAdSceneElement> mainCharacterSceneElement;
 
 	private static ChangeFieldEf lookNorth;
+	private static ChangeFieldEf lookEast;
+	private static ChangeFieldEf lookSouth;
 
 	public static void init() {
 		if (!init) {
@@ -77,6 +79,18 @@ public class NgCommon {
 		lookNorth.addField(new BasicField<Orientation>(
 				mainCharacterSceneElement, SceneElement.VAR_ORIENTATION));
 		lookNorth.setOperation(new ValueOp(Orientation.N));
+		
+		lookEast = new ChangeFieldEf();
+		lookEast.setId("lookEast");
+		lookEast.addField(new BasicField<Orientation>(
+				mainCharacterSceneElement, SceneElement.VAR_ORIENTATION));
+		lookEast.setOperation(new ValueOp(Orientation.E));
+		
+		lookSouth = new ChangeFieldEf();
+		lookSouth.setId("lookSouth");
+		lookSouth.addField(new BasicField<Orientation>(
+				mainCharacterSceneElement, SceneElement.VAR_ORIENTATION));
+		lookSouth.setOperation(new ValueOp(Orientation.S));
 	}
 
 	private static void createMainCharacter() {
@@ -189,6 +203,14 @@ public class NgCommon {
 
 	public static EAdEffect getLookNorthEffect() {
 		return lookNorth;
+	}
+	
+	public static EAdEffect getLookEastEffect() {
+		return lookEast;
+	}
+	
+	public static EAdEffect getLookSouthEffect() {
+		return lookSouth;
 	}
 
 }

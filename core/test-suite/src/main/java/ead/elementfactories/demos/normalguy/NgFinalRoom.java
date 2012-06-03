@@ -1,10 +1,12 @@
 package ead.elementfactories.demos.normalguy;
 
 import ead.common.model.elements.conditions.OperationCond;
+import ead.common.model.elements.effects.ChangeSceneEf;
 import ead.common.model.elements.effects.InterpolationEf;
 import ead.common.model.elements.effects.enums.InterpolationLoopType;
 import ead.common.model.elements.effects.enums.InterpolationType;
 import ead.common.model.elements.effects.physics.PhysicsEffect;
+import ead.common.model.elements.effects.sceneelements.MoveSceneElementEf;
 import ead.common.model.elements.events.ConditionedEv;
 import ead.common.model.elements.events.SceneElementEv;
 import ead.common.model.elements.events.enums.ConditionedEvType;
@@ -31,6 +33,7 @@ public class NgFinalRoom extends EmptyScene{
 	
 	private SceneElement house;
 	private SceneElement ng;
+	private SceneElement post;
 	
 	
 	public NgFinalRoom() {
@@ -55,14 +58,51 @@ public class NgFinalRoom extends EmptyScene{
 		
 		addGround(effect);
 		setElements();
+		addElementsInOrder();
+		
 		
 	}
 	
 	private void setElements() {
-		house = new SceneElement(new Image("@drawable/ng_finalroom_house.jpg"));
+		house = new SceneElement(new Image("@drawable/ng_finalroom_house.png"));
 		house.setId("house");
 		house.setPosition(Corner.TOP_LEFT , 540, 175);
 		
+		post = new SceneElement(new Image("@drawable/ng_finalroom_post.png"));
+		post.setId("post");
+		post.setPosition(Corner.TOP_LEFT, 350, 175);
+	}
+	
+	private void addElementsInOrder() {
+		getSceneElements().add(house);
+		getSceneElements().add(post);
+		getSceneElements().add(ng);
+	}
+	
+	public void setHouse(EAdScene corridor) {
+		// Principal character moving to the house
+		MoveSceneElementEf move = moveNg(630, 300);
+        house.addBehavior(MouseGEv.MOUSE_LEFT_PRESSED, move);
+       
+        // Define next scene
+        ChangeSceneEf corridorScene = new ChangeSceneEf( );
+        corridorScene.setId("corridorScene");
+		corridorScene.setNextScene(corridor);
+		move.getNextEffects().add(corridorScene);
+	}
+	
+	/**
+	 * Moves ng to x & y coordinates
+	 * @param x
+	 * @param y
+	 * @return
+	 */
+	private MoveSceneElementEf moveNg(int x, int y) {
+		MoveSceneElementEf move = new MoveSceneElementEf();
+		move.setId("move");
+		move.setSceneElement(ng);
+		move.setTargetCoordiantes(x, y);
+		return move;
 	}
 	
 	private void addSky() {
@@ -87,9 +127,9 @@ public class NgFinalRoom extends EmptyScene{
 	}
 	
 	protected void addGround(PhysicsEffect effect) {
-		RectangleShape groundS = new RectangleShape(750, 50);
+		RectangleShape groundS = new RectangleShape(799, 1);
 		groundS.setPaint(new LinearGradientFill(ColorFill.BROWN,
-				ColorFill.DARK_BROWN, 750, 50));
+				ColorFill.DARK_BROWN, 799, 1));
 		SceneElement ground = new SceneElement(groundS);
 		ground.setId("ground");
 		ground.setPosition(new EAdPosition(Corner.CENTER, 400, 575));

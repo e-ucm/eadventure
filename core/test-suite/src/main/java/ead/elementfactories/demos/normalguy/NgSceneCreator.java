@@ -37,7 +37,6 @@ public class NgSceneCreator {
 		finalRoom = new NgFinalRoom();
 		
 		setElementsBehavior();
-		
 	}
 	
 	
@@ -45,9 +44,8 @@ public class NgSceneCreator {
 		room1.setUpSceneElements(corridor);
 		room2.setDoor(corridor);
 		room3.setDoor(corridor);
-		// comportamiento de la final room?
 		corridor.setUpSceneElements(window, room1, room2, room3, finalRoom);
-		
+		finalRoom.setHouse(corridor);
 	}
 	
 	public static EAdScene getRoom1() { return room1; }
