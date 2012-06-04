@@ -79,11 +79,11 @@ public class PlayNGUI extends AbstractGUI<Canvas> implements GUI {
 	private Object currentComponent;
 
 	@Inject
-	public PlayNGUI(EngineConfiguration platformConfiguration,
-			GameObjectManager gameObjectManager, InputHandler inputHandler, GameState gameState,
+	public PlayNGUI(EngineConfiguration platformConfiguration, GameObjectManager gameObjectManager,
+			InputHandler inputHandler, GameState gameState,
 			SceneElementGOFactory gameObjectFactory, PlayNCanvas canvas, GameLoop gameLoop) {
-		super(platformConfiguration, gameObjectManager, inputHandler,
-				gameState, gameObjectFactory, canvas, gameLoop);
+		super(platformConfiguration, gameObjectManager, inputHandler, gameState, gameObjectFactory,
+				canvas, gameLoop);
 		logger.info("New instance");
 	}
 
@@ -95,8 +95,7 @@ public class PlayNGUI extends AbstractGUI<Canvas> implements GUI {
 	 * lang.Object, int, int, boolean)
 	 */
 	@Override
-	public void showSpecialResource(final Object resource, int x, int y,
-			boolean fullscreen) {
+	public void showSpecialResource(final Object resource, int x, int y, boolean fullscreen) {
 		if (resource != null) {
 			if (currentComponent != resource) {
 				Widget widget = (Widget) resource;

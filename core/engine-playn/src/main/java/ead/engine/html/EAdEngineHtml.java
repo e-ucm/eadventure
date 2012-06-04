@@ -45,22 +45,21 @@ import playn.html.HtmlPlatform.Mode;
 
 import com.google.gwt.core.client.GWT;
 
-import ead.common.model.elements.EAdAdventureModel;
 import ead.common.model.elements.BasicAdventureModel;
 import ead.common.model.elements.BasicChapter;
+import ead.common.model.elements.EAdAdventureModel;
 import ead.common.model.elements.scene.EAdScene;
 import ead.common.util.StringHandler;
 import ead.elementfactories.EAdElementsFactory;
 import ead.elementfactories.demos.scenes.InitScene;
 import ead.engine.core.EAdEngine;
 import ead.engine.core.game.Game;
-import ead.engine.core.platform.GUI;
+import ead.engine.core.platform.PlayNGUI;
 import ead.engine.core.platform.PlayNGinInjector;
 
 public class EAdEngineHtml extends HtmlGame {
 
-	protected final static PlayNGinInjector injector = GWT
-			.create(PlayNGinInjector.class);
+	protected final static PlayNGinInjector injector = GWT.create(PlayNGinInjector.class);
 
 	@Override
 	public void start() {
@@ -69,15 +68,15 @@ public class EAdEngineHtml extends HtmlGame {
 		assets.setPathPrefix("");
 
 		injector.getPlayNInjector().setInjector(injector);
-		
+
 		Game game = loadGame();
 
-		GUI gui = injector.getGUI();
+		PlayNGUI gui = injector.getGUI();
 
-		PlayN.run(new EAdEngine(game, gui, injector.getAssetHandler(), injector
-				.getMouseState(), injector.getPlatformConfiguration()));
+		PlayN.run(new EAdEngine(game, gui, injector.getAssetHandler(), injector.getMouseState(),
+				injector.getPlatformConfiguration()));
 	}
-	
+
 	public Game loadGame() {
 		Game game = injector.getGame();
 		game.loadGame();
@@ -91,15 +90,14 @@ public class EAdEngineHtml extends HtmlGame {
 		EAdScene s2 = new InitScene();
 		chapter.getScenes().add(s2);
 		chapter.setInitialScene(s2);
-//		model.setInventory(EAdElementsFactory.getInstance().getInventory());
+		// model.setInventory(EAdElementsFactory.getInstance().getInventory());
 
 		game.setGame(model, chapter);
 
 		// String handler after creating the scene
 		StringHandler stringHandler = injector.getStringHandler();
-		stringHandler.addStrings(EAdElementsFactory.getInstance()
-				.getStringFactory().getStrings());
-		
+		stringHandler.addStrings(EAdElementsFactory.getInstance().getStringFactory().getStrings());
+
 		return game;
 	}
 

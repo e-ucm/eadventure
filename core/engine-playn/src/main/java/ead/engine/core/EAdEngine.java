@@ -54,10 +54,8 @@ import ead.engine.core.game.Game;
 import ead.engine.core.input.InputHandler;
 import ead.engine.core.input.PlayNInputListener;
 import ead.engine.core.platform.EngineConfiguration;
-import ead.engine.core.platform.GUI;
 import ead.engine.core.platform.PlayNAssetHandler;
 import ead.engine.core.platform.PlayNGUI;
-import ead.engine.core.platform.assets.AssetHandler;
 
 public class EAdEngine implements playn.core.Game {
 
@@ -65,7 +63,7 @@ public class EAdEngine implements playn.core.Game {
 
 	private Game game;
 
-	private GUI gui;
+	private PlayNGUI gui;
 
 	private InputHandler inputHandler;
 
@@ -74,20 +72,19 @@ public class EAdEngine implements playn.core.Game {
 	private static final Logger logger = LoggerFactory.getLogger("EAdEngine");
 
 	@Inject
-	public EAdEngine(Game game, GUI gui, AssetHandler assetHandler,
+	public EAdEngine(Game game, PlayNGUI gui, PlayNAssetHandler assetHandler,
 			InputHandler inputHandler, EngineConfiguration platformConfiguration) {
 		this.game = game;
 		this.gui = gui;
 		this.inputHandler = inputHandler;
 		this.engineConfiguration = platformConfiguration;
-		((PlayNAssetHandler) assetHandler).setEngine(this);
+		assetHandler.setEngine(this);
 		logger.info("New EAdEngine instance");
 	}
 
 	@Override
 	public void init() {
-		graphics().setSize(engineConfiguration.getWidth(),
-				engineConfiguration.getHeight());
+		graphics().setSize(engineConfiguration.getWidth(), engineConfiguration.getHeight());
 		PlayN.log().debug("EAdEngine: init");
 		PlayNInputListener listener = new PlayNInputListener(inputHandler);
 		PlayN.mouse().setListener(listener);
@@ -100,8 +97,7 @@ public class EAdEngine implements playn.core.Game {
 		gameLayer.setStrokeColor(0xffff0000);
 		gameLayer.drawText("Loading...", 20, 20);
 		graphics().rootLayer().add(graphics().createImageLayer(canvas));
-		((PlayNGUI) gui).initializeCanvas(gameLayer);
-
+		gui.initializeCanvas(gameLayer);
 	}
 
 	int updateCont = 0;
@@ -111,8 +107,7 @@ public class EAdEngine implements playn.core.Game {
 	@Override
 	public void update(float delta) {
 		if (updateCont % 60 == 0) {
-			PlayN.log().debug(
-					"EAdEngine: update " + (updateCont - completeUpdate));
+			PlayN.log().debug("EAdEngine: update " + (updateCont - completeUpdate));
 		}
 		updateCont++;
 		game.update();

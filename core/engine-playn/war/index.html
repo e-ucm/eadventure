@@ -4,6 +4,12 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=9">
 	<link rel="stylesheet" type="text/css" href="css/styles.css" />
 	<title>eAdventure Technical Demo</title>
+	<script type="text/javascript">
+		function enterFullScreen() {
+			document.getElementById('playn-root').webkitRequestFullScreen(Element.ALLOW_KEYBOARD_INPUT);
+			document.getElementById('playn-root').mozRequestFullScreen();
+		}
+	</script>
 </head>
 
 <body>
@@ -17,13 +23,15 @@
 </div>
 <div id="wrapper" class="eadbody">
 	<div id="container">
-		<div id="playn-root"></div>
+	    <div id="playn-root"></div>
 		<div id="links">
 			<a id="tech_demo_link" class="demolink" title="eAdventure Tech Demo" href="index.jsp"></a>
 			<a id="fire_protocol_link" class="demolink" title="Fire Protocol Game" href="index.jsp?demo=1"></a>
 		</div>
 		<script src="eadengine/eadengine.nocache.js"></script>
-	<div id="footer"></div>
+	<div id="footer" style="text-align: center;">
+		<button type="button" onclick="enterFullScreen()" style>Full-screen mode</button>
+	</div>
 	</div>
 </div>
 </body>

@@ -75,14 +75,12 @@ import ead.engine.core.gameobjects.transitions.DisplaceTransitionGO;
 import ead.engine.core.gameobjects.transitions.FadeInTransitionGO;
 import ead.engine.core.input.InputHandler;
 import ead.engine.core.inventory.InventoryHandler;
-import ead.engine.core.platform.assets.AssetHandler;
 import ead.engine.core.platform.assets.drawable.basics.PlayNImage;
 import ead.engine.core.platform.extra.PlayNAssetHandlerModule;
 import ead.engine.core.platform.extra.PlayNModule;
 import ead.engine.core.platform.modules.BasicGameModule;
 
-@GinModules({ PlayNAssetHandlerModule.class, PlayNModule.class,
-		BasicGameModule.class })
+@GinModules({ PlayNAssetHandlerModule.class, PlayNModule.class, BasicGameModule.class })
 public interface PlayNGinInjector extends Ginjector {
 
 	public Game getGame();
@@ -141,11 +139,11 @@ public interface PlayNGinInjector extends Ginjector {
 
 	public VideoSceneGO getVideoSceneGO();
 
-	public GUI getGUI();
+	public PlayNGUI getGUI();
 
 	public PlayNImage getPlayNEngineImage();
 
-	public AssetHandler getAssetHandler();
+	public PlayNAssetHandler getAssetHandler();
 
 	public StringHandler getStringHandler();
 
