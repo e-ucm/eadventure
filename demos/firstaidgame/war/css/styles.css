@@ -46,3 +46,20 @@
 #container {
 	position: relative;
 }
+
+/*
+TODO: This lines resize the canvas, but needs updating with eAd to actually change the resolution.
+#playn-root:-webkit-full-screen {
+  width: 100% !important;
+}
+#playn-root:-moz-full-screen {
+  width: 100% !important;
+}
+*/
+
+:-webkit-full-screen .tohide {
+  display: none; /* While in fullscreen, hide any children with class 'tohide' */
+}
+:-moz-full-screen .tohide {
+  display: none; /* While in fullscreen, hide any children with class 'tohide' */
+}

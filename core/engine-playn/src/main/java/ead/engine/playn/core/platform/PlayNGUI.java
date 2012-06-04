@@ -52,7 +52,6 @@ import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style.Position;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.user.client.DOM;
-import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -123,7 +122,7 @@ public class PlayNGUI extends AbstractGUI<Canvas> implements GUI {
 			if (currentComponent != null) {
 				// graphics().rootLayer().add(canvasLayer);
 				Element root = DOM.getElementById("playn-root");
-				root.getParentElement().removeChild(((Widget)currentComponent).getElement());
+				root.getParentElement().removeChild(((Widget) currentComponent).getElement());
 				graphics().rootLayer().setVisible(true);
 			}
 			currentComponent = null;

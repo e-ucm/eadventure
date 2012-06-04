@@ -4,6 +4,12 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=9">
 	<link rel="stylesheet" type="text/css" href="css/styles.css" />
 	<title>eAdventure Technical Demo</title>
+	<script type="text/javascript">
+		function enterFullScreen() {
+			document.getElementById('container').webkitRequestFullScreen(Element.ALLOW_KEYBOARD_INPUT);
+			document.getElementById('container').mozRequestFullScreen();
+		}
+	</script>
 </head>
 
 <body>
@@ -11,6 +17,9 @@
 	<div id="container">
 		<div id="playn-root" class="gamecontainer"></div>
 		<script src="firstaid/firstaid.nocache.js"></script>
+	</div>
+	<div id="footer" style="text-align: center;">
+		<button type="button" onclick="enterFullScreen()">Full-screen mode</button>
 	</div>
 </div>
 </body>
