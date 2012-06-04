@@ -43,6 +43,7 @@ import com.google.inject.name.Named;
 import ead.common.util.EAdURI;
 import ead.engine.core.platform.GUI;
 import ead.engine.core.platform.assets.AssetHandler;
+import ead.engine.core.tracking.GameTracker;
 
 public class GameControllerImpl implements GameController {
 
@@ -65,18 +66,21 @@ public class GameControllerImpl implements GameController {
 	 * Indicates that the game loop is executed in a different thread
 	 */
 	private boolean threaded;
-	
-	
+
+	private GameTracker gameTracker;
+
 	private AssetHandler assetHandler;
 
 	@Inject
 	public GameControllerImpl(Game game, GameLoop gameLoop, GUI gui,
-			@Named("threaded") Boolean threaded, ValueMap valueMap, AssetHandler assetHandler) {
+			@Named("threaded") Boolean threaded, AssetHandler assetHandler,
+			GameTracker gameTracker) {
 		this.game = game;
 		this.gameLoop = gameLoop;
 		this.gui = gui;
 		this.threaded = threaded;
 		this.assetHandler = assetHandler;
+		this.gameTracker = gameTracker;
 	}
 
 	/*
@@ -101,6 +105,8 @@ public class GameControllerImpl implements GameController {
 	@Override
 	public void stop() {
 		gui.finish();
+		gameTracker.stop();
+		gameLoop.stop();
 	}
 
 	/*

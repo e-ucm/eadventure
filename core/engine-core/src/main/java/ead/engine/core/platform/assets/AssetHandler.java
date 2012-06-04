@@ -160,4 +160,14 @@ public interface AssetHandler {
 	 */
 	void setResourcesLocation(EAdURI uri);
 
+	/**
+	 * Returns a set of strings containing the text file in the given path.
+	 * Useful to read some configuration files at multi-platform level
+	 * 
+	 * @param path
+	 *            textFile path
+	 * @return
+	 */
+	List<String> getTextFile(String path);
+
 }

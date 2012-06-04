@@ -3,22 +3,12 @@
 <module rename-to='enginecore'>
   <!-- Inherit the core Web Toolkit stuff.                        -->
   <inherits name='com.google.gwt.user.User'/>
+  <inherits name='com.google.gwt.user.theme.standard.Standard'/> 
 
-
-  <!-- Inherit the default GWT style sheet.  You can change       -->
-  <!-- the theme of your GWT application by uncommenting          -->
-  <!-- any one of the following lines.                            -->
-  <inherits name='com.google.gwt.user.theme.standard.Standard'/>
-  <!-- <inherits name='com.google.gwt.user.theme.chrome.Chrome'/> -->
-  <!-- <inherits name='com.google.gwt.user.theme.dark.Dark'/>     -->
-
-  <!-- Other module inherits                                      -->
-
-  <!-- Inherit the GIN (guice for gwt) module -->
-  <inherits name='com.google.gwt.inject.Inject'/>
-  <inherits name='java.util.lib'/>
-
-  <!-- Specify the paths for translatable code                    -->
-  <source path='core' excludes="**/*Test*.java"/>
+  <!-- Multi-platform code                    -->
+  <source path="core" excludes="**/*Test*.java"/>
+  
+  <!-- Game engine resources -->
+  <public path="resources" />
 
 </module>

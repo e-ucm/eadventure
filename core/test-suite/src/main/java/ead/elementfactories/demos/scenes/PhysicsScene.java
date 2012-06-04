@@ -101,7 +101,7 @@ public class PhysicsScene extends EmptyScene {
 				.addBehavior(MouseGEv.MOUSE_ENTERED, effect);
 
 		addCanyon(effect);
-//		addWalls(effect);
+    	addWalls(effect);
 //		addPendulum(effect);
 		addSea();
 	}

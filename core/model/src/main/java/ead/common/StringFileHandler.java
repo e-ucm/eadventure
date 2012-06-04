@@ -45,6 +45,8 @@ import ead.common.params.text.EAdString;
 
 public interface StringFileHandler {
 	
+	Map<EAdString, String> read( String file );
+	
 	Map<EAdString, String> read( InputStream inputStream );
 	
 	boolean write( OutputStream outputStream, Map<EAdString, String> strings);

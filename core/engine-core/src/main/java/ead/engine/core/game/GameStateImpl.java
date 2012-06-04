@@ -51,6 +51,7 @@ import com.google.inject.name.Named;
 
 import ead.common.model.elements.EAdChapter;
 import ead.common.model.elements.EAdEffect;
+import ead.common.model.elements.effects.ChangeSceneEf;
 import ead.common.model.elements.scene.EAdScene;
 import ead.common.model.elements.scene.EAdSceneElement;
 import ead.common.model.elements.scenes.BasicScene;
@@ -65,7 +66,6 @@ import ead.engine.core.gameobjects.go.EffectGO;
 import ead.engine.core.gameobjects.go.SceneElementGO;
 import ead.engine.core.gameobjects.go.SceneGO;
 import ead.engine.core.input.InputAction;
-import ead.engine.core.platform.LoadingScreen;
 import ead.engine.core.plugins.PluginHandler;
 import ead.engine.core.tracking.GameTracker;
 
@@ -213,16 +213,18 @@ public class GameStateImpl implements GameState {
 				EffectGO<?> effectGO = effectFactory.get(e);
 				effectGO.setGUIAction(action);
 				effectGO.setParent(parent);
-				effectGO.initialize();
-				tracker.track(effectGO);
-				if (e.isQueueable())
+				effectGO.initialize();				
+				if (e.isQueueable()){
+					tracker.track(effectGO);
 					synchronized (effectsQueue) {
 						pos = pos == -1 ? effectsQueue.size() : pos;
 						effectsQueue.add(pos, effectGO);
 					}
+				}
 				else {
 					effectGO.update();
 					effectGO.finish();
+					tracker.track(effectGO);
 				}
 				return effectGO;
 			} else if (e.isNextEffectsAlways()) {
@@ -293,7 +295,9 @@ public class GameStateImpl implements GameState {
 
 	@Override
 	public void setInitialScene(EAdScene initialScene) {
-		((LoadingScreen) loadingScreen).setInitialScreen(initialScene);
+		ChangeSceneEf ef = new ChangeSceneEf( initialScene );
+		this.addEffect(ef);
+//		((LoadingScreen) loadingScreen).setInitialScreen(initialScene);
 	}
 
 	private void installPlugins() {

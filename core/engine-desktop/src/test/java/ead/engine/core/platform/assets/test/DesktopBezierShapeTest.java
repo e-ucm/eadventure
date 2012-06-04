@@ -45,7 +45,7 @@ import ead.common.resources.assets.drawable.basics.shapes.BallonShape;
 import ead.common.resources.assets.drawable.basics.shapes.BezierShape;
 import ead.common.resources.assets.drawable.basics.shapes.extra.BalloonType;
 import ead.engine.core.TestUtil;
-import ead.engine.core.platform.assets.drawables.basics.DesktopBezierShape;
+import ead.engine.desktop.core.platform.assets.drawables.basics.DesktopBezierShape;
 
 public class DesktopBezierShapeTest extends TestCase {
 

@@ -174,6 +174,10 @@ public class SceneElement extends AbstractElementWithBehavior implements
 		setId(actor.getId() + "_ref");
 		this.definition = actor;
 	}
+	
+	public void setVars(EAdMap<EAdVarDef<?>, Object> vars) {
+		this.vars = vars;
+	}
 
 	public <T> void setVarInitialValue(EAdVarDef<T> var, T value) {
 		vars.put(var, value);

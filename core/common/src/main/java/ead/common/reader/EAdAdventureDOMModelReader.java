@@ -127,5 +127,16 @@ public class EAdAdventureDOMModelReader implements Reader<EAdAdventureModel> {
 		}
 	}
 
+	public EAdAdventureModel read(String fileURI) {
+		try {
+			File file = new File(fileURI);
+			FileInputStream fileInputStream = new FileInputStream(file);
+			EAdAdventureModel data = read(fileInputStream);
+			return data;
+		} catch (FileNotFoundException e) {
+			return null;
+		}
+	}
+
 
 }

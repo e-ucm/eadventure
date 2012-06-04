@@ -37,20 +37,6 @@
 
 package ead.editor.view.swing.scene;
 
-import com.google.inject.Inject;
-import com.google.inject.Singleton;
-import ead.common.resources.assets.drawable.basics.Image;
-import ead.engine.core.game.GameLoop;
-import ead.engine.core.game.GameState;
-import ead.engine.core.gameobjects.GameObjectManager;
-import ead.engine.core.gameobjects.factories.SceneElementGOFactory;
-import ead.engine.core.input.DesktopInputListener;
-import ead.engine.core.input.InputHandler;
-import ead.engine.core.platform.DesktopGUI;
-import ead.engine.core.platform.EngineConfiguration;
-import ead.engine.core.platform.assets.RuntimeAsset;
-import ead.engine.core.platform.rendering.DesktopCanvas;
-import ead.utils.swing.SwingUtilities;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Graphics2D;
@@ -59,10 +45,29 @@ import java.awt.Toolkit;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.image.VolatileImage;
+
 import javax.swing.JPanel;
 import javax.swing.Scrollable;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import com.google.inject.Inject;
+import com.google.inject.Singleton;
+
+import ead.common.resources.assets.drawable.basics.Image;
+import ead.engine.core.game.GameController;
+import ead.engine.core.game.GameLoop;
+import ead.engine.core.game.GameState;
+import ead.engine.core.gameobjects.GameObjectManager;
+import ead.engine.core.gameobjects.factories.SceneElementGOFactory;
+import ead.engine.core.input.InputHandler;
+import ead.engine.core.platform.EngineConfiguration;
+import ead.engine.core.platform.assets.RuntimeAsset;
+import ead.engine.desktop.core.input.DesktopInputListener;
+import ead.engine.desktop.core.platform.DesktopGUI;
+import ead.engine.desktop.core.platform.rendering.DesktopCanvas;
+import ead.utils.swing.SwingUtilities;
 
 @Singleton
 public class DesktopEditorGUI extends DesktopGUI {
@@ -84,9 +89,9 @@ public class DesktopEditorGUI extends DesktopGUI {
 	public DesktopEditorGUI(EngineConfiguration platformConfiguration,
 			GameObjectManager gameObjectManager, InputHandler inputHandler,
 			GameState gameState, SceneElementGOFactory gameObjectFactory,
-			DesktopCanvas canvas, GameLoop gameLoop ) {
+			DesktopCanvas canvas, GameLoop gameLoop, GameController gameController ) {
 		super(platformConfiguration, gameObjectManager, inputHandler, gameState,
-				gameObjectFactory, canvas, gameLoop );
+				gameObjectFactory, canvas, gameLoop, gameController );
 	}
 
 	/*

@@ -41,6 +41,7 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 import ead.common.EAdElementImporter;
+import ead.common.importer.EAdventure1XImporter;
 import ead.common.importer.annotation.ImportAnnotator;
 import ead.common.model.elements.EAdCondition;
 import ead.common.model.elements.effects.variables.ChangeFieldEf;
@@ -53,6 +54,8 @@ import ead.common.model.elements.trajectories.NodeTrajectoryDefinition;
 import ead.common.model.elements.variables.EAdField;
 import ead.common.model.elements.variables.BasicField;
 import ead.common.model.elements.variables.operations.BooleanOp;
+import ead.common.params.fills.ColorFill;
+import ead.common.params.fills.Paint;
 import ead.common.resources.assets.drawable.basics.shapes.RectangleShape;
 import ead.common.util.EAdPosition;
 import ead.common.util.EAdPosition.Corner;
@@ -107,6 +110,14 @@ public class BarrierImporter implements
 		}
 
 		RectangleShape rectangle = new RectangleShape( oldObject.getWidth(), oldObject.getHeight() );
+		if ( EAdventure1XImporter.IMPORTER_DEBUG ){
+			ColorFill c = new ColorFill( ColorFill.YELLOW.toString() );
+			c.setAlpha(100);
+			rectangle.setPaint(c);
+		}
+		else {
+			rectangle.setPaint(Paint.TRANSPARENT);
+		}
 		barrier.getDefinition()
 				.getResources()
 				.addAsset(barrier.getDefinition().getInitialBundle(),

@@ -71,7 +71,7 @@ public class StringHandlerImpl implements StringHandler {
 
 	@Override
 	public void setString(EAdString eAdString, String string) {
-		logger.debug("Add string '{}': '{}'", eAdString.toString(),  string);
+		logger.debug("Add string '{}': '{}'", eAdString.toString(), string);
 		strings.put(eAdString, string);
 	}
 
@@ -83,10 +83,11 @@ public class StringHandlerImpl implements StringHandler {
 
 	@Override
 	public void addStrings(Map<EAdString, String> strings) {
-		for (Entry<EAdString, String> entry : strings.entrySet()) {
-			this.strings.put(entry.getKey(), entry.getValue());
+		if (strings != null) {
+			for (Entry<EAdString, String> entry : strings.entrySet()) {
+				this.strings.put(entry.getKey(), entry.getValue());
+			}
 		}
-
 	}
 
 	@Override

@@ -48,7 +48,7 @@ import ead.common.params.paint.EAdPaint;
 public class RectangleShape extends BezierShape {		
 	
 	public RectangleShape( ){
-		this( 0, 0 );
+		
 	}
 	
 	public RectangleShape(int width, int height ){

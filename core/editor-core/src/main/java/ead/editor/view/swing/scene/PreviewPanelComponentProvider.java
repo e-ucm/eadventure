@@ -50,9 +50,9 @@ import javax.swing.JPanel;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 
-import ead.common.model.elements.EAdAdventureModel;
 import ead.common.model.elements.BasicAdventureModel;
 import ead.common.model.elements.BasicChapter;
+import ead.common.model.elements.EAdAdventureModel;
 import ead.common.model.elements.effects.ChangeSceneEf;
 import ead.common.model.elements.scene.EAdScene;
 import ead.editor.control.CommandManager;
@@ -65,8 +65,8 @@ import ead.engine.core.game.Game;
 import ead.engine.core.game.GameState;
 import ead.engine.core.platform.EngineConfiguration;
 import ead.engine.core.platform.GUI;
-import ead.engine.core.platform.module.DesktopAssetHandlerModule;
-import ead.engine.core.platform.modules.BasicGameModule;
+import ead.engine.desktop.core.platform.module.DesktopAssetHandlerModule;
+import ead.engine.java.core.platform.modules.JavaBasicGameModule;
 import ead.gui.EAdScrollPane;
 
 public class PreviewPanelComponentProvider implements ComponentProvider<PreviewPanel, JComponent> {
@@ -89,7 +89,7 @@ public class PreviewPanelComponentProvider implements ComponentProvider<PreviewP
 	public PreviewPanelComponentProvider(CommandManager commandManager) {
 		this.commandManager = commandManager;
 		Injector injector = Guice.createInjector(new DesktopAssetHandlerModule(),
-				new DesktopEditorModule(), new BasicGameModule());
+				new DesktopEditorModule(), new JavaBasicGameModule());
 
 		model = new BasicAdventureModel();
 		if (EAdElementsFactory.getInstance().getInventory() != null) {

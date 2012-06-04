@@ -186,13 +186,18 @@ public class ExitImporter extends ElementImporter<Exit> {
 		// Normal effects
 		EffectsMacro normalMacro = effectsImporterFactory
 				.getMacroEffects(oldObject.getEffects());
-		triggerMacro.putMacro(normalMacro, enableCondition);
+		if (normalMacro != null) {
+			triggerMacro.putMacro(normalMacro, enableCondition);
+		}
 
 		// No effects
 		if (oldObject.isHasNotEffects()) {
 			EffectsMacro noEffectsMacro = effectsImporterFactory
 					.getMacroEffects(oldObject.getNotEffects());
-			triggerMacro.putMacro(noEffectsMacro, new NOTCond(enableCondition));
+			if (noEffectsMacro != null) {
+				triggerMacro.putMacro(noEffectsMacro, new NOTCond(
+						enableCondition));
+			}
 		}
 
 		// To maintain the execution order, the change scene effect must be

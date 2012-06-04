@@ -37,6 +37,9 @@
 
 package ead.common.strings;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
@@ -65,11 +68,12 @@ import ead.common.params.text.EAdString;
 
 @Singleton
 public class DefaultStringFileHandler implements StringFileHandler {
-	
-	private static final Logger logger = LoggerFactory.getLogger("DefaultStringFileHandler");
-	
+
+	private static final Logger logger = LoggerFactory
+			.getLogger("DefaultStringFileHandler");
+
 	@Override
-	public Map<EAdString, String> read( InputStream inputStream ){
+	public Map<EAdString, String> read(InputStream inputStream) {
 		try {
 
 			SAXParserFactory factory = SAXParserFactory.newInstance();
@@ -84,7 +88,25 @@ public class DefaultStringFileHandler implements StringFileHandler {
 		} catch (Exception e) {
 			logger.error("Could not read strings file", e);
 		}
-		
+
+		return null;
+	}
+
+	public Map<EAdString, String> read(String file) {
+		FileInputStream inputStream = null;
+		try {
+			inputStream = new FileInputStream(new File(file));
+			return read(inputStream);
+		} catch (Exception e) {
+			logger.error("Could not read strings file", e);
+		} finally {
+			if (inputStream != null) {
+				try {
+					inputStream.close();
+				} catch (IOException e) {
+				}
+			}
+		}
 		return null;
 	}
 

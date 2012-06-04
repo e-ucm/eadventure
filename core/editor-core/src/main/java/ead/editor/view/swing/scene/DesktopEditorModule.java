@@ -38,7 +38,7 @@
 package ead.editor.view.swing.scene;
 
 import ead.engine.core.platform.GUI;
-import ead.engine.core.platform.module.DesktopModule;
+import ead.engine.desktop.core.platform.module.DesktopModule;
 
 public class DesktopEditorModule extends DesktopModule {
 	

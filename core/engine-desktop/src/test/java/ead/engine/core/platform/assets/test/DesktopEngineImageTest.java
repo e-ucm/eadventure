@@ -43,7 +43,7 @@ import org.junit.Test;
 
 import ead.common.resources.assets.drawable.basics.Image;
 import ead.engine.core.TestUtil;
-import ead.engine.core.platform.assets.drawables.basics.DesktopImage;
+import ead.engine.desktop.core.platform.assets.drawables.basics.DesktopImage;
 
 public class DesktopEngineImageTest extends TestCase {
 

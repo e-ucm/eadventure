@@ -46,4 +46,6 @@ public interface Reader<T> {
 
 	public T read(InputStream inputStream);
 	
+	public T read(String file);
+	
 }

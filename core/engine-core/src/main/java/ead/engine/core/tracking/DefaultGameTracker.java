@@ -40,18 +40,25 @@ package ead.engine.core.tracking;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 import ead.common.model.elements.EAdAdventureModel;
 import ead.engine.core.gameobjects.go.DrawableGO;
 import ead.engine.core.gameobjects.go.EffectGO;
 import ead.engine.core.input.InputAction;
+import ead.engine.core.tracking.selection.TrackerSelector;
 
 @Singleton
 public class DefaultGameTracker extends AbstractGameTracker {
 
 	private static final Logger logger = LoggerFactory
 			.getLogger("DefaultTracker");
+	
+	@Inject
+	public DefaultGameTracker( TrackerSelector selector){
+		super(selector);
+	}
 
 	@Override
 	protected void trackImpl(InputAction<?> action, DrawableGO<?> target) {

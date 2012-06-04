@@ -55,7 +55,7 @@ import javax.swing.JLabel;
 
 import ead.common.resources.assets.multimedia.EAdVideo;
 import ead.common.resources.assets.multimedia.Video;
-import ead.engine.core.platform.assets.specialassetrenderers.DesktopVideoRenderer;
+import ead.engine.desktop.core.platform.assets.specialassetrenderers.DesktopVideoRenderer;
 
 /**
  * Non JUnit test case

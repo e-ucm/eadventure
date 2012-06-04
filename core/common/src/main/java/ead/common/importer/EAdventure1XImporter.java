@@ -79,6 +79,12 @@ import es.eucm.eadventure.common.loader.incidences.Incidence;
  */
 public class EAdventure1XImporter {
 
+	/**
+	 * Sets if the importation must be done in debug mode. When this is
+	 * activated, barrier, exits and active areas are not transparent
+	 */
+	public static final boolean IMPORTER_DEBUG = false;
+
 	public static final String CURRENT_EAD_ENGINE_VERSION = "ead-200";
 
 	private EAdElementImporter<AdventureData, EAdAdventureModel> adventureImporter;

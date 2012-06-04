@@ -37,24 +37,26 @@
 
 package ead.editor.model;
 
-import com.google.inject.Guice;
-import com.google.inject.Injector;
-import ead.common.importer.ImporterConfigurationModule;
-import ead.common.model.EAdElement;
-import ead.editor.Log4jConfig;
-import ead.engine.core.platform.module.DesktopAssetHandlerModule;
-import ead.engine.core.platform.module.DesktopModule;
-import ead.engine.core.platform.modules.BasicGameModule;
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
+
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
-import org.junit.Test;
 import org.junit.BeforeClass;
+import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import com.google.inject.Guice;
+import com.google.inject.Injector;
+
+import ead.common.importer.ImporterConfigurationModule;
+import ead.common.model.EAdElement;
+import ead.editor.Log4jConfig;
+import ead.engine.desktop.core.platform.module.DesktopAssetHandlerModule;
+import ead.engine.desktop.core.platform.module.DesktopModule;
+import ead.engine.java.core.platform.modules.JavaBasicGameModule;
 
 /**
  *
@@ -88,7 +90,7 @@ public class EditorModelTest {
 
         Injector injector = Guice.createInjector(
                 new ImporterConfigurationModule(),
-                new BasicGameModule(),
+                new JavaBasicGameModule(),
                 new DesktopModule(),
                 new DesktopAssetHandlerModule());
         model = injector.getInstance(EditorModel.class);
@@ -169,7 +171,7 @@ public class EditorModelTest {
 		File f = new File("C:/Users/anserran/Desktop/eAdventure/juegos/test/firstAidGame.ead");
 		emt.testImportLoad(f);
         // Test save
-        File saveFile = new File("/tmp/saved.eap");
+        File saveFile = File.createTempFile("saved", ".eap");
         emt.testSave(saveFile);
         // Test loading from previous save-file
 		emt.testLoad(saveFile);

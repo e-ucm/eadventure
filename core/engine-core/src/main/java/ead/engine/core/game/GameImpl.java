@@ -46,6 +46,7 @@ import org.slf4j.LoggerFactory;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
+import ead.common.model.elements.BasicAdventureModel;
 import ead.common.model.elements.EAdAdventureModel;
 import ead.common.model.elements.EAdChapter;
 import ead.common.model.elements.EAdEvent;
@@ -76,6 +77,8 @@ public class GameImpl implements Game {
 	private AssetHandler assetHandler;
 
 	private EAdAdventureModel adventure;
+	
+	private EAdChapter currentChapter;
 
 	private GUI gui;
 
@@ -111,6 +114,8 @@ public class GameImpl implements Game {
 	private int currentHeight = -1;
 	
 	private GameTracker tracker;
+	
+	private GameLoop gameLoop;
 
 	@Inject
 	public GameImpl(GUI gui, GameState gameState, EffectHUD effectHUD,
@@ -118,7 +123,7 @@ public class GameImpl implements Game {
 			DebuggerHandler debugger, ValueMap valueMap, TopBasicHUD basicHud,
 			BottomBasicHUD bottomBasicHud, InventoryHUD inventoryHud,
 			InventoryHandler inventoryHandler, EventGOFactory eventFactory,
-			EngineConfiguration configuration, ActionsHUD actionsHUD, GameTracker tracker) {
+			EngineConfiguration configuration, ActionsHUD actionsHUD, GameTracker tracker, GameLoop gameLoop) {
 		this.gui = gui;
 		this.gameState = gameState;
 		this.effectHUD = effectHUD;
@@ -132,6 +137,8 @@ public class GameImpl implements Game {
 		this.eventFactory = eventFactory;
 		this.configuration = configuration;
 		this.tracker = tracker;
+		this.gameLoop = gameLoop;
+		this.adventure = new BasicAdventureModel( );
 		events = new ArrayList<EventGO<?>>();
 		gameObjectManager.setBasicHUDs(basicHud, bottomBasicHud);
 		gui.setGame(this);
@@ -248,6 +255,7 @@ public class GameImpl implements Game {
 	@Override
 	public void setGame(EAdAdventureModel model, EAdChapter eAdChapter) {
 		logger.info("Setting the game");
+		currentChapter = eAdChapter;
 		gameState.getValueMap().setValue(SystemFields.GAME_WIDTH,
 				model.getGameWidth());
 		gameState.getValueMap().setValue(SystemFields.GAME_HEIGHT,
@@ -279,6 +287,8 @@ public class GameImpl implements Game {
 		gameState.setInitialScene(eAdChapter.getInitialScene());
 		updateInitialTransformation();
 		
+		gameState.getValueMap().setValue(SystemFields.ELAPSED_TIME_PER_UPDATE,
+				gameLoop.getSkipMillisTick());
 		// Start tracking
 		Boolean track = Boolean.parseBoolean( model.getProperties().get(GameTracker.TRACKING_ENABLE) );
 		if ( track ){
@@ -323,6 +333,10 @@ public class GameImpl implements Game {
 
 	public EAdTransformation getInitialTransformation() {
 		return initialTransformation;
+	}
+	
+	public EAdChapter getCurrentChapter(){
+		return currentChapter;
 	}
 
 }

@@ -71,12 +71,17 @@ import ead.common.model.elements.variables.VarDef;
 import ead.common.model.elements.variables.operations.MathOp;
 import ead.common.model.elements.variables.operations.ValueOp;
 import ead.common.model.predef.effects.SpeakSceneElementEf;
+import ead.common.params.text.EAdString;
 import ead.common.resources.assets.drawable.basics.Image;
 import ead.common.util.EAdPosition.Corner;
 import ead.elementfactories.EAdElementsFactory;
 import ead.elementfactories.StringFactory;
 import ead.elementfactories.demos.scenes.EmptyScene;
 
+
+/**
+ * First scene. Main character does not know where he is. Everything is dark in here. Where will be the light?
+ */
 public class NgRoom1 extends EmptyScene {
 
 	private SceneElement ng;
@@ -91,11 +96,11 @@ public class NgRoom1 extends EmptyScene {
 	private SceneElement portrait;
 	private SceneElement key;
 	private BasicField<Integer> timesField;
-	private EAdScene initScene;
+	//private EAdScene initScene;
 
-	public NgRoom1(EAdScene initScene) {
-		this.initScene = initScene;
-		NgCommon.init();
+	public NgRoom1() {
+		//this.initScene = initScene;
+		//NgCommon.init();
 		initConditions();
 		setBackground(new SceneElement(new Image("@drawable/ng_room1_bg.png")));
 		getBackground().setId("background");
@@ -120,14 +125,7 @@ public class NgRoom1 extends EmptyScene {
 		createElements();
 		initConditions();
 		addElementsInOrder();
-
-		setDarkness(ng);
-		setLamp();
-		setPortrait();
-		setDoor();
-		setKey();
-		addLightBlink();
-		this.getSceneElements().add(darkness);
+		
 	}
 
 	private void initConditions() {
@@ -147,18 +145,22 @@ public class NgRoom1 extends EmptyScene {
 		table = new SceneElement(new Image("@drawable/ng_table.png"));
 		table.setId("table");
 		table.setPosition(Corner.CENTER, 576, 550);
+		
 		lamp = new SceneElement(new Image("@drawable/ng_lamp.png"));
 		lamp.setId("lamp");
 		lamp.setPosition(Corner.CENTER, 617, 470);
 
 		carpet = new SceneElement(new Image("@drawable/ng_carpet.png"));
-		carpet.setId("table");
+		carpet.setId("carpet");
 		carpet.setPosition(Corner.CENTER, 350, 470);
+		
 		door = new SceneElement(new Image("@drawable/ng_door.png"));
 		door.setId("door");
 		door.setPosition(Corner.CENTER, 662, 235);
 
-		createPortrait();
+		portrait = new SceneElement(new Image("@drawable/ng_portrait.png"));
+		portrait.setId("portrait");
+		portrait.setPosition(Corner.CENTER, 430, 230);
 
 		key = new SceneElement(new Image("@drawable/ng_key.png"));
 		key.setId("key");
@@ -166,12 +168,6 @@ public class NgRoom1 extends EmptyScene {
 
 	}
 
-	private void createPortrait() {
-		portrait = new SceneElement(new Image("@drawable/ng_portrait.png"));
-		portrait.setId("portrait");
-		portrait.setPosition(Corner.CENTER, 430, 230);
-
-	}
 
 	private void addElementsInOrder() {
 		getSceneElements().add(door);
@@ -183,7 +179,60 @@ public class NgRoom1 extends EmptyScene {
 		getSceneElements().add(lamp);
 		getSceneElements().add(darkness);
 	}
-
+	
+	
+	public void setUpSceneElements(EAdScene corridor) {
+		setDarkness(ng);
+		setMainCharactersSpeech();
+		setLamp();
+		setPortrait();
+		setDoor(corridor);
+		setKey();
+		addLightBlink();
+		setCarpet();
+		setTable();
+		this.getSceneElements().add(darkness);
+	}
+	
+	/**
+	 * Lets main character's move over the carpet
+	 */
+	private void setCarpet() {		
+		MoveSceneElementEf move = new MoveSceneElementEf();
+		move.setTargetCoordiantes(SystemFields.MOUSE_SCENE_X, SystemFields.MOUSE_SCENE_Y);
+		move.setSceneElement(ng);
+        carpet.addBehavior(MouseGEv.MOUSE_LEFT_PRESSED, move);
+	}
+	
+	/**
+	 * Lets main character's move to the door
+	 */
+	private void setTable() {
+		MoveSceneElementEf move = new MoveSceneElementEf();
+		move.setTargetCoordiantes(SystemFields.MOUSE_SCENE_X, SystemFields.MOUSE_SCENE_Y);
+		move.setSceneElement(ng);
+        table.addBehavior(MouseGEv.MOUSE_LEFT_PRESSED, move);
+	}
+	
+	/**
+	 * When the user clicks on the main character, it looks to the user and a text appears 
+	 */
+	private void setMainCharactersSpeech() {		
+		EAdString talking = new EAdString("Hey! What do you want? let's explore this room!");
+		SpeakSceneElementEf speech = new SpeakSceneElementEf(talking);
+		
+		speech.getNextEffects().add(NgCommon.getLookSouthEffect());
+		
+		speech.setElement(ng);
+		speech.setId("speakEffect");
+		ng.addBehavior(MouseGEv.MOUSE_LEFT_PRESSED, speech);
+		
+	}
+	
+	/**
+	 * Puts the darkness in the room
+	 * @param ng
+	 */
 	private void setDarkness(SceneElement ng) {
 		SceneElementEv event = new SceneElementEv();
 		ChangeFieldEf changeX = new ChangeFieldEf(new BasicField<Integer>(
@@ -206,14 +255,20 @@ public class NgRoom1 extends EmptyScene {
 		switchLights.setId("switch");
 		MoveSceneElementEf move = moveNg(617, 510);
 		move.getNextEffects().add(switchLights);
+		
 		lamp.addBehavior(MouseGEv.MOUSE_LEFT_PRESSED, move);
 	}
 
-	private void setDoor() {
-		ChangeSceneEf goToInitialScene = new ChangeSceneEf(initScene,
-				new FadeInTransition(1000));
-		door.addBehavior(new DragGEv(key.getDefinition(), DragGEvType.DROP),
-				goToInitialScene);
+	private void setDoor(EAdScene corridor) {		
+		// Principal character moving to the door
+		MoveSceneElementEf move = moveNg(662, 235);
+        door.addBehavior(new DragGEv(key.getDefinition(), DragGEvType.DROP), move);
+       
+        // Define next scene, add next behavior
+        ChangeSceneEf corridorScene = new ChangeSceneEf( );
+        corridorScene.setId("corridorScene");
+		corridorScene.setNextScene(corridor);
+		move.getNextEffects().add(corridorScene);
 	}
 
 	private void setPortrait() {
