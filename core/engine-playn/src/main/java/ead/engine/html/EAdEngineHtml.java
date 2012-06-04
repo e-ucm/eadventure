@@ -52,10 +52,10 @@ import ead.common.model.elements.scene.EAdScene;
 import ead.common.util.StringHandler;
 import ead.elementfactories.EAdElementsFactory;
 import ead.elementfactories.demos.scenes.InitScene;
-import ead.engine.core.EAdEngine;
 import ead.engine.core.game.Game;
-import ead.engine.core.platform.PlayNGUI;
-import ead.engine.core.platform.PlayNGinInjector;
+import ead.engine.playn.core.EAdEngine;
+import ead.engine.playn.core.platform.PlayNGUI;
+import ead.engine.playn.core.platform.PlayNGinInjector;
 
 public class EAdEngineHtml extends HtmlGame {
 

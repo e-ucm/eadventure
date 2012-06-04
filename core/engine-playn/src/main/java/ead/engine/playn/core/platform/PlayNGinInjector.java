@@ -165,4 +165,6 @@ public interface PlayNGinInjector extends Ginjector {
 
 	public ModifyHudGO getModifyHUGGO();
 
+	public TrackerSelector getTrackerSelector();
+
 }
