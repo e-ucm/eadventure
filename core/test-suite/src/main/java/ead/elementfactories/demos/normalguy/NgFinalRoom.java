@@ -7,17 +7,25 @@ import ead.common.model.elements.effects.enums.InterpolationLoopType;
 import ead.common.model.elements.effects.enums.InterpolationType;
 import ead.common.model.elements.effects.physics.PhysicsEffect;
 import ead.common.model.elements.effects.sceneelements.MoveSceneElementEf;
+import ead.common.model.elements.effects.variables.ChangeFieldEf;
 import ead.common.model.elements.events.ConditionedEv;
 import ead.common.model.elements.events.SceneElementEv;
 import ead.common.model.elements.events.enums.ConditionedEvType;
 import ead.common.model.elements.events.enums.SceneElementEvType;
+import ead.common.model.elements.guievents.KeyGEv;
 import ead.common.model.elements.guievents.MouseGEv;
+import ead.common.model.elements.guievents.enums.KeyEventType;
 import ead.common.model.elements.scene.EAdScene;
 import ead.common.model.elements.scene.EAdSceneElementDef;
 import ead.common.model.elements.scenes.BasicScene;
 import ead.common.model.elements.scenes.SceneElement;
 import ead.common.model.elements.scenes.SceneElementDef;
+import ead.common.model.elements.trajectories.EAdTrajectoryDefinition;
+import ead.common.model.elements.trajectories.NodeTrajectoryDefinition;
+import ead.common.model.elements.trajectories.SimpleTrajectoryDefinition;
 import ead.common.model.elements.variables.BasicField;
+import ead.common.model.elements.variables.SystemFields;
+import ead.common.model.elements.variables.operations.ValueOp;
 import ead.common.params.fills.ColorFill;
 import ead.common.params.fills.LinearGradientFill;
 import ead.common.resources.assets.drawable.basics.Image;
@@ -41,10 +49,26 @@ public class NgFinalRoom extends EmptyScene{
 	}
 	
 	protected void init() {
-		setBackgroundFill(new LinearGradientFill(ColorFill.CYAN, ColorFill.BLUE,
-				800, 500));
+		setBackgroundFill(new LinearGradientFill(ColorFill.CYAN, ColorFill.BLUE, 800, 500));
 
 		addSky();
+		
+		// Set up character's initial position
+		ng = new SceneElement(NgCommon.getMainCharacter());
+		ng.setPosition(Corner.BOTTOM_CENTER , 629, 579);
+		ng.setInitialScale(0.8f);
+				
+		createTrajectory();
+		
+		MoveSceneElementEf move = new MoveSceneElementEf();
+		move.setId("moveCharacter");
+		move.setTargetCoordiantes(SystemFields.MOUSE_SCENE_X,
+				SystemFields.MOUSE_SCENE_Y);
+		move.setSceneElement(ng);
+		move.setUseTrajectory(true);
+
+		getBackground().addBehavior(MouseGEv.MOUSE_LEFT_PRESSED, move);
+		
 		PhysicsEffect effect = new PhysicsEffect();
 
 		ConditionedEv event = new ConditionedEv();
@@ -63,14 +87,29 @@ public class NgFinalRoom extends EmptyScene{
 		
 	}
 	
+	private void createTrajectory() {
+		SimpleTrajectoryDefinition d = new SimpleTrajectoryDefinition(false);
+		d.setLimits(50, 575, 630, 580);
+		setTrajectoryDefinition(d);
+	}
+	
+	/*private void createHorizontalOnlyTrajectory() {
+		NodeTrajectoryDefinition trajectory = new NodeTrajectoryDefinition();
+		trajectory.addNode("0", 50, 580, 0.8f);
+		trajectory.addNode("1", 640, 580, 0.8f);
+		trajectory.addSide("0", "1", 590);
+
+		setTrajectoryDefinition(trajectory);
+	}*/
+	
 	private void setElements() {
 		house = new SceneElement(new Image("@drawable/ng_finalroom_house.png"));
 		house.setId("house");
-		house.setPosition(Corner.TOP_LEFT , 540, 175);
+		house.setPosition(Corner.BOTTOM_CENTER, 660, 580);
 		
 		post = new SceneElement(new Image("@drawable/ng_finalroom_post.png"));
 		post.setId("post");
-		post.setPosition(Corner.TOP_LEFT, 350, 175);
+		post.setPosition(Corner.BOTTOM_CENTER, 132, 580);
 	}
 	
 	private void addElementsInOrder() {
@@ -89,6 +128,11 @@ public class NgFinalRoom extends EmptyScene{
         corridorScene.setId("corridorScene");
 		corridorScene.setNextScene(corridor);
 		move.getNextEffects().add(corridorScene);
+	}
+	
+	public void setPost() {
+		// To do: finish the game
+		
 	}
 	
 	/**
@@ -126,14 +170,26 @@ public class NgFinalRoom extends EmptyScene{
 
 	}
 	
+	/**
+	 * Creates and adds the scene's ground
+	 * @param effect
+	 */
 	protected void addGround(PhysicsEffect effect) {
-		RectangleShape groundS = new RectangleShape(799, 1);
+		RectangleShape groundS = new RectangleShape(799, 50);
 		groundS.setPaint(new LinearGradientFill(ColorFill.BROWN,
-				ColorFill.DARK_BROWN, 799, 1));
+				ColorFill.DARK_BROWN, 799, 50));
 		SceneElement ground = new SceneElement(groundS);
 		ground.setId("ground");
 		ground.setPosition(new EAdPosition(Corner.CENTER, 400, 575));
 
+		// Moves ng over the ground
+		MoveSceneElementEf move = new MoveSceneElementEf();
+		move.setId("moveCharacter");
+		move.setTargetCoordiantes(SystemFields.MOUSE_SCENE_X, SystemFields.MOUSE_SCENE_Y);
+		move.setSceneElement(ng);
+		move.setUseTrajectory(true);
+
+		ground.addBehavior(MouseGEv.MOUSE_LEFT_PRESSED, move);
 
 		effect.addSceneElement(ground);
 		getSceneElements().add(ground);
