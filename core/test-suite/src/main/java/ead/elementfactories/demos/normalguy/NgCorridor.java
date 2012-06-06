@@ -6,16 +6,21 @@ import java.util.ArrayList;
 import ead.common.model.elements.conditions.EmptyCond;
 import ead.common.model.elements.effects.ChangeSceneEf;
 import ead.common.model.elements.effects.sceneelements.MoveSceneElementEf;
-import ead.common.model.elements.guievents.DragGEv;
+import ead.common.model.elements.effects.variables.ChangeFieldEf;
+import ead.common.model.elements.guievents.KeyGEv;
 import ead.common.model.elements.guievents.MouseGEv;
-import ead.common.model.elements.guievents.enums.DragGEvType;
+import ead.common.model.elements.guievents.enums.KeyEventType;
 import ead.common.model.elements.scene.EAdScene;
+import ead.common.model.elements.scenes.BasicScene;
 import ead.common.model.elements.scenes.SceneElement;
+import ead.common.model.elements.trajectories.EAdTrajectoryDefinition;
+import ead.common.model.elements.trajectories.NodeTrajectoryDefinition;
+import ead.common.model.elements.trajectories.Side;
 import ead.common.model.elements.trajectories.SimpleTrajectoryDefinition;
-import ead.common.model.elements.transitions.DisplaceTransition;
 import ead.common.model.elements.transitions.FadeInTransition;
-import ead.common.model.elements.transitions.enums.DisplaceTransitionType;
+import ead.common.model.elements.variables.BasicField;
 import ead.common.model.elements.variables.SystemFields;
+import ead.common.model.elements.variables.operations.ValueOp;
 import ead.common.model.predef.effects.SpeakSceneElementEf;
 import ead.common.params.text.EAdString;
 import ead.common.resources.assets.drawable.basics.Image;
@@ -34,8 +39,6 @@ public class NgCorridor extends EmptyScene{
 	
 	private SceneElement doorClosed;
 	
-	private ArrayList<SceneElement> rooms;
-	
 	private EmptyCond allRoomsVisited;  // Enables room4's door
 	
 	
@@ -47,12 +50,14 @@ public class NgCorridor extends EmptyScene{
 		getBackground().setId("ng_corridor_bg");
 		// Puts main character into the scene
 		ng = new SceneElement(NgCommon.getMainCharacter());
-		ng.setPosition(Corner.TOP_LEFT, 660, 485);	
+		ng.setPosition(Corner.BOTTOM_CENTER, 700, 520);	
 		ng.setInitialScale(0.8f);
 		
-		SimpleTrajectoryDefinition d = new SimpleTrajectoryDefinition(false);	
-		d.setLimits(270, 210, 535, 600);
-		this.setTrajectoryDefinition(d);
+		// Star form node trajectory
+		ChangeFieldEf changeSide = new ChangeFieldEf();
+		changeSide.addField(new BasicField<Side>(ng, NodeTrajectoryDefinition.VAR_CURRENT_SIDE));
+		changeSide.setOperation(new ValueOp(null));
+		createNodeTrajectory(changeSide);
 
 		restOfTheRoom();
 		
@@ -72,6 +77,34 @@ public class NgCorridor extends EmptyScene{
 	public void restOfTheRoom(){
 		setDoors();
 		setWindow();
+	}
+	
+	/**
+	 * Star form node trajectory for this room
+	 * @param changeSide
+	 */
+	private void createNodeTrajectory(ChangeFieldEf changeSide) {
+		NodeTrajectoryDefinition trajectory = new NodeTrajectoryDefinition();
+		// 5 nodes
+		trajectory.addNode("0", 70, 540, 0.8f);
+		trajectory.addNode("1", 270, 235, 0.8f);
+		trajectory.addNode("2", 410, 235, 0.8f);
+		trajectory.addNode("3", 525, 235, 0.8f);
+		trajectory.addNode("4", 730, 540, 0.8f);
+		// 10 connections between nodes
+		trajectory.addSide("0", "1", 202);
+		trajectory.addSide("1", "2", 231);
+		trajectory.addSide("2", "3", 217);
+		trajectory.addSide("3", "4", 209);
+		trajectory.addSide("4", "0", 600);
+//		trajectory.addSide("4", "1", 530);
+//		trajectory.addSide("4", "2", 418);
+//		trajectory.addSide("0", "2", 418);
+//		trajectory.addSide("0", "3", 510);
+//		trajectory.addSide("3", "1", 380);
+
+
+		setTrajectoryDefinition(trajectory);
 	}
 	
 	/**
@@ -113,12 +146,12 @@ public class NgCorridor extends EmptyScene{
 	 * Adds the others scene elements to the room
 	 */
 	private void addSceneElements() {
-		getSceneElements().add(window);
 		getSceneElements().add(door1);
 		getSceneElements().add(door2);
 		getSceneElements().add(door3);
 		getSceneElements().add(door4);
 		getSceneElements().add(doorClosed);
+		getSceneElements().add(window);
 		getSceneElements().add(ng);
 	}
 	

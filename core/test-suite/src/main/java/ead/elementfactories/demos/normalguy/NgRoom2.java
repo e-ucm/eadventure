@@ -148,7 +148,7 @@ public class NgRoom2 extends EmptyScene{
 		
 		topFan = new SceneElement(new Image("@drawable/ng_room2_fan_piece.png"));
 		topFan.setId("ng_room2_fan_piece");
-		topFan.setPosition(Corner.TOP_LEFT, 510, 379);
+		topFan.setPosition(Corner.CENTER, 558, 418);
 		
 		wallpaper = new SceneElement(new Image("@drawable/ng_room2_wallpaper.png"));
 		wallpaper.setId("ng_room2_wallpaper");
@@ -165,7 +165,7 @@ public class NgRoom2 extends EmptyScene{
 	private void setFan() {		
 		InterpolationEf interpolation = EAdElementsFactory.getInstance().getEffectFactory()
 				.getInterpolationEffect(new BasicField<Float>(topFan, 
-						SceneElement.VAR_ROTATION), 0, (float) (Math.PI * 2.0), 5000, 
+						SceneElement.VAR_ROTATION), 0, (float) (Math.PI * 2.0), 500, 
 						InterpolationLoopType.RESTART, InterpolationType.LINEAR); 
 		topFan.addBehavior(MouseGEv.MOUSE_LEFT_PRESSED,interpolation);
 		fan.addBehavior(MouseGEv.MOUSE_LEFT_PRESSED,interpolation);
@@ -221,22 +221,24 @@ public class NgRoom2 extends EmptyScene{
 	}
 	
 	private void setPhysics() {
+		int spotX = 300;
+		int spotY = 150;
 		PhysicsEffect effect = new PhysicsEffect();
 		
 		BezierShape circle = new CircleShape(20, 20, 20, 60);
 		circle.setPaint(new LinearGradientFill(ColorFill.BLACK, new ColorFill(5, 5, 5), 40, 40));
 
-		for (int i = 0; i < 10; i++)
-			for (int j = 0; j < 10; j++) {
+		for (int i = 0; i < 2; i++)
+			for (int j = 0; j < 8; j++) {
 				SceneElement e = new SceneElement( circle);
 				e.setId("ball" + i + "_" + j);
-				e.setPosition(new EAdPosition(Corner.CENTER, i * 20 + 75,j * 20 + 75));
+				e.setPosition(new EAdPosition(Corner.CENTER,spotX + i * 20 + 1, spotY + j * 22 + 1));
 				getSceneElements().add(e);
 				effect.addSceneElement(e);
 				e.setVarInitialValue(PhysicsEffect.VAR_PH_TYPE, PhType.DYNAMIC);
-				getBackground().addBehavior(MouseGEv.MOUSE_LEFT_CLICK,
+				/*getBackground().addBehavior(MouseGEv.MOUSE_LEFT_CLICK,
 						new PhApplyImpluseEf(e, new MathOp(
-								 "0"), new MathOp("-100")));
+								 "0"), new MathOp("-100")));*/
 				e.setVarInitialValue(PhysicsEffect.VAR_PH_RESTITUTION, 0.3f);
 				e.setVarInitialValue(PhysicsEffect.VAR_PH_SHAPE, PhShape.CIRCULAR);
 			}

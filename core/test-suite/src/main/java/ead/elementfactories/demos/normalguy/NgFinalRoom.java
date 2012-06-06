@@ -41,10 +41,16 @@ public class NgFinalRoom extends EmptyScene{
 	}
 	
 	protected void init() {
-		setBackgroundFill(new LinearGradientFill(ColorFill.CYAN, ColorFill.BLUE,
-				800, 500));
+		setBackgroundFill(new LinearGradientFill(ColorFill.CYAN, ColorFill.BLUE, 800, 500));
 
 		addSky();
+		
+		// Set up character's initial position
+		ng = new SceneElement(NgCommon.getMainCharacter());
+		ng.setPosition(Corner.TOP_LEFT , 350, 340);
+		ng.setInitialScale(0.8f);
+				
+				
 		PhysicsEffect effect = new PhysicsEffect();
 
 		ConditionedEv event = new ConditionedEv();
@@ -66,7 +72,7 @@ public class NgFinalRoom extends EmptyScene{
 	private void setElements() {
 		house = new SceneElement(new Image("@drawable/ng_finalroom_house.png"));
 		house.setId("house");
-		house.setPosition(Corner.TOP_LEFT , 540, 175);
+		house.setPosition(Corner.TOP_LEFT , 350, 175);
 		
 		post = new SceneElement(new Image("@drawable/ng_finalroom_post.png"));
 		post.setId("post");
