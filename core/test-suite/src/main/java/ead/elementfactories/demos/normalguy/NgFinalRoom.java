@@ -72,8 +72,7 @@ public class NgFinalRoom extends EmptyScene{
 		PhysicsEffect effect = new PhysicsEffect();
 
 		ConditionedEv event = new ConditionedEv();
-		OperationCond condition = new OperationCond(
-				new BasicField<Boolean>(this, BasicScene.VAR_SCENE_LOADED));
+		OperationCond condition = new OperationCond(new BasicField<Boolean>(this, BasicScene.VAR_SCENE_LOADED));
 		event.setCondition(condition);
 		event.addEffect(ConditionedEvType.CONDITIONS_MET, effect);
 
@@ -84,7 +83,7 @@ public class NgFinalRoom extends EmptyScene{
 		setElements();
 		addElementsInOrder();
 		
-		
+		setPost();
 	}
 	
 	private void createTrajectory() {
@@ -93,14 +92,6 @@ public class NgFinalRoom extends EmptyScene{
 		setTrajectoryDefinition(d);
 	}
 	
-	/*private void createHorizontalOnlyTrajectory() {
-		NodeTrajectoryDefinition trajectory = new NodeTrajectoryDefinition();
-		trajectory.addNode("0", 50, 580, 0.8f);
-		trajectory.addNode("1", 640, 580, 0.8f);
-		trajectory.addSide("0", "1", 590);
-
-		setTrajectoryDefinition(trajectory);
-	}*/
 	
 	private void setElements() {
 		house = new SceneElement(new Image("@drawable/ng_finalroom_house.png"));
@@ -132,6 +123,13 @@ public class NgFinalRoom extends EmptyScene{
 	
 	public void setPost() {
 		// To do: finish the game
+		MoveSceneElementEf move = moveNg(132, 580);
+		post.addBehavior(MouseGEv.MOUSE_LEFT_PRESSED, move);
+        
+		ChangeSceneEf creditsScene = new ChangeSceneEf( );
+		creditsScene.setId("creditsScene");
+		creditsScene.setNextScene(NgSceneCreator.getCredits());
+		move.getNextEffects().add(creditsScene);
 		
 	}
 	

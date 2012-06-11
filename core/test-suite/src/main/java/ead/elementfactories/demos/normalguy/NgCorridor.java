@@ -219,14 +219,10 @@ public class NgCorridor extends EmptyScene{
 	 * Establish door's behavior
 	 */
 	private void doorsBehavior(EAdScene room1, EAdScene room2, EAdScene room3, EAdScene finalRoom) {
-		// Door's coordinates
-		int room1_x = 650; int room2_x = 175; int room3_x = 255; int roomf_x = 565;
-		int room1_y = 495; int room2_y = 495; int room3_y = 360; int roomf_y = 360;
-		
-		setMovementAndChangeRoomBehavior(room1, door1, room1_x, room1_y);
-		setMovementAndChangeRoomBehavior(room2, door2, room2_x, room2_y);
-		setMovementAndChangeRoomBehavior(room3, door3, room3_x, room3_y);
-		setMovementAndChangeRoomBehavior(finalRoom, door4, roomf_x, roomf_y);
+		setMovementAndChangeRoomBehavior(room1, door1, NgSceneCreator.getRoom1_x(), NgSceneCreator.getRoom1_y());
+		setMovementAndChangeRoomBehavior(room2, door2, NgSceneCreator.getRoom2_x(), NgSceneCreator.getRoom2_y());
+		setMovementAndChangeRoomBehavior(room3, door3, NgSceneCreator.getRoom3_x(), NgSceneCreator.getRoom3_y());
+		setMovementAndChangeRoomBehavior(finalRoom, door4, NgSceneCreator.getRoomf_x(), NgSceneCreator.getRoomf_y());
 		doorClosed();
 	}
 	
@@ -250,7 +246,7 @@ public class NgCorridor extends EmptyScene{
 	
 	private void doorClosed() {
 		// Message when the main character tries to open the door
-		MoveSceneElementEf move = moveNg(597, 8);
+		MoveSceneElementEf move = moveNg(565, 360);
 		doorClosed.addBehavior(MouseGEv.MOUSE_LEFT_PRESSED, move);
 		
 		move.getNextEffects().add(NgCommon.getLookEastEffect());
@@ -262,5 +258,6 @@ public class NgCorridor extends EmptyScene{
 		move.getNextEffects().add(speak);
 	}
 	
+	public SceneElement getNg() { return ng;}
 	
 }

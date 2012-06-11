@@ -28,7 +28,7 @@ public class NgRoom3 extends EmptyScene{
 		
 		// Set up character's initial position
 		ng = new SceneElement(NgCommon.getMainCharacter());
-		ng.setPosition(Corner.TOP_LEFT, 125, 360);
+		ng.setPosition(Corner.BOTTOM_CENTER, 150, 525);
 		ng.setInitialScale(0.8f);
 		
 		// Character can talk in the scene
@@ -38,13 +38,14 @@ public class NgRoom3 extends EmptyScene{
 				.getStringFactory()
 				.setString(
 						effect.getString(),
-						"Oh... this is getting weird... where the heck am I?");
+						"There's a strange man over there... I will ask him who is he and where I am");
+		effect.getNextEffects().add(NgCommon.getLookSouthEffect());
 
 		ng.addBehavior(MouseGEv.MOUSE_LEFT_PRESSED, effect);
 		
 		// Area where the character can walk
 		SimpleTrajectoryDefinition d = new SimpleTrajectoryDefinition(false);
-		d.setLimits(150, 380, 800, 600);
+		d.setLimits(145, 495, 750, 550);
 		setTrajectoryDefinition(d);
 		
 		// Sets up character's movement
@@ -66,12 +67,12 @@ public class NgRoom3 extends EmptyScene{
 	private void createElements() {
 		door = new SceneElement(new Image("@drawable/ng_room3_door.png"));
 		door.setId("ng_room3_door");
-		door.setPosition(Corner.TOP_LEFT, 32, 201);
+		door.setPosition(Corner.BOTTOM_CENTER, 86, 530);
 		
 		evil_ng = new SceneElement(new Image("@drawable/evil_man_stand_s_1.png"));
 		evil_ng.setId("ng_room3_evil_ng");
 		evil_ng.setInitialScale(0.9f);
-		evil_ng.setPosition(Corner.TOP_LEFT, 600, 350);
+		evil_ng.setPosition(Corner.BOTTOM_CENTER, 660, 510);
 
 	}
 	

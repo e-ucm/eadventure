@@ -39,9 +39,7 @@
 package ead.elementfactories.demos.normalguy;
 
 
-import ead.common.model.elements.conditions.ANDCond;
 import ead.common.model.elements.conditions.OperationCond;
-import ead.common.model.elements.conditions.enums.Comparator;
 import ead.common.model.elements.effects.AddActorReferenceEf;
 import ead.common.model.elements.effects.ChangeSceneEf;
 import ead.common.model.elements.effects.InterpolationEf;
@@ -49,26 +47,19 @@ import ead.common.model.elements.effects.enums.InterpolationLoopType;
 import ead.common.model.elements.effects.enums.InterpolationType;
 import ead.common.model.elements.effects.enums.PhShape;
 import ead.common.model.elements.effects.enums.PhType;
-import ead.common.model.elements.effects.hud.ModifyHUDEf;
 import ead.common.model.elements.effects.physics.PhApplyImpluseEf;
 import ead.common.model.elements.effects.physics.PhysicsEffect;
 import ead.common.model.elements.effects.sceneelements.MoveSceneElementEf;
 import ead.common.model.elements.effects.text.SpeakEf;
-import ead.common.model.elements.effects.variables.ChangeFieldEf;
 import ead.common.model.elements.events.ConditionedEv;
-import ead.common.model.elements.events.SceneElementEv;
 import ead.common.model.elements.events.enums.ConditionedEvType;
-import ead.common.model.elements.events.enums.SceneElementEvType;
-import ead.common.model.elements.guievents.DragGEv;
 import ead.common.model.elements.guievents.MouseGEv;
-import ead.common.model.elements.guievents.enums.DragGEvType;
 import ead.common.model.elements.scene.EAdScene;
 import ead.common.model.elements.scene.EAdSceneElementDef;
 import ead.common.model.elements.scenes.BasicScene;
 import ead.common.model.elements.scenes.SceneElement;
 import ead.common.model.elements.scenes.SceneElementDef;
 import ead.common.model.elements.trajectories.SimpleTrajectoryDefinition;
-import ead.common.model.elements.transitions.FadeInTransition;
 import ead.common.model.elements.variables.BasicField;
 import ead.common.model.elements.variables.EAdField;
 import ead.common.model.elements.variables.SystemFields;
@@ -77,18 +68,13 @@ import ead.common.model.elements.variables.operations.MathOp;
 import ead.common.model.predef.effects.SpeakSceneElementEf;
 import ead.common.params.fills.ColorFill;
 import ead.common.params.fills.LinearGradientFill;
-import ead.common.params.fills.Paint;
-import ead.common.resources.assets.drawable.EAdDrawable;
-import ead.common.resources.assets.drawable.basics.Caption;
 import ead.common.resources.assets.drawable.basics.Image;
 import ead.common.resources.assets.drawable.basics.shapes.BezierShape;
 import ead.common.resources.assets.drawable.basics.shapes.CircleShape;
 import ead.common.resources.assets.drawable.basics.shapes.RectangleShape;
-import ead.common.resources.assets.drawable.compounds.ComposedDrawable;
 import ead.common.util.EAdPosition;
 import ead.common.util.EAdPosition.Corner;
 import ead.elementfactories.EAdElementsFactory;
-import ead.elementfactories.assets.ShapeFactory;
 import ead.elementfactories.demos.scenes.EmptyScene;
 
 /**
@@ -154,11 +140,11 @@ public class NgRoom2 extends EmptyScene{
 		
 		fan = new SceneElement(new Image("@drawable/ng_room2_fan.png"));
 		fan.setId("ng_room2_fan");
-		fan.setPosition(Corner.TOP_LEFT, 560, 375);
+		fan.setPosition(Corner.TOP_LEFT, 540, 350);
 		
 		topFan = new SceneElement(new Image("@drawable/ng_room2_fan_piece.png"));
 		topFan.setId("ng_room2_fan_piece");
-		topFan.setPosition(Corner.CENTER, 602, 427);
+		topFan.setPosition(Corner.CENTER, 582, 402);
 		
 		wallpaper = new SceneElement(new Image("@drawable/ng_room2_wallpaper.png"));
 		wallpaper.setId("ng_room2_wallpaper");
@@ -216,10 +202,10 @@ public class NgRoom2 extends EmptyScene{
 		getSceneElements().add(door);
 		getSceneElements().add(wallpaper);
 		setPhysics();
-		getSceneElements().add(ng);
 		getSceneElements().add(fan);
 		getSceneElements().add(topFan);
-		
+		getSceneElements().add(ng);
+	
 	}
 	
 	/**
@@ -236,6 +222,7 @@ public class NgRoom2 extends EmptyScene{
         ChangeSceneEf corridorScene = new ChangeSceneEf( );
         corridorScene.setId("corridorScene");
 		corridorScene.setNextScene(corridor);
+		//((NgCorridor)corridorScene.getNextScene()).getNg().setPosition(NgSceneCreator.getRoom2_x(), NgSceneCreator.getRoom2_y());
 		move.getNextEffects().add(corridorScene);
 	}
 	

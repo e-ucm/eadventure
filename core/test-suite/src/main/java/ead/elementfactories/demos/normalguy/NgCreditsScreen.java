@@ -50,19 +50,16 @@ import ead.common.resources.assets.drawable.basics.Image;
 import ead.common.util.EAdPosition.Corner;
 import ead.elementfactories.demos.scenes.EmptyScene;
 
-public class NgMainScreen extends EmptyScene {
+public class NgCreditsScreen extends EmptyScene {
 
-	public NgMainScreen(EAdScene initScene) {
-		setBackground(new SceneElement( new Image(
-				"@drawable/ng_mainscreen_bg.png")));
+	public NgCreditsScreen(EAdScene initScene) {
+		setBackground(new SceneElement(new Image("@drawable/ng_mainscreen_bg.png")));
 		getBackground().setId("background");
-		SceneElement spiral = new SceneElement(
-				new Image("@drawable/ng_spiral.png"));
+		SceneElement spiral = new SceneElement(new Image("@drawable/ng_spiral.png"));
 		spiral.setId("spiral");
 		spiral.setPosition(Corner.CENTER, 400, 300);
 		getSceneElements().add(spiral);
-		SceneElement logo = new SceneElement(
-				new Image("@drawable/ng_logo.png"));
+		SceneElement logo = new SceneElement(new Image("@drawable/ng_logo.png"));
 		logo.setId("spiral");
 		logo.setPosition(Corner.CENTER, 400, 300);
 		getSceneElements().add(logo);
@@ -84,9 +81,7 @@ public class NgMainScreen extends EmptyScene {
 		
 		ChangeSceneEf changeScene = new ChangeSceneEf( );
 		changeScene.setId("changeScene");
-		// Creates all rooms
-		NgSceneCreator.getInstance(initScene);
-		changeScene.setNextScene(NgSceneCreator.getRoom1());
+		changeScene.setNextScene(initScene);
 		getBackground().addBehavior(MouseGEv.MOUSE_LEFT_PRESSED, changeScene);
 		
 		logo.getEvents().add(e);
