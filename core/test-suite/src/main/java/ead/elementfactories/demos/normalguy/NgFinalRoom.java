@@ -7,25 +7,20 @@ import ead.common.model.elements.effects.enums.InterpolationLoopType;
 import ead.common.model.elements.effects.enums.InterpolationType;
 import ead.common.model.elements.effects.physics.PhysicsEffect;
 import ead.common.model.elements.effects.sceneelements.MoveSceneElementEf;
-import ead.common.model.elements.effects.variables.ChangeFieldEf;
 import ead.common.model.elements.events.ConditionedEv;
 import ead.common.model.elements.events.SceneElementEv;
 import ead.common.model.elements.events.enums.ConditionedEvType;
 import ead.common.model.elements.events.enums.SceneElementEvType;
-import ead.common.model.elements.guievents.KeyGEv;
 import ead.common.model.elements.guievents.MouseGEv;
-import ead.common.model.elements.guievents.enums.KeyEventType;
 import ead.common.model.elements.scene.EAdScene;
 import ead.common.model.elements.scene.EAdSceneElementDef;
 import ead.common.model.elements.scenes.BasicScene;
 import ead.common.model.elements.scenes.SceneElement;
 import ead.common.model.elements.scenes.SceneElementDef;
-import ead.common.model.elements.trajectories.EAdTrajectoryDefinition;
-import ead.common.model.elements.trajectories.NodeTrajectoryDefinition;
 import ead.common.model.elements.trajectories.SimpleTrajectoryDefinition;
+import ead.common.model.elements.transitions.FadeInTransition;
 import ead.common.model.elements.variables.BasicField;
 import ead.common.model.elements.variables.SystemFields;
-import ead.common.model.elements.variables.operations.ValueOp;
 import ead.common.params.fills.ColorFill;
 import ead.common.params.fills.LinearGradientFill;
 import ead.common.resources.assets.drawable.basics.Image;
@@ -122,13 +117,12 @@ public class NgFinalRoom extends EmptyScene{
 	}
 	
 	public void setPost() {
-		// To do: finish the game
+		// The game ends
 		MoveSceneElementEf move = moveNg(132, 580);
 		post.addBehavior(MouseGEv.MOUSE_LEFT_PRESSED, move);
         
-		ChangeSceneEf creditsScene = new ChangeSceneEf( );
+		ChangeSceneEf creditsScene = new ChangeSceneEf(NgSceneCreator.getCredits(), new FadeInTransition(1000));
 		creditsScene.setId("creditsScene");
-		creditsScene.setNextScene(NgSceneCreator.getCredits());
 		move.getNextEffects().add(creditsScene);
 		
 	}

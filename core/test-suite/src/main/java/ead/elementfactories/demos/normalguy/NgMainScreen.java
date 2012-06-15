@@ -85,7 +85,7 @@ public class NgMainScreen extends EmptyScene {
 		ChangeSceneEf changeScene = new ChangeSceneEf( );
 		changeScene.setId("changeScene");
 		// Creates all rooms
-		NgSceneCreator.getInstance(initScene);
+		NgSceneCreator.getInstance(this);
 		changeScene.setNextScene(NgSceneCreator.getRoom1());
 		getBackground().addBehavior(MouseGEv.MOUSE_LEFT_PRESSED, changeScene);
 		

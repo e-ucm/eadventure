@@ -79,6 +79,7 @@ public class NgSceneCreator {
 	}
 	
 	public static EAdScene getRoom1() { return room1; }
+	public static EAdScene getRoom2() { return room2; }
 	
 	public static EAdScene getCredits() { return credits; }
 	

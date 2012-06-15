@@ -113,7 +113,7 @@ public class NgRoom2 extends EmptyScene{
 		
 		// Area where the character can walk
 		SimpleTrajectoryDefinition d = new SimpleTrajectoryDefinition(false);
-		d.setLimits(235, 490, 800, 600);
+		d.setLimits(445, 490, 800, 600);
 		setTrajectoryDefinition(d);
 		
 		// Sets up character's movement
@@ -224,6 +224,7 @@ public class NgRoom2 extends EmptyScene{
 		corridorScene.setNextScene(corridor);
 		//((NgCorridor)corridorScene.getNextScene()).getNg().setPosition(NgSceneCreator.getRoom2_x(), NgSceneCreator.getRoom2_y());
 		move.getNextEffects().add(corridorScene);
+		
 	}
 	
 	/**

@@ -62,7 +62,6 @@ import ead.common.model.elements.guievents.enums.DragGEvType;
 import ead.common.model.elements.scene.EAdScene;
 import ead.common.model.elements.scenes.SceneElement;
 import ead.common.model.elements.trajectories.SimpleTrajectoryDefinition;
-import ead.common.model.elements.transitions.FadeInTransition;
 import ead.common.model.elements.variables.BasicField;
 import ead.common.model.elements.variables.EAdField;
 import ead.common.model.elements.variables.EAdVarDef;
@@ -265,7 +264,7 @@ public class NgRoom1 extends EmptyScene {
         door.addBehavior(new DragGEv(key.getDefinition(), DragGEvType.DROP), move);
        
         // Define next scene, add next behavior
-        ChangeSceneEf corridorScene = new ChangeSceneEf( );
+        ChangeSceneEf corridorScene = new ChangeSceneEf();
         corridorScene.setId("corridorScene");
 		corridorScene.setNextScene(corridor);
 		move.getNextEffects().add(corridorScene);
