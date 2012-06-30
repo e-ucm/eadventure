@@ -55,28 +55,23 @@ import ead.engine.core.input.InputAction;
 import ead.engine.core.platform.GUI;
 import ead.engine.core.platform.assets.AssetHandler;
 
-public class BasicSceneElementGO extends
-		SceneElementGOImpl<SceneElement> {
+public class BasicSceneElementGO extends SceneElementGOImpl<SceneElement> {
 
-	private static final Logger logger = LoggerFactory
-			.getLogger("BasicSceneElementGOImpl");
+	private static final Logger logger = LoggerFactory.getLogger("BasicSceneElementGOImpl");
 
 	private EvaluatorFactory evaluatorFactory;
 
 	@Inject
-	public BasicSceneElementGO(AssetHandler assetHandler,
-			StringHandler stringHandler,
-			SceneElementGOFactory gameObjectFactory, GUI gui,
-			GameState gameState, EvaluatorFactory evaluatorFactory,
-			EventGOFactory eventFactory) {
-		super(assetHandler, stringHandler, gameObjectFactory, gui, gameState,
-				eventFactory);
+	public BasicSceneElementGO(AssetHandler assetHandler, StringHandler stringHandler,
+			SceneElementGOFactory gameObjectFactory, GUI gui, GameState gameState,
+			EvaluatorFactory evaluatorFactory, EventGOFactory eventFactory) {
+		super(assetHandler, stringHandler, gameObjectFactory, gui, gameState, eventFactory);
 		this.evaluatorFactory = evaluatorFactory;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see es.eucm.eadventure.engine.core.gameobjects.impl.SceneElementGOImpl#
 	 * getDraggableElement(es.eucm.eadventure.engine.core.MouseState)
 	 */
@@ -89,7 +84,7 @@ public class BasicSceneElementGO extends
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see es.eucm.eadventure.engine.core.gameobjects.impl.SceneElementGOImpl#
 	 * processAction(es.eucm.eadventure.engine.core.guiactions.GUIAction)
 	 */
@@ -101,7 +96,7 @@ public class BasicSceneElementGO extends
 		list = element.getDefinition().getEffects(action.getGUIEvent());
 		processed |= addEffects(list, action);
 
-		if ( !element.isPropagateGUIEvents() ){
+		if (!element.isPropagateGUIEvents() && !action.alwaysPropagates()) {
 			action.consume();
 		}
 

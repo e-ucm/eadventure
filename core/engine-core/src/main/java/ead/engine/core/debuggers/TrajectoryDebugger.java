@@ -47,14 +47,14 @@ import ead.common.model.elements.extra.EAdList;
 import ead.common.model.elements.scene.EAdScene;
 import ead.common.model.elements.scene.EAdSceneElement;
 import ead.common.model.elements.scene.EAdSceneElementDef;
-import ead.common.model.elements.scenes.SceneElementDef;
-import ead.common.model.elements.scenes.SceneElement;
 import ead.common.model.elements.scenes.BasicScene;
+import ead.common.model.elements.scenes.SceneElement;
+import ead.common.model.elements.scenes.SceneElementDef;
+import ead.common.model.elements.trajectories.EAdTrajectoryDefinition;
 import ead.common.model.elements.trajectories.Node;
 import ead.common.model.elements.trajectories.NodeTrajectoryDefinition;
 import ead.common.model.elements.trajectories.Side;
 import ead.common.model.elements.trajectories.SimpleTrajectoryDefinition;
-import ead.common.model.elements.trajectories.EAdTrajectoryDefinition;
 import ead.common.params.fills.ColorFill;
 import ead.common.params.fills.Paint;
 import ead.common.params.paint.EAdPaint;
@@ -62,11 +62,10 @@ import ead.common.resources.assets.drawable.basics.shapes.BezierShape;
 import ead.common.resources.assets.drawable.basics.shapes.CircleShape;
 import ead.common.resources.assets.drawable.basics.shapes.LineShape;
 import ead.common.resources.assets.drawable.basics.shapes.RectangleShape;
-import ead.common.resources.assets.drawable.compounds.EAdComposedDrawable;
 import ead.common.resources.assets.drawable.compounds.ComposedDrawable;
+import ead.common.resources.assets.drawable.compounds.EAdComposedDrawable;
 import ead.common.util.EAdPosition;
 import ead.common.util.EAdRectangle;
-import ead.engine.core.debuggers.Debugger;
 import ead.engine.core.game.GameState;
 import ead.engine.core.game.ValueMap;
 import ead.engine.core.gameobjects.factories.SceneElementGOFactory;
@@ -94,8 +93,8 @@ public class TrajectoryDebugger implements Debugger {
 	private List<BezierShape> barriers;
 
 	@Inject
-	public TrajectoryDebugger(GameState gameState,
-			SceneElementGOFactory gameObjectFactory, ValueMap valueMap) {
+	public TrajectoryDebugger(GameState gameState, SceneElementGOFactory gameObjectFactory,
+			ValueMap valueMap) {
 		this.gameState = gameState;
 		this.sceneElementFactory = gameObjectFactory;
 		this.valueMap = valueMap;
@@ -107,19 +106,16 @@ public class TrajectoryDebugger implements Debugger {
 	@Override
 	public List<DrawableGO<?>> getGameObjects() {
 		if (currentScene != gameState.getScene().getElement()
-				|| valueMap.getValue(currentScene,
-						BasicScene.VAR_TRAJECTORY_DEFINITION) != currentTrajectory) {
+				|| valueMap.getValue(currentScene, BasicScene.VAR_TRAJECTORY_DEFINITION) != currentTrajectory) {
 			createTrajectory();
 		}
 
 		if (currentTrajectory instanceof NodeTrajectoryDefinition) {
 			int i = 0;
-			for (EAdSceneElement e : ((NodeTrajectoryDefinition) currentTrajectory)
-					.getBarriers()) {
+			for (EAdSceneElement e : ((NodeTrajectoryDefinition) currentTrajectory).getBarriers()) {
 				barriers.get(i)
 						.setPaint(
-								valueMap.getValue(e,
-										NodeTrajectoryDefinition.VAR_BARRIER_ON) ? ColorFill.YELLOW
+								valueMap.getValue(e, NodeTrajectoryDefinition.VAR_BARRIER_ON) ? ColorFill.YELLOW
 										: ColorFill.TRANSPARENT);
 				i++;
 			}
@@ -138,14 +134,12 @@ public class TrajectoryDebugger implements Debugger {
 
 			if (currentTrajectory instanceof NodeTrajectoryDefinition) {
 				createNodes((NodeTrajectoryDefinition) currentTrajectory);
-				addInfluenceAreas(gameState.getScene().getElement()
-						.getSceneElements());
+				addInfluenceAreas(gameState.getScene().getElement().getSceneElements());
 			} else if (currentTrajectory instanceof SimpleTrajectoryDefinition) {
 				SimpleTrajectoryDefinition def = (SimpleTrajectoryDefinition) currentTrajectory;
-				SceneElement area = new SceneElement(
-						new RectangleShape(def.getRight() - def.getLeft(), def
-								.getBottom() - def.getTop(), new ColorFill(0,
-								200, 0, 100)));
+				SceneElement area = new SceneElement(new RectangleShape(def.getRight()
+						- def.getLeft(), def.getBottom() - def.getTop(), new ColorFill(0, 200, 0,
+						100)));
 				area.setId("walking_area");
 				area.setPosition(def.getLeft(), def.getTop());
 				gameObjects.add(sceneElementFactory.get(area));
@@ -157,8 +151,8 @@ public class TrajectoryDebugger implements Debugger {
 	private void addInfluenceAreas(EAdList<EAdSceneElement> sceneElements) {
 		EAdPaint p = new ColorFill(0, 0, 200, 100);
 		for (EAdSceneElement sceneElement : sceneElements) {
-			EAdRectangle rectangle = gameState.getValueMap().getValue(
-					sceneElement, NodeTrajectoryDefinition.VAR_INFLUENCE_AREA);
+			EAdRectangle rectangle = gameState.getValueMap().getValue(sceneElement,
+					NodeTrajectoryDefinition.VAR_INFLUENCE_AREA);
 			if (rectangle != null) {
 				RectangleShape shape = new RectangleShape(rectangle.getWidth(),
 						rectangle.getHeight());
@@ -188,8 +182,7 @@ public class TrajectoryDebugger implements Debugger {
 
 		for (Node n : trajectory.getNodes()) {
 			CircleShape circle = new CircleShape(n.getX(), n.getY(), 20, 20);
-			ColorFill color = trajectory.getInitial() == n ? ColorFill.RED
-					: ColorFill.BLUE;
+			ColorFill color = trajectory.getInitial() == n ? ColorFill.RED : ColorFill.BLUE;
 
 			circle.setPaint(new Paint(color, ColorFill.BLACK, 2));
 			map.addDrawable(circle);
@@ -197,6 +190,7 @@ public class TrajectoryDebugger implements Debugger {
 
 		SceneElement mapElement = new SceneElement(map);
 		mapElement.setId("trajectoryMap");
+		mapElement.setPropagateGUIEvents(true);
 
 		for (EAdSceneElement e : trajectory.getBarriers()) {
 			EAdSceneElementDef def = e.getDefinition();
@@ -205,8 +199,7 @@ public class TrajectoryDebugger implements Debugger {
 			BezierShape barrier = (BezierShape) s.clone();
 			barrier.setPaint(ColorFill.YELLOW);
 			barriers.add(barrier);
-			EAdPosition p = ((DrawableGO<?>) sceneElementFactory.get(e))
-					.getPosition();
+			EAdPosition p = ((DrawableGO<?>) sceneElementFactory.get(e)).getPosition();
 			map.addDrawable(barrier, p.getX(), p.getY());
 		}
 
@@ -216,7 +209,7 @@ public class TrajectoryDebugger implements Debugger {
 
 	@Override
 	public void setUp(EAdAdventureModel model) {
-		
+
 	}
 
 }

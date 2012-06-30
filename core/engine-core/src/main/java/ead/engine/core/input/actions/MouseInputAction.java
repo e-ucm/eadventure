@@ -54,13 +54,13 @@ public class MouseInputAction extends AbstractInputAction<MouseGEv> {
 	private int virtualY;
 
 	public MouseInputAction(MouseGEv event, int virtualX, int virtualY) {
-		super( event );
+		super(event);
 		this.virtualX = virtualX;
 		this.virtualY = virtualY;
 	}
-	
-	public MouseInputAction(MouseGEvType type, MouseGEvButtonType button, int virtualX, int virtualY ){
-		this( new MouseGEv( type, button), virtualX, virtualY);
+
+	public MouseInputAction(MouseGEvType type, MouseGEvButtonType button, int virtualX, int virtualY) {
+		this(new MouseGEv(type, button), virtualX, virtualY);
 	}
 
 	/**
@@ -83,6 +83,11 @@ public class MouseInputAction extends AbstractInputAction<MouseGEv> {
 
 	public MouseGEvButtonType getButton() {
 		return event.getButton();
+	}
+
+	@Override
+	public boolean alwaysPropagates() {
+		return false;
 	}
 
 }

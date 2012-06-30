@@ -40,13 +40,13 @@ package ead.engine.core.input.actions;
 import ead.common.model.elements.guievents.EAdGUIEvent;
 import ead.engine.core.input.InputAction;
 
-public class AbstractInputAction<T extends EAdGUIEvent> implements InputAction<T>{
-	
+public abstract class AbstractInputAction<T extends EAdGUIEvent> implements InputAction<T> {
+
 	private boolean consumed;
-	
+
 	protected T event;
-	
-	public AbstractInputAction( T event ){
+
+	public AbstractInputAction(T event) {
 		this.event = event;
 		consumed = false;
 	}
@@ -65,9 +65,12 @@ public class AbstractInputAction<T extends EAdGUIEvent> implements InputAction<T
 	public void consume() {
 		consumed = true;
 	}
-	
-	public String toString(){
+
+	public String toString() {
 		return event.toString();
 	}
+
+	@Override
+	public abstract boolean alwaysPropagates();
 
 }

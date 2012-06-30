@@ -69,4 +69,13 @@ public interface InputAction<T extends EAdGUIEvent> {
 	 */
 	void consume();
 
+	/**
+	 * Returns true if the action always propagates until it is consumed.
+	 * Otherwise the action will be consumed by any game object that returns
+	 * true for
+	 * {@link ead.common.model.elements.AbstractElementWithBehavior#isPropagateGUIEvents}
+	 * 
+	 * @return true if the action always propagates
+	 */
+	boolean alwaysPropagates();
 }

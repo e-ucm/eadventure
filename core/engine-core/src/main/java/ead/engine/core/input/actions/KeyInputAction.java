@@ -38,13 +38,13 @@
 package ead.engine.core.input.actions;
 
 import ead.common.model.elements.guievents.KeyGEv;
-import ead.common.model.elements.guievents.enums.KeyGEvCode;
 import ead.common.model.elements.guievents.enums.KeyEventType;
+import ead.common.model.elements.guievents.enums.KeyGEvCode;
 
 public class KeyInputAction extends AbstractInputAction<KeyGEv> {
 
 	public KeyInputAction(KeyEventType type, KeyGEvCode code) {
-		super( new KeyGEv(type, code) );
+		super(new KeyGEv(type, code));
 	}
 
 	public KeyInputAction(KeyEventType type, char letter) {
@@ -58,6 +58,11 @@ public class KeyInputAction extends AbstractInputAction<KeyGEv> {
 
 	public KeyEventType getType() {
 		return event.getType();
+	}
+
+	@Override
+	public boolean alwaysPropagates() {
+		return true;
 	}
 
 }
