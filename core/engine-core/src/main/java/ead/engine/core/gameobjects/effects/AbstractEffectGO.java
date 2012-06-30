@@ -56,26 +56,25 @@ import ead.engine.core.platform.assets.AssetHandler;
 import ead.engine.core.platform.assets.RuntimeDrawable;
 import ead.engine.core.util.EAdTransformation;
 
-public abstract class AbstractEffectGO<P extends EAdEffect> extends
-		DrawableGameObjectImpl<P> implements EffectGO<P> {
+public abstract class AbstractEffectGO<P extends EAdEffect> extends DrawableGameObjectImpl<P>
+		implements EffectGO<P> {
 
 	private boolean stopped = false;
 
 	private boolean initialized = false;
-	
+
 	protected int currentTime = 0;
 
 	protected InputAction<?> action;
-	
+
 	/**
 	 * Element that launched the effect
 	 */
 	protected EAdSceneElement parent;
-	
+
 	@Inject
-	public AbstractEffectGO(AssetHandler assetHandler,
-			StringHandler stringsReader, SceneElementGOFactory gameObjectFactory,
-			GUI gui, GameState gameState) {
+	public AbstractEffectGO(AssetHandler assetHandler, StringHandler stringsReader,
+			SceneElementGOFactory gameObjectFactory, GUI gui, GameState gameState) {
 		super(assetHandler, stringsReader, gameObjectFactory, gui, gameState);
 	}
 
@@ -84,8 +83,8 @@ public abstract class AbstractEffectGO<P extends EAdEffect> extends
 		initialized = true;
 		stopped = false;
 	}
-	
-	public void update(){
+
+	public void update() {
 		currentTime += gui.getSkippedMilliseconds();
 	}
 
@@ -102,7 +101,7 @@ public abstract class AbstractEffectGO<P extends EAdEffect> extends
 	public boolean isOpaque() {
 		return element.isOpaque();
 	}
-	
+
 	@Override
 	public boolean isQueueable() {
 		return element.isQueueable();
@@ -128,7 +127,7 @@ public abstract class AbstractEffectGO<P extends EAdEffect> extends
 	public void finish() {
 		initialized = false;
 		stopped = true;
-		for ( EAdEffect e: element.getNextEffects() ){
+		for (EAdEffect e : element.getNextEffects()) {
 			gameState.addEffect(e, action, parent);
 		}
 	}
@@ -136,8 +135,8 @@ public abstract class AbstractEffectGO<P extends EAdEffect> extends
 	public void setGUIAction(InputAction<?> action) {
 		this.action = action;
 	}
-	
-	public void setParent( EAdSceneElement parent ){
+
+	public void setParent(EAdSceneElement parent) {
 		this.parent = parent;
 	}
 
@@ -145,11 +144,11 @@ public abstract class AbstractEffectGO<P extends EAdEffect> extends
 	public boolean contains(int x, int y) {
 		return element.isOpaque();
 	}
-	
-	public EAdPosition getPosition(){
+
+	public EAdPosition getPosition() {
 		return null;
 	}
-	
+
 	@Override
 	public boolean processAction(InputAction<?> action) {
 		return false;
@@ -157,7 +156,7 @@ public abstract class AbstractEffectGO<P extends EAdEffect> extends
 
 	@Override
 	public void doLayout(EAdTransformation transformation) {
-		
+
 	}
 
 	@Override
@@ -166,20 +165,19 @@ public abstract class AbstractEffectGO<P extends EAdEffect> extends
 	}
 
 	@Override
-	public List<AssetDescriptor> getAssets(List<AssetDescriptor> assetList,
-			boolean allAssets) {
+	public List<AssetDescriptor> getAssets(List<AssetDescriptor> assetList, boolean allAssets) {
 		return assetList;
 	}
-	
-	public RuntimeDrawable<?, ?> getRuntimeDrawable(){
+
+	public RuntimeDrawable<?, ?> getRuntimeDrawable() {
 		return null;
 	}
-	
-	public int getWidth(){
+
+	public int getWidth() {
 		return 1;
 	}
-	
-	public int getHeight(){
+
+	public int getHeight() {
 		return 1;
 	}
 

@@ -58,10 +58,9 @@ public class TriggerMacroGO extends AbstractEffectGO<TriggerMacroEf> {
 	private EffectGO<?>[] effects;
 
 	@Inject
-	public TriggerMacroGO(AssetHandler assetHandler,
-			StringHandler stringHandler,
-			SceneElementGOFactory gameObjectFactory, GUI gui,
-			GameState gameState, EvaluatorFactory evaluator) {
+	public TriggerMacroGO(AssetHandler assetHandler, StringHandler stringHandler,
+			SceneElementGOFactory gameObjectFactory, GUI gui, GameState gameState,
+			EvaluatorFactory evaluator) {
 		super(assetHandler, stringHandler, gameObjectFactory, gui, gameState);
 		this.evaluator = evaluator;
 	}

@@ -52,13 +52,12 @@ import ead.common.model.elements.scene.EAdSceneElementDef;
 import es.eucm.eadventure.common.data.chapter.conditions.Conditions;
 import es.eucm.eadventure.common.data.chapter.effects.MoveNPCEffect;
 
-public class MoveNPCEffectImporter extends EffectImporter<MoveNPCEffect, TriggerMacroEf>{
+public class MoveNPCEffectImporter extends EffectImporter<MoveNPCEffect, TriggerMacroEf> {
 
 	private EAdElementFactory factory;
 
 	@Inject
-	public MoveNPCEffectImporter(
-			EAdElementImporter<Conditions, EAdCondition> conditionImporter,
+	public MoveNPCEffectImporter(EAdElementImporter<Conditions, EAdCondition> conditionImporter,
 			EAdElementFactory factory, ImportAnnotator annotator) {
 		super(conditionImporter, annotator);
 		this.factory = factory;
@@ -66,7 +65,7 @@ public class MoveNPCEffectImporter extends EffectImporter<MoveNPCEffect, Trigger
 
 	@Override
 	public TriggerMacroEf init(MoveNPCEffect oldObject) {
-		TriggerMacroEf effect =  new TriggerMacroEf();
+		TriggerMacroEf effect = new TriggerMacroEf();
 		effect.setId("moveNPC" + oldObject.getTargetId());
 		return effect;
 	}
@@ -78,11 +77,18 @@ public class MoveNPCEffectImporter extends EffectImporter<MoveNPCEffect, Trigger
 		macro.setId("macro");
 		effect.putMacro(macro, EmptyCond.TRUE_EMPTY_CONDITION);
 
-
-		macro.getEffects().add(new MoveSceneElementEf((EAdSceneElementDef) factory.getElementById(oldObject.getTargetId()),
-				oldObject.getX(), oldObject.getY(), MovementSpeed.NORMAL));
+		MoveSceneElementEf moveEffect = new MoveSceneElementEf(
+				(EAdSceneElementDef) factory.getElementById(oldObject.getTargetId()),
+				oldObject.getX(), oldObject.getY(), MovementSpeed.NORMAL);
+		moveEffect.setBlocking(true);
+		macro.getEffects().add(moveEffect);
 
 		return effect;
+	}
+
+	@Override
+	protected boolean newEffectIsBlocking() {
+		return false;
 	}
 
 }

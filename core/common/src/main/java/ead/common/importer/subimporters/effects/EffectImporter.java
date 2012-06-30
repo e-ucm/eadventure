@@ -50,21 +50,18 @@ public abstract class EffectImporter<OldEffect extends AbstractEffect, NewEffect
 	protected static int ID_GENERATOR = 0;
 
 	protected ImportAnnotator annotator;
-	
+
 	private EAdElementImporter<Conditions, EAdCondition> conditionImporter;
 
-	public EffectImporter(
-			EAdElementImporter<Conditions, EAdCondition> conditionImporter,
+	public EffectImporter(EAdElementImporter<Conditions, EAdCondition> conditionImporter,
 			ImportAnnotator annotator) {
 		this.conditionImporter = conditionImporter;
 		this.annotator = annotator;
 	}
 
 	protected void importConditions(OldEffect oldEffect, NewEffect newEffect) {
-		EAdCondition condition = conditionImporter.init(oldEffect
-				.getConditions());
-		condition = conditionImporter.convert(oldEffect.getConditions(),
-				condition);
+		EAdCondition condition = conditionImporter.init(oldEffect.getConditions());
+		condition = conditionImporter.convert(oldEffect.getConditions(), condition);
 		if (condition != null)
 			newEffect.setCondition(condition);
 	}
@@ -73,8 +70,12 @@ public abstract class EffectImporter<OldEffect extends AbstractEffect, NewEffect
 	public NewEffect convert(OldEffect oldObject, Object newElement) {
 		importConditions(oldObject, (NewEffect) newElement);
 		((NewEffect) newElement).setQueueable(true);
-		((NewEffect) newElement).setBlocking(true);
+		((NewEffect) newElement).setBlocking(newEffectIsBlocking());
 		return (NewEffect) newElement;
+	}
+
+	protected boolean newEffectIsBlocking() {
+		return true;
 	}
 
 }
