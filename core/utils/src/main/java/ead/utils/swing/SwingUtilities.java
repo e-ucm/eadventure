@@ -59,28 +59,42 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import ead.utils.Pointer;
 import ead.utils.i18n.I18N;
 
 abstract public class SwingUtilities {
 
+	private static final Logger logger = LoggerFactory.getLogger("SwingUtilities");
+
 	/**
-	 * <p>Executes {@code doRun.run()} method synchronously with the AWT
-	 * Event Dispatcher Thread (EDT).</p>
-	 *
-	 * <p>Unlike {@link javax.swing.SwingUtilities#invokeAndWait(Runnable)}
-	 * exceptions are treated.</p>
-	 * <p><ul>
-	 *   <li>{@code java.lang.InterruptedException} marks current thread as interrupted, {@code Thread.currentThread().interrupt()}.</li>
-	 *   <li>{@code java.lang.reflect.InvocationTargetException}: shows an error dialog including the stack trace.</li>
-	 * </ul></p>
-	 *
-	 * @param doRun Piece of code to be run in EDT
-	 *
+	 * <p>
+	 * Executes {@code doRun.run()} method synchronously with the AWT Event
+	 * Dispatcher Thread (EDT).
+	 * </p>
+	 * 
+	 * <p>
+	 * Unlike {@link javax.swing.SwingUtilities#invokeAndWait(Runnable)}
+	 * exceptions are treated.
+	 * </p>
+	 * <p>
+	 * <ul>
+	 * <li>{@code java.lang.InterruptedException} marks current thread as
+	 * interrupted, {@code Thread.currentThread().interrupt()}.</li>
+	 * <li>{@code java.lang.reflect.InvocationTargetException}: shows an error
+	 * dialog including the stack trace.</li>
+	 * </ul>
+	 * </p>
+	 * 
+	 * @param doRun
+	 *            Piece of code to be run in EDT
+	 * 
 	 * @see javax.swing.SwingUtilities#invokeAndWait(Runnable)
 	 */
-	static public void doInEDTNow (Runnable doRun) {
-		if(javax.swing.SwingUtilities.isEventDispatchThread()){
+	static public void doInEDTNow(Runnable doRun) {
+		if (javax.swing.SwingUtilities.isEventDispatchThread()) {
 			doRun.run();
 		} else {
 			try {
@@ -94,50 +108,52 @@ abstract public class SwingUtilities {
 		}
 	}
 
-	static public void doInEDT (Runnable doRun) {
+	static public void doInEDT(Runnable doRun) {
 		javax.swing.SwingUtilities.invokeLater(doRun);
 	}
 
-	static public <T> T doInEDT (final ReturnnableRunnable<T> doRun){
-		final Pointer<T> pointer= new Pointer<T>();
-		doInEDT(new Runnable(){
-			public void run(){
+	static public <T> T doInEDT(final ReturnnableRunnable<T> doRun) {
+		final Pointer<T> pointer = new Pointer<T>();
+		doInEDT(new Runnable() {
+			public void run() {
 				pointer.reference = doRun.run();
 			}
 		});
 		return pointer.reference;
 	}
 
-	static public <T> T doInEDTNow (final ReturnnableRunnable<T> doRun){
-		final Pointer<T> pointer= new Pointer<T>();
-		doInEDTNow(new Runnable(){
-			public void run(){
+	static public <T> T doInEDTNow(final ReturnnableRunnable<T> doRun) {
+		final Pointer<T> pointer = new Pointer<T>();
+		doInEDTNow(new Runnable() {
+			public void run() {
 				pointer.reference = doRun.run();
 			}
 		});
 		return pointer.reference;
 	}
 
-  /**
-   * Find the current {@code Frame}
-   */
-    static public Frame findActiveFrame() {
-	    Frame result = null;
-    	Frame[] frames = JFrame.getFrames();
-	    boolean found = false;
-	    int i = 0;
-	    while(!found && i < frames.length){
-	    	found = frames[i].isVisible();
-	    	i++;
-	    }
-	    if(found){
-	    	result = frames[i-1];
-	    }
-	    return result;
-    }
+	/**
+	 * Find the current {@code Frame}
+	 */
+	static public Frame findActiveFrame() {
+		Frame result = null;
+		Frame[] frames = JFrame.getFrames();
+		boolean found = false;
+		int i = 0;
+		while (!found && i < frames.length) {
+			found = frames[i].isVisible();
+			i++;
+		}
+		if (found) {
+			result = frames[i - 1];
+		}
+		return result;
+	}
 
 	static public void showExceptionDialog(Throwable exp) {
-		final JDialog dialog = new JDialog(findActiveFrame(),Messages.exception_dialog_title, true);
+		logger.error("Exception captured by swing", exp);
+
+		final JDialog dialog = new JDialog(findActiveFrame(), Messages.exception_dialog_title, true);
 
 		// Label
 		JPanel header = new JPanel();
@@ -146,9 +162,9 @@ abstract public class SwingUtilities {
 		lbl.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
 		String expType;
 		if (exp instanceof Error) {
-			expType = I18N.bind(Messages.exception_dialog_type_error , exp.getClass().getName());
+			expType = I18N.bind(Messages.exception_dialog_type_error, exp.getClass().getName());
 		} else {
-			expType = I18N.bind(Messages.exception_dialog_type_exception , exp.getClass().getName());
+			expType = I18N.bind(Messages.exception_dialog_type_exception, exp.getClass().getName());
 		}
 		lbl.setText(expType);
 		lbl.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
@@ -200,7 +216,8 @@ abstract public class SwingUtilities {
 		buf.append("\n");
 		Throwable cause = exp.getCause();
 		if (cause != null) {
-			buf.append(I18N.bind(Messages.exception_dialog_caused_by, cause.getClass().getName())+"\n");
+			buf.append(I18N.bind(Messages.exception_dialog_caused_by, cause.getClass().getName())
+					+ "\n");
 			fillStackTrace(buf, cause);
 		}
 	}
@@ -213,9 +230,9 @@ abstract public class SwingUtilities {
 		result.width = d.width;
 		result.height = d.height;
 		Insets insets = c.getInsets();
-		if(insets != null){
-			result.width = d.width - (insets.left+insets.right);
-			result.height = d.height - (insets.top+insets.bottom);
+		if (insets != null) {
+			result.width = d.width - (insets.left + insets.right);
+			result.height = d.height - (insets.top + insets.bottom);
 			result.x = insets.left;
 			result.y = insets.top;
 		}
