@@ -96,17 +96,18 @@ public class NgQuiz extends EmptyScene {
 	}
 	
 	private ShowQuestionEf getAnswer1(boolean isCorrect, StringFactory stringFactory) {
-		String questionOk = "Okay... that was easy but... let'see this one! pregunta número dos";
+		String questionOk = "Okay... that was easy but... let'see this one! pregunta nÃºmero dos";
 		String questionWr = "Hehehe... I'm afraid you are wrong!!! hahaha! veamos la segunda";
 		String b1 = "Answer 1 false";
 		String b2 = "Answer 2 true";
 		String b3 = "Answer 3 false";
 		
 		ShowQuestionEf effect = new ShowQuestionEf();
-		if(isCorrect) 
+		if(isCorrect) {
 			stringFactory.setString(effect.getQuestion(), questionOk);
-		else 
+		} else {
 			stringFactory.setString(effect.getQuestion(), questionWr);
+		}
 		
 		effect.addAnswer(stringFactory.getString(b1), getAnswer2(false, stringFactory));
 		effect.addAnswer(stringFactory.getString(b2), getAnswer2(true, stringFactory));
@@ -118,17 +119,18 @@ public class NgQuiz extends EmptyScene {
 	}
 	
 	private ShowQuestionEf getAnswer2(boolean isCorrect, StringFactory stringFactory) {
-		String questionOk = "Well... I think you are kinda clever but this one will be your end! pregunta número tres";
+		String questionOk = "Well... I think you are kinda clever but this one will be your end! pregunta nÃºmero tres";
 		String questionWr = "Hehehe... I'm afraid you are wrong!!! hahaha! veamos la tercera";
 		String b1 = "Answer 1 false";
 		String b2 = "Anser 2 false";
 		String b3 = "Anser 3 true";
 		
 		ShowQuestionEf effect = new ShowQuestionEf();
-		if(isCorrect) 
+		if(isCorrect) {
 			stringFactory.setString(effect.getQuestion(), questionOk);
-		else 
+		} else { 
 			stringFactory.setString(effect.getQuestion(), questionWr);
+		}
 		
 		effect.addAnswer(stringFactory.getString(b1), getAnswer3andClose(false, stringFactory));
 		effect.addAnswer(stringFactory.getString(b2), getAnswer3andClose(false, stringFactory));
@@ -140,16 +142,16 @@ public class NgQuiz extends EmptyScene {
 	}
 	
 	private ShowQuestionEf getAnswer3andClose(boolean result, StringFactory stringFactory) {
-		String questionOk = "Well... I think you are kinda clever but this one will be your end! pregunta número tres";
+		String questionOk = "Well... I think you are kinda clever but this one will be your end! pregunta nÃºmero tres";
 		String questionWr = "Hehehe... I'm afraid you are wrong!!! hahaha! veamos la tercera";
 		String finalQ = "Close quiz? or another way to get back to room2?";
 		
 		ShowQuestionEf effect = new ShowQuestionEf();
-		if(result) 
+		if (result) {
 			stringFactory.setString(effect.getQuestion(), questionOk);
-		else 
+		} else {
 			stringFactory.setString(effect.getQuestion(), questionWr);
-		
+		}
 		effect.addAnswer(stringFactory.getString(finalQ), null);
 		
 		effect.setUpNewInstance();
@@ -166,7 +168,5 @@ public class NgQuiz extends EmptyScene {
 	public String getDemoName() {
 		return "Show Question Scene";
 	}
-
-
-
 }
+
