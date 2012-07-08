@@ -49,6 +49,7 @@ import ead.editor.model.visitor.ModelVisitorDriver;
 import ead.utils.FileUtils;
 import java.io.*;
 import java.util.*;
+import java.util.Map.Entry;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import org.jgrapht.graph.ListenableDirectedGraph;
@@ -95,8 +96,8 @@ public class EditorModel implements ModelVisitor {
 	 */
 	private HashMap<Object, DependencyNode> nodesByContent;
 	/**
-	 * EditorNodes: high-level representations suitable for editing;
-	 * persisted in editor.xml.
+	 * high-level representations suitable for editing,
+	 * persisted in editor.xml
 	 */
 	private HashMap<DependencyNode, ArrayList<DependencyNode>> editorNodes;
 	/**
@@ -193,6 +194,24 @@ public class EditorModel implements ModelVisitor {
 				// content is eadElement, and has editor-anotation: unfreeze
 				eid = Integer.parseInt(m.group(1));
 				node = nodesById.get(eid);
+				if (node == null) {
+//					when loading, nodes not mentioned in the editor.xml file will not be found
+//					logger.warn("could not unfreeze id {}", eid);
+//					if (logger.isDebugEnabled()) {
+//						StringBuilder allEntries = new StringBuilder();
+//						for (Entry<Integer, DependencyNode> en : nodesById.entrySet()) {
+//							Object o = en.getValue().getContent();
+//							allEntries.append(en.getKey()).append(" -> ")
+//								.append(o.getClass().getSimpleName())
+//								.append(" (").append(o.hashCode()).append(")\n");
+//						}
+//						logger.debug("Entries: \n{}", allEntries.toString());
+//					}						
+//				    therefore, they have to be created				
+					e.setId(decorateIdWithEid(e.getId(), eid));
+					node = new EngineNode(eid, e);
+					nodesById.put(eid, node);
+				}
 			} else {
 				// content is eadElement, but has no editor-annotation: add it
 				eid = generateId();
@@ -266,11 +285,17 @@ public class EditorModel implements ModelVisitor {
 		logger.debug("Visiting object: '{}'--['{}']-->'{}'",
 				new Object[]{source, sourceName, target});
 
-		// source is null for root node
+		// source is only null for root node
+		if (source == null) {
+			// should keep on drilling, but otherwise nothing to do here
+			addNode(null, null, target);
+			return true;
+		}
+		
 		DependencyNode sourceNode = (source != null)
 				? nodesByContent.get(source) : null;
-		DependencyNode e = addNode(sourceNode, sourceName, target);
-
+		DependencyNode e = addNode(sourceNode, sourceName, target);			
+		
 		if (e != null) {
 			nodeIndex.addProperty(e, ModelIndex.editorIdFieldName,
 					"" + e.getId(), false);
@@ -319,6 +344,7 @@ public class EditorModel implements ModelVisitor {
 			".eap", "Editor project");
 
 		// write extra xml file to it
+		int mappings = 0;
 		if (ok) try {
 			StringBuilder sb = new StringBuilder();
 			for (DependencyNode n : nodesById.values()) {
@@ -326,6 +352,7 @@ public class EditorModel implements ModelVisitor {
 					logger.debug("Writing editorNode of type {} with id {}", 
 							new Object[] {n.getClass(), n.getId()});
 					((EditorNode)n).write(sb);
+					mappings ++;					
 				}			
 			}
 			ByteArrayInputStream bis = new ByteArrayInputStream(
@@ -335,13 +362,13 @@ public class EditorModel implements ModelVisitor {
 			logger.error("Could not write editor.xml file to {}", target, ioe);
 		}
 		
-		logger.info("Wrote editor data from {} to {}", 
-				new Object[] {saveDir, target});
+		logger.info("Wrote editor data from {} to {}: {} total objects, {} editor mappings", 
+				new Object[] {saveDir, target, nodesById.size(), mappings});
 	}
 
 	/**
 	 * Loads the editor model. Discards the current editing session. The file
-	 * must have been built with save(). Any presentation-related should be
+	 * must have been built with save(). Any presentation-related data should be
 	 * added after this is called, using FileUtils.readEntryFromZip(source, ...)
 	 *
 	 * @param source
@@ -360,6 +387,7 @@ public class EditorModel implements ModelVisitor {
 		
 		EAdAdventureModel m = reader.read(
 				new File(saveDir, ProjectFiles.DATA_FILE).toURI());
+		
 				
 		logger.info("Model loaded; building graph...");
 		ModelVisitorDriver driver = new ModelVisitorDriver();

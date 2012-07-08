@@ -56,6 +56,7 @@ import ead.common.model.elements.extra.EAdMap;
 import ead.common.params.EAdParam;
 import ead.common.resources.EAdResources;
 import ead.common.resources.assets.AssetDescriptor;
+import java.util.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -115,7 +116,22 @@ public abstract class DOMWriter<T> {
 			error = true;
 		}
 	}
-
+	
+	public static Collection<Object> reorderKeys(Set<? extends Object> keys) {
+		ArrayList<Object> reordered = new ArrayList<Object>(keys);
+		Collections.sort(reordered, new Comparator<Object>() {
+			@Override
+			public int compare(Object a, Object b) {
+				String ka = (a instanceof EAdElement) ? ((EAdElement)a).getId() :
+						a.toString();
+				String kb = (b instanceof EAdElement) ? ((EAdElement)b).getId() :
+						b.toString();				
+				return ka.compareTo(kb);
+			}
+		});		
+		return reordered;
+	}
+	
 	/**
 	 * <p>
 	 * Build the actual node created by this DOMWriter

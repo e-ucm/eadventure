@@ -53,8 +53,8 @@ public class MapDOMWriter extends DOMWriter<EAdMap<?, ?>> {
 		node.setAttribute(DOMTags.VALUE_CLASS_AT, shortClass(map.getValueClass().getName()));
 
 		DOMWriter.depthManager.levelDown();
-		
-		for (Object o : map.keySet()) {
+				
+		for (Object o : reorderKeys(map.keySet())) {
 			if (o != null && map.get(o) != null) {
 				Element key = super.initNode(o, map.getKeyClass());
 				doc.adoptNode(key);

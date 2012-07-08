@@ -84,9 +84,13 @@ public class EditorNode extends DependencyNode<HashSet<DependencyNode<?>>> {
 		sb.setCharAt(sb.length()-1, '\'');
 		sb.append(">\n\t");
 		writeInner(sb);
-		sb.append("\n</node>\n");
+		sb.append("\n</node>\n");		
 	}
 
+	/**
+	 * Writes inner contents to an XML snippet. If nothing to write, returns 'null'
+	 * @param sb
+	 */
 	public void writeInner(StringBuilder sb) {
 		// by default, nothing to write
 	}

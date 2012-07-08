@@ -64,7 +64,7 @@ public class ModelVisitorDriver {
 
     private final Logger logger = LoggerFactory.getLogger("ModelVisitorDriver");
     
-    // drivers are reusable; they keep no internal debugrmation
+    // drivers are reusable; they keep no internal information
     private ElementDriver elementDriver = new ElementDriver();
     private ListDriver listDriver = new ListDriver();
     private MapDriver mapDriver = new MapDriver();
@@ -92,6 +92,11 @@ public class ModelVisitorDriver {
         }
     }
 
+	/**
+	 * Returns the correct driver to use for a given object.
+	 * @param o object to drive into.
+	 * @return 
+	 */
     @SuppressWarnings("unchecked")
     private VisitorDriver driverFor(Object o) {
         if (o instanceof EAdElement) {
@@ -112,7 +117,7 @@ public class ModelVisitorDriver {
     }
 
     /**
-     * Deepens visit into object o; called by drivers
+     * Deepens visit into object o; called by drivers.
      */
     @SuppressWarnings("unchecked")
     public void driveInto(Object o, Object source, String sourceName) {        
@@ -127,7 +132,7 @@ public class ModelVisitorDriver {
     }
 
     /**
-     * visits an element
+     * visits an element.
      */
     private class ElementDriver implements VisitorDriver<EAdElement> {
 
@@ -139,7 +144,7 @@ public class ModelVisitorDriver {
 
     /**
      * visits a list - either by adding it all as attributes, or some other
-     * method
+     * method.
      */
     private class ListDriver implements VisitorDriver<EAdList<?>> {
 
@@ -156,7 +161,7 @@ public class ModelVisitorDriver {
     }
 
     /**
-     * visits a map (keys and values)
+     * visits a map (keys and values).
      */
     private class MapDriver implements VisitorDriver<EAdMap<?, ?>> {
 
@@ -199,7 +204,7 @@ public class ModelVisitorDriver {
     }
 
     /**
-     * Visitor for a resources element
+     * visits a resource.
      */
     private class ResourceDriver implements VisitorDriver<EAdResources> {
 
@@ -228,7 +233,7 @@ public class ModelVisitorDriver {
     }
 
     /**
-     * visit an asset
+     * visits an asset.
      */
     private class AssetDriver implements VisitorDriver<AssetDescriptor> {
 

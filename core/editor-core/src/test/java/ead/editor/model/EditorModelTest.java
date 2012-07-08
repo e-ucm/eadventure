@@ -168,13 +168,24 @@ public class EditorModelTest {
 		logger.info("Starting test run...");
 
 		// Import-load
-		File f = new File("C:/Users/anserran/Desktop/eAdventure/juegos/test/firstAidGame.ead");
+		File f = new File("/home/mfreire/code/e-ucm/e-adventure-1.x/games/PrimerosAuxiliosGame.ead");
 		emt.testImportLoad(f);
-        // Test save
-        File saveFile = File.createTempFile("saved", ".eap");
-        emt.testSave(saveFile);
-        // Test loading from previous save-file
-		emt.testLoad(saveFile);
+        
+		// Test first save
+        File firstFile = File.createTempFile("first", ".eap");
+        emt.testSave(firstFile);
+
+		// Test loading from ead2 save-file
+		emt.testLoad(firstFile);
+		
+		// Save loaded to another name
+		File secondFile = File.createTempFile("second", ".eap");
+		emt.testSave(secondFile);
+		
+		logger.info("Finished; now compare {} and {}", new Object[] {
+			firstFile.getCanonicalPath(), secondFile.getCanonicalPath()});
+
+		// Copy 
 
 		// Simple search
 //		emt.testSimpleSearch();
