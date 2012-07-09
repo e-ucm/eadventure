@@ -66,8 +66,7 @@ public class EditorMenuBarImpl implements EditorMenuBar {
 	private List<Menu> menus;
 	
 	@Inject
-	public EditorMenuBarImpl(FileMenu fileMenu,
-			EditMenu editMenu) {
+	public EditorMenuBarImpl(FileMenu fileMenu, EditMenu editMenu) {
 		initialize();
 
 		addMenu(fileMenu);

@@ -44,18 +44,20 @@ import ead.utils.i18n.I18N;
  */
 public class Messages {
 
-	public static String file_menu;
-	
-	public static String file_menu_open;
-	
-	public static String edit_menu;
-	
-	public static String edit_menu_undo;
-	
-	public static String edit_menu_redo;
-	
-	static {
-		I18N.initializeMessages(Messages.class.getName(), Messages.class);
-	}
+    // File menu
+    public static String file_menu;
+    public static String file_menu_open;
+    public static String file_menu_import;
+    public static String file_menu_new;
+    public static String file_menu_save;
+    public static String file_menu_save_as;
+    public static String file_menu_exit;
+    // Edit menu
+    public static String edit_menu;
+    public static String edit_menu_undo;
+    public static String edit_menu_redo;
 
+    static {
+        I18N.initializeMessages(Messages.class.getName(), Messages.class);
+    }
 }

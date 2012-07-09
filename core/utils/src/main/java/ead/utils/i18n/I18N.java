@@ -283,6 +283,10 @@ public abstract class I18N {
                             String key = (String) e.getKey();
                             if (fieldNames.contains(key)) {
                                 if (fields.containsKey(key)) {
+                                    logger.debug("setting key {} to '{}'",
+                                            new String[]{
+                                                fields.get(key).getName(),
+                                                e.getValue().toString()});
                                     assignField(fields.get(key), e.getValue());
                                     fields.remove(key);
                                 }

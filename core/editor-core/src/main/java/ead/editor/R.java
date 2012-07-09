@@ -46,7 +46,7 @@ import java.util.TreeSet;
  *
  * This is an AUTOMATICALLY-GENERATED file - 
  * Run class ead.utils.i18n.ResourceCreator with parameters: 
- *    "./core/editor-core/impl" "ead.editor" "etc/LICENSE.txt" "./core/editor-core/impl/src/main/java/ead/editor/R.java"
+ *    "core/editor-core" "ead.editor" "etc/LICENSE.txt" "core/editor-core/src/main/java/ead/editor/R.java"
  * to re-create or update this class
  */
 public class R {

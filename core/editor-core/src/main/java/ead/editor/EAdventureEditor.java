@@ -55,47 +55,59 @@ import ead.engine.desktop.core.platform.module.DesktopModule;
 import ead.engine.java.core.platform.modules.JavaBasicGameModule;
 
 /**
- * eAdventure editor launcher.
- * This class has a main method.
+ * eAdventure editor launcher. This class has a main method.
+ * 
+ * IMPORTANT: to re-generate resources, use
+ * java -cp core/utils/target/utils-2.0.1-SNAPSHOT.jar 
+ *      ead.utils.i18n.ResourceCreator core/editor-core ead.editor 
+ *      etc/LICENSE.txt core/editor-core/src/main/java/ead/editor/R.java
  */
 public class EAdventureEditor implements Launcher {
 
-	/**
-	 * Logger
-	 */
-	private static Logger logger = LoggerFactory.getLogger(EAdventureEditor.class);
+    /**
+     * Logger
+     */
+    private static Logger logger = LoggerFactory.getLogger(EAdventureEditor.class);
+    /**
+     * Controller for the view
+     */
+    private ViewController viewController;
 
-	/**
-	 * Controller for the view
-	 */
-	private ViewController viewController;
+    public static void main(String[] args) {
+        // The following line is used by MacOS X to set the application name correctly
+        System.setProperty("com.apple.mrj.application.apple.menu.about.name", "eAdventure");
 
-	public static void main(String[] args) {
-		// The following line is used by MacOS X to set the application name correctly
-		System.setProperty("com.apple.mrj.application.apple.menu.about.name", "eAdventure");
+        // Initialize logging
+        Log4jConfig.configForConsole(Log4jConfig.Slf4jLevel.Info, new Object[]{
+            "ModelVisitorDriver", Log4jConfig.Slf4jLevel.Info,
+            "EditorModel", Log4jConfig.Slf4jLevel.Debug,
+            "NullAnnotator", Log4jConfig.Slf4jLevel.Debug,
+            "EAdventureImporter", Log4jConfig.Slf4jLevel.Debug,
+            "ead.utils.i18n.I18N", Log4jConfig.Slf4jLevel.Debug,
+        });        
+        
+        SplashScreen splashScreen = new SplashScreenImpl();
+        splashScreen.show();
 
-		SplashScreen splashScreen = new SplashScreenImpl();
-		splashScreen.show();
-
-		Injector injector = Guice.createInjector(
+        Injector injector = Guice.createInjector(
                 new EditorGuiceModule(),
                 new ImporterConfigurationModule(),
                 new JavaBasicGameModule(),
                 new DesktopModule(),
                 new DesktopAssetHandlerModule());
 
-		Launcher launcher = injector.getInstance(Launcher.class);
+        Launcher launcher = injector.getInstance(Launcher.class);
 
-		launcher.configure();
+        launcher.configure();
 
         EAdAdventureModel model = doImport(injector);
         model.getChapters();
 
-		launcher.initialize();
-		splashScreen.hide();
+        launcher.initialize();
+        splashScreen.hide();
 
-		launcher.start();
-	}
+        launcher.start();
+    }
 
     public static EAdAdventureModel doImport(Injector injector) {
         String fileName = "/home/mfreire/code/e-ucm/e-adventure-1.x/games/PrimerosAuxiliosGame.ead";
@@ -103,25 +115,25 @@ public class EAdventureEditor implements Launcher {
         return importer.importGame(fileName, "/tmp/imported");
     }
 
-	@Inject
-	public EAdventureEditor(ViewController viewController) {
-		this.viewController = viewController;
-	}
+    @Inject
+    public EAdventureEditor(ViewController viewController) {
+        this.viewController = viewController;
+    }
 
-	@Override
-	public void configure() {
-		logger.info("Configuring...");
-	}
+    @Override
+    public void configure() {
+        logger.info("Configuring...");
+    }
 
-	@Override
-	public void initialize() {
-		logger.info("Initializing...");
-		viewController.initialize();
-	}
+    @Override
+    public void initialize() {
+        logger.info("Initializing...");
+        viewController.initialize();
+    }
 
-	@Override
-	public void start() {
-		logger.info("Starting...");
-		viewController.showWindow();
+    @Override
+    public void start() {
+        logger.info("Starting...");
+        viewController.showWindow();
     }
 }

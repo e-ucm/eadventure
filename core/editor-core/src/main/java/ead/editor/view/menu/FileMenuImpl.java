@@ -39,7 +39,6 @@ package ead.editor.view.menu;
 
 import com.google.inject.Inject;
 
-import ead.editor.view.menu.FileMenu;
 import ead.gui.EAdMenuItem;
 
 /**
@@ -49,14 +48,22 @@ public class FileMenuImpl extends MenuImpl implements FileMenu {
 
 	@Inject
 	public FileMenuImpl() {
-		super(Messages.file_menu);
+            super(Messages.file_menu);
+            initialize();
 	}
 	
 	/**
 	 * Initialize the file menu
 	 */
 	public void initialize() {
-		menu.add(new EAdMenuItem(Messages.file_menu_open));
+            addMenuItem(new EAdMenuItem(Messages.file_menu_open));
+            addMenuItem(new EAdMenuItem(Messages.file_menu_import));
+            addMenuItem(new EAdMenuItem(Messages.file_menu_new));
+
+            addMenuItem(new EAdMenuItem(Messages.file_menu_save));
+            addMenuItem(new EAdMenuItem(Messages.file_menu_save_as));
+
+            addMenuItem(new EAdMenuItem(Messages.file_menu_exit));
 	}
 	
 }
