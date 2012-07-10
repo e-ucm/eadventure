@@ -196,6 +196,7 @@ public abstract class I18N {
         }
         AccessController.doPrivileged(new PrivilegedAction<Object>() {
 
+            @Override
             public Object run() {
                 loadMessages(bundleName, clazz);
                 return null;

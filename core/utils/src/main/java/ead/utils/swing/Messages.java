@@ -53,7 +53,7 @@ class Messages extends ead.utils.i18n.CommonMessages {
 
 	public static String exception_dialog_message;
 
-	static {
+	static {              
 		I18N.initializeMessages(Messages.class.getName(), Messages.class);
 	}
 }

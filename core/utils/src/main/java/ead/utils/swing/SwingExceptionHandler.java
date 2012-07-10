@@ -40,16 +40,15 @@ package ead.utils.swing;
 import java.lang.Thread.UncaughtExceptionHandler;
 
 /**
- * <p>Swing exception handler.</p>
- * <p>Usage:</p>
+ * Swing exception handler. <p>Usage:</p>
  * <pre>{@code
- * 
+ *
  * import javax.swing.SwingUtilities;
  * import java.lang.reflect.InvocationTargetException;
  * import es.ucm.fdi.swing.SwingExceptionHandler;
- * 
+ *
  * public class Foo {
- *   
+ *
  *   public void createGUIAndShow(){
  *       final JFrame frame = new JFrame();
  *       frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -58,68 +57,44 @@ import java.lang.Thread.UncaughtExceptionHandler;
  *           public void actionPerformed(ActionEvent e){
  *               throw new RuntimeException("Ups ");
  *           }
- *       });
- *       frame.add(btn);
- *       frame.pack();
- *       frame.setSize(400, 300);
- *       frame.setVisible(true);
- *   }
- *   
- *   public static void main(String[] args) {
- *       final Foo foo = new Foo();
- *       try {
- *           SwingUtilities.invokeAndWait(new Runnable(){
- *               public void run() {
- *                   Thread.currentThread()
- *                       .setUncaughtExceptionHandler(
- *                           SwingExceptionHandler.getInstance());
- *                   Thread.setDefaultUncaughtExceptionHandler(
- *                       SwingExceptionHandler.getInstance());
- *             
+ *       }); frame.add(btn); frame.pack(); frame.setSize(400, 300);
+ * frame.setVisible(true); }
+ *
+ * public static void main(String[] args) { final Foo foo = new Foo(); try {
+ * SwingUtilities.invokeAndWait(new Runnable(){ public void run() {
+ * Thread.currentThread() .setUncaughtExceptionHandler(
+ * SwingExceptionHandler.getInstance());
+ * Thread.setDefaultUncaughtExceptionHandler(
+ * SwingExceptionHandler.getInstance());
+ *
  *                   // Insert Swing initialization code here, for example
- *                   foo.createGUIAndShow();
- *               }
- *           });
- *       }catch(InterruptedException e){
- *         // Catch thread interruption
- *         Thread.currentThread().interrupt();
- *       }catch(InvocationTargetException e){
- *           // catches exceptions thrown inside invokeAndWait()
- *           e.printStackTrace();
- *       }
- *   }
- * }
- * }</pre>
- * 
+ * foo.createGUIAndShow(); } }); }catch(InterruptedException e){ // Catch thread
+ * interruption Thread.currentThread().interrupt();
+ * }catch(InvocationTargetException e){ // catches exceptions thrown inside
+ * invokeAndWait() e.printStackTrace(); } } } }</pre>
+ *
  * @author <a href="mailto:imartinez@fdi.ucm.es">Ivan Martinez-Ortiz</a>
  *
  */
 public class SwingExceptionHandler implements
-		java.lang.Thread.UncaughtExceptionHandler {
+        java.lang.Thread.UncaughtExceptionHandler {
 
-	private static SwingExceptionHandler theInstance;
-	
-	private SwingExceptionHandler(){	
-	}
-	
-	public static UncaughtExceptionHandler getInstance() {
-		synchronized(SwingExceptionHandler.class){
-			if(theInstance == null){
-				theInstance = new SwingExceptionHandler();
-			}
-		}
-		return theInstance;
-	}
-	
-	public void uncaughtException(Thread t, final Throwable e) {
-		if(javax.swing.SwingUtilities.isEventDispatchThread()){
-			SwingUtilities.showExceptionDialog(e);
-		} else {
-			SwingUtilities.doInEDTNow(new Runnable(){
-				public void run() {
-					SwingUtilities.showExceptionDialog(e);
-				}
-			});
-		}
-	}
+    private static SwingExceptionHandler theInstance;
+
+    private SwingExceptionHandler() {
+    }
+
+    public static UncaughtExceptionHandler getInstance() {
+        synchronized (SwingExceptionHandler.class) {
+            if (theInstance == null) {
+                theInstance = new SwingExceptionHandler();
+            }
+        }
+        return theInstance;
+    }
+
+    @Override
+    public void uncaughtException(Thread t, final Throwable e) {
+        SwingUtilities.showExceptionDialog(e);
+    }
 }
